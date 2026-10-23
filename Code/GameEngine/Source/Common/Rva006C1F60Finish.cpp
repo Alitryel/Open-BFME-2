@@ -1,3 +1,4 @@
+// cl: /MD
 // ?rva006C1F60@Rva006C1F60@@QAEHI@Z @ 0x006C1F60 113B chain of 0x00030DF0
 // Release. AddRef at +0x4e4 Release guarded float clamp via __ftol2 returning
 // clamped int. Evidence: calls AddRef 0x00030DD0 Release 0x00030DF0 __ftol2
@@ -12,6 +13,8 @@ class Rva006C1F60
 public:
 	int rva006C1F60(unsigned int v);
 	int rva006C1DC0(unsigned int block);
+	void *rva00033ED0(unsigned int size, int flags);
+	void rva006C33D0(int a, int b);
 private:
 	unsigned char m_pad0[0x4e4];
 	Rva00030DD0Lock *m_lock;
@@ -84,6 +87,8 @@ public:
 	void *rva000353B0(void *core, int types, bool b, void *d, unsigned int e);
 	const BlockInfo *rva00032F60(void *handle, int types);
 	void rva00033E90(void *handle);
+	void *rva000347A0(void *block, unsigned int size, int flags);
+	void rva00033150(const void *block);
 };
 }}
 
@@ -122,6 +127,16 @@ private:
 
 class Rva006C1850 { public: bool rva006C1850(unsigned int, void **); };
 class Rva006C17B0 { public: void rva006C17B0(bool, bool); };
+class Rva006C1D60 { public: bool rva006C1D60(unsigned int, bool); };
+class Rva006C39F0Owner { public: bool rva006C39F0(unsigned int, unsigned int, unsigned int, void *); };
+struct Rva006C2270Slot { unsigned int total, length, mode; };
+struct Rva006C2270Record
+{
+	unsigned int initial;
+	Rva006C2270Slot slots[14];
+	unsigned int inlineTotal, externalTotal, requestedSize, arg2, arg3, arg4, word520, word524;
+	void *stack[24];
+};
 
 struct GeneralAllocatorMetricCounters
 {
@@ -143,7 +158,33 @@ public:
 		unsigned char fillNew, unsigned char fillGuard, unsigned char fillUnusedCore);
 	void *rva006C25F0Run6(void *runBlock, int kind, int zero3, int zero2,
 		unsigned int *outLen, int zero1);
+	void rva006C2270(Rva006C2270Record *record, unsigned int size, unsigned int flags,
+		unsigned int a3, unsigned int a4);
+	bool rva006C3D30(Rva006C2270Record *record, void *block, bool fill);
+	void *rva006C4730(void *data, unsigned int size, int flags);
 private:
+	void bookBlock(void *chunk, int allocation)
+	{
+		rva006C26F0(chunk, allocation);
+	}
+	void *mallocBackup(unsigned int size)
+	{
+		void *p = ((Rva006C1F60 *)this)->rva00033ED0(size, 0x80000000);
+		if (p) {
+			unsigned int h = ((unsigned int *)p)[-1];
+// Keep capacity in h and materialize the footer for the intrinsic.
+			// Separate capacity/pointer PHIs change VC7.1's allocation costs.
+			if (!(h & 2)) {
+			    h &= 0x7FFFFFF8;
+			    h += 4;
+			} else
+			    h &= 0x7FFFFFF8;
+			char *t = (char *)p + h - 10;
+			memset(t, 0, 2);
+		}
+		return p;
+	}
+
 	unsigned int getDebugDataSize(char *data)
 	{
 		unsigned int sizeField = ((GeneralAllocatorChunk *)(data - 8))->m_size;
@@ -450,4 +491,101 @@ void GeneralAllocatorDebug::rva006C1B60(int option, unsigned int value)
 	}
 	else
 		GeneralAllocator::rva000317F0(option, value);
+}
+
+// ?rva006C4730@GeneralAllocatorDebug@@QAEPAXPAXIH@Z, retail 0x006C4730 (798 B,
+// RET12): the debug reallocation. Under the +0x4E4 lock it saves the old
+// block's debug data (0x006C2510) into a 1 KB stack buffer or, when larger
+// than 992 bytes, a backup block (0x00033ED0 flagged 0x80000000, purging via
+// 0x006C33D0 while the delayed-free list at +0x548 is non-empty), books the
+// old block out of the metrics (0x006C26F0), reallocates (0x000347A0, same
+// purge retry), restores the debug data at the new block's usable end, moves
+// the block-table record (+0x680/+0x684) and books the new block in.
+void *GeneralAllocatorDebug::rva006C4730(void *data, unsigned int size, int flags)
+{
+	GeneralAllocatorDebugLockGuard guard(m_lock);
+	void *backupAllocation = 0;
+	void *backup = 0;
+	unsigned int backupLength;
+	void *oldChunk;
+	Rva006C2270Record info;
+	char localBackup[1024];
+	unsigned int extra;
+	unsigned int total;
+	if (data) {
+		oldChunk = (char *)data - 8;
+		char *source;
+		extra = rva006C2510((char *)data, 0, &source);
+		backupLength = extra;
+		if (extra > 992) {
+			do {
+				backup = backupAllocation = mallocBackup(extra + 2);
+				if (backupAllocation)
+					break;
+				if (m_delayedFree.m_next == &m_delayedFree)
+					return 0;
+				((Rva006C1F60 *)this)->rva006C33D0(0, 0);
+			} while (true);
+			((unsigned int *)backupAllocation)[-1] |= 4;
+		} else
+			backup = localBackup;
+		memmove(backup, source, extra);
+		total = extra + size;
+	} else {
+		oldChunk = 0;
+		backupLength = 0;
+		backup = 0;
+		rva006C2270(&info, size, flags, 8, 0);
+		total = size + info.inlineTotal;
+	}
+	bookBlock(oldChunk, false);
+	void *result = rva000347A0(data, total, flags);
+	while (!result) {
+		if (m_delayedFree.m_next == &m_delayedFree)
+			goto failed;
+		((Rva006C1F60 *)this)->rva006C33D0(0, 0);
+		result = rva000347A0(data, total, flags);
+	}
+	if (result) {
+		if (data) {
+			char *chunk = (char *)result - 8;
+			unsigned int h = ((GeneralAllocatorChunk *)chunk)->m_size;
+			unsigned int capacity = !(h & 2) ? (h & 0x7FFFFFF8) + 4 : (h & 0x7FFFFFF8);
+			if (backup)
+				memcpy(chunk + capacity - backupLength, backup, backupLength);
+			else
+				*(unsigned short *)(chunk + capacity - 2) = 0;
+			if (m_tableEnabled) {
+				void *record = 0;
+				if (((Rva006C1850 *)&m_table)->rva006C1850((unsigned int)data, &record) && result != data) {
+					void *oldRecord = *(void **)record;
+					((Rva006C1D60 *)this)->rva006C1D60((unsigned int)data, false);
+					if (!((Rva006C39F0Owner *)this)->rva006C39F0((unsigned int)result, 0, (unsigned int)oldRecord, 0)) {
+						rva00033150(result);
+						result = 0;
+					}
+				}
+			}
+			if (result) {
+				unsigned int *stored = (unsigned int *)rva006C25F0Run6(result, 2, 0, 0, 0, 2);
+				if (stored)
+					*stored = size;
+				bookBlock((char *)result - 8, true);
+			}
+		} else {
+			if (rva006C3D30(&info, result, true)) {
+				bookBlock((char *)result - 8, true);
+			} else {
+				rva00033150(result);
+				result = 0;
+			}
+		}
+	} else {
+failed:
+		if (data)
+			((Rva006C1D60 *)this)->rva006C1D60((unsigned int)data, true);
+	}
+	if (backupAllocation)
+		rva00033150(backupAllocation);
+	return result;
 }

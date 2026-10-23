@@ -662,3 +662,13 @@ tested together (13 banks, scratch compiles only). Do not retry these:
   and matched all 460 bytes. Qualifying the whole record had not worked.
   This is a compiler-cost adaptation, not evidence of the original field's
   declaration. See [the controlled traces and normal byte gate](../reverse/attempt_support/collision-7586f0-recovery-20261022/readme.md).
+
+- **Reuse the arithmetic owner and preserve the intrinsic's address together.**
+  Debug realloc at 0x006C4730 needed its header variable reused for the masked
+  capacity, then a named footer pointer passed to `memset(t, 0, 2)`. A separate
+  capacity plus a word store folded away the required LEA; a separate capacity
+  plus the intrinsic retained it but spilled the input pointer. The combined
+  change restores all 798 bytes with stock VC7.1, exact EH and a linked unit.
+  C2 traces isolate competing input/backup priorities and zero-value fragments;
+  candidate indices are reused between rounds, so track their origin symbols.
+  See [the minimal controls and compiler evidence](../reverse/attempt_support/debugrealloc-6c4730-20261022.md).
