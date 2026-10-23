@@ -20,6 +20,11 @@ void allocator<int>::deallocate(int* __p, size_t __n) const {
 template <> void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int*, size_t);
 }
 
+// The science vector's assignment is the rowed body at 0x0021C21B
+// (StlSweepW5Rva0021C21B.cpp); call it by that row's name.
+struct Rva0021C21BElement { char bytes[4]; };
+namespace _STL { template <> vector<Rva0021C21BElement, allocator<Rva0021C21BElement> > &vector<Rva0021C21BElement, allocator<Rva0021C21BElement> >::operator=(const vector<Rva0021C21BElement, allocator<Rva0021C21BElement> > &); }
+
 enum ScienceType
 {
 	SCIENCE_NONE = 0
@@ -44,9 +49,8 @@ Rva0040AEE3::Rva0040AEE3(const Rva0040AEE3 &other)
 Rva0040AEE3 &Rva0040AEE3::operator=(const Rva0040AEE3 &other)
 {
 	if (&other != this) {
-		// Folded 4B-POD assign: ScienceType and int share bytes (PlayerScienceAssign
-		// precedent); int spelling pins to 0x0021C21B, ScienceType pin sits at 0x120C0.
-		(_STL::vector<int> &)m_0000 = (const _STL::vector<int> &)other.m_0000;
+		// Folded 4-byte assign 0x0021C21B, rowed under its element view's name.
+		(_STL::vector<Rva0021C21BElement> &)m_0000 = (const _STL::vector<Rva0021C21BElement> &)other.m_0000;
 		m_000C = other.m_000C;
 	}
 	return *this;

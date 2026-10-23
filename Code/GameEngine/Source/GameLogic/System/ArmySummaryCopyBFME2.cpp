@@ -12,8 +12,8 @@
 // Snapshot vtable store. BfmeE16 retains the owned opaque16B listener ABI.
 // Query40CC3C independently proves delayed carryover object IDs in member4C.
 // Native construction uses the existing ObjectID vector-copy fold at54878E;
-// native assignment instead calls the int-vector assignment body.
-// The explicit int representation view preserves that existing three-pointer
+// native assignment instead calls the folded four-byte vector assignment
+// 0x0021C21B. The explicit element view preserves that existing three-pointer
 // STLport ABI and raw four-byte ID copies; no extra callee pin is introduced.
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
@@ -93,11 +93,15 @@ public:
 	Rva004F6093Holder m_second;
 };
 
+// The 4-byte vector's assignment is the rowed body at 0x0021C21B
+// (StlSweepW5Rva0021C21B.cpp); call it by that row's name.
+struct Rva0021C21BElement { char bytes[4]; };
+
 namespace _STL
 {
 template <> void vector<Rva0040CB11Entry>::reserve(size_type n);
 
-template <> vector<int> &vector<int>::operator=(const vector<int> &other);
+template <> vector<Rva0021C21BElement> &vector<Rva0021C21BElement>::operator=(const vector<Rva0021C21BElement> &other);
 }
 
 class Rva0040E0EB : public _STL::vector<Rva0040CB11Entry>
@@ -195,7 +199,7 @@ ArmySummary &ArmySummary::operator=(const ArmySummary &other)
 			m_entries.push_back(Rva0040CB11Entry(it->m_first, holder));
 			list->forEach(&Rva0040D8D6Listener::notify2, this, it->m_first);
 		}
-		reinterpret_cast<_STL::vector<int> &>(m_4C) = reinterpret_cast<const _STL::vector<int> &>(other.m_4C);
+		reinterpret_cast<_STL::vector<Rva0021C21BElement> &>(m_4C) = reinterpret_cast<const _STL::vector<Rva0021C21BElement> &>(other.m_4C);
 	}
 	return *this;
 }

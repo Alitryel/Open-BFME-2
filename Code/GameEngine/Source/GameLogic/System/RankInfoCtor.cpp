@@ -34,6 +34,11 @@ template <> vector<int, allocator<int> >::~vector();
 template <> _Vector_base<int, allocator<int> >::~_Vector_base();
 }
 
+// The science vector's assignment is the rowed body at 0x0021C21B
+// (StlSweepW5Rva0021C21B.cpp); call it by that row's name.
+struct Rva0021C21BElement { char bytes[4]; };
+namespace _STL { template <> vector<Rva0021C21BElement, allocator<Rva0021C21BElement> > &vector<Rva0021C21BElement, allocator<Rva0021C21BElement> >::operator=(const vector<Rva0021C21BElement, allocator<Rva0021C21BElement> > &); }
+
 typedef int Int;
 
 class Overridable
@@ -109,6 +114,10 @@ RankInfo &RankInfo::operator=(const RankInfo &that)
 	m_skillPointsNeededMordor = that.m_skillPointsNeededMordor;
 	m_skillPointsNeededWild = that.m_skillPointsNeededWild;
 	m_sciencePurchasePointsGranted = that.m_sciencePurchasePointsGranted;
-	m_sciencesGranted = that.m_sciencesGranted;
+	reinterpret_cast<_STL::vector<Rva0021C21BElement> &>(m_sciencesGranted) =
+		reinterpret_cast<const _STL::vector<Rva0021C21BElement> &>(that.m_sciencesGranted);
 	return *this;
 }
+
+// The vector<Int> allocate-and-copy worker (0x0053BD39) lives in this unit.
+template int *_STL::vector<int, _STL::allocator<int> >::_M_allocate_and_copy<const int *>(size_t, const int *, const int *);

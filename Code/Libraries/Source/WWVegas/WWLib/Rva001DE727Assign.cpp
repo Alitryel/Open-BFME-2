@@ -2,7 +2,7 @@
 // stlport
 // ??4Rva001DE727@@QAEAAV0@ABV0@@Z, retail 0x001DE727 85B chain.
 // Evidence: 5 dwords + Rb_tree set at +0x14 via rowed assign 0x001DDC52 +
-// 4B-POD vector at +0x20 via int pin at 0x0021C21B + 3 bytes at +0x2C.
+// 4-byte vector at +0x20 via rowed assign 0x0021C21B + 3 bytes at +0x2C.
 #define _STLP_NO_EXCEPTIONS 1
 #define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
@@ -11,22 +11,10 @@
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeRecord001DD3BC;
 namespace _STL { template <> void _Rb_tree<BfmeRecord001DD3BC,BfmeRecord001DD3BC,_Identity<BfmeRecord001DD3BC>,less<BfmeRecord001DD3BC>,allocator<BfmeRecord001DD3BC> >::_M_erase(_Rb_tree_node<BfmeRecord001DD3BC> *); }
-// Suppress this TU's non-retail copy of ?_M_clear@?$vector@HV?$allocator@H@_STL@@@_STL@@IAEXXZ:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> void vector<int, allocator<int> >::_M_clear(); }
-
-// vector<int>/char destruction otherwise instantiates per-TU allocator
-// deallocate COMDATs (one byte shape per TU flags); explicit
-// dllimport+forceinline specializations take those calls inline so this
-// TU emits no external copies. Bodies are verbatim primary.
-namespace _STL {
-template <> __declspec(dllimport) __forceinline
-void allocator<int>::deallocate(int* __p, size_t __n) const {
-  _STLP_ASSERT( (__p == 0) == (__n == 0) )
-    if (__p != 0) __sgi_alloc::deallocate((void*)__p, __n * sizeof(value_type));
-}
-template <> void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int*, size_t);
-}
+// The 4-byte vector's assignment is the rowed body at 0x0021C21B
+// (StlSweepW5Rva0021C21B.cpp); call it by that row's name.
+struct Rva0021C21BElement { char bytes[4]; };
+namespace _STL { template <> vector<Rva0021C21BElement, allocator<Rva0021C21BElement> > &vector<Rva0021C21BElement, allocator<Rva0021C21BElement> >::operator=(const vector<Rva0021C21BElement, allocator<Rva0021C21BElement> > &); }
 
 struct BfmeRecord001DD3BC
 {
@@ -51,7 +39,7 @@ private:
 	int m_0C;
 	int m_10;
 	BfmeRecord001DD3BCSetTree m_set14; // +0x14
-	_STL::vector<int, _STL::allocator<int> > m_vec20; // +0x20
+	_STL::vector<Rva0021C21BElement> m_vec20; // +0x20
 	unsigned char m_2C;
 	unsigned char m_2D;
 	unsigned char m_2E;
