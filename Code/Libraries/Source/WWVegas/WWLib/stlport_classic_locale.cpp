@@ -303,7 +303,7 @@ public:
 	string name;
 };
 
-static _Stl_aligned_buffer<_Locale_impl> _S_classic_locale;
+extern "C" { _Stl_aligned_buffer<_Locale_impl> _S_classic_locale; }
 
 static _Stl_aligned_buffer<collate<char> > _S_collate_char;
 static _Stl_aligned_buffer<ctype<char> > _S_ctype_char;
@@ -466,3 +466,6 @@ template <> _String_base<char, allocator<char> >::_String_base(allocator<char> c
 #pragma comment(linker, "/alternatename:?do_transform@?$collate@D@_STL@@MBE?AV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@2@PBD0@Z=?init@Rva00017890StringInit@@QAE?AV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@PAD0@Z")
 #pragma comment(linker, "/alternatename:?_M_incr@_Locale_impl@_STL@@UAEXXZ=?DX8_Assert@@YAXXZ")
 #pragma comment(linker, "/alternatename:?_M_decr@_Locale_impl@_STL@@UAEXXZ=?DX8_Assert@@YAXXZ")
+
+// Keep the C-linkage storage visible to the data sizeof probe.
+using _STL::_S_classic_locale;

@@ -1,19 +1,20 @@
-// 0x007B6890 (11B): mov ecx, [0x00DA6214], mov eax, [ecx],
-// jmp [eax+8]. Reads as a singleton virtual forward through the global
-// pointer at 0x00DA6214 to its 3rd slot. Singleton/global/slot identities
-// unproven; names are address-derived.
-
-class Rva007B6890Singleton
-{
+// The native 11-byte callback releases the classic locale implementation.
+// locale::classic() identifies the handle at DA6214; its loader initializer
+// points at the classic storage DDE118. Keep the callback's existing name.
+namespace _STL {
+class locale;
+extern locale _Stl_loc_classic_locale;
+class _Locale_impl {
 public:
-	virtual void slot0();
-	virtual void slot1();
-	virtual void slot2();
+    virtual ~_Locale_impl();
+    virtual void _M_incr();
+    virtual void _M_decr();
 };
-
-extern Rva007B6890Singleton *g_pRva007B6890;
+}
 
 void Rva007B6890()
 {
-	g_pRva007B6890->slot2();
+    _STL::_Locale_impl *impl = *reinterpret_cast<_STL::_Locale_impl **>(
+        &_STL::_Stl_loc_classic_locale);
+    impl->_M_decr();
 }

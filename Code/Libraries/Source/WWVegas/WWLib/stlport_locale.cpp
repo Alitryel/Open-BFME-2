@@ -10,6 +10,11 @@ namespace _STL
 
 class _Locale_impl;
 
+// Reconstruction-only tag for the loader-initialized classic handle.
+struct ClassicLocaleStorageTag {};
+template <class T> union _Stl_aligned_buffer;
+extern "C" _Stl_aligned_buffer<_Locale_impl> _S_classic_locale;
+
 class locale
 {
 public:
@@ -20,6 +25,9 @@ public:
     public:
         unsigned int _M_index;
     };
+
+    // ?classicHandleStorageInitializer absent-from-retail
+    locale(_Locale_impl *impl, ClassicLocaleStorageTag) : _M_impl(impl) {}
 
     locale();
     locale(const locale &that);
@@ -68,7 +76,10 @@ public:
 };
 
 extern _Locale_impl *_Stl_classic_locale_impl;
-extern locale _Stl_loc_classic_locale;
+// Retail DA6214 contains DDE118 before initialization runs. No reference
+// is acquired here: make_classic_locale later constructs that static storage.
+locale _Stl_loc_classic_locale(
+    reinterpret_cast<_Locale_impl *>(&_S_classic_locale), ClassicLocaleStorageTag());
 
 __declspec(dllimport) __forceinline _Locale_impl *_M_add_ref(_Locale_impl *impl)
 {
