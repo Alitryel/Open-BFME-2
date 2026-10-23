@@ -126,3 +126,10 @@ void Rva003FD789::xfer(Xfer *xfer)
 	*xfer == m_1c;
 	*xfer == m_20;
 }
+
+// The empty EH-state base that about fifteen constructor views declare has no retail
+// body; this transfer unit never destroys one, so it holds the one out-of-line copy.
+// ?<??1EmptyBase@@QAE@XZ> absent-from-retail
+EmptyBase::~EmptyBase()
+{
+}
