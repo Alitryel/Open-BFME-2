@@ -5456,7 +5456,6 @@ _XMP_Move,,0x0061BE10,19,Code/Libraries/Source/WWVegas/WWLib/mpmath.cpp,matched,
 ?push_back@?$vector@UAngleFXInfo@@V?$allocator@UAngleFXInfo@@@_STL@@@_STL@@QAEXABUAngleFXInfo@@@Z,,0x00626470,58,Code/GameEngine/Source/GameLogic/Object/Update/StructureToppleUpdate.cpp,matched,
 ??A?$vector@URunwayInfo@ParkingPlaceBehavior@@V?$allocator@URunwayInfo@ParkingPlaceBehavior@@@_STL@@@_STL@@QAEAAURunwayInfo@ParkingPlaceBehavior@@I@Z,,0x006BD4B0,15,Code/GameEngine/Source/GameLogic/Object/Behavior/ParkingPlaceBehavior.cpp,matched,
 ??_GCursorParticleSystemFXNugget@@UAEPAXI@Z,,0x001E1152,28,Code/GameEngine/Source/GameClient/CursorParticleSystemFXNuggetCtor.cpp,matched,Target vtableBDD91C and ctor1E0C90 link wrapper to destructor1E116E; renamed from ??_GHelixContainModuleData: vtable 0x007DD91C is ??_7CursorParticleSystemFXNugget (slot 0 here) and retail has no HelixContain; emitted by the ctor TU with that vtable; full body and delete2FD60 verified.
-??$_M_range_initialize@PAG@?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@_STL@@AAEXPAG0@Z,,0x000160F0,23,Code/Libraries/Source/WWVegas/WWLib/stlport_wide_num_put_bool.cpp,matched,
 ?Add@?$MultiListClass@VRenderObjClass@@@@QAE_NPAVRenderObjClass@@_N@Z,,0x001410E0,31,Code/Libraries/Source/WWVegas/WW3D2/SceneOwnership.cpp,matched,
 ?Remove@?$MultiListClass@VRenderObjClass@@@@QAE_NPAVRenderObjClass@@@Z,,0x00141100,31,Code/Libraries/Source/WWVegas/WW3D2/SceneOwnership.cpp,matched,
 ?Log@DX8PolygonRendererClass@@QAEXXZ,,0x00187D40,158,Code/Libraries/Source/WWVegas/WW3D2/dx8polygonrenderer.cpp,matched,
