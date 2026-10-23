@@ -350,6 +350,13 @@ struct StateConditionInfo
  
 }
 ;
+// A dead local with a destructor gives onEnter retail's unwind bookkeeping
+// (the esp saves around the by-value BitFlags arguments) without emitting a
+// StateMachine vftable copy of its own.
+struct DockingUnwindScope
+{
+ ~DockingUnwindScope();
+};
 class StateMachine
 
 {
@@ -539,7 +546,7 @@ StateReturnType Rva004A6956::onEnter()
  fpOptions.maxRadius = 100.0f;
  if (!PartitionManager::findPositionAround(destinationObject->getPosition(), &fpOptions, &destination))
  return STATE_FAILURE;
- if (0) { StateMachine t1_dead; }
+ if (0) { DockingUnwindScope t1_dead; }
  ownerAI->aiMoveToPosition(&destination, CMD_FROM_AI);
  return STATE_CONTINUE;
 // Remember to say continue when you change ai command inside a state

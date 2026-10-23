@@ -12,6 +12,12 @@
 // tree destructor 0x004D755F of the state map (StateID = unsigned int), and the
 // Snapshot vptr 0x00BBB554 restored last. The scalar deleting destructor
 // ??_GStateMachine (retail 0x004D7A59, 28B) is emitted here with the vftable.
+// Retail's state-map destructor frees the header node through the C++-linkage
+// free (0x00030830), which keeps the unwind-state store before the call.
+#define free bfmeUnusedCRTFree
+#include <cstdlib>
+#undef free
+void free(void *);
 #include <map>
 #include "Common/Snapshot.h"
 
