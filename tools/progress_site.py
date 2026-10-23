@@ -405,7 +405,7 @@ def map_svg(tiles, W, H):
     height = int(top + H * scale + 20)
     return _frame(880, height, "BFME 2 \u00b7 MAP",
                   [(150, "url(#dots)", "linked"), (222, OWN, "byte-matched: our own source"),
-                   (420, OTHER, "generated code, libraries, verified data"), (660, "#6e7681", "still original")],
+                   (420, OTHER, "generated code, libraries, assembly, verified data"), (660, "#6e7681", "still original")],
                   "\n".join(body), "Map of BFME 2's code by folder")
 
 
@@ -520,7 +520,7 @@ footer{{margin-top:22px;color:var(--muted);font-size:12px;line-height:1.6}} foot
 <nav><a href="https://github.com/Open-BFME/Open-BFME-2">Open-BFME</a> / BFME 2 / Progress</nav>
 <h1 id="headline"><span id="who">BFME 2</span> is <span class="b" id="mp">{matched_pct}%</span> byte-matched<span class="sep">·</span><span class="g" id="lp">{linked_pct}%</span> linked</h1>
 <div class="track"><div class="fill" id="m" style="width:{matched_w}%;background:{other_c}"></div><div class="fill" id="o" style="width:{own_w}%;background:{own_c}"></div><div class="fill dots" id="l" style="width:{linked_w}%"></div></div>
-<div class="key"><span><i class="dots"></i>Linked</span><span><i style="background:{own_c}"></i>Byte-matched: our own source</span><span><i style="background:{other_c}"></i>Byte-matched: generated code, libraries, verified data</span><span><i style="background:var(--rest)"></i>Still original</span><span>Code <b id="codemb">{code_mb} MB</b> · Data {data_mb} MB, not measured yet</span></div>
+<div class="key"><span><i class="dots"></i>Linked</span><span><i style="background:{own_c}"></i>Byte-matched: our own source</span><span><i style="background:{other_c}"></i>Byte-matched: generated code, libraries, assembly, verified data</span><span><i style="background:var(--rest)"></i>Still original</span><span>Code <b id="codemb">{code_mb} MB</b> · Data {data_mb} MB, not measured yet</span></div>
 <div class="tabs" id="tabs">{tabs}</div>
 <div class="note" id="note"></div>
 <h2>Over time <span class="key"><span><i style="background:{own_c}"></i>byte-matched, daily</span><span><i class="dots"></i>linking, per census</span></span></h2>

@@ -169,3 +169,14 @@ def test_history_rows_carry_rules_v2_and_deltas_compare_within_rules(fake, tmp_p
     prev = v2.previous_v2(rows + [{"date": "2026-10-05x", "rules": "v3"}], "2026-10-06")
     assert prev["date"] == "2026-10-05"
     assert "(-5 since 2026-10-05)" in v2.report(point, prev)
+
+
+def test_reviewed_assembly_is_a_separate_part(fake, monkeypatch):
+    key = ('_MMX_idct_DX', '0x00008000')
+    monkeypatch.setitem(ROWS, key, (17, 'Code/Libraries/Source/VP6/MmxIDct.asm', 'assembly'))
+    point = v2.measure()
+    assert point['assembly'] == 17 and point['byte_matched'] == 282
+    assert point['authored'] == 170 and point['recovered'] == 210
+    assert v2.history_row(point, '2026-10-23', 'abc')['assembly'] == 17
+    assert 'reviewed assembly' in v2.report(point)
+    assert 'assembly 1.70%' in v2.svg(point)

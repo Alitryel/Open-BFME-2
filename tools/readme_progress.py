@@ -5,7 +5,7 @@ Each measure has its own stated denominator:
 
   REBUILT FROM SOURCE  everything that rebuilds to the original's exact bytes
                        (our C++, library source, generated C++, attached
-                       prebuilt libraries: progress.py's REBUILDS, counted
+                       prebuilt libraries, reviewed assembly and verified .text data: progress.py's REBUILDS, counted
                        without 0xCC), over all code.
   GAME CODE IN C++     our own C++ (progress.py's authored lane), over the
                        game's own code: all code minus vendored library source
@@ -196,6 +196,9 @@ def delta_since(previous, key, value, denominator, current=None):
     measured from the figures that post saved; None when that post has no
     such figure, a byte measure's change rounds to 0.00, or (Linking) the census
     rules changed in between. Names compare displayed percentages, including zero."""
+    if (key == "matched" and previous and current is not None
+            and "assembly" not in previous and "assembly" in current):
+        return None  # accounting change, not newly reconstructed bytes
     if key == "linked" and current is not None and rules_changed(previous, current):
         return None
     try:
@@ -235,6 +238,9 @@ def render(current, previous=None):
             if changed:
                 moved = '<tspan class="muted" dx="10" font-size="13" font-weight="600">rules changed</tspan>'
                 text += rule_note(previous, changed)
+            elif key == "matched" and previous and "assembly" not in previous and "assembly" in current:
+                moved = '<tspan class="muted" dx="10" font-size="13">rules changed</tspan>'
+                text += "; reviewed assembly now counted, not new recovery"
             elif delta is not None:
                 moved = (f'<tspan class="{"up" if delta > 0 else "down" if delta < 0 else "muted"}" dx="10" font-size="13" '
                          f'font-weight="600">{arrow(delta)}</tspan>')
@@ -298,10 +304,12 @@ def announcement(current, previous):
             continue
         delta = delta_since(previous, key, value, denominator, current)
         changed = rules_changed(previous, current) if key == "linked" else None
+        assembly_change = key == "matched" and previous and "assembly" not in previous and "assembly" in current
         lines += [f"**{label}: {progress.percent(value, denominator):.2f}%**"
-                  + ("  (rules changed)" if changed else f"  {arrow(delta)}" if delta is not None else ""),
+                  + ("  (rules changed)" if changed or assembly_change else f"  {arrow(delta)}" if delta is not None else ""),
                   blocks(value, denominator, BLOCK[key]),
-                  detail(current, key, value, denominator, what) + (rule_note(previous, changed) if changed else "")]
+                  detail(current, key, value, denominator, what) + (rule_note(previous, changed) if changed else "")
+                  + ("; reviewed assembly now counted, not new recovery" if assembly_change else "")]
     strict = strict_lines(current)
     if strict:
         lines += ["", *strict]
@@ -360,7 +368,7 @@ def main():
                "linked_authored": int(census["linked_authored"]) if census and census.get("linked_authored") else None,
                "linked_game_code": int(census["game_code"]) if census and census.get("game_code") else None,
                "strict": strict_link(),
-               **{lane: split.get(lane, 0) for lane in ("authored", "vendored", "generated", "library", "data")}}
+               **{lane: split.get(lane, 0) for lane in ("authored", "vendored", "generated", "library", "data", "assembly")}}
     output = progress.ROOT / "docs" / "progress.svg"
     output.write_text(render(current, previous_state()), encoding="utf-8", newline="\n")
     rows = measures(current)

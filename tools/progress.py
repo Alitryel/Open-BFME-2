@@ -5,7 +5,7 @@ BYTE-MATCHED, GAME CODE C++ and LINKING print first: the three numbers on the
 README card and in the daily Discord post (tools/readme_progress.py), computed
 the same way. BYTE-MATCHED ("rebuilt from source") is everything that rebuilds
 to game.dat's exact bytes (authored and generated C++, vendored source,
-attached prebuilt libraries and verified data in .text; dumps excluded), over
+attached prebuilt libraries, reviewed assembly and verified data in .text; dumps excluded), over
 all non-padding .text bytes. Embedded data has its own lane, never authored
 function-code credit. GAME CODE C++ is
 the C++ we wrote over the game's own code (all code minus vendored source and
@@ -94,7 +94,17 @@ GENERATED_ROOTS = ("Code/gen_small/", "Code/gen_asm/")
 GEN_NOTE_RE = re.compile(r"(?:^|;)\s*gen-[a-z]|identity=generated\b")
 # Provenance lanes, best evidence first. Overlapping claims on one byte resolve
 # to the earliest lane, so the lanes partition Total exact with no double count.
-SOURCE_LANES = ("authored", "vendored", "generated", "library", "data", "dump")
+# Explicitly reviewed, reconstructed assembly; never admit entire dump directories or
+# all .asm files by extension. MmxIDct's five clean-room spec-backed bodies
+# already pass the complete byte/relocation gate. This is metric credit only,
+# not C++ credit, permission to lift code, or a verification exemption.
+REBUILT_ASM_SOURCES = frozenset({
+    "Code/Libraries/Source/VP6/MmxIDct.asm",  # five clean-room MMX bodies
+    "Code/masm_dumps/SecurityCookieCheck.asm",  # documented CRT assembly entry
+    "Code/masm_dumps/RTC_CheckEsp.asm",  # consumes incoming ZF, preserves live returns
+    "Code/masm_dumps/VersionSignatureCheckPatched.asm",  # documented patched-target exception
+})
+SOURCE_LANES = ("authored", "vendored", "generated", "library", "data", "assembly", "dump")
 EMIT_RE = re.compile(
     r"\b_{1,2}emit\s+(?:0x([0-9a-fA-F]{1,2})|([0-9a-fA-F]{1,3})h)\b",
     re.IGNORECASE,
@@ -419,6 +429,7 @@ def source_lane(source, notes, naked):
                  small thunks, template grids.
       library    a prebuilt .lib we attach (d3dx9, CRT). It links, so it is a
                  real way to reach 1:1, but there is no source in the tree.
+      assembly   explicitly reviewed reconstructed assembly, not C++ or a dump.
       dump       retail re-encoded: MASM `db` bodies and __emit sprays. These
                  fix an address and an extent and say nothing else.
 
@@ -437,6 +448,9 @@ def source_lane(source, notes, naked):
     """
     if Path(source).suffix.lower() in LIB_SUFFIXES:
         return "library"
+    if (source_kind(source) == "asm" and source in REBUILT_ASM_SOURCES
+            and not GEN_NOTE_RE.search(notes)):
+        return "assembly"
     if naked or source_kind(source) == "asm":
         return "dump"
     if source.startswith(GENERATED_ROOTS) or GEN_NOTE_RE.search(notes):
@@ -522,12 +536,14 @@ def rebuildable(split):
     authored it does not enter into it; nobody at EA hand-wrote the unwind
     funclets either, and a 1:1 build does not require us to hand-write d3dx9.
 
+    Reviewed reconstructed assembly qualifies without increasing C++ credit.
     Verified data in .text qualifies separately from all function-code lanes.
     A byte-true dump is the one lane that fails the test: the source file
     contains retail's own bytes, so deleting game.dat would delete the
     thing we claim to hold. Dumps fix a boundary and say nothing else.
     """
-    return split["authored"] + split["vendored"] + split["generated"] + split["library"] + split.get("data", 0)
+    return (split["authored"] + split["vendored"] + split["generated"] + split["library"]
+            + split.get("data", 0) + split.get("assembly", 0))
 
 
 LINK_STATUS = "reverse/link_status.csv"
@@ -764,7 +780,7 @@ def print_headline(padding, denominator, old_split, new_split, old_census, new_c
     print("  byte-matched, by where its source comes from:")
     for label, key in (("C++ we wrote", "authored"), ("vendored library source", "vendored"),
                        ("generator-written C++", "generated"), ("prebuilt .lib attached", "library"),
-                       ("verified data in .text", "data")):
+                       ("verified data in .text", "data"), ("reviewed assembly", "assembly")):
         print(f"    {label:<24} {new_split.get(key, 0):>10,} bytes ({percent(new_split.get(key, 0), denominator):6.2f}%)"
               f"  delta {format_delta(new_split.get(key, 0), old_split.get(key, 0), denominator)}")
     unclaimed = denominator - sum(new_split.get(lane, 0) for lane in SOURCE_LANES)
