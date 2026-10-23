@@ -516,7 +516,9 @@ void GameLODManager::applyStaticLODLevel(StaticGameLODLevel level)
 		TheWritableGlobalData->m_useFpsLimit = lodInfo->m_useFpsLimit;
 		TheWritableGlobalData->m_useTrees = requestedTrees;
 	}
-	if (!m_memPassed || isReallyLowMHz()) {
+	// ZH's inline isReallyLowMHz(); the BFME 1 header shim declares it out of
+	// line, and no BFME 2 retail body of it is known.
+	if (!m_memPassed || m_cpuFreq < m_reallyLowMHz) {
 		TheWritableGlobalData->m_shellMapOn = false;
 	}
 	if (TheTerrainVisual)

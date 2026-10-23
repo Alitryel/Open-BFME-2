@@ -126,6 +126,10 @@ inline GeometryInfo::GeometryInfo(GeometryType type, Bool isSmall, Real height,
 	records->erase(records->begin(), records->end());
 }
 
+// Native table BC4E94 slot 1 holds the shared empty post-load hook at
+// 4B3FD0; the slot takes no arguments and accesses no state.
+void GeometryInfo::LoadPostProcess() {}
+
 GeometryInfo::GeometryInfo()
 {
 	Real dim = *(volatile Real *)&INV;
