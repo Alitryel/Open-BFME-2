@@ -19,6 +19,14 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 
 
-struct Rva00500EFARecord { Rva00500EFARecord(); Rva00500EFARecord(const Rva00500EFARecord&); ~Rva00500EFARecord(); Rva00500EFARecord&operator=(const Rva00500EFARecord&); private: char bytes[12]; };
-namespace _STL {template<> void _Construct<Rva00500EFARecord,Rva00500EFARecord>(Rva00500EFARecord*,const Rva00500EFARecord&);}
+struct BfmePod88 { char bytes[88]; };
+namespace _STL {
+template <> vector<BfmePod88>::vector(const vector<BfmePod88> &);
+template <> vector<BfmePod88>::~vector();
+}
+
+struct Rva00500EFARecord
+{
+    _STL::vector<BfmePod88> m_values;
+};
 template void _STL::vector<Rva00500EFARecord>::reserve(unsigned int);

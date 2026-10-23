@@ -12,32 +12,32 @@ public:
     virtual ~ModuleTemplate() {}
 };
 
-template <int Category>
-class CategoryModuleInfo
+class SecondaryModuleBase
 {
 public:
-    CategoryModuleInfo() {}
-    virtual void unusedVirtual() = 0;
-
-protected:
-    ~CategoryModuleInfo() {}
+    __declspec(dllimport) __forceinline SecondaryModuleBase() {}
+    virtual ~SecondaryModuleBase() {}
+    virtual void v1() = 0;
 };
+
+class ModuleInfo {};
 
 template <int Category>
 class CategoryModuleTemplateBase : public ModuleTemplate,
-    public CategoryModuleInfo<Category>
+    public SecondaryModuleBase
 {
 public:
     CategoryModuleTemplateBase() {}
-    virtual ~CategoryModuleTemplateBase() {}
 };
 
 template <int Category>
-class CategoryModuleTemplate : public CategoryModuleTemplateBase<Category>
+class CategoryModuleTemplate : public CategoryModuleTemplateBase<Category>,
+    public ModuleInfo
 {
 public:
     CategoryModuleTemplate() {}
     virtual ~CategoryModuleTemplate();
+    virtual void v1();
 };
 
 class ButterflyDrawModuleInfo

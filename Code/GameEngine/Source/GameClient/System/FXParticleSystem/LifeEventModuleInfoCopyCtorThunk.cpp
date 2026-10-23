@@ -18,15 +18,12 @@ public:
 	}
 };
 
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+
 namespace FXParticleSystem
 {
-
-class LifeEventModuleInfoBase
-{
-public:
-	LifeEventModuleInfoBase(const LifeEventModuleInfoBase &) {}
-	virtual ~LifeEventModuleInfoBase() {}
-};
 
 struct LifeEventValueBlock
 {
@@ -35,11 +32,15 @@ struct LifeEventValueBlock
 	unsigned int m_c;
 };
 
-class LifeEventModuleInfo : public LifeEventModuleInfoBase
+class LifeEventModuleInfo : public Snapshot
 {
 public:
 	LifeEventModuleInfo(const LifeEventModuleInfo &);
 	virtual ~LifeEventModuleInfo();
+	virtual const char *GetSnapshotName();
+
+protected:
+	virtual void xfer(Xfer *xfer);
 
 private:
 	BFMERetailAsciiString m_name;
@@ -49,7 +50,7 @@ private:
 
 // ??0LifeEventModuleInfo@FXParticleSystem@@QAE@ABV01@@Z
 LifeEventModuleInfo::LifeEventModuleInfo(const LifeEventModuleInfo &that)
-	: LifeEventModuleInfoBase(that),
+	: Snapshot(that),
 	  m_name(that.m_name),
 	  m_values(that.m_values),
 	  m_eventType(that.m_eventType)

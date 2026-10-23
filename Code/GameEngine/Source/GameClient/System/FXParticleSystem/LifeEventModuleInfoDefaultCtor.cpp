@@ -24,18 +24,22 @@ private:
 	float m_high;
 };
 
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+
 namespace FXParticleSystem
 {
-
-class Xfer;
-
-#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 class LifeEventModuleInfo : public Snapshot
 {
 public:
 	LifeEventModuleInfo();
 	virtual ~LifeEventModuleInfo();
+	virtual const char *GetSnapshotName();
+
+protected:
+	virtual void xfer(Xfer *xfer);
 
 private:
 	AsciiString m_name;
