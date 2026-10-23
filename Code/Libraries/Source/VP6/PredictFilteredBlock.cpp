@@ -1,5 +1,3 @@
-// ?Rva009B5530Prepare@@YAXPAURva009B5830State@@PAXH@Z
-// partial score=0.98046875 date=2026-10-23
 // cl: /O2 /G6 /DNDEBUG /MD
 // Clean room: reverse/vp6_cleanroom/specs/001c5e30.md plus retail only.
 // No decoder source was consulted.
@@ -94,21 +92,15 @@ void __cdecl Rva009B5530Prepare(Rva009B5830State *pbi, void *output, int block)
 	if (0 != pbi->profile && pbi->loopFilterMode != 0) {
 		VP6_PredictFiltered(pbi, source + pbi->reconIndex,
 			pbi->vectors[block].x, pbi->vectors[block].y);
+		base = pbi->loopFilteredBlock;
 		stride = 16;
+		offset1 = 34;
+		offset2 = 34;
 		mvx = pbi->vectors[block].x;
 		x = mvx;
-		base = pbi->loopFilteredBlock;
-		offset1 = 34;
 		xPhase = x & pbi->vectorMask;
-		// Equivalent paths retain the raw-Y stack weight after C2 merges them.
-		if (pbi->profile != 0) {
-			mvy = pbi->vectors[block].y;
-			y = mvy;
-		} else {
-			mvy = pbi->vectors[block].y;
-			y = mvy;
-		}
-		offset2 = 34;
+		mvy = pbi->vectors[block].y;
+		y = mvy;
 		yPhase = y & pbi->vectorMask;
 	} else {
 		mvx = pbi->vectors[block].x;
@@ -139,20 +131,14 @@ void __cdecl Rva009B5530Prepare(Rva009B5830State *pbi, void *output, int block)
 				((Rva009B5530Filter)g_bfmeSlotB54)(base + offset1, base + offset2,
 					output, stride, xPhase, yPhase, 0);
 			} else if (pbi->filterMode == 2) {
-				// The merged paths retain limit's native stack-slot weight.
-				if (x != 0) {
-					if (pbi->sizeThreshold > 0)
-						// Retail x86 masks the shift count to five bits.
-						limit = (1UL << (pbi->sizeThreshold - 1)) << 2;
-					else
-						limit = 128;
-				} else {
-					if (pbi->sizeThreshold > 0)
-						limit = (1UL << (pbi->sizeThreshold - 1)) << 2;
-					else
-						limit = 128;
-				}
-				if ((0 != pbi->sizeThreshold && (abs(x) > limit || abs(y) > limit))) {
+				if (pbi->sizeThreshold > 0)
+					// Retail x86 masks the shift count to five bits.
+					limit = (1UL << (pbi->sizeThreshold - 1)) << 2;
+				else
+					limit = 128;
+				// Both arms use the captured signed Y value. Keeping the profile
+				// split preserves the native local lifetimes before tail merging.
+				if ((0 != pbi->sizeThreshold && (abs(x) > limit || ((pbi->profile) ? (abs((int)mvy)) : (abs(y))) > limit))) {
 					((Rva009B5530Filter)g_bfmeSlotB54)(base + offset1, base + offset2,
 						output, stride, xPhase, yPhase, 0);
 				} else if (pbi->varianceThreshold != 0) {
