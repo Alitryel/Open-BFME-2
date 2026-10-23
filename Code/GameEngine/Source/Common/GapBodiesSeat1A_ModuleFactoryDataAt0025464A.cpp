@@ -283,7 +283,13 @@ private:
 // 0x00BF247C, VA 0x00BF2534); 0x0025464A (52B) and 0x0025470D (52B): their
 // INI factories over 0x11C-byte data built by the rowed constructors
 // 0x0025460F and 0x002546D2 (the latter folds with RadarUpgradeModuleData's).
-struct FieldParse;
+class INI;
+struct FieldParse {
+    const char *name;
+    void (__cdecl *parse)(INI *, void *, void *, const void *);
+    const void *userData;
+    unsigned int offset;
+};
 class ModuleData;
 
 class MultiIniFieldParse
@@ -295,12 +301,23 @@ public:
 class INI
 {
 public:
+    static void parseBool(INI *, void *, void *, const void *);
+    static void parseDurationUnsignedInt(INI *, void *, void *, const void *);
 	void initFromINIMultiProc(void *what, void (*proc)(MultiIniFieldParse &p));	// 0x0002DEB5
 };
 
 int Rva004CE29DGet(void);
 extern const FieldParse s_Rva00254628FieldParse[];			// VA 0x00BF247C
 extern const FieldParse s_Rva002546EBFieldParse[];			// VA 0x00BF2534
+const FieldParse s_Rva00254628FieldParse[] = {
+    { "DelayTime", INI::parseDurationUnsignedInt, 0, 0x118 },
+    { 0, 0, 0, 0 }
+};
+const FieldParse s_Rva002546EBFieldParse[] = {
+    { "KillLocomotorUpgrade", INI::parseBool, 0, 0x118 },
+    { 0, 0, 0, 0 }
+};
+
 
 class Rva0025460F
 {
