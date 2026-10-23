@@ -11,9 +11,24 @@ public:
 	void *m_head;
 	void rva001EB130();
 };
-extern void *g_freeList001EB130;
-// g_freeList001EB130: VA 0xdb8ff4 (retail .data initial value 0).
-void * g_freeList001EB130;
+// The free-list head is the +8 member of the complete pool at VA 0xDB8FEC.
+// The retail 24-byte initializer and the matched pool ctor/pop/grow/clear
+// establish this layout. Keep a plain aggregate so initialization is static.
+class FreelistPool
+{
+public:
+    int m_00;
+    void *m_04;
+    void *m_head;
+    void *(__cdecl *m_alloc)(int, int);
+    void (__cdecl *m_free)(void *, int);
+    int m_14;
+};
+void *__cdecl Rva0002FFC0Alloc(int size, int ignored);
+void __cdecl Rva0002FFE0Free(void *ptr, int ignored);
+FreelistPool g_freelistPool00DB8FEC = {
+    0x80, 0, 0, Rva0002FFC0Alloc, Rva0002FFE0Free, 0
+};
 // ?rva001EB769@Rva001EB769@@QAEXXZ @0x001EB769 29B: dispose of the same
 // circular-list holder cleared by 0x001EB130 above (calls it on ecx, then
 // pushes the head node at this+0 onto freelist 0x009B8FF4 when non-null).
@@ -30,9 +45,9 @@ void Rva001EB769::rva001EB769()
 	((Rva001EB130Holder *)this)->rva001EB130();
 	void *head = m_head;
 	if (head != 0) {
-		void *freeHead = g_freeList001EB130;
+		void *freeHead = g_freelistPool00DB8FEC.m_head;
 		((void **)head)[0] = freeHead;
-		g_freeList001EB130 = head;
+		g_freelistPool00DB8FEC.m_head = head;
 	}
 }
 void Rva001EB130Holder::rva001EB130()
@@ -40,11 +55,11 @@ void Rva001EB130Holder::rva001EB130()
 	void *node = ((void **)m_head)[0];
 	if (node != m_head) {
 		do {
-			void *freeHead = g_freeList001EB130;
+			void *freeHead = g_freelistPool00DB8FEC.m_head;
 			void *current = node;
 			node = ((void **)current)[0];
 			((void **)current)[0] = freeHead;
-			g_freeList001EB130 = current;
+			g_freelistPool00DB8FEC.m_head = current;
 		} while (node != m_head);
 	}
 	((void **)m_head)[0] = m_head;

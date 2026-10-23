@@ -32,7 +32,7 @@ extern FreelistPool g_freelistPool009BBD2C;
 extern FreelistPool g_freelistPool00DB8FEC;
 extern FreelistPool g_freelistPool00DBA5E0;
 FreelistPool g_freelistPool009BBD2C;
-FreelistPool g_freelistPool00DB8FEC;
+// The complete object-list pool is owned by Rva001EB130Clear.cpp.
 FreelistPool g_freelistPool00DBA5E0;
 
 struct Rva007AD348PoolInits

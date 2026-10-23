@@ -1,4 +1,6 @@
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG
+class FreelistPool;
+extern FreelistPool g_freelistPool00DB8FEC;
 // Small bodies from .text gaps no Ghidra function covers (fifty-first
 // batch; see GapBodiesGE01.cpp), all from the /O1 /arch:SSE /G7 retail region
 // that starts at 0x001D8E99 (reverse/retail_inventory/flag_regions.csv). Each
@@ -164,9 +166,8 @@ bool Rva001EB0EA::rva001EB0EA() const
 	return false;
 }
 
-// --- 0x001EB118 (24B): push a block onto g_freeList001EB130; 0x001EB786
+// --- 0x001EB118 (24B): push a block onto the object-list pool head; 0x001EB786
 // (24B): pop one from g_freelistPool00DB8FEC for a single element.
-extern void *g_freeList001EB130;
 
 class FreelistPool
 {
@@ -187,8 +188,8 @@ void Rva001EB118::rva001EB118(void *block, unsigned int n)
 {
 	if (block)
 	{
-		*(void **)block = g_freeList001EB130;
-		g_freeList001EB130 = block;
+		*(void **)block = (*(void **)((char *)&::g_freelistPool00DB8FEC + 8));
+		(*(void **)((char *)&::g_freelistPool00DB8FEC + 8)) = block;
 	}
 }
 

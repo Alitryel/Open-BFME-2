@@ -1,4 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include
+class FreelistPool;
+extern FreelistPool g_freelistPool00DB8FEC;
 // stlport
 // ?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z, retail 0x00473212
 // (1415 B, EH, RET 0xC), directly after the banner transfer 0x00473197.
@@ -306,7 +308,6 @@ class Rva001EB769
  
 }
 ;
-extern void *g_freeList001EB130;
 typedef _STL::list<Object*>::iterator ObjectIterator;
 // The native caller inlines the vendored erase body. Keep its allocator
 // operation and return iterator, with a TU-local inline specialization.
@@ -321,9 +322,8 @@ namespace _STL
   prev->_M_next=next;
   next->_M_prev=prev;
   _Destroy(&node->_M_data);
-  extern void *g_freeList001EB130;
-  *(void**)node=g_freeList001EB130;
-  g_freeList001EB130=node;
+  *(void**)node=(*(void **)((char *)&::g_freelistPool00DB8FEC + 8));
+  (*(void **)((char *)&::g_freelistPool00DB8FEC + 8))=node;
   return ObjectIterator((_Node*)next);
   
  }

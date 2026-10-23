@@ -1,4 +1,6 @@
 // cl: /Ireference/open-bfme-1/inputs/vendor /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/Libraries/Include /DNDEBUG /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include
+class FreelistPool;
+extern FreelistPool g_freelistPool00DB8FEC;
 // stlport
 //
 // HordeContain, +0x11C interface slot 126 (retail 0x00475F61, 1668 bytes, ret 4).
@@ -135,7 +137,6 @@ typedef _STL::list<Object *> MemberList;
 
 class FreelistPool { public: void *pop(); };
 extern FreelistPool g_freelistPool00DB8FEC;
-extern void *g_freeList001EB130;
 template<class T> class Rva001EB984PoolAllocator {
 public:
     typedef T value_type;
@@ -151,7 +152,7 @@ public:
     Rva001EB984PoolAllocator(const Rva001EB984PoolAllocator &) {}
     ~Rva001EB984PoolAllocator() {}
     T *allocate(unsigned int, const void * = 0) { return (T *)g_freelistPool00DB8FEC.pop(); }
-    void deallocate(T *p,unsigned int) { if(p) { *(void **)p=g_freeList001EB130; g_freeList001EB130=p; } }
+    void deallocate(T *p,unsigned int) { if(p) { *(void **)p=(*(void **)((char *)&::g_freelistPool00DB8FEC + 8)); (*(void **)((char *)&::g_freelistPool00DB8FEC + 8))=p; } }
     void construct(T *p,const T &v) { new(p) T(v); }
     void destroy(T *p) { p->~T(); }
     unsigned int max_size() const { return (unsigned int)-1/sizeof(T); }

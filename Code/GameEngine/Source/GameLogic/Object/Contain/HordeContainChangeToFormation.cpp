@@ -1,4 +1,6 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /ICode/GameEngine/Source /ICode /I.
+class FreelistPool;
+extern FreelistPool g_freelistPool00DB8FEC;
 // ?changeToFormation@HordeContain@@UAEXPBVThingTemplate@@@Z, retail 0x00472D43
 // (811B, EH, RET 4): slot 26 of the HordeContainInterface vtable (shared by
 // HorseHordeContain and AODHordeContain); WorldBuilder HordeContain.cpp
@@ -25,7 +27,6 @@ class Rva001EB769
 public:
 	void rva001EB769() throw();
 };
-extern void *g_freeList001EB130;
 extern GameLogic *TheGameLogic;
 
 template <class T> class Rva001EB984PoolAllocator
@@ -114,8 +115,8 @@ public:
 		_List_node<T> *n = (_List_node<T> *)pos._M_node;
 		prev->_M_next = next;
 		next->_M_prev = prev;
-		*(void **)n = g_freeList001EB130;
-		g_freeList001EB130 = n;
+		*(void **)n = (*(void **)((char *)&::g_freelistPool00DB8FEC + 8));
+		(*(void **)((char *)&::g_freelistPool00DB8FEC + 8)) = n;
 		return iterator(next);
 	}
 };

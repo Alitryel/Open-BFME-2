@@ -1,4 +1,6 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /ICode/Libraries/Include/Lib
+class FreelistPool;
+extern FreelistPool g_freelistPool00DB8FEC;
 // FormationAssistant formation build (WB twins 0x0113B990 and 0x0113C210 in
 // FormationAssistant.cpp, unnamed there).
 //
@@ -160,7 +162,6 @@ public:
 
 typedef _STL::_List_iterator<Object *, _STL::_Nonconst_traits<Object *> > ObjectListIter;
 
-extern void *g_freeList001EB130;
 class Rva0029DFC5List
 {
 public:
@@ -169,8 +170,8 @@ public:
  _STL::_List_node_base *prev=node->_M_prev;
  _STL::_List_node_base *next=node->_M_next;
  prev->_M_next=next;next->_M_prev=prev;
- node->_M_next=(_STL::_List_node_base*)g_freeList001EB130;
- g_freeList001EB130=node;
+ node->_M_next=(_STL::_List_node_base*)(*(void **)((char *)&::g_freelistPool00DB8FEC + 8));
+ (*(void **)((char *)&::g_freelistPool00DB8FEC + 8))=node;
  return ObjectListIter(next);
 }
 };
