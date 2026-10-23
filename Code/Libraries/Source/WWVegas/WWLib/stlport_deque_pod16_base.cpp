@@ -21,5 +21,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 struct BfmePod16;
 namespace _STL { template <> void __destroy_aux<_Deque_iterator<BfmePod16,_Nonconst_traits<BfmePod16> > >(_Deque_iterator<BfmePod16,_Nonconst_traits<BfmePod16> >,_Deque_iterator<BfmePod16,_Nonconst_traits<BfmePod16> >,__false_type const &); }
 struct BfmePod16 { int a[4]; };
+// The dedicated destructor unit supplies the retail cleanup.
+namespace _STL { template <> deque<BfmePod16, allocator<BfmePod16> >::~deque(); }
 template _STL::_Deque_base<BfmePod16, _STL::allocator<BfmePod16> >::_Deque_base(const _STL::allocator<BfmePod16> &, size_t);
 template _STL::queue<BfmePod16, _STL::deque<BfmePod16, _STL::allocator<BfmePod16> > >::queue();

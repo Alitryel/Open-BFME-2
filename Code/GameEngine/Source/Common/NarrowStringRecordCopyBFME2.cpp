@@ -139,6 +139,9 @@ struct BfmePod16
 	~BfmePod16();
 };
 
+// The dedicated destructor unit supplies the retail 16-byte-record cleanup.
+namespace _STL { template <> deque<BfmePod16, allocator<BfmePod16> >::~deque(); }
+
 class Rva0041A63A
 {
 public:

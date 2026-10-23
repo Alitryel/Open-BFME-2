@@ -33,9 +33,6 @@ inline void AptScriptFunctionBase::CleanupAfterExecution(_AptScriptFunctionState
 }
 
 
-// Native E1835C starts at zero. Existing address-derived frame-root users
-// bind this one definition through their linker aliases.
-AptFrameStack *AptScriptFunctionBase::spFrameStack;
 
 class EAStringC
 {
@@ -89,8 +86,8 @@ private:
     AptValue *mp__constructor__;
 };
 AptCIH *_AptGetAnimationAtLevel(int);
-// Native E180F0 is zero-filled and has no existing provider.
-AptPrototype *gpObjectPrototype;
+// AptScriptFunctionBodies.cpp owns the zero-initialized prototype pointer.
+extern AptPrototype *gpObjectPrototype;
 // ?AptObject::AptObject present-unmatched
 inline AptObject::AptObject(AptVirtualFunctionTable_Indices t, int n) : AptValueWithHash(t,n), mnImplementedObjects(0), mbHasClass(0), mbIsInMainInst(0) {}
 inline void AptNativeHash::SetPrototype(AptValue *aptValue) { if(aptValue) aptValue->AddRef(); if(mpPrototype) mpPrototype->Release(); mpPrototype=aptValue; }

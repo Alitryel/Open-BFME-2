@@ -161,6 +161,30 @@ struct BfmePod36 { int a[9]; };
 inline bool operator==(const BfmePod36 &x, const BfmePod36 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod36 &x, const BfmePod36 &y) { return x.a[0] < y.a[0]; }
 struct BfmePod40 { int a[10]; };
+// The overflow provider uses STLport's growth path without exception rollback.
+namespace _STL {
+template <> void vector<BfmePod40, allocator<BfmePod40> >::_M_clear();
+template <> inline void vector<BfmePod40, allocator<BfmePod40> >::_M_insert_overflow(
+    BfmePod40 *__position, const BfmePod40 &__x, const __false_type &,
+    size_type __fill_len, bool __atend)
+{
+    const size_type __old_size = size();
+    const size_type __len = __old_size + (max)(__old_size, __fill_len);
+    pointer __new_start = this->_M_end_of_storage.allocate(__len);
+    pointer __new_finish = __new_start;
+    __new_finish = __uninitialized_copy(this->_M_start, __position, __new_start, __false_type());
+    if (__fill_len == 1) {
+        _Construct(__new_finish, __x);
+        ++__new_finish;
+    } else
+        __new_finish = __uninitialized_fill_n(__new_finish, __fill_len, __x, __false_type());
+    if (!__atend)
+        __new_finish = __uninitialized_copy(__position, this->_M_finish, __new_finish, __false_type());
+    _M_clear();
+    _M_set(__new_start, __new_finish, __new_start + __len);
+}
+}
+
 // bfme link decl-only BfmePod40
 namespace _STL { template <> vector<BfmePod40, allocator<BfmePod40> >::~vector(); }
 namespace _STL { template <> BfmePod40 *vector<BfmePod40, allocator<BfmePod40> >::erase(BfmePod40 *); }
@@ -392,14 +416,6 @@ template <> void vector<BfmePod252>::_M_clear();
 
 // Keep header operations inline without emitting unused external copies.
 namespace _STL {
-template <> __declspec(dllimport) __forceinline
-void vector<BfmePod40>::_M_clear()
-{
-    _Destroy(this->_M_start, this->_M_finish);
-    this->_M_end_of_storage.deallocate(this->_M_start,
-        this->_M_end_of_storage._M_data - this->_M_start);
-}
-
 template <> __declspec(dllimport) __forceinline
 void vector<BfmePod88>::_M_clear()
 {

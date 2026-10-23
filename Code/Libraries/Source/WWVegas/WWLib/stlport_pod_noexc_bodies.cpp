@@ -50,6 +50,8 @@ namespace _STL { template <> void _Construct<BfmePod52,BfmePod52>(BfmePod52 *,Bf
 // Suppress this TU's non-retail copy of ??$__destroy_aux@U?$_Deque_iterator@UBfmePod16@@U?$_Nonconst_traits@UBfmePod16@@@_STL@@@_S:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod16;
+// The non-trivial range helper is supplied by StlportDequePod16Dtor.cpp.
+namespace _STL { template <> void __destroy<_Deque_iterator<BfmePod16, _Nonconst_traits<BfmePod16> >, BfmePod16>(_Deque_iterator<BfmePod16, _Nonconst_traits<BfmePod16> >, _Deque_iterator<BfmePod16, _Nonconst_traits<BfmePod16> >, BfmePod16 *); }
 namespace _STL { template <> void __destroy_aux<_Deque_iterator<BfmePod16,_Nonconst_traits<BfmePod16> > >(_Deque_iterator<BfmePod16,_Nonconst_traits<BfmePod16> >,_Deque_iterator<BfmePod16,_Nonconst_traits<BfmePod16> >,__false_type const &); }
 // Suppress this TU's non-retail copy of ??0?$vector@UBfmePod44@@V?$allocator@UBfmePod44@@@_STL@@@_STL@@QAE@ABV01@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).

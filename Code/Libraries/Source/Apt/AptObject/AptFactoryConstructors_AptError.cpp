@@ -139,7 +139,7 @@ AptValue *AptError::objectMemberLookup(AptValue *const context,const EAStringC *
  if(name->rva006D3490("name")){AptValue *aptValue=factoryCreateString();((BfmeAptValue006DCD20 *)aptValue)->factorySetString(msName.rva00620090());return aptValue;}
  if(name->rva006D3490("toString")){DISPATCH(g_errorToString,callback006E9730);}
  if(name->rva006D3510("message") || name->rva006D3510("name") || name->rva006D3510("toString")) {
- Rva006CC110Log(3,g_00CEC838,name->rva00620090());g_bfmeAptAssertAtE17734(g_00BBFDDC,g_00CEC710,0x4fa);if(g_bfmeAptBreakOnAssertAtDDC01C){__asm int 3}
+ Rva006CC110Log(3,"AptError: Incorrect case for '%s'.\n",name->rva00620090());g_bfmeAptAssertAtE17734(g_00BBFDDC,"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptMiscObjects.cpp",0x4fa);if(g_bfmeAptBreakOnAssertAtDDC01C){__asm int 3}
  }
  return 0;
 }
