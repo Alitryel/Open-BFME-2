@@ -1913,3 +1913,6 @@ __ehhandler$?rva00574959@Rva00574959@@QAEHHH@Z,0x0079AFF2,"Renamed to __ehhandle
 ?rva0057556D@Rva0057556D@@UAEHXZ,0x0057556D,"Renamed to ?rva0057556D@Impl@ResolveBattlesBehavior@StrategicInGameUI@@UAEHXZ: constructor 0x00576DF1 installs the ResolveBattlesBehavior Impl primary and secondary tables"
 ??1Listener00576C4B@@UAE@XZ,0x00576456,"Renamed to ??1Listener00576C4B@@QAE@XZ: constructor 0x00576DF1 installs the ResolveBattlesBehavior Impl primary and secondary tables"
 __ehhandler$??0Rva00576C4B@@QAE@PAVRva00576B5E@@H@Z,0x0079B5C3,"Renamed to __ehhandler$??0Impl@ResolveBattlesBehavior@StrategicInGameUI@@QAE@PAVRva00576B5E@@H@Z: follows the rename of its function"
+?Rva0051FFF5@Holder0051FFF5@@QAEXPAVXfer0051FFF5@@@Z,0x0051FFF5,"Renamed to ?Rva0051FFF5@Rva0051F87B@@UAEXPAVXfer0051FFF5@@@Z: sole slot of table 0x0086745C stored by both Rva0051F87B constructors"
+??0Rva0051ECC3@@QAE@ABV0@@Z,0x0051ECC3,"Renamed to ??0Rva0039C151@@QAE@ABV0@@Z: 0x00796010 reaches destructor 0x0039C151 for the member at +0x14"
+??0Rva0051ED0A@@QAE@ABV0@@Z,0x0051ED0A,"Renamed to ??0Rva004EE501@@QAE@ABV0@@Z: 0x0079601B reaches destructor 0x004EE501 for the member at +0x20"

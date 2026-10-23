@@ -34531,7 +34531,7 @@ _peerAuthenticateCDKey,,0x00699BB0,146,Code/GameEngine/Source/GameNetwork/GameSp
 ??1Rva00415366@@QAE@XZ,,0x00415366,57,Code/GameEngine/Source/GameClient/Rva00415366Dtor.cpp,matched,hash dtor via rowed clear null-guarded free
 ?Rva00511F73Run@@YAXXZ,,0x00511F73,141,Code/GameEngine/Source/GameClient/Rva00511F73.cpp,matched,calls Save StringBase rva erase with AptMessenger strings
 ?rva0031BE07@Rva0031BE07@@QAEPAXABV?$StringBase@D@@@Z,,0x0031BE07,53,Code/Libraries/Source/WWVegas/WWLib/Rva0031BE07Find.cpp,matched,string-keyed search via rowed compare and pinned getFinalOverride
-??0Rva0051ECC3@@QAE@ABV0@@Z,,0x0051ECC3,71,Code/GameEngine/Source/Common/Rva0051ECC3Copy.cpp,matched,caller 0x0051F87B member copy via SaveMapPreview base AsciiString alloc Rva uninit
+??0Rva0039C151@@QAE@ABV0@@Z,,0x0051ECC3,71,Code/GameEngine/Source/Common/Rva0051ECC3Copy.cpp,matched,caller 0x0051F87B member copy via SaveMapPreview base AsciiString alloc Rva uninit
 ?onExit@FellBeastSwoopPower@@MAEX_N0@Z,,0x004C6D0F,38,Code/GameEngine/Source/GameLogic/Object/FellBeastSwoopPowerRva004C6D0F.cpp,matched,slot-13 override (SpecialAbilityUpdate onExit slot) clearing condition bit 7*32+20 and the +0x88 flag; vtable 0x00C5DF80 from the matched ctor
 ?startPreparation@GloriousChargeUpdate@@UAEXXZ,,0x004AD554,56,Code/GameEngine/Source/GameLogic/Object/Update/GloriousChargeUpdateRva004AD554.cpp,matched,slot-15 override calling the SpecialAbilityUpdate base slot 0x00450D9A then setting condition bit 6*32+15 and a drawable flag; vtable 0x00C55118 from the matched dtor
 ?update@AODCrushCollide@@UAE?AW4UpdateSleepTime@@XZ,,0x004BC2E6,63,Code/GameEngine/Source/GameLogic/Object/Collide/AODCrushCollideUpdate.cpp,matched,UpdateModuleInterface slot 0 at +0x10 (vtable 0x00C5A254 from the matched dtor); clears condition bit 1*32+9 once the stored frame has passed
@@ -34540,7 +34540,7 @@ _peerAuthenticateCDKey,,0x00699BB0,146,Code/GameEngine/Source/GameNetwork/GameSp
 ?clone@Rva003AE56F@@QBEPAV1@XZ,,0x003AE538,55,Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003AE56FClone.cpp,matched,vslot 2 clone calls rowed copy 0x003AE56F via new
 ??0Rva003AE61F@@QAE@ABV0@@Z,,0x003AE61F,45,Code/GameEngine/Source/GameClient/System/FXParticleSystem/ParticleModuleInfoCopyCtors.cpp,matched,copy calls rowed base 0x003AF50D plus own 3 vptrs
 ?reserve@?$vector@URva00390729Element@@V?$allocator@URva00390729Element@@@_STL@@@_STL@@QAEXI@Z,,0x00390729,125,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva00390729_reserve.cpp,matched,vector reserve 12B stride via STLport specialization; owned allocate-copy 0xE016A; callers 0xE0B3D 0x3909AE 0x48C487
-??0Rva0051ED0A@@QAE@ABV0@@Z,,0x0051ED0A,71,Code/GameEngine/Source/Common/Rva0051ED0ACopy.cpp,matched,caller 0x0051F87B member copy via PrereqUnitRec base AsciiString alloc nested uninit
+??0Rva004EE501@@QAE@ABV0@@Z,,0x0051ED0A,71,Code/GameEngine/Source/Common/Rva0051ED0ACopy.cpp,matched,caller 0x0051F87B member copy via PrereqUnitRec base AsciiString alloc nested uninit
 ?rva0031BE58@Rva0031BE07@@QAEXPBVModuleData@@@Z,,0x0031BE58,153,Code/Libraries/Source/WWVegas/WWLib/Rva0031BE07Find.cpp,matched,chain from 0x0031BE07 two AsciiString temps Command_StructureExit TransportExit via 0x0035B750
 ??0Rva00553395@@QAE@I@Z,,0x00553395,39,Code/Libraries/Source/WWVegas/WWLib/Rva00553395.cpp,matched,unlock single-proxy ctor via proxy plus byte allocator
 ?rva000733D8@Rva00072FE6@@QAEIABH@Z,,0x000733D8,73,Code/Libraries/Source/WWVegas/WWLib/Rva0007300FErase.cpp,matched,STLPort erase key via rowed range erase 0x0007300F plus equal_range
@@ -51155,7 +51155,7 @@ _rva005DE059,,0x005DE059,47,Code/GameEngine/Source/Common/Rva005DE059Loop.cpp,ma
 ?Rva00526309@Holder00526309@@QAEXPAUObj00526309@@@Z,,0x00526309,42,Code/GameEngine/Source/Common/Rva00526309Dispatcher.cpp,matched,
 ?Rva00525D9A@Holder00525D9A@@QAEXPAUObj00525D9A@@@Z,,0x00525D9A,102,Code/GameEngine/Source/Common/Rva00525D9AListAppend.cpp,matched,
 ?AdjustStartingPositionForScenario@LivingWorldCampaign@@QAEHH@Z,,0x0052BAC1,61,Code/GameEngine/Source/Common/Rva0052BAC1Dispatch.cpp,matched,wb-lead 2.0/callgraph: WB LivingWorldCampaign::AdjustStartingPositionForScenario (LivingWorldCampaign.cpp:229 assert) shares 2 callees with retail in the same order (Rva0020EAF6View::rva0020EAF6); wb-name-unverified
-?Rva0051FFF5@Holder0051FFF5@@QAEXPAVXfer0051FFF5@@@Z,,0x0051FFF5,125,Code/GameEngine/Source/Common/Rva0051FFF5Feed.cpp,matched,
+?Rva0051FFF5@Rva0051F87B@@UAEXPAVXfer0051FFF5@@@Z,,0x0051FFF5,125,Code/GameEngine/Source/Common/Rva0051FFF5Feed.cpp,matched,
 ?Rva00521658@Holder00521658@@QAEXXZ,,0x00521658,78,Code/GameEngine/Source/Common/Rva00521658Feed.cpp,matched,
 ?Rva00524477@Holder00524477@@QAEXHH@Z,,0x00524477,101,Code/GameEngine/Source/Common/Rva00524477Dispatch.cpp,matched,
 ?Rva00527BA2@Holder00527BA2@@QAEXPADHH@Z,,0x00527BA2,98,Code/GameEngine/Source/Common/Rva00527BA2Fill.cpp,matched,

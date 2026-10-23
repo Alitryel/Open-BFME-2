@@ -57,10 +57,12 @@ struct Rva0026F4F4Element
 	unsigned words[1];
 };
 
+class Xfer0051FFF5;
+
 class Rva0051F87B
 {
 public:
-	virtual ~Rva0051F87B();
+	virtual void Rva0051FFF5(Xfer0051FFF5 *x);
 	Rva0051F87B &operator=(const Rva0051F87B &other);
 private:
 	UnicodeString m_04;

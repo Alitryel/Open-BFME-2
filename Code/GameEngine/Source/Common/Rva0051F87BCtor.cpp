@@ -36,10 +36,12 @@ struct PrereqUnitRec
 	unsigned int m_data[3];
 };
 
+class Xfer0051FFF5;
+
 class Rva0051F87B
 {
 public:
-	virtual ~Rva0051F87B();
+	virtual void Rva0051FFF5(Xfer0051FFF5 *x);
 	Rva0051F87B();
 private:
 	UnicodeString m_04;

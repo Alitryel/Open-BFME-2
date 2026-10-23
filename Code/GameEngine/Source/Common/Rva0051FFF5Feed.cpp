@@ -1,6 +1,6 @@
 // cl: /MD
 // Range-27 xfer feed sequence.
-// ?Rva0051FFF5@Holder0051FFF5@@QAEXPAVXfer0051FFF5@@@Z @0x0051FFF5 125B
+// ?Rva0051FFF5@Rva0051F87B@@UAEXPAVXfer0051FFF5@@@Z @0x0051FFF5 125B
 // Thiscall feeds holder fields to an Xfer-like object's virtual slots
 // 0x68/0x7C/0x6C/0x7C (TU-local vtable view, slots positional), preserves
 // m_10 across a temp, then runs five cdecl out-param helpers: pinned
@@ -53,18 +53,18 @@ struct Out120051FFF5
 	char m_bytes[12];
 };
 
-struct Holder0051FFF5
+class Rva0051F87B
 {
-	char m_pad[4];
+public:
 	int m_4;
 	int m_8;
 	int m_C;
 	int m_10;
 	Out120051FFF5 m_outs[5];
-	void Rva0051FFF5(Xfer0051FFF5 *x);
+	virtual void Rva0051FFF5(Xfer0051FFF5 *x);
 };
 
-void Holder0051FFF5::Rva0051FFF5(Xfer0051FFF5 *x)
+void Rva0051F87B::Rva0051FFF5(Xfer0051FFF5 *x)
 {
 	x->slot26(&m_4);
 	x->slot31(&m_8);
