@@ -27,12 +27,23 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include "unicode_string.h"
 typedef unsigned short wchar_t;
 #include <vector>
+#include <list>
 struct BfmeStringRecord005DDD40 {
     UnicodeString text;
     unsigned int word;
     BfmeStringRecord005DDD40();
     BfmeStringRecord005DDD40(const BfmeStringRecord005DDD40 &);
     BfmeStringRecord005DDD40 &operator=(const BfmeStringRecord005DDD40 &);
+};
+// The overflow call at retail +0xF0 reaches the separate 0x005DE4BA
+// owner, not the chat-history overflow at 0x00381B7B. Its address-derived
+// element identity remains unknown; this view only exposes the recovered ABI.
+struct Rva005DE4BAElement {
+    _STL::list<short> values[2];
+    bool operator==(const Rva005DE4BAElement &) const;
+};
+struct Rva005DE4BAVectorView : _STL::vector<Rva005DE4BAElement> {
+    using _STL::vector<Rva005DE4BAElement>::_M_insert_overflow;
 };
 namespace _STL {
 template <> void _Construct<BfmeStringRecord005DDD40, BfmeStringRecord005DDD40>(BfmeStringRecord005DDD40 *, const BfmeStringRecord005DDD40 &);
@@ -77,7 +88,10 @@ inline void vector<BfmeStringRecord005DDD40, allocator<BfmeStringRecord005DDD40>
 			}
 		}
 		else
-			_M_insert_overflow(__position, __x, _IsPODType(), __n);
+            reinterpret_cast<Rva005DE4BAVectorView *>(this)->_M_insert_overflow(
+                reinterpret_cast<Rva005DE4BAElement *>(__position),
+                reinterpret_cast<const Rva005DE4BAElement &>(__x),
+                _IsPODType(), __n, false);
 	}
 }
 }

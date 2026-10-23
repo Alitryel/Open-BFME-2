@@ -29,6 +29,8 @@ template <> void _Construct<BfmeStringRecord005DDD40, BfmeStringRecord005DDD40>(
 // The range-erase specialization is byte-verified in the separate erase unit.
 // Keep this explicit vector instantiation from emitting a competing body.
 template <> BfmeStringRecord005DDD40 *vector<BfmeStringRecord005DDD40, allocator<BfmeStringRecord005DDD40> >::erase(BfmeStringRecord005DDD40 *, BfmeStringRecord005DDD40 *);
+// The retail 260-byte fill-insert is emitted by its dedicated unit.
+template <> void vector<BfmeStringRecord005DDD40>::_M_fill_insert(BfmeStringRecord005DDD40 *, size_type, const BfmeStringRecord005DDD40 &);
 }
 // The chat-history copy uses the distinct native placement-copy entry at
 // 0x003814A6; the generic record helpers use the other copy at 0x005DDD78.
