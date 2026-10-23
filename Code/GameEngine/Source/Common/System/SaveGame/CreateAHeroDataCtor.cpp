@@ -71,9 +71,11 @@ public:
 	CreateAHeroData(int word04, int word0C, int word10, const UnicodeString &text, int word2C, int word30, int word34);
 	virtual ~CreateAHeroData();
 
+public:
+	// Declared like CreateAHeroDataCopy.cpp's view so every unit emits the same vtable copy.
+	virtual void crc(Xfer *xfer);
+	virtual void xfer(Xfer *xfer);
 protected:
-	virtual void crc(Xfer *xfer) = 0;
-	virtual void xfer(Xfer *xfer) = 0;
 	virtual void loadPostProcess();
 
 private:

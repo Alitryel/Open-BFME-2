@@ -95,3 +95,9 @@ protected:
 public:
 };
 template void _STL::_Construct<CreateAHeroData,CreateAHeroData>(CreateAHeroData *,const CreateAHeroData &);
+
+// Retail's CreateAHeroData vftable (0x00C38D88) holds ??_G, the empty virtual 0x000B3FD0,
+// GetSnapshotName 0x00409353 in slot 2 and the xfer 0x00408C11 in slot 3. Snapshot's crc stands
+// in for slot 2 (see Snapshot.h), so bind the two placeholders to the rows at those addresses.
+#pragma comment(linker, "/alternatename:?crc@CreateAHeroData@@UAEXPAVXfer@@@Z=?GetSnapshotName@CreateAHeroData@@UBEPBDXZ")
+#pragma comment(linker, "/alternatename:?xfer@CreateAHeroData@@UAEXPAVXfer@@@Z=?DoXfer@CreateAHeroHero@@QAEXAAVXfer@@@Z")

@@ -77,6 +77,9 @@ public:
     bool rva00408A55();
     bool rva004099CA(AsciiString *name, bool flag);
     virtual ~CreateAHeroData();
+    // Declared like CreateAHeroDataCopy.cpp's view so every unit emits the same vtable copy.
+    virtual void crc(Xfer *xfer);
+    virtual void xfer(Xfer *xfer);
 protected:
     virtual void loadPostProcess();
 };
