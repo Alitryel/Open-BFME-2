@@ -18,11 +18,14 @@ class Rva003ADEBF : public V3Vt01111D90, public V3Second08
 public:
 	Rva003ADEBF(const Rva003ADEBF &other);
 };
+// Inline empty destructor, as in V3PolyCopyCtors.cpp: its deleting dtor
+// 0x004A10FD calls 0x0049B47C, which only restores the Snapshot vtable
+// 0x00BBB554, as the derived destructor 0x003ADFB2 does for this base.
 class Rva003ADE98
 {
 public:
 	Rva003ADE98(const Rva003ADE98 &other);
-	virtual ~Rva003ADE98();
+	virtual ~Rva003ADE98() {}
 	int m04;
 	char m08;
 	char m09;

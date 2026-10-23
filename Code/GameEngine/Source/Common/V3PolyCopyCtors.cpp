@@ -214,11 +214,16 @@ void Rva00318D63Copy(Rva00318B5C *dest, const Rva00318B5C &src)
 // B2 body-address name: +0x08 and +0x09 are byte members (8A51/8850 and
 // 8A49/8848). Retail caller 0x003ADE78 installs adjacent-vtable parts
 // after the call so this is the subobject copy.
+// Its destructor is inline and empty: the deleting dtor 0x004A10FD in the
+// vtable 0x00C1D1F4 stored below calls 0x0049B47C, the shared one-store dtor
+// that only restores the Snapshot vtable 0x00BBB554, which is also all the
+// derived destructor 0x003ADFB2 does for this base. The Snapshot base itself is
+// not modelled in this view.
 class Rva003ADE98
 {
 public:
 	Rva003ADE98(const Rva003ADE98 &other);
-	virtual ~Rva003ADE98();
+	virtual ~Rva003ADE98() {}
 
 	Int m_field04;
 	char m_field08;
@@ -234,12 +239,14 @@ Rva003ADE98::Rva003ADE98(const Rva003ADE98 &other)
 
 // ------------------------------------------ vptr + ten ints (retail 0x003ADF61)
 // B2 body-address name: straight ten-dword run +0x04..+0x28. Four retail
-// E8 callers all sit in 0x003AE1xx copy tails.
+// E8 callers all sit in 0x003AE1xx copy tails. Its destructor is inline and
+// empty: the deleting dtor 0x004A10FD in its vtable 0x00C1D264 calls
+// 0x0049B47C, which only restores the Snapshot vtable 0x00BBB554.
 class Rva003ADF61
 {
 public:
 	Rva003ADF61(const Rva003ADF61 &other);
-	virtual ~Rva003ADF61();
+	virtual ~Rva003ADF61() {}
 
 	Int m_field04;
 	Int m_field08;

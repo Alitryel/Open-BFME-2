@@ -20,11 +20,14 @@ public:
 public:
 	virtual ~Rva003ADFDB();	// rowed elsewhere; declared so this unit binds to it
 };
+// Inline empty destructor, as in V3PolyCopyCtors.cpp: the deleting dtor
+// 0x004A10FD in its vtable 0x00C1D264 calls 0x0049B47C, which only restores
+// the Snapshot vtable 0x00BBB554.
 class Rva003ADF61
 {
 public:
 	Rva003ADF61(const Rva003ADF61 &other);
-	virtual ~Rva003ADF61();
+	virtual ~Rva003ADF61() {}
 	int m04;
 	int m08;
 	int m0C;
