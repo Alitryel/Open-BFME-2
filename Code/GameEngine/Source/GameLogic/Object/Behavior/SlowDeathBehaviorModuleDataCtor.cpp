@@ -26,6 +26,7 @@
 #include <vector>
 #include "Common/Snapshot.h"
 #include "../../../../Include/Common/BfmeModuleData.h"
+#include "../../../../Include/Common/BfmeAudioEventPrefix136.h"
 
 // The native 31-slot interface tears down to Snapshot; the word at +4 is separate.
 inline ModuleData::~ModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
@@ -56,14 +57,21 @@ typedef _STL::vector<const FXList *> SlowDeathFXVec;
 typedef _STL::vector<const ObjectCreationList *> SlowDeathOCLVec;
 typedef _STL::vector<const WeaponTemplate *> SlowDeathWeaponVec;
 
+namespace _STL {
+template<> void _Destroy<OpaqueRefElement4 *>(OpaqueRefElement4 *, OpaqueRefElement4 *);
+template<> vector<OpaqueRefElement4>::~vector();
+}
+
+// The allocator default argument supplies the native array-construction callback.
+// Teardown uses the separately declared owning-vector destructor.
 class SlowDeathSoundVec
 {
 public:
-	SlowDeathSoundVec();
+	SlowDeathSoundVec(const _STL::allocator<OpaqueRefElement4> &alloc = _STL::allocator<OpaqueRefElement4>()) : m_data(alloc) {}
 	~SlowDeathSoundVec();
 
 private:
-	unsigned char m_data[0x0C];
+	_STL::vector<OpaqueRefElement4> m_data;
 };
 
 class Rva0042526Member

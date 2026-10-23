@@ -291,10 +291,10 @@ Open2Rec767F60::Open2Rec767F60( const Open2Rec767F60 &other )
 
 // -------------------------------------------------------------------------
 // 0x0081C6B0 -- 122 bytes, ctor
-class Open2Rec81C6B0
+struct Rva001D28F0Element
 {
 public:
-	Open2Rec81C6B0( const Open2Rec81C6B0 &other );
+	Rva001D28F0Element( const Rva001D28F0Element &other );
 	AsciiString m_at00;
 	AsciiString m_at04;
 	AsciiString m_at08;
@@ -306,8 +306,8 @@ public:
 	int m_at18;
 };
 
-// @??0Open2Rec81C6B0@@QAE@ABV0@@Z 0x0081C6B0
-Open2Rec81C6B0::Open2Rec81C6B0( const Open2Rec81C6B0 &other )
+// @??0Rva001D28F0Element@@QAE@ABU0@@Z 0x0081C6B0
+Rva001D28F0Element::Rva001D28F0Element( const Rva001D28F0Element &other )
 	: m_at00( other.m_at00 ), m_at04( other.m_at04 ), m_at08( other.m_at08 ), m_at0c( other.m_at0c ), m_at10( other.m_at10 ), m_at14( other.m_at14 ), m_at18( other.m_at18 )
 {
 }

@@ -1767,3 +1767,5 @@ __ehhandler$?OnLivingWorldAutoResolveBattleCompleted@Impl@DynamicAutoResolveDial
 ?LoadPostProcess@Rva00293EFFLoadView@@UAEXXZ,0x00293EFF,"Renamed to ?loadPostProcess@Object@@UAEXXZ: Object Snapshot table VA 0x00BFC2F0 slot 1 receives Object plus 0x60"
 __ehhandler$?LoadPostProcess@Rva00293EFFLoadView@@UAEXXZ,0x007745DD,"Renamed to __ehhandler$?loadPostProcess@Object@@UAEXXZ: follows the rename of its function"
 ?get@Rva00299C99LeaGetter@@QBEPAXXZ,0x00299C99,"Renamed to ?slot@Object@@UBEPAXXZ: Object virtual-base table VA 0x00BFC27C calls this getter through vtordisp thunk 0x00299C91"
+??0Open2Rec81C6B0@@QAE@ABV0@@Z,0x00689650,"Renamed to ??0Rva001D28F0Element@@QAE@ABU0@@Z: retail element construction wrapper 0x006896F0 calls this three-string copy constructor"
+__ehhandler$??0Open2Rec81C6B0@@QAE@ABV0@@Z,0x007A7B03,"Renamed to __ehhandler$??0Rva001D28F0Element@@QAE@ABU0@@Z: follows the rename of its function"
