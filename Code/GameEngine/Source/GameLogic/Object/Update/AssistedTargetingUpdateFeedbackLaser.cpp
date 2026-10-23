@@ -12,7 +12,7 @@ class Player {public:char pad[0x2EC];Team *team;};
 class Thing {public:Drawable *getDrawable()const;};
 class Object:public Thing {public:Player *getControllingPlayer() const;char pad[0x38];Coord3D position;};
 struct CreateMask {unsigned words[4];};
-class ThingFactory {public:Object *newObject(const ThingTemplate *,Team *,const CreateMask *,bool);};extern ThingFactory *TheThingFactory;
+enum ObjectID; class ThingFactory {public:Object *newObject(const ThingTemplate *,Team *,const CreateMask *,ObjectID);};extern ThingFactory *TheThingFactory;
 enum NameKeyType {NAMEKEY_INVALID=0};
 class NameKeyGenerator {public:NameKeyType nameToKey(const char *);};extern NameKeyGenerator *TheNameKeyGenerator;
 class Drawable {public:ClientUpdateModule *findClientUpdateModule(NameKeyType);};
@@ -24,7 +24,7 @@ void AssistedTargetingUpdate::makeFeedbackLaser(const ThingTemplate *laserTempla
  if(!object->getControllingPlayer()) return;
  Team *team=object->getControllingPlayer()->team;
  CreateMask mask;memset(&mask,0,sizeof(mask));
- Object *laser=TheThingFactory->newObject(laserTemplate,team,&mask,false);
+ Object *laser=TheThingFactory->newObject(laserTemplate,team,&mask,(ObjectID)0);
  if(!laser) return;
  Drawable *draw=laser->getDrawable();
  static const NameKeyType key=TheNameKeyGenerator->nameToKey("LaserUpdate");

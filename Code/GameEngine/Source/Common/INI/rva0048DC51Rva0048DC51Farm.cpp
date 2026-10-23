@@ -169,11 +169,11 @@ public:
 
 extern TerrainLogic *TheTerrainLogic;
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool b);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID b);
 };
 
 extern ThingFactory *TheThingFactory;

@@ -46,7 +46,7 @@ public:
 };
 class ThingTemplate;
 struct CreateMask { unsigned int bits[4]; };
-class ThingFactory { public: const ThingTemplate *findTemplate(const AsciiString &name); Object *newObject(const ThingTemplate *,Team *,const CreateMask *,bool); };
+enum ObjectID; class ThingFactory { public: const ThingTemplate *findTemplate(const AsciiString &name); Object *newObject(const ThingTemplate *,Team *,const CreateMask *,ObjectID); };
 extern ThingFactory *TheThingFactory;
 struct GettingBuiltBehaviorModuleData {
  unsigned char pad[0x14]; AsciiString builder; AsciiString alternateBuilder; bool alternate;
@@ -73,7 +73,7 @@ void GettingBuiltBehaviorSecondary::resumeBuildingConstruction(bool instant)
  CreateMask mask;
  memset(&mask,0,sizeof(mask));
  Team *team = player->team;
- Object *builder = TheThingFactory->newObject(thingTemplate,team,&mask,false);
+ Object *builder = TheThingFactory->newObject(thingTemplate,team,&mask,(ObjectID)0);
  if (!builder) return;
  builder->setPosition(&object->position);
  builder->setProducer(object);

@@ -217,7 +217,7 @@ class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool b);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID b);
 };
 extern ThingFactory *TheThingFactory;
 
@@ -398,7 +398,7 @@ Object *Bridge::createTower(Coord3D *worldPos, BridgeTowerType towerType, const 
 
 	CreateMask mask;
 	memset(&mask, 0, sizeof(mask));
-	Object *tower = TheThingFactory->newObject(towerTemplate, bridge->getTeam(), &mask, false);
+	Object *tower = TheThingFactory->newObject(towerTemplate, bridge->getTeam(), &mask, (ObjectID)0);
 
 	Real angle = 0;
 	switch (towerType)

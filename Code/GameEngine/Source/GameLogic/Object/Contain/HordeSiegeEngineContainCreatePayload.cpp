@@ -157,11 +157,11 @@ public:
 	ContainModuleInterface *m_contain;
 };
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject( const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool b );
+	Object *newObject( const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID b );
 };
 
 extern ThingFactory *TheThingFactory;
@@ -246,7 +246,7 @@ void HordeSiegeEngineContain::createPayload()
 		{
 			CreateMask mask;
 			memset( &mask, 0, sizeof( mask ) );
-			Object *payload = TheThingFactory->newObject( payloadTemplate, owner->getControllingPlayer()->getDefaultTeam(), &mask, false );
+			Object *payload = TheThingFactory->newObject( payloadTemplate, owner->getControllingPlayer()->getDefaultTeam(), &mask, (ObjectID)0 );
 			if( contain->isValidContainerFor( payload, true, false ) )
 			{
 				Int frames = (Int)( payloadTemplate->getPayloadSeconds() * (Real)BfmeLogicFramesPerSecond );

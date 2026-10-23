@@ -1,10 +1,10 @@
-// ?rva00240167@Rva00240167@@QAEPAVAsciiString@@V2@@Z
+// ?findTOCEntryByName@GameLogic@@QAEPAUObjectTOCEntry@@VAsciiString@@@Z
 // partial score=0.96 date=2026-10-01
-// ?rva00240167@Rva00240167@@QAEPAVAsciiString@@V2@@Z
+// ?findTOCEntryByName@GameLogic@@QAEPAUObjectTOCEntry@@VAsciiString@@@Z
 // partial score=0.96 date=2026-10-01
 // cl: /O1 /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS
 // stlport
-// ?rva00240167@Rva00240167@@QAEPAVAsciiString@@V2@@Z @ 0x00240167 89B
+// ?findTOCEntryByName@GameLogic@@QAEPAUObjectTOCEntry@@VAsciiString@@@Z @ 0x00240167 89B
 // Circular name search at this+0x1C0 via compare 0x69D6 key by value via
 // 0x36410. Follows TerrainTypes_findTerrain recipe. Evidence calls at
 // 0x240188/0x2401A4 head +0x1C0 next +0 name +8 callers 0x245FE5/0x247C1A.
@@ -46,21 +46,23 @@ struct Rva00240167Node
 	AsciiString m_name;
 };
 
-class Rva00240167
+struct ObjectTOCEntry;
+// class-gate: allow GameLogic native TOC search accesses the list at +0x1C0, beyond the shared lookup prefix
+class GameLogic
 {
 public:
-	AsciiString *rva00240167(AsciiString name);
+	ObjectTOCEntry *findTOCEntryByName(AsciiString name);
 private:
 	char m_pad00[0x1C0];
 	Rva00240167Node *m_head;
 };
 
-AsciiString *Rva00240167::rva00240167(AsciiString name)
+ObjectTOCEntry *GameLogic::findTOCEntryByName(AsciiString name)
 {
 	for (Rva00240167Node *cur = m_head->m_next; cur != m_head; cur = cur->m_next) {
 		const StringBase<char> &key = cur->m_name;
 		if (key.compare(name) == 0)
-			return &cur->m_name;
+			return (ObjectTOCEntry *)&cur->m_name;
 	}
 	return 0;
 }

@@ -267,11 +267,11 @@ extern TerrainLogic *TheTerrainLogic;
 
 struct CreateMask { unsigned int m_bits[4]; };
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool flag);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID flag);
 };
 extern ThingFactory *TheThingFactory;
 
@@ -398,7 +398,7 @@ void ScriptActions::doCreateReinforcements(const AsciiString &team, const AsciiS
 		if (transportTemplate) {
 			CreateMask mask;
 			memset(&mask, 0, sizeof(mask));
-			transport = TheThingFactory->newObject(transportTemplate, theTeam, &mask, false);
+			transport = TheThingFactory->newObject(transportTemplate, theTeam, &mask, (ObjectID)0);
 			if (transport) {
 				transport->setPosition(&origin);
 				transport->setOrientation(0.0f);
@@ -420,7 +420,7 @@ void ScriptActions::doCreateReinforcements(const AsciiString &team, const AsciiS
 			for (j = 0; j < pInfo->m_unitsInfo[i].maxUnits; j++) {
 				CreateMask mask;
 				memset(&mask, 0, sizeof(mask));
-				obj = TheThingFactory->newObject(unitTemplate, theTeam, &mask, false);
+				obj = TheThingFactory->newObject(unitTemplate, theTeam, &mask, (ObjectID)0);
 				if (obj) {
 					pos.x = origin.x + 2.25 * j * obj->getMajorRadius();
 					if (adjustToPathable && !needToMoveToDestination) {
@@ -498,7 +498,7 @@ void ScriptActions::doCreateReinforcements(const AsciiString &team, const AsciiS
 					if (!contain->isValidContainerFor(obj, true, false)) {
 						CreateMask mask;
 						memset(&mask, 0, sizeof(mask));
-						transport = TheThingFactory->newObject(transportTemplate, theTeam, &mask, false);
+						transport = TheThingFactory->newObject(transportTemplate, theTeam, &mask, (ObjectID)0);
 						if (transport) {
 							transportCount++;
 							transport->setPosition(&pos);

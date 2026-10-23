@@ -121,11 +121,11 @@ private:
 	char m_pad[0x304];
 	Team *m_team; // +0x304
 };
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *mask, bool flag);
+	Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *mask, ObjectID flag);
 };
 extern ThingFactory *TheThingFactory;
 #include <string.h>
@@ -157,7 +157,7 @@ Object *ElvenWoodSpecialPower::addObject(const Coord3D *position, const AsciiStr
 		{
 			CreateMask mask;
 			memset(&mask, 0, sizeof(mask));
-			Object *object = TheThingFactory->newObject(thingTemplate, 0, &mask, false);
+			Object *object = TheThingFactory->newObject(thingTemplate, 0, &mask, (ObjectID)0);
 			if (object)
 			{
 				object->setTeam(m_object->getTeam());

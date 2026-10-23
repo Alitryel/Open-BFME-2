@@ -30,10 +30,10 @@ extern GameLogic *TheGameLogic;
 class Team;
 struct CreateMask { unsigned int bits[4]; };
 class ThingTemplate;
-class ThingFactory {
+enum ObjectID; class ThingFactory {
 public:
  const ThingTemplate *findTemplate(const AsciiString &name);
- Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool flag);
+ Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID flag);
 };
 extern ThingFactory *TheThingFactory;
 class Rva0028CBFD { public: void rva0028CBFD(); };
@@ -102,7 +102,7 @@ void Player::newMap() {
    if (!thingTemplate) return;
    CreateMask mask;
    memset(&mask,0,sizeof(mask));
-   Object *obj = TheThingFactory->newObject(thingTemplate,team,&mask,false);
+   Object *obj = TheThingFactory->newObject(thingTemplate,team,&mask,(ObjectID)0);
    startingObject = obj->getID();
    ((Rva0028CBFD *)obj)->rva0028CBFD();
   }

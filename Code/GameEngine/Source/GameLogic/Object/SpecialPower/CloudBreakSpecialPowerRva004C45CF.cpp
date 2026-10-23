@@ -3,13 +3,13 @@
 class AsciiString;
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 class ThingTemplate;
-extern class ThingFactory *TheThingFactory;
+enum ObjectID; extern class ThingFactory *TheThingFactory;
 void __cdecl ji_006291ae();
 class ThingTemplate;
 class Team;
 struct CreateMask { char m_pad[0x10]; };
 class Object;
-class ThingFactory { public: const ThingTemplate *findTemplate(const AsciiString &name); Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *mask, bool flag); };
+class ThingFactory { public: const ThingTemplate *findTemplate(const AsciiString &name); Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *mask, ObjectID flag); };
 class Thing { public: void setPosition(const Coord3D *pos); };
 void __stdcall Rva004C45CFCreate(const Coord3D *pos, const AsciiString *name)
 {
@@ -18,7 +18,7 @@ void __stdcall Rva004C45CFCreate(const Coord3D *pos, const AsciiString *name)
         return;
     CreateMask mask;
     ((void (__cdecl *)(void *, int, unsigned int))&ji_006291ae)(&mask, 0, 0x10);
-    Object *obj = TheThingFactory->newObject((const ThingTemplate *)tmpl, 0, &mask, false);
+    Object *obj = TheThingFactory->newObject((const ThingTemplate *)tmpl, 0, &mask, (ObjectID)0);
     if (obj == 0)
         return;
     ((Thing *)obj)->setPosition(pos);
@@ -40,7 +40,7 @@ void CloudBreakSpecialPower::rva004C45CF(const Coord3D *pos, const AsciiString *
         return;
     CreateMask mask;
     ((void (__cdecl *)(void *, int, unsigned int))&ji_006291ae)(&mask, 0, 0x10);
-    Object *obj = TheThingFactory->newObject((const ThingTemplate *)tmpl, 0, &mask, false);
+    Object *obj = TheThingFactory->newObject((const ThingTemplate *)tmpl, 0, &mask, (ObjectID)0);
     if (obj == 0)
         return;
     ((Thing *)obj)->setPosition(pos);

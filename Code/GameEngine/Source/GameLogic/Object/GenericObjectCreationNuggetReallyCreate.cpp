@@ -253,11 +253,11 @@ public:
 	ExperienceTracker *m_experienceTracker;	// +0x264
 };
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, Bool b);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID b);
 };
 
 class BuildAssistant
@@ -479,7 +479,7 @@ _STL::vector<Object *> GenericObjectCreationNugget::reallyCreate(const Coord3D *
 				}
 				CreateMask mask;
 				memset(&mask, 0, sizeof(mask));
-				container = TheThingFactory->newObject(containerTmpl, debrisOwner, &mask, false);
+				container = TheThingFactory->newObject(containerTmpl, debrisOwner, &mask, (ObjectID)0);
 				container->setProducer((Object *)sourceObj);
 			}
 		}
@@ -558,7 +558,7 @@ _STL::vector<Object *> GenericObjectCreationNugget::reallyCreate(const Coord3D *
 
 		CreateMask mask;
 		memset(&mask, 0, sizeof(mask));
-		debris = TheThingFactory->newObject(thingTemplate, debrisOwner, &mask, false);
+		debris = TheThingFactory->newObject(thingTemplate, debrisOwner, &mask, (ObjectID)0);
 		objects.push_back(debris);
 
 		if (ownerFlag)

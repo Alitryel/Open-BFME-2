@@ -160,9 +160,9 @@ struct CreateMask
 	CreateMask() { memset(m_bits, 0, sizeof(m_bits)); }
 	unsigned int m_bits[4];
 };
-class ThingFactory {public:
+enum ObjectID; class ThingFactory {public:
  const ThingTemplate *findTemplate(const AsciiString &name);
- Object *newObject(const ThingTemplate *,Team *,const CreateMask *,Bool);
+ Object *newObject(const ThingTemplate *,Team *,const CreateMask *,ObjectID);
 };
 class Pathfinder
 {
@@ -249,7 +249,7 @@ void BaseUpgrade::upgradeImplementation()
 	CreateMask status;
 	Team *team = player->team230();
 	Object *newObject = TheThingFactory->newObject(
-		thingTemplate, team, &status, false);
+		thingTemplate, team, &status, (ObjectID)0);
 	newObject->setProducer(object);
 	newObject->setBuilder(object);
 	reinterpret_cast<Thing *>(newObject)->setPosition(&position);

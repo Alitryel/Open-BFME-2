@@ -63,7 +63,7 @@ private:
 	Team *m_defaultTeam;	// +0x2EC
 };
 
-extern class ThingFactory *TheThingFactory;
+enum ObjectID; extern class ThingFactory *TheThingFactory;
 
 void __cdecl ji_006291ae();
 
@@ -71,7 +71,7 @@ class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool flag);	// 0x002D0A23 pin
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID flag);	// 0x002D0A23 pin
 };
 
 class PartitionManager
@@ -229,7 +229,7 @@ bool UnitCrateCollide::executeCrateBehavior(Object *other)
 		Team *creationTeam = other->getControllingPlayer()->getDefaultTeam();
 		CreateMask mask;
 		((void (__cdecl *)(void *, int, unsigned int))&ji_006291ae)(&mask, 0, 0x10);
-		Object *newObj = TheThingFactory->newObject((const ThingTemplate *)tmpl, creationTeam, &mask, false);
+		Object *newObj = TheThingFactory->newObject((const ThingTemplate *)tmpl, creationTeam, &mask, (ObjectID)0);
 		if (newObj != 0)
 		{
 			Coord3D creationPoint;

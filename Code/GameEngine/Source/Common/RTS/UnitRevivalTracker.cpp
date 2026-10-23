@@ -50,11 +50,11 @@ public:
 	Int rva0033A69A(const Player *player, Int a, Int b) const;	// 0x0033A69A, build cost
 };
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate*, Team*, const CreateMask*, bool);
+	Object *newObject(const ThingTemplate*, Team*, const CreateMask*, ObjectID);
 };
 extern ThingFactory *TheThingFactory;
 
@@ -466,7 +466,7 @@ Object *UnitRevivalTracker::productionSystemNewObject(unsigned int productionID,
             memset(&mask,0,sizeof(mask));
             Player *player=m_player;
             Team *team=*reinterpret_cast<Team**>(reinterpret_cast<char*>(player)+0x2EC);
-            Object *object=TheThingFactory->newObject(thingTemplate,team,&mask,false);
+            Object *object=TheThingFactory->newObject(thingTemplate,team,&mask,(ObjectID)0);
             object->teleportTo(position,false);
             object->rva0028BAAE(entry.m_a8);
             object->field460=entry.m_ac;

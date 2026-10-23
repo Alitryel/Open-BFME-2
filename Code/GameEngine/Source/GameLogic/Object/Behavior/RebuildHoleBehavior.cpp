@@ -331,7 +331,7 @@ virtual Object *construct(const ThingTemplate*,const Coord3D*,float,Player*,bool
 class Pathfinder {public:void RemoveObjectFromPathfindMap(Object*);};
 class AI; extern AI *TheAI;
 struct AIDataView {char pad[0x10];Pathfinder *path;};
-class ThingFactory {public:const ThingTemplate *findTemplate(const AsciiString&);Object *newObject(const ThingTemplate*,Team*,const CreateMask*,bool);}; extern ThingFactory *TheThingFactory;
+enum ObjectID; class ThingFactory {public:const ThingTemplate *findTemplate(const AsciiString&);Object *newObject(const ThingTemplate*,Team*,const CreateMask*,ObjectID);}; extern ThingFactory *TheThingFactory;
 class BuildAssistant; extern BuildAssistant *TheBuildAssistant;
 class BuildView {public:virtual void slot00(); virtual void slot01(); virtual void slot02(); virtual void slot03();
 virtual void slot04(); virtual void slot05(); virtual void slot06(); virtual void slot07();
@@ -376,7 +376,7 @@ int Rva00483645::update() {
     ((Thing*)reconstructing)->getDrawable()->rva00274176(true);
    } else {
     if(!fld<const ThingTemplate*>(this,0x28))fld<const ThingTemplate*>(this,0x28)=TheThingFactory->findTemplate(modData->workerName);
-    worker=TheThingFactory->newObject(fld<const ThingTemplate*>(this,0x28),hole->getTeam(),(const CreateMask*)&RebuildCreateMaskView(),false);
+    worker=TheThingFactory->newObject(fld<const ThingTemplate*>(this,0x28),hole->getTeam(),(const CreateMask*)&RebuildCreateMaskView(),(ObjectID)0);
     if(worker) {
      ((Thing*)worker)->setPosition(&fld<Coord3D>(hole,0x38));
      fld<ObjectID>(this,0x18)=fld<ObjectID>(worker,0x74);

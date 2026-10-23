@@ -699,11 +699,11 @@ unsigned char m_pad04[0x0C - 0x04];
 ObjectSellList m_sellList;
 };
 extern BuildAssistant*TheBuildAssistant;
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 const ThingTemplate*findTemplate(const AsciiString&name);
-Object*newObject(const ThingTemplate*tmplate,Team*team,const CreateMask*statusBits,Bool flag);
+Object*newObject(const ThingTemplate*tmplate,Team*team,const CreateMask*statusBits,ObjectID flag);
 };
 extern ThingFactory*TheThingFactory;
 class GlobalData

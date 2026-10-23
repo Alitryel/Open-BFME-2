@@ -43,11 +43,11 @@ struct CreateMask
 	char m_data[0x10];
 };
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *mask, bool flag);
+	Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *mask, ObjectID flag);
 };
 
 
@@ -106,7 +106,7 @@ void BattlePlanUpdate::createVisionObject()
 	CreateMask mask;
 	ji_006291ae(&mask, 0, 0x10);
 	Team *team = player->m_team;
-	Object *newObj = TheThingFactory->newObject((const ThingTemplate *)tmpl, team, &mask, false);
+	Object *newObj = TheThingFactory->newObject((const ThingTemplate *)tmpl, team, &mask, (ObjectID)0);
 	if (newObj == 0)
 		return;
 	m_visionID = newObj->m_id74;

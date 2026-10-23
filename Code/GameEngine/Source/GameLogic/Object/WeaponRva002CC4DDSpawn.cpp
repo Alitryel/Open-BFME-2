@@ -57,11 +57,11 @@ public:
 
 extern GameLogic *TheGameLogic;
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *mask, bool flag);
+	Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *mask, ObjectID flag);
 };
 extern ThingFactory *TheThingFactory;
 
@@ -89,7 +89,7 @@ void Weapon::prepareProjectileStreamForFiring()
 	memset(&mask, 0, 0x10);
 	Player *player = owner->getControllingPlayer();
 	Team *team = player->m_team2EC;
-	Object *created = TheThingFactory->newObject((const ThingTemplate *)tmpl, team, &mask, false);
+	Object *created = TheThingFactory->newObject((const ThingTemplate *)tmpl, team, &mask, (ObjectID)0);
 	if (!created)
 		return;
 	m_spawned5C = created->m_id74;

@@ -120,7 +120,7 @@ class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool b);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID b);
 };
 extern ThingFactory *TheThingFactory;
 
@@ -197,7 +197,7 @@ m_outline(outline)
 			{
 				CreateMask mask;
 				memset(&mask, 0, sizeof(mask));
-				bridge = TheThingFactory->newObject(genericBridgeTemplate, NULL, &mask, false);
+				bridge = TheThingFactory->newObject(genericBridgeTemplate, NULL, &mask, (ObjectID)0);
 			}
 			Coord3D center;
 			center.x = (m_bridgeInfo.fromLeft.x + m_bridgeInfo.toRight.x)/2.0f;

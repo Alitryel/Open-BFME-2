@@ -1098,7 +1098,7 @@ case ((GameMessage::Type)1005):
 
 					break;
 				}
-				Object *object = TheThingFactory->newObject(thing,thisPlayer->getDefaultTeam(),&CreateMask(),false);
+				Object *object = TheThingFactory->newObject(thing,thisPlayer->getDefaultTeam(),&CreateMask(),(ObjectID)0);
 				object->setPosition( &pos );
 				object->setProducer(NULL);
 

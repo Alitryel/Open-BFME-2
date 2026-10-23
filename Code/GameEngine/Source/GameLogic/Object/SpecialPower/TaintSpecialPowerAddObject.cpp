@@ -38,11 +38,11 @@ private:
 	Team *m_team;
 };
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool b);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID b);
 };
 extern ThingFactory *TheThingFactory;
 
@@ -65,7 +65,7 @@ Object *TaintSpecialPower::addObject(const Coord3D *pos, const AsciiString &asci
 	{
 		CreateMask mask;
 		memset(&mask, 0, sizeof(mask));
-		Object *obj = TheThingFactory->newObject(thingTemplate, 0, &mask, false);
+		Object *obj = TheThingFactory->newObject(thingTemplate, 0, &mask, (ObjectID)0);
 		if (obj)
 		{
 			obj->setPosition(pos);

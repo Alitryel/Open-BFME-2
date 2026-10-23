@@ -41,10 +41,10 @@ struct CreateMask
 	unsigned int words[4];
 };
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
-	class Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool flag);
+	class Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID flag);
 	const ThingTemplate *findTemplate(const AsciiString &name);
 };
 
@@ -123,7 +123,7 @@ Object *SpecialAbilityUpdate::rva0044FEB6()
 		CreateMask mask;
 		memset(&mask, 0, sizeof(mask));
 		Team *team = m_object->m_team304;
-		newObj = TheThingFactory->newObject(thingTemplate, team, &mask, false);
+		newObj = TheThingFactory->newObject(thingTemplate, team, &mask, (ObjectID)0);
 		if (newObj != 0) {
 			int id = newObj->m_id74;
 			m_list64.push_back(id);

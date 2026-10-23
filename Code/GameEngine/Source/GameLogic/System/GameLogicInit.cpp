@@ -1941,7 +1941,7 @@ private:
 class ThingFactory
 {
 public:
-	Object *rva002D0A23(const ThingTemplate *tt, Team *team, const CreateMask &mask, ObjectID id);
+	Object *newObject(const ThingTemplate *tt, Team *team, const CreateMask *mask, ObjectID id);
 	const ThingTemplate *findTemplate(const AsciiString &name);
 };
 
@@ -2012,7 +2012,7 @@ void GameLogic::rva00246422(bool dontCreate)
 					bfmeMergeReceiverKeys((int)&assets);
 				}
 				Team *team = ThePlayerList->getNeutralPlayer()->getDefaultTeam();
-				m_154 = TheThingFactory->rva002D0A23(tt, team, CreateMask(), (ObjectID)99999999);
+				m_154 = TheThingFactory->newObject(tt, team, &CreateMask(), (ObjectID)99999999);
 				if (m_154)
 					m_154->getDrawable()->setID((void *)99999999);
 			}
@@ -2031,7 +2031,7 @@ void GameLogic::rva00246422(bool dontCreate)
 					bfmeMergeReceiverKeys((int)&assets);
 				}
 				Team *team = ThePlayerList->getNeutralPlayer()->getDefaultTeam();
-				m_158 = TheThingFactory->rva002D0A23(tt, team, CreateMask(), (ObjectID)99999998);
+				m_158 = TheThingFactory->newObject(tt, team, &CreateMask(), (ObjectID)99999998);
 				if (m_158)
 					m_158->getDrawable()->setID((void *)99999998);
 			}
@@ -2048,7 +2048,7 @@ void GameLogic::rva00246422(bool dontCreate)
 					bfmeMergeReceiverKeys((int)&assets);
 				}
 				Team *team = ThePlayerList->getNeutralPlayer()->getDefaultTeam();
-				m_15c = TheThingFactory->rva002D0A23(tt, team, CreateMask(), (ObjectID)99999996);
+				m_15c = TheThingFactory->newObject(tt, team, &CreateMask(), (ObjectID)99999996);
 				if (m_15c)
 					m_15c->getDrawable()->setID((void *)99999996);
 			}
@@ -2067,7 +2067,7 @@ void GameLogic::rva00246422(bool dontCreate)
 					bfmeMergeReceiverKeys((int)&assets);
 				}
 				Team *team = ThePlayerList->getNeutralPlayer()->getDefaultTeam();
-				m_160 = TheThingFactory->rva002D0A23(tt, team, CreateMask(), (ObjectID)99999997);
+				m_160 = TheThingFactory->newObject(tt, team, &CreateMask(), (ObjectID)99999997);
 				if (m_160)
 					m_160->getDrawable()->setID((void *)99999997);
 			}
@@ -5532,7 +5532,7 @@ void GameLogic::loadAllObjects(_STL::vector<Rva0024622FEntry> *created, const Ki
 			if (dontCreate)
 				continue;
 			CreateMask mask;
-			Object *obj = TheThingFactory->rva002D0A23(thingTemplate, team, mask, (ObjectID)0);
+			Object *obj = TheThingFactory->newObject(thingTemplate, team, &mask, (ObjectID)0);
 			if (obj) {
 
 				if ((pMapObj->getFlags() & 1) || (obj->getTemplate()->m_108 & 0x20)) {
@@ -5614,7 +5614,7 @@ void GameLogic::rva0024622F(bool dontCreate)
 		if (!dontCreate) {
 			Team *team = ThePlayerList->getNeutralPlayer()->getDefaultTeam();
 			CreateMask mask;
-			Object *obj = TheThingFactory->rva002D0A23(thingTemplate, team, mask, (ObjectID)0);
+			Object *obj = TheThingFactory->newObject(thingTemplate, team, &mask, (ObjectID)0);
 			if (obj) {
 				const Coord3D *loc = pMapObj->getLocation();
 				Coord3D pos;
@@ -6290,7 +6290,7 @@ bool GameLogic::rva0024877A(void)
 		TheInGameUI->message(UnicodeString(L"The object, '%S' was refreshed."), record.m_name.str());
 		BfmeAudioEventPrefix136 sound(TheAudio->getMiscAudio()->m_cc, 0);
 		TheAudio->addAudioEvent(&sound);
-		Object *obj = TheThingFactory->rva002D0A23(tt, team, CreateMask(), record.m_id);
+		Object *obj = TheThingFactory->newObject(tt, team, &CreateMask(), record.m_id);
 		if (obj) {
 			obj->rva0028D412(&record.m_transform);
 			if (obj->rva0028C197())

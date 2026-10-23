@@ -151,11 +151,11 @@ public:
 
 extern TerrainLogic *TheTerrainLogic;
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool b);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID b);
 };
 
 extern ThingFactory *TheThingFactory;
@@ -257,7 +257,7 @@ void FloodUpdate::rva0048E189()
 		{
 			CreateMask mask;
 			memset(&mask, 0, sizeof(mask));
-			Object *obj = TheThingFactory->newObject(thingTemplate, team, &mask, false);
+			Object *obj = TheThingFactory->newObject(thingTemplate, team, &mask, (ObjectID)0);
 			if (obj)
 			{
 				record->m_id = obj->getID();

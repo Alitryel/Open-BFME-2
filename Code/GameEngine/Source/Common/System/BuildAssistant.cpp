@@ -1192,11 +1192,11 @@ bool BuildAssistant::rva00392DC0(Object *builder,const ThingTemplate *what,const
 // 0x00A027B8, and native callers load it as the build-assistant receiver.
 BuildAssistant *TheBuildAssistant = NULL;
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *statusBits, Bool flag);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *statusBits, ObjectID flag);
 };
 
 extern ThingFactory *TheThingFactory;
@@ -2076,7 +2076,7 @@ Object *BuildAssistant::buildObjectNow( Object *constructorObject, const ThingTe
 		if( what->isKindOf( KINDOF_STRUCTURE ) )
 			startingStatus.setBit( OBJECT_STATUS_UNDER_CONSTRUCTION );
 
-		Object *obj = TheThingFactory->newObject( what, owningPlayer->getDefaultTeam(), &startingStatus, false );
+		Object *obj = TheThingFactory->newObject( what, owningPlayer->getDefaultTeam(), &startingStatus, (ObjectID)0 );
 		obj->setProducer( constructorObject );
 		TheGameLogic->rva0023D0C2( obj, constructorObject->get45C() );
 

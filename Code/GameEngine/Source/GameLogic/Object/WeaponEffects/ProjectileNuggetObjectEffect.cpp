@@ -164,10 +164,10 @@ public:
 		Int specificBarrelToUse, Matrix3D &worldTransform, Coord3D &worldPos);
 };
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
-	Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *mask, Bool b);
+	Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *mask, ObjectID b);
 };
 
 extern ThingFactory *TheThingFactory;
@@ -270,7 +270,7 @@ void ProjectileNugget::doEffectObject(const ProjectileNuggetFireInfo *info, Obje
 		launchTransformPtr = 0;
 		memset(&mask, 0, sizeof(mask));
 		projectile = TheThingFactory->newObject(m_projectileTemplate,
-			source->getControllingPlayer()->getDefaultTeam(), &mask, false);
+			source->getControllingPlayer()->getDefaultTeam(), &mask, (ObjectID)0);
 	}
 
 	ProjectileUpdateInterface *pui = 0;

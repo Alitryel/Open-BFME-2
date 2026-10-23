@@ -50,12 +50,12 @@ class Object : public Thing
  
 }
 ;
-class ThingFactory
+enum ObjectID; class ThingFactory
 
 {
  public:
  const ThingTemplate *findTemplate(const AsciiString &);
- Object *newObject(const ThingTemplate *, Team *, const CreateMask *, bool);
+ Object *newObject(const ThingTemplate *, Team *, const CreateMask *, ObjectID);
  
 }
 ;
@@ -145,7 +145,7 @@ void Made002CC774::rva005093C6(Input005093C6 *input, const Coord3D *position)
    CreateMask mask;
    memset(&mask, 0, sizeof(mask));
    Team *team = ((producer ? ((PlayerView *)producer->getControllingPlayer()) : ((PlayerView *)producer->getControllingPlayer())))->m_team;
-   Object *obj = TheThingFactory->newObject(thingTemplate, team, &mask, false);
+   Object *obj = TheThingFactory->newObject(thingTemplate, team, &mask, (ObjectID)0);
    obj->setProducer(producer);
    obj->setPosition(position);
    static NameKeyType fireKey = TheNameKeyGenerator->nameToKey("FireWeaponUpdate");

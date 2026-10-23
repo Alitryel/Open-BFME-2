@@ -119,11 +119,11 @@ public:
 };
 
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool deferInit);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID deferInit);
 };
 
 class TeamFactory
@@ -237,7 +237,7 @@ void HordeContain::rva0046CF21()
 	if (!obj->testStatus((ObjectStatusTypes)0x3E))
 	{
 		Team *team = obj->m_team;
-		newObj = TheThingFactory->newObject(unitTemplate, team, &mask, false);
+		newObj = TheThingFactory->newObject(unitTemplate, team, &mask, (ObjectID)0);
 	}
 	else
 	{
@@ -247,7 +247,7 @@ void HordeContain::rva0046CF21()
 			bridge->setEnabled(wasEnabled);
 			return;
 		}
-		newObj = TheThingFactory->newObject(unitTemplate, team, &mask, false);
+		newObj = TheThingFactory->newObject(unitTemplate, team, &mask, (ObjectID)0);
 	}
 	bridge->setEnabled(wasEnabled);
 

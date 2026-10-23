@@ -24,11 +24,11 @@ struct CreateMask
 {
 	unsigned words[4];
 };
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *mask, bool flag);
+	Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *mask, ObjectID flag);
 };
 extern ThingFactory *TheThingFactory;
 class Thing
@@ -153,7 +153,7 @@ void Made002CCC2D::rva0050B98F(const FadeInputPrefix *input, int unused)
 	CreateMask mask;
 	memset(&mask, 0, sizeof(mask));
 	Team *team = ((FadeObjectPrefix *)source)->team;
-	Object *made = TheThingFactory->newObject(thingTemplate, team, &mask, false);
+	Object *made = TheThingFactory->newObject(thingTemplate, team, &mask, (ObjectID)0);
 	Coord3D pos;
 	copyCoord(&pos, &((FadeObjectPrefix *)source)->position);
 	float angle = ((FadeObjectPrefix *)source)->angle;

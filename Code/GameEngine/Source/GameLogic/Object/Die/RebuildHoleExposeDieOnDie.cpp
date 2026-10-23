@@ -69,11 +69,11 @@ struct CreateMask
 	unsigned int m_bits[4];
 };
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool flag);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID flag);
 };
 extern ThingFactory *TheThingFactory;
 
@@ -286,7 +286,7 @@ void RebuildHoleExposeDie::onDie(const DamageInfo *damageInfo)
 
 		// create the hole
 		hole = TheThingFactory->newObject(TheThingFactory->findTemplate(modData->m_holeName),
-			us->getTeam(), &mask, false);
+			us->getTeam(), &mask, (ObjectID)0);
 
 		// put the hole at our position and angle
 		hole->setPosition(us->getPosition());

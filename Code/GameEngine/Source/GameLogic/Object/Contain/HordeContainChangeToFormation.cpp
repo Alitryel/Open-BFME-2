@@ -131,10 +131,10 @@ struct CreateMask
 	unsigned int m_bits[4];
 };
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool b);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID b);
 };
 extern ThingFactory *TheThingFactory;
 
@@ -340,7 +340,7 @@ void HordeContain::changeToFormation(const ThingTemplate *newTemplate)
 	{
 		CreateMask mask;
 		memset(&mask, 0, sizeof(mask));
-		newObj = TheThingFactory->newObject(newTemplate, getObject()->getTeam(), &mask, false);
+		newObj = TheThingFactory->newObject(newTemplate, getObject()->getTeam(), &mask, (ObjectID)0);
 	}
 	HordeContainSource *contain = newObj->getContain();
 	if (!contain)

@@ -72,7 +72,7 @@ private:
 public:
 	Payload *m_250;
 };
-extern class ThingFactory *TheThingFactory;
+enum ObjectID; extern class ThingFactory *TheThingFactory;
 struct CreateMask
 {
 	unsigned char m_data[0x10];
@@ -81,7 +81,7 @@ class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *mask, bool flag);
+	Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *mask, ObjectID flag);
 };
 extern "C" void *__cdecl memset(void *dst, int val, unsigned int size);
 struct HolderData
@@ -113,7 +113,7 @@ void GarrisonContain::rva004787B0()
 		memset(&mask, 0, 0x10);
 		Player *player = obj->getControllingPlayer();
 		Team *team = player->m_team;
-		Object *created = TheThingFactory->newObject((const ThingTemplate *)tmpl, team, &mask, false);
+		Object *created = TheThingFactory->newObject((const ThingTemplate *)tmpl, team, &mask, (ObjectID)0);
 		Payload *payload = obj->m_250;
 		if (payload)
 		{

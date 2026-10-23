@@ -10,7 +10,7 @@ extern "C" void *memset(void*,int,unsigned);
 namespace _STL {template<class T>class allocator{};template<class T,class A>class vector {public:T*begin;T*end;T*cap;T*erase(T*,T*);T*getBegin()const{return begin;}unsigned size()const{return (unsigned)(end-begin);} };}
 class Team;class UpgradeTemplate;class ThingTemplate;
 struct CreateMask{unsigned words[4];};
-class ThingFactory{public:const ThingTemplate*findTemplate(const AsciiString&);Object*newObject(const ThingTemplate*,Team*,const CreateMask*,bool);};extern ThingFactory*TheThingFactory;
+enum ObjectID; class ThingFactory{public:const ThingTemplate*findTemplate(const AsciiString&);Object*newObject(const ThingTemplate*,Team*,const CreateMask*,ObjectID);};extern ThingFactory*TheThingFactory;
 class UpgradeCenter{public:const UpgradeTemplate*findUpgrade(const AsciiString&)const;};extern UpgradeCenter*TheUpgradeCenter;
 struct BfmeStringRecord00466E64{AsciiString upgrade;AsciiString object;unsigned count;};
 class Rva00467799{public:BfmeStringRecord00466E64*rva00467799(const StringBase<char>&);};
@@ -137,7 +137,7 @@ void TransportContain::UpdateUpgradeCreationTriggers()
   unsigned total=record->count;
   for(unsigned j=0;j<total;++j) {
    if(!((Rva00466D50*)this)->rva00466D50((unsigned)thingTemplate->transportSlots))break;
-   Object*created=TheThingFactory->newObject(thingTemplate,(i ? obj->team : obj->team),&mask,false);
+   Object*created=TheThingFactory->newObject(thingTemplate,(i ? obj->team : obj->team),&mask,(ObjectID)0);
    if(!created)break;
    if(iface.s98(created,false,false)) {
     TransportBodyView*body=obj->body;

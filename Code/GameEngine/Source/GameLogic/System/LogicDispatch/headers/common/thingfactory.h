@@ -52,7 +52,7 @@ typedef ThingTemplateHashMap::iterator ThingTemplateHashMapIt;
 //-------------------------------------------------------------------------------------------------
 /** Implementation of the thing manager interface singleton */
 //-------------------------------------------------------------------------------------------------
-class ThingFactory : public SubsystemInterface
+enum ObjectID; class ThingFactory : public SubsystemInterface
 {
 public:
 
@@ -87,7 +87,7 @@ public:
 	/** request a new object using the given template. 
 		this will throw an exception on failure; it will never return null.
 	*/
-	Object *newObject(const ThingTemplate *,Team *,const struct CreateMask *,bool);
+	Object *newObject(const ThingTemplate *,Team *,const struct CreateMask *,ObjectID);
 
 	/** request a new drawable using the given template. 
 		this will throw an exception on failure; it will never return null.

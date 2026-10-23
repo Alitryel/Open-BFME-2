@@ -95,11 +95,11 @@ struct CreateMask
 	unsigned int m_bits[4];
 };
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, Bool unused);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID unused);
 };
 extern ThingFactory *TheThingFactory;
 
@@ -299,7 +299,7 @@ Bool SpawnBehavior::createSpawn()
 
 	CreateMask mask;
 	memset(&mask, 0, sizeof(mask));
-	Object *newSpawn = TheThingFactory->newObject(m_spawnTemplate, parent->getTeam(), &mask, false);
+	Object *newSpawn = TheThingFactory->newObject(m_spawnTemplate, parent->getTeam(), &mask, (ObjectID)0);
 
 	// Count this unit towards our score.
 	newSpawn->getControllingPlayer()->onUnitCreated(parent, newSpawn);

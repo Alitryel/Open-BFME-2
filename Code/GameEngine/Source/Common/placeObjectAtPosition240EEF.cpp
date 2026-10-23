@@ -16,7 +16,7 @@ struct Rva001408C0Target;
 class AssetList {public:AssetList():pad(0),changed(true){} private:_STL::set<Rva001408C0Target*> prototypes;unsigned pad;bool changed;};
 struct AssetLoadMode{bool alternate;AssetLoadMode():alternate(false){}};
 class ThingTemplate;
-class ThingFactory;
+enum ObjectID; class ThingFactory;
 class Team;
 class Object;
 class Thing;
@@ -53,7 +53,7 @@ class ThingFactory
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);	// 0x002D06CA
 public:
-	Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *mask, bool flag);
+	Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *mask, ObjectID flag);
 };
 
 class Thing
@@ -161,7 +161,7 @@ static Object *placeObjectAtPosition(int slot, AsciiString name, const Coord3D *
 	CreateMask mask;
 	memset(&mask, 0, 0x10);
 	Team *team = player->m_team;
-	obj = TheThingFactory->newObject((const ThingTemplate *)thingTemplate, team, &mask, false);
+	obj = TheThingFactory->newObject((const ThingTemplate *)thingTemplate, team, &mask, (ObjectID)0);
 	}
 	if (obj) {
 	ThingTemplate *t2 = *(ThingTemplate **)((char *)obj + 4);

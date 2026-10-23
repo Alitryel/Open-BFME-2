@@ -103,11 +103,11 @@ struct CreateMask
 	UnsignedInt m_bits[4];
 };
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, Bool b);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID b);
 };
 extern ThingFactory *TheThingFactory;
 
@@ -535,7 +535,7 @@ StateReturnType AIGiantBirdAttackState::onEnter()
 			{
 				CreateMask mask;
 				memset(&mask, 0, sizeof(mask));
-				Object *created = TheThingFactory->newObject(thingTemplate, victim->getTeam(), &mask, false);
+				Object *created = TheThingFactory->newObject(thingTemplate, victim->getTeam(), &mask, (ObjectID)0);
 				if (created != 0)
 				{
 					created->setTransformMatrix(owner->getTransformMatrix());

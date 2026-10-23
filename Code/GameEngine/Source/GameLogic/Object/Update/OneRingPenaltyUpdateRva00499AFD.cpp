@@ -91,11 +91,11 @@ public:
 };
 extern TerrainLogic *TheTerrainLogic;
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &key);
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool flag);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID flag);
 };
 extern ThingFactory *TheThingFactory;
 
@@ -191,7 +191,7 @@ void OneRingPenaltyUpdate::rva00499AFD()
 		};
 		MaskPos u;
 		ji_006291ae(&u.mask, 0, sizeof(u.mask));
-		Object *newObj = TheThingFactory->newObject(thingTemplate, team, &u.mask, false);
+		Object *newObj = TheThingFactory->newObject(thingTemplate, team, &u.mask, (ObjectID)0);
 		if (!newObj)
 			return;
 		m_24 = newObj->m_id74;

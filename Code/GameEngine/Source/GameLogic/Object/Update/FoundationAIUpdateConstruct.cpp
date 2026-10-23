@@ -299,10 +299,10 @@ private:
 	Rva0039B795 m_stats; // +0x3BC
 };
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *statusBits, Bool flag);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *statusBits, ObjectID flag);
 };
 extern ThingFactory *TheThingFactory;
 
@@ -456,7 +456,7 @@ Object *FoundationAIUpdate::construct(const ThingTemplate *what, const Coord3D *
 
 	CreateMask statusBits;
 	memset(&statusBits, 0, sizeof(statusBits));
-	Object *obj = TheThingFactory->newObject(what, owningPlayer->getDefaultTeam(), &statusBits, false);
+	Object *obj = TheThingFactory->newObject(what, owningPlayer->getDefaultTeam(), &statusBits, (ObjectID)0);
 	obj->rva0028BAC0();
 	Real orientation = angle;
 	obj->setProducer(foundation);

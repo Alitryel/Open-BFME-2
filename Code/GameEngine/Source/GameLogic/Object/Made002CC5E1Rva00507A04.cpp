@@ -50,11 +50,11 @@ private:
 	ObjectID m_id; // +0x74
 };
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *mask, bool flag);
+	Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *mask, ObjectID flag);
 };
 extern ThingFactory *TheThingFactory;
 
@@ -162,7 +162,7 @@ void DamageNugget::v4(void *a, void *b)
 	CreateMask mask;
 	memset(&mask, 0, sizeof(mask));
 	Team *team = source->getControllingPlayer()->m_defaultTeam;
-	Object *helper = TheThingFactory->newObject(thingTemplate, team, &mask, false);
+	Object *helper = TheThingFactory->newObject(thingTemplate, team, &mask, (ObjectID)0);
 	helper->setProducer(source);
 	helper->setPosition((const struct Coord3D *)b);
 	static NameKeyType key = TheNameKeyGenerator->nameToKey("DelayedLuaEventUpdate");

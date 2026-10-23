@@ -488,7 +488,7 @@ class ThingFactory
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
 	class Object *newObject(const ThingTemplate *tmplate, class Team *team,
-		const struct CreateMask *mask, bool flag);
+		const struct CreateMask *mask, ObjectID flag);
 };
 extern ThingFactory *TheThingFactory;
 

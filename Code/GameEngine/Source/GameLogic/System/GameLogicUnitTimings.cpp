@@ -173,10 +173,10 @@ public:
 	Player *getNthPlayer(int index);
 };
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool flag);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID flag);
 	const ThingTemplate *firstTemplate() const { return m_firstTemplate; }
 
 	unsigned char m_pad00[0xC];
@@ -650,7 +650,7 @@ void Rva002431CB::rva002431CB()
 					{
 						Team *team = ThePlayerList->getNthPlayer(1)->getDefaultTeam();
 						CreateMask mask;
-						Object *newObj = TheThingFactory->newObject(btt, team, &mask, false);
+						Object *newObj = TheThingFactory->newObject(btt, team, &mask, (ObjectID)0);
 						if (newObj == 0)
 							break;
 						m_gotUnit = true;

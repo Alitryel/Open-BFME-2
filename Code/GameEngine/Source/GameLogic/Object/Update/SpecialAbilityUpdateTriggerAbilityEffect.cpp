@@ -428,10 +428,10 @@ struct CreateMask {
     CreateMask() { memset(words, 0, sizeof(words)); }
     unsigned words[4];
 };
-class ThingFactory {
+enum ObjectID; class ThingFactory {
   public:
     const ThingTemplate *findTemplate(const AsciiString &);
-    Object *newObject(const ThingTemplate *, Team *, const CreateMask *, bool);
+    Object *newObject(const ThingTemplate *, Team *, const CreateMask *, ObjectID);
 };
 extern ThingFactory *TheThingFactory;
 class Eva {
@@ -681,7 +681,7 @@ void SpecialAbilityUpdate::triggerAbilityEffect() {
                     if (!((const StringBase<char> *)&grabBody->getGrabObject())->isEmpty()) {
                         const ThingTemplate *replacement =
                             TheThingFactory->findTemplate(target->body->getGrabObject());
-                        Object *created = TheThingFactory->newObject(replacement, 0, &CreateMask(), false);
+                        Object *created = TheThingFactory->newObject(replacement, 0, &CreateMask(), (ObjectID)0);
                         if (created) {
                             created->setProducer(owner);
                             holder->contain(created);

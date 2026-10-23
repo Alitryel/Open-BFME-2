@@ -299,7 +299,7 @@ struct CreateMask
 class ThingFactory
 {
 public:
-	Object *rva002D0A23(const ThingTemplate *tt, Team *team, const CreateMask &mask, ObjectID id);
+	Object *newObject(const ThingTemplate *tt, Team *team, const CreateMask *mask, ObjectID id);
 	const ThingTemplate *findTemplate(const AsciiString &name);
 };
 extern ThingFactory *TheThingFactory;
@@ -590,7 +590,7 @@ void GameLogicSnapshot::DoXfer(Xfer *xfer)
 			AssetList assets;
 			((ThingTemplate *)tt)->GetAssetList((int)&assets, (int)&mode);
 			bfmeMergeReceiverKeys((int)&assets);
-			Object *obj = TheThingFactory->rva002D0A23(tt, defaultTeam, CreateMask(), id);
+			Object *obj = TheThingFactory->newObject(tt, defaultTeam, &CreateMask(), id);
 			xfer->beginBlock("Object");
 			xfer->xferSnapshot(snapshotAt(obj, 0x60));
 			xfer->endBlock();

@@ -689,10 +689,10 @@ public:
 };
 extern PlayerList *ThePlayerList;
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
-	Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *, bool);	// 0x002D0A23
+	Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *, ObjectID);	// 0x002D0A23
 
 };
 extern ThingFactory *TheThingFactory;
@@ -723,7 +723,7 @@ Object *TerrainLogic::rva00283D70(const Coord3D *pos)
 			CreateMask mask;
 			memset(&mask, 0, sizeof(mask));
 			Team *team = ThePlayerList->m_18->m_2EC;
-			obj = TheThingFactory->newObject(thingTemplate, team, &mask, false);
+			obj = TheThingFactory->newObject(thingTemplate, team, &mask, (ObjectID)0);
 			obj->teleportTo(reinterpret_cast<const Coord3D *>(rec), false);
 		}
 		unsigned int id = rec->m_0C;

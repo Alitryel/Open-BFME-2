@@ -346,11 +346,11 @@ struct CreateMask
 	unsigned char m_data[0x10];
 };
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *mask, bool flag);
+	Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *mask, ObjectID flag);
 };
 extern ThingFactory *TheThingFactory;
 
@@ -666,7 +666,7 @@ void ScriptActions::doCreateObject(const AsciiString &objectName, const AsciiStr
 	if (thingTemplate) {
 		CreateMask mask;
 		memset(&mask, 0, sizeof(mask));
-		Object *obj = TheThingFactory->newObject(thingTemplate, theTeam, &mask, false);
+		Object *obj = TheThingFactory->newObject(thingTemplate, theTeam, &mask, (ObjectID)0);
 		if (obj) {
 			if (objectName != AsciiString::TheEmptyString) {
 				obj->setName(objectName);
@@ -719,7 +719,7 @@ void ScriptActions::createUnitOnTeamAt(const AsciiString &unitName, const AsciiS
 	if (thingTemplate) {
 		CreateMask mask;
 		memset(&mask, 0, sizeof(mask));
-		Object *obj = TheThingFactory->newObject(thingTemplate, theTeam, &mask, false);
+		Object *obj = TheThingFactory->newObject(thingTemplate, theTeam, &mask, (ObjectID)0);
 		if (obj) {
 			if (unitName != AsciiString::TheEmptyString) {
 				obj->setName(unitName);

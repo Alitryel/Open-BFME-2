@@ -193,7 +193,7 @@ struct CreateMask
 class ThingFactory
 {
 public:
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool b);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID b);
 	const ThingTemplate *findTemplate(const AsciiString &name);
 };
 extern ThingFactory *TheThingFactory;
@@ -541,7 +541,7 @@ void BridgeBehavior::createScaffolding( void )
 		// create object
 		CreateMask leftMask;
 		memset( &leftMask, 0, sizeof( leftMask ) );
-		obj = TheThingFactory->newObject( scaffoldTemplate, us->getTeam(), &leftMask, false );
+		obj = TheThingFactory->newObject( scaffoldTemplate, us->getTeam(), &leftMask, (ObjectID)0 );
 
 		// this object is from the "left" side of the bridge
 		riseToPos = &leftStart;
@@ -583,7 +583,7 @@ void BridgeBehavior::createScaffolding( void )
 			supportBridgeCenter.z -= scaffoldSupportHeight;
 			CreateMask supportMask;
 			memset( &supportMask, 0, sizeof( supportMask ) );
-			obj = TheThingFactory->newObject( scaffoldSupportTemplate, us->getTeam(), &supportMask, false );
+			obj = TheThingFactory->newObject( scaffoldSupportTemplate, us->getTeam(), &supportMask, (ObjectID)0 );
 			setScaffoldData( obj,
 											 angle,
 											 &scaffoldSupportHeight,
@@ -609,7 +609,7 @@ void BridgeBehavior::createScaffolding( void )
 			// create new object
 			CreateMask rightMask;
 			memset( &rightMask, 0, sizeof( rightMask ) );
-			obj = TheThingFactory->newObject( scaffoldTemplate, us->getTeam(), &rightMask, false );
+			obj = TheThingFactory->newObject( scaffoldTemplate, us->getTeam(), &rightMask, (ObjectID)0 );
 
 			// this object is on the "right" side of the bridge
 			riseToPos = &rightStart;
@@ -648,7 +648,7 @@ void BridgeBehavior::createScaffolding( void )
 				supportBridgeCenter.z -= scaffoldSupportHeight;
 				CreateMask supportMask;
 				memset( &supportMask, 0, sizeof( supportMask ) );
-				obj = TheThingFactory->newObject( scaffoldSupportTemplate, us->getTeam(), &supportMask, false );
+				obj = TheThingFactory->newObject( scaffoldSupportTemplate, us->getTeam(), &supportMask, (ObjectID)0 );
 				setScaffoldData( obj,
 												 angle,
 												 &scaffoldSupportHeight,

@@ -1928,7 +1928,7 @@ class Team;
 class ThingFactory
 {
 public:
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *statusBits, Bool flag);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *statusBits, ObjectID flag);
 };
 
 extern ThingFactory *TheThingFactory;
@@ -2016,7 +2016,7 @@ void DozerAIUpdate::createPhantomStructure(const ThingTemplate *what, Player *ow
 	CreateMask statusBits;
 	statusBits._M_do_or(Rva00391F4E(0, OBJECT_STATUS_PENDING_CONSTRUCTION, OBJECT_STATUS_PHANTOM_STRUCTURE));
 
-	Object *obj = TheThingFactory->newObject(what, owningPlayer->getDefaultTeam(), &statusBits, false);
+	Object *obj = TheThingFactory->newObject(what, owningPlayer->getDefaultTeam(), &statusBits, (ObjectID)0);
 	if (obj == 0)
 		return;
 

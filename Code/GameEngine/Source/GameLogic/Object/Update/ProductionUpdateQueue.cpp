@@ -279,10 +279,10 @@ public:
 	Real m_buildVariationDuration; // +354
 };
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
-	Object *newObject(const ThingTemplate *,Team *,const CreateMask *,bool);
+	Object *newObject(const ThingTemplate *,Team *,const CreateMask *,ObjectID);
 	const ThingTemplate *findTemplate(const AsciiString &key); // findTemplate
 };
 
@@ -1945,7 +1945,7 @@ UpdateSleepTime ProductionUpdate::update()
     } else {
      if(((ProductionAIView *)TheAI)->data->createdFlag) mask.bits[1]|=0x00800000;
      Team *team=us->getControllingPlayer()->m_defaultTeam;
-     newObj=TheThingFactory->newObject(production->m_objectToProduce,team,&mask,false);
+     newObj=TheThingFactory->newObject(production->m_objectToProduce,team,&mask,(ObjectID)0);
      if(!newObj) { removeFromProductionQueue(production); ::delete production; return UPDATE_SLEEP_NONE; }
      if(production->m_name!=AsciiString::TheEmptyString) {
       newObj->m_name=production->m_name;
@@ -2013,7 +2013,7 @@ UpdateSleepTime ProductionUpdate::update()
      for(_STL::vector<AsciiString>::const_iterator it=names.begin();it!=names.end();++it) {
       const ThingTemplate *extraTemplate=TheThingFactory->findTemplate(*it); if(!extraTemplate) continue;
       Team *team=us->getControllingPlayer()->m_defaultTeam;
-      Object *extra=TheThingFactory->newObject(extraTemplate,team,&mask,false);
+      Object *extra=TheThingFactory->newObject(extraTemplate,team,&mask,(ObjectID)0);
       rva0049CD24(extra);
       if(exitInterface->getExitPosition(&pos,&angle)) { ((Thing *)extra)->setPosition(&pos); ((Thing *)extra)->setOrientation(angle); }
       ((Thing *)extra)->getDrawable()->setDrawableHidden(true);

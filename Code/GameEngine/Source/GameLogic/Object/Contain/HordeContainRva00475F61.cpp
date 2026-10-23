@@ -124,9 +124,9 @@ class Player { public: char pad[0x2EC]; Team *m_defaultTeam;
     Team *getDefaultTeam() { return m_defaultTeam; }
     const Team *getDefaultTeam() const { return m_defaultTeam; } };
 struct CreateMask { unsigned int bits[4]; };
-class ThingFactory { public:
+enum ObjectID; class ThingFactory { public:
     const ThingTemplate *findTemplate(const AsciiString &);
-    Object *newObject(const ThingTemplate *,Team *,const CreateMask *,bool);
+    Object *newObject(const ThingTemplate *,Team *,const CreateMask *,ObjectID);
 };
 class Pathfinder { public: void AddObjectToPathfindMap(Object *); };
 class AI { public: char pad[0x10]; Pathfinder *m_pathfinder; };
@@ -663,7 +663,7 @@ void Rva00475F61Iface::rva00475F61(_STL::vector<Object *> &out)
             Team *team=getObject()->getControllingPlayer()->getDefaultTeam();
             CreateMask mask;
             memset(&mask,0,sizeof(mask));
-            replacement=TheThingFactory->newObject(tmpl,team,&mask,false);
+            replacement=TheThingFactory->newObject(tmpl,team,&mask,(ObjectID)0);
         }
         if(replacement) {
             if(self->testStatus((ObjectStatusTypes)0x3E)) self->bfmeTransferReplacementState(replacement);

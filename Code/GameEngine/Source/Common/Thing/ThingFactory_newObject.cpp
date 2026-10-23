@@ -1,7 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD
-// ?newObject@ThingFactory@@QAEPAVObject@@PBVThingTemplate@@PAVTeam@@PBUCreateMask@@_N@Z,
-// retail 0x002D0A23 (275 bytes); the mangled name is the existing call-site
-// pin's (parameter types after the team are opaque there and stay so here).
+// ?newObject@ThingFactory@@QAEPAVObject@@PBVThingTemplate@@PAVTeam@@PBUCreateMask@@W4ObjectID@@@Z,
+// Retail 0x002D0A23 forwards the preset ObjectID through GameLogic creation.
 // Donor (Zero Hour ThingFactory.cpp ThingFactory::newObject): pick a random
 // build variation through findTemplate, have TheGameLogic create the
 // object, run every behavior module's create interface, then initObject.
@@ -113,31 +112,31 @@ typedef char NativeObjectAllocationSize[sizeof(Object)==0x4D8?1:-1];
 class GameLogic
 {
 public:
-	Object *friend_createObject(const ThingTemplate *tmplate, const CreateMask *mask, Team *team, bool flag);
+	Object *friend_createObject(const ThingTemplate *tmplate, const CreateMask *mask, Team *team, ObjectID id);
 };
 extern GameLogic *TheGameLogic;
 
 class ThingFactory
 {
 public:
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool flag);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID id);
 	const ThingTemplate *findTemplate(const AsciiString &name);
 };
 
-// ?friend_createObject@GameLogic@@QAEPAVObject@@PBVThingTemplate@@PBUCreateMask@@PAVTeam@@_N@Z
+// ?friend_createObject@GameLogic@@QAEPAVObject@@PBVThingTemplate@@PBUCreateMask@@PAVTeam@@W4ObjectID@@@Z
 // @0x0023CAE7, 69B. Its matched caller at 0x002D0A23 supplies TheGameLogic
 // and (template, mask, team, flag). Target allocates 0x4D8 bytes via scalar
 // operator new 0x0002FDA0, then calls the Object constructor at 0x00298EA9
 // with those four values preceded on the stack by the hidden most-derived
 // true word. The helper's purpose beyond
 // constructing an Object remains inferred from the caller and target calls.
-Object *GameLogic::friend_createObject(const ThingTemplate *thingTemplate, const CreateMask *mask, Team *team, bool flag)
+Object *GameLogic::friend_createObject(const ThingTemplate *thingTemplate, const CreateMask *mask, Team *team, ObjectID id)
 {
 	// Retail forwards the complete four-byte argument slot to ObjectID.
-	return new Object(thingTemplate, mask, team, *reinterpret_cast<const ObjectID *>(&flag));
+	return new Object(thingTemplate, mask, team, id);
 }
 
-Object *ThingFactory::newObject(const ThingTemplate *thingTemplate, Team *team, const CreateMask *mask, bool flag)
+Object *ThingFactory::newObject(const ThingTemplate *thingTemplate, Team *team, const CreateMask *mask, ObjectID id)
 {
 	if (thingTemplate == 0)
 		return 0;
@@ -153,7 +152,7 @@ Object *ThingFactory::newObject(const ThingTemplate *thingTemplate, Team *team, 
 			thingTemplate = tmp;
 	}
 
-	Object *obj = TheGameLogic->friend_createObject(thingTemplate, mask, team, flag);
+	Object *obj = TheGameLogic->friend_createObject(thingTemplate, mask, team, id);
 
 	for (BehaviorModule **behaviorModule = obj->getBehaviorModules(); *behaviorModule; ++behaviorModule)
 	{

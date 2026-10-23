@@ -239,11 +239,11 @@ struct CreateMask
 	unsigned int m_bits[4];
 };
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool flag);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID flag);
 };
 extern ThingFactory *TheThingFactory;
 
@@ -469,7 +469,7 @@ Object *CreateCrateDie::createCrate(const CrateTemplate *currentCrateData)
 	if (spotFound)
 	{
 		CreateMask statusBits;
-		Object *newCrate = TheThingFactory->newObject(crateType, 0, &statusBits, false);
+		Object *newCrate = TheThingFactory->newObject(crateType, 0, &statusBits, (ObjectID)0);
 		newCrate->setPosition(&creationPoint);
 		newCrate->setOrientation(GameLogicRandomValueReal(0, 2 * PI, 0xE2));
 		newCrate->setLayer(layer);

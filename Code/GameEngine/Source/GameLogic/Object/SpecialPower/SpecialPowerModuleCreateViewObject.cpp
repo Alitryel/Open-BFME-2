@@ -109,11 +109,11 @@ struct CreateMask
 	unsigned int words[4];
 };
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool flag);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID flag);
 };
 
 extern ThingFactory *TheThingFactory;
@@ -194,7 +194,7 @@ void SpecialPowerModule::createViewObject(const Coord3D *location)
 	memset(&mask, 0, sizeof(mask));
 
 	Object *viewObject = TheThingFactory->newObject(viewObjectTemplate,
-		bfme_object()->getControllingPlayer()->getDefaultTeam(), &mask, false);
+		bfme_object()->getControllingPlayer()->getDefaultTeam(), &mask, (ObjectID)0);
 
 	if (viewObject == NULL)
 		return;

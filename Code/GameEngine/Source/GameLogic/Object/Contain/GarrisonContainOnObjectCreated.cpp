@@ -24,11 +24,11 @@ struct CreateMask
 	unsigned int m_bits[4];
 };
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool b);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID b);
 };
 
 extern ThingFactory *TheThingFactory;
@@ -112,7 +112,7 @@ void GarrisonContain::onObjectCreated()
 		// We are creating a garrison that comes with an initial roster, so add it now!
 		CreateMask mask;
 		memset(&mask, 0, sizeof(mask));
-		Object *payload = TheThingFactory->newObject(rosterTemplate, object->getControllingPlayer()->bfme_default_team(), &mask, false);
+		Object *payload = TheThingFactory->newObject(rosterTemplate, object->getControllingPlayer()->bfme_default_team(), &mask, (ObjectID)0);
 		if (object->getContain() && object->getContain()->isValidContainerFor(payload, true, 0))
 			object->getContain()->addToContain(payload);
 	}

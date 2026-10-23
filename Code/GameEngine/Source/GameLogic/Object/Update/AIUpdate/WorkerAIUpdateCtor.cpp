@@ -620,10 +620,10 @@ private:
 };
 
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *statusBits, Bool flag);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *statusBits, ObjectID flag);
 };
 
 extern ThingFactory *TheThingFactory;
@@ -1294,7 +1294,7 @@ Object *WorkerAIUpdate::construct(const ThingTemplate *what, const Coord3D *pos,
 		statusBits.set(OBJECT_STATUS_RECONSTRUCTING);
 
 	// create an object at the destination location
-	Object *obj = TheThingFactory->newObject(what, owningPlayer->getDefaultTeam(), &statusBits, false);
+	Object *obj = TheThingFactory->newObject(what, owningPlayer->getDefaultTeam(), &statusBits, (ObjectID)0);
 
 	// even though we haven't actually built anything yet, this keeps things tidy
 	obj->setProducer(getObject());

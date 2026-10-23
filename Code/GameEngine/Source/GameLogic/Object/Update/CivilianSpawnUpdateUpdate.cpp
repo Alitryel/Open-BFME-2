@@ -116,11 +116,11 @@ struct CreateMask
 	unsigned int m_bits[4];
 };
 
-class ThingFactory
+enum ObjectID; class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool b);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID b);
 };
 extern ThingFactory *TheThingFactory;
 
@@ -300,7 +300,7 @@ UpdateSleepTime CivilianSpawnUpdate::update()
 
 	CreateMask mask;
 	memset(&mask, 0, sizeof(mask));
-	Object *newObj = TheThingFactory->newObject(unitTemplate, getObject()->getTeam(), &mask, false);
+	Object *newObj = TheThingFactory->newObject(unitTemplate, getObject()->getTeam(), &mask, (ObjectID)0);
 	const Coord3D *dir = obj->getUnitDirectionVector2D();
 	Coord3D pos;
 	pos.x = dir->x;

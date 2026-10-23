@@ -31,7 +31,7 @@ enum CommandSourceType
 	CMD_FROM_AI = 2
 };
 
-typedef int ObjectID;
+enum ObjectID { INVALID_OBJECT_ID = 0 };
 enum
 {
 	INVALID_ID = 0
@@ -171,7 +171,7 @@ class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
-	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool flag);
+	Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, ObjectID flag);
 };
 
 class RvaModule
@@ -252,7 +252,7 @@ public:
 		m_update = update;
 	}
 private:
-	ObjectID m_targetID;
+	int m_targetID;
 	Coord3D m_ejectPos;
 	UnsignedByte m_update;
 	UnsignedByte m_isInVehicle;
@@ -302,7 +302,7 @@ UpdateSleepTime HijackerUpdate::update(void)
 					CreateMask mask;
 					((void (__cdecl *)(void *, int, UnsignedInt))&ji_006291ae)(&mask, 0, 0x10);
 					Object *container = TheThingFactory->newObject(
-						putInContainerTmpl, obj->getTeam(), &mask, false);
+						putInContainerTmpl, obj->getTeam(), &mask, (ObjectID)0);
 					((Thing *)container)->setPosition(&m_ejectPos);
 					if (container->getContain()->v38(obj, 1, 0))
 					{

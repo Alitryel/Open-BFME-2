@@ -16,8 +16,8 @@ class Player;
 class ThingTemplate;
 class Team;
 struct CreateMask { unsigned int words[4]; };
-class ThingFactory {
-public: Object *newObject(const ThingTemplate *, Team *, const CreateMask *, bool);
+enum ObjectID; class ThingFactory {
+public: Object *newObject(const ThingTemplate *, Team *, const CreateMask *, ObjectID);
 };
 extern ThingFactory *TheThingFactory;
 class GameLogic;
@@ -96,7 +96,7 @@ Object *CarryoverUnit::createSingleObject(Player *player)
     ((CarryoverGameLogicView *)TheGameLogic)->set(false);
     CreateMask mask;
     memset(&mask,0,sizeof(mask));
-    Object *object = TheThingFactory->newObject(thingTemplate,((CarryoverPlayerView *)player)->getTeam(),&mask,false);
+    Object *object = TheThingFactory->newObject(thingTemplate,((CarryoverPlayerView *)player)->getTeam(),&mask,(ObjectID)0);
     if (!object) {
         ((CarryoverGameLogicView *)TheGameLogic)->set(old);
         return 0;

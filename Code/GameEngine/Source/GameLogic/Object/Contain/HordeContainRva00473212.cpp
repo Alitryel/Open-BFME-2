@@ -211,10 +211,10 @@ struct CreateMask
  
 }
 ;
-class ThingFactory 
+enum ObjectID; class ThingFactory
 {
  public: const ThingTemplate *findTemplate(const AsciiString &);
- Object *newObject(const ThingTemplate *,Team *,const CreateMask *,bool);
+ Object *newObject(const ThingTemplate *,Team *,const CreateMask *,ObjectID);
  
 }
 ;
@@ -649,7 +649,7 @@ Object *HordeContain::rva00473212(Object *object,const Object *source,bool flag)
  {
   CreateMask mask;
   memset(&mask,0,sizeof(mask));
-  created=TheThingFactory->newObject(type,owner->getTeam(),&mask,false);
+  created=TheThingFactory->newObject(type,owner->getTeam(),&mask,(ObjectID)0);
   
  }
  reinterpret_cast<Thing*>(created)->setTransformMatrix(object->transform());

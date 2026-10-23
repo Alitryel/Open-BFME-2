@@ -58,7 +58,7 @@ class Pathfinder {public:void RemoveObjectFromPathfindMap(Object *);};
 class AI {public:char pad[0x10];Pathfinder *pathfinder;};extern AI *TheAI;
 class FXList {public:static void doFXObj(const FXList *,const Object *,const Object *);};
 struct CreateMask {unsigned words[4];};
-class ThingFactory {public:const ThingTemplate *findTemplate(const AsciiString &);Object *newObject(const ThingTemplate *,Team *,const CreateMask *,bool);};extern ThingFactory *TheThingFactory;
+enum ObjectID; class ThingFactory {public:const ThingTemplate *findTemplate(const AsciiString &);Object *newObject(const ThingTemplate *,Team *,const CreateMask *,ObjectID);};extern ThingFactory *TheThingFactory;
 struct ToppleUpdateModuleData {char pad[8];const FXList *toppleFX,*bounceFX;AsciiString stump;float initialVelocity,initialAccel,bounceVelocity,minSpeed;bool killWhenToppled,killWhenStart,killStump,leftRight,reorient;};
 class ObjectModule {public:virtual ~ObjectModule();const ToppleUpdateModuleData *data;Object *object;};
 class BehaviorModuleInterface {public:virtual void behaviorModuleInterfaceSlot();};
@@ -86,7 +86,7 @@ void ToppleUpdate::applyTopplingForce(const Coord3D *toppleDirection,float toppl
  angleDelta=(desiredAngle-currentAngle)/countDelta;object->setCondition0();FXList::doFXObj(toppleUpdateModuleData->toppleFX,object,0);
  if(!toppleUpdateModuleData->stump.isEmpty()) {
   const ThingTemplate *thingTemplate=TheThingFactory->findTemplate(toppleUpdateModuleData->stump);
-  CreateMask mask;memset(&mask,0,sizeof(mask));Object *stump=TheThingFactory->newObject(thingTemplate,0,&mask,false);
+  CreateMask mask;memset(&mask,0,sizeof(mask));Object *stump=TheThingFactory->newObject(thingTemplate,0,&mask,(ObjectID)0);
   if(stump){stump->setPosition(&object->position);stump->setOrientation(object->angle);stumpID=stump->id;
    Drawable *ownerDraw=object->getDrawable();
    if(ownerDraw && (ownerDraw->flags262&1)) {
