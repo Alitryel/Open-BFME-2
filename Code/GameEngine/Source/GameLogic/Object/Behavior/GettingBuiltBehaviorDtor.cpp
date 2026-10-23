@@ -53,7 +53,6 @@ public:
 	UpdateModule(Thing *thing, const ModuleData *moduleData);
 	virtual ~UpdateModule();
 protected:
-	virtual void loadPostProcess();
 	void setWakeFrame(Object *obj, unsigned int frame);
 	Object *getObject(void) const { return m_object; }
 private:

@@ -39,13 +39,15 @@ class Object;
 
 class BehaviorModuleBase
 {
-	virtual void unused();
+public:
+	virtual void unused() = 0;
 	int a;
 	int b;
 };
 
 class BehaviorModuleOther
 {
+public:
 	virtual void unused();
 };
 
@@ -87,10 +89,14 @@ public:
 	virtual void dieAnchor() = 0;
 };
 
+// Three slots, as the other DamageModuleInterface views (BridgeTowerBehavior.cpp,
+// FireWeaponWhenDamagedBehaviorCtor.cpp, BoneFXDamage.cpp) lay out its vtable.
 class DamageModuleInterface
 {
 public:
 	virtual void damageAnchor() = 0;
+	virtual void damageSlot1() = 0;
+	virtual void damageSlot2() = 0;
 };
 
 class SpawnExtraBase
@@ -138,7 +144,7 @@ inline SpawnBehavior::~SpawnBehavior()
 // Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?unused@BehaviorModuleOther@@EAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+// (SpawnBehaviorCtor.cpp binds the public ?unused@BehaviorModuleOther@@UAEXXZ.)
 
 // ??1SpawnBehavior@@UAE@XZ is a header inline elsewhere: another unit emits a
 // select-any copy, so a strong definition here was a duplicate symbol in the

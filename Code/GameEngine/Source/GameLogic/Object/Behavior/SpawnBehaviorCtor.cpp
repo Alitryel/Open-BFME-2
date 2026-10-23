@@ -86,10 +86,14 @@ public:
 	virtual void dieAnchor() = 0;
 };
 
+// Three slots, as the other DamageModuleInterface views (BridgeTowerBehavior.cpp,
+// FireWeaponWhenDamagedBehaviorCtor.cpp, BoneFXDamage.cpp) lay out its vtable.
 class DamageModuleInterface
 {
 public:
 	virtual void damageAnchor() = 0;
+	virtual void damageSlot1() = 0;
+	virtual void damageSlot2() = 0;
 };
 
 class SpawnExtraBase
