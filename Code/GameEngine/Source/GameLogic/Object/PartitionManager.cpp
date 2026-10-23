@@ -101,6 +101,20 @@ template unsigned char *allocator<unsigned char>::allocate(unsigned int, const v
 #include "Common/PlayerList.h"
 #endif
 
+// The map utility unit supplies the retail vector-growth body.
+namespace _STL {
+template <> void vector<ICoord2D>::_M_insert_overflow(ICoord2D *, const ICoord2D &, const __false_type &, size_t, bool);
+template <> inline void vector<ICoord2D>::push_back(const ICoord2D &value)
+{
+ if (this->_M_finish != this->_M_end_of_storage._M_data) {
+  _Construct(this->_M_finish, value);
+  ++this->_M_finish;
+ } else {
+  __false_type tag;
+  _M_insert_overflow(this->_M_finish, value, tag, 1UL, true);
+ }
+}
+}
 #ifdef PM_CACHE_TERRAIN_HEIGHT
 #include "common/mapobject.h"
 // bfme link decl-only begin

@@ -9,12 +9,26 @@
 // stlport
 #include <vector>
 #include "Lib/ICoord2D.h"
-// bfme link decl-only begin
-namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
-// bfme link decl-only end
+// Preserve STLport operations inline without unused external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline const unsigned int &
+max<unsigned int>(const unsigned int &a, const unsigned int &b)
+{
+ return a < b ? b : a;
+}
+}
 struct FxVertexElement {unsigned short stream,offset;unsigned char type,method,usage,index;};
 
 namespace _STL {
+// Keep STLport's copy loop inline without a competing external copy.
+template <> __declspec(dllimport) __forceinline ICoord2D *
+__uninitialized_copy<ICoord2D *, ICoord2D *>(ICoord2D *first, ICoord2D *last, ICoord2D *result, const __false_type &)
+{
+ ICoord2D *cur = result;
+ for (; first != last; ++first, ++cur)
+  _Construct(&*cur, *first);
+ return cur;
+}
 typedef vector<ICoord2D> FxVertexElements;
 template<> __forceinline void FxVertexElements::push_back(const ICoord2D &value) {
  if(this->_M_finish!=this->_M_end_of_storage._M_data){_Construct(this->_M_finish,value);++this->_M_finish;}
