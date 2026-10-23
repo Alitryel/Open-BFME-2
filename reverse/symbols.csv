@@ -12914,14 +12914,7 @@ rva009C7380WeightPairs,0x009B84E0
 ?push_back@TunnelContainedItemsList@@QAEXABQAVObject@@@Z,0x0005548F,TunnelTracker contain-list append: TunnelTracker::addToContainList 0x004F56E5 calls the STLport four-byte list push_back body shared (ICF) with the rowed list<int> instance at 0x004F56F0; list<Object*>::push_back proper is the separate 0x001EC03C body so the tunnel list is modelled as its own class
 ??$_M_insert_dispatch@U?$_List_iterator@PAVObject@@U?$_Const_traits@PAVObject@@@_STL@@@_STL@@@?$list@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAEXU?$_List_iterator@PAVObject@@U?$_Nonconst_traits@PAVObject@@@_STL@@@1@U?$_List_iterator@PAVObject@@U?$_Const_traits@PAVObject@@@_STL@@@1@1ABU__false_type@1@@Z,0x00423216,Native REL32 in existing verified consumers; former scaffold compiler binding
 ??0?$_Rb_tree@W4NameKeyType@@U?$pair@$$CBW4NameKeyType@@VModuleTemplate@ModuleFactory@@@_STL@@U?$_Select1st@U?$pair@$$CBW4NameKeyType@@VModuleTemplate@ModuleFactory@@@_STL@@@3@U?$less@W4NameKeyType@@@3@V?$allocator@U?$pair@$$CBW4NameKeyType@@VModuleTemplate@ModuleFactory@@@_STL@@@3@@_STL@@QAE@ABU?$less@W4NameKeyType@@@1@ABV?$allocator@U?$pair@$$CBW4NameKeyType@@VModuleTemplate@ModuleFactory@@@_STL@@@1@@Z,0x00603AE0,Native REL32 in existing verified consumers; former scaffold compiler binding
-??$_Construct@URva000BBC19Element@@U1@@_STL@@YAXPAURva000BBC19Element@@ABU1@@Z,0x000BBA47,
-??$_Construct@URva000CF529Element@@U1@@_STL@@YAXPAURva000CF529Element@@ABU1@@Z,0x000CF4D6,
-??$_Construct@URva000D04BCElement@@U1@@_STL@@YAXPAURva000D04BCElement@@ABU1@@Z,0x000D0469,
-??$_Construct@URva001D9B62Element@@U1@@_STL@@YAXPAURva001D9B62Element@@ABU1@@Z,0x001D9B0F,
-??$_Construct@URva0020572FElement@@U1@@_STL@@YAXPAURva0020572FElement@@ABU1@@Z,0x0020596A,
 ??$_Construct@URva0026068AElement@@U1@@_STL@@YAXPAURva0026068AElement@@ABU1@@Z,0x0026061A,
-??$_Construct@URva0048C872Element@@U1@@_STL@@YAXPAURva0048C872Element@@ABU1@@Z,0x0048C81F,
-??$_Construct@URva004C3AF2Element@@U1@@_STL@@YAXPAURva004C3AF2Element@@ABU1@@Z,0x004C3A9F,
 ?erase@?$list@URva004907AAElement@@V?$allocator@URva004907AAElement@@@_STL@@@_STL@@QAE?AU?$_List_iterator@URva004907AAElement@@U?$_Nonconst_traits@URva004907AAElement@@@_STL@@@2@U32@@Z,0x002ABB20,
 ?_M_lower_bound@?$_Rb_tree@URva0016DEC0Element@@U1@U?$_Identity@URva0016DEC0Element@@@_STL@@U?$less@URva0016DEC0Element@@@3@V?$allocator@URva0016DEC0Element@@@3@@_STL@@ABEPAU?$_Rb_tree_node@URva0016DEC0Element@@@2@ABURva0016DEC0Element@@@Z,0x0016D6A0,
 ?rva000E0584@Rva000E07F4Host@@QAEXPAVRva000E07F4Obj@@@Z,0x000E0584,callee of ?rva000E07F4@@YAHPAVRva000E07F4Obj@@PAVRva000E07F4Host@@@Z
