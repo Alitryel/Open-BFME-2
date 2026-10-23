@@ -504,7 +504,7 @@ def mutate(text, rng, focus=None):
                 lines[i:i + 1] = [f"{ret.group(1)}{rtype} result = {ret.group(2)};", f"{ret.group(1)}return result;"]
                 return "\n".join(lines), kind
         elif kind == "flag":
-            for k, line in enumerate(lines[:12]):
+            for k, line in enumerate(lines):
                 if line.startswith("// cl:"):
                     words = line.split()
                     if rng.random() < 0.4:
@@ -516,6 +516,7 @@ def mutate(text, rng, focus=None):
                     if a in words:
                         lines[k] = " ".join(b if w == a else w for w in words)
                         return "\n".join(lines), kind
+                    break  # Only the first directive is effective in build.source_extra_flags.
     return text, None
 
 
@@ -779,7 +780,8 @@ def _with_flags(text, add, remove=()):
     """`text` with `add` on its `// cl:` line (one is inserted when absent) and
     `remove` taken off; None when nothing would change."""
     lines = text.split("\n")
-    at = next((k for k, line in enumerate(lines[:12]) if line.startswith("// cl:")), None)
+    # Bank history can push the directive down; match build.source_extra_flags' full scan.
+    at = next((k for k, line in enumerate(lines) if line.startswith("// cl:")), None)
     words = lines[at].split()[2:] if at is not None else []
     if add in words and not any(w in words for w in remove):
         return None
@@ -798,12 +800,13 @@ def _flag_variants(text):
         if variant is not None:
             yield variant
     lines = text.split("\n")
-    for k, line in enumerate(lines[:12]):  # dropping a toggle already present
+    for k, line in enumerate(lines):  # dropping a toggle already present
         if line.startswith("// cl:"):
             for flag in ("/Op", "/Oy-", "/Ob1"):
                 if flag in line.split():
                     yield "\n".join(lines[:k] + [" ".join(w for w in line.split() if w != flag)]
                                      + lines[k + 1:])
+            break
 
 
 def flag_search(rva, rounds=2):
@@ -846,7 +849,7 @@ def flag_search(rva, rounds=2):
     result = {"rva": rva, "symbol": symbol, "size": size, "start": round(start, 4), "best": round(best, 4),
               "exact": exact, "trials": scorer.trials, "mode": "flags"}
     if best > start and not exact:
-        result["flags"] = next((l for l in text.split("\n")[:12] if l.startswith("// cl:")), "")
+        result["flags"] = next((l for l in text.split("\n") if l.startswith("// cl:")), "")
         # the random search starts from here (permute reads it)
         (workdir / "flags_best.cpp").write_text(text, encoding="latin-1", errors="replace")
     with (OUT / "flags.jsonl").open("a", encoding="utf-8") as handle:

@@ -92,3 +92,76 @@ def test_return_type_of_indented_and_one_line_definitions():
     assert permute._return_type(lines, 3) == "int"
     assert permute._return_type(lines, 6) == "float"
     assert permute._return_type(lines, 9) is None
+
+
+def test_flag_search_preserves_directive_after_bank_metadata(tmp_path):
+    metadata = "// symbol\n" + "// partial score=0.8 date=2026-10-20\n" * 16
+    source = metadata + "// cl: /O1 /Ob1 /G7 /Oy- /Iinclude-dir\nint body() { return 1; }\n"
+    variant = permute._with_flags(source, "/O2", ("/O1", "/Ox"))
+    assert variant.startswith(metadata)
+    assert variant.count("// cl:") == 1
+    assert variant.endswith("int body() { return 1; }\n")
+    candidate = tmp_path / "candidate.cpp"
+    candidate.write_text(variant, encoding="utf-8")
+    flags = permute.build.source_extra_flags(candidate)
+    assert "-O2" in flags and "-O1" not in flags
+    assert all(flag in flags for flag in ("-Ob1", "-G7", "-Oy-", "-Iinclude-dir"))
+
+
+def test_flag_variants_drop_late_directive_toggles():
+    metadata = "// symbol\n" + "// bank history\n" * 16
+    body = "int body() { return 1; }\n"
+    source = metadata + "// cl: /O1 /Ob1 /G7 /Oy- /Iinclude-dir\n" + body
+    variants = list(permute._flag_variants(source))
+    assert all(variant.startswith(metadata) and variant.endswith(body) for variant in variants)
+    assert all(variant.count("// cl:") == 1 for variant in variants)
+    directives = [next(line for line in variant.splitlines() if line.startswith("// cl:")).split()[2:]
+                  for variant in variants]
+    assert any("/Ob1" not in flags for flags in directives)
+    assert any("/Oy-" not in flags for flags in directives)
+    assert all("/Iinclude-dir" in flags for flags in directives)
+
+
+def test_flag_search_changes_first_effective_directive_only():
+    metadata = "// symbol\n" + "// bank history\n" * 16
+    source = metadata + "// cl: /O1 /G7\n// cl: /O1 /G6\nint body() { return 1; }\n"
+    variant = permute._with_flags(source, "/O2", ("/O1",))
+    assert variant == metadata + "// cl: /G7 /O2\n// cl: /O1 /G6\nint body() { return 1; }\n"
+
+
+def test_flag_mutation_reads_past_bank_metadata():
+    class FlagOnlyRng:
+        def choice(self, choices):
+            return "flag" if "flag" in choices else "/Op"
+
+        def random(self):
+            return 0.0
+
+    metadata = "// symbol\n" + "// bank history\n" * 16
+    source = metadata + "// cl: /O1 /G7\nint body() { return 1; }\n"
+    variant, kind = permute.mutate(source, FlagOnlyRng())
+    assert kind == "flag"
+    assert variant == metadata + "// cl: /O1 /G7 /Op\nint body() { return 1; }\n"
+
+
+def test_flag_mutation_leaves_ignored_later_directive_untouched():
+    class FlagSwapRng:
+        def choice(self, choices):
+            return "flag" if "flag" in choices else choices[0]
+
+        def random(self):
+            return 0.9
+
+    metadata = "// symbol\n" + "// bank history\n" * 16
+    source = (metadata + "// cl: /Iinclude-dir\n// cl: " + permute.FLAG_SWAPS[0][0]
+              + "\nint body() { return 1; }\n")
+    assert permute.mutate(source, FlagSwapRng()) == (source, None)
+
+
+def test_flag_variants_leave_ignored_later_directive_untouched():
+    metadata = "// symbol\n" + "// bank history\n" * 16
+    ignored = "// cl: /O1 /Ob1 /Oy-"
+    source = metadata + "// cl: /O1 /G7\n" + ignored + "\nint body() { return 1; }\n"
+    for variant in permute._flag_variants(source):
+        directives = [line for line in variant.splitlines() if line.startswith("// cl:")]
+        assert len(directives) == 2 and directives[1] == ignored
