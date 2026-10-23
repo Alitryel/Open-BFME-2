@@ -1,32 +1,24 @@
 // cl: /DNDEBUG /MD
-// ?rva005F8E5AInit@@YIPAVRva005F8E5A@@PAV1@HHHH@Z @0x005F8E5A 35B evidence:
-// fastcall init chaining to pinned ?rva005FE640@@YIXPAVRva005FE640Obj@@HHH@Z
-// @0x005FE640 with (this, fwd-passthrough-in-edx, c, b); stores a at +0x38;
-// installs vtable 0x00C79D0C (opaque owner Rva005F8F7B, symbol reused, no
-// new emission); returns this. Sibling of 0x005F8E37 (same shape, base
-// ctor called directly). TU-local layout view only.
+// Native constructor 0x005F8E5A stores the BattlePrompt owner at +0x38.
+// Its tab-window base is constructed with the level and AsciiString name.
 extern "C" const void *const vtbl_00C79D0C[];	// ??_7Rva005F8F7B@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00C79D0C=??_7Rva005F8F7B@@6B@")
 
+class AsciiString;
+namespace StrategicHUD { class BattlePromptMovieClip { public: class Impl; }; }
 class Rva005F8E5A
 {
 public:
+	Rva005F8E5A(StrategicHUD::BattlePromptMovieClip::Impl *, int, const AsciiString &);
 	char m_pad[0x38];
-	int m_38;
+	StrategicHUD::BattlePromptMovieClip::Impl *m_38;
 };
 
-class Rva005FE640Obj;
-void __fastcall rva005FE640(Rva005FE640Obj *o, int fwd, int x, int y);
+class Rva005FE750 { public: Rva005FE750(int, const AsciiString &); };
 
-Rva005F8E5A *__fastcall rva005F8E5AInit(Rva005F8E5A *o, int fwd, int a, int b, int c)
+Rva005F8E5A::Rva005F8E5A(StrategicHUD::BattlePromptMovieClip::Impl *owner, int level, const AsciiString &name)
 {
-	rva005FE640((Rva005FE640Obj *)o, fwd, b, c);
-	o->m_38 = a;
-	((void **)o)[0] = (void *)vtbl_00C79D0C;
-	return o;
+	((Rva005FE750 *)this)->Rva005FE750::Rva005FE750(level, name);
+	m_38 = owner;
+	((void **)this)[0] = (void *)vtbl_00C79D0C;
 }
-
-// The retail call in this body reads 0x005FE640, an address the ledger already
-// carries as ??0Rva005FE750@@QAE@HABVAsciiString@@@Z. Bind the donor spelling to that rowed owner so one
-// address keeps one definition and the unit links.
-#pragma comment(linker, "/alternatename:?rva005FE640@@YIXPAVRva005FE640Obj@@HHH@Z=??0Rva005FE750@@QAE@HABVAsciiString@@@Z")

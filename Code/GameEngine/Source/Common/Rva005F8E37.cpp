@@ -1,31 +1,24 @@
 // cl: /DNDEBUG /MD
-// ?rva005F8E37Init@@YIPAVRva005F8E37@@PAV1@HHHH@Z @0x005F8E37 35B evidence:
-// fastcall init chaining to pinned ?rva005FE7A7@@YIXPAVRva005FE7A7Obj@@HHH@Z
-// @0x005FE7A7 with (this, fwd-passthrough-in-edx, c, b); stores a at +0x3C;
-// installs vtable 0x00C79CF8 (opaque owner Rva005F8F5A, symbol reused, no
-// new emission); returns this. TU-local layout view only.
+// Native constructor 0x005F8E37 stores the BattlePrompt owner at +0x3C.
+// Its tab-window base is constructed with the level and AsciiString name.
 extern "C" const void *const vtbl_00C79CF8[];	// ??_7Rva005F8F5A@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00C79CF8=??_7Rva005F8F5A@@6B@")
 
+class AsciiString;
+namespace StrategicHUD { class BattlePromptMovieClip { public: class Impl; }; }
 class Rva005F8E37
 {
 public:
+	Rva005F8E37(StrategicHUD::BattlePromptMovieClip::Impl *, int, const AsciiString &);
 	char m_pad[0x3C];
-	int m_3C;
+	StrategicHUD::BattlePromptMovieClip::Impl *m_3C;
 };
 
-class Rva005FE7A7Obj;
-void __fastcall rva005FE7A7(Rva005FE7A7Obj *o, int fwd, int x, int y);
+class Rva005FE7FA { public: Rva005FE7FA(int, const AsciiString &); };
 
-Rva005F8E37 *__fastcall rva005F8E37Init(Rva005F8E37 *o, int fwd, int a, int b, int c)
+Rva005F8E37::Rva005F8E37(StrategicHUD::BattlePromptMovieClip::Impl *owner, int level, const AsciiString &name)
 {
-	rva005FE7A7((Rva005FE7A7Obj *)o, fwd, b, c);
-	o->m_3C = a;
-	((void **)o)[0] = (void *)vtbl_00C79CF8;
-	return o;
+	((Rva005FE7FA *)this)->Rva005FE7FA::Rva005FE7FA(level, name);
+	m_3C = owner;
+	((void **)this)[0] = (void *)vtbl_00C79CF8;
 }
-
-// The retail call in this body reads 0x005FE7A7, an address the ledger already
-// carries as ??0Rva005FE7FA@@QAE@HABVAsciiString@@@Z. Bind the donor spelling to that rowed owner so one
-// address keeps one definition and the unit links.
-#pragma comment(linker, "/alternatename:?rva005FE7A7@@YIXPAVRva005FE7A7Obj@@HHH@Z=??0Rva005FE7FA@@QAE@HABVAsciiString@@@Z")

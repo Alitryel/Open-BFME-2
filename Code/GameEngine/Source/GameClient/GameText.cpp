@@ -193,7 +193,7 @@ struct NoString
 extern const char *g_strFile;
 extern const char *g_csfFile;
 extern Bool g_useStringFile;
-extern UnicodeString TheTranslatedString;
+extern unsigned g_Va00DFF0C4;
 
 class GameTextManager : public SubsystemInterface
 {
@@ -460,8 +460,8 @@ Bool GameTextTable::readCSF(const char *filename)
 UnicodeString *GameTextManager::fetchPtr(const char *label, Bool *exists)
 {
 	if (m_translateMode == 1) {
-		TheTranslatedString.translate(label);
-		return &TheTranslatedString;
+		((UnicodeString *)&g_Va00DFF0C4)->translate(label);
+		return (UnicodeString *)&g_Va00DFF0C4;
 	}
 	UnicodeString *text = 0;
 	if (m_textTable)

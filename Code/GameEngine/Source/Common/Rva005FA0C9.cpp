@@ -1,26 +1,16 @@
 // cl: /O1 /G6 /DNDEBUG /MD
-// ?rva005FA0C9Init@@YIPAVRva005FA0C9@@PAV1@HPAURva005FA0C9A@@HH@Z @0x005FA0C9
-// 46B evidence: fastcall wrapper (this, unused edx, a, b, c).
-// The callee 0x005F9DCB is the thiscall PlayerPageFrame constructor:
-// ECX supplies this, five stack arguments, RET 0x14, no EDX input.
-// Pass (a->m_04, &a->m_08, "Ally", b, c); installs vtable
-// 0x00C79D78 by literal store (fixed-base game.dat, no reloc needed);
-// returns this; ret 0xC. Same shape as 0x005FA0F7 (vtable const differs).
-// TU-local view only. The vtable is Rva005FA141's (slot 0 its scalar deleting
-// dtor 0x005FA125), the table OpaqueScalarDeletingDtorsB18.cpp emits.
+// Native constructor 0x005FA0C9 builds PlayerPageFrame for the Ally side.
+// The owner supplies level/name at +4/+8; index and record follow on the stack.
 extern "C" const void *__identifier("??_7Rva005FA141@@6B@")[];
 class AsciiString;
 struct Rva005F91F3Src;
-struct Rva005FA0C9A
-{
-	int m_00;
-	int m_04;
-	int m_08;
-};
+namespace StrategicHUD { class BattlePromptMovieClip { public: class Impl; }; }
+class StrategicHUD::BattlePromptMovieClip::Impl { public: int word0, level, nameWord; };
 
 class Rva005FA0C9
 {
 public:
+	Rva005FA0C9(StrategicHUD::BattlePromptMovieClip::Impl *, int, const Rva005F91F3Src &);
 	char m_pad[4];
 };
 
@@ -34,10 +24,9 @@ public:
 }
 
 
-Rva005FA0C9 *__fastcall rva005FA0C9Init(Rva005FA0C9 *o, int fwd, Rva005FA0C9A *a, int b, int c)
+Rva005FA0C9::Rva005FA0C9(StrategicHUD::BattlePromptMovieClip::Impl *owner, int index, const Rva005F91F3Src &record)
 {
-	((StrategicHUD::PlayerPageFrame *)o)->StrategicHUD::PlayerPageFrame::PlayerPageFrame(a->m_04, *(const AsciiString *)&a->m_08,
-		"Ally", b, *(const Rva005F91F3Src *)c);
-	((int *)o)[0] = (int)__identifier("??_7Rva005FA141@@6B@");
-	return o;
+	((StrategicHUD::PlayerPageFrame *)this)->StrategicHUD::PlayerPageFrame::PlayerPageFrame(owner->level, *(const AsciiString *)&owner->nameWord,
+		"Ally", index, record);
+	((int *)this)[0] = (int)__identifier("??_7Rva005FA141@@6B@");
 }
