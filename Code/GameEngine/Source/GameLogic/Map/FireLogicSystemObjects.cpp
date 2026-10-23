@@ -23,9 +23,8 @@
 // the area's shape; the centre test 0x00285B66 is defined here, and only
 // with its body in this unit does the compiler keep the centre's x store
 // out of the inner loop as retail does. The constructor (0x00286EC8) and
-// destructor (0x00286F8F) need /GX for their unwind states; between them
-// sit the grid teardown 0x00286CC4 and the use-counted registration of the
-// system's block parse at VA 0x00DBB750.
+// destructor (0x00286F8F) live in FireLogicSystemCtorDtor.cpp; the grid
+// teardown 0x00286CC4 they call stays here.
 //
 // Target facts: the fire grid is the 20-byte cell rows at +0x70 with the row
 // and column counts at +0x78/+0x7C (as Rva00285DC5Paint.cpp reads them); a
@@ -941,27 +940,9 @@ void FireLogicSystem::rva00286CC4()
 	}
 }
 
-// ??0FireLogicSystem@@QAE@XZ @0x00286EC8
-FireLogicSystem::FireLogicSystem()
-	: m_cells(0), m_storage(0), m_numRows(0), m_numCols(0), m_80(0),
-	  m_90(0x7FFFFFFF), m_94(1), m_98(0), m_9C(0)
-{
-	if (theFireLogicSystemParseRegistration.m_useCount == 0)
-		Rva0020DFFBRegister((const ModuleData *)&theFireLogicSystemParseRegistration);
-	++theFireLogicSystemParseRegistration.m_useCount;
-}
-
 // ?FireLogicSystem::loadPostProcess present-unmatched
 void FireLogicSystem::loadPostProcess()
 {
-}
-
-// ??1FireLogicSystem@@UAE@XZ @0x00286F8F
-FireLogicSystem::~FireLogicSystem()
-{
-	rva00286CC4();
-	if (--theFireLogicSystemParseRegistration.m_useCount == 0)
-		Rva0020DAE0(&theFireLogicSystemParseRegistration);
 }
 
 // The save-game Xfer (vtable slots in reverse overload order, as
