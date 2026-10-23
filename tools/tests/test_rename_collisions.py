@@ -97,3 +97,68 @@ def test_plan_clears_a_row_whose_signature_repeats_a_type(tmp_path):
     plan = plan_function(tree, 0x003BDE5D, "doIt")
     assert plan.new == "?doIt@ScriptActions@@QAEXABVAsciiString@@0@Z"
     assert "doIt" in plan.after["Code/Game/Actions.cpp"].decode()
+
+
+# ------------------------------- game units that merely instantiate STLport
+
+OWNER = "?rva00401000@Widget@@QAEHXZ"
+STL_INST = ("?push_back@?$vector@PAUArmy@@V?$allocator@PAUArmy@@@_STL@@@_STL@@QAEXABQAUArmy@@@Z")
+STL_PLAIN = "?_M_throw_length_error@?$_Vector_base@PAUArmy@@V?$allocator@PAUArmy@@@_STL@@@_STL@@QBEXXZ"
+HOST_CPP = ("// cl: /O2\n// ?rva00401000@Widget@@QAEHXZ @ 0x00401000\n"
+            "class Widget { public: int rva00401000(); };\nint Widget::rva00401000() { return 1; }\n")
+
+
+def host_tree(tmp_path, *, source="Code/Game/Widget.cpp", extra_rows=(), notes="vendored=stlport-4.5.3; army vector",
+              inst=STL_INST, own="address-derived"):
+    rows = (f"{OWNER},,0x00401000,10,{source},matched,{own}\n"
+            f"?count@Widget@@QAEHXZ,,0x00403000,6,{source},matched,real\n"
+            f"{inst},,0x00402000,30,{source},matched,{notes}\n")
+    rows += "".join(f"{name},,{addr},8,{source},matched,{n}\n" for name, addr, n in extra_rows)
+    return tree_of(tmp_path, rows, **{source: HOST_CPP})
+
+
+def test_unit_instantiating_stlport_over_its_own_types_is_not_vendored(tmp_path):
+    tree = host_tree(tmp_path)
+    ctx = rename.Context(tree, object_scan=False)
+    assert not rename.is_vendored_path(ctx, "Code/Game/Widget.cpp")
+    plan = plan_function(tree, 0x00401000, "countParts")
+    assert plan.new == "?countParts@Widget@@QAEHXZ"
+    assert plan.verify == ["Code/Game/Widget.cpp"]
+    # the instantiation row itself is untouched
+    assert STL_INST in plan.after["reverse/functions.csv"].decode()
+
+
+@pytest.mark.parametrize("kwargs,why", [
+    # nothing of the game's own in the file: upstream's unit
+    (dict(own="vendored=stlport-4.5.3; the body"), "all rows vendored"),
+    # another library's row keeps the whole unit vendored
+    (dict(extra_rows=[("?gpConnect@@YAXXZ", "0x00404000", "vendored=gamespy-2004")]), "gamespy row"),
+    # a plain (non-template) upstream function body is upstream's text
+    (dict(extra_rows=[(STL_PLAIN, "0x00404000", "vendored=stlport-4.5.3")]), "plain stlport row"),
+    # an STLport unit by name
+    (dict(source="Code/Game/stlport_widget.cpp"), "stlport unit name"),
+])
+def test_other_vendored_mixes_stay_vendored(tmp_path, kwargs, why):
+    if why == "plain stlport row":
+        kwargs["extra_rows"] = [("?_M_foo@_Foo@_STL@@QAEXXZ", "0x00404000", "vendored=stlport-4.5.3")]
+    tree = host_tree(tmp_path, **kwargs)
+    source = kwargs.get("source", "Code/Game/Widget.cpp")
+    ctx = rename.Context(tree, object_scan=False)
+    assert rename.is_vendored_path(ctx, source), why
+    with pytest.raises(Refusal, match="vendored"):
+        plan_function(tree, 0x00401000, "countParts")
+
+
+def test_vendored_dir_unit_stays_vendored_with_own_rows(tmp_path):
+    tree = host_tree(tmp_path, source="Code/Libraries/Source/Lua/lvm.cpp")
+    ctx = rename.Context(tree, object_scan=False)
+    assert rename.is_vendored_path(ctx, "Code/Libraries/Source/Lua/lvm.cpp")
+
+
+def test_a_word_the_instantiation_row_spells_is_still_shared(tmp_path):
+    # renaming the class Army's helper would also respell `Army` in the vendored
+    # template names; the shared-identifier test is what protects them
+    inst = "?push_back@?$vector@PAUrva00401000@@V?$allocator@PAUrva00401000@@@_STL@@@_STL@@QAEXABQAUrva00401000@@@Z"
+    tree = host_tree(tmp_path, inst=inst)
+    with pytest.raises(Refusal, match="also spells"):
+        plan_function(tree, 0x00401000, "countParts")

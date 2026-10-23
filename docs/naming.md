@@ -92,7 +92,12 @@ one. It may not override a real-named pin, a WorldBuilder lead or an
 evidence-tier name at the address. A **canonical** name may replace a
 placeholder or an inferred name. Vendored and SDK sources (library
 directories, gamespy and Platform SDK shims) and generated sources
-(`Code/gen_asm/`, `Code/gen_small/`) are never touched.
+(`Code/gen_asm/`, `Code/gen_small/`) are never touched. A game unit that
+hosts nothing of upstream's except STLport template instantiations over its own
+types (`vendored=stlport-*` rows whose names are `?$` templates of `_STL`, in a
+file that also owns rows of its own and is not an `stlport*` unit) is game
+source: the instantiation rows keep their names, and a word they spell is still
+shared and refused.
 
 ## The engine: `tools/rename.py`
 

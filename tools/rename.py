@@ -1025,10 +1025,35 @@ def is_vendored_path(ctx, rel):
     if rel.startswith("reference/shims/") and SDK_HEADER.fullmatch(posixpath.basename(rel)):
         return True
     if "_vendored_sources" not in ctx._cache:
-        ctx._cache["_vendored_sources"] = {r.get("source", "") for r in ctx.rows()
-                                           if "vendored=" in r.get("notes", "")
-                                           or r.get("source", "").lower().endswith(".lib")}
+        by_source = {}
+        for row in ctx.rows():
+            by_source.setdefault(row.get("source", ""), []).append(row)
+        ctx._cache["_vendored_sources"] = {
+            source for source, rows in by_source.items()
+            if (any("vendored=" in r.get("notes", "") for r in rows) or source.lower().endswith(".lib"))
+            and not hosts_instantiations_only(source, rows)}
     return rel in ctx._cache["_vendored_sources"]
+
+
+def hosts_instantiations_only(source, rows):
+    """True for a game unit whose only vendored rows are STLport template
+    instantiations over its own types (`push_back@?$vector@PAULivingWorldArmy`):
+    the unit's text is the game's, upstream's templates live in the STLport
+    headers, and a row it merely instantiates is no upstream code in the
+    file. It needs a row of its own besides the instantiations (a file made
+    only of vendored rows is upstream's), must not be an STLport unit by
+    name, and every vendored row must be a template of `_STL` (a plain
+    upstream function or another library's row keeps the file vendored).
+    The names those rows spell stay protected: `shared_identifier` refuses a
+    word they spell."""
+    if source.lower().endswith(".lib") or source.startswith(VENDORED_DIRS) or \
+            posixpath.basename(source).lower().startswith("stlport"):
+        return False
+    vendored = [r for r in rows if "vendored=" in r.get("notes", "")]
+    if not vendored or len(vendored) == len(rows):
+        return False
+    return all(re.search(r"vendored=stlport-", r.get("notes", "")) and "?$" in r["name"] and "@_STL@" in r["name"]
+               for r in vendored)
 
 
 def refuse_vendored(ctx, paths, what):
