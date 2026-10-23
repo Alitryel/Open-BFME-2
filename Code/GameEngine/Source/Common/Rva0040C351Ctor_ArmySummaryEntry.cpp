@@ -17,9 +17,8 @@ class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
 extern "C" const void *const vtbl_00BC6F20[];  // folded, 7 classes; via ??_7Rva0007DF07@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00BC6F20=??_7Rva0007DF07@@6B@")
-// The 4-slot table at RVA 0x0083944C is defined (and data-rowed) in Rva0040C351Ctor.cpp.
-extern const void *const g_00C3944C[];
-extern const void *const g_00C3945C[];
+extern "C" const unsigned char __identifier("??_7ArmySummaryEntry@@6BCarryoverUnit@@@");
+extern "C" const unsigned char __identifier("??_7ArmySummaryEntry@@6BRva0007DF07@@@");
 
 class Player;
 class Object;
@@ -87,8 +86,8 @@ struct Rva0040C430Ret
 ArmySummaryEntry::ArmySummaryEntry() : CarryoverUnit()
 {
 	MemberAC *memberAC = &m_ac;
-	memberAC->m_vtable = (void *)g_00C3945C;
-	*(unsigned int *)this = (unsigned int)g_00C3944C;
+	memberAC->m_vtable = (void *)&__identifier("??_7ArmySummaryEntry@@6BRva0007DF07@@@");
+	*(unsigned int *)this = (unsigned int)&__identifier("??_7ArmySummaryEntry@@6BCarryoverUnit@@@");
 	m_b4 = 0;
 	m_b8 = 0;
 	m_bc = 0;
@@ -102,13 +101,11 @@ ArmySummaryEntry::ArmySummaryEntry() : CarryoverUnit()
 // (m_ac() gives base 0xBC6F20 plus 0 which body overwrites with 0xC3945C,
 // this gets 0xC3944C), ints/bytes copied from source. Callers in unclaimed
 // 0x0040E96D 0x0040EAED 0x0040F34E 0x004E0BDC 0x004F7B6B 0x0059B1EC.
-extern const void *const g_00C3944C[];
-extern const void *const g_00C3945C[];
 ArmySummaryEntry::ArmySummaryEntry(const ArmySummaryEntry &armySummaryEntry) : CarryoverUnit(armySummaryEntry), m_ac()
 {
-	*(const void **)this = g_00C3944C;
+	*(const void **)this = &__identifier("??_7ArmySummaryEntry@@6BCarryoverUnit@@@");
 	MemberAC *memberAC = &m_ac;
-	memberAC->m_vtable = (void *)g_00C3945C;
+	memberAC->m_vtable = (void *)&__identifier("??_7ArmySummaryEntry@@6BRva0007DF07@@@");
 	m_b4 = armySummaryEntry.m_b4;
 	m_b8 = armySummaryEntry.m_b8;
 	m_bc = armySummaryEntry.m_bc;
