@@ -150,6 +150,29 @@ namespace _STL { template <> BfmePod28 * vector<BfmePod28, allocator<BfmePod28> 
 inline bool operator==(const BfmePod28 &x, const BfmePod28 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod28 &x, const BfmePod28 &y) { return x.a[0] < y.a[0]; }
 struct BfmePod32 { int a[8]; };
+// The overflow provider uses STLport's growth path without exception rollback
+// (stlport_pod_noexc_bodies.cpp); spell that body so this copy is retail's.
+namespace _STL {
+template <> inline void vector<BfmePod32, allocator<BfmePod32> >::_M_insert_overflow(
+    BfmePod32 *__position, const BfmePod32 &__x, const __false_type &,
+    size_type __fill_len, bool __atend)
+{
+    const size_type __old_size = size();
+    const size_type __len = __old_size + (max)(__old_size, __fill_len);
+    pointer __new_start = this->_M_end_of_storage.allocate(__len);
+    pointer __new_finish = __new_start;
+    __new_finish = __uninitialized_copy(this->_M_start, __position, __new_start, __false_type());
+    if (__fill_len == 1) {
+        _Construct(__new_finish, __x);
+        ++__new_finish;
+    } else
+        __new_finish = __uninitialized_fill_n(__new_finish, __fill_len, __x, __false_type());
+    if (!__atend)
+        __new_finish = __uninitialized_copy(__position, this->_M_finish, __new_finish, __false_type());
+    _M_clear();
+    _M_set(__new_start, __new_finish, __new_start + __len);
+}
+}
 // bfme link decl-only BfmePod32
 namespace _STL { template <> vector<BfmePod32, allocator<BfmePod32> >::~vector(); }
 inline bool operator==(const BfmePod32 &x, const BfmePod32 &y) { return x.a[0] == y.a[0]; }
@@ -195,6 +218,20 @@ inline bool operator<(const BfmePod40 &x, const BfmePod40 &y) { return x.a[0] < 
 // specialization so this unit emits no competing copy.
 namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod40, BfmePod40>(BfmePod40 *__p, const BfmePod40 &__val); }
 struct BfmePod44 { int a[11]; };
+// Retail's vector<BfmePod44> copy constructor (0x00414490) copies through the
+// rowed 44-byte worker at 0x00414359 and its placement copy at 0x0041432C,
+// not this view's own copy (0x0007EB6E).
+struct Rva00414BA4Element { int a[11]; };
+namespace _STL {
+template <> __declspec(nothrow) void _Construct<Rva00414BA4Element, Rva00414BA4Element>(Rva00414BA4Element *__p, const Rva00414BA4Element &__val);
+template <> void _Destroy<Rva00414BA4Element *>(Rva00414BA4Element *, Rva00414BA4Element *);
+template <> inline vector<BfmePod44, allocator<BfmePod44> >::vector(const vector<BfmePod44, allocator<BfmePod44> > &__x)
+    : _Vector_base<BfmePod44, allocator<BfmePod44> >(__x.size(), __x.get_allocator())
+{
+    this->_M_finish = (BfmePod44 *)__uninitialized_copy((Rva00414BA4Element *)__x._M_start,
+        (Rva00414BA4Element *)__x._M_finish, (Rva00414BA4Element *)this->_M_start, __false_type());
+}
+}
 // The dedicated no-EH provider owns this type's allocation/copy helper.
 // Assignment is unrowed here; leave it uninstantiated in this EH profile.
 namespace _STL { template <> vector<BfmePod44, allocator<BfmePod44> > &
@@ -205,15 +242,61 @@ inline bool operator<(const BfmePod44 &x, const BfmePod44 &y) { return x.a[0] < 
 struct BfmePod48 { int a[12]; };
 inline bool operator==(const BfmePod48 &x, const BfmePod48 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod48 &x, const BfmePod48 &y) { return x.a[0] < y.a[0]; }
-// Retail's _Construct<BfmePod48> is pinned elsewhere; declare that
-// specialization so this unit emits no competing copy.
-namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod48, BfmePod48>(BfmePod48 *__p, const BfmePod48 &__val); }
+// Retail calls the rowed _Construct<Rva003F610FElement>; forward this view to it.
+struct Rva003F610FElement;
+namespace _STL {
+template <> void _Construct<Rva003F610FElement, Rva003F610FElement>(Rva003F610FElement *, const Rva003F610FElement &) throw();
+template <> __declspec(dllimport) __forceinline void _Construct<BfmePod48, BfmePod48>(BfmePod48 *p, const BfmePod48 &v) throw()
+{ _Construct((Rva003F610FElement *)p, (const Rva003F610FElement &)v); }
+}
+// _M_clear is protected; this view only re-exposes it so a placeholder
+// vector's growth can call the real element's rowed clear.
+template <class _Tp> struct BfmeOverflowAccess : _STL::vector<_Tp, _STL::allocator<_Tp> > {
+    using _STL::vector<_Tp, _STL::allocator<_Tp> >::_M_clear;
+};
+// Retail grows this view with the no-EH body below; it frees through the
+// rowed vector<Rva003F610FElement>::_M_clear.
+namespace _STL {
+template <> void vector<Rva003F610FElement, allocator<Rva003F610FElement> >::_M_clear();
+template <> inline void vector<BfmePod48, allocator<BfmePod48> >::_M_insert_overflow(
+    BfmePod48 *__position, const BfmePod48 &__x, const __false_type &,
+    size_type __fill_len, bool __atend)
+{
+    const size_type __old_size = size();
+    const size_type __len = __old_size + (max)(__old_size, __fill_len);
+    pointer __new_start = this->_M_end_of_storage.allocate(__len);
+    pointer __new_finish = __new_start;
+    __new_finish = __uninitialized_copy((const BfmePod48 *)this->_M_start, (const BfmePod48 *)__position, __new_start, __false_type());
+    if (__fill_len == 1) {
+        _Construct(__new_finish, __x);
+        ++__new_finish;
+    } else
+        __new_finish = __uninitialized_fill_n(__new_finish, __fill_len, __x, __false_type());
+    if (!__atend)
+        __new_finish = __uninitialized_copy((const BfmePod48 *)__position, (const BfmePod48 *)this->_M_finish, __new_finish, __false_type());
+    ((BfmeOverflowAccess<Rva003F610FElement> *)this)->_M_clear();
+    _M_set(__new_start, __new_finish, __new_start + __len);
+}
+}
 struct BfmePod52 { int a[13]; };
 inline bool operator==(const BfmePod52 &x, const BfmePod52 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod52 &x, const BfmePod52 &y) { return x.a[0] < y.a[0]; }
 // Retail's _Construct<BfmePod52> is rowed in stlport_construct_pod52_rva.cpp
 // (0x001DD2DC); declare that specialization so this unit emits no competing copy.
 namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod52, BfmePod52>(BfmePod52 *__p, const BfmePod52 &__val); }
+// Retail's vector<BfmePod52> copy constructor (0x004F9E76) copies through the
+// rowed 52-byte worker at 0x002BADB2 and its placement copy at 0x002B91ED.
+struct Rva002BBC7ARecord { int a[13]; };
+namespace _STL {
+template <> __declspec(nothrow) void _Construct<Rva002BBC7ARecord, Rva002BBC7ARecord>(Rva002BBC7ARecord *__p, const Rva002BBC7ARecord &__val);
+template <> void _Destroy<Rva002BBC7ARecord *>(Rva002BBC7ARecord *, Rva002BBC7ARecord *);
+template <> inline vector<BfmePod52, allocator<BfmePod52> >::vector(const vector<BfmePod52, allocator<BfmePod52> > &__x)
+    : _Vector_base<BfmePod52, allocator<BfmePod52> >(__x.size(), __x.get_allocator())
+{
+    this->_M_finish = (BfmePod52 *)__uninitialized_copy((Rva002BBC7ARecord *)__x._M_start,
+        (Rva002BBC7ARecord *)__x._M_finish, (Rva002BBC7ARecord *)this->_M_start, __false_type());
+}
+}
 struct BfmePod60 { int a[15]; };
 inline bool operator==(const BfmePod60 &x, const BfmePod60 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod60 &x, const BfmePod60 &y) { return x.a[0] < y.a[0]; }
@@ -221,12 +304,58 @@ inline bool operator<(const BfmePod60 &x, const BfmePod60 &y) { return x.a[0] < 
 // specialization so this unit emits no competing copy.
 namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod60, BfmePod60>(BfmePod60 *__p, const BfmePod60 &__val); }
 struct BfmePod68 { int a[17]; };
+// The overflow provider uses STLport's growth path without exception rollback
+// (stlport_pod_noexc_bodies.cpp); spell that body so this copy is retail's.
+namespace _STL {
+template <> inline void vector<BfmePod68, allocator<BfmePod68> >::_M_insert_overflow(
+    BfmePod68 *__position, const BfmePod68 &__x, const __false_type &,
+    size_type __fill_len, bool __atend)
+{
+    const size_type __old_size = size();
+    const size_type __len = __old_size + (max)(__old_size, __fill_len);
+    pointer __new_start = this->_M_end_of_storage.allocate(__len);
+    pointer __new_finish = __new_start;
+    __new_finish = __uninitialized_copy(this->_M_start, __position, __new_start, __false_type());
+    if (__fill_len == 1) {
+        _Construct(__new_finish, __x);
+        ++__new_finish;
+    } else
+        __new_finish = __uninitialized_fill_n(__new_finish, __fill_len, __x, __false_type());
+    if (!__atend)
+        __new_finish = __uninitialized_copy(__position, this->_M_finish, __new_finish, __false_type());
+    _M_clear();
+    _M_set(__new_start, __new_finish, __new_start + __len);
+}
+}
 // bfme link decl-only BfmePod68
 namespace _STL { template <> BfmePod68 * vector<BfmePod68, allocator<BfmePod68> >::erase(BfmePod68 *, BfmePod68 *); }
 namespace _STL { template <> BfmePod68 * vector<BfmePod68, allocator<BfmePod68> >::erase(BfmePod68 *); }
 inline bool operator==(const BfmePod68 &x, const BfmePod68 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod68 &x, const BfmePod68 &y) { return x.a[0] < y.a[0]; }
 struct BfmePod76 { int a[19]; };
+// The overflow provider uses STLport's growth path without exception rollback
+// (stlport_pod_noexc_bodies.cpp); spell that body so this copy is retail's.
+namespace _STL {
+template <> inline void vector<BfmePod76, allocator<BfmePod76> >::_M_insert_overflow(
+    BfmePod76 *__position, const BfmePod76 &__x, const __false_type &,
+    size_type __fill_len, bool __atend)
+{
+    const size_type __old_size = size();
+    const size_type __len = __old_size + (max)(__old_size, __fill_len);
+    pointer __new_start = this->_M_end_of_storage.allocate(__len);
+    pointer __new_finish = __new_start;
+    __new_finish = __uninitialized_copy(this->_M_start, __position, __new_start, __false_type());
+    if (__fill_len == 1) {
+        _Construct(__new_finish, __x);
+        ++__new_finish;
+    } else
+        __new_finish = __uninitialized_fill_n(__new_finish, __fill_len, __x, __false_type());
+    if (!__atend)
+        __new_finish = __uninitialized_copy(__position, this->_M_finish, __new_finish, __false_type());
+    _M_clear();
+    _M_set(__new_start, __new_finish, __new_start + __len);
+}
+}
 inline bool operator==(const BfmePod76 &x, const BfmePod76 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod76 &x, const BfmePod76 &y) { return x.a[0] < y.a[0]; }
 struct BfmePod80 { int a[20]; };
@@ -245,9 +374,41 @@ inline bool operator<(const BfmePod88 &x, const BfmePod88 &y) { return x.a[0] < 
 struct BfmePod92 { int a[23]; };
 inline bool operator==(const BfmePod92 &x, const BfmePod92 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod92 &x, const BfmePod92 &y) { return x.a[0] < y.a[0]; }
-// _Construct<BfmePod92> is the rowed non-trivial copy construct at 0x00049D44: declare it, as for Pod172.
-namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod92, BfmePod92>(BfmePod92 *__p, const BfmePod92 &__val); }
+// Retail calls the rowed _Construct<BfmeContainerRecord00048139>; forward this view to it.
+struct BfmeContainerRecord00048139;
+namespace _STL {
+template <> void _Construct<BfmeContainerRecord00048139, BfmeContainerRecord00048139>(BfmeContainerRecord00048139 *, const BfmeContainerRecord00048139 &) throw();
+template <> __declspec(dllimport) __forceinline void _Construct<BfmePod92, BfmePod92>(BfmePod92 *p, const BfmePod92 &v) throw()
+{ _Construct((BfmeContainerRecord00048139 *)p, (const BfmeContainerRecord00048139 &)v); }
+}
+// Retail grows this view with the no-EH body below; it frees through the
+// rowed vector<Rva0004B22EElement>::_M_clear.
+struct Rva0004B22EElement;
+// Retail's growth frees through the rowed range destructor at 0x0004B205.
+struct BfmeRecordRange004B205 { int *m_start; int *m_finish; int *m_end; ~BfmeRecordRange004B205(); };
+namespace _STL {
+template <> inline void vector<BfmePod92, allocator<BfmePod92> >::_M_insert_overflow(
+    BfmePod92 *__position, const BfmePod92 &__x, const __false_type &,
+    size_type __fill_len, bool __atend)
+{
+    const size_type __old_size = size();
+    const size_type __len = __old_size + (max)(__old_size, __fill_len);
+    pointer __new_start = this->_M_end_of_storage.allocate(__len);
+    pointer __new_finish = __new_start;
+    __new_finish = __uninitialized_copy((const BfmePod92 *)this->_M_start, (const BfmePod92 *)__position, __new_start, __false_type());
+    if (__fill_len == 1) {
+        _Construct(__new_finish, __x);
+        ++__new_finish;
+    } else
+        __new_finish = __uninitialized_fill_n(__new_finish, __fill_len, __x, __false_type());
+    if (!__atend)
+        __new_finish = __uninitialized_copy((const BfmePod92 *)__position, (const BfmePod92 *)this->_M_finish, __new_finish, __false_type());
+    ((BfmeRecordRange004B205 *)this)->~BfmeRecordRange004B205();
+    _M_set(__new_start, __new_finish, __new_start + __len);
+}
+}
 struct BfmePod104 { int a[26]; };
+// Retail push_back calls the rowed no-EH _M_insert_overflow; its body is spelled below.
 // The dedicated no-EH provider owns this type's allocation/copy helper.
 // Assignment is unrowed here; leave it uninstantiated in this EH profile.
 namespace _STL { template <> vector<BfmePod104, allocator<BfmePod104> > &
@@ -294,18 +455,106 @@ template <> inline void vector<BfmePod128>::_M_insert_overflow(
 struct BfmePod144 { int a[36]; };
 inline bool operator==(const BfmePod144 &x, const BfmePod144 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod144 &x, const BfmePod144 &y) { return x.a[0] < y.a[0]; }
-// _Construct<BfmePod144> is the pinned copy construct at 0x00053DFE: declare it, as for Pod172.
-namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod144, BfmePod144>(BfmePod144 *__p, const BfmePod144 &__val); }
+// Retail calls the rowed _Construct<BfmeStringTailRecord144>; forward this view to it.
+struct BfmeStringTailRecord144;
+namespace _STL {
+template <> void _Construct<BfmeStringTailRecord144, BfmeStringTailRecord144>(BfmeStringTailRecord144 *, const BfmeStringTailRecord144 &) throw();
+template <> __declspec(dllimport) __forceinline void _Construct<BfmePod144, BfmePod144>(BfmePod144 *p, const BfmePod144 &v) throw()
+{ _Construct((BfmeStringTailRecord144 *)p, (const BfmeStringTailRecord144 &)v); }
+}
+// Retail grows this view with the no-EH body below; it frees through the
+// rowed vector<BfmeStringTailRecord144>::_M_clear.
+namespace _STL {
+template <> void vector<BfmeStringTailRecord144, allocator<BfmeStringTailRecord144> >::_M_clear();
+template <> inline void vector<BfmePod144, allocator<BfmePod144> >::_M_insert_overflow(
+    BfmePod144 *__position, const BfmePod144 &__x, const __false_type &,
+    size_type __fill_len, bool __atend)
+{
+    const size_type __old_size = size();
+    const size_type __len = __old_size + (max)(__old_size, __fill_len);
+    pointer __new_start = this->_M_end_of_storage.allocate(__len);
+    pointer __new_finish = __new_start;
+    __new_finish = __uninitialized_copy((const BfmePod144 *)this->_M_start, (const BfmePod144 *)__position, __new_start, __false_type());
+    if (__fill_len == 1) {
+        _Construct(__new_finish, __x);
+        ++__new_finish;
+    } else
+        __new_finish = __uninitialized_fill_n(__new_finish, __fill_len, __x, __false_type());
+    if (!__atend)
+        __new_finish = __uninitialized_copy((const BfmePod144 *)__position, (const BfmePod144 *)this->_M_finish, __new_finish, __false_type());
+    ((BfmeOverflowAccess<BfmeStringTailRecord144> *)this)->_M_clear();
+    _M_set(__new_start, __new_finish, __new_start + __len);
+}
+}
 struct BfmePod148 { int a[37]; };
 inline bool operator==(const BfmePod148 &x, const BfmePod148 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod148 &x, const BfmePod148 &y) { return x.a[0] < y.a[0]; }
-// _Construct<BfmePod148> is the rowed non-trivial copy construct at 0x00361470: declare it, as for Pod172.
-namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod148, BfmePod148>(BfmePod148 *__p, const BfmePod148 &__val); }
+// Retail calls the rowed _Construct<BfmeStringHeadRecord148>; forward this view to it.
+struct BfmeStringHeadRecord148;
+namespace _STL {
+template <> void _Construct<BfmeStringHeadRecord148, BfmeStringHeadRecord148>(BfmeStringHeadRecord148 *, const BfmeStringHeadRecord148 &) throw();
+template <> __declspec(dllimport) __forceinline void _Construct<BfmePod148, BfmePod148>(BfmePod148 *p, const BfmePod148 &v) throw()
+{ _Construct((BfmeStringHeadRecord148 *)p, (const BfmeStringHeadRecord148 &)v); }
+}
+// Retail grows this view with the no-EH body below; it frees through the
+// rowed vector<BfmeStringHeadRecord148>::_M_clear.
+namespace _STL {
+template <> void vector<BfmeStringHeadRecord148, allocator<BfmeStringHeadRecord148> >::_M_clear();
+template <> inline void vector<BfmePod148, allocator<BfmePod148> >::_M_insert_overflow(
+    BfmePod148 *__position, const BfmePod148 &__x, const __false_type &,
+    size_type __fill_len, bool __atend)
+{
+    const size_type __old_size = size();
+    const size_type __len = __old_size + (max)(__old_size, __fill_len);
+    pointer __new_start = this->_M_end_of_storage.allocate(__len);
+    pointer __new_finish = __new_start;
+    __new_finish = __uninitialized_copy((const BfmePod148 *)this->_M_start, (const BfmePod148 *)__position, __new_start, __false_type());
+    if (__fill_len == 1) {
+        _Construct(__new_finish, __x);
+        ++__new_finish;
+    } else
+        __new_finish = __uninitialized_fill_n(__new_finish, __fill_len, __x, __false_type());
+    if (!__atend)
+        __new_finish = __uninitialized_copy((const BfmePod148 *)__position, (const BfmePod148 *)this->_M_finish, __new_finish, __false_type());
+    ((BfmeOverflowAccess<BfmeStringHeadRecord148> *)this)->_M_clear();
+    _M_set(__new_start, __new_finish, __new_start + __len);
+}
+}
 struct BfmePod160 { int a[40]; };
 inline bool operator==(const BfmePod160 &x, const BfmePod160 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod160 &x, const BfmePod160 &y) { return x.a[0] < y.a[0]; }
-// _Construct<BfmePod160> is the pinned copy construct at 0x003A454E: declare it, as for Pod172.
-namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod160, BfmePod160>(BfmePod160 *__p, const BfmePod160 &__val); }
+// Retail calls the rowed _Construct<BfmeContainerRecord003A451B>; forward this view to it.
+struct BfmeContainerRecord003A451B;
+namespace _STL {
+template <> void _Construct<BfmeContainerRecord003A451B, BfmeContainerRecord003A451B>(BfmeContainerRecord003A451B *, const BfmeContainerRecord003A451B &) throw();
+template <> __declspec(dllimport) __forceinline void _Construct<BfmePod160, BfmePod160>(BfmePod160 *p, const BfmePod160 &v) throw()
+{ _Construct((BfmeContainerRecord003A451B *)p, (const BfmeContainerRecord003A451B &)v); }
+}
+// Retail grows this view with the no-EH body below; it frees through the
+// rowed vector<BfmeStringHeadRecord160>::_M_clear.
+struct BfmeStringHeadRecord160;
+namespace _STL {
+template <> void vector<BfmeStringHeadRecord160, allocator<BfmeStringHeadRecord160> >::_M_clear();
+template <> inline void vector<BfmePod160, allocator<BfmePod160> >::_M_insert_overflow(
+    BfmePod160 *__position, const BfmePod160 &__x, const __false_type &,
+    size_type __fill_len, bool __atend)
+{
+    const size_type __old_size = size();
+    const size_type __len = __old_size + (max)(__old_size, __fill_len);
+    pointer __new_start = this->_M_end_of_storage.allocate(__len);
+    pointer __new_finish = __new_start;
+    __new_finish = __uninitialized_copy((const BfmePod160 *)this->_M_start, (const BfmePod160 *)__position, __new_start, __false_type());
+    if (__fill_len == 1) {
+        _Construct(__new_finish, __x);
+        ++__new_finish;
+    } else
+        __new_finish = __uninitialized_fill_n(__new_finish, __fill_len, __x, __false_type());
+    if (!__atend)
+        __new_finish = __uninitialized_copy((const BfmePod160 *)__position, (const BfmePod160 *)this->_M_finish, __new_finish, __false_type());
+    ((BfmeOverflowAccess<BfmeStringHeadRecord160> *)this)->_M_clear();
+    _M_set(__new_start, __new_finish, __new_start + __len);
+}
+}
 struct BfmePod172 { int a[43]; };
 // The dedicated no-EH provider owns this type's allocation/copy helper.
 // Assignment is unrowed here; leave it uninstantiated in this EH profile.
@@ -320,8 +569,38 @@ namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod172, Bfm
 struct BfmePod180 { int a[45]; };
 inline bool operator==(const BfmePod180 &x, const BfmePod180 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod180 &x, const BfmePod180 &y) { return x.a[0] < y.a[0]; }
-// _Construct<BfmePod180> is the rowed non-trivial copy construct at 0x000C2387: declare it, as for Pod172.
-namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod180, BfmePod180>(BfmePod180 *__p, const BfmePod180 &__val); }
+// Retail calls the rowed _Construct<BfmeContainerRecord000C0B85>; forward this view to it.
+struct BfmeContainerRecord000C0B85;
+namespace _STL {
+template <> void _Construct<BfmeContainerRecord000C0B85, BfmeContainerRecord000C0B85>(BfmeContainerRecord000C0B85 *, const BfmeContainerRecord000C0B85 &) throw();
+template <> __declspec(dllimport) __forceinline void _Construct<BfmePod180, BfmePod180>(BfmePod180 *p, const BfmePod180 &v) throw()
+{ _Construct((BfmeContainerRecord000C0B85 *)p, (const BfmeContainerRecord000C0B85 &)v); }
+}
+// Retail grows this view with the no-EH body below; it frees through the
+// rowed vector<Rva000C828CElement>::_M_clear.
+struct Rva000C828CElement;
+namespace _STL {
+template <> void vector<Rva000C828CElement, allocator<Rva000C828CElement> >::_M_clear();
+template <> inline void vector<BfmePod180, allocator<BfmePod180> >::_M_insert_overflow(
+    BfmePod180 *__position, const BfmePod180 &__x, const __false_type &,
+    size_type __fill_len, bool __atend)
+{
+    const size_type __old_size = size();
+    const size_type __len = __old_size + (max)(__old_size, __fill_len);
+    pointer __new_start = this->_M_end_of_storage.allocate(__len);
+    pointer __new_finish = __new_start;
+    __new_finish = __uninitialized_copy((const BfmePod180 *)this->_M_start, (const BfmePod180 *)__position, __new_start, __false_type());
+    if (__fill_len == 1) {
+        _Construct(__new_finish, __x);
+        ++__new_finish;
+    } else
+        __new_finish = __uninitialized_fill_n(__new_finish, __fill_len, __x, __false_type());
+    if (!__atend)
+        __new_finish = __uninitialized_copy((const BfmePod180 *)__position, (const BfmePod180 *)this->_M_finish, __new_finish, __false_type());
+    ((BfmeOverflowAccess<Rva000C828CElement> *)this)->_M_clear();
+    _M_set(__new_start, __new_finish, __new_start + __len);
+}
+}
 // The 216-byte element is CreateAHeroManager::CreateAHeroSubClass: its vector
 // is CreateAHeroClass +0x14 (parseCreateAHeroSubClass push_back, CreateAHeroClass
 // copy 0x0021F876); this unit keeps only its 216-byte footprint.
@@ -372,6 +651,31 @@ inline bool operator<(const BfmePod340 &x, const BfmePod340 &y) { return x.a[0] 
 // Retail's _Construct<BfmePod340> is rowed in StlportConstructFamily.cpp
 // (0x004D9B98); declare that specialization so this unit emits no competing copy.
 namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod340, BfmePod340>(BfmePod340 *__p, const BfmePod340 &__val); }
+// Retail grows this view with the no-EH body below; it frees through the
+// rowed vector<Rva004DA181Element>::_M_clear.
+struct Rva004DA181Element;
+namespace _STL {
+template <> void vector<Rva004DA181Element, allocator<Rva004DA181Element> >::_M_clear();
+template <> inline void vector<BfmePod340, allocator<BfmePod340> >::_M_insert_overflow(
+    BfmePod340 *__position, const BfmePod340 &__x, const __false_type &,
+    size_type __fill_len, bool __atend)
+{
+    const size_type __old_size = size();
+    const size_type __len = __old_size + (max)(__old_size, __fill_len);
+    pointer __new_start = this->_M_end_of_storage.allocate(__len);
+    pointer __new_finish = __new_start;
+    __new_finish = __uninitialized_copy((const BfmePod340 *)this->_M_start, (const BfmePod340 *)__position, __new_start, __false_type());
+    if (__fill_len == 1) {
+        _Construct(__new_finish, __x);
+        ++__new_finish;
+    } else
+        __new_finish = __uninitialized_fill_n(__new_finish, __fill_len, __x, __false_type());
+    if (!__atend)
+        __new_finish = __uninitialized_copy((const BfmePod340 *)__position, (const BfmePod340 *)this->_M_finish, __new_finish, __false_type());
+    ((BfmeOverflowAccess<Rva004DA181Element> *)this)->_M_clear();
+    _M_set(__new_start, __new_finish, __new_start + __len);
+}
+}
 
 // These allocation helpers use the no-catch bodies owned by the POD providers.
 namespace _STL {
@@ -439,6 +743,34 @@ char *_STLP_alloc_proxy<char *, char, allocator<char> >::allocate(size_t __n)
 template <> __declspec(dllimport) __forceinline
 char *uninitialized_fill_n<char *, unsigned int, char>(char *__first, unsigned int __n, const char &__x)
 { return __uninitialized_fill_n(__first, __n, __x, __true_type()); }
+}
+
+// Retail's growth calls the rowed out-of-line clear at 0x003B90BD, the
+// vector<BfmeAssignRecord104> instance of the same 104-byte element.
+struct BfmeAssignRecord104 { int a[26]; };
+namespace _STL { template <> void vector<BfmeAssignRecord104, allocator<BfmeAssignRecord104> >::_M_clear(); }
+// The overflow provider uses STLport's growth path without exception rollback
+// (stlport_pod_noexc_bodies.cpp); spell that body so this copy is retail's.
+namespace _STL {
+template <> inline void vector<BfmePod104, allocator<BfmePod104> >::_M_insert_overflow(
+    BfmePod104 *__position, const BfmePod104 &__x, const __false_type &,
+    size_type __fill_len, bool __atend)
+{
+    const size_type __old_size = size();
+    const size_type __len = __old_size + (max)(__old_size, __fill_len);
+    pointer __new_start = this->_M_end_of_storage.allocate(__len);
+    pointer __new_finish = __new_start;
+    __new_finish = __uninitialized_copy(this->_M_start, __position, __new_start, __false_type());
+    if (__fill_len == 1) {
+        _Construct(__new_finish, __x);
+        ++__new_finish;
+    } else
+        __new_finish = __uninitialized_fill_n(__new_finish, __fill_len, __x, __false_type());
+    if (!__atend)
+        __new_finish = __uninitialized_copy(__position, this->_M_finish, __new_finish, __false_type());
+    ((BfmeOverflowAccess<BfmeAssignRecord104> *)this)->_M_clear();
+    _M_set(__new_start, __new_finish, __new_start + __len);
+}
 }
 
 // Retail growth uses the no-catch sequence and out-of-line cleanup.
