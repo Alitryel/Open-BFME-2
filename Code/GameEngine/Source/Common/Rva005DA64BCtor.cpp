@@ -10,7 +10,10 @@ class Rva005DAA36
 {
 public:
 	Rva005DAA36(void *held);
-	virtual ~Rva005DAA36();
+	// Same base view as V3PolyCopyCtors.cpp: retail base vftable 0x00C70B80
+	// is __purecall then the deleting dtor (inline vptr-reset dtor).
+	virtual void slot0() = 0;
+	virtual ~Rva005DAA36() {}
 
 	void *m_field04;
 };
@@ -19,7 +22,9 @@ class Rva005DA64B : public Rva005DAA36
 {
 public:
 	Rva005DA64B(void *held);
-	virtual ~Rva005DA64B();
+	// Inline like the base: retail's deleting dtor (0x005DA663) only resets
+	// the vptrs before delete; no out-of-line ~Rva005DA64B exists.
+	virtual ~Rva005DA64B() {}
 };
 
 Rva005DA64B::Rva005DA64B(void *held)
