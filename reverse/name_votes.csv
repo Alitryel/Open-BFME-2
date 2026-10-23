@@ -610,3 +610,17 @@ Code/Libraries/Source/WWVegas/WW3D2/Rva004ED471Finish.cpp|local|Rva004ED10FFill|
 Code/Libraries/Source/WWVegas/WW3D2/Rva004ED471Finish.cpp|local|Rva004ED10FFill|n,e5067ece5b25c764ee7278ee,gpt-6.1-sol,codex4-20261023-225117-24,w-887869184137,2026-10-23
 Code/Libraries/Source/WWVegas/WW3D2/Rva004ED471Finish.cpp|local|Rva004ED471::rva004ED471|p,452d307c42b2e02abfc26f29,gpt-6.1-sol,codex4-20261023-225117-24,w-887869184137,2026-10-23
 Code/Libraries/Source/WWVegas/WW3D2/Rva004ED471Finish.cpp|local|Rva004ED471::rva004ED471|tmp,ebec6841f73aa5fe9b5c1268,gpt-6.1-sol,codex4-20261023-225117-24,w-887869184137,2026-10-23
+Code/GameEngine/Source/Common/Rva0036E346Count.cpp|member|Rva0036E357TemplateView|flags108,fe382e20e28ce38348ec026c,gpt-6.1-sol,codex4-20261023-230431-2,w-887869184137,2026-10-23
+Code/GameEngine/Source/Common/Rva004FDA42Clear.cpp|local|Rva004FDA42Owner::rva004FDA42|p,7b1629d12499620968ad5f77,gpt-6.1-sol,codex4-20261023-230431-3,w-887869184137,2026-10-23
+Code/GameEngine/Source/Common/Rva003C3F9EApply.cpp|param|ScriptActions::doNamedAddSpecialPowerCountdown|arg3,95c6e37eebafcbe8d3b95e9c,gpt-6.1-sol,codex4-20261023-230431-3,w-887869184137,2026-10-23
+Code/GameEngine/Source/Common/Rva003C3F9EApply.cpp|local|ScriptActions::doNamedAddSpecialPowerCountdown|t,ee4c77d1bd7a5088f7416107,gpt-6.1-sol,codex4-20261023-230431-3,w-887869184137,2026-10-23
+Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|class||Rva0028E84ATemplatePrefix,538bdd4bef00df076d04aa54,gpt-6.1-sol,codex4-20261023-230431-3,w-887869184137,2026-10-23
+Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|class||Rva0028E868Collide,c45e5a8a6370198d8b66056d,gpt-6.1-sol,codex4-20261023-230431-3,w-887869184137,2026-10-23
+Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|class||Rva0028E868BehaviorInterface,cba51e8b0c44298271875c23,gpt-6.1-sol,codex4-20261023-230431-3,w-887869184137,2026-10-23
+Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|class||Rva0028C0E3Receiver,067cb60f103ac4681c857158,gpt-6.1-sol,codex4-20261023-230431-3,w-887869184137,2026-10-23
+Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|local|Rva0028C0E3Receiver::collisionDispatch|m,1139f1846e6a7542058163c6,gpt-6.1-sol,codex4-20261023-230431-3,w-887869184137,2026-10-23
+Code/GameEngine/Source/GameLogic/Map/TerrainLogicRva00285193.cpp|class||Rva00285193TemplateView,f241f486d5cd9f0dc7cc47e4,gpt-6.1-sol,codex4-20261023-230431-3,w-887869184137,2026-10-23
+Code/GameEngine/Source/GameLogic/Map/TerrainLogicRva00285193.cpp|class||Rva00285193GlobalView,d3ad9fecd2bb6236b82bc152,gpt-6.1-sol,codex4-20261023-230431-3,w-887869184137,2026-10-23
+Code/Libraries/Source/WWVegas/WWLib/Rva00565FC1VectorOverflow.cpp|param|Rva00565FC1Max|a,471fbe26d12681cc61868efa,gpt-6.1-sol,codex4-20261023-230431-3,w-887869184137,2026-10-23
+Code/Libraries/Source/WWVegas/WWLib/Rva00565FC1VectorOverflow.cpp|param|Rva00565FC1Max|b,accd49867999df76c44e7458,gpt-6.1-sol,codex4-20261023-230431-3,w-887869184137,2026-10-23
+Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp|function|0x00581740|rva00581740,6a812a1a1f788a4e919af642,gpt-6.1-sol,codex4-20261023-230431-3,w-887869184137,2026-10-23
