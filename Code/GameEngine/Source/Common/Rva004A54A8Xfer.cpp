@@ -1,8 +1,8 @@
 // cl: /MD
 //
-// ?xfer@Rva004A54A8@@MAEXPAVXfer@@@Z, retail 0x004A58BD, 138 bytes. Virtual
+// ?xfer@StructureToppleUpdate@@MAEXPAVXfer@@@Z, retail 0x004A58BD, 138 bytes. Virtual
 // slot 3 (offset 0x0C) of vtable 0x00852A28 (class of rowed dtor
-// ??1Rva004A54A8@@UAE@XZ in Rva0024A797Grandchildren.cpp): UpdateModule base
+// ??1StructureToppleUpdate@@UAE@XZ in Rva0024A797Grandchildren.cpp): UpdateModule base
 // xfer via rowed 0x0044DF9F then IsLightCRC early-out via Xfer slot 0x10
 // then Version1 via rowed 0x000053EE then uint at +0x24 via Xfer slot 0x78
 // then Coord2D at +0x28 via Xfer slot 0x50 then 4 raw bytes at +0x30 via
@@ -68,7 +68,7 @@ private:
 	int m_updateState;
 };
 
-class Rva004A54A8 : public UpdateModule
+class StructureToppleUpdate : public UpdateModule
 {
 protected:
 	virtual void xfer(Xfer *xfer);
@@ -86,7 +86,7 @@ private:
 	Coord3DBase m_48;
 };
 
-void Rva004A54A8::xfer(Xfer *xfer)
+void StructureToppleUpdate::xfer(Xfer *xfer)
 {
 	UpdateModule::xfer(xfer);
 	if (xfer->IsLightCRC())

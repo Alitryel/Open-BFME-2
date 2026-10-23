@@ -1899,3 +1899,6 @@ __ehhandler$??1Rva003F6A91@@UAE@XZ,0x00784124,"Renamed with its parent to __ehha
 __ehhandler$??1Rva002D6C1C@@UAE@XZ,0x0077795C,"Renamed to __ehhandler$??1Anim2DCollection@@UAE@XZ with its parent destructor 0x002D6C1C"
 ??_GRva002D6C1C@@UAEPAXI@Z,0x002D724B,"Renamed to ??_GAnim2DCollection@@UAEPAXI@Z: slot 0 of Anim2DCollection's vtable 0x00C0331C, compiled byte-exact by Anim2D.cpp"
 ?Rva002D75C6@@YAXXZ,0x002D75C6,"Renamed to ?init@Anim2DCollection@@UAEXXZ: slot 1 of Anim2DCollection's vtable 0x00C0331C (ZH init), compiled byte-exact by Anim2D.cpp"
+??1Rva004A54A8@@UAE@XZ,0x004A54A8,"Renamed to ??1StructureToppleUpdate@@UAE@XZ: table 0x00852A28 names StructureToppleUpdate and its slot 0 calls this destructor"
+??_GRva004A54A8@@UAEPAXI@Z,0x004A560C,"Renamed to ??_GStructureToppleUpdate@@UAEPAXI@Z: StructureToppleUpdate table 0x00852A28 slot 0 reaches this deleting destructor"
+?xfer@Rva004A54A8@@MAEXPAVXfer@@@Z,0x004A58BD,"Renamed to ?xfer@StructureToppleUpdate@@MAEXPAVXfer@@@Z: StructureToppleUpdate table 0x00852A28 slot 3 reaches this transfer"

@@ -206,52 +206,6 @@ void StructureToppleUpdate::crc( Xfer *xfer )
 }  // end crc
 
 // ------------------------------------------------------------------------------------------------
-/** Xfer method
-	* Version Info:
-	* 1: Initial version */
-// ------------------------------------------------------------------------------------------------
-// ?StructureToppleUpdate::xfer present-unmatched
-void StructureToppleUpdate::xfer( Xfer *xfer )
-{
-
-	// version
-	XferVersion currentVersion = 1;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
-
-	// extend base class
-	UpdateModule::xfer( xfer );
-
-	// topple frame
-	xfer->xferUnsignedInt( &m_toppleFrame );
-
-	// topple direction
-	xfer->xferCoord2D( &m_toppleDirection );
-
-	// topple state
-	xfer->xferUser( &m_toppleState, sizeof( StructureToppleStateType ) );
-
-	// topple velocity
-	xfer->xferReal( &m_toppleVelocity );
-
-	// accumulated angle
-	xfer->xferReal( &m_accumulatedAngle );
-
-	// structural integrity
-	xfer->xferReal( &m_structuralIntegrity );
-
-	// last crushed location
-	xfer->xferReal( &m_lastCrushedLocation );
-
-	// next burst frame
-	xfer->xferInt( &m_nextBurstFrame );
-
-	// delay burst location
-	xfer->xferCoord3D( &m_delayBurstLocation );
-
-}  // end xfer
-
-// ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
 // ?StructureToppleUpdate::loadPostProcess present-unmatched

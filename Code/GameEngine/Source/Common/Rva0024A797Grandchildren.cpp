@@ -268,19 +268,22 @@ Rva004A4C19::~Rva004A4C19()
 {
 }
 
-class Rva004A54A8_E1
+class DamageInfo;
+
+class DieModuleInterface
 {
 public:
-	virtual void fe();
+	virtual void onDie(const DamageInfo *damageInfo);
 };
 
-class Rva004A54A8 : public UpdateModule, public Rva004A54A8_E1
+class StructureToppleUpdate : public UpdateModule, public DieModuleInterface
 {
 public:
-	virtual ~Rva004A54A8();
+	virtual ~StructureToppleUpdate();
+	virtual void onDie(const DamageInfo *damageInfo);
 };
 
-Rva004A54A8::~Rva004A54A8()
+StructureToppleUpdate::~StructureToppleUpdate()
 {
 }
 
@@ -431,6 +434,5 @@ Rva0045232D::~Rva0045232D()
 #pragma comment(linker, "/alternatename:?fe@Rva00499934_E1@@UAEXXZ=?rva00499D18@OneRingPenaltyUpdate@@UAEXPAX@Z")
 #pragma comment(linker, "/alternatename:?fe@Rva004A4214_E1@@UAEXXZ=?onDie@StructureCollapseUpdate@@UAEXPBVDamageInfo@@@Z")
 #pragma comment(linker, "/alternatename:?fe@Rva004A4C19_E1@@UAEXXZ=?onDie@RubbleRiseUpdate@@UAEXPBVDamageInfo@@@Z")
-#pragma comment(linker, "/alternatename:?fe@Rva004A54A8_E1@@UAEXXZ=?onDie@StructureToppleUpdate@@UAEXPBVDamageInfo@@@Z")
 #pragma comment(linker, "/alternatename:?fe@Rva004A8091_E1@@UAEXXZ=?rva004A82F5@Rva004A82F5@@QAEXPAVObject@@HH@Z")
 #pragma comment(linker, "/alternatename:?ff@Rva004AB246_E2@@UAEXXZ=?rva004AB3AE@WallUpgradeUpdate@@UAE_NXZ")

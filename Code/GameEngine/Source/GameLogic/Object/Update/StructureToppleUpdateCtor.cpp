@@ -113,9 +113,9 @@ class StructureToppleUpdate : public UpdateModule, public DieModuleInterface
 {
 public:
 	StructureToppleUpdate(Thing *thing, const ModuleData *moduleData);
-	// Retail's dtor 0x004A54A8 stores the four vptrs this ctor installs and
-	// tail-jumps UpdateModule::~UpdateModule; the body folds onto it.
-	virtual ~StructureToppleUpdate() {}
+	// Retail's dtor 0x004A54A8 stores the four vptrs this ctor installs
+	// and tail-jumps UpdateModule::~UpdateModule.
+	virtual ~StructureToppleUpdate();
 	virtual void onDie(const DamageInfo *damageInfo);
 private:
 	const Object *getObject(void) const { return m_object; }
