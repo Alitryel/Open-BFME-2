@@ -11,7 +11,8 @@ public:
 class Rva005F6941
 {
 public:
-	virtual ~Rva005F6941();
+	virtual unsigned char rva004C9990() const;	// retail slot 0; the destructor is not virtual
+	~Rva005F6941();
 };
 
 class Rva005F6A58 : public Rva005F6941

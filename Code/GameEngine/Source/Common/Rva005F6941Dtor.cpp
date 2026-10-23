@@ -17,13 +17,15 @@ public:
 class Rva005F6941Base
 {
 public:
-	virtual ~Rva005F6941Base() {}
+	virtual unsigned char rva004C9990() const = 0;	// an abstract interface: retail 0x00BFBCBC is all __purecall
+	~Rva005F6941Base() {}
 };
 
 class Rva005F6941 : public Rva005F6941Base
 {
 public:
-	virtual ~Rva005F6941();
+	virtual unsigned char rva004C9990() const;	// retail slot 0; the destructor is not virtual
+	~Rva005F6941();
 private:
 	Rva005F6941Member *m_ptr;
 };
