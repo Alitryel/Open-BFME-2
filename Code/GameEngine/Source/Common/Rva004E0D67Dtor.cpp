@@ -15,9 +15,11 @@
 
 void __cdecl Rva00030830GameFree(void *);
 
+class Rva005CB260 { public: void rva005CB260(); };
+
 struct Rva004EFour
 {
-	int a;
+	void (Rva005CB260::*a)();
 	int b;
 	int c;
 	int d;
@@ -120,7 +122,7 @@ private:
 
 Rva004E0D67::~Rva004E0D67()
 {
-	Rva004EFour f = { 0x9CB260, 0, 0, 0 };
+	Rva004EFour f = { &Rva005CB260::rva005CB260, 0, 0, 0 };
 	reinterpret_cast<Rva004E0B60 *>(this)->rva004E0B60(f, (int)this);
 	::delete m_2C;
 	m_40 = 0;
