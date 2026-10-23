@@ -4632,7 +4632,6 @@ name,address,notes
 ??1Rva005961D6@@UAE@XZ,0x00596225,dtor installs its own vftable 0x00C70A4C (bytes at ++19) and is the REL32 callee of the slot-0 ??_G at 0x005962CB
 ??1Rva005965A5@@UAE@XZ,0x005965C6,dtor installs its own vftable 0x00C70A54 (bytes at ++20) and is the REL32 callee of the slot-0 ??_G at 0x00596619
 ??1Rva005970ED@@UAE@XZ,0x00597147,dtor installs its own vftable 0x00C70B88 (bytes at ++19) and is the REL32 callee of the slot-0 ??_G at 0x00597315
-??1Rva00597BD4@@UAE@XZ,0x00597BD4,opaque dtor called by the scalar deleting dtor at 0x00597FA9 (vtable 0x00C70C24#2); identity unproven; address-derived name
 ??1Rva00598CFDBase@@UAE@XZ,0x00506B28,ICF twin of apply base vtable store for 0x00598CFD dtor
 ??1Rva005990DF@@UAE@XZ,0x005990DF,opaque dtor called by the scalar deleting dtor at 0x005993B1 (vtable 0x00C70D44#2); identity unproven; address-derived name
 ??1Rva0059A85C@@UAE@XZ,0x0059A40D,dtor installs its own vftable 0x00C70DE4 (bytes at ++20) and is the REL32 callee of the slot-0 ??_G at 0x0059A47D

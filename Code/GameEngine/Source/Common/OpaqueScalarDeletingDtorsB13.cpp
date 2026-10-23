@@ -340,16 +340,41 @@ Rva00582FC1::Rva00582FC1(EmitVtableTag *)
 {
 }
 
-class Rva00597BD4
+class Object;
+class BaseA
 {
 public:
-	Rva00597BD4(EmitVtableTag *);
-public:
-	virtual ~Rva00597BD4();
+    virtual void Register(Object *, void *) = 0;
+    virtual void UnRegister(Object *) = 0;
+    virtual ~BaseA();
+    int m_04;
+    int m_08;
 };
 
-// ?<Rva00597BD4::Rva00597BD4> absent-from-retail
-Rva00597BD4::Rva00597BD4(EmitVtableTag *)
+class Rva00506B1B
+{
+public:
+    Rva00506B1B();
+    virtual ~Rva00506B1B();
+    virtual void rva00597fc5() = 0;
+    virtual void shutdown() = 0;
+    bool m_04;
+};
+
+class AIUpgradeScienceBuilder : public BaseA, public Rva00506B1B
+{
+public:
+	AIUpgradeScienceBuilder(EmitVtableTag *);
+public:
+    virtual void Register(Object *, void *);
+    virtual void UnRegister(Object *);
+    virtual ~AIUpgradeScienceBuilder();
+    virtual void rva00597fc5();
+    virtual void shutdown();
+};
+
+// ?<AIUpgradeScienceBuilder::AIUpgradeScienceBuilder> absent-from-retail
+AIUpgradeScienceBuilder::AIUpgradeScienceBuilder(EmitVtableTag *)
 {
 }
 

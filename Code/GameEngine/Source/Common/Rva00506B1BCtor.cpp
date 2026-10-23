@@ -17,8 +17,8 @@ public:
 	virtual ~Rva00506B1B() {}
 	// Retail vftable 0x00C63F9C has three slots: this dtor, then two
 	// __purecall entries (vftable_map), so the base is abstract.
-	virtual void v1() = 0;
-	virtual void v2() = 0;
+	virtual void rva00597fc5() = 0;
+	virtual void shutdown() = 0;
 	void rva00506B2F();
 	bool m_04;
 };
@@ -33,5 +33,5 @@ void Rva00506B1B::rva00506B2F()
 {
 	if (m_04)
 		return;
-	v1();
+	rva00597fc5();
 }

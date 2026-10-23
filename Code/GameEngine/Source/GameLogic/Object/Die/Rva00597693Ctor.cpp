@@ -1,6 +1,6 @@
 // cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// ??0Rva00597693@@QAE@PAX@Z @0x00597693 128B: ctor with EH prolog building Rva00506B1B at +0xc and three Vector_base<BfmeE16> at +0x18/+0x24/+0x30 via rowed 0x00506B1B and 0x00211E58; caller 0x004EC4B7
+// ??0AIUpgradeScienceBuilder@@QAE@PAX@Z @0x00597693 128B: ctor with EH prolog building Rva00506B1B at +0xc and three Vector_base<BfmeE16> at +0x18/+0x24/+0x30 via rowed 0x00506B1B and 0x00211E58; caller 0x004EC4B7
 // Native FuncInfo9532CC has one state:8B cleanup79D3F1 destroys the primary
 // base at this through the complete7B destructor4EA016. The C62888 table has
 // two pure callbacks then the deleting destructor4EA01D in slot2. Derived
@@ -13,11 +13,13 @@
 
 #include "../../../../../Libraries/Include/Lib/BfmeE16.h"
 
+class Object;
+
 class BaseA
 {
 public:
-	virtual void a0(void *, void *) = 0;
-	virtual void a1(void *) = 0;
+	virtual void Register(Object *, void *) = 0;
+	virtual void UnRegister(Object *) = 0;
 	virtual ~BaseA() {}
 	int m_04;
 	int m_08;
@@ -29,16 +31,20 @@ class Rva00506B1B
 public:
 	Rva00506B1B();
 	virtual ~Rva00506B1B();
-	virtual void v1() = 0;
-	virtual void v2() = 0;
+	virtual void rva00597fc5() = 0;
+	virtual void shutdown() = 0;
 	bool m_04;
 };
 
-class Rva00597693 : public BaseA, public Rva00506B1B
+class AIUpgradeScienceBuilder : public BaseA, public Rva00506B1B
 {
 public:
-	virtual ~Rva00597693();
-	Rva00597693(void *p);
+    virtual void Register(Object *, void *);
+    virtual void UnRegister(Object *);
+    virtual ~AIUpgradeScienceBuilder();
+    virtual void rva00597fc5();
+    virtual void shutdown();
+	AIUpgradeScienceBuilder(void *p);
 private:
 	void *m_14;
 	_STL::_Vector_base<BfmeE16, _STL::allocator<BfmeE16> > m_vec18;
@@ -47,7 +53,7 @@ private:
 	int m_3c;
 };
 
-Rva00597693::Rva00597693(void *p)
+AIUpgradeScienceBuilder::AIUpgradeScienceBuilder(void *p)
 	: BaseA(1, 2)
 	, Rva00506B1B()
 	, m_14(p)

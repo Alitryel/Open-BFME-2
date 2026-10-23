@@ -123,7 +123,7 @@ class Rva0059A85C { public: Rva0059A85C(void *player); virtual ~Rva0059A85C(); c
 class Rva004EA3B8 { public: Rva004EA3B8(void *player); virtual ~Rva004EA3B8(); char m_data[0x2C]; };
 class Rva004E9B46 { public: Rva004E9B46(int player); virtual ~Rva004E9B46(); char m_data[0x14]; };
 class Rva005990DF { public: Rva005990DF(int player); virtual ~Rva005990DF(); char m_data[0x2C]; };
-class Rva00597693 { public: Rva00597693(void *player); char m_data[0x40]; };
+class AIUpgradeScienceBuilder { public: AIUpgradeScienceBuilder(void *player); char m_data[0x40]; };
 class Rva005997CD { public: Rva005997CD(int player); ~Rva005997CD(); char m_data[0x14]; };
 extern int BfmeLogicFramesPerSecond;
 
@@ -141,7 +141,7 @@ private:
 	Rva004EA3B8 m_B4;
 	Rva004E9B46 m_E4;
 	Rva005990DF m_FC;
-	Rva00597693 *m_12C;
+	AIUpgradeScienceBuilder *m_12C;
 	_STL::vector<const ModuleData *> m_vec;	// +0x130
 	_STL::list<int> m_list;			// +0x13C
 	Rva005997CD m_dozers;			// +0x140
@@ -151,7 +151,7 @@ private:
 
 AIBuilder::AIBuilder(Player *player)
 	: m_player(player), m_base(player), m_38(player), m_90(player), m_B4(player),
-	  m_E4((int)player), m_FC((int)player), m_12C(new Rva00597693(player)),
+	  m_E4((int)player), m_FC((int)player), m_12C(new AIUpgradeScienceBuilder(player)),
 	  m_dozers((int)player), m_154(false), m_158(BfmeLogicFramesPerSecond * 30)
 {
 }

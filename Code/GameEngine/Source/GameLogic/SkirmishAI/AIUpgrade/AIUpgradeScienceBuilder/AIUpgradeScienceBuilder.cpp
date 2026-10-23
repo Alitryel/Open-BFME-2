@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX
 //
 // AIUpgradeScienceBuilder.cpp (the unit its random-value asserts name; the
-// builder class itself is not established, hence the address name).
+// constructor tables establish both callback interfaces).
 //
 //   0x00597E30  at most once per g_00E063CC frames and while the AI manager's
 //               record for the owner (0x002A8AB1) has +0x16C >= 1: pick a
@@ -272,14 +272,37 @@ namespace _STL
 	};
 }
 
-class AIUpgradeScienceBuilder
+class Object;
+class BaseA
 {
 public:
-	void Register(Object *object, void *);
+    virtual void Register(Object *, void *) = 0;
+    virtual void UnRegister(Object *) = 0;
+    virtual ~BaseA();
+    int m_04;
+    int m_08;
+};
+
+class Rva00506B1B
+{
+public:
+    virtual ~Rva00506B1B();
+    virtual void rva00597fc5() = 0;
+    virtual void shutdown() = 0;
+    bool m_04;
+};
+
+class AIUpgradeScienceBuilder : public BaseA, public Rva00506B1B
+{
+public:
+    virtual void Register(Object *, void *);
+    virtual void UnRegister(Object *);
+    virtual ~AIUpgradeScienceBuilder();
+    virtual void rva00597fc5();
+    virtual void shutdown();
 	bool rva0059764A(Object *object);	// 0x0059764A
 	void buildExpansionUpgrades();
 private:
-	char m_pad00[0x14];
 	Player *m_14;			// +0x14 the owner
 	_STL::vector<ScienceType> m_objects;	// +0x18
 	_STL::vector<const ModuleData *> m_upgrades;	// +0x24
@@ -398,30 +421,19 @@ public:
 	bool m_34;
 };
 
-class Rva00597FC5
+void AIUpgradeScienceBuilder::rva00597fc5()
 {
-public:
-	void rva00597fc5();
-
-private:
-	unsigned char m_pad00[0x18];
-	void **m_begin; // +0x18
-	void **m_end;   // +0x1C
-};
-
-void Rva00597FC5::rva00597fc5()
-{
-	char *subobject = reinterpret_cast<char *>(this) - 0x0C;
+	AIUpgradeScienceBuilder *subobject = this;
 	reinterpret_cast<Rva005977D3 *>(subobject)->rva005977D3();
 	reinterpret_cast<Rva0059781D *>(subobject)->rva0059781D();
 	reinterpret_cast<Rva00597983 *>(subobject)->rva00597983();
 	reinterpret_cast<AIUpgradeScienceBuilder *>(subobject)->buildExpansionUpgrades();
 
-	void **end = m_end;
-	void **it = m_begin;
+	const ModuleData **end = m_upgrades.m_end;
+	const ModuleData **it = m_upgrades.m_begin;
 	while (it != end)
 	{
-		Rva005975C0 *entry = reinterpret_cast<Rva005975C0 *>(*it);
+		Rva005975C0 *entry = reinterpret_cast<Rva005975C0 *>(const_cast<ModuleData *>(*it));
 		if (entry->m_34)
 			reinterpret_cast<AIUpgrade *>(entry)->rva005975C0();
 		++it;

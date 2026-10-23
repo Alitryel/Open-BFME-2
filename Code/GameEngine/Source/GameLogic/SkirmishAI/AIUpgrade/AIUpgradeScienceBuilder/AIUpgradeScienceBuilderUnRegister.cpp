@@ -12,7 +12,33 @@ class Object { public: char pad00[0x74]; ObjectID id; };
 class Rva00506FE9Hit { public: void unRegisterWithBuilder(void *); };
 struct ScienceUnregisterRecord { virtual void *destroy(unsigned); char pad04[4]; ObjectID id; char pad0C[0x24-0x0c]; ObjectID producedId; char pad28[4]; bool used; char pad2D[0x34-0x2d]; bool upgrading; };
 namespace _STL { template<class T> class allocator {}; template<class T,class A=allocator<T> > class vector { public: T *erase(T *); T *begin,*end,*limit; }; }
-class AIUpgradeScienceBuilder { char pad00[0x14]; Player *owner; char pad18[0x24-0x18]; _STL::vector<void *> upgrades,buildings; public: void UnRegister(Object *); };
+class Object;
+class BaseA
+{
+public:
+    virtual void Register(Object *, void *) = 0;
+    virtual void UnRegister(Object *) = 0;
+    virtual ~BaseA();
+    int m_04;
+    int m_08;
+};
+
+class Rva00506B1B
+{
+public:
+    virtual ~Rva00506B1B();
+    virtual void rva00597fc5() = 0;
+    virtual void shutdown() = 0;
+    bool m_04;
+};
+
+class AIUpgradeScienceBuilder : public BaseA, public Rva00506B1B { Player *owner; char pad18[0x24-0x18]; _STL::vector<void *> upgrades,buildings; public:
+    virtual void Register(Object *, void *);
+    virtual void UnRegister(Object *);
+    virtual ~AIUpgradeScienceBuilder();
+    virtual void rva00597fc5();
+    virtual void shutdown();
+};
 void AIUpgradeScienceBuilder::UnRegister(Object *object)
 {
  void **i=upgrades.begin;
