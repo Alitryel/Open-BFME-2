@@ -60,11 +60,12 @@ public:
     virtual SceneIterator *Create_Iterator() = 0;
     virtual void Destroy_Iterator(SceneIterator *it) = 0;
     virtual void Set_Ambient_Light(const Vector3 &color);
-    virtual const Vector3 &Get_Ambient_Light();
+    // Native BD33D0 slots 7/9/11 select these complete folded getter bodies.
+    virtual const Vector3 &Get_Ambient_Light() { return AmbientLight; }
     virtual void Set_Fog_Enable(bool set);
-    virtual bool Get_Fog_Enable();
+    virtual bool Get_Fog_Enable() { return FogEnabled; }
     virtual void Set_Fog_Color(const Vector3 &color);
-    virtual const Vector3 &Get_Fog_Color();
+    virtual const Vector3 &Get_Fog_Color() { return FogColor; }
     virtual void Set_Fog_Range(float start, float end);
     // ABI declarations follow donor scene.h; target vtable supplies the extra slots.
     virtual void Get_Fog_Range(float *start, float *end);
