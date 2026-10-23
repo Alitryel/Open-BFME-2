@@ -419,7 +419,6 @@ class Rva000A8ACC { public: void rva000A8ACC(void); };
 class MilesStreamRef { public: void rva000A8AC0(void); };
 class Rva000A8AD8 { public: void rva000A8AD8(float level); };
 // Opens a stream file into the +0x0C holder (0x000A8D0B, operator new(0x28)).
-class Rva000A8D0B { public: void rva000A8D0B(void *owner, const AsciiString &file, int arg); };
 
 struct PlayingAudio {
     void *vfptr;
@@ -464,6 +463,7 @@ public:
         }
     }
     void rva000A8CE5(OpaqueRefCounted *value);
+    void rva000A8D0B(int owner, int filename, int arg);
 private:
     OpaqueRefCounted *m_ptr;
 };
@@ -730,10 +730,10 @@ private:
     float x, y, z;
     bool active;
 };
-class Rva0005276C {
+class ScreenToTerrainSet {
 public:
-    Rva0005276C();
-    ~Rva0005276C() {}
+    ScreenToTerrainSet();
+    ~ScreenToTerrainSet() {}
     AudioAreaCorner &operator[](int i) { return reinterpret_cast<AudioAreaCorner *>(slots)[i]; }
 private:
     Rva00051CA2 slots[5];
@@ -1047,6 +1047,13 @@ typedef _STL::vector<BfmeStringTailRecord144> QueuedAudioEvents;
 template<> QueuedAudioEvents::iterator QueuedAudioEvents::erase(iterator first, iterator last);
 
 // Owning AudioEventInfo reference returned by the slot-75 lookup.
+class Rva00051ADA {
+public:
+    ~Rva00051ADA() { if (m_ptr) m_ptr->Release_Ref(); }
+    AudioEventInfo *get() const { return (AudioEventInfo *)m_ptr; }
+private:
+    OpaqueRefCounted *m_ptr;
+};
 class AudioEventInfoRef {
 public:
     // Retail 0x00051914 (AudioEventInfoRefConstructor.cpp; this unit's struct
@@ -1190,13 +1197,13 @@ public:
     virtual void rva00057408(unsigned int key); virtual bool rva000527E2(const Rva000527E2Event *event); virtual bool rva00055E6C(const AsciiString &name, int streamArg, int viewType, int musicSystem); virtual int rva0005A7BE(AudioEventRTS *event, int arg1); virtual void rva00055A58(int viewType, int musicSystem, int arg, int flag);
     virtual void rva00055B40(int viewType, int musicSystem, int arg); virtual void rva000568CE(int viewType, int musicSystem, int arg); virtual void rva000569A8(int viewType, int musicSystem, int arg, int flag); virtual void rva000567F4(int viewType, int musicSystem, int arg); virtual int rva000518A4(int index);
     virtual int rva00052917(); virtual bool rva0005538C(void); virtual AsciiString rva00054714(void); virtual void rva0005BD20(); virtual void rva0005BD28();
-    virtual void slot45(); virtual void rva00059DF5(const AsciiString &a, int idx); virtual void rva00059E5C(int idx); virtual void slot48(); virtual void rva0005E377(const AsciiString &key, int viewType);
+    virtual void rva0005E322(const AsciiString *key, int idx); virtual void rva00059DF5(const AsciiString &a, int idx); virtual void rva00059E5C(int idx); virtual void slot48(); virtual void rva0005E377(const AsciiString &key, int viewType);
     virtual void slot50(); virtual void rva0005A95B(unsigned int key, Rva0005A084Vector *output); virtual bool rva000572DC(unsigned int key); virtual void rva00057378(unsigned int key, const void *value); virtual bool rva00057492(unsigned int key, BfmeEventPositionView *output);
-    virtual void rva00057530(unsigned int key, float value, int mode); virtual bool slot56(unsigned int soundClass); virtual void rva0005168C(unsigned char val, unsigned char flags); virtual void rva0005CB90(int a, float b); virtual void rva00053CE1(float volume, int flags, int idx);
+    virtual void rva00057530(unsigned int key, float value, int mode); virtual unsigned char rva0005164F(unsigned char soundClass); virtual void rva0005168C(unsigned char val, unsigned char flags); virtual void rva0005CB90(int a, float b); virtual void rva00053CE1(float volume, int flags, int idx);
     virtual void rva0005C8BB(float volume, int flags); virtual void rva000537F4(float a, float b, float c, float d, float e, int index); virtual void rva00059A25(const AsciiString &name, int idx); virtual void rva0005E168(const AsciiString &s, int idx); virtual void rva00059A7C(int idx);
     virtual void slot65(); virtual void rva000515B3(int value); virtual void rva000533CB(); virtual void slot68(); virtual void rva000517F1();
     virtual void rva0005181B(); virtual void rva00051840(); virtual void slot72(); virtual Rva0010F149Handle newOwnedAudioEventInfo(const AsciiString &name, int context); virtual void addUnownedAudioEventInfo(AudioEventInfo *eventInfo);
-    virtual AudioEventInfoRef findAudioEventInfo(const AsciiString &name) const;
+    virtual Rva00051ADA findAudioEventInfo(const AsciiString &name) const;
     // Slots 76..106 are not named here; slot 107 (+0x1AC, retail vftable
     // 0x007C55B0) is the rowed 0x000516EF.
     virtual void friend_onAudioEventInfoDestruction(AudioEventInfo *info); virtual void slot77(); virtual void slot78(); virtual void slot79(); virtual float getAudioLengthMS(const BfmeAudioEventPrefix136 *event);
@@ -1214,10 +1221,10 @@ public:
     virtual bool rva000531F6(); virtual void rva000514BB();
     virtual void rva00053281(); virtual void rva0005329C(); virtual void friend_xferSubAudioEventRTS(Xfer *xfer, BfmePoolRef10 *eventRef); virtual void slot104();
     virtual void rva000511C3(Coord3D *out);
-    virtual void slot106(Rva0005276C *corners);
+    virtual void getScreenToTerrainPositions(ScreenToTerrainSet *corners);
     virtual bool rva000516EF(const Coord3D *pos);
     // Slot 109 (+0x1B4) returns the frame's elapsed time the update keeps at +0x90.
-    virtual bool slot108(AudioEventRTS *); virtual float rva0005121F();
+    virtual unsigned char slot108(BfmeAudioEventPrefix136 *); virtual float rva0005121F();
     // Slot 110 (+0x1B8), the first call init() makes.
     virtual void rva000541DB(void);
     bool rva00055FCA(int key, void **result, PlayingAudioRef *playingOut);
@@ -1243,7 +1250,6 @@ public:
     void rva0005407E(INI *ini);
     void rva000540A7(INI *ini);
     unsigned char rva00054120(INI *ini);
-    bool attemptReload(int unused);
     void rva0006179C(int skipRequestRefresh);
     PlayingAudioList::iterator rva000544CB(int viewType, int musicSystem, int filter);
     PlayingAudioList::iterator rva0005442A(int viewType, int musicSystem, int filter);
@@ -1411,7 +1417,7 @@ private:
     MilesCtorCoord3D m_micPos;           // +0x18, Miles listener position
     MilesCtorCoord3D m_micDir;           // +0x24, Miles listener facing
     MilesCtorCoord3D m_cameraPos;        // +0x30, camera at the last recalculation
-    Rva0005276C m_corners;             // +0x3C, entries 1..4 used by 0x53854
+    ScreenToTerrainSet m_corners;             // +0x3C, entries 1..4 used by 0x53854
     float m_at8C;                        // +0x8C, distance occlusion scale
     float m_at90;                        // +0x90, zeroed by every xfer
     int m_at94;                          // +0x94, zeroed by 0x61C87
@@ -2245,7 +2251,7 @@ extern InGameUI *TheInGameUI;
 // only after the manager's rowed audio INI reload reports success.
 bool AudioEventsReloaded;
 
-bool MilesAudioManager::attemptReload(int unused)
+bool MilesAudioManager::vslot04(int unused)
 {
  MilesMutexGuard guard(&m_mutex, 0);
  INI ini;
@@ -2732,7 +2738,7 @@ class Rva002D9F9FArg;
 class Rva002D9F9FOwner { public: void rva002D9F9F(Rva002D9F9FArg *xfer); };
 class Rva000A8C2BObj;
 class Rva000A8B6D { public: void rva000A8B79(Rva000A8C2BObj *xfer); void rva000A8B6D(void); };
-class Rva000A8C2B { public: void rva000A8C2B(Xfer *xfer, Rva0010FFA2Packet *resumePosition); };
+class Rva000A8C2B { public: void rva000A8C2B(Rva000A8C2BObj *xfer, int *resumePosition); };
 class GameMessageList;
 class GameMessage { public: void friend_setList(GameMessageList *list); };
 // Saved stream position the load half fills and playAndStoreStream resumes from.
@@ -2771,7 +2777,7 @@ void MilesAudioManager::rva0005B256(Xfer *xfer, PlayingAudioRef &playing, int *u
         unsigned int savedHandle;
         xfer->xferUnsignedInt(&savedHandle);
         Rva0010FFA2Packet resumePosition;
-        reinterpret_cast<Rva000A8C2B *>(&playing->m_at0C)->rva000A8C2B(xfer, &resumePosition);
+        reinterpret_cast<Rva000A8C2B *>(&playing->m_at0C)->rva000A8C2B(reinterpret_cast<Rva000A8C2BObj *>(xfer), reinterpret_cast<int *>(&resumePosition));
         if (!playing->m_event->m_info) {
             reinterpret_cast<Rva000A8C9B *>(&playing)->clear();
             return;
@@ -2808,7 +2814,7 @@ void MilesAudioManager::rva0005B256(Xfer *xfer, PlayingAudioRef &playing, int *u
         playing->m_event->rva002D9ADC();
         AsciiString file = playing->m_event->getFilename();
         void *owner = m_atB90;
-        ((Rva000A8D0B *)&playing->m_at0C)->rva000A8D0B(owner, file, 0);
+        ((Rva000A8C9B *)&playing->m_at0C)->rva000A8D0B(reinterpret_cast<int>(owner), reinterpret_cast<int>(&file), 0);
         PlayingAudio *playingAudio = playing.get();
         ((Rva000A8AD8 *)&playingAudio->m_at0C)->rva000A8AD8(((Rva002D94DD *)playingAudio->m_event.get())->rva002D94DD());
         playing->m_type = 4;
@@ -3200,7 +3206,7 @@ bool __cdecl Rva000515E4Less(const Rva000515E4Key *x, const Rva000515E4Key *y)
 void MilesAudioManager::addUnownedAudioEventInfo(AudioEventInfo *eventInfo)
 {
     MilesMutexGuard guard(&m_mutex, 0);
-    AudioEventInfoRef existing = findAudioEventInfo(eventInfo->m_audioName);
+    Rva00051ADA existing = findAudioEventInfo(eventInfo->m_audioName);
     if (existing.get() == 0) {
         m_allAudioEventInfo.rva00059FBB(eventInfo->m_audioName) = eventInfo;
         m_at6A4 = false;
@@ -4746,7 +4752,7 @@ int MilesAudioManager::pushMusicEventInternal(AudioEventRTS *event, int arg1, in
         return addResumeOrPushMultisound(event, 2, 1, arg1, arg2, append);
     if (event->getAudioEventInfo()->m_atB0 != 0)
         return 0;
-    if (!slot56(event->getSoundClass()))
+    if (!rva0005164F(event->getSoundClass()))
         return 1;
     BfmePoolRef10 ref = rva0005286A(event, arg2);
     rva000592B8(ref.get());
@@ -4774,7 +4780,7 @@ void MilesAudioManager::processPushMusicRequest(Rva00051107AudioRequest *req)
     playing->m_event = req->m_pendingEvent;
     AsciiString file = playing->m_event->getFilename();
     void *owner = m_atB90;
-    ((Rva000A8D0B *)&playing->m_at0C)->rva000A8D0B(owner, file, 0);
+    ((Rva000A8C9B *)&playing->m_at0C)->rva000A8D0B(reinterpret_cast<int>(owner), reinterpret_cast<int>(&file), 0);
     PlayingAudio *playingAudio = playing.get();
     ((Rva000A8AD8 *)&playingAudio->m_at0C)->rva000A8AD8(((Rva002D94DD *)playingAudio->m_event.get())->rva002D94DD());
     rva0005DB6C(file);
@@ -5041,7 +5047,7 @@ extern VideoPlayerInterface *TheVideoPlayer;
 // native dispatch and the reference interface agree on callback slot 26.
 void MilesAudioManager::selectProvider(bool accelerated)
 {
- if(!slot56(4))return;
+ if(!rva0005164F(4))return;
  if(m_selectedProvider<m_providerCount) {
   rva00060309();
   unselectProvider();
@@ -5359,7 +5365,7 @@ public:
     // Opens a file through 0x000A8D0B. Retail reads the owner into a
     // register after the file name temporary is built, as an inline
     // forwarder's parameter; a direct call pushes the member from memory.
-    void open(void *owner, const AsciiString &file, int arg) { reinterpret_cast<Rva000A8D0B *>(this)->rva000A8D0B(owner, file, arg); }
+    void open(void *owner, const AsciiString &file, int arg) { reinterpret_cast<Rva000A8C9B *>(this)->rva000A8D0B(reinterpret_cast<int>(owner), reinterpret_cast<int>(&file), arg); }
 private:
     int m_at04;
 };
@@ -5962,8 +5968,8 @@ void MilesAudioManager::recalculateMicrophone(void)
     cameraPos.y = 0.0f;
     cameraPos.z = 0.0f;
     rva000511C3(&cameraPos);
-    Rva0005276C corners;
-    slot106(&corners);
+    ScreenToTerrainSet corners;
+    getScreenToTerrainPositions(&corners);
     if (m_cameraPos == cameraPos && ((Rva00051CF1 *)&m_corners)->rva00051CF1((Rva00051CF1 &)corners))
         return;
     m_corners = corners;
@@ -6150,7 +6156,7 @@ static __forceinline bool ambientSameNameR(AudioEventInfo *audioEventInfo, Audio
 void MilesAudioManager::processAmbientStreams(PlayingAudioList::iterator *streams)
 {
     unsigned int view = 1 << m_at678;
-    if ((m_at690 & view) || (m_musicPausedViewTypes & view) || !slot56(16))
+    if ((m_at690 & view) || (m_musicPausedViewTypes & view) || !rva0005164F(16))
         return;
     QueuedAudioEvents &events = m_queuedEvents[m_at678];
     QueuedAudioEvents::iterator eventEnd = events.end();
@@ -6324,7 +6330,7 @@ void MilesAudioManager::processAmbientStreams(PlayingAudioList::iterator *stream
             reinterpret_cast<Weapon *>(playing->m_event.get())->setLeechRangeActive(false);
             AsciiString filename = playing->m_event->getFilename();
             void *owner = m_atB90;
-            reinterpret_cast<Rva000A8D0B *>(&playing->m_at0C)->rva000A8D0B(owner, filename, 0);
+            reinterpret_cast<Rva000A8C9B *>(&playing->m_at0C)->rva000A8D0B(reinterpret_cast<int>(owner), reinterpret_cast<int>(&filename), 0);
             playing->m_type = 4;
             playing->m_at30 = fadeTime - g_00DBA4FC;
             if (m_viewTypesResetSinceUpdate & (1 << m_at678)) {
@@ -6743,7 +6749,7 @@ void MilesAudioManager::processPlayingList(Rva00052B3D *streams)
             bool valid;
             BfmeEventPositionView pos = Rva0005160FGet(audio->m_event.operator->(), valid);
             if (valid) {
-            if (slot108(audio->m_event.operator->())) {
+            if (slot108(reinterpret_cast<BfmeAudioEventPrefix136 *>(audio->m_event.operator->()))) {
                 audio->m_at46 = true;
                 audio->m_fadeUpFromShroud = false;
             } else if (audio->m_at46) {

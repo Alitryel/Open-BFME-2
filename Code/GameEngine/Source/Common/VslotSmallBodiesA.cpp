@@ -23,13 +23,17 @@ public:
 };
 
 // vtable 0x00BC55B0#9: own slot 14 with 1.
-class Rva00051173 : public VslotPad<13>
+class MilesAudioManager : public VslotPad<8>
 {
 public:
-	virtual void slot14(Int value);
-	void rva00051173();
+	virtual void reset();
+	virtual void update();
+	virtual bool vslot11(Int);
+	virtual void vslot12();
+	virtual void vslot13(Int);
+	virtual void rva00061C87(unsigned int value);
 };
-void Rva00051173::rva00051173() { slot14(1); }
+void MilesAudioManager::reset() { rva00061C87(1); }
 
 // vtable 0x00C10F40#16: own slot 5 with 1.
 class Rva00340744 : public VslotPad<4>

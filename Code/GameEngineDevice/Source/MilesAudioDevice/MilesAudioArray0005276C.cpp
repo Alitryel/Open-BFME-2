@@ -13,22 +13,22 @@ private:
     float x, y, z;
     bool active;
 };
-class Rva0005276C {
+class ScreenToTerrainSet {
 public:
-    Rva0005276C();
-    ~Rva0005276C();
+    ScreenToTerrainSet();
+    ~ScreenToTerrainSet();
 private:
     Rva00051CA2 slots[5];
 };
 Rva00051CA2::Rva00051CA2() : x(0.0f), y(0.0f), z(0.0f), active(false) {}
-Rva0005276C::Rva0005276C() {}
+ScreenToTerrainSet::ScreenToTerrainSet() {}
 // Select-any like the consumer copy in MilesAudioManager.cpp so the two
 // identical 16B bodies fold instead of duplicating at link time.
-inline Rva0005276C::~Rva0005276C() {}
+inline ScreenToTerrainSet::~ScreenToTerrainSet() {}
 
 // Retain the inline body's ledger emission without changing its callers.
-// ?bfmeEmitRva0005276CDtor@@YAXPAVRva0005276C@@@Z absent-from-retail
-void bfmeEmitRva0005276CDtor(Rva0005276C *p)
+// ?bfmeEmitScreenToTerrainSetDtor@@YAXPAVScreenToTerrainSet@@@Z absent-from-retail
+void bfmeEmitScreenToTerrainSetDtor(ScreenToTerrainSet *p)
 {
-	p->Rva0005276C::~Rva0005276C();
+	p->ScreenToTerrainSet::~ScreenToTerrainSet();
 }

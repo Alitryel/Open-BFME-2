@@ -249,7 +249,22 @@ bool Rva00050F41::rva00050F51(unsigned int bits) const
 // --- 0x00051155 (22B): consume the AudioEventsReloaded flag.
 extern bool AudioEventsReloaded;
 
-bool rva00051155()
+class MilesAudioManager
+{
+public:
+	virtual bool vslot05();
+	class GlobalVolumeData
+	{
+	public:
+		void rva00052015(int value);						// 0x00052015
+	private:
+		char m_pad[0x1C4];
+	};
+	char m_pad00[0x128];
+	GlobalVolumeData m_volumes[3];							// +0x12C
+};
+
+bool MilesAudioManager::vslot05()
 {
 	if (AudioEventsReloaded)
 	{
@@ -339,19 +354,6 @@ bool Rva00051E6A::rva00051E6A() const
 // --- 0x0005247A (48B): apply a value to TheAudio's three 0x1C4-byte
 // MilesAudioManager::GlobalVolumeData records at +0x12C through the rowed
 // 0x00052015.
-class MilesAudioManager
-{
-public:
-	class GlobalVolumeData
-	{
-	public:
-		void rva00052015(int value);						// 0x00052015
-	private:
-		char m_pad[0x1C4];
-	};
-	char m_pad00[0x12C];
-	GlobalVolumeData m_volumes[3];							// +0x12C
-};
 
 class AudioManager;
 extern AudioManager *TheAudio;

@@ -1,12 +1,6 @@
 // cl: /O1 /G7 /MD /EHsc
-//
-// ?rva0005E322@Rva0005E322Host@@QAEXPBVAsciiString@@H@Z, 0x0005E322 (85B): guarded indexed tree-erase. Raises the MilesMutexGuard
-// over the mutex zone at +0x9D4, erases the key through the 12-byte tree at
-// index (idx + 0xD7) of the array at +0x0 through the view pinned at the
-// rowed 0x0005B5EA (gen-alias for the Rb_tree AsciiString single erase),
-// then drops the guard under the SEH frame. The host matches MilesAudioManager
-// (mutex +0x9D4, per-view-type name sets from +0xA14); address names kept
-// until that unit adopts it. Plain array indexing keeps add/imul into ecx.
+// MilesAudioManager slot 45 guards the per-view name sets at +0xA14.
+// The mutex at +0x9D4 protects the indexed erase through the rowed tree.
 
 class AsciiString;
 
@@ -41,18 +35,19 @@ typedef _STL::_Rb_tree<Rva0005B5EAElement, _STL::pair<const Rva0005B5EAElement, 
 	_STL::_Select1st<_STL::pair<const Rva0005B5EAElement, int> >, _STL::less<Rva0005B5EAElement>,
 	_STL::allocator<_STL::pair<const Rva0005B5EAElement, int> > > Rva0005E322TreeView;
 
-class Rva0005E322Host
+class MilesAudioManager
 {
 public:
-	void rva0005E322(const AsciiString *key, int idx);
+	virtual void rva0005E322(const AsciiString *key, int idx);
 private:
-	Rva0005E322TreeView m_trees[0x80]; // +0x00
-	char m_pad[0x9D4 - 0x600];
+	char m_pad[0x9D4 - 4];
 	char m_mutexzone[4]; // +0x9D4
 };
 
-void Rva0005E322Host::rva0005E322(const AsciiString *key, int idx)
+void MilesAudioManager::rva0005E322(const AsciiString *key, int idx)
 {
 	MilesMutexGuard guard(m_mutexzone, 0);
-	m_trees[idx + 0xD7].erase(*reinterpret_cast<const Rva0005B5EAElement *>(key));
+	Rva0005E322TreeView *names = reinterpret_cast<Rva0005E322TreeView *>(
+		reinterpret_cast<char *>(this) + (idx + 0xA14 / sizeof(Rva0005E322TreeView)) * sizeof(Rva0005E322TreeView));
+	names->erase(*reinterpret_cast<const Rva0005B5EAElement *>(key));
 }

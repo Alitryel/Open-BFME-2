@@ -75,7 +75,7 @@ public:
 	virtual void rva0005181B();
 	virtual void rva00051840();
 	virtual void rva0005185E(Int *a, Int *b, Int *c);
-	unsigned char rva0005164F(unsigned char flags);
+	virtual unsigned char rva0005164F(unsigned char flags);
 	virtual Bool rva000527E2(const Rva000527E2Event *event);
 	virtual Bool rva000531F6();
 	virtual void rva00053281();

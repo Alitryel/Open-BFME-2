@@ -102,19 +102,19 @@ public:
 class MilesAudioManager
 {
 public:
-	Rva00051ADA rva00059EAE(const AsciiString *name);
+	virtual Rva00051ADA findAudioEventInfo(const AsciiString &name) const;
 
 private:
-	char m_pad0[0xBC];
-	Rva00056F61 m_eventTable;	// +0xBC
+	char m_pad0[0xB8];
+	mutable Rva00056F61 m_eventTable;	// +0xBC
 	char m_padBC[0x9D4 - 0xBC - 4];
-	int m_mutex9D4;
+	mutable int m_mutex9D4;
 };
 
-Rva00051ADA MilesAudioManager::rva00059EAE(const AsciiString *name)
+Rva00051ADA MilesAudioManager::findAudioEventInfo(const AsciiString &name) const
 {
 	MilesMutexGuard guard(&m_mutex9D4, 0);
-	Rva0041534BIter found = m_eventTable.rva0041534B(name);
+	Rva0041534BIter found = m_eventTable.rva0041534B(&name);
 	Rva0041534BIter it = found;
 	if (it.m_node == 0)
 		return Rva00051ADA();

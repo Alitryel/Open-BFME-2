@@ -19,8 +19,9 @@ struct ScreenToTerrainEntry
 	bool m_valid;
 };
 
-struct ScreenToTerrainSet
+class ScreenToTerrainSet
 {
+public:
 	ScreenToTerrainEntry m_entry[5];
 };
 
@@ -78,9 +79,9 @@ class LivingWorld; extern LivingWorld *TheLivingWorld;
 class MilesAudioManager
 {
 public:
-	void getScreenToTerrainPositions(ScreenToTerrainSet *out);
+	virtual void getScreenToTerrainPositions(ScreenToTerrainSet *out);
 private:
-	char m_pad000[0x678];
+	char m_pad000[0x674];
 	int m_mode;
 };
 

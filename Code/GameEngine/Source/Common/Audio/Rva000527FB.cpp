@@ -13,8 +13,9 @@ struct BfmeEventPositionView
 	float z;
 };
 
-class BfmeAudioEventPrefix136
+struct BfmeAudioEventPrefix136
 {
+private:
 	char m_pad0[8];
 public:
 	void *m_sub8;
@@ -40,7 +41,13 @@ class PlayerList;
 extern PlayerList *ThePlayerList;
 extern PartitionManager *TheShroudManager;
 
-unsigned char __stdcall Rva000527FB(BfmeAudioEventPrefix136 *ev)
+class MilesAudioManager
+{
+public:
+	virtual unsigned char slot108(BfmeAudioEventPrefix136 *ev);
+};
+
+unsigned char MilesAudioManager::slot108(BfmeAudioEventPrefix136 *ev)
 {
 	if (ev->m_int30 == 0)
 	{
