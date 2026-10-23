@@ -4,11 +4,7 @@
 // Dtor with EH states destroying +0x28/+0x20 Rva0040EDB then +0x1c cleanup
 // then +0x14/+0x0c Rva0040EDB then +0x08 cleanup. Evidence: chain lane packet
 // calls 0x0073F368 twice plus rowed 0x00040EDB four times; callers unclaimed.
-class Rva0040EDB {
-public:
-    virtual ~Rva0040EDB();
-    void *m_handle;
-};
+#include "../../Include/Common/Rva00041004Lock.h"
 // Same12B queue element as the actual producer/consumer and list provider.
 #include <list>
 class Rva0036CA00Str {public:void *m_item;Rva0036CA00Str();Rva0036CA00Str(const Rva0036CA00Str&);~Rva0036CA00Str();};
