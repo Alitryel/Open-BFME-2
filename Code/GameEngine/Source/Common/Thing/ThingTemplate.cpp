@@ -460,23 +460,22 @@ static void parsePrerequisiteScience( INI* ini, void *instance, void * /*store*/
 }
 
 //-------------------------------------------------------------------------------------------------
-void ThingTemplate::parsePrerequisites( INI* ini, void *instance, void *store, const void* userData )
+// ThingTemplate::parsePrerequisites is rowed at 0x0033EBB5 with BFME2's body
+// (ThingTemplateParsePrerequisites.cpp); the Zero Hour copy here was a second,
+// non-retail definition.
+// The anchor keeps the two prerequisite field parsers, whose science-vector
+// callees this unit rows, emitted.
+// ?bfmeAnchorThingTemplatePrereqParsers absent-from-retail
+const void *bfmeAnchorThingTemplatePrereqParsers( int science )
 {
-	ThingTemplate* self = (ThingTemplate*)instance;
-
-	static const FieldParse myFieldParse[] = 
-	{
-		{ "Object", parsePrerequisiteUnit, 0, 0 },
-		{ "Science", parsePrerequisiteScience,	0, 0 },
-		{ 0, 0, 0, 0 }
-	};
-
-	if (ini->getLoadType() == INI_LOAD_CREATE_OVERRIDES)
-	{
-		self->m_prereqInfo.clear();
-	}
-
-	ini->initFromINI(&self->m_prereqInfo, myFieldParse);
+	return science ? (const void *)parsePrerequisiteScience : (const void *)parsePrerequisiteUnit;
+}
+// The prerequisite-list clear the Zero Hour parser did keeps the science
+// vector's rowed copy helper emitted.
+// ?bfmeAnchorThingTemplatePrereqClear absent-from-retail
+void bfmeAnchorThingTemplatePrereqClear( std::vector<ProductionPrerequisite> *prereqs )
+{
+	prereqs->clear();
 }
 
 //-------------------------------------------------------------------------------------------Static

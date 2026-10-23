@@ -18,6 +18,13 @@ typedef _STL::vector<BfmeStringRecord002CF4C6,_STL::allocator<BfmeStringRecord00
 typedef _STL::pair<const AsciiString,NoCaseTreeValue4> NoCaseValue;
 typedef _STL::_Rb_tree<AsciiString,NoCaseValue,_STL::_Select1st<NoCaseValue>,BfmeStringNoCaseLess,_STL::allocator<NoCaseValue> > NoCaseTree;
 struct ModuleInfo { StringRecordVector records; ~ModuleInfo(); };
-ModuleInfo::~ModuleInfo() {}
+// Select-any: several units compile this body; the anchor keeps this copy emitted.
+__declspec(noinline) inline ModuleInfo::~ModuleInfo() {}
 struct NoCaseMapView { NoCaseTree tree; ~NoCaseMapView(); };
 NoCaseMapView::~NoCaseMapView() {}
+
+// ?bfmeAnchorModuleInfoDtor absent-from-retail
+void bfmeAnchorModuleInfoDtor(ModuleInfo *p)
+{
+	p->ModuleInfo::~ModuleInfo();
+}
