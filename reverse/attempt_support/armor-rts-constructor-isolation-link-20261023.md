@@ -24,8 +24,8 @@ After: constructor unit LINKS 0 -> 105 B (64 + 31 + 10). This is a legacy
 per-file preview, not self-strict/closed-strict closure or an executable link.
 Both units pass 5/5 byte rows, literal/float/import checks, strict reusable
 receipt preparation, class gate, declared-definition and new-variant checks.
-EH verification reports zero applicable EH-data rows and zero unavailable
-objects. Placement rescan finds zero additional bodies/pins. No shared
+The commit hook verifies the constructor EH graph EXACT1 with zero
+unavailable objects (the earlier standalone invocation misused --sources-from). Placement rescan finds zero additional bodies/pins. No shared
 header, compiler flags, verifier or baseline changed. New authored bytes: 0.
 Scratch receipts: build/link-seat-20261023c/armor-*.log.
 
