@@ -170,3 +170,39 @@ both normal restores and dynamic field reloads. All agents and compiler
 processes for this attempt have finished. No independently supported new
 finishing hypothesis remains from the investigated families; retain these
 counterexamples and start with new IR evidence before another sweep.
+
+## Subsequent stock-C2 observation
+
+After this source-experiment checkpoint, rebasing exposed the independent
+`../queue-supply-truck-20261023-c2-root/` observer and allocation evidence.
+Its Windows/WOW64 debugger now runs locally under Wine using the official
+CPython 3.11.9 embeddable AMD64 runtime. No extra dependencies were needed.
+`observer.md.txt` gives exact setup, runtime SHA256 and commands;
+`stock-observer-wine.py.txt` and the `observer-*.py.txt` files preserve the
+private transport adaptation. It observes only its owned compiler child;
+breakpoint instruction bytes are restored before stepping. No compiler
+decision, IR, bitset, priority or executable/DLL file is modified.
+
+Three sequential traces reproduced **all 62 emitted code definitions and their
+ordered relocations** for each exact same-path normal/traced source. Complete
+queueSupplyTruck bytes and relocation lists, source/compiler/object hashes and
+comparison results are in `observer-*-equality.json.txt` and
+`observer-summary.json.txt`. The baseline matches every published native
+baseline membership signature, excluding process-specific indices. Runtime
+binaries and large raw IR dumps remain under ignored build/.
+
+The correct-restore GH vft candidate has round-3 actual membership **33/73**,
+versus baseline **55/75**. GH excludes the recount region while retaining the
+loose-harvester path. The late GH load +5CB is reached by **both recount
+completion and factory success**, correcting earlier shorthand describing it
+only as a postfactory reload. Early continues jump to +5D0 and bypass it; the
+backedge skips the initial +EA load. This is an incomplete regional split,
+not a strict-H recovery. Span endpoints alone do not establish membership.
+
+The third trace is the weaker `n_expr_scope_shortagegoto` control, **1523 B**,
+not the 1558/1551-byte slot-improving variants. Its exact source is preserved in
+`observer-optional.patch.txt`; it loses early ESI and supplies no allocation fix.
+A bounded follow-up compares the existing all-Object-guards GH control, then
+the existing loose-helper control if the loose region remains distinguishing.
+This tests the newly observable regional explanation; it is not a replay of a
+source family as though untried. Target bytes remain unmatched.
