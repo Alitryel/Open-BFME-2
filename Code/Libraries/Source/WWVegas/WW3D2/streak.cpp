@@ -22,7 +22,7 @@ struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
 #pragma optimize("gsy", on)
 static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
-#include "../../../../../reference/shims/bfmestreak/rendobj.h" // retail indexed-factor virtual slots; scoped to this TU
+#include "../../../../../reference/shims/bfme2renderobj/rendobj.h"
 // Use the proven BFME renderer layout before the ZH streak header includes its
 // older neighbor: retail inserts a float before SubdivisionLevel. The matched
 // SegLineRenderer ctor/Init at RVAs 0x191140/0x191390 independently establish
@@ -115,6 +115,22 @@ template <> __declspec(dllimport) __forceinline bool SimpleDynVecClass<Vector3>:
 		return Resize(ActiveCount);
 	}
 	return true;
+}
+
+// Keep these donor operations inline without emitting competing template copies.
+template <> __declspec(dllimport) __forceinline bool SimpleDynVecClass<float>::Shrink(void)
+{
+	if (ActiveCount < VectorMax/4) {
+		return Resize(ActiveCount);
+	}
+	return true;
+}
+template <> __declspec(dllimport) __forceinline void SimpleDynVecClass<Vector4>::Delete_All(bool allow_shrink)
+{
+	ActiveCount = 0;
+	if (allow_shrink) {
+		Shrink();
+	}
 }
 
 static SegLineRendererClass _LineRenderer;
@@ -247,11 +263,8 @@ void StreakLineClass::Set_Colors( unsigned int num_points, Vector4 *colors )
 
 // These are segment points, and include the start and end point of the
 // entire line. Therefore there must be at least two.
-// BFME 2 keeps the cached-bounding-volumes-valid flag in bit 0x20000 of
-// RenderObjClass::Bits (Set_Point_Location clears it with `and byte [ecx+0x12],
-// 0xFD` at 0x00741C5E; bfmerendobj/rendobj.h carries the same value). The
-// bfmestreak header this unit includes still has Zero Hour's 0x2000, so these
-// setters clear the BFME 2 bit directly.
+// BFME 2 caches bounding volumes in RenderObjClass::Bits bit 0x20000.
+// Set_Point_Location clears it at 0x00741C5E, matching bfme2renderobj/rendobj.h.
 enum { BFME_BOUNDING_VOLUMES_VALID = 0x00020000 };
 
 // ?Get_Num_Points@StreakLineClass@@ present-unmatched

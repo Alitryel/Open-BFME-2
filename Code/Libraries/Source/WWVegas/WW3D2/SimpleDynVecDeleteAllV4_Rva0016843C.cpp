@@ -7,19 +7,14 @@
 //   je  skip
 //   call 0x00100210              ; Shrink<Vector4>
 //   ret 4
-// i.e. exactly simplevec.h's Delete_All. Only Shrink<Vector4> is missing from
-// Code/; this TU emits Delete_All out of line by anchoring a pointer-to-member
-// constant, the mechanism SimpleDynVecDeleteO1.cpp already uses for the Vector3
-// copy. The anchor and the template <> declaration below are not retail code
-// or data.
+// The pointer-to-member anchor emits Delete_All out of line.
+// Shrink<Vector4> uses the folded body owned by the matched POD instantiation.
 //
 #include "simplevec.h"
 #include "vector4.h"
 
-// This TU is a client of the Vector4 Shrink specialization: retail's copy lives
-// at 0x00100210 (already matched under another instantiation name), so do not
-// emit a second copy here.
-template <> bool SimpleDynVecClass<Vector4>::Shrink(void);
+// Callers use the Vector4 spelling of the folded helper at 0x00100210.
+template bool SimpleDynVecClass<Vector4>::Shrink(void);
 
 extern void (SimpleDynVecClass<Vector4>::*const g_bfmeDynVecV4DeleteAllAnchor)(bool);
 void (SimpleDynVecClass<Vector4>::*const g_bfmeDynVecV4DeleteAllAnchor)(bool) =
