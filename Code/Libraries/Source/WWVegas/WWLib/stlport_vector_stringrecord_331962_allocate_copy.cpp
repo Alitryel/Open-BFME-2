@@ -27,4 +27,3 @@ template BfmeStringRecord000331962 *StringRecordVector::_M_allocate_and_copy(
     unsigned int, const BfmeStringRecord000331962 *, const BfmeStringRecord000331962 *);
 template void StringRecordVector::push_back(const BfmeStringRecord000331962 &);
 template StringRecordVector::vector(const StringRecordVector &);
-template void _STL::fill(BfmeStringRecord000331962 *, BfmeStringRecord000331962 *, const BfmeStringRecord000331962 &);

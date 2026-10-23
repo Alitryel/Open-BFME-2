@@ -5100,7 +5100,6 @@ name,address,notes
 ??4BfmeResetShaderRef@@QAEAAU0@ABUBfmeResetAnyRef@@@Z,0x0015142A,Recovered typed owning-reference assignment; 50-byte body checks FXSH tag then calls established RefCountPtr assignment or clears the holder
 ??4BfmeResetTextureRef@@QAEAAU0@ABUBfmeResetAnyRef@@@Z,0x00131D99,Recovered typed owning-reference assignment; 50-byte body checks TEX tag then calls established RefCountPtr assignment or clears the holder
 ??4BfmeStringHeadRecord184@@QAEAAU0@ABU0@@Z,0x00311537,address read from the REL32 displacement at a placed body
-??4BfmeStringRecord000331962@@QAEAAU0@ABU0@@Z,0x0026F4F4,callee REL32 read by locate.py from a unique masked-byte placement emitted by stlport_vector_stringrecord_331962_allocate_copy.cpp
 ??4BfmeStringRecord000B757D@@QAEAAU0@ABU0@@Z,0x001D9990
 ??4BfmeStringRecord002CF5B1@@QAEAAU0@ABU0@@Z,0x00564B1A,callee REL32 read by locate.py from a unique masked-byte placement emitted by ProductionPrerequisiteAssign.cpp
 ??4BfmeStringTailRecord144@@QAEAAU0@ABU0@@Z,0x00051C3F,callee REL32 read by locate.py from a unique masked-byte placement emitted by stlport_asciistring_record_bodies.cpp
