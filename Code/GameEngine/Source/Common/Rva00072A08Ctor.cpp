@@ -59,3 +59,7 @@ private:
 FXShader::RenderingMethodDelegate::RenderingMethodDelegate()
 {
 }
+
+// Retail vftable 0x00BC6540: slot 1 is the deleting dtor 0x00072FA9 (calls the dtor at 0x00072AED); slot 2 is the row at 0x00072A08.
+#pragma comment(linker, "/alternatename:??1RenderingMethodDelegate@FXShader@@MAE@XZ=??1Rva0072AED@@UAE@XZ")
+#pragma comment(linker, "/alternatename:?rva00072A08@RenderingMethodDelegate@FXShader@@UAE_NHH@Z=?rva00072A08@RenderingMethodDelegate@FXShader@@QAE_NHH@Z")

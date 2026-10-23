@@ -18,3 +18,6 @@ Rva005CDF6C::Rva005CDF6C(const Payload *src)
 	, m_data(*src)
 {
 }
+
+// vftable 0x00C75108 slot 0 is the deleting dtor 0x005FAA31, whose dtor call is the 7-byte vptr-store body at 0x004E84A4.
+#pragma comment(linker, "/alternatename:??1Rva005CDF6C@@UAE@XZ=?apply@Rva0004E84A4DwordImmSetter@@QAEXXZ")

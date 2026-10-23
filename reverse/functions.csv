@@ -28380,7 +28380,7 @@ uw_0076443a,,0x0076443A,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DD
 ?GadgetComboBoxGetText@@YA?AVUnicodeString@@PAVGameWindow@@@Z,,0x00322D21,66,Code/GameEngine/Source/GameClient/GUI/Gadget/GadgetComboBoxGetText.cpp,matched,ZH donor GadgetComboBoxGetText style 0x8000 11 callers empty A0C898
 ??1Rva0033F33D@@UAE@XZ,,0x003401E4,75,Code/GameEngine/Source/Common/Rva0033F33DDtor.cpp,matched,dtor vtable 0x00810EE0 member slot0 plus delete plus base WindModuleInfo
 ??_GRva0033F33D@@UAEPAXI@Z,,0x003428F1,28,Code/GameEngine/Source/Common/Rva0033F33DDtor.cpp,matched,deleting dtor slot0 calls rowed dtor plus delete; rehomed from FamilyDeletingDtors_muse-a530.cpp: Rva0033F33DDtor.cpp owns ~Rva0033F33D and emits this deleting dtor itself (the family placeholder dtor was a duplicate definition)
-??_GNetKeepAliveCommandMsg@@MAEPAXI@Z,,0x004D5B30,28,Code/GameEngine/Source/Common/FamilyDeletingDtors_muse-a530.cpp,matched,deleting dtor slot0 calls apply twin plus delete
+??_GNetKeepAliveCommandMsg@@MAEPAXI@Z,,0x004D5B30,28,Code/GameEngine/Source/GameNetwork/NetCommandMsgCtor.cpp,matched,deleting dtor slot0 calls apply twin plus delete
 ?set@Rva004D5978WordSlot@@QAEXG@Z,,0x004D5978,12,Code/GameEngine/Source/Common/Disp8WordFieldSetters.cpp,matched,disp8 word setter at 0x20
 ?set@Rva004D59ACWordSlot@@QAEXG@Z,,0x004D59AC,12,Code/GameEngine/Source/Common/Disp8WordFieldSetters.cpp,matched,disp8 word setter at 0x1c
 ??0NetDisconnectKeepAliveCommandMsg@@QAE@XZ,,0x004D57DC,21,Code/GameEngine/Source/GameNetwork/NetCommandMsgCtor.cpp,matched,ctor base plus type 0x19 plus vtable 0x860244
