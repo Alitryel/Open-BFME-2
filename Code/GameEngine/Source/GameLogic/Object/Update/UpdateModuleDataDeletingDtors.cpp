@@ -1,4 +1,4 @@
-// cl: /O1 /MD
+// cl: /Ireference/shims/bfme2_ascii /O1 /MD
 //
 // Scalar deleting-destructor wrappers with audited owner attributions.
 // Target facts: 28-byte flag-test wrappers, their call destinations, and the
@@ -11,7 +11,6 @@
 // emit wrappers without claiming complete class layouts.
 // Destructor definitions are supplied by their verified providers.
 
-#pragma include_alias("ascii_string.h", "../../../../reference/shims/bfme2_ascii/ascii_string.h")
 #include "../../../../Include/Common/BfmeModuleData.h"
 
 struct EmitVtableTag;
