@@ -63,13 +63,13 @@ public:
 class __declspec(novtable) Rva005E9742 {
 public:
     struct Payload { int v[6]; };
-    Rva005E9742(const Payload *) throw();
+    __declspec(dllimport) __forceinline Rva005E9742(const Payload *) throw();
     virtual ~Rva005E9742();
     int m_ref;
     Payload m_data;
 };
 
-inline __declspec(noinline) Rva005E9742::Rva005E9742(const Payload *src) throw()
+__declspec(dllimport) __forceinline Rva005E9742::Rva005E9742(const Payload *src) throw()
     : m_ref(0), m_data(*src) {}
 
 inline __declspec(noinline) RvaCloneResult<Rva005E9742>
