@@ -1,17 +1,24 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// ?rva005DBDA0@@YAPAURva005DBDA0Item@@PAU1@00@Z @0x005DBDA0 58B.
-// Copies the two words at +4 and +6 of each 8-byte item from [begin, end) to
-// dst, returning dst. Count is the item count; an empty range returns dst
-// unchanged. Cdecl, no stack cleanup in the callee. Identity unproven.
-
-struct Rva005DBDA0Item
+// STLport counted copy of the two trailing words in each eight-byte record.
+// The range dispatcher supplies the unused iterator metadata.
+struct Rva005DC408Element
 {
 	char m_pad[4];
 	unsigned short m_lo;
 	unsigned short m_hi;
 };
 
-Rva005DBDA0Item *rva005DBDA0(Rva005DBDA0Item *begin, Rva005DBDA0Item *end, Rva005DBDA0Item *dst)
+namespace _STL
+{
+struct random_access_iterator_tag;
+template <class Input, class Output, class Distance>
+Output __copy(Input, Input, Output, const random_access_iterator_tag &, Distance *);
+}
+
+template <>
+Rva005DC408Element *_STL::__copy<Rva005DC408Element *, Rva005DC408Element *, int>(
+    Rva005DC408Element *begin, Rva005DC408Element *end, Rva005DC408Element *dst,
+    const _STL::random_access_iterator_tag &, int *)
 {
 	if (end - begin > 0)
 	{

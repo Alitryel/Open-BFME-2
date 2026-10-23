@@ -1,7 +1,7 @@
 // cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
-// ?Rva001539ECCopyBackward@@YAPAVRva001539BC@@PAV1@00@Z retail 0x001539EC 50 bytes.
-// Backward copy of Rva001539BC array via rowed 0x001539BC rva assign.
+// ?Rva001539ECCopyBackward@@YAPAURva00153729@@PAU1@00@Z retail 0x001539EC 50 bytes.
+// Backward copy of Rva00153729 array via rowed 0x001539BC rva assign.
 // Caller 0x00153A71 in 0x00153A5E; prev 0x001539BC assign next 0x00153A7B fill.
 // Identity honest address free function __cdecl 3-pointer copy_backward shape.
 struct Rva005F8F96;
@@ -18,15 +18,15 @@ private:
 	T *m_end;
 };
 }
-class Rva001539BC
+struct Rva00153729
 {
 public:
-	class Rva001539BC &rva001539BC(const class Rva001539BC &other);
+	struct Rva00153729 &rva001539BC(const struct Rva00153729 &other);
 private:
 	int m_00;
 	_STL::vector<Rva005F8F96, _STL::allocator<Rva005F8F96> > m_vec[6];
 };
-class Rva001539BC *__cdecl Rva001539ECCopyBackward(class Rva001539BC *first, class Rva001539BC *last, class Rva001539BC *result)
+struct Rva00153729 *__cdecl Rva001539ECCopyBackward(struct Rva00153729 *first, struct Rva00153729 *last, struct Rva00153729 *result)
 {
 	int n = last - first;
 	if (n <= 0)

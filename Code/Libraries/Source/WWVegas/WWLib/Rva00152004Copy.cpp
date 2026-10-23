@@ -1,7 +1,6 @@
 // cl: /MD
-// ?Rva00152004Copy@@YAPAVRva00151E30@@PAV1@00@Z at 0x00152004 (47B).
-// Array copy for 8-byte Rva00151E30 via its rowed operator= 0x151E30.
-// Evidence: sar 3 count, single caller 0x52091, unblocks 0x5207E.
+// STLport counted copy for the eight-byte texture-reference record.
+// The range dispatcher supplies the category and distance arguments.
 
 class TextureClass;
 
@@ -14,18 +13,26 @@ private:
 	T *Referent;
 };
 
-class Rva00151E30
+class Rva00151DAB
 {
 public:
-	Rva00151E30 &operator=(Rva00151E30 const &rhs);
+	Rva00151DAB &operator=(Rva00151DAB const &rhs);
 private:
 	int m_00;
 	RefCountPtr<TextureClass> m_04;
 };
 
-Rva00151E30 *Rva00152004Copy(Rva00151E30 *first, Rva00151E30 *last, Rva00151E30 *dest);
+namespace _STL
+{
+struct random_access_iterator_tag;
+template <class Input, class Output, class Distance>
+Output __copy(Input, Input, Output, const random_access_iterator_tag &, Distance *);
+}
 
-Rva00151E30 *Rva00152004Copy(Rva00151E30 *first, Rva00151E30 *last, Rva00151E30 *dest)
+template <>
+Rva00151DAB *_STL::__copy<Rva00151DAB *, Rva00151DAB *, int>(
+    Rva00151DAB *first, Rva00151DAB *last, Rva00151DAB *dest,
+    const _STL::random_access_iterator_tag &, int *)
 {
 	int n = (int)(last - first);
 	if (n <= 0)

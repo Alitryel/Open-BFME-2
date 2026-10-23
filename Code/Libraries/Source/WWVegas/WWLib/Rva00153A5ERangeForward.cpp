@@ -15,4 +15,4 @@ Rva00153A5EOutput* __cdecl Rva00153A5ERangeForward(Rva00153A5EInput*first,Rva001
     return Rva00153A5ERangeCallee(first,last,result,category,0);
 }
 
-#pragma comment(linker, "/alternatename:?Rva00153A5ERangeCallee@@YAPAURva00153A5EOutput@@PAURva00153A5EInput@@0PAU1@ABURva00153A5EIteratorTag@@PAH@Z=?Rva001539ECCopyBackward@@YAPAVRva001539BC@@PAV1@00@Z")
+#pragma comment(linker, "/alternatename:?Rva00153A5ERangeCallee@@YAPAURva00153A5EOutput@@PAURva00153A5EInput@@0PAU1@ABURva00153A5EIteratorTag@@PAH@Z=?Rva001539ECCopyBackward@@YAPAURva00153729@@PAU1@00@Z")

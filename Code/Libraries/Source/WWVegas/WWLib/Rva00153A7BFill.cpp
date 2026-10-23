@@ -1,6 +1,6 @@
 // cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
-// ?Rva00153A7BFill@@YAXPAVRva001539BC@@0ABV1@@Z retail 0x00153A7B 29 bytes.
+// ?Rva00153A7BFill@@YAXPAURva00153729@@0ABU1@@Z retail 0x00153A7B 29 bytes.
 // Fill range with value via rowed 0x001539BC rva assign.
 // Callers 0x00153DE5 0x00153E25 in 0x00153D5E.
 // Identity honest address free function.
@@ -18,15 +18,15 @@ private:
 	T *m_end;
 };
 }
-class Rva001539BC
+struct Rva00153729
 {
 public:
-	class Rva001539BC &rva001539BC(const class Rva001539BC &other);
+	struct Rva00153729 &rva001539BC(const struct Rva00153729 &other);
 private:
 	int m_00;
 	_STL::vector<Rva005F8F96, _STL::allocator<Rva005F8F96> > m_vec[6];
 };
-void __cdecl Rva00153A7BFill(class Rva001539BC *first, class Rva001539BC *last, const class Rva001539BC &value)
+void __cdecl Rva00153A7BFill(struct Rva00153729 *first, struct Rva00153729 *last, const struct Rva00153729 &value)
 {
 	for (; first != last; ++first)
 		first->rva001539BC(value);

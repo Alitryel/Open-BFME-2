@@ -50,4 +50,4 @@ template void _STL::vector<Rva00153729>::_M_fill_insert(Rva00153729*,unsigned,co
 // Reuse the kept providers proven by the native fill_insert REL32s. All
 // pointer/reference words and the unused iterator metadata have identical ABI.
 #pragma comment(linker, "/alternatename:??$__copy_backward_ptrs@PAURva00153729@@PAU1@@_STL@@YAPAURva00153729@@PAU1@00ABU__false_type@0@@Z=?Rva00153A5ERangeForward@@YAPAURva00153A5EOutput@@PAURva00153A5EInput@@0PAU1@ABURva00153A5EIteratorTag@@@Z")
-#pragma comment(linker, "/alternatename:??$fill@PAURva00153729@@U1@@_STL@@YAXPAURva00153729@@0ABU1@@Z=?Rva00153A7BFill@@YAXPAVRva001539BC@@0ABV1@@Z")
+#pragma comment(linker, "/alternatename:??$fill@PAURva00153729@@U1@@_STL@@YAXPAURva00153729@@0ABU1@@Z=?Rva00153A7BFill@@YAXPAURva00153729@@0ABU1@@Z")
