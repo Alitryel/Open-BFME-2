@@ -6,6 +6,15 @@
 
 struct Rva005FE226Element {Rva005FE226Element();Rva005FE226Element(const Rva005FE226Element&);Rva005FE226Element&operator=(const Rva005FE226Element&);~Rva005FE226Element(){}char bytes[12]; bool operator==(const Rva005FE226Element&)const;};
 
+// Retail's loop calls the rowed placement-copy owner
+// Rva005FE0F5Construct 0x005FE0F5 (stlport_construct_game_structs2.cpp), declared over its opaque BfmeStringRecord005F93E3.
+struct BfmeStringRecord005F93E3;
+void Rva005FE0F5Construct(BfmeStringRecord005F93E3 *, const BfmeStringRecord005F93E3 &);
+namespace _STL {
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Construct<Rva005FE226Element, Rva005FE226Element>(Rva005FE226Element *__p, const Rva005FE226Element &__val)
+{ Rva005FE0F5Construct((BfmeStringRecord005F93E3 *)__p, *(const BfmeStringRecord005F93E3 *)&__val); }
+}
+
 // Instantiate the recovered operation and its required template dependencies.
 template Rva005FE226Element * _STL::__uninitialized_copy<Rva005FE226Element const *, Rva005FE226Element *>(Rva005FE226Element const *, Rva005FE226Element const *, Rva005FE226Element *, _STL::__false_type const &);
 
