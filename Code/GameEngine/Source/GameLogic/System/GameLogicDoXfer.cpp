@@ -357,7 +357,7 @@ class CaveSystem;
 class LargeGroupAudio;
 class DelayedExperienceLevelGrantSystem;
 extern LinearCampaignManager *TheLinearCampaignManager;
-extern CaveSystem *g_00A031F4;
+extern CaveSystem *TheCaveSystem;
 extern LargeGroupAudio *TheLargeGroupAudio;
 extern DelayedExperienceLevelGrantSystem *TheDelayedExperienceLevelGrantSystem;
 
@@ -599,7 +599,7 @@ void GameLogicSnapshot::DoXfer(Xfer *xfer)
 
 	if (version.m_b < 7)
 		xfer->xferSnapshot((Snapshot *)TheLinearCampaignManager);
-	xfer->xferSnapshot(snapshotAt(g_00A031F4, 0x0C));
+	xfer->xferSnapshot(snapshotAt(TheCaveSystem, 0x0C));
 	xfer->xferSnapshot(m_164);
 	xfer->xferSnapshot(m_168);
 	xfer->xferSnapshot(m_16c);

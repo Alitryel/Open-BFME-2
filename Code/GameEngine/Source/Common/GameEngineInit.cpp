@@ -303,8 +303,7 @@ extern class FunctionLexicon *TheFunctionLexicon;
 extern ModuleFactory *TheModuleFactory;
 extern class MessageStream *TheMessageStream;
 extern SidesList *TheSidesList;
-extern CaveSystem *g_00A031F4;
-#define TheCaveSystem g_00A031F4
+extern CaveSystem *TheCaveSystem;
 extern RankInfoStore *TheRankInfoStore;
 extern PlayerAITypeSet *ThePlayerAITypeSet;
 extern PlayerTemplateStore *ThePlayerTemplateStore;

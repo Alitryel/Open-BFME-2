@@ -44,10 +44,8 @@ public:
 	TunnelTracker *getTunnelTrackerForCaveIndex(unsigned int index);
 };
 
-// Target data_xrefs.tsv records a read at RVA 0x00A031F4. TheCaveSystem is the
-// donor label; the address-derived name keeps the target global movable.
-extern CaveSystem *g_00A031F4;
-#define TheCaveSystem g_00A031F4
+// Cave-system singleton at retail RVA 0x00A031F4.
+extern CaveSystem *TheCaveSystem;
 
 // This TU-scoped view begins at the +0x34 secondary interface installed by
 // CaveContainCtor.cpp. It is not a complete declaration of CaveContain.
@@ -85,4 +83,4 @@ void CaveContain::onBuildComplete()
 	myTracker->rva004F56FC(*reinterpret_cast<Object **>((char *)this - 0x2C));
 }
 
-CaveSystem *g_00A031F4;
+CaveSystem *TheCaveSystem;

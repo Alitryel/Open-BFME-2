@@ -128,8 +128,7 @@ class CaveSystem
 public:
 	TunnelTracker *getTunnelTrackerForCaveIndex( UnsignedInt index );
 };
-extern CaveSystem *g_00A031F4;
-#define TheCaveSystem g_00A031F4
+extern CaveSystem *TheCaveSystem;
 
 class Drawable;
 class Object;

@@ -157,12 +157,8 @@ public:
 	DieMuxData m_dieMuxData;
 };
 
-// Target data_xrefs.tsv records this pointer at RVA 0x00A031F4; existing
-// engine code declares the same SAGE global as TheCaveSystem. Defined as
-// g_00A031F4 in CaveContainOnBuildComplete.cpp; macro-bound here so both
-// spellings share the one object.
-extern CaveSystem *g_00A031F4;
-#define TheCaveSystem g_00A031F4
+// Cave-system singleton at retail RVA 0x00A031F4.
+extern CaveSystem *TheCaveSystem;
 
 class OpenContain
 {
