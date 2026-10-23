@@ -1,21 +1,23 @@
 // _UpdateUMVBorder
-// partial score=0.8 date=2026-10-19
+// partial score=0.88 date=2026-10-23
 // cl: /O2 /G6 /DNDEBUG /MD
 // Clean room: reverse/vp6_cleanroom/specs/001b96a0.md plus retail only.
 // NEAR (not exact): UpdateUMVBorder retail 0x001B96A0..0x001B9AB6 (1047
-// bytes); this body compiles to 1042 bytes with 280 of retail's 353
-// instructions in aligned order (the previous bank: 1055 bytes, 130).
-// Two source changes moved it: (1) the Y side-fill loop reads the left
-// edge pixel into a local and advances srcLeft before the memset, which
-// gives retail's whole prologue (border in ECX, buffer loaded late into
-// EAX, srcLeft in ESI); (2) the U setup halves the border after srcRight
-// is formed. Remaining: the Y loop is entered through a jmp + srcLeft
-// reload (retail falls straight in with ESI = srcLeft and reloads
-// mid-loop); the side-fill stack slots are rotated (retail srcRight 0x10,
-// dstLeft 0x14, srcLeft 0x18, dstRight 0x1c); U shr still issues one
-// instruction early; U/V row loops form the bottom-top delta as
-// dstBottom - dstTop where retail forms border*stride - src + dstBottom.
-// See reverse/attempt_support/001b96a0-20261019-s9.md.
+// bytes); this body compiles to 1042 bytes with 321 of retail's 353
+// instructions in aligned order (the 2026-10-19 bank: 289 by the same
+// difflib metric, 280 by the s9 one). The new step: the U/V side fills
+// and U/V row copies reuse the four side-fill pointers (srcLeft,
+// srcRight, dstLeft, dstRight), and the Y row copy reads from srcLeft;
+// that gives retail's side-fill slot order (srcRight 0x10, dstLeft 0x14,
+// srcLeft 0x18, dstRight 0x1c) and retail's U/V loops apart from the
+// delta. Remaining: Y side loop enters through jmp + srcLeft reload and
+// hoists the srcRight advance into ESI (retail keeps srcLeft in ESI
+// across the back edge and advances srcRight last through EDI); Y row
+// copy slots rotated (retail last 0x10, dstTop 0x14, delta 0x28,
+// counter 0x20); U shr one instruction early; U/V bottom-top delta is
+// dstBottom - dstTop where retail recomputes uvBorder*stride - src +
+// dstBottom; V copy advance in ECX instead of EDI.
+// See reverse/attempt_support/001b96a0-20261023-reuse.md.
 struct Vp6BorderInstance {
 	unsigned char unknown0[0x78];
 	int ReconYDataOffset;
@@ -38,8 +40,9 @@ extern "C" void UpdateUMVBorder(Vp6BorderInstance *pbi, unsigned char *buffer)
 	int rows;
 	int border;
 	int stride;
+	int uvBorder;
 	unsigned char *srcLeft, *srcRight, *dstLeft, *dstRight;
-	unsigned char *src, *last, *dstTop, *dstBottom;
+	unsigned char *last, *dstTop, *dstBottom;
 
 	rows = pbi->VFragments * 8;
 	border = pbi->MVBorder;
@@ -57,12 +60,12 @@ extern "C" void UpdateUMVBorder(Vp6BorderInstance *pbi, unsigned char *buffer)
 		dstLeft += stride;
 		dstRight += stride;
 	}
-	src = buffer + border * stride;
-	last = src + (pbi->VFragments * 8 - 1) * stride;
+	srcLeft = buffer + border * stride;
+	last = srcLeft + (pbi->VFragments * 8 - 1) * stride;
 	dstTop = buffer;
 	dstBottom = last + stride;
 	for (i = 0; i < border; i++) {
-		memcpy(dstTop, src, stride);
+		memcpy(dstTop, srcLeft, stride);
 		memcpy(dstBottom, last, stride);
 		dstTop += stride;
 		dstBottom += stride;
@@ -72,48 +75,48 @@ extern "C" void UpdateUMVBorder(Vp6BorderInstance *pbi, unsigned char *buffer)
 	rows = pbi->VFragments * 4;
 	srcLeft = buffer + pbi->ReconUDataOffset;
 	srcRight = srcLeft + pbi->HFragments * 4 - 1;
-	border = (unsigned)border / 2;
-	dstLeft = srcLeft - border;
+	uvBorder = (unsigned)border / 2;
+	dstLeft = srcLeft - uvBorder;
 	dstRight = srcRight + 1;
 	for (i = 0; i < rows; i++) {
-		memset(dstLeft, srcLeft[0], border);
-		memset(dstRight, srcRight[0], border);
+		memset(dstLeft, srcLeft[0], uvBorder);
+		memset(dstRight, srcRight[0], uvBorder);
 		srcLeft += stride;
 		srcRight += stride;
 		dstLeft += stride;
 		dstRight += stride;
 	}
-	src = buffer + pbi->ReconUDataOffset - border;
-	last = src + (pbi->VFragments * 4 - 1) * stride;
-	dstTop = src - border * stride;
-	dstBottom = last + stride;
-	for (i = 0; i < border; i++) {
-		memcpy(dstTop, src, stride);
-		memcpy(dstBottom, last, stride);
-		dstTop += stride;
-		dstBottom += stride;
+	srcLeft = buffer + pbi->ReconUDataOffset - uvBorder;
+	srcRight = srcLeft + (pbi->VFragments * 4 - 1) * stride;
+	dstLeft = srcLeft - uvBorder * stride;
+	dstRight = srcRight + stride;
+	for (i = 0; i < uvBorder; i++) {
+		memcpy(dstLeft, srcLeft, stride);
+		memcpy(dstRight, srcRight, stride);
+		dstLeft += stride;
+		dstRight += stride;
 	}
 
 	srcLeft = buffer + pbi->ReconVDataOffset;
 	srcRight = srcLeft + pbi->HFragments * 4 - 1;
-	dstLeft = srcLeft - border;
+	dstLeft = srcLeft - uvBorder;
 	dstRight = srcRight + 1;
 	for (i = 0; i < rows; i++) {
-		memset(dstLeft, srcLeft[0], border);
-		memset(dstRight, srcRight[0], border);
+		memset(dstLeft, srcLeft[0], uvBorder);
+		memset(dstRight, srcRight[0], uvBorder);
 		srcLeft += stride;
 		srcRight += stride;
 		dstLeft += stride;
 		dstRight += stride;
 	}
-	src = buffer + pbi->ReconVDataOffset - border;
-	last = src + (pbi->VFragments * 4 - 1) * stride;
-	dstTop = src - border * stride;
-	dstBottom = last + stride;
-	for (i = 0; i < border; i++) {
-		memcpy(dstTop, src, stride);
-		memcpy(dstBottom, last, stride);
-		dstTop += stride;
-		dstBottom += stride;
+	srcLeft = buffer + pbi->ReconVDataOffset - uvBorder;
+	srcRight = srcLeft + (pbi->VFragments * 4 - 1) * stride;
+	dstLeft = srcLeft - uvBorder * stride;
+	dstRight = srcRight + stride;
+	for (i = 0; i < uvBorder; i++) {
+		memcpy(dstLeft, srcLeft, stride);
+		memcpy(dstRight, srcRight, stride);
+		dstLeft += stride;
+		dstRight += stride;
 	}
 }
