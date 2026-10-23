@@ -8,8 +8,10 @@
 // ??_GRva003AE358@@UAEPAXI@Z @0x003AE33C present-unmatched
 // Secondary base at +0x10: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0x10) at 0x003ACA8B in its vtable is target evidence for it.
-class Rva003AE358Base0 { public: virtual ~Rva003AE358Base0(); private: char m_unmodelled_04[0x10 - 0x04]; };
-class Rva003AE358Base10 { public: virtual ~Rva003AE358Base10(); };
+// novtable bases: this unit only needs the derived vftable; base vftables and
+// destructors belong to the rowed ??1Rva003AE358 and its bases' own units.
+class __declspec(novtable) Rva003AE358Base0 { public: virtual ~Rva003AE358Base0(); private: char m_unmodelled_04[0x10 - 0x04]; };
+class __declspec(novtable) Rva003AE358Base10 { public: virtual ~Rva003AE358Base10(); };
 class Rva003AE358 : public Rva003AE358Base0, public Rva003AE358Base10 { public: explicit Rva003AE358(int) {} virtual ~Rva003AE358(); private: int m_famgen;
   friend void famgenDelete(Rva003AE358 *p); };
 void famgenDelete(Rva003AE358 *p) { delete p; }
