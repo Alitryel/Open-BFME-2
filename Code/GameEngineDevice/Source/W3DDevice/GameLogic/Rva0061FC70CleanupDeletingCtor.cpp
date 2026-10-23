@@ -30,11 +30,21 @@
 // vtable operand is a relocation slot, so it is masked out of the byte compare;
 // the one the compiler emits for this class is what stands there.
 
-class Rva0061FC70CleanupDeleting
+// Slot 0 of the table the constructor installs (0x0087C610) is the rowed
+// ??_GRva009EEA70CleanupDeleting (0x00621040), which calls the rowed
+// ~Rva009EEA70CleanupDeleting (0x00620D70). Modelled as a novtable view of
+// that class so the implicit destructor here calls it (one class under two
+// placeholder names, or ICF-folded destructors: not settled).
+class __declspec(novtable) Rva009EEA70CleanupDeleting
+{
+public:
+	virtual ~Rva009EEA70CleanupDeleting();
+};
+
+class Rva0061FC70CleanupDeleting : public Rva009EEA70CleanupDeleting
 {
 public:
 	Rva0061FC70CleanupDeleting();
-	virtual ~Rva0061FC70CleanupDeleting();
 
 private:
 	unsigned int m_data[0xAFCF];
