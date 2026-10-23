@@ -75,15 +75,12 @@ extern "C" void __cdecl PlaneAddNoise_wmt(void);	// rowed C body (was address-na
 extern "C" void __cdecl DeringBlockWeak_MMX(void *, void *, void *, int, int, int *);
 extern "C" void __cdecl DeringBlockStrong_MMX(void *, void *, void *, int, int, int *);
 extern "C" void __cdecl DeblockNonFilteredBand_MMX(void);	// rowed C body (was address-named d_009b8130)
-extern void __cdecl d_009a5f50(void);
-
-// Slot fillers with neither a real identity nor a ghidra-boundary row yet;
-// address-derived names, pinned in reverse/symbols.csv.
+extern "C" void __cdecl PlaneAddNoise_C(unsigned char *, unsigned, unsigned, int, int);	// rowed C body (was address-named d_009a5f50)
 extern "C" void __cdecl DeblockLoopFilteredBand_MMX(void);	// rowed C body (was address-named Rva009B6D80)
 extern "C" void __cdecl ClampLevels_mmx(void *, int, int, int, int);
 extern "C" void __cdecl PlaneAddNoise_mmx(unsigned char *, int, unsigned int, int, int);
-extern void __cdecl Rva009B18D0(void);
-extern void __cdecl Rva009B10E0(void);
+extern "C" void __cdecl DeringBlockWeak_C(void *, const unsigned char *, unsigned char *, int, int, const int *);	// rowed C body (was address-named Rva009B18D0)
+extern "C" void __cdecl DeringBlockStrong_C(void *, const unsigned char *, unsigned char *, int, int, const int *);	// rowed C body (was address-named Rva009B10E0)
 extern "C" void __cdecl DeblockLoopFilteredBand_C(void);	// rowed C body (was address-named Rva009ACF90)
 extern "C" void __cdecl DeblockNonFilteredBand_C(void);	// rowed C body (was address-named Rva009ADD80)
 extern "C" void __cdecl DeblockNonFilteredBandNewFilter_C(void);	// rowed C body (was address-named Rva009AE6A0)
@@ -182,8 +179,8 @@ extern "C" void __cdecl PostProcMachineSpecificConfig(int version)
 	g_bfmeCodecDispatch.slot[23] = (BfmeDispatchFn)&FilterVert_Generic;
 	g_bfmeCodecDispatch.slot[2] = (BfmeDispatchFn)&SetupBoundingValueArray_Generic;
 	g_bfmeCodecDispatch.slot[1] = (BfmeDispatchFn)&SetupDeblockValueArray_Generic;
-	g_bfmeCodecDispatch.slot[16] = (BfmeDispatchFn)&Rva009B18D0;
-	g_bfmeCodecDispatch.slot[24] = (BfmeDispatchFn)&Rva009B10E0;
+	g_bfmeCodecDispatch.slot[16] = (BfmeDispatchFn)&DeringBlockWeak_C;
+	g_bfmeCodecDispatch.slot[24] = (BfmeDispatchFn)&DeringBlockStrong_C;
 	g_bfmeCodecDispatch.slot[10] = (BfmeDispatchFn)&DeblockLoopFilteredBand_C;
 	g_bfmeCodecDispatch.slot[13] = (BfmeDispatchFn)&DeblockNonFilteredBand_C;
 	g_bfmeCodecDispatch.slot[21] = (BfmeDispatchFn)&DeblockNonFilteredBandNewFilter_C;
@@ -204,5 +201,5 @@ extern "C" void __cdecl PostProcMachineSpecificConfig(int version)
 	g_bfmeCodecDispatch.slot[14] = (BfmeDispatchFn)&FilteringVert_12_C;
 	g_bfmeCodecDispatch.slot[3] = (BfmeDispatchFn)&CFastDeInterlace;
 	g_bfmeCodecDispatch.slot[19] = (BfmeDispatchFn)&ClampLevels_C;
-	g_bfmeCodecDispatch.slot[0] = (BfmeDispatchFn)&d_009a5f50;
+	g_bfmeCodecDispatch.slot[0] = (BfmeDispatchFn)&PlaneAddNoise_C;
 }
