@@ -1,12 +1,12 @@
 // ?adjustCameraMovement@PolygonTrigger@@QAE_NPBUCoord3D@@0PAU2@_N@Z
-// partial score=0.9156293222683264 date=2026-10-21
-// ?adjustCameraMovement@PolygonTrigger@@QAE_NPBUCoord3D@@0PAU2@_N@Z
-// partial score=0.95 date=2026-10-20
+// partial score=0.9875518672199171 date=2026-10-23
 // cl: /O1 /DNDEBUG /MD /arch:SSE /I.
 #include "Code/Libraries/Include/Lib/Coord2D.h"
 #define COORD3D_VIEW_INLINE
 #include "Code/Libraries/Include/Lib/Coord3DCtorView.h"
 #include <math.h>
+extern "C" void _ReadWriteBarrier();
+#pragma intrinsic(_ReadWriteBarrier)
 struct Rva0030B7C2Point { float x,y; };
 class Rva0030B719Shape;
 bool rva0030B7C2(const Rva0030B7C2Point*,Rva0030B719Shape*);
@@ -53,7 +53,7 @@ bool PolygonTrigger::adjustCameraMovement(const Coord3D*from,const Coord3D*to,Co
   Coord3D used(candidate);used.sub(start);
   float usedLen=used.length();
   float remaining=deltaLen-usedLen;
-  if(remaining>0.1f){remaining*=0.4f;along.normalize();along.scale(remaining);Coord3D next(candidate);next.add(&along);if(rva002E3A39(next))candidate=next;}
+  if(remaining>0.1f){remaining*=0.4f;along.normalize();Coord3D next;float px,py,pz,cx,cy;px=*(const volatile float*)&remaining*along.x;_ReadWriteBarrier();pz=*(const volatile float*)&along.z*remaining;cx=*(const volatile float*)&candidate.x;py=*(const volatile float*)&remaining*along.y;next.x=cx+px;cy=*(const volatile float*)&candidate.y;next.y=cy+py;next.z=candidate.z+pz;if(rva002E3A39(next))candidate=next;}
  }
  *out=candidate;return true;
  }}
