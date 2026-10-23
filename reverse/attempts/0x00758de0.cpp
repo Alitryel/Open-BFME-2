@@ -1,3 +1,5 @@
+// ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
+// partial score=0.924924924924925 date=2026-10-23
 // BfmeThingCGD::bfmeTwoCGD
 // partial score=0.924924924924925 date=2026-10-23
 // BfmeThingCGD::bfmeTwoCGD
