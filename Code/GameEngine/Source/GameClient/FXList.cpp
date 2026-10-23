@@ -502,14 +502,6 @@ private:
 };  
 EMPTY_DTOR(TerrainScorchFXNugget)
 
-// Address-derived ABI view for the Ghidra function at 0x001E19E8.
-// Its original helper identity is unresolved.
-class Rva001E19E8CallView
-{
-public:
-	void call(const Coord3D*, const Matrix3D*, const Object*, const Object*) const;
-};
-
 //-------------------------------------------------------------------------------------------------
 class ParticleSystemFXNugget : public FXNugget
 {
@@ -531,6 +523,8 @@ public:
 		m_useCallersRadius = FALSE;
 		m_rotateX = m_rotateY = m_rotateZ = 0;
 	}
+
+	void reallyDoFX(const Coord3D *, const Matrix3D *, const Object *, const Object *) const;
 
 	virtual void doFXPos(const Coord3D *primary, const Matrix3D* primaryMtx, const Real /*primarySpeed*/, const Coord3D * /*secondary*/, const Real overrideRadius ) const
 	{
@@ -558,13 +552,13 @@ public:
 				Matrix3D aimingMatrix(1);
 				aimingMatrix.Rotate_Z( aimingAngle );
 
-				reinterpret_cast<const Rva001E19E8CallView *>(this)->call(
+				reallyDoFX(
 					primary->getPosition(), &aimingMatrix, primary, secondary);
 			}
 			else
 				// if we have an object, then adjust the offset and direction by the object's transformation
 				// matrix, so that (say) an offset of +10 in the z axis "follows" the orientation of the object.
-				reinterpret_cast<const Rva001E19E8CallView *>(this)->call(
+				reallyDoFX(
 					primary->getPosition(), primary->getTransformMatrix(), primary, secondary);
 		}
 		else

@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /Ob2 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
+// cl: /Ireference/shims/bfme2_ascii /Ob2 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // BFME2 record copies with verified StringBase member operations.
 // Layouts are read from the complete retail constructors and their STLport
@@ -45,6 +45,6 @@ struct BfmeAsciiScalarValue8 {
 namespace _STL {template<> vector<BfmeAsciiScalarValue8>& vector<BfmeAsciiScalarValue8>::operator=(const vector<BfmeAsciiScalarValue8>&);}
 
 template _STL::vector<BfmeAsciiScalarValue8>::vector(const _STL::vector<BfmeAsciiScalarValue8>&);
-template class _STL::vector<BfmeAsciiScalarValue8, _STL::allocator<BfmeAsciiScalarValue8> >;
+template BfmeAsciiScalarValue8* _STL::__uninitialized_fill_n<BfmeAsciiScalarValue8*,unsigned int,BfmeAsciiScalarValue8>(BfmeAsciiScalarValue8*,unsigned int,const BfmeAsciiScalarValue8&,const _STL::__false_type&);
 
 template BfmeAsciiScalarValue8* _STL::__copy<const BfmeAsciiScalarValue8*,BfmeAsciiScalarValue8*,int>(const BfmeAsciiScalarValue8*,const BfmeAsciiScalarValue8*,BfmeAsciiScalarValue8*,const _STL::random_access_iterator_tag&,int*);
