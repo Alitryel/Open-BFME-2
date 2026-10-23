@@ -41,34 +41,38 @@ public:
 	void initFromINIMulti(void *what, const MultiIniFieldParse &parseTableList);
 };
 
-// Common base of the melee behaviours. Retail's base vtable is
+// Common base of the melee factory descriptors. Retail's base vtable is
 // ??_7Rva00468A46@@6B@ (0x00844890: deleting destructor, one behaviour
 // method, buildFieldParse); the view keeps its own name so it does not
-// compete with that class's rowed single-slot view.
+// compete with that class's rowed single-slot view. Its full table is three slots;
+// slot 1 is pure virtual and slot 2 is the exact empty RET4 field-parser hook.
 class Rva004691B7MeleeBehavior
 {
 public:
-	virtual ~Rva004691B7MeleeBehavior();
-	virtual void slot1();
-	virtual void buildFieldParse(MultiIniFieldParse &p);
+	virtual ~Rva004691B7MeleeBehavior() {}
+	virtual void *slot1(void *horde) = 0;
+	virtual void buildFieldParse(MultiIniFieldParse &p) {}
 };
 
 class Rva004691B7Swarm : public Rva004691B7MeleeBehavior
 {
 public:
-	virtual void slot1();
+ virtual __declspec(noinline) ~Rva004691B7Swarm();
+	virtual void *slot1(void *horde);
 };
 
 class Rva004691B7HoldGround : public Rva004691B7MeleeBehavior
 {
 public:
-	virtual void slot1();
+ virtual __declspec(noinline) ~Rva004691B7HoldGround();
+	virtual void *slot1(void *horde);
 };
 
 class Rva00584C42 : public Rva004691B7MeleeBehavior
 {
 public:
 	Rva00584C42();
+ virtual void *slot1(void *horde);
 private:
 	char m_pad04[0x10 - 0x04];
 };
@@ -77,11 +81,12 @@ class Rva005876D5 : public Rva004691B7MeleeBehavior
 {
 public:
 	Rva005876D5();
+ virtual void *slot1(void *horde);
 private:
 	char m_pad04[0x70 - 0x04];
 };
 
-extern const char *TheMeleeBehaviorNames[];
+const char *TheMeleeBehaviorNames[] = { "Swarm", "WaitForLeader", "HoldGround", "Amoeba", 0 };
 
 class HordeContainModuleData
 {
@@ -113,3 +118,19 @@ void HordeContainModuleData::parseMeleeBehavior(INI *ini, void *instance, void *
 	(*behavior)->buildFieldParse(p);
 	ini->initFromINIMulti(*behavior, p);
 }
+
+// Retail slot 1 is a factory taking one pointer and returning the allocated
+// behavior. These call-only views assert only the allocation extents and the
+// independently rowed constructors; the fields remain owned by their home TUs.
+// Complete-body/relocation twins are recorded with their existing owner rows.
+// Evidence: reverse/attempt_support/melee-parser-link-20261023-bce2/readme.md
+class HordeMeleeSwarm {
+public: HordeMeleeSwarm(void *); private: unsigned char storage[0x18];
+};
+class Rva005838B5 {
+public: Rva005838B5(void *); private: unsigned char storage[0x14];
+};
+Rva004691B7Swarm::~Rva004691B7Swarm() {}
+Rva004691B7HoldGround::~Rva004691B7HoldGround() {}
+void *Rva004691B7Swarm::slot1(void *horde) { return new HordeMeleeSwarm(horde); }
+void *Rva004691B7HoldGround::slot1(void *horde) { return new Rva005838B5(horde); }
