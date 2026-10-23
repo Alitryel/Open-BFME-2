@@ -18,7 +18,7 @@ typedef int Int;
 
 struct FieldParse;
 
-#include "../../../../../../reference/shims/iniexception/Common/INIException.h"
+#include "../../../../../reference/shims/iniexception/Common/INIException.h"
 
 class INI
 {
