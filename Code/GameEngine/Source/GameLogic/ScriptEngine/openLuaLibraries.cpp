@@ -90,14 +90,14 @@ class LuaScriptEngine
 public:
 	void rva00338317RegisterScriptFunctions();
 	void InitializeInternalEvents();
-	void init();
+	virtual void init();
 	void LoadXML(const char *filename, bool reload);
 	void LoadScripts(const char *filename);
 	static int ObjectDescription(lua_State *state);
 	static int HordeBroadcastEventToMembers(lua_State *state);
 
 private:
-	char m_pad00[0x0C];
+	char m_pad04[0x0C - 4];
 	lua_State *m_luaState;
 	lua_State *m_drawLuaState; // native+10, distinct from script state+C
 };

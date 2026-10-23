@@ -40,7 +40,16 @@ const char *SidesList::GetSnapshotName() const
 {
 	return "SidesList";
 }
-BFME_LITERAL_NAME_GETTER(Rva00337AA2Named, "LuaScriptEngine")
+class LuaScriptEngine
+{
+public:
+	virtual const char *GetSnapshotName() const;
+};
+
+const char *LuaScriptEngine::GetSnapshotName() const
+{
+	return "LuaScriptEngine";
+}
 BFME_LITERAL_NAME_GETTER(Rva0033EE7ENamed, "ProjectileStreamUpdate")
 BFME_LITERAL_NAME_GETTER(Rva0033F2F7Named, "AIInternalMoveToState")
 BFME_LITERAL_NAME_GETTER(Rva0033F31ANamed, "AIBusyState")

@@ -1672,3 +1672,5 @@ __ehhandler$??1Rva0052CFB1@@UAE@XZ,0x007971FA,"Renamed to __ehhandler$??1LivingW
 ?rva001dd031@Rva001DD031@@QAEXPAURva001DD031Interface@@@Z,0x001DD031,"Renamed to ?xfer@Eva@@MAEXPAVXfer@@@Z: Eva Snapshot table VA 0x00BDC5A8 slot 3 points here"
 __ehhandler$??1Rva001DF057@@UAE@XZ,0x00769AA4,"Renamed to __ehhandler$??1Eva@@UAE@XZ: follows the rename of its function"
 ?hasEntries@Rva00256AB0Owner@@QBEHXZ,0x004DF49C,Corrected return ABI to bool under the same identifier: callers tail-forward bool and the 25-byte native body emits0/1; new QBE_NXZ body is byte-exact. No int-returning tree consumer remains.
+?name@Rva00337AA2Named@@QBEPBDXZ,0x00337AA2,"Renamed to ?GetSnapshotName@LuaScriptEngine@@UBEPBDXZ: LuaScriptEngine constructor-installed table VA 0x00C0E390 slot 15 points here"
+?init@LuaScriptEngine@@QAEXXZ,0x00335D5B,"Renamed to ?init@LuaScriptEngine@@UAEXXZ: LuaScriptEngine constructor-installed table VA 0x00C0E390 slot 1 points here"

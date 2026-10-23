@@ -9,6 +9,8 @@
 #include "ascii_string.h"
 typedef bool Bool;
 #include "subsystem_interface.h"
+
+class Xfer { public: void Version1(); };
 // vector<unsigned int>'s allocator constructor inlines at every use here;
 // imported force-inline so this unit emits no COMDAT copy of it (its copy
 // differs from retail's kept /Od body at 0x00025100). The vector base
@@ -29,7 +31,7 @@ class LuaScriptEngine : public SubsystemInterface {
 public:
  LuaScriptEngine(); virtual ~LuaScriptEngine();
  virtual void init(); virtual void reset(); virtual void update() {}
- virtual void slot14() {} virtual const char *slot15(); virtual void rva00306A9B(Xfer *);
+ virtual void slot14() {} virtual const char *GetSnapshotName() const; virtual void DoXfer(Xfer *);
 private:
  void *lua0C,*lua10;
  Rva002E2680 callbacks[17]; void *drawable9C;
@@ -40,4 +42,9 @@ private:
  void *wordD4; bool flagD8; void *wordDC;
 };
 typedef char LuaSizeE0[sizeof(LuaScriptEngine)==0xE0 ? 1 : -1];
+void LuaScriptEngine::DoXfer(Xfer *xfer)
+{
+ xfer->Version1();
+}
+
 LuaScriptEngine::LuaScriptEngine():lua0C(0),lua10(0),drawable9C(0),flagAC(false),wordD4(0),flagD8(false),wordDC(0) {}

@@ -151,7 +151,7 @@ public:
  virtual void reset();
  virtual void update() {}
  virtual void slot14() {}
- virtual const char *slot15(); virtual void rva00306A9B(Xfer *);
+ virtual const char *GetSnapshotName() const; virtual void DoXfer(Xfer *);
 private:
 	void *m_lua0C;
 	void *m_lua10;
