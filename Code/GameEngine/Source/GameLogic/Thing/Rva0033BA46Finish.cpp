@@ -28,29 +28,7 @@
 // the exact 190-byte size; the bank emitted 189 with the selects hoisted above
 // the call (which needs a frame) and 186 with them inlined at the use.
 //
-// Remaining residue is the callee-saved register roles: retail keeps `this` in
-// ESI and the portrait-name base in EDI across the whole debug block, while
-// this toolchain keeps `this` in EBX and the portrait base in ESI, so every
-// `[esi+...]` in the block becomes `[ebx+...]` and the two pops swap. See the
-// re_log row for the spellings tried.
-//
-// class-gate: allow AsciiString retail rva0033BA46 tests only m_data and calls
-// the releaseBuffer worker; the shared header's str() and isEmpty() inline a
-// length check retail does not emit here, so folding it in changes the bytes
-template <typename T>
-class StringBase
-{
-public:
-    bool isEmpty() const;
-    void clear() { releaseBuffer(); }
-    void *m_data;
-private:
-    void releaseBuffer();
-};
-
-class AsciiString : public StringBase<char>
-{
-};
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
 class Image;
 
@@ -86,7 +64,7 @@ extern Debug *theDebug;
 
 static const char *strOf(const AsciiString &asciiString)
 {
-    return asciiString.m_data != 0 ? (const char *)asciiString.m_data + 8 : "";
+    return asciiString.str();
 }
 
 class ThingTemplate
@@ -104,7 +82,7 @@ private:
 
 const Image *ThingTemplate::rva0033BA46()
 {
-    if (!m_portraitName.isEmpty() && TheMappedImageCollection != 0)
+    if (!((const StringBase<char> *)&m_portraitName)->isEmpty() && TheMappedImageCollection != 0)
     {
         m_portraitImage = TheMappedImageCollection->findImageByName(m_portraitName);
         if (bfmeRva000387C0())
@@ -114,7 +92,7 @@ const Image *ThingTemplate::rva0033BA46()
             Debug &dbg = theDebug->CrashBegin(0, 0, 0);
             (dbg << strOf(m_name) << " is looking for Portrait " << strOf(m_portraitName) << " but can't find it. Skipping...").CrashDone(2);
         }
-        m_portraitName.clear();
+        ((StringBase<char> *)&m_portraitName)->clear();
     }
     return m_portraitImage;
 }

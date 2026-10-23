@@ -5474,7 +5474,6 @@ class_gate_allow	Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngine_appe
 class_gate_allow	Code/GameEngine/Source/GameLogic/System/GameLogicDoXfer.cpp	GameLogic	1	allow=36988de3da870f03849e3f618e7fdfcbf35283b4
 class_gate_allow	Code/GameEngine/Source/GameLogic/System/GameLogicDoXfer.cpp	ObjectIdMap	1	allow=36988de3da870f03849e3f618e7fdfcbf35283b4
 class_gate_allow	Code/GameEngine/Source/GameLogic/System/GameLogicDoXfer.cpp	ObjectIdNode	1	allow=36988de3da870f03849e3f618e7fdfcbf35283b4
-class_gate_allow	Code/GameEngine/Source/GameLogic/Thing/Rva0033BA46Finish.cpp	AsciiString	1
 class_gate_allow	Code/GameEngine/Source/GameNetwork/GameSpyOverlay.cpp	BfmeAudioEventPrefix136	1	allow=1ab8f25aa1b51460bdb86330b896e6afc12338c8
 class_gate_allow	Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManager.cpp	Coord2D	1	allow=76860afc702ba83d37adaa2e73c1a9f603769879
 class_gate_allow	Code/GameEngineDevice/Source/MilesAudioDevice/Rva006AD9B0GetAllowAudioReinitialize.cpp	AsciiString	1
