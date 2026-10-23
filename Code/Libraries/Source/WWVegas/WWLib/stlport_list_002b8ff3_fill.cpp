@@ -1,4 +1,4 @@
-// cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /Ireference/shims/bfmelist /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0?$list@UBfmeStringRecord002B4DC1@@V?$allocator@UBfmeStringRecord002B4DC1@@@_STL@@@_STL@@QAE@I@Z @ 0x002B8FF3 (106B).
@@ -10,28 +10,18 @@
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeStringRecord002B4DC1;
 namespace _STL { template <> _List_node<BfmeStringRecord002B4DC1> * list<BfmeStringRecord002B4DC1,allocator<BfmeStringRecord002B4DC1> >::_M_create_node(BfmeStringRecord002B4DC1 const &); }
-// Suppress this TU's non-retail copy of ?clear@?$_List_base@UBfmeStringRecord002B4DC1@@V?$allocator@UBfmeStringRecord002B4DC1@@@_S:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct BfmeStringRecord002B4DC1;
-namespace _STL { template <> void _List_base<BfmeStringRecord002B4DC1,allocator<BfmeStringRecord002B4DC1> >::clear(); }
-
-template <typename T> class StringBase
-{
-	friend struct BfmeStringRecord002B4DC1;
-private:
-	void releaseBuffer();
-	void *m_data;
-};
+#include "unicode_string.h"
 
 struct BfmeStringRecord002B4DC1
 {
-	StringBase<unsigned short> m_head;
+	UnicodeString m_head;
 	int m_a;
 	int m_b;
-	BfmeStringRecord002B4DC1() { m_head.m_data = 0; m_a = 0; m_b = 3; }
-	~BfmeStringRecord002B4DC1() { m_head.releaseBuffer(); }
+	BfmeStringRecord002B4DC1() { m_a = 0; m_b = 3; }
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline void _Construct<BfmeStringRecord002B4DC1,BfmeStringRecord002B4DC1>(BfmeStringRecord002B4DC1 *p,BfmeStringRecord002B4DC1 const &v) { new (p) BfmeStringRecord002B4DC1(v); } }
 
 template _STL::list<BfmeStringRecord002B4DC1, _STL::allocator<BfmeStringRecord002B4DC1> >::list(unsigned int);
+
+template void _STL::_List_base<BfmeStringRecord002B4DC1, _STL::allocator<BfmeStringRecord002B4DC1> >::clear();
