@@ -2,7 +2,8 @@
 // stlport
 //
 // STLport 4.5.3 basic_ios<char>::imbue (stl/_ios.c), retail 0x00016110, 238
-// bytes: the vendor body verbatim, instantiated on its own.
+// bytes: vendor body with its inlined grouping assignment expressed by
+// the same TU-local helper as the verified wide twin.
 //
 // Two build settings decide the bytes. _STLP_USE_MALLOC frees the cached
 // grouping string's old buffer with plain free rather than the node
@@ -52,4 +53,43 @@ namespace _STL { template <> char *__uninitialized_copy<char *, char *>(char *, 
 namespace _STL {
 template <> char *_STLP_alloc_proxy<char*, char, allocator<char> >::allocate(size_t);
 }
+namespace _STL {
+// TU-local forceinline helper standing in for the inlined copy-assignment body:
+// same self-check plus pointer-range dispatch, temp bound by const reference so
+// the call keeps the vendor statement's full-expression lifetime. The range is
+// read through the public const begin()/end() accessors; const_cast restores
+// the char* iterator type the matched dispatch body takes, so the call still
+// binds _M_assign_dispatch<char*> at 0x000120F0.
+static __forceinline void bfme_cached_grouping_assign(
+        basic_string<char, char_traits<char>, allocator<char> > &__dst,
+        const basic_string<char, char_traits<char>, allocator<char> > &__src)
+{
+  if (&__src != &__dst)
+    __dst.assign(const_cast<char *>(__src.begin()), const_cast<char *>(__src.end()));
+}
+}
+
+// Suppress this TU's non-retail copy of ??4?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAEAAV01@ABV01@@Z
+// (narrow basic_string<char>::operator=): the kept copy serves the link; its row
+// owner is stlport_narrow_string_assign_copy.cpp at 0x000120C0. Plain
+// declaration-only form (no __imp_).
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > & basic_string<char, char_traits<char>, allocator<char> >::operator=(const basic_string<char, char_traits<char>, allocator<char> > &); }
+template <>
+inline _STL::locale _STL::basic_ios<char, _STL::char_traits<char> >::imbue(const _STL::locale &__loc)
+{
+  _STL::locale __tmp = ios_base::imbue(__loc);
+
+  if (_M_streambuf)
+    _M_streambuf->pubimbue(__loc);
+
+  // no throwing here
+  this->_M_cached_ctype = __loc._M_get_facet(ctype<char_type>::id) ;
+  this->_M_cached_numpunct = __loc._M_get_facet(numpunct<char_type>::id) ;
+  bfme_cached_grouping_assign(this->_M_cached_grouping, ((numpunct<char_type>*)_M_cached_numpunct)->grouping()) ;
+  return __tmp;
+}
+
+
+// Emit the inline specialization as a foldable template copy, like the
+// vendor instantiation, alongside other stream units using the same member.
 template _STL::locale _STL::basic_ios<char, _STL::char_traits<char> >::imbue(const _STL::locale &);

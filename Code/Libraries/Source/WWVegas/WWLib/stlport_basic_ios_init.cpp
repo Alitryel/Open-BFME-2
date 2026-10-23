@@ -41,6 +41,9 @@ namespace _STL { template <> basic_ostream<char, char_traits<char> > & basic_ost
 namespace _STL { template <> basic_ostream<char, char_traits<char> > & basic_ostream<char, char_traits<char> >::operator<<(float); }
 // The unsigned long inserter is rowed there too (0x001F68BF).
 namespace _STL { template <> basic_ostream<char, char_traits<char> > & basic_ostream<char, char_traits<char> >::operator<<(unsigned long); }
+// The standalone narrow imbue owns the retail body; this unit emitted a
+// longer copy with a different grouping-buffer cleanup path.
+namespace _STL { template <> locale basic_ios<char, char_traits<char> >::imbue(locale const &); }
 namespace _STL { template <> locale basic_ios<unsigned short, char_traits<unsigned short> >::imbue(locale const &); }
 // bfme link decl-only end
 // Suppress this TU's non-retail copy of ?_M_deallocate_block@?$_String_base@DV?$allocator@D@_STL@@@_STL@@QAEXXZ:
@@ -60,3 +63,11 @@ template class _STL::basic_istream<char, _STL::char_traits<char> >;
 template class _STL::basic_istream<wchar_t, _STL::char_traits<wchar_t> >;
 template class _STL::basic_ostream<char, _STL::char_traits<char> >;
 template class _STL::basic_ostream<wchar_t, _STL::char_traits<wchar_t> >;
+
+// Keep these four rowed helpers after suppressing the non-retail imbue.
+// The other five incidental helpers are owned by stlport_narrow_ios_imbue.cpp,
+// whose existing emitted copies match their complete retail bodies.
+template void _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >::_M_construct_null(char *);
+template void _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >::_M_construct_null_aux(char *, const _STL::__true_type &);
+template char *_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >::erase(char *, char *);
+template char *_STL::__char_traits_base<char,int>::move(char *, const char *, unsigned int);
