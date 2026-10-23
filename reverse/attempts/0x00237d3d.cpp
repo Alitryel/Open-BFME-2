@@ -1,11 +1,6 @@
 // ?Rva00237D3DCheck@@YAHXZ
-// partial score=0.802326 date=2026-10-23
+// partial score=0.813953 date=2026-10-23
 // cl: /O1 /G6 /arch:SSE /DNDEBUG /MD /EHsc
-// ?Rva00237D3DCheck@@YAHXZ
-// Retail: RVA 0x237D3D, extent 226. This diagnostic emits 219 bytes.
-// WinTrust file=16/data=44 and stack GUID are established by retail accesses.
-// The unsigned low bit is at most one, so the final predicate is always true.
-// Masked bytes match through +0xCC; sixteen NOPs and the return tail differ.
 struct TrustGuid { unsigned long a; unsigned short b,c; unsigned char d[8]; };
 struct TrustFile { unsigned long size; const unsigned short *path; void *file; TrustGuid *subject; };
 struct TrustData { unsigned long size; void *policy,*sip; unsigned long ui,revocation,choice; TrustFile *file; unsigned long state; void *stateData; const unsigned short *url; unsigned long flags; };
@@ -16,6 +11,7 @@ __declspec(dllimport) unsigned short **__stdcall CommandLineToArgvW(const unsign
 __declspec(dllimport) void *__stdcall LocalFree(void *);
 long __stdcall WinVerifyTrust(void *,TrustGuid *,TrustData *);
 }
+__forceinline void releaseArgs(unsigned short **p) throw(){LocalFree(p);}
 int Rva00237D3DCheck() {
     TrustFile file;
     memset(&file,0,sizeof(file));
@@ -39,5 +35,5 @@ int Rva00237D3DCheck() {
     data.stateData=0;
     data.url=0;
     data.flags=0x210;
-    long status=WinVerifyTrust(0,&action,&data); unsigned long u=(unsigned long)status; LocalFree(argv); int r=0; if(((u&1u)<=1u)) goto yes; return r; yes:return r+1;
+long status=WinVerifyTrust(0,&action,&data);unsigned long u=(unsigned long)status;int r=0;if(u==2u)goto left;goto right;right:{releaseArgs(argv);r=(int)((unsigned char)(u&((unsigned char)(u|1u)))<=((unsigned char)(u|1u)));goto done;}left:{releaseArgs(argv);r=(int)((unsigned char)(u&((unsigned char)(u|1u)))<=((unsigned char)(u|1u)));goto done;}done:return r;
 }
