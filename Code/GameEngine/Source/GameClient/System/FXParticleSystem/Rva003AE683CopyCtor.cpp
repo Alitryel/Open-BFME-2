@@ -63,13 +63,25 @@ public:
 private:
 	int m_58;
 };
-class Rva003AE683 : public Rva003AE6A9
+// Slot 0 of this class's table 0x0081CD14 is ??_GRva003ACED6 (0x003ACEBA),
+// which calls the rowed ~Rva003ACED6 (0x003ACED6, a jmp to ~Rva003AB9FF).
+// Modelled as a novtable Rva003ACED6 view over Rva003AE6A9 so the implicit
+// ~Rva003AE683 calls it (real base or ICF-folded dtor name: not settled).
+class __declspec(novtable) Rva003ACED6 : public Rva003AE6A9
+{
+public:
+	__forceinline Rva003ACED6(const Rva003ACED6 &other)
+		: Rva003AE6A9(other)
+	{
+	}
+	virtual ~Rva003ACED6();
+};
+class Rva003AE683 : public Rva003ACED6
 {
 public:
 	Rva003AE683(const Rva003AE683 &other);
-	virtual ~Rva003AE683();
 };
 Rva003AE683::Rva003AE683(const Rva003AE683 &other)
-	: Rva003AE6A9(other)
+	: Rva003ACED6(other)
 {
 }
