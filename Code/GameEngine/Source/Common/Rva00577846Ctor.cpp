@@ -9,7 +9,9 @@ public:
 class Rva00577846
 {
 public:
-	virtual ~Rva00577846();
+	// Inline: vftable 0x00C6E980 slot 1 is the ICF-shared trivial deleting dtor
+	// 0x004296EE (??_GRva0042CBB6); no out-of-line ~Rva00577846 exists.
+	virtual ~Rva00577846() {}
 	Rva00577846(Rva00577838 *a, int b);
 private:
 	Rva00577838 *m_04;
