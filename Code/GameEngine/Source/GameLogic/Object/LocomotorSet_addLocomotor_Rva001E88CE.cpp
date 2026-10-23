@@ -1,4 +1,5 @@
-// cl: /MD /DNDEBUG
+// cl: /MD /DNDEBUG /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB /D_CRTIMP=
+// stlport
 //
 // ?addLocomotor@LocomotorSet@@QAEXPBVLocomotorTemplate@@_N@Z
 // retail 0x001E88CE, 92 bytes (Ghidra FUN_005e88ce), pinned from
@@ -14,6 +15,8 @@
 // its template at +4, legal surfaces at template +0x14. Retail pushes a
 // stack copy of the pointer made before the null test and keeps using the
 // register copy afterwards; the separate `pushed` local reproduces that.
+
+#include <vector>
 
 typedef bool Bool;
 typedef int Int;
@@ -51,22 +54,13 @@ public:
 };
 extern LocomotorStore *TheLocomotorStore;	// VA 0x00DFDC5C
 
-struct LocomotorPtrVector
-{
-	void push_back(Locomotor *const &loco);
-
-	Locomotor **m_start;
-	Locomotor **m_finish;
-	Locomotor **m_endOfStorage;
-};
-
 class LocomotorSet
 {
 public:
 	void addLocomotor(const LocomotorTemplate *lt, Bool flag);
 private:
 	void *m_vtable;
-	LocomotorPtrVector m_locomotors;
+	_STL::vector<Locomotor *> m_locomotors;
 	Int m_validLocomotorSurfaces;
 	Bool m_downhillOnly;
 	Bool m_unknown15;
