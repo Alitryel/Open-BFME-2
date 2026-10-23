@@ -13,6 +13,14 @@ class Rva005746AF
 public:
 	Rva005746AF(int arg);
 	virtual ~Rva005746AF();
+	// Vtable 0x00C6E3B0's seven slots, as Rva0057473AMethod_~Rva005746AF.cpp
+	// declares them: slot 1 is the rowed 0x0057473A, the rest unrecovered.
+	virtual void rva0057473A();
+	virtual void m_slot2() = 0;
+	virtual void m_slot3() = 0;
+	virtual void m_slot4() = 0;
+	virtual void m_slot5() = 0;
+	virtual void m_slot6() = 0;
 private:
 	int m_04;
 	unsigned long m_08;

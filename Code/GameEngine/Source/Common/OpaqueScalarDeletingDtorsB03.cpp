@@ -143,12 +143,17 @@ Eva::Eva(EmitVtableTag *)
 {
 }
 
+// Vtable 0x00BDD95C: the deleting dtor, two unrecovered slots, then the
+// rowed 0x001E0AA5 (Rva001E125DCtor.cpp's slot view).
 class Rva001E125D
 {
 public:
 	Rva001E125D(EmitVtableTag *);
 public:
 	virtual ~Rva001E125D();
+	virtual void dummy1() = 0;
+	virtual void dummy2() = 0;
+	virtual void rva001E0AA5(int a1, int a2);
 };
 
 // ?<Rva001E125D::Rva001E125D> absent-from-retail

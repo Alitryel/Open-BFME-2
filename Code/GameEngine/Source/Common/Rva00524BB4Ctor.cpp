@@ -10,7 +10,7 @@
 // and copying the holder after the zero stores reproduces retail's order:
 // the argument load right after the base call, the holder store last.
 typedef bool Bool;
-#include "subsystem_interface.h"
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 struct TargetRef00217D4C { virtual void *destroy(unsigned flags); int references; };
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
 struct TreeHintRef00217D4C {
@@ -24,7 +24,6 @@ class Rva00524BB4:public SubsystemInterface {
 public:
  Rva00524BB4(TreeHintRef00217D4C ref);
  virtual ~Rva00524BB4();
- virtual void init() = 0;virtual void reset() = 0;virtual void update() = 0;virtual void vslot12() = 0;
 private:
  void *m_ptr0C;
  int m_10,m_14,m_18,m_1C,m_20;

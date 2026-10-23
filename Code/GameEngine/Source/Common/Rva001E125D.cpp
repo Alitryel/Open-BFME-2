@@ -8,10 +8,14 @@ public:
 	virtual ~Rva001DFEAABase();
 };
 
+// Slot view of vtable 0x00BDD95C, as Rva001E125DCtor.cpp declares it.
 class Rva001E125D : public Rva001DFEAABase
 {
 public:
 	virtual ~Rva001E125D();
+	virtual void dummy1() = 0;
+	virtual void dummy2() = 0;
+	virtual void rva001E0AA5(int a1, int a2);
 private:
 	char m_pad04[0x148 - 0x4];
 	AsciiString m_str148;

@@ -32,16 +32,9 @@ public:
 class Rva0030B0E3 : public Rva00074626
 {
 public:
+	// Slots past the deleting dtor stay undeclared, as in
+	// Rva0030B0E3DeletingDtor.cpp's view, so both emit one vtable.
 	virtual ~Rva0030B0E3();
-	virtual void s1() = 0;
-	virtual void s2() = 0;
-	virtual void v3(int a, int b) = 0;
-	virtual void s4() = 0;
-	virtual void s5() = 0;
-	virtual int v6() = 0;
-	virtual void s7() = 0;
-	virtual void v8(int a) = 0;
-	virtual void v9(int a) = 0;
 	Rva0030B0E3();
 
 private:

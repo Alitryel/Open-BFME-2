@@ -299,13 +299,16 @@ private:
 	int m_08;
 };
 // Rva00506B1B's ctor is rowed at 0x00506B1B; declared so no implicit copy is emitted.
-class Rva00506B1B { public: Rva00506B1B(); virtual ~Rva00506B1B(); };
+// Its retail table 0x00C62894 has three slots (dtor thunk, an unrecovered slot,
+// the rowed 0x004EA33A), as Rva004EA3B8Dtor.cpp declares them.
+class Rva00506B1B { public: Rva00506B1B(); virtual ~Rva00506B1B(); virtual void b1() = 0; virtual void rva004EA33A(); };
 class Rva004EA3B8 : public BaseA, public Rva00506B1B
 {
 public:
 	Rva004EA3B8(EmitVtableTag *);
 public:
 	virtual ~Rva004EA3B8();
+	virtual void rva004EA33A();
 };
 
 // ?<Rva004EA3B8::Rva004EA3B8> absent-from-retail
