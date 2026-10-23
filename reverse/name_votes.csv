@@ -536,3 +536,13 @@ Code/GameEngine/Source/Common/Rva00226883TreeFree.cpp|local|Rva00226883::rva0022
 Code/GameEngine/Source/Common/Rva00226883TreeFree.cpp|local|Rva00226829::rva0022994D|h,5e1e5126455011824a4f3ad2,gpt-6.1-sol,codex8-20261023-225509-23,w-de56e563a50b,2026-10-23
 Code/GameEngine/Source/Common/Rva00226883TreeFree.cpp|local|Rva00226856::rva00229976|h,9a68da99f5ba69168910958e,gpt-6.1-sol,codex8-20261023-225509-23,w-de56e563a50b,2026-10-23
 Code/GameEngine/Source/Common/Rva00226883TreeFree.cpp|local|Rva002268B0::rva002299C8|h,6a1ec47cb6d17272e3a8f1d0,gpt-6.1-sol,codex8-20261023-225509-23,w-de56e563a50b,2026-10-23
+Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|function|0x0066CF10|rva00800b30,2ea285287cad8dc9fd02d277,gpt-6.1-sol,codex4-20261023-225117-1,w-887869184137,2026-10-23
+Code/GameEngine/Source/Common/RvaMixedMemberForwarders.cpp|param|Rva00271BCC::rva00271BCC|a0,b03f72f65fb3776d2497d197,gpt-6.1-sol,codex4-20261023-225117-2,w-887869184137,2026-10-23
+Code/GameEngine/Source/Common/Rva003EE980Forward.cpp|local|Rva003EE980::rva003EE980|p,cda1f413a9af7c2e3808e0bb,gpt-6.1-sol,codex4-20261023-225117-2,w-887869184137,2026-10-23
+Code/GameEngine/Source/Common/Rva003EE980Forward.cpp|local|Rva003EE980::rva003EE980|f,7285b9fc3c54fdf3069931e1,gpt-6.1-sol,codex4-20261023-225117-2,w-887869184137,2026-10-23
+Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainInitOffsets.cpp|class||Rva0047B690Row,2980e7edddbb781b77fadc52,gpt-6.1-sol,codex4-20261023-225117-2,w-887869184137,2026-10-23
+Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainInitOffsets.cpp|local|AODHordeContain::initOffsets|n,0af08a460df9a20d3c14b60d,gpt-6.1-sol,codex4-20261023-225117-2,w-887869184137,2026-10-23
+Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|member|ArmyDetailsPanelImpl|m_map14,54a948b99c37bcdce87abc10,gpt-6.1-sol,codex4-20261023-225117-3,w-887869184137,2026-10-23
+Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp|local|SetTransform|m2,7d3743eb18eef0a27e05f39e,gpt-6.1-sol,codex4-20261023-225117-3,w-887869184137,2026-10-23
+Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp|local|BumpEnvTextureMapperClass::Apply|c,b0ed3942234d345ea41f7e3a,gpt-6.1-sol,codex4-20261023-225117-3,w-887869184137,2026-10-23
+Code/GameEngine/Source/Common/BfmeThreeHundredFiftyOne.cpp|member|StdioStreambufBase|m_bfmeVft,6927cd8269859a4c3e8d08a0,gpt-6.1-sol,codex4-20261023-225117-4,w-887869184137,2026-10-23
