@@ -25,3 +25,9 @@ into colmathsphere.cpp. add_match --replace-existing refused the unchanged
 name/RVA/size because the pre-existing PristineBoneInfo folded row shares
 that address. Matrix3D's row/source were preserved and the refusal recorded
 as false-reject evidence. No gate workaround was attempted.
+
+Correction and follow-up: the earlier Matrix3D refusal was caller error, not
+a gate defect. add_match already supports --icf-owner. Supplying the existing
+PristineBoneInfo owner with --replace-existing accepted the source-only
+rehome and passed the normal 3/3 focused gate. The false-reject record is
+retracted through re_log. No gate, source body or pin was modified.
