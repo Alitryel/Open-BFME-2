@@ -16,6 +16,43 @@
 
 typedef float Real;
 
+#include "../../Include/Lib/Coord3DCtorView.h"
+
+class Object;
+
+// Structural view of the collision interface. Object's table at VA BFC290
+// independently establishes slot 0C as a zero-argument primary-object getter
+// (299C78, RET), and slots 20/24 as three-argument callbacks (RET 12).
+// The location and normal belong to the OUTER callback, not to the getter.
+// Method spellings below describe roles; original interface names are unknown.
+struct CollisionContactSource
+{
+	virtual void slot00() = 0;
+	virtual void slot04() = 0;
+	virtual void slot08() = 0;
+	virtual Object *primaryObject() const = 0;
+	virtual void slot10() = 0;
+	virtual void slot14() = 0;
+	virtual void slot18() = 0;
+	virtual void slot1C() = 0;
+	virtual bool test(const Object *, const Coord3D &, const Coord3D &) const = 0;
+	virtual void respond(Object *, const Coord3D &, const Coord3D &) = 0;
+};
+
+// Keep the reversed normal alive through the complete callback expression.
+// Copying before negation reproduces the native member-wise copy and FCHS.
+struct CollisionReverseNormal
+{
+	Coord3D value;
+	CollisionReverseNormal(const Coord3D &normal) : value(normal)
+	{
+		value.x = -value.x;
+		value.y = -value.y;
+		value.z = -value.z;
+	}
+	operator const Coord3D &() const { return value; }
+};
+
 void __cdecl operator delete(void *block);
 
 namespace CollisionManager
@@ -54,7 +91,7 @@ public:
 	~Rva009A45A0CollisionData();
 
 	void *m_owner;	// +0x00
-	void *m_source;	// +0x04
+	CollisionContactSource *m_source;	// +0x04
 	void *m_rootPrev;	// +0x08
 	Rva009A45A0CollisionData *m_rootNext;	// +0x0c
 	void *m_dirtyPrev;	// +0x10
@@ -67,6 +104,16 @@ public:
 		Rva009A3AD0Endpoint m_endpoints[6];	// +0x24
 		Rva009A3AD0Interval m_intervals[3];
 	};
+};
+
+struct CollisionContactNode
+{
+	Rva009A45A0CollisionData *first;
+	Rva009A45A0CollisionData *second;
+	unsigned int key0, key1, state;
+	Coord3D point, normal;
+	CollisionContactNode **back;
+	CollisionContactNode *next;
 };
 
 class BfmeLinkXX
@@ -95,13 +142,17 @@ public:
 	void unlinkChain(Rva009A36F0Thing *thing);
 	void _RemoveOverlap(Rva009A3540OpaqueOwner *a, Rva009A3540OpaqueOwner *b);
 	void rva007586F0();
+	void bfmeTwoCGD();
 
 	Rva009A45A0CollisionData *m_root;	// +0x00
 	unsigned int m_nodeCount;	// +0x04
 	Rva009A45A0CollisionData *m_dirty;	// +0x08
 	Rva009A3AD0Endpoint *m_axisHeads[3];	// +0x0c
 	unsigned char m_table[0xAE10 - 0x18];
-	unsigned char m_table2[0xC068 - 0xAE10];
+	CollisionContactNode *m_contactBuckets[0x493]; // +0xae10
+	CollisionContactNode *m_contactActive; // +0xc05c
+	int m_contactIndex; // +0xc060
+	CollisionContactNode *m_contactCurrent; // +0xc064
 	unsigned int m_axisCount;	// +0xc068
 	bool m_rebuild;	// +0xc06c
 
@@ -330,6 +381,46 @@ void CollisionManagerImpl::UpdateSort()
 				cur->m_node->m_openPrev = 0;
 			}
 		}
+	}
+}
+
+// Native 758DE0..758F2D (333 bytes), called by Update at 75A4AB.
+// Save the contact before advancing the shared cursor: callbacks can unregister
+// an object and alter that cursor or clear either data's source pointer.
+// State zero requests a test; state two skips responses. Recheck both sources
+// before the reverse response and negate only its normal.
+// Evidence: reverse/attempt_support/cgd-abi-758de0-20261023/README.md.
+void CollisionManagerImpl::bfmeTwoCGD()
+{
+	m_contactIndex = 0;
+	m_contactCurrent = m_contactBuckets[0];
+	for (;;)
+	{
+		while (m_contactCurrent == 0)
+		{
+			int i = m_contactIndex + 1;
+			if (i == 0x493)
+				return;
+			m_contactIndex = i;
+			m_contactCurrent = m_contactBuckets[i];
+		}
+		CollisionContactNode *node = m_contactCurrent;
+		m_contactCurrent = m_contactCurrent->next;
+		if (node == 0)
+			return;
+		if (node->first->m_source == 0 || node->second->m_source == 0)
+			continue;
+		if (node->state == 0)
+			node->state = node->first->m_source->test(
+				node->second->m_source->primaryObject(), node->point, node->normal) ? 1 : 2;
+		if (node->state == 2)
+			continue;
+		node->first->m_source->respond(
+			node->second->m_source->primaryObject(), node->point, node->normal);
+		if (node->first->m_source == 0 || node->second->m_source == 0)
+			continue;
+		node->second->m_source->respond(node->first->m_source->primaryObject(),
+			node->point, CollisionReverseNormal(node->normal));
 	}
 }
 

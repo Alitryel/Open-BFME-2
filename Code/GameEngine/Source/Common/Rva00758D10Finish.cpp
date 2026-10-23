@@ -1,16 +1,15 @@
 // cl: /MD /EHsc
-// CollisionManagerImpl::bfmeOneCGD, retail 0x00758D10, 193B. Sibling definition lives
-// in BfmeConv597.cpp, which already carries the rowed 41B Update driver
+// CollisionManagerImpl::bfmeOneCGD, retail 0x00758D10, 193B. The sibling
+// CollisionManagerImpl_Update.cpp carries the rowed 41B Update driver
 // (0x0075A490) that calls this; the two units agree on one class layout.
 //
-// The class declares bfmeOneCGD and bfmeTwoCGD but defines neither. This file
-// supplies bfmeOneCGD only; bfmeTwoCGD remains the missing 333B provider that
-// keeps the home unlinked, and it is NOT claimed here.
+// This file supplies bfmeOneCGD. collisionmanager_impl.cpp supplies the
+// verified 333B bfmeTwoCGD callback loop; both use the same cursor offsets.
 //
 // Target proof: Ghidra entry 0x00758D10/193, and the only observed native
 // entry call at 0x0075A49F lies inside that already byte-verified driver.
 // The receiver table at +0xAE10 with 0x493 buckets, the active list at
-// +0xC05C, index +0xC064, cursor +0xC068, node links +0x2C/+0x30 and the
+// +0xC05C, index +0xC060, cursor +0xC064, node links +0x2C/+0x30 and the
 // subobject flags at +0x04/+0x10 are target instruction facts, read straight
 // off the native body.
 //
