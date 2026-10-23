@@ -95,13 +95,15 @@ GEN_NOTE_RE = re.compile(r"(?:^|;)\s*gen-[a-z]|identity=generated\b")
 # Provenance lanes, best evidence first. Overlapping claims on one byte resolve
 # to the earliest lane, so the lanes partition Total exact with no double count.
 # Explicitly reviewed, reconstructed assembly; never admit entire dump directories or
-# all .asm files by extension. MmxIDct's five clean-room spec-backed bodies
-# already pass the complete byte/relocation gate. This is metric credit only,
+# all .asm files by extension. Admission needs documented machine-ABI/codegen
+# evidence plus complete byte/relocation verification. This is metric credit only,
 # not C++ credit, permission to lift code, or a verification exemption.
 REBUILT_ASM_SOURCES = frozenset({
     "Code/Libraries/Source/VP6/MmxIDct.asm",  # five clean-room MMX bodies
     "Code/masm_dumps/SecurityCookieCheck.asm",  # documented CRT assembly entry
     "Code/masm_dumps/RTC_CheckEsp.asm",  # consumes incoming ZF, preserves live returns
+    "Code/Libraries/Source/CRT/RuntimeRelativeDispatchCores.asm",  # verified return-PC/flags ABI
+    "Code/Libraries/Source/CRT/RuntimeRelativeDispatchEntries.asm",  # proven paired core calls
     "Code/masm_dumps/VersionSignatureCheckPatched.asm",  # documented patched-target exception
 })
 SOURCE_LANES = ("authored", "vendored", "generated", "library", "data", "assembly", "dump")
