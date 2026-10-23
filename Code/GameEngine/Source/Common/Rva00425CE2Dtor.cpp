@@ -40,13 +40,14 @@ public:
 
 void __cdecl operator delete(void *p);
 
-extern _STL::map<int, Rva00360D26Member *> g_00E03168;
-extern _STL::deque<LightPoint *> g_00E03174;
+extern unsigned int g_Va00E03168;
+extern unsigned int g_Va00E03174;
 
 class Rva00425CE2 : public SubsystemInterface
 {
 public:
 	virtual ~Rva00425CE2();
+	virtual void init();
 private:
 	int m_0C;
 	char m_pad10[0x20 - 0x0C - 4];
@@ -55,9 +56,13 @@ private:
 
 Rva00425CE2::~Rva00425CE2()
 {
-	_STL::for_each(g_00E03174.begin(), g_00E03174.end(), Rva00425B75Deleter());
-	(( _STL::deque<void *> *)(void *)&g_00E03174)->clear();
-	for (_STL::map<int, Rva00360D26Member *>::iterator it = g_00E03168.begin(); it != g_00E03168.end(); ++it)
+	_STL::map<int, Rva00360D26Member *> &unitTypes =
+		*reinterpret_cast<_STL::map<int, Rva00360D26Member *> *>(&g_Va00E03168);
+	_STL::deque<LightPoint *> &points =
+		*reinterpret_cast<_STL::deque<LightPoint *> *>(&g_Va00E03174);
+	_STL::for_each(points.begin(), points.end(), Rva00425B75Deleter());
+	(( _STL::deque<void *> *)(void *)&g_Va00E03174)->clear();
+	for (_STL::map<int, Rva00360D26Member *>::iterator it = unitTypes.begin(); it != unitTypes.end(); ++it)
 	{
 		Rva00360D26Member *p = it->second;
 		if (p)
@@ -67,6 +72,6 @@ Rva00425CE2::~Rva00425CE2()
 			::operator delete(p);
 		}
 	}
-	((Rva00421BF7 *)(void *)&g_00E03168)->rva00421EEA();
+	((Rva00421BF7 *)(void *)&g_Va00E03168)->rva00421EEA();
 	m_0C = 0;
 }

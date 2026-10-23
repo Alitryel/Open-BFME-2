@@ -116,16 +116,7 @@ public:
 // 0x001B4E63 is the rowed SubsystemInterface ctor.
 #include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
-class __declspec(novtable) Rva0022A809SubsystemBase
-{
-public:
-	Rva0022A809SubsystemBase() { reinterpret_cast<SubsystemInterface *>(this)->SubsystemInterface::SubsystemInterface(); }
-	virtual ~Rva0022A809SubsystemBase();
-private:
-	unsigned char m_04;
-	int m_08;
-};
-class Rva0022A809Subsystem : public Rva0022A809SubsystemBase
+class Rva0022A809Subsystem : public SubsystemInterface
 {
 public:
 	Rva0022A809Subsystem();

@@ -94,8 +94,21 @@ class GameWindow;
 // hashtable constructor rowed for Rva0031DBFCElement (0x0031DBFC).
 struct Rva0031DBFCElement
 {
-	char m_data[1];
+	Rva0031DBFCElement();
+	Rva0031DBFCElement(const Rva0031DBFCElement &);
+	Rva0031DBFCElement &operator=(const Rva0031DBFCElement &);
+	~Rva0031DBFCElement() {}
+	char m_data[8];
 };
+
+// The hash-map provider owns these helpers; its element view has eight bytes.
+namespace _STL {
+typedef hashtable<pair<const int, Rva0031DBFCElement>, int, hash<int>,
+    _Select1st<pair<const int, Rva0031DBFCElement> >, equal_to<int>,
+    allocator<pair<const int, Rva0031DBFCElement> > > ControlBarTable;
+template <> void ControlBarTable::_M_initialize_buckets(size_t);
+template <> void ControlBarTable::clear();
+}
 
 struct PlayerAITypeEntry
 {
