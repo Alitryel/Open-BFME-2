@@ -129,7 +129,7 @@ def model_id(text):
     """A normalised model label: lower case, no spaces."""
     model = re.sub(r"\s+", "-", (text or "").strip().lower())
     if not re.fullmatch(r"[a-z0-9][a-z0-9._-]*", model):
-        fail(f"--model {text!r}: pass the model you are, e.g. claude-opus-5-5, gpt-6.1-sol")
+        fail(f"--model {text!r}: pass the label you vote under, e.g. seat-a")
     return model
 
 
@@ -805,7 +805,7 @@ def main(argv=None, lane=None):
     sub = ap.add_subparsers(dest="cmd", required=True)
     n = sub.add_parser("next", help="serve one file's placeholders as a brief")
     n.add_argument("--session", required=True, help="a label for this brief; who votes is the worker identity, not this")
-    n.add_argument("--model", required=True, help="the model you are, e.g. claude-opus-5-5")
+    n.add_argument("--model", required=True, help="the label you vote under, e.g. seat-a")
     n.add_argument("--count", type=int, default=1, help="serve this many files")
     n.add_argument("--file", help="serve this file instead of the next in the queue")
     n.add_argument("--list-only", action="store_true",
