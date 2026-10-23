@@ -19,7 +19,14 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 
 
-struct Rva002BB6D7Record { ~Rva002BB6D7Record(); char bytes[1]; };
+// 52-byte record: retail's range destroy 0x002BB6A5 steps by 0x34 and calls the
+// rowed BfmeAssignRecord52 destructor 0x002B707E, reached here by a qualified call.
+struct BfmeAssignRecord52 { ~BfmeAssignRecord52(); };
+struct Rva002BB6D7Record
+{
+	__forceinline ~Rva002BB6D7Record() { ((BfmeAssignRecord52 *)this)->BfmeAssignRecord52::~BfmeAssignRecord52(); }
+	char bytes[52];
+};
 
 
 // Instantiate the recovered member; retain only its required template dependencies.

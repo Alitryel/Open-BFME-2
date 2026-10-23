@@ -1,20 +1,17 @@
 // STLport4.5.3 reference operation. Target boundary, calls and full bytes are verified.
 // Element identity and unconstrained fields remain address-derived structural inference.
-// cl: /O1 /G7 /Oy- /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 #include <deque>
-#include <string>
-// Suppress this TU's non-retail copy of ??1?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@_STL@@QAE@XZ:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> basic_string<unsigned short,char_traits<unsigned short>,allocator<unsigned short> >::~basic_string(); }
-// Suppress this TU's non-retail copy of ?_M_deallocate_block@?$_String_base@GV?$allocator@G@_STL@@@_STL@@QAEXXZ:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> void _String_base<unsigned short, allocator<unsigned short> >::_M_deallocate_block(); }
-// Suppress this TU's non-retail copy of ?deallocate@?$allocator@G@_STL@@QBEXPAGI@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> void allocator<unsigned short>::deallocate(unsigned short *, size_t) const; }
 
-struct Rva005560B2Element { _STL::basic_string<wchar_t> strings[1]; bool operator<(const Rva005560B2Element&)const; bool operator==(const Rva005560B2Element&)const; };
+// 1408-byte element: retail's deque destroy 0x00555D53 steps by 0x580 and calls the
+// destructor 0x00555ADF, reached here by a qualified call.
+struct BfmeOpaqueOwnedRecord1408 { ~BfmeOpaqueOwnedRecord1408(); };
+struct Rva005560B2Element
+{
+	__forceinline ~Rva005560B2Element() { ((BfmeOpaqueOwnedRecord1408 *)this)->BfmeOpaqueOwnedRecord1408::~BfmeOpaqueOwnedRecord1408(); }
+	char bytes[1408];
+};
 
 // Instantiate the recovered operation and its required template dependencies.
 template void _STL::__destroy<_STL::_Deque_iterator<Rva005560B2Element, _STL::_Nonconst_traits<Rva005560B2Element> >, Rva005560B2Element>(_STL::_Deque_iterator<Rva005560B2Element, _STL::_Nonconst_traits<Rva005560B2Element> >, _STL::_Deque_iterator<Rva005560B2Element, _STL::_Nonconst_traits<Rva005560B2Element> >, Rva005560B2Element *);
