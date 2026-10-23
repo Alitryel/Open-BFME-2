@@ -57,3 +57,7 @@ template <> template <> inline BfmeE8 *vector<BfmeE8>::_M_allocate_and_copy<Bfme
 // insert(pos, x) is AreaPolygon's /O1 body 0x0030B9F3; call it, emit no copy.
 namespace _STL { template <> vector<BfmeE8>::iterator vector<BfmeE8>::insert(iterator, const BfmeE8 &); }
 template class _STL::vector<BfmeE8, _STL::allocator<BfmeE8 > >;
+
+// 0x005FF4DD is the out-of-line uninitialized_fill_n wrapper over the fill 0x00507958
+// (three arguments plus the __false_type tag at [ebp-1]).
+template BfmeE8 *_STL::uninitialized_fill_n(BfmeE8 *, unsigned int, const BfmeE8 &);
