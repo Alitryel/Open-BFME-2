@@ -189,7 +189,7 @@ void bfmeAnchorRva008291DDtor(Rva008291D *p)
 	p->Rva008291D::~Rva008291D();
 }
 
-// ??1Rva0081FDD@@UAE@XZ, native 0x00081FDD..0x00082061 (132 bytes), the
+// ??1RenderableRiverArea@@UAE@XZ, native 0x00081FDD..0x00082061 (132 bytes), the
 // destructor the rowed ??_GRva0081FDD (0x00082AEC) calls: the same 0x3C
 // primary (vtables 0x00BC70C8 / 0x00BC707C) with a second base at +0x3C
 // (0x00BC709C, reset to 0x00BC6EC0). It leaves the +0x40 owner's +0x30
@@ -211,10 +211,10 @@ class Rva0081FDDSecond
 public:
 	virtual ~Rva0081FDDSecond() {}
 };
-class Rva0081FDD : public Rva008291DPrimary, public Rva0081FDDSecond
+class RenderableRiverArea : public Rva008291DPrimary, public Rva0081FDDSecond
 {
 public:
-	virtual ~Rva0081FDD();
+	virtual ~RenderableRiverArea();
 private:
 	void *m_owner40;
 	RefCountPtr<TextureClass> m_44[4];
@@ -223,13 +223,13 @@ private:
 
 // Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
 // the anchor keeps the noinline body emitted.
-__declspec(noinline) inline Rva0081FDD::~Rva0081FDD()
+__declspec(noinline) inline RenderableRiverArea::~RenderableRiverArea()
 {
 	reinterpret_cast<Rva002B7250 *>(reinterpret_cast<char *>(m_owner40) + 0x30)->rva002B7250(reinterpret_cast<CreateAHeroData *>(static_cast<Rva0081FDDSecond *>(this)));
 }
 
-// ?bfmeAnchorRva0081FDDDtor absent-from-retail
-void bfmeAnchorRva0081FDDDtor(Rva0081FDD *p)
+// ?bfmeAnchorRenderableRiverAreaDtor absent-from-retail
+void bfmeAnchorRenderableRiverAreaDtor(RenderableRiverArea *p)
 {
-	p->Rva0081FDD::~Rva0081FDD();
+	p->RenderableRiverArea::~RenderableRiverArea();
 }

@@ -19,31 +19,30 @@ private:
 	T *m_ptr;
 };
 
-class Rva00082EF5Base0
+class Rva00082EF5Base1
 {
 public:
-	virtual void v0() = 0;
+	virtual ~Rva00082EF5Base1();
 	int m_04;
 };
-class Rva00082EF5Base8
+class Rva00082EF5Second
 {
 public:
-	virtual void v0() = 0;
+	virtual ~Rva00082EF5Second();
 	unsigned char m_pad04[0x3c - 0x0c];
 };
-class Rva00082EF5 : public Rva00082EF5Base0, public Rva00082EF5Base8
+class Rva00082EF5 : public Rva00082EF5Base1, public Rva00082EF5Second
 {
 public:
 	Rva00082EF5(void *owner);		// 0x00082EF5
 	virtual ~Rva00082EF5();			// 0x00081C7F
 };
 
-class Gen_uwm_0007de9a
+class Rva0081FDDSecond
 {
 public:
-	Gen_uwm_0007de9a() {}
-	virtual void v0() = 0;
-	~Gen_uwm_0007de9a();			// 0x0007DE9A
+	Rva0081FDDSecond() {}
+	virtual ~Rva0081FDDSecond() {}			// 0x0007DE9A
 };
 
 class Rva00087A93
@@ -63,7 +62,7 @@ struct RenderableRiverAreaOwner
 	Rva005A0B4CList m_observers;	// +0x30
 };
 
-class RenderableRiverArea : public Rva00082EF5, public Gen_uwm_0007de9a
+class RenderableRiverArea : public Rva00082EF5, public Rva0081FDDSecond
 {
 public:
 	RenderableRiverArea(void *owner);
@@ -80,6 +79,6 @@ RenderableRiverArea::RenderableRiverArea(void *owner)
 	: Rva00082EF5(owner), m_owner((RenderableRiverAreaOwner *)owner)
 {
 	m_58 = true;
-	((RenderableRiverAreaOwner *)owner)->m_observers.append((Rva002BA8F1Listener *)static_cast<Gen_uwm_0007de9a *>(this));
+	((RenderableRiverAreaOwner *)owner)->m_observers.append((Rva002BA8F1Listener *)static_cast<Rva0081FDDSecond *>(this));
 	rva00082061();
 }

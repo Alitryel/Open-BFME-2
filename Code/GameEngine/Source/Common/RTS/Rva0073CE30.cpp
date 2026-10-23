@@ -14,7 +14,7 @@ class Rva0073BAA0Base
 {
 public:
 	virtual char testFunc(int x, int y);
-	Rva0073BAA0Base(Gen_008F7CD0 *grid, unsigned int mask) : m_grid(grid) { m_mask = mask & 0xFFFFF; }
+	__declspec(dllimport) __forceinline Rva0073BAA0Base(Gen_008F7CD0 *grid, unsigned int mask) : m_grid(grid) { m_mask = mask & 0xFFFFF; }
 private:
 	Gen_008F7CD0 *m_grid;
 	unsigned int m_mask;
@@ -23,7 +23,7 @@ private:
 class Rva0073BB40 : public Rva0073BAA0Base
 {
 public:
-	Rva0073BB40(Gen_008F7CD0 *grid, unsigned int mask, int extra) : Rva0073BAA0Base(grid, mask), m_extra(extra) {}
+	__declspec(dllimport) __forceinline Rva0073BB40(Gen_008F7CD0 *grid, unsigned int mask, int extra) : Rva0073BAA0Base(grid, mask), m_extra(extra) {}
 private:
 	int m_extra;
 };
@@ -33,7 +33,7 @@ private:
 class Rva0073BAA0 : public Rva0073BAA0Base
 {
 public:
-	Rva0073BAA0(Gen_008F7CD0 *grid, unsigned int mask, int extra) : Rva0073BAA0Base(grid, mask), m_extra(extra) {}
+	__declspec(dllimport) __forceinline Rva0073BAA0(Gen_008F7CD0 *grid, unsigned int mask, int extra) : Rva0073BAA0Base(grid, mask), m_extra(extra) {}
 private:
 	int m_extra;
 };

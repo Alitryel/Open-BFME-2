@@ -128,11 +128,6 @@ private:
 	Int m_currentGatherers;																										///< 0x7C
 };
 
-// ?BuildListInfo::loadPostProcess present-unmatched
-void BuildListInfo::loadPostProcess()
-{
-}
-
 // ------------------------------------------------------------------------------------------------
 /** Xfer method
 	* Version Info:
