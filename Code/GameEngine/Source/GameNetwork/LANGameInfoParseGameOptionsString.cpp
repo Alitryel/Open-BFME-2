@@ -3,8 +3,15 @@
 // LANGameInfo.cpp ParseGameOptionsString (Zero Hour GameNetwork/LANGameInfo.cpp, BFME 1 donor
 // LANGameInfoParseGameOptionsString.cpp at f989): native 0x00449258..0x004494AC.
 // Exact body banked by S2 (sonnet r5); landed by X1.
+// The game's free has C++ linkage and may throw, so the tree destructor
+// (retail 0x00448FA6) keeps an EH state around it; reach it through that
+// spelling (the SidesListCastleBuildLists.cpp idiom).
+#include <stdlib.h>
+namespace _STL { void __cdecl free(void *block) throw(...); }
+#define free _STL::free
 #include "ascii_string.h"
 #include <map>
+#undef free
 
 // _Rb_tree_iterator comparisons otherwise instantiate the base-class
 // operator!= COMDAT (one byte shape per TU flags); exact-match free
@@ -41,6 +48,14 @@ namespace _STL {
 typedef _Rb_tree<UnicodeString, pair<const UnicodeString, UnicodeString>,
     _Select1st<pair<const UnicodeString, UnicodeString> >, less<UnicodeString>,
     allocator<pair<const UnicodeString, UnicodeString> > > UnicodeStringTree;
+
+}
+
+// The tree's clear is the rowed 0x00448E3B body.
+class Rva00448E3B { public: void rva00448E3B(); };
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void UnicodeStringTree::clear()
+{ ((Rva00448E3B *)this)->rva00448E3B(); }
 
 // Cache the header throughout the lower-bound search and final key check.
 template <> template <> inline UnicodeStringTree::_Link_type
