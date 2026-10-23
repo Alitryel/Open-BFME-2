@@ -461,6 +461,9 @@ the paren lever).
   predicate raised the node's priority from 9 to 15 and restored the single
   loop latch and shared cleanup. See the 20261022 recovery handoffs and
   `scripted-bd6c2-recovery-20261023/readme.md`.
+  On 0x0051DE3D, identical resource-bonus calls under a screen-state test
+  restored the native frame and hero-loop begin home while keeping the final
+  call direct; see `apt51de3d-recovery-20261023/readme.md`.
 - **Split-range reload order.** RewriteSplitGlobregs inserts reloads by the
   pieces' new candidate numbers. Those come from the `_FreeGlobs` list (LIFO),
   which coalesced copies refill. Building a matrix row-wise

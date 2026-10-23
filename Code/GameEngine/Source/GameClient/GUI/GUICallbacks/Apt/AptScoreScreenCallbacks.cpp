@@ -17,7 +17,18 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
     return a < b ? b : a;
 }
 }
+// Retail keeps the STLport vector growth provider without exception guards
+// (0x002A1C02), while this screen's C++ locals still need /EHs cleanup.
+#include <stl/_config.h>
+#pragma push_macro("_STLP_TRY")
+#pragma push_macro("_STLP_UNWIND")
+#undef _STLP_TRY
+#undef _STLP_UNWIND
+#define _STLP_TRY
+#define _STLP_UNWIND(action)
 #include <vector>
+#pragma pop_macro("_STLP_UNWIND")
+#pragma pop_macro("_STLP_TRY")
 #include "unicode_string.h"
 #include "ascii_string.h"
 // bfme link decl-only begin
@@ -37,7 +48,7 @@ struct AptScoreObjectives
 {
 	AsciiString m_faction; // +0x00, read by query PlayerFaction
 	int m_count; // +0x04
-	unsigned char m_pad08[0x28 - 0x08];
+	AsciiString m_labels[8]; // +0x08
 	bool m_checked[8]; // +0x28
 };
 
@@ -85,7 +96,7 @@ public:
 extern GameWindowManager *TheWindowManager;
 
 // The Apt window manager at 0x009FE4CC, under the ledger's name.
-class BfmeAptWindowManager;
+class BfmeAptWindowManager { public: void bfmeSetText(const AsciiString &name, const UnicodeString &text, bool unused); };
 extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 
 class Rva00222479ByteOneSetter
@@ -110,6 +121,8 @@ public:
 
 	unsigned char m_pad000[0xB0];
 	Rva002104B6 *m_B0; // +0xB0, its regions by name
+	int m_B4;
+	int m_B8; // +0xB8, current region index
 };
 
 // The persistent-unit list box (BFME 1's ScoreScreenRva005778E0.cpp):
@@ -139,6 +152,7 @@ struct AptScorePersistentUnit
 	int m_9C;
 	UnicodeString m_name; // +0xA0
 	AsciiString m_regionName; // +0xA4
+	bool m_upgraded; // +0xA8
 };
 
 struct Rva0040CC0EEntry
@@ -175,6 +189,10 @@ public:
 
 	unsigned char m_pad00[0x30];
 	UnicodeString m_displayName; // +0x30
+	unsigned char m_pad034[0x113 - 0x34];
+	unsigned char m_113; // +0x113, hero bit 2
+	unsigned char m_pad114[0x638 - 0x114];
+	int m_638; // +0x638, hero display order
 };
 
 class ThingFactory
@@ -189,6 +207,10 @@ class Rva0020E89C
 {
 public:
 	UnicodeString rva0020E89C();
+	unsigned char m_pad00[0x90];
+	int m_90; // resource bonus
+	int m_94; // army bonus
+	int m_98; // legendary bonus
 };
 
 class Rva0051D009
@@ -198,6 +220,46 @@ public:
 	AsciiString rva0051CC8DFormat(AsciiString text);
 };
 
+class Rva0020EAF6View { public: Rva0020E89C *rva0020EAF6(int index); };
+class Rva003F038E { public: const Image *rva003F03B9(); };
+class Rva002239B2 { public: void rva002239E2(const AsciiString &name, const Image *image); };
+class Rva0051C2E2 { public: void rva0051C2E2(int *index, const AsciiString &name, int bonus); };
+class GameTextInterface
+{
+public:
+	virtual ~GameTextInterface();
+	virtual void slot04() = 0;
+	virtual void slot08() = 0;
+	virtual void slot0c() = 0;
+	virtual void slot10() = 0;
+	virtual void slot14() = 0;
+	virtual void slot18() = 0;
+	virtual void slot1c() = 0;
+	virtual void slot20() = 0;
+	virtual void slot24() = 0;
+	virtual void slot28() = 0;
+	virtual void slot2c() = 0;
+	virtual void slot30() = 0;
+	virtual void slot34() = 0;
+	// MSVC 7.1 reverses overloaded virtual declarations: char fetch is +0x3C.
+	virtual UnicodeString fetch(const char *label, bool *exists = 0) = 0;
+	virtual UnicodeString fetch(const AsciiString &label, bool *exists = 0) = 0;
+};
+extern GameTextInterface *TheGameText;
+// Twelve-byte hero record, sorted by display order and pushed through the
+// folded record provider at 0x002DF89B.
+struct Rva0051DE3DHero
+{
+	int order;
+	bool upgraded;
+	const Image *image;
+};
+struct PrereqUnitRec
+{
+	unsigned int m_data[3];
+	~PrereqUnitRec() {}
+};
+struct BfmeE12Key;
 // One list row, sorted by its operator< (0x005EC52E) before display.
 struct Rva0051DA24Row
 {
@@ -373,6 +435,7 @@ public:
 	void Externs(int query, char *value, bool set);
 	// Retail 0x0051DA24: fills the persistent-unit list box.
 	bool PopulatePersistentUnitsListbox();
+	void rva0051DE3D();
 
 private:
 	int m_state; // +0x27C
@@ -571,6 +634,106 @@ void AptScoreScreen::Externs(int query, char *value, bool set)
 			const AsciiString &formatted = reinterpret_cast<Rva0051D009 *>(this)->rva0051CC8DFormat(m_2b0);
 			if (formatted.getLength() >= 255) return;
 			strcpy(value, formatted.str());
+		}
+	}
+}
+
+// Retail 0x0051DE3D, 1061 B: objectives, hero icons and region bonuses.
+void AptScoreScreen::rva0051DE3D()
+{
+	if (!m_objectives)
+		return;
+	for (int i = 0; i < m_objectives->m_count; ++i)
+	{
+		AsciiString key;
+		key.format("APT:objective%d", i);
+		g_bfmeAptWindowManager->bfmeSetText(key, TheGameText->fetch(m_objectives->m_labels[i].str()), false);
+	}
+	if (!TheGameLogic || !TheThingFactory)
+		return;
+	_STL::vector<Rva0051DE3DHero> heroes;
+	_STL::vector<unsigned int> armies = ((Rva002401C0 *)TheGameLogic)->rva002401C0();
+	for (unsigned int i = 0; i < armies.size(); ++i)
+	{
+		Rva0040CB2CIndexedField *army = (Rva0040CB2CIndexedField *)armies[i];
+		if (!army)
+			return;
+		int count = army->m_entries.size();
+		for (int j = 0; j < count; ++j)
+		{
+			AptScorePersistentUnit *unit = (AptScorePersistentUnit *)army->get(j);
+			ThingTemplate *thing = (ThingTemplate *)TheThingFactory->findTemplate(unit->m_templateName);
+			if (thing && (thing->m_113 & 4))
+			{
+				Rva0051DE3DHero hero;
+				hero.order = thing->m_638;
+				hero.upgraded = unit->m_upgraded;
+				hero.image = thing->getButtonImage();
+				((_STL::vector<PrereqUnitRec> *)&heroes)->push_back(*(const PrereqUnitRec *)&hero);
+			}
+		}
+	}
+	_STL::sort<BfmeE12Key *>((BfmeE12Key *)heroes.begin(), (BfmeE12Key *)heroes.end());
+	m_heroUpgrades.clear();
+	unsigned int k = 0;
+	for (; k < heroes.size(); ++k)
+	{
+		AsciiString key;
+		int slot = m_heroUpgrades.size() + 1;
+		key.format("SubMenus/HeroVeterancy/HeroSelection/HeroSelection%d/icon/Image", slot);
+		((Rva002239B2 *)g_bfmeAptWindowManager)->rva002239E2(key, heroes[k].image);
+		m_heroUpgrades.push_back(heroes[k].upgraded);
+	}
+	Rva002BA8F1Logic *livingWorld = *(Rva002BA8F1Logic **)&TheLivingWorldLogic;
+	if (livingWorld)
+	{
+		int id = livingWorld->m_B8;
+		Rva0020EAF6View *regions = (Rva0020EAF6View *)livingWorld->m_B0;
+		Rva0020E89C *region = regions->rva0020EAF6(id);
+		if (region)
+		{
+			{
+				AsciiString key("APT:ScoreMapName");
+				g_bfmeAptWindowManager->bfmeSetText(key, region->rva0020E89C(), false);
+			}
+			int index = 1;
+			{
+				AsciiString key("LW:RegionBonusArmy");
+				((Rva0051C2E2 *)this)->rva0051C2E2(&index, key, region->m_94);
+			}
+			{
+				AsciiString key("LW:RegionLegendaryBonus");
+				((Rva0051C2E2 *)this)->rva0051C2E2(&index, key, region->m_98);
+			}
+			{
+				AsciiString key("LW:RegionBonusResource");
+				{
+					// Merged paths preserve the native allocation weights (docs/recipes.md).
+					if (m_280 == 1)
+					{
+						((Rva0051C2E2 *)this)->rva0051C2E2(&index, key, region->m_90);
+					}
+					else
+					{
+						((Rva0051C2E2 *)this)->rva0051C2E2(&index, key, region->m_90);
+					}
+				}
+			}
+			while (index <= 3)
+			{
+				AsciiString key("");
+				((Rva0051C2E2 *)this)->rva0051C2E2(&index, key, -1);
+			}
+			{
+				AsciiString key("Result/Infos/ScoreMap/Picture/Image");
+				((Rva002239B2 *)g_bfmeAptWindowManager)->rva002239E2(key, ((Rva003F038E *)region)->rva003F03B9());
+			}
+			{
+				AsciiString key("SubMenus/TerritoryBonus/TerritoryMap/TerritoryMap/Picture/Image");
+				((Rva002239B2 *)g_bfmeAptWindowManager)->rva002239E2(key, ((Rva003F038E *)region)->rva003F03B9());
+			}
+			if (m_280 == 1)
+				PopulatePersistentUnitsListbox();
 		}
 	}
 }

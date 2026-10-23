@@ -998,10 +998,8 @@ void AptScoreScreen::rva0051DE3D()
     
    }
 
-    typedef bool (AptScoreScreen::*Populate51)();
-   const Populate51 populate51 = &AptScoreScreen::PopulatePersistentUnitsListbox;
    if (m_280 == 1)
-   (this->*populate51)();
+   PopulatePersistentUnitsListbox();
    
   }
   

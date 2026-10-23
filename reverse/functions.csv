@@ -20615,19 +20615,6 @@ uw_00795cfd,,0x00795CFD,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;obje
 uw_00795d05,,0x00795D05,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L305
 uw_00795d42,,0x00795D42,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
 uw_00795d75,,0x00795D75,14,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2836
-uw_00795e3b,,0x00795E3B,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L320
-uw_00795e43,,0x00795E43,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L3516
-uw_00795e4b,,0x00795E4B,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5897
-uw_00795e53,,0x00795E53,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5924
-uw_00795e5b,,0x00795E5B,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L320
-uw_00795e63,,0x00795E63,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L320
-uw_00795e6b,,0x00795E6B,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L3516
-uw_00795e73,,0x00795E73,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L320
-uw_00795e7b,,0x00795E7B,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L320
-uw_00795e83,,0x00795E83,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L320
-uw_00795e8b,,0x00795E8B,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L320
-uw_00795e93,,0x00795E93,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L320
-uw_00795e9b,,0x00795E9B,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L320
 uw_00795ebf,,0x00795EBF,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
 uw_00795ff4,,0x00795FF4,11,Code/gen_small/uw_gen_014.cpp,matched,gen-funclet;object-symbol=$L5906
 uw_00795fff,,0x00795FFF,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L2883
@@ -98079,3 +98066,19 @@ Unwind@00b617c3,,0x007617C3,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/
 Unwind@00b617cb,,0x007617CB,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DScriptedModelDrawEventUpdate.cpp,matched,gen-funclet;parent=?rva000BD6C2@W3DScriptedModelDraw@@QAEXXZ;object-symbol=$L2559; Exact parent EH graph binds this emitted cleanup to retail; replaces gen_uw scaffold
 Unwind@00b617d3,,0x007617D3,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DScriptedModelDrawEventUpdate.cpp,matched,gen-funclet;parent=?rva000BD6C2@W3DScriptedModelDraw@@QAEXXZ;object-symbol=$L2560; Exact parent EH graph binds this emitted cleanup to retail; replaces gen_uw scaffold
 __ehhandler$?rva000BD6C2@W3DScriptedModelDraw@@QAEXXZ,,0x007617DB,10,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DScriptedModelDrawEventUpdate.cpp,matched,Compiler-emitted handler of native BD6C2; exact parent EH graph binds handler7617DB and FuncInfo904D1C; full10B mov FuncInfo plus jump CxxFrameHandler
+?rva0051DE3D@AptScoreScreen@@QAEXXZ,,0x0051DE3D,1061,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,Native score-screen class established by Apt callback bindings; neutral method spelling. WB14611B0 and target calls/field access establish objective live reloads; army/hero list; 12B display-order/upgraded/image records; vector<bool> at28C; region bonuses. Genuine merged resource-call paths retain native allocator weights; full1061B including direct PopulatePersistentUnitsListbox call. Existing global names and STLport providers retained.
+??1?$vector@URva0051DE3DHero@@V?$allocator@URva0051DE3DHero@@@_STL@@@_STL@@QAE@XZ,,0x0007FAB3,14,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,fold-proof=Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp; whole emitted destructor and free relocation equal the kept vector<int> owner; parent 0x51DE3D EH cleanup directly targets 0x7FAB3
+__ehhandler$?rva0051DE3D@AptScoreScreen@@QAEXXZ,,0x00795EA3,10,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,Compiler-emitted EH handler of parent 0x0051DE3D; retail frame names this thunk; FuncInfo 0x009496D4 and complete EH graph EXACT
+eh_0051de3d_00795e3b,,0x00795E3B,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,object-symbol=$L11138; Compiler-emitted cleanup bound by parent 0x0051DE3D exact EH graph
+eh_0051de3d_00795e43,,0x00795E43,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,object-symbol=$L11139; Compiler-emitted cleanup bound by parent 0x0051DE3D exact EH graph
+eh_0051de3d_00795e4b,,0x00795E4B,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,object-symbol=$L11140; Compiler-emitted cleanup bound by parent 0x0051DE3D exact EH graph
+eh_0051de3d_00795e53,,0x00795E53,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,object-symbol=$L11141; Compiler-emitted cleanup bound by parent 0x0051DE3D exact EH graph
+eh_0051de3d_00795e5b,,0x00795E5B,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,object-symbol=$L11142; Compiler-emitted cleanup bound by parent 0x0051DE3D exact EH graph
+eh_0051de3d_00795e63,,0x00795E63,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,object-symbol=$L11143; Compiler-emitted cleanup bound by parent 0x0051DE3D exact EH graph
+eh_0051de3d_00795e6b,,0x00795E6B,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,object-symbol=$L11144; Compiler-emitted cleanup bound by parent 0x0051DE3D exact EH graph
+eh_0051de3d_00795e73,,0x00795E73,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,object-symbol=$L11145; Compiler-emitted cleanup bound by parent 0x0051DE3D exact EH graph
+eh_0051de3d_00795e7b,,0x00795E7B,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,object-symbol=$L11146; Compiler-emitted cleanup bound by parent 0x0051DE3D exact EH graph
+eh_0051de3d_00795e83,,0x00795E83,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,object-symbol=$L11147; Compiler-emitted cleanup bound by parent 0x0051DE3D exact EH graph
+eh_0051de3d_00795e8b,,0x00795E8B,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,object-symbol=$L11148; Compiler-emitted cleanup bound by parent 0x0051DE3D exact EH graph
+eh_0051de3d_00795e93,,0x00795E93,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,object-symbol=$L11149; Compiler-emitted cleanup bound by parent 0x0051DE3D exact EH graph
+eh_0051de3d_00795e9b,,0x00795E9B,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,object-symbol=$L11150; Compiler-emitted cleanup bound by parent 0x0051DE3D exact EH graph
