@@ -38230,7 +38230,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004DEC88,179,code,Code/GameEngine/Source/GameLogic/Object/FiringTracker.cpp,proposed,Z,Z=Code/GameEngine/Source/GameLogic/Object/FiringTracker.cpp S=Code/GameEngine/Source/GameLogic/Object/FiringTracker.cpp N=Code/GameEngine/Source/GameLogic/Object/FiringTracker.cpp noncontiguous,Code/GameEngine/Source/GameLogic/Object/FiringTrackerXfer.cpp
 0x004DEDD2,249,code,Code/GameEngine/Source/GameLogic/Object/FiringTracker.cpp,proposed,Z,Z=Code/GameEngine/Source/GameLogic/Object/FiringTracker.cpp S=Code/GameEngine/Source/GameLogic/Object/FiringTracker.cpp N=Code/GameEngine/Source/GameLogic/Object/FiringTracker.cpp noncontiguous,Code/GameEngine/Source/GameLogic/Object/FiringTrackerXfer.cpp
 0x004DEECB,662,code,Code/GameEngine/Source/GameLogic/Object/FiringTracker.cpp,proposed,Z,Z=Code/GameEngine/Source/GameLogic/Object/FiringTracker.cpp S=Code/GameEngine/Source/GameLogic/Object/FiringTracker.cpp N=Code/GameEngine/Source/GameLogic/Object/FiringTracker.cpp noncontiguous,Code/GameEngine/Source/GameLogic/Object/FiringTrackerXfer.cpp
-0x004DF161,30,code,,,-,,Code/GameEngine/Source/Common/Rva004DF161Ratio.cpp
+0x004DF161,30,code,,,-,,Code/GameEngine/Source/Common/Energy_getEnergySupplyRatio.cpp
 0x004DF17F,14,code,,,-,,Code/GameEngine/Source/Common/Rva004DF17FCompare.cpp
 0x004DF18D,34,code,,,-,,Code/GameEngine/Source/Common/Rva004DF18DAdd.cpp
 0x004DF1AF,34,code,,,-,,Code/GameEngine/Source/Common/Rva004DF1AFAdd.cpp
@@ -38294,11 +38294,11 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004E00BA,31,code,,,-,,Code/GameEngine/Source/GameLogic/Object/Rva004E00BA.cpp
 0x004E00D9,98,code-unledgered,,,-,,
 0x004E013B,168,code-unledgered,,,-,,
-0x004E01E3,213,code,Code/GameEngine/Source/Common/AIStatCollector.cpp,proposed,N,N=Code/GameEngine/Source/Common/AIStatCollector.cpp,Code/GameEngine/Source/Common/Rva004E0425Dispatch.cpp
+0x004E01E3,213,code,Code/GameEngine/Source/Common/AIStatCollector.cpp,proposed,N,N=Code/GameEngine/Source/Common/AIStatCollector.cpp,Code/GameEngine/Source/Common/AIStatCollector.cpp
 0x004E02B8,31,code,Code/GameEngine/Source/Common/AIStatCollector.cpp,proposed,C,C=0x004E01E3..0x004E02D7,Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva004E02B8.cpp
 0x004E02D7,52,code,Code/GameEngine/Source/Common/AIStatCollector.cpp,proposed,C,C=0x004E01E3..0x004E030B,Code/GameEngine/Source/Common/Rva004E02D7Find.cpp
 0x004E030B,282,code,Code/GameEngine/Source/Common/AIStatCollector.cpp,proposed,U,N=Code/GameEngine/Source/GameLogic/SkirmishAI/AIStatCollector/AIStatCollector.cpp,Code/GameEngine/Source/GameLogic/SkirmishAI/AIStatCollector/AIStatCollector.cpp
-0x004E0425,180,code,Code/GameEngine/Source/Common/AIStatCollector.cpp,proposed,N,N=Code/GameEngine/Source/Common/AIStatCollector.cpp,Code/GameEngine/Source/Common/Rva004E0425Dispatch.cpp
+0x004E0425,180,code,Code/GameEngine/Source/Common/AIStatCollector.cpp,proposed,N,N=Code/GameEngine/Source/Common/AIStatCollector.cpp,Code/GameEngine/Source/Common/AIStatCollector.cpp
 0x004E04D9,36,code,,,-,,Code/GameEngine/Source/Common/Rva004E04D9Clear.cpp
 0x004E04FD,22,code,,,-,,Code/GameEngine/Source/Common/Rva004E04FDCtor.cpp
 0x004E0513,204,code,,,-,,Code/GameEngine/Source/Common/Rva004E0513Xfer.cpp
@@ -38333,7 +38333,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004E0B02,45,code,Code/GameEngine/Source/Common/LivingWorldBuilding.cpp,proposed,C,C=0x004E0A96..0x004E0B60,Code/GameEngine/Source/Common/Rva004E0ADBFamily.cpp
 0x004E0B60,59,code,Code/GameEngine/Source/Common/LivingWorldBuilding.cpp,proposed,C,C=0x004E0A96..0x004E0B9B,Code/GameEngine/Source/Common/Rva004E0ADBFamily.cpp
 0x004E0B9B,65,code,Code/GameEngine/Source/Common/LivingWorldBuilding.cpp,proposed,C,C=0x004E0A96..0x004E0BDC,Code/GameEngine/Source/Common/Rva004E0ADBFamily.cpp
-0x004E0BDC,109,code,Code/GameEngine/Source/Common/LivingWorldBuilding.cpp,proposed,N,N=Code/GameEngine/Source/Common/LivingWorldBuilding.cpp,Code/GameEngine/Source/Common/Rva004E0BDCEnsure.cpp
+0x004E0BDC,109,code,Code/GameEngine/Source/Common/LivingWorldBuilding.cpp,proposed,N,N=Code/GameEngine/Source/Common/LivingWorldBuilding.cpp,Code/GameEngine/Source/Common/LivingWorldBuilding_updateArmySummaryEntryRepresentation.cpp
 0x004E0C49,90,code,Code/GameEngine/Source/Common/LivingWorldBuilding.cpp,proposed,K,K=Rva004E0B60,Code/GameEngine/Source/Common/Rva004E0ADBFamily.cpp
 0x004E0CA3,19,code,Code/GameEngine/Source/Common/LivingWorldBuilding.cpp,proposed,K,K=Rva004E0B60,Code/GameEngine/Source/Common/Rva004E0ADBFamily.cpp
 0x004E0CB6,21,code,Code/GameEngine/Source/Common/LivingWorldBuilding.cpp,proposed,K,K=Rva004E0B60,Code/GameEngine/Source/Common/Rva004E0ADBFamily.cpp
@@ -38483,7 +38483,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004E3FF0,10,code,,,-,,Code/GameEngine/Source/Common/Disp8ByteFieldSetters.cpp
 0x004E4007,6,code,,,-,,Code/GameEngine/Source/Common/ModuleNameGetters.cpp
 0x004E400D,43,code,,,-,,Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp
-0x004E4038,110,code,Code/GameEngine/Source/Common/AptObjectivesMenu.cpp,proposed,N,N=Code/GameEngine/Source/Common/AptObjectivesMenu.cpp,Code/GameEngine/Source/Common/Rva004E4038Handler.cpp
+0x004E4038,110,code,Code/GameEngine/Source/Common/AptObjectivesMenu.cpp,proposed,N,N=Code/GameEngine/Source/Common/AptObjectivesMenu.cpp,Code/GameEngine/Source/Common/AptObjectivesMenu_OnSystemMsg.cpp
 0x004E40A6,33,code,,,-,,Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp
 0x004E40C7,178,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptPlayerStatus.cpp,proposed,N,N=Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptPlayerStatus.cpp,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptPlayerStatusCallbacks.cpp
 0x004E4179,50,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptPlayerStatus.cpp,proposed,C,C=0x004E40C7..0x004E41AB,Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp
@@ -38589,7 +38589,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004E6A9B,157,code,Code/GameEngine/Source/Common/InGameNotificationBoxMovieClip.cpp,proposed,C,C=0x004E67D0..0x004E6B38,Code/GameEngine/Source/Common/Rva004E6A9BDtor.cpp
 0x004E6B38,69,code,Code/GameEngine/Source/Common/InGameNotificationBoxMovieClip.cpp,proposed,N,N=Code/GameEngine/Source/Common/InGameNotificationBoxMovieClip.cpp,Code/GameEngine/Source/Common/Rva004E6B38Method.cpp
 0x004E6B9B,55,code,Code/GameEngine/Source/Common/InGameNotificationBoxMovieClip.cpp,proposed,N,N=Code/GameEngine/Source/Common/InGameNotificationBoxMovieClip.cpp,Code/GameEngine/Source/Common/AptStateCalls.cpp
-0x004E6BD2,36,code,Code/GameEngine/Source/Common/InGameNotificationBoxMovieClip.cpp,proposed,N,N=Code/GameEngine/Source/Common/InGameNotificationBoxMovieClip.cpp,Code/GameEngine/Source/Common/Rva004E6BD2Advance.cpp
+0x004E6BD2,36,code,Code/GameEngine/Source/Common/InGameNotificationBoxMovieClip.cpp,proposed,N,N=Code/GameEngine/Source/Common/InGameNotificationBoxMovieClip.cpp,Code/GameEngine/Source/Common/InGameNotificationBoxMovieClip_OnClosed.cpp
 0x004E6BF6,62,code,Code/GameEngine/Source/Common/InGameNotificationBoxMovieClip.cpp,proposed,C,C=0x004E6BD2..0x004E6C34,Code/GameEngine/Source/GameClient/GUI/InGame/InGameNotificationBoxMovieClip.cpp
 0x004E6C34,764,code-unledgered,Code/GameEngine/Source/Common/InGameNotificationBoxMovieClip.cpp,proposed,C,C=0x004E6BD2..0x004E6F30,
 0x004E6F30,233,code-unledgered,Code/GameEngine/Source/Common/InGameNotificationBoxMovieClip.cpp,proposed,C,C=0x004E6BD2..0x004E7019,
@@ -38686,7 +38686,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004E962A,45,code,Code/GameEngine/Source/Common/AIGameTeam.cpp,proposed,C,C=0x004E955F..0x004E9657,Code/GameEngine/Source/Common/Rva004E962ACtor.cpp
 0x004E9657,185,code-unledgered,Code/GameEngine/Source/Common/AIGameTeam.cpp,proposed,C,C=0x004E955F..0x004E9710,
 0x004E9710,182,code,Code/GameEngine/Source/Common/AIGameTeam.cpp,proposed,N,N=Code/GameEngine/Source/Common/AIGameTeam.cpp,Code/GameEngine/Source/Common/Rva004F8B89Fwd.cpp
-0x004E9823,137,code,,,-,,Code/GameEngine/Source/Common/Rva004E9823Fill.cpp
+0x004E9823,137,code,,,-,,Code/GameEngine/Source/Common/AIGameTeam_addPlayer.cpp
 0x004E98B4,42,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AIWallBuilder/AIWallBuilder.cpp,proposed,N,N=Code/GameEngine/Source/GameLogic/SkirmishAI/AIWallBuilder/AIWallBuilder.cpp,Code/GameEngine/Source/GameLogic/SkirmishAI/AIWallBuilder/AIWallBuilder.cpp
 0x004E98DE,25,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AIWallBuilder/AIWallBuilder.cpp,proposed,N,N=Code/GameEngine/Source/GameLogic/SkirmishAI/AIWallBuilder/AIWallBuilder.cpp,Code/GameEngine/Source/GameLogic/SkirmishAI/AIWallBuilder/Rva004E98DEMethod.cpp
 0x004E98F7,186,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AIWallBuilder/AIWallBuilder.cpp,proposed,C,C=0x004E98DE..0x004E99B1,Code/GameEngine/Source/GameLogic/SkirmishAI/AIWallBuilder/AIWallBuilder.cpp
@@ -38708,7 +38708,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004EA046,222,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AIEconomyBuilder/AIEconomyBuilder.cpp,proposed,N,N=Code/GameEngine/Source/GameLogic/SkirmishAI/AIEconomyBuilder/AIEconomyBuilder.cpp,Code/GameEngine/Source/GameLogic/SkirmishAI/AIEconomyBuilder/AIEconomyBuilderNeedMoreFarms.cpp
 0x004EA124,37,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AIEconomyBuilder/AIEconomyBuilder.cpp,proposed,C,C=0x004EA046..0x004EA149,Code/GameEngine/Source/Common/Rva004EA124Find.cpp
 0x004EA149,45,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AIEconomyBuilder/AIEconomyBuilder.cpp,proposed,C,C=0x004EA046..0x004EA176,Code/GameEngine/Source/Common/RvaTreeEraseClearFamily.cpp
-0x004EA176,47,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AIEconomyBuilder/AIEconomyBuilder.cpp,proposed,U,N=Code/GameEngine/Source/Common/AIEconomyBuilder.cpp,Code/GameEngine/Source/Common/Rva004EA176.cpp
+0x004EA176,47,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AIEconomyBuilder/AIEconomyBuilder.cpp,proposed,U,N=Code/GameEngine/Source/Common/AIEconomyBuilder.cpp,Code/GameEngine/Source/Common/AIEconomyBuilder_getFarmTemplateName.cpp
 0x004EA1A5,191,code-unledgered,Code/GameEngine/Source/GameLogic/SkirmishAI/AIEconomyBuilder/AIEconomyBuilder.cpp,proposed,C,C=0x004EA176..0x004EA264,
 0x004EA264,41,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AIEconomyBuilder/AIEconomyBuilder.cpp,proposed,C,C=0x004EA176..0x004EA28D,Code/GameEngine/Source/Common/RvaTreeEraseClearFamily.cpp
 0x004EA28D,56,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AIEconomyBuilder/AIEconomyBuilder.cpp,proposed,C,C=0x004EA176..0x004EA2C5,Code/GameEngine/Source/Common/RvaTreeDtorFamily.cpp
@@ -38886,10 +38886,10 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004EF342,26,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,S,S=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp N=Code/GameEngine/Source/GameLogic/AI/TeamInQueue.cpp noncontiguous,Code/GameEngine/Source/GameLogic/AI/TeamInQueueLinks.cpp
 0x004EF35C,23,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,C,C=0x004EF342..0x004EF373 noncontiguous,Code/GameEngine/Source/Common/Rva00160620Set.cpp
 0x004EF373,16,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,S,S=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp N=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp noncontiguous,Code/GameEngine/Source/GameLogic/AI/AIPlayerTeamQueues.cpp
-0x004EF383,32,code,,,-,,Code/GameEngine/Source/Common/Rva004F040FList.cpp
+0x004EF383,32,code,,,-,,Code/GameEngine/Source/Common/AIPlayer_prependTo_TeamReadyQueue.cpp
 0x004EF3A3,116,code,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,approved,Z,Z=Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp S=Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp N=Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayerCtor.cpp
 0x004EF417,6,code,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,approved,C,C=0x004EF3A3..0x004EF41D,Code/GameEngine/Source/Common/ConstIntGetters4.cpp
-0x004EF41D,56,code,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,approved,C,C=0x004EF3A3..0x004EF455,Code/GameEngine/Source/Common/Rva004EF41DDtor.cpp
+0x004EF41D,56,code,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,approved,C,C=0x004EF3A3..0x004EF455,Code/GameEngine/Source/Common/AISkirmishPlayer.cpp
 0x004EF455,5,code,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,approved,Z,Z=Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp S=Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp N=Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp
 0x004EF45F,5,code,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,approved,Z,Z=Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp S=Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp N=Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp
 0x004EF464,56,code,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,approved,Z,Z=Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp S=Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp N=Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp
@@ -38905,9 +38905,9 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004EF5BE,16,code,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,approved,C,C=0x004EF52F..0x004EF5CE,Code/GameEngine/Source/Common/R1GuardedReleaseHelpers.cpp
 0x004EF5CE,50,code,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,approved,C,C=0x004EF52F..0x004EF600,Code/GameEngine/Source/GameLogic/AI/AIPlayerTeamBuild.cpp
 0x004EF600,6,code,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,approved,C,C=0x004EF52F..0x004EF606,Code/GameEngine/Source/Common/ModuleNameGetters.cpp
-0x004EF606,28,code,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,approved,C,C=0x004EF52F..0x004EF622,Code/GameEngine/Source/Common/Rva004F05F0Finish.cpp
+0x004EF606,28,code,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,approved,C,C=0x004EF52F..0x004EF622,Code/GameEngine/Source/Common/TeamInQueue.cpp
 0x004EF622,19,code,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,approved,C,C=0x004EF52F..0x004EF635,Code/GameEngine/Source/Common/S3IteratorMakers.cpp
-0x004EF635,28,code,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,approved,C,C=0x004EF52F..0x004EF651,Code/GameEngine/Source/Common/Rva004EF41DDtor.cpp
+0x004EF635,28,code,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,approved,C,C=0x004EF52F..0x004EF651,Code/GameEngine/Source/Common/AISkirmishPlayer.cpp
 0x004EF651,79,code,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,approved,Z,Z=Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp S=Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp N=Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp
 0x004EF6A0,154,code,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,approved,Z,Z=Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp S=Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp N=Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp
 0x004EF73A,323,code,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,approved,Z,Z=Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp S=Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp N=Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp,Code/GameEngine/Source/GameLogic/AI/AISkirmishPlayer.cpp
@@ -38942,7 +38942,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004F05BA,6,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,C,C=0x004F04FC..0x004F05C0 noncontiguous,Code/GameEngine/Source/Common/ConstIntGetters4.cpp
 0x004F05C0,22,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,C,C=0x004F04FC..0x004F05D6 noncontiguous,Code/GameEngine/Source/GameLogic/AI/TeamInQueueBuildPredicates.cpp
 0x004F05D6,26,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,Z,Z=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp S=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp N=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp noncontiguous,Code/GameEngine/Source/GameLogic/AI/AIPlayer_Rva004F0499.cpp
-0x004F05F0,102,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,C,C=0x004F05D6..0x004F0656 noncontiguous,Code/GameEngine/Source/Common/Rva004F05F0Finish.cpp
+0x004F05F0,102,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,C,C=0x004F05D6..0x004F0656 noncontiguous,Code/GameEngine/Source/Common/TeamInQueue.cpp
 0x004F0656,43,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,C,C=0x004F05D6..0x004F0681 noncontiguous,Code/GameEngine/Source/GameLogic/AI/Rva004F0656Predicate.cpp
 0x004F0681,37,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,C,C=0x004F05D6..0x004F06A6 noncontiguous,Code/GameEngine/Source/GameLogic/AI/Rva004F0681Predicate.cpp
 0x004F06A6,39,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,Z,Z=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp S=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp N=Code/GameEngine/Source/GameLogic/AI/TeamInQueue.cpp noncontiguous,Code/GameEngine/Source/GameLogic/AI/TeamInQueueBuildPredicates.cpp
@@ -38969,9 +38969,9 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004F1801,466,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,Z,Z=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp S=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp N=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp noncontiguous,Code/GameEngine/Source/GameLogic/AI/AIPlayerTeamBuild.cpp
 0x004F19D3,35,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,Z,Z=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp S=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp N=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp noncontiguous,Code/GameEngine/Source/GameLogic/AI/AIPlayerTeamBuild.cpp
 0x004F19F6,352,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,Z,Z=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp S=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp N=Code/GameEngine/Source/GameLogic/AI/TeamInQueue.cpp noncontiguous,Code/GameEngine/Source/GameLogic/AI/TeamInQueueXfer.cpp
-0x004F1B56,54,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,C,C=0x004F19F6..0x004F1B8C noncontiguous,Code/GameEngine/Source/Common/Rva004F1B56Dtor.cpp
+0x004F1B56,54,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,C,C=0x004F19F6..0x004F1B8C noncontiguous,Code/GameEngine/Source/Common/WorkOrder.cpp
 0x004F1B8C,400,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,Z,Z=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp S=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp N=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp noncontiguous,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp
-0x004F1D1C,28,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,C,C=0x004F1B8C..0x004F1D38 noncontiguous,Code/GameEngine/Source/Common/Rva004F1B56Dtor.cpp
+0x004F1D1C,28,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,C,C=0x004F1B8C..0x004F1D38 noncontiguous,Code/GameEngine/Source/Common/WorkOrder.cpp
 0x004F1D38,811,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,Z,Z=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp S=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp N=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp noncontiguous,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp
 0x004F2063,370,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,Z,Z=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp S=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp N=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp noncontiguous,Code/GameEngine/Source/GameLogic/AI/AIPlayerTeamBuild.cpp
 0x004F21D5,655,code,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp,proposed,Z,Z=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp S=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp N=Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp noncontiguous,Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp
@@ -39071,7 +39071,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004F6165,34,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/PAUTreeHintRef00217D4CRva004F9565.cpp
 0x004F6187,42,code,,,-,,Code/GameEngine/Source/Common/Rva004F8B89Fwd.cpp
 0x004F61B1,110,code,,,-,,Code/GameEngine/Source/Common/Rva004F8B89Fwd.cpp
-0x004F6234,52,code,,,-,,Code/GameEngine/Source/Common/Rva004F6234Check.cpp
+0x004F6234,52,code,,,-,,Code/GameEngine/Source/Common/LivingWorldAutoResolveBattle_enumerateCurrentUnits.cpp
 0x004F6268,60,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_pod_vector_bodies.cpp
 0x004F62A4,58,code,,,-,,Code/GameEngine/Source/Common/Thing/ThingTemplate.cpp
 0x004F62DE,32,code,,,-,,Code/GameEngine/Source/Common/Rva004F6352Assign.cpp
@@ -39152,7 +39152,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004F75F2,175,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_rva004f6352_sort.cpp
 0x004F76A1,27,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_rva004f6352_sort.cpp
 0x004F76BC,46,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/PAUTreeHintRef00217D4CRva004F9565.cpp
-0x004F76EA,71,code,,,-,,Code/GameEngine/Source/Common/Rva004F76EA.cpp
+0x004F76EA,71,code,,,-,,Code/GameEngine/Source/Common/LivingWorldAutoResolveBattle_enumerateReinforcementUnits.cpp
 0x004F7731,42,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_list_rva005F8F96_clear.cpp
 0x004F7780,45,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_pop_heap_rva004f7e61.cpp
 0x004F77AD,51,code,,,-,,Code/GameEngine/Source/Common/Rva004F60AAInit.cpp
@@ -40592,7 +40592,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00524845,139,code,Code/GameEngine/Source/GameClient/GUI/AptOverButtonHandlerAdder.cpp,proposed,N,N=Code/GameEngine/Source/GameClient/GUI/AptOverButtonHandlerAdder.cpp,Code/GameEngine/Source/GameClient/GUI/AptCallbackAdders.cpp
 0x005248D0,111,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/Rva005248D0Dtor.cpp
 0x0052493F,52,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/Rva0052493FClear.cpp
-0x00524973,186,code,Code/GameEngine/Source/Common/MovieWindowPlayback.cpp,proposed,N,N=Code/GameEngine/Source/Common/MovieWindowPlayback.cpp,Code/GameEngine/Source/Common/Rva00524973Vslot.cpp
+0x00524973,186,code,Code/GameEngine/Source/Common/MovieWindowPlayback.cpp,proposed,N,N=Code/GameEngine/Source/Common/MovieWindowPlayback.cpp,Code/GameEngine/Source/Common/MovieWindowPlayback_draw.cpp
 0x00524A2D,31,code,Code/GameEngine/Source/Common/MovieWindowPlayback.cpp,proposed,C,C=0x00524973..0x00524A4C,Code/GameEngine/Source/Common/Rva00524A2D.cpp
 0x00524A4C,25,code,Code/GameEngine/Source/Common/MovieWindowPlayback.cpp,proposed,C,C=0x00524973..0x00524A65,Code/GameEngine/Source/Common/Rva00524A4CClear.cpp
 0x00524A65,31,code,Code/GameEngine/Source/Common/MovieWindowPlayback.cpp,proposed,C,C=0x00524973..0x00524A84,Code/GameEngine/Source/Common/Rva00524A4CClear.cpp
@@ -40740,7 +40740,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00528BC1,28,code,,,-,,Code/GameEngine/Source/Common/Rva00528BDDFirer.cpp
 0x00528BDD,36,code,,,-,,Code/GameEngine/Source/Common/Rva00528BDDFirer.cpp
 0x00528C0C,36,code,,,-,,Code/GameEngine/Source/Common/Rva00528C0CFirer.cpp
-0x00528C30,27,code,,,-,,Code/GameEngine/Source/Common/Rva00528C30.cpp
+0x00528C30,27,code,,,-,,Code/GameEngine/Source/Common/ParseClipName.cpp
 0x00528C4B,7,code,,,-,,Code/GameEngine/Source/Common/Disp8PtrChaseDwordGetters.cpp
 0x00528C52,10,code,,,-,,Code/GameEngine/Source/Common/Disp8ByteChaseGetters.cpp
 0x00528C5C,9,code,,,-,,Code/GameEngine/Source/Common/Disp8AddImm32DwordFieldGetters.cpp
@@ -40766,7 +40766,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x005293D3,297,code-unledgered,,,-,,
 0x005294FC,217,code-unledgered,,,-,,
 0x005295D5,83,code,,,-,,Code/GameEngine/Source/Common/Rva005295D5Method.cpp
-0x00529628,112,code,,,-,,Code/GameEngine/Source/Common/Rva00529628Get.cpp
+0x00529628,112,code,,,-,,Code/GameEngine/Source/Common/ParseButtonSlotIndex.cpp
 0x00529698,264,code,,,-,,Code/GameEngine/Source/Common/Rva00529698Method.cpp
 0x005297A0,61,code,,,-,,Code/GameEngine/Source/Common/Rva005297A0Method.cpp
 0x005297DD,259,code,,,-,,Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/PalantirCommandInterface.cpp
@@ -40854,7 +40854,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0052BAAB,7,code,,,-,,Code/GameEngine/Source/Common/Disp32ByteGetters.cpp
 0x0052BAB2,15,code,,,-,,Code/GameEngine/Source/Common/Rva0052BAB2Getter.cpp
 0x0052BAC1,61,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaign.cpp,proposed,U,N=Code/GameEngine/Source/Common/LivingWorldCampaign.cpp noncontiguous,Code/GameEngine/Source/Common/Rva0052BAC1Dispatch.cpp
-0x0052BAFE,42,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaign.cpp,proposed,C,C=0x0052BAC1..0x0052BB28 noncontiguous,Code/GameEngine/Source/Common/Rva0052CFB1Xfer.cpp
+0x0052BAFE,42,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaign.cpp,proposed,C,C=0x0052BAC1..0x0052BB28 noncontiguous,Code/GameEngine/Source/Common/LivingWorldCampaign_xfer.cpp
 0x0052BB28,12,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaign.cpp,proposed,C,C=0x0052BAC1..0x0052BB34 noncontiguous,Code/GameEngine/Source/Common/Disp8DivAvgDwordGetters.cpp
 0x0052BB34,57,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaign.cpp,proposed,C,C=0x0052BAC1..0x0052BB6D noncontiguous,Code/GameEngine/Source/Common/Rva003A6F70Ctor.cpp
 0x0052BB6D,45,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaign.cpp,proposed,C,C=0x0052BAC1..0x0052BB9A noncontiguous,Code/GameEngine/Source/Common/Rva004E18A2CopyCtor.cpp
@@ -40964,7 +40964,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0052D83B,8,code,,,-,,Code/GameEngine/Source/Common/Rva0052D83B.cpp
 0x0052D843,9,code,,,-,,Code/GameEngine/Source/Common/Disp8CmpBoolGetters.cpp
 0x0052D84C,464,code-unledgered,,,-,,
-0x0052DA1C,71,code,,displaced,-,S=Code/GameEngine/Source/GameLogic/AI/AIPathfind.cpp N=Code/GameEngine/Source/Common/PathfindCell.cpp,Code/GameEngine/Source/Common/Rva0052DA1C.cpp
+0x0052DA1C,71,code,,displaced,-,S=Code/GameEngine/Source/GameLogic/AI/AIPathfind.cpp N=Code/GameEngine/Source/Common/PathfindCell.cpp,Code/GameEngine/Source/Common/PathfindCell_SetType_Dirty.cpp
 0x0052DA63,50,code,,,-,,Code/GameEngine/Source/Common/Rva0052DA63.cpp
 0x0052DA95,47,code,,displaced,-,S=Code/GameEngine/Source/GameLogic/AI/AIPathfind.cpp N=Code/GameEngine/Source/Common/PathfindCell.cpp,Code/GameEngine/Source/Common/Rva0052DA95.cpp
 0x0052DAC4,14,code,,displaced,-,S=Code/GameEngine/Source/GameLogic/AI/AIPathfind.cpp N=Code/GameEngine/Source/Common/PathfindCell.cpp,Code/GameEngine/Source/Common/Rva0052DAC4Set.cpp
