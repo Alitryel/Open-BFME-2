@@ -202,7 +202,33 @@ not a strict-H recovery. Span endpoints alone do not establish membership.
 The third trace is the weaker `n_expr_scope_shortagegoto` control, **1523 B**,
 not the 1558/1551-byte slot-improving variants. Its exact source is preserved in
 `observer-optional.patch.txt`; it loses early ESI and supplies no allocation fix.
-A bounded follow-up compares the existing all-Object-guards GH control, then
-the existing loose-helper control if the loose region remains distinguishing.
-This tests the newly observable regional explanation; it is not a replay of a
-source family as though untried. Target bytes remain unmatched.
+The bounded follow-up is complete: all-Object-guards GH has round-3 membership
+**34/75**, and the existing loose-helper control **34/74**. Both retain the
+same recount-excluded / loose-included cut and early preload plus shared late
+reload. Guard removal and whole loose extraction are therefore refuted as the
+missing regional lever. Complete code/relocation preservation holds for **62/62**
+and **63/63** emitted definitions respectively; both retain 45 ordered calls,
+five EH states, fresh mutable-field reads and correct normal restore paths.
+No distinct source-supported finishing hypothesis emerged, and no new source
+variant sweep was started. Five stock traces total were run across these two
+diagnostic rounds. All tasks and compiler processes have now finished.
+
+`region-controls.md.txt`, `region-summary.json.txt`, `region-allocation.csv`,
+the per-input equality/manifests, and `region-audit.json.txt` preserve the result.
+`region-loose-helper.patch.txt` supplies the exact second control; the first is
+the already-preserved guard-gh patch. Parent commit hashes changed during normal
+rebases; source and compiler identity receipts, rather than ancestry of an old
+local commit hash, establish control reproduction. Target bytes remain unmatched.
+
+For a fresh checkout, restore script snapshots to their original relative
+build/ hierarchy and remove the `.txt` suffix. The observer's prepare scripts
+expect experiments/trial.py plus the exact controls reconstructed from the
+patches above. Restore `observer-prepare-optional.py.txt` as
+observer/prepare_optional.py. The regional audit additionally reads
+extraction/analyze.py and extraction/final_audit.py **only for their function
+definitions**; the minimal snapshots supplied here preserve exactly those
+functions. Restore gh-control-calls.json.txt as extraction/gh_control.calls.json.
+Compile the reconstructed original guard/loose control source paths privately
+with trial.py before the regional audit compares their objects with fresh
+same-path trace inputs. No shared-cache probe or explain_mismatch compile is
+needed to resume this workflow.
