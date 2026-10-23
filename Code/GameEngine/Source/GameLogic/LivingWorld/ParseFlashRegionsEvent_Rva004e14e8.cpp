@@ -1,15 +1,22 @@
 // cl: -DNDEBUG -DWIN32 -MD -EHsc -Ireference/open-bfme-1/game/GameEngine/Source/GameLogic/LivingWorld
-// ParseFlashRegionsEvent: retail RVA 0x003B7190, 145 bytes through the
-// _CxxThrowException call. The following int3 is alignment, not body coverage.
-// Identity: exact exception literal ParseFlashRegionsEvent::Invalid data passed in.
-// Record: ctor 0x003B7160 and copies at 0x003A6360/0x003B1B40 witness
-// vtable VA 0x010EC760, dword +4, byte +8, dword +0xC; sizeof is 16.
-// Parse table VA 0x010ECC38; append call via ILT 0x00003F3A to 0x003B1B40.
-// The early throwing guard keeps the native record in function scope;
-// VC7.1 reserves separate 8-byte exception and 16-byte record slots.
+// BFME 1 donor: game/GameEngine/Source/GameLogic/LivingWorld/
+// ParseFlashRegionsEvent.cpp at 6d943426, recompiled /Os for BFME 2.
+// Target identity: native exception text names ParseFlashRegionsEvent.
+// BFME 2 parser4E14E8/118 creates a16-byte local; ctor4E14CD and copy52BB9A
+// independently witness vptrC619A0 and fields4/8/C. TableC619E0 and append
+// thunk56655F come from the native call operands, not donor addresses.
+// The original record class name is unknown. Its function-scope lifetime
+// preserves VC7.1's separate8-byte exception and16-byte record EH slots.
 typedef int Int;
 
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse
+{
+    const char *token;
+    FieldParseProc parse;
+    const void *userData;
+    int offset;
+};
 
 #include "../../../../../reference/shims/iniexception/Common/INIException.h"
 
@@ -17,6 +24,8 @@ class INI
 {
 public:
 	void initFromINI( void *what, const FieldParse *parseTable );
+    static void dup_002F0F7(INI *, void *, void *, const void *);
+    static void parseBool(INI *, void *, void *, const void *);
 };
 
 class Rva003B7190Record
@@ -31,14 +40,21 @@ private:
 	Int m_0C;
 };
 
-extern const FieldParse Rva003B7190RecordFieldParseTable[];
+// BFME 2's complete table at RVA 0x008619E0. Each callback and offset
+// comes from the native table, independently of the donor's addresses.
+extern const FieldParse Rva003B7190RecordFieldParseTable[4] = {
+    { "DelayFromActStart", INI::dup_002F0F7, 0, 4 },
+    { "FlashTime", INI::dup_002F0F7, 0, 12 },
+    { "SummaryEvent", INI::parseBool, 0, 8 },
+    { 0, 0, 0, 0 }
+};
 
-class BfmeItemXN;
+struct Elem003AF9E0;
 
-class Gen003B1B40
+class Rva0056655FOwner
 {
 public:
-	void bfmeAppend( BfmeItemXN *record );
+	void rva0056655F(const Elem003AF9E0 &record);
 };
 
 // ?ParseFlashRegionsEvent@@YAXPAVINI@@PAX1PBX@Z
@@ -49,6 +65,8 @@ void ParseFlashRegionsEvent(INI *ini, void *instance, void *, const void *)
 
     Rva003B7190Record record;
     ini->initFromINI(&record, Rva003B7190RecordFieldParseTable);
-    static_cast<Gen003B1B40 *>(instance)->bfmeAppend(
-        reinterpret_cast<BfmeItemXN *>(&record));
+    // The rowed 0x0056655F thunk has the native reference ABI. Its element
+    // spelling is a callable view, not an assertion of this record's identity.
+    static_cast<Rva0056655FOwner *>(instance)->rva0056655F(
+        reinterpret_cast<const Elem003AF9E0 &>(record));
 }
