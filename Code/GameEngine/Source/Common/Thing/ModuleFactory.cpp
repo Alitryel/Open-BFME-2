@@ -430,7 +430,9 @@ void bfmeEmitModuleFactoryInlines(NewModuleProc *instances, NewModuleDataProc *d
 	BFME_EMIT_MODULE_INSTANCE( LaserUpdate );
 	BFME_EMIT_MODULE_INSTANCE( OCLUpdate );
 	BFME_EMIT_MODULE_DATA( StructureToppleUpdate );
-	BFME_EMIT_MODULE_DATA( GrantScienceUpgrade );
+	// GrantScienceUpgrade's data factory would call a buildFieldParse no unit
+	// defines; a local object emits the same vftable, ??_G and ??1 rows.
+	{ GrantScienceUpgradeModuleData grantScienceUpgradeData; }
 	BFME_EMIT_MODULE_INSTANCE( LockWeaponCreate );
 	BFME_EMIT_MODULE_INSTANCE( PreorderCreate );
 	BFME_EMIT_MODULE_INSTANCE( SupplyWarehouseCreate );
