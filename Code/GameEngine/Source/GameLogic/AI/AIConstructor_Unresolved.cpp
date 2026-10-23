@@ -217,6 +217,8 @@ public:
  AI(); virtual ~AI();
  __declspec(noinline) void newOverride();
  static void parseAiDataDefinition(INI *ini);
+ static void parseSideInfo(INI *ini, void *instance, void *store, const void *userData);
+ static void parseAttackPriority(INI *ini, void *instance, void *store, const void *userData);
  __declspec(noinline) void addSideInfo(Rva002FE620*);
  virtual void init(); virtual void reset(); virtual void update();
  virtual void loadPostProcess(); virtual const char *GetSnapshotName()const;
@@ -322,6 +324,12 @@ class INI
 {
 public:
  void initFromINI(void *what, const FieldParse *parseTable);
+ static void parseBool(INI *ini, void *instance, void *store, const void *userData);
+ static void parseInt(INI *ini, void *instance, void *store, const void *userData);
+ static void parseReal(INI *ini, void *instance, void *store, const void *userData);
+ static void parsePercentToReal(INI *ini, void *instance, void *store, const void *userData);
+ static void parseDurationUnsignedInt(INI *ini, void *instance, void *store, const void *userData);
+ static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
  int getLoadType() const { return m_loadType; }
 private:
  char m_pad[8];
@@ -329,6 +337,101 @@ private:
 };
 extern AI *TheAI;
 extern const FieldParse s_aiDataFieldParseTable[];
+
+// Zero Hour's INI field-parse record: the token, its parser, the parser's
+// user data and the field offset within TAiData.
+typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
+struct FieldParse
+{
+	const char *token;
+	INIFieldParseProc parse;
+	const void *userData;
+	int offset;
+};
+// The skirmish build-list parser the SkirmishBuildList token runs (rowed 0x002FE9FC).
+class Rva0014C090 { public: static void parseDefinition(INI *ini, void *instance, void *store, const void *userData); };
+
+// The AIData block's fields, retail VA 0x00C06650 (74 records and the null
+// terminator, 0x4B0 bytes): tokens, parsers and TAiData offsets read from retail.
+const FieldParse s_aiDataFieldParseTable[] =
+{
+	{ "StructureSeconds", &INI::parseReal, 0, 0x4 },
+	{ "TeamSeconds", &INI::parseReal, 0, 0x8 },
+	{ "Wealthy", &INI::parseInt, 0, 0xC },
+	{ "Poor", &INI::parseInt, 0, 0x10 },
+	{ "ForceIdleMSEC", &INI::parseDurationUnsignedInt, 0, 0x14 },
+	{ "StructuresWealthyRate", &INI::parseReal, 0, 0x18 },
+	{ "TeamsWealthyRate", &INI::parseReal, 0, 0x1C },
+	{ "StructuresPoorRate", &INI::parseReal, 0, 0x20 },
+	{ "TeamsPoorRate", &INI::parseReal, 0, 0x24 },
+	{ "TeamResourcesToStart", &INI::parseReal, 0, 0x28 },
+	{ "GuardInnerModifierAI", &INI::parseReal, 0, 0x2C },
+	{ "GuardOuterModifierAI", &INI::parseReal, 0, 0x30 },
+	{ "GuardInnerModifierHuman", &INI::parseReal, 0, 0x34 },
+	{ "GuardOuterModifierHuman", &INI::parseReal, 0, 0x38 },
+	{ "GuardChaseUnitsDuration", &INI::parseDurationUnsignedInt, 0, 0x3C },
+	{ "GuardEnemyScanRate", &INI::parseDurationUnsignedInt, 0, 0x40 },
+	{ "GuardEnemyReturnScanRate", &INI::parseDurationUnsignedInt, 0, 0x44 },
+	{ "SkirmishGroupFudgeDistance", &INI::parseReal, 0, 0x58 },
+	{ "RepulsedDistance", &INI::parseReal, 0, 0x60 },
+	{ "EnableRepulsors", &INI::parseBool, 0, 0x64 },
+	{ "AlertRangeModifier", &INI::parseReal, 0, 0x4C },
+	{ "AggressiveRangeModifier", &INI::parseReal, 0, 0x50 },
+	{ "ForceSkirmishAI", &INI::parseBool, 0, 0x65 },
+	{ "RotateSkirmishBases", &INI::parseBool, 0, 0x66 },
+	{ "AttackUsesLineOfSight", &INI::parseBool, 0, 0x67 },
+	{ "AttackIgnoreInsignificantBuildings", &INI::parseBool, 0, 0x68 },
+	{ "AttackPriorityDistanceModifier", &INI::parseReal, 0, 0x54 },
+	{ "MaxRecruitRadius", &INI::parseReal, 0, 0x5C },
+	{ "WallHeight", &INI::parseReal, 0, 0x48 },
+	{ "SideInfo", &AI::parseSideInfo, 0, 0x0 },
+	{ "AttackPriority", &AI::parseAttackPriority, 0, 0x0 },
+	{ "SkirmishBuildList", &Rva0014C090::parseDefinition, 0, 0x0 },
+	{ "MinDistanceForGroup", &INI::parseReal, 0, 0x6C },
+	{ "FormationEnemyDistance", &INI::parseReal, 0, 0x70 },
+	{ "MinClumpDensity", &INI::parseReal, 0, 0x74 },
+	{ "InfantryPathfindDiameter", &INI::parseInt, 0, 0x78 },
+	{ "VehiclePathfindDiameter", &INI::parseInt, 0, 0x7C },
+	{ "RebuildDelayTimeSeconds", &INI::parseInt, 0, 0x80 },
+	{ "SupplyCenterSafeRadius", &INI::parseReal, 0, 0x84 },
+	{ "AIDozerBoredRadiusModifier", &INI::parseReal, 0, 0x88 },
+	{ "AICrushesInfantry", &INI::parseBool, 0, 0x8C },
+	{ "MeleeApproachTolerance", &INI::parseReal, 0, 0x90 },
+	{ "MeleeApproachDist", &INI::parseReal, 0, 0x94 },
+	{ "WadeWaterDepth", &INI::parseReal, 0, 0x98 },
+	{ "DeepWaterDepth", &INI::parseReal, 0, 0x9C },
+	{ "FormationColumnWidth", &INI::parseReal, 0, 0xA0 },
+	{ "FormationRowDepth", &INI::parseReal, 0, 0xA4 },
+	{ "FormationSquadSpacing", &INI::parseReal, 0, 0xA8 },
+	{ "FormationColumns", &INI::parseInt, 0, 0xB4 },
+	{ "NarrowPassageScale", &INI::parseReal, 0, 0xAC },
+	{ "HordesWaitForHordes", &INI::parseBool, 0, 0xB9 },
+	{ "AttackMoveUsesFormations", &INI::parseBool, 0, 0xBA },
+	{ "MinFlightHeight", &INI::parseReal, 0, 0xB0 },
+	{ "ForceHordesToLowLOD", &INI::parseBool, 0, 0xBB },
+	{ "AllowForestFires", &INI::parseBool, 0, 0xBC },
+	{ "UseFormations", &INI::parseBool, 0, 0xBD },
+	{ "WaitForOthers", &INI::parseBool, 0, 0xB8 },
+	{ "AltCameraZoomOverride", &INI::parseReal, 0, 0xC0 },
+	{ "AltCameraPitchOverride", &INI::parseReal, 0, 0xC4 },
+	{ "MaxRetaliateDistance", &INI::parseReal, 0, 0xC8 },
+	{ "RetaliateFriendsRadius", &INI::parseReal, 0, 0xCC },
+	{ "ChaseFromBehindLimit", &INI::parseReal, 0, 0xD0 },
+	{ "CastleSiegeStandBackDistance", &INI::parseReal, 0, 0xD4 },
+	{ "BuildPhase1_PerSecondPriorityModifier", &INI::parseInt, 0, 0x104 },
+	{ "BuildPhase2_PerSecondPriorityModifier", &INI::parseInt, 0, 0x108 },
+	{ "BuildPhase3_PerSecondPriorityModifier", &INI::parseInt, 0, 0x10C },
+	{ "BuildPhaseN_PerSecondPriorityModifier", &INI::parseInt, 0, 0x110 },
+	{ "UseLowLODTrees", &INI::parseBool, 0, 0xD8 },
+	{ "DisableTrees", &INI::parseBool, 0, 0xEC },
+	{ "LowLodTreeName", &INI::parseAsciiString, 0, 0xDC },
+	{ "LowLodTreeNameNoGrab", &INI::parseAsciiString, 0, 0xE0 },
+	{ "LowLodTreeNameNoHarvest", &INI::parseAsciiString, 0, 0xE4 },
+	{ "LowLodTreeScale", &INI::parseReal, 0, 0xE8 },
+	{ "ArtilleryMaxFriendlyFire", &INI::parsePercentToReal, 0, 0xF0 },
+	{ 0, 0, 0, 0 }
+};
+
 
 void AI::parseAiDataDefinition(INI *ini)
 {
