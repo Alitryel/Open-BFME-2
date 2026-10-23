@@ -17,7 +17,7 @@
 class UpdateModuleRoot
 {
 public:
-	virtual void r0();
+	virtual void r0() = 0;
 private:
 	char m_pad04[8];
 };
@@ -25,13 +25,13 @@ private:
 class UpdateModuleSecond
 {
 public:
-	virtual void s0();
+	virtual void s0() = 0;
 };
 
 class UpdateModuleThird
 {
 public:
-	virtual void t0();
+	virtual void t0() = 0;
 private:
 	char m_pad14[12];
 };
@@ -45,13 +45,13 @@ public:
 class AIUpdateInterfaceFourth
 {
 public:
-	virtual void u0();
+	virtual void u0() = 0;
 };
 
 class AIUpdateInterfaceFifth
 {
 public:
-	virtual void v0();
+	virtual void v0() = 0;
 };
 
 class StateMachine
@@ -76,6 +76,12 @@ struct Rva0026E836Record
 	~Rva0026E836Record();
 	unsigned char m_data[0xC];
 };
+
+// The +0x74 record array's element destructor, which the dtor's __ehvec_dtor
+// call takes as the ICF-folded empty body at 0x000B3FD0.
+Rva0026E836Record::~Rva0026E836Record()
+{
+}
 
 class AIUpdateInterface;
 
