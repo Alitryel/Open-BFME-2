@@ -26,7 +26,7 @@ class AptDate
 public:
     void setDates(AptSysClock *, AptSysClock *, int);
 };
-extern void (__cdecl *g_00E177B8)(AptSysClock *, int);
+void (__cdecl *g_aptSysClockCallback)(AptSysClock *, int);
 class Rva006FBF90 : public AptValueWithHash, public Rva006DBits
 {
     AptSysClock m_local;
@@ -38,8 +38,8 @@ public:
 Rva006FBF90::Rva006FBF90(int year, int month, int date, int hours, int minutes, int seconds, int ms) : AptValueWithHash((AptVirtualFunctionTable_Indices)0x1d, 8), Rva006DBits()
 {
     m_timezone = 0;
-    g_00E177B8(&m_local, 1);
-    g_00E177B8(&m_utc, 0);
+    g_aptSysClockCallback(&m_local, 1);
+    g_aptSysClockCallback(&m_utc, 0);
     if (m_local.Date > m_utc.Date || (m_local.Date == m_utc.Date && m_local.Hour > m_utc.Hour)) {
         if (m_local.Date > m_utc.Date) m_timezone=m_local.Hour-m_utc.Hour+24;
         else m_timezone=m_local.Hour-m_utc.Hour;
