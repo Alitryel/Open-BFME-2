@@ -16,14 +16,6 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #pragma optimize("", on)
 
 #include <list>
-// Suppress this TU's non-retail copy of ?insert@?$list@URva002FFC74Record@@V?$allocator@URva002FFC74Record@@@_STL@@@_STL@@QAE?AU?$:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva002FFC74Record;
-namespace _STL { template <> _List_iterator<Rva002FFC74Record,_Nonconst_traits<Rva002FFC74Record> > list<Rva002FFC74Record,allocator<Rva002FFC74Record> >::insert(_List_iterator<Rva002FFC74Record,_Nonconst_traits<Rva002FFC74Record> >,Rva002FFC74Record const &); }
-// Suppress this TU's non-retail copy of ?_M_create_node@?$list@URva002FFC74Record@@V?$allocator@URva002FFC74Record@@@_STL@@@_STL@@:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva002FFC74Record;
-namespace _STL { template <> _List_node<Rva002FFC74Record> * list<Rva002FFC74Record,allocator<Rva002FFC74Record> >::_M_create_node(Rva002FFC74Record const &); }
 // Suppress this TU's non-retail copy of ?erase@?$list@URva002FFC74Record@@V?$allocator@URva002FFC74Record@@@_STL@@@_STL@@QAE?AU?$_:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva002FFC74Record;
