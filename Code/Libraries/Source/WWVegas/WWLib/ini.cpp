@@ -1,4 +1,16 @@
-// cl: /DBFME_BUFFER_DTOR_OUT_OF_LINE /FIbfme_wwstring_teardown.h /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/local /Ireference/shims/bfmerendobj /arch:SSE /G7 /DNDEBUG /D_WINDOWS /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /DBFME_BUFFER_DTOR_OUT_OF_LINE /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/local /Ireference/shims/bfmerendobj /arch:SSE /G7 /DNDEBUG /D_WINDOWS /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// This target uses VC7.1's scalar fallback for array allocation and for
+// constructor-failure cleanup. Defining global array-forwarding operators makes
+// the cold cleanup call operator delete[] instead, even when hot calls inline.
+// Supply the legacy scalar interface before always.h's modern array overloads.
+#include <stddef.h>
+#define _OPERATOR_NEW_DEFINED_
+extern void *__cdecl operator new(size_t);
+extern void __cdecl operator delete(void *);
+inline void *__cdecl operator new[](size_t, void *p) { return p; }
+inline void __cdecl operator delete[](void *, void *) {}
+#include "bfme_wwstring_teardown.h"
+
 // Match the plain compiler vector-constructor iterator to its canonical retail
 // /O1 provider. The unused anchor selects helper codegen before /O2 consumers.
 struct BfmeIniVciAnchorElem { BfmeIniVciAnchorElem(); };
@@ -121,18 +133,9 @@ template<> __forceinline TPoint2D<int>::TPoint2D(int x,int y):X(x),Y(y) {}
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include	"always.h"
 
-// BFME's ARRAY operators forward to the scalar ones.  IndexClass's node table is
-// allocated with W3DNEWARRAY and freed with delete[], and retail's own
-// displacements at both sites name ??2@YAPAXI@Z (0x0002FDA0) and ??3@YAXPAX@Z
-// (0x0002FD60) rather than ??_U (0x0002FDE0) / ??_V (0x0002FD80) -- while the
-// vector constructor iterator ??_H is still called, so it really is array new,
-// just reaching the scalar allocator.  always.h DECLARES the array operators
-// and defines neither; defining them inline here is what lets MSVC fold them
-// away at the call site.  Proven by
-// IndexClass<int,INISection*>::Increase_Table_Size at 0x00616190 and by
-// INIClass::Clear at 0x00616C60.
-static inline void * __cdecl operator new[](size_t s) { return ::operator new(s); }
-static inline void __cdecl operator delete[](void * p) { ::operator delete(p); }
+// Array new/delete use the scalar interface declared above. This preserves
+// both the hot paths at 0x00616190 / 0x00616C60 and the allocation-failure
+// cleanup at 0x007A70A0; no forwarding operator delete[] definition is needed.
 
 #include	"b64pipe.h"
 #include	"b64straw.h"

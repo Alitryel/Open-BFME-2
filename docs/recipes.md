@@ -736,3 +736,12 @@ tested together (13 banks, scratch compiles only). Do not retry these:
   allocation. Treat such a holder as a source adapter, not retail type
   evidence; verify all bytes and relocations through the normal compiler.
   See [the controlled family and recovery](../reverse/attempt_support/camera-field-owner-20261023/readme.md).
+
+- **Allocator declarations also select cold new-expression cleanup.**
+  In `ini.cpp`, inline global array-new/delete forwards preserved every hot
+  match but left the allocation-failure funclet calling array delete. A TU-local
+  legacy scalar-only allocation interface, installed before `always.h`, restores
+  the exact scalar-delete cleanup at 0x007A70A0 and preserves all 141 existing
+  rows. Removing only the forwarding body changes the instruction shape without
+  fixing its callee; verify resolved relocations as well as the EH graph.
+  See [the allocation lookup controls and verification](../reverse/attempt_support/ini-scalar-unwind-20261023.md).
