@@ -1,6 +1,6 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
 //
-// ?rva0027DA6A@Rva0062AF7@@QAE_NPBMPAM@Z retail 0x0027DA6A 507 bytes.
+// ?rva0027DA6A@W3DTerrainLogic@@QAE_NPBMPAM@Z retail 0x0027DA6A 507 bytes.
 // Follows 0x0027DA58 (0x27DA58+18) in the TerrainLogic unit of
 // Rva0062AF7Rva0027D815.cpp. Samples the ambient lightmap loaded by
 // TerrainLogicLoadAmbientLightmap.cpp (pixels +0x24 width +0x28 height +0x2C
@@ -25,7 +25,7 @@ static __forceinline long fast_float2long_round(float f)
 	return i;
 }
 
-class Rva0062AF7
+class W3DTerrainLogic
 {
 public:
 	virtual void slot00();
@@ -51,7 +51,7 @@ private:
 	unsigned int m_height2c;
 };
 
-bool Rva0062AF7::rva0027DA6A(const float *pos, float *color)
+bool W3DTerrainLogic::rva0027DA6A(const float *pos, float *color)
 {
 	if (m_data24 == 0 || m_1c < 1 || m_20 < 1)
 		return false;

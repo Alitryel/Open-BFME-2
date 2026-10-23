@@ -2,8 +2,8 @@
 //
 // Native BC5848/BC5838 slot1 identifies these structural listener views.
 // Each listener is one vptr; field offsets below are relative to its entry.
-// Two sibling slots of the third base of Rva0062AF7 (vtable
-// Rva0062AF7@MiBase3_62AF7), both RET 8 with the first argument unused:
+// Two sibling slots of the third base of W3DTerrainLogic (vtable
+// W3DTerrainLogic@MiBase3_62AF7), both RET 8 with the first argument unused:
 //   ?vslot1@TerrainLogicListenerA@@UAEXHPAVWaterHandle@@@Z @0x00283C0F 49B
 //   ?vslot1@TerrainLogicListenerB@@UAEXHPAVWaterHandle@@@Z @0x00283C40 54B
 // Each finds the handle's index in the +0x44 list (rowed 0x00280ADF) and

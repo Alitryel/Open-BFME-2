@@ -173,13 +173,13 @@ public:
 	virtual void f3();
 };
 
-class Rva0062AF7 : public Rva0028418A, public MiBase1_62AF7, public MiBase2_62AF7, public MiBase3_62AF7
+class W3DTerrainLogic : public Rva0028418A, public MiBase1_62AF7, public MiBase2_62AF7, public MiBase3_62AF7
 {
 public:
-	virtual ~Rva0062AF7();
+	virtual ~W3DTerrainLogic();
 };
 
-inline Rva0062AF7::~Rva0062AF7()
+inline W3DTerrainLogic::~W3DTerrainLogic()
 {
 }
 
@@ -317,8 +317,8 @@ void _bfmeOpaqueSingleInheritanceDtorInlineAnchor(void *storage)
 	rva00514E6B->Rva00514E6B::~Rva00514E6B();
 	Rva00628FD *rva00628FD = (Rva00628FD *)storage;
 	rva00628FD->Rva00628FD::~Rva00628FD();
-	Rva0062AF7 *rva0062AF7 = (Rva0062AF7 *)storage;
-	rva0062AF7->Rva0062AF7::~Rva0062AF7();
+	W3DTerrainLogic *rva0062AF7 = (W3DTerrainLogic *)storage;
+	rva0062AF7->W3DTerrainLogic::~W3DTerrainLogic();
 	Rva008FCA3 *rva008FCA3 = (Rva008FCA3 *)storage;
 	rva008FCA3->Rva008FCA3::~Rva008FCA3();
 }
@@ -333,4 +333,4 @@ void _bfmeOpaqueSingleInheritanceDtorInlineAnchor(void *storage)
 #pragma comment(linker, "/alternatename:??1Rva0028418A@@UAE@XZ=??1TerrainLogic@@UAE@XZ")
 #pragma comment(linker, "/alternatename:??1Rva002D0588@@UAE@XZ=??1ThingFactory@@UAE@XZ")
 #pragma comment(linker, "/alternatename:?f1@MiBase1_4C743@@UAEXXZ=??_ERva004C743@@WM@AEPAXI@Z")
-#pragma comment(linker, "/alternatename:?f1@MiBase1_62AF7@@UAEXXZ=??_ERva0062AF7@@W3AEPAXI@Z")
+#pragma comment(linker, "/alternatename:?f1@MiBase1_62AF7@@UAEXXZ=??_EW3DTerrainLogic@@W3AEPAXI@Z")

@@ -196,7 +196,7 @@ private:
 // ??0Rva00062A7EProduct@@QAE@XZ, retail 0x00062A7E..0x00062AC4 (70 bytes):
 // W3DTerrainLogic's constructor (pinned under its address name; the factory
 // slot 14 of vtable 0x00BC25E0 calls it after new 0x1924, and its destructor
-// is the rowed Rva0062AF7). Zero Hour's body exactly: m_mapMinZ(0),
+// is the rowed W3DTerrainLogic). Zero Hour's body exactly: m_mapMinZ(0),
 // m_mapMaxZ(1), m_mapData = NULL, over this unit's TerrainLogic layout (the
 // ported Zero Hour unit's header places the members elsewhere). Its own
 // tables 0x00BC5890/+4 0x00BC5858; the two listener tables fold with
@@ -207,11 +207,11 @@ private:
 // they must not silently inherit the base TerrainLogic implementations.
 // This address-derived constructor view still needs its existing W3D method
 // names reconciled with their providers before it links.
-class Rva00062A7EProduct : public TerrainLogic
+class W3DTerrainLogic : public TerrainLogic
 {
 public:
-	Rva00062A7EProduct();
-	virtual ~Rva00062A7EProduct();
+	W3DTerrainLogic();
+	virtual ~W3DTerrainLogic();
 	virtual bool loadMap(const AsciiString &, ChunkInputStream *, bool, bool);
 	virtual void init();
 	virtual void reset();
@@ -227,7 +227,7 @@ private:
 	Real m_mapMaxZ;										// +0x1920
 };
 
-Rva00062A7EProduct::Rva00062A7EProduct() : m_mapMinZ(0), m_mapMaxZ(1)
+W3DTerrainLogic::W3DTerrainLogic() : m_mapMinZ(0), m_mapMaxZ(1)
 {
 	m_18 = 0;
 }

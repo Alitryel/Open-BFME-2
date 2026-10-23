@@ -9,7 +9,7 @@
 // polygon-point branches of Zero Hour collapse into that one call between two
 // getWaterHeight reads (slot 30, +0x78). The bounding rectangle comes from the
 // rowed findAxisAlignedBoundingRect (0x0027D960, named for its address on the
-// TerrainLogic view Rva0062AF7), the pathfinder remap from TheAI's pathfinder
+// TerrainLogic view W3DTerrainLogic), the pathfinder remap from TheAI's pathfinder
 // (+0x10) at 0x002E7133, isUnderwater is slot 19 (+0x4C, BFME 2's five-argument
 // form) and the range scan is ThePartitionManager's unfiltered native query
 // (0x006255D0) walked with next() only. The water damage is DamageInfo's
@@ -104,7 +104,7 @@ extern PartitionManager *ThePartitionManager;
 
 // The rowed findAxisAlignedBoundingRect keeps its address-derived name on
 // its address-named TerrainLogic view.
-class Rva0062AF7
+class W3DTerrainLogic
 {
 public:
 	void Rva0027D960(void *water, Real *region);
@@ -140,7 +140,7 @@ public:
 private:
 	void findAxisAlignedBoundingRect(const WaterHandle *water, Region3D *region)
 	{
-		((Rva0062AF7 *)this)->Rva0027D960((void *)water, (Real *)region);
+		((W3DTerrainLogic *)this)->Rva0027D960((void *)water, (Real *)region);
 	}
 };
 

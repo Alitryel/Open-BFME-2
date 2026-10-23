@@ -377,7 +377,7 @@ struct DrawableInfo
 	Drawable *m_drawable;												// +0x04
 };
 
-class Rva0062AF7 { public: bool rva0027DA6A(const float *pos, float *color); };
+class W3DTerrainLogic { public: bool rva0027DA6A(const float *pos, float *color); };
 class TerrainLogic;
 extern TerrainLogic *TheTerrainLogic;
 
@@ -466,7 +466,7 @@ void RTS3DScene::renderOneObject(RenderInfoClass &rinfo, RenderObjClass *robj, I
 	if (TheTerrainLogic)
 	{
 		Vector3 sample;
-		if (reinterpret_cast<Rva0062AF7 *>(TheTerrainLogic)->rva0027DA6A((const float*)&robj->Get_Position(), (float*)&sample))
+		if (reinterpret_cast<W3DTerrainLogic *>(TheTerrainLogic)->rva0027DA6A((const float*)&robj->Get_Position(), (float*)&sample))
 		{
 			hasLightmap = TRUE;
 			lightmapColor.X=sample.X;lightmapColor.Y=sample.Y;lightmapColor.Z=sample.Z;

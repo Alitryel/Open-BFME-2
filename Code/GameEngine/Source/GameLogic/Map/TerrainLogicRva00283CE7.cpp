@@ -78,7 +78,7 @@ private:
 class Rva0027CE80 { public: void rva0027CE80(void); };
 class Rva00283002 { public: void rva00283002(void); };
 class Rva002827F3 { public: void rva002827F3(void) throw(); };
-class Rva0062AF7 { public: void Rva0027DA58(void); };
+class W3DTerrainLogic { public: void Rva0027DA58(void); };
 void Rva002E373CClear(void);
 class TerrainLogic
 {
@@ -144,7 +144,7 @@ void TerrainLogic::reset(void)
     view->numWaterToUpdate = 0;
     view->field190c = 0;
     view->field48 = 1;
-    ((Rva0062AF7 *)((char *)this - 4))->Rva0027DA58();
+    ((W3DTerrainLogic *)((char *)this - 4))->Rva0027DA58();
     view->field1914 = 0.0f;
 }
 

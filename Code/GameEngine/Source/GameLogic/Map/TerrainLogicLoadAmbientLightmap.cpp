@@ -37,7 +37,7 @@ extern Debug *theDebug;
 bool bfmeRva000387C0();
 void _bfme_debugRecordCallsite(int);
 #define REPORT(message) if (bfmeRva000387C0()) { _bfme_debugRecordCallsite(1); theDebug->slot60(); (theDebug->slot6c(0,0,0) << *(const StringBase<char> *)&name).slot38(message).slot4c(2); }
-class Rva0062AF7 { public: void Rva0027DA58(); };
+class W3DTerrainLogic { public: void Rva0027DA58(); };
 #pragma pack(push,1)
 struct AmbientTgaHeader
 {
@@ -57,7 +57,7 @@ public:
 };
 void TerrainLogic::LoadAmbientLightmap(const AsciiString &name)
 {
- ((Rva0062AF7 *)this)->Rva0027DA58();
+ ((W3DTerrainLogic *)this)->Rva0027DA58();
  File *file=TheFileSystem->openFile(name.str(),0x41,0);
  if (!file) return;
  AmbientTgaHeader header;

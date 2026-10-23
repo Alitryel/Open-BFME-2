@@ -54,5 +54,14 @@ BFME_LITERAL_NAME_GETTER(Rva000D0B63Named, "W3DBoatWakeModelDraw")
 BFME_LITERAL_NAME_GETTER(W3DProjectileStreamDraw, "W3DProjectileStreamDraw")
 BFME_LITERAL_NAME_GETTER(W3DTornadoDraw, "W3DTornadoDraw")
 BFME_LITERAL_NAME_GETTER(Rva000D1BA0Named, "TBuff")
-BFME_LITERAL_NAME_GETTER(Rva00062AF1Named, "W3DTerrainLogic")
+class W3DTerrainLogic
+{
+protected:
+	virtual const char *GetSnapshotName() const;
+};
+
+const char *W3DTerrainLogic::GetSnapshotName() const
+{
+	return "W3DTerrainLogic";
+}
 BFME_LITERAL_NAME_GETTER(W3DGhostObject, "W3DGhostObject")

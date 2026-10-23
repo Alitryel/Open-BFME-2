@@ -271,16 +271,16 @@ class Rva0062AF7Base4
 public:
 	virtual ~Rva0062AF7Base4();
 };
-class Rva0062AF7 : public Rva0062AF7Base0, public Rva0062AF7Base4
+class W3DTerrainLogic : public Rva0062AF7Base0, public Rva0062AF7Base4
 {
 public:
-	Rva0062AF7(EmitVtableTag *);
+	W3DTerrainLogic(EmitVtableTag *);
 public:
-	virtual ~Rva0062AF7();
+	virtual ~W3DTerrainLogic();
 };
 
-// ?<Rva0062AF7::Rva0062AF7> absent-from-retail
-Rva0062AF7::Rva0062AF7(EmitVtableTag *)
+// ?<W3DTerrainLogic::W3DTerrainLogic> absent-from-retail
+W3DTerrainLogic::W3DTerrainLogic(EmitVtableTag *)
 {
 }
 

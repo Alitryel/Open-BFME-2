@@ -109,10 +109,10 @@ private:
 	char m_unmodelled_10[0x2A8 - 0x10];
 };
 
-class Rva00062A7EProduct
+class W3DTerrainLogic
 {
 public:
-	Rva00062A7EProduct();
+	W3DTerrainLogic();
 private:
 	char m_unmodelled[0x1924];
 };
@@ -129,7 +129,7 @@ public:
 
 void *W3DGameLogic::rva00041FCF()
 {
-	return new Rva00062A7EProduct;
+	return new W3DTerrainLogic;
 }
 
 class Rva00256E96 : public Rva002470AEFirst, public Rva002470AESnapshot

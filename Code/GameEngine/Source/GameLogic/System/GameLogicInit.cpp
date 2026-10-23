@@ -3708,7 +3708,7 @@ void GameLogic::loadMapINI(AsciiString mapName)
 // TheTerrainLogic loads (0x002817F2, which first clears through 0x0027DA58)
 // or, when the file is missing, just clears (0x0027DA58).
 // ---------------------------------------------------------------------------
-class Rva0062AF7
+class W3DTerrainLogic
 {
 public:
 	void Rva0027DA58(void);
@@ -3741,7 +3741,7 @@ void GameLogic::rva0023E628(AsciiString mapName)
 	if (TheFileSystem->doesFileExist(fullFledgeFilename))
 		TheTerrainLogic->LoadAmbientLightmap(fullFledgeFilename);
 	else
-		((Rva0062AF7 *)TheTerrainLogic)->Rva0027DA58();
+		((W3DTerrainLogic *)TheTerrainLogic)->Rva0027DA58();
 }
 
 // ---------------------------------------------------------------------------

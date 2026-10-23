@@ -62,25 +62,8 @@ namespace _STL { template <> ICoord2D * __uninitialized_copy<ICoord2D const *,IC
 //#pragma MESSAGE("************************************** WARNING, optimization disabled for debugging purposes")
 #endif
 
-//-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
-// ??0W3DTerrainLogic@@ present-unmatched
-W3DTerrainLogic::W3DTerrainLogic():
-m_mapMinZ(0),
-m_mapMaxZ(1)
-{
-	m_mapData = NULL; 
-}  // end W3DTerrainLogic
-
-//-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
-// ??1W3DTerrainLogic@@ present-unmatched
-W3DTerrainLogic::~W3DTerrainLogic()
-{
-
-	// free terrain data
-
-}  // end W3DTerrainLogic
+// The constructor 0x00062A7E is defined in TerrainLogicCtor_Rva00062A7EProduct.cpp and the
+// destructor 0x00062AF7 in OpaqueSingleInheritanceDtors.cpp.
 
 //-------------------------------------------------------------------------------------------------
 /** Device DEPENDENT implementation init details for logical terrain */
@@ -284,7 +267,7 @@ Bool W3DTerrainLogic::isClearLineOfSight(const Coord3D& pos, const Coord3D& posO
 //-------------------------------------------------------------------------------------------------
 /** Get the height considering the layer. */
 //-------------------------------------------------------------------------------------------------
-// ?getLayerHeight@W3DTerrainLogic@@ present-unmatched
+// W3DTerrainLogic::getLayerHeight is defined in W3DTerrainLogicGetLayerHeight.cpp.
 //-------------------------------------------------------------------------------------------------
 /** W3D isCliffCell for terrain logic */
 //-------------------------------------------------------------------------------------------------
@@ -317,14 +300,7 @@ void W3DTerrainLogic::crc( Xfer *xfer )
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
-// ?loadPostProcess@W3DTerrainLogic@@ present-unmatched
-void W3DTerrainLogic::loadPostProcess( void )
-{
-
-	// extend base class
-	TerrainLogic::loadPostProcess();
-
-}  // end loadPostProcess
+// W3DTerrainLogic::loadPostProcess (retail 0x00062E4A) is defined in TerrainLogicBridges.cpp.
 
 // Retail's call sites in this unit's matched rows land on bodies rowed under
 // other spellings at the same addresses (same ABI). Bind the spellings used here.

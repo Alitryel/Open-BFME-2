@@ -2165,7 +2165,6 @@ name,address,notes
 ??0RubbleRiseUpdateModuleData@@QAE@XZ,0x00256653
 ??0Rva000309B0@@QAE@I@Z,0x00030980,GameEngine::init 0x0022E2E4 complete 8808B recovery; target from native REL32 at corresponding exact instruction offset; subsystem constructor roles supported by adjacent registration literal and global; address-named types preserve unresolved original identity; see GameEngineInit.cpp and init evidence
 ??0Rva00045411BitSet@@QAE@HHH@Z,0x0006EE7A,ICF twin of Rva0006EE7A HHH proven by 0x004A045E 28B bitset for rva00362192
-??0Rva00062A7EProduct@@QAE@XZ,0x00062A7E,"constructor storing vtable 0x00BC5890; REL32 in factory slot 14 of vtable 0x00BC25E0 (0x00041FF3) after new 0x1924"
 ??0Rva00064390@@QAE@XZ,0x003FD398,callee of ?parseControlPointBlock@Rva00064680@@SAXPAVINI@@PAX1PBX@Z at retail 0x00503FD1 read from its REL32 displacement; donor Rva00064390 record constructor (SSE zeros plus 1.0f at +0x10/+0x14 and +0x18 clear) at this unrowed address
 ??0Rva0006AB90FunctionCurve@@QAE@PAVRva0006AB10Curve@@@Z,0x00504682,"constructor called by ?parse@Rva0006AF00FunctionCurve@@QAEXPAVINI@@@Z at retail 0x005051DA read from its REL32 displacement; donor-carried name; body unrowed"
 ??0Rva000795C1Record@@QAE@ABV0@@Z,0x000795C1,Sort5810B6 record copy alias; independently emitted29B matches existing key-plus-vector copy; layout16 and caller sites5810DC/58110D
