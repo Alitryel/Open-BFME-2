@@ -29,7 +29,16 @@ protected:
 	Object *m_object;
 };
 
-class BehaviorModuleInterface { public: virtual void slot(); };
+class BodyModuleInterface;
+
+// Slot 0 of the shared BehaviorModuleInterface vftable 0x007EFF90 this ctor
+// stores at +0xC is the folded xor eax,eax/ret at 0x000D43D0: ZH's
+// BehaviorModule::getBody returning NULL. The inline body folds onto it.
+class BehaviorModuleInterface
+{
+public:
+	virtual BodyModuleInterface *getBody() { return 0; }
+};
 class UpdateModuleInterface { public: virtual UpdateSleepTime update() = 0; };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/UpdateModule.h

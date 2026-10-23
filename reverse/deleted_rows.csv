@@ -1849,3 +1849,6 @@ __ehhandler$?rva00507D84@DamageNugget@@QAEXPAXPBUCoord3D@@@Z,0x0079421E,"Renamed
 _Rva00819630,0x00685530,"Renamed to _CommSerialConstruct by tools/rename.py (inferred)"
 ??1Rva004BD763@@UAE@XZ,0x004BD763,"Renamed to ??1BodyModule@@UAE@XZ: InactiveBody ctor 0x004BD8BD's unwind map destroys its BodyModule base through this body; slot 0 of BodyModule ctor 0x004BD7FD's vftable is the deleting dtor 0x004BD841 that calls it"
 ??_GRva004BD763@@UAEPAXI@Z,0x004BD841,"Renamed to ??_GBodyModule@@UAEPAXI@Z: slot 0 of the vftable BodyModule ctor 0x004BD7FD stores at +0; moved to BodyModuleCtor.cpp"
+??1Rva004B237B@@UAE@XZ,0x004B237B,"Renamed to ??1EntEnragedUpdate@@UAE@XZ: stores the same three vftables (0x00856948/0x007EFF90/0x0085693C) the EntEnragedUpdate ctor 0x004B2516 stores"
+??_GRva004B237B@@UAEPAXI@Z,0x004B2593,"Renamed to ??_GEntEnragedUpdate@@UAEPAXI@Z: slot 0 of EntEnragedUpdate's vftable 0x00856948 installed by ctor 0x004B2516"
+?rva004B23C5@Rva004B237B@@UAEXPAVXfer@@@Z,0x004B23C5,"Renamed to ?rva004B23C5@EntEnragedUpdate@@UAEXPAVXfer@@@Z: slot 3 of EntEnragedUpdate's vftable 0x00856948 (class renamed)"

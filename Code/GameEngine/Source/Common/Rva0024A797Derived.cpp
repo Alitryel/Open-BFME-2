@@ -441,19 +441,27 @@ Rva004AE78E::~Rva004AE78E()
 {
 }
 
-class Rva004B237B_B2
+// EntEnragedUpdate: its constructor 0x004B2516 stores the same three vftables
+// (0x00856948 at +0, the shared 0x007EFF90 at +0xC, 0x0085693C at +0x10) that
+// this destructor stores; slot 0 of 0x0085693C is the rowed
+// EntEnragedUpdate::update. The +0x10 interface is the one-slot view
+// EntEnragedUpdateCtorThunk.cpp uses, so the shared vftable copies agree.
+enum UpdateSleepTime { UPDATE_SLEEP_FOREVER = 0x3fffffff };
+
+class UpdateModuleInterface
 {
 public:
-	virtual void f2();
+	virtual UpdateSleepTime update() = 0;
 };
 
-class Rva004B237B : public UpdateModule, public MiBase1, public Rva004B237B_B2
+class EntEnragedUpdate : public UpdateModule, public MiBase1, public UpdateModuleInterface
 {
 public:
-	virtual ~Rva004B237B();
+	virtual ~EntEnragedUpdate();
+	virtual UpdateSleepTime update();
 };
 
-Rva004B237B::~Rva004B237B()
+EntEnragedUpdate::~EntEnragedUpdate()
 {
 }
 
@@ -538,7 +546,6 @@ Rva004DF7C2::~Rva004DF7C2()
 #pragma comment(linker, "/alternatename:?f2@Rva0049B2A2_B2@@UAEXXZ=?update@Rva0049B2A2@@UAE?AW4UpdateSleepTime@@XZ")
 #pragma comment(linker, "/alternatename:?f2@Rva004A3F8B_B2@@UAEXXZ=?update@HijackerUpdate@@UAE?AW4UpdateSleepTime@@XZ")
 #pragma comment(linker, "/alternatename:?f2@Rva004AE78E_B2@@UAEXXZ=?update@DetachableRiderUpdateUpdateReceiver@@QAE?AW4UpdateSleepTime@@XZ")
-#pragma comment(linker, "/alternatename:?f2@Rva004B237B_B2@@UAEXXZ=?update@EntEnragedUpdate@@UAE?AW4UpdateSleepTime@@XZ")
 #pragma comment(linker, "/alternatename:?f2@Rva004B89C4_B2@@UAEXXZ=?update@OathbreakersFadeAwayBehavior@@UAE?AW4UpdateSleepTime@@XZ")
 #pragma comment(linker, "/alternatename:?f2@Rva004CC63A_B2@@UAEXXZ=?update@TemporarilyDefectUpdate@@UAE?AW4UpdateSleepTime@@XZ")
 #pragma comment(linker, "/alternatename:?f2@Rva004DF7C2_B2@@UAEXXZ=__purecall")

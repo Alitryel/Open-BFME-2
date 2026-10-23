@@ -1,7 +1,7 @@
 // cl: /MD
-// ?rva004B23C5@Rva004B237B@@UAEXPAVXfer@@@Z, retail 0x004B23C5, 147 bytes.
+// ?rva004B23C5@EntEnragedUpdate@@UAEXPAVXfer@@@Z, retail 0x004B23C5, 147 bytes.
 // Virtual slot 3 (offset 0xC) of vtable 0x00856948 (VA 0x00C56948), class of
-// ??1Rva004B237B@@UAE@XZ in Rva0024A797Derived.cpp. UpdateModule xfer via
+// ??1EntEnragedUpdate@@UAE@XZ (was Rva004B237B) in Rva0024A797Derived.cpp. UpdateModule xfer via
 // rowed 0x0044DF9F with Version(1,1) via Xfer slot 0x28 then uint fields at
 // +0x20/+0x24/+0x28 via slot 0x78 and bool fields at +0x2C/+0x2D/+0x2E/+0x2F/
 // +0x30 via slot 0x90. Xfer spelling copied from FoundationAIUpdateXfer.cpp.
@@ -48,7 +48,7 @@ private:
 	unsigned char m_pad[ 0x20 - 4 ];
 };
 
-class Rva004B237B : public UpdateModule
+class EntEnragedUpdate : public UpdateModule
 {
 public:
 	virtual void rva004B23C5( Xfer *xfer );	// slot 3 of 0x00C56948
@@ -64,7 +64,7 @@ private:
 	bool m_30;
 };
 
-void Rva004B237B::rva004B23C5( Xfer *xfer )
+void EntEnragedUpdate::rva004B23C5( Xfer *xfer )
 {
 	Xfer::Version version( 1, 1 );
 	*xfer == version;
