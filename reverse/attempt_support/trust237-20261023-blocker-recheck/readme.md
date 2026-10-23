@@ -70,3 +70,37 @@ not new runs. The same binary-patch representation prerequisite remains.
 The best 226-byte bank and score70/86 are preserved without modification.
 The standing assignment still excludes the fallback bodies while this check is
 unmatched; the claim is released and the session reports blocked.
+
+## Recheck after the verified BFME1 pointer update
+
+At BFME2 `88983ceb42`, the checkout and committed BFME1 pointer are both
+`138757e9b74645fbcbb7724a7af2764e34931e11`. Its committed
+[paired gate evidence](../bfme1-reference-138757e9-20261023/README.md)
+records passing old/new full gates. Another seat (`codex8`) holds the live
+update lock; it was preserved and a further update was skipped as instructed.
+The freshness receipt remains under 24 hours old. Changed inputs since the
+last session were reviewed: the pointer-IV CSE recipe and verified data-owner
+precedence do not supply a new producer for the target's internal NOP span.
+The bank, affected production sources and compiler driver are unchanged.
+
+The bank was compiled again with `variant.py`: **226 B**, the same raw hash,
+prefix205 and **16 differences solely at +CD..DC**. The existing provenance
+and API audit was rerun with that fresh object: all three complete image
+hashes, all 26 image differences and **1704 ABI/API executions** pass.
+The audit initially lacked Unicorn; installing Unicorn 2.1.4 into ignored
+`build/trust237-blocker-recheck/python-deps` resolved that setup failure.
+No previous source-search matrix was repeated. The two affected production
+units pass **39/39** plus data, string and import checks; `check_csv.py` passes
+with 98112 functions, 15853 symbols and 2140 data rows. The fresh results are
+under `post_pointer_update_reassessment` in evidence.json.
+
+The published index was fetched (census `456ce161c5`, 06:28 UTC).
+The fresh predictor again reports VersionDestructor **LINKS, 1275 B** and
+VersionInitGlobals **unresolved check, 200 B**; its exit1 is this known blocker.
+
+Retain the existing best 226-byte bank and score70/86. The independently
+evidenced binary patch remains the concrete prerequisite: new compiler
+evidence or an upstream representation decision is needed. No missing game
+callee is identified, and no source, ledger row, pin or verifier was changed.
+The standing assignment continues to exclude other bodies while this body is
+unmatched and available; release its claim after recording this recheck.
