@@ -57,7 +57,7 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
  * Functions:                                                              * 
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-#include "rendobj.h"	// the bfmerendobj shim has to win the include guard
+#include "../../../../../reference/shims/bfme2renderobj/rendobj.h"
 #include "part_emt.h"
 #include "wwdebug.h"
 #include "ww3d.h"

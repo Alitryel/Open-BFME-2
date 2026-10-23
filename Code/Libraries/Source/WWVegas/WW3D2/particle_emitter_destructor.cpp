@@ -55,7 +55,7 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("s", on)
 #include "refcount.h"
 #pragma optimize("", on)
-#include "rendobj.h"	// the bfmerendobj shim has to win the include guard
+#include "../../../../../reference/shims/bfme2renderobj/rendobj.h"
 #include "part_emt.h"
 #include "wwdebug.h"
 #include "ww3d.h"

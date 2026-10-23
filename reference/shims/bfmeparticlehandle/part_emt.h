@@ -161,7 +161,7 @@ class ParticleEmitterClass : public RenderObjClass
 		// Retail owns these wrappers in ParticleEmitterVisibilityWrappers.cpp.
 		// Keep calls and vtable entries bound there instead of emitting a base-call copy.
 		virtual void			Set_Hidden(int onoff);
-		virtual void			Set_Visible(int onoff)				{ RenderObjClass::Set_Visible (onoff); Update_On_Visibilty (); }
+		virtual void			Set_Visible(int onoff, int sceneToken = 0);
 		virtual void			Set_Animation_Hidden(int onoff);
 		virtual void			Set_Force_Visible(int onoff)		{ RenderObjClass::Set_Force_Visible (onoff); Update_On_Visibilty (); }
 
