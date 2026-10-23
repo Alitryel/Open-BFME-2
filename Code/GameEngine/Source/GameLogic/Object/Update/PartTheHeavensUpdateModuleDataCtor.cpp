@@ -19,6 +19,9 @@
 #include "Common/Snapshot.h"
 
 #include "BfmeE16.h"
+// vector<BfmeE16>'s destructor is declared only: its rowed, retail-proven
+// copy (Rva0056616BCopy.cpp, 0x0052D1CD) is the one the link keeps.
+namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 
 #include "ascii_string.h"
 

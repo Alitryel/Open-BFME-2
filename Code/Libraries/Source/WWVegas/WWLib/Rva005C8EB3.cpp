@@ -10,6 +10,9 @@
 #include "Lib/BfmeE16.h"
 #include <map>
 #include <vector>
+// vector<BfmeE16>'s destructor is declared only: its rowed, retail-proven
+// copy (Rva0056616BCopy.cpp, 0x0052D1CD) is the one the link keeps.
+namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 
 struct Base0C
 {
