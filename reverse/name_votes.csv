@@ -155,4 +155,6 @@ Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp|local|EdgeMapperClass
 Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp|local|GridWSClassicEnvironmentMapperClass::Apply|m,626ab404a973df2b7fda2374,seat-b-sonnet,rn-1022-2-b,w-d29a8a0a267a,2026-10-22
 Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp|local|GridWSEnvironmentMapperClass::Apply|m,3f12fdf623bed3b49be31070,seat-b-sonnet,rn-1022-2-b,w-d29a8a0a267a,2026-10-22
 Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp|local|ScreenMapperClass::Apply|m,9e279458941b070ab955b667,seat-b-sonnet,rn-1022-2-b,w-d29a8a0a267a,2026-10-22
+Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|class||Rva005E39A6Owner,0d7daa4d5c236313e63031ef,seat-b,rn-1023-1-b,w-832e949be7eb,2026-10-23
+Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|class||Rva005E39A6Owner,0d7daa4d5c236313e63031ef,seat-a,rn-1023-1-a,w-712543b586b5,2026-10-23
 Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|function|0x005F2767|rva005F2767,4e0a3db8e0e86fae4cbd4b5f,seat-a,rn-1023-1-a,w-712543b586b5,2026-10-23

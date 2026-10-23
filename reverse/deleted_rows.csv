@@ -1843,3 +1843,4 @@ __ehhandler$??1Rva0050FDDC@@UAE@XZ,0x0079497E,"Renamed to __ehhandler$??1Rva0050
 ?rva00507D84@DamageNugget@@QAEXPAXPBUCoord3D@@@Z,0x00507D84,"Renamed to ?doEffectPosition@DamageNugget@@QAEXPAXPBUCoord3D@@@Z by tools/rename.py (canonical:wb)"
 __ehhandler$?rva00507D84@DamageNugget@@QAEXPAXPBUCoord3D@@@Z,0x0079421E,"Renamed to __ehhandler$?doEffectPosition@DamageNugget@@QAEXPAXPBUCoord3D@@@Z by tools/rename.py (canonical:wb)"
 ?rva005F2767@Rva005F2767@@QBE_NXZ,0x005F2767,"Renamed to ?IsMouseOverBackButton@Rva005F2767@@QBE_NXZ by tools/rename.py (inferred)"
+?rva005E39A6@Rva005E39A6Owner@@QBE_NH@Z,0x005E39A6,"Renamed to ?rva005E39A6@ArmyDetailsPanelImpl@@QBE_NH@Z by tools/rename.py (inferred)"
