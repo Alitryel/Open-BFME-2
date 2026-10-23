@@ -132,6 +132,9 @@ template<> inline int BitFlags<11>::countInverseIntersection(const BitFlags<11> 
 namespace _STL { template <> void _Construct<WeaponTemplateSet, WeaponTemplateSet>(WeaponTemplateSet *, WeaponTemplateSet const &); }
 namespace _STL { template <> void _Destroy<ProductionPrerequisite *>(ProductionPrerequisite *, ProductionPrerequisite *); }
 namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+// Retail's ProductionPrerequisite range copy (0x0033E9DE) assigns through the
+// out-of-line assign 0x002D0C44; this unit's ZH-layout copy is not that body.
+namespace _STL { template <> ProductionPrerequisite *__copy<ProductionPrerequisite *, ProductionPrerequisite *, int>(ProductionPrerequisite *, ProductionPrerequisite *, ProductionPrerequisite *, const random_access_iterator_tag &, int *); }
 // bfme link decl-only end
 // Suppress this TU's non-retail copy of ?parse@?$BitFlags@$0HE@@@QAEXPAVINI@@PAVAsciiString@@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
@@ -1128,6 +1131,9 @@ bool Rva00331578::rva00331578(const Rva00331578 &other)
 // it is a compile anchor and makes no retail data or assignment-body claim.
 namespace _STL {
 template _Vector_base<ScienceType, allocator<ScienceType> >::_Vector_base(size_t, const allocator<ScienceType> &);
+// Its rowed ScienceType range copy was instantiated through this unit's
+// ProductionPrerequisite copy, which the unit now calls (0x0033E9DE).
+template ScienceType *__copy<const ScienceType *, ScienceType *, int>(const ScienceType *, const ScienceType *, ScienceType *, const random_access_iterator_tag &, int *);
 }
 
 // clearCopiedFromDefaultEntries (gone, see above) was this unit's user of the
