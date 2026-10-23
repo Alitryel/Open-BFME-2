@@ -12,6 +12,16 @@
 // pair<const int,int> names; the pin below adds the set<int> spelling for the
 // same address rather than editing those rows.
 #include <set>
+// The header-node initialization stays inline; the shared base owns its external copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_base<int, allocator<int> >::_Rb_tree_base(const allocator_type &__a)
+    : _M_header(_STLP_CONVERT_ALLOCATOR(__a, _Node), (_Node *)0)
+{
+    _M_header._M_data = _M_header.allocate(1);
+}
+}
+
 // bfme link decl-only begin
 namespace _STL { template <> _Rb_tree_node<int> * _Rb_tree<int, int, _Identity<int>, less<int>, allocator<int> >::_M_create_node(int const &); }
 // bfme link decl-only end

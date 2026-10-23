@@ -22,4 +22,9 @@ struct BfmeStringRecord000331962 {
 #include <memory>
 template void _STL::_Construct<BfmeStringRecord000331962,BfmeStringRecord000331962>(BfmeStringRecord000331962*,const BfmeStringRecord000331962&);
 #include <vector>
-template class _STL::vector<BfmeStringRecord000331962, _STL::allocator<BfmeStringRecord000331962> >;
+typedef _STL::vector<BfmeStringRecord000331962> StringRecordVector;
+template BfmeStringRecord000331962 *StringRecordVector::_M_allocate_and_copy(
+    unsigned int, const BfmeStringRecord000331962 *, const BfmeStringRecord000331962 *);
+template void StringRecordVector::push_back(const BfmeStringRecord000331962 &);
+template StringRecordVector::vector(const StringRecordVector &);
+template void _STL::fill(BfmeStringRecord000331962 *, BfmeStringRecord000331962 *, const BfmeStringRecord000331962 &);
