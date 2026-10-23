@@ -541,20 +541,42 @@ Rva0039F56E::~Rva0039F56E()
 	rva0039F56E();
 }
 
-// ??1Rva004070D4@@QAE@XZ @0x004075A8 56B -> Rva004070D4::rva0040748D
+// map<unsigned, bool>'s tree destructor @0x004075A8 56B -> Rva004070D4::rva0040748D.
+// Spelled as the STLport instantiation so the units that use the map
+// (CreateAHeroHero, FileSystem) bind to this row instead of their own copies.
 class Rva004070D4
+{
+public:
+	void rva0040748D();
+};
+
+namespace _STL
+{
+template <class T> struct less {};
+template <class T> class allocator {};
+template <class T1, class T2> struct pair {};
+template <class Pair> struct _Select1st {};
+
+template <class Key, class Value, class KeyOfValue, class Compare, class Alloc>
+class _Rb_tree
 {
 public:
 	RvaTreeFamilyHolder m_header;
 	int m_flag;
-	void rva0040748D();
-	~Rva004070D4();
+	~_Rb_tree()
+	{
+		((Rva004070D4 *)this)->rva0040748D();
+	}
 };
 
-Rva004070D4::~Rva004070D4()
-{
-	rva0040748D();
+template class _Rb_tree<unsigned int, pair<const unsigned int, bool>,
+		_Select1st<pair<const unsigned int, bool> >, less<unsigned int>,
+		allocator<pair<const unsigned int, bool> > >;
 }
+
+typedef _STL::_Rb_tree<unsigned int, _STL::pair<const unsigned int, bool>,
+		_STL::_Select1st<_STL::pair<const unsigned int, bool> >, _STL::less<unsigned int>,
+		_STL::allocator<_STL::pair<const unsigned int, bool> > > RvaUIntBoolTree;
 
 // ??1Rva0041331E@@QAE@XZ @0x00413396 56B -> Rva0041331E::rva0041334B
 class Rva0041331E
@@ -1572,7 +1594,7 @@ public:
 
 void Rva004079D0::rva004079D0()
 {
-	((Rva004070D4 *)this)->~Rva004070D4();
+	((RvaUIntBoolTree *)this)->~RvaUIntBoolTree();
 }
 
 class Rva00440012

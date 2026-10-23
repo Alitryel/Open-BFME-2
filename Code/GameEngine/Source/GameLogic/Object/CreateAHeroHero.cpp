@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /EHsc /MD /arch:SSE /D_CRTIMP= /DBFME_ASCII_DTOR_DECL /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /EHsc /MD /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // CreateAHeroHero.cpp -- CreateAHeroHero members recovered from WorldBuilder
 // leads (reverse/wb_name_leads.csv): WB's debug build names each function and
@@ -137,6 +137,17 @@ namespace _STL { template <> __declspec(dllimport) __forceinline bool less<unsig
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>::operator()(int const &x,int const &y)const  { return x < y; } }
 namespace _STL { template <> map<unsigned int, bool>::map(); }
+// Retail's operator[] (0x00407FB2) reaches the pure-key lower bound through the
+// unsigned/void* tree's body (0x004FF3B6), as MapSubscriptRva00407FB2.cpp spells it.
+// That tree's _M_lower_bound stays visible: a declaration-only form, like
+// declaration-only forms of the map's insert helpers, reshapes
+// RegisterExperienceLevels' register use and operator[]'s store order.
+typedef _STL::pair<const unsigned int, void *> CreateAHeroLowerPair;
+typedef _STL::_Rb_tree<unsigned int, CreateAHeroLowerPair, _STL::_Select1st<CreateAHeroLowerPair>, _STL::less<unsigned int>, _STL::allocator<CreateAHeroLowerPair> > CreateAHeroUnsignedLower;
+namespace _STL { template <> __forceinline map<unsigned int, bool>::iterator map<unsigned int, bool>::lower_bound(const unsigned int &key) { return iterator((_Rb_tree_node<value_type> *)((const CreateAHeroUnsignedLower *)this)->lower_bound(key)._M_node); } }
+// The map<unsigned, bool> tree dtor is rowed in RvaTreeDtorFamily.cpp
+// (0x004075A8, an EH-framed body); bind to it instead of emitting this unit's own.
+namespace _STL { template <> _Rb_tree<unsigned int, pair<const unsigned int, bool>, _Select1st<pair<const unsigned int, bool> >, less<unsigned int>, allocator<pair<const unsigned int, bool> > >::~_Rb_tree(); }
 // bfme link decl-only begin
 namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool>::pair(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > const &, bool const &); }
 namespace _STL { template <> __declspec(dllimport) __forceinline _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--() { _M_node = _Rb_global_inst::_M_decrement(_M_node); return *this; } }
@@ -159,15 +170,6 @@ namespace _STL { template <> void _Rb_tree<unsigned int,pair<unsigned int const 
 // Suppress this TU's non-retail copy of ?_M_erase@?$_Rb_tree@IU?$pair@$$CBI_N@_STL@@U?$_Select1st@U?$pair@$$CBI_N@_STL@@@2@U?$less:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void _Rb_tree<unsigned int,pair<unsigned int const ,bool>,_Select1st<pair<unsigned int const ,bool> >,less<unsigned int>,allocator<pair<unsigned int const ,bool> > >::_M_erase(_Rb_tree_node<pair<unsigned int const ,bool> > *); }
-// Suppress this TU's non-retail copy of ?insert_unique@?$_Rb_tree@IU?$pair@$$CBI_N@_STL@@U?$_Select1st@U?$pair@$$CBI_N@_STL@@@2@U?:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> _Rb_tree_iterator<pair<unsigned int const ,bool>,_Nonconst_traits<pair<unsigned int const ,bool> > > _Rb_tree<unsigned int,pair<unsigned int const ,bool>,_Select1st<pair<unsigned int const ,bool> >,less<unsigned int>,allocator<pair<unsigned int const ,bool> > >::insert_unique(_Rb_tree_iterator<pair<unsigned int const ,bool>,_Nonconst_traits<pair<unsigned int const ,bool> > >,pair<unsigned int const ,bool> const &); }
-// Suppress this TU's non-retail copy of ?insert_unique@?$_Rb_tree@IU?$pair@$$CBI_N@_STL@@U?$_Select1st@U?$pair@$$CBI_N@_STL@@@2@U?:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> pair<_Rb_tree_iterator<pair<unsigned int const ,bool>,_Nonconst_traits<pair<unsigned int const ,bool> > >,bool> _Rb_tree<unsigned int,pair<unsigned int const ,bool>,_Select1st<pair<unsigned int const ,bool> >,less<unsigned int>,allocator<pair<unsigned int const ,bool> > >::insert_unique(pair<unsigned int const ,bool> const &); }
-// Suppress this TU's non-retail copy of ?_M_insert@?$_Rb_tree@IU?$pair@$$CBI_N@_STL@@U?$_Select1st@U?$pair@$$CBI_N@_STL@@@2@U?$les:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> _Rb_tree_iterator<pair<unsigned int const ,bool>,_Nonconst_traits<pair<unsigned int const ,bool> > > _Rb_tree<unsigned int,pair<unsigned int const ,bool>,_Select1st<pair<unsigned int const ,bool> >,less<unsigned int>,allocator<pair<unsigned int const ,bool> > >::_M_insert(_Rb_tree_node_base *,_Rb_tree_node_base *,pair<unsigned int const ,bool> const &,_Rb_tree_node_base *); }
 // Suppress this TU's non-retail copy of ?insert_unique@?$_Rb_tree@HU?$pair@$$CBHH@_STL@@U?$_Select1st@U?$pair@$$CBHH@_STL@@@2@U?$l:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 

@@ -1,6 +1,9 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /MD /EHsc /DNDEBUG
 //
-// ?rva0040AA27@Rva0040AA27@@QAEHH@Z @0x0040AA27 76B.
+// ?rva0040AA27@CreateAHeroAward@@QBE_NPBVCreateAHeroHero@@@Z @0x0040AA27 76B.
+// CreateAHeroHero::HasEarnedAward (0x00406EA7) calls it on the award with the
+// hero and returns its byte; the bool result of the && materialises as
+// xor eax,eax / inc eax.
 // All-quantifier over the +0x1c/+0x20 array (0x10 stride): run the 0x40A99A
 // predicate (unclaimed, address pinned) on each element with our int arg,
 // stop at the first false, then require a non-empty full count.
@@ -25,17 +28,19 @@ private:
 	int m_required;
 };
 
-class Rva0040AA27
+class CreateAHeroHero;
+
+class CreateAHeroAward
 {
 public:
-	int rva0040AA27(int x);
+	bool rva0040AA27(const CreateAHeroHero *hero) const;
 private:
 	char m_pad00[0x1c];
 	Rva0040A99AElem *m_begin1c;
 	Rva0040A99AElem *m_end20;
 };
 
-int Rva0040AA27::rva0040AA27(int x)
+bool CreateAHeroAward::rva0040AA27(const CreateAHeroHero *hero) const
 {
 	Rva0040A99AElem *p = m_begin1c;
 	unsigned count = 0;
@@ -43,7 +48,7 @@ int Rva0040AA27::rva0040AA27(int x)
 loop:
 	if (p == m_end20)
 		goto done;
-	if (p->rva0040A99A(x))
+	if (p->rva0040A99A((int)hero))
 		count++;
 	else
 		stop = true;
@@ -51,9 +56,7 @@ loop:
 	if (!stop)
 		goto loop;
 done:
-	if (count > 0 && count == (unsigned)(m_end20 - m_begin1c))
-		return 1;
-	return 0;
+	return count > 0 && count == (unsigned)(m_end20 - m_begin1c);
 }
 
 // Retail 0040A99A..0040AA27: sum unlocked amounts keyed by the array
