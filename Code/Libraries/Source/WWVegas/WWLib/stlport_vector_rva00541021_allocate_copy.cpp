@@ -23,8 +23,12 @@ struct Rva00541021
 namespace _STL {
 template <> void _Construct<Rva00541021, Rva00541021>(Rva00541021 *, const Rva00541021 &);
 }
+// Retail's _M_allocate_and_copy at 0x54124E calls this element's rowed
+// copy worker 0x5411C8 (StlSweepW5Rva005411C8.cpp), not BfmePod28's.
 // Emit the rowed growth family; the unused default-insert members of a
 // whole-class instantiation would require an unrowed element constructor.
 template void _STL::vector<Rva00541021>::_M_insert_overflow(
     Rva00541021 *, const Rva00541021 &, const _STL::__false_type &, unsigned int, bool);
 template void _STL::vector<Rva00541021>::push_back(const Rva00541021 &);
+template Rva00541021 *_STL::vector<Rva00541021>::_M_allocate_and_copy<const Rva00541021 *>(
+    unsigned int, const Rva00541021 *, const Rva00541021 *);
