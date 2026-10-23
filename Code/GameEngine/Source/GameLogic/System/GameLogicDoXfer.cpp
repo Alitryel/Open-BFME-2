@@ -33,10 +33,13 @@ struct XferVersionInfo
 };
 
 #include "Lib/Coord3DBase.h"
-// Suppress this TU's non-retail copy of ??0?$pair@$$CBVAsciiString@@W4BuildableStatus@@@_STL@@QAE@ABVAsciiString@@ABW4BuildableSta:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
+// Keep STLport pair construction inline without emitting another external copy.
 class AsciiString; enum BuildableStatus;
-namespace _STL { template <> pair<AsciiString const ,BuildableStatus>::pair(AsciiString const &,BuildableStatus const &); }
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+pair<const AsciiString, BuildableStatus>::pair(const AsciiString &name, const BuildableStatus &status)
+    : first(name), second(status) {}
+}
 // Suppress this TU's non-retail copy of ?_M_create_node@?$_Rb_tree@UTreeKey00242F5E@@U?$pair@$$CBUTreeKey00242F5E@@UTreeOpaqueMapp:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct TreeKey00242F5E; struct TreeOpaqueMapped242F5E;
@@ -51,9 +54,15 @@ namespace _STL { template <> bool less<unsigned int>::operator()(unsigned int co
 // Suppress this TU's non-retail copy of ?get_allocator@?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBE?AV?$allocator@PAX@2@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> allocator<void *> vector<void *,allocator<void *> >::get_allocator() const; }
-// Suppress this TU's non-retail copy of ?begin@?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBEPBQAXXZ:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> void * const * vector<void *,allocator<void *> >::begin() const; }
+// Keep const vector access inline without emitting external accessor copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void *const *vector<void *>::begin() const { return _M_start; }
+}
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void *const &vector<void *>::operator[](size_t n) const { return *(begin() + n); }
+}
 
 class Xfer
 {
@@ -327,7 +336,7 @@ public:
 	virtual ~SkirmishGameInfo();
 	char m_rest2[0xE3C - 0xDC];
 };
-extern GameInfo *TheSkirmishGameInfo;
+extern SkirmishGameInfo *TheSkirmishGameInfo;
 extern GameInfo *TheGameInfo;
 
 class SkirmishPreferences
@@ -348,7 +357,7 @@ class CaveSystem;
 class LargeGroupAudio;
 class DelayedExperienceLevelGrantSystem;
 extern LinearCampaignManager *TheLinearCampaignManager;
-extern CaveSystem *TheCaveSystem;
+extern CaveSystem *g_00A031F4;
 extern LargeGroupAudio *TheLargeGroupAudio;
 extern DelayedExperienceLevelGrantSystem *TheDelayedExperienceLevelGrantSystem;
 
@@ -393,7 +402,10 @@ enum BuildableStatus { BUILDABLE_STATUS_UNKNOWN = 0 };
 namespace rts
 {
 	template <class T> struct hash { size_t operator()(const T &value) const; };
-	template <class T> struct equal_to { bool operator()(const T &left, const T &right) const; };
+	template <class T> struct equal_to {
+		__declspec(dllimport) __forceinline bool operator()(const T &left, const T &right) const
+		{ return left == right; }
+	};
 }
 typedef _STL::pair<const AsciiString, BuildableStatus> BuildableStatusPair;
 // The buildable map's hasher is the AsciiString hash at retail 0x00055041 (30 B): the
@@ -587,7 +599,7 @@ void GameLogicSnapshot::DoXfer(Xfer *xfer)
 
 	if (version.m_b < 7)
 		xfer->xferSnapshot((Snapshot *)TheLinearCampaignManager);
-	xfer->xferSnapshot(snapshotAt(TheCaveSystem, 0x0C));
+	xfer->xferSnapshot(snapshotAt(g_00A031F4, 0x0C));
 	xfer->xferSnapshot(m_164);
 	xfer->xferSnapshot(m_168);
 	xfer->xferSnapshot(m_16c);

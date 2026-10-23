@@ -1955,3 +1955,4 @@ __ehhandler$??1Rva0081FDD@@UAE@XZ,0x0075F630,"Renamed to __ehhandler$??1Renderab
 ?Rva00339AF1_ParseSciences@INI@@SAXPAV1@PAX1PBX@Z,0x00339AF1,"Renamed to ?parseScienceVector@INI@@SAXPAV1@PAX1PBX@Z: retail CommandButton field table 0x00815468 binds this callback"
 ?Rva0033940F_Parse@INI@@SAXPAV1@PAX1PBX@Z,0x0033940F,"Renamed to ?parseThingTemplate@INI@@SAXPAV1@PAX1PBX@Z: retail CommandButton field table 0x00815468 binds this callback"
 ?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z,0x00339900,"Renamed to ?parseAudioEventRTS@INI@@SAXPAV1@PAX1PBX@Z: retail MiscAudio sound fields bind this token parser"
+?Rva0040CA98@@YAXXZ,0x0040CA98,"Renamed to ?rva0040CA98@Rva0040CA98@@QAEXXZ: native GameLogic update supplies its +0x184 member in ECX"

@@ -190,7 +190,8 @@ class GameLogic;
 extern GameLogic *TheGameLogic;
 class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
-void Rva0040CA98()
+class Rva0040CA98 { public: void rva0040CA98(); };
+void Rva0040CA98::rva0040CA98()
 {
  if (!TheDisplay->slot160() && ((Rva002034E9Host *)TheGameLogic)->rva002034E9())
   ((Rva002B4AF8 *)TheLivingWorldLogic)->rva002B4AF8();

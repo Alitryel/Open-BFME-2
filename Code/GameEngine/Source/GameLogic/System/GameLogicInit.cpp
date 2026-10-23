@@ -637,6 +637,17 @@ public:
 private:
 	char m_body[0x14];
 };
+// The unwind map selects separate destructors for the two table wrappers.
+struct Rva00243B48
+{
+    ~Rva00243B48();
+    Rva00246FD7 m_table;
+};
+struct Rva00240E13
+{
+    ~Rva00240E13();
+    Rva00246FD7 m_table;
+};
 struct BfmePod8 { int a[2]; };
 namespace _STL {
 template <> map<int, BfmePod8, less<int>, allocator<pair<const int, BfmePod8> > >::map();
@@ -795,7 +806,7 @@ private:
 
 public:
 
-	Rva00246FD7 m_10;
+	Rva00243B48 m_10;
 	_STL::map<int, BfmePod8> m_24;
 	float m_width;
 	float m_height;
@@ -843,7 +854,7 @@ public:
 	char m_pad0A9[0xac - 0xa9];
 	Object *m_objList;
 	int m_b0;
-	Rva00246FD7 m_b4;
+	Rva00240E13 m_b4;
 	UpdateModuleList m_updates[4];                                       // +0xC8
 	UpdateModuleList m_sleeping;                                         // +0xF8
 	UpdateModule *m_104;
@@ -1809,11 +1820,15 @@ struct AssetLoadMode
 
 void bfmeMergeReceiverKeys(int value);
 
+class BfmeRetBWF;
+class Rva0030D631 { public: BfmeRetBWF *rva0030D631(); };
+
 class MapObject
 {
 public:
 	MapObject *getNext_(void) const { return m_next; }
-	const Coord3D *getLocation(void);
+	__declspec(dllimport) __forceinline const Coord3D *getLocation(void)
+	{ return (const Coord3D *)((Rva0030D631 *)this)->rva0030D631(); }
 	float getAngle(void) const { return m_angle; }
 	int getFlags(void) const { return m_flags; }
 	Dict *getProperties(void) { return &m_properties; }
