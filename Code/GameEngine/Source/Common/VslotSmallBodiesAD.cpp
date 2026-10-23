@@ -113,16 +113,16 @@ public:
 	GameMessageDisposition translate(const GameMessage *msg);
 };
 extern HotKeyManager *TheHotKeyManager;
-class Rva00359729
+class HotKeyTranslator
 {
 public:
-	Int rva00359729(Int a);
+	virtual GameMessageDisposition translateGameMessage(const GameMessage *a);
 };
-Int Rva00359729::rva00359729(Int a)
+GameMessageDisposition HotKeyTranslator::translateGameMessage(const GameMessage *a)
 {
 	if (TheHotKeyManager)
-		return TheHotKeyManager->translate((const GameMessage *)a);
-	return 0;
+		return TheHotKeyManager->translate(a);
+	return KEEP_MESSAGE;
 }
 
 // 0x003AFE24 and 0x003AFE36: GPU resource access through the manager

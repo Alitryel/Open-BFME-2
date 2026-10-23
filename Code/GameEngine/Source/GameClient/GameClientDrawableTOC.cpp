@@ -254,7 +254,7 @@ private:
 	void *m_ptr;
 };
 
-// BFME 2 SubsystemInterface: eleven vtable slots; init sits in slot 1 (+4)
+// BFME 2 SubsystemInterface: fourteen vtable slots; init sits in slot 1 (+4)
 // and postProcessLoad in slot 3 (+0xC) for every subsystem GameClient::init
 // creates, GameClient::reset calls reset in slot 9 (+0x24) and its vftable
 // 0x007ED850 keeps update in slot 10. setName is the out-of-line 0x0006F3CC.
@@ -273,6 +273,9 @@ public:
 	virtual void vslot08();
 	virtual void reset() = 0;                                                 // +0x24
 	virtual void update() = 0;                                                // +0x28
+	virtual bool vslot11(int);
+	virtual void vslot12();
+	virtual void vslot13(int);
 
 	void setName(AsciiString name);
 
@@ -390,9 +393,6 @@ public:
 	virtual void init();
 	virtual void reset();
 	virtual void update();
-	virtual void vf11();
-	virtual void vf12();
-	virtual void vf13();
 	virtual void vf14();
 	virtual void vf15();
 	virtual Drawable *findDrawableByID(const DrawableID id);            // slot 16 (+0x40)
@@ -620,11 +620,11 @@ private:
 };
 
 // TheHotKeyManager (0x30-byte HotKeyManager, ctor 0x0035973D).
-class Rva00E01E28Owner : public SubsystemInterface
+class Rva00359290 : public SubsystemInterface
 {
 public:
-	Rva00E01E28Owner();
-	virtual ~Rva00E01E28Owner();
+	Rva00359290();
+	virtual ~Rva00359290();
 	virtual void init();
 	virtual void reset();
 	virtual void update();
@@ -640,7 +640,7 @@ class InGameUI : public SubsystemInterface
 public:
 	virtual ~InGameUI();
 #define V(n) virtual void vf##n();
-	V(11) V(12) V(13) V(14) V(15) V(16) V(17) V(18) V(19)
+	V(14) V(15) V(16) V(17) V(18) V(19)
 	V(20) V(21) V(22) V(23) V(24) V(25) V(26) V(27) V(28) V(29)
 	V(30) V(31) V(32) V(33) V(34) V(35) V(36) V(37) V(38) V(39)
 	V(40) V(41) V(42) V(43) V(44) V(45) V(46) V(47) V(48) V(49)
@@ -710,9 +710,6 @@ class Mouse : public SubsystemInterface
 {
 public:
 	virtual ~Mouse();
-	virtual void vf11();
-	virtual void vf12();
-	virtual void vf13();
 	virtual void parseIni();                                            // +0x38
 	virtual void initCursorResources();                                 // +0x3C
 	virtual void createStreamMessages();                                // +0x40
@@ -769,9 +766,7 @@ class Display : public SubsystemInterface
 {
 public:
 	virtual ~Display();
-	virtual void vf11();
-	virtual void drawViews();                                           // +0x30
-	virtual void vf13();
+	virtual void vslot12();                                           // +0x30
 	virtual void setWidth(unsigned int width);                         // +0x38
 	virtual void setHeight(unsigned int height);                       // +0x3C
 	virtual unsigned int getWidth();                                    // +0x40
@@ -843,9 +838,6 @@ class Keyboard : public SubsystemInterface
 {
 public:
 	virtual ~Keyboard();
-	virtual void vf11();
-	virtual void vf12();
-	virtual void vf13();
 	virtual void vf14();
 	virtual void createStreamMessages();                                // +0x3C
 };
@@ -1335,7 +1327,7 @@ GameClient::~GameClient()
 	::delete TheRayEffects;
 	TheRayEffects = 0;
 
-	::delete ((Rva00E01E28Owner *)TheHotKeyManager);
+	::delete ((Rva00359290 *)TheHotKeyManager);
 	TheHotKeyManager = 0;
 
 	::delete TheInGameUI;
@@ -1535,11 +1527,11 @@ void GameClient::init()
 		TheInGameUI->setName(AsciiString("TheInGameUI"));
 	}
 
-	TheHotKeyManager = (HotKeyManager *)new Rva00E01E28Owner;
+	TheHotKeyManager = (HotKeyManager *)new Rva00359290;
 	if (TheHotKeyManager)
 	{
-		((Rva00E01E28Owner *)TheHotKeyManager)->init();
-		((Rva00E01E28Owner *)TheHotKeyManager)->setName(AsciiString("TheHotKeyManager"));
+		((Rva00359290 *)TheHotKeyManager)->init();
+		((Rva00359290 *)TheHotKeyManager)->setName(AsciiString("TheHotKeyManager"));
 	}
 
 	// create the terrain visual
@@ -1733,7 +1725,7 @@ void GameClient::update()
 
 	if (TheWritableGlobalData->m_playIntro || TheWritableGlobalData->m_afterIntro)
 	{
-		TheDisplay->drawViews();
+		TheDisplay->vslot12();
 		TheDisplay->update();
 		return;
 	}
@@ -1818,7 +1810,7 @@ void GameClient::update()
 	if (!freezeTime)
 		TheParticleSystemManager->setLocalPlayerIndex(localPlayerIndex);
 
-	TheDisplay->drawViews();
+	TheDisplay->vslot12();
 	TheDisplayStringManager->update();
 
 	if (!TheGameLogic->getFlag125() || TheShell->m_byte5C)
@@ -2208,7 +2200,7 @@ int rva0023958B(void *, bool allowLegal)
 			{
 				TheGameEngine->serviceWindowsOS();
 				TheWindowManager->update();
-				TheDisplay->drawViews();
+				TheDisplay->vslot12();
 				Sleep(100);
 			}
 			setFPMode();

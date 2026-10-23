@@ -122,10 +122,10 @@ public:
 	GameMessageDisposition translate(const GameMessage *msg);
 };
 extern HotKeyManager *TheHotKeyManager;
-class Rva00359729
+class HotKeyTranslator
 {
 public:
-	Int rva00359729(Int a);
+	virtual GameMessageDisposition translateGameMessage(const GameMessage *a);
 };
 
 

@@ -2033,3 +2033,5 @@ __ehhandler$?rva00059A25@Rva00059A25@@QAEXABVAsciiString@@H@Z,0x0075D851,"Rename
 ?rva000512BC@Rva000512BCForwarder@@QAEXXZ,0x000512BC,"Renamed to ?rva000512BC@MilesAudioManager@@UAEXXZ: retail MilesAudioManager table 0x007C55B0 slot 96 targets 0x000512BC"
 ?name@WorkerAIUpdate@@QBEPBDXZ,0x004A9B4B,"Renamed to ?GetSnapshotName@WorkerAIUpdate@@MBEPBDXZ: retail constructor table slot 2 targets the class-name getter of the Snapshot interface"
 ?name@DozerAIUpdate@@QBEPBDXZ,0x00489629,"Renamed to ?GetSnapshotName@DozerAIUpdate@@MBEPBDXZ: retail constructor table slot 2 targets the class-name getter of the Snapshot interface"
+"?rva00359729@Rva00359729@@QAEHH@Z","0x00359729","Renamed to ?translateGameMessage@HotKeyTranslator@@UAE?AW4GameMessageDisposition@@PBVGameMessage@@@Z: retail HotKeyTranslator table BED660 slot 0"
+"?rva00428D66@Rva00428D66@@QAEHPBURva00428D66Arg@@@Z","0x00428D66","Renamed to ?translateGameMessage@GameClientMessageDispatcher@@UAE?AW4GameMessageDisposition@@PBVGameMessage@@@Z: retail GameClientMessageDispatcher table BED670 slot 0"

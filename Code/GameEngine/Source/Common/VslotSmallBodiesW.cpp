@@ -260,23 +260,25 @@ Int Rva00406B39::rva004059F6()
 
 // 0x00428D66: 0 for the argument's +0x10 ids 1000-1999, 29-34, 1701, 2009
 // and 2029; else 1.
-struct Rva00428D66Arg
+enum GameMessageDisposition { KEEP_MESSAGE, DESTROY_MESSAGE };
+class GameMessage
 {
+public:
 	char m_pad00[0x10];
 	Int m_10;
 };
-class Rva00428D66
+class GameClientMessageDispatcher
 {
 public:
-	Int rva00428D66(const Rva00428D66Arg *arg);
+	virtual GameMessageDisposition translateGameMessage(const GameMessage *arg);
 };
-Int Rva00428D66::rva00428D66(const Rva00428D66Arg *arg)
+GameMessageDisposition GameClientMessageDispatcher::translateGameMessage(const GameMessage *arg)
 {
 	Int id = arg->m_10;
 	if ((id >= 1000 && id <= 1999) || id == 30 || id == 29 || id == 2009 || id == 2029
 		|| id == 1701 || id == 31 || id == 32 || id == 34 || id == 33)
-		return 0;
-	return 1;
+		return KEEP_MESSAGE;
+	return DESTROY_MESSAGE;
 }
 
 // 0x00479B0A: when the +0x9E0 member's rowed 0x00588BF3 (horde-contain
