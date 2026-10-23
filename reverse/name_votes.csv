@@ -215,3 +215,16 @@ Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp|member|Rva00819630C
 Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp|member|Rva00819630Comm|m_field1910,2f8abeb5bb9bbb4905c306a0,seat-b,rn-1023-5-b,w-573df534dd11,2026-10-23
 Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp|member|Rva00819630Comm|m_field1914,24d90d78131eb2a9fe5dfdb7,seat-b,rn-1023-5-b,w-573df534dd11,2026-10-23
 Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp|function|0x00685530|Rva00819630,b0e957fd51e8c9d233040adf,seat-b,rn-1023-5-b,w-573df534dd11,2026-10-23
+Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainInitOffsets.cpp|class||Rva0047B690Row,2980e7edddbb781b77fadc52,gpt-6.1-sol,codex6-20261023-225354-1,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainInitOffsets.cpp|local|AODHordeContain::initOffsets|n,0af08a460df9a20d3c14b60d,gpt-6.1-sol,codex6-20261023-225354-1,w-bcdd62231570,2026-10-23
+Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp|local|SetTransform|m2,7d3743eb18eef0a27e05f39e,gpt-6.1-sol,codex6-20261023-225354-1,w-bcdd62231570,2026-10-23
+Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp|local|BumpEnvTextureMapperClass::Apply|c,207f8e14e78f522f78ee7969,gpt-6.1-sol,codex6-20261023-225354-1,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|function|0x0066CF10|rva00800b30,2ea285287cad8dc9fd02d277,gpt-6.1-sol,codex6-20261023-225354-3,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|member|ArmyDetailsPanelImpl|m_map14,e8f250067fc5f16105927be9,gpt-6.1-sol,codex6-20261023-225354-3,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/Common/BfmeThreeHundredFiftyOne.cpp|member|StdioStreambufBase|m_bfmeVft,6927cd8269859a4c3e8d08a0,gpt-6.1-sol,codex6-20261023-225354-4,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/Common/RvaMixedMemberForwarders.cpp|param|Rva00271BCC::rva00271BCC|a0,b03f72f65fb3776d2497d197,gpt-6.1-sol,codex6-20261023-225354-5,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp|function|0x00663690|Rva00663690Handler,88dc8d1124b6a56999e4e07e,gpt-6.1-sol,codex6-20261023-225354-5,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp|function|0x006636A0|Rva006636A0Handler,b12dbf512f13b4c2268be242,gpt-6.1-sol,codex6-20261023-225354-5,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp|function|0x006636D0|Rva006636D0Handler,eb13b7dcc194805c5a2adb42,gpt-6.1-sol,codex6-20261023-225354-5,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp|function|0x006636E0|Rva006636E0Handler,e84065ab4ce0ad33dead0956,gpt-6.1-sol,codex6-20261023-225354-5,w-bcdd62231570,2026-10-23
+Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp|local|BfmeThingDGD::rva007F8400|byte35,7034e17a8b9d22e7a404c81b,gpt-6.1-sol,codex6-20261023-225354-5,w-bcdd62231570,2026-10-23
