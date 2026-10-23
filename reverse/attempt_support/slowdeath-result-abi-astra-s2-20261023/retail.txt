@@ -15,7 +15,7 @@ RVA 0x0045D859, 46 bytes
 0045d87a  50                       push eax
 0045d87b  e8d57bbeff               call 0x45455
 0045d880  8b4508                   mov eax, dword ptr [ebp + 8]
-0045d883  c9                       leave 
+0045d883  c9                       leave
 0045d884  c20400                   ret 4
 RVA 0x0045E293, 110 bytes (caller prefix only)
 0045e293  b841a6b800               mov eax, 0xb8a641

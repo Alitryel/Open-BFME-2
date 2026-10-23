@@ -14,6 +14,25 @@
 #undef free
 void free(void *);
 #include <vector>
+// Keep the STLport operations inline without competing external copies.
+// The word-vector provider uses the same imported-inline allocator contract.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline unsigned short *
+_STLP_alloc_proxy<unsigned short *, unsigned short, allocator<unsigned short> >::allocate(size_t n)
+{
+    return __stl_alloc_rebind(static_cast<allocator<unsigned short> &>(*this),
+                             (unsigned short *)0).allocate(n, 0);
+}
+// Preserve the original nonthrowing base-destruction summary: without it,
+// MSVC gives the owning vector a new EH frame and changes its caller.
+// This body only releases the word buffer through the game free wrapper.
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+_Vector_base<unsigned short, allocator<unsigned short> >::~_Vector_base()
+{
+    if (_M_start != 0)
+        _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start);
+}
+}
 #include "unicode_string.h"
 #include "ascii_string.h"
 #include "../../../../../../Libraries/Include/Lib/Coord2D.h"
@@ -117,7 +136,8 @@ public:
 extern GameTextInterface *TheGameText;
 
 class Rva00222A8BTarget;
-extern Rva00222A8BTarget *TheRva00222A8BTarget;
+class BfmeAptWindowManager;
+extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 int Rva0043DB23(Rva00222A8BTarget *target, void *owner, const char *name);
 
 class GameWindow;
@@ -184,8 +204,36 @@ struct Rva0059B036Concat
 	const UnicodeString *m_right;
 };
 
-Rva00513B5BConcat operator+(const Rva00513B27Concat &left, const unsigned short *right);
-Rva0059B036Concat operator+(const Rva00513B5BConcat &left, const UnicodeString &right);
+// Native 513B5B: the 12-byte prefix is copied opaquely, then the wide pair.
+// This is byte/relocation-identical to the existing title-segment overload.
+Rva00513B5BConcat operator+(const Rva00513B27Concat &left, const unsigned short *right)
+{
+    Rva000B3F84Pair wide;
+    wide.initWide(right);
+    Rva00513B5BConcat result;
+    result.m_left = left;
+    result.m_right = wide;
+    return result;
+}
+
+// Native 59B036: copy the 20-byte prefix and append the string reference.
+// The existing generic copy owner emits this same hidden-result body.
+Rva0059B036Concat operator+(const Rva00513B5BConcat &left, const UnicodeString &right)
+{
+    Rva0059B036Concat result;
+    result.m_left = left;
+    result.m_right = &right;
+    return result;
+}
+
+struct Rva00513E03 { int length() const; };
+class Rva00513E4A { public: int copyToBuffer(unsigned short *dst); };
+Rva0059B036Concat::operator UnicodeString()
+{
+    UnicodeString tmp;
+    ((Rva00513E4A *)this)->copyToBuffer(tmp.getBufferForRead(((const Rva00513E03 *)this)->length()));
+    return tmp;
+}
 
 // Retail 0x00513B27, 52 bytes.
 Rva00513B27Concat operator+(const unsigned short *left, const UnicodeString &right)
@@ -267,7 +315,7 @@ void AptCreateAHero::DrawMapComponent(const Coord2D *origin, const Coord2D *exte
 		AsciiString fileName(file);
 		TheDisplay->takeScreenShot(fileName.str());
 		void *movie = m_274;
-		Rva0043DB23(TheRva00222A8BTarget, movie, "OnGameTookPicture");
+		Rva0043DB23((Rva00222A8BTarget *)g_bfmeAptWindowManager, movie, "OnGameTookPicture");
 		UnicodeString path(TheWritableGlobalData->getPicturePath());
 		path.concat(file);
 		UnicodeString title;
