@@ -198,7 +198,6 @@ UnsignedByte NetDisconnectPlayerCommandMsg::getDisconnectSlot() {
 	return m_disconnectSlot;
 }
 
-// ?setDisconnectSlot@NetDisconnectPlayerCommandMsg@@QAEXE@Z present-unmatched
 void NetDisconnectPlayerCommandMsg::setDisconnectSlot(UnsignedByte slot) {
 	m_disconnectSlot = slot;
 }

@@ -1719,3 +1719,4 @@ __ehhandler$??0Rva003F332E@@QAE@PAXHABVAsciiString@@@Z,0x00783F68,"Renamed to __
 ?rva0027DA6A@Rva0062AF7@@QAE_NPBMPAM@Z,0x0027DA6A,"Renamed to ?rva0027DA6A@W3DTerrainLogic@@QAE_NPBMPAM@Z: constructor installs BC5890 whose name slot returns W3DTerrainLogic"
 ??0Rva00062A7EProduct@@QAE@XZ,0x00062A7E,"Renamed to ??0W3DTerrainLogic@@QAE@XZ: constructor installs BC5890 whose name slot returns W3DTerrainLogic"
 ?rva005B486D@Rva005B486DOwner@@QAEXXZ,0x005B486D,"Renamed to ?rva005B486D@Powers@AptCreateAHero@@UAEXXZ: Powers constructor-installed table VA 0x00C72F3C slot 3 points here"
+?dup_0006ede3@@YAXXZ,0x0006EDE3,Wrong-layout Script alias replaced by byte-exact NetDisconnectPlayerCommandMsg::setDisconnectSlot. Native sendDisconnectCommand and readDisconnectPlayerMessage prove byte payload at +0x1C; BFME2 Script active is at +0x40. See network-byte-setter-astra-s2-20261023.

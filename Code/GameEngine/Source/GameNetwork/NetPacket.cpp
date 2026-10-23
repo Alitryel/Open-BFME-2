@@ -795,12 +795,6 @@ public:
 	void setLeaveFrame(UnsignedInt frame);
 };
 
-class Script
-{
-public:
-	void setActive(bool active);
-};
-
 // ---------------------------------------------------------------------------
 // ??1NetPacket@@UAE@XZ 0x0058D0E2, ?init@NetPacket@@QAEXXZ 0x0058D10A (86B),
 // ?reset@NetPacket@@QAEXXZ 0x0058D160, ??0NetPacket 0x0058E5B4/0x0058E5EC.
@@ -2727,15 +2721,15 @@ NetCommandMsg *NetPacket::readRouterFallbackMessage(unsigned char *data, int &re
 }
 
 // ?readPlayerLeaveMessage@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z, retail 0x0058DDF2, 105 bytes:
-// the same 1-byte-flag reader as readProgressMessage constructing the rowed Rva004D5795
-// message (same 0x20 size) instead of Rva004D582B.
+// Read the leaving slot byte into the player-leave message. The byte setters at
+// +0x1C fold to the existing NetDisconnectPlayerCommandMsg setter.
 NetCommandMsg *NetPacket::readPlayerLeaveMessage(unsigned char *data, int &readOffset)
 {
 	Rva004D5795 *msg = new Rva004D5795();
-	bool flag = false;
-	memcpy(&flag, data + readOffset, 1);
+	UnsignedByte slot = 0;
+	memcpy(&slot, data + readOffset, 1);
 	readOffset += 1;
-	((Script *)msg)->setActive(flag);
+	((NetDisconnectPlayerCommandMsg *)msg)->setDisconnectSlot(slot);
 	return (NetCommandMsg *)msg;
 }
 
@@ -2939,10 +2933,10 @@ NetCommandMsg *NetPacket::readGameMessage(UnsignedByte *data, Int &readOffset)
 NetCommandMsg *NetPacket::readDisconnectVoteMessage(unsigned char *data, int &readOffset)
 {
 	Rva004D580E *msg = new Rva004D580E();
-	bool flag = false;
-	memcpy(&flag, data + readOffset, 1);
+	UnsignedByte slot = 0;
+	memcpy(&slot, data + readOffset, 1);
 	readOffset += 1;
-	((Script *)msg)->setActive(flag);
+	((NetDisconnectPlayerCommandMsg *)msg)->setDisconnectSlot(slot);
 	UnsignedInt voteFrame = 0;
 	memcpy(&voteFrame, data + readOffset, 4);
 	readOffset += 4;
@@ -2951,18 +2945,15 @@ NetCommandMsg *NetPacket::readDisconnectVoteMessage(unsigned char *data, int &re
 }
 
 // ?readProgressMessage@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058E047 105B.
-// Static NetCommandMsg factory reading 1-byte relay flag from data+offset.
-// Evidence: unlock lane plus sibling 0x0058E511 plus new-0x20 plus
-// Rva004D582B ctor plus memcpy-1 plus dup_0006EDE3 row TYPES wrong;
-// retail calls thiscall bool setter at 0x0006EDE3 whose row is gen-alias
-// YAXXZ but object-symbol is ?setActive@Script@@QAEX_N@Z; declared as used.
+// Read the progress percentage byte into the progress message. The native
+// +0x1C byte setter folds to NetDisconnectPlayerCommandMsg::setDisconnectSlot.
 NetCommandMsg *NetPacket::readProgressMessage(unsigned char *data, int &readOffset)
 {
 	Rva004D582B *msg = new Rva004D582B();
-	bool flag = false;
-	memcpy(&flag, data + readOffset, 1);
+	UnsignedByte percentage = 0;
+	memcpy(&percentage, data + readOffset, 1);
 	readOffset += 1;
-	((Script *)msg)->setActive(flag);
+	((NetDisconnectPlayerCommandMsg *)msg)->setDisconnectSlot(percentage);
 	return (NetCommandMsg *)msg;
 }
 

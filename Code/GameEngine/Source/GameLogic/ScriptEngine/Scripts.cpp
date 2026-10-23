@@ -845,16 +845,7 @@ void Script::crc( Xfer *xfer )
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
-// Matched body: ScriptXfer.cpp @ 0x3B2540 (BFME 2 layout). This ZH copy stays
-// because its setActive call emits the 0x0006EDE3 alias row.
-// Script::xfer is rowed in ScriptXfer.cpp; the Zero Hour copy here was a non-retail second
-// definition. It was also what emitted the inline Script::setActive rowed here (as
-// dup_0006ede3); this anchor keeps it emitted.
-// ?bfmeAnchorScriptSetActive absent-from-retail
-void bfmeAnchorScriptSetActive(Script *script, Bool active)
-{
-	script->setActive(active);
-}
+// Matched BFME 2 Script::xfer is defined in ScriptXfer.cpp (0x003B2540).
 
 // ------------------------------------------------------------------------------------------------
 /** Load post process */

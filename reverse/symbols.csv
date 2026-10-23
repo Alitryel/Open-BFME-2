@@ -10893,7 +10893,6 @@ name,address,notes
 ?set@Rva00504EADCurve@@QAE_NMMMM@Z,0x00504EAD,BFME2 function-curve key insert taking float tangents; REL32 at 0x00504FDB in addKey 0x00504F09; bool owner (mov al,[eax+4] before ret 0x10)
 ?set@Rva00802040Buf@@QAEXPAX@Z,0x006645D0
 ?set@UnicodeString@@QAEXABV1@@Z,0x00037150,TU spelling alias of the StringBase<wchar_t>::set(const StringBase &) pin at 0x00037150; REL32 at 0x005E093D in the DownloadManager ctor 0x005E08AB
-?setActive@Script@@QAEX_N@Z,0x0006EDE3,ICF twin of dup 0x0006EDE3 via NetPacket 0x0058E047 same 10B setter
 ?setActiveBoundary@TerrainLogic@@QAEXH@Z,0x0028069E,middle call in doBorderSwitch with ecx=TheTerrainLogic global and int arg; B1 ledger names doBorderSwitch as its caller; 220B camera/view body
 ?setAddressRemapping@Rva007F45E0Aries@@QAEXPBD@Z,0x00661090
 ?setAll@Rva002535A5Mask@@SAXPAX@Z,0x002535A5
@@ -10914,7 +10913,6 @@ name,address,notes
 ?setDesiredSpeed@AIUpdateInterface@@QAEXM@Z,0x002628F9,AIUpdateInterface::setDesiredSpeed called by AIFollowWaypointPathExactState::onEnter at 0x0034F146; folded with View::setHeightAboveGround
 ?setDisabledUntil@Object@@QAEXW4DisabledType@@I@Z,0x00290114,ZH Object method thiscall (DisabledType frame) called from setDisabled wrapper 0x291C9B with FOREVER and from EMPUpdate Chinook Spawn sites
 ?setDisconnectFrame@NetDisconnectPlayerCommandMsg@@QAEXI@Z,0x005739F6,REL32 in sendDisconnectCommand 0x004D3D5C; folded 10-byte dword setter at +0x24
-?setDisconnectSlot@NetDisconnectPlayerCommandMsg@@QAEXE@Z,0x0006EDE3,REL32 in sendDisconnectCommand 0x004D3D5C; folded 10-byte byte setter at +0x1C
 ?setDisplayedStats@SubtitleManager@@QAEXH@Z,0x00046973,callee of ?update@Rva006EE520@@QAEXH@Z at retail 0x0004802C read from its REL32 displacement; donor name for the body rowed at this address as ?SetDisplayedStats@SubTitleManager@@QAEXH@Z
 ?setEffectivelyDead@Object@@QAEX_N@Z,0x0028D2FB,called on getObject() with true by the InactiveBody ctor 0x004BD8BD as in the ZH InactiveBody.cpp body; tests and sets the private-status bit at Object+0x438 by its Bool argument; 13 callers
 ?setEngineInputEnabled@InGameUI@@QAEX_N@Z,0x0029AB22,GameEngine slot 39 input-lock transition call target; wrapper forwards the enabled flag to the in-game UI state
