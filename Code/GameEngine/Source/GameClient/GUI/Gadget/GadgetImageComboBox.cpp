@@ -229,12 +229,21 @@ extern Keyboard *TheKeyboard;
 class MpGameSetupComboRef
 {
 public:
+	MpGameSetupComboRef();
 	MpGameSetupComboRef(const MpGameSetupComboRef &other);
 	~MpGameSetupComboRef();
 	void rva00323736(bool flag);
 
 	GameWindow *m_window;
 };
+
+// The lobby panel constructor 0x00441ECE builds its +0x2F4 color combo array
+// through this null-pointer default constructor; retail folds the complete
+// body with the other one-word null initializers at 0x00326BE6.
+MpGameSetupComboRef::MpGameSetupComboRef()
+	: m_window(0)
+{
+}
 
 // The lobby copies this one-pointer view and destroys the copy. Retail folds
 // these complete bodies at 0x0027EA56 and 0x000B3FD0 respectively.
