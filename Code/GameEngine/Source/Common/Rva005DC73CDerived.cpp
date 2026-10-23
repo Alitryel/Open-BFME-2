@@ -32,15 +32,8 @@ void bfmeAnchorAIBasePenetrationTroopsTacticDtor(AIBasePenetrationTroopsTactic *
 	aIBasePenetrationTroopsTactic->AIBasePenetrationTroopsTactic::~AIBasePenetrationTroopsTactic();
 }
 
-class AISimpleAttackTactic : public AITacticOffensive
-{
-public:
-	virtual ~AISimpleAttackTactic();
-};
-
-AISimpleAttackTactic::~AISimpleAttackTactic()
-{
-}
+// AISimpleAttackTactic's destructor and ??_G are in Rva005AA647Tactic.cpp, whose full class view
+// owns the vtable (a one-slot view here shadowed it at link time).
 
 class AITacticSiege : public AITacticOffensive
 {

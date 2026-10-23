@@ -86,3 +86,27 @@ AITactic *AISimpleAttackTactic::create()
 {
 	return new AISimpleAttackTactic;
 }
+
+// Retail's destructor 0x005AA647 and ??_G 0x005AA698, rehomed from Rva005DC73CDerived.cpp whose
+// one-slot view of this class emitted a vtable copy that shadowed this unit's full table.
+// Select-any like every other TU's copy; the anchor keeps the noinline body emitted and the
+// scalar deleting destructor calling it out of line.
+__declspec(noinline) inline AISimpleAttackTactic::~AISimpleAttackTactic()
+{
+}
+
+// ?bfmeAnchorAISimpleAttackTacticDtor absent-from-retail
+void bfmeAnchorAISimpleAttackTacticDtor(AISimpleAttackTactic *aISimpleAttackTactic)
+{
+	aISimpleAttackTactic->AISimpleAttackTactic::~AISimpleAttackTactic();
+}
+
+// Placeholder virtuals this unit's AITactic stand-in declares. Retail's vftable of the tactic
+// (0x00C71F80) holds: slot 2 the empty virtual 0x000B3FD0, slot 3 initializeTeamTemplate
+// 0x004ECE61, slot 4 the shared trivial virtual 0x000910FB, slot 5 AITactic's xfer 0x004EDA8C
+// and slot 8 0x004EDDAA; bind each placeholder to the row at that address.
+#pragma comment(linker, "/alternatename:?cleanUp@AITactic@@UAEXXZ=??1Region2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?initializeTeamTemplate@AITactic@@UAEXXZ=?initializeTeamTemplate@AITactic@@UAE_NPAXH@Z")
+#pragma comment(linker, "/alternatename:?v4@AITactic@@UAEXXZ=?Create@GameFileClass@@UAEHXZ")
+#pragma comment(linker, "/alternatename:?v5@AITactic@@UAEXXZ=?xfer@AITactic@@UAEXPAVXfer@@@Z")
+#pragma comment(linker, "/alternatename:?v8@AITactic@@UAEXXZ=?rva004EDDAA@AITactic@@QAEXXZ")
