@@ -10,18 +10,37 @@
 // Identities are not established; names stay address-derived.
 #include "ascii_string.h"
 
+#include "../../../Libraries/Include/Lib/Region2D.h"
+struct Rva0030B72CPoint {
+ Rva0030B72CPoint() {}
+ __forceinline Rva0030B72CPoint(const Rva0030B72CPoint &p):x(p.x),y(p.y) {}
+ float x,y;
+};
+
 class VBase00C6EE28
 {
 public:
-	virtual void s0() = 0;
 	~VBase00C6EE28() {}
+	virtual int slot0() const = 0;
+	virtual Rva0030B72CPoint slot1(int index) const = 0;
+	virtual int slot2() const = 0;
+	virtual Region2D slot3() = 0;
+	virtual float slot4() const = 0;
+	virtual float slot5() const = 0;
+	virtual Rva0030B72CPoint slot6() const = 0;
 };
 
 class Rva00330C50 : public virtual VBase00C6EE28
 {
 public:
 	virtual ~Rva00330C50();
-	virtual void s0() {}
+	virtual int slot0() const;
+	virtual Rva0030B72CPoint slot1(int index) const;
+	virtual int slot2() const;
+	virtual Region2D slot3();
+	virtual float slot4() const;
+	virtual float slot5() const;
+	virtual Rva0030B72CPoint slot6() const;
 private:
 	void *m_08;
 	unsigned char m_pad0C[0x38 - 0x0C];

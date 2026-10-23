@@ -23,11 +23,24 @@
 
 void __cdecl Rva00030830GameFree(void *);
 
+#include "../../../Libraries/Include/Lib/Region2D.h"
+struct Rva0030B72CPoint {
+ Rva0030B72CPoint() {}
+ __forceinline Rva0030B72CPoint(const Rva0030B72CPoint &p):x(p.x),y(p.y) {}
+ float x,y;
+};
+
 class VBase00C6EE28
 {
 public:
-	virtual void s0() = 0;
 	~VBase00C6EE28() {}
+	virtual int slot0() const = 0;
+	virtual Rva0030B72CPoint slot1(int index) const = 0;
+	virtual int slot2() const = 0;
+	virtual Region2D slot3() = 0;
+	virtual float slot4() const = 0;
+	virtual float slot5() const = 0;
+	virtual Rva0030B72CPoint slot6() const = 0;
 };
 
 class Rva0053805DBase;

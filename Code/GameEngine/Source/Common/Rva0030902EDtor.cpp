@@ -15,11 +15,24 @@
 void __cdecl Rva00030830GameFree(void *);
 void operator delete[](void *p);
 
+#include "../../../Libraries/Include/Lib/Region2D.h"
+struct Rva0030B72CPoint {
+ Rva0030B72CPoint() {}
+ __forceinline Rva0030B72CPoint(const Rva0030B72CPoint &p):x(p.x),y(p.y) {}
+ float x,y;
+};
+
 class VBase00C6EE28
 {
 public:
-	virtual void s0() = 0;
 	~VBase00C6EE28() {}
+	virtual int slot0() const = 0;
+	virtual Rva0030B72CPoint slot1(int index) const = 0;
+	virtual int slot2() const = 0;
+	virtual Region2D slot3() = 0;
+	virtual float slot4() const = 0;
+	virtual float slot5() const = 0;
+	virtual Rva0030B72CPoint slot6() const = 0;
 };
 
 class Rva00538133Root
@@ -34,7 +47,12 @@ class Rva0053805DBase : public Rva00538133Root, public virtual VBase00C6EE28
 {
 public:
 	virtual ~Rva0053805DBase();
-	virtual void s0();
+	virtual bool slot1() const;
+	virtual void rva0053805D();
+	virtual void rva0053806C();
+	virtual void rva0053807B() = 0;
+	virtual void rva0053808A() = 0;
+	virtual void primary6(int);
 private:
 	unsigned char m_pad1C[0x30 - 0x1C];
 };
@@ -43,7 +61,19 @@ class Rva00330C50 : public virtual VBase00C6EE28
 {
 public:
 	virtual ~Rva00330C50();
-	virtual void s0();
+	virtual int slot0() const;
+	virtual Rva0030B72CPoint slot1(int index) const;
+	virtual int slot2() const;
+	virtual Region2D slot3();
+	virtual float slot4() const;
+	virtual float slot5() const;
+	virtual Rva0030B72CPoint slot6() const;
+	virtual void primary1() = 0;
+	virtual void primary2() = 0;
+	virtual void primary3() = 0;
+	virtual void primary4() = 0;
+	virtual void primary5() = 0;
+	virtual void primary6(int);
 private:
 	void *m_08;
 	unsigned char m_pad0C[0x38 - 0x0C];
@@ -88,7 +118,7 @@ class Rva0030902E : public Rva0053805DBase, public Rva00330C50, public Rva003089
 {
 public:
 	virtual ~Rva0030902E();
-	virtual void s0() = 0;
+	virtual void primary6(int) = 0;
 private:
 	AsciiString m_78[2];			// +0x78
 	AsciiString m_80;			// +0x80

@@ -17,11 +17,24 @@
 // Retail VA 0x00C691E8 stores bits 0x3D75C290, one ULP above 0.06f.
 extern const float g_00C691E8 = 0.06000000238418579f;
 
+#include "../../../Libraries/Include/Lib/Region2D.h"
+struct Rva0030B72CPoint {
+ Rva0030B72CPoint() {}
+ __forceinline Rva0030B72CPoint(const Rva0030B72CPoint &p):x(p.x),y(p.y) {}
+ float x,y;
+};
+
 class VBase00C6EE28
 {
 public:
-	virtual void s0() = 0;
 	~VBase00C6EE28() {}
+	virtual int slot0() const = 0;
+	virtual Rva0030B72CPoint slot1(int index) const = 0;
+	virtual int slot2() const = 0;
+	virtual Region2D slot3() = 0;
+	virtual float slot4() const = 0;
+	virtual float slot5() const = 0;
+	virtual Rva0030B72CPoint slot6() const = 0;
 };
 
 class Rva00330757Member
