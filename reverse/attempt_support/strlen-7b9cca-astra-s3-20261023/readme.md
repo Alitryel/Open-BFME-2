@@ -1,9 +1,18 @@
 # Strlen-shaped tail helper, RVA 0x007B9CCA — astra-s3, 2026-10-23
 
-No match landed. The best candidate emits **24 bytes, with five differing bytes**:
-one independent TEST/LEA instruction-order swap. All branch displacements,
-loop instructions and return instructions now match. This improves the earlier
-unbanked 22/23-byte forms and the first 24-byte / six-difference candidates.
+**Recovered: 24 bytes exactly, with no relocations.** The focused normal build
+accepted ?rva007B9CCAStrLen@@YAHPBD@Z from
+Code/GameEngine/Source/Common/System/Rva007B9CCAStrLen.cpp. The decisive change
+was one compiler-only _ReadWriteBarrier() after the initial pointer increment
+in the goto-arm candidate. It emits no instruction and retains LEA before TEST.
+Original naming/owner uncertainty remains explicit; no canonical strlen pin
+was added.
+
+The first local evidence commit banked a 24-byte candidate with five differing
+bytes (one TEST/LEA order swap). That initial experiment is preserved below;
+best.cpp.txt and semantic-receipt.json describe that earlier candidate.
+exact.cpp.txt records the decisive scratch source; the production source
+uses readable local names and independently passed the normal byte gate.
 
 ## Inputs and identity limits
 
@@ -118,7 +127,7 @@ To run the semantic checker, create `build/s3-strlen/retail.bin` from the exact
 retail hex above, then copy/run the checker there. Generators write fresh
 private objects; the `results.json` summary preserves the tested byte forms.
 
-## Resume
+## Initial reassessment (superseded by the continuation below)
 
 The remaining concrete source problem is an entry-block boundary or dependency
 that places LEA before TEST while preserving the explicit guard load and
@@ -126,5 +135,80 @@ bottom JNE. Repeating generic while/for spelling, signedness, flag matrices or
 aggregate wrappers on the same inputs is unlikely to add evidence.
 A compiler trace must first reproduce the ordinary object before its internal
 observations can be relied on. The helper's original owner/name remains an
-independent admission prerequisite. No Code/, ledger row, pin, gate, baseline
+independent admission prerequisite. At the initial bank, no Code/, ledger row, pin, gate, baseline
 or compiler binary was modified.
+
+
+## Continuation and recovery
+
+The first bank was committed as 86824a3396, rebased to 953241f38f. The later
+production change starts from that commit. A reference scan found no usable
+unclaimed exact/near donor, and attempted alternative thunk claims belonged
+to other seats. This function was reclaimed for the remaining concrete
+compiler-trace and optimization hypotheses.
+
+A generalized entry-pattern scan found the complete identical body at BFME1
+RVA 0x00C72A59 in both its current unpacked and older workshop baselines.
+The current BFME1 image SHA256 is
+1fbdc0ced8f283732c094c4f0804ce8dc1e3e3675b720bcab066c94fed964e75.
+Its attempt log already describes the isolated body, with no caller/name.
+The exact body is absent from both WorldBuilder images. A scan of 274
+vendored/compiler DLL, EXE and LIB files found no exact copy. These are
+provenance clues, not proof of an original library or protection-related owner.
+
+Additional source probes:
+- 48 assumption, exception-scope and bitfield cases did not improve the bank.
+- 33 ABI/attribute cases included three invalid char-array/pointer-punning
+  controls, excluded from equivalent-source conclusions; six inline definitions
+  emitted no object symbol. The initial runner stopped at the first missing
+  symbol; the final 12 cases were rerun with explicit no-symbol reporting.
+- 32 complete-profile SP1/DDK LTCG compile/link pairs all succeeded but produced
+  no exact body. The ordinary RTM attempt failed C1350/LNK1257 because msobj71.dll
+  is missing; that is a setup failure, not a negative RTM LTCG result.
+  The supported full profile file sets were hash-checked and copied with the
+  unchanged RTM link.exe into private scratch directories, following the
+  already documented trust237 round5 method. No compiler binary was altered.
+- 63 single/two-site compiler-barrier cases finally found five exact outputs.
+  All include the barrier after the initial pointer increment. The simplest
+  is round15_0002.cpp (shape0_C), with one barrier and no loop barrier.
+  The other control-flow shapes retain their previous 22/23-byte outputs.
+
+The barrier is declared extern C and recognized by the compiler intrinsic
+pragma. There are no calls, imports or relocation tuples in the result.
+This is a source-level code-generation constraint; no claim is made that
+original source used a synchronization primitive.
+
+The helper investigating WineDbg reported that no-breakpoint debug runs do produce
+ordinary-equivalent objects, while stopping at c2 software breakpoints kills
+the pass before object creation. The pass is a cl.exe child; the driver can
+still exit zero and the compiler diagnostics are hidden by the debugger's
+handle setup. A no-breakpoint control cannot certify the output of a stopped
+pass, so no compiler-internal scheduling conclusion is used for this recovery.
+The helper's reported 24-byte control hex is the earlier five-difference
+candidate, not retail; the parent compared the actual hex independently.
+
+The destination picker had only a proximity heuristic pointing to
+GlobalChainCleanup.cpp and explicitly no usable approved TU. That unit owns
+atexit list cleanup, with no established relationship to this helper and
+different codegen settings. The new address-named System TU preserves this
+uncertainty without assigning the helper to that unrelated list owner.
+The helper has a self-contained cdecl ABI, no global or class layout, no calls,
+and no additional symbol bindings. The normal full-byte/source-claim build
+accepted the production definition and automatically cleared the partial bank.
+
+Decisive diagnostic:
+python3 tools/variant.py build/s3-strlen/round15_0002.cpp rva007B9CCAStrLen 0x007B9CCA 24
+
+Normal gate:
+./build.sh Code/GameEngine/Source/Common/System/Rva007B9CCAStrLen.cpp
+
+
+Final verification: the normal add_match build passed the complete 24-byte row,
+source claims, and string/float/import-reference checks. find_declared_unmatched
+reported no unrowed definitions; place_bodies reported zero additional bodies
+and zero pins. link_check could not preview the new TU because it is absent from
+the downloaded census. An independent ordinary compile and standalone
+/DLL /NOENTRY /NODEFAULTLIB link both succeeded; the exported linked body is
+exactly the retail 24 bytes, with no relocations or unresolved imports.
+final-verification.json records source/body hashes, both commands, diagnostics,
+and the limitation that this is not a complete-game link-cycle result.
