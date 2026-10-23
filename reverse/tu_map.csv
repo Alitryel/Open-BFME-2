@@ -25322,7 +25322,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x003627F9,105,code,Code/GameEngine/Source/GameClient/BuffManager.cpp,proposed,N,N=Code/GameEngine/Source/GameClient/BuffManager.cpp,Code/GameEngine/Source/GameClient/BuffManager.cpp
 0x00362862,68,code,,,-,,Code/GameEngine/Source/Common/Bfme/Rva00362862Notify.cpp
 0x003628A6,45,code,,,-,,Code/GameEngine/Source/Common/Bfme/Rva003628A6Free.cpp
-0x003628D3,482,code,Code/GameEngine/Source/Common/System/BuffTransfer003628D3.cpp,proposed,N,N=Code/GameEngine/Source/Common/System/BuffTransfer003628D3.cpp,Code/GameEngine/Source/Common/System/BuffInstance_DoXfer.cpp
+0x003628D3,482,code,Code/GameEngine/Source/Common/System/BuffInstance_DoXfer.cpp,proposed,N,N=Code/GameEngine/Source/Common/System/BuffInstance_DoXfer.cpp,Code/GameEngine/Source/Common/System/BuffInstance_DoXfer.cpp
 0x00362AB5,41,code,,,-,,Code/GameEngine/Source/Common/Bfme/Rva003628A6Free.cpp
 0x00362ADE,68,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/RvaTreeEraseRangeFamily.cpp
 0x00362B22,56,code,,,-,,Code/GameEngine/Source/Common/Bfme/Rva00362B22Dtor.cpp
@@ -85629,7 +85629,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00816F48,12,data:.rdata,Code/GameEngine/Source/GameLogic/System/ObjectFilter.cpp,proposed,X,X=1refs,
 0x00816F54,148,data:.rdata,Code/GameEngine/Source/GameLogic/System/ObjectFilter.cpp,proposed,X,X=1refs,
 0x00817008,88,data:.rdata,Code/GameEngine/Source/GameClient/BuffInstance.cpp,proposed,X,X=1refs,
-0x00817060,8,data:.rdata,Code/GameEngine/Source/Common/System/BuffTransfer003628D3.cpp,proposed,X,X=1refs,
+0x00817060,8,data:.rdata,Code/GameEngine/Source/Common/System/BuffInstance_DoXfer.cpp,proposed,X,X=1refs,
 0x008170E0,392,data:.rdata,Code/GameEngine/Source/GameLogic/Object/Update/LaserUpdate.cpp,approved,X,X=1refs,
 0x00817300,376,data:.rdata,Code/GameEngine/Source/Common/GiantBirdNormalFlightState.cpp,proposed,X,X=1refs,
 0x00817548,96,data:.rdata,Code/GameEngine/Source/Common/GiantBirdAttackMoveToState.cpp,proposed,X,X=1refs,
