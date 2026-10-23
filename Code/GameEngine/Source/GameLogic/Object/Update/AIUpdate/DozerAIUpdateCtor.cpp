@@ -1051,6 +1051,7 @@ private:
 
 protected:
 	virtual void xfer(Xfer *xfer);
+	virtual void privateRepair(Object *obj, CommandSourceType cmdSource);
 	virtual void privateResumeConstruction(Object *obj, CommandSourceType cmdSource);
 	Bool findGoodBuildOrRepairPosition(const Object *me, const Object *target, Coord3D &positionOut);
 	Object *findGoodBuildOrRepairPositionAndTarget(Object *me, Object *target, Coord3D &positionOut);

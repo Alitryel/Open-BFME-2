@@ -603,30 +603,9 @@ void WorkerAIUpdate::privateDock( Object *dock, CommandSourceType cmdSource )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?privateRepair@WorkerAIUpdate@@MAEXPAVObject@@W4CommandSourceType@@@Z present-unmatched
-void WorkerAIUpdate::privateRepair( Object *obj, CommandSourceType cmdSource )
-{
-	Object *dozer = getObject();
+// WorkerAIUpdate::privateRepair is defined with its retail body in DozerAIUpdate.cpp.
+// The Worker primary table at VA 0x00C54190 binds slot 44 to that body.
 
-	// sanity, if we can't repair the object then get out of there
-	if( TheActionManager->canRepairObject( dozer, obj, cmdSource ) == FALSE )
-		return;
-
-	// if we are already repairing this target do nothing
-	if( canAcceptNewRepair( obj ) == FALSE )
-		return;
-
-	//
-	// if this object has already been targeted for repair by an object we won't also try to
-	// go repair it
-	ObjectID currentRepairer = obj->getSoleHealingBenefactor();
-	if( currentRepairer != INVALID_ID && currentRepairer != dozer->getID() )
-		return;
-
-	// start the new task
-	newTask( DOZER_TASK_REPAIR, obj );
-
-}  // end privateRepair
 
 // ------------------------------------------------------------------------------------------------
 /** Resume construction on a building */

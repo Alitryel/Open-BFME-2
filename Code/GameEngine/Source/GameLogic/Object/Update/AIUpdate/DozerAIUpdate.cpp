@@ -59,6 +59,7 @@
 #include "GameLogic/Module/BridgeTowerBehavior.h"
 #include "GameLogic/Module/CreateModule.h"
 #include "GameLogic/Module/DozerAIUpdate.h"
+#include "GameLogic/Module/WorkerAIUpdate.h"
 #include "GameClient/InGameUI.h"
 // bfme link decl-only begin
 namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
@@ -1238,19 +1239,9 @@ Bool DozerAIUpdate::canAcceptNewRepair( Object *obj )
 
 }  // end canAcceptNewRepair
 
-// ?rva00488ac9@Rva00488AC9@@QAEXPAVObject@@W4CommandSourceType@@@Z,
-// retail 0x00488AC9 (81 bytes). The body reads its Object at +0x08 and the
-// DozerAIInterface view at +0x3E4, then checks repair acceptance, ActionManager
-// approval and the sole healing benefactor before starting the repair task.
-// It is kept address-derived because the owner class is not independently named.
-class Rva00488AC9
-{
-public:
-	void rva00488AC9(Object *obj, CommandSourceType cmdSource);
-};
-
-// ?<Rva00488AC9::rva00488AC9> present-unmatched
-void Rva00488AC9::rva00488AC9(Object *obj, CommandSourceType cmdSource)
+// Dozer's primary table at VA 0x00C4B848 binds slot 44 to this repair body.
+// The DozerAIInterface subobject at +0x3E4 accepts and starts the repair task.
+void DozerAIUpdate::privateRepair(Object *obj, CommandSourceType cmdSource)
 {
 	Object *dozer = *(Object **)((char *)this + 0x08);
 	DozerAIInterface *self = (DozerAIInterface *)((char *)this + 0x3E4);
@@ -1291,9 +1282,9 @@ Real Rva00488C48::rva00488C48() const
 }
 
 // ------------------------------------------------------------------------------------------------
-/** Issue an order for the Dozer to go repair the target 'obj' */
+/** Issue an order for the Worker to go repair the target 'obj' */
 // ------------------------------------------------------------------------------------------------
-void DozerAIUpdate::privateRepair( Object *obj, CommandSourceType cmdSource )
+void WorkerAIUpdate::privateRepair( Object *obj, CommandSourceType cmdSource )
 {
 	Object *dozer = *(Object **)((char *)this + 0x08);
 

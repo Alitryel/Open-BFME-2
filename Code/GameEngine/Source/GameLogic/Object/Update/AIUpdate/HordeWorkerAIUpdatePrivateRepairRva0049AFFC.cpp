@@ -5,7 +5,7 @@
 // ?privateRepair@HordeWorkerAIUpdate@@MAEXPAVObject@@W4CommandSourceType@@@Z,
 // retail 0x0049AFFC..0x0049B0BF (195 bytes, EH, RET 8): HordeWorkerAIUpdate's
 // override of AIUpdateInterface::privateRepair -- the slot WorkerAIUpdate's
-// tables fill with the rowed DozerAIUpdate::privateRepair (0x004A9BDE), as in
+// tables fill with the rowed WorkerAIUpdate::privateRepair (0x004A9BDE), as in
 // Zero Hour's WorkerAIUpdate. Only when TheActionManager allows the repair
 // (rowed canRepairObject) is the horde's contain (rowed Object 0x0028C197)
 // asked for its member list (slot 0x108 view, rowed list-return helper
