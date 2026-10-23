@@ -1853,3 +1853,4 @@ _Rva00819630,0x00685530,"Renamed to _CommSerialConstruct by tools/rename.py (inf
 ??_GRva004B237B@@UAEPAXI@Z,0x004B2593,"Renamed to ??_GEntEnragedUpdate@@UAEPAXI@Z: slot 0 of EntEnragedUpdate's vftable 0x00856948 installed by ctor 0x004B2516"
 ?rva004B23C5@Rva004B237B@@UAEXPAVXfer@@@Z,0x004B23C5,"Renamed to ?rva004B23C5@EntEnragedUpdate@@UAEXPAVXfer@@@Z: slot 3 of EntEnragedUpdate's vftable 0x00856948 (class renamed)"
 ?rva0054E86D@Rva0054F434@@UAE_NH@Z,0x0054E86D,"Renamed to ?isPlayerVIP@GameSpyConfig@@UAE_NH@Z: slot 10 of GameSpyConfig's vftable 0x0086AA10 installed by ctor 0x0054E8DC; Zero Hour GSConfig.cpp:473 body; moved into GSConfig.cpp"
+?StackProbeBodyThunk@@YAXXZ,0x00629000,Retire naked byte-spray placeholder: all 61 bytes are the existing vendor/msvc71crt/msvcrt.lib build\intel\dll_obj\chkstk.obj __chkstk/__alloca_probe body; canonical CRT provider will be admitted separately. Evidence reverse/attempt_support/chkstk-crt-provider-20261023/readme.md
