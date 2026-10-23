@@ -32,3 +32,7 @@ LivingWorldCampaign::~LivingWorldCampaign()
 	delete (m_1c ? m_1c->get(0) : 0);
 	delete (m_20 ? m_20->get(0) : 0);
 }
+
+// Other units' matched DIR32 witnesses name Snapshot's table at VA 0x00BBB554
+// g_00BBB554; bind that name to the canonical emitted table.
+#pragma comment(linker, "/alternatename:?g_00BBB554@@3QBQBXB=??_7Snapshot@@6B@")
