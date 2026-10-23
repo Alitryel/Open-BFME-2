@@ -5,7 +5,12 @@
 #include <algorithm>
 #include <memory>
 
-struct Rva005411C8Element { char bytes[28]; bool operator<(const Rva005411C8Element&)const; bool operator==(const Rva005411C8Element&)const; };
+// Retail's loop calls _Construct<Rva00541021> (0x0054105B, Rva00541021Construct.cpp),
+// so the 28-byte element is that unit's Rva00541021 with its rowed copy 0x00541021.
+struct Rva00541021 { char bytes[28]; Rva00541021(const Rva00541021 &other) throw(); };
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<Rva00541021, Rva00541021>(Rva00541021 *, Rva00541021 const &); }
+// bfme link decl-only end
 
 // Instantiate the recovered operation and its required template dependencies.
-template Rva005411C8Element * _STL::__uninitialized_copy<Rva005411C8Element const *, Rva005411C8Element *>(Rva005411C8Element const *, Rva005411C8Element const *, Rva005411C8Element *, _STL::__false_type const &);
+template Rva00541021 * _STL::__uninitialized_copy<Rva00541021 const *, Rva00541021 *>(Rva00541021 const *, Rva00541021 const *, Rva00541021 *, _STL::__false_type const &);
