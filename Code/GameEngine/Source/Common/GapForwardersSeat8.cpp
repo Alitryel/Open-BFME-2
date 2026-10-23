@@ -437,7 +437,7 @@ DEFINE_THUNK_MAE(OrthoEmissionVelocityModule, xfer, 0x18, (Xfer *))
 DEFINE_THUNK_MAE(CylindricalEmissionVelocityModule, xfer, 0x18, (Xfer *))
 }
 
-class Rva00299C99LeaGetter { public: void *get() const; };
+class Object { public: virtual void *slot() const; };
 class Rva00299CA8DwordSlot { public: void set(int); int get() const; };
 class Rva00299CCE { public: void *get() const; };
 class Rva00299CDD { public: float get() const; };
@@ -447,7 +447,7 @@ class Rva005E4389 { public: void rva005E4389(); };
 class Rva005E51D3 { public: void rva005E51D3(); };
 
 class Rva00299C91 { public: void *rva00299C91() const; };
-void *Rva00299C91::rva00299C91() const { return ((const Rva00299C99LeaGetter *)((const char *)this - *(const int *)((const char *)this - 4)))->get(); }
+void *Rva00299C91::rva00299C91() const { return ((const Object *)((const char *)this - *(const int *)((const char *)this - 4)))->Object::slot(); }
 
 class Rva00299CA0 { public: void rva00299CA0(int a); };
 void Rva00299CA0::rva00299CA0(int a) { ((Rva00299CA8DwordSlot *)((char *)this - *(int *)((char *)this - 4)))->set(a); }

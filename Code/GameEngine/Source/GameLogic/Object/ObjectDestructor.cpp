@@ -28,7 +28,7 @@
 // sendObjectDestroyed declaration (0x0023CD67).
 
 #include "ascii_string.h"
-#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "Common/Snapshot.h"
 #include "../../Common/GameLogicObjectLookupView.h"
 
@@ -70,18 +70,20 @@ public:
 // Base subobjects Object installs vftables for.
 struct Rva00BFC27CVirtualBase
 {
-	virtual void vbaseSlot0();
+	virtual void *slot() const;
 };
 class Rva00739770 { public: void rva00739770(void *obj); };
 class PartitionManager;
 extern PartitionManager *TheShroudManager;
 struct Rva00BFC2D8Base : virtual Rva00BFC27CVirtualBase
 {
-	virtual void base064Slot0();
+	virtual AsciiString rva00290EE0();
 	void unregisterFromPartition() { ((Rva00739770 *)TheShroudManager)->rva00739770(this); }
 };
-struct Rva00BFC2B8Base { virtual void base06CSlot0(); };
-struct Rva00BFC290Base { virtual void base070Slot0(); };
+class GeometryInfo;
+struct Rva00BFC2B8Base { virtual const GeometryInfo &getGeometryInfo() const; };
+struct Coord3D;
+struct Rva00BFC290Base { virtual Coord3D rva0028C037(); };
 
 // Owned objects deleted through their virtual destructor (slot 0).
 struct Rva00299CE4Owned { virtual ~Rva00299CE4Owned(); };
@@ -166,13 +168,15 @@ extern Radar *TheRadar;
 class Object : public Thing, public Snapshot, public Rva00BFC2D8Base, public Rva00BFC2B8Base, public Rva00BFC290Base
 {
 public:
-	virtual void LoadPostProcess();
+	virtual void loadPostProcess();
 	virtual const char *GetSnapshotName() const;
-	virtual void DoXfer(Xfer *xfer);
-	virtual void base064Slot0();
-	virtual void base06CSlot0();
-	virtual void base070Slot0();
-	virtual void vbaseSlot0();
+protected:
+	virtual void xfer(Xfer *xfer);
+public:
+	virtual AsciiString rva00290EE0();
+	virtual const GeometryInfo &getGeometryInfo() const;
+	virtual Coord3D rva0028C037();
+	virtual void *slot() const;
 
 	Player *getControllingPlayer() const;
 	bool testStatus(ObjectStatusTypes bit) const;

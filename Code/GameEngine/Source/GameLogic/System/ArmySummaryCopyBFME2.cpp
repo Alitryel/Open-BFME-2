@@ -138,7 +138,8 @@ public:
 	ArmySummary &operator=(const ArmySummary &other);
 	void rva0040DED9();
 	virtual ~ArmySummary();
-	virtual void loadPostProcess();
+	// ?ArmySummary::loadPostProcess present-unmatched
+	virtual void loadPostProcess() {}
 	virtual const char *GetSnapshotName() const;
 
 protected:

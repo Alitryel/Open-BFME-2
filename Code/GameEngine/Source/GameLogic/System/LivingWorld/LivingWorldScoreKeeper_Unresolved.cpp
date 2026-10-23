@@ -39,7 +39,7 @@ extern "C" __declspec(dllimport) long __cdecl time(long *);
 class Rva004E06FBPtrChase32Field; class LivingWorldBattle; struct Rva004EF2ABArg; class LivingWorldLogic; class CountInputPrefix;
 class LivingWorldPhaseObserver {public: ~LivingWorldPhaseObserver(){} virtual void event0_0(int,int){} virtual void event0_1(int,int){} };
 #include "../../../../Include/Common/LivingWorldObservers.h"
-class LivingWorldAutoResolveEventObserver {public: ~LivingWorldAutoResolveEventObserver(){} virtual void event2_0(int,int,int){} virtual void event2_1(int,int,int){} virtual void event2_2(int,LivingWorldBattle*,void*){} };
+class LivingWorldAutoResolveEventObserver {public: ~LivingWorldAutoResolveEventObserver(){} virtual void event2_0(int,int,int){} virtual void event2_1(int,int,int){} virtual void OnLivingWorldAutoResolveBattleCompleted(int,LivingWorldBattle*,void*){} };
 class LivingWorldRTSEventObserver {public: ~LivingWorldRTSEventObserver(){} virtual void event3_0(int,int){} virtual void event3_1(int,LivingWorldBattle*){} };
 
 
@@ -86,7 +86,7 @@ public:
 	void rva004EE78A();
  virtual void event0_1(int,int);
 virtual void event1_0(Rva004E06FBPtrChase32Field*);virtual void event1_3(const Rva004E06FBPtrChase32Field*,int);
-virtual void event2_2(int,LivingWorldBattle*,void*);virtual void event3_0(int,int);virtual void event3_1(int,LivingWorldBattle*);
+virtual void OnLivingWorldAutoResolveBattleCompleted(int,LivingWorldBattle*,void*);virtual void event3_0(int,int);virtual void event3_1(int,LivingWorldBattle*);
 virtual void event4_0(int,int,int);virtual void event5_0(Rva004EF2ABArg*);virtual void event6_1(LivingWorldLogic*);virtual void event7_3(CountInputPrefix*,void*);
 protected:
 	virtual void loadPostProcess();

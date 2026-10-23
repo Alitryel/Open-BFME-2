@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /Ireference/shims/moduledata
 // stlport
 // Native293EFF..2940B9/442B; Object Snapshot table7FC2F0 slot04
 // holds this body after the deleting-dtor adjustor299C89. The receiver
@@ -16,6 +16,8 @@
 #include <list>
 #include <bitset>
 #include "ascii_string.h"
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "Common/Snapshot.h"
 #include "../../Common/GameLogicObjectLookupView.h"
 
 // _List_iterator comparisons otherwise instantiate the base-class
@@ -30,7 +32,8 @@ static inline bool operator!=(const _List_iterator<_IterTp, _LeftTraits> &a,
 extern GameLogic*TheGameLogic;
 enum ObjectStatusTypes{STATUS_51=51};
 struct LoadTemplate{char pad[0x10f];unsigned char kind10F;char pad110[15];unsigned char kind11F;};
-class Object{public:bool testStatus(ObjectStatusTypes)const;void tempRemoveObjectFromWorld();int rva0028B511()const;char pad[4];LoadTemplate*templ;};
+class Object;
+class Thing { public: virtual ~Thing(); LoadTemplate *templ; char pad08[0x58]; };
 class PathfinderPosGoalManager{public:void LoadPostProcess();};
 struct CameraMarker{~CameraMarker();CameraMarker*index;AsciiString name;};
 namespace _STL {
@@ -72,11 +75,17 @@ class Rva0039B20C{public:void rva0039B227(int);};
 struct LoadScoringView{char pad[0x98];bool enabled;};
 struct LoadXPView{char pad[16];float points;};
 struct LoadBinding{void*region;int opaque;};
-class Rva00293EFFLoadView{public:virtual~Rva00293EFFLoadView();virtual void LoadPostProcess();
+class Object : public Thing, public Snapshot {
+public:
+ bool testStatus(ObjectStatusTypes)const;void tempRemoveObjectFromWorld();int rva0028B511()const;
+ virtual void loadPostProcess();virtual const char *GetSnapshotName() const;
+protected:
+ virtual ~Object();virtual void xfer(Xfer *);
+public:
 char pad04[0x40];PathfinderPosGoalManager*goal;char pad48[0x204-0x48];void*xp;char pad208[12];Object*contained;ObjectID containedId;char pad21C[8];_STL::_Base_bitset<32>mask;char pad2A4[0x2d0-0x2a4];WeaponSet weapons;char pad2D1[0x360-0x2d1];LoadBinding binding[9];_STL::list<CameraMarker>names;
-__forceinline Object*original(){return(Object*)((char*)this-0x60);}
+__forceinline Object*original(){return this;}
 };
-void Rva00293EFFLoadView::LoadPostProcess(){
+void Object::loadPostProcess(){
  if(goal)goal->LoadPostProcess();
  if(containedId!=INVALID_OBJECT_ID)contained=TheGameLogic->findObjectByID(containedId);else contained=0;
  if(original()->testStatus(STATUS_51))original()->tempRemoveObjectFromWorld();

@@ -298,8 +298,7 @@ public:
 	void rva005EA33D();
 };
 
-// The entry the handler's 0x008781B4 slot visits: a real at +0x0C and the
-// count slot at +0x30.
+// The count collector visits an entry with health at +0x0C and player at +0x30.
 struct Rva005EA5E3Entry
 {
 	unsigned char m_pad00[0x0C];
@@ -320,7 +319,6 @@ public:
 	virtual void OnHitAnimDone(int player, int unit); // pointer at 0x008781A8
 	virtual void OnReinforceAnimDone(void *a, void *b);
 	virtual bool v0050B5C6();                          // 0x008781B0, shared body
-	virtual bool rva005EA5E3(const Rva005EA5E3Entry *entry); // 0x008781B4
 	void Done();
 	void StartReinforceAnims();
 
@@ -402,13 +400,20 @@ void StrategicInGameUI::DynamicAutoResolveDialog::Impl::ShowBattleStepStateHandl
 		Done();
 }
 
-// Retail 0x005EA5E3, 31 bytes, ShowBattleStepStateHandler's slot at
-// 0x008781B4 (unnamed in WorldBuilder): counts an entry with a positive
-// +0x0C into the dialog's per-slot counts; always continues.
-bool StrategicInGameUI::DynamicAutoResolveDialog::Impl::ShowBattleStepStateHandler::rva005EA5E3(const Rva005EA5E3Entry *entry)
+class UnitCountCollector
 {
+public:
+	virtual bool visit(const void *unit);
+private:
+	_STL::vector<Int> &m_counts;
+};
+
+// The one-slot table installed by collectUnitCounts visits live entries.
+bool UnitCountCollector::visit(const void *unit)
+{
+	const Rva005EA5E3Entry *entry = static_cast<const Rva005EA5E3Entry *>(unit);
 	if (!(entry->m_0C <= 0.0f))
-		++m_owner->m_counts[entry->m_slot];
+		++m_counts[entry->m_slot];
 	return true;
 }
 

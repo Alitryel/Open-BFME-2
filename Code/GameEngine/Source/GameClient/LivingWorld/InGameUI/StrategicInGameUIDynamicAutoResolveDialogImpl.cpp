@@ -62,8 +62,8 @@ typedef bool Bool;
 
 struct Pred004F6234
 {
-	virtual ~Pred004F6234() {}
-	virtual void visit(void *unit) = 0;
+	~Pred004F6234() {}
+	virtual bool visit(const void *unit) = 0;
 };
 class Rva004F76EAPred;
 
@@ -105,12 +105,11 @@ public:
 };
 Real *Rva005EA09CFindMax(Real *first, Real *last);
 
-// The three unit visitors (vtables 0x00C781B4, 0x00C780BC and the healths
-// one); their visit bodies live elsewhere in the unit.
+// The count visitor uses table 0x00C781B4; both health visitors share 0x00C780BC.
 struct UnitCountCollector : public Pred004F6234
 {
 	UnitCountCollector(_STL::vector<Int> &counts) : m_counts(counts) {}
-	virtual void visit(void *unit);
+	virtual bool visit(const void *unit);
 
 	_STL::vector<Int> &m_counts;
 };
@@ -118,7 +117,7 @@ struct UnitCountCollector : public Pred004F6234
 struct UnitHealthCollector : public Pred004F6234
 {
 	UnitHealthCollector(_STL::vector<Real> &healths) : m_healths(healths) {}
-	virtual void visit(void *unit);
+	virtual bool visit(const void *unit);
 
 	_STL::vector<Real> &m_healths;
 };
@@ -126,7 +125,7 @@ struct UnitHealthCollector : public Pred004F6234
 struct TotalHealthCollector : public Pred004F6234
 {
 	TotalHealthCollector(_STL::vector<Real> &healths) : m_healths(healths) {}
-	virtual void visit(void *unit);
+	virtual bool visit(const void *unit);
 
 	_STL::vector<Real> &m_healths;
 };
@@ -365,10 +364,14 @@ struct DynamicAutoResolvePlayerHandle
 	TargetRef00217D4C *m_ptr;
 };
 
+class LivingWorldBattle;
 class LivingWorldAutoResolveEventObserver
 {
 public:
-	virtual ~LivingWorldAutoResolveEventObserver() {}
+	~LivingWorldAutoResolveEventObserver() {}
+	virtual void event2_0(int, int, int) {}
+	virtual void event2_1(int, int, int) {}
+	virtual void OnLivingWorldAutoResolveBattleCompleted(int, LivingWorldBattle *, void *) {}
 };
 
 namespace StrategicInGameUI
@@ -421,8 +424,8 @@ namespace StrategicInGameUI
 			};
 
 			Impl(void *dialog, Rva0057C394 *frame, Rva003F468D *battle, DynamicAutoResolveBattlePlayers *battlePlayers);
-			virtual ~Impl();
-			virtual void OnLivingWorldAutoResolveBattleCompleted(LivingWorldLogic &logic, Rva003F468D &battle, DynamicAutoResolveBattlePlayers &battleManager);
+			~Impl();
+			virtual void OnLivingWorldAutoResolveBattleCompleted(int, LivingWorldBattle *, void *);
 			void OnClipLoaded(int, const AsciiString &);
 
 			void *m_dialog;					// +0x04
@@ -573,9 +576,9 @@ void DynamicAutoResolveDialog::Impl::WaitForBattleStepStateHandler::Update()
 // WB 0x015E6A60 (lines 1309..1333): when the dialog's battle completes, keep
 // each player's final health and unit count, note whether the first allied
 // player's +0x2C matches the manager's +0x78, and drop the manager.
-void DynamicAutoResolveDialog::Impl::OnLivingWorldAutoResolveBattleCompleted(LivingWorldLogic &logic, Rva003F468D &battle, DynamicAutoResolveBattlePlayers &battleManager)
+void DynamicAutoResolveDialog::Impl::OnLivingWorldAutoResolveBattleCompleted(int, LivingWorldBattle *battle, void *)
 {
-	if (&battle == m_battle)
+	if (reinterpret_cast<Rva003F468D *>(battle) == m_battle)
 	{
 		_STL::vector<Real> playerHealths;
 		collectUnitHealths(m_battlePlayers, playerHealths);
@@ -617,4 +620,19 @@ static __declspec(noinline) bool hasReinforcementRoundFrom(const DynamicAutoReso
 bool hasReinforcementRoundFromCaller(const DynamicAutoResolveBattlePlayers *battle, Int battlePlayerID, Int round)
 {
 	return hasReinforcementRoundFrom(battle, battlePlayerID, round);
+}
+
+struct CollectorHealthEntry
+{
+	unsigned char m_pad00[0x0C];
+	Real m_health;
+	unsigned char m_pad10[0x20];
+	Int m_player;
+};
+
+bool TotalHealthCollector::visit(const void *unit)
+{
+	const CollectorHealthEntry *entry = static_cast<const CollectorHealthEntry *>(unit);
+	m_healths[entry->m_player] += entry->m_health;
+	return true;
 }

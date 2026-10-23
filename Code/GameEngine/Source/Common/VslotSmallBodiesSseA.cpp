@@ -77,16 +77,16 @@ struct Rva005EA1E7Table
 {
 	Real *m_values;
 };
-class Rva005EA1E7
+class UnitHealthCollector
 {
 public:
-	bool rva005EA1E7(const Rva005EA1E7Arg *arg);
+	virtual bool visit(const void *unit);
 private:
-	Int m_00;
 	Rva005EA1E7Table *m_04;
 };
-bool Rva005EA1E7::rva005EA1E7(const Rva005EA1E7Arg *arg)
+bool UnitHealthCollector::visit(const void *unit)
 {
+	const Rva005EA1E7Arg *arg = static_cast<const Rva005EA1E7Arg *>(unit);
 	m_04->m_values[arg->m_30] += arg->m_0C;
 	return true;
 }

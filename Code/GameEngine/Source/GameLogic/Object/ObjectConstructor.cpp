@@ -255,14 +255,15 @@ public:
 class BfmeCtorVirtualBase001B3A20
 {
 public:
-	virtual void *slot() = 0;
+	virtual void *slot() const = 0;
 };
 class BfmeCtor001B3A20 : public BfmeCtorFirstBase001B3A20, public virtual BfmeCtorVirtualBase001B3A20
 {
 public:
 	BfmeCtor001B3A20() throw();
 };
-struct Rva00BFC2B8Base { virtual void base06CSlot0() = 0; };
+class GeometryInfo;
+struct Rva00BFC2B8Base { virtual const GeometryInfo &getGeometryInfo() const = 0; };
 struct Rva00BFC290Base { virtual Coord3D rva0028C037() = 0; };
 
 template <int N> class BitFlags;
@@ -330,8 +331,8 @@ protected:
 	virtual void xfer(Xfer *xfer);
 public:
 	virtual AsciiString rva00290EE0();
-	virtual void *slot();
-	virtual void base06CSlot0();
+	virtual void *slot() const;
+	virtual const GeometryInfo &getGeometryInfo() const;
 	virtual Coord3D rva0028C037();
 protected:
 	virtual ~Object();
@@ -694,4 +695,9 @@ Object::Object(const ThingTemplate *tt, const CreateMask *mask, Team *team, Obje
 		((Rva004381B0 *)TheGameLogic->getManager178())->rva004381B0(tt->m_camouflageDetectionMultiplier);
 
 	rva0028DCC4();
+}
+
+const GeometryInfo &Object::getGeometryInfo() const
+{
+	return m_geometryInfo;
 }

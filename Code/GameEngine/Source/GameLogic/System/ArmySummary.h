@@ -39,7 +39,12 @@ enum ObjectID;
 class ArmySummary : public Snapshot, public Rva0040D8D6List {
 public:
  virtual ~ArmySummary();
+ // ?ArmySummary::loadPostProcess present-unmatched
+ virtual void loadPostProcess() {}
  virtual const char *GetSnapshotName() const;
+protected:
+ virtual void xfer(Xfer *);
+public:
  Rva0040DD3ARef RemoveEntry(int);
  Rva0040DD3ARef rva0040E672(int);
  void rva0040DED9();

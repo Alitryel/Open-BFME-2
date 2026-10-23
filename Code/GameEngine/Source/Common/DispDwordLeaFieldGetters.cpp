@@ -174,4 +174,13 @@ BFME_DISP32_LEA_GETTER(Rva001F496ELeaGetter, 0x1B4)
 // destructor establishes that base and its preceding adjustment word.
 // The adjusted receiver addresses a member 0x42C bytes before itself.
 // The original member name and pointee type are not established.
-BFME_DISP32_LEA_BEFORE_GETTER(Rva00299C99LeaGetter, 0x42C)
+class Object
+{
+public:
+	virtual void *slot() const;
+};
+
+void *Object::slot() const
+{
+	return (char *)this - 0x42C;
+}
