@@ -4322,7 +4322,6 @@ name,address,notes
 ??1Rva002D28FF@@QAE@XZ,0x002D284F,non-virtual dtor called directly by scalar deleting dtor 0x002D28FF; owning class unproven
 ??1Rva002D339F@@QAE@XZ,0x0052710C,non-virtual dtor called directly by scalar deleting dtor 0x002D339F; owning class unproven
 ??1Rva002D5333@@UAE@XZ,0x002D5333,"destructor the scalar deleting destructor 0x002D579A calls (REL32 at 0x002D579D; vtable 0x00C02C1C#0); opaque address name"
-??1Rva002D6C1C@@UAE@XZ,0x002D6C1C,"destructor the scalar deleting destructor 0x002D724B calls (REL32 at 0x002D724E; vtable 0x00C0331C#0); opaque address name"
 ??1Rva002D79B0_inner@@QAE@XZ,0x00255A42,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??1Rva002DAB18@@UAE@XZ,0x002DAB6C,dtor installs its own vftable 0x00C03910 (bytes at ++23) and is the REL32 callee of the slot-0 ??_G at 0x002DABBB
 ??1Rva002DFAD1Dtor@@QAE@XZ,0x002DFAD1,REL32 callee decoded from target call bytes of adjustor dtor 0x0022630F; identity unproven
@@ -13594,7 +13593,6 @@ ___CxxFrameHandler,0x00629182,callee of __ehhandler$??1Rva005813E@@UAE@XZ
 ??1HeaderTemplateManager@@QAE@XZ,0x00201B64,callee of ??1GameClient@@UAE@XZ
 ??1?$_List_base@UDrawableTOCEntry@GameClient@@V?$Rva0023AC36Allocator@UDrawableTOCEntry@GameClient@@@@@_STL@@QAE@XZ,0x002FECBC,callee of ??1GameClient@@UAE@XZ
 ??1Rva00239CC9DrawableHash@@QAE@XZ,0x00239CC9,callee of ??1GameClient@@UAE@XZ
-??0Anim2DCollection@@QAE@XZ,0x002D6C02,callee of ?init@GameClient@@UAEXXZ: new(0x14) then init and setName("TheAnim2DCollection") as ZH; placeholder row ??0Rva002D6C02@@QAE@XZ
 ??0HeaderTemplateManager@@QAE@XZ,0x00201B51,callee of ?init@GameClient@@UAEXXZ: new(4) then init as ZH; abuts the pinned ??1HeaderTemplateManager 0x00201B64; placeholder row ??0Rva00201B64@@QAE@XZ
 ??0MetaEventTranslator@@QAE@XZ,0x001DB432,callee of ?init@GameClient@@UAEXXZ: new(0x28) attached at ZH's priority 20; builds 3 8-byte ICoord2D at +0xC as ZH m_mouseDownPosition
 ??0RayEffectSystem@@QAE@XZ,0x002CEE96,callee of ?init@GameClient@@UAEXXZ: new(0xE0C) then init and setName as ZH TheRayEffects

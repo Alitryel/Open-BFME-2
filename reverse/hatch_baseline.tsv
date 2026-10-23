@@ -3260,7 +3260,6 @@ alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/StreakDr
 alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/TerrainFireEmissionModuleTemplateCopyCtorThunk.cpp	_TerrainFireEmissionModuleTemplate_cvtbl4	1
 alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/V3InlineTemplateCopyCtors.cpp	_Rva003AE13C_v8	1
 alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/fx_particle_system.cpp	?construct_from@CylinderEmissionVolumeModuleTemplateSubCopyShim@FXParticleSystem@@QAEXPBX@Z	1
-alternatename	Code/GameEngine/Source/GameClient/System/Rva002D6C02Ctor.cpp	_vtbl_00C0331C	1
 alternatename	Code/GameEngine/Source/GameClient/System/SmudgeManagerDtor.cpp	?m_freeSmudgeList@SmudgeSet@@2V?$DLListClass@USmudge@@@@A	1
 alternatename	Code/GameEngine/Source/GameClient/UiCallbackFirers.cpp	?theRadarWindowOverrideSource@@3PAVRadarWindowOverrideSource@@A	1
 alternatename	Code/GameEngine/Source/GameClient/VideoPlayerAddVideo.cpp	??1Video@@QAE@XZ	1
@@ -33891,9 +33890,6 @@ present_unmatched	Code/GameEngine/Source/GameClient/Rva005613B2Ctor.cpp	Rva00561
 present_unmatched	Code/GameEngine/Source/GameClient/Rva0057C04FDtor.cpp	dummy@Base00@@UAEXXZ	1
 present_unmatched	Code/GameEngine/Source/GameClient/Rva0057C04FDtor.cpp	dummy@Rva0057C04F@@UAEXXZ	1
 present_unmatched	Code/GameEngine/Source/GameClient/SelectionInfo.cpp	PickDrawableStruct::PickDrawableStruct	1
-present_unmatched	Code/GameEngine/Source/GameClient/System/Anim2D.cpp	0Anim2DCollection@@QAE@XZ	1
-present_unmatched	Code/GameEngine/Source/GameClient/System/Anim2D.cpp	1Anim2DCollection@@UAE@XZ	1
-present_unmatched	Code/GameEngine/Source/GameClient/System/Anim2D.cpp	init@Anim2DCollection@@UAEXXZ	1
 present_unmatched	Code/GameEngine/Source/GameClient/System/Anim2D.cpp	setStatus@Anim2D@@QAEXE@Z	1
 present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/DefaultModuleBaseCopyCtors.cpp	1DefaultModuleSecondBase@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/DefaultModuleBaseCopyCtors.cpp	1DefaultModuleThirdBase@@UAE@XZ	1

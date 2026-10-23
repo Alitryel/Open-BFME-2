@@ -1894,3 +1894,8 @@ __ehhandler$??0?$vector@UPrereqUnitRec@@V?$allocator@UPrereqUnitRec@@@_STL@@@_ST
 ??_GRva003F6A91@@UAEPAXI@Z,0x003F6CDD,"Renamed to ??_GLivingWorldBattle@@UAEPAXI@Z: slot 0 of LivingWorldBattle's vftable 0x00C3709C; compiled in LivingWorldBattleCtor.cpp"
 __ehhandler$??1Rva003F6A91@@UAE@XZ,0x00784124,"Renamed with its parent to __ehhandler$??1LivingWorldBattle@@UAE@XZ"
 ??_GRva003603D4@@UAEPAXI@Z,0x003604AA,"Duplicate claim: the same 28-byte scalar deleting destructor is already rowed as ??_GRva00360474@@UAEPAXI@Z in Rva00360474Ctor.cpp (ctor 0x00360474, dtor 0x003603D4, vtable 0x00C16808 slot 0), which compiles retail's bytes"
+??0Rva002D6C02@@QAE@XZ,0x002D6C02,"Renamed to ??0Anim2DCollection@@QAE@XZ: Anim2D.cpp compiles retail's 26 bytes from ZH's constructor on the BFME 2 SubsystemInterface base; GameClient::init news 0x14 bytes and calls it before setName(""TheAnim2DCollection"")"
+??1Rva002D6C1C@@UAE@XZ,0x002D6C1C,"Renamed to ??1Anim2DCollection@@UAE@XZ: WB Anim2D.cpp names it Anim2DCollection::~Anim2DCollection, and Anim2D.cpp compiles retail's 93 bytes with its EH handler 0x0077795C and funclet 0x00777954"
+__ehhandler$??1Rva002D6C1C@@UAE@XZ,0x0077795C,"Renamed to __ehhandler$??1Anim2DCollection@@UAE@XZ with its parent destructor 0x002D6C1C"
+??_GRva002D6C1C@@UAEPAXI@Z,0x002D724B,"Renamed to ??_GAnim2DCollection@@UAEPAXI@Z: slot 0 of Anim2DCollection's vtable 0x00C0331C, compiled byte-exact by Anim2D.cpp"
+?Rva002D75C6@@YAXXZ,0x002D75C6,"Renamed to ?init@Anim2DCollection@@UAEXXZ: slot 1 of Anim2DCollection's vtable 0x00C0331C (ZH init), compiled byte-exact by Anim2D.cpp"

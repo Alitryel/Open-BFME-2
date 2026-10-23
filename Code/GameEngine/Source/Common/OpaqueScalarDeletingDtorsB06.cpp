@@ -12,12 +12,12 @@
 // model no layout (docs/reconstruction/deleting-destructor-identity-audit.md)
 // beyond the secondary-base offsets their adjustor thunks prove. The
 // wrappers whose classes are known (AptPalantir, GameState, AI, WaterSetting,
-// GameMessage, SidesList, LuaScriptEngine, ThingTemplate, AIStateMachine) and
-// those whose destructor units emit them (0x0031861B, 0x0035ABA4, 0x003604AA)
-// are rowed in the units that define their destructors.
+// GameMessage, SidesList, LuaScriptEngine, ThingTemplate, AIStateMachine,
+// Anim2DCollection) and those whose destructor units emit them (0x0031861B,
+// 0x0035ABA4, 0x003604AA) are rowed in the units that define their
+// destructors.
 //
 //   wrapper     dtor        vtable#slot
-//   0x002D724B  0x002D6C1C  0x00C0331C#0
 //   0x002E2CF4  0x002E2AAE  0x00C04B50#0
 //   0x0030DE92  0x0030DBD5  0x00C08A2C#0
 //   0x0031EB7A  0x0031DCF0  0x00C0CC88#0
@@ -34,19 +34,6 @@ typedef bool Bool;
 #include "../../../../reference/shims/subsystem_bfme2/subsystem_interface.h"
 
 struct EmitVtableTag;
-
-class Rva002D6C1C
-{
-public:
-	Rva002D6C1C(EmitVtableTag *);
-public:
-	virtual ~Rva002D6C1C();
-};
-
-// ?<Rva002D6C1C::Rva002D6C1C> absent-from-retail
-Rva002D6C1C::Rva002D6C1C(EmitVtableTag *)
-{
-}
 
 class Rva0031DCF0 : public SubsystemInterface
 {

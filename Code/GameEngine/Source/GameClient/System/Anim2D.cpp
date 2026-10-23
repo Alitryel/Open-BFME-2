@@ -1,4 +1,4 @@
-// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /O1 /G7 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /DBFME_SNAPSHOT_NAME_SLOT /O1 /G7 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
 // stlport
 // Reuse the data ledger's TheGameClient provider declared by GameClient.h.
 // The target frame slot is accessed through the existing measured view below.
@@ -37,10 +37,248 @@
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
 
 #define ANIM2D_INLINE_SNAPSHOT_DTOR
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+// PreRTS.h's set without Common/GlobalData.h: BFME 2's Snapshot (name slot, see
+// the Anim2D layout below) makes ZH's by-value Money member abstract.
+#include <windows.h>
+#include <assert.h>
+#include <ctype.h>
+#include <float.h>
+#include <limits.h>
+#include <math.h>
+#include <memory.h>
+#include <stdarg.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "Lib/BaseType.h"
+#include "Common/STLTypedefs.h"
+#include "Common/Errors.h"
+#include "Common/Debug.h"
+#include "Common/AsciiString.h"
+// BFME 2's 12-byte SubsystemInterface (ctor 0x001B4E63, dtor 0x001B4E74)
+// stands in for ZH's, so Anim2DCollection's lists sit at +0x0C and +0x10.
+#define __SUBSYSTEMINTERFACE_H_
+#include "Common/INI.h"
+#include "../../../../../reference/shims/subsystem_bfme2/subsystem_interface.h"
+#include "Common/GameCommon.h"
+#include "Common/GameMemory.h"
+#include "Common/GameType.h"
+#include "Common/INI.h"
+#include "Common/KindOf.h"
+#include "Common/DisabledTypes.h"
+#include "Common/NameKeyGenerator.h"
+#include "GameClient/ClientRandomValue.h"
+#include "GameLogic/LogicRandomValue.h"
+#include "Common/ObjectStatusTypes.h"
+#include "Common/Thing.h"
+#include "Common/UnicodeString.h"
 #include "Common/RandomValue.h"
 #include "Common/Xfer.h"
-#include "GameClient/Anim2D.h"
+// GameClient/Anim2D.h as BFME 2 has it, from Open-BFME-1 96c88c73's copy of
+// the ZH header. Differences, all read from retail:
+// - Anim2D has no memory pool: its deleting destructor 0x002D73D0 runs
+//   ~Anim2D 0x002D6E08 and then the global operator delete.
+// - Its vtable 0x00C03358 has four slots: the deleting destructor, an empty
+//   loadPostProcess (0x000B3FD0), GetSnapshotName 0x002D6E02 (returns "Anim2D")
+//   and xfer 0x002D71BD. That is Snapshot under BFME_SNAPSHOT_NAME_SLOT; ZH's
+//   crc slot is gone.
+// - The instance is 0x34 bytes: the constructor 0x002D6D63 caches the first
+//   frame's width and height at +0x2C and +0x30 (its row and layout live in
+//   InGameUIFloatingAnimation.cpp). They are signed: 0x002D6F80 converts them
+//   with cvtsi2ss.
+// - Anim2DCollection derives from BFME 2's 12-byte SubsystemInterface (see
+//   above), so its lists sit at +0x0C and +0x10.
+
+#include "Common/Snapshot.h"
+
+// FORWARD REFERENCES /////////////////////////////////////////////////////////////////////////////
+class Image;
+
+// ------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
+enum Anim2DMode
+{
+	
+	ANIM_2D_INVALID = 0,
+	ANIM_2D_ONCE,
+	ANIM_2D_ONCE_BACKWARDS,
+	ANIM_2D_LOOP,
+	ANIM_2D_LOOP_BACKWARDS,
+	ANIM_2D_PING_PONG,
+	ANIM_2D_PING_PONG_BACKWARDS,
+	// dont' forget to add new animation mode names to Anim2DModeNames[] below
+
+	ANIM_2D_NUM_MODES						// keep this last please
+
+};
+#ifdef DEFINE_ANIM_2D_MODE_NAMES
+static char *Anim2DModeNames[] = 
+{
+	"NONE",
+	"ONCE",
+	"ONCE_BACKWARDS",
+	"LOOP",
+	"LOOP_BACKWARDS",
+	"PING_PONG",
+	"PING_PONG_BACKWARDS",
+	NULL
+};
+#endif
+
+// ------------------------------------------------------------------------------------------------
+/** A template of a 2D animation */
+// ------------------------------------------------------------------------------------------------
+class Anim2DTemplate
+{
+public:
+
+	Anim2DTemplate( AsciiString name );
+	virtual ~Anim2DTemplate( void );	// BFME: no memory pool for Anim2DTemplate
+
+	AsciiString getName( void ) const { return m_name; }
+	const Image *getFrame( UnsignedShort frameNumber ) const;
+	UnsignedShort getNumFrames( void ) const { return m_numFrames; }
+	UnsignedShort getNumFramesBetweenUpdates( void ) const { return m_framesBetweenUpdates; }
+	Anim2DMode getAnimMode( void ) const { return m_animMode; }
+	Bool isRandomizedStartFrame( void ) const { return m_randomizeStartFrame; }
+
+	// list access for use by the Anim2DCollection only
+	void friend_setNextTemplate( Anim2DTemplate *animTemplate ) { m_nextTemplate = animTemplate; }
+	Anim2DTemplate *friend_getNextTemplate( void ) const { return m_nextTemplate; };
+	
+	// INI methods
+	const FieldParse *getFieldParse( void ) const { return s_anim2DFieldParseTable; }
+	void storeImage( const Image *image );								///< store image in next available slot
+	void allocateImages( UnsignedShort numFrames );	///< allocate the array of image pointers to use
+
+protected:
+
+	static void parseImage( INI *ini, void *instance, void *store, const void *userData );
+	static void parseNumImages( INI *ini, void *instance, void *store, const void *userData );
+	static void parseImageSequence( INI *ini, void *instance, void *store, const void *userData );
+
+protected:
+	enum { NUM_FRAMES_INVALID = 0 };			///< initialization value for num frames
+
+	Anim2DTemplate*	m_nextTemplate;				///< next animation in collections animation list
+	AsciiString			m_name;										///< name of this 2D animation
+	const Image**		m_images;											///< array of image pointers that make up this animation
+	UnsignedShort		m_numFrames;						///< total number of frames in this animation
+	UnsignedShort		m_framesBetweenUpdates;	///< frames between frame updates
+	Anim2DMode			m_animMode;								///< the animation mode
+	Bool						m_randomizeStartFrame;						///< randomize animation instance start frames
+
+protected:
+	static const FieldParse s_anim2DFieldParseTable[];		///< the parse table for INI definition
+
+};
+
+// ------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
+enum Anim2DStatus
+{
+	ANIM_2D_STATUS_NONE			= 0x00,
+	ANIM_2D_STATUS_FROZEN		= 0x01,
+	ANIM_2D_STATUS_REVERSED = 0x02,  // used for ping pong direction tracking
+	ANIM_2D_STATUS_COMPLETE = 0x04,	 // set when uni-directional things reach their last frame
+};
+
+// ------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
+class Anim2D : public Snapshot
+{
+
+friend class Anim2DCollection;
+
+protected:
+	virtual ~Anim2D( void );
+
+
+public:
+
+	Anim2D( Anim2DTemplate *animTemplate, Anim2DCollection *collectionSystem );
+
+	UnsignedShort getCurrentFrame( void ) const { return m_currentFrame; }		///< get our current frame #
+	void setCurrentFrame( UnsignedShort frame );				///< set the current frame #
+	void randomizeCurrentFrame( void );									///< randomize the current frame #
+	void reset( void );																	///< reset the current frame to the "start"
+	void setStatus( UnsignedByte statusBits );					///< set status bit(s)
+	void clearStatus( UnsignedByte statusBits );				///< clear status bit(s)
+	UnsignedByte getStatus( void ) const { return m_status; }	///< return status bits(s)
+	void setAlpha( Real alpha ) { m_alpha = alpha; }		///< set alpha value
+	Real getAlpha( void ) const { return m_alpha; }						///< return the current alpha value
+
+	//Allows you to play a segment of an animation.
+	void setMinFrame( UnsignedShort frame ) { m_minFrame = frame; }
+	void setMaxFrame( UnsignedShort frame ) { m_maxFrame = frame; }
+
+	// info about the size of the current frame
+	UnsignedInt getCurrentFrameWidth( void ) const;			///< return natural width of image in the current frame
+	UnsignedInt getCurrentFrameHeight( void ) const;		///< return natural height of image in the current frame
+	const Anim2DTemplate *getAnimTemplate( void ) const { return m_template; }	///< return our template
+
+	void draw( Int x, Int y );													///< draw iamge at location using natural width/height
+	void draw( Int x, Int y, Int width, Int height );		///< draw image at location using forced width/height
+
+protected:
+
+	// snapshot methods
+	virtual void loadPostProcess( void ) { }
+	virtual const char *GetSnapshotName( void ) const;
+	virtual void xfer( Xfer *xfer );
+
+	void tryNextFrame( void );						///< we've just drawn ... try to update our frame if necessary
+
+	UnsignedShort m_currentFrame;					///< current frame of our animation
+	UnsignedInt m_lastUpdateFrame;				///< last frame we updated on
+	Anim2DTemplate *m_template;						///< pointer back to the template that defines this animation
+	UnsignedByte m_status;								///< status bits (see Anim2DStatus)
+	UnsignedShort m_minFrame;							///< min animation frame used inclusively.
+	UnsignedShort m_maxFrame;							///< max animation frame used inclusively.
+	UnsignedInt m_framesBetweenUpdates;		///< duration between each frame.
+	Real m_alpha;
+
+	Anim2DCollection *m_collectionSystem;	///< system collection (if any) we're registered with
+	Anim2D *m_collectionSystemNext;				///< system instance tracking list
+	Anim2D *m_collectionSystemPrev;				///< system instance tracking list
+	Int m_cachedWidth;								///< BFME: natural width of the first frame
+	Int m_cachedHeight;								///< BFME: natural height of the first frame
+
+};
+
+// ------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
+class Anim2DCollection : public SubsystemInterface
+{
+
+public:
+
+	Anim2DCollection( void );
+	virtual ~Anim2DCollection( void );
+
+	virtual void init( void );						///< initialize system
+	virtual void reset( void ) { };				///< reset system
+	virtual void update( void );					///< update system
+
+	Anim2DTemplate *findTemplate( const AsciiString& name );				///< find animation template
+	Anim2DTemplate *newTemplate( const AsciiString& name );				///< allocate a new template to be loaded
+
+	void registerAnimation( Anim2D *anim );									///< register animation with system
+	void unRegisterAnimation( Anim2D *anim );								///< un-register animation from system
+
+	Anim2DTemplate* getTemplateHead() const { return m_templateList; }
+	Anim2DTemplate* getNextTemplate( Anim2DTemplate *animTemplate ) const;
+
+protected:
+
+	Anim2DTemplate *m_templateList;				///< list of available animation templates
+	Anim2D *m_instanceList;								///< list of all the anim 2D instance we're tracking
+
+};
+
+// EXTERNALS //////////////////////////////////////////////////////////////////////////////////////
+extern Anim2DCollection *TheAnim2DCollection;
 #include "GameClient/Display.h"
 #include "GameClient/GameClient.h"
 #include "GameClient/Image.h"
@@ -57,7 +295,8 @@ private:
 	char *m_message;
 	Int m_unreconstructed04;
 };
-#include "GameLogic/GameLogic.h"
+// GameLogic/GameLogic.h is left out: TheGameLogic only appears in DEBUG_ASSERTCRASH
+// here, and its Module headers need ZH's Snapshot (crc) surface.
 
 #ifdef _INTERNAL
 // for occasional debugging...
@@ -613,7 +852,6 @@ void Anim2D::draw( Int x, Int y, Int width, Int height )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ??0Anim2DCollection@@QAE@XZ present-unmatched
 Anim2DCollection::Anim2DCollection( void )
 {
 
@@ -623,7 +861,6 @@ Anim2DCollection::Anim2DCollection( void )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ??1Anim2DCollection@@UAE@XZ present-unmatched
 Anim2DCollection::~Anim2DCollection( void )
 {
 
@@ -638,8 +875,9 @@ Anim2DCollection::~Anim2DCollection( void )
 		// get next template
 		nextTemplate = m_templateList->friend_getNextTemplate();
 
-		// delete this template
-		delete m_templateList;  // BFME: no memory pool for Anim2DTemplate
+		// delete this template (BFME: no memory pool for Anim2DTemplate; retail
+		// destroys through slot 0 with flag 0, then the global operator delete)
+		::delete m_templateList;
 
 		// set the head of our list to the next template
 		m_templateList = nextTemplate;
@@ -651,12 +889,13 @@ Anim2DCollection::~Anim2DCollection( void )
 // ------------------------------------------------------------------------------------------------
 /** Initialize 2D animation collection */
 // ------------------------------------------------------------------------------------------------
-// ?init@Anim2DCollection@@UAEXXZ present-unmatched
+// inihelp.cpp: loads every INI file the subsystem legend lists under the name.
+bool IniLoad( const char *name, INIBlockParse parse );
+
 void Anim2DCollection::init( void )
 {
-	INI ini;
 
-	ini.load( "Data\\INI\\Animation2D.ini", INI_LOAD_OVERWRITE, NULL );
+	IniLoad( "Animation2D", INI::parseAnim2DDefinition );
 
 }  // end init
 
@@ -670,7 +909,7 @@ void Anim2DCollection::update( void )
 	Anim2D *anim;
 
 	// go through all our animations
-	for( anim = *(Anim2D **)((unsigned char *)this + 0x10); anim; anim = anim->m_collectionSystemNext )
+	for( anim = m_instanceList; anim; anim = anim->m_collectionSystemNext )
 	{
 
 		// try to update the frame
@@ -723,10 +962,10 @@ void Anim2DCollection::registerAnimation( Anim2D *anim )
 
 	// tie to our list (retail head at +0x10; cf. unRegisterAnimation below)
 	anim->m_collectionSystemPrev = NULL;
-	anim->m_collectionSystemNext = *(Anim2D **)((unsigned char *)this + 0x10);
-	if( *(Anim2D **)((unsigned char *)this + 0x10) )
-		(*(Anim2D **)((unsigned char *)this + 0x10))->m_collectionSystemPrev = anim;
-	*(Anim2D **)((unsigned char *)this + 0x10) = anim;
+	anim->m_collectionSystemNext = m_instanceList;
+	if( m_instanceList )
+		m_instanceList->m_collectionSystemPrev = anim;
+	m_instanceList = anim;
 
 }  // end registerAnimation
 
@@ -749,7 +988,7 @@ void Anim2DCollection::unRegisterAnimation( Anim2D *anim )
 	if( anim->m_collectionSystemPrev )
 		anim->m_collectionSystemPrev->m_collectionSystemNext = anim->m_collectionSystemNext;
 	else
-		*(Anim2D **)((unsigned char *)this + 0x10) = anim->m_collectionSystemNext;
+		m_instanceList = anim->m_collectionSystemNext;
 
 }  // end unRegisterAnimation
 
@@ -833,10 +1072,7 @@ public:
 	void queue(Int x, Int y, Int width, Int height);
 	void queue(Int x, Int y);
 	void rva002D6F80(Real x, Real y, Int opacity);
-
-	// BFME 2 grows Anim2D by a draw size the real-coordinate draw reads.
-	Int m_drawWidth;	///< 0x2C
-	Int m_drawHeight;	///< 0x30
+	// The real-coordinate draw reads Anim2D's cached size (+0x2C, +0x30).
 };
 
 void Rva002D7127::queue(Int x, Int y, Int width, Int height)
@@ -904,7 +1140,7 @@ void Rva002D7127::queue(Int x, Int y)
 void Rva002D7127::rva002D6F80(Real x, Real y, Int opacity)
 {
 	Color color = GameMakeColor( opacity, opacity, opacity, opacity );
-	((W3DDisplay *)TheDisplay)->rva0004D6B3( (Image *)m_template->getFrame( m_currentFrame ), x, y, x + m_drawWidth, y + m_drawHeight, color, 3 );
+	((W3DDisplay *)TheDisplay)->rva0004D6B3( (Image *)m_template->getFrame( m_currentFrame ), x, y, x + m_cachedWidth, y + m_cachedHeight, color, 3 );
 
 	if (m_collectionSystem == NULL && BitTest(m_status, ANIM_2D_STATUS_FROZEN) == FALSE)
 		tryNextFrame();
