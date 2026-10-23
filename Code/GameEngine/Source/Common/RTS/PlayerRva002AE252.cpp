@@ -32,6 +32,11 @@ public:
 
 typedef _STL::vector<int> IntVec;
 
+// The retail assignment target is the rowed four-byte record specialization
+// at 0x0021C21B. Keep the science vector's storage and call ABI unchanged.
+struct Rva0021C21BElement { char bytes[4]; };
+typedef _STL::vector<Rva0021C21BElement> RetailAssignVector;
+
 class BfmeGlob939D
 {
 public:
@@ -96,9 +101,9 @@ void Player::rva002AE252()
 	if (m_template != 0) {
 		bool gate = TheBfmeGlob->bfmeCall939D() != 0;
 		if (gate)
-			m_sciences = m_template->m_vecB;
+			*(RetailAssignVector *)&m_sciences = *(const RetailAssignVector *)&m_template->m_vecB;
 		else
-			m_sciences = m_template->m_vecA;
+			*(RetailAssignVector *)&m_sciences = *(const RetailAssignVector *)&m_template->m_vecA;
 	}
 	for (int i = 1; i <= m_count; ++i) {
 		Rva002000D7Config *cfg = TheStore->get(i);
@@ -120,8 +125,12 @@ void Player::rva002AE2ED(Player *other)
 		addScience((ScienceType)*it);
 }
 
-void callback_002AE435(class Object *obj, void *userData);
+// Native callback 0x002AE435 has a rowed definition with this signature.
+class Thing;
+class Drawable;
+namespace _STL { template <class T, class A> class list; }
+int rva002AE435(const Thing *, _STL::list<Drawable *, _STL::allocator<Drawable *> > *);
 void Player::rva002AE475(void *userData)
 {
-	iterateObjects((int (*)(Object *, void *))callback_002AE435, userData);
+	iterateObjects((int (*)(Object *, void *))rva002AE435, userData);
 }
