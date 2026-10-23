@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 /*
 ** Copyright 2025 Electronic Arts Inc.
 ** SPDX-License-Identifier: GPL-3.0-or-later
@@ -7,19 +7,16 @@
 // BFME2 owning-handle type follows matched MeshMatDescClass::Get_Single_Texture
 // and MeshModelClass texture accessors; target Remap_Mesh 0x16F35C proves the
 // hidden return ABI. Target TextureArray +0xC8, single texture handles +0x78.
-class TextureClass {
+class TextureBaseClass { public: void Release_Ref(); };
+class TextureClass : public TextureBaseClass {
 public:
-    void Add_Ref() { ++RefCount; }
-    void Release_Ref();
-private:
-    void *VTable;
-    unsigned short RefCount; // target +4
+    void Add_Ref();
 };
 template<class T> class RefCountPtr {
 public:
     T *p;
     RefCountPtr() : p(0) {}
-    RefCountPtr(RefCountPtr const &other) : p(other.p) { if (p) p->Add_Ref(); }
+    __declspec(dllimport) __forceinline RefCountPtr(RefCountPtr const &other) : p(other.p) { if (p) ++*reinterpret_cast<unsigned short *>(reinterpret_cast<char *>(p)+4); }
     ~RefCountPtr() { if (p) p->Release_Ref(); }
 };
 class TexBufferClass {
@@ -48,3 +45,7 @@ RefCountPtr<TextureClass> MeshMatDescClass::Get_Texture(int index, int pass, int
     }
     return Texture[pass][stage];
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeGet@Gen_009299D0@@QBE?AVBfmeHandleCX@@HHH@Z=?Get_Texture@MeshMatDescClass@@QBE?AV?$RefCountPtr@VTextureClass@@@@HHH@Z")

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD
 //
 // ??1W3DBuffDrawModuleData@@UAE@XZ 54B @0x000CEE5D.
 // Gap between ctor 0xCEE4C and buildFieldParse 0xCEE93 in
@@ -7,15 +7,7 @@
 // folded 0x36410 with derived-to-base vtable swap. Ctor models +08 as a
 // word for its and-RMW, so the string view lives here.
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	~AsciiString();
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class W3DBuffDrawModuleDataBase
 {

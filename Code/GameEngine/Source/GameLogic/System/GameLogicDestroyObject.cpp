@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
+// cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
 //
 // ?destroyObject@GameLogic@@QAEXPAVObject@@@Z, retail 0x00242C09 (125 bytes).
@@ -13,6 +13,24 @@
 // onDestroy 0x28FC1D.
 
 #include <list>
+
+class Object;
+// The kept Object-pointer node factory is retail's dedicated-freelist body
+// (0x001EB9AC), not the header's generic allocator. Emit that body so this
+// TU's copy is identical to the one Player.cpp provides.
+class FreelistPool { public: void *pop(); };
+extern FreelistPool g_freelistPool00DB8FEC;
+namespace _STL {
+template <> inline __declspec(noinline)
+_List_node<Object *> *list<Object *, allocator<Object *> >::_M_create_node(Object *const &value)
+{
+    _List_node<Object *> *node = (_List_node<Object *> *)g_freelistPool00DB8FEC.pop();
+    Object **valuePtr = (Object **)((char *)node + 8);
+    if (valuePtr)
+        *valuePtr = value;
+    return node;
+}
+}
 
 enum ObjectStatusTypes
 {
@@ -226,9 +244,9 @@ void GameLogic::destroyObject(Object *obj)
 {
 	if (!obj || (obj->m_statusByte0 & 1))
 		return;
-	for (BehaviorModule **m = obj->m_modules; *m; ++m)
+	for (BehaviorModule **behaviorModule = obj->m_modules; *behaviorModule; ++behaviorModule)
 	{
-		DestroyModuleInterface *destroy = (*m)->m_behavior.getDestroy();
+		DestroyModuleInterface *destroy = (*behaviorModule)->m_behavior.getDestroy();
 		if (destroy)
 			destroy->onDestroy();
 	}

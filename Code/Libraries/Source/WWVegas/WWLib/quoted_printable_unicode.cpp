@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /DNDEBUG /MD
+// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD
 // QuotedPrintableToUnicodeString as retail compiled it for BFME 2
 // (0x005355F2, 205 bytes): no length cap, plain str() access and an own
 // static buffer -- the same BFME2 shape as the Ascii sibling in
@@ -9,47 +9,16 @@
 
 #define MAGIC_CHAR '_'
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-	StringBase(const T *text);
-	StringBase(const StringBase &);
-public:
-	~StringBase();
-protected:
-	void *m_data;
-};
+#include "ascii_string.h"
 
-class AsciiString : public StringBase<char>
-{
-public:
-	const char *str() const { return m_data ? (const char *)m_data + 8 : ""; }
-};
 
 // Retail destroys the decoded UnicodeString local with a bare releaseBuffer
 // call (0x36E70), not the shared StringBase teardown, so the wide
 // instantiation carries an inline-empty base destructor here. The narrow
 // instantiation above keeps the undefined destructor so the by-value
 // AsciiString parameter still tears down through 0x36410.
-template <> class StringBase<unsigned short>
-{
-	friend class UnicodeString;
-	StringBase(const unsigned short *text);
-	StringBase(const StringBase &);
-public:
-	~StringBase() {}
-protected:
-	void *m_data;
-};
 
-class UnicodeString : public StringBase<unsigned short>
-{
-public:
-	UnicodeString(const unsigned short *text) : StringBase<unsigned short>(text) {}
-	UnicodeString(const UnicodeString &other) : StringBase<unsigned short>(other) {}
-	void releaseBuffer();
-	~UnicodeString() { releaseBuffer(); }
-};
+#include "unicode_string.h"
 
 // Shared quoted-printable hex helper. Defined static exactly like the Ascii
 // sibling TU: MSVC keeps the char in AL and calls out of line, and the gate

@@ -36,3 +36,7 @@ SurfaceClass::SurfaceClass(unsigned width, unsigned height, WW3DFormat format, D
 {
 	D3DSurface = DX8Wrapper::_Create_DX8_Surface(width, height, format, pool);
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0W3DRadarResetSurface@@QAE@IIII@Z=??0SurfaceClass@@QAE@IIW4WW3DFormat@@W4_D3DPOOL@@@Z")

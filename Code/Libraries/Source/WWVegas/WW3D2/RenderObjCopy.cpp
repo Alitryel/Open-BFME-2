@@ -1,4 +1,19 @@
 // cl: /Ireference/shims/bfme2renderobj /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+
+// rendobj.h: this unit inlines RenderObjClass::Set_Hidden (a qualified or
+// in-constructor call), so it needs the bit setters' bodies.
+#define BFME_RO_DEFINE_VISIBILITY
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -16,6 +31,16 @@
 **	You should have received a copy of the GNU General Public License
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+// multilist.h's inline members are retail's size-optimised bodies: compile
+// them for size (as hlod.cpp/decalsys.cpp do) so this unit's copies match.
+#include "refcount.h"
+#include "multilist.h"
+// Matrix3D uses the same size-optimized copy as its retail provider.
+#include "matrix3d.h"
+#pragma optimize("", on)
 #include "rendobj.h"
 #include "aabox.h"
 
@@ -47,3 +72,15 @@ RenderObjClass::RenderObjClass(const RenderObjClass &src) :
         _bfme_indexed_factors[i] = src._bfme_indexed_factors[i];
     }
 }
+
+// RenderObjClass::Set_ObjectScale, the header inline virtual (slot 93): the
+// copy every RenderObjClass-derived vtable points at is the /arch:SSE body at
+// 0x0006CEBF. The anchor below only makes this SSE unit emit it (qualified
+// call with inlining disabled); it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeRenderObjScaleAnchor@@YAXPAVRenderObjClass@@M@Z absent-from-retail
+void _bfmeRenderObjScaleAnchor(RenderObjClass *renderObj, float scale)
+{
+    renderObj->RenderObjClass::Set_ObjectScale(scale);
+}
+#pragma inline_depth()

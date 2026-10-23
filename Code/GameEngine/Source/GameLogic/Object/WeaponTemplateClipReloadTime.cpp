@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHs-c-
+// cl: /DNDEBUG /MD /EHs-c-
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -38,6 +38,8 @@ private:
 	char m_pad00[0xE8];
 	Int m_minClipReloadTime;
 	Int m_maxClipReloadTime;
+	Int m_minDelayBetweenShots;
+	Int m_maxDelayBetweenShots;
 };
 Int GetGameLogicRandomValue(Int lo, Int hi, char *file, Int line);
 // Upstream basetype.h x87 conversion. Cast/floor, roundf, and SSE intrinsic
@@ -62,3 +64,4 @@ Int WeaponTemplate::getClipReloadTime(const WeaponBonus &bonus) const
 	reloadTime -= reloadTime % 3;
 	return fast_float2long_round((Real)floor((double)((Real)reloadTime / bonus.getField(WeaponBonus::RATE_OF_FIRE))));
 }
+

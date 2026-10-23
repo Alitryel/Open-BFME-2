@@ -20,7 +20,18 @@ private:
 };
 
 // ?friend_newModuleInstance@PhysicsBehavior@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *PhysicsBehavior::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *PhysicsBehavior::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new PhysicsBehavior(thing, moduleData));
 }
+
+// Select-any anchor: this unit owns the row above while other TUs emit it as
+// an inline copy. The anchor keeps this unit emitting its copy for the ledger;
+// it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitPhysicsBehaviorFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitPhysicsBehaviorFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	PhysicsBehavior::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

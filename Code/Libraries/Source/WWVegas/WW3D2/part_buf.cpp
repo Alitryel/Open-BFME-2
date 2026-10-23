@@ -1,4 +1,24 @@
 // cl: /Ireference/shims/bfmeparticleline /Ireference/shims/bfmerendobj /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// The scalar Vector2 operator* stays inline-only here; its out-of-line retail
+// owner is W3DRoadBuffer.cpp (0x000D4451).
+class Vector2;
+__declspec(dllimport) __forceinline Vector2 operator * (const Vector2 &a, float k);
+// Keep MSVC math.h float overloads local; matched operations already inline.
+#pragma push_macro("inline")
+#define inline static inline
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+#include <math.h>
+#pragma pop_macro("inline")
+// Link view first: Vector3 Length/Normalize/ctor and the scalar operator* stay inline without emitting
+// /O2 copies that compete with retail's owners (0x000692B3, 0x0006924F, 0x006CD510, 0x00066382, 0x0007DFB3).
+#include "../../../../../reference/shims/bfme_vector3_full_link/vector3_full_link.h"
+// Link view first: Vector4(x,y,z,w) stays inline without emitting an SSE
+// copy that competes with retail's integer-move owner (0x006D8A30).
+#include "../../../../../reference/shims/bfme_matrix3d_sse_link/vector4.h"
 // readable body of ?classifyObjectFootprint@Pathfinder@@IAEXPAVObject@@_N@Z: Code/GameEngine/Source/GameLogic/AI/AIPathfind.cpp
 #define Matrix4x4 Matrix4
 /*
@@ -36,6 +56,9 @@
  *-------------------------------------------------------------------------* 
  * Functions:                                                              * 
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+// Link view: AABoxClass::Init(MinMax) stays inline-only here; its out-of-line
+// retail owner is AABTreeCullO1Inlines.cpp (0x00068F68).
+#include "../WWMath/AABoxClassLink.h"
 #include "../../../../../reference/shims/bfme2renderobj/rendobj.h" // verified 0xC4 base; cached sphere@4C and box@5C
 #include "seglinerenderer.h" // retain independently verified line property identities
 #include "part_buf.h"
@@ -55,6 +78,45 @@
 #include "texture.h"
 #include "dx8wrapper.h"
 #include "vector3.h"
+// bfme link decl-only begin
+template <> ShareBufferClass<Vector3>::~ShareBufferClass();
+template <> SimpleDynVecClass<Vector4>::~SimpleDynVecClass();
+template <> void SimpleDynVecClass<Vector4>::Delete_All(bool);
+template <> bool SimpleVecClass<Vector4>::Resize(int);
+template <> SimpleDynVecClass<Vector3>::SimpleDynVecClass(int);
+template <> SimpleVecClass<Vector3>::SimpleVecClass(int);
+template <> SimpleDynVecClass<Vector3>::~SimpleDynVecClass();
+template <> SimpleVecClass<Vector3>::~SimpleVecClass();
+template <> bool SimpleDynVecClass<Vector3>::Resize(int);
+template <> bool SimpleVecClass<Vector3>::Resize(int);
+template <> bool SimpleVecClass<Vector3>::Uninitialised_Grow(int);
+// bfme link decl-only end
+
+// These specializations are rowed in their canonical defining units. Keep
+// this TU a client so it does not emit conflicting inline destructor copies.
+template <> ShareBufferClass<unsigned char>::~ShareBufferClass(void);
+template <> ShareBufferClass<Vector3>::~ShareBufferClass(void);
+template <> ShareBufferClass<Vector4>::~ShareBufferClass(void);
+template <> ShareBufferClass<float>::~ShareBufferClass(void);
+template <> ShareBufferClass<unsigned int>::~ShareBufferClass(void);
+template <> SimpleDynVecClass<unsigned char>::~SimpleDynVecClass(void);
+
+// The APT buffer's ctor is expanded in both ParticleBufferClass ctors; its
+// out-of-line retail owner is ShareBufferClassUnsignedCtor.cpp (0x000D1DE2).
+template <> __declspec(dllimport) __forceinline
+ShareBufferClass<unsigned int>::ShareBufferClass(int count, const char* msg, int alignment) :
+	Count(count),
+	Alignment(alignment)
+{
+	assert(Count > 0);
+	if (Alignment == 0) {
+		RawBuffer = MSGW3DNEWARRAY(msg) unsigned int[Count];
+		Array = RawBuffer;
+	} else {
+		RawBuffer = (unsigned int *)MSGW3DNEWARRAY(msg) char[Count * sizeof(unsigned int) + Alignment];
+		Array = (unsigned int *)(((unsigned int)RawBuffer + Alignment - 1) & ~(Alignment - 1));
+	}
+}
 
 // A random permutation of the numbers 0 to 15 - used for LOD particle decimation.
 // It was generated by the amazingly high-tech method of pulling numbers out of a hat.
@@ -364,13 +426,11 @@ class BFMEPointGroupViewHonestCopy
 {
 public:
     BFMETextureHandleHonestCopy Get_Texture() const;
-    void Set_Texture(const BFMETextureHandleHonestCopy &texture);
 };
 class BFMELineGroupViewHonestCopy
 {
 public:
     BFMETextureHandleHonestCopy Get_Texture() const;
-    void Set_Texture(const BFMETextureHandleHonestCopy &texture);
 };
 
 // BFME copy-constructor body: RVA 0x001AD1B0, 4768 bytes through the ret at
@@ -673,8 +733,9 @@ ParticleBufferClass::ParticleBufferClass(const ParticleBufferClass & src) :
 			PointGroup = W3DNEW PointGroupClass();
 			PointGroup->Set_Flag(PointGroupClass::TRANSFORM, true);
 			PointGroup->Set_Flag(PointGroupClass::BILLBOARD, true);
-			((BFMEPointGroupViewHonestCopy *)PointGroup)->Set_Texture(
-				((const BFMEPointGroupViewHonestCopy *)src.PointGroup)->Get_Texture());
+			PointGroup->Set_Texture(reinterpret_cast<TextureClass *>(const_cast<BFMETextureHandleHonestCopy *>(
+				&static_cast<const BFMETextureHandleHonestCopy &>(
+					((const BFMEPointGroupViewHonestCopy *)src.PointGroup)->Get_Texture()))));
 			PointGroup->Set_Shader(src.PointGroup->Get_Shader());
 			PointGroup->Set_Point_Mode(PointGroupClass::TRIS);
 			PointGroup->Set_Frame_Row_Column_Count_Log2(src.PointGroup->Get_Frame_Row_Column_Count_Log2());
@@ -687,8 +748,9 @@ ParticleBufferClass::ParticleBufferClass(const ParticleBufferClass & src) :
 			PointGroup = W3DNEW PointGroupClass();
 			PointGroup->Set_Flag(PointGroupClass::TRANSFORM, true);
 			PointGroup->Set_Flag(PointGroupClass::BILLBOARD, true);
-			((BFMEPointGroupViewHonestCopy *)PointGroup)->Set_Texture(
-				((const BFMEPointGroupViewHonestCopy *)src.PointGroup)->Get_Texture());
+			PointGroup->Set_Texture(reinterpret_cast<TextureClass *>(const_cast<BFMETextureHandleHonestCopy *>(
+				&static_cast<const BFMETextureHandleHonestCopy &>(
+					((const BFMEPointGroupViewHonestCopy *)src.PointGroup)->Get_Texture()))));
 			PointGroup->Set_Shader(src.PointGroup->Get_Shader());
 			PointGroup->Set_Point_Mode(PointGroupClass::QUADS);
 			PointGroup->Set_Frame_Row_Column_Count_Log2(src.PointGroup->Get_Frame_Row_Column_Count_Log2());
@@ -705,8 +767,9 @@ ParticleBufferClass::ParticleBufferClass(const ParticleBufferClass & src) :
 			WWASSERT(src.LineGroup);
 			LineGroup = W3DNEW LineGroupClass();
 			LineGroup->Set_Flag(LineGroupClass::TRANSFORM, true);
-			((BFMELineGroupViewHonestCopy *)LineGroup)->Set_Texture(
-				((const BFMELineGroupViewHonestCopy *)src.LineGroup)->Get_Texture());
+			((PointGroupClass *)LineGroup)->Set_Texture(reinterpret_cast<TextureClass *>(const_cast<BFMETextureHandleHonestCopy *>(
+				&static_cast<const BFMETextureHandleHonestCopy &>(
+					((const BFMELineGroupViewHonestCopy *)src.LineGroup)->Get_Texture()))));
 			LineGroup->Set_Shader(src.LineGroup->Get_Shader());
 			LineGroup->Set_Line_Mode(LineGroupClass::TETRAHEDRON);
 			TailPosition = NEW_REF( ShareBufferClass<Vector3> , (MaxNum, "ParticleBufferClass::TailPosition") );
@@ -720,8 +783,9 @@ ParticleBufferClass::ParticleBufferClass(const ParticleBufferClass & src) :
 			WWASSERT(src.LineGroup);
 			LineGroup = W3DNEW LineGroupClass();
 			LineGroup->Set_Flag(LineGroupClass::TRANSFORM, true);
-			((BFMELineGroupViewHonestCopy *)LineGroup)->Set_Texture(
-				((const BFMELineGroupViewHonestCopy *)src.LineGroup)->Get_Texture());
+			((PointGroupClass *)LineGroup)->Set_Texture(reinterpret_cast<TextureClass *>(const_cast<BFMETextureHandleHonestCopy *>(
+				&static_cast<const BFMETextureHandleHonestCopy &>(
+					((const BFMELineGroupViewHonestCopy *)src.LineGroup)->Get_Texture()))));
 			LineGroup->Set_Shader(src.LineGroup->Get_Shader());
 			LineGroup->Set_Line_Mode(LineGroupClass::PRISM);
 			TailPosition = NEW_REF( ShareBufferClass<Vector3> , (MaxNum, "ParticleBufferClass::TailPosition") );
@@ -1036,22 +1100,19 @@ void ParticleBufferClass::Render_Particles(RenderInfoClass & rinfo)
 // ?Render_Line@ParticleBufferClass@@IAEXAAVRenderInfoClass@@@Z
 // Body in ParticleBufferClass_Render_Line.asm (exact 1763B retail; SEH + reg-coloring).
 // Keep the SimpleDynVec call sites that used to live in Render_Line so the matched
-// template methods (Add/Resize/ctor for E/Vector3/Vector4) still emit in this TU.
+// template methods (Add/Resize/ctor for E/Vector4, operator[] for Vector3) still emit in this TU.
 void ParticleBufferClass_force_Render_Line_SimpleDynVec(void)
 {
 	static SimpleDynVecClass<Vector3> tmp_points;
 	static SimpleDynVecClass<Vector4> tmp_diffuse;
 	static SimpleDynVecClass<unsigned char> tmp_id;
-	tmp_points.Delete_All(false);
-	tmp_diffuse.Delete_All(false);
 	tmp_id.Delete_All(false);
-	Vector3 v3(0, 0, 0);
 	Vector4 v4(0, 0, 0, 0);
 	unsigned char id = 0;
-	tmp_points.Add(v3);
 	tmp_diffuse.Add(v4);
 	tmp_id.Add(id);
 	(void)tmp_points.Count();
+	(void)tmp_points[0];
 	(void)tmp_id[0];
 }
 
@@ -1078,7 +1139,11 @@ void ParticleBufferClass::Render_Line_Group(RenderInfoClass & rinfo)
 		LineGroup->Set_Line_Size(SizeKeyFrameValues[0]);
 	}
 	if (!Frame) {
-		LineGroup->Set_Line_UCoord(FrameKeyFrameValues[0]);
+		// Target +0xA2 calls the rowed PointGroupClass::Set_Point_Alpha at
+		// 0x179010 (movss to this+0x44). The line-UCoord row at 0x41FDEE
+		// stores the same raw float at this+0x44; retain the donor operation
+		// while naming the actual target body through this TU-local view.
+		reinterpret_cast<PointGroupClass *>(LineGroup)->Set_Point_Alpha(FrameKeyFrameValues[0]);
 	}
 
 
@@ -1180,13 +1245,44 @@ void ParticleBufferClass::Scale(float scale)
 // the cached bounding volumes will not be invalidated unless we do
 // it elsewhere (such as here). We also need to call the particle
 // emitter's Emit() function (done here to avoid order dependence).
+// Retail calls Emit at vtable +0x204 (slot 129); donor part_emt.h lays it at
+// +0x208 (slot 130) because BFME2 RenderObjClass has one fewer slot before
+// Set_Visible (visibility-wrappers precedent). TU-local view places Emit at
+// +0x204 without touching the shared donor header.
+#define BFME_EMIT_VIEW_EIGHT(a, b, c, d, e, f, g, h) \
+	virtual void Dummy##a(); virtual void Dummy##b(); \
+	virtual void Dummy##c(); virtual void Dummy##d(); \
+	virtual void Dummy##e(); virtual void Dummy##f(); \
+	virtual void Dummy##g(); virtual void Dummy##h();
+struct ParticleEmitterEmitView
+{
+	BFME_EMIT_VIEW_EIGHT(0, 1, 2, 3, 4, 5, 6, 7)
+	BFME_EMIT_VIEW_EIGHT(8, 9, 10, 11, 12, 13, 14, 15)
+	BFME_EMIT_VIEW_EIGHT(16, 17, 18, 19, 20, 21, 22, 23)
+	BFME_EMIT_VIEW_EIGHT(24, 25, 26, 27, 28, 29, 30, 31)
+	BFME_EMIT_VIEW_EIGHT(32, 33, 34, 35, 36, 37, 38, 39)
+	BFME_EMIT_VIEW_EIGHT(40, 41, 42, 43, 44, 45, 46, 47)
+	BFME_EMIT_VIEW_EIGHT(48, 49, 50, 51, 52, 53, 54, 55)
+	BFME_EMIT_VIEW_EIGHT(56, 57, 58, 59, 60, 61, 62, 63)
+	BFME_EMIT_VIEW_EIGHT(64, 65, 66, 67, 68, 69, 70, 71)
+	BFME_EMIT_VIEW_EIGHT(72, 73, 74, 75, 76, 77, 78, 79)
+	BFME_EMIT_VIEW_EIGHT(80, 81, 82, 83, 84, 85, 86, 87)
+	BFME_EMIT_VIEW_EIGHT(88, 89, 90, 91, 92, 93, 94, 95)
+	BFME_EMIT_VIEW_EIGHT(96, 97, 98, 99, 100, 101, 102, 103)
+	BFME_EMIT_VIEW_EIGHT(104, 105, 106, 107, 108, 109, 110, 111)
+	BFME_EMIT_VIEW_EIGHT(112, 113, 114, 115, 116, 117, 118, 119)
+	BFME_EMIT_VIEW_EIGHT(120, 121, 122, 123, 124, 125, 126, 127)
+	virtual void Dummy128();
+	virtual void Emit();
+};
+#undef BFME_EMIT_VIEW_EIGHT
 // ?ParticleBufferClass::On_Frame_Update present-unmatched
 void ParticleBufferClass::On_Frame_Update(void)
 {
 	WWPROFILE("ParticleBufferClass::On_Frame_Update");
 	Invalidate_Cached_Bounding_Volumes();
 	if (Emitter) {
-		Emitter->Emit();
+		((ParticleEmitterEmitView *)Emitter)->Emit();
 	}
 	
 	if (Is_Complete()) {
@@ -3383,7 +3479,7 @@ int ParticleBufferClass::Is_Merge_Intersections(void) const
 }
 
 // ?ParticleBufferClass::Is_Freeze_Random present-unmatched
-int ParticleBufferClass::Is_Freeze_Random(void) const
+inline int ParticleBufferClass::Is_Freeze_Random(void) const
 {
 	if (LineRenderer != NULL) {
 		return LineRenderer->Is_Freeze_Random();
@@ -3536,6 +3632,17 @@ struct BFME_ParticleBuffer_TextureFields
 	BFMELineGroupTexture *lineGroup;			// 0x20c
 };
 
+// These four local getter facades intentionally retain distinct owner and
+// return-type spellings so the matched call sites keep the retail shape. Their
+// ABI is the rowed const-thiscall getter's hidden sret of a one-pointer,
+// non-POD owning holder; the holder's first word and Release_Ref cleanup are
+// independently verified at 0x001790E0. Bind only these facade references to
+// that existing row rather than emitting substitute bodies.
+#pragma comment(linker, "/alternatename:?Get_Texture@BFMELineGroupTexture@@QBE?AVTextureHandleClass@ParticleBufferClass@@XZ=?Get_Texture@BFME2ParticleTextureAccessor@@QBE?AUBFME2TextureRef@@XZ")
+#pragma comment(linker, "/alternatename:?Get_Texture@BFMEPointGroupTexture@@QBE?AVTextureHandleClass@ParticleBufferClass@@XZ=?Get_Texture@BFME2ParticleTextureAccessor@@QBE?AUBFME2TextureRef@@XZ")
+#pragma comment(linker, "/alternatename:?Get_Texture@BFMELineGroupViewHonestCopy@@QBE?AVBFMETextureHandleHonestCopy@@XZ=?Get_Texture@BFME2ParticleTextureAccessor@@QBE?AUBFME2TextureRef@@XZ")
+#pragma comment(linker, "/alternatename:?Get_Texture@BFMEPointGroupViewHonestCopy@@QBE?AVBFMETextureHandleHonestCopy@@XZ=?Get_Texture@BFME2ParticleTextureAccessor@@QBE?AUBFME2TextureRef@@XZ")
+
 ParticleBufferClass::TextureHandleClass ParticleBufferClass::Get_Texture (void) const
 {
 	const BFME_ParticleBuffer_TextureFields *retail = (const BFME_ParticleBuffer_TextureFields *)this;
@@ -3562,3 +3669,22 @@ ShaderClass ParticleBufferClass::Get_Shader (void) const
 	WWASSERT(0);
 	return ShaderClass::_PresetOpaqueShader;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeParticleBufferClassInlineAnchor@@YAXPAVParticleBufferClass@@@Z absent-from-retail
+void _bfmeParticleBufferClassInlineAnchor(ParticleBufferClass *particleBuffer)
+{
+    particleBuffer->Is_Freeze_Random();
+}
+#pragma inline_depth()
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0ParticleBufferClass@@QAE@PAVParticleEmitterClass@@IAAU?$ParticlePropertyStruct@VVector3@@@@AAU?$ParticlePropertyStruct@M@@22M22VVector3@@MMABVBFME2ParticleTextureHandle@@VShaderClass@@_NHHPBUW3dEmitterLinePropertiesStruct@@@Z=??0ParticleBufferClass@@QAE@PAVParticleEmitterClass@@IAAU?$ParticlePropertyStruct@VVector3@@@@AAU?$ParticlePropertyStruct@M@@22M22VVector3@@MMPAVTextureClass@@VShaderClass@@_NHHPBUW3dEmitterLinePropertiesStruct@@@Z")
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?Get_Texture@ParticleBufferClass@@QBE?AVBFME2ParticleTextureHandle@@XZ=?Get_Texture@ParticleBufferClass@@QBE?AVTextureHandleClass@1@XZ")

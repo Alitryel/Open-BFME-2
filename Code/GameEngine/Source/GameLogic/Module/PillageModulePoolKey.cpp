@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva000484F76@PillageModule@@SA?AW4NameKeyType@@XZ @0x484f76
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@PillageModule@@UBE?AW4NameKeyType@@XZ @0x484f76
 // (69B): cached pool-name key for PillageModule. The class
 // identity comes from the pool-name string the body pushes
 // ("PillageModule"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class PillageModule
 {
 public:
-	static NameKeyType rva000484F76();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000484F76@PillageModule@@SA?AW4NameKeyType@@XZ
-NameKeyType PillageModule::rva000484F76()
+// ?getModuleNameKey@PillageModule@@UBE?AW4NameKeyType@@XZ
+NameKeyType PillageModule::getModuleNameKey() const
 {
 	static NameKeyType ThePillageModulePoolKey =
 		TheNameKeyGenerator->nameToKey("PillageModule");

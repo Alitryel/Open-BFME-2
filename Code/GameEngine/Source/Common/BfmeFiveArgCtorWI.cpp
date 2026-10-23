@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc /O1 /Ob2
+// cl: /DNDEBUG /MD /EHsc /Ob2
 //
 // Open-BFME5: the five-parameter constructor at retail 0x003BEA30, 111 bytes.
 // The leading eight bytes are a plain by-reference struct copy; the flag
@@ -23,8 +23,11 @@ public:
 
 struct BfmePairWI
 {
-	int m_bfmeA;						// +0x00
-	int m_bfmeB;						// +0x04
+    BfmePairWI() {}
+    BfmePairWI(const BfmePairWI &o) : m_f(o.m_f), m_i(o.m_i) {}
+    ~BfmePairWI() {}
+    float m_f;
+    int m_i;
 };
 
 class Gen_003BEA30
@@ -50,3 +53,8 @@ Gen_003BEA30::Gen_003BEA30(const BfmePairWI &pair, int kind,
 	  m_bfmeFlag(flag)
 {
 }
+
+// Retail's AsciiStringWI copy ctor already aliases to rowed StringBase copy
+// (StringBaseNarrowCopySet.cpp); bind its dtor the same way so BfmeStrWI's
+// inline dtor links without changing code bytes.
+#pragma comment(linker, "/alternatename:??1AsciiStringWI@@QAE@XZ=??1?$StringBase@D@@AAE@XZ")

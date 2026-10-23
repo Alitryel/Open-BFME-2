@@ -11,10 +11,15 @@
 class Rva007E8810Message
 {
 public:
-	bool hasError();
-
 	char m_head[0x28];
 	void *m_transaction;
+};
+
+class W3DVideoBuffer
+{
+public:
+	// FESL hasError folds to this matched 0x00655950 body.
+	virtual bool valid();
 };
 
 class Rva007FBC30GameKey
@@ -105,7 +110,7 @@ void Rva007F7980Browser::onPlayer(Rva007E8810Message *message)
 	void *gid = player.m_gid;
 	void *pid = player.m_pid;
 
-	if (message->hasError())
+	if (((W3DVideoBuffer *)message)->W3DVideoBuffer::valid())
 		return;
 
 	BfmeThingAEA *entry = findByLid(lid);

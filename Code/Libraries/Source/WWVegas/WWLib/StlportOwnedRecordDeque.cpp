@@ -1,9 +1,20 @@
-// cl: /G7 /arch:SSE /O1 /EHsc- /D_STLP_NO_EXCEPTIONS /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /EHsc- /D_STLP_NO_EXCEPTIONS /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // STLport 4.5.3 views of target records with nontrivial copy and destruction.
 // Sizes, four-byte alignment and lifetime calls are target evidence;
 // original record names and member meanings remain unknown.
+// Retail keeps one unsigned max, RVA 0x00013740 (the vendored STLport row). This unit's
+// flags (/G7 /arch:SSE) compile a different copy, and retail kept another unit's. This unit-local
+// overload keeps the inlined code and offers the link no second copy.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
 #include <deque>
 #include <queue>
 #include <new>
@@ -29,16 +40,67 @@ struct BfmeOpaqueOwnedRecord840 {
 };
 
 // A separate deque node at RVA 0x0055315a advances by 0x580 bytes.
-// Its owning type and member meanings are not yet known.
-struct BfmeOpaqueOwnedRecord1408 {
+// Its owning type and tail meanings are not yet known.
+// Its destructor is implicit: the target's out-of-line copy at 0x00555ADF
+// is `add ecx, 8; jmp 0x00385371`, so the only nontrivial member sits at +8.
+
+// Only the assignment and destructor ABI and complete 0x548-byte extent are
+// consumed here. The provider's WorldBuilder-backed name and three-block
+// layout are recorded in GameNetwork/GameSpy/Thread/PersistentStorageThread.cpp
+// (operator= 0x003874B0, implicit destructor 0x00385371).
+class PSPlayerAllStats {
+public:
+	PSPlayerAllStats &operator=(const PSPlayerAllStats &);
+	~PSPlayerAllStats();
+private:
 	union {
 		unsigned int alignmentWitness;
-		unsigned char bytes[1408];
+		unsigned char bytes[0x548];
 	};
+};
+
+struct BfmeOwnedRecord1408Tail5 {
+	unsigned int values[5];
+};
+
+struct BfmeOpaqueOwnedRecord1408 {
+	unsigned int head[2];
+	PSPlayerAllStats member;
+	BfmeOwnedRecord1408Tail5 tail550;
+	unsigned int value564;
+	unsigned int value568;
+	unsigned int value56C;
+	unsigned int value570;
+	unsigned int value574;
+	unsigned int value578;
+	unsigned char value57C;
+	unsigned char value57D;
 	BfmeOpaqueOwnedRecord1408();
 	BfmeOpaqueOwnedRecord1408(const BfmeOpaqueOwnedRecord1408 &);
-	~BfmeOpaqueOwnedRecord1408();
+	BfmeOpaqueOwnedRecord1408 &operator=(const BfmeOpaqueOwnedRecord1408 &);
 };
+
+// Ghidra [0x00556132,0x005561CD), 155 bytes, RET 4. Copies the two head
+// words, assigns the +8 stats subobject through complete rowed 0x003874B0,
+// copies five words at +0x550 as a subobject, then six loose words and two
+// flags. The record's original name and tail meanings remain unknown.
+BfmeOpaqueOwnedRecord1408 &BfmeOpaqueOwnedRecord1408::operator=(
+	const BfmeOpaqueOwnedRecord1408 &other)
+{
+	head[0] = other.head[0];
+	head[1] = other.head[1];
+	member = other.member;
+	tail550 = other.tail550;
+	value564 = other.value564;
+	value568 = other.value568;
+	value56C = other.value56C;
+	value570 = other.value570;
+	value574 = other.value574;
+	value578 = other.value578;
+	value57C = other.value57C;
+	value57D = other.value57D;
+	return *this;
+}
 
 // A sibling deque at RVA 0x005530d7 advances its node pointer by 0x598.
 struct BfmeOpaqueOwnedRecord1432 {
@@ -107,3 +169,8 @@ typedef _STL::queue<BfmeOpaqueOwnedRecord492> BfmeQueue492;
 typedef _STL::queue<BfmeOpaqueOwnedRecord840> BfmeQueue840;
 template class _STL::queue<BfmeOpaqueOwnedRecord492>;
 template class _STL::queue<BfmeOpaqueOwnedRecord840>;
+
+template _STL::_Deque_iterator<BfmeOpaqueOwnedRecord1432, _STL::_Nonconst_traits<BfmeOpaqueOwnedRecord1432> > &
+_STL::_Deque_iterator<BfmeOpaqueOwnedRecord1432, _STL::_Nonconst_traits<BfmeOpaqueOwnedRecord1432> >::operator++();
+template _STL::_Deque_iterator<BfmeOpaqueOwnedRecord1408, _STL::_Nonconst_traits<BfmeOpaqueOwnedRecord1408> > &
+_STL::_Deque_iterator<BfmeOpaqueOwnedRecord1408, _STL::_Nonconst_traits<BfmeOpaqueOwnedRecord1408> >::operator++();

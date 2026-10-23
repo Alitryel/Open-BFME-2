@@ -21,7 +21,15 @@ private:
 };
 
 // ?friend_newModuleInstance@ExperienceScalarUpgrade@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *ExperienceScalarUpgrade::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *ExperienceScalarUpgrade::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new ExperienceScalarUpgrade(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitExperienceScalarUpgradeFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitExperienceScalarUpgradeFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	ExperienceScalarUpgrade::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

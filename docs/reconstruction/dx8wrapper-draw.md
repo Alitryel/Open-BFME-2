@@ -1,6 +1,6 @@
 # BFME2 primitive drawing
 
-The recovered static role `BfmeDrawOps::Draw` matches all 452 code bytes at RVA
+The recovered static `DX8Wrapper::Draw` (formerly the role `BfmeDrawOps::Draw`) matches all 452 code bytes at RVA
 `0x1203C0`, plus both trailing 16-byte switch tables. The final return is at
 `0x120583`; tables occupy VA `0x520584..0x5205A3`, followed by twelve alignment
 bytes before the next function. All eight table entries and both references to
@@ -51,7 +51,7 @@ Two callees are identified without claiming their code as new completed bodies:
   proven caps support flag, optionally scales polygon count by the square of
   the NPatch level, and updates polygon, vertex, and draw counters. This agrees
   with the reference statistics source.
-* `bfmeDrawSortingPrimitive`, RVA `0x11D710`, is the recovered five-unsigned
+* `DX8Wrapper::Draw_Sorting_IB_VB` (formerly `bfmeDrawSortingPrimitive`), RVA `0x11D710`, is the recovered five-unsigned
   sorting conversion role. All 539 bytes through return `0x11D92A` were decoded.
   It rejects polygon/vertex counts above 65535, creates dynamic vertex/index
   access objects, copies and rebases the sorting data, binds D3D9 buffers,

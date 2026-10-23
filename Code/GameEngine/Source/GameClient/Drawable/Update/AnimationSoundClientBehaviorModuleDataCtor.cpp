@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /arch:SSE
+// cl: /EHsc /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 //
 // AnimationSoundClientBehaviorModuleData constructor.
@@ -35,6 +35,7 @@ class AnimationSoundClientBehaviorModuleData
 {
 public:
     AnimationSoundClientBehaviorModuleData();
+    virtual ~AnimationSoundClientBehaviorModuleData();
 
 private:
     AnimationSoundTree m_tree08;
@@ -46,3 +47,9 @@ AnimationSoundClientBehaviorModuleData::AnimationSoundClientBehaviorModuleData()
     : m_value14(3.402823466e+38F)
 {
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??1AnimationSoundClientBehaviorModuleDataBase@@UAE@XZ=??3@YAXPAX@Z")

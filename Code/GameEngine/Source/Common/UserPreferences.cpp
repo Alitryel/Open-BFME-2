@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /arch:SSE /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS
 // stlport
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -26,7 +26,29 @@
 // (the map occupies +4..+0xF); load(AsciiString) widens its leaf name and
 // forwards to the wide overload.
 
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
+#include <utility>
+#undef _STLP_DEFAULT_CONSTRUCTED
+#define _STLP_DEFAULT_CONSTRUCTED(T) T()
+#define _BFME_RETAIL_TREE_INSERT_LAYOUT
 #include <map>
+
+// map/set<int> internals otherwise instantiate the less<int>::operator()
+// COMDAT (one byte shape per TU flags); an explicit dllimport+forceinline
+// specialization takes those calls inline so this TU emits no external copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+bool less<int>::operator()(const int &a, const int &b) const
+{ return a < b; }
+}
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 #include <stdlib.h>
 
 struct _iobuf;
@@ -49,72 +71,51 @@ template <typename T> struct BfmeStringData
 	T text[1];
 };
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-	friend class UnicodeString;
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	void releaseBuffer();
-
-public:
-	StringBase() : m_data(0) {}
-	~StringBase();
-	Int compare(const char *other) const;
-	Int compareNoCase(const char *other) const;
-	void set(const T *text);
-	void trim(void);
-	Bool nextToken(StringBase *token, const char *seps);
-
-protected:
-	BfmeStringData<T> *m_data;
-};
-
-template <> class StringBase<unsigned short>
-{
-	friend class UnicodeString;
-	void releaseBuffer();
-
-public:
-	StringBase() : m_data(0) {}
-	~StringBase() { releaseBuffer(); }
-	bool isEmpty() const;
-	void set(const StringBase &other);
-	void concat(const StringBase &other);
-
-protected:
-	BfmeStringData<unsigned short> *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	static const AsciiString TheEmptyString;
-
-	AsciiString() {}
-	AsciiString(const char *text) : StringBase<char>(text) {}
-	AsciiString(const AsciiString &other) : StringBase<char>(other) {}
-	AsciiString &operator=(const AsciiString &other);
-	AsciiString &operator=(const char *text) { set(text); return *this; }
-
-	const char *str() const { return m_data ? &m_data->text[0] : ""; }
-	Bool isEmpty() const { return m_data == 0 || m_data->length == 0; }
-	void format(const char *fmt, ...);
-	void toLower();
-	Bool operator==(const char *other) const { return compare(other) == 0; }
-};
-
-class UnicodeString : public StringBase<unsigned short>
-{
-public:
-	UnicodeString() {}
-	UnicodeString &operator=(const UnicodeString &other) { set(other); return *this; }
-	void translate(const char *text);
-	void translate(const AsciiString &text);
-	const unsigned short *str() const { return m_data ? &m_data->text[0] : L""; }
-};
-
-bool operator<(const AsciiString &left, const AsciiString &right);
+#include "ascii_string.h"
+#include "unicode_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<int, pair<int const, AsciiString>, _Select1st<pair<int const, AsciiString> >, less<int>, allocator<pair<int const, AsciiString> > >::~_Rb_tree(); }
+namespace _STL { template <> _Rb_tree_node<pair<int const, AsciiString> > * _Rb_tree<int, pair<int const, AsciiString>, _Select1st<pair<int const, AsciiString> >, less<int>, allocator<pair<int const, AsciiString> > >::_M_clone_node(_Rb_tree_node<pair<int const, AsciiString> > *); }
+namespace _STL { template <> _Rb_tree_node<pair<int const, AsciiString> > * _Rb_tree<int, pair<int const, AsciiString>, _Select1st<pair<int const, AsciiString> >, less<int>, allocator<pair<int const, AsciiString> > >::_M_create_node(pair<int const, AsciiString> const &); }
+namespace _STL { template <> _Rb_tree<int, pair<int const, AsciiString>, _Select1st<pair<int const, AsciiString> >, less<int>, allocator<pair<int const, AsciiString> > >::_Rb_tree(_Rb_tree<int, pair<int const, AsciiString>, _Select1st<pair<int const, AsciiString> >, less<int>, allocator<pair<int const, AsciiString> > > const &); }
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBHVAsciiString@@@_STL@@@_STL@@@_STL@@Q:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> void allocator<_Rb_tree_node<pair<int const ,AsciiString> > >::deallocate(_Rb_tree_node<pair<int const ,AsciiString> > *,unsigned int) const; }
+// Suppress this TU's non-retail copy of ??0?$_Rb_tree_base@U?$pair@$$CBVAsciiString@@V1@@_STL@@V?$allocator@U?$pair@$$CBVAsciiStri:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> _Rb_tree_base<pair<AsciiString const ,AsciiString>,allocator<pair<AsciiString const ,AsciiString> > >::_Rb_tree_base(allocator<pair<AsciiString const ,AsciiString> > const &); }
+// Suppress this TU's non-retail copy of ??1?$_Rb_tree_base@U?$pair@$$CBVAsciiString@@V1@@_STL@@V?$allocator@U?$pair@$$CBVAsciiStri:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> _Rb_tree_base<pair<AsciiString const ,AsciiString>,allocator<pair<AsciiString const ,AsciiString> > >::~_Rb_tree_base(); }
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@V1@@_STL@@@_STL@@@_STL@@Q:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> _Rb_tree_node<pair<AsciiString const ,AsciiString> > * allocator<_Rb_tree_node<pair<AsciiString const ,AsciiString> > >::allocate(unsigned int,void const *) const; }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@V1@@_STL@@@_STL@@@_STL@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> void allocator<_Rb_tree_node<pair<AsciiString const ,AsciiString> > >::deallocate(_Rb_tree_node<pair<AsciiString const ,AsciiString> > *,unsigned int) const; }
+// Suppress this TU's non-retail copy of ??0?$_Rb_tree_base@U?$pair@$$CBHVAsciiString@@@_STL@@V?$allocator@U?$pair@$$CBHVAsciiStrin:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> _Rb_tree_base<pair<const int, AsciiString>, allocator<pair<const int, AsciiString> > >::_Rb_tree_base(const allocator<pair<const int, AsciiString> > &); }
+// Nothing here calls the int-keyed tree base's destructor out of line, so this TU emits no copy of it.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_base<pair<const int, AsciiString>, allocator<pair<const int, AsciiString> > >::~_Rb_tree_base()
+{ _M_header.deallocate(_M_header._M_data, 1); }
+}
+// Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
+// and this TU's /O1 COMDAT copy differs from the copy the link keeps.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
+{ if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
+}
 
 namespace _STL
 {
@@ -126,6 +127,15 @@ template <> struct less<AsciiString>
 	}
 };
 }
+
+// The two-string tree's destructor, _M_erase, erase(iterator) and _M_create_node are the
+// rowed stlport_string_pair_cleanup.cpp and stlport_rb_tree_hint_asciistring_pair.cpp bodies.
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<AsciiString,pair<AsciiString const,AsciiString>,_Select1st<pair<AsciiString const,AsciiString> >,less<AsciiString>,allocator<pair<AsciiString const,AsciiString> > >::~_Rb_tree(); }
+namespace _STL { template <> void _Rb_tree<AsciiString,pair<AsciiString const,AsciiString>,_Select1st<pair<AsciiString const,AsciiString> >,less<AsciiString>,allocator<pair<AsciiString const,AsciiString> > >::_M_erase(_Rb_tree_node<pair<AsciiString const,AsciiString> > *); }
+namespace _STL { template <> void _Rb_tree<AsciiString,pair<AsciiString const,AsciiString>,_Select1st<pair<AsciiString const,AsciiString> >,less<AsciiString>,allocator<pair<AsciiString const,AsciiString> > >::erase(_Rb_tree_iterator<pair<AsciiString const,AsciiString>,_Nonconst_traits<pair<AsciiString const,AsciiString> > >); }
+namespace _STL { template <> _Rb_tree_node<pair<AsciiString const,AsciiString> > * _Rb_tree<AsciiString,pair<AsciiString const,AsciiString>,_Select1st<pair<AsciiString const,AsciiString> >,less<AsciiString>,allocator<pair<AsciiString const,AsciiString> > >::_M_create_node(pair<AsciiString const,AsciiString> const &); }
+// bfme link decl-only end
 
 typedef _STL::map<AsciiString, AsciiString> PreferenceMap;
 
@@ -152,6 +162,10 @@ public:
 	virtual void setInt(const AsciiString &key, Int val);
 	virtual void setAsciiString(const AsciiString &key, const AsciiString &val);
 
+	// Conditionally indexed setter (retail 0x003B2322): formats the index
+	// with "%d" and either assigns or erases the slot by flag.
+	void rva003B2322(const AsciiString &val, Int num, Bool flag);
+
 protected:
 	UnicodeString m_filename;
 };
@@ -163,7 +177,7 @@ public:
 	UnicodeString rva002360FC() const;
 };
 
-extern GlobalData *TheGlobalData;
+extern class GlobalData *TheWritableGlobalData;
 
 // ?boolAsStr@@YA?AVAsciiString@@_N@Z @0x3B194E
 AsciiString boolAsStr(Bool val)
@@ -216,7 +230,7 @@ Bool UserPreferences::load(const UnicodeString &fname)
 {
 	clear();
 
-	m_filename = TheGlobalData->rva002360FC();
+	m_filename = TheWritableGlobalData->rva002360FC();
 	m_filename.concat(fname);
 
 	FILE *fp = _wfopen(m_filename.str(), L"r");
@@ -277,8 +291,8 @@ Bool UserPreferences::getBool(const AsciiString &key, Bool defaultValue) const
 		return defaultValue;
 	}
 
-	val.toLower();
-	return (val == "1" || val == "t" || val == "true" || val == "y" || val == "yes" || val == "ok");
+	((StringBase<char> &)(val)).toLower();
+	return (val.compare("1") == 0 || val.compare("t") == 0 || val.compare("true") == 0 || val.compare("y") == 0 || val.compare("yes") == 0 || val.compare("ok") == 0);
 }
 
 // ?getReal@UserPreferences@@UBEMABVAsciiString@@M@Z @0x3B1A67
@@ -315,7 +329,7 @@ Int UserPreferences::getEnumIndex(const char *key, const char **names, Int count
 	{
 		for (Int i = 0; i < count; ++i)
 		{
-			if (val.compareNoCase(names[i]) == 0)
+			if (((const StringBase<char> &)(val)).compareNoCase(names[i]) == 0)
 				return i;
 		}
 	}
@@ -400,11 +414,15 @@ public:
 
 extern GameSpyInfoInterface *TheGameSpyInfo;
 
+typedef _STL::map<Int, AsciiString> IgnorePrefMap;
+
 class IgnorePreferences : public UserPreferences
 {
 public:
 	IgnorePreferences();
 	virtual ~IgnorePreferences();
+
+	IgnorePrefMap getIgnores(void);
 };
 
 // ??0IgnorePreferences@@QAE@XZ @0x3B21C0
@@ -417,6 +435,14 @@ IgnorePreferences::IgnorePreferences()
 	load(userPrefFilename);
 }
 
+// ??1IgnorePreferences@@UAE@XZ @0x3B1FD4
+// Vtable 0xC1EF40 (stored by the constructor above) slot 0 is the deleting
+// dtor 0x3B2231, which calls this: store the vtable, tail-call
+// ~UserPreferences.
+IgnorePreferences::~IgnorePreferences()
+{
+}
+
 // ?deleteFileInGlobalDataDir@@YA_NABVUnicodeString@@@Z @0x3B1C89
 // Removes a file from the user-data directory: the leaf is appended to
 // the GlobalData directory and unlinked. True when _wunlink succeeds.
@@ -424,7 +450,7 @@ IgnorePreferences::IgnorePreferences()
 // stats files.
 Bool deleteFileInGlobalDataDir(const UnicodeString &name)
 {
-	UnicodeString path = TheGlobalData->rva002360FC();
+	UnicodeString path = TheWritableGlobalData->rva002360FC();
 	path.concat(name);
 	Bool success = false;
 	switch (_wunlink(path.str())) {
@@ -443,4 +469,37 @@ Bool deleteFileInGlobalDataDir(const AsciiString &name)
 	UnicodeString wideName;
 	wideName.translate(name);
 	return deleteFileInGlobalDataDir(wideName);
+}
+
+// ?rva003B2322@UserPreferences@@QAEXABVAsciiString@@H_N@Z 0x003B2322 104B
+// Evidence: formats arg2 with "%d" via rowed format 0x00038150; flag selects
+// base-map subscript-assign 0x002031FB/0x000366F0 vs string-tree erase
+// 0x002E4ED1 on the formatted key; callers 0x00385B1C/0x00385E2A.
+void UserPreferences::rva003B2322(const AsciiString &val, Int num, Bool flag)
+{
+	AsciiString key;
+	key.format("%d", num);
+	if (flag) {
+		AsciiString &slot = (*this)[key];
+		slot = val;
+	} else
+		erase(key);
+}
+
+// ?getIgnores@IgnorePreferences@@QAE?AV?$map@HVAsciiString@@U?$less@H@_STL@@V?$allocator@U?$pair@$$CBHVAsciiString@@@_STL@@@3@@_STL@@XZ @0x3B224D
+IgnorePrefMap IgnorePreferences::getIgnores(void)
+{
+	IgnorePrefMap ignores;
+
+	IgnorePreferences::iterator it;
+	for (it = begin(); it != end(); ++it)
+	{
+		AsciiString profileStr = it->first;
+		AsciiString lastLoginStr = it->second;
+		Int profileID = atoi(profileStr.str());
+
+		ignores[profileID] = lastLoginStr;
+	}
+
+	return ignores;
 }

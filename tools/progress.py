@@ -1,12 +1,22 @@
 #!/usr/bin/env python3
-"""Report how much of the retail .text we hold as source, and what else we claim.
+"""Report how much of game.dat we can rebuild from what the repository holds.
 
-The headline is RECOVERED AS SOURCE: bytes we could rebuild from text a human
-can read and edit, which is authored C++ plus the vendored library sources we
-compile. Everything else the ledger claims is reported beside it and never
-folded into it -- byte-true dumps of retail, prebuilt .lib files we attach, and
-machine-written C++. Total exact stays in the report as the target-definition
-number: it says which bytes have a fixed boundary, not which bytes we recovered.
+BYTE-MATCHED, GAME CODE C++ and LINKING print first: the three numbers on the
+README card and in the daily Discord post (tools/readme_progress.py), computed
+the same way. BYTE-MATCHED ("rebuilt from source") is everything that rebuilds
+to game.dat's exact bytes (authored and generated C++, vendored source,
+attached prebuilt libraries, reviewed assembly and verified data in .text; dumps excluded), over
+all non-padding .text bytes. Embedded data has its own lane, never authored
+function-code credit. GAME CODE C++ is
+the C++ we wrote over the game's own code (all code minus vendored source and
+prebuilt libraries); LINKING is the part of it whose files also link cleanly,
+over the census tree's game code, both measured and stored by the last
+tools/link_census.py run (reverse/link_census_history.csv: linked_authored,
+game_code).
+LINKED, under them, is all our own source in clean files over all code (the
+chart's linked dots). Every figure counts 0xCC padding out, the way the
+denominator does, so the breakdown under them adds up to them. Total exact, at
+the end, uses the full .text and includes dumps: bounded coverage, not progress.
 
 Every retail byte is counted once. Clean C++ ownership wins when it overlaps an
 assembly-backed row (including ICF aliases), leaving "ASM-only" as actionable
@@ -21,6 +31,7 @@ import argparse
 import csv
 import re
 import subprocess
+import tempfile
 from collections import Counter
 from functools import lru_cache
 from pathlib import Path
@@ -43,6 +54,8 @@ LIB_SUFFIXES = {".lib"}
 # lane instead of inflating the reverse-engineered figure. EA-authored
 # libraries (EAC, DirtySock, debug) are the game and stay out of this list.
 VENDORED_ROOTS = (
+    "Code/Libraries/Source/DirectX/",
+    "Code/Libraries/Source/CRT/VS2003/",
     "Code/Libraries/Source/Compression/LZHCompress/",
     "Code/Libraries/Source/Compression/ZLib/",
     "Code/Libraries/Source/JPEG/",
@@ -81,7 +94,19 @@ GENERATED_ROOTS = ("Code/gen_small/", "Code/gen_asm/")
 GEN_NOTE_RE = re.compile(r"(?:^|;)\s*gen-[a-z]|identity=generated\b")
 # Provenance lanes, best evidence first. Overlapping claims on one byte resolve
 # to the earliest lane, so the lanes partition Total exact with no double count.
-SOURCE_LANES = ("authored", "vendored", "generated", "library", "dump")
+# Explicitly reviewed, reconstructed assembly; never admit entire dump directories or
+# all .asm files by extension. Admission needs documented machine-ABI/codegen
+# evidence plus complete byte/relocation verification. This is metric credit only,
+# not C++ credit, permission to lift code, or a verification exemption.
+REBUILT_ASM_SOURCES = frozenset({
+    "Code/Libraries/Source/VP6/MmxIDct.asm",  # five clean-room MMX bodies
+    "Code/masm_dumps/SecurityCookieCheck.asm",  # documented CRT assembly entry
+    "Code/masm_dumps/RTC_CheckEsp.asm",  # consumes incoming ZF, preserves live returns
+    "Code/Libraries/Source/CRT/RuntimeRelativeDispatchCores.asm",  # verified return-PC/flags ABI
+    "Code/Libraries/Source/CRT/RuntimeRelativeDispatchEntries.asm",  # proven paired core calls
+    "Code/masm_dumps/VersionSignatureCheckPatched.asm",  # documented patched-target exception
+})
+SOURCE_LANES = ("authored", "vendored", "generated", "library", "data", "assembly", "dump")
 EMIT_RE = re.compile(
     r"\b_{1,2}emit\s+(?:0x([0-9a-fA-F]{1,2})|([0-9a-fA-F]{1,3})h)\b",
     re.IGNORECASE,
@@ -275,10 +300,17 @@ def _batch_git_texts(ref, paths):
     if not paths:
         return {}
     request = "".join(f"{ref}:{path}\n" for path in paths).encode()
-    proc = subprocess.run(
-        ["git", "cat-file", "--batch"], cwd=ROOT, input=request,
-        capture_output=True,
-    )
+    # Avoid a cycle where Git's reply pipe and the request pipe both fill.
+    with tempfile.TemporaryFile() as source, tempfile.TemporaryFile() as output, \
+            tempfile.TemporaryFile() as errors:
+        source.write(request)
+        source.seek(0)
+        proc = subprocess.run(["git", "cat-file", "--batch"], cwd=ROOT,
+                              stdin=source, stdout=output, stderr=errors)
+        output.seek(0)
+        errors.seek(0)
+        proc = subprocess.CompletedProcess(proc.args, proc.returncode,
+                                           output.read(), errors.read())
     if proc.returncode != 0:
         raise SystemExit(f"cannot read naked sources at {ref}: {proc.stderr.decode().strip()}")
     output = proc.stdout
@@ -353,8 +385,8 @@ def naked_cpp_rows_at(matched, ref):
     return naked_cpp_rows(matched, naked_source_texts(matched, ref))
 
 
-def coverage(matched, text_start, text_size, naked_rows=()):
-    """Return absolute .text-byte ownership for clean C++ and assembly rows."""
+def coverage(matched, text_start, text_size, naked_rows=(), text_data=()):
+    """Return absolute .text coverage for C++, assembly and verified data."""
     text_end = text_start + text_size
     cpp = []
     asm = []
@@ -371,10 +403,13 @@ def coverage(matched, text_start, text_size, naked_rows=()):
         (asm if kind == "asm" else cpp).append((start, end))
 
     cpp_bytes = interval_bytes(cpp)
-    exact_bytes = interval_bytes(cpp + asm)
+    code_bytes = interval_bytes(cpp + asm)
+    data = [(max(start, text_start), min(end, text_end)) for start, end, _ in text_data]
+    exact_bytes = interval_bytes(cpp + asm + data)
     return {
         "cpp": cpp_bytes,
-        "asm_only": exact_bytes - cpp_bytes,
+        "asm_only": code_bytes - cpp_bytes,
+        "data_only": exact_bytes - code_bytes,
         "unmatched": text_size - exact_bytes,
         "exact": exact_bytes,
         "text": text_size,
@@ -386,7 +421,7 @@ def source_lane(source, notes, naked):
 
     Provenance asks who wrote the thing the bytes come out of. It is a
     different question from the code axis (which language) and it is the one
-    the project is graded on, because only two of these five lanes are source
+    the project is graded on, because only two of the code lanes are source
     anybody recovered.
 
       authored   C++ we wrote from the disassembly.
@@ -396,6 +431,7 @@ def source_lane(source, notes, naked):
                  small thunks, template grids.
       library    a prebuilt .lib we attach (d3dx9, CRT). It links, so it is a
                  real way to reach 1:1, but there is no source in the tree.
+      assembly   explicitly reviewed reconstructed assembly, not C++ or a dump.
       dump       retail re-encoded: MASM `db` bodies and __emit sprays. These
                  fix an address and an extent and say nothing else.
 
@@ -414,6 +450,9 @@ def source_lane(source, notes, naked):
     """
     if Path(source).suffix.lower() in LIB_SUFFIXES:
         return "library"
+    if (source_kind(source) == "asm" and source in REBUILT_ASM_SOURCES
+            and not GEN_NOTE_RE.search(notes)):
+        return "assembly"
     if naked or source_kind(source) == "asm":
         return "dump"
     if source.startswith(GENERATED_ROOTS) or GEN_NOTE_RE.search(notes):
@@ -478,6 +517,7 @@ def print_scorecard(ref1, label2, old_stats, new_stats):
     rows = (
         ("C++ exact", "cpp"),
         ("ASM-only exact", "asm_only"),
+        ("Data-only exact", "data_only"),
         ("Unmatched", "unmatched"),
         ("Total exact", "exact"),
     )
@@ -498,40 +538,263 @@ def rebuildable(split):
     authored it does not enter into it; nobody at EA hand-wrote the unwind
     funclets either, and a 1:1 build does not require us to hand-write d3dx9.
 
+    Reviewed reconstructed assembly qualifies without increasing C++ credit.
+    Verified data in .text qualifies separately from all function-code lanes.
     A byte-true dump is the one lane that fails the test: the source file
     contains retail's own bytes, so deleting game.dat would delete the
     thing we claim to hold. Dumps fix a boundary and say nothing else.
     """
-    return split["authored"] + split["vendored"] + split["generated"] + split["library"]
+    return (split["authored"] + split["vendored"] + split["generated"] + split["library"]
+            + split.get("data", 0) + split.get("assembly", 0))
 
 
-def print_real_code(padding, denominator, old_stats, new_stats, old_split, new_split):
-    # The headline goes first and alone: it is the one number the project is
-    # graded on, and everything below it is either its decomposition or a
-    # different question entirely.
-    now, before = rebuildable(new_split), rebuildable(old_split)
-    print(f"REBUILDS FROM WHAT WE HOLD  {now:>10,} bytes "
-          f"({percent(now, denominator):6.2f}%)  delta "
-          f"{format_delta(now, before, denominator)}")
-    print(f"\nreal code = .text minus {padding:,} bytes of 0xCC padding "
-          f"= {denominator:,} bytes")
-    print(f"  {'still only retail bytes':<26} {new_split['dump']:>10,} bytes "
+LINK_STATUS = "reverse/link_status.csv"
+LINK_HISTORY = "reverse/link_census_history.csv"
+# Source somebody recovered: C++ written from the disassembly and upstream
+# library source. Generated C++ stays out, for the reason source_lane gives.
+DECOMPILED_LANES = ("authored", "vendored")
+
+
+def _text_at(ref, path):
+    if ref is None:
+        target = ROOT / path
+        return target.read_text(encoding="utf-8") if target.exists() else None
+    result = subprocess.run(["git", "show", f"{ref}:{path}"], cwd=ROOT, capture_output=True,
+                            text=True, encoding="utf-8", errors="replace")
+    return result.stdout if result.returncode == 0 else None
+
+
+def text_data_at(ref):
+    """Matched data-ledger extents in retail .text, at the requested state.
+
+    Like function coverage, these are gate-verified ledger claims, not a new
+    compile during reporting. Old commits without a data ledger contribute zero.
+    Non-.text data never contributes to the code-section coverage denominator.
+    """
+    import data_rows
+    raw = _text_at(ref, "reverse/data_rows.csv")
+    if raw is None:
+        return []
+    try:
+        rows = data_rows.parse(raw.encode("utf-8"))
+        out = []
+        for _, row in rows:
+            if "_fields" in row:
+                raise ValueError("malformed data row")
+            if row["status"] != "matched" or row["section"] != ".text":
+                continue
+            if row["address_kind"] not in ("va", "rva") or int(row["size"]) <= 0:
+                raise ValueError("invalid data address kind or size")
+            start = data_rows.va_of(row) - data_rows.IMAGE_BASE
+            out.append((start, start + int(row["size"]), row["source"]))
+        return out
+    except ValueError as exc:
+        raise SystemExit(f"invalid data_rows.csv at {ref or 'worktree'}: {exc}") from exc
+
+
+@lru_cache(maxsize=None)
+def _text_image():
+    start, size = retail_text()
+    return start, build.read_target_bytes(start, size)
+
+
+def real_split(matched, notes, text_start, text_size, naked_rows=(), keep=None, text_data=()):
+    """source_split counted the way real_code_denominator counts: 0xCC bytes
+    excluded, so numerator and denominator agree (source_split counts a row's
+    0xCC bytes, about 0.16 pp of the headline). `keep(key, source)` filters rows."""
+    image_start, image = _text_image()
+    text_end = text_start + text_size
+    naked_rows = set(naked_rows)
+    lanes = {name: [] for name in SOURCE_LANES}
+    # A function-only filter must never start crediting unrelated data.
+    if keep is None:
+        lanes["data"] = [(max(start, text_start), min(end, text_end))
+                         for start, end, _ in text_data if max(start, text_start) < min(end, text_end)]
+    for key, (size, source) in matched.items():
+        if keep and not keep(key, source):
+            continue
+        start, end = max(int(key[1], 16), text_start), min(int(key[1], 16) + size, text_end)
+        if start < end:
+            lanes[source_lane(source, notes[key], key in naked_rows)].append((start, end))
+
+    def real(intervals):
+        return sum(end - start - image[start - image_start:end - image_start].count(0xCC)
+                   for start, end in merge_intervals(intervals))
+    split, claimed = {}, []
+    for name in SOURCE_LANES:
+        before = real(claimed)
+        claimed += lanes[name]
+        split[name] = real(claimed) - before
+    return split
+
+
+def decompiled(split):
+    """Recovered source that compiles to retail's bytes, a function at a time."""
+    return sum(split[lane] for lane in DECOMPILED_LANES)
+
+
+def census_rows_at(ref):
+    """Every census row that measured LINKED, in physical (append) order."""
+    history = _text_at(ref, LINK_HISTORY)
+    return [row for row in csv.DictReader(history.splitlines()) if row.get("linked_bytes")] if history else []
+
+
+def census_at(ref):
+    """The last link census that measured LINKED, as of one state, or None.
+
+    LINKED is measured by tools/link_census.py on the tree it linked and stored
+    in the history row (linked_bytes); it is not recomputed here, so it holds
+    still between censuses instead of dropping with every edit since. The
+    last physical row is the current one: rows are appended in order.
+    """
+    rows = census_rows_at(ref)
+    return rows[-1] if rows else None
+
+
+# The rules a census row was measured under (link_census.py's `rules`
+# column). Rows from before the column are link_census.LEGACY_RULES.
+LEGACY_CENSUS_RULES = "majority-0"
+
+
+def census_rules(row):
+    return ((row or {}).get("rules") or "").strip() or LEGACY_CENSUS_RULES
+
+
+def census_prev_figure(row, field):
+    """The row's *_prev_rule figure for `field` and the rules it was measured
+    under, or (None, None)."""
+    value = (row or {}).get(f"{field}_prev_rule")
+    if not value:
+        return None, None
+    return int(value), ((row.get("prev_rules") or "").strip() or LEGACY_CENSUS_RULES)
+
+
+def census_change(old, new, field, over_field, rows, denominator=None):
+    """The change in one census figure from `old` to `new` (history rows),
+    compared like for like when the census rules changed in between.
+
+    Returns {"bytes", "pp"} for a same-rules change, plus "rule_changes" (a
+    list of (row, before_rules, after_rules, before_pp, after_pp)) when one or
+    more re-baseline rows lie in between: the change is then the sum of the
+    changes within each rule, the re-baseline's prev_rule figure being the
+    old rules' measurement of the same objects. None when no like-for-like
+    comparison exists (a rule change without the previous rules' figures)."""
+    def pair(row, value=None):
+        over = int(row[over_field]) if over_field else denominator
+        return (int(row[field]) if value is None else value), over
+    if census_rules(old) == census_rules(new) and not _transitions(old, new, rows):
+        (a, x), (b, y) = pair(old), pair(new)
+        return {"bytes": b - a, "pp": percent(b, y) - percent(a, x), "rule_changes": []}
+    changes = _transitions(old, new, rows)
+    if not changes:
+        return None
+    total_bytes, total_pp, current, notes = 0, 0.0, old, []
+    for row in changes:
+        prev, prev_rules = census_prev_figure(row, field)
+        if prev is None or prev_rules != census_rules(current):
+            return None
+        (a, x), (b, y) = pair(current), pair(row, prev)
+        total_bytes += b - a
+        total_pp += percent(b, y) - percent(a, x)
+        (c, z) = pair(row)
+        notes.append((row, prev_rules, census_rules(row), percent(b, y), percent(c, z)))
+        current = row
+    (a, x), (b, y) = pair(current), pair(new)
+    return {"bytes": total_bytes + b - a, "pp": total_pp + percent(b, y) - percent(a, x), "rule_changes": notes}
+
+
+def _transitions(old, new, rows):
+    """The rows after `old`, up to and including `new`, whose rules differ
+    from the row before them (re-baselines), in order."""
+    keys = [(r.get("date"), r.get("commit")) for r in rows]
+    try:
+        start = keys.index((old.get("date"), old.get("commit")))
+        end = keys.index((new.get("date"), new.get("commit")))
+    except ValueError:
+        return []
+    return [rows[i] for i in range(start + 1, end + 1) if census_rules(rows[i]) != census_rules(rows[i - 1])]
+
+
+def data_denominator():
+    """Bytes of .rdata and .data: the tables, strings and globals."""
+    return sum(s["size"] for s in build.pe_sections(build.EXE.read_bytes()) if s["name"] in (".rdata", ".data"))
+
+
+def game_code(split, denominator):
+    """The game's own code: all real code minus vendored library source and
+    prebuilt libraries (readme_progress.game_code, the C++ and Linking bars)."""
+    return denominator - split["vendored"] - split["library"]
+
+
+def _line(label, value, denominator, delta, note):
+    return (f"{label:<14} {value:>12,.0f} bytes ({percent(value, denominator):6.2f}%)  {delta}  <- {note}")
+
+
+def print_headline(padding, denominator, old_split, new_split, old_census, new_census, census_rows=()):
+    """The README card's and the daily Discord post's three numbers, computed
+    the same way, then what they are made of. Every figure counts 0xCC out,
+    so the lines below add up to the lines above."""
+    matched, before = rebuildable(new_split), rebuildable(old_split)
+    game, game_before = game_code(new_split, denominator), game_code(old_split, denominator)
+    print(_line("BYTE-MATCHED", matched, denominator, f"delta {format_delta(matched, before, denominator)}",
+                "rebuilt from source: rebuilds to game.dat's exact bytes"))
+    print(_line("GAME CODE C++", new_split["authored"], game,
+                f"delta {format_delta(new_split['authored'], old_split['authored'], game)}"
+                if game == game_before else "delta n/a (the game's own code changed size)",
+                f"C++ we wrote, over the game's own code ({game:,} bytes: no library source or .lib)"))
+
+    def census_line(label, field, over_field, note):
+        """One census figure over its denominator: `over_field` names the
+        census column holding it, or None for all code (fixed)."""
+        def figure(census):
+            if not census or not census.get(field) or (over_field and not census.get(over_field)):
+                return None
+            return int(census[field]), int(census[over_field]) if over_field else denominator
+        now = figure(new_census)
+        if now is None:
+            print(f"{label:<14} not measured  <- no census stored {field} yet (tools/link_census.py --history)")
+            return
+        # A range that starts before any census has nothing to compare with;
+        # showing the whole figure as a gain would credit it to that range.
+        was = figure(old_census)
+        if not was:
+            delta = f"delta n/a (no {label} figure stored at the start of the range)"
+        else:
+            # A change of census rules is not progress: compare within rules.
+            change = census_change(old_census, new_census, field, over_field, list(census_rows) or
+                                   [old_census, new_census], denominator)
+            if change is None:
+                delta = (f"delta n/a (census rules changed: {census_rules(old_census)} -> "
+                         f"{census_rules(new_census)}, no like-for-like figure)")
+            else:
+                delta = f"delta {change['bytes']:+,} bytes, {change['pp']:+.2f} pp"
+                for row, before, after, at_before, at_after in change["rule_changes"]:
+                    delta += (f" within rules; RULES CHANGED {row['date'][:10]} ({before} -> {after}: "
+                              f"{at_before:.2f}% -> {at_after:.2f}% on the same objects, not progress)")
+        print(_line(label, now[0], now[1], delta, f"{note}, census {new_census['date']} at {new_census['commit']}"
+                    f" ({census_rules(new_census)})"))
+    census_line("LINKING", "linked_authored", "game_code",
+                "that C++ in files that link cleanly, over the census tree's game code")
+    print("               (the three figures on the README card and in the daily Discord post)")
+    census_line("LINKED", "linked_bytes", None, "all our own source in files that link cleanly (the chart)")
+
+    print(f"\nreal .text bytes = .text minus {padding:,} bytes of 0xCC padding = {denominator:,} bytes")
+    print("  byte-matched, by where its source comes from:")
+    for label, key in (("C++ we wrote", "authored"), ("vendored library source", "vendored"),
+                       ("generator-written C++", "generated"), ("prebuilt .lib attached", "library"),
+                       ("verified data in .text", "data"), ("reviewed assembly", "assembly")):
+        print(f"    {label:<24} {new_split.get(key, 0):>10,} bytes ({percent(new_split.get(key, 0), denominator):6.2f}%)"
+              f"  delta {format_delta(new_split.get(key, 0), old_split.get(key, 0), denominator)}")
+    unclaimed = denominator - sum(new_split.get(lane, 0) for lane in SOURCE_LANES)
+    print("  not byte-matched:")
+    print(f"    {'still only retail bytes':<24} {new_split['dump']:>10,} bytes "
           f"({percent(new_split['dump'], denominator):6.2f}%)  <- dumps: a boundary, nothing more")
-    # new_stats["unmatched"] is padding-inclusive; the real-code view must not be.
-    unclaimed = denominator - new_stats["exact"]
-    print(f"  {'unclaimed':<26} {unclaimed:>10,} bytes "
-          f"({percent(unclaimed, denominator):6.2f}%)  <- no boundary proven yet")
-
-    print("\n  breakdown of what we hold (diagnostic, not the headline):")
-    for label, key in (
-        ("C++ we wrote", "authored"),
-        ("vendored library source", "vendored"),
-        ("generator-written C++", "generated"),
-        ("prebuilt .lib attached", "library"),
-    ):
-        value, previous = new_split[key], old_split[key]
-        print(f"    {label:<24} {value:>10,} bytes ({percent(value, denominator):6.2f}%)"
-              f"  delta {format_delta(value, previous, denominator)}")
+    print(f"    {'unclaimed':<24} {unclaimed:>10,} bytes ({percent(unclaimed, denominator):6.2f}%)"
+          "  <- no boundary proven yet")
+    own, own_before = decompiled(new_split), decompiled(old_split)
+    print(f"  our own source (C++ we wrote + library source) {own:,} bytes ({percent(own, denominator):.2f}%)"
+          f"  delta {format_delta(own, own_before, denominator)}")
+    print(f"GAME DATA      no aggregate coverage metric  <- {data_denominator():,} bytes of .rdata/.data; individual data-ledger rows are verified")
 
 
 def marker_delta(ref1, ref2):
@@ -624,16 +887,16 @@ def main():
     text_start, text_size = retail_text()
     old_naked = naked_cpp_rows_at(old, ref1)
     new_naked = naked_cpp_rows_at(new, ref2)
-    old_stats = coverage(old, text_start, text_size, old_naked)
-    new_stats = coverage(new, text_start, text_size, new_naked)
+    old_data, new_data = text_data_at(ref1), text_data_at(ref2)
+    old_stats = coverage(old, text_start, text_size, old_naked, old_data)
+    new_stats = coverage(new, text_start, text_size, new_naked, new_data)
     label2 = ref2 or "worktree"
 
     padding, denominator = real_code_denominator(text_start, text_size)
     old_notes, new_notes = notes_at(ref1), notes_at(ref2)
-    print_real_code(
-        padding, denominator, old_stats, new_stats,
-        source_split(old, old_notes, text_start, text_size, old_naked),
-        source_split(new, new_notes, text_start, text_size, new_naked))
+    print_headline(padding, denominator, real_split(old, old_notes, text_start, text_size, old_naked, text_data=old_data),
+                   real_split(new, new_notes, text_start, text_size, new_naked, text_data=new_data), census_at(ref1), census_at(ref2),
+                   census_rows_at(ref2))
     print_scorecard(ref1, label2, old_stats, new_stats)
     if args.details:
         print_details(ref1, ref2, old, new, old_naked, new_naked)

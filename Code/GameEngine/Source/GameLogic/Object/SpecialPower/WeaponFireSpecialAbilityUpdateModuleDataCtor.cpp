@@ -1,4 +1,4 @@
-// cl: /O1 /MD /GX /arch:SSE /DNDEBUG
+// cl: /MD /GX /DNDEBUG
 //
 // ??0WeaponFireSpecialAbilityUpdateModuleData@@QAE@XZ,
 // retail 0x004926CA, 62 bytes. Ctor over table 0xBEF0A8 (SpecialWeapon
@@ -7,17 +7,20 @@
 // PlayWeaponPreFireFX at +0xD9). Identity is the rowed poolkey 0x492685
 // (WeaponFireSpecialAbilityUpdate) which ends exactly where this ctor
 // begins, plus factory 0x24DB56 (sole caller) plus proc 0x24DB00 (same
-// table, chained on the Rva0044EB54 base proc). Shape follows the
-// Devastate-V5 precedent: pinned opaque base Rva0044EB54 (0x44EB54) with
+// table, chained on the SpecialAbilityUpdateModuleData base proc). Shape follows the
+// Devastate-V5 precedent: pinned opaque base SpecialAbilityUpdateModuleData (0x44EB54) with
 // the vtable slot at +0 and the tail byte at +0xC4, derived zeros in
 // table order with the base tail zeroed last. The specialWeapon pointer
 // anchors the first zero below the vtable store (else the store sinks
 // last) while the xor-zero setup still hoists above it.
 
-class Rva0044EB54
+// Vtable 0x00C4E108: the table whose slot 0 is ??_GWeaponFireSpecialAbilityUpdateModuleData (vftable_map); bound to the ??_7 the ledger's deleting-dtor unit emits.
+extern "C" const void *__identifier("??_7WeaponFireSpecialAbilityUpdateModuleData@@6B@")[];
+
+class SpecialAbilityUpdateModuleData
 {
 public:
-	Rva0044EB54();
+	SpecialAbilityUpdateModuleData();
 
 protected:
 	void *m_vtable; // +0
@@ -32,7 +35,7 @@ private:
 	unsigned char m_padC5[3]; // +0xC5..+0xC7
 };
 
-class WeaponFireSpecialAbilityUpdateModuleData : public Rva0044EB54
+class WeaponFireSpecialAbilityUpdateModuleData : public SpecialAbilityUpdateModuleData
 {
 public:
 	WeaponFireSpecialAbilityUpdateModuleData();
@@ -50,7 +53,7 @@ private:
 WeaponFireSpecialAbilityUpdateModuleData::WeaponFireSpecialAbilityUpdateModuleData()
 {
 	int *specialWeapon = &m_specialWeapon;
-	m_vtable = reinterpret_cast<void *>(0x00C4E108);
+	m_vtable = (void *)__identifier("??_7WeaponFireSpecialAbilityUpdateModuleData@@6B@");
 	*specialWeapon = 0;
 	m_whichSpecialWeapon = 0;
 	m_skipContinue = false;

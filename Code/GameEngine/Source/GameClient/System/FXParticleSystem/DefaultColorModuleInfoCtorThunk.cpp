@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc /O1 /Ob2 /arch:SSE
+// cl: /DNDEBUG /MD /EHsc /Ob2
 
 // Open-BFME5: DefaultColorModuleInfo default constructor @0x55BC39.
 // Retail: own vtable, eight RGBColorKeyframe elements at +4 built by the
@@ -11,17 +11,7 @@ namespace FXParticleSystem
 
 class Xfer;
 
-class Snapshot
-{
-public:
-	Snapshot() {}
-	Snapshot(const Snapshot &that);
-
-	virtual ~Snapshot();
-	virtual void crc(Xfer *xfer) = 0;
-	virtual void loadPostProcess() = 0;
-	virtual void xfer(Xfer *xfer) = 0;
-};
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 class RGBColorKeyframe
 {

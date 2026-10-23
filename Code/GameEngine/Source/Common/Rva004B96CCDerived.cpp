@@ -1,4 +1,4 @@
-// cl: /O1 /MD
+// cl: /MD
 //
 // Opaque multiple-inheritance destructors tail-calling Rva004B96CC::~
 // Rva004B96CC at 0x004B96CC (pinned opaque MI base; identity unproven). Each
@@ -72,3 +72,14 @@ public:
 Rva004BB0CC::~Rva004BB0CC()
 {
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?f2@Rva004B96E5_B2@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?f2@Rva004BAB36_B2@@UAEXXZ=?onDamage@ReflectDamage@@UAEXPAVDamageInfo@@@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004BB0CC_B2@@UAEXXZ=?rva004BB176@HordeTransportContainDamage@@UAEXPAVDamageInfo@@@Z")

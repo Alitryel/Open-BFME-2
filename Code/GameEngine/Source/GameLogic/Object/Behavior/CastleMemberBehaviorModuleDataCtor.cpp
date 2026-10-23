@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ??0CastleMemberBehaviorModuleData@@QAE@XZ, retail 0x00395B03, 41 bytes.
 // Frameless store-only ctor over table 0xC1A310 (CampDestroyedOwnerEvaEvent
@@ -11,6 +11,9 @@
 // TU-local class with explicit void*m_vtable (no virtuals, no vtable
 // emission) plus plain-data members; body assignments in retail order.
 // Vtable 0x00C1A380 is unique image-wide (single installing site).
+
+extern "C" const void *const vtbl_00C1A380[];  // ??_7CastleMemberBehaviorModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C1A380=??_7CastleMemberBehaviorModuleData@@6B@")
 
 class CastleMemberBehaviorModuleData
 {
@@ -31,7 +34,7 @@ private:
 // ??0CastleMemberBehaviorModuleData@@QAE@XZ @0x395B03
 CastleMemberBehaviorModuleData::CastleMemberBehaviorModuleData()
 {
-	m_vtable = reinterpret_cast<const void *>(0x00C1A380);
+	m_vtable = reinterpret_cast<const void *>(((unsigned int)vtbl_00C1A380));
 	m_campDestroyedOwnerEvaEvent = 9;
 	m_campDestroyedAllyEvaEvent = 0xA;
 	m_campDestroyedAttackerEvaEvent = 8;

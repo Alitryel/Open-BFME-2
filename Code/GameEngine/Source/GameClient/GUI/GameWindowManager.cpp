@@ -1,7 +1,18 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims
+// cl: /O1 /Ireference/shims/zh_outofline /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/GameClient/GUI/GameWindowManager.cpp); this unit had no counterpart under Code/.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -34,6 +45,115 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+
+// Retail's DisplayString vtable calls getText at slot 2 (0x8), proven by the
+// rowed getTooltipText at 0x002C1FA0; the Zero Hour donor DisplayString.h
+// derives from MemoryPoolObject, whose extra virtual puts getText at slot 3,
+// so this unit emitted a deviant getTooltipText copy and lost the COMDAT.
+// TU-local view with retail's slot order (same as WinInstanceDataDisplayStrings.cpp).
+// The donor UnicodeString header is pulled explicitly since the blocked header
+// was this unit's carrier for it.
+#include "Common/UnicodeString.h"
+#define __DISPLAYSTRING_H_
+class GameFont;
+class DisplayString
+{
+public:
+	virtual ~DisplayString() {}
+	virtual void setText(UnicodeString text);
+	virtual UnicodeString getText();
+	virtual Int getTextLength();
+	virtual void notifyTextChanged();
+	virtual void reset();
+	virtual void setFont(GameFont *font);
+	virtual GameFont *getFont();
+	virtual void setWordWrap(Int wordWrap) = 0;
+	virtual void setWordWrapCentered(Bool isCentered) = 0;
+};
+
+// The donor WinInstanceData.h inline bodies for the four text accessors expand
+// here to deviant copies (DisplayString slot 3, ZH UnicodeString copy), and
+// the link then keeps this unit's getTooltipText instead of the rowed body at
+// 0x002C1FA0. TU-local class view, verbatim from the donor header except those
+// four stay declared-only so uses reach the rowed out-of-line bodies
+// (getTooltipText 0x002C1FA0, getTooltipTextLength 0x002C027B, getText
+// 0x003148F1, getTextLength 0x000A3DCC). Members are untouched, so layout and
+// the GameWindow.h member-access inlines compile to the same bytes.
+#include "Lib/BaseType.h"
+#include "Common/AsciiString.h"
+#include "GameClient/Color.h"
+class Image;
+class GameWindow;
+class VideoBuffer;
+#define __WININSTANCEDATA_H_
+
+#define WIN_STATE_HILITED 	0x00000002
+#define WIN_STATE_SELECTED	0x00000004
+
+enum
+{
+	MAX_WINDOW_NAME_LEN = 64,
+	MAX_DRAW_DATA = 9,
+	MAX_TEXT_LABEL = 128
+};
+
+struct WinDrawData
+{
+	const Image *image;
+	Color color;
+	Color borderColor;
+};
+
+struct TextDrawData
+{
+	Color color;
+	Color borderColor;
+};
+
+class WinInstanceData
+{
+public:
+	WinInstanceData( void );
+	virtual ~WinInstanceData( void );
+	void init( void );
+	void setTooltipText( UnicodeString tip );
+	void setText( UnicodeString text );
+	UnicodeString getTooltipText( void );
+	UnicodeString getText( void );
+	Int getTextLength( void );
+	Int getTooltipTextLength( void );
+	UnsignedInt getStyle( void ) { return m_style; }
+	UnsignedInt getStatus( void ) { return m_status; }
+	UnsignedInt getState( void ) { return m_state; }
+	GameWindow *getOwner( void ) { return m_owner; }
+	GameFont *getFont( void ) { return m_font; }
+	DisplayString *getTextDisplayString( void ) { return m_text; }
+	DisplayString *getTooltipDisplayString( void ) { return m_tooltip; }
+	void setVideoBuffer( VideoBuffer * videoBuffer );
+
+	Int m_id;
+	Int m_state;
+	UnsignedInt m_style;
+	UnsignedInt m_status;
+	GameWindow *m_owner;
+	WinDrawData m_enabledDrawData[ MAX_DRAW_DATA ];
+	WinDrawData m_disabledDrawData[ MAX_DRAW_DATA ];
+	WinDrawData m_hiliteDrawData[ MAX_DRAW_DATA ];
+	TextDrawData m_enabledText;
+	TextDrawData m_disabledText;
+	TextDrawData m_hiliteText;
+	TextDrawData m_imeCompositeText;
+	ICoord2D m_imageOffset;
+	GameFont *m_font;
+	AsciiString m_textLabelString;
+	AsciiString m_decoratedNameString;
+	AsciiString m_tooltipString;
+	AsciiString m_headerTemplateName;
+	Int m_tooltipDelay;
+	DisplayString *m_text;
+	DisplayString *m_tooltip;
+	VideoBuffer *m_videoBuffer;
+};
 
 #include "Common/Debug.h"
 #include "Common/Language.h"
@@ -84,57 +204,35 @@ static Bool sendMousePosMessages = TRUE;
 //-------------------------------------------------------------------------------------------------
 /** Process windows waiting to be destroyed */
 //-------------------------------------------------------------------------------------------------
-void GameWindowManager::processDestroyList( void )
-{
-	GameWindow *next;
-	GameWindow *doDestroy;
-
-	//
-	// we need to pass the ownership of the destroy list so
-	// if, while destroying a window, we need to add other windows
-	// to the destroy list it won't cause problems.
-	//
-	doDestroy = m_destroyList;
-
-	// set the list to empty
-	m_destroyList = NULL;
-
-	// do the destroys
-	for( ; doDestroy; doDestroy = next )
-	{
-
-		next = doDestroy->m_next;
-
-		// Check to see if this window is "special"
-		if( m_mouseCaptor == doDestroy )
-			winRelease( doDestroy );
-
-		if( m_keyboardFocus == doDestroy )
-			winSetFocus( NULL );
-
-		if( (m_modalHead != NULL) && (doDestroy == m_modalHead->window) )
-			winUnsetModal( m_modalHead->window );
-
-		if( m_currMouseRgn == doDestroy )
-			m_currMouseRgn = NULL;
-
-		if( m_grabWindow == doDestroy )
-			m_grabWindow = NULL;
-
-		// send the destroy message to the window we're about to kill
-		winSendSystemMsg( doDestroy, GWM_DESTROY, 0, 0 );
-
-		// free the memory
-		if (doDestroy)
-			doDestroy->deleteInstance();
-
-	}  // end for
-
-}  // end processDestroyList
+// GameWindowManager::processDestroyList: defined in GameWindowManager_processDestroyList.cpp (its row's unit).
+  // end processDestroyList
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // PUBLIC FUNCTIONS ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+// BFME's window manager carries winSendSystemMsg at vtable slot 58 (+0xE8);
+// the shared Zero Hour header places it earlier.
+class BfmeWindowManagerSendView
+{
+public:
+	virtual void slot00(); virtual void slot01(); virtual void slot02(); virtual void slot03();
+	virtual void slot04(); virtual void slot05(); virtual void slot06(); virtual void slot07();
+	virtual void slot08(); virtual void slot09(); virtual void slot10(); virtual void slot11();
+	virtual void slot12(); virtual void slot13(); virtual void slot14(); virtual void slot15();
+	virtual void slot16(); virtual void slot17(); virtual void slot18(); virtual void slot19();
+	virtual void slot20(); virtual void slot21(); virtual void slot22(); virtual void slot23();
+	virtual void slot24(); virtual void slot25(); virtual void slot26(); virtual void slot27();
+	virtual void slot28(); virtual void slot29(); virtual void slot30(); virtual void slot31();
+	virtual void slot32(); virtual void slot33(); virtual void slot34(); virtual void slot35();
+	virtual void slot36(); virtual void slot37(); virtual void slot38(); virtual void slot39();
+	virtual void slot40(); virtual void slot41(); virtual void slot42(); virtual void slot43();
+	virtual void slot44(); virtual void slot45(); virtual void slot46(); virtual void slot47();
+	virtual void slot48(); virtual void slot49(); virtual void slot50(); virtual void slot51();
+	virtual void slot52(); virtual void slot53(); virtual void slot54(); virtual void slot55();
+	virtual void slot56(); virtual void slot57();
+	virtual WindowMsgHandledType winSendSystemMsg( GameWindow *window, UnsignedInt msg, WindowMsgData mData1, WindowMsgData mData2 );
+};
 
 //-------------------------------------------------------------------------------------------------
 /** Generic function to simply propagate only button press messages to parent and let it deal with it */
@@ -147,12 +245,14 @@ WindowMsgHandledType PassSelectedButtonsToParentSystem( GameWindow *window, Unsi
 	if( window == NULL )
 		return MSG_IGNORED;
 
-	if( (msg == GBM_SELECTED)  ||  (msg == GBM_SELECTED_RIGHT) || (msg == GBM_MOUSE_ENTERING) || (msg == GBM_MOUSE_LEAVING) || (msg == GEM_EDIT_DONE))
+	// BFME renumbered the later gadget messages: retail tests 0x4031 where the
+	// shared Zero Hour enum puts GEM_EDIT_DONE at 0x402F, and adds 0x400B.
+	if( (msg == GBM_SELECTED)  ||  (msg == GBM_SELECTED_RIGHT) || (msg == GBM_MOUSE_ENTERING) || (msg == GBM_MOUSE_LEAVING) || (msg == 0x4031) || (msg == 0x400B))
 	{
 		GameWindow *parent = window->winGetParent();
 
 		if( parent )
-			return TheWindowManager->winSendSystemMsg( parent, msg, mData1, mData2 );
+			return ((BfmeWindowManagerSendView *)TheWindowManager)->winSendSystemMsg( parent, msg, mData1, mData2 );
 
 	}  // end if
 	
@@ -175,7 +275,7 @@ WindowMsgHandledType PassMessagesToParentSystem( GameWindow *window, UnsignedInt
 	GameWindow *parent = window->winGetParent();
 
 	if( parent )
-		return TheWindowManager->winSendSystemMsg( parent, msg, mData1, mData2 );
+		return ((BfmeWindowManagerSendView *)TheWindowManager)->winSendSystemMsg( parent, msg, mData1, mData2 );
 	
 	return MSG_IGNORED;
 
@@ -184,6 +284,7 @@ WindowMsgHandledType PassMessagesToParentSystem( GameWindow *window, UnsignedInt
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ?GameWindowManager::GameWindowManager present-unmatched
 GameWindowManager::GameWindowManager( void )
 {
 
@@ -206,6 +307,7 @@ GameWindowManager::GameWindowManager( void )
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ?GameWindowManager::~GameWindowManager present-unmatched
 GameWindowManager::~GameWindowManager( void )
 {
 
@@ -220,435 +322,104 @@ GameWindowManager::~GameWindowManager( void )
 //-------------------------------------------------------------------------------------------------
 /** Initialize the game window manager system */
 //-------------------------------------------------------------------------------------------------
-void GameWindowManager::init( void )
-{
-	if(!TheTransitionHandler)
-		TheTransitionHandler = NEW GameWindowTransitionsHandler;
-	TheTransitionHandler->load();
-	TheTransitionHandler->init();
-}  // end init
+// GameWindowManager::init is defined with its retail-matched body in Code/GameEngine/Source/GameClient/GUI/GameWindowManager_init.cpp (0x002C0A0F).
 
 //-------------------------------------------------------------------------------------------------
 /** Reset window system */
 //-------------------------------------------------------------------------------------------------
-void GameWindowManager::reset( void )
-{
-
-	// destroy all windows left
-	winDestroyAll();
-	if(TheTransitionHandler)
-		TheTransitionHandler->reset();
-
-}  // end reset
+// GameWindowManager::reset: defined in GameWindowManagerModal.cpp (its row's unit).
+  // end reset
 
 //-------------------------------------------------------------------------------------------------
 /** Update cycle for game widnow manager */
 //-------------------------------------------------------------------------------------------------
-void GameWindowManager::update( void )
-{
-
-	// Process windows waiting to be destroyed
-	processDestroyList();
-	if(TheTransitionHandler)
-		TheTransitionHandler->update();
-}  // end update
+// GameWindowManager::update: defined in GameWindowManagerModal.cpp (its row's unit).
+  // end update
 
 //-------------------------------------------------------------------------------------------------
 /** Puts a window at the head of the window list */
 //-------------------------------------------------------------------------------------------------
-void GameWindowManager::linkWindow( GameWindow *window )
-{
-	GameWindow *lastModalWindow = NULL;
-	GameWindow *tmp = m_windowList;
-	while (tmp)
-	{
-		const ModalWindow *modal = m_modalHead;
-		while (modal)
-		{
-			if (modal->window == tmp && modal->window != window)
-			{
-				lastModalWindow = tmp;
-			}
-			modal = modal->next;
-		}
-		tmp = tmp->m_next;
-	}
-
-	if (!lastModalWindow)
-	{
-
-		// Add to head of the top level window list
-		window->m_prev = NULL;
-		window->m_next = m_windowList;
-
-		if( m_windowList )
-			m_windowList->m_prev = window;
-		else 
-		{
-			// first on list is also the tail
-			m_windowTail = window;
-		}
-
-		m_windowList = window;
-	}
-	else
-	{
-		// lastModalWindow points to a modal window - add behind it
-		window->m_prev = lastModalWindow;
-		window->m_next = lastModalWindow->m_next;
-		lastModalWindow->m_next = window;
-		if (window->m_next)
-		{
-			window->m_next->m_prev = window;
-		}
-	}
-
-}  // end linkWindow
+// GameWindowManager::linkWindow: defined in GameWindowManager_linkWindow.cpp (its row's unit).
+  // end linkWindow
 
 //-------------------------------------------------------------------------------------------------
 /** Insert the window ahead of the the 'aheadOf' window.  'aheadOf' can
 	* be a window in the master list or a child of any window in that master
 	* list */
 //-------------------------------------------------------------------------------------------------
-void GameWindowManager::insertWindowAheadOf( GameWindow *window, 
-																						 GameWindow *aheadOf )
-{
-	
-	// sanity
-	if( window == NULL )
-		return;
-
-	// we'll say that an aheadOf window means at the head of the list
-	if( aheadOf == NULL )	
-	{
-
-		linkWindow( window );
-		return;
-
-	}  // end if
-
-	// get parent of aheadOf
-	GameWindow *aheadOfParent = aheadOf->winGetParent();
-
-	//
-	// if ahead of has no parent insert it in the master list just before
-	// ahead of
-	//
-	if( aheadOfParent == NULL )
-	{
-
-		window->m_prev = aheadOf->m_prev;
-
-		if( aheadOf->m_prev )
-			aheadOf->m_prev->m_next = window;
-		else
-			m_windowList = window;
-
-		aheadOf->m_prev = window;
-		window->m_next = aheadOf;
-
-	}  // end if
-	else
-	{
-
-		window->m_prev = aheadOf->m_prev;
-
-		if( aheadOf->m_prev )
-			aheadOf->m_prev->m_next = window;
-		else
-			aheadOfParent->m_child = window;
-
-		aheadOf->m_prev = window;
-		window->m_next = aheadOf;
-
-		window->m_parent = aheadOfParent;
-
-	}  // end else
-
-}  // end insertWindowAheadOf
+// GameWindowManager::insertWindowAheadOf is owned by GameWindowManager_linkWindow.cpp.
 
 //-------------------------------------------------------------------------------------------------
 /** Takes a window off the window list */
 //-------------------------------------------------------------------------------------------------
-void GameWindowManager::unlinkWindow( GameWindow *window )
-{
-
-	if( window->m_next )
-		window->m_next->m_prev = window->m_prev;
-	else 
-	{
-		// no next means this is the tail
-		m_windowTail = window->m_prev;
-	}
-
-	if( window->m_prev )
-		window->m_prev->m_next = window->m_next;
-	else
-		m_windowList = window->m_next;
-
-}  // end unlinkWindow
+// GameWindowManager::unlinkWindow: defined in GameWindowManager_linkWindow.cpp (its row's unit).
+  // end unlinkWindow
 
 //-------------------------------------------------------------------------------------------------
 /** Takes a child window off its parent's window list */
 //-------------------------------------------------------------------------------------------------
-void GameWindowManager::unlinkChildWindow( GameWindow *window )
-{
-
-	if( window->m_prev ) 
-	{
-
-		window->m_prev->m_next = window->m_next;
-
-		if( window->m_next )
-			window->m_next->m_prev = window->m_prev;
-
-	} 
-	else 
-	{
-
-		if( window->m_next ) 
-		{
-
-			window->m_parent->m_child = window->m_next;
-
-			window->m_next->m_prev = window->m_prev;
-
-			window->m_next = NULL;
-
-		} 
-		else 
-		{
-
-			window->m_parent->m_child = NULL;
-
-		}
-
-	}  // end else
-
-	// remove the parent reference from this window
-	window->m_parent = NULL;
-
-}  // end unlinkChildWindow
+// GameWindowManager::unlinkChildWindow: defined in GameWindowManager_linkWindow.cpp (its row's unit).
+  // end unlinkChildWindow
 
 //-------------------------------------------------------------------------------------------------
 /** Check window and parents to see if this window is enabled */
 //-------------------------------------------------------------------------------------------------
-Bool GameWindowManager::isEnabled( GameWindow *win )
-{
+// GameWindowManager::isEnabled is defined in GameWindowManagerParentLinks.cpp.
 
-	// sanity
-	if( win == NULL )
-		return FALSE;
-	
-	if( BitTest( win->m_status, WIN_STATUS_ENABLED ) == FALSE )
-	{
-		return FALSE;
-	}
-
-	while( win->m_parent )
-	{
-		win = win->m_parent;
-		if( BitTest( win->m_status, WIN_STATUS_ENABLED ) == FALSE )
-		{
-			return FALSE;
-		}
-	}
-
-	return TRUE;
-
-}  // end isEnabled
 
 //-------------------------------------------------------------------------------------------------
 /** Check window and parents to see if this window is hidden */
 //-------------------------------------------------------------------------------------------------
-Bool GameWindowManager::isHidden( GameWindow *win )
-{
+// GameWindowManager::isHidden is defined in GameWindowManagerParentLinks.cpp.
 
-	// we'll allow for the idea that if a window doesn't exist it is hidden
-	if( win == NULL )
-		return TRUE;
-	
-	if( BitTest( win->m_status, WIN_STATUS_HIDDEN ))
-	{
-		return TRUE;
-	}
-
-	while( win->m_parent )
-	{
-		win = win->m_parent;
-		if( BitTest( win->m_status, WIN_STATUS_HIDDEN ))
-		{
-			return TRUE;
-		}
-	}
-
-	return FALSE;
-
-}  // end isHidden
 
 //-------------------------------------------------------------------------------------------------
 // Adds a child window to its parent.
 //-------------------------------------------------------------------------------------------------
-void GameWindowManager::addWindowToParent( GameWindow *window, 
-																					 GameWindow *parent )
-{
-	if( parent ) 
-	{
+// GameWindowManager::addWindowToParent is defined in GameWindowManagerParentLinks.cpp.
 
-		// add to parent's list of children
-		window->m_prev = NULL;
-		window->m_next = parent->m_child;
-
-		if( parent->m_child )
-			parent->m_child->m_prev = window;
-
-		parent->m_child = window;
-
-		window->m_parent = parent;
-
-	}
-
-}  // end addWindowToParent
 
 //-------------------------------------------------------------------------------------------------
 /** Add a child window to the parent, put place it at the end of the 
 	* parent window child list */
 //-------------------------------------------------------------------------------------------------
-void GameWindowManager::addWindowToParentAtEnd( GameWindow *window,	
-																								GameWindow *parent )
-{
-
-	if( parent )
-	{
-
-		window->m_prev = NULL;
-		window->m_next = NULL;
-		if( parent->m_child )
-		{
-			GameWindow *last;
-
-			// wind down to last child in list
-			last = parent->m_child;
-			while( last->m_next != NULL )
-				last = last->m_next;
-
-			// tie to list
-			last->m_next = window;
-			window->m_prev = last;
-
-		}  // end if
-		else
-			parent->m_child = window;
-
-		// assign the parent to the window
-		window->m_parent = parent;
-
-	}  // end if
-
-}  // end addWindowToParentAtEnd
+// GameWindowManager::addWindowToParentAtEnd: defined in GameWindowManager_enableWindowsInRange.cpp (its row's unit).
+  // end addWindowToParentAtEnd
 
 //-------------------------------------------------------------------------------------------------
 /** this gets called from winHide() when a window hides itself */
 //-------------------------------------------------------------------------------------------------
-void GameWindowManager::windowHiding( GameWindow *window )
-{
-
-	// if this window has keyboard focus remove it
-	if( m_keyboardFocus == window )
-		m_keyboardFocus = NULL;
-
-	// if this is the modal head, unset it
-	if( m_modalHead && m_modalHead->window == window )
-		winUnsetModal( window );
-
-	// if this is the captor, it shall no longer be
-	if( m_mouseCaptor == window )
-		winCapture( NULL );
-
-	//
-	// since hiding a parent will also hide the children, when a parent
-	// hides we must call this same method for all the children so they
-	// each have a chance to go through this logic
-	//
-	GameWindow *child;
-	for( child = window->winGetChild(); child; child = child->winGetNext() )
-		windowHiding( child );
-
-}  // end windowHiding
+// GameWindowManager::windowHiding: defined in GameWindowManagerModal.cpp (its row's unit).
+  // end windowHiding
 
 //-------------------------------------------------------------------------------------------------
 /** Hide all windows in a certain range of id's (inclusive) */
 //-------------------------------------------------------------------------------------------------
-void GameWindowManager::hideWindowsInRange( GameWindow *baseWindow, 
-																						Int first, Int last, 
-																						Bool hideFlag )
-{
-	Int i;
-	GameWindow *window;
-
-	for( i = first; i <= last; i++ ) 
-	{
-
-		window = winGetWindowFromId( baseWindow, i );
-		if( window )
-			window->winHide( hideFlag );
-
-	}  // end for i
-
-}  // end hideWindowsInRange
+// GameWindowManager::hideWindowsInRange: defined in GameWindowManager_enableWindowsInRange.cpp (its row's unit).
+  // end hideWindowsInRange
 
 //-------------------------------------------------------------------------------------------------
 // Enable all windows in a certain range of id's (inclusive)
 //-------------------------------------------------------------------------------------------------
-void GameWindowManager::enableWindowsInRange( GameWindow *baseWindow, 
-																							Int first, Int last, 
-																							Bool enableFlag )
-{
-	Int i;
-	GameWindow *window;
-
-	for( i =first; i <= last; i++ ) 
-	{
-
-		window = winGetWindowFromId( baseWindow, i );
-		if( window )
-			window->winEnable( enableFlag );
-
-	}  // end for i
-
-}  // end enableWindowsInRange
+// GameWindowManager::enableWindowsInRange: defined in GameWindowManager_enableWindowsInRange.cpp (its row's unit).
+  // end enableWindowsInRange
 
 //-------------------------------------------------------------------------------------------------
 /** Captures the mouse capture. */
 //-------------------------------------------------------------------------------------------------
-Int GameWindowManager::winCapture( GameWindow *window )
-{
-
-	if( m_mouseCaptor != NULL)
-		return WIN_ERR_MOUSE_CAPTURED;
-
-	m_mouseCaptor = window;
-
-	return WIN_ERR_OK;
-
-}  // end WinCapture
+// GameWindowManager::winCapture: defined in GameWindowManagerModal.cpp (its row's unit).
+  // end WinCapture
 
 //-------------------------------------------------------------------------------------------------
 /** Releases the mouse capture. */
 //-------------------------------------------------------------------------------------------------
-Int GameWindowManager::winRelease( GameWindow *window )
-{
-
-	if( window == m_mouseCaptor )
-		m_mouseCaptor = NULL;
-
-	return WIN_ERR_OK;
-
-}  // end WinRelease
+// GameWindowManager::winRelease: defined in GameWindowManagerModal.cpp (its row's unit).
+  // end WinRelease
 
 //-------------------------------------------------------------------------------------------------
 /** Returns the current mouse captor. */
 //-------------------------------------------------------------------------------------------------
+// ?GameWindowManager::winGetCapture present-unmatched
 GameWindow *GameWindowManager::winGetCapture( void )
 {
 
@@ -659,35 +430,13 @@ GameWindow *GameWindowManager::winGetCapture( void )
 //-------------------------------------------------------------------------------------------------
 /** Gets the window pointer from its id */
 //-------------------------------------------------------------------------------------------------
-GameWindow *GameWindowManager::winGetWindowFromId( GameWindow *window, Int id )
-{
-
-	if( window == NULL )
-		window = m_windowList;
-
-	for( ; window; window = window->m_next ) 
-	{
-
-		if( window->winGetWindowId() == id)
-			return window;
-		else if( window->m_child ) 
-		{
-			GameWindow *child = winGetWindowFromId( window->m_child, id );
-
-			if( child )
-				return child;
-
-		}  // end else if
-
-	}  // end for
-
-	return NULL;
-
-}  // end WinGetWindowFromId
+// GameWindowManager::winGetWindowFromId: defined in GameWindowManager_enableWindowsInRange.cpp (its row's unit).
+  // end WinGetWindowFromId
 
 //-------------------------------------------------------------------------------------------------
 /** Gets the Window List Pointer */
 //-------------------------------------------------------------------------------------------------
+// ?GameWindowManager::winGetWindowList present-unmatched
 GameWindow *GameWindowManager::winGetWindowList( void )
 {
 
@@ -698,44 +447,14 @@ GameWindow *GameWindowManager::winGetWindowList( void )
 //-------------------------------------------------------------------------------------------------
 /** Send a system message to the specified window */
 //-------------------------------------------------------------------------------------------------
-WindowMsgHandledType GameWindowManager::winSendSystemMsg( GameWindow *window, 
-																					UnsignedInt msg,
-																					WindowMsgData mData1, 
-																					WindowMsgData mData2 )
-{
-
-	if( window == NULL)
-		return MSG_IGNORED;
-
-	if( msg != GWM_DESTROY && BitTest( window->m_status, WIN_STATUS_DESTROYED ) )
-		return MSG_IGNORED;
-
-	return window->m_system( window, msg, mData1, mData2 );
-
-}  // end winSendSystemMsg
-
-//-------------------------------------------------------------------------------------------------
-/** Send a system message to the specified window */
-//-------------------------------------------------------------------------------------------------
-WindowMsgHandledType GameWindowManager::winSendInputMsg( GameWindow *window, 
-																				 UnsignedInt msg,
-																				 WindowMsgData mData1, 
-																				 WindowMsgData mData2 )
-{
-
-	if( window == NULL )
-		return MSG_IGNORED;
-
-	if( msg != GWM_DESTROY && BitTest( window->m_status, WIN_STATUS_DESTROYED ) )
-		return MSG_IGNORED;
-
-	return window->m_input( window, msg, mData1, mData2 );
-
-}  // end winSendInputMsg
+// GameWindowManager::winSendSystemMsg / winSendInputMsg: BFME 2 sends through
+// GameWindow members instead of the m_system / m_input callbacks; the matched
+// bodies live in GameWindowManagerSendMsg.cpp.
 
 //-------------------------------------------------------------------------------------------------
 /** Get the current input focus */
 //-------------------------------------------------------------------------------------------------
+// ?GameWindowManager::winGetFocus present-unmatched
 GameWindow *GameWindowManager::winGetFocus( void )
 {
 
@@ -746,56 +465,13 @@ GameWindow *GameWindowManager::winGetFocus( void )
 //-------------------------------------------------------------------------------------------------
 /** Set the current input focus */
 //-------------------------------------------------------------------------------------------------
-Int GameWindowManager::winSetFocus( GameWindow *window )
-{
-	Bool wantsFocus = FALSE;
-
-	// if a window doesn't want keyboard focus don't give it
-	if( window )
-		if( BitTest( window->winGetStatus(), WIN_STATUS_NO_FOCUS) )
-			return 0;
-
-	//
-	// Tell current focus window that it's losing focus
-	// unless we are trying to give focus to the current focus window
-	//
-	if( (m_keyboardFocus) && (m_keyboardFocus != window) )
-	{
-		Bool wf;	// dummy var, ignored, but must be passed
-		winSendSystemMsg( m_keyboardFocus, GWM_INPUT_FOCUS, FALSE, (WindowMsgData)&wf );
-	}
-
-	// Set focus to new window
-	m_keyboardFocus = window;
-
-	// Tell new focus window that it has focus
-	if( m_keyboardFocus ) 
-	{
-
-		for (;;)
-		{
-			winSendSystemMsg( window, GWM_INPUT_FOCUS, TRUE, (WindowMsgData)&wantsFocus );
-			if (wantsFocus)
-				break;
-
-			window = window->winGetParent();
-			if( window == NULL )
-				break;
-		}
-
-	}  // end if
-
-	// If new window doesn't want focus, set focus to NULL
-	if( wantsFocus == FALSE )
-		m_keyboardFocus = NULL;
-
-	return WIN_ERR_OK;
-
-}  // end WinSetFocus
+// GameWindowManager::winSetFocus: defined in GameWindowManager_winSetFocus.cpp (its row's unit).
+  // end WinSetFocus
 
 //-------------------------------------------------------------------------------------------------
 /** Process key press through the GUI. */
 //-------------------------------------------------------------------------------------------------
+// ?GameWindowManager::winProcessKey present-unmatched
 WinInputReturnCode GameWindowManager::winProcessKey( UnsignedByte key, 
 																										 UnsignedByte state )
 {
@@ -833,452 +509,9 @@ WinInputReturnCode GameWindowManager::winProcessKey( UnsignedByte key,
 }  // end winProcessKey
 
 //-------------------------------------------------------------------------------------------------
-/** Process a single mouse event through the window system */
-//-------------------------------------------------------------------------------------------------
-WinInputReturnCode GameWindowManager::winProcessMouseEvent( GameWindowMessage msg,
-																														ICoord2D *mousePos,
-																														void *data )
-{
-	WinInputReturnCode returnCode = WIN_INPUT_NOT_USED;
-	Bool objectTooltip = FALSE;
-	UnsignedInt packedMouseCoords;
-	GameWindow *window = NULL;
-	GameWindow *toolTipWindow = NULL;
-	GameWindow *childWindow;
-	Int dx, dy;
-	Bool clearGrabWindow = FALSE;
+// GameWindowManager::winProcessMouseEvent: defined in GameWindowManagerMouseEvent.cpp (its row's unit).
+// The donor-derived duplicate that stood here missed retail's bytes and lost the link to the rowed copy, so it is deleted rather than kept.
 
-	// pack mouse coords into one entity for message passing
-	packedMouseCoords = SHORTTOLONG( mousePos->x, mousePos->y );
-
-	// clear tooltip ... it will be reset if necessary
-	TheMouse->setCursorTooltip( UnicodeString::TheEmptyString );
-
-	// Check for mouse capture
-	if( m_mouseCaptor )
-	{
-
-		// no window grabbed as of yet
-		m_grabWindow = NULL;
-
-		// what what window within the captured window are we in
-		window = m_mouseCaptor->winPointInChild( mousePos->x, mousePos->y );
-
-		//
-		// send buttons, drags, wheels to the windows, we don't continually
-		// send mouse positions
-		//
-		if( sendMousePosMessages == TRUE || msg != GWM_MOUSE_POS )
-		{
-			GameWindow *win = window;
-
-			if( win )
-			{
-				while( win != NULL )
-				{
-
-					if( winSendInputMsg( win, msg, packedMouseCoords, 0 ) == MSG_HANDLED )
-					{
-
-						// if used clear the event
-						returnCode = WIN_INPUT_USED;
-						break;
-
-					}
-
-					// if we just tested mouseCaptor don't go any higher in the chain
-					if( win == m_mouseCaptor )
-						break;
-
-					win = win->winGetParent();
-
-				}  // end while
-
-			}  // end if
-			else
-			{
-
-				// if used clear the event
-				if(	winSendInputMsg( m_mouseCaptor, msg, packedMouseCoords, 0 ) == MSG_HANDLED )
-					returnCode = WIN_INPUT_USED;
-
-			}  // end else
-
-		}  // end if
-
-	}  // end if, mouse captor window present
-	else
-	{
-
-		if( m_grabWindow )
-		{
-			GameWindow *parent;
-
-			switch( msg )
-			{
-
-				// --------------------------------------------------------------------
-				case GWM_LEFT_UP:
-				{
-					//Play a beep sound if the window is disabled.
-					m_grabWindow->winPointInChild( mousePos->x, mousePos->y, FALSE, TRUE );
-
-					BitClear( m_grabWindow->m_status, WIN_STATUS_ACTIVE );
-					if( m_grabWindow->winPointInWindow( mousePos->x, mousePos->y ) )
-						winSendInputMsg( m_grabWindow, GWM_LEFT_UP, packedMouseCoords, 0 );
-					else if( BitTest( m_grabWindow->m_status, WIN_STATUS_DRAGABLE ))
-					{
-						winSendInputMsg( m_grabWindow, GWM_LEFT_UP, packedMouseCoords, 0 );
-					}
-
-					clearGrabWindow = TRUE;
-					break;
-
-				}  // end left up
-
-				// --------------------------------------------------------------------
-				case MOUSE_EVENT_NONE:
-				case GWM_LEFT_DRAG:
-				{
-
-					if( BitTest( m_grabWindow->m_status, WIN_STATUS_DRAGABLE ) )
-					{
-						ICoord2D *mouseDelta = (ICoord2D *)data;
-						dx = mouseDelta->x;
-						dy = mouseDelta->y;
-
-						// Clip window to parent
-						if( m_grabWindow->winGetParent() )
-						{
-
-							parent = m_grabWindow->winGetParent();
-
-							if( m_grabWindow->m_region.lo.x + dx < 0 )
-								dx = 0 - m_grabWindow->m_region.lo.x;
-							else if( m_grabWindow->m_region.hi.x + dx > parent->m_size.x )
-								dx = parent->m_size.x - m_grabWindow->m_region.hi.x;
-
-							if( m_grabWindow->m_region.lo.y + dy < 0 )
-								dy = 0 - m_grabWindow->m_region.lo.y;
-							else if( m_grabWindow->m_region.hi.y + dy > parent->m_size.y )
-								dy = parent->m_size.y - m_grabWindow->m_region.hi.y;
-						}
-
-						// Move the window, but keep it completely visible within screen boundaries
-						IRegion2D newRegion;
-						ICoord2D grabSize;
-
-						m_grabWindow->winGetPosition( &newRegion.lo.x, &newRegion.lo.y );
-						m_grabWindow->winGetSize( &grabSize.x, &grabSize.y );
-
-						newRegion.lo.x += dx;
-						newRegion.lo.y += dy;
-						if( newRegion.lo.x < 0 )
-							newRegion.lo.x = 0;
-						if( newRegion.lo.y < 0 )
-							newRegion.lo.y = 0;
-						
-						newRegion.hi.x = newRegion.lo.x + grabSize.x;
-						newRegion.hi.y = newRegion.lo.y + grabSize.y;
-						if( newRegion.hi.x > (Int)TheDisplay->getWidth() )
-							newRegion.hi.x = (Int)TheDisplay->getWidth();
-						if( newRegion.hi.y > (Int)TheDisplay->getHeight() )
-							newRegion.hi.y = (Int)TheDisplay->getHeight();
-						
-						newRegion.lo.x = newRegion.hi.x - grabSize.x;
-						newRegion.lo.y = newRegion.hi.y - grabSize.y;
-
-						m_grabWindow->winSetPosition( newRegion.lo.x, newRegion.lo.y );
-
-					}  // end if, draggable window
-
-					// Send mouse drag message
-					winSendInputMsg( m_grabWindow, msg, packedMouseCoords, 0 );
-					break;
-
-				}  // end mouse event none or left drag
-
-			}  // end switch
-
-			// mark event handled
-			returnCode = WIN_INPUT_USED;
-
-		}  // end if, m_grabWindow
-		else
-		{
-
-			if( m_modalHead && m_modalHead->window )
-			{
-				window = m_modalHead->window->winPointInChild( mousePos->x, mousePos->y );
-			}
-			else
-			{
-			
-				/**@todo Colin, there are 3 cases here that are nearly identical code,
-				break them up into functions with parameters */
-
-				// search for top-level window which contains pointer
-				for( window = m_windowList; window; window = window->m_next )
-				{
-
-					if( BitTest( window->m_status, WIN_STATUS_ABOVE ) &&
-							!BitTest( window->m_status, WIN_STATUS_HIDDEN ) &&
-							mousePos->x >= window->m_region.lo.x &&
-							mousePos->x <= window->m_region.hi.x &&
-							mousePos->y >= window->m_region.lo.y &&
-							mousePos->y <= window->m_region.hi.y)
-					{
-
-						childWindow = window->winPointInAnyChild( mousePos->x, mousePos->y, TRUE, TRUE );
-						if( toolTipWindow == NULL )
-						{
-							if( childWindow->m_tooltip || 
-									childWindow->m_instData.getTooltipTextLength() )
-							{
-								toolTipWindow = childWindow;
-							}
-						}
-						if( BitTest( window->m_status, WIN_STATUS_ENABLED ) )
-						{
-							// determine which child window the mouse is in
-							window = window->winPointInChild( mousePos->x, mousePos->y );
-							break;  // exit for
-						}
-						
-					}  // end if
-
-				}  // end for window
-
-				// check !above, below and hidden
-				if( window == NULL )
-				{
-
-					for( window = m_windowList; window; window = window->m_next )
-					{
-
-						if( !BitTest( window->m_status, WIN_STATUS_ABOVE | 
-																						WIN_STATUS_BELOW | 
-																						WIN_STATUS_HIDDEN ) &&
-								mousePos->x >= window->m_region.lo.x &&
-								mousePos->x <= window->m_region.hi.x &&
-								mousePos->y >= window->m_region.lo.y &&
-								mousePos->y <= window->m_region.hi.y)
-						{
-
-							childWindow = window->winPointInAnyChild( mousePos->x, mousePos->y, TRUE, TRUE );
-							if( toolTipWindow == NULL )
-							{
-								if( childWindow->m_tooltip || 
-										childWindow->m_instData.getTooltipTextLength() )
-								{
-									toolTipWindow = childWindow;
-								}
-							}
-							if( BitTest( window->m_status, WIN_STATUS_ENABLED ))
-							{								
-								// determine which child window the mouse is in
-								window = window->winPointInChild( mousePos->x, mousePos->y );
-								break;  // exit for
-							}
-						}
-					}
-				}  // end if, window == NULL
-
-				// check below and !hidden
-				if( window == NULL )
-				{
-
-					for( window = m_windowList; window; window = window->m_next )
-					{
-
-						if( BitTest( window->m_status, WIN_STATUS_BELOW ) &&
-								!BitTest( window->m_status, WIN_STATUS_HIDDEN ) &&
-								mousePos->x >= window->m_region.lo.x &&
-								mousePos->x <= window->m_region.hi.x &&
-								mousePos->y >= window->m_region.lo.y &&
-								mousePos->y <= window->m_region.hi.y)
-						{
-
-							childWindow = window->winPointInAnyChild( mousePos->x, mousePos->y, TRUE, TRUE );
-							if( toolTipWindow == NULL )
-							{
-								if( childWindow->m_tooltip || 
-										childWindow->m_instData.getTooltipTextLength() )
-								{
-									toolTipWindow = childWindow;
-								}
-							}
-							if( BitTest( window->m_status, WIN_STATUS_ENABLED ))
-							{
-								// determine which child window the mouse is in
-								window = window->winPointInChild( mousePos->x, mousePos->y );
-								break;  // exit for
-							}
-						}
-					}
-				}  // end if
-
-			}  // end else, no modal head
-
-			if( window )
-				if( BitTest( window->m_status, WIN_STATUS_NO_INPUT ) )
-				{
-					if(window->winGetParent() && BitTest( window->winGetParent()->winGetInstanceData()->getStyle(), GWS_COMBO_BOX ))
-						window = window->winGetParent();
-					else
-						window = NULL;
-				}
-
-			if( window )
-			{
-				GameWindow *tempWin;
-
-				//
-				// only send messages for button states, wheel states, we do not
-				// continually send messages for mouse positions
-				//
-				if( sendMousePosMessages == TRUE || msg != GWM_MOUSE_POS )
-				{
-
-					tempWin = window;
-	
-					// Give everyone a chance to do something with the clicks
-					GameWindow *oldLoneWindow = m_loneWindow;
-					while( winSendInputMsg( tempWin, msg, packedMouseCoords, 0 ) == MSG_IGNORED )
-					{
-
-						tempWin = tempWin->m_parent;
-						if( tempWin == NULL )
-							break;
-
-					}  // end while
-
-						
-					// First check to see if m_loneWindow is set if so, close the window
-					if( m_loneWindow && m_loneWindow == oldLoneWindow 
-					&&( msg == GWM_LEFT_UP || msg == GWM_MIDDLE_UP || msg == GWM_RIGHT_UP || tempWin))
-					{
-						if(!m_loneWindow->winIsChild(tempWin))
-							winSetLoneWindow( NULL );
-						/*
-								ComboBoxData *cData = (ComboBoxData *)m_comboBoxOpen->winGetUserData();
-															// verify that the window that ate the message wasn't one of our own
-															if(cData->dropDownButton != tempWin &&
-																cData->editBox != tempWin &&
-																cData->listBox != tempWin &&
-																cData->listboxData->upButton != tempWin &&
-																cData->listboxData->downButton != tempWin &&
-																cData->listboxData->slider != tempWin &&
-																cData->listboxData->slider != tempWin->winGetParent())
-																	winSetOpenComboBoxWindow( NULL );*/
-								
-					}
-					if( tempWin )
-					{
-					
-						//
-						// Someone cares, if this is a left button down event
-						// it should get "grabbed"
-						/// @todo should allow for left handed mouse configs here?
-						//
-						if( msg == GWM_LEFT_DOWN )
-						{
-
-//						if( tempWin != windowList ) 
-//							WinActivate( tempWin );
-							m_grabWindow = tempWin;
-
-						}  // end if
-
-						// event is used
-						returnCode = WIN_INPUT_USED;
-
-					}  // end if, tempWin
-
-				}  // end if
-
-			}  // end if( window ) 
-
-			if( toolTipWindow == NULL )
-			{
-
-				if( isHidden( window ) == FALSE )
-					toolTipWindow = window;
-
-			}  // end if
-
-			// if tooltips are on set them into the window
-			Bool tooltipsOn = TRUE;
-			if( tooltipsOn )
-			{
-//				if( toolTipWindow && toolTipWindow->winGetParent() && BitTest( toolTipWindow->winGetParent()->winGetInstanceData()->getStyle(), GWS_COMBO_BOX ))
-//					toolTipWindow = toolTipWindow->winGetParent();
-				if( toolTipWindow )
-				{
-					// do we have a callback to call for the tooltip
-					if( toolTipWindow->m_tooltip )
-						toolTipWindow->m_tooltip( toolTipWindow, 
-																			&toolTipWindow->m_instData, 
-																			packedMouseCoords );
-
-					// else, do we have a normal tooltip to set
-					else if( toolTipWindow->m_instData.getTooltipTextLength() )
-						TheMouse->setCursorTooltip( toolTipWindow->m_instData.getTooltipText(), toolTipWindow->m_instData.m_tooltipDelay );
-
-				}  // end if
-				else
-				{
-
-					//
-					// not pointing at a window... perhaps we are pointing at a valid
-					// tooltip-able object in the game world ... let's set a flag so 
-					// during the object testing we can set the tooltip, we can do
-					// whatever we like now that we know no other tooltip was set from
-					// a window
-					//
-					objectTooltip = TRUE;
-
-				}  // end else
-
-			}  // end if
-
-		}  // end if grabWindow not present
-
-	}  // end else (mouseCaptor) 
-
-	//
-	// check if new current window is different from the last
-	// but only if both windows fall within the mouseCaptor if one exists
-	//
-	if( (m_grabWindow == NULL) && (window != m_currMouseRgn) )
-	{
-		if( m_mouseCaptor )
-		{
-			if( m_mouseCaptor->winIsChild( m_currMouseRgn ) )
-				winSendInputMsg( m_currMouseRgn, GWM_MOUSE_LEAVING, packedMouseCoords, 0 );
-		}
-		else if( m_currMouseRgn )
-			winSendInputMsg( m_currMouseRgn, GWM_MOUSE_LEAVING, packedMouseCoords, 0 );
-
-		if( window )
-			winSendInputMsg( window, GWM_MOUSE_ENTERING, packedMouseCoords, 0 );
-
-		m_currMouseRgn = window;
-
-	}  // end if
-
-	// clear grabWindow if necessary
-	if( clearGrabWindow == TRUE )
-	{
-
-		m_grabWindow = NULL;
-		clearGrabWindow = FALSE;
-
-	}  // end if
-
-	return returnCode;
-
-}  // end winProcessMouseEvent
 
 //-------------------------------------------------------------------------------------------------
 /** Draw a window and its children, in parent-first order.
@@ -1288,52 +521,13 @@ WinInputReturnCode GameWindowManager::winProcessMouseEvent( GameWindowMessage ms
 	* draw themselves, but will give their children an
 	* opportunity to draw */
 //-------------------------------------------------------------------------------------------------
-Int GameWindowManager::drawWindow( GameWindow *window )
-{
-	GameWindow *child;
-
-	if( window == NULL )
-		return WIN_ERR_INVALID_WINDOW;
-
-	if( BitTest( window->m_status, WIN_STATUS_HIDDEN ) == FALSE )
-	{
-
-		if( !BitTest( window->m_status, WIN_STATUS_SEE_THRU ) && window->m_draw )
-			window->m_draw( window, &window->m_instData );
-
-		/// @todo visit list boxes and borders, this is stupid!
-		// for list boxes only draw the borders BEFORE the children
-		if( BitTest( window->winGetStyle(), GWS_SCROLL_LISTBOX ) )
-			if( BitTest( window->m_status, WIN_STATUS_BORDER ) == TRUE &&
-					!BitTest( window->m_status, WIN_STATUS_SEE_THRU ) )
-				window->winDrawBorder();
-
-		// draw children in reverse order just like the window list
-		child = window->m_child;
-		while( child && child->m_next )
-			child = child->m_next;
-
-		for( ; child; child = child->m_prev )
-				drawWindow( child );
-
-		//
-		// draw the border for the window AFTER the window contents AND the
-		// children contents have drawn
-		//
-		if( !BitTest( window->winGetStyle(), GWS_SCROLL_LISTBOX ) )
-			if( BitTest( window->m_status, WIN_STATUS_BORDER ) == TRUE &&
-					!BitTest( window->m_status, WIN_STATUS_SEE_THRU ) )
-				window->winDrawBorder();
-
-	}  // end if
-
-	return WIN_ERR_OK;
-
-}  // end drawWindow
+// GameWindowManager::drawWindow: defined in GameWindowManager_drawWindow_Thunk.cpp (its row's unit).
+  // end drawWindow
 
 //-------------------------------------------------------------------------------------------------
 /** Draw the GUI in reverse order to correlate with clicking priority */
 //-------------------------------------------------------------------------------------------------
+// ?GameWindowManager::winRepaint present-unmatched
 void GameWindowManager::winRepaint( void )
 {
 	GameWindow *window, *next;
@@ -1373,27 +567,13 @@ void GameWindowManager::winRepaint( void )
 //-------------------------------------------------------------------------------------------------
 /** Dump information about all the windows for resource problems */
 //-------------------------------------------------------------------------------------------------
-void GameWindowManager::dumpWindow( GameWindow *window )
-{
-#ifndef FINAL
-	GameWindow *child;
-
-	if( window == NULL )
-		return;
-
-	DEBUG_LOG(( "ID: %d\tRedraw: 0x%08X\tUser Data: %d\n",
-				 	 window->winGetWindowId(), window->m_draw, window->m_userData ));
-	
-	for( child = window->m_child; child; child = child->m_next )
-		dumpWindow( child );
-
-	return;
-#endif
-}  // end dumpWindow
+// GameWindowManager::dumpWindow: defined in GameWindowManager_dumpWindow.cpp (its row's unit).
+  // end dumpWindow
 
 //-------------------------------------------------------------------------------------------------
 /** Create a new window by setting up its parameters and callbacks. */
 //-------------------------------------------------------------------------------------------------
+// ?GameWindowManager::winCreate present-unmatched
 GameWindow *GameWindowManager::winCreate( GameWindow *parent, 
 																				  UnsignedInt status, 
 																				  Int x, Int y,
@@ -1465,168 +645,33 @@ GameWindow *GameWindowManager::winCreate( GameWindow *parent,
 /** Take a window and its children off the top level list and free
 	* their allocation class data. */
 //-------------------------------------------------------------------------------------------------
-Int GameWindowManager::winDestroy( GameWindow *window )
-{
-	GameWindow *child, *next;
-	
-	if( window == NULL )
-		return WIN_ERR_INVALID_WINDOW;
-
-	//
-	// we should never have edit data allocated in the window code, it's
-	// completely handled by the editor ONLY
-	//
-	DEBUG_ASSERTCRASH( window->winGetEditData() == NULL,
-										 ("winDestroy(): edit data should NOT be present!\n") );
-
-	if( BitTest( window->m_status, WIN_STATUS_DESTROYED ) )
-		return WIN_ERR_OK;
-
-	BitSet( window->m_status, WIN_STATUS_DESTROYED );
-	window->freeImages();
-
-	if( m_mouseCaptor == window )
-		winRelease( window );
-
-	if( m_keyboardFocus == window )
-		winSetFocus( NULL );
-
-	if( (m_modalHead != NULL) && (window == m_modalHead->window) )
-		winUnsetModal( m_modalHead->window );
-
-	if( m_currMouseRgn == window )
-		m_currMouseRgn = NULL;
-
-	if( m_grabWindow == window )
-		m_grabWindow = NULL;
-
-	for( child = window->m_child; child; child = next )
-	{
-		next = child->m_next;
-		winDestroy( child );
-	}
-
-	// Remove the top level window from list
-	if( window->m_parent == NULL )
-		unlinkWindow( window );
-	else
-		unlinkChildWindow( window );
-
-	// Add to head of the destroy list
-	window->m_prev = NULL;
-	window->m_next = m_destroyList;
-
-	m_destroyList = window;
-
-	//
-	// if this window is part of a layout screen, notify the screen that
-	// this window is going away
-	//
-	if( window->m_layout )
-		window->m_layout->removeWindow( window );
-
-	return WIN_ERR_OK;
-
-}  // winDestroy
+// GameWindowManager::winDestroy: defined in GameWindowManagerModal.cpp (its row's unit).
+  // winDestroy
 
 //-------------------------------------------------------------------------------------------------
 /** Destroy all windows on the window list IMMEDIATELY */
 //-------------------------------------------------------------------------------------------------
-Int GameWindowManager::winDestroyAll( void )
-{
-	GameWindow *win, *next;
-
-	//
-	// NOTE that it is CRITICAL that the windows be destroyed this way,
-	// the editor has windows that are not on this main list that must
-	// exist throughout a reset of the system (copy/paste for instance)
-	// so DO NOT ever change this to a clever pool of memory for the 
-	// windows and reset the _pool_ ... I will have to kill you!  CBD
-	//
-
-	for( next = win = m_windowList; next; win = next)
-	{
-		next = win->m_next;
-
-		winDestroy( win );
-
-	}  // end for
-
-	// Destroy All Windows just added to destroy list
-	processDestroyList();
-
-	return WIN_ERR_OK;
-
-}  // end WinDestroyAll
+// GameWindowManager::winDestroyAll: defined in GameWindowManager_winDestroyAll.cpp (its row's unit).
+  // end WinDestroyAll
 
 //-------------------------------------------------------------------------------------------------
 /** Sets selected window into a modal state.  This window will get
 	* put at the top of a modal stack */
 //-------------------------------------------------------------------------------------------------
-Int GameWindowManager::winSetModal( GameWindow *window )
-{
-	ModalWindow *modal;
-
-	if( window == NULL )
-		return WIN_ERR_INVALID_WINDOW;
-
-	// verify requesting window is a root window
-	if( window->m_parent != NULL )
-	{
-		DEBUG_LOG(( "WinSetModal: Non Root window attempted to go modal." ));
-		return WIN_ERR_INVALID_PARAMETER;			// return error if not
-	}
-	// Allocate new Modal Window Entry
-	modal = newInstance(ModalWindow);
-	if( modal == NULL )
-	{
-		DEBUG_LOG(( "WinSetModal: Unable to allocate space for Modal Entry." ));
-		return WIN_ERR_GENERAL_FAILURE;
-	}
-
-	// Put new entry at top of list
-	modal->window = window;
-	modal->next = m_modalHead;
-	m_modalHead = modal;
-
-	return WIN_ERR_OK;
-
-}  // end WinSetModal
+// GameWindowManager::winSetModal: defined in GameWindowManagerModal.cpp (its row's unit).
+  // end WinSetModal
 
 //-------------------------------------------------------------------------------------------------
 /** pops window off of the modal stack.  If this window is not the top
 	* of the modal stack an error will occur. */
 //-------------------------------------------------------------------------------------------------
-Int GameWindowManager::winUnsetModal( GameWindow *window )
-{
-	ModalWindow *next;
-
-	if( window == NULL )
-		return WIN_ERR_INVALID_WINDOW;
-
-	// verify entry is at top of list
-	if( (m_modalHead == NULL) || (m_modalHead->window != window) )
-	{
-
-		// return error if not
-		DEBUG_LOG(( "WinUnsetModal: Invalid window attempting to unset modal (%d)\n", 
-								window->winGetWindowId() ));
-		return WIN_ERR_GENERAL_FAILURE;
-
-	}  // end if
-
-	// remove from top of list
-	next = m_modalHead->next;
-	m_modalHead->deleteInstance();
-	m_modalHead = next;
-
-	return WIN_ERR_OK;
-
-}  // end WinUnsetModal
+// GameWindowManager::winUnsetModal: defined in GameWindowManagerModal.cpp (its row's unit).
+  // end WinUnsetModal
 
 //-------------------------------------------------------------------------------------------------
 /** Get the grabbed window */
 //-------------------------------------------------------------------------------------------------
+// ?GameWindowManager::winGetGrabWindow present-unmatched
 GameWindow *GameWindowManager::winGetGrabWindow( void )
 {
 
@@ -1637,6 +682,7 @@ GameWindow *GameWindowManager::winGetGrabWindow( void )
 //-------------------------------------------------------------------------------------------------
 /** Explicitly set the grab window */
 //-------------------------------------------------------------------------------------------------
+// ?GameWindowManager::winSetGrabWindow present-unmatched
 void GameWindowManager::winSetGrabWindow( GameWindow *window )
 {
 
@@ -1647,201 +693,20 @@ void GameWindowManager::winSetGrabWindow( GameWindow *window )
 //-------------------------------------------------------------------------------------------------
 /** Explicitly set the grab window */
 //-------------------------------------------------------------------------------------------------
-void GameWindowManager::winSetLoneWindow( GameWindow *window )
-{
-	// ignore if we're trying to set the same window
-	if( m_loneWindow == window )
-		return;
-	if( m_loneWindow )
-		TheWindowManager->winSendSystemMsg( m_loneWindow, GGM_CLOSE, 0, 0 );
-	m_loneWindow = window;
-
-}  // end winSetGrabWindow
+// GameWindowManager::winSetLoneWindow: defined in GameWindowManager_winSetLoneWindow.cpp (its row's unit).
+  // end winSetGrabWindow
 
 //-------------------------------------------------------------------------------------------------
 /** Create a Modal Message Box */
 //-------------------------------------------------------------------------------------------------
-GameWindow *GameWindowManager::gogoMessageBox(Int x, Int y, Int width, Int height, UnsignedShort buttonFlags,
-                        UnicodeString titleString, UnicodeString bodyString,
-                        GameWinMsgBoxFunc yesCallback,
-                        GameWinMsgBoxFunc noCallback,
-                        GameWinMsgBoxFunc okCallback,
-                        GameWinMsgBoxFunc cancelCallback )
-{
-	return gogoMessageBox(x,y, width,height,buttonFlags,titleString,bodyString,yesCallback,noCallback,okCallback,cancelCallback, FALSE);
-}
+// GameWindowManager::gogoMessageBox is defined with its retail-matched body in Code/GameEngine/Source/GameClient/GUI/GameWindowManager_gogoMessageBox.cpp (0x002C187D).
 
-GameWindow *GameWindowManager::gogoMessageBox(Int x, Int y, Int width, Int height, UnsignedShort buttonFlags,
-                        UnicodeString titleString, UnicodeString bodyString,
-                        GameWinMsgBoxFunc yesCallback,
-                        GameWinMsgBoxFunc noCallback,
-                        GameWinMsgBoxFunc okCallback,
-                        GameWinMsgBoxFunc cancelCallback, Bool useLogo )
-
-{
-	// first check to make sure we have some buttons to display
-	if(buttonFlags == 0 )
-	{
-		return NULL;
-	}
-	GameWindow *trueParent = NULL;
-	//Changed by Chris
-	if(useLogo)
-		trueParent = winCreateFromScript( AsciiString("Menus/QuitMessageBox.wnd") ); 
-	else
-		trueParent = winCreateFromScript( AsciiString("Menus/MessageBox.wnd") ); 
-	//Added By Chris
-	AsciiString menuName;
-	if(useLogo)
-		menuName.set("QuitMessageBox.wnd:");
-	else
-		menuName.set("MessageBox.wnd:");
-
-	AsciiString tempName;
-	GameWindow *parent = NULL;
-	
-	tempName = menuName;
-	tempName.concat("MessageBoxParent");
-	parent = TheWindowManager->winGetWindowFromId(trueParent, TheNameKeyGenerator->nameToKey( tempName ));
-	TheWindowManager->winSetModal( trueParent ); 
-	TheWindowManager->winSetFocus( NULL ); // make sure we lose focus from other windows even if we refuse focus ourselves
-	TheWindowManager->winSetFocus( parent	 );
-
-	// If the user wants the size to be different then the default
-	float ratioX, ratioY = 1;
-
-	if( width > 0 && height > 0 )
-	{
-		ICoord2D temp;
-		//First grab the percent increase/decrease compaired to the default size
-		parent->winGetSize( &temp.x, &temp.y);
-		ratioX = (float)width / (float)temp.x;
-		ratioY = (float)height / (float)temp.y;
-		//Set the window's new size
-		parent->winSetSize( width, height);	
-	
-		//Resize/reposition all the children windows based off the ratio
-		GameWindow *child;
-		for( child = parent->winGetChild(); child; child = child->winGetNext() )
-		{
-			child->winGetSize(&temp.x, &temp.y);
-			temp.x =Int(temp.x * ratioX);
-			temp.y =Int(temp.y * ratioY);
-			child->winSetSize(temp.x, temp.y);
-
-			child->winGetPosition(&temp.x, &temp.y);
-			temp.x =Int(temp.x * ratioX);
-			temp.y =Int(temp.y * ratioY);
-			child->winSetPosition(temp.x, temp.y);
-		}
-	}
-	
-	// If the user wants to position the message box somewhere other then default
-	if( x >= 0 && y >= 0)
-		parent->winSetPosition(x, y);	
-	
-	// Reposition the buttons 
-	Int buttonX[3], buttonY[3];
-		 	
-	//In the layout, buttonOk will be in the first button position
-	NameKeyType buttonOkID = NAMEKEY_INVALID;
-	
-	tempName = menuName;
-	tempName.concat("ButtonOk");
-	buttonOkID = TheNameKeyGenerator->nameToKey( tempName );
-	GameWindow *buttonOk = TheWindowManager->winGetWindowFromId(parent, buttonOkID);
-	buttonOk->winGetPosition(&buttonX[0], &buttonY[0]);
-
-	tempName = menuName;
-	tempName.concat("ButtonYes");
-	NameKeyType buttonYesID = TheNameKeyGenerator->nameToKey( tempName );
-	GameWindow *buttonYes = TheWindowManager->winGetWindowFromId(parent, buttonYesID);
-	//buttonNo in the second position
-	tempName = menuName;
-	tempName.concat("ButtonNo");
-	NameKeyType buttonNoID = TheNameKeyGenerator->nameToKey(tempName);
-	GameWindow *buttonNo = TheWindowManager->winGetWindowFromId(parent, buttonNoID);
-	buttonNo->winGetPosition(&buttonX[1], &buttonY[1]);
-	
-	//and buttonCancel in the third
-	tempName = menuName;
-	tempName.concat("ButtonCancel");
-	NameKeyType buttonCancelID = TheNameKeyGenerator->nameToKey( tempName );
-	GameWindow *buttonCancel = TheWindowManager->winGetWindowFromId(parent, buttonCancelID);
-	buttonCancel->winGetPosition(&buttonX[2], &buttonY[2]);
-	
-	//we shouldn't have button OK and Yes on the same dialog
-	if((buttonFlags & (MSG_BOX_OK | MSG_BOX_YES)) == (MSG_BOX_OK | MSG_BOX_YES) )
-	{
-		DEBUG_ASSERTCRASH(false, ("Passed in MSG_BOX_OK and MSG_BOX_YES.  Big No No."));
-	}
-	
-	//Position the OK button if we have one
-	if( (buttonFlags & MSG_BOX_OK) == MSG_BOX_OK)
-	{
-		buttonOk->winSetPosition(buttonX[0], buttonY[0]);
-		buttonOk->winHide(FALSE);
-	}
-	else if( (buttonFlags & MSG_BOX_YES) == MSG_BOX_YES)
-	{
-		//Position the Yes if we have one
-		buttonYes->winSetPosition(buttonX[0], buttonY[0]);
-		buttonYes->winHide(FALSE);
-	}
-	
-	if((buttonFlags & (MSG_BOX_NO | MSG_BOX_CANCEL)) == (MSG_BOX_NO | MSG_BOX_CANCEL) )
-	{
-		//If we have both the No and Cancel button, then the no should go in the middle position
-		buttonNo->winSetPosition(buttonX[1], buttonY[1]);
-		buttonCancel->winSetPosition(buttonX[2], buttonY[2]);
-		buttonNo->winHide(FALSE);
-		buttonCancel->winHide(FALSE);
-	}
-	else if( (buttonFlags & MSG_BOX_NO) == MSG_BOX_NO)
-	{
-		//if we just have the no button, then position it in the right most spot
-		buttonNo->winSetPosition(buttonX[2], buttonY[2]);
-		buttonNo->winHide(FALSE);
-	}
-	else if( (buttonFlags & MSG_BOX_CANCEL) == MSG_BOX_CANCEL)
-	{
-		//else if we just have the Cancel button, well, it should always go in the right spot
-		buttonCancel->winSetPosition(buttonX[2], buttonY[2]);
-		buttonCancel->winHide(FALSE);
-	}
-		
-	// Fill the text into the text boxes
-	tempName = menuName;
-	tempName.concat("StaticTextTitle");
-	NameKeyType staticTextTitleID = TheNameKeyGenerator->nameToKey( tempName );
-	GameWindow *staticTextTitle = TheWindowManager->winGetWindowFromId(parent, staticTextTitleID);
-	GadgetStaticTextSetText(staticTextTitle,titleString);
-	tempName = menuName;
-	tempName.concat("StaticTextMessage");
-	NameKeyType staticTextMessageID = TheNameKeyGenerator->nameToKey( tempName );
-	GameWindow *staticTextMessage = TheWindowManager->winGetWindowFromId(parent, staticTextMessageID);
-	GadgetStaticTextSetText(staticTextMessage,bodyString);
-
-	// create a structure that will pass the functions to 
-	WindowMessageBoxData *MsgBoxCallbacks = NEW WindowMessageBoxData;
-	MsgBoxCallbacks->cancelCallback = cancelCallback;
-	MsgBoxCallbacks->noCallback = noCallback;
-	MsgBoxCallbacks->okCallback = okCallback;
-	MsgBoxCallbacks->yesCallback = yesCallback;
-	//pass the structure to the dialog
-	trueParent->winSetUserData( MsgBoxCallbacks );
-	
-	//make sure the dialog is showing and bring it to the top
-	parent->winHide(FALSE);
-	parent->winBringToTop();
-	
-	//Changed By Chris
-	return trueParent;
-}// gogoMessageBox
+// The 12-argument implementation is in GameWindowManagerMessageBox.cpp.
 
 //-------------------------------------------------------------------------------------------------
 /** Create a button GUI control */
 //-------------------------------------------------------------------------------------------------
+// ?GameWindowManager::gogoGadgetPushButton present-unmatched
 GameWindow *GameWindowManager::gogoGadgetPushButton( GameWindow *parent,
 																										 UnsignedInt status,
 																										 Int x, Int y,
@@ -1909,6 +774,7 @@ GameWindow *GameWindowManager::gogoGadgetPushButton( GameWindow *parent,
 //-------------------------------------------------------------------------------------------------
 /** Create a checkbox UI element */
 //-------------------------------------------------------------------------------------------------
+// ?GameWindowManager::gogoGadgetCheckbox present-unmatched
 GameWindow *GameWindowManager::gogoGadgetCheckbox( GameWindow *parent, 
 																									 UnsignedInt status,
 																									 Int x, Int y, 
@@ -1974,6 +840,7 @@ GameWindow *GameWindowManager::gogoGadgetCheckbox( GameWindow *parent,
 //-------------------------------------------------------------------------------------------------
 /** Create a radio button GUI element */
 //-------------------------------------------------------------------------------------------------
+// ?GameWindowManager::gogoGadgetRadioButton present-unmatched
 GameWindow *GameWindowManager::gogoGadgetRadioButton( GameWindow *parent, 
 																										  UnsignedInt status,
 																										  Int x, Int y, 
@@ -2046,6 +913,7 @@ GameWindow *GameWindowManager::gogoGadgetRadioButton( GameWindow *parent,
 //-------------------------------------------------------------------------------------------------
 /** Create a tab control GUI element */
 //-------------------------------------------------------------------------------------------------
+// ?GameWindowManager::gogoGadgetTabControl present-unmatched
 GameWindow *GameWindowManager::gogoGadgetTabControl( GameWindow *parent, 
 																										  UnsignedInt status,
 																										  Int x, Int y, 
@@ -2117,6 +985,7 @@ GameWindow *GameWindowManager::gogoGadgetTabControl( GameWindow *parent,
 //-------------------------------------------------------------------------------------------------
 /** Create a list box GUI control */
 //-------------------------------------------------------------------------------------------------
+// ?GameWindowManager::gogoGadgetListBox present-unmatched
 GameWindow *GameWindowManager::gogoGadgetListBox( GameWindow *parent, 
 																									UnsignedInt status,
 										                              Int x, Int y, 
@@ -2262,6 +1131,7 @@ GameWindow *GameWindowManager::gogoGadgetListBox( GameWindow *parent,
 /** Does all generic window creation, calls appropriate slider create
 	* function to set up slider-specific data */
 //-------------------------------------------------------------------------------------------------
+// ?GameWindowManager::gogoGadgetSlider present-unmatched
 GameWindow *GameWindowManager::gogoGadgetSlider( GameWindow *parent, 
 																								 UnsignedInt status,
 																								 Int x, Int y, 
@@ -2386,6 +1256,7 @@ GameWindow *GameWindowManager::gogoGadgetSlider( GameWindow *parent,
 //-------------------------------------------------------------------------------------------------
 /** Create a Combo Box GUI element */
 //-------------------------------------------------------------------------------------------------
+// ?GameWindowManager::gogoGadgetComboBox present-unmatched
 GameWindow *GameWindowManager::gogoGadgetComboBox( GameWindow *parent, 
 																									UnsignedInt status,
 										                              Int x, Int y, 
@@ -2592,6 +1463,7 @@ GameWindow *GameWindowManager::gogoGadgetComboBox( GameWindow *parent,
 //-------------------------------------------------------------------------------------------------
 /** Create a progress bar GUI element */
 //-------------------------------------------------------------------------------------------------
+// ?GameWindowManager::gogoGadgetProgressBar present-unmatched
 GameWindow *GameWindowManager::gogoGadgetProgressBar( GameWindow *parent, 
 																										  UnsignedInt status,
 																										  Int x, Int y, 
@@ -2650,6 +1522,7 @@ GameWindow *GameWindowManager::gogoGadgetProgressBar( GameWindow *parent,
 /** Does all generic window creation, calls appropriate text field create
 	* function to set up specific data */
 //-------------------------------------------------------------------------------------------------
+// ?GameWindowManager::gogoGadgetStaticText present-unmatched
 GameWindow *GameWindowManager::gogoGadgetStaticText( GameWindow *parent, 
 																										 UnsignedInt status,
 																										 Int x, Int y, 
@@ -2719,6 +1592,7 @@ GameWindow *GameWindowManager::gogoGadgetStaticText( GameWindow *parent,
 /** Does all generic window creation, calls appropriate entry field create
 	* function to set up specific data */
 //-------------------------------------------------------------------------------------------------
+// ?GameWindowManager::gogoGadgetTextEntry present-unmatched
 GameWindow *GameWindowManager::gogoGadgetTextEntry( GameWindow *parent, 
 																										UnsignedInt status,
 																										Int x, Int y, 
@@ -2866,744 +1740,20 @@ GameWindow *GameWindowManager::gogoGadgetTextEntry( GameWindow *parent,
 /** Use this method to assign the default images/colors to gadgets as 
 	* they area created */
 //-------------------------------------------------------------------------------------------------
-void GameWindowManager::assignDefaultGadgetLook( GameWindow *gadget,
-																								 GameFont *defaultFont,
-																								 Bool assignVisual )
-{
-	UnsignedByte alpha = 255;
-	static Color red				= TheWindowManager->winMakeColor( 255,   0,   0, alpha );
-	static Color darkRed		= TheWindowManager->winMakeColor( 128,   0,   0, alpha );
-	static Color lightRed		= TheWindowManager->winMakeColor( 255, 128, 128, alpha );
-	static Color green			= TheWindowManager->winMakeColor(   0, 255,   0, alpha );
-	static Color darkGreen	= TheWindowManager->winMakeColor(   0, 128,   0, alpha );
-	static Color lightGreen	= TheWindowManager->winMakeColor( 128, 255, 128, alpha );
-	static Color blue				= TheWindowManager->winMakeColor(   0,   0, 255, alpha );
-	static Color darkBlue		= TheWindowManager->winMakeColor(   0,   0, 128, alpha );
-	static Color lightBlue	= TheWindowManager->winMakeColor( 128, 128, 255, alpha );
-	static Color purple			= TheWindowManager->winMakeColor( 255,   0, 255, alpha );
-	static Color darkPurple	= TheWindowManager->winMakeColor( 128,   0, 128, alpha );
-	static Color lightPurple= TheWindowManager->winMakeColor( 255, 128, 255, alpha );
-	static Color yellow			= TheWindowManager->winMakeColor( 255, 255,   0, alpha );
-	static Color darkYellow	= TheWindowManager->winMakeColor( 128, 128,   0, alpha );
-	static Color lightYellow= TheWindowManager->winMakeColor( 255, 255, 128, alpha );
-	static Color cyan				= TheWindowManager->winMakeColor(   0, 255, 255, alpha );
-	static Color darkCyan		= TheWindowManager->winMakeColor(  64, 128, 128, alpha );
-	static Color lightCyan	= TheWindowManager->winMakeColor( 128, 255, 255, alpha );
-	static Color gray				= TheWindowManager->winMakeColor( 128, 128, 128, alpha );
-	static Color darkGray		= TheWindowManager->winMakeColor(  64,  64,  64, alpha );
-	static Color lightGray	= TheWindowManager->winMakeColor( 192, 192, 192, alpha );
-	static Color black			= TheWindowManager->winMakeColor(   0,   0,   0, alpha );
-	static Color white			= TheWindowManager->winMakeColor( 254, 254, 254, alpha );
-	static Color enabledText					= white;
-	static Color enabledTextBorder		= darkGray;
-	static Color disabledText					= darkGray;
-	static Color disabledTextBorder		= black;
-	static Color hiliteText						= lightBlue;
-	static Color hiliteTextBorder			= blue;
-	static Color imeCompositeText				= green;
-	static Color imeCompositeTextBorder	= blue;
-	WinInstanceData *instData;
-	
-	// sanity
-	if( gadget == NULL )
-		return;
+// assignDefaultGadgetLook is recovered in GameWindowManagerAssignDefaultGadgetLook.cpp.
 
-	// get instance data
-	instData = gadget->winGetInstanceData();
-
-	// set default font
-	if( defaultFont )
-		gadget->winSetFont( defaultFont );
-	else
-	{
-		if (TheGlobalLanguageData && TheGlobalLanguageData->m_defaultWindowFont.name.isNotEmpty())
-		{		gadget->winSetFont( TheWindowManager->winFindFont(
-				TheGlobalLanguageData->m_defaultWindowFont.name,
-				TheGlobalLanguageData->m_defaultWindowFont.size,
-				TheGlobalLanguageData->m_defaultWindowFont.bold) );
-		}
-		else
-			gadget->winSetFont( TheWindowManager->winFindFont( AsciiString("Times New Roman"), 14, FALSE ) );
-	}
-	
-	// if we don't want to assign default colors/images get out of here
-	if( assignVisual == FALSE )
-		return;
-
-	// create images for the correct gadget type
-	if( BitTest( instData->getStyle(), GWS_PUSH_BUTTON ) )
-	{
-
-		// enabled background
-		GadgetButtonSetEnabledImage( gadget, winFindImage( "PushButtonEnabled" ) );
-		GadgetButtonSetEnabledColor( gadget, red );
-		GadgetButtonSetEnabledBorderColor( gadget, lightRed );
-		// enabled selected button
-		GadgetButtonSetEnabledSelectedImage( gadget, winFindImage( "PushButtonEnabledSelected" ) );
-		GadgetButtonSetEnabledSelectedColor( gadget, yellow );
-		GadgetButtonSetEnabledSelectedBorderColor( gadget, white );
-
-		// Disabled background
-		GadgetButtonSetDisabledImage( gadget, winFindImage( "PushButtonDisabled" ) );
-		GadgetButtonSetDisabledColor( gadget, gray );
-		GadgetButtonSetDisabledBorderColor( gadget, lightGray );
-		// Disabled selected button
-		GadgetButtonSetDisabledSelectedImage( gadget, winFindImage( "PushButtonDisabledSelected" ) );
-		GadgetButtonSetDisabledSelectedColor( gadget, lightGray );
-		GadgetButtonSetDisabledSelectedBorderColor( gadget, gray );
-
-		// Hilite background
-		GadgetButtonSetHiliteImage( gadget, winFindImage( "PushButtonHilite" ) );
-		GadgetButtonSetHiliteColor( gadget, green );
-		GadgetButtonSetHiliteBorderColor( gadget, darkGreen );
-		// Hilite selected button
-		GadgetButtonSetHiliteSelectedImage( gadget, winFindImage( "PushButtonHiliteSelected" ) );
-		GadgetButtonSetHiliteSelectedColor( gadget, yellow );
-		GadgetButtonSetHiliteSelectedBorderColor( gadget, white );
-
-		// set default text colors for the gadget
-		gadget->winSetEnabledTextColors( enabledText, enabledTextBorder );
-		gadget->winSetDisabledTextColors( disabledText, disabledTextBorder );
-		gadget->winSetHiliteTextColors( hiliteText, hiliteTextBorder );
-		gadget->winSetIMECompositeTextColors( imeCompositeText, imeCompositeTextBorder );
-
-	}  // end if
-	else if( BitTest( instData->getStyle(), GWS_CHECK_BOX ) )
-	{
-
-		// enabled background
-		GadgetCheckBoxSetEnabledImage( gadget, winFindImage( "CheckBoxEnabled" ) );
-		GadgetCheckBoxSetEnabledColor( gadget, red );
-		GadgetCheckBoxSetEnabledBorderColor( gadget, lightRed );
-		// enabled CheckBox unselected
-		GadgetCheckBoxSetEnabledUncheckedBoxImage( gadget, winFindImage( "CheckBoxEnabledBoxUnselected" ) );
-		GadgetCheckBoxSetEnabledUncheckedBoxColor( gadget, WIN_COLOR_UNDEFINED );
-		GadgetCheckBoxSetEnabledUncheckedBoxBorderColor( gadget, lightBlue );
-		// enabled CheckBox selected
-		GadgetCheckBoxSetEnabledCheckedBoxImage( gadget, winFindImage( "CheckBoxEnabledBoxSelected" ) );
-		GadgetCheckBoxSetEnabledCheckedBoxColor( gadget, blue );
-		GadgetCheckBoxSetEnabledCheckedBoxBorderColor( gadget, lightBlue );
-
-		// disabled background
-		GadgetCheckBoxSetDisabledImage( gadget, winFindImage( "CheckBoxDisabled" ) );
-		GadgetCheckBoxSetDisabledColor( gadget, gray );
-		GadgetCheckBoxSetDisabledBorderColor( gadget, lightGray );
-		// Disabled CheckBox unselected
-		GadgetCheckBoxSetDisabledUncheckedBoxImage( gadget, winFindImage( "CheckBoxDisabledBoxUnselected" ) );
-		GadgetCheckBoxSetDisabledUncheckedBoxColor( gadget, WIN_COLOR_UNDEFINED );
-		GadgetCheckBoxSetDisabledUncheckedBoxBorderColor( gadget, lightGray );
-		// Disabled CheckBox selected
-		GadgetCheckBoxSetDisabledCheckedBoxImage( gadget, winFindImage( "CheckBoxDisabledBoxSelected" ) );
-		GadgetCheckBoxSetDisabledCheckedBoxColor( gadget, darkGray );
-		GadgetCheckBoxSetDisabledCheckedBoxBorderColor( gadget, white );
-
-		// Hilite background
-		GadgetCheckBoxSetHiliteImage( gadget, winFindImage( "CheckBoxHilite" ) );
-		GadgetCheckBoxSetHiliteColor( gadget, green );
-		GadgetCheckBoxSetHiliteBorderColor( gadget, lightGreen );
-		// Hilite CheckBox unselected
-		GadgetCheckBoxSetHiliteUncheckedBoxImage( gadget, winFindImage( "CheckBoxHiliteBoxUnselected" ) );
-		GadgetCheckBoxSetHiliteUncheckedBoxColor( gadget, WIN_COLOR_UNDEFINED );
-		GadgetCheckBoxSetHiliteUncheckedBoxBorderColor( gadget, lightBlue );
-		// Hilite CheckBox selected
-		GadgetCheckBoxSetHiliteCheckedBoxImage( gadget, winFindImage( "CheckBoxHiliteBoxSelected" ) );
-		GadgetCheckBoxSetHiliteCheckedBoxColor( gadget, yellow );
-		GadgetCheckBoxSetHiliteCheckedBoxBorderColor( gadget, white );
-
-		// set default text colors for the gadget
-		gadget->winSetEnabledTextColors( enabledText, enabledTextBorder );
-		gadget->winSetDisabledTextColors( disabledText, disabledTextBorder );
-		gadget->winSetHiliteTextColors( hiliteText, hiliteTextBorder );
-		gadget->winSetIMECompositeTextColors( imeCompositeText, imeCompositeTextBorder );
-
-	}  // end else if
-	else if( BitTest( instData->getStyle(), GWS_RADIO_BUTTON ) )
-	{
-
-		// enabled background
-		GadgetRadioSetEnabledImage( gadget, winFindImage( "RadioButtonEnabled" ) );
-		GadgetRadioSetEnabledColor( gadget, red );
-		GadgetRadioSetEnabledBorderColor( gadget, lightRed );
-		// enabled radio unselected
-		GadgetRadioSetEnabledUncheckedBoxImage( gadget, winFindImage( "RadioButtonEnabledBoxUnselected" ) );
-		GadgetRadioSetEnabledUncheckedBoxColor( gadget, darkRed );
-		GadgetRadioSetEnabledUncheckedBoxBorderColor( gadget, black );
-		// enabled radio selected
-		GadgetRadioSetEnabledCheckedBoxImage( gadget, winFindImage( "RadioButtonEnabledBoxSelected" ) );
-		GadgetRadioSetEnabledCheckedBoxColor( gadget, blue );
-		GadgetRadioSetEnabledCheckedBoxBorderColor( gadget, lightBlue );
-
-		// disabled background
-		GadgetRadioSetDisabledImage( gadget, winFindImage( "RadioButtonDisabled" ) );
-		GadgetRadioSetDisabledColor( gadget, gray );
-		GadgetRadioSetDisabledBorderColor( gadget, lightGray );
-		// Disabled radio unselected
-		GadgetRadioSetDisabledUncheckedBoxImage( gadget, winFindImage( "RadioButtonDisabledBoxUnselected" ) );
-		GadgetRadioSetDisabledUncheckedBoxColor( gadget, gray );
-		GadgetRadioSetDisabledUncheckedBoxBorderColor( gadget, lightGray );
-		// Disabled radio selected
-		GadgetRadioSetDisabledCheckedBoxImage( gadget, winFindImage( "RadioButtonDisabledBoxSelected" ) );
-		GadgetRadioSetDisabledCheckedBoxColor( gadget, darkGray );
-		GadgetRadioSetDisabledCheckedBoxBorderColor( gadget, white );
-
-		// Hilite background
-		GadgetRadioSetHiliteImage( gadget, winFindImage( "RadioButtonHilite" ) );
-		GadgetRadioSetHiliteColor( gadget, green );
-		GadgetRadioSetHiliteBorderColor( gadget, lightGreen );
-		// Hilite radio unselected
-		GadgetRadioSetHiliteUncheckedBoxImage( gadget, winFindImage( "RadioButtonHiliteBoxUnselected" ) );
-		GadgetRadioSetHiliteUncheckedBoxColor( gadget, darkGreen );
-		GadgetRadioSetHiliteUncheckedBoxBorderColor( gadget, lightGreen );
-		// Hilite radio selected
-		GadgetRadioSetHiliteCheckedBoxImage( gadget, winFindImage( "RadioButtonHiliteBoxSelected" ) );
-		GadgetRadioSetHiliteCheckedBoxColor( gadget, yellow );
-		GadgetRadioSetHiliteCheckedBoxBorderColor( gadget, white );
-
-		// set default text colors for the gadget
-		gadget->winSetEnabledTextColors( enabledText, enabledTextBorder );
-		gadget->winSetDisabledTextColors( disabledText, disabledTextBorder );
-		gadget->winSetHiliteTextColors( hiliteText, hiliteTextBorder );
-		gadget->winSetIMECompositeTextColors( imeCompositeText, imeCompositeTextBorder );
-
-	}  // end else if
-	else if( BitTest( instData->getStyle(), GWS_HORZ_SLIDER ) )
-	{
-
-		// enabled
-		GadgetSliderSetEnabledImageLeft( gadget, winFindImage( "HSliderEnabledLeftEnd" ) );
-		GadgetSliderSetEnabledImageRight( gadget, winFindImage( "HSliderEnabledRightEnd" ) );
-		GadgetSliderSetEnabledImageCenter( gadget, winFindImage( "HSliderEnabledRepeatingCenter" ) );
-		GadgetSliderSetEnabledImageSmallCenter( gadget, winFindImage( "HSliderEnabledSmallRepeatingCenter" ) );
-		GadgetSliderSetEnabledColor( gadget, red );
-		GadgetSliderSetEnabledBorderColor( gadget, lightRed );
-
-		// disabled
-		GadgetSliderSetDisabledImageLeft( gadget, winFindImage( "HSliderDisabledLeftEnd" ) );
-		GadgetSliderSetDisabledImageRight( gadget, winFindImage( "HSliderDisabledRightEnd" ) );
-		GadgetSliderSetDisabledImageCenter( gadget, winFindImage( "HSliderDisabledRepeatingCenter" ) );
-		GadgetSliderSetDisabledImageSmallCenter( gadget, winFindImage( "HSliderDisabledSmallRepeatingCenter" ) );
-		GadgetSliderSetDisabledColor( gadget, red );
-		GadgetSliderSetDisabledBorderColor( gadget, lightRed );
-
-		// hilite
-		GadgetSliderSetHiliteImageLeft( gadget, winFindImage( "HSliderHiliteLeftEnd" ) );
-		GadgetSliderSetHiliteImageRight( gadget, winFindImage( "HSliderHiliteRightEnd" ) );
-		GadgetSliderSetHiliteImageCenter( gadget, winFindImage( "HSliderHiliteRepeatingCenter" ) );
-		GadgetSliderSetHiliteImageSmallCenter( gadget, winFindImage( "HSliderHiliteSmallRepeatingCenter" ) );
-		GadgetSliderSetHiliteColor( gadget, red );
-		GadgetSliderSetHiliteBorderColor( gadget, lightRed );	
-
-		// set default text colors for the gadget
-		gadget->winSetEnabledTextColors( enabledText, enabledTextBorder );
-		gadget->winSetDisabledTextColors( disabledText, disabledTextBorder );
-		gadget->winSetHiliteTextColors( hiliteText, hiliteTextBorder );
-		gadget->winSetIMECompositeTextColors( imeCompositeText, imeCompositeTextBorder );
-
-		//
-		// set the default colors and images for the slider thumb
-		//
-		// enabled
-		GadgetSliderSetEnabledThumbImage( gadget, winFindImage( "HSliderThumbEnabled" ) );
-		GadgetSliderSetEnabledThumbColor( gadget, GadgetSliderGetEnabledColor( gadget ) );
-		GadgetSliderSetEnabledThumbBorderColor( gadget, GadgetSliderGetEnabledBorderColor( gadget ) );
-		GadgetSliderSetEnabledSelectedThumbImage( gadget, winFindImage( "HSliderThumbEnabled" ) );
-		GadgetSliderSetEnabledSelectedThumbColor( gadget, GadgetSliderGetEnabledBorderColor( gadget ) );
-		GadgetSliderSetEnabledSelectedThumbBorderColor( gadget, GadgetSliderGetEnabledColor( gadget ) );
-
-		// disabled
-		GadgetSliderSetDisabledThumbImage( gadget, winFindImage( "HSliderThumbDisabled" ) );
-		GadgetSliderSetDisabledThumbColor( gadget, GadgetSliderGetDisabledColor( gadget ) );
-		GadgetSliderSetDisabledThumbBorderColor( gadget, GadgetSliderGetDisabledBorderColor( gadget ) );
-		GadgetSliderSetDisabledSelectedThumbImage( gadget, winFindImage( "HSliderThumbDisabled" ) );
-		GadgetSliderSetDisabledSelectedThumbColor( gadget, GadgetSliderGetDisabledBorderColor( gadget ) );
-		GadgetSliderSetDisabledSelectedThumbBorderColor( gadget, GadgetSliderGetDisabledColor( gadget ) );
-
-		// hilite
-		GadgetSliderSetHiliteThumbImage( gadget, winFindImage( "HSliderThumbHilite" ) );
-		GadgetSliderSetHiliteThumbColor( gadget, GadgetSliderGetHiliteColor( gadget ) );
-		GadgetSliderSetHiliteThumbBorderColor( gadget, GadgetSliderGetHiliteBorderColor( gadget ) );
-		GadgetSliderSetHiliteSelectedThumbImage( gadget, winFindImage( "HSliderThumbHiliteSelected" ) );
-		GadgetSliderSetHiliteSelectedThumbColor( gadget, GadgetSliderGetHiliteBorderColor( gadget ) );
-		GadgetSliderSetHiliteSelectedThumbBorderColor( gadget, GadgetSliderGetHiliteColor( gadget ) );
-
-
-	}  // end if
-	else if( BitTest( instData->getStyle(), GWS_VERT_SLIDER ) )
-	{
-		// enabled
-		GadgetSliderSetEnabledImageTop( gadget, winFindImage( "VSliderEnabledTopEnd" ) );
-		GadgetSliderSetEnabledImageBottom( gadget, winFindImage( "VSliderEnabledBottomEnd" ) );
-		GadgetSliderSetEnabledImageCenter( gadget, winFindImage( "VSliderEnabledRepeatingCenter" ) );
-		GadgetSliderSetEnabledImageSmallCenter( gadget, winFindImage( "VSliderEnabledSmallRepeatingCenter" ) );
-		GadgetSliderSetEnabledColor( gadget, red );
-		GadgetSliderSetEnabledBorderColor( gadget, lightRed );
-
-		// disabled
-		GadgetSliderSetDisabledImageTop( gadget, winFindImage( "VSliderDisabledTopEnd" ) );
-		GadgetSliderSetDisabledImageBottom( gadget, winFindImage( "VSliderDisabledBottomEnd" ) );
-		GadgetSliderSetDisabledImageCenter( gadget, winFindImage( "VSliderDisabledRepeatingCenter" ) );
-		GadgetSliderSetDisabledImageSmallCenter( gadget, winFindImage( "VSliderDisabledSmallRepeatingCenter" ) );
-		GadgetSliderSetDisabledColor( gadget, red );
-		GadgetSliderSetDisabledBorderColor( gadget, lightRed );
-
-		// hilite
-		GadgetSliderSetHiliteImageTop( gadget, winFindImage( "VSliderHiliteTopEnd" ) );
-		GadgetSliderSetHiliteImageBottom( gadget, winFindImage( "VSliderHiliteBottomEnd" ) );
-		GadgetSliderSetHiliteImageCenter( gadget, winFindImage( "VSliderHiliteRepeatingCenter" ) );
-		GadgetSliderSetHiliteImageSmallCenter( gadget, winFindImage( "VSliderHiliteSmallRepeatingCenter" ) );
-		GadgetSliderSetHiliteColor( gadget, red );
-		GadgetSliderSetHiliteBorderColor( gadget, lightRed );	
-
-		// set default text colors for the gadget
-		gadget->winSetEnabledTextColors( enabledText, enabledTextBorder );
-		gadget->winSetDisabledTextColors( disabledText, disabledTextBorder );
-		gadget->winSetHiliteTextColors( hiliteText, hiliteTextBorder );
-		gadget->winSetIMECompositeTextColors( imeCompositeText, imeCompositeTextBorder );
-
-		//
-		// set the default colors and images for the slider thumb
-		//
-		// enabled
-		GadgetSliderSetEnabledThumbImage( gadget, winFindImage( "VSliderThumbEnabled" ) );
-		GadgetSliderSetEnabledThumbColor( gadget, GadgetSliderGetEnabledColor( gadget ) );
-		GadgetSliderSetEnabledThumbBorderColor( gadget, GadgetSliderGetEnabledBorderColor( gadget ) );
-		GadgetSliderSetEnabledSelectedThumbImage( gadget, winFindImage( "VSliderThumbEnabled" ) );
-		GadgetSliderSetEnabledSelectedThumbColor( gadget, GadgetSliderGetEnabledBorderColor( gadget ) );
-		GadgetSliderSetEnabledSelectedThumbBorderColor( gadget, GadgetSliderGetEnabledColor( gadget ) );
-
-		// disabled
-		GadgetSliderSetDisabledThumbImage( gadget, winFindImage( "VSliderThumbDisabled" ) );
-		GadgetSliderSetDisabledThumbColor( gadget, GadgetSliderGetDisabledColor( gadget ) );
-		GadgetSliderSetDisabledThumbBorderColor( gadget, GadgetSliderGetDisabledBorderColor( gadget ) );
-		GadgetSliderSetDisabledSelectedThumbImage( gadget, winFindImage( "VSliderThumbDisabled" ) );
-		GadgetSliderSetDisabledSelectedThumbColor( gadget, GadgetSliderGetDisabledBorderColor( gadget ) );
-		GadgetSliderSetDisabledSelectedThumbBorderColor( gadget, GadgetSliderGetDisabledColor( gadget ) );
-
-		// hilite
-		GadgetSliderSetHiliteThumbImage( gadget, winFindImage( "VSliderThumbHilite" ) );
-		GadgetSliderSetHiliteThumbColor( gadget, GadgetSliderGetHiliteColor( gadget ) );
-		GadgetSliderSetHiliteThumbBorderColor( gadget, GadgetSliderGetHiliteBorderColor( gadget ) );
-		GadgetSliderSetHiliteSelectedThumbImage( gadget, winFindImage( "VSliderThumbHiliteSelected" ) );
-		GadgetSliderSetHiliteSelectedThumbColor( gadget, GadgetSliderGetHiliteBorderColor( gadget ) );
-		GadgetSliderSetHiliteSelectedThumbBorderColor( gadget, GadgetSliderGetHiliteColor( gadget ) );
-
-	}  // end else if
-	else if( BitTest( instData->getStyle(), GWS_SCROLL_LISTBOX ) )
-	{
-		ListboxData *listboxData = (ListboxData *)gadget->winGetUserData();
-
-		// set the colors
-		GadgetListBoxSetColors( gadget,
-														red,							// enabled
-														lightRed,					// enabled border
-														yellow,						// enabled selected item
-														white,						// enabled selected item border
-														gray,							// disabled
-														lightGray,				// disabled border
-														lightGray,				// disabled selected item
-														white,						// disabled selected item border
-														green,						// hilite
-														darkGreen,				// hilite border
-														white,						// hilite selected item
-														darkGreen );			// hilite selected item border
-											
-		// now set the images
-
-		// enabled
-		GadgetListBoxSetEnabledImage( gadget, winFindImage( "ListBoxEnabled" ) );
-		GadgetListBoxSetEnabledSelectedItemImageLeft( gadget, winFindImage( "ListBoxEnabledSelectedItemLeftEnd" ) );
-		GadgetListBoxSetEnabledSelectedItemImageRight( gadget, winFindImage( "ListBoxEnabledSelectedItemRightEnd" ) );
-		GadgetListBoxSetEnabledSelectedItemImageCenter( gadget, winFindImage( "ListBoxEnabledSelectedItemRepeatingCenter" ) );
-		GadgetListBoxSetEnabledSelectedItemImageSmallCenter( gadget, winFindImage( "ListBoxEnabledSelectedItemSmallRepeatingCenter" ) );
-
-		// disabled
-		GadgetListBoxSetDisabledImage( gadget, winFindImage( "ListBoxDisabled" ) );
-		GadgetListBoxSetDisabledSelectedItemImageLeft( gadget, winFindImage( "ListBoxDisabledSelectedItemLeftEnd" ) );
-		GadgetListBoxSetDisabledSelectedItemImageRight( gadget, winFindImage( "ListBoxDisabledSelectedItemRightEnd" ) );
-		GadgetListBoxSetDisabledSelectedItemImageCenter( gadget, winFindImage( "ListBoxDisabledSelectedItemRepeatingCenter" ) );
-		GadgetListBoxSetDisabledSelectedItemImageSmallCenter( gadget, winFindImage( "ListBoxDisabledSelectedItemSmallRepeatingCenter" ) );
-
-
-		// hilited
-		GadgetListBoxSetHiliteImage( gadget, winFindImage( "ListBoxHilite" ) );
-		GadgetListBoxSetHiliteSelectedItemImageLeft( gadget, winFindImage( "ListBoxHiliteSelectedItemLeftEnd" ) );
-		GadgetListBoxSetHiliteSelectedItemImageRight( gadget, winFindImage( "ListBoxHiliteSelectedItemRightEnd" ) );
-		GadgetListBoxSetHiliteSelectedItemImageCenter( gadget, winFindImage( "ListBoxHiliteSelectedItemRepeatingCenter" ) );
-		GadgetListBoxSetHiliteSelectedItemImageSmallCenter( gadget, winFindImage( "ListBoxHiliteSelectedItemSmallRepeatingCenter" ) );
-
-		// assign default slider colors and images as part of the list box
-		GameWindow *slider = listboxData->slider;
-		if( slider )
-		{
-			GameWindow *upButton = listboxData->upButton;
-			GameWindow *downButton = listboxData->downButton;
-
-			// slider and slider thumb ----------------------------------------------
-
-			// enabled
-			GadgetSliderSetEnabledImageTop( slider, winFindImage( "VSliderLargeEnabledTopEnd" ) );
-			GadgetSliderSetEnabledImageBottom( slider, winFindImage( "VSliderLargeEnabledBottomEnd" ) );
-			GadgetSliderSetEnabledImageCenter( slider, winFindImage( "VSliderLargeEnabledRepeatingCenter" ) );
-			GadgetSliderSetEnabledImageSmallCenter( slider, winFindImage( "VSliderLargeEnabledSmallRepeatingCenter" ) );
-			GadgetSliderSetEnabledThumbImage( slider, winFindImage( "VSliderLargeThumbEnabled" ) );
-			GadgetSliderSetEnabledSelectedThumbImage( slider, winFindImage( "VSliderLargeThumbEnabled" ) );
-
-			// disabled
-			GadgetSliderSetDisabledImageTop( slider, winFindImage( "VSliderLargeDisabledTopEnd" ) );
-			GadgetSliderSetDisabledImageBottom( slider, winFindImage( "VSliderLargeDisabledBottomEnd" ) );
-			GadgetSliderSetDisabledImageCenter( slider, winFindImage( "VSliderLargeDisabledRepeatingCenter" ) );
-			GadgetSliderSetDisabledImageSmallCenter( slider, winFindImage( "VSliderLargeDisabledSmallRepeatingCenter" ) );
-			GadgetSliderSetDisabledThumbImage( slider, winFindImage( "VSliderLargeThumbDisabled" ) );
-			GadgetSliderSetDisabledSelectedThumbImage( slider, winFindImage( "VSliderLargeThumbDisabled" ) );
-
-			// hilite
-			GadgetSliderSetHiliteImageTop( slider, winFindImage( "VSliderLargeHiliteTopEnd" ) );
-			GadgetSliderSetHiliteImageBottom( slider, winFindImage( "VSliderLargeHiliteBottomEnd" ) );
-			GadgetSliderSetHiliteImageCenter( slider, winFindImage( "VSliderLargeHiliteRepeatingCenter" ) );
-			GadgetSliderSetHiliteImageSmallCenter( slider, winFindImage( "VSliderLargeHiliteSmallRepeatingCenter" ) );
-			GadgetSliderSetHiliteThumbImage( slider, winFindImage( "VSliderLargeThumbHilite" ) );
-			GadgetSliderSetHiliteSelectedThumbImage( slider, winFindImage( "VSliderLargeThumbHilite" ) );
-	
-			// up button ------------------------------------------------------------
-
-			// enabled
-			GadgetButtonSetEnabledImage( upButton, winFindImage( "VSliderLargeUpButtonEnabled" ) );
-			GadgetButtonSetEnabledSelectedImage( upButton, winFindImage( "VSliderLargeUpButtonEnabled" ) );
-
-			// disabled
-			GadgetButtonSetDisabledImage( upButton, winFindImage( "VSliderLargeUpButtonDisabled" ) );
-			GadgetButtonSetDisabledSelectedImage( upButton, winFindImage( "VSliderLargeUpButtonDisabled" ) );
-
-			// hilite
-			GadgetButtonSetHiliteImage( upButton, winFindImage( "VSliderLargeUpButtonHilite" ) );
-			GadgetButtonSetHiliteSelectedImage( upButton, winFindImage( "VSliderLargeUpButtonHiliteSelected" ) );
-
-			// down button ----------------------------------------------------------
-
-			// enabled
-			GadgetButtonSetEnabledImage( downButton, winFindImage( "VSliderLargeDownButtonEnabled" ) );
-			GadgetButtonSetEnabledSelectedImage( downButton, winFindImage( "VSliderLargeDownButtonEnabled" ) );
-
-			// disabled
-			GadgetButtonSetDisabledImage( downButton, winFindImage( "VSliderLargeDownButtonDisabled" ) );
-			GadgetButtonSetDisabledSelectedImage( downButton, winFindImage( "VSliderLargeDownButtonDisabled" ) );
-
-			// hilite
-			GadgetButtonSetHiliteImage( downButton, winFindImage( "VSliderLargeDownButtonHilite" ) );
-			GadgetButtonSetHiliteSelectedImage( downButton, winFindImage( "VSliderLargeDownButtonHiliteSelected" ) );
-
-		}  // end if
-
-	}  // end else if
-	else if( BitTest( instData->getStyle(), GWS_COMBO_BOX ) )
-	{
-//		ComboBoxData *comboBoxData = (ComboBoxData *)gadget->winGetUserData();
-
-		GadgetComboBoxSetColors( gadget,
-														red,							// enabled
-														lightRed,					// enabled border
-														yellow,						// enabled selected item
-														white,						// enabled selected item border
-														gray,							// disabled
-														lightGray,				// disabled border
-														lightGray,				// disabled selected item
-														white,						// disabled selected item border
-														green,						// hilite
-														darkGreen,				// hilite border
-														white,						// hilite selected item
-														darkGreen );			// hilite selected item border
-		
-		// enabled
-		GadgetComboBoxSetEnabledImage( gadget, winFindImage( "ListBoxEnabled" ) );
-		GadgetComboBoxSetEnabledSelectedItemImageLeft( gadget, winFindImage( "ListBoxEnabledSelectedItemLeftEnd" ) );
-		GadgetComboBoxSetEnabledSelectedItemImageRight( gadget, winFindImage( "ListBoxEnabledSelectedItemRightEnd" ) );
-		GadgetComboBoxSetEnabledSelectedItemImageCenter( gadget, winFindImage( "ListBoxEnabledSelectedItemRepeatingCenter" ) );
-		GadgetComboBoxSetEnabledSelectedItemImageSmallCenter( gadget, winFindImage( "ListBoxEnabledSelectedItemSmallRepeatingCenter" ) );
-
-		// disabled
-		GadgetComboBoxSetDisabledImage( gadget, winFindImage( "ListBoxDisabled" ) );
-		GadgetComboBoxSetDisabledSelectedItemImageLeft( gadget, winFindImage( "ListBoxDisabledSelectedItemLeftEnd" ) );
-		GadgetComboBoxSetDisabledSelectedItemImageRight( gadget, winFindImage( "ListBoxDisabledSelectedItemRightEnd" ) );
-		GadgetComboBoxSetDisabledSelectedItemImageCenter( gadget, winFindImage( "ListBoxDisabledSelectedItemRepeatingCenter" ) );
-		GadgetComboBoxSetDisabledSelectedItemImageSmallCenter( gadget, winFindImage( "ListBoxDisabledSelectedItemSmallRepeatingCenter" ) );
-
-
-		// hilited
-		GadgetComboBoxSetHiliteImage( gadget, winFindImage( "ListBoxHilite" ) );
-		GadgetComboBoxSetHiliteSelectedItemImageLeft( gadget, winFindImage( "ListBoxHiliteSelectedItemLeftEnd" ) );
-		GadgetComboBoxSetHiliteSelectedItemImageRight( gadget, winFindImage( "ListBoxHiliteSelectedItemRightEnd" ) );
-		GadgetComboBoxSetHiliteSelectedItemImageCenter( gadget, winFindImage( "ListBoxHiliteSelectedItemRepeatingCenter" ) );
-		GadgetComboBoxSetHiliteSelectedItemImageSmallCenter( gadget, winFindImage( "ListBoxHiliteSelectedItemSmallRepeatingCenter" ) );
-
-		gadget->winSetEnabledTextColors( enabledText, enabledTextBorder );
-		gadget->winSetDisabledTextColors( disabledText, disabledTextBorder );
-		gadget->winSetHiliteTextColors( hiliteText, hiliteTextBorder );
-		gadget->winSetIMECompositeTextColors( imeCompositeText, imeCompositeTextBorder );
-
-		GameWindow *dropDownButton = GadgetComboBoxGetDropDownButton( gadget );
-		if ( dropDownButton )
-		{
-			// enabled background
-			GadgetButtonSetEnabledImage( dropDownButton, winFindImage( "PushButtonEnabled" ) );
-			// enabled selected button
-			GadgetButtonSetEnabledSelectedImage( dropDownButton, winFindImage( "PushButtonEnabledSelected" ) );
-			
-			// Disabled background
-			GadgetButtonSetDisabledImage( dropDownButton, winFindImage( "PushButtonDisabled" ) );
-			// Disabled selected button
-			GadgetButtonSetDisabledSelectedImage( dropDownButton, winFindImage( "PushButtonDisabledSelected" ) );
-			
-			// Hilite background
-			GadgetButtonSetHiliteImage( dropDownButton, winFindImage( "PushButtonHilite" ) );
-			// Hilite selected button
-			GadgetButtonSetHiliteSelectedImage( dropDownButton, winFindImage( "PushButtonHiliteSelected" ) );
-			
-		}
-
-		GameWindow *editBox = GadgetComboBoxGetEditBox( gadget );
-		if ( editBox )
-		{
-			// enabled
-			GadgetTextEntrySetEnabledImageLeft( editBox, winFindImage( "TextEntryEnabledLeftEnd" ) );
-			GadgetTextEntrySetEnabledImageRight( editBox, winFindImage( "TextEntryEnabledRightEnd" ) );
-			GadgetTextEntrySetEnabledImageCenter( editBox, winFindImage( "TextEntryEnabledRepeatingCenter" ) );
-			GadgetTextEntrySetEnabledImageSmallCenter( editBox, winFindImage( "TextEntryEnabledSmallRepeatingCenter" ) );
-			
-			// disabled
-			GadgetTextEntrySetDisabledImageLeft( editBox, winFindImage( "TextEntryDisabledLeftEnd" ) );
-			GadgetTextEntrySetDisabledImageRight( editBox, winFindImage( "TextEntryDisabledRightEnd" ) );
-			GadgetTextEntrySetDisabledImageCenter( editBox, winFindImage( "TextEntryDisabledRepeatingCenter" ) );
-			GadgetTextEntrySetDisabledImageSmallCenter( editBox, winFindImage( "TextEntryDisabledSmallRepeatingCenter" ) );
-			
-			// hilited
-			GadgetTextEntrySetHiliteImageLeft( editBox, winFindImage( "TextEntryHiliteLeftEnd" ) );
-			GadgetTextEntrySetHiliteImageRight( editBox, winFindImage( "TextEntryHiliteRightEnd" ) );
-			GadgetTextEntrySetHiliteImageCenter( editBox, winFindImage( "TextEntryHiliteRepeatingCenter" ) );
-			GadgetTextEntrySetHiliteImageSmallCenter( editBox, winFindImage( "TextEntryHiliteSmallRepeatingCenter" ) );
-			
-		}
-
-		GameWindow * listBox = GadgetComboBoxGetListBox( gadget );
-		if ( listBox )
-		{
-														
-			// now set the images
-
-			// enabled
-			GadgetListBoxSetEnabledImage( listBox, winFindImage( "ListBoxEnabled" ) );
-			GadgetListBoxSetEnabledSelectedItemImageLeft( listBox, winFindImage( "ListBoxEnabledSelectedItemLeftEnd" ) );
-			GadgetListBoxSetEnabledSelectedItemImageRight( listBox, winFindImage( "ListBoxEnabledSelectedItemRightEnd" ) );
-			GadgetListBoxSetEnabledSelectedItemImageCenter( listBox, winFindImage( "ListBoxEnabledSelectedItemRepeatingCenter" ) );
-			GadgetListBoxSetEnabledSelectedItemImageSmallCenter( listBox, winFindImage( "ListBoxEnabledSelectedItemSmallRepeatingCenter" ) );
-
-			// disabled
-			GadgetListBoxSetDisabledImage( listBox, winFindImage( "ListBoxDisabled" ) );
-			GadgetListBoxSetDisabledSelectedItemImageLeft( listBox, winFindImage( "ListBoxDisabledSelectedItemLeftEnd" ) );
-			GadgetListBoxSetDisabledSelectedItemImageRight( listBox, winFindImage( "ListBoxDisabledSelectedItemRightEnd" ) );
-			GadgetListBoxSetDisabledSelectedItemImageCenter( listBox, winFindImage( "ListBoxDisabledSelectedItemRepeatingCenter" ) );
-			GadgetListBoxSetDisabledSelectedItemImageSmallCenter( listBox, winFindImage( "ListBoxDisabledSelectedItemSmallRepeatingCenter" ) );
-
-
-			// hilited
-			GadgetListBoxSetHiliteImage( listBox, winFindImage( "ListBoxHilite" ) );
-			GadgetListBoxSetHiliteSelectedItemImageLeft( listBox, winFindImage( "ListBoxHiliteSelectedItemLeftEnd" ) );
-			GadgetListBoxSetHiliteSelectedItemImageRight( listBox, winFindImage( "ListBoxHiliteSelectedItemRightEnd" ) );
-			GadgetListBoxSetHiliteSelectedItemImageCenter( listBox, winFindImage( "ListBoxHiliteSelectedItemRepeatingCenter" ) );
-			GadgetListBoxSetHiliteSelectedItemImageSmallCenter( listBox, winFindImage( "ListBoxHiliteSelectedItemSmallRepeatingCenter" ) );
-
-			// assign default slider colors and images as part of the list box
-			GameWindow *slider = GadgetListBoxGetSlider( listBox );
-			if( slider )
-			{
-				GameWindow *upButton = GadgetListBoxGetUpButton( listBox );
-				GameWindow *downButton = GadgetListBoxGetDownButton( listBox );
-
-				// slider and slider thumb ----------------------------------------------
-
-				// enabled
-				GadgetSliderSetEnabledImageTop( slider, winFindImage( "VSliderLargeEnabledTopEnd" ) );
-				GadgetSliderSetEnabledImageBottom( slider, winFindImage( "VSliderLargeEnabledBottomEnd" ) );
-				GadgetSliderSetEnabledImageCenter( slider, winFindImage( "VSliderLargeEnabledRepeatingCenter" ) );
-				GadgetSliderSetEnabledImageSmallCenter( slider, winFindImage( "VSliderLargeEnabledSmallRepeatingCenter" ) );
-				GadgetSliderSetEnabledThumbImage( slider, winFindImage( "VSliderLargeThumbEnabled" ) );
-				GadgetSliderSetEnabledSelectedThumbImage( slider, winFindImage( "VSliderLargeThumbEnabled" ) );
-
-				// disabled
-				GadgetSliderSetDisabledImageTop( slider, winFindImage( "VSliderLargeDisabledTopEnd" ) );
-				GadgetSliderSetDisabledImageBottom( slider, winFindImage( "VSliderLargeDisabledBottomEnd" ) );
-				GadgetSliderSetDisabledImageCenter( slider, winFindImage( "VSliderLargeDisabledRepeatingCenter" ) );
-				GadgetSliderSetDisabledImageSmallCenter( slider, winFindImage( "VSliderLargeDisabledSmallRepeatingCenter" ) );
-				GadgetSliderSetDisabledThumbImage( slider, winFindImage( "VSliderLargeThumbDisabled" ) );
-				GadgetSliderSetDisabledSelectedThumbImage( slider, winFindImage( "VSliderLargeThumbDisabled" ) );
-
-				// hilite
-				GadgetSliderSetHiliteImageTop( slider, winFindImage( "VSliderLargeHiliteTopEnd" ) );
-				GadgetSliderSetHiliteImageBottom( slider, winFindImage( "VSliderLargeHiliteBottomEnd" ) );
-				GadgetSliderSetHiliteImageCenter( slider, winFindImage( "VSliderLargeHiliteRepeatingCenter" ) );
-				GadgetSliderSetHiliteImageSmallCenter( slider, winFindImage( "VSliderLargeHiliteSmallRepeatingCenter" ) );
-				GadgetSliderSetHiliteThumbImage( slider, winFindImage( "VSliderLargeThumbHilite" ) );
-				GadgetSliderSetHiliteSelectedThumbImage( slider, winFindImage( "VSliderLargeThumbHilite" ) );
-		
-				// up button ------------------------------------------------------------
-
-				// enabled
-				GadgetButtonSetEnabledImage( upButton, winFindImage( "VSliderLargeUpButtonEnabled" ) );
-				GadgetButtonSetEnabledSelectedImage( upButton, winFindImage( "VSliderLargeUpButtonEnabled" ) );
-
-				// disabled
-				GadgetButtonSetDisabledImage( upButton, winFindImage( "VSliderLargeUpButtonDisabled" ) );
-				GadgetButtonSetDisabledSelectedImage( upButton, winFindImage( "VSliderLargeUpButtonDisabled" ) );
-
-				// hilite
-				GadgetButtonSetHiliteImage( upButton, winFindImage( "VSliderLargeUpButtonHilite" ) );
-				GadgetButtonSetHiliteSelectedImage( upButton, winFindImage( "VSliderLargeUpButtonHiliteSelected" ) );
-
-				// down button ----------------------------------------------------------
-
-				// enabled
-				GadgetButtonSetEnabledImage( downButton, winFindImage( "VSliderLargeDownButtonEnabled" ) );
-				GadgetButtonSetEnabledSelectedImage( downButton, winFindImage( "VSliderLargeDownButtonEnabled" ) );
-
-				// disabled
-				GadgetButtonSetDisabledImage( downButton, winFindImage( "VSliderLargeDownButtonDisabled" ) );
-				GadgetButtonSetDisabledSelectedImage( downButton, winFindImage( "VSliderLargeDownButtonDisabled" ) );
-
-				// hilite
-				GadgetButtonSetHiliteImage( downButton, winFindImage( "VSliderLargeDownButtonHilite" ) );
-				GadgetButtonSetHiliteSelectedImage( downButton, winFindImage( "VSliderLargeDownButtonHiliteSelected" ) );
-
-			}  // end if
-		}
-	}  // end else if
-	else if( BitTest( instData->getStyle(), GWS_PROGRESS_BAR ) )
-	{
-
-		// enabled
-		GadgetProgressBarSetEnabledColor( gadget, red );
-		GadgetProgressBarSetEnabledBorderColor( gadget, lightRed );
-		GadgetProgressBarSetEnabledImageLeft( gadget, winFindImage( "ProgressBarEnabledLeftEnd" ) );
-		GadgetProgressBarSetEnabledImageRight( gadget, winFindImage( "ProgressBarEnabledRightEnd" ) );
-		GadgetProgressBarSetEnabledImageCenter( gadget, winFindImage( "ProgressBarEnabledRepeatingCenter" ) );
-		GadgetProgressBarSetEnabledImageSmallCenter( gadget, winFindImage( "ProgressBarEnabledSmallRepeatingCenter" ) );
-		GadgetProgressBarSetEnabledBarColor( gadget, yellow );
-		GadgetProgressBarSetEnabledBarBorderColor( gadget, white );
-		GadgetProgressBarSetEnabledBarImageLeft( gadget, winFindImage( "ProgressBarEnabledBarLeftEnd" ) );
-		GadgetProgressBarSetEnabledBarImageRight( gadget, winFindImage( "ProgressBarEnabledBarRightEnd" ) );
-		GadgetProgressBarSetEnabledBarImageCenter( gadget, winFindImage( "ProgressBarEnabledBarRepeatingCenter" ) );
-		GadgetProgressBarSetEnabledBarImageSmallCenter( gadget, winFindImage( "ProgressBarEnabledBarSmallRepeatingCenter" ) );
-
-		// disabled
-		GadgetProgressBarSetDisabledColor( gadget, darkGray );
-		GadgetProgressBarSetDisabledBorderColor( gadget, lightGray );
-		GadgetProgressBarSetDisabledImageLeft( gadget, winFindImage( "ProgressBarDisabledLeftEnd" ) );
-		GadgetProgressBarSetDisabledImageRight( gadget, winFindImage( "ProgressBarDisabledRightEnd" ) );
-		GadgetProgressBarSetDisabledImageCenter( gadget, winFindImage( "ProgressBarDisabledRepeatingCenter" ) );
-		GadgetProgressBarSetDisabledImageSmallCenter( gadget, winFindImage( "ProgressBarDisabledSmallRepeatingCenter" ) );
-		GadgetProgressBarSetDisabledBarColor( gadget, lightGray );
-		GadgetProgressBarSetDisabledBarBorderColor( gadget, white );
-		GadgetProgressBarSetDisabledBarImageLeft( gadget, winFindImage( "ProgressBarDisabledBarLeftEnd" ) );
-		GadgetProgressBarSetDisabledBarImageRight( gadget, winFindImage( "ProgressBarDisabledBarRightEnd" ) );
-		GadgetProgressBarSetDisabledBarImageCenter( gadget, winFindImage( "ProgressBarDisabledBarRepeatingCenter" ) );
-		GadgetProgressBarSetDisabledBarImageSmallCenter( gadget, winFindImage( "ProgressBarDisabledBarSmallRepeatingCenter" ) );
-
-		// Hilite
-		GadgetProgressBarSetHiliteColor( gadget, green );
-		GadgetProgressBarSetHiliteBorderColor( gadget, darkGreen );
-		GadgetProgressBarSetHiliteImageLeft( gadget, winFindImage( "ProgressBarHiliteLeftEnd" ) );
-		GadgetProgressBarSetHiliteImageRight( gadget, winFindImage( "ProgressBarHiliteRightEnd" ) );
-		GadgetProgressBarSetHiliteImageCenter( gadget, winFindImage( "ProgressBarHiliteRepeatingCenter" ) );
-		GadgetProgressBarSetHiliteImageSmallCenter( gadget, winFindImage( "ProgressBarHiliteSmallRepeatingCenter" ) );
-		GadgetProgressBarSetHiliteBarColor( gadget, yellow );
-		GadgetProgressBarSetHiliteBarBorderColor( gadget, white );
-		GadgetProgressBarSetHiliteBarImageLeft( gadget, winFindImage( "ProgressBarHiliteBarLeftEnd" ) );
-		GadgetProgressBarSetHiliteBarImageRight( gadget, winFindImage( "ProgressBarHiliteBarRightEnd" ) );
-		GadgetProgressBarSetHiliteBarImageCenter( gadget, winFindImage( "ProgressBarHiliteBarRepeatingCenter" ) );
-		GadgetProgressBarSetHiliteBarImageSmallCenter( gadget, winFindImage( "ProgressBarHiliteBarSmallRepeatingCenter" ) );
-
-	}  // end else if
-	else if( BitTest( instData->getStyle(), GWS_STATIC_TEXT ) )
-	{
-
-		// enabled
-		GadgetStaticTextSetEnabledImage( gadget, winFindImage( "StaticTextEnabled" ) );
-		GadgetStaticTextSetEnabledColor( gadget, red );
-		GadgetStaticTextSetEnabledBorderColor( gadget, lightRed );
-
-		// disabled
-		GadgetStaticTextSetDisabledImage( gadget, winFindImage( "StaticTextDisabled" ) );
-		GadgetStaticTextSetDisabledColor( gadget, darkGray );
-		GadgetStaticTextSetDisabledBorderColor( gadget, lightGray );
-
-		// hilite
-		GadgetStaticTextSetHiliteImage( gadget, winFindImage( "StaticTextHilite" ) );
-		GadgetStaticTextSetHiliteColor( gadget, darkGreen );
-		GadgetStaticTextSetHiliteBorderColor( gadget, lightGreen );
-
-		// set default text colors for the gadget
-		gadget->winSetEnabledTextColors( enabledText, enabledTextBorder );
-		gadget->winSetDisabledTextColors( disabledText, disabledTextBorder );
-		gadget->winSetHiliteTextColors( hiliteText, hiliteTextBorder );
-		gadget->winSetIMECompositeTextColors( imeCompositeText, imeCompositeTextBorder );
-
-	}  // end else if
-	else if( BitTest( instData->getStyle(), GWS_ENTRY_FIELD ) )
-	{
-
-		// enabled
-		GadgetTextEntrySetEnabledImageLeft( gadget, winFindImage( "TextEntryEnabledLeftEnd" ) );
-		GadgetTextEntrySetEnabledImageRight( gadget, winFindImage( "TextEntryEnabledRightEnd" ) );
-		GadgetTextEntrySetEnabledImageCenter( gadget, winFindImage( "TextEntryEnabledRepeatingCenter" ) );
-		GadgetTextEntrySetEnabledImageSmallCenter( gadget, winFindImage( "TextEntryEnabledSmallRepeatingCenter" ) );
-		GadgetTextEntrySetEnabledColor( gadget, red );
-		GadgetTextEntrySetEnabledBorderColor( gadget, lightRed );
-
-		// disabled
-		GadgetTextEntrySetDisabledImageLeft( gadget, winFindImage( "TextEntryDisabledLeftEnd" ) );
-		GadgetTextEntrySetDisabledImageRight( gadget, winFindImage( "TextEntryDisabledRightEnd" ) );
-		GadgetTextEntrySetDisabledImageCenter( gadget, winFindImage( "TextEntryDisabledRepeatingCenter" ) );
-		GadgetTextEntrySetDisabledImageSmallCenter( gadget, winFindImage( "TextEntryDisabledSmallRepeatingCenter" ) );
-		GadgetTextEntrySetDisabledColor( gadget, gray );
-		GadgetTextEntrySetDisabledBorderColor( gadget, black );
-
-		// hilited
-		GadgetTextEntrySetHiliteImageLeft( gadget, winFindImage( "TextEntryHiliteLeftEnd" ) );
-		GadgetTextEntrySetHiliteImageRight( gadget, winFindImage( "TextEntryHiliteRightEnd" ) );
-		GadgetTextEntrySetHiliteImageCenter( gadget, winFindImage( "TextEntryHiliteRepeatingCenter" ) );
-		GadgetTextEntrySetHiliteImageSmallCenter( gadget, winFindImage( "TextEntryHiliteSmallRepeatingCenter" ) );
-		GadgetTextEntrySetHiliteColor( gadget, green );
-		GadgetTextEntrySetHiliteBorderColor( gadget, darkGreen );
-
-		// set default text colors for the gadget
-		gadget->winSetEnabledTextColors( enabledText, enabledTextBorder );
-		gadget->winSetDisabledTextColors( disabledText, disabledTextBorder );
-		gadget->winSetHiliteTextColors( hiliteText, hiliteTextBorder );
-		gadget->winSetIMECompositeTextColors( imeCompositeText, imeCompositeTextBorder );
-
-	}  // end else if
-
-}  // end assignDefaultGadgetLook
 
 //-------------------------------------------------------------------------------------------------
 /** Given a text label, retreive the real localized text associated
 	* with that label */
 //-------------------------------------------------------------------------------------------------
-UnicodeString GameWindowManager::winTextLabelToText( AsciiString label )
-{
-	
-	// sanity
-	if( label.isEmpty() )
-		return UnicodeString::TheEmptyString;
-
-	/// @todo we need to write the string manager here, this is TEMPORARY!!!
-	UnicodeString tmp;
-	tmp.translate(label);
-	return tmp;
-
-}  // end winTextLabelToText
+// GameWindowManager::winTextLabelToText: defined in GameWindowManager_winTextLabelToText.cpp (its row's unit).
+  // end winTextLabelToText
 
 //-------------------------------------------------------------------------------------------------
 /** find the top window at the given coordinates */
 //-------------------------------------------------------------------------------------------------
+// ?GameWindowManager::getWindowUnderCursor present-unmatched
 GameWindow *GameWindowManager::getWindowUnderCursor( Int x, Int y, Bool ignoreEnabled )
 {
 	if( m_mouseCaptor )
@@ -3733,6 +1883,7 @@ static WindowMsgHandledType testGrab( GameWindow *window, UnsignedInt msg,
 //-------------------------------------------------------------------------------------------------
 /** Just for testing */
 //-------------------------------------------------------------------------------------------------
+// ?GameWindowManager::initTestGUI present-unmatched
 Bool GameWindowManager::initTestGUI( void )
 {
 
@@ -4043,60 +2194,13 @@ Bool GameWindowManager::initTestGUI( void )
 }  // end initTestGUI
 
 
-void GameWindowManager::winNextTab( GameWindow *window )
-{
-	if(m_tabList.size() == 0|| m_modalHead)
-		return;
+// GameWindowManager::winNextTab: defined in GameWindowManager_winPrevTab.cpp (its row's unit).
 
-	GameWindowList::iterator it = m_tabList.begin();
-	while( it != m_tabList.end())
-	{
-		if(*it == window)
-		{
-			it++;
-			break;
-		}
-		it++;
-	}
-	if(it != m_tabList.end())
-		winSetFocus(*it);
-	else
-	{
-		winSetFocus(*m_tabList.begin());
-	}
-	winSetLoneWindow(NULL);
-}
+// GameWindowManager::winPrevTab: defined in GameWindowManager_winPrevTab.cpp (its row's unit).
 
-void GameWindowManager::winPrevTab( GameWindow *window )
-{
-	if(m_tabList.size() == 0 || m_modalHead)
-		return;
+// GameWindowManager::registerTabList: defined in GameWindowManager_registerTabList.cpp (its row's unit).
 
-	GameWindowList::reverse_iterator it = m_tabList.rbegin();
-	while( it != m_tabList.rend())
-	{
-		if(*it == window)
-		{
-			it++;
-			break;
-		}
-		it++;
-	}
-	if(it != m_tabList.rend())
-		winSetFocus(*it);
-	else
-	{
-		winSetFocus(*m_tabList.rbegin());
-	}	
-	winSetLoneWindow(NULL);
-}
-
-void GameWindowManager::registerTabList( GameWindowList tabList )
-{
-	m_tabList.clear();
-	m_tabList = tabList;
-}
-
+// ?GameWindowManager::clearTabList present-unmatched
 void GameWindowManager::clearTabList( void )
 {
 	m_tabList.clear();

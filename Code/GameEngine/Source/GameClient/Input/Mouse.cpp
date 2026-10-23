@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/ini /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /Ireference/shims/bfme2_ascii_common /O1 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/ini /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
 // stlport
 #define Matrix4x4 Matrix4  // BFME renamed it
 #define __PLACEMENT_VEC_NEW_INLINE  // always.h/GameMemory.h define array placement-new themselves
@@ -129,336 +129,23 @@ static const FieldParse TheMouseFieldParseTable[] =
 //-------------------------------------------------------------------------------------------------
 /** Move the mouse in either relative or absolute coords */
 //-------------------------------------------------------------------------------------------------
-// BFME's Mouse puts the current position at this+0x4D10, the four clamp bounds
-// from +0x4D88 in min-then-max order per axis, and the input frame counter at
-// +0x4D98. The reference class lands all of them 0x354 earlier.
+// BFME 2's Mouse keeps m_currMouse (whose first field is the position) at
+// this+0x4F0C: retail setPosition (0x001EDE4C, a Mouse vftable slot that
+// DirectInputMouse::setPosition also calls directly) stores x/y there, and
+// MouseProcessEvents.cpp places m_currMouse at the same offset.
 struct BfmeMouseLayout
 {
-	UnsignedByte pad0[0x4d10];
-	ICoord2D currPos;									///< retail this+0x4D10
-	UnsignedByte pad1[0x4d88 - 0x4d18];
-	Int minX;											///< retail this+0x4D88
-	Int maxX;											///< retail this+0x4D8C
-	Int minY;											///< retail this+0x4D90
-	Int maxY;											///< retail this+0x4D94
-	UnsignedInt inputFrame;								///< retail this+0x4D98
+	UnsignedByte pad0[0x4f0c];
+	ICoord2D currPos;									///< retail this+0x4F0C
 };
 
-// ?moveMouse@Mouse@@IAEXHHH@Z present-unmatched
-void Mouse::moveMouse( Int x, Int y, Int relOrAbs )
-{
-	BfmeMouseLayout *self = (BfmeMouseLayout *)this;
+// Mouse::moveMouse is defined with its retail-matched body in MouseProcessEvents.cpp (0x001EDC41).
 
-	if( relOrAbs == MOUSE_MOVE_RELATIVE )
-	{
-		self->currPos.x += x;
-		self->currPos.y += y;
-	}
-	else
-	{
-		self->currPos.x = x;
-		self->currPos.y = y;
-	}
+// Mouse::updateMouseData is defined with its retail-matched body in MouseProcessEvents.cpp (0x001EDCB1).
 
-	if( self->currPos.x > self->maxX )
-		self->currPos.x = self->maxX;
-	else if( self->currPos.x < self->minX )
-		self->currPos.x = self->minX;
+// Mouse::processMouseEvent is defined with its retail-matched body in MouseProcessEvents.cpp (0x001EE069).
 
-	if( self->currPos.y > self->maxY )
-		self->currPos.y = self->maxY;
-	else if( self->currPos.y < self->minY )
-		self->currPos.y = self->minY;
-
-}  // end moveMouse
-
-//-------------------------------------------------------------------------------------------------
-/** Get the current information for the mouse from the device */
-//-------------------------------------------------------------------------------------------------
-// The event array is at this+0x1110 -- 256 records of 0x3C -- and the drain
-// asks the device through vtable +0x60. The reentry flag is the global at
-// 0x012F4C62 where the reference keeps a function-local static. The ceiling
-// test is unsigned and the count test below it is not, so the cast belongs on
-// the loop bound alone.
-struct BfmeMouseEventRecord
-{
-	UnsignedByte body[0x3c];
-};
-
-#define BFME_MOUSE_SLOT(n) virtual void _bfme_slot##n( void ) = 0;
-
-class BfmeMouseEventSource
-{
-public:
-	BFME_MOUSE_SLOT(0)  BFME_MOUSE_SLOT(1)  BFME_MOUSE_SLOT(2)  BFME_MOUSE_SLOT(3)
-	BFME_MOUSE_SLOT(4)  BFME_MOUSE_SLOT(5)  BFME_MOUSE_SLOT(6)  BFME_MOUSE_SLOT(7)
-	BFME_MOUSE_SLOT(8)  BFME_MOUSE_SLOT(9)  BFME_MOUSE_SLOT(10) BFME_MOUSE_SLOT(11)
-	BFME_MOUSE_SLOT(12) BFME_MOUSE_SLOT(13) BFME_MOUSE_SLOT(14) BFME_MOUSE_SLOT(15)
-	BFME_MOUSE_SLOT(16) BFME_MOUSE_SLOT(17) BFME_MOUSE_SLOT(18) BFME_MOUSE_SLOT(19)
-	BFME_MOUSE_SLOT(20) BFME_MOUSE_SLOT(21) BFME_MOUSE_SLOT(22) BFME_MOUSE_SLOT(23)
-	virtual UnsignedByte bfmeGetEvent( BfmeMouseEventRecord *event, Int wait ) = 0;
-};
-
-#undef BFME_MOUSE_SLOT
-
-struct BfmeMouseEventLayout
-{
-	UnsignedByte pad0[0x1110];
-	BfmeMouseEventRecord events[256];					///< retail this+0x1110
-	UnsignedByte pad1[0x4d98 - 0x4d10];
-	Int inputFrame;										///< retail this+0x4D98
-	Int deadInputFrame;									///< retail this+0x4D9C
-	UnsignedByte pad2[0x4e00 - 0x4da0];
-	Int eventsThisFrame;								///< retail this+0x4E00
-};
-
-extern bool Glo012F4C62;								///< retail [0x012F4C62]
-
-// ?updateMouseData@Mouse@@IAEXXZ present-unmatched
-void Mouse::updateMouseData( )
-{
-	BfmeMouseEventLayout *self = (BfmeMouseEventLayout *)this;
-	Int count = 0;
-
-	// prevent reentrancy in the event we make this mouse multi-threaded
-	if( !Glo012F4C62 )
-	{
-		Glo012F4C62 = true;
-
-		BfmeMouseEventRecord *event = self->events;
-		for( ;; )
-		{
-			UnsignedByte answer;
-			do
-				answer = ((BfmeMouseEventSource *)this)->bfmeGetEvent( event, 1 );
-			while( answer == 0xFF );
-			++count;
-			++event;
-			if( answer == 0 )
-				break;
-			if( (UnsignedInt)count >= 0x100 )
-				break;
-		}
-
-		Glo012F4C62 = false;
-
-	}  // end if
-
-	if( count > 0 )
-		self->eventsThisFrame = count - 1;
-	else
-		self->eventsThisFrame = 0;
-
-	if( count != 0 )
-		self->deadInputFrame = self->inputFrame;
-
-}  // end updateMouseData
-
-//-------------------------------------------------------------------------------------------------
-/** Combine mouse events into the main mouse variables */
-//-------------------------------------------------------------------------------------------------
-// ?processMouseEvent@Mouse@@ present-unmatched
-void Mouse::processMouseEvent( Int index )
-{
-	Int movementType;
-
-	m_currMouse.leftEvent = MOUSE_EVENT_NONE;
-	m_currMouse.rightEvent = MOUSE_EVENT_NONE;
-	m_currMouse.middleEvent = MOUSE_EVENT_NONE;
-	m_currMouse.wheelPos = 0;
-
-	// what type of movement commands are we setup for
-	if( m_inputMovesAbsolute == TRUE )
-		movementType = MOUSE_MOVE_ABSOLUTE;
-	else
-		movementType = MOUSE_MOVE_RELATIVE;
-
-	// set the time of this event to the correct time
-	m_currMouse.time = m_mouseEvents[ index ].time;
-
-	if( index == 0 )
-		checkForDrag();
-
-	// add Mouse Position Changes to Master Position
-	moveMouse( m_mouseEvents[ index ].pos.x, 
-						 m_mouseEvents[ index ].pos.y, 
-						 movementType );
-
-	// Cumulate Wheel Adjustments
-	m_currMouse.wheelPos += m_mouseEvents[ index ].wheelPos;
-
-	// Check Left Mouse State
-	if( m_mouseEvents[ index ].leftFrame )
-	{
-		if( m_currMouse.leftState != m_mouseEvents[ index ].leftState )
-		{
-			// State Change
-			if( m_mouseEvents[ index ].leftState == MBS_Down )
-			{
-				// Mouse Down
-				m_currMouse.leftEvent = GWM_LEFT_DOWN;
-				m_currMouse.leftState = MBS_Down;
-				m_currMouse.leftFrame = m_inputFrame;
-			}
-			else if ( m_mouseEvents[ index ].leftState == MBS_DoubleClick )
-			{
-				// Mouse Double Click
-				m_currMouse.leftEvent = GWM_LEFT_DOUBLE_CLICK;
-				m_currMouse.leftState = MBS_DoubleClick;
-				m_currMouse.leftFrame = m_inputFrame;
-			}
-			else
-			{
-				// Mouse Up
-				m_currMouse.leftEvent = GWM_LEFT_UP;
-				m_currMouse.leftState = MBS_Up;
-				m_currMouse.leftFrame = m_inputFrame;
-			}
-		}
-	}
-	else if( m_currMouse.leftState != MBS_Up && 
-					(	(m_prevMouse.leftEvent == GWM_LEFT_DOWN) ||
-						(m_prevMouse.leftEvent == GWM_LEFT_DRAG) ) )
-	{
-		m_currMouse.leftEvent = GWM_LEFT_DRAG;
-	}
-
-	// Check Right Mouse State
-	if( m_mouseEvents[ index ].rightFrame )
-	{
-		if( m_currMouse.rightState != m_mouseEvents[ index ].rightState )
-		{
-			// State Change
-			if( m_mouseEvents[ index ].rightState == MBS_Down )
-			{
-				// Mouse Down
-				m_currMouse.rightEvent = GWM_RIGHT_DOWN;
-				m_currMouse.rightState = MBS_Down;
-				m_currMouse.rightFrame = m_inputFrame;
-			}
-			else if( m_mouseEvents[ index ].rightState == MBS_DoubleClick )
-			{
-				// Mouse Double Click
-				m_currMouse.rightEvent = GWM_RIGHT_DOUBLE_CLICK;
-				m_currMouse.rightState = MBS_DoubleClick;
-				m_currMouse.rightFrame = m_inputFrame;
-			}
-			else
-			{
-				// Mouse Up
-				m_currMouse.rightEvent = GWM_RIGHT_UP;
-				m_currMouse.rightState = MBS_Up;
-				m_currMouse.rightFrame = m_inputFrame;
-			}
-		}
-	}
-	else if( m_currMouse.rightState != MBS_Up && 
-					(	(m_prevMouse.rightEvent == GWM_RIGHT_DOWN) ||
-						(m_prevMouse.rightEvent == GWM_RIGHT_DRAG) ) )
-	{
-		m_currMouse.rightEvent = GWM_RIGHT_DRAG;
-	}
-
-	// Check Middle Mouse State
-	if( m_mouseEvents[ index ].middleFrame )
-	{
-		if( m_currMouse.middleState != m_mouseEvents[index].middleState )
-		{
-			// State Change
-			if( m_mouseEvents[index].middleState == MBS_Down )
-			{
-				m_currMouse.middleEvent = GWM_MIDDLE_DOWN;
-				m_currMouse.middleState = MBS_Down;
-				m_currMouse.middleFrame = m_inputFrame;
-			}
-			else if( m_mouseEvents[index].middleState == MBS_DoubleClick )
-			{
-				m_currMouse.middleEvent = GWM_MIDDLE_DOUBLE_CLICK;
-				m_currMouse.middleState = MBS_DoubleClick;
-				m_currMouse.middleFrame = m_inputFrame;
-			}
-			else
-			{
-				// Mouse Up
-				m_currMouse.middleEvent = GWM_MIDDLE_UP;
-				m_currMouse.middleState = MBS_Up;
-				m_currMouse.middleFrame = m_inputFrame;
-			}
-		}
-	}
-	else if( m_currMouse.middleState != MBS_Up && 
-					(	(m_prevMouse.middleEvent == GWM_MIDDLE_DOWN) ||
-						(m_prevMouse.middleEvent == GWM_MIDDLE_DRAG) ) )
-	{
-		m_currMouse.middleEvent = GWM_MIDDLE_DRAG;
-	}
-
-	m_currMouse.deltaPos.x = m_currMouse.pos.x - m_prevMouse.pos.x;
-	m_currMouse.deltaPos.y = m_currMouse.pos.y - m_prevMouse.pos.y;
-//	DEBUG_LOG(("Mouse dx %d, dy %d, index %d, frame %d\n", m_currMouse.deltaPos.x, m_currMouse.deltaPos.y, index, m_inputFrame));
-//	// check if mouse is still and flag tooltip
-//	if( ((dx*dx) + (dy*dy)) < CURSOR_MOVE_TOL_SQ )
-//	{
-//		// cursor is still
-//		//m_stillTime++;
-//    Int delay = m_tooltipDelayTime;
-//    if(m_tooltipDelay >= 0 )
-//       delay = m_tooltipDelay;
-//    
-//		if( now - m_stillTime >= delay )
-//		{
-//			if (!m_displayTooltip)
-//			{
-//				m_highlightPos = 0;
-//				m_highlightUpdateStart = timeGetTime();
-//			}
-//
-//			// display tooltip for current window
-//			m_displayTooltip = TRUE;
-//		}
-//	}
-//	else
-//	{
-//		// cursor moved
-//		//m_stillTime = 0;
-//		m_stillTime = now;
-//		m_displayTooltip = FALSE;
-//	}
-
-
-	m_prevMouse = m_currMouse;
-
-}  // end processMouseEvent
-
-//-------------------------------------------------------------------------------------------------
-/** Check for mouse drag */
-//-------------------------------------------------------------------------------------------------
-// ?checkForDrag@Mouse@@ present-unmatched
-void Mouse::checkForDrag( void )
-{
-
-	if( m_currMouse.leftState && 
-			(	(m_prevMouse.leftEvent == GWM_LEFT_DOWN) ||
-				(m_prevMouse.leftEvent == GWM_LEFT_DRAG) ) )
-	{
-		m_currMouse.leftEvent = GWM_LEFT_DRAG;
-	}
-
-	if( m_currMouse.rightState && 
-			(	(m_prevMouse.rightEvent == GWM_RIGHT_DOWN) ||
-				(m_prevMouse.rightEvent == GWM_RIGHT_DRAG) ) )
-	{
-		m_currMouse.rightEvent = GWM_RIGHT_DRAG;
-	}
-
-	if( m_currMouse.middleState && 
-			(	(m_prevMouse.middleEvent == GWM_MIDDLE_DOWN) ||
-				(m_prevMouse.middleEvent == GWM_MIDDLE_DRAG) ) )
-	{
-		m_currMouse.middleEvent = GWM_MIDDLE_DRAG;
-	}
-
-}  // end checkForDrag
+// Mouse::checkForDrag is defined with its retail-matched body in MouseProcessEvents.cpp (0x001EDD1C).
 
 
 //-------------------------------------------------------------------------------------------------
@@ -491,7 +178,6 @@ Bool Mouse::isClick(const ICoord2D *anchor, const ICoord2D *dest, UnsignedInt pr
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ??0CursorInfo@@QAE@XZ present-unmatched
 CursorInfo::CursorInfo( void )
 {
 	// Added Sadullah Nader
@@ -519,396 +205,101 @@ CursorInfo::CursorInfo( void )
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ??0Mouse@@ present-unmatched
-Mouse::Mouse( void )
+// Mouse::Mouse (0x001EEC97) and Mouse::~Mouse (0x001EE3DE) are matched in
+// Rva001EE3DEDtor.cpp with BFME 2's layout; this unit's ZH-layout copies
+// competed with them for ??0Mouse / ??1Mouse at link. Retail's Mouse ctor
+// hands ~CursorInfo (0x001EE376, rowed here) to the eh vector constructor
+// iterator; this local array construction is the same use, keeping the
+// implicit destructor emitted in its home unit.
+// ?MouseCursorInfoArrayAnchor absent-from-retail
+void MouseCursorInfoArrayAnchor()
 {
-	// device info
-	m_numButtons = 0;
-	m_numAxes = 0;
-	m_forceFeedback = FALSE;
-	
-	//Added By Sadullah Nader
-	//Initializations missing and needed
-	m_dragTolerance = 0;
-	m_dragTolerance3D = 0;
-	m_dragToleranceMS = 0;
-	//
-	
-	//m_tooltipString.clear();	// redundant
-	m_displayTooltip = FALSE;
-	m_tooltipDisplayString = NULL;
-  m_tooltipDelay = -1;  // default value
-	// initialize all the mouse io data
-	memset( m_mouseEvents, 0, sizeof( m_mouseEvents ) );
-	memset( &m_currMouse, 0, sizeof( m_currMouse ) );
-	memset( &m_prevMouse, 0, sizeof( m_prevMouse ) );
-
-	m_minX = 0;
-	m_maxX = 0;
-	m_minY = 0;
-	m_maxY = 0;
-	m_eventsThisFrame = 0;
-
-	m_inputFrame = 0;
-	m_deadInputFrame =0;
-
-	m_inputMovesAbsolute = FALSE;
-
-	m_currentCursor = ARROW;
-	if (TheGlobalData && TheGlobalData->m_winCursors)
-		m_currentRedrawMode = RM_WINDOWS;
-	else
-		m_currentRedrawMode = RM_W3D;//RM_WINDOWS;
-	m_visible = FALSE;
-	m_tooltipFontName = "Times New Roman";
-	m_tooltipFontSize = 12;
-	m_tooltipFontIsBold = FALSE;
-	m_tooltipAnimateBackground = TRUE;
-	m_tooltipFillTime = 50;
-	m_tooltipDelayTime = 50;
-
-#define setColor(x, r, g, b, a) { x.red = r; x.green = g; x.blue = b; x.alpha = a; }
-	setColor(m_tooltipColorText, 220, 220, 220, 255);
-	setColor(m_tooltipColorHighlight, 255, 255, 0, 255);
-	setColor(m_tooltipColorShadow, 0, 0, 0, 255);
-	setColor(m_tooltipColorBackground, 20, 20, 0, 127);
-	setColor(m_tooltipColorBorder, 0, 0, 0, 255);
-#undef setColor
-
-	m_tooltipWidth = 15.0f;
-	m_lastTooltipWidth = 0.0f;
-
-	m_useTooltipAltTextColor = FALSE;
-	m_useTooltipAltBackColor = FALSE;
-	m_adjustTooltipAltColor = FALSE;
-
-	m_orthoCamera = FALSE;
-	m_orthoZoom = 1.0f;
-
-	m_isTooltipEmpty = TRUE;
-
-	m_cursorTextDisplayString = NULL;
-	m_cursorTextColor.red   = 255;
-	m_cursorTextColor.green = 255;
-	m_cursorTextColor.blue  = 255;
-	m_cursorTextColor.alpha = 255;
-	m_cursorTextDropColor.red   = 255;
-	m_cursorTextDropColor.green = 255;
-	m_cursorTextDropColor.blue  = 255;
-	m_cursorTextDropColor.alpha = 255;
-	
-	m_highlightPos = 0;
-	m_highlightUpdateStart = 0;
-	m_stillTime = 0;
-	m_tooltipTextColor.red = 255;
-	m_tooltipTextColor.green = 255;
-	m_tooltipTextColor.blue = 255;
-	m_tooltipTextColor.alpha = 255;
-	m_tooltipBackColor.red = 0;
-	m_tooltipBackColor.green = 0;
-	m_tooltipBackColor.blue = 0;
-	m_tooltipBackColor.alpha = 255;
-
-}  // end Mouse
-
-//-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
-// ??1Mouse@@ present-unmatched
-Mouse::~Mouse( void )
-{
-	if(m_tooltipDisplayString)
-		TheDisplayStringManager->freeDisplayString(m_tooltipDisplayString);
-	m_tooltipDisplayString = NULL;
-
-	if( m_cursorTextDisplayString )
-		TheDisplayStringManager->freeDisplayString( m_cursorTextDisplayString );
-	m_cursorTextDisplayString = NULL;
-
-}  // end ~Mouse
-
-/**Had to move this out of main init() because I need this data to properly initialize
-the Win32 version of the mouse (by preloading resources before D3D device is created).*/
-// ?parseIni@Mouse@@ present-unmatched
-void Mouse::parseIni(void)
-{
-	INI ini;
-	ini.load( AsciiString( "Data\\INI\\Mouse.ini" ), INI_LOAD_OVERWRITE, NULL );
+	CursorInfo cursors[2];
 }
+
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+
+// Mouse::parseIni is defined with its retail-matched body in FontLibraryInit.cpp (0x001EE483).
 
 //-------------------------------------------------------------------------------------------------
 /** Initialize the mouse */
 //-------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/GameClient/Input/Mouse_init.cpp
-// ?init@Mouse@@ present-unmatched
-void Mouse::init( void )
-{
-	if (TheGlobalData && TheGlobalData->m_winCursors)
-		m_currentRedrawMode = RM_WINDOWS;
-
-	// device info
-	m_numButtons = 2;  // by default just have 2 buttons
-	m_numAxes = 2;  // by default a normal mouse moves in a 2d plane
-	m_forceFeedback = FALSE;
-	mouseNotifyResolutionChange();
-	m_tooltipString.clear();	// redundant
-	m_displayTooltip = FALSE;
-
-	// initialize all the mouse io data
-	memset( m_mouseEvents, 0, sizeof( m_mouseEvents ) );
-	memset( &m_currMouse, 0, sizeof( m_currMouse ) );
-	memset( &m_prevMouse, 0, sizeof( m_prevMouse ) );
-
-	m_minX = 0;
-	m_maxX = 799;
-	m_minY = 0;
-	m_maxY = 599;
-
-	m_inputFrame = 0;
-	m_deadInputFrame =0;
-
-	m_inputMovesAbsolute = FALSE;
-	m_eventsThisFrame = 0;
-
-	m_currentCursor = ARROW;
-
- 	// allocate a new display string
-	m_cursorTextDisplayString = TheDisplayStringManager->newDisplayString();
-
-}  // end init
+// Mouse::init is the retail-matched body below (0x001EE4DC, subsystem slot 1).
 
 //-------------------------------------------------------------------------------------------------
 /** Tell mouse system display resolution changed. */
 //-------------------------------------------------------------------------------------------------
+// BFME 2's body is empty: its display-mode change calls the shared empty body
+// 0x000B3FD0 where Zero Hour calls this (GameClientDisplayModeChange.cpp).
 // ?mouseNotifyResolutionChange@Mouse@@ present-unmatched
 void Mouse::mouseNotifyResolutionChange( void )
 {
-	if(m_tooltipDisplayString)
-		TheDisplayStringManager->freeDisplayString(m_tooltipDisplayString);
-	m_tooltipDisplayString = NULL;
-
-	m_tooltipDisplayString = TheDisplayStringManager->newDisplayString();
-
-	if (TheGlobalLanguageData && TheGlobalLanguageData->m_tooltipFontName.name.isNotEmpty())
-	{
-		m_tooltipDisplayString->setFont( TheFontLibrary->getFont(
-			TheGlobalLanguageData->m_tooltipFontName.name,
-			TheGlobalLanguageData->adjustFontSize(TheGlobalLanguageData->m_tooltipFontName.size),
-			TheGlobalLanguageData->m_tooltipFontName.bold) );
-	}
-	else
-	{
-		m_tooltipDisplayString->setFont( TheFontLibrary->getFont(
-			m_tooltipFontName,
-			TheGlobalLanguageData->adjustFontSize(m_tooltipFontSize),
-			m_tooltipFontIsBold ) );
-	}
-
-	m_tooltipDisplayString->setWordWrap(120);
-
-}  // end reset
+}
 
 
 //-------------------------------------------------------------------------------------------------
 /** Reset mouse system */
 //-------------------------------------------------------------------------------------------------
-// ?reset@Mouse@@ present-unmatched
-void Mouse::reset( void )
+// TU-local DisplayStringManager view: retail reaches newDisplayString through
+// slot 0x38 (see rowed Rva0029B816Ctor), not the shared header's slot 0x18.
+class MouseResetDisplayStringManager
 {
-
-	///@ todo Write Mouse::reset() if there needs to be anything here
-
-	// reset the text of the cursor text
-  if ( m_cursorTextDisplayString )
-  	m_cursorTextDisplayString->reset();
+public:
+	virtual void mrs00(); virtual void mrs01(); virtual void mrs02(); virtual void mrs03();
+	virtual void mrs04(); virtual void mrs05(); virtual void mrs06(); virtual void mrs07();
+	virtual void mrs08(); virtual void mrs09(); virtual void mrs10(); virtual void mrs11();
+	virtual void mrs12(); virtual void mrs13();
+	virtual DisplayString *newDisplayString();
+};
+void Mouse::init( void )
+{
+	// Retail 0x001EE4DC, 226 bytes: subsystem slot 1 (init), far beyond ZH's
+	// cursor-text stub. Target facts: TheGlobalData (0xDFE758) +0x9C6 gate
+	// zeroes +0x12DC; StringBase<G> releaseBuffer 0x00036E70 on the wide
+	// strings at +0x12FC and +0x1300 (UnicodeString::clear, public inline);
+	// flag bytes +0x12F4/5 = 2, +0x12F6/+0x1308 = 0; timeGetTime (winmm IAT
+	// 0xBBA918) into +0x4FD8; memset +0x130C/0x3C00, +0x4F0C/0x3C,
+	// +0x4F48/0x3C; limit words +0x4F84 = 0, +0x4F88 = 799, +0x4F8C = 0,
+	// +0x4F90 = 599 (setMouseLimits precedent); +0x4F94/98/9C/FC = 0,
+	// +0x4FA4 = 2; DisplayStringManager slot 0x38 newDisplayString into
+	// +0x4FA8 (same expression as init). Raw members below the mouselayout
+	// shim's view, punned per setMouseLimits/resetTooltipDelay precedent.
+	char *self = reinterpret_cast<char *>(this);
+	if (TheGlobalData && *(reinterpret_cast<Bool *>(reinterpret_cast<char *>(const_cast<GlobalData *>(TheGlobalData)) + 0x9C6)))
+		*reinterpret_cast<Int *>(self + 0x12DC) = 0;
+	UnicodeString *strA = reinterpret_cast<UnicodeString *>(self + 0x12FC);
+	*(self + 0x12F4) = 2;
+	*(self + 0x12F5) = 2;
+	*(self + 0x12F6) = 0;
+	*(self + 0x1308) = 0;
+	strA->clear();
+	reinterpret_cast<UnicodeString *>(self + 0x1300)->clear();
+	*reinterpret_cast<UnsignedInt *>(self + 0x4FD8) = timeGetTime();
+	memset(self + 0x130C, 0, 0x3C00);
+	memset(self + 0x4F0C, 0, 0x3C);
+	memset(self + 0x4F48, 0, 0x3C);
+	*reinterpret_cast<Int *>(self + 0x4F84) = 0;
+	*reinterpret_cast<Int *>(self + 0x4F88) = 799;
+	*reinterpret_cast<Int *>(self + 0x4F8C) = 0;
+	*reinterpret_cast<Int *>(self + 0x4F90) = 599;
+	*reinterpret_cast<Int *>(self + 0x4F94) = 0;
+	*reinterpret_cast<Int *>(self + 0x4F98) = 0;
+	*(self + 0x4F9C) = 0;
+	*reinterpret_cast<Int *>(self + 0x4FFC) = 0;
+	*reinterpret_cast<Int *>(self + 0x4FA4) = 2;
+	// The shared DisplayStringManager header places newDisplayString at slot
+	// 0x18, but retail calls slot 0x38 here (and in rowed Rva0029B816Ctor).
+	// TU-local view with the proven 14-stub prefix; same pattern as that TU.
+	*reinterpret_cast<DisplayString **>(self + 0x4FA8) =
+		reinterpret_cast<MouseResetDisplayStringManager *>(TheDisplayStringManager)->newDisplayString();
 
 }  // end reset
 
-//-------------------------------------------------------------------------------------------------
-/** Update the states of the mouse position and buttons */
-//-------------------------------------------------------------------------------------------------
-// ?update@Mouse@@UAEXXZ present-unmatched
-void Mouse::update( void )
-{
+// Mouse::update is defined with its retail-matched body in MouseProcessEvents.cpp (0x001EDE3A).
 
-	// increment input frame
-	((BfmeMouseLayout *)this)->inputFrame++;
-
-	// update the mouse data
-	updateMouseData( );
-
-}  // end update
-
-//-------------------------------------------------------------------------------------------------
-/** Given the current state of this input device, turn the raw input
-	* data into raw stream messages and place those messages on the stream.
-	* NOTE that the click messages replace up messages in the mouse, so we
-	* are going to propagate those click messages in addition to up messages */
-//-------------------------------------------------------------------------------------------------
-// ?createStreamMessages@Mouse@@ present-unmatched
-void Mouse::createStreamMessages( void )
-{
-
-	// santiy
-	if( TheMessageStream == NULL )
-		return;  // no place to put messages
-
-	GameMessage *msg = NULL;
-	UnsignedInt now = timeGetTime();
-
-	// basic position messages are always created
-	msg = TheMessageStream->appendMessage( GameMessage::MSG_RAW_MOUSE_POSITION );
-	msg->appendPixelArgument( m_currMouse.pos );
-	msg->appendIntegerArgument( TheKeyboard->getModifierFlags() );
-
-  Int delay = m_tooltipDelayTime;
-  if(m_tooltipDelay >= 0 )
-     delay = m_tooltipDelay;
-	if( TheGlobalData->m_scriptDebug )
-	{
-		//No delay while scriptdebugging!
-		delay = 0;
-	}
-  
-	if( now - m_stillTime >= delay )
-	{
-		if (!m_displayTooltip)
-		{
-			m_highlightPos = 0;
-			m_highlightUpdateStart = timeGetTime();
-		}
-
-		// display tooltip for current window
-		m_displayTooltip = TRUE;
-	}
-	else
-	{
-		//DEBUG_LOG(("%d %d %d %d\n", TheGameClient->getFrame(), delay, now, m_stillTime));
-		m_displayTooltip = FALSE;
-	}
-	
-	for (Int i = 0; i < m_eventsThisFrame; ++i)
-	{
-		processMouseEvent(i);
-		if (m_currMouse.deltaPos.x || m_currMouse.deltaPos.y)
-			m_stillTime = now;
-
-		// button messages
-		msg = NULL;
-		switch( m_currMouse.leftEvent )
-		{
-
-			case GWM_LEFT_DOWN:
-				msg = TheMessageStream->appendMessage( GameMessage::MSG_RAW_MOUSE_LEFT_BUTTON_DOWN );
-				msg->appendPixelArgument( m_currMouse.pos );
-				msg->appendIntegerArgument( TheKeyboard->getModifierFlags() );
-				msg->appendIntegerArgument( m_currMouse.time );
-				break;
-
-			case GWM_LEFT_DOUBLE_CLICK:
-				msg = TheMessageStream->appendMessage( GameMessage::MSG_RAW_MOUSE_LEFT_DOUBLE_CLICK );
-				msg->appendPixelArgument( m_currMouse.pos );
-				msg->appendIntegerArgument( TheKeyboard->getModifierFlags() );
-				msg->appendIntegerArgument( m_currMouse.time );
-				break;
-
-			case GWM_LEFT_UP:
-				msg = TheMessageStream->appendMessage( GameMessage::MSG_RAW_MOUSE_LEFT_BUTTON_UP );
-				msg->appendPixelArgument( m_currMouse.pos );
-				msg->appendIntegerArgument( TheKeyboard->getModifierFlags() );
-				msg->appendIntegerArgument( m_currMouse.time );
-				break;
-
-			case GWM_LEFT_DRAG:
-				msg = TheMessageStream->appendMessage( GameMessage::MSG_RAW_MOUSE_LEFT_DRAG );
-				msg->appendPixelArgument( m_currMouse.pos );
-				msg->appendPixelArgument( m_currMouse.deltaPos );
-				msg->appendIntegerArgument( TheKeyboard->getModifierFlags() );
-				break;
-
-		}  // end switch
-
-		msg = NULL;
-		switch( m_currMouse.middleEvent )
-		{
-
-			//-------------------------------------------------------------------------
-			case GWM_MIDDLE_DOWN:
-				msg = TheMessageStream->appendMessage( GameMessage::MSG_RAW_MOUSE_MIDDLE_BUTTON_DOWN );
-				msg->appendPixelArgument( m_currMouse.pos );
-				msg->appendIntegerArgument( TheKeyboard->getModifierFlags() );
-				msg->appendIntegerArgument( m_currMouse.time );
-				break;
-
-			case GWM_MIDDLE_DOUBLE_CLICK:
-				msg = TheMessageStream->appendMessage( GameMessage::MSG_RAW_MOUSE_MIDDLE_DOUBLE_CLICK );
-				msg->appendPixelArgument( m_currMouse.pos );
-				msg->appendIntegerArgument( TheKeyboard->getModifierFlags() );
-				msg->appendIntegerArgument( m_currMouse.time );
-				break;
-
-			case GWM_MIDDLE_UP:
-				msg = TheMessageStream->appendMessage( GameMessage::MSG_RAW_MOUSE_MIDDLE_BUTTON_UP );
-				msg->appendPixelArgument( m_currMouse.pos );
-				msg->appendIntegerArgument( TheKeyboard->getModifierFlags() );
-				msg->appendIntegerArgument( m_currMouse.time );
-				break;
-
-			case GWM_MIDDLE_DRAG:
-				msg = TheMessageStream->appendMessage( GameMessage::MSG_RAW_MOUSE_MIDDLE_DRAG );
-				msg->appendPixelArgument( m_currMouse.pos );
-				msg->appendPixelArgument( m_currMouse.deltaPos );
-				msg->appendIntegerArgument( TheKeyboard->getModifierFlags() );
-				break;
-
-		}  // end switch
-
-		msg = NULL;
-		switch( m_currMouse.rightEvent )
-		{
-
-			//-------------------------------------------------------------------------
-			case GWM_RIGHT_DOWN:
-				msg = TheMessageStream->appendMessage( GameMessage::MSG_RAW_MOUSE_RIGHT_BUTTON_DOWN );
-				msg->appendPixelArgument( m_currMouse.pos );
-				msg->appendIntegerArgument( TheKeyboard->getModifierFlags() );
-				msg->appendIntegerArgument( m_currMouse.time );
-				break;
-
-			case GWM_RIGHT_DOUBLE_CLICK:
-				msg = TheMessageStream->appendMessage( GameMessage::MSG_RAW_MOUSE_RIGHT_DOUBLE_CLICK );
-				msg->appendPixelArgument( m_currMouse.pos );
-				msg->appendIntegerArgument( TheKeyboard->getModifierFlags() );
-				msg->appendIntegerArgument( m_currMouse.time );
-				break;
-
-			case GWM_RIGHT_UP:
-				msg = TheMessageStream->appendMessage( GameMessage::MSG_RAW_MOUSE_RIGHT_BUTTON_UP );
-				msg->appendPixelArgument( m_currMouse.pos );
-				msg->appendIntegerArgument( TheKeyboard->getModifierFlags() );
-				msg->appendIntegerArgument( m_currMouse.time );
-				break;
-
-			case GWM_RIGHT_DRAG:
-				msg = TheMessageStream->appendMessage( GameMessage::MSG_RAW_MOUSE_RIGHT_DRAG );
-				msg->appendPixelArgument( m_currMouse.pos );
-				msg->appendPixelArgument( m_currMouse.deltaPos );
-				msg->appendIntegerArgument( TheKeyboard->getModifierFlags() );
-				break;
-
-		}  // end switch
-
-		// wheel pos
-		msg = NULL;
-		if( m_currMouse.wheelPos != 0 )
-		{
-			msg = TheMessageStream->appendMessage( GameMessage::MSG_RAW_MOUSE_WHEEL );
-			msg->appendPixelArgument( m_currMouse.pos );
-			msg->appendIntegerArgument( m_currMouse.wheelPos / 120 );  // wheel delta
-			msg->appendIntegerArgument( TheKeyboard->getModifierFlags() );
-		}  // end if
-	
-	}	// end for
-}  // end createStreamMessages
+// Mouse::createStreamMessages is defined with its retail-matched body in MouseProcessEvents.cpp (0x001EE630).
 
 //-------------------------------------------------------------------------------------------------
 /** Set the string to display at the cursor for the tooltip */
@@ -992,31 +383,11 @@ void Mouse::setCursorTooltip( UnicodeString tooltip, Int delay, const RGBColor *
 /** Set the text for the mouse cursor ... note that this is *NOT* the tooltip text we
 	* can set to be at the mouse position */
 // ------------------------------------------------------------------------------------------------
-// ?setMouseText@Mouse@@ present-unmatched
-void Mouse::setMouseText( UnicodeString text, 
-													const RGBAColorInt *color, 
-													const RGBAColorInt *dropColor )
-{
-
-	// sanity, if no display string has been created, get out of here
-	if( m_cursorTextDisplayString == NULL )
-		return;
-
-	// set the text into the cursor display string
-	m_cursorTextDisplayString->setText( text );
-
-	// save the colors to draw in
-	if( color )
-		m_cursorTextColor = *color;
-	if( dropColor )
-		m_cursorTextDropColor = *dropColor;
-
-}  // end setMouseText
+// Mouse::setMouseText (0x001EEBD5) is defined with its retail body in MouseRva001EEBD5.cpp.
 
 //-------------------------------------------------------------------------------------------------
 /** Move the mouse to the position */
 //-------------------------------------------------------------------------------------------------
-// ?setPosition@Mouse@@UAEXHH@Z present-unmatched
 void Mouse::setPosition( Int x, Int y )
 {
 	BfmeMouseLayout *self = (BfmeMouseLayout *)this;
@@ -1042,22 +413,23 @@ public:
 	virtual void slot00() = 0; virtual void slot04() = 0; virtual void slot08() = 0;
 	virtual void slot0c() = 0; virtual void slot10() = 0; virtual void slot14() = 0;
 	virtual void slot18() = 0; virtual void slot1c() = 0; virtual void slot20() = 0;
-	virtual void slot24() = 0; virtual void slot28() = 0;
+	virtual void slot24() = 0; virtual void slot28() = 0; virtual void slot2c() = 0;
+	virtual void slot30() = 0; virtual void slot34() = 0; virtual void slot38() = 0;
+	virtual void slot3c() = 0;
 	virtual Int getWidth() = 0;
 	virtual Int getHeight() = 0;
 };
 
-// ?setMouseLimits@Mouse@@UAEXXZ present-unmatched
 void Mouse::setMouseLimits( void )
 {
 	char *mouse = reinterpret_cast<char *>(this);
-	*reinterpret_cast<Int *>(mouse + 0x4d88) = 0;
-	*reinterpret_cast<Int *>(mouse + 0x4d90) = 0;
+	*reinterpret_cast<Int *>(mouse + 0x4f84) = 0;
+	*reinterpret_cast<Int *>(mouse + 0x4f8c) = 0;
 	if( TheDisplay )
 	{
-		*reinterpret_cast<Int *>(mouse + 0x4d8c) =
+		*reinterpret_cast<Int *>(mouse + 0x4f88) =
 			reinterpret_cast<BfmeMouseLimitDisplay *>(TheDisplay)->getWidth();
-		*reinterpret_cast<Int *>(mouse + 0x4d94) =
+		*reinterpret_cast<Int *>(mouse + 0x4f90) =
 			reinterpret_cast<BfmeMouseLimitDisplay *>(TheDisplay)->getHeight();
 	}  // end if
 
@@ -1074,269 +446,122 @@ void Mouse::draw( void )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-void j_0002497e();
-// ?resetTooltipDelay@Mouse@@QAEXXZ present-unmatched
-void Mouse::resetTooltipDelay( void )
-{
-	char *self = reinterpret_cast<char *>(this);
-	*reinterpret_cast<UnsignedInt *>(self + 0x4ddc) = timeGetTime();
-	UnicodeString *tooltip = reinterpret_cast<UnicodeString *>(self + 0x10fc);
-	*reinterpret_cast<Bool *>(self + 0x110c) = FALSE;
-	if (!tooltip->isEmpty())
-	{
-		j_0002497e();
-		tooltip->clear();
-	}
-	reinterpret_cast<UnicodeString *>(self + 0x1100)->clear();
-	reinterpret_cast<UnicodeString *>(self + 0x1104)->clear();
-}
+// Mouse::resetTooltipDelay is retail 0x001EEC4B, matched in MouseRva001EEC4B_muse-f8cb.cpp.
 
 //-------------------------------------------------------------------------------------------------
 /** Draw the mouse tooltip if one is set */
 //-------------------------------------------------------------------------------------------------
-// ?drawTooltip@Mouse@@ present-unmatched
-void Mouse::drawTooltip( void )
-{
-	if (TheScriptEngine->getFade()!=ScriptEngine::FADE_NONE) {
-		return;
-	}
-
-	/// @todo: Still need to put in display logic so it puts the tool tips in a visable position on the edge of the screen
-	if( m_displayTooltip && TheDisplay && m_tooltipDisplayString && (m_tooltipDisplayString->getTextLength() > 0) && !m_isTooltipEmpty)
-	{
-		Int width, xPos;
-		Int height, yPos;
-		m_tooltipDisplayString->getSize(&width,&height);
-		xPos = m_currMouse.pos.x + 20;
-		yPos = m_currMouse.pos.y;// + 20;
-
-		if( xPos + width + 4 > m_maxX ) // +4 for spill
-		{
-			//xPos = m_maxX - width;
-			xPos -= 20 + width;
-		}
-		if( yPos + height + 4 > m_maxY ) // +4 for spill
-		{
-			//yPos = m_maxY - height;
-			yPos -= /*40 +*/ height;
-		}
-
-		Int boxWidth = (m_tooltipAnimateBackground)?(min(width, m_highlightPos)):width;
-
-#define GMC(x) GameMakeColor(x.red, x.green, x.blue, x.alpha)
-#define COLOR(x) GMC(m_tooltipColor##x)
-		TheDisplay->drawFillRect(xPos, yPos, boxWidth + 2,height + 2, GMC(m_tooltipBackColor));//GameMakeColor(0,0,0,125));
-		TheDisplay->drawOpenRect(xPos, yPos, boxWidth + 2,height + 2, 1.0, COLOR(Border));//GameMakeColor(20,20,20,255));
-
-		// build clip rect
-		IRegion2D clipRegion;
-		clipRegion.lo.x = xPos+2;
-		clipRegion.lo.y = yPos+1;
-		clipRegion.hi.x = xPos+2+m_highlightPos;
-		clipRegion.hi.y = yPos+1+height;
-		m_tooltipDisplayString->setClipRegion(&clipRegion);
-		m_tooltipDisplayString->draw(xPos +2, yPos +1, GMC(m_tooltipTextColor), COLOR(Shadow));//GameMakeColor(220,220,220,255),GameMakeColor(20,20,20,125));
-
-		// highlight section
-		const Int HIGHLIGHT_WIDTH = 15;
-		clipRegion.lo.x = xPos+2+m_highlightPos-HIGHLIGHT_WIDTH;
-		clipRegion.lo.y = yPos+1;
-		clipRegion.hi.x = xPos+2+m_highlightPos;
-		clipRegion.hi.y = yPos+1+height;
-		m_tooltipDisplayString->setClipRegion(&clipRegion);
-		m_tooltipDisplayString->draw(xPos +2, yPos +1, COLOR(Highlight), COLOR(Shadow));//GameMakeColor(255,255,0,255),GameMakeColor(20,20,20,125));
-
-		// get ready for the next part of the anim
-		if (m_highlightPos < width + HIGHLIGHT_WIDTH)
-		{
-			UnsignedInt now = timeGetTime();
-			m_highlightPos = (width*(now-m_highlightUpdateStart))/m_tooltipFillTime;
-		}
-	}  // end if
-
-
-}  // end drawTooltip
-
 // ------------------------------------------------------------------------------------------------
 /** Draw the cursor text at the mouse position.  Note that this is *NOT* the tooltip text */
 // ------------------------------------------------------------------------------------------------
-// ?drawCursorText@Mouse@@ present-unmatched
+class MouseDrawCursorTextDisplayString
+{
+public:
+	virtual ~MouseDrawCursorTextDisplayString();
+	virtual void slot04() = 0;
+	virtual void slot08() = 0;
+	virtual void slot0c() = 0;
+	virtual void slot10() = 0;
+	virtual void slot14() = 0;
+	virtual void slot18() = 0;
+	virtual void slot1c() = 0;
+	virtual void slot20() = 0;
+	virtual void slot24() = 0;
+	virtual void setColor(Color color, Color dropColor) = 0;
+	virtual void slot2c() = 0;
+	virtual void slot30() = 0;
+	virtual void slot34() = 0;
+	virtual void draw(Int x, Int y, Int xDrop, Int yDrop) = 0;
+	virtual void getSize(Int *width, Int *height) = 0;
+};
+
+class MouseDrawCursorTextDisplay
+{
+public:
+	virtual ~MouseDrawCursorTextDisplay();
+	virtual void slot04() = 0;
+	virtual void slot08() = 0;
+	virtual void slot0c() = 0;
+	virtual void slot10() = 0;
+	virtual void slot14() = 0;
+	virtual void slot18() = 0;
+	virtual void slot1c() = 0;
+	virtual void slot20() = 0;
+	virtual void slot24() = 0;
+	virtual void slot28() = 0;
+	virtual void slot2c() = 0;
+	virtual void slot30() = 0;
+	virtual void slot34() = 0;
+	virtual void slot38() = 0;
+	virtual void slot3c() = 0;
+	virtual UnsignedInt getWidth() = 0;
+	virtual UnsignedInt getHeight() = 0;
+};
+
 void Mouse::drawCursorText( void )
 {
+	// BFME2 adds 0x554 bytes before the corresponding BFME1 mouse fields.
+	Mouse *const retailMouse = reinterpret_cast<Mouse *>(
+		reinterpret_cast<char *>(this) + 0x554);
 
 	// sanity
-	if( m_cursorTextDisplayString == NULL )
+	if( retailMouse->m_cursorTextDisplayString == NULL )
 		return;
 
 	// get the colors to draw the text in an acceptable format
 	Color color, dropColor;
-	color = GameMakeColor( m_cursorTextColor.red, 
-												 m_cursorTextColor.green, 
-												 m_cursorTextColor.blue, 
-												 m_cursorTextColor.alpha );
-	dropColor = GameMakeColor( m_cursorTextDropColor.red, 
-														 m_cursorTextDropColor.green, 
-														 m_cursorTextDropColor.blue, 
-														 m_cursorTextDropColor.alpha );
+	color = GameMakeColor( retailMouse->m_cursorTextColor.red,
+													 retailMouse->m_cursorTextColor.green,
+													 retailMouse->m_cursorTextColor.blue,
+													 retailMouse->m_cursorTextColor.alpha );
+	dropColor = GameMakeColor( retailMouse->m_cursorTextDropColor.red,
+														 retailMouse->m_cursorTextDropColor.green,
+														 retailMouse->m_cursorTextDropColor.blue,
+														 retailMouse->m_cursorTextDropColor.alpha );
 
 	// get the size of the text to draw
 	Int width, height;
-	m_cursorTextDisplayString->getSize( &width, &height );
+	reinterpret_cast<MouseDrawCursorTextDisplayString *>(
+		retailMouse->m_cursorTextDisplayString)->getSize( &width, &height );
 
-	// draw the text around the cursor position
+	// Put the text to the right/below the cursor unless it would cross the
+	// retail display edge; then place it to the left/above the cursor.
 	Int x, y;
-	x = m_currMouse.pos.x - width / 2;
-	y = m_currMouse.pos.y - height / 2;
-	m_cursorTextDisplayString->draw( x, y, color, dropColor );
+	Int *const retailMousePosition = reinterpret_cast<Int *>(
+		reinterpret_cast<char *>(this) + 0x4f0c);
+	Int mouseX = retailMousePosition[0];
+	if( mouseX + 16 < reinterpret_cast<MouseDrawCursorTextDisplay *>(TheDisplay)->getWidth() - width )
+		x = mouseX + 16;
+	else
+		x = mouseX - width - 16;
+
+	Int mouseY = retailMousePosition[1];
+	if( mouseY + 16 < reinterpret_cast<MouseDrawCursorTextDisplay *>(TheDisplay)->getHeight() - height )
+		y = mouseY + 16;
+	else
+		y = mouseY - height - 16;
+
+	reinterpret_cast<MouseDrawCursorTextDisplayString *>(
+		retailMouse->m_cursorTextDisplayString)->setColor( color, dropColor );
+	reinterpret_cast<MouseDrawCursorTextDisplayString *>(
+		retailMouse->m_cursorTextDisplayString)->draw( x, y, 1, 1 );
 
 }  // end drawCursorText
 
-// ------------------------------------------------------------------------------------------------
-// ------------------------------------------------------------------------------------------------
-static __forceinline Int compareCursorName(const AsciiString &name, const char *cursorName)
-{
-	Int cursorLength = cursorName ? strlen(cursorName) : 0;
-	const void *nameData = *reinterpret_cast<const void * const *>(&name);
-	Int nameLength = nameData
-		? *reinterpret_cast<const unsigned short *>(reinterpret_cast<const char *>(nameData) + 4)
-		: 0;
-	_ReadWriteBarrier();
-	const char *nameText = nameData
-		? reinterpret_cast<const char *>(nameData) + 8
-		: "";
-	Int compareLength = nameLength < cursorLength ? nameLength : cursorLength;
-	Int result = _memicmp(nameText, cursorName, compareLength);
-	if (result != 0)
-		return result;
-	return nameLength - cursorLength;
-}
 
-// ?getCursorIndex@Mouse@@QAEHABVAsciiString@@@Z present-unmatched
-Int Mouse::getCursorIndex(const AsciiString& name)
-{
-	if (name.isEmpty())
-		return INVALID_MOUSE_CURSOR;
+// Mouse::getCursorIndex is defined with its retail-matched body in Code/GameEngine/Source/Common/Rva001EF291Find.cpp (0x001EF291).
 
-	/** @todo This is silly to have to define these names from INI in the code ... 
-		* that should be changed (CBD) */
-	static char *CursorININames[50] =
-	{
-		//"InvalidMouseCursor",  // this entry is not actually a mouse cursor, but just a
-														 // reminder that it does exist
-		"None",
-		"Normal",
-		"Arrow",
-		"Scroll",
-		"Target",
-		"Move",
-		"AttackMove",
-		"AttackObj",
-		"ForceAttackObj",
-		"ForceAttackGround",
-		"Build",
-		"InvalidBuild",
-		"GenericInvalid",
-		"Select",
-		"EnterFriendly",
-		"EnterAggressive",
-		"SetRallyPoint",
-		"GetRepaired",
-		"GetHealed",
-		"DoRepair",
-		"ResumeConstruction",
-		"CaptureBuilding",
-		"SnipeVehicle",
-		"LaserGuidedMissiles",
-		"TankHunterTNTAttack",
-		"StabAttack",
-		"PlaceRemoteCharge",
-		"PlaceTimedCharge",
-		"Defector",
-#ifdef ALLOW_DEMORALIZE
-		"Demoralize",
-#endif
-		"Dock",
-#ifdef ALLOW_SURRENDER
-		"PickUpPrisoner",
-		"ReturnToPrison",
-#endif
-		"FireFlame",
-#ifdef ALLOW_SURRENDER
-		"FireTranqDarts",
-		"FireStunBullets",
-#endif
-		"FireBomb",
-		"PlaceBeacon",
-		"DisguiseAsVehicle",
-		"Waypoint",
-		"OutRange",
-		"StabAttackInvalid",
-		"PlaceChargeInvalid",
-		"Hack",
-		"ParticleUplinkCannon",
-		"LivingWorldZoom",
-		"LightPointParticle",
-		"JoinHorde",
-		"WeaponUpgrade",
-		"ArmorUpgrade",
-		"Beam",
-		"Bombard",
-		"Axe",
-		"EvilAbilityObj",
-		"PickUp",
-
-	};
-
-	for (Int i = 0; i < 50; ++i)
-	{
-		if (compareCursorName(name, CursorININames[i]) == 0)
-			return i;
-	}
-
-	DEBUG_CRASH(( "Mouse::getCursorIndex - Invalid cursor name '%s'\n", name.str() ));
-	return INVALID_MOUSE_CURSOR;
-
-}
-
-// ------------------------------------------------------------------------------------------------
-// ------------------------------------------------------------------------------------------------
-// ?setCursor@Mouse@@ present-unmatched
-void Mouse::setCursor( MouseCursor cursor )
-{
-	
-	// if cursor has not changed do nothing
-	if( m_currentCursor == cursor )
-		return;
-
-	// only if we have a display cursor do we do anything with mouse text
-	if( m_cursorTextDisplayString != NULL )
-	{
-		CursorInfo *cursorInfo = &m_cursorInfo[ cursor ];
-
-		//
-		// if there is text present into the cursor info, set it into the mouse, otherwise
-		// just clear out the text for the cursor text
-		//
-		if( cursorInfo->cursorText.isEmpty() == FALSE )
-			setMouseText( TheGameText->fetch( cursorInfo->cursorText.str() ),
-										 &(cursorInfo->cursorTextColor),
-										 &(cursorInfo->cursorTextDropColor) );
-		else
-			setMouseText( UnicodeString( L"" ), NULL, NULL );
-
-	}  // end if
-
-}  // end setCursor
+// Mouse::setCursor is defined with its retail-matched body in Code/GameEngine/Source/GameClient/MouseSetCursor.cpp (0x001EEFD2).
 
 //-------------------------------------------------------------------------------------------------
 /** Parse MouseCursor entry */
 //-------------------------------------------------------------------------------------------------
 // ?parseMouseCursorDefinition@INI@@SAXPAV1@@Z
-// The "MouseCursor" block. m_cursorInfo sits at +8 in Mouse with a 0x54 stride,
-// which is how retail addresses the element (imul index,0x54 then +TheMouse+8),
-// and the cursor's name is the first member at offset 0 -- the field table's
-// lowest entry is CursorText at 0x04.
-// ?parseMouseCursorDefinition@INI@@SAXPAV1@@Z present-unmatched
+// The "MouseCursor" block (INI block table entry 0x001EF2CB). m_cursorInfo
+// sits at +0x0C in Mouse with a 0x54 stride, which is how retail addresses the
+// element (imul index,0x54 then lea [eax+TheMouse+0x0C]), and the cursor's
+// name is the first member at offset 0 -- the field table's lowest entry is
+// CursorText at 0x04.
 void INI::parseMouseCursorDefinition( INI* ini )
 {
 	AsciiString name;
@@ -1348,7 +573,7 @@ void INI::parseMouseCursorDefinition( INI* ini )
 		Int index = TheMouse->getCursorIndex( name );
 		if( index != Mouse::INVALID_MOUSE_CURSOR )
 		{
-			CursorInfo *cursorInfo = (CursorInfo *)((char *)TheMouse + index * 0x54 + 8);
+			CursorInfo *cursorInfo = (CursorInfo *)((char *)TheMouse + index * 0x54 + 0x0C);
 			cursorInfo->cursorName = name;
 
 			ini->initFromINI( cursorInfo, TheMouseCursorFieldParseTable );
@@ -1359,7 +584,6 @@ void INI::parseMouseCursorDefinition( INI* ini )
 //-------------------------------------------------------------------------------------------------
 /** Parse MouseCursor entry */
 //-------------------------------------------------------------------------------------------------
-// ?parseMouseDefinition@INI@@SAXPAV1@@Z present-unmatched
 void INI::parseMouseDefinition( INI* ini )
 {
 	if( TheMouse )

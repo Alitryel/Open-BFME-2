@@ -1,4 +1,6 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+char g_00C4F590;
+
+// cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // ??0BoredUpdateModuleData@@QAE@XZ, retail 0x004966FE, 130 bytes.
 // Bored behavior data: the own table at 0x00C4F4E8 carries ScanDelayTime
@@ -15,6 +17,10 @@
 // vector, so the states drop 0->2 to 0->1. Retail runs the filter call
 // first, so only the vtable is init-listed; the scan stores live in the
 // body with their loads hoisted above the temp setup.
+
+extern int BfmeLogicFramesPerSecond;
+
+extern unsigned char g_00DFEFA4StoragePrototype[28];
 
 class BfmeFixedStorage0004543D
 {
@@ -36,12 +42,12 @@ private:
 	int m_x;
 };
 
-#define LogicFramesPerSecond (*(const int *)0x00DBA4E4)
+#define LogicFramesPerSecond BfmeLogicFramesPerSecond
 
 class UpdateModuleData
 {
 public:
-	UpdateModuleData() {}
+	__declspec(dllimport) __forceinline UpdateModuleData() {}
 	~UpdateModuleData();
 
 private:
@@ -65,13 +71,13 @@ private:
 
 // ??0BoredUpdateModuleData@@QAE@XZ @0x4966FE
 BoredUpdateModuleData::BoredUpdateModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C4F590))
+	: m_vtable(reinterpret_cast<const void *>((unsigned int)&g_00C4F590))
 {
 	m_scanDelayTime = LogicFramesPerSecond;
 	m_scanDistance = 300.0f;
 	m_boredFilter.initFromStorages(
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(0x00DFEFA4)),
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(0x00DFEFA4)));
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)),
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)));
 	m_specialPowerTemplate = 0;
 	m_canScanWhileAttackingOrMoving = 0;
 }

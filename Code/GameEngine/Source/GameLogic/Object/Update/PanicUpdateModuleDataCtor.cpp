@@ -1,4 +1,6 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+char g_00C59CF8;
+
+// cl: /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
 // Identity: ModuleFactory registers this data class under "EvacuateDamage" (addModule
 // pairs the name with this factory); formerly misnamed PanicUpdateModuleData.
 //
@@ -17,21 +19,12 @@
 // panic threshold at +0x10 defaulting to 0.1f and tracking span at +0x14
 // defaulting to 6. Size 0x18 matches the free 0x250E4B factory news.
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	void clear();
-	~AsciiString();
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class UpdateModuleData
 {
 public:
-	UpdateModuleData() {}
+	__declspec(dllimport) __forceinline UpdateModuleData() {}
 	~UpdateModuleData();
 
 private:
@@ -53,7 +46,7 @@ private:
 
 // ??0EvacuateDamageModuleData@@QAE@XZ @0x4BAD10
 EvacuateDamageModuleData::EvacuateDamageModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C59CF8))
+	: m_vtable(reinterpret_cast<const void *>((unsigned int)&g_00C59CF8))
 	, m_evacuationWeapon()
 {
 	m_evacuationWeapon.clear();

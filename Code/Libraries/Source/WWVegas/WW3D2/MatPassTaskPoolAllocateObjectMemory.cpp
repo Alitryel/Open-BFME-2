@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -49,37 +49,9 @@ public:
 };
 }
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib/mutex.h
-class FastCriticalSectionClass
-{
-	unsigned Flag;
-
-public:
-	FastCriticalSectionClass() : Flag(0) {}
-
-	class LockClass
-	{
-		FastCriticalSectionClass& cs;
-	public:
-		LockClass(FastCriticalSectionClass& critical_section) : cs(critical_section)
-		{
-			spin(&cs.Flag);
-		}
-
-		~LockClass()
-		{
-			cs.Flag=0;
-		}
-
-	private:
-		static void __fastcall spin(unsigned *flag);		// pinned 0x0006577F
-
-		LockClass &operator=(const LockClass&);
-		LockClass(const LockClass&);
-	};
-
-	friend class LockClass;
-};
+// Preserve the original one-word pool field and use the shared pool guard.
+#include "../WWLib/mutex.h"
+#include "../WWLib/bfme_pool_critical_section.h"
 
 template<class T,int BLOCK_SIZE = 64>
 class ObjectPoolClass
@@ -100,7 +72,7 @@ protected:
 template<class T,int BLOCK_SIZE>
 T * ObjectPoolClass<T,BLOCK_SIZE>::Allocate_Object_Memory(void)
 {
-	FastCriticalSectionClass::LockClass lock(ObjectPoolCS);
+	BFMEPoolCriticalSection::LockClass lock(*reinterpret_cast<BFMEPoolCriticalSection *>(&ObjectPoolCS));
 
 	if ( FreeListHead == 0 ) {
 
@@ -126,3 +98,22 @@ T * ObjectPoolClass<T,BLOCK_SIZE>::Allocate_Object_Memory(void)
 }
 
 template MatPassTaskClass * ObjectPoolClass<MatPassTaskClass,256>::Allocate_Object_Memory(void);
+
+// The independently identified PolyRender task has the same three-pointer
+// allocation size. Its constructor 0x00143890 and destructor 0x001438B0
+// establish the renderer/mesh/next layout, and its AutoPool new/delete use
+// the distinct allocator at VA 0x00DF367C. Retail folds only the allocation
+// algorithm with MatPassTaskClass; the allocator objects remain distinct.
+class DX8PolygonRendererClass;
+class MeshClass;
+class PolyRenderTaskClass {
+    DX8PolygonRendererClass *Renderer;
+    MeshClass *Mesh;
+    PolyRenderTaskClass *NextVisible;
+};
+typedef char PolyRenderTaskSizeMustBe12[sizeof(PolyRenderTaskClass) == 12 ? 1 : -1];
+template PolyRenderTaskClass * ObjectPoolClass<PolyRenderTaskClass,256>::Allocate_Object_Memory(void);
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?Allocate_Object_Memory@MatPassTaskPoolClass@@QAEPAUMatPassTaskClass@@XZ=?Allocate_Object_Memory@?$ObjectPoolClass@VMatPassTaskClass@@$0BAA@@@QAEPAVMatPassTaskClass@@XZ")

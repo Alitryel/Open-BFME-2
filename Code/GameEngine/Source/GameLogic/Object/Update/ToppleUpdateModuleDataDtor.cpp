@@ -1,4 +1,4 @@
-// cl: /O1 /GX /arch:SSE /DNDEBUG /MD
+// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /GX /DNDEBUG /MD
 //
 // ??1ToppleUpdateModuleData@@UAE@XZ, retail 0x004A83A7, 48 bytes.
 // ModuleData dtor: tears down the StumpName string at +0x10 through the
@@ -15,30 +15,9 @@
 // the own INI table at 0x00C53980. Caller is the slot-0 ??_G at 0x004A838B
 // (vtable 0x008538A0). BFME1 donor hits ToppleUpdateModuleDataDestructorThunk.
 
-class Xfer;
+#include "Common/Snapshot.h"
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc(Xfer *xfer);
-	virtual void loadPostProcess();
-	virtual void xfer(Xfer *xfer);
-};
-
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
-
-class AsciiString
-{
-public:
-	~AsciiString();
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class __declspec(novtable) ToppleUpdateModuleData : public Snapshot
 {

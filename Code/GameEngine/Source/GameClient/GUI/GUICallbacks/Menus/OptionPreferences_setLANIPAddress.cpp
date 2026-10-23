@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // ?setLANIPAddress@OptionPreferences@@QAEXI@Z, retail 0x002E50BB,
@@ -23,31 +23,8 @@ template <typename T> struct BfmeStringData
 	T text[1];
 };
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-private:
-	StringBase() {}
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	~StringBase() { releaseBuffer(); }
-	void releaseBuffer();
-	BfmeStringData<T> *m_data;
+#include "ascii_string.h"
 
-public:
-	const T *str() const { return m_data ? &m_data->text[0] : (const T *)""; }
-};
-
-class AsciiString : private StringBase<char>
-{
-public:
-	AsciiString() { m_data = 0; }
-	AsciiString(const char *text) : StringBase<char>(text) {}
-	AsciiString(const AsciiString &other) : StringBase<char>(other) {}
-	~AsciiString() {}
-	AsciiString &operator=(const AsciiString &other);
-	void format(const char *fmt, ...);
-};
 
 bool operator<(const AsciiString &left, const AsciiString &right);
 
@@ -73,9 +50,31 @@ class OptionPreferences : public AsciiPreferenceMap
 {
 public:
 	virtual ~OptionPreferences();
+	void setLANIPAddress(AsciiString IP);
 	void setLANIPAddress(unsigned int ip);
+	void setOnlineIPAddress(AsciiString IP);
 	void setOnlineIPAddress(unsigned int ip);
 };
+
+// ?setLANIPAddress@OptionPreferences@@QAEXVAsciiString@@@Z, retail
+// 0x002E505A (97 bytes), directly before the unsigned overload: ZH's
+// string overload, verbatim.
+// Select-any like the OptionsMenu.cpp copy (this retail body comes first in
+// link order, so it is the copy the link keeps); the anchor keeps the noinline
+// body emitted.
+inline __declspec(noinline) void OptionPreferences::setLANIPAddress(AsciiString IP)
+{
+	(*this)["IPAddress"] = IP;
+}
+
+// Retain the inline bodies' ledger emission without changing their callers.
+// ?bfmeEmitOptionPreferencesSetIP@@YAXPAVOptionPreferences@@@Z absent-from-retail
+void bfmeEmitOptionPreferencesSetIP(OptionPreferences *optionPreferences)
+{
+	AsciiString empty;
+	optionPreferences->OptionPreferences::setLANIPAddress(empty);
+	optionPreferences->OptionPreferences::setOnlineIPAddress(empty);
+}
 
 // ?setLANIPAddress@OptionPreferences@@QAEXI@Z
 void OptionPreferences::setLANIPAddress(unsigned int ip)
@@ -86,6 +85,15 @@ void OptionPreferences::setLANIPAddress(unsigned int ip)
 	AsciiString key("IPAddress");
 	AsciiString &slot = (*this)[key];
 	slot = text;
+}
+
+// ?setOnlineIPAddress@OptionPreferences@@QAEXVAsciiString@@@Z, retail
+// 0x002E520C (97 bytes), directly before the unsigned overload: ZH's
+// string overload, verbatim.
+// Select-any, as setLANIPAddress above.
+inline __declspec(noinline) void OptionPreferences::setOnlineIPAddress(AsciiString IP)
+{
+	(*this)["GameSpyIPAddress"] = IP;
 }
 
 // ?setOnlineIPAddress@OptionPreferences@@QAEXI@Z

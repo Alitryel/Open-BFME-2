@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfmelist /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmelist /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // CrateTemplate possible-crates list machinery (retail 0x0035CAB4/0x0035CB8D/
@@ -13,16 +13,28 @@
 // create-node TU.
 #include <list>
 
-class AsciiString
-{
-public:
-	AsciiString();
-	AsciiString(const AsciiString &other);
-	~AsciiString();
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 
-private:
-	void *m_data;
-};
+
+#include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?erase@?$list@UcrateCreationEntry@@V?$allocator@UcrateCreationEntry@@@_STL@@@_STL@@QAE?AU?:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct crateCreationEntry;
+namespace _STL { template <> _List_iterator<crateCreationEntry,_Nonconst_traits<crateCreationEntry> > list<crateCreationEntry,allocator<crateCreationEntry> >::erase(_List_iterator<crateCreationEntry,_Nonconst_traits<crateCreationEntry> >); }
+// Suppress this TU's non-retail copy of ?clear@?$_List_base@UcrateCreationEntry@@V?$allocator@UcrateCreationEntry@@@_STL@@@_STL@@Q:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct crateCreationEntry;
+namespace _STL { template <> void _List_base<crateCreationEntry,allocator<crateCreationEntry> >::clear(); }
+// Suppress this TU's non-retail copy of ?insert@?$list@UcrateCreationEntry@@V?$allocator@UcrateCreationEntry@@@_STL@@@_STL@@QAE?AU:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct crateCreationEntry;
+namespace _STL { template <> _List_iterator<crateCreationEntry,_Nonconst_traits<crateCreationEntry> > list<crateCreationEntry,allocator<crateCreationEntry> >::insert(_List_iterator<crateCreationEntry,_Nonconst_traits<crateCreationEntry> >,crateCreationEntry const &); }
 
 struct crateCreationEntry
 {
@@ -36,11 +48,13 @@ bool operator<(const crateCreationEntry &a, const crateCreationEntry &b);
 namespace _STL
 {
 
-// Declared only; the gate resolves this reference to the pinned body at
-// 0x0035CA02 (twin of the pair _Construct dup_ row, identical bytes).
+// The crate entry copies its owning name and chance through STLport.
 template <>
-void _Construct<crateCreationEntry, crateCreationEntry>(
-	crateCreationEntry *, const crateCreationEntry &);
+__declspec(noinline) inline void _Construct<crateCreationEntry, crateCreationEntry>(
+	crateCreationEntry *entry, const crateCreationEntry &source)
+{
+	new ((void *)entry) crateCreationEntry(source);
+}
 
 }
 
@@ -56,7 +70,6 @@ _STL::list<crateCreationEntry, _STL::allocator<crateCreationEntry> >::_M_create_
 	return __p;
 }
 
-// Explicit instantiation so the class's inline callers (insert, push_back)
-// odr-use the specialization above; explicit-instantiation-only members are
-// invisible to find_declared_unmatched.
-template class _STL::list<crateCreationEntry, _STL::allocator<crateCreationEntry> >;
+// Instantiate the retained operations without unrelated list members.
+template _STL::_List_node<crateCreationEntry> *_STL::list<crateCreationEntry, _STL::allocator<crateCreationEntry> >::_M_create_node(const crateCreationEntry &);
+template void _STL::list<crateCreationEntry, _STL::allocator<crateCreationEntry> >::sort();

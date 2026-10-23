@@ -106,3 +106,7 @@ int __stdcall bfmeRFindV41(char *s, unsigned pos, unsigned n)
 	done:
 	}
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeDoPG@BfmeThingPG@@QAEXPADPAXH@Z=?bfmeRFindV41@@YGHPADII@Z")

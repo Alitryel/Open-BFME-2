@@ -17,3 +17,7 @@ void bfmeMul1208(const BfmeM1208 *a, const BfmeM1208 *b, BfmeM1208 *out)
 	out->m_bfme10 = x.m_bfme00 * y.m_bfme10 + x.m_bfme08 * y.m_bfme14 + x.m_bfme10;
 	out->m_bfme14 = x.m_bfme04 * y.m_bfme10 + x.m_bfme0c * y.m_bfme14 + x.m_bfme14;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeCallDXH@@YAXPAVBfmeSubDXH@@PAX0@Z=?bfmeMul1208@@YAXPBUBfmeM1208@@0PAU1@@Z")

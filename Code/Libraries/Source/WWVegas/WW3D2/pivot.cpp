@@ -1,4 +1,15 @@
 // cl: /Ireference/shims/bfmerendobj /arch:SSE /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -39,6 +50,9 @@
  *   PivotClass::Compute_Transform -- Update the pivot's transformation matrix                 * 
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+// Native consumer inlines retain the verified matrix and vector operations.
+#include "../../../../../reference/shims/bfme_part_emt_inline/vector3.h"
+#include "../../../../../reference/shims/bfme_pivot_link/matrix3d.h"
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "pivot.h"
 #include "wwmath.h"
@@ -57,90 +71,9 @@
  * HISTORY:                                                                                    * 
  *   07/24/1997 GH  : Created.                                                                 * 
  *=============================================================================================*/
-// ?PivotClass::PivotClass present-unmatched
-PivotClass::PivotClass(void) :
-	Parent(NULL),
-	BaseTransform(1),
-	Transform(1),
-#ifdef LAZY_CAP_MTX_ALLOC
-	CapTransformPtr(NULL),
-	Index(0),
-	IsVisible(true),
-	WorldSpaceTranslation(false)
-#else
-	CapTransform(1),
-	Index(0),
-	IsVisible(true),
-	PivotFade(1.0f),
-	WorldSpaceTranslation(false),
-	IsCaptured(false),
-	Unused(false)
-#endif
-{
-	Name[0] = 0;
-}
-
-// ?PivotClass::PivotClass present-unmatched
-PivotClass::PivotClass(const PivotClass& that) :
-	Parent(that.Parent),
-	BaseTransform(that.BaseTransform),
-	Transform(that.Transform),
-#ifdef LAZY_CAP_MTX_ALLOC
-	CapTransformPtr(NULL),
-	Index(that.Index),
-	IsVisible(that.IsVisible),
-	WorldSpaceTranslation(that.WorldSpaceTranslation)
-#else
-	CapTransform(that.CapTransform),
-	Index(that.Index),
-	IsVisible(that.IsVisible),
-	PivotFade(that.PivotFade),
-	WorldSpaceTranslation(that.WorldSpaceTranslation),
-	IsCaptured(that.IsCaptured),
-	Unused(that.Unused)
-#endif
-{
-	memcpy(Name, that.Name, sizeof(Name));
-#ifdef LAZY_CAP_MTX_ALLOC
-	if (that.CapTransformPtr != NULL)
-	{
-		CapTransformPtr = MSGW3DNEW("PivotClassCaptureBoneMtx") DynamicMatrix3D;
-		CapTransformPtr->Mat = that.CapTransformPtr->Mat;
-	}
-#endif
-}
-
-// ?PivotClass::operator= present-unmatched
-PivotClass& PivotClass::operator=(const PivotClass& that)
-{
-	if (this != &that)
-	{
-		memcpy(Name, that.Name, sizeof(Name));
-		Parent = that.Parent;
-		BaseTransform = that.BaseTransform;
-		Transform = that.Transform;
-	#ifdef LAZY_CAP_MTX_ALLOC
-		CapTransformPtr = NULL;
-		Index = that.Index;
-		IsVisible = that.IsVisible;
-		WorldSpaceTranslation = that.WorldSpaceTranslation;
-		if (that.CapTransformPtr != NULL)
-		{
-			CapTransformPtr = MSGW3DNEW("PivotClassCaptureBoneMtx") DynamicMatrix3D;
-			CapTransformPtr->Mat = that.CapTransformPtr->Mat;
-		}
-	#else
-		CapTransform = that.CapTransform;
-		Index = that.Index;
-		IsVisible = that.IsVisible;
-		PivotFade = that.PivotFade;
-		WorldSpaceTranslation = that.WorldSpaceTranslation;
-		IsCaptured = that.IsCaptured;
-		Unused = that.Unused;
-	#endif
-		}
-	return *this;
-}
+// The copy constructor lives under HTReePivotClass.cpp's BFME2 view (retail
+// 0x001978A0); this TU keeps only the declaration from htree.h so calls bind
+// the kept copy and this unit emits no competing COMDAT.
 
 // ?PivotClass::Capture_Update present-unmatched
 void PivotClass::Capture_Update(void)
@@ -177,4 +110,3 @@ void PivotClass::Capture_Update(void)
 #endif
 	}
 }
-

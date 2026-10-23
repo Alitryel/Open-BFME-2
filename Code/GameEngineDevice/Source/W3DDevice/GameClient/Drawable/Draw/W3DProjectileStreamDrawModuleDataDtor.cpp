@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX /Ireference/shims/moduledata
 //
 // ??1W3DProjectileStreamDrawModuleData@@UAE@XZ, retail 0x000D1226, 54 bytes.
 // W3DProjectileStreamDraw ModuleData dtor: reinstalls vtable 0x00BCDF18,
@@ -6,24 +6,11 @@
 // 0x00036410, then installs base vtable 0x00BBB554 with trivial inline base.
 // File-unit companion to the landed ctor at 0x000D11D2.
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	~AsciiString();
+#include "ascii_string.h"
 
-private:
-	void *m_data;
-};
+#include "Common/Snapshot.h"
 
-class UpdateModuleData
-{
-public:
-	UpdateModuleData() {}
-	virtual ~UpdateModuleData() {}
-};
-
-class W3DProjectileStreamDrawModuleData : public UpdateModuleData
+class W3DProjectileStreamDrawModuleData : public Snapshot
 {
 public:
 	W3DProjectileStreamDrawModuleData();

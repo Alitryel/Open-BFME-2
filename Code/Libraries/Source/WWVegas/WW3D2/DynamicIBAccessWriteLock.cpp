@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 // DynamicIBAccessClass::WriteLockClass constructor at 0x00138CA0 and
 // destructor at 0x00138D80.  dx8indexbuffer.cpp carries the Zero Hour bodies,
@@ -15,7 +15,7 @@
 extern void DX8_Assert();
 extern void Log_DX8_ErrorCode(unsigned);
 extern void BFME_DX8_Thread_Lock(void);
-extern void BFME_DX8_Thread_Assert(void);
+extern bool BFME_DX8_Thread_Assert(void);
 
 class BFMEDX8DeviceLock
 {
@@ -62,6 +62,15 @@ public:
 
 	void Add_Ref() { ++NumRefs; }
 	void Release_Ref()
+	{
+		if (--NumRefs == 0)
+			Delete_This();
+	}
+	// LINK: TU-unique same-body helper (identical inlined bytes, virtual
+	// Delete_This call included). This TU's Release_Ref copy loses to the
+	// first copy in link order; rebinding our only call site emits just this
+	// unique (trivially kept) copy. Name is TU-unique; no cross-TU collision.
+	void bfme_release_ref_dib()
 	{
 		if (--NumRefs == 0)
 			Delete_This();
@@ -155,5 +164,10 @@ DynamicIBAccessClass::WriteLockClass::~WriteLockClass()
 	default:
 		break;
 	}
-	DynamicIBAccess->IndexBuffer->Release_Ref();
+	DynamicIBAccess->IndexBuffer->bfme_release_ref_dib();
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0WriteLock@BfmeSortingIBAccess@@QAE@PAU1@@Z=??0WriteLockClass@DynamicIBAccessClass@@QAE@PAV1@@Z")
+#pragma comment(linker, "/alternatename:??1WriteLock@BfmeSortingIBAccess@@QAE@XZ=??1WriteLockClass@DynamicIBAccessClass@@QAE@XZ")

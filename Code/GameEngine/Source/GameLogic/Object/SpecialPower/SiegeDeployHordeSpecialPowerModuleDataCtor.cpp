@@ -1,4 +1,4 @@
-// cl: /O1 /MD /DNDEBUG
+// cl: /MD /DNDEBUG
 //
 // ??0SiegeDeployHordeSpecialPowerModuleData@@QAE@XZ, retail 0x004C64D3
 // (22 bytes). Frameless derived ctor over the rowed AIUpdateModuleData base
@@ -10,6 +10,9 @@
 // virtuals). Identity is the ModuleFactory registration under
 // "SiegeDeployHordeSpecialPower" (sole-caller data factory per the
 // superseded ctor pin).
+
+extern "C" const void *const vtbl_00C5DAB0[];  // ??_7DeflectSpecialPowerModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C5DAB0=??_7DeflectSpecialPowerModuleData@@6B@")
 
 class AIUpdateModuleData
 {
@@ -35,6 +38,6 @@ private:
 SiegeDeployHordeSpecialPowerModuleData::SiegeDeployHordeSpecialPowerModuleData()
 	: AIUpdateModuleData()
 {
-	*(unsigned int *)this = 0x00C5DAB0;
+	*(unsigned int *)this = ((unsigned int)vtbl_00C5DAB0);
 	m_flag18 = false;
 }

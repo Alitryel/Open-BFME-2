@@ -1,4 +1,4 @@
-// cl: /O1 /EHs-c-
+// cl: /EHs-c-
 // Six 41-byte __thiscall copy constructors with NO call in them at all.
 // Retail:
 //
@@ -53,7 +53,7 @@
 class V3Vt01111D90
 {
 public:
-	virtual void s0();
+	virtual void s0() = 0;
 	virtual ~V3Vt01111D90() {}
 	int m_unreconstructed_04;
 };
@@ -62,7 +62,7 @@ public:
 	class V3Vt##ADDR                                                      \
 	{                                                                     \
 	public:                                                               \
-		virtual void s0();                                                \
+		virtual void s0() = 0;                                            \
 		virtual ~V3Vt##ADDR() {}                                          \
 	};
 
@@ -70,7 +70,7 @@ public:
 	class V3Vt##ADDR                                                      \
 	{                                                                     \
 	public:                                                               \
-		virtual void s0();                                                \
+		virtual void s0() = 0;                                            \
 		virtual ~V3Vt##ADDR() {}                                          \
 		int m_unreconstructed_04;                                         \
 	};
@@ -88,7 +88,7 @@ V3_SECOND_BASE_WIDE( 0107375C )
 	public:                                                               \
 		NAME( const NAME & );                                             \
 	};                                                                    \
-	NAME::NAME( const NAME &o ) : V3Vt01111D90( o ) {}
+	NAME::NAME( const NAME &nAME ) : V3Vt01111D90( nAME ) {}
 
 V3_INLINE_COPY_CTOR( Rva005EA430, V3Vt0110F978 )
 V3_INLINE_COPY_CTOR( Rva005EA6F0, V3Vt01073760 )
@@ -96,3 +96,4 @@ V3_INLINE_COPY_CTOR( Rva005EA9B0, V3Vt0110F9E4 )
 V3_INLINE_COPY_CTOR( Rva005EABB0, V3Vt0110F9E8 )
 V3_INLINE_COPY_CTOR( Rva005EAE70, V3Vt0110FA14 )
 V3_INLINE_COPY_CTOR( Rva005EB090, V3Vt0107375C )
+

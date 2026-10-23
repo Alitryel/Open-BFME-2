@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // ?rva0004A393C@InvisibilityUpdate@@SA?AW4NameKeyType@@XZ @0x4A393C
 // (69B): cached pool-name key for InvisibilityUpdate. The class
 // identity comes from the pool-name string the body pushes
@@ -26,6 +26,7 @@ class InvisibilityUpdate
 {
 public:
 	static NameKeyType rva0004A393C();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
 // ?rva0004A393C@InvisibilityUpdate@@SA?AW4NameKeyType@@XZ
@@ -34,4 +35,17 @@ NameKeyType InvisibilityUpdate::rva0004A393C()
 	static NameKeyType TheInvisibilityUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("InvisibilityUpdate");
 	return TheInvisibilityUpdatePoolKey;
+}
+
+// ?getModuleNameKey@InvisibilityUpdate@@UBE?AW4NameKeyType@@XZ @0x4A38BF
+// (69B): the same cached key shape over the same "InvisibilityUpdate"
+// literal with its own static; this is the copy slot 4 of
+// ??_7InvisibilityUpdate 0x00C52534 holds (the slot the other modules'
+// pool-name keys occupy). Address name: which of the two is which member
+// is not established.
+NameKeyType InvisibilityUpdate::getModuleNameKey() const
+{
+	static NameKeyType TheInvisibilityUpdateSlotKey =
+		TheNameKeyGenerator->nameToKey("InvisibilityUpdate");
+	return TheInvisibilityUpdateSlotKey;
 }

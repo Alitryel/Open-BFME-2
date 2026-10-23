@@ -316,3 +316,8 @@ void __stdcall Rva007F3870( Rva007E8810Message *msg, const char *name,
 		msg->addString( key, attributes[ i ].value );
 	}
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeSendVIR@BfmeThingVIR@@QAEXPAVBfmeMsgVIR@@PBUBfmeOwnerVIR@@PBQBDHHH@Z=?Rva007F2A50@@YGXPAVRva007E8810Message@@PBURva007F2A50Owner@@PBQBDHHH@Z")
+#pragma comment(linker, "/alternatename:?bfmeSendVIS@BfmeThingVIS@@QAEXPAVBfmeMsgVIR@@PBUBfmeOwnerVIR@@PBQBDHHH@Z=?Rva007F2A50@@YGXPAVRva007E8810Message@@PBURva007F2A50Owner@@PBQBDHHH@Z")

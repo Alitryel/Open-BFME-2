@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
 // stlport
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
@@ -99,11 +99,13 @@ NetCommandWrapperListNode::~NetCommandWrapperListNode() {
 	}
 }
 
-// ?isComplete@NetCommandWrapperListNode@@QAE_NXZ present-unmatched
-Bool NetCommandWrapperListNode::isComplete() {
+__declspec(noinline) inline Bool NetCommandWrapperListNode::isComplete() {
 	return m_numChunksPresent == m_numChunks;
 }
 
+// Select-any like NetCommandWrapperList_getReadyCommands.cpp's in-class copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorNetCommandWrapperListNodeIsComplete absent-from-retail
+Bool bfmeAnchorNetCommandWrapperListNodeIsComplete(NetCommandWrapperListNode *netCommandWrapperListNode) { return netCommandWrapperListNode->isComplete(); }
 // A value of 100 means every chunk arrived. Partial transfers are capped at
 // 99 even when the floating-point percentage rounds up. Retail uses the normal
 // C++ x87-to-int conversion helper; no assembly escape hatch is needed.
@@ -123,12 +125,12 @@ Int NetCommandWrapperListNode::getPercentComplete()
 }
 
 // ?getCommandID@NetCommandWrapperListNode@@QAEGXZ present-unmatched
-UnsignedShort NetCommandWrapperListNode::getCommandID() {
+inline UnsignedShort NetCommandWrapperListNode::getCommandID() {
 	return m_commandID;
 }
 
 // ?getRawDataLength@NetCommandWrapperListNode@@QAEIXZ present-unmatched
-UnsignedInt NetCommandWrapperListNode::getRawDataLength() {
+inline UnsignedInt NetCommandWrapperListNode::getRawDataLength() {
 	return m_dataLength;
 }
 
@@ -158,7 +160,7 @@ void NetCommandWrapperListNode::copyChunkData(NetWrapperCommandMsg *msg) {
 }
 
 // ?getRawData@NetCommandWrapperListNode@@QAEPAEXZ present-unmatched
-UnsignedByte * NetCommandWrapperListNode::getRawData() {
+inline UnsignedByte * NetCommandWrapperListNode::getRawData() {
 	return m_data;
 }
 
@@ -166,18 +168,26 @@ UnsignedByte * NetCommandWrapperListNode::getRawData() {
 ////// NetCommandWrapperList ///////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// ??0NetCommandWrapperList@@QAE@XZ present-unmatched
+// Retail frees nodes through the slot0 virtual with flags=0 plus the global
+// operator delete, not the inlined flag-1 `delete this` that deleteInstance()
+// lowers to. Model slot0 as a virtual taking int and returning the instance
+// pointer (cf. NetCommandMsg::detach precedent); the explicit ternary keeps
+// retail's null-check shape under /O1.
+struct NetWrapperListNodeDeleterSlot {
+	virtual void *slot0(int flags);
+};
+
 NetCommandWrapperList::NetCommandWrapperList() {
 	m_list = NULL;
 }
 
-// ??1NetCommandWrapperList@@MAE@XZ present-unmatched
 NetCommandWrapperList::~NetCommandWrapperList() {
-	NetCommandWrapperListNode *temp;
+	NetCommandWrapperListNode *netCommandWrapperListNode;
 	while (m_list != NULL) {
-		temp = m_list->m_next;
-		m_list->deleteInstance();
-		m_list = temp;
+		netCommandWrapperListNode = m_list->m_next;
+		void *p = m_list ? ((NetWrapperListNodeDeleterSlot *)m_list)->slot0(0) : 0;
+		::operator delete(p);
+		m_list = netCommandWrapperListNode;
 	}
 }
 
@@ -186,103 +196,50 @@ void NetCommandWrapperList::init() {
 	m_list = NULL;
 }
 
-// ?reset@NetCommandWrapperList@@QAEXXZ present-unmatched
 void NetCommandWrapperList::reset() {
-	NetCommandWrapperListNode *temp;
+	NetCommandWrapperListNode *netCommandWrapperListNode;
 	while (m_list != NULL) {
-		temp = m_list->m_next;
-		m_list->deleteInstance();
-		m_list = temp;
+		netCommandWrapperListNode = m_list->m_next;
+		void *p = m_list ? ((NetWrapperListNodeDeleterSlot *)m_list)->slot0(0) : 0;
+		::operator delete(p);
+		m_list = netCommandWrapperListNode;
 	}
 }
 
 Int NetCommandWrapperList::getPercentComplete(UnsignedShort wrappedCommandID)
 {
-	NetCommandWrapperListNode *temp = m_list;
+	NetCommandWrapperListNode *netCommandWrapperListNode = m_list;
 
-	while ((temp != NULL) && (temp->getCommandID() != wrappedCommandID)) {
-		temp = temp->m_next;
+	while ((netCommandWrapperListNode != NULL) && (netCommandWrapperListNode->getCommandID() != wrappedCommandID)) {
+		netCommandWrapperListNode = netCommandWrapperListNode->m_next;
 	}
 
-	if (!temp)
+	if (!netCommandWrapperListNode)
 		return 0;
 
-	return temp->getPercentComplete();
+	return netCommandWrapperListNode->getPercentComplete();
 }
 
 void NetCommandWrapperList::processWrapper(NetCommandRef *ref) {
-	NetCommandWrapperListNode *temp = m_list;
+	NetCommandWrapperListNode *netCommandWrapperListNode = m_list;
 	// BFME de-pooled NetCommandRef: the command pointer is at +0, without
 	// the reference header's inherited pool/vtable field. This is getCommand().
 	NetWrapperCommandMsg *msg = *(NetWrapperCommandMsg **)ref;
 
-	while ((temp != NULL) && (temp->getCommandID() != msg->getWrappedCommandID())) {
-		temp = temp->m_next;
+	while ((netCommandWrapperListNode != NULL) && (netCommandWrapperListNode->getCommandID() != msg->getWrappedCommandID())) {
+		netCommandWrapperListNode = netCommandWrapperListNode->m_next;
 	}
 
-	if (temp == NULL) {
-		temp = newInstance(NetCommandWrapperListNode)(msg);
-		temp->m_next = m_list;
-		m_list = temp;
+	if (netCommandWrapperListNode == NULL) {
+		netCommandWrapperListNode = newInstance(NetCommandWrapperListNode)(msg);
+		netCommandWrapperListNode->m_next = m_list;
+		m_list = netCommandWrapperListNode;
 	}
 
-	temp->copyChunkData(msg);
+	netCommandWrapperListNode->copyChunkData(msg);
 }
 
-// byte-exact reconstruction: Code/GameEngine/Source/GameNetwork/NetCommandWrapperList_getReadyCommands.cpp
-// ?getReadyCommands@NetCommandWrapperList@@QAEPAVNetCommandList@@XZ present-unmatched
-NetCommandList * NetCommandWrapperList::getReadyCommands() 
-{
-	NetCommandList *retlist = newInstance(NetCommandList);
-	retlist->init();
-
-	NetCommandWrapperListNode *temp = m_list;
-	NetCommandWrapperListNode *next = NULL;
-
-	while (temp != NULL) {
-		next = temp->m_next;
-		if (temp->isComplete()) {
-			NetCommandRef *msg = NetPacket::ConstructNetCommandMsgFromRawData(temp->getRawData(), temp->getRawDataLength());
-			NetCommandRef *ret = retlist->addMessage(msg->getCommand());
-			ret->setRelay(msg->getRelay());
-
-			msg->deleteInstance();
-			msg = NULL;
-
-			removeFromList(temp);
-			temp = NULL;
-		}
-		temp = next;
-	}
-
-	return retlist;
-}
-
-// ?removeFromList@NetCommandWrapperList@@IAEXPAVNetCommandWrapperListNode@@@Z present-unmatched
-void NetCommandWrapperList::removeFromList(NetCommandWrapperListNode *node) {
-	if (node == NULL) {
-		return;
-	}
-
-	NetCommandWrapperListNode *temp = m_list;
-	NetCommandWrapperListNode *prev = NULL;
-
-	while ((temp != NULL) && (temp->getCommandID() != node->getCommandID())) {
-		prev = temp;
-		temp = temp->m_next;
-	}
-
-	if (temp == NULL) {
-		return;
-	}
-
-	if (prev == NULL) {
-		m_list = temp->m_next;
-		temp->deleteInstance();
-		temp = NULL;
-	} else {
-		prev->m_next = temp->m_next;
-		temp->deleteInstance();
-		temp = NULL;
-	}
-}
+// getReadyCommands (0x0058C2AD) and removeFromList (0x0058C1A5) live in
+// NetCommandWrapperList_getReadyCommands.cpp: BFME 2's versions need the
+// de-pooled NetCommandRef (command at +0x00, relay at +0x0C) and a global
+// delete, which this unit's Zero Hour headers cannot express.

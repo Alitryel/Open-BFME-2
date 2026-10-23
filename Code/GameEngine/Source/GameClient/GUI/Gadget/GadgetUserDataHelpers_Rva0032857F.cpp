@@ -1,4 +1,4 @@
-// cl: /O1 /Ob0
+// cl: /Ob0
 
 // ?Rva0032857F@@YAXPAVGameWindow@@H@Z, retail 0x0032857F (43B).
 // Dedicated TU.
@@ -39,7 +39,7 @@ struct Rva0032857FData
 };
 
 // ?Rva0032857F@@YAXPAVGameWindow@@H@Z
-static void Rva0032857F(GameWindow *window, int value)
+void Rva0032857F(GameWindow *window, int value)
 {
 	Rva0032857FData *data;
 
@@ -52,5 +52,3 @@ static void Rva0032857F(GameWindow *window, int value)
 	data->m_flag = (unsigned char)value;
 	window->winSetUserData(data);
 }
-
-static const void *s_Rva0032857FAnchor = (const void *)Rva0032857F;

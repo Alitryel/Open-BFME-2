@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // The handle-from-plain constructor at 0x00785140 installs VA 0x01126AB8
 // and increments its target's WORD count at +4. That vtable's slot 0 reaches
 // 0x007851A0 through ILT 0x00017DAA; it calls the destructor at 0x007851D0.
@@ -10,8 +10,14 @@ class CountedAsset { public: void Release_Ref(); };
 class Rva00782CB0
 {
 public:
-    virtual ~Rva00782CB0() {}
+    Rva00782CB0();
+    virtual ~Rva00782CB0();
 };
+// ??0Rva00782CB0@@QAE@XZ @0x000A8EB9 9B: the default constructor, storing the
+// class's own vtable (VA 0x00BC93C8) and returning this.
+Rva00782CB0::Rva00782CB0()
+{
+}
 class Rva00785140Handle : public Rva00782CB0
 {
 public:
@@ -23,4 +29,10 @@ Rva00785140Handle::~Rva00785140Handle()
 {
     if (m_target)
         m_target->Release_Ref();
+}
+
+// ??1Rva00782CB0@@UAE@XZ @0x000A8EC2 7B: the empty dtor, restoring the vtable (the
+// deleting dtor still expands it inline).
+Rva00782CB0::~Rva00782CB0()
+{
 }

@@ -6,9 +6,20 @@
 // Rva004DA181Element is an address-derived opaque emitter view. Its virtual
 // destructor is used only to reproduce the target's virtual-destroy loop; the
 // complete application record identity and fields remain unknown.
-// cl: /O1 /G7 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
-#include <vector>
+// Retail keeps one unsigned max, RVA 0x00013740 (the vendored STLport row). This unit's
+// flags (/G7) compile a different copy, and retail kept another unit's. This unit-local
+// overload keeps the inlined code and offers the link no second copy.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
+#include <stl/_construct.h>
 
 struct Rva004DA181Element {
 	char opaque[336];
@@ -17,10 +28,19 @@ struct Rva004DA181Element {
 	virtual ~Rva004DA181Element();
 };
 
+// Both emitter views call the same rowed placement-copy helper at 0x004D9B98.
+struct BfmePod340;
 namespace _STL {
-template <> void _Construct<Rva004DA181Element, Rva004DA181Element>(
-	Rva004DA181Element *, const Rva004DA181Element &);
+template <> void _Construct<BfmePod340, BfmePod340>(
+    BfmePod340 *, const BfmePod340 &);
+static inline void _Construct(
+    Rva004DA181Element *dest, const Rva004DA181Element &value)
+{
+    _Construct((BfmePod340 *)dest, (const BfmePod340 &)value);
 }
+}
+
+#include <vector>
 
 template void _STL::_Destroy<Rva004DA181Element *>(
 	Rva004DA181Element *, Rva004DA181Element *);

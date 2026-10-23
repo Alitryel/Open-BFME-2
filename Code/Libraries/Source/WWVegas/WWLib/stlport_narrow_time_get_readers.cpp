@@ -26,7 +26,36 @@
  *
  */
 #define _STLP_INTERNAL_STREAMBUF
+#include <stl/_alloc.h>
+// Public malloc release uses retail's unoptimized import entry; callers keep the header inline body.
+namespace _STL {
+#pragma optimize("", off)
+template <> __forceinline void __malloc_alloc<0>::deallocate(void *p, size_t) { free((char *)p); }
+#pragma optimize("", on)
+}
+
 #include <locale>
+#include <cstddef>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> basic_string<char,char_traits<char>,allocator<char> > * __match<istreambuf_iterator<char,char_traits<char> >,basic_string<char,char_traits<char>,allocator<char> > *,long>(istreambuf_iterator<char,char_traits<char> > &,istreambuf_iterator<char,char_traits<char> > &,basic_string<char,char_traits<char>,allocator<char> > *,basic_string<char,char_traits<char>,allocator<char> > *,long *); }
+// The format parser is retail's row in stlport_narrow_get_formatted_time.cpp;
+// the four-argument __match forwarder is this unit's own row.
+namespace _STL { template <> const char * __get_formatted_time<istreambuf_iterator<char, char_traits<char> >, const char *>(istreambuf_iterator<char, char_traits<char> >, istreambuf_iterator<char, char_traits<char> >, const char *, const char *, const _Time_Info &, ios_base::iostate &, tm *); }
+namespace _STL { template string * __match<istreambuf_iterator<char, char_traits<char> >, string *>(istreambuf_iterator<char, char_traits<char> > &, istreambuf_iterator<char, char_traits<char> > &, string *, string *); }
+// bfme link decl-only begin
+namespace _STL { template <> istreambuf_iterator<char, char_traits<char> > istreambuf_iterator<char, char_traits<char> >::operator++(int); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(); }
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+namespace _STL { template <> char istreambuf_iterator<char, char_traits<char> >::operator*() const; }
+namespace _STL { template <> istreambuf_iterator<char, char_traits<char> > & istreambuf_iterator<char, char_traits<char> >::operator++(); }
+namespace _STL { template <> void istreambuf_iterator<char, char_traits<char> >::_M_bumpc(); }
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+// bfme link decl-only end
+// Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL {
+template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char*, size_t);
+}
 namespace _STL {
 // Pointer-only ABI declarations keep the already verified 35-byte narrow
 // _M_getc body, including its out-of-line sgetc call.
@@ -44,12 +73,26 @@ template<> __declspec(noinline) void istreambuf_iterator<char,char_traits<char> 
  _M_have_c=true;
 }
 }
+// istreambuf_iterator<char>::equal is retail's 126-byte body at 0x0000FA00, owned by
+// stlport_narrow_istreambuf_iterator_equal.cpp. This unit's copy (with _M_getc out of
+// line) is not retail's and came before it in link order; the body still inlines
+// here, imported, so the unit emits no copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+bool istreambuf_iterator<char, char_traits<char> >::equal(const istreambuf_iterator<char, char_traits<char> >& __i) const {
+  if (this->_M_buf)
+    this->_M_getc();
+  if (__i._M_buf)
+    __i._M_getc();
+  return this->_M_eof == __i._M_eof;
+}
+}
 namespace _STL {
 typedef istreambuf_iterator<char,char_traits<char> > _TimeIn;
 typedef time_get<char,_TimeIn> _TimeFacet;
 typedef char _TimeInfoSize[(sizeof(_Time_Info)==540)?1:-1];
 typedef char _TimeFacetSize[(sizeof(_TimeFacet)==552)?1:-1];
-template <>
+template <> inline
 _TimeIn
 time_get<char, _TimeIn>::do_get_date(_TimeIn __s, _TimeIn __end,
 				  ios_base& /* __str */, ios_base::iostate&  __err,
@@ -75,7 +118,7 @@ time_get<char, _TimeIn>::do_get_date(_TimeIn __s, _TimeIn __end,
   return __s;
 }
 
-template <>
+template <> inline
 _TimeIn
 time_get<char, _TimeIn>::do_get_time(_TimeIn __s, _TimeIn __end,
 				  ios_base& /* __str */, ios_base::iostate&  __err,
@@ -96,5 +139,18 @@ time_get<char, _TimeIn>::do_get_time(_TimeIn __s, _TimeIn __end,
     __err |= ios_base::eofbit;
   return __s;
 }
+
+struct bfmeTimeGetEmitter : time_get<char, _TimeIn>
+{
+	static void emit(const bfmeTimeGetEmitter *p, _TimeIn a, _TimeIn b, ios_base &s, ios_base::iostate &e, tm *t);
+};
+#pragma inline_depth(0)
+// ?emit@bfmeTimeGetEmitter@_STL@@SAXPBU12@V?$istreambuf_iterator@DV?$char_traits@D@_STL@@@2@1AAVios_base@2@AAHPAUtm@@@Z present-unmatched
+void bfmeTimeGetEmitter::emit(const bfmeTimeGetEmitter *p, _TimeIn a, _TimeIn b, ios_base &s, ios_base::iostate &e, tm *t)
+{
+	p->time_get<char, _TimeIn>::do_get_date(a, b, s, e, t);
+	p->time_get<char, _TimeIn>::do_get_time(a, b, s, e, t);
+}
+#pragma inline_depth()
 
 }

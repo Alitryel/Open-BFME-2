@@ -1,4 +1,4 @@
-// cl: /O2 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 // Open-BFME5: the default STLport 4.5.3 narrow time_put destructor at retail
 // 0x00408FD0, 73 bytes, and the scalar deleting destructor at 0x00408FB0 that
@@ -12,6 +12,8 @@
 // base destructor inlined, which is why ~facet has to be defined empty here
 // rather than left declared. The unwind state and the /EHsc frame around it
 // exist because ~_Time_Info is a call the compiler cannot see through.
+
+struct tm;
 
 namespace _STL
 {
@@ -61,6 +63,8 @@ public:
 
 void __cdecl _Init_timeinfo(_Time_Info &);
 
+class ios_base;
+
 template <class CharT, class OutIt>
 class time_put : public locale::facet, public time_base
 {
@@ -74,6 +78,9 @@ public:
 protected:
 	_Time_Info _M_timeinfo;
 	virtual ~time_put();
+	// do_put, as the full facet in stlport_classic_locale.cpp declares it: this
+	// TU's table copy then has both slots.
+	virtual OutIt do_put(OutIt, ios_base &, CharT, const tm *, char, char) const;
 };
 
 template <class CharT, class OutIt>

@@ -4,6 +4,8 @@
 
 void __cdecl operator delete(void *p);
 
+extern int g_bfmeVtableCZ[];					// retail 0x008E4A10
+
 class BfmeThingVIH;
 
 class BfmeSubVIH
@@ -25,7 +27,7 @@ private:
 
 void *BfmeThingVIH::bfmeDelVIH(unsigned flags)
 {
-	m_vft = (void *)0x00CE4A10;
+	m_vft = (void *)g_bfmeVtableCZ;
 	if (m_sub)
 		m_sub->bfmeDropVIH(this);
 	if (flags & 1)

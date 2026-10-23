@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_STLP_USE_MALLOC /D_CRTIMP=
+// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /GX /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_STLP_USE_MALLOC /D_CRTIMP=
 // stlport
 //
 // ProductionPrerequisite default ctor / clear / dtor vein.
@@ -43,14 +43,20 @@
 
 #include <vector>
 
-class AsciiString
-{
-public:
-	~AsciiString();
+// __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
+// COMDATs (one byte shape per TU malloc/free wiring); explicit
+// dllimport+forceinline specializations take those calls inline so this
+// TU emits no external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void *__malloc_alloc<0>::allocate(size_t __n)
+{ void *__r = malloc(__n); if (!__r) __r = _S_oom_malloc(__n); return __r; }
+template <> __declspec(dllimport) __forceinline
+void __malloc_alloc<0>::deallocate(void *__p, size_t)
+{ free((char *)__p); }
+}
 
-private:
-	char *m_data;
-};
+#include "ascii_string.h"
 
 enum ScienceType
 {
@@ -83,20 +89,30 @@ typedef char ProductionPrerequisiteVeinSizeCheck[sizeof(ProductionPrerequisite) 
 namespace _STL
 {
 
+// m_unused's empty vector<unsigned int> constructor is inlined and calls the
+// out-of-line, ICF-folded _Vector_base constructor 0x00211E58 (rowed in
+// stlport_vector_e16_o1.cpp); declare that base constructor and inline the
+// vector constructor so this unit emits no non-retail copy of either.
+template <>
+_Vector_base<unsigned int, allocator<unsigned int> >::_Vector_base(const allocator<unsigned int> &__a) throw();
+template <> __declspec(dllimport) __forceinline
+vector<unsigned int, allocator<unsigned int> >::vector(const allocator<unsigned int> &__a)
+	: _Vector_base<unsigned int, allocator<unsigned int> >(__a) {}
+
 // Retail calls both STL dispatch layers directly instead of expanding them:
 // the PrereqUnitRec destroy range takes exactly 2 pushes with no tag
 // (rowed at 0x002D02A8) and the __copy_ptrs forwarder takes the const-ref
 // tag (rowed at 0x002CF594). noinline keeps both out of line so erase and
 // the vector dtor keep retail's shape; the bodies are verbatim generic.
 template <>
-__declspec(noinline) void _Destroy<ProductionPrerequisite::PrereqUnitRec *>(ProductionPrerequisite::PrereqUnitRec *__first, ProductionPrerequisite::PrereqUnitRec *__last)
+inline __declspec(noinline) void _Destroy<ProductionPrerequisite::PrereqUnitRec *>(ProductionPrerequisite::PrereqUnitRec *__first, ProductionPrerequisite::PrereqUnitRec *__last)
 {
 	for ( ; __first != __last; ++__first)
 		_Destroy(&*__first);
 }
 
 template <>
-__declspec(noinline) ProductionPrerequisite::PrereqUnitRec *__copy_ptrs<ProductionPrerequisite::PrereqUnitRec *, ProductionPrerequisite::PrereqUnitRec *>(
+inline __declspec(noinline) ProductionPrerequisite::PrereqUnitRec *__copy_ptrs<ProductionPrerequisite::PrereqUnitRec *, ProductionPrerequisite::PrereqUnitRec *>(
 	ProductionPrerequisite::PrereqUnitRec *__first, ProductionPrerequisite::PrereqUnitRec *__last, ProductionPrerequisite::PrereqUnitRec *__result, const __false_type &)
 {
 	return __copy(__first, __last, __result, random_access_iterator_tag(), (ptrdiff_t *)0);
@@ -104,7 +120,7 @@ __declspec(noinline) ProductionPrerequisite::PrereqUnitRec *__copy_ptrs<Producti
 
 }
 
-ProductionPrerequisite::PrereqUnitRec::~PrereqUnitRec()
+inline __declspec(noinline) ProductionPrerequisite::PrereqUnitRec::~PrereqUnitRec()
 {
 }
 
@@ -122,3 +138,21 @@ ProductionPrerequisite::ProductionPrerequisite()
 ProductionPrerequisite::~ProductionPrerequisite()
 {
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitProductionPrerequisiteInlines@@YAXPAUPrereqUnitRec@ProductionPrerequisite@@@Z present-unmatched
+void bfmeEmitProductionPrerequisiteInlines(ProductionPrerequisite::PrereqUnitRec *p)
+{
+	p->ProductionPrerequisite::PrereqUnitRec::~PrereqUnitRec();
+	_STL::_Destroy(p, p);
+}
+#pragma inline_depth()
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??1TransitionDamageFXRecordA@@QAE@XZ=??1PrereqUnitRec@ProductionPrerequisite@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??1TransitionDamageFXRecordB@@QAE@XZ=??1PrereqUnitRec@ProductionPrerequisite@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??1TransitionDamageFXRecordC@@QAE@XZ=??1PrereqUnitRec@ProductionPrerequisite@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??1TransitionDamageFXSlotA@@QAE@XZ=??1PrereqUnitRec@ProductionPrerequisite@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??1TransitionDamageFXSlotB@@QAE@XZ=??1PrereqUnitRec@ProductionPrerequisite@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??1TransitionDamageFXSlotC@@QAE@XZ=??1PrereqUnitRec@ProductionPrerequisite@@QAE@XZ")

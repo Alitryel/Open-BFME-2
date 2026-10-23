@@ -1,4 +1,4 @@
-// cl: /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/zh_outofline /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/GameLogic/Object/Locomotor.cpp); this unit had no counterpart under Code/.
@@ -34,6 +34,23 @@
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+#include <map>
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 
 #define DEFINE_SURFACECATEGORY_NAMES
 #define DEFINE_LOCO_Z_NAMES
@@ -49,6 +66,15 @@
 #include "GameLogic/Module/PhysicsUpdate.h"
 #include "GameLogic/Module/BodyModule.h"
 #include "GameLogic/Module/AIUpdate.h"
+// bfme link decl-only begin
+template <> float clamp<float>(float, float, float);
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$max@M@@YAMMM@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+template <> float max<float>(float,float);
+// Suppress this TU's non-retail copy of ?test@?$bitset@$0N@@_STL@@QBE_NI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bool bitset<13>::test(unsigned int) const; }
 
 #ifdef _INTERNAL
 // for occasional debugging...
@@ -282,156 +308,13 @@ static void calcDirectionToApplyThrust(
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 //-------------------------------------------------------------------------------------------------
-LocomotorTemplate::LocomotorTemplate()
-{
-	// these values mean "make the same as undamaged if not explicitly specified"
-	m_maxSpeedDamaged = -1.0f;
-	m_maxTurnRateDamaged = -1.0f;
-	m_accelerationDamaged = -1.0f;
-	m_liftDamaged = -1.0f;
-
-	m_surfaces = 0;
-	m_maxSpeed = 0.0f;
-	m_maxTurnRate = 0.0f;
-	m_acceleration = 0.0f;
-	m_lift = 0.0f;
-	m_braking = BIGNUM;
-	m_minSpeed = 0.0f;
-	m_minTurnSpeed = BIGNUM;
-	m_behaviorZ = Z_NO_Z_MOTIVE_FORCE;
-	m_appearance = LOCO_OTHER;
-	m_movePriority = LOCO_MOVES_MIDDLE;
-	m_preferredHeight = 0;
-	m_preferredHeightDamping = 1.0f;
-	m_circlingRadius = 0;
-
-	m_maxThrustAngle = 0;
-	m_speedLimitZ = 999999.0f;
-	m_extra2DFriction = 0.0f;
-
-	m_accelPitchLimit = 0;
-	m_decelPitchLimit = 0;
-	m_bounceKick = 0;
-
-//	m_pitchStiffness = 0;
-//	m_rollStiffness = 0;
-//	m_pitchDamping = 0;
-//	m_rollDamping = 0;
-// it's highly unlikely you want zero for the defaults for stiffness and damping... (srj)
-// for stiffness: stiffness of the "springs" in the suspension 0 = no stiffness, 1 = totally stiff (huh huh, he said "stiff")
-// for damping: 0=perfect spring, bounces forever.  1=glued to terrain.
-	m_pitchStiffness = 0.1f;
-	m_rollStiffness = 0.1f;
-	m_pitchDamping = 0.9f;
-	m_rollDamping = 0.9f;
-	m_forwardVelCoef = 0;
-	m_pitchByZVelCoef = 0;
-	m_thrustRoll = 0.0f;
-	m_wobbleRate = 0.0f;
-	m_minWobble = 0.0f;
-	m_maxWobble = 0.0f;
-	m_lateralVelCoef = 0;
-	m_forwardAccelCoef = 0;
-	m_lateralAccelCoef = 0;
-	m_uniformAxialDamping = 1.0f;
-	m_turnPivotOffset = 0;
-	m_apply2DFrictionWhenAirborne = false;
-	m_downhillOnly = false;
-	m_allowMotiveForceWhileAirborne = false;
-	m_locomotorWorksWhenDead = false;
-	m_airborneTargetingHeight = INT_MAX;
-	m_stickToGround = false;
-	m_canMoveBackward = false;
-	m_hasSuspension = false;
-	m_wheelTurnAngle = 0;
-	m_maximumWheelExtension = 0;
-	m_maximumWheelCompression = 0;
-	m_closeEnoughDist = 1.0f;
-	m_isCloseEnoughDist3D = FALSE;
-	m_ultraAccurateSlideIntoPlaceFactor = 0.0f;
-
-	m_wanderWidthFactor = 0.0f;
-	m_wanderLengthFactor = 1.0f;
-	m_wanderAboutPointRadius = 0.0f;
-  
-	m_rudderCorrectionDegree    = 0.0f;
-	m_rudderCorrectionRate      = 0.0f;	
-	m_elevatorCorrectionDegree  = 0.0f;
-	m_elevatorCorrectionRate    = 0.0f;
-
-}
+// LocomotorTemplate::LocomotorTemplate is defined with its retail-matched body in Code/GameEngine/Source/Common/Rva001E4DB0Ctor.cpp (0x001E4ABE).
 
 //-------------------------------------------------------------------------------------------------
-LocomotorTemplate::~LocomotorTemplate()
-{
-
-}
+// LocomotorTemplate::~LocomotorTemplate is defined with its retail-matched body in Code/GameEngine/Source/Common/Rva001E4DB0Dtor.cpp (0x001E4DB0).
 
 //-------------------------------------------------------------------------------------------------
-void LocomotorTemplate::validate()
-{
-	// this is ok; parachutes need it!
-	//DEBUG_ASSERTCRASH(m_lift == 0.0f || m_lift > fabs(TheGlobalData->m_gravity), ("Lift is too low to counteract gravity!"));
-	//DEBUG_ASSERTCRASH(m_liftDamaged == 0.0f || m_liftDamaged > fabs(TheGlobalData->m_gravity), ("LiftDamaged is too low to counteract gravity!"));
-	//DEBUG_ASSERTCRASH(m_preferredHeight == 0.0f || (m_behaviorZ == Z_SURFACE_RELATIVE_HEIGHT || m_behaviorZ == Z_ABSOLUTE_HEIGHT || m_appearance == LOCO_THRUST), 
-	//	("You must use Z_SURFACE_RELATIVE_HEIGHT or Z_ABSOLUTE_HEIGHT (or THRUST) to use preferredHeight"));
-
-	// for 'damaged' stuff that was omitted, set 'em to be the same as 'undamaged'...
-	if (m_maxSpeedDamaged < 0.0f)
-		m_maxSpeedDamaged = m_maxSpeed;
-	
-	if (m_maxTurnRateDamaged < 0.0f)
-		m_maxTurnRateDamaged = m_maxTurnRate;
-
-	if (m_accelerationDamaged < 0.0f)
-		m_accelerationDamaged = m_acceleration;
-
-	if (m_liftDamaged < 0.0f)
-		m_liftDamaged = m_lift;
-
-	if (m_appearance == LOCO_WINGS)
-	{
-		if (m_minSpeed <= 0.0f)
-		{
-			DEBUG_CRASH(("WINGS should always have positive minSpeeds (otherwise, they hover)"));
-			m_minSpeed = 0.01f;
-		}
-		if (m_minTurnSpeed <= 0.0f)
-		{
-			DEBUG_CRASH(("WINGS should always have positive minTurnSpeed"));
-			m_minTurnSpeed = 0.01f;
-		}
-	}
-
-	if (m_appearance == LOCO_THRUST)
-	{
-		if (m_behaviorZ != Z_NO_Z_MOTIVE_FORCE ||
-				m_lift != 0.0f ||
-				m_liftDamaged != 0.0f)
-		{
-			DEBUG_CRASH(("THRUST locos may not use ZAxisBehavior or lift!\n"));
-			throw INI_INVALID_DATA;
-		}
-		if (m_maxSpeed <= 0.0f)
-		{
-			// if one of these was omitted, it defaults to zero... just quietly heal it here, rather than crashing
-			DEBUG_LOG(("THRUST locos may not have zero m_maxSpeed; healing...\n"));
-			m_maxSpeed = 0.01f;
-		}
-		if (m_maxSpeedDamaged <= 0.0f)
-		{
-			// if one of these was omitted, it defaults to zero... just quietly heal it here, rather than crashing
-			DEBUG_LOG(("THRUST locos may not have zero m_maxSpeedDamaged; healing...\n"));
-			m_maxSpeedDamaged = 0.01f;
-		}
-		if (m_minSpeed <= 0.0f)
-		{
-			// if one of these was omitted, it defaults to zero... just quietly heal it here, rather than crashing
-			DEBUG_LOG(("THRUST locos may not have zero m_minSpeed; healing...\n"));
-			m_minSpeed = 0.01f;
-		}
-	}
-}
+// LocomotorTemplate::validate is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/LocomotorTemplateValidate.cpp (0x001E38B9).
 
 //-------------------------------------------------------------------------------------------------
 static void parseFrictionPerSec( INI* ini, void * /*instance*/, void *store, const void* /*userData*/ )
@@ -442,6 +325,7 @@ static void parseFrictionPerSec( INI* ini, void * /*instance*/, void *store, con
 } 
 
 //-------------------------------------------------------------------------------------------------
+// ?LocomotorTemplate::getFieldParse present-unmatched
 const FieldParse* LocomotorTemplate::getFieldParse() const  
 {
 	static const FieldParse TheFieldParse[] =
@@ -518,9 +402,8 @@ const FieldParse* LocomotorTemplate::getFieldParse() const
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-LocomotorStore::LocomotorStore()
-{
-} 
+// LocomotorStore::LocomotorStore: defined in LocomotorStoreCtor.cpp (its row's unit).
+ 
 
 //-------------------------------------------------------------------------------------------------
 LocomotorStore::~LocomotorStore()
@@ -565,81 +448,21 @@ const LocomotorTemplate* LocomotorStore::findLocomotorTemplate(NameKeyType namek
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?LocomotorStore::update present-unmatched
 void LocomotorStore::update()
 {
 }
 
 //-------------------------------------------------------------------------------------------------
-void LocomotorStore::reset()
-{
-	// cleanup overrides.
-	LocomotorTemplateMap::iterator it;
-	for (it = m_locomotorTemplates.begin(); it != m_locomotorTemplates.end(); ) {
-		Overridable *locoTemp = it->second->deleteOverrides();
-		if (!locoTemp)
-		{
-			m_locomotorTemplates.erase(it);
-		}
-		else
-		{
-			++it;
-		}
-	}
-}
+// LocomotorStore::reset is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/LocomotorStoreReset.cpp (0x001E681D).
 
 //-------------------------------------------------------------------------------------------------
-LocomotorTemplate *LocomotorStore::newOverride( LocomotorTemplate *locoTemplate )
-{
-	if (locoTemplate == NULL)
-		return NULL;
-
-	// allocate new template
-	LocomotorTemplate *newTemplate = newInstance(LocomotorTemplate);
-
-	// copy data from final override to 'newTemplate' as a set of initial default values
-	*newTemplate = *locoTemplate;
-	locoTemplate->setNextOverride(newTemplate);
-
-	newTemplate->markAsOverride();
-
-	// return the newly created override for us to set values with etc
-	return newTemplate;
-
-}  // end newOverride
+// LocomotorStore::newOverride is defined with its retail-matched body in Code/GameEngine/Source/Common/Rva001E520COverride.cpp (0x001E520C).
 
 //-------------------------------------------------------------------------------------------------
-/*static*/ void LocomotorStore::parseLocomotorTemplateDefinition(INI* ini)
-{
-	if (!TheLocomotorStore)
-		throw INI_INVALID_DATA;
-
-	Bool isOverride = false;
-	// read the Locomotor name
-	const char* token = ini->getNextToken();
-	NameKeyType namekey = NAMEKEY(token);
-	
-	LocomotorTemplate *loco = TheLocomotorStore->findLocomotorTemplate(namekey);
-	if (loco) {
-		if (ini->getLoadType() == INI_LOAD_CREATE_OVERRIDES) {
-			loco = TheLocomotorStore->newOverride((LocomotorTemplate*) loco->friend_getFinalOverride());
-		} 
-		isOverride = true;
-	} else {
-		loco = newInstance(LocomotorTemplate);
-		if (ini->getLoadType() == INI_LOAD_CREATE_OVERRIDES) {
-			loco->markAsOverride();
-		}
-	}
-
-	loco->friend_setName(token);
-	ini->initFromINI(loco, loco->getFieldParse());
-	loco->validate();
-	
-	// if this is an override, then we want the pointer on the existing named locomotor to point us 
-	// to the override, so don't add it to the map.
-	if (!isOverride)
-		TheLocomotorStore->m_locomotorTemplates[namekey] = loco;
-}
+// LocomotorStore::parseLocomotorTemplateDefinition is defined with its retail-matched body in Code/GameEngine/Source/Common/Rva001E72B4Reload.cpp (0x001E8A94).
+// Its template-map insertion instantiated this pair constructor here (0x00363B35).
+template _STL::pair<const NameKeyType, LocomotorTemplate*>::pair(const NameKeyType&, LocomotorTemplate* const&);
 
 //-------------------------------------------------------------------------------------------------
 /*static*/ void INI::parseLocomotorTemplateDefinition( INI* ini )
@@ -654,9 +477,10 @@ LocomotorTemplate *LocomotorStore::newOverride( LocomotorTemplate *locoTemplate 
 //-------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------
-Locomotor::Locomotor(const LocomotorTemplate* tmpl)
+// ?Locomotor::Locomotor present-unmatched
+Locomotor::Locomotor(const LocomotorTemplate* locomotorTemplate)
 {
-	m_template = tmpl;
+	m_template = locomotorTemplate;
 	m_brakingFactor = 1.0f;
 	m_maxLift = BIGNUM;
 	m_maxSpeed = BIGNUM;
@@ -679,6 +503,7 @@ Locomotor::Locomotor(const LocomotorTemplate* tmpl)
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::Locomotor present-unmatched
 Locomotor::Locomotor(const Locomotor& that)
 {
 	//Added By Sadullah Nader
@@ -707,6 +532,7 @@ Locomotor::Locomotor(const Locomotor& that)
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::operator= present-unmatched
 Locomotor& Locomotor::operator=(const Locomotor& that)
 {
 	if (this != &that)
@@ -730,6 +556,7 @@ Locomotor& Locomotor::operator=(const Locomotor& that)
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::~Locomotor present-unmatched
 Locomotor::~Locomotor() 
 {
 }
@@ -737,6 +564,7 @@ Locomotor::~Locomotor()
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
+// ?Locomotor::crc present-unmatched
 void Locomotor::crc( Xfer *xfer )
 {
 
@@ -747,45 +575,20 @@ void Locomotor::crc( Xfer *xfer )
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
-void Locomotor::xfer( Xfer *xfer )
-{
-	// version
-	const XferVersion currentVersion = 2;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
-
-	if (version>=2) {
-		xfer->xferUnsignedInt(&m_donutTimer);
-	}
-
-	xfer->xferCoord3D(&m_maintainPos);
-	xfer->xferReal(&m_brakingFactor);
-	xfer->xferReal(&m_maxLift);
-	xfer->xferReal(&m_maxSpeed);
-	xfer->xferReal(&m_maxAccel);
-	xfer->xferReal(&m_maxBraking);
-	xfer->xferReal(&m_maxTurnRate);
-	xfer->xferReal(&m_closeEnoughDist);
-#ifdef CIRCLE_FOR_LANDING
-	DEBUG_CRASH(("not supported, must fix me"));
-#endif
-	xfer->xferUnsignedInt(&m_flags);
-	xfer->xferReal(&m_preferredHeight);
-	xfer->xferReal(&m_preferredHeightDamping);
-	xfer->xferReal(&m_angleOffset);
-	xfer->xferReal(&m_offsetIncrement);
-
-}  // end xfer
+// Locomotor::xfer is rowed in LocomotorXfer.cpp (0x00341E2D, the BFME2 body); Zero Hour's
+// member-by-member xfer here was a non-retail second definition.
 
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
+// ?Locomotor::loadPostProcess present-unmatched
 void Locomotor::loadPostProcess( void )
 {
 
 }  // end loadPostProcess
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::startMove present-unmatched
 void Locomotor::startMove(void) 
 {
 	// Reset the donut timer.
@@ -793,6 +596,7 @@ void Locomotor::startMove(void)
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::getMaxSpeedForCondition present-unmatched
 Real Locomotor::getMaxSpeedForCondition(BodyDamageType condition) const
 {
 	Real speed;
@@ -829,6 +633,7 @@ Real Locomotor::getMaxTurnRate(BodyDamageType condition) const
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::getMaxAcceleration present-unmatched
 Real Locomotor::getMaxAcceleration(BodyDamageType condition) const
 {
 	Real accel;
@@ -845,6 +650,7 @@ Real Locomotor::getMaxAcceleration(BodyDamageType condition) const
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::getBraking present-unmatched
 Real Locomotor::getBraking() const
 {
 	Real braking = m_template->m_braking;
@@ -856,6 +662,7 @@ Real Locomotor::getBraking() const
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::getMaxLift present-unmatched
 Real Locomotor::getMaxLift(BodyDamageType condition) const
 {
 	Real lift;
@@ -872,60 +679,9 @@ Real Locomotor::getMaxLift(BodyDamageType condition) const
 }
 
 //-------------------------------------------------------------------------------------------------
-void Locomotor::locoUpdate_moveTowardsAngle(Object* obj, Real goalAngle)
-{
-	setFlag(MAINTAIN_POS_IS_VALID, false);
-
-	if (obj == NULL || m_template == NULL)
-		return;
-
-	PhysicsBehavior *physics = obj->getPhysics();
-	if (physics == NULL)
-	{
-		DEBUG_CRASH(("you can only apply Locomotors to objects with Physics"));
-		return;
-	}
-
-	// Skip moveTowardsAngle if physics say you're stunned
-	if(physics->getIsStunned())
-	{
-		return;
-	}
-
-#ifdef DEBUG_OBJECT_ID_EXISTS
-//	DEBUG_ASSERTLOG(obj->getID() != TheObjectIDToDebug, ("locoUpdate_moveTowardsAngle %f (%f deg), spd %f (%f)\n",goalAngle,goalAngle*180/PI,physics->getSpeed(),physics->getForwardSpeed2D()));
-#endif
-
-	Real minSpeed = getMinSpeed();
-	if (minSpeed > 0)
-	{
-		// can't stay in one place; move in the desired direction at min speed.
-		Coord3D desiredPos = *obj->getPosition();
-		desiredPos.x += Cos(goalAngle) * minSpeed * 2;
-		desiredPos.y += Sin(goalAngle) * minSpeed * 2;
-		// pass a huge num for "dist to goal", so that we don't think we're nearing
-		// our destination and thus slow down...
-		const Real onPathDistToGoal = 99999.0f;
-		Bool blocked = false;
-		locoUpdate_moveTowardsPosition(obj, desiredPos, onPathDistToGoal, minSpeed, &blocked);
-		
-		// don't need to call handleBehaviorZ() here, since locoUpdate_moveTowardsPosition() will do so
-		return;
-	}
-	else
-	{
-		DEBUG_ASSERTCRASH(m_template->m_appearance != LOCO_THRUST, ("THRUST should always have minspeeds!\n"));
-		Coord3D desiredPos = *obj->getPosition();
-		desiredPos.x += Cos(goalAngle) * 1000.0f;
-		desiredPos.y += Sin(goalAngle) * 1000.0f;
-		PhysicsTurningType rotating = rotateTowardsPosition(obj, desiredPos);
-		physics->setTurning(rotating);
-		handleBehaviorZ(obj, physics, *obj->getPosition());
-	}
-
-}
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::rotateTowardsPosition present-unmatched
 PhysicsTurningType Locomotor::rotateTowardsPosition(Object* obj, const Coord3D& goalPos, Real *relAngle)
 {
 	BodyDamageType bdt = obj->getBodyModule()->getDamageState();
@@ -936,6 +692,7 @@ PhysicsTurningType Locomotor::rotateTowardsPosition(Object* obj, const Coord3D& 
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::setPhysicsOptions present-unmatched
 void Locomotor::setPhysicsOptions(Object* obj)
 {
 	PhysicsBehavior *physics = obj->getPhysics();
@@ -954,6 +711,7 @@ void Locomotor::setPhysicsOptions(Object* obj)
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::locoUpdate_moveTowardsPosition present-unmatched
 void Locomotor::locoUpdate_moveTowardsPosition(Object* obj, const Coord3D& goalPos, 
 																							 Real onPathDistToGoal, Real desiredSpeed, Bool *blocked)
 {
@@ -1169,6 +927,7 @@ void Locomotor::locoUpdate_moveTowardsPosition(Object* obj, const Coord3D& goalP
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::moveTowardsPositionTreads present-unmatched
 void Locomotor::moveTowardsPositionTreads(Object* obj, PhysicsBehavior *physics, const Coord3D& goalPos, Real onPathDistToGoal, Real desiredSpeed)
 {
 
@@ -1283,6 +1042,7 @@ void Locomotor::moveTowardsPositionTreads(Object* obj, PhysicsBehavior *physics,
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::moveTowardsPositionWheels present-unmatched
 void Locomotor::moveTowardsPositionWheels(Object* obj, PhysicsBehavior *physics, const Coord3D& goalPos, Real onPathDistToGoal, Real desiredSpeed)
 {
 	BodyDamageType bdt = obj->getBodyModule()->getDamageState();
@@ -1525,6 +1285,7 @@ void Locomotor::moveTowardsPositionWheels(Object* obj, PhysicsBehavior *physics,
 
 }
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::fixInvalidPosition present-unmatched
 Bool Locomotor::fixInvalidPosition(Object* obj, PhysicsBehavior *physics)
 {
 	if (obj->isKindOf(KINDOF_DOZER)) {
@@ -1592,6 +1353,7 @@ Bool Locomotor::fixInvalidPosition(Object* obj, PhysicsBehavior *physics)
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::calcMinTurnRadius present-unmatched
 Real Locomotor::calcMinTurnRadius(BodyDamageType condition, Real* timeToTravelThatDist) const
 {
 	Real minSpeed = getMinSpeed();								// in dist/frame
@@ -1619,6 +1381,7 @@ Real Locomotor::calcMinTurnRadius(BodyDamageType condition, Real* timeToTravelTh
 
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::moveTowardsPositionLegs present-unmatched
 void Locomotor::moveTowardsPositionLegs(Object* obj, PhysicsBehavior *physics, const Coord3D& goalPos, Real onPathDistToGoal, Real desiredSpeed)
 {
 	if (getIsDownhillOnly() && obj->getPosition()->z < goalPos.z)
@@ -1715,6 +1478,7 @@ void Locomotor::moveTowardsPositionLegs(Object* obj, PhysicsBehavior *physics, c
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::moveTowardsPositionClimb present-unmatched
 void Locomotor::moveTowardsPositionClimb(Object* obj, PhysicsBehavior *physics, const Coord3D& goalPos, Real onPathDistToGoal, Real desiredSpeed)
 {
 	Real maxAcceleration = getMaxAcceleration( obj->getBodyModule()->getDamageState() );
@@ -1846,6 +1610,7 @@ void Locomotor::moveTowardsPositionClimb(Object* obj, PhysicsBehavior *physics, 
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::moveTowardsPositionWings present-unmatched
 void Locomotor::moveTowardsPositionWings(Object* obj, PhysicsBehavior *physics, const Coord3D& goalPos, Real onPathDistToGoal, Real desiredSpeed)
 {
 #ifdef CIRCLE_FOR_LANDING
@@ -1888,6 +1653,7 @@ void Locomotor::moveTowardsPositionWings(Object* obj, PhysicsBehavior *physics, 
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::moveTowardsPositionHover present-unmatched
 void Locomotor::moveTowardsPositionHover(Object* obj, PhysicsBehavior *physics, const Coord3D& goalPos, Real onPathDistToGoal, Real desiredSpeed)
 {
 	// handle the 2D component.
@@ -1916,6 +1682,7 @@ void Locomotor::moveTowardsPositionHover(Object* obj, PhysicsBehavior *physics, 
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::moveTowardsPositionThrust present-unmatched
 void Locomotor::moveTowardsPositionThrust(Object* obj, PhysicsBehavior *physics, const Coord3D& goalPos, Real onPathDistToGoal, Real desiredSpeed)
 {
 	BodyDamageType bdt = obj->getBodyModule()->getDamageState();
@@ -2032,6 +1799,7 @@ void Locomotor::moveTowardsPositionThrust(Object* obj, PhysicsBehavior *physics,
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::getSurfaceHtAtPt present-unmatched
 Real Locomotor::getSurfaceHtAtPt(Real x, Real y)
 {
 	Real ht = 0;
@@ -2047,6 +1815,7 @@ Real Locomotor::getSurfaceHtAtPt(Real x, Real y)
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::calcLiftToUseAtPt present-unmatched
 Real Locomotor::calcLiftToUseAtPt(Object* obj, PhysicsBehavior *physics, Real curZ, Real surfaceAtPt, Real preferredHeight)
 {
 	/*
@@ -2138,6 +1907,7 @@ Real Locomotor::calcLiftToUseAtPt(Object* obj, PhysicsBehavior *physics, Real cu
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::rotateObjAroundLocoPivot present-unmatched
 PhysicsTurningType Locomotor::rotateObjAroundLocoPivot(Object* obj, const Coord3D& goalPos, 
 																											 Real maxTurnRate, Real *relAngle)
 {
@@ -2221,6 +1991,7 @@ PhysicsTurningType Locomotor::rotateObjAroundLocoPivot(Object* obj, const Coord3
 	return true if we can maintain the position without being called every frame (eg, we are
 	resting on the ground), false if not (eg, we are hovering or circling)
 */
+// ?Locomotor::handleBehaviorZ present-unmatched
 Bool Locomotor::handleBehaviorZ(Object* obj, PhysicsBehavior *physics, const Coord3D& goalPos)
 {
 	Bool requiresConstantCalling = TRUE;
@@ -2351,6 +2122,7 @@ Bool Locomotor::handleBehaviorZ(Object* obj, PhysicsBehavior *physics, const Coo
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::moveTowardsPositionOther present-unmatched
 void Locomotor::moveTowardsPositionOther(Object* obj, PhysicsBehavior *physics, const Coord3D& goalPos, Real onPathDistToGoal, Real desiredSpeed)
 {
 	BodyDamageType bdt = obj->getBodyModule()->getDamageState();
@@ -2437,74 +2209,10 @@ void Locomotor::moveTowardsPositionOther(Object* obj, PhysicsBehavior *physics, 
 	return true if we can maintain the position without being called every frame (eg, we are
 	resting on the ground), false if not (eg, we are hovering or circling)
 */
-Bool Locomotor::locoUpdate_maintainCurrentPosition(Object* obj)
-{
-	if (!getFlag(MAINTAIN_POS_IS_VALID))
-	{
-		m_maintainPos = *obj->getPosition();
-		setFlag(MAINTAIN_POS_IS_VALID, true);
-	}
-
-	m_donutTimer = TheGameLogic->getFrame()+DONUT_TIME_DELAY_SECONDS*LOGICFRAMES_PER_SECOND;
-	setFlag(IS_BRAKING, false);
-	PhysicsBehavior *physics = obj->getPhysics();
-	if (physics == NULL)
-	{
-		DEBUG_CRASH(("you can only apply Locomotors to objects with Physics"));
-		return TRUE;
-	}
-
-#ifdef DEBUG_OBJECT_ID_EXISTS
-//	DEBUG_ASSERTLOG(obj->getID() != TheObjectIDToDebug, ("locoUpdate_maintainCurrentPosition %f %f %f, speed %f (%f)\n",m_maintainPos.x,m_maintainPos.y,m_maintainPos.z,physics->getSpeed(),physics->getForwardSpeed2D()));
-#endif
-
-	Bool requiresConstantCalling = TRUE;	// assume the worst.
-	switch (m_template->m_appearance) 
-	{
-		case LOCO_THRUST:
-			maintainCurrentPositionThrust(obj, physics);
-			requiresConstantCalling = TRUE;
-			break;
-		case LOCO_LEGS_TWO:
-			maintainCurrentPositionLegs(obj, physics);
-			requiresConstantCalling = FALSE;
-			break;
-		case LOCO_CLIMBER:
-			maintainCurrentPositionLegs(obj, physics);
-			requiresConstantCalling = FALSE;
-			break;
-		case LOCO_WHEELS_FOUR:
-		case LOCO_MOTORCYCLE:
-			maintainCurrentPositionWheels(obj, physics);
-			requiresConstantCalling = FALSE;
-			break;
-		case LOCO_TREADS:
-			maintainCurrentPositionTreads(obj, physics);
-			requiresConstantCalling = FALSE;
-			break;
-		case LOCO_HOVER:
-			maintainCurrentPositionHover(obj, physics);
-			requiresConstantCalling = TRUE;
-			break;
-		case LOCO_WINGS:
-			maintainCurrentPositionWings(obj, physics);
-			requiresConstantCalling = TRUE;
-			break;
-		case LOCO_OTHER:
-		default:
-			maintainCurrentPositionOther(obj, physics);
-			requiresConstantCalling = TRUE;
-			break;
-	}
-
-	// but we do need to do this even if not moving, for hovering/Thrusting things.
-	if (handleBehaviorZ(obj, physics, m_maintainPos))
-		requiresConstantCalling = TRUE;
-
-	return requiresConstantCalling;
-}
+// Locomotor::locoUpdate_maintainCurrentPosition is rowed at 0x001E84E5 in LocomotorMaintainCurrentPosition.cpp.
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::maintainCurrentPositionThrust present-unmatched
 void Locomotor::maintainCurrentPositionThrust(Object* obj, PhysicsBehavior *physics)
 {
 	DEBUG_ASSERTCRASH(getFlag(MAINTAIN_POS_IS_VALID), ("invalid maintain pos"));
@@ -2513,6 +2221,7 @@ void Locomotor::maintainCurrentPositionThrust(Object* obj, PhysicsBehavior *phys
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::maintainCurrentPositionWings present-unmatched
 void Locomotor::maintainCurrentPositionWings(Object* obj, PhysicsBehavior *physics)
 {
 	DEBUG_ASSERTCRASH(getFlag(MAINTAIN_POS_IS_VALID), ("invalid maintain pos"));
@@ -2552,6 +2261,7 @@ void Locomotor::maintainCurrentPositionWings(Object* obj, PhysicsBehavior *physi
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::maintainCurrentPositionHover present-unmatched
 void Locomotor::maintainCurrentPositionHover(Object* obj, PhysicsBehavior *physics)
 {
 	physics->setTurning(TURN_NONE);
@@ -2604,6 +2314,7 @@ void Locomotor::maintainCurrentPositionHover(Object* obj, PhysicsBehavior *physi
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?Locomotor::maintainCurrentPositionOther present-unmatched
 void Locomotor::maintainCurrentPositionOther(Object* obj, PhysicsBehavior *physics)
 {
 
@@ -2621,6 +2332,7 @@ void Locomotor::maintainCurrentPositionOther(Object* obj, PhysicsBehavior *physi
 //-------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------
+// ?LocomotorSet::LocomotorSet present-unmatched
 LocomotorSet::LocomotorSet()
 {
 	m_locomotors.clear();
@@ -2630,12 +2342,14 @@ LocomotorSet::LocomotorSet()
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?LocomotorSet::LocomotorSet present-unmatched
 LocomotorSet::LocomotorSet(const LocomotorSet& that)
 {
 	DEBUG_CRASH(("unimplemented"));
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?LocomotorSet::operator= present-unmatched
 LocomotorSet& LocomotorSet::operator=(const LocomotorSet& that)
 {
 	if (this != &that)
@@ -2646,6 +2360,7 @@ LocomotorSet& LocomotorSet::operator=(const LocomotorSet& that)
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?LocomotorSet::~LocomotorSet present-unmatched
 LocomotorSet::~LocomotorSet()
 {
 	clear();
@@ -2654,6 +2369,7 @@ LocomotorSet::~LocomotorSet()
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
+// ?LocomotorSet::crc present-unmatched
 void LocomotorSet::crc( Xfer *xfer )
 {
 
@@ -2664,6 +2380,7 @@ void LocomotorSet::crc( Xfer *xfer )
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
+// ?LocomotorSet::xfer present-unmatched
 void LocomotorSet::xfer( Xfer *xfer )
 {
 	// version
@@ -2721,50 +2438,17 @@ void LocomotorSet::xfer( Xfer *xfer )
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
+// ?LocomotorSet::loadPostProcess present-unmatched
 void LocomotorSet::loadPostProcess( void )
 {
 
 }  // end loadPostProcess
 
 //-------------------------------------------------------------------------------------------------
-void LocomotorSet::xferSelfAndCurLocoPtr(Xfer *xfer, Locomotor** loco)
-{
-	xfer->xferSnapshot(this);
-
-	if (xfer->getXferMode() == XFER_SAVE)
-	{
-		AsciiString name;
-		if (*loco)
-			name = (*loco)->getTemplateName();
-		xfer->xferAsciiString(&name);
-	}
-	else if (xfer->getXferMode() == XFER_LOAD)
-	{
-		AsciiString name;
-		xfer->xferAsciiString(&name);
-
-		if (name.isEmpty())
-		{
-			*loco = NULL;
-		}
-		else
-		{
-			for (int i = 0; i < m_locomotors.size(); ++i)
-			{
-				if (m_locomotors[i]->getTemplateName() == name)
-				{
-					*loco = m_locomotors[i];
-					return;
-				}
-			}
-
-			DEBUG_CRASH(( "LocomotorSet::xfer - template %s not found\n", name.str() ));
-			throw XFER_UNKNOWN_STRING;
-		}
-	}
-}
+// LocomotorSet::xferSelfAndCurLocoPtr is defined with its retail-matched body in Code/GameEngine/Source/Common/LocomotorSetXferSelfAndCurLocoPtrRva001E70C2.cpp (0x001E70C2).
 
 //-------------------------------------------------------------------------------------------------
+// ?LocomotorSet::clear present-unmatched
 void LocomotorSet::clear()
 {
 	for (int i = 0; i < m_locomotors.size(); ++i)
@@ -2778,26 +2462,9 @@ void LocomotorSet::clear()
 }
 
 //-------------------------------------------------------------------------------------------------
-void LocomotorSet::addLocomotor(const LocomotorTemplate* lt)
-{
-	Locomotor* loco = TheLocomotorStore->newLocomotor(lt);
-	if (loco)
-	{
-		m_locomotors.push_back(loco);
-		m_validLocomotorSurfaces |= loco->getLegalSurfaces();
-		if (loco->getIsDownhillOnly())
-		{
-			m_downhillOnly = TRUE;
-		}
-		else // Previous locos were gravity only, but this one isn't!
-		{
-			DEBUG_ASSERTCRASH(!m_downhillOnly,("LocomotorSet, YOU CAN NOT MIX DOWNHILL-ONLY LOCOMOTORS WITH NON-DOWNHILL-ONLY ONES."));
-		}
-
-	}
-}
 
 //-------------------------------------------------------------------------------------------------
+// ?LocomotorSet::findLocomotor present-unmatched
 Locomotor* LocomotorSet::findLocomotor(LocomotorSurfaceTypeMask t)
 {
 	for (LocomotorVector::iterator it = m_locomotors.begin(); it != m_locomotors.end(); ++it)

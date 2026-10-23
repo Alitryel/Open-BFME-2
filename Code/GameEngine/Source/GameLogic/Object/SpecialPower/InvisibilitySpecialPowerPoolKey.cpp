@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004C23D4@InvisibilitySpecialPower@@SA?AW4NameKeyType@@XZ @0x4C23D4
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@InvisibilitySpecialPower@@UBE?AW4NameKeyType@@XZ @0x4C23D4
 // (69B): cached pool-name key for InvisibilitySpecialPower. The class
 // identity comes from the pool-name string the body pushes
 // ("InvisibilitySpecialPower"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class InvisibilitySpecialPower
 {
 public:
-	static NameKeyType rva0004C23D4();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004C23D4@InvisibilitySpecialPower@@SA?AW4NameKeyType@@XZ
-NameKeyType InvisibilitySpecialPower::rva0004C23D4()
+// ?getModuleNameKey@InvisibilitySpecialPower@@UBE?AW4NameKeyType@@XZ
+NameKeyType InvisibilitySpecialPower::getModuleNameKey() const
 {
 	static NameKeyType TheInvisibilitySpecialPowerPoolKey =
 		TheNameKeyGenerator->nameToKey("InvisibilitySpecialPower");

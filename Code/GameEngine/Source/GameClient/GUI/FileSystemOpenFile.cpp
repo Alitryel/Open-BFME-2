@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /MD
+// cl: /Oy- /MD
 //
 // ?openFile@FileSystem@@QAEPAVFile@@PBDHH@Z, retail 0x00600C34, 329 bytes.
 // BFME2 lang-aware open: gate, archive lang "%s\%s" + "lang\%s\%s"/English,
@@ -61,8 +61,10 @@ public:
 extern FilePathGate *TheFilePathGate;
 extern LocalFileSystem *TheLocalFileSystem;
 extern ArchiveFileSystem *TheArchiveFileSystem;
-extern char TheLangDir[];
-extern bool ArchiveOrderFlag;
+// TheLangDir: matched references place it at VA 0xe06948; zero-filled at retail, sized to the
+// 0x100-byte gap before the next known global there.
+char TheLangDir[256];
+extern bool BFME2PreferLocalFiles;
 
 class FileSystem
 {
@@ -83,7 +85,7 @@ File *FileSystem::openFile(const char *filename, int access, int unk)
 
 	File *file = 0;
 
-	if (!ArchiveOrderFlag)
+	if (!BFME2PreferLocalFiles)
 		goto try_local;
 	if (!TheArchiveFileSystem)
 		goto try_local;
@@ -119,9 +121,14 @@ try_local:
 				goto done;
 		}
 	}
-	if (ArchiveOrderFlag)
+	if (BFME2PreferLocalFiles)
 		goto done;
 	file = TheArchiveFileSystem->openFile(filename, access, unk);
 done:
 	return file;
 }
+
+// ?TheArchiveFileSystem@@3PAVArchiveFileSystem@@A: matched references place it at VA 0xe06e5c; also referenced as ?G00A06E5C@@3PAVRva0060061AHelper@@A, ?G00A06E5C@@3PAVRva00600676Target@@A.
+ArchiveFileSystem * TheArchiveFileSystem = 0;
+// ?TheLocalFileSystem@@3PAVLocalFileSystem@@A: matched references place it at VA 0xe06e54.
+LocalFileSystem * TheLocalFileSystem = 0;

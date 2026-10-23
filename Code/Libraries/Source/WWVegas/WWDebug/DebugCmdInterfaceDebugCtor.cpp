@@ -9,13 +9,25 @@
 // WWDebug TUs keep their matched bodies.
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug/debug_cmd.h
+// Retail's kept ??_GDebugCmdInterface is frameless; this TU builds /Oy-
+// (framed) for its 70B ctor row, so emit the COMDAT frameless here. The
+// row below keeps TU flags; only the inline copy follows the pragma.
+#pragma optimize("y", on)
+class Debug;
 class DebugCmdInterface
 {
-protected:
+public:
 	virtual ~DebugCmdInterface() {}
 
-public:
-	DebugCmdInterface() {}
+	__declspec(dllimport) __forceinline DebugCmdInterface() {}
+
+	enum CommandMode { Normal, Structured, MAX };
+
+	// NOTE: no Execute/Delete here. The canonical ??_7DebugCmdInterface@@6B@
+	// copy (first in link order, in WWLib/InlineDtorDeletingDtorsC03.cpp) is
+	// the 1-slot public-dtor vtable; a base view declaring Execute/Delete
+	// emits a 3-slot copy the census rejects. The derived class below still
+	// declares them, so its own vtable keeps the identical 3 slots.
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug/internal.h
@@ -23,10 +35,14 @@ class DebugCmdInterfaceDebug : public DebugCmdInterface
 {
 public:
 	explicit DebugCmdInterfaceDebug(void);
+	virtual bool Execute(Debug &dbg, const char *cmd, CommandMode cmdmode,
+		unsigned argn, const char *const *argv);
+	virtual void Delete(void);
 };
+#pragma optimize("", on)
 
 // ??0DebugCmdInterfaceDebug@@QAE@XZ
-DebugCmdInterfaceDebug::DebugCmdInterfaceDebug(void)
+inline DebugCmdInterfaceDebug::DebugCmdInterfaceDebug(void)
 {
 }
 
@@ -35,7 +51,24 @@ DebugCmdInterfaceDebug::DebugCmdInterfaceDebug(void)
 // declaration): an explicitly-defined empty dtor emits the derived vtable
 // reinstall at entry (61B), while retail's implicit dtor keeps only the
 // EH state plus the base reinstall (55B). Probe-proven in build/.
-void deleteCmdInterfaceDebug(DebugCmdInterfaceDebug *p)
+void deleteCmdInterfaceDebug(DebugCmdInterfaceDebug *debugCmdInterfaceDebug)
 {
-	delete p;
+	delete debugCmdInterfaceDebug;
 }
+
+// ?Delete@DebugCmdInterfaceDebug@@UAEXXZ present-unmatched
+void DebugCmdInterfaceDebug::Delete(void)
+{
+	delete this;
+}
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeDebugCmdInterfaceDebugInlineAnchor@@YAXPAVDebugCmdInterfaceDebug@@@Z absent-from-retail
+void _bfmeDebugCmdInterfaceDebugInlineAnchor(DebugCmdInterfaceDebug *debugCmdInterfaceDebug)
+{
+    debugCmdInterfaceDebug->DebugCmdInterfaceDebug::DebugCmdInterfaceDebug();
+}
+#pragma inline_depth()

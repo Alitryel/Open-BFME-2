@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /Ireference/shims/bfme2_ascii /O1 /Oy- /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS
 // stlport
 
 // BFME2 terrain texture-class loading. Retail builds this family with /O1
@@ -15,15 +15,7 @@
 typedef int Int;
 typedef bool Bool;
 
-class AsciiString
-{
-public:
-	AsciiString(const AsciiString &that);
-	~AsciiString() throw();
-	const char *str() const { return m_data ? m_data + 8 : ""; }
-private:
-	char *m_data;
-};
+#include "ascii_string.h"
 
 class TerrainType
 {
@@ -47,6 +39,14 @@ extern TerrainTypeCollection *TheTerrainTypes;
 
 // ?makeNrmTextureName@@ present-unmatched
 AsciiString makeNrmTextureName(const AsciiString &in);
+
+// ZH TerrainTypes.h getTexture: m_texture (+0x08) by value. Retail keeps it
+// out of line at 0x000AF1DD, directly before getNrmTexture; Anim2DTemplate's
+// identical name getter folds onto it.
+AsciiString TerrainType::getTexture() const
+{
+	return m_texture;
+}
 
 AsciiString TerrainType::getNrmTexture() const
 {

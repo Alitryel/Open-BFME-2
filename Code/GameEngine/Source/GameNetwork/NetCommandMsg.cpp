@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /DWIN32 /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /DWIN32 /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
 // stlport
 #define Matrix4x4 Matrix4  // BFME renamed it
 
@@ -9,16 +9,21 @@
 class BfmeNetGameMessageArgument
 {
 public:
-	BfmeNetGameMessageArgument() {}
+	BfmeNetGameMessageArgument();
 	virtual ~BfmeNetGameMessageArgument() {}
 
 	BfmeNetGameMessageArgument *m_next;
 	GameMessageArgumentType m_data;
 	GameMessageArgumentDataType m_type;
 };
+// ??0BfmeNetGameMessageArgument@@QAE@XZ @0x0030F53C 9B: the default constructor, storing the
+// class's own vtable (VA 0x00C09844) and returning this.
+BfmeNetGameMessageArgument::BfmeNetGameMessageArgument()
+{
+}
 
 // ??1NetCommandMsg@@MAE@XZ present-unmatched
-NetCommandMsg::~NetCommandMsg()
+inline NetCommandMsg::~NetCommandMsg()
 {
 }
 
@@ -46,13 +51,9 @@ void NetGameCommandMsg::addArgument(
 
 // Full retail detach body (including negative counts) is in NetCommandMsg_detach.cpp.
 
-NetWrapperCommandMsg::~NetWrapperCommandMsg()
-{
-	if (m_data != NULL) {
-		delete m_data;
-		m_data = NULL;
-	}
-}
+// ~NetWrapperCommandMsg (0x004D5871) and its deleting dtor live in
+// NetCommandMsgCtor.cpp: retail vtable 0x860254 has no memory-pool slot, so
+// the vtable this ZH header would emit beside them is not retail's.
 
 void NetWrapperCommandMsg::setData(UnsignedByte *data, UnsignedInt dataLength)
 {
@@ -66,19 +67,16 @@ void NetWrapperCommandMsg::setData(UnsignedByte *data, UnsignedInt dataLength)
 	m_dataLength = dataLength;
 }
 
-// ?getData@NetWrapperCommandMsg@@QAEPAEXZ present-unmatched
 UnsignedByte * NetWrapperCommandMsg::getData()
 {
 	return m_data;
 }
 
-// ?getDataLength@NetWrapperCommandMsg@@QAEIXZ present-unmatched
 UnsignedInt NetWrapperCommandMsg::getDataLength()
 {
 	return m_dataLength;
 }
 
-// ?getDataOffset@NetWrapperCommandMsg@@QAEIXZ present-unmatched
 UnsignedInt NetWrapperCommandMsg::getDataOffset()
 {
 	return m_dataOffset;
@@ -90,7 +88,6 @@ void NetWrapperCommandMsg::setDataOffset(UnsignedInt offset)
 	m_dataOffset = offset;
 }
 
-// ?getTotalDataLength@NetWrapperCommandMsg@@QAEIXZ present-unmatched
 UnsignedInt NetWrapperCommandMsg::getTotalDataLength()
 {
 	return m_totalDataLength;
@@ -114,7 +111,6 @@ void NetWrapperCommandMsg::setChunkNumber(UnsignedInt chunkNumber)
 	m_chunkNumber = chunkNumber;
 }
 
-// ?getNumChunks@NetWrapperCommandMsg@@QAEIXZ present-unmatched
 UnsignedInt NetWrapperCommandMsg::getNumChunks()
 {
 	return m_numChunks;
@@ -131,7 +127,6 @@ UnsignedShort NetWrapperCommandMsg::getWrappedCommandID()
 	return m_wrappedCommandID;
 }
 
-// ?setWrappedCommandID@NetWrapperCommandMsg@@QAEXG@Z present-unmatched
 void NetWrapperCommandMsg::setWrappedCommandID(UnsignedShort wrappedCommandID)
 {
 	m_wrappedCommandID = wrappedCommandID;
@@ -186,10 +181,7 @@ UnsignedByte NetAckStage2CommandMsg::getOriginalPlayerID()
 	return m_originalPlayerID;
 }
 
-UnsignedByte NetProgressCommandMsg::getPercentage()
-{
-	return m_percent;
-}
+// NetProgressCommandMsg::getPercentage: defined in NetProgressCommandMsgGetPercentage.cpp (its row's unit).
 
 // ?setPercentage@NetProgressCommandMsg@@QAEXE@Z present-unmatched
 void NetProgressCommandMsg::setPercentage(UnsignedByte percent)
@@ -206,14 +198,18 @@ UnsignedByte NetDisconnectPlayerCommandMsg::getDisconnectSlot() {
 	return m_disconnectSlot;
 }
 
-// ?setDisconnectSlot@NetDisconnectPlayerCommandMsg@@QAEXE@Z present-unmatched
 void NetDisconnectPlayerCommandMsg::setDisconnectSlot(UnsignedByte slot) {
 	m_disconnectSlot = slot;
 }
 
-// ?setDisconnectFrame@NetDisconnectPlayerCommandMsg@@QAEXI@Z present-unmatched
+// BFME 2 keeps the frame at +0x24: retail's body (0x005739F6, the folded 10-byte
+// dword setter its callers reach) is mov eax,[esp+4]; mov [ecx+0x24],eax; ret 4,
+// and the slot setter it pairs with writes +0x1C, so a dword BFME 2 added sits
+// at +0x20. The ZH header this unit compiles against puts m_disconnectFrame at
+// +0x20, which the link census proved wrong (wrong_selected for NetPacket.cpp's
+// call); the store names BFME 2's offset until the class gets a BFME 2 header.
 void NetDisconnectPlayerCommandMsg::setDisconnectFrame(UnsignedInt frame) {
-	m_disconnectFrame = frame;
+	*(UnsignedInt *)((char *)this + 0x24) = frame;
 }
 
 // ?setSlot@NetDisconnectVoteCommandMsg@@QAEXE@Z present-unmatched
@@ -234,4 +230,17 @@ UnsignedInt NetDisconnectFrameCommandMsg::getDisconnectFrame() {
 // ?getNewFrame@NetDisconnectScreenOffCommandMsg@@QAEIXZ present-unmatched
 UnsignedInt NetDisconnectScreenOffCommandMsg::getNewFrame() {
 	return m_newFrame;
+}
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?count@XmlNameSlotList@@QAEHXZ=?getTotalDataLength@NetWrapperCommandMsg@@QAEIXZ")
+
+// BFME1 874e38488c moved this virtual out of NetCommandMsg.h. BFME2's
+// existing folded 28B body at 0x0028F940 must still be emitted by this TU;
+// preserve the old header's empty-string copy, rather than importing a
+// BFME1 provider address. Same target body and shared AsciiString layout.
+AsciiString NetCommandMsg::getContentsAsAsciiString()
+{
+ return AsciiString::TheEmptyString;
 }

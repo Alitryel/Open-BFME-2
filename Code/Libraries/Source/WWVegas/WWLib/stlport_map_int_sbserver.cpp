@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 //
 // STLport map<int, SBServer> backing the PeerThread staging-server table.
@@ -15,12 +15,16 @@ struct SBServer
 {
     void *m_handle;
     SBServer();
-    __declspec(noinline) SBServer(const SBServer &src);
-    __declspec(noinline) ~SBServer();
-    SBServer &operator=(const SBServer &src);
+    // Select-any like the copy in StlportMapSBServerSubscript.cpp (this retail
+    // body comes first in link order, so it is the copy the link keeps).
+    inline __declspec(noinline) SBServer(const SBServer &src);
+    inline __declspec(noinline) ~SBServer();
+    inline __declspec(noinline) SBServer &operator=(const SBServer &src);
+    inline __declspec(noinline) void Rva005E3B9E();
+    inline __declspec(noinline) void Rva005E3E8A(void *newHandle);
 };
 
-__declspec(noinline) SBServer::SBServer(const SBServer &src)
+inline __declspec(noinline) SBServer::SBServer(const SBServer &src)
 {
     void *handle = src.m_handle;
     m_handle = handle;
@@ -31,7 +35,25 @@ __declspec(noinline) SBServer::SBServer(const SBServer &src)
     }
 }
 
+#pragma optimize("t", on)
 #include <map>
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator==(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b)
+{ return a._M_node == b._M_node; }
+}
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
+#pragma optimize("", on)
 
 // Teardown shares the rowed 0x7DEEF release helper: it computes the same
 // slot-derived object and tail-jumps to it (the fastcall argument is already
@@ -39,7 +61,7 @@ __declspec(noinline) SBServer::SBServer(const SBServer &src)
 struct TargetRef00217D4C { virtual void *destroy(unsigned flags); int references; };
 extern void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *p);
 
-__declspec(noinline) SBServer::~SBServer()
+inline __declspec(noinline) SBServer::~SBServer()
 {
     void *handle = m_handle;
     if (handle != 0) {
@@ -49,7 +71,31 @@ __declspec(noinline) SBServer::~SBServer()
     }
 }
 
-SBServer &SBServer::operator=(const SBServer &src)
+inline __declspec(noinline) void SBServer::Rva005E3B9E()
+{
+    void *handle = m_handle;
+    if (handle != 0) {
+        void *slot = *(void **)handle;
+        char *obj = (char *)((void **)slot)[1] + (unsigned int)handle;
+        ReleaseTreeHintRef00217D4C((TargetRef00217D4C *)obj);
+        m_handle = 0;
+    }
+}
+
+inline __declspec(noinline) void SBServer::Rva005E3E8A(void *newHandle)
+{
+    if (newHandle != m_handle) {
+        Rva005E3B9E();
+        m_handle = newHandle;
+        if (newHandle != 0) {
+            void *slot = *(void **)newHandle;
+            char *obj = (char *)((void **)slot)[1] + (unsigned int)newHandle;
+            ++*(int *)(obj + 4);
+        }
+    }
+}
+
+inline __declspec(noinline) SBServer &SBServer::operator=(const SBServer &src)
 {
     if (this != &src) {
         void *shandle = src.m_handle;
@@ -85,4 +131,57 @@ inline void _Construct<_STL::pair<const int, SBServer>, _STL::pair<const int, SB
 
 } // namespace _STL
 
-template class _STL::map<int, SBServer, _STL::less<int>, _STL::allocator<_STL::pair<const int, SBServer> > >;
+typedef _STL::pair<const int, SBServer> SBServerPair;
+typedef _STL::_Rb_tree<int, SBServerPair, _STL::_Select1st<SBServerPair>, _STL::less<int>, _STL::allocator<SBServerPair> > SBServerTree;
+template SBServerTree::_Link_type SBServerTree::_M_create_node(const SBServerTree::value_type &);
+template void SBServerTree::_M_erase(SBServerTree::_Link_type);
+template void SBServerTree::clear();
+template void SBServerTree::erase(SBServerTree::iterator);
+template void SBServerTree::erase(SBServerTree::iterator, SBServerTree::iterator);
+template SBServerPair::pair(const int &, const SBServer &);
+template SBServerPair::pair(const SBServerPair &);
+template SBServerPair::~pair();
+
+// Native 005E4157..005E415F is a counted-wrapper forwarder, not the STL
+// erase specialization proposed by the drift queue. WB 015FA460 passes the
+// same stack argument through the handle at +10 to native 005E4087.
+// Keep the receiver and callee address-derived until independent names exist.
+class Rva005E4087 { public: void rva005E4087(int); };
+class Rva005E4157
+{
+public:
+    void rva005E4157(int);
+    char unknown00[0x10];
+    Rva005E4087 *implementation;
+};
+void Rva005E4157::rva005E4157(int index)
+{
+    implementation->rva005E4087(index);
+}
+
+// Native 005E415F..005E4167 is the same counted-wrapper shape for the
+// int-returning 005E4116 (WB caller 005E69D0 reaches it directly): the
+// handle at +10 is the receiver and the result passes through as a tail jump.
+class Rva005E4116 { public: int rva005E4116(); };
+class Rva005E69D0
+{
+public:
+    int rva005E415F();
+    char unknown00[0x10];
+    Rva005E4116 *implementation;
+};
+int Rva005E69D0::rva005E415F()
+{
+    return implementation->rva005E4116();
+}
+
+// StrategicInGameUIArmyDetailsCreateIcon.cpp emits select-any copies of the
+// same three SBServer bodies; defining them inline-noinline here keeps one body
+// under each name. The anchor keeps this unit's copies emitted.
+// ?bfmeAnchorSBServer absent-from-retail
+void bfmeAnchorSBServer(SBServer *a, const SBServer *b, void *h)
+{
+    *a = *b;
+    a->Rva005E3B9E();
+    a->Rva005E3E8A(h);
+}

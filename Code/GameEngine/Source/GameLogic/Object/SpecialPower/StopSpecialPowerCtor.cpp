@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ??0StopSpecialPower@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x004C676C,
 // 46 bytes. Behavior-side ctor completing the StopSpecialPower file-unit
@@ -14,6 +14,14 @@
 // DIR32-masked in comparison). Flat classes throughout keep the body
 // frameless. Factory news 0x38 fits the +0x34 tail. Zero new pins (base
 // resolves via the existing SpecialPowerModule pin).
+
+extern "C" const void *const vtbl_00BEFCF8[];  // folded, 38 classes; via ??_7CashHackSpecialPower@@6BBehaviorModuleInterface@@@
+#pragma comment(linker, "/alternatename:_vtbl_00BEFCF8=??_7CashHackSpecialPower@@6BBehaviorModuleInterface@@@")
+
+extern "C" const void *const vtbl_00C5DE08[];  // ??_7Rva004C67A0@@6BRva004C67A0_B2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C5DE08=??_7Rva004C67A0@@6BRva004C67A0_B2@@@")
+extern "C" const void *const vtbl_00C5DE6C[];  // ??_7Rva004C67A0@@6BRva00493DEF@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C5DE6C=??_7Rva004C67A0@@6BRva00493DEF@@@")
 
 class Thing;
 class ModuleData;
@@ -39,7 +47,7 @@ StopSpecialPower::StopSpecialPower(Thing *thing, const ModuleData *moduleData) :
 	SpecialPowerModule(thing, moduleData),
 	m_34(0)
 {
-	*(unsigned int *)this = 0x00C5DE6C;
-	*(unsigned int *)((char *)this + 0xC) = 0x00BEFCF8;
-	*(unsigned int *)((char *)this + 0x10) = 0x00C5DE08;
+	*(unsigned int *)this = ((unsigned int)vtbl_00C5DE6C);
+	*(unsigned int *)((char *)this + 0xC) = ((unsigned int)vtbl_00BEFCF8);
+	*(unsigned int *)((char *)this + 0x10) = ((unsigned int)vtbl_00C5DE08);
 }

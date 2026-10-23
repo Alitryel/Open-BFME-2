@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB /Ireference/shims/moduledata /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 //
 // LivingWorldRegionConnection copy ctor.
@@ -10,40 +10,19 @@
 // helper. Two EH states (string, then vector) exactly as retail. Serves
 // the vector push/grow path (0x003F309A/0x003F2B0B) which builds new
 // elements through the 0x003F2980 construct helper below.
+//
+// The vector<BfmeE8> helpers this unit emits use retail's raw allocator
+// (bfmealloc: deallocate is a direct _free at 0x00030830), as every other
+// BfmeE8 unit's copies and the rowed copy constructor at 0x004334D7 do.
 
 #include <vector>
 
+#include "Common/Snapshot.h"
+
 class Xfer;
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void LoadPostProcess();
-	virtual const char *GetSnapshotName();
-	virtual void DoXfer(Xfer &xfer);
-};
+#include "ascii_string.h"
 
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
-
-template <typename T> class StringBase
-{
-public:
-	StringBase(const StringBase &that);
-
-protected:
-	void *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString(const AsciiString &that) : StringBase<char>(that) {}
-	~AsciiString();
-};
 
 struct BfmeE8
 {
@@ -73,3 +52,9 @@ LivingWorldRegionConnection::LivingWorldRegionConnection(const LivingWorldRegion
 	: m_regionName(that.m_regionName), m_numberAllowed(that.m_numberAllowed), m_detourPoints(that.m_detourPoints)
 {
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?LoadPostProcess@LivingWorldRegionConnection@@UAEXXZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?GetSnapshotName@LivingWorldRegionConnection@@UAEPBDXZ=?Rva003F24D0Get@@YAHXZ")

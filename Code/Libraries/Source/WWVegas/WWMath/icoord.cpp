@@ -88,7 +88,9 @@ void expandRange(int *low, int value, int *high)
     }
 }
 
-ICoord3D::ICoord3D(int x, int y, int z)
+// A header inline elsewhere too (AIGuardMachineGuardPosition.cpp emits a select-any
+// copy), so it is select-any here as well; the anchor at the end emits it.
+inline ICoord3D::ICoord3D(int x, int y, int z)
 {
     this->x = x;
     this->y = y;
@@ -130,7 +132,10 @@ ICoord2D &ICoord2D::MoveBy(int delta)
     return *this;
 }
 
-bool ICoord2D::operator==(const ICoord2DBase &that) const
+// A header inline elsewhere too (pathfinder.cpp emits a select-any copy: its
+// GetHordeUnitPath needs the body visible), so it is select-any here as well;
+// the anchor at the end emits it.
+inline bool ICoord2D::operator==(const ICoord2DBase &that) const
 {
     return x == that.x && y == that.y;
 }
@@ -179,11 +184,11 @@ Debug &operator<<(Debug &debug, const ICoord3D &coord)
 
 // The empty pair: a bare `mov eax, ecx; ret`, ICF-folded across every default
 // constructor in the math headers.
-ICoord2D::ICoord2D()
+inline ICoord2D::ICoord2D()
 {
 }
 
-ICoord3D::ICoord3D()
+inline ICoord3D::ICoord3D()
 {
 }
 
@@ -216,3 +221,43 @@ ICoord2D &ICoord2D::operator=(const ICoord2DBase &that)
 
     return *this;
 }
+
+// ICoord2D default ctor is a header inline elsewhere: other units emit
+// select-any copies, so a strong definition here was a duplicate in the
+// linked build. This anchor only makes this unit emit its copy for the ledger
+// row; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitICoord2DCtor@@YAXPAUICoord2D@@@Z present-unmatched
+void bfmeEmitICoord2DCtor(ICoord2D *p)
+{
+    p->ICoord2D::ICoord2D();
+}
+#pragma inline_depth()
+// ICoord3D default ctor is a header inline elsewhere (Lib/ICoord3D.h): other units emit
+// select-any copies, so a strong definition here duplicates them in the linked build.
+// Same anchor as ICoord2D above; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitICoord3DCtor@@YAXPAUICoord3D@@@Z present-unmatched
+void bfmeEmitICoord3DCtor(ICoord3D *p)
+{
+    p->ICoord3D::ICoord3D();
+}
+#pragma inline_depth()
+// ICoord3D component ctor anchor, same recipe as the default constructors above;
+// it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitICoord3DComponentCtor@@YAXPAUICoord3D@@HHH@Z present-unmatched
+void bfmeEmitICoord3DComponentCtor(ICoord3D *p, int x, int y, int z)
+{
+    p->ICoord3D::ICoord3D(x, y, z);
+}
+#pragma inline_depth()
+// ICoord2D::operator== anchor, same recipe as the constructors above; it is not
+// retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitICoord2DEquals@@YA_NPBUICoord2D@@PBUICoord2DBase@@@Z present-unmatched
+bool bfmeEmitICoord2DEquals(const ICoord2D *p, const ICoord2DBase *coord2DBase)
+{
+    return *p == *coord2DBase;
+}
+#pragma inline_depth()

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // WeaponModeSpecialPowerUpdateModuleData parse-unit.
 //
@@ -13,6 +13,7 @@
 class MultiIniFieldParse;
 struct FieldParse;
 
+extern const int s_weaponModeFieldTable[];
 class MultiIniFieldParse
 {
 public:
@@ -35,5 +36,5 @@ public:
 void WeaponModeSpecialPowerUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	Rva005890EDBase::buildFieldParse(parse);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00C4E8B0), 0);
+	parse.add(reinterpret_cast<const FieldParse *>(s_weaponModeFieldTable), 0);
 }

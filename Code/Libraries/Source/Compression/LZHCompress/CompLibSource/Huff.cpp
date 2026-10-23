@@ -1,13 +1,17 @@
 // cl: /DNDEBUG /MD -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader
-/* LZH-Light 1.0 (Sergey Ignatchenko, 1998) -- upstream C++ source, verbatim
-   from github.com/TheSuperHackers/lzhl-1.0 commit dfd96e2, EXCEPT for comments:
-   this block and the `present-unmatched` markers below it. Not one line of code
-   is changed, and the alterations are named here because the licence below
-   requires an altered source version to say so.
-   Statically linked into lotrbfme.exe; EA kept it at
+/* LZH-Light 1.0 (Sergey Ignatchenko, 1998) -- upstream C++ source from
+   github.com/TheSuperHackers/lzhl-1.0 commit dfd96e2, ALTERED in two ways,
+   named here because the licence below requires an altered source version
+   to say so: (1) comments -- this block and the `present-unmatched` marker
+   below it; (2) one code change -- LZHLDecompressor::decompress carries EA's
+   divergence from upstream, reconstructed from game.dat's body at 0x00692440
+   (824 bytes where upstream compiles to 852) and documented above the
+   function. Every other line is upstream's.
+   Statically linked into game.dat (BFME 2); EA kept it at
    Compression/LZHCompress/CompLib{Header,Source} (Zero Hour Compression.dsp).
    See ../PROVENANCE.txt for the artifact identity, the five Huffman tables in
-   retail .data that pin this release, and the two bodies it does NOT match. */
+   retail .data (0x009D9938..) that pin this release, and how BFME 2's copy
+   differs from BFME 1's. */
 /*
  *  LZH-Light algorithm implementation v 1.01
  *  Copyright (C) Sergey Ignatchenko 1998
@@ -40,10 +44,10 @@ HuffStat::~HuffStat()
     delete [] stat;
     }
 
-inline int cmpHuffStatTmpStruct( const HuffStatTmpStruct& a, const HuffStatTmpStruct& b )
+inline int cmpHuffStatTmpStruct( const HuffStatTmpStruct& huffStatTmp, const HuffStatTmpStruct& b )
     {
-    int cmp = b.n - a.n;
-    return cmp ? cmp : b.i - a.i;
+    int cmp = b.n - huffStatTmp.n;
+    return cmp ? cmp : b.i - huffStatTmp.i;
     }
 
 inline int operator <( const HuffStatTmpStruct& a, const HuffStatTmpStruct& b ) 
@@ -53,12 +57,12 @@ inline int operator <( const HuffStatTmpStruct& a, const HuffStatTmpStruct& b )
 
 static int /*__cdecl*/ _cmpStat( const void* a_, const void* b_ )
     {
-    HuffStatTmpStruct* a = (HuffStatTmpStruct*)a_;
+    HuffStatTmpStruct* huffStatTmp = (HuffStatTmpStruct*)a_;
     HuffStatTmpStruct* b = (HuffStatTmpStruct*)b_;
-    return cmpHuffStatTmpStruct( *a, *b );
+    return cmpHuffStatTmpStruct( *huffStatTmp, *b );
     }
 
-void shellSort( HuffStatTmpStruct* a, int N )
+void shellSort( HuffStatTmpStruct* huffStatTmp, int N )
     {
     int i, j;
     HuffStatTmpStruct v;
@@ -75,31 +79,31 @@ void shellSort( HuffStatTmpStruct* a, int N )
         {
         for ( i = h + 1; i <= N; ++i )
             {
-            v = a[i];
+            v = huffStatTmp[i];
             j = i;
-            while ( ( j > h ) && ( v < a[j - h] ) )
+            while ( ( j > h ) && ( v < huffStatTmp[j - h] ) )
                 {
-                a[j] = a[j-h];
+                huffStatTmp[j] = huffStatTmp[j-h];
                 j -= h;
                 }
-            a[j] = v;
+            huffStatTmp[j] = v;
             }
         }
     }
 
-int HuffStat::makeSortedTmp( HuffStatTmpStruct* s )
+int HuffStat::makeSortedTmp( HuffStatTmpStruct* huffStatTmp )
     {
     int total = 0;
     for( int j=0; j < NHUFFSYMBOLS ; ++j )
         {
-        s[ j ].i = j;
-        s[ j ].n = stat[ j ];
+        huffStatTmp[ j ].i = j;
+        huffStatTmp[ j ].n = stat[ j ];
         total += stat[ j ];
         stat[ j ] = HUFFRECALCSTAT( stat[ j ] );
         }
 
     //qsort( s, NHUFFSYMBOLS, sizeof(HuffStatTmpStruct), _cmpStat );
-    shellSort( s - 1, NHUFFSYMBOLS );
+    shellSort( huffStatTmp - 1, NHUFFSYMBOLS );
     return total;
     }
 

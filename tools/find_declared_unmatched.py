@@ -3,20 +3,52 @@
 
 import csv
 import argparse
+import os
 import re
 import subprocess
 import sys
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC_DIR = ROOT / "src"
 FUNCTIONS_CSV = ROOT / "reverse" / "functions.csv"
+DATA_ROWS_CSV = ROOT / "reverse" / "data_rows.csv"
 CLAIMS_WHITELIST = ROOT / "reverse" / "unclaimed_sources_whitelist.txt"
 
 # `// <label> present-unmatched` / `// <label> absent-from-retail` definition markers
 UNMATCHED_MARKER_RE = re.compile(
     r"^\s*//\s*(\S+)\s+(present-unmatched|absent-from-retail)\b", re.MULTILINE
 )
+
+# Ignore punctuation inside comments and literals while finding the end of a
+# signature. The retail compiler predates C++ raw string literals.
+SIGNATURE_TOKEN_RE = re.compile(
+    r'''//[^\n]*|/\*[\s\S]*?\*/|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|[(){};]'''
+)
+
+
+def is_declaration_or_call(text, after_open_paren):
+    """Exclude prototypes and calls with an enclosing expression parenthesis.
+
+    Keep ambiguous/incomplete signatures as definition candidates: this only
+    excludes a prototype when its terminating semicolon is actually seen.
+    A closing parenthesis beyond the balanced parameter list belongs to an
+    enclosing expression, such as a wrapped if condition, never a definition.
+    """
+    depth = 1
+    for match in SIGNATURE_TOKEN_RE.finditer(text, after_open_paren):
+        token = match.group()
+        if token == "(":
+            depth += 1
+        elif token == ")" and depth:
+            depth -= 1
+        elif depth == 0:
+            if token in (";", ")"):
+                return True
+            if token == "{":
+                return False
+    return False
 
 
 def load_claims_whitelist():
@@ -33,6 +65,10 @@ OPERATOR_CODES = {
     "operator=": "??4",
     "operator==": "??8",
     "operator!=": "??9",
+    "operator<": "??M",
+    "operator<=": "??N",
+    "operator>": "??O",
+    "operator>=": "??P",
     "operator+": "??H",
     "operator-": "??G",
     "operator*": "??D",
@@ -45,6 +81,8 @@ OPERATOR_CODES = {
     "operator>>": "??5",
     "operator[]": "??A",
     "operator()": "??R",
+    "operator++": "??E",
+    "operator--": "??F",
     "operator~": "??1",  # destructor is also ??1; handled separately
 }
 
@@ -77,6 +115,19 @@ def read_function_names(path: Path, staged: bool):
             matched_by_source[row["source"]] = matched_by_source.get(row["source"], 0) + 1
             matched_sources.setdefault(row["name"], set()).add(row["source"])
     return declared, matched, matched_by_source, matched_sources
+
+
+def read_data_row_sources(path: Path, staged: bool):
+    """Sources of matched data_rows.csv rows (one entry per row), staged or on disk
+    (Open-BFME-1's data-only TU handling)."""
+    text = git_show(path.relative_to(ROOT)) if staged else (
+        path.read_text(encoding="utf-8") if path.exists() else None)
+    if not text:
+        return []
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import data_rows
+    return [row["source"] for _, row in data_rows.parse(text.encode("utf-8"))
+            if row.get("status") == "matched"]
 
 
 def mangle_method(class_name: str, method_name: str) -> str:
@@ -130,7 +181,11 @@ def find_defined_functions(text: str):
     # body is then read as ordinary code. Fourteen such files made this checker
     # report a class called NAME and fail a commit. Normalise first: the parse
     # below cares about lines, not about how they were terminated.
-    for line in text.replace("\r\n", "\n").replace("\r", "\n").split("\n"):
+    normalized = text.replace("\r\n", "\n").replace("\r", "\n")
+    next_line_offset = 0
+    for line in normalized.split("\n"):
+        line_offset = next_line_offset
+        next_line_offset += len(line) + 1
         stripped = line.strip()
         # A function definition written inside a #define body is not a
         # definition -- it is macro text, and the identifiers in it are
@@ -170,13 +225,25 @@ def find_defined_functions(text: str):
             # cleared so a stale one cannot leak past it.
             candidate = stripped[3:].strip()
             parts = candidate.split()
+            # `// ?<mangled>,` -- a ledger row's name pasted with its trailing
+            # separator -- names the same symbol; the comma is not part of it.
+            if parts and parts[0].endswith(","):
+                parts[0] = parts[0].rstrip(",")
+                candidate = " ".join(parts)
             if len(parts) == 1 or (len(parts) >= 2 and parts[1] in
                                    ("present-unmatched", "absent-from-retail")):
                 symbol_comment = candidate
             else:
                 symbol_comment = None
             continue
-        is_namespace_line = stripped.startswith("namespace ") or stripped.startswith("namespace\t") or stripped.startswith("namespace {")
+        is_namespace_line = (stripped.startswith("namespace ") or stripped.startswith("namespace\t")
+                             or stripped.startswith("namespace {")
+                             or re.match(r'extern\s+"C(?:\+\+)?"\s*\{', stripped) is not None)
+        # Brace depth of the innermost namespace (or extern "C" block) this line
+        # sits in. An out-of-class Qualified::name definition only ever appears
+        # at that depth; deeper means inside a function or class body.
+        floor = namespace_stack[-1][1] if namespace_stack else 0
+        in_block = brace_depth > floor
 
         open_count = line.count("{")
         close_count = line.count("}")
@@ -193,12 +260,21 @@ def find_defined_functions(text: str):
         while namespace_stack and namespace_stack[-1][1] > brace_depth:
             namespace_stack.pop()
 
-        # a definition's signature line never ends with ';' — that's a call
-        # statement or prototype (e.g. `BASECLASS::Read(buffer, size);`)
-        if stripped.endswith(";"):
+        # Inspect the complete signature: prototypes can span lines, and a
+        # definition's first line can end with a semicolon inside a comment.
+        match = definition_pattern.match(line)
+        if match and is_declaration_or_call(normalized, line_offset + match.end()):
             match = None
-        else:
-            match = definition_pattern.match(line)
+            symbol_comment = None
+        # A call wrapped across lines -- `Bar::call(a,` inside a body -- ends in
+        # ',' like a wrapped definition signature does. Brace counting alone
+        # cannot tell them apart (braces in strings and #if branches skew it, and
+        # trusting it hid real definitions in W3DRoadBuffer.cpp), so a line is
+        # read as a call only when it is also indented: every out-of-class
+        # definition in this tree starts its signature in column 0.
+        if match and stripped.endswith(",") and in_block and line[:1] in (" ", "\t"):
+            match = None
+            symbol_comment = None  # a marker written over the call named the call
         if match:
             class_name = match.group(1)
             method_name = match.group(2)
@@ -214,25 +290,53 @@ def find_defined_functions(text: str):
     return results
 
 
+def read_path_list(name):
+    """Paths listed in file `name` ('-': stdin), NUL-separated if it holds a NUL, else one per line."""
+    data = sys.stdin.buffer.read() if name == "-" else Path(name).read_bytes()
+    if b"\0" in data:
+        entries = data.split(b"\0")
+    else:
+        entries = [line.rstrip(b"\r") for line in data.split(b"\n")]
+    return [os.fsdecode(entry) for entry in entries if entry]
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("paths", nargs="*", help="source files to inspect; defaults to every src/*.cpp")
     parser.add_argument("--fail", action="store_true", help="exit non-zero when unmatched functions are found")
     parser.add_argument("--staged", action="store_true", help="read paths from the git index")
+    parser.add_argument("--paths-from", metavar="FILE",
+                        help="also inspect the NUL- or newline-separated paths in FILE ('-': stdin); "
+                             "the pre-commit hook passes its list this way because Windows caps a "
+                             "command line at 32,767 characters")
     args = parser.parse_args()
+    if args.paths_from:
+        args.paths += read_path_list(args.paths_from)
 
     declared, matched, matched_by_source, matched_sources = read_function_names(FUNCTIONS_CSV, args.staged)
     whitelist = load_claims_whitelist()
+    # a data-only TU owns its globals in data_rows.csv (tools/data_rows.py, byte-verified by the gate)
+    for source in read_data_row_sources(DATA_ROWS_CSV, args.staged):
+        matched_by_source[source] = matched_by_source.get(source, 0) + 1
 
     unmatched = []
     violations = []
-    source_paths = [ROOT / path for path in args.paths] if args.paths else sorted(SRC_DIR.rglob("*.cpp"))
+    # An empty --paths-from list inspects nothing, never the default tree.
+    source_paths = ([ROOT / path for path in args.paths] if args.paths or args.paths_from
+                    else sorted(SRC_DIR.rglob("*.cpp")))
+    staged_text = {}
+    if args.staged:
+        # One `git show` per file: 1,500 staged sources took minutes one at a time.
+        # Fetch concurrently; everything below still runs in the given order.
+        rel_paths = [p.relative_to(ROOT) for p in source_paths if p.suffix == ".cpp"]
+        with ThreadPoolExecutor(max_workers=min(8, os.cpu_count() or 1)) as pool:
+            staged_text = dict(zip(rel_paths, pool.map(git_show, rel_paths)))
     for source_path in source_paths:
         if source_path.suffix != ".cpp":
             continue
         rel_path = source_path.relative_to(ROOT)
         if args.staged:
-            text = git_show(rel_path)
+            text = staged_text[rel_path]
             if text is None:
                 continue
         else:
@@ -244,7 +348,7 @@ def main():
         file_matched = matched_by_source.get(rel_path.as_posix(), 0)
         if file_matched == 0 and rel_path.as_posix() not in whitelist:
             violations.append(
-                f"{rel_path}: ZERO matched functions.csv rows — match at least one "
+                f"{rel_path}: ZERO matched functions.csv / data_rows.csv rows — match at least one "
                 f"function before committing this file, or whitelist it with a reason "
                 f"(reverse/unclaimed_sources_whitelist.txt)"
             )

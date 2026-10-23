@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva000491DF2@PickupStuffUpdate@@SA?AW4NameKeyType@@XZ @0x491df2
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@PickupStuffUpdate@@UBE?AW4NameKeyType@@XZ @0x491df2
 // (69B): cached pool-name key for PickupStuffUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("PickupStuffUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class PickupStuffUpdate
 {
 public:
-	static NameKeyType rva000491DF2();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000491DF2@PickupStuffUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType PickupStuffUpdate::rva000491DF2()
+// ?getModuleNameKey@PickupStuffUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType PickupStuffUpdate::getModuleNameKey() const
 {
 	static NameKeyType ThePickupStuffUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("PickupStuffUpdate");

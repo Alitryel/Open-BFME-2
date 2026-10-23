@@ -1,4 +1,4 @@
-// cl: /O1 /MD
+// cl: /MD
 //
 // ?xfer@Rva003A4322@@MAEXPAVXfer@@@Z, retail 0x003A4408, 84 bytes. Virtual
 // slot 3 (offset 0x0C) of vtable 0x0081AF60 (class of rowed dtor
@@ -31,60 +31,7 @@ class Thing;
 class ModuleData;
 class Object;
 
-class Xfer
-{
-public:
-	class Version;
-
-	Xfer();
-	virtual ~Xfer();
-
-	void Version1();
-
-	virtual bool IsLoading() const;
-	virtual bool IsStoring() const;
-	virtual bool IsCRC() const;
-	virtual bool IsLightCRC() const;
-
-	virtual void v5() = 0;
-	virtual void v6() = 0;
-	virtual void v7() = 0;
-
-	virtual void SkipBadBlock(Snapshot &snapshot, unsigned int size);
-	virtual Xfer &XferRawBytes(void *data, unsigned int size);
-	virtual Xfer &operator==(bool &value);
-	virtual Xfer &operator==(char &value);
-	virtual Xfer &operator==(unsigned char &value);
-	virtual Xfer &operator==(short &value);
-	virtual Xfer &operator==(unsigned short &value);
-	virtual Xfer &operator==(int &value);
-	virtual Xfer &operator==(unsigned int &value);
-	virtual Xfer &operator==(__int64 &value);
-	virtual Xfer &operator==(float &value);
-	virtual Xfer &operator==(AsciiString &value);
-	virtual Xfer &operator==(UnicodeString &value);
-	virtual Xfer &operator==(PooledString &value);
-	virtual Xfer &operator==(Coord3DBase &value);
-	virtual Xfer &operator==(ICoord3D &value);
-	virtual Xfer &operator==(Region3D &value);
-	virtual Xfer &operator==(IRegion3D &value);
-	virtual Xfer &operator==(Coord2D &value);
-	virtual Xfer &operator==(ICoord2D &value);
-	virtual Xfer &operator==(Region2D &value);
-	virtual Xfer &operator==(IRegion2D &value);
-	virtual Xfer &operator==(RealRange &value);
-	virtual Xfer &operator==(RGBColor &value);
-	virtual Xfer &operator==(RGBAColorReal &value);
-	virtual Xfer &operator==(RGBAColorInt &value);
-	virtual Xfer &operator==(Snapshot &value);
-	virtual Xfer &operator==(XferUnknown11 &value) = 0;
-	virtual Xfer &operator==(Version &value);
-
-	virtual Xfer &XferEnum(const char *name, void *data, unsigned int size);
-
-protected:
-	virtual void XferData(unsigned int type, void *data, unsigned int size) = 0;
-};
+#include "../../Include/Common/BfmeXfer.h"
 
 class Xfer::Version
 {
@@ -151,4 +98,88 @@ void Rva003A4322::xfer(Xfer *xfer)
 	if (version.m_minimum >= 2) {
 		*xfer == m_24;
 	}
+}
+
+// The secondary update interface is at owner+0x10: constructor 0x003A439D
+// installs 0x00C1AF54 there, whose first slot is this 103-byte body.
+// The constructor, factory and pool-name string establish the enclosing
+// FadeAndDieOrnamentUpdate identity. Keep the existing secondary-vtable
+// owner spelling Rva003A4322_B2; this is a view of that interface only.
+// BFME1 cee35b7d8 BfmeConv1921::bfmeStartBX is the semantic lead; target
+// 0x003A4473..0x003A44D9 and WB 0x00FA6550 independently prove the calls,
+// negative owner offsets, +0x438 flag and drawable +0xB0 store. The donor's
+// virtual drawable getter and resource identity do not carry over to BFME2.
+struct Coord3D;
+class Drawable;
+class Thing
+{
+public:
+	void setPosition(const Coord3D *position);
+	Drawable *getDrawable() const;
+};
+enum DamageType { DAMAGE_UNRESISTABLE = 8 };
+enum DeathType { DEATH_NORMAL = 0 };
+class Object : public Thing
+{
+public:
+	void kill(DamageType, DeathType);
+};
+class HijackerUpdate
+{
+public:
+	Object *getTargetObject() const;
+};
+class Rva001048C0
+{
+public:
+	bool update(const float *in, float *out);
+private:
+	unsigned char m_envelope[0x28];
+};
+struct Rva003A4473DataView
+{
+	unsigned char m_head[0x34];
+	unsigned char m_relocate;
+};
+struct Rva003A4473ObjectView
+{
+	unsigned char m_head[0x438];
+	unsigned char m_flags;
+};
+struct Rva003A4473DrawableView
+{
+	unsigned char m_head[0xB0];
+	int m_value;
+};
+class Rva003A4322_B2
+{
+public:
+	virtual void f2();
+	int update();
+private:
+	unsigned char m_head[0x10];
+	float m_value;
+	Rva001048C0 m_envelope;
+};
+
+int Rva003A4322_B2::update()
+{
+	Object *owner = *(Object **)((char *)this - 8);
+	if ((*(Rva003A4473DataView **)((char *)this - 0xC))->m_relocate)
+	{
+		// Reuse the existing row's getter spelling. Its original owner name
+		// is not established here; the retail receiver is owner+0x00.
+		Object *target = ((const HijackerUpdate *)((char *)this - 0x10))->getTargetObject();
+		if (target && !(((Rva003A4473ObjectView *)target)->m_flags & 1))
+			owner->setPosition((const Coord3D *)((char *)target + 0x38));
+		else
+			owner->kill(DAMAGE_UNRESISTABLE, DEATH_NORMAL);
+	}
+	Drawable *drawable = owner->getDrawable();
+	if (drawable)
+	{
+		m_envelope.update(&m_value, &m_value);
+		((Rva003A4473DrawableView *)drawable)->m_value = *(int *)&m_value;
+	}
+	return 1;
 }

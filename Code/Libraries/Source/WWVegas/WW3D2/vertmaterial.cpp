@@ -1,5 +1,26 @@
-// cl: /Ireference/shims/bfmemapper /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/zhmd /Ireference/shims/bfmemapper /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // stlport
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+
+// BFME 2 has no W3D memory pools (see Code/Libraries/Source/WWVegas/WWLib/always.h).
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+#include "always.h"
+#undef W3DMPO_GLUE
+#define W3DMPO_GLUE(ARGCLASS)
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -52,7 +73,9 @@
 #include "w3derr.h"
 #include "ini.h"
 #include "xstraw.h"
-#include "dx8wrapper.h"
+// The DX8 home view only declares the state setters Apply_Null calls out of line
+// (retail's /O1 bodies 0x0006615F and 0x000661DD), so this unit emits no copy.
+#include "../../../../../reference/shims/bfme_dx8wrapper_home_link/dx8wrapper.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -274,7 +297,7 @@ void VertexMaterialClass::Set_Ambient(const Vector3 & color)
 }
 
 // byte-exact reconstruction: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/vertmaterial.cpp
-void VertexMaterialClass::Set_Ambient(float r,float g,float b)
+inline void VertexMaterialClass::Set_Ambient(float r,float g,float b)
 {
 	CRCDirty=true;
 	Material->Ambient.r=r;
@@ -295,9 +318,9 @@ void VertexMaterialClass::Get_Diffuse(Vector3 * set) const
 	// AmbientColorSource instead, which puts the pointer back at +0x8 and
 	// leaves sizeof unchanged. That is the header fix; the full gate is red,
 	// so this read goes to the retail offset.
-	DynD3DMATERIAL8 * const bfmeMaterialDyn =
+	DynD3DMATERIAL8 * const dynD3DMATERIAL8 =
 			*(DynD3DMATERIAL8 * const *)((const char *)this + 8);
-	*set=Vector3(bfmeMaterialDyn->Mat.Diffuse.r,bfmeMaterialDyn->Mat.Diffuse.g,bfmeMaterialDyn->Mat.Diffuse.b);
+	*set=Vector3(dynD3DMATERIAL8->Mat.Diffuse.r,dynD3DMATERIAL8->Mat.Diffuse.g,dynD3DMATERIAL8->Mat.Diffuse.b);
 }
 
 // byte-exact reconstruction: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/vertmaterial.cpp
@@ -310,7 +333,7 @@ void VertexMaterialClass::Set_Diffuse(const Vector3 & color)
 }
 
 // byte-exact reconstruction: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/vertmaterial.cpp
-void VertexMaterialClass::Set_Diffuse(float r,float g,float b)
+inline void VertexMaterialClass::Set_Diffuse(float r,float g,float b)
 {
 	CRCDirty=true;
 	Material->Diffuse.r=r;
@@ -337,7 +360,7 @@ void VertexMaterialClass::Set_Specular(const Vector3 & color)
 }
 
 // byte-exact reconstruction: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/vertmaterial.cpp
-void VertexMaterialClass::Set_Specular(float r,float g,float b)
+inline void VertexMaterialClass::Set_Specular(float r,float g,float b)
 {
 	CRCDirty=true;
 	Material->Specular.r=r;
@@ -364,7 +387,7 @@ void VertexMaterialClass::Set_Emissive(const Vector3 & color)
 }
 
 // byte-exact reconstruction: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/vertmaterial.cpp
-void VertexMaterialClass::Set_Emissive(float r,float g,float b)
+inline void VertexMaterialClass::Set_Emissive(float r,float g,float b)
 {
 	CRCDirty=true;
 	Material->Emissive.r=r;
@@ -379,13 +402,12 @@ float	VertexMaterialClass::Get_Shininess(void) const
 }
 
 // byte-exact reconstruction: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/vertmaterial.cpp
-void	VertexMaterialClass::Set_Shininess(float shin)
+inline void	VertexMaterialClass::Set_Shininess(float shin)
 {
 	CRCDirty=true;
 	Material->Power=shin;
 }
 
-// ?Get_Opacity@VertexMaterialClass@@QBEMXZ present-unmatched
 float	VertexMaterialClass::Get_Opacity(void) const
 {
 	const D3DMATERIAL8 *material = *reinterpret_cast<const D3DMATERIAL8 *const *>(reinterpret_cast<const char *>(this) + 8);
@@ -393,7 +415,7 @@ float	VertexMaterialClass::Get_Opacity(void) const
 }
 
 // byte-exact reconstruction: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/vertmaterial.cpp
-void	VertexMaterialClass::Set_Opacity(float o)
+inline void	VertexMaterialClass::Set_Opacity(float o)
 {
 	CRCDirty=true;
 	Material->Diffuse.a=o;
@@ -424,7 +446,7 @@ void	VertexMaterialClass::Set_Emissive_Color_Source(ColorSourceType src)
 }
 
 // byte-exact reconstruction: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/vertmaterial.cpp
-void	VertexMaterialClass::Set_Diffuse_Color_Source(ColorSourceType src)
+inline void	VertexMaterialClass::Set_Diffuse_Color_Source(ColorSourceType src)
 {
 	CRCDirty=true;
 	switch (src) 
@@ -488,123 +510,11 @@ int VertexMaterialClass::Get_UV_Source(int stage)
 }
 
 
-// ?Init_From_Material3@VertexMaterialClass@@QAEXABUW3dMaterial3Struct@@@Z present-unmatched
-void VertexMaterialClass::Init_From_Material3(const W3dMaterial3Struct & mat3)
-{
-	Vector3 tmp0,tmp1,tmp2;
-	
-	W3dUtilityClass::Convert_Color(mat3.DiffuseColor,&tmp0);
-	W3dUtilityClass::Convert_Color(mat3.DiffuseCoefficients,&tmp1);
-	tmp2.X = tmp0.X * tmp1.X;
-	tmp2.Y = tmp0.Y * tmp1.Y;
-	tmp2.Z = tmp0.Z * tmp1.Z;
-	Set_Diffuse(tmp2);
+// VertexMaterialClass::Init_From_Material3: defined in VertexMaterialInitFromMaterial3.cpp (its row's unit).
 
-	W3dUtilityClass::Convert_Color(mat3.SpecularColor,&tmp0);
-	W3dUtilityClass::Convert_Color(mat3.SpecularCoefficients,&tmp1);
-	tmp2.X = tmp0.X * tmp1.X;
-	tmp2.Y = tmp0.Y * tmp1.Y;
-	tmp2.Z = tmp0.Z * tmp1.Z;
-	Set_Specular(tmp2);
 
-	W3dUtilityClass::Convert_Color(mat3.EmissiveCoefficients,&tmp0);
-	Set_Emissive(tmp0);
-
-	W3dUtilityClass::Convert_Color(mat3.AmbientCoefficients,&tmp0);
-	Set_Ambient(tmp0);
-
-	Set_Shininess(mat3.Shininess);
-	Set_Opacity(mat3.Opacity);
-}
-
-// ?Load_W3D@VertexMaterialClass@@QAE?AW4WW3DErrorType@@AAVChunkLoadClass@@@Z present-unmatched
-WW3DErrorType VertexMaterialClass::Load_W3D(ChunkLoadClass & cload)
-{
-	char name[256];
-
-	W3dVertexMaterialStruct vmat;
-	bool hasname = false;
-
-	char *mapping0_arg_buffer = NULL;
-	char *mapping1_arg_buffer = NULL;
-	unsigned int mapping0_arg_len = 0U;
-	unsigned int mapping1_arg_len = 0U;
-
-	while (cload.Open_Chunk()) {
-		switch (cload.Cur_Chunk_ID()) {
-			case W3D_CHUNK_VERTEX_MATERIAL_NAME:
-				cload.Read(&name,cload.Cur_Chunk_Length());
-				hasname = true;
-				break;
-
-			case W3D_CHUNK_VERTEX_MATERIAL_INFO:
-				if (cload.Read(&vmat,sizeof(vmat)) != sizeof(vmat)) {
-					return WW3D_ERROR_LOAD_FAILED;
-				}
-				break;
-
-			case W3D_CHUNK_VERTEX_MAPPER_ARGS0:
-				mapping0_arg_len = cload.Cur_Chunk_Length();
-				mapping0_arg_buffer = MSGW3DNEWARRAY("VertexMaterialClassTemp") char[mapping0_arg_len];
-				if (cload.Read(mapping0_arg_buffer, mapping0_arg_len) != mapping0_arg_len) {
-					return WW3D_ERROR_LOAD_FAILED;
-				}
-				break;
-
-			case W3D_CHUNK_VERTEX_MAPPER_ARGS1:
-				mapping1_arg_len = cload.Cur_Chunk_Length();
-				mapping1_arg_buffer = MSGW3DNEWARRAY("VertexMaterialClassTemp") char[mapping1_arg_len];
-				if (cload.Read(mapping1_arg_buffer, mapping1_arg_len) != mapping1_arg_len) {
-					return WW3D_ERROR_LOAD_FAILED;
-				}
-				break;
-		};
-		cload.Close_Chunk();
-	}
-
-	if (hasname) {
-		Set_Name(name);
-	}
-
-	Parse_W3dVertexMaterialStruct(vmat);
-	Parse_Mapping_Args(vmat,mapping0_arg_buffer,mapping1_arg_buffer);
-
-	delete [] mapping0_arg_buffer;
-	mapping0_arg_buffer = NULL;
-
-	delete [] mapping1_arg_buffer;
-	mapping1_arg_buffer = NULL;
-
-	return WW3D_ERROR_OK;
-}
-
-// ?Parse_W3dVertexMaterialStruct@VertexMaterialClass@@QAEXABUW3dVertexMaterialStruct@@@Z present-unmatched
-void VertexMaterialClass::Parse_W3dVertexMaterialStruct(const W3dVertexMaterialStruct & vmat)
-{
-	Vector3 tmp;
-	W3dUtilityClass::Convert_Color(vmat.Ambient,&tmp);
-	Set_Ambient(tmp);
-	
-	W3dUtilityClass::Convert_Color(vmat.Diffuse,&tmp);
-	Set_Diffuse(tmp);
-	
-	W3dUtilityClass::Convert_Color(vmat.Specular,&tmp);
-	Set_Specular(tmp);
-
-	W3dUtilityClass::Convert_Color(vmat.Emissive,&tmp);
-	Set_Emissive(tmp);
-
-	Set_Shininess(vmat.Shininess);
-	Set_Opacity(vmat.Opacity);
-
-	if (vmat.Attributes & W3DVERTMAT_USE_DEPTH_CUE) {
-		Set_Flag(VertexMaterialClass::DEPTH_CUE,true);
-	}
-
-	if (vmat.Attributes & W3DVERTMAT_COPY_SPECULAR_TO_DIFFUSE) {
-		Set_Flag(VertexMaterialClass::COPY_SPECULAR_TO_DIFFUSE,true);
-	}
-}
+// Native Parse_W3dVertexMaterialStruct is owned by VertexMaterialParseStruct.cpp
+// at 13D030. Do not emit the non-retail donor inline copy from this unit.
 
 void VertexMaterialClass::Parse_Mapping_Args(const W3dVertexMaterialStruct & vmat,char * mapping0_arg_buffer,char * mapping1_arg_buffer)
 {
@@ -1008,32 +918,6 @@ WW3DErrorType VertexMaterialClass::Save_W3D(ChunkSaveClass & csave)
 	return WW3D_ERROR_OK;
 }
 
-// ?Apply@VertexMaterialClass@@ABEXXZ matched in VertexMaterialApply.cpp; this
-// unmatched copy stays because its out-of-line call emits WW3D::Is_Coloring_Enabled
-void VertexMaterialClass::Apply(void) const
-{
-	int i;
-
-	DX8Wrapper::Set_DX8_Material(Material);
-
-	if (WW3D::Is_Coloring_Enabled())
-		DX8Wrapper::Set_DX8_Render_State(D3DRS_LIGHTING,FALSE);
-	else
-		DX8Wrapper::Set_DX8_Render_State(D3DRS_LIGHTING,UseLighting);
-	DX8Wrapper::Set_DX8_Render_State(D3DRS_AMBIENTMATERIALSOURCE,AmbientColorSource);
-	DX8Wrapper::Set_DX8_Render_State(D3DRS_DIFFUSEMATERIALSOURCE,DiffuseColorSource);
-	DX8Wrapper::Set_DX8_Render_State(D3DRS_EMISSIVEMATERIALSOURCE,EmissiveColorSource);
-
-	// set to default values if no mappers
-	for (i=0; i<MeshBuilderClass::MAX_STAGES; i++) {
-		if (Mapper[i]) {
-			Mapper[i]->Apply(UVSource[i]);
-		} else {
-			DX8Wrapper::Set_DX8_Texture_Stage_State(i,D3DTSS_TEXCOORDINDEX,D3DTSS_TCI_PASSTHRU | UVSource[i]);	
-			DX8Wrapper::Set_DX8_Texture_Stage_State(i,D3DTSS_TEXTURETRANSFORMFLAGS,D3DTTFF_DISABLE);		
-		}
-	}
-}
 
 void VertexMaterialClass::Apply_Null(void)
 {
@@ -1126,3 +1010,36 @@ VertexMaterialClass * VertexMaterialClass::Get_Preset(PresetType type)
 	Presets[type]->Add_Ref();
 	return Presets[type];
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?Apply@ClassicEnvironmentMapperClass@@UAEXH@Z=?Apply@GridWSClassicEnvironmentMapperClass@@UAEXH@Z")
+#pragma comment(linker, "/alternatename:?Apply@EnvironmentMapperClass@@UAEXH@Z=?Apply@GridWSEnvironmentMapperClass@@UAEXH@Z")
+#pragma comment(linker, "/alternatename:?Apply@WSClassicEnvironmentMapperClass@@UAEXH@Z=?Apply@GridWSClassicEnvironmentMapperClass@@UAEXH@Z")
+#pragma comment(linker, "/alternatename:?Apply@WSEnvironmentMapperClass@@UAEXH@Z=?Apply@GridWSEnvironmentMapperClass@@UAEXH@Z")
+#pragma comment(linker, "/alternatename:?Apply@GridEnvironmentMapperClass@@UAEXH@Z=?Apply@GridWSEnvironmentMapperClass@@UAEXH@Z")
+#pragma comment(linker, "/alternatename:?Apply@GridClassicEnvironmentMapperClass@@UAEXH@Z=?Apply@GridWSClassicEnvironmentMapperClass@@UAEXH@Z")
+
+// These seven setters are header inlines; ordinary definitions here collided
+// with select-any copies. The anchor keeps this unit's row copies; it is not
+// retail code. It also keeps WW3D::Is_Coloring_Enabled emitted after Apply
+// became a select-any inline copy (its inlined call no longer emits it).
+#pragma inline_depth(0)
+// ?_bfmeVertexMaterialSetterAnchor@@YAXPAVVertexMaterialClass@@@Z absent-from-retail
+void _bfmeVertexMaterialSetterAnchor(VertexMaterialClass *material)
+{
+	material->Set_Ambient(0.0f, 0.0f, 0.0f);
+	material->Set_Diffuse(0.0f, 0.0f, 0.0f);
+	material->Set_Diffuse_Color_Source(VertexMaterialClass::MATERIAL);
+	material->Set_Emissive(0.0f, 0.0f, 0.0f);
+	material->Set_Opacity(0.0f);
+	material->Set_Shininess(0.0f);
+	material->Set_Specular(0.0f, 0.0f, 0.0f);
+	(void)WW3D::Is_Coloring_Enabled();
+}
+#pragma inline_depth()
+
+// Preserve the independently rowed setter formerly emitted by the removed
+// parser. This address-taking constant is an emission anchor, not retail data.
+void (VertexMaterialClass::*const bfmeVertexMaterialSetFlagAnchor)(VertexMaterialClass::FlagsType, bool) = &VertexMaterialClass::Set_Flag;

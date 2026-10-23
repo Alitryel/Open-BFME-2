@@ -8,28 +8,23 @@
 // The field declaration below follows the separately verified target layout
 // documented in stlport_stringtailrecord144_dtor.cpp; it is not a size guess.
 // The out-of-line copy constructor is target-pinned at 0x51B40.
-// cl: /O1 /G7 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
+// Retail keeps one unsigned max, RVA 0x00013740 (the vendored STLport row). This unit's
+// flags (/G7) compile a different copy, and retail kept another unit's. This unit-local
+// overload keeps the inlined code and offers the link no second copy.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
 #include <vector>
 
-template<class T> class StringBase {
-	void *m_data;
-	void releaseBuffer();
-public:
-	StringBase();
-	StringBase(const StringBase &);
-	StringBase &operator=(const StringBase &);
-protected:
-	__forceinline ~StringBase() { releaseBuffer(); }
-};
+#include "ascii_string.h"
 
-class AsciiString : private StringBase<char> {
-public:
-	__forceinline AsciiString() {}
-	__forceinline AsciiString(const AsciiString &o) : StringBase<char>(o) {}
-	~AsciiString();
-	AsciiString &operator=(const AsciiString &);
-};
 
 class PoolMember { public: void Rva0050ED3(); };
 struct BfmePoolHolder88 { unsigned char pad[0x88]; PoolMember m_ref; };
@@ -60,6 +55,14 @@ struct BfmeStringTailRecord144 {
 	BfmeStringTailRecord144(const BfmeStringTailRecord144 &);
 	BfmeStringTailRecord144 &operator=(const BfmeStringTailRecord144 &);
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<BfmeStringTailRecord144>(BfmeStringTailRecord144 *p) { typedef BfmeStringTailRecord144 BfmeDestroyT; p->~BfmeDestroyT(); } }
+// Use the whole-body verified range destructor at 0x5401D.
+namespace _STL { template <> void __destroy_aux<BfmeStringTailRecord144 *>(
+    BfmeStringTailRecord144 *, BfmeStringTailRecord144 *, const __false_type &); }
+// Native callers retain the out-of-line range wrapper at 0x54ED9.
+namespace _STL { template <> void _Destroy<BfmeStringTailRecord144 *>(
+    BfmeStringTailRecord144 *, BfmeStringTailRecord144 *); }
 
 typedef char VerifyRecordSize[(sizeof(BfmeStringTailRecord144) == 0x90) ? 1 : -1];
 

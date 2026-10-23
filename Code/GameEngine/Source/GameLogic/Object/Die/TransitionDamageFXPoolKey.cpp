@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004BA437@TransitionDamageFX@@SA?AW4NameKeyType@@XZ @0x4BA437
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@TransitionDamageFX@@UBE?AW4NameKeyType@@XZ @0x4BA437
 // (69B): cached pool-name key for TransitionDamageFX. The class
 // identity comes from the pool-name string the body pushes
 // ("TransitionDamageFX"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class TransitionDamageFX
 {
 public:
-	static NameKeyType rva0004BA437();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004BA437@TransitionDamageFX@@SA?AW4NameKeyType@@XZ
-NameKeyType TransitionDamageFX::rva0004BA437()
+// ?getModuleNameKey@TransitionDamageFX@@UBE?AW4NameKeyType@@XZ
+NameKeyType TransitionDamageFX::getModuleNameKey() const
 {
 	static NameKeyType TheTransitionDamageFXPoolKey =
 		TheNameKeyGenerator->nameToKey("TransitionDamageFX");

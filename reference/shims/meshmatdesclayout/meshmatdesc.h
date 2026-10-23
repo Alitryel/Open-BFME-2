@@ -47,6 +47,7 @@
 #include "sharebuf.h"
 #include "shader.h"
 #include "vertmaterial.h"
+#include "ref_ptr.h"
 
 class MatBufferClass;
 class TexBufferClass;
@@ -214,7 +215,11 @@ protected:
 	VertexMaterialClass::ColorSourceType		DIGSource[MAX_PASSES];
 
 	// default textures, shader, vmat
-	TextureClass *										Texture[MAX_PASSES][MAX_TEX_STAGES];
+	// BFME2 holds the default textures as owning RefCountPtr<TextureClass> slots: ~MeshMatDescClass
+	// (0x0015DC40) tears these eight at +0x78 down with the vector destructor iterator and
+	// RefCountPtr<TextureClass>::~RefCountPtr (0x0017098D); the matched siblings (MeshMatDescReset,
+	// MeshMatDescDefaultCtor, MeshMatDescTextureSetters) read them the same way.
+	RefCountPtr<TextureClass>						Texture[MAX_PASSES][MAX_TEX_STAGES];
 	// Set_Single_Shader at 0x0015A7E0 stores through [ecx+eax*4+0x98].
 	// Reset and construction locate the earlier four bytes at RendererState.
 	ShaderClass											Shader[MAX_PASSES];
@@ -273,7 +278,9 @@ class TexBufferClass : public ShareBufferClass < TextureClass * >
 	// BFME: same as MatBufferClass — allocate via global operator new, not W3DMPO pool.
 	// W3DMPO_GLUE(TexBufferClass)
 public:
-	TexBufferClass(int count, const char* msg) : ShareBufferClass<TextureClass *>(count, msg) { Clear(); }
+	// Out of line in TexBufferClassCtor.cpp (retail 0x0015D080, called by Get_Texture_Array):
+	// an inline body here emits a per-TU copy over ShareBufferClass that is not retail's.
+	TexBufferClass(int count, const char* msg);
 	TexBufferClass(const TexBufferClass & that);
 	~TexBufferClass(void);						
 
@@ -291,6 +298,12 @@ private:
 ** This is a ShareBufferClass of uv coordinates.  At load time, we are detecting redundant UV arrays
 ** so this class stores a CRC for quick checking.
 */
+// The implicit virtual dtor's ??_G takes the optimization state of this
+// definition; retail's (0x000D20FC) is the /O1 body. Units built /O2 that
+// emit it define BFME_MESHMATDESC_UVBUFFER_O1.
+#ifdef BFME_MESHMATDESC_UVBUFFER_O1
+#pragma optimize("s", on)
+#endif
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/meshmatdesc.h
 class UVBufferClass : public ShareBufferClass < Vector2 >
 {
@@ -312,6 +325,9 @@ private:
 	// not implemented
 	UVBufferClass & operator = (const UVBufferClass & that);
 };
+#ifdef BFME_MESHMATDESC_UVBUFFER_O1
+#pragma optimize("", on)
+#endif
 
 /*********************************************************************************************************
 **
@@ -359,6 +375,7 @@ inline int MeshMatDescClass::Get_UV_Array_Count(void)
 	return count;
 }
 
+#ifndef BFME_MESHMATDESC_UV_ARRAY_EXTERNAL
 inline Vector2 * MeshMatDescClass::Get_UV_Array_By_Index(int index, bool create)
 {
 	WWASSERT((index >= 0)&&(index < MAX_UV_ARRAYS));
@@ -371,6 +388,8 @@ inline Vector2 * MeshMatDescClass::Get_UV_Array_By_Index(int index, bool create)
 	}
 	return NULL;
 }
+
+#endif
 
 inline unsigned* MeshMatDescClass::Get_DCG_Array(int pass)
 {
@@ -450,6 +469,7 @@ inline VertexMaterialClass::ColorSourceType MeshMatDescClass::Get_DIG_Source(int
 	return DIGSource[pass];
 }
 
+#ifndef BFME_MESHMATDESC_COLOR_ARRAY_EXTERNAL
 inline unsigned * MeshMatDescClass::Get_Color_Array(int index,bool create)
 {
 	if (create && !ColorArray[index]) {
@@ -460,6 +480,8 @@ inline unsigned * MeshMatDescClass::Get_Color_Array(int index,bool create)
 	}
 	return NULL;
 }
+
+#endif
 
 inline VertexMaterialClass * MeshMatDescClass::Get_Single_Material(int pass) const
 {
@@ -476,7 +498,7 @@ inline VertexMaterialClass * MeshMatDescClass::Peek_Single_Material(int pass) co
 
 inline TextureClass * MeshMatDescClass::Peek_Single_Texture(int pass,int stage) const
 {
-	return Texture[pass][stage];
+	return Texture[pass][stage].Peek();
 }
 
 inline ShaderClass MeshMatDescClass::Get_Single_Shader(int pass) const

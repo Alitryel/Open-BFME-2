@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /Ireference/shims/moduledata
 //
 // ??0ToppleUpdateModuleData@@QAE@XZ, retail 0x004A8173, 125 bytes.
 //
@@ -28,22 +28,18 @@ typedef int Int;
 
 #define NULL 0
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	void clear();
-	~AsciiString();
+#include "ascii_string.h"
 
-private:
-	void *m_data;
-};
+extern "C" const void *const vtbl_00C538A0[];  // ??_7ToppleUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C538A0=??_7ToppleUpdateModuleData@@6B@")
+
+#include "Common/Snapshot.h"
 
 class UpdateModuleData
 {
 public:
-	UpdateModuleData() {}
-	~UpdateModuleData();
+	__declspec(dllimport) __forceinline UpdateModuleData() {}
+	~UpdateModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 private:
 };
@@ -71,7 +67,7 @@ private:
 };
 
 ToppleUpdateModuleData::ToppleUpdateModuleData()
-	: m_vtable( reinterpret_cast<const void *>(0x00C538A0) )
+	: m_vtable( reinterpret_cast<const void *>(((unsigned int)vtbl_00C538A0)) )
 	, m_stumpName()
 {
 	m_toppleFX = NULL;

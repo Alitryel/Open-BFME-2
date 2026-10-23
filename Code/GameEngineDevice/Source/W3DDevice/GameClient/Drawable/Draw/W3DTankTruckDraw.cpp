@@ -1,7 +1,18 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /D__PLACEMENT_VEC_NEW_INLINE /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/stlp_nodealloc /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTankTruckDraw.cpp); this unit had no counterpart under Code/.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -30,6 +41,7 @@
 // Draw TankTrucks.  Actually, this draws quad cannon which has both treads and wheels.
 // Author: Mark Wilczynski, August 2002
 
+#include "../../../../../../../reference/shims/bfme_wwmath_floor_link/wwmath.h"
 #include <stdlib.h>
 #include <math.h>
 
@@ -50,9 +62,13 @@
 #include "W3DDevice/GameClient/W3DGameClient.h"
 #include "W3DDevice/GameClient/Module/W3DTankTruckDraw.h"
 #include "WW3D2/matinfo.h"
+// bfme link decl-only begin
+template <> DynamicVectorClass<Render2DClass *>::~DynamicVectorClass();
+// bfme link decl-only end
 
 //#define SHOW_TANK_DEBRIS
 //-------------------------------------------------------------------------------------------------
+// ??0W3DTankTruckDrawModuleData@@ present-unmatched
 W3DTankTruckDrawModuleData::W3DTankTruckDrawModuleData():
 	m_treadDebrisNameLeft("TrackDebrisDirtLeft"),
 	m_treadDebrisNameRight("TrackDebrisDirtRight"),
@@ -63,14 +79,16 @@ W3DTankTruckDrawModuleData::W3DTankTruckDrawModuleData():
 }
 
 //-------------------------------------------------------------------------------------------------
+// ??1W3DTankTruckDrawModuleData@@ present-unmatched
 W3DTankTruckDrawModuleData::~W3DTankTruckDrawModuleData()
 {
 }
 
 //-------------------------------------------------------------------------------------------------
-void W3DTankTruckDrawModuleData::buildFieldParse(MultiIniFieldParse& p) 
+// ?buildFieldParse@W3DTankTruckDrawModuleData@@ present-unmatched
+void W3DTankTruckDrawModuleData::buildFieldParse(MultiIniFieldParse& multiIniFieldParse) 
 {
-  W3DModelDrawModuleData::buildFieldParse(p);
+  W3DModelDrawModuleData::buildFieldParse(multiIniFieldParse);
 
 	static const FieldParse dataFieldParse[] = 
 	{
@@ -94,11 +112,12 @@ void W3DTankTruckDrawModuleData::buildFieldParse(MultiIniFieldParse& p)
 		{ "TreadDriveSpeedFraction", INI::parseReal, NULL, offsetof(W3DTankTruckDrawModuleData, m_treadDriveSpeedFraction) },
 		{ 0, 0, 0, 0 }
 	};
-  p.add(dataFieldParse);
+  multiIniFieldParse.add(dataFieldParse);
 }
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ??0W3DTankTruckDraw@@ present-unmatched
 W3DTankTruckDraw::W3DTankTruckDraw( Thing *thing, const ModuleData* moduleData ) : W3DModelDraw( thing, moduleData ),
 m_dirtEffect(NULL), m_dustEffect(NULL), m_powerslideEffect(NULL), m_effectsInitialized(false),
 m_wasAirborne(false), m_isPowersliding(false), m_frontWheelRotation(0), m_rearWheelRotation(0),
@@ -148,6 +167,7 @@ DEBUG_CRASH(("test me, may not work (srj)"));
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ??1W3DTankTruckDraw@@ present-unmatched
 W3DTankTruckDraw::~W3DTankTruckDraw()
 {
 	tossEmitters();
@@ -163,6 +183,7 @@ W3DTankTruckDraw::~W3DTankTruckDraw()
 
  * Start creating debris from the tank treads
  */
+// ?startMoveDebris@W3DTankTruckDraw@@ present-unmatched
 void W3DTankTruckDraw::startMoveDebris( void )
 {
 	if (getDrawable()->isDrawableEffectivelyHidden())
@@ -178,6 +199,7 @@ void W3DTankTruckDraw::startMoveDebris( void )
 /**
  * Stop creating debris from the tank treads
  */
+// ?stopMoveDebris@W3DTankTruckDraw@@ present-unmatched
 void W3DTankTruckDraw::stopMoveDebris( void )
 {
   if (m_treadDebrisLeft)
@@ -188,29 +210,10 @@ void W3DTankTruckDraw::stopMoveDebris( void )
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-void W3DTankTruckDraw::tossEmitters()
-{
-	if (m_dustEffect)
-	{
-		m_dustEffect->attachToObject(NULL);
-		m_dustEffect->destroy();
-		m_dustEffect = NULL;
-	}
-	if (m_dirtEffect)
-	{
-		m_dirtEffect->attachToObject(NULL);
-		m_dirtEffect->destroy();
-		m_dirtEffect = NULL;
-	}
-	if (m_powerslideEffect)
-	{
-		m_powerslideEffect->attachToObject(NULL);
-		m_powerslideEffect->destroy();
-		m_powerslideEffect = NULL;
-	}
-}
+// W3DTankTruckDraw::tossEmitters: defined in W3DTankTruckDrawTossEmitters.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
+#pragma optimize("s", on)
 void W3DTankTruckDraw::setFullyObscuredByShroud(Bool fullyObscured)
 {
 	if (fullyObscured != getFullyObscuredByShroud())
@@ -222,6 +225,7 @@ void W3DTankTruckDraw::setFullyObscuredByShroud(Bool fullyObscured)
 	}
 	W3DModelDraw::setFullyObscuredByShroud(fullyObscured);
 }
+#pragma optimize("", on)
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -229,100 +233,18 @@ void W3DTankTruckDraw::setFullyObscuredByShroud(Bool fullyObscured)
 
  * Start creating debris from the tank treads
  */
-void W3DTankTruckDraw::createEmitters( void )
-{
-	if (getDrawable()->isDrawableEffectivelyHidden())
-		return;
-	if (getW3DTankTruckDrawModuleData())
-	{
-		const ParticleSystemTemplate *sysTemplate;
+// createEmitters is owned by W3DTankTruckDrawCreateEmitters.cpp.
+// The ZH donor definition here was not retail and shadowed that native body.
 
-		if (!m_dustEffect) {
-
-			sysTemplate = TheParticleSystemManager->findTemplate(getW3DTankTruckDrawModuleData()->m_dustEffectName);
-			if (sysTemplate)
-			{
-				m_dustEffect = TheParticleSystemManager->createParticleSystem( sysTemplate );
-				m_dustEffect->attachToObject(getDrawable()->getObject());
-				// important: mark it as do-not-save, since we'll just re-create it when we reload.
-				m_dustEffect->setSaveable(FALSE);
-			}	else {
-				if (!getW3DTankTruckDrawModuleData()->m_dustEffectName.isEmpty()) {
-					DEBUG_LOG(("*** ERROR - Missing particle system '%s' in thing '%s'\n", 
-						getW3DTankTruckDrawModuleData()->m_dustEffectName.str(), getDrawable()->getObject()->getTemplate()->getName().str()));
-				}
-			}
-
-		}	 
-		if (!m_dirtEffect) {
-			sysTemplate = TheParticleSystemManager->findTemplate(getW3DTankTruckDrawModuleData()->m_dirtEffectName);
-			if (sysTemplate)
-			{
-				m_dirtEffect = TheParticleSystemManager->createParticleSystem( sysTemplate );
-				m_dirtEffect->attachToObject(getDrawable()->getObject());
-				// important: mark it as do-not-save, since we'll just re-create it when we reload.
-				m_dirtEffect->setSaveable(FALSE);
-			}	else {
-				if (!getW3DTankTruckDrawModuleData()->m_dirtEffectName.isEmpty()) {
-					DEBUG_LOG(("*** ERROR - Missing particle system '%s' in thing '%s'\n", 
-						getW3DTankTruckDrawModuleData()->m_dirtEffectName.str(), getDrawable()->getObject()->getTemplate()->getName().str()));
-				}
-			}
-		}
-		if (!m_powerslideEffect) {
-			sysTemplate = TheParticleSystemManager->findTemplate(getW3DTankTruckDrawModuleData()->m_powerslideEffectName);
-			if (sysTemplate)
-			{
-				m_powerslideEffect = TheParticleSystemManager->createParticleSystem( sysTemplate );
-				m_powerslideEffect->attachToObject(getDrawable()->getObject());
-				// important: mark it as do-not-save, since we'll just re-create it when we reload.
-				m_powerslideEffect->setSaveable(FALSE);
-			}	else {
-				if (!getW3DTankTruckDrawModuleData()->m_powerslideEffectName.isEmpty()) {
-					DEBUG_LOG(("*** ERROR - Missing particle system '%s' in thing '%s'\n", 
-						getW3DTankTruckDrawModuleData()->m_powerslideEffectName.str(), getDrawable()->getObject()->getTemplate()->getName().str()));
-				}
-			}
-		}
-	}
-	
-}
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 /**
  * Stop creating debris from the tank treads
  */
-void W3DTankTruckDraw::enableEmitters( Bool enable  )
-{
-	// don't check... if we are hidden the first time thru, then we'll never create the emitters.
-	// eg, if we are loading a game and the unit is in a tunnel, he'll never get emitteres even when he exits.
-	//if (!m_effectsInitialized) 
-	{
-		createEmitters();
-		m_effectsInitialized=true;
-	}
-	if (m_dustEffect)
-	{
-		if (enable) 
-			m_dustEffect->start();
-		else
-			m_dustEffect->stop();
-	}
-	if (m_dirtEffect)
-	{
-		if (enable) 
-			m_dirtEffect->start();
-		else
-			m_dirtEffect->stop();
-	}
-	if (m_powerslideEffect)
-	{
-		if (!enable) 
-			m_powerslideEffect->stop();
-	}
-}
+// W3DTankTruckDraw::enableEmitters: defined in W3DTankTruckDrawTossEmitters.cpp (its row's unit).
 //-------------------------------------------------------------------------------------------------
+// ?updateBones@W3DTankTruckDraw@@ present-unmatched
 void W3DTankTruckDraw::updateBones( void ) {
 	if( getW3DTankTruckDrawModuleData() ) 
 	{
@@ -390,6 +312,7 @@ void W3DTankTruckDraw::updateBones( void ) {
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?setHidden@W3DTankTruckDraw@@ present-unmatched
 void W3DTankTruckDraw::setHidden(Bool h)
 {
 	W3DModelDraw::setHidden(h);
@@ -403,30 +326,10 @@ void W3DTankTruckDraw::setHidden(Bool h)
 }
 
 /**Update uv coordinates on each tread object to simulate movement*/
-void W3DTankTruckDraw::updateTreadPositions(Real uvDelta)
-{
-	Real offset_u;
-	TreadObjectInfo *pTread=m_treads;
-
-	for (Int i=0; i<m_treadCount; i++)
-	{
-		if (pTread->m_type == TREAD_MIDDLE)	//this tread needs to scroll backwards
-			offset_u = pTread->m_materialSettings.customUVOffset.X + uvDelta;
-		else
-		if (pTread->m_type == TREAD_LEFT)	//this tread needs to scroll forwards
-			offset_u = pTread->m_materialSettings.customUVOffset.X + uvDelta;
-		else
-		if (pTread->m_type == TREAD_RIGHT)	//this tread needs to scroll backwards
-			offset_u = pTread->m_materialSettings.customUVOffset.X - uvDelta;
-				
-		// ensure coordinates of offset are in [0, 1] range:
-		offset_u = offset_u - WWMath::Floor(offset_u);
-		pTread->m_materialSettings.customUVOffset.Set(offset_u,0);
-		pTread++;
-	}
-}
+// W3DTankTruckDraw::updateTreadPositions: defined in W3DTankTruckDrawUpdateTreadPositions.cpp (its row's unit).
 
 /**Grab pointers to the sub-meshes for each tread*/ 
+// ?updateTreadObjects@W3DTankTruckDraw@@ present-unmatched
 void W3DTankTruckDraw::updateTreadObjects(void)
 {
 	RenderObjClass *robj=getRenderObject();
@@ -485,6 +388,7 @@ void W3DTankTruckDraw::updateTreadObjects(void)
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?onRenderObjRecreated@W3DTankTruckDraw@@ present-unmatched
 void W3DTankTruckDraw::onRenderObjRecreated(void)
 {
 	//DEBUG_LOG(("Old obj %x, newObj %x, new bones %d, old bones %d\n",
@@ -506,6 +410,7 @@ void W3DTankTruckDraw::onRenderObjRecreated(void)
 //-------------------------------------------------------------------------------------------------
 /** Map behavior states into W3D animations. */
 //-------------------------------------------------------------------------------------------------
+// ?doDrawModule@W3DTankTruckDraw@@ present-unmatched
 void W3DTankTruckDraw::doDrawModule(const Matrix3D* transformMtx)
 {
 
@@ -748,6 +653,7 @@ void W3DTankTruckDraw::doDrawModule(const Matrix3D* transformMtx)
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
+// ?crc@W3DTankTruckDraw@@ present-unmatched
 void W3DTankTruckDraw::crc( Xfer *xfer )
 {
 
@@ -761,6 +667,7 @@ void W3DTankTruckDraw::crc( Xfer *xfer )
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
+// ?xfer@W3DTankTruckDraw@@ present-unmatched
 void W3DTankTruckDraw::xfer( Xfer *xfer )
 {
 
@@ -789,3 +696,7 @@ void W3DTankTruckDraw::loadPostProcess( void )
 	tossEmitters();
 
 }  // end loadPostProcess
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0TreadObjectInfo@W3DTankDraw@@QAE@XZ=??0TreadObjectInfo@W3DTankTruckDraw@@QAE@XZ")

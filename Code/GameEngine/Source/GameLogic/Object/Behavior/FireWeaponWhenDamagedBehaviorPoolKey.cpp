@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004827AA@FireWeaponWhenDamagedBehavior@@SA?AW4NameKeyType@@XZ @0x4827aa
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@FireWeaponWhenDamagedBehavior@@UBE?AW4NameKeyType@@XZ @0x4827aa
 // (69B): cached pool-name key for FireWeaponWhenDamagedBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("FireWeaponWhenDamagedBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class FireWeaponWhenDamagedBehavior
 {
 public:
-	static NameKeyType rva0004827AA();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004827AA@FireWeaponWhenDamagedBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType FireWeaponWhenDamagedBehavior::rva0004827AA()
+// ?getModuleNameKey@FireWeaponWhenDamagedBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType FireWeaponWhenDamagedBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheFireWeaponWhenDamagedBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("FireWeaponWhenDamagedBehavior");

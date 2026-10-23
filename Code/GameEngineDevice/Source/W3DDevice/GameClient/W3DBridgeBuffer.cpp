@@ -1,23 +1,127 @@
-// cl: /DNDEBUG /DWIN32 /MD /O1 /GX
+// cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD
+// ?getBridgeInfo@W3DBridge@@QAEXPAVRva0027C36A@@@Z, retail 0x000DDB94, 639 bytes.
+// Zero Hour's W3DBridge::getBridgeInfo (W3DBridgeBuffer.cpp): endpoints by
+// struct copy, width (maxY-minY)*scale, the normalized XY normal of end-start
+// and the four corner points. BFME 2 additions read off retail: the corner
+// products are spelled maxY*scale*N and scale*N*minY (target operand order),
+// a deck quad at +0x6C filled through an inline Coord3D set helper (fromLeft,
+// fromRight, toRight, toLeft) and two triangles of corner indices at +0x9C.
+// BridgeInfo keeps the ledger's view name Rva0027C36A (pinned spelling).
 //
-// BFME2 W3DBridge enabled-flag setter, transferred from the exact BFME1
-// reconstruction
-// (Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBridgeBuffer.cpp,
-// which emits the out-of-line copy). Retail BFME2 keeps the flag at the
-// same offset (+0x110).
+// W3DBridge::getBridgeInfo, Zero Hour's body. BFME 2's BridgeInfo (the
+// ledger's Rva0027C36A) also carries the deck quad at +0x6C (fromLeft,
+// fromRight, toRight, toLeft) and its two triangles' corner indices at +0x9C.
+
+class WWMath
+{
+public:
+	static float __fastcall Inv_Sqrt(float val);
+};
+
+class Vector3
+{
+public:
+	Vector3() {}
+	Vector3(float x, float y, float z) : X(x), Y(y), Z(z) {}
+	__forceinline float Length2() const { return X * X + Y * Y + Z * Z; }
+	__forceinline void Normalize()
+	{
+		float len2 = Length2();
+		if (len2 != 0.0f) {
+			float oolen = WWMath::Inv_Sqrt(len2);
+			X *= oolen;
+			Y *= oolen;
+			Z *= oolen;
+		}
+	}
+	friend Vector3 operator+(const Vector3 &a, const Vector3 &b) { return Vector3(a.X + b.X, a.Y + b.Y, a.Z + b.Z); }
+	friend Vector3 operator*(const Vector3 &a, float k) { return Vector3(a.X * k, a.Y * k, a.Z * k); }
+	friend Vector3 operator-(const Vector3 &a, const Vector3 &b) { return Vector3(a.X - b.X, a.Y - b.Y, a.Z - b.Z); }
+	float X;
+	float Y;
+	float Z;
+};
+
+#include "Code/Libraries/Include/Lib/Coord3D.h"
+
+// Zero Hour's inline Coord3D::set shape; the canonical header only declares
+// the out-of-line member, so the deck copies use this TU-local helper.
+static __forceinline void setCoord3D(Coord3D &c, float ax, float ay, float az)
+{
+	c.x = ax;
+	c.y = ay;
+	c.z = az;
+}
+
+struct BridgeTriangle
+{
+	unsigned short corner[3];
+};
+
+// Zero Hour's BridgeInfo.
+class Rva0027C36A
+{
+public:
+	Coord3D from; // +0x00
+	Coord3D to; // +0x0C
+	float bridgeWidth; // +0x18
+	Coord3D fromLeft; // +0x1C
+	Coord3D fromRight; // +0x28
+	Coord3D toLeft; // +0x34
+	Coord3D toRight; // +0x40
+	int bridgeIndex; // +0x4C
+	char m_pad50[0x6C - 0x50];
+	Coord3D deck[4]; // +0x6C
+	BridgeTriangle triangle[2]; // +0x9C
+};
 
 class W3DBridge
 {
 public:
-	void setEnabled(bool enabled);
-
+	void getBridgeInfo(Rva0027C36A *pInfo);
 private:
-	unsigned char m_pre[0x110];
-	bool m_enabled;	// +0x110
+	Vector3 m_start; // +0x00
+	Vector3 m_end; // +0x0C
+	float m_scale; // +0x18
+	char m_pad1C[0x6C - 0x1C];
+	float m_minY; // +0x6C
+	float m_maxY; // +0x70
 };
 
-// ?setEnabled@W3DBridge@@QAEX_N@Z
-void W3DBridge::setEnabled(bool enabled)
+void W3DBridge::getBridgeInfo(Rva0027C36A *pInfo)
 {
-	m_enabled = enabled;
+	*(Vector3 *)&pInfo->from = m_start;
+	*(Vector3 *)&pInfo->to = m_end;
+	pInfo->bridgeWidth = (m_maxY - m_minY) * m_scale;
+
+	Vector3 vec = m_end - m_start;
+	Vector3 vecNormal(-vec.Y, vec.X, 0);
+	vecNormal.Normalize();
+
+	pInfo->fromLeft.x = m_maxY * m_scale * vecNormal.X + m_start.X;
+	pInfo->fromLeft.y = m_maxY * m_scale * vecNormal.Y + m_start.Y;
+	pInfo->fromLeft.z = m_maxY * m_scale * vecNormal.Z + m_start.Z;
+
+	pInfo->fromRight.x = m_scale * vecNormal.X * m_minY + m_start.X;
+	pInfo->fromRight.y = m_scale * vecNormal.Y * m_minY + m_start.Y;
+	pInfo->fromRight.z = m_scale * vecNormal.Z * m_minY + m_start.Z;
+
+	pInfo->toLeft.x = m_maxY * m_scale * vecNormal.X + m_end.X;
+	pInfo->toLeft.y = m_maxY * m_scale * vecNormal.Y + m_end.Y;
+	pInfo->toLeft.z = m_maxY * m_scale * vecNormal.Z + m_end.Z;
+
+	pInfo->toRight.x = m_scale * vecNormal.X * m_minY + m_end.X;
+	pInfo->toRight.y = m_scale * vecNormal.Y * m_minY + m_end.Y;
+	pInfo->toRight.z = m_scale * vecNormal.Z * m_minY + m_end.Z;
+
+	setCoord3D(pInfo->deck[0], pInfo->fromLeft.x, pInfo->fromLeft.y, pInfo->fromLeft.z);
+	setCoord3D(pInfo->deck[1], pInfo->fromRight.x, pInfo->fromRight.y, pInfo->fromRight.z);
+	setCoord3D(pInfo->deck[2], pInfo->toRight.x, pInfo->toRight.y, pInfo->toRight.z);
+	setCoord3D(pInfo->deck[3], pInfo->toLeft.x, pInfo->toLeft.y, pInfo->toLeft.z);
+	pInfo->triangle[0].corner[0] = 0;
+	pInfo->triangle[0].corner[1] = 1;
+	pInfo->triangle[0].corner[2] = 2;
+	pInfo->triangle[1].corner[0] = 0;
+	pInfo->triangle[1].corner[1] = 2;
+	pInfo->triangle[1].corner[2] = 3;
 }

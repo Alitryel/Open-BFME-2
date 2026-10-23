@@ -1,13 +1,10 @@
 // cl: /Ireference/shims/bfmerendobj /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
-
-
-#include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include	"always.h"
 #include	"straw.h"
 #include	<stddef.h>
 
 
-Straw::~Straw(void)
+__declspec(noinline) Straw::~Straw(void)
 {
 	if (ChainTo != NULL) {
 		ChainTo->ChainFrom = ChainFrom;
@@ -41,10 +38,4 @@ void Straw::Get_From(Straw * straw)
 }
 
 
-int Straw::Get(void * source, int slen)
-{
-	if (ChainTo != NULL) {
-		return(ChainTo->Get(source, slen));
-	}
-	return(0);
-}
+// Straw::Get: defined in straw_get.cpp (its row's unit).

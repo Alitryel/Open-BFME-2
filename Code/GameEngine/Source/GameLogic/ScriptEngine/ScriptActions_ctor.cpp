@@ -1,4 +1,4 @@
-// cl: /O1
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 //
 // ScriptActions constructor, retail 0x003BD56C (22 bytes). ScriptEngine::init
 // creates it with operator new(0x10) and stores it in TheScriptActions. The
@@ -10,17 +10,12 @@
 // constructor is the pinned 0x001B4E63. Only the final vtable store (0xC1FE48)
 // survives /O1.
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	virtual void init() = 0;
+extern "C" const void *const vtbl_00C1FD98[];  // ??_7Rva003BA6A9@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C1FD98=??_7Rva003BA6A9@@6B@")
 
-private:
-	bool m_subsystemFlag;  // +0x04
-	int  m_subsystemValue; // +0x08
-};
+extern class TerrainLogic *TheTerrainLogic;
+
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class ScriptActionsInterface : public SubsystemInterface
 {
@@ -39,13 +34,14 @@ public:
 	virtual void slot06() = 0;
 	virtual void slot07() = 0;
 	virtual void slot08() = 0;
-	virtual void Rva003BA8AC() = 0;
+	virtual void reset();
+	virtual void update();
 
 private:
 	bool m_suppressNewWindows; // +0x0C
 };
 
-#define Rva00DFEC50 (*(void **)0x00DFEC50)
+#define Rva00DFEC50 (*(void **)&TheTerrainLogic)
 
 struct Rva00DFEC50Obj
 {
@@ -59,18 +55,21 @@ ScriptActions::ScriptActions()
 }
 
 // ??1ScriptActions@@UAE@XZ, retail 0x003BD582, 22 bytes. Dtor calls the
-// rowed Rva003BA8AC clear then tail-jmps to the pinned SubsystemInterface
+// rowed reset (slot 9) then tail-jmps to the pinned SubsystemInterface
 // base dtor at 0x1B4E74; compiler emits the derived 0xC1FE48 plus base
 // 0xC1FD98 vtable stores. Donor is BFME1 ScriptActionsDestructor.cpp.
 // Caller is the slot-0 ??_G at 0x3BE5AD (vtable 0x81FE48).
 
 ScriptActions::~ScriptActions()
 {
-	Rva003BA8AC();
-	*(const void **)this = reinterpret_cast<const void *>(0x00C1FD98);
+	reset();
+	*(const void **)this = reinterpret_cast<const void *>(((unsigned int)vtbl_00C1FD98));
 }
 
-void ScriptActions::Rva003BA8AC()
+// ScriptActions::reset, SubsystemInterface slot 9 of 0x00C1FE48 (retail
+// 0x003BA8AC, 24 bytes): ZH clears m_suppressNewWindows and calls
+// closeWindows(FALSE), which BFME2 inlines as the +0x1914 flag clear.
+void ScriptActions::reset()
 {
 	m_suppressNewWindows = false;
 	if (Rva00DFEC50 != 0)
@@ -79,3 +78,14 @@ void ScriptActions::Rva003BA8AC()
 	}
 	m_suppressNewWindows = false;
 }
+
+// ScriptActions::update, slot 10 of 0x00C1FE48: empty as in ZH; retail
+// folds it onto the shared one-byte RET at 0x000B3FD0.
+void ScriptActions::update()
+{
+}
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?init@ScriptActions@@UAEXXZ=?rva000D20D6@Rva000D20D6@@UAEXXZ")

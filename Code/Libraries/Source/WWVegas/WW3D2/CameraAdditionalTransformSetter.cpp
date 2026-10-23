@@ -1,6 +1,6 @@
-// cl: /O1
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 //
-// ?rva00133DA0Set@CameraClass@@QAEXABUMatrix4@@@Z, retail 0x00133DA0, 150 bytes.
+// ?Set_Reflected_Projection_Matrix@CameraClass@@QAEXABVMatrix4@@@Z, retail 0x00133DA0, 150 bytes.
 // CameraClass AdditionalTransform setter (second Matrix4 at +0x38C, BFME2
 // addition per bfmecamera shim; setter at RVA 0x133DA0 writes all 16 floats).
 // Gap between Get_Aspect_Ratio 0x133D90/7 and Convert_Old 0x133E40/55 in
@@ -11,23 +11,24 @@
 // AdditionalTransform; 64B Matrix4 copy + sole caller 0x7F7E1). No fallback
 // paths.
 
-struct Matrix4
+class Matrix4
 {
+public:
 	int m[16];
 };
 
 class CameraClass
 {
 public:
-	void rva00133DA0Set(const Matrix4 &src);
+	void Set_Reflected_Projection_Matrix(const Matrix4 &src);
 
 private:
 	char m_lead[0x38C];
 	Matrix4 m_38C;
 };
 
-// ?rva00133DA0Set@CameraClass@@QAEXABUMatrix4@@@Z @0x00133DA0
-void CameraClass::rva00133DA0Set(const Matrix4 &src)
+// ?Set_Reflected_Projection_Matrix@CameraClass@@QAEXABVMatrix4@@@Z @0x00133DA0
+void CameraClass::Set_Reflected_Projection_Matrix(const Matrix4 &src)
 {
 	m_38C.m[0] = src.m[0];
 	m_38C.m[1] = src.m[1];

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 // Identity: ModuleFactory registers this data class under "RadarMarkerClientUpdate" (addModule
 // pairs the name with this factory); formerly misnamed MarkerTypeUpdateModuleData.
 //
@@ -21,14 +21,19 @@
 // precedent) pins the vtable MOV ahead of the AND. Retail order is
 // mov-eax-ecx, mov-[eax]-vtable, and-[eax+8]-0, ret.
 
+extern "C" const void *const vtbl_00C5EDF8[];  // ??_7RadarMarkerClientUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C5EDF8=??_7RadarMarkerClientUpdateModuleData@@6B@")
+
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 
 class ModuleData
 {
 public:
-	ModuleData() : m_vtable( reinterpret_cast<const void *>(0x00C5EDF8) ) {}
-
+	// LINK: no user-provided default ctor (implicit trivial emits nothing and
+	// generates no call). The derived ctor below stores the vtable manually,
+	// so the previous inline base copy - which loses to the first-in-order
+	// copy (no retail address) - is unreferenced and gone. No flags touched.
 protected:
 	const void *m_vtable;			// +0x00
 	unsigned int m_moduleTagNameKey;	// +0x04
@@ -46,7 +51,7 @@ private:
 // ??0RadarMarkerClientUpdateModuleData@@QAE@XZ
 RadarMarkerClientUpdateModuleData::RadarMarkerClientUpdateModuleData()
 {
-	m_vtable = reinterpret_cast<const void *>(0x00C5EDF8);
+	m_vtable = reinterpret_cast<const void *>(((unsigned int)vtbl_00C5EDF8));
 	_ReadWriteBarrier();
 	m_markerType = 0;
 }

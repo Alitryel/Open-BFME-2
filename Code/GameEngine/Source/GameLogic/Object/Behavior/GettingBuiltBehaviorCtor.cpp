@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfmelist /O1 /DNDEBUG /MD /GX /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfmelist /DNDEBUG /MD /GX /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0GettingBuiltBehavior@@QAE@PAVThing@@PBVModuleData@@@Z, retail
@@ -57,13 +57,19 @@ public:
 	virtual void update();
 };
 
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1,
+	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
+};
+
 class UpdateModule : public BehaviorModule, public UpdateModuleInterface
 {
 public:
 	UpdateModule(Thing *thing, const ModuleData *moduleData);
 	virtual ~UpdateModule();
 protected:
-	void setWakeFrame(Object *obj, unsigned int frame);
+	void setWakeFrame(Object *obj, UpdateSleepTime frame);
 	Object *getObject(void) const { return m_object; }
 private:
 	unsigned m_nextCallFrameAndPhase;
@@ -74,9 +80,15 @@ private:
 class GettingBuiltBehaviorInterface
 {
 public:
-	GettingBuiltBehaviorInterface() {}
-	virtual void slot();
+	GettingBuiltBehaviorInterface();
+	// Retail vtable 0x00C40020 holds _purecall in every slot.
+	virtual void slot() = 0;
 };
+// ??0GettingBuiltBehaviorInterface@@QAE@XZ @0x00453111 9B: the default constructor, storing the
+// class's own vtable (VA 0x00C40020) and returning this.
+GettingBuiltBehaviorInterface::GettingBuiltBehaviorInterface()
+{
+}
 
 class GettingBuiltBehavior : public UpdateModule, public GettingBuiltBehaviorInterface
 {
@@ -121,5 +133,10 @@ GettingBuiltBehavior::GettingBuiltBehavior(Thing *thing, const ModuleData *modul
 	m_b32 = 0;
 	m_b33 = 0;
 	m_b3E = 0;
-	setWakeFrame(const_cast<Object*>(getObject()), 1);
+	setWakeFrame(const_cast<Object*>(getObject()), UPDATE_SLEEP_NONE);
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?behaviorModuleOtherAnchor@BehaviorModuleOther@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

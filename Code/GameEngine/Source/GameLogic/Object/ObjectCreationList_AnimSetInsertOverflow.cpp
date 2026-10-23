@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /MD /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 //
 // ?_M_insert_overflow@?$vector@UAnimSet@GenericObjectCreationNugget@@V?$allocator@UAnimSet@GenericObjectCreationNugget@@@_STL@@@_STL@@IAEXPAUAnimSet@GenericObjectCreationNugget@@ABU34@ABU__false_type@2@I_N@Z,
@@ -35,20 +35,21 @@
 //
 // Access note: retail's AnimSet is a private nested struct; access is not
 // encoded in the mangled name, so the public replica below mangles identically.
+// Retail keeps one unsigned max, RVA 0x00013740 (the vendored STLport row). This unit's
+// flags (/G7 /arch:SSE) compile a different copy, and retail kept another unit's. This unit-local
+// overload keeps the inlined code and offers the link no second copy.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
 #define _STLP_NO_EXCEPTIONS 1
 #include <vector>
 
-class AsciiString
-{
-	void *m_data;
-
-protected:
-	void releaseBuffer();
-
-public:
-	AsciiString(const AsciiString &other);
-	~AsciiString() { releaseBuffer(); }
-};
+#include "ascii_string.h"
 
 class GenericObjectCreationNugget
 {
@@ -59,6 +60,11 @@ public:
 		AsciiString m_animFlying;
 		AsciiString m_animFinal;
 		AnimSet(const AnimSet &other);
+		// LINK: declaration-only dtor (no body in this TU). The vector
+		// _Construct/_Destroy machinery E8-calls it; with no local body the
+		// calls bind the kept copy instead of this TU's loser copy, and the
+		// call bytes are unchanged (same reloc name). No flags touched.
+		~AnimSet();
 	};
 };
 

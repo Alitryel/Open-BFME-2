@@ -4,7 +4,8 @@
 //
 // ??0SalvageCrateCollideModuleData@@QAE@XZ, retail 0x00255B7E (84 bytes).
 // Frameless ModuleData ctor over the rowed CrateCollideModuleData base
-// (0x004BC657, size 0x5C): installs vtable 0x00BF3A40 explicitly (novtable),
+// (0x004BC657, size 0x5C): the compiler installs its vftable 0x00BF3A40
+// (slot 0 the rowed deleting dtor 0x002563D3; the dtor is declared only),
 // zeroes two float slots, loads 100.0/0.5 from compiler literals
 // (DIR32-masked like the retail globals), stores the float tail, then the
 // int tail (100/5000/zero) and the flag byte. /GX- keeps the body frameless
@@ -23,10 +24,11 @@ private:
 	unsigned char m_opaque[0x5C - 4];
 };
 
-class __declspec(novtable) SalvageCrateCollideModuleData : public CrateCollideModuleData
+class SalvageCrateCollideModuleData : public CrateCollideModuleData
 {
 public:
 	SalvageCrateCollideModuleData();
+	virtual ~SalvageCrateCollideModuleData();
 
 private:
 	float m_float5C;	// +0x5C
@@ -43,9 +45,8 @@ private:
 extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
 
-SalvageCrateCollideModuleData::SalvageCrateCollideModuleData()
+inline SalvageCrateCollideModuleData::SalvageCrateCollideModuleData()
 {
-	*(unsigned int *)this = 0x00BF3A40;
 	m_float5C = 0.0f;
 	m_float60 = 0.0f;
 	m_float64 = 0.5f;
@@ -57,3 +58,14 @@ SalvageCrateCollideModuleData::SalvageCrateCollideModuleData()
 	m_int78 = 0;
 	m_flag7C = false;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeSalvageCrateCollideModuleDataInlineAnchor@@YAXPAVSalvageCrateCollideModuleData@@@Z absent-from-retail
+void _bfmeSalvageCrateCollideModuleDataInlineAnchor(SalvageCrateCollideModuleData *salvageCrateCollideModuleData)
+{
+    salvageCrateCollideModuleData->SalvageCrateCollideModuleData::SalvageCrateCollideModuleData();
+}
+#pragma inline_depth()

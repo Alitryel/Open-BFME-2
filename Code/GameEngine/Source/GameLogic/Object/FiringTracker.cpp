@@ -1,4 +1,4 @@
-// cl: /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
+// cl: /Ireference/shims/updatemodule_ctor /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/GameLogic/Object/FiringTracker.cpp); this unit had no counterpart under Code/.
@@ -53,17 +53,7 @@
 #endif
 
 //-------------------------------------------------------------------------------------------------
-FiringTracker::FiringTracker(Thing* thing, const ModuleData *modData) : UpdateModule( thing, modData )
-{
-	m_consecutiveShots = 0;
-	m_victimID = INVALID_ID;
-	m_frameToStartCooldown = 0;
- 	m_frameToForceReload = 0;
-	m_frameToStopLoopingSound = 0;
-	m_audioHandle = AHSV_NoSound;
-	setWakeFrame(getObject(), UPDATE_SLEEP_FOREVER);
-}
-
+// ?FiringTracker::FiringTracker present-unmatched
 //-------------------------------------------------------------------------------------------------
 FiringTracker::~FiringTracker()
 {
@@ -73,6 +63,7 @@ FiringTracker::~FiringTracker()
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FiringTracker::getNumConsecutiveShotsAtVictim present-unmatched
 Int FiringTracker::getNumConsecutiveShotsAtVictim( const Object *victim ) const
 {
 	if( victim == NULL )
@@ -85,6 +76,7 @@ Int FiringTracker::getNumConsecutiveShotsAtVictim( const Object *victim ) const
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FiringTracker::shotFired present-unmatched
 void FiringTracker::shotFired(const Weapon* weaponFired, ObjectID victimID)
 {
 	UnsignedInt now = TheGameLogic->getFrame();
@@ -188,129 +180,18 @@ void FiringTracker::shotFired(const Weapon* weaponFired, ObjectID victimID)
 }
 
 //-------------------------------------------------------------------------------------------------
-UpdateSleepTime FiringTracker::update()
-{
-	//DEBUG_ASSERTCRASH(m_frameToStartCooldown != 0 || m_frameToStopLoopingSound != 0, ("hmm, should be asleep"));
-
-	UnsignedInt now = TheGameLogic->getFrame();
-
- 	// I have been idle long enough that I should reload, so I do not hang around with a near empty clip forever.
- 	if( m_frameToForceReload != 0  &&  now >= m_frameToForceReload )
- 	{
- 		getObject()->reloadAllAmmo(TRUE);
- 		m_frameToForceReload = 0;
- 	}
- 
-	// If it has been too long since I fired.  I have to start over.
-	// (don't call if we don't need to cool down... it's expensive!)
-
-	if (m_frameToStopLoopingSound != 0)
-	{
-		if (now >= m_frameToStopLoopingSound)
-		{
-			TheAudio->removeAudioEvent( m_audioHandle );
-			m_audioHandle = AHSV_NoSound;
-			m_frameToStopLoopingSound = 0;
-		}
-	}
-
-	if( m_frameToStartCooldown != 0 && now > m_frameToStartCooldown )
-	{
-		m_frameToStartCooldown = now + LOGICFRAMES_PER_SECOND;
-		coolDown();// if this is the coolest call to cooldown, it will set m_frameToStartCooldown to zero
-		return UPDATE_SLEEP(LOGICFRAMES_PER_SECOND);
-	}
-
-	UpdateSleepTime sleepTime = calcTimeToSleep();
-
-	return sleepTime;
-}
+// FiringTracker::update is defined with its retail-matched BFME2 body in
+// FiringTrackerXfer.cpp (0x004DED3B). The Zero Hour body here was a conflicting
+// definition and did not implement BFME2's movement-triggered cooldown.
 
 //-------------------------------------------------------------------------------------------------
-UpdateSleepTime FiringTracker::calcTimeToSleep()
-{
- 	// Figure out the longest amount of time we can sleep as unneeded
- 
- 	// If all the timers are off, then we aren't needed at all
- 	if (m_frameToStopLoopingSound == 0 && m_frameToStartCooldown == 0 && m_frameToForceReload == 0)
-   		return UPDATE_SLEEP_FOREVER;
-   
- 	// Otherwise, we need to wake up to service the shortest timer
-   	UnsignedInt now = TheGameLogic->getFrame();
- 	UnsignedInt sleepTime = UPDATE_SLEEP_FOREVER;
- 	if( m_frameToStopLoopingSound != 0 )
- 	{
- 		if( m_frameToStopLoopingSound <= now )
- 			sleepTime = UPDATE_SLEEP_NONE;
- 		else if( (m_frameToStopLoopingSound - now) < sleepTime )
- 			sleepTime = m_frameToStopLoopingSound - now;
- 	}
- 	if( m_frameToStartCooldown != 0 )
- 	{
- 		if( m_frameToStartCooldown <= now )
- 			sleepTime = UPDATE_SLEEP_NONE;
- 		else if( (m_frameToStartCooldown - now) < sleepTime )
- 			sleepTime = m_frameToStartCooldown - now;
- 	}
- 	if( m_frameToForceReload != 0 )
- 	{
- 		if( m_frameToForceReload <= now )
- 			sleepTime = UPDATE_SLEEP_NONE;
- 		else if( (m_frameToForceReload - now) < sleepTime )
- 			sleepTime = m_frameToForceReload - now;
- 	}
- 
- 	return UPDATE_SLEEP(sleepTime);
-}
+// FiringTracker::calcTimeToSleep is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/FiringTrackerXfer.cpp (0x004DEAB0).
 
 //-------------------------------------------------------------------------------------------------
-void FiringTracker::speedUp()
-{
-	ModelConditionFlags clr, set;
-	Object *self = getObject();
-	
-	if( self->testWeaponBonusCondition( WEAPONBONUSCONDITION_CONTINUOUS_FIRE_FAST ) )
-	{
-		//self->clearWeaponBonusCondition( WEAPONBONUSCONDITION_CONTINUOUS_FIRE_MEAN );
-		//self->clearModelConditionState( MODELCONDITION_CONTINUOUS_FIRE_MEAN );
-		//self->clearModelConditionState( MODELCONDITION_CONTINUOUS_FIRE_SLOW );
-	}
-	else if(self->testWeaponBonusCondition( WEAPONBONUSCONDITION_CONTINUOUS_FIRE_MEAN ) )
-	{
-		const AudioEventRTS *soundToPlayPtr = self->getTemplate()->getPerUnitSound( "VoiceRapidFire" );
-		AudioEventRTS soundToPlay = *soundToPlayPtr;
-		soundToPlay.setObjectID( self->getID() );
-		TheAudio->addAudioEvent( &soundToPlay );
-
-		// These flags are exclusive, not cumulative
-		self->setWeaponBonusCondition( WEAPONBONUSCONDITION_CONTINUOUS_FIRE_FAST );
-		set.set(MODELCONDITION_CONTINUOUS_FIRE_FAST);
-
-		// These flags are exclusive, not cumulative
-		self->clearWeaponBonusCondition( WEAPONBONUSCONDITION_CONTINUOUS_FIRE_MEAN );
-		clr.set(MODELCONDITION_CONTINUOUS_FIRE_MEAN);
-		clr.set(MODELCONDITION_CONTINUOUS_FIRE_SLOW);
-
-
-	}
-	else 
-	{
-
-		self->setWeaponBonusCondition( WEAPONBONUSCONDITION_CONTINUOUS_FIRE_MEAN );
-		set.set(MODELCONDITION_CONTINUOUS_FIRE_MEAN);
-
-		// These flags are exclusive, not cumulative
-		self->clearWeaponBonusCondition( WEAPONBONUSCONDITION_CONTINUOUS_FIRE_FAST );
-		clr.set(MODELCONDITION_CONTINUOUS_FIRE_FAST);
-		clr.set(MODELCONDITION_CONTINUOUS_FIRE_SLOW);
-
-	}
-
-	self->clearAndSetModelConditionFlags(clr, set);
-
-}
+// FiringTracker::speedUp is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/FiringTrackerXfer.cpp (0x004DEDD2).
 
 //-------------------------------------------------------------------------------------------------
+// ?FiringTracker::coolDown present-unmatched
 void FiringTracker::coolDown()
 {
 	ModelConditionFlags clr, set;
@@ -352,6 +233,7 @@ void FiringTracker::coolDown()
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
+// ?FiringTracker::crc present-unmatched
 void FiringTracker::crc( Xfer *xfer )
 {
 
@@ -365,31 +247,13 @@ void FiringTracker::crc( Xfer *xfer )
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
-void FiringTracker::xfer( Xfer *xfer )
-{
-
-	// version
-	XferVersion currentVersion = 1;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
-
-	// object helper base class
-	UpdateModule::xfer( xfer );
-
-	// consecutive shots
-	xfer->xferInt( &m_consecutiveShots );
-
-	// victim id
-	xfer->xferObjectID( &m_victimID );
-
-	// frame to start cooldown
-	xfer->xferUnsignedInt( &m_frameToStartCooldown );
-
-}  // end xfer
+// FiringTracker::xfer: defined in FiringTrackerXfer.cpp (its row's unit).
+  // end xfer
 
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
+// ?FiringTracker::loadPostProcess present-unmatched
 void FiringTracker::loadPostProcess( void )
 {
 
@@ -397,3 +261,8 @@ void FiringTracker::loadPostProcess( void )
 	UpdateModule::loadPostProcess();
 
 }  // end loadPostProcess
+
+// ?_Unchecked_test@?$bitset@$0CN@@_STL@@QBE_NI@Z (row 0x001E37E8) was emitted here only through
+// the inline Object::testStatus. That is out of line now (reference/shims/sweep/GameLogic/Object.h),
+// so instantiate it explicitly.
+template bool _STL::bitset<45>::_Unchecked_test(size_t) const;

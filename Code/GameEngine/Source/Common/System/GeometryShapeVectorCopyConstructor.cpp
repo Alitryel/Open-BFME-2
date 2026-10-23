@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/open-bfme-1/reference/shims/stringinline
+// cl: /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfme2_ascii
 // stlport
 // Open-BFME: vector<GeometryShape> copy constructor, retail 0x000FDE60.
 //
@@ -10,21 +10,62 @@
 // allocator-proxy, and vector-base dependencies at 0x000FCB00, 0x000FCCD0,
 // and 0x000FD230.
 
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
 #include <vector>
-#include "StringInline.h"
+#include "ascii_string.h"
 
 typedef bool Bool;
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-
-	// Making the aggregate copy explicit preserves retail's inlined
-	// source-plus-0x18 cursor while retaining ordinary memberwise semantics.
-	Coord3D(const Coord3D &other) : x(other.x), y(other.y), z(other.z) {}
-};
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
+// Suppress this TU's non-retail copy of ?push_back@?$vector@UGeometryShape@@V?$allocator@UGeometryShape@@@_STL@@@_STL@@QAEXABUGeom:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct GeometryShape;
+namespace _STL { template <> void vector<GeometryShape,allocator<GeometryShape> >::push_back(GeometryShape const &); }
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@UGeometryShape@@V?$allocator@UGeometryShape@@@_STL@@@_STL@@IAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct GeometryShape;
+namespace _STL { template <> void vector<GeometryShape,allocator<GeometryShape> >::_M_clear(); }
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@UGeometryShape@@V?$allocator@UGeometryShape@@@_STL@@@_STL@@IA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct GeometryShape;
+namespace _STL { template <> void vector<GeometryShape,allocator<GeometryShape> >::_M_insert_overflow(GeometryShape *,GeometryShape const &,__false_type const &,unsigned int,bool); }
+// Suppress this TU's non-retail copy of ??$_Construct@UGeometryShape@@U1@@_STL@@YAXPAUGeometryShape@@ABU1@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct GeometryShape;
+namespace _STL { template <> void _Construct<GeometryShape,GeometryShape>(GeometryShape *,GeometryShape const &); }
+// Suppress this TU's non-retail copy of ??0?$_Vector_base@UGeometryShape@@V?$allocator@UGeometryShape@@@_STL@@@_STL@@QAE@IABV?$all:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct GeometryShape;
+namespace _STL { template <> _Vector_base<GeometryShape,allocator<GeometryShape> >::_Vector_base(unsigned int,allocator<GeometryShape> const &); }
+// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAUGeometryShape@@U1@V?$allocator@UGeometryShape@@@_STL@@@_S:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct GeometryShape;
+namespace _STL { template <> GeometryShape * _STLP_alloc_proxy<GeometryShape *,GeometryShape,allocator<GeometryShape> >::allocate(unsigned int); }
+// Suppress this TU's non-retail copy of ??1?$_Vector_base@UGeometryShape@@V?$allocator@UGeometryShape@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct GeometryShape;
+namespace _STL { template <> _Vector_base<GeometryShape,allocator<GeometryShape> >::~_Vector_base(); }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@UGeometryShape@@@_STL@@QBEXPAUGeometryShape@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct GeometryShape;
+namespace _STL { template <> void allocator<GeometryShape>::deallocate(GeometryShape *,unsigned int) const; }
+// Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
+// and this TU's /O1 COMDAT copy differs from the copy the link keeps.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
+{ if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
+}
 
 struct GeometryShape
 {
@@ -38,17 +79,27 @@ struct GeometryShape
 	char m_unmodelled21[0x03];
 
 	GeometryShape();
-	GeometryShape(const GeometryShape &other)
-		: m_type(other.m_type),
-		  m_height(other.m_height),
-		  m_majorRadius(other.m_majorRadius),
-		  m_minorRadius(other.m_minorRadius),
-		  m_centerOffset(other.m_centerOffset),
-		  m_name(other.m_name),
-		  m_enabled(other.m_enabled),
-		  m_unmodelled21()
-	{
-	}
+	~GeometryShape();
+	GeometryShape(const GeometryShape &other);
+public:
+	GeometryShape &operator=(const GeometryShape &);
 };
 
 template class _STL::vector<GeometryShape>;
+
+// erase (retail 0x002B0CB0) and its __copy_ptrs forwarder (0x002B0B71) are
+// not GeometryShape's: retail erase destroys the vacated tail element through
+// 0x002AF1EC (vector<AsciiString> at +0x14, buffer at +8, AsciiString at +0)
+// and the __copy loop (0x002AF6C5) assigns through 0x002AF505, where
+// GeometryShape's own dtor is the 0x00255D17 tail jump (GeometryInfo's
+// shape-vector dtor 0x00050A79 reaches it per 0x24 element) and its assign
+// is 0x00063627.  Opaque view of that other 0x24-byte record.
+struct Rva002AF6C5Element
+{
+	~Rva002AF6C5Element();
+	Rva002AF6C5Element &operator=(const Rva002AF6C5Element &other);
+
+	unsigned char m_pad[0x24];
+};
+
+template Rva002AF6C5Element *_STL::vector<Rva002AF6C5Element>::erase(Rva002AF6C5Element *);

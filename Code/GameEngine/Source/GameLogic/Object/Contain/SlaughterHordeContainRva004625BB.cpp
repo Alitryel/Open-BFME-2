@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ?rva004625BB@SlaughterHordeContain@@UAE_NPAXH@Z, retail 0x004625BB, 53 bytes.
 // Virtual slot 128 (offset 0x200) of vtable 0x00848AA0 (class of
@@ -16,8 +16,12 @@
 class Object;
 typedef void (__cdecl *ContainIterateFunc)(Object *obj, void *userData);
 
-void iterCallback0046258C(Object *obj, void *userData);
-void iterCallback004625AA(Object *obj, void *userData);
+class BfmeObjFCD;
+struct BfmePairFCD;
+void bfmeGoFCD(BfmeObjFCD *o, BfmePairFCD *p);
+class BfmeItem1005;
+struct Rva00220820Pair;
+void __cdecl rva00220820Forward(BfmeItem1005 *receiver, const Rva00220820Pair *value);
 
 struct Coord3D0046255E {
 	float x;
@@ -43,8 +47,11 @@ public:
 	virtual bool rva004625BB(void *a, int b);
 	virtual void rva004625F0(void *a);
 	void rva0046255E(const Coord3D0046255E *pos);
+	virtual void rva0046261B(bool inc);
 
-	char m_pad9C[0x9C];
+	char m_pad04[0x14];
+	int m_18;
+	char m_pad1C[0x84];
 	Coord3D0046255E m_posA0;
 	bool m_flagAC;
 	char m_padAD[0xC1 - 0xAD];
@@ -69,7 +76,7 @@ bool SlaughterHordeContain::rva004625BB(void *a, int b)
 	user.b = b;
 	user.a = a;
 	user.flag = false;
-	iterateContained(iterCallback0046258C, &user, true);
+	iterateContained((ContainIterateFunc)bfmeGoFCD, &user, true);
 	return user.flag == false;
 }
 
@@ -85,7 +92,7 @@ void SlaughterHordeContain::rva004625F0(void *a)
 	user.zero = 0;
 	user.a = a;
 	user.flag = false;
-	iterateContained(iterCallback004625AA, &user, true);
+	iterateContained((ContainIterateFunc)rva00220820Forward, &user, true);
 }
 
 // ?rva0046255E@SlaughterHordeContain@@QAEXPBUCoord3D0046255E@@@Z, retail 0x0046255E, 27 bytes.
@@ -108,4 +115,17 @@ void SlaughterHordeContain::rva00462504()
 {
 	m_flagC1 = false;
 	s20(2);
+}
+
+// ?rva0046261B@SlaughterHordeContain@@UAEX_N@Z, retail 0x0046261B, 18 bytes.
+// Stdcall-style one-bool forwarder that steps the int counter at +0x18:
+// true increments, false decrements, then ret 4. Address-derived name; the
+// counter's meaning at +0x18 is unproven and the method is not known to be
+// virtual, so no slot is claimed.
+void SlaughterHordeContain::rva0046261B(bool inc)
+{
+	if (inc)
+		++m_18;
+	else
+		--m_18;
 }

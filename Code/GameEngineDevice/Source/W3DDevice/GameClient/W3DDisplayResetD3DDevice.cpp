@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // ?Reset_D3D_Device@@YAX_N@Z, retail 0x0004312A, 278 bytes.
 // Ported from Open-BFME-1
 // (Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayResetD3DDevice.cpp,
@@ -12,19 +12,19 @@
 // address-derived pin (target proven by REL32, semantic identity unproven).
 
 void __cdecl BFME_DX8_Thread_Lock(void);
-void __cdecl BFME_DX8_Thread_Assert(void);
+bool __cdecl BFME_DX8_Thread_Assert(void);
 void __cdecl Rva001171B0(void);
 void __cdecl clipCursorToClient(void);
 
-class DX8DeviceGuard
+class BFMEDX8DeviceLock
 {
 public:
-	DX8DeviceGuard(void)
+	BFMEDX8DeviceLock(void)
 	{
 		BFME_DX8_Thread_Lock();
 	}
 
-	~DX8DeviceGuard(void)
+	~BFMEDX8DeviceLock(void)
 	{
 		BFME_DX8_Thread_Assert();
 	}
@@ -60,7 +60,9 @@ public:
 	virtual bool getWindowed();
 };
 
-extern Display *TheDisplay;
+// Matched DIR32 sites establish TheDisplay at VA 0x00DFE9D8. This is in the
+// PE .data zero-fill tail, so the retail startup value is null.
+Display *TheDisplay = 0;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/w3derr.h
 enum WW3DErrorType
@@ -74,7 +76,8 @@ class WW3D
 public:
 	static bool Is_Initted(void) { return IsInitted; }
 	static int Get_Render_Device(void);
-	static WW3DErrorType Set_Render_Device(int dev = -1, int resx = -1, int resy = -1, int bits = -1, int windowed = -1, bool resize_window = false, bool reset_device = false, bool restore_assets = true);
+	// BFME2 returns a plain success flag (row 0x00116F10, WW3D_Set_Render_Device.cpp).
+	static bool Set_Render_Device(int dev = -1, int resx = -1, int resy = -1, int bits = -1, int windowed = -1, bool resize_window = false, bool reset_device = false, bool restore_assets = true);
 
 private:
 	static bool IsInitted;
@@ -101,12 +104,12 @@ void Reset_D3D_Device(bool active)
 {
 	if (TheDisplay && WW3D::Is_Initted() && !TheDisplay->getWindowed())
 	{
-		DX8DeviceGuard lock;
+		BFMEDX8DeviceLock lock;
 
 		if (active)
 		{
 			// switch back to desired mode when user alt-tabs back into game
-			if (WW3D_ERROR_OK != (char)WW3D::Set_Render_Device(WW3D::Get_Render_Device(), TheDisplay->getWidth(), TheDisplay->getHeight(), TheDisplay->getBitDepth(), TheDisplay->getWindowed(), true, true, true))
+			if (WW3D_ERROR_OK != WW3D::Set_Render_Device(WW3D::Get_Render_Device(), TheDisplay->getWidth(), TheDisplay->getHeight(), TheDisplay->getBitDepth(), TheDisplay->getWindowed(), true, true, true))
 			{
 				BfmeOsVersionInfo osvi;
 				osvi.dwOSVersionInfoSize = sizeof(BfmeOsVersionInfo);

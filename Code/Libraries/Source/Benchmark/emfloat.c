@@ -259,6 +259,41 @@ for(i=0;i<INTERNAL_FPF_PRECISION;i++)
 return(!n);
 }
 
+/* Not BYTEmark: DivideInternalFPF's inlined zero test on its local copy
+** ORs the words in the order 0,2,1,3, which this compiler emits from the
+** plain loop only as 0,1,2,3. Same result (OR is commutative); the index
+** table moves the reassociation late enough to keep retail's order.
+** IsMantissaZeroAddSub below does the same for AddSubInternalFPF. */
+static __forceinline int IsMantissaZeroOrdered(u16 *mant)
+{
+int i;
+int n;
+int order[INTERNAL_FPF_PRECISION] = {0,2,1,3};
+
+n=0;
+for(i=0;i<INTERNAL_FPF_PRECISION;i++)
+        n|=mant[order[i]];
+
+return(!n);
+}
+
+/* Not BYTEmark: AddSubInternalFPF's inlined zero test of its result ORs the
+** words in the order 0,2,3,1 (same result; OR is commutative); the plain
+** loop folds them in another order. Formerly kept in Rva006B9190Finish.cpp,
+** whose whole-TU copy duplicated this file's out-of-line rows. */
+static __forceinline int IsMantissaZeroAddSub(u16 *mant)
+{
+int i;
+int n;
+int order[INTERNAL_FPF_PRECISION] = {0,2,3,1};
+
+n=0;
+for(i=0;i<INTERNAL_FPF_PRECISION;i++)
+        n|=mant[order[i]];
+
+return(!n);
+}
+
 /**************
 ** Add16Bits **
 ***************
@@ -434,15 +469,13 @@ return;
 ** minimum_exponent. (You have to do this often in order
 ** to perform additions and subtractions).
 */
+/* BFME's build has no zero-significand diagnostic here: retail contains no
+** "zero significand" string, and its out-of-line copy (0x006B9060) starts at
+** the exponent test. */
 static void denormalize(InternalFPF *ptr,
                 int minimum_exponent)
 {
 long exponent_difference;
-
-if (IsMantissaZero(ptr->mantissa))
-{
-        printf("Error:  zero significand in denormalize\n");
-}
 
 exponent_difference = ptr->exp-minimum_exponent;
 if (exponent_difference < 0)
@@ -478,20 +511,7 @@ void RoundInternalFPF(InternalFPF *ptr)
 if (ptr->type == IFPF_IS_NORMAL ||
         ptr->type == IFPF_IS_SUBNORMAL)
 {
-        int exponent_difference = ptr->exp - MIN_EXP;
-        if (exponent_difference < 0)
-        {
-                exponent_difference = -exponent_difference;
-                if (exponent_difference >= INTERNAL_FPF_PRECISION * 16)
-                {
-                        SetInternalFPFZero(ptr, ptr->sign);
-                }
-                else
-                {
-                        ptr->exp += exponent_difference;
-                        StickyShiftRightMant(ptr, exponent_difference);
-                }
-        }
+        denormalize(ptr, MIN_EXP);
         if (ptr->type != IFPF_IS_ZERO)
         {
                 ptr->mantissa[3] &= 0xfff8;
@@ -666,8 +686,9 @@ case NORMAL_NORMAL:
                         z->sign = locy.sign ^ operation;
                         z->exp = locy.exp;
                 }
+        }
 
-                if (locx.sign ^ locy.sign ^ operation)
+        if (locx.sign ^ locy.sign ^ operation)
                 {
                         /*
                         ** Signs are different, subtract mantissas
@@ -697,16 +718,8 @@ case NORMAL_NORMAL:
                                                 z->mantissa[i]);
                                 }
                         }
-                        else
-                        {
-                                /* The assumption made above
-                                ** (i.e. x->mantissa >= y->mantissa)
-                                ** was correct.  Therefore, do nothing.
-                                ** z->sign = x->sign;
-                                */
-                        }
 
-                        if (IsMantissaZero(z->mantissa))
+                        if (IsMantissaZeroAddSub(z->mantissa))
                         {
                                 z->type = IFPF_IS_ZERO;
                                 z->sign = 0; /* positive */
@@ -746,7 +759,6 @@ case NORMAL_NORMAL:
                                         z->type = IFPF_IS_NORMAL;
                         }
                 }
-        }
         break;
 
 case INFINITY_INFINITY:
@@ -1012,7 +1024,7 @@ case NORMAL_NORMAL:
         /*
         ** Check for unnormal zero arguments
         */
-        if (IsMantissaZero(locx.mantissa))
+        if (IsMantissaZeroOrdered(locx.mantissa))
         {
                 if (IsMantissaZero(y->mantissa))
                         SetInternalFPFNaN(z);

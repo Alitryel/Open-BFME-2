@@ -1,10 +1,19 @@
-// cl: /O2 /Ob0
+// cl: /Ob0
 
+// Class views mirror the kept copy in W3DSmudge.cpp (Zero Hour W3DSmudge.h /
+// Smudge.h): SmudgeManager carries init/reset plus inline empty
+// ReleaseResources/ReAcquireResources after the dtor, and W3DSmudgeManager
+// overrides dtor/init/reset. The same virtual order keeps the vftable the
+// linked build keeps.
 class SmudgeManager
 {
 public:
 	SmudgeManager();
-	virtual void handle();
+	virtual ~SmudgeManager();
+	virtual void init();
+	virtual void reset();
+	virtual void ReleaseResources();
+	virtual void ReAcquireResources();
 
 private:
 	char m_pad[0x20];
@@ -12,6 +21,15 @@ private:
 
 class W3DSmudgeManager : public SmudgeManager
 {
+public:
+	W3DSmudgeManager();
+	virtual ~W3DSmudgeManager();
+	virtual void init();
+	virtual void reset();
+	void ReleaseResources(void);
+	void ReAcquireResources(void);
+
+private:
 	void *m_smudgeGroup;
 	void *m_posBuffer;
 	void *m_RGBABuffer;
@@ -20,9 +38,6 @@ class W3DSmudgeManager : public SmudgeManager
 	int m_backBufferWidth;
 	int m_backBufferHeight;
 	unsigned int m_probeColor;
-
-public:
-	W3DSmudgeManager();
 };
 
 W3DSmudgeManager::W3DSmudgeManager()

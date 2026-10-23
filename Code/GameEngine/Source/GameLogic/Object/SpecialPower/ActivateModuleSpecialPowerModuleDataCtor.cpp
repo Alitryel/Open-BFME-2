@@ -1,8 +1,8 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 // stlport
 //
 // ??0ActivateModuleSpecialPowerModuleData@@QAE@XZ, retail 0x00256DA1,
-// 36 bytes. ModuleData ctor over the pinned Rva0044EB54 base (0x44EB54,
+// 36 bytes. ModuleData ctor over the pinned SpecialAbilityUpdateModuleData base (0x44EB54,
 // 0xC8 bytes per the ToggleHidden row): the implicit _STL::vector<int>
 // member at +0xC8 builds through the folded Vector_base at 0x211E58 (int
 // spelling reuses the existing pin), and the compiler installs the derived
@@ -13,8 +13,37 @@
 
 #include <vector>
 
-class MultiIniFieldParse;
-struct FieldParse;
+// vector<int>/char destruction otherwise instantiates per-TU allocator
+// deallocate COMDATs (one byte shape per TU flags); explicit
+// dllimport+forceinline specializations take those calls inline so this
+// TU emits no external copies. Bodies are verbatim primary.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<int>::deallocate(int* __p, size_t __n) const {
+  _STLP_ASSERT( (__p == 0) == (__n == 0) )
+    if (__p != 0) __sgi_alloc::deallocate((void*)__p, __n * sizeof(value_type));
+}
+template <> void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int*, size_t);
+// Declaration-only: retail keeps one 14-byte copy of the vector<int> teardown
+// (0x0007FAB3); this TU's flags would emit a private 24-byte one.
+template <> vector<int, allocator<int> >::~vector();
+template <> _Vector_base<int, allocator<int> >::~_Vector_base();
+}
+
+class INI;
+class Xfer;
+typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
+
+struct FieldParse
+{
+	const char *m_name;
+	INIFieldParseProc m_parser;
+	const void *m_userData;
+	int m_offset;
+};
+
+// Rowed parse proc (retail 0x004CDF2B).
+void Rva004CDF2BParse(INI *ini, void *instance, void *store, const void *userData);
 
 class MultiIniFieldParse
 {
@@ -22,11 +51,16 @@ public:
 	void add(const FieldParse *parseTable, unsigned int extraOffset);
 };
 
-class Rva0044EB54
+class SpecialAbilityUpdateModuleData
 {
 public:
-	Rva0044EB54();
-	virtual void unused();
+	SpecialAbilityUpdateModuleData();
+	virtual ~SpecialAbilityUpdateModuleData();
+	// The ModuleData slots after the dtor, pure here as in the dtor unit's view
+	// (ActivateModuleSpecialPowerModuleDataDtor.cpp): one derived table copy.
+	virtual void crc(Xfer *xfer) = 0;
+	virtual void xfer(Xfer *xfer) = 0;
+	virtual void loadPostProcess() = 0;
 	static void buildFieldParse(MultiIniFieldParse &parse);
 
 protected:
@@ -34,10 +68,11 @@ protected:
 	unsigned char m_opaque[0xC4];
 };
 
-class ActivateModuleSpecialPowerModuleData : public Rva0044EB54
+class ActivateModuleSpecialPowerModuleData : public SpecialAbilityUpdateModuleData
 {
 public:
 	ActivateModuleSpecialPowerModuleData();
+	virtual ~ActivateModuleSpecialPowerModuleData();
 	static void buildFieldParse(MultiIniFieldParse &parse);
 
 private:
@@ -47,13 +82,24 @@ private:
 
 // ??0ActivateModuleSpecialPowerModuleData@@QAE@XZ @0x00256DA1
 ActivateModuleSpecialPowerModuleData::ActivateModuleSpecialPowerModuleData()
-	: Rva0044EB54()
+	: SpecialAbilityUpdateModuleData()
 {
 }
 
 // ?buildFieldParse@ActivateModuleSpecialPowerModuleData@@SAXAAVMultiIniFieldParse@@@Z @0x004CDFBE
 void ActivateModuleSpecialPowerModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
-	Rva0044EB54::buildFieldParse(parse);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00C5FD70), 0);
+	SpecialAbilityUpdateModuleData::buildFieldParse(parse);
+
+	// Own table (retail .data 0x00C5FD70): one entry and the terminator.
+	static const FieldParse dataFieldParse[] =
+	{
+		{ "TriggerSpecialPower", Rva004CDF2BParse, 0, 0 },
+		{ 0, 0, 0, 0 }
+	};
+	parse.add(dataFieldParse, 0);
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.

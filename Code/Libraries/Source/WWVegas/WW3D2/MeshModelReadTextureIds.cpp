@@ -1,4 +1,4 @@
-// cl: /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 /*
 ** Copyright 2025 Electronic Arts Inc.
 ** SPDX-License-Identifier: GPL-3.0-or-later
@@ -9,18 +9,22 @@
 // alternate descriptor124. Texture slots78 and arraysC8 select the descriptor.
 class TextureClass {
 public:
-    void Add_Ref() { ++RefCount; }
+    __declspec(dllimport) __forceinline void Add_Ref() { ++RefCount; }
     void Release_Ref();
 private:
     unsigned char Prefix[4];
     unsigned short RefCount;
 };
+template<class T> class RefCountPtr;
 class BfmeHandleCX {
 public:
     TextureClass *p;
     BfmeHandleCX() : p(0) {}
     BfmeHandleCX(const BfmeHandleCX &other) : p(other.p) { if (p) p->Add_Ref(); }
     ~BfmeHandleCX() { if (p) p->Release_Ref(); }
+    __forceinline operator const RefCountPtr<TextureClass> &() const {
+        return *reinterpret_cast<const RefCountPtr<TextureClass> *>(this);
+    }
 };
 class ChunkLoadClass {
 public:
@@ -38,8 +42,8 @@ public:
     bool Has_Texture_Data(int pass, int stage) const {
         return Textures[pass][stage] != 0 || TextureArrays[pass][stage] != 0;
     }
-    void Set_Single_Texture(const BfmeHandleCX &, int, int);
-    void Set_Texture(int, const BfmeHandleCX &, int, int);
+    void Set_Single_Texture(const RefCountPtr<TextureClass> &, int, int);
+    void Set_Texture(int, const RefCountPtr<TextureClass> &, int, int);
 };
 class MeshLoadContextClass {
 private:

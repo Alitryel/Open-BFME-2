@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX-
+// cl: /DNDEBUG /MD /GX-
 // Rva003F2033_ParseOnVictoryGiveUpgrade (retail 0x003F2033, 105 bytes).
 // Throws a 0xDEAD0001-marked word through the CxxThrowException thunk at
 // 0x00629094 when TheUpgradeCenter is still null, then reads an OrNull
@@ -61,7 +61,9 @@ public:
 extern NameKeyGenerator *TheNameKeyGenerator;
 extern UpgradeCenter *TheUpgradeCenter;
 
-__declspec(noreturn) void __stdcall _CxxThrowException(void *pExc, void *pInfo);
+extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
+// DataChunkReadDict's ErrorCode throw provides this COMDAT at retail 0xCFEEE4.
+extern "C" const struct _s__ThrowInfo __identifier("_TI1?AW4ErrorCode@@");
 
 // ?Rva003F2033_ParseOnVictoryGiveUpgrade@INI@@SAXPAV1@PAX1PBX@Z
 void INI::Rva003F2033_ParseOnVictoryGiveUpgrade(INI *ini, void *instance, void *store, const void *userData)
@@ -69,7 +71,7 @@ void INI::Rva003F2033_ParseOnVictoryGiveUpgrade(INI *ini, void *instance, void *
 	if (TheUpgradeCenter == 0) {
 		int &marker = (int &)store;
 		marker = 0xDEAD0001;
-		_CxxThrowException(&marker, (void *)0xCFEEE4);
+		_CxxThrowException(&marker, &__identifier("_TI1?AW4ErrorCode@@")); __assume(0);
 	}
 	for (;;) {
 		const char *token = ini->getNextTokenOrNull(0);

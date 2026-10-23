@@ -11,6 +11,8 @@ public:
 };
 
 extern void *g_bfmeVJE;
+// g_bfmeVJE: matched references place it at VA 0xe09fd4 (zero-filled .bss).
+void * g_bfmeVJE;
 
 class BfmeThingVJE
 {

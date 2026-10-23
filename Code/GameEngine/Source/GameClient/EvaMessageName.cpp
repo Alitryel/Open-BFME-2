@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 
 // Eva::messageToName with BFME2's mod-extended fallback.
 //
@@ -14,58 +14,44 @@
 
 class AsciiString;
 
-template <typename T>
-class StringBase
+#include "ascii_string.h"
+
+namespace _STL
+{
+template <class Type>
+class allocator
+{
+};
+
+template <class Type, class Allocator = allocator<Type> >
+class vector
 {
 public:
-    void concat(const T *text);
+    typedef Type *iterator;
+
+    iterator begin() { return m_start; }
+    iterator end() { return m_finish; }
+    iterator erase(iterator first, iterator last);
+    void reserve(unsigned int size);
+    void push_back(const Type &value);
 
 private:
-    friend class AsciiString;
-
-    StringBase(const T *text);
-    StringBase(const StringBase<T> &that);
-
-    struct Header
-    {
-        int ref_count;
-        unsigned short length;
-        unsigned short capacity;
-        T data[1];
-    };
-
-    Header *m_data;
+    iterator m_start;
+    iterator m_finish;
+    iterator m_endOfStorage;
 };
+}
 
 // Inline throughout: retail reaches StringBase's private constructors directly
 // from the caller rather than through a wrapper, which is what an inlined
 // AsciiString constructor looks like.
-class AsciiString
-{
-public:
-    AsciiString(const char *text)
-    {
-        ((StringBase<char> *)this)->StringBase<char>::StringBase(text);
-    }
-
-    AsciiString(const AsciiString &that)
-    {
-        ((StringBase<char> *)this)->StringBase<char>::StringBase(
-            (const StringBase<char> &)that);
-    }
-
-    ~AsciiString();
-
-private:
-    char *m_text;
-};
 
 // Iterator home for the event-name walk. The helpers below are the banked
 // Rva000427195/Rva000411084 pins, so the class names spell those pins.
 class Rva000411084
 {
 public:
-    void *next();
+    __declspec(noinline) void *next();
     void *advance();
 
     void *m_current;
@@ -76,6 +62,10 @@ class Rva000427195
 {
 public:
     void *first(Rva000411084 *iter);
+
+    // The table at Eva+0x34 occupies sixteen bytes in the target object;
+    // later methods read the reserve count at Eva+0x44.
+    unsigned char m_tableStorage[0x10];
 };
 
 // One entry of the dynamic event-name table: the name handed out on a hit at
@@ -87,7 +77,7 @@ struct EvaMessageNameNode
     int m_message;
 };
 
-static const char *TheEvaMessageNames[] =
+extern "C" const char *TheEvaMessageNames[] =
 {
     "DefaultEvaEvent",
     "BeaconDetected",
@@ -117,12 +107,14 @@ class Eva
 {
 public:
     AsciiString messageToName(int message);
+    void rva001debf6(_STL::vector<AsciiString> *out);
 
 private:
     // Only the event-name table at +0x34 is known; the preceding members are
     // whatever the rest of Eva lays out and do not participate here.
     char m_unknown[0x34];
     Rva000427195 m_eventNameTable;
+    unsigned int m_eventNameCount;
 };
 
 AsciiString Eva::messageToName(int message)
@@ -147,9 +139,29 @@ AsciiString Eva::messageToName(int message)
     return AsciiString("<Unknown>");
 }
 
+// The Ghidra-bounded body at 0x001DEBF6 is adjacent to messageToName at
+// 0x001DEB8A and uses the same event-name table at Eva+0x34. It clears and
+// reserves the caller's AsciiString vector using the dword at Eva+0x44, then
+// copies each dynamic node's name at +4 while advancing the table iterator.
+// The function's public name remains address-derived.
+void Eva::rva001debf6(_STL::vector<AsciiString> *out)
+{
+    Rva000411084 iter;
+    out->erase(out->begin(), out->end());
+    out->reserve(m_eventNameCount);
+    m_eventNameTable.first(&iter);
+    while (iter.m_current != 0) {
+        EvaMessageNameNode *node = (EvaMessageNameNode *)iter.m_current;
+        out->push_back(node->m_name);
+        iter.next();
+    }
+}
+
 
 // ?next@Rva000411084@@QAEPAXXZ
-void *Rva000411084::next()
+// Other iterator users emit this same retail body inline. Keep the call in
+// these two callers, but let the linker coalesce their identical definitions.
+inline void *Rva000411084::next()
 {
     EvaMessageNameNode *node = ((EvaMessageNameNode *)m_current)->m_next;
     if (node == 0)

@@ -1,14 +1,10 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 
 // Open-BFME5: SList<TagBlockIndex>::Remove_All retail bucket cleanup.
 
-class TagBlockIndex;
+#include "ascii_string.h"
 
-class StringBase
-{
-public:
-	~StringBase();
-};
+class TagBlockIndex;
 
 template <class T>
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib/SLIST.H
@@ -23,7 +19,7 @@ private:
 	{
 		Node *next;
 		int m_index;
-		StringBase m_name;
+		AsciiString m_name;
 		~Node();
 	};
 

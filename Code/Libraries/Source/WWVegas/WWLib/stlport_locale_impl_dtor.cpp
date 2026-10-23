@@ -1,4 +1,4 @@
-// cl: /O2 /Ob0 /DNDEBUG /MD
+// cl: /Ob0 /DNDEBUG /MD
 
 // Open-BFME5: _STL::_Locale_impl::~_Locale_impl(), retail 0x00408D60,
 // 21 bytes. Retail RTTI at 0x00CF3FB4 names _Locale_impl, and its vtable at
@@ -17,6 +17,10 @@ class _Locale_impl
 {
 public:
 	virtual ~_Locale_impl();
+	// Table 0x00BBBBB0's slots 1 and 2 (empty bodies in retail), as
+	// stlport_classic_locale.cpp's full class declares them.
+	virtual void _M_incr();
+	virtual void _M_decr();
 
 private:
 	void *_M_facets;

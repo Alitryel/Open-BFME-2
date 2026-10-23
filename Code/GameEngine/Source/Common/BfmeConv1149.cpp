@@ -3,9 +3,12 @@
 
 extern "C" void *__cdecl bfmeMalloc1149(unsigned int n);
 
-extern "C" unsigned int g_bfmeHeapSize1149;
-extern "C" char *g_bfmeHeapEnd1149;
-extern "C" char *g_bfmeHeapCur1149;
+// g_bfmeHeapSize1149: matched references place it at VA 0xddf520 (zero-filled .bss).
+extern "C" unsigned int g_bfmeHeapSize1149 = 0;
+// g_bfmeHeapEnd1149: matched references place it at VA 0xddf524 (retail .data initial value 0).
+extern "C" char *g_bfmeHeapEnd1149 = 0;
+// g_bfmeHeapCur1149: matched references place it at VA 0xddf528 (retail .data initial value 0).
+extern "C" char *g_bfmeHeapCur1149 = 0;
 extern "C" char *g_bfmeFreeList1149[];
 
 char *bfmeChunk1149(unsigned int size, int *nobjs)
@@ -64,3 +67,5 @@ char *bfmeChunk1149(unsigned int size, int *nobjs)
 		return bfmeChunk1149(size, nobjs);
 	}
 }
+// _g_bfmeFreeList1149: the global at VA 0xddf530 is ?_S_free_list@?$__node_alloc@$0A@$0A@@_STL@@2RCRAV_Node_alloc_obj@2@C.
+#pragma comment(linker, "/alternatename:_g_bfmeFreeList1149=?_S_free_list@?$__node_alloc@$0A@$0A@@_STL@@2RCRAV_Node_alloc_obj@2@C")

@@ -15,7 +15,8 @@ public:
 };
 
 extern int g_bfmeVftAVHW[];
-extern int g_bfmeVftBVHW[];
+// 0xCE3B38, the vtable already emitted as ??_7Rva0066D950@@6B@ (data ledger).
+extern "C" int __identifier("??_7Rva0066D950@@6B@")[];
 
 class BfmeThingVHW
 {
@@ -75,5 +76,13 @@ void BfmeThingVHW::bfmeClearVHW()
 	m_bfme3c.bfmeClearAVHW();
 	m_bfme1c.bfmeClearBVHW();
 	m_bfme10.bfmeClearBVHW();
-	m_bfmeVfptr = g_bfmeVftBVHW;
+	m_bfmeVfptr = __identifier("??_7Rva0066D950@@6B@");
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??1Rva00801FB0Elem@@QAE@XZ=?bfmeClearVHW@BfmeThingVHW@@QAEXXZ")
+
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
+#pragma comment(linker, "/alternatename:?g_bfmeVftAVHW@@3PAHA=??_7Rva00801FB0Elem@@6B@")

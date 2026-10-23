@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /arch:SSE
+// cl: /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??1W3DFloorDrawModuleData@@UAE@XZ, retail 0x000CF6C3, 80 bytes.
@@ -12,7 +12,14 @@
 // and condition elements remain unproven.
 #include <vector>
 
-struct BfmeE16 { float x, y, z, w; };
+#include "../../../../../../Libraries/Include/Lib/BfmeE16.h"
+// Storage deallocation cannot throw; keep the STLport cleanup inline.
+namespace _STL {
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline _Vector_base<BfmeE16, allocator<BfmeE16> >::~_Vector_base()
+{ if (this->_M_start != 0) this->_M_end_of_storage.deallocate(this->_M_start, this->_M_end_of_storage._M_data - this->_M_start); }
+template <> __declspec(dllimport) __forceinline vector<BfmeE16, allocator<BfmeE16> >::~vector()
+{ _Destroy(this->_M_start, this->_M_finish); }
+}
 
 class CameraMarker
 {
@@ -48,3 +55,8 @@ private:
 W3DFloorDrawModuleData::~W3DFloorDrawModuleData()
 {
 }
+// bfme link decl-only begin
+namespace _STL { template <> void _Destroy<CameraMarker *>(CameraMarker *,CameraMarker *); }
+namespace _STL { template <> void __destroy<CameraMarker *,CameraMarker>(CameraMarker *,CameraMarker *,CameraMarker *); }
+namespace _STL { template <> void __destroy_aux<CameraMarker *>(CameraMarker *,CameraMarker *,_STL::__false_type const &); }
+// bfme link decl-only end

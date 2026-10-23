@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE2
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 // ?GetGameLogicRandomValueReal@@YAMMMPADH@Z @ 0x00234092 (127B) trial port
 // from Open-BFME-1 Code/GameEngine/Source/Common/System/random_value.cpp
 // (GetGameLogicRandomValueReal). Dedicated TU mirroring the landed
@@ -8,7 +8,8 @@ typedef float Real;
 typedef unsigned int UnsignedInt;
 typedef void FILE;
 
-static const Real theMultFactor = 1.0f / 4294967295.0f;
+// Shared writable multiplier initialized by RandomValueMultFactorInit.cpp.
+extern "C" Real theMultFactor;
 
 static UnsignedInt theGameLogicSeed[6] =
 {

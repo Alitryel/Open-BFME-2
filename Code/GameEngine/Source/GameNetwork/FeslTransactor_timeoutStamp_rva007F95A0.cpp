@@ -1,4 +1,4 @@
-// cl: /O2 /GX- /GS-
+// cl: /GX- /GS-
 // Retail 0x007F95A0 is the FESL request-slot timeout stamp helper.  The
 // direct call from the fresh 0x007FA4D0 body supplies a slot and timeout;
 // 0x007FA170 and 0x007FA240 establish the same slot stride and watermark
@@ -13,7 +13,7 @@ public:
 	virtual int v2();
 };
 
-Rva007E9B70Obj *Rva007E9B70Get();
+extern int Rva00656B60Get();
 
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -36,7 +36,7 @@ private:
 
 void Rva007FA2C0::rva007F95A0(Rva007FA170Slot *slot, unsigned timeout)
 {
-	unsigned now = (unsigned)Rva007E9B70Get()->v2();
+	unsigned now = (unsigned)((Rva007E9B70Obj *)Rva00656B60Get())->v2();
 	unsigned delay = timeout;
 	Rva007FA170Slot *target = slot;
 	_ReadWriteBarrier();

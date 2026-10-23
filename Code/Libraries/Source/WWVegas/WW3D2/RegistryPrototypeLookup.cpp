@@ -39,7 +39,7 @@ public:
 	Rva009EBCE0AssetReference Rva009EEC60_FindAsset( const char *name );
 };
 
-extern Rva009EEC60Registry *Rva00F4FAACRegistry;
+extern class Q1Receiver0134FAAC *TheQ1Receiver;
 
 Rva009EBCE0AssetReference Rva009EBCE0_GetPrototype( const char *name )
 {
@@ -48,7 +48,7 @@ Rva009EBCE0AssetReference Rva009EBCE0_GetPrototype( const char *name )
 		return Rva009EBCE0AssetReference();
 	}
 
-	return Rva00F4FAACRegistry
-		? Rva00F4FAACRegistry->Rva009EEC60_FindAsset( name )
+	return ((Rva009EEC60Registry *)TheQ1Receiver)
+		? ((Rva009EEC60Registry *)TheQ1Receiver)->Rva009EEC60_FindAsset( name )
 		: Rva009EBCE0AssetReference();
 }

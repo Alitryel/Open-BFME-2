@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /MD /O2 /Ob2 /EHsc
+// cl: /DNDEBUG /MD /Ob2 /EHsc
 //
 // ShareBufferClass<VertexMaterialClass*>::ShareBufferClass, retail
 // 0x0015AB50 (175 bytes). Direct port of the reference ShaderClass copy
@@ -10,6 +10,7 @@
 
 class VertexMaterialClass;
 
+#pragma optimize("s", on)
 class RefCountClass
 {
 public:
@@ -23,12 +24,14 @@ protected:
 private:
 	int m_refs;
 };
+#pragma optimize("", on)
 
 template <class T>
 class ShareBufferClass : public RefCountClass
 {
 public:
 	ShareBufferClass(const ShareBufferClass &that);
+	~ShareBufferClass();
 
 protected:
 	T *m_rawBuffer; // +0x08

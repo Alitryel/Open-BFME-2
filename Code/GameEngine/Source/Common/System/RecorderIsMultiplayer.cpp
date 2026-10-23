@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 // ?isMultiplayer@RecorderClass@@QAE_NXZ @0x37B18C (110B):
 // RecorderClass::isMultiplayer. BFME1 Recorder_isMultiplayer.cpp shape with
@@ -45,7 +45,8 @@ extern GameLogic *TheGameLogic;
 class NetworkInterface;
 extern NetworkInterface *TheNetwork;
 
-extern GameInfo *TheSkirmishGameInfo;
+// 0x00A02EF0 is TheSkirmishGameInfo, defined in SkirmishGameOptionsMenu.cpp.
+class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
 
 class RecorderClass
 {
@@ -78,7 +79,7 @@ Bool RecorderClass::isMultiplayer(void)
 		return false;
 	if (game->m_unk114 != 3)
 		return true;
-	if (TheNetwork || TheSkirmishGameInfo)
+	if (TheNetwork || (*(GameInfo * *)&TheSkirmishGameInfo))
 		return true;
 	return false;
 }

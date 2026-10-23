@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /Ireference/shims/bfmecamera /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/GameEngine/Source/Common
+// cl: /Ireference/shims/bfme2_ascii /G7 /arch:SSE /Ireference/shims/bfmecamera /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/GameEngine/Source/Common
 // Open-BFME5 conversions.
 
 class BfmeTab1052
@@ -63,17 +63,7 @@ enum SlotState
 #include "string_base.h"
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/UnicodeString.h
-class UnicodeString : private StringBase<unsigned short>
-{
-public:
-	UnicodeString(const UnicodeString &other)
-		: StringBase<unsigned short>(other)
-	{
-	}
-	~UnicodeString()
-	{
-	}
-};
+#include "unicode_string.h"
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork/GameInfo.h
 struct GameSlotConnectInfo
@@ -127,7 +117,6 @@ public:
 	int bfmeFind1052(char *n, int f);
 };
 
-extern char g_bfmeName1052[];
 
 class BfmeH1052
 {
@@ -138,7 +127,7 @@ public:
 
 void BfmeH1052::bfmeGo1052H(BfmeI1052 *p)
 {
-	bfmeDo1052(0, p, p->bfmeFind1052(g_bfmeName1052, 0));
+	bfmeDo1052(0, p, p->bfmeFind1052((char *)"TID", 0));
 }
 
 class BfmeK1052

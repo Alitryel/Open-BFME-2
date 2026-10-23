@@ -1,4 +1,4 @@
-// cl: /O1 /MD /GX /arch:SSE /DNDEBUG /Oy-
+// cl: /MD /GX /DNDEBUG
 //
 // ??0RespawnBodyModuleData@@QAE@XZ, retail 0x004C14DF (110 bytes).
 // SupplyTruck-based respawn data: the pinned SupplyTruck base ctor runs
@@ -16,6 +16,8 @@
 // AODCrushCollideModuleDataCtor precedent: virtual class with a
 // declared-only virtual dtor emits the vtable store mid-init, and an empty
 // base with a declared-only dtor brackets EH state 0 with no code.
+
+extern unsigned char g_00DFEFA4StoragePrototype[28];
 
 class BfmeFixedStorage0004543D
 {
@@ -68,7 +70,7 @@ private:
 RespawnBodyModuleData::RespawnBodyModuleData()
 {
 	m_permanentlyKilledByFilter.initFromStorages(
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(0x00DFEFA4)),
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(0x00DFEFA4)));
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)),
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)));
 	m_canRespawn = 1;
 }

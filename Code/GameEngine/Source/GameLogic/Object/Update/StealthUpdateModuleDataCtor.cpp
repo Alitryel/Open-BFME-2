@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /Oy- /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /O1 /arch:SSE /GX /MD /D_CRTIMP= /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/moduledata
 // stlport
 
 // ??0StealthUpdateModuleData@@QAE@XZ, retail 0x0037588B, 334 bytes.
@@ -24,16 +24,17 @@ namespace _STL {
 template<> bitset<128> &bitset<128>::reset();
 }
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	void clear();
-	~AsciiString();
+#include "ascii_string.h"
 
-private:
-	void *m_data;
-};
+// A declaration-only specialization stops this TU emitting its own
+// vector<AsciiString> dtor COMDAT, so the call binds the kept copy.
+namespace _STL {
+template <> vector<AsciiString, allocator<AsciiString> >::~vector();
+template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
+template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);
+template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
+template <> AsciiString *vector<AsciiString, allocator<AsciiString> >::erase(AsciiString*, AsciiString*);
+}
 
 class Bits10
 {
@@ -74,11 +75,16 @@ private:
 	int m_zero;
 };
 
+extern "C" const void *const vtbl_00C184D8[];  // ??_7StealthUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C184D8=??_7StealthUpdateModuleData@@6B@")
+
+#include "Common/Snapshot.h"
+
 class UpdateModuleData
 {
 public:
-	UpdateModuleData() {}
-	~UpdateModuleData();
+	__declspec(dllimport) __forceinline UpdateModuleData() {}
+	~UpdateModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 };
 
 class StealthUpdateModuleData : public UpdateModuleData
@@ -128,13 +134,14 @@ private:
 };
 
 // ??0StealthUpdateModuleData@@QAE@XZ @0x37588B
+// ?Rva004CEE6EMemberTracked::~Rva004CEE6EMemberTracked present-unmatched
 Rva004CEE6EMemberTracked::~Rva004CEE6EMemberTracked()
 {
 	m_minusOne = 0;
 }
 
 StealthUpdateModuleData::StealthUpdateModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C184D8))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C184D8)))
 	, m_flags08(-1)
 	, m_zero0C(0)
 	, m_speed20(0.0f)

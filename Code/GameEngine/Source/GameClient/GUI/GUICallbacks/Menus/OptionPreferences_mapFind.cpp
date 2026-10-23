@@ -1,4 +1,4 @@
-// cl: /O1 /GX- /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /GX- /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // Fold-duplicate of OptionPreferences_getCampaignDifficulty.cpp (same class,
@@ -9,6 +9,13 @@
 // less<> calls resolve through the primitive operator< pin at 0x5598C (23B
 // compare+setl); the pair-lexicographic helper at 0x206BCF is a different
 // function (it calls operator< thrice) and is pinned under its own name.
+
+// The preference TUs (SkirmishPreferences.cpp, GameSpyLoginPreferences.cpp,
+// OnlineMiscPref*.cpp, GameModePreferencesUserName.cpp) reach this worker
+// through a private throw() view, SkirmishFindMap::find, whose symbols.csv pin
+// is this same address (0x1F8437). Bind that spelling to the definition here
+// rather than emit a second body for one retail function.
+#pragma comment(linker, "/alternatename:?find@SkirmishFindMap@@QBEPAUSkirmishFindNode@@ABVAsciiString@@@Z=??$_M_find@VAsciiString@@@?$_Rb_tree@VAsciiString@@U?$pair@$$CBVAsciiString@@V1@@_STL@@U?$_Select1st@U?$pair@$$CBVAsciiString@@V1@@_STL@@@3@U?$less@VAsciiString@@@3@V?$allocator@U?$pair@$$CBVAsciiString@@V1@@_STL@@@3@@_STL@@ABEPAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@V1@@_STL@@@1@ABVAsciiString@@@Z")
 
 #include <map>
 #include <stdlib.h>
@@ -25,27 +32,8 @@ template <typename T> struct BfmeStringData
 	T text[1];
 };
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-private:
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	~StringBase() { releaseBuffer(); }
-	void releaseBuffer();
-	BfmeStringData<T> *m_data;
+#include "ascii_string.h"
 
-public:
-	const T *str() const { return m_data ? &m_data->text[0] : (const T *)""; }
-};
-
-class AsciiString : private StringBase<char>
-{
-public:
-	AsciiString(const char *text) : StringBase<char>(text) {}
-	AsciiString(const AsciiString &other) : StringBase<char>(other) {}
-	~AsciiString() {}
-};
 
 bool operator<(const AsciiString &left, const AsciiString &right);
 
@@ -76,6 +64,12 @@ class ScriptEngine
 
 public:
 	GameDifficulty getGlobalDifficulty() const { return m_gameDifficulty; }
+	// LINK: same-body helper under a TU-unique name (identical inlined
+	// bytes). This TU's getGlobalDifficulty copy loses to the first-in-order
+	// copy (no retail address); the call below inlines it but still emits the
+	// loser COMDAT. Rebinding there emits only this unique (trivially kept)
+	// copy. No flags touched.
+	GameDifficulty bfme_global_difficulty() const { return m_gameDifficulty; }
 };
 
 extern ScriptEngine *TheScriptEngine;
@@ -94,7 +88,7 @@ Int OptionPreferences::getCampaignDifficulty(void)
 {
 	OptionPreferences::const_iterator it = find("CampaignDifficulty");
 	if (it == end())
-		return TheScriptEngine->getGlobalDifficulty();
+		return TheScriptEngine->bfme_global_difficulty();
 
 	Int factor = atoi(it->second.str());
 	if (factor < DIFFICULTY_EASY)
@@ -104,3 +98,7 @@ Int OptionPreferences::getCampaignDifficulty(void)
 
 	return factor;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?find@CustomPreferenceMapShim@@QAEPAUCustomMapNodeShim@@PAUCustomAsciiStringShim@@@Z=??$_M_find@VAsciiString@@@?$_Rb_tree@VAsciiString@@U?$pair@$$CBVAsciiString@@V1@@_STL@@U?$_Select1st@U?$pair@$$CBVAsciiString@@V1@@_STL@@@3@U?$less@VAsciiString@@@3@V?$allocator@U?$pair@$$CBVAsciiString@@V1@@_STL@@@3@@_STL@@ABEPAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@V1@@_STL@@@1@ABVAsciiString@@@Z")

@@ -17,3 +17,8 @@ void BfmeThingBLF::bfmeGoBLF(void *what)
 {
 	bfmeDoBLF(&m_bfmeSub, what, 0x20);
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeNoteVJI@BfmeSubVJI@@QAEXPBD@Z=?bfmeGoBLF@BfmeThingBLF@@QAEXPAX@Z")
+#pragma comment(linker, "/alternatename:?bfmeDoBLF@@YAXPAUBfmeSubBLF@@PAXH@Z=?ji_0062983e@@YAXXZ")

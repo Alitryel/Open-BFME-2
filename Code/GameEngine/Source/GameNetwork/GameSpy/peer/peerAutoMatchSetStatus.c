@@ -1,4 +1,4 @@
-// cl: /O2 /Ob2 /DNDEBUG /MD
+// cl: /Ob2 /DNDEBUG /MD
 /* GameSpy Peer SDK -- peerAutoMatch.c */
 
 typedef int PEERBool;
@@ -36,7 +36,9 @@ void piLeaveRoom(PEER peer, int roomType, const char *reason);
 int piCountRoomOps(PEER peer, int roomType, const char *nick);
 PEERBool piSBStartListingAutoMatches(PEER peer);
 PEERBool piStartAutoMatchReporting(PEER peer);
-extern __declspec(dllimport) void __cdecl gsifree(void *memory);
+/* Match the peerAutoMatchClean sibling: retail imports msvcr71!free here. */
+#define gsifree free
+extern __declspec(dllimport) void __cdecl free(void *memory);
 void piRemoveOperation(PEER peer, void *operation);
 
 static __declspec(noinline) void piCleanAutoMatch(PEER peer)

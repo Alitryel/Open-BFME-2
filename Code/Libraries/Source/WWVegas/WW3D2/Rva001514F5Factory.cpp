@@ -1,11 +1,17 @@
-// cl: /O1 /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS
 //
-// ?Rva001514F5_MakeOwner@@YA?AVRva0015145C@@PBD@Z @ 0x001514F5 (94 bytes).
+// ?Get@FXShaderAsset@@SA?AVRva0015145C@@PBD@Z @ 0x001514F5 (94 bytes).
 // Registry-owner factory (mixed named-return plus temporary-return recipe,
 // as the landed 0x0017FC1E/0x0014CF01 factories). Owner copy ctor pinned at
 // 0x0015145C.
 
 class HierarchyPrototype
+{
+public:
+	void Release_Ref();
+};
+
+class TextureClass
 {
 public:
 	void Release_Ref();
@@ -17,7 +23,7 @@ public:
 	~HierarchyPrototypeRef()
 	{
 		if (m_object != 0)
-			m_object->Release_Ref();
+			((TextureClass *)m_object)->Release_Ref();
 	}
 
 private:
@@ -40,8 +46,14 @@ public:
 
 extern HierarchyPrototypeRef __cdecl Rva0061F230_GetPrototype(const char *name);
 
-// ?Rva001514F5_MakeOwner@@YA?AVRva0015145C@@PBD@Z
-Rva0015145C Rva001514F5_MakeOwner(const char *name)
+// ?Get@FXShaderAsset@@SA?AVRva0015145C@@PBD@Z
+class FXShaderAsset
+{
+public:
+	static Rva0015145C Get(const char *name);
+};
+// WorldBuilder FXShaderAsset::Get, WB VA 0x009F7700 (callgraph lead, score 2.0).
+Rva0015145C FXShaderAsset::Get(const char *name)
 {
 	if (name == 0)
 	{

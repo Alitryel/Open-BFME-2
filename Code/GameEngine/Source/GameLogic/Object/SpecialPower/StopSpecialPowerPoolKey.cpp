@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004C67DB@StopSpecialPower@@SA?AW4NameKeyType@@XZ @0x4C67DB
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@StopSpecialPower@@UBE?AW4NameKeyType@@XZ @0x4C67DB
 // (69B): cached pool-name key for StopSpecialPower. The class
 // identity comes from the pool-name string the body pushes
 // ("StopSpecialPower"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class StopSpecialPower
 {
 public:
-	static NameKeyType rva0004C67DB();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004C67DB@StopSpecialPower@@SA?AW4NameKeyType@@XZ
-NameKeyType StopSpecialPower::rva0004C67DB()
+// ?getModuleNameKey@StopSpecialPower@@UBE?AW4NameKeyType@@XZ
+NameKeyType StopSpecialPower::getModuleNameKey() const
 {
 	static NameKeyType TheStopSpecialPowerPoolKey =
 		TheNameKeyGenerator->nameToKey("StopSpecialPower");

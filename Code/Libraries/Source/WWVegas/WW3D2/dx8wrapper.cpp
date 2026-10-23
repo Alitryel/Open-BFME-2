@@ -1,4 +1,23 @@
-// cl: /Ireference/shims/bfmestages /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /Ireference/shims/bfmeshader /FIshader.h /DBFME_WWSTRING_NATIVE_CSTR_CONSTRUCTOR /DBFME_WWSTRING_INLINE_CSTR_ASSIGN /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/zhmd /Ireference/shims/bfmestages /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+
+// BFME 2 has no W3D memory pools (see Code/Libraries/Source/WWVegas/WWLib/always.h).
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it; retail links the
+// /O1 body at 0x00001423. Instantiate it first in an unemitted anchor (the
+// lookuptable.cpp pattern) so this unit's copy is that body.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+#include "always.h"
+#undef W3DMPO_GLUE
+#define W3DMPO_GLUE(ARGCLASS)
+#define Matrix4x4 Matrix4  // BFME renamed it; the ledger and every caller spell Matrix4
 // Ported verbatim from the Generals Zero Hour reference
 // (Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp); this unit had no counterpart under Code/.
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
@@ -49,7 +68,13 @@
 //#define CREATE_DX8_FPU_PRESERVE
 #define WW3D_DEVTYPE D3DDEVTYPE_HAL
 
-#include "dx8wrapper.h"
+// Every DX8CALL here inlines DX8_ErrorCode; retail's out-of-line copy is the /O1 body
+// at 0x00042F73 (texture.cpp), so this unit inlines the header body without emitting one.
+__declspec(dllimport) void DX8_ErrorCode(unsigned res);
+#include "../../../../../reference/shims/bfme_matrix4_rows_link/matrix4_zh_rows_link.h"	// Matrix4() as retail's size-optimized copy (line count kept)
+// Retail owns the snapshot-aware outlined texture-stage setter separately.
+#include "../../../../../reference/shims/bfme_dx8wrapper_home_link/dx8wrapper.h"
+
 #include "dx8webbrowser.h"
 #include "dx8fvf.h"
 #include "dx8vertexbuffer.h"
@@ -86,6 +111,16 @@
 #include "dx8webbrowser.h"
 
 #include "shdlib.h"
+
+// Set_Gamma inlines Bound<float>, yet this /O2 unit still emitted an unreferenced
+// frameless copy; retail's body is the /O1 0x0006599E (DX8WrapperO1Inlines.cpp).
+// Inline the stock body here without emitting a copy.
+template<> __declspec(dllimport) __forceinline float Bound<float>(float original, float minval, float maxval)
+{
+	if (original < minval) return(minval);
+	if (original > maxval) return(maxval);
+	return(original);
+}
 
 template<>
 VectorClass<ResolutionDescClass> &VectorClass<ResolutionDescClass>::operator =(
@@ -164,7 +199,12 @@ bool								DX8Wrapper::world_identity;
 unsigned							DX8Wrapper::RenderStates[256];
 unsigned							DX8Wrapper::TextureStageStates[MAX_TEXTURE_STAGES][32];
 IDirect3DBaseTexture8 *		DX8Wrapper::Textures[MAX_TEXTURE_STAGES];
+// Retail keeps render_state in zero .bss and constructs it at startup (the rowed
+// initializer 0x007ACC20 calls the out-of-line constructor 0x0011FB40); without
+// inlining here the constructor is not folded into initialized data either.
+#pragma inline_depth(0)
 RenderStateStruct				DX8Wrapper::render_state;
+#pragma inline_depth()
 unsigned							DX8Wrapper::render_state_changed;
 
 bool								DX8Wrapper::FogEnable									= false;
@@ -225,6 +265,8 @@ static D3DPRESENT_PARAMETERS								_PresentParameters;
 static DynamicVectorClass<StringClass>					_RenderDeviceNameTable;
 static DynamicVectorClass<StringClass>					_RenderDeviceShortNameTable;
 static DynamicVectorClass<RenderDeviceDescClass>	_RenderDeviceDescriptionTable;
+// After the render-device tables: its initializer comes later in the unit's _$E sequence.
+Matrix4x4						DX8Wrapper::DeviceProjectionMatrix;
 
 
 typedef IDirect3D8* (WINAPI *Direct3DCreate8Type) (UINT SDKVersion);
@@ -241,187 +283,12 @@ DX8_Stats	 DX8Wrapper::stats;
 **
 ***********************************************************************************/
 
-void Log_DX8_ErrorCode(unsigned res)
-{
-	char tmp[256]="";
-
-	HRESULT new_res=D3DXGetErrorStringA(
-		res,
-		tmp,
-		sizeof(tmp));
-
-	if (new_res==D3D_OK) {
-		WWDEBUG_SAY((tmp));
-	}
-
-	WWASSERT(0);
-}
-
-void Non_Fatal_Log_DX8_ErrorCode(unsigned res,const char * file,int line)
-{
-	char tmp[256]="";
-
-	HRESULT new_res=D3DXGetErrorStringA(
-		res,
-		tmp,
-		sizeof(tmp));
-
-	if (new_res==D3D_OK) {
-		WWDEBUG_SAY(("DX8 Error: %s, File: %s, Line: %d\n",tmp,file,line));
-	}
-}
+// Log_DX8_ErrorCode: defined in Log_DX8_ErrorCode.cpp (its row's unit).
 
 
 
-// ?Init@DX8Wrapper@@ present-unmatched
-bool DX8Wrapper::Init(void * hwnd, bool lite)
-{
-	WWASSERT(!IsInitted);
-
-	// zero memory
-	memset(Textures,0,sizeof(IDirect3DBaseTexture8*)*MAX_TEXTURE_STAGES);
-	memset(RenderStates,0,sizeof(unsigned)*256);
-	memset(TextureStageStates,0,sizeof(unsigned)*32*MAX_TEXTURE_STAGES);
-	memset(Vertex_Shader_Constants,0,sizeof(Vector4)*MAX_VERTEX_SHADER_CONSTANTS);
-	memset(Pixel_Shader_Constants,0,sizeof(Vector4)*MAX_PIXEL_SHADER_CONSTANTS);
-	memset(&render_state,0,sizeof(RenderStateStruct));
-	memset(Shadow_Map,0,sizeof(ZTextureClass*)*MAX_SHADOW_MAPS);
-
-	/*
-	** Initialize all variables!
-	*/
-	_Hwnd = (HWND)hwnd;
-	_MainThreadID=ThreadClass::_Get_Current_Thread_ID();
-	WWDEBUG_SAY(("DX8Wrapper main thread: 0x%x\n",_MainThreadID));
-	CurRenderDevice = -1;
-	ResolutionWidth = DEFAULT_RESOLUTION_WIDTH;
-	ResolutionHeight = DEFAULT_RESOLUTION_HEIGHT;
-	// Initialize Render2DClass Screen Resolution
-	Render2DClass::Set_Screen_Resolution( RectClass( 0, 0, ResolutionWidth, ResolutionHeight ) );
-	BitDepth = DEFAULT_BIT_DEPTH;
-	IsWindowed = false;	
-	DX8Wrapper_IsWindowed = false;
-
-	for (int light=0;light<4;++light) CurrentDX8LightEnables[light]=false;
-
-	::ZeroMemory(&old_world, sizeof(D3DMATRIX));
-	::ZeroMemory(&old_view, sizeof(D3DMATRIX));
-	::ZeroMemory(&old_prj, sizeof(D3DMATRIX));
-
-	//old_vertex_shader; TODO
-	//old_sr_shader;
-	//current_shader;
-
-	//world_identity;
-	//CurrentFogColor;
-
-	D3DInterface = NULL;
-	D3DDevice = NULL;
-
-	WWDEBUG_SAY(("Reset DX8Wrapper statistics\n"));
-	Reset_Statistics();
-
-	Invalidate_Cached_Render_States();
-
-	if (!lite) {
-		D3D8Lib = LoadLibrary("D3D8.DLL");
-
-		if (D3D8Lib == NULL) return false;	// Return false at this point if init failed
-
-		Direct3DCreate8Ptr = (Direct3DCreate8Type) GetProcAddress(D3D8Lib, "Direct3DCreate8");
-		if (Direct3DCreate8Ptr == NULL) return false;
-
-		/*
-		** Create the D3D interface object
-		*/
-		WWDEBUG_SAY(("Create Direct3D8\n"));
-		D3DInterface = Direct3DCreate8Ptr(D3D_SDK_VERSION);		// TODO: handle failure cases...
-		if (D3DInterface == NULL) {
-			return(false);
-		}
-		IsInitted = true;
-
-		/*
-		** Enumerate the available devices
-		*/
-		WWDEBUG_SAY(("Enumerate devices\n"));
-		Enumerate_Devices();
-		WWDEBUG_SAY(("DX8Wrapper Init completed\n"));
-	}
-
-	return(true);
-}
-
-// ?Shutdown@DX8Wrapper@@ present-unmatched
-void DX8Wrapper::Shutdown(void)
-{
-	if (D3DDevice) {
-
-		Set_Render_Target ((IDirect3DSurface8 *)NULL);
-		Release_Device();
-	}
-
-	if (D3DInterface) {
-		D3DInterface->Release();
-		D3DInterface=NULL;
-
-	}
-
-	if (CurrentCaps)
-	{
-		int max=CurrentCaps->Get_Max_Textures_Per_Pass();
-		for (int i = 0; i < max; i++) 
-		{
-			if (Textures[i]) 
-			{
-				Textures[i]->Release();
-				Textures[i] = NULL;
-			}
-		}
-	}
-
-	if (D3DInterface) {
-		UINT newRefCount=D3DInterface->Release();
-		D3DInterface=NULL;
-	}
-
-	if (D3D8Lib) {
-		FreeLibrary(D3D8Lib);
-		D3D8Lib = NULL;
-	}
-
-	_RenderDeviceNameTable.Clear();		 // note - Delete_All() resizes the vector, causing a reallocation.  Clear is better. jba.
-	_RenderDeviceShortNameTable.Clear();
-	_RenderDeviceDescriptionTable.Clear();	
-
-	DX8Caps::Shutdown();
-	IsInitted = false;		// 010803 srj
-}
-
-// ?Do_Onetime_Device_Dependent_Inits@DX8Wrapper@@ present-unmatched
-void DX8Wrapper::Do_Onetime_Device_Dependent_Inits(void)
-{
-	/*
-	** Set Global render states (some of which depend on caps)
-	*/
-	Compute_Caps(D3DFormat_To_WW3DFormat(DisplayFormat));
-
-   /*
-	** Initalize any other subsystems inside of WW3D
-	*/
-	MissingTexture::_Init();
-	TextureFilterClass::_Init_Filters((TextureFilterClass::TextureFilterMode)WW3D::Get_Texture_Filter());
-	TheDX8MeshRenderer.Init();
-	SHD_INIT;
-	BoxRenderObjClass::Init();
-	VertexMaterialClass::Init();
-	// This needs the VertexMaterialClass to be initted.
-	PointGroupClass::_Init();
-	ShatterSystem::Init();
-	TextureLoader::Init();
-
-	Set_Default_Global_Render_States();
-}
+// DX8Wrapper::Do_Onetime_Device_Dependent_Inits: BFME 2's body is the row 0x001245A0 in
+// DX8Wrapper_Do_Onetime_Device_Dependent_Inits.cpp; Zero Hour's copy here duplicated it.
 
 inline DWORD F2DW(float f) { return *((unsigned*)&f); }
 // Defined further down this same TU; declared here because the call below
@@ -486,7 +353,7 @@ struct DX8WrapperStageHelper : public DX8Wrapper
 // Release view for the out-of-line TextureBaseClass::Release_Ref
 // (0x0061ED10); declared early for Invalidate_Cached_Render_States below.
 // Full family comment sits with the Bfme reset views further down.
-struct BfmeResetResource { void Release_Ref(); };
+struct BfmeResetResource { void Add_Ref(); void Release_Ref(); };
 
 // Retail sets this byte while releasing the current render-state buffers
 // (store site 0x0051FD3F). The converted BFME1 tree carries it as an
@@ -497,18 +364,18 @@ static unsigned char g_rva00DB621CFlag;
 // body (see the converted BFME1 dx8wrapper.cpp) with the texture-stage half
 // extracted into the helper above, which retail calls.
 // Retail zeroes render_state_changed and then the cold dword at 0x00DEDA14
-// (named g_Va00DEDA14 in ColdGlobalDwordGetters.cpp), not
+// (Light_Environment; ColdGlobalDwordGetters.cpp reads it as a dword), not
 // texture_stage_state_changes, which lives at 0x00DEDA68.
-extern int g_Va00DEDA14;
-// Retail byte at VA 0x00DEDA20 (RVA 0x009EDA20) written by 0x00125430;
-// no donor or getter claims it so the VA-derived name asserts only the address.
-extern unsigned char g_Va00DEDA20;
+// Retail byte at VA 0x00DEDA20 (RVA 0x009EDA20), written by 0x00125430, is
+// bfmeSkipFixedFunctionState (defined below), the flag Set_Light_Environment
+// and Apply_Render_State_Changes test.
+extern bool bfmeSkipFixedFunctionState;
 
 void DX8Wrapper::Invalidate_Cached_Render_States(void)
 {
 	unsigned zero=0;
 	render_state_changed=zero;
-	g_Va00DEDA14=zero;
+	Light_Environment=(LightEnvironmentClass*)zero;
 
 	unsigned a;
 	for (a=0;a<sizeof(RenderStates)/sizeof(unsigned);++a) {
@@ -550,43 +417,6 @@ void DX8Wrapper::Invalidate_Cached_Render_States(void)
 	}
 
 }
-
-// ?Do_Onetime_Device_Dependent_Shutdowns@DX8Wrapper@@ present-unmatched
-void DX8Wrapper::Do_Onetime_Device_Dependent_Shutdowns(void)
-{
-	/*
-	** Shutdown ww3d systems
-	*/
-	int i;
-	for (i=0;i<MAX_VERTEX_STREAMS;++i) {
-		if (render_state.vertex_buffers[i]) render_state.vertex_buffers[i]->Release_Engine_Ref();
-		REF_PTR_RELEASE(render_state.vertex_buffers[i]);
-	}
-	if (render_state.index_buffer) render_state.index_buffer->Release_Engine_Ref();
-	REF_PTR_RELEASE(render_state.index_buffer);
-	REF_PTR_RELEASE(render_state.material);
-	for (i=0;i<CurrentCaps->Get_Max_Textures_Per_Pass();++i) REF_PTR_RELEASE(render_state.Textures[i]);
-
-
-	TextureLoader::Deinit();
-	SortingRendererClass::Deinit();
-	DynamicVBAccessClass::_Deinit();
-	DynamicIBAccessClass::_Deinit();
-	ShatterSystem::Shutdown();
-	PointGroupClass::_Shutdown();
-	VertexMaterialClass::Shutdown();
-	BoxRenderObjClass::Shutdown();
-	SHD_SHUTDOWN;
-	TheDX8MeshRenderer.Shutdown();
-	MissingTexture::_Deinit();
-
-	if (CurrentCaps) {
-		delete CurrentCaps;
-		CurrentCaps=NULL;
-	}
-
-}
-
 
 // BFME2 Create_Device consumes D3D9 capabilities and adapter identifiers.
 // Its stack and zero-fill prove a 304-byte caps block and a 1100-byte adapter
@@ -812,20 +642,22 @@ public:
 	virtual void reserved4()=0;
 	virtual void reserved5()=0;
 	virtual void reserved6()=0;
-	virtual void reserved7()=0;
-	virtual void reserved8()=0;
-	virtual void reserved9()=0;
-	virtual void reserved10()=0;
-	virtual void reserved11()=0;
-	virtual void reserved12()=0;
-	virtual void reserved13()=0;
+	// VC7.1 lays an overload group out at its first slot in reverse
+	// declaration order: double at 0x1C through const char * at 0x38.
 	virtual BfmeResetDebug &operator<<(const char *)=0;
+	virtual BfmeResetDebug &operator<<(int)=0;
+	virtual BfmeResetDebug &operator<<(unsigned)=0;
+	virtual BfmeResetDebug &operator<<(long)=0;
+	virtual BfmeResetDebug &operator<<(unsigned long)=0;
+	virtual BfmeResetDebug &operator<<(bool)=0;
+	virtual BfmeResetDebug &operator<<(float)=0;
+	virtual BfmeResetDebug &operator<<(double)=0;
 	virtual void reserved15()=0;
 	virtual void reserved16()=0;
 	virtual void reserved17()=0;
 	virtual void reserved18()=0;
 	virtual void CrashDone(bool)=0;
-	virtual void reserved20()=0;
+	virtual void SetPrefixAndRadix(const char *,int)=0;
 	virtual void reserved21()=0;
 	virtual void reserved22()=0;
 	virtual void SetCrashAddress(void *,bool)=0;
@@ -833,7 +665,16 @@ public:
 	virtual void reserved25()=0;
 	virtual void reserved26()=0;
 	virtual BfmeResetDebug &CrashBegin(const char *,int,const char *)=0;
+	virtual void reserved28()=0;
+	virtual void reserved29()=0;
+	typedef bool (*HResultTranslator)(BfmeResetDebug &,long,void *);
+	virtual void AddHResultTranslator(unsigned,HResultTranslator,void *)=0;
 	static bool SkipNext(bool);
+
+	class Hex {};
+	class Dec {};
+	BfmeResetDebug &operator<<(const Hex &) { SetPrefixAndRadix("0x",16); return *this; }
+	BfmeResetDebug &operator<<(const Dec &) { SetPrefixAndRadix("",10); return *this; }
 };
 extern BfmeResetDebug *BfmeResetDebugInstance;
 
@@ -938,7 +779,7 @@ bool DX8Wrapper::Reset_Device(bool reload_assets)
 		if (m_pCleanupHook) m_pCleanupHook->ReleaseResources();
 		DynamicVBAccessClass::_Deinit();
 		DynamicIBAccessClass::_Deinit();
-		bfmeBeginResourceEnumeration(0x544558);
+		bfmeBeginResourceEnumeration('TEX');
 		BfmeResetTextureRef texture;
 		while (texture=bfmeNextResource()) texture.Release_Device_Resources();
 		bfmeBeginResourceEnumeration(0x46585348);
@@ -956,7 +797,7 @@ bool DX8Wrapper::Reset_Device(bool reload_assets)
 			number_of_DX8_calls++;
 			bfmeResetAttempts++;
 			if (hr!=D3D_OK) {
-				StringClass message("Device reset failed: ");
+				StringClass message("Device reset failed: ", false, StringClass::COPY_NATIVE);
 				message+=bfmeDirectXErrorName(hr);
 				message+="\n";
 				if (bfmeResetAttempts>=50) {
@@ -970,7 +811,7 @@ bool DX8Wrapper::Reset_Device(bool reload_assets)
 		} else return false;
 		bfmeResetAttempts=0;
 		if (reload_assets) {
-			bfmeBeginResourceEnumeration(0x544558);
+			bfmeBeginResourceEnumeration('TEX');
 			BfmeResetTextureRef texture;
 			while (texture=bfmeNextResource()) texture.Recreate_Device_Resources();
 			bfmeBeginResourceEnumeration(0x46585348);
@@ -985,18 +826,24 @@ bool DX8Wrapper::Reset_Device(bool reload_assets)
 	}
 	return false;
 }
-// ?Release_Device@DX8Wrapper@@ present-unmatched
+// BFME2 dispatches these methods through D3D9 slots while the shared shim has the D3D8 layout.
+typedef HRESULT (__stdcall *BfmeD3D9SetTextureProc)(IDirect3DDevice8 *, DWORD, IDirect3DBaseTexture8 *);
+typedef HRESULT (__stdcall *BfmeD3D9SetStreamSourceProc)(IDirect3DDevice8 *, UINT, IDirect3DVertexBuffer8 *, UINT, UINT);
+typedef HRESULT (__stdcall *BfmeD3D9SetIndicesProc)(IDirect3DDevice8 *, IDirect3DIndexBuffer8 *);
 void DX8Wrapper::Release_Device(void)
 {
 	if (D3DDevice) {
 
 		for (int a=0;a<MAX_TEXTURE_STAGES;++a)
 		{	//release references to any textures that were used in last rendering call
-			DX8CALL(SetTexture(a,NULL));
+			(*(BfmeD3D9SetTextureProc **)D3DDevice)[0x104 / 4](D3DDevice, a, NULL);
+			number_of_DX8_calls++;
 		}
 
-		DX8CALL(SetStreamSource(0, NULL, 0));	//release reference count on last rendered vertex buffer
-		DX8CALL(SetIndices(NULL,0));	//release reference count on last rendered index buffer
+		(*(BfmeD3D9SetStreamSourceProc **)D3DDevice)[0x190 / 4](D3DDevice, 0, NULL, 0, 0);
+			number_of_DX8_calls++;	//release reference count on last rendered vertex buffer
+		(*(BfmeD3D9SetIndicesProc **)D3DDevice)[0x1A0 / 4](D3DDevice, NULL);
+			number_of_DX8_calls++;	//release reference count on last rendered index buffer
 
 
 		/*
@@ -1005,10 +852,16 @@ void DX8Wrapper::Release_Device(void)
 		for (unsigned i=0;i<MAX_VERTEX_STREAMS;++i) 
 		{
 			if (render_state.vertex_buffers[i]) render_state.vertex_buffers[i]->Release_Engine_Ref();
-			REF_PTR_RELEASE(render_state.vertex_buffers[i]);
+			if (render_state.vertex_buffers[i]) {
+				render_state.vertex_buffers[i]->Release_Ref();
+				render_state.vertex_buffers[i] = NULL;
+			}
 		}
 		if (render_state.index_buffer) render_state.index_buffer->Release_Engine_Ref();
-		REF_PTR_RELEASE(render_state.index_buffer);
+		if (render_state.index_buffer) {
+			render_state.index_buffer->Release_Ref();
+			render_state.index_buffer = NULL;
+		}
 
 		/*
 		** Shutdown all subsystems
@@ -1142,7 +995,7 @@ inline void BfmeEnumerationDesc::add_resolution(int w,int h,int bits)
 
 // This view has the fully proven 0x2E4 DX8Caps layout, including its three
 // StringClass members. Construction calls the verified caps-copy constructor.
-struct BfmeEnumerationCaps {
+struct BfmeEnumerationCaps { int GetMaxTextures() const {return MaxTexturesPerPass;}
  BfmeEnumerationCaps(IDirect3D8 *,const BFME_DeviceCaps9 &,WW3DFormat,const BFME_AdapterIdentifier9 &);
  bool Is_Valid_Display_Format(int,int,D3DFORMAT);
 	int MaxDisplayWidth;
@@ -1205,8 +1058,8 @@ void DX8Wrapper::Enumerate_Devices()
 			** TODO: Fill in more fields of the render device description?  (need some lookup tables)
 			*/
 			BfmeEnumerationDesc desc;
-			desc.set_device_name(id.Description);
-			desc.set_driver_name(id.Driver);
+			desc.DeviceName.bfmeAssignInline(id.Description);
+			desc.DriverName.bfmeAssignInline(id.Driver);
 
 			char buf[64];
 			sprintf(buf,"%d.%d.%d.%d", //"%04x.%04x.%04x.%04x",
@@ -1215,7 +1068,7 @@ void DX8Wrapper::Enumerate_Devices()
 				HIWORD(id.DriverVersion.LowPart),
 				LOWORD(id.DriverVersion.LowPart));
 
-			desc.set_driver_version(buf);
+			desc.DriverVersion.bfmeAssignInline(buf);
 
 			reinterpret_cast<BFME_Direct3D9 *>(D3DInterface)->GetDeviceCaps(adapter_index,WW3D_DEVTYPE,&desc.Caps);
 			reinterpret_cast<BFME_Direct3D9 *>(D3DInterface)->GetAdapterIdentifier(adapter_index,0,&desc.AdapterIdentifier);
@@ -1272,7 +1125,7 @@ void DX8Wrapper::Enumerate_Devices()
 				/*
 				** Set up the device name
 				*/
-				StringClass device_name(id.Description,true);
+				StringClass device_name(id.Description,true,StringClass::COPY_INLINE);
 				_RenderDeviceNameTable.Add(device_name);
 				_RenderDeviceShortNameTable.Add(device_name);	// for now, just add the same name to the "pretty name table"
 
@@ -1340,9 +1193,11 @@ void DX8Wrapper::Get_Format_Name(unsigned int format, StringClass *tex_format)
 		case D3DFMT_P8: *tex_format="D3DFMT_P8"; break;
 		case D3DFMT_X8R8G8B8: *tex_format="D3DFMT_X8R8G8B8"; break;
 		case D3DFMT_X1R5G5B5: *tex_format="D3DFMT_X1R5G5B5"; break;
-		case D3DFMT_R3G3B2: *tex_format="D3DFMT_R3G3B2"; break;
+		// Retail's jump table (slots 7 and 10) prints the R3G3B2 and X4R4G4B4
+		// names for each other; this reproduces that table exactly.
+		case D3DFMT_X4R4G4B4: *tex_format="D3DFMT_R3G3B2"; break;
 		case D3DFMT_A8R3G3B2: *tex_format="D3DFMT_A8R3G3B2"; break;
-		case D3DFMT_X4R4G4B4: *tex_format="D3DFMT_X4R4G4B4"; break;
+		case D3DFMT_R3G3B2: *tex_format="D3DFMT_X4R4G4B4"; break;
 		case D3DFMT_A8P8: *tex_format="D3DFMT_A8P8"; break;
 		case D3DFMT_A8L8: *tex_format="D3DFMT_A8L8"; break;
 		case D3DFMT_A4L4: *tex_format="D3DFMT_A4L4"; break;
@@ -1590,10 +1445,10 @@ bool DX8Wrapper::Set_Next_Render_Device(void)
 // Address-derived global name asserts only the RVA not the original spelling.
 void Rva00125430(bool enable)
 {
-	g_Va00DEDA20 = enable;
+	bfmeSkipFixedFunctionState = enable;
 	if (!enable) {
-		LightEnvironmentClass *tmp = reinterpret_cast<LightEnvironmentClass *>(g_Va00DEDA14);
-		g_Va00DEDA14 = 0;
+		LightEnvironmentClass *tmp = DX8Wrapper::Light_Environment;
+		DX8Wrapper::Light_Environment = 0;
 		DX8Wrapper::Set_Light_Environment(tmp);
 	}
 }
@@ -1775,26 +1630,6 @@ void DX8Wrapper::Get_Device_Resolution(int & set_w,int & set_h,int & set_bits,bo
 	return ;
 }
 
-// ?Get_Render_Target_Resolution@DX8Wrapper@@ present-unmatched
-void DX8Wrapper::Get_Render_Target_Resolution(int & set_w,int & set_h,int & set_bits,bool & set_windowed)
-{
-	WWASSERT(IsInitted);
-
-	if (CurrentRenderTarget != NULL) {
-		D3DSURFACE_DESC info;
-		CurrentRenderTarget->GetDesc (&info);
-
-		set_w				= info.Width;
-		set_h				= info.Height;
-		set_bits			= BitDepth;		// should we get the actual bit depth of the target?
-		set_windowed	= IsWindowed;	// this doesn't really make sense for render targets (shouldn't matter)...
-
-	} else {
-		Get_Device_Resolution (set_w, set_h, set_bits, set_windowed);
-	}
-
-	return ;
-}
 
 bool DX8Wrapper::Registry_Save_Render_Device( const char * sub_key )
 {
@@ -2155,6 +1990,139 @@ void DX8Wrapper::Reset_Statistics()
 	last_frame_draw_calls =0;
 }
 
+// BFME 2's device mutex (BfmeDX8ThreadLock.cpp owns the lock half and the
+// bookkeeping).  The release half lives in this unit at 0x00120F50: Init
+// inlines it on its success exit.
+extern void *bfmeDX8DeviceMutex;					// 0x00DEC598
+extern unsigned char bfmeDX8DeviceSection[24];		// 0x00DEC540
+extern volatile unsigned long bfmeDX8DeviceOwner;	// 0x00DEDA88
+extern volatile int bfmeDX8DeviceRecursion;		// 0x00DEDA8C
+void BFME_DX8_Thread_Lock();
+
+// Undoes one take: when the recursion count reaches zero the owner is
+// cleared, then the mutex is released.  Reports whether this was the last
+// unlock.
+bool BFME_DX8_Thread_Assert(void)
+{
+	unsigned long threadId = ThreadClass::_Get_Current_Thread_ID();
+	if (threadId == bfmeDX8DeviceOwner)
+		threadId = bfmeDX8DeviceRecursion;
+	EnterCriticalSection((LPCRITICAL_SECTION)bfmeDX8DeviceSection);
+	bool lastUnlock = --bfmeDX8DeviceRecursion == 0;
+	if (lastUnlock)
+		bfmeDX8DeviceOwner = 0;
+	LeaveCriticalSection((LPCRITICAL_SECTION)bfmeDX8DeviceSection);
+	ReleaseMutex(bfmeDX8DeviceMutex);
+	return lastUnlock;
+}
+
+// Existing reconstructed guard contract from reference/shims/indexbuffercount/dx8indexbuffer.h.
+class BFMEDX8DeviceLock {
+public:
+ BFMEDX8DeviceLock() { BFME_DX8_Thread_Lock(); }
+ ~BFMEDX8DeviceLock() { BFME_DX8_Thread_Assert(); }
+};
+
+// 0x0011FC20: the HRESULT translator Init registers with the debug library
+// (priority 100): hex value, then the DirectX error name.  Role name;
+// the original spelling is unknown.
+extern "C" const char * __stdcall DXGetErrorString9A(long hr);
+bool bfmeDX8HResultTranslator(BfmeResetDebug &dbg,long hresult,void *)
+{
+	StringClass name(DXGetErrorString9A(hresult),false,StringClass::COPY_NATIVE);
+	dbg << "0x" << BfmeResetDebug::Hex() << hresult << BfmeResetDebug::Dec() << " (" << name << ")";
+	return true;
+}
+
+// D3D9's PIX hooks, resolved when D3DPERF_GetStatus reports a profiler.
+typedef void (__stdcall *BfmeWideTextHook)(void *,const unsigned short *);
+typedef void (*BfmeVoidHook)(void);
+typedef unsigned long (__stdcall *BfmeD3DPerfGetStatus)(void);
+extern BfmeD3DPerfGetStatus bfmeD3DPerfGetStatus;
+extern BfmeWideTextHook bfmeData00DEDBDC;
+extern BfmeVoidHook bfmeData00DEDBE0;
+extern void *bfmeData00DEDBE4;
+extern void *bfmeData00DEDBE8;
+
+// BFME 2's Init follows ZH's with D3D9 in place of D3D8: the debug library
+// gets the HRESULT translator first, the device mutex is created and held
+// for the rest of the body, and the PIX entry points are looked up.  ZH's
+// Render2DClass resolution and shadow-map clearing are gone.
+bool DX8Wrapper::Init(void * hwnd, bool lite)
+{
+	BfmeResetDebugInstance->AddHResultTranslator(100,bfmeDX8HResultTranslator,0);
+
+	// zero memory
+	memset(Textures,0,sizeof(IDirect3DBaseTexture8*)*MAX_TEXTURE_STAGES);
+	memset(RenderStates,0,sizeof(unsigned)*256);
+	memset(TextureStageStates,0,sizeof(unsigned)*32*MAX_TEXTURE_STAGES);
+	memset(Vertex_Shader_Constants,0,sizeof(Vertex_Shader_Constants));
+	memset(Pixel_Shader_Constants,0,sizeof(Pixel_Shader_Constants));
+	memset(&render_state,0,sizeof(RenderStateStruct));
+
+	/*
+	** Initialize all variables!
+	*/
+	_Hwnd = (HWND)hwnd;
+	_MainThreadID=ThreadClass::_Get_Current_Thread_ID();
+	InitializeCriticalSection((LPCRITICAL_SECTION)bfmeDX8DeviceSection);
+	bfmeDX8DeviceMutex=CreateMutexA(NULL,FALSE,NULL);
+	BFMEDX8DeviceLock lock;
+
+	CurRenderDevice = -1;
+	ResolutionWidth = DEFAULT_RESOLUTION_WIDTH;
+	ResolutionHeight = DEFAULT_RESOLUTION_HEIGHT;
+	BitDepth = DEFAULT_BIT_DEPTH;
+	IsWindowed = false;
+	DX8Wrapper_IsWindowed = false;
+
+	for (int light=0;light<4;++light) CurrentDX8LightEnables[light]=false;
+
+	::ZeroMemory(&old_world, sizeof(D3DMATRIX));
+	::ZeroMemory(&old_view, sizeof(D3DMATRIX));
+	::ZeroMemory(&old_prj, sizeof(D3DMATRIX));
+
+	D3DInterface = NULL;
+	D3DDevice = NULL;
+
+	Reset_Statistics();
+
+	Invalidate_Cached_Render_States();
+
+	if (!lite) {
+		D3D8Lib = LoadLibrary("D3D9.DLL");
+
+		if (D3D8Lib == NULL) return false;	// Return false at this point if init failed
+
+		Direct3DCreate8Ptr = (Direct3DCreate8Type) GetProcAddress(D3D8Lib, "Direct3DCreate9");
+		if (Direct3DCreate8Ptr == NULL) return false;
+
+		bfmeD3DPerfGetStatus = (BfmeD3DPerfGetStatus) GetProcAddress(D3D8Lib, "D3DPERF_GetStatus");
+		if (bfmeD3DPerfGetStatus != NULL && bfmeD3DPerfGetStatus()) {
+			bfmeData00DEDBDC = (BfmeWideTextHook) GetProcAddress(D3D8Lib, "D3DPERF_BeginEvent");
+			bfmeData00DEDBE0 = (BfmeVoidHook) GetProcAddress(D3D8Lib, "D3DPERF_EndEvent");
+			bfmeData00DEDBE4 = GetProcAddress(D3D8Lib, "D3DPERF_SetMarker");
+			bfmeData00DEDBE8 = GetProcAddress(D3D8Lib, "D3DPERF_SetOptions");
+		}
+
+		/*
+		** Create the D3D interface object (D3D9's D3D_SDK_VERSION is 32)
+		*/
+		D3DInterface = Direct3DCreate8Ptr(32);
+		if (D3DInterface == NULL) {
+			return(false);
+		}
+		IsInitted = true;
+
+		/*
+		** Enumerate the available devices
+		*/
+		Enumerate_Devices();
+	}
+
+	return(true);
+}
+
 void DX8Wrapper::Begin_Statistics()
 {
 	matrix_changes=0;
@@ -2212,73 +2180,8 @@ void DX8_Assert()
 	DX8_THREAD_ASSERT();
 }
 
-// ?Begin_Scene@DX8Wrapper@@ present-unmatched
-void DX8Wrapper::Begin_Scene(void)
-{
-	DX8_THREAD_ASSERT();
 
-#if ENABLE_EMBEDDED_BROWSER
-	DX8WebBrowser::Update();
-#endif
-	
-	DX8CALL(BeginScene());
-
-	DX8WebBrowser::Update();
-}
-
-// ?End_Scene@DX8Wrapper@@ present-unmatched
-void DX8Wrapper::End_Scene(bool flip_frames)
-{
-	DX8_THREAD_ASSERT();
-	DX8CALL(EndScene());
-
-	DX8WebBrowser::Render(0);
-
-	if (flip_frames) {
-		DX8_Assert();
-		HRESULT hr;
-		{
-			WWPROFILE("DX8Device::Present()");
-			hr=_Get_D3D_Device8()->Present(NULL, NULL, NULL, NULL);
-		}
-
-		number_of_DX8_calls++;
-
-		if (SUCCEEDED(hr)) {
-#ifdef EXTENDED_STATS
-			if (stats.m_sleepTime) {
-				::Sleep(stats.m_sleepTime);
-			}
-#endif
-			IsDeviceLost=false;
-			FrameCount++;
-		}
-		else {
-			IsDeviceLost=true;
-		}
-
-		// If the device was lost we need to check for cooperative level and possibly reset the device
-		if (hr==D3DERR_DEVICELOST) {
-			hr=_Get_D3D_Device8()->TestCooperativeLevel();
-			if (hr==D3DERR_DEVICENOTRESET) {
-				Reset_Device();
-			}
-			else {
-				// Sleep it not active
-				ThreadClass::Sleep_Ms(200);
-			}
-		}
-		else {
-			DX8_ErrorCode(hr);
-		}
-	}
-
-	// Each frame, release all of the buffers and textures.
-	Set_Vertex_Buffer(NULL);
-	Set_Index_Buffer(NULL,0);
-	for (int i=0;i<CurrentCaps->Get_Max_Textures_Per_Pass();++i) Set_Texture(i,NULL);
-	Set_Material(NULL);
-}
+// End_Scene is defined after the D3D9 device view below.
 
 
 void DX8Wrapper::Flip_To_Primary(void)
@@ -2337,47 +2240,6 @@ void DX8Wrapper::Flip_To_Primary(void)
 /*! KM
 /* 5/17/02 KM Fixed support for render to texture with depth/stencil buffers
 */
-// ?Clear@DX8Wrapper@@ present-unmatched
-void DX8Wrapper::Clear(bool clear_color, bool clear_z_stencil, const Vector3 &color, float dest_alpha, float z, unsigned int stencil)
-{
-	DX8_THREAD_ASSERT();
-
-	// If we try to clear a stencil buffer which is not there, the entire call will fail
-	// KJM fixed this to get format from back buffer (incase render to texture is used)
-	/*bool has_stencil = (	_PresentParameters.AutoDepthStencilFormat == D3DFMT_D15S1 ||
-								_PresentParameters.AutoDepthStencilFormat == D3DFMT_D24S8 ||
-								_PresentParameters.AutoDepthStencilFormat == D3DFMT_D24X4S4);*/
-	bool has_stencil=false;
-	IDirect3DSurface8* depthbuffer;
-
-	_Get_D3D_Device8()->GetDepthStencilSurface(&depthbuffer);
-	number_of_DX8_calls++;
-
-	if (depthbuffer)
-	{
-		D3DSURFACE_DESC desc;
-		depthbuffer->GetDesc(&desc);
-		has_stencil=
-		(
-			desc.Format==D3DFMT_D15S1 ||
-			desc.Format==D3DFMT_D24S8 ||
-			desc.Format==D3DFMT_D24X4S4
-		);
-
-		// release ref
-		depthbuffer->Release();
-	}
-
-	DWORD flags = 0;
-	if (clear_color) flags |= D3DCLEAR_TARGET;
-	if (clear_z_stencil) flags |= D3DCLEAR_ZBUFFER;
-	if (clear_z_stencil && has_stencil) flags |= D3DCLEAR_STENCIL;
-	if (flags)
-	{
-		DX8CALL(Clear(0, NULL, flags, Convert_Color(color,dest_alpha), z, stencil));
-	}
-}
-
 void DX8Wrapper::Set_Viewport(CONST D3DVIEWPORT8* pViewport)
 {
 	DX8_THREAD_ASSERT();
@@ -2442,6 +2304,21 @@ void DX8Wrapper::Set_Index_Buffer(const IndexBufferClass* ib,unsigned short inde
 //
 // ----------------------------------------------------------------------------
 
+// Retail's DynamicVBAccessClass is 24 bytes: the donor header is missing the
+// format_index/declaration dwords, so its count/offset/buffer members read 8
+// bytes early. Same proven view as DX8SetDynamicVertexBuffer.cpp (retail ctor
+// 0x13B040 corroborates): read this one call through it.
+struct TargetDynamicVBView {
+	const void *format;
+	unsigned type;
+	unsigned format_index;
+	unsigned declaration;
+	unsigned short vertex_count;
+	unsigned short vertex_offset;
+	VertexBufferClass *buffer;
+};
+typedef char TargetDynamicVBViewMustBe24Bytes[sizeof(TargetDynamicVBView)==0x18?1:-1];
+
 void DX8Wrapper::Set_Vertex_Buffer(const DynamicVBAccessClass& vba_)
 {
 	// Release all streams (only one stream allowed in the legacy pipeline)
@@ -2451,10 +2328,11 @@ void DX8Wrapper::Set_Vertex_Buffer(const DynamicVBAccessClass& vba_)
 
 	if (render_state.vertex_buffers[0]) render_state.vertex_buffers[0]->Release_Engine_Ref();
 	DynamicVBAccessClass& vba=const_cast<DynamicVBAccessClass&>(vba_);
-	render_state.vertex_buffer_types[0]=vba.Get_Type();
-	render_state.vba_offset=vba.VertexBufferOffset;
-	render_state.vba_count=vba.Get_Vertex_Count();
-	REF_PTR_SET(render_state.vertex_buffers[0],vba.VertexBuffer);
+	const TargetDynamicVBView& view=*reinterpret_cast<const TargetDynamicVBView*>(&vba);
+	render_state.vertex_buffer_types[0]=view.type;
+	render_state.vba_offset=view.vertex_offset;
+	render_state.vba_count=view.vertex_count;
+	REF_PTR_SET(render_state.vertex_buffers[0],view.buffer);
 	render_state.vertex_buffers[0]->Add_Engine_Ref();
 	render_state_changed|=VERTEX_BUFFER_CHANGED;
 	render_state_changed|=INDEX_BUFFER_CHANGED;		// vba_offset changes so index buffer needs to be reset as well.
@@ -2477,295 +2355,6 @@ void DX8Wrapper::Set_Index_Buffer(const DynamicIBAccessClass& iba_,unsigned shor
 	REF_PTR_SET(render_state.index_buffer,iba.IndexBuffer);
 	render_state.index_buffer->Add_Engine_Ref();
 	render_state_changed|=INDEX_BUFFER_CHANGED;
-}
-
-// ----------------------------------------------------------------------------
-//
-// Private function for the special case of rendering polygons from sorting
-// index and vertex buffers.
-//
-// ----------------------------------------------------------------------------
-
-// ?Draw_Sorting_IB_VB@DX8Wrapper@@ present-unmatched
-void DX8Wrapper::Draw_Sorting_IB_VB(
-	unsigned primitive_type,
-	unsigned short start_index,
-	unsigned short polygon_count,
-	unsigned short min_vertex_index,
-	unsigned short vertex_count)
-{
-	WWASSERT(render_state.vertex_buffer_types[0]==BUFFER_TYPE_SORTING || render_state.vertex_buffer_types[0]==BUFFER_TYPE_DYNAMIC_SORTING);
-	WWASSERT(render_state.index_buffer_type==BUFFER_TYPE_SORTING || render_state.index_buffer_type==BUFFER_TYPE_DYNAMIC_SORTING);
-
-	// Fill dynamic vertex buffer with sorting vertex buffer vertices
-	DynamicVBAccessClass dyn_vb_access(BUFFER_TYPE_DYNAMIC_DX8,dynamic_fvf_type,vertex_count);
-	{
-		DynamicVBAccessClass::WriteLockClass lock(&dyn_vb_access);
-		VertexFormatXYZNDUV2* src = static_cast<SortingVertexBufferClass*>(render_state.vertex_buffers[0])->VertexBuffer;
-		VertexFormatXYZNDUV2* dest= lock.Get_Formatted_Vertex_Array();
-		src += render_state.vba_offset + render_state.index_base_offset + min_vertex_index;
-		unsigned  size = dyn_vb_access.FVF_Info().Get_FVF_Size()*vertex_count/sizeof(unsigned);
-		unsigned *dest_u =(unsigned*) dest;
-		unsigned *src_u = (unsigned*) src;
-
-		for (unsigned i=0;i<size;++i) {
-			*dest_u++=*src_u++;
-		}
-	}
-
-	DX8CALL(SetStreamSource(
-		0,
-		static_cast<DX8VertexBufferClass*>(dyn_vb_access.VertexBuffer)->Get_DX8_Vertex_Buffer(),
-		dyn_vb_access.FVF_Info().Get_FVF_Size()));
-	// If using FVF format VB, set the FVF as vertex shader (may not be needed here KM)
-	unsigned fvf=dyn_vb_access.FVF_Info().Get_FVF();
-	if (fvf!=0) {
-		DX8CALL(SetVertexShader(fvf));
-	}
-	DX8_RECORD_VERTEX_BUFFER_CHANGE();
-
-	unsigned index_count=0;
-	switch (primitive_type) {
-	case D3DPT_TRIANGLELIST: index_count=polygon_count*3; break;
-	case D3DPT_TRIANGLESTRIP: index_count=polygon_count+2; break;
-	case D3DPT_TRIANGLEFAN: index_count=polygon_count+2; break;
-	default: WWASSERT(0); break; // Unsupported primitive type
-	}
-
-	// Fill dynamic index buffer with sorting index buffer vertices
-	DynamicIBAccessClass dyn_ib_access(BUFFER_TYPE_DYNAMIC_DX8,index_count);
-	{
-		DynamicIBAccessClass::WriteLockClass lock(&dyn_ib_access);
-		unsigned short* dest=lock.Get_Index_Array();
-		unsigned short* src=NULL;
-		src=static_cast<SortingIndexBufferClass*>(render_state.index_buffer)->index_buffer;
-		src+=render_state.iba_offset+start_index;
-
-		try {
-		for (unsigned short i=0;i<index_count;++i) {
-			unsigned short index=*src++;
-			index-=min_vertex_index;
-			WWASSERT(index<vertex_count);
-			*dest++=index;
-		}
-		IndexBufferExceptionFunc();
-		} catch(...) {
-			IndexBufferExceptionFunc();
-		}
-	}
-
-	DX8CALL(SetIndices(
-		static_cast<DX8IndexBufferClass*>(dyn_ib_access.IndexBuffer)->Get_DX8_Index_Buffer(),
-		dyn_vb_access.VertexBufferOffset));
-	DX8_RECORD_INDEX_BUFFER_CHANGE();
-
-	DX8_RECORD_DRAW_CALLS();
-	DX8CALL(DrawIndexedPrimitive(
-		D3DPT_TRIANGLELIST,
-		0,		// start vertex
-		vertex_count,
-		dyn_ib_access.IndexBufferOffset,
-		polygon_count));
-
-	DX8_RECORD_RENDER(polygon_count,vertex_count,render_state.shader);
-}
-
-// ----------------------------------------------------------------------------
-//
-//
-//
-// ----------------------------------------------------------------------------
-
-// ?Draw@DX8Wrapper@@ present-unmatched
-void DX8Wrapper::Draw(
-	unsigned primitive_type,
-	unsigned short start_index,
-	unsigned short polygon_count,
-	unsigned short min_vertex_index,
-	unsigned short vertex_count)
-{
-	if (DrawPolygonLowBoundLimit && DrawPolygonLowBoundLimit>=polygon_count) return;
-
-	DX8_THREAD_ASSERT();
-	SNAPSHOT_SAY(("DX8 - draw\n"));
-
-	Apply_Render_State_Changes();
-
-	// Debug feature to disable triangle drawing...
-	if (!_Is_Triangle_Draw_Enabled()) return;
-
-#ifdef MESH_RENDER_SNAPSHOT_ENABLED
-	if (WW3D::Is_Snapshot_Activated()) {
-		unsigned long passes=0;
-		SNAPSHOT_SAY(("ValidateDevice: "));
-		HRESULT res=D3DDevice->ValidateDevice(&passes);
-		switch (res) {
-		case D3D_OK:
-			SNAPSHOT_SAY(("OK\n"));
-			break;
-
-		case D3DERR_CONFLICTINGTEXTUREFILTER:
-			SNAPSHOT_SAY(("D3DERR_CONFLICTINGTEXTUREFILTER\n"));
-			break;
-		case D3DERR_CONFLICTINGTEXTUREPALETTE:
-			SNAPSHOT_SAY(("D3DERR_CONFLICTINGTEXTUREPALETTE\n"));
-			break;
-		case D3DERR_DEVICELOST:
-			SNAPSHOT_SAY(("D3DERR_DEVICELOST\n"));
-			break;
-		case D3DERR_TOOMANYOPERATIONS:
-			SNAPSHOT_SAY(("D3DERR_TOOMANYOPERATIONS\n"));
-			break;
-		case D3DERR_UNSUPPORTEDALPHAARG:
-			SNAPSHOT_SAY(("D3DERR_UNSUPPORTEDALPHAARG\n"));
-			break;
-		case D3DERR_UNSUPPORTEDALPHAOPERATION:
-			SNAPSHOT_SAY(("D3DERR_UNSUPPORTEDALPHAOPERATION\n"));
-			break;
-		case D3DERR_UNSUPPORTEDCOLORARG:
-			SNAPSHOT_SAY(("D3DERR_UNSUPPORTEDCOLORARG\n"));
-			break;
-		case D3DERR_UNSUPPORTEDCOLOROPERATION:
-			SNAPSHOT_SAY(("D3DERR_UNSUPPORTEDCOLOROPERATION\n"));
-			break;
-		case D3DERR_UNSUPPORTEDFACTORVALUE:
-			SNAPSHOT_SAY(("D3DERR_UNSUPPORTEDFACTORVALUE\n"));
-			break;
-		case D3DERR_UNSUPPORTEDTEXTUREFILTER:
-			SNAPSHOT_SAY(("D3DERR_UNSUPPORTEDTEXTUREFILTER\n"));
-			break;
-		case D3DERR_WRONGTEXTUREFORMAT:
-			SNAPSHOT_SAY(("D3DERR_WRONGTEXTUREFORMAT\n"));
-			break;
-		default:
-			SNAPSHOT_SAY(("UNKNOWN Error\n"));
-			break;
-		}
-	}
-#endif	// MESH_RENDER_SHAPSHOT_ENABLED
-
-
-	SNAPSHOT_SAY(("DX8 - draw %d polygons (%d vertices)\n",polygon_count,vertex_count));
-
-	if (vertex_count<3) {
-		min_vertex_index=0;
-		switch (render_state.vertex_buffer_types[0]) {
-		case BUFFER_TYPE_DX8:
-		case BUFFER_TYPE_SORTING:
-			vertex_count=render_state.vertex_buffers[0]->Get_Vertex_Count()-render_state.index_base_offset-render_state.vba_offset-min_vertex_index;
-			break;
-		case BUFFER_TYPE_DYNAMIC_DX8:
-		case BUFFER_TYPE_DYNAMIC_SORTING:
-			vertex_count=render_state.vba_count;
-			break;
-		}
-	}
-
-	switch (render_state.vertex_buffer_types[0]) {
-	case BUFFER_TYPE_DX8:
-	case BUFFER_TYPE_DYNAMIC_DX8:
-		switch (render_state.index_buffer_type) {
-		case BUFFER_TYPE_DX8:
-		case BUFFER_TYPE_DYNAMIC_DX8:
-			{
-/*				if ((start_index+render_state.iba_offset+polygon_count*3) > render_state.index_buffer->Get_Index_Count())
-				{	WWASSERT_PRINT(0,"OVERFLOWING INDEX BUFFER");
-					///@todo: MUST FIND OUT WHY THIS HAPPENS WITH LOTS OF PARTICLES ON BIG FIGHT!  -MW
-					break;
-				}*/
-				DX8_RECORD_RENDER(polygon_count,vertex_count,render_state.shader);
-				DX8_RECORD_DRAW_CALLS();
-				DX8CALL(DrawIndexedPrimitive(
-					(D3DPRIMITIVETYPE)primitive_type,
-					min_vertex_index,
-					vertex_count,
-					start_index+render_state.iba_offset,
-					polygon_count));
-			}
-			break;
-		case BUFFER_TYPE_SORTING:
-		case BUFFER_TYPE_DYNAMIC_SORTING:
-			WWASSERT_PRINT(0,"VB and IB must of same type (sorting or dx8)");
-			break;
-		case BUFFER_TYPE_INVALID:
-			WWASSERT(0);
-			break;
-		}
-		break;
-	case BUFFER_TYPE_SORTING:
-	case BUFFER_TYPE_DYNAMIC_SORTING:
-		switch (render_state.index_buffer_type) {
-		case BUFFER_TYPE_DX8:
-		case BUFFER_TYPE_DYNAMIC_DX8:
-			WWASSERT_PRINT(0,"VB and IB must of same type (sorting or dx8)");
-			break;
-		case BUFFER_TYPE_SORTING:
-		case BUFFER_TYPE_DYNAMIC_SORTING:
-			Draw_Sorting_IB_VB(primitive_type,start_index,polygon_count,min_vertex_index,vertex_count);
-			break;
-		case BUFFER_TYPE_INVALID:
-			WWASSERT(0);
-			break;
-		}
-		break;
-	case BUFFER_TYPE_INVALID:
-		WWASSERT(0);
-		break;
-	}
-}
-
-// ----------------------------------------------------------------------------
-//
-//
-//
-// ----------------------------------------------------------------------------
-
-// ?Draw_Triangles@DX8Wrapper@@ present-unmatched
-void DX8Wrapper::Draw_Triangles(
-	unsigned buffer_type,
-	unsigned short start_index,
-	unsigned short polygon_count,
-	unsigned short min_vertex_index,
-	unsigned short vertex_count)
-{
-	if (buffer_type==BUFFER_TYPE_SORTING || buffer_type==BUFFER_TYPE_DYNAMIC_SORTING) {
-		SortingRendererClass::Insert_Triangles(start_index,polygon_count,min_vertex_index,vertex_count);
-	}
-	else {
-		Draw(D3DPT_TRIANGLELIST,start_index,polygon_count,min_vertex_index,vertex_count);
-	}
-}
-
-// ----------------------------------------------------------------------------
-//
-//
-//
-// ----------------------------------------------------------------------------
-
-// ?Draw_Triangles@DX8Wrapper@@ present-unmatched
-void DX8Wrapper::Draw_Triangles(
-	unsigned short start_index,
-	unsigned short polygon_count,
-	unsigned short min_vertex_index,
-	unsigned short vertex_count)
-{
-	Draw(D3DPT_TRIANGLELIST,start_index,polygon_count,min_vertex_index,vertex_count);
-}
-
-// ----------------------------------------------------------------------------
-//
-//
-//
-// ----------------------------------------------------------------------------
-
-// ?Draw_Strip@DX8Wrapper@@ present-unmatched
-void DX8Wrapper::Draw_Strip(
-	unsigned short start_index,
-	unsigned short polygon_count,
-	unsigned short min_vertex_index,
-	unsigned short vertex_count)
-{
-	Draw(D3DPT_TRIANGLESTRIP,start_index,polygon_count,min_vertex_index,vertex_count);
 }
 
 // ----------------------------------------------------------------------------
@@ -2972,7 +2561,244 @@ struct BfmeApplyOps:DX8Wrapper {
   DX8_RECORD_MATRIX_CHANGE();
   Device()->SetTransform(type,reinterpret_cast<const D3DMATRIX *>(&matrix));number_of_DX8_calls++;
  }
+ // TU-local copy of dx8wrapper.h's Convert_Color(const Vector3&,float) for the rows retail
+ // inlines it into (Clear, Set_Light_Environment). Calling the header member would emit this
+ // /O2 unit's COMDAT copy of it, which comes first in link order and is not retail's body
+ // (that is the /O1 copy DX8ConvertColorVector3O1.cpp compiles, 0x0006E1C0).
+ static __forceinline unsigned int Convert_Color(const Vector3& color,float alpha)
+{
+	const float scale = 255.0;
+	unsigned int col=0;
+
+	// Multiply r, g, b and a components (0.0,...,1.0) by 255 and convert to integer. Or the integer values togerher
+	// such that 32 bit ingeger has AAAAAAAARRRRRRRRGGGGGGGGBBBBBBBB.
+	__asm
+	{
+		sub	esp,20					// space for a, r, g and b float plus fpu rounding mode
+
+		// Store the fpu rounding mode
+
+		fwait
+		fstcw		[esp+16]				// store control word to stack
+		mov		eax,[esp+16]		// load it to eax
+		mov		edi,eax				// take copy
+		and		eax,~(1024|2048)	// mask out certain bits
+		or			eax,(1024|2048)	// or with precision control value "truncate"
+		sub		edi,eax				// did it change?
+		jz			skip					// .. if not, skip
+		mov		[esp],eax			// .. change control word
+		fldcw		[esp]
+skip:
+
+		// Convert the color
+
+		mov	esi,dword ptr color
+		fld	dword ptr[scale]
+
+		fld	dword ptr[esi]			// r
+		fld	dword ptr[esi+4]		// g
+		fld	dword ptr[esi+8]		// b
+		fld	dword ptr[alpha]		// a
+		fld	st(4)
+		fmul	st(4),st
+		fmul	st(3),st
+		fmul	st(2),st
+		fmulp	st(1),st
+		fistp	dword ptr[esp+0]		// a
+		fistp	dword ptr[esp+4]		// b
+		fistp	dword ptr[esp+8]		// g
+		fistp	dword ptr[esp+12]		// r
+		mov	ecx,[esp]				// a
+		mov	eax,[esp+4]				// b
+		mov	edx,[esp+8]				// g
+		mov	ebx,[esp+12]			// r
+		shl	ecx,24					// a << 24
+		shl	ebx,16					// r << 16
+		shl	edx,8						//	g << 8
+		or		eax,ecx					// (a << 24) | b
+		or		eax,ebx					// (a << 24) | (r << 16) | b
+		or		eax,edx					// (a << 24) | (r << 16) | (g << 8) | b
+
+		fstp	st(0)
+
+		// Restore fpu rounding mode
+
+		cmp	edi,0					// did we change the value?
+		je		not_changed			// nope... skip now...
+		fwait
+		fldcw	[esp+16];
+not_changed:
+		add	esp,20
+
+		mov	col,eax
+	}
+	return col;
+}
 };
+
+// D3D9 surface prefix through GetDesc (slot 0x30), in Wine/SDK order, and
+// D3D9's 32-byte D3DSURFACE_DESC.
+struct BfmeClearSurface9 {
+    virtual HRESULT __stdcall QueryInterface(REFIID riid, void** ppvObject)=0;
+    virtual ULONG __stdcall AddRef()=0;
+    virtual ULONG __stdcall Release()=0;
+    virtual HRESULT __stdcall GetDevice(void **device)=0;
+    virtual HRESULT __stdcall SetPrivateData(REFIID guid, const void *data, DWORD size, DWORD flags)=0;
+    virtual HRESULT __stdcall GetPrivateData(REFIID guid, void *data, DWORD *size)=0;
+    virtual HRESULT __stdcall FreePrivateData(REFIID guid)=0;
+    virtual DWORD __stdcall SetPriority(DWORD priority)=0;
+    virtual DWORD __stdcall GetPriority()=0;
+    virtual void __stdcall PreLoad()=0;
+    virtual DWORD __stdcall GetType()=0;
+    virtual HRESULT __stdcall GetContainer(REFIID riid, void **container)=0;
+    virtual HRESULT __stdcall GetDesc(struct BfmeSurfaceDesc9 *desc)=0;
+};
+struct BfmeSurfaceDesc9 {
+    D3DFORMAT Format;
+    DWORD Type, Usage, Pool, MultiSampleType, MultiSampleQuality, Width, Height;
+};
+
+//**********************************************************************************************
+//! Clear current render device
+/*! KM
+/* 5/17/02 KM Fixed support for render to texture with depth/stencil buffers
+*/
+// BFME 2 (retail 0x0011D330) takes the stencil clear as its own flag where
+// Zero Hour derived it from clear_z_stencil; the rest is ZH's body on the
+// D3D9 device and surface.
+void DX8Wrapper::Clear(bool clear_color, bool clear_z_stencil, bool clear_stencil, const Vector3 &color, float dest_alpha, float z, unsigned int stencil)
+{
+	DX8_THREAD_ASSERT();
+
+	// If we try to clear a stencil buffer which is not there, the entire call will fail
+	bool has_stencil=false;
+	BfmeClearSurface9* depthbuffer;
+
+	BfmeApplyOps::Device()->GetDepthStencilSurface(reinterpret_cast<IDirect3DSurface9 **>(&depthbuffer));
+	number_of_DX8_calls++;
+
+	if (depthbuffer)
+	{
+		BfmeSurfaceDesc9 desc;
+		depthbuffer->GetDesc(&desc);
+		has_stencil=
+		(
+			desc.Format==D3DFMT_D15S1 ||
+			desc.Format==D3DFMT_D24S8 ||
+			desc.Format==D3DFMT_D24X4S4
+		);
+
+		// release ref
+		depthbuffer->Release();
+	}
+
+	DWORD flags = 0;
+	if (clear_color) flags |= D3DCLEAR_TARGET;
+	if (clear_z_stencil) flags |= D3DCLEAR_ZBUFFER;
+	if (clear_stencil && has_stencil) flags |= D3DCLEAR_STENCIL;
+	if (flags)
+	{
+		BfmeApplyOps::Device()->Clear(0, NULL, flags, BfmeApplyOps::Convert_Color(color,dest_alpha), z, stencil);
+		number_of_DX8_calls++;
+	}
+}
+// BFME 2's End_Scene (retail 0x00122BE0). Zero Hour's body on the D3D9 device,
+// defined after Set_Vertex_Buffer and Set_Index_Buffer, which retail inlines
+// here. BFME 2 adds a statistics roll-over every Interval presented frames, a
+// texture release that passes each stage a NULL texture holder (the EH state
+// around every stage) and drops the light environment with the rest of the
+// per-frame state. The three statistics globals are only touched here.
+static unsigned bfmeEndSceneStatInterval=1;
+static unsigned bfmeEndSceneStatCount;
+static unsigned bfmeEndSceneStatLastCount;
+
+// BFME 2's Set_Texture (retail 0x0011F4B0, rowed as BFME2Set_Texture) takes
+// an owning texture holder; End_Scene passes it NULL, and VC7 inlines that
+// body here: the WORD reference count at +4 is bumped through the incoming
+// holder before the current stage texture is released. The slot update is a
+// separate inline assignment: flattened into Set_Texture, VC7 merges the two
+// null tests of the current stage texture that retail keeps apart.
+struct BfmeEndSceneTextureResource : BfmeResetResource { unsigned Vtable; unsigned short Refs; };
+struct BfmeEndSceneTextureRef {
+	BfmeEndSceneTextureResource *Ptr;
+	BfmeEndSceneTextureRef(BfmeEndSceneTextureResource *p):Ptr(p) { if (Ptr) ++Ptr->Refs; }
+	~BfmeEndSceneTextureRef() { if (Ptr) Ptr->Release_Ref(); }
+};
+static void bfmeEndSceneAssign(BfmeEndSceneTextureResource *&dst,const BfmeEndSceneTextureRef &src)
+{
+	if (src.Ptr) ++src.Ptr->Refs;
+	if (dst) dst->Release_Ref();
+	dst=src.Ptr;
+}
+static void bfmeEndSceneSetTexture(BfmeEndSceneTextureResource **current,unsigned stage,const BfmeEndSceneTextureRef &texture,unsigned &changed,unsigned stage0_changed)
+{
+	if (texture.Ptr==current[stage]) return;
+	bfmeEndSceneAssign(current[stage],texture);
+	changed|=(stage0_changed<<stage);
+}
+
+// ThreadClass::Sleep_Ms is the same 12-byte Sleep forwarder as GameSpy's
+// msleep (0x0060A830), and retail folded the two; the call is spelled with
+// the name that address already carries.
+extern "C" void msleep(unsigned long msec);
+// The embedded-browser render hook (0x00176E00, DX8WrapperEndSceneHelper.cpp)
+// in the place of Zero Hour's DX8WebBrowser::Render(0).
+void bfmeEndSceneTouch00958910(void *argument);
+
+void DX8Wrapper::End_Scene(bool flip_frames)
+{
+	if (flip_frames && FrameCount%bfmeEndSceneStatInterval==0) {
+		bfmeEndSceneStatLastCount=bfmeEndSceneStatCount;
+		bfmeEndSceneStatCount=0;
+	}
+
+	BfmeApplyOps::Device()->EndScene();
+	number_of_DX8_calls++;
+
+	bfmeEndSceneTouch00958910(0);
+
+	if (flip_frames) {
+		HRESULT hr=BfmeApplyOps::Device()->Present(NULL, NULL, NULL, NULL);
+		number_of_DX8_calls++;
+
+		if (SUCCEEDED(hr)) {
+			FrameCount++;
+			IsDeviceLost=false;
+		}
+		else {
+			IsDeviceLost=true;
+		}
+
+		// If the device was lost we need to check for cooperative level and possibly reset the device
+		if (hr==D3DERR_DEVICELOST) {
+			hr=BfmeApplyOps::Device()->TestCooperativeLevel();
+			if (hr==D3DERR_DEVICENOTRESET) {
+				Reset_Device();
+			}
+			else {
+				// Sleep it not active
+				msleep(200);
+			}
+		}
+		else {
+			DX8_ErrorCode(hr);
+		}
+	}
+
+	// Each frame, release all of the buffers and textures.
+	Set_Vertex_Buffer(NULL);
+	Set_Index_Buffer(NULL,0);
+	for (int i=0;i<reinterpret_cast<BfmeEnumerationCaps *>(CurrentCaps)->GetMaxTextures();++i) {
+		bfmeEndSceneSetTexture(reinterpret_cast<BfmeEndSceneTextureResource **>(render_state.Textures),i,NULL,render_state_changed,TEXTURE0_CHANGED);
+	}
+	// Set_Material(NULL), which retail inlines here. Spelled out rather than called: the header
+	// member would emit this /O2 unit's COMDAT copy of it, which comes first in link order and is
+	// not retail's body (that is the /O1 copy HeightMap.cpp compiles, 0x000662B1).
+	REF_PTR_RELEASE(render_state.material);
+	render_state_changed|=MATERIAL_CHANGED;
+	Light_Environment=NULL;
+}
+
 void DX8Wrapper::Apply_Render_State_Changes()
 {
  if (!render_state_changed) return;
@@ -3030,581 +2856,23 @@ void DX8Wrapper::Apply_Render_State_Changes()
  if (bfmeSkipFixedFunctionState) render_state_changed&=0xCC3FF;
  else render_state_changed&=((unsigned)WORLD_IDENTITY|(unsigned)VIEW_IDENTITY);
 }
-IDirect3DTexture8 * DX8Wrapper::_Create_DX8_Texture
-(
-	unsigned int width,
-	unsigned int height,
-	WW3DFormat format,
-	MipCountType mip_level_count,
-	D3DPOOL pool,
-	bool rendertarget
-)
-{
-	DX8_THREAD_ASSERT();
-	DX8_Assert();
-	IDirect3DTexture8 *texture = NULL;
 
-	// Paletted textures not supported!
-	WWASSERT(format!=D3DFMT_P8);
 
-	// NOTE: If 'format' is not supported as a texture format, this function will find the closest
-	// format that is supported and use that instead.
-
-	// Render target may return NOTAVAILABLE, in
-	// which case we return NULL.
-	if (rendertarget) {
-		unsigned ret=D3DXCreateTexture(
-// ?_Get_D3D_Device8@DX8Wrapper@@ present-unmatched
-			DX8Wrapper::_Get_D3D_Device8(),
-			width,
-			height,
-			mip_level_count,
-			D3DUSAGE_RENDERTARGET,
-			WW3DFormat_To_D3DFormat(format),
-			pool,
-			&texture);
-
-		if (ret==D3DERR_NOTAVAILABLE) {
-			Non_Fatal_Log_DX8_ErrorCode(ret,__FILE__,__LINE__);
-			return NULL;
-		}
-
-		// If ran out of texture ram, try invalidating some textures and mesh cache.
-		if (ret==D3DERR_OUTOFVIDEOMEMORY) {
-			WWDEBUG_SAY(("Error: Out of memory while creating render target. Trying to release assets...\n"));
-			// Free all textures that haven't been used in the last 5 seconds
-			TextureClass::Invalidate_Old_Unused_Textures(5000);
-
-			// Invalidate the mesh cache
-			WW3D::_Invalidate_Mesh_Cache();
-
-			ret=D3DXCreateTexture(
-// ?_Get_D3D_Device8@DX8Wrapper@@ present-unmatched
-				DX8Wrapper::_Get_D3D_Device8(),
-				width,
-				height,
-				mip_level_count,
-				D3DUSAGE_RENDERTARGET,
-				WW3DFormat_To_D3DFormat(format),
-				pool,
-				&texture);
-
-			if (SUCCEEDED(ret)) {
-				WWDEBUG_SAY(("...Render target creation succesful.\n"));
-			}
-			else {
-				WWDEBUG_SAY(("...Render target creation failed.\n"));
-			}
-			if (ret==D3DERR_OUTOFVIDEOMEMORY) {
-				Non_Fatal_Log_DX8_ErrorCode(ret,__FILE__,__LINE__);
-				return NULL;
-			}
-		}
-
-		DX8_ErrorCode(ret);
-		// Just return the texture, no reduction
-		// allowed for render targets.
-		return texture;
-	}
-
-	// We should never run out of video memory when allocating a non-rendertarget texture.
-	// However, it seems to happen sometimes when there are a lot of textures in memory and so
-	// if it happens we'll release assets and try again (anything is better than crashing).
-	unsigned ret=D3DXCreateTexture(
-// ?_Get_D3D_Device8@DX8Wrapper@@ present-unmatched
-		DX8Wrapper::_Get_D3D_Device8(),
-		width,
-		height,
-		mip_level_count,
-		0,
-		WW3DFormat_To_D3DFormat(format),
-		pool,
-		&texture);
-
-	// If ran out of texture ram, try invalidating some textures and mesh cache.
-	if (ret==D3DERR_OUTOFVIDEOMEMORY) {
-		WWDEBUG_SAY(("Error: Out of memory while creating texture. Trying to release assets...\n"));
-		// Free all textures that haven't been used in the last 5 seconds
-		TextureClass::Invalidate_Old_Unused_Textures(5000);
-
-		// Invalidate the mesh cache
-		WW3D::_Invalidate_Mesh_Cache();
-
-		ret=D3DXCreateTexture(
-// ?_Get_D3D_Device8@DX8Wrapper@@ present-unmatched
-			DX8Wrapper::_Get_D3D_Device8(),
-			width,
-			height,
-			mip_level_count,
-			0,
-			WW3DFormat_To_D3DFormat(format),
-			pool,
-			&texture);
-		if (SUCCEEDED(ret)) {
-			WWDEBUG_SAY(("...Texture creation succesful.\n"));
-		}
-		else {
-			StringClass format_name(0,true);
-			Get_WW3D_Format_Name(format, format_name);
-			WWDEBUG_SAY(("...Texture creation failed. (%d x %d, format: %s, mips: %d\n",width,height,format_name,mip_level_count));
-		}
-
-	}
-	DX8_ErrorCode(ret);
-
-	return texture;
-}
-
-IDirect3DTexture8 * DX8Wrapper::_Create_DX8_Texture
-(
-	const char *filename,
-	MipCountType mip_level_count
-)
-{
-	DX8_THREAD_ASSERT();
-	DX8_Assert();
-	IDirect3DTexture8 *texture = NULL;
-
-	// NOTE: If the original image format is not supported as a texture format, it will
-	// automatically be converted to an appropriate format.
-	// NOTE: It is possible to get the size and format of the original image file from this
-	// function as well, so if we later want to second-guess D3DX's format conversion decisions
-	// we can do so after this function is called..
-	unsigned result = D3DXCreateTextureFromFileExA(
-		_Get_D3D_Device8(),
-		filename,
-		D3DX_DEFAULT,
-		D3DX_DEFAULT,
-		mip_level_count,//create_mipmaps ? 0 : 1,
-		0,
-		D3DFMT_UNKNOWN,
-		D3DPOOL_MANAGED,
-		D3DX_FILTER_BOX,
-		D3DX_FILTER_BOX,
-		0,
-		NULL,
-		NULL,
-		&texture);
-
-	if (result != D3D_OK) {
-		return MissingTexture::_Get_Missing_Texture();
-	}
-
-	// Make sure texture wasn't paletted!
-	D3DSURFACE_DESC desc;
-	texture->GetLevelDesc(0,&desc);
-	if (desc.Format==D3DFMT_P8) {
-		texture->Release();
-		return MissingTexture::_Get_Missing_Texture();
-	}
-	return texture;
-}
-
-IDirect3DTexture8 * DX8Wrapper::_Create_DX8_Texture
-(
-	IDirect3DSurface8 *surface,
-	MipCountType mip_level_count
-)
-{
-	DX8_THREAD_ASSERT();
-	DX8_Assert();
-	IDirect3DTexture8 *texture = NULL;
-
-	D3DSURFACE_DESC surface_desc;
-	::ZeroMemory(&surface_desc, sizeof(D3DSURFACE_DESC));
-	surface->GetDesc(&surface_desc);
-
-	// This function will create a texture with a different (but similar) format if the surface is
-	// not in a supported texture format.
-	WW3DFormat format=D3DFormat_To_WW3DFormat(surface_desc.Format);
-	texture = _Create_DX8_Texture(surface_desc.Width, surface_desc.Height, format, mip_level_count);
-
-	// Copy the surface to the texture
-	IDirect3DSurface8 *tex_surface = NULL;
-	texture->GetSurfaceLevel(0, &tex_surface);
-	DX8_ErrorCode(D3DXLoadSurfaceFromSurface(tex_surface, NULL, NULL, surface, NULL, NULL, D3DX_FILTER_BOX, 0));
-	tex_surface->Release();
-
-	// Create mipmaps if needed
-	if (mip_level_count!=MIP_LEVELS_1) 
-	{
-		DX8_ErrorCode(D3DXFilterTexture(texture, NULL, 0, D3DX_FILTER_BOX));
-	}
-
-	return texture;
-
-}
 
 /*!
  * KJM create depth stencil texture
  */
-IDirect3DTexture8 * DX8Wrapper::_Create_DX8_ZTexture
-(
-	unsigned int width,
-	unsigned int height,
-	WW3DZFormat zformat,
-	MipCountType mip_level_count,
-	D3DPOOL pool
-)
-{
-	DX8_THREAD_ASSERT();
-	DX8_Assert();
-	IDirect3DTexture8* texture = NULL;
-
-	D3DFORMAT zfmt=WW3DZFormat_To_D3DFormat(zformat);
-
-	unsigned ret=DX8Wrapper::_Get_D3D_Device8()->CreateTexture
-	(
-		width,
-		height,
-		mip_level_count,
-		D3DUSAGE_DEPTHSTENCIL, 
-		zfmt, 
-		pool,
-		&texture
-	);
-
-	if (ret==D3DERR_NOTAVAILABLE) 
-	{
-		Non_Fatal_Log_DX8_ErrorCode(ret,__FILE__,__LINE__);
-		return NULL;
-	}
-
-	// If ran out of texture ram, try invalidating some textures and mesh cache.
-	if (ret==D3DERR_OUTOFVIDEOMEMORY) 
-	{
-		WWDEBUG_SAY(("Error: Out of memory while creating render target. Trying to release assets...\n"));
-		// Free all textures that haven't been used in the last 5 seconds
-		TextureClass::Invalidate_Old_Unused_Textures(5000);
-
-		// Invalidate the mesh cache
-		WW3D::_Invalidate_Mesh_Cache();
-
-		ret=DX8Wrapper::_Get_D3D_Device8()->CreateTexture
-		(
-			width,
-			height,
-			mip_level_count,
-			D3DUSAGE_DEPTHSTENCIL, 
-			zfmt, 
-			pool,
-			&texture
-		);
-
-		if (SUCCEEDED(ret)) 
-		{
-			WWDEBUG_SAY(("...Render target creation succesful.\n"));
-		}
-		else 
-		{
-			WWDEBUG_SAY(("...Render target creation failed.\n"));
-		}
-		if (ret==D3DERR_OUTOFVIDEOMEMORY) 
-		{
-			Non_Fatal_Log_DX8_ErrorCode(ret,__FILE__,__LINE__);
-			return NULL;
-		}
-	}
-
-	DX8_ErrorCode(ret);
-
-	texture->AddRef(); // don't release this texture
-
-	// Just return the texture, no reduction
-	// allowed for render targets.
-
-	return texture;
-}
 
 /*!
  * KJM create cube map texture
  */
-IDirect3DCubeTexture8* DX8Wrapper::_Create_DX8_Cube_Texture
-(
-	unsigned int width,
-	unsigned int height,
-	WW3DFormat format,
-	MipCountType mip_level_count,
-	D3DPOOL pool,
-	bool rendertarget
-)
-{
-	WWASSERT(width==height);
-	DX8_THREAD_ASSERT();
-	DX8_Assert();
-	IDirect3DCubeTexture8* texture=NULL;
-
-	// Paletted textures not supported!
-	WWASSERT(format!=D3DFMT_P8);
-
-	// NOTE: If 'format' is not supported as a texture format, this function will find the closest
-	// format that is supported and use that instead.
-
-	// Render target may return NOTAVAILABLE, in
-	// which case we return NULL.
-	if (rendertarget) 
-	{
-		unsigned ret=D3DXCreateCubeTexture
-		(
-// ?_Get_D3D_Device8@DX8Wrapper@@ present-unmatched
-			DX8Wrapper::_Get_D3D_Device8(),
-			width,
-			mip_level_count,
-			D3DUSAGE_RENDERTARGET,
-			WW3DFormat_To_D3DFormat(format),
-			pool,
-			&texture
-		);
-
-		if (ret==D3DERR_NOTAVAILABLE) 
-		{
-			Non_Fatal_Log_DX8_ErrorCode(ret,__FILE__,__LINE__);
-			return NULL;
-		}
-
-		// If ran out of texture ram, try invalidating some textures and mesh cache.
-		if (ret==D3DERR_OUTOFVIDEOMEMORY) 
-		{
-			WWDEBUG_SAY(("Error: Out of memory while creating render target. Trying to release assets...\n"));
-			// Free all textures that haven't been used in the last 5 seconds
-			TextureClass::Invalidate_Old_Unused_Textures(5000);
-
-			// Invalidate the mesh cache
-			WW3D::_Invalidate_Mesh_Cache();
-
-			ret=D3DXCreateCubeTexture
-			(
-// ?_Get_D3D_Device8@DX8Wrapper@@ present-unmatched
-				DX8Wrapper::_Get_D3D_Device8(),
-				width,
-				mip_level_count,
-				D3DUSAGE_RENDERTARGET,
-				WW3DFormat_To_D3DFormat(format),
-				pool,
-				&texture
-			);
-
-			if (SUCCEEDED(ret))
-			{
-				WWDEBUG_SAY(("...Render target creation succesful.\n"));
-			}
-			else 
-			{
-				WWDEBUG_SAY(("...Render target creation failed.\n"));
-			}
-			if (ret==D3DERR_OUTOFVIDEOMEMORY) 
-			{
-				Non_Fatal_Log_DX8_ErrorCode(ret,__FILE__,__LINE__);
-				return NULL;
-			}
-		}
-
-		DX8_ErrorCode(ret);
-		// Just return the texture, no reduction
-		// allowed for render targets.
-		return texture;
-	}
-
-	// We should never run out of video memory when allocating a non-rendertarget texture.
-	// However, it seems to happen sometimes when there are a lot of textures in memory and so
-	// if it happens we'll release assets and try again (anything is better than crashing).
-	unsigned ret=D3DXCreateCubeTexture
-	(
-// ?_Get_D3D_Device8@DX8Wrapper@@ present-unmatched
-		DX8Wrapper::_Get_D3D_Device8(),
-		width,
-		mip_level_count,
-		0,
-		WW3DFormat_To_D3DFormat(format),
-		pool,
-		&texture
-	);
-
-	// If ran out of texture ram, try invalidating some textures and mesh cache.
-	if (ret==D3DERR_OUTOFVIDEOMEMORY) 
-	{
-		WWDEBUG_SAY(("Error: Out of memory while creating texture. Trying to release assets...\n"));
-		// Free all textures that haven't been used in the last 5 seconds
-		TextureClass::Invalidate_Old_Unused_Textures(5000);
-
-		// Invalidate the mesh cache
-		WW3D::_Invalidate_Mesh_Cache();
-
-		ret=D3DXCreateCubeTexture
-		(
-// ?_Get_D3D_Device8@DX8Wrapper@@ present-unmatched
-			DX8Wrapper::_Get_D3D_Device8(),
-			width,
-			mip_level_count,
-			0,
-			WW3DFormat_To_D3DFormat(format),
-			pool,
-			&texture
-		);
-		if (SUCCEEDED(ret)) 
-		{
-			WWDEBUG_SAY(("...Texture creation succesful.\n"));
-		}
-		else 
-		{
-			StringClass format_name(0,true);
-			Get_WW3D_Format_Name(format, format_name);
-			WWDEBUG_SAY(("...Texture creation failed. (%d x %d, format: %s, mips: %d\n",width,height,format_name,mip_level_count));
-		}
-
-	}
-	DX8_ErrorCode(ret);
-
-	return texture;
-}
 
 /*!
  * KJM create volume texture
  */
-IDirect3DVolumeTexture8* DX8Wrapper::_Create_DX8_Volume_Texture
-(
-	unsigned int width,
-	unsigned int height,
-	unsigned int depth,
-	WW3DFormat format,
-	MipCountType mip_level_count,
-	D3DPOOL pool
-)
-{
-	DX8_THREAD_ASSERT();
-	DX8_Assert();
-	IDirect3DVolumeTexture8* texture=NULL;
-
-	// Paletted textures not supported!
-	WWASSERT(format!=D3DFMT_P8);
-
-	// NOTE: If 'format' is not supported as a texture format, this function will find the closest
-	// format that is supported and use that instead.
 
 
-	// We should never run out of video memory when allocating a non-rendertarget texture.
-	// However, it seems to happen sometimes when there are a lot of textures in memory and so
-	// if it happens we'll release assets and try again (anything is better than crashing).
-	unsigned ret=D3DXCreateVolumeTexture
-	(
-// ?_Get_D3D_Device8@DX8Wrapper@@ present-unmatched
-		DX8Wrapper::_Get_D3D_Device8(),
-		width,
-		height,
-		depth,
-		mip_level_count,
-		0,
-		WW3DFormat_To_D3DFormat(format),
-		pool,
-		&texture
-	);
 
-	// If ran out of texture ram, try invalidating some textures and mesh cache.
-	if (ret==D3DERR_OUTOFVIDEOMEMORY) 
-	{
-		WWDEBUG_SAY(("Error: Out of memory while creating texture. Trying to release assets...\n"));
-		// Free all textures that haven't been used in the last 5 seconds
-		TextureClass::Invalidate_Old_Unused_Textures(5000);
-
-		// Invalidate the mesh cache
-		WW3D::_Invalidate_Mesh_Cache();
-
-		ret=D3DXCreateVolumeTexture
-		(
-// ?_Get_D3D_Device8@DX8Wrapper@@ present-unmatched
-			DX8Wrapper::_Get_D3D_Device8(),
-			width,
-			height,
-			depth,
-			mip_level_count,
-			0,
-			WW3DFormat_To_D3DFormat(format),
-			pool,
-			&texture
-		);
-		if (SUCCEEDED(ret)) 
-		{
-			WWDEBUG_SAY(("...Texture creation succesful.\n"));
-		}
-		else 
-		{
-			StringClass format_name(0,true);
-			Get_WW3D_Format_Name(format, format_name);
-			WWDEBUG_SAY(("...Texture creation failed. (%d x %d, format: %s, mips: %d\n",width,height,format_name,mip_level_count));
-		}
-
-	}
-	DX8_ErrorCode(ret);
-
-	return texture;
-}
-
-
-// ?_Create_DX8_Surface@DX8Wrapper@@ present-unmatched
-IDirect3DSurface8 * DX8Wrapper::_Create_DX8_Surface(unsigned int width, unsigned int height, WW3DFormat format)
-{
-	DX8_THREAD_ASSERT();
-	DX8_Assert();
-
-	IDirect3DSurface8 *surface = NULL;
-
-	// Paletted surfaces not supported!
-	WWASSERT(format!=D3DFMT_P8);
-
-	DX8CALL(CreateImageSurface(width, height, WW3DFormat_To_D3DFormat(format), &surface));
-
-	return surface;
-}
-
-// ?_Create_DX8_Surface@DX8Wrapper@@ present-unmatched
-IDirect3DSurface8 * DX8Wrapper::_Create_DX8_Surface(const char *filename_)
-{
-	DX8_THREAD_ASSERT();
-	DX8_Assert();
-
-	// Note: Since there is no "D3DXCreateSurfaceFromFile" and no "GetSurfaceInfoFromFile" (the
-	// latter is supposed to be added to D3DX in a future version), we create a texture from the
-	// file (w/o mipmaps), check that its surface is equal to the original file data (which it
-	// will not be if the file is not in a texture-supported format or size). If so, copy its
-	// surface (we might be able to just get its surface and add a ref to it but I'm not sure so
-	// I'm not going to risk it) and release the texture. If not, create a surface according to
-	// the file data and use D3DXLoadSurfaceFromFile. This is a horrible hack, but it saves us
-	// having to write file loaders. Will fix this when D3DX provides us with the right functions.
-	// Create a surface the size of the file image data
-	IDirect3DSurface8 *surface = NULL;
-
-	{
-
-		file_auto_ptr myfile(_TheFileFactory,filename_);
-		// If file not found, create a surface with missing texture in it
-
-		if (!myfile->Is_Available()) {
-			// If file not found, try the dds format
-			// else create a surface with missing texture in it
-			char compressed_name[200];
-			strncpy(compressed_name,filename_, 200);
-			char *ext = strstr(compressed_name, ".");
-			if ( (strlen(ext)==4) && 
-				  ( (ext[1] == 't') || (ext[1] == 'T') ) && 
-				  ( (ext[2] == 'g') || (ext[2] == 'G') ) && 
-				  ( (ext[3] == 'a') || (ext[3] == 'A') ) ) {
-				ext[1]='d';
-				ext[2]='d';
-				ext[3]='s';
-			}
-			file_auto_ptr myfile2(_TheFileFactory,compressed_name);
-			if (!myfile2->Is_Available())
-				return MissingTexture::_Create_Missing_Surface();
-		}
-	}
-
-	StringClass filename_string(filename_,true);
-	surface=TextureLoader::Load_Surface_Immediate(
-		filename_string,
-		WW3D_FORMAT_UNKNOWN,
-		true);
-	return surface;
-}
 
 
 /***********************************************************************************************
@@ -3731,175 +2999,102 @@ void DX8Wrapper::Set_Light(unsigned index,const LightClass &light)
 //! directional lights to produce the lighting.
 /*! 5/27/02 KJM Added shader light environment support
 */
-// ?Set_Light_Environment@DX8Wrapper@@ present-unmatched
+// BFME 2's body (0x00122EA0, inside this unit's range). Its environment
+// carries a one-byte state before the Zero Hour fields, read through the
+// local views below. Set_Light(unsigned,const D3DLIGHT8*) above is inlined
+// for the clearing loop and called for the lit one, as in retail.
+struct Bfme2LightEnvironmentInputView
+{
+	Vector3 Direction;
+	Vector3 Ambient;
+	Vector3 Diffuse;
+	bool DiffuseRejected;
+	bool Point;
+	Vector3 Center;
+	float InnerRadius;
+	float OuterRadius;
+	Vector3 PointAmbient;
+	Vector3 PointDiffuse;
+};
+
+struct Bfme2LightEnvironmentView
+{
+	// The BFME2 environment carries a one-byte state before the donor fields.
+	// The shifted view is kept local so the legacy reference header stays intact.
+	unsigned char State;
+	unsigned char StatePadding[3];
+	int LightCount;
+	Vector3 ObjectCenter;
+	Bfme2LightEnvironmentInputView InputLights[4];
+	Vector3 OutputAmbient;
+	const Vector3 &Get_Equivalent_Ambient() const { return OutputAmbient; }
+	int Get_Light_Count() const { return LightCount; }
+};
+
 void DX8Wrapper::Set_Light_Environment(LightEnvironmentClass* light_env)
 {
-	// Shader light environment support															*
-//	if (Light_Environment && light_env && (*Light_Environment)==(*light_env)) return;
+	Bfme2LightEnvironmentView *environment =
+		reinterpret_cast<Bfme2LightEnvironmentView *>(light_env);
+	if (Light_Environment == light_env && light_env && environment->State) {
+		return;
+	}
 
-	Light_Environment=light_env;
+	Light_Environment = light_env;
 
-	if (light_env) 
-	{
-		int light_count = light_env->Get_Light_Count();
-		unsigned int color=Convert_Color(light_env->Get_Equivalent_Ambient(),0.0f);
-		if (RenderStates[D3DRS_AMBIENT]!=color)
-		{
-			Set_DX8_Render_State(D3DRS_AMBIENT,color);
-//buggy Radeon 9700 driver doesn't apply new ambient unless the material also changes.
-#if 1
-			render_state_changed|=MATERIAL_CHANGED;
-#endif
+	if (!light_env || bfmeSkipFixedFunctionState) {
+		return;
+	}
+
+	int light_count = environment->Get_Light_Count();
+	unsigned int color = BfmeApplyOps::Convert_Color(environment->Get_Equivalent_Ambient(), 0.0f);
+	if (RenderStates[D3DRS_AMBIENT] != color) {
+		Set_DX8_Render_State(D3DRS_AMBIENT, color);
+	}
+
+	D3DLIGHT8 light;
+	int l = 0;
+	for (; l < light_count; ++l) {
+		::ZeroMemory(&light, sizeof(D3DLIGHT8));
+
+		light.Type = D3DLIGHT_DIRECTIONAL;
+		(Vector3&)light.Diffuse = environment->InputLights[l].Diffuse;
+		Vector3 dir = -environment->InputLights[l].Direction;
+		light.Direction = (const D3DVECTOR&)dir;
+
+		if (l == 0) {
+			light.Specular.r = light.Specular.g = light.Specular.b = 1.0f;
 		}
 
-		D3DLIGHT8 light;		
-		for (int l=0;l<light_count;++l) {
-			
-			::ZeroMemory(&light, sizeof(D3DLIGHT8));
-			
-			light.Type=D3DLIGHT_DIRECTIONAL;
-			(Vector3&)light.Diffuse=light_env->Get_Light_Diffuse(l);
-			Vector3 dir=-light_env->Get_Light_Direction(l);
-			light.Direction=(const D3DVECTOR&)(dir);
+		if (environment->InputLights[l].Point) {
+			light.Type = D3DLIGHT_POINT;
+			(Vector3&)light.Diffuse = environment->InputLights[l].PointDiffuse;
+			(Vector3&)light.Ambient = environment->InputLights[l].PointAmbient;
+			light.Position = (const D3DVECTOR&)environment->InputLights[l].Center;
+			light.Range = environment->InputLights[l].OuterRadius;
 
-			// (gth) TODO: put specular into LightEnvironment?  Much work to be done on lights :-)'
-			if (l==0) {
-				light.Specular.r = light.Specular.g = light.Specular.b = 1.0f;
+			double a, b;
+			b = environment->InputLights[l].OuterRadius;
+			a = environment->InputLights[l].InnerRadius;
+			light.Attenuation0 = 1.0f;
+			if (fabs(a - b) < 1e-5) {
+				light.Attenuation1 = 0.0f;
+			} else {
+				light.Attenuation1 = (float)0.1 / a;
 			}
-
-			if (light_env->isPointLight(l)) {
-				light.Type = D3DLIGHT_POINT;
-				(Vector3&)light.Diffuse=light_env->getPointDiffuse(l);
-				(Vector3&)light.Ambient=light_env->getPointAmbient(l);
-				light.Position = (const D3DVECTOR&)light_env->getPointCenter(l);
-				light.Range = light_env->getPointOrad(l);
-				
-				// Inverse linear light 1/(1+D)
-				double a,b;
-				b = light_env->getPointOrad(l);
-				a = light_env->getPointIrad(l);
-
-//(gth) CNC3 Generals code for the attenuation factors is causing the lights to over-brighten
-//I'm changing the Attenuation0 parameter to 1.0 to avoid this problem.				
-#if 0
-				light.Attenuation0=0.01f;
-#else
-				light.Attenuation0=1.0f;
-#endif
-				if (fabs(a-b)<1e-5)
-					// if the attenuation range is too small assume uniform with cutoff
-					light.Attenuation1=0.0f;
-				else
-					// this will cause the light to drop to half intensity at the first far attenuation
-					light.Attenuation1=(float) 0.1/a;
-	
-				light.Attenuation2=8.0f/(b*b);
-			}
-
-			Set_Light(l,&light);
+			light.Attenuation2 = 8.0f / (b * b);
 		}
 
-		for (;l<4;++l) {
-			Set_Light(l,NULL);
-		}
-	}
-/*	else {
-		for (int l=0;l<4;++l) {
-			Set_Light(l,NULL);
-		}
-	}
-*/
-}
-
-// ?_Get_DX8_Front_Buffer@DX8Wrapper@@ present-unmatched
-IDirect3DSurface8 * DX8Wrapper::_Get_DX8_Front_Buffer()
-{
-	DX8_THREAD_ASSERT();
-	D3DDISPLAYMODE mode;
-
-	DX8CALL(GetDisplayMode(&mode));
-
-	IDirect3DSurface8 * fb=NULL;
-
-	DX8CALL(CreateImageSurface(mode.Width,mode.Height,D3DFMT_A8R8G8B8,&fb));
-
-	DX8CALL(GetFrontBuffer(fb));
-	return fb;
-}
-
-// ?_Get_DX8_Back_Buffer@DX8Wrapper@@ present-unmatched
-SurfaceClass * DX8Wrapper::_Get_DX8_Back_Buffer(unsigned int num)
-{
-	DX8_THREAD_ASSERT();
-
-	IDirect3DSurface8 * bb;
-	SurfaceClass *surf=NULL;
-	DX8CALL(GetBackBuffer(num,D3DBACKBUFFER_TYPE_MONO,&bb));
-	if (bb)
-	{
-		surf=NEW_REF(SurfaceClass,(bb));
-		bb->Release();
+		Set_Light(l, &light);
 	}
 
-	return surf;
+	for (; l < 4; ++l) {
+		Set_Light(l, NULL);
+	}
 }
 
 
-TextureClass *
-// ?Create_Render_Target@DX8Wrapper@@ present-unmatched
-DX8Wrapper::Create_Render_Target (int width, int height, WW3DFormat format)
-{
-	DX8_THREAD_ASSERT();
-	DX8_Assert();
-	number_of_DX8_calls++;
 
-	// Use the current display format if format isn't specified
-	if (format==WW3D_FORMAT_UNKNOWN) {
-		D3DDISPLAYMODE mode;
-		DX8CALL(GetDisplayMode(&mode));
-		format=D3DFormat_To_WW3DFormat(mode.Format);
-	}
 
-	// If render target format isn't supported return NULL
-	if (!Get_Current_Caps()->Support_Render_To_Texture_Format(format)) {
-		WWDEBUG_SAY(("DX8Wrapper - Render target format is not supported\r\n"));
-		return NULL;
-	}
-
-	//
-	//	Note: We're going to force the width and height to be powers of two and equal
-	//
-	const D3DCAPS8& dx8caps=Get_Current_Caps()->Get_DX8_Caps();
-	float poweroftwosize = width;
-	if (height > 0 && height < width) {
-		poweroftwosize = height;
-	}
-	poweroftwosize = ::Find_POT (poweroftwosize);
-
-	if (poweroftwosize>dx8caps.MaxTextureWidth) {
-		poweroftwosize=dx8caps.MaxTextureWidth;
-	}
-	if (poweroftwosize>dx8caps.MaxTextureHeight) {
-		poweroftwosize=dx8caps.MaxTextureHeight;
-	}
-
-	width = height = poweroftwosize;
-
-	//
-	//	Attempt to create the render target
-	//
-	TextureClass * tex = NEW_REF(TextureClass,(width,height,format,MIP_LEVELS_1,TextureClass::POOL_DEFAULT,true));
-
-	// 3dfx drivers are lying in the CheckDeviceFormat call and claiming
-	// that they support render targets!
-	if (tex->Peek_D3D_Base_Texture() == NULL) 
-	{
-		WWDEBUG_SAY(("DX8Wrapper - Render target creation failed!\r\n"));
-		REF_PTR_RELEASE(tex);
-	}
-
-	return tex;
-}
 
 //**********************************************************************************************
 //! Create render target with associated depth stencil buffer
@@ -3986,304 +3181,18 @@ void DX8Wrapper::Create_Render_Target
 	);
 }
 
-/*!
- * Set render target
- * KM Added optional custom z target
- */
-void DX8Wrapper::Set_Render_Target_With_Z
-(
-	TextureClass* texture,
-	ZTextureClass* ztexture
-)
-{
-	WWASSERT(texture!=NULL);
-	IDirect3DSurface8 * d3d_surf = texture->Get_D3D_Surface_Level();
-	WWASSERT(d3d_surf != NULL);
+// Set_Render_Target_With_Z (retail 0x00120850) keeps both surfaces in
+// W3DRadarResetSurface holders in BFME 2: DX8Wrapper_Set_Render_Target_With_Z.cpp.
 
-	IDirect3DSurface8* d3d_zbuf=NULL;
-	if (ztexture!=NULL)
-	{
+// DX8Wrapper::Set_Render_Target(IDirect3DSwapChain8*): BFME 2's body is the row 0x00120940 in
+// DX8Wrapper_Set_Render_Target_SwapChain_Thunk.cpp; Zero Hour's copy here duplicated it.
 
-		d3d_zbuf=ztexture->Get_D3D_Surface_Level();
-		WWASSERT(d3d_zbuf!=NULL);
-		Set_Render_Target(d3d_surf,d3d_zbuf);
-		d3d_zbuf->Release();
-	}
-	else
-	{
-		Set_Render_Target(d3d_surf,true);
-	}
-	d3d_surf->Release();
-
-	IsRenderToTexture = true;
-}
-
-void
-DX8Wrapper::Set_Render_Target(IDirect3DSwapChain8 *swap_chain)
-{
-	DX8_THREAD_ASSERT();
-	WWASSERT (swap_chain != NULL);
-
-	//
-	//	Get the back buffer for the swap chain
-	//
-	LPDIRECT3DSURFACE8 render_target = NULL;
-	swap_chain->GetBackBuffer (0, D3DBACKBUFFER_TYPE_MONO, &render_target);
-
-	//
-	//	Set this back buffer as the render targer
-	//
-	Set_Render_Target (render_target, true);
-
-	//
-	//	Release our hold on the back buffer
-	//
-	if (render_target != NULL) {
-		render_target->Release ();
-		render_target = NULL;
-	}
-
-	IsRenderToTexture = false;
-
-	return ;
-}
-
-void
-DX8Wrapper::Set_Render_Target(IDirect3DSurface8 *render_target, bool use_default_depth_buffer)
-{
-//#ifndef _XBOX
-	DX8_THREAD_ASSERT();
-	DX8_Assert();
-
-	//
-	//	Should we restore the default render target set a new one?
-	//
-	if (render_target == NULL || render_target == DefaultRenderTarget) 
-	{
-		// If there is currently a custom render target, default must NOT be NULL.
-		if (CurrentRenderTarget) 
-		{
-			WWASSERT(DefaultRenderTarget!=NULL);
-		}
-
-		//
-		//	Restore the default render target
-		//
-		if (DefaultRenderTarget != NULL) 
-		{
-			DX8CALL(SetRenderTarget (DefaultRenderTarget, DefaultDepthBuffer));
-			DefaultRenderTarget->Release ();
-			DefaultRenderTarget = NULL;
-			if (DefaultDepthBuffer) 
-			{
-				DefaultDepthBuffer->Release ();
-				DefaultDepthBuffer = NULL;
-			}
-		}
-
-		//
-		//	Release our hold on the "current" render target
-		//
-		if (CurrentRenderTarget != NULL) 
-		{
-			CurrentRenderTarget->Release ();
-			CurrentRenderTarget = NULL;
-		}
-
-		if (CurrentDepthBuffer!=NULL)
-		{
-			CurrentDepthBuffer->Release();
-			CurrentDepthBuffer=NULL;
-		}
-
-	} 
-	else if (render_target != CurrentRenderTarget) 
-	{
-		WWASSERT(DefaultRenderTarget==NULL);
-
-		//
-		//	We'll need the depth buffer later...
-		//
-		if (DefaultDepthBuffer == NULL) 
-		{
-//		IDirect3DSurface8 *depth_buffer = NULL;
-			DX8CALL(GetDepthStencilSurface (&DefaultDepthBuffer));
-		}
-
-		//
-		//	Get a pointer to the default render target (if necessary)
-		//
-		if (DefaultRenderTarget == NULL) 
-		{
-			DX8CALL(GetRenderTarget (&DefaultRenderTarget));
-		}
-
-		//
-		//	Release our hold on the old "current" render target
-		//
-		if (CurrentRenderTarget != NULL) 
-		{
-			CurrentRenderTarget->Release ();
-			CurrentRenderTarget = NULL;
-		}
-
-		if (CurrentDepthBuffer!=NULL)
-		{
-			CurrentDepthBuffer->Release();
-			CurrentDepthBuffer=NULL;
-		}
-
-		//
-		//	Keep a copy of the current render target (for housekeeping)
-		//
-		CurrentRenderTarget = render_target;
-		WWASSERT (CurrentRenderTarget != NULL);
-		if (CurrentRenderTarget != NULL) 
-		{
-			CurrentRenderTarget->AddRef ();
-
-			//
-			//	Switch render targets
-			//
-			if (use_default_depth_buffer) 
-			{
-				DX8CALL(SetRenderTarget (CurrentRenderTarget, DefaultDepthBuffer));
-			}
-			else 
-			{
-				DX8CALL(SetRenderTarget (CurrentRenderTarget, NULL));
-			}
-		}
-	}
-
-	//
-	//	Free our hold on the depth buffer
-	//
-//	if (depth_buffer != NULL) {
-//		depth_buffer->Release ();
-//		depth_buffer = NULL;
-//	}
-
-	IsRenderToTexture = false;
-	return ;
-//#endif // XBOX
-}
-
-
+// DX8Wrapper::Set_Render_Target: defined in DX8Wrapper_Set_Render_Target_Surface.cpp (its row's unit).
 //**********************************************************************************************
 //! Set render target with depth stencil buffer
 /*! KJM
 */
-void DX8Wrapper::Set_Render_Target
-(
-	IDirect3DSurface8* render_target, 
-	IDirect3DSurface8* depth_buffer 
-)
-{
-//#ifndef _XBOX
-	DX8_THREAD_ASSERT();
-	DX8_Assert();
-
-	//
-	//	Should we restore the default render target set a new one?
-	//
-	if (render_target == NULL || render_target == DefaultRenderTarget) 
-	{
-		// If there is currently a custom render target, default must NOT be NULL.
-		if (CurrentRenderTarget) 
-		{
-			WWASSERT(DefaultRenderTarget!=NULL);
-		}
-
-		//
-		//	Restore the default render target
-		//
-		if (DefaultRenderTarget != NULL) 
-		{
-			DX8CALL(SetRenderTarget (DefaultRenderTarget, DefaultDepthBuffer));
-			DefaultRenderTarget->Release ();
-			DefaultRenderTarget = NULL;
-			if (DefaultDepthBuffer) 
-			{
-				DefaultDepthBuffer->Release ();
-				DefaultDepthBuffer = NULL;
-			}
-		}
-
-		//
-		//	Release our hold on the "current" render target
-		//
-		if (CurrentRenderTarget != NULL) 
-		{
-			CurrentRenderTarget->Release ();
-			CurrentRenderTarget = NULL;
-		}
-
-		if (CurrentDepthBuffer!=NULL)
-		{
-			CurrentDepthBuffer->Release();
-			CurrentDepthBuffer=NULL;
-		}
-	}
-	else if (render_target != CurrentRenderTarget) 
-	{
-		WWASSERT(DefaultRenderTarget==NULL);
-
-		//
-		//	We'll need the depth buffer later...
-		//
-		if (DefaultDepthBuffer == NULL) 
-		{
-//		IDirect3DSurface8 *depth_buffer = NULL;
-			DX8CALL(GetDepthStencilSurface (&DefaultDepthBuffer));
-		}
-
-		//
-		//	Get a pointer to the default render target (if necessary)
-		//
-		if (DefaultRenderTarget == NULL) 
-		{
-			DX8CALL(GetRenderTarget (&DefaultRenderTarget));
-		}
-
-		//
-		//	Release our hold on the old "current" render target
-		//
-		if (CurrentRenderTarget != NULL) 
-		{
-			CurrentRenderTarget->Release ();
-			CurrentRenderTarget = NULL;
-		}
-
-		if (CurrentDepthBuffer!=NULL)
-		{
-			CurrentDepthBuffer->Release();
-			CurrentDepthBuffer=NULL;
-		}
-
-		//
-		//	Keep a copy of the current render target (for housekeeping)
-		//
-		CurrentRenderTarget = render_target;
-		CurrentDepthBuffer = depth_buffer;
-		WWASSERT (CurrentRenderTarget != NULL);
-		if (CurrentRenderTarget != NULL) 
-		{
-			CurrentRenderTarget->AddRef ();
-			CurrentDepthBuffer->AddRef();
-
-			//
-			//	Switch render targets
-			//
-			DX8CALL(SetRenderTarget (CurrentRenderTarget, CurrentDepthBuffer));
-		}
-	}
-
-	IsRenderToTexture=true;
-//#endif // XBOX
-}
-
-
+// DX8Wrapper::Set_Render_Target: defined in DX8Wrapper_Set_Render_Target_Depth.cpp (its row's unit).
 IDirect3DSwapChain8 *
 // D3DSWAPEFFECT_COPY (3) has no shim define yet (the shim spells only
 // DISCARD and COPY_VSYNC); guard so a later verbatim SDK completion does
@@ -4388,279 +3297,12 @@ void DX8Wrapper::Set_Gamma(float gamma,float bright,float contrast,bool calibrat
 	}
 }
 
-//**********************************************************************************************
-//! Resets render device to default state
-/*!
-*/
-// ?Apply_Default_State@DX8Wrapper@@ present-unmatched
-void DX8Wrapper::Apply_Default_State()
-{
-	SNAPSHOT_SAY(("DX8Wrapper::Apply_Default_State()\n"));
-	
-	// only set states used in game
-	Set_DX8_Render_State(D3DRS_ZENABLE, TRUE);
-//	Set_DX8_Render_State(D3DRS_FILLMODE, D3DFILL_SOLID);
-	Set_DX8_Render_State(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
-	//Set_DX8_Render_State(D3DRS_LINEPATTERN, 0);
-	Set_DX8_Render_State(D3DRS_ZWRITEENABLE, TRUE);
-	Set_DX8_Render_State(D3DRS_ALPHATESTENABLE, FALSE);
-	//Set_DX8_Render_State(D3DRS_LASTPIXEL, FALSE);
-	Set_DX8_Render_State(D3DRS_SRCBLEND, D3DBLEND_ONE);
-	Set_DX8_Render_State(D3DRS_DESTBLEND, D3DBLEND_ZERO);
-	Set_DX8_Render_State(D3DRS_CULLMODE, D3DCULL_CW);
-	Set_DX8_Render_State(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
-	Set_DX8_Render_State(D3DRS_ALPHAREF, 0);
-	Set_DX8_Render_State(D3DRS_ALPHAFUNC, D3DCMP_LESSEQUAL);
-	Set_DX8_Render_State(D3DRS_DITHERENABLE, FALSE);
-	Set_DX8_Render_State(D3DRS_ALPHABLENDENABLE, FALSE);
-	Set_DX8_Render_State(D3DRS_FOGENABLE, FALSE);
-	Set_DX8_Render_State(D3DRS_SPECULARENABLE, FALSE);
-//	Set_DX8_Render_State(D3DRS_ZVISIBLE, FALSE);
-//	Set_DX8_Render_State(D3DRS_FOGCOLOR, 0);
-//	Set_DX8_Render_State(D3DRS_FOGTABLEMODE, D3DFOG_NONE);
-//	Set_DX8_Render_State(D3DRS_FOGSTART, 0);
-
-//	Set_DX8_Render_State(D3DRS_FOGEND, WWMath::Float_As_Int(1.0f));
-//	Set_DX8_Render_State(D3DRS_FOGDENSITY, WWMath::Float_As_Int(1.0f));
-
-	//Set_DX8_Render_State(D3DRS_EDGEANTIALIAS, FALSE);
-	Set_DX8_Render_State(D3DRS_ZBIAS, 0);
-//	Set_DX8_Render_State(D3DRS_RANGEFOGENABLE, FALSE);
-	Set_DX8_Render_State(D3DRS_STENCILENABLE, FALSE);
-	Set_DX8_Render_State(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
-	Set_DX8_Render_State(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
-	Set_DX8_Render_State(D3DRS_STENCILPASS, D3DSTENCILOP_KEEP);
-	Set_DX8_Render_State(D3DRS_STENCILFUNC, D3DCMP_ALWAYS);
-	Set_DX8_Render_State(D3DRS_STENCILREF, 0);
-	Set_DX8_Render_State(D3DRS_STENCILMASK, 0xffffffff);
-	Set_DX8_Render_State(D3DRS_STENCILWRITEMASK, 0xffffffff);
-	Set_DX8_Render_State(D3DRS_TEXTUREFACTOR, 0);
-/*	Set_DX8_Render_State(D3DRS_WRAP0, D3DWRAP_U| D3DWRAP_V);
-	Set_DX8_Render_State(D3DRS_WRAP1, D3DWRAP_U| D3DWRAP_V);
-	Set_DX8_Render_State(D3DRS_WRAP2, D3DWRAP_U| D3DWRAP_V);
-	Set_DX8_Render_State(D3DRS_WRAP3, D3DWRAP_U| D3DWRAP_V);
-	Set_DX8_Render_State(D3DRS_WRAP4, D3DWRAP_U| D3DWRAP_V);
-	Set_DX8_Render_State(D3DRS_WRAP5, D3DWRAP_U| D3DWRAP_V);
-	Set_DX8_Render_State(D3DRS_WRAP6, D3DWRAP_U| D3DWRAP_V);
-	Set_DX8_Render_State(D3DRS_WRAP7, D3DWRAP_U| D3DWRAP_V);*/
-	Set_DX8_Render_State(D3DRS_CLIPPING, TRUE);
-	Set_DX8_Render_State(D3DRS_LIGHTING, FALSE);
-	//Set_DX8_Render_State(D3DRS_AMBIENT, 0);
-//	Set_DX8_Render_State(D3DRS_FOGVERTEXMODE, D3DFOG_NONE);
-	Set_DX8_Render_State(D3DRS_COLORVERTEX, TRUE);
-/*	Set_DX8_Render_State(D3DRS_LOCALVIEWER, TRUE);
-	Set_DX8_Render_State(D3DRS_NORMALIZENORMALS, FALSE);
-	Set_DX8_Render_State(D3DRS_DIFFUSEMATERIALSOURCE, D3DMCS_COLOR1);
-	Set_DX8_Render_State(D3DRS_SPECULARMATERIALSOURCE, D3DMCS_COLOR2);
-	Set_DX8_Render_State(D3DRS_AMBIENTMATERIALSOURCE, D3DMCS_MATERIAL);
-	Set_DX8_Render_State(D3DRS_EMISSIVEMATERIALSOURCE, D3DMCS_MATERIAL);
-	Set_DX8_Render_State(D3DRS_VERTEXBLEND, D3DVBF_DISABLE);*/
-	//Set_DX8_Render_State(D3DRS_CLIPPLANEENABLE, 0);
-	Set_DX8_Render_State(D3DRS_SOFTWAREVERTEXPROCESSING, FALSE);
-	//Set_DX8_Render_State(D3DRS_POINTSIZE, 0x3f800000);
-	//Set_DX8_Render_State(D3DRS_POINTSIZE_MIN, 0);
-	//Set_DX8_Render_State(D3DRS_POINTSPRITEENABLE, FALSE);
-	//Set_DX8_Render_State(D3DRS_POINTSCALEENABLE, FALSE);
-	//Set_DX8_Render_State(D3DRS_POINTSCALE_A, 0);
-	//Set_DX8_Render_State(D3DRS_POINTSCALE_B, 0);
-	//Set_DX8_Render_State(D3DRS_POINTSCALE_C, 0);
-	//Set_DX8_Render_State(D3DRS_MULTISAMPLEANTIALIAS, TRUE);
-	//Set_DX8_Render_State(D3DRS_MULTISAMPLEMASK, 0xffffffff);
-	//Set_DX8_Render_State(D3DRS_PATCHEDGESTYLE, D3DPATCHEDGE_DISCRETE);
-	//Set_DX8_Render_State(D3DRS_PATCHSEGMENTS, 0x3f800000);
-	//Set_DX8_Render_State(D3DRS_DEBUGMONITORTOKEN, D3DDMT_ENABLE);
-	//Set_DX8_Render_State(D3DRS_POINTSIZE_MAX, Float_At_Int(64.0f));
-	//Set_DX8_Render_State(D3DRS_INDEXEDVERTEXBLENDENABLE, FALSE);
-	Set_DX8_Render_State(D3DRS_COLORWRITEENABLE, 0x0000000f);
-	//Set_DX8_Render_State(D3DRS_TWEENFACTOR, 0);
-	Set_DX8_Render_State(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	//Set_DX8_Render_State(D3DRS_POSITIONORDER, D3DORDER_CUBIC);
-	//Set_DX8_Render_State(D3DRS_NORMALORDER, D3DORDER_LINEAR);
-
-	// disable TSS stages
-	int i;
-	for (i=0; i<CurrentCaps->Get_Max_Textures_Per_Pass(); i++)
-	{
-		Set_DX8_Texture_Stage_State(i, D3DTSS_COLOROP, D3DTOP_DISABLE);
-		Set_DX8_Texture_Stage_State(i, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-		Set_DX8_Texture_Stage_State(i, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
-
-		Set_DX8_Texture_Stage_State(i, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-		Set_DX8_Texture_Stage_State(i, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-		Set_DX8_Texture_Stage_State(i, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
-	
-		/*Set_DX8_Texture_Stage_State(i, D3DTSS_BUMPENVMAT00, 0);
-		Set_DX8_Texture_Stage_State(i, D3DTSS_BUMPENVMAT01, 0);
-		Set_DX8_Texture_Stage_State(i, D3DTSS_BUMPENVMAT10, 0);
-		Set_DX8_Texture_Stage_State(i, D3DTSS_BUMPENVMAT11, 0);
-		Set_DX8_Texture_Stage_State(i, D3DTSS_BUMPENVLSCALE, 0);
-		Set_DX8_Texture_Stage_State(i, D3DTSS_BUMPENVLOFFSET, 0);*/
-
-		Set_DX8_Texture_Stage_State(i, D3DTSS_TEXCOORDINDEX, i);
-		
-
-		Set_DX8_Texture_Stage_State(i, D3DTSS_ADDRESSU, D3DTADDRESS_WRAP);
-		Set_DX8_Texture_Stage_State(i, D3DTSS_ADDRESSV, D3DTADDRESS_WRAP);
-		Set_DX8_Texture_Stage_State(i, D3DTSS_BORDERCOLOR, 0);
-//		Set_DX8_Texture_Stage_State(i, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-//		Set_DX8_Texture_Stage_State(i, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-//		Set_DX8_Texture_Stage_State(i, D3DTSS_MIPFILTER, D3DTEXF_LINEAR);
-//		Set_DX8_Texture_Stage_State(i, D3DTSS_MIPMAPLODBIAS, 0);
-//		Set_DX8_Texture_Stage_State(i, D3DTSS_MAXMIPLEVEL, 0);
-//		Set_DX8_Texture_Stage_State(i, D3DTSS_MAXANISOTROPY, 1);
-		//Set_DX8_Texture_Stage_State(i, D3DTSS_ADDRESSW, D3DTADDRESS_WRAP);
-		//Set_DX8_Texture_Stage_State(i, D3DTSS_COLORARG0, D3DTA_CURRENT);
-		//Set_DX8_Texture_Stage_State(i, D3DTSS_ALPHAARG0, D3DTA_CURRENT);
-		//Set_DX8_Texture_Stage_State(i, D3DTSS_RESULTARG, D3DTA_CURRENT);
-
-		Set_DX8_Texture_Stage_State(i, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE);
-		Set_Texture(i,NULL);
-	}
-
-//	DX8Wrapper::Set_Material(NULL);
-	VertexMaterialClass::Apply_Null();
-
-	for (unsigned index=0;index<4;++index) {
-		SNAPSHOT_SAY(("Clearing light %d to NULL\n",index));
-		Set_DX8_Light(index,NULL);
-	}
-
-	// set up simple default TSS 
-	Vector4 vconst[MAX_VERTEX_SHADER_CONSTANTS];
-	memset(vconst,0,sizeof(Vector4)*MAX_VERTEX_SHADER_CONSTANTS);
-	Set_Vertex_Shader_Constant(0, vconst, MAX_VERTEX_SHADER_CONSTANTS);
-
-	Vector4 pconst[MAX_PIXEL_SHADER_CONSTANTS];
-	memset(pconst,0,sizeof(Vector4)*MAX_PIXEL_SHADER_CONSTANTS);
-	Set_Pixel_Shader_Constant(0, pconst, MAX_PIXEL_SHADER_CONSTANTS);
-
-	Set_Vertex_Shader(DX8_FVF_XYZNDUV2);
-	Set_Pixel_Shader(0);
-
-	ShaderClass::Invalidate();
-}
-
-// ?Get_DX8_Render_State_Name@DX8Wrapper@@ present-unmatched
-const char* DX8Wrapper::Get_DX8_Render_State_Name(D3DRENDERSTATETYPE state)
-{
-	switch (state) {
-	case D3DRS_ZENABLE                       : return "D3DRS_ZENABLE";
-	case D3DRS_FILLMODE                      : return "D3DRS_FILLMODE";
-	case D3DRS_SHADEMODE                     : return "D3DRS_SHADEMODE";
-	case D3DRS_LINEPATTERN                   : return "D3DRS_LINEPATTERN";
-	case D3DRS_ZWRITEENABLE                  : return "D3DRS_ZWRITEENABLE";
-	case D3DRS_ALPHATESTENABLE               : return "D3DRS_ALPHATESTENABLE";
-	case D3DRS_LASTPIXEL                     : return "D3DRS_LASTPIXEL";
-	case D3DRS_SRCBLEND                      : return "D3DRS_SRCBLEND";
-	case D3DRS_DESTBLEND                     : return "D3DRS_DESTBLEND";
-	case D3DRS_CULLMODE                      : return "D3DRS_CULLMODE";
-	case D3DRS_ZFUNC                         : return "D3DRS_ZFUNC";
-	case D3DRS_ALPHAREF                      : return "D3DRS_ALPHAREF";
-	case D3DRS_ALPHAFUNC                     : return "D3DRS_ALPHAFUNC";
-	case D3DRS_DITHERENABLE                  : return "D3DRS_DITHERENABLE";
-	case D3DRS_ALPHABLENDENABLE              : return "D3DRS_ALPHABLENDENABLE";
-	case D3DRS_FOGENABLE                     : return "D3DRS_FOGENABLE";
-	case D3DRS_SPECULARENABLE                : return "D3DRS_SPECULARENABLE";
-	case D3DRS_ZVISIBLE                      : return "D3DRS_ZVISIBLE";
-	case D3DRS_FOGCOLOR                      : return "D3DRS_FOGCOLOR";
-	case D3DRS_FOGTABLEMODE                  : return "D3DRS_FOGTABLEMODE";
-	case D3DRS_FOGSTART                      : return "D3DRS_FOGSTART";
-	case D3DRS_FOGEND                        : return "D3DRS_FOGEND";
-	case D3DRS_FOGDENSITY                    : return "D3DRS_FOGDENSITY";
-	case D3DRS_EDGEANTIALIAS                 : return "D3DRS_EDGEANTIALIAS";
-	case D3DRS_ZBIAS                         : return "D3DRS_ZBIAS";
-	case D3DRS_RANGEFOGENABLE                : return "D3DRS_RANGEFOGENABLE";
-	case D3DRS_STENCILENABLE                 : return "D3DRS_STENCILENABLE";
-	case D3DRS_STENCILFAIL                   : return "D3DRS_STENCILFAIL";
-	case D3DRS_STENCILZFAIL                  : return "D3DRS_STENCILZFAIL";
-	case D3DRS_STENCILPASS                   : return "D3DRS_STENCILPASS";
-	case D3DRS_STENCILFUNC                   : return "D3DRS_STENCILFUNC";
-	case D3DRS_STENCILREF                    : return "D3DRS_STENCILREF";
-	case D3DRS_STENCILMASK                   : return "D3DRS_STENCILMASK";
-	case D3DRS_STENCILWRITEMASK              : return "D3DRS_STENCILWRITEMASK";
-	case D3DRS_TEXTUREFACTOR                 : return "D3DRS_TEXTUREFACTOR";
-	case D3DRS_WRAP0                         : return "D3DRS_WRAP0";
-	case D3DRS_WRAP1                         : return "D3DRS_WRAP1";
-	case D3DRS_WRAP2                         : return "D3DRS_WRAP2";
-	case D3DRS_WRAP3                         : return "D3DRS_WRAP3";
-	case D3DRS_WRAP4                         : return "D3DRS_WRAP4";
-	case D3DRS_WRAP5                         : return "D3DRS_WRAP5";
-	case D3DRS_WRAP6                         : return "D3DRS_WRAP6";
-	case D3DRS_WRAP7                         : return "D3DRS_WRAP7";
-	case D3DRS_CLIPPING                      : return "D3DRS_CLIPPING";
-	case D3DRS_LIGHTING                      : return "D3DRS_LIGHTING";
-	case D3DRS_AMBIENT                       : return "D3DRS_AMBIENT";
-	case D3DRS_FOGVERTEXMODE                 : return "D3DRS_FOGVERTEXMODE";
-	case D3DRS_COLORVERTEX                   : return "D3DRS_COLORVERTEX";
-	case D3DRS_LOCALVIEWER                   : return "D3DRS_LOCALVIEWER";
-	case D3DRS_NORMALIZENORMALS              : return "D3DRS_NORMALIZENORMALS";
-	case D3DRS_DIFFUSEMATERIALSOURCE         : return "D3DRS_DIFFUSEMATERIALSOURCE";
-	case D3DRS_SPECULARMATERIALSOURCE        : return "D3DRS_SPECULARMATERIALSOURCE";
-	case D3DRS_AMBIENTMATERIALSOURCE         : return "D3DRS_AMBIENTMATERIALSOURCE";
-	case D3DRS_EMISSIVEMATERIALSOURCE        : return "D3DRS_EMISSIVEMATERIALSOURCE";
-	case D3DRS_VERTEXBLEND                   : return "D3DRS_VERTEXBLEND";
-	case D3DRS_CLIPPLANEENABLE               : return "D3DRS_CLIPPLANEENABLE";
-	case D3DRS_SOFTWAREVERTEXPROCESSING      : return "D3DRS_SOFTWAREVERTEXPROCESSING";
-	case D3DRS_POINTSIZE                     : return "D3DRS_POINTSIZE";
-	case D3DRS_POINTSIZE_MIN                 : return "D3DRS_POINTSIZE_MIN";
-	case D3DRS_POINTSPRITEENABLE             : return "D3DRS_POINTSPRITEENABLE";
-	case D3DRS_POINTSCALEENABLE              : return "D3DRS_POINTSCALEENABLE";
-	case D3DRS_POINTSCALE_A                  : return "D3DRS_POINTSCALE_A";
-	case D3DRS_POINTSCALE_B                  : return "D3DRS_POINTSCALE_B";
-	case D3DRS_POINTSCALE_C                  : return "D3DRS_POINTSCALE_C";
-	case D3DRS_MULTISAMPLEANTIALIAS          : return "D3DRS_MULTISAMPLEANTIALIAS";
-	case D3DRS_MULTISAMPLEMASK               : return "D3DRS_MULTISAMPLEMASK";
-	case D3DRS_PATCHEDGESTYLE                : return "D3DRS_PATCHEDGESTYLE";
-	case D3DRS_PATCHSEGMENTS                 : return "D3DRS_PATCHSEGMENTS";
-	case D3DRS_DEBUGMONITORTOKEN             : return "D3DRS_DEBUGMONITORTOKEN";
-	case D3DRS_POINTSIZE_MAX                 : return "D3DRS_POINTSIZE_MAX";
-	case D3DRS_INDEXEDVERTEXBLENDENABLE      : return "D3DRS_INDEXEDVERTEXBLENDENABLE";
-	case D3DRS_COLORWRITEENABLE              : return "D3DRS_COLORWRITEENABLE";
-	case D3DRS_TWEENFACTOR                   : return "D3DRS_TWEENFACTOR";
-	case D3DRS_BLENDOP                       : return "D3DRS_BLENDOP";
-//	case D3DRS_POSITIONORDER                 : return "D3DRS_POSITIONORDER";
-//	case D3DRS_NORMALORDER                   : return "D3DRS_NORMALORDER";
-	default											  : return "UNKNOWN";
-	}
-}
-
-// ?Get_DX8_Texture_Stage_State_Name@DX8Wrapper@@ present-unmatched
-const char* DX8Wrapper::Get_DX8_Texture_Stage_State_Name(D3DTEXTURESTAGESTATETYPE state)
-{
-	switch (state) {
-	case D3DTSS_COLOROP                   : return "D3DTSS_COLOROP";
-	case D3DTSS_COLORARG1                 : return "D3DTSS_COLORARG1";
-	case D3DTSS_COLORARG2                 : return "D3DTSS_COLORARG2";
-	case D3DTSS_ALPHAOP                   : return "D3DTSS_ALPHAOP";
-	case D3DTSS_ALPHAARG1                 : return "D3DTSS_ALPHAARG1";
-	case D3DTSS_ALPHAARG2                 : return "D3DTSS_ALPHAARG2";
-	case D3DTSS_BUMPENVMAT00              : return "D3DTSS_BUMPENVMAT00";
-	case D3DTSS_BUMPENVMAT01              : return "D3DTSS_BUMPENVMAT01";
-	case D3DTSS_BUMPENVMAT10              : return "D3DTSS_BUMPENVMAT10";
-	case D3DTSS_BUMPENVMAT11              : return "D3DTSS_BUMPENVMAT11";
-	case D3DTSS_TEXCOORDINDEX             : return "D3DTSS_TEXCOORDINDEX";
-	case D3DTSS_ADDRESSU                  : return "D3DTSS_ADDRESSU";
-	case D3DTSS_ADDRESSV                  : return "D3DTSS_ADDRESSV";
-	case D3DTSS_BORDERCOLOR               : return "D3DTSS_BORDERCOLOR";
-	case D3DTSS_MAGFILTER                 : return "D3DTSS_MAGFILTER";
-	case D3DTSS_MINFILTER                 : return "D3DTSS_MINFILTER";
-	case D3DTSS_MIPFILTER                 : return "D3DTSS_MIPFILTER";
-	case D3DTSS_MIPMAPLODBIAS             : return "D3DTSS_MIPMAPLODBIAS";
-	case D3DTSS_MAXMIPLEVEL               : return "D3DTSS_MAXMIPLEVEL";
-	case D3DTSS_MAXANISOTROPY             : return "D3DTSS_MAXANISOTROPY";
-	case D3DTSS_BUMPENVLSCALE             : return "D3DTSS_BUMPENVLSCALE";
-	case D3DTSS_BUMPENVLOFFSET            : return "D3DTSS_BUMPENVLOFFSET";
-	case D3DTSS_TEXTURETRANSFORMFLAGS     : return "D3DTSS_TEXTURETRANSFORMFLAGS";
-	case D3DTSS_ADDRESSW                  : return "D3DTSS_ADDRESSW";
-	case D3DTSS_COLORARG0                 : return "D3DTSS_COLORARG0";
-	case D3DTSS_ALPHAARG0                 : return "D3DTSS_ALPHAARG0";
-	case D3DTSS_RESULTARG                 : return "D3DTSS_RESULTARG";
-	default										  : return "UNKNOWN";
-	}
-}
-
 // ?Get_DX8_Render_State_Value_Name@DX8Wrapper@@ present-unmatched
-void DX8Wrapper::Get_DX8_Render_State_Value_Name(StringClass& name, D3DRENDERSTATETYPE state, unsigned value)
+// Defined ahead of Apply_Default_State and forced inline, so each literal
+// render state there folds this switch down to its one case.
+// Suppress its non-retail outlined copy; DX8WrapperGetRenderStateValueName.cpp
+// owns the external resolver at 0x00121A10. Matched callers inline it entirely.
+__declspec(dllimport) __forceinline void DX8Wrapper::Get_DX8_Render_State_Value_Name(StringClass& name, D3DRENDERSTATETYPE state, unsigned value)
 {
 	switch (state) {
 	case D3DRS_ZENABLE:
@@ -4808,333 +3450,179 @@ void DX8Wrapper::Get_DX8_Render_State_Value_Name(StringClass& name, D3DRENDERSTA
 	}
 }
 
-// ?Get_DX8_Texture_Stage_State_Value_Name@DX8Wrapper@@ present-unmatched
-void DX8Wrapper::Get_DX8_Texture_Stage_State_Value_Name(StringClass& name, D3DTEXTURESTAGESTATETYPE state, unsigned value)
+// The cached state setters in dx8wrapper.h own a snapshot StringClass, and
+// VC7.1 will not inline an exception-owning __forceinline body; BFME 2's
+// Apply_Default_State nevertheless carries each of them inline (one unwind
+// state per snapshot string), so the blocks are expanded here on the D3D9
+// device: SetRenderState 0xE4, SetTextureStageState 0x10C, SetSamplerState
+// 0x114.
+#define BFME_APPLY_RENDER_STATE(input_state,input_value) do { \
+	D3DRENDERSTATETYPE state=input_state; unsigned value=input_value; \
+	if (RenderStates[state]!=value) { \
+		if (WW3D::Is_Snapshot_Activated()) { \
+			StringClass value_name(0,true); \
+			Get_DX8_Render_State_Value_Name(value_name,state,value); \
+		} \
+		RenderStates[state]=value; \
+		BfmeApplyOps::Device()->SetRenderState(state,value); \
+		number_of_DX8_calls++; \
+		DX8_RECORD_RENDER_STATE_CHANGE(); \
+	} \
+} while (0)
+
+#define BFME_APPLY_TEXTURE_STAGE_STATE(input_stage,input_state,input_value) do { \
+	D3DTEXTURESTAGESTATETYPE state=input_state; unsigned value=input_value; \
+	const unsigned stage=input_stage; \
+	if (stage>=MAX_TEXTURE_STAGES) { \
+		BfmeApplyOps::Device()->SetTextureStageState(stage,state,value); \
+		number_of_DX8_calls++; \
+		break; \
+	} \
+	if (TextureStageStates[stage][state]==value) break; \
+	if (WW3D::Is_Snapshot_Activated()) { \
+		StringClass value_name(0,true); \
+		Get_DX8_Texture_Stage_State_Value_Name(value_name,state,value); \
+	} \
+	TextureStageStates[stage][state]=value; \
+	BfmeApplyOps::Device()->SetTextureStageState(stage,state,value); \
+	number_of_DX8_calls++; \
+	DX8_RECORD_TEXTURE_STAGE_STATE_CHANGE(); \
+} while (0)
+
+// D3D9 moved addressing and border colour to sampler state, uncached.
+#define BFME_APPLY_SAMPLER_STATE(stage,state,value) do { \
+	BfmeApplyOps::Device()->SetSamplerState(stage,state,value); \
+	number_of_DX8_calls++; \
+	DX8_RECORD_TEXTURE_STAGE_STATE_CHANGE(); \
+} while (0)
+
+//**********************************************************************************************
+//! Resets render device to default state
+/*!
+*/
+// BFME 2 (retail 0x00123170): Zero Hour's body without the stencil and
+// software-vertex-processing states, with COLORWRITEENABLE 7, the float depth
+// bias call for D3DRS_ZBIAS, three sampler states per stage and the holder
+// Set_Texture; the shader constants and shaders go straight to the device.
+void DX8Wrapper::Apply_Default_State()
 {
-	switch (state) {
-	case D3DTSS_COLOROP:
-	case D3DTSS_ALPHAOP:
-		name=Get_DX8_Texture_Op_Name(value);
-		break;
+	SNAPSHOT_SAY(("DX8Wrapper::Apply_Default_State()\n"));
 
-	case D3DTSS_COLORARG0:
-	case D3DTSS_COLORARG1:
-	case D3DTSS_COLORARG2:
-	case D3DTSS_ALPHAARG0:
-	case D3DTSS_ALPHAARG1:
-	case D3DTSS_ALPHAARG2:
-	case D3DTSS_RESULTARG:
-		name=Get_DX8_Texture_Arg_Name(value);
-		break;
+	// only set states used in game
+	unsigned zbuffer_enable=TRUE;
+	BFME_APPLY_RENDER_STATE(D3DRS_ZENABLE, zbuffer_enable);
+	unsigned shade_mode=D3DSHADE_GOURAUD;
+	BFME_APPLY_RENDER_STATE(D3DRS_SHADEMODE, shade_mode);
+	BFME_APPLY_RENDER_STATE(D3DRS_ZWRITEENABLE, TRUE);
+	BFME_APPLY_RENDER_STATE(D3DRS_ALPHATESTENABLE, FALSE);
+	BFME_APPLY_RENDER_STATE(D3DRS_SRCBLEND, D3DBLEND_ONE);
+	BFME_APPLY_RENDER_STATE(D3DRS_DESTBLEND, D3DBLEND_ZERO);
+	BFME_APPLY_RENDER_STATE(D3DRS_CULLMODE, D3DCULL_CW);
+	BFME_APPLY_RENDER_STATE(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
+	BFME_APPLY_RENDER_STATE(D3DRS_ALPHAREF, 0);
+	BFME_APPLY_RENDER_STATE(D3DRS_ALPHAFUNC, D3DCMP_LESSEQUAL);
+	BFME_APPLY_RENDER_STATE(D3DRS_DITHERENABLE, FALSE);
+	BFME_APPLY_RENDER_STATE(D3DRS_ALPHABLENDENABLE, FALSE);
+	BFME_APPLY_RENDER_STATE(D3DRS_FOGENABLE, FALSE);
+	BFME_APPLY_RENDER_STATE(D3DRS_SPECULARENABLE, FALSE);
 
-	case D3DTSS_ADDRESSU:
-	case D3DTSS_ADDRESSV:
-	case D3DTSS_ADDRESSW:
-		name=Get_DX8_Texture_Address_Name(value);
-		break;
+	bfmeSetProjectionDepthBias(0.0f);
+	BFME_APPLY_RENDER_STATE(D3DRS_TEXTUREFACTOR, 0);
 
-	case D3DTSS_MAGFILTER:
-	case D3DTSS_MINFILTER:
-	case D3DTSS_MIPFILTER:
-		name=Get_DX8_Texture_Filter_Name(value);
-		break;
+	BFME_APPLY_RENDER_STATE(D3DRS_CLIPPING, TRUE);
+	BFME_APPLY_RENDER_STATE(D3DRS_LIGHTING, FALSE);
+	BFME_APPLY_RENDER_STATE(D3DRS_COLORVERTEX, TRUE);
 
-	case D3DTSS_TEXTURETRANSFORMFLAGS:
-		name=Get_DX8_Texture_Transform_Flag_Name(value);
+	BFME_APPLY_RENDER_STATE(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_RED|D3DCOLORWRITEENABLE_GREEN|D3DCOLORWRITEENABLE_BLUE);
+	BFME_APPLY_RENDER_STATE(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 
-	// Floating point values
-	case D3DTSS_MIPMAPLODBIAS:
-	case D3DTSS_BUMPENVMAT00:
-	case D3DTSS_BUMPENVMAT01:
-	case D3DTSS_BUMPENVMAT10:
-	case D3DTSS_BUMPENVMAT11:
-	case D3DTSS_BUMPENVLSCALE:
-	case D3DTSS_BUMPENVLOFFSET:
-		name.Format("%f",*(float*)&value);
-		break;
+	// disable TSS stages
+	int i;
+	for (i=0; i<reinterpret_cast<BfmeEnumerationCaps *>(CurrentCaps)->GetMaxTextures(); i++)
+	{
+		BFME_APPLY_TEXTURE_STAGE_STATE(i, D3DTSS_COLOROP, D3DTOP_DISABLE);
+		BFME_APPLY_TEXTURE_STAGE_STATE(i, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+		BFME_APPLY_TEXTURE_STAGE_STATE(i, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
 
-	case D3DTSS_TEXCOORDINDEX:
-		if ((value&0xffff0000)==D3DTSS_TCI_CAMERASPACENORMAL) {
-			name.Format("D3DTSS_TCI_CAMERASPACENORMAL|%d",value&0xffff);
-		}
-		else if ((value&0xffff0000)==D3DTSS_TCI_CAMERASPACEPOSITION) {
-			name.Format("D3DTSS_TCI_CAMERASPACEPOSITION|%d",value&0xffff);
-		}
-		else if ((value&0xffff0000)==D3DTSS_TCI_CAMERASPACEREFLECTIONVECTOR) {
-			name.Format("D3DTSS_TCI_CAMERASPACEREFLECTIONVECTOR|%d",value&0xffff);
-		}
-		else {
-			name.Format("%d",value);
-		}
-		break;
+		BFME_APPLY_TEXTURE_STAGE_STATE(i, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+		BFME_APPLY_TEXTURE_STAGE_STATE(i, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+		BFME_APPLY_TEXTURE_STAGE_STATE(i, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
 
-	// Integer value
-	case D3DTSS_MAXMIPLEVEL:
-	case D3DTSS_MAXANISOTROPY:
-		name.Format("%d",value);
-		break;
-	// Hex values
-	case D3DTSS_BORDERCOLOR:
-		name.Format("0x%x",value);
-		break;
+		BFME_APPLY_TEXTURE_STAGE_STATE(i, D3DTSS_TEXCOORDINDEX, i);
 
-	default:
-		name.Format("UNKNOWN (%d)",value);
-		break;
+		// D3DSAMP_ADDRESSU, D3DSAMP_ADDRESSV and D3DSAMP_BORDERCOLOR.
+		BFME_APPLY_SAMPLER_STATE(i, 1, D3DTADDRESS_WRAP);
+		BFME_APPLY_SAMPLER_STATE(i, 2, D3DTADDRESS_WRAP);
+		BFME_APPLY_SAMPLER_STATE(i, 4, 1);
+
+		BFME_APPLY_TEXTURE_STAGE_STATE(i, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE);
+		bfmeEndSceneSetTexture(reinterpret_cast<BfmeEndSceneTextureResource **>(render_state.Textures),i,NULL,render_state_changed,TEXTURE0_CHANGED);
 	}
+
+//	DX8Wrapper::Set_Material(NULL);
+	VertexMaterialClass::Apply_Null();
+
+	for (unsigned index=0;index<4;++index) {
+		SNAPSHOT_SAY(("Clearing light %d to NULL\n",index));
+		BfmeApplyOps::Light(index,NULL);
+	}
+
+	// set up simple default TSS 
+	Vector4 vconst[MAX_VERTEX_SHADER_CONSTANTS];
+	memset(vconst,0,sizeof(Vector4)*MAX_VERTEX_SHADER_CONSTANTS);
+	if (memcmp(vconst,Vertex_Shader_Constants,sizeof(vconst))!=0) {
+		memcpy(Vertex_Shader_Constants,vconst,sizeof(vconst));
+		BfmeApplyOps::Device()->SetVertexShaderConstantF(0,reinterpret_cast<const float *>(vconst),MAX_VERTEX_SHADER_CONSTANTS);
+		number_of_DX8_calls++;
+	}
+
+	Vector4 pconst[MAX_PIXEL_SHADER_CONSTANTS];
+	memset(pconst,0,sizeof(Vector4)*MAX_PIXEL_SHADER_CONSTANTS);
+	if (memcmp(pconst,Pixel_Shader_Constants,sizeof(pconst))!=0) {
+		memcpy(Pixel_Shader_Constants,pconst,sizeof(pconst));
+		BfmeApplyOps::Device()->SetPixelShaderConstantF(0,reinterpret_cast<const float *>(pconst),MAX_PIXEL_SHADER_CONSTANTS);
+		number_of_DX8_calls++;
+	}
+
+	BfmeApplyOps::Device()->SetVertexShader(NULL);
+	number_of_DX8_calls++;
+	BfmeApplyOps::Device()->SetFVF(DX8_FVF_XYZNDUV2);
+	number_of_DX8_calls++;
+	BfmeApplyOps::Device()->SetPixelShader(NULL);
+	number_of_DX8_calls++;
+
+	ShaderClass::Invalidate();
 }
 
-const char* DX8Wrapper::Get_DX8_Texture_Op_Name(unsigned value)
-{
-	switch (value) {
-	case D3DTOP_DISABLE                      : return "D3DTOP_DISABLE";
-	case D3DTOP_SELECTARG1                   : return "D3DTOP_SELECTARG1";
-	case D3DTOP_SELECTARG2                   : return "D3DTOP_SELECTARG2";
-	case D3DTOP_MODULATE                     : return "D3DTOP_MODULATE";
-	case D3DTOP_MODULATE2X                   : return "D3DTOP_MODULATE2X";
-	case D3DTOP_MODULATE4X                   : return "D3DTOP_MODULATE4X";
-	case D3DTOP_ADD                          : return "D3DTOP_ADD";
-	case D3DTOP_ADDSIGNED                    : return "D3DTOP_ADDSIGNED";
-	case D3DTOP_ADDSIGNED2X                  : return "D3DTOP_ADDSIGNED2X";
-	case D3DTOP_SUBTRACT                     : return "D3DTOP_SUBTRACT";
-	case D3DTOP_ADDSMOOTH                    : return "D3DTOP_ADDSMOOTH";
-	case D3DTOP_BLENDDIFFUSEALPHA            : return "D3DTOP_BLENDDIFFUSEALPHA";
-	case D3DTOP_BLENDTEXTUREALPHA            : return "D3DTOP_BLENDTEXTUREALPHA";
-	case D3DTOP_BLENDFACTORALPHA             : return "D3DTOP_BLENDFACTORALPHA";
-	case D3DTOP_BLENDTEXTUREALPHAPM          : return "D3DTOP_BLENDTEXTUREALPHAPM";
-	case D3DTOP_BLENDCURRENTALPHA            : return "D3DTOP_BLENDCURRENTALPHA";
-	case D3DTOP_PREMODULATE                  : return "D3DTOP_PREMODULATE";
-	case D3DTOP_MODULATEALPHA_ADDCOLOR       : return "D3DTOP_MODULATEALPHA_ADDCOLOR";
-	case D3DTOP_MODULATECOLOR_ADDALPHA       : return "D3DTOP_MODULATECOLOR_ADDALPHA";
-	case D3DTOP_MODULATEINVALPHA_ADDCOLOR    : return "D3DTOP_MODULATEINVALPHA_ADDCOLOR";
-	case D3DTOP_MODULATEINVCOLOR_ADDALPHA    : return "D3DTOP_MODULATEINVCOLOR_ADDALPHA";
-	case D3DTOP_BUMPENVMAP                   : return "D3DTOP_BUMPENVMAP";
-	case D3DTOP_BUMPENVMAPLUMINANCE          : return "D3DTOP_BUMPENVMAPLUMINANCE";
-	case D3DTOP_DOTPRODUCT3                  : return "D3DTOP_DOTPRODUCT3";
-	case D3DTOP_MULTIPLYADD                  : return "D3DTOP_MULTIPLYADD";
-	case D3DTOP_LERP                         : return "D3DTOP_LERP";
-	default										     : return "UNKNOWN";
-	}
-}
+// DX8Wrapper::Get_DX8_Render_State_Name: defined in dx8wrapper_names.cpp (its row's unit).
+// DX8Wrapper::Get_DX8_Texture_Stage_State_Name: defined in dx8wrapper_names.cpp (its row's unit).
 
-const char* DX8Wrapper::Get_DX8_Texture_Arg_Name(unsigned value)
-{
-	switch (value) {
-	case D3DTA_CURRENT			: return "D3DTA_CURRENT";
-	case D3DTA_DIFFUSE			: return "D3DTA_DIFFUSE";
-	case D3DTA_SELECTMASK		: return "D3DTA_SELECTMASK";
-	case D3DTA_SPECULAR			: return "D3DTA_SPECULAR";
-	case D3DTA_TEMP				: return "D3DTA_TEMP";
-	case D3DTA_TEXTURE			: return "D3DTA_TEXTURE";
-	case D3DTA_TFACTOR			: return "D3DTA_TFACTOR";
-	case D3DTA_ALPHAREPLICATE	: return "D3DTA_ALPHAREPLICATE";
-	case D3DTA_COMPLEMENT		: return "D3DTA_COMPLEMENT";
-	default					      : return "UNKNOWN";
-	}
-}
-
-const char* DX8Wrapper::Get_DX8_Texture_Filter_Name(unsigned value)
-{
-	switch (value) {
-	case D3DTEXF_NONE				: return "D3DTEXF_NONE";
-	case D3DTEXF_POINT			: return "D3DTEXF_POINT";
-	case D3DTEXF_LINEAR			: return "D3DTEXF_LINEAR";
-	case D3DTEXF_ANISOTROPIC	: return "D3DTEXF_ANISOTROPIC";
-	case D3DTEXF_FLATCUBIC		: return "D3DTEXF_FLATCUBIC";
-	case D3DTEXF_GAUSSIANCUBIC	: return "D3DTEXF_GAUSSIANCUBIC";
-	default					      : return "UNKNOWN";
-	}
-}
-
-const char* DX8Wrapper::Get_DX8_Texture_Address_Name(unsigned value)
-{
-	switch (value) {
-	case D3DTADDRESS_WRAP		: return "D3DTADDRESS_WRAP";
-	case D3DTADDRESS_MIRROR		: return "D3DTADDRESS_MIRROR";
-	case D3DTADDRESS_CLAMP		: return "D3DTADDRESS_CLAMP";
-	case D3DTADDRESS_BORDER		: return "D3DTADDRESS_BORDER";
-	case D3DTADDRESS_MIRRORONCE: return "D3DTADDRESS_MIRRORONCE";
-	default					      : return "UNKNOWN";
-	}
-}
-
-const char* DX8Wrapper::Get_DX8_Texture_Transform_Flag_Name(unsigned value)
-{
-	switch (value) {
-	case D3DTTFF_DISABLE			: return "D3DTTFF_DISABLE";
-	case D3DTTFF_COUNT1			: return "D3DTTFF_COUNT1";
-	case D3DTTFF_COUNT2			: return "D3DTTFF_COUNT2";
-	case D3DTTFF_COUNT3			: return "D3DTTFF_COUNT3";
-	case D3DTTFF_COUNT4			: return "D3DTTFF_COUNT4";
-	case D3DTTFF_PROJECTED		: return "D3DTTFF_PROJECTED";
-	default					      : return "UNKNOWN";
-	}
-}
-
-const char* DX8Wrapper::Get_DX8_ZBuffer_Type_Name(unsigned value)
-{
-	switch (value) {
-	case D3DZB_FALSE				: return "D3DZB_FALSE";
-	case D3DZB_TRUE				: return "D3DZB_TRUE";
-	case D3DZB_USEW				: return "D3DZB_USEW";
-	default					      : return "UNKNOWN";
-	}
-}
-
-const char* DX8Wrapper::Get_DX8_Fill_Mode_Name(unsigned value)
-{
-	switch (value) {
-	case D3DFILL_POINT			: return "D3DFILL_POINT";
-	case D3DFILL_WIREFRAME		: return "D3DFILL_WIREFRAME";
-	case D3DFILL_SOLID			: return "D3DFILL_SOLID";
-	default					      : return "UNKNOWN";
-	}
-}
-
-const char* DX8Wrapper::Get_DX8_Shade_Mode_Name(unsigned value)
-{
-	switch (value) {
-	case D3DSHADE_FLAT			: return "D3DSHADE_FLAT";
-	case D3DSHADE_GOURAUD		: return "D3DSHADE_GOURAUD";
-	case D3DSHADE_PHONG			: return "D3DSHADE_PHONG";
-	default							: return "UNKNOWN";
-	}
-}
-
-const char* DX8Wrapper::Get_DX8_Blend_Name(unsigned value)
-{
-	switch (value) {
-	case D3DBLEND_ZERO                : return "D3DBLEND_ZERO";
-	case D3DBLEND_ONE                 : return "D3DBLEND_ONE";
-	case D3DBLEND_SRCCOLOR            : return "D3DBLEND_SRCCOLOR";
-	case D3DBLEND_INVSRCCOLOR         : return "D3DBLEND_INVSRCCOLOR";
-	case D3DBLEND_SRCALPHA            : return "D3DBLEND_SRCALPHA";
-	case D3DBLEND_INVSRCALPHA         : return "D3DBLEND_INVSRCALPHA";
-	case D3DBLEND_DESTALPHA           : return "D3DBLEND_DESTALPHA";
-	case D3DBLEND_INVDESTALPHA        : return "D3DBLEND_INVDESTALPHA";
-	case D3DBLEND_DESTCOLOR           : return "D3DBLEND_DESTCOLOR";
-	case D3DBLEND_INVDESTCOLOR        : return "D3DBLEND_INVDESTCOLOR";
-	case D3DBLEND_SRCALPHASAT         : return "D3DBLEND_SRCALPHASAT";
-	case D3DBLEND_BOTHSRCALPHA        : return "D3DBLEND_BOTHSRCALPHA";
-	case D3DBLEND_BOTHINVSRCALPHA     : return "D3DBLEND_BOTHINVSRCALPHA";
-	default									 : return "UNKNOWN";
-	}
-}
-
-const char* DX8Wrapper::Get_DX8_Cull_Mode_Name(unsigned value)
-{
-	switch (value) {
-	case D3DCULL_NONE				: return "D3DCULL_NONE";
-	case D3DCULL_CW				: return "D3DCULL_CW";
-	case D3DCULL_CCW				: return "D3DCULL_CCW";
-	default							: return "UNKNOWN";
-	}
-}
-
-const char* DX8Wrapper::Get_DX8_Cmp_Func_Name(unsigned value)
-{
-	switch (value) {
-	case D3DCMP_NEVER          : return "D3DCMP_NEVER";
-	case D3DCMP_LESS           : return "D3DCMP_LESS";
-	case D3DCMP_EQUAL          : return "D3DCMP_EQUAL";
-	case D3DCMP_LESSEQUAL      : return "D3DCMP_LESSEQUAL";
-	case D3DCMP_GREATER        : return "D3DCMP_GREATER";
-	case D3DCMP_NOTEQUAL       : return "D3DCMP_NOTEQUAL";
-	case D3DCMP_GREATEREQUAL   : return "D3DCMP_GREATEREQUAL";
-	case D3DCMP_ALWAYS         : return "D3DCMP_ALWAYS";
-	default							: return "UNKNOWN";
-	}
-}
-
-const char* DX8Wrapper::Get_DX8_Fog_Mode_Name(unsigned value)
-{
-	switch (value) {
-	case D3DFOG_NONE				: return "D3DFOG_NONE";
-	case D3DFOG_EXP				: return "D3DFOG_EXP";
-	case D3DFOG_EXP2				: return "D3DFOG_EXP2";
-	case D3DFOG_LINEAR			: return "D3DFOG_LINEAR";
-	default							: return "UNKNOWN";
-	}
-}
-
-const char* DX8Wrapper::Get_DX8_Stencil_Op_Name(unsigned value)
-{
-	switch (value) {
-	case D3DSTENCILOP_KEEP		: return "D3DSTENCILOP_KEEP";
-	case D3DSTENCILOP_ZERO		: return "D3DSTENCILOP_ZERO";
-	case D3DSTENCILOP_REPLACE	: return "D3DSTENCILOP_REPLACE";
-	case D3DSTENCILOP_INCRSAT	: return "D3DSTENCILOP_INCRSAT";
-	case D3DSTENCILOP_DECRSAT	: return "D3DSTENCILOP_DECRSAT";
-	case D3DSTENCILOP_INVERT	: return "D3DSTENCILOP_INVERT";
-	case D3DSTENCILOP_INCR		: return "D3DSTENCILOP_INCR";
-	case D3DSTENCILOP_DECR		: return "D3DSTENCILOP_DECR";
-	default							: return "UNKNOWN";
-	}
-}
-
-const char* DX8Wrapper::Get_DX8_Material_Source_Name(unsigned value)
-{
-	switch (value) {
-	case D3DMCS_MATERIAL			: return "D3DMCS_MATERIAL";
-	case D3DMCS_COLOR1			: return "D3DMCS_COLOR1";
-	case D3DMCS_COLOR2			: return "D3DMCS_COLOR2";
-	default							: return "UNKNOWN";
-	}
-}
-
-const char* DX8Wrapper::Get_DX8_Vertex_Blend_Flag_Name(unsigned value)
-{
-	switch (value) {
-	case D3DVBF_DISABLE			: return "D3DVBF_DISABLE";
-	case D3DVBF_1WEIGHTS			: return "D3DVBF_1WEIGHTS";
-	case D3DVBF_2WEIGHTS			: return "D3DVBF_2WEIGHTS";
-	case D3DVBF_3WEIGHTS			: return "D3DVBF_3WEIGHTS";
-	case D3DVBF_TWEENING			: return "D3DVBF_TWEENING";
-	case D3DVBF_0WEIGHTS			: return "D3DVBF_0WEIGHTS";
-	default							: return "UNKNOWN";
-	}
-}
-
-const char* DX8Wrapper::Get_DX8_Patch_Edge_Style_Name(unsigned value)
-{
-	switch (value) {
-	case D3DPATCHEDGE_DISCRETE	: return "D3DPATCHEDGE_DISCRETE";
-   case D3DPATCHEDGE_CONTINUOUS:return "D3DPATCHEDGE_CONTINUOUS";
-	default							: return "UNKNOWN";
-	}
-}
-
-const char* DX8Wrapper::Get_DX8_Debug_Monitor_Token_Name(unsigned value)
-{
-	switch (value) {
-	case D3DDMT_ENABLE			: return "D3DDMT_ENABLE";
-	case D3DDMT_DISABLE			: return "D3DDMT_DISABLE";
-	default							: return "UNKNOWN";
-	}
-}
-
-const char* DX8Wrapper::Get_DX8_Blend_Op_Name(unsigned value)
-{
-	switch (value) {
-	case D3DBLENDOP_ADD			: return "D3DBLENDOP_ADD";
-	case D3DBLENDOP_SUBTRACT	: return "D3DBLENDOP_SUBTRACT";
-	case D3DBLENDOP_REVSUBTRACT: return "D3DBLENDOP_REVSUBTRACT";
-	case D3DBLENDOP_MIN			: return "D3DBLENDOP_MIN";
-	case D3DBLENDOP_MAX			: return "D3DBLENDOP_MAX";
-	default							: return "UNKNOWN";
-	}
-}
+// The native texture-stage value-name resolver is defined in
+// DX8WrapperGetTextureStageStateValueName.cpp at retail 0x00120B90.
 
 
+// DX8Wrapper::Get_DX8_Texture_Op_Name: defined in dx8wrapper_names.cpp (its row's unit).
+// DX8Wrapper::Get_DX8_Texture_Arg_Name: defined in dx8wrapper_names.cpp (its row's unit).
+// DX8Wrapper::Get_DX8_Texture_Filter_Name: defined in dx8wrapper_names.cpp (its row's unit).
+// DX8Wrapper::Get_DX8_Texture_Address_Name: defined in dx8wrapper_names.cpp (its row's unit).
+// DX8Wrapper::Get_DX8_Texture_Transform_Flag_Name: defined in dx8wrapper_names.cpp (its row's unit).
+// DX8Wrapper::Get_DX8_ZBuffer_Type_Name: defined in dx8wrapper_names.cpp (its row's unit).
+// DX8Wrapper::Get_DX8_Fill_Mode_Name: defined in dx8wrapper_names.cpp (its row's unit).
+// DX8Wrapper::Get_DX8_Shade_Mode_Name: defined in dx8wrapper_names.cpp (its row's unit).
+// DX8Wrapper::Get_DX8_Blend_Name: defined in dx8wrapper_names.cpp (its row's unit).
+// DX8Wrapper::Get_DX8_Cull_Mode_Name: defined in dx8wrapper_names.cpp (its row's unit).
+// DX8Wrapper::Get_DX8_Cmp_Func_Name: defined in dx8wrapper_names.cpp (its row's unit).
+// DX8Wrapper::Get_DX8_Fog_Mode_Name: defined in dx8wrapper_names.cpp (its row's unit).
+// DX8Wrapper::Get_DX8_Stencil_Op_Name: defined in dx8wrapper_names.cpp (its row's unit).
+// DX8Wrapper::Get_DX8_Material_Source_Name: defined in dx8wrapper_names.cpp (its row's unit).
+// DX8Wrapper::Get_DX8_Vertex_Blend_Flag_Name: defined in dx8wrapper_names.cpp (its row's unit).
+// DX8Wrapper::Get_DX8_Patch_Edge_Style_Name: defined in dx8wrapper_names.cpp (its row's unit).
+// DX8Wrapper::Get_DX8_Debug_Monitor_Token_Name: defined in dx8wrapper_names.cpp (its row's unit).
+// DX8Wrapper::Get_DX8_Blend_Op_Name: defined in dx8wrapper_names.cpp (its row's unit).
 //============================================================================
 // DX8Wrapper::getBackBufferFormat
 //============================================================================
 
-// ?getBackBufferFormat@DX8Wrapper@@ present-unmatched
-WW3DFormat	DX8Wrapper::getBackBufferFormat( void )
-{
-	return D3DFormat_To_WW3DFormat( _PresentParameters.BackBufferFormat );
-}
 
 /*
  * Copyright (C) 2002-2003 Jason Edmeades
@@ -5212,18 +3700,18 @@ struct BfmeProjectionDevice9 : BfmeResetDevice9 {
     virtual HRESULT __stdcall Clear(DWORD rect_count, const D3DRECT *rects, DWORD flags, D3DCOLOR color, float z, DWORD stencil)=0;
     virtual HRESULT __stdcall SetTransform(D3DTRANSFORMSTATETYPE state, const D3DMATRIX *matrix)=0;
 };
-extern float bfmeProjectionBias, bfmeProjectionNear, bfmeProjectionFar;
-extern Matrix4x4 bfmeProjectionSource, bfmeProjectionApplied;
+extern float bfmeProjectionBias;
+extern Matrix4x4 bfmeProjectionApplied;
 // Recovered BFME2 float depth-bias role; see docs/reconstruction/dx8wrapper-depth-bias.md.
 void bfmeSetProjectionDepthBias(float bias)
 {
 	if (bias == bfmeProjectionBias) return;
 	bfmeProjectionBias = bias;
-	bfmeProjectionApplied = bfmeProjectionSource;
-	if (bfmeProjectionNear != bfmeProjectionFar) {
+	bfmeProjectionApplied = DX8Wrapper::ProjectionMatrix;
+	if (DX8Wrapper::ZNear != DX8Wrapper::ZFar) {
 		float scaled = bias * 0.000625f;
-		bfmeProjectionApplied[3][2] -= (bfmeProjectionFar * bfmeProjectionNear /
-			(bfmeProjectionFar - bfmeProjectionNear)) * scaled;
+		bfmeProjectionApplied[3][2] -= (DX8Wrapper::ZFar * DX8Wrapper::ZNear /
+			(DX8Wrapper::ZFar - DX8Wrapper::ZNear)) * scaled;
 	}
 	reinterpret_cast<BfmeProjectionDevice9 *>(DX8Wrapper::_Get_D3D_Device8())->SetTransform(D3DTS_PROJECTION,reinterpret_cast<const D3DMATRIX *>(&bfmeProjectionApplied));
 	number_of_DX8_calls++;
@@ -5232,12 +3720,16 @@ void bfmeSetProjectionDepthBias(float bias)
 // Recovered primitive-drawing ABI and state offsets; see
 // docs/reconstruction/dx8wrapper-draw.md.
 extern bool bfmeOnlyEmissiveDraws;
-void bfmeDrawSortingPrimitive(unsigned,unsigned,unsigned,unsigned,unsigned);
-struct BfmeDrawOps:DX8Wrapper {
- static void Draw(unsigned primitive_type,unsigned start_index,unsigned polygon_count,unsigned min_vertex_index,unsigned vertex_count,bool indexed);
-};
-void BfmeDrawOps::Draw(unsigned primitive_type,unsigned start_index,unsigned polygon_count,unsigned min_vertex_index,unsigned vertex_count,bool indexed)
+// bfmeOnlyEmissiveDraws: matched references place it at VA 0xdec3d8 (zero-filled .bss).
+bool bfmeOnlyEmissiveDraws;
+// Name: WorldBuilder twin DXWrapper::Draw (call graph); the ledger's class spelling is ZH's
+// DX8Wrapper, and retail adds the trailing indexed flag to ZH's signature.
+void DX8Wrapper::Draw(unsigned primitive_type,unsigned start_index,unsigned polygon_count,unsigned min_vertex_index,unsigned vertex_count,bool indexed)
 {
+ // Anchor the rowed DynamicVBAccessClass::Get_Vertex_Count copy: the
+ // DynamicVB Set_Vertex_Buffer overload reads the 24-byte retail view
+ // directly, so this address-take is the unit's only remaining ODR-use.
+ (void)&DynamicVBAccessClass::Get_Vertex_Count;
  if (DrawPolygonLowBoundLimit && DrawPolygonLowBoundLimit>=polygon_count) return;
  if (bfmeOnlyEmissiveDraws) {
   if (!bfmeApplyRenderState.material) return;
@@ -5276,7 +3768,7 @@ void BfmeDrawOps::Draw(unsigned primitive_type,unsigned start_index,unsigned pol
  case BUFFER_TYPE_SORTING:case BUFFER_TYPE_DYNAMIC_SORTING:
   switch (bfmeApplyRenderState.indexType) {
   case BUFFER_TYPE_SORTING:case BUFFER_TYPE_DYNAMIC_SORTING:
-   bfmeDrawSortingPrimitive(primitive_type,start_index,polygon_count,min_vertex_index,vertex_count);break;
+   Draw_Sorting_IB_VB(primitive_type,start_index,polygon_count,min_vertex_index,vertex_count);break;
   case BUFFER_TYPE_DX8:case BUFFER_TYPE_DYNAMIC_DX8:break;
   }break;
  }
@@ -5284,13 +3776,6 @@ void BfmeDrawOps::Draw(unsigned primitive_type,unsigned start_index,unsigned pol
 
 // Buffer ownership and complete EH proof: docs/reconstruction/dx8wrapper-sorting-draw.md.
 // Existing reconstructed guard contract from reference/shims/indexbuffercount/dx8indexbuffer.h.
-extern void BFME_DX8_Thread_Lock();
-extern void BFME_DX8_Thread_Assert();
-class BFMEDX8DeviceLock {
-public:
- BFMEDX8DeviceLock() { BFME_DX8_Thread_Lock(); }
- ~BFMEDX8DeviceLock() { BFME_DX8_Thread_Assert(); }
-};
 struct BfmeSortingVBAccess {
  const BfmeApplyFVFPrefix *format; unsigned type,formatIndex,extra;
  unsigned short vertexCount,vertexOffset; BfmeApplyVertexBuffer *buffer;
@@ -5314,7 +3799,9 @@ struct BfmeSortingStats:DX8Wrapper {
  static __forceinline void Index() { DX8_RECORD_INDEX_BUFFER_CHANGE(); }
  static __forceinline void Draw() { DX8_RECORD_DRAW_CALLS(); }
 };
-void bfmeDrawSortingPrimitive(unsigned primitive_type,unsigned start_index,unsigned polygon_count,unsigned min_vertex_index,unsigned vertex_count)
+// Name: WorldBuilder twin 0x009A46D0 DXWrapper::Draw_Sorting_IB_VB (dxwrapper.cpp asserts
+// 2406..2473, call graph); the ledger's class spelling is ZH's DX8Wrapper.
+void DX8Wrapper::Draw_Sorting_IB_VB(unsigned primitive_type,unsigned start_index,unsigned polygon_count,unsigned min_vertex_index,unsigned vertex_count)
 {
  if (polygon_count>65535) return;
  if (vertex_count>65535) return;
@@ -5356,4 +3843,355 @@ void bfmeDrawSortingPrimitive(unsigned primitive_type,unsigned start_index,unsig
  BfmeSortingStats::Index();BfmeSortingStats::Draw();
  BfmeApplyOps::Device()->DrawIndexedPrimitive(D3DPT_TRIANGLELIST,vb.vertexOffset,0,vertex_count,ib.indexOffset,polygon_count);number_of_DX8_calls++;
  DX8_RECORD_RENDER(polygon_count,vertex_count,bfmeApplyRenderState.shader);
+}
+
+// ?BfmeResetDebugInstance@@3PAVBfmeResetDebug@@A: the global at this VA is ?theDebug@@3PAVDebug@@A; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?BfmeResetDebugInstance@@3PAVBfmeResetDebug@@A=?theDebug@@3PAVDebug@@A")
+#pragma comment(linker, "/alternatename:?g_BFMEIndexBufferDebug@@3PAVBFMEIndexBufferDebugClass@@A=?theDebug@@3PAVDebug@@A")
+#pragma comment(linker, "/alternatename:?TheGen001336E5C@@3PAVGen001336E5C@@A=?theDebug@@3PAVDebug@@A")
+#pragma comment(linker, "/alternatename:?theDebug@@3RAVDebug@@A=?theDebug@@3PAVDebug@@A")
+// ?bfmeSkipFixedFunctionState@@3_NA: matched references place it at VA 0xdeda20.
+bool bfmeSkipFixedFunctionState;
+// ?BfmeResetMeshRendererInstance@@3PAUBfmeResetMeshRenderer@@A: the global at this VA is ?TheDX8MeshRenderer@@3PAVDX8MeshRendererClass@@A; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?BfmeResetMeshRendererInstance@@3PAUBfmeResetMeshRenderer@@A=?TheDX8MeshRenderer@@3PAVDX8MeshRendererClass@@A")
+#pragma comment(linker, "/alternatename:?RendererPtr00DF363C@@3PAURendererFVFDeleteListView@@A=?TheDX8MeshRenderer@@3PAVDX8MeshRendererClass@@A")
+// ?bfmeProjectionBias@@3MA: matched references place it at VA 0xdeda74; also referenced as ?g_Va00DEDA74@@3MA.
+float bfmeProjectionBias;
+// ?g_Va00DEDA14@@3HA: the global at VA 0xdeda14 is ?Light_Environment@DX8Wrapper@@1PAVLightEnvironmentClass@@A.
+#pragma comment(linker, "/alternatename:?g_Va00DEDA14@@3HA=?Light_Environment@DX8Wrapper@@1PAVLightEnvironmentClass@@A")
+// ?BfmeResetMeshRendererInstance@@3PAUBfmeResetMeshRenderer@@A: the global at VA 0xdf363c is ?TheDX8MeshRenderer@@3PAVDX8MeshRendererClass@@A.
+#pragma comment(linker, "/alternatename:?BfmeResetMeshRendererInstance@@3PAUBfmeResetMeshRenderer@@A=?TheDX8MeshRenderer@@3PAVDX8MeshRendererClass@@A")
+// ?BfmeResetDebugInstance@@3PAVBfmeResetDebug@@A: the global at VA 0xde0880 is ?theDebug@@3PAVDebug@@A.
+#pragma comment(linker, "/alternatename:?BfmeResetDebugInstance@@3PAVBfmeResetDebug@@A=?theDebug@@3PAVDebug@@A")
+// ?bfmeApplyRenderState@@3UBfmeApplyRenderState@@A: the global at VA 0xdee5d8 is ?render_state@DX8Wrapper@@1URenderStateStruct@@A.
+#pragma comment(linker, "/alternatename:?bfmeApplyRenderState@@3UBfmeApplyRenderState@@A=?render_state@DX8Wrapper@@1URenderStateStruct@@A")
+
+// Retail's call sites in this unit's matched rows land on bodies rowed under
+// other spellings at the same addresses (same ABI). Bind the spellings used here.
+#pragma comment(linker, "/alternatename:_D3DXCreateTexture@32=?ji_0062af74@@YAXXZ")
+#pragma comment(linker, "/alternatename:?Device_Reset_Hook@BfmeResetMeshRenderer@@QAEXXZ=?DX8_Assert@@YAXXZ")
+#pragma comment(linker, "/alternatename:_bfmeDirectXErrorName@4=_DXGetErrorString9A@4")
+#pragma comment(linker, "/alternatename:??1ShroudManagerImpl008FBA40Element@@QAE@XZ=?DX8_Assert@@YAXXZ")
+#pragma comment(linker, "/alternatename:??1BfmeCellFC@@QAE@XZ=?DX8_Assert@@YAXXZ")
+#pragma comment(linker, "/alternatename:?Rva009A7030@@YAXXZ=?DX8_Assert@@YAXXZ")
+#pragma comment(linker, "/alternatename:?bfmeReset@Gen_008812D0@@QAEXXZ=?DX8_Assert@@YAXXZ")
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeThrow2V56@BfmeStrV56@@QAEXXZ=?DX8_Assert@@YAXXZ")
+#pragma comment(linker, "/alternatename:?bfmeThrow2V55@BfmeStrV55@@QAEXXZ=?DX8_Assert@@YAXXZ")
+#pragma comment(linker, "/alternatename:?Rva0069E440Empty@DX8MeshRendererClass@@QAEXXZ=?DX8_Assert@@YAXXZ")
+#pragma comment(linker, "/alternatename:?bfmeThrow2V54@BfmeStrV54@@QAEXXZ=?DX8_Assert@@YAXXZ")
+#pragma comment(linker, "/alternatename:?bfmeLenErrV43@BfmeStrV43@@QAEXXZ=?DX8_Assert@@YAXXZ")
+#pragma comment(linker, "/alternatename:?bfmeThrow2V53@BfmeStrV53@@QAEXXZ=?DX8_Assert@@YAXXZ")
+#pragma comment(linker, "/alternatename:?bfmeLenErrV23@BfmeStrV23@@QAEXXZ=?DX8_Assert@@YAXXZ")
+#pragma comment(linker, "/alternatename:?bfmeLenErrV38@BfmeStrV38@@QAEXXZ=?DX8_Assert@@YAXXZ")
+#pragma comment(linker, "/alternatename:?bfmeLenErrV22@BfmeStrV22@@QAEXXZ=?DX8_Assert@@YAXXZ")
+#pragma comment(linker, "/alternatename:?bfmeLenErrV21@BfmeStrV21@@QAEXXZ=?DX8_Assert@@YAXXZ")
+#pragma comment(linker, "/alternatename:??1CDEArraySlot@@QAE@XZ=?DX8_Assert@@YAXXZ")
+#pragma comment(linker, "/alternatename:?bfmeLengthErrorQX@BfmeThingQX@@QAEXXZ=?DX8_Assert@@YAXXZ")
+#pragma comment(linker, "/alternatename:??1DebugMember@@QAE@XZ=?DX8_Assert@@YAXXZ")
+#pragma comment(linker, "/alternatename:_bfmeDtorCbDMC=?DX8_Assert@@YAXXZ")
+#pragma comment(linker, "/alternatename:?bfmeFlushSXA@@YAXXZ=?DX8_Assert@@YAXXZ")
+#pragma comment(linker, "/alternatename:?bfmeFlushSTA@@YAXXZ=?DX8_Assert@@YAXXZ")
+
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeProjectionApplied@@3VMatrix4@@A=?g_mapperProjectionUpload_009EDBF0@@3VMatrix4@@A")
+
+// Shutdown follows the readable ZH DX8Wrapper::Shutdown semantic guide at
+// BFME1 6583b3c1. Retail 0x00125DC0..0x00125F98 independently proves the
+// D3D9 caps +0x2B0 limit, callback resets, 1464-byte descriptor cleanup and
+// destruction of renderer/context pointers at DF363C/DF6F94. Context naming
+// comes from existing target initialization/use evidence. Its declaration
+// only spells this direct destructor call, not a claim about its vtable.
+// The destructor target 0x00174753 is independently reached by the existing
+// deleting destructor at 0x0011CC10; class layout remains opaque here.
+// Retail clears these writable callback slots when unloading D3D8Lib.
+// DC/E0 call signatures come from the already rowed BfmeDX8Callbacks.cpp.
+// E4/E8 are opaque pointer slots; this body only resets them.
+BfmeD3DPerfGetStatus bfmeD3DPerfGetStatus = 0;
+BfmeWideTextHook bfmeData00DEDBDC = 0;
+BfmeVoidHook bfmeData00DEDBE0 = 0;
+void *bfmeData00DEDBE4 = 0;
+void *bfmeData00DEDBE8 = 0;
+extern DX8MeshRendererClass *ShutdownMeshRenderer;
+class Rva00DF6F94GapFillerContext { public: ~Rva00DF6F94GapFillerContext(); };
+extern Rva00DF6F94GapFillerContext *TheMeshGapFillerContext;
+#pragma comment(linker, "/alternatename:?ShutdownMeshRenderer@@3PAVDX8MeshRendererClass@@A=?TheDX8MeshRenderer@@3PAVDX8MeshRendererClass@@A")
+// Registry's verified StringClass vector-deleting destructor takes this same
+// four-byte-entry callback at RVA 0x00065F5B. Use the real inline destructor
+// for both tables; ordinary cleanup still calls Free_String directly.
+void DX8Wrapper::Shutdown(void)
+{
+	if (D3DDevice) {
+
+		Set_Render_Target ((IDirect3DSurface8 *)NULL);
+		Release_Device();
+	}
+
+	if (D3DInterface) {
+		D3DInterface->Release();
+		D3DInterface=NULL;
+
+	}
+
+	if (CurrentCaps)
+	{
+		int max=reinterpret_cast<BfmeEnumerationCaps *>(CurrentCaps)->MaxTexturesPerPass;
+		for (int i = 0; i < max; i++) 
+		{
+			if (Textures[i]) 
+			{
+				Textures[i]->Release();
+				Textures[i] = NULL;
+			}
+		}
+	}
+
+	if (D3DInterface) {
+		UINT newRefCount=D3DInterface->Release();
+		D3DInterface=NULL;
+	}
+
+	if (D3D8Lib) {
+		FreeLibrary(D3D8Lib);
+		D3D8Lib = NULL;
+        Direct3DCreate8Ptr = NULL;
+        bfmeData00DEDBDC = 0;
+        bfmeData00DEDBE0 = 0;
+        bfmeData00DEDBE4 = 0;
+        bfmeData00DEDBE8 = 0;
+	}
+
+	_RenderDeviceNameTable.Reset_Active(); _RenderDeviceNameTable.VectorClass<StringClass>::Clear();		 // note - Delete_All() resizes the vector, causing a reallocation.  Clear is better. jba.
+	_RenderDeviceShortNameTable.Reset_Active(); _RenderDeviceShortNameTable.VectorClass<StringClass>::Clear();
+// Native DEE5B8 is ActiveCount +0x10 from the table at DEE5A8.
+	_RenderDeviceDescriptionTable.Reset_Active(); reinterpret_cast<VectorClass<BfmeEnumerationDesc> &>(_RenderDeviceDescriptionTable).VectorClass<BfmeEnumerationDesc>::Clear();	
+
+	delete ShutdownMeshRenderer;
+    ShutdownMeshRenderer = 0;
+    delete TheMeshGapFillerContext;
+    TheMeshGapFillerContext = 0;
+	IsInitted = false;		// 010803 srj
+}
+
+
+
+// One-time shutdown uses the same proven D3D9 caps layout as enumeration.
+// Native FuncInfo D093D8 state0 unwinds through RefCountPtr dtor17098D:
+// texture slots therefore reset by assignment from a temporary null owner.
+// Native states1/2 prove the caps strings at2D4/2DC/2E0. Callee order is
+// read from1215F0..12176D; ZH names/semantics guide supported phases only.
+#include "../../../../../reference/shims/bfmestreak/ref_ptr.h"
+// The texture-slot reset below inlines this assignment; inline the stock body without
+// emitting a copy (it would name the view's Add_Ref, which no object defines).
+template<> __declspec(dllimport) __forceinline const RefCountPtr<BfmeResetResource> &
+RefCountPtr<BfmeResetResource>::operator =(const RefCountPtr<BfmeResetResource> & rhs)
+{
+	if (rhs.Referent) {
+		rhs.Referent->Add_Ref();
+	}
+	if (Referent) {
+		Referent->Release_Ref();
+	}
+	Referent = rhs.Referent;
+	return *this;
+}
+void Rva00912CF0();
+// The caller proves a no-argument call to the shared RET at B3FD0.
+// Its original phase name is unresolved. W3DNoDraw supplies that exact RET,
+// which reads no arguments and changes no caller-owned stack slots.
+void rva001216E7ShutdownPhase();
+#pragma comment(linker, "/alternatename:?rva001216E7ShutdownPhase@@YAXXZ=?W3DNoDraw@@YAXPAVGameWindow@@PAVWinInstanceData@@@Z")
+void DX8Wrapper::Do_Onetime_Device_Dependent_Shutdowns(void)
+{
+	/*
+	** Shutdown ww3d systems
+	*/
+	int i;
+	for (i=0;i<MAX_VERTEX_STREAMS;++i) {
+		if (render_state.vertex_buffers[i]) render_state.vertex_buffers[i]->Release_Engine_Ref();
+		if (render_state.vertex_buffers[i]) { render_state.vertex_buffers[i]->Release_Ref(); render_state.vertex_buffers[i]=0; }
+	}
+	if (render_state.index_buffer) {
+        render_state.index_buffer->Release_Engine_Ref();
+        if (render_state.index_buffer) {render_state.index_buffer->Release_Ref();render_state.index_buffer=0;}
+    }
+	if (render_state.material) {render_state.material->Release_Ref();render_state.material=0;}
+	for (i=0;i<reinterpret_cast<BfmeEnumerationCaps *>(CurrentCaps)->GetMaxTextures();++i) reinterpret_cast<RefCountPtr<BfmeResetResource> &>(render_state.Textures[i]) = RefCountPtr<BfmeResetResource>();
+
+
+	
+	SortingRendererClass::Deinit();
+	DynamicVBAccessClass::_Deinit();
+	DynamicIBAccessClass::_Deinit();
+	
+	Rva00912CF0();
+    rva001216E7ShutdownPhase();
+	VertexMaterialClass::Shutdown();
+	BoxRenderObjClass::Shutdown();
+	SHD_SHUTDOWN;
+	ShutdownMeshRenderer->Shutdown();
+	reinterpret_cast<BfmeResetMeshRenderer *>(ShutdownMeshRenderer)->Device_Reset_Hook();
+
+	if (CurrentCaps) {
+		delete reinterpret_cast<BfmeEnumerationCaps *>(CurrentCaps);
+		CurrentCaps=NULL;
+	}
+
+}
+
+
+
+// Device-state snapshot (retail 0x0011C770, no callers). BFME 2's version of
+// Open-BFME-1's Rva009038B0Capture (BFME 1 0x009038B0): the same render-state,
+// transform and texture-stage reads, now on the D3D9 device, preceded by a 0xCD
+// fill and extended with the material, the shader and texture bindings (each
+// reference GetX adds is released at once) and the fog states.
+// Layout from the retail stores; field names follow the D3D state each holds.
+struct Rva0011C770Unknown {
+	virtual HRESULT __stdcall QueryInterface(REFIID riid, void** ppvObject)=0;
+	virtual ULONG __stdcall AddRef()=0;
+	virtual ULONG __stdcall Release()=0;
+};
+struct IDirect3DVertexShader9 : Rva0011C770Unknown {};
+struct IDirect3DPixelShader9 : Rva0011C770Unknown {};
+struct IDirect3DBaseTexture9 : Rva0011C770Unknown {};
+
+struct Rva0011C770StageState
+{
+	DWORD ColorOp;
+	DWORD ColorArg1Select;		// D3DTA_SELECTMASK part of D3DTSS_COLORARG1
+	DWORD ColorArg1;			// its modifier bits
+	DWORD ColorArg2Select;
+	DWORD ColorArg2;
+	DWORD AlphaOp;
+	DWORD AlphaArg1Select;
+	DWORD AlphaArg1;
+	DWORD AlphaArg2Select;
+	DWORD AlphaArg2;
+	DWORD TexCoordIndex;
+	DWORD TextureTransformFlags;
+	D3DMATRIX TextureTransform;
+};
+
+struct Rva0011C770DeviceState
+{
+	DWORD CullMode;
+	DWORD ZEnable;
+	DWORD ZWriteEnable;
+	DWORD AlphaTestEnable;
+	DWORD SrcBlend;
+	DWORD DestBlend;
+	DWORD ZFunc;
+	DWORD AlphaRef;
+	DWORD AlphaFunc;
+	DWORD DitherEnable;
+	DWORD AlphaBlendEnable;
+	DWORD SpecularEnable;
+	DWORD StencilEnable;
+	DWORD TextureFactor;
+	DWORD Wrap0;
+	DWORD Wrap1;
+	DWORD Clipping;
+	DWORD Lighting;
+	DWORD NormalizeNormals;
+	DWORD ColorWriteEnable;
+	DWORD BlendOp;
+	DWORD BlendFactor;
+	DWORD DepthBias;
+	unsigned char Material[0x44];	// D3DMATERIAL9
+	D3DMATRIX World;
+	D3DMATRIX View;
+	D3DMATRIX Projection;
+	IDirect3DVertexShader9 *VertexShader;
+	IDirect3DPixelShader9 *PixelShader;
+	IDirect3DBaseTexture9 *Textures[16];
+	Rva0011C770StageState Stages[4];
+	DWORD FogEnable;
+	DWORD FogTableMode;
+	DWORD FogVertexMode;
+	DWORD FogStart;
+	DWORD FogEnd;
+	DWORD FogColor;
+};
+
+enum
+{
+	RVA0011C770_D3DRS_BLENDFACTOR = 193,	// D3D9 only
+	RVA0011C770_D3DRS_DEPTHBIAS = 195,
+};
+
+void Rva0011C770CaptureDeviceState(Rva0011C770DeviceState *state)
+{
+	memset(state, 0xCD, sizeof(*state));
+
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_CULLMODE, &state->CullMode);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_ZENABLE, &state->ZEnable);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_ZWRITEENABLE, &state->ZWriteEnable);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_ALPHATESTENABLE, &state->AlphaTestEnable);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_SRCBLEND, &state->SrcBlend);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_DESTBLEND, &state->DestBlend);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_ZFUNC, &state->ZFunc);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_ALPHAREF, &state->AlphaRef);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_ALPHAFUNC, &state->AlphaFunc);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_DITHERENABLE, &state->DitherEnable);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_ALPHABLENDENABLE, &state->AlphaBlendEnable);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_SPECULARENABLE, &state->SpecularEnable);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_STENCILENABLE, &state->StencilEnable);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_TEXTUREFACTOR, &state->TextureFactor);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_WRAP0, &state->Wrap0);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_WRAP1, &state->Wrap1);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_CLIPPING, &state->Clipping);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_LIGHTING, &state->Lighting);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_NORMALIZENORMALS, &state->NormalizeNormals);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_COLORWRITEENABLE, &state->ColorWriteEnable);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_BLENDOP, &state->BlendOp);
+	BfmeApplyOps::Device()->GetRenderState((D3DRENDERSTATETYPE)RVA0011C770_D3DRS_BLENDFACTOR, &state->BlendFactor);
+	BfmeApplyOps::Device()->GetRenderState((D3DRENDERSTATETYPE)RVA0011C770_D3DRS_DEPTHBIAS, &state->DepthBias);
+	BfmeApplyOps::Device()->GetMaterial(reinterpret_cast<D3DMATERIAL9 *>(state->Material));
+	BfmeApplyOps::Device()->GetTransform(D3DTS_WORLD, &state->World);
+	BfmeApplyOps::Device()->GetTransform(D3DTS_VIEW, &state->View);
+	BfmeApplyOps::Device()->GetTransform(D3DTS_PROJECTION, &state->Projection);
+
+	if (SUCCEEDED(BfmeApplyOps::Device()->GetVertexShader(&state->VertexShader)) && state->VertexShader) {
+		state->VertexShader->Release();
+	}
+	if (SUCCEEDED(BfmeApplyOps::Device()->GetPixelShader(&state->PixelShader)) && state->PixelShader) {
+		state->PixelShader->Release();
+	}
+	for (unsigned i = 0; i < 16; ++i) {
+		if (SUCCEEDED(BfmeApplyOps::Device()->GetTexture(i, &state->Textures[i])) && state->Textures[i]) {
+			state->Textures[i]->Release();
+		}
+	}
+
+	for (unsigned stage = 0; stage < 4; ++stage) {
+		Rva0011C770StageState &s = state->Stages[stage];
+		BfmeApplyOps::Device()->GetTextureStageState(stage, D3DTSS_COLOROP, &s.ColorOp);
+		BfmeApplyOps::Device()->GetTextureStageState(stage, D3DTSS_COLORARG1, &s.ColorArg1);
+		s.ColorArg1Select = s.ColorArg1 & D3DTA_SELECTMASK;
+		s.ColorArg1 &= ~D3DTA_SELECTMASK;
+		BfmeApplyOps::Device()->GetTextureStageState(stage, D3DTSS_COLORARG2, &s.ColorArg2);
+		s.ColorArg2Select = s.ColorArg2 & D3DTA_SELECTMASK;
+		s.ColorArg2 &= ~D3DTA_SELECTMASK;
+		BfmeApplyOps::Device()->GetTextureStageState(stage, D3DTSS_ALPHAOP, &s.AlphaOp);
+		BfmeApplyOps::Device()->GetTextureStageState(stage, D3DTSS_ALPHAARG1, &s.AlphaArg1);
+		s.AlphaArg1Select = s.AlphaArg1 & D3DTA_SELECTMASK;
+		s.AlphaArg1 &= ~D3DTA_SELECTMASK;
+		BfmeApplyOps::Device()->GetTextureStageState(stage, D3DTSS_ALPHAARG2, &s.AlphaArg2);
+		s.AlphaArg2Select = s.AlphaArg2 & D3DTA_SELECTMASK;
+		s.AlphaArg2 &= ~D3DTA_SELECTMASK;
+		BfmeApplyOps::Device()->GetTextureStageState(stage, D3DTSS_TEXCOORDINDEX, &s.TexCoordIndex);
+		BfmeApplyOps::Device()->GetTextureStageState(stage, D3DTSS_TEXTURETRANSFORMFLAGS, &s.TextureTransformFlags);
+		BfmeApplyOps::Device()->GetTransform((D3DTRANSFORMSTATETYPE)(D3DTS_TEXTURE0 + stage), &s.TextureTransform);
+	}
+
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_FOGENABLE, &state->FogEnable);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_FOGTABLEMODE, &state->FogTableMode);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_FOGVERTEXMODE, &state->FogVertexMode);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_FOGSTART, &state->FogStart);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_FOGEND, &state->FogEnd);
+	BfmeApplyOps::Device()->GetRenderState(D3DRS_FOGCOLOR, &state->FogColor);
 }

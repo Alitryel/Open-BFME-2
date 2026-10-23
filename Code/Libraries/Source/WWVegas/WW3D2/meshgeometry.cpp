@@ -1,4 +1,48 @@
 // cl: /Ireference/shims/meshgeom /Ireference/shims/bfmerendobj /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// Keep MSVC math.h float overloads local; matched operations already inline.
+#pragma push_macro("inline")
+#define inline static inline
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+#include <math.h>
+#pragma pop_macro("inline")
+// Link view first: Vector3 Length/Normalize/ctor and the scalar operator* stay inline without emitting
+// /O2 copies that compete with retail's owners (0x000692B3, 0x0006924F, 0x006CD510, 0x00066382, 0x0007DFB3).
+#include "../../../../../reference/shims/bfme_vector3_full_link/vector3_full_link.h"
+// Link view first: Vector4(x,y,z,w) stays inline without emitting an SSE
+// copy that competes with retail's integer-move owner (0x006D8A30).
+#include "../../../../../reference/shims/bfme_matrix3d_sse_link/vector4.h"
+// Link view first: Matrix3D(), Matrix3D(bool) and Matrix3D(const Matrix3D&) stay inline without
+// emitting /O2 copies that compete with retail's owners (0x000423C5, 0x0004C91A, 0x0006645C).
+#include "../../../../../reference/shims/bfme_matrix3d_full_link/matrix3d_full_link.h"
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+
+static inline void MeshGeom_Rotate_Vector(const Matrix3D &matrix3D, const Vector3 &in, Vector3 *out) {
+	Vector3 tmp = in;
+	out->X = (matrix3D[0][0] * tmp.X + matrix3D[0][1] * tmp.Y + matrix3D[0][2] * tmp.Z);
+	out->Y = (matrix3D[1][0] * tmp.X + matrix3D[1][1] * tmp.Y + matrix3D[1][2] * tmp.Z);
+	out->Z = (matrix3D[2][0] * tmp.X + matrix3D[2][1] * tmp.Y + matrix3D[2][2] * tmp.Z);
+}
+static inline void MeshGeom_Transform_Vector(const Matrix3D &matrix3D, const Vector3 &in, Vector3 *out) {
+	Vector3 tmp = in;
+	out->X = (matrix3D[0][0] * tmp.X + matrix3D[0][1] * tmp.Y + matrix3D[0][2] * tmp.Z + matrix3D[0][3]);
+	out->Y = (matrix3D[1][0] * tmp.X + matrix3D[1][1] * tmp.Y + matrix3D[1][2] * tmp.Z + matrix3D[1][3]);
+	out->Z = (matrix3D[2][0] * tmp.X + matrix3D[2][1] * tmp.Y + matrix3D[2][2] * tmp.Z + matrix3D[2][3]);
+}
+
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -86,6 +130,8 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+// Bind the triangle test to its rowed 704-byte owner rather than emit a wrong O2 COMDAT.
+#include "../../../../../reference/shims/bfme_triangle_decl/tri.h"
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "meshgeometry.h"
 // Retail allocates the replacement culling tree with the global scalar
@@ -94,6 +140,7 @@
 // only (same technique as BFME1's meshmatdesc.cpp; layout-safe, the macro
 // adds no data members or vtable slots).
 #include "always.h"
+#include "../../../../../reference/shims/bfmefrustum/plane.h"
 #pragma push_macro("W3DMPO_GLUE")
 #undef W3DMPO_GLUE
 #define W3DMPO_GLUE(ARGCLASS)
@@ -112,6 +159,12 @@
 #include "matrix4.h"
 #include "rinfo.h"
 #include "camera.h"
+// bfme link decl-only begin
+template <> ShareBufferClass<char>::~ShareBufferClass();
+template <> ShareBufferClass<unsigned short>::~ShareBufferClass();
+template <> ShareBufferClass<unsigned long>::~ShareBufferClass();
+template <> bool SimpleVecClass<Vector4>::Resize(int);
+// bfme link decl-only end
 
 
 #if (OPTIMIZE_PLANEEQ_RAM)
@@ -258,11 +311,7 @@ MeshGeometryClass::MeshGeometryClass(void) :
  * HISTORY:                                                                                    *
  *   11/9/2000  gth : Created.                                                                 *
  *=============================================================================================*/
-// ?MeshGeometryClass::~MeshGeometryClass present-unmatched
-MeshGeometryClass::~MeshGeometryClass(void)
-{
-	Reset_Geometry(0,0);
-}
+// ~MeshGeometryClass is owned by MeshGeometryClassBaseDestructor.cpp; declared in meshgeometry.h.
 
 
 /***********************************************************************************************
@@ -713,7 +762,6 @@ bool MeshGeometryClass::Cast_OBBox(OBBoxCollisionTestClass & boxtest)
  * HISTORY:                                                                                    *
  *   3/1/2001  NH : Created.                                                                   *
  *=============================================================================================*/
-// ?MeshGeometryClass::Intersect_OBBox present-unmatched
 bool MeshGeometryClass::Intersect_OBBox(OBBoxIntersectionTestClass & boxtest)
 {
 	bool hit = false;
@@ -753,25 +801,26 @@ bool MeshGeometryClass::Cast_World_Space_AABox(AABoxCollisionTestClass & boxtest
 	** that these compares are done
 	*/
 	bool hit = false;
+	Vector3 translation(transform[0][3], transform[1][3], transform[2][3]);
 	
 	if ((transform[0][0] == 1.0f) && (transform[1][1] == 1.0f)) {
 
-		hit = cast_aabox_identity(boxtest,-transform.Get_Translation());
+		hit = cast_aabox_identity(boxtest,-translation);
 	
 	} else if ((transform[0][1] == -1.0f) && (transform[1][0] == 1.0f)) {
 	
 		// this mesh has been rotated 90 degrees about z
-		hit = cast_aabox_z90(boxtest,-transform.Get_Translation());
+		hit = cast_aabox_z90(boxtest,-translation);
 	
 	} else if ((transform[0][0] == -1.0f) && (transform[1][1] == -1.0f)) {
 	
 		// this mesh has been rotated 180
-		hit = cast_aabox_z180(boxtest,-transform.Get_Translation());
+		hit = cast_aabox_z180(boxtest,-translation);
 	
 	} else if ((transform[0][1] == 1.0f) && (transform[1][0] == -1.0f)) {
 	
 		// this mesh has been rotated 270 
-		hit = cast_aabox_z270(boxtest,-transform.Get_Translation());
+		hit = cast_aabox_z270(boxtest,-translation);
 	
 	} else {
 
@@ -795,9 +844,9 @@ bool MeshGeometryClass::Cast_World_Space_AABox(AABoxCollisionTestClass & boxtest
 		** coordinate system.
 		*/
 		if (hit) {
-			Matrix3D::Rotate_Vector(transform, obbox.Result->Normal, &(obbox.Result->Normal));
+			MeshGeom_Rotate_Vector(transform, obbox.Result->Normal, &(obbox.Result->Normal));
 			if (boxtest.Result->ComputeContactPoint) {
-				Matrix3D::Transform_Vector(transform, obbox.Result->ContactPoint, &(obbox.Result->ContactPoint));
+				MeshGeom_Transform_Vector(transform, obbox.Result->ContactPoint, &(obbox.Result->ContactPoint));
 			}
 		}
 	}
@@ -1033,39 +1082,7 @@ bool MeshGeometryClass::cast_aabox_z270(AABoxCollisionTestClass & boxtest, const
  * HISTORY:                                                                                    *
  *   3/1/2001  NH : Created.                                                                   *
  *=============================================================================================*/
-// ?MeshGeometryClass::intersect_obbox_brute_force present-unmatched
-bool MeshGeometryClass::intersect_obbox_brute_force(OBBoxIntersectionTestClass & localtest)
-{
-	TriClass tri;
-	const Vector3 * loc = Get_Vertex_Array();
-	const TriIndex * polyverts = Get_Polygon_Array();
-#ifndef COMPUTE_NORMALS
-	const Vector4 * norms = Get_Plane_Array();
-#endif
-
-	/*
-	** Loop over each polygon
-	*/
-	for (int srtri=0; srtri < Get_Polygon_Count(); srtri++) {
-	
-		tri.V[0] = &(loc[ polyverts[srtri][0] ]);
-		tri.V[1] = &(loc[ polyverts[srtri][1] ]);
-		tri.V[2] = &(loc[ polyverts[srtri][2] ]);
-
-#ifdef COMPUTE_NORMALS					
-		static Vector3 _normal;
-		tri.N = &_normal;
-		tri.Compute_Normal();
-#else
-		tri.N = (Vector3 *)&(norms[srtri]);
-#endif
-		
-		if (CollisionMath::Intersection_Test(localtest.Box, tri)) {
-			return true;
-		}
-	}
-	return false;
-}
+// intersect_obbox_brute_force is owned by MeshGeometryClass_Intersect_OBBox_BruteForce.cpp; declared in meshgeometry.h.
 
 
 /***********************************************************************************************
@@ -1457,19 +1474,6 @@ Vector3 * MeshGeometryClass::get_vert_normals(void)
  * HISTORY:                                                                                    *
  *   6/14/2001  gth : Created.                                                                 *
  *=============================================================================================*/
-// ?MeshGeometryClass::Get_Vertex_Normal_Array present-unmatched
-const Vector3 * MeshGeometryClass::Get_Vertex_Normal_Array(void)
-{ 
-#if (OPTIMIZE_VNORM_RAM)
-	Compute_Vertex_Normals(get_vert_normals());
-	return get_vert_normals(); 
-#else
-	if (Get_Flag(DIRTY_VNORMALS)) {
-		Compute_Vertex_Normals(get_vert_normals());
-	}
-	return get_vert_normals(); 
-#endif
-}
 
 
 
@@ -1485,22 +1489,7 @@ const Vector3 * MeshGeometryClass::Get_Vertex_Normal_Array(void)
  * HISTORY:                                                                                    *
  *   6/14/2001  gth : Created.                                                                 *
  *=============================================================================================*/
-// ?MeshGeometryClass::get_planes present-unmatched
-Vector4 * MeshGeometryClass::get_planes(bool create)
-{
-#if (OPTIMIZE_PLANEEQ_RAM)
-	_PlaneEQArray.Uninitialised_Grow(PolyCount);
-	return &(_PlaneEQArray[0]);
-#else
-	if (create && !PlaneEq) {
-		PlaneEq = NEW_REF(ShareBufferClass<Vector4>,(PolyCount, "MeshGeometryClass::PlaneEq"));
-	}
-	if (PlaneEq) {
-		return PlaneEq->Get_Array();
-	}
-	return NULL;
-#endif
-}
+// get_planes is owned by MeshGeometryClassGetPlanes.cpp; declared in meshgeometry.h.
 
 
 /***********************************************************************************************
@@ -1996,20 +1985,8 @@ WW3DErrorType MeshGeometryClass::read_vertex_influences(ChunkLoadClass & cload)
  * HISTORY:                                                                                    *
  *   11/9/2000  gth : Created.                                                                 *
  *=============================================================================================*/
-// ?MeshGeometryClass::read_vertex_shade_indices present-unmatched
-bool MeshGeometryClass::read_vertex_shade_indices(ChunkLoadClass & cload)
-{
-	uint32 * shade_index = get_shade_indices(true);
-	uint32 si;
-
-	for (int i=0; i<*reinterpret_cast<int *>(reinterpret_cast<char *>(this) + 0x28); i++) {
-		if (cload.Read(&si,sizeof(uint32)) != sizeof(uint32)) {
-			return false;
-		}
-		shade_index[i] = si;
-	}
-	return true;
-}
+// ?read_vertex_shade_indices@MeshGeometryClass@@IAE_NAAVChunkLoadClass@@@Z is a row of Rva0016B3C0Cluster.cpp; this unit's copy was
+// a second, non-retail definition of it.
 
 
 /***********************************************************************************************
@@ -2095,11 +2072,11 @@ void MeshGeometryClass::Scale(const Vector3 &sc)
 		// If the scale is uniform, we can scale the cull tree, which is a lot faster than creating a new one
 		if (fabs(sc[0]-sc[1])<WWMATH_EPSILON && fabs(sc[0]-sc[2])<WWMATH_EPSILON) {
 			// create a copy of the old culltree
-			AABTreeClass *temp = NEW_REF(AABTreeClass, ());
-			*temp = *CullTree;
-			temp->Set_Mesh(this);
-			REF_PTR_SET(CullTree, temp);
-			REF_PTR_RELEASE(temp);
+			AABTreeClass *aABTree = NEW_REF(AABTreeClass, ());
+			*aABTree = *CullTree;
+			aABTree->Set_Mesh(this);
+			REF_PTR_SET(CullTree, aABTree);
+			REF_PTR_RELEASE(aABTree);
 			CullTree->Scale(sc[0]);
 		}
 		else {
@@ -2118,7 +2095,7 @@ void MeshGeometryClass::get_deformed_vertices(Vector3 *dst_vert,const HTreeClass
 	uint16 * bonelink = VertexBoneLink->Get_Array();
 	for (int vi = 0; vi < Get_Vertex_Count(); vi++) {
 		const Matrix3D & tm = htree->Get_Transform(bonelink[vi]);
-		Matrix3D::Transform_Vector(tm, src_vert[vi], &(dst_vert[vi]));
+		MeshGeom_Transform_Vector(tm, src_vert[vi], &(dst_vert[vi]));
 	}
 }
 
@@ -2188,3 +2165,10 @@ void MeshGeometryClass::get_deformed_screenspace_vertices(Vector4 *dst_vert,cons
 	VectorProcessorClass::Transform(dst_vert, src_vert, prj, vertex_count);
 }
 }
+
+// Retain the reference header's public accessor. Retail 0x0018C30E pushes
+// create=true into the already verified get_bone_links at 0x0016A0C0.
+// Donor: Open-BFME-1 a7c38d3b2597121f178ab5190b3062478823257d,
+// meshgeometry.h; GeneralsMD carries the same Get_Vertex_Bone_Links wrapper.
+const uint16 *(MeshGeometryClass::*bfmeVertexBoneLinksAccessor)() =
+    &MeshGeometryClass::Get_Vertex_Bone_Links;

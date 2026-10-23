@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004A6569@SupplyCenterProductionExitUpdate@@SA?AW4NameKeyType@@XZ @0x4A6569
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@SupplyCenterProductionExitUpdate@@UBE?AW4NameKeyType@@XZ @0x4A6569
 // (69B): cached pool-name key for SupplyCenterProductionExitUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("SupplyCenterProductionExitUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class SupplyCenterProductionExitUpdate
 {
 public:
-	static NameKeyType rva0004A6569();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004A6569@SupplyCenterProductionExitUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType SupplyCenterProductionExitUpdate::rva0004A6569()
+// ?getModuleNameKey@SupplyCenterProductionExitUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType SupplyCenterProductionExitUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheSupplyCenterProductionExitUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("SupplyCenterProductionExitUpdate");

@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva00049FE9A@ProneUpdate@@SA?AW4NameKeyType@@XZ @0x49FE9A
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@ProneUpdate@@UBE?AW4NameKeyType@@XZ @0x49FE9A
 // (69B): cached pool-name key for ProneUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("ProneUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ProneUpdate
 {
 public:
-	static NameKeyType rva00049FE9A();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00049FE9A@ProneUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType ProneUpdate::rva00049FE9A()
+// ?getModuleNameKey@ProneUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType ProneUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheProneUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("ProneUpdate");

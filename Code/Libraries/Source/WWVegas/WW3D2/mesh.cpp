@@ -1,4 +1,35 @@
-// cl: /Ireference/shims/bfmerendobj /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /FIbfme_wwstring_teardown.h /Ireference/shims/wwstring_teardown/bfme /Ireference/shims/bfmerendobj /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// Link view first: Matrix3D(), Matrix3D(bool) and Matrix3D(const Matrix3D&) stay inline without
+// emitting /O2 copies that compete with retail's owners (0x000423C5, 0x0004C91A, 0x0006645C).
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+#include "../../../../../reference/shims/bfme_matrix3d_full_link/matrix3d_full_link.h"
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+
+// BFME 2 has no W3D memory pools (see Code/Libraries/Source/WWVegas/WWLib/always.h).
+#include "always.h"
+#include "Vector.H"
+#include "vector3.h"
+// Retail keeps one VectorClass<Vector3>::Resize (0x000F0BF1); this unit calls it.
+template <> bool VectorClass<Vector3>::Resize(int newsize, Vector3 const * array);
+// Native 0x000F1C7A is supplied by FXShaderRendererSkin.cpp.
+template <> DynamicVectorClass<Vector3>::DynamicVectorClass(unsigned, Vector3 const *);
+template <> bool DynamicVectorClass<Vector3>::Resize(int, Vector3 const *);
+#undef W3DMPO_GLUE
+#define W3DMPO_GLUE(ARGCLASS)
 #define Matrix4x4 Matrix4
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "winbase_shim.h"
@@ -126,11 +157,16 @@ class CameraClass;
 #include "dx8rendererdebugger.h"
 #include <stdio.h>
 #include "wwprofile.h"
+// bfme link decl-only begin
+template <> VectorClass<Vector3>::VectorClass(int, Vector3 const *);
+// Retail keeps the nothrow-delete[] copies 0x001A7C80 and 0x001A7DE0; this unit's would carry an EH frame.
+template <> bool SimpleVecClass<Vector4>::Resize(int);
+template <> SimpleDynVecClass<Vector4>::~SimpleDynVecClass();
+// bfme link decl-only end
 
-static unsigned MeshDebugIdCount;
 
 bool MeshClass::Legacy_Meshes_Fogged = true;
-static SimpleDynVecClass<uint32> temp_apt;
+static SimpleDynVecClass<Vector4> temp_apt;	// retail 0x001AC680 loads the Vector4 tables 0x7D71C8/0x7D71D4
 
 /*
 ** This #define causes the collision code to always recompute the triangle normals rather
@@ -163,20 +199,8 @@ static DynamicVectorClass<Vector3>	_TempVertexBuffer;
  * HISTORY:                                                                                    *
  *   1/6/98     GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?MeshClass::MeshClass present-unmatched
-MeshClass::MeshClass(void) :
-	Model(NULL),
-	DecalMesh(NULL),
-	LightEnvironment(NULL),
-	BaseVertexOffset(0),
-	NextVisibleSkin(NULL),
-	IsDisabledByDebugger(false),
-	MeshDebugId(MeshDebugIdCount++),
-	m_alphaOverride(1.0f),
-	m_materialPassAlphaOverride(1.0f),
-	m_materialPassEmissiveOverride(1.0f)
-{
-}
+// BFME2's body is in MeshClassLifetime.cpp (retail 0x001495A0); it needs the BFME2
+// MeshClass layout, which the shared header used here does not carry.
 
 
 /***********************************************************************************************
@@ -192,22 +216,8 @@ MeshClass::MeshClass(void) :
  *                                                                                             *
  * HISTORY:                                                                                    *
  *=============================================================================================*/
-// ?MeshClass::MeshClass present-unmatched
-MeshClass::MeshClass(const MeshClass & that) :
-	RenderObjClass(that),
-	Model(NULL),
-	DecalMesh(NULL),
-	LightEnvironment(NULL),
-	BaseVertexOffset(that.BaseVertexOffset),
-	NextVisibleSkin(NULL),
-	IsDisabledByDebugger(false),
-	MeshDebugId(MeshDebugIdCount++),
-	m_alphaOverride(1.0f),
-	m_materialPassAlphaOverride(1.0f),
-	m_materialPassEmissiveOverride(1.0f)
-{
-	REF_PTR_SET(Model,that.Model);					// mesh instances share models by default
-}
+// BFME2's body is in MeshClassLifetime.cpp (retail 0x00149680); it needs the BFME2
+// MeshClass layout, which the shared header used here does not carry.
 
 
 /***********************************************************************************************
@@ -222,22 +232,7 @@ MeshClass::MeshClass(const MeshClass & that) :
  * HISTORY:                                                                                    *
  *   1/6/98     GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?MeshClass::operator= present-unmatched
-MeshClass & MeshClass::operator = (const MeshClass & that)
-{
-	if (this != &that) {
-
-		RenderObjClass::operator = (that);
-
-		REF_PTR_SET(Model,that.Model);				// mesh instances share models by default
-		BaseVertexOffset = that.BaseVertexOffset;
-
-		// just dont copy the decals or light environment
-		REF_PTR_RELEASE(DecalMesh);
-		LightEnvironment = NULL;
-	}
-	return * this;
-}
+// MeshClass::operator= defined in MeshClassLifetime.cpp
 
 
 /***********************************************************************************************
@@ -252,11 +247,8 @@ MeshClass & MeshClass::operator = (const MeshClass & that)
  * HISTORY:                                                                                    *
  *   1/6/98     GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?MeshClass::~MeshClass present-unmatched
-MeshClass::~MeshClass(void) 
-{
-	Free();
-}
+// BFME2's body is in MeshClassLifetime.cpp (retail 0x0014A5B0); it needs the BFME2
+// MeshClass layout, which the shared header used here does not carry.
 
 
 /***********************************************************************************************
@@ -314,11 +306,8 @@ void MeshClass::Free(void)
  * HISTORY:                                                                                    *
  *   1/6/98     GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?MeshClass::Clone present-unmatched
-RenderObjClass * MeshClass::Clone(void) const
-{
-	return NEW_REF( MeshClass, (*this));
-}
+// BFME2's body is in MeshClassLifetime.cpp (retail 0x001498E0); it needs the BFME2
+// MeshClass layout, which the shared header used here does not carry.
 
 
 /***********************************************************************************************
@@ -408,17 +397,8 @@ const char * MeshClass::Get_User_Text(void) const
  * HISTORY:                                                                                    *
  *   5/20/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?MeshClass::Get_Material_Info present-unmatched
-MaterialInfoClass * MeshClass::Get_Material_Info(void)
-{ 
-	if (Model) {
-		if (Model->MatInfo) {
-			Model->MatInfo->Add_Ref();
-			return Model->MatInfo; 
-		}
-	}
-	return NULL;
-}
+// BFME2's body is in MeshClassCollision.cpp (retail 0x00149980); it needs the BFME2
+// MeshModelClass layout (MatInfo at +0x98), which the shared header does not carry.
 
 
 /***********************************************************************************************
@@ -434,7 +414,7 @@ MaterialInfoClass * MeshClass::Get_Material_Info(void)
  *   2/4/99     GTH : Created.                                                                 *
  *=============================================================================================*/
 // ?MeshClass::Get_Model present-unmatched
-MeshModelClass * MeshClass::Get_Model(void)
+inline MeshModelClass * MeshClass::Get_Model(void)
 {
 	if (Model != NULL) {
 		Model->Add_Ref();
@@ -454,6 +434,7 @@ MeshModelClass * MeshClass::Get_Model(void)
  * HISTORY:                                                                                    *
  *=============================================================================================*/
 // ?MeshClass::Scale
+// ?MeshClass::Scale present-unmatched
 void MeshClass::Scale(float scale)
 {
 	if (scale==1.0f) return;
@@ -467,8 +448,13 @@ void MeshClass::Scale(float scale)
    Invalidate_Cached_Bounding_Volumes();
 
    // Now update the object space bounding volumes of this object's container:
-   RenderObjClass *container = Get_Container();
-   if (container) container->Update_Obj_Space_Bounding_Volumes();
+   // Retail stores Container at +0x7c and calls Update_Obj_Space_Bounding_Volumes at vtable +0x114.
+   RenderObjClass *container = *reinterpret_cast<RenderObjClass **>(reinterpret_cast<char *>(this) + 0x7c);
+   if (container) {
+      typedef void (__fastcall *UpdateBoundingVolumes)(RenderObjClass *);
+      void **vtable = *reinterpret_cast<void ***>(container);
+      reinterpret_cast<UpdateBoundingVolumes>(vtable[0x45])(container);
+   }
 }
 
 
@@ -500,8 +486,13 @@ void MeshClass::Scale(float scalex, float scaley, float scalez)
    Invalidate_Cached_Bounding_Volumes();
 
    // Now update the object space bounding volumes of this object's container:
-   RenderObjClass *container = Get_Container();
-   if (container) container->Update_Obj_Space_Bounding_Volumes();
+   // Retail stores Container at +0x7c and calls Update_Obj_Space_Bounding_Volumes at vtable +0x114.
+   RenderObjClass *container = *reinterpret_cast<RenderObjClass **>(reinterpret_cast<char *>(this) + 0x7c);
+   if (container) {
+      typedef void (__fastcall *UpdateBoundingVolumes)(RenderObjClass *);
+      void **vtable = *reinterpret_cast<void ***>(container);
+      reinterpret_cast<UpdateBoundingVolumes>(vtable[0x45])(container);
+   }
 }
 
 
@@ -517,12 +508,7 @@ void MeshClass::Scale(float scalex, float scaley, float scalez)
  * HISTORY:                                                                                    *
  *   3/4/2001   gth : Created.                                                                 *
  *=============================================================================================*/
-// ?MeshClass::Get_Deformed_Vertices present-unmatched
-void	MeshClass::Get_Deformed_Vertices(Vector3 *dst_vert, Vector3 *dst_norm)
-{
-	WWASSERT(Model->Get_Flag(MeshGeometryClass::SKIN));
-	Model->get_deformed_vertices(dst_vert,dst_norm,Container->Get_HTree());
-}
+// MeshClass::Get_Deformed_Vertices(Vector3 *, Vector3 *) is defined with its retail-matched body in Rva001499D0Cluster.cpp (0x001499D0).
 
 
 /***********************************************************************************************
@@ -537,15 +523,7 @@ void	MeshClass::Get_Deformed_Vertices(Vector3 *dst_vert, Vector3 *dst_norm)
  * HISTORY:                                                                                    *
  *   3/4/2001   gth : Created.                                                                 *
  *=============================================================================================*/
-// ?MeshClass::Get_Deformed_Vertices present-unmatched
-void MeshClass::Get_Deformed_Vertices(Vector3 *dst_vert)
-{
-	WWASSERT(Model->Get_Flag(MeshGeometryClass::SKIN));
-	WWASSERT(Container != NULL);
-	WWASSERT(Container->Get_HTree() != NULL);
-
-	Model->get_deformed_vertices(dst_vert,Container->Get_HTree());
-}
+// MeshClass::Get_Deformed_Vertices(Vector3 *) is defined with its retail-matched body in Rva001499D0Cluster.cpp (0x00149A10).
 
 /***********************************************************************************************
  * MeshClass::Create_Decal -- creates a decal on this mesh                                     *
@@ -599,18 +577,8 @@ void MeshClass::Delete_Decal(uint32 decal_id)
  * HISTORY:                                                                                    *
  *   1/6/98     GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?MeshClass::Get_Num_Polys present-unmatched
-int MeshClass::Get_Num_Polys(void) const
-{
-	if (Model) {
-		int num_passes=Model->Get_Pass_Count();
-		WWASSERT(num_passes>0);
-		int poly_count=Model->Get_Polygon_Count();
-		return num_passes*poly_count;
-	} else {
-		return 0;
-	}
-}
+// BFME2's body is in MeshClassCollision.cpp (retail 0x00149A50); it needs the BFME2
+// RenderObjClass view, which the shared header used here does not carry.
 
 
 /***********************************************************************************************
@@ -625,11 +593,7 @@ int MeshClass::Get_Num_Polys(void) const
  * HISTORY:                                                                                    *
  *   12/10/98   GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?MeshClass::Render present-unmatched
-void MeshClass::Render(RenderInfoClass & rinfo)
-{
-	// BFME: DX8 render path stubbed to compile the rest of the TU.
-}
+// MeshClass::Render is defined with its retail-matched body in Code/Libraries/Source/WWVegas/WW3D2/MeshClassRender.cpp (0x0014BB90).
 
 
 /***********************************************************************************************
@@ -644,11 +608,7 @@ void MeshClass::Render(RenderInfoClass & rinfo)
  * HISTORY:                                                                                    *
  *   3/4/2001   gth : Created.                                                                 *
  *=============================================================================================*/
-// ?MeshClass::Render_Material_Pass present-unmatched
-void MeshClass::Render_Material_Pass(MaterialPassClass * pass,IndexBufferClass * ib)
-{
-	// BFME: DX8 render path stubbed.
-}
+// MeshClass::Render_Material_Pass: defined in bfme2_mesh_material_pass.cpp (its row's unit).
 
 
 /***********************************************************************************************
@@ -709,11 +669,6 @@ void MeshClass::Special_Render(SpecialRenderInfoClass & rinfo)
 	}
 }
 
-// ?MeshClass::Replace_Texture present-unmatched
-void MeshClass::Replace_Texture(TextureClass* texture,TextureClass* new_texture)
-{
-	Model->Replace_Texture(texture,new_texture);
-}
 
 
 /***********************************************************************************************
@@ -753,19 +708,7 @@ void MeshClass::Replace_VertexMaterial(VertexMaterialClass* vmat,VertexMaterialC
  * HISTORY:                                                                                    *
  *   4/2/2001   hy : Created.                                                                  *
  *=============================================================================================*/
-// ?MeshClass::Make_Unique present-unmatched
-void MeshClass::Make_Unique(bool force_meshmdl_clone)
-{
-	// Usually we will not clone the mesh model if it is already unique - force_meshmdl_clone will
-	// force it to be cloned in any case. This is used in some special situations, for example if we
-	// want to change this mesh and it may have already been rendered, we need to clone the mesh
-	// model regardless of whether there is another mesh using it.
-	if (Model->Num_Refs()==1 && !force_meshmdl_clone) return;
-
-	MeshModelClass *newmesh=NEW_REF(MeshModelClass,(*Model));
-	REF_PTR_SET(Model,newmesh);
-	REF_PTR_RELEASE(newmesh);
-}
+// MeshClass::Make_Unique: defined in MeshClassMakeUnique.cpp (its row's unit).
 
 /*********************************************************************************************** 
  * MeshClass::Load -- creates a mesh out of a mesh chunk in a .w3d file                        * 
@@ -779,72 +722,6 @@ void MeshClass::Make_Unique(bool force_meshmdl_clone)
  * HISTORY:                                                                                    * 
  *   06/12/1997 GH  : Created.                                                                 * 
  *=============================================================================================*/
-// ?MeshClass::Load_W3D present-unmatched
-WW3DErrorType MeshClass::Load_W3D(ChunkLoadClass & cload)
-{
-	Vector3 boxmin,boxmax;
-
-	/*
-	** Make sure this mesh is "empty"
-	*/
-	Free();
-
-	/*
-	** Create empty MaterialInfo and Model
-	*/
-	Model = NEW_REF(MeshModelClass,());
-	if (Model == NULL) {
-		WWDEBUG_SAY(("MeshClass::Load - Failed to allocate model\r\n"));
-		return WW3D_ERROR_LOAD_FAILED;
-	}
-
-	/*
-	** Create and read in the model...
-	*/
-	if (Model->Load_W3D(cload) != WW3D_ERROR_OK) {
-		Free();
-		return WW3D_ERROR_LOAD_FAILED;
-	}
-
-	/*
-	** Pull interesting stuff out of the w3d attributes bits
-	*/
-	int col_bits = (Model->W3dAttributes & W3D_MESH_FLAG_COLLISION_TYPE_MASK) >> W3D_MESH_FLAG_COLLISION_TYPE_SHIFT;
-	Set_Collision_Type( col_bits << 1 );
-	Set_Hidden(Model->W3dAttributes & W3D_MESH_FLAG_HIDDEN);
-	
-	/*
-	** Indicate whether this mesh is translucent.  The mesh is considered translucent
-	** if sorting has been enabled (alpha blending on pass 0) or if pass0 contains alpha-test.
-	** This flag is mainly being used by visibility preprocessing code in Renegade.
-	*/
-	int is_translucent = Model->Get_Flag(MeshModelClass::SORT);
-	int is_alpha = 0;	//keep track of alpha pieces that require sorting (including static sort lists).
-	int is_additive = 0;
-	if (Model->Has_Shader_Array(0)) {
-		for (int i=0; i<Model->Get_Polygon_Count(); i++) {
-			ShaderClass shader = Model->Get_Shader(i,0);
-			is_translucent |= (shader.Get_Alpha_Test() == ShaderClass::ALPHATEST_ENABLE);
-			is_alpha |= (shader.Get_Dst_Blend_Func() != ShaderClass::DSTBLEND_ZERO ||
-									shader.Get_Src_Blend_Func() != ShaderClass::SRCBLEND_ONE) && (shader.Get_Alpha_Test() != ShaderClass::ALPHATEST_ENABLE);
-			is_additive |= (shader.Get_Dst_Blend_Func() == ShaderClass::DSTBLEND_ONE &&
-									shader.Get_Src_Blend_Func() == ShaderClass::SRCBLEND_ONE);
-		}
-	} else {
-		ShaderClass shader = Model->Get_Single_Shader(0);
-		is_translucent |= (shader.Get_Alpha_Test() == ShaderClass::ALPHATEST_ENABLE);
-		is_alpha |= (shader.Get_Dst_Blend_Func() != ShaderClass::DSTBLEND_ZERO ||
-									shader.Get_Src_Blend_Func() != ShaderClass::SRCBLEND_ONE) && (shader.Get_Alpha_Test() != ShaderClass::ALPHATEST_ENABLE);
-		is_additive |= (shader.Get_Dst_Blend_Func() == ShaderClass::DSTBLEND_ONE &&
-									shader.Get_Src_Blend_Func() == ShaderClass::SRCBLEND_ONE);
-	}
-	Set_Translucent(is_translucent);
-	Set_Alpha(is_alpha);
-	Set_Additive(is_additive);
-
-	return WW3D_ERROR_OK;
-
-}
 
 
 /***********************************************************************************************
@@ -859,49 +736,7 @@ WW3DErrorType MeshClass::Load_W3D(ChunkLoadClass & cload)
  * HISTORY:                                                                                    *
  *   6/17/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?MeshClass::Cast_Ray present-unmatched
-bool MeshClass::Cast_Ray(RayCollisionTestClass & raytest)
-{
-	if ((Get_Collision_Type() & raytest.CollisionType) == 0) return false;
-	//Modified for 'Generals' so we could select trees but filter out headlight beams, etc. -MW
-	if (raytest.CheckTranslucent && Is_Alpha()!=0)
-		return false;
-	if (Is_Hidden() && !raytest.CheckHidden) return false;
-	if (Is_Animation_Hidden()) return false;
-	if (raytest.Result->StartBad) return false;
-
-	Matrix3D world_to_obj;
-	Matrix3D world=Get_Transform();
-
-	// if aligned or oriented rotate the mesh so that it's aligned to the ray
-	if (Model->Get_Flag(MeshModelClass::ALIGNED)) {
-			Vector3 mesh_position;
-			world.Get_Translation(&mesh_position);
-			world.Obj_Look_At(mesh_position,mesh_position - raytest.Ray.Get_Dir(),0.0f);
-	} else if (Model->Get_Flag(MeshModelClass::ORIENTED)) {		
-			Vector3 mesh_position;
-			world.Get_Translation(&mesh_position);
-			world.Obj_Look_At(mesh_position,raytest.Ray.Get_P0(),0.0f);
-	}
-
-	world.Get_Inverse(world_to_obj);
-	RayCollisionTestClass objray(raytest,world_to_obj);
-
-	WWASSERT(Model);
-	
-	bool hit = Model->Cast_Ray(objray);
-	
-	// transform result back into original coordinate system
-	if (hit) {
-		raytest.CollidedRenderObj = this;
-		Matrix3D::Rotate_Vector(world,raytest.Result->Normal, &(raytest.Result->Normal));
-		if (raytest.Result->ComputeContactPoint) {
-			Matrix3D::Transform_Vector(world,raytest.Result->ContactPoint, &(raytest.Result->ContactPoint));
-		}
-	}
-	
-	return hit;
-}
+// MeshClass::Cast_Ray defined in MeshClassCastRay.cpp
 
 
 /***********************************************************************************************
@@ -996,17 +831,8 @@ bool MeshClass::Cast_OBBox(OBBoxCollisionTestClass & boxtest)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?MeshClass::Intersect_AABox present-unmatched
-bool MeshClass::Intersect_AABox(AABoxIntersectionTestClass & boxtest)
-{
-	if ((Get_Collision_Type() & boxtest.CollisionType) == 0) return false;
-
-	Matrix3D inv_tm;
-	Get_Transform().Get_Orthogonal_Inverse(inv_tm);
-	OBBoxIntersectionTestClass local_test(boxtest,inv_tm);
-	WWASSERT(Model);
-	return Model->Intersect_OBBox(local_test);
-}
+// BFME2's body is in MeshClassCollision.cpp (retail 0x0014B5E0); it needs the BFME2
+// RenderObjClass vtable, which the shared header used here does not carry.
 
 
 /***********************************************************************************************
@@ -1162,29 +988,31 @@ void MeshClass::Add_Dependencies_To_List
  * HISTORY:                                                                                    *
  *   5/14/2001    NH : Created.                                                                *
  *=============================================================================================*/
-// ?MeshClass::Update_Cached_Bounding_Volumes present-unmatched
-void MeshClass::Update_Cached_Bounding_Volumes(void) const
+// BFME2's body is in MeshClassCollision.cpp (retail 0x0014B650); it needs the BFME2
+// RenderObjClass view, which the shared header used here does not carry.
+
+namespace BfmeMeshBoundsAnchor
 {
-	Get_Obj_Space_Bounding_Sphere(CachedBoundingSphere);
-
-#ifdef ALLOW_TEMPORARIES
-	CachedBoundingSphere.Center = Get_Transform() * CachedBoundingSphere.Center;
-#else
-	Get_Transform().mulVector3(CachedBoundingSphere.Center);
-#endif
-
-	// If we are camera-aligned or -oriented, we don't know which way we are facing at this point,
-	// so the box we return needs to contain the sphere. Otherewise do the normal computation.
-	if (Model->Get_Flag(MeshModelClass::ALIGNED) || Model->Get_Flag(MeshModelClass::ORIENTED)) {
-		CachedBoundingBox.Center = CachedBoundingSphere.Center;
-		CachedBoundingBox.Extent.Set(CachedBoundingSphere.Radius, CachedBoundingSphere.Radius, CachedBoundingSphere.Radius);
-	} else {
-		Get_Obj_Space_Bounding_Box(CachedBoundingBox);
-		CachedBoundingBox.Transform(Get_Transform());
-	}
-
-	Validate_Cached_Bounding_Volumes();
+class Access : public MeshClass
+{
+public:
+	static void _bfmeMeshBoundsInlineAnchor(void *storage, Vector3 & center);
+};
 }
+
+// The Zero Hour Update_Cached_Bounding_Volumes kept these header inlines out
+// of line in this unit (rows 0x00102559 and 0x0013B180). The anchor retains
+// those bodies here now that the BFME2 caller lives elsewhere; it is not
+// retail code.
+#pragma inline_depth(0)
+// ?_bfmeMeshBoundsInlineAnchor@Access@BfmeMeshBoundsAnchor@@SAXPAXAAVVector3@@@Z absent-from-retail
+void BfmeMeshBoundsAnchor::Access::_bfmeMeshBoundsInlineAnchor(void *storage, Vector3 & center)
+{
+	Access *mesh = (Access *)storage;
+	mesh->Get_Transform().mulVector3(center);
+	mesh->Validate_Cached_Bounding_Volumes();
+}
+#pragma inline_depth()
 
 
 // This utility function recurses throughout the subobjects of a renderobject, and for each
@@ -1212,14 +1040,8 @@ void Set_MeshModel_Flag(RenderObjClass *robj, int flag, int onoff)
 	}
 }
 
-// ?MeshClass::Get_Sort_Level present-unmatched
-int MeshClass::Get_Sort_Level(void) const
-{ 
-	if (Model) {
-		return (Model->Get_Sort_Level());
-	}
-	return(SORT_LEVEL_NONE);
-}	
+// BFME2's body is in MeshClassCollision.cpp (retail 0x0014A070); it needs the BFME2
+// RenderObjClass view, which the shared header used here does not carry.
 
 // ?MeshClass::Set_Sort_Level present-unmatched
 void MeshClass::Set_Sort_Level(int level)
@@ -1259,3 +1081,69 @@ int MeshClass::Get_Draw_Call_Count(void) const
 	}
 }
 
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeMeshClassInlineAnchor@@YAXPAVMeshClass@@@Z absent-from-retail
+void _bfmeMeshClassInlineAnchor(MeshClass *mesh)
+{
+    mesh->Get_Model();
+}
+#pragma inline_depth()
+
+// ?bfmeEmitLineSegClassCtor@@YAXPAVLineSegClass@@ABV0@ABVMatrix3D@@@Z present-unmatched
+void bfmeEmitLineSegClassCtor(LineSegClass *lineSeg, const LineSegClass &src, const Matrix3D &tm)
+{
+    new (lineSeg) LineSegClass(src, tm);
+}
+
+// Box visibility rendering shares the mesh visibility path's unrecovered
+// rasterizer dependencies. Keep these donor bodies here while ordinary box
+// rendering can link independently. The geometry tables remain owned by boxrobj.cpp.
+#include "boxrobj.h"
+extern "C" TriIndex _BoxFaces[12];
+extern "C" Vector3 _BoxVerts[8];
+#define NUM_BOX_VERTS 8
+#define NUM_BOX_FACES 12
+
+// ?BoxRenderObjClass::vis_render_box present-unmatched
+void BoxRenderObjClass::vis_render_box(SpecialRenderInfoClass & rinfo,const Vector3 & center,const Vector3 & extent)
+{
+	if (!IsInitted) return;
+	
+	static Vector3 verts[NUM_BOX_VERTS];
+
+	// compute the vertex positions
+	for (int ivert=0; ivert<NUM_BOX_VERTS; ivert++) {
+		verts[ivert].X = center.X + _BoxVerts[ivert][0] * extent.X;
+		verts[ivert].Y = center.Y + _BoxVerts[ivert][1] * extent.Y;
+		verts[ivert].Z = center.Z + _BoxVerts[ivert][2] * extent.Z;
+	}
+
+	// render!
+	rinfo.VisRasterizer->Render_Triangles(verts,NUM_BOX_VERTS,_BoxFaces,NUM_BOX_FACES,Get_Bounding_Box());
+}
+
+// ?AABoxRenderObjClass::Special_Render present-unmatched
+void AABoxRenderObjClass::Special_Render(SpecialRenderInfoClass & rinfo)
+{
+	if (rinfo.RenderType == SpecialRenderInfoClass::RENDER_VIS) {
+		WWASSERT(rinfo.VisRasterizer != NULL);
+		const Matrix3D & tm = Transform;
+		Matrix3D temp(1);
+		temp.Translate(Vector3(tm[0][3], tm[1][3], tm[2][3]));
+		rinfo.VisRasterizer->Set_Model_Transform(temp);
+		vis_render_box(rinfo,ObjSpaceCenter,ObjSpaceExtent);
+	}
+}
+
+// ?OBBoxRenderObjClass::Special_Render present-unmatched
+void OBBoxRenderObjClass::Special_Render(SpecialRenderInfoClass & rinfo)
+{
+	if (rinfo.RenderType == SpecialRenderInfoClass::RENDER_VIS) {
+		WWASSERT(rinfo.VisRasterizer != NULL);
+		rinfo.VisRasterizer->Set_Model_Transform(Transform);
+		vis_render_box(rinfo,ObjSpaceCenter,ObjSpaceExtent);
+	}
+}

@@ -1,4 +1,4 @@
-// cl: /O1 /Ob2 /G7 /arch:SSE /Oy- /MD /EHs /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DNDEBUG
+// cl: /Ireference/shims/bfme2_ascii /Ob2 /MD /EHs /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DNDEBUG
 // stlport
 /*
 ** Copyright 2025 Electronic Arts Inc.
@@ -8,6 +8,14 @@
 // Target constructs its delimiter temporary on each loop condition and passes
 // its character pointer to StringBase::nextToken; it also calls StringBase::set.
 #include <map>
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 #include <wchar.h>
 
 typedef int Int;
@@ -20,45 +28,8 @@ typedef unsigned short WideChar;
 template<class T> class StringBase;
 class UnicodeString;
 
-template<class T>
-class StringBase
-{
-    struct Header
-    {
-        int refCount;
-        unsigned short length;
-        unsigned short capacity;
-        T text[1];
-    };
-    Header *m_data;
-    StringBase(const StringBase &other);
-    StringBase(const T *text);
-    __forceinline ~StringBase() { releaseBuffer(); }
-    void releaseBuffer();
-    friend class UnicodeString;
-public:
-    void set(const T *text);
-    Bool nextToken(StringBase<T> *token, const T *separators);
-    int compareNoCase(const StringBase& other) const throw();
-    int getLength() const { return m_data ? m_data->length : 0; }
-private:
-};
+#include "unicode_string.h"
 
-class UnicodeString : private StringBase<WideChar>
-{
-    friend class LanguageFilter;
-    friend struct UnicodeStringLessThan;
-public:
-    __forceinline UnicodeString(const WideChar *text) : StringBase<WideChar>(text) {}
-    __forceinline UnicodeString(const UnicodeString &other)
-        : StringBase<WideChar>(static_cast<const StringBase<WideChar>&>(other)) {}
-    __forceinline ~UnicodeString() {}
-    int getLength() const { return static_cast<const StringBase<WideChar>&>(*this).getLength(); }
-    const WideChar *str() const {
-        static const WideChar TheNullChr = 0;
-        return m_data ? m_data->text : &TheNullChr;
-    }
-};
 
 struct UnicodeStringLessThan
 {

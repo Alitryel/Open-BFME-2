@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??1BloodthirstyUpdate@@MAE@XZ, retail 0x0044DFE0, 32 bytes. Destructor for
 // BloodthirstyUpdate (ctor rowed at 0x0044E0AA in BloodthirstyUpdateCtor.cpp,
@@ -49,14 +49,22 @@ protected:
 	int m_bfmeReserved;
 };
 
+enum CommandSourceType
+{
+	CMD_FROM_AI = 2
+};
+
+// The +0x20 interface's vftable 0x00C3EFC4 opens with sacrificeHorde (0x0044E374).
 class BloodthirstyUpdateIface
 {
 public:
-	virtual void trailingAnchor();
+	virtual void sacrificeHorde(Object *victim, CommandSourceType source) = 0;
 };
 
 class BloodthirstyUpdate : public UpdateModule, public BloodthirstyUpdateIface
 {
+public:
+	virtual void sacrificeHorde(Object *victim, CommandSourceType source);
 protected:
 	virtual ~BloodthirstyUpdate();
 };
@@ -64,3 +72,8 @@ protected:
 BloodthirstyUpdate::~BloodthirstyUpdate()
 {
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?behaviorModuleOtherAnchor@BehaviorModuleOther@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

@@ -1,4 +1,4 @@
-// cl: /O1 /Oy /DNDEBUG /MD /GX- /Oi-
+// cl: /Oy /DNDEBUG /MD /GX- /Oi-
 //
 // ?parseICoord2D@INI@@SAXPAV1@PAX1PBX@Z, retail 0x002F5BA, 58 bytes.
 // Dedicated frameless TU (same INI verb family as INI_parseIndexList.cpp).
@@ -9,11 +9,7 @@
 // at 0x7BE3C8/0x7BE3C4). Name proven by the InGameUI FieldParse table
 // (MessagePosition/MilitaryCaptionPosition).
 
-struct ICoord2D
-{
-	int x;
-	int y;
-};
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
 
 class INI
 {

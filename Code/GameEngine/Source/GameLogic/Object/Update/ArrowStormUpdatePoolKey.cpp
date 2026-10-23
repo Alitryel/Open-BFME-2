@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004907F7@ArrowStormUpdate@@SA?AW4NameKeyType@@XZ @0x4907F7
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@ArrowStormUpdate@@UBE?AW4NameKeyType@@XZ @0x4907F7
 // (69B): cached pool-name key for ArrowStormUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("ArrowStormUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ArrowStormUpdate
 {
 public:
-	static NameKeyType rva0004907F7();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004907F7@ArrowStormUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType ArrowStormUpdate::rva0004907F7()
+// ?getModuleNameKey@ArrowStormUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType ArrowStormUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheArrowStormUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("ArrowStormUpdate");

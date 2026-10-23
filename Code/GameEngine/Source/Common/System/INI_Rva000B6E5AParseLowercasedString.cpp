@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 // Rva000B6E5A_ParseLowercasedString (retail 0x000B6E5A, 68 bytes). Reads one
 // AsciiString through the rowed getNextAsciiString at 0x002EA4F, assigns it
 // into the store through the rowed operator= at 0x00366F0, then lowercases
@@ -12,29 +12,8 @@ typedef int Bool;
 
 template <typename T> struct BfmeStringData;
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	void releaseBuffer();
+#include "ascii_string.h"
 
-public:
-	StringBase() : m_data(0) {}
-	~StringBase();
-	void set(const T *text);
-
-protected:
-	BfmeStringData<T> *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString() {}
-	AsciiString &operator=(const AsciiString &other);
-	void toLower();
-};
 
 class INI
 {
@@ -48,5 +27,5 @@ void INI::Rva000B6E5A_ParseLowercasedString(INI *ini, void * /*instance*/, void 
 {
 	AsciiString *text = (AsciiString *)store;
 	*text = ini->getNextAsciiString();
-	text->toLower();
+	((StringBase<char> *)text)->toLower();
 }

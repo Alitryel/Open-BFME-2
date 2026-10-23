@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 
 // ?getNameAndDescription@ScienceStore@@QBE_NW4ScienceType@@AAVUnicodeString@@1@Z @0x1FF449
 // (52B): ScienceStore::getNameAndDescription, BFME1 Science.cpp verbatim
@@ -14,24 +14,8 @@ enum ScienceType
 	SCIENCE_INVALID = -1
 };
 
-template <class T>
-class StringBase
-{
-public:
-	void set(const StringBase &o);
-	T *m_data;
-};
+#include "unicode_string.h"
 
-class UnicodeString
-{
-public:
-	void set(const UnicodeString &o)
-	{
-		reinterpret_cast< StringBase<unsigned short> & >(*this).set(
-			reinterpret_cast< const StringBase<unsigned short> & >(o));
-	}
-	StringBase<unsigned short> m_str;
-};
 
 class Overridable
 {

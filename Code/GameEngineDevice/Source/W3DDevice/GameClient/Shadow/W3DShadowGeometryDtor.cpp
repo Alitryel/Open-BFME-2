@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
+// cl: /O1 /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
 
 #define MAX_SHADOW_CASTER_MESHES 160
 
@@ -21,6 +21,8 @@ private:
 class HashableClass
 {
 public:
+	// Native EF9CF..EF9D6 restores BCEF94 between the verified base
+	// constructor EF9C2 and scalar deleting destructor EF9D6.
 	virtual ~HashableClass(void) {}
 	virtual const char *Get_Key(void) = 0;
 
@@ -55,6 +57,18 @@ private:
 	Int m_numTotalsVerts;
 };
 
-W3DShadowGeometry::~W3DShadowGeometry(void)
+inline W3DShadowGeometry::~W3DShadowGeometry(void)
 {
 }
+
+// ??1W3DShadowGeometry is a header inline elsewhere: another unit emits a
+// select-any copy, so a strong definition here was a duplicate symbol in
+// the linked build. This anchor only makes this unit emit its copy for the
+// ledger row; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitW3DShadowGeometryDtor@@YAXPAVW3DShadowGeometry@@@Z present-unmatched
+void bfmeEmitW3DShadowGeometryDtor(W3DShadowGeometry *w3DShadowGeometry)
+{
+	w3DShadowGeometry->W3DShadowGeometry::~W3DShadowGeometry();
+}
+#pragma inline_depth()

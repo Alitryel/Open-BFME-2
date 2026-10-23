@@ -5,10 +5,19 @@ class BfmeStrV56
 public:
 	void bfmeThrowV56();
 	void bfmeThrow2V56();
-	void bfmeInsertV56(char *a, char *b, char *c, char *d, char *e);
 	char *b;
 	char *e;
 	char *c;
+};
+
+// The final inline-asm call passes these range endpoints and an empty tag by
+// reference, matching the pinned helper's thiscall ABI.
+struct Rva008312E0Tag;
+class Rva008312E0String
+{
+public:
+	Rva008312E0String &bfmeReplaceAliasedRange(char *first, char *last,
+		char *sourceFirst, char *sourceLast, const Rva008312E0Tag &tag);
 };
 
 void __stdcall bfmeReplaceV56(unsigned pos, unsigned n, char *other, unsigned opos, unsigned on)
@@ -119,7 +128,7 @@ void __stdcall bfmeReplaceV56(unsigned pos, unsigned n, char *other, unsigned op
 		add edx, dword ptr [ebp+0x8]
 		push edx
 		mov ecx, dword ptr [ebp-0xC0]
-		call BfmeStrV56::bfmeInsertV56
+		call Rva008312E0String::bfmeReplaceAliasedRange
 	done:
 	}
 }

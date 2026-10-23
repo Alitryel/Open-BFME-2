@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc
+// cl: /Ireference/shims/bfme2_ascii /EHsc
 //
 // Condition::WriteConditionDataChunk, retail 0x003B428C (183 bytes).
 // Ported from the exact BFME1 reconstruction
@@ -48,27 +48,8 @@ struct BfmeStringData
 };
 
 class AsciiString;
-template <typename T>
-class StringBase
-{
-	friend class AsciiString;
-private:
-	StringBase(const StringBase<T> &);
-	StringBase(const T *);
-	void concat(const T *, int);
-	void releaseBuffer();
-	BfmeStringData *m_data;
-};
+#include "ascii_string.h"
 
-class AsciiString : private StringBase<char>
-{
-public:
-	AsciiString(const char *text) : StringBase<char>(text) {}
-	AsciiString(const AsciiString &other) : StringBase<char>(other) {}
-	// Destruction is exactly the buffer release: retail calls the folded
-	// releaseBuffer body directly, so force-inline to a direct call here.
-	__forceinline ~AsciiString() { releaseBuffer(); }
-};
 
 class Mapping;
 class DataChunkTableOfContents
@@ -86,11 +67,17 @@ class OutputStream;
 class OutputChunk
 {
 public:
-	virtual ~OutputChunk();
+	OutputChunk();
+	virtual ~OutputChunk() {}
 	OutputChunk *next;
 	unsigned int id;
 	int filepos;
 };
+// ??0OutputChunk@@QAE@XZ @0x00306C62 9B: the default constructor, storing the
+// class's own vtable (VA 0x00C07E80) and returning this.
+OutputChunk::OutputChunk()
+{
+}
 
 class DataChunkOutput
 {
@@ -228,7 +215,7 @@ void DataChunkOutput::closeDataChunk(void)
 
 	fseek(m_tmp_file, here, SEEK_SET_);
 
-	OutputChunk *c = m_chunkStack;
+	OutputChunk *outputChunk = m_chunkStack;
 	m_chunkStack = m_chunkStack->next;
-	::delete c;
+	::delete outputChunk;
 }

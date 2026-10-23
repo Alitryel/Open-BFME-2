@@ -13,11 +13,15 @@
 
 typedef __int64 FeslInt64;
 
+class Rva007E8AC0
+{
+public:
+	void run( void );
+};
+
 class Rva007E8810Message
 {
 public:
-	void reset( void );                                              // 0x007E8AC0
-
 	char m_head[ 0x10 ];
 	void *m_buffer;                 // +0x10
 	int m_bufferSize;               // +0x14
@@ -27,23 +31,25 @@ public:
 	int m_depth;                    // +0x2C
 };
 
+#define FESL_RESET(message) ((Rva007E8AC0 *)(message))->run()
+
 void __stdcall Rva007FAF90( Rva007E8810Message *msg )
 {
-	msg->reset();
+	FESL_RESET(msg);
 	msg->m_category = 'DISC';
 	msg->m_depth = 3;
 }
 
 void __stdcall Rva007FBA50( Rva007E8810Message *msg )
 {
-	msg->reset();
+	FESL_RESET(msg);
 	msg->m_category = 'EPGT';
 	msg->m_depth = 3;
 }
 
 void __stdcall Rva007FBA70( Rva007E8810Message *msg, void *buffer, int bufferSize )
 {
-	msg->reset();
+	FESL_RESET(msg);
 	msg->m_category = 'PING';
 	msg->m_depth = 3;
 	msg->m_buffer = buffer;
@@ -52,21 +58,21 @@ void __stdcall Rva007FBA70( Rva007E8810Message *msg, void *buffer, int bufferSiz
 
 void __stdcall Rva007FC270( Rva007E8810Message *msg )
 {
-	msg->reset();
+	FESL_RESET(msg);
 	msg->m_category = 'RLST';
 	msg->m_depth = 3;
 }
 
 void __stdcall Rva007FCC80( Rva007E8810Message *msg )
 {
-	msg->reset();
+	FESL_RESET(msg);
 	msg->m_category = 'RGAM';
 	msg->m_depth = 3;
 }
 
 void __stdcall Rva007FCCA0( Rva007E8810Message *msg )
 {
-	msg->reset();
+	FESL_RESET(msg);
 	msg->m_category = 'PING';
 	msg->m_depth = 3;
 }

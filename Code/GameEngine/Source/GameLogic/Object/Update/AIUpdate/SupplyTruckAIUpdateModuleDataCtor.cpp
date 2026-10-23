@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /Oy- /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // Identity: ModuleFactory registers this data class under "ActiveBody" (addModule
 // pairs the name with this factory); formerly misnamed SupplyTruckAIUpdateModuleData.
 // stlport
@@ -13,12 +13,14 @@
 // stores (vtable, grab strings, cheer 200, remove/burning zeros) run in
 // init-list order; post-vector stores follow retail body order.
 
+// Vtable 0x00C5AFB8: the table whose slot 0 is ??_GActiveBodyModuleData (vftable_map); bound to the ??_7 the ledger's deleting-dtor unit emits.
+extern "C" const void *__identifier("??_7ActiveBodyModuleData@@6B@")[];
+
 #include <vector>
 
-struct BfmeE16
-{
-	unsigned char m_pad[16];
-};
+#include "../../../../../../Libraries/Include/Lib/BfmeE16.h"
+// bfme link decl-only BfmeE16
+namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 
 class AsciiString
 {
@@ -38,7 +40,7 @@ private:
 class UpdateModuleData
 {
 public:
-	UpdateModuleData() {}
+	__declspec(dllimport) __forceinline UpdateModuleData() {}
 	~UpdateModuleData();
 };
 
@@ -49,7 +51,7 @@ public:
 	AsciiString m_healingBuff;
 };
 
-extern GlobalData *TheGlobalData;
+extern class GlobalData *TheWritableGlobalData;
 
 class FXList;
 class FXListStore
@@ -96,7 +98,7 @@ private:
 
 // ??0ActiveBodyModuleData@@QAE@XZ @0x4BF59F
 ActiveBodyModuleData::ActiveBodyModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C5AFB8))
+	: m_vtable(reinterpret_cast<const void *>(__identifier("??_7ActiveBodyModuleData@@6B@")))
 	, m_grabObject()
 	, m_damagedAttr()
 	, m_reallyDamagedAttr()
@@ -122,7 +124,7 @@ ActiveBodyModuleData::ActiveBodyModuleData()
 	m_grabOffsetY = 0.0f;
 	m_damagedAttr.clear();
 	m_reallyDamagedAttr.clear();
-	AsciiString &healingDefault = TheGlobalData->m_healingBuff;
+	AsciiString &healingDefault = TheWritableGlobalData->m_healingBuff;
 	if (!healingDefault.isEmpty())
 		m_healingBuffFx = TheFXListStore->findFXList(healingDefault.c_str());
 }

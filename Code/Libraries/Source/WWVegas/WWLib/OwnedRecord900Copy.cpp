@@ -1,7 +1,10 @@
-// cl: /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // Target member copy; original application record identity is unknown.
 #include "OwnedRecord900.h"
+extern template _STL::vector<AsciiString, _STL::allocator<AsciiString> >::vector(
+    const _STL::vector<AsciiString, _STL::allocator<AsciiString> > &);
+extern template _STL::vector<AsciiString, _STL::allocator<AsciiString> >::~vector();
 extern template BfmeStringRecordTree900::_Rb_tree(const BfmeStringRecordTree900 &);
 extern template BfmeStringRecordTree900::~_Rb_tree();
 extern template void BfmeStringRecordTree900::clear();
@@ -15,3 +18,5 @@ BfmeRecordOwner900::BfmeRecordOwner900(const BfmeRecordOwner900 &other)
       records_1B0(other.records_1B0), tree_370(other.tree_370),
       unknown_37C(other.unknown_37C), unknown_380(other.unknown_380),
       unknown_381(other.unknown_381), unknown_382(other.unknown_382) {}
+BfmeRecordOwner900::~BfmeRecordOwner900() {}
+template void _STL::_Destroy<BfmeRecordOwner900*>(BfmeRecordOwner900*, BfmeRecordOwner900*);

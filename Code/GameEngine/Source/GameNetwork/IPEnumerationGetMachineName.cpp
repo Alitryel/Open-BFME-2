@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /O1 /GX
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX
 //
 // BFME1 GameNetwork/IPEnumeration.cpp donor for the machine-name lookup: WSA
 // startup once (version 2.2 checked by byte), then gethostname into a stack
@@ -18,25 +18,8 @@ struct WSADataBlock
 
 class AsciiString;
 
-template <typename T>
-class StringBase
-{
-    friend class AsciiString;
+#include "ascii_string.h"
 
-private:
-    StringBase(const T *text);
-    StringBase(const StringBase<T> &other);
-};
-
-class AsciiString : private StringBase<char>
-{
-public:
-    AsciiString(const char *text) : StringBase<char>(text) {}
-    AsciiString(const AsciiString &other) : StringBase<char>(other) {}
-    ~AsciiString();
-
-    static AsciiString TheEmptyString;
-};
 
 class EnumeratedIP;
 

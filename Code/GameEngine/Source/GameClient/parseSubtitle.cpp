@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 // stlport
 
 // VideoPlayer::init passes the retail callback at 0x0081D7C0 to INI::load.
@@ -13,36 +13,8 @@ template <typename T> struct StringInlineData
 	T m_text[ 1 ];
 };
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
+#include "ascii_string.h"
 
-private:
-	StringBase() : m_data( 0 ) {}
-	StringBase( const StringBase<T> &other );
-	~StringBase() { releaseBuffer(); }
-	void releaseBuffer();
-
-	StringInlineData<T> *m_data;
-};
-
-class AsciiString : private StringBase<char>
-{
-public:
-	AsciiString() : StringBase<char>() {}
-	AsciiString( const AsciiString &other ) : StringBase<char>( other ) {}
-	~AsciiString() {}
-
-	const char *str( void ) const
-	{
-		return (const char *)m_data;
-	}
-
-	operator const char *( void ) const
-	{
-		return (const char *)m_data;
-	}
-};
 
 struct FieldParse;
 
@@ -95,6 +67,7 @@ public:
 
 extern VideoPlayerInterface *TheVideoPlayer;
 extern const FieldParse Rva0081D7C0FieldParseTable[];
+#pragma comment(linker, "/alternatename:?Rva0081D7C0FieldParseTable@@3QBUFieldParse@@B=??_C@_01GBGANLPD@0?$AA@")
 
 class INIException
 {
@@ -125,3 +98,7 @@ void parseSubtitle( INI *ini, void *, void *, const void * )
 			ini->getFilename(), ini->getLineNum() );
 	}
 }
+
+// ?TheVideoPlayer@@3PAVVideoPlayerInterface@@A: matched references place it at VA 0xe0aba8; also referenced as ?TheVideoPlayer@@3PAVVideoPlayer@@A.
+VideoPlayerInterface * TheVideoPlayer = 0;
+#pragma comment(linker, "/alternatename:?TheVideoPlayer@@3PAVVideoPlayer@@A=?TheVideoPlayer@@3PAVVideoPlayerInterface@@A")

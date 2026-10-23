@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX /Ireference/shims/moduledata
 //
 // PillageModuleData file-unit (parse + ctor).
 //
@@ -18,7 +18,31 @@
 // the ctor pin.
 
 class MultiIniFieldParse;
-struct FieldParse;
+class INI;
+typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
+struct FieldParse
+{
+	const char *token;
+	INIFieldParseProc parse;
+	const void *userData;
+	int offset;
+};
+
+class INI
+{
+public:
+	static void parseUnsignedInt(INI *ini, void *instance, void *store, const void *userData);
+};
+
+void iniParseObjectFilter(INI *ini, void *instance, void *store, const void *userData);
+// Retail VA 0x00BF0620 (.rdata): 3 field records and a zero sentinel.
+extern const FieldParse g_00BF0620[] = {
+	{ "PillageAmount", &INI::parseUnsignedInt, 0, 0x8 },
+	{ "NumDamageEventsPerPillage", &INI::parseUnsignedInt, 0, 0xC },
+	{ "PillageFilter", &iniParseObjectFilter, 0, 0x10 },
+	{ 0, 0, 0, 0 }
+};
+extern const int g_emptyFieldParseTable[4];
 
 class MultiIniFieldParse
 {
@@ -35,11 +59,16 @@ public:
 	unsigned char m_data[4];
 };
 
+extern "C" const void *const vtbl_00BF0568[];  // ??_7PillageModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BF0568=??_7PillageModuleData@@6B@")
+
+#include "Common/Snapshot.h"
+
 class UpdateModuleData
 {
 public:
-	UpdateModuleData() {}
-	~UpdateModuleData();
+	__declspec(dllimport) __forceinline UpdateModuleData() {}
+	~UpdateModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 private:
 };
@@ -66,7 +95,7 @@ private:
 
 // ??0PillageModuleData@@QAE@XZ @0x00253830
 PillageModuleData::PillageModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00BF0568))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00BF0568)))
 	, m_pillageAmount(0)
 	, m_numDamageEvents(0)
 {
@@ -75,6 +104,6 @@ PillageModuleData::PillageModuleData()
 // ?buildFieldParse@PillageModuleData@@SAXAAVMultiIniFieldParse@@@Z @0x00253869
 void PillageModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
-	parse.add(reinterpret_cast<const FieldParse *>(0x00C6BB18), 0);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00BF0620), 0);
+	parse.add(reinterpret_cast<const FieldParse *>(g_emptyFieldParseTable), 0);
+	parse.add(g_00BF0620, 0);
 }

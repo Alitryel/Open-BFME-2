@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /DNDEBUG /MD
+// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD
 //
 // ??1ProductionModifierEntry@@QAE@XZ, retail 0x0049D12D, 53 bytes.
 //
@@ -15,18 +15,7 @@
 // production modifier-list entry. A scalar-deleting ??_G calling here sits
 // at ~0x0049D82A (boundary to prove before landing).
 
-class AsciiString
-{
-public:
-	// Declared-only dtor (throwing): the teardown resolves through the
-	// ??1AsciiString pin at the folded 0x0036410. Being the last unwindable
-	// destruction, retail resets the trylevel before it (Transport dtor
-	// precedent: two throwing members give and/call/or/call).
-	~AsciiString();
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class Rva00360D26Member
 {

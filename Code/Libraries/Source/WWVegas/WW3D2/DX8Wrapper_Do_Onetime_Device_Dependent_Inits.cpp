@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 //
 // ?Do_Onetime_Device_Dependent_Inits@DX8Wrapper@@SAXXZ @ 0x001245A0 (283B).
 // Dedicated TU: this function spans DX8Caps, DX8MeshRendererClass,
@@ -85,7 +85,20 @@ public:
 class DynamicVBAccessClass
 {
 public:
-	static void bfmeRva0013A7D0( void );
+	static void Init( void );
+};
+
+// The texture filter mode at 0x00DB5F9C is WW3D's private static (ww3d.cpp).
+class WW3D
+{
+	friend class DX8Wrapper;
+	static int TextureFilter;
+};
+
+// Only the type's name matters here: the display format is passed on as is.
+enum _D3DFORMAT
+{
+	D3DFMT_UNKNOWN = 0
 };
 
 class DX8Wrapper
@@ -95,6 +108,7 @@ public:
 
 protected:
 	static void Set_Default_Global_Render_States( void );
+	static _D3DFORMAT DisplayFormat; // 0x00DEDA08, defined in dx8wrapper.cpp
 };
 
 void __cdecl Rva001207B0Init( void *device );
@@ -116,21 +130,22 @@ struct DX8CapsSnapshot
 	unsigned Field5;
 };
 
-extern void *g_dx8Device;
-extern DX8CapsSnapshot g_dx8CapsSnapshot;
-extern TextureFilterClass::TextureFilterMode g_dx8FilterMode;
+// g_dx8CapsSnapshot: matched references place it at VA 0xdeca08 (zero-filled; a plain-data view).
+DX8CapsSnapshot g_dx8CapsSnapshot;
 extern DX8MeshRendererClass *TheDX8MeshRenderer;
 extern Rva00DF6F94GapFillerContext *TheMeshGapFillerContext;
+// TheMeshGapFillerContext: matched references place it at VA 0xdf6f94 (zero-filled .bss).
+Rva00DF6F94GapFillerContext * TheMeshGapFillerContext;
 
 // ?Do_Onetime_Device_Dependent_Inits@DX8Wrapper@@SAXXZ
 void DX8Wrapper::Do_Onetime_Device_Dependent_Inits( void )
 {
-	Rva001207B0Init( g_dx8Device );
+	Rva001207B0Init( (void *)DisplayFormat );
 
 	DX8CapsSnapshot snapshot = g_dx8CapsSnapshot;
 	DebugLogTyped( 'DXHW', &snapshot, sizeof( snapshot ) );
 
-	TextureFilterClass::_Init_Filters( g_dx8FilterMode );
+	TextureFilterClass::_Init_Filters( (TextureFilterClass::TextureFilterMode)WW3D::TextureFilter );
 
 	TheDX8MeshRenderer = new DX8MeshRendererClass;
 	TheDX8MeshRenderer->Init();
@@ -142,6 +157,6 @@ void DX8Wrapper::Do_Onetime_Device_Dependent_Inits( void )
 	VertexMaterialClass::Init();
 	Rva0017E210Init();
 	Rva00177923Init();
-	DynamicVBAccessClass::bfmeRva0013A7D0();
+	DynamicVBAccessClass::Init();
 	Set_Default_Global_Render_States();
 }

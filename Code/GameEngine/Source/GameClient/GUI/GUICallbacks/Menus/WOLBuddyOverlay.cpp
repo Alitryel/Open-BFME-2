@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /Ireference/shims/zh_outofline /FIzh_ascii.h /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/WOLBuddyOverlay.cpp); this unit had no counterpart under Code/.
@@ -33,7 +33,35 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include <map>
+
+// map/set<int> internals otherwise instantiate the less<int>::operator()
+// COMDAT (one byte shape per TU flags); an explicit dllimport+forceinline
+// specialization takes those calls inline so this TU emits no external copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+bool less<int>::operator()(const int &a, const int &b) const
+{ return a < b; }
+}
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
+#include <list>
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 
 #include "Common/AudioEventRTS.h"
 #include "Common/PlayerList.h"
@@ -58,6 +86,24 @@
 #include "GameNetwork/GameSpy/PersistentStorageDefs.h"
 #include "GameNetwork/GameSpy/PersistentStorageThread.h"
 #include "GameNetwork/GameSpy/ThreadUtils.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<int, pair<int const, AsciiString>, _Select1st<pair<int const, AsciiString> >, less<int>, allocator<pair<int const, AsciiString> > >::~_Rb_tree(); }
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+namespace _STL { template <> _Rb_tree_node<pair<int const, AsciiString> > * _Rb_tree<int, pair<int const, AsciiString>, _Select1st<pair<int const, AsciiString> >, less<int>, allocator<pair<int const, AsciiString> > >::_M_clone_node(_Rb_tree_node<pair<int const, AsciiString> > *); }
+namespace _STL { template <> _Rb_tree_node<pair<int const, AsciiString> > * _Rb_tree<int, pair<int const, AsciiString>, _Select1st<pair<int const, AsciiString> >, less<int>, allocator<pair<int const, AsciiString> > >::_M_create_node(pair<int const, AsciiString> const &); }
+namespace _STL { template <> void _STLP_alloc_proxy<char *, char, allocator<char> >::deallocate(char *, unsigned int); }
+// Suppress this TU's non-retail copy of ??0?$_Rb_tree_base@U?$pair@$$CBHVAsciiString@@@_STL@@V?$allocator@U?$pair@$$CBHVAsciiString@@@_STL@@@2@@_STL@@QAE@ABV?$al:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Rb_tree_base<pair<int const, AsciiString>, allocator<pair<int const, AsciiString> > >::_Rb_tree_base(allocator<pair<int const, AsciiString> > const &); }
+// bfme link decl-only end
+
+// Declaration-only: the rowed set<AsciiString> tree members are bound,
+// this TU emits no per-flag copy of them or of their allocator leaves.
+namespace _STL {
+typedef _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> > Lk6AsciiSetTree;
+template <> Lk6AsciiSetTree::~_Rb_tree();
+template <> set<AsciiString, less<AsciiString>, allocator<AsciiString> >::set();
+}
 
 // PRIVATE DATA ///////////////////////////////////////////////////////////////////////////////////
 
@@ -132,6 +178,7 @@ public:
 };
 
 static BuddyControls buddyControls;
+// ??0BuddyControls@@ present-unmatched
 BuddyControls::BuddyControls(	void )
 {
 	listboxChat = NULL;
@@ -277,9 +324,9 @@ WindowMsgHandledType BuddyControlSystem( GameWindow *window, UnsignedInt msg,
 				if (selected >= 0)
 				{
 					GPProfile selectedProfile = (GPProfile)GadgetListBoxGetItemData(buddyControls.listboxBuddies, selected);
-					BuddyInfoMap *m = TheGameSpyInfo->getBuddyMap();
-					BuddyInfoMap::iterator recipIt = m->find(selectedProfile);
-					if (recipIt == m->end())
+					BuddyInfoMap *buddyInfoMap = TheGameSpyInfo->getBuddyMap();
+					BuddyInfoMap::iterator recipIt = buddyInfoMap->find(selectedProfile);
+					if (recipIt == buddyInfoMap->end())
 						break;
 
 					DEBUG_LOG(("Trying to send a buddy message to %d.\n", selectedProfile));
@@ -355,9 +402,9 @@ static void insertChat( BuddyMessage msg )
 {
 	if (buddyControls.listboxChat)
 	{
-		BuddyInfoMap *m = TheGameSpyInfo->getBuddyMap();
-		BuddyInfoMap::iterator senderIt = m->find(msg.m_senderID);
-		BuddyInfoMap::iterator recipientIt = m->find(msg.m_recipientID);
+		BuddyInfoMap *buddyInfoMap = TheGameSpyInfo->getBuddyMap();
+		BuddyInfoMap::iterator senderIt = buddyInfoMap->find(msg.m_senderID);
+		BuddyInfoMap::iterator recipientIt = buddyInfoMap->find(msg.m_recipientID);
 		Bool localSender = (msg.m_senderID == TheGameSpyInfo->getLocalProfileID());
 		UnicodeString s;
 		//UnicodeString timeStr = UnicodeString(_wctime( (const time_t *)&msg.m_timestamp ));
@@ -495,164 +542,8 @@ void updateBuddyInfo( void )
 	GadgetListBoxSetTopVisibleEntry(buddyControls.listboxBuddies, visiblePos);
 }
 
-void HandleBuddyResponses( void )
-{
-	if (TheGameSpyBuddyMessageQueue)
-	{
-		BuddyResponse resp;
-		if (TheGameSpyBuddyMessageQueue->getResponse( resp ))
-		{
-			switch (resp.buddyResponseType)
-			{
-			case BuddyResponse::BUDDYRESPONSE_LOGIN:
-				{
-					deleteNotificationBox();
-				}
-				break;
-			case BuddyResponse::BUDDYRESPONSE_DISCONNECT:
-				{
-					lastNotificationWasStatus = FALSE;
-					numOnlineInNotification = 0;
-					showNotificationBox(AsciiString::TheEmptyString, TheGameText->fetch("Buddy:MessageDisconnected"));
-				}
-				break;
-			case BuddyResponse::BUDDYRESPONSE_MESSAGE:
-				{
-					if ( !wcscmp(resp.arg.message.text, L"I have authorized your request to add me to your list") )
-						break;
-
-					if (TheGameSpyInfo->isSavedIgnored(resp.profile))
-					{
-						//DEBUG_CRASH(("Player is ignored!\n"));
-						break; // no buddy messages from ignored people
-					}
-
-					// save message for future incarnations of the buddy window
-					BuddyMessageList *messages = TheGameSpyInfo->getBuddyMessages();
-					BuddyMessage message;
-					message.m_timestamp = resp.arg.message.date;
-					message.m_senderID = resp.profile;
-					message.m_recipientID = TheGameSpyInfo->getLocalProfileID();
-					message.m_recipientNick = TheGameSpyInfo->getLocalBaseName();
-					message.m_message = resp.arg.message.text;
-					// insert status into box
-					BuddyInfoMap *m = TheGameSpyInfo->getBuddyMap();
-					BuddyInfoMap::iterator senderIt = m->find(message.m_senderID);
-					AsciiString nick;
-					if (senderIt != m->end())
-						nick = senderIt->second.m_name.str();
-					else
-						nick = resp.arg.message.nick;
-					message.m_senderNick = nick;
-					messages->push_back(message);
-
-					DEBUG_LOG(("Inserting buddy chat from '%s'/'%s'\n", nick.str(), resp.arg.message.nick));
-
-					// put message on screen
-					insertChat(message);
-					
-					// play audio notification
-					AudioEventRTS buddyMsgAudio("GUIMessageReceived");
-					if( TheAudio )
-					{
-						TheAudio->addAudioEvent( &buddyMsgAudio );
-					}  // end if
-
-					UnicodeString snippet = message.m_message;
-					while (snippet.getLength() > 11)
-					{
-						snippet.removeLastChar();
-					}
-					UnicodeString s;
-					s.format(TheGameText->fetch("Buddy:MessageNotification"), nick.str(), snippet.str());
-					lastNotificationWasStatus = FALSE;
-					numOnlineInNotification = 0;
-					showNotificationBox(AsciiString::TheEmptyString, s);
-				}
-				break;
-			case BuddyResponse::BUDDYRESPONSE_REQUEST:
-				{
-					// save request for future incarnations of the buddy window
-					BuddyInfoMap *m = TheGameSpyInfo->getBuddyRequestMap();
-					BuddyInfo info;
-					info.m_countryCode = resp.arg.request.countrycode;
-					info.m_email = resp.arg.request.email;
-					info.m_name = resp.arg.request.nick;
-					info.m_id = resp.profile;
-					info.m_status = (GPEnum)0;
-					info.m_statusString = resp.arg.request.text;
-					(*m)[resp.profile] = info;
-
-					// TODO: put request on screen
-					updateBuddyInfo();
-					// insert status into box
-					lastNotificationWasStatus = FALSE;
-					numOnlineInNotification = 0;
-					showNotificationBox(info.m_name, TheGameText->fetch("Buddy:AddNotification"));
-				}
-				break;
-			case BuddyResponse::BUDDYRESPONSE_STATUS:
-				{
-					BuddyInfoMap *m = TheGameSpyInfo->getBuddyMap();
-					BuddyInfoMap::const_iterator bit = m->find(resp.profile);
-					Bool seenPreviously = FALSE;
-					GPEnum oldStatus = GP_OFFLINE;
-					GPEnum newStatus = resp.arg.status.status;
-					if (bit != m->end())
-					{
-						seenPreviously = TRUE;
-						oldStatus = (*m)[resp.profile].m_status;
-					}
-					BuddyInfo info;
-					info.m_countryCode = resp.arg.status.countrycode;
-					info.m_email = resp.arg.status.email;
-					info.m_name = resp.arg.status.nick;
-					info.m_id = resp.profile;
-					info.m_status = newStatus;
-					info.m_statusString = UnicodeString(MultiByteToWideCharSingleLine(resp.arg.status.statusString).c_str());
-					info.m_locationString = UnicodeString(MultiByteToWideCharSingleLine(resp.arg.status.location).c_str());
-					(*m)[resp.profile] = info;
-
-					updateBuddyInfo();
-					PopulateLobbyPlayerListbox();
-					RefreshGameListBoxes();
-					if ( (newStatus == GP_OFFLINE && seenPreviously) ||
-						(newStatus == GP_ONLINE && (oldStatus == GP_OFFLINE || !seenPreviously)) )
-					//if (!info.m_statusString.compareNoCase(L"Offline") ||
-					//!info.m_statusString.compareNoCase(L"Online"))
-					{
-						// insert status into box
-						AsciiString marker;
-						marker.format("Buddy:%lsNotification", info.m_statusString.str());
-
-						lastNotificationWasStatus = TRUE;
-						if (newStatus != GP_OFFLINE)
-							++numOnlineInNotification;
-
-						showNotificationBox(info.m_name, TheGameText->fetch(marker));
-					}
-					else if( newStatus == GP_RECV_GAME_INVITE && !seenPreviously)
-					{
-						lastNotificationWasStatus = TRUE;
-						if (newStatus != GP_OFFLINE)
-							++numOnlineInNotification;
-
-						showNotificationBox(info.m_name, TheGameText->fetch("Buddy:OnlineNotification"));
-					}
-				}
-				break;
-			}
-		}
-	}
-	else
-	{
-		DEBUG_CRASH(("No buddy message queue!\n"));
-	}
-	if(noticeLayout && timeGetTime() > noticeExpires)
-	{
-		deleteNotificationBox();
-	}
-}
+// BFME2 target implementation is recovered in GameNetwork/GameSpy/BuddyDefs.cpp.
+void HandleBuddyResponses( void );
 
 void showNotificationBox( AsciiString nick, UnicodeString message)
 {
@@ -1304,8 +1195,8 @@ WindowMsgHandledType WOLBuddyOverlayRCMenuSystem( GameWindow *window, UnsignedIn
 						req.arg.profile.id = profileID;
 						TheGameSpyBuddyMessageQueue->addRequest(req);
 
-						BuddyInfoMap *m = TheGameSpyInfo->getBuddyRequestMap();
-						m->erase( profileID );
+						BuddyInfoMap *buddyInfoMap = TheGameSpyInfo->getBuddyRequestMap();
+						buddyInfoMap->erase( profileID );
 						// if the profile ID is not from a buddy and we're okaying his request, then
 						// request to add him to our list automatically CLH 2-18-03
 						if(!TheGameSpyInfo->isBuddy(profileID))
@@ -1338,8 +1229,8 @@ WindowMsgHandledType WOLBuddyOverlayRCMenuSystem( GameWindow *window, UnsignedIn
 						req.buddyRequestType = BuddyRequest::BUDDYREQUEST_DENYADD;
 						req.arg.profile.id = profileID;
 						TheGameSpyBuddyMessageQueue->addRequest(req);
-						BuddyInfoMap *m = TheGameSpyInfo->getBuddyRequestMap();
-						m->erase( profileID );
+						BuddyInfoMap *buddyInfoMap = TheGameSpyInfo->getBuddyRequestMap();
+						buddyInfoMap->erase( profileID );
 					}
 					BuddyInfoMap *buddies = (isBuddy)?TheGameSpyInfo->getBuddyMap():TheGameSpyInfo->getBuddyRequestMap();
 					buddies->erase(profileID);
@@ -1452,3 +1343,7 @@ void refreshIgnoreList( void )
 //		profileID = it->second.m_profileID;
 
 }
+
+// Retain the ledger-owned hint-insertion specialization independently of
+// the retired Zero Hour response handler that previously instantiated it.
+template BuddyInfoMap::iterator BuddyInfoMap::insert(BuddyInfoMap::iterator, const BuddyInfoMap::value_type &);

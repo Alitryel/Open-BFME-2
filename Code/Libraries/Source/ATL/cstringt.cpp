@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /G7 /arch:SSE2
+// cl: /EHsc
 // ATL 7.1 cstringt.h, supplied by the Open-BFME-1 MSVC 7.1 toolchain.
 // The retail helper selects Win9x conversion or the native Unicode API once,
 // then atomically installs the selected function in the string thunk table.
@@ -315,4 +315,13 @@ int __stdcall GetStringTypeExWThunk(unsigned long lcid, unsigned long infoType,
         GetStringTypeExWFake, ::GetStringTypeExW);
     return _strthunks.pfnGetStringTypeExW(lcid, infoType, source, length, charType);
 }
+
+_AtlStringThunks _strthunks = {
+    CompareStringWThunk,
+    GetStringTypeExWThunk,
+    lstrcmpiWThunk,
+    CharLowerWThunk,
+    CharUpperWThunk,
+    GetEnvironmentVariableWThunk
+};
 }

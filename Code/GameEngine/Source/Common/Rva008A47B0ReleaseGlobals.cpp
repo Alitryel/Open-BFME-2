@@ -1,4 +1,4 @@
-// cl: /O2 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 
 // Open-BFME7: near-twin of Rva008A48D0ReleaseGlobals.cpp (0x008A48D0, 131 B),
 // same shape (release each ref-counted global through vtable slot +4, then
@@ -15,13 +15,29 @@ public:
 };
 
 extern Rva008A47B0Item *g_rva008A47B0_0;
+// g_rva008A47B0_0: matched references place it at VA 0xe1814c (zero-filled .bss).
+Rva008A47B0Item * g_rva008A47B0_0;
 extern Rva008A47B0Item *g_rva008A47B0_1;
+// g_rva008A47B0_1: matched references place it at VA 0xe18150 (zero-filled .bss).
+Rva008A47B0Item * g_rva008A47B0_1;
 extern Rva008A47B0Item *g_rva008A47B0_2;
+// g_rva008A47B0_2: matched references place it at VA 0xe18154 (zero-filled .bss).
+Rva008A47B0Item * g_rva008A47B0_2;
 extern Rva008A47B0Item *g_rva008A47B0_3;
+// g_rva008A47B0_3: matched references place it at VA 0xe1815c (zero-filled .bss).
+Rva008A47B0Item * g_rva008A47B0_3;
 extern Rva008A47B0Item *g_rva008A47B0_4;
+// g_rva008A47B0_4: matched references place it at VA 0xe18160 (zero-filled .bss).
+Rva008A47B0Item * g_rva008A47B0_4;
 extern Rva008A47B0Item *g_rva008A47B0_5;
+// g_rva008A47B0_5: matched references place it at VA 0xe18164 (zero-filled .bss).
+Rva008A47B0Item * g_rva008A47B0_5;
 extern Rva008A47B0Item *g_rva008A47B0_6;
+// g_rva008A47B0_6: matched references place it at VA 0xe18168 (zero-filled .bss).
+Rva008A47B0Item * g_rva008A47B0_6;
 extern Rva008A47B0Item *g_rva008A47B0_7;
+// g_rva008A47B0_7: matched references place it at VA 0xe18158 (zero-filled .bss).
+Rva008A47B0Item * g_rva008A47B0_7;
 
 void rva008A47B0ReleaseGlobals()
 {

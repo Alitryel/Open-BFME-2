@@ -1,4 +1,4 @@
-// cl: /O1
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 // Disp8 div-avg dword getters: thirteen-byte __thiscall members with one shape:
 //
 //     mov eax,[ecx+<DISP1>] / sub eax,[ecx+<DISP2>] / push <DIV> / cdq
@@ -60,3 +60,57 @@ BFME_DISP8_DIV_AVG_DWORD_GETTER(Rva00587305DivAvgField, 0x04, 0x00, 0x3C)
 BFME_DISP8_DIV_AVG_DWORD_GETTER(Rva005C8091DivAvgField, 0x04, 0x00, 0x48)
 BFME_DISP8_DIV_AVG_DWORD_GETTER(Rva005C80A9DivAvgField, 0x08, 0x00, 0x48)
 BFME_DISP8_DIV_AVG_DWORD_GETTER(Rva005D50F7DivAvgField, 0x04, 0x00, 0x14)
+
+// ?clear@Rva000AD6F4@@QAEXXZ @0x000AD6F4 29B: owning-pointer clear via virtual slot0 with 0 plus operator delete; callers 40+ incl Rva002D3573 dtor; no donor.
+void __cdecl operator delete(void *);
+
+struct Rva000AD6F4Base
+{
+	virtual void *virt0(unsigned int);
+};
+
+class Rva000AD6F4
+{
+public:
+	~Rva000AD6F4();
+	void clear();
+private:
+	Rva000AD6F4Base *m_ptr;
+};
+
+__declspec(noinline) inline void Rva000AD6F4::clear()
+{
+	Rva000AD6F4Base *p = m_ptr;
+	m_ptr = 0;
+	void *q;
+	if (p)
+		q = p->virt0(0);
+	else
+		q = 0;
+	::operator delete(q);
+}
+
+// Both bodies are select-any like the copies Rva00328DE4Add.cpp and
+// PolygonTriggerParserParse.cpp emit (an exclusive definition here would
+// duplicate theirs at link time); the anchor below keeps them emitted.
+// ??1Rva000AD6F4@@QAE@XZ: the destructor releases the held pointer exactly as clear()
+// does; retail's linker folded the two identical 29-byte bodies at 0x000AD6F4 (the
+// HUD::Impl dtor 0x0042D92E and 40+ EH unwind entries reference it as the dtor).
+__declspec(noinline) inline Rva000AD6F4::~Rva000AD6F4()
+{
+	Rva000AD6F4Base *p = m_ptr;
+	m_ptr = 0;
+	void *q;
+	if (p)
+		q = p->virt0(0);
+	else
+		q = 0;
+	::operator delete(q);
+}
+
+// ?bfmeAnchorRva000AD6F4 absent-from-retail
+void bfmeAnchorRva000AD6F4(Rva000AD6F4 *p)
+{
+	p->clear();
+	p->~Rva000AD6F4();
+}

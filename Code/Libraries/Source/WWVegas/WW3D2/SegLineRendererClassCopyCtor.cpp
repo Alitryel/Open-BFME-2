@@ -1,5 +1,5 @@
 // ??0SegLineRendererClass@@QAE@ABV0@@Z
-// cl: /O2 /G7 /arch:SSE2 /EHsc /MD
+// cl: /EHsc /MD
 //
 // SegLineRendererClass copy constructor, retail 0x00191B50, 183 bytes.
 // Zero Hour's initialiser list on the BFME2 layout, then *this = that. Kept in
@@ -19,11 +19,15 @@ public:
 	unsigned short Refs;
 };
 
-class TextureHolder
+// The texture member's destructor is the rowed RefCountPtr<TextureClass> destructor
+// (0x0017098D); this TU-local view spells that class so the unwind funclet calls it by name.
+class TextureClass;
+template<class T>
+class RefCountPtr
 {
 public:
-	TextureHolder(TextureBaseClass *p) : Ptr(p) {}
-	~TextureHolder();
+	RefCountPtr(TextureBaseClass *textureBase) : Ptr(textureBase) {}
+	~RefCountPtr();
 	TextureBaseClass *Ptr;
 };
 
@@ -34,13 +38,7 @@ public:
 	unsigned ShaderBits;
 };
 
-class Vector2
-{
-public:
-	Vector2(float x, float y) : X(x), Y(y) {}
-	float X;
-	float Y;
-};
+#include "../../../../../reference/shims/wwmath/Vector2.h"
 
 class Vector3
 {
@@ -59,7 +57,7 @@ public:
 	SegLineRendererClass &operator=(const SegLineRendererClass &that);
 
 private:
-	TextureHolder Texture;			// +0x00
+	RefCountPtr<TextureClass> Texture;	// +0x00
 	ShaderClass Shader;				// +0x04
 	float Width;					// +0x08
 	Vector3 Color;					// +0x0C

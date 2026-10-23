@@ -32,6 +32,17 @@ private:
 	RvaVec002B80CE m_vector0C;
 };
 
-Rva004E32F2::~Rva004E32F2()
+inline Rva004E32F2::~Rva004E32F2()
 {
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeRva004E32F2InlineAnchor@@YAXPAVRva004E32F2@@@Z absent-from-retail
+void _bfmeRva004E32F2InlineAnchor(Rva004E32F2 *p)
+{
+    p->Rva004E32F2::~Rva004E32F2();
+}
+#pragma inline_depth()

@@ -14,6 +14,21 @@
 // the same compiler flags meshgeometry.cpp uses, so the COMDATs come back
 // byte-identical to the ones Reset_Geometry used to pull in.
 
+// retail keeps one `vector constructor iterator' (??_H) copy, the /O1 body at
+// 0x00001423; this unemitted anchor makes this unit's copy that same body.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+#pragma auto_inline(off)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma auto_inline(on)
+#pragma optimize("", on)
+
+// Retail's out-of-line RefCountClass deleting dtor is the /O1 form hlod.cpp
+// emits; compile refcount.h for size, ahead of rendobj.h.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "meshgeometry.h"
 
@@ -23,7 +38,7 @@ extern void __cdecl operator delete[](void *) throw();
 // The rowed constructor installs vtable 0xBD43F8, whose deleting destructor
 // at 0x169D40 calls this body at 0x169D60. Declared before first use so the
 // explicit specialization wins over the primary template.
-template <>
+template <> inline
 ShareBufferClass<uint8>::~ShareBufferClass()
 {
 	::operator delete[](RawBuffer);
@@ -33,7 +48,7 @@ ShareBufferClass<uint8>::~ShareBufferClass()
 // indices); the destructor frees it. The 0x169950 constructor installs vtable
 // 0xBD4400, whose deleting destructor at 0x169D80 calls this body at
 // 0x169DA0. Same explicit-specialization recipe as the uint8 destructor above.
-template <>
+template <> inline
 ShareBufferClass<unsigned long>::~ShareBufferClass()
 {
 	::operator delete[](RawBuffer);
@@ -42,7 +57,7 @@ ShareBufferClass<unsigned long>::~ShareBufferClass()
 // ShareBufferClass<Vector3> owns a raw vertex array; the destructor frees it.
 // The 0x169780 constructor installs vtable 0xBD43F0, whose deleting
 // destructor at 0x169D00 calls this body at 0x169D20.
-template <>
+template <> inline
 ShareBufferClass<Vector3>::~ShareBufferClass()
 {
 	::operator delete[](RawBuffer);
@@ -61,7 +76,7 @@ ShareBufferClass<Vector3i16>::~ShareBufferClass()
 // frees it. The 0x1699E0 constructor (in meshgeometry.cpp) installs vtable
 // 0xBD4408, whose deleting destructor at 0x169DC0 calls this body at
 // 0x169DE0.
-template <>
+template <> inline
 ShareBufferClass<unsigned short>::~ShareBufferClass()
 {
 	::operator delete[](RawBuffer);
@@ -70,7 +85,7 @@ ShareBufferClass<unsigned short>::~ShareBufferClass()
 // ShareBufferClass<char> owns a raw char array; the destructor frees it.
 // The 0x169A70 constructor (in meshgeometry.cpp) installs vtable 0xBD4410,
 // whose deleting destructor at 0x169E00 calls this body at 0x169E20.
-template <>
+template <> inline
 ShareBufferClass<char>::~ShareBufferClass()
 {
 	::operator delete[](RawBuffer);
@@ -80,7 +95,7 @@ ShareBufferClass<char>::~ShareBufferClass()
 // PlaneEq); the destructor frees it. The 0x169B90 constructor (in
 // part_buf.cpp) installs vtable 0xBD4420, whose deleting destructor at
 // 0x169E80 calls this body at 0x169EA0.
-template <>
+template <> inline
 ShareBufferClass<Vector4>::~ShareBufferClass()
 {
 	::operator delete[](RawBuffer);
@@ -97,3 +112,22 @@ void MeshGeometryShareBufferInstantiations( int count )
 	ShareBufferClass<Vector3> *vertex = new ShareBufferClass<Vector3>( count, "MeshGeometryClass::Vertex" );
 	vertex->Clear();
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitMeshGeometryShareBufferInstantiations@@YAXPAV?$ShareBufferClass@D@@PAV?$ShareBufferClass@E@@PAV?$ShareBufferClass@G@@PAV?$ShareBufferClass@K@@PAV?$ShareBufferClass@VVector3@@@@PAV?$ShareBufferClass@VVector4@@@@@Z present-unmatched
+void bfmeEmitMeshGeometryShareBufferInstantiations(
+	ShareBufferClass<char> *p0,
+	ShareBufferClass<unsigned char> *p1,
+	ShareBufferClass<unsigned short> *p2,
+	ShareBufferClass<unsigned long> *p3,
+	ShareBufferClass<Vector3> *p4,
+	ShareBufferClass<Vector4> *p5)
+{
+	p0->ShareBufferClass<char>::~ShareBufferClass();
+	p1->ShareBufferClass<unsigned char>::~ShareBufferClass();
+	p2->ShareBufferClass<unsigned short>::~ShareBufferClass();
+	p3->ShareBufferClass<unsigned long>::~ShareBufferClass();
+	p4->ShareBufferClass<Vector3>::~ShareBufferClass();
+	p5->ShareBufferClass<Vector4>::~ShareBufferClass();
+}
+#pragma inline_depth()

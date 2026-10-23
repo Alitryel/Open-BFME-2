@@ -3,11 +3,18 @@
 // Sibling of matched go @ 0x803730 (97B) and bfmeGoSA/SB/TCA. Large char
 // buffers force /GS cookie frame (sub esp,0xB0) matching retail.
 
-class Rva00803620Getter
+class Rva00803620Getter;
+
+class BfmeThingRF
 {
 public:
-	char getStr( void *key, char *out, int size );
-	int getInt( const char *key, int fallback );
+	void *bfmeGoRF( void *key, void *defaultValue );
+};
+
+class BfmeThingUPB
+{
+public:
+	char bfmeGoUPB( void *key, char *out, void *size );
 };
 
 class Rva00803620Sink
@@ -29,10 +36,10 @@ void Rva00803620Host::go( Rva00803620Getter *r )
 {
 	char name[0x80];
 	char ugid[0x25];
-	r->getStr( (void *)"NAME", name, 0x80 );
-	int port = r->getInt( "PORT", 0 );
-	int maxPlayers = r->getInt( "MAX-PLAYERS", 0 );
-	int tid = r->getInt( "TID", 0 );
-	r->getStr( (void *)"UGID", ugid, 0x25 );
+	((BfmeThingUPB *)r)->bfmeGoUPB( (void *)"NAME", name, (void *)0x80 );
+	int port = (int)(long)((BfmeThingRF *)r)->bfmeGoRF( (void *)"PORT", (void *)0 );
+	int maxPlayers = (int)(long)((BfmeThingRF *)r)->bfmeGoRF( (void *)"MAX-PLAYERS", (void *)0 );
+	int tid = (int)(long)((BfmeThingRF *)r)->bfmeGoRF( (void *)"TID", (void *)0 );
+	((BfmeThingUPB *)r)->bfmeGoUPB( (void *)"UGID", ugid, (void *)0x25 );
 	m_sink->apply( tid, name, port, maxPlayers, ugid );
 }

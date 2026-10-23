@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /MD /DNDEBUG
+// cl: /MD /DNDEBUG
 //
 // ??0DualWeaponBehaviorModuleData@@QAE@XZ, retail 0x0045AE25,
 // 31 bytes. Frameless store-only ctor over table 0xC41858
@@ -13,6 +13,9 @@
 // the float zero as xorps/movss. Vtable 0x00C4ED70 is ICF-folded
 // (DeletionUpdate/SlotToLock/ReflectDamage share it), so the install
 // proves nothing by itself; table plus size plus stores do.
+
+extern "C" const void *const vtbl_00C4ED70[];  // folded, 9 classes; via ??_7BeaconClientUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4ED70=??_7BeaconClientUpdateModuleData@@6B@")
 
 class DualWeaponBehaviorModuleData
 {
@@ -32,7 +35,7 @@ private:
 // ??0DualWeaponBehaviorModuleData@@QAE@XZ @0x45AE25
 DualWeaponBehaviorModuleData::DualWeaponBehaviorModuleData()
 {
-	m_vtable = reinterpret_cast<const void *>(0x00C4ED70);
+	m_vtable = reinterpret_cast<const void *>(((unsigned int)vtbl_00C4ED70));
 	m_switchWeaponOnCloseRangeDistance = 0.0f;
 	m_useCloseRangeWhileMounted = false;
 	m_minimumSwitchTime = 0;

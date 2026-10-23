@@ -1,6 +1,17 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims
+// cl: /Ireference/shims/aiupdatelayout /Ireference/shims/zh_outofline /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims
 // stlport
 // Ported verbatim from the Generals Zero Hour reference (GameEngine/Source/GameLogic/Object/Update/AIUpdate/AssaultTransportAIUpdate.cpp); this unit had no counterpart under Code/.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #define Matrix4x4 Matrix4  // BFME renamed it
 #define __PLACEMENT_VEC_NEW_INLINE  // always.h/GameMemory.h define array placement-new themselves
 // stlport
@@ -35,6 +46,15 @@
 //         injured troops to return to the transport for healing purposes.
 
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include <list>
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 
 #include "Common/Player.h"
 #include "Common/ThingFactory.h"
@@ -60,14 +80,6 @@
 //-------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/AI/AssaultTransportAIUpdateCtorThunk.cpp
-// ??0AssaultTransportAIUpdate@@ present-unmatched
-AssaultTransportAIUpdate::AssaultTransportAIUpdate( Thing *thing, const ModuleData* moduleData ) : AIUpdateInterface( thing, moduleData )
-{
-	m_currentMembers = MAX_TRANSPORT_SLOTS; //First time, max it out, to ensure clearing arrays in reset.
-	reset();
-} 
-
 //-------------------------------------------------------------------------------------------------
 // ?reset@AssaultTransportAIUpdate@@ present-unmatched
 void AssaultTransportAIUpdate::reset()
@@ -160,267 +172,10 @@ UpdateSleepTime calcSleepTime()
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?update@AssaultTransportAIUpdate@@ present-unmatched
-UpdateSleepTime AssaultTransportAIUpdate::update( void )
-{
-	Object *transport = getObject();
-	//const AssaultTransportAIUpdateModuleData *data = getAssaultTransportAIUpdateModuleData();
+// The BFME 2 definition is in AssaultTransportAIUpdateUpdate.cpp.
 
-	if( transport->isEffectivelyDead() )
-	{
-		giveFinalOrders();
-		return UPDATE_SLEEP_FOREVER;
-	}
-
-	//First removing dead members or members that have been ordered to do something outside of this AI.
-	if( m_currentMembers )
-	{
-		for( int i = 0; i < m_currentMembers; i++ )
-		{
-			Object *member = TheGameLogic->findObjectByID( m_memberIDs[ i ] );
-			AIUpdateInterface *ai = member ? member->getAI() : NULL;
-			if( !member || member->isEffectivelyDead() || ai->getLastCommandSource() != CMD_FROM_AI )
-			{
-				//Member is toast -- so remove him from our list!
-				if( m_currentMembers - 1 > i )
-				{
-					//Move the last slot to this slot to keep array contiguous.
-					m_memberIDs[ i ]			= m_memberIDs[ m_currentMembers - 1 ];
-					m_memberHealing[ i ]	= m_memberHealing[ m_currentMembers - 1 ];
-					m_newMember[ i ]			= m_newMember[ m_currentMembers - 1 ];
-				}
-				else
-				{
-					//Just clean out last slot.
-					m_memberIDs[ i ]			= INVALID_ID;
-					m_memberHealing[ i ]	= FALSE;
-					m_newMember[ i ]			= FALSE;
-				}
-				if( ai )
-				{
-					//Important! Members of our assault transport must be allowed to chase down designated enemies.
-					//Generally only player commands allow this, so this flag allows AI commands to do the same.
-					//We need to turn this off though, because this ex-member is no longer under transport control.
-					ai->setAllowedToChase( FALSE );
-				}
-				m_currentMembers--;
-			}
-		}
-	}
-
-	//Now add any potentially new members to the group.
-	ContainModuleInterface *contain = transport->getContain();
-	if( contain )
-	{
-		const ContainedItemsList *passengerList = contain->getContainedItemsList();
-		ContainedItemsList::const_iterator passengerIterator;
-		passengerIterator = passengerList->begin();
-		while( passengerIterator != passengerList->end() )
-		{
-			Object *passenger = *passengerIterator;
-			//Advance to the next iterator
-			passengerIterator++;
-
-			//Make sure it isn't in our list already.
-			Bool found = FALSE;
-			for( int i = 0; i < m_currentMembers; i++ )
-			{
-				if( passenger->getID() == m_memberIDs[ i ] )
-				{
-					//He is in the list... so skip him.
-					found = TRUE;
-					break;
-				}
-			}
-			if( found )
-			{
-				//Get next passenger.
-				continue;
-			}
-
-			//It's possible to add members manually -- but if we already have 10 members, then wait!
-			if( m_currentMembers < MAX_TRANSPORT_SLOTS )
-			{
-				//Not in list, so add him!
-				m_memberIDs[ m_currentMembers ] = passenger->getID();
-				if( passenger->getAI() )
-				{
-					//Important! Members of our assault transport must be allowed to chase down designated enemies.
-					//Generally only player commands allow this, so this flag allows AI commands to do the same.
-					passenger->getAI()->setAllowedToChase( TRUE );
-				}
-				
-				//Check if the passenger is wounded below threshhold (if so make sure we heal him before ordering him to fight!)
-				if( isMemberWounded( passenger ) )
-				{
-					m_memberHealing[ m_currentMembers ] = TRUE;
-				}
-				if( m_newOccupantsAreNewMembers )
-				{
-					//New members won't eject out until a new attack order is issued.
-					m_newMember[ m_currentMembers ] = TRUE;
-				}
-
-				m_currentMembers++;
-			}
-		}
-		m_newOccupantsAreNewMembers = TRUE;
-	}
-
-	if( isAttackPointless() )
-	{
-		aiIdle( CMD_FROM_AI );
-		return UPDATE_SLEEP_NONE;
-	}
-
-	//Keep track of the average position of all combat units assigned to me.
-	Coord3D fighterCentroidPos;
-	UnsignedInt fightingMembers = 0;
-	fighterCentroidPos.zero();
-
-	//If we're already in the process, reacquire the designated target again... see if
-	//it's still alive.
-	Object *designatedTarget = TheGameLogic->findObjectByID( m_designatedTarget );
-	if( designatedTarget && designatedTarget->isEffectivelyDead() )
-	{
-		designatedTarget = NULL;
-	}
-	if( designatedTarget )
-	{
-		//Look for members not currently attacking this target.
-		for( int i = 0; i < m_currentMembers; i++ )
-		{
-			Object *member = TheGameLogic->findObjectByID( m_memberIDs[ i ] );
-			AIUpdateInterface *ai = member ? member->getAI() : NULL;
-			
-			if( member && ai )
-			{
-				Bool contained = member->isContained();
-				Bool wounded = isMemberWounded( member );
-				if( contained && isMemberHealthy( member ) && !m_newMember[ i ] )
-				{
-					//This contained member is healthy so order him to exit to start fighting!
-					//New members are exempt!
-					ai->aiExit( transport, CMD_FROM_AI );
-				}
-				if( !contained ) 
-				{
-					if( wounded )
-					{
-						if( ai->getAIStateType() != AI_ENTER )
-						{
-							//Order wounded members back to get healed.
-							ai->aiEnter( transport, CMD_FROM_AI );
-						}
-					}
-					else 
-					{
-						//Increment the number of fighters and their position.
-						fighterCentroidPos.add( member->getPosition() );
-						fightingMembers++;
-
-						if( !ai->isMoving() )
-						{
-							if( ai->getGoalObject() != designatedTarget )
-							{
-								//Okay, this dude is outside and waiting... order him to attack the designated target
-								ai->aiAttackObject( designatedTarget, NO_MAX_SHOTS_LIMIT, CMD_FROM_AI );
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	else
-	{
-		if( m_isAttackMove && getAIStateType() != AI_ATTACK_MOVE_TO )
-		{
-			//Continue to move towards the attackmove area.
-			aiAttackMoveToPosition( &m_attackMoveGoalPos, NO_MAX_SHOTS_LIMIT, CMD_FROM_AI );
-		}
-		else if( m_isAttackObject )
-		{
-			retrieveMembers();
-		}
-	}
-
-	/*
-	//Keep near the troops.
-	if( !m_framesRemaining ) 
-	{
-		if( !isMoving() && fightingMembers && designatedTarget )
-		{
-			m_framesRemaining = 45;
-
-			//Get centriod pos now that we know the number of fighting members.
-			Real scale = 1.0f / (Real)fightingMembers;
-			fighterCentroidPos.scale( scale );
-
-			Coord3D designatedTargetPos = *designatedTarget->getPosition();
-
-			//Calculate a vector from the target passed the fighters to be at a safe place 
-			//to be as a transport.
-			Coord3D vector;
-			vector.set( &fighterCentroidPos );
-			vector.sub( &designatedTargetPos );
-			vector.normalize();
-			vector.scale( 150.0f );
-
-			Coord3D transportGoalPos;
-			transportGoalPos.set( &designatedTargetPos );
-			transportGoalPos.add( &vector );
-
-			Real distanceSqrd = ThePartitionManager->getDistanceSquared( transport, &transportGoalPos, FROM_CENTER_2D );
-			if( distanceSqrd > 40.0f * 40.0f )
-			{
-				//Order the transport to move to the safer position
-				//aiMoveToPosition( &transportGoalPos, CMD_FROM_AI );
-			}
-		}
-	}
-	else
-	{
-		m_framesRemaining--;
-	}
-	if( designatedTarget && !isMoving() )
-	{
-		//Order the transport to face the designated target!
-		//aiFaceObject( designatedTarget, CMD_FROM_AI );
-	}
-	*/
-	
-	/*UpdateSleepTime ret =*/ AIUpdateInterface::update();
-	//return (mine < ret) ? mine : ret;
-	/// @todo srj -- someday, make sleepy. for now, must not sleep.
-	return UPDATE_SLEEP_NONE;
-}
-
-//-------------------------------------------------------------------------------------------------
-// ?isAttackPointless@AssaultTransportAIUpdate@@ present-unmatched
-Bool AssaultTransportAIUpdate::isAttackPointless() const
-{
-	//If all members are new members (thus can't attack), and the transport itself
-	//is still attacking, stop!
-	const Object *transport = getObject();
-	if( transport->testStatus( OBJECT_STATUS_IS_ATTACKING ) )
-	{
-		for( int i = 0; i < m_currentMembers; i++ )
-		{
-			if( !m_newMember[ i ] )
-			{
-				//We have a non-new member, so attack is valid.
-				return FALSE;
-			}
-		}
-
-		//We are trying to attack, but can't because all our members are new.
-		return TRUE;
-	}
-
-	//We aren't trying to attack, so everything is good.
-	return FALSE;
-}
+// AssaultTransportAIUpdate::isAttackPointless: retail's body is the row at 0x0048F61A
+// (AssaultTransportAIUpdateCheck.cpp); this unit only declares it.
 
 //-------------------------------------------------------------------------------------------------
 // ?isMemberWounded@AssaultTransportAIUpdate@@ present-unmatched
@@ -519,37 +274,7 @@ void AssaultTransportAIUpdate::crc( Xfer *xfer )
 	* Version Info:
 	* 1: Initial version */
 //-------------------------------------------------------------------------------------------------
-// ?xfer@AssaultTransportAIUpdate@@ present-unmatched
-void AssaultTransportAIUpdate::xfer( Xfer *xfer )
-{
-  // version
-  XferVersion currentVersion = 1;
-  XferVersion version = currentVersion;
-  xfer->xferVersion( &version, currentVersion );
- 
- // extend base class
-	AIUpdateInterface::xfer(xfer);
-
-	xfer->xferInt( &m_currentMembers );
-
-	for( int i = 0; i < m_currentMembers; i++ )
-	{
-		xfer->xferObjectID( &(m_memberIDs[ i ]) );
-		xfer->xferBool( &(m_memberHealing[ i ]) );
-	}
-
-	xfer->xferCoord3D( &m_attackMoveGoalPos );
-	xfer->xferObjectID( &m_designatedTarget );
-	
-	Int state = (Int)m_state;
-	xfer->xferInt( &state );
-	m_state = (AssaultStateTypes)state;
-	
-	xfer->xferUnsignedInt( &m_framesRemaining );
-	xfer->xferBool( &m_isAttackMove );
-	xfer->xferBool( &m_isAttackObject );
-
-}  // end xfer
+// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/AssaultTransportAIUpdateXfer.cpp
 
 //-------------------------------------------------------------------------------------------------
 /** Load post process */

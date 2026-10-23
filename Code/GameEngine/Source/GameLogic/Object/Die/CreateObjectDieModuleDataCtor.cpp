@@ -1,9 +1,9 @@
-// cl: /O1 /MD /GX /DNDEBUG /Oy- /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /MD /D_CRTIMP= /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
-// ??0CreateObjectDieModuleData@@QAE@XZ, retail 0x00485D88, 81 bytes.
+// ??0CreateObjectDieModuleData@@QAE@XZ, retail 0x00485D88, 82 bytes.
 // CreateObjectDie ModuleData default ctor over the pinned SEH intermediate
-// base (??0Rva00253510@@QAE@XZ at 0x253510, shared with the Die family:
+// base (??0DestroyDieModuleData@@QAE@XZ at 0x253510, shared with the Die family:
 // DamageFiltered/KeepObjectDie/UpgradeDie precedent). Unlike the frameless
 // DamageFiltered sibling this class carries destructible members, so the
 // base and the derived both declare virtual dtors (KeepObjectDie/
@@ -31,30 +31,21 @@
 
 #include <vector>
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	void clear();
-	~AsciiString();
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class ObjectCreationNugget;
 
-class Rva00253510
+class DestroyDieModuleData
 {
 public:
-	Rva00253510();
-	virtual ~Rva00253510();
+	DestroyDieModuleData();
+	virtual ~DestroyDieModuleData();
 
 private:
 	unsigned char m_pad[0x38 - 4];
 };
 
-class CreateObjectDieModuleData : public Rva00253510
+class CreateObjectDieModuleData : public DestroyDieModuleData
 {
 public:
 	CreateObjectDieModuleData();
@@ -74,12 +65,5 @@ CreateObjectDieModuleData::CreateObjectDieModuleData()
 	m_upgradeRequired.clear();
 }
 
-// ??1CreateObjectDieModuleData@@UAE@XZ present-unmatched
-CreateObjectDieModuleData::~CreateObjectDieModuleData()
-{
-}
+// CreateObjectDieModuleData::~CreateObjectDieModuleData: defined in CreateObjectDieModuleDataDtor.cpp (its row's unit).
 
-// ??1Rva00253510@@UAE@XZ present-unmatched
-Rva00253510::~Rva00253510()
-{
-}

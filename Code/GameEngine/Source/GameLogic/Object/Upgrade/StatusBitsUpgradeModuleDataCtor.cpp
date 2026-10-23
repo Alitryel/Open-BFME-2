@@ -2,7 +2,7 @@
 // stlport
 //
 // ??0StatusBitsUpgradeModuleData@@QAE@XZ, retail 0x00254775, 40 bytes.
-// Frameless store-only ctor over the rowed OpenContainModuleData base
+// Frameless store-only ctor over the rowed Rva00253487Base base
 // (0x253487): folded vtable 0x00BF2558, StatusToSet reset at +0x118 and
 // StatusToClear reset at +0x128 through the rowed bitset<128>::reset
 // (0x24CA24; own table 0x00857984 holds exactly those two fields; the
@@ -12,16 +12,19 @@
 // vtable. Recipe: GiveOrRestoreUpgradeSpecialPowerModuleDataCtor (explicit
 // vtable slot, cast-to-bitset reset calls in body order).
 
+extern "C" const void *const vtbl_00BF2558[];  // ??_7WeaponSetUpgradeModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BF2558=??_7WeaponSetUpgradeModuleData@@6B@")
+
 #include <bitset>
 
 namespace _STL {
 template<> bitset<128> &bitset<128>::reset();
 }
 
-class OpenContainModuleData
+class Rva00253487Base
 {
 public:
-	OpenContainModuleData();
+	Rva00253487Base();
 
 protected:
 	void *m_vtable; // +0
@@ -30,7 +33,7 @@ private:
 	unsigned char m_pad[0x118 - 4];
 };
 
-class StatusBitsUpgradeModuleData : public OpenContainModuleData
+class StatusBitsUpgradeModuleData : public Rva00253487Base
 {
 public:
 	StatusBitsUpgradeModuleData();
@@ -41,9 +44,20 @@ private:
 };
 
 // ??0StatusBitsUpgradeModuleData@@QAE@XZ @0x254775
-StatusBitsUpgradeModuleData::StatusBitsUpgradeModuleData()
+inline StatusBitsUpgradeModuleData::StatusBitsUpgradeModuleData()
 {
-	m_vtable = reinterpret_cast<void *>(0x00BF2558);
+	m_vtable = reinterpret_cast<void *>(((unsigned int)vtbl_00BF2558));
 	((_STL::bitset<128> *)m_statusToSet)->reset();
 	((_STL::bitset<128> *)m_statusToClear)->reset();
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeStatusBitsUpgradeModuleDataInlineAnchor@@YAXPAVStatusBitsUpgradeModuleData@@@Z absent-from-retail
+void _bfmeStatusBitsUpgradeModuleDataInlineAnchor(StatusBitsUpgradeModuleData *statusBitsUpgradeModuleData)
+{
+    statusBitsUpgradeModuleData->StatusBitsUpgradeModuleData::StatusBitsUpgradeModuleData();
+}
+#pragma inline_depth()

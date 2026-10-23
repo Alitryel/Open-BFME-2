@@ -222,3 +222,12 @@ void piAuthenticateCDKeyCallback(void *chat, int result, const char *message,
 
 	piRemoveOperation(peer, operation);
 }
+
+/* Callers elsewhere reach bodies in this unit through spellings pinned to the same
+   retail address (same cdecl/thiscall ABI); bind them here. */
+#pragma comment(linker, "/alternatename:_piOperationsReset=_piClearOperations")
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:_piAuthenticateCDKeyCallbackA=_piAuthenticateCDKeyCallback")
+#pragma comment(linker, "/alternatename:_piChangeNickCallbackA=_piChangeNickCallback")

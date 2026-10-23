@@ -24,7 +24,13 @@ public:
 class Rva00802B30Element
 {
 public:
-	void store(const Rva007FBEF0GameRecord *record);
+};
+
+class BfmeKeyZP;
+class BfmeOwnerZP
+{
+public:
+	void bfmeFindZP(BfmeKeyZP *key);
 };
 
 class Rva007F7980Listener
@@ -83,6 +89,6 @@ void Rva007F7980Browser::onGame(Rva007E8810Message *message)
 		return;
 	Rva00802B30Element *element = findGame(lid);
 	if (element != 0)
-		element->store(&record);
+		((BfmeOwnerZP *)element)->bfmeFindZP((BfmeKeyZP *)&record);
 	m_listener->gameReady(lid, gid);
 }

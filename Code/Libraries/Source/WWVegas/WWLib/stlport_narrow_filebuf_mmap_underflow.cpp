@@ -1,17 +1,11 @@
-// cl: /O2 /EHsc /MD
+// cl: /EHsc /MD
 // stlport
+// platformsdk
 
 // STLport 4.5.3 specialized narrow-file underflow helper, retail 0x0084B210.
 
 #include <windows.h>
 #include <algorithm>
-
-#define PAGE_READONLY 0x02
-#define FILE_MAP_READ 0x04
-extern "C" __declspec(dllimport) void * __stdcall CreateFileMappingA(
-	void *, void *, unsigned long, unsigned long, unsigned long, const char *);
-extern "C" __declspec(dllimport) void * __stdcall MapViewOfFile(
-	void *, unsigned long, unsigned long, unsigned long, unsigned long);
 
 typedef long streamoff;
 
@@ -124,7 +118,8 @@ private:
 	unsigned char m_regular_file;
 	unsigned char m_pad;
 
-	static unsigned int _M_page_size;
+protected:
+	static unsigned int _M_page_size;	// protected in STLport's _fstream.h
 };
 
 template <class CharT, class Traits>

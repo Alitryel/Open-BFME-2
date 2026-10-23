@@ -1,7 +1,18 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims
+// cl: /Ireference/shims/kindmask_native /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/Common/RTS/ScoreKeeper.cpp); this unit had no counterpart under Code/.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -69,6 +80,27 @@
 
 #include "GameLogic/Object.h"
 #include "GameLogic/GameLogic.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Base_bitset<4>::_M_do_reset(); }
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ??0?$bitset@$0HE@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bitset<116>::bitset(); }
+// Suppress this TU's non-retail copy of ?clear@?$_Rb_tree@PBVThingTemplate@@U?$pair@QBVThingTemplate@@H@_STL@@U?$_Select1st@U?$pai:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ThingTemplate;
+namespace _STL { template <> void _Rb_tree<ThingTemplate const *,pair<ThingTemplate const * const,int>,_Select1st<pair<ThingTemplate const * const,int> >,less<ThingTemplate const *>,allocator<pair<ThingTemplate const * const,int> > >::clear(); }
+// Suppress this TU's non-retail copy of ?_M_erase@?$_Rb_tree@PBVThingTemplate@@U?$pair@QBVThingTemplate@@H@_STL@@U?$_Select1st@U?$:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ThingTemplate;
+namespace _STL { template <> void _Rb_tree<ThingTemplate const *,pair<ThingTemplate const * const,int>,_Select1st<pair<ThingTemplate const * const,int> >,less<ThingTemplate const *>,allocator<pair<ThingTemplate const * const,int> > >::_M_erase(_Rb_tree_node<pair<ThingTemplate const * const,int> > *); }
+// Suppress this TU's non-retail copy of ?test@?$bitset@$0HE@@_STL@@QBE_NI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bool bitset<116>::test(unsigned int) const; }
+// Suppress this TU's non-retail copy of ?_Unchecked_test@?$bitset@$0HE@@_STL@@QBE_NI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bool bitset<116>::_Unchecked_test(unsigned int) const; }
 
 //-----------------------------------------------------------------------------
 // DEFINES ////////////////////////////////////////////////////////////////////
@@ -78,11 +110,8 @@
 // PUBLIC FUNCTIONS ///////////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------
 
-ScoreKeeper::ScoreKeeper( void )
-{
-	reset(0);
-}
-
+// ?ScoreKeeper::ScoreKeeper present-unmatched
+// ?ScoreKeeper::~ScoreKeeper present-unmatched
 ScoreKeeper::~ScoreKeeper( void )
 {
 
@@ -92,37 +121,10 @@ static KindOfMaskType scoringBuildingMask;
 static KindOfMaskType scoringBuildingDestroyMask;
 static KindOfMaskType scoringBuildingCreateMask;
 
-void ScoreKeeper::reset( Int playerIdx )
-{
-	scoringBuildingMask.set(KINDOF_STRUCTURE);
-	scoringBuildingMask.set(KINDOF_SCORE);
+// Target reset is recovered in ScoreKeeperReset.cpp with the BFME2 layout.
 
-	scoringBuildingCreateMask.set(KINDOF_STRUCTURE);
-	scoringBuildingCreateMask.set(KINDOF_SCORE_CREATE);
-
-	scoringBuildingDestroyMask.set(KINDOF_STRUCTURE);
-	scoringBuildingDestroyMask.set(KINDOF_SCORE_DESTROY);
-
-	m_totalMoneyEarned = m_totalMoneySpent = 0;
-	m_totalUnitsLost = m_totalUnitsBuilt = 0;
-	m_totalBuildingsLost = m_totalBuildingsBuilt = 0;
-	//Added By Sadullah Nader
-	//Initializtion(s) inserted
-	m_totalFactionBuildingsCaptured = m_totalTechBuildingsCaptured = 0;	
-	//
-	m_currentScore = 0;
-	m_objectsBuilt.clear();
-	m_objectsCaptured.clear();
-	m_objectsLost.clear();
-	for(int i = 0; i < MAX_PLAYER_COUNT; ++i)
-	{
-		m_objectsDestroyed[i].clear();
-		m_totalBuildingsDestroyed[i] = m_totalUnitsDestroyed[i] = 0;
-	}
-	m_myPlayerIdx	= playerIdx;
-}
-	
-void ScoreKeeper::addObjectBuilt( const Object *o)
+// ?ScoreKeeper::addObjectBuilt present-unmatched
+void ScoreKeeper::addObjectBuilt( const Object *object)
 {
 	Bool addToCount = FALSE;
 
@@ -130,19 +132,19 @@ void ScoreKeeper::addObjectBuilt( const Object *o)
 		return;
 	}
 
-	if(o->getTemplate()->isKindOfMulti(scoringBuildingMask, KINDOFMASK_NONE))
+	if(object->getTemplate()->isKindOfMulti(scoringBuildingMask, KINDOFMASK_NONE))
 	{
 		++m_totalBuildingsBuilt;
 		addToCount = TRUE;
 	}
-	else if (o->getTemplate()->isKindOfMulti(scoringBuildingCreateMask, KINDOFMASK_NONE))
+	else if (object->getTemplate()->isKindOfMulti(scoringBuildingCreateMask, KINDOFMASK_NONE))
 	{
 		++m_totalBuildingsBuilt;
 		addToCount = TRUE;
 	}
-	else if(o->getTemplate()->isKindOf(KINDOF_INFANTRY) || o->getTemplate()->isKindOf(KINDOF_VEHICLE))
+	else if(object->getTemplate()->isKindOf(KINDOF_INFANTRY) || object->getTemplate()->isKindOf(KINDOF_VEHICLE))
 	{
-		if (o->getTemplate()->isKindOf(KINDOF_SCORE) || o->getTemplate()->isKindOf(KINDOF_SCORE_CREATE))
+		if (object->getTemplate()->isKindOf(KINDOF_SCORE) || object->getTemplate()->isKindOf(KINDOF_SCORE_CREATE))
 		{
 			++m_totalUnitsBuilt;
 			addToCount = TRUE;
@@ -152,13 +154,14 @@ void ScoreKeeper::addObjectBuilt( const Object *o)
 	if(addToCount)
 	{
 		Int existingCount = 0;
-		ObjectCountMapIt it = m_objectsBuilt.find(o->getTemplate());
+		ObjectCountMapIt it = m_objectsBuilt.find(object->getTemplate());
 		if (it != m_objectsBuilt.end())
 			existingCount = it->second;
-		m_objectsBuilt[o->getTemplate()] = existingCount + 1;
+		m_objectsBuilt[object->getTemplate()] = existingCount + 1;
 	}
 }
 
+// ?ScoreKeeper::getTotalUnitsBuilt present-unmatched
 Int ScoreKeeper::getTotalUnitsBuilt( KindOfMaskType validMask, KindOfMaskType invalidMask )
 {
 	Int count = 0;
@@ -172,6 +175,7 @@ Int ScoreKeeper::getTotalUnitsBuilt( KindOfMaskType validMask, KindOfMaskType in
 	return count;
 }
 
+// ?ScoreKeeper::getTotalObjectsBuilt present-unmatched
 Int ScoreKeeper::getTotalObjectsBuilt( const ThingTemplate *pTemplate )
 {
 	Int count = 0;
@@ -185,26 +189,27 @@ Int ScoreKeeper::getTotalObjectsBuilt( const ThingTemplate *pTemplate )
 }
 
 
-void ScoreKeeper::removeObjectBuilt( const Object *o)
+// ?ScoreKeeper::removeObjectBuilt present-unmatched
+void ScoreKeeper::removeObjectBuilt( const Object *object)
 {
 	if (TheGameLogic->isScoringEnabled() == FALSE) {
 		return;
 	}
 
 	Bool removeFromCount = FALSE;
-	if (o->getTemplate()->isKindOfMulti(scoringBuildingMask, KINDOFMASK_NONE))
+	if (object->getTemplate()->isKindOfMulti(scoringBuildingMask, KINDOFMASK_NONE))
 	{
 		--m_totalBuildingsBuilt;
 		removeFromCount = TRUE;
 	}
-	else if (o->getTemplate()->isKindOfMulti(scoringBuildingCreateMask, KINDOFMASK_NONE))
+	else if (object->getTemplate()->isKindOfMulti(scoringBuildingCreateMask, KINDOFMASK_NONE))
 	{
 		--m_totalBuildingsBuilt;
 		removeFromCount = TRUE;
 	}
-	else if (o->getTemplate()->isKindOf(KINDOF_INFANTRY) || o->getTemplate()->isKindOf(KINDOF_VEHICLE))
+	else if (object->getTemplate()->isKindOf(KINDOF_INFANTRY) || object->getTemplate()->isKindOf(KINDOF_VEHICLE))
 	{
-		if (o->getTemplate()->isKindOf(KINDOF_SCORE) || o->getTemplate()->isKindOf(KINDOF_SCORE_CREATE))
+		if (object->getTemplate()->isKindOf(KINDOF_SCORE) || object->getTemplate()->isKindOf(KINDOF_SCORE_CREATE))
 		{
 			--m_totalUnitsBuilt;
 			removeFromCount = TRUE;
@@ -214,23 +219,24 @@ void ScoreKeeper::removeObjectBuilt( const Object *o)
 	if (removeFromCount)
 	{
 		Int existingCount = 0;
-		ObjectCountMapIt it = m_objectsBuilt.find(o->getTemplate());
+		ObjectCountMapIt it = m_objectsBuilt.find(object->getTemplate());
 		if (it != m_objectsBuilt.end())
 			existingCount = it->second;
-		m_objectsBuilt[o->getTemplate()] = existingCount - 1;
+		m_objectsBuilt[object->getTemplate()] = existingCount - 1;
 	}
 }
 
-void ScoreKeeper::addObjectCaptured( const Object *o )
+// ?ScoreKeeper::addObjectCaptured present-unmatched
+void ScoreKeeper::addObjectCaptured( const Object *object )
 {
 	if (TheGameLogic->isScoringEnabled() == FALSE) {
 		return;
 	}
 
 	Bool addToCount = FALSE;
-	if(o->getTemplate()->isKindOf(KINDOF_STRUCTURE))
+	if(object->getTemplate()->isKindOf(KINDOF_STRUCTURE))
 	{
-		if (o->getTemplate()->isKindOf(KINDOF_SCORE))
+		if (object->getTemplate()->isKindOf(KINDOF_SCORE))
 		{
 			++m_totalFactionBuildingsCaptured;
 		}
@@ -244,102 +250,20 @@ void ScoreKeeper::addObjectCaptured( const Object *o )
 	if(addToCount)
 	{
 		Int existingCount = 0;
-		ObjectCountMapIt it = m_objectsCaptured.find(o->getTemplate());
+		ObjectCountMapIt it = m_objectsCaptured.find(object->getTemplate());
 		if (it != m_objectsCaptured.end())
 			existingCount = it->second;
-		m_objectsCaptured[o->getTemplate()] = existingCount + 1;
+		m_objectsCaptured[object->getTemplate()] = existingCount + 1;
 	}
 }
 
 
 
-void ScoreKeeper::addObjectDestroyed( const Object *o)
-{
+// addObjectDestroyed is recovered with reset in ScoreKeeperReset.cpp.
 
-	if (TheGameLogic->isScoringEnabled() == FALSE) {
-		return;
-	}
+// addObjectLost is recovered in Rva0039D0FBMethod.cpp with the BFME2 layout.
 
-	Int playerIdx = o->getControllingPlayer()->getPlayerIndex();
-
-	Bool addToCount = FALSE;
-	if(o->getTemplate()->isKindOfMulti(scoringBuildingMask, KINDOFMASK_NONE))
-	{
-		if (!(o->testStatus(OBJECT_STATUS_UNDER_CONSTRUCTION))) {
-			++m_totalBuildingsDestroyed[playerIdx];
-			addToCount = TRUE;
-		}
-	}
-	else if (o->getTemplate()->isKindOfMulti(scoringBuildingDestroyMask, KINDOFMASK_NONE))
-	{
-		if (!(o->testStatus(OBJECT_STATUS_UNDER_CONSTRUCTION))) {
-			++m_totalBuildingsDestroyed[playerIdx];
-			addToCount = TRUE;
-		}
-	}
-	else if(o->getTemplate()->isKindOf(KINDOF_INFANTRY) || o->getTemplate()->isKindOf(KINDOF_VEHICLE))
-	{
-		if (o->getTemplate()->isKindOf(KINDOF_SCORE) || o->getTemplate()->isKindOf(KINDOF_SCORE_DESTROY))
-		{
-			if (!(o->testStatus(OBJECT_STATUS_UNDER_CONSTRUCTION))) {
-				m_totalUnitsDestroyed[playerIdx]++;
-				addToCount = TRUE;
-			}
-		}
-	}
-	
-	if(addToCount)
-	{
-		Int existingCount = 0;
-		ObjectCountMapIt it = m_objectsDestroyed[playerIdx].find(o->getTemplate());
-		if (it != m_objectsDestroyed[playerIdx].end())
-			existingCount = it->second;
-		m_objectsDestroyed[playerIdx][o->getTemplate()] = existingCount + 1;
-	}
-}
-
-void ScoreKeeper::addObjectLost( const Object *o )
-{
-	if (TheGameLogic->isScoringEnabled() == FALSE) {
-		return;
-	}
-
-	Bool addToCount = FALSE;
-	if(o->getTemplate()->isKindOfMulti(scoringBuildingMask, KINDOFMASK_NONE))
-	{
-		if (!(o->testStatus(OBJECT_STATUS_UNDER_CONSTRUCTION))) {
-			++m_totalBuildingsLost;
-			addToCount = TRUE;
-		}
-	}
-	else if (o->getTemplate()->isKindOfMulti(scoringBuildingDestroyMask, KINDOFMASK_NONE))
-	{
-		if (!(o->testStatus(OBJECT_STATUS_UNDER_CONSTRUCTION))) {
-			++m_totalBuildingsLost;
-			addToCount = TRUE;
-		}
-	}
-	else if(o->getTemplate()->isKindOf(KINDOF_INFANTRY) || o->getTemplate()->isKindOf(KINDOF_VEHICLE))
-	{
-		if (o->getTemplate()->isKindOf(KINDOF_SCORE) || o->getTemplate()->isKindOf(KINDOF_SCORE_DESTROY))
-		{
-			if (!(o->testStatus(OBJECT_STATUS_UNDER_CONSTRUCTION))) {
-				++m_totalUnitsLost;
-				addToCount = TRUE;
-			}
-		}
-	}
-	
-	if(addToCount)
-	{
-		Int existingCount = 0;
-		ObjectCountMapIt it = m_objectsLost.find(o->getTemplate());
-		if (it != m_objectsLost.end())
-			existingCount = it->second;
-		m_objectsLost[o->getTemplate()] = existingCount + 1;
-	}	
-}
-
+// ?ScoreKeeper::calculateScore present-unmatched
 Int ScoreKeeper::calculateScore( void )
 {
 	Int score = 0;
@@ -363,43 +287,13 @@ Int ScoreKeeper::calculateScore( void )
 // PRIVATE FUNCTIONS //////////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------
 
-Int ScoreKeeper::getTotalBuildingsDestroyed( void )
-{
-	int count = 0;
-	for (int i = 0; i< MAX_PLAYER_COUNT; ++i)
-	{
-	// Design change, display even if we killed our own
-//		if(i == m_myPlayerIdx)
-//			continue;
-		count += m_totalBuildingsDestroyed[i];
-		//for (ObjectCountMapIt it = m_objectsDestroyed[i].begin(); it != m_objectsDestroyed[i].end(); ++it) 
-		//		{
-		//			
-		//			count += it->second;
-		//		}
-		
-	}
-	return count;
-}
-Int ScoreKeeper::getTotalUnitsDestroyed( void )
-{
-	int count = 0;
-	for (int i = 0; i< MAX_PLAYER_COUNT; ++i)
-	{
-	// Design change, display even if we killed our own
-//		if(i == m_myPlayerIdx)
-//			continue;
-		count += m_totalUnitsDestroyed[i];
-//		for (ObjectCountMapIt it = m_objectsDestroyed[i].begin(); it != m_objectsDestroyed[i].end(); ++it) 
-//		{
-//		}
-	}
-	return count;
-}
+// ScoreKeeper::getTotalBuildingsDestroyed: defined in ScoreKeeperTotalDestroyedBfme2.cpp (its row's unit).
+// ScoreKeeper::getTotalUnitsDestroyed: defined in ScoreKeeperTotalDestroyedBfme2.cpp (its row's unit).
 
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
+// ?ScoreKeeper::crc present-unmatched
 void ScoreKeeper::crc( Xfer *xfer )
 {
 
@@ -410,6 +304,7 @@ void ScoreKeeper::crc( Xfer *xfer )
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
+// ?ScoreKeeper::xferObjectCountMap present-unmatched
 void ScoreKeeper::xferObjectCountMap( Xfer *xfer, ObjectCountMap *map )
 {
 
@@ -490,6 +385,7 @@ void ScoreKeeper::xferObjectCountMap( Xfer *xfer, ObjectCountMap *map )
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
+// ?ScoreKeeper::xfer present-unmatched
 void ScoreKeeper::xfer( Xfer *xfer )
 {
 
@@ -566,6 +462,7 @@ void ScoreKeeper::xfer( Xfer *xfer )
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
+// ?ScoreKeeper::loadPostProcess present-unmatched
 void ScoreKeeper::loadPostProcess( void )
 {
 

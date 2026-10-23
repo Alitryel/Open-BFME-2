@@ -1,10 +1,25 @@
-// cl: /Ireference/shims/bfmerendobj /G7 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// cl: /Ireference/shims/bfmerendobj /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
 /*
 ** Copyright 2025 Electronic Arts Inc.
 ** SPDX-License-Identifier: GPL-3.0-or-later
 ** BFME1 Reset_Geometry lifecycle adapted to independently verified BFME2 offsets,
 ** target buffer types, literals, and retail body at RVA 0x0016A320.
 */
+// retail keeps one `vector constructor iterator' (??_H) copy, the /O1 body at
+// 0x00001423; this unemitted anchor makes this unit's copy that same body.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+#pragma auto_inline(off)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma auto_inline(on)
+#pragma optimize("", on)
+
+// Retail's out-of-line RefCountClass copies (Release_Ref, deleting dtor) are the
+// /O1 forms hlod.cpp emits; compile refcount.h for size, ahead of rendobj.h.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+
 #include "rendobj.h"
 #include <string.h>
 #include "refcount.h"
@@ -14,6 +29,12 @@
 #include "vector4.h"
 #include "wwdebug.h"
 #include "wwmemlog.h"
+
+// Their byte-matched specializations live in MeshGeometryShareBufferInstantiations.cpp.
+// Do not implicitly re-emit their virtual destructors in this reset TU.
+template <> ShareBufferClass<unsigned char>::~ShareBufferClass();
+template <> ShareBufferClass<Vector3>::~ShareBufferClass();
+template <> ShareBufferClass<Vector3i16>::~ShareBufferClass();
 
 // The +0x5C slot's source element identity is unknown. Retail construction,
 // vtable and allocation establish only a ShareBuffer specialization with

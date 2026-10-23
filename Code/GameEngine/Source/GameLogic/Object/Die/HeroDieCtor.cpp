@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ??0HeroDie@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x004C2324, 42 bytes.
 // Behavior-side ctor completing the HeroDie file-unit (poolkey rowed at
@@ -11,6 +11,14 @@
 // anywhere so no vtable is emitted here; all three immediates are
 // DIR32-masked in comparison). Zero new pins (base resolves via the
 // existing DieModule pin).
+
+extern "C" const void *const vtbl_00C4A650[];  // folded, 21 classes; via ??_7CreateCrateDie@@6BBehaviorModuleInterface@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4A650=??_7CreateCrateDie@@6BBehaviorModuleInterface@@@")
+
+extern "C" const void *const vtbl_00C5C424[];  // ??_7Rva004C227A@@6BRva004C227A_B2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C5C424=??_7Rva004C227A@@6BRva004C227A_B2@@@")
+extern "C" const void *const vtbl_00C5C428[];  // ??_7Rva004C227A@@6BDieModule@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C5C428=??_7Rva004C227A@@6BDieModule@@@")
 
 class Thing;
 class ModuleData;
@@ -31,7 +39,7 @@ public:
 HeroDie::HeroDie(Thing *thing, const ModuleData *moduleData) :
 	DieModule(thing, moduleData)
 {
-	*(unsigned int *)this = 0x00C5C428;
-	*(unsigned int *)((char *)this + 0xC) = 0x00C4A650;
-	*(unsigned int *)((char *)this + 0x10) = 0x00C5C424;
+	*(unsigned int *)this = ((unsigned int)vtbl_00C5C428);
+	*(unsigned int *)((char *)this + 0xC) = ((unsigned int)vtbl_00C4A650);
+	*(unsigned int *)((char *)this + 0x10) = ((unsigned int)vtbl_00C5C424);
 }

@@ -1,4 +1,7 @@
-// cl: /O1 /DNDEBUG /MD
+char g_00BEFEA4;
+char g_00BEFEB0;
+
+// cl: /DNDEBUG /MD
 //
 // ??0UpgradeSoundSelectorClientBehavior@@QAE@PAVThing@@PBVModuleData@@@Z,
 // retail 0x00252CB5, 40 bytes. Behavior-side ctor completing the
@@ -16,6 +19,9 @@
 // (volatile-first-store law: the plain triple folds to two stores, volatile
 // emits identical mov bytes). Zero new pins (base resolves via the rowed
 // Rva00252B68 spelling).
+
+extern "C" const void *const vtbl_00BE2B78[];  // folded, 9 classes; via ??_7ClearanceTestingSlowDeathBehaviorIface5@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BE2B78=??_7ClearanceTestingSlowDeathBehaviorIface5@@6B@")
 
 class Thing;
 class ModuleData;
@@ -36,7 +42,7 @@ public:
 UpgradeSoundSelectorClientBehavior::UpgradeSoundSelectorClientBehavior(Thing *thing, const ModuleData *moduleData) :
 	Rva00252B68(thing, moduleData)
 {
-	*(unsigned int volatile *)((char *)this + 0xC) = 0x00BE2B78;
-	*(unsigned int *)this = 0x00BEFEB0;
-	*(unsigned int *)((char *)this + 0xC) = 0x00BEFEA4;
+	*(unsigned int volatile *)((char *)this + 0xC) = ((unsigned int)vtbl_00BE2B78);
+	*(unsigned int *)this = (unsigned int)&g_00BEFEB0;
+	*(unsigned int *)((char *)this + 0xC) = (unsigned int)&g_00BEFEA4;
 }

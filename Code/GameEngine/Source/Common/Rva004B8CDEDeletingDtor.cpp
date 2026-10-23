@@ -1,4 +1,4 @@
-// cl: /O1 /MD
+// cl: /MD
 //
 // ??_GRva004B8CDE@@UAEPAXI@Z at retail 0x004B8D32 (28B): emitted scalar
 // deleting destructor for the opaque MI middle Rva004B8CDE (25B order-B body
@@ -57,3 +57,9 @@ void Rva004B8CDE_Anchor()
 	Rva004B8CDE *p = new Rva004B8CDE;
 	delete p;
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.  Rva004B8CDE_B2
+// is the second polymorphic base, so its vftable is the one stored at +0x10.
+#pragma comment(linker, "/alternatename:?f2@Rva004B8CDE_B2@@UAEXXZ=__purecall")

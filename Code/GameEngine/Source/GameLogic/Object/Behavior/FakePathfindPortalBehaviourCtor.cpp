@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ??0FakePathfindPortalBehaviour@@QAE@PAVThing@@PBVModuleData@@@Z,
 // retail 0x00461944, 99 bytes. Frameless behavior ctor over the rowed
@@ -6,6 +6,11 @@
 // vtable dummies second), byte zeros at +0x30/+0x31/+0x32 plus int zero at
 // +0x34, then CRT memset over +0x28 (8 bytes). The rowed instance factory
 // 0x24B50D (news 0x38) is the sole caller. Row supersedes the ctor pin.
+
+extern "C" const void *const vtbl_00C4EF80[];  // folded, 7 classes; via ??_7ContainIface34@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4EF80=??_7ContainIface34@@6B@")
+extern "C" const void *const vtbl_00C1C780[];  // folded, 49 classes; via ??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C1C780=??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@")
 
 #include <string.h>
 
@@ -53,8 +58,8 @@ FakePathfindPortalBehaviour::FakePathfindPortalBehaviour(Thing *thing, const Mod
 {
 	int *slot20 = (int *)&m_20;
 	int *slot24 = (int *)&m_24;
-	*slot20 = 0x00C1C780;
-	*slot24 = 0x00C4EF80;
+	*slot20 = ((unsigned int)vtbl_00C1C780);
+	*slot24 = ((unsigned int)vtbl_00C4EF80);
 	m_30 = false;
 	m_31 = false;
 	m_32 = false;

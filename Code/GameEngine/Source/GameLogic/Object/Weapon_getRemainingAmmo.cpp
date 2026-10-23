@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 // Ported from Open-BFME-1's Weapon_getRemainingAmmo.cpp (landed there against
 // retail 0x001E5660). BFME2 keeps the shape with different offsets: the ammo
 // descriptor sits at WeaponTemplate+0x120 (BFME1 +0x4E8) and the owner's ammo
@@ -7,10 +7,7 @@
 typedef unsigned int UnsignedInt;
 typedef bool Bool;
 
-enum ObjectID
-{
-    INVALID_OBJECT_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 enum WeaponStatus
 {
@@ -69,17 +66,12 @@ public:
     BfmeAmmoProvider *getAmmoProvider() const { return m_ammoProvider; }
     // Owner-side ammo-availability gate used by Weapon::isAmmoReady; true name
     // unproven (address proven by REL32, body reads Object+0x330).
-    Bool rva0028AF65() const;
+    Bool isCurWeaponLocked() const;
 
     char m_padding[0x250];
     BfmeAmmoProvider *m_ammoProvider;
 };
 
-class GameLogic
-{
-public:
-    Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 
@@ -131,7 +123,7 @@ Bool Weapon::isAmmoReady() const
     Object *owner = TheGameLogic->findObjectByID(m_ownerID);
     if (owner != 0)
     {
-        if (owner->rva0028AF65())
+        if (owner->isCurWeaponLocked())
             return true;
     }
     return false;

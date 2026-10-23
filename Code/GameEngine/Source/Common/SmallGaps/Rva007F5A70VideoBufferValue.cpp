@@ -1,4 +1,8 @@
 // ?videoBufferValue@Rva007F5A70Owner@@QAEHPAVW3DVideoBuffer@@@Z
+// In the FESL message view, W3DVideoBuffer::valid aliases hasError at +0x24;
+// this following getter reads that same error slot (FeslMessageAccessors.cpp).
+#pragma comment(linker, "/alternatename:?m@Gen_007e88b0@@QAEHXZ=?getError@Rva007E8810Message@@QAEHXZ")
+
 class W3DVideoBuffer { public: virtual bool valid(); };
 class Gen_007e88b0 { public: int m(); };
 struct Rva007F5A70Target {

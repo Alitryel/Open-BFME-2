@@ -21,7 +21,18 @@ private:
 };
 
 // ?friend_newModuleInstance@TransitionDamageFX@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *TransitionDamageFX::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *TransitionDamageFX::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new TransitionDamageFX(thing, moduleData));
 }
+
+// Select-any anchor: this unit owns the row above while other TUs emit it as
+// an inline copy. The anchor keeps this unit emitting its copy for the ledger;
+// it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitTransitionDamageFXFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitTransitionDamageFXFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	TransitionDamageFX::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

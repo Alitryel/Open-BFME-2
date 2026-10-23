@@ -37,18 +37,122 @@
  */
 #define _STLP_INTERNAL_TIME_FACETS_H
 #include <string>
-namespace _STL { template<> basic_string<char>::basic_string(const char*, const allocator<char>&); }
+// Native default construction is provided by the verified retail7850 owner.
+namespace _STL { template <> basic_string<char>::basic_string(); }
+namespace _STL { template<> basic_string<char>::basic_string(const char*, const allocator<char>&); template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char*, size_t); }
+// Suppress this TU's non-retail _String_base<char> dtor copy (family2-LK3 rows
+// 22/26): the rowed 63B copy in stlport_narrow_string_base_dtor.cpp serves the link.
+template <> _STL::_String_base<char, _STL::allocator<char> >::~_String_base();
+// Likewise the wide one: the rowed 63B fold in that unit serves the link.
+template <> _STL::_String_base<unsigned short, _STL::allocator<unsigned short> >::~_String_base();
+// ~basic_string<unsigned short> binds to the rowed retail 63B copy (0x0000B3C0): this
+// unit's own copy is a jmp to ~_String_base, first in link order and not retail's.
+template <> _STL::basic_string<unsigned short, _STL::char_traits<unsigned short>, _STL::allocator<unsigned short> >::~basic_string();
 #include <locale>
+// STLport defines locale::facet::~facet out of line in locale_impl.cpp, where
+// retail's ??_Gfacet (0x00007490) inlines the empty body; seeing it here makes
+// this unit's select-any copy of ??_Gfacet retail's.
+namespace _STL { inline locale::facet::~facet() {} }
+// Use the independently verified bool reader at retail RVA 0x000091D0.
+namespace _STL {
+template <> istreambuf_iterator<char, char_traits<char> >
+num_get<char, istreambuf_iterator<char, char_traits<char> > >::do_get(
+    istreambuf_iterator<char, char_traits<char> >,
+    istreambuf_iterator<char, char_traits<char> >, ios_base &, int &, bool &) const;
+}
+
+// The complete native float scanners are owned by the read_float units
+// (F850 narrow;10420 wide). Keep this unit's generic copies out of the link.
+namespace _STL {
+template <> bool _M_read_float<istreambuf_iterator<char, char_traits<char> >, char>(
+    string &, istreambuf_iterator<char, char_traits<char> > &,
+    istreambuf_iterator<char, char_traits<char> > &, ios_base &, char *);
+template <> bool _M_read_float<istreambuf_iterator<wchar_t, char_traits<wchar_t> >, wchar_t>(
+    string &, istreambuf_iterator<wchar_t, char_traits<wchar_t> > &,
+    istreambuf_iterator<wchar_t, char_traits<wchar_t> > &, ios_base &, wchar_t *);
+}
+// The wide __get_integer<unsigned short/long/unsigned long> instances are rowed at
+// 0x0000AFA0 and its siblings and emitted by stlport_wide_get_integer_{uint16,long,
+// ulong}.cpp; declaring their instantiations keeps this unit's own copies, which
+// came first in link order, out of the link. Declaring them is also what keeps cl inlining
+// istreambuf_iterator<wchar_t>::equal into _M_do_get_integer<wchar_t,G/J/K> once
+// reserve below is declared too.
+namespace _STL {
+extern template bool __get_integer<istreambuf_iterator<wchar_t, char_traits<wchar_t> >, unsigned short>(istreambuf_iterator<wchar_t, char_traits<wchar_t> > &, istreambuf_iterator<wchar_t, char_traits<wchar_t> > &, int, unsigned short &, int, bool, char, const string &, const __false_type &);
+extern template bool __get_integer<istreambuf_iterator<wchar_t, char_traits<wchar_t> >, long>(istreambuf_iterator<wchar_t, char_traits<wchar_t> > &, istreambuf_iterator<wchar_t, char_traits<wchar_t> > &, int, long &, int, bool, char, const string &, const __true_type &);
+extern template bool __get_integer<istreambuf_iterator<wchar_t, char_traits<wchar_t> >, unsigned long>(istreambuf_iterator<wchar_t, char_traits<wchar_t> > &, istreambuf_iterator<wchar_t, char_traits<wchar_t> > &, int, unsigned long &, int, bool, char, const string &, const __false_type &);
+}
+// Use the complete retail scanner at 0x00007C90; the generic header copy
+// has a different iterator/locale implementation in this build.
+namespace _STL {
+template <> int _M_get_base_or_zero<istreambuf_iterator<char, char_traits<char> >, char>(
+    istreambuf_iterator<char, char_traits<char> > &,
+    istreambuf_iterator<char, char_traits<char> > &, ios_base &, char *);
+// The corresponding complete wide scanner is rowed at 0x0000A0F0.
+template <> int _M_get_base_or_zero<istreambuf_iterator<wchar_t, char_traits<wchar_t> >, wchar_t>(
+    istreambuf_iterator<wchar_t, char_traits<wchar_t> > &,
+    istreambuf_iterator<wchar_t, char_traits<wchar_t> > &, ios_base &, wchar_t *);
+}
 #include <ctime>
+// bfme link decl-only begin
+namespace _STL { template <> char * __write_decimal_backward<long>(char *, long, int, __true_type const &); }
+namespace _STL { template <> char * __write_integer_backward<unsigned long>(char *, int, unsigned long); }
+namespace _STL { template <> char * __write_integer_backward<unsigned __int64>(char *, int, unsigned __int64); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> char * basic_string<char, char_traits<char>, allocator<char> >::_M_insert_aux(char *, char); }
+namespace _STL { template <> bool __get_decimal_integer<char *, long double>(char *&, char *&, long double &); }
+namespace _STL { template <> istreambuf_iterator<char, char_traits<char> > money_get<char, istreambuf_iterator<char, char_traits<char> > >::do_get(istreambuf_iterator<char, char_traits<char> >, istreambuf_iterator<char, char_traits<char> >, bool, ios_base &, int &, long double &) const; }
+namespace _STL { template <> istreambuf_iterator<char, char_traits<char> > money_get<char, istreambuf_iterator<char, char_traits<char> > >::do_get(istreambuf_iterator<char, char_traits<char> >, istreambuf_iterator<char, char_traits<char> >, bool, ios_base &, int &, basic_string<char, char_traits<char>, allocator<char> > &) const; }
+namespace _STL { template <> wchar_t * basic_string<wchar_t, char_traits<wchar_t>, allocator<wchar_t> >::_M_insert_aux(wchar_t *, wchar_t); }
+namespace _STL { template <> istreambuf_iterator<wchar_t, char_traits<wchar_t> > num_get<wchar_t, istreambuf_iterator<wchar_t, char_traits<wchar_t> > >::do_get(istreambuf_iterator<wchar_t, char_traits<wchar_t> >, istreambuf_iterator<wchar_t, char_traits<wchar_t> >, ios_base &, int &, long double &) const; }
+namespace _STL { template <> istreambuf_iterator<wchar_t, char_traits<wchar_t> > num_get<wchar_t, istreambuf_iterator<wchar_t, char_traits<wchar_t> > >::do_get(istreambuf_iterator<wchar_t, char_traits<wchar_t> >, istreambuf_iterator<wchar_t, char_traits<wchar_t> >, ios_base &, int &, double &) const; }
+namespace _STL { template <> istreambuf_iterator<wchar_t, char_traits<wchar_t> > num_get<wchar_t, istreambuf_iterator<wchar_t, char_traits<wchar_t> > >::do_get(istreambuf_iterator<wchar_t, char_traits<wchar_t> >, istreambuf_iterator<wchar_t, char_traits<wchar_t> >, ios_base &, int &, float &) const; }
+namespace _STL { template <> istreambuf_iterator<wchar_t, char_traits<wchar_t> > num_get<wchar_t, istreambuf_iterator<wchar_t, char_traits<wchar_t> > >::do_get(istreambuf_iterator<wchar_t, char_traits<wchar_t> >, istreambuf_iterator<wchar_t, char_traits<wchar_t> >, ios_base &, int &, bool &) const; }
+namespace _STL { template <> istreambuf_iterator<wchar_t, char_traits<wchar_t> > money_get<wchar_t, istreambuf_iterator<wchar_t, char_traits<wchar_t> > >::do_get(istreambuf_iterator<wchar_t, char_traits<wchar_t> >, istreambuf_iterator<wchar_t, char_traits<wchar_t> >, bool, ios_base &, int &, long double &) const; }
+namespace _STL { template <> ostreambuf_iterator<wchar_t, char_traits<wchar_t> > __put_integer<ostreambuf_iterator<wchar_t, char_traits<wchar_t> > >(char *, char *, ostreambuf_iterator<wchar_t, char_traits<wchar_t> >, ios_base &, ios_base::fmtflags, wchar_t); }
+namespace _STL { template <> ostreambuf_iterator<wchar_t, char_traits<wchar_t> > __put_float<ostreambuf_iterator<wchar_t, char_traits<wchar_t> > >(char *, char *, ostreambuf_iterator<wchar_t, char_traits<wchar_t> >, ios_base &, wchar_t, wchar_t, wchar_t, const basic_string<char, char_traits<char>, allocator<char> > &); }
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > _M_do_put_float<char, ostreambuf_iterator<char, char_traits<char> >, double>(ostreambuf_iterator<char, char_traits<char> >, ios_base &, char, double); }
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > _M_do_put_float<char, ostreambuf_iterator<char, char_traits<char> >, long double>(ostreambuf_iterator<char, char_traits<char> >, ios_base &, char, long double); }
+namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > _M_do_put_float<unsigned short, ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, double>(ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, ios_base &, unsigned short, double); }
+namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > _M_do_put_float<unsigned short, ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, long double>(ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, ios_base &, unsigned short, long double); }
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > __put_float<ostreambuf_iterator<char, char_traits<char> > >(char *, char *, ostreambuf_iterator<char, char_traits<char> >, ios_base &, char, char, char, basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > __put_float<ostreambuf_iterator<unsigned short, char_traits<unsigned short> > >(char *, char *, ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, ios_base &, unsigned short, unsigned short, unsigned short, basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > __put_integer<ostreambuf_iterator<char, char_traits<char> > >(char *, char *, ostreambuf_iterator<char, char_traits<char> >, ios_base &, int, char); }
+namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > __put_integer<ostreambuf_iterator<unsigned short, char_traits<unsigned short> > >(char *, char *, ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, ios_base &, int, unsigned short); }
+namespace _STL { template <> char * __write_decimal_backward<__int64>(char *, __int64, int, __true_type const &); }
+namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::basic_string(basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> > const &); }
+namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::basic_string(); }
+namespace _STL { template <> unsigned short * basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::_M_insert_aux(unsigned short *, unsigned short); }
+namespace _STL { template <> istreambuf_iterator<char, char_traits<char> > num_get<char, istreambuf_iterator<char, char_traits<char> > >::do_get(istreambuf_iterator<char, char_traits<char> >, istreambuf_iterator<char, char_traits<char> >, ios_base &, int &, float &) const; }
+namespace _STL { template <> istreambuf_iterator<char, char_traits<char> > num_get<char, istreambuf_iterator<char, char_traits<char> > >::do_get(istreambuf_iterator<char, char_traits<char> >, istreambuf_iterator<char, char_traits<char> >, ios_base &, int &, double &) const; }
+namespace _STL { template <> istreambuf_iterator<char, char_traits<char> > num_get<char, istreambuf_iterator<char, char_traits<char> > >::do_get(istreambuf_iterator<char, char_traits<char> >, istreambuf_iterator<char, char_traits<char> >, ios_base &, int &, long double &) const; }
+namespace _STL { template <> istreambuf_iterator<unsigned short, char_traits<unsigned short> > num_get<unsigned short, istreambuf_iterator<unsigned short, char_traits<unsigned short> > >::do_get(istreambuf_iterator<unsigned short, char_traits<unsigned short> >, istreambuf_iterator<unsigned short, char_traits<unsigned short> >, ios_base &, int &, bool &) const; }
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > money_put<char, ostreambuf_iterator<char, char_traits<char> > >::do_put(ostreambuf_iterator<char, char_traits<char> >, bool, ios_base &, char, basic_string<char, char_traits<char>, allocator<char> > const &) const; }
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > money_put<char, ostreambuf_iterator<char, char_traits<char> > >::do_put(ostreambuf_iterator<char, char_traits<char> >, bool, ios_base &, char, long double) const; }
+namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > money_put<unsigned short, ostreambuf_iterator<unsigned short, char_traits<unsigned short> > >::do_put(ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, bool, ios_base &, unsigned short, long double) const; }
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > num_put<char, ostreambuf_iterator<char, char_traits<char> > >::do_put(ostreambuf_iterator<char, char_traits<char> >, ios_base &, char, void const *) const; }
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > num_put<char, ostreambuf_iterator<char, char_traits<char> > >::do_put(ostreambuf_iterator<char, char_traits<char> >, ios_base &, char, bool) const; }
+namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > num_put<unsigned short, ostreambuf_iterator<unsigned short, char_traits<unsigned short> > >::do_put(ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, ios_base &, unsigned short, bool) const; }
+namespace _STL { template <> void basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::reserve(unsigned int); }
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ?do_put@?$money_put@GV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> ostreambuf_iterator<unsigned short,char_traits<unsigned short> > money_put<unsigned short,ostreambuf_iterator<unsigned short,char_traits<unsigned short> > >::do_put(ostreambuf_iterator<unsigned short,char_traits<unsigned short> >,bool,ios_base &,unsigned short,basic_string<unsigned short,char_traits<unsigned short>,allocator<unsigned short> > const &) const; }
+// Suppress this TU's non-retail copy of ?do_get@?$money_get@GV?$istreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> istreambuf_iterator<unsigned short,char_traits<unsigned short> > money_get<unsigned short,istreambuf_iterator<unsigned short,char_traits<unsigned short> > >::do_get(istreambuf_iterator<unsigned short,char_traits<unsigned short> >,istreambuf_iterator<unsigned short,char_traits<unsigned short> >,bool,ios_base &,int &,basic_string<unsigned short,char_traits<unsigned short>,allocator<unsigned short> > &) const; }
+// Suppress this TU's non-retail copy of ?_M_deallocate_block@?$_String_base@GV?$allocator@G@_STL@@@_STL@@QAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _String_base<unsigned short, allocator<unsigned short> >::_M_deallocate_block(); }
 namespace _STL {
 class _Messages {
 public:
- _Messages();
+ _Messages() {}
  virtual int do_open(const string&,const locale&) const;
  virtual string do_get(int,int,int,const string&) const;
  virtual wstring do_get(int,int,int,const wstring&) const;
  virtual void do_close(int) const;
- virtual ~_Messages();
+ __declspec(dllimport) __forceinline virtual ~_Messages() {}
  bool _M_delete;
 };
 class _STLP_CLASS_DECLSPEC _Time_Info {
@@ -199,7 +303,7 @@ public:
 	string name;
 };
 
-static _Stl_aligned_buffer<_Locale_impl> _S_classic_locale;
+extern "C" { _Stl_aligned_buffer<_Locale_impl> _S_classic_locale; }
 
 static _Stl_aligned_buffer<collate<char> > _S_collate_char;
 static _Stl_aligned_buffer<ctype<char> > _S_ctype_char;
@@ -333,3 +437,35 @@ _Locale_impl::make_classic_locale()
 }
 
 }
+
+// basic_string<char>::reserve is retail's 116-byte body at 0x0000C390, owned by
+// stlport_narrow_string_reserve.cpp. An explicit instantiation declaration stops
+// this unit emitting its own out-of-line copy, which is not retail's and came
+// first in link order (declared alone, it made cl stop inlining
+// istreambuf_iterator<wchar_t>::equal into the wide integer readers; see the
+// __get_integer declarations above, which avoid that).
+namespace _STL {
+template <> void basic_string<char, char_traits<char>, allocator<char> >::reserve(unsigned int);
+template <> void basic_string<wchar_t, char_traits<wchar_t>, allocator<wchar_t> >::reserve(unsigned int);
+template <> basic_string<wchar_t, char_traits<wchar_t>, allocator<wchar_t> > & basic_string<wchar_t, char_traits<wchar_t>, allocator<wchar_t> >::operator=(basic_string<wchar_t, char_traits<wchar_t>, allocator<wchar_t> > const &);
+template <> ostreambuf_iterator<wchar_t, char_traits<wchar_t> > num_put<wchar_t, ostreambuf_iterator<wchar_t, char_traits<wchar_t> > >::do_put(ostreambuf_iterator<wchar_t, char_traits<wchar_t> >, ios_base &, wchar_t, const void *) const;
+template <> _String_base<char, allocator<char> >::_String_base(allocator<char> const &);
+}
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?do_is@?$ctype@G@_STL@@MBEPBGPBG0PAW4mask@ctype_base@2@@Z=?isRange@T2WideCtype@@QBEPBGPBG0PAI@Z")
+#pragma comment(linker, "/alternatename:?do_toupper@?$ctype@G@_STL@@MBEPBGPAGPBG@Z=?toUpperRange@T2WideCtype@@QBEPBGPAG0@Z")
+#pragma comment(linker, "/alternatename:?do_tolower@?$ctype@G@_STL@@MBEPBGPAGPBG@Z=?toLowerRange@T2WideCtype@@QBEPBGPAG0@Z")
+#pragma comment(linker, "/alternatename:?do_widen@?$ctype@G@_STL@@MBEPBDPBD0PAG@Z=?widenRange@T2WideCtype@@QBEPBDPBD0PAG@Z")
+#pragma comment(linker, "/alternatename:?do_narrow@?$ctype@G@_STL@@MBEPBGPBG0DPAD@Z=?narrowRange@T2WideCtype@@QBEPBGPBG0DPAD@Z")
+#pragma comment(linker, "/alternatename:?do_in@?$codecvt@DDH@_STL@@MBE?AW4result@codecvt_base@2@AAHPBD1AAPBDPAD3AAPAD@Z=?do_out@?$codecvt@DDH@_STL@@MBE?AW4result@codecvt_base@2@AAHPBD1AAPBDPAD3AAPAD@Z")
+#pragma comment(linker, "/alternatename:?do_out@?$codecvt@GDH@_STL@@MBE?AW4result@codecvt_base@2@AAHPBG1AAPBGPAD3AAPAD@Z=?do_out@codecvt_wide_char@_STL@@QBEHAAHPBG1AAPBGPAD3AAPAD@Z")
+#pragma comment(linker, "/alternatename:?do_in@?$codecvt@GDH@_STL@@MBE?AW4result@codecvt_base@2@AAHPBD1AAPBDPAG3AAPAG@Z=?do_in@codecvt_wide_char@_STL@@QBEHAAHPBD1AAPBDPAG3AAPAG@Z")
+#pragma comment(linker, "/alternatename:?do_transform@?$collate@D@_STL@@MBE?AV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@2@PBD0@Z=?init@Rva00017890StringInit@@QAE?AV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@PAD0@Z")
+#pragma comment(linker, "/alternatename:?_M_incr@_Locale_impl@_STL@@UAEXXZ=?DX8_Assert@@YAXXZ")
+#pragma comment(linker, "/alternatename:?_M_decr@_Locale_impl@_STL@@UAEXXZ=?DX8_Assert@@YAXXZ")
+
+// Keep the C-linkage storage visible to the data sizeof probe.
+using _STL::_S_classic_locale;

@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /arch:SSE /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /O1 /EHsc /arch:SSE /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // Per-profile online preference files: Zero Hour's QuickMatchPreferences,
@@ -9,6 +9,14 @@
 // Code/GameEngine/Source/Common/UserPreferences.cpp.
 
 #include <map>
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 #include <stdlib.h>
 
 struct _iobuf;
@@ -30,71 +38,11 @@ template <typename T> struct BfmeStringData
 	T text[1];
 };
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-	friend class UnicodeString;
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	void releaseBuffer();
+#include "ascii_string.h"
 
-public:
-	StringBase() : m_data(0) {}
-	~StringBase();
-	Int compare(const char *other) const;
-	Int compareNoCase(const char *other) const;
-	void set(const T *text);
-	void trim(void);
-	Bool nextToken(StringBase *token, const char *seps);
 
-protected:
-	BfmeStringData<T> *m_data;
-};
 
-template <> class StringBase<unsigned short>
-{
-	friend class UnicodeString;
-	StringBase(const StringBase &other);
-	void releaseBuffer();
-
-public:
-	StringBase() : m_data(0) {}
-	~StringBase() { releaseBuffer(); }
-	bool isEmpty() const;
-	void set(const StringBase &other);
-	void concat(const StringBase &other);
-
-protected:
-	BfmeStringData<unsigned short> *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	static const AsciiString TheEmptyString;
-
-	AsciiString() {}
-	AsciiString(const char *text) : StringBase<char>(text) {}
-	AsciiString(const AsciiString &other) : StringBase<char>(other) {}
-	AsciiString &operator=(const AsciiString &other);
-	AsciiString &operator=(const char *text) { set(text); return *this; }
-
-	const char *str() const { return m_data ? &m_data->text[0] : ""; }
-	Bool isEmpty() const { return m_data == 0 || m_data->length == 0; }
-	void format(const char *fmt, ...);
-	void toLower();
-	Bool operator==(const char *other) const { return compare(other) == 0; }
-};
-
-class UnicodeString : public StringBase<unsigned short>
-{
-public:
-	UnicodeString() {}
-	UnicodeString(const UnicodeString &other) : StringBase<unsigned short>(other) {}
-	UnicodeString &operator=(const UnicodeString &other) { set(other); return *this; }
-	void translate(const char *text);
-	const unsigned short *str() const { return m_data ? &m_data->text[0] : L""; }
-};
+#include "unicode_string.h"
 
 bool operator<(const AsciiString &left, const AsciiString &right);
 
@@ -109,6 +57,11 @@ template <> struct less<AsciiString>
 };
 }
 
+// Declaration-only: the rowed map<AsciiString,AsciiString>::operator[] is bound,
+// this TU emits no per-flag copy of it or of the tree internals it pulls in.
+namespace _STL {
+template <> AsciiString &map<AsciiString, AsciiString, less<AsciiString>, allocator<pair<const AsciiString, AsciiString> > >::operator[](const AsciiString &);
+}
 typedef _STL::map<AsciiString, AsciiString> PreferenceMap;
 
 class UserPreferences : public PreferenceMap
@@ -184,6 +137,14 @@ class QuickMatchPreferences : public UserPreferences
 public:
 	QuickMatchPreferences();
 	virtual ~QuickMatchPreferences();
+	void setColor(Int val);
+	Int getColor(void);
+	void setSide(Int val);
+	Int getSide(void);
+	void rva005DF336(Int val);
+	Int rva005DF37E(void);
+	void rva005DF3C7(Int val);
+	Int rva005DF40F(void);
 };
 
 class GameSpyMiscPreferences : public UserPreferences
@@ -191,6 +152,14 @@ class GameSpyMiscPreferences : public UserPreferences
 public:
 	GameSpyMiscPreferences();
 	virtual ~GameSpyMiscPreferences();
+	int rva00559782();
+	void rva005597CB(int val);
+	void rva0055986F(AsciiString val);
+	void rva00559924(AsciiString val);
+	AsciiString rva00559813();
+	AsciiString rva005598C8();
+	Bool rva0055997D();
+	int rva005599C8();
 };
 
 // ??0QuickMatchPreferences@@QAE@XZ @0x5DF1A3
@@ -201,6 +170,54 @@ QuickMatchPreferences::QuickMatchPreferences()
 	load(userPrefFilename);
 }
 
+// ??1QuickMatchPreferences@@UAE@XZ @0x5DF17C
+// Vtable 0xC776DC slot 0 is the deleting dtor 0x5DF187, which calls this:
+// store the vtable and tail-call ~UserPreferences.
+QuickMatchPreferences::~QuickMatchPreferences()
+{
+}
+
+void QuickMatchPreferences::setColor(Int val)
+{
+	setInt("Color", val);
+}
+
+Int QuickMatchPreferences::getColor(void)
+{
+	return getInt("Color", 0);
+}
+
+void QuickMatchPreferences::setSide(Int val)
+{
+	setInt("Side", val);
+}
+
+Int QuickMatchPreferences::getSide(void)
+{
+	return getInt("Side", 0);
+}
+
+// BFME 2's two ladder-rank keys, after setSide/getSide in the same order.
+void QuickMatchPreferences::rva005DF336(Int val)
+{
+	setInt("Highest1vs1Rank", val);
+}
+
+Int QuickMatchPreferences::rva005DF37E(void)
+{
+	return getInt("Highest1vs1Rank", 0);
+}
+
+void QuickMatchPreferences::rva005DF3C7(Int val)
+{
+	setInt("Highest2vs2Rank", val);
+}
+
+Int QuickMatchPreferences::rva005DF40F(void)
+{
+	return getInt("Highest2vs2Rank", 0);
+}
+
 // ??0GameSpyMiscPreferences@@QAE@XZ @0x559711
 GameSpyMiscPreferences::GameSpyMiscPreferences()
 {
@@ -209,14 +226,65 @@ GameSpyMiscPreferences::GameSpyMiscPreferences()
 	load(userPrefFilename);
 }
 
+// ??1GameSpyMiscPreferences@@UAE@XZ @0x5596EA
+// Vtable 0xC6B3AC slot 0 is the deleting dtor 0x5596F5, which calls this.
+GameSpyMiscPreferences::~GameSpyMiscPreferences()
+{
+}
+
+int GameSpyMiscPreferences::rva00559782()
+{
+	return getInt("Locale", 0);
+}
+
+void GameSpyMiscPreferences::rva005597CB(int val)
+{
+	setInt("Locale", val);
+}
+
+void GameSpyMiscPreferences::rva0055986F(AsciiString val)
+{
+	setAsciiString("ToolTipCachedStats", val);
+}
+
+void GameSpyMiscPreferences::rva00559924(AsciiString val)
+{
+	setAsciiString("AllOtherCachedStats", val);
+}
+
+AsciiString GameSpyMiscPreferences::rva00559813()
+{
+	return getAsciiString("ToolTipCachedStats", AsciiString::TheEmptyString);
+}
+
+AsciiString GameSpyMiscPreferences::rva005598C8()
+{
+	return getAsciiString("AllOtherCachedStats", AsciiString::TheEmptyString);
+}
+
+// Zero Hour's GameSpyMiscPreferences reads the same two keys with the same
+// defaults (QMResLock false, MaxMessagesPerUpdate 100); the names stay
+// address-derived like the class's other accessors.
+Bool GameSpyMiscPreferences::rva0055997D()
+{
+	return getBool("QMResLock", false);
+}
+
+int GameSpyMiscPreferences::rva005599C8()
+{
+	return getInt("MaxMessagesPerUpdate", 100);
+}
+
 typedef long time_t;
 typedef unsigned short UnsignedShort;
 
 class LadderPref
 {
 public:
+	LadderPref();
 	LadderPref(const LadderPref &other);
 	~LadderPref();
+	LadderPref &operator=(const LadderPref &other);
 
 	UnicodeString name;
 	AsciiString address;
@@ -226,6 +294,10 @@ public:
 
 AsciiString AsciiStringToQuotedPrintable(AsciiString original);
 AsciiString UnicodeStringToQuotedPrintable(UnicodeString original);
+AsciiString QuotedPrintableToAsciiString(AsciiString original);
+UnicodeString QuotedPrintableToUnicodeString(AsciiString original);
+extern "C" unsigned int __cdecl strlen(const char *s);
+extern "C" __declspec(dllimport) int __cdecl atoi(const char *s) throw();
 
 typedef _STL::map<time_t, LadderPref> LadderPrefMap;
 
@@ -238,46 +310,46 @@ public:
 	LadderPreferences();
 	virtual ~LadderPreferences();
 	virtual Bool write(void);
+	Bool loadProfile(Int profileID);
 
 private:
 	LadderPrefMap m_ladders;
 };
 
-// ??0LadderPreferences@@QAE@XZ @0x5DFFD3
-LadderPreferences::LadderPreferences()
-{
-}
 
-// ??1LadderPreferences@@UAE@XZ @0x5DFF7B
-LadderPreferences::~LadderPreferences()
-{
-}
 
 // ??1LadderPref@@QAE@XZ @0x5BA3C0
-LadderPref::~LadderPref()
+inline LadderPref::~LadderPref()
 {
 }
 
-// ?write@LadderPreferences@@UAE_NXZ @0x5E0026
-Bool LadderPreferences::write(void)
+inline LadderPref::LadderPref()
 {
-	clear();
+}
 
-	static const Int MAX_LADDERS = 5;
-	LadderPrefMap::iterator lpIt;
-	Int count;
-	for (lpIt = m_ladders.begin(), count = 0;
-		lpIt != m_ladders.end() && count < MAX_LADDERS;
-		++lpIt, ++count)
-	{
-		LadderPref p = lpIt->second;
-		AsciiString ladName;
-		AsciiString ladData;
-		ladName.format("%s:%d", AsciiStringToQuotedPrintable(p.address).str(), p.port);
-		ladData.format("%s:%d", UnicodeStringToQuotedPrintable(p.name).str(), p.lastPlayDate);
-		AsciiString &slot = (*this)[ladName];
-		slot = ladData;
+
+
+// ?Rva0055A087Format@@YAXPAHPAVAsciiString@@@Z @0x0055A087 (86B): formats ten
+// ints from the array as "%d " into a temp then concats into the output.
+// Evidence: caller 0x0044DE18 passes its int array plus temp AsciiString;
+// shared "%d " literal at 0x007E3AC0 plus rowed format 0x00038150 and concat
+// 0x00006987; loop 0xa matches ten ints.
+void __cdecl Rva0055A087Format(int *vals, AsciiString *out)
+{
+	AsciiString tmp;
+	for (int i = 0; i < 10; ++i) {
+		tmp.format("%d ", vals[i]);
+		((StringBase<char> *)out)->concat(*(const StringBase<char> *)&tmp);
 	}
-
-	return UserPreferences::write();
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeLadderPrefInlineAnchor@@YAXPAVLadderPref@@@Z absent-from-retail
+void _bfmeLadderPrefInlineAnchor(LadderPref *p)
+{
+    p->LadderPref::~LadderPref();
+}
+#pragma inline_depth()

@@ -1,7 +1,9 @@
-// cl: /O1 /arch:SSE /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
-// ?friend_getTurretTarget@TurretAI@@QBE?AW4TurretTargetType@@AAPAVObject@@AAUCoord3D@@@Z,
-// retail 0x004D81F1, 110 bytes. Dedicated TU.
+// TurretAI::friend_getTurretTarget (retail 0x004D81F1, 110 bytes) moved to
+// Code/GameEngine/Source/GameLogic/AI/TurretAIIdleStates.cpp: its caller
+// TurretAIAimTurretState::update 0x004D8EAC only reproduces with the callee
+// defined earlier in the same unit. Its notes below are kept for history.
 // Verbatim BFME2 logic (Zero Hour TurretAI::friend_getTurretTarget without the
 // clearDeadTargets parameter: dead targets always clear). BFME2 layout: state
 // machine at +0x14 with goal ID at +0x20 and goal position at +0x24; target
@@ -12,10 +14,7 @@
 
 typedef bool Bool;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Object
 {
@@ -24,20 +23,10 @@ public:
 	unsigned char m_deadFlags;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-};
+#include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
 enum TurretTargetType
 {
@@ -57,8 +46,11 @@ struct TurretStateMachine
 	char m_pad[0x20 - 4];
 	ObjectID m_goalObjectID;
 	Coord3D m_goalPosition;
+	char m_pad30[0x34 - 0x30];
+	ObjectID m_34;
 
 	Object *getGoalObject();
+	Object *rva004D7735();
 	virtual void _rsvd00();
 	virtual void _rsvd01();
 	virtual void _rsvd02();
@@ -91,36 +83,37 @@ public:
 	TurretTargetType friend_getTurretTarget(Object *&obj, Coord3D &pos) const;
 };
 
-// ?friend_getTurretTarget@TurretAI@@QBE?AW4TurretTargetType@@AAPAVObject@@AAUCoord3D@@@Z
-TurretTargetType TurretAI::friend_getTurretTarget(Object *&obj, Coord3D &pos) const
-{
-	obj = 0;
-	pos.x = 0.0f;
-	pos.y = 0.0f;
-	pos.z = 0.0f;
-
-	if (m_target == TARGET_OBJECT)
-	{
-		obj = m_machine->getGoalObject();
-		if (obj == 0 || (obj->m_deadFlags & 1))
-		{
-			m_machine->setGoalObject(0);
-			m_target = TARGET_NONE;
-			m_targetWasSetByIdleMood = false;
-		}
-	}
-	else if (m_target == TARGET_POSITION)
-	{
-		obj = 0;
-		pos = m_machine->m_goalPosition;
-	}
-
-	return m_target;
-}
-
 // ?getGoalObject@TurretStateMachine@@QAEPAVObject@@XZ
 // retail 0x004D7726, 15 bytes. TheGameLogic ID lookup of the goal ID at +0x20.
 Object *TurretStateMachine::getGoalObject()
 {
 	return TheGameLogic->findObjectByID(m_goalObjectID);
+}
+
+// ?rva004D7735@TurretStateMachine@@QAEPAVObject@@XZ
+// retail 0x004D7735, 15 bytes. TheGameLogic ID lookup of the ID at +0x34.
+Object *TurretStateMachine::rva004D7735()
+{
+	return TheGameLogic->findObjectByID(m_34);
+}
+
+// Other units call this body (pinned at its address) under the spelling(s)
+// below, with the same calling convention and stack arguments; bind them.
+#pragma comment(linker, "/alternatename:?getGoalObject@StateMachine@@QAEPAVObject@@XZ=?getGoalObject@TurretStateMachine@@QAEPAVObject@@XZ")
+
+// ?rva0026232D@Rva0026232DOwner@@QAEPAVObject@@XZ @0x0026232D 8B: forwards to TurretStateMachine::getGoalObject through the pointer held at +0x30
+// (load ecx; tail jump). Owner and name are address-derived; no referencing
+// site was found in this pass.
+class Rva0026232DOwner
+{
+public:
+	Object *rva0026232D();
+private:
+	char m_pad00[0x30];
+	TurretStateMachine *m_machine30;
+};
+
+Object *Rva0026232DOwner::rva0026232D()
+{
+	return m_machine30->getGoalObject();
 }

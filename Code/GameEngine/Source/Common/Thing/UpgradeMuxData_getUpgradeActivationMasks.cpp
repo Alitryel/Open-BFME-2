@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /GX- /Oi-
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX- /Oi-
 // stlport
 //
 // ?getUpgradeActivationMasks@UpgradeMuxData@@QBEXAAUUpgradeMaskType@@0@Z,
@@ -29,41 +29,7 @@
 #include <bitset>
 #include <string.h>
 #include <vector>
-
-template <typename Char>
-class StringBase
-{
-protected:
-	struct Header
-	{
-		int references;
-		unsigned short length;
-		unsigned short capacity;
-		Char text[1];
-	};
-
-	Header *m_data;
-
-public:
-	bool isEmpty() const;
-	bool isNone() const;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	const char *str() const
-	{
-		const char *data = *reinterpret_cast<const char *const *>(this);
-		return data ? data + 8 : BfmeEmptyString;
-	}
-
-private:
-	static const char BfmeEmptyString[];
-};
-
-// TU-local sacrificial empty text: DIR32 sites patch to retail's address.
-const char AsciiString::BfmeEmptyString[] = "";
+#include "ascii_string.h"
 
 // TU-local 1024-bit mask view (size-measured: 0x80 memsets, 0x20 rep movsd).
 // Lowering mirrors ZH Common/BitFlags.h over std::bitset (clear via memset,
@@ -101,15 +67,15 @@ public:
 	const UpgradeTemplate *findUpgrade(const AsciiString &name) const;
 };
 
-static UpgradeCenter *TheUpgradeCenter;
+extern UpgradeCenter *TheUpgradeCenter;	// Upgrade.cpp's global (0x009FEB60)
 
 struct INIException
 {
+	INIException(int argCount, const char *format, ...);
 	char *mFailureMessage;
 	int mErrorCode;
 };
 
-extern "C" void rva002f681_fill(void *dst, int code, const char *fmt, ...);
 __declspec(noreturn) void __stdcall _CxxThrowException(void *pExc, void *pInfo);
 
 // Address anchor only: the throw site pushes this object's address as an
@@ -118,9 +84,45 @@ __declspec(noreturn) void __stdcall _CxxThrowException(void *pExc, void *pInfo);
 struct UpgradeMuxThrowInfoAnchor { int a; int b; int c; int d; };
 static const UpgradeMuxThrowInfoAnchor upgradeMuxThrowInfoAnchor = { 0, 0, 0, 0 };
 
+// TU-local views for the activation gate 0x004CB333 (retail-measured offsets).
+class Rva001EAE6FHelper
+{
+public:
+	Rva001EAE6FHelper *clear80();
+
+private:
+	char m_pad[0x80];
+};
+
+class Rva001DFE56
+{
+public:
+	bool rva001DFE56(const void *required, const void *exempt) const;
+};
+
+class Drawable
+{
+public:
+	char m_pad00[0x258];
+	Rva001DFE56 m_tester;
+};
+
+class Thing
+{
+public:
+	Drawable *getDrawable() const;
+};
+
+class Object : public Thing
+{
+public:
+	bool hasUpgradeMask(int bit) const;
+};
+
 class UpgradeMuxData
 {
 public:
+	bool rva004CB333(Object *obj);
 	void getUpgradeActivationMasks(UpgradeMaskType &activation,
 		UpgradeMaskType &conflicting) const;
 
@@ -129,10 +131,17 @@ private:
 	mutable UpgradeMaskType m_conflictingMask; // +0x80 (128 bytes)
 	mutable _STL::vector<AsciiString> m_activationUpgradeNames; // +0x100
 	mutable _STL::vector<AsciiString> m_conflictingUpgradeNames; // +0x10C
+	unsigned m_req19[19]; // +0x118 required-mask words checked against the drawable
+	unsigned m_ban19[19]; // +0x164 exempt-mask words
+	char m_pad1B0[0x381 - 0x1B0];
+	unsigned char m_flag381;
+	unsigned char m_flag382;
 };
 
 // ?getUpgradeActivationMasks@UpgradeMuxData@@QBEXAAUUpgradeMaskType@@0@Z
-void UpgradeMuxData::getUpgradeActivationMasks(
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline void UpgradeMuxData::getUpgradeActivationMasks(
 	UpgradeMaskType &activation, UpgradeMaskType &conflicting) const
 {
 	if (!m_activationUpgradeNames.empty() || !m_conflictingUpgradeNames.empty())
@@ -148,8 +157,7 @@ void UpgradeMuxData::getUpgradeActivationMasks(
 				TheUpgradeCenter->findUpgrade(*it);
 			if (!theTemplate && !it->isEmpty() && !it->isNone())
 			{
-				INIException e;
-				rva002f681_fill(&e, 3,
+				INIException e(3,
 					"An upgrade module references %s, which is not an Upgrade",
 					it->str());
 				_CxxThrowException(&e, (void *)&upgradeMuxThrowInfoAnchor);
@@ -165,8 +173,7 @@ void UpgradeMuxData::getUpgradeActivationMasks(
 				TheUpgradeCenter->findUpgrade(*it);
 			if (!theTemplate && !it->isEmpty() && !it->isNone())
 			{
-				INIException e;
-				rva002f681_fill(&e, 3,
+				INIException e(3,
 					"An upgrade module references %s, which is not an Upgrade",
 					it->str());
 				_CxxThrowException(&e, (void *)&upgradeMuxThrowInfoAnchor);
@@ -182,3 +189,55 @@ void UpgradeMuxData::getUpgradeActivationMasks(
 	activation = m_activationMask;
 	conflicting = m_conflictingMask;
 }
+
+// ?bfmeAnchorUpgradeMuxDataMasks absent-from-retail
+void bfmeAnchorUpgradeMuxDataMasks(const UpgradeMuxData *p, UpgradeMaskType &a, UpgradeMaskType &c)
+{
+	p->getUpgradeActivationMasks(a, c);
+}
+
+
+// ?rva004CB333@UpgradeMuxData@@QAE_NPAVObject@@@Z
+// retail 0x004CB333, 197 bytes: optional drawable 19-dword mask check, then the
+// 1024-bit activation/conflicting test against the Object's upgrade bits.
+// Evidence: rowed getUpgradeActivationMasks 0x004CB189, Thing::getDrawable
+// 0x005508E2, tester 0x001DFE56, clear80 0x001EAE6F x2, Object::hasUpgradeMask x2;
+// flags +0x381/+0x382, masks +0x118/+0x164. The word index is spelled inline in
+// both tests: a shared word local makes cl compute it before the bit mask.
+bool UpgradeMuxData::rva004CB333(Object *obj)
+{
+	if (m_flag381 != 0 || m_flag382 != 0)
+	{
+		Drawable *drawable = obj->getDrawable();
+		if (drawable == 0)
+			return false;
+		if (!drawable->m_tester.rva001DFE56(m_req19, m_ban19))
+			return false;
+	}
+	Rva001EAE6FHelper hAct;
+	Rva001EAE6FHelper hConf;
+	hAct.clear80();
+	hConf.clear80();
+	UpgradeMaskType &activation = (UpgradeMaskType &)hAct;
+	UpgradeMaskType &conflicting = (UpgradeMaskType &)hConf;
+	getUpgradeActivationMasks(activation, conflicting);
+	for (int bit = 0; bit < 0x400; ++bit)
+	{
+		if ((activation.m_words[(unsigned)bit >> 5] & (1u << (bit & 31))) != 0)
+		{
+			if (!obj->hasUpgradeMask(bit))
+				return false;
+		}
+		if ((conflicting.m_words[(unsigned)bit >> 5] & (1u << (bit & 31))) != 0)
+		{
+			if (obj->hasUpgradeMask(bit))
+				return false;
+		}
+	}
+	return true;
+}
+
+// The (void *, void *) declaration above is a C++ overload, so calls spell
+// ?_CxxThrowException@@YGXPAX0@Z; retail calls the MSVC 7.1 throw helper
+// __CxxThrowException@8 (its import thunk at 0x00629094). Same ABI: bind the spelling.
+#pragma comment(linker, "/alternatename:?_CxxThrowException@@YGXPAX0@Z=__CxxThrowException@8")

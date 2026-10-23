@@ -147,8 +147,8 @@ int Rva0080C390( struct Rva0080B000Comm *comm, const void *data, int length )
 	int writeOffset;
 	int baseOffset;
 	int padding;
-	unsigned char context[ 0x54 ];
-	unsigned char header[ 4 ];
+	unsigned char MD5Context[ 0x54 ];
+	unsigned char uSeqn[ 4 ];
 	unsigned char *state;
 	int remainder;
 
@@ -180,18 +180,18 @@ int Rva0080C390( struct Rva0080B000Comm *comm, const void *data, int length )
 
 	if ( *(int *)( state + 0x812C ) > 0 )
 	{
-		header[ 0 ] = (unsigned char)( ( *(unsigned int *)( state + 0x4008 ) >> 24 ) & 0xff );
-		header[ 1 ] = (unsigned char)( ( *(unsigned int *)( state + 0x4008 ) >> 16 ) & 0xff );
-		header[ 2 ] = (unsigned char)( ( *(unsigned int *)( state + 0x4008 ) >> 8 ) & 0xff );
-		header[ 3 ] = (unsigned char)( *(unsigned int *)( state + 0x4008 ) & 0xff );
+		uSeqn[ 0 ] = (unsigned char)( ( *(unsigned int *)( state + 0x4008 ) >> 24 ) & 0xff );
+		uSeqn[ 1 ] = (unsigned char)( ( *(unsigned int *)( state + 0x4008 ) >> 16 ) & 0xff );
+		uSeqn[ 2 ] = (unsigned char)( ( *(unsigned int *)( state + 0x4008 ) >> 8 ) & 0xff );
+		uSeqn[ 3 ] = (unsigned char)( *(unsigned int *)( state + 0x4008 ) & 0xff );
 
-		Rva00810020( context );
-		Rva00810060( context, state + 0x8130,
+		Rva00810020( MD5Context );
+		Rva00810060( MD5Context, state + 0x8130,
 			*(int *)( state + 0x812C ) );
-		Rva00810060( context, state + baseOffset + 8,
+		Rva00810060( MD5Context, state + baseOffset + 8,
 			writeOffset - baseOffset );
-		Rva00810060( context, header, 4 );
-		Rva00810FF0( context, (char *)( state + headerOffset + 8 ), 0x10 );
+		Rva00810060( MD5Context, uSeqn, 4 );
+		Rva00810FF0( MD5Context, (char *)( state + headerOffset + 8 ), 0x10 );
 	}
 
 	payloadLength = writeOffset - headerOffset;
@@ -269,7 +269,10 @@ int Rva00811E20( struct Rva00812320Module *module, const char *keyA,
  * time, so it is not recoverable from the image; it sits two bytes below the
  * module's reference count, which is why the group of globals reads as one
  * small block rather than three unrelated addresses. */
-extern char g_Rva0130ACFAFilter[];
+// Target evidence: one matched DIR32 witness places the zero-filled slot at
+// VA 0x00E0A712 (.data bss). The existing layout note bounds it to the two
+// bytes before the module reference count; runtime filter contents are unknown.
+char g_Rva0130ACFAFilter[2];
 
 /* The caller's own object.  Only the two fields these wrappers touch are
  * named -- a default key at +0x04 and the module pointer at +0x64. */
@@ -351,3 +354,8 @@ int Rva0080F180( struct Rva0080F100Object *object, const char *keyA,
 
 	return iResult;
 }
+
+/* Callers elsewhere reach bodies in this unit through spellings pinned to the same
+   retail address (same cdecl/thiscall ABI); bind them here. */
+#pragma comment(linker, "/alternatename:?Rva0080B070Destroy@@YAXPAX@Z=_Rva0080B070")
+#pragma comment(linker, "/alternatename:?Rva0080B000Create@@YAPAXXZ=_Rva0080B000")

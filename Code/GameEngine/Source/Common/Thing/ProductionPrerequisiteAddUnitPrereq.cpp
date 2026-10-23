@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 // stlport
 // Retail RE: ?addUnitPrereq@ProductionPrerequisite@@QAEXVAsciiString@@_N@Z @0x004F52CB (105B).
 //
@@ -53,29 +53,8 @@ struct StringInlineData
 	T m_text[1];
 };
 
-template <typename T>
-class StringBase
-{
-	friend class AsciiString;
+#include "ascii_string.h"
 
-private:
-	StringBase() : m_data(0) {}
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	~StringBase();
-
-	StringInlineData<T> *m_data;
-};
-
-class AsciiString : private StringBase<char>
-{
-public:
-	AsciiString() : StringBase<char>() {}
-	AsciiString(const char *text) : StringBase<char>(text) {}
-	AsciiString(const AsciiString &other) : StringBase<char>(other) {}
-	~AsciiString();
-	AsciiString &operator=(const AsciiString &other);
-};
 
 class ProductionPrerequisite
 {

@@ -1,4 +1,4 @@
-// cl: /O1 /GX /DNDEBUG /MD
+// cl: /Ireference/shims/bfme2_ascii /GX /DNDEBUG /MD
 //
 // ??0W3DQuadrupedDrawModuleData@@QAE@XZ, retail 0x000651C2, 73 bytes.
 // W3DQuadrupedDraw ModuleData ctor: runs the pinned W3DModelDrawModuleData
@@ -8,15 +8,7 @@
 // at 0xBCBB28 (LeftFront/RightFront/LeftRear/RightRearFootBone) proves the
 // members; the factory at 0x65218 news 0x198 and is the sole caller.
 
-class AsciiString
-{
-public:
-	AsciiString();
-	~AsciiString();
-
-private:
-	const char *m_data;
-};
+#include "ascii_string.h"
 
 class W3DModelDrawModuleData
 {

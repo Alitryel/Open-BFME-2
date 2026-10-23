@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfmealloc
 // stlport
 // BFME2's shared 36-byte vector allocator at RVA 0x5DFB2C.
 // Retail keeps the imul; the home TU (stlport_vector_stringrecord_allocate_copy.cpp)
@@ -7,7 +7,7 @@
 // this shard; flipping the home TU would break its landed /O1 bodies. Called
 // by the rowed 63BE4 allocate_and_copy at 0x64405; rowed under that spelling
 // with the image-wide fold documented.
-class AsciiString { public: AsciiString(const AsciiString &); __forceinline ~AsciiString() { releaseBuffer(); } protected: void releaseBuffer(); private: void *m_data; };
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 struct BfmeStringRecord00063BE4 {
     unsigned int word0, word1, word2, word3, word4, word5, word6;
     AsciiString text;

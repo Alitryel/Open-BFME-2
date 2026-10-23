@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 //
 // The two narrow (const char *, int) comparison workers, split out of
 // string_base.cpp for one flag: /arch:SSE. Both bodies pick the shorter of the
@@ -27,7 +27,7 @@ struct CharCompare
     char m_unused;
 };
 
-int compareRange(const char *a, int alen, const char *b, int blen, CharCompare tag)
+inline __declspec(noinline) int compareRange(const char *a, int alen, const char *b, int blen, CharCompare tag)
 {
     const int len = alen < blen ? alen : blen;
     const int result = memcmp(a, b, len);
@@ -94,4 +94,17 @@ int compareRangeNoCase(const wchar_t *a, int alen, const wchar_t *b, int blen, W
     if (result != 0)
         return result;
     return alen - blen;
+}
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?compareRange@@YAHPBGH0HUCharCompare@@@Z=?compareRange@@YAHPBGH0HUWideCharCompare@@@Z")
+#pragma comment(linker, "/alternatename:?compareRangeNoCase@@YAHPBGH0HUCharCompare@@@Z=?compareRangeNoCase@@YAHPBGH0HUWideCharCompare@@@Z")
+
+// PlayerInitFromDict.cpp keeps the narrow compareRange body visible, so it is a
+// select-any copy of the same body there and here; this anchor keeps it emitted.
+// ?bfmeAnchorCompareRange absent-from-retail
+int bfmeAnchorCompareRange(const char *a, int alen, const char *b, int blen)
+{
+    return compareRange(a, alen, b, blen, CharCompare());
 }

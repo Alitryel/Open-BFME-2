@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /Ireference/shims/moduledata
 //
 // ??0MissileUpdateModuleData@@QAE@XZ, retail 0x004A77B8, 149 bytes.
 // ModuleData ctor over table 0xC53470 (FuelLifetime through DetonateOnNoFuel
@@ -16,11 +16,19 @@
 // retail order, and calls set last (AsciiString spelling resolves through the
 // alias pin at 0x55F5).
 
-class Rva0045B4F1Base
+extern "C" const void *const vtbl_00C53668[];  // ??_7MissileUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C53668=??_7MissileUpdateModuleData@@6B@")
+
+// Retail's state-0 unwind funclet jumps to 0x0049B47C, the ModuleData-family
+// dtor fold that restores the Snapshot vptr 0x00BBB554; the base dtor is
+// that reset (WallHubBehaviorModuleDataCtor precedent).
+#include "Common/Snapshot.h"
+
+class BezierProjectileBehaviorModuleData
 {
 public:
-	Rva0045B4F1Base();
-	~Rva0045B4F1Base();
+	BezierProjectileBehaviorModuleData();
+	~BezierProjectileBehaviorModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 };
 
 class Rva0024C7B3Member
@@ -41,7 +49,7 @@ public:
 	void *m_data;
 };
 
-class MissileUpdateModuleData : public Rva0045B4F1Base
+class MissileUpdateModuleData : public BezierProjectileBehaviorModuleData
 {
 public:
 	MissileUpdateModuleData();
@@ -49,31 +57,31 @@ public:
 private:
 	const void *m_vtable; // +0 (EBO: base contributes no size)
 	unsigned char m_pad04[0xC0]; // +4..+0xC3
-	int m_unkC4; // +0xC4
-	int m_unkC8; // +0xC8
+	int m_fuelLifetime; // +0xC4
+	int m_ignitionDelay; // +0xC8
 	float m_unkCC; // +0xCC
-	float m_unkD0; // +0xD0
-	int m_unkD4; // +0xD4
-	unsigned char m_unkD8; // +0xD8
+	float m_distanceToTargetBeforeDiving; // +0xD0
+	int m_ignitionFX; // +0xD4
+	unsigned char m_detonateOnNoFuel; // +0xD8
 	int m_unkDC; // +0xDC
-	Rva0024C7B3Member m_unkE0; // +0xE0
+	Rva0024C7B3Member m_garrisonHitKillRequiredKindOf; // +0xE0
 	Rva0024C7B3Member m_unkFC; // +0xFC
-	int m_unk118; // +0x118
+	int m_garrisonHitKillFX; // +0x118
 	AsciiString m_exhaust; // +0x11C
 };
 
 // ??0MissileUpdateModuleData@@QAE@XZ @0x4A77B8
 MissileUpdateModuleData::MissileUpdateModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C53668))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C53668)))
 	, m_exhaust(0)
 {
-	m_unkC4 = 0;
-	m_unkC8 = 0;
+	m_fuelLifetime = 0;
+	m_ignitionDelay = 0;
 	m_unkCC = 0.0f;
-	m_unkD0 = 0.0f;
-	m_unkD4 = 0;
-	m_unkD8 = 0;
+	m_distanceToTargetBeforeDiving = 0.0f;
+	m_ignitionFX = 0;
+	m_detonateOnNoFuel = 0;
 	m_unkDC = 0;
-	m_unk118 = 0;
+	m_garrisonHitKillFX = 0;
 	m_exhaust.set("");
 }

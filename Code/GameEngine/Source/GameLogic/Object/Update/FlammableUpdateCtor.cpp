@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??0FlammableUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x0048C64F,
 // 138 bytes. Behavior-side ctor (rowed instance factory 0x24D030 news
@@ -13,6 +13,18 @@
 // spelling resolves via the existing pin at 0x44DF71). Row supersedes the
 // ctor pin.
 
+extern "C" const void *const vtbl_00BE2B78[];  // folded, 9 classes; via ??_7ClearanceTestingSlowDeathBehaviorIface5@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BE2B78=??_7ClearanceTestingSlowDeathBehaviorIface5@@6B@")
+extern "C" const void *const vtbl_00C49800[];  // folded, 4 classes; via ??_7FlammableUpdate@@6BBehaviorModuleOther@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C49800=??_7FlammableUpdate@@6BBehaviorModuleOther@@@")
+
+extern "C" const void *const vtbl_00C4C3BC[];  // ??_7FlammableUpdate@@6BDamageModuleInterface@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4C3BC=??_7FlammableUpdate@@6BDamageModuleInterface@@@")
+extern "C" const void *const vtbl_00C4C3C8[];  // ??_7FlammableUpdate@@6BUpdateModule@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4C3C8=??_7FlammableUpdate@@6BUpdateModule@@@")
+extern "C" const void *const vtbl_00C4C3D4[];  // ??_7FlammableUpdate@@6BBehaviorModuleBase@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4C3D4=??_7FlammableUpdate@@6BBehaviorModuleBase@@@")
+
 class Thing;
 class ModuleData;
 class Object;
@@ -20,7 +32,13 @@ class Object;
 struct FlammableUpdateModuleData
 {
 	unsigned char m_pad00[0x1C];
-	int m_1C;
+	int m_flameDamageLimit;
+};
+
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1,
+	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
 };
 
 class UpdateModule
@@ -30,7 +48,7 @@ public:
 	~UpdateModule();
 
 protected:
-	void setWakeFrame(Object *object, unsigned int frame);
+	void setWakeFrame(Object *object, UpdateSleepTime frame);
 
 	const void *m_vtable;
 	const ModuleData *m_moduleData;
@@ -67,7 +85,7 @@ FlammableUpdate::FlammableUpdate(Thing *thing, const ModuleData *moduleData)
 	: UpdateModule(thing, moduleData)
 {
 	int *slot20 = (int *)&m_20;
-	*slot20 = (int)0x00BE2B78;
+	*slot20 = (int)((unsigned int)vtbl_00BE2B78);
 	int zero = 0;
 	m_24 = zero;
 	m_28 = zero;
@@ -80,10 +98,10 @@ FlammableUpdate::FlammableUpdate(Thing *thing, const ModuleData *moduleData)
 	m_48 = zero;
 	m_4C = zero;
 	const FlammableUpdateModuleData *data = (const FlammableUpdateModuleData *)m_moduleData;
-	m_vtable = (const void *)0x00C4C3D4;
-	m_secondary0C = (const void *)0x00C49800;
-	m_secondary10 = (const void *)0x00C4C3C8;
-	m_20 = (const void *)0x00C4C3BC;
-	m_38 = data->m_1C;
-	setWakeFrame(m_object, 0x3FFFFFFF);
+	m_vtable = (const void *)((unsigned int)vtbl_00C4C3D4);
+	m_secondary0C = (const void *)((unsigned int)vtbl_00C49800);
+	m_secondary10 = (const void *)((unsigned int)vtbl_00C4C3C8);
+	m_20 = (const void *)((unsigned int)vtbl_00C4C3BC);
+	m_38 = data->m_flameDamageLimit;
+	setWakeFrame(m_object, UPDATE_SLEEP_FOREVER);
 }

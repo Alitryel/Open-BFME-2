@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
+// cl: /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // stlport
 // BFME2 STLport tree: AsciiString key and opaque reference-counted pointer.
 // hint 0x218022 -> insert 0x217D4C -> _M_insert 0x217CB8 -> node 0x217A6C.
@@ -15,7 +15,7 @@
 #undef _STLP_DEFAULT_CONSTRUCTED
 #define _STLP_DEFAULT_CONSTRUCTED(_TTp) _TTp()
 #include <map>
-class AsciiString { public: AsciiString(const AsciiString &); __forceinline ~AsciiString() { releaseBuffer(); } protected: void releaseBuffer(); private: void *m_data; };
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 bool operator<(const AsciiString &, const AsciiString &);
 // Retail map temporary destruction0x2175CE releases its non-null mapped
 // pointer through0x7DEEF before destroying the AsciiString key. The pointee
@@ -29,10 +29,14 @@ struct TreeHintRef00217D4C {
     TreeHintRef00217D4C(const TreeHintRef00217D4C &other) : m_ptr(other.m_ptr) {
         if (m_ptr) ++m_ptr->references;
     }
+    TreeHintRef00217D4C &operator=(const TreeHintRef00217D4C &other);
     __forceinline ~TreeHintRef00217D4C() {
         if (m_ptr) ReleaseTreeHintRef00217D4C(m_ptr);
     }
 };
+
+// The 43-byte assignment at 0x002174A4 is provided by the existing
+// retail-exact copy in PAUTreeHintRef00217D4CRva004F9565.cpp.
 
 typedef _STL::pair<const AsciiString, TreeHintRef00217D4C> TreeHintPair00217D4C;
 typedef _STL::_Rb_tree<AsciiString, TreeHintPair00217D4C, _STL::_Select1st<TreeHintPair00217D4C>, _STL::less<AsciiString>, _STL::allocator<TreeHintPair00217D4C> > TreeHint00217D4C;

@@ -1,6 +1,6 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /G7
+// cl: /DNDEBUG /MD /EHsc
 //
-// ?newBenchProfile@RetailBenchProfileAllocator@@QAEPAUBenchProfile@@XZ,
+// ?newBenchProfile@RetailBenchProfileAllocator@@QAEPAUBenchProfile@@XZ
 // retail 0x0020200D, 30 bytes. Dedicated shard.
 //
 // BFME1 GameLOD.cpp donor (ZH GameLOD.cpp:244) with BFME2 layout and one

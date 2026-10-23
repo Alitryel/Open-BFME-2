@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // readable body of ??0FXListDie@@: Code/GameEngine/Source/GameLogic/Object/Die/FXListDie.cpp
 
 class Thing;
@@ -26,7 +26,7 @@ public:
 class DieModuleInterface
 {
 public:
-	virtual void dieModuleInterfaceAnchor();
+	virtual void dieModuleInterfaceAnchor() = 0;
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/DieModule.h
@@ -35,10 +35,7 @@ class DieModule : public ObjectModule,
 	public DieModuleInterface
 {
 public:
-	DieModule( Thing *thing, const ModuleData *moduleData )
-		: ObjectModule( thing, moduleData )
-	{
-	}
+	DieModule( Thing *thing, const ModuleData *moduleData );
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/FXListDie.h

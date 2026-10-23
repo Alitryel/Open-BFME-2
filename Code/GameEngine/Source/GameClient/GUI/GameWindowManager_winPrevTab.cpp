@@ -1,8 +1,17 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // stlport
 // ?winPrevTab@GameWindowManager@@UAEXPAVGameWindow@@@Z @0x002C5473 123B
 // GameWindowManager::winPrevTab; BFME1 donor GameWindowManager.cpp winPrevTab verbatim; m_tabList at +0x30 m_modalHead at +0x24; vtable 0x7C7C90 slot 43 offset 0xAC; calls winSetFocus slot 49 0xC4 and winSetLoneWindow slot 52 0xD0.
 #include <list>
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class Traits>
+static inline bool operator!=(const _List_iterator<T, Traits>& a,
+                              const _List_iterator<T, Traits>& b)
+{ return a._M_node != b._M_node; }
+}
+
 
 class GameWindow;
 

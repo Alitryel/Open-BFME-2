@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG
+// cl: /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG
 //
 // ??1W3DSupplyDrawModuleData@@UAE@XZ, retail 0x000CAF30, 62 bytes.
 // W3DSupplyDraw ModuleData dtor: reinstalls vtable 0xBCC0D0, tears down the
@@ -11,15 +11,7 @@
 // virtual UAE spelling; the AsciiString dtor resolves to the existing
 // folded pin at 0x36410. File-unit companion to the landed ctor at 0xCAF17.
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	~AsciiString();
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class W3DModelDrawModuleData
 {

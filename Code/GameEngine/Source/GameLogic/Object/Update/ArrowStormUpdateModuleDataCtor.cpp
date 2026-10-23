@@ -1,7 +1,7 @@
-// cl: /O1 /DNDEBUG /MD /arch:SSE
+// cl: /DNDEBUG /MD
 //
 // ??0ArrowStormUpdateModuleData@@QAE@XZ, retail 0x00490639, 64 bytes.
-// ModuleData ctor over the pinned Rva0044EB54 base (0x44EB54, 0xC8 bytes
+// ModuleData ctor over the pinned SpecialAbilityUpdateModuleData base (0x44EB54, 0xC8 bytes
 // per the ToggleHidden row): installs vtable 0x00C4D5A0 explicitly
 // (novtable, no compiler emission), clears WeaponTemplate at +0xC8
 // (and-RMW stays first per the ScaleWall precedent), zeroes TargetRadius
@@ -14,17 +14,20 @@
 class MultiIniFieldParse;
 struct FieldParse;
 
+extern "C" const void *const vtbl_00C4D5A0[];  // ??_7ArrowStormUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4D5A0=??_7ArrowStormUpdateModuleData@@6B@")
+
 class MultiIniFieldParse
 {
 public:
 	void add(const FieldParse *parseTable, unsigned int extraOffset);
 };
 
-class __declspec(novtable) Rva0044EB54
+class __declspec(novtable) SpecialAbilityUpdateModuleData
 {
 public:
-	Rva0044EB54();
-	virtual ~Rva0044EB54();
+	SpecialAbilityUpdateModuleData();
+	virtual ~SpecialAbilityUpdateModuleData();
 	static void buildFieldParse(MultiIniFieldParse &parse);
 
 private:
@@ -33,7 +36,7 @@ private:
 	unsigned char m_opaque[0xC4];
 };
 
-class __declspec(novtable) ArrowStormUpdateModuleData : public Rva0044EB54
+class __declspec(novtable) ArrowStormUpdateModuleData : public SpecialAbilityUpdateModuleData
 {
 public:
 	ArrowStormUpdateModuleData();
@@ -58,10 +61,10 @@ private:
 
 // ??0ArrowStormUpdateModuleData@@QAE@XZ @0x00490639
 ArrowStormUpdateModuleData::ArrowStormUpdateModuleData()
-	: Rva0044EB54()
+	: SpecialAbilityUpdateModuleData()
 {
 	int *weaponTemplate = &m_weaponTemplate;
-	*(unsigned int *)this = 0x00C4D5A0;
+	*(unsigned int *)this = ((unsigned int)vtbl_00C4D5A0);
 	*weaponTemplate &= 0;
 	m_shotsPerTarget = 1;
 	m_shotsPerBurst = 1;

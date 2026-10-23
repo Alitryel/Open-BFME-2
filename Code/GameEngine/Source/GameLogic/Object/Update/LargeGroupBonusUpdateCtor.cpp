@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??0LargeGroupBonusUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail
 // 0x004900B1, 143 bytes. Behavior-side ctor (rowed instance factory
@@ -16,6 +16,18 @@
 // Object-uint spelling resolves via the existing pin at 0x44DF71). Row
 // supersedes the ctor pin.
 
+extern "C" const void *const vtbl_00BE2B78[];  // folded, 9 classes; via ??_7ClearanceTestingSlowDeathBehaviorIface5@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BE2B78=??_7ClearanceTestingSlowDeathBehaviorIface5@@6B@")
+
+extern "C" const void *const vtbl_00C4D04C[];  // ??_7Rva0048FFB4@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4D04C=??_7Rva0048FFB4@@6B@")
+extern "C" const void *const vtbl_00C4D058[];  // ??_7Rva0048FFB4@@6BRva0024A797_B2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4D058=??_7Rva0048FFB4@@6BRva0024A797_B2@@@")
+extern "C" const void *const vtbl_00C4D068[];  // ??_7Rva0048FFB4@@6BRva0024A797_Mid@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4D068=??_7Rva0048FFB4@@6BRva0024A797_Mid@@@")
+extern "C" const void *const vtbl_00C4D124[];  // ??_7Rva0048FFB4@@6BRva0024A797_Root@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4D124=??_7Rva0048FFB4@@6BRva0024A797_Root@@@")
+
 class Thing;
 class ModuleData;
 class Object;
@@ -23,19 +35,20 @@ class Object;
 typedef int Int;
 Int GetGameLogicRandomValue(Int lo, Int hi, char *file, int line);
 
-class GameLogic
-{
-public:
-	unsigned char m_pad00[0x40];
-	unsigned int m_40;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
 struct LargeGroupBonusUpdateModuleData
 {
 	unsigned char m_pad00[8];
-	Int m_08;
+	Int m_updateRate;
+};
+
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1,
+	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
 };
 
 class UpdateModule
@@ -45,7 +58,7 @@ public:
 	~UpdateModule();
 
 protected:
-	void setWakeFrame(Object *object, unsigned int frame);
+	void setWakeFrame(Object *object, UpdateSleepTime frame);
 
 	const void *m_vtable;
 	const ModuleData *m_moduleData;
@@ -75,18 +88,18 @@ LargeGroupBonusUpdate::LargeGroupBonusUpdate(Thing *thing, const ModuleData *mod
 	: UpdateModule(thing, moduleData)
 {
 	int *slot20 = (int *)&m_20;
-	*slot20 = (int)0x00BE2B78;
+	*slot20 = (int)((unsigned int)vtbl_00BE2B78);
 	Object *obj = m_object;
 	int zero = 0;
 	m_28 = zero;
 	m_2A = zero;
-	m_vtable = (const void *)0x00C4D124;
-	m_secondary0C = (const void *)0x00C4D068;
-	m_secondary10 = (const void *)0x00C4D058;
-	m_20 = (const void *)0x00C4D04C;
-	m_24 = TheGameLogic->m_40;
+	m_vtable = (const void *)((unsigned int)vtbl_00C4D124);
+	m_secondary0C = (const void *)((unsigned int)vtbl_00C4D068);
+	m_secondary10 = (const void *)((unsigned int)vtbl_00C4D058);
+	m_20 = (const void *)((unsigned int)vtbl_00C4D04C);
+	m_24 = TheGameLogic->getFrame();
 	m_29 = zero;
 	const LargeGroupBonusUpdateModuleData *data = (const LargeGroupBonusUpdateModuleData *)m_moduleData;
-	int hi = data->m_08;
-	setWakeFrame(obj, GetGameLogicRandomValue(1, hi, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\LargeGroupBonusUpdate.cpp", 0x6B));
+	int hi = data->m_updateRate;
+	setWakeFrame(obj, (UpdateSleepTime)(GetGameLogicRandomValue(1, hi, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\LargeGroupBonusUpdate.cpp", 0x6B)));
 }

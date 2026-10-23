@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ?calcSleepTime@PoisonedBehavior@@IAE?AW4UpdateSleepTime@@XZ, retail 0x00482EFF,
 // 40 bytes. Poisoned file-unit drain: returns UPDATE_SLEEP_FOREVER when the
@@ -49,15 +49,7 @@ public:
 	virtual void update();
 };
 
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() { return m_frame; }
-
-private:
-	unsigned char m_pad[0x40];
-	UnsignedInt m_frame; // +0x40 (retail; reference header says +0x3C)
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

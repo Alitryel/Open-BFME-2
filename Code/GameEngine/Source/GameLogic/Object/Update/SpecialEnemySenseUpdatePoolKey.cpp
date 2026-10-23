@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva000499F64@SpecialEnemySenseUpdate@@SA?AW4NameKeyType@@XZ @0x499F64
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@SpecialEnemySenseUpdate@@UBE?AW4NameKeyType@@XZ @0x499F64
 // (69B): cached pool-name key for SpecialEnemySenseUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("SpecialEnemySenseUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class SpecialEnemySenseUpdate
 {
 public:
-	static NameKeyType rva000499F64();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000499F64@SpecialEnemySenseUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType SpecialEnemySenseUpdate::rva000499F64()
+// ?getModuleNameKey@SpecialEnemySenseUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType SpecialEnemySenseUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheSpecialEnemySenseUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("SpecialEnemySenseUpdate");

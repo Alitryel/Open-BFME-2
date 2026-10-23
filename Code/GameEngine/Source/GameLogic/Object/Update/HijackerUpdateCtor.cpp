@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ??0HijackerUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x004A4055, 74 bytes.
 // HijackerUpdate behavior ctor over the rowed UpdateModule base (0x253390):
@@ -44,19 +44,8 @@ enum
 	INVALID_ID = 0
 };
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-
-	void zero()
-	{
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-	}
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../../Libraries/Include/Lib/Coord3DInline.h"
 
 class HijackerUpdate : public UpdateModule
 {

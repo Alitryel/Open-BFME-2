@@ -38,3 +38,7 @@ GenBase009EB7D0::GenBase009EB7D0()
 	*reinterpret_cast<unsigned int volatile *>(base + 0xc) = 0;
 	*reinterpret_cast<unsigned int volatile *>(base + 0x10) = 0;
 }
+
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
+#pragma comment(linker, "/alternatename:_GenBase009EB7D0_vtbl=??_7ShdDefFactoryClass@@6B@")

@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 //
 // ??0MeshModelClass@@QAE@XZ at retail 0x001727E0 (335 bytes).
 //
@@ -58,20 +58,24 @@ private:
 	MultiListNodeClass *ListNode;
 };
 
-class GenericMultiListClass
+// The derived list owns the native vptr; its base's emitted table and deleting
+// destructor belong to the retail provider, not this local layout view.
+class __declspec(novtable) GenericMultiListClass
 {
 public:
-	GenericMultiListClass() { Head.Next = Head.Prev = &Head; Head.Object = NULL; Head.NextList = NULL; }
+	__declspec(dllimport) __forceinline GenericMultiListClass() { Head.Next = Head.Prev = &Head; Head.Object = NULL; Head.NextList = NULL; }
 	virtual ~GenericMultiListClass();
 
 	MultiListNodeClass Head;
 };
 
-class DX8PolygonRendererList : public GenericMultiListClass
+class Rva00144690 : public GenericMultiListClass
 {
 public:
-	virtual ~DX8PolygonRendererList();
+	virtual ~Rva00144690();
 };
+// The proven DX8PolygonRendererList vtable slot 0 is rowed at 0x00144690.
+typedef Rva00144690 DX8PolygonRendererList;
 
 class MeshMatDescClass
 {
@@ -108,7 +112,7 @@ public:
 	MeshGeometryClass();
 	virtual ~MeshGeometryClass();
 
-	void Set_Flag(FlagsType flag, bool onoff) { if (onoff) { Flags |= flag; } else { Flags &= ~flag; } }
+	__declspec(dllimport) __forceinline void Set_Flag(FlagsType flag, bool onoff) { if (onoff) { Flags |= flag; } else { Flags &= ~flag; } }
 
 private:
 	char m_pad10[0x18 - sizeof(RefCountClass) - sizeof(MultiListObjectClass)];

@@ -1,4 +1,4 @@
-// cl: /O1 /Oy-
+// cl: /Oy-
 // Open-BFME5: ATL 7.1 CAtlBaseModule::AddResourceInstance.
 
 typedef void *HINSTANCE;
@@ -67,6 +67,20 @@ CComCritSecLock<TLock>::~CComCritSecLock() throw()
 {
 	if (m_bLocked)
 		Unlock();
+}
+
+// CComCritSecLock<CComCriticalSection>::ctor: the in-class template body is
+// emitted as a losing COMDAT (atlcomcritseclock.cpp owns retail's copy).
+// A TU-local dllimport+forceinline specialization keeps the call inline.
+template <> __declspec(dllimport) __forceinline
+CComCritSecLock<CComCriticalSection>::CComCritSecLock(CComCriticalSection& cs, bool bInitialLock) : m_cs(cs), m_bLocked(false)
+{
+	if (bInitialLock)
+	{
+		HRESULT hr = Lock();
+		if (FAILED(hr))
+			return;
+	}
 }
 
 template <class T>

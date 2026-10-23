@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc /Oy-
 //
 // Debug::AddFrameEntry, retail 0x00038FF0 (223 bytes).
 // Ported from Open-BFME-1 WWDebug/debug_debug.cpp AddFrameEntry with two
@@ -11,7 +11,6 @@
 
 extern void *DebugAllocMemory(unsigned int size);
 
-#pragma optimize("y", off)
 
 class Debug
 {

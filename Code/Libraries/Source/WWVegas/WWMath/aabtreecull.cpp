@@ -1,5 +1,24 @@
 // cl: /Ob2 /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /arch:SSE2 /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// Link view first: Vector3 operator== (and Length/Normalize/ctor/operator*) stay inline without emitting
+// COMDAT copies that disagree with the first copy in link order.
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+#include "../../../../../reference/shims/bfme_vector3_eq_link/vector3_eq_link.h"
 // stlport
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #define Matrix4x4 Matrix4  // BFME renamed it
 #define __PLACEMENT_VEC_NEW_INLINE  // always.h/GameMemory.h define array placement-new themselves
 // stlport
@@ -40,13 +59,88 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+// LINK-COMDAT: FastCriticalSectionClass::LockClass ctor differs from the kept copy.
+// ZH mutex.h (via mempool.h) defines it with inline asm (bts loop + Switch_Thread);
+// the kept 20B copy (widestring.cpp, FastCriticalSectionLockCtor.cpp) calls spin.
+// Declare it here and block mutex.h so this TU emits no copy; calls reach the kept copy.
+#define MUTEX_H
+class FastCriticalSectionClass
+{
+	unsigned Flag;
+public:
+	__declspec(dllimport) FastCriticalSectionClass() : Flag(0) {}
+	class LockClass
+	{
+		FastCriticalSectionClass &cs;
+	public:
+		LockClass(FastCriticalSectionClass &critical_section);
+		~LockClass() { cs.Flag = 0; }
+	private:
+		LockClass &operator=(const LockClass&);
+		LockClass(const LockClass&);
+	};
+	friend class LockClass;
+};
+
+#define COLMATHPLANE_H // use the source-local inline expressions below
 #include "aabtreecull.h"
+// Use the shared object-pool release copy from AABTreeCullO1Inlines.cpp.
+template <> void ObjectPoolClass<AABTreeLinkClass,256>::Free_Object_Memory(AABTreeLinkClass *);
+// Defined in AABTreeCullO1Inlines.cpp: retail's single /O1 out-of-line copy of
+// the header ctor. Calls here construct the link without emitting this TU's
+// non-retail /Ob2 COMDAT copy.
+AABTreeLinkClass *_bfmeAABTreeLinkAnchor(void *storage, AABTreeCullSystemClass *system);
 #include "chunkio.h"
 #include "iostruct.h"
 #include <string.h>
 #include "sphere.h"
 #include "colmath.h"
 #include "colmathinlines.h"
+
+// BFME1@34f59164f6 supplies the plane-overlap expressions below.
+// Keep the already-inlined math local: only the existing native providers
+// own out-of-line get_far_extent (0x0007B5C8) and Plane/Point (0x0007B638).
+#include "colmath.h"
+#include "plane.h"
+#include "aabox.h"
+void get_far_extent(const Vector3 &,const Vector3 &,Vector3 *);
+// ?bfmeNativePlanePointInline absent-from-retail
+static __forceinline CollisionMath::OverlapType
+bfmeNativePlanePointInline(const PlaneClass & plane,const Vector3 & point,const float & epsilon)
+{
+	float delta = Vector3::Dot_Product(point,plane.N) - plane.D;
+	if (delta > epsilon) {
+		return CollisionMath::POS;
+	}
+	if (delta < -epsilon) {
+		return CollisionMath::NEG;
+	}
+	return CollisionMath::ON;
+}
+
+
+inline
+CollisionMath::OverlapType
+CollisionMath::Overlap_Test(const PlaneClass & plane,const AABoxClass & box)
+{
+	// First, we determine the the near and far points of the box in the
+	// direction of the plane normal
+	Vector3 posfarpt;
+	Vector3 negfarpt;
+
+	get_far_extent(plane.N,box.Extent,&posfarpt);
+
+	negfarpt = -posfarpt;
+	posfarpt += box.Center;
+	negfarpt += box.Center;
+	if (bfmeNativePlanePointInline(plane,negfarpt,COINCIDENCE_EPSILON) == POS) {
+		return POS;
+	}
+	if (bfmeNativePlanePointInline(plane,posfarpt,COINCIDENCE_EPSILON) == NEG) {
+		return NEG;
+	}
+	return BOTH;
+}
 
 
 
@@ -156,7 +250,10 @@ void AABTreeCullSystemClass::Add_Object_Internal(CullableClass * obj,int node_in
 		"AABTreeCullSystemClass::Add -- Object is already in another culling system!\n"
 	);
 
-	AABTreeLinkClass * new_link = new AABTreeLinkClass(this);
+	// Use retail's single /O1 ctor copy (AABTreeCullO1Inlines.cpp) so this TU
+	// does not emit its own non-retail COMDAT copy.
+	AABTreeLinkClass * new_link = _bfmeAABTreeLinkAnchor(
+		AABTreeLinkClass::operator new(sizeof(AABTreeLinkClass)), this);
 	obj->Set_Cull_Link(new_link);
 
 	if (node_index == -1) {
@@ -299,9 +396,9 @@ void AABTreeCullSystemClass::Add_Object_Recursive(AABTreeNodeClass * node,Cullab
 	AABTreeNodeClass * small_child = node->Back;
 
 	if (big_child && small_child && (big_child->Compute_Volume() < small_child->Compute_Volume())) {
-		AABTreeNodeClass * tmp = big_child;
+		AABTreeNodeClass * aABTreeNode = big_child;
 		big_child = small_child;
-		small_child = tmp;
+		small_child = aABTreeNode;
 	}
 	
 	// Can we fit in the smaller child?
@@ -333,7 +430,10 @@ void AABTreeCullSystemClass::Add_Loaded_Object(AABTreeNodeClass * node,CullableC
 		"AABTreeCullSystemClass::Add_Loaded_Object -- Object is already in another culling system!\n"
 	);
 
-	AABTreeLinkClass * new_link = new AABTreeLinkClass(this);
+	// Use retail's single /O1 ctor copy (AABTreeCullO1Inlines.cpp) so this TU
+	// does not emit its own non-retail COMDAT copy.
+	AABTreeLinkClass * new_link = _bfmeAABTreeLinkAnchor(
+		AABTreeLinkClass::operator new(sizeof(AABTreeLinkClass)), this);
 	obj->Set_Cull_Link(new_link);
 
 	node->Add_Object(obj);

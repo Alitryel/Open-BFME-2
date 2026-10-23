@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc /O1
+// cl: /DNDEBUG /MD /EHsc
 // SmudgeSet::removeSmudgeFromSet at retail 0x002D282E (31B).
 //
 // Dedicated TU. BFME1 donor
@@ -27,7 +27,7 @@ class DLListClass
 	DLNodeClass<T> *tail;
 
 public:
-	DLListClass() : head(0), tail(0) {}
+	DLListClass();
 	virtual ~DLListClass() { }
 
 	void Add_Head(DLNodeClass<T> *node);

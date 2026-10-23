@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /O1 /arch:SSE2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug
+// cl: /DNDEBUG /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug
 // Vector3 has no out-of-line members of its own (all inline in vector3.h). The
 // retail binary keeps standalone COMDAT copies, emitted from use sites. Reference
 // their addresses so this TU emits the same COMDATs for verification.
@@ -18,7 +18,8 @@ V3_binop _sub  = operator-;
 V3_vf    _mulf = operator*;
 V3_fv    _fmul = operator*;
 V3_vf    _div  = operator/;
-V3_cmp   _eq   = operator==;
+// Equality has no ledger body here. Let its real consumers emit the helper;
+// this address-only scaffold otherwise selects a different optimization shape.
 V3_cmp   _ne   = operator!=;
 V3_eps   _eps  = Equal_Within_Epsilon;
 V3_swap  _swap = Swap;

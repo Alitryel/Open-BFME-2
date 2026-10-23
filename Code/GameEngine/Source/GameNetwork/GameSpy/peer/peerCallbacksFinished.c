@@ -21,7 +21,15 @@ typedef struct piConnection
 	void *callbackList;
 } piConnection;
 
-int piIsCallbackFinishedCompareCallback(const void *left, const void *right);
+// Upstream's local callback-ID comparator (BFME1 donor body). BFME2 retail
+// folds it with the identical GP transfer comparator: piIsCallbackFinished
+// pushes 0x007360F0 (_gpiTransferCompare, the +0x14 field difference).
+static int piIsCallbackFinishedCompareCallback(const void *left, const void *right)
+{
+	const piCallbackData *leftData = (const piCallbackData *)left;
+	const piCallbackData *rightData = (const piCallbackData *)right;
+	return leftData->ID - rightData->ID;
+}
 int ArraySearch(void *array, const void *key,
 	int (*compare)(const void *, const void *), int skip, int startIndex);
 

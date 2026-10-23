@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 //
 // ?winSetText@GameWindow@@UAEHVUnicodeString@@@Z, retail 0x0031484A, 88 bytes.
 //
@@ -23,40 +23,8 @@ typedef unsigned short wchar_t;
 #define NULL 0
 #endif
 
-template <typename T>
-class StringBase
-{
-	friend class UnicodeString;
+#include "unicode_string.h"
 
-	StringBase(const StringBase<T> &other);
-	void releaseBuffer();
-
-public:
-	StringBase() { m_data = NULL; }
-	~StringBase() { releaseBuffer(); }
-
-private:
-	struct Header
-	{
-		int ref_count;
-		unsigned short length;
-		unsigned short capacity;
-		T data[1];
-	};
-
-	Header *m_data;
-};
-
-class UnicodeString
-{
-public:
-	UnicodeString() {}
-	UnicodeString(const UnicodeString &that) : m_data(that.m_data) {}
-	~UnicodeString() {}
-
-private:
-	StringBase<wchar_t> m_data;
-};
 
 class DisplayString;
 
@@ -64,6 +32,7 @@ class WinInstanceData
 {
 public:
 	void setText(UnicodeString text);
+	void setTooltipText(UnicodeString text);
 
 private:
 	char m_pad[0x19C];
@@ -84,6 +53,10 @@ class GameWindow
 {
 public:
 	virtual int winSetText(UnicodeString text);
+	void winSetTooltip(UnicodeString text);
+	unsigned char winPointInWindow(int x, int y);
+	int winGetScreenPosition(int *x, int *y);
+	int winGetSize(int *width, int *height);
 
 	GameWindowCallback *m_callback; // this+0x04
 	unsigned int m_status; // this+0x08
@@ -101,3 +74,26 @@ int GameWindow::winSetText(UnicodeString text)
 
 	return 0;
 }
+
+void GameWindow::winSetTooltip(UnicodeString text)
+{
+	m_instData.setTooltipText(text);
+}
+
+unsigned char GameWindow::winPointInWindow(int x, int y)
+{
+	int sx, sy, w, h;
+	winGetScreenPosition(&sx, &sy);
+	winGetSize(&w, &h);
+	if (x < sx)
+		return 0;
+	if (x > sx + w)
+		return 0;
+	if (y < sy || y > sy + h)
+		return 0;
+	return 1;
+}
+
+// Other units call this body (pinned at its address) under the spelling(s)
+// below, with the same calling convention and stack arguments; bind them.
+#pragma comment(linker, "/alternatename:?winSetText@GameWindow@@QAEHVUnicodeString@@@Z=?winSetText@GameWindow@@UAEHVUnicodeString@@@Z")

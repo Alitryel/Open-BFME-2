@@ -1,7 +1,7 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 // Retail RVA 0x00300C7E, 142 bytes (the reloc size 10 is stale).
 // MapMetaData::bfme_getDisplayName, the player-count-suffixed display-name
-// getter called by AptMapPreview::bfmeSetMapTitle. The base name comes from
+// getter called by AptMapPreview::UpdateMapTitle. The base name comes from
 // the sibling bfme_getBaseDisplayName TU; when requested and the count reaches
 // two, a " (%d)" suffix is formatted (UnicodeString::format is a __cdecl
 // member, so this rides the stack: push count, push format, push this) and
@@ -11,34 +11,10 @@
 
 typedef unsigned short WideChar;
 
-template <typename T> class StringBase
-{
-	friend class UnicodeString;
-	friend class MapMetaData;
-public:
-	void concat(const StringBase<T> &other);
-private:
-	StringBase() { m_data = 0; }
-	StringBase(const StringBase<T> &other);
-	~StringBase() { releaseBuffer(); }
-	void releaseBuffer();
-	void *m_data;
-};
+#include "ascii_string.h"
 
-class UnicodeString : private StringBase<unsigned short>
-{
-	friend class MapMetaData;
-public:
-	UnicodeString() {}
-	UnicodeString(const UnicodeString &other) : StringBase<unsigned short>(other) {}
-	~UnicodeString() {}
-	void __cdecl format(const WideChar *format, ...);
-};
+#include "unicode_string.h"
 
-class AsciiString
-{
-	void *m_data;
-};
 
 class MapMetaData
 {

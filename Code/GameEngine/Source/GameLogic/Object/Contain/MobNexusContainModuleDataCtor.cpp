@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // ??0InvisibilitySpecialPowerModuleData@@QAE@XZ, retail 0x004C244D, 118 bytes.
 // Mob-nexus contain data: the own table at 0x00C5C468 carries
@@ -12,6 +12,8 @@
 // 0x2542F3 pin (119B frameless body, identity unproven) and the
 // BroadcastRadius/Duration stores are init-listed so they bracket the
 // filter construction exactly as retail.
+
+extern unsigned char g_00DFEFA4StoragePrototype[28];
 
 class BfmeFixedStorage0004543D
 {
@@ -47,22 +49,17 @@ public:
 	void applyFilter(BfmeFixedStorage0004543D storage);
 };
 
-class Rva004930A0
+class SpecialPowerModuleData
 {
 public:
-	Rva004930A0();
-	virtual ~Rva004930A0();
+	SpecialPowerModuleData();
+	virtual ~SpecialPowerModuleData();
 
 protected:
 	unsigned char m_pad[0x7C - 4];
 };
 
-// ??1Rva004930A0@@UAE@XZ present-unmatched
-Rva004930A0::~Rva004930A0()
-{
-}
-
-class InvisibilitySpecialPowerModuleData : public Rva004930A0
+class InvisibilitySpecialPowerModuleData : public SpecialPowerModuleData
 {
 public:
 	InvisibilitySpecialPowerModuleData();
@@ -76,17 +73,12 @@ private:
 	int m_duration; // +0x13C
 };
 
-// ??1InvisibilitySpecialPowerModuleData@@UAE@XZ present-unmatched
-InvisibilitySpecialPowerModuleData::~InvisibilitySpecialPowerModuleData()
-{
-}
-
 // ??0InvisibilitySpecialPowerModuleData@@QAE@XZ @0x4C244D
 InvisibilitySpecialPowerModuleData::InvisibilitySpecialPowerModuleData()
-	: Rva004930A0()
+	: SpecialPowerModuleData()
 	, m_broadcastRadius(0.0f)
 	, m_duration(0)
 {
 	reinterpret_cast<Rva003623E5Filter *>(&m_objectFilter)->applyFilter(
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(0x00DFEFA4)));
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)));
 }

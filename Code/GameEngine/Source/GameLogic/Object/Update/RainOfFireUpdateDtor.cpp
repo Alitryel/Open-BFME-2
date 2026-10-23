@@ -1,10 +1,10 @@
-// cl: /O1 /arch:SSE /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??1RainOfFireUpdate@@UAE@XZ, retail 0x004AC24D, 91 bytes.
 // Dtor reinstalls primary 0x00854C74 plus secondaries 0x00854BB8/0x00854BA8
 // plus +0x20 slot 0x00854BA0 then zeroes +0x2C and calls honest setter
 // 0x004AC18D with 0.0 then rowed base 0x0024A797. Layout is the rowed
-// 0x38-byte class (Rva0024A797 base 0x20 plus +0x20 secondary plus frame
+// 0x38-byte class (UpdateModule base 0x20 plus +0x20 secondary plus frame
 // plus four floats); caller is the slot-0 deleting dtor at 0x004AC5D9.
 // Recipe is the PartTheHeavensUpdateDtor MI pattern with the setter ride.
 
@@ -38,10 +38,10 @@ public:
 	virtual void update();
 };
 
-class Rva0024A797 : public BehaviorModule, public UpdateModuleInterface
+class UpdateModule : public BehaviorModule, public UpdateModuleInterface
 {
 public:
-	virtual ~Rva0024A797();
+	virtual ~UpdateModule();
 
 protected:
 	unsigned m_nextCallFrameAndPhase;
@@ -55,7 +55,7 @@ public:
 	virtual void setFloat(float v);
 };
 
-class RainOfFireUpdate : public Rva0024A797, public Secondary20
+class RainOfFireUpdate : public UpdateModule, public Secondary20
 {
 public:
 	virtual ~RainOfFireUpdate();
@@ -74,3 +74,13 @@ RainOfFireUpdate::~RainOfFireUpdate()
 	m_state2C = 0.0f;
 	rva004AC18D(0.0f);
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?behaviorModuleOtherAnchor@BehaviorModuleOther@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?setFloat@Secondary20@@UAEXM@Z=?set@Rva00101CCCFloatField@@QAEXM@Z")

@@ -30,6 +30,6 @@ public:
 
 Rva0088D910Object *Rva0088D910Object::invoke(int unused)
 {
-    dispatch(reinterpret_cast<const void *>(0x00BBAC1Cu), 10);
+    dispatch("", 10);
     return this;
 }

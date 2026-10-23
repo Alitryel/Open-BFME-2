@@ -8,7 +8,15 @@ class BitFlags
 public:
 	bool test(const void *kindOf) const;
 	bool testSetAndClear(const BitFlags &mustBeSet, const BitFlags &mustBeClear) const;
+	// N preserves the existing ABI spelling. Both retail query instantiations
+	// (BitFlags69Test and BitFlags116TestSetAndClear) walk seven dwords.
+	unsigned int m_bits[7];
 };
+
+// ZH KINDOFMASK_NONE starts clear. Native 41C865 passes DFEFA4 as the
+// capture filter's second mask; the rowed 464B ActionManager check verifies
+// this DIR32 placement at RVA 0x009FEFA4, whose 28 bytes are all zero.
+BitFlags<116> KINDOFMASK_NONE = { { 0, 0, 0, 0, 0, 0, 0 } };
 
 struct ThingTemplate
 {

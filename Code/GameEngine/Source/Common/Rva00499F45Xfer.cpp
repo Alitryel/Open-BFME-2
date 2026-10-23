@@ -1,4 +1,4 @@
-// cl: /O1 /MD
+// cl: /MD
 //
 // ?xfer@Rva00499F45@@MAEXPAVXfer@@@Z, retail 0x0049A016 (33 bytes).
 // Virtual slot 3 (offset 0x0C) of vtable 0x008504A4 (class of rowed dtor
@@ -7,16 +7,24 @@
 // Version1 via rowed 0x53EE. No members (cf. DeletionUpdateXfer minimal
 // shape, UpdateModuleXfer IsLightCRC precedent).
 
-class Xfer
-{
-public:
-	virtual ~Xfer();
-	virtual bool IsStoring() const;
-	virtual bool IsLoading() const;
-	virtual bool IsCRC() const;
-	virtual bool IsLightCRC() const;
-	void Version1();
-};
+class Snapshot;
+class AsciiString;
+class UnicodeString;
+class PooledString;
+class Coord3DBase;
+struct ICoord3D;
+struct Region3D;
+struct IRegion3D;
+class Coord2D;
+struct ICoord2D;
+struct Region2D;
+struct IRegion2D;
+class RealRange;
+struct RGBColor;
+class RGBAColorReal;
+class RGBAColorInt;
+struct XferUnknown11;
+#include "../../Include/Common/BfmeXfer.h"
 
 class UpdateModule
 {

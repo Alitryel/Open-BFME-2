@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD
 
 // ?loadD3DCursorTextures@W3DMouse@@AAE_NW4MouseCursor@@@Z, retail 0x000999CE,
 // 417 bytes. BFME2's cursor-texture loader: same algorithm as BFME1
@@ -35,6 +35,7 @@ class W3DRadarResetSurface
 public:
 	~W3DRadarResetSurface();
 	W3DRadarResetSurface &operator=(const W3DRadarResetSurface &rhs);
+	void rva000723AC();
 };
 
 class BFME2ParticleTextureHandle
@@ -49,7 +50,11 @@ public:
 	}
 };
 
-BFME2ParticleTextureHandle BFME2LoadParticleTexture(const char *name, int a, int b);
+class TextureAsset
+{
+public:
+	static BFME2ParticleTextureHandle Get(const char *name, int a, int b);
+};
 
 struct CursorTextureSlot
 {
@@ -59,13 +64,7 @@ struct CursorTextureSlot
 	W3DRadarResetSurface Get_Surface_Level();
 };
 
-class AsciiString
-{
-	char *m_data;
-
-public:
-	const char *str() const { return m_data ? (const char *)(m_data + 8) : (const char *)""; }
-};
+#include "ascii_string.h"
 
 enum MouseCursor
 {
@@ -103,7 +102,7 @@ class W3DMouse
 // ??4W3DRadarResetSurface@@QAEAAV0@ABV0@@Z, retail 0x00072381, 43 bytes.
 // COM ref-counted surface assignment: AddRef the incoming surface, release
 // the held one, then store.
-W3DRadarResetSurface &W3DRadarResetSurface::operator=(const W3DRadarResetSurface &rhs)
+inline W3DRadarResetSurface &W3DRadarResetSurface::operator=(const W3DRadarResetSurface &rhs)
 {
 	if (rhs.m_surface != NULL)
 		rhs.m_surface->AddRef();
@@ -111,6 +110,28 @@ W3DRadarResetSurface &W3DRadarResetSurface::operator=(const W3DRadarResetSurface
 		m_surface->Release();
 	m_surface = rhs.m_surface;
 	return *this;
+}
+
+// This operator is a header inline in the copier unit; the anchor is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeW3DRadarResetSurfaceAssignInlineAnchor@@YAXXZ absent-from-retail
+void _bfmeW3DRadarResetSurfaceAssignInlineAnchor()
+{
+	W3DRadarResetSurface *surface = static_cast<W3DRadarResetSurface *>(0);
+	*surface = *surface;
+}
+#pragma inline_depth()
+
+// ?rva000723AC@W3DRadarResetSurface@@QAEXXZ, RVA 0x000723AC, 20B. Release the
+// held COM surface if present and null it. Evidence: caller 0x724AE clears
+// +0x08 via rowed BfmeResetTextureRef::clear then tail-jumps here for +0x0c;
+// same AddRef/Release slots as operator= at 0x72381 in this TU.
+void W3DRadarResetSurface::rva000723AC()
+{
+	if (m_surface) {
+		m_surface->Release();
+		m_surface = 0;
+	}
 }
 
 // ??1BFME2ParticleTextureHandle@@QAE@XZ present-unmatched
@@ -134,7 +155,7 @@ bool W3DMouse::loadD3DCursorTextures(MouseCursor cursor)
 	if (animFrames == 1)
 	{
 		sprintf(frameName, "%s.tga", baseName);
-		cursorTextures[cursor][0] = BFME2LoadParticleTexture(frameName, 0, 0);
+		cursorTextures[cursor][0] = TextureAsset::Get(frameName, 0, 0);
 		m_currentD3DSurface[0] = cursorTextures[cursor][0].Get_Surface_Level();
 		m_currentFrames = 1;
 	}
@@ -143,7 +164,7 @@ bool W3DMouse::loadD3DCursorTextures(MouseCursor cursor)
 		for (int i = 0; i < animFrames; i++)
 		{
 			sprintf(frameName, "%s%04d.tga", baseName, i);
-			if ((cursorTextures[cursor][i] = BFME2LoadParticleTexture(frameName, 0, 0), cursorTextures[cursor][i].Ptr) != NULL)
+			if ((cursorTextures[cursor][i] = TextureAsset::Get(frameName, 0, 0), cursorTextures[cursor][i].Ptr) != NULL)
 			{
 				m_currentD3DSurface[m_currentFrames] = cursorTextures[cursor][i].Get_Surface_Level();
 				m_currentFrames++;

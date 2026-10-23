@@ -1,7 +1,18 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /Ireference/shims/zh_outofline /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/OptionsMenu.cpp); this unit had no counterpart under Code/.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -66,7 +77,31 @@
 #include "GameClient/ShellHooks.h"
 #include "GameClient/GUICallbacks.h"
 #include "GameNetwork/FirewallHelper.h"
-#include "GameNetwork/IPEnumeration.h"
+// BFME2 drops EnumeratedIP's donor MemoryPoolObject base: the rowed ctor
+// and getAddresses allocation establish the 12-byte layout (string/IP/next).
+// Keep the accessor on that same layout so its shared copy is retail's +0
+// AsciiString getter, rather than Zero Hour's +4 getter.
+class EnumeratedIP
+{
+public:
+	AsciiString getIPstring() { return m_IPstring; }
+	UnsignedInt getIP() { return m_IP; }
+	EnumeratedIP *getNext() { return m_next; }
+private:
+	AsciiString m_IPstring;
+	UnsignedInt m_IP;
+	EnumeratedIP *m_next;
+};
+class IPEnumeration
+{
+public:
+	IPEnumeration();
+	~IPEnumeration();
+	EnumeratedIP *getAddresses();
+private:
+	EnumeratedIP *m_IPlist;
+	Bool m_isWinsockInitialized;
+};
 #include "GameNetwork/GameSpyOverlay.h"
 #include "GameNetwork/GameSpy/PeerDefs.h"
 #include "GameLogic/GameLogic.h"
@@ -75,6 +110,15 @@
 //added by saad
 //used to access a messagebox that does "ok" and "cancel"
 #include "GameClient/MessageBox.h"
+// bfme link decl-only begin
+namespace _STL { template <> _String_base<char, allocator<char> >::_String_base(allocator<char> const &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(char const *, allocator<char> const &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(); }
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+namespace _STL { template <> AsciiString & map<AsciiString, AsciiString, less<AsciiString>, allocator<pair<AsciiString const, AsciiString> > >::operator[](AsciiString const &); }
+namespace _STL { template <> void _STLP_alloc_proxy<char *, char, allocator<char> >::deallocate(char *, unsigned int); }
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<AsciiString const, AsciiString>, _Nonconst_traits<pair<AsciiString const, AsciiString> > >, bool> _Rb_tree<AsciiString, pair<AsciiString const, AsciiString>, _Select1st<pair<AsciiString const, AsciiString> >, less<AsciiString>, allocator<pair<AsciiString const, AsciiString> > >::insert_unique(pair<AsciiString const, AsciiString> const &); }
+// bfme link decl-only end
 
 // This is for non-RC builds only!!!
 #define VERBOSE_VERSION L"Release"
@@ -234,95 +278,38 @@ enum Detail
 };
 
 
-OptionPreferences::OptionPreferences( void )
-{
-	// note, the superclass will put this in the right dir automatically, this is just a leaf name
-	load("Options.ini");
-}
+// OptionPreferences::OptionPreferences: defined in OptionPreferences_ctor.cpp (its row's unit).
 
-OptionPreferences::~OptionPreferences()
-{
-}
+// ??1OptionPreferences@@UAE@XZ: defined in its owner's unit (LINK-DUP: declare only here).
 
 
-Int OptionPreferences::getCampaignDifficulty(void)
-{
-	OptionPreferences::const_iterator it = find("CampaignDifficulty");
-	if (it == end())
-		return TheScriptEngine->getGlobalDifficulty();
+// OptionPreferences::getCampaignDifficulty: defined in OptionPreferences_getCampaignDifficulty.cpp (its row's unit).
 
-	Int factor = atoi(it->second.str());
-	if (factor < DIFFICULTY_EASY)
-		factor = DIFFICULTY_EASY;
-	if (factor > DIFFICULTY_HARD)
-		factor = DIFFICULTY_HARD;
-	
-	return factor;
-}
+// OptionPreferences::setCampaignDifficulty: defined in OptionPreferences_setCampaignDifficulty.cpp (its row's unit).
 
-void OptionPreferences::setCampaignDifficulty( Int diff )
-{
-	AsciiString prefString;
-	prefString.format("%d", diff );
-	(*this)["CampaignDifficulty"] = prefString;
-}
+// OptionPreferences::getLANIPAddress: defined in OptionPreferences_getLANIPAddress.cpp (its row's unit).
 
-UnsignedInt OptionPreferences::getLANIPAddress(void)
-{
-	AsciiString selectedIP = (*this)["IPAddress"];
-	IPEnumeration IPs;
-	EnumeratedIP *IPlist = IPs.getAddresses();
-	while (IPlist)
-	{
-		if (selectedIP.compareNoCase(IPlist->getIPstring()) == 0)
-		{
-			return IPlist->getIP();
-		}
-		IPlist = IPlist->getNext();
-	}
-	return TheGlobalData->m_defaultIP;
-}
-
-void OptionPreferences::setLANIPAddress( AsciiString IP )
+// Select-any: the identical retail body in
+// OptionPreferences_setLANIPAddress.cpp comes first in link order, so it is
+// the copy the link keeps.
+inline __declspec(noinline) void OptionPreferences::setLANIPAddress( AsciiString IP )
 {
 	(*this)["IPAddress"] = IP;
 }
 
-void OptionPreferences::setLANIPAddress( UnsignedInt IP )
-{
-	AsciiString tmp;
-	tmp.format("%d.%d.%d.%d", ((IP & 0xff000000) >> 24), ((IP & 0xff0000) >> 16), ((IP & 0xff00) >> 8), (IP & 0xff));
-	(*this)["IPAddress"] = tmp;
-}
+// ?setLANIPAddress@OptionPreferences@@QAEXI@Z: defined in OptionPreferences_setLANIPAddress.cpp (its row's unit).
 
-UnsignedInt OptionPreferences::getOnlineIPAddress(void)
-{
-	AsciiString selectedIP = (*this)["GameSpyIPAddress"];
-	IPEnumeration IPs;
-	EnumeratedIP *IPlist = IPs.getAddresses();
-	while (IPlist)
-	{
-		if (selectedIP.compareNoCase(IPlist->getIPstring()) == 0)
-		{
-			return IPlist->getIP();
-		}
-		IPlist = IPlist->getNext();
-	}
-	return TheGlobalData->m_defaultIP;
-}
+// ?getOnlineIPAddress@OptionPreferences@@QAEIXZ: defined in OptionPreferences_getGameSpyIPAddress.cpp (its row's unit).
 
-void OptionPreferences::setOnlineIPAddress( AsciiString IP )
+// Select-any, as setLANIPAddress above.
+inline __declspec(noinline) void OptionPreferences::setOnlineIPAddress( AsciiString IP )
 {
 	(*this)["GameSpyIPAddress"] = IP;
 }
 
-void OptionPreferences::setOnlineIPAddress( UnsignedInt IP )
-{
-	AsciiString tmp;
-	tmp.format("%d.%d.%d.%d", ((IP & 0xff000000) >> 24), ((IP & 0xff0000) >> 16), ((IP & 0xff00) >> 8), (IP & 0xff));
-	(*this)["GameSpyIPAddress"] = tmp;
-}
+// ?setOnlineIPAddress@OptionPreferences@@QAEXI@Z: defined in OptionPreferences_setLANIPAddress.cpp (its row's unit).
 
+// ?OptionPreferences::getAlternateMouseModeEnabled present-unmatched
 Bool OptionPreferences::getAlternateMouseModeEnabled(void)
 {
 	OptionPreferences::const_iterator it = find("UseAlternateMouse");
@@ -335,6 +322,7 @@ Bool OptionPreferences::getAlternateMouseModeEnabled(void)
 	return FALSE;
 }
 
+// ?OptionPreferences::getRetaliationModeEnabled present-unmatched
 Bool OptionPreferences::getRetaliationModeEnabled(void)
 {
 	OptionPreferences::const_iterator it = find("Retaliation");
@@ -347,6 +335,7 @@ Bool OptionPreferences::getRetaliationModeEnabled(void)
 	return FALSE;
 }
 
+// ?OptionPreferences::getDoubleClickAttackMoveEnabled present-unmatched
 Bool OptionPreferences::getDoubleClickAttackMoveEnabled(void)
 {
 	OptionPreferences::const_iterator it = find("UseDoubleClickAttackMove");
@@ -359,140 +348,29 @@ Bool OptionPreferences::getDoubleClickAttackMoveEnabled(void)
 	return FALSE;
 }
 
-Real OptionPreferences::getScrollFactor(void)
-{
-	OptionPreferences::const_iterator it = find("ScrollFactor");
-	if (it == end())
-		return TheGlobalData->m_keyboardDefaultScrollFactor;
+// OptionPreferences::getScrollFactor: defined in OptionPreferences_getScrollFactor.cpp (its row's unit).
 
-	Int factor = atoi(it->second.str());
-	if (factor < 0)
-		factor = 0;
-	if (factor > 100)
-		factor = 100;
-	
-	return factor/100.0f;
-}
+// OptionPreferences::usesSystemMapDir: defined in OptionPreferences_usesSystemMapDir.cpp (its row's unit).
 
-Bool OptionPreferences::usesSystemMapDir(void)
-{
-	OptionPreferences::const_iterator it = find("UseSystemMapDir");
-	if (it == end())
-		return TRUE;
+// OptionPreferences::saveCameraInReplays: defined in OptionPreferences_saveCameraInReplays.cpp (its row's unit).
 
-	if (stricmp(it->second.str(), "yes") == 0) {
-		return TRUE;
-	}
-	return FALSE;
-}
+// OptionPreferences::useCameraInReplays: defined in OptionPreferences_useCameraInReplays.cpp (its row's unit).
 
-Bool OptionPreferences::saveCameraInReplays(void)
-{
-	OptionPreferences::const_iterator it = find("SaveCameraInReplays");
-	if (it == end())
-		return TRUE;
+// OptionPreferences::getIdealStaticGameDetail: defined in OptionPreferences_getStaticGameDetail.cpp (its row's unit).
 
-	if (stricmp(it->second.str(), "yes") == 0) {
-		return TRUE;
-	}
-	return FALSE;
-}
+// OptionPreferences::getStaticGameDetail: defined in OptionPreferences_getStaticGameDetail.cpp (its row's unit).
 
-Bool OptionPreferences::useCameraInReplays(void)
-{
-	OptionPreferences::const_iterator it = find("UseCameraInReplays");
-	if (it == end())
-		return TRUE;
+// OptionPreferences::getSendDelay: defined in OptionPreferences_getSendDelay.cpp (its row's unit).
 
-	if (stricmp(it->second.str(), "yes") == 0) {
-		return TRUE;
-	}
-	return FALSE;
-}
+// OptionPreferences::getFirewallBehavior: defined in OptionPreferences_getFirewallBehavior.cpp (its row's unit).
 
-Int OptionPreferences::getIdealStaticGameDetail(void)
-{
-	OptionPreferences::const_iterator it = find("IdealStaticGameLOD");
-	if (it == end())
-		return STATIC_GAME_LOD_UNKNOWN;
+// OptionPreferences::getFirewallPortAllocationDelta: defined in OptionPreferences_getFirewallPortAllocationDelta.cpp (its row's unit).
 
-	return TheGameLODManager->getStaticGameLODIndex(it->second);
-}
+// OptionPreferences::getFirewallPortOverride: defined in OptionPreferences_getFirewallPortOverride.cpp (its row's unit).
 
-Int OptionPreferences::getStaticGameDetail(void)
-{
-	OptionPreferences::const_iterator it = find("StaticGameLOD");
-	if (it == end())
-		return TheGameLODManager->getStaticLODLevel();
+// OptionPreferences::getFirewallNeedToRefresh: defined in OptionPreferences_getFirewallNeedToRefresh.cpp (its row's unit).
 
-	return TheGameLODManager->getStaticGameLODIndex(it->second);
-}
-
-Bool OptionPreferences::getSendDelay(void)
-{
-	OptionPreferences::const_iterator it = find("SendDelay");
-	if (it == end())
-		return TheGlobalData->m_firewallSendDelay;
-
-	if (stricmp(it->second.str(), "yes") == 0) {
-		return TRUE;
-	}
-	return FALSE;
-}
-
-Int OptionPreferences::getFirewallBehavior()
-{
-	OptionPreferences::const_iterator it = find("FirewallBehavior");
-	if (it == end())
-		return TheGlobalData->m_firewallBehavior;
-
-	Int behavior = atoi(it->second.str());
-	if (behavior < 0)
-	{
-		behavior = 0;
-	}
-	return behavior;
-}
-
-Short OptionPreferences::getFirewallPortAllocationDelta()
-{
-	OptionPreferences::const_iterator it = find("FirewallPortAllocationDelta");
-	if (it == end()) {
-		return TheGlobalData->m_firewallPortAllocationDelta;
-	}
-
-	Short delta = atoi(it->second.str());
-	return delta;
-}
-
-UnsignedShort OptionPreferences::getFirewallPortOverride()
-{
-	OptionPreferences::const_iterator it = find("FirewallPortOverride");
-	if (it == end()) {
-		return TheGlobalData->m_firewallPortOverride;
-	}
-
-	Int override = atoi(it->second.str());
-	if (override < 0 || override > 65535)
-		override = 0;
-	return override;
-}
-
-Bool OptionPreferences::getFirewallNeedToRefresh()
-{
-	OptionPreferences::const_iterator it = find("FirewallNeedToRefresh");
-	if (it == end()) {
-		return FALSE;
-	}
-
-	Bool retval = FALSE;
-	AsciiString str = it->second;
-	if (str.compareNoCase("TRUE") == 0) {
-		retval = TRUE;
-	}
-	return retval;
-}
-
+// ?OptionPreferences::getPreferred3DProvider present-unmatched
 AsciiString OptionPreferences::getPreferred3DProvider(void)
 {
 	OptionPreferences::const_iterator it = find("3DAudioProvider");
@@ -501,6 +379,7 @@ AsciiString OptionPreferences::getPreferred3DProvider(void)
 	return it->second;
 }
 
+// ?OptionPreferences::getSpeakerType present-unmatched
 AsciiString OptionPreferences::getSpeakerType(void)
 {
 	OptionPreferences::const_iterator it = find("SpeakerType");
@@ -509,6 +388,7 @@ AsciiString OptionPreferences::getSpeakerType(void)
 	return it->second;
 }
 
+// ?OptionPreferences::getSoundVolume present-unmatched
 Real OptionPreferences::getSoundVolume(void)
 {
 	OptionPreferences::const_iterator it = find("SFXVolume");
@@ -531,6 +411,7 @@ Real OptionPreferences::getSoundVolume(void)
 	return volume;
 }
 
+// ?OptionPreferences::get3DSoundVolume present-unmatched
 Real OptionPreferences::get3DSoundVolume(void)
 {
 	OptionPreferences::const_iterator it = find("SFX3DVolume");
@@ -553,6 +434,7 @@ Real OptionPreferences::get3DSoundVolume(void)
 	return volume;
 }
 
+// ?OptionPreferences::getSpeechVolume present-unmatched
 Real OptionPreferences::getSpeechVolume(void)
 {
 	OptionPreferences::const_iterator it = find("VoiceVolume");
@@ -567,6 +449,7 @@ Real OptionPreferences::getSpeechVolume(void)
 	return volume;
 }
 
+// ?OptionPreferences::getCloudShadowsEnabled present-unmatched
 Bool OptionPreferences::getCloudShadowsEnabled(void)
 {
 	OptionPreferences::const_iterator it = find("UseCloudMap");
@@ -579,6 +462,7 @@ Bool OptionPreferences::getCloudShadowsEnabled(void)
 	return FALSE;
 }
 
+// ?OptionPreferences::getLightmapEnabled present-unmatched
 Bool OptionPreferences::getLightmapEnabled(void)
 {
 	OptionPreferences::const_iterator it = find("UseLightMap");
@@ -591,6 +475,7 @@ Bool OptionPreferences::getLightmapEnabled(void)
 	return FALSE;
 }
 
+// ?OptionPreferences::getSmoothWaterEnabled present-unmatched
 Bool OptionPreferences::getSmoothWaterEnabled(void)
 {
 	OptionPreferences::const_iterator it = find("ShowSoftWaterEdge");
@@ -603,6 +488,7 @@ Bool OptionPreferences::getSmoothWaterEnabled(void)
 	return FALSE;
 }
 
+// ?OptionPreferences::getTreesEnabled present-unmatched
 Bool OptionPreferences::getTreesEnabled(void)
 {
 	OptionPreferences::const_iterator it = find("ShowTrees");
@@ -615,6 +501,7 @@ Bool OptionPreferences::getTreesEnabled(void)
 	return FALSE;
 }
 
+// ?OptionPreferences::getExtraAnimationsDisabled present-unmatched
 Bool OptionPreferences::getExtraAnimationsDisabled(void)
 {
 	OptionPreferences::const_iterator it = find("ExtraAnimations");
@@ -627,6 +514,7 @@ Bool OptionPreferences::getExtraAnimationsDisabled(void)
 	return TRUE;
 }
 
+// ?OptionPreferences::getUseHeatEffects present-unmatched
 Bool OptionPreferences::getUseHeatEffects(void)
 {
 	OptionPreferences::const_iterator it = find("HeatEffects");
@@ -639,6 +527,7 @@ Bool OptionPreferences::getUseHeatEffects(void)
 	return FALSE;
 }
 
+// ?OptionPreferences::getDynamicLODEnabled present-unmatched
 Bool OptionPreferences::getDynamicLODEnabled(void)
 {
 	OptionPreferences::const_iterator it = find("DynamicLOD");
@@ -651,6 +540,7 @@ Bool OptionPreferences::getDynamicLODEnabled(void)
 	return FALSE;
 }
 
+// ?OptionPreferences::getFPSLimitEnabled present-unmatched
 Bool OptionPreferences::getFPSLimitEnabled(void)
 {
 	OptionPreferences::const_iterator it = find("FPSLimit");
@@ -663,6 +553,7 @@ Bool OptionPreferences::getFPSLimitEnabled(void)
 	return FALSE;
 }
 
+// ?OptionPreferences::get3DShadowsEnabled present-unmatched
 Bool OptionPreferences::get3DShadowsEnabled(void)
 {
 	OptionPreferences::const_iterator it = find("UseShadowVolumes");
@@ -675,6 +566,7 @@ Bool OptionPreferences::get3DShadowsEnabled(void)
 	return FALSE;
 }
 
+// ?OptionPreferences::get2DShadowsEnabled present-unmatched
 Bool OptionPreferences::get2DShadowsEnabled(void)
 {
 	OptionPreferences::const_iterator it = find("UseShadowDecals");
@@ -687,6 +579,7 @@ Bool OptionPreferences::get2DShadowsEnabled(void)
 	return FALSE;
 }
 
+// ?OptionPreferences::getBuildingOcclusionEnabled present-unmatched
 Bool OptionPreferences::getBuildingOcclusionEnabled(void)
 {
 	OptionPreferences::const_iterator it = find("BuildingOcclusion");
@@ -699,6 +592,7 @@ Bool OptionPreferences::getBuildingOcclusionEnabled(void)
 	return FALSE;
 }
 
+// ?OptionPreferences::getParticleCap present-unmatched
 Int OptionPreferences::getParticleCap(void)
 {
 	OptionPreferences::const_iterator it = find("MaxParticleCount");
@@ -712,6 +606,7 @@ Int OptionPreferences::getParticleCap(void)
 	return factor;
 }
 
+// ?OptionPreferences::getTextureReduction present-unmatched
 Int OptionPreferences::getTextureReduction(void)
 {
 	OptionPreferences::const_iterator it = find("TextureReduction");
@@ -724,6 +619,7 @@ Int OptionPreferences::getTextureReduction(void)
 	return factor;
 }
 
+// ?OptionPreferences::getGammaValue present-unmatched
 Real OptionPreferences::getGammaValue(void)
 {
 	OptionPreferences::const_iterator it = find("Gamma");
@@ -734,23 +630,9 @@ Real OptionPreferences::getGammaValue(void)
  	return gamma;
 }
 
-void OptionPreferences::getResolution(Int *xres, Int *yres)
-{
-	*xres = TheGlobalData->m_xResolution;
-	*yres = TheGlobalData->m_yResolution;
+// OptionPreferences::getResolution: defined in OptionPreferences_getResolution.cpp (its row's unit).
 
-	OptionPreferences::const_iterator it = find("Resolution");
-	if (it == end())
-		return;
-
-	Int selectedXRes,selectedYRes;
-	if (sscanf(it->second.str(),"%d%d", &selectedXRes, &selectedYRes) != 2)
-		return;
-
-	*xres=selectedXRes;
-	*yres=selectedYRes;
-}
-
+// ?OptionPreferences::getMusicVolume present-unmatched
 Real OptionPreferences::getMusicVolume(void)
 {
 	OptionPreferences::const_iterator it = find("MusicVolume");
@@ -2134,3 +2016,8 @@ WindowMsgHandledType OptionsMenuSystem( GameWindow *window, UnsignedInt msg,
 	return MSG_HANDLED;
 
 }  // end OptionsMenuSystem
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?load@UserPreferences@@UAE_NVAsciiString@@@Z=?load@UserPreferences@@UAE_NABVUnicodeString@@@Z")

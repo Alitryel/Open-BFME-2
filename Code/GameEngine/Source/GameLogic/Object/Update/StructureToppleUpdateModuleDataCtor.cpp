@@ -1,8 +1,10 @@
+char g_00BF43A8;
+
 // cl: /O1 /EHsc /arch:SSE /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // ??0StructureToppleUpdateModuleData@@QAE@XZ, retail 0x00257A5E, 256 bytes.
-// StructureTopple data ctor over vtable 0x00BF43A8. Donor is ZH
+// StructureTopple data ctor over vtable (unsigned int)&g_00BF43A8. Donor is ZH
 // StructureToppleUpdate.h (same member order and values) with BFME2
 // changes: DieMuxData member at +8 constructed through its rowed init at
 // 0x004CE534, an extra float at +0x48 (0.06), the damage-flags word as -1
@@ -31,7 +33,52 @@
 // The empty UpdateModuleData base (declared-only dtor) carries
 // unwindability for EH states 0/1/4; the vector bases arm none.
 
+// Preserve STLport's out-of-line pointer-copy wrapper.
+#include "../../../../../../vendor/stlport/stl/_algobase.h"
 #include <vector>
+// Suppress this TU's non-retail copy of ??1?$vector@UFXBoneInfo@@V?$allocator@UFXBoneInfo@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct FXBoneInfo;
+namespace _STL { template <> vector<FXBoneInfo,allocator<FXBoneInfo> >::~vector(); }
+// Suppress this TU's non-retail copy of ??1?$vector@UAngleFXInfo@@V?$allocator@UAngleFXInfo@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct AngleFXInfo;
+namespace _STL { template <> vector<AngleFXInfo,allocator<AngleFXInfo> >::~vector(); }
+// Suppress this TU's non-retail copy of ??1?$vector@PBVObjectCreationList@@V?$allocator@PBVObjectCreationList@@@_STL@@@_STL@@QAE@X:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ObjectCreationList;
+namespace _STL { template <> vector<ObjectCreationList const *,allocator<ObjectCreationList const *> >::~vector(); }
+// Suppress this TU's non-retail copy of ??1?$_Vector_base@PBVObjectCreationList@@V?$allocator@PBVObjectCreationList@@@_STL@@@_STL@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ObjectCreationList;
+namespace _STL { template <> _Vector_base<ObjectCreationList const *,allocator<ObjectCreationList const *> >::~_Vector_base(); }
+// Suppress this TU's non-retail copy of ??1?$_Vector_base@UAngleFXInfo@@V?$allocator@UAngleFXInfo@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct AngleFXInfo;
+namespace _STL { template <> _Vector_base<AngleFXInfo,allocator<AngleFXInfo> >::~_Vector_base(); }
+// Suppress this TU's non-retail copy of ??1?$_Vector_base@UFXBoneInfo@@V?$allocator@UFXBoneInfo@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct FXBoneInfo;
+namespace _STL { template <> _Vector_base<FXBoneInfo,allocator<FXBoneInfo> >::~_Vector_base(); }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@UFXBoneInfo@@@_STL@@QBEXPAUFXBoneInfo@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct FXBoneInfo;
+namespace _STL { template <> void allocator<FXBoneInfo>::deallocate(FXBoneInfo *,unsigned int) const; }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@PBVObjectCreationList@@@_STL@@QBEXPAPBVObjectCreationList@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ObjectCreationList;
+namespace _STL { template <> void allocator<ObjectCreationList const *>::deallocate(ObjectCreationList const * *,unsigned int) const; }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@UAngleFXInfo@@@_STL@@QBEXPAUAngleFXInfo@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct AngleFXInfo;
+namespace _STL { template <> void allocator<AngleFXInfo>::deallocate(AngleFXInfo *, size_t) const; }
+// Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
+// and this TU's /O1 COMDAT copy differs from the copy the link keeps.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
+{ if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
+}
 
 typedef int Int;
 typedef unsigned int UnsignedInt;
@@ -49,6 +96,7 @@ private:
 
 struct FXBoneInfo
 {
+	~FXBoneInfo();
 	AsciiString m_boneName;
 	const void *m_particleSystemTemplate;
 };
@@ -64,7 +112,7 @@ class ObjectCreationList;
 class DieMuxData
 {
 public:
-	DieMuxData() { init(); }
+	DieMuxData();
 	DieMuxData *init();
 
 private:
@@ -79,12 +127,24 @@ enum
 class UpdateModuleData
 {
 public:
-	UpdateModuleData() {}
+	__declspec(dllimport) __forceinline UpdateModuleData() {}
 	~UpdateModuleData();
 };
 
+// The native angle-vector erase calls the existing 8-byte range-erase
+// owner at 0x003FA4DB. Bind that call to its rowed spelling; the AngleFXInfo
+// specialization emitted elsewhere does not reproduce that body.
+struct BfmePod8 { int words[2]; };
+
 namespace _STL
 {
+template <> BfmePod8 *vector<BfmePod8>::erase(BfmePod8 *, BfmePod8 *);
+template <> __declspec(dllimport) __forceinline AngleFXInfo *
+vector<AngleFXInfo>::erase(AngleFXInfo *first, AngleFXInfo *last)
+{
+	return (AngleFXInfo *)((vector<BfmePod8> *)this)->erase(
+		(BfmePod8 *)first, (BfmePod8 *)last);
+}
 
 // Declared-only explicit specializations: keep the calls external (the
 // FXBoneInfo erase resolves to its rowed true name; the two _Vector_base
@@ -101,11 +161,13 @@ vector<FXBoneInfo, allocator<FXBoneInfo> >::iterator
 vector<FXBoneInfo, allocator<FXBoneInfo> >::erase(
 	vector<FXBoneInfo, allocator<FXBoneInfo> >::iterator first,
 	vector<FXBoneInfo, allocator<FXBoneInfo> >::iterator last);
-template <>
-vector<AngleFXInfo, allocator<AngleFXInfo> >::iterator
-vector<AngleFXInfo, allocator<AngleFXInfo> >::erase(
-	vector<AngleFXInfo, allocator<AngleFXInfo> >::iterator first,
-	vector<AngleFXInfo, allocator<AngleFXInfo> >::iterator last);
+// Retail range erase calls the pointer-copy wrapper out of line.
+template <> __declspec(noinline) inline AngleFXInfo *
+__copy_ptrs<AngleFXInfo *, AngleFXInfo *>(AngleFXInfo *first, AngleFXInfo *last,
+    AngleFXInfo *result, const __false_type &)
+{
+    return __copy(first, last, result, random_access_iterator_tag(), (int *)0);
+}
 
 }
 
@@ -115,15 +177,15 @@ public:
 	StructureToppleUpdateModuleData();
 
 private:
-	const void *m_vtable; // +0, retail 0x00BF43A8
+	const void *m_vtable; // +0, retail (unsigned int)&g_00BF43A8
 	int m_unused04; // +4, untouched padding
 	DieMuxData m_dieMuxData; // +8
 	Int m_minToppleDelay; // +0x38
 	Int m_maxToppleDelay; // +0x3C
 	float m_structuralIntegrity; // +0x40
 	float m_structuralDecay; // +0x44
-	float m_unk48; // +0x48
-	Int m_unk4C; // +0x4C
+	float m_toppleAccelerationFactor; // +0x48
+	Int m_damageFXTypes; // +0x4C
 	void *m_toppleStartFXList; // +0x50
 	void *m_toppleDelayFXList; // +0x54
 	void *m_toppleDoneFXList; // +0x58
@@ -137,19 +199,19 @@ private:
 	Int m_oclCount[3]; // +0x94
 	_STL::vector<FXBoneInfo, _STL::allocator<FXBoneInfo> > m_fxbones; // +0xA0
 	_STL::vector<AngleFXInfo, _STL::allocator<AngleFXInfo> > m_angleFX; // +0xAC
-	float m_unkB8; // +0xB8
+	float m_forceToppleAngle; // +0xB8
 };
 
 // ??0StructureToppleUpdateModuleData@@QAE@XZ @0x00257A5E
-StructureToppleUpdateModuleData::StructureToppleUpdateModuleData()
+inline StructureToppleUpdateModuleData::StructureToppleUpdateModuleData()
 	: UpdateModuleData()
-	, m_vtable(reinterpret_cast<const void *>(0x00BF43A8))
+	, m_vtable(reinterpret_cast<const void *>((unsigned int)&g_00BF43A8))
 	, m_crushingWeaponName(0)
 {
 	m_minToppleDelay = 0;
 	m_maxToppleDelay = 0;
 	m_structuralIntegrity = 0.1f;
-	m_unk4C = -1;
+	m_damageFXTypes = -1;
 	m_minToppleBurstDelay = 0;
 	m_maxToppleBurstDelay = 0;
 	m_structuralDecay = 0.0f;
@@ -159,8 +221,8 @@ StructureToppleUpdateModuleData::StructureToppleUpdateModuleData()
 	m_toppleDoneFXList = 0;
 	m_crushingFXList = 0;
 	m_crushingWeaponName.set("");
-	m_unk48 = 0.06f;
-	m_unkB8 = -9.87654f;
+	m_toppleAccelerationFactor = 0.06f;
+	m_forceToppleAngle = -9.87654f;
 	for (int i = 0; i < ST_PHASE_COUNT; ++i)
 		m_oclCount[i] = 1;
 	_STL::vector<FXBoneInfo, _STL::allocator<FXBoneInfo> > &bones = m_fxbones;
@@ -168,3 +230,14 @@ StructureToppleUpdateModuleData::StructureToppleUpdateModuleData()
 	_STL::vector<AngleFXInfo, _STL::allocator<AngleFXInfo> > &angleBones = m_angleFX;
 	angleBones.erase(angleBones.begin(), angleBones.end());
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeStructureToppleUpdateModuleDataInlineAnchor@@YAXPAVStructureToppleUpdateModuleData@@@Z absent-from-retail
+void _bfmeStructureToppleUpdateModuleDataInlineAnchor(StructureToppleUpdateModuleData *structureToppleUpdateModuleData)
+{
+    structureToppleUpdateModuleData->StructureToppleUpdateModuleData::StructureToppleUpdateModuleData();
+}
+#pragma inline_depth()

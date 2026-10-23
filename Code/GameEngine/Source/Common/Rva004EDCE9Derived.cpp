@@ -1,4 +1,4 @@
-// cl: /O1 /MD
+// cl: /MD
 //
 // Opaque single-inheritance destructors tail-calling Rva004EDCE9::~
 // Rva004EDCE9 at 0x004EDCE9 (pinned opaque SEH base dtor; identity
@@ -15,24 +15,40 @@ public:
 	virtual ~Rva004EDCE9();
 };
 
-class Rva005DC73C : public Rva004EDCE9
+class AITacticOffensive : public Rva004EDCE9
 {
 public:
-	virtual ~Rva005DC73C();
+	virtual ~AITacticOffensive();
 };
 
-Rva005DC73C::~Rva005DC73C()
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline AITacticOffensive::~AITacticOffensive()
 {
 }
 
-class Rva005DCB27 : public Rva004EDCE9
+// ?bfmeAnchorAITacticOffensiveDtor absent-from-retail
+void bfmeAnchorAITacticOffensiveDtor(AITacticOffensive *aITacticOffensive)
+{
+	aITacticOffensive->AITacticOffensive::~AITacticOffensive();
+}
+
+class AITacticDefensive : public Rva004EDCE9
 {
 public:
-	virtual ~Rva005DCB27();
+	virtual ~AITacticDefensive();
 };
 
-Rva005DCB27::~Rva005DCB27()
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline AITacticDefensive::~AITacticDefensive()
 {
+}
+
+// ?bfmeAnchorAITacticDefensiveDtor absent-from-retail
+void bfmeAnchorAITacticDefensiveDtor(AITacticDefensive *aITacticDefensive)
+{
+	aITacticDefensive->AITacticDefensive::~AITacticDefensive();
 }
 
 class Rva005DCBE3 : public Rva004EDCE9
@@ -41,8 +57,16 @@ public:
 	virtual ~Rva005DCBE3();
 };
 
-Rva005DCBE3::~Rva005DCBE3()
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline Rva005DCBE3::~Rva005DCBE3()
 {
+}
+
+// ?bfmeAnchorRva005DCBE3Dtor absent-from-retail
+void bfmeAnchorRva005DCBE3Dtor(Rva005DCBE3 *p)
+{
+	p->Rva005DCBE3::~Rva005DCBE3();
 }
 
 class Rva005DCC24 : public Rva004EDCE9
@@ -51,6 +75,14 @@ public:
 	virtual ~Rva005DCC24();
 };
 
-Rva005DCC24::~Rva005DCC24()
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline Rva005DCC24::~Rva005DCC24()
 {
+}
+
+// ?bfmeAnchorRva005DCC24Dtor absent-from-retail
+void bfmeAnchorRva005DCC24Dtor(Rva005DCC24 *p)
+{
+	p->Rva005DCC24::~Rva005DCC24();
 }

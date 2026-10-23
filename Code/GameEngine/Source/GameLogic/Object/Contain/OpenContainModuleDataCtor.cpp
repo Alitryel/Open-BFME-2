@@ -1,5 +1,8 @@
+// Identity correction: ModuleFactory registers OpenContain with ctor 0x465124,
+// not this 0x253487 ctor. Its 0x118-byte upgrade-base layout remains PC-proven;
+// the earlier OpenContain/DieMuxData donor attribution below is withdrawn.
 // cl: /O1 /MD -D_STLP_NO_EXCEPTIONS /EHs-c-
-// ??0OpenContainModuleData@@QAE@XZ @ 0x00253487 (21B): base ctor installing
+// ??0Rva00253487Base@@QAE@XZ @ 0x00253487 (21B): base ctor installing
 // the folded vtable 0x00BF2558 (shared with derived HealContainModuleData,
 // whose 36B ctor is matched in HealContainModuleDataCtorThunk.cpp) then
 // constructing the member at +8.
@@ -11,6 +14,9 @@
 // ??0DieMuxData@@ present-unmatched marker for the concept, but the body at
 // 0x0025342C has no independent identity yet, so the callee keeps an
 // address-derived name here (pinned) instead of a guessed class name.
+extern "C" const void *const vtbl_00BF2558[];  // ??_7WeaponSetUpgradeModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BF2558=??_7WeaponSetUpgradeModuleData@@6B@")
+
 class Rva001EAE6FHelper
 {
 public:
@@ -38,11 +44,11 @@ private:
 	unsigned char m_tailByte2; // +0x10E
 };
 
-class __declspec(novtable) OpenContainModuleData
+class __declspec(novtable) Rva00253487Base
 {
 public:
-	OpenContainModuleData();
-	virtual ~OpenContainModuleData();
+	Rva00253487Base();
+	virtual ~Rva00253487Base();
 
 private:
 	// +0x00 vptr (installed explicitly below; novtable suppresses the
@@ -75,9 +81,21 @@ Rva0025342CMember *Rva0025342CMember::construct()
 	return this;
 }
 
-// ??0OpenContainModuleData@@QAE@XZ
-OpenContainModuleData::OpenContainModuleData()
+// ??0Rva00253487Base@@QAE@XZ
+inline Rva00253487Base::Rva00253487Base()
 {
-	*(unsigned int *)this = 0x00BF2558;
+	*(unsigned int *)this = ((unsigned int)vtbl_00BF2558);
 	m_member08.construct();
 }
+
+// Rva00253487Base ctor is a header inline elsewhere: another unit emits
+// a select-any copy, so a strong definition here was a duplicate in the linked
+// build. This anchor only makes this unit emit its copy for the ledger row; it
+// is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitRva00253487BaseCtor@@YAXPAVRva00253487Base@@@Z present-unmatched
+void bfmeEmitRva00253487BaseCtor(Rva00253487Base *p)
+{
+	p->Rva00253487Base::Rva00253487Base();
+}
+#pragma inline_depth()

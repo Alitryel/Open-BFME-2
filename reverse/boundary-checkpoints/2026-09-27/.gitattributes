@@ -1,0 +1,2 @@
+# Manifest hashes require identical text bytes on every checkout.
+* text eol=lf

@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2gwm /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/stringbaseunicode /Ireference/open-bfme-1/reference/shims/stringbaseascii /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
+// cl: /Ireference/shims/bfme2gwm /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/stringbaseunicode /Ireference/open-bfme-1/reference/shims/stringbaseascii /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
 // stlport
 #define Matrix4x4 Matrix4  // BFME renamed it
 #define __PLACEMENT_VEC_NEW_INLINE  // always.h/GameMemory.h define array placement-new themselves
@@ -57,6 +57,8 @@
 #include "GameClient/GameWindowManager.h"
 #include "GameClient/Keyboard.h"
 
+void PlaySound( const char *name );
+
 // DEFINES ////////////////////////////////////////////////////////////////////
 
 // PRIVATE TYPES //////////////////////////////////////////////////////////////
@@ -72,71 +74,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 // PUBLIC FUNCTIONS ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-//-------------------------------------------------------------------------------------------------
-// Two BFME drifts the checkbox input callback needs. winNextTab and winPrevTab
-// are vtable slots 0x94 and 0x98 of GameWindowManager, and the tab direction
-// comes from a shift flag: retail reads bit 0x10 of the byte at +8 of the
-// keyboard singleton at 0x012F4C50. Only the offset and the bit are
-// recoverable from the call site, so the reader is named for them.
-//-------------------------------------------------------------------------------------------------
-class BfmeVirtualTabWindowManager
+// BFME's keyboard keeps its modifier flags at +0x0C; Zero Hour's Keyboard
+// class has a different layout, so the shift test reads them through a view.
+struct BfmeKeyboardModifiers
 {
-public:
-	virtual void slot000() = 0;
-	virtual void slot004() = 0;
-	virtual void slot008() = 0;
-	virtual void slot00C() = 0;
-	virtual void slot010() = 0;
-	virtual void slot014() = 0;
-	virtual void slot018() = 0;
-	virtual void slot01C() = 0;
-	virtual void slot020() = 0;
-	virtual void slot024() = 0;
-	virtual void slot028() = 0;
-	virtual void slot02C() = 0;
-	virtual void slot030() = 0;
-	virtual void slot034() = 0;
-	virtual void slot038() = 0;
-	virtual void slot03C() = 0;
-	virtual void slot040() = 0;
-	virtual void slot044() = 0;
-	virtual void slot048() = 0;
-	virtual void slot04C() = 0;
-	virtual void slot050() = 0;
-	virtual void slot054() = 0;
-	virtual void slot058() = 0;
-	virtual void slot05C() = 0;
-	virtual void slot060() = 0;
-	virtual void slot064() = 0;
-	virtual void slot068() = 0;
-	virtual void slot06C() = 0;
-	virtual void slot070() = 0;
-	virtual void slot074() = 0;
-	virtual void slot078() = 0;
-	virtual void slot07C() = 0;
-	virtual void slot080() = 0;
-	virtual void slot084() = 0;
-	virtual void slot088() = 0;
-	virtual void slot08C() = 0;
-	virtual void slot090() = 0;
-	virtual void winNextTab( GameWindow *window ) = 0;   // slot 0x94
-	virtual void winPrevTab( GameWindow *window ) = 0;   // slot 0x98
+	char m_pad[0x0C];
+	UnsignedInt m_modifiers;
 };
-
-class BfmeKeyboardModifiers
-{
-public:
-	char m_pad[8];
-	unsigned char m_flagsAt8;
-};
-
-extern BfmeKeyboardModifiers *TheBfmeKeyboardModifiers;
-
-static Bool bfmeShiftHeld( void )
-{
-	return BitTest( TheBfmeKeyboardModifiers->m_flagsAt8, 0x10 );
-}
-
 
 // GadgetCheckBoxInput ========================================================
 /** Handle input for check box */
@@ -146,24 +90,25 @@ WindowMsgHandledType GadgetCheckBoxInput( GameWindow *window, UnsignedInt msg,
 {
 	WinInstanceData *instData = window->winGetInstanceData();
 
-	switch( msg ) 
+	switch( msg )
 	{
 
 		// ------------------------------------------------------------------------
 		case GWM_MOUSE_ENTERING:
 		{
 
-			if( BitTest( instData->getStyle(), GWS_MOUSE_TRACK ) ) 
+			if( BitTest( instData->getStyle(), GWS_MOUSE_TRACK ) )
 			{
 
 				BitSet( instData->m_state, WIN_STATE_HILITED );
-				TheWindowManager->winSendSystemMsg( window->winGetOwner(), 
+				TheWindowManager->winSendSystemMsg( window->winGetOwner(),
 																						GBM_MOUSE_ENTERING,
-																						(WindowMsgData)window, 
+																						(WindowMsgData)window,
 																						mData1 );
-				//TheWindowManager->winSetFocus( window );
+				PlaySound( "Gui_ShellMapMouseOver" );
 
 			}  // end if
+
 			break;
 
 		}  // end mouse entering
@@ -172,15 +117,18 @@ WindowMsgHandledType GadgetCheckBoxInput( GameWindow *window, UnsignedInt msg,
 		case GWM_MOUSE_LEAVING:
 		{
 
-			if( BitTest( instData->getStyle(), GWS_MOUSE_TRACK ) ) 
+			if( BitTest( instData->getStyle(), GWS_MOUSE_TRACK ) )
 			{
 
 				BitClear( instData->m_state, WIN_STATE_HILITED );
-				TheWindowManager->winSendSystemMsg( window->winGetOwner(), 
+				TheWindowManager->winSendSystemMsg( window->winGetOwner(),
 																						GBM_MOUSE_LEAVING,
-																						(WindowMsgData)window, 
+																						(WindowMsgData)window,
 																						mData1 );
+				PlaySound( "Gui_ShellMapMouseOut" );
+
 			}  // end if
+
 			break;
 
 		}  // end mouse leaving
@@ -215,10 +163,9 @@ WindowMsgHandledType GadgetCheckBoxInput( GameWindow *window, UnsignedInt msg,
 
 			// Toggle the check state
 			instData->m_state ^= WIN_STATE_SELECTED;
-
 			TheWindowManager->winSendSystemMsg( window->winGetOwner(), GBM_SELECTED,
 																					(WindowMsgData)window, mData1 );
-
+			PlaySound( "Gui_ShellMapSelect" );
 
 			break;
 
@@ -229,17 +176,18 @@ WindowMsgHandledType GadgetCheckBoxInput( GameWindow *window, UnsignedInt msg,
 		{
 
 			break;
+
 		}  // end right down
 
 		//-------------------------------------------------------------------------
 		case GWM_RIGHT_UP:
 		{
+
 			// Need to be specially marked to care about right mouse events
 			if( BitTest( instData->getState(), WIN_STATE_SELECTED ) )
 			{
 				TheWindowManager->winSendSystemMsg( instData->getOwner(), GBM_SELECTED_RIGHT,
 																						(WindowMsgData)window, mData1 );
-
 				BitClear( instData->m_state, WIN_STATE_SELECTED );
 			}
 			else
@@ -247,14 +195,16 @@ WindowMsgHandledType GadgetCheckBoxInput( GameWindow *window, UnsignedInt msg,
 				// this up click was not meant for this button
 				return MSG_IGNORED;
 			}
+
 			break;
+
 		}  // end right up or right click
 
 		// ------------------------------------------------------------------------
 		case GWM_CHAR:
 		{
 
-			switch( mData1 ) 
+			switch( mData1 )
 			{
 
 				// --------------------------------------------------------------------
@@ -264,32 +214,30 @@ WindowMsgHandledType GadgetCheckBoxInput( GameWindow *window, UnsignedInt msg,
 
 					if( BitTest( mData2, KEY_STATE_DOWN ) )
 					{
+
 						// Toggle the check state
 						instData->m_state ^= WIN_STATE_SELECTED;
-
-						TheWindowManager->winSendSystemMsg( window->winGetOwner(), 
+						TheWindowManager->winSendSystemMsg( window->winGetOwner(),
 																								GBM_SELECTED,
-																								(WindowMsgData)window, 
+																								(WindowMsgData)window,
 																								0 );
+
 					}  //end if
+
 					break;
 
 				}  // end enter/space
 
 				// --------------------------------------------------------------------
-				// BFME keeps only TAB here - no DOWN/RIGHT and no UP/LEFT case at all -
-				// and picks the direction from the shift modifier instead. Three cases
-				// is why retail compares 0x0F, 0x1C and 0x39 in a chain where the Zero
-				// Hour set compiles to a jump table.
 				case KEY_TAB:
 				{
 
 					if( BitTest( mData2, KEY_STATE_DOWN ) )
 					{
-						if( bfmeShiftHeld() )
-							((BfmeVirtualTabWindowManager *)TheWindowManager)->winPrevTab(window);
+						if( BitTest( ((BfmeKeyboardModifiers *)TheKeyboard)->m_modifiers, KEY_STATE_LSHIFT ) )
+							TheWindowManager->winPrevTab(window);
 						else
-							((BfmeVirtualTabWindowManager *)TheWindowManager)->winNextTab(window);
+							TheWindowManager->winNextTab(window);
 					}
 					break;
 
@@ -379,14 +327,14 @@ WindowMsgHandledType GadgetCheckBoxSystem( GameWindow *window, UnsignedInt msg,
 // GadgetCheckBoxSetText ======================================================
 /** Set the text for the control */
 //=============================================================================
-void GadgetCheckBoxSetText( GameWindow *g, UnicodeString text )
+void GadgetCheckBoxSetText( GameWindow *gameWindow, UnicodeString text )
 {
 
 	// sanity
-	if( g == NULL )
+	if( gameWindow == NULL )
 		return;
 
-	TheWindowManager->winSendSystemMsg( g, GGM_SET_LABEL, (WindowMsgData)&text, 0 );
+	TheWindowManager->winSendSystemMsg( gameWindow, GGM_SET_LABEL, (WindowMsgData)&text, 0 );
 
 }  // end GadgetCheckBoxSetText
 
@@ -394,9 +342,9 @@ void GadgetCheckBoxSetText( GameWindow *g, UnicodeString text )
 //=============================================================================
 /** Set the check state for the check box */
 //=============================================================================
-void GadgetCheckBoxSetChecked( GameWindow *g, Bool isChecked)
+void GadgetCheckBoxSetChecked( GameWindow *gameWindow, Bool isChecked)
 {
-	WinInstanceData *instData = g->winGetInstanceData();
+	WinInstanceData *instData = gameWindow->winGetInstanceData();
 	if (isChecked)
 	{
 		BitSet(instData->m_state,  WIN_STATE_SELECTED);
@@ -406,8 +354,8 @@ void GadgetCheckBoxSetChecked( GameWindow *g, Bool isChecked)
 		BitClear(instData->m_state,  WIN_STATE_SELECTED);
 	}
 
-	TheWindowManager->winSendSystemMsg( g->winGetOwner(), GBM_SELECTED,
-																					(WindowMsgData)g, 0 );
+	TheWindowManager->winSendSystemMsg( gameWindow->winGetOwner(), GBM_SELECTED,
+																					(WindowMsgData)gameWindow, 0 );
 
 }
 
@@ -415,9 +363,9 @@ void GadgetCheckBoxSetChecked( GameWindow *g, Bool isChecked)
 //=============================================================================
 /** Toggle the check state for the check box */
 //=============================================================================
-void GadgetCheckBoxToggle( GameWindow *g)
+void GadgetCheckBoxToggle( GameWindow *gameWindow)
 {
-	WinInstanceData *instData = g->winGetInstanceData();
+	WinInstanceData *instData = gameWindow->winGetInstanceData();
 	Bool isChecked = BitTest(instData->m_state, WIN_STATE_SELECTED);
 	if (isChecked)
 	{
@@ -428,16 +376,13 @@ void GadgetCheckBoxToggle( GameWindow *g)
 		BitSet(instData->m_state,  WIN_STATE_SELECTED);
 	}
 
-	TheWindowManager->winSendSystemMsg( g->winGetOwner(), GBM_SELECTED,
-																					(WindowMsgData)g, 0 );
+	TheWindowManager->winSendSystemMsg( gameWindow->winGetOwner(), GBM_SELECTED,
+																					(WindowMsgData)gameWindow, 0 );
 
 }
 
 // GadgetCheckBoxIsChecked ======================================================
 /** Check the check state */
 //=============================================================================
-Bool GadgetCheckBoxIsChecked( GameWindow *g )
-{
-	WinInstanceData *instData = g->winGetInstanceData();
-	return (BitTest(instData->m_state, WIN_STATE_SELECTED));
-}
+// GadgetCheckBoxIsChecked: defined in GadgetCheckBoxIsChecked.cpp (its row's unit).
+Bool GadgetCheckBoxIsChecked( GameWindow *g );

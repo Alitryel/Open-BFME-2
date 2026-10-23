@@ -8,7 +8,6 @@
 // bytes total. Identity is not recovered: every name is derived from its
 // address.
 // No // cl: line (defaults match the frameless ten-byte shape).
-extern float g_Va00BCF628;
 
 #define BFME_SCALED_INT_FLOAT_GETTER(NAME, DISP) \
 	class NAME \
@@ -20,7 +19,7 @@ extern float g_Va00BCF628;
 	}; \
 	float NAME::get() const \
 	{ \
-		return m_value * g_Va00BCF628; \
+		return m_value * 0.01f; \
 	}
 
 BFME_SCALED_INT_FLOAT_GETTER(Rva0028A9B5ScaledIntField, 0x10)

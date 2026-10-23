@@ -53,3 +53,7 @@ void basic_string<CharT, Traits, Alloc>::push_back(CharT value)
 template void basic_string<char, char_traits<char>, allocator<char> >::push_back(char);
 
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeDoOU@BfmeThingOU@@QAEXE@Z=?push_back@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAEXD@Z")

@@ -7,7 +7,7 @@ public:
 	const UpgradeTemplate *findUpgrade(const AsciiString &name) const;
 };
 
-extern UpgradeCenter *g_bfmeSinkBMD;
+extern UpgradeCenter *TheUpgradeCenter;
 
 class BfmeThingBMD
 {
@@ -30,6 +30,6 @@ public:
 // reinterpret_cast. B1 0x00203110 26B -> B2 0x00481A54 26B.
 void BfmeThingBMD::bfmeGoBMD()
 {
-	m_bfmeGot = (void *)g_bfmeSinkBMD->findUpgrade(
+	m_bfmeGot = (void *)TheUpgradeCenter->findUpgrade(
 		*reinterpret_cast<const AsciiString *>((const char *)m_bfmeWhat + 0x18));
 }

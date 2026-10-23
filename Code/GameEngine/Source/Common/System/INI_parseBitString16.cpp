@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /GX- /Oi-
+// cl: /Oy- /DNDEBUG /MD /GX- /Oi-
 //
 // ?parseBitString16@INI@@SAXPAV1@PAX1PBX@Z, retail 0x002F21A, 62 bytes.
 // Dedicated TU (same INI verb family as INI_parseBitString8.cpp, framed).
@@ -20,7 +20,7 @@ public:
 	static void parseBitString16(INI *ini, void *instance, void *store, const void *userData);
 };
 
-__declspec(noreturn) void __stdcall _CxxThrowException(void *pExc, void *pInfo);
+extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
 
 // Address anchor only: the throw site pushes this object's address as an
 // immediate (DIR32, copied from retail's int throwinfo at 0x8FE2C8). Content
@@ -35,7 +35,7 @@ void INI::parseBitString16(INI *ini, void * /*instance*/, void *store, const voi
 	INI::parseBitString32(ini, NULL, &tmp, userData);
 	if (tmp & 0xffff0000) {
 		tmp = 1;
-		_CxxThrowException(&tmp, (void *)&parseBitString16ThrowInfoAnchor);
+		_CxxThrowException(&tmp, (const _s__ThrowInfo *)&parseBitString16ThrowInfoAnchor); __assume(0);
 	}
 	*(unsigned short *)store = (unsigned short)tmp;
 }

@@ -25,9 +25,10 @@ unsigned int Rva007FEA00( void );
 void *__cdecl memset( void *destination, int value, unsigned int count );
 void *__cdecl memcpy( void *destination, const void *source,
 	unsigned int count );
-char *__cdecl strcpy( char *destination, const char *source );
+char *__cdecl _mbscpy( char *destination, const char *source );
 
-extern unsigned int g_Rva012C4DF4;
+// g_Rva012C4DF4: matched references place it at VA 0xdd954c (retail .data initial value 0x20000000u).
+unsigned int g_Rva012C4DF4 = 0x20000000u;
 
 /* Lock construct and destruct; the acquire and release live in the socket
  * unit and are already named there. */
@@ -35,13 +36,10 @@ void Rva007FEA20( void *lock );
 void Rva007FEAA0( void *lock );
 
 void Rva00817210Op( void );
-void Rva00817230Op( void );
+void Rva00817230(void);
 void Rva00818D90Op( void );
-void Rva00817240Op( void );
 void Rva00819300Op( void );
-void Rva008172C0Op( void );
 void Rva008171C0Op( void );
-void Rva00817340Op( void );
 void Rva008173A0Op( void );
 void Rva008173C0Op( void );
 void Rva00818BF0Op( void );
@@ -147,8 +145,14 @@ struct Rva00816BF0Comm
 struct Rva007FD4E0Socket;
 int Rva007FD3F0( struct Rva007FD4E0Socket *socket );
 
-extern char g_Rva012C4F88Name[];
-extern struct Rva00816BF0Comm *g_Rva0130B188List;
+// g_Rva0130B188List: matched references place it at VA 0xe0aba0 (retail .data initial value 0).
+struct Rva00816BF0Comm *g_Rva0130B188List = 0;
+
+/* The disconnect pair and the status body sit after the constructor; it
+ * stores their addresses into slots 5, 7 and 9. */
+int Rva00817240( struct Rva00816BF0Comm *comm );
+int Rva008172C0( struct Rva00816BF0Comm *comm );
+int Rva00817340( struct Rva00816BF0Comm *comm );
 
 struct Rva00816BF0Comm *Rva00816BF0( int maxPacket, int recvCount,
 	int sendCount );
@@ -187,19 +191,19 @@ struct Rva00816BF0Comm *Rva00816BF0( int maxPacket, int recvCount,
 	comm->m_op[  0 ] = (void *)Rva00816BF0;
 	comm->m_op[  1 ] = (void *)Rva00816E70;
 	comm->m_op[  2 ] = (void *)Rva00817210Op;
-	comm->m_op[  3 ] = (void *)Rva00817230Op;
+	comm->m_op[  3 ] = (void *)Rva00817230;
 	comm->m_op[  4 ] = (void *)Rva00818D90Op;
-	comm->m_op[  5 ] = (void *)Rva00817240Op;
+	comm->m_op[  5 ] = (void *)Rva00817240;
 	comm->m_op[  6 ] = (void *)Rva00819300Op;
-	comm->m_op[  7 ] = (void *)Rva008172C0Op;
+	comm->m_op[  7 ] = (void *)Rva008172C0;
 	comm->m_op[  8 ] = (void *)Rva008171C0Op;
-	comm->m_op[  9 ] = (void *)Rva00817340Op;
+	comm->m_op[  9 ] = (void *)Rva00817340;
 	comm->m_op[ 10 ] = (void *)Rva008173A0Op;
 	comm->m_op[ 11 ] = (void *)Rva008173C0Op;
 	comm->m_op[ 12 ] = (void *)Rva00818BF0Op;
 	comm->m_op[ 13 ] = (void *)Rva00818D20Op;
 
-	strcpy( comm->m_name, g_Rva012C4F88Name );
+	_mbscpy( comm->m_name, "UDP " );
 	Rva007FEA20( comm->m_lock );
 
 	comm->m_recvRecordSize = maxPacket + 0x10;
@@ -276,6 +280,11 @@ void Rva00816E70( struct Rva00816BF0Comm *comm )
 extern struct Rva00816BF0Comm *g_Rva0130B188List;
 extern char g_Rva0130AF38Lock[ 4 ];
 extern int g_Rva0130AD08Count;
+
+// Owned here: the transport-registry lock both TUs pass to Rva007FEA20 and
+// friends. No retail bytes claimed (present-unmatched, unpinned); the data
+// ledger spans 592 zero bytes at the address but every view uses 4.
+char g_Rva0130AF38Lock[ 4 ] = { 0 };
 
 void Rva007FEBD0( void *lock );
 void Rva007FECB0( void *lock );
@@ -424,16 +433,16 @@ int Rva00817030( struct Rva00816BF0Comm *comm,
 
 int Rva00816F60( struct Rva00816BF0Comm *comm )
 {
-	struct Rva00816F60Message message;
+	struct Rva00816F60Message packet;
 
 	if ( comm->m_state != 4 )
 		return 0;
 
-	message.m_length = 0;
-	message.m_code = 3;
-	message.m_value = comm->m_sessionHash;
+	packet.m_length = 0;
+	packet.m_code = 3;
+	packet.m_value = comm->m_sessionHash;
 
-	Rva00817030( comm, &message );
+	Rva00817030( comm, &packet );
 
 	comm->m_sessionHash = 0;
 	comm->m_state = 5;
@@ -601,8 +610,11 @@ int Rva00818D20( struct Rva00816BF0Comm *comm, void *buffer, int size,
  * pump is both installed as one and called directly.  A no-argument definition
  * compiles to identical bytes, since the body only touches globals, but it
  * would misdescribe the interface and no caller could then pass anything.
+ *
+ * The worker is CommUdpProcess (0x00817B30), the tick commudp.cpp defines
+ * and drives with the same loop from its own send path.
  */
-int Rva00817B30( unsigned int tick );
+int CommUdpProcess( unsigned int tick );
 
 int Rva00818CB0( unsigned int socket, int flags,
 	struct Rva00816BF0Comm *ref )
@@ -613,7 +625,7 @@ int Rva00818CB0( unsigned int socket, int flags,
 	{
 		uTick = Rva007FEA00();
 
-		while ( Rva00817B30( uTick ) > 0 )
+		while ( CommUdpProcess( uTick ) > 0 )
 		{
 			/* the work is the condition */
 		}
@@ -737,13 +749,13 @@ void Rva00818FF0( struct Rva00816BF0Comm *comm, const char *text )
  */
 int Rva00818620( struct Rva00816BF0Comm *comm )
 {
-	struct Rva00816F60Message message;
+	struct Rva00816F60Message packet;
 
-	message.m_length = 0;
-	message.m_code = 1;
-	message.m_value = comm->m_sessionHash;
+	packet.m_length = 0;
+	packet.m_code = 1;
+	packet.m_value = comm->m_sessionHash;
 
-	return Rva00817030( comm, &message );
+	return Rva00817030( comm, &packet );
 }
 
 /* 0x00819260 RESETS THE CONNECTION without touching the buffers themselves --
@@ -823,7 +835,32 @@ int Rva007FDB60( struct Rva007FD4E0Socket *socket, int selector, void *buffer,
 	int bufferLength );
 int Rva007FDEE0( void );
 
-extern char g_Rva012C4D48Message[];
+// g_Rva012C4D48Message: matched references place it at VA 0xdd94a0; retail contents, sized to the
+// 0xb0-byte gap before the next known global there.
+char g_Rva012C4D48Message[176] = {
+	99, 111, 109, 109, 117, 100, 112, 58,
+	32, 112, 101, 101, 114, 61, 48, 120,
+	37, 48, 56, 120, 58, 37, 100, 44,
+	32, 104, 111, 115, 116, 61, 48, 120,
+	37, 48, 56, 120, 58, 37, 100, 10,
+	0, 0, 0, 0, 67, 111, 109, 109,
+	85, 68, 80, 87, 114, 105, 116, 101,
+	58, 32, 83, 111, 99, 107, 101, 116,
+	83, 101, 110, 100, 116, 111, 32, 114,
+	101, 116, 117, 114, 110, 101, 100, 32,
+	37, 100, 10, 0, 99, 111, 109, 109,
+	117, 100, 112, 58, 32, 119, 97, 114,
+	110, 105, 110, 103, 32, 45, 32, 99,
+	111, 110, 110, 105, 100, 101, 110, 116,
+	32, 109, 105, 115, 109, 97, 116, 99,
+	104, 10, 0, 0, 67, 111, 109, 109,
+	85, 100, 112, 83, 101, 116, 117, 112,
+	58, 32, 115, 101, 110, 100, 105, 110,
+	103, 32, 67, 79, 78, 78, 32, 105,
+	110, 32, 114, 101, 115, 112, 111, 110,
+	115, 101, 32, 116, 111, 32, 73, 78,
+	73, 84, 10, 0, 0, 0, 0, 32,
+};
 
 /* 0x00818500 RECORDS BOTH ENDPOINTS, and it is the same body the ring
  * transport has at 0x00816160 -- same field offsets, same order, same 'bind'
@@ -837,18 +874,18 @@ extern char g_Rva012C4D48Message[];
  */
 void Rva00818500( struct Rva00816BF0Comm *comm, const unsigned char *from )
 {
-	char local[ 0x10 ];
+	char SockAddr[ 0x10 ];
 
 	comm->m_peerAddress = ( ( ( ( from[ 4 ] << 8 ) | from[ 5 ] ) << 8 )
 		| from[ 6 ] ) << 8 | from[ 7 ];
 	comm->m_peerPort = (unsigned short)( ( from[ 2 ] << 8 ) | from[ 3 ] );
 
-	Rva007FDB60( comm->m_socket, 'bind', local, 0x10 );
+	Rva007FDB60( comm->m_socket, 'bind', SockAddr, 0x10 );
 
 	comm->m_localAddress = Rva007FDEE0();
 	comm->m_localPort = (unsigned short)
-		( ( ( (unsigned char *)local )[ 2 ] << 8 )
-		| ( (unsigned char *)local )[ 3 ] );
+		( ( ( (unsigned char *)SockAddr )[ 2 ] << 8 )
+		| ( (unsigned char *)SockAddr )[ 3 ] );
 
 	Rva007FE780( g_Rva012C4D48Message, comm->m_peerAddress, comm->m_peerPort,
 		comm->m_localAddress, comm->m_localPort );
@@ -873,7 +910,7 @@ void Rva00817640( struct Rva00816BF0Comm *comm )
 	int iCount;
 	int iBudget;
 	int iChunk;
-	struct Rva00816F60Message packet;
+	struct Rva00816F60Message multi;
 	struct Rva00816F60Message *record;
 	unsigned int uNextCode;
 
@@ -931,7 +968,7 @@ void Rva00817640( struct Rva00816BF0Comm *comm )
 			- comm->m_sendRecordSize ) % comm->m_sendBufferSize;
 		record = (struct Rva00816F60Message *)( comm->m_sendBuffer
 			+ iOffset );
-		memcpy( &packet, record, record->m_length + 0x10 );
+		memcpy( &multi, record, record->m_length + 0x10 );
 		--iCount;
 
 		for ( ; iCount > 0; --iCount )
@@ -945,37 +982,37 @@ void Rva00817640( struct Rva00816BF0Comm *comm )
 				comm->m_sendProc( comm, record->m_body,
 					record->m_length, 0 );
 
-			packet.m_code += 0x10000000;
-			memcpy( packet.m_body + packet.m_length, record->m_body,
+			multi.m_code += 0x10000000;
+			memcpy( multi.m_body + multi.m_length, record->m_body,
 				record->m_length );
-			packet.m_length += record->m_length;
-			packet.m_body[ packet.m_length ] =
+			multi.m_length += record->m_length;
+			multi.m_body[ multi.m_length ] =
 				(unsigned char)record->m_length;
-			++packet.m_length;
+			++multi.m_length;
 		}
 
 		while ( iOffset != comm->m_sendReadOffset
-			&& (unsigned int)packet.m_code <= g_Rva012C4DF4 )
+			&& (unsigned int)multi.m_code <= g_Rva012C4DF4 )
 		{
 			iOffset = ( iOffset + comm->m_sendBufferSize
 				- comm->m_sendRecordSize ) % comm->m_sendBufferSize;
 			record = (struct Rva00816F60Message *)( comm->m_sendBuffer
 				+ iOffset );
 
-			if ( packet.m_length + record->m_length > 0x40 )
+			if ( multi.m_length + record->m_length > 0x40 )
 				break;
 
 			if ( comm->m_sendProc != 0 )
 				comm->m_sendProc( comm, record->m_body,
 					record->m_length, 0 );
 
-			packet.m_code += 0x10000000;
-			memcpy( packet.m_body + packet.m_length, record->m_body,
+			multi.m_code += 0x10000000;
+			memcpy( multi.m_body + multi.m_length, record->m_body,
 				record->m_length );
-			packet.m_length += record->m_length;
-			packet.m_body[ packet.m_length ] =
+			multi.m_length += record->m_length;
+			multi.m_body[ multi.m_length ] =
 				(unsigned char)record->m_length;
-			++packet.m_length;
+			++multi.m_length;
 		}
 
 		if ( iOffset == comm->m_sendReadOffset )
@@ -992,11 +1029,11 @@ void Rva00817640( struct Rva00816BF0Comm *comm )
 		}
 
 		comm->m_reportedSequence = comm->m_recvSequence;
-		packet.m_value = comm->m_reportedSequence - 1;
-		if ( Rva00817030( comm, &packet ) < 0 )
+		multi.m_value = comm->m_reportedSequence - 1;
+		if ( Rva00817030( comm, &multi ) < 0 )
 			break;
 
-		iBudget = iBudget - packet.m_length;
+		iBudget = iBudget - multi.m_length;
 	}
 }
 
@@ -1084,7 +1121,7 @@ void Rva008186C0( struct Rva00816BF0Comm *comm,
  */
 void Rva00818AD0( struct Rva00816BF0Comm *comm )
 {
-	struct Rva00816F60Message message;
+	struct Rva00816F60Message packet;
 
 	if ( comm->m_sendReadOffset != comm->m_sendWriteOffset
 		&& comm->m_sendAckOffset == comm->m_sendWriteOffset )
@@ -1097,12 +1134,12 @@ void Rva00818AD0( struct Rva00816BF0Comm *comm )
 	}
 	else
 	{
-		message.m_code = comm->m_sendSequence;
+		packet.m_code = comm->m_sendSequence;
 		comm->m_reportedSequence = comm->m_recvSequence;
-		message.m_value = comm->m_reportedSequence - 1;
-		message.m_length = 0;
+		packet.m_value = comm->m_reportedSequence - 1;
+		packet.m_length = 0;
 
-		Rva00817030( comm, &message );
+		Rva00817030( comm, &packet );
 	}
 }
 
@@ -1148,7 +1185,7 @@ int Rva00819090( struct Rva00816BF0Comm *comm,
 	 * the walk pointer, then the buffer. */
 	int iResult;
 	struct Rva00816BF0Comm *p;
-	char local[ 0x10 ];
+	char glueaddr[ 0x10 ];
 
 	if ( comm->m_state != 1 )
 	{
@@ -1159,7 +1196,7 @@ int Rva00819090( struct Rva00816BF0Comm *comm,
 	Rva00816DF0( comm, 0 );
 	Rva00819260( comm );
 
-	memset( local, 0, 0x10 );
+	memset( glueaddr, 0, 0x10 );
 	memset( comm->m_peer, 0, 0x10 );
 
 	for ( p = g_Rva0130B188List; p != 0; p = p->m_next )
@@ -1173,10 +1210,10 @@ int Rva00819090( struct Rva00816BF0Comm *comm,
 		if ( p == comm || p->m_socket == 0 )
 			continue;
 
-		if ( Rva007FDB60( p->m_socket, 'bind', local, 0x10 ) < 0 )
+		if ( Rva007FDB60( p->m_socket, 'bind', glueaddr, 0x10 ) < 0 )
 			continue;
 
-		if ( Rva007FF720( address, local ) == 0 )
+		if ( Rva007FF720( address, glueaddr ) == 0 )
 		{
 			Rva00816DF0( comm, p->m_socket );
 			Rva007FD3F0( socket );
@@ -1203,7 +1240,60 @@ int Rva00819090( struct Rva00816BF0Comm *comm,
 	return 0;
 }
 
-extern char g_Rva012C4DF8Message[];
+// g_Rva012C4DF8Message: matched references place it at VA 0xdd9550; retail contents, sized to the
+// 0x190-byte gap before the next known global there.
+char g_Rva012C4DF8Message[400] = {
+	67, 111, 109, 109, 85, 68, 80, 58,
+	32, 73, 110, 112, 117, 116, 32, 98,
+	117, 102, 102, 101, 114, 32, 111, 118,
+	101, 114, 102, 108, 111, 119, 10, 0,
+	67, 111, 109, 109, 85, 100, 112, 80,
+	111, 107, 101, 58, 32, 115, 101, 110,
+	100, 105, 110, 103, 32, 112, 111, 107,
+	101, 32, 112, 97, 99, 107, 101, 116,
+	10, 0, 0, 0, 67, 111, 109, 109,
+	85, 100, 112, 80, 114, 111, 99, 101,
+	115, 115, 58, 32, 103, 111, 116, 32,
+	82, 65, 87, 95, 80, 65, 67, 75,
+	69, 84, 95, 73, 78, 73, 84, 10,
+	0, 0, 0, 0, 67, 111, 109, 109,
+	85, 100, 112, 80, 114, 111, 99, 101,
+	115, 115, 58, 32, 103, 111, 116, 32,
+	82, 65, 87, 95, 80, 65, 67, 75,
+	69, 84, 95, 67, 79, 78, 78, 10,
+	0, 0, 0, 0, 67, 111, 109, 109,
+	85, 68, 80, 58, 32, 99, 108, 111,
+	115, 105, 110, 103, 32, 99, 111, 110,
+	110, 101, 99, 116, 105, 111, 110, 32,
+	100, 117, 101, 32, 116, 111, 32, 116,
+	105, 109, 101, 111, 117, 116, 10, 0,
+	67, 111, 109, 109, 85, 68, 80, 58,
+	32, 116, 105, 99, 107, 61, 37, 100,
+	44, 32, 114, 116, 105, 99, 107, 61,
+	37, 100, 44, 32, 115, 116, 105, 99,
+	107, 61, 37, 100, 10, 0, 0, 0,
+	67, 111, 109, 109, 85, 68, 80, 58,
+	32, 114, 101, 99, 101, 105, 118, 101,
+	100, 32, 112, 111, 107, 101, 32, 112,
+	97, 99, 107, 101, 116, 32, 40, 102,
+	114, 111, 109, 61, 37, 48, 56, 120,
+	41, 10, 0, 0, 67, 111, 109, 109,
+	85, 100, 112, 58, 32, 112, 111, 107,
+	101, 32, 115, 111, 117, 114, 99, 101,
+	32, 61, 32, 37, 48, 56, 120, 32,
+	45, 45, 32, 102, 111, 114, 99, 105,
+	110, 103, 32, 109, 97, 116, 99, 104,
+	10, 0, 0, 0, 0, 0, 0, 0,
+	67, 111, 109, 109, 85, 68, 80, 58,
+	32, 99, 104, 97, 110, 103, 105, 110,
+	103, 32, 112, 101, 101, 114, 32, 116,
+	111, 32, 37, 48, 56, 120, 58, 37,
+	100, 32, 100, 117, 101, 32, 116, 111,
+	32, 112, 111, 107, 101, 32, 40, 119,
+	97, 115, 32, 101, 120, 112, 101, 99,
+	116, 105, 110, 103, 32, 37, 48, 56,
+	120, 58, 37, 100, 41, 10, 0, 0,
+};
 
 /* 0x008187E0 ACCEPTS A RECEIVED RECORD into the receive queue, and it is where
  * the sequence discipline actually lives.
@@ -1302,3 +1392,11 @@ int Rva008187E0( struct Rva00816BF0Comm *comm,
 	comm->m_depth = comm->m_depth - 1;
 	return 1;
 }
+// _g_Rva0130AD08Count: the global at VA 0xe0a720 is ?g_Rva0130AD08Count@@3HA.
+#pragma comment(linker, "/alternatename:_g_Rva0130AD08Count=?g_Rva0130AD08Count@@3HA")
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:_Rva008171C0Op=_Rva008171C0")
+#pragma comment(linker, "/alternatename:_Rva00818BF0Op=_Rva00818BF0")
+#pragma comment(linker, "/alternatename:_Rva00818D20Op=_Rva00818D20")

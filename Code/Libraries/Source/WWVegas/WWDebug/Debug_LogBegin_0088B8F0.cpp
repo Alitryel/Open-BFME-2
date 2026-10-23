@@ -79,10 +79,10 @@ private:
     virtual void StartOutput(DebugIOInterface::StringType, const char *, ...);
 
 public:
-    Debug &LogBegin(const char *);
+    virtual Debug &LogBegin(const char *);	// slot 26 of 0x00BBE810
 };
 
-// ?LogBegin@Debug@@QAEAAV1@PBD@Z
+// ?LogBegin@Debug@@UAEAAV1@PBD@Z
 Debug &Debug::LogBegin(const char *fileOrGroup)
 {
     WaitForSingleObject(m_mutex,100);
@@ -97,7 +97,7 @@ Debug &Debug::LogBegin(const char *fileOrGroup)
     if (curFrameEntry->status==2 || curFrameEntry->status==3 ||
         curFrameEntry->status==0)
     {
-        StartOutput((const char *)0x00BBAC1C,10);
+        StartOutput("",10);
         ++curFrameEntry->hits;
 
         if (curType==1 &&
@@ -105,7 +105,7 @@ Debug &Debug::LogBegin(const char *fileOrGroup)
             Debug::FlushOutput(true);
 
         if (curType!=1)
-            Debug::StartOutput((DebugIOInterface::StringType)1,(const char *)0x00BBE494,
+            Debug::StartOutput((DebugIOInterface::StringType)1,"%s",
                       curFrameEntry->fileOrGroup);
     }
     else if (curType!=7)

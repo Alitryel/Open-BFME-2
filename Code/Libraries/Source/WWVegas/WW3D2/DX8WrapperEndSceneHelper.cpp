@@ -17,6 +17,9 @@ struct BfmeGuidTSA
 };
 
 extern BfmeGuidTSA g_bfmeIidTSA;
+// This unit's byte view of the IID; the storage is the GUID that
+// WebBrowserComCreateInstance.cpp defines at VA 0xbd4e3c.
+#pragma comment(linker, "/alternatename:?g_bfmeIidTSA@@3UBfmeGuidTSA@@A=?g_bfmeIidTSA@@3U_GUID@@A")
 
 struct Rva00958910Object;
 
@@ -57,10 +60,7 @@ struct Rva00959410Ptr
 {
 	Rva00958910Object *m_p;
 
-	operator bool() const
-	{
-		return m_p != 0;
-	}
+	operator bool() const;
 
 	Rva00958910Object *operator->() const
 	{
@@ -73,6 +73,6 @@ extern Rva00959410Ptr Rva00959410Dispatch;
 // ?bfmeEndSceneTouch00958910@@YAXPAX@Z
 void bfmeEndSceneTouch00958910(void *argument)
 {
-	if (Rva00959410Dispatch)
+	if (Rva00959410Dispatch.m_p != 0)
 		Rva00959410Dispatch->invoke(argument);
 }

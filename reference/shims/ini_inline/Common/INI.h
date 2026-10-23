@@ -261,7 +261,6 @@ public:
 	static void parseAudioSettingsDefinition( INI *ini );
 	static void parseMiscAudio( INI *ini );
 	static void parseStaticGameLODDefinition( INI *ini);
-	static void parseDynamicGameLODDefinition( INI *ini);
 	static void parseStaticGameLODLevel( INI* ini, void * , void *store, const void*);
 	static void parseDynamicGameLODLevel( INI* ini, void * , void *store, const void*);
 	static void parseLODPreset( INI* ini);

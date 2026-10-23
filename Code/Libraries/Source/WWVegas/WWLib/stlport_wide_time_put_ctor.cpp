@@ -1,10 +1,12 @@
-// cl: /O2 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 // Open-BFME5: the default STLport 4.5.3 wide time_put constructor at retail
 // 0x00408ED0, 108 bytes. This is the wide specialization of the constructor
 // body in vendor/stlport/stl/_time_facets.h.
 
 typedef unsigned short wchar_t;
+
+struct tm;
 
 namespace _STL
 {
@@ -39,6 +41,13 @@ public:
 	};
 };
 
+// STLport defines this out of line in locale_impl.cpp, where retail's
+// ??_Gfacet (0x00007490) inlines the empty body; seeing it here makes this
+// unit's select-any copy of ??_Gfacet retail's.
+inline locale::facet::~facet()
+{
+}
+
 class time_base
 {
 public:
@@ -54,6 +63,8 @@ public:
 
 void __cdecl _Init_timeinfo(_Time_Info &);
 
+class ios_base;
+
 template <class CharT, class OutIt>
 class time_put : public locale::facet, public time_base
 {
@@ -67,6 +78,9 @@ public:
 protected:
 	_Time_Info _M_timeinfo;
 	virtual ~time_put();
+	// do_put, as the full facet in stlport_classic_locale.cpp declares it: this
+	// TU's table copy then has both slots.
+	virtual OutIt do_put(OutIt, ios_base &, CharT, const tm *, char, char) const;
 };
 
 template class time_put<wchar_t, ostreambuf_iterator<wchar_t, char_traits<wchar_t> > >;

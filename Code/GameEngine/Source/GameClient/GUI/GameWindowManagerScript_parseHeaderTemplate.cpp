@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 //
 // ?parseHeaderTemplate@@YA_NPADPAVWinInstanceData@@0PAX@Z, retail 0x00315CCF, 46 bytes.
 // Dedicated TU.
@@ -24,31 +24,8 @@ typedef bool Bool;
 #define NULL 0
 #endif
 
-template <typename T>
-class StringBase
-{
-	struct Header
-	{
-		int ref_count;
-		unsigned short length;
-		unsigned short capacity;
-		T data[1];
-	};
+#include "ascii_string.h"
 
-	Header *m_data;
-
-public:
-	void set(const char *s);
-};
-
-class AsciiString
-{
-public:
-	void set(const char *s) { m_data.set(s); }
-
-private:
-	StringBase<char> m_data;
-};
 
 class WinInstanceData
 {

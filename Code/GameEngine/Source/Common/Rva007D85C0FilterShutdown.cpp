@@ -1,4 +1,4 @@
-// cl: /O1 /Ob1
+// cl: /Ob1
 // stlport
 
 #include <vector>
@@ -44,3 +44,7 @@ int Rva007D85C0::shutdown()
 	m_20 = 0;
 	return 1;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?erase@AICommandCoordVector@@QAEPAUCoord3D@@PAU2@0@Z=?erase@?$vector@UGen_p12pod@@V?$allocator@UGen_p12pod@@@_STL@@@_STL@@QAEPAUGen_p12pod@@PAU3@0@Z")

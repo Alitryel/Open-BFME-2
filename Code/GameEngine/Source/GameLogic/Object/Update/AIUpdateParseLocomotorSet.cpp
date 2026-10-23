@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /arch:SSE /DNDEBUG /MD
+// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD
 // stlport
 //
 // ?parseLocomotorSet@AIUpdateModuleData@@SAXPAVINI@@PAX1PBX@Z
@@ -15,6 +15,17 @@
 // pushes lower to the folded const-pointer push_back 0x4DFCB0; the
 // "not found" and re-specify throws build INIException(3, ...) inline
 // and throw through the pinned _CxxThrowException 0x629094.
+
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
 
 #include <map>
 #include <vector>
@@ -41,7 +52,19 @@ enum LocomotorSetType
 
 typedef _STL::vector<const LocomotorTemplate *> BfmeLocomotorTemplateVector;
 
+// Keep the iterator comparison inline without a competing vector::empty
+// COMDAT; AIUpdate.cpp owns the verified retail out-of-line body.
+static __forceinline bool locomotorTemplatesEmpty(const BfmeLocomotorTemplateVector &values)
+{
+	return values.begin() == values.end();
+}
+
 typedef _STL::map<LocomotorSetType, BfmeLocomotorTemplateVector, _STL::less<LocomotorSetType>, _STL::allocator<_STL::pair<const LocomotorSetType, BfmeLocomotorTemplateVector> > > BfmeLocomotorSetMap;
+
+// Reuse the verified retail container providers. Native callers use the
+// out-of-line map subscript and folded pointer-vector erase/append bodies;
+// suppress local default copies that the census proves differ from them.
+namespace _STL { template<> BfmeLocomotorTemplateVector& BfmeLocomotorSetMap::operator[](const LocomotorSetType&); }
 
 enum INILoadType
 {
@@ -59,14 +82,15 @@ enum NameKeyType
 	NAMEKEY_INVALID = 0
 };
 
-class AsciiString
-{
-public:
-	const char *str() const { return m_data ? m_data + 8 : ""; }
-
-private:
-	char *m_data;
-};
+#include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@PBVLocomotorTemplate@@@_STL@@QBEPAPBVLocomotorTemplate@@IPBX@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class LocomotorTemplate;
+namespace _STL { template <> LocomotorTemplate const * * allocator<LocomotorTemplate const *>::allocate(unsigned int,void const *) const; }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@PBVLocomotorTemplate@@@_STL@@QBEXPAPBVLocomotorTemplate@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class LocomotorTemplate;
+namespace _STL { template <> void allocator<LocomotorTemplate const *>::deallocate(LocomotorTemplate const * *,unsigned int) const; }
 
 class INI
 {
@@ -148,7 +172,7 @@ void AIUpdateModuleData::parseLocomotorSet(INI *ini, void *instance, void *, con
 	}
 
 	LocomotorSetType set = (LocomotorSetType)ini->scanIndexList(ini->getNextToken(0), TheLocomotorSetNames);
-	if (!self->m_locomotorTemplates[set].empty())
+	if (!locomotorTemplatesEmpty(self->m_locomotorTemplates[set]))
 	{
 		if (ini->getLoadType() != INI_LOAD_CREATE_OVERRIDES && ini->getLoadType() != INI_LOAD_UNKNOWN_4)
 		{
@@ -173,3 +197,8 @@ void AIUpdateModuleData::parseLocomotorSet(INI *ini, void *instance, void *, con
 		self->m_locomotorTemplates[set].push_back(lt);
 	}
 }
+
+// The (void *, void *) declaration above is a C++ overload, so calls spell
+// ?_CxxThrowException@@YGXPAX0@Z; retail calls the MSVC 7.1 throw helper
+// __CxxThrowException@8 (its import thunk at 0x00629094). Same ABI: bind the spelling.
+#pragma comment(linker, "/alternatename:?_CxxThrowException@@YGXPAX0@Z=__CxxThrowException@8")

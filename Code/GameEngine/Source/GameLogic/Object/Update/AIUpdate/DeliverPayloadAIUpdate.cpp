@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims
+// cl: /Ireference/shims/aiupdatelayout /Ireference/shims/bfme2_locomotor_flags44 /Ireference/shims/zh_outofline /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims
 // stlport
 // Ported verbatim from the Generals Zero Hour reference (GameEngine/Source/GameLogic/Object/Update/AIUpdate/DeliverPayloadAIUpdate.cpp); this unit had no counterpart under Code/.
 #define Matrix4x4 Matrix4  // BFME renamed it
@@ -32,6 +32,15 @@
 // Author: Graham Smallwood, March 2002
 // Desc:   State machine that controls the approach and deployment of airborne cargo
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include <list>
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 
 #define DEFINE_WEAPONSLOTTYPE_NAMES
 
@@ -55,6 +64,18 @@
 #include "GameLogic/PartitionManager.h"
 #include "GameLogic/Weapon.h"
 #include "GameLogic/WeaponSet.h"
+
+// BFME 2's Object keeps its behavior list at +0x244 (the matched
+// Object::findModule 0x0028B6D6 walks it there), its contain module at +0x250
+// and its body module at +0x254; this tree's Zero Hour Object.h has +0x18C,
+// +0x190 and +0x194. This unit reads them through these functions instead of
+// the header's inline getters, whose Zero Hour copies would otherwise come
+// early in link order and displace every BFME 2 unit's copy (retail has no
+// out-of-line Object getter: the 7-byte bodies at 0x00313E8C/93/9A are
+// GameWindow text-colour getters).
+static BehaviorModule **getRetailBehaviorModules( const Object *obj ) { return *(BehaviorModule ** const *)((const char *)obj + 0x244); }
+static ContainModuleInterface *getRetailContain( const Object *obj ) { return *(ContainModuleInterface * const *)((const char *)obj + 0x250); }
+static BodyModuleInterface *getRetailBodyModule( const Object *obj ) { return *(BodyModuleInterface * const *)((const char *)obj + 0x254); }
 
 #ifdef _INTERNAL
 // for occasional debugging...
@@ -163,6 +184,7 @@ AIFreeToExitType DeliverPayloadAIUpdate::getAiFreeToExit(const Object* exiter) c
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?DeliverPayloadAIUpdate::killDeliveryDecal present-unmatched
 void DeliverPayloadAIUpdate::killDeliveryDecal()
 {
 	m_deliveryDecal.clear();
@@ -182,6 +204,20 @@ Bool DeliverPayloadAIUpdate::isAllowedToRespondToAiCommands(const AICommandParms
 
 //-------------------------------------------------------------------------------------------------
 // ?update@DeliverPayloadAIUpdate@@ present-unmatched
+// Retail's AIUpdateInterface::getCurLocomotor reads +0x1F0 (rowed 0x0026FF1E
+// from SlavedUpdateRepair.cpp); this unit's header copy reads +0x1B4 (7B body
+// 8B81B4010000C3 measured in this unit's own object), and its object sorts
+// ahead of the first retail copy in link order, so the link keeps its copy
+// (S on 24 units). These reads go straight at the member instead of odr-using
+// the ZH inline, whose COMDAT would otherwise displace the retail copy.
+static Locomotor *bfmeDeliverPayloadLoco(AIUpdateInterface *ai)
+{
+	return *(Locomotor *const *)((const char *)ai + 0x1B4);
+}
+static const Locomotor *bfmeDeliverPayloadLoco(const AIUpdateInterface *ai)
+{
+	return *(const Locomotor *const *)((const char *)ai + 0x1B4);
+}
 UpdateSleepTime DeliverPayloadAIUpdate::update( void )
 {
 	m_deliveryDecal.update();
@@ -200,7 +236,7 @@ UpdateSleepTime DeliverPayloadAIUpdate::update( void )
 			if( currentDistanceSquared <= startDiveDistanceSquared )
 			{
 				m_diveState = DIVESTATE_DIVING;
-				getObject()->getAIUpdateInterface()->getCurLocomotor()->setUsePreciseZPos( true );
+				bfmeDeliverPayloadLoco(getObject()->getAIUpdateInterface())->setUsePreciseZPos( true );
 
 				AudioEventRTS soundDive = *(getObject()->getTemplate()->getPerUnitSound("StartDive"));
 				if( soundDive.getEventName().isNotEmpty() ) 
@@ -218,7 +254,7 @@ UpdateSleepTime DeliverPayloadAIUpdate::update( void )
 			if( currentDistanceSquared <= endDiveDistanceSquared )
 			{
 				m_diveState = DIVESTATE_POSTDIVE;
-				getObject()->getAIUpdateInterface()->getCurLocomotor()->setUsePreciseZPos( false );
+				bfmeDeliverPayloadLoco(getObject()->getAIUpdateInterface())->setUsePreciseZPos( false );
 			}
 
 			if( m_data.m_strafingWeaponSlot != -1 )
@@ -359,8 +395,8 @@ const ThingTemplate* DeliverPayloadAIUpdate::getPutInContainerTemplateViaModuleD
 // ?calcMinTurnRadius@DeliverPayloadAIUpdate@@ present-unmatched
 Real DeliverPayloadAIUpdate::calcMinTurnRadius(Real* timeToTravelThatDist) const
 {
-	const Locomotor* loco = getCurLocomotor();
-	BodyDamageType bdt = getObject()->getBodyModule()->getDamageState();
+	const Locomotor* loco = bfmeDeliverPayloadLoco(this);
+	BodyDamageType bdt = getRetailBodyModule(getObject())->getDamageState();
 	/// @todo srj -- this should probably use min-speed, not max-speed... fix after E3
 	Real maxSpeed = loco->getMaxSpeedForCondition(bdt);				// in dist/frame
 	Real maxTurnRate = loco->getMaxTurnRate(bdt);	// in rads/frame
@@ -745,7 +781,7 @@ StateReturnType DeliveringState::update() // Kick a dude out every so often
 	if (!ai->isCloseEnoughToTarget())
 		return STATE_FAILURE;
 
-	const ContainedItemsList* items = owner->getContain() ? owner->getContain()->getContainedItemsList() : NULL;
+	const ContainedItemsList* items = getRetailContain(owner) ? getRetailContain(owner)->getContainedItemsList() : NULL;
 	if( (!items || !items->size()) && ai->getVisibleItemsDelivered() == ai->getData()->m_visibleNumBones )
 	{
 		//We are out of payload to drop AND our visible payload is empty. It's possible for deliverers to
@@ -788,7 +824,7 @@ StateReturnType DeliveringState::update() // Kick a dude out every so often
 			pos.z += ai->getDropOffset().z;
 			item->setPosition(&pos);
 
-			ContainModuleInterface *contain = item->getContain();
+			ContainModuleInterface *contain = getRetailContain(item);
 			if( ai->getData()->m_isParachuteDirectly  &&  contain )
 			{
 				contain->setOverrideDestination( ai->getTargetPos() );// go for the direct hit
@@ -891,9 +927,9 @@ StateReturnType DeliveringState::update() // Kick a dude out every so often
 
 						//Are we firing a missile?
 						Bool projectileFired = false;
-						for( BehaviorModule** u = payload->getBehaviorModules(); *u; ++u )
+						for( BehaviorModule** behaviorModule = getRetailBehaviorModules(payload); *behaviorModule; ++behaviorModule )
 						{
-							ProjectileUpdateInterface* pui = (*u)->getProjectileUpdateInterface();
+							ProjectileUpdateInterface* pui = (*behaviorModule)->getProjectileUpdateInterface();
 							if( pui  )
 							{
 								//Missile! 
@@ -1040,7 +1076,7 @@ StateReturnType ConsiderNewApproachState::onEnter() // Increment local counter o
 	ai->aiMoveToPosition( &reApproachPoint, CMD_FROM_AI );
 
 	// we allow these guys to go to invalid (ie, off-map) positions
-	ai->getCurLocomotor()->setAllowInvalidPosition(true);
+	bfmeDeliverPayloadLoco(ai)->setAllowInvalidPosition(true);
 
 	return STATE_CONTINUE;
 }
@@ -1077,7 +1113,7 @@ void ConsiderNewApproachState::onExit( StateExitType status )
 	}
 
 	// go back to normal.
-	ai->getCurLocomotor()->setAllowInvalidPosition(true);
+	bfmeDeliverPayloadLoco(ai)->setAllowInvalidPosition(true);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -1215,8 +1251,8 @@ StateReturnType HeadOffMapState::onEnter() // Give move order out of town
 	exitCoord.x += dir->x * HUGE_DIST;
 	exitCoord.y += dir->y * HUGE_DIST;
 
-	ai->getCurLocomotor()->setAllowInvalidPosition(true);
-	ai->getCurLocomotor()->setUltraAccurate(true);	// set ultra-accurate just so AI won't try to adjust our dest
+	bfmeDeliverPayloadLoco(ai)->setAllowInvalidPosition(true);
+	bfmeDeliverPayloadLoco(ai)->setUltraAccurate(true);	// set ultra-accurate just so AI won't try to adjust our dest
 	ai->aiMoveToPosition( &exitCoord, CMD_FROM_AI );
 
 		// once we get into head-off-map state, we're done... don't respond to anything else.
@@ -1282,9 +1318,9 @@ StateReturnType HeadOffMapState::update()
 // ?onEnter@CleanUpState@@ present-unmatched
 StateReturnType CleanUpState::onEnter() // Delete my successful butt
 {
-	if( getMachineOwner()->getContain() )
+	if( getRetailContain(getMachineOwner()) )
 	{
-		DEBUG_ASSERTCRASH(getMachineOwner()->getContain()->getContainCount() == 0, ("did not drop all items!"));
+		DEBUG_ASSERTCRASH(getRetailContain(getMachineOwner())->getContainCount() == 0, ("did not drop all items!"));
 	}
 
 	Object *owner = getMachineOwner();

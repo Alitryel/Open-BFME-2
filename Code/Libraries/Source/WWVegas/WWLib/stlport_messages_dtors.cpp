@@ -43,3 +43,10 @@ int _Messages::do_open(const string&, const locale&) const { return -1; }
 // ??1_Messages@_STL@@UAE@XZ present-unmatched
 _Messages::~_Messages() {}
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?do_get@_Messages@_STL@@UBE?AV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@HHHABV32@@Z=?bfmeGoDQE@BfmeThingDQE@@QAEPAVBfmeOtherDQE@@PAV2@PAX111@Z")
+#pragma comment(linker, "/alternatename:?do_get@_Messages@_STL@@UBE?AV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@2@HHHABV32@@Z=?bfmeGoDQD@BfmeThingDQD@@QAEPAVBfmeOtherDQD@@PAV2@PAX111@Z")
+#pragma comment(linker, "/alternatename:?do_close@_Messages@_STL@@UBEXH@Z=?imbue@?$basic_streambuf@GV?$char_traits@G@_STL@@@_STL@@MAEXABVlocale@2@@Z")

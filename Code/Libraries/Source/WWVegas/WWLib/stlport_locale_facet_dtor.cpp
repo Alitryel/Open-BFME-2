@@ -38,8 +38,28 @@ public:
 	};
 };
 
-locale::facet::~facet()
+inline locale::facet::~facet()
 {
 }
 
 }
+
+// locale::facet::~facet is a header inline in STLport: one other unit emits a
+// select-any copy of it, so a strong definition here was a duplicate symbol in
+// the linked build. This anchor only makes this unit emit its copy for the
+// ledger row; it is not retail code.
+struct bfmeFacetEmitter : _STL::locale::facet
+{
+	static void emit(bfmeFacetEmitter *p);
+};
+#pragma inline_depth(0)
+// ?emit@bfmeFacetEmitter@@SAXPAU1@@Z present-unmatched
+void bfmeFacetEmitter::emit(bfmeFacetEmitter *p)
+{
+	p->_STL::locale::facet::~facet();
+}
+#pragma inline_depth()
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?m@Gen_00832090@@QAEXXZ=??1facet@locale@_STL@@MAE@XZ")

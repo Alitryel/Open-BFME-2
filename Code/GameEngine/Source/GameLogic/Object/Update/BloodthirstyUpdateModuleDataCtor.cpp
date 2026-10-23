@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /Ireference/shims/moduledata
 //
 // ??0BloodthirstyUpdateModuleData@@QAE@XZ, retail 0x0044E2AC, 75 bytes. The
 // rowed buildFieldParse proc registers the table at 0x00C3F120
@@ -39,11 +39,16 @@ public:
 	int m_voiceFlags; // +4, 0
 };
 
+extern "C" const void *const vtbl_00C3F160[];  // ??_7BloodthirstyUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C3F160=??_7BloodthirstyUpdateModuleData@@6B@")
+
+#include "Common/Snapshot.h"
+
 class UpdateModuleData
 {
 public:
-	UpdateModuleData() {}
-	~UpdateModuleData();
+	__declspec(dllimport) __forceinline UpdateModuleData() {}
+	~UpdateModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 private:
 };
@@ -63,7 +68,7 @@ private:
 
 // ??0BloodthirstyUpdateModuleData@@QAE@XZ @0x44E2AC
 BloodthirstyUpdateModuleData::BloodthirstyUpdateModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C3F160))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C3F160)))
 {
 	m_experienceModifier = 1.0f;
 }

@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 //
 // Object entry-accessor family around the holder at +0x258 (retail
 // 0x0028AC4E/20 + 0x0028AC62/27 + 0x0028AC7D/35; ghidra FUN_0068ac4e/62/7d).
@@ -19,7 +19,6 @@ public:
 	float get() const;
 };
 
-extern float g_Va00BBAEAC;
 
 struct Rva0028AC4EQ
 {
@@ -52,7 +51,6 @@ public:
 	float rva0028AC7D() const;
 };
 
-// ?rva0028AC4E@Object@@QBEPBURva0028AC4EEntry@@XZ present-unmatched
 __declspec(noinline) const Rva0028AC4EEntry *Object::rva0028AC4E() const
 {
 	Rva0028AC4EHolder *holder = m_holder;
@@ -73,9 +71,9 @@ float Object::rva0028AC7D() const
 {
 	const Rva0028AC4EEntry *entry = rva0028AC4E();
 	if (entry == 0)
-		return g_Va00BBAEAC;
+		return 0.0f;
 	float m = ((const Rva0008BB38FloatField *)entry)->get();
 	if (m > 0.0f)
 		return m;
-	return g_Va00BBAEAC;
+	return 0.0f;
 }

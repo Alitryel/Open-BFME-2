@@ -7,7 +7,7 @@
 //
 // The visible noinline iterator helper exposes which cached fields survive
 // calls. Narrow reads use the held sgetc/sbumpc bodies. Wide reads inline
-// sgetc within _M_getc but retain the held sbumpc call and base destruction.
+// sgetc within _M_getc but retain the held sbumpc call and string destruction.
 // Locale teardown is visible, and C++ free retains the retail unwind states.
 // _Locale_impl's complete24-byte layout uses the repository's recovered
 // _M_incr/_M_decr spellings for the original private incr/decr virtual slots.
@@ -71,6 +71,8 @@ size_t __cdecl wcstombs(char *dest, const unsigned short *source, size_t count);
 int __cdecl wctomb(char *dest, unsigned short ch);
 }
 
+#include <string>
+namespace _STL { template<> basic_string<wchar_t,char_traits<wchar_t>,allocator<wchar_t> >::~basic_string(); }
 #include <locale>
 // The locale implementation is opaque in _locale.h. Its three vtable slots
 // are established by stlport_locale.cpp; visibility here inlines _M_decr.
@@ -85,18 +87,17 @@ public:
     string _M_name;
 };
 typedef char _LocaleImplStorage[(sizeof(_Locale_impl)==24)?1:-1];
-locale::~locale() _STLP_NOTHROW { _M_impl->_M_decr(); }
+inline locale::~locale() _STLP_NOTHROW { _M_impl->_M_decr(); }
 
 }
 namespace _STL {
 template<> unsigned short basic_streambuf<wchar_t,char_traits<wchar_t> >::sbumpc();
-template<> _String_base<wchar_t,allocator<wchar_t> >::~_String_base();
 template<> __declspec(noinline) void istreambuf_iterator<wchar_t,char_traits<wchar_t> >::_M_getc() const {
  if (_M_have_c) return; int_type c=_M_buf->sgetc(); _M_c=traits_type::to_char_type(c); _M_eof=traits_type::eq_int_type(c,traits_type::eof()); _M_have_c=true;
 }
 typedef istreambuf_iterator<wchar_t,char_traits<wchar_t> > _BoolIn;
 template <>
-_BoolIn
+inline _BoolIn
 num_get<wchar_t, _BoolIn>::do_get(_BoolIn __in, _BoolIn __end,
                                     ios_base& __s,
                                     ios_base::iostate& __err, bool& __x) const
@@ -156,5 +157,23 @@ num_get<wchar_t, _BoolIn>::do_get(_BoolIn __in, _BoolIn __end,
     return __tmp;
   }
 }
+
+// num_get<wchar_t>::do_get(bool) is a template member another unit instantiates
+// as a select-any copy; the strong specialization here made it a duplicate in
+// the linked build. This anchor only makes this unit emit its copy for the
+// ledger row; it is not retail code.
+struct bfmeWideNumGetBoolEmitter : num_get<wchar_t, _BoolIn>
+{
+  static void emit(const bfmeWideNumGetBoolEmitter *p, _BoolIn a, _BoolIn b, ios_base &s,
+    ios_base::iostate &e, bool &v);
+};
+#pragma inline_depth(0)
+// ?emit@bfmeWideNumGetBoolEmitter@_STL@@SAXPBU12@V?$istreambuf_iterator@GV?$char_traits@G@_STL@@@2@1AAVios_base@2@AAHAA_N@Z present-unmatched
+void bfmeWideNumGetBoolEmitter::emit(const bfmeWideNumGetBoolEmitter *p, _BoolIn a, _BoolIn b, ios_base &s,
+  ios_base::iostate &e, bool &v)
+{
+  p->num_get<wchar_t, _BoolIn>::do_get(a, b, s, e, v);
+}
+#pragma inline_depth()
 
 }

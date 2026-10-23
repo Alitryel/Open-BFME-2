@@ -1,7 +1,20 @@
-// cl: /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
+// This donor Object view does not use native disabled-mask +0x1C8.
+// Keep its unrecovered callers separate from native Object::isDisabled.
+#define isDisabled cashHackSpecialPowerDonorIsDisabled
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/GameLogic/Object/SpecialPower/CashHackSpecialPower.cpp); this unit had no counterpart under Code/.
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -42,10 +55,13 @@
 #include "GameLogic/PartitionManager.h"
 #include "GameLogic/Module/CashHackSpecialPower.h"
 #include "GameClient/InGameUI.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<CashHackSpecialPowerModuleData::Upgrades, CashHackSpecialPowerModuleData::Upgrades>(CashHackSpecialPowerModuleData::Upgrades *, CashHackSpecialPowerModuleData::Upgrades const &); }
+// bfme link decl-only end
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-CashHackSpecialPowerModuleData::CashHackSpecialPowerModuleData( void )
+inline CashHackSpecialPowerModuleData::CashHackSpecialPowerModuleData( void )
 {
 	m_upgrades.clear();
 	m_defaultAmountToSteal = 0;
@@ -62,13 +78,18 @@ static void parseCashHackUpgradePair( INI* ini, void * /*instance*/, void *store
 
 	std::vector<CashHackSpecialPowerModuleData::Upgrades>* s = (std::vector<CashHackSpecialPowerModuleData::Upgrades>*)store;
 	s->push_back(up);
-} 
+}
+
+// Keep the Upgrades default ctor (rowed from this TU) emitted after the
+// ModuleData buildFieldParse below becomes select-any: taking the parse
+// helper's address forces the parser (and hence Upgrades::Upgrades) to stay.
+void (*g_keepCashHackParseForUpgrades)(INI*, void*, void*, const void*) = parseCashHackUpgradePair;
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-/*static*/ void CashHackSpecialPowerModuleData::buildFieldParse(MultiIniFieldParse& p)
+/*static*/ inline void CashHackSpecialPowerModuleData::buildFieldParse(MultiIniFieldParse& multiIniFieldParse)
 {
-	SpecialPowerModuleData::buildFieldParse( p );
+	SpecialPowerModuleData::buildFieldParse( multiIniFieldParse );
 	
 	static const FieldParse dataFieldParse[] = 
 	{
@@ -76,7 +97,7 @@ static void parseCashHackUpgradePair( INI* ini, void * /*instance*/, void *store
 		{ "MoneyAmount", INI::parseInt, NULL, offsetof( CashHackSpecialPowerModuleData, m_defaultAmountToSteal ) },
 		{ 0, 0, 0, 0 }
 	};
-	p.add(dataFieldParse);
+	multiIniFieldParse.add(dataFieldParse);
 	
 }  // end buildFieldParse
 
@@ -94,6 +115,7 @@ CashHackSpecialPower::CashHackSpecialPower( Thing *thing, const ModuleData *modu
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// ?CashHackSpecialPower::~CashHackSpecialPower present-unmatched
 CashHackSpecialPower::~CashHackSpecialPower( void )
 {
 
@@ -101,6 +123,7 @@ CashHackSpecialPower::~CashHackSpecialPower( void )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// ?CashHackSpecialPower::doSpecialPowerAtLocation present-unmatched
 void CashHackSpecialPower::doSpecialPowerAtLocation( const Coord3D *loc, Real angle, UnsignedInt commandOptions )
 {
 	if (getObject()->isDisabled())
@@ -112,79 +135,13 @@ void CashHackSpecialPower::doSpecialPowerAtLocation( const Coord3D *loc, Real an
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-Int CashHackSpecialPower::findAmountToSteal() const
-{
-	const CashHackSpecialPowerModuleData* d = getCashHackSpecialPowerModuleData();
-	const Player* controller = getObject()->getControllingPlayer();
-	if (controller != NULL)
-	{
-		for (std::vector<CashHackSpecialPowerModuleData::Upgrades>::const_iterator it = d->m_upgrades.begin(); 
-					it != d->m_upgrades.end();
-					++it)
-		{
-			if (controller->hasScience(it->m_science))
-				return it->m_amountToSteal;
-		}
-	}
-	return d->m_defaultAmountToSteal;
-}
-
-// ------------------------------------------------------------------------------------------------
-// ------------------------------------------------------------------------------------------------
-void CashHackSpecialPower::doSpecialPowerAtObject( Object *victim, UnsignedInt commandOptions )
-{
-	if (getObject()->isDisabled())
-		return;
-
-	// sanity
-	if (!victim)
-		return;
-
-	// call the base class action cause we are *EXTENDING* functionality
-  SpecialPowerModule::doSpecialPowerAtObject( victim, commandOptions );
-
-	// get our module data
-	Object *self = getObject();
-
-	//Steal a thousand cash from the other team!
-	Money *targetMoney = victim->getControllingPlayer()->getMoney();
-	Money *selfMoney = self->getControllingPlayer()->getMoney();
-	if( targetMoney && selfMoney )
-	{
-		UnsignedInt cash = targetMoney->countMoney();
-		UnsignedInt desiredAmount = findAmountToSteal();
-		//Check to see if they have 1000 cash, otherwise, take the remainder!
-		cash = min( desiredAmount, cash );
-		if( cash > 0 )
-		{
-			//Steal the cash
-			targetMoney->withdraw( cash );
-			selfMoney->deposit( cash );
-			self->getControllingPlayer()->getScoreKeeper()->addMoneyEarned( cash );
-
-			//Display cash income floating over the blacklotus
-			UnicodeString moneyString;
-			moneyString.format( TheGameText->fetch( "GUI:AddCash" ), cash );
-			Coord3D pos;
-			pos.zero();
-			pos.add( self->getPosition() );
-			pos.z += 20.0f; //add a little z to make it show up above the unit.
-			TheInGameUI->addFloatingText( moneyString, &pos, GameMakeColor( 0, 255, 0, 255 ) );
-		
-			//Display cash lost floating over the target
-			moneyString.format( TheGameText->fetch( "GUI:LoseCash" ), cash );
-			pos.zero();
-			pos.add( victim->getPosition() );
-			pos.z += 30.0f; //add a little z to make it show up above the unit.
-			TheInGameUI->addFloatingText( moneyString, &pos, GameMakeColor( 255, 0, 0, 255 ) );
-		}
-	}
-
-}  
+// Target action is recovered in CashHackSpecialPowerAction.cpp.
+// Its folded science selector has one neutral owner in OCLSpecialPowerFindOCL.cpp.
 
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
+// ?CashHackSpecialPower::crc present-unmatched
 void CashHackSpecialPower::crc( Xfer *xfer )
 {
 
@@ -198,6 +155,7 @@ void CashHackSpecialPower::crc( Xfer *xfer )
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
+// ?CashHackSpecialPower::xfer present-unmatched
 void CashHackSpecialPower::xfer( Xfer *xfer )
 {
 
@@ -214,6 +172,7 @@ void CashHackSpecialPower::xfer( Xfer *xfer )
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
+// ?CashHackSpecialPower::loadPostProcess present-unmatched
 void CashHackSpecialPower::loadPostProcess( void )
 {
 
@@ -221,3 +180,13 @@ void CashHackSpecialPower::loadPostProcess( void )
 	SpecialPowerModule::loadPostProcess();
 
 }  // end loadPostProcess
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0Rva004CEE6EMember@@QAE@XZ=??0Upgrades@CashHackSpecialPowerModuleData@@QAE@XZ")
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0Rva004CEE6EMemberTracked@@QAE@XZ=??0Upgrades@CashHackSpecialPowerModuleData@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??0InitiateVoiceEntry@@QAE@XZ=??0Upgrades@CashHackSpecialPowerModuleData@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??0VoiceSlot@@QAE@XZ=??0Upgrades@CashHackSpecialPowerModuleData@@QAE@XZ")

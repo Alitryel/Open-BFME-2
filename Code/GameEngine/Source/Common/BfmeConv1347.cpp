@@ -38,3 +38,8 @@ public:
 	char m_bfmePad[0x9c];
 	BfmeSubBUZA *m_bfmeSub;
 };
+
+// The retail call in this body reads 0x0015A180, an address the ledger already
+// carries as ?Get_Single_Texture@MeshMatDescClass@@QBE?AV?$RefCountPtr@VTextureClass@@@@HH@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?bfmeGetAUZA@BfmeSubAUZA@@QBE?AUBfmeHandleUZA@@HH@Z=?Get_Single_Texture@MeshMatDescClass@@QBE?AV?$RefCountPtr@VTextureClass@@@@HH@Z")

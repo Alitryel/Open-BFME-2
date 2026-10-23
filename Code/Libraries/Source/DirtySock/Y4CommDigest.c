@@ -405,7 +405,11 @@ void Rva00810120( struct Rva00810060Context *context )
  * dword from this address and indexes through it, so the table can be
  * retargeted at run time.  It points into the same short run of writable data
  * that holds the module's other configurable bytes. */
-extern char *g_Rva012C4998HexDigits;
+/* Adapted from BFME1's linking fix (e07a7b29f). BFME2's two matched
+ * formatter references place the pointer at VA 0x00DD90F0, pointing to
+ * the 17 writable bytes at VA 0x00DD90DC. Both initializers match retail. */
+static char g_digestHexDigitStorage[17] = "0123456789abcdef";
+char *g_digestHexDigits = g_digestHexDigitStorage;
 
 /* 0x00810FF0 FINISHES THE DIGEST AND FORMATS IT, padding the block, appending
  * the length, running the final transform and writing the result out.
@@ -486,9 +490,9 @@ void Rva00810FF0( struct Rva00810060Context *context, char *out, int outSize )
 
 		if ( outSize >= 0x21 )
 		{
-			*pOut = g_Rva012C4998HexDigits[ ( uWord >> 4 ) & 0xF ];
+			*pOut = g_digestHexDigits[ ( uWord >> 4 ) & 0xF ];
 			pOut++;
-			*pOut = g_Rva012C4998HexDigits[ uWord & 0xF ];
+			*pOut = g_digestHexDigits[ uWord & 0xF ];
 			pOut++;
 		}
 		else if ( i < outSize )

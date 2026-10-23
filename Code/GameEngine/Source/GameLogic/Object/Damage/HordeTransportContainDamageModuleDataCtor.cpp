@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // HordeTransportContainDamageModuleData file-unit (parse first; the ctor
 // remains pinned for a follow-up).
@@ -17,6 +17,10 @@ public:
 	void add(const FieldParse *parseTable, unsigned int extraOffset);
 };
 
+// Retail VA 0x00C6BB18 is the empty FieldParse table: game.dat stores 16
+// zero bytes there. The matched parser below independently references it.
+extern const int g_emptyFieldParseTable[4] = { 0, 0, 0, 0 };
+
 class HordeTransportContainDamageModuleData
 {
 public:
@@ -26,5 +30,5 @@ public:
 // ?buildFieldParse@HordeTransportContainDamageModuleData@@SAXAAVMultiIniFieldParse@@@Z @0x004BB0BB
 void HordeTransportContainDamageModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
-	parse.add(reinterpret_cast<const FieldParse *>(0x00C6BB18), 0);
+	parse.add(reinterpret_cast<const FieldParse *>(g_emptyFieldParseTable), 0);
 }

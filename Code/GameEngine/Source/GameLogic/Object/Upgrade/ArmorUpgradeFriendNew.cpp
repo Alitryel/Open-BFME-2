@@ -21,7 +21,18 @@ private:
 };
 
 // ?friend_newModuleInstance@ArmorUpgrade@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *ArmorUpgrade::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *ArmorUpgrade::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new ArmorUpgrade(thing, moduleData));
 }
+
+// Select-any anchor: this unit owns the row above while other TUs emit it as
+// an inline copy. The anchor keeps this unit emitting its copy for the ledger;
+// it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitArmorUpgradeFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitArmorUpgradeFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	ArmorUpgrade::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

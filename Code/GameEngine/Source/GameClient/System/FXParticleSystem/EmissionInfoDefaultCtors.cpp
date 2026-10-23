@@ -25,27 +25,36 @@ private:
 	float m_high;
 };
 
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#define BFME_SNAPSHOT_REFERENCE_XFER
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+
 namespace FXParticleSystem
 {
 
-class EmissionVelocityInfo
+class EmissionVelocityInfo : public Snapshot
 {
 public:
-	virtual ~EmissionVelocityInfo();
+	virtual ~EmissionVelocityInfo() {}
+    virtual void LoadPostProcess();
+    virtual const char *GetSnapshotName();
+    virtual void DoXfer(::Xfer &);
 };
 
 class SphericalEmissionVelocityInfo : public EmissionVelocityInfo
 {
 public:
 	SphericalEmissionVelocityInfo();
-	virtual ~SphericalEmissionVelocityInfo();
+	virtual ~SphericalEmissionVelocityInfo() {}
 
 private:
 	GameClientRandomVariable m_var0;
 };
 
 // ??0SphericalEmissionVelocityInfo@FXParticleSystem@@QAE@XZ @0x3A721F
-SphericalEmissionVelocityInfo::SphericalEmissionVelocityInfo()
+inline SphericalEmissionVelocityInfo::SphericalEmissionVelocityInfo()
 {
 	m_var0.setRange(0.0f, 0.0f);
 }
@@ -95,11 +104,14 @@ OrthoEmissionVelocityInfo::OrthoEmissionVelocityInfo()
 // so the bool lives in the base here. The virtual destructor is only
 // declared: it resolves to the folded 0x0049B47C family and supplies the
 // unwinding behind the EH frame.
-class EmissionVolumeInfo
+class EmissionVolumeInfo : public Snapshot
 {
 public:
 	EmissionVolumeInfo() : m_flag(false) {}
-	virtual ~EmissionVolumeInfo();
+	virtual ~EmissionVolumeInfo() {}
+    virtual void LoadPostProcess();
+    virtual const char *GetSnapshotName();
+    virtual void DoXfer(::Xfer &);
 
 protected:
 	bool m_flag;
@@ -127,4 +139,64 @@ TerrainFireEmissionInfo::TerrainFireEmissionInfo()
 	m_unknown2C = 0.7f;
 }
 
+// DefaultPhysicsModuleInfo retail 0x0055EE5E, the out-of-line default the
+// DefaultModuleTemplate<3> constructor calls. The base is Snapshot: the
+// folded 0x0049B47C destructor stores its vtable 0x00BBB554, and the base's
+// unwind state is the one EH state retail sets. The WorldBuilder twin
+// (0x0141ED90) builds the +0x04 coordinate through its own inline default
+// (which leaves nothing behind in the release build), the random variable
+// through its zeroing default, then assigns +0x10, zeroes the coordinate,
+// sets the range and clears the two flags.
+class DefaultPhysicsModuleInfo : public Snapshot
+{
+public:
+	DefaultPhysicsModuleInfo();
+	__declspec(noinline) virtual ~DefaultPhysicsModuleInfo();
+	virtual const char *GetSnapshotName();
+	virtual void DoXfer(Xfer &);
+
+private:
+	struct PhysicsCoord
+	{
+		PhysicsCoord() {}
+		void zero() { x = 0.0f; y = 0.0f; z = 0.0f; }
+
+		float x;
+		float y;
+		float z;
+	};
+
+	PhysicsCoord m_unknown04;
+	float m_unknown10;
+	GameClientRandomVariable m_unknown14;
+	bool m_unknown20;
+	bool m_unknown21;
+};
+
+// ??0DefaultPhysicsModuleInfo@FXParticleSystem@@QAE@XZ @0x55EE5E
+__declspec(noinline) DefaultPhysicsModuleInfo::DefaultPhysicsModuleInfo()
+{
+	m_unknown10 = 0.0f;
+	m_unknown04.zero();
+	m_unknown14.setRange(0.0f, 0.0f);
+	m_unknown20 = false;
+	m_unknown21 = false;
 }
+
+}
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0OutwardEmissionVelocityInfo@FXParticleSystem@@QAE@XZ=??0CylindricalEmissionVelocityInfo@FXParticleSystem@@QAE@XZ")
+
+// ??0SphericalEmissionVelocityInfo is a header inline elsewhere: another unit
+// emits a select-any copy of it, so a strong definition here was a duplicate
+// symbol in the linked build. This anchor only makes this unit emit its copy
+// for the ledger row; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitEmissionInfoDefaultCtors@@YAXPAVSphericalEmissionVelocityInfo@FXParticleSystem@@@Z present-unmatched
+void bfmeEmitEmissionInfoDefaultCtors(FXParticleSystem::SphericalEmissionVelocityInfo *p)
+{
+	p->SphericalEmissionVelocityInfo::SphericalEmissionVelocityInfo();
+}
+#pragma inline_depth()

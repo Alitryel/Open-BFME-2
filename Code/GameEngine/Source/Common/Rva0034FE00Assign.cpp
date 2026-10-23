@@ -1,12 +1,16 @@
-// cl: /O1 /Ob0
+// cl: /Ob0
 
 class Rva0036CA00Str
 {
-public:
-	Rva0036CA00Str &operator=(const Rva0036CA00Str &other);
-
 private:
 	void *m_item;
+};
+
+template <typename T>
+class StringBase
+{
+public:
+	void set(const StringBase<T> &other);
 };
 
 struct Rva0034FE00Pod
@@ -37,7 +41,7 @@ Rva0034FE00 &Rva0034FE00::operator=(const Rva0034FE00 &other)
 	m_04 = other.m_04;
 	m_08 = other.m_08;
 	m_0C = other.m_0C;
-	m_10 = other.m_10;
+	((StringBase<char> &)m_10).set((const StringBase<char> &)other.m_10);
 	m_14 = other.m_14;
 	m_20 = other.m_20;
 	m_24 = other.m_24;

@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // ??0Image@@QAE@XZ, retail 0x002D8FE4, 122 bytes. Dedicated TU.
 //
@@ -14,34 +14,13 @@ typedef int Int;
 
 #define NULL 0
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	void clear();
-	~AsciiString();
+#include "ascii_string.h"
 
-private:
-	void *m_data;
-};
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
 
-struct ICoord2D
-{
-	int x;
-	int y;
-};
+#include "../../../../Libraries/Include/Lib/Coord2D.h"
 
-struct Coord2D
-{
-	float x;
-	float y;
-};
-
-struct Region2D
-{
-	Coord2D lo;
-	Coord2D hi;
-};
+#include "../../../../Libraries/Include/Lib/Region2D.h"
 
 class Image
 {

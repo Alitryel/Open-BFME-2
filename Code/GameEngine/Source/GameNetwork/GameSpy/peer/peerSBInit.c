@@ -1,4 +1,4 @@
-// cl: /O2 /Ob2 /DNDEBUG /MD
+// cl: /Ob2 /DNDEBUG /MD
 /* GameSpy Peer SDK -- peerSB.c */
 
 #include <string.h>
@@ -23,7 +23,8 @@ typedef struct PEERConnection
 
 typedef PEERConnection *PEER;
 
-extern int piSBQueryVersion;
+// piSBQueryVersion: matched references place it at VA 0xddbc2c (retail .data initial value 1).
+int piSBQueryVersion = 1;
 
 void piSBGamesListCallback(void);
 void piSBGamesEngineCallback(void);

@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva004A9384@WanderAIUpdate@@SA?AW4NameKeyType@@XZ @0x004A9384
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@WanderAIUpdate@@UBE?AW4NameKeyType@@XZ @0x004A9384
 // (69B): cached pool-name key for WanderAIUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("WanderAIUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class WanderAIUpdate
 {
 public:
-	static NameKeyType rva004A9384();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004A9384@WanderAIUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType WanderAIUpdate::rva004A9384()
+// ?getModuleNameKey@WanderAIUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType WanderAIUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheWanderAIUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("WanderAIUpdate");

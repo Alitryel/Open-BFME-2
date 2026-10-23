@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE
+// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /DNDEBUG /MD /GX
 //
 // ??1GettingBuiltBehaviorModuleData@@UAE@XZ, retail 0x00453315, 129 bytes.
 // Virtual dtor over vtable 0x00C40090 (slot 0 deleting dtor at 0x004534D9).
@@ -10,30 +10,12 @@
 // holders via rowed Release_Ref 0x00050ED3 (states 2/1/0), then Snapshot base
 // restores 0x00BBB554. Flammable/Production precedent.
 
-class Xfer;
+#include "ascii_string.h"
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc(Xfer *xfer);
-	virtual void loadPostProcess();
-	virtual void xfer(Xfer *xfer);
-};
-
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
-
-class AsciiString
-{
-public:
-	~AsciiString();
-
-private:
-	char *m_data;
-};
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+#include "../../../../Include/Common/BfmeModuleData.h"
+// Retail C40090 has all 31 shared ModuleData slots; teardown restores BBB554.
+inline ModuleData::~ModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 class OpaqueRefCounted
 {
@@ -61,7 +43,7 @@ private:
 	unsigned m_unknown;
 };
 
-class GettingBuiltBehaviorModuleData : public Snapshot
+class GettingBuiltBehaviorModuleData : public ModuleData
 {
 public:
 	virtual ~GettingBuiltBehaviorModuleData();

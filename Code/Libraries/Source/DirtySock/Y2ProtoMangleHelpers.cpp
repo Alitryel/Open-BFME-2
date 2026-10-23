@@ -27,6 +27,10 @@
 extern "C" int sprintf( char *buffer, const char *format, ... );
 
 #include <string.h>
+// Retail calls MSVCR71 _mbscat here (thunk 0x0062988C), not strcat.
+extern "C" char *__cdecl _mbscat(char *dest, const char *source);
+extern "C" char *__cdecl _mbscpy(char *dst, const char *src);
+extern "C" char *strstr( const char *text, const char *find );
 
 struct Rva008042B0Http;
 
@@ -47,7 +51,7 @@ void *Rva007FDFF0Connect( const char *host, int timeout );  // 0x007FDFF0
 // show that, which is why the earlier declaration here had it as void.
 const char *Rva00804920Update( Rva008042B0Http *http );      // 0x00804920
 char *Rva007FFB50AddrText( unsigned int addr );             // 0x007FFB50
-char *Rva00A6BD30FormatOctets( const unsigned char *src, char *dst, int size ); // 0x00A6BD30
+extern "C" char *Rva007FF860( const unsigned char *src, char *dst, int size ); // 0x00A6BD30
 struct Rva00804440SockAddr;
 void  Rva007FE310SocketHost( Rva00804440SockAddr *host, int hostLen,
 		Rva00804440SockAddr *dest, int destLen );           // 0x007FE310
@@ -70,16 +74,21 @@ struct Rva008042B0Http
 	// which is this field seen through the record -- against 400 and against
 	// 200; a field tested against two HTTP status codes is one.
 	int          m_httpCode;        // +0x11C
-	int          m_pad120;
+	int          m_field120;        // +0x120
 	int          m_field124;        // +0x124
-	int          m_pad128;
-	int          m_pad12C;
+	int          m_field128;        // +0x128
+	int          m_field12C;        // +0x12C
 	char        *m_buffer;          // +0x130
 	unsigned int m_bufferSize;      // +0x134
-	int          m_pad138;
-	int          m_pad13C;
-	int          m_pad140;
+	int          m_field138;        // +0x138
+	int          m_field13C;        // +0x13C
+	int          m_field140;        // +0x140
 	int          m_field144;        // +0x144
+};
+
+struct Rva00804920HttpView : Rva008042B0Http
+{
+	int          m_field148;        // +0x148 in the enclosing record
 };
 
 // Copy at most size-1 bytes and always terminate.  Note it does NOT stop at a
@@ -175,7 +184,7 @@ int Rva008046E0HttpRequest( Rva008042B0Http *http, const char *host, int port,
 		http->m_state = 0;
 	}
 
-	strcpy( http->m_buffer, request );
+	_mbscpy( http->m_buffer, request );
 	Rva007FE780Printf( "HTTP request:\n%s\n", http->m_buffer );
 	http->m_field144 = 3;
 
@@ -186,7 +195,7 @@ int Rva008046E0HttpRequest( Rva008042B0Http *http, const char *host, int port,
 	}
 	else
 	{
-		strcpy( http->m_host, host );
+		_mbscpy( http->m_host, host );
 		http->m_port = port;
 		http->m_conn = Rva007FDFF0Connect( http->m_host, 0x1E );
 		http->m_field10C = 0;
@@ -283,6 +292,10 @@ void Rva00804630HttpGet( Rva008042B0Http *http, const char *host, int port,
 	Rva008046E0HttpRequest( http, host, port, query );
 }
 
+void Rva008062C0( void )
+{
+}
+
 void Rva00804550RequestPeerAddress( Rva00804150ProtoMangleRef *ref )
 {
 	char strUrl[ 0x100 ];
@@ -304,6 +317,263 @@ void Rva008043F0Connect( Rva00804150ProtoMangleRef *ref, int myPort, const char 
 // 0x007FEA00, the no-argument tick forwarder already converted in
 // Y4DirtySockSocket.c; ProtoMangleCreate seeds its timeout from it.
 unsigned int Rva007FEA00Tick( void );
+
+extern "C" int Rva007FD5C0( void *socket, const void *address, int length );
+extern "C" int Rva007FDA50( void *socket, char *buffer, int length,
+		int flags, void *from, int *fromLength );
+// BFME 2 defines these three in Y4DirtySockSocketWrappers.c under their C
+// names; the BFME 1 donor called them through C++ aliases pinned to the
+// same addresses, which byte-match but cannot link.
+extern "C" void *Rva007FD2D0( int family, int type, int protocol );
+extern "C" int Rva007FDB60( void *socket, int selector, void *buffer,
+		int bufferSize );
+extern "C" int Rva007FD920( void *socket, const char *buffer, int length,
+		int flags, const char *to, int toLength );
+
+struct Rva00804920Connection
+{
+	int m_pad000;
+	int m_address;
+	int ( __cdecl *m_update )( Rva00804920Connection *connection );
+	int ( __cdecl *m_finish )( Rva00804920Connection *connection );
+};
+
+const char *Rva00804920Update( Rva008042B0Http *http )
+{
+	int result;
+	char data[ 0x100 ];
+	char peeraddr[ 0x10 ];
+	char *cursor;
+	char *end;
+	unsigned int work;
+	int length;
+
+	if( http->m_state == 1 )
+	{
+		if( http->m_conn != 0 )
+		{
+			if( ( (Rva00804920Connection *)http->m_conn )->m_update(
+					(Rva00804920Connection *)http->m_conn ) < 0 )
+			{
+				( (Rva00804920Connection *)http->m_conn )->m_finish(
+						(Rva00804920Connection *)http->m_conn );
+				http->m_conn = 0;
+				http->m_state = 8;
+				Rva007FE780Printf( "ProtoMangle: Addr countdown failed!\n" );
+			}
+			else if( ( (Rva00804920Connection *)http->m_conn )->m_update(
+					(Rva00804920Connection *)http->m_conn ) > 0 )
+			{
+				http->m_field10C =
+						( (Rva00804920Connection *)http->m_conn )->m_address;
+				( (Rva00804920Connection *)http->m_conn )->m_finish(
+						(Rva00804920Connection *)http->m_conn );
+				http->m_conn = 0;
+			}
+		}
+	}
+
+	if( http->m_state == 1 && http->m_field10C != 0 )
+		{
+			Rva00804380CloseSocket( http );
+			if( ( http->m_field144-- < 0 ) ? 1 : 0 )
+			{
+				http->m_state = 8;
+				Rva007FE780Printf( "ProtoMangle: Addr countdown failed!\n" );
+				return 0;
+			}
+
+			Rva007FE780Printf(
+					"ProtoMangle: Attempting to connect (addr=%08x, port=%d)\n",
+				http->m_field10C, http->m_port );
+			http->m_socket = Rva007FD2D0( 2, 1, 0 );
+			if( http->m_socket != 0 )
+			{
+				*(unsigned short *)( peeraddr + 0 ) = 2;
+				*(unsigned short *)( peeraddr + 2 ) = 0;
+				*(int *)( peeraddr + 4 ) = 0;
+				*(int *)( peeraddr + 8 ) = 0;
+				*(int *)( peeraddr + 12 ) = 0;
+
+				work = http->m_field10C;
+				peeraddr[ 7 ] = (char)work; work >>= 8;
+				peeraddr[ 6 ] = (char)work; work >>= 8;
+				peeraddr[ 5 ] = (char)work; work >>= 8;
+				peeraddr[ 4 ] = (char)work;
+				peeraddr[ 2 ] = (char)( http->m_port >> 8 );
+				peeraddr[ 3 ] = (char)http->m_port;
+
+				Rva007FD5C0( http->m_socket, peeraddr, 0x10 );
+				http->m_field13C = 0;
+				http->m_state = 2;
+				( (Rva00804920HttpView *)http )->m_field148 =
+						Rva007FEA00Tick() + 0x7530;
+			}
+		}
+
+	if( http->m_state == 2 )
+	{
+		if( Rva007FDB60( http->m_socket, 'stat', 0, 0 ) > 0 )
+			http->m_state = 3;
+		else if( Rva007FEA00Tick() >
+				( (Rva00804920HttpView *)http )->m_field148 )
+			http->m_state = 1;
+	}
+
+	if( http->m_state == 3 )
+	{
+		length = strlen( http->m_buffer );
+		result = Rva007FD920( http->m_socket, http->m_buffer, length,
+				0, 0, 0 );
+		http->m_state = 4;
+	}
+
+	if( http->m_state == 4 )
+	{
+		result = Rva007FDA50( http->m_socket, data, 1, 0, 0, 0 );
+		if( result > 0 )
+		{
+			http->m_buffer[ 0 ] = data[ 0 ];
+			http->m_field13C = 1;
+			http->m_state = 5;
+		}
+		if( result < 0 )
+		{
+			http->m_state = 1;
+			return 0;
+		}
+	}
+
+	if( http->m_state == 5 )
+	{
+		result = http->m_bufferSize - http->m_field13C;
+		result = Rva007FDA50( http->m_socket,
+				http->m_buffer + http->m_field13C,
+				result, 0, 0, 0 );
+		if( result < 0 )
+		{
+			Rva007FE780Printf( "ProtoMangle: ST_HTTP_FAIL (err=%d)\n", result );
+			http->m_state = 8;
+			Rva00804380CloseSocket( http );
+			return 0;
+		}
+		http->m_field13C += result;
+	}
+
+	if( http->m_state == 5 && http->m_field13C > 4 )
+	{
+		cursor = http->m_buffer;
+		end = http->m_buffer + http->m_field13C - 3;
+		while( cursor != end &&
+				( cursor[ 0 ] != '\r' || cursor[ 1 ] != '\n'
+				|| cursor[ 2 ] != '\r' || cursor[ 3 ] != '\n' ) )
+			++cursor;
+		if( cursor == end )
+			return 0;
+
+		http->m_field128 = cursor + 4 - http->m_buffer;
+		cursor[ 3 ] = 0;
+		cursor[ 2 ] = 0;
+		Rva007FE780Printf( "ProtoMangle: Received HTTP header: %s\n",
+				http->m_buffer );
+		cursor = http->m_buffer;
+		if( cursor[ 0 ] != 'H' || cursor[ 1 ] != 'T'
+				|| cursor[ 2 ] != 'T' || cursor[ 3 ] != 'P' )
+		{
+			Rva007FE780Printf( "ProtoMangle: Bogus HTTP result!\n" );
+			Rva00804380CloseSocket( http );
+			http->m_state = 8;
+			return 0;
+		}
+
+		while( *cursor != 0 && *cursor > ' ' )
+			++cursor;
+		while( *cursor != 0 && *cursor <= ' ' )
+			++cursor;
+		http->m_httpCode = 0;
+		for( ; *cursor >= '0' && *cursor <= '9'; ++cursor )
+		{
+			http->m_httpCode = http->m_httpCode * 10
+				+ ( *cursor & 0x0f );
+		}
+
+		http->m_field12C = -1;
+		cursor = strstr( http->m_buffer, "\nContent-Length:" );
+		if( cursor != 0 )
+		{
+			++cursor;
+			for( ; *cursor >= ' '
+					&& ( *cursor < '0' || *cursor > '9' ); ++cursor )
+			{
+			}
+			http->m_field12C = 0;
+			while( *cursor >= '0' && *cursor <= '9' )
+			{
+				http->m_field12C = http->m_field12C * 10
+						+ ( *cursor & 0x0f );
+				++cursor;
+			}
+		}
+
+		http->m_field120 = 0;
+		cursor = strstr( http->m_buffer, "\nConnection: close" );
+		http->m_field124 = cursor != 0;
+		http->m_buffer[ http->m_field128 - 2 ] = '\r';
+		http->m_buffer[ http->m_field128 - 1 ] = '\n';
+
+		if( http->m_field12C >= 0 &&
+			http->m_field12C == http->m_field13C - http->m_field128 )
+		{
+			http->m_state = 7;
+			http->m_field138 = http->m_field128;
+			http->m_buffer[ http->m_field13C ] = 0;
+			return http->m_buffer + http->m_field138;
+		}
+		http->m_state = 6;
+		http->m_field140 = http->m_field13C - http->m_field128;
+	}
+
+	if( http->m_state == 6 )
+	{
+		result = http->m_bufferSize - http->m_field13C;
+		if( result <= 0 )
+			result = 0;
+		else
+			result = Rva007FDA50( http->m_socket,
+					http->m_buffer + http->m_field13C, result, 0, 0, 0 );
+		if( result == 0 )
+			return 0;
+		if( result == -1 && ( http->m_field12C == -1
+				|| http->m_field12C == http->m_field140 ) )
+		{
+			http->m_field12C = http->m_field140;
+			Rva007FE780Printf( "ProtoMangle: Trying to close\n" );
+			Rva00804380CloseSocket( http );
+			http->m_state = 7;
+		}
+		else if( result < 0 )
+		{
+			Rva007FE780Printf( "ProtoMangle: ST_FAIL (err=%d)\n", result );
+			http->m_state = 8;
+			Rva00804380CloseSocket( http );
+		}
+		else
+		{
+			http->m_field13C += result;
+			http->m_field140 += result;
+		}
+
+		if( http->m_field12C >= 0 && http->m_field140 >= http->m_field12C )
+		{
+			Rva007FE780Printf( "Http: got body bytes (%d)\n", http->m_field12C );
+			http->m_state = 7;
+			http->m_buffer[ http->m_field13C ] = 0;
+			return http->m_buffer + http->m_field138;
+		}
+	}
+
+	return 0;
+}
 
 // ---------------------------------------------------------------- public
 // The two bodies retail names itself, moved here out of protomangle.cpp, where
@@ -846,7 +1116,7 @@ int Rva008060B0( Rva00804150ProtoMangleRef *ref, int status, int latency )
 	if( latency >= 0 )
 	{
 		sprintf( strData2, "&latency=%d", latency );
-		strcat( strData, strData2 );
+		_mbscat( strData, strData2 );
 	}
 
 	Rva00806200HttpPost( &ref->m_http, ref->m_server, ref->m_port,
@@ -907,7 +1177,7 @@ char *Rva007FFB50AddrText( unsigned int addr )
 	sa[ 5 ] = (char)addrCopy; addrCopy >>= 8;
 	sa[ 4 ] = (char)addrCopy;
 
-	Rva00A6BD30FormatOctets( (const unsigned char *)sa, addrTextBuffer, 20 );
+	Rva007FF860( (const unsigned char *)sa, addrTextBuffer, 20 );
 
 	return addrTextBuffer;
 }
@@ -924,7 +1194,7 @@ char *Rva007FFB50AddrText( unsigned int addr )
 // zeros but keeps interior ones (205 renders as 205, 10.0.0.1 as itself).
 // The octet is held in a SIGNED int -- the divides are idiv with cdq -- even
 // though it is loaded with movzx and so can never be negative.
-char *Rva00A6BD30FormatOctets( const unsigned char *address, char *destination, int size )
+extern "C" char *Rva007FF860( const unsigned char *address, char *destination, int size )
 {
 	int i;
 	char *writePtr;
@@ -1013,9 +1283,22 @@ struct Rva0130AB60Map
 	unsigned int m_replace; /* +0x08, zero terminates */
 };
 
-extern void *g_Rva0130AB60;
-extern char g_Rva012C3C60Message[];
-extern char g_Rva012C3C7CMessage[];
+// g_Rva0130AB60: matched references place it at VA 0xe0a578 (retail .data initial value 0).
+void * g_Rva0130AB60 = 0;
+// g_Rva012C3C60Message: matched references place it at VA 0xdd83b8; retail contents, sized to the
+// 0x1c-byte gap before the next known global there.
+char g_Rva012C3C60Message[28] = {
+	100, 105, 114, 116, 121, 110, 101, 116,
+	119, 105, 110, 58, 32, 97, 100, 100,
+	114, 32, 114, 101, 109, 97, 112, 32,
+	37, 115, 0, 0,
+};
+// g_Rva012C3C7CMessage: matched references place it at VA 0xdd83d4; retail contents, sized to the
+// 0xc-byte gap before the next known global there.
+char g_Rva012C3C7CMessage[12] = {
+	32, 116, 111, 32, 37, 115, 10, 0,
+	0, 0, 0, 0,
+};
 
 extern "C" void *Rva007FD660( char *temp, void *address )
 {
@@ -1055,3 +1338,12 @@ extern "C" void *Rva007FD660( char *temp, void *address )
 	}
 	return address;
 }
+
+
+// The BFME 1-style C caller in Y4CommRingIdle.c names this body _Rva007FDEE0 (pinned to the same 0x0066A3B0, no arguments, returns the address); bind that spelling here.
+#pragma comment(linker, "/alternatename:_Rva007FDEE0=?Rva00804440LocalAddr@@YAIXZ")
+
+// Retail's call sites in this unit's matched rows land on bodies rowed under
+// other spellings at the same addresses (same ABI). Bind the spellings used here.
+#pragma comment(linker, "/alternatename:_strcat=?ji_0062988c@@YAXXZ")
+#pragma comment(linker, "/alternatename:?Rva007FDEE0@@YAHXZ=?Rva00804440LocalAddr@@YAIXZ")

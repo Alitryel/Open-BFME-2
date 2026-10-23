@@ -1,5 +1,13 @@
 // cl: /Od
 
+// basic_string<char>::insert<char*>(pos, first, last, forward tag), rowed at 0x000284D0.
+struct Rva008312E0Tag;
+class Rva008312E0String
+{
+public:
+	void insertRange(char *pos, char *first, char *last, const Rva008312E0Tag &tag);
+};
+
 struct BfmePad56VMS
 {
 	char m[56];
@@ -20,7 +28,6 @@ class BfmeStrVMS
 {
 public:
 	void bfmeFwdVMS(int a, int b, int c);
-	void bfmeImplVMS(int a, int b, int c);
 };
 
 void BfmeStrVMS::bfmeFwdVMS(int a, int b, int c)
@@ -42,6 +49,6 @@ void BfmeStrVMS::bfmeFwdVMS(int a, int b, int c)
 		mov ecx, dword ptr a
 		push ecx
 		mov ecx, this
-		call bfmeImplVMS
+		call Rva008312E0String::insertRange
 	}
 }

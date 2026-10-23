@@ -1,4 +1,4 @@
-// cl: /O1 /MD /GX /DNDEBUG
+// cl: /MD /GX /DNDEBUG
 //
 // ??0WanderAIUpdateModuleData@@QAE@XZ, retail 0x0024F1CD (37 bytes).
 // Frameless ctor over the pinned Transport base (0x26E5D7): sets
@@ -26,7 +26,7 @@ class WanderAIUpdateModuleData : public TransportAIUpdateModuleData
 {
 public:
 	WanderAIUpdateModuleData();
-	virtual ~WanderAIUpdateModuleData();
+	// Implicit destructor: retail's folded vtable 0x0084B6C8 slot 0 0x00254418 calls 0x004905B0, a tail jump to the Transport base dtor.
 
 private:
 	bool m_wildBeast;		// +0x64

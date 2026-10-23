@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc
+// cl: /Ireference/shims/bfme2_ascii /EHsc
 
 // Evidence: retail 0x0037BA62 (53 bytes) references the string literal
 // "GUI:LastReplay" -- the anchor also used by ZH's Recorder.cpp (line ~577,
@@ -22,47 +22,8 @@
 
 typedef unsigned short WideChar;
 
-template <typename T>
-class StringBase
-{
-    friend class AsciiString;
-    friend class UnicodeString;
+#include "unicode_string.h"
 
-private:
-    StringBase() : m_data(0) {}
-    StringBase(const StringBase<T> &that);
-    StringBase(const T *that);
-
-    struct Header
-    {
-        int ref_count;
-        unsigned short length;
-        unsigned short capacity;
-        T data[1];
-    };
-
-    void releaseBuffer();
-    Header *m_data;
-
-public:
-    const T *str() const
-    {
-        static const T TheNullChr = 0;
-        return m_data ? &m_data->data[0] : &TheNullChr;
-    }
-};
-
-class UnicodeString
-{
-public:
-    UnicodeString() {}
-    UnicodeString(const UnicodeString &that) : m_data(that.m_data) {}
-    UnicodeString(const WideChar *s) : m_data(s) {}
-    ~UnicodeString() { m_data.releaseBuffer(); }
-    const WideChar *str() const { return m_data.str(); }
-private:
-    StringBase<WideChar> m_data;
-};
 
 // Retail fetch call uses vtable offset 0x3c (see VersionUnicode.cpp for the
 // slot derivation); the thirteen preceding non-destructor methods are not

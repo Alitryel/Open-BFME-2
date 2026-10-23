@@ -1,4 +1,4 @@
-// cl: /O1 /GX /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /GX /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0CivilianSpawnUpdateModuleData@@QAE@XZ, retail 0x0047FA55 (78 bytes).
@@ -18,28 +18,52 @@
 
 #include <vector>
 
+// vector<int>/char destruction otherwise instantiates per-TU allocator
+// deallocate COMDATs (one byte shape per TU flags); explicit
+// dllimport+forceinline specializations take those calls inline so this
+// TU emits no external copies. Bodies are verbatim primary.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<int>::deallocate(int* __p, size_t __n) const {
+  _STLP_ASSERT( (__p == 0) == (__n == 0) )
+    if (__p != 0) __sgi_alloc::deallocate((void*)__p, __n * sizeof(value_type));
+}
+template <> void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int*, size_t);
+// Declaration-only: retail keeps one 14-byte copy of the vector<int> teardown
+// (0x0007FAB3); this TU's flags would emit a private 24-byte one.
+template <> vector<int, allocator<int> >::~vector();
+template <> _Vector_base<int, allocator<int> >::~_Vector_base();
+}
+
 class Rva003623E5Filter
 {
 public:
 	Rva003623E5Filter();
 };
 
-extern int g_bfmeScaleBase;	// retail 0xDBA4E4, value 5 (DIR32-masked)
+extern int BfmeLogicFramesPerSecond;	// retail 0xDBA4E4, value 5 (DIR32-masked)
 
-class CivilianSpawnBase
+// ModuleData: vtable 0x00C48530 slots 1-3 are the shared ModuleData base
+// bodies (0x004B3FD0, 0x00465212, 0x0047A69C), and the ctor's unwind action
+// 0x0078B8A3 calls the base dtor at the Snapshot-dtor fold 0x0049B47C.
+// novtable and an in-place ctor as in Common/BfmeModuleData.h: retail never
+// installs ModuleData's own table, so no unit emits ??_7 or ??0ModuleData.
+class __declspec(novtable) ModuleData
 {
 public:
-	virtual ~CivilianSpawnBase();
+	__declspec(dllimport) __forceinline ModuleData() {}
+	virtual ~ModuleData();
 
 protected:
 	void *m_unsourced04;	// +0x04, retail never stores it
 	int m_int08;	// +0x08, global store by the derived ctor
 };
 
-class CivilianSpawnUpdateModuleData : public CivilianSpawnBase
+class CivilianSpawnUpdateModuleData : public ModuleData
 {
 public:
 	CivilianSpawnUpdateModuleData();
+	virtual ~CivilianSpawnUpdateModuleData();
 
 private:
 	Rva003623E5Filter m_filter0C;	// +0x0C
@@ -50,6 +74,6 @@ private:
 CivilianSpawnUpdateModuleData::CivilianSpawnUpdateModuleData()
 	: m_vec14(_STL::allocator<int>())
 {
-	m_int08 = g_bfmeScaleBase;
+	m_int08 = BfmeLogicFramesPerSecond;
 	m_int10 = 300;
 }

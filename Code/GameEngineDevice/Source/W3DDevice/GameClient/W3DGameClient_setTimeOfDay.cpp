@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /arch:SSE /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
 //
 // ?setTimeOfDay@W3DGameClient@@UAEXW4TimeOfDay@@@Z @ 0x0004C884 (56B).
 // Dedicated TU: BFME1 donor shape verbatim, adapted to BFME2 retail (measured):
@@ -16,10 +16,17 @@ enum TimeOfDay
 };
 
 extern void *W3DGCData00DE2000;
-extern void *W3DGCData00DE5DFC;
-extern void *W3DGCData00DFE9D8;
+// W3DGCData00DE2000: matched references place it at VA 0xde2000 (zero-filled .bss).
+void * W3DGCData00DE2000;
+// The data ledger identifies the native shadow-manager pointer at VA 0x00DE5DFC.
+extern class W3DShadowManager *TheW3DShadowManager;
+extern class Display *TheDisplay;
 
-#include "vector3.h"
+#pragma optimize("ty", on)
+// Native constructor and normalization stay inline without competing copies.
+#include "../../../../../reference/shims/bfme_colmathaabox/wwmath.h"
+#include "../../../../../reference/shims/bfme_colmathaabox/vector3.h"
+#pragma optimize("", on)
 
 class W3DGameClientWaterShim
 {
@@ -97,10 +104,10 @@ void W3DGameClient::setTimeOfDay(TimeOfDay tod)
 	void *water = W3DGCData00DE2000;
 	if (water)
 		((W3DGameClientWaterShim *)water)->setTimeOfDay(tod);
-	void *shadow = W3DGCData00DE5DFC;
+	void *shadow = TheW3DShadowManager;
 	if (shadow)
 		((W3DGameClientShadowShim *)shadow)->setTimeOfDay(tod);
-	void *display = W3DGCData00DFE9D8;
+	void *display = (*(void **)&TheDisplay);
 	((W3DGameClientDisplayShim *)display)->setTimeOfDay(tod);
 }
 
@@ -116,7 +123,7 @@ struct ShadowTerrainLightEntry
 	char m_pad24[0x6C - 0x24];
 };
 
-extern void *W3DGCData00DFE758;
+extern class GlobalData *TheWritableGlobalData;
 
 // Sun distance (BFME1 SUN_DISTANCE_FROM_GROUND was 10000.0f; retail pools
 // 10000000.0f in .rdata, so BFME2 keeps it a literal with a new value).
@@ -128,7 +135,7 @@ extern void *W3DGCData00DFE758;
 void W3DGameClientShadowShim::setTimeOfDay(TimeOfDay tod)
 {
 	const ShadowTerrainLightEntry *entry =
-		(const ShadowTerrainLightEntry *)((const char *)W3DGCData00DFE758 + 0x3C8 + tod * 0x6C);
+		(const ShadowTerrainLightEntry *)((const char *)(*(void **)&TheWritableGlobalData) + 0x3C8 + tod * 0x6C);
 	Vector3 lightRay(-entry->m_lightX, -entry->m_lightY, -entry->m_lightZ);
 	lightRay.Normalize();
 	lightRay *= SHADOW_SUN_DISTANCE_FROM_GROUND;

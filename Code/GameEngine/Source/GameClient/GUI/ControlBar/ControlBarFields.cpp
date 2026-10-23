@@ -26,6 +26,10 @@ public:
 	GameWindow *m_specialPowerShortcutParent;			///< retail this+0xD8 (BFME1 header has this+0xFC)
 };
 
+// Matched DIR32 at 0x003E73E7 establishes TheControlBar at VA 0x00E01CFC.
+// This address is in the PE .data zero-fill tail, so retail starts it null.
+extern class ControlBar *TheControlBar;
+
 // ?hideSpecialPowerShortcut@ControlBar@@QAEXXZ
 void ControlBar::hideSpecialPowerShortcut( void )
 {

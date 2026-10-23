@@ -1,4 +1,4 @@
-// cl: /O1 /Ob2 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /Ob2 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // Wide twin of stlport_list_asciistring_insert.cpp (which holds the narrow
@@ -14,6 +14,15 @@
 // 0x0043BFA4; both arrive as twin pins.
 #include <list>
 
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class Traits>
+static inline bool operator!=(const _List_iterator<T, Traits>& a,
+                              const _List_iterator<T, Traits>& b)
+{ return a._M_node != b._M_node; }
+}
+
+
 template <typename T> struct BfmeStringData
 {
 	int refCount;
@@ -22,30 +31,20 @@ template <typename T> struct BfmeStringData
 	T text[1];
 };
 
-template <typename T> class StringBase
-{
-	friend class UnicodeString;
-private:
-	StringBase() {}
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	void releaseBuffer();
-	BfmeStringData<T> *m_data;
+#include "unicode_string.h"
 
-public:
-	const T *str() const { return m_data ? &m_data->text[0] : (const T *)L""; }
-};
+// Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
+// rather than emitting its own.
+namespace _STL {
+template <> _List_node<UnicodeString> *list<UnicodeString, allocator<UnicodeString> >::_M_create_node(const UnicodeString &);
+}
 
-class UnicodeString : private StringBase<wchar_t>
-{
-public:
-	UnicodeString() { m_data = 0; }
-	UnicodeString(const wchar_t *text);
-	UnicodeString(const UnicodeString &other);
-	~UnicodeString() { releaseBuffer(); }
-};
 
-bool operator==(const UnicodeString &a, const UnicodeString &b);
+inline bool operator==(const UnicodeString &a, const UnicodeString &b) { return a.compare(b) == 0; }
 bool operator<(const UnicodeString &a, const UnicodeString &b);
 
 template class _STL::list<UnicodeString, _STL::allocator<UnicodeString> >;
+
+// find(first, last, value) @0x00433BEE (42B) and its __find worker @0x00433B96 (39B).
+typedef _STL::list<UnicodeString>::iterator UnicodeStringListIter;
+template UnicodeStringListIter _STL::find<UnicodeStringListIter, UnicodeString>(UnicodeStringListIter, UnicodeStringListIter, const UnicodeString &);

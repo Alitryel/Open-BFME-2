@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHs-
+// cl: /DNDEBUG /MD /EHs-
 // Open-BFME5: SpawnUnitBehavior constructor.
 // Retail shape: grandbase ctor call with both args, interface-base vtable
 // stores at +0x0C/+0x10, field inits (+0x18/+0x1C = -1, +0x14 = 0), vtable
@@ -36,18 +36,22 @@ public:
     virtual ~SpawnUnitBehaviorIface2();
 };
 
+// Retail's base vftable 0x00C1C780 (stored at +0x20 before the derived one) starts with
+// a __purecall slot, overridden at 0x00C59120 by the AsciiString getter 0x004B8851; the
+// derived table there holds that one slot, so the interface has no virtual destructor.
 class SpawnUnitBehaviorIface3
 {
 public:
-    virtual ~SpawnUnitBehaviorIface3();
+    virtual void slot0() const = 0;
 };
 
-class SpawnUnitBehaviorBase : public SpawnUnitBehaviorGrandBase, public SpawnUnitBehaviorIface1, public SpawnUnitBehaviorIface2
+// The base is retail's UpdateModule: its constructor (0x00253390) and
+// destructor are rowed elsewhere, so they are declared, never defined here.
+class UpdateModule : public SpawnUnitBehaviorGrandBase, public SpawnUnitBehaviorIface1, public SpawnUnitBehaviorIface2
 {
 public:
-    SpawnUnitBehaviorBase(Thing *t, const ModuleData *m)
-        : SpawnUnitBehaviorGrandBase(t, m), m_14(0), m_18(-1), m_1C(-1) {}
-    virtual ~SpawnUnitBehaviorBase();
+    UpdateModule(Thing *t, const ModuleData *m);
+    virtual ~UpdateModule();
 
 private:
     unsigned int m_14;
@@ -55,7 +59,7 @@ private:
     int m_1C;
 };
 
-class SpawnUnitBehavior : public SpawnUnitBehaviorBase, public SpawnUnitBehaviorIface3
+class SpawnUnitBehavior : public UpdateModule, public SpawnUnitBehaviorIface3
 {
 public:
     SpawnUnitBehavior(Thing *, const ModuleData *);
@@ -68,8 +72,8 @@ private:
 };
 
 // ??0SpawnUnitBehavior@@QAE@PAVThing@@PBVModuleData@@@Z
-SpawnUnitBehavior::SpawnUnitBehavior(Thing *t, const ModuleData *m)
-    : SpawnUnitBehaviorBase(t, m)
+SpawnUnitBehavior::SpawnUnitBehavior(Thing *thing, const ModuleData *moduleData)
+    : UpdateModule(thing, moduleData)
 {
     m_spawnOnce = *(reinterpret_cast<const unsigned char *>(m_moduleData) + 0x1C);
 }

@@ -33,6 +33,9 @@ MIN_PAD_RUN = 3
 # padding it sits in runs up to. `unmapped-gap` and `outside-.text` name none,
 # so there is nothing to correct them to -- see `corrected_start`.
 CORRECTABLE = {"interior-of-function", "in-int3-padding"}
+# `mov`/`lea r32, [ebp+disp]` and `push [ebp+disp]`: ModRM mod 01/10, rm 101.
+FRAME_LOADS = (0x8B, 0x8D)
+FRAME_PUSH = (0xFF, 6)
 
 
 class BoundaryValidator:
@@ -76,6 +79,21 @@ class BoundaryValidator:
                 return rva + index
             index = end
         return None
+
+    def borrows_frame(self, rva):
+        """Does the body at `rva` open by reading a frame it never set up?
+
+        An EH unwind or catch funclet runs on its parent's frame, so its first
+        instruction reads `[ebp+disp]`; a function with a frame of its own has to
+        build it first, and one that omits the frame pointer has no reason to read
+        the caller's ebp. Ghidra lists these funclets as functions (`Unwind@...`),
+        which is why `ghidra-start` alone cannot tell them from a body's start.
+        """
+        head = self.read(rva, 3)
+        if len(head) < 3 or head[1] >> 6 not in (1, 2) or head[1] & 7 != 5:
+            return False
+        return head[0] in FRAME_LOADS or (
+            head[0] == FRAME_PUSH[0] and (head[1] >> 3) & 7 == FRAME_PUSH[1])
 
     def check_start(self, rva):
         """C1: can a function start here? Returns (True|False|None, reason).
@@ -156,6 +174,14 @@ class BoundaryValidator:
         start_ok, reason = self.check_start(rva)
         if start_ok is False:
             verdict["reject"] = f"C1 {reason}"
+            return verdict
+        # A funclet is a real boundary -- ~19,000 landed rows start at one -- so
+        # it is refused only for a claim larger than the whole funclet: that
+        # claim names a function with a frame of its own, which this is not.
+        # The alignment vote snaps such claims onto funclet starts because the
+        # inventory lists funclets as functions.
+        if verdict["extent"] and size > verdict["extent"] and self.borrows_frame(rva):
+            verdict["reject"] = "C1 eh-funclet"
             return verdict
         # Both remaining checks read the body the queue will hand over: Ghidra's
         # extent where it knows one, the claimed size only where it does not. A

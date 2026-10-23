@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /GX /Oi-
+// cl: /Oy- /DNDEBUG /MD /GX /Oi-
 //
 // ??0DrawableModule@@QAE@PAVThing@@PBVModuleData@@@Z at retail 0x00306B19
 // (108B). Dedicated TU (its base-callers 0xB19A1/0x252B68/0x362EC7 live in
@@ -52,7 +52,9 @@ class DrawableModule : public Module
 {
 public:
 	DrawableModule(Thing *thing, const ModuleData *moduleData);
+protected:
 	virtual ~DrawableModule();
+public:
 	virtual void onCapture(Player *oldOwner, Player *newOwner) {}
 	virtual void onDisabledEdge(Bool nowDisabled) {}
 
@@ -60,28 +62,23 @@ private:
 	Drawable *m_drawable; // +4
 };
 
-struct INIException
+class INIException
 {
+public:
+	INIException(int argCount, const char *format, ...);
 	char *mFailureMessage;
 	int mErrorCode;
+	INIException(const INIException &that);
+	~INIException();
 };
 
-extern "C" void rva002f681_fill(void *dst, int code, const char *fmt, ...);
-__declspec(noreturn) void __stdcall _CxxThrowException(void *pExc, void *pInfo);
-
-// Address anchor only: the throw site pushes this object's address as an
-// immediate (DIR32, copied from retail); content never compared.
-struct DrawableModuleThrowInfoAnchor { int a; int b; int c; int d; };
-static const DrawableModuleThrowInfoAnchor gThrowInfoAnchor = { 0, 0, 0, 0 };
 
 // ??0DrawableModule@@QAE@PAVThing@@PBVModuleData@@@Z
 DrawableModule::DrawableModule(Thing *thing, const ModuleData *moduleData)
 	: Module(moduleData)
 {
 	if (!moduleData) {
-		INIException e;
-		rva002f681_fill(&e, 3, "module data may not be null\n");
-		_CxxThrowException(&e, (void *)&gThrowInfoAnchor);
+		throw INIException(3, "module data may not be null\n");
 	}
 	m_drawable = AsDrawable(thing);
 }

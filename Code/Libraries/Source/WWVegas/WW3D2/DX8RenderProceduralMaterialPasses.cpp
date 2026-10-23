@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -30,7 +30,7 @@ class RefCountClass
 {
 public:
     void Add_Ref() { ++references; }
-    void Release_Ref() { if (--references == 0) Delete_This(); }
+    __declspec(dllimport) __forceinline void Release_Ref() { if (--references == 0) Delete_This(); }
     virtual void Delete_This();
 protected:
     virtual ~RefCountClass();
@@ -59,14 +59,17 @@ public:
 
 template<class T, int N> class AutoPoolClass
 {
-public:
+private:
     static ObjectPoolClass<T, N> Allocator;
+public:
     static void operator delete(void *);
 };
 
 template<class T, int N>
 void AutoPoolClass<T, N>::operator delete(void *object)
 {
+    // Native 0x001449E0, like the reference AutoPool helper, accepts null.
+    if (object == 0) return;
     Allocator.Free_Object_Memory((T *)object);
 }
 
@@ -87,9 +90,6 @@ public:
         Mesh->Release_Ref();
     }
 };
-
-template<> ObjectPoolClass<MatPassTaskClass, 256>
-    AutoPoolClass<MatPassTaskClass, 256>::Allocator;
 
 class __declspec(novtable) DX8FVFCategoryContainer
 {

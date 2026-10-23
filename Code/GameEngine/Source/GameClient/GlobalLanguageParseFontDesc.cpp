@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 // GlobalLanguage::parseFontDesc (retail 0x0037691C, 108 bytes). Zero Hour
 // donor served from GlobalLanguage.cpp: reads a quoted font name through
 // the rowed getNextQuotedAsciiString at 0x002E93F, an int size through the
@@ -12,28 +12,8 @@ typedef int Bool;
 
 template <typename T> struct BfmeStringData;
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	void releaseBuffer();
+#include "ascii_string.h"
 
-public:
-	StringBase() : m_data(0) {}
-	~StringBase();
-	void set(const T *text);
-
-protected:
-	BfmeStringData<T> *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString() {}
-	AsciiString &operator=(const AsciiString &other);
-};
 
 struct FontDesc
 {

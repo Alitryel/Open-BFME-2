@@ -1,4 +1,4 @@
-// cl: /O2 /arch:SSE2 /DNDEBUG /MD /GX-
+// cl: /DNDEBUG /MD /GX-
 //
 // ?read_material_pass@MeshModelClass@@IAE_NAAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,
 // retail 0x0018B400 (175 bytes).
@@ -7,10 +7,11 @@
 // - bool (AL) returns with a per-case `bool ok` local and `!= true` checks
 //   that return ok (al passthrough, no mov); the seven identical case tails
 //   fold to one shared `cmp al,1` check and default skips it.
-// - Cases in retail layout order (== source order): 0x39/0x3A/0x3F/0x3B/
-//   0x3C/0x48/0x4A with a linker jump table (masked DIR32). SCG (0x3E)
-//   falls to default in BFME2. Chunk 0x3F is undefined in w3d_file.h; its
-//   reader is the opaque pin.
+// - Reader cases in retail code layout order: 0x39/0x3A/0x3F/0x3B/0x3C/
+//   0x48/0x4A, with a linker jump table (masked DIR32). SCG (0x3E) closes
+//   and advances like default, but is explicit to preserve retail's duplicate
+//   jump-table slot. Chunk 0x3F is undefined in w3d_file.h; its reader is the
+//   opaque pin.
 // - CurTexStage at context+0x90 zeroed on entry (DWORD store), CurPass at
 //   context+0x8C incremented on success (mem-add).
 // Dedicated TU: the enum-typed meshmdlio.cpp cannot take rows (PostProcess
@@ -84,6 +85,9 @@ bool MeshModelClass::read_material_pass(ChunkLoadClass &cload, MeshLoadContextCl
 			}
 			break;
 		}
+		case W3D_CHUNK_SCG:
+			cload.Close_Chunk();
+			continue;
 		case 0x3F: {
 			bool ok = read_Rva00188AF0(cload, context);
 			if (ok != true) {

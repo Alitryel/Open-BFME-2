@@ -1,6 +1,11 @@
-// cl: /O1 /arch:SSE2 /Oi
+// cl: /Oi
 
+// Preserve the CRT inline overloads used by the retail intrinsic wrappers,
+// without emitting their incompatible out-of-line float-wrapper copies.
+#pragma push_macro("inline")
+#define inline __declspec(dllimport) __forceinline
 #include <math.h>
+#pragma pop_macro("inline")
 
 #pragma intrinsic(sin, cos, tan, asin, acos)
 
@@ -40,4 +45,13 @@ float ASin(float value)
 float ACos(float value)
 {
     return (float)acos(value);
+}
+
+// Native 0x001333F0..0x001333FB: two float stack arguments, FPATAN and RET.
+// The BFME1 small-body sweep found identical atan2 float wrappers, including
+// WWMath::Atan2, but their folded names do not identify this unreferenced
+// retail copy. Keep the original spelling unknown and name its proven effect.
+float Rva001333F0Atan2(float y, float x)
+{
+    return static_cast<float>(atan2(y, x));
 }

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /G7
+// cl: /DNDEBUG /MD /EHsc
 // readable body of ?allocateSlotStorage@W3DBufferManager@@: Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DBufferManager.cpp
 // readable body of ?freeAllSlots@W3DBufferManager@@: Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DBufferManager.cpp
 // readable body of ?getSlot@W3DBufferManager@@: Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DBufferManager.cpp
@@ -174,6 +174,8 @@ public:
 	void releaseSlot(W3DVertexBufferSlot *vbSlot);
 	void releaseSlot(W3DIndexBufferSlot *ibSlot);
 	void freeAllSlots(void);
+	~W3DBufferManager(void);
+	void freeAllBuffers(void);
 
 protected:
 
@@ -238,6 +240,12 @@ void W3DBufferManager::freeAllSlots(void)
 		}
 		m_W3DIndexBufferSlots[j]=NULL;
 	}
+}
+
+W3DBufferManager::~W3DBufferManager(void)
+{
+	freeAllSlots();
+	freeAllBuffers();
 }
 
 /**Reserves space inside a vertex buffer.  If no space is available,

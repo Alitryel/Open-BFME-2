@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 //
 // STLport 4.5.3 vector::_M_insert_overflow at target boundary 0x00361680/191.
@@ -8,31 +8,41 @@
 // call sites. The complete application element type/layout is not known.
 //
 // BfmeStringHeadRecord148 is only an emitter view: 148-byte size and a
-// non-trivial copy trait. The target destructor/copy chain supports an
-// AsciiString at offset zero, but this declaration's remaining int fields do
-// not claim the retail record layout.
+// non-trivial copy trait. Its historical AsciiString-plus-padding declaration
+// does not describe the native record, which owns six vectors; destruction
+// is explicitly routed to the verified Rva00360F55 owner below.
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
 #include <vector>
 
-template<class T> class StringBase {
-	void *m_data;
-	void releaseBuffer();
-public:
-	StringBase();
-	StringBase(const StringBase &);
-	StringBase &operator=(const StringBase &);
-protected:
-	__forceinline ~StringBase() { releaseBuffer(); }
-};
+#include "ascii_string.h"
 
-class AsciiString : private StringBase<char> {
-public:
-	__forceinline AsciiString() {}
-	__forceinline AsciiString(const AsciiString &o) : StringBase<char>(o) {}
-	__forceinline ~AsciiString() {}
-	AsciiString &operator=(const AsciiString &);
-};
 
 struct BfmeStringHeadRecord148 { AsciiString s; int a[36]; };
+
+// Native record teardown is the independently recovered 0x00360FDB owner.
+// This emitter view supplies stride and copy traits only; destruction must
+// call that owner instead of synthesizing an AsciiString-only destructor.
+class Rva00360F55
+{
+public:
+    ~Rva00360F55();
+};
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _Destroy<BfmeStringHeadRecord148>(BfmeStringHeadRecord148 *p)
+{
+    ((Rva00360F55 *)p)->~Rva00360F55();
+}
+}
 
 namespace _STL {
 template <> void _Construct<BfmeStringHeadRecord148, BfmeStringHeadRecord148>(

@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /GX- /O1 /Ob2
+// cl: /DNDEBUG /MD /GX- /Ob2
 
 // Emission info copy constructors.
 //
@@ -8,6 +8,13 @@
 // triple per 12-byte random variable. TerrainFireEmissionInfo is new in BFME2
 // (no donor); its layout comes from retail 0x003A6E0E and the sibling model in
 // Code/GameEngine/Source/GameClient/FXParticleSystemModules.cpp.
+
+class Xfer;
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#define BFME_SNAPSHOT_REFERENCE_XFER
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 namespace FXParticleSystem
 {
@@ -19,12 +26,22 @@ struct GameClientRandomVariable
     float m_high;
 };
 
-class EmissionVelocityInfo
+class EmissionVelocityInfo : public Snapshot
 {
 public:
     EmissionVelocityInfo(const EmissionVelocityInfo &that);
-    virtual ~EmissionVelocityInfo();
+    virtual ~EmissionVelocityInfo() {}
+    virtual void LoadPostProcess();
+    virtual const char *GetSnapshotName();
+    virtual void DoXfer(::Xfer &);
 };
+
+// BFME1 donor fx_particle_system.cpp:733 is an empty DoXfer override; target
+// exports identify EmissionVelocityInfo at 0x0047A69C.
+// ?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z
+void EmissionVelocityInfo::DoXfer(Xfer &xfer)
+{
+}
 
 class CylindricalEmissionVelocityInfo : public EmissionVelocityInfo
 {
@@ -66,11 +83,14 @@ OrthoEmissionVelocityInfo::OrthoEmissionVelocityInfo(const OrthoEmissionVelocity
 {
 }
 
-class EmissionVolumeInfo
+class EmissionVolumeInfo : public Snapshot
 {
 public:
     EmissionVolumeInfo(const EmissionVolumeInfo &that);
-    virtual ~EmissionVolumeInfo();
+    virtual ~EmissionVolumeInfo() {}
+    virtual void LoadPostProcess();
+    virtual const char *GetSnapshotName();
+    virtual void DoXfer(::Xfer &);
 
     bool m_flag;
 };
@@ -119,3 +139,10 @@ SphericalEmissionVelocityInfo::SphericalEmissionVelocityInfo(const SphericalEmis
 }
 
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?construct_from@OutwardEmissionVelocityModuleTemplateSubCopyShim@FXParticleSystem@@QAEXPBX@Z=??0CylindricalEmissionVelocityInfo@FXParticleSystem@@QAE@ABV01@@Z")
+
+// Target exports identify the empty volume transfer as the same RET4 fold.
+void FXParticleSystem::EmissionVolumeInfo::DoXfer(Xfer &) {}

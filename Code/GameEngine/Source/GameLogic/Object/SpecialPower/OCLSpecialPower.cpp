@@ -1,4 +1,7 @@
-// cl: /O1 /DNDEBUG /DWIN32 /D_WINDOWS /DBFME_MODULE_NO_MPO /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /DWIN32 /D_WINDOWS /DBFME_MODULE_NO_MPO /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
+// This donor Object view does not use native disabled-mask +0x1C8.
+// Keep its unrecovered callers separate from native Object::isDisabled.
+#define isDisabled oCLSpecialPowerDonorIsDisabled
 // stlport
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
@@ -43,6 +46,9 @@
 #include "GameLogic/TerrainLogic.h"
 #include "GameLogic/Module/OCLSpecialPower.h"
 
+// Shared retail science-word selector; see OCLSpecialPowerFindOCL.cpp.
+class Rva004C31A8ScienceSelector { public: unsigned select() const; };
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // MODULE DATA ////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,28 +65,22 @@ enum
 	MAX_ADJUST_RADIUS = 500
 };
 
-static const char* TheOCLCreateLocTypeNames[] =
+// BFME 2's list (retail VA 0x00DCDFD0, .data, read from retail): the
+// CreateLocation parseIndexList names of OCLSpecialPowerModuleData's table,
+// Zero Hour's six plus three BFME 2 placements.
+const char* TheOCLCreateLocTypeNames[] =
 {
 	"CREATE_AT_EDGE_NEAR_SOURCE",
 	"CREATE_AT_EDGE_NEAR_TARGET",
+	"CREATE_AT_EDGE_NEAR_TARGET_AND_MOVE_TO_LOCATION",
 	"CREATE_AT_LOCATION",
 	"USE_OWNER_OBJECT",
 	"CREATE_ABOVE_LOCATION",
 	"CREATE_AT_EDGE_FARTHEST_FROM_TARGET",
+	"CREATE_CLOSEST_TO_SPAWN_POINT",
+	"USE_SECONDARY_OBJECT_LOCATION",
 	NULL
 };
-
-//-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/AI/OCLSpecialPowerModuleDataCtorThunk.cpp
-// ??0OCLSpecialPowerModuleData@@QAE@XZ present-unmatched
-OCLSpecialPowerModuleData::OCLSpecialPowerModuleData( void )
-{
-	m_defaultOCL = NULL;
-	m_upgradeOCL.clear();
-	m_createLoc = CREATE_AT_EDGE_NEAR_SOURCE;
-	m_isOCLAdjustPositionToPassable = FALSE;
-}
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -93,25 +93,6 @@ static void parseOCLUpgradePair( INI* ini, void * /*instance*/, void *store, con
 
 	std::vector<OCLSpecialPowerModuleData::Upgrades>* s = (std::vector<OCLSpecialPowerModuleData::Upgrades>*)store;
 	s->push_back(up);
-} 
-
-//-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
-/* static */ void OCLSpecialPowerModuleData::buildFieldParse(MultiIniFieldParse& p)
-{
-	SpecialPowerModuleData::buildFieldParse( p );
-
-	static const FieldParse dataFieldParse[] = 
-	{
-		{ "UpgradeOCL", parseOCLUpgradePair, NULL, offsetof( OCLSpecialPowerModuleData, m_upgradeOCL ) },
-		{ "OCL", INI::parseObjectCreationList, NULL, offsetof( OCLSpecialPowerModuleData, m_defaultOCL ) },
-		{ "CreateLocation", INI::parseIndexList, TheOCLCreateLocTypeNames, offsetof( OCLSpecialPowerModuleData, m_createLoc ) },
-		{ "ReferenceObject", INI::parseAsciiString, NULL, offsetof( OCLSpecialPowerModuleData, m_referenceThingName ) },
-		{ "OCLAdjustPositionToPassable", INI::parseBool, NULL, offsetof( OCLSpecialPowerModuleData, m_isOCLAdjustPositionToPassable ) },
-		{ 0, 0, 0, 0 }
-	};
-	p.add(dataFieldParse);
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -132,23 +113,8 @@ OCLSpecialPower::OCLSpecialPower( Thing *thing, const ModuleData *moduleData )
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?findOCL@OCLSpecialPower@@IBEPBVObjectCreationList@@XZ present-unmatched
-const ObjectCreationList* OCLSpecialPower::findOCL() const
-{
-	const OCLSpecialPowerModuleData* d = getOCLSpecialPowerModuleData();
-	const Player* controller = getObject()->getControllingPlayer();
-	if (controller != NULL)
-	{
-		for (std::vector<OCLSpecialPowerModuleData::Upgrades>::const_iterator it = d->m_upgradeOCL.begin(); 
-					it != d->m_upgradeOCL.end();
-					++it)
-		{
-			if (controller->hasScience(it->m_science))
-				return it->m_ocl;
-		}
-	}
-	return d->m_defaultOCL;
-}
+// Implemented in OCLSpecialPowerFindOCL.cpp with the BFME2 ABI.
+
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -193,7 +159,7 @@ void OCLSpecialPower::doSpecialPowerAtLocation( const Coord3D *loc, Real angle, 
 	// call the base class action cause we are *EXTENDING* functionality
 	SpecialPowerModule::doSpecialPowerAtLocation( &targetCoord, angle, commandOptions );
 
-	const ObjectCreationList* ocl = findOCL();
+	const ObjectCreationList* ocl = reinterpret_cast<const ObjectCreationList*>(reinterpret_cast<const Rva004C31A8ScienceSelector*>(this)->select());
 
 	// at what point will the "deliverer" come in
 	Coord3D creationCoord;
@@ -245,21 +211,8 @@ void OCLSpecialPower::doSpecialPowerAtObject( Object *obj, UnsignedInt commandOp
 }  
 
 // ------------------------------------------------------------------------------------------------
-// ?doSpecialPower@OCLSpecialPower@@UAEXI@Z present-unmatched
-void OCLSpecialPower::doSpecialPower( UnsignedInt commandOptions )
-{
-	if (getObject()->isDisabled())
-		return;
+// Implemented in OCLSpecialPowerFindOCL.cpp with the BFME2 ABI.
 
-	Coord3D creationCoord;
-	creationCoord.set( getObject()->getPosition() );
-	
-	// call the base class action cause we are *EXTENDING* functionality
-	SpecialPowerModule::doSpecialPowerAtLocation( &creationCoord, INVALID_ANGLE, commandOptions );
-
-	const ObjectCreationList* ocl = findOCL();
-	ObjectCreationList::create( ocl, getObject(), &creationCoord, &creationCoord, false );
-}
 
 // ------------------------------------------------------------------------------------------------
 // ?getReferenceThingTemplate@OCLSpecialPower@@UBEPBVThingTemplate@@XZ present-unmatched

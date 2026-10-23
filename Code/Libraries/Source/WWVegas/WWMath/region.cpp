@@ -65,9 +65,7 @@ struct ICoord2DBase
     int y;
 };
 
-struct ICoord2D : public ICoord2DBase
-{
-};
+#include "../../../Include/Lib/ICoord2D.h"
 
 // Both integer expandBy members widen one axis at a time through this shared
 // three-argument worker rather than inlining the comparison pair. It is only
@@ -78,12 +76,7 @@ void expandRange(int *low, int value, int *high);
 
 Debug &operator<<(Debug &debug, const ICoord2DBase &coord);
 
-struct ICoord3D
-{
-    int x;
-    int y;
-    int z;
-};
+#include "../../../Include/Lib/ICoord3D.h"
 
 Debug &operator<<(Debug &debug, const ICoord3D &coord);
 
@@ -97,7 +90,7 @@ public:
     float z;
 };
 
-void Coord3D::scale(float scale)
+inline void Coord3D::scale(float scale)
 {
     x *= scale;
     y *= scale;
@@ -106,12 +99,7 @@ void Coord3D::scale(float scale)
 
 Debug &operator<<(Debug &debug, const Coord3D &coord);
 
-class Coord2D
-{
-public:
-    float x;
-    float y;
-};
+#include "../../../Include/Lib/Coord2D.h"
 
 Debug &operator<<(Debug &debug, const Coord2D &coord);
 
@@ -178,6 +166,17 @@ struct Region2D
     float y_max;
 };
 
+// BFME 2 exports ??0LineSegment2D@@QAE@ABVCoord2D@@0@Z at 0x00004C06, the
+// address of Region2D's ctor above: /OPT:ICF folded the two endpoint ctors.
+// This copy reproduces that body and is rowed with it as an ICF alias.
+struct LineSegment2D
+{
+    LineSegment2D(const Coord2D &start, const Coord2D &end);
+
+    Coord2D m_start;
+    Coord2D m_end;
+};
+
 struct Region3D
 {
     Region3D();
@@ -216,15 +215,39 @@ Region2D::Region2D(const Coord2D &lower_left, const Coord2D &upper_right)
     y_max = upper_right.y;
 }
 
-float Region2D::width() const
+LineSegment2D::LineSegment2D(const Coord2D &start, const Coord2D &end)
+{
+    m_start = start;
+    m_end = end;
+}
+
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline float Region2D::width() const
 {
     return x_max - x_min;
 }
 
-float Region2D::height() const
+// ?bfmeAnchorRegion2DWidth absent-from-retail
+float bfmeAnchorRegion2DWidth(const Region2D *p)
+{
+	return p->width();
+}
+
+
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline float Region2D::height() const
 {
     return y_max - y_min;
 }
+
+// ?bfmeAnchorRegion2DHeight absent-from-retail
+float bfmeAnchorRegion2DHeight(const Region2D *p)
+{
+	return p->height();
+}
+
 
 bool Region2D::isInside(const Coord2D &point) const
 {
@@ -279,15 +302,33 @@ bool IRegion2D::operator!=(const IRegion2D &that) const
     return !(*this == that);
 }
 
-int IRegion2D::width() const
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline int IRegion2D::width() const
 {
     return x_max - x_min;
 }
 
-int IRegion2D::height() const
+// ?bfmeAnchorIRegion2DWidth absent-from-retail
+int bfmeAnchorIRegion2DWidth(const IRegion2D *p)
+{
+	return p->width();
+}
+
+
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline int IRegion2D::height() const
 {
     return y_max - y_min;
 }
+
+// ?bfmeAnchorIRegion2DHeight absent-from-retail
+int bfmeAnchorIRegion2DHeight(const IRegion2D *p)
+{
+	return p->height();
+}
+
 
 int IRegion3D::width() const
 {
@@ -305,7 +346,7 @@ int IRegion3D::depth() const
 }
 
 // Six field copies through the integer registers, in slot order.
-Region3D::Region3D(const Region3D &that)
+inline Region3D::Region3D(const Region3D &that)
 {
     x_min = that.x_min;
     y_min = that.y_min;
@@ -315,12 +356,12 @@ Region3D::Region3D(const Region3D &that)
     z_max = that.z_max;
 }
 
-float Region3D::width() const
+inline float Region3D::width() const
 {
     return x_max - x_min;
 }
 
-float Region3D::height() const
+inline float Region3D::height() const
 {
     return y_max - y_min;
 }
@@ -357,7 +398,9 @@ void Region3D::expandBy(const Coord3D &point)
     }
 }
 
-void Region3D::zero()
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline void Region3D::zero()
 {
     x_min = 0.0f;
     y_min = 0.0f;
@@ -366,6 +409,13 @@ void Region3D::zero()
     y_max = 0.0f;
     z_max = 0.0f;
 }
+
+// ?bfmeAnchorRegion3DZero absent-from-retail
+void bfmeAnchorRegion3DZero(Region3D *p)
+{
+	p->zero();
+}
+
 
 bool Region3D::isInRegionNoZ(const Coord3D *point) const
 {
@@ -422,11 +472,11 @@ RealRange::RealRange()
 {
 }
 
-Region2D::Region2D()
+inline Region2D::Region2D()
 {
 }
 
-Region3D::Region3D()
+inline Region3D::Region3D()
 {
 }
 
@@ -434,11 +484,11 @@ IRegion3D::IRegion3D()
 {
 }
 
-Region2D::~Region2D()
+inline Region2D::~Region2D()
 {
 }
 
-Region3D::~Region3D()
+inline Region3D::~Region3D()
 {
 }
 
@@ -477,3 +527,19 @@ Region2DAssign g_region2dAssign = &Region2D::operator=;
 Region3DAssign g_region3dAssign = &Region3D::operator=;
 IRegion2DAssign g_iregion2dAssign = &IRegion2D::operator=;
 IRegion3DAssign g_iregion3dAssign = &IRegion3D::operator=;
+
+// These are header inlines that the units including the header emit as
+// select-any copies, which plain definitions here collided with. The anchor
+// keeps this unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeRegion3DInlineAnchor absent-from-retail
+void _bfmeRegion3DInlineAnchor(Region3D *r, Region2D *q, Coord3D *c)
+{
+    r->Region3D::Region3D();
+    q->Region2D::Region2D();
+    r->Region3D::Region3D(*r);
+    c->scale(r->width() + r->height());
+    r->Region3D::~Region3D();
+    q->Region2D::~Region2D();
+}
+#pragma inline_depth()

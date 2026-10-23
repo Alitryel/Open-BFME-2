@@ -1,3 +1,4 @@
+// cl: /Ireference/shims/bfme2_ascii /O1 /arch:SSE /G7 /EHsc /MD
 // Disp8 sar-avg dword getters: eight-to-ten-byte __thiscall members with one shape:
 //
 //     mov eax,[ecx+<DISP1>] / sub eax,[ecx+<DISP2>] / sar eax,<IMM8> / ret
@@ -6,7 +7,8 @@
 // arithmetically shifted right. MSVC 7.1 emits the disp8 loads `8B 41 XX`
 // plus `2B 41 XX`, plus `C1 F8 XX` (or `D1 F8` for shift-by-1), plus `ret`.
 // Identity is not recovered: every name is derived from its address.
-// No // cl: line (defaults match the frameless shape).
+// The established /O1 /SSE /G7 settings are unchanged; /EHsc supports the
+// independently recovered BodyState INI driver below.
 #define BFME_DISP8_SAR_AVG_DWORD_GETTER(NAME, DISP1, DISP2, IMM) \
 	class NAME \
 	{ \
@@ -42,3 +44,76 @@ BFME_DISP8_SAR_AVG_DWORD_GETTER(Rva0053821BSarAvgField, 0x08, 0x00, 4)
 BFME_DISP8_SAR_AVG_DWORD_GETTER(Rva005AE6EFSarAvgField, 0x04, 0x00, 3)
 BFME_DISP8_SAR_AVG_DWORD_GETTER(Rva005BE245SarAvgField, 0x38, 0x34, 2)
 BFME_DISP8_SAR_AVG_DWORD_GETTER(Rva005D1397SarAvgField, 0x0C, 0x08, 2)
+
+// Native Ghidra [0x003B1017,0x003B1101), 234 bytes, RET 8. BodyState
+// list driver: both native worker calls use complete rowed 0x003339CE;
+// quoted-token reader and StringBase lifetime/tokenization ABI are the
+// same as exact KindOf driver 0x00256499, used as the C++ semantic guide.
+// The complete 47-byte append helper at 0x0049B6AE ignores the incoming
+// receiver. Reuse its existing opaque member ABI binding without a new
+// pin: native sets ECX=this before both appends. The fallback is retail's
+// actual one-byte empty string. Original driver name remains unknown.
+#include "ascii_string.h"
+
+class INI
+{
+public:
+	const char *rva0002DFE2(const char *seps, bool *substituted);
+};
+
+__forceinline const char *GetStr003B1017(const AsciiString &asciiString)
+{
+	char *t = *(char * *)(void *)&asciiString;
+	return t ? t + 8 : "";
+}
+
+class Rva0049B6AE
+{
+public:
+	void append(const char *s, StringBase<char> *b);
+};
+
+class Rva003339CE
+{
+public:
+	bool rva003339CE(const char *token, bool *foundNormal, bool *foundAddOrSub);
+
+private:
+	unsigned int m_words[4]; // Native worker clears/accesses the 16-byte bitset.
+};
+
+class Rva003B1017 : public Rva003339CE
+{
+public:
+	void rva003B1017(INI *ini, void *extra);
+};
+
+void Rva003B1017::rva003B1017(INI *ini, void *extra)
+{
+	AsciiString *accum = (AsciiString *)extra;
+	if (accum != 0)
+		accum->clear();
+
+	bool foundNormal = false;
+	bool foundAddOrSub = false;
+	bool wasQuoted = false;
+
+	const char *token;
+	while ((token = ini->rva0002DFE2(0, &wasQuoted)) != 0) {
+		if (wasQuoted) {
+			AsciiString tmp(token);
+			AsciiString part;
+			while (tmp.nextToken(&part, 0)) {
+				const char *s = GetStr003B1017(part);
+				((Rva0049B6AE *)this)->append(s, (StringBase<char> *)accum);
+				if (!rva003339CE(s, &foundNormal, &foundAddOrSub))
+					break;
+			}
+			wasQuoted = false;
+		} else {
+			((Rva0049B6AE *)this)->append(token, (StringBase<char> *)accum);
+			if (!rva003339CE(token, &foundNormal, &foundAddOrSub))
+				break;
+		}
+	}
+}

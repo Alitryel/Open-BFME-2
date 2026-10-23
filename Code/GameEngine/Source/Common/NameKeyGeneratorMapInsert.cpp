@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // NameKeyGenerator::KeyToBucketMap::insert, retail 0x004DA240, 36 bytes,
 // NameKeyGenerator::KeyToBucketMap::do_insert, retail 0x0005574B, 112 bytes,
@@ -80,13 +80,26 @@ public:
 			KeyToBucketMap *second;
 			bool inserted;
 
-			insert_result(Bucket *f, KeyToBucketMap *s, bool i)
-				: first(f), second(s), inserted(i)
+			insert_result(Bucket *bucket, KeyToBucketMap *keyToBucketMap, bool i)
+				: first(bucket), second(keyToBucketMap), inserted(i)
+			{
+			}
+		};
+
+		struct equal_result
+		{
+			Bucket *first;
+			KeyToBucketMap *second;
+
+			equal_result(Bucket *bucket, KeyToBucketMap *keyToBucketMap)
+				: first(bucket), second(keyToBucketMap)
 			{
 			}
 		};
 
 		insert_result insert(const value_type &value);
+		equal_result rva0005559F(const value_type &value);
+		equal_result rva00057C5C(const value_type &value);
 
 	private:
 		NameKeyHashInt m_hash;
@@ -108,14 +121,14 @@ public:
 	};
 };
 
-NameKeyGenerator::KeyToBucketMap::insert_result
+__declspec(noinline) inline NameKeyGenerator::KeyToBucketMap::insert_result
 NameKeyGenerator::KeyToBucketMap::insert(const value_type &value)
 {
 	resize(m_count + 1);
 	return do_insert(value);
 }
 
-NameKeyGenerator::KeyToBucketMap::insert_result
+__declspec(noinline) inline NameKeyGenerator::KeyToBucketMap::insert_result
 NameKeyGenerator::KeyToBucketMap::do_insert(const value_type &value)
 {
 	const unsigned n = bkt_num(value);
@@ -129,15 +142,15 @@ NameKeyGenerator::KeyToBucketMap::do_insert(const value_type &value)
 		}
 	}
 
-	Bucket *tmp = (Bucket *)allocateNode(value);
-	tmp->next = first;
-	tableAt(n) = tmp;
+	Bucket *bucket = (Bucket *)allocateNode(value);
+	bucket->next = first;
+	tableAt(n) = bucket;
 	++m_count;
 
-	return insert_result(tmp, this, true);
+	return insert_result(bucket, this, true);
 }
 
-void *NameKeyGenerator::KeyToBucketMap::allocateNode(const value_type &value)
+__declspec(noinline) inline void *NameKeyGenerator::KeyToBucketMap::allocateNode(const value_type &value)
 {
 	Bucket *node = (Bucket *)BucketAlloc::allocate(sizeof(Bucket), 0);
 	node->next = 0;
@@ -155,4 +168,87 @@ int *NameKeyGenerator::KeyToBucketMap::insertNode(const value_type &value)
 	tableAt(n) = node;
 	++m_count;
 	return &node->key;
+}
+
+// KeyToBucketMap::rva0005559F, retail 0x0005559F, 115 bytes: the
+// insert_equal_noresize half beside do_insert: bucket walk with splice-after
+// on a key hit, else head-link; ++count and a {node, this} result either way.
+// Evidence: two calls to rowed KeyToBucketMap::allocateNode 0x003ED191, same
+// bucket/table/counter layout as do_insert, sits just before it. Caller
+// 0x00057C5C does resize-then-this like insert.
+NameKeyGenerator::KeyToBucketMap::equal_result
+NameKeyGenerator::KeyToBucketMap::rva0005559F(const value_type &value)
+{
+	const unsigned n = bkt_num(value);
+	Bucket *first = (Bucket *)tableAt(n);
+
+	for (Bucket *cur = first; cur != 0; cur = cur->next)
+	{
+		if (keysEqual(cur->key, lookupKey(value)))
+		{
+			Bucket *bucket = (Bucket *)allocateNode(value);
+			bucket->next = cur->next;
+			cur->next = bucket;
+			++m_count;
+			return equal_result(bucket, this);
+		}
+	}
+
+	Bucket *bucket = (Bucket *)allocateNode(value);
+	bucket->next = first;
+	tableAt(n) = bucket;
+	++m_count;
+
+	return equal_result(bucket, this);
+}
+
+// ?rva00057C5C@KeyToBucketMap@NameKeyGenerator@@QAE?AUequal_result@12@ABUvalue_type@12@@Z @0x00057C5C 36B.
+// Chain from 0x0005559F: resize-then-insert_equal like insert does resize-then-do_insert.
+// Evidence: calls rowed hashtable resize 0x0053F1EC and rowed rva0005559F 0x0005559F,
+// count at +0x10, callers at 0x00058A75 0x0005949A 0x000594FB.
+NameKeyGenerator::KeyToBucketMap::equal_result
+NameKeyGenerator::KeyToBucketMap::rva00057C5C(const value_type &value)
+{
+	resize(m_count + 1);
+	return rva0005559F(value);
+}
+
+// ?rva00058A6D@Rva00058A6D@@QAE?AUequal_result@KeyToBucketMap@NameKeyGenerator@@ABUvalue_type@34@@Z
+// @0x00058A6D 20B, unreferenced in retail: the multimap-style insert of a
+// container holding a KeyToBucketMap at +0; it forwards the value and the
+// hidden result pointer to rva00057C5C with the same this. Owner and name
+// are address-derived.
+class Rva00058A6D
+{
+public:
+	NameKeyGenerator::KeyToBucketMap::equal_result
+	rva00058A6D(const NameKeyGenerator::KeyToBucketMap::value_type &value);
+
+private:
+	NameKeyGenerator::KeyToBucketMap m_ht;
+};
+
+NameKeyGenerator::KeyToBucketMap::equal_result
+Rva00058A6D::rva00058A6D(const NameKeyGenerator::KeyToBucketMap::value_type &value)
+{
+	return m_ht.rva00057C5C(value);
+}
+
+// Retail 0x004DA356 (20B, RET 8), directly after the sibling tree forwarder
+// 0x004DA342: forward the hidden result and the value to the
+// KeyToBucketMap::insert above on the map held at +0. The owner's identity
+// is not established; its name is address-derived.
+class Rva004DA356Map
+{
+public:
+	NameKeyGenerator::KeyToBucketMap::insert_result insert(
+		const NameKeyGenerator::KeyToBucketMap::value_type &value);
+private:
+	NameKeyGenerator::KeyToBucketMap m_map;
+};
+
+NameKeyGenerator::KeyToBucketMap::insert_result Rva004DA356Map::insert(
+	const NameKeyGenerator::KeyToBucketMap::value_type &value)
+{
+	return m_map.insert(value);
 }

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX-
+// cl: /DNDEBUG /MD /GX-
 // Rva002A88C7_CombatChainEntry default ctor (retail 0x002A88C7, 39 bytes),
 // Rva002A88EE_CombatChainEntry copy-assign (retail 0x002A88EE, 52 bytes) and
 // Rva002A8945_ParseCombatChainDefinition (retail 0x002A8945, 69 bytes).
@@ -14,7 +14,15 @@
 // parsed unit id (imul 0x84 stride). The struct name is a readable local
 // model; the owning struct is BFME2-new (no BFME1 donor).
 
-struct FieldParse;
+class INI;
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(INI *ini, void *instance, void *store, const void *userData);
+	const void *userData;
+	int offset;
+};
+typedef void (*FieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
 
 extern "C" void *memset(void *dst, int val, unsigned int n);
 extern "C" void *memcpy(void *dst, const void *src, unsigned int n);
@@ -33,6 +41,20 @@ class INI
 public:
 	void initFromINI(void *instance, const FieldParse *table);
 	static void Rva002A8945_ParseCombatChainDefinition(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva004E8E57_ParseAIKindOf(INI *ini, void *instance, void *store, const void *userData);
+};
+
+void parseAIKindOfList(INI *ini, const char *, int *);
+void Rva004E8D8CParse(INI *ini, void *instance, void *store, const void *userData);
+
+// Retail's CombatChainDefinition field table at VA 0x00BFD804 (.rdata, 48
+// bytes), transcribed from retail's own bytes. Retail has no zero sentinel
+// after the third record: the token strings follow directly.
+extern const FieldParse CombatChainDefinitionFieldParse[] =
+{
+	{ "Unit",                    &INI::Rva004E8E57_ParseAIKindOf,        0, 0x00 },
+	{ "TargetTypes",             (FieldParseProc)&parseAIKindOfList,     0, 0x04 },
+	{ "TargetPriorityModifiers", &Rva004E8D8CParse,                      0, 0x44 }
 };
 
 // ??0CombatChainEntry@@QAE@XZ
@@ -56,6 +78,6 @@ CombatChainEntry &CombatChainEntry::operator=(const CombatChainEntry &that)
 void INI::Rva002A8945_ParseCombatChainDefinition(INI *ini, void *instance, void *store, const void *userData)
 {
 	CombatChainEntry entry;
-	ini->initFromINI(&entry, reinterpret_cast<const FieldParse *>(0x00BFD804));
+	ini->initFromINI(&entry, CombatChainDefinitionFieldParse);
 	((CombatChainEntry *)instance)[entry.unit] = entry;
 }

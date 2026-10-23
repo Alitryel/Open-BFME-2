@@ -18,15 +18,7 @@
 // vtable and scalar-deleting dtor emission; operator delete resolves
 // via the rowed ??3).
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-
-private:
-	unsigned char m_pad[0xC - 4]; // +0x04..+0x0B
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class GameMessage
 {
@@ -34,7 +26,7 @@ public:
 	virtual void *deleteInstance(int flags);
 
 	void *m_next; // +0x04
-	int m_pad08; // +0x08
+	void *m_prev; // +0x08
 	void *m_list; // +0x0C
 };
 
@@ -48,6 +40,8 @@ class GameMessageList : public SubsystemInterface
 public:
 	GameMessageList();
 	virtual ~GameMessageList();
+	virtual void appendMessage(class GameMessage *msg);
+	virtual void insertMessage(class GameMessage *msg, class GameMessage *messageToInsertAfter);
 
 	GameMessage *m_firstMessage; // +0x0C
 	GameMessage *m_lastMessage; // +0x10
@@ -71,6 +65,7 @@ public:
 
 	struct TranslatorData
 	{
+		TranslatorData() : m_next(0), m_prev(0), m_id(0), m_translator(0), m_priority(0) {}
 		TranslatorData *m_next; // +0x00
 		TranslatorData *m_prev; // +0x04
 		unsigned int m_id; // +0x08
@@ -78,6 +73,10 @@ public:
 		unsigned int m_priority; // +0x10
 		~TranslatorData();
 	};
+
+	class GameMessageTranslator *findTranslator(unsigned int id);
+	void removeTranslator(unsigned int id);
+	unsigned int attachTranslator(class GameMessageTranslator *translator, unsigned int priority);
 
 private:
 	void *m_firstTranslator; // +0x14
@@ -119,14 +118,14 @@ CommandList::CommandList() :
 {
 }
 
-void deleteGameMessageList(GameMessageList *p)
+void deleteGameMessageList(GameMessageList *gameMessageList)
 {
-	delete p;
+	delete gameMessageList;
 }
 
-void deleteCommandList(CommandList *p)
+void deleteCommandList(CommandList *commandList)
 {
-	delete p;
+	delete commandList;
 }
 
 // ?destroyAllMessages@CommandList@@QAEXXZ @0x0030F854
@@ -159,7 +158,7 @@ MessageStream::MessageStream() :
 }
 
 // ??1TranslatorData@MessageStream@@QAE@XZ @0x0030F463
-MessageStream::TranslatorData::~TranslatorData()
+inline MessageStream::TranslatorData::~TranslatorData()
 {
 	GameMessageTranslator *trans = m_translator;
 	::operator delete(trans ? trans->deleteInstance(0) : 0);
@@ -169,3 +168,162 @@ void deleteTranslatorData(MessageStream::TranslatorData *p)
 {
 	delete p;
 }
+
+// ?findTranslator@MessageStream@@QAEPAVGameMessageTranslator@@I@Z @0x0030F7D7
+// MessageStream::findTranslator from ZH MessageStream.cpp donor: walks
+// m_firstTranslator at +0x14 via m_next at +0x00 matching m_id at +0x08
+// returning m_translator at +0x0C. Retail 28B loop with xor-first /O1 shape.
+GameMessageTranslator *MessageStream::findTranslator(unsigned int id)
+{
+	TranslatorData *translatorData;
+
+	for (translatorData = (TranslatorData *)m_firstTranslator; translatorData; translatorData = translatorData->m_next)
+	{
+		if (translatorData->m_id == id)
+			return translatorData->m_translator;
+	}
+
+	return 0;
+}
+
+// ?removeTranslator@MessageStream@@QAEXI@Z @0x0030F7F3 79B
+// MessageStream::removeTranslator from ZH MessageStream.cpp donor: finds the
+// m_id (+0x08) match along m_next, unlinks it from first/last (+0x14/+0x18)
+// and deletes it through the out-of-line ~TranslatorData 0x0030F463.
+// Target caller: ~GameClient 0x0023AE08 per translator it attached.
+void MessageStream::removeTranslator(unsigned int id)
+{
+	TranslatorData *translatorData;
+
+	for (translatorData = (TranslatorData *)m_firstTranslator; translatorData; translatorData = translatorData->m_next)
+	{
+		if (translatorData->m_id == id)
+		{
+			if (translatorData->m_prev)
+				translatorData->m_prev->m_next = translatorData->m_next;
+			else
+				m_firstTranslator = translatorData->m_next;
+
+			if (translatorData->m_next)
+				translatorData->m_next->m_prev = translatorData->m_prev;
+			else
+				m_lastTranslator = translatorData->m_prev;
+
+			delete translatorData;
+			break;
+		}
+	}
+}
+
+// ?attachTranslator@MessageStream@@QAEIPAVGameMessageTranslator@@I@Z @0x0030F738 159B
+// MessageStream translator attach sorted by priority from ZH donor (MessageStream.cpp attachTranslator);
+// GameClient::init 0x0023A1BB calls it once per translator with ZH's priorities.
+// Evidence: packet disasm with rowed operator new 0x0002FDA0; prev/next in this TU; TranslatorData 0x14 plus first/last/nextID at +0x14/+0x18/+0x1C; 14 callers in 0x0023A1BB.
+unsigned int MessageStream::attachTranslator(GameMessageTranslator *translator, unsigned int priority)
+{
+	TranslatorData *newSS = new TranslatorData;
+	TranslatorData *ss;
+
+	newSS->m_translator = translator;
+	newSS->m_priority = priority;
+	newSS->m_id = m_nextTranslatorID++;
+
+	if (m_firstTranslator == 0)
+	{
+		newSS->m_prev = 0;
+		newSS->m_next = 0;
+		m_firstTranslator = newSS;
+		m_lastTranslator = newSS;
+		return newSS->m_id;
+	}
+
+	for (ss = (TranslatorData *)m_firstTranslator; ss; ss = ss->m_next)
+		if (ss->m_priority > newSS->m_priority)
+			break;
+
+	if (ss)
+	{
+		if (ss->m_prev)
+		{
+			ss->m_prev->m_next = newSS;
+			newSS->m_prev = ss->m_prev;
+			newSS->m_next = ss;
+			ss->m_prev = newSS;
+		}
+		else
+		{
+			newSS->m_prev = 0;
+			newSS->m_next = (TranslatorData *)m_firstTranslator;
+			((TranslatorData *)m_firstTranslator)->m_prev = newSS;
+			m_firstTranslator = newSS;
+		}
+	}
+	else
+	{
+		((TranslatorData *)m_lastTranslator)->m_next = newSS;
+		newSS->m_prev = (TranslatorData *)m_lastTranslator;
+		newSS->m_next = 0;
+		m_lastTranslator = newSS;
+	}
+
+	return newSS->m_id;
+}
+
+// ?appendMessage@GameMessageList@@UAEXPAVGameMessage@@@Z @0x0030F5D2 50B vslot 14
+// GameMessageList append to end from ZH donor appendMessage. Evidence: vtable slot 14 of
+// GameMessageList/MessageStream/CommandList plus prev/next in this TU plus first/last at +0x0C/+0x10.
+void GameMessageList::appendMessage(GameMessage *msg)
+{
+	if (!msg)
+		return;
+	msg->m_next = 0;
+	if (m_lastMessage)
+	{
+		m_lastMessage->m_next = msg;
+		msg->m_prev = m_lastMessage;
+		m_lastMessage = msg;
+	}
+	else
+	{
+		m_firstMessage = msg;
+		m_lastMessage = msg;
+		msg->m_prev = 0;
+	}
+	msg->m_list = this;
+}
+
+// ?insertMessage@GameMessageList@@UAEXPAVGameMessage@@0@Z @0x0030F604 62B vslot 15
+// GameMessageList insert after from ZH donor insertMessage plus null head insert.
+// Evidence: vtable slot 15 of GameMessageList/MessageStream/CommandList plus prev/next in this TU.
+void GameMessageList::insertMessage(GameMessage *msg, GameMessage *messageToInsertAfter)
+{
+	if (messageToInsertAfter)
+	{
+		msg->m_next = messageToInsertAfter->m_next;
+		msg->m_prev = messageToInsertAfter;
+		messageToInsertAfter->m_next = msg;
+	}
+	else
+	{
+		msg->m_next = m_firstMessage;
+		msg->m_prev = 0;
+		m_firstMessage = msg;
+	}
+	if (msg->m_next)
+		((GameMessage *)msg->m_next)->m_prev = msg;
+	else
+		m_lastMessage = msg;
+	msg->m_list = this;
+}
+
+// ??1TranslatorData is a header inline elsewhere: another unit emits a
+// select-any copy, so a strong definition here was a duplicate symbol in
+// the linked build. This anchor only makes this unit emit its copy for the
+// ledger row; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitMessageStreamListCtors@@YAXPAUTranslatorData@MessageStream@@@Z present-unmatched
+void bfmeEmitMessageStreamListCtors(MessageStream::TranslatorData *p)
+{
+	p->MessageStream::TranslatorData::~TranslatorData();
+}
+#pragma inline_depth()

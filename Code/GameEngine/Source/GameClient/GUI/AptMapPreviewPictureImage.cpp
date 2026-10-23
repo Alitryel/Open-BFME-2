@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE2 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 // BFME 2 map-picture loader at RVA 0x0057CDC3, 328 bytes.
 // The bfme names describe recovered behavior, not original source spellings.
 // Caller 0x0057D10F passes MapMetaData+0x50, owns the returned Image at
@@ -6,36 +6,7 @@
 // The full body ends at 0x0057CF0B; the inventory stops after its EH prologue.
 
 class AsciiString;
-template <typename T> class StringBase
-{
-    friend class AsciiString;
-public:
-    void removeLastChar();
-    void concat(const T *text);
-    void set(const StringBase<T> &other);
-private:
-    StringBase(const StringBase<T> &other);
-    ~StringBase() { releaseBuffer(); }
-    void releaseBuffer();
-    struct Header
-    {
-        int refCount;
-        unsigned short length;
-        unsigned short capacity;
-        T text[1];
-    };
-    Header *m_data;
-};
-class AsciiString : private StringBase<char>
-{
-public:
-    AsciiString(const AsciiString &other) : StringBase<char>(other) {}
-    ~AsciiString() {}
-    void removeLastChar() { StringBase<char>::removeLastChar(); }
-    void concat(const char *text) { StringBase<char>::concat(text); }
-    AsciiString &operator=(const AsciiString &other) { StringBase<char>::set(other); return *this; }
-    const char *str() const { return m_data ? m_data->text : ""; }
-};
+#include "ascii_string.h"
 
 typedef unsigned int size_t;
 void *__cdecl operator new(size_t);
@@ -50,7 +21,7 @@ public:
 };
 extern FileSystem *TheFileSystem;
 
-class TextureBaseClass
+class TextureClass
 {
 public:
     void Release_Ref();
@@ -62,10 +33,10 @@ public:
     BfmeMapPictureTexture(const char *filename);
     ~BfmeMapPictureTexture() { if (m_texture) m_texture->Release_Ref(); }
 private:
-    TextureBaseClass *m_texture;
+    TextureClass *m_texture;
 };
-struct Coord2D { float x, y; };
-struct Region2D { Coord2D lo, hi; };
+#include "../../../../Libraries/Include/Lib/Coord2D.h"
+#include "../../../../Libraries/Include/Lib/Region2D.h"
 class Image
 {
 public:
@@ -99,7 +70,7 @@ Image *bfmeCreateMapPictureImage(const AsciiString &mapName)
     pictureName.removeLastChar();
     pictureName.removeLastChar();
     pictureName.removeLastChar();
-    pictureName.concat("_pic.tga");
+    ((StringBase<char> *)&pictureName)->concat("_pic.tga");
 
     Image *image = 0;
     if (TheFileSystem->doesFileExist(pictureName.str()))

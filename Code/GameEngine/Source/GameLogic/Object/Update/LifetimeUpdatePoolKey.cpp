@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0003A4A27@LifetimeUpdate@@SA?AW4NameKeyType@@XZ @0x3a4a27
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@LifetimeUpdate@@UBE?AW4NameKeyType@@XZ @0x3a4a27
 // (69B): cached pool-name key for LifetimeUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("LifetimeUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class LifetimeUpdate
 {
 public:
-	static NameKeyType rva0003A4A27();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0003A4A27@LifetimeUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType LifetimeUpdate::rva0003A4A27()
+// ?getModuleNameKey@LifetimeUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType LifetimeUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheLifetimeUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("LifetimeUpdate");

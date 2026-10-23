@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc /Oy-
 //
 // Debug::operator<<(const RepeatChar &), retail 0x0003A620 (127 bytes,
 // ret 4). Debug vtable (RVA 0x7BE810) slot 0x3C, where the CheckBegin and
@@ -9,7 +9,6 @@
 // instead of consuming the caller's object (retail never stores back to
 // [c+4]).
 
-#pragma optimize("y", off)
 
 extern "C" void *memset(void *dest, int value, unsigned int count);
 

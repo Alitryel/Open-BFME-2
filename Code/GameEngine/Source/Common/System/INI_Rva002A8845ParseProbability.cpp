@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX-
+// cl: /DNDEBUG /MD /GX-
 // Rva002A8845_ParseProbability (retail 0x002A8845, 118 bytes). Parses the
 // EconomyUpgradeProbability / SpecialPowerActivationProbability /
 // OffensiveTacticActivationProbability entries of the table at 0xBFD768
@@ -27,15 +27,10 @@ public:
 
 	char *mFailureMessage;
 	int m_argumentCount;
+	INIException(const INIException &that);
+	~INIException();
 };
 
-__declspec(noreturn) void __stdcall _CxxThrowException(void *pExc, void *pInfo);
-
-// Address anchor only: the throw site pushes this object's address as an
-// immediate (DIR32, filled from retail by the gate). Its content is never
-// compared; the real chain lives in the retail image.
-struct ParseProbabilityThrowInfoAnchor { int a; int b; int c; int d; };
-static const ParseProbabilityThrowInfoAnchor parseProbabilityThrowInfoAnchor = { 0, 0, 0, 0 };
 
 // ?Rva002A8845_ParseProbability@INI@@SAXPAV1@PAX1PBX@Z
 void INI::Rva002A8845_ParseProbability(INI *ini, void *, void *store, const void *)
@@ -51,8 +46,7 @@ void INI::Rva002A8845_ParseProbability(INI *ini, void *, void *store, const void
 			int denominator = ini->scanInt(token);
 			slot[1] = denominator;
 			if (denominator < 1) {
-				INIException e(3, "invalid Probability Denominator must be greater than zero (%d)", denominator);
-				_CxxThrowException(&e, (void *)&parseProbabilityThrowInfoAnchor);
+				throw INIException(3, "invalid Probability Denominator must be greater than zero (%d)", denominator);
 			}
 			break;
 		}

@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva000460BD3@DynamicPortalBehaviour@@SA?AW4NameKeyType@@XZ @0x460BD3
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@DynamicPortalBehaviour@@UBE?AW4NameKeyType@@XZ @0x460BD3
 // (69B): cached pool-name key for DynamicPortalBehaviour. The class
 // identity comes from the pool-name string the body pushes
 // ("DynamicPortalBehaviour"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class DynamicPortalBehaviour
 {
 public:
-	static NameKeyType rva000460BD3();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000460BD3@DynamicPortalBehaviour@@SA?AW4NameKeyType@@XZ
-NameKeyType DynamicPortalBehaviour::rva000460BD3()
+// ?getModuleNameKey@DynamicPortalBehaviour@@UBE?AW4NameKeyType@@XZ
+NameKeyType DynamicPortalBehaviour::getModuleNameKey() const
 {
 	static NameKeyType TheDynamicPortalBehaviourPoolKey =
 		TheNameKeyGenerator->nameToKey("DynamicPortalBehaviour");

@@ -1,4 +1,4 @@
-// cl: /G6 /arch:SSE /EHsc /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmealloc
+// cl: /EHsc /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmealloc
 // stlport
 
 // _Rb_tree<const ThingTemplate *, pair<const ThingTemplate *, int>>::
@@ -29,6 +29,12 @@ class ThingTemplate;
 
 typedef _STL::pair<const ThingTemplate * const, int> ThingTemplateCountPair;
 
+namespace _STL {
+typedef _Rb_tree_node<ThingTemplateCountPair> ScoreCountNode;
+template <> __declspec(dllimport) __forceinline ScoreCountNode *allocator<ScoreCountNode>::allocate(size_t n,const void *)const { return n != 0 ? reinterpret_cast<ScoreCountNode *>(allocator<char>::allocate(n*sizeof(ScoreCountNode),0)):0; }
+template <> __declspec(dllimport) __forceinline ScoreCountNode *_STLP_alloc_proxy<ScoreCountNode *,ScoreCountNode,allocator<ScoreCountNode> >::allocate(size_t n) { return __stl_alloc_rebind(static_cast<allocator<ScoreCountNode>&>(*this),(ScoreCountNode*)0).allocate(n,0); }
+}
+
 typedef _STL::_Rb_tree<const ThingTemplate *, ThingTemplateCountPair,
 	_STL::_Select1st<ThingTemplateCountPair>, _STL::less<const ThingTemplate *>,
 	_STL::allocator<ThingTemplateCountPair> > ThingTemplateCountTree;
@@ -38,3 +44,12 @@ ThingTemplateCountTree::insert_unique(ThingTemplateCountTree::iterator, const Th
 
 template _STL::pair<ThingTemplateCountTree::iterator, bool>
 ThingTemplateCountTree::insert_unique(const ThingTemplateCountPair &);
+
+// insert_equal (retail 0x00620ED0, 58 bytes): the multimap insert for the
+// same tree. Ported from Open-BFME-1 RvaTreeMInsertPair.cpp (6d943426), whose
+// body bfme1_sweep placed here byte-identically (T3: four BFME 1 trees fold
+// onto this one body). Identity is target evidence, not the donor's name: its
+// only call is this tree's rowed _M_insert at 0x00759BC0, and the key compare
+// is unsigned (jae), as for a pointer key.
+template ThingTemplateCountTree::iterator
+ThingTemplateCountTree::insert_equal(const ThingTemplateCountPair &);

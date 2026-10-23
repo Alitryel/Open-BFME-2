@@ -37,7 +37,6 @@ BFME_DISP8_DWORD_GETTER(Rva00143D80DwordField, 0x0C)
 BFME_DISP8_DWORD_GETTER(Rva00149580DwordField, 0x34)
 BFME_DISP8_DWORD_GETTER(Rva00661E60DwordField, 0x64)
 BFME_DISP8_DWORD_GETTER(Rva00661FD0DwordField, 0x40)
-BFME_DISP8_DWORD_GETTER(Rva0066D450DwordField, 0x14)
 BFME_DISP8_DWORD_GETTER(Rva0066D490DwordField, 0x1C)
 BFME_DISP8_DWORD_GETTER(Rva0066D520DwordField, 0x20)
 BFME_DISP8_DWORD_GETTER(Rva0066D590DwordField, 0x28)
@@ -67,7 +66,6 @@ BFME_DISP8_DWORD_GETTER(Rva0057E556DwordField, 0x14)
 BFME_DISP8_DWORD_GETTER(Rva005C4AE9DwordField, 0x34)
 BFME_DISP8_DWORD_GETTER(Rva005C4AEDDwordField, 0x38)
 BFME_DISP8_DWORD_GETTER(Rva005C4AF1DwordField, 0x3C)
-BFME_DISP8_DWORD_GETTER(Rva005C4AF5DwordField, 0x40)
 BFME_DISP8_DWORD_GETTER(Rva005C4AF9DwordField, 0x44)
 // Negative-displacement sibling: the disp8 byte sign-extends, so a disp byte
 // above 0x7F reads *before* `this` (e.g. D4 = -44, an embedded member view).
@@ -88,11 +86,8 @@ BFME_DISP8_DWORD_GETTER(Rva005C4AF9DwordField, 0x44)
 BFME_DISP8_DWORD_GETTER(Rva001DB09DDwordField, 0x10)
 BFME_DISP8_DWORD_GETTER(Rva002A98A7DwordField, 0x4C)
 BFME_DISP8_DWORD_GETTER(Rva002A98ABDwordField, 0x60)
-BFME_DISP8_NEG_DWORD_GETTER(Rva0030BCAEDwordField, -11)
 BFME_DISP8_DWORD_GETTER(Rva0030D377DwordField, 0x20)
 BFME_DISP8_DWORD_GETTER(Rva0030F2C7DwordField, 0x1C)
-BFME_DISP8_NEG_DWORD_GETTER(Rva00330BD7DwordField, -3)
-BFME_DISP8_NEG_DWORD_GETTER(Rva0044467CDwordField, -2)
 BFME_DISP8_DWORD_GETTER(Rva0008BB81DwordField, 0x5C)
 BFME_DISP8_DWORD_GETTER(Rva0049CB8ADwordField, 0x70)
 BFME_DISP8_DWORD_GETTER(Rva005C4AE1DwordField, 0x28)
@@ -107,3 +102,31 @@ BFME_DISP8_DWORD_GETTER(Rva0040CA36DwordField, 0x24)
 BFME_DISP8_DWORD_GETTER(Rva004E062EDwordField, 0x40)
 BFME_DISP8_DWORD_GETTER(Rva004E063BDwordField, 0x44)
 BFME_DISP8_NEG_DWORD_GETTER(Rva00464825DwordField, -6)
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeGet992C@BfmeAsk992@@QAEHXZ=?get@Rva0066DD00DwordField@@QBEHXZ")
+
+// repair_queue dest: between this home's native 0x0066D630/0x0066D650 reads.
+// Clean BF1 9cbfb551fe20dae985f91f2319d8997287b6a705 donor
+// game/GameEngine/Source/Common/U2QwordMemberGetters.cpp supplied this
+// member-read expression under /O1 /arch:SSE /G7 (also exact /O2).
+//
+// Retail independently proves the full 0x0066D640..0x0066D647 leaf between
+// INT3 pads, with adjacent loads at ECX+0x70 and ECX+0x74 into EAX and EDX,
+// then RET0. Unsigned __int64 expresses the returned raw64 pair; the original
+// receiver, value purpose and source signedness remain unknown. Only the
+// accessed prefix is represented, without asserting the full object layout.
+class Rva0066D640QwordField
+{
+public:
+    unsigned __int64 get() const;
+private:
+    char m_lead[0x70];
+    unsigned __int64 m_bits;
+};
+
+unsigned __int64 Rva0066D640QwordField::get() const
+{
+    return m_bits;
+}

@@ -1,10 +1,6 @@
 // Open-BFME5 conversions.
 
 extern void *g_bfmeVftUUA[];
-extern char g_bfmeFileUUA[];
-extern char g_bfmeMsgAUUA[];
-extern char g_bfmeMsgBUUA[];
-extern char g_bfmeMsgCUUA[];
 
 class BfmeLogUUA
 {
@@ -32,9 +28,17 @@ void BfmeThingUUA::bfmeGoUUA()
 {
 	m_bfmeVft = g_bfmeVftUUA;
 	if (m_bfmeRef)
-		bfmeGetLogUUA()->bfmeWarnUUA(g_bfmeMsgAUUA, g_bfmeFileUUA, 0x45);
+		bfmeGetLogUUA()->bfmeWarnUUA((char *)"mProtoPingRef == 0", (char *)"\\views\\feslbuild_main\\jabba\\fesl\\source\\gamebrowser\\gamebrowserpinger.cpp", 0x45);
 	if (m_bfmeQueue)
-		bfmeGetLogUUA()->bfmeWarnUUA(g_bfmeMsgBUUA, g_bfmeFileUUA, 0x46);
+		bfmeGetLogUUA()->bfmeWarnUUA((char *)"mPendingQueue == 0", (char *)"\\views\\feslbuild_main\\jabba\\fesl\\source\\gamebrowser\\gamebrowserpinger.cpp", 0x46);
 	if (m_bfmePending)
-		bfmeGetLogUUA()->bfmeWarnUUA(g_bfmeMsgCUUA, g_bfmeFileUUA, 0x47);
+		bfmeGetLogUUA()->bfmeWarnUUA((char *)"mNumPendingRequests == 0", (char *)"\\views\\feslbuild_main\\jabba\\fesl\\source\\gamebrowser\\gamebrowserpinger.cpp", 0x47);
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??1Gen008030A0@@UAE@XZ=?bfmeGoUUA@BfmeThingUUA@@QAEXXZ")
+// The vtable this body installs is Gen008030A0's (same 0x14-byte class; the
+// dtor binding above names it). Y2ScalarDeleters emits that vtable; bind this
+// unit's invented global spelling to it so the reference links.
+#pragma comment(linker, "/alternatename:?g_bfmeVftUUA@@3PAPAXA=??_7Gen008030A0@@6B@")

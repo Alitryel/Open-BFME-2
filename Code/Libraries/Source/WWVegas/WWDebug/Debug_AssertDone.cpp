@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc /Oy-
 //
 // Debug::AssertDone, retail 0x0003A8A0 (948 bytes incl. its switch table,
 // ret 4). Debug vtable (RVA 0x7BE810) slot 0x44.
@@ -23,7 +23,6 @@
 // - The exit path releases the Debug critical section and decrements
 //   disableAssertsEtc with InterlockedDecrement.
 
-#pragma optimize("y", off)
 
 extern "C" __declspec(dllimport) int __cdecl wsprintfA(char *out, const char *fmt, ...);
 extern "C" __declspec(dllimport) int __stdcall MessageBoxA(void *owner, const char *text,
@@ -50,6 +49,8 @@ extern DebugCriticalSection g_bfmeCsDWC;
 // Raised whenever the assert dialog was answered with anything but
 // retry/yes; its reader is not recovered.
 extern bool g_debugAssertDialogAnswered;
+// g_debugAssertDialogAnswered: matched references place it at VA 0xde089d (zero-filled .bss).
+bool g_debugAssertDialogAnswered;
 
 void *DebugAllocMemory(unsigned int numBytes);
 int __stdcall EnumThreadWndProc(void *window, long param);
@@ -63,8 +64,11 @@ struct DebugIOInterface
 class DebugStackwalk
 {
 public:
-	struct Signature
+	// A class, as debug_stack.cpp defines it: the key is part of the mangled
+	// StackWalk and operator<< names this unit calls.
+	class Signature
 	{
+	public:
 		unsigned int m_numAddr;
 		unsigned int m_addr[256];
 
@@ -180,7 +184,7 @@ private:
 	bool m_inAssertDialog;               // +0x9F64
 };
 
-Debug *theDebug;
+extern Debug *theDebug;  // defined in DebugPreStaticInit.cpp
 
 Debug &operator<<(Debug &debug, const DebugStackwalk::Signature &sig);
 

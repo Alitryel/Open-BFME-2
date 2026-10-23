@@ -9,19 +9,9 @@
 // Object position at +0x38 and bounding radius at +0xB8 from retail loads;
 // Display createLightPulse at vtable slot 0xBC; TheDisplay global DIR32 masked by gate.
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-};
+#include "../../../Libraries/Include/Lib/Coord3D.h"
 
-struct RGBColor
-{
-	float red;
-	float green;
-	float blue;
-};
+#include "../../../Libraries/Include/Lib/RGBColor.h"
 
 class Matrix3D;
 
@@ -83,7 +73,7 @@ private:
 	unsigned int m_decreaseFrames; // +0x160
 };
 
-void LightPulseFXNugget::doFXObj(const Object *primary, const Object *) const
+inline void LightPulseFXNugget::doFXObj(const Object *primary, const Object *) const
 {
 	if (primary)
 	{
@@ -96,3 +86,10 @@ void LightPulseFXNugget::doFXObj(const Object *primary, const Object *) const
 		TheDisplay->createLightPulse(primary->getPosition(), &m_color, 1.0f, radius, m_increaseFrames, m_decreaseFrames);
 	}
 }
+#pragma inline_depth(0)
+// ?bfmeEmitLightPulseFXNuggetEffects@@YAXPAVLightPulseFXNugget@@@Z present-unmatched
+void bfmeEmitLightPulseFXNuggetEffects(LightPulseFXNugget *lightPulseFXNugget)
+{
+	lightPulseFXNugget->LightPulseFXNugget::doFXObj(0, 0);
+}
+#pragma inline_depth()

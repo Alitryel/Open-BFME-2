@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /GX- /O1 /Ob2
+// cl: /DNDEBUG /MD /GX- /Ob2
 
 // Open-BFME5: LightningEmissionModuleTemplate copy ctor
 // Retail: base copy; null-preserving sub copy at +8; dual outer vtbl + sub vtbl.
@@ -6,22 +6,25 @@
 namespace FXParticleSystem
 {
 
-class LightningEmissionModuleTemplateBaseCopyShim
+template <int CATEGORY>
+class CategoryModuleTemplate
 {
 public:
-	void construct_from(const void *src);
+	CategoryModuleTemplate(const CategoryModuleTemplate &that);
 };
 
-class LightningEmissionModuleTemplateSubCopyShim
+// The +8 sub copy is the matched copy constructor ??0LightningEmissionInfo@FXParticleSystem@@QAE@ABV01@@Z.
+class LightningEmissionInfo
 {
 public:
-	void construct_from(const void *src_sub_or_null);
-	virtual void dummy();
+	LightningEmissionInfo(const LightningEmissionInfo &that);
 };
 
-extern "C" char LightningEmissionModuleTemplate_cvtbl0;
+// LightningEmissionModuleTemplate_cvtbl0: matched references place it at VA 0xc1bbb0 (retail .rdata value 17).
+extern "C" char LightningEmissionModuleTemplate_cvtbl0 = 17;
 extern "C" char LightningEmissionModuleTemplate_cvtbl4;
-extern "C" char LightningEmissionModuleTemplate_csub_vtbl;
+// LightningEmissionModuleTemplate_csub_vtbl: matched references place it at VA 0xc1bbc0 (retail .rdata value 53).
+extern "C" char LightningEmissionModuleTemplate_csub_vtbl = 53;
 
 class LightningEmissionModuleTemplate
 {
@@ -39,14 +42,16 @@ LightningEmissionModuleTemplate::LightningEmissionModuleTemplate(
 	const LightningEmissionModuleTemplate &that)
 {
 	const void *src = &that;
-	((LightningEmissionModuleTemplateBaseCopyShim *)this)->construct_from(src);
+	((CategoryModuleTemplate<0> *)this)->CategoryModuleTemplate<0>::CategoryModuleTemplate(
+		*(const CategoryModuleTemplate<0> *)src);
 	const void *sub_src = src ? (const char *)src + 8 : 0;
-	LightningEmissionModuleTemplateSubCopyShim *sub =
-		(LightningEmissionModuleTemplateSubCopyShim *)((char *)this + 8);
-	sub->construct_from(sub_src);
+	LightningEmissionInfo *sub = (LightningEmissionInfo *)((char *)this + 8);
+	sub->LightningEmissionInfo::LightningEmissionInfo(*(const LightningEmissionInfo *)sub_src);
 	// Sub vtbl then outer dual vtbls (retail store order).
 	*(void **)sub = &LightningEmissionModuleTemplate_csub_vtbl;
 	m_v0 = &LightningEmissionModuleTemplate_cvtbl0;
 	m_v4 = &LightningEmissionModuleTemplate_cvtbl4;
 }
 }
+// _LightningEmissionModuleTemplate_cvtbl4: the global at VA 0xc1c780 is ?vftable_0112B89C@@3HA.
+#pragma comment(linker, "/alternatename:_LightningEmissionModuleTemplate_cvtbl4=?vftable_0112B89C@@3HA")

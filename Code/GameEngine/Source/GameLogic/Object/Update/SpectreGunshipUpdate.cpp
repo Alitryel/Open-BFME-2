@@ -1,4 +1,7 @@
-// cl: /Ireference/shims/dockupdate /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
+// cl: /Ireference/shims/zh_outofline /Ireference/shims/partitionfilterzh /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /Ireference/shims/dockupdate /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
+// This donor Object view does not use native disabled-mask +0x1C8.
+// Keep its unrecovered callers separate from native Object::isDisabled.
+#define isDisabled spectreGunshipUpdateDonorIsDisabled
 // stlport
 // Ported verbatim from the Generals Zero Hour reference (GameEngine/Source/GameLogic/Object/Update/SpectreGunshipUpdate.cpp); this unit had no counterpart under Code/.
 #define Matrix4x4 Matrix4  // BFME renamed it
@@ -57,6 +60,7 @@
 #include "GameLogic\GameLogic.h"
 #include "GameLogic\PartitionManager.h"
 #include "GameLogic\Object.h"
+#include "GameLogic/PartitionFilterZh.h"
 #include "GameLogic\ObjectIter.h"
 #include "GameLogic\Weaponset.h"
 #include "GameLogic\Weapon.h"
@@ -68,6 +72,18 @@
 #include "GameLogic\Module\ActiveBody.h"
 #include "GameLogic\Module\AIUpdate.h"
 #include "GameLogic\Module\ContainModule.h"
+
+// BFME 2's Object keeps its behavior list at +0x244 (the matched
+// Object::findModule 0x0028B6D6 walks it there), its contain module at +0x250
+// and its body module at +0x254; this tree's Zero Hour Object.h has +0x18C,
+// +0x190 and +0x194. This unit reads them through these functions instead of
+// the header's inline getters, whose Zero Hour copies would otherwise come
+// early in link order and displace every BFME 2 unit's copy (retail has no
+// out-of-line Object getter: the 7-byte bodies at 0x00313E8C/93/9A are
+// GameWindow text-colour getters).
+static BehaviorModule **getRetailBehaviorModules( const Object *obj ) { return *(BehaviorModule ** const *)((const char *)obj + 0x244); }
+static ContainModuleInterface *getRetailContain( const Object *obj ) { return *(ContainModuleInterface * const *)((const char *)obj + 0x250); }
+static BodyModuleInterface *getRetailBodyModule( const Object *obj ) { return *(BodyModuleInterface * const *)((const char *)obj + 0x254); }
 
 
 #ifdef _INTERNAL
@@ -108,9 +124,9 @@ SpectreGunshipUpdateModuleData::SpectreGunshipUpdateModuleData()
 
 static Real zero = 0.0f;
 //-------------------------------------------------------------------------------------------------
-/*static*/ void SpectreGunshipUpdateModuleData::buildFieldParse(MultiIniFieldParse& p)
+/*static*/ void SpectreGunshipUpdateModuleData::buildFieldParse(MultiIniFieldParse& multiIniFieldParse)
 {
-	ModuleData::buildFieldParse(p);
+	ModuleData::buildFieldParse(multiIniFieldParse);
 
 	static const FieldParse dataFieldParse[] = 
 	{
@@ -135,7 +151,7 @@ static Real zero = 0.0f;
 
     { 0, 0, 0, 0 }
 	};
-	p.add(dataFieldParse);
+	multiIniFieldParse.add(dataFieldParse);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -180,6 +196,17 @@ m_howitzerTrackerDecal.clear();
 // Validate that we have the necessary data from the ini file.
 //-------------------------------------------------------------------------------------------------
 // ?onObjectCreated@SpectreGunshipUpdate@@ present-unmatched
+// Retail's AIUpdateInterface::getCurLocomotor reads +0x1F0 (rowed 0x0026FF1E
+// from SlavedUpdateRepair.cpp); this unit's header copy reads +0x1B8 (7B body
+// 8B81B8010000C3 measured in this unit's own object), and its object sorts
+// ahead of the first retail copy in link order, so the link keeps its copy
+// (S on the consumers). These reads go straight at the member instead of
+// odr-using the ZH inline, whose COMDAT would otherwise displace the retail
+// copy.
+static Locomotor *bfmeSpectreLoco(AIUpdateInterface *ai)
+{
+	return *(Locomotor *const *)((const char *)ai + 0x1B8);
+}
 void SpectreGunshipUpdate::onObjectCreated()
 {
 	const SpectreGunshipUpdateModuleData *data = getSpectreGunshipUpdateModuleData();
@@ -232,8 +259,8 @@ Bool SpectreGunshipUpdate::initiateIntentToDoSpecialPower(const SpecialPowerTemp
     if ( shipAI)
     {
      shipAI->chooseLocomotorSet( LOCOMOTORSET_PANIC );
-	    shipAI->getCurLocomotor()->setAllowInvalidPosition(TRUE);
-	    shipAI->getCurLocomotor()->setUltraAccurate(TRUE);	// set ultra-accurate just so AI won't try to adjust our dest
+	    bfmeSpectreLoco(shipAI)->setAllowInvalidPosition(TRUE);
+	    bfmeSpectreLoco(shipAI)->setUltraAccurate(TRUE);	// set ultra-accurate just so AI won't try to adjust our dest
     }
 
     Drawable *draw = gunShip->getDrawable();
@@ -245,7 +272,7 @@ Bool SpectreGunshipUpdate::initiateIntentToDoSpecialPower(const SpecialPowerTemp
  
 
     // TELL THE GUNNERS ABOARD THE GUNSHIP TO HOLD THEIR FIRE UNTIL ORBIT INSERTION
-        ContainModuleInterface *shipContain = gunShip->getContain();
+        ContainModuleInterface *shipContain = getRetailContain(gunShip);
     if ( shipContain )
     {
 
@@ -496,8 +523,8 @@ UpdateSleepTime SpectreGunshipUpdate::update()
           if ( shipAI)
           {
             shipAI->chooseLocomotorSet( LOCOMOTORSET_NORMAL );
-	          shipAI->getCurLocomotor()->setAllowInvalidPosition(TRUE);
-	          shipAI->getCurLocomotor()->setUltraAccurate(TRUE);	// set ultra-accurate just so AI won't try to adjust our dest
+	          bfmeSpectreLoco(shipAI)->setAllowInvalidPosition(TRUE);
+	          bfmeSpectreLoco(shipAI)->setUltraAccurate(TRUE);	// set ultra-accurate just so AI won't try to adjust our dest
           }
 
           Drawable *draw = gunship->getDrawable();
@@ -536,7 +563,7 @@ UpdateSleepTime SpectreGunshipUpdate::update()
 
 	          PartitionFilterLiveMapEnemies filterObvious( gunship );
 	          PartitionFilterStealthedAndUndetected filterStealth( gunship, false );
-	          PartitionFilterPossibleToAttack filterAttack(ATTACK_NEW_TARGET, gunship, CMD_FROM_AI);
+	          PartitionFilterPossibleToAttackZh filterAttack(ATTACK_NEW_TARGET, gunship, CMD_FROM_AI);
 	          PartitionFilterFreeOfFog filterFogged( gunship->getControllingPlayer()->getPlayerIndex() );
 	          PartitionFilter *filters[6];
 	          Int numFilters = 0;
@@ -635,8 +662,8 @@ UpdateSleepTime SpectreGunshipUpdate::update()
 
 
           // GATTLING TARGETING LOGIC------------------------------------------
-				  const ParticleSystemTemplate *tmp = data->m_gattlingStrafeFXParticleSystem;
-				  if (tmp && gattling && gattling->testStatus( OBJECT_STATUS_IS_FIRING_WEAPON) )
+				  const ParticleSystemTemplate *particleSystemTemplate = data->m_gattlingStrafeFXParticleSystem;
+				  if (particleSystemTemplate && gattling && gattling->testStatus( OBJECT_STATUS_IS_FIRING_WEAPON) )
 				  {
 
 
@@ -669,7 +696,7 @@ UpdateSleepTime SpectreGunshipUpdate::update()
 			{
 
 				// This makes the client smoke effects of the gattling cannon strafing the ground toward the attack position
-						  ParticleSystem *sys = TheParticleSystemManager->createParticleSystem(tmp);
+						  ParticleSystem *sys = TheParticleSystemManager->createParticleSystem(particleSystemTemplate);
 						  if (sys)
 				{
 				  Coord3D impactPosition;
@@ -780,21 +807,7 @@ Bool SpectreGunshipUpdate::isFairDistanceFromShip( Object *target )
 
 
 //-------------------------------------------------------------------------------------------------
-// ?cleanUp@SpectreGunshipUpdate@@ present-unmatched
-void SpectreGunshipUpdate::cleanUp()
-{
-  m_attackAreaDecal.clear();
-  m_targetingReticleDecal.clear();
-
-
-  Object *gattling = TheGameLogic->findObjectByID( m_gattlingID );
-  if ( gattling )
-    TheGameLogic->destroyObject( gattling );
-
-#if defined TRACKERS
-	 m_howitzerTrackerDecal.clear();
-#endif
-}
+// SpectreGunshipUpdate::cleanUp: defined in SpectreGunshipUpdateCleanUp.cpp (its row's unit).
 
 
 
@@ -834,8 +847,8 @@ void SpectreGunshipUpdate::disengageAndDepartAO( Object *gunship )
     if ( shipAI)
     {
       shipAI->chooseLocomotorSet( LOCOMOTORSET_PANIC );
-	    shipAI->getCurLocomotor()->setAllowInvalidPosition(TRUE);
-	    shipAI->getCurLocomotor()->setUltraAccurate(TRUE);	// set ultra-accurate just so AI won't try to adjust our dest
+	    bfmeSpectreLoco(shipAI)->setAllowInvalidPosition(TRUE);
+	    bfmeSpectreLoco(shipAI)->setUltraAccurate(TRUE);	// set ultra-accurate just so AI won't try to adjust our dest
     }
 
     Drawable *draw = gunship->getDrawable();

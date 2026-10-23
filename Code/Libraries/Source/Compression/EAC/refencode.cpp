@@ -30,6 +30,23 @@ extern "C" __declspec(dllimport) void __cdecl free(void *);
 #include "codex.h"
 #include "refcodex.h"
 
+// BFME1 donor 10af19f44a89ab7ecc23195bb9a842ceafbc02c9: refencode.cpp,
+// writer at b1 0x0081F3D0. Target [0x0068B000,0x0068B050) has the same
+// big-endian stores for counts 1/2/4/3 and no write for other counts.
+// Keep the real encoder calls visible: MSVC selects the retail TU-private
+// EAX/ECX/EDX convention from them. The namespace is an address label,
+// not an assertion about the original target symbol or enclosing type.
+namespace Rva0068B000 {
+static void gputm(void *memory, unsigned long value, int count)
+{
+    unsigned char *p = static_cast<unsigned char *>(memory);
+    if (count == 1) { p[0] = (unsigned char)value; return; }
+    if (count == 2) { p[0] = (unsigned char)(value >> 8); p[1] = (unsigned char)value; return; }
+    if (count == 4) { p[0] = (unsigned char)(value >> 24); p[1] = (unsigned char)(value >> 16); p[2] = (unsigned char)(value >> 8); p[3] = (unsigned char)value; return; }
+    if (count == 3) { p[0] = (unsigned char)(value >> 16); p[1] = (unsigned char)(value >> 8); p[2] = (unsigned char)value; }
+}
+}
+
 /****************************************************************/
 /*  Internal Functions                                          */
 /****************************************************************/
@@ -251,14 +268,14 @@ int GCALL REF_encode(void *compresseddata, const void *source, int sourcesize, i
 
     if (sourcesize>0xffffff)  // 32 bit header required
     {
-        gputm(compresseddata,   (unsigned int) 0x90fb, 2);
-        gputm((char *)compresseddata+2, (unsigned int) sourcesize, 4);
+        Rva0068B000::gputm(compresseddata,   (unsigned int) 0x90fb, 2);
+        Rva0068B000::gputm((char *)compresseddata+2, (unsigned int) sourcesize, 4);
         hlen = 6L;
     }
     else
     {
-        gputm(compresseddata,   (unsigned int) 0x10fb, 2);
-        gputm((char *)compresseddata+2, (unsigned int) sourcesize, 3);
+        Rva0068B000::gputm(compresseddata,   (unsigned int) 0x10fb, 2);
+        Rva0068B000::gputm((char *)compresseddata+2, (unsigned int) sourcesize, 3);
         hlen = 5L;
     }
     plen = hlen+refcompress((unsigned char *)source, sourcesize, (unsigned char *)compresseddata+hlen, maxback, quick);

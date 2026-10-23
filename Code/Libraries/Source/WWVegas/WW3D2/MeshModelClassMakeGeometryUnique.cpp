@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad
+// cl: /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad
 //
 // MeshModelClass::Make_Geometry_Unique at 0x00172070.
 //
@@ -10,9 +10,20 @@
 // buffer at +0x48 rather than +0x50, so the reduced model below is laid out by
 // BFME 2's own offsets.  /G7 is the unit's tell.
 
-#include "sharebuf.h"
+#include "../../../../../reference/shims/bfme_mesh_refcount_link/refcount.h"
+#include "refcount.h"
 #include "vector3.h"
 #include "vector4.h"
+template <class T> class ShareBufferClass : public RefCountClass
+{
+public:
+	ShareBufferClass(const ShareBufferClass &);
+protected:
+	T *RawBuffer;
+	T *Array;
+	int Count;
+	int Alignment;
+};
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/meshmdl.h
 class MeshModelClass

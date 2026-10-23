@@ -1,105 +1,53 @@
 // Open-BFME5 conversions.
 
-void bfmeReset1050(int n);
-
-class BfmeA1050
+class PartitionManagerImpl
 {
 public:
-	void bfmeGo1050A(void);
-
-	char m_bfmePad[8];
-	int m_bfme08;
-	char m_bfmePad2[0x55];
-	char m_bfmeFlag;
-	char m_bfmePad3[0xc6];
-	int m_bfme128;
-};
-
-// ?bfmeGo1050A@BfmeA1050@@QAEXXZ present-unmatched
-void BfmeA1050::bfmeGo1050A(void)
-{
-	m_bfmeFlag = 0;
-	bfmeReset1050(0);
-	m_bfme08 = 0;
-	m_bfme128 = 0;
-}
-
-extern "C" void *bfmeVft1050B[];
-
-class BfmeB1050
-{
-public:
-	BfmeB1050 *bfmeGo1050B(void);
-	void bfmeBase1050(void);
-
-	void *m_bfmeVfptr;
-	char m_bfmePad[0x54];
-	int m_bfme58;
-	int m_bfme5c;
-	float m_bfme60;
-	char m_bfme64;
-};
-
-// ?bfmeGo1050B@BfmeB1050@@QAEPAV1@XZ present-unmatched
-BfmeB1050 *BfmeB1050::bfmeGo1050B(void)
-{
-	bfmeBase1050();
-
-	int z = 0;
-
-	m_bfme58 = z;
-	m_bfme5c = z;
-	m_bfme64 = (char)z;
-	m_bfme60 = 20.0f;
-	m_bfmeVfptr = bfmeVft1050B;
-	return this;
-}
-
-class BfmeP1050
-{
-public:
-	void bfmeFwd1050(int a, int b, int c, int d, int e);
+	void *GetClosestObject(int position, float radius, int bounds, int distType, int filters);
 };
 
 class BfmeC1050
 {
 public:
 	void bfmeGo1050C(int a, int b, int c, int d, int e);
-	void bfmeGo1050D(int a, int b, int c, int d);
+	void bfmeGo009F26D0(int a, int b, int c, int d);
 
-	char m_bfmePad[0xc];
-	BfmeP1050 *m_bfmeP;
+	char m_bfmePad[0x10]; // BFME2 target at 0x625390 loads this pointer at +0x10.
+	PartitionManagerImpl *m_bfmeP;
 };
 
-// ?bfmeGo1050C@BfmeC1050@@QAEXHHHHH@Z present-unmatched
 void BfmeC1050::bfmeGo1050C(int a, int b, int c, int d, int e)
 {
-	m_bfmeP->bfmeFwd1050(a, c, b, d, e);
+	m_bfmeP->GetClosestObject(a, *(const float *)&c, b, d, e);
 }
 
-// retail 0x009F26A0: same inner at +0xC, same callee 0x009F5C00, four args
-// with an explicit 0 in the third slot.  ?bfmeGo1050D@BfmeC1050@@QAEXHHHH@Z
-// ?bfmeGo1050D@BfmeC1050@@QAEXHHHH@Z present-unmatched
-void BfmeC1050::bfmeGo1050D(int a, int b, int c, int d)
-{
-	m_bfmeP->bfmeFwd1050(a, b, 0, c, d);
-}
+struct Coord3D;
+class Object;
+class Rva000421C8;	// the partition filter base (ctor 0x000421C8)
 
-extern "C" void *bfmeVft1050F[];
-
-class BfmeF1050
+// ThePartitionManager (0x00DFE748): 26 matched callers reference this
+// method by name. BFME1 retail 0x009F26A0 is the same four-argument
+// wrapper with an explicit 0 in the third slot.
+class PartitionManager
 {
+	char m_pad[0x10];
+	PartitionManagerImpl *m_impl;
+
 public:
-	BfmeF1050 *bfmeGo1050F(int a, int b, int c);
-	void bfmeBaseF1050(int a, int b, int c);
-
-	void *m_bfmeVfptr;
+	Object *getClosestObject(const Coord3D *pos, float radius, int distType,
+		Rva000421C8 *filters);
 };
 
-BfmeF1050 *BfmeF1050::bfmeGo1050F(int a, int b, int c)
+Object *PartitionManager::getClosestObject(const Coord3D *pos, float radius, int distType,
+	Rva000421C8 *filters)
 {
-	bfmeBaseF1050(a, b, c);
-	m_bfmeVfptr = bfmeVft1050F;
-	return this;
+	return (Object *)m_impl->GetClosestObject((int)pos, radius, 0, distType, (int)filters);
 }
 
+void BfmeC1050::bfmeGo009F26D0(int a, int b, int c, int d)
+{
+	m_bfmeP->GetClosestObject(a, *(const float *)&c, b, d, 0);
+}
+
+// 0x0013C740 is GridEnvironmentMapperClass(const INIClass &, const char *, unsigned),
+// rowed from vertmaterial.cpp, whose inline ctor copy is retail's.

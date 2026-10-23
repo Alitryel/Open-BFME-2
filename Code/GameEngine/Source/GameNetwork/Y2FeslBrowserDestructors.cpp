@@ -33,18 +33,11 @@
 // here only as the evidence for "two classes", not as names.
 
 // The base class exists only to produce the SECOND vptr store; its destructor
-// is empty and inline, so retail has no separate body for it and none for the
-// deleting wrapper MSVC emits beside it.  The labels below are copied out of
-// this file's own object symbol table, not written by hand.
-//
-// ??1Rva00802EC0Base@@UAE@XZ absent-from-retail
-// ??_GRva00802EC0Base@@UAEPAXI@Z absent-from-retail
-// ??1Rva00802CA0Base@@UAE@XZ absent-from-retail
-// ??_GRva00802CA0Base@@UAEPAXI@Z absent-from-retail
-// ??1Rva00802380Base@@UAE@XZ absent-from-retail
-// ??_GRva00802380Base@@UAEPAXI@Z absent-from-retail
-// ??1Rva00802680Base@@UAE@XZ absent-from-retail
-// ??_GRva00802680Base@@UAEPAXI@Z absent-from-retail
+// is empty. Its deleting wrapper is slot 0 of each base vftable, rowed from
+// here. Retail also keeps a standalone 7B copy of each empty base destructor
+// (0x0066E4B0, 0x0066E510, 0x0066EA30, 0x0066EEF0: each restores exactly its
+// base's vtable), so they are defined out of line below and rowed; the
+// earlier absent-from-retail markers for them are withdrawn.
 
 // ---------------------------------------------------------------- callees
 class Rva00800290Buffer
@@ -83,7 +76,7 @@ public:
 	int m_count;
 };
 
-class Rva00800630Owner
+class Rva008003C0Owner
 {
 public:
 	void clear();                       // 0x0066CA50
@@ -97,11 +90,25 @@ public:
 class Rva00802EC0Base
 {
 public:
-	virtual ~Rva00802EC0Base() {}
+	Rva00802EC0Base();
+	virtual ~Rva00802EC0Base();
 
 	int m_field4;
 	int m_field8;
 };
+
+// ??1Rva00802EC0Base@@UAE@XZ @0x0066EEF0 7B: the empty destructor, restoring the vtable
+// (VA 0x00CE3E20).
+Rva00802EC0Base::~Rva00802EC0Base()
+{
+}
+
+// ??0Rva00802EC0Base@@QAE@XZ @0x0066EEA0 9B: the default constructor, storing the
+// base's own vtable (VA 0x00CE3E20) and leaving the fields to the derived
+// constructor.
+Rva00802EC0Base::Rva00802EC0Base()
+{
+}
 
 class Rva00802EC0Owner : public Rva00802EC0Base
 {
@@ -124,11 +131,25 @@ Rva00802EC0Owner::~Rva00802EC0Owner()
 class Rva00802CA0Base
 {
 public:
-	virtual ~Rva00802CA0Base() {}
+	Rva00802CA0Base();
+	virtual ~Rva00802CA0Base();
 
 	int m_field4;
 	int m_field8;
 };
+
+// ??1Rva00802CA0Base@@UAE@XZ @0x0066EA30 7B: the empty destructor, restoring the vtable
+// (VA 0x00CE3D50).
+Rva00802CA0Base::~Rva00802CA0Base()
+{
+}
+
+// ??0Rva00802CA0Base@@QAE@XZ @0x0066E9C0 9B: the default constructor, storing the
+// base's own vtable (VA 0x00CE3D50) and leaving the fields to the derived
+// constructor.
+Rva00802CA0Base::Rva00802CA0Base()
+{
+}
 
 class Rva00802CA0Owner : public Rva00802CA0Base
 {
@@ -153,11 +174,25 @@ Rva00802CA0Owner::~Rva00802CA0Owner()
 class Rva00802380Base
 {
 public:
-	virtual ~Rva00802380Base() {}
+	Rva00802380Base();
+	virtual ~Rva00802380Base();
 
 	int m_field4;
 	int m_field8;
 };
+
+// ??1Rva00802380Base@@UAE@XZ @0x0066E4B0 7B: the empty destructor, restoring the vtable
+// (VA 0x00CE3CC8).
+Rva00802380Base::~Rva00802380Base()
+{
+}
+
+// ??0Rva00802380Base@@QAE@XZ @0x0066E490 9B: the default constructor, storing the
+// base's own vtable (VA 0x00CE3CC8) and leaving the fields to the derived
+// constructor.
+Rva00802380Base::Rva00802380Base()
+{
+}
 
 class Rva00802380Owner : public Rva00802380Base
 {
@@ -165,7 +200,7 @@ public:
 	virtual ~Rva00802380Owner();
 
 	char              m_pad00C[ 0x0C ];
-	Rva00800630Owner  m_owner;      // +0x18
+	Rva008003C0Owner  m_owner;      // +0x18
 	int               m_field24;
 	int               m_field28;
 };
@@ -182,12 +217,26 @@ Rva00802380Owner::~Rva00802380Owner()
 class Rva00802680Base
 {
 public:
-	virtual ~Rva00802680Base() {}
+	Rva00802680Base();
+	virtual ~Rva00802680Base();
 
 	int m_field4;
 	int m_field8;
 	int m_fieldC;
 };
+
+// ??1Rva00802680Base@@UAE@XZ @0x0066E510 7B: the empty destructor, restoring the vtable
+// (VA 0x00CE3CDC).
+Rva00802680Base::~Rva00802680Base()
+{
+}
+
+// ??0Rva00802680Base@@QAE@XZ @0x0066E500 9B: the default constructor, storing the
+// base's own vtable (VA 0x00CE3CDC) and leaving the fields to the derived
+// constructor.
+Rva00802680Base::Rva00802680Base()
+{
+}
 
 class Rva00802680Owner : public Rva00802680Base
 {

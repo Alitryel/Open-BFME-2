@@ -1,4 +1,4 @@
-// cl: /O1 /GX- /arch:SSE2
+// cl: /GX-
 
 // Rva003AEA15 (45B) outer copy via pinned middle Rva003AEA42 (97B).
 // Conservative Rva owner; true ConcreteModuleTemplate pin at same address
@@ -11,10 +11,14 @@ public:
 	Rva003AEA42(const Rva003AEA42 &other);
 };
 
-extern "C" char Rva003AEA15_v0;
-extern "C" char Rva003AEA15_v14;
-extern "C" char Rva003AEA15_v18;
-extern "C" char Rva003AEA15_v1c;
+// Rva003AEA15_v0: matched references place it at VA 0xc1cdcc (retail .rdata value -9).
+extern "C" char Rva003AEA15_v0 = -9;
+// Rva003AEA15_v14: matched references place it at VA 0xc1c504 (retail .rdata value -41).
+extern "C" char Rva003AEA15_v14 = -41;
+// Rva003AEA15_v18: matched references place it at VA 0xc1c900 (retail .rdata value 45).
+extern "C" char Rva003AEA15_v18 = 45;
+// Rva003AEA15_v1c: matched references place it at VA 0xc1cdbc (retail .rdata value -83).
+extern "C" char Rva003AEA15_v1c = -83;
 
 class Rva003AEA15
 {

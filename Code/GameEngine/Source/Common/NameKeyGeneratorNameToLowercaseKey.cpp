@@ -1,5 +1,16 @@
-// cl: /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/shims/namekeygenerator /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/shims/namekeygenerator /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib
 // stlport
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -37,6 +48,9 @@
 // nameString store below. Model the stale layout locally so the shared shim
 // (used by the matched siblings) stays untouched.
 
+#include "ascii_string.h"
+// Use the canonical one-pointer string view in the legacy name-key headers.
+#define ASCIISTRING_H
 #include "PreRTS.h"
 
 // The lowercase hash this body calls lives at 0x0061FCA0 in BFME2 retail
@@ -48,12 +62,22 @@ unsigned int calcHashForLowercaseString(const char *p);
 //------------------------------------------------------------------------------------------------- 
 NameKeyType NameKeyGenerator::nameToLowercaseKey(const char* nameString)
 {
+	// Preserve the legacy inline length-taking assignment while sharing the
+	// canonical string constructor and one-pointer storage.
+	struct LegacyNameString : AsciiString
+	{
+		LegacyNameString &operator=(const char *s)
+		{
+			((StringBase<char> *)this)->set(s, s ? (int)strlen(s) : 0);
+			return *this;
+		}
+	};
 	struct LegacyBucket
 	{
 		LegacyBucket() : m_nextInSocket(NULL), m_key(NAMEKEY_INVALID) { }
 		LegacyBucket *m_nextInSocket;
 		NameKeyType m_key;
-		AsciiString m_nameString;
+		LegacyNameString m_nameString;
 	};
 	LegacyBucket **const sockets = reinterpret_cast<LegacyBucket **>(reinterpret_cast<char *>(this) + 4);
 	UnsignedInt *const nextID = reinterpret_cast<UnsignedInt *>(reinterpret_cast<char *>(this) + 0x2bf40);
@@ -64,19 +88,19 @@ NameKeyType NameKeyGenerator::nameToLowercaseKey(const char* nameString)
 	UnsignedInt hash = calcHashForLowercaseString(nameString) % SOCKET_COUNT;
 
 	// hmm, do we have it already?
-	for (LegacyBucket *b = sockets[hash]; b; b = b->m_nextInSocket)
+	for (LegacyBucket *legacyBucket = sockets[hash]; legacyBucket; legacyBucket = legacyBucket->m_nextInSocket)
 	{
-		if (_strcmpi(nameString, b->m_nameString.str()) == 0)
-			return b->m_key; 
+		if (_strcmpi(nameString, legacyBucket->m_nameString.str()) == 0)
+			return legacyBucket->m_key; 
 	}
 
 	// nope, guess not. let's allocate it.
-	LegacyBucket *b = new LegacyBucket;
-	b->m_key = (NameKeyType)(*nextID)++;
-	b->m_nameString = nameString;
-	b->m_nextInSocket = sockets[hash];
-	sockets[hash] = b;
+	LegacyBucket *legacyBucket = new LegacyBucket;
+	legacyBucket->m_key = (NameKeyType)(*nextID)++;
+	legacyBucket->m_nameString = nameString;
+	legacyBucket->m_nextInSocket = sockets[hash];
+	sockets[hash] = legacyBucket;
 
-	return b->m_key;
+	return legacyBucket->m_key;
 
 }  // end nameToLowercaseKey

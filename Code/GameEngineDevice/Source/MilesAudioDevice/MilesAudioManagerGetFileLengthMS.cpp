@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /DWIN32 /MD /EHsc /arch:SSE2
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /DWIN32 /MD /EHsc
 //
 // ?getFileLengthMS@MilesAudioManager@@UBEMVAsciiString@@@Z, retail 0x00054930.
 // Dedicated TU.
@@ -38,28 +38,8 @@ template <typename T> struct BfmeStringData
 	T text[1];
 };
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-private:
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	~StringBase() { releaseBuffer(); }
-	void releaseBuffer();
-	BfmeStringData<T> *m_data;
+#include "ascii_string.h"
 
-public:
-	Bool isEmpty() const { return m_data == 0 || m_data->length == 0; }
-	const T *str() const { return m_data ? &m_data->text[0] : (const T *)""; }
-};
-
-class AsciiString : private StringBase<char>
-{
-public:
-	AsciiString(const char *text) : StringBase<char>(text) {}
-	AsciiString(const AsciiString &other) : StringBase<char>(other) {}
-	~AsciiString() {}
-};
 
 // Only the digital-driver offset is observed by this body. The prefix includes
 // the vptr already present in the retail MilesAudioManager object.

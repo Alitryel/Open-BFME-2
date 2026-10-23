@@ -1,6 +1,17 @@
-// cl: /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /Ireference/shims/bfme2_ww3d /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /FIbfme_wwstring_teardown.h /Ireference/shims/wwstring_teardown/zhmd /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // Ported verbatim from the Generals Zero Hour reference
 // (Libraries/Source/WWVegas/WW3D2/ww3d.cpp); this unit had no counterpart under Code/.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -240,23 +251,10 @@ bool														WW3D::Lite = false;
 **
 ***********************************************************************************/
 
-// ?Set_NPatches_Gap_Filling_Mode@WW3D@@ present-unmatched
-void WW3D::Set_NPatches_Gap_Filling_Mode(NPatchesGapFillingModeEnum mode)
-{
-	if (NPatchesGapFillingMode!=mode) {
-		NPatchesGapFillingMode=mode;
-		TheDX8MeshRenderer.Invalidate();
-	}
-}
+// WW3D::Set_NPatches_Gap_Filling_Mode: defined in
+// WW3D_SetNPatchesGapFillingModeThunk.cpp (its row's unit).
 
-void WW3D::Set_NPatches_Level(unsigned level)
-{
-	if (level>8) level=8;
-	if (level<1) level=1;
-	if (NPatchesLevel==1 && level>1) TheDX8MeshRenderer.Invalidate();
-	if (NPatchesLevel>1 && level==1) TheDX8MeshRenderer.Invalidate();
-	NPatchesLevel = level;
-}
+// WW3D::Set_NPatches_Level: defined in WW3D_SetNPatchesLevelThunk.cpp (its row's unit).
 
 /***********************************************************************************************
  * WW3D::Init -- Initialize the WW3D Library                                                   *
@@ -577,11 +575,8 @@ int WW3D::Get_Render_Device(void)
  *   3/26/98    GTH : Created.                                                                 *
  *   1/25/2001  gth : converted to dx8                                                         *
  *=============================================================================================*/
-// ?Get_Render_Device_Desc@WW3D@@ present-unmatched
-const RenderDeviceDescClass & WW3D::Get_Render_Device_Desc(int deviceidx)
-{
-	return DX8Wrapper::Get_Render_Device_Desc(deviceidx);
-}
+// Byte-exact device query is in WW3DDeviceQueries.cpp.
+
 
 
 
@@ -618,7 +613,6 @@ const int WW3D::Get_Render_Device_Count(void)
  *   5/19/99    GTH : Created.                                                                 *
  *   1/25/2001  gth : converted to dx8                                                         *
  *=============================================================================================*/
-// ?Get_Render_Device_Name@WW3D@@ present-unmatched
 const char * WW3D::Get_Render_Device_Name(int device_index)
 {
 	return DX8Wrapper::Get_Render_Device_Name(device_index);
@@ -681,11 +675,8 @@ void WW3D::Get_Render_Target_Resolution(int & set_w,int & set_h,int & set_bits,b
  *   3/24/98    GTH : Created.                                                                 *
  *   1/25/2001  gth : converted to dx8                                                         *
  *=============================================================================================*/
-// ?Get_Device_Resolution@WW3D@@ present-unmatched
-void WW3D::Get_Device_Resolution(int & set_w,int & set_h,int & set_bits,bool & set_windowed)
-{
-	DX8Wrapper::Get_Device_Resolution(set_w,set_h,set_bits,set_windowed);
-}
+// Byte-exact device query is in WW3DDeviceQueries.cpp.
+
 
 
 /***********************************************************************************************
@@ -748,7 +739,6 @@ WW3DErrorType WW3D::Registry_Save_Render_Device( const char *sub_key, int device
  * HISTORY:                                                                                    *
  *   12/3/98    BMG : Created.                                                                 *
  *=============================================================================================*/
-// ?Registry_Load_Render_Device@WW3D@@ present-unmatched
 WW3DErrorType WW3D::Registry_Load_Render_Device( const char * sub_key, bool resize_window )
 {
 	bool success = DX8Wrapper::Registry_Load_Render_Device(sub_key,resize_window);
@@ -759,33 +749,14 @@ WW3DErrorType WW3D::Registry_Load_Render_Device( const char * sub_key, bool resi
 	}
 }
 
-// ?Registry_Load_Render_Device@WW3D@@ present-unmatched
 bool WW3D::Registry_Load_Render_Device( const char * sub_key, char *device, int device_len, int &width, int &height, int &depth, int &windowed, int &texture_depth)
 {
 	return DX8Wrapper::Registry_Load_Render_Device(sub_key,device,device_len,width,height,depth,windowed,texture_depth);
 }
 
-void WW3D::_Invalidate_Mesh_Cache()
-{
-	TheDX8MeshRenderer.Invalidate();
-}
+// WW3D::_Invalidate_Mesh_Cache: defined in bfmedynamicvertexbuffer.cpp (its row's unit).
 
-// ?_Invalidate_Textures@WW3D@@ present-unmatched
-void WW3D::_Invalidate_Textures()
-{
-	if (!WW3DAssetManager::Get_Instance()) return;
-
-	TextureLoader::Flush_Pending_Load_Tasks();
-
-	HashTemplateIterator<StringClass,TextureClass*> ite(WW3DAssetManager::Get_Instance()->Texture_Hash());
-
-	// Loop through all the textures in the manager
-	for (ite.First();!ite.Is_Done();ite.Next()) {
-		// Get the current texture
-		TextureClass* tex=ite.Peek_Value();
-		tex->Invalidate();
-	}
-}
+// WW3D::_Invalidate_Textures is defined with its retail-matched body in Code/Libraries/Source/WWVegas/WW3D2/Rva001171B0Cluster.cpp (0x001171B0).
 
 void WW3D::Set_Texture_Filter(int texture_filter)
 {
@@ -894,29 +865,6 @@ WW3DErrorType WW3D::Begin_Render(bool clear,bool clearz,const Vector3 & color, f
  * HISTORY:                                                                                    *
  *   4/2/98    EHC : Created.                                                                  *
  *=============================================================================================*/
-// ?Render@WW3D@@ present-unmatched
-WW3DErrorType WW3D::Render(const LayerListClass &LayerList)
-{
-	if (!IsInitted) {
-		return(WW3D_ERROR_OK);
-	}
-
-	WWASSERT(IsRendering);
-
-	LayerClass *layer = LayerList.Last();
-
-	while (layer->Is_Valid()) {
-		WW3DErrorType result = Render(*layer);
-
-		if (result != WW3D_ERROR_OK) {
-			return result;
-		}
-
-		layer = layer->Prev();
-	}
-
-	return WW3D_ERROR_OK;
-}
 
 /***********************************************************************************************
  * WW3D::Render -- Render a Layer                                                              *
@@ -930,17 +878,6 @@ WW3DErrorType WW3D::Render(const LayerListClass &LayerList)
  * HISTORY:                                                                                    *
  *   4/2/98    EHC : Created.                                                                  *
  *=============================================================================================*/
-// ?Render@WW3D@@ present-unmatched
-WW3DErrorType WW3D::Render(const LayerClass &Layer)
-{
-	if (!IsInitted) {
-		return(WW3D_ERROR_OK);
-	}
-
-	WWASSERT(IsRendering);
-	return Render(Layer.Scene, Layer.Camera, Layer.Clear, Layer.ClearZ, Layer.ClearColor);
-
-}
 
 
 /***********************************************************************************************
@@ -955,58 +892,6 @@ WW3DErrorType WW3D::Render(const LayerClass &Layer)
  * HISTORY:                                                                                    *
  *   3/24/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?Render@WW3D@@ present-unmatched
-WW3DErrorType WW3D::Render(SceneClass * scene,CameraClass * cam,bool clear,bool clearz,const Vector3 & color)
-{
-	if (!IsInitted) {
-		return(WW3D_ERROR_OK);
-	}
-
-	WWPROFILE("WW3D::Render");
-	WWMEMLOG(MEM_GAMEDATA);
-	WWASSERT(IsInitted);
-	WWASSERT(IsRendering);
-	WWASSERT(scene);
-	WWASSERT(cam);
-
-	cam->On_Frame_Update();
-	RenderInfoClass rinfo(*cam);
-
-	// Apply the camera and viewport (including depth range)
-	cam->Apply();
-
-	// Clear the viewport
-	if (clear || clearz) {
-		DX8Wrapper::Clear(clear, clearz, color);
-	}
-
-	// set the rendering mode
-	switch(scene->Get_Polygon_Mode()) {
-		case SceneClass::POINT:
-			DX8Wrapper::Set_DX8_Render_State(D3DRS_FILLMODE,D3DFILL_POINT);
-			break;
-		case SceneClass::LINE:
-			DX8Wrapper::Set_DX8_Render_State(D3DRS_FILLMODE,D3DFILL_WIREFRAME);
-			break;
-		case SceneClass::FILL:
-			DX8Wrapper::Set_DX8_Render_State(D3DRS_FILLMODE,D3DFILL_SOLID);
-			break;
-	}
-
-	// Set the global ambient light value here.  If the scene is using the LightEnvironment system
-	// this setting will get overriden.
-	DX8Wrapper::Set_Ambient(scene->Get_Ambient_Light());
-
-	// render the scene
-
-	TheDX8MeshRenderer.Set_Camera(&rinfo.Camera);
-
-	scene->Render(rinfo);
-
-	Flush(rinfo);
-
-	return WW3D_ERROR_OK;
-}
 
 
 /***********************************************************************************************
@@ -1021,45 +906,6 @@ WW3DErrorType WW3D::Render(SceneClass * scene,CameraClass * cam,bool clear,bool 
  * HISTORY:                                                                                    *
  *   4/4/2001   gth : Created.                                                                 *
  *=============================================================================================*/
-// ?Render@WW3D@@ present-unmatched
-WW3DErrorType WW3D::Render(
-	RenderObjClass & obj,
-	RenderInfoClass & rinfo
-)
-{
-	if (!IsInitted) {
-		return(WW3D_ERROR_OK);
-	}
-
-	WWPROFILE("WW3D::Render");
-	WWASSERT(IsInitted);
-	WWASSERT(IsRendering);
-
-	{
-		WWPROFILE("On_Frame_Update");
-		rinfo.Camera.On_Frame_Update();
-	}
-
-	// Apply the camera and viewport (including depth range)
-	rinfo.Camera.Apply();
-
-	// set the rendering mode
-	DX8Wrapper::Set_DX8_Render_State(D3DRS_FILLMODE,D3DFILL_SOLID);
-
-	// Install the lighting environment if one is supplied
-	if (rinfo.light_environment != NULL) {
-		DX8Wrapper::Set_Light_Environment(rinfo.light_environment);
-	}
-
-	// Render the object
-	TheDX8MeshRenderer.Set_Camera(&rinfo.Camera);
-
-	obj.Render(rinfo);
-
-	Flush(rinfo);
-
-	return WW3D_ERROR_OK;
-}
 
 
 /***********************************************************************************************
@@ -1105,50 +951,6 @@ void WW3D::Flush(RenderInfoClass & rinfo)
  * HISTORY:                                                                                    *
  *   3/24/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?End_Render@WW3D@@ present-unmatched
-WW3DErrorType WW3D::End_Render(bool flip_frame)
-{
-	if (!IsInitted) {
-		return(WW3D_ERROR_OK);
-	}
-
-	WWPROFILE("WW3D::End_Render");
-
-	WWASSERT(IsRendering);
-	WWASSERT(IsInitted);
-
-	// If sorting renderer flush isn't called from within any of the render functions
-	// the sorting arrays will overflow!
-
-	SortingRendererClass::Flush();
-
-	IsRendering = false;
-
-	{
-		WWPROFILE("DX8Wrapper::End_Scene");
-		DX8Wrapper::End_Scene(flip_frame);
-	}
-
-	FrameCount++;
-
-	{
-		WWPROFILE("End_Statistics");
-		Debug_Statistics::End_Statistics();
-	}
-
-	SNAPSHOT_SAY(("==========================================\r\n"));
-	SNAPSHOT_SAY(("========== WW3D::End_Render ==============\r\n"));
-	SNAPSHOT_SAY(("==========================================\r\n\r\n"));
-
-	Activate_Snapshot(false);
-	
-	// (gth) I've found some cases where its not safe to rely on our "shadow" copy (of 
-	// matrices for example) across multiple frames.  So even though this is slightly
-	// less "optimal", lets just reset the caches each frame.
-	DX8Wrapper::Invalidate_Cached_Render_States();
-
-	return WW3D_ERROR_OK;
-}
 
 
 /***********************************************************************************************
@@ -1163,7 +965,6 @@ WW3DErrorType WW3D::End_Render(bool flip_frame)
  * HISTORY:                                                                                    *
  *   6/20/01    DEL : Created.                                                                 *
  *=============================================================================================*/
-// ?Flip_To_Primary@WW3D@@ present-unmatched
 void WW3D::Flip_To_Primary(void)
 {
 	DX8Wrapper::Flip_To_Primary();
@@ -1182,13 +983,11 @@ void WW3D::Flip_To_Primary(void)
  * HISTORY:                                                                                    *
  *   7/28/99    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?Get_Last_Frame_Poly_Count@WW3D@@ present-unmatched
 unsigned int WW3D::Get_Last_Frame_Poly_Count(void)
 {
 	return Debug_Statistics::Get_DX8_Polygons();
 }
 
-// ?Get_Last_Frame_Vertex_Count@WW3D@@ present-unmatched
 unsigned int WW3D::Get_Last_Frame_Vertex_Count(void)
 {
 	return Debug_Statistics::Get_DX8_Vertices();
@@ -1226,7 +1025,6 @@ void WW3D::Sync(unsigned int sync_time)
  * HISTORY:                                                                                    *
  *   5/07/98    NH : Created.                                                                  *
  *=============================================================================================*/
-// ?Set_Ext_Swap_Interval@WW3D@@ present-unmatched
 void WW3D::Set_Ext_Swap_Interval(long swap)
 {
 	DX8Wrapper::Set_Swap_Interval(swap);
@@ -1570,20 +1368,7 @@ void WW3D::Start_Movie_Capture( const char * filename_base, float frame_rate )
  * HISTORY:                                                                                    *
  *   5/19/99    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?Stop_Movie_Capture@WW3D@@ present-unmatched
-void WW3D::Stop_Movie_Capture( void )
-{
-#ifdef _WINDOWS
-	if (IsCapturing) {
-		IsCapturing = false;
-		WWDEBUG_SAY(( "Stoping Movie\n" ));
-
-		WWASSERT( Movie != NULL);
-		delete Movie;
-		Movie = NULL;
-	}
-#endif
-}
+// Byte-exact movie cleanup lives in WW3DStopMovieCapture.cpp.
 
 
 /***********************************************************************************************
@@ -1735,55 +1520,8 @@ bool WW3D::Is_Movie_Ready()
  *   5/19/99    GTH : Created.                                                                 *
  *   2/26/2001  hy : Updated to dx8                                                            *
  *=============================================================================================*/
-// ?Update_Movie_Capture@WW3D@@ present-unmatched
-void WW3D::Update_Movie_Capture( void )
-{
-#ifdef _WINDOWS
-	WWASSERT( IsCapturing);
-	WWPROFILE("WW3D::Update_Movie_Capture");
-	WWDEBUG_SAY(( "Updating\n"));
+// Byte-exact capture copy lives in WW3DUpdateMovieCapture.cpp.
 
-		// Lock front buffer and copy
-
-	IDirect3DSurface8 *fb;
-	fb=DX8Wrapper::_Get_DX8_Front_Buffer();
-	D3DSURFACE_DESC desc;
-	fb->GetDesc(&desc);
-
-	RECT bounds;
-	GetWindowRect(_Hwnd,&bounds);
-
-	D3DLOCKED_RECT lrect;
-
-	DX8_ErrorCode(fb->LockRect(&lrect,&bounds,D3DLOCK_READONLY));
-
-	unsigned int x,y,index,index2,width,height;
-
-	width=bounds.right-bounds.left;
-	height=bounds.bottom-bounds.top;
-
-	char *image=(char *)Movie->GetBuffer();
-
-	for (y=0; y<height; y++)
-	{
-		for (x=0; x<width; x++)
-		{
-			// index for image
-			index=3*(x+(height-y-1)*width);
-			// index for fb
-			index2=y*lrect.Pitch+4*x;
-
-			image[index]=*((char *) lrect.pBits + index2+0);
-			image[index+1]=*((char *) lrect.pBits + index2+1);
-			image[index+2]=*((char *) lrect.pBits + index2+2);
-		}
-	}
-
-	fb->Release();
-
-	Movie->Grab(image);
-#endif
-}
 
 
 /***********************************************************************************************
@@ -2021,11 +1759,12 @@ WW3DErrorType WW3D::On_Activate_App(void)
 }
 
 
-// ?Get_Pixel_Center@WW3D@@ present-unmatched
+#pragma optimize("s", on)
 void WW3D::Get_Pixel_Center(float &x, float &y)
 {
 	x = PixelCenterX; y = PixelCenterY;
 }
+#pragma optimize("", on)
 
 
 // ?Update_Pixel_Center@WW3D@@ present-unmatched
@@ -2077,16 +1816,8 @@ void WW3D::Render_And_Clear_Static_Sort_Lists(RenderInfoClass & rinfo)
 	AreStaticSortListsEnabled = old_enable;
 }
 
-// ?Enable_Sorting@WW3D@@ present-unmatched
-void WW3D::Enable_Sorting(bool onoff)
-{
-	IsSortingEnabled = onoff;
-	// Have to invalidate mesh rendering system because
-	// meshes are put into different fvfs depending on their sort state
-	TheDX8MeshRenderer.Invalidate();
-}
+// WW3D::Enable_Sorting: defined in WW3D_EnableSorting.cpp (its row's unit).
 
-// ?Override_Current_Static_Sort_Lists@WW3D@@ present-unmatched
 void WW3D::Override_Current_Static_Sort_Lists(StaticSortListClass * sort_list)
 {
 	if (sort_list) {
@@ -2097,7 +1828,6 @@ void WW3D::Override_Current_Static_Sort_Lists(StaticSortListClass * sort_list)
 }
 
 
-// ?Reset_Current_Static_Sort_Lists_To_Default@WW3D@@ present-unmatched
 void WW3D::Reset_Current_Static_Sort_Lists_To_Default(void)
 {
 	CurrentStaticSortLists = DefaultStaticSortLists;

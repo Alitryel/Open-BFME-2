@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /GX- /O1 /Ob2
+// cl: /DNDEBUG /MD /GX- /Ob2
 
 // V3-inline module template copy constructors (retail 0x003AE13C cluster).
 // Each copy constructs the V3 inline two-base at 0x003ADDEC, copies its
@@ -12,7 +12,7 @@ public:
 	Rva005EA430(const Rva005EA430 &other);
 };
 
-extern "C" char Rva003AE13C_v0;
+extern "C" char __identifier("??_7Rva005EA430@@6BV3Vt01111D90@@@");
 extern "C" char Rva003AE13C_v8;
 
 class Rva003AE13C
@@ -35,6 +35,11 @@ Rva003AE13C::Rva003AE13C(const Rva003AE13C &that)
 	const void *flag_src = src ? (const char *)src + 0x0C : 0;
 	unsigned char flag = *(const unsigned char *)flag_src;
 	*(unsigned char *)((char *)this + 0x0C) = flag;
-	*(void **)this = &Rva003AE13C_v0;
+	*(void **)this = &__identifier("??_7Rva005EA430@@6BV3Vt01111D90@@@");
 	*(void **)((char *)this + 8) = &Rva003AE13C_v8;
 }
+// _Rva003AE13C_v8: the global at VA 0xc1c780 is ?vftable_0112B89C@@3HA.
+#pragma comment(linker, "/alternatename:_Rva003AE13C_v8=?vftable_0112B89C@@3HA")
+
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.

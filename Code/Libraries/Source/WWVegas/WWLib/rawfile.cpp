@@ -1,10 +1,19 @@
-// cl: /Ireference/shims/bfmerendobj /arch:SSE /G7 /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /DBFME_WWSTRING_NATIVE_CSTR_CONSTRUCTOR /DBFME_WWSTRING_INLINE_CSTR_ASSIGN /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /FIbfme_wwstring_teardown.h /Ireference/shims/wwstring_teardown/bfme /Ireference/shims/bfme2_ascii /Ireference/shims/bfmerendobj /arch:SSE /G7 /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // WWLib RawFileClass, verbatim from the Generals Zero Hour reference
 // (GeneralsMD/.../WWVegas/WWLib/rawfile.cpp) -- BFME uses the Zero Hour variant of
 // the file classes (StringClass filename, Create/Delete/Get_Date_Time in the base).
 // always.h is omitted (nothing here needs it); win.h is a minimal stand-in declaring
 // the kernel32 imports (see src/w3d/win.h).
-#include "rendobj.h"	// the bfmerendobj shim has to win the include guard
+// FileClass's scalar deleting destructor is shared with the /O1 owner at
+// 0x00078257. Give its inline declaration the same compact stack cleanup;
+// restore the unit's settings before RawFileClass and its implementations.
+#pragma optimize("gsy", on)
+// BFME2 keeps Zero Hour's FileClass interface: its vftable (0x007C6730) has
+// 18 slots, ending where FileFactoryClass's (0x007C6778) begins, so Error and
+// Bias are RawFileClass's own virtuals, not __purecall slots of the base.
+// The BFME 1 wwfile.h adds both to FileClass and emits a 20-slot vftable.
+#include "../../../../../reference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib/WWFILE.H"
+#pragma optimize("", on)
 #include	"rawfile.h"
 #include	<direct.h>
 #include	<stddef.h>
@@ -28,55 +37,11 @@ __declspec(dllimport) int __stdcall DeleteFileW(const unsigned short *lpFileName
 
 class UnicodeString;
 
-template <typename T>
-class StringBase
-{
-	friend class AsciiString;
-	StringBase(const T *text);
-	StringBase(const StringBase &src);
+#include "ascii_string.h"
 
-public:
-	StringBase() : m_data(0) {}
-	~StringBase();
 
-	struct Header
-	{
-		int ref_count;
-		unsigned short length;
-		unsigned short capacity;
-		T data[1];
-	};
 
-protected:
-	Header *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString(const char *text) : StringBase<char>(text) {}
-};
-
-template <>
-class StringBase<unsigned short>
-{
-	friend class UnicodeString;
-	void releaseBuffer();
-
-public:
-	StringBase() : m_data(0) {}
-	~StringBase() { releaseBuffer(); }
-
-private:
-	void *m_data;
-};
-
-class UnicodeString : public StringBase<unsigned short>
-{
-public:
-	UnicodeString(const AsciiString &src);
-	const unsigned short *str() const { return m_data ? (const unsigned short *)m_data + 4 : L""; }
-};
+#include "unicode_string.h"
 
 
 RawFileClass::RawFileClass(void) :
@@ -84,7 +49,7 @@ RawFileClass::RawFileClass(void) :
 	BiasStart(0),
 	BiasLength(-1),
 	Handle(NULL_HANDLE),
-	Filename(""),
+	Filename("", false, StringClass::COPY_NATIVE),
 	Date(0),
 	Time(0)
 {
@@ -97,12 +62,20 @@ bool RawFileClass::Is_Open(void) const
 	return(Handle != NULL_HANDLE);
 }
 
+// Retail 0x0066D450, 4 bytes: slot 1 of the RawFileClass vftable 0x0087C388
+// (between the deleting destructor and the rowed Set_Name 0x0061A4E0), which
+// BufferedFileClass's vftable 0x0087C3E0 inherits.
+char const * RawFileClass::File_Name(void) const
+{
+	return(Filename);
+}
+
 RawFileClass::RawFileClass(char const * filename) :
 	Rights(0),
 	BiasStart(0),
 	BiasLength(-1),
 	Handle(NULL_HANDLE),
-	Filename(filename),
+	Filename(filename, false, StringClass::COPY_NATIVE),
 	Date(0),
 	Time(0)
 {
@@ -140,6 +113,12 @@ char const * RawFileClass::Set_Name(char const * filename)
 	return(Filename);
 }
 
+
+// RawFileClass::Error: Zero Hour's empty error hook, vtable slot 18 of
+// RawFileClass (0x00C7C388), retail 0x00619FE0 (ret 0Ch).
+void RawFileClass::Error(int, int, char const *)
+{
+}
 
 int RawFileClass::Open(char const * filename, int rights)
 {

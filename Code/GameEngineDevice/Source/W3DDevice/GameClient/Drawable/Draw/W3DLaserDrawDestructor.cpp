@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // BFME W3DLaserDraw destructor.  The shipped BFME class has a larger
 // DrawableModule base and a texture-vector member than the later reference
 // header, so keep this recovered layout local to the destructor TU.
@@ -27,10 +27,12 @@ protected:
 	virtual ~DrawModule() {}
 };
 
+// Same slot views as W3DLaserDrawBfmeConstructor.cpp, so both units emit one pair of
+// W3DLaserDraw tables.
 class LaserDrawInterface
 {
 public:
-	virtual void bfmeLaserDrawInterfaceSlot();
+	virtual float getLaserTemplateWidth() const = 0;
 };
 
 class SegmentedLineClass
@@ -39,10 +41,11 @@ public:
 	virtual void Release();
 };
 
-class Gen_00757830
+// The texture vector dies through the rowed 0x000C9A12 (the call at 0x000C9BA8).
+class Rva000C9A12
 {
 public:
-	~Gen_00757830();
+	~Rva000C9A12();
 
 	void *m_start;
 	void *m_finish;
@@ -58,22 +61,33 @@ public:
 	virtual void Remove_Render_Object(SegmentedLineClass *line);
 };
 
+class RTS2DScene;
+
 class W3DDisplay
 {
 public:
 	static RTS3DScene *m_3DScene;
+	static RTS2DScene *m_2DScene;
 };
+
+// Matched DIR32 references place W3DDisplay::m_3DScene at VA 0x00DE1B34;
+// the four retail bytes are zero, so the scene pointer starts null.
+RTS3DScene *W3DDisplay::m_3DScene = 0;
+// Its neighbour W3DDisplay::m_2DScene (VA 0x00DE1B38, W3DView::draw's DIR32
+// reference) is likewise a null-initialised static.
+RTS2DScene *W3DDisplay::m_2DScene = 0;
 
 class W3DLaserDraw : public DrawModule, public LaserDrawInterface
 {
 public:
-	virtual void doDrawModule();
+	virtual void doDrawModule(const class Matrix3D *transform);
+	virtual float getLaserTemplateWidth() const;
 
 protected:
 	virtual ~W3DLaserDraw();
 
 	SegmentedLineClass **m_line3D;
-	Gen_00757830 m_textureVector;
+	Rva000C9A12 m_textureVector;
 };
 
 void __cdecl operator delete[](void *block);

@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /arch:SSE /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
 // stlport
 //
 // Scratch Online-Files MiscPref reset (retail 0x0055478A, 140B).
@@ -13,6 +13,15 @@
 #include <map>
 #include <stdlib.h>
 
+// Retail's tree frees nodes through a direct _free; the dllimport+forceinline
+// specialization takes __malloc_alloc<0>::deallocate inline so this TU emits
+// no copy of its own (retail's is the unoptimized import entry, 0x00023A70).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void __malloc_alloc<0>::deallocate(void *__p, size_t)
+{ free((char *)__p); }
+}
+
 typedef bool Bool;
 typedef int Int;
 typedef float Real;
@@ -25,29 +34,8 @@ template <typename T> struct BfmeStringData
 	T text[1];
 };
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	void releaseBuffer();
+#include "ascii_string.h"
 
-public:
-	StringBase() : m_data(0) {}
-	~StringBase();
-
-protected:
-	BfmeStringData<T> *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString() {}
-	void __cdecl format(const char *format, ...);
-
-	const char *str() const { return m_data ? &m_data->text[0] : ""; }
-};
 
 bool operator<(const AsciiString &left, const AsciiString &right);
 
@@ -90,8 +78,8 @@ struct MiscPrefOwner
 // resetOnlineMiscPref @0x55478A
 void resetOnlineMiscPref(Int reserved1, Int profileIndex, Int reserved2, Int reserved3, Int saveFlag, Int reserved4, MiscPrefOwner *owner)
 {
-	MiscPrefOwner *o = owner;
-	if (!o)
+	MiscPrefOwner *miscPrefOwner = owner;
+	if (!miscPrefOwner)
 		return;
 
 	if (saveFlag)
@@ -104,5 +92,5 @@ void resetOnlineMiscPref(Int reserved1, Int profileIndex, Int reserved2, Int res
 		prefs.write();
 	}
 
-	--o->m_refCount;
+	--miscPrefOwner->m_refCount;
 }

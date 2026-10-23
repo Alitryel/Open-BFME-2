@@ -1,9 +1,12 @@
 // Retail 0x006E9160.  Fill the three-dword output with the three fixed
 // runtime values returned by the neighboring global accessors.
 
-extern int Rva00937270Get( void );
-extern int Rva00937250Get( void );
-extern int Rva009372C0Get( void );
+namespace Debug_Statistics
+{
+	int Get_DX8_Vertices( void );
+	int Get_DX8_Skin_Vertices( void );
+	int Get_Sorting_Vertices( void );
+}
 
 struct Gen_006e9160_Triple
 {
@@ -14,7 +17,7 @@ struct Gen_006e9160_Triple
 
 void __stdcall Rva006E9160Init( Gen_006e9160_Triple *output )
 {
-	output->m_0 = Rva00937270Get();
-	output->m_4 = Rva00937250Get();
-	output->m_8 = Rva009372C0Get();
+	output->m_0 = Debug_Statistics::Get_DX8_Vertices();
+	output->m_4 = Debug_Statistics::Get_DX8_Skin_Vertices();
+	output->m_8 = Debug_Statistics::Get_Sorting_Vertices();
 }

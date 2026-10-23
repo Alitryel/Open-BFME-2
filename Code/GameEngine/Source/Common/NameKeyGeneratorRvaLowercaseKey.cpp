@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 //
 // NameKeyGenerator lowercase-key wrappers, BFME2 retail:
 //   ?Rva00148F02@NameKeyGenerator@@QAE?AW4NameKeyType@@PBD@Z @ 0x00148F02 (92B)
@@ -31,29 +31,8 @@ struct BfmeStringData
 	T text[1];
 };
 
-template <typename T>
-class StringBase
-{
-	friend class AsciiString;
+#include "ascii_string.h"
 
-	StringBase(const T *text);
-	~StringBase();
-
-	BfmeStringData<T> *m_data;
-
-public:
-	const T *str() const { return m_data ? &m_data->text[0] : (const T *)""; }
-};
-
-class AsciiString : private StringBase<char>
-{
-public:
-	AsciiString(const char *text) : StringBase<char>(text) {}
-	~AsciiString();
-	void toLower();
-
-	using StringBase<char>::str;
-};
 
 class NameKeyGenerator
 {
@@ -66,7 +45,7 @@ public:
 NameKeyType NameKeyGenerator::Rva00148F02(const char *nameString)
 {
 	AsciiString lowered(nameString);
-	lowered.toLower();
+	((StringBase<char> &)lowered).toLower();
 	return nameToKey(lowered.str());
 }
 

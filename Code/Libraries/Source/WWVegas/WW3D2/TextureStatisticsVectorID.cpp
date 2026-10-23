@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /Ireference/shims/bfmecamera /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /DNDEBUG
+// cl: /Ireference/shims/bfmecamera /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /DNDEBUG
 
 // The retail BFME statistics implementation uses DynamicVectorClass here,
 // while the later Zero Hour source uses SimpleDynVecClass.  Keep the template
@@ -23,28 +23,25 @@ class TextureClass : public TextureBaseClass
 {
 };
 
-void TextureBaseClass::Add_Ref()
-{
-	++*reinterpret_cast<unsigned short *>(reinterpret_cast<char *>(this) + 4);
-}
+// TextureBaseClass::Add_Ref: defined in ringobj.cpp (its row's unit).
 
 template<class T>
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib/ref_ptr.h
 class RefCountPtr
 {
 public:
-	RefCountPtr() : Referent(0) {}
+	__declspec(dllimport) __forceinline RefCountPtr() : Referent(0) {}
 	RefCountPtr(RefCountPtr const &other) : Referent(other.Referent)
 	{
 		if (Referent != 0)
 			Referent->Add_Ref();
 	}
+	// BFME's destructor does not null the pointer (TextureStatisticsVector.cpp).
 	~RefCountPtr()
 	{
 		if (Referent != 0)
 		{
 			Referent->Release_Ref();
-			Referent = 0;
 		}
 	}
 	RefCountPtr const &operator=(RefCountPtr const &other)
@@ -85,6 +82,10 @@ struct TextureStatisticsStruct
 	{
 		return tex != other.tex;
 	}
+public:
+	~TextureStatisticsStruct();
+public:
+	TextureStatisticsStruct &operator=(const TextureStatisticsStruct &);
 };
 
 template<class T>
@@ -209,6 +210,38 @@ int VectorClass<T>::ID(T const &object)
 	return -1;
 }
 
+// VectorClass<TextureStatisticsStruct>::operator==, retail 0x00129950 (63
+// bytes): slot 1 of both the vector's and the dynamic vector's vftables,
+// missing from the Ghidra inventory; WWLib's element-wise comparison.
+template<class T>
+bool VectorClass<T>::operator==(VectorClass<T> const &vector) const
+{
+	if (VectorMax == vector.Length())
+	{
+		for (int index = 0; index < VectorMax; index++)
+		{
+			if (Vector[index] != vector.Vector[index])
+				return false;
+		}
+		return true;
+	}
+	return false;
+}
+
+// DynamicVectorClass<TextureStatisticsStruct>::ID, retail 0x0012A550 (40
+// bytes): slot 4 of the dynamic vector's vftable 0x00BD14EC, missing from the
+// Ghidra inventory; WWLib's linear search over the active entries.
+template<class T>
+int DynamicVectorClass<T>::ID(T const &object)
+{
+	for (int index = 0; index < ActiveCount; index++)
+	{
+		if ((*this)[index] == object)
+			return index;
+	}
+	return -1;
+}
+
 template<class T>
 void VectorClass<T>::Clear()
 {
@@ -267,17 +300,22 @@ DynamicVectorClass<T>::DynamicVectorClass(unsigned size, T const *array)
 	ActiveCount = 0;
 }
 
+// VectorClass::Resize is rowed in TextureStatisticsVectorResize.cpp; the
+// vftables here reference that body.
+template<> bool VectorClass<TextureStatisticsStruct>::Resize(
+	int, TextureStatisticsStruct const *);
+
 template DynamicVectorClass<TextureStatisticsStruct>::DynamicVectorClass(
 	unsigned, TextureStatisticsStruct const *);
 template VectorClass<TextureStatisticsStruct>::VectorClass(
 	unsigned, TextureStatisticsStruct const *);
-template bool VectorClass<TextureStatisticsStruct>::Resize(
-	int, TextureStatisticsStruct const *);
 template int VectorClass<TextureStatisticsStruct>::ID(
 	TextureStatisticsStruct const &);
 template void DynamicVectorClass<TextureStatisticsStruct>::Clear();
-template bool DynamicVectorClass<TextureStatisticsStruct>::Add(
+template int DynamicVectorClass<TextureStatisticsStruct>::ID(
 	TextureStatisticsStruct const &);
+template bool VectorClass<TextureStatisticsStruct>::operator==(
+	VectorClass<TextureStatisticsStruct> const &) const;
 template VectorClass<TextureStatisticsStruct>::~VectorClass();
 
 static int texture_memory;
@@ -291,16 +329,11 @@ static int texture_change_count;
 static RefCountPtr<TextureClass> latest_texture;
 static DynamicVectorClass<TextureStatisticsStruct> texture_statistics;
 
-void Record_Texture_Begin()
-{
-	texture_memory = 0;
-	texture_count = 0;
-	lightmap_texture_memory = 0;
-	lightmap_texture_count = 0;
-	procedural_texture_memory = 0;
-	procedural_texture_count = 0;
-	record_count = 0;
-	texture_change_count = 0;
-	latest_texture.Clear();
-	texture_statistics.Resize(0);
-}
+// Record_Texture_Begin: defined in TextureStatisticsVector.cpp (its row's unit).
+void Record_Texture_Begin();
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?ID@?$VectorClass@UTextureStatisticsStruct@@@@UAEHPBUTextureStatisticsStruct@@@Z=?ID@?$VectorClass@VVector3@@@@UAEHPBVVector3@@@Z")
+#pragma comment(linker, "/alternatename:?ID@?$DynamicVectorClass@UTextureStatisticsStruct@@@@UAEHPBUTextureStatisticsStruct@@@Z=?ID@?$VectorClass@VVector3@@@@UAEHPBVVector3@@@Z")

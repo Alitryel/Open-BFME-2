@@ -65,3 +65,7 @@ void __node_alloc<__threads, __inst>::_M_deallocate(void *p, unsigned int n)
 template void __node_alloc<true, 0>::_M_deallocate(void *, unsigned int);
 
 }
+
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
+#pragma comment(linker, "/alternatename:?_S_free_list@?$__node_alloc@$00$0A@@_STL@@0PAPAU_Obj@12@A=_g_bfmeFreeList1150")

@@ -1,0 +1,43 @@
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /Ob2 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// stlport
+// List-pair tree single-node erase (retail 0x005CA221 59B): rebalance via
+// rowed 0x00025620, destroy the pair at +0x10 via rowed 0x005C9ED3, release
+// via _free 0x00030830, decrement count. Same models as
+// stlport_string_list_pair_cleanup.cpp; caller 0x005CA7A9.
+#include <map>
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
+#include <list>
+
+#include "ascii_string.h"
+// Give the list-pair its native out-of-line destructor declaration. MSVC
+// still emits the implicit destructor when only that member is specialized.
+namespace _STL {
+template <> struct pair<const AsciiString, list<AsciiString> > {
+    typedef const AsciiString first_type;
+    typedef list<AsciiString> second_type;
+    const AsciiString first;
+    list<AsciiString> second;
+    ~pair();
+};
+}
+
+// bfme link decl-only begin
+namespace _STL { template <> void _Rb_tree<AsciiString, pair<AsciiString const, list<AsciiString, allocator<AsciiString> > >, _Select1st<pair<AsciiString const, list<AsciiString, allocator<AsciiString> > > >, less<AsciiString>, allocator<pair<AsciiString const, list<AsciiString, allocator<AsciiString> > > > >::_M_erase(_Rb_tree_node<pair<AsciiString const, list<AsciiString, allocator<AsciiString> > > > *); }
+// bfme link decl-only end
+
+
+bool operator<(const AsciiString &left, const AsciiString &right);
+
+typedef _STL::list<AsciiString> AsciiStringList;
+typedef _STL::pair<const AsciiString, AsciiStringList> ListPair;
+typedef _STL::_Rb_tree<AsciiString, ListPair, _STL::_Select1st<ListPair>, _STL::less<AsciiString>, _STL::allocator<ListPair> > ListPairTree;
+
+template void ListPairTree::erase(ListPairTree::iterator);
+template void ListPairTree::erase(ListPairTree::iterator, ListPairTree::iterator);

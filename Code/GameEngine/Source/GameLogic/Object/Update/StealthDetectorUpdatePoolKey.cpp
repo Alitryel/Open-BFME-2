@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004A2C74@StealthDetectorUpdate@@SA?AW4NameKeyType@@XZ @0x4a2c74
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@StealthDetectorUpdate@@UBE?AW4NameKeyType@@XZ @0x4a2c74
 // (69B): cached pool-name key for StealthDetectorUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("StealthDetectorUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class StealthDetectorUpdate
 {
 public:
-	static NameKeyType rva0004A2C74();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004A2C74@StealthDetectorUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType StealthDetectorUpdate::rva0004A2C74()
+// ?getModuleNameKey@StealthDetectorUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType StealthDetectorUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheStealthDetectorUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("StealthDetectorUpdate");

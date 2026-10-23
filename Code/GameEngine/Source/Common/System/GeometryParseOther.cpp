@@ -1,4 +1,4 @@
-// cl: /O2 /DNDEBUG /MD /EHsc- /GX- /Ob2
+// cl: /DNDEBUG /MD /EHsc- /GX- /Ob2 /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 // BFME2 GeometryOther callback: PC FieldParse row VA C0EC50 stores AC01B0
 // and member offset FC. Preview row 820191C0 / callback 82213488 corroborates
@@ -35,12 +35,17 @@ public:
     GeometryInfo(GeometryType, bool, float, float, float);
     GeometryInfo(const GeometryInfo &);
     virtual ~GeometryInfo();
-    void calcBoundingStuff();
     static void parseGeometryOther(INI *, void *, void *, const void *);
     bool isSmall; char padding[3]; char head[0x24];
     GeometryShape *begin, *end, *capacity;
     char tail[0x24];
+private:
+	void calcBoundingStuff();
+	friend class GeometryShape;
+	friend class INI;
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Construct<GeometryInfo,GeometryInfo>(GeometryInfo *p,GeometryInfo const &v) { new (p) GeometryInfo(v); } }
 void GeometryInfo::parseGeometryOther(INI *ini, void *, void *store, const void *) {
     GeometryInfo geometry(GEOMETRY_SPHERE, false, 10.0f, 10.0f, 10.0f);
     const char *token=ini->getNextTokenOrNull(ini->getSepsColon());

@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /MD /O2 /Ob2
+// cl: /DNDEBUG /MD /Ob2
 // Readable out-of-line body of ??0TexBufferClass@@QAE@HPBD@Z (retail 0x0015D080, 62B).
 // Ported from reference/open-bfme-1/.../TexBufferClassCtorThunk.cpp: unlike its
 // MatBufferClass sibling (header-inline over the ShareBufferClass template),
@@ -8,16 +8,24 @@
 // full layout (RefCountClass NumRefs plus raw/aligned buffer, count, alignment);
 // only the members this ctor touches are declared here.
 
+inline void *operator new(unsigned int, void *p) { return p; }
 #include <string.h>
 
-class ShareBufferClassBase
+class RefCountClass
+{
+public:
+	virtual void Delete_This();
+protected:
+	int m_refCount;
+};
+
+class ShareBufferClassBase : public RefCountClass
 {
 public:
 	ShareBufferClassBase(int count, const char *name, int flags);
 	virtual ~ShareBufferClassBase();
 
 protected:
-	int m_refCount;
 	void *m_rawBuffer;
 	void *m_array;
 	int m_count;
@@ -27,14 +35,23 @@ class TexBufferClass : public ShareBufferClassBase
 {
 public:
 	TexBufferClass(int count, const char *name);
+	virtual ~TexBufferClass();
 };
 
 // ??0TexBufferClass@@QAE@HPBD@Z
-TexBufferClass::TexBufferClass(int count, const char *name)
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline TexBufferClass::TexBufferClass(int count, const char *name)
 	: ShareBufferClassBase(count, name, 0)
 {
 	int bytes = m_count;
 	bytes += bytes;
 	bytes += bytes;
 	memset(m_array, 0, bytes);
+}
+
+// ?bfmeAnchorTexBufferClassCtor absent-from-retail
+void *bfmeAnchorTexBufferClassCtor(void *where, int count, const char *name)
+{
+	return ::new (where) TexBufferClass(count, name);
 }

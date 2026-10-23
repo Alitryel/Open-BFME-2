@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims
+// cl: /Ireference/shims/bfme2_dozer /Ireference/shims/partitionfilterzh /Ireference/shims/zh_outofline /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims
 // stlport
 // Ported verbatim from the Generals Zero Hour reference (GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdate.cpp); this unit had no counterpart under Code/.
 #define Matrix4x4 Matrix4  // BFME renamed it
@@ -52,13 +52,18 @@
 #include "GameClient/GameText.h"
 #include "GameLogic/AIPathfind.h"
 #include "GameLogic/PartitionManager.h"
+#include "GameLogic/PartitionFilterZh.h"
 #include "GameLogic/Locomotor.h"
 #include "GameLogic/Module/BodyModule.h"
 #include "GameLogic/Module/BridgeBehavior.h"
 #include "GameLogic/Module/BridgeTowerBehavior.h"
 #include "GameLogic/Module/CreateModule.h"
 #include "GameLogic/Module/DozerAIUpdate.h"
+#include "GameLogic/Module/WorkerAIUpdate.h"
 #include "GameClient/InGameUI.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+// bfme link decl-only end
 
 // BFME's AudioManager vtable puts addAudioEvent at slot 17; the ZH header lands
 // it at 12, so the call comes out [edx+0x30] instead of [edx+0x44].
@@ -83,6 +88,16 @@ public:
 	virtual void slot15() = 0;
 	virtual void slot16() = 0;
 	virtual AudioHandle addAudioEvent(const AudioEventRTS *event) = 0;
+	virtual void slot18() = 0;
+	virtual void slot19() = 0;
+	virtual void slot20() = 0;
+	virtual void slot21() = 0;
+	virtual void slot22() = 0;
+	virtual void slot23() = 0;
+	virtual void slot24() = 0;
+	virtual void slot25() = 0;
+	virtual void slot26() = 0;
+	virtual void removeAudioEvent(AudioHandle handle) = 0;
 };
 
 #ifdef _INTERNAL
@@ -141,6 +156,7 @@ EMPTY_DTOR(DozerActionPickActionPosState)
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 // matched via Code/masm_dumps/_sa___0DozerActionPickActionPosState__QAE_PAVStateMachine__W4DozerTask___Z_2B7300.asm (true body 0x2B7300/60B; queue 0x2B74B6 was mid-inlined fragment in DozerActionStateMachine; AsciiString thin path)
+// ??0DozerActionPickActionPosState@@ present-unmatched
 DozerActionPickActionPosState::DozerActionPickActionPosState( StateMachine *machine,
 																															DozerTask task ) :
 															 State( machine, "DozerActionPickActionPosState" )
@@ -186,93 +202,7 @@ void DozerActionPickActionPosState::loadPostProcess( void )
 /** Pick a position around the target */
 //-------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/Common/DozerActionPickActionPosState_update_Thunk.cpp
-// ?update@DozerActionPickActionPosState@@UAE?AW4StateReturnType@@XZ present-unmatched
-StateReturnType DozerActionPickActionPosState::update( void )
-{
-	StateMachine *machine = getMachine();
-	Object *dozer = machine->getOwner();
-
-	// get dozer ai update interface
-	AIUpdateInterface *ai = dozer->getAIUpdateInterface();
-	if( !ai )
-	{
-		return STATE_FAILURE;
-	}
-	DozerAIInterface *dozerAI = ai->getDozerAIInterface();
-	if( !dozerAI )
-	{
-		return STATE_FAILURE;
-	}
-
-	// get the object we're concerned with for our task
-	Object *goalObject = TheGameLogic->findObjectByID( dozerAI->getTaskTarget( m_task ) );
-
-	// if there is no goal, get out of this machine with a failure code (success is done in the action state )
-	if( goalObject == NULL )	
-	{
-
-		// to be clean get rid of the goal object we set
-		getMachine()->setGoalObject( NULL );
-
-		// cancel our task
-		dozerAI->cancelTask( m_task );
-
-		// exit with failure
-		return STATE_FAILURE;
-
-	}  // end if
-
-	// pick a location to move to
-	Coord3D goalPos;
-	const Coord3D *pos = dozerAI->getDockPoint( m_task, DOZER_DOCK_POINT_START );
-	if( pos )
-		goalPos = *pos;
-	else
-	{
-
-		// pick a spot to use
-
-		//
-		// find the vector from goal object to us ... we will start our search on this angle so
-		// that we "approach" a closer point rather than a point on a random side
-		//
-		Coord2D v;
-		v.x = dozer->getPosition()->x - goalObject->getPosition()->x;
-		v.y = dozer->getPosition()->y - goalObject->getPosition()->y;
-	
-		Real radius = goalObject->getGeometryInfo().getBoundingSphereRadius();
-		FindPositionOptions fpOptions;
-		fpOptions.minRadius = radius;
-		fpOptions.maxRadius = radius;
-		fpOptions.startAngle = v.toAngle();
-		if( ThePartitionManager->findPositionAround( goalObject->getPosition(),
-																								 &fpOptions,
-																								 &goalPos ) == FALSE )
-		{
-
-			// return STATE_FAILURE; no, we don't ever want dozers to fail, particularly
-			// if ai.
-			goalPos = *goalObject->getPosition();
-
-		}  // end if	
-
-		//
-		// we only ignore the goal object when we did the point selection in this more
-		// "random" method cause we could pick a place inside the object
-		//
-		ai->ignoreObstacle( goalObject );
-
-	}  // end if
-
-	// set goal position and object
-	machine->setGoalObject( goalObject );
-	machine->setGoalPosition( &goalPos );
-	ai->ignoreObstacle(goalObject);
-	ai->aiMoveToPosition( &goalPos, CMD_FROM_AI );
-
-	return STATE_SUCCESS;
-
-}  // end update
+// DozerActionPickActionPosState::update is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateCtor.cpp (0x0048A4DD).
 
 //-------------------------------------------------------------------------------------------------
 /** Dozer moves to the action position */
@@ -333,89 +263,7 @@ void DozerActionMoveToActionPosState::loadPostProcess( void )
 /** We are supposed to be on route to our action position now, see when we get there or
 	* detect that we have encountered a problem that's going to cause it to give up */
 //-------------------------------------------------------------------------------------------------
-// ?update@DozerActionMoveToActionPosState@@UAE?AW4StateReturnType@@XZ present-unmatched
-StateReturnType DozerActionMoveToActionPosState::update( void )
-{
-	Object *goalObject = getMachineGoalObject();
-	Object *dozer = getMachineOwner();
-
-	// sanity
-	if( goalObject == NULL || dozer == NULL )
-		return STATE_FAILURE;
-
-	AIUpdateInterface *ai = dozer->getAIUpdateInterface();
-	ObjectID currentRepairer = goalObject->getSoleHealingBenefactor(); 
-	if( m_task==DOZER_TASK_REPAIR && currentRepairer != INVALID_ID && currentRepairer != dozer->getID() )//oops I guess someone beat me to it!
-	{
-		if ( ai )	
-		{
-			DozerAIInterface *dozerAI = ai->getDozerAIInterface();
-			if ( dozerAI )
-				dozerAI->internalTaskComplete( m_task );
-		}
-		getMachine()->setGoalObject( NULL );
-		return STATE_FAILURE;
-	}
-
-	// Double oops, someone else has taken over the build responsibility for this building.  We can't double up.
-	// This can happen because a guy who is moving to build who is told to build will idle for a frame after registering.
-	// Two workers, two started buildings.
-	// Grab both workers, resume on one building
-	// First will register, second will see first as active and say no
-	// Grab both, click on other building
-	// First will register, and idle for a frame, second will see first as not active and say yes
-	// Next frame, first will start the build task, without reasking validity
-	// Infinite number of workers can be told to build something with just two in progress buildings
-	if( (m_task == DOZER_TASK_BUILD) && goalObject && (goalObject->getBuilderID() != dozer->getID()) )
-	{
-		// Geebus.  Returning failure is ignored, so you have to explicitly make the ai stop trying to restart the machine
-		if ( ai )	
-		{
-			DozerAIInterface *dozerAI = ai->getDozerAIInterface();
-			if ( dozerAI )
-				dozerAI->internalTaskComplete( m_task );
-		}
-		getMachine()->setGoalObject( NULL );
-		return STATE_FAILURE;
-	}
-
-	// if distance between us and our goal position is close enough
-	const Coord3D *goalPos = getMachine()->getGoalPosition();
-	Real distSqr = ThePartitionManager->getDistanceSquared( dozer, goalPos, FROM_BOUNDINGSPHERE_2D );
-	const Real SLOP = 15.0f;
-	Real allowableDistanceSqr = sqr(max( MIN_ACTION_TOLERANCE, dozer->getGeometryInfo().getBoundingSphereRadius() + SLOP ));
-
-
-	if( distSqr <= allowableDistanceSqr )
-	{
-		if( m_task == DOZER_TASK_BUILD )
-		{
-
-			//
-			// the object is now no longer awaiting construction, it is being constructed ... note
-			// that we might possibly be here multiple times for a single object being built
-			// but the setting of the same model condition doesn't have any adverse effects
-			//
-			goalObject->clearAndSetModelConditionFlags(
-				MAKE_MODELCONDITION_MASK(MODELCONDITION_AWAITING_CONSTRUCTION), 
-				MAKE_MODELCONDITION_MASK2(MODELCONDITION_PARTIALLY_CONSTRUCTED, MODELCONDITION_ACTIVELY_BEING_CONSTRUCTED));
-
-		}  // end if
-
-		return STATE_SUCCESS;
-
-	}  // end if
-
-
-	// if we're in the idle state fail our move
-	// Failure transition is back to DOZER_ACTION_PICK_ACTION_POS, so 
-	// it is ok to fail. jba.
-	if( ai && ai->isIdle() )
-		return STATE_FAILURE;
-
-	return STATE_CONTINUE;
-
-}  // end update
+// DozerActionMoveToActionPosState::update is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateCtor.cpp (0x004892E1).
 
 //-------------------------------------------------------------------------------------------------
 /** Dozer does the "action" */
@@ -510,2268 +358,7 @@ StateReturnType DozerActionDoActionState::onEnter( void )
 //-------------------------------------------------------------------------------------------------
 /** Do the action */
 //-------------------------------------------------------------------------------------------------
-__declspec(naked) StateReturnType DozerActionDoActionState::update( void )
-{
-	__asm {
-	__emit 0x6a;
-	__emit 0xff;
-	__emit 0x68;
-	__emit 0x30;
-	__emit 0x35;
-	__emit 0x01;
-	__emit 0x01;
-	__emit 0x64;
-	__emit 0xa1;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x50;
-	__emit 0x64;
-	__emit 0x89;
-	__emit 0x25;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x83;
-	__emit 0xec;
-	__emit 0x54;
-	__emit 0x53;
-	__emit 0x55;
-	__emit 0x8b;
-	__emit 0xe9;
-	__emit 0x8b;
-	__emit 0x4d;
-	__emit 0x1c;
-	__emit 0x56;
-	__emit 0x57;
-	__emit 0x89;
-	__emit 0x6c;
-	__emit 0x24;
-	__emit 0x18;
-	__emit 0xe8;
-	__emit 0x56;
-	__emit 0x55;
-	__emit 0xd5;
-	__emit 0xff;
-	__emit 0x8b;
-	__emit 0xf8;
-	__emit 0x8b;
-	__emit 0x45;
-	__emit 0x1c;
-	__emit 0x8b;
-	__emit 0x40;
-	__emit 0x10;
-	__emit 0x8b;
-	__emit 0x98;
-	__emit 0x04;
-	__emit 0x02;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x85;
-	__emit 0xdb;
-	__emit 0x89;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x14;
-	__emit 0x74;
-	__emit 0x43;
-	__emit 0x8b;
-	__emit 0x13;
-	__emit 0x8b;
-	__emit 0xcb;
-	__emit 0xff;
-	__emit 0x92;
-	__emit 0x3c;
-	__emit 0x01;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x8b;
-	__emit 0xf0;
-	__emit 0x85;
-	__emit 0xf6;
-	__emit 0x74;
-	__emit 0x33;
-	__emit 0x85;
-	__emit 0xff;
-	__emit 0x74;
-	__emit 0x2f;
-	__emit 0x8b;
-	__emit 0x07;
-	__emit 0x8b;
-	__emit 0xcf;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x28;
-	__emit 0x8b;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x14;
-	__emit 0x89;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x20;
-	__emit 0x8b;
-	__emit 0x81;
-	__emit 0xa4;
-	__emit 0x01;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0xa8;
-	__emit 0x20;
-	__emit 0x75;
-	__emit 0x16;
-	__emit 0x8b;
-	__emit 0x45;
-	__emit 0x24;
-	__emit 0x83;
-	__emit 0xe8;
-	__emit 0x00;
-	__emit 0x0f;
-	__emit 0x84;
-	__emit 0x8e;
-	__emit 0x02;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x48;
-	__emit 0x74;
-	__emit 0x1f;
-	__emit 0x48;
-	__emit 0x0f;
-	__emit 0x84;
-	__emit 0xb8;
-	__emit 0x03;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0xb8;
-	__emit 0xfe;
-	__emit 0xff;
-	__emit 0xff;
-	__emit 0xff;
-	__emit 0x8b;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x64;
-	__emit 0x64;
-	__emit 0x89;
-	__emit 0x0d;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x5f;
-	__emit 0x5e;
-	__emit 0x5d;
-	__emit 0x5b;
-	__emit 0x83;
-	__emit 0xc4;
-	__emit 0x60;
-	__emit 0xc3;
-	__emit 0x8b;
-	__emit 0x8f;
-	__emit 0x00;
-	__emit 0x02;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x8b;
-	__emit 0x16;
-	__emit 0x89;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x18;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x52;
-	__emit 0x4c;
-	__emit 0x85;
-	__emit 0xc0;
-	__emit 0x75;
-	__emit 0x25;
-	__emit 0x8b;
-	__emit 0x4d;
-	__emit 0x24;
-	__emit 0x8b;
-	__emit 0x06;
-	__emit 0x6a;
-	__emit 0x01;
-	__emit 0x51;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x44;
-	__emit 0x85;
-	__emit 0xc0;
-	__emit 0x74;
-	__emit 0x0b;
-	__emit 0x6a;
-	__emit 0x02;
-	__emit 0x50;
-	__emit 0x8d;
-	__emit 0x4b;
-	__emit 0x20;
-	__emit 0xe8;
-	__emit 0xae;
-	__emit 0xb2;
-	__emit 0xd7;
-	__emit 0xff;
-	__emit 0x8b;
-	__emit 0x16;
-	__emit 0x6a;
-	__emit 0x01;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x52;
-	__emit 0x48;
-	__emit 0x8b;
-	__emit 0x06;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x4c;
-	__emit 0x83;
-	__emit 0xf8;
-	__emit 0x01;
-	__emit 0x75;
-	__emit 0x22;
-	__emit 0x8b;
-	__emit 0x13;
-	__emit 0x8b;
-	__emit 0xcb;
-	__emit 0xff;
-	__emit 0x92;
-	__emit 0x80;
-	__emit 0x01;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x84;
-	__emit 0xc0;
-	__emit 0x74;
-	__emit 0x14;
-	__emit 0x8b;
-	__emit 0x06;
-	__emit 0x6a;
-	__emit 0x02;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x48;
-	__emit 0x6a;
-	__emit 0x02;
-	__emit 0x57;
-	__emit 0x8d;
-	__emit 0x4b;
-	__emit 0x20;
-	__emit 0xe8;
-	__emit 0x60;
-	__emit 0x67;
-	__emit 0xd5;
-	__emit 0xff;
-	__emit 0x8b;
-	__emit 0x16;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x52;
-	__emit 0x4c;
-	__emit 0x83;
-	__emit 0xf8;
-	__emit 0x02;
-	__emit 0x0f;
-	__emit 0x85;
-	__emit 0xb8;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x8b;
-	__emit 0x03;
-	__emit 0x8b;
-	__emit 0xcb;
-	__emit 0xff;
-	__emit 0x90;
-	__emit 0x80;
-	__emit 0x01;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x84;
-	__emit 0xc0;
-	__emit 0x0f;
-	__emit 0x84;
-	__emit 0xa6;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x8b;
-	__emit 0x16;
-	__emit 0x6a;
-	__emit 0x03;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x52;
-	__emit 0x48;
-	__emit 0x8b;
-	__emit 0x5c;
-	__emit 0x24;
-	__emit 0x20;
-	__emit 0x85;
-	__emit 0xdb;
-	__emit 0x0f;
-	__emit 0x84;
-	__emit 0x91;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x8b;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x18;
-	__emit 0x8b;
-	__emit 0x01;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x20;
-	__emit 0x83;
-	__emit 0xf8;
-	__emit 0x03;
-	__emit 0x75;
-	__emit 0x3c;
-	__emit 0x68;
-	__emit 0x0c;
-	__emit 0x72;
-	__emit 0x0c;
-	__emit 0x01;
-	__emit 0x8d;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x28;
-	__emit 0xe8;
-	__emit 0x7a;
-	__emit 0xfa;
-	__emit 0x5c;
-	__emit 0x00;
-	__emit 0x8b;
-	__emit 0x47;
-	__emit 0x74;
-	__emit 0x8b;
-	__emit 0x0e;
-	__emit 0x50;
-	__emit 0x8d;
-	__emit 0x54;
-	__emit 0x24;
-	__emit 0x28;
-	__emit 0x89;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x34;
-	__emit 0x52;
-	__emit 0x8b;
-	__emit 0xcb;
-	__emit 0xc7;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x74;
-	__emit 0x06;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0xe8;
-	__emit 0xe0;
-	__emit 0x6b;
-	__emit 0xd5;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x8b;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x38;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x5c;
-	__emit 0x8d;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x24;
-	__emit 0xeb;
-	__emit 0x3a;
-	__emit 0x68;
-	__emit 0xf0;
-	__emit 0x71;
-	__emit 0x0c;
-	__emit 0x01;
-	__emit 0x8d;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x2c;
-	__emit 0xe8;
-	__emit 0x3e;
-	__emit 0xfa;
-	__emit 0x5c;
-	__emit 0x00;
-	__emit 0x8b;
-	__emit 0x47;
-	__emit 0x74;
-	__emit 0x8b;
-	__emit 0x0e;
-	__emit 0x50;
-	__emit 0x8d;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x2c;
-	__emit 0x89;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x34;
-	__emit 0x50;
-	__emit 0x8b;
-	__emit 0xcb;
-	__emit 0xc7;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x74;
-	__emit 0x07;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0xe8;
-	__emit 0xa4;
-	__emit 0x6b;
-	__emit 0xd5;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x8b;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x38;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x5c;
-	__emit 0x8d;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x28;
-	__emit 0xc7;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x6c;
-	__emit 0xff;
-	__emit 0xff;
-	__emit 0xff;
-	__emit 0xff;
-	__emit 0xe8;
-	__emit 0x85;
-	__emit 0xe7;
-	__emit 0x5c;
-	__emit 0x00;
-	__emit 0x8b;
-	__emit 0x16;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x52;
-	__emit 0x4c;
-	__emit 0x83;
-	__emit 0xf8;
-	__emit 0x03;
-	__emit 0x0f;
-	__emit 0x85;
-	__emit 0x60;
-	__emit 0x02;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x8b;
-	__emit 0x5c;
-	__emit 0x24;
-	__emit 0x18;
-	__emit 0x8b;
-	__emit 0x03;
-	__emit 0x8b;
-	__emit 0xcb;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x10;
-	__emit 0xd9;
-	__emit 0x5c;
-	__emit 0x24;
-	__emit 0x30;
-	__emit 0x8b;
-	__emit 0x13;
-	__emit 0x8b;
-	__emit 0xcb;
-	__emit 0xff;
-	__emit 0x52;
-	__emit 0x18;
-	__emit 0xd9;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x30;
-	__emit 0xda;
-	__emit 0xe9;
-	__emit 0xdf;
-	__emit 0xe0;
-	__emit 0xf6;
-	__emit 0xc4;
-	__emit 0x44;
-	__emit 0x7a;
-	__emit 0x2b;
-	__emit 0x51;
-	__emit 0x89;
-	__emit 0x64;
-	__emit 0x24;
-	__emit 0x34;
-	__emit 0x8b;
-	__emit 0xcc;
-	__emit 0x68;
-	__emit 0xd4;
-	__emit 0x71;
-	__emit 0x0c;
-	__emit 0x01;
-	__emit 0xe8;
-	__emit 0xc1;
-	__emit 0xf9;
-	__emit 0x5c;
-	__emit 0x00;
-	__emit 0xa1;
-	__emit 0x8c;
-	__emit 0x14;
-	__emit 0x2f;
-	__emit 0x01;
-	__emit 0x8b;
-	__emit 0x08;
-	__emit 0x50;
-	__emit 0xff;
-	__emit 0x51;
-	__emit 0x30;
-	__emit 0x8b;
-	__emit 0x16;
-	__emit 0x83;
-	__emit 0xc4;
-	__emit 0x08;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x52;
-	__emit 0x60;
-	__emit 0xe9;
-	__emit 0x3c;
-	__emit 0x05;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x6a;
-	__emit 0x18;
-	__emit 0x8b;
-	__emit 0xcf;
-	__emit 0xe8;
-	__emit 0xfd;
-	__emit 0x92;
-	__emit 0xd7;
-	__emit 0xff;
-	__emit 0x84;
-	__emit 0xc0;
-	__emit 0x74;
-	__emit 0x08;
-	__emit 0x8b;
-	__emit 0x06;
-	__emit 0x57;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x54;
-	__emit 0x8b;
-	__emit 0x5c;
-	__emit 0x24;
-	__emit 0x14;
-	__emit 0x8b;
-	__emit 0x83;
-	__emit 0x18;
-	__emit 0x01;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0xb9;
-	__emit 0x00;
-	__emit 0x01;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x85;
-	__emit 0xc1;
-	__emit 0x75;
-	__emit 0x0f;
-	__emit 0x0b;
-	__emit 0xc1;
-	__emit 0x8b;
-	__emit 0xcb;
-	__emit 0x89;
-	__emit 0x83;
-	__emit 0x18;
-	__emit 0x01;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0xe8;
-	__emit 0xcd;
-	__emit 0x86;
-	__emit 0xd6;
-	__emit 0xff;
-	__emit 0x6a;
-	__emit 0x18;
-	__emit 0x8b;
-	__emit 0xcf;
-	__emit 0xe8;
-	__emit 0xc6;
-	__emit 0x92;
-	__emit 0xd7;
-	__emit 0xff;
-	__emit 0x84;
-	__emit 0xc0;
-	__emit 0x74;
-	__emit 0x34;
-	__emit 0x57;
-	__emit 0xe8;
-	__emit 0xc1;
-	__emit 0x91;
-	__emit 0xd8;
-	__emit 0xff;
-	__emit 0x8b;
-	__emit 0x10;
-	__emit 0x83;
-	__emit 0xc4;
-	__emit 0x04;
-	__emit 0x8b;
-	__emit 0xc8;
-	__emit 0xff;
-	__emit 0x52;
-	__emit 0x04;
-	__emit 0x8b;
-	__emit 0x0d;
-	__emit 0x98;
-	__emit 0x08;
-	__emit 0x2f;
-	__emit 0x01;
-	__emit 0x50;
-	__emit 0xe8;
-	__emit 0xda;
-	__emit 0x5f;
-	__emit 0xd6;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0xe8;
-	__emit 0xa5;
-	__emit 0x71;
-	__emit 0xd5;
-	__emit 0xff;
-	__emit 0x8b;
-	__emit 0x10;
-	__emit 0x83;
-	__emit 0xc4;
-	__emit 0x04;
-	__emit 0x8b;
-	__emit 0xc8;
-	__emit 0xff;
-	__emit 0x52;
-	__emit 0x10;
-	__emit 0x3c;
-	__emit 0x01;
-	__emit 0x0f;
-	__emit 0x84;
-	__emit 0x9a;
-	__emit 0x01;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x8b;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x18;
-	__emit 0x8b;
-	__emit 0x01;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x18;
-	__emit 0xd9;
-	__emit 0x5c;
-	__emit 0x24;
-	__emit 0x30;
-	__emit 0x8b;
-	__emit 0x16;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x52;
-	__emit 0x04;
-	__emit 0xd8;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x30;
-	__emit 0x8b;
-	__emit 0x07;
-	__emit 0x6a;
-	__emit 0x02;
-	__emit 0xd8;
-	__emit 0x0d;
-	__emit 0xbc;
-	__emit 0x0b;
-	__emit 0x08;
-	__emit 0x01;
-	__emit 0x53;
-	__emit 0xd9;
-	__emit 0x5c;
-	__emit 0x24;
-	__emit 0x38;
-	__emit 0x8b;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x38;
-	__emit 0x51;
-	__emit 0x8b;
-	__emit 0xcf;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x44;
-	__emit 0x84;
-	__emit 0xc0;
-	__emit 0x0f;
-	__emit 0x85;
-	__emit 0x61;
-	__emit 0x01;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x8b;
-	__emit 0x45;
-	__emit 0x24;
-	__emit 0x8b;
-	__emit 0x16;
-	__emit 0x50;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x52;
-	__emit 0x38;
-	__emit 0x8b;
-	__emit 0x4d;
-	__emit 0x1c;
-	__emit 0x8b;
-	__emit 0x11;
-	__emit 0x6a;
-	__emit 0x00;
-	__emit 0xff;
-	__emit 0x52;
-	__emit 0x38;
-	__emit 0xb8;
-	__emit 0xfe;
-	__emit 0xff;
-	__emit 0xff;
-	__emit 0xff;
-	__emit 0x8b;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x64;
-	__emit 0x64;
-	__emit 0x89;
-	__emit 0x0d;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x5f;
-	__emit 0x5e;
-	__emit 0x5d;
-	__emit 0x5b;
-	__emit 0x83;
-	__emit 0xc4;
-	__emit 0x60;
-	__emit 0xc3;
-	__emit 0xe8;
-	__emit 0x28;
-	__emit 0x75;
-	__emit 0xd6;
-	__emit 0xff;
-	__emit 0x8b;
-	__emit 0xcf;
-	__emit 0x8b;
-	__emit 0xe8;
-	__emit 0xe8;
-	__emit 0x1f;
-	__emit 0x75;
-	__emit 0xd6;
-	__emit 0xff;
-	__emit 0x3b;
-	__emit 0xe8;
-	__emit 0x0f;
-	__emit 0x85;
-	__emit 0x66;
-	__emit 0xfd;
-	__emit 0xff;
-	__emit 0xff;
-	__emit 0x8b;
-	__emit 0x06;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x4c;
-	__emit 0x85;
-	__emit 0xc0;
-	__emit 0x75;
-	__emit 0x29;
-	__emit 0x8b;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x18;
-	__emit 0x8b;
-	__emit 0x48;
-	__emit 0x24;
-	__emit 0x8b;
-	__emit 0x16;
-	__emit 0x6a;
-	__emit 0x01;
-	__emit 0x51;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x52;
-	__emit 0x44;
-	__emit 0x85;
-	__emit 0xc0;
-	__emit 0x74;
-	__emit 0x0b;
-	__emit 0x6a;
-	__emit 0x02;
-	__emit 0x50;
-	__emit 0x8d;
-	__emit 0x4b;
-	__emit 0x20;
-	__emit 0xe8;
-	__emit 0x32;
-	__emit 0xb0;
-	__emit 0xd7;
-	__emit 0xff;
-	__emit 0x8b;
-	__emit 0x16;
-	__emit 0x6a;
-	__emit 0x01;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x52;
-	__emit 0x48;
-	__emit 0x8b;
-	__emit 0x06;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x4c;
-	__emit 0x83;
-	__emit 0xf8;
-	__emit 0x01;
-	__emit 0x75;
-	__emit 0x22;
-	__emit 0x8b;
-	__emit 0x13;
-	__emit 0x8b;
-	__emit 0xcb;
-	__emit 0xff;
-	__emit 0x92;
-	__emit 0x80;
-	__emit 0x01;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x84;
-	__emit 0xc0;
-	__emit 0x74;
-	__emit 0x14;
-	__emit 0x8b;
-	__emit 0x06;
-	__emit 0x6a;
-	__emit 0x02;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x48;
-	__emit 0x6a;
-	__emit 0x02;
-	__emit 0x57;
-	__emit 0x8d;
-	__emit 0x4b;
-	__emit 0x20;
-	__emit 0xe8;
-	__emit 0xe4;
-	__emit 0x64;
-	__emit 0xd5;
-	__emit 0xff;
-	__emit 0x8b;
-	__emit 0x16;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x52;
-	__emit 0x4c;
-	__emit 0x83;
-	__emit 0xf8;
-	__emit 0x02;
-	__emit 0x75;
-	__emit 0x66;
-	__emit 0x8b;
-	__emit 0x03;
-	__emit 0x8b;
-	__emit 0xcb;
-	__emit 0xff;
-	__emit 0x90;
-	__emit 0x80;
-	__emit 0x01;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x84;
-	__emit 0xc0;
-	__emit 0x74;
-	__emit 0x58;
-	__emit 0x8b;
-	__emit 0x16;
-	__emit 0x6a;
-	__emit 0x03;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x52;
-	__emit 0x48;
-	__emit 0x8b;
-	__emit 0x6c;
-	__emit 0x24;
-	__emit 0x20;
-	__emit 0x85;
-	__emit 0xed;
-	__emit 0x74;
-	__emit 0x47;
-	__emit 0x68;
-	__emit 0xbc;
-	__emit 0x71;
-	__emit 0x0c;
-	__emit 0x01;
-	__emit 0x8d;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x30;
-	__emit 0xe8;
-	__emit 0x18;
-	__emit 0xf8;
-	__emit 0x5c;
-	__emit 0x00;
-	__emit 0x8b;
-	__emit 0x47;
-	__emit 0x74;
-	__emit 0x8b;
-	__emit 0x0e;
-	__emit 0x50;
-	__emit 0x8d;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x30;
-	__emit 0x89;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x34;
-	__emit 0x50;
-	__emit 0x8b;
-	__emit 0xcd;
-	__emit 0xc7;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x74;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0xe8;
-	__emit 0x7e;
-	__emit 0x69;
-	__emit 0xd5;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x8b;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x38;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x5c;
-	__emit 0x8d;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x2c;
-	__emit 0xc7;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x6c;
-	__emit 0xff;
-	__emit 0xff;
-	__emit 0xff;
-	__emit 0xff;
-	__emit 0xe8;
-	__emit 0x5f;
-	__emit 0xe5;
-	__emit 0x5c;
-	__emit 0x00;
-	__emit 0x8b;
-	__emit 0x16;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x52;
-	__emit 0x4c;
-	__emit 0x83;
-	__emit 0xf8;
-	__emit 0x03;
-	__emit 0x75;
-	__emit 0x3e;
-	__emit 0x8b;
-	__emit 0x6c;
-	__emit 0x24;
-	__emit 0x14;
-	__emit 0x8b;
-	__emit 0x85;
-	__emit 0x18;
-	__emit 0x01;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0xb9;
-	__emit 0x00;
-	__emit 0x01;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x85;
-	__emit 0xc1;
-	__emit 0x75;
-	__emit 0x0f;
-	__emit 0x0b;
-	__emit 0xc1;
-	__emit 0x8b;
-	__emit 0xcd;
-	__emit 0x89;
-	__emit 0x85;
-	__emit 0x18;
-	__emit 0x01;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0xe8;
-	__emit 0x0e;
-	__emit 0x85;
-	__emit 0xd6;
-	__emit 0xff;
-	__emit 0xf6;
-	__emit 0x87;
-	__emit 0x44;
-	__emit 0x03;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x01;
-	__emit 0x74;
-	__emit 0x28;
-	__emit 0x8b;
-	__emit 0x06;
-	__emit 0x6a;
-	__emit 0x00;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x34;
-	__emit 0x6a;
-	__emit 0x02;
-	__emit 0x8d;
-	__emit 0x4b;
-	__emit 0x20;
-	__emit 0xe8;
-	__emit 0x45;
-	__emit 0xb9;
-	__emit 0xd6;
-	__emit 0xff;
-	__emit 0x33;
-	__emit 0xc0;
-	__emit 0x8b;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x64;
-	__emit 0x64;
-	__emit 0x89;
-	__emit 0x0d;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x5f;
-	__emit 0x5e;
-	__emit 0x5d;
-	__emit 0x5b;
-	__emit 0x83;
-	__emit 0xc4;
-	__emit 0x60;
-	__emit 0xc3;
-	__emit 0xd9;
-	__emit 0x05;
-	__emit 0x3c;
-	__emit 0xbf;
-	__emit 0x09;
-	__emit 0x01;
-	__emit 0xd9;
-	__emit 0x87;
-	__emit 0x20;
-	__emit 0x02;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0xda;
-	__emit 0xe9;
-	__emit 0xdf;
-	__emit 0xe0;
-	__emit 0xf6;
-	__emit 0xc4;
-	__emit 0x44;
-	__emit 0x0f;
-	__emit 0x8b;
-	__emit 0xf8;
-	__emit 0x02;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x6a;
-	__emit 0xff;
-	__emit 0x8b;
-	__emit 0xcd;
-	__emit 0xe8;
-	__emit 0xc2;
-	__emit 0x73;
-	__emit 0xd6;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x8b;
-	__emit 0xcf;
-	__emit 0xe8;
-	__emit 0x4e;
-	__emit 0xf0;
-	__emit 0xd4;
-	__emit 0xff;
-	__emit 0x8b;
-	__emit 0xc8;
-	__emit 0xe8;
-	__emit 0xae;
-	__emit 0x1b;
-	__emit 0xd9;
-	__emit 0xff;
-	__emit 0x89;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x30;
-	__emit 0xdb;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x30;
-	__emit 0x8b;
-	__emit 0xaf;
-	__emit 0x00;
-	__emit 0x02;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x6a;
-	__emit 0x00;
-	__emit 0xd9;
-	__emit 0x5c;
-	__emit 0x24;
-	__emit 0x34;
-	__emit 0x8b;
-	__emit 0xcd;
-	__emit 0xd9;
-	__emit 0x05;
-	__emit 0xc4;
-	__emit 0xfa;
-	__emit 0x07;
-	__emit 0x01;
-	__emit 0xd8;
-	__emit 0x74;
-	__emit 0x24;
-	__emit 0x34;
-	__emit 0xd9;
-	__emit 0x87;
-	__emit 0x20;
-	__emit 0x02;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0xd8;
-	__emit 0xc1;
-	__emit 0xd9;
-	__emit 0x9f;
-	__emit 0x20;
-	__emit 0x02;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x8b;
-	__emit 0x5d;
-	__emit 0x00;
-	__emit 0xdd;
-	__emit 0xd8;
-	__emit 0xff;
-	__emit 0x53;
-	__emit 0x18;
-	__emit 0xd8;
-	__emit 0x74;
-	__emit 0x24;
-	__emit 0x34;
-	__emit 0x51;
-	__emit 0x8b;
-	__emit 0xcd;
-	__emit 0xd9;
-	__emit 0x1c;
-	__emit 0x24;
-	__emit 0xff;
-	__emit 0x93;
-	__emit 0x80;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x8b;
-	__emit 0x47;
-	__emit 0x78;
-	__emit 0x85;
-	__emit 0xc0;
-	__emit 0x8b;
-	__emit 0x5c;
-	__emit 0x24;
-	__emit 0x14;
-	__emit 0x75;
-	__emit 0x08;
-	__emit 0x53;
-	__emit 0x8b;
-	__emit 0xcf;
-	__emit 0xe8;
-	__emit 0xc6;
-	__emit 0x44;
-	__emit 0xd5;
-	__emit 0xff;
-	__emit 0x8b;
-	__emit 0x47;
-	__emit 0x7c;
-	__emit 0x85;
-	__emit 0xc0;
-	__emit 0x75;
-	__emit 0x08;
-	__emit 0x53;
-	__emit 0x8b;
-	__emit 0xcf;
-	__emit 0xe8;
-	__emit 0x68;
-	__emit 0x8a;
-	__emit 0xd4;
-	__emit 0xff;
-	__emit 0xd9;
-	__emit 0x87;
-	__emit 0x20;
-	__emit 0x02;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0xd8;
-	__emit 0x1d;
-	__emit 0xc4;
-	__emit 0xfa;
-	__emit 0x07;
-	__emit 0x01;
-	__emit 0xdf;
-	__emit 0xe0;
-	__emit 0xf6;
-	__emit 0xc4;
-	__emit 0x01;
-	__emit 0x0f;
-	__emit 0x85;
-	__emit 0x3b;
-	__emit 0xff;
-	__emit 0xff;
-	__emit 0xff;
-	__emit 0x6a;
-	__emit 0x02;
-	__emit 0x8b;
-	__emit 0xcf;
-	__emit 0xe8;
-	__emit 0x81;
-	__emit 0x8a;
-	__emit 0xd7;
-	__emit 0xff;
-	__emit 0x6a;
-	__emit 0x15;
-	__emit 0x8b;
-	__emit 0xcf;
-	__emit 0xe8;
-	__emit 0x78;
-	__emit 0x8a;
-	__emit 0xd7;
-	__emit 0xff;
-	__emit 0x8b;
-	__emit 0x16;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x52;
-	__emit 0x60;
-	__emit 0x6a;
-	__emit 0x44;
-	__emit 0x6a;
-	__emit 0x43;
-	__emit 0x6a;
-	__emit 0x42;
-	__emit 0x6a;
-	__emit 0x00;
-	__emit 0x8d;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x4c;
-	__emit 0xe8;
-	__emit 0xc1;
-	__emit 0xfa;
-	__emit 0xd8;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x8b;
-	__emit 0xcf;
-	__emit 0xe8;
-	__emit 0x39;
-	__emit 0x24;
-	__emit 0xd5;
-	__emit 0xff;
-	__emit 0xc7;
-	__emit 0x87;
-	__emit 0x20;
-	__emit 0x02;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x80;
-	__emit 0xbf;
-	__emit 0x8b;
-	__emit 0x45;
-	__emit 0x00;
-	__emit 0x8b;
-	__emit 0xcd;
-	__emit 0xff;
-	__emit 0x90;
-	__emit 0x90;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x8b;
-	__emit 0xcf;
-	__emit 0xe8;
-	__emit 0xe6;
-	__emit 0x72;
-	__emit 0xd6;
-	__emit 0xff;
-	__emit 0x8b;
-	__emit 0xe8;
-	__emit 0x85;
-	__emit 0xed;
-	__emit 0x74;
-	__emit 0x3b;
-	__emit 0x8b;
-	__emit 0x16;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x52;
-	__emit 0x2c;
-	__emit 0x8b;
-	__emit 0xcd;
-	__emit 0x50;
-	__emit 0x57;
-	__emit 0x53;
-	__emit 0xe8;
-	__emit 0xbe;
-	__emit 0xe4;
-	__emit 0xd4;
-	__emit 0xff;
-	__emit 0x8b;
-	__emit 0xaf;
-	__emit 0xf0;
-	__emit 0x01;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x8b;
-	__emit 0x45;
-	__emit 0x00;
-	__emit 0x85;
-	__emit 0xc0;
-	__emit 0x74;
-	__emit 0x1d;
-	__emit 0x8d;
-	__emit 0x48;
-	__emit 0x0c;
-	__emit 0x8b;
-	__emit 0x01;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x0c;
-	__emit 0x85;
-	__emit 0xc0;
-	__emit 0x74;
-	__emit 0x07;
-	__emit 0x8b;
-	__emit 0x10;
-	__emit 0x8b;
-	__emit 0xc8;
-	__emit 0xff;
-	__emit 0x52;
-	__emit 0x04;
-	__emit 0x8b;
-	__emit 0x45;
-	__emit 0x04;
-	__emit 0x83;
-	__emit 0xc5;
-	__emit 0x04;
-	__emit 0x85;
-	__emit 0xc0;
-	__emit 0x75;
-	__emit 0xe3;
-	__emit 0x8b;
-	__emit 0xcb;
-	__emit 0xe8;
-	__emit 0x0b;
-	__emit 0x6a;
-	__emit 0xd6;
-	__emit 0xff;
-	__emit 0x84;
-	__emit 0xc0;
-	__emit 0x0f;
-	__emit 0x84;
-	__emit 0xc3;
-	__emit 0x01;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x8b;
-	__emit 0x0d;
-	__emit 0x7c;
-	__emit 0x14;
-	__emit 0x2f;
-	__emit 0x01;
-	__emit 0x8b;
-	__emit 0x01;
-	__emit 0x33;
-	__emit 0xed;
-	__emit 0x55;
-	__emit 0x68;
-	__emit 0x9c;
-	__emit 0x71;
-	__emit 0x0c;
-	__emit 0x01;
-	__emit 0x8d;
-	__emit 0x54;
-	__emit 0x24;
-	__emit 0x40;
-	__emit 0x52;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x28;
-	__emit 0xc7;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x6c;
-	__emit 0x01;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x89;
-	__emit 0x6c;
-	__emit 0x24;
-	__emit 0x14;
-	__emit 0x8b;
-	__emit 0x07;
-	__emit 0x8b;
-	__emit 0xcf;
-	__emit 0xc6;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x6c;
-	__emit 0x02;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x28;
-	__emit 0x3b;
-	__emit 0xc5;
-	__emit 0x74;
-	__emit 0x16;
-	__emit 0x8d;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x14;
-	__emit 0x51;
-	__emit 0x8b;
-	__emit 0xc8;
-	__emit 0xe8;
-	__emit 0xa9;
-	__emit 0xa4;
-	__emit 0xd8;
-	__emit 0xff;
-	__emit 0x84;
-	__emit 0xc0;
-	__emit 0x74;
-	__emit 0x06;
-	__emit 0x8d;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x14;
-	__emit 0xeb;
-	__emit 0x0a;
-	__emit 0x8b;
-	__emit 0xcf;
-	__emit 0xe8;
-	__emit 0xd9;
-	__emit 0xee;
-	__emit 0xd4;
-	__emit 0xff;
-	__emit 0x83;
-	__emit 0xc0;
-	__emit 0x0c;
-	__emit 0x50;
-	__emit 0x8d;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x18;
-	__emit 0xe8;
-	__emit 0x44;
-	__emit 0xef;
-	__emit 0x5c;
-	__emit 0x00;
-	__emit 0x8d;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x14;
-	__emit 0xe8;
-	__emit 0x6c;
-	__emit 0x5d;
-	__emit 0xd6;
-	__emit 0xff;
-	__emit 0x84;
-	__emit 0xc0;
-	__emit 0x74;
-	__emit 0x62;
-	__emit 0x8b;
-	__emit 0x0d;
-	__emit 0x7c;
-	__emit 0x14;
-	__emit 0x2f;
-	__emit 0x01;
-	__emit 0x8b;
-	__emit 0x11;
-	__emit 0x55;
-	__emit 0x68;
-	__emit 0x80;
-	__emit 0x71;
-	__emit 0x0c;
-	__emit 0x01;
-	__emit 0x8d;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x3c;
-	__emit 0x50;
-	__emit 0xff;
-	__emit 0x52;
-	__emit 0x28;
-	__emit 0x8b;
-	__emit 0xcf;
-	__emit 0xc6;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x6c;
-	__emit 0x03;
-	__emit 0xe8;
-	__emit 0x9d;
-	__emit 0xee;
-	__emit 0xd4;
-	__emit 0xff;
-	__emit 0x83;
-	__emit 0xc0;
-	__emit 0x20;
-	__emit 0x8b;
-	__emit 0x00;
-	__emit 0x3b;
-	__emit 0xc5;
-	__emit 0x74;
-	__emit 0x05;
-	__emit 0x83;
-	__emit 0xc0;
-	__emit 0x08;
-	__emit 0xeb;
-	__emit 0x05;
-	__emit 0xb8;
-	__emit 0x8b;
-	__emit 0x38;
-	__emit 0x07;
-	__emit 0x01;
-	__emit 0x50;
-	__emit 0x51;
-	__emit 0x8d;
-	__emit 0x54;
-	__emit 0x24;
-	__emit 0x3c;
-	__emit 0x89;
-	__emit 0x64;
-	__emit 0x24;
-	__emit 0x38;
-	__emit 0x8b;
-	__emit 0xcc;
-	__emit 0x52;
-	__emit 0xe8;
-	__emit 0xc0;
-	__emit 0xed;
-	__emit 0x5c;
-	__emit 0x00;
-	__emit 0x8d;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x1c;
-	__emit 0x50;
-	__emit 0xe8;
-	__emit 0x46;
-	__emit 0xfb;
-	__emit 0x5c;
-	__emit 0x00;
-	__emit 0x83;
-	__emit 0xc4;
-	__emit 0x0c;
-	__emit 0x8d;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x34;
-	__emit 0xc6;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x6c;
-	__emit 0x02;
-	__emit 0xe8;
-	__emit 0x75;
-	__emit 0xeb;
-	__emit 0x5c;
-	__emit 0x00;
-	__emit 0x89;
-	__emit 0x6c;
-	__emit 0x24;
-	__emit 0x20;
-	__emit 0x8b;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x14;
-	__emit 0x3b;
-	__emit 0xc5;
-	__emit 0xc6;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x6c;
-	__emit 0x04;
-	__emit 0x74;
-	__emit 0x05;
-	__emit 0x83;
-	__emit 0xc0;
-	__emit 0x08;
-	__emit 0xeb;
-	__emit 0x05;
-	__emit 0xb8;
-	__emit 0x8c;
-	__emit 0x38;
-	__emit 0x07;
-	__emit 0x01;
-	__emit 0x50;
-	__emit 0x8b;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x3c;
-	__emit 0x3b;
-	__emit 0xc5;
-	__emit 0x74;
-	__emit 0x05;
-	__emit 0x83;
-	__emit 0xc0;
-	__emit 0x08;
-	__emit 0xeb;
-	__emit 0x05;
-	__emit 0xb8;
-	__emit 0x8c;
-	__emit 0x38;
-	__emit 0x07;
-	__emit 0x01;
-	__emit 0x51;
-	__emit 0x8b;
-	__emit 0xcc;
-	__emit 0x89;
-	__emit 0x64;
-	__emit 0x24;
-	__emit 0x38;
-	__emit 0x50;
-	__emit 0xe8;
-	__emit 0xbd;
-	__emit 0xd2;
-	__emit 0xd7;
-	__emit 0xff;
-	__emit 0x8d;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x28;
-	__emit 0x51;
-	__emit 0xe8;
-	__emit 0xf0;
-	__emit 0xfa;
-	__emit 0x5c;
-	__emit 0x00;
-	__emit 0x83;
-	__emit 0xc4;
-	__emit 0x08;
-	__emit 0x8d;
-	__emit 0x54;
-	__emit 0x24;
-	__emit 0x24;
-	__emit 0x89;
-	__emit 0x64;
-	__emit 0x24;
-	__emit 0x34;
-	__emit 0x8b;
-	__emit 0xcc;
-	__emit 0x52;
-	__emit 0xe8;
-	__emit 0x4d;
-	__emit 0xed;
-	__emit 0x5c;
-	__emit 0x00;
-	__emit 0xa1;
-	__emit 0x8c;
-	__emit 0x14;
-	__emit 0x2f;
-	__emit 0x01;
-	__emit 0x8b;
-	__emit 0x08;
-	__emit 0x50;
-	__emit 0xff;
-	__emit 0x51;
-	__emit 0x34;
-	__emit 0x83;
-	__emit 0xc4;
-	__emit 0x08;
-	__emit 0x8d;
-	__emit 0x54;
-	__emit 0x24;
-	__emit 0x13;
-	__emit 0x52;
-	__emit 0x8d;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x20;
-	__emit 0xe8;
-	__emit 0x03;
-	__emit 0xcd;
-	__emit 0xd6;
-	__emit 0xff;
-	__emit 0x8b;
-	__emit 0x03;
-	__emit 0x8b;
-	__emit 0xcb;
-	__emit 0xc6;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x6c;
-	__emit 0x05;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x28;
-	__emit 0x8d;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x30;
-	__emit 0x51;
-	__emit 0x8d;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x20;
-	__emit 0x89;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x34;
-	__emit 0xe8;
-	__emit 0x64;
-	__emit 0x0a;
-	__emit 0xd9;
-	__emit 0xff;
-	__emit 0x55;
-	__emit 0x8d;
-	__emit 0x54;
-	__emit 0x24;
-	__emit 0x20;
-	__emit 0x68;
-	__emit 0xde;
-	__emit 0x07;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x52;
-	__emit 0xe8;
-	__emit 0xcb;
-	__emit 0xff;
-	__emit 0xd5;
-	__emit 0xff;
-	__emit 0x8b;
-	__emit 0x0d;
-	__emit 0xe4;
-	__emit 0xf0;
-	__emit 0x2e;
-	__emit 0x01;
-	__emit 0x83;
-	__emit 0xc4;
-	__emit 0x0c;
-	__emit 0x68;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x80;
-	__emit 0x40;
-	__emit 0x6a;
-	__emit 0x01;
-	__emit 0x83;
-	__emit 0xc7;
-	__emit 0x38;
-	__emit 0x57;
-	__emit 0xe8;
-	__emit 0x78;
-	__emit 0xf4;
-	__emit 0xd4;
-	__emit 0xff;
-	__emit 0x8d;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x1c;
-	__emit 0xc6;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x6c;
-	__emit 0x04;
-	__emit 0xe8;
-	__emit 0x3f;
-	__emit 0x71;
-	__emit 0xd8;
-	__emit 0xff;
-	__emit 0x8d;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x20;
-	__emit 0xc6;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x6c;
-	__emit 0x02;
-	__emit 0xe8;
-	__emit 0x9e;
-	__emit 0xea;
-	__emit 0x5c;
-	__emit 0x00;
-	__emit 0x8d;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x14;
-	__emit 0xc6;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x6c;
-	__emit 0x01;
-	__emit 0xe8;
-	__emit 0x90;
-	__emit 0xea;
-	__emit 0x5c;
-	__emit 0x00;
-	__emit 0x8d;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x38;
-	__emit 0xc7;
-	__emit 0x44;
-	__emit 0x24;
-	__emit 0x6c;
-	__emit 0xff;
-	__emit 0xff;
-	__emit 0xff;
-	__emit 0xff;
-	__emit 0xe8;
-	__emit 0x7f;
-	__emit 0xea;
-	__emit 0x5c;
-	__emit 0x00;
-	__emit 0x8b;
-	__emit 0x6c;
-	__emit 0x24;
-	__emit 0x18;
-	__emit 0x8b;
-	__emit 0x4d;
-	__emit 0x24;
-	__emit 0x8b;
-	__emit 0x06;
-	__emit 0x51;
-	__emit 0x8b;
-	__emit 0xce;
-	__emit 0xff;
-	__emit 0x50;
-	__emit 0x38;
-	__emit 0x8b;
-	__emit 0x4d;
-	__emit 0x1c;
-	__emit 0x8b;
-	__emit 0x11;
-	__emit 0x6a;
-	__emit 0x00;
-	__emit 0xff;
-	__emit 0x52;
-	__emit 0x38;
-	__emit 0x8b;
-	__emit 0x4c;
-	__emit 0x24;
-	__emit 0x64;
-	__emit 0x5f;
-	__emit 0x5e;
-	__emit 0x5d;
-	__emit 0x83;
-	__emit 0xc8;
-	__emit 0xff;
-	__emit 0x64;
-	__emit 0x89;
-	__emit 0x0d;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x00;
-	__emit 0x5b;
-	__emit 0x83;
-	__emit 0xc4;
-	__emit 0x60;
-	__emit 0xc3;
-	}
-#if 0
-	Object *goalObject = getMachineGoalObject();
-	Object *dozer = getMachineOwner();
-	AIUpdateInterface *ai = dozer->getAIUpdateInterface();
-	if( !ai )
-	{
-		return STATE_FAILURE;
-	}
-
-	DozerAIInterface *dozerAI = ai->getDozerAIInterface();
-	if( !dozerAI )
-	{
-		return STATE_FAILURE;
-	}
-	// DozerAIUpdate *dozerAI = static_cast<DozerAIUpdate *>(dozer->getAIUpdateInterface());
-//	const UnsignedInt ACTION_TIME = LOGICFRAMES_PER_SECOND * 4 ; // frames to spend here in this state doing the action
-
-	// check for object gone
-	if( goalObject == NULL )
-		return STATE_FAILURE;
-
-	if ( dozer->isDisabledByType( DISABLED_UNMANNED ) )// Yipes, I've been sniped!
-		return STATE_FAILURE;
-
-	// do the task
-	Bool complete = FALSE;
-	switch( m_task )
-	{
-
-		//---------------------------------------------------------------------------------------------
-		case DOZER_TASK_BUILD:
-		{
-			//GS Moved this inside Build, since you are allowed to Repair things that are not your player (canRepairObject handles it)
-			if (dozer->getControllingPlayer() != goalObject->getControllingPlayer())//Yipes, SOmehow I have changed sides in mid build!
-				return STATE_FAILURE;
-
-			// if we need to select the dock location and move there do so
-			if( dozerAI->getBuildSubTask() == DOZER_SELECT_BUILD_DOCK_LOCATION )
-			{
-				const Coord3D *dockLocation = dozerAI->getDockPoint( m_task, DOZER_DOCK_POINT_ACTION );
-				if( dockLocation )
-					ai->aiMoveToPosition( dockLocation, CMD_FROM_AI );
-
-				// we're now moving to the dock location
-				dozerAI->setBuildSubTask( DOZER_MOVING_TO_BUILD_DOCK_LOCATION );
-
-			}  // end if
-			
-			// if we're moving to the build dock location, when we become idle we are there
-			if( dozerAI->getBuildSubTask() == DOZER_MOVING_TO_BUILD_DOCK_LOCATION )
-			{
-				if( ai->isIdle() )
-				{
-					dozerAI->setBuildSubTask( DOZER_DO_BUILD_AT_DOCK );
-					// Get the audio sound and start playing the construction sound (get the sound
-					// from the building itself)
-					dozerAI->startBuildingSound( goalObject->getTemplate()->getPerUnitSound( "UnderConstruction" ), goalObject->getID() );
-				}
-			}  // end if
-
-			// only do the build if we've moved into the dock position
-			if( dozerAI->getBuildSubTask() == DOZER_DO_BUILD_AT_DOCK )
-			{
-
-				// the builder is now actively constructing something
-				dozer->setModelConditionState( MODELCONDITION_ACTIVELY_CONSTRUCTING );
-				
-
-				// increase the construction percent of the goal object
-				Int framesToBuild = goalObject->getTemplate()->calcTimeToBuild( dozer->getControllingPlayer() );
-				Real percentProgressThisFrame = 100.0f / framesToBuild;
-				goalObject->setConstructionPercent( goalObject->getConstructionPercent() + 
-																						percentProgressThisFrame );
-
-				//
-				// every time we construct a piece of the goal object, the goal object gets a little
-				// bit o health, note that we're bypassing the regular healing/damage methods
-				// here and going straight for the change of the health
-				//
-				BodyModuleInterface *body = goalObject->getBodyModule();
-				body->internalChangeHealth( body->getMaxHealth() / INT_TO_REAL( framesToBuild ) );
-
-				//
-				// since we've just actually contributed a "piece" to this building, we'll say that
-				// we are now the producer and the builder
-				//
-				goalObject->setProducer( dozer );
-				goalObject->setBuilder( dozer );
-
-				// check for construction complete
-				if( goalObject->getConstructionPercent() >= 100.0f )
-				{
-
-					// clear the under construction status
-					goalObject->clearStatus( MAKE_OBJECT_STATUS_MASK( OBJECT_STATUS_UNDER_CONSTRUCTION ) );
-					goalObject->clearStatus( MAKE_OBJECT_STATUS_MASK( OBJECT_STATUS_RECONSTRUCTING ) );
-
-					// stop playing the construction sound!
-					dozerAI->finishBuildingSound();
-
-					// object will now be idle instead of in one of the construction actions
-					goalObject->clearModelConditionFlags(
-						MAKE_MODELCONDITION_MASK3(MODELCONDITION_AWAITING_CONSTRUCTION, MODELCONDITION_PARTIALLY_CONSTRUCTED, MODELCONDITION_ACTIVELY_BEING_CONSTRUCTED));
-
-					// set the construction at the 100% enum value
-					goalObject->setConstructionPercent( CONSTRUCTION_COMPLETE );
-
-					//
-					// now that we're done with construction we evaluate the visual condition of
-					// the object since while under construction visual changes due to damage state
-					// do not occur.  Note that is was important to call this after we cleared the
-					// model conditions involving construction because part of this evaluation
-					// is to auto populate the model with particle systems when special named
-					// bones for the current given state are provided
-					//
-					body->evaluateVisualCondition();
-
-					// this object now has energy influence in the player
-					Player *player = goalObject->getControllingPlayer();
-					if( player )
-					{
-
-						// notification for build completeion
-						player->onStructureConstructionComplete( dozer, goalObject, dozerAI->getIsRebuild() );
-
-						player->getAcademyStats()->recordProduction( goalObject, dozer );
-
-						//
-						// Now onCreates were called at construction start.  Now at finish is when we
-						// want the Game side of OnCreate
-						//
-						for (BehaviorModule** m = goalObject->getBehaviorModules(); *m; ++m)
-						{
-							CreateModuleInterface* create = (*m)->getCreate();
-							if (!create)
-								continue;
-							create->onBuildComplete();
-						}
-
-					}  // end if
-
-					// Creation is another valid and essential time to call this.  This building now Looks.
-					goalObject->handlePartitionCellMaintenance();
-					
-					// UnderConstruction just cleared, so update our upgrades
-					goalObject->updateUpgradeModules();
-
-					// this object how has influence in the controlling players' tech tree
-					/// @todo need to write this
-
-					// do some UI stuff for the constrolling player
-					if( dozer->isLocallyControlled() )
-					{
-
-						// message the the building player
-						UnicodeString format = TheGameText->fetch( "DOZER:ConstructionComplete" );
-						UnicodeString objectName = goalObject->getTemplate()->getDisplayName();
-						if( objectName.isEmpty() )
-						{
-							UnicodeString format = TheGameText->fetch( "INI:MissingDisplayName" );
-
-							objectName.format( format, goalObject->getTemplate()->getName().str() );
-
-						}  // end if
-
-						UnicodeString msg;
-						msg.format( format.str(), objectName.str() );
-						TheInGameUI->message( msg );
-
-						AudioEventRTS audio = *dozer->getTemplate()->getVoiceTaskComplete();
-						audio.setObjectID(dozer->getID());
-						TheAudio->addAudioEvent(&audio);
-
-						/// make radar neat-o attention grabber event at build location
-						TheRadar->createEvent( goalObject->getPosition(), RADAR_EVENT_CONSTRUCTION );
-
-					}  // end if
-
-					// this will allow us to exit the state machine with success
-					complete = TRUE;
-	
-					// move off to the end dock position if present
-					const Coord3D *endPos = dozerAI->getDockPoint( m_task, DOZER_DOCK_POINT_END );
-					Coord3D pos = *dozer->getPosition();
-					if( endPos ) {
-						pos = *endPos;
-					}
-					// Our goal may be inside a building, if we are packing them in tight, so try adjusting. jba.
-					TheAI->pathfinder()->adjustToPossibleDestination(dozer, ai->getLocomotorSet(), &pos);
-					ai->aiMoveToPosition( &pos, CMD_FROM_AI );
-
-				}  // end if
-
-			}  // end if
-
-			break;
-
-		}  // end build
-
-		//---------------------------------------------------------------------------------------------
-		case DOZER_TASK_REPAIR:
-		{
-			BodyModuleInterface *body = goalObject->getBodyModule();
-
-			// check for fully "repaired"
-			if( body->getHealth() == body->getMaxHealth() )
-			{
-
-				// issue repair complete message, we might want to remove this later cause it could be annoying
-				TheInGameUI->message( "DOZER:RepairComplete" );
-
-				// we're now complete
-				complete = TRUE;
-
-			}  // end if
-			else
-			{
-				Bool canHeal = TRUE;
-
-				// if we are repairing a bridge, create scaffolding over the bridge if we need to
-				if( goalObject->isKindOf( KINDOF_BRIDGE_TOWER ) )
-					dozerAI->createBridgeScaffolding( goalObject );
-
-				// the builder is now actively repairing something, we'll borrow the constructing animation
-				dozer->setModelConditionState( MODELCONDITION_ACTIVELY_CONSTRUCTING );
-
-				//
-				// when repairing bridges, we cannot actually do any repairing until the
-				// scaffolding is extended and all the way complete
-				//
-				if( goalObject->isKindOf( KINDOF_BRIDGE_TOWER ) )
-				{
-					BridgeTowerBehaviorInterface *btbi = BridgeTowerBehavior::getBridgeTowerBehaviorInterfaceFromObject( goalObject );
-					DEBUG_ASSERTCRASH( btbi, ("Unable to find bridge tower interface\n") );
-					Object *bridgeObject = TheGameLogic->findObjectByID( btbi->getBridgeID() );
-					DEBUG_ASSERTCRASH( bridgeObject, ("Unable to find bridge center object\n") );
-					BridgeBehaviorInterface *bbi = BridgeBehavior::getBridgeBehaviorInterfaceFromObject( bridgeObject );
-					DEBUG_ASSERTCRASH( bbi, ("Unable to find bridge interface from tower goal object during repair\n") );
-
-					if( bbi->isScaffoldInMotion() == TRUE )
-						canHeal = FALSE;
-
-				}  // end if
-
-				// do healing
-				if( canHeal )
-				{
-
-					// figure out how much health we will restore this frame
-					Real health = body->getMaxHealth() * dozerAI->getRepairHealthPerSecond() /
-												LOGICFRAMES_PER_SECOND;
-
-					// try to give it a little bit-o-health
-					if ( ! goalObject->attemptHealingFromSoleBenefactor(health, dozer, 2) )//this frame and the next
-					{
-						// goalObject->setStatus( OBJECT_STATUS_UNDERGOING_REPAIR );
-						// This bit used to be set way back in DozerAIUpdate::privateRepair(), but it has been outmoded
-						// so that several dozers/workers can target the same sick building for repair, but the first one to begin
-						// this is done by attemptHealingFromSoleBenefactor() which lets the beneficiary of the healing
-						// remember who has been healing it, and will return false to everybody else
-						//or if the goalObject is already receiving healing, I must stop, since my healing is getting rejected here
-						dozerAI->internalTaskComplete( m_task );
-						getMachine()->setGoalObject( NULL );
-						return STATE_FAILURE;
-					}
-
-
-
-				}  // end if
-
-			}  // end else
-
-			// play a repairing sound
-
-			break;
-
-		}  // end repair
-
-		//---------------------------------------------------------------------------------------------
-		case DOZER_TASK_FORTIFY:
-		{
-
-			/// @todo write me
-			break;
-
-		}  // end fortify
-
-		//---------------------------------------------------------------------------------------------
-		default:
-		{
-
-			DEBUG_CRASH(( "Unknown task for the dozer action do action state\n" ));
-			return STATE_FAILURE;
-
-		}  // end default
-
-	}  // end switch
-
-	// if we're complete with the task we exit success
-	if( complete == TRUE )
-	{
-
-		// this task is now complete, remove it from dozer consideration
-		dozerAI->internalTaskComplete( m_task );
-
-		// to be clean get rid of the goal object we set
-		getMachine()->setGoalObject( NULL );
- 
-
-		getMachineOwner()->setWeaponSetFlag(WEAPONSET_MINE_CLEARING_DETAIL);//maybe go clear some mines, if I feel like it
-		// we're done
-		return STATE_SUCCESS;
-
-	}  // end if
-
-	// just continue sitting here for a while
-	getMachineOwner()->clearWeaponSetFlag(WEAPONSET_MINE_CLEARING_DETAIL);// no mine clearing fun while I'm on the job
-
-	return STATE_CONTINUE;
-#endif
-
-}  // end update
+// DozerActionDoActionState::update is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateCtor.cpp (0x0048A69E).
 
 //-------------------------------------------------------------------------------------------------
 /** The Dozer action state machine */
@@ -2810,6 +397,7 @@ EMPTY_DTOR(DozerActionStateMachine)
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 // matched via Code/masm_dumps/_sa5___0DozerActionStateMachine__QAE_PAVObject__W4DozerTask___Z_2B7450.asm (AsciiString-ctor shape C++ can't reproduce)
+// ??0DozerActionStateMachine@@ present-unmatched
 DozerActionStateMachine::DozerActionStateMachine( Object *owner, DozerTask task ) :
 												 StateMachine( owner, "DozerActionStateMachine" )
 {
@@ -2876,7 +464,7 @@ static Object *findObjectToRepair( Object *dozer )
 	PartitionFilterSamePlayer filter1( dozer->getControllingPlayer() );
 	PartitionFilterAcceptByKindOf filter2( MAKE_KINDOF_MASK( KINDOF_STRUCTURE ),
 																				 KINDOFMASK_NONE );
-	PartitionFilterSameMapStatus filterMapStatus(dozer);
+	PartitionFilterSameMapStatusZh filterMapStatus(dozer);
 	PartitionFilter *filters[] = { &filter1, &filter2, &filterMapStatus, NULL };
 	ObjectIterator *iter = ThePartitionManager->iterateObjectsInRange( dozer->getPosition(),
 																																		 dozerAI->getBoredRange(),
@@ -2940,8 +528,8 @@ static Object *findMine( Object *dozer )
 	// srj sez: only clear enemy or neutal mines. clearing allied mines (ie, OURS) is really dumb.
 	// (and no, PossibleToAttack won't necessarily filter these out.)
 	PartitionFilterRelationship	filterTeam(dozer, PartitionFilterRelationship::ALLOW_ENEMIES | PartitionFilterRelationship::ALLOW_NEUTRAL);
-	PartitionFilterPossibleToAttack filterAttack(ATTACK_NEW_TARGET, dozer, CMD_FROM_DOZER);
-	PartitionFilterSameMapStatus filterMapStatus(dozer);
+	PartitionFilterPossibleToAttackZh filterAttack(ATTACK_NEW_TARGET, dozer, CMD_FROM_DOZER);
+	PartitionFilterSameMapStatusZh filterMapStatus(dozer);
 	PartitionFilter *filters[] = { &filterTeam, &filterAttack, &filterMapStatus, NULL };
 	Object* mine = ThePartitionManager->getClosestObject(dozer, dozerAI->getBoredRange(), FROM_CENTER_2D, filters);
 
@@ -3082,6 +670,7 @@ public:
 	virtual void removeIdleWorker(Object *, Int) = 0;
 };
 
+// ?onExit@DozerPrimaryIdleState@@ present-unmatched
 void DozerPrimaryIdleState::onExit( StateExitType status )
 {
 	if(m_isMarkedAsIdle)
@@ -3226,17 +815,7 @@ void DozerActionState::crc( Xfer *xfer )
 // ------------------------------------------------------------------------------------------------
 /** Xfer Method */
 // ------------------------------------------------------------------------------------------------
-// ?xfer@DozerActionState@@MAEXPAVXfer@@@Z present-unmatched
-void DozerActionState::xfer( Xfer *xfer )
-{
-  // version
-  XferVersion currentVersion = 1;
-  XferVersion version = currentVersion;
-  xfer->xferVersion( &version, currentVersion );
-
-	xfer->xferUser(&m_task, sizeof(m_task));
-	xfer->xferSnapshot(m_actionMachine);
-}  // end xfer
+// The retail transfer is defined in Rva004894CAXfer_muse-4f8a.cpp.
 
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
@@ -3315,25 +894,7 @@ EMPTY_DTOR(DozerPrimaryGoingHomeState)
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 // matched via Code/masm_dumps/_sa3___0DozerPrimaryStateMachine__QAE_PAVObject___Z_2B7870.asm (AsciiString-ctor shape C++ can't reproduce)
-DozerPrimaryStateMachine::DozerPrimaryStateMachine( Object *owner ) : StateMachine( owner, "DozerPrimaryStateMachine" )
-{
-	static const StateConditionInfo idleConditions[] = 
-	{
-		StateConditionInfo(isBuildMostImportant, DOZER_PRIMARY_BUILD, NULL),
-		StateConditionInfo(isRepairMostImportant, DOZER_PRIMARY_REPAIR, NULL),
-		StateConditionInfo(isFortifyMostImportant, DOZER_PRIMARY_FORTIFY, NULL),
-		StateConditionInfo(NULL, NULL, NULL)	// keep last
-	};
-
-	// order matters: first state is the default state.
-	defineState( DOZER_PRIMARY_IDLE, newInstance(DozerPrimaryIdleState)( this ), INVALID_STATE_ID, INVALID_STATE_ID, idleConditions );
-	defineState( DOZER_PRIMARY_BUILD, newInstance(DozerActionState)( this, DOZER_TASK_BUILD ), DOZER_PRIMARY_IDLE, DOZER_PRIMARY_IDLE );
-	defineState( DOZER_PRIMARY_REPAIR, newInstance(DozerActionState)( this, DOZER_TASK_REPAIR ), DOZER_PRIMARY_IDLE, DOZER_PRIMARY_IDLE );
-	defineState( DOZER_PRIMARY_FORTIFY, newInstance(DozerActionState)( this, DOZER_TASK_FORTIFY ), DOZER_PRIMARY_IDLE, DOZER_PRIMARY_IDLE );
-	defineState( DOZER_PRIMARY_GO_HOME, newInstance(DozerPrimaryGoingHomeState)( this ), DOZER_PRIMARY_IDLE, DOZER_PRIMARY_IDLE );
-
-}  // end DozerPrimaryStateMachine
-
+// ??0DozerPrimaryStateMachine@@ present-unmatched
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 // ??1DozerPrimaryStateMachine@@MAE@XZ present-unmatched
@@ -3375,29 +936,6 @@ void DozerPrimaryStateMachine::loadPostProcess( void )
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?isBuildMostImportant@DozerPrimaryStateMachine@@SA_NPAVState@@PAX@Z present-unmatched
-Bool DozerPrimaryStateMachine::isBuildMostImportant( State *thisState, void* userData )
-{
-	Object *dozer = thisState->getMachineOwner();
-	AIUpdateInterface *ai = dozer->getAIUpdateInterface();
-	if( !ai )
-	{
-		return FALSE;
-	}
-	DozerAIInterface *dozerAI = ai->getDozerAIInterface();
-	if( !dozerAI )
-	{
-		return FALSE;
-	}
-
-	if( !ai->isIdle() )
-		return FALSE;  // busy doing something else
-
-	// if the most important task is us then return true
-	DozerTask task = dozerAI->getMostRecentCommand();
-	return task == DOZER_TASK_BUILD;
-
-}  // end isBuildMostImportant
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -3468,51 +1006,9 @@ struct BfmeDozerObjectFields
 	AIUpdateInterface *m_ai;				///< retail this+0x204
 };
 
-Bool DozerPrimaryStateMachine::isRepairMostImportant( State *thisState, void* userData )
-{
-	Object *dozer = ((BfmeDozerStateFields *)thisState)->m_machine->m_owner;
-	AIUpdateInterface *ai = ((BfmeDozerObjectFields *)dozer)->m_ai;
-	if( !ai )
-	{
-		return false;
-	}
-	DozerAIInterface *dozerAI = (DozerAIInterface *)((BfmeDozerAiVTable *)ai)->getDozerAIInterface();
-	if( !dozerAI )
-	{
-		return false;
-	}
-
-	if( !((BfmeDozerAiVTable *)ai)->isIdle() )
-		return FALSE;  // busy doing something else
-
-	// if the most important task is us then return true
-	DozerTask task = (DozerTask)((BfmeDozerTaskVTable *)dozerAI)->getMostRecentCommand();
-	return task == DOZER_TASK_REPAIR;
-}  // end isRepairMostImportant
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-Bool DozerPrimaryStateMachine::isFortifyMostImportant( State *thisState, void* userData )
-{
-	Object *dozer = ((BfmeDozerStateFields *)thisState)->m_machine->m_owner;
-	AIUpdateInterface *ai = ((BfmeDozerObjectFields *)dozer)->m_ai;
-	if( !ai )
-	{
-		return false;
-	}
-	DozerAIInterface *dozerAI = (DozerAIInterface *)((BfmeDozerAiVTable *)ai)->getDozerAIInterface();
-	if( !dozerAI )
-	{
-		return false;
-	}
-
-	if( !((BfmeDozerAiVTable *)ai)->isIdle() )
-		return FALSE;  // busy doing something else
-
-	// if the most important task is us then return true
-	DozerTask task = (DozerTask)((BfmeDozerTaskVTable *)dozerAI)->getMostRecentCommand();
-	return task == DOZER_TASK_FORTIFY;
-}  // end isFortifyMostImportat
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3520,114 +1016,25 @@ Bool DozerPrimaryStateMachine::isFortifyMostImportant( State *thisState, void* u
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateModuleDataCtorThunk.cpp
-// ??0DozerAIUpdateModuleData@@QAE@XZ present-unmatched
-DozerAIUpdateModuleData::DozerAIUpdateModuleData( void )
-{
-
-	m_repairHealthPercentPerSecond = 0.0f;
-	m_boredTime = 0.0f;
-	m_boredRange = 0.0f;
-
-}  // end DozerAIUpdateModuleData
-
-// ------------------------------------------------------------------------------------------------
-// ?buildFieldParse@DozerAIUpdateModuleData@@ present-unmatched
-void DozerAIUpdateModuleData::buildFieldParse( MultiIniFieldParse& p)
-{
-  AIUpdateModuleData::buildFieldParse( p );
-
-	static const FieldParse dataFieldParse[] = 
-	{
-		{ "RepairHealthPercentPerSecond",	INI::parsePercentToReal,	NULL, offsetof( DozerAIUpdateModuleData, m_repairHealthPercentPerSecond ) },
-		{ "BoredTime",										INI::parseDurationReal,		NULL, offsetof( DozerAIUpdateModuleData, m_boredTime ) },
-		{ "BoredRange",										INI::parseReal,						NULL, offsetof( DozerAIUpdateModuleData, m_boredRange ) },
-		{ 0, 0, 0, 0 }
-	};
-
-  p.add( dataFieldParse );
-
-}  // end buildFieldParse
+// LINK-DUP: ??0DozerAIUpdateModuleData@@QAE@XZ and
+// ?buildFieldParse@DozerAIUpdateModuleData@@ owned by DozerAIUpdateModuleDataCtor.cpp;
+// this file merely declares them via GameLogic/Module/DozerAIUpdate.h.
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/GameLogic/AI/DozerAIUpdateCtorThunk.cpp
 // ??0DozerAIUpdate@@QAE@PAVThing@@PBVModuleData@@@Z present-unmatched
-DozerAIUpdate::DozerAIUpdate( Thing *thing, const ModuleData* moduleData ) : 
-							 AIUpdateInterface( thing, moduleData )
-               
-{
-	Int i, j;
-
-	for( i = 0; i < DOZER_NUM_TASKS; i++ )
-	{
-
-		m_task[ i ].m_targetObjectID = INVALID_ID;
-		m_task[ i ].m_taskOrderFrame = 0;
-
-		for( j = 0; j < DOZER_NUM_DOCK_POINTS; j++ )
-		{
-
-			m_dockPoint[ i ][ j ].valid = FALSE;
-			m_dockPoint[ i ][ j ].location.zero();
-
-		}  // end for j
-
-	}  // end for i
-	m_currentTask = DOZER_TASK_INVALID;
-
-	m_buildSubTask = DOZER_SELECT_BUILD_DOCK_LOCATION;  // irrelavant, but I want non-garbage value
-
-	//
-	// initialize the dozer machine to NULL, we want to do this and create it during the update
-	// implementation because at this point we don't have the object all setup
-	//
-	m_dozerMachine = NULL;
-
-	createMachines();
-}  // end DozerAIUpdate
-
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-DozerAIUpdate::~DozerAIUpdate( void )
-{
-
-	// delete our behavior state machine
-	if( m_dozerMachine )
-		m_dozerMachine->deleteInstance();
-
-	// no orders
-	for( Int i = 0; i < DOZER_NUM_TASKS; i++ )
-	{
-
-		m_task[ i ].m_targetObjectID = INVALID_ID;
-		m_task[ i ].m_taskOrderFrame = 0;
-
-	}  // end for i
-
-}  // end ~DozerAIUpdate
-
+// ??1DozerAIUpdate@@ present-unmatched
 // ------------------------------------------------------------------------------------------------
 /** Create any sub machines we need to do all our behavior */
 // ------------------------------------------------------------------------------------------------
-// ?createMachines@DozerAIUpdate@@AAEXXZ present-unmatched
-void DozerAIUpdate::createMachines( void )
-{
-
-	if( m_dozerMachine == NULL )
-	{
-
-		m_dozerMachine = newInstance(DozerPrimaryStateMachine)( getObject() );
-		m_dozerMachine->initDefaultState();
-
-	}  // end if
-
-}  // end createMachines
+// DozerAIUpdate::createMachines is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateCtor.cpp (0x00488EFC).
 
 // ------------------------------------------------------------------------------------------------
 /** Create the bridge scaffolding if necessary for the bridge that is attached to this tower */
 // ------------------------------------------------------------------------------------------------
-// ?createBridgeScaffolding@DozerAIUpdate@@UAEXPAVObject@@@Z present-unmatched
 void DozerAIUpdate::createBridgeScaffolding( Object *bridgeTower )
 {
 
@@ -3654,7 +1061,6 @@ void DozerAIUpdate::createBridgeScaffolding( Object *bridgeTower )
 // ------------------------------------------------------------------------------------------------
 /** Remove the bridge scaffolding from the bridge object that is attached to this tower */
 // ------------------------------------------------------------------------------------------------
-// ?removeBridgeScaffolding@DozerAIUpdate@@UAEXPAVObject@@@Z present-unmatched
 void DozerAIUpdate::removeBridgeScaffolding( Object *bridgeTower )
 {
 
@@ -3680,190 +1086,95 @@ void DozerAIUpdate::removeBridgeScaffolding( Object *bridgeTower )
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?update@DozerAIUpdate@@UAE?AW4UpdateSleepTime@@XZ present-unmatched
+// BFME 2's Object private status byte (+0x438); bit 0 is effectively-dead.
+struct BfmeDozerPrivateStatus { unsigned char m_unreconstructed_000[ 0x438 ]; unsigned char m_privateStatus; };
+// BFME 2's dozer task interface (module +0x3E4) and state machine pointer
+// (module +0x400) sit 0x1E8 bytes later than this unit's Zero Hour layout,
+// and the slots it calls moved; these views spell the retail offsets.
+class BfmeDozerTaskSlots : public BfmeDozerSlots<7>
+{
+public:
+	virtual ObjectID getTaskTarget( DozerTask task ) = 0;		///< +0x1C
+	virtual void unusedSlot8() = 0;
+	virtual DozerTask getCurrentTask( void ) = 0;			///< +0x24
+	virtual void unusedSlot10() = 0;
+	virtual void unusedSlot11() = 0;
+	virtual void unusedSlot12() = 0;
+	virtual void cancelTask( DozerTask task ) = 0;			///< +0x34
+};
+class BfmeDozerCommandSourceSlots : public BfmeDozerSlots<143>
+{
+public:
+	virtual CommandSourceType getLastCommandSource( void ) = 0;	///< +0x23C
+};
+class BfmeDozerMachineSlots : public BfmeDozerSlots<4>
+{
+public:
+	virtual void updateStateMachine( void ) = 0;			///< +0x10
+};
+struct BfmeDozerUpdateFields
+{
+	unsigned char m_unreconstructed_000[ 0x3e4 ];
+	unsigned char m_taskInterface[ 4 ];				///< +0x3E4, a BfmeDozerTaskSlots
+	unsigned char m_unreconstructed_3e8[ 0x400 - 0x3e8 ];
+	BfmeDozerMachineSlots *m_dozerMachine;			///< +0x400
+};
+#define DOZER_TASKS ((BfmeDozerTaskSlots *)((BfmeDozerUpdateFields *)this)->m_taskInterface)
+#define DOZER_MACHINE (((BfmeDozerUpdateFields *)this)->m_dozerMachine)
+// Retail 0x00489800 (149B), update-interface slot 0 (this = module +0x10):
+// Zero Hour's DozerAIUpdate::update without its idle mine-clearing switch.
 UpdateSleepTime DozerAIUpdate::update( void )
 {
-
-	//
-	// NOTE: Any changes to DozerAIUpdate::* you probably want to reflect and copy into
-	// WorkerAIUPdate:* as well ... sigh
-	//
-
-	//
 	// now that we're really executing we have all the necessary object modules in place to
 	// correctly create a state machine and set the default state
-	//
 	createMachines();
 
-	// set us as being to able to move with super precision off grid locations
- /*
-	if( getCurLocomotor() )	 {
-			getCurLocomotor()->setUltraAccurate( TRUE );
-			getCurLocomotor()->setAllowInvalidPosition(TRUE);
-	}*/
-	
 	// extend the normal AI system
 	UpdateSleepTime result;
 	result = AIUpdateInterface::update();
 
 	// do nothing if we're dead
-	///@todo shouldn't this be at a higher level?
-	if( getObject()->isEffectivelyDead() )
+	if( ((const BfmeDozerPrivateStatus *)getObject())->m_privateStatus & 1 )	// isEffectivelyDead, inline in retail
 		return UPDATE_SLEEP_NONE;
 
+
 	// get and validate our current task
-	DozerTask currentTask = getCurrentTask();
+	DozerTask currentTask = DOZER_TASKS->getCurrentTask();
 	if( currentTask != DOZER_TASK_INVALID )
 	{
-		
-
-		ObjectID taskTarget = getTaskTarget( currentTask );
+		ObjectID taskTarget = DOZER_TASKS->getTaskTarget( currentTask );
 		Object *targetObject = TheGameLogic->findObjectByID( taskTarget );
 		Bool invalidTask = FALSE;
 
 		// validate the task and the target
 		if( currentTask == DOZER_TASK_REPAIR &&
-				TheActionManager->canRepairObject( getObject(), targetObject, getLastCommandSource() ) == FALSE )
+				TheActionManager->canRepairObject( getObject(), targetObject,
+					((BfmeDozerCommandSourceSlots *)this)->getLastCommandSource() ) == FALSE )
 			invalidTask = TRUE;
-		
+
 		// cancel the task if it's now invalid
 		if( invalidTask == TRUE )
-			cancelTask( currentTask );
+			DOZER_TASKS->cancelTask( currentTask );
 
 	}  // end if
-	else
-		getObject()->setWeaponSetFlag(WEAPONSET_MINE_CLEARING_DETAIL);//maybe go clear some mines, if I feel like it
 
 	// run our own state machine
-	m_dozerMachine->updateStateMachine();
+	DOZER_MACHINE->updateStateMachine();
 
 	return UPDATE_SLEEP_NONE;
-		
+
 }  // end update
+#undef DOZER_TASKS
+#undef DOZER_MACHINE
 
 //-------------------------------------------------------------------------------------------------
 /** The entry point of a construct command to the Dozer */
 //-------------------------------------------------------------------------------------------------
-// ?construct@DozerAIUpdate@@ present-unmatched
-Object *DozerAIUpdate::construct( const ThingTemplate *what, 
-																	const Coord3D *pos, 
-																	Real angle, 
-																	Player *owningPlayer,
-																	Bool isRebuild )
-{
-
-	// !!! NOTE: If you modify this you must modify the worker too !!!
-	// !!! Graham: Please please please have inspiration for how to *not* duplicate this code
-
-	// create our machines if they don't yet exist
-	///@todo make 'construct' a real AI command and you won't need a special case
-	m_isRebuild = isRebuild;
-
-	createMachines();
-
-	// sanity
-	if( what == NULL || pos == NULL || owningPlayer == NULL )
-		return NULL;
-
-	// sanity
-	DEBUG_ASSERTCRASH( getObject()->getControllingPlayer() == owningPlayer,
-										 ("Dozer::Construct - The controlling player of the Dozer is not the owning player passed in\n") );
-	
-	// if we're not rebuilding, we have a few checks to pass first for sanity
-	if( isRebuild == FALSE )
-	{
-
-		// AI has weaker restriction on building
-		Bool dozerIsAI = owningPlayer->getPlayerType() == PLAYER_COMPUTER;
-		if( dozerIsAI )
-		{
-
-			// Just build it.  The ai will validate, or cheat.  jba.
-			
-		}  // end if
-		else
-		{
-
-			// make sure the player is capable of building this
-			if( TheBuildAssistant->canMakeUnit( getObject(), what ) != CANMAKE_OK)
-				return NULL;
-
-			// validate the the position to build at is valid
-			if( TheBuildAssistant->isLocationLegalToBuild( pos, what, angle,
-																										 BuildAssistant::TERRAIN_RESTRICTIONS |
-																										 BuildAssistant::CLEAR_PATH |
-																										 BuildAssistant::NO_OBJECT_OVERLAP |
-																										 BuildAssistant::SHROUD_REVEALED,
-																										 getObject(), NULL ) != LBC_OK )
-				return NULL;
-
-		}  // end else
-
-	}  // end if
-
-	//
-	// what will our initial status bits be, it is important to do this early
-	// before the hooks add/subtract power from a player are executed
-	//
-	ObjectStatusMaskType statusBits = MAKE_OBJECT_STATUS_MASK( OBJECT_STATUS_UNDER_CONSTRUCTION );
-	if( isRebuild )
-		statusBits.set( OBJECT_STATUS_RECONSTRUCTING );
-
-	// create an object at the destination location
-	Object *obj = TheThingFactory->newObject( what, owningPlayer->getDefaultTeam(), statusBits );
-
-	// even though we haven't actually built anything yet, this keeps things tidy
-	obj->setProducer( getObject() );
-	obj->setBuilder( getObject() );
-
-	// take the required money away from the player
-	if( isRebuild == FALSE )
-	{
-		Money *money = owningPlayer->getMoney();
-
-		money->withdraw( what->calcCostToBuild( owningPlayer ) );
-
-	}  // end if	
-
-	// initialize object
-	obj->setPosition( pos );
-	obj->setOrientation( angle );
-
-	// Flatten the terrain underneath the object, then adjust to the flattened height. jba.
-	TheTerrainLogic->flattenTerrain(obj);
-	Coord3D adjustedPos = *pos;
-	adjustedPos.z = TheTerrainLogic->getGroundHeight(pos->x, pos->y);
-	obj->setPosition(&adjustedPos);
-	
-	// Note - very important that we add to map AFTER we flatten terrain. jba.
-	TheAI->pathfinder()->addObjectToPathfindMap( obj );
-	// "callback" event for structure created (note that it's not yet "complete")
-	owningPlayer->onStructureCreated( getObject(), obj );
-
-	// set a construction percent for the new object to zero and a status for under construction
-	obj->setConstructionPercent( 0.0 );
-
-	// newly constructed objects start at one hit point
-	BodyModuleInterface *body = obj->getBodyModule();
-	body->internalChangeHealth( -body->getHealth() + 1.0f );
-
-	// set the model action state to awaiting construction
-	obj->clearAndSetModelConditionFlags(
-		MAKE_MODELCONDITION_MASK2(MODELCONDITION_PARTIALLY_CONSTRUCTED, MODELCONDITION_ACTIVELY_BEING_CONSTRUCTED), 
-		MAKE_MODELCONDITION_MASK(MODELCONDITION_AWAITING_CONSTRUCTION)
-	);
-
-	// we have a construction pending
-	newTask( DOZER_TASK_BUILD, obj );
-
-	return obj;
-				
-}  // end construct
 
 // ------------------------------------------------------------------------------------------------
 /** Given our current task and repair target, can we accept this as a new repair target */
 // ------------------------------------------------------------------------------------------------
-// ?canAcceptNewRepair@DozerAIUpdate@@UAE_NPAVObject@@@Z present-unmatched
+// ?canAcceptNewRepair@DozerAIUpdate@@UAE_NPAVObject@@@Z
 Bool DozerAIUpdate::canAcceptNewRepair( Object *obj )
 {
 
@@ -3886,8 +1197,9 @@ Bool DozerAIUpdate::canAcceptNewRepair( Object *obj )
 			return FALSE;
 
 		// check for repairing any tower on the same bridge
-		if( currentRepair->isKindOf( KINDOF_BRIDGE_TOWER ) && 
-				obj->isKindOf( KINDOF_BRIDGE_TOWER ) )
+		const unsigned int towerMask = 0x01000000;
+		if( ( *(const unsigned int *)((const char *)*(const void **)((const char *)currentRepair + 4) + 0x108) & towerMask ) && 
+				( *(const unsigned int *)((const char *)*(const void **)((const char *)obj + 4) + 0x108) & towerMask ) )
 		{
 			BridgeTowerBehaviorInterface *currentTowerInterface = NULL;
 			BridgeTowerBehaviorInterface *newTowerInterface = NULL;
@@ -3917,60 +1229,74 @@ Bool DozerAIUpdate::canAcceptNewRepair( Object *obj )
 
 }  // end canAcceptNewRepair
 
-// ------------------------------------------------------------------------------------------------
-/** Issue an order for the Dozer to go repair the target 'obj' */
-// ------------------------------------------------------------------------------------------------
-void DozerAIUpdate::privateRepair( Object *obj, CommandSourceType cmdSource )
+// Dozer's primary table at VA 0x00C4B848 binds slot 44 to this repair body.
+// The DozerAIInterface subobject at +0x3E4 accepts and starts the repair task.
+void DozerAIUpdate::privateRepair(Object *obj, CommandSourceType cmdSource)
 {
-	// Two offsets are BFME's: m_object at module+0x08 (the BFME_MODULE_NO_MPO
-	// layout) and the DozerAIInterface base at this+0x340, where this tree
-	// lands it at +0x200. canAcceptNewRepair is slot 20 of that base.
 	Object *dozer = *(Object **)((char *)this + 0x08);
-	DozerAIInterface *self = (DozerAIInterface *)((char *)this + 0x340);
-
-	// if we are already repairing this target do nothing
-	if( self->canAcceptNewRepair( obj ) == FALSE )
+	DozerAIInterface *self = (DozerAIInterface *)((char *)this + 0x3E4);
+	if (self->canAcceptNewRepair(obj) == FALSE)
 		return;
+	if (TheActionManager->canRepairObject(dozer, obj, cmdSource) == FALSE)
+		return;
+	ObjectID currentRepairer = obj->getSoleHealingBenefactor();
+	if (currentRepairer != INVALID_ID && currentRepairer != *(ObjectID *)((char *)dozer + 0x74))
+		return;
+	self->newTask(DOZER_TASK_REPAIR, obj);
+}
+
+// ?rva00488C48@Rva00488C48@@QBEMXZ, retail 0x00488C48 (72 bytes).
+// The offsets and paired repair routine place this method on the +0x3E4
+// DozerAIInterface view of an AIUpdate object; the final name stays
+// address-derived. The two controlling-player calls and its +0x5C discriminator
+// gate the AI multiplier applied to the host object's +0x6C value.
+class Rva00488C48
+{
+public:
+	Real rva00488C48() const;
+};
+
+// ?<Rva00488C48::rva00488C48> present-unmatched
+Real Rva00488C48::rva00488C48() const
+{
+	Object **dozer = (Object **)((char *)this - 0x3DC);
+	if ((*dozer)->getControllingPlayer() != 0 &&
+		*(int *)((char *)(*dozer)->getControllingPlayer() + 0x5C) == 1)
+	{
+		Object *thing = *(Object **)((char *)this - 0x3E0);
+		void *aiData = *(void **)((char *)TheAI + 0x18);
+		return *(Real *)((char *)thing + 0x6C) * *(Real *)((char *)aiData + 0x88);
+	}
+	Object *thing = *(Object **)((char *)this - 0x3E0);
+	return *(Real *)((char *)thing + 0x6C);
+}
+
+// ------------------------------------------------------------------------------------------------
+/** Issue an order for the Worker to go repair the target 'obj' */
+// ------------------------------------------------------------------------------------------------
+void WorkerAIUpdate::privateRepair( Object *obj, CommandSourceType cmdSource )
+{
+	Object *dozer = *(Object **)((char *)this + 0x08);
 
 	// sanity, if we can't repair the object then get out of there
 	if( TheActionManager->canRepairObject( dozer, obj, cmdSource ) == FALSE )
 		return;
 
-	// if this object is already actively being repaired by another dozertype we won't also try to go repair it
-	ObjectID currentRepairer = obj->getSoleHealingBenefactor();
-	if( currentRepairer != INVALID_ID && currentRepairer != dozer->getID() )
-		return;
+	const ThingTemplate *thingTemplate = *(const ThingTemplate **)((char *)dozer + 4);
+	if( ( ( *(const unsigned char *)((const char *)thingTemplate + 0x109) ) & 0x80 ) == 0 )
+	{
+		DozerAIInterface *self = (DozerAIInterface *)((char *)this + 0x3e4);
+		// if we are already repairing this target do nothing
+		if( self->canAcceptNewRepair( obj ) == FALSE )
+			return;
 
-	// Bridges have been made indestructible, so these checks were in vain. -- ML
+		// if this object is already actively being repaired by another dozertype we won't also try to go repair it
+		ObjectID currentRepairer = obj->getSoleHealingBenefactor();
+		if( currentRepairer != INVALID_ID && currentRepairer != dozer->getID() )
+			return;
+	}
 
-	// if this object is a bridge tower, we need to check the status of the bridge in order
-	// to check for a 'duplicate repair'
-	//
-	//if( obj->isKindOf( KINDOF_BRIDGE_TOWER ) )
-	//{
-	//	BridgeTowerBehaviorInterface *btbi = BridgeTowerBehavior::getBridgeTowerBehaviorInterfaceFromObject( obj );
-	//	DEBUG_ASSERTCRASH( btbi, ("Unable to find bridge tower behavior interface\n") );
-  //
-	//	Object *bridge = TheGameLogic->findObjectByID( btbi->getBridgeID() );
-	//	DEBUG_ASSERTCRASH( bridge, ("Unable to find bridge object\n") );
-	//	if( BitTest( bridge->getStatusBits(), OBJECT_STATUS_UNDERGOING_REPAIR ) == TRUE )
-	//		return;
-  //
-	//}  // end if
-	
-	
-	// for bridges, set the status for the bridge object
-	//if( obj->isKindOf( KINDOF_BRIDGE_TOWER ) )
-	//{
-	//	BridgeTowerBehaviorInterface *btbi = BridgeTowerBehavior::getBridgeTowerBehaviorInterfaceFromObject( obj );
-	//	DEBUG_ASSERTCRASH( btbi, ("Unable to find bridge tower behavior interface\n") );
-	//
-	//  Object *bridge = TheGameLogic->findObjectByID( btbi->getBridgeID() );
-	//	DEBUG_ASSERTCRASH( bridge, ("Unable to find bridge object\n") );
-	//	bridge->setStatus( OBJECT_STATUS_UNDERGOING_REPAIR );
-  //
-	//}  // end if
-
+	DozerAIInterface *self = (DozerAIInterface *)((char *)this + 0x3e4);
 	// start the new task
 	self->newTask( DOZER_TASK_REPAIR, obj );
 
@@ -3979,22 +1305,8 @@ void DozerAIUpdate::privateRepair( Object *obj, CommandSourceType cmdSource )
 // ------------------------------------------------------------------------------------------------
 /** Resume construction on a building */
 // ------------------------------------------------------------------------------------------------
-// ?privateResumeConstruction@DozerAIUpdate@@MAEXPAVObject@@W4CommandSourceType@@@Z present-unmatched
-void DozerAIUpdate::privateResumeConstruction( Object *obj, CommandSourceType cmdSource )
-{
-
-	// sanity
-	if( obj == NULL )
-		return;
-
-	// make sure we can resume construction on this
-	if( TheActionManager->canResumeConstructionOf( getObject(), obj, cmdSource ) == FALSE )
-		return;
-
-	// start the new task for construction
-	newTask( DOZER_TASK_BUILD, obj );
-
-}  // end privateResumeConstruction
+// rowed in its own unit
+  // end privateResumeConstruction
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -4092,86 +1404,14 @@ void DozerAIUpdate::privateResumeConstruction( Object *obj, CommandSourceType cm
 /** Issue and order to the dozer */
 //-------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdate_newTask_Thunk.cpp
-// ?newTask@DozerAIUpdate@@UAEXW4DozerTask@@PAVObject@@@Z present-unmatched
-void DozerAIUpdate::newTask( DozerTask task, Object *target )
-{
-
-	// sanity
-	DEBUG_ASSERTCRASH( task >= 0 && task < DOZER_NUM_TASKS, ("Illegal dozer task '%d'\n", task) );
-
-	// sanity
-	if( target == NULL )
-		return;
-
-	//
-	// special check for the build task, we should never be given more than one of them ...
-	// for the other tasks we just forget what we were doing and the new target takes
-	// precedence for the task
-	//
-	if( task == DOZER_TASK_BUILD || task == DOZER_TASK_REPAIR )
-	{
-
-		// handle getting two tasks
-		if( isTaskPending( task ) == TRUE )
-			cancelTask( task );
-
-		// get our object
-		Object *me = getObject();
-
-		Coord3D position;
-		target = findGoodBuildOrRepairPositionAndTarget(me, target, position);
-		if (target == NULL)
-			return;	// could happen for some bridges
-
-		//
-		// for building, we say that even "thinking" about building or rebuilding an object
-		// sets us as the current builder of that object.  this allows any dozers that are 
-		// ordered later to resume construction on something to see that somebody is already taking
-		// care of it and then they won't be even try to resume a build since we don't allow
-		// multiple dozers/workers to double up on construction efforts
-		//
-		if( task == DOZER_TASK_BUILD )
-			target->setBuilder( me );
-
-		m_dockPoint[ task ][ DOZER_DOCK_POINT_START ].valid			= TRUE;
-		m_dockPoint[ task ][ DOZER_DOCK_POINT_START ].location	= position;
-		m_dockPoint[ task ][ DOZER_DOCK_POINT_ACTION ].valid		= TRUE;
-		m_dockPoint[ task ][ DOZER_DOCK_POINT_ACTION ].location = position;
-		Coord3D offset;
-		offset.set(position.x-target->getPosition()->x, position.y-target->getPosition()->y, 0);
-		offset.normalize();
-		offset.scale(5*PATHFIND_CELL_SIZE_F);
-		position.add(&offset); // move away from the dock point at the end of build.
-		m_dockPoint[ task ][ DOZER_DOCK_POINT_END ].valid				= TRUE;
-		m_dockPoint[ task ][ DOZER_DOCK_POINT_END ].location		= position;
-
-	}  // end if
-
-	// set the new task target and the frame in which we got this order
-	m_task[ task ].m_targetObjectID = target->getID();
-	m_task[ task ].m_taskOrderFrame = TheGameLogic->getFrame();
-
-	// reset the dozer behavior so that it can re-evluate which task to continue working on
-	m_dozerMachine->resetToDefaultState();
-
-}  // end newTask
+// DozerAIUpdate::newTask is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateCtor.cpp (0x00489A07).
 
 //-------------------------------------------------------------------------------------------------
 /** Cancel a task and reset the dozer behavior state machine so that it can 
 	* re-evaluate what it wants to do if it was working on the task being
 	* cancelled */
 //-------------------------------------------------------------------------------------------------
-// ?cancelTask@DozerAIUpdate@@UAEXW4DozerTask@@@Z present-unmatched
-void DozerAIUpdate::cancelTask( DozerTask task )
-{
-
-	// clear the order
-	internalCancelTask( task );
-
-	// reset the machine to we can re-evaluate what we want to do
-	m_dozerMachine->resetToDefaultState();
-
-}  // end cancelTask
+// DozerAIUpdate::cancelTask is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateCtor.cpp (0x0048AE8A).
 
 //-------------------------------------------------------------------------------------------------
 /** Is there a given task waiting to be done */
@@ -4199,7 +1439,6 @@ Bool DozerAIUpdate::isAnyTaskPending( void )
 	return FALSE;
 
 }  // end isAnyTaskPending
-
 //-------------------------------------------------------------------------------------------------
 /** Get the target object of a given task */
 //-------------------------------------------------------------------------------------------------
@@ -4213,10 +1452,17 @@ ObjectID DozerAIUpdate::getTaskTarget( DozerTask task )
 
 }  // end getTaskTarget
 
+// BFME 2 keeps only 0x10 bytes of members between m_task and the dock point
+// table (Zero Hour's inline AudioEventRTS m_buildingSound sits elsewhere), so
+// retail addresses the dock points 0x28 bytes past m_task (+0x2C from the
+// DozerAIInterface base) rather than at Zero Hour's m_dockPoint. Addressed raw
+// here, like finishBuildingSound's handle.
+#define BFME_DOZER_DOCK_POINT( task, i ) \
+	( ( (DozerDockPointInfo *)( (char *)m_task + 0x28 ) )[ (task) * DOZER_NUM_DOCK_POINTS + (i) ] )
+
 //-------------------------------------------------------------------------------------------------
 /** Set a task as successfully completed */
 //-------------------------------------------------------------------------------------------------
-// ?internalTaskComplete@DozerAIUpdate@@UAEXW4DozerTask@@@Z present-unmatched
 void DozerAIUpdate::internalTaskComplete( DozerTask task )
 {
 
@@ -4232,7 +1478,7 @@ void DozerAIUpdate::internalTaskComplete( DozerTask task )
 
 	// remove dock point info for this task
 	for( Int i = 0; i < DOZER_NUM_DOCK_POINTS; i++ )
-		m_dockPoint[ task ][ i ].valid = FALSE;
+		BFME_DOZER_DOCK_POINT( task, i ).valid = FALSE;
 
 }  // end internalTaskComplete
 
@@ -4240,15 +1486,13 @@ void DozerAIUpdate::internalTaskComplete( DozerTask task )
 /** Clear a task from the Dozer for consideration, we can use this when a goal object becomes
 	* invalid/destroyed etc. */
 //-------------------------------------------------------------------------------------------------
-// ?internalCancelTask@DozerAIUpdate@@UAEXW4DozerTask@@@Z present-unmatched
 void DozerAIUpdate::internalCancelTask( DozerTask task )
 {
 
 	// sanity
 	DEBUG_ASSERTCRASH( task >= 0 && task < DOZER_NUM_TASKS, ("Illegal dozer task '%d'\n", task) );
-	
-	if(task < 0 || task >= DOZER_NUM_TASKS)
-		return;  //DAMNIT!  You CANNOT assert and then not handle the damn error!  The.  Code.  Must.  Not.  Crash.
+
+	// (BFME 2 retail has no range check here; WB keeps only the assert.)
 
 	// call the single method that gets called for completing and canceling tasks
 	internalTaskCompleteOrCancelled( task );
@@ -4259,137 +1503,27 @@ void DozerAIUpdate::internalCancelTask( DozerTask task )
 	
 	// remove dock point info for this task
 	for( Int i = 0; i < DOZER_NUM_DOCK_POINTS; i++ )
-		m_dockPoint[ task ][ i ].valid = FALSE;
+		BFME_DOZER_DOCK_POINT( task, i ).valid = FALSE;
 	
-	// stop the dozer from moving
-	AIUpdateInterface *ai = getObject()->getAIUpdateInterface();
-	ai->aiIdle( CMD_FROM_AI );
+	// stop the dozer from moving: BFME 2's Object keeps its AI update at +0x258
+	// and AIUpdateInterface its AICommandInterface base at +0x20; the module's
+	// object sits 0x3DC before the DozerAIInterface base, i.e. 0x3E0 before
+	// m_task (BFME 2's layout, addressed raw as in privateRepair)
+	Object *dozer = *(Object **)((char *)m_task - 0x3e0);
+	AIUpdateInterface *ai = *(AIUpdateInterface **)((char *)dozer + 0x258);
+	((AICommandInterface *)((char *)ai + 0x20))->aiIdle( CMD_FROM_AI );
 
 }  // end internalCancelTask
 
 // ------------------------------------------------------------------------------------------------
 /** This method is called whenever a task is completed *OR* cancelled */
 // ------------------------------------------------------------------------------------------------
-// ?internalTaskCompleteOrCancelled@DozerAIUpdate@@UAEXW4DozerTask@@@Z present-unmatched
-void DozerAIUpdate::internalTaskCompleteOrCancelled( DozerTask task )
-{
-
-	switch( task )
-	{
-
-		// --------------------------------------------------------------------------------------------
-		case DOZER_TASK_INVALID:	
-		{
-
-			break;  // do nothing, this is really no task 
-
-		}  // end invalid
-						
-		// --------------------------------------------------------------------------------------------
-		case DOZER_TASK_BUILD:
-		{
-
-			// the builder is no longer actively building something
-			getObject()->clearModelConditionState( MODELCONDITION_ACTIVELY_CONSTRUCTING );
-
-			// And the thing we were working on is no longer being actively built
-
-			///@todo This would be correct except that we don't have idle crane animations and it is December.
-//			Object* goalObject = TheGameLogic->findObjectByID(m_task[task].m_targetObjectID);
-//			if (goalObject != NULL)
-//			{
-//				goalObject->clearModelConditionState(MODELCONDITION_ACTIVELY_BEING_CONSTRUCTED);
-//			}
-			break;
-		
-		}  // end build
-
-		// --------------------------------------------------------------------------------------------
-		case DOZER_TASK_REPAIR:
-		{
-
-			// the builder is no longer actively repairing something
-			getObject()->clearModelConditionState( MODELCONDITION_ACTIVELY_CONSTRUCTING );
-
-			// Bridges have been made indestructible, so the code below was meaningless. -- ML
-			// Object *obj = NULL;
-			// get object to reapir (if present)
-			//obj = TheGameLogic->findObjectByID( m_task[ task ].m_targetObjectID );
-			//
-			//if( obj )
-			//{
-      //
-			//	
-			//	 when we're done repairing bridges, tell the scaffolding to go away and also remove
-			//	 the undergoing repair status from the bridge object itself
-			//	
-			//	if( obj->isKindOf( KINDOF_BRIDGE_TOWER ) )
-			//	{
-			//		// remove the bridge scaffold
-			//		removeBridgeScaffolding( obj );
-      //  
-			//		// clear the repair bit from the bridge
-			//		BridgeTowerBehaviorInterface *btbi = BridgeTowerBehavior::getBridgeTowerBehaviorInterfaceFromObject( obj );
-			//		DEBUG_ASSERTCRASH( btbi, ("Unable to find bridge tower behavior interface\n") );
-			//		Object *bridge = TheGameLogic->findObjectByID( btbi->getBridgeID() );
-			//		DEBUG_ASSERTCRASH( bridge, ("Unable to find bridge object\n") );
-			//		bridge->clearStatus( OBJECT_STATUS_UNDERGOING_REPAIR );
-			//	
-			//	}  // end if
-      //
-			//}  // end if
-
-			break;
-
-		}  // end repair
-
-		// --------------------------------------------------------------------------------------------
-		case DOZER_TASK_FORTIFY:
-		{
-
-			break;
-
-		}  // end fortify
-
-		// --------------------------------------------------------------------------------------------
-		default:
-		{
-
-			DEBUG_CRASH(( "internalTaskCompleteOrCancelled: Unknown Dozer task '%d'\n", task ));
-			break;
-
-		}  // end default
-
-	}  // end switch( task )
-
-}  // end internalTaskCompleteOrCancelled
+// DozerAIUpdate::internalTaskCompleteOrCancelled is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateCtor.cpp (0x00489647).
 
 //-------------------------------------------------------------------------------------------------
 /** If we were building something, kill the active-construction flag on it */
 //-------------------------------------------------------------------------------------------------
-// ?onDelete@DozerAIUpdate@@ present-unmatched
-void DozerAIUpdate::onDelete( void )
-{
-	Int i;
-
-	// cancel any of the tasks we had queued up
-	for( i = DOZER_TASK_FIRST; i < DOZER_NUM_TASKS; ++i )
-	{
-		
-		if( isTaskPending( (DozerTask)i ) )
-			cancelTask( (DozerTask)i );
-			
-	}  // end for i
-
-	for( i = 0; i < DOZER_NUM_TASKS; i++ )
-	{
-		Object* goalObject = TheGameLogic->findObjectByID(m_task[i].m_targetObjectID);
-		if (goalObject != NULL)
-		{
-			goalObject->clearModelConditionState(MODELCONDITION_ACTIVELY_BEING_CONSTRUCTED);
-		}
-	}
-}
+// DozerAIUpdate::onDelete is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateCtor.cpp (0x00489CA1).
 
 //-------------------------------------------------------------------------------------------------
 /** Get the most recently issued task */
@@ -4424,26 +1558,7 @@ DozerTask DozerAIUpdate::getMostRecentCommand( void )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?getDockPoint@DozerAIUpdate@@UAEPBUCoord3D@@W4DozerTask@@W4DozerDockPoint@@@Z present-unmatched
-const Coord3D* DozerAIUpdate::getDockPoint( DozerTask task, DozerDockPoint point )
-{
-
-	// sanity
-	if( task < 0 || task >= DOZER_NUM_TASKS )
-		return NULL;
-
-	// sanity
-	if( point < 0 || point >= DOZER_NUM_DOCK_POINTS )
-		return NULL;
-
-	// if the point has been set (is valid) then return it
-	if( m_dockPoint[ task ][ point ].valid )
-		return &m_dockPoint[ task ][ point ].location;
-
-	// no valid point has been set for this dock point on this task
-	return NULL;
-
-}  // end getDockPoint
+// DozerAIUpdate::getDockPoint is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateCtor.cpp (0x00488BFA).
 
 // ------------------------------------------------------------------------------------------------
 // ?getRepairHealthPerSecond@DozerAIUpdate@@UBEMXZ present-unmatched
@@ -4473,92 +1588,10 @@ Real DozerAIUpdate::getBoredRange( void ) const
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 //-------------------------------------------------------------------------------------------------
-// ?aiDoCommand@DozerAIUpdate@@UAEXPBUAICommandParms@@@Z present-unmatched
-void DozerAIUpdate::aiDoCommand(const AICommandParms* parms)
-{
-
-	//
-	// anytime we get a command, just remove any model condition that has us actively building
-	// if we need to show that, that bit will be set anyway again during the build process
-	//
-	getObject()->clearModelConditionState( MODELCONDITION_ACTIVELY_CONSTRUCTING );
-
-	if (!isAllowedToRespondToAiCommands(parms))
-		return;
-
-	// if we haven't made the dozer machine yet, do so now
-	createMachines();
-
-	switch( parms->m_cmd )
-	{
-		case AICMD_MOVE_AWAY_FROM_UNIT:
-			{
-				Object *otherObj = parms->m_obj;
-				Bool otherIsDozer = false;
-				if (otherObj) {
-					otherIsDozer = otherObj->isKindOf(KINDOF_DOZER);
-				}
-				// We only want to do this if we aren't busy doing dozer things. jba.
-				// Or if the other guy is a dozer too.
-				if( !otherIsDozer && getCurrentTask() != DOZER_TASK_INVALID ) {
-					return; // just ignore it.  jba.
-				}
-				// issue the command
-				AIUpdateInterface::aiDoCommand(parms);
-				break;
-			}
-
-		// --------------------------------------------------------------------------------------------
-		case AICMD_REPAIR:
-		{
-
-			// if we have no task right now, go idle so we can immediately respond to this
-			if( getCurrentTask() == DOZER_TASK_INVALID )
-				aiIdle( CMD_FROM_AI );
-
-			// do the repair
-			privateRepair(parms->m_obj, parms->m_cmdSource);
-			break;
-
-		}  // end repair
-
-		// --------------------------------------------------------------------------------------------
-		case AICMD_RESUME_CONSTRUCTION:
-		{
-
-			// if we have no task right now, go idle so we can immediately respond to this
-			if( getCurrentTask() == DOZER_TASK_INVALID )
-				aiIdle( CMD_FROM_AI );
-
-			// do the command
-			privateResumeConstruction( parms->m_obj, parms->m_cmdSource );
-			break;
-
-		}  // end resume construction
-
-		// --------------------------------------------------------------------------------------------
-		default:
-		{
-
-			// if this is from the player, cancel our current task
-			if( parms->m_cmdSource == CMD_FROM_PLAYER && getCurrentTask() != DOZER_TASK_INVALID )
-				cancelTask( getCurrentTask() );
-
-			// issue the command
-			AIUpdateInterface::aiDoCommand(parms);
-
-			// when a player issues commands, this will cause the dozer to re-evaluate what it's doing
-			if( parms->m_cmdSource == CMD_FROM_PLAYER )
-				m_dozerMachine->resetToDefaultState();
-			break;
-
-		}  // end default
-
-	}  // end switch
-
-}  // end aiDoCommand
+// DozerAIUpdate::aiDoCommand is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateCtor.cpp (0x0048AF0B).
 
 //------------------------------------------------------------------------------------------------
+// ?startBuildingSound@DozerAIUpdate@@ present-unmatched
 void DozerAIUpdate::startBuildingSound( const AudioEventRTS *sound, ObjectID constructionSiteID )
 {
 	m_buildingSound = *sound;
@@ -4568,11 +1601,9 @@ void DozerAIUpdate::startBuildingSound( const AudioEventRTS *sound, ObjectID con
 }
 
 //------------------------------------------------------------------------------------------------
-// ?finishBuildingSound@DozerAIUpdate@@UAEXXZ present-unmatched
-void DozerAIUpdate::finishBuildingSound()
-{
-	TheAudio->removeAudioEvent( m_buildingSound.getPlayingHandle() );
-}
+// BFME 2's body is the 26-byte fold at 0x004550DE (rowed from DozerAIUpdateCtor.cpp:
+// the dtor 0x00489EB7 calls it directly); this +0x2E4 copy is WorkerAIUpdate's 0x004A99F6.
+// DozerAIUpdate::finishBuildingSound is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateCtor.cpp (0x004550DE).
 
 
 // ------------------------------------------------------------------------------------------------
@@ -4591,46 +1622,7 @@ void DozerAIUpdate::crc( Xfer *xfer )
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/Common/DozerAIUpdate_xferMethodThunk.cpp
-// ?xfer@DozerAIUpdate@@MAEXPAVXfer@@@Z present-unmatched
-void DozerAIUpdate::xfer( Xfer *xfer )
-{
-  // version
-  XferVersion currentVersion = 1;
-  XferVersion version = currentVersion;
-  xfer->xferVersion( &version, currentVersion );
- 
- // extend base class
-	AIUpdateInterface::xfer(xfer);
-
-	Int numTasks = DOZER_NUM_TASKS;
-	xfer->xferInt(&numTasks);
-	if (numTasks != DOZER_NUM_TASKS) {
-		DEBUG_CRASH(("DOZER_NUM_TASKS changed unexpectedly."));
-		throw SC_INVALID_DATA;
-	}
-	Int i, j;
-	for (i=0; i<DOZER_NUM_TASKS; i++) {
-		xfer->xferObjectID(&m_task[i].m_targetObjectID);
-		xfer->xferUnsignedInt(&m_task[i].m_taskOrderFrame);
-	}
-	xfer->xferSnapshot(m_dozerMachine);
-	xfer->xferUser(&m_currentTask, sizeof(m_currentTask));
-
-	Int dockPoints = DOZER_NUM_DOCK_POINTS;
-	xfer->xferInt(&dockPoints);
-	if (dockPoints!=DOZER_NUM_DOCK_POINTS) {
-		DEBUG_CRASH(("DOZER_NUM_DOCK_POINTS changed unexpectedly."));
-		throw SC_INVALID_DATA;
-	}
-	for (i=0; i<DOZER_NUM_TASKS; i++) {
-		for (j=0; j<DOZER_NUM_DOCK_POINTS; j++) {
-			xfer->xferBool(&m_dockPoint[i][j].valid);
-			xfer->xferCoord3D(&m_dockPoint[i][j].location);
-		}
-	}
-	xfer->xferUser(&m_buildSubTask, sizeof(m_buildSubTask));
-
-}  // end xfer
+// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateXfer.cpp
 
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
@@ -4641,3 +1633,77 @@ void DozerAIUpdate::loadPostProcess( void )
  // extend base class
 	AIUpdateInterface::loadPostProcess();
 }  // end loadPostProcess
+
+//-------------------------------------------------------------------------------------------------
+// BFME 2 phantom-structure members (no Zero Hour counterpart). Identities from
+// WorldBuilder leads (reverse/wb_name_leads.csv), whose debug build asserts at
+// DozerAIUpdate.cpp:2862/2869; retail supplies the bytes. The fields are read
+// through retail-offset views, as the vendored layout differs.
+//-------------------------------------------------------------------------------------------------
+struct BfmeDozerPhantomFields
+{
+	unsigned char m_unreconstructed_000[ 0x8 ];
+	Object *m_object;					///< retail this+0x08, the module's object
+	unsigned char m_unreconstructed_00C[ 0x4a4 - 0xc ];
+	ObjectID m_phantomStructureID;				///< retail this+0x4A4 (WB +0x4A8)
+};
+
+struct BfmePhantomObjectFields
+{
+	unsigned char m_unreconstructed_000[ 0x454 ];
+	Bool m_flag454;						///< retail +0x454 (WB +0x468)
+	unsigned char m_unreconstructed_455[ 0x4b0 - 0x455 ];
+	Bool m_isInert;						///< retail +0x4B0 (WB +0x4C4)
+};
+
+// The player's rowed per-object unlock removal (0x002ACECC, placeholder name).
+class Rva002ACECC
+{
+public:
+	void rva002ACECC(Int id);				// 0x002ACECC
+};
+
+// DozerAIUpdate::makePhantomStructureInert, retail 0x00489DE3 (75 bytes):
+// a phantom structure that still exists is marked effectively dead and
+// inert; a stale id is dropped.
+void DozerAIUpdate::makePhantomStructureInert()
+{
+	BfmeDozerPhantomFields *fields = (BfmeDozerPhantomFields *)this;
+	if (fields->m_phantomStructureID == INVALID_ID)
+		return;
+	Object *phantomStructure = TheGameLogic->findObjectByID(fields->m_phantomStructureID);
+	if (phantomStructure == NULL)
+	{
+		fields->m_phantomStructureID = INVALID_ID;
+		return;
+	}
+	phantomStructure->setEffectivelyDead(true);
+	if (((BfmePhantomObjectFields *)phantomStructure)->m_flag454)
+		phantomStructure->rva0028BAC0();
+	((BfmePhantomObjectFields *)phantomStructure)->m_isInert = true;
+}
+
+// DozerAIUpdate::makePhantomStructureNotInert, retail 0x00489E2E (99 bytes):
+// the controlling player first drops the phantom's id through 0x002ACECC,
+// then a phantom that still exists is revived; a stale id is dropped.
+void DozerAIUpdate::makePhantomStructureNotInert()
+{
+	BfmeDozerPhantomFields *fields = (BfmeDozerPhantomFields *)this;
+	if (fields->m_phantomStructureID == INVALID_ID)
+		return;
+	if (fields->m_object != NULL)
+	{
+		Player *player = fields->m_object->getControllingPlayer();
+		if (player != NULL)
+			((Rva002ACECC *)player)->rva002ACECC(fields->m_phantomStructureID);
+	}
+	Object *phantomStructure = TheGameLogic->findObjectByID(fields->m_phantomStructureID);
+	if (phantomStructure == NULL)
+	{
+		fields->m_phantomStructureID = INVALID_ID;
+		return;
+	}
+	((BfmePhantomObjectFields *)phantomStructure)->m_isInert = false;
+	phantomStructure->rva0028DCC4();
+	phantomStructure->setEffectivelyDead(false);
+}

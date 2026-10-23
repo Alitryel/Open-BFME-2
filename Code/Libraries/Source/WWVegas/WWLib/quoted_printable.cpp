@@ -1,4 +1,15 @@
 // cl: /Ireference/shims/bfmerendobj /DNDEBUG /MD /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -55,20 +66,7 @@ public:
 // payload at +0x08.  This TU only needs that proven view for the encoder; the
 // destructor remains the existing WWLib ABI call emitted by the compiler.
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/UnicodeString.h
-class UnicodeString
-{
-	void *m_data;
-public:
-	UnicodeString();
-	UnicodeString(const unsigned short *);
-	UnicodeString(const UnicodeString &);
-	const unsigned short *str() const
-	{
-		return m_data ? (const unsigned short *)((const char *)m_data + 8)
-		              : (const unsigned short *)0x0107388C;
-	}
-	~UnicodeString();
-};
+#include "../../../../../reference/shims/bfme2_ascii/unicode_string.h"
 
 #include "quoted_printable.h"
 
@@ -95,156 +93,27 @@ static int hexDigitToInt(char c)
 }
 
 // Convert unicode strings into ascii quoted-printable strings
-AsciiString UnicodeStringToQuotedPrintable(UnicodeString original)
-{
-	static char *const dest = (char *)0x012ED8D8;
-	const char *src = (const char *)original.str();
-	int i=0;
-	while ( !(src[0]=='\0' && src[1]=='\0') && i<1021 )
-	{
-		if (!isalnum(*src))
-		{
-			dest[i++] = MAGIC_CHAR;
-			dest[i++] = intToHexDigit(((unsigned char)*src)>>4);
-			dest[i++] = intToHexDigit(((unsigned char)*src)&0xf);
-		} else
-		{
-			dest[i++] = *src;
-		}
-		src ++;
-		if (!isalnum(*src))
-		{
-			dest[i++] = MAGIC_CHAR;
-			dest[i++] = intToHexDigit(((unsigned char)*src)>>4);
-			dest[i++] = intToHexDigit(((unsigned char)*src)&0xf);
-		}
-		else
-		{
-			dest[i++] = *src;
-		}
-		src ++;
-	}
-	dest[i] = '\0';
-
-	return dest;
-}
+// Defined in quoted_printable_encoders.cpp.
+AsciiString UnicodeStringToQuotedPrintable(UnicodeString original);
 
 // Convert ascii strings into ascii quoted-printable strings
-AsciiString AsciiStringToQuotedPrintable(AsciiString original)
-{
-	static char *const dest = (char *)0x012EDDA8;
-	const char *src = (const char *)original.str();
-	int i=0;
-	while ( src[0]!='\0' && i<1021 )
-	{
-		if (!isalnum(*src))
-		{
-			dest[i++] = MAGIC_CHAR;
-			dest[i++] = intToHexDigit(((unsigned char)*src)>>4);
-			dest[i++] = intToHexDigit(((unsigned char)*src)&0xf);
-		} else
-		{
-			dest[i++] = *src;
-		}
-		src ++;
-	}
-	dest[i] = '\0';
-
-	return dest;
-}
+// Defined in quoted_printable_encoders.cpp.
+AsciiString AsciiStringToQuotedPrintable(AsciiString original);
 
 // Convert ascii quoted-printable strings into unicode strings
-// ?QuotedPrintableToUnicodeString present-unmatched
-UnicodeString QuotedPrintableToUnicodeString(AsciiString original)
-{
-	static unsigned short dest[1024];
-	int i=0;
-
-	unsigned char *c = (unsigned char *)dest;
-	const unsigned char *src = (const unsigned char *)original.str();
-
-	while (*src && i<1023)
-	{
-		if (*src == MAGIC_CHAR)
-		{
-			if (src[1] == '\0')
-			{
-				// string ends with MAGIC_CHAR
-				break;
-			}
-			*c = hexDigitToInt(src[1]);
-			src++;
-			if (src[1] != '\0')
-			{
-				*c = *c<<4;
-				*c = *c | hexDigitToInt(src[1]);
-				src++;
-			}
-		}
-		else
-		{
-			*c = *src;
-		}
-		src++;
-		c++;
-	}
-
-	// Fixup odd-length strings
-	if ((c-(unsigned char *)dest)%2)
-	{
-		// OK
-	}
-	else
-	{
-		*c = '\0';
-		c++;
-	}
-
-	*c = 0;
-
-	UnicodeString out(dest);
-	return out;
-}
+// Owned by quoted_printable_unicode.cpp.
 
 // Convert ascii quoted-printable strings into ascii strings
-AsciiString QuotedPrintableToAsciiString(AsciiString original)
+// Defined in quoted_printable_ascii.cpp.
+AsciiString QuotedPrintableToAsciiString(AsciiString original);
+
+#pragma inline_depth(0)
+// ?bfmeEmitQuotedPrintableHelpers@@YAXXZ present-unmatched
+void bfmeEmitQuotedPrintableHelpers()
 {
-	static unsigned char *const dest = (unsigned char *)0x012EEC18;
-	int i=0;
-
-	unsigned char *c = (unsigned char *)dest;
-	if (original.hasData())
-	{
-		const unsigned char *src = (const unsigned char *)original.data();
-
-		while (*src && i<1023)
-		{
-			if (*src == MAGIC_CHAR)
-			{
-				if (src[1] == '\0')
-				{
-					// string ends with MAGIC_CHAR
-					break;
-				}
-				*c = hexDigitToInt(src[1]);
-				src++;
-				if (src[1] != '\0')
-				{
-					*c = *c<<4;
-					*c = *c | hexDigitToInt(src[1]);
-					src++;
-				}
-			}
-			else
-			{
-				*c = *src;
-			}
-			src++;
-			c++;
-		}
-	}
-
-	*c = 0;
-
-	return AsciiString((const char *)dest);
+	(void)intToHexDigit(0);
+	(void)hexDigitToInt(0);
+	AsciiString *asciiString = (AsciiString *)0;
+	(void)asciiString->hasData();
 }
+#pragma inline_depth()

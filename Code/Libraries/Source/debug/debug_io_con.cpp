@@ -33,48 +33,9 @@
 //////////////////////////////////////////////////////////////////////////////
 #include "_pch.h"
 #include <stdlib.h>
+#pragma optimize("y",on)
 #include <new>      // needed for placement new prototype
-
-// ??0DebugIOCon@@QAE@XZ present-unmatched
-DebugIOCon::DebugIOCon(void):
-  m_inputUsed(0), m_inputRead(0)
-{
-  // check: is there already a console window open?
-  m_allocatedConsole=AllocConsole()!=0;
-  if (m_allocatedConsole)
-  {
-    HANDLE h=GetStdHandle(STD_INPUT_HANDLE);
-    SetConsoleMode(h,0);
-
-    // make screen buffer same size as currently displayed area
-    // (prevents that our input line gets scrolled out of view)
-    h=GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_SCREEN_BUFFER_INFO info;
-    GetConsoleScreenBufferInfo(h,&info);
-
-    COORD newSize;
-    newSize.X=info.srWindow.Right+1;
-    newSize.Y=info.srWindow.Bottom+1;
-    SetConsoleScreenBufferSize(h,newSize);
-
-    // hide cursor
-    CONSOLE_CURSOR_INFO ci;
-    ci.dwSize=1;
-    ci.bVisible=FALSE;
-    SetConsoleCursorInfo(h,&ci);
-
-    Write(StringType::Other,NULL,"\n\nEA/Debug console open\n\n");
-  }
-}
-
-// byte-exact reconstruction: Code/GameEngine/Source/Common/DebugIOConDestructorThunk.cpp
-// ??1DebugIOCon@@UAE@XZ present-unmatched
-DebugIOCon::~DebugIOCon()
-{
-  // close console if we allocated it
-  if (m_allocatedConsole)
-    FreeConsole();
-}
+#pragma optimize("y",off)
 
 int DebugIOCon::Read(char *buf, int maxchar)
 {
@@ -235,12 +196,9 @@ void DebugIOCon::Execute(class Debug& dbg, const char *cmd, bool structuredCmd,
   }
 }
 
-// ?Create@DebugIOCon@@SAPAVDebugIOInterface@@XZ present-unmatched
-DebugIOInterface *DebugIOCon::Create(void)
-{
-  return new (DebugAllocMemory(sizeof(DebugIOCon))) DebugIOCon();
-}
+// ?Create@DebugIOCon@@SAPAVDebugIOInterface@@XZ: defined in WWDebug/Rva00891540DebugIOConCreate.cpp (its row's unit).
 
+// ?DebugIOCon::Delete present-unmatched
 void DebugIOCon::Delete(void)
 {
   this->~DebugIOCon();

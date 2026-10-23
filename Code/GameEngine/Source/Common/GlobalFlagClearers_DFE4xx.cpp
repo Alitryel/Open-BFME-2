@@ -10,10 +10,20 @@
 // cl: /G7 /MD /EHsc /DNDEBUG
 
 extern unsigned int g_Va00DFE44C;
+// g_Va00DFE44C: matched references place it at VA 0xdfe44c (zero-filled .bss).
+unsigned int g_Va00DFE44C;
 extern unsigned int g_Va00DFE458;
+// g_Va00DFE458: matched references place it at VA 0xdfe458 (zero-filled .bss).
+unsigned int g_Va00DFE458;
 extern unsigned int g_Va00DFE464;
+// g_Va00DFE464: matched references place it at VA 0xdfe464 (zero-filled .bss).
+unsigned int g_Va00DFE464;
 extern unsigned int g_Va00DFE470;
+// g_Va00DFE470: matched references place it at VA 0xdfe470 (zero-filled .bss).
+unsigned int g_Va00DFE470;
 extern unsigned int g_Va00DFE478;
+// g_Va00DFE478: matched references place it at VA 0xdfe478 (zero-filled .bss).
+unsigned int g_Va00DFE478;
 
 unsigned int Rva0076E867ClearFlag(void)
 {

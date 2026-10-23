@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??0ReplenishUnitsBehavior@@QAE@PAVThing@@PBVModuleData@@@Z, retail
 // 0x00484227, 154 bytes. Behavior-side ctor (rowed instance factory
@@ -16,6 +16,16 @@
 // 0x74) versus the never-wake literal, tail-merged into one setWakeFrame
 // tail (protected IAEX Object-uint spelling resolves via the existing pin
 // at 0x44DF71). Row supersedes the ctor pin.
+
+extern "C" const void *const vtbl_00C49F20[];  // folded, 2 classes; via ??_7FireWeaponWhenDamagedBehavior@@6BUpgradeMux@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C49F20=??_7FireWeaponWhenDamagedBehavior@@6BUpgradeMux@@@")
+extern "C" const void *const vtbl_00C49F78[];  // folded, 3 classes; via ??_7Rva0049BFB7@@6BRva0024A797_Mid@@@ (a provider the tree emits)
+#pragma comment(linker, "/alternatename:_vtbl_00C49F78=??_7Rva0049BFB7@@6BRva0024A797_Mid@@@")
+
+extern "C" const void *const vtbl_00C49F68[];  // ??_7ReplenishUnitsBehavior@@6BUpdateModule@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C49F68=??_7ReplenishUnitsBehavior@@6BUpdateModule@@@")
+extern "C" const void *const vtbl_00C4A034[];  // ??_7ReplenishUnitsBehavior@@6BBehaviorModuleBase@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4A034=??_7ReplenishUnitsBehavior@@6BBehaviorModuleBase@@@")
 
 class Thing;
 class ModuleData;
@@ -42,6 +52,12 @@ private:
 	unsigned int m_executed;
 };
 
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1,
+	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
+};
+
 class UpdateModule
 {
 public:
@@ -49,7 +65,7 @@ public:
 	~UpdateModule();
 
 protected:
-	void setWakeFrame(Object *object, unsigned int frame);
+	void setWakeFrame(Object *object, UpdateSleepTime frame);
 
 	const void *m_vtable;
 	const ModuleData *m_moduleData;
@@ -75,18 +91,18 @@ ReplenishUnitsBehavior::ReplenishUnitsBehavior(Thing *thing, const ModuleData *m
 	: UpdateModule(thing, moduleData), m_20()
 {
 	Object *obj = m_object;
-	m_vtable = (const void *)0x00C4A034;
-	m_secondary0C = (const void *)0x00C49F78;
-	m_secondary10 = (const void *)0x00C49F68;
-	*(void **)&m_20 = (void *)0x00C49F20;
+	m_vtable = (const void *)((unsigned int)vtbl_00C4A034);
+	m_secondary0C = (const void *)((unsigned int)vtbl_00C49F78);
+	m_secondary10 = (const void *)((unsigned int)vtbl_00C49F68);
+	*(void **)&m_20 = (void *)((unsigned int)vtbl_00C49F20);
 	if (((const ReplenishUnitsModuleData *)m_moduleData)->m_138)
 	{
 		m_20.giveSelfUpgrade();
 		int hi = ((const ReplenishUnitsModuleData *)m_moduleData)->m_134;
-		setWakeFrame(obj, GetGameLogicRandomValue(1, hi, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Behavior\\ReplenishUnitsBehavior.cpp", 0x74));
+		setWakeFrame(obj, (UpdateSleepTime)(GetGameLogicRandomValue(1, hi, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Behavior\\ReplenishUnitsBehavior.cpp", 0x74)));
 	}
 	else
 	{
-		setWakeFrame(obj, 0x3FFFFFFF);
+		setWakeFrame(obj, UPDATE_SLEEP_FOREVER);
 	}
 }

@@ -1,4 +1,4 @@
-// cl: /O1 /GX /arch:SSE /DNDEBUG /MD
+// cl: /GX /DNDEBUG /MD
 //
 // ??0OathbreakersFadeAwayBehavior@@QAE@PAVThing@@PBVModuleData@@@Z,
 // retail 0x004B8A8A, 59 bytes. Dedicated TU: the behavior ctor runs the
@@ -14,6 +14,12 @@
 // FadeOutTime proc 0x4B8A79 ending exactly where this ctor begins, the 56B
 // instance factory 0x25095E sole-calling it, and the BFME1
 // OathbreakersFadeAwayBehavior class.
+
+extern "C" const void *const vtbl_00BEFF90[];  // folded, 80 classes; via ??_7AIGateUpdate@@6BBehaviorModuleOther@@@
+#pragma comment(linker, "/alternatename:_vtbl_00BEFF90=??_7AIGateUpdate@@6BBehaviorModuleOther@@@")
+
+extern "C" const void *const vtbl_00C59280[];  // ??_7OathbreakersFadeAwayBehavior@@6BRva004B89C4_B2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C59280=??_7OathbreakersFadeAwayBehavior@@6BRva004B89C4_B2@@@")
 
 class Thing;
 class ModuleData;
@@ -50,8 +56,8 @@ private:
 OathbreakersFadeAwayBehavior::OathbreakersFadeAwayBehavior(Thing *thing, const ModuleData *moduleData)
 	: UpdateModule(thing, moduleData)
 {
-	m_secondary0C = reinterpret_cast<const void *>(0x00BEFF90);
-	m_secondary10 = reinterpret_cast<const void *>(0x00C59280);
+	m_secondary0C = reinterpret_cast<const void *>(((unsigned int)vtbl_00BEFF90));
+	m_secondary10 = reinterpret_cast<const void *>(((unsigned int)vtbl_00C59280));
 	m_fading = false;
 	m_fadeTimer = 1.0f;
 }

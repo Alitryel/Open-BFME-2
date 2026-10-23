@@ -1,4 +1,4 @@
-// cl: /O2 /Ob2 /G6
+// cl: /Ob2
 // Open-BFME5: clean C++ conversion of the geometry-record pointer update.
 
 struct Rva0087F270Record
@@ -11,11 +11,22 @@ struct Rva0087F270Record
 	unsigned char m_unused021[3];
 };
 
+// The matched GeometryInfo::calcBoundingStuff row at 0x006BE700 walks active
+// 0x24-byte shapes from +0x2C; this view has the same vector begin/end offsets,
+// record stride, and active byte. Friend access preserves its private `AAE`
+// spelling while the call keeps the same thiscall ABI.
+class BfmeSubCNG;
+class GeometryInfo
+{
+private:
+	void calcBoundingStuff();
+	friend class BfmeSubCNG;
+};
+
 class BfmeSubCNG
 {
 public:
 	void bfmeOneCNG(void *value);
-	void calcBoundingStuff();
 
 private:
 	unsigned char m_unused000[0x2c];
@@ -43,5 +54,5 @@ void BfmeSubCNG::bfmeOneCNG(void *value)
 		}
 	}
 
-	calcBoundingStuff();
+	((GeometryInfo *)this)->calcBoundingStuff();
 }

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /G7 /arch:SSE
+// cl: /DNDEBUG /MD /EHsc
 // ?read@RAMFile@@UAEHPAXH@Z @ 0x00605564 (70B): slot 3 (offset 0xC) of vtable
 // 0x0087AA00. ZH GameEngine RAMFile::read verbatim: null m_data returns -1,
 // clamp to m_size-m_pos via cmovg, memcpy when bytes>0 and buffer set,
@@ -33,6 +33,7 @@ private:
 
 public:
 	void concat(const T *text, int length);
+	void set(const StringBase<T> &other);	// rowed 0x000366F0
 };
 
 class AsciiString : private StringBase<char>
@@ -42,7 +43,9 @@ public:
 	~AsciiString() { releaseBuffer(); }
 
 	void clear();
-	AsciiString &operator=(const AsciiString &other);
+	// Inline, as retail expands it: openFromArchive calls StringBase<char>::set (0x000366F0)
+	// directly, not the out-of-line copy at 0x00001733 (link census, 2026-10-06).
+	AsciiString &operator=(const AsciiString &other) { set(other); return *this; }
 
 	void concat(const char *text, int length)
 	{
@@ -61,6 +64,7 @@ void __cdecl operator delete[](void *block);
 class File
 {
 public:
+	File();
 	enum seekMode { START, CURRENT, END };
 
 	virtual ~File();								// slot 0
@@ -81,6 +85,17 @@ public:
 	virtual void lock(void);						// slot 15
 	virtual void unlock(void);					// slot 16
 
+	__forceinline const char *getName(void) const
+	{
+		const char *data = (const char *)m_nameStr;
+		return data ? data + 8 : "";
+	}
+
+	__forceinline int getAccess(void) const
+	{
+		return m_access;
+	}
+
 protected:
 	void *m_nameStr;	// +0x04 AsciiString untouched here
 	int m_access;		// +0x08
@@ -92,12 +107,23 @@ protected:
 class RAMFile : public File
 {
 public:
+	RAMFile();
+	virtual ~RAMFile();
+	virtual void close(void);
+	virtual int write(const void *buffer, int bytes);
+	virtual bool open(const char *filename, int access);	// slot 1
+	virtual bool open(File *file);				// slot 17
 	virtual int read(void *buffer, int bytes);
+	virtual int seek(int pos, seekMode mode);
 	virtual void nextLine(char *buf, int bufSize);
 	virtual bool scanInt(int &newInt);
 	virtual bool scanReal(float &newReal);
 	virtual bool scanString(AsciiString &newString);
+	virtual char *readEntireAndClose(void);
+	// ?RAMFile::convertToRAMFile present-unmatched
+	virtual File *convertToRAMFile(void) { return this; }
 	virtual bool openFromArchive(File *archiveFile, const AsciiString &filename, int offset, int size);
+	virtual bool copyDataToFile(File *file);
 
 protected:
 	char *m_data;	// +0x14
@@ -288,4 +314,120 @@ bool RAMFile::scanReal(float &newReal)
 
 	newReal = (float)atof(tempstr.str());
 	return true;
+}
+
+// ?seek@RAMFile@@UAEHHW4seekMode@File@@@Z @ 0x006055AA (61B): slot 5 (offset
+// 0x14) of vtable 0x0087AA00, between the rowed read (3) and nextLine (6).
+// ZH GameEngine RAMFile::seek verbatim: START/CURRENT/END switch, clamp to
+// [0, m_size], store m_pos.
+int RAMFile::seek(int pos, seekMode mode)
+{
+	int newPos;
+
+	switch (mode)
+	{
+		case START:
+			newPos = pos;
+			break;
+		case CURRENT:
+			newPos = m_pos + pos;
+			break;
+		case END:
+			newPos = m_size + pos;
+			break;
+		default:
+			// bad seek mode
+			return -1;
+	}
+
+	if (newPos < 0)
+	{
+		newPos = 0;
+	}
+	else if (newPos > m_size)
+	{
+		newPos = m_size;
+	}
+
+	m_pos = newPos;
+
+	return m_pos;
+}
+
+// ?readEntireAndClose@RAMFile@@UAEPADXZ @ 0x00605682 (31B): slot 13 (offset
+// 0x34) of vtable 0x0087AA00. ZH GameEngine RAMFile::readEntireAndClose
+// verbatim (its DEBUG_CRASH compiles out): hand m_data to the caller, then
+// close through slot 2.
+char *RAMFile::readEntireAndClose(void)
+{
+	if (m_data == 0)
+	{
+		return new char[1];	// just to avoid crashing...
+	}
+
+	char *tmp = m_data;
+	m_data = 0;	// will belong to our caller!
+
+	close();
+
+	return tmp;
+}
+
+class FileSystem
+{
+public:
+	File *openFile(const char *filename, int access, int flags);
+};
+
+extern FileSystem *TheFileSystem;
+
+// ?open@RAMFile@@UAE_NPAVFile@@@Z @ 0x006059B5 (115B): slot 17 (offset 0x44)
+// of vtable 0x0087AA00, the File* overload LocalFile::convertToRAMFile calls.
+// ZH RAMFile::open(File*) verbatim, as BFME1's RAMFileOpen.cpp donor has it.
+bool RAMFile::open(File *file)
+{
+	if (file == 0)
+		return false;
+
+	int access = file->getAccess();
+
+	if (!File::open(file->getName(), access))
+		return false;
+
+	m_size = file->size();
+	m_data = new char[m_size];
+
+	if (m_data == 0)
+		return false;
+
+	m_size = file->read(m_data, m_size);
+
+	if (m_size < 0)
+	{
+		delete [] m_data;
+		m_data = 0;
+		return false;
+	}
+
+	m_pos = 0;
+	return true;
+}
+
+// ?open@RAMFile@@UAE_NPBDH@Z @ 0x006056BD (61B): slot 1 of vtable 0x0087AA00.
+// ZH RAMFile::open(name, access) through BFME's three-argument
+// FileSystem::openFile (rowed at 0x00600C34), then the slot-17 overload.
+bool RAMFile::open(const char *filename, int access)
+{
+	File *file = TheFileSystem->openFile(filename, access, 0);
+
+	if (file == 0)
+	{
+		return false;
+	}
+
+	bool result = open(file);
+
+	file->close();
+
+	return result;
 }

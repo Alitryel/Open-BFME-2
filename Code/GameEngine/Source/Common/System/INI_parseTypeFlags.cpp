@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /GX- /Oi-
+// cl: /Oy- /DNDEBUG /MD /GX- /Oi-
 // Reference-first: BFME1 Common/INI/ini.cpp parseDamageTypeFlags, itself from
 // GeneralsMD Common/INI/INI.cpp. PC deltas: member scanIndexList and the
 // established INIException filler/throw ABI. PC FieldParse DamageTypes and
@@ -11,17 +11,102 @@ public:
     const char *getNextToken(const char *seps);
     const char *getNextTokenOrNull(const char *seps);
     int scanIndexList(const char *token, const char * const *names);
+    static void parseVeterancyLevelFlags(INI *, void *, void *, const void *);
     static void parseDamageTypeFlags(INI *, void *, void *, const void *);
     static void parseDeathTypeFlags(INI *, void *, void *, const void *);
 };
-extern const char * const BFME2DamageTypeNames[];
-extern const char * const BFME2DeathTypeNames[];
+extern const char *TheVeterancyNames[];
+// Owned here: parseDamageTypeFlags (0x338CD0) is the only reader of the .data table at VA 0x00DBE858
+// (retail's entries and NULL terminator, transcribed from the image).
+const char *BFME2DamageTypeNames[] = {
+    "FORCE",
+    "CRUSH",
+    "SLASH",
+    "PIERCE",
+    "SIEGE",
+    "STRUCTURAL",
+    "FLAME",
+    "HEALING",
+    "UNRESISTABLE",
+    "WATER",
+    "PENALTY",
+    "FALLING",
+    "TOPPLING",
+    "REFLECTED",
+    "PASSENGER",
+    "MAGIC",
+    "CHOP",
+    "HERO",
+    "SPECIALIST",
+    "URUK",
+    "HERO_RANGED",
+    "FLY_INTO",
+    "UNDEFINED",
+    "LOGICAL_FIRE",
+    "CAVALRY",
+    "CAVALRY_RANGED",
+    "POISON",
+    0
+};
+// Owned here: parseDeathTypeFlags (0x338D91) is the only reader of the .data table at VA 0x00DBE8D8
+// (retail's entries and NULL terminator, transcribed from the image).
+const char *BFME2DeathTypeNames[] = {
+    "NORMAL",
+    "NONE",
+    "CRUSHED",
+    "BURNED",
+    "EXPLODED",
+    "POISONED",
+    "TOPPLED",
+    "FLOODED",
+    "SUICIDED",
+    "LASERED",
+    "DETONATED",
+    "SPLATTED",
+    "POISONED_BETA",
+    "EXTRA_2",
+    "EXTRA_3",
+    "EXTRA_4",
+    "EXTRA_5",
+    "EXTRA_6",
+    "EXTRA_7",
+    "EXTRA_8",
+    "KNOCKBACK",
+    "SUPERNATURAL",
+    "FADED",
+    "SLAUGHTERED",
+    0
+};
 extern "C" __declspec(dllimport) int __cdecl _strcmpi(const char *, const char *);
-struct INIException { char *message; int code; };
-extern "C" void rva002f681_fill(void *, int, const char *, ...);
-__declspec(noreturn) void __stdcall _CxxThrowException(void *, void *);
+struct INIException { char *message; int code; INIException(int argCount, const char *format, ...); };
+extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
 struct FlagsThrowInfoAnchor { int a,b,c,d; };
 static const FlagsThrowInfoAnchor flagsThrowInfoAnchor = {0,0,0,0};
+
+// PC RVA 0x338C0F, directly before parseDamageTypeFlags as in GeneralsMD INI.cpp:
+// the same 192 bytes over TheVeterancyNames (VA 0xDBA4C0, the table Upgrade.cpp
+// reads) with the same exception text.
+void INI::parseVeterancyLevelFlags(INI *ini, void *, void *store, const void *)
+{
+    unsigned int flags = 0xFFFFFFFF;
+    for (const char *token=ini->getNextToken(0); token; token=ini->getNextTokenOrNull(0)) {
+        if (_strcmpi(token,"ALL")==0) { flags=0xFFFFFFFF; continue; }
+        if (_strcmpi(token,"NONE")==0) { flags=0; continue; }
+        if (token[0]=='+') {
+            int bit=ini->scanIndexList(token+1,TheVeterancyNames);
+            flags |= 1 << (bit-1);
+            continue;
+        }
+        if (token[0]=='-') {
+            int bit=ini->scanIndexList(token+1,TheVeterancyNames);
+            flags &= ~(1 << (bit-1));
+            continue;
+        }
+        INIException e(5,"ALL, NONE, + or - expected");
+        _CxxThrowException(&e, (const _s__ThrowInfo *)&flagsThrowInfoAnchor); __assume(0);
+    }
+    *(unsigned int *)store=flags;
+}
 
 void INI::parseDamageTypeFlags(INI *ini, void *, void *store, const void *)
 {
@@ -39,9 +124,8 @@ void INI::parseDamageTypeFlags(INI *ini, void *, void *store, const void *)
             flags &= ~(1 << (bit-1));
             continue;
         }
-        INIException e;
-        rva002f681_fill(&e,5,"ALL, NONE, + or - expected");
-        _CxxThrowException(&e,(void *)&flagsThrowInfoAnchor);
+        INIException e(5,"ALL, NONE, + or - expected");
+        _CxxThrowException(&e, (const _s__ThrowInfo *)&flagsThrowInfoAnchor); __assume(0);
     }
     *(unsigned int *)store=flags;
 }
@@ -63,9 +147,8 @@ void INI::parseDeathTypeFlags(INI *ini, void *, void *store, const void *)
             flags &= ~(1 << (bit-1));
             continue;
         }
-        INIException e;
-        rva002f681_fill(&e,5,"ALL, NONE, +, or - expected");
-        _CxxThrowException(&e,(void *)&flagsThrowInfoAnchor);
+        INIException e(5,"ALL, NONE, +, or - expected");
+        _CxxThrowException(&e, (const _s__ThrowInfo *)&flagsThrowInfoAnchor); __assume(0);
     }
     *(unsigned int *)store=flags;
 }

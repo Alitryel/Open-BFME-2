@@ -1,36 +1,9 @@
-// cl: /O1 /EHsc
+// cl: /Ireference/shims/bfme2_ascii /EHsc
 // Open-BFME5: FXParticleSystem::ParticleSystemInfo destructor.  The three
 // StringBase<char> members are at +0x10, +0x68, and +0x78 in BFME2.
 
-template <typename T>
-class StringBase
-{
-	friend class AsciiString;
+#include "ascii_string.h"
 
-private:
-	struct Header
-	{
-		int ref_count;
-		unsigned short length;
-		unsigned short capacity;
-		T data[1];
-	};
-
-	void releaseBuffer();
-	Header *m_data;
-};
-
-class AsciiString
-{
-public:
-	~AsciiString()
-	{
-		m_data.releaseBuffer();
-	}
-
-private:
-	StringBase<char> m_data;
-};
 
 class Xfer;
 
@@ -38,14 +11,7 @@ class Xfer;
 // ParticleSystemInfo has twelve bytes of scalar state before its first
 // StringBase member, so the prefix keeps that member at the constructor-proven
 // +0x10 while retaining Snapshot's real identity.
-class Snapshot
-{
-public:
-	virtual ~Snapshot() {}
-	virtual void crc(Xfer *xfer) = 0;
-	virtual void loadPostProcess() = 0;
-	virtual void xfer(Xfer *xfer) = 0;
-};
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 namespace FXParticleSystem
 {

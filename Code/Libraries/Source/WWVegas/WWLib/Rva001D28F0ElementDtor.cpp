@@ -1,11 +1,13 @@
-// cl: /DNDEBUG /MD /EHsc /O2 /Ob2
+// cl: /DNDEBUG /MD /EHsc /Ob2 /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// stlport
+#include <vector>
 // ??1Rva001D28F0Element@@QAE@XZ, retail 0x00689500, 119 bytes.
 // Dedicated TU (Rva001D25F0VectorInsertOverflow.cpp instantiates
 // vector<Rva001D28F0Element> over this type; a same-TU definition would
 // capture those REL32s locally).
 //
 // Non-virtual element destructor: an owned pointer at +0x18 (torn down
-// through the pinned 0x688980 teardown, then freed) plus three string
+// through the rowed 0x688980 destructor, then freed) plus three string
 // members at +0/+4/+8 and 12 bytes of plain data at +0xC. The members are
 // spelled AsciiStringMember so their destruction resolves to the pinned
 // 0x36410 fold directly (a locally-defined AsciiString dtor would capture
@@ -24,13 +26,13 @@ private:
 class Rva00688980
 {
 public:
-	void teardown();
+	~Rva00688980();
 };
 
 class Rva001D28F0Element
 {
 public:
-	~Rva001D28F0Element();
+	__declspec(noinline) ~Rva001D28F0Element();
 
 private:
 	AsciiStringMember m_first;
@@ -48,7 +50,11 @@ Rva001D28F0Element::~Rva001D28F0Element()
 	// the member twice keeps it in ecx with a later reload instead.
 	Rva00688980 *owned = m_owned;
 	if (owned != 0) {
-		owned->teardown();
+		owned->~Rva00688980();
 		operator delete(owned);
 	}
 }
+
+// Keep the destroy wrapper with its real element view. A declaration-only
+// view in DestroyInstances.cpp emitted a competing deleting destructor.
+template void _STL::_Destroy<Rva001D28F0Element>(Rva001D28F0Element *);

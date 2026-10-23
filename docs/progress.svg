@@ -1,12 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="880" height="132" viewBox="0 0 880 132" role="img" aria-labelledby="title desc">
-  <title id="title">BFME 2 rebuild progress: 27.08%</title>
-  <desc id="desc">2,160,858 of 7,978,500 code bytes rebuild from what we hold. Ledger-derived; not a fresh build verification.</desc>
-  <rect x="1" y="1" width="878" height="130" rx="16" fill="#0d1117" stroke="#30363d"/>
-  <g font-family="Segoe UI,Arial,sans-serif">
-    <text x="28" y="37" fill="#c9d1d9" font-size="14" font-weight="600" letter-spacing="1.4">BFME 2 · REBUILD PROGRESS</text>
-    <text x="852" y="43" fill="#f0f6fc" font-size="30" font-weight="700" text-anchor="end">27.08%</text>
-    <rect x="28" y="62" width="824" height="20" rx="10" fill="#21262d"/>
-    <rect x="28" y="62" width="223.1681" height="20" rx="10" fill="#3fb950"/>
-    <text x="28" y="111" fill="#c9d1d9" font-size="14">2,160,858 / 7,978,500 code bytes rebuild from what we hold</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="388" viewBox="0 0 880 388" role="img" aria-labelledby="title desc">
+  <title id="title">BFME 2: 99.98% rebuilt from source, 96.26% game code in C++, 89.72% linking</title>
+  <desc id="desc">7,976,907 of 7,978,500 code bytes rebuild to the original's exact bytes; 7,238,561 of the game's own 7,520,010 bytes are C++.</desc>
+  <style>
+    .card { fill: #0d1117; stroke: #30363d; } .track { fill: #21262d; }
+    .strong { fill: #f0f6fc; } .muted { fill: #8b949e; } .up { fill: #3fb950; } .down { fill: #f85149; }
+    @media (prefers-color-scheme: light) {
+      .card { fill: #ffffff; stroke: #d0d7de; } .track { fill: #eaeef2; }
+      .strong { fill: #1f2328; } .muted { fill: #59636e; } .up { fill: #1a7f37; } .down { fill: #cf222e; }
+    }
+  </style>
+  <rect class="card" x="0.5" y="0.5" width="879" height="387" rx="12"/>
+  <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,sans-serif">
+    <text x="28" y="30" class="muted" font-size="13" font-weight="600" letter-spacing="1.3">BFME 2 · REBUILD PROGRESS</text>
+    <text x="28" y="64" class="strong" font-size="15" font-weight="600">Rebuilt from source<tspan class="muted" dx="10" font-size="13">rules changed</tspan></text>
+    <text x="852" y="64" class="strong" font-size="20" font-weight="700" text-anchor="end">99.98%</text>
+    <rect class="track" x="28" y="74" width="824" height="14" rx="7"/>
+    <rect x="28" y="74" width="823.84" height="14" rx="7" fill="#2ea043"/>
+    <text x="28" y="108" class="muted" font-size="12.5">7,976,907 / 7,978,500 bytes rebuilt without copying the original game.dat (v1.06); reviewed assembly now counted, not new recovery</text>
+    <text x="28" y="138" class="strong" font-size="15" font-weight="600">Game code in C++<tspan class="up" dx="10" font-size="13" font-weight="600">▲ 0.37</tspan></text>
+    <text x="852" y="138" class="strong" font-size="20" font-weight="700" text-anchor="end">96.26%</text>
+    <rect class="track" x="28" y="148" width="824" height="14" rx="7"/>
+    <rect x="28" y="148" width="793.16" height="14" rx="7" fill="#388bfd"/>
+    <text x="28" y="182" class="muted" font-size="12.5">7,238,561 / 7,520,010 bytes of the game's own code, now C++ (libraries not counted)</text>
+    <text x="28" y="212" class="strong" font-size="15" font-weight="600">Linking<tspan class="up" dx="10" font-size="13" font-weight="600">▲ 6.06</tspan></text>
+    <text x="852" y="212" class="strong" font-size="20" font-weight="700" text-anchor="end">89.72%</text>
+    <rect class="track" x="28" y="222" width="824" height="14" rx="7"/>
+    <rect x="28" y="222" width="739.28" height="14" rx="7" fill="#d29922"/>
+    <text x="28" y="256" class="muted" font-size="12.5">6,745,161 / 7,518,097 bytes of the game's own code linked (measured 2026-10-23, retail-truth-4 rules)</text>
+    <text x="28" y="286" class="strong" font-size="15" font-weight="600">Readable names<tspan class="up" dx="10" font-size="13" font-weight="600">▲ 0.06</tspan></text>
+    <text x="852" y="286" class="strong" font-size="20" font-weight="700" text-anchor="end">68.16%</text>
+    <rect class="track" x="28" y="296" width="824" height="14" rx="7"/>
+    <rect x="28" y="296" width="561.66" height="14" rx="7" fill="#a371f7"/>
+    <text x="28" y="330" class="muted" font-size="12.5">380,377 / 558,046 declared names (files, types, functions, members, globals, parameters, locals) that are not placeholders</text>
+    <text x="28" y="356" class="muted" font-size="12.5">Historical strict link check (2026-10-10 at d093315a52, no longer updated): 28.91% self-strict, 13.95% fully linked, of all retail .text</text>
   </g>
 </svg>

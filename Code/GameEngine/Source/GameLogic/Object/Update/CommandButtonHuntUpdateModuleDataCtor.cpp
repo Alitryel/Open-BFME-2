@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /arch:SSE
+// cl: /DNDEBUG /MD
 //
 // ??0CommandButtonHuntUpdateModuleData@@QAE@XZ, retail 0x0049529F, 31 bytes.
 // Root ModuleData ctor (no base call): installs vtable 0x00C4ED70
@@ -10,10 +10,35 @@
 // (news 0x10, sole caller at 0x24DFA8). Row supersedes the ctor pin.
 
 // Global word copied into +8 (absolute VA 0x00DBA4E4, DIR32-masked).
-extern int g_dword00DBA4E4;
+extern "C" const void *const vtbl_00C4ED70[];  // folded, 9 classes; via ??_7BeaconClientUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4ED70=??_7BeaconClientUpdateModuleData@@6B@")
+
+extern int BfmeLogicFramesPerSecond;
 
 class MultiIniFieldParse;
-struct FieldParse;
+class INI;
+typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
+struct FieldParse
+{
+	const char *token;
+	INIFieldParseProc parse;
+	const void *userData;
+	int offset;
+};
+
+class INI
+{
+public:
+	static void parseDurationUnsignedInt(INI *ini, void *instance, void *store, const void *userData);
+	static void parseReal(INI *ini, void *instance, void *store, const void *userData);
+};
+
+// Retail VA 0x00C4ECC0 (.rdata): 2 field records and a zero sentinel.
+extern const FieldParse g_00C4ECC0[] = {
+	{ "ScanRate", &INI::parseDurationUnsignedInt, 0, 0x8 },
+	{ "ScanRange", &INI::parseReal, 0, 0xC },
+	{ 0, 0, 0, 0 }
+};
 
 class MultiIniFieldParse
 {
@@ -33,7 +58,7 @@ private:
 	// +0x04 opaque pad (untouched by this ctor).
 	unsigned int m_pad04;
 	// +0x08 word from the global.
-	int m_08;
+	int m_scanFrames;
 	// +0x0C cap value.
 	float m_cap;
 };
@@ -42,13 +67,13 @@ private:
 CommandButtonHuntUpdateModuleData::CommandButtonHuntUpdateModuleData()
 {
 	float cap = 9999.0f;
-	*(unsigned int *)this = 0x00C4ED70;
-	m_08 = g_dword00DBA4E4;
+	*(unsigned int *)this = ((unsigned int)vtbl_00C4ED70);
+	m_scanFrames = BfmeLogicFramesPerSecond;
 	m_cap = cap;
 }
 
 // ?buildFieldParse@CommandButtonHuntUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z @0x004952BE
 void CommandButtonHuntUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
-	parse.add(reinterpret_cast<const FieldParse *>(0x00C4ECC0), 0);
+	parse.add(g_00C4ECC0, 0);
 }

@@ -10,10 +10,13 @@
 // on the same receiver.  The original SDK method spelling is not present, so
 // the method name remains address-derived.
 
-class Rva007E8810Message
+class Rva007E8810Message;
+
+class W3DVideoBuffer
 {
 public:
-	bool hasError();
+	// FESL hasError folds to this matched 0x00655950 body.
+	virtual bool valid();
 };
 
 class Rva007F4130Endpoints
@@ -80,7 +83,7 @@ private:
 
 void Rva007F45E0Aries::rva007F4530(Rva007E8810Message *msg)
 {
-	if (msg->hasError())
+	if (((W3DVideoBuffer *)msg)->W3DVideoBuffer::valid())
 		return;
 
 	Rva007F4130Endpoints endpoints(msg);

@@ -1,7 +1,7 @@
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE
+// cl: /DNDEBUG /MD /GX
 //
 // ??0SpawnPointProductionExitUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,
-// retail 0x004A3C1B, 177 bytes. Behavior-side ctor completing the
+// retail 0x004A3C1B, 179 bytes. Behavior-side ctor completing the
 // SpawnPointProductionExitUpdate file-unit (behavior instance factory
 // rowed at 0x24ECEC news 0xF4 with this pinned 2-arg ctor as its sole
 // caller; poolkey rowed at 0x4A3BD6; bone methods rowed at 0x4A3CEA,
@@ -52,6 +52,12 @@ protected:
 	char m_pad[0x0C];
 };
 
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1,
+	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
+};
+
 class UpdateModule : public SpawnB1, public SpawnB2, public SpawnB3
 {
 public:
@@ -59,7 +65,7 @@ public:
 	~UpdateModule();
 
 protected:
-	void setWakeFrame(Object *object, unsigned int frame);
+	void setWakeFrame(Object *object, UpdateSleepTime frame);
 };
 
 class SpawnB4
@@ -68,21 +74,16 @@ public:
 	virtual void spawnAnchor4() {}
 };
 
-class Coord3D
-{
-public:
-	Coord3D();
-	~Coord3D();
-
-	float m_x;
-	float m_y;
-	float m_z;
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_DTOR
+#include "../../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 class SpawnPointProductionExitUpdate : public UpdateModule, public SpawnB4
 {
 public:
 	SpawnPointProductionExitUpdate(Thing *thing, const ModuleData *moduleData);
+
+protected:
 	virtual ~SpawnPointProductionExitUpdate();
 
 private:
@@ -95,10 +96,6 @@ private:
 };
 
 // ??0SpawnPointProductionExitUpdate@@QAE@PAVThing@@PBVModuleData@@@Z @0x4A3C1B
-SpawnPointProductionExitUpdate::~SpawnPointProductionExitUpdate()
-{
-}
-
 SpawnPointProductionExitUpdate::SpawnPointProductionExitUpdate(Thing *thing, const ModuleData *moduleData)
 	: UpdateModule(thing, moduleData)
 	, m_exitDelay28(0)
@@ -106,7 +103,7 @@ SpawnPointProductionExitUpdate::SpawnPointProductionExitUpdate(Thing *thing, con
 {
 	float fzero = 0.0f;
 	int *pointCount = &m_pointInts[0];
-	float *pointZ = &m_spawnPoints[0].m_z;
+	float *pointZ = &m_spawnPoints[0].z;
 	for (int n = 10; n != 0; ++pointCount, pointZ += 3, --n)
 	{
 		pointZ[-2] = fzero;
@@ -115,5 +112,5 @@ SpawnPointProductionExitUpdate::SpawnPointProductionExitUpdate(Thing *thing, con
 		*pointCount = 0;
 		((float *)pointCount)[-10] = fzero;
 	}
-	setWakeFrame(m_object, 0x3FFFFFFF);
+	setWakeFrame(m_object, UPDATE_SLEEP_FOREVER);
 }

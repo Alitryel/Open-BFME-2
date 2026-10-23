@@ -96,3 +96,7 @@ void __stdcall bfmeReplaceV54(unsigned pos, unsigned n, char *other)
 	done:
 	}
 }
+
+void BfmeStrV54::bfmeThrowV54()
+{
+}

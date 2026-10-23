@@ -1,4 +1,4 @@
-// cl: /EHsc /O2 /Ob2 /G6
+// cl: /EHsc /Ob2
 // stlport
 // Open-BFME: GeometryInfo::parseGeometryActive, retail 0x0087DE10, and
 // GeometryInfo::parseGeometryOffset, retail 0x0087DE50.
@@ -19,12 +19,7 @@
 typedef bool Bool;
 typedef float Real;
 
-struct Coord3D
-{
-	Real x;
-	Real y;
-	Real z;
-};
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
 
 class INI
 {
@@ -45,16 +40,20 @@ struct GeometryShape
 	char m_unmodelled21[0x03];
 };
 
-class Xfer;
-
-class Snapshot
+// This parser's target shape stride is 0x24. Keep its inlined count local:
+// other units emit a different compiler shape for vector::size.
+class GeometryShapeRange : public std::vector<GeometryShape>
 {
 public:
-	virtual ~Snapshot();
-	virtual void loadPostProcess();
-	virtual const char *getSnapshotName();
-	virtual void xfer(Xfer *xfer);
+	size_type shapeCount() const
+	{
+		return size_type(_M_finish - _M_start);
+	}
 };
+
+class Xfer;
+
+#include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 class GeometryInfo : public Snapshot
 {
@@ -73,7 +72,7 @@ private:
 	int m_scalar20;
 	int m_scalar24;
 	int m_scalar28;
-	std::vector<GeometryShape> m_shapes;
+	GeometryShapeRange m_shapes;
 	std::vector<int> m_records;
 	int m_cached44;
 	int m_cached48;
@@ -86,13 +85,13 @@ private:
 /*static*/ void GeometryInfo::parseGeometryActive(INI *ini, void *instance, void *store, const void *)
 {
 	GeometryInfo *geometry = (GeometryInfo *)store;
-	if (geometry->m_shapes.size() != 0)
+	if (geometry->m_shapes.shapeCount() != 0)
 		INI::parseBool(ini, instance, &geometry->m_shapes.back().m_enabled, 0);
 }
 
 /*static*/ void GeometryInfo::parseGeometryOffset(INI *ini, void *instance, void *store, const void *userData)
 {
 	GeometryInfo *geometry = (GeometryInfo *)store;
-	if (geometry->m_shapes.size() != 0)
+	if (geometry->m_shapes.shapeCount() != 0)
 		INI::parseCoord3D(ini, instance, &geometry->m_shapes.back().m_offset, userData);
 }

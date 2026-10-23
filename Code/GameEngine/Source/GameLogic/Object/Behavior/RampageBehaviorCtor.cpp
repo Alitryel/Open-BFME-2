@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE
+// cl: /DNDEBUG /MD /GX
 //
 // ??0RampageBehavior@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x00458B60,
 // 101 bytes. Behavior-side ctor completing the RampageBehavior file-unit
@@ -23,6 +23,12 @@ static int s_secondary10;
 // Opaque UpdateModule base; ctor resolves to its row. The declared-only
 // virtual dtor drives the single EH state with zero emitted code. Protected
 // slots mirror the retail stores.
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1,
+	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
+};
+
 class UpdateModule
 {
 public:
@@ -30,7 +36,7 @@ public:
 	virtual ~UpdateModule();
 
 protected:
-	void setWakeFrame(Object *obj, unsigned int frame);
+	void setWakeFrame(Object *obj, UpdateSleepTime frame);
 
 	const ModuleData *m_moduleData;
 	Object *m_object;
@@ -60,5 +66,13 @@ RampageBehavior::RampageBehavior(Thing *thing, const ModuleData *moduleData)
 	m_24 = 0;
 	m_28 = 0;
 	m_20 = 99999.0f;
-	setWakeFrame(m_object, 1);
+	setWakeFrame(m_object, UPDATE_SLEEP_NONE);
+}
+
+// ??1RampageBehavior@@UAE@XZ @0x00458AAE: vftable 0x00840DA8 slot 0 is its deleting dtor
+// 0x00458BC5 (formerly the placeholder Rva00458AAE in Rva0024A797Derived.cpp).
+RampageBehavior::~RampageBehavior()
+{
+	m_p0C = &s_secondary0C;
+	m_p10 = &s_secondary10;
 }

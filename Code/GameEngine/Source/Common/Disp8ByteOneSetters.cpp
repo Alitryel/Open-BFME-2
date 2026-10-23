@@ -75,6 +75,7 @@ BFME_DISP8_BYTE_ONE_SETTER(Rva00433D22OneSetter, 0x54)
 BFME_DISP8_BYTE_ZERO_SETTER(Rva0045F37DZeroSetter, 0x30)
 BFME_DISP8_BYTE_ONE_SETTER(Rva004A18C0OneSetter, 0x24)
 BFME_DISP8_BYTE_ONE_SETTER(Rva00050CDCOneSetter, 0x4C)
+BFME_DISP8_BYTE_ONE_SETTER(Rva00050CF7OneSetter, 0x50)
 BFME_DISP8_BYTE_ONE_SETTER(Rva00050CFCOneSetter, 0x53)
 BFME_DISP8_BYTE_ZERO_SETTER(Rva00050D01ZeroSetter, 0x53)
 BFME_DISP8_BYTE_TWO_SETTER(Rva0026FC9ETwoSetter, 0x38)
@@ -89,3 +90,13 @@ BFME_DISP8_BYTE_ONE_SETTER(Rva005C399EOneSetter, 0x45)
 BFME_DISP8_BYTE_ZERO_SETTER(Rva006005D0ZeroSetter, 0x0C)
 BFME_DISP8_BYTE_ZERO_SETTER(Rva00238D8DZeroSetter, 0x6C)
 BFME_DISP8_BYTE_ONE_SETTER(Rva006005CBOneSetter, 0x0C)
+
+// BF1 9cbfb551fe Common/Rva004021B0PositiveGetter.cpp is the clean semantic donor.
+// Target 53110B..531113 RET0 followsRET4; signed dword0 greaterthan0 returnedAL
+// Original owner/purpose is unproven; retain an independent address-owned type.
+class Rva0053110BFields
+{
+public: bool isPositive() const;
+private: int field00;
+};
+bool Rva0053110BFields::isPositive() const { return field00>0; }

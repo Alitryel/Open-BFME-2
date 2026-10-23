@@ -2,8 +2,7 @@
 // Retail 0x0080A280 has no caller or proven semantic owner, so this source
 // keeps the address-derived owner and method names.
 
-char *__cdecl ji_009f709c( const char *text, const char *find );
-#pragma comment( linker, "/alternatename:?ji_009f709c@@YAPADPBD0@Z=?ji_009f709c@@YAXXZ" )
+extern "C" char *strstr( const char *text, const char *find );
 extern "C" __declspec( dllimport ) unsigned int __cdecl strlen(
 	const char *text );
 #pragma intrinsic( strlen )
@@ -20,6 +19,7 @@ public:
 class BfmeC994 : public Rva007E86B0Base
 {
 public:
+	virtual ~BfmeC994();
 	BfmeC994( char *buffer, int capacity );
 
 	int m_field08;
@@ -84,7 +84,6 @@ public:
 	char *m_field58;
 };
 
-extern int g_bfmeKeyVHE;
 void *Rva007F93E0( void *message, void *route, void *owner );
 
 void Rva0080A280Owner::rva0080A280( Rva0080A280Input *input )
@@ -94,28 +93,28 @@ void Rva0080A280Owner::rva0080A280( Rva0080A280Input *input )
 	BfmeThingRF *source = reinterpret_cast< BfmeThingRF * >( input );
 
 	message.m_category = input->m_field1c;
-	void *value = source->bfmeGoRF( &g_bfmeKeyVHE, (void *)-1 );
+	void *value = source->bfmeGoRF( (int *)"TID", (void *)-1 );
 	if( value != (void *)-1 )
 		reinterpret_cast< BfmeThingCIB * >( &message )->bfmeGoCIB(
-			&g_bfmeKeyVHE, value );
+			(int *)"TID", value );
 	message.m_field04 = input->m_field04;
 	message.m_field08 = input->m_field08;
 	message.m_field0c = input->m_field0c;
 
 	char name[ 0x100 ];
 	reinterpret_cast< BfmeThingUPB * >( input )->bfmeGoUPB(
-		(void *)0xCE3800, name, (void *)0x100 );
+		(void *)"FAV-GAME-UID", name, (void *)0x100 );
 	if( m_state->m_text != 0 )
 	{
 		int length = strlen( name );
-		if( length == 0 || ji_009f709c( name, m_field58 + 0x8c ) != 0 )
+		if( length == 0 || strstr( name, m_field58 + 0x8c ) != 0 )
 		{
 			char shortName[ 0x20 ];
 			reinterpret_cast< BfmeThingUPB * >( input )->bfmeGoUPB(
-				(void *)0xCE3664, shortName, (void *)0x20 );
+				(void *)"I", shortName, (void *)0x20 );
 			reinterpret_cast< Rva008091C0Owner * >( this )->handle(
 				&message,
-				(int)( long )source->bfmeGoRF( (void *)0xCE2D84, (void *)0 ),
+				(int)( long )source->bfmeGoRF( (void *)"GID", (void *)0 ),
 				shortName );
 			goto send;
 		}
@@ -124,5 +123,9 @@ void Rva0080A280Owner::rva0080A280( Rva0080A280Input *input )
 	message.m_field20 = 0x6e67616d;
 
 send:
-	Rva007F93E0( &message, (void *)0xCE3F98, m_routeOwner );
+	Rva007F93E0( &message, (void *)"->L", m_routeOwner );
 }
+
+// Existing thiscall teardown pin at RVA 0x655780 names the matched
+// seven-byte base-vptr reinstall worker; no receiver adjustment is needed.
+#pragma comment(linker, "/alternatename:??1BfmeC994@@UAE@XZ=??1BfmeMsg@@UAE@XZ")

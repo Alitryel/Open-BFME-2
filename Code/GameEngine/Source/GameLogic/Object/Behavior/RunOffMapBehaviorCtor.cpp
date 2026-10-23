@@ -1,4 +1,7 @@
-// cl: /O1 /DNDEBUG /MD
+char g_00C4307C;
+char g_00C42FC0;
+
+// cl: /DNDEBUG /MD
 //
 // ??0RunOffMapBehavior@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x0046217B,
 // 49 bytes. Behavior-side ctor completing the RunOffMapBehavior file-unit
@@ -17,6 +20,12 @@
 // source-order does not hold). Flat classes throughout keep the body
 // frameless. Factory news fits. Zero new pins (base resolves via the
 // existing BehaviorModule row).
+
+extern "C" const void *const vtbl_00C1C780[];  // folded, 35 classes; via ??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C1C780=??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@")
+
+extern "C" const void *const vtbl_00C42F1C[];  // ??_7Rva00462151@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C42F1C=??_7Rva00462151@@6B@")
 
 class Thing;
 class ModuleData;
@@ -39,8 +48,8 @@ public:
 RunOffMapBehavior::RunOffMapBehavior(Thing *thing, const ModuleData *moduleData) :
 	BehaviorModule(thing, moduleData)
 {
-	*(volatile unsigned int *)((char *)this + 0x10) = 0x00C1C780;
-	*(unsigned int *)this = 0x00C4307C;
-	*(unsigned int *)((char *)this + 0xC) = 0x00C42FC0;
-	*(unsigned int *)((char *)this + 0x10) = 0x00C42F1C;
+	*(volatile unsigned int *)((char *)this + 0x10) = ((unsigned int)vtbl_00C1C780);
+	*(unsigned int *)this = (unsigned int)&g_00C4307C;
+	*(unsigned int *)((char *)this + 0xC) = (unsigned int)&g_00C42FC0;
+	*(unsigned int *)((char *)this + 0x10) = ((unsigned int)vtbl_00C42F1C);
 }

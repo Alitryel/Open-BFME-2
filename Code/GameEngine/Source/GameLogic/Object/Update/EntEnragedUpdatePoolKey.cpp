@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva004B2458@EntEnragedUpdate@@SA?AW4NameKeyType@@XZ @0x004B2458
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@EntEnragedUpdate@@UBE?AW4NameKeyType@@XZ @0x004B2458
 // (69B): cached pool-name key for EntEnragedUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("EntEnragedUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class EntEnragedUpdate
 {
 public:
-	static NameKeyType rva004B2458();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004B2458@EntEnragedUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType EntEnragedUpdate::rva004B2458()
+// ?getModuleNameKey@EntEnragedUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType EntEnragedUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheEntEnragedUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("EntEnragedUpdate");

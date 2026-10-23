@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 //
 // Open-BFME5: SEH scalar dtor at retail 0x003367E0 (80B). Sets derived
 // vftable 0x010E7530, optionally calls virtual slot+4 on the object held at
@@ -11,14 +11,17 @@ public:
 	virtual void bfmeRelease(void) = 0;
 };
 
-class BfmeDualVtableReleaseBase
+// The base is DllHandle, as ScriptEngine_dtor.cpp, ScriptEngine_DllHandle.cpp and
+// BfmeDualVtableReleaseDtorCtor.cpp spell it (its table 0x007E3990 carries both
+// names in reverse/data_ledger.csv); one spelling keeps this TU's vtable copy equal.
+class DllHandle
 {
 public:
-	__forceinline ~BfmeDualVtableReleaseBase(void) {}
+	__forceinline ~DllHandle(void) {}
 	virtual void bfmeKeepVtable(void) {}
 };
 
-class BfmeDualVtableReleaseDtor : public BfmeDualVtableReleaseBase
+class BfmeDualVtableReleaseDtor : public DllHandle
 {
 public:
 	virtual ~BfmeDualVtableReleaseDtor(void);

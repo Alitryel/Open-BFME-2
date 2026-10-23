@@ -55,6 +55,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 // SYSTEM INCLUDES ////////////////////////////////////////////////////////////
+#define peek peek_RV // bfme link: inlined everywhere, keep the COMDAT out of the link
+#define str str_RV // bfme link: inlined everywhere, keep the COMDAT out of the link
 #include <stdlib.h>
 
 // USER INCLUDES //////////////////////////////////////////////////////////////
@@ -100,120 +102,25 @@ struct GlobalLanguageDataBFMERetail
 // W3DDisplayString::W3DDisplayString =========================================
 /** */
 //=============================================================================
-// ??0W3DDisplayString@@QAE@XZ present-unmatched
-W3DDisplayString::W3DDisplayString( void )
-{
-	
-	m_textChanged = FALSE;
-	m_textPos.x = 0;
-	m_textPos.y = 0;
-	m_currTextColor = 0;
-	m_bfmeResetFields[2] = 0;
-	m_currDropColor = 0;
-	m_bfmeResetFields[3] = 0;
-	m_bfmeResetFields[0] = 0;
-	m_bfmeResetFields[4] = 0;
-	m_bfmeResetFields[1] = 0;
-	m_bfmeResetFields[5] = 0;
-	m_size.x = 0;
-	m_size.y = 0;
-	m_fontChanged = FALSE;
-	m_clipRegion.lo.x = 0;
-	m_clipRegion.lo.y = 0;
-	m_clipRegion.hi.x = 0;
-	m_clipRegion.hi.y = 0;
-	m_lastResourceFrame = 0;
-	m_useHotKey = FALSE;
-	m_hotKeyPos.x = 0;
-	m_hotKeyPos.y = 0;
-	m_bfmeFlag20C = FALSE;
-	m_hotKeyColor = GameMakeColor(255,255,255,255);
-	m_bfmeFlag1EC = TRUE;
-	
-}  // end W3DDisplayString
+// W3DDisplayString constructor: BFME 2's body is the row 0x00106088 in W3DDisplayStringCtor.cpp;
+// Zero Hour's copy here duplicated it.
 
-// ?reset@W3DDisplayString@@UAEXXZ present-unmatched
-void W3DDisplayString::reset( void )
-{
-	DisplayString::reset();
-	m_textRenderer.Reset();
-	m_textRendererHotKey.Reset();
-	m_textChanged = FALSE;
-	m_textPos.x = 0;
-	m_textPos.y = 0;
-	m_currTextColor = 0;
-	m_bfmeResetFields[2] = 0;
-	m_currDropColor = 0;
-	m_bfmeResetFields[3] = 0;
-	m_bfmeResetFields[0] = 0;
-	m_bfmeResetFields[4] = 0;
-	m_bfmeResetFields[1] = 0;
-	m_bfmeResetFields[5] = 0;
-	m_size.x = 0;
-	m_size.y = 0;
-	m_fontChanged = FALSE;
-	m_clipRegion.lo.x = 0;
-	m_clipRegion.lo.y = 0;
-	m_clipRegion.hi.x = 0;
-	m_clipRegion.hi.y = 0;
-	m_lastResourceFrame = 0;
-	m_useHotKey = FALSE;
-	m_hotKeyPos.x = 0;
-	m_hotKeyPos.y = 0;
-	m_hotKeyColor = GameMakeColor(255,255,255,255);
-	m_bfmeFlag20C = FALSE;
-	m_bfmeFlag1EC = TRUE;
-	m_hotkey.clear();
-}
+// ?reset@W3DDisplayString@@UAEXXZ is a row of W3DDisplayStringDtor.cpp; this unit's copy was
+// a second, non-retail definition of it.
 
 // W3DDisplayString::~W3DDisplayString ========================================
 /** */
 //=============================================================================
-// ??1W3DDisplayString@@MAE@XZ present-unmatched
-W3DDisplayString::~W3DDisplayString( void )
-{
-
-}  // end ~W3DDisplayString
+// BFME 2's destructor is the row 0x00106162 in W3DDisplayStringDtor.cpp, which also emits
+// its unwind funclet uw_0076443a. Zero Hour's copy here duplicated that funclet and emitted a
+// second W3DDisplayString vftable whose DisplayString::getTextLength copy is not retail's.
 
 // W3DDisplayString::textChanged ==============================================
 /** This method automatically gets called from some methods in the display
 	* class so that we can write our own code here to to appropriate things
 	* on the changing of string data */
 //=============================================================================
-// ?notifyTextChanged@W3DDisplayString@@UAEXXZ present-unmatched
-void W3DDisplayString::notifyTextChanged( void )
-{
-
-	// extend functionality
-	DisplayString::notifyTextChanged();
-	if(TheGlobalLanguageData)
-	{
-		if(reinterpret_cast<GlobalLanguageDataBFMERetail *>(TheGlobalLanguageData)->m_useHardWrap == TRUE)
-		{	
-			m_textRenderer.Set_Use_Hard_Word_Wrap(true);
-			m_textRendererHotKey.Set_Use_Hard_Word_Wrap(true);
-		}
-		else
-		{	
-			m_textRenderer.Set_Use_Hard_Word_Wrap(false);
-			m_textRendererHotKey.Set_Use_Hard_Word_Wrap(false);
-		}
-	}
-
-	// get our new text extents
-	computeExtents();
-
-	//
-	// set a flag so that if it comes that we need to render this string
-	// we know we must first build the sentence
-	//
-	m_textChanged = TRUE;
-
-	// reset data for our text renderer
-	m_textRenderer.Reset();
-	m_textRendererHotKey.Reset();
-
-}  // end notifyTextChanged
+// byte-exact reconstruction: Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringWordWrap.cpp
 
 // W3DDisplayString::Draw =====================================================
 /** Draw the text at the specified location in in the specified colors
@@ -224,107 +131,19 @@ void W3DDisplayString::notifyTextChanged( void )
 	* texture for rendering */
 //=============================================================================
 // byte-exact reconstruction: Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringDrawDefault.cpp
-// ?draw@W3DDisplayString@@ present-unmatched
-void W3DDisplayString::draw( Int x, Int y, Color color, Color dropColor )
-{
-	draw(x,y, color, dropColor, 1, 1);
-}
+// W3DDisplayString::draw(x y color dropColor): BFME 2's body is the row 0x00106405 in W3DDisplayStringDraw.cpp;
+// Zero Hour's copy here duplicated it.
 // byte-exact reconstruction: Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringDrawDefault.cpp
-// ?draw@W3DDisplayString@@ present-unmatched
-void W3DDisplayString::draw( Int x, Int y, Color color, Color dropColor, Int xDrop, Int yDrop )
-{
-	Bool needNewPolys = FALSE;
-
-	// sanity
-	if( getTextLength() == 0 )	
-		return;  // nothing to draw
-	
-	// if our font or text has changed we need to build a new sentence
-	if( m_fontChanged || m_textChanged )
-	{
-		if(m_useHotKey)
-		{
-			m_textRenderer.Set_Hot_Key_Parse(TRUE);
-			m_textRenderer.Build_Sentence( getText().str(), &m_hotKeyPos.x, &m_hotKeyPos.y );
-			m_hotkey.translate(TheHotKeyManager->searchHotKey(getText()));
-			if(!m_hotkey.isEmpty())
-				m_textRendererHotKey.Build_Sentence(m_hotkey.str(), NULL, NULL);
-			else
-			{
-				m_useHotKey = FALSE;
-				m_textRendererHotKey.Reset();
-			}
-		}
-		else
-			m_textRenderer.Build_Sentence( getText().str(), NULL, NULL );
-		m_fontChanged = FALSE;
-		m_textChanged = FALSE;
-		needNewPolys = TRUE;
-
-	}  // end if
-
-	//
-	// if our position has changed, or our colors have chagned, or our
-	// text data has changed, we need to redo the texture quads
-	//
-	if( needNewPolys ||
-			x != m_textPos.x || 
-			y != m_textPos.y || 
-			color != m_currTextColor || 
-			dropColor != m_currDropColor )
-	{
-
-		// save the new attributes of the text position and color
-		m_textPos.x = x;
-		m_textPos.y = y;
-		m_currTextColor = color;
-		m_currDropColor = dropColor;
-
-		// reset the quads
-		m_textRenderer.Reset_Polys();
-					
-		// draw the shadow
-		m_textRenderer.Set_Location( Vector2( m_textPos.x + xDrop, m_textPos.y + yDrop) );
-		m_textRenderer.Draw_Sentence( m_currDropColor );
-
-		// draw the text
-		m_textRenderer.Set_Location( Vector2( m_textPos.x, m_textPos.y ) );
-		m_textRenderer.Draw_Sentence( m_currTextColor );
-		
-		if(m_useHotKey)
-		{
-			m_textRendererHotKey.Reset_Polys();
-			m_textRendererHotKey.Set_Location( Vector2( m_textPos.x + m_hotKeyPos.x , m_textPos.y +m_hotKeyPos.y) );
-			m_textRendererHotKey.Draw_Sentence( m_hotKeyColor );
-			m_textRendererHotKey.Render();
-		}
-	
-	}  // end if
-
-	// render the text
-	m_textRenderer.Render();
-
-	// we are for sure using display resources now
-	if( TheGameClient )
-		usingResources( TheGameClient->getFrame() );
-
-}  // end draw
+// Zero Hour's six-argument draw (x y color dropColor xDrop yDrop) has no BFME 2 counterpart: retail's
+// W3DDisplayString vftable 0x00BCF900 carries only draw(int,int) (slot 13, 0x00105E65) and
+// draw(int,int,int,int) (slot 14, 0x00106405). The copy that sat here only pulled HotKeyManager and
+// AsciiString externals into this unit.
 
 // W3DDisplayString::getSize ==================================================
 /** Get the render size width and height of the string in this instance
 	* with the font associated with it */
 //=============================================================================
-// ?getSize@W3DDisplayString@@UAEXPAH0@Z present-unmatched
-void W3DDisplayString::getSize( Int *width, Int *height )
-{
-
-	// assign the width and height we have stored to parameters present
-	if( width )
-		*width = m_size.x;
-	if( height )
-		*height = m_size.y;		
-
-}  // end getSize
+// byte-exact reconstruction: Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringWordWrap.cpp
 
 // DisplayString::appendChar ==================================================
 /** Get text with up to charPos characters, -1 = all characters */
@@ -360,115 +179,26 @@ Int W3DDisplayString::getWidth( Int charPos )
 // W3DDisplayString::setFont ==================================================
 /** Set the font for this particular display string */
 //=============================================================================
-// ?setFont@W3DDisplayString@@UAEXPAVGameFont@@@Z present-unmatched
-void W3DDisplayString::setFont( GameFont *font )
-{
-
-	// sanity
-	if( font == NULL )
-		return;
-
-	// if the new font is the same as our existing font do nothing
-	if( m_font == font )
-		return;
-
-	// extending functionality
-	DisplayString::setFont( font );
-
-	// set the font in our renderer
-	m_textRenderer.Set_Font( static_cast<FontCharsClass *>(m_font->fontData) );
-	
-	m_textRendererHotKey.Set_Font( static_cast<FontCharsClass *>(reinterpret_cast<FontLibraryBFMERetail *>(TheFontLibrary)->getFont(&font->nameString, *reinterpret_cast<Real *>(&font->pointSize), TRUE)->fontData) );
-	// recompute extents for text with new font
-	computeExtents();
-
-	// set flag telling us the font has changed since last render
-	m_fontChanged = TRUE;
-
-}  // end setFont
+// W3DDisplayString::setFont: BFME 2's body is the row 0x001066B3 in W3DDisplayStringWordWrap.cpp;
+// Zero Hour's copy here duplicated it.
 
 // W3DDisplayString::setClipRegion ============================================
 /** Set the clipping region for the text */
 //=============================================================================
-// ?setClipRegion@W3DDisplayString@@UAEXPAUIRegion2D@@@Z present-unmatched
-void W3DDisplayString::setClipRegion( IRegion2D *region )
-{
-
-	// extend functionality
-	DisplayString::setClipRegion( region );
-
-	// only consider regions that are actual changes
-	if( region->lo.x != m_clipRegion.lo.x ||
-			region->lo.y != m_clipRegion.lo.y ||
-			region->hi.x != m_clipRegion.hi.x ||
-			region->hi.y != m_clipRegion.hi.y )
-	{
-
-		// assign new region
-		m_clipRegion = *region;
-
-		// set new region in renderer
-		m_textRenderer.Set_Clipping_Rect( RectClass( m_clipRegion.lo.x,
-																								 m_clipRegion.lo.y,
-																								 m_clipRegion.hi.x,
-																								 m_clipRegion.hi.y ) );
-		m_textRendererHotKey.Set_Clipping_Rect( RectClass( m_clipRegion.lo.x,
-																								 m_clipRegion.lo.y,
-																								 m_clipRegion.hi.x,
-																								 m_clipRegion.hi.y ) );
-	}  // end if
-
-}  // end setClipRegion
+// byte-exact reconstruction: Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringWordWrap.cpp
 
 // W3DDisplayString::computeExtents ===========================================
 /** Update the width and height of our string */
 //=============================================================================
-// ?computeExtents@W3DDisplayString@@IAEXXZ present-unmatched
-void W3DDisplayString::computeExtents( void )
-{
-	UnsignedInt len = getTextLength();
-
-	// if we have no string, or no font we don't have a size yet
-	if( len == 0 || m_font == NULL )
-	{
-
-		m_size.x = 0;
-		m_size.y = 0;
-
-	}  // end if
-	else
-	{
-
-		Vector2 extents = m_textRenderer.Get_Formatted_Text_Extents(getText().str()); //Get_Text_Extents( getText().str() );
-		m_size.x = extents.X;
-		m_size.y = extents.Y;
-
-	}  // end else
-
-}  // end computeExtents
+// ?computeExtents@W3DDisplayString@@IAEXXZ is a row of W3DDisplayStringComputeExtents.cpp; this unit's copy was
+// a second, non-retail definition of it.
 
 // W3DDisplayString::setWordWrap ===========================================
 /** Set the wordwrap of the m_textRenderer */
 //=============================================================================
-// ?setWordWrap@W3DDisplayString@@UAEXH@Z present-unmatched
-void W3DDisplayString::setWordWrap( Int wordWrap )
-{
-	// set the Word Wrap
-	if(m_textRenderer.Set_Wrapping_Width(wordWrap))
-		notifyTextChanged();
-}// void setWordWrap( Int wordWrap )
+// byte-exact reconstruction: Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringWordWrap.cpp
 
-// ?setUseHotkey@W3DDisplayString@@UAEX_NH@Z present-unmatched
-void W3DDisplayString::setUseHotkey( Bool useHotkey, Color hotKeyColor )
-{
-	if( useHotkey == m_useHotKey && hotKeyColor == m_hotKeyColor )
-		return;
-
-	m_useHotKey = useHotkey;
-	m_hotKeyColor = hotKeyColor;
-	m_textRenderer.Set_Hot_Key_Parse(useHotkey);
-	notifyTextChanged();
-}
+// byte-exact reconstruction: Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringWordWrap.cpp
 
 // W3DDisplayString::setWordWrapCentered ======================================
 /** Set the whether or not we want to center each new line in a text string */

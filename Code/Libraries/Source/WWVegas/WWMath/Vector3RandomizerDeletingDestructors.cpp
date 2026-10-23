@@ -11,18 +11,36 @@
 // the abstract base carries Class_ID, Get_Vector, Get_Maximum_Extent,
 // Scale and Clone as pure virtuals behind a virtual destructor.
 
+class Vector3;
 class Vector3Randomizer
 {
 public:
 	virtual ~Vector3Randomizer();
+	virtual unsigned Class_ID(void) const = 0;
+	virtual void Get_Vector(Vector3 &vector) = 0;
+	virtual float Get_Maximum_Extent(void) = 0;
+	virtual void Scale(float scale) = 0;
+	virtual Vector3Randomizer *Clone(void) const = 0;
 };
 
-__declspec(noinline) Vector3Randomizer::~Vector3Randomizer() {}
+inline __declspec(noinline) Vector3Randomizer::~Vector3Randomizer() {}
 
 Vector3Randomizer *g_randomizerAnchor;
 
 // Anchor: emits the ??_G scalar-deleting-destructor COMDAT.
-void deleteVector3Randomizer(Vector3Randomizer *p)
+void deleteVector3Randomizer(Vector3Randomizer *vector3Randomizer)
 {
-	delete p;
+	delete vector3Randomizer;
 }
+
+// ??1Vector3Randomizer is a header inline elsewhere: another unit emits a
+// select-any copy of it, so a strong definition here was a duplicate symbol
+// in the linked build. This anchor only makes this unit emit its copy for the
+// ledger row; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitVector3RandomizerDeletingDestructors@@YAXPAVVector3Randomizer@@@Z present-unmatched
+void bfmeEmitVector3RandomizerDeletingDestructors(Vector3Randomizer *vector3Randomizer)
+{
+	vector3Randomizer->Vector3Randomizer::~Vector3Randomizer();
+}
+#pragma inline_depth()

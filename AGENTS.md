@@ -1,3 +1,72 @@
+## Instruction freshness
+
+Before continuing work, reread `AGENTS.md` if 24 hours have elapsed
+since the last read. Reread it immediately whenever a user message
+or commit message reports an edit to `AGENTS.md`.
+
+## Verifier upgrade (October 2026): live rules
+
+The hooks refuse:
+
+- a commit that edits `tools/` gate code, `.githooks/` or a baseline/whitelist
+  without a `Verifier-Change: <reason>` trailer;
+- any added line in `reverse/gate_baseline.txt` (keyed debt: delete a line when
+  you fix its row, never add one);
+- a string literal shorter than retail's, a switch jump table mapping a case to
+  the wrong target, or compiled bytes past a row's extent that differ from
+  retail (a body longer than its row: raise the extent);
+- a new `symbols.csv` pin that is not an in-image code RVA, or that puts a second
+  real name on an address that already has one (rename the owner). An ICF-folded
+  template instantiation is admitted only with `fold-proof=<ledger source>` in
+  its notes, when that unit compiles the name to retail's whole body there with
+  every owner row's relocations and the name has no address of its own, a
+  gen-alias twin included (`tools/pin_admission.py --add`); a later row or pin
+  giving a fold-pinned name another address is refused too;
+- `gen-alias` other than as an exact notes token whose masked callee is a
+  byte-and-relocation twin; new `object-symbol=` alias rows;
+- a second name for a converged data address. Each address in
+  `reverse/data_converged.csv` (TheGameLogic, TheAI, TheWritableGlobalData, ...)
+  has one global; another symbol bound there (`g_00DFE78C`, `extern AIView *TheAI`)
+  links as a separate datum and fails link_cycle data-back for every row at that
+  address. Declare the real global (`class AI; extern AI *TheAI;`) and cast to
+  your view where you use it: `((AIView *)TheAI)->m_field`. The list only grows
+  (`tools/data_check.py --converged`, after the byte gate);
+- a control path (the root, `reverse/`, `tools/`, `.githooks/`, `.github/`) not
+  spelled in lowercase (`tools/check_case_collisions.py`; banked attempts,
+  attempt evidence and class contracts are exempt).
+
+`.c` and `.asm` sources are byte-verified like `.cpp`. Escape hatches (pins,
+`object-symbol=` rows, `/alternatename`, address-named globals, `class-gate:
+allow`, `present-unmatched`, `#pragma optimize`, `__emit`) are counted per file in
+`reverse/hatch_baseline.tsv` by `tools/hatch_counters.py` (shadow mode now; it
+will refuse growth once enforced). Code identity and data checks also run in
+shadow mode. Pushes go direct to `master`; `tools/publisher.py` only re-verifies
+pushed work afterwards.
+
+**Upgrade lanes.** Spend seats on these alongside matching:
+
+- *False rejects.* If a check refuses work you can show is correct, do not work
+  around it or edit the check in the same commit. Record
+  `python3 tools/re_log.py record <symbol> <rva> <size> blocked
+  "false-reject <check>: <evidence> t=<min> model=<model>"` and move on.
+  Tooling seats: `rg "false-reject" reverse/re_attempts.log`, reproduce, and fix
+  the check with a regression test and a `Verifier-Change:` trailer. Every case
+  in `tools/tests/test_gate_exploits.py` must still be refused.
+- *Escape-hatch debt.* Replacing a hatch in `reverse/hatch_baseline.tsv` with real
+  code or a real name and lowering its count is credited repair work. Prefer
+  files you are already in.
+- *Repairs.* `python3 tools/repair_queue.py repair` serves gate debt, tier C rows
+  and emulator divergences; `repair_queue.py link` serves rows a link cycle did
+  not place; `repair_queue.py dest 0xRVA` names the file a new match belongs in.
+- *VP6 clean room.* `reverse/vp6_cleanroom/queue.tsv` serves one spec per VP6
+  decoder function. Implement from the spec and retail only; never read any VP6
+  decoder source (On2, Winamp, ffdshow, MFNode): it may not be redistributed, and
+  this lane is no reference sweep. Rules: `reverse/vp6_cleanroom/README.md`.
+- *Verification runners* (`tools/link_cycle.py`, `tools/audit/run_nightly.cmd`,
+  `tools/boot_smoke.py`, the shadow publisher): ask a maintainer before starting one.
+
+Full plan and evidence: `docs/verifier_upgrade_plan.md`.
+
 # Contributing
 
 Several agents push to `origin/master` continuously. Keep each change small,
@@ -10,162 +79,346 @@ history, one `git show` away.
 An explicit request or assigned lane overrides the queue:
 
 1. `git pull --rebase origin master`
-2. `python3 tools/check_csv.py` — repair ledger errors before other work
-3. `python3 tools/list_naked_candidates.py Code` serves a byte-true dump from
-   `Code/gen_asm/`, boundary already proven. **Prefer the coverage-first reference sweep below when compatible reference units are available; otherwise converting dumps to real C++ is the default work.**
-      
-3b. `python3 tools/bfme1_sweep.py ranked` serves BFME 1 source files whose
-   bodies are byte-identical in game.dat — the conversion is `cp`. `scan`
-   refreshes it in ~3 minutes; `show <file>` prints a packet with the pins and
-   `add_match.py` lines already written out. Byte-exact transfers only; see
-   `docs/matching.md`.
+2. `python3 tools/check_csv.py` — repair ledger errors before other work.
+3. **Run the reference lanes before dump or structural reconstruction.** They are
+   separate from the default picker; a zero result in one is no reason to skip
+   the others.
 
-4. `python3 tools/next_work.py` for identity/structural work; it explains its
-   own tiers.
-5. `python3 tools/place_bodies.py <sources>` mines the units the ledger already
-   compiles. A TU emits far more than the one function it was written to land,
-   and the rest was invisible only because the export table had no address for
-   it; the tool finds those addresses by masked byte search and reads each
-   placed body's call sites for its callees. After an import, repair, or
-   shared-dependency fix, rescan affected source units. Land incidental bodies
-   as well as planned ones when each satisfies the existing identity,
-   provenance, and byte verification requirements. Repeat while new placements
-   unlock further candidates; a placement candidate alone is not a verified
-   recovery. Prune what `./build.sh` refuses to a fixpoint, recording the
-   refusal in `reverse/place_denylist.txt`.
+   a. `python3 tools/bfme1_sweep.py scan` when its image, BFME 1 pointer or BFME 2
+      ledger changed (otherwise reuse the scan), then
+      `python3 tools/bfme1_sweep.py ranked` (byte-identical BFME 1 sources) and
+      `python3 tools/bfme1_sweep.py near` (source leads for repair). `ranked` does
+      not read `reverse/re_attempts.log` and re-serves candidates earlier seats
+      refused (`0x0003CCE0` in `Rva0089CompactHelpers.cpp`, a folded T3 guess,
+      was re-served after a rescan): check the log for a candidate's RVA before
+      treating it as work.
+   b. Ensure the committed BFME 1 pointer includes `tools/lift_lane.py`, then run
+      `python3 reference/open-bfme-1/tools/lift_lane.py --limit 1000` at the start
+      of the reference pass. It lists BFME 1's named lifted bodies with proven
+      boundaries, same-name ZH definitions first: use each ZH-marked name and
+      readable-body path to prioritize the matching `GeneralsMD/` source. A
+      same-name hit does not prove identity, and lifted bytes are not C++
+      recovery. If the tool is missing at the committed pointer, the BFME 1
+      freshness check is due regardless of its timestamp: complete the verified
+      pointer update below; never silently skip or mark this lane exhausted.
+   c. `python3 tools/zh_sweep.py compile` when the object cache is missing or its
+      source, headers, toolchain or flags changed (`--force` when those inputs
+      changed), then `python3 tools/zh_sweep.py match` (exact ZH placements) and
+      `python3 tools/zh_sweep.py packets` (near misses for `tools/next_work.py`).
+      Work viable packets
+      from `python3 tools/next_work.py --tier packet` before step 4; re-run
+      `match` and `packets` after material ledger or dependency changes. Land only
+      through the identity and full-byte gates.
 
-A tier reporting zero candidates is exhausted, not broken. Regenerate with
+4. `python3 tools/list_naked_candidates.py Code` serves a byte-true dump from
+   `Code/gen_asm/`, boundary proven; prefer it once the reference lanes have no
+   worthwhile lead.
+5. `python3 tools/next_work.py` for identity/structural work (it explains its
+   tiers); `--wb` serves bodies by WorldBuilder name lead; proven fixes:
+   `docs/recipes.md`.
+6. `python3 tools/place_bodies.py <sources>` finds, by masked byte search, the
+   other bodies the units the ledger already compiles emit, and reads their call
+   sites for callees. Rescan affected units after an import, repair or
+   shared-dependency fix; land incidental bodies that satisfy the identity,
+   provenance and byte requirements (a placement alone is no recovery); repeat
+   while placements unlock more. Prune what `./build.sh` refuses to a fixpoint and
+   record the refusal in `reverse/place_denylist.txt`.
+
+A tier reporting zero candidates exhausts only that search method; an empty
+byte-match queue does not exhaust reusable reference source. Regenerate with
 `tools/drift_classify.py`, `tools/anchor_unclaimed.py`, `./build.sh`.
 
 Finish or revert each body or homogeneous trivial batch before the next.
 
+**Stay with one substantive target.** After checking relevant reference leads
+and prior evidence, select one promising function or concrete prerequisite.
+Stay with it while testing new, evidence-backed hypotheses. Switch only when
+viable hypotheses are exhausted or a specific prerequisite prevents further
+progress; preserve findings for the next agent. The ~120-minute reassessment
+below is a review point, not an automatic stopping time.
+
+The rebuild is past 99% completion. Humans have independently solved the remaining
+functions, but this effort aims to recover them independently with AI. A persistent
+mismatch may reflect a compiler quirk or unexpected instruction ordering rather
+than incorrect logic. Consult `docs/recipes.md`, relevant records under
+`reverse/attempt_support/`, and prior pertinent evidence to inform your
+experimenting. When a specific mismatch warrants it, systematically test equivalent
+C++ variants of the affected expression or code segment, compare the generated
+assembly, and preserve useful findings for the next agent.
+
+**Claim retail bodies before starting work:** `python3 tools/claims.py claim 0xRVA`
+(every RVA in a batch); `python3 tools/next_work.py --claim` and
+`python3 tools/list_naked_candidates.py Code --claim` claim while selecting and
+retry if another worker won the race. The ranked and BFME 1 donor queues skip
+live claims; after choosing a donor file, claim its target RVAs before editing.
+If another worker holds a claim, choose other work. An orchestrator should set a
+stable, distinct `BFME_CLAIM_OWNER` for each seat.
+
+Claims are `refs/claims/0xRVA` on origin, expire after four hours, and do not
+change `master` publication; `python3 tools/claims.py list` shows owners. A
+verified `add_match` or `add_match_batch` keeps the claim and queues the row; the
+claim is released once origin/master holds the row, the blobs of every file the
+verified compile read and any `reverse/symbols.csv` pins you added. The pickers'
+`--claim` settle such landings, and so does `claims.py claim`, which claims first
+and then settles eligible queued landings except the RVAs that command requested
+(those stay held); `python3 tools/claims.py release --landed` does it on demand
+after a push. A landing that cannot be shown (an untracked or ignored header)
+keeps its claim until it expires. Release a banked, blocked or abandoned body
+with `python3 tools/claims.py release 0xRVA`; renew before expiry with
+`python3 tools/claims.py renew 0xRVA` when work lasts longer than four hours (it
+keeps the lease, so a queued landing still releases; re-running `claim` on your
+own live claim also preserves its lease). `renew` and `release` also act on
+claims this checkout took before 2026-10-09 under the old `<user>@<host>` owner. When origin is
+unreachable, `claims.py claim` claims nothing and exits 2; the pickers then warn
+and serve the body unclaimed, skipping any body origin showed another worker
+holding.
+
 ## Prefer coverage-first reference sweeps
 
-Prefer reference-source sweeps as the first approach whenever compatible reference units are available. Optimize for verified unique-byte gain per unit of effort by batching compatible units, especially within related library families whose dependencies already exist.
+Prefer reference-source sweeps first whenever compatible reference units exist;
+optimize for verified unique bytes per effort by batching compatible units,
+especially library families whose dependencies already exist. Escalate before
+abandoning a reference for dump reconstruction:
 
-Escalate reference-based work before abandoning it for dump reconstruction:
+1. Direct reuse or small evidence-backed repair (constants, declarations,
+   offsets, helper selection, compiler settings) that preserves the verified body
+   and semantics.
+2. Moderate repair of control flow, data access, calls, layouts or compiler
+   shape while identity and relationship stay well supported. Make evidence-backed
+   adaptations; preserve the reference function's established purpose and
+   semantics while reconciling target-specific differences.
+3. Substantial reconstruction from the reference while retail evidence supports
+   identity, ABI, behavior, call relationships and data usage; the reference
+   stays the semantic and structural guide.
+4. Byte-true reconstruction of the `Code/gen_asm/` body as real C++, only once the
+   reference paths are exhausted or no longer applicable.
 
-1. Direct reuse / small repair. First try the reference unit essentially as-is, allowing small evidence-backed changes such as constants, declarations, offsets, helper selection, compiler settings, or other localized differences when they preserve the verified body and semantics.
-2. Moderate repair. If the direct path fails but the function identity and relationship remain well supported, allow moderate evidence-backed adaptation of control flow, data access, calls, layouts, or compiler shape. Preserve the reference function's established purpose and semantics while reconciling target-specific differences.
-3. Substantial reference-based reconstruction. If the reference is still clearly the same underlying function or subsystem, substantial reconstruction from it is allowed when retail evidence supports the identity, ABI, behavior, surrounding call relationships, and data usage. Treat the reference as the primary semantic and structural guide rather than discarding it merely because the target body has diverged significantly.
-4. Byte-true dump reconstruction. Move to reconstructing the served Code/gen_asm/ body as real C++ only after the viable reference-based paths above have been exhausted or the available reference is no longer sufficiently applicable.
+Use compiler variants from matched siblings, with caching and isolated trials;
+preserve provenance, dependencies and compiler settings; continue through viable
+independent candidates; commit successful imports with their ledger updates
+coherently. Do not force a weak reference: once evidence no longer supports the
+same identity or semantics, or reasonable repairs stop progressing, move on.
+Re-run sweeps as dependencies, identities, compiler configurations and sibling
+matches land.
 
-Use compiler and configuration variants from successfully matched siblings, with caching and isolated trials to improve throughput. Apply units that pass the existing matching pipeline, preserve provenance and compiler settings, continue through viable independent candidates, and group successful imports with their ledger updates into coherent commits. Move to deeper reconstruction when the sweep no longer offers worthwhile candidates.
+## Compile BFME 1 donors beyond byte matches
 
-Do not spend unbounded effort forcing a weak reference. Once evidence no longer supports the same identity or semantics, or reasonable repair attempts stop yielding useful progress, move on to the byte-true dump path.
-
-Re-run sweeps as new dependencies, identities, compiler configurations, and sibling matches land; previously unproductive reference units may become viable later.
+`bfme1_sweep.py` compares retail bytes and cannot find every reusable body.
+Before treating BFME 1 references as exhausted, compile plausible clean C++ donor
+TUs with BFME 2's toolchain and settings (flags from matched siblings) and search
+their emitted bodies in `game.dat` with `tools/place_bodies.py <donor-TU>`, even
+when the BFME 1 bytes have no match. Prioritize supported identities and siblings
+of successful transfers; exclude dumps and retired or refuted candidates unless
+new evidence addresses the earlier finding. This is a read-only lead search:
+never claim the external donor path as BFME 2 source. Port supported bodies into
+an allowed `Code/` TU, preserving the donor revision, flags and dependencies, and
+pass the normal byte and identity gates. A placement proves neither identity nor
+recovery.
 
 ## Investigate shared deltas first
 
-When multiple failures suggest the same layout, offset, callee, compiler,
-ABI, or wrapper difference, test that shared explanation before retrying
-each body independently. Apply a shared fix only where target evidence
-supports it; similar symptoms alone do not establish a common cause.
-
-Avoid repeating attempts whose current evidence points to the same
-unresolved dependency. Continue with independent candidates, then resweep
-affected units after the dependency is resolved.
+When multiple failures suggest the same layout, offset, callee, compiler, ABI or
+wrapper difference, test that shared explanation before retrying each body.
+Apply a shared fix only where target evidence supports it; similar symptoms alone
+do not establish a common cause. Do not repeat
+attempts blocked on the same unresolved dependency: continue with independent
+candidates and resweep affected units once it is resolved.
 
 ## BFME 1 reference freshness
 
-When initializing `reference/open-bfme-1`, and before BFME 2 work if the last
-successful check is missing or over 24 hours old, fetch official
-`Open-BFME/Open-BFME-1` `master` and update the clean submodule to that HEAD.
-Compare commits, not commit dates: upstream need not have a commit today.
-Preserve dirty or unpublished submodule work and report any blocked update.
-Record the successful check time locally in ignored `build/bfme1-last-check.txt`;
-do not repeat the check per transfer. After a pointer change, run BFME 2's full
-build verification and include the verified pointer in the next commit batch.
+Use the `reference/open-bfme-1` submodule for building and donor discovery. On
+initialization, and before BFME 2 work when the last successful check is missing
+or over 24 hours old, fetch official `Open-BFME/Open-BFME-1` `master`, compare
+commit IDs, and preserve dirty or unpublished submodule work.
 
-**The pointer bump to current upstream is blocked; do not retry it without
-fixing this first.** Upstream restructured its tree — `Code/` -> `game/`,
-`reference/` -> `inputs/reference/`, `build/toolchains/` -> `inputs/toolchains/`,
-`baselines/` -> `inputs/baselines/`, `vendor/` -> `inputs/vendor/`. BFME 2's own
-tooling is layout-agnostic and survives the move (`build.bfme1_subtree()` probes
-both spellings), but **626 byte-matched sources under `Code/` name the submodule's
-old `Code/` prefix in their `// cl:` provenance line**. Those `/I` directories
-silently stop existing after the bump: `cl` does not error on a missing include
-directory, so 6070 of 6071 TUs still compiled and only `WWMath/matrix3d.cpp`
-failed outright (its shim's `always.h` had no other source). The rest resolved
-their headers from somewhere else, unverified. Rewriting the 626 provenance lines
-to `game/` is not a free rename either: it would re-point them at headers carrying
-1785 commits of drift, changing codegen for 626 already-matched TUs. Land a
-verified path-migration plan for those `// cl:` lines before moving the pointer.
+Complete the current layout migration once: reconcile the old `Code/` and
+`reference/` paths with upstream's `game/` and `inputs/reference/`, including
+source `// cl:` flags and other moved inputs, using the existing layout resolver
+where applicable, and check the resolved directories and headers (MSVC silently
+ignores a missing include directory, so compilation alone does not prove the
+intended headers were used). Verify and commit this repair with the updated
+pointer; repeat only if upstream changes its layout again.
+
+For a routine update:
+
+1. Record the previous verified pointer and the checkout revision; update the
+   clean checkout to upstream HEAD, keeping enough to compare old and new inputs
+   at the same BFME 2 revision.
+2. Run BFME 2's full byte verification with valid dependency caches; compare
+   failures with the previous inputs under the same conditions; repair update
+   regressions and report pre-existing failures separately. Never weaken
+   verification or substitute headers silently.
+3. Refresh donor sweeps and compile trials affected by changed source, headers or
+   settings; record the donor revision with cached results; discard or regenerate
+   results whose inputs no longer agree.
+4. Include the verified submodule pointer and any required repairs in the next
+   commit batch: advancing the local checkout does not update what other
+   contributors receive.
+
+Record success in ignored `build/bfme1-last-check.txt` only after verification,
+or when upstream is already at the verified pointer. Do not fetch per transfer. If
+an update is blocked, keep the last verified inputs and report the exact blocker
+and attempted repair; do not mark it successful or suspend future freshness
+checks indefinitely.
+
+## Make matched code link
+
+A matched row whose unit cannot link is half done. `reverse/link_status.csv` and
+`tools/link_census.py` measure it under Open-BFME-1's rules: a COMDAT copy loses
+when retail's bytes prove it wrong (since `retail-truth-3`, not when another
+object supplies the retail-proven copy, which the link keeps and runs; since
+`retail-truth-4` an unproven copy does not lose either when the copy the link
+keeps, the first in link order, is retail's) (else
+when it differs from the first copy in
+link order; never by majority, STLport included; since `retail-truth-2` not when
+the name has no retail address and nothing the link keeps references it), and a file fails when a name it
+touches resolves to a kept definition proven not retail's (`wrong_selected`). It
+counts only objects proven current by census receipts and records nothing if
+objects, inputs or tools move during the run. Each `link_census_history.csv` row
+names its `rules`; a rule change is recorded once, by `tools/census_rebaseline.py`,
+never by hand. The census index is `build/link_census/link_index.pkl`: download the last
+published one with `python3 tools/link_check.py --fetch-index` rather than running a
+census for it. It also brings the published tree's compiled objects, which builds reuse
+when source and headers match, so run it after pulling instead of recompiling what others
+changed. A census or a follower of master (`--update-index`) publishes with
+`python3 tools/link_check.py --publish-index` after its commit is on master:
+
+- `python3 tools/link_rank.py` ranks blockers by the matched bytes they hold out
+  (`--file SOURCE` for one unit, `--near` for units close to linking). Prefer work
+  that unblocks the most bytes.
+- `python3 tools/link_check.py SOURCE...` (or `--staged`) predicts, without
+  link.exe, whether units link after your change; `--refresh` first recompiles
+  objects other commits made stale.
+- `python3 tools/name_globals.py` replaces hard-coded global addresses (the
+  largest blocker class) with the ledger's globals, keeping rewrites that still
+  byte-match.
+- `python3 tools/rehome_rows.py [--apply]` moves rows from split-out units back
+  to the home unit that already compiles an exact copy.
+
+In a dedicated linking pass, prefer sweeping BFME 1 linking repairs before
+rediscovering shared fixes: compare BFME 2's ranked blockers with
+`reference/open-bfme-1`'s linking repairs, canonical headers and dependency
+reconciliations, inspect relevant donor commits and their verification
+evidence, and prioritize repairs to shared library and engine families already
+used by BFME 2. Routine linking and small dependency repairs accompanying a
+recovery proceed directly. Track the donor revision reviewed and whether each
+repair is inherited, applicable, blocked or inapplicable; revisit blocked ones
+when their dependencies or donor evidence change, and do not repeat an unchanged
+donor scan. Try the donor repair directly where BFME 2 evidence supports it, then
+adapt it locally; preserve BFME 2 layouts,
+addresses, ABI and behavior; verify affected bodies and check providers and
+consumers together — a BFME 1 linking result is a lead, not BFME 2 proof. After a
+repair succeeds, sweep BFME 2 units with the same supported cause, batch the
+compatible fixes and refresh the blockers; continue with independent candidates
+when a repair needs unrelated investigation.
+
+Strongly prefer accumulating verified linking repairs and pushing them in batches, rather than pushing each repair individually.
+
+**Reconcile classes, not just bodies.** Private per-unit views of one class cause
+most COMDAT and unresolved blockers. `python3 tools/class_views.py` ranks classes
+by private views (`--blockers`: by what the census holds against them; `--class X`
+and `--shims X` list the views and competing shim headers). A class with a shared
+header is registered in `reverse/canonical_classes.csv`, and `tools/class_gate.py`
+refuses new private copies of it. To give a class a canonical header, follow
+`python3 tools/header_adopt_lane.py order`: `tools/class_contract.py` decides its
+ABI from evidence (bytes, retail access, retail vftables, ZH, majority), and
+`header_adopt_lane.py run --generate --apply` generates the header, gates each
+unit and queues the rest in `reverse/header_queue.tsv`. Claim scope-wide work:
+`python3 tools/claims.py claim class:NAME` or `file:PATH`.
 
 ## Work the file, not the row
 
-`next_work.py` lists every other queued candidate in the same source file.
-**That file is your unit of work** — drain it first. Measured land rate: 19.5%
-solo, 46.5% with ten or more siblings landed together, because the layout,
-offsets and callee pins from the first body are what the next one needs. A
-shared header edit costs a full gate: edit every dependent body, pay once.
-
-When several files in one subsystem demonstrate the same successful
-reference-transfer pattern, prioritize other candidates in that subsystem.
-Reuse established compiler settings and evidence-backed shared deltas,
-verifying their applicability to each candidate. Folder structure alone
-is not evidence. Return to the broader queue when transfer behavior
-diverges or the remaining candidates require distinct investigation.
+`next_work.py` lists every other queued candidate in the same source file: that
+file is your unit of work; drain it first (land rate 19.5% solo, 46.5% with ten
+or more siblings landed together). A shared header edit costs a full gate: edit
+every dependent body, pay once. When several files in one subsystem show the
+same successful reference-transfer pattern, prioritize that subsystem, reusing
+its compiler settings and evidence-backed deltas after checking each applies
+(folder structure alone is not evidence); return to the broad queue when transfer
+behavior diverges or the remaining candidates require distinct investigation.
 
 ## Batch homogeneous trivial recoveries
 
-Atomic does not mean one function per commit.
-
-When several bodies use the same established recovery pattern and form
-one coherent, reviewable change, recover, ledger, verify, and commit them
-as one batch. Examples include tiny getters/setters, thunks, wrappers,
-and reference transfers differing only by verified RVA or offset.
-
-Similar instruction shapes alone do not establish identity, types,
-calling convention, or layout. Verify each member against its own
-evidence; do not extrapolate correctness from a representative sample.
-
-Prefer `Recover 31 disp8 ptr-chase getters` over 31 separate 7-byte
-commits when all members satisfy these conditions. Keep batches small
-enough to review and diagnose; prefer roughly 5–20 entries per commit
-as a guideline, not a quota or hard limit.
-
-Keep substantive reconstruction or work requiring distinct identity,
-compiler, ABI/layout, or reconstruction reasoning in separate atomic
-commits.
-
-Verify the entire batch before committing. If a member fails, determine
-whether the failure undermines the shared pattern. Continue with the
-remaining members only if their evidence and verification still hold;
-otherwise reassess the batch.
+Atomic does not mean one function per commit. When bodies use one established
+recovery pattern and form one coherent, reviewable change (tiny getters/setters,
+thunks, wrappers, reference transfers differing only by verified RVA or offset),
+recover, ledger, verify and commit them as one batch, roughly 5–20 entries (a
+guideline, not a quota or hard limit). Similar instruction shapes do not
+establish identity, types, calling convention or layout: verify each member
+against its own evidence. Keep substantive reconstruction, or work needing
+distinct identity, compiler, ABI/layout or reconstruction reasoning, in separate
+commits. Verify the whole batch before committing. If a member fails, determine
+whether that undermines the shared pattern; continue with the remaining members
+only if their evidence and verification still hold, otherwise reassess the batch.
 
 ## Convert, verify, commit, push — per body or homogeneous trivial batch
 
-1. Make the smallest source and ledger change for one function or a homogeneous trivial batch under the rule above.
+1. Make the smallest source and ledger change for one function or batch.
 2. `./build.sh <file-or-symbol>`. If a command returns a process or session ID,
-   poll it; never launch a duplicate build.
-3. Stage explicit paths only: `git add <specific-paths>`, never `git add .`.
-   Check every new ledger source is tracked.
+   poll it; never launch a duplicate build. Do not compile by hand through
+   `tools/build.py` (`build.compile_source`) to see a raw error: it writes the
+   shared cache `build/match/<mangled-source-path>.obj`, and later `./build.sh`
+   and `explain_mismatch` runs silently reuse your object (the symptom: a body
+   that stops emitting its symbol). The tell is a cached `.obj` whose source path
+   no longer exists; delete that `.obj` **and** its `.deps.json`. Read raw errors
+   from `build.sh` or the `explain_mismatch` traceback.
+3. Stage explicit paths only (`git add <paths>`, never `git add .`); check every
+   new ledger source is tracked.
 4. Commit normally. **Never bypass hooks.**
-5. `git pull --rebase origin master`, `git push`, then pull --rebase again. On
-   rejection, follow the batching and retry rules in #6 before another attempt.
+5. Publish according to #7: `git pull --rebase origin master`, `git push`, then pull --rebase again. On rejection, rebase and retry while respecting #7’s cooldown.
+6. **Never land a pull request with GitHub's merge button**: the byte gates run
+   in local hooks, so a server-side merge publishes `matched` rows nothing
+   verified, invisibly. Cherry-pick instead:
 
-6. This step governs when to run #5 and limits its retries. Normally, publish after 1 verified commit. Keep substantive changes in separate atomic, verified commits; the publication batching below changes push frequency only.
+   ```sh
+   git fetch origin pull/<N>/head:pr<N>
+   git cherry-pick <sha>...        # onto master; authorship is preserved
+   ./build.sh <symbol>             # the row's own verification still has to pass
+   git push origin master
+   ```
 
-If a verified commit recovers under 100 retail bytes and you expect to make another commit, hold publication. Continue accumulating verified commits under 100 retail bytes, then publish them together with the next verified commit of 100 retail bytes or more. Keep each change as a separate verified commit. If you do not expect another commit, follow the normal publication limits below. Existing time, session-ending, and unpublished-commit limits still apply.
+   Then comment on the PR with the landed SHAs, and that follow-up work should
+   stack off `master`.
+7. Publication: strongly prefer accumulating verified commits until the unpublished batch
+   recovers **500 retail bytes** or more, then push together; keep substantive
+   changes as separate commits; publish a smaller final batch when the work or
+   session ends. Header, vendored-reference and shared-shim edits, and resolved
+   merges, trigger the full gate in the hook: poll it, don't relaunch, and never
+   filter a gate through a pipeline that hides its exit code. Internally note the
+   time of your last successful push and allow at least a five-minute cooldown
+   until the next push by the same GitHub account to this repository; share that
+   clock across workers using the account and keep working during the cooldown.
 
-After a non-fast-forward push rejection caused by `origin/master` advancing, rebase, recheck the ledger, and complete any required verification. If more verified work is expected, accumulate 3–5 verified unpublished commits before the next publication attempt; do not retry immediately. Rebase, recheck, and verify again before that attempt. If only one verified unpublished commit remains and no further commit is expected, keep rebasing, rechecking, and retrying it until published instead of waiting for another commit.
+## Frozen files: check before you plan an edit
 
-Once there are 5 verified unpublished commits, do not increase the batch size further solely as a result of `origin/master` advancing. Keep the existing batch, rebase, recheck, verify as required, and attempt publication again until published.
+`find_declared_unmatched` refuses a staged source that defines **any** function
+the ledger does not declare, and nothing re-checks unstaged files, so a file can
+become uneditable. Check before planning work in one (silent means it commits):
 
-Attempt publication sooner if 10 minutes have elapsed since the last publication attempt, the assigned work is exhausted, or the session is ending. Finish any in-progress verification first.
+```sh
+python3 tools/find_declared_unmatched.py <file>
+```
 
-Before each publication attempt, rebase onto current `origin/master`, recheck the ledger, and complete any required verification. 
+Two remedies, not interchangeable:
 
-After 3 consecutive publication attempts succeed without rejection, reduce the batch size one level: 3–5 → 2 → 1.
+- **Row the body** — real work, and the reason the file is frozen.
+- **A `present-unmatched` or `absent-from-retail` marker**, one per definition:
+  a declaration that the body is known but unpinned (or that retail dead-stripped
+  it), honest only where true; never use it to hide an over-claim. It must start
+  `// ?` (`// ?<Class::method> present-unmatched`) or it is silently ignored; the
+  label is free, only the trailing word is read. Do not copy a ledger row's
+  trailing comma into it (`// ?<mangled>,` misses).
 
-Header, vendored-reference and shared-shim edits — and a resolved merge — trigger the full gate in the hook; poll it, don't relaunch, and never filter a gate through a pipeline that hides its exit code.
-
-Before pushing, `python3 tools/progress.py origin/master` prints what your
-session added. `+0.00 pp` is the common outcome — do not stop there; take
-another body from the file you were served, and if it is exhausted say so with
-the figure and reason.
+Read the undeclared definitions the report names. Before adding markers, remove
+stale ones: a marker on a definition that IS matched is reported "still marked
+present-unmatched (stale annotation)", and an add-only pass makes that worse.
+After any marker insertion, manual or scripted, re-run `find_declared_unmatched`
+on that file and revert your whole file attempt if it still refuses (the report
+gives `Class::method` without argument types, so a marker can land on the wrong
+overload). The error message's suggestion of
+`reverse/unclaimed_sources_whitelist.txt` does not apply: that protected list
+(`tools/protected_paths.py`) only exempts sources with zero matched rows and may
+only shrink.
 
 ## Anti-lift policy
 
@@ -173,75 +426,94 @@ Clean C++ is preferred; MASM or inline asm only for a proven codegen blocker
 (compiler machinery, x87 shape, SEH). Lifting a dump into a
 `__declspec(naked)`/`__emit` .cpp is **not** a conversion: it byte-matches by
 construction, scores +0, and deletes the body the next converter needed. The
-naked body must be **gone**, replaced by real C++. `tools/conversion_gate.py`
-enforces this in both hooks, and the push hook scans your whole outgoing range
-— a blocked push may name a historical lift, not yours. Never `--no-verify`.
+naked body must be gone, replaced by real C++. `tools/conversion_gate.py`
+enforces this in both hooks; the push hook scans your whole outgoing range, so a
+blocked push may name a historical lift. Never `--no-verify`.
 
-Ghidra boundaries, xrefs and vtables are identity evidence; decompiled C is
-not byte-match proof. After several failed shapes or ~30 minutes without byte
-progress take a fresh candidate, never leaving a nonmatching reconstruction in
-`Code/`. Record the verdict:
-`python3 tools/re_log.py record <symbol> <rva> <size> <status> <evidence>`
-(never hand-edit `reverse/re_attempts.log`); cite the real boundary and
-include `t=<minutes>` and your model.
+Ghidra boundaries, xrefs and vtables are identity evidence; decompiled C is not
+byte-match proof. After ~120 minutes without meaningful progress, reassess. Continue while testing
+a new evidence-backed hypothesis; identity, layout, dependency and compiler
+discoveries count as progress. Bank and switch when viable hypotheses are
+exhausted or a concrete prerequisite blocks further work. Before declaring a
+function blocked, reassess independent explanations — control flow, variable
+lifetime, types/layout, callee visibility and compiler settings. Exhausting one
+family of source variations is insufficient. Do not repeat
+disproven trials or leave a nonmatching reconstruction in `Code/`. Record the verdict with
+`python3 tools/re_log.py record <symbol> <rva> <size> <status> <evidence>` (never
+hand-edit `reverse/re_attempts.log`), citing the real boundary, `t=<minutes>` and
+your model. Walled only by a missing function? Add `blocked-on=0x<rva>`: the queue
+re-serves you as untried once it lands. `add_match` records `landed` and lists
+deferrals citing the body it landed — stage the log with your row.
 
-**Close, not exact? Bank the body.**
-`partial '<what is wrong>' --stash <your .cpp> --score <0..1>` keeps the
-candidate servable and starts the next agent from your body, not cold. Both
-flags are required: over 95 rows, a `partial` describing the near miss without
-banking it landed 5.1% against 7.5% for silence. No body, no `partial` —
-record `blocked`.
+**Preserve substantial failed work.** Before retrying any function, read its
+attempt-log entries and linked evidence, regardless of how you selected it.
+For substantive attempts ending `blocked` or `partial`, commit a concise handoff
+under `reverse/attempt_support/` and cite its tracked path in the `re_log.py`
+evidence. Include hypotheses tested and ruled out, the exact remaining mismatch
+or prerequisite, the best candidate and useful diagnostic diffs, and relevant
+input revisions/compiler settings. Preserve better existing banks; retain only
+artifacts needed to resume (diagnostic source as patches or `.cpp.txt`). A simple
+blocker needs only a concise log entry.
+
+**Close, not exact? Bank the body:** `partial '<what is wrong>' --stash <your .cpp>
+--score <0..1>` keeps the candidate servable and starts the next agent from your
+body. Both flags are required (a `partial` without a banked body landed 5.1%
+against 7.5% for silence). No body, no `partial` — record `blocked`. Prefer batching smaller banked attempts and blocker notes into a single push.
 
 ## Placement and integrity
 
-- Game source under `Code/`; MASM dumps in `Code/masm_dumps/`; scratch
-  untracked under `build/`. Banked attempts (`reverse/attempts/<rva>.cpp`) are
-  evidence, never progress: nothing compiles them, `add_match` deletes one on
-  landing, `check_csv` flags leftovers.
+- Game source under `Code/`; MASM dumps in `Code/masm_dumps/`; scratch untracked
+  under `build/`. Banked attempts (`reverse/attempts/<rva>.cpp`) are evidence,
+  never progress: nothing compiles them, `add_match` deletes one on landing,
+  `check_csv` flags leftovers.
 - Prefer TU-scoped shims over shared-header edits.
 - Progress = `matched` `reverse/functions.csv` rows backed by real source and
   byte verification. Markers and prose are not.
-- **Landing a `reverse/symbols.csv` pin?** It is an ADDITIVE candidate list:
+- **Landing a `reverse/symbols.csv` pin?** Pins are an additive candidate list:
   the resolver keeps the first pinned address that reproduces retail, so a pin
-  naming the *wrong* function still byte-matches and a green gate proves
-  nothing about it. Run `tools/pin_consistency.py --symbol <name>` before you
-  pin and `--check` after. `reverse/pin_consistency_baseline.csv` is the
-  known-bad backlog and may only shrink — never add a line to get green. A
-  harvested pin is a candidate, not an address: resolve the thunk and check it
-  against the ledger's own body before spending a name on it.
+  naming the wrong function still byte-matches. Run
+  `tools/pin_consistency.py --symbol <name>` before you pin and `--check` after;
+  `reverse/pin_consistency_baseline.csv` may only shrink. A harvested pin is a
+  candidate: resolve the thunk and check it against the ledger's own body before
+  spending a name on it.
 - No fallback paths; they conceal mismatches.
 - Never load `reverse/functions.csv`, `ghidra_functions.csv` or `exports.csv`
   wholesale; use `rg` or narrow filters.
 - Preserve unrelated dirty-tree work; revert only your own attempt.
+- A new file under `tools/` should replace an existing tool or be called by a
+  hook, a picker or another tool; one-off and exploratory scripts stay untracked
+  in `build/`.
 
 ## Preserve donor provenance
 
-In the existing evidence records, distinguish facts established from
-target evidence, facts carried from donor source, and structural
-inferences. Record the basis for identity and layout claims separately
-when their evidence differs.
+In the evidence records, distinguish facts established from target evidence,
+facts carried from donor source, and structural inferences; record the basis for
+identity and layout claims separately when their evidence differs. Exact bytes
+alone do not establish a donor name or layout as a target fact: preserve the
+uncertainty until independent target evidence resolves it.
 
-Exact bytes alone do not establish a donor name or layout as a target
-fact. Preserve uncertainty until independent target evidence resolves it.
+**Renaming.** Read `docs/naming.md` before you rename anything. It covers
+canonical and inferred names, `reverse/name_basis.csv`, the protected names, the
+two-agent rule, and the `tools/rename.py` engine with its three lanes.
+You must accumulate verified naming commits and push them together when practical,
+rather than pushing each rename separately. Allow at least five
+minutes between successful pushes by the same GitHub account to this repository.
+Frequent updates to master force other agents to rebase and retry their pushes.
 
 ## Generated claims
 
-`gen-*` rows (`Code/gen_small/`, `Code/gen_asm/`) are byte-true placeholders,
-not progress. Recovering a real identity means writing clean C++ at its proper
-`Code/` path and repointing the row:
+`gen-*` rows (`Code/gen_small/`, `Code/gen_asm/`) are byte-true placeholders, not
+progress. Recovering a real identity means writing clean C++ at its proper `Code/`
+path and repointing the row:
 `tools/add_match.py <real-name> <rva> <size> <source> --replace-rva <rva>` for
 `gen_asm` dumps (`--replace-existing` when the name is unchanged). `check_csv`
-rejects a gen-* row sharing a range with a real-name row; the placeholder
-yields.
+rejects a gen-* row sharing a range with a real-name row; the placeholder yields.
 
 **Never edit a file under `Code/gen_asm/`**: repoint the row and leave the
-orphaned `PROC`, which keeps converters conflict-free there.
-`Code/gen_small/uw_gen_*.cpp` is owned end to end by `tools/gen_uw.py land` —
-never hand-edit it, and never infer a funclet's `parent=` from adjacency; a
-guessed parent is invented identity.
-
-After landing a batch, sweep your own rows: one body per address. A duplicate
-range among them is an over-claim, not an ICF alias.
+orphaned `PROC`. `Code/gen_small/uw_gen_*.cpp` is owned end to end by
+`tools/gen_uw.py land` — never hand-edit it, and never infer a funclet's
+`parent=` from adjacency. After landing a batch, sweep your own rows: one body per
+address; a duplicate range among them is an over-claim, not an ICF alias.
 
 ## Vendored third-party claims
 

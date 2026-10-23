@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 // Open-BFME5: DefaultModuleTemplate (N=3) copy constructor.
 
@@ -15,7 +15,7 @@ template <int Category>
 class CategoryModuleInfo
 {
 public:
-	virtual void unusedVirtual();
+	virtual void unusedVirtual() = 0;
 };
 
 template <int Category>

@@ -7,10 +7,46 @@
 // "present-unmatched" for that reason. Compiled here at the sweep's default
 // /O2 /GR- /EHsc- it is byte-exact against game.dat, unique in .text, and
 // Ghidra independently calls 0x0019ECE0 a 232-byte function.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #include "winbase_shim.h"
+// Retail links the size-optimized WeightInfoStruct vector deleting destructor (??_E,
+// the copy htree.cpp emits); it takes the optimization state of the first function
+// that needs it, so this unemitted anchor needs it first. The private struct is reached
+// by befriending the anchor while hanim.h is first read; layout and names are unchanged.
+struct BfmeWeightInfoVddAnchor;
+#define private private: friend struct BfmeWeightInfoVddAnchor; private
+#include "hanim.h"
+#undef private
+struct BfmeWeightInfoVddAnchor { typedef NamedPivotMapClass::WeightInfoStruct Info; };
+#pragma optimize("gsy", on)
+static void bfmeWeightInfoVddAnchor(BfmeWeightInfoVddAnchor::Info *p) { delete [] p; }
+#pragma optimize("", on)
 #include "hlod.h"
 #include "chunkio.h"
 #include <string.h>
+
+// Make our vector-deleting-dtor copy identical to hlod.cpp's kept copy: that
+// TU defines ~SubObjectArrayClass in-TU as { Reset(); }, so its ??_E inlines
+// the dtor to a direct Reset call, while this TU calling the out-of-line dtor
+// emits a differing ??_E. Defining the dtor inline here lets our ??_E inline
+// the same way; the inline ??1 is a COMDAT the link discards for hlod.cpp's
+// regular copy.
+// ??1SubObjectArrayClass@HLodDefClass@@QAE@XZ is a row of hlod.cpp.
+inline HLodDefClass::SubObjectArrayClass::~SubObjectArrayClass(void)
+{
+	Reset();
+}
+
 
 bool HLodDefClass::read_header(ChunkLoadClass & cload)
 {

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??0Rva00485ADCFilter@@QAE@XZ, retail 0x00485ADC, 83 bytes. EldestKindof
 // filter holder: an ObjectFilter at +0 built through the opaque 0x3623E5
@@ -10,6 +10,8 @@
 // (filter with dtor for EH state 0, FixedStorage temps by value). The
 // Rva name is honest: the address is proven, the filter role is proven
 // by the callees, but no donor names the holder class.
+
+extern unsigned char g_00DFEFA4StoragePrototype[28];
 
 class BfmeFixedStorage0004543D
 {
@@ -44,6 +46,6 @@ private:
 Rva00485ADCFilter::Rva00485ADCFilter()
 {
 	m_filter.initFromStorages(
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(0x00DFEFA4)),
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(0x00DFEFA4)));
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)),
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)));
 }

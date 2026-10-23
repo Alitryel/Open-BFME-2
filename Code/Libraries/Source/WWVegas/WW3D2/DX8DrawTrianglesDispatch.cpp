@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /O2 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -19,11 +19,6 @@
 // BFME1 DX8Wrapper::Draw_Triangles donor, adapted to target 1205B0.
 // Buffer types 1/3 use sorting; other types draw indexed triangle lists.
 struct TargetCenter3 { float x, y, z; TargetCenter3(float a,float b,float c):x(a),y(b),z(c){} };
-class BfmeDrawOps {
-public:
-    static void Draw(unsigned primitive, unsigned start, unsigned polygons,
-        unsigned minimum, unsigned vertices, bool indexed);
-};
 // Address-derived local ABI name: retail 0x12FE00 consumes center xyz and four
 // DWORD ranges. The donor SphereClass spelling is not asserted for this target.
 class BfmeSortingDispatchAt0012FE00 {
@@ -35,6 +30,9 @@ class DX8Wrapper {
 public:
     static void Draw_Triangles(unsigned buffer_type, unsigned start,
         unsigned polygons, unsigned minimum, unsigned vertices);
+private:
+    static void Draw(unsigned primitive, unsigned start, unsigned polygons,
+        unsigned minimum, unsigned vertices, bool indexed);
 };
 void DX8Wrapper::Draw_Triangles(unsigned buffer_type, unsigned start,
     unsigned polygons, unsigned minimum, unsigned vertices)
@@ -43,6 +41,6 @@ void DX8Wrapper::Draw_Triangles(unsigned buffer_type, unsigned start,
         TargetCenter3 center(0.0f, 0.0f, 0.0f);
         BfmeSortingDispatchAt0012FE00::Insert(center, start, polygons, minimum, vertices);
     } else {
-        BfmeDrawOps::Draw(4, start, polygons, minimum, vertices, true);
+        Draw(4, start, polygons, minimum, vertices, true);
     }
 }

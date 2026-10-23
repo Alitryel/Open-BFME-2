@@ -21,9 +21,4 @@ __Named_exception::__Named_exception(const string& text)
     strncpy(_M_name, __get_c_string(text), _S_bufsize);
     _M_name[_S_bufsize - 1] = '\0';
 }
-// 0x0082AE20 (17 bytes).
-const char* __Named_exception::what() const _STLP_NOTHROW_INHERENTLY
-{
-    return _M_name;
-}
 }

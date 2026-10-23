@@ -1,4 +1,5 @@
-// cl: /O1 /Oy-
+// cl: /Oy-
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 // Open-BFME5: ATL 7.1 CAtlBaseModule::RemoveResourceInstance.
 //
 // The implementation and member layout are recovered from the pristine
@@ -17,6 +18,8 @@ extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void *cs);
 
 namespace ATL
 {
+__declspec(noinline) __declspec(noreturn) void __stdcall AtlThrow(HRESULT hr);
+
 class CComCriticalSection
 {
 public:
@@ -43,7 +46,9 @@ public:
 		{
 			HRESULT hr = Lock();
 			if (FAILED(hr))
-				return;
+			{
+				AtlThrow(hr);
+			}
 		}
 	}
 	// Retail keeps this cleanup as a separate COMDAT call from the body.
@@ -72,6 +77,20 @@ CComCritSecLock<TLock>::~CComCritSecLock() throw()
 {
 	if (m_bLocked)
 		Unlock();
+}
+
+// Keep the constructor visible for the constant-false initial-lock argument,
+// while leaving its external body to the retail ATL provider.
+template <> __declspec(dllimport) __forceinline
+CComCritSecLock<CComCriticalSection>::CComCritSecLock(CComCriticalSection& cs, bool bInitialLock)
+	: m_cs(cs), m_bLocked(false)
+{
+	if (bInitialLock)
+	{
+		HRESULT hr = Lock();
+		if (FAILED(hr))
+			AtlThrow(hr);
+	}
 }
 
 template <class T>

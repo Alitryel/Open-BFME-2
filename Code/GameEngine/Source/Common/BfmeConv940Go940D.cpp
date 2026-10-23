@@ -9,11 +9,12 @@
 // push-1 where this body pushes 0, exactly matching the two donors
 // (bfmeSendBEC(1) vs bfmeVirt940D(0)) and the BFME1 originals at 0x0020D850
 // (push 1) and 0x0020D870 (push 0). The Find940D call resolves through the
-// existing ?bfmeFind940D pin at 0x0028BCB4; no new pins.
+// rowed Object::getDockUpdateInterface at 0x0028BCB4; the adjacent BFME2
+// caller uses the same helper and virtual slot.
 
 // Open-BFME5 conversions.
 
-class BfmeRes940D
+class DockUpdateInterface
 {
 public:
 	virtual void bfmeSpare940D00();
@@ -33,13 +34,13 @@ public:
 	virtual void bfmeSpare940D0E();
 	virtual void bfmeSpare940D0F();
 	virtual void bfmeSpare940D10();
-	virtual void bfmeVirt940D(int v);
+	virtual void bfmeSendBEC(int v);
 };
 
-class BfmeSrc940D
+class Object
 {
 public:
-	BfmeRes940D *bfmeFind940D();
+	DockUpdateInterface *getDockUpdateInterface();
 };
 
 class BfmeThing940D
@@ -47,11 +48,11 @@ class BfmeThing940D
 public:
 	void bfmeGo940D();
 	char m_bfmePad[8];
-	BfmeSrc940D *m_bfmeSrc;
+	Object *m_bfmeSrc;
 };
 
 void BfmeThing940D::bfmeGo940D()
 {
-	BfmeRes940D *r = m_bfmeSrc->bfmeFind940D();
-	r->bfmeVirt940D(0);
+	DockUpdateInterface *dockUpdate = m_bfmeSrc->getDockUpdateInterface();
+	dockUpdate->bfmeSendBEC(0);
 }

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // ?write@Rva00300912Holder@@QAEXPAVDataChunkOutput@@@Z,
@@ -13,33 +13,20 @@
 // add-esi-0x14 loop); the class keeps the retail address token because no
 // caller names it (parser-registration precedent).
 
+#pragma optimize("t", on)
 #include <map>
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-public:
-	int getLength() const { return m_data ? m_data->length : 0; }
-	const T *str() const { return m_data ? (const T *)((const char *)m_data + 8) : (const T *)""; }
-private:
-	StringBase() { m_data = 0; }
-	~StringBase() {}
-	struct Header
-	{
-		int refCount;
-		unsigned short length;
-		unsigned short capacity;
-		T text[1];
-	};
-	Header *m_data;
-};
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
+#pragma optimize("", on)
 
-class AsciiString : private StringBase<char>
-{
-public:
-	AsciiString() {}
-	~AsciiString() {}
-};
+#include "ascii_string.h"
+
 
 class DataChunkOutput
 {

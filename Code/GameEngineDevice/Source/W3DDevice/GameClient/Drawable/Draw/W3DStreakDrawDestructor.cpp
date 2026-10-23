@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // Open-BFME5: W3DStreakDraw destructor at retail 0x0077D510.
 
 class Rva0002B8C8TailBase
@@ -86,3 +86,7 @@ W3DStreakDraw::~W3DStreakDraw()
 		}
 	}
 }
+
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
+#pragma comment(linker, "/alternatename:?m_3DScene@W3DDisplay@@2PAVBFME3DScene@@A=?m_3DScene@W3DDisplay@@2PAVRTS3DScene@@A")

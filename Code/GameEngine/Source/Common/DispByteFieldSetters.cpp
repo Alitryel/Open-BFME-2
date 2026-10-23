@@ -135,3 +135,42 @@ BFME_DISP_BYTE_SETTER(Rva00464810ByteSlot, 0xBE)
 BFME_DISP_BYTE_SETTER(Rva004884AAByteSlot, 0x4B0)
 BFME_DISP_BYTE_SETTER(Rva0048C500ByteSlot, 0x3C9)
 BFME_DISP_BYTE_SETTER(Rva0048F358ByteSlot, 0x3C1)
+
+// Address-owned initializer at 0x0047A2B6..0x0047A2E1 (RET0).
+// Clean donor: Open-BFME-1 34f59164, game/GameEngine/Source/Common/
+// Rva00221100TinyBodies.cpp, Rva0022F780Pair constructor, /O1 /arch:SSE /G7.
+// Target evidence establishes six float slots at 0/4/8/C/10/14, the
+// 0,0,1,0,0,1 stores, and ECX returned through EAX. No target class name
+// or constructor identity is established; retain the target address and
+// describe its proven initializer ABI. Destination is the repository's
+// nearest-neighbour home, immediately after its 0x0047A2A9 setter.
+class Rva0047A2B6Floats
+{
+public:
+    Rva0047A2B6Floats *initialize();
+private:
+    float first[3];
+    float second[3];
+};
+
+// ?initialize@Rva0047A2B6Floats@@QAEPAV1@XZ
+Rva0047A2B6Floats *Rva0047A2B6Floats::initialize()
+{
+    first[0] = 0.0f;
+    first[1] = 0.0f;
+    first[2] = 1.0f;
+    second[0] = 0.0f;
+    second[1] = 0.0f;
+    second[2] = 1.0f;
+    return this;
+}
+
+// Clean BF1 9cbfb551fe Common/Rva007AE610Array.cpp semantic donor, normal O1/SSE/G7.
+// Native 0010855F..0010856E has its own complete RET boundary and establishes
+// receiver68 indexed dword store, RET8. Original owner and full array bound remain
+// unresolved; this separate address-owned view models only observed accesses.
+class Rva0010855FArray {
+public: void setValue(unsigned int index, unsigned int value);
+private: unsigned char unknown[0x68]; unsigned int values[1];
+};
+void Rva0010855FArray::setValue(unsigned int index, unsigned int value) { values[index] = value; }

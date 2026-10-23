@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfmerendobj /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// cl: /DNDEBUG /MD /EHsc /Ireference/shims/bfmerendobj /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -22,7 +22,17 @@
 // then writes uint16 pairs: first bone index and run length. The original
 // member/accessor names are unknown; get_buffer54 describes the target slot.
 #include "always.h"
+// Retail's out-of-line RefCountClass deleting dtor is the /O1 form hlod.cpp
+// emits; compile refcount.h for size before sharebuf.h pulls it in.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
 #include "sharebuf.h"
+
+// Retail's ShareBufferClass<unsigned short> destructor is the explicit
+// specialization MeshGeometryShareBufferInstantiations.cpp emits (0x00169DE0);
+// the primary template's copy here is not retail's and must not be emitted.
+template <> ShareBufferClass<unsigned short>::~ShareBufferClass();
 
 class MeshGeometryClass
 {

@@ -5,7 +5,7 @@ void *memset(void *dest, int value, unsigned int count);
 int memcmp(const void *first, const void *second, unsigned int count);
 int sprintf(char *buffer, const char *format, ...);
 unsigned int strlen(const char *text);
-char *strcpy(char *dest, const char *src);
+char *_mbscpy(char *dest, const char *src);
 
 int Rva008118D0(void)
 {
@@ -79,86 +79,6 @@ void Rva0080F3D0(unsigned char *state, const void *first, int firstLength,
 	memcpy(state + 0x48C, second, secondLength);
 }
 
-int Rva0080FED0(unsigned short *result, int limbs,
-	const unsigned char *bytes, int byteCount);
-void Rva0080FB40(unsigned short *result, int count,
-	const unsigned short *bits, const unsigned short *addend,
-	const unsigned short *modulus);
-void Rva0080FFB0(const unsigned short *limbs, int limbCount,
-	unsigned char *bytes, int byteCount);
-
-void Rva0080F5A0(unsigned char *state, unsigned char *owner,
-	const unsigned char *first, int firstLength,
-	const unsigned char *second, int secondLength)
-{
-	int i;
-	int count;
-	unsigned int exponent;
-	unsigned short modulus[ 0x100 ];
-	unsigned short base[ 0x100 ];
-	unsigned short result[ 0x100 ];
-
-	count = Rva0080FED0(modulus, -1, first, firstLength);
-	Rva0080FED0(base, -1, owner, firstLength);
-
-	exponent = 0;
-	for ( i = 0; i < secondLength; i++ )
-		exponent = ( exponent << 8 ) | second[ i ];
-
-	if ( exponent == 3 )
-	{
-		Rva0080FB40(result, count, base, base, modulus);
-		Rva0080FB40(result, count, result, base, modulus);
-	}
-	else if ( exponent == 0x11 )
-	{
-		Rva0080FB40(result, count, base, base, modulus);
-		Rva0080FB40(result, count, result, result, modulus);
-		Rva0080FB40(result, count, result, result, modulus);
-		Rva0080FB40(result, count, result, result, modulus);
-		Rva0080FB40(result, count, result, base, modulus);
-	}
-	else if ( exponent == 0x10001 )
-	{
-		Rva0080FB40(result, count, base, base, modulus);
-		Rva0080FB40(result, count, result, result, modulus);
-		Rva0080FB40(result, count, result, result, modulus);
-		Rva0080FB40(result, count, result, result, modulus);
-		Rva0080FB40(result, count, result, result, modulus);
-		Rva0080FB40(result, count, result, result, modulus);
-		Rva0080FB40(result, count, result, result, modulus);
-		Rva0080FB40(result, count, result, result, modulus);
-		Rva0080FB40(result, count, result, result, modulus);
-		Rva0080FB40(result, count, result, result, modulus);
-		Rva0080FB40(result, count, result, result, modulus);
-		Rva0080FB40(result, count, result, result, modulus);
-		Rva0080FB40(result, count, result, result, modulus);
-		Rva0080FB40(result, count, result, result, modulus);
-		Rva0080FB40(result, count, result, result, modulus);
-		Rva0080FB40(result, count, result, result, modulus);
-		Rva0080FB40(result, count, result, base, modulus);
-	}
-	else
-	{
-		memset( result, 0, 0x200 );
-		result[ count - 1 ] = 1;
-		for ( ; exponent != 0; exponent >>= 1 )
-		{
-			if ( ( exponent & 1 ) != 0 )
-				Rva0080FB40(result, count, result, base, modulus);
-			Rva0080FB40(base, count, base, base, modulus);
-		}
-	}
-
-	Rva0080FFB0(result, count, state, firstLength);
-}
-
-void Rva0080F550(unsigned char *state)
-{
-	Rva0080F5A0(state, state, state + 0x404, *(int *)(state + 0x400),
-		state + 0x48C, *(int *)(state + 0x488));
-}
-
 int Rva0080DF70(const unsigned char *source, void *first, void *second)
 {
 	if (first != 0)
@@ -199,7 +119,7 @@ void Rva0080EEF0(char **slot, const char *text)
 	if (*slot != 0)
 		Rva007F0030(*slot);
 	*slot = (char *)Rva007F0000(strlen(text) + 1);
-	strcpy(*slot, text);
+	_mbscpy(*slot, text);
 }
 
 int Rva007FDB60(void *socket, int selector, void *buffer, int bufferSize);
@@ -314,7 +234,7 @@ int Rva0080E6C0(unsigned char *object, int flags, const char *value)
 		Rva007FE780(Rva012C4890);
 		return -1;
 	}
-	strcpy((char *)object + 0x24, value);
+	_mbscpy((char *)object + 0x24, value);
 	*(int *)(object + 0x6C) = (flags & 2) != 0;
 	*(int *)(object + 0x7C) = flags & ~3;
 	Rva007FE780(Rva012C48B4, flags, value);
@@ -457,9 +377,9 @@ void *Rva0080EA30(unsigned char *object)
 	int i;
 	int selected;
 	unsigned int candidate;
-	char address[ 0x100 ];
+	char text[ 0x100 ];
 	unsigned int value;
-	unsigned int extra;
+	unsigned int host;
 	void *selectedTransport;
 
 	selected = -1;
@@ -474,29 +394,29 @@ void *Rva0080EA30(unsigned char *object)
 		if (i == 4)
 		{
 			value = Rva00812220(*(void **)(object + 0x68),
-				Rva012C48F0, (char *)object + 0x24, &extra, 0);
+				Rva012C48F0, (char *)object + 0x24, &host, 0);
 			if (value != 0)
 			{
-				Rva007FE780(Rva012C48F8, value, extra);
-				if ((unsigned int)value > (unsigned int)extra)
+				Rva007FE780(Rva012C48F8, value, host);
+				if ((unsigned int)value > (unsigned int)host)
 				{
 					*(int *)(object + 0x70) = value;
-					*(int *)(object + 0x74) = extra;
-					sprintf(address, Rva012C4924,
+					*(int *)(object + 0x74) = host;
+					sprintf(text, Rva012C4924,
 						(unsigned char)(value >> 24),
 						(unsigned char)(value >> 16),
 						(unsigned char)(value >> 8), (unsigned char)value,
 						(char *)object + 0x24);
 					Rva0080E6C0(object, *(int *)(object + 0x7C) | 2,
-						address);
+						text);
 				}
 				else
 				{
-					*(int *)(object + 0x70) = extra;
+					*(int *)(object + 0x70) = host;
 					*(int *)(object + 0x74) = value;
-					sprintf(address, Rva012C4934, (char *)object + 0x24);
+					sprintf(text, Rva012C4934, (char *)object + 0x24);
 					Rva0080E6C0(object, *(int *)(object + 0x7C) | 1,
-						address);
+						text);
 				}
 			}
 		}
@@ -564,7 +484,7 @@ void Rva00810FF0(void *context, char *out, int outSize);
 
 int Rva0080E350(const int *crypto, unsigned char *data, int length)
 {
-	unsigned char context[0x54];
+	unsigned char SendHash[0x54];
 	int payloadLength;
 
 	payloadLength = length - 8;
@@ -572,25 +492,25 @@ int Rva0080E350(const int *crypto, unsigned char *data, int length)
 		return 0;
 	if (payloadLength < 0)
 		return -1;
-	Rva00810020(context);
-	Rva00810060(context, data, payloadLength);
-	Rva00810FF0(context, (char *)data + payloadLength, 8);
+	Rva00810020(SendHash);
+	Rva00810060(SendHash, data, payloadLength);
+	Rva00810FF0(SendHash, (char *)data + payloadLength, 8);
 	return 0;
 }
 
 int Rva0080E200(const int *crypto, const unsigned char *data, int length)
 {
-	unsigned char context[0x54];
-	char digest[0x10];
+	unsigned char RecvHash[0x54];
+	char strHash[0x10];
 
 	if (crypto[0] == 0 || crypto[1] == 0)
 		return 0;
 	if (length < 8)
 		return -1;
-	Rva00810020(context);
-	Rva00810060(context, data, length - 8);
-	Rva00810FF0(context, digest, 0x10);
-	if (memcmp(data + length - 8, digest, 8) != 0)
+	Rva00810020(RecvHash);
+	Rva00810060(RecvHash, data, length - 8);
+	Rva00810FF0(RecvHash, strHash, 0x10);
+	if (memcmp(data + length - 8, strHash, 8) != 0)
 		return -2;
 	return 0;
 }
@@ -598,57 +518,57 @@ int Rva0080E200(const int *crypto, const unsigned char *data, int length)
 void Rva0080DD80(unsigned char *output, const unsigned char *key,
 	int value, const char *name)
 {
-	unsigned char context[0x54];
-	unsigned char rc4[0x102];
-	char text[0x100];
+	unsigned char MD5[0x54];
+	unsigned char Arc4[0x102];
+	char strCrypt[0x100];
 	int combinedLength;
 
-	sprintf(text, "send-%s-send", name);
-	Rva00810020(context);
-	Rva00810060(context, (const unsigned char *)text, -1);
-	Rva00810FF0(context, (char *)output, 0x10);
+	sprintf(strCrypt, "send-%s-send", name);
+	Rva00810020(MD5);
+	Rva00810060(MD5, (const unsigned char *)strCrypt, -1);
+	Rva00810FF0(MD5, (char *)output, 0x10);
 
-	sprintf(text, "recv-%s-recv", name);
-	Rva00810020(context);
-	Rva00810060(context, (const unsigned char *)text, -1);
-	Rva00810FF0(context, (char *)output + 0x10, 0x10);
+	sprintf(strCrypt, "recv-%s-recv", name);
+	Rva00810020(MD5);
+	Rva00810060(MD5, (const unsigned char *)strCrypt, -1);
+	Rva00810FF0(MD5, (char *)output + 0x10, 0x10);
 
 	memcpy(output + 0x30, output, 0x20);
 	*(int *)(output + 0x50) = value;
 
-	sprintf(text, "iv-%s-iv", name);
-	Rva00810020(context);
-	Rva00810060(context, (const unsigned char *)text, -1);
-	Rva00810FF0(context, (char *)output + 0x20, 0x10);
+	sprintf(strCrypt, "iv-%s-iv", name);
+	Rva00810020(MD5);
+	Rva00810060(MD5, (const unsigned char *)strCrypt, -1);
+	Rva00810FF0(MD5, (char *)output + 0x20, 0x10);
 
 	combinedLength = Rva0080DC90(key, output + 0x20,
-		(unsigned char *)text);
-	Rva0080F200(rc4, (const unsigned char *)text, combinedLength, -1);
-	Rva0080F300(rc4, output + 0x30, 0x24);
+		(unsigned char *)strCrypt);
+	Rva0080F200(Arc4, (const unsigned char *)strCrypt, combinedLength, -1);
+	Rva0080F300(Arc4, output + 0x30, 0x24);
 }
 
 int Rva0080E030(int *crypto, const unsigned char *input,
 	const unsigned char *key, unsigned int totalLength)
 {
-	unsigned char rc4[0x102];
-	unsigned char header[0x34];
+	unsigned char Arc4[0x102];
+	unsigned char Ticket[0x34];
 	int combinedLength;
-	unsigned char combined[0x100];
+	unsigned char strCrypt[0x100];
 
 	if (input == 0)
 	{
 		crypto[0] = 0;
 		return 0;
 	}
-	memcpy(header, input, 0x34);
-	combinedLength = Rva0080DC90(key, header, combined);
-	Rva0080F200(rc4, combined, combinedLength, -1);
-	Rva0080F300(rc4, header + 0x10, 0x24);
-	if (*(unsigned int *)(header + 0x30) > totalLength
-		|| totalLength - *(unsigned int *)(header + 0x30) > 0xE10)
+	memcpy(Ticket, input, 0x34);
+	combinedLength = Rva0080DC90(key, Ticket, strCrypt);
+	Rva0080F200(Arc4, strCrypt, combinedLength, -1);
+	Rva0080F300(Arc4, Ticket + 0x10, 0x24);
+	if (*(unsigned int *)(Ticket + 0x30) > totalLength
+		|| totalLength - *(unsigned int *)(Ticket + 0x30) > 0xE10)
 		return -1;
-	Rva0080F200((unsigned char *)crypto + 8, header + 0x10, 0x10, -1);
-	Rva0080F200((unsigned char *)crypto + 0x10A, header + 0x20, 0x10, -1);
+	Rva0080F200((unsigned char *)crypto + 8, Ticket + 0x10, 0x10, -1);
+	Rva0080F200((unsigned char *)crypto + 0x10A, Ticket + 0x20, 0x10, -1);
 	crypto[0] = 1;
 	crypto[1] = 0;
 	return 1;
@@ -711,9 +631,9 @@ int Rva0080DA50(unsigned char *object, char *output, int length)
 unsigned char *Rva0080C6F0(unsigned char *object)
 {
 	int length;
-	unsigned char context[ 0x54 ];
-	unsigned char header[ 4 ];
-	unsigned char digest[ 0x10 ];
+	unsigned char MD5Context[ 0x54 ];
+	unsigned char uSeqn[ 4 ];
+	unsigned char MD5Data[ 0x10 ];
 	unsigned char *state;
 	unsigned char *packet;
 
@@ -726,19 +646,19 @@ unsigned char *Rva0080C6F0(unsigned char *object)
 	{
 		Rva0080F300( state + 0x86BC, packet, length );
 
-		header[ 0 ] = (unsigned char)( *(unsigned int *)(state + 0x8018) >> 24 );
-		header[ 1 ] = (unsigned char)( *(unsigned int *)(state + 0x8018) >> 16 );
-		header[ 2 ] = (unsigned char)( *(unsigned int *)(state + 0x8018) >> 8 );
-		header[ 3 ] = (unsigned char)*(unsigned int *)(state + 0x8018);
+		uSeqn[ 0 ] = (unsigned char)( *(unsigned int *)(state + 0x8018) >> 24 );
+		uSeqn[ 1 ] = (unsigned char)( *(unsigned int *)(state + 0x8018) >> 16 );
+		uSeqn[ 2 ] = (unsigned char)( *(unsigned int *)(state + 0x8018) >> 8 );
+		uSeqn[ 3 ] = (unsigned char)*(unsigned int *)(state + 0x8018);
 
-		Rva00810020( context );
-		Rva00810060( context, state + 0x80AC,
+		Rva00810020( MD5Context );
+		Rva00810060( MD5Context, state + 0x80AC,
 			*(int *)(state + 0x80A8) );
-		Rva00810060( context, packet + 0x10, length - 0x10 );
-		Rva00810060( context, header, 4 );
-		Rva00810FF0( context, (char *)digest, 0x10 );
+		Rva00810060( MD5Context, packet + 0x10, length - 0x10 );
+		Rva00810060( MD5Context, uSeqn, 4 );
+		Rva00810FF0( MD5Context, (char *)MD5Data, 0x10 );
 
-		if( memcmp( digest, packet, 0x10 ) != 0 )
+		if( memcmp( MD5Data, packet, 0x10 ) != 0 )
 			packet = 0;
 		else
 		{
@@ -838,12 +758,12 @@ int Rva008119A0(struct Rva008119A0Table *table, const char *name,
 			{
 				if ( Rva00811CE0( templates, entry->templates ) != 0 )
 				{
-					strcpy( entry->templates, templates );
+					_mbscpy( entry->templates, templates );
 					entry->timestamp = Rva007FEA00() - 1;
 				}
 				if ( Rva00811CE0( detail, entry->detail ) != 0 )
 				{
-					strcpy( entry->detail, detail );
+					_mbscpy( entry->detail, detail );
 					entry->timestamp = Rva007FEA00() - 1;
 				}
 				return 0;
@@ -860,10 +780,10 @@ int Rva008119A0(struct Rva008119A0Table *table, const char *name,
 	newEntry->header[ 5 ] = (unsigned char)( newEntry->timestamp >> 16 );
 	newEntry->header[ 6 ] = (unsigned char)( newEntry->timestamp >> 8 );
 	newEntry->header[ 7 ] = (unsigned char)newEntry->timestamp;
-	strcpy( newEntry->name, name );
-	strcpy( newEntry->alias, alias );
-	strcpy( newEntry->templates, templates );
-	strcpy( newEntry->detail, detail );
+	_mbscpy( newEntry->name, name );
+	_mbscpy( newEntry->alias, alias );
+	_mbscpy( newEntry->templates, templates );
+	_mbscpy( newEntry->detail, detail );
 	Rva007FD920( table->socket, (const char *)newEntry, 0x180, 0,
 		table->peer, 0x10 );
 	newEntry->timestamp = Rva007FEA00() + 0xFA;
@@ -881,29 +801,29 @@ void Rva0080EF50(unsigned char *object, const char *name, char *alias,
 {
 	char *found;
 	char *dest;
-	char defaultName[0x100];
+	char temp[0x100];
 	const char *source;
 
 	if (*(void **)(object + 0x64) == 0)
 		*(void **)(object + 0x64) = Rva00812320(0x10);
 	if (alias == 0 || *alias == 0)
 	{
-		sprintf(defaultName, "Default Name");
+		sprintf(temp, "Default Name");
 		if (*(char **)object != 0)
 			source = *(char **)object;
 		else
 			source = g_Rva012C47A4;
-		found = strstr(source, defaultName);
+		found = strstr(source, temp);
 		if (found != 0)
 		{
 			found = strchr(found, ':') + 1;
-			for (dest = defaultName; *found >= ' '; found++, dest++)
+			for (dest = temp; *found >= ' '; found++, dest++)
 				*dest = *found;
 			*dest = 0;
 		}
-		alias = defaultName;
+		alias = temp;
 	}
-	strcpy((char *)object + 4, name);
+	_mbscpy((char *)object + 4, name);
 	Rva008119A0(*(struct Rva008119A0Table **)(object + 0x64), name, alias, detail,
 		"TCP:~1:1024\tUDP:~1:1024", *(int *)(object + 0x8C));
 }
@@ -912,3 +832,60 @@ void Rva008118C0(void *table)
 {
 	(void)table;
 }
+
+void Rva008118E0(void *table)
+{
+	(void)table;
+}
+
+/*
+ * These unresolved data references are witnessed by DIR32 relocations in
+ * Y5SmallHelpers' matched bytes.  Initializers are the retail .data bytes;
+ * array extents stop at the next witnessed/identified address noted below.
+ */
+// VA 0x00DD8FE8 (.data), DIR32 witness; 0x24 bytes to Rva012C48B4.
+char Rva012C4890[0x24] = "NetGameUtil: invalid conn param\n";
+// VA 0x00DD900C (.data), DIR32 witness; 0x1C bytes to Rva012C48D0.
+char Rva012C48B4[0x1C] = "NetGameUtil: connect %d %s\n";
+// VA 0x00DD9028 (.data), DIR32 witness; 0x18 bytes to Rva012C48E8.
+char Rva012C48D0[0x18] = "TCP:~1:1024\tUDP:~1:1024";
+// VA 0x00DD9040 (.data), DIR32 witness; 8 bytes to Rva012C48F0.
+char Rva012C48E8[8] = "GmUtil";
+// VA 0x00DD9048 (.data), DIR32 witness; 8 bytes to Rva012C48F8.
+char Rva012C48F0[8] = "GmUtil";
+// VA 0x00DD9050 (.data), DIR32 witness; 0x2C bytes to Rva012C4924.
+char Rva012C48F8[0x2C] = "NetGameUtil: located peer=%08x, host=%08x\n";
+// VA 0x00DD907C (.data), DIR32 witness; 0x10 bytes to Rva012C4934.
+char Rva012C4924[0x10] = "%d.%d.%d.%d%s";
+// VA 0x00DD908C (.data), DIR32 witness; 4 bytes to Rva012C4938.
+char Rva012C4934[4] = "%s";
+// VA 0x00DD9090 (.data), DIR32 witness; 0x24 bytes through its padding,
+// ending before the next identified literal, "Default Name", at 0x00DD90B4.
+char Rva012C4938[0x24] = "NetGameUtil: connection complete\n";
+// VA 0x00DD910C (.data), DIR32 witness; 0x20 bytes to Rva012C49D4.
+char Rva012C49B4[0x20] = "protoadvt: error, invalid kind\n";
+// VA 0x00DD912C (.data), DIR32 witness; 0x20 bytes to Rva012C49F4.
+char Rva012C49D4[0x20] = "protoadvt: error, invalid name\n";
+// VA 0x00DD914C (.data), DIR32 witness; 0x20 bytes to Rva012C4A14.
+char Rva012C49F4[0x20] = "protoadvt: error, invalid note\n";
+// VA 0x00DD916C (.data), DIR32 witness; 0x20 bytes to Rva012C4A34.
+char Rva012C4A14[0x20] = "protoadvt: error, invalid addr\n";
+// VA 0x00DD918C (.data), DIR32 witness; 5 bytes to Rva012C4A39.
+unsigned char Rva012C4A34[5] = { 'g', 'E', 'A', 0, 'g' };
+// VA 0x00DD9191 (.data), DIR32 witness; 5 bytes to Rva012C4A3E.
+unsigned char Rva012C4A39[5] = { 'E', 'A', 0, 'g', 'E' };
+// VA 0x00DD9196 (.data), DIR32 witness; the identified one-character string
+// ends at its NUL before the adjacent "comm/datamodem" literal at 0x00DD9198.
+unsigned char Rva012C4A3E[2] = { 'A', 0 };
+// VA 0x00E0A711 (.data zero-fill); one byte before the next data symbol.
+char Rva0130ACF9[1];
+// VA 0x00DD8EFC (.data), DIR32 witness; retail points to VA 0x00DD8EC0.
+// No source object exists for that target, so reproduce its pointed-to text
+// locally; the original pointer identity is not asserted.
+static char g_Rva012C47A4Text[] =
+	"00-e0-98-8f-f8-e4:Greg's PC\n00-e0-98-84-ce-cc:PS2 Dev Box\n";
+char *g_Rva012C47A4 = g_Rva012C47A4Text;
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeNextIdUNC@@YAHXZ=_Rva0080E440")

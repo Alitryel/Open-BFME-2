@@ -1,4 +1,4 @@
-// cl: /O1 /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // ?Get_HTree@@YAPAVHTreeClass@@PBD@Z @ 0x0017FC7C (178 bytes).
 // Free hierarchy lookup: builds the "h*"+name key lowercased, fetches the
@@ -7,11 +7,14 @@
 // documents the same lookup with a 512-byte key buffer, a hidden-return
 // registry reference, and a 4-byte owner holding the prototype at +0 with
 // the tree at +0x14). BFME2 differences carried here: the "h*" prefix goes
-// through strcpy (retail calls the static strcpy twice) and _strlwr arrives
+// through _mbscpy (retail calls the static strcpy twice) and _strlwr arrives
 // via the msvcr71 import, so neither is intrinsic.
+// Bind this caller's address-pinned hierarchy ref helpers to the matched
+// release body and the byte-matched generic counted registry lookup.
+#pragma comment(linker, "/alternatename:?Release_Ref@HierarchyPrototype@@QAEXXZ=?Release_Ref@TextureBaseClass@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?Rva0061F230_GetPrototype@@YA?AVHierarchyPrototypeRef@@PBD@Z=?Rva009EBCE0_GetPrototype@@YA?AVRva009EBCE0AssetReference@@PBD@Z")
 
-extern "C" char *strcpy(char *destination, const char *source);
-#pragma function(strcpy)
+extern "C" char *_mbscpy(char *destination, const char *source);
 extern "C" __declspec(dllimport) char *__cdecl _strlwr(char *string);
 
 class HTreeClass;
@@ -40,13 +43,15 @@ public:
 // Counted registry reference returned by value from the asset registry.
 // The non-trivial destructor forces the hidden-return slot; retail reuses
 // the dead argument slot for it.
+// Match the existing counted-registry release provider and shared texture view.
+#include "../../../../GameEngineDevice/Source/W3DDevice/GameClient/BFME2ParticleTextureHandles.h"
 class HierarchyPrototypeRef
 {
 public:
 	~HierarchyPrototypeRef()
 	{
 		if (m_object != 0)
-			m_object->Release_Ref();
+			((TextureClass *)m_object)->Release_Ref();
 	}
 
 private:
@@ -80,8 +85,8 @@ HTreeClass *Get_HTree(const char *name)
 		return 0;
 
 	char lookup[512];
-	strcpy(lookup, "h*");
-	strcpy(lookup + 2, name);
+	_mbscpy(lookup, "h*");
+	_mbscpy(lookup + 2, name);
 	_strlwr(lookup);
 
 	HTreePrototypeOwner owner(Rva0061F230_GetPrototype(lookup));

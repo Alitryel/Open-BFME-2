@@ -52,3 +52,7 @@ void BfmeThingVJM::bfmeGoVJM(int a, int b)
 	m_bfme14->bfmeB08VJM(&msg, bfmeCbVJM, this, m_bfme6dc);
 	msg.bfmeDoneVJM();
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeUseTFC@BfmeSinkTFC@@QAEXPAX0@Z=?bfmeGoVJM@BfmeThingVJM@@QAEXHH@Z")

@@ -1,4 +1,15 @@
 // cl: /Ireference/shims/bfmerendobj /arch:SSE /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -36,6 +47,8 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+#include "../../../../../reference/shims/bfme_w3d_util/shader.h"
+#include "../../../../../reference/shims/bfme_w3d_util/w3d_file.h"
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "w3d_util.h"
 #include "vector3.h"
@@ -44,36 +57,36 @@
 #include "shader.h"
 
 
-void	W3dUtilityClass::Convert_Vector(const W3dVectorStruct & v,Vector3 * set)
+void	W3dUtilityClass::Convert_Vector(const W3dVectorStruct & w3dVector,Vector3 * set)
 {
-	set->X = v.X;
-	set->Y = v.Y;
-	set->Z = v.Z;
+	set->X = w3dVector.X;
+	set->Y = w3dVector.Y;
+	set->Z = w3dVector.Z;
 }
 
-void	W3dUtilityClass::Convert_Vector(const Vector3 & v,W3dVectorStruct * set)
+void	W3dUtilityClass::Convert_Vector(const Vector3 & vec,W3dVectorStruct * set)
 {
-	set->X = v.X;
-	set->Y = v.Y;
-	set->Z = v.Z;
-}
-
-// ?W3dUtilityClass::Convert_Quaternion present-unmatched
-void	W3dUtilityClass::Convert_Quaternion(const W3dQuaternionStruct & q,Quaternion * set)
-{
-	set->X = q.Q[0];
-	set->Y = q.Q[1];
-	set->Z = q.Q[2];
-	set->W = q.Q[3];
+	set->X = vec.X;
+	set->Y = vec.Y;
+	set->Z = vec.Z;
 }
 
 // ?W3dUtilityClass::Convert_Quaternion present-unmatched
-void W3dUtilityClass::Convert_Quaternion(const Quaternion & q,W3dQuaternionStruct * set)
+void	W3dUtilityClass::Convert_Quaternion(const W3dQuaternionStruct & w3dQuaternion,Quaternion * set)
+{
+	set->X = w3dQuaternion.Q[0];
+	set->Y = w3dQuaternion.Q[1];
+	set->Z = w3dQuaternion.Q[2];
+	set->W = w3dQuaternion.Q[3];
+}
+
+// ?W3dUtilityClass::Convert_Quaternion present-unmatched
+void W3dUtilityClass::Convert_Quaternion(const Quaternion & quaternion,W3dQuaternionStruct * set)
 {	
-	set->Q[0] = q.X;
-	set->Q[1] = q.Y;
-	set->Q[2] = q.Z;
-	set->Q[3] = q.W;
+	set->Q[0] = quaternion.X;
+	set->Q[1] = quaternion.Y;
+	set->Q[2] = quaternion.Z;
+	set->Q[3] = quaternion.W;
 }
 
 void	W3dUtilityClass::Convert_Color(const W3dRGBStruct & rgb,Vector3 * set)
@@ -83,11 +96,11 @@ void	W3dUtilityClass::Convert_Color(const W3dRGBStruct & rgb,Vector3 * set)
 	set->Z = (float)rgb.B / 255.0f;
 }
 
-void	W3dUtilityClass::Convert_Color(const Vector3 & v,W3dRGBStruct * color)
+void	W3dUtilityClass::Convert_Color(const Vector3 & vec,W3dRGBStruct * color)
 {
-	color->R = (uint8)(255.0f * v.X);
-	color->G = (uint8)(255.0f * v.Y);
-	color->B = (uint8)(255.0f * v.Z);
+	color->R = (uint8)(255.0f * vec.X);
+	color->G = (uint8)(255.0f * vec.Y);
+	color->B = (uint8)(255.0f * vec.Z);
 	color->pad = 0;
 }
 
@@ -99,15 +112,14 @@ void W3dUtilityClass::Convert_Color(const W3dRGBAStruct & rgb,Vector4 * set)
 	set->W = (float)rgb.A / 255.0f;
 }
 
-void W3dUtilityClass::Convert_Color(const Vector4 & v,W3dRGBAStruct * color)
+void W3dUtilityClass::Convert_Color(const Vector4 & vector4,W3dRGBAStruct * color)
 {
-	color->R = (uint8)(255.0f * v.X);
-	color->G = (uint8)(255.0f * v.Y);
-	color->B = (uint8)(255.0f * v.Z);
-	color->A = (uint8)(255.0f * v.W);
+	color->R = (uint8)(255.0f * vector4.X);
+	color->G = (uint8)(255.0f * vector4.Y);
+	color->B = (uint8)(255.0f * vector4.Z);
+	color->A = (uint8)(255.0f * vector4.W);
 }
 
-// ?W3dUtilityClass::Convert_Shader present-unmatched
 void W3dUtilityClass::Convert_Shader(const W3dShaderStruct & shader,ShaderClass * set)
 {
 	set->Set_Depth_Compare		((ShaderClass::DepthCompareType)W3d_Shader_Get_Depth_Compare(&shader));
@@ -131,7 +143,8 @@ void W3dUtilityClass::Convert_Shader(const W3dShaderStruct & shader,ShaderClass 
 	set->Set_Post_Detail_Alpha_Func ((ShaderClass::DetailAlphaFuncType) W3d_Shader_Get_Detail_Alpha_Func (&shader));
 }
 
-// ?W3dUtilityClass::Convert_Shader present-unmatched
+// Match the size-optimized retail converter and retain its helper providers here.
+#pragma optimize("gsy", on)
 void W3dUtilityClass::Convert_Shader(const ShaderClass & shader,W3dShaderStruct * set)
 {
 	W3d_Shader_Reset(set);
@@ -146,3 +159,5 @@ void W3dUtilityClass::Convert_Shader(const ShaderClass & shader,W3dShaderStruct 
 	W3d_Shader_Set_Post_Detail_Color_Func(set,shader.Get_Post_Detail_Color_Func());
 	W3d_Shader_Set_Post_Detail_Alpha_Func(set,shader.Get_Post_Detail_Alpha_Func());
 }
+
+#pragma optimize("", on)

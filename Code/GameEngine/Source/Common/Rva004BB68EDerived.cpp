@@ -1,4 +1,4 @@
-// cl: /O1 /MD
+// cl: /MD
 //
 // Opaque multiple-inheritance destructors tail-calling Rva004BB68E::~
 // Rva004BB68E at 0x004BB68E (pinned opaque MI base; identity unproven). Each
@@ -28,7 +28,7 @@ public:
 class Rva004BB949_B2
 {
 public:
-	virtual void f2();
+	virtual void f2() {}
 };
 
 class Rva004BB949 : public Rva004BB68E, public MiBase1, public Rva004BB949_B2
@@ -44,7 +44,7 @@ Rva004BB949::~Rva004BB949()
 class Rva004BC325_B2
 {
 public:
-	virtual void f2();
+	virtual void f2() {}
 };
 
 class Rva004BC325 : public Rva004BB68E, public MiBase1, public Rva004BC325_B2
@@ -88,3 +88,8 @@ public:
 Rva004BD5ED::~Rva004BD5ED()
 {
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?f2@Rva004BD5ED_B2@@UAEXXZ=?bfmeGo1026F@BfmeF1026@@QAEXHHH@Z")

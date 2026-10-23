@@ -21,7 +21,18 @@ private:
 };
 
 // ?friend_newModuleInstance@RepairDockUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *RepairDockUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *RepairDockUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new RepairDockUpdate(thing, moduleData));
 }
+
+// Select-any anchor: this unit owns the row above while other TUs emit it as
+// an inline copy. The anchor keeps this unit emitting its copy for the ledger;
+// it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitRepairDockUpdateInstanceNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitRepairDockUpdateInstanceNew(Thing *thing, const ModuleData *moduleData)
+{
+	RepairDockUpdate::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

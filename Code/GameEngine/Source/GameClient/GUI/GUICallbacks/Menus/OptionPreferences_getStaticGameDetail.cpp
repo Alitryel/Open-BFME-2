@@ -1,4 +1,4 @@
-// cl: /O1 /GX- /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /GX- /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // ?getIdealStaticGameDetail@OptionPreferences@@QAEHXZ, retail 0x002E429B,
@@ -29,27 +29,8 @@ template <typename T> struct BfmeStringData
 	T text[1];
 };
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-private:
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	~StringBase() { releaseBuffer(); }
-	void releaseBuffer();
-	BfmeStringData<T> *m_data;
+#include "ascii_string.h"
 
-public:
-	const T *str() const { return m_data ? &m_data->text[0] : (const T *)""; }
-};
-
-class AsciiString : private StringBase<char>
-{
-public:
-	AsciiString(const char *text) : StringBase<char>(text) {}
-	AsciiString(const AsciiString &other);
-	~AsciiString() {}
-};
 
 bool operator<(const AsciiString &left, const AsciiString &right);
 
@@ -69,7 +50,7 @@ typedef _STL::map<AsciiString, AsciiString> AsciiPreferenceMap;
 // Retail LOD level-name table (VeryLow, Low, Medium, High, UltraHigh,
 // Custom) at 0xDB95F4. COMMON merges across TUs; the address patches
 // from retail.
-const char *BfmeLODLevelNames[7];
+extern const char *rva00202B6CNames[7];  // defined in OptionPreferences_setStaticGameLOD.cpp
 
 struct Rva00DFE144Globals
 {
@@ -78,7 +59,9 @@ struct Rva00DFE144Globals
 };
 
 // COMMON merges across TUs; the address patches from retail.
-Rva00DFE144Globals *TheRva00DFE144;
+// The global at this VA is TheGameLODManager; this name aliases it rather than
+// defining a second variable the rest of the game never sees.
+extern class GameLODManager *TheGameLODManager;
 
 class OptionPreferences : public AsciiPreferenceMap
 {
@@ -98,12 +81,12 @@ public:
 // ?getIdealStaticGameDetail@OptionPreferences@@QAEHXZ
 Int OptionPreferences::getIdealStaticGameDetail(void)
 {
-	return GetEnumValue("IdealStaticGameLOD", BfmeLODLevelNames, 6, -1);
+	return GetEnumValue("IdealStaticGameLOD", rva00202B6CNames, 6, -1);
 }
 
 // ?getStaticGameDetail@OptionPreferences@@QAEHXZ
 Int OptionPreferences::getStaticGameDetail(void)
 {
-	Int level = TheRva00DFE144->m_staticLODLevel;
-	return GetEnumValue("StaticGameLOD", BfmeLODLevelNames, 6, level);
+	Int level = (*(Rva00DFE144Globals **)&TheGameLODManager)->m_staticLODLevel;
+	return GetEnumValue("StaticGameLOD", rva00202B6CNames, 6, level);
 }

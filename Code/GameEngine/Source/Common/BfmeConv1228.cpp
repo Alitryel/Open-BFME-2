@@ -8,9 +8,26 @@ struct BfmeW1228
 	int m_bfme04;
 };
 
-extern BfmeW1228 g_bfmeWords1228[];
-extern signed char g_bfmeLookup1228[];
-extern unsigned char g_bfmeLens1228[];
+// Initializers read from the retail VAs referenced by bfmeFind1228's matched
+// DIR32 slots: six 8-byte words at 0x00DDCF54, six lengths at 0x00DDCF84,
+// and the 16-entry signed lookup at 0x00DDCF8C.
+BfmeW1228 g_bfmeWords1228[] =
+{
+	{ "align", 1 },
+	{ "height", 2 },
+	{ "scaleMode", 4 },
+	{ "width", 3 },
+	{ "addListener", 100 },
+	{ "removeListener", 101 }
+};
+
+signed char g_bfmeLookup1228[16] =
+{
+	-1, -1, -1, -1, -1, 0, 1, -1,
+	-1, -1, 2, 3, 4, -1, -1, 5
+};
+
+unsigned char g_bfmeLens1228[6] = { 5, 6, 9, 5, 11, 14 };
 
 extern "C" int bfmeHash1228(const char *str, unsigned int len)
 {

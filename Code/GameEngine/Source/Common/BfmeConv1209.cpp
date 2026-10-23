@@ -9,7 +9,9 @@ struct BfmeS1209
 // instead indirects through the callback cell at 0x00E177A4 (NULL in the
 // vanilla image; filled at runtime), so the callee is modeled as a
 // function-pointer global whose DIR32 slot the gate patches from retail.
-extern "C" void (__cdecl *bfmeNotify1209Callback)(void *a);
+// Matched DIR32 witness places this callback cell at VA 0x00E177A4 in the
+// zero-filled .data tail; retail starts NULL and fills it at runtime.
+extern "C" void (__cdecl *bfmeNotify1209Callback)(void *a) = 0;
 
 class BfmeA1209
 {

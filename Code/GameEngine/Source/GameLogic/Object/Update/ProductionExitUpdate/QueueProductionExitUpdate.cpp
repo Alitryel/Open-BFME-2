@@ -1,6 +1,16 @@
-// cl: /Ireference/shims/dockupdate /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
+// cl: /Ireference/shims/queueproductionexitrallypoint /Ireference/shims/zh_outofline /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /Ireference/shims/dockupdate /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
 // stlport
 // Ported verbatim from the Generals Zero Hour reference (GameEngine/Source/GameLogic/Object/Update/ProductionExitUpdate/QueueProductionExitUpdate.cpp); this unit had no counterpart under Code/.
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -50,134 +60,26 @@
 // QueueProductionExitUpdateCtorThunk.cpp.
 
 //-------------------------------------------------------------------------------------------------
-// ??1QueueProductionExitUpdate@@MAE@XZ present-unmatched
-QueueProductionExitUpdate::~QueueProductionExitUpdate()
+// ??1QueueProductionExitUpdate@@MAE@XZ is rowed with its retail body in
+// QueueProductionExitUpdateDtor.cpp. Without a dtor here this unit no longer
+// emits the vftable, so the anchor below keeps the header's inline
+// getRallyPoint (rowed) and isExitBusy (QueueProductionExitUpdateDtor.cpp's
+// vftable slot) emitted out of line. Not retail code.
+#pragma inline_depth(0)
+// ?_bfmeQueueExitRallyPointAnchor absent-from-retail
+const Coord3D *_bfmeQueueExitRallyPointAnchor(const QueueProductionExitUpdate *queueProductionExitUpdate)
 {
+	if (queueProductionExitUpdate->QueueProductionExitUpdate::isExitBusy())
+		return 0;
+	return queueProductionExitUpdate->QueueProductionExitUpdate::getRallyPoint();
 }
+#pragma inline_depth()
 
 //-------------------------------------------------------------------------------------------------
-// ?exitObjectViaDoor@QueueProductionExitUpdate@@UAEXPAVObject@@W4ExitDoorType@@@Z present-unmatched
-void QueueProductionExitUpdate::exitObjectViaDoor( Object *newObj, ExitDoorType exitDoor )
-{
-	DEBUG_ASSERTCRASH(exitDoor == DOOR_1, ("multiple exit doors not supported here"));
-
-	Object *creationObject = getObject();
-	if (creationObject)
-	{
-		const QueueProductionExitUpdateModuleData* md = getQueueProductionExitUpdateModuleData();
-
-		Real exitAngle = creationObject->getOrientation();
-		const Matrix3D *transform = creationObject->getTransformMatrix();
-		Vector3 loc;
-		Coord3D createPoint;
-
-		//
-		// calculate the position to create the object at, we take the coord specified
-		// in INI which is in model space, rotate it to match the building angle
-		// and translate for building location via a transform call
-		//
-		loc.Set( md->m_unitCreatePoint.x, md->m_unitCreatePoint.y, md->m_unitCreatePoint.z );
-		transform->Transform_Vector( *transform, loc, &loc );
-
-		Bool creationInAir = FALSE;
-		if( TheTerrainLogic )
-		{
-			if( loc.Z != TheTerrainLogic->getGroundHeight( loc.X, loc.Y ) )
-				creationInAir = TRUE;
-		}
-		// make sure the point is on the terrain
-		if( creationInAir && !md->m_allowAirborneCreationData )
-			loc.Z = TheTerrainLogic ? TheTerrainLogic->getGroundHeight( loc.X, loc.Y ) : 0.0f;
-
-		// we need it in Coord3D form
-		createPoint.x = loc.X;
-		createPoint.y = loc.Y;
-		createPoint.z = loc.Z;
-
-		newObj->setPosition( &createPoint );
-		newObj->setOrientation( exitAngle );
-
-		//
-		// Objects that are created in the air from producers that are in the air get 
-		// a kick that will make their starting speed equal mine.  
-		//
-		PhysicsBehavior *newObjectPhysics = newObj->getPhysics();
-		PhysicsBehavior *myPhysics = creationObject->getPhysics();
-
-		if( (myPhysics != NULL) && creationInAir && (newObjectPhysics != NULL) )
-		{
-			Coord3D startingForce = *myPhysics->getVelocity();
-			startingForce.x *= newObjectPhysics->getMass();
-			startingForce.y *= newObjectPhysics->getMass();
-			startingForce.z *= newObjectPhysics->getMass();
-			newObjectPhysics->applyMotiveForce( &startingForce );
-
-			const Real STARTING_PITCH_COEFF = 0.04f;
-			Real pitchRate = newObjectPhysics->getCenterOfMassOffset() * STARTING_PITCH_COEFF;
-			newObjectPhysics->setPitchRate( pitchRate );
-		}
+// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Update/ProductionExitUpdate/QueueProductionExitUpdateExitObjectViaDoor.cpp
 
 
-		/** @todo This really should be automatically wrapped up in an actication sequence
-		for objects in general */
-		// tell the AI about it
-		TheAI->pathfinder()->addObjectToPathfindMap( newObj );
-		Coord3D tmp;
-		getNaturalRallyPoint(tmp);
-		// Grid it.
-		TheAI->pathfinder()->snapPosition(newObj, &tmp);
-		std::vector<Coord3D> exitPath;
-		exitPath.push_back(tmp);
-
-		AIUpdateInterface  *ai = newObj->getAIUpdateInterface();
-		if (m_rallyPointExists)
-		{
-			tmp = m_rallyPoint;
-			if (ai && ai->isDoingGroundMovement()) 
-			{
-				if (TheAI->pathfinder()->adjustDestination(newObj, ai->getLocomotorSet(), &tmp))
-					exitPath.push_back(tmp);
-
-			}
-		} else {
-			// Double the destination to keep redguards from stacking.
-			exitPath.push_back(tmp);
-		}
-		if (ai) {
-			ai->aiFollowExitProductionPath( &exitPath, creationObject, CMD_FROM_AI );
-		}
-		m_currentDelay = md->m_exitDelayData;
-
-		if (m_currentBurstCount)
-			m_currentBurstCount--; // fewer and fewer units to burst
-
-	}
-
-}
-
-
-// ?getExitPosition@QueueProductionExitUpdate@@UBE_NAAUCoord3D@@@Z present-unmatched
-Bool QueueProductionExitUpdate::getExitPosition( Coord3D& exitPosition ) const
-{
-	const Object *obj = getObject();
-	if (!obj)
-		return FALSE;
-
-	const Matrix3D *transform = obj->getTransformMatrix();
-
-	const QueueProductionExitUpdateModuleData *md = getQueueProductionExitUpdateModuleData();
-
-	Vector3 loc;
-	loc.Set( md->m_unitCreatePoint.x, md->m_unitCreatePoint.y, md->m_unitCreatePoint.z );
-	transform->Transform_Vector( *transform, loc, &loc );
-
-	exitPosition.x = loc.X;
-	exitPosition.y = loc.Y;
-	exitPosition.z = loc.Z;
-	
-	return TRUE;
-
-}
+// getExitPosition (BFME2 adds the exit angle out-param) byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Update/ProductionExitUpdate/QueueProductionExitUpdateExitObjectViaDoor.cpp
 
 
 //-------------------------------------------------------------------------------------------------
@@ -261,80 +163,19 @@ void QueueProductionExitUpdate::exitObjectByBudding( Object *newObj, Object *bud
 
 
 
-// ?getNaturalRallyPoint@QueueProductionExitUpdate@@UBE_NAAUCoord3D@@_N@Z present-unmatched
-Bool QueueProductionExitUpdate::getNaturalRallyPoint( Coord3D& rallyPoint, Bool offset )  const
-{
-	const QueueProductionExitUpdateModuleData *data = getQueueProductionExitUpdateModuleData();
-	Vector3 p;
-
-	//
-	// get the natural rally point from the INI definition, this coord is in model space relative
-	// to the model (0,0,0)
-	//
-	p.X = data->m_naturalRallyPoint.x;
-	p.Y = data->m_naturalRallyPoint.y;
-	p.Z = data->m_naturalRallyPoint.z;
-
-	if ( offset )
-	{
-		Vector3 offset = p;
-		offset.Normalize();
-		offset *= (2*PATHFIND_CELL_SIZE_F);
-		p+=offset;
-	}
-
-	// transform the point into world space
-	const Matrix3D *transform = getObject()->getTransformMatrix();
-	transform->Transform_Vector( *transform, p, &p );
-	rallyPoint.x = p.X; rallyPoint.y = p.Y; rallyPoint.z = p.Z;
-	return TRUE;
-}
+// getNaturalRallyPoint byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Update/ProductionExitUpdate/QueueProductionExitUpdateExitObjectViaDoor.cpp
 
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
-// ?crc@QueueProductionExitUpdate@@MAEXPAVXfer@@@Z present-unmatched
-void QueueProductionExitUpdate::crc( Xfer *xfer )
-{
-
-	// extend base class
-	UpdateModule::crc( xfer );
-
-}  // end crc
+// Unverified donor definition banked in reverse/attempt_support/link-seat-20261021/QueueProductionExitUpdate-unmatched.cpp.txt
 
 // ------------------------------------------------------------------------------------------------
 /** Xfer method
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
-// ?xfer@QueueProductionExitUpdate@@MAEXPAVXfer@@@Z present-unmatched
-void QueueProductionExitUpdate::xfer( Xfer *xfer )
-{
-
-	// version
-	XferVersion currentVersion = 1;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
-
-	// extend base class
-	UpdateModule::xfer( xfer );
-
-	// current delay
-	xfer->xferUnsignedInt( &m_currentDelay );
-
-	// rally point
-	xfer->xferCoord3D( &m_rallyPoint );
-
-	// rally point exists
-	xfer->xferBool( &m_rallyPointExists );
-
-	// creation clear distance
-	xfer->xferReal( &m_creationClearDistance );
-
-	// current burst count
-	xfer->xferUnsignedInt( &m_currentBurstCount );
-
-}  // end xfer
+// QueueProductionExitUpdate::xfer is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/QueueProductionExitUpdateXfer.cpp (0x004A0057).
 
 // ------------------------------------------------------------------------------------------------
 /** Load post process */

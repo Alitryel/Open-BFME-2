@@ -25,7 +25,18 @@ public:
     virtual void Thread_Function();
 };
 
-MouseThreadClass::~MouseThreadClass()
+inline MouseThreadClass::~MouseThreadClass()
 {
     Stop();
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeMouseThreadClassInlineAnchor@@YAXPAVMouseThreadClass@@@Z absent-from-retail
+void _bfmeMouseThreadClassInlineAnchor(MouseThreadClass *mouseThread)
+{
+    mouseThread->MouseThreadClass::~MouseThreadClass();
+}
+#pragma inline_depth()

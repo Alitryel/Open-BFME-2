@@ -8,14 +8,20 @@
 // The three module words it reports are address-derived; nothing names them but
 // the selectors they answer.
 extern int g_Rva0130A590State;   // 'open'
+// g_Rva0130A590State: matched references place it at VA 0xe09fac (zero-filled .bss).
+int g_Rva0130A590State;
 extern int g_Rva0130A594Conn;    // 'conn'
+// g_Rva0130A594Conn: matched references place it at VA 0xe09fb0 (zero-filled .bss).
+int g_Rva0130A594Conn;
 extern int g_Rva0130A598Online;  // 'onln'
+// g_Rva0130A598Online: matched references place it at VA 0xe09fb4 (zero-filled .bss).
+int g_Rva0130A598Online;
 
 int  Rva007FE780Printf( const char *format, ... );    // 0x007FE780
 int  Rva007FDEE0( void );                             // 0x007FDEE0
 unsigned int Rva007EB520NetConnMAC( void *adapter );   // 0x007EB520
-void Rva007FD080( int priority );                     // 0x007FD080
-void Rva007FD270( void );                             // 0x007FD270
+extern "C" void Rva007FD080( int priority );                     // 0x007FD080
+extern "C" void Rva007FD270( void );                             // 0x007FD270
 void Rva007F8D30( void );                             // 0x007F8D30
 extern "C" __declspec(dllimport) void __stdcall Sleep( unsigned int ms );
 
@@ -30,10 +36,15 @@ struct IdleHandlerSlot
 	void *m_ref;        // +0x04
 };
 
-extern IdleHandlerSlot g_Rva0130A7B0Idle[ 16 ];
+// g_Rva0130A7B0Idle: target VA 0x00E0A1C8 (.data zero-fill), established by
+// 15 matched DIR32 witnesses. The 16 slots indexed here occupy 0x80 bytes and
+// end at the next known global, g_Rva0130A830Mac at VA 0x00E0A248.
+IdleHandlerSlot g_Rva0130A7B0Idle[ 16 ] = { 0 };
 
 // The tick the pump at 0x007F8C90 will next run at.
 extern unsigned int g_Rva0130A850Next;
+// g_Rva0130A850Next: matched references place it at VA 0xe0a268 (zero-filled .bss).
+unsigned int g_Rva0130A850Next;
 
 unsigned int Rva007FEA00Tick( void );                 // 0x007FEA00
 
@@ -41,16 +52,23 @@ unsigned int Rva007FEA00Tick( void );                 // 0x007FEA00
 // the 0x10-byte buffer handed to the 'macx' selector, 0x0130A840 the fourteen
 // bytes of text written over it.  They are 0x10 apart, so the buffer is exactly
 // the size the call declares.
-extern unsigned char g_Rva0130A830Mac[ 0x10 ];
-extern char g_Rva0130A840Text[ 0x10 ];
+// g_Rva0130A830Mac: matched references place it at VA 0xe0a248 (zero-filled).
+unsigned char g_Rva0130A830Mac[0x10] = { 0 };
+// g_Rva0130A840Text: matched references place it at VA 0xe0a258 (zero-filled).
+char g_Rva0130A840Text[0x10] = { 0 };
 
-// "0123456789abcdef" at 0x0112B918, sixteen bytes with NO terminator -- the
-// next literal in .rdata starts immediately after it.  An extern is the only
-// honest spelling; a string literal here would be seventeen bytes.
-extern const char g_Rva0112B918HexDigits[];
+// g_Rva0112B918HexDigits: target VA 0x00CE312C (.rdata), established by 12
+// matched DIR32 witnesses. Retail has exactly these 16 bytes, no terminator;
+// the next literal starts at 0x00CE313C.
+extern const char g_Rva0112B918HexDigits[ 16 ] = {
+	'0', '1', '2', '3', '4', '5', '6', '7',
+	'8', '9', 'a', 'b', 'c', 'd', 'e', 'f',
+};
 
 // The default parameter string 0x007EB380 substitutes for a null one.
-extern char g_Rva0130A59CDefault[];
+// g_Rva0130A59CDefault: matched references place it at VA 0xe09fb8; zero-filled at retail, sized to the
+// 0x4-byte gap before the next known global there.
+char g_Rva0130A59CDefault[4];
 extern "C" void *memcpy( void *dest, const void *src, unsigned int count );
 
 // FIVE SELECTORS, and the first one is answered BEFORE the initialisation
@@ -133,7 +151,7 @@ struct NCB
 };
 
 extern "C" unsigned char __stdcall Netbios( NCB *ncb );
-extern "C" char *strcpy( char *dest, const char *src );
+extern "C" char *_mbscpy( char *dest, const char *src );
 extern "C" void *memset( void *dest, int value, unsigned int count );
 
 // 0x007EB520 IS NetConnMAC and it says so twice, in "NetConnMAC: The NCBRESET
@@ -188,7 +206,7 @@ unsigned int Rva007EB520NetConnMAC( void *adapter )
 		memset( &ncb, 0, 0x40 );
 		ncb.ncb_command = 0x33;
 		ncb.ncb_lana_num = (unsigned char)lana;
-		strcpy( ncb.ncb_callname, "*               " );
+		_mbscpy( ncb.ncb_callname, "*               " );
 		ncb.ncb_buffer = adapter;
 		ncb.ncb_length = 0xF0;
 
@@ -234,7 +252,9 @@ int Rva007EB380Startup( char *params )
 // 0x007EB650 is its counterpart: two teardowns and the state back to zero, so
 // the next startup will run.  It checks nothing first -- shutting down twice is
 // allowed here where starting twice is not -- and always reports success.
-int Rva007EB650Shutdown( void )
+// Native caller5521FD passes one flags word and removes it after the call.
+// Shutdown ignores that argument; the complete34B body remains unchanged.
+int Rva007EB650Shutdown( int flags )
 {
 	Rva007F8D30();
 	Rva007FD270();

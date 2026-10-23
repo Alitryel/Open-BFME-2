@@ -64,3 +64,5 @@ void bfmeFreePM(void *at, unsigned int bytes)
 	else
 		bfmeSmallFreePM(at, bytes);
 }
+// ?bfmeFreeList@@3PAPAUBfmeFreeListNode@@A: the global at VA 0xddf530 is ?_S_free_list@?$__node_alloc@$0A@$0A@@_STL@@2RCRAV_Node_alloc_obj@2@C.
+#pragma comment(linker, "/alternatename:?bfmeFreeList@@3PAPAUBfmeFreeListNode@@A=?_S_free_list@?$__node_alloc@$0A@$0A@@_STL@@2RCRAV_Node_alloc_obj@2@C")

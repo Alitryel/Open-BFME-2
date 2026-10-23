@@ -51,3 +51,7 @@ template void sort<S4SortElem8 *, S4Cmp00625C10>(
 	S4SortElem8 *, S4SortElem8 *, S4Cmp00625C10);
 
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeSortAVJX@@YAXPAUBfmeElemVJX@@0UBfmeCmpVJX@@@Z=??$sort@PAUS4SortElem8@@US4Cmp00625C10@@@_STL@@YAXPAUS4SortElem8@@0US4Cmp00625C10@@@Z")

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 // Open-BFME5: SiegeAIUpdate module ctor.
 // Out-of-line base MI, then five most-derived vtbls at
@@ -44,17 +44,17 @@ public:
 	virtual void siegeAIUpdateIface4Anchor();
 };
 
-class SiegeAIUpdateBase : public BehaviorModule,
+class AIUpdateInterface : public BehaviorModule,
 	public SiegeAIUpdateIface1,
 	public SiegeAIUpdateIface2,
 	public SiegeAIUpdateIface3,
 	public SiegeAIUpdateIface4
 {
 public:
-	SiegeAIUpdateBase(Thing *thing, const ModuleData *moduleData);
+	AIUpdateInterface(Thing *thing, const ModuleData *moduleData);
 };
 
-class SiegeAIUpdate : public SiegeAIUpdateBase
+class SiegeAIUpdate : public AIUpdateInterface
 {
 public:
 	SiegeAIUpdate(Thing *thing, const ModuleData *moduleData);
@@ -62,6 +62,17 @@ public:
 
 // ??0SiegeAIUpdate@@QAE@PAVThing@@PBVModuleData@@@Z
 SiegeAIUpdate::SiegeAIUpdate(Thing *thing, const ModuleData *moduleData)
-	: SiegeAIUpdateBase(thing, moduleData)
+	: AIUpdateInterface(thing, moduleData)
 {
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?siegeAIUpdateIface1Anchor@SiegeAIUpdateIface1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x0026E9BD -> ??0AIUpdateInterface@@QAE@PAVThing@@PBVModuleData@@@Z (defined by Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/AIUpdateInterfaceCtor.cpp)
+#pragma comment(linker, "/alternatename:??0SiegeAIUpdateBase@@QAE@PAVThing@@PBVModuleData@@@Z=??0AIUpdateInterface@@QAE@PAVThing@@PBVModuleData@@@Z")

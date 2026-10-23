@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004561C1@BuildingBehavior@@SA?AW4NameKeyType@@XZ @0x4561C1
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@BuildingBehavior@@UBE?AW4NameKeyType@@XZ @0x4561C1
 // (69B): cached pool-name key for BuildingBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("BuildingBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class BuildingBehavior
 {
 public:
-	static NameKeyType rva0004561C1();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004561C1@BuildingBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType BuildingBehavior::rva0004561C1()
+// ?getModuleNameKey@BuildingBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType BuildingBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheBuildingBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("BuildingBehavior");

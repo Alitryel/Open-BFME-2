@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /arch:SSE
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /Ireference/shims/moduledata
 //
 // ??0RunOffMapBehaviorModuleData@@QAE@XZ, retail 0x00254ECE (86 bytes).
 // The module-data half of RunOffMapBehavior: vtable 0x00BF3298,
@@ -12,29 +12,20 @@
 // is load-bearing for the EH state machine (SpawnUnit precedent). /arch:SSE
 // for movss float stores; /EHsc for the __EH_prolog frame.
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0)
-	{
-	}
-	~AsciiString();
-	AsciiString &operator=(const AsciiString &other);
+#include "ascii_string.h"
 
-private:
-	void *m_data;
-};
+extern "C" const void *const vtbl_00BF3298[];  // ??_7RunOffMapBehaviorModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BF3298=??_7RunOffMapBehaviorModuleData@@6B@")
+
+#include "Common/Snapshot.h"
 
 class UpdateModuleData
 {
 public:
-	UpdateModuleData()
-	{
-	}
-	~UpdateModuleData();
+	__declspec(dllimport) __forceinline UpdateModuleData() {}
+	~UpdateModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 };
 
-extern const AsciiString emptyRunOffMapWaypointName;
 
 class RunOffMapBehaviorModuleData : public UpdateModuleData
 {
@@ -53,11 +44,11 @@ private:
 
 // ??0RunOffMapBehaviorModuleData@@QAE@XZ @0x254ECE
 RunOffMapBehaviorModuleData::RunOffMapBehaviorModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00BF3298))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00BF3298)))
 {
 	m_dieOnMap = false;
 	m_runToLocation = 10.0f;
 	m_unnamed0C = 10.0f;
 	m_requiresSpecificTrigger = false;
-	m_runOffMapWaypointName = emptyRunOffMapWaypointName;
+	m_runOffMapWaypointName = AsciiString::TheEmptyString;
 }

@@ -14,9 +14,20 @@ private:
 	char m_body[0x6c];
 };
 
-VertexMaterialClass *VertexMaterialClass::Clone()
+inline VertexMaterialClass *VertexMaterialClass::Clone()
 {
 	VertexMaterialClass *mat = new VertexMaterialClass;
 	*mat = *this;
 	return mat;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeVertexMaterialClassInlineAnchor@@YAXPAVVertexMaterialClass@@@Z absent-from-retail
+void _bfmeVertexMaterialClassInlineAnchor(VertexMaterialClass *vertexMaterial)
+{
+    vertexMaterial->Clone();
+}
+#pragma inline_depth()

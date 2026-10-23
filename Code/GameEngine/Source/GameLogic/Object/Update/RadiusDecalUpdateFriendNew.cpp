@@ -21,7 +21,15 @@ private:
 };
 
 // ?friend_newModuleInstance@RadiusDecalUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *RadiusDecalUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *RadiusDecalUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new RadiusDecalUpdate(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitRadiusDecalUpdateFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitRadiusDecalUpdateFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	RadiusDecalUpdate::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

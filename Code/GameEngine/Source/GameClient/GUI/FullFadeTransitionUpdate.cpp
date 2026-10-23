@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /arch:SSE
+// cl: /DNDEBUG /MD
 // ?update@FullFadeTransition@@UAEXH@Z
 // retail 0x0035F241, 114 bytes. Virtual slot 2 (offset 0x8) of vtable 0x0081663C,
 // the FullFadeTransition class (init 0x0035F1DF just landed from this TU family).
@@ -16,10 +16,33 @@ typedef bool Bool;
 #define TRUE 1
 #endif
 
+typedef unsigned char UnsignedByte;
+typedef int Color;
+
+inline Color GameMakeColor(UnsignedByte red, UnsignedByte green, UnsignedByte blue, UnsignedByte alpha)
+{
+	return (alpha << 24) | (red << 16) | (green << 8) | (blue);
+}
+
 class GameWindow
 {
 public:
 	Int winHide(Bool hide);
+};
+
+class Display;
+extern Display *TheDisplay;
+
+class Rva0004263F
+{
+public:
+	void rva0004263F(float a, float b, float c, float d, int color);
+};
+
+class W3DDisplay
+{
+public:
+	void rva0008EEF0(float x0, float y0, float x1, float y1, float w, int color);
 };
 
 class FullFadeTransition
@@ -79,4 +102,17 @@ void FullFadeTransition::update(Int frame)
 			m_win->winHide(TRUE);
 	}
 	m_drawState = frame;
+}
+
+void FullFadeTransition::draw(void)
+{
+	Int alpha;
+	if (m_drawState > m_endFrame / 2)
+		alpha = (Int)((float)(m_endFrame - m_drawState) * m_percent * 255.0f);
+	else
+		alpha = (Int)((float)m_drawState * m_percent * 255.0f);
+	if (alpha > 255)
+		alpha = 255;
+	((Rva0004263F *)TheDisplay)->rva0004263F((float)m_posX, (float)m_posY, (float)m_sizeX, (float)m_sizeY, GameMakeColor(0, 0, 0, (UnsignedByte)alpha));
+	((W3DDisplay *)TheDisplay)->rva0008EEF0((float)m_posX, (float)m_posY, (float)m_sizeX, (float)m_sizeY, 1.0f, GameMakeColor(255, 190, 0, (UnsignedByte)alpha));
 }

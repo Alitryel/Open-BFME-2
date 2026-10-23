@@ -1,5 +1,38 @@
-// cl: /Ireference/shims/bfmerendobj /arch:SSE /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /Ireference/shims/bfmerendobj /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+// Match HashableClass's retail base and deleting destructors, as in hcanim.cpp.
+// Its first emitted copy must use the native size-optimized header bodies.
+#include "hash.h"
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+// HashableClass's inline members and deleting destructor are retail's size-optimised bodies
+// (0x000EF9C2 ctor, 0x000EF9D6 ??_G): include its header here under the same state hcanim.cpp
+// uses, ahead of any header that would reach it unoptimised.
+#pragma optimize("gsy", on)
+#include "hash.h"
+#pragma optimize("", on)
 #define Matrix4x4 Matrix4
+// Retail treats array delete as nothrow: ~NamedPivotMapClass (0x001976F0) has
+// no EH state store between its WeightInfo teardown and the PivotMapClass
+// base's, which the compiler drops only when delete[] cannot throw.
+void __cdecl operator delete[](void *) throw();
+
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "../../../../../reference/shims/bfmepool/mempool.h"
+#include "refcount.h"
+// Match the native Hashable deleting destructor, as hcanim.cpp does.
+#include "hash.h"
+#pragma optimize("", on)
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "winbase_shim.h"
 /*
@@ -40,7 +73,18 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+// Retail links the size-optimized WeightInfoStruct vector deleting destructor (??_E,
+// the copy htree.cpp emits); it takes the optimization state of the first function
+// that needs it, so this unemitted anchor needs it first. The private struct is reached
+// by befriending the anchor while hanim.h is first read; layout and names are unchanged.
+struct BfmeWeightInfoVddAnchor;
+#define private private: friend struct BfmeWeightInfoVddAnchor; private
 #include "hanim.h"
+#undef private
+struct BfmeWeightInfoVddAnchor { typedef NamedPivotMapClass::WeightInfoStruct Info; };
+#pragma optimize("gsy", on)
+static void bfmeWeightInfoVddAnchor(BfmeWeightInfoVddAnchor::Info *p) { delete [] p; }
+#pragma optimize("", on)
 #include "assetmgr.h"
 #include "htree.h"
 #include "motchan.h"
@@ -49,6 +93,17 @@
 #include "wwdebug.h"
 #include <string.h>
 #include "nstrdup.h"
+// bfme link decl-only begin
+template <> bool VectorClass<float>::operator==(VectorClass<float> const &) const;
+template <> bool VectorClass<HAnimComboDataClass *>::operator==(VectorClass<HAnimComboDataClass *> const &) const;
+template <> bool DynamicVectorClass<HAnimComboDataClass *>::Delete(int);
+template <> int DynamicVectorClass<float>::ID(float const &);
+template <> int VectorClass<float>::ID(float const &);
+template <> int VectorClass<float>::ID(float const *);
+template <> bool VectorClass<float>::Resize(int, float const *);
+template <> bool DynamicVectorClass<BfmeWeightInfoVddAnchor::Info>::Add(BfmeWeightInfoVddAnchor::Info const &);
+template <> bool VectorClass<BfmeWeightInfoVddAnchor::Info>::Resize(int, BfmeWeightInfoVddAnchor::Info const *);
+// bfme link decl-only end
 
 
 
@@ -64,7 +119,9 @@ NamedPivotMapClass::~NamedPivotMapClass(void)
 {
 }
 
-NamedPivotMapClass::WeightInfoStruct & NamedPivotMapClass::WeightInfoStruct::operator = (WeightInfoStruct const &that)
+// Inline: the retail copy (0x00196170) is the select-any one hanim_weight_vector_add.cpp
+// emits with the Add it inlines into.
+inline NamedPivotMapClass::WeightInfoStruct & NamedPivotMapClass::WeightInfoStruct::operator = (WeightInfoStruct const &that)
 {	
 	if(Name) delete [] Name;
 	assert(that.Name != 0);
@@ -84,29 +141,7 @@ void NamedPivotMapClass::Add(const char *Name, float Weight)
 }
 
 // configure the base pivot map using the specified tree
-void NamedPivotMapClass::Update_Pivot_Map(const HTreeClass *Tree)
-{
-	// first, resize the base pivot map to fit the tree
-	int numPivots = Tree->Num_Pivots();
-
-	Resize(numPivots);
-	ActiveCount = numPivots;
-
-	// first, reset all weights to 1 (the default)
-	while(numPivots--) {
-		(*this)[numPivots] = 1.0f;
-	}
-
-	// for each named pivot, find the correct index and set the weight if the indicated bone is present
-	// note: there is no check for redundant names
-	int count = WeightInfo.Count();
-	while(count--) {
-		int actualPivot = Tree->Get_Bone_Index(WeightInfo[count].Name);
-		if(actualPivot != -1) {
-			(*this)[actualPivot] = WeightInfo[count].Weight;
-		} 
-	}
-}
+// ?Update_Pivot_Map@NamedPivotMapClass@@QAEXPBVHTreeClass@@@Z is rowed in its own unit; this copy collided with it.
 
 /*
 **
@@ -123,115 +158,17 @@ HAnimClass::~HAnimClass(void)
 // the body visible to inline it into HAnimComboClass::HAnimComboClass(int).
 
 
-// ?HAnimComboDataClass::HAnimComboDataClass present-unmatched
-HAnimComboDataClass::HAnimComboDataClass(const HAnimComboDataClass &src)
-:	PivotMap(src.Get_Pivot_Map()),
-	HAnim(src.Get_HAnim())
-{
-	Shared = src.Is_Shared();
-	Frame = src.Get_Frame();
-	Weight = src.Get_Weight();
-}
-
-// ?HAnimComboDataClass::Copy present-unmatched
-void HAnimComboDataClass::Copy(const HAnimComboDataClass *src)
-{
-	if(src) {
-		HAnim = src->Get_HAnim();
-		PivotMap = src->Get_Pivot_Map();
-		Frame = src->Get_Frame();
-			Weight = src->Get_Weight();
-	} else {
-		HAnim = 0;
-		PivotMap = 0;
-		Frame = 0;
-		Weight = 1;
-	}
-}
-
-// ?HAnimComboDataClass::~HAnimComboDataClass present-unmatched
-HAnimComboDataClass::~HAnimComboDataClass(void)
-{
-	if(HAnim) 
-		HAnim->Release_Ref();
-	if(PivotMap)
-		PivotMap->Release_Ref();
-}
-
-// ?HAnimComboDataClass::Clear present-unmatched
-void HAnimComboDataClass::Clear(void) 
-{
-	if ( HAnim != NULL ) {
-		HAnim->Release_Ref();
-		HAnim = NULL;
-	}
-
-	// not sure if the pivot map should be deleted or just have everything set to one.
-	// removing it effectively sets it to one, so that's what I'm doing for now.
-	if(PivotMap) {
-		PivotMap->Release_Ref();
-		PivotMap = NULL;
-	}
-
-	Frame = 0.0f;
-	Weight = 1.0;
-	PivotMap = NULL;
-}
-
-void HAnimComboDataClass::Set_HAnim(HAnimClass *motion)
-{
-	if ( motion != NULL ) {
-		motion->Add_Ref();
-	}
-	if ( HAnim != NULL ) {
-		HAnim->Release_Ref();
-	}
-	HAnim = motion;
-}
+// ??0HAnimComboDataClass@@QAE@ABV0@@Z is rowed in its own unit; this copy collided with it.
 
 
-// ?HAnimComboDataClass::Set_Pivot_Map present-unmatched
-void HAnimComboDataClass::Set_Pivot_Map(PivotMapClass *map)
-{
-	if ( map != NULL ) {
-		map->Add_Ref();
-	}
-	if ( PivotMap != NULL ) {
-		PivotMap->Release_Ref();
-	}
-	PivotMap = map;
-}
+// ??1HAnimComboDataClass@@QAE@XZ is rowed in its own unit; this copy collided with it.
 
-/*
-**	This function will replace the current pivot map (if any) with another pivot map that is
-** set to 1 for only those pivot indices that actually have data.
-*/
-// ?HAnimComboDataClass::Build_Active_Pivot_Map present-unmatched
-void HAnimComboDataClass::Build_Active_Pivot_Map(void) 
-{
-	if ( PivotMap != NULL ) {
-		PivotMap->Release_Ref();
-	}
-	if(HAnim == NULL) {
-		PivotMap = 0;
-		return;
-	}
 
-	int numpivots = HAnim->Get_Num_Pivots();
-	PivotMap = NEW_REF( PivotMapClass, ());
-	PivotMap->Resize(numpivots);
+// HAnimComboDataClass::Set_HAnim (0x001007B0) is a size-optimised body from
+// the /O1 region (inc/dec refcounts); this /G7 /O2 unit only calls it. It is
+// built in HAnimComboDataSetHAnim.cpp.
 
-	int count = 0;
-	while(count < numpivots) {
-		if(HAnim->Is_Node_Motion_Present(count)) {
-			PivotMap->Add(1);
 
-		} else {
-			PivotMap->Add(0);
-		}
-		count++;
-	}
-}
 
 /*	
 **	HAnimComboClass
@@ -242,150 +179,19 @@ void HAnimComboDataClass::Build_Active_Pivot_Map(void)
 HAnimComboClass::HAnimComboClass(void)
 {}
 
-// Body split to hanim_HAnimComboClass_ctor.cpp: retail built this ctor with
-// /G7 (sub edi,1 loop decrement) while the rest of this TU only matches
-// without it (Set_HAnim needs inc). See hanim_weight_vector_add.cpp.
+// Body split to hanim_HAnimComboClass_ctor.cpp. See hanim_weight_vector_add.cpp.
 
 
-HAnimComboClass::~HAnimComboClass(void)
-{
-	Reset();
-}
+// ??1HAnimComboClass@@QAE@XZ is rowed in its own unit; this copy collided with it.
 
 
-// ?HAnimComboClass::Clear present-unmatched
-void	HAnimComboClass::Clear( void )
-{
-	int numAnimations = HAnimComboData.Count();
-	while ( numAnimations-- ) {
-		HAnimComboDataClass *data = HAnimComboData[numAnimations];
-		if(data && (! data->Is_Shared()))
-			data->Clear();
-	}
-}
 
-// ?HAnimComboClass::Reset present-unmatched
-void	HAnimComboClass::Reset( void )
-{
-	int numAnimations = HAnimComboData.Count();
-	while ( numAnimations-- ) {
-		HAnimComboDataClass *data = HAnimComboData[numAnimations];
-		if(data && (! data->Is_Shared())) {
-			delete data; 
-		}
-	}
-	HAnimComboData.Reset_Active();
-}
 
-// ?HAnimComboClass::Normalize_Weights present-unmatched
-bool	HAnimComboClass::Normalize_Weights(void)
-{
-	// NOTE: This can only work if either no anims have pivot weight maps (in which case we will
-	// adjust the anim weights to ensure normalization), or else if all do (in which case we will
-	// adjust the pivot maps). Otherwise we do nothing and return false.
-	int anim_count = Get_Num_Anims();
-	if (!anim_count) return true;	// Trivially succeeded
-	
-	// Loop over all anims. Check if all or none have pivot maps, and also calculate the minimum
-	// number of pivots.
-	int anim_idx = 0;
-	bool all_pivot_maps = true;
-	bool none_pivot_maps = true;
-	int num_anim_pivots = 100000;
-	for (anim_idx = 0; anim_idx < anim_count; anim_idx++ ) {
-		num_anim_pivots = MIN(num_anim_pivots, Peek_Motion(anim_idx)->Get_Num_Pivots());
-		bool has_pivot_map = Peek_Pivot_Weight_Map(anim_idx) != NULL;
-		all_pivot_maps &= has_pivot_map;
-		none_pivot_maps &= !has_pivot_map;
-	}
-	if ( num_anim_pivots == 100000 ) {
-		num_anim_pivots = 0;
-	}
 
-	if (none_pivot_maps) {
-
-		// Calculate total weight of all active anims, ensure it is very close to 1.
-		float weight_total = 0.0f;
-		for (anim_idx = 0; anim_idx < anim_count; anim_idx++ ) {
-			if (Peek_Motion(anim_idx) != NULL ) {
-				float	weight = Get_Weight(anim_idx);
-				weight_total += weight;
-			}
-		}
-
-		// weight_total should be very close to 1. If not, normalize this pivot's weights
-		if (weight_total != 0.0 && WWMath::Fabs( weight_total - 1.0 ) > WWMATH_EPSILON) {
-			float oo_total = 1.0f / weight_total;
-			for (anim_idx = 0; anim_idx < anim_count; anim_idx++ ) {
-				if (Peek_Motion(anim_idx) != NULL ) {
-					Set_Weight(anim_idx, Get_Weight(anim_idx) * oo_total);
-				}
-			}
-		}
-
-	} else {
-
-		if (all_pivot_maps) {
-
-			// For each pivot, calculate total weight of all active anims, ensure close to 1.
-			for (int piv_idx = 1; piv_idx < num_anim_pivots; piv_idx++) {
-
-				float weight_total = 0.0f;
-				for (anim_idx = 0; anim_idx < anim_count; anim_idx++ ) {
-					if (Peek_Motion(anim_idx) != NULL ) {
-						float	weight = Get_Weight(anim_idx) * (*Peek_Pivot_Weight_Map(anim_idx))[piv_idx];
-						weight_total += weight;
-					}
-				}
-
-				// weight_total should be very close to 1. If not, normalize this pivot's weights
-				if (weight_total != 0.0 && WWMath::Fabs( weight_total - 1.0 ) > WWMATH_EPSILON) {
-					float oo_total = 1.0f / weight_total;
-					for (anim_idx = 0; anim_idx < anim_count; anim_idx++ ) {
-						if (Peek_Motion(anim_idx) != NULL ) {
-							PivotMapClass *pivot_map = Get_Pivot_Weight_Map(anim_idx);
-							float new_weight = (*pivot_map)[piv_idx] * oo_total;
-							(*pivot_map)[piv_idx] = new_weight;
-							pivot_map->Release_Ref();
-						}
-					}
-				}
-
-			}
-
-		} else {
-			return false;
-		}
-	}
-
-	return true;
-
-}
-
-void	HAnimComboClass::Set_Motion( int index, HAnimClass *motion )
-{
-	HAnimComboDataClass *data = HAnimComboData[index];
-	WWASSERT(data);
-
-	data->Set_HAnim(motion);
-}
-
-// ?HAnimComboClass::Get_Motion present-unmatched
-HAnimClass *HAnimComboClass::Get_Motion( int index )
-{
-	HAnimComboDataClass *data = HAnimComboData[index];
-	WWASSERT(data);
-
-	HAnimClass *anim = data->Peek_HAnim();
-
-	if ( anim != NULL ) {
-		anim->Add_Ref();
-	}
-	return anim;
-}
+// Get_Motion is defined in HAnimComboClassGetMotion.cpp.
 
 // ?HAnimComboClass::Peek_Motion present-unmatched
-HAnimClass *HAnimComboClass::Peek_Motion( int index )
+__declspec(noinline) inline HAnimClass *HAnimComboClass::Peek_Motion( int index )
 {
 	HAnimComboDataClass *data = HAnimComboData[index];
 	WWASSERT(data);
@@ -413,7 +219,7 @@ float	HAnimComboClass::Get_Frame( int index )
 }
 
 // ?HAnimComboClass::Set_Weight present-unmatched
-void	HAnimComboClass::Set_Weight( int index, float weight )
+__declspec(noinline) inline void	HAnimComboClass::Set_Weight( int index, float weight )
 {
 	HAnimComboDataClass *data = HAnimComboData[index];
 	WWASSERT(data);
@@ -422,7 +228,7 @@ void	HAnimComboClass::Set_Weight( int index, float weight )
 }
 
 // ?HAnimComboClass::Get_Weight present-unmatched
-float	HAnimComboClass::Get_Weight( int index )
+__declspec(noinline) inline float	HAnimComboClass::Get_Weight( int index )
 {
 	HAnimComboDataClass *data = HAnimComboData[index];
 	WWASSERT(data);
@@ -430,26 +236,11 @@ float	HAnimComboClass::Get_Weight( int index )
 	return data->Get_Weight();
 }
 
-// ?HAnimComboClass::Set_Pivot_Weight_Map present-unmatched
-void	HAnimComboClass::Set_Pivot_Weight_Map( int index, PivotMapClass *map )
-{
-	HAnimComboDataClass *data = HAnimComboData[index];
-	WWASSERT(data);
 
-	data->Set_Pivot_Map(map);
-}
-
-// ?HAnimComboClass::Get_Pivot_Weight_Map present-unmatched
-PivotMapClass	*HAnimComboClass::Get_Pivot_Weight_Map( int index )
-{
-	HAnimComboDataClass *data = HAnimComboData[index];
-	WWASSERT(data);
-
-	return data->Get_Pivot_Map();
-}
+// Get_Pivot_Weight_Map has the same /G7 provider as Get_Motion.
 
 // ?HAnimComboClass::Peek_Pivot_Weight_Map present-unmatched
-PivotMapClass	*HAnimComboClass::Peek_Pivot_Weight_Map( int index )
+__declspec(noinline) inline PivotMapClass	*HAnimComboClass::Peek_Pivot_Weight_Map( int index )
 {
 	HAnimComboDataClass *data = HAnimComboData[index];
 	WWASSERT(data);
@@ -457,14 +248,22 @@ PivotMapClass	*HAnimComboClass::Peek_Pivot_Weight_Map( int index )
 	return data->Peek_Pivot_Map();
 }
 
-void HAnimComboClass::Append_Anim_Combo_Data(HAnimComboDataClass * Data)
+// ?Append_Anim_Combo_Data@HAnimComboClass@@QAEXPAVHAnimComboDataClass@@@Z is rowed in its own unit; this copy collided with it.
+
+// ?Remove_Anim_Combo_Data@HAnimComboClass@@QAEXPAVHAnimComboDataClass@@@Z is rowed in its own unit; this copy collided with it.
+
+
+// ?bfmeAnchorHAnimComboAccessors absent-from-retail
+void bfmeAnchorHAnimComboAccessors(HAnimComboClass *combo, int index, float weight)
 {
-	HAnimComboData.Add(Data);
+	combo->Peek_Motion(index);
+	combo->Set_Weight(index, weight);
+	combo->Get_Weight(index);
+	combo->Peek_Pivot_Weight_Map(index);
 }
 
-void HAnimComboClass::Remove_Anim_Combo_Data(HAnimComboDataClass * Data)
+// ?bfmeAnchorHAnimPivotMap absent-from-retail
+PivotMapClass *bfmeAnchorHAnimPivotMap()
 {
-	HAnimComboData.Delete(Data);
+	return new PivotMapClass();
 }
-
-

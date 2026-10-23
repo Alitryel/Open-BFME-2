@@ -1,5 +1,9 @@
 // cl: /Od
 
+// At pinned 0x0002B050, this five-word thiscall is four range pointers plus
+// the provider's empty tag reference; the returned string reference is ignored.
+#pragma comment(linker, "/alternatename:?bfmeImplVMN@BfmeStrVMN@@QAEXHHHH@Z=?replaceRange@Rva008314E0String@@QAEAAV1@PAD000ABUBfmeRangeTag@@@Z")
+
 struct BfmePadVMN
 {
 	char m[48];

@@ -20,7 +20,14 @@ private:
 };
 
 // ?friend_newModuleInstance@DeletionUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *DeletionUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *DeletionUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new DeletionUpdate(thing, moduleData));
 }
+#pragma inline_depth(0)
+// ?bfmeEmitDeletionUpdateFriendNew@@YAXPAVDeletionUpdate@@@Z present-unmatched
+void bfmeEmitDeletionUpdateFriendNew(DeletionUpdate *deletionUpdate)
+{
+	deletionUpdate->friend_newModuleInstance(0, 0);
+}
+#pragma inline_depth()

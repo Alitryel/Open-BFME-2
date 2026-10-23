@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva000483CF4@ClearanceTestingSlowDeathBehavior@@SA?AW4NameKeyType@@XZ @0x483cf4
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@ClearanceTestingSlowDeathBehavior@@UBE?AW4NameKeyType@@XZ @0x483cf4
 // (69B): cached pool-name key for ClearanceTestingSlowDeathBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("ClearanceTestingSlowDeathBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ClearanceTestingSlowDeathBehavior
 {
 public:
-	static NameKeyType rva000483CF4();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000483CF4@ClearanceTestingSlowDeathBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType ClearanceTestingSlowDeathBehavior::rva000483CF4()
+// ?getModuleNameKey@ClearanceTestingSlowDeathBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType ClearanceTestingSlowDeathBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheClearanceTestingSlowDeathBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("ClearanceTestingSlowDeathBehavior");

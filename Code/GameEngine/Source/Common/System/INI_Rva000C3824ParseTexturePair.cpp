@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 // Rva000C3824_ParseTexturePair (retail 0x000C3824, 98 bytes). Reads two
 // consecutive strings through the rowed parseAsciiString at 0x002F11E into
 // the halves of a local 8-byte BfmeStringRecord000B94D2 (two AsciiStrings,
@@ -8,15 +8,7 @@
 // 0x000B6CF1). Serves the Texture table entry. The record model mirrors the
 // vector-allocate TU; the callback name stays address-derived.
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	~AsciiString();
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 struct BfmeStringRecord000B94D2
 {

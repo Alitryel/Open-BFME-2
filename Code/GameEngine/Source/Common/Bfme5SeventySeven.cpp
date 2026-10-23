@@ -8,16 +8,19 @@ extern "C" void * __cdecl memset(void *destination, int value, unsigned int byte
 
 #pragma intrinsic(memset)
 
-#define g_bfmeFirstFD ((int *)0x00E1F8E0)
-#define g_bfmeSecondFD ((int *)0x00E21220)
-#define g_bfmeThirdFD ((int *)0x00E20FC0)
-#define g_bfmeFourthFD ((int *)0x00E20DA0)
+// Address-derived dword buffers: bfmeClearAll's memset lengths establish the
+// extents, and game.dat shows their initial bytes are all zero (.data/bss).
+// The four nbench1 weight arrays (declared in nbench1.h, defined by the nbench1 unit).
+extern double mid_wt_change[][35];
+extern double mid_wt_cum_change[][35];
+extern double out_wt_change[][8];
+extern double out_wt_cum_change[][8];
 
 // ?bfmeClearAll@@YAXXZ
 void __cdecl bfmeClearAll(void)
 {
-	memset(g_bfmeFirstFD, 0, 0x230 * 4);
-	memset(g_bfmeSecondFD, 0, 0x230 * 4);
-	memset(g_bfmeThirdFD, 0, 0x80 * 4);
-	memset(g_bfmeFourthFD, 0, 0x80 * 4);
+	memset(mid_wt_change, 0, 0x230 * 4);
+	memset(mid_wt_cum_change, 0, 0x230 * 4);
+	memset(out_wt_change, 0, 0x80 * 4);
+	memset(out_wt_cum_change, 0, 0x80 * 4);
 }

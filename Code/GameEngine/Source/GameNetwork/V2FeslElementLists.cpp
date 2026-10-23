@@ -43,18 +43,22 @@ public:
 
 extern GenAlloc *Gen007EFFC0();
 
-struct Gen_dtor_007f6d20
+// Each 8-byte list element has the same pointer/count layout as the buffer
+// whose append member is rowed at 0x0066C760. The caller supplies text
+// pointers; this is the buffer append operation, not a distinct attach body.
+class Rva00800290Buffer
 {
-	void attach( void *item );                                        // 0x008002C0
-	int m_a;
-	int m_b;
+public:
+	void append( const char *text );                                  // 0x008002C0
+	char *m_ptr;
+	int m_size;
 };
 
 class Rva007F78E0Block
 {
 public:
 	void allocate( int count );                                       // 0x007F7F50
-	Gen_dtor_007f6d20 *m_data;
+	Rva00800290Buffer *m_data;
 	int m_count;
 };
 
@@ -108,10 +112,10 @@ void Rva007F8200Owner::setList0( void **items, int count )
 	m_items0.allocate( count );
 	for( int i = 0; i < count; ++i )
 	{
-		Gen_dtor_007f6d20 *element = ( i >= elements->m_count )
+		Rva00800290Buffer *element = ( i >= elements->m_count )
 			? 0
 			: &elements->m_data[ i ];
-		element->attach( items[ i ] );
+		element->append( (const char *)items[ i ] );
 	}
 }
 
@@ -123,10 +127,10 @@ void Rva007F8200Owner::setList1( void **items, int count )
 	m_items1.allocate( count );
 	for( int i = 0; i < count; ++i )
 	{
-		Gen_dtor_007f6d20 *element = ( i >= elements->m_count )
+		Rva00800290Buffer *element = ( i >= elements->m_count )
 			? 0
 			: &elements->m_data[ i ];
-		element->attach( items[ i ] );
+		element->append( (const char *)items[ i ] );
 	}
 }
 
@@ -138,10 +142,9 @@ void Rva007F8200Owner::setList2( void **items, int count )
 	m_items2.allocate( count );
 	for( int i = 0; i < count; ++i )
 	{
-		Gen_dtor_007f6d20 *element = ( i >= elements->m_count )
+		Rva00800290Buffer *element = ( i >= elements->m_count )
 			? 0
 			: &elements->m_data[ i ];
-		element->attach( items[ i ] );
+		element->append( (const char *)items[ i ] );
 	}
 }
-

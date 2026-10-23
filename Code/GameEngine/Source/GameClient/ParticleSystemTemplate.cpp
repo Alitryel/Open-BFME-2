@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc
+// cl: /Ireference/shims/bfme2_ascii /EHsc
 
 // The template's string accessors. Each returns an AsciiString by value, so the
 // copy constructor runs into the caller's slot inside an unwind region - the
@@ -15,61 +15,12 @@
 
 class INI;
 
-template <typename T>
-class StringBase
-{
-private:
-    friend class AsciiString;
+#include "ascii_string.h"
 
-    StringBase(const StringBase<T> &that);
 
-    struct Header
-    {
-        int ref_count;
-        unsigned short length;
-        unsigned short capacity;
-        T data[1];
-    };
+#include "../../../Libraries/Include/Lib/Region2D.h"
 
-    Header *m_data;
-};
-
-class AsciiString
-{
-public:
-    AsciiString(const AsciiString &that)
-    {
-        ((StringBase<char> *)this)->StringBase<char>::StringBase(
-            *(const StringBase<char> *)&that);
-    }
-
-    // Declared, never defined: the return object needs cleanup for MSVC to open
-    // an unwind region at all, and that state store is the first thing retail
-    // does after the frame.
-    ~AsciiString();
-
-    // Declared, never defined: setTextureFilename tail-jumps to it, and the
-    // call resolves through its own ledger row.
-    AsciiString &operator=(const AsciiString &that);
-
-private:
-    char *m_text;
-};
-
-struct Region2D
-{
-    float x_min;
-    float y_min;
-    float x_max;
-    float y_max;
-};
-
-struct Coord3D
-{
-    float x;
-    float y;
-    float z;
-};
+#include "../../../Libraries/Include/Lib/Coord3D.h"
 
 // BFME1 ClientRandomValue.h layout (DistributionType first, then the range):
 // 12 bytes, no constructor or destructor by design (used within unions).
@@ -108,7 +59,7 @@ public:
     static void parseBool(INI *ini, void *instance, void *store, const void *userData);
     static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
     static void parseCoord3D(INI *ini, void *instance, void *store, const void *userData);
-    static void dup_002EF72(INI *ini, void *instance, void *store, const void *userData);
+    static void parseUnsignedInt(INI *ini, void *instance, void *store, const void *userData);
     static void parseGameClientRandomVariable(INI *ini, void *instance, void *store, const void *userData);
 };
 
@@ -120,12 +71,29 @@ enum ParticleType
     PARTICLE_TYPE_DEFAULT
 };
 
-// Name tables live in retail .rdata (exports 0x81B6A4/0x81B610/0x81B640); the
-// references are DIR32 relocations, which the gate fills from retail, so they
-// stay declared without a definition here.
-extern const char *ParticlePriorityNames[];
-extern const char *ParticleShaderTypeNames[];
-extern const char *ParticleTypeNames[];
+// Retail's pointer tables are at these .rdata VAs. Their target strings were
+// read from retail; local literals preserve the pointed-to text, not pointer
+// identity. Each array includes its null terminator and stops before the next
+// known table/data symbol.
+// VA 0x00C1B610 (.rdata), 12 slots through the sentinel; next table is
+// ParticleTypeNames at VA 0x00C1B640.
+const char *ParticleShaderTypeNames[12] = {
+    "NONE", "ADDITIVE", "ADDITIVE_ALPHA_TEST", "ALPHA", "ALPHA_TEST",
+    "MULTIPLY", "ADDITIVE_NO_DEPTH_TEST", "ALPHA_NO_DEPTH_TEST",
+    "W3D_DIFFUSE", "W3D_ALPHA", "W3D_EMISSIVE", NULL,
+};
+// VA 0x00C1B640 (.rdata), 10 slots through the sentinel; next table is
+// ParticlePriorityNames at VA 0x00C1B6A4.
+const char *ParticleTypeNames[10] = {
+    "NONE", "PARTICLE", "DRAWABLE", "STREAK", "VOLUME_PARTICLE",
+    "SMUDGE", "TERRAIN_PARTICLE", "GPU_PARTICLE", "GPU_TERRAINFIRE", NULL,
+};
+// VA 0x00C1B6A4 (.rdata), 8 slots through the sentinel, before the next known
+// data symbol Rva003AF184_v0a at VA 0x00C1C84C.
+const char *ParticlePriorityNames[8] = {
+    "NONE", "ULTRA_HIGH_ONLY", "HIGH_OR_ABOVE", "MEDIUM_OR_ABOVE",
+    "LOW_OR_ABOVE", "VERY_LOW_OR_ABOVE", "ALWAYS_RENDER", NULL,
+};
 
 // Offsets recovered from the accessors themselves: the texture filename is the
 // second word of the object and the name sits past the UV rectangle. The
@@ -209,8 +177,8 @@ void ParticleSystemTemplate::parse(INI *ini, void *instance, void *, const void 
         { "SlavePosOffset", INI::parseCoord3D, NULL, offsetof(ParticleSystemTemplate, m_slavePosOffset) },
         { "PerParticleAttachedSystem", INI::parseAsciiString, NULL, offsetof(ParticleSystemTemplate, m_attachedSystemName) },
         { "Lifetime", INI::parseGameClientRandomVariable, NULL, offsetof(ParticleSystemTemplate, m_lifetime) },
-        { "SystemLifetime", INI::dup_002EF72, NULL, offsetof(ParticleSystemTemplate, m_systemLifetime) },
-        { "SortLevel", INI::dup_002EF72, NULL, offsetof(ParticleSystemTemplate, m_sortLevel) },
+        { "SystemLifetime", INI::parseUnsignedInt, NULL, offsetof(ParticleSystemTemplate, m_systemLifetime) },
+        { "SortLevel", INI::parseUnsignedInt, NULL, offsetof(ParticleSystemTemplate, m_sortLevel) },
         { "Size", INI::parseGameClientRandomVariable, NULL, offsetof(ParticleSystemTemplate, m_startSize) },
         { "StartSizeRate", INI::parseGameClientRandomVariable, NULL, offsetof(ParticleSystemTemplate, m_startSizeRate) },
         { "BurstDelay", INI::parseGameClientRandomVariable, NULL, offsetof(ParticleSystemTemplate, m_burstDelay) },

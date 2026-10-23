@@ -17,6 +17,10 @@ struct BfmeObjVMW
 	int b;
 };
 
+// At pinned 0x000120F0, this three-word thiscall passes a char range and
+// the provider's empty false-type tag; its returned string reference is ignored.
+#pragma comment(linker, "/alternatename:?bfmeImplVMW@BfmeStrVMW@@QAEXHHPAD@Z=??$_M_assign_dispatch@PAD@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAEAAV01@PAD0ABU__false_type@1@@Z")
+
 class BfmeStrVMW
 {
 public:

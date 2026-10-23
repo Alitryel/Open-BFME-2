@@ -38,7 +38,7 @@ typedef unsigned int size_t;
 typedef struct { int quot; int rem; } div_t;
 typedef struct { long quot; long rem; } ldiv_t;
 
-void __cdecl free(void *block);
+extern "C" void __cdecl free(void *block) throw(...);
 
 extern "C" {
 void __cdecl abort(void);
@@ -75,7 +75,33 @@ int __cdecl wctomb(char *dest, unsigned short ch);
 // Only pointer calls to streambuf are needed here. Keeping this interface
 // opaque preserves the retail sbumpc call inside inline iterator increment.
 #define _STLP_INTERNAL_STREAMBUF
+#include <stl/_alloc.h>
+// Keep retail's inline character-buffer cleanup; the public allocator
+// entry point is supplied by its separately verified owner.
+namespace _STL {
+template <> void __malloc_alloc<0>::deallocate(void *, size_t);
+#pragma optimize("gsy", on)
+template <> __forceinline void allocator<char>::deallocate(char *p, size_t) const { if (p != 0) free(p); }
+template <> __forceinline void allocator<unsigned short>::deallocate(unsigned short *p, size_t) const { if (p != 0) free(p); }
+#pragma optimize("", on)
+}
+
 #include <locale>
+#include <cstddef>
+// bfme link decl-only begin
+namespace _STL { template <> bool __get_monetary_value<istreambuf_iterator<char, char_traits<char> >, back_insert_iterator<basic_string<char, char_traits<char>, allocator<char> > >, char>(istreambuf_iterator<char, char_traits<char> > &, istreambuf_iterator<char, char_traits<char> >, back_insert_iterator<basic_string<char, char_traits<char>, allocator<char> > >, ctype<char> const &, char, int, char, basic_string<char, char_traits<char>, allocator<char> > const &, bool &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(); }
+namespace _STL { template <> istreambuf_iterator<char, char_traits<char> > & istreambuf_iterator<char, char_traits<char> >::operator++(); }
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ??E?$istreambuf_iterator@DV?$char_traits@D@_STL@@@_STL@@QAEAAV01@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> istreambuf_iterator<char,char_traits<char> > & istreambuf_iterator<char,char_traits<char> >::operator++(); }
+// Suppress this TU's non-retail proxy<char> allocate copy (family2-LK3 row 30):
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL {
+template <> char *_STLP_alloc_proxy<char*, char, allocator<char> >::allocate(size_t);
+}
 
 namespace _STL {
 template<> class basic_streambuf<char, char_traits<char> > {
@@ -98,7 +124,7 @@ public:
     locale::facet **_M_facets;
     unsigned int _M_count;
 };
-locale::~locale() _STLP_NOTHROW { _M_impl->_M_decr(); }
+inline locale::~locale() _STLP_NOTHROW { _M_impl->_M_decr(); }
 
 }
 // Keep the vendor _M_getc body visible for MSVC's side-effect analysis while
@@ -117,18 +143,23 @@ __declspec(noinline) void istreambuf_iterator<char, char_traits<char> >::_M_getc
     _M_have_c = true;
 }
 }
+// Retail calls the independently verified 126-byte equality body at 0xFA00.
+// Keep its declaration here; this unit's 46-byte copy calls _M_getc instead
+// of inlining the cache fill and sgetc, so it cannot provide that symbol.
 namespace _STL {
 template <> __declspec(noinline) bool
-istreambuf_iterator<char, char_traits<char> >::equal(const istreambuf_iterator<char, char_traits<char> >& other) const {
-    if (_M_buf) _M_getc();
-    if (other._M_buf) other._M_getc();
-    return _M_eof == other._M_eof;
-}
-template <> __forceinline istreambuf_iterator<char, char_traits<char> >&
+istreambuf_iterator<char, char_traits<char> >::equal(const istreambuf_iterator<char, char_traits<char> >& other) const;
+template <> __declspec(dllimport) __forceinline istreambuf_iterator<char, char_traits<char> >&
 istreambuf_iterator<char, char_traits<char> >::operator++() {
     _M_buf->sbumpc();
     _M_have_c = false;
     return *this;
+}
+// Keep the native iterator provider as the outlined definition.
+template <> __declspec(dllimport) __forceinline char
+istreambuf_iterator<char, char_traits<char> >::operator*() const {
+    _M_getc();
+    return _M_c;
 }
 // These string operations are separate functions in this retail instantiation.
 template <> basic_string<char>& basic_string<char>::assign(const basic_string<char>&);
@@ -137,7 +168,7 @@ template <> char* basic_string<char>::insert(char*, char);
 namespace _STL {
 typedef istreambuf_iterator<char, char_traits<char> > _MoneyIn;
 
-template <> __declspec(noinline) pair<_MoneyIn, bool> __get_string(_MoneyIn first, _MoneyIn last, const char* start, const char* end) {
+template <> inline __declspec(noinline) pair<_MoneyIn, bool> __get_string(_MoneyIn first, _MoneyIn last, const char* start, const char* end) {
   pair<_MoneyIn, const char*> result = mismatch(first, last, start);
   return make_pair(result.first, result.second == end);
 }
@@ -147,7 +178,7 @@ __forceinline pair<_MoneyIn, bool> __get_symbol(_MoneyIn first, _MoneyIn last, c
   pair<_MoneyIn, const char*> result = mismatch(first, last, start);
   return make_pair(result.first, result.second == end);
 }
-template <> _MoneyIn money_get<char, _MoneyIn>::do_get(_MoneyIn __s, _MoneyIn __end, bool __intl, ios_base& __str, ios_base::iostate& __err, basic_string<char>& __digits) const
+template <> inline _MoneyIn money_get<char, _MoneyIn>::do_get(_MoneyIn __s, _MoneyIn __end, bool __intl, ios_base& __str, ios_base::iostate& __err, basic_string<char>& __digits) const
 {
   typedef char _CharT;
   typedef _MoneyIn _InputIter;
@@ -311,3 +342,23 @@ template <> _MoneyIn money_get<char, _MoneyIn>::do_get(_MoneyIn __s, _MoneyIn __
   return __s;
 }
 }
+
+// money_get<char>::do_get is a header inline in STLport: one other unit emits
+// a select-any copy of it, so a strong definition here was a duplicate symbol
+// in the linked build. This anchor only makes this unit emit its copy for the
+// ledger row; it is not retail code.
+namespace _STL {
+struct bfmeMoneyGetStringEmitter : money_get<char, _MoneyIn>
+{
+  static void emit(const bfmeMoneyGetStringEmitter *p, _MoneyIn a, _MoneyIn b, bool intl, ios_base &s, ios_base::iostate &e, basic_string<char> &d);
+};
+}
+#pragma inline_depth(0)
+// ?emit@bfmeMoneyGetStringEmitter@_STL@@SAXPBU12@V?$istreambuf_iterator@DV?$char_traits@D@_STL@@@2@1_NAAVios_base@2@AAHAAV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@2@@Z present-unmatched
+namespace _STL {
+void bfmeMoneyGetStringEmitter::emit(const bfmeMoneyGetStringEmitter *p, _MoneyIn a, _MoneyIn b, bool intl, ios_base &s, ios_base::iostate &e, basic_string<char> &d)
+{
+  p->money_get<char, _MoneyIn>::do_get(a, b, intl, s, e, d);
+}
+}
+#pragma inline_depth()

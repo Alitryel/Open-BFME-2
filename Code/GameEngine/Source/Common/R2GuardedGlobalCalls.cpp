@@ -38,10 +38,21 @@ public:
 	virtual void slot004();
 };
 
-extern R2GlobalReceiver *R2Ptr01306DF0;
+extern class Rva00108660ResourceManager *Rva00DEC2D8Manager;
 
 void Rva007B7600()
 {
-	if (R2Ptr01306DF0)
-		R2Ptr01306DF0->slot004();
+	if ((*(R2GlobalReceiver **)&Rva00DEC2D8Manager))
+		(*(R2GlobalReceiver **)&Rva00DEC2D8Manager)->slot004();
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeBegin@BfmeSetupRecord@@QAEXXZ=?run@Rva007E8AC0@@QAEXXZ")
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeRunVJA@BfmeMsgVJA@@QAEXXZ=?run@Rva007E8AC0@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?bfmeRunVJC@BfmeMsgVJC@@QAEXXZ=?run@Rva007E8AC0@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?bfmeRunVIR@BfmeMsgVIR@@QAEXXZ=?run@Rva007E8AC0@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?bfmeRunVJF@BfmeMsgVJF@@QAEXXZ=?run@Rva007E8AC0@@QAEXXZ")

@@ -1,4 +1,4 @@
-// cl: /O1 /GX /arch:SSE /DNDEBUG /MD
+// cl: /GX /DNDEBUG /MD
 //
 // ??0InheritUpgradeCreateModuleData@@QAE@XZ, retail 0x004B9508, 69 bytes.
 // EH ctor: single state-0 store, vtable 0x00C59768 at +0, 0.0f at +8, member
@@ -50,10 +50,13 @@ private:
 	Rva003623E5Member m_filter;
 };
 
+extern const void *const g_00C59768[];
+const void *const g_00C59768[] = { 0 };
+
 // ??0InheritUpgradeCreateModuleData@@QAE@XZ
 InheritUpgradeCreateModuleData::InheritUpgradeCreateModuleData()
 {
-	m_vtable = reinterpret_cast<void *>(0x00C59768);
+	m_vtable = (void *)g_00C59768;
 	m_radius = 0.0f;
 	m_upgrade.clear80();
 	m_filter.construct();

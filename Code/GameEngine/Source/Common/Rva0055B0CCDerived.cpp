@@ -1,4 +1,4 @@
-// cl: /O1 /MD
+// cl: /MD
 //
 // Opaque single-inheritance destructors tail-calling Rva0055B0CC::~
 // Rva0055B0CC at 0x0055B0CC (pinned opaque base dtor; identity unproven).
@@ -24,13 +24,13 @@ Rva00596B05::~Rva00596B05()
 {
 }
 
-class Rva0059734B : public Rva0055B0CC
+class AIUpgrade : public Rva0055B0CC
 {
 public:
-	virtual ~Rva0059734B();
+	virtual ~AIUpgrade();
 };
 
-Rva0059734B::~Rva0059734B()
+AIUpgrade::~AIUpgrade()
 {
 }
 

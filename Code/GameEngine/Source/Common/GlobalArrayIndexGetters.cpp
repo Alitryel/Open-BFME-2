@@ -11,12 +11,23 @@
 // Opaque names witness only the address and the global.
 // No // cl: line (defaults match the frameless twelve-byte shape).
 
-extern int g_Va00DB5F30[];
+// 0x009B5F30 is W3DBufferManager's FVF type index list, defined (18 entries)
+// in W3DBufferManagerRva0011604D.cpp.
+extern unsigned g_00DB5F30[];
 
 // ?Rva00115DE8Get@@YAHH@Z @ 0x00115DE8 (12B) over 0x00DB5F30.
 // Follows a leave/ret (prev C9 C3), Ghidra-12, direct E8 caller at
 // 0x000F5701 (unclaimed). Opaque address-derived name.
 int Rva00115DE8Get(int index)
 {
-	return g_Va00DB5F30[index];
+	return (int)g_00DB5F30[index];
+}
+
+// ?Rva0050C44EGet@@YAHH@Z @ 0x0050C44E (12B): the same indexed dword read
+// over the class-name table at VA 0x00DBEC90, owned by BfmeThingClassNames.cpp.
+// The recovered getter keeps its opaque name and integer return ABI.
+extern const char *const BfmeThingClassNames[];
+int Rva0050C44EGet(int index)
+{
+	return (int)BfmeThingClassNames[index];
 }

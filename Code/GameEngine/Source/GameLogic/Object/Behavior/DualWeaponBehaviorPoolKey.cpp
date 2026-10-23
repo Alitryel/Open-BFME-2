@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva00045ADE0@DualWeaponBehavior@@SA?AW4NameKeyType@@XZ @0x45ade0
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@DualWeaponBehavior@@UBE?AW4NameKeyType@@XZ @0x45ade0
 // (69B): cached pool-name key for DualWeaponBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("DualWeaponBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class DualWeaponBehavior
 {
 public:
-	static NameKeyType rva00045ADE0();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00045ADE0@DualWeaponBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType DualWeaponBehavior::rva00045ADE0()
+// ?getModuleNameKey@DualWeaponBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType DualWeaponBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheDualWeaponBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("DualWeaponBehavior");

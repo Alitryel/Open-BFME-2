@@ -1,4 +1,4 @@
-// cl: /O2 /G6 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // FontCharsClass::Get_Char_Data, retail 0x00158520, 81 bytes.
 // Dedicated TU. Retail is a map lookup at this+0x450, not the ZH
@@ -27,7 +27,7 @@ class FontCharsClass
 	char m_unreconstructed_0C[0x450 - 0x0C];
 	FontCharMap m_chars;
 
-	FontCharsClassCharDataStruct const *Store_GDI_Char(unsigned short ch);
+	FontCharsClassCharDataStruct const *Store_Thai_GDI_Glyph(unsigned short ch);
 	FontCharsClassCharDataStruct const *Get_Char_Data(unsigned short ch);
 };
 
@@ -38,16 +38,20 @@ FontCharsClassCharDataStruct const *FontCharsClass::Get_Char_Data(unsigned short
 	for (;;)
 	{
 		FontCharNode *node = cur->m_chars.find(ch);
-		FontCharsClassCharDataStruct const *p = 0;
+		FontCharsClassCharDataStruct const *fontCharsClassCharData = 0;
 		if (node != cur->m_chars.header)
-			p = node->m_data;
-		if (p == 0)
-			p = cur->Store_GDI_Char(key);
-		if (p != (FontCharsClassCharDataStruct const *)-1)
-			return p;
+			fontCharsClassCharData = node->m_data;
+		if (fontCharsClassCharData == 0)
+			fontCharsClassCharData = cur->Store_Thai_GDI_Glyph(key);
+		if (fontCharsClassCharData != (FontCharsClassCharDataStruct const *)-1)
+			return fontCharsClassCharData;
 		FontCharsClass *alt = cur->AlternateUnicodeFont;
 		if (alt == 0 || cur == alt)
 			return 0;
 		cur = alt;
 	}
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?Get_Char_Data@FontCharsClass@@AAEPBUFontCharsClassCharDataStruct@@G@Z=?Get_Char_Data@FontCharsClass@@AAEPBVFontCharsClassCharDataStruct@@G@Z")

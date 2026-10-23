@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva00047FE4B@ShareExperienceBehavior@@SA?AW4NameKeyType@@XZ @0x47fe4b
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@ShareExperienceBehavior@@UBE?AW4NameKeyType@@XZ @0x47fe4b
 // (69B): cached pool-name key for ShareExperienceBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("ShareExperienceBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ShareExperienceBehavior
 {
 public:
-	static NameKeyType rva00047FE4B();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00047FE4B@ShareExperienceBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType ShareExperienceBehavior::rva00047FE4B()
+// ?getModuleNameKey@ShareExperienceBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType ShareExperienceBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheShareExperienceBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("ShareExperienceBehavior");

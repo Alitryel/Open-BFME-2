@@ -1,4 +1,18 @@
-// cl: /Ireference/shims/bfmerendobj /arch:SSE /G7 /DNDEBUG /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /Ireference/shims/bfmerendobj /Ireference/shims/bfme_vector3_eq_link /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /arch:SSE /G7 /DNDEBUG /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// Link view first: Vector3 operator== (and Length/Normalize/ctor/operator*) stay inline without emitting
+// COMDAT copies that disagree with the first copy in link order.
+#include "vector3_eq_link.h"
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -38,7 +52,7 @@ struct TriangleSide
 	bool operator== (const TriangleSide& s);
 };
 
-TriangleSide::TriangleSide(const Vector3& l1,const Vector3& l2)
+inline TriangleSide::TriangleSide(const Vector3& l1,const Vector3& l2)
 {
 	int i1=*(int*)&l1[0];
 	i1=37*i1+*(int*)&l1[1];
@@ -56,7 +70,7 @@ TriangleSide::TriangleSide(const Vector3& l1,const Vector3& l2)
 	}
 }
 
-bool TriangleSide::operator== (const TriangleSide& s)
+inline bool TriangleSide::operator== (const TriangleSide& s)
 {
 	unsigned i=*(unsigned*)&loc1[0]^*(unsigned*)&s.loc1[0];
 	i|=*(unsigned*)&loc1[1]^*(unsigned*)&s.loc1[1];
@@ -101,6 +115,7 @@ struct SideIndexInfo
 };
 
 HashTemplateClass<Vector3, unsigned> LocationHash;
+HashTemplateClass<Vector3, unsigned> DuplicateLocationHash;
 HashTemplateClass<TriangleSide,SideIndexInfo> SideHash;
 
 // Member-wise rather than whole-class: HashTemplateClass::Remove and the
@@ -115,3 +130,15 @@ template void HashTemplateClass<TriangleSide,SideIndexInfo>::Remove_All(void);
 template SideIndexInfo HashTemplateClass<TriangleSide,SideIndexInfo>::Get(const TriangleSide&) const;
 
 unsigned int (*const Vector3_Hash_Address)(const Vector3&) = &HashTemplateKeyClass<Vector3>::Get_Hash_Value;
+
+// TriangleSide's constructor and operator== are header inlines elsewhere: other units emit
+// select-any copies, so a strong definition here was a duplicate in the linked build. This
+// anchor only makes this unit emit its copies for the ledger rows; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitTriangleSide@@YAXPAUTriangleSide@@ABVVector3@@@Z present-unmatched
+void bfmeEmitTriangleSide(TriangleSide *side, const Vector3 &location)
+{
+	side->TriangleSide::TriangleSide(location, location);
+	*side == *side;
+}
+#pragma inline_depth()

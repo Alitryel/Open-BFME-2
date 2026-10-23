@@ -36,11 +36,9 @@
 
 BFME_DISP32_LEA_GETTER(Rva00042280LeaGetter, 0x284)
 BFME_DISP32_LEA_GETTER(Rva00042299LeaGetter, 0x3BC)
-BFME_DISP32_LEA_GETTER(Rva000425A2LeaGetter, 0x4F0C)
 BFME_DISP32_LEA_GETTER(Rva00078922LeaGetter, 0x90)
 BFME_DISP32_LEA_GETTER(Rva00098559LeaGetter, 0x84)
 BFME_DISP32_LEA_GETTER(Rva000B28F2LeaGetter, 0x9C)
-BFME_DISP32_LEA_GETTER(Rva001D96F8LeaGetter, 0x80)
 BFME_DISP32_LEA_GETTER(Rva001E3817LeaGetter, 0x544)
 BFME_DISP32_LEA_GETTER(Rva001EAE47LeaGetter, 0x13C)
 BFME_DISP32_LEA_GETTER(Rva001EAE55LeaGetter, 0x2F0)
@@ -89,7 +87,6 @@ BFME_DISP32_LEA_GETTER(Rva00426667LeaGetter, 0x1A8)
 BFME_DISP32_LEA_GETTER(Rva0045A21FLeaGetter, 0x1E0)
 BFME_DISP32_LEA_GETTER(Rva0048D73BLeaGetter, 0x1A0)
 BFME_DISP32_LEA_GETTER(Rva0049CB8ELeaGetter, 0x348)
-BFME_DISP32_LEA_GETTER(Rva00142C40LeaGetter, 0x13C)
 BFME_DISP32_LEA_GETTER(Rva0028B7AELeaGetter, 0x370)
 BFME_DISP32_LEA_GETTER(Rva004B39F5LeaGetter, 0x420)
 BFME_DISP32_LEA_GETTER(Rva004D92E9LeaGetter, 0xD0)
@@ -123,7 +120,6 @@ BFME_DISP32_LEA_GETTER(Rva0004CC69LeaGetter, 0x1C4)
 BFME_DISP32_LEA_GETTER(Rva00063318LeaGetter, 0xA8)
 BFME_DISP32_LEA_GETTER(Rva000788B9LeaGetter, 0x248)
 BFME_DISP32_LEA_GETTER(Rva000E6EE9LeaGetter, 0x1A4A8)
-BFME_DISP32_LEA_GETTER(Rva00174DC0LeaGetter, 0xC4)
 BFME_DISP32_LEA_GETTER(Rva0020391FLeaGetter, 0x19100)
 BFME_DISP32_LEA_GETTER(Rva0021912DLeaGetter, 0x1DC)
 BFME_DISP32_LEA_GETTER(Rva0023C448LeaGetter, 0x1C8)
@@ -149,3 +145,42 @@ BFME_DISP32_LEA_GETTER(Rva00572EBDLeaGetter, 0x934)
 BFME_DISP32_LEA_GETTER(Rva0059EB20LeaGetter, 0x298)
 BFME_DISP32_LEA_GETTER(Rva005B01F9LeaGetter, 0x1E8)
 BFME_DISP32_LEA_GETTER(Rva0066D480LeaGetter, 0x170)
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?get@Rva007EA660FieldAddress@@QAEPADXZ=?get@Rva00657600LeaGetter@@QBEPAXXZ")
+#pragma comment(linker, "/alternatename:?getEnergy@Player@@QAEPAVEnergy@@XZ=?get@Rva00657650LeaGetter@@QBEPAXXZ")
+#pragma comment(linker, "/alternatename:?getAt80@Rva007EA6B0Accessor@@QAEPAXXZ=?get@Rva00657650LeaGetter@@QBEPAXXZ")
+
+// Clean BF1 9cbfb551fe20dae985f91f2319d8997287b6a705
+// game/GameEngine/Source/Common/DispFieldAddressGetters.cpp, /O1 /arch:SSE /G7,
+// supplies the interior-address expression. Retail independently has one
+// complete LEA(ecx+0x1e4)/RET leaf at 0x004CEF06..0x004CEF0D, immediately
+// after a complete jump thunk at 0x004CEF01 and before the rowed pair-copy
+// body at 0x004CEF0D. Original receiver and addressed member type are unknown.
+BFME_DISP32_LEA_GETTER(Rva004CEF06LeaGetter, 0x1E4)
+
+// Clean BF1 f98983a7d3 AIUpdate.cpp's getLocomotorSet source supplies an
+// interior-address expression, not a target class or member identity.
+// Native 1F496E..1F4975 is a complete ECX+0x1B4/RET0 leaf immediately
+// after the independent jump at 1F4969 and before the rowed 1F4975 getter.
+// Retail establishes the displacement; the original owner and pointee
+// type remain unknown. The neighbouring LEA leaves are already rowed.
+BFME_DISP32_LEA_GETTER(Rva001F496ELeaGetter, 0x1B4)
+
+// Retail299C91 is an eight-byte receiver-adjustment stub ending with an
+// unconditional jump to this independent299C99..299CA0 LEA/RET body.
+// Object's virtual-base table BFC27C references the stub; the owned Object
+// destructor establishes that base and its preceding adjustment word.
+// The adjusted receiver addresses a member 0x42C bytes before itself.
+// The original member name and pointee type are not established.
+class Object
+{
+public:
+	virtual void *slot() const;
+};
+
+void *Object::slot() const
+{
+	return (char *)this - 0x42C;
+}

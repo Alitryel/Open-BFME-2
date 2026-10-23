@@ -6,18 +6,18 @@
 // global byte getter); dedicated TU so no caller inlines the load
 // (Rva007EB810Get precedent).
 
-extern int g_Va00DB5FD4;
+extern int BfmeRenderWidth;
 
 int Rva0011009AGet(void)
 {
-	return g_Va00DB5FD4;
+	return BfmeRenderWidth;
 }
 
 // ?Rva001100A0Get@@YAHXZ @ 0x001100A0 (6B): same shape over 0x00DB5FD8.
 
-extern int g_Va00DB5FD8;
+extern int BfmeRenderHeight;
 
 int Rva001100A0Get(void)
 {
-	return g_Va00DB5FD8;
+	return BfmeRenderHeight;
 }

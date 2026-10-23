@@ -1,6 +1,6 @@
-// cl: /O1 /EHsc
+// cl: /EHsc
 //
-// ScriptEngine::init, retail 0x00205AFD (406 bytes, including the catch(...)
+// ScriptEngine::init, retail 0x00205AFD (406 bytes, including the catch
 // block Ghidra splits off at 0x00205BEF). Vtable slot 1 of the table at
 // 0x007E3D70; the virtual called last is slot 9.
 //
@@ -13,7 +13,7 @@
 //     0x00E02D7A is set, and everything sits under m_windowed;
 //   * the particle editor is a loader object (FXParticleEditorI.dll, class
 //     BfmeDualVtableReleaseDtor) built as a temporary and swapped into the
-//     global at 0x00DFE180 inside try/catch(...), since its base constructor
+//     global at 0x00DFE180 inside try/catch, since its base constructor
 //     throws when LoadLibrary fails;
 //   * a missing CreateDebugDialog frees the library, and a present one is
 //     followed by the sides-list hand-off (0x00203C21);
@@ -35,8 +35,13 @@ public:
 	bool m_scriptDebug;     // +0x9C1
 	bool m_particleEdit;    // +0x9C2
 };
-extern GlobalData *TheGlobalData;
-extern bool TheDebugWindowLite;
+// Matched DIR32 sites for TheGlobalData resolve to VA 0x00DFE758, whose retail
+// zero-filled slot starts null.
+// The global at that VA is GameClient.cpp's TheWritableGlobalData (Zero
+// Hour spells TheGlobalData as a macro over it); this name aliases it
+// rather than defining a second pointer the game never writes.
+extern class GlobalData *TheWritableGlobalData;
+extern bool BFME2UseDebugWindowLite;
 
 class SubsystemInterface
 {
@@ -64,14 +69,32 @@ private:
 };
 
 extern ScriptActions *TheScriptActions;
+// TheScriptActions: matched references place it at VA 0xe02d98 (zero-filled .bss).
+ScriptActions * TheScriptActions;
 extern ScriptConditions *TheScriptConditions;
+// TheScriptConditions: matched references place it at VA 0xe02e04 (zero-filled .bss).
+ScriptConditions * TheScriptConditions;
 
 template <class T>
-inline void swapValues(T &a, T &b)
+inline void swapValues(T &lhs, T &rhs)
 {
-	T tmp = a;
-	a = b;
-	b = tmp;
+	T tmp = lhs;
+	lhs = rhs;
+	rhs = tmp;
+}
+
+// What the loader base constructor throws when LoadLibrary fails. Retail's
+// handler catches it by const reference: its TypeDescriptor 0x00DB97E8 is
+// .?AVException@DllHandle@ in this unit's anonymous namespace.
+namespace
+{
+class DllHandle
+{
+public:
+	class Exception
+	{
+	};
+};
 }
 
 class BfmeDualVtableReleaseBase
@@ -98,7 +121,7 @@ private:
 	void *m_target;  // +0x08
 };
 
-extern BfmeDualVtableReleaseDtor TheFXParticleEditor;
+BfmeDualVtableReleaseDtor TheFXParticleEditor(0);
 
 void rva00203C21();
 
@@ -129,14 +152,17 @@ private:
 	double m_maxUpdateTime;    // +0x1A4F0
 };
 
+// TheScriptEngine (VA 0x00DFE16C) is defined in ScriptEngine_setSequentialTimer.cpp.
+extern ScriptEngine *TheScriptEngine;
+
 void ScriptEngine::init()
 {
 	TheScriptActions = new ScriptActions;
 	TheScriptConditions = new ScriptConditions;
 
-	if (TheGlobalData->m_windowed) {
-		if (TheGlobalData->m_scriptDebug) {
-			if (TheDebugWindowLite)
+	if (TheWritableGlobalData->m_windowed) {
+		if (TheWritableGlobalData->m_scriptDebug) {
+			if (BFME2UseDebugWindowLite)
 				st_DebugDLL = LoadLibraryA("DebugWindowLite.dll");
 			else
 				st_DebugDLL = LoadLibraryA("DebugWindow.dll");
@@ -144,10 +170,10 @@ void ScriptEngine::init()
 			st_DebugDLL = 0;
 		}
 
-		if (TheGlobalData->m_particleEdit) {
+		if (TheWritableGlobalData->m_particleEdit) {
 			try {
 				BfmeDualVtableReleaseDtor(0).swap(TheFXParticleEditor);
-			} catch (...) {
+			} catch (const DllHandle::Exception &) {
 			}
 		}
 

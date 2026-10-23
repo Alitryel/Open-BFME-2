@@ -1,4 +1,4 @@
-// cl: /O1 /GX /DNDEBUG /MD
+// cl: /Ireference/shims/bfme2_ascii /GX /DNDEBUG /MD /Ireference/shims/moduledata
 //
 // ??0BuildingBehaviorModuleData@@QAE@XZ, retail 0x00456489, 65 bytes.
 // ModuleData default ctor: vtable 0xC40798 plus a four-element window-name
@@ -22,15 +22,7 @@
 
 // TU-local string with inline null init; the declared teardown resolves
 // through the existing folded AsciiString pin at 0x36410.
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	~AsciiString();
-
-private:
-	char *m_data;
-};
+#include "ascii_string.h"
 
 // A window-name entry: 12 bytes (retail element size).
 class BuildingWindowName
@@ -44,15 +36,23 @@ private:
 	unsigned char m_pad[8]; // +0x04, opaque trailing bytes
 };
 
-// Empty base (inline-empty ctor plus declared-only dtor): load-bearing for
+extern "C" const void *const vtbl_00C40798[];  // ??_7BuildingBehaviorModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C40798=??_7BuildingBehaviorModuleData@@6B@")
+
+// Retail's state-0 unwind funclet jumps to 0x0049B47C, the ModuleData-family
+// dtor fold that restores the Snapshot vptr 0x00BBB554; the base dtor is
+// that reset (WallHubBehaviorModuleDataCtor precedent).
+#include "Common/Snapshot.h"
+
+// Empty base (inline-empty ctor plus non-trivial dtor): load-bearing for
 // the EH state machine, advancing the state to 0 with no emitted code so
 // the array construction below is bracketed exactly as retail (Topple
-// precedent). The declared dtor is never referenced from this TU.
+// precedent).
 class BuildingBehaviorModuleDataBase
 {
 public:
 	BuildingBehaviorModuleDataBase() {}
-	~BuildingBehaviorModuleDataBase();
+	~BuildingBehaviorModuleDataBase() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 private:
 };
@@ -70,6 +70,6 @@ private:
 
 // ??0BuildingBehaviorModuleData@@QAE@XZ @0x00456489
 BuildingBehaviorModuleData::BuildingBehaviorModuleData()
-	: m_vtable(reinterpret_cast<void *>(0xC40798))
+	: m_vtable(reinterpret_cast<void *>(((unsigned int)vtbl_00C40798)))
 {
 }

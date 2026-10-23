@@ -1,4 +1,7 @@
-// cl: /O1 /DNDEBUG /MD
+char g_00C5C4B8;
+char g_00C5C51C;
+
+// cl: /DNDEBUG /MD
 //
 // ??0InvisibilitySpecialPower@@QAE@PAVThing@@PBVModuleData@@@Z, retail
 // 0x004C23A4, 42 bytes. Behavior-side ctor completing the
@@ -12,6 +15,9 @@
 // declared anywhere so no vtable is emitted here; all three immediates are
 // DIR32-masked in comparison). Zero new pins (base resolves via the
 // rowed SpecialPowerModule spelling).
+
+extern "C" const void *const vtbl_00BEFCF8[];  // folded, 38 classes; via ??_7CashHackSpecialPower@@6BBehaviorModuleInterface@@@
+#pragma comment(linker, "/alternatename:_vtbl_00BEFCF8=??_7CashHackSpecialPower@@6BBehaviorModuleInterface@@@")
 
 class Thing;
 class ModuleData;
@@ -32,7 +38,7 @@ public:
 InvisibilitySpecialPower::InvisibilitySpecialPower(Thing *thing, const ModuleData *moduleData) :
 	SpecialPowerModule(thing, moduleData)
 {
-	*(unsigned int *)this = 0x00C5C51C;
-	*(unsigned int *)((char *)this + 0xC) = 0x00BEFCF8;
-	*(unsigned int *)((char *)this + 0x10) = 0x00C5C4B8;
+	*(unsigned int *)this = (unsigned int)&g_00C5C51C;
+	*(unsigned int *)((char *)this + 0xC) = ((unsigned int)vtbl_00BEFCF8);
+	*(unsigned int *)((char *)this + 0x10) = (unsigned int)&g_00C5C4B8;
 }

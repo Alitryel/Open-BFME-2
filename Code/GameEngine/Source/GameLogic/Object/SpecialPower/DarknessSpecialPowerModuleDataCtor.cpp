@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /MD /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // ??0DarknessSpecialPowerModuleData@@QAE@XZ, retail 0x004C4F63, 38 bytes.
 // Frameless small ctor: runs the pinned opaque intermediate base ctor at
@@ -12,18 +12,20 @@
 // first so the load hoists above the stores. Size 0x84 matches the rowed
 // 0x251FFC factory news. Row supersedes the ctor pin.
 
-class Rva004930A0
+extern "C" const void *const vtbl_00C5E7A8[];  // folded, 2 classes; via ??_7CombineHordeSpecialPowerModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C5E7A8=??_7CombineHordeSpecialPowerModuleData@@6B@")
+
+class SpecialPowerModuleData
 {
 public:
-	Rva004930A0();
+	SpecialPowerModuleData();
 
 	void *m_vtable; // +0
 	unsigned char m_pad[0x7C - 4]; // +4..0x7B
 };
 
-extern float g_darknessRadiusDefault; // 0x00BC2428, 10.0f
 
-class DarknessSpecialPowerModuleData : public Rva004930A0
+class DarknessSpecialPowerModuleData : public SpecialPowerModuleData
 {
 public:
 	DarknessSpecialPowerModuleData();
@@ -35,10 +37,10 @@ private:
 
 // ??0DarknessSpecialPowerModuleData@@QAE@XZ @0x4C4F63
 DarknessSpecialPowerModuleData::DarknessSpecialPowerModuleData()
-	: Rva004930A0()
+	: SpecialPowerModuleData()
 {
-	float radius = g_darknessRadiusDefault;
+	float radius = 10.0f;
 	m_darknessFX = 0;
-	m_vtable = reinterpret_cast<void *>(0x00C5E7A8);
+	m_vtable = reinterpret_cast<void *>(((unsigned int)vtbl_00C5E7A8));
 	m_darknessRadius = radius;
 }

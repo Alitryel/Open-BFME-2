@@ -28,3 +28,13 @@ __real@447a0000
 # COMDAT vtables; every listed body verifies against the address it encodes.
 ??_7MemoryPoolObject@@6B@
 ??_7?$VectorClass@M@@6B@
+
+# Same COMDAT-vtable duplication, surfaced by locate.py placements. The
+# SimpleDynVecClass<Vector3> copy ctor @0x741BF0 (in the StreakLine region)
+# encodes 0x00BD71C8/0x00BD71D4 while the segline/streak/particle bodies use
+# 0x00BC6F44/0x00BC6F50; the VectorClass<ModelNodeClass> dtor @0x155330 encodes
+# 0x00BD3B98 while its ctor, ??_G and ModelArrayClass dtor use 0x00BD6720.
+# Every listed body verifies against the address it encodes.
+??_7?$SimpleVecClass@VVector3@@@@6B@
+??_7?$SimpleDynVecClass@VVector3@@@@6B@
+??_7?$VectorClass@VModelNodeClass@HLodClass@@@@6B@

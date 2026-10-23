@@ -1,7 +1,36 @@
-// cl: /O1 /EHs /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
+// cl: /EHs /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // stlport
+// codegen otherwise instantiates the min<int> COMDAT (one byte shape
+// per TU flags); a file-static overload takes those calls instead so this
+// TU emits no external copy.
+namespace _STL {
+static inline const int &min(const int &a, const int &b)
+{
+    return b < a ? b : a;
+}
+}
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <map>
 #include <string>
+namespace _STL { template <> class allocator<char> { public: static char *allocate(unsigned int bytes, const void *hint); __forceinline static void deallocate(char *p, unsigned int) { if (p) ::free(p); } }; }
+// Pair constructors call the rowed string copy at 0x9170.
+namespace _STL {
+template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(const basic_string<char, char_traits<char>, allocator<char> > &);
+}
+// The retail comparator at 0x388F39 calls the range comparison at 0x24FC0.
+// Use that body's ledger name rather than emitting another _M_compare copy.
+int bfmeDoPW(char *, char *, char *, char *);
+namespace _STL {
+template <> inline bool operator<(const basic_string<char, char_traits<char>, allocator<char> > &a,
+                                 const basic_string<char, char_traits<char>, allocator<char> > &b)
+{
+    return bfmeDoPW((char *)a.begin(), (char *)a.end(),
+                    (char *)b.begin(), (char *)b.end()) < 0;
+}
+}
+// Suppress this TU's non-retail copy of ??$uninitialized_copy@PADPAD@_STL@@YAPADPAD00@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> char * uninitialized_copy<char *,char *>(char *,char *,char *); }
 
 
 
@@ -17,7 +46,6 @@ typedef _STL::pair<const _STL::basic_string<char>, TreePayload0038D58C> TreePair
 typedef _STL::_Rb_tree<_STL::basic_string<char>, TreePair0038D58C, _STL::_Select1st<TreePair0038D58C>, _STL::less<_STL::basic_string<char> >, _STL::allocator<TreePair0038D58C> > Tree0038D58C;
 template Tree0038D58C::iterator Tree0038D58C::insert_unique(Tree0038D58C::iterator, const TreePair0038D58C &);
 
-namespace _STL { template <> class allocator<char> { public: static char *allocate(unsigned int bytes, const void *hint); __forceinline static void deallocate(char *p, unsigned int) { if (p) ::free(p); } }; }
 template <> Tree0038D58C::_Link_type Tree0038D58C::_M_create_node(const TreePair0038D58C &value)
 {
     _Link_type node = (_Link_type)_STL::allocator<char>::allocate(sizeof(_STL::_Rb_tree_node<TreePair0038D58C>), 0);
@@ -36,3 +64,21 @@ template TreePayload0038D58C &MapInsert0038d58c::operator[](const _STL::basic_st
 
 // Retail0x389291 uses the independently matched narrow-string comparator388F39 twice.
 template Tree0038D58C::iterator Tree0038D58C::find(const _STL::basic_string<char> &);
+
+// Rva003893B9::rva003893B9 @0x003893B9 20B: the container-level
+// lower_bound over this map, returning the iterator built from the rowed
+// _M_lower_bound 0x0038922C through the hidden result slot. Skeleton twin of
+// the STLport find wrapper 0x004D7546. Owner not recovered (no direct
+// caller); the view is address-named.
+typedef _STL::map<_STL::basic_string<char>, TreePayload0038D58C> Map0038D58C;
+class Rva003893B9
+{
+public:
+    Map0038D58C::iterator rva003893B9(const _STL::basic_string<char> &key);
+private:
+    Map0038D58C m_map;
+};
+Map0038D58C::iterator Rva003893B9::rva003893B9(const _STL::basic_string<char> &key)
+{
+    return m_map.lower_bound(key);
+}

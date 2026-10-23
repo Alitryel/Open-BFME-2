@@ -1,6 +1,6 @@
 // cl: /Od
 
-void *bfmeImplV26(int a, int b, int c, int d, char ch);
+char **__cdecl bfmeRSearchV33(char **a, char *b, char *c, char *d, char *e);
 
 void *bfmeFwdV26(int a, int b, int c, int d, int e, int f, char ch)
 {
@@ -38,7 +38,7 @@ void *bfmeFwdV26(int a, int b, int c, int d, int e, int f, char ch)
 		mov dword ptr [ecx], edx
 		lea eax, [ebp-4]
 		push eax
-		call bfmeImplV26
+		call bfmeRSearchV33
 		add esp, 0x18
 		mov ecx, dword ptr [ebp-4]
 		mov dword ptr [ebp-0x38], ecx

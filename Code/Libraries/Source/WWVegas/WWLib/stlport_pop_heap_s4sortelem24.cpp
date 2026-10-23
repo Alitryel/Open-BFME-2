@@ -37,3 +37,19 @@ template void __pop_heap<S4SortElem24 *, int, S4SortElem24, S4Cmp009F4BF0>(
     S4Cmp009F4BF0, int *);
 
 }
+
+// The BFME1 donor exposes these two __pop_heap wrappers as Rva009F5630 and
+// Rva009F5920. Their target identities stay address-derived; retail at the
+// two boundaries copies a 24-byte terminal element and calls the matched
+// specialization above at 0x00627A10.
+void Rva00627B30PopHeap(S4SortElem24 *first, S4SortElem24 *last,
+    S4SortElem24 *, S4Cmp009F4BF0 comp)
+{
+    _STL::__pop_heap(first, last - 1, last - 1, *(last - 1), comp, (int *)0);
+}
+
+void Rva00627D90PopHeap(S4SortElem24 *first, S4SortElem24 *last,
+    S4Cmp009F4BF0 comp)
+{
+    _STL::__pop_heap(first, last - 1, last - 1, *(last - 1), comp, (int *)0);
+}

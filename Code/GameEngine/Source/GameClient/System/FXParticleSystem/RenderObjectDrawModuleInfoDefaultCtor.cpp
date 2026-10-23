@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /arch:SSE
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD
 
 // RenderObjectDrawModuleInfo default constructor.
 //
@@ -10,25 +10,8 @@
 // RenderObjectDrawModuleInfoCopyCtorThunk.cpp in this folder; the header
 // float at +8 takes 0.0f (movss) matching retail.
 
-template <typename Character>
-class StringBase
-{
-public:
-	StringBase(const StringBase &);
+#include "ascii_string.h"
 
-private:
-	void *m_data;
-};
-
-class AsciiString
-{
-public:
-	AsciiString() { m_text = 0; }
-	AsciiString(const AsciiString &that);
-
-private:
-	char *m_text;
-};
 
 namespace FXParticleSystem
 {

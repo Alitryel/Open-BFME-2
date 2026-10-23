@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /GX- /Oi-
+// cl: /Oy- /DNDEBUG /MD /GX- /Oi-
 //
 // ?getNextSubToken@INI@@QAEPBDPBD@Z, retail 0x002E06B, 92 bytes.
 // Dedicated ebp-frame TU (same INI family as INI_getNextToken.cpp).
@@ -22,30 +22,24 @@ private:
 	const char *m_sepsColon;
 };
 
-struct INIException
+class INIException
 {
+public:
+	INIException(int argCount, const char *format, ...);
 	char *mFailureMessage;
 	int mErrorCode;
+	INIException(const INIException &that);
+	~INIException();
 };
 
-extern "C" void rva002f681_fill(void *dst, int code, const char *fmt, ...);
-__declspec(noreturn) void __stdcall _CxxThrowException(void *pExc, void *pInfo);
 extern "C" __declspec(dllimport) int __cdecl _strcmpi(const char *a, const char *b);
-
-// Address anchor only: the throw site pushes this object's address as an
-// immediate (DIR32, copied from retail's throwinfo at 0xCFE2FC). Content is
-// never compared; the real chain lives in the retail image.
-struct GetNextSubTokenThrowInfoAnchor { int a; int b; int c; int d; };
-static const GetNextSubTokenThrowInfoAnchor getNextSubTokenThrowInfoAnchor = { 0, 0, 0, 0 };
 
 // ?getNextSubToken@INI@@QAEPBDPBD@Z
 const char *INI::getNextSubToken(const char *expected)
 {
 	const char *token = getNextToken(m_sepsColon);
 	if (_strcmpi(token, expected) != 0) {
-		INIException e;
-		rva002f681_fill(&e, 3, "Expected '%s' but found '%s'", expected, token);
-		_CxxThrowException(&e, (void *)&getNextSubTokenThrowInfoAnchor);
+		throw INIException(3, "Expected '%s' but found '%s'", expected, token);
 	}
 	return getNextToken(m_sepsColon);
 }

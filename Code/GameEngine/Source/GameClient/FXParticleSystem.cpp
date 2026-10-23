@@ -1,11 +1,27 @@
-// cl: /O1 /GX- /arch:SSE2
+// cl: /O1 /GX /arch:SSE2
 
-struct Region2D
+#include "../../../Libraries/Include/Lib/Region2D.h"
+
+#include "../../../Libraries/Include/Lib/RGBColor.h"
+
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#define BFME_SNAPSHOT_REFERENCE_XFER
+#include "../../../../reference/shims/moduledata/Common/Snapshot.h"
+
+class GameClientRandomVariable
 {
-    float x_min;
-    float y_min;
-    float x_max;
-    float y_max;
+public:
+    enum DistributionType
+    {
+        CONSTANT, UNIFORM, GAUSSIAN, TRIANGULAR, LOW_BIAS, HIGH_BIAS
+    };
+
+    void setRange(float low, float high, DistributionType type);
+
+    DistributionType m_type;
+    float m_low, m_high;
 };
 
 // Placement new, used only to force generated copy constructors out; nothing in
@@ -14,6 +30,28 @@ inline void *operator new(unsigned int, void *storage)
 {
     return storage;
 }
+
+class UpgradeTemplate;
+
+// ICF-folded twin of the CategoryModuleClass getNext bodies below (same 4
+// bytes at 0x001DB0A8): UpgradeCenter keeps its template pointer at the
+// same +0xC head offset, so this getter is the same single load.
+// (Global scope: the rest of this TU lives in namespace FXParticleSystem.)
+class UpgradeCenter
+{
+public:
+	const UpgradeTemplate *rva001DB0A8() const;
+private:
+	char m_pad00[0xC];
+	const UpgradeTemplate *m_0C;
+};
+
+const UpgradeTemplate *UpgradeCenter::rva001DB0A8() const
+{
+	return m_0C;
+}
+
+class Xfer;
 
 namespace FXParticleSystem
 {
@@ -42,6 +80,8 @@ void ParticleSystemTemplate::setUV(const Region2D *region)
 
 // ModuleTemplate holds nothing but its vtable (0x00BBB52C): the constructors
 // install it and the destructor restores it, with no member traffic at all.
+// That table is one slot, the deleting destructor: every other unit's view
+// emits it so, and a second pure slot here made all of them lose the COMDAT.
 class ModuleTemplate
 {
 public:
@@ -49,18 +89,17 @@ public:
     ModuleTemplate(const ModuleTemplate &that);
 
     virtual ~ModuleTemplate();
-    virtual void v1() = 0;
 };
 
-ModuleTemplate::ModuleTemplate()
+inline ModuleTemplate::ModuleTemplate()
 {
 }
 
-ModuleTemplate::ModuleTemplate(const ModuleTemplate &that)
+inline ModuleTemplate::ModuleTemplate(const ModuleTemplate &that)
 {
 }
 
-ModuleTemplate::~ModuleTemplate()
+inline ModuleTemplate::~ModuleTemplate()
 {
 }
 
@@ -115,7 +154,7 @@ SecondaryModuleBase::SecondaryModuleBase()
 // Seven bytes, and the most folded body in the image: 139 function starts
 // carry exactly these bytes at exactly this extent, ~ModuleTemplate at
 // 0x000011BD and ~Xfer at 0x000053E7 among them. Present, unpinnable.
-SecondaryModuleBase::~SecondaryModuleBase()
+inline SecondaryModuleBase::~SecondaryModuleBase()
 {
 }
 
@@ -165,8 +204,19 @@ class CategoryModuleTemplate : public CategoryModuleTemplateBase<CATEGORY>,
                                public CategoryInfo<CATEGORY>::Type
 {
 public:
+    CategoryModuleTemplate();
     virtual void v1();
 };
+
+template <int CATEGORY>
+inline CategoryModuleTemplate<CATEGORY>::CategoryModuleTemplate() {}
+
+// Keep the native24B implicit base destructor out of its deleting helper.
+// The derived cleanup is supplied by the existing exact factory provider.
+template <>
+__declspec(noinline) CategoryModuleTemplateBase<6>::~CategoryModuleTemplateBase();
+template <>
+CategoryModuleTemplate<6>::~CategoryModuleTemplate();
 
 // The retail instantiations are reached through derived module templates, so
 // nothing in this translation unit would emit their constructors on its own.
@@ -242,7 +292,20 @@ struct ModuleCategoryNames
     const char *m_key;
 };
 
-extern const ModuleCategoryNames TheModuleCategoryNames[];
+// Native 0x81D840..0x81D888: nine 8-byte display-name / INI-key pairs.
+// GetName/GetKey at 0x3AFD0A/16 prove stride and halves; Event text starts
+// immediately after the table, establishing the complete 72-byte extent.
+extern const ModuleCategoryNames TheModuleCategoryNames[] = {
+    {"Color", "Color"},
+    {"Alpha", "Alpha"},
+    {"Update", "Update"},
+    {"Physics", "Physics"},
+    {"Emission Velocity", "EmissionVelocity"},
+    {"Emission Volume", "EmissionVolume"},
+    {"Draw", "Draw"},
+    {"Wind", "Wind"},
+    {"Event", "Event"},
+};
 
 enum ModuleCategory
 {
@@ -274,17 +337,18 @@ public:
     virtual ~Snapshot() {}
 };
 
-class EmissionVolumeInfo : public Snapshot
+class EmissionVolumeInfo : public ::Snapshot
 {
 public:
     EmissionVolumeInfo();
     EmissionVolumeInfo(const EmissionVolumeInfo &that);
 
     virtual ~EmissionVolumeInfo() {}
-    virtual void v1() = 0;
+    virtual void LoadPostProcess();
 
     bool m_flag;
     virtual const char *GetSnapshotName();
+    virtual void DoXfer(::Xfer &);
 };
 
 const char *EmissionVolumeInfo::GetSnapshotName()
@@ -293,12 +357,12 @@ const char *EmissionVolumeInfo::GetSnapshotName()
 }
 
 
-EmissionVolumeInfo::EmissionVolumeInfo()
+inline EmissionVolumeInfo::EmissionVolumeInfo()
 {
     m_flag = false;
 }
 
-EmissionVolumeInfo::EmissionVolumeInfo(const EmissionVolumeInfo &that)
+inline EmissionVolumeInfo::EmissionVolumeInfo(const EmissionVolumeInfo &that)
 {
     m_flag = that.m_flag;
 }
@@ -413,15 +477,16 @@ typedef SphereEmissionVolumeInfo &(SphereEmissionVolumeInfo::*SphereEmissionVolu
 
 SphereEmissionVolumeAssign g_sphereEmissionVolumeAssign = &SphereEmissionVolumeInfo::operator=;
 
-class EmissionVelocityInfo : public Snapshot
+class EmissionVelocityInfo : public ::Snapshot
 {
 public:
     EmissionVelocityInfo();
     EmissionVelocityInfo(const EmissionVelocityInfo &that);
 
     virtual ~EmissionVelocityInfo() {}
-    virtual void v1() = 0;
+    virtual void LoadPostProcess();
     virtual const char *GetSnapshotName();
+    virtual void DoXfer(::Xfer &);
 };
 
 class CylindricalEmissionVelocityInfo : public EmissionVelocityInfo
@@ -448,7 +513,7 @@ const char *EmissionVelocityInfo::GetSnapshotName()
 }
 
 
-EmissionVelocityInfo::EmissionVelocityInfo()
+inline EmissionVelocityInfo::EmissionVelocityInfo()
 {
 }
 
@@ -456,11 +521,11 @@ EmissionVelocityInfo::EmissionVelocityInfo(const EmissionVelocityInfo &that)
 {
 }
 
-CylindricalEmissionVelocityInfo::~CylindricalEmissionVelocityInfo()
+inline CylindricalEmissionVelocityInfo::~CylindricalEmissionVelocityInfo()
 {
 }
 
-OutwardEmissionVelocityInfo::~OutwardEmissionVelocityInfo()
+inline OutwardEmissionVelocityInfo::~OutwardEmissionVelocityInfo()
 {
 }
 
@@ -599,12 +664,17 @@ const CategoryModuleClass<CATEGORY> *CategoryModuleClass<CATEGORY>::getFirst()
 
 // The four draw-module info classes carry nothing but their own vtable: both
 // constructors install it and the copy constructor ignores its argument.
-#define FX_VTABLE_ONLY_INFO(NAME)                                                                      class NAME : public Snapshot                                                                       {                                                                                                  public:                                                                                                NAME();                                                                                            NAME(const NAME &that);                                                                                                                                                                               virtual ~NAME();                                                                                    virtual void v1() = 0;                                                                             virtual const char *GetSnapshotName();                                                         };                                                                                                                                                                                                    NAME::NAME() {}                                                                                    NAME::NAME(const NAME &that) {}                                                                                                                                                                       const char *NAME::GetSnapshotName()                                                                {                                                                                                      return #NAME;                                                                                  }
+#define FX_VTABLE_ONLY_INFO(NAME)                                                                      class NAME : public Snapshot                                                                       {                                                                                                  public:                                                                                                NAME();                                                                                            NAME(const NAME &that);                                                                                                                                                                               virtual ~NAME();                                                                                    virtual void v1() = 0;                                                                             virtual const char *GetSnapshotName();                                                         };                                                                                                                                                                                                                                                                                        NAME::NAME(const NAME &that) {}                                                                                                                                                                       const char *NAME::GetSnapshotName()                                                                {                                                                                                      return #NAME;                                                                                  }
 
 FX_VTABLE_ONLY_INFO(DefaultDrawModuleInfo)
 FX_VTABLE_ONLY_INFO(StreakDrawModuleInfo)
 FX_VTABLE_ONLY_INFO(QuadDrawModuleInfo)
 FX_VTABLE_ONLY_INFO(ButterflyDrawModuleInfo)
+
+// DefaultDrawModuleInfo is supplied by its existing constructor provider.
+StreakDrawModuleInfo::StreakDrawModuleInfo() {}
+QuadDrawModuleInfo::QuadDrawModuleInfo() {}
+ButterflyDrawModuleInfo::ButterflyDrawModuleInfo() {}
 
 // Out of line, one per class: an in-class body is implicitly inline and MSVC
 // then folds it into its callers rather than emitting the COMDAT the ledger
@@ -617,24 +687,29 @@ ButterflyDrawModuleInfo::~ButterflyDrawModuleInfo() {}
 // These four carry members this file has not recovered, but their assignments
 // are real out-of-line functions their module templates call, so they are
 // declared rather than defaulted.
-#define FX_DECLARED_ASSIGN_INFO(NAME)                                                                  class NAME : public Snapshot                                                                       {                                                                                                  public:                                                                                                NAME();                                                                                            NAME(const NAME &that);                                                                                                                                                                               NAME &operator=(const NAME &that);                                                                                                                                                                    virtual ~NAME();                                                                                   virtual void v1() = 0;                                                                             virtual const char *GetSnapshotName();                                                         };                                                                                                                                                                                                    NAME::NAME() {}                                                                                    NAME::NAME(const NAME &that) {}                                                                                                                                                                       const char *NAME::GetSnapshotName()                                                                {                                                                                                      return #NAME;                                                                                  }
+#define FX_DECLARED_ASSIGN_INFO(NAME)                                                                  class NAME : public Snapshot                                                                       {                                                                                                  public:                                                                                                NAME();                                                                                            NAME(const NAME &that);                                                                                                                                                                               NAME &operator=(const NAME &that);                                                                                                                                                                    virtual ~NAME();                                                                                   virtual void v1() = 0;                                                                             virtual const char *GetSnapshotName();                                                         };                                                                                                                                                                                                                                                                                                                                                                                                                                                               const char *NAME::GetSnapshotName()                                                                {                                                                                                      return #NAME;                                                                                  }
 
 FX_DECLARED_ASSIGN_INFO(RenderObjectDrawModuleInfo)
 FX_DECLARED_ASSIGN_INFO(GpuDrawModuleInfo)
 FX_DECLARED_ASSIGN_INFO(LifeEventModuleInfo)
-FX_DECLARED_ASSIGN_INFO(TerrainCollisionModuleInfo)
+class TerrainCollisionModuleInfo : public ::Snapshot
+{
+public:
+    TerrainCollisionModuleInfo();
+    TerrainCollisionModuleInfo(const TerrainCollisionModuleInfo &);
+    TerrainCollisionModuleInfo &operator=(const TerrainCollisionModuleInfo &);
+    virtual ~TerrainCollisionModuleInfo();
+    virtual void LoadPostProcess();
+    virtual const char *GetSnapshotName();
+    virtual void DoXfer(::Xfer &);
+};
+const char *TerrainCollisionModuleInfo::GetSnapshotName()
+{
+    return "TerrainCollisionModuleInfo";
+}
 
-// ?RenderObjectDrawModuleInfo::~RenderObjectDrawModuleInfo present-unmatched
-RenderObjectDrawModuleInfo::~RenderObjectDrawModuleInfo() {}
-// ?GpuDrawModuleInfo::~GpuDrawModuleInfo present-unmatched
-GpuDrawModuleInfo::~GpuDrawModuleInfo() {}
-// ?LifeEventModuleInfo::~LifeEventModuleInfo present-unmatched
-LifeEventModuleInfo::~LifeEventModuleInfo() {}
-// ?TerrainCollisionModuleInfo::~TerrainCollisionModuleInfo present-unmatched
-// These four compile to the same seven bytes as ~SecondaryModuleBase above and
-// land in the same 139-way fold, so each is present in retail and none of them
-// can be told from the others by bytes alone.
-TerrainCollisionModuleInfo::~TerrainCollisionModuleInfo() {}
+
+
 
 // The module class itself. Every instantiation registers into two per-category
 // tables: the default slot at 0x00DFDD1C, written only when the first argument
@@ -678,6 +753,8 @@ template <>
 class CategoryModuleClass<8>
 {
 public:
+    friend void _bfmeFXParticleSystemHeaderInlineAnchor(void *);
+
     static CategoryModuleClass<8> *s_head;
 
     static const CategoryModuleClass<8> *getFirst();
@@ -689,7 +766,7 @@ public:
 protected:
     CategoryModuleClass(bool isDefault, const char *key, const char *name);
 
-    ~CategoryModuleClass();
+    ~CategoryModuleClass() {}
     virtual void v1() = 0;
 
     const char *m_key;
@@ -708,10 +785,6 @@ const CategoryModuleClass<8> *CategoryModuleClass<8>::getFirst()
 }
 
 CategoryModuleClass<8> *CategoryModuleClass<8>::s_head;
-
-CategoryModuleClass<8>::~CategoryModuleClass()
-{
-}
 
 // A full specialization emits only the members something names, and nothing in
 // this file calls the event category's accessors; these force all three out.
@@ -788,7 +861,7 @@ template class CategoryModuleInfo<8>;
 // Seventeen members and no grouping anywhere: the generated assignment copies
 // every one of them with its own move rather than blocking any run together,
 // which is what separates loose scalars from a sub-object here.
-class WindModuleInfo : public Snapshot
+class WindModuleInfo : public ::Snapshot
 {
 public:
     // Declared only: retail has a real one at 0x003A53C4 and this file has no
@@ -798,7 +871,8 @@ public:
     WindModuleInfo(const WindModuleInfo &that);
 
     virtual ~WindModuleInfo();
-    virtual void v1() = 0;
+    virtual void LoadPostProcess();
+    virtual void DoXfer(::Xfer &);
 
     float m_unknown04;
     float m_unknown08;
@@ -828,9 +902,8 @@ const char *WindModuleInfo::GetSnapshotName()
 // Defined, not just declared: the wind template destructor at 0x003A6201 folds
 // it down to the one vtable store, behind the null-checked +8 adjustment of
 // `this` that a base at offset 8 needs.
-WindModuleInfo::~WindModuleInfo()
-{
-}
+// Keep the inline cleanup for the native category-7 destructor.
+inline WindModuleInfo::~WindModuleInfo() {}
 
 
 WindModuleInfo::WindModuleInfo(const WindModuleInfo &that)
@@ -870,6 +943,10 @@ struct CategoryInfo<7>
 
 // After the specialization, not with the others: naming CategoryModuleTemplate<7>
 // any earlier instantiates CategoryInfo<7> from the primary template.
+template CategoryModuleTemplateBase<7>::CategoryModuleTemplateBase();
+
+// The wind constructor needs EH cleanup; its definition is compiled separately.
+template <> CategoryModuleTemplate<7>::CategoryModuleTemplate();
 CategoryModuleTemplate<7> g_categoryModuleTemplate7;
 
 // Its generated assignment rides here for the same reason: it assigns the
@@ -888,13 +965,13 @@ CategoryModuleTemplate<7> *fxCopyWindCategoryModuleTemplate(void *storage,
 // Three more info classes read straight off their generated assignments: a
 // movsd run is a three-float group, a lone dword move is a loose float, and a
 // byte move is a flag.
-class DefaultPhysicsModuleInfo
+class DefaultPhysicsModuleInfo : public ::Snapshot
 {
 public:
     DefaultPhysicsModuleInfo(const DefaultPhysicsModuleInfo &that);
 
     virtual ~DefaultPhysicsModuleInfo();
-    virtual void v1() = 0;
+    virtual void LoadPostProcess();
 
     FXCoord3D m_unknown04;
     float m_unknown10;
@@ -902,6 +979,7 @@ public:
     bool m_unknown20;
     bool m_unknown21;
     virtual const char *GetSnapshotName();
+    virtual void DoXfer(::Xfer &);
 };
 
 const char *DefaultPhysicsModuleInfo::GetSnapshotName()
@@ -916,7 +994,7 @@ const char *DefaultPhysicsModuleInfo::GetSnapshotName()
 // 64 bytes that occur nowhere in .text, not once, at any alignment. Retail
 // inlined every use of this copy constructor; the out-of-line definition is
 // kept only so the class's matched siblings compile.
-DefaultPhysicsModuleInfo::DefaultPhysicsModuleInfo(const DefaultPhysicsModuleInfo &that)
+inline DefaultPhysicsModuleInfo::DefaultPhysicsModuleInfo(const DefaultPhysicsModuleInfo &that)
 {
     m_unknown04.x = that.m_unknown04.x;
     m_unknown04.y = that.m_unknown04.y;
@@ -941,6 +1019,7 @@ public:
     float m_unknown28;
     bool m_unknown2C;
     virtual const char *GetSnapshotName();
+    protected: virtual void xfer(::Xfer *);
 };
 
 const char *LightningDrawModuleInfo::GetSnapshotName()
@@ -958,7 +1037,9 @@ LightningDrawModuleInfo::LightningDrawModuleInfo(const LightningDrawModuleInfo &
     m_unknown2C = that.m_unknown2C;
 }
 
-class OrthoEmissionVelocityInfo
+// Derives from EmissionVelocityInfo as in the target ctor TUs, so the folded
+// 0x49B47C dtor stores the Snapshot vtable like its siblings (DIR32).
+class OrthoEmissionVelocityInfo : public EmissionVelocityInfo
 {
 public:
     virtual ~OrthoEmissionVelocityInfo();
@@ -1018,35 +1099,6 @@ public:
     FXCoord3D m_unknown80;
 };
 
-// 0x003A6AF5 stays unclaimed. The generated copy constructor expands the first
-// two groups one float at a time and blocks the remaining nine, which this
-// reproduces; the only difference is where the edi save lands - MSVC 7.1 puts it
-// one scalar earlier than retail, the same scheduling gap that leaves
-// DefaultPhysicsModuleInfo's copy constructor unclaimed.
-// ?LightningEmissionInfo::LightningEmissionInfo absent-from-retail
-// Same verdict as DefaultPhysicsModuleInfo's copy constructor, and on stronger
-// evidence: 154 bytes, zero occurrences in .text. A body that long matching
-// nowhere is dead-stripped, not merely unrecognised.
-LightningEmissionInfo::LightningEmissionInfo(const LightningEmissionInfo &that)
-    : EmissionVolumeInfo(that)
-{
-    m_unknown08.x = that.m_unknown08.x;
-    m_unknown08.y = that.m_unknown08.y;
-    m_unknown08.z = that.m_unknown08.z;
-    m_unknown14.x = that.m_unknown14.x;
-    m_unknown14.y = that.m_unknown14.y;
-    m_unknown14.z = that.m_unknown14.z;
-    m_unknown20 = that.m_unknown20;
-    m_unknown2C = that.m_unknown2C;
-    m_unknown38 = that.m_unknown38;
-    m_unknown44 = that.m_unknown44;
-    m_unknown50 = that.m_unknown50;
-    m_unknown5C = that.m_unknown5C;
-    m_unknown68 = that.m_unknown68;
-    m_unknown74 = that.m_unknown74;
-    m_unknown80 = that.m_unknown80;
-}
-
 class DefaultUpdateModuleInfo : public Snapshot
 {
 public:
@@ -1065,6 +1117,7 @@ public:
     FXCoord3D m_unknown50;
     FXCoord3D m_unknown5C;
     virtual const char *GetSnapshotName();
+    virtual void xfer(::Xfer *);
 };
 
 const char *DefaultUpdateModuleInfo::GetSnapshotName()
@@ -1119,6 +1172,7 @@ public:
     FXCoord3D m_unknown88;
     float m_unknown94;
     virtual const char *GetSnapshotName();
+    protected: virtual void xfer(::Xfer *);
 };
 
 const char *RenderObjectUpdateModuleInfo::GetSnapshotName()
@@ -1168,15 +1222,39 @@ class DefaultColorModuleInfo : public Snapshot
 public:
     virtual ~DefaultColorModuleInfo();
     virtual void v1();
+    void tintAllColors(int tint);
 
     FXKeyframe m_keys[8];
-    FXCoord3D m_unknown84;
+    GameClientRandomVariable m_colorScale;
     virtual const char *GetSnapshotName();
 };
 
 const char *DefaultColorModuleInfo::GetSnapshotName()
 {
     return "DefaultColorModuleInfo";
+}
+
+// BFME 1 semantic lead: DefaultColorModuleInfo::tintAllColors, donor revision
+// 968ca36c3265b295297e6aed45a6bd89ffe59c40, game/GameEngine/Source/GameClient/
+// System/FXParticleSystem/fx_particle_system_bulk.cpp. Target 0x0055B863..55B8CD
+// calls rowed RGBColor::setFromInt (0x4EDF), scales seven 16-byte keyframes
+// beginning at +0x14, then calls rowed GameClientRandomVariable::setRange
+// (0x2341E7) on +0x84. The adjacent rowed DoXfer at 0x55B8CD independently
+// establishes eight RGB keys at +4 and the random variable at +0x84; the
+// class name is carried from the donor and the existing snapshot-name body.
+// Unlike the old ParticleSystemInfo donor, this module also resets color scale.
+void DefaultColorModuleInfo::tintAllColors(int tint)
+{
+    RGBColor rgb;
+    rgb.setFromInt(tint);
+
+    for (int key = 1; key < 8; ++key) {
+        m_keys[key].m_value.x *= rgb.red;
+        m_keys[key].m_value.y *= rgb.green;
+        m_keys[key].m_value.z *= rgb.blue;
+    }
+
+    m_colorScale.setRange(0.0f, 0.0f, GameClientRandomVariable::UNIFORM);
 }
 
 
@@ -1194,6 +1272,8 @@ DefaultColorAssign g_defaultColorAssign = &DefaultColorModuleInfo::operator=;
 class SphericalEmissionVelocityInfo : public EmissionVelocityInfo
 {
 public:
+    // Default initialization is supplied by its byte-verified owner.
+    SphericalEmissionVelocityInfo();
     FXCoord3D m_unknown04;
 };
 
@@ -1304,6 +1384,8 @@ CylinderEmissionVolumeModuleTemplate g_cylinderEmissionVolumeModuleTemplate;
 class SphericalEmissionVelocityModuleTemplate : public ModuleTemplate, public SecondaryModuleBase, public SphericalEmissionVelocityInfo
 {
 public:
+    // Default initialization is supplied by its byte-verified owner.
+    SphericalEmissionVelocityModuleTemplate();
     virtual void v1();
 };
 
@@ -1355,7 +1437,7 @@ class ConcreteModuleTemplate : public TAG::TemplateType
 {
 public:
     ConcreteModuleTemplate();
-    __declspec(noinline) ConcreteModuleTemplate(const ConcreteModuleTemplate<TAG> &that);
+    __declspec(noinline) ConcreteModuleTemplate(const ConcreteModuleTemplate<TAG> &that) throw();
 
     virtual void v1();
     virtual typename TAG::TemplateType *clone() const;
@@ -1367,7 +1449,7 @@ ConcreteModuleTemplate<TAG>::ConcreteModuleTemplate()
 }
 
 template <class TAG>
-ConcreteModuleTemplate<TAG>::ConcreteModuleTemplate(const ConcreteModuleTemplate<TAG> &that)
+ConcreteModuleTemplate<TAG>::ConcreteModuleTemplate(const ConcreteModuleTemplate<TAG> &that) throw()
     : TAG::TemplateType(that)
 {
 }
@@ -1380,9 +1462,11 @@ void ConcreteModuleTemplate<TAG>::v1()
 // clone is one operator new and one call to the copy constructor. Keeping that
 // call is what the __declspec(noinline) above is for: retail does not inline the
 // copy constructor into clone, and MSVC 7.1 does at every optimization and
-// inline setting tried - /Ob1 breaks eleven other bodies in this unit and /EHsc
-// drags an unwind frame into clone that retail has not got. The marker stands in
-// for whatever kept retail's compiler out of it.
+// inline setting tried - /Ob1 breaks eleven other bodies in this unit. The marker
+// stands in for whatever kept retail's compiler out of it. The unit compiles with
+// /GX like retail: retail's EmissionVolumeInfo deleting dtor 0x001F3574 calls the
+// dtor out of line, which only EH codegen does. The copy constructor's throw()
+// keeps the delete-on-throw unwind frame out of clone, which retail has not got.
 template <class TAG>
 typename TAG::TemplateType *ConcreteModuleTemplate<TAG>::clone() const
 {
@@ -1444,6 +1528,10 @@ class LineEmissionVolumeModule;
 
 typedef ConcreteModuleTemplate<ModuleTag<5, LINE_EMISSION_VOLUME_MODULE_KEY, LINE_EMISSION_VOLUME_MODULE_NAME, LineEmissionVolumeModule, LineEmissionVolumeModuleTemplate, DefaultParticleModule<5> > >
     LineEmissionVolumeModuleConcrete;
+// Do not instantiate another default constructor under this unit's views.
+template <> LineEmissionVolumeModuleConcrete::ConcreteModuleTemplate();
+// Retain the owned copy and clone instantiations.
+template class ConcreteModuleTemplate<ModuleTag<5, LINE_EMISSION_VOLUME_MODULE_KEY, LINE_EMISSION_VOLUME_MODULE_NAME, LineEmissionVolumeModule, LineEmissionVolumeModuleTemplate, DefaultParticleModule<5> > >;
 typedef LineEmissionVolumeModuleConcrete &(LineEmissionVolumeModuleConcrete::*LineEmissionVolumeModuleConcreteAssign)(const LineEmissionVolumeModuleConcrete &);
 
 LineEmissionVolumeModuleConcreteAssign g_lineEmissionVolumeModuleConcreteAssign = &LineEmissionVolumeModuleConcrete::operator=;
@@ -1457,6 +1545,10 @@ class BoxEmissionVolumeModule;
 
 typedef ConcreteModuleTemplate<ModuleTag<5, BOX_EMISSION_VOLUME_MODULE_KEY, BOX_EMISSION_VOLUME_MODULE_NAME, BoxEmissionVolumeModule, BoxEmissionVolumeModuleTemplate, DefaultParticleModule<5> > >
     BoxEmissionVolumeModuleConcrete;
+// Do not instantiate another default constructor under this unit's views.
+template <> BoxEmissionVolumeModuleConcrete::ConcreteModuleTemplate();
+// Retain the owned copy and clone instantiations.
+template class ConcreteModuleTemplate<ModuleTag<5, BOX_EMISSION_VOLUME_MODULE_KEY, BOX_EMISSION_VOLUME_MODULE_NAME, BoxEmissionVolumeModule, BoxEmissionVolumeModuleTemplate, DefaultParticleModule<5> > >;
 typedef BoxEmissionVolumeModuleConcrete &(BoxEmissionVolumeModuleConcrete::*BoxEmissionVolumeModuleConcreteAssign)(const BoxEmissionVolumeModuleConcrete &);
 
 BoxEmissionVolumeModuleConcreteAssign g_boxEmissionVolumeModuleConcreteAssign = &BoxEmissionVolumeModuleConcrete::operator=;
@@ -1470,6 +1562,10 @@ class CylinderEmissionVolumeModule;
 
 typedef ConcreteModuleTemplate<ModuleTag<5, CYLINDER_EMISSION_VOLUME_MODULE_KEY, CYLINDER_EMISSION_VOLUME_MODULE_NAME, CylinderEmissionVolumeModule, CylinderEmissionVolumeModuleTemplate, DefaultParticleModule<5> > >
     CylinderEmissionVolumeModuleConcrete;
+// Do not instantiate another default constructor under this unit's views.
+template <> CylinderEmissionVolumeModuleConcrete::ConcreteModuleTemplate();
+// Retain the owned copy and clone instantiations.
+template class ConcreteModuleTemplate<ModuleTag<5, CYLINDER_EMISSION_VOLUME_MODULE_KEY, CYLINDER_EMISSION_VOLUME_MODULE_NAME, CylinderEmissionVolumeModule, CylinderEmissionVolumeModuleTemplate, DefaultParticleModule<5> > >;
 typedef CylinderEmissionVolumeModuleConcrete &(CylinderEmissionVolumeModuleConcrete::*CylinderEmissionVolumeModuleConcreteAssign)(const CylinderEmissionVolumeModuleConcrete &);
 
 CylinderEmissionVolumeModuleConcreteAssign g_cylinderEmissionVolumeModuleConcreteAssign = &CylinderEmissionVolumeModuleConcrete::operator=;
@@ -1528,6 +1624,9 @@ class ParticleLifeEventModule;
 class LifeEventModuleTemplate : public ModuleTemplate, public SecondaryModuleBase, public EventModuleInfo,
            public LifeEventModuleInfo
 {
+public:
+    // Native 0x3A7A7F / 0x3A81E2 owners retain the retail base ordering.
+    LifeEventModuleTemplate &operator=(const LifeEventModuleTemplate &);
 };
 
 typedef ConcreteModuleTemplate<ModuleTag<8, LIFE_EVENT_MODULE_KEY, LIFE_EVENT_MODULE_NAME, LifeEventModule, LifeEventModuleTemplate, ParticleLifeEventModule> >
@@ -1571,6 +1670,9 @@ class ParticleTerrainCollisionModule;
 class TerrainCollisionModuleTemplate : public ModuleTemplate, public SecondaryModuleBase, public EventModuleInfo,
            public TerrainCollisionModuleInfo
 {
+public:
+    // Native 0x3A7A7F / 0x3A81E2 owners retain the retail base ordering.
+    TerrainCollisionModuleTemplate &operator=(const TerrainCollisionModuleTemplate &);
 };
 
 typedef ConcreteModuleTemplate<ModuleTag<8, TERRAIN_COLLISION_MODULE_KEY, TERRAIN_COLLISION_MODULE_NAME, TerrainCollisionModule, TerrainCollisionModuleTemplate, ParticleTerrainCollisionModule> >
@@ -1755,7 +1857,8 @@ TerrainFireEmissionModuleTemplateAssign g_terrainFireEmissionModuleTemplateAssig
 
 typedef LifeEventModuleTemplate &(LifeEventModuleTemplate::*LifeEventModuleTemplateAssign)(const LifeEventModuleTemplate &);
 
-LifeEventModuleTemplateAssign g_lifeEventModuleTemplateAssign = &LifeEventModuleTemplate::operator=;
+// Removed: g_lifeEventModuleTemplateAssign emitted a wrong COMDAT copy; retail copy is in
+// System/FXParticleSystem/LifeEventModuleOpAssign.cpp, no row here inlines it.
 
 typedef RenderObjectUpdateModuleTemplate &(RenderObjectUpdateModuleTemplate::*RenderObjectUpdateModuleTemplateAssign)(const RenderObjectUpdateModuleTemplate &);
 
@@ -1763,7 +1866,8 @@ RenderObjectUpdateModuleTemplateAssign g_renderObjectUpdateModuleTemplateAssign 
 
 typedef TerrainCollisionModuleTemplate &(TerrainCollisionModuleTemplate::*TerrainCollisionModuleTemplateAssign)(const TerrainCollisionModuleTemplate &);
 
-TerrainCollisionModuleTemplateAssign g_terrainCollisionModuleTemplateAssign = &TerrainCollisionModuleTemplate::operator=;
+// Removed: g_terrainCollisionModuleTemplateAssign emitted a wrong COMDAT copy; retail copy is in
+// System/FXParticleSystem/TerrainCollisionModuleOpAssign.cpp, no row here inlines it.
 
 typedef OrthoEmissionVelocityModuleTemplate &(OrthoEmissionVelocityModuleTemplate::*OrthoEmissionVelocityModuleTemplateAssign)(const OrthoEmissionVelocityModuleTemplate &);
 
@@ -1816,87 +1920,87 @@ CategoryModuleClassBaseAssign8 g_categoryModuleClassBaseAssign8 = &CategoryModul
 // folds all of them onto 0x003A6201. Nothing here constructs one, so an
 // explicit destructor call per class is what forces them out.
 
-void fxDestroyBoxEmissionVolumeModuleTemplate(BoxEmissionVolumeModuleTemplate *p) { p->~BoxEmissionVolumeModuleTemplate(); }
+void fxDestroyBoxEmissionVolumeModuleTemplate(BoxEmissionVolumeModuleTemplate *moduleTemplate) { moduleTemplate->~BoxEmissionVolumeModuleTemplate(); }
 
-void fxDestroyButterflyDrawModuleTemplate(ButterflyDrawModuleTemplate *p) { p->~ButterflyDrawModuleTemplate(); }
+void fxDestroyButterflyDrawModuleTemplate(ButterflyDrawModuleTemplate *moduleTemplate) { moduleTemplate->~ButterflyDrawModuleTemplate(); }
 
-void fxDestroyCylinderEmissionVolumeModuleTemplate(CylinderEmissionVolumeModuleTemplate *p) { p->~CylinderEmissionVolumeModuleTemplate(); }
-
-// Not claimed: with the destructor left implicit MSVC never emits it, and
-// declaring one out of line drops the null-checked base adjustment retail
-// keeps, so this body is the ICF alias that cannot yet be proven.
-void fxDestroyLightningDrawModuleTemplate(LightningDrawModuleTemplate *p) { p->~LightningDrawModuleTemplate(); }
+void fxDestroyCylinderEmissionVolumeModuleTemplate(CylinderEmissionVolumeModuleTemplate *moduleTemplate) { moduleTemplate->~CylinderEmissionVolumeModuleTemplate(); }
 
 // Not claimed: with the destructor left implicit MSVC never emits it, and
 // declaring one out of line drops the null-checked base adjustment retail
 // keeps, so this body is the ICF alias that cannot yet be proven.
-void fxDestroyLightningEmissionModuleTemplate(LightningEmissionModuleTemplate *p) { p->~LightningEmissionModuleTemplate(); }
-
-void fxDestroyLineEmissionVolumeModuleTemplate(LineEmissionVolumeModuleTemplate *p) { p->~LineEmissionVolumeModuleTemplate(); }
+void fxDestroyLightningDrawModuleTemplate(LightningDrawModuleTemplate *moduleTemplate) { moduleTemplate->~LightningDrawModuleTemplate(); }
 
 // Not claimed: with the destructor left implicit MSVC never emits it, and
 // declaring one out of line drops the null-checked base adjustment retail
 // keeps, so this body is the ICF alias that cannot yet be proven.
-void fxDestroyOrthoEmissionVelocityModuleTemplate(OrthoEmissionVelocityModuleTemplate *p) { p->~OrthoEmissionVelocityModuleTemplate(); }
+void fxDestroyLightningEmissionModuleTemplate(LightningEmissionModuleTemplate *moduleTemplate) { moduleTemplate->~LightningEmissionModuleTemplate(); }
 
-void fxDestroyPointEmissionVolumeModuleTemplate(PointEmissionVolumeModuleTemplate *p) { p->~PointEmissionVolumeModuleTemplate(); }
-
-void fxDestroyQuadDrawModuleTemplate(QuadDrawModuleTemplate *p) { p->~QuadDrawModuleTemplate(); }
+void fxDestroyLineEmissionVolumeModuleTemplate(LineEmissionVolumeModuleTemplate *moduleTemplate) { moduleTemplate->~LineEmissionVolumeModuleTemplate(); }
 
 // Not claimed: with the destructor left implicit MSVC never emits it, and
 // declaring one out of line drops the null-checked base adjustment retail
 // keeps, so this body is the ICF alias that cannot yet be proven.
-void fxDestroyRenderObjectUpdateModuleTemplate(RenderObjectUpdateModuleTemplate *p) { p->~RenderObjectUpdateModuleTemplate(); }
+void fxDestroyOrthoEmissionVelocityModuleTemplate(OrthoEmissionVelocityModuleTemplate *moduleTemplate) { moduleTemplate->~OrthoEmissionVelocityModuleTemplate(); }
 
-void fxDestroySphereEmissionVolumeModuleTemplate(SphereEmissionVolumeModuleTemplate *p) { p->~SphereEmissionVolumeModuleTemplate(); }
+void fxDestroyPointEmissionVolumeModuleTemplate(PointEmissionVolumeModuleTemplate *moduleTemplate) { moduleTemplate->~PointEmissionVolumeModuleTemplate(); }
 
-void fxDestroySphericalEmissionVelocityModuleTemplate(SphericalEmissionVelocityModuleTemplate *p) { p->~SphericalEmissionVelocityModuleTemplate(); }
-
-void fxDestroyStreakDrawModuleTemplate(StreakDrawModuleTemplate *p) { p->~StreakDrawModuleTemplate(); }
+void fxDestroyQuadDrawModuleTemplate(QuadDrawModuleTemplate *moduleTemplate) { moduleTemplate->~QuadDrawModuleTemplate(); }
 
 // Not claimed: with the destructor left implicit MSVC never emits it, and
 // declaring one out of line drops the null-checked base adjustment retail
 // keeps, so this body is the ICF alias that cannot yet be proven.
-void fxDestroyTerrainFireEmissionModuleTemplate(TerrainFireEmissionModuleTemplate *p) { p->~TerrainFireEmissionModuleTemplate(); }
+void fxDestroyRenderObjectUpdateModuleTemplate(RenderObjectUpdateModuleTemplate *moduleTemplate) { moduleTemplate->~RenderObjectUpdateModuleTemplate(); }
+
+void fxDestroySphereEmissionVolumeModuleTemplate(SphereEmissionVolumeModuleTemplate *moduleTemplate) { moduleTemplate->~SphereEmissionVolumeModuleTemplate(); }
+
+void fxDestroySphericalEmissionVelocityModuleTemplate(SphericalEmissionVelocityModuleTemplate *moduleTemplate) { moduleTemplate->~SphericalEmissionVelocityModuleTemplate(); }
+
+void fxDestroyStreakDrawModuleTemplate(StreakDrawModuleTemplate *moduleTemplate) { moduleTemplate->~StreakDrawModuleTemplate(); }
+
+// Not claimed: with the destructor left implicit MSVC never emits it, and
+// declaring one out of line drops the null-checked base adjustment retail
+// keeps, so this body is the ICF alias that cannot yet be proven.
+void fxDestroyTerrainFireEmissionModuleTemplate(TerrainFireEmissionModuleTemplate *moduleTemplate) { moduleTemplate->~TerrainFireEmissionModuleTemplate(); }
 
 
 // Every info destructor is one vtable store, and the linker folds all of them
 // onto 0x0049B47C - Snapshot's own destructor among them. Nothing here destroys
 // one, so an explicit call per class is what forces them out.
 
-void fxDestroyInfoBoxEmissionVolumeInfo(BoxEmissionVolumeInfo *p) { p->~BoxEmissionVolumeInfo(); }
+void fxDestroyInfoBoxEmissionVolumeInfo(BoxEmissionVolumeInfo *moduleTemplate) { moduleTemplate->~BoxEmissionVolumeInfo(); }
 
-void fxDestroyInfoCylinderEmissionVolumeInfo(CylinderEmissionVolumeInfo *p) { p->~CylinderEmissionVolumeInfo(); }
+void fxDestroyInfoCylinderEmissionVolumeInfo(CylinderEmissionVolumeInfo *moduleTemplate) { moduleTemplate->~CylinderEmissionVolumeInfo(); }
 
 DefaultAlphaModuleInfo::~DefaultAlphaModuleInfo() {}
 
 DefaultColorModuleInfo::~DefaultColorModuleInfo() {}
 
-DefaultPhysicsModuleInfo::~DefaultPhysicsModuleInfo() {}
+__declspec(noinline) DefaultPhysicsModuleInfo::~DefaultPhysicsModuleInfo() {}
 
-DefaultUpdateModuleInfo::~DefaultUpdateModuleInfo() {}
+__declspec(noinline) inline DefaultUpdateModuleInfo::~DefaultUpdateModuleInfo() {}
 
-void fxDestroyInfoEmissionVelocityInfo(EmissionVelocityInfo *p) { p->~EmissionVelocityInfo(); }
+void fxDestroyInfoEmissionVelocityInfo(EmissionVelocityInfo *moduleTemplate) { moduleTemplate->~EmissionVelocityInfo(); }
 
-void fxDestroyInfoEmissionVolumeInfo(EmissionVolumeInfo *p) { p->~EmissionVolumeInfo(); }
+void fxDestroyInfoEmissionVolumeInfo(EmissionVolumeInfo *moduleTemplate) { moduleTemplate->~EmissionVolumeInfo(); }
 
-LightningDrawModuleInfo::~LightningDrawModuleInfo() {}
+__declspec(noinline) inline LightningDrawModuleInfo::~LightningDrawModuleInfo() {}
 
-LightningEmissionInfo::~LightningEmissionInfo() {}
+inline LightningEmissionInfo::~LightningEmissionInfo() {}
 
-void fxDestroyInfoLineEmissionVolumeInfo(LineEmissionVolumeInfo *p) { p->~LineEmissionVolumeInfo(); }
+void fxDestroyInfoLineEmissionVolumeInfo(LineEmissionVolumeInfo *moduleTemplate) { moduleTemplate->~LineEmissionVolumeInfo(); }
 
-OrthoEmissionVelocityInfo::~OrthoEmissionVelocityInfo() {}
+inline OrthoEmissionVelocityInfo::~OrthoEmissionVelocityInfo() {}
 
-RenderObjectUpdateModuleInfo::~RenderObjectUpdateModuleInfo() {}
+__declspec(noinline) inline RenderObjectUpdateModuleInfo::~RenderObjectUpdateModuleInfo() {}
 
-void fxDestroyInfoSphereEmissionVolumeInfo(SphereEmissionVolumeInfo *p) { p->~SphereEmissionVolumeInfo(); }
+void fxDestroyInfoSphereEmissionVolumeInfo(SphereEmissionVolumeInfo *moduleTemplate) { moduleTemplate->~SphereEmissionVolumeInfo(); }
 
-void fxDestroyInfoSphericalEmissionVelocityInfo(SphericalEmissionVelocityInfo *p) { p->~SphericalEmissionVelocityInfo(); }
+void fxDestroyInfoSphericalEmissionVelocityInfo(SphericalEmissionVelocityInfo *moduleTemplate) { moduleTemplate->~SphericalEmissionVelocityInfo(); }
 
-TerrainFireEmissionInfo::~TerrainFireEmissionInfo() {}
+inline TerrainFireEmissionInfo::~TerrainFireEmissionInfo() {}
 
-void fxDestroyInfoWindModuleInfo(WindModuleInfo *p) { p->~WindModuleInfo(); }
+void fxDestroyInfoWindModuleInfo(WindModuleInfo *moduleTemplate) { moduleTemplate->~WindModuleInfo(); }
 
 
 // More of the same nothing-to-copy assignments, each forced out by naming it.
@@ -1937,4 +2041,243 @@ typedef StreakDrawModuleTemplate &(StreakDrawModuleTemplate::*StreakDrawModuleTe
 
 StreakDrawModuleTemplateAssignPtr g_streakDrawModuleTemplateAssign8 = &StreakDrawModuleTemplate::operator=;
 
+}
+
+// Four container loops at 0x001F425C/76/9A/BA (26/36/32/32B) share the same
+// begin/end at +0/+4 shape and /O1 codegen as the CategoryModuleTemplateBase
+// neighbours in this TU. Each iterates an array of pointers and forwards to a
+// virtual slot: slot +4 with no args (425C) or guarded by byte +0x1C (429A)
+// and slot +0x0C with two args (4276 ret 8) or one arg (42BA ret 4). Callers
+// are tail jmps from 0x001F48DF/0x001F5CF7 family (425C) and siblings. Honest
+// address names; item vtables declared only so no extra emission.
+struct LoopItemA {
+    virtual ~LoopItemA();
+    virtual void tick();
+};
+struct Rva001F425C {
+    LoopItemA **m_begin;
+    LoopItemA **m_end;
+    void call();
+};
+void Rva001F425C::call()
+{
+    for (LoopItemA **moduleTemplate = m_begin; moduleTemplate != m_end; ++moduleTemplate)
+        (*moduleTemplate)->tick();
+}
+
+struct LoopItemC {
+    virtual ~LoopItemC();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3(int a, int b);
+};
+struct Rva001F4276 {
+    LoopItemC **m_begin;
+    LoopItemC **m_end;
+    void call(int a, int b);
+};
+void Rva001F4276::call(int a, int b)
+{
+    for (LoopItemC **moduleTemplate = m_begin; moduleTemplate != m_end; ++moduleTemplate)
+        (*moduleTemplate)->m3(a, b);
+}
+
+struct CondItemA {
+    virtual ~CondItemA();
+    virtual void tick();
+    char m_pad[0x18];
+    unsigned char m_flag1C;
+};
+struct Rva001F429A {
+    CondItemA **m_begin;
+    CondItemA **m_end;
+    void call();
+};
+void Rva001F429A::call()
+{
+    for (CondItemA **moduleTemplate = m_begin; moduleTemplate != m_end; ++moduleTemplate) {
+        CondItemA *it = *moduleTemplate;
+        if (it->m_flag1C == 0)
+            it->tick();
+    }
+}
+
+struct LoopItemB {
+    virtual ~LoopItemB();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3(int a);
+};
+struct Rva001F42BA {
+    LoopItemB **m_begin;
+    LoopItemB **m_end;
+    void call(int a);
+};
+void Rva001F42BA::call(int a)
+{
+    for (LoopItemB **moduleTemplate = m_begin; moduleTemplate != m_end; ++moduleTemplate)
+        (*moduleTemplate)->m3(a);
+}
+
+// Callers spell the ICF-folded module-info destructor at 0x0049B47C by address; bind that spelling here.
+#pragma comment(linker, "/alternatename:??1Rva0049B47C@@UAE@XZ=??1WindModuleInfo@FXParticleSystem@@UAE@XZ")
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??1Rva0002B8C8TailBase@@UAE@XZ=??1BoxEmissionVolumeInfo@FXParticleSystem@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??0RenderObjectDrawCategoryBase@@QAE@ABV0@@Z=??0?$CategoryModuleTemplate@$0A@@FXParticleSystem@@QAE@ABV01@@Z")
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?v1@DefaultColorModuleInfo@FXParticleSystem@@UAEXXZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?v1@?$CategoryModuleTemplate@$0A@@FXParticleSystem@@UAEXXZ=__purecall")
+#pragma comment(linker, "/alternatename:?v1@?$CategoryModuleTemplate@$00@FXParticleSystem@@UAEXXZ=__purecall")
+#pragma comment(linker, "/alternatename:?v1@?$CategoryModuleTemplate@$01@FXParticleSystem@@UAEXXZ=__purecall")
+#pragma comment(linker, "/alternatename:?v1@?$CategoryModuleTemplate@$02@FXParticleSystem@@UAEXXZ=__purecall")
+#pragma comment(linker, "/alternatename:?v1@?$CategoryModuleTemplate@$03@FXParticleSystem@@UAEXXZ=__purecall")
+#pragma comment(linker, "/alternatename:?v1@?$CategoryModuleTemplate@$04@FXParticleSystem@@UAEXXZ=__purecall")
+#pragma comment(linker, "/alternatename:?v1@?$CategoryModuleTemplate@$05@FXParticleSystem@@UAEXXZ=__purecall")
+#pragma comment(linker, "/alternatename:?v1@?$CategoryModuleTemplate@$07@FXParticleSystem@@UAEXXZ=__purecall")
+#pragma comment(linker, "/alternatename:?v1@?$CategoryModuleTemplate@$06@FXParticleSystem@@UAEXXZ=__purecall")
+#pragma comment(linker, "/alternatename:?v1@DefaultAlphaModuleInfo@FXParticleSystem@@UAEXXZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?v1@PointEmissionVolumeModuleTemplate@FXParticleSystem@@UAEXXZ=__purecall")
+#pragma comment(linker, "/alternatename:?v1@SphereEmissionVolumeModuleTemplate@FXParticleSystem@@UAEXXZ=__purecall")
+#pragma comment(linker, "/alternatename:?v1@BoxEmissionVolumeModuleTemplate@FXParticleSystem@@UAEXXZ=__purecall")
+#pragma comment(linker, "/alternatename:?v1@LineEmissionVolumeModuleTemplate@FXParticleSystem@@UAEXXZ=__purecall")
+#pragma comment(linker, "/alternatename:?v1@CylinderEmissionVolumeModuleTemplate@FXParticleSystem@@UAEXXZ=__purecall")
+
+// These functions are header inlines; their ordinary owner definitions
+// collided with select-any copies. The anchor keeps this unit's row copies;
+// it is not retail code.
+namespace FXParticleSystem
+{
+#pragma inline_depth(0)
+// ?_bfmeFXParticleSystemHeaderInlineAnchor@FXParticleSystem@@YAXPAX@Z absent-from-retail
+void _bfmeFXParticleSystemHeaderInlineAnchor(void *storage)
+{
+    ModuleTemplate *module = static_cast<ModuleTemplate *>(storage);
+    EmissionVelocityInfo *velocity = static_cast<EmissionVelocityInfo *>(storage);
+    EmissionVolumeInfo *volume = static_cast<EmissionVolumeInfo *>(storage);
+    CategoryModuleClass<8> *eventCategory = static_cast<CategoryModuleClass<8> *>(storage);
+    CylindricalEmissionVelocityInfo *cylindrical =
+        static_cast<CylindricalEmissionVelocityInfo *>(storage);
+    OutwardEmissionVelocityInfo *outward =
+        static_cast<OutwardEmissionVelocityInfo *>(storage);
+    LightningEmissionInfo *lightning = static_cast<LightningEmissionInfo *>(storage);
+    OrthoEmissionVelocityInfo *ortho = static_cast<OrthoEmissionVelocityInfo *>(storage);
+    TerrainFireEmissionInfo *terrain = static_cast<TerrainFireEmissionInfo *>(storage);
+
+    module->ModuleTemplate::ModuleTemplate();
+    module->ModuleTemplate::ModuleTemplate(*module);
+    module->ModuleTemplate::~ModuleTemplate();
+    velocity->EmissionVelocityInfo::EmissionVelocityInfo();
+    volume->EmissionVolumeInfo::EmissionVolumeInfo();
+    volume->EmissionVolumeInfo::EmissionVolumeInfo(*volume);
+    eventCategory->CategoryModuleClass<8>::~CategoryModuleClass();
+    cylindrical->CylindricalEmissionVelocityInfo::~CylindricalEmissionVelocityInfo();
+    outward->OutwardEmissionVelocityInfo::~OutwardEmissionVelocityInfo();
+    lightning->LightningEmissionInfo::~LightningEmissionInfo();
+    ortho->OrthoEmissionVelocityInfo::~OrthoEmissionVelocityInfo();
+    terrain->TerrainFireEmissionInfo::~TerrainFireEmissionInfo();
+}
+#pragma inline_depth()
+}
+
+#include "../../../Libraries/Include/Lib/Coord2D.h"
+class ParticleSystem;
+ParticleSystem *Make001FCBD7();
+float ACos(float);
+class Rva001FA795 { public: void rva001FA795(); };
+// Native boundaries: 0x001F4E2D..1F4E82 and 0x001FA971..1FAA8D.
+// WB names the latter FXParticleSystem::CPUParticle::update, with the
+// lifetime assertion at FXParticleSystem.cpp:918. The former is its final
+// same-receiver callee; its original method name is not established.
+// Only accessed offsets and virtual slots are modelled. System +8 selects
+// the module handle; update advances the rowed handle chain at +0x94,
+// orients slot +0x24 from displacement, then expires the lifetime counter.
+namespace FXParticleSystem {
+class CPUParticleModule {
+public:
+    virtual ~CPUParticleModule();
+    virtual void rva04();
+    virtual void rva08();
+    virtual void rva0C();
+    virtual bool rva10(int);
+    virtual void rva14();
+    virtual void rva18();
+    virtual void rva1C();
+    virtual void rva20();
+    virtual void rva24(float);
+};
+class CPUParticle {
+public:
+    bool rva001F4E2D();
+    bool update();
+private:
+    char m_unknown000[0x1C];
+    FXCoord3D m_position;
+    FXCoord3D m_previous;
+    char m_unknown034[4];
+    bool m_orient038;
+    char m_unknown039[3];
+    ::ParticleSystem *m_system;
+    char m_unknown040[0x14];
+    unsigned int m_lifetimeLeft;
+    char m_unknown058[0x34];
+    unsigned int m_unknown08C;
+    char m_unknown090[4];
+    CPUParticleModule *m_module094;
+    CPUParticleModule *m_module098;
+    CPUParticleModule *m_module09C;
+};
+bool CPUParticle::rva001F4E2D() {
+    if(m_unknown08C) return false;
+    {
+        ::ParticleSystem *system=m_system;
+        if(!system) system=Make001FCBD7();
+        int kind=*reinterpret_cast<const int *>(reinterpret_cast<const char *>(system)+8);
+        switch(kind) {
+        case 1: case 2: case 5: case 6: {
+            CPUParticleModule *module=m_module094;
+            if(module) return module->rva10(kind);
+            return false;
+        }
+        case 3: case 4: case 7: {
+            CPUParticleModule *module=m_module098;
+            if(module) return module->rva10(kind);
+            return false;
+        }
+        default: return true;
+        }
+    }
+    return false;
+}
+bool CPUParticle::update() {
+    reinterpret_cast<Rva001FA795 *>(&m_module094)->rva001FA795();
+    if(m_orient038 && m_module09C) {
+        Coord2D delta;
+        delta.x=m_position.x-m_previous.x;
+        delta.y=m_position.y-m_previous.y;
+        if(delta.y<1.1920929e-7f && delta.y>-1.1920929e-7f) {
+            m_module09C->rva24(delta.x>0.0f ? 6.2831855f : 3.1415927f);
+        } else {
+            float length=delta.length();
+            if(length<1.1920929e-7f) m_module09C->rva24(3.1415927f);
+            else {
+                float angle=ACos(delta.y/length);
+                m_module09C->rva24(delta.x>0.0f ? 3.1415927f+angle : 3.1415927f-angle);
+            }
+        }
+    }
+    if(m_lifetimeLeft && --m_lifetimeLeft==0) return false;
+    return !rva001F4E2D();
+}
+}
+
+// Native exported Snapshot post-load callbacks are empty and fold atB3FD0.
+namespace FXParticleSystem {
+void EmissionVolumeInfo::LoadPostProcess() {}
+void EmissionVelocityInfo::LoadPostProcess() {}
+void DefaultPhysicsModuleInfo::LoadPostProcess() {}
 }

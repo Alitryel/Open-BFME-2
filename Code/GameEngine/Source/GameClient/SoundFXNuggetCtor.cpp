@@ -7,6 +7,8 @@
 // Base 0x001DFEAA is a shared FXNugget-family base ctor (16 ctor-start
 // callers with this undisplaced); pinned opaquely, do not name.
 
+extern "C" const unsigned char __identifier("??_7SoundFXNugget@@6B@")[];
+
 class Rva001DFEAABase
 {
 public:
@@ -29,10 +31,21 @@ private:
 };
 
 // ??0SoundFXNugget@@QAE@XZ
-SoundFXNugget::SoundFXNugget()
+inline SoundFXNugget::SoundFXNugget()
 {
-	*(unsigned int *)this = 0x00BDD768;
+	*(unsigned int *)this = (unsigned int)__identifier("??_7SoundFXNugget@@6B@");
 	_ReadWriteBarrier();
 	m_soundName = 0;
 	m_field04 = 1;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeSoundFXNuggetInlineAnchor@@YAXPAVSoundFXNugget@@@Z absent-from-retail
+void _bfmeSoundFXNuggetInlineAnchor(SoundFXNugget *soundFXNugget)
+{
+    soundFXNugget->SoundFXNugget::SoundFXNugget();
+}
+#pragma inline_depth()

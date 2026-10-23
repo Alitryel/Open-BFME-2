@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/bfmealloc
+// cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 //
 // STLport vector<ProductionPrerequisite>::_M_insert_overflow (fill form),
@@ -10,6 +10,17 @@
 // destroys the old range through the rowed _Destroy at 0x002CFBAE and frees
 // it through 0x0030830. The allocator call resolves through the
 // allocator<ProductionPrerequisite> pin at the shared 36-byte fold 0x005DFB2C.
+
+// Retail keeps one unsigned max, RVA 0x00013740 (the vendored STLport row). This unit's
+// flags (/G7) compile a different copy, and retail kept another unit's. This unit-local
+// overload keeps the inlined code and offers the link no second copy.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
 
 #include <vector>
 
@@ -25,6 +36,8 @@ private:
 	void *m_unreconstructed[9];
 };
 
+// Inlined in every row; imported so no non-retail out-of-line copy is emitted.
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<ProductionPrerequisite,allocator<ProductionPrerequisite> >::size() const { return (unsigned int)(this->_M_finish - this->_M_start); } }
 typedef char ProductionPrerequisiteSizeCheck[sizeof(ProductionPrerequisite) == 0x24 ? 1 : -1];
 
 template void _STL::vector<ProductionPrerequisite>::_M_clear();

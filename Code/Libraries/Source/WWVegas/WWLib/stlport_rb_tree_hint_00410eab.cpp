@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
+// cl: /Ireference/shims/bfme2_ascii /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // stlport
 // BFME2 STLport tree with an AsciiString key and a four-byte opaque mapped value.
 // The application's original mapped-type name is not established.
@@ -12,7 +12,7 @@
 // Semantic reference: reference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib/
 // RvaTreeInsertUniqueHint.cpp. Here /O1 leaves the comparator out of line.
 #include <map>
-class AsciiString { public: AsciiString(const AsciiString &); ~AsciiString(); private: void *m_data; };
+#include "ascii_string.h"
 bool operator<(const AsciiString &, const AsciiString &);
 struct TreeHintPayload00410B17 { char m_body[4]; };
 typedef _STL::pair<const AsciiString, TreeHintPayload00410B17> TreeHintPair00410B17;

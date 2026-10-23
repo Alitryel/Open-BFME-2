@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ?getTurretTargetObject@AIUpdateInterface@@QAEPAVObject@@W4WhichTurretType@@@Z,
 // retail 0x00262605, 49 bytes. Dedicated TU.
@@ -25,12 +25,7 @@ enum TurretTargetType
 
 class Object;
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-};
+#include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
 struct TurretAI
 {

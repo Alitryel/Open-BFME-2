@@ -1,4 +1,4 @@
-// cl: /O1 /MD /DNDEBUG /EHsc /arch:SSE
+// cl: /Ireference/shims/bfme2_ascii /MD /DNDEBUG /EHsc
 //
 // ??0SiegeEngineContainModuleData@@QAE@XZ, retail 0x0047C927 (136 bytes).
 // EH derived ctor over the pinned TransportContainModuleData base
@@ -30,15 +30,7 @@ public:
 
 }
 
-class AsciiString
-{
-public:
-	void clear();
-	~AsciiString();
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 struct SiegeStringIntPair
 {
@@ -70,6 +62,7 @@ class SiegeEngineContainModuleData : public TransportContainModuleData
 {
 public:
 	SiegeEngineContainModuleData();
+	virtual ~SiegeEngineContainModuleData();
 
 private:
 	Rva003623E5Member m_member18C;	// +0x18C

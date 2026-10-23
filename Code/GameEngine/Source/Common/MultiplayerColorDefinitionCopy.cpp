@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
 // stlport
 //
 // Ported from reference/open-bfme-1/Code/GameEngine/Source/Common/MultiplayerColorPairConstructor.cpp.
@@ -8,19 +8,9 @@
 // then rep-movsd member runs plus the trailing flag byte. Shard (not a graft
 // into the pair TU) so the pair bodies keep calling this out of line.
 
-class AsciiString
-{
-public:
-	AsciiString() {}
-	AsciiString(const AsciiString &other);
-};
+#include "ascii_string.h"
 
-struct RGBColor
-{
-	float red;
-	float green;
-	float blue;
-};
+#include "../../../Libraries/Include/Lib/RGBColor.h"
 
 class MultiplayerColorDefinition
 {

@@ -1,5 +1,16 @@
-// cl: /G7 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /DBFME_WWSTRING_INLINE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/zhmd /G7 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // stlport
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -474,28 +485,6 @@ DX8Caps::DeviceTypeIntel DX8Caps::Get_Intel_Device(unsigned device_id)
 // Body in DX8Caps_ctor_device.asm (exact 233B retail @ 0x0091CB00).
 // C++ blocked: BFME class layout (DriverDLL@+0x29c) vs ZH header (+0x144).
 
-// byte-exact reconstruction: Code/Libraries/Source/WWVegas/WW3D2/DX8Caps_ctor_device_Thunk.cpp
-// ??0DX8Caps@@ present-unmatched
-DX8Caps::DX8Caps(
-	IDirect3D8* direct3d,
-	const D3DCAPS8& caps, 
-	WW3DFormat display_format, 
-	const D3DADAPTER_IDENTIFIER8& adapter_id)
-	:
-	Direct3D(direct3d),
-	Caps(caps),
-	MaxDisplayWidth(0),
-	MaxDisplayHeight(0)
-{
-	if ((Caps.DevCaps&D3DDEVCAPS_HWTRANSFORMANDLIGHT)==D3DDEVCAPS_HWTRANSFORMANDLIGHT) {
-		SupportTnL=true;
-	} else {
-		SupportTnL=false;			
-	}
-
-	Compute_Caps(display_format,adapter_id);
-}
-
 //Don't really need this but I added this function to free static variables so
 //they don't show up in our memory manager as a leak. -MW 7-22-03
 // ?Shutdown@DX8Caps@@SAXXZ present-unmatched
@@ -758,7 +747,7 @@ void DX8Caps::Compute_Caps(WW3DFormat display_format, const D3DADAPTER_IDENTIFIE
 	DXLOG_RETAIL(("Max textures per pass: %d\r\n",retail->maxTexturesPerPass));
 
 	Vendor_Specific_Hacks(original_adapter_id);
-	CapsWorkString="";
+	CapsWorkString.bfmeAssignInline("");
 }
 
 // ----------------------------------------------------------------------------
@@ -805,7 +794,6 @@ void DX8Caps::Check_Bumpmap_Support(const D3DCAPS8& caps)
 //
 // ----------------------------------------------------------------------------
 
-// ?Check_Texture_Compression_Support@DX8Caps@@AAEXABU_D3DCAPS8@@@Z present-unmatched
 // Third overlay.  The three "zero the table" bodies at 0x0012B210, 0x0012B2A0
 // and 0x0012B3A0 give the whole table region away without any guessing: they
 // `rep stos` 123 bytes at this+13Eh, 118 at this+1B9h and 118 at this+22Fh, and
@@ -849,14 +837,16 @@ struct BFME_DX8Caps_CompressionFields
 void DX8Caps::Check_Texture_Compression_Support(const D3DCAPS8& caps)
 {
 	BFME_DX8Caps_CompressionFields *retail = (BFME_DX8Caps_CompressionFields *)this;
-	retail->supportDXTC=retail->supportDXT1|
-		retail->supportDXT2|
-		retail->supportDXT3|
-		retail->supportDXT4|
-		retail->supportDXT5;
-	CapsWorkString.Format("Texture compression support: %s\r\n",retail->supportDXTC ? "Yes" : "No");
-	retail->capsLog+=CapsWorkString;
+	bool dxt5 = retail->supportDXT1;
+	bool dxt4 = retail->supportDXT2;
+	bool dxt2 = retail->supportDXT3;
+	bool dxt1 = retail->supportDXT4;
+	bool ok = (dxt5?dxt5:dxt5) | dxt4 | retail->supportDXT5 | dxt2 | dxt1;
+	retail->supportDXTC = ok;
+	CapsWorkString.Format("Texture compression support: %s\r\n", ok ? "Yes" : "No");
+	retail->capsLog += CapsWorkString;
 }
+
 
 // The mapping BFME uses for the five DXT slots is odd and it is reproduced
 // here rather than tidied: retail computes the format as 31545690h + 13Eh + i,
@@ -1224,7 +1214,6 @@ bool DX8Caps::Is_Valid_Display_Format(int width, int height, WW3DFormat format)
 //
 // ----------------------------------------------------------------------------
 
-// ?Vendor_Specific_Hacks@DX8Caps@@AAEXABU_D3DADAPTER_IDENTIFIER8@@@Z present-unmatched
 // One overlay with everything this file has recovered about BFME's DX8Caps.
 // Every offset is read out of a retail instruction, not derived:
 //
@@ -1299,23 +1288,18 @@ void DX8Caps::Vendor_Specific_Hacks(const D3DADAPTER_IDENTIFIER8& adapter_id)
 
 		retail->supportNPatches = false;	// Driver incorrectly report N-Patch support
 		retail->supportTextureFormat[118] = false;			// DXT1 is broken on NVidia hardware
-		// The 12 bytes still separating this body from retail are all here.
-		// Retail reads fmt[122], then fmt[120] and fmt[119], into registers
-		// BEFORE the two stores above, reloads fmt[121] after them, and folds
-		// with three register ORs plus a re-zeroing `xor bl,bl`; we fold from
-		// memory with `or al,[mem]`. Both compute fmt[119]|[120]|[121]|[122]
-		// and both elide fmt[118], which was just stored false.
-		// REFUTED, do not retry: naming the three loads as const bool
-		// temporaries in retail's order changes NOTHING -- MSVC folds a
-		// single-use temporary straight back into the memory operand. /Oa is
-		// also refuted here and is worse than useless: it breaks 11 of this
-		// unit's 19 matched rows.
-		retail->supportDXTC=
-			retail->supportTextureFormat[118]|
-			retail->supportTextureFormat[119]|
-			retail->supportTextureFormat[120]|
-			retail->supportTextureFormat[121]|
-			retail->supportTextureFormat[122];
+		// Read DXT2..DXT5 into locals after the two stores and fold them with
+		// the first one self-selected: cl then keeps all four in byte registers
+		// (no `or al,[mem]` folding), and its scheduler hoists the DXT5, DXT3
+		// and DXT2 loads above the stores (DXT4 lands in bl, the zero register
+		// the stores use, so it stays below them and bl is re-zeroed after the
+		// fold), which is retail's shape. DXT1 drops out: it was just stored
+		// false. Same self-select lever as Check_Texture_Compression_Support.
+		bool supportDXT2 = retail->supportTextureFormat[119];
+		bool supportDXT3 = retail->supportTextureFormat[120];
+		bool supportDXT4 = retail->supportTextureFormat[121];
+		bool supportDXT5 = retail->supportTextureFormat[122];
+		retail->supportDXTC = (supportDXT5 ? supportDXT5 : supportDXT5) | supportDXT4 | supportDXT3 | supportDXT2;
 
 
 		// BFME2 has NO GeForce2 MX / MX400 resolution clamp here. The reference
@@ -1451,3 +1435,7 @@ void DX8Caps::Vendor_Specific_Hacks(const D3DADAPTER_IDENTIFIER8& adapter_id)
 
 	}
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?Is_Valid_Display_Format@BfmeEnumerationCaps@@QAE_NHHW4_D3DFORMAT@@@Z=?Is_Valid_Display_Format@DX8Caps@@QAE_NHHW4WW3DFormat@@@Z")

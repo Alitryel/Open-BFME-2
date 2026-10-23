@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??0KeepObjectDie@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x00486D73,
 // 165 bytes. Behavior-side ctor completing the KeepObjectDie file-unit
@@ -26,7 +26,7 @@
 //   check resolves via the _bfme_debugReportingEnabled alias pin at
 //   0x000387C0; the record call reuses the established Debug::SkipNext pin
 //   at 0x00038790. Shape mirrors GameLODManagerGetAudioLODIndex.cpp.
-// - TheDebug is extern-undefined (its DIR32 patches from retail, as in
+// - theDebug is extern-undefined (its DIR32 patches from retail, as in
 //   Debug_recordCallsite.cpp).
 
 class Thing;
@@ -95,7 +95,7 @@ public:
 
 template <typename T> Debug &operator<<(Debug &debug, const StringBase<T> &text);
 
-extern Debug *TheDebug;
+extern Debug *theDebug;
 
 bool _bfme_debugReportingEnabled(void);
 
@@ -141,10 +141,12 @@ public:
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/DieModule.h
+class DamageInfo;
+
 class DieModuleInterface
 {
 public:
-	virtual void dieModuleInterfaceAnchor();
+	virtual void onDie(const DamageInfo *damageInfo) = 0;
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/DieModule.h
@@ -154,7 +156,9 @@ class DieModule : public ObjectModule,
 {
 public:
 	DieModule(Thing *thing, const ModuleData *moduleData);
+protected:
 	virtual ~DieModule();
+public:
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/KeepObjectDie.h
@@ -163,6 +167,7 @@ class KeepObjectDie : public DieModule
 public:
 	KeepObjectDie(Thing *thing, const ModuleData *moduleData);
 	virtual ~KeepObjectDie();
+	virtual void onDie(const DamageInfo *damageInfo);
 };
 
 // ??0KeepObjectDie@@QAE@PAVThing@@PBVModuleData@@@Z @0x00486D73
@@ -174,8 +179,16 @@ KeepObjectDie::KeepObjectDie(Thing *thing, const ModuleData *moduleData) :
 		if (_bfme_debugReportingEnabled())
 		{
 			Debug::SkipNext(true);
-			TheDebug->slot60();
-			operator<<(TheDebug->slot6C(0, 0, 0), thing->getTemplate()->m_nameString).slot38(": Objects with KeepObjectDie should be KindOf SELECTABLE\n").slot4C(2);
+			theDebug->slot60();
+			operator<<(theDebug->slot6C(0, 0, 0), thing->getTemplate()->m_nameString).slot38(": Objects with KeepObjectDie should be KindOf SELECTABLE\n").slot4C(2);
 		}
 	}
+}
+
+// ??1KeepObjectDie@@UAE@XZ @0x00486C76 (25B): restores the three vptrs the
+// constructor installs (0x00C4AEF0 at +0, 0x00C4A650 at +0xC, 0x00C4AEEC at +0x10)
+// and tail-jumps to ~DieModule. Slot 0 of KeepObjectDie's own vftable 0x00C4AEF0 is
+// the scalar deleting destructor 0x00486CDA, which calls this body.
+KeepObjectDie::~KeepObjectDie()
+{
 }

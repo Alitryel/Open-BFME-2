@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /arch:SSE /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /EHs /DNDEBUG /MD /D_CRTIMP= /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // ??0TransportAIUpdateModuleData@@QAE@XZ, retail 0x0026E5D7, 166 bytes.
@@ -19,6 +19,9 @@
 // precedent); inline AsciiString at +0x2C plus PBD at +0x44 plus map/vector
 // give the 0->2 state shape.
 
+extern "C" const void *const vtbl_00BFA288[];  // ??_7TransportAIUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BFA288=??_7TransportAIUpdateModuleData@@6B@")
+
 #include <map>
 #include <vector>
 
@@ -36,36 +39,17 @@ public:
 	class ModuleTemplate
 	{
 	public:
-		ModuleTemplate();
-		~ModuleTemplate();
+		void *m_createProc;
+		void *m_createDataProc;
+		int m_whichInterfaces;
 	};
 };
 
-template <typename T>
-class StringBase
-{
-public:
-	StringBase() : m_data(0) {}
-	StringBase(const T *str);
-	~StringBase();
+#include "ascii_string.h"
 
-private:
-	void *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString() {}
-	AsciiString(int zero) : StringBase<char>() { (void)zero; }
-	AsciiString(const char *str) : StringBase<char>(str) {}
-	~AsciiString();
-};
-
-struct BfmeE16
-{
-	unsigned char m_pad[16];
-};
+#include "../../../../../../Libraries/Include/Lib/BfmeE16.h"
+// bfme link decl-only BfmeE16
+namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 
 namespace _STL
 {
@@ -83,7 +67,7 @@ map<NameKeyType, ModuleFactory::ModuleTemplate, less<NameKeyType>,
 class UpdateModuleData
 {
 public:
-	UpdateModuleData() {}
+	__declspec(dllimport) __forceinline UpdateModuleData() {}
 	~UpdateModuleData();
 };
 
@@ -104,41 +88,41 @@ private:
 	bool m_canAttackWhileContained; // +0x25
 	float m_holdGroundRange; // +0x28
 	AsciiString m_name; // +0x2C, inline zero
-	int m_unk30; // +0x30
-	int m_unk34; // +0x34
-	int m_unk38; // +0x38
-	bool m_unk3C; // +0x3C (byte)
-	int m_unk40; // +0x40
+	int m_maxCowerTime; // +0x30
+	int m_minCowerTime; // +0x34
+	int m_rampageTime; // +0x38
+	bool m_rampageRequiresAflame; // +0x3C (byte)
+	int m_burningDeathTime; // +0x40
 	AsciiString m_attackPriority; // +0x44, PBD DefaultAttackPriority
-	int m_unk48; // +0x48
+	int m_timeToEjectPassengersOnRampage; // +0x48
 	float m_angle; // +0x4C, 80.0f
-	int m_unk50; // +0x50
-	bool m_unk54; // +0x54
+	int m_comboLocomotorSet; // +0x50
+	bool m_fadeOnPortals; // +0x54
 	_STL::vector<BfmeE16> m_vec; // +0x58
 };
 
-extern int g_Va00DBA4E4;
+extern int BfmeLogicFramesPerSecond;
 
 TransportAIUpdateModuleData::TransportAIUpdateModuleData()
 	: UpdateModuleData()
-	, m_vtable(reinterpret_cast<const void *>(0x00BFA288))
-	, m_moodAttackCheckRate(g_Va00DBA4E4 + g_Va00DBA4E4)
+	, m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00BFA288)))
+	, m_moodAttackCheckRate(BfmeLogicFramesPerSecond + BfmeLogicFramesPerSecond)
 	, m_autoAcquire(0)
 	, m_stopChaseDistance(500.0f)
 	, m_standGround(false)
 	, m_canAttackWhileContained(false)
 	, m_holdGroundRange(0.0f)
-	, m_name(0)
-	, m_unk30(0)
-	, m_unk34(0)
-	, m_unk38(0)
-	, m_unk3C(false)
-	, m_unk40(0)
+	, m_name()
+	, m_maxCowerTime(0)
+	, m_minCowerTime(0)
+	, m_rampageTime(0)
+	, m_rampageRequiresAflame(false)
+	, m_burningDeathTime(0)
 	, m_attackPriority("DefaultAttackPriority")
-	, m_unk48(0)
+	, m_timeToEjectPassengersOnRampage(0)
 	, m_angle(80.0f)
-	, m_unk50(0)
-	, m_unk54(false)
+	, m_comboLocomotorSet(0)
+	, m_fadeOnPortals(false)
 {
 	m_turret = 0;
 }

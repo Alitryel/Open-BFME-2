@@ -1,4 +1,4 @@
-// cl: /O1 /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // Identity: ModuleFactory registers this data class under "CritterEmitterUpdateModuleData" (addModule
 // pairs the name with this factory); formerly misnamed DynamicGeometryInfoUpdate/DynamicGeometryInfoUpdateModuleData.
 // stlport
@@ -8,7 +8,9 @@
 // the body (calls anchor it after the vector constructions). Factory stub.
 #include <vector>
 
-struct BfmeE16 { float x, y, z, w; };
+#include "../../../../../Libraries/Include/Lib/BfmeE16.h"
+// bfme link decl-only BfmeE16
+namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 
 class CritterEmitterUpdateModuleData
 {
@@ -29,7 +31,4 @@ CritterEmitterUpdateModuleData::CritterEmitterUpdateModuleData()
 	m_i20 = 0;
 }
 
-// ??1CritterEmitterUpdateModuleData@@ present-unmatched
-CritterEmitterUpdateModuleData::~CritterEmitterUpdateModuleData()
-{
-}
+// CritterEmitterUpdateModuleData::~CritterEmitterUpdateModuleData: defined in CritterEmitterUpdateModuleDataDtor.cpp (its row's unit).

@@ -1,45 +1,54 @@
-// cl: /O1 /MD
+// cl: /MD
 //
-// Opaque single-inheritance destructors tail-calling Rva005DC73C::~
-// Rva005DC73C at 0x005DC73C (pinned opaque base dtor; identity unproven).
+// Opaque single-inheritance destructors tail-calling AITacticOffensive::~
+// AITacticOffensive at 0x005DC73C (pinned opaque base dtor; identity unproven).
 // Each class below stores its own vtable and tail-calls the base destructor;
 // the base itself is only declared here (defined nowhere -- it resolves via
 // the pin), because a same-TU definition would capture the call locally
 // instead of at the ledger address. Owner identities are unproven (opaque
 // Rva names). One ledger row per destructor, landed one commit at a time.
 
-class Rva005DC73C
+class AITacticOffensive
 {
 public:
-	virtual ~Rva005DC73C();
+	virtual ~AITacticOffensive();
 };
 
-class Rva005A990B : public Rva005DC73C
+class AIBasePenetrationTroopsTactic : public AITacticOffensive
 {
 public:
-	virtual ~Rva005A990B();
+	virtual ~AIBasePenetrationTroopsTactic();
 };
 
-Rva005A990B::~Rva005A990B()
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline AIBasePenetrationTroopsTactic::~AIBasePenetrationTroopsTactic()
 {
 }
 
-class Rva005AA647 : public Rva005DC73C
+// ?bfmeAnchorAIBasePenetrationTroopsTacticDtor absent-from-retail
+void bfmeAnchorAIBasePenetrationTroopsTacticDtor(AIBasePenetrationTroopsTactic *aIBasePenetrationTroopsTactic)
+{
+	aIBasePenetrationTroopsTactic->AIBasePenetrationTroopsTactic::~AIBasePenetrationTroopsTactic();
+}
+
+// AISimpleAttackTactic's destructor and ??_G are in Rva005AA647Tactic.cpp, whose full class view
+// owns the vtable (a one-slot view here shadowed it at link time).
+
+class AITacticSiege : public AITacticOffensive
 {
 public:
-	virtual ~Rva005AA647();
+	virtual ~AITacticSiege();
 };
 
-Rva005AA647::~Rva005AA647()
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline AITacticSiege::~AITacticSiege()
 {
 }
 
-class Rva005DC87B : public Rva005DC73C
+// ?bfmeAnchorAITacticSiegeDtor absent-from-retail
+void bfmeAnchorAITacticSiegeDtor(AITacticSiege *aITacticSiege)
 {
-public:
-	virtual ~Rva005DC87B();
-};
-
-Rva005DC87B::~Rva005DC87B()
-{
+	aITacticSiege->AITacticSiege::~AITacticSiege();
 }

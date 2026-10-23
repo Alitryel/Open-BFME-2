@@ -1,10 +1,33 @@
-// cl: /Ireference/shims/bfmerendobj /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// cl: /Ireference/shims/bfmerendobj /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 ** Copyright 2025 Electronic Arts Inc.
 ** SPDX-License-Identifier: GPL-3.0-or-later
 ** BFME1 MeshGeometry assignment adapted to BFME2's verified vector slots,
 ** +0x54 ushort buffer, and +0x5C opaque release-only buffer.
 */
+// multilist.h's inline members are retail's size-optimised bodies: compile
+// them for size (as hlod.cpp/decalsys.cpp do) so this unit's copies match.
+#pragma optimize("s", on)
+#include "multilist.h"
+#pragma optimize("", on)
+// Preserve inline refcounts without unused competing external copies.
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+#include "../../../../../reference/shims/bfme_mesh_refcount_link/refcount.h"
 #include "rendobj.h"
 // Keep aabtree.h from pulling the BFME1 MeshGeometryClass body into this view.
 #define MESHGEOMETRY_H
@@ -22,12 +45,22 @@ typedef Vector3i16 TriIndex;
 #define W3DMPO_GLUE(ARGCLASS)
 #include "aabtree.h"
 #pragma pop_macro("W3DMPO_GLUE")
+#include "w3derr.h"
+class ChunkLoadClass;
 
 class MeshGeometryClass : public W3DMPO, public RefCountClass, public MultiListObjectClass {
 public:
     virtual ~MeshGeometryClass();
+    // The rest of the RefCountClass-side vtable, as meshgeometry.cpp emits it;
+    // declared so this unit's ??_7 copy is the same table.
+    virtual WW3DErrorType Load_W3D(ChunkLoadClass &cload);
     MeshGeometryClass(const MeshGeometryClass &that);
     MeshGeometryClass &operator=(const MeshGeometryClass &that);
+
+protected:
+    virtual void Compute_Plane_Equations(Vector4 *array);
+    virtual void Compute_Vertex_Normals(Vector3 *array);
+    virtual void Compute_Bounds(Vector3 *verts);
 
 private:
     ShareBufferClass<char> *MeshName;               // +0x10

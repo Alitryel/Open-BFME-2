@@ -1,12 +1,33 @@
 // cl: /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// Array deallocation is nonthrowing (as in StreakLineCtor.cpp).
+void operator delete[](void *) throw();
+// Link view first: Vector3 Length/Normalize/ctor and the scalar operator* stay inline without emitting
+// /O2 copies that compete with retail's owners (0x000692B3, 0x0006924F, 0x006CD510, 0x00066382, 0x0007DFB3).
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+#include "../../../../../reference/shims/bfme_vector3_full_link/vector3_full_link.h"
 // Ported from the Generals Zero Hour reference
 // (Libraries/Source/WWVegas/WW3D2/streak.cpp); this unit had no counterpart under Code/.
-#include "../../../../../reference/shims/bfmestreak/rendobj.h" // retail indexed-factor virtual slots; scoped to this TU
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+#include "../../../../../reference/shims/bfme2renderobj/rendobj.h"
 // Use the proven BFME renderer layout before the ZH streak header includes its
 // older neighbor: retail inserts a float before SubdivisionLevel. The matched
 // SegLineRenderer ctor/Init at RVAs 0x191140/0x191390 independently establish
 // NoiseAmplitude at renderer+0x24, hence StreakLineClass+0x124.
-#include "../../../../../reference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2/seglinerenderer.h"
+#include "../../../../../reference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2/seglinerenderer.h"
 #include "../../../../../reference/shims/bfmestreak/streakrender.h"
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -57,6 +78,60 @@
 #include "vp.h"
 #include "vector3i.h"
 #include "sortingrenderer.h"
+// bfme link decl-only begin
+template <> SimpleDynVecClass<Vector4>::~SimpleDynVecClass();
+template <> SimpleDynVecClass<float>::~SimpleDynVecClass();
+template <> SimpleDynVecClass<Vector3>::~SimpleDynVecClass();
+template <> SimpleVecClass<float>::~SimpleVecClass();
+template <> SimpleVecClass<Vector3>::~SimpleVecClass();
+template <> bool SimpleDynVecClass<Vector3>::Add(Vector3 const &, int);
+template <> bool SimpleDynVecClass<Vector3>::Resize(int);
+template <> bool SimpleVecClass<float>::Resize(int);
+template <> bool SimpleVecClass<Vector3>::Uninitialised_Grow(int);
+// bfme link decl-only end
+// This unit inlines SimpleDynVecClass<float>::Add and <Vector3>::Shrink at every
+// use but still emitted unreferenced /O2 copies of both; retail's bodies are
+// 0x001683C3 and the /O1 0x00100210. Inline them under the stock bodies without
+// emitting copies.
+template <> __declspec(dllimport) __forceinline bool SimpleDynVecClass<float>::Grow(int new_size_hint)
+{
+	int new_size = MAX(Length() + Length()/4,Length() + 4);
+	new_size = MAX(new_size,new_size_hint);
+	return Resize(new_size);
+}
+template <> __declspec(dllimport) __forceinline bool SimpleDynVecClass<float>::Add(float const & object, int new_size_hint)
+{
+	if (ActiveCount >= VectorMax) {
+		if (!Grow(new_size_hint)) {
+			return false;
+		}
+	}
+	(*this)[ActiveCount++] = object;
+	return true;
+}
+template <> __declspec(dllimport) __forceinline bool SimpleDynVecClass<Vector3>::Shrink(void)
+{
+	if (ActiveCount < VectorMax/4) {
+		return Resize(ActiveCount);
+	}
+	return true;
+}
+
+// Keep these donor operations inline without emitting competing template copies.
+template <> __declspec(dllimport) __forceinline bool SimpleDynVecClass<float>::Shrink(void)
+{
+	if (ActiveCount < VectorMax/4) {
+		return Resize(ActiveCount);
+	}
+	return true;
+}
+template <> __declspec(dllimport) __forceinline void SimpleDynVecClass<Vector4>::Delete_All(bool allow_shrink)
+{
+	ActiveCount = 0;
+	if (allow_shrink) {
+		Shrink();
+	}
+}
 
 static SegLineRendererClass _LineRenderer;
 
@@ -65,7 +140,7 @@ static SegLineRendererClass _LineRenderer;
 ** StreakLineClass implementation:
 */
 
-StreakLineClass::StreakLineClass(void) :
+inline StreakLineClass::StreakLineClass(void) :
 		MaxSubdivisionLevels(0),
 		NormalizedScreenArea(0.0f)
 {
@@ -73,7 +148,7 @@ StreakLineClass::StreakLineClass(void) :
 
 }
 
-StreakLineClass::StreakLineClass(const StreakLineClass & src) :
+inline StreakLineClass::StreakLineClass(const StreakLineClass & src) :
 		MaxSubdivisionLevels(src.MaxSubdivisionLevels),
 		NormalizedScreenArea(src.NormalizedScreenArea),
 		PointLocations(src.PointLocations),
@@ -84,6 +159,19 @@ StreakLineClass::StreakLineClass(const StreakLineClass & src) :
 		Personalities(src.Personalities)
 {
 }
+
+
+// These constructors are header inlines in the copier unit; the anchor retains
+// this unit's row copies and is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeStreakLineClassCtorInlineAnchor@@YAXXZ absent-from-retail
+void _bfmeStreakLineClassCtorInlineAnchor()
+{
+	static_cast<StreakLineClass *>(0)->StreakLineClass::StreakLineClass();
+	static_cast<StreakLineClass *>(0)->StreakLineClass::StreakLineClass(
+		*static_cast<const StreakLineClass *>(0));
+}
+#pragma inline_depth()
 
 StreakLineClass & StreakLineClass::operator = (const StreakLineClass &that)
 {
@@ -112,11 +200,12 @@ StreakLineClass & StreakLineClass::operator = (const StreakLineClass &that)
 
 
 
-// ?Reset_Line@StreakLineClass@@ present-unmatched
+// ?Reset_Line@StreakLineClass@@QAEXXZ @0x00741730 26B: LineRenderer at +0x100 is SegLineRendererClass, StreakRenderer at +0x150 calls rowed Rva00743060Class::Reset_Line.
+class Rva00743060Class { public: void Reset_Line(); };
 void StreakLineClass::Reset_Line(void)
 {
 	LineRenderer.Reset_Line();
-	StreakRenderer.Reset_Line();
+	reinterpret_cast<Rva00743060Class &>(StreakRenderer).Reset_Line();
 }
 
 
@@ -128,21 +217,7 @@ void StreakLineClass::Reset_Line(void)
 ////////////////////////////////////////////////////////////////////////////
 // These are segment points, and include the start and end point of the
 // entire line. Therefore there must be at least two.
-// ?Set_Locs@StreakLineClass@@ present-unmatched
-void StreakLineClass::Set_Locs( unsigned int num_points, Vector3 *locs )
-{
-	if (num_points < 2 || !locs) {
-		WWASSERT(0);
-		return;
-	}
-
-	PointLocations.Delete_All();
-	for (unsigned int i=0; i<num_points; i++) {
-		PointLocations.Add(locs[i],num_points);
-	}
-
-	Invalidate_Cached_Bounding_Volumes();
-}
+// StreakLineClass::Set_Locs: defined in StreakLineSetPoints.cpp (its row's unit).
 
 void StreakLineClass::Set_Widths( unsigned int num_points, float *widths )
 {
@@ -172,43 +247,7 @@ void StreakLineClass::Set_Colors( unsigned int num_points, Vector4 *colors )
 
 }
 
-// ?Set_LocsWidthsColors@StreakLineClass@@ present-unmatched
-void StreakLineClass::Set_LocsWidthsColors( unsigned int num_points, 
-																					 Vector3 *locs, 
-																					 float *widths, 
-																					 Vector4 *colors,
-																					 unsigned int *personalities)
-{
-
-	Personalities = personalities;
-
-	Set_Locs( num_points, locs );
-
-	if (widths)
-	{
-		Set_Widths( num_points, widths );
-
-		//sanity check
-		int locCount = PointLocations.Count();
-		int widCount = PointWidths.Count();
-		WWASSERT(locCount == widCount);
-
-	}
-
-	if (colors)
-	{
-		Set_Colors( num_points, colors );
-
-		//sanity check
-		int locCount = PointLocations.Count();
-		int colCount = PointColors.Count();
-		WWASSERT(locCount == colCount);
-
-	}
-
-
-	Invalidate_Cached_Bounding_Volumes();
-}
+// StreakLineClass::Set_LocsWidthsColors: defined in StreakLineSetPoints.cpp (its row's unit).
 
 
 
@@ -224,6 +263,10 @@ void StreakLineClass::Set_LocsWidthsColors( unsigned int num_points,
 
 // These are segment points, and include the start and end point of the
 // entire line. Therefore there must be at least two.
+// BFME 2 caches bounding volumes in RenderObjClass::Bits bit 0x20000.
+// Set_Point_Location clears it at 0x00741C5E, matching bfme2renderobj/rendobj.h.
+enum { BFME_BOUNDING_VOLUMES_VALID = 0x00020000 };
+
 // ?Get_Num_Points@StreakLineClass@@ present-unmatched
 int StreakLineClass::Get_Num_Points(void)
 {
@@ -233,13 +276,12 @@ int StreakLineClass::Get_Num_Points(void)
 
 // Set object-space location for a given point.
 // NOTE: If given position beyond end of point list, do nothing.
-// ?Set_Point_Location@StreakLineClass@@ present-unmatched
 void StreakLineClass::Set_Point_Location(unsigned int point_idx, const Vector3 &location)
 {
 	if (point_idx < (unsigned int)PointLocations.Count()) {
 		PointLocations[point_idx] = location;
 	}
-	Invalidate_Cached_Bounding_Volumes();
+	Bits &= ~BFME_BOUNDING_VOLUMES_VALID;
 }
 
 // Get object-space location of a given point (if position beyond end of
@@ -266,11 +308,6 @@ void StreakLineClass::Delete_Point(unsigned int point_idx)
 }
 
 
-// ?Get_Texture@StreakLineClass@@ present-unmatched
-TextureClass * StreakLineClass::Get_Texture(void)
-{
-	return LineRenderer.Get_Texture();
-}
 
 ShaderClass StreakLineClass::Get_Shader(void)
 {
@@ -344,7 +381,9 @@ int StreakLineClass::Are_End_Caps_Enabled(void)
 void StreakLineClass::Set_Texture(TextureClass *texture)
 {
 	LineRenderer.Set_Texture(texture);
-	StreakRenderer.Set_Texture(texture);
+	// Retail calls the shared SegLineRenderer implementation for both renderer
+	// layouts; keep the relocation on the rowed SegLineRenderer name.
+	reinterpret_cast<SegLineRendererClass &>(StreakRenderer).Set_Texture(texture);
 }
 
 void StreakLineClass::Set_Shader(ShaderClass shader)
@@ -359,7 +398,6 @@ float StreakLineClass::Get_Width(void)
 	return LineRenderer.Get_Width();
 }
 
-// ?Set_Width@StreakLineClass@@ present-unmatched
 void StreakLineClass::Set_Width(float width)
 {
 	// Widths need to be clamped because they are not automatically clamped later (like colors and
@@ -367,7 +405,7 @@ void StreakLineClass::Set_Width(float width)
 	LineRenderer.Set_Width(MAX(width, 0.0f));
 	StreakRenderer.Set_Width(MAX(width, 0.0f));
 
-	Invalidate_Cached_Bounding_Volumes();
+	Bits &= ~BFME_BOUNDING_VOLUMES_VALID;
 }
 
 void StreakLineClass::Set_Color(const Vector3 &color)
@@ -382,12 +420,11 @@ void StreakLineClass::Set_Opacity(float opacity)
 	StreakRenderer.Set_Opacity(opacity);
 }
 
-// ?Set_Noise_Amplitude@StreakLineClass@@ present-unmatched
 void StreakLineClass::Set_Noise_Amplitude(float amplitude)
 {
 	LineRenderer.Set_Noise_Amplitude(WWMath::Fabs(amplitude));
 
-	Invalidate_Cached_Bounding_Volumes();
+	Bits &= ~BFME_BOUNDING_VOLUMES_VALID;
 }
 
 // ?Set_Merge_Abort_Factor@StreakLineClass@@ present-unmatched
@@ -404,16 +441,17 @@ void StreakLineClass::Set_Subdivision_Levels(unsigned int levels)
 	Invalidate_Cached_Bounding_Volumes();
 }
 
-// ?Set_Texture_Mapping_Mode@StreakLineClass@@ present-unmatched
 void StreakLineClass::Set_Texture_Mapping_Mode(SegLineRendererClass::TextureMapMode mode)
 {
 	LineRenderer.Set_Texture_Mapping_Mode(mode);
+	StreakRenderer.Set_Texture_Mapping_Mode((StreakRendererClass::TextureMapMode)mode);
 }
 
-// ?Set_Texture_Tile_Factor@StreakLineClass@@ present-unmatched
+class SegLineTileFactorAltClass { public: void Set_Texture_Tile_Factor(float factor); };
 void StreakLineClass::Set_Texture_Tile_Factor(float factor)
 {
 	LineRenderer.Set_Texture_Tile_Factor(factor);
+	reinterpret_cast<SegLineTileFactorAltClass &>(StreakRenderer).Set_Texture_Tile_Factor(factor);
 }
 
 void StreakLineClass::Set_UV_Offset_Rate(const Vector2 &rate)
@@ -766,5 +804,4 @@ bool StreakLineClass::Cast_Ray(RayCollisionTestClass & raytest)
 
 	return retval;
 }
-
 

@@ -36,12 +36,12 @@ public:
 	char *bfmePlatform();
 };
 
-class Energy;
-
-class Player
+// Retail 0x00657650 is a disp32 lea getter (lea eax,[ecx+0x80]) on this opaque
+// owner view, spelled as ConnectRequest's accessor, not Player::getEnergy.
+class Rva007EA6B0Accessor
 {
 public:
-	Energy *getEnergy();
+	void *getAt80();
 };
 
 class Rva007EA650FieldAddress
@@ -84,6 +84,22 @@ public:
 };
 
 extern char *g_Rva012C3A18;
+// Defined here: nothing else in the tree did. Retail .data RVA 0x009D8170
+// holds VA 0x00CE2A60, the literal "1.4" (the client version string).
+char *g_Rva012C3A18 = (char *)"1.4";
+class Rva007E8810Message;
+class Rva007F45E0Aries
+{
+public:
+	void rva007F4530( Rva007E8810Message *message );
+};
+
+// Reply adapter 0x00660FD0 (15B) passed to the service below: forward the
+// reply to the Aries object registered with it (matched 0x00660FE0).
+void Rva00660FD0Handler( Rva007E8810Message *message, Rva007F45E0Aries *owner )
+{
+	owner->rva007F4530( message );
+}
 
 void Rva007F4440Runner::run( int mode, int, int )
 {
@@ -100,11 +116,11 @@ void Rva007F4440Runner::run( int mode, int, int )
 		( (Rva007EA650FieldAddress *)owner )->get(),
 		( (Rva007EA690FieldAddress *)owner )->get(),
 		( (Rva007EA6A0FieldAddress *)owner )->get(),
-		( char * )( (Player *)owner )->getEnergy(),
+		( char * )( (Rva007EA6B0Accessor *)owner )->getAt80(),
 		g_Rva012C3A18,
 		( (Gen_007ea670 *)owner )->bfmePlatform(),
 		clientType );
 	// BFME2 retail passes 0x00A60FD0 here (BFME1 0x00BF4520 drifted).
-	primary->getService()->send( &message, (void *)0x00A60FD0, primary, 10000 );
+	primary->getService()->send( &message, (void *)Rva00660FD0Handler, primary, 10000 );
 	message.clear();
 }

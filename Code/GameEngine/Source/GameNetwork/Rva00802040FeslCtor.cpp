@@ -80,7 +80,42 @@ public:
 	void *m_2b4;
 };
 
-class Rva00802040Owner
+// Abstract base of the owner: vftable 0x00CE3BE8 holds the base scalar
+// deleting dtor (0x0066DBA0) in slot 0 and __purecall in its 13 other slots.
+// The owner ctor installs only the derived vftable 0x00CE3C88; the derived
+// deleting dtor (0x0066E3D0) restores 0x00CE3BE8 after the member dtors.
+class Rva00802040OwnerBase
+{
+public:
+	Rva00802040OwnerBase();
+	virtual ~Rva00802040OwnerBase();
+	virtual void p01() = 0;
+	virtual void p02() = 0;
+	virtual void p03() = 0;
+	virtual void p04() = 0;
+	virtual void p05() = 0;
+	virtual void p06() = 0;
+	virtual void p07() = 0;
+	virtual void p08() = 0;
+	virtual void p09() = 0;
+	virtual void p10() = 0;
+	virtual void p11() = 0;
+	virtual void p12() = 0;
+	virtual void p13() = 0;
+};
+
+// ??1Rva00802040OwnerBase@@UAE@XZ @0x0066D770 7B: the empty destructor, restoring the vtable
+// (VA 0x00CE3BE8).
+Rva00802040OwnerBase::~Rva00802040OwnerBase()
+{
+}
+// ??0Rva00802040OwnerBase@@QAE@XZ @0x0066D760 9B: the default constructor, storing the
+// class's own vtable (VA 0x00CE3BE8) and returning this.
+Rva00802040OwnerBase::Rva00802040OwnerBase()
+{
+}
+
+class Rva00802040Owner : public Rva00802040OwnerBase
 {
 public:
 	__declspec(noinline) Rva00802040Owner( Rva00802040Src *a, Rva00802040OwnerSrc *b );

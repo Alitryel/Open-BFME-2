@@ -1,7 +1,48 @@
 // cl: /Ireference/shims/bfme2renderobj /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/bfmecamera /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// Keep MSVC math.h float overloads local; matched operations already inline.
+#pragma push_macro("inline")
+#define inline static inline
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+#include <math.h>
+#pragma pop_macro("inline")
+// Link view first: Vector4(x,y,z,w) stays inline without emitting an SSE
+// copy that competes with retail's integer-move owner (0x006D8A30).
+#include "../../../../../reference/shims/bfme_matrix3d_sse_link/vector4.h"
 // stlport
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+// Matrix3D's inline helpers are defined in the same /O1-like state, so the
+// out-of-line copies this unit emits (copy constructor, Rotate_Vector,
+// Transform_Vector) are retail's /O1 bodies (0x0006645C copy) instead of /O2
+// ones that, first in link order, displace them. Calls inline as before.
+#include "always.h"
+#include <assert.h>
+#include "../../../../../reference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath/vector2.h"
+#include "../../../../../reference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath/vector3.h"
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#include "../../../../../reference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath/matrix3d.h"
+#pragma optimize("", on)
 #define Matrix3x3 Matrix3
 #define Matrix4x4 Matrix4  // BFME renamed it
+// Link view: Matrix4(Vector4 x4), Matrix4(Matrix3D) and Transpose stay inline without emitting
+// copies that, first in link order, displace retail's /O1 owners (0x0006A34E, 0x0006A2CD, 0x0006A3D1).
+// Init(Matrix3D) stays an ordinary inline: this unit owns its row (0x00068FEF), and the anchor
+// below (not retail code) emits it now that no Matrix4(Matrix3D) copy calls it.
+#define BFME_MATRIX4_M3D_INLINE WWINLINE
+#include "../../../../../reference/shims/bfme_matrix4_rows_link/matrix4_zh_rows_link.h"
+// ?_bfmeMatrix4InitAnchor@@YAXAAVMatrix4@@ABVMatrix3D@@@Z absent-from-retail
+void _bfmeMatrix4InitAnchor(Matrix4x4 &matrix4x4, const Matrix3D &matrix3D) { matrix4x4.Init(matrix3D); }
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -79,6 +120,13 @@
 #include "ww3d.h"
 #include "matrix4.h"
 #include "dx8wrapper.h"
+#include "colmath.h"
+// The out-of-line Overlap_Test(PlaneClass, Vector3) this unit emits must be
+// retail's size-optimized body (row 0x0007B638), so its header is read under /Os.
+#pragma optimize("s", on)
+#include "colmathplane.h"
+#pragma optimize("", on)
+#include "colmathinlines.h"
 
 
 /***********************************************************************************************
@@ -93,6 +141,14 @@
  * HISTORY:                                                                                    *
  *   3/21/98    GTH : Created.                                                                 *
  *=============================================================================================*/
+// FrustumClass's implicit default constructor is retail's size-optimised body
+// (0x000F0F5B, vector constructor iterators over out-of-line element ctors).
+// Both camera constructors inline it, but this unit still emits the COMDAT;
+// instantiate it here for size so the copy is retail's.
+#pragma optimize("s", on)
+static void bfmeFrustumCtorAnchor() { FrustumClass frustum; (void)frustum; }
+#pragma optimize("", on)
+
 CameraClass::CameraClass(void) :
 	Projection(PERSPECTIVE),
 	Viewport(Vector2(0,0),Vector2(1,1)),		// pixel viewport to render into
@@ -155,6 +211,18 @@ CameraClass::CameraClass(const CameraClass & src) :
  * HISTORY:                                                                                    *
  *   3/21/98    GTH : Created.                                                                 *
  *=============================================================================================*/
+// FrustumClass's implicit copy assignment is retail's size-optimised,
+// frame-pointer body (0x000F194F, rowed in frustum_copy.cpp). This unit's /O2
+// would otherwise instantiate an unrolled copy for the assignments below that
+// the link keeps first; instantiate it here for size instead.
+// The PlaneClass assignment it calls is size-optimised too but keeps no frame
+// pointer (0x0004254E); instantiate it first so it does not take the "y" off.
+#pragma optimize("s", on)
+static void bfmePlaneCopyAnchor(PlaneClass &to, const PlaneClass &from) { to = from; }
+#pragma optimize("y", off)
+static void bfmeFrustumCopyAnchor(FrustumClass &to, const FrustumClass &from) { to = from; }
+#pragma optimize("", on)
+
 CameraClass & CameraClass::operator = (const CameraClass & that)
 {
 	if (this != &that) {
@@ -271,9 +339,9 @@ void CameraClass::Get_Obj_Space_Bounding_Box(AABoxClass & box) const
  * HISTORY:                                                                                    *
  *   5/29/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-void CameraClass::Set_Transform(const Matrix3D &m)	
+void CameraClass::Set_Transform(const Matrix3D &matrix3D)	
 { 
-	RenderObjClass::Set_Transform(m);
+	RenderObjClass::Set_Transform(matrix3D);
 	FrustumValid = false; 
 }
 
@@ -587,11 +655,24 @@ const OBBoxClass & CameraClass::Get_Near_Clip_Bounding_Box(void) const
  * HISTORY:                                                                                    *
  *   12/8/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?Cull_Box@CameraClass@@ present-unmatched
+// The six-plane far-extent rejection test, the same body as the out-of-line
+// Rva0092CC40BoxOutsideFrustum at 0x001338C0, inlined into Cull_Box.
+static __forceinline bool Box_Outside_Frustum(const FrustumClass & frustum,const AABoxClass & box)
+{
+	for (int i = 0; i < 6; i++) {
+		Vector3 negfarpt;
+		get_far_extent(frustum.Planes[i].N,box.Extent,&negfarpt);
+		Vector3::Subtract(box.Center,negfarpt,&negfarpt);
+		if (CollisionMath::Overlap_Test(frustum.Planes[i],negfarpt) == CollisionMath::POS) {
+			return true;
+		}
+	}
+	return false;
+}
+
 bool CameraClass::Cull_Box(const AABoxClass & box) const
 {
-	const FrustumClass & frustum = Get_Frustum();
-	return CollisionMath::Overlap_Test(frustum,box) == CollisionMath::OUTSIDE;
+	return Box_Outside_Frustum(Get_Frustum(),box);
 }
 
 
@@ -734,7 +815,9 @@ void CameraClass::Device_To_World_Space(const Vector2 & device_coord,Vector3 * w
  *=============================================================================================*/
 // Retail byte flag at RVA0x9EDA05 selects the stored projection override.
 // Its broader activation policy is not inferred here.
-extern bool bfmeCameraProjectionOverride;
+// bfmeCameraProjectionOverride: retail .data byte at VA 0x00DEDA05, initial value 0;
+// CameraClass::Apply is its only reader in the ledger.
+bool bfmeCameraProjectionOverride = false;
 void CameraClass::Apply(void)
 {
 	Update_Frustum();
@@ -851,4 +934,39 @@ float CameraClass::Compute_Projected_Sphere_Radius(float dist,float radius)
 {
 	Vector4 result = ProjectionTransform * Vector4(radius,0.0f,dist,1.0f);
 	return result.X / result.W;
+}
+
+// Retail boundary: int3 at 0x0092439F; ret 20 at 0x00924476; int3 at 0x00924479.
+// Address-derived identity: no named caller or vtable was found.
+class Rva009243A0 {
+    Vector4 Row[3];
+public:
+    void method(const Vector3 *a, const Rva009243A0 &other, const Vector3 *b, Vector3 *out, int count) const;
+};
+void Rva009243A0::method(const Vector3 *a, const Rva009243A0 &other, const Vector3 *b, Vector3 *out, int count) const
+{
+    // Keep the two transforms in one sum: VC7.1 reassociates this into
+    // retail's x87 order. Separate rounded vector temporaries change the body.
+    while (count--) {
+        out->X = other.Row[0].X*b->X + other.Row[0].Y*b->Y + other.Row[0].Z*b->Z
+                   + Row[0].X*a->X + Row[0].Y*a->Y + Row[0].Z*a->Z
+                   + other.Row[0].W + Row[0].W;
+        out->Y = other.Row[1].X*b->X + other.Row[1].Y*b->Y + other.Row[1].Z*b->Z
+                   + Row[1].X*a->X + Row[1].Y*a->Y + Row[1].Z*a->Z
+                   + other.Row[1].W + Row[1].W;
+        out->Z = other.Row[2].X*b->X + other.Row[2].Y*b->Y + other.Row[2].Z*b->Z
+                   + Row[2].X*a->X + Row[2].Y*a->Y + Row[2].Z*a->Z
+                   + other.Row[2].W + Row[2].W;
+        ++a; ++b; ++out;
+    }
+}
+
+// Native 0x00134A80..0x00134AB0, RET4; WB 0x009BD3A0 confirms
+// the projection temporary and CameraInvTransform at +0x3CC. The original
+// nonvirtual member name is unknown; retain the existing caller-proven pin.
+void CameraClass::rva00134A80(Matrix4x4 *set_tm)
+{
+	Matrix4x4 projection;
+	Get_D3D_Projection_Matrix(&projection);
+	Matrix4x4::Multiply(projection, CameraInvTransform, set_tm);
 }

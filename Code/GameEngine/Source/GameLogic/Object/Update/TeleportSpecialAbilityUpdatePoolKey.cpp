@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva000492CB0@TeleportSpecialAbilityUpdate@@SA?AW4NameKeyType@@XZ @0x492cb0
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@TeleportSpecialAbilityUpdate@@UBE?AW4NameKeyType@@XZ @0x492cb0
 // (69B): cached pool-name key for TeleportSpecialAbilityUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("TeleportSpecialAbilityUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class TeleportSpecialAbilityUpdate
 {
 public:
-	static NameKeyType rva000492CB0();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000492CB0@TeleportSpecialAbilityUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType TeleportSpecialAbilityUpdate::rva000492CB0()
+// ?getModuleNameKey@TeleportSpecialAbilityUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType TeleportSpecialAbilityUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheTeleportSpecialAbilityUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("TeleportSpecialAbilityUpdate");

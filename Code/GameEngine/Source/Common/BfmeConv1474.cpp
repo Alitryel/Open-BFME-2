@@ -28,7 +28,7 @@ public:
 	void freeBlock(void *block, int blockSize);
 };
 
-extern Rva006DB270 *g_pVmuBlockAllocator; // 0x00E176E8
+extern Rva006DB270 *g_pChainBlockAllocator; // 0x00E176E8
 
 class BfmeListVMU
 {
@@ -38,7 +38,7 @@ public:
 };
 
 // ?bfmeEraseVMU@BfmeListVMU@@QAEXPAPAVBfmeNodeVMU@@@Z
-void BfmeListVMU::bfmeEraseVMU(BfmeNodeVMU **it)
+__declspec(noinline) inline void BfmeListVMU::bfmeEraseVMU(BfmeNodeVMU **it)
 {
 	BfmeNodeVMU *target = *it;
 	BfmeNodeVMU *head = m_bfmeHead;
@@ -49,7 +49,7 @@ void BfmeListVMU::bfmeEraseVMU(BfmeNodeVMU **it)
 		{
 			BfmeNodeVMU *next = head->m_bfmeNext;
 			((Rva006CD530 *)head)->detach();
-			g_pVmuBlockAllocator->freeBlock(head, 8);
+			g_pChainBlockAllocator->freeBlock(head, 8);
 			m_bfmeHead = next;
 		}
 		return;
@@ -66,6 +66,10 @@ void BfmeListVMU::bfmeEraseVMU(BfmeNodeVMU **it)
 	{
 		prev->m_bfmeNext = node->m_bfmeNext;
 		((Rva006CD530 *)node)->detach();
-		g_pVmuBlockAllocator->freeBlock(node, 8);
+		g_pChainBlockAllocator->freeBlock(node, 8);
 	}
 }
+
+// Select-any: AptLoad.cpp compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorBfmeListVMUErase absent-from-retail
+void bfmeAnchorBfmeListVMUErase(BfmeListVMU *p, BfmeNodeVMU **it) { p->bfmeEraseVMU(it); }

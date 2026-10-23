@@ -15,6 +15,13 @@ struct BfmePointFD
 	Real y;
 };
 
+struct BfmeCellOut
+{
+	Real x;
+	Real y;
+	Real z;
+};
+
 class BfmeCellFD;
 
 class Gen_008F7CD0
@@ -25,12 +32,14 @@ public:
 	BfmeCellFD *bfmeAt(int x, int y) const;
 	int bfmeCellX(Real value) const;
 	int bfmeCellY(Real value) const;
+	void rva0073BC60(int mask, int index, BfmeCellOut *out) const;
 
 private:
 	char m_bfmeHead[4];					// +0x00
 	Real m_bfmeOriginX;					// +0x04
 	Real m_bfmeOriginY;					// +0x08
-	char m_bfmeMid[20];					// +0x0C
+	char m_bfmeMid[16];					// +0x0C
+	Real m_bfmeStep;					// +0x1C
 	Real m_bfmeScale;					// +0x20
 	int m_bfmeWidth;					// +0x24
 	int m_bfmeHeight;					// +0x28
@@ -72,4 +81,51 @@ int Gen_008F7CD0::bfmeCellSum(const BfmePointFD *point, int index,
 	}
 
 	return total;
+}
+
+// Retail 0x0073BC60, 262 bytes: the cell with the largest index-masked
+// bit sum, reported as step-scaled column/row with a zero third lane.
+// Same 20-bit mask, three indices and 0xA8 row stride as bfmeCellSum; the
+// +0x1C step scales the winning column and row. The sums and the running
+// best compare unsigned (jbe), so an empty mask never replaces the first
+// cell and ties keep the earlier cell.
+// Native entry: thunk 0x00739810 forwards through this+0x10, like its
+// neighbour 0x00739800. The result z is an integer zero store, as in
+// GetNearestGroupWithValue (the SSE region default would zero it via xorps).
+// ?rva0073BC60@Gen_008F7CD0@@QBEXHHPAUBfmeCellOut@@@Z
+void Gen_008F7CD0::rva0073BC60(int mask, int index, BfmeCellOut *out) const
+{
+	if (mask == 0)
+		return;
+	if (index < 0 || index >= 3)
+		return;
+	mask &= 0xFFFFF;
+	const char *bestCell = (const char *)m_bfmeCells;
+	const char *finish = (const char *)m_bfmeCells + m_bfmeHeight * m_bfmeWidth * 0xA8;
+	unsigned int best = 0;
+	for (const char *cell = (const char *)m_bfmeCells; cell != finish; cell += 0xA8)
+	{
+		unsigned int total = 0;
+		unsigned int m = (unsigned int)mask;
+		if (m != 0)
+		{
+			const unsigned short *words = (const unsigned short *)(cell + index * 2 + 6);
+			do
+			{
+				if ((m & 1) != 0)
+					total += *words;
+				m >>= 1;
+				words += 4;
+			} while (m != 0);
+		}
+		if (total > best)
+		{
+			bestCell = cell;
+			best = total;
+		}
+	}
+	unsigned int row = (unsigned int)((bestCell - (const char *)m_bfmeCells) / 0xA8);
+	out->x = (Real)(row % (unsigned int)m_bfmeWidth) * m_bfmeStep;
+	out->y = (Real)(row / (unsigned int)m_bfmeWidth) * m_bfmeStep;
+	*(int *)&out->z = 0;
 }

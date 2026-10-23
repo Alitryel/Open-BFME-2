@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva00251C31@SpecialPowerTimerRefreshSpecialPower@@SA?AW4NameKeyType@@XZ @0x251C31
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@SpecialPowerTimerRefreshSpecialPower@@UBE?AW4NameKeyType@@XZ @0x251C31
 // (69B): cached pool-name key for SpecialPowerTimerRefreshSpecialPower. The
 // class identity comes from the pool-name string the body pushes
 // ("SpecialPowerTimerRefreshSpecialPower"); the body guards a function-local
@@ -26,11 +26,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class SpecialPowerTimerRefreshSpecialPower
 {
 public:
-	static NameKeyType rva00251C31();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00251C31@SpecialPowerTimerRefreshSpecialPower@@SA?AW4NameKeyType@@XZ
-NameKeyType SpecialPowerTimerRefreshSpecialPower::rva00251C31()
+// ?getModuleNameKey@SpecialPowerTimerRefreshSpecialPower@@UBE?AW4NameKeyType@@XZ
+NameKeyType SpecialPowerTimerRefreshSpecialPower::getModuleNameKey() const
 {
 	static NameKeyType TheSpecialPowerTimerRefreshSpecialPowerPoolKey =
 		TheNameKeyGenerator->nameToKey("SpecialPowerTimerRefreshSpecialPower");

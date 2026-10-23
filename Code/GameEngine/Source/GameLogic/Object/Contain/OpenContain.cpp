@@ -1,6 +1,7 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /Ireference/shims/zh_outofline /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
 // stlport
-// Ported verbatim from the Generals Zero Hour reference
+// Initially ported verbatim from the Generals Zero Hour reference;
+// loadPostProcess is adapted below to independently verified BFME2 behavior.
 // (GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp); this unit had no counterpart under Code/.
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -36,6 +37,50 @@
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+#include <map>
+
+// vector<int> fill/insert otherwise instantiates the _Construct<int,int>
+// COMDAT (one byte shape per TU flags); a file-static overload takes those
+// calls instead so this TU emits no external copy.
+#include <new>
+namespace _STL {
+static inline void _Construct(int *__p, const int &__val)
+{ new (__p) int(__val); }
+}
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
+#include <list>
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
+
+#include <vector>
+// Bind assignment to the complete rowed provider at 0x002CD098.
+namespace _STL {
+template <> vector<Coord3D, allocator<Coord3D> > &
+vector<Coord3D, allocator<Coord3D> >::operator=(const vector<Coord3D, allocator<Coord3D> > &);
+// Retain this unit's rowed capacity helper after assignment becomes external.
+template unsigned int vector<Coord3D, allocator<Coord3D> >::capacity() const;
+}
 
 #include "Common/BitFlagsIO.h"
 #include "Common/GameAudio.h"
@@ -60,6 +105,9 @@
 #include "GameLogic/Object.h"
 #include "GameLogic/PartitionManager.h"
 #include "GameLogic/Weapon.h"
+// Suppress this TU's non-retail copy of ?_M_is_equal@?$_Base_bitset@$03@_STL@@QBE_NABU12@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bool _Base_bitset<4>::_M_is_equal(_Base_bitset<4> const &) const; }
 
 #ifdef _INTERNAL
 // for occasional debugging...
@@ -73,53 +121,11 @@
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-OpenContainModuleData::OpenContainModuleData( void )
-{
-
-	m_containMax = CONTAIN_MAX_UNKNOWN;  // means we don't care, infinite, unassigned, whatever
-	m_passengersAllowedToFire = FALSE;
-	m_passengersInTurret = FALSE;
-	m_numberOfExitPaths = 1;
-	m_damagePercentageToUnits = 0;
-	m_isBurnedDeathToUnits = TRUE;
-	m_doorOpenTime = 1;
-	m_allowInsideKindOf.clear(); m_allowInsideKindOf.flip();		// everything is allowed
-	m_forbidInsideKindOf.clear();	// nothing is forbidden
-	m_weaponBonusPassedToPassengers = FALSE;
- 	m_allowAlliesInside = TRUE;
- 	m_allowEnemiesInside = TRUE;
- 	m_allowNeutralInside = TRUE;
-}  // end OpenContainModuleData
+// ??0OpenContainModuleData@@QAE@XZ owned by OpenContainModuleDataCtor.cpp; declared here only.
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-/*static*/ void OpenContainModuleData::buildFieldParse(MultiIniFieldParse& p) 
-{
-  UpdateModuleData::buildFieldParse(p);
-
-	static const FieldParse dataFieldParse[] = 
-	{
-		{ "ContainMax",								INI::parseInt, NULL, offsetof( OpenContainModuleData, m_containMax ) },
-		{ "EnterSound",								INI::parseAudioEventRTS,		NULL, offsetof( OpenContainModuleData, m_enterSound ) },
-		{ "ExitSound",								INI::parseAudioEventRTS,		NULL, offsetof( OpenContainModuleData, m_exitSound ) },
-		{ "DamagePercentToUnits",			INI::parsePercentToReal,		NULL, offsetof( OpenContainModuleData, m_damagePercentageToUnits ) },
-		{ "BurnedDeathToUnits",				INI::parseBool,							NULL, offsetof( OpenContainModuleData, m_isBurnedDeathToUnits ) },
-		{ "AllowInsideKindOf",				KindOfMaskType::parseFromINI, NULL, offsetof( OpenContainModuleData, m_allowInsideKindOf ) },
-		{ "ForbidInsideKindOf",				KindOfMaskType::parseFromINI, NULL, offsetof( OpenContainModuleData, m_forbidInsideKindOf ) },
-		{ "PassengersAllowedToFire",	INI::parseBool, NULL, offsetof( OpenContainModuleData, m_passengersAllowedToFire ) },
-		{ "PassengersInTurret",				INI::parseBool, NULL, offsetof( OpenContainModuleData, m_passengersInTurret ) },
-		{ "NumberOfExitPaths",				INI::parseInt, NULL, offsetof( OpenContainModuleData, m_numberOfExitPaths ) },
-		{ "DoorOpenTime",							INI::parseDurationUnsignedInt, NULL, offsetof( OpenContainModuleData, m_doorOpenTime ) },
- 		{ "WeaponBonusPassedToPassengers", INI::parseBool,	NULL, offsetof( OpenContainModuleData, m_weaponBonusPassedToPassengers ) },
- 		{ "AllowAlliesInside",				INI::parseBool,	NULL, offsetof( OpenContainModuleData, m_allowAlliesInside ) },
- 		{ "AllowEnemiesInside",				INI::parseBool,	NULL, offsetof( OpenContainModuleData, m_allowEnemiesInside ) },
- 		{ "AllowNeutralInside",				INI::parseBool,	NULL, offsetof( OpenContainModuleData, m_allowNeutralInside ) },
-		{ 0, 0, 0, 0 }
-	};
-  p.add(dataFieldParse);
-	p.add(DieMuxData::getFieldParse(), offsetof( OpenContainModuleData, m_dieMuxData ));
-
-}
+// ?buildFieldParse@OpenContainModuleData@@SAXAAVMultiIniFieldParse@@@Z owned by ModuleDataBuildFieldParseChained.cpp; declared here only.
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -127,44 +133,11 @@ OpenContainModuleData::OpenContainModuleData( void )
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-OpenContain::OpenContain( Thing *thing, const ModuleData* moduleData ) : UpdateModule( thing, moduleData )
-{
-
-	// initialize our lists
-	m_containList.clear();
-	m_objectEnterExitInfo.clear();
-	m_playerEnteredMask = 0;
-	m_lastUnloadSoundFrame = 0;
-	m_lastLoadSoundFrame = 0;
-	m_containListSize = 0;
-	m_stealthUnitsContained = 0;
-	m_doorCloseCountdown = 0;
-
-	//Added By Sadullah Nader
-	//Initializations inserted
-	m_rallyPoint.zero();
-	m_rallyPointExists = FALSE;
-	//
-	m_conditionState.clear();
-	m_firePointStart = -1;
-	m_firePointNext = 0;
-	m_firePointSize = 0;
-	m_noFirePointsInArt = false;
-	m_whichExitPath = 1;
-	m_loadSoundsEnabled = TRUE;
-  
-  m_passengerAllowedToFire = getOpenContainModuleData()->m_passengersAllowedToFire; 
-  // overridable by setPass...()  in the parent interface (for use by upgrade module)
-
-	for( Int i = 0; i < MAX_FIRE_POINTS; i++ )
-	{		
-		m_firePoints[ i ].Make_Identity();
-	}  // end for i
-
-}
+// ??0OpenContain@@QAE@PAVThing@@PBVModuleData@@@Z owned by OpenContainCtor.cpp; declared here only.
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// ?OpenContain::getContainMax present-unmatched
 Int OpenContain::getContainMax( void ) const
 {
 	const OpenContainModuleData *modData = getOpenContainModuleData();
@@ -175,6 +148,7 @@ Int OpenContain::getContainMax( void ) const
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::~OpenContain present-unmatched
 OpenContain::~OpenContain()
 {
 
@@ -192,15 +166,11 @@ OpenContain::~OpenContain()
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// our object changed position... react as appropriate.
-void OpenContain::containReactToTransformChange()
-{
-	// Our transform changed, which means our bones moved, and we keep people positioned on bones.
-	redeployOccupants();
-}
+// containReactToTransformChange: OpenContainReactToTransformChange.cpp (retail 0x004624E3).
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::update present-unmatched
 UpdateSleepTime OpenContain::update( void )
 {
 	m_playerEnteredMask = 0;
@@ -224,6 +194,7 @@ UpdateSleepTime OpenContain::update( void )
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::addOrRemoveObjFromWorld present-unmatched
 void OpenContain::addOrRemoveObjFromWorld(Object* obj, Bool add) 
 { 
 
@@ -288,101 +259,16 @@ void OpenContain::addOrRemoveObjFromWorld(Object* obj, Bool add)
 	* This will trigger an onContaining event for the object that this module
 	* is a part of and an onContainedBy event for the object being contained */
 //-------------------------------------------------------------------------------------------------
-void OpenContain::addToContain( Object *rider )
-{
-	if( getObject()->checkAndDetonateBoobyTrap(rider) )
-	{
-		// Whoops, I was mined.  Cancel if I (or they) am now dead.
-		if( getObject()->isEffectivelyDead() || rider->isEffectivelyDead() )
-		{
-			return;
-		}
-	}
-
-	// sanity
-	if( rider == NULL )
-		return;
-
-	Drawable *riderDraw = rider->getDrawable();
-	Bool wasSelected = FALSE;
-	if( riderDraw && riderDraw->isSelected() )
-	{
-		wasSelected = TRUE;
-	}
-
-#if defined(_DEBUG) || defined(_INTERNAL)
-	if( !isValidContainerFor( rider, false ) )
-	{
-		Object *reportObject = rider;
-		if( rider->getContain() )
-		{
-			//Report the first thing inside it!
-			const ContainedItemsList *items = rider->getContain()->getContainedItemsList();
-			if( items )
-			{
-				reportObject = *items->begin();
-			}
-		}
-		DEBUG_CRASH( ("OpenContain::addToContain() - Object %s not valid for container %s!", reportObject?reportObject->getTemplate()->getName().str():"NULL", getObject()->getTemplate()->getName().str() ) );
-	}
-#endif
-
-	// this object cannot be contained by this module if it is already contained in something
-	if( rider->getContainedBy() != NULL )
-	{
-
-		DEBUG_LOG(( "'%s' is trying to contain '%s', but '%s' is already contained by '%s'\n",
-								getObject()->getTemplate()->getName().str(),
-								rider->getTemplate()->getName().str(),
-								rider->getTemplate()->getName().str(),
-								rider->getContainedBy()->getTemplate()->getName().str() ));
-		return;
-
-	}
-
-	// Which list to physically add to needs to be overridable
-	addToContainList(rider);
-
-	m_playerEnteredMask = rider->getControllingPlayer()->getPlayerMask();
-
-	if (isEnclosingContainerFor( rider ))
-	{
-		addOrRemoveObjFromWorld(rider, false);
-	}
-
-	// ensure our contents are positions correctly.
-	redeployOccupants();
-
-	// trigger an onContaining event for the object that just "ate" something
-	if( getObject()->getContain() )
-	{
-		getObject()->getContain()->onContaining( rider, wasSelected );
-	}
-
-	// trigger an onContainedBy event for the object that just got "eaten" by us
-	rider->onContainedBy( getObject() );
-
-	doLoadSound();
-
-}
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-void OpenContain::addToContainList( Object *rider )
-{
-	m_containList.push_back(rider);
-	m_containListSize++;
-	if( rider->isKindOf( KINDOF_STEALTH_GARRISON ) )
-	{
-		m_stealthUnitsContained++;
-	}
-}
 
 //-------------------------------------------------------------------------------------------------
 /** Remove 'rider' from the m_containList of objects in this module.
 	* This will trigger an onRemoving event for the object that this module
 	* is a part of and an onRemovedFrom event for the object being removed */
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::removeFromContain present-unmatched
 void OpenContain::removeFromContain( Object *rider, Bool exposeStealthUnits )
 {
 
@@ -419,23 +305,12 @@ void OpenContain::removeFromContain( Object *rider, Bool exposeStealthUnits )
 //-------------------------------------------------------------------------------------------------
 /** Remove all contained objects from the contained list */
 //-------------------------------------------------------------------------------------------------
-void OpenContain::removeAllContained( Bool exposeStealthUnits )
-{
-	ContainedItemsList::iterator it;
-
- 	while ((it = m_containList.begin()) != m_containList.end())
-	{
-
- 		// note that this invalidates the iterator!
- 		removeFromContainViaIterator( it, exposeStealthUnits );
-
-	}  // end while
-
-}  // end removeAllContained
+// OpenContain::removeAllContained is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain_removeAllContained_Rva004635C0.cpp (0x004635C0).
 
 //-------------------------------------------------------------------------------------------------
 /** Kill all contained objects in the contained list */
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::killAllContained present-unmatched
 void OpenContain::killAllContained( void )
 {
 	ContainedItemsList::iterator it = m_containList.begin();
@@ -468,6 +343,7 @@ void OpenContain::killAllContained( void )
 //--------------------------------------------------------------------------------------------------------
 /** Force all contained objects in the contained list to exit, and kick them in the pants on the way out*/
 //--------------------------------------------------------------------------------------------------------
+// ?OpenContain::harmAndForceExitAllContained present-unmatched
 void OpenContain::harmAndForceExitAllContained( DamageInfo *info )
 {
 	ContainedItemsList::iterator it = m_containList.begin();
@@ -498,55 +374,9 @@ void OpenContain::harmAndForceExitAllContained( DamageInfo *info )
 
 
 //-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
-void OpenContain::doLoadSound()
-{
-	//
-	// play a sound for loading someone into a building
-	//
-	if( m_loadSoundsEnabled )
-	{
-		UnsignedInt now = TheGameLogic->getFrame();
-		if( now != m_lastLoadSoundFrame )
-		{
-			if (getOpenContainModuleData())
-			{
-				AudioEventRTS enterSound(getOpenContainModuleData()->m_enterSound);
-				enterSound.setObjectID(getObject()->getID());
-				TheAudio->addAudioEvent(&enterSound);
-			}
-			// save this frame as the last time we did this sound
-			m_lastLoadSoundFrame = now;
-		}
-	}
-}
-
-//-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
-void OpenContain::doUnloadSound()
-{
-	//
-	// play a sound for unloading someone from a building ... but don't play more
-	// than one per frame (we can do meta unload all commands)
-	//
-	UnsignedInt now = TheGameLogic->getFrame();
-	if( now != m_lastUnloadSoundFrame )
-	{
-		if (getOpenContainModuleData())
-		{
-			AudioEventRTS exitSound(getOpenContainModuleData()->m_exitSound);
-			exitSound.setObjectID(getObject()->getID());
-
-			TheAudio->addAudioEvent(&exitSound);
-		}
-		// save this frame as the last time we did this sound
-		m_lastUnloadSoundFrame = now;
-	}
-}
-
-//-------------------------------------------------------------------------------------------------
 /** Iterate the contained list and call the callback on each of the objects */
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::iterateContained present-unmatched
 void OpenContain::iterateContained( ContainIterateFunc func, void *userData, Bool reverse )
 {
 	if (reverse)
@@ -587,29 +417,8 @@ void OpenContain::iterateContained( ContainIterateFunc func, void *userData, Boo
 
 //-------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-Object* OpenContain::getClosestRider( const Coord3D *pos )
-{
-	Object *closest = NULL;
-	Real closestDistance;
-
-	for(ContainedItemsList::const_iterator it = m_containList.begin(); it != m_containList.end(); ++it)
-	{
-    Object *rider = *it;
-
-    if (rider)
-    {
-      Real distance = ThePartitionManager->getDistanceSquared( rider, pos, FROM_CENTER_2D );
-	    if( !closest || closestDistance > distance ) 
-	    {
-		    closest = rider;
-		    closestDistance = distance; 
-	    }
-    }
-
-  }
-
-   return closest; //Could be null!
-}
+// OpenContain::getClosestRider: retail's body is the row at 0x004632E0
+// (OpenContainRva004638F1.cpp); this unit only declares it, so its vtable binds there.
 
 
 
@@ -631,6 +440,7 @@ struct DropData
 /** Remove an object from the containment of this module given the item
 	* to remove and trigger the proper callback events */
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::removeFromContainViaIterator present-unmatched
 void OpenContain::removeFromContainViaIterator( ContainedItemsList::iterator it, Bool exposeStealthUnits )
 {
 
@@ -689,6 +499,7 @@ void OpenContain::removeFromContainViaIterator( ContainedItemsList::iterator it,
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::scatterToNearbyPosition present-unmatched
 void OpenContain::scatterToNearbyPosition(Object* rider)
 {
 	Object *theContainer = getObject();
@@ -740,34 +551,17 @@ void OpenContain::scatterToNearbyPosition(Object* rider)
 }
 
 //-------------------------------------------------------------------------------------------------
-void OpenContain::onContaining( Object *rider, Bool wasSelected )
-{
-	// Play audio
-	if( m_loadSoundsEnabled )
-	{
-		AudioEventRTS enterSound = *getObject()->getTemplate()->getSoundEnter();
-		enterSound.setObjectID(getObject()->getID());
-		TheAudio->addAudioEvent(&enterSound);
-	}
-}
+// OpenContain::onContaining is defined with its independently verified BFME2
+// body in Rva00463097Audio.cpp (0x00463097), which keys the enter sound
+// by the owner's Drawable instead of the donor's template sound.
 
 //-------------------------------------------------------------------------------------------------
-void OpenContain::onRemoving( Object *rider) 
-{
-	// Play audio
-	AudioEventRTS exitSound = *getObject()->getTemplate()->getSoundExit();
-	exitSound.setObjectID(getObject()->getID());
-	TheAudio->addAudioEvent(&exitSound);
-
-	if (rider) {
-		// This is a misnomer, but it makes it clearer for the user.
-		AudioEventRTS fallingSound = *rider->getTemplate()->getSoundFalling();
-		fallingSound.setObjectID(rider->getID());
-		TheAudio->addAudioEvent(&fallingSound);
-	}
-}
+// OpenContain::onRemoving is defined with its independently verified BFME2
+// body in OpenContainOnRemoving.cpp (0x00464D02). It extends the donor's two
+// audio scopes with keyed Drawable lookups, map cleanup and timed bonuses.
 
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::getContainedItemsMass present-unmatched
 Real OpenContain::getContainedItemsMass() const
 {
 	/// @todo srj -- may want to cache this information.
@@ -783,6 +577,7 @@ Real OpenContain::getContainedItemsMass() const
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::onCollide present-unmatched
 void OpenContain::onCollide( Object *other, const Coord3D *loc, const Coord3D *normal )
 {
 	// colliding with nothing? we don't care.
@@ -843,44 +638,13 @@ void OpenContain::onCollide( Object *other, const Coord3D *loc, const Coord3D *n
 } 
 
 //-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
-void OpenContain::onDelete( void )	///< Last possible moment cleanup
-{
-	// This uses my literal list, and not the gettor, because we don't want to get redirected some place fancy.
-	for(ContainedItemsList::iterator it = m_containList.begin(); it != m_containList.end(); )
-	{
-		Object* rider = *it;
-		++it;
-		TheGameLogic->destroyObject( rider );
-	}
-}
-
-//-------------------------------------------------------------------------------------------------
-/** The die callback. */
-//-------------------------------------------------------------------------------------------------
-void OpenContain::onDie( const DamageInfo * damageInfo )
-{
-	if (!getOpenContainModuleData()->m_dieMuxData.isDieApplicable(getObject(), damageInfo))
-		return;
-
-	//Check to see if we are going to inflict damage on contained units.
-	if( getDamagePercentageToUnits() > 0 )
-	{
-		//Cycle through the units and apply damage to them!
-		processDamageToContained(getDamagePercentageToUnits());
-	}
-
-	killRidersWhoAreNotFreeToExit();
-
-	// Leaving this commented out to show it can't work.  We are about to die, so they will have zero 
-	// chance to hit an exitState::Update.  At least we would clean them up in onDelete.
-//	orderAllPassengersToExit( CMD_FROM_AI, FALSE );
-	removeAllContained();
-}  
+/** The die callback: retail body lives in OpenContainOnDie.cpp (rowed at
+0x004641B1); this TU keeps the class declaration only. */  
 
 // ------------------------------------------------------------------------------------------------
 /** Check to see if we are a valid container for 'obj' */
 // ------------------------------------------------------------------------------------------------
+// ?OpenContain::isValidContainerFor present-unmatched
 Bool OpenContain::isValidContainerFor(const Object* obj, Bool checkCapacity) const
 {
 	const Object *us = getObject();
@@ -932,226 +696,12 @@ Bool OpenContain::isValidContainerFor(const Object* obj, Bool checkCapacity) con
 }  // end isValidContainerFor
 
 // ------------------------------------------------------------------------------------------------
-/**
-	This new call is going to replace all game callings of removeFromContain.
-	Consider rFC a 'system' call, while this is a 'game' call.  rFC will pull
-	from the contained list and just plop the guy in the world, this function
-	will then override that location with cool game stuff.
-
-	Exit and Evacuate can fail, removeAllContain and removeFromContain cannot.
-*/
-void OpenContain::exitObjectViaDoor( Object *exitObj, ExitDoorType exitDoor )
-{
-	DEBUG_ASSERTCRASH(exitDoor == DOOR_1, ("multiple exit doors not supported here"));
-
-	removeFromContain( exitObj );
-
-	Object *me = getObject();
-
-	m_doorCloseCountdown = getOpenContainModuleData()->m_doorOpenTime;
-	if (m_doorCloseCountdown)
-	{
-		// srj sez: only diddle the doors if this countdown is nonzero. 
-		// this allows us to prevent this module from messing with the doors
-		// at all, which is required for DeliverPayloadAIUpdate.
-		/// @todo srj -- for now, OpenContain assumes at most one door
-		me->clearAndSetModelConditionState( MODELCONDITION_DOOR_1_CLOSING, MODELCONDITION_DOOR_1_OPENING );
-	}
-
-	Int numberExits = getOpenContainModuleData()->m_numberOfExitPaths;
-	if( numberExits > 0 )
-	{
-		// We have ExitStart/End specified in art to use when we kick people out.  If >1, then
-		// we have many and we need to decide which one to use.
-		AsciiString startBone("ExitStart");
-		AsciiString endBone("ExitEnd");
-		Coord3D startPosition;
-		Coord3D endPosition;
-		if( numberExits > 1 )
-		{
-			char suffix[8];
-			itoa(m_whichExitPath, suffix, 10);
-			if( m_whichExitPath < 10 )
-			{
-				startBone.concat('0');
-				endBone.concat('0');
-			}
-			
-			m_whichExitPath = (m_whichExitPath % numberExits) + 1;// To cycle from 1 to n
-
-			startBone.concat(suffix);
-			endBone.concat(suffix);
-		}
-		me->getSingleLogicalBonePosition( startBone.str(), &startPosition, NULL );
-		me->getSingleLogicalBonePosition( endBone.str(), &endPosition, NULL );
-
-		//startPosition.x = startPosition.y = 0;
-		Real exitAngle = me->getOrientation();
-		PhysicsBehavior *physics = exitObj->getPhysics();
-		// Can fall problem - When units exit from planes, they are airborne for a while as they drop.
-		// Airborne units dont' do pathfinding, and this is fine.
-		// However, amphibious transports unload 3 feet off the ground.  This is enough to trigger the 
-		// airborne flag, and they don't pathfind.  So they all unload at the same exact point, and life
-		// is ugly.  So temporarily, we turn off the allowToFall flag, so they aren't considered airborne, 
-		// and their final destination (adjustToPossibleDestination) considers them as pathfinding, so they
-		// don't stack up.  Then we turn the flag back, so if they are parachuting, they can fly down
-		//  on their parachute.  jba.
-		Bool canFall = false;
-		if (physics) 
-		{
-			canFall = physics->getAllowToFall();
-		}
-		exitObj->setPosition( &startPosition );
-		exitObj->setOrientation( exitAngle );
-		
-		// Per JohnA: We need to set our layer to match our transports layer, or we'll try to pick a spot
-		// on the ground.
-		exitObj->setLayer( me->getLayer() );
-		///< @todo This really should be automatically wrapped up in an activation sequence	for objects in general
-		// tell the AI about it
-		AIUpdateInterface *ai = exitObj->getAI();
-		AIUpdateInterface *myAi = me->getAI();
-		TheAI->pathfinder()->addObjectToPathfindMap( exitObj );
-		if (ai) 
-		{
-			if (myAi && myAi->isIdle() && me->isKindOf(KINDOF_VEHICLE)) {
-				TheAI->pathfinder()->removeUnitFromPathfindMap(me);
-				TheAI->pathfinder()->updatePos(me, me->getPosition());
-				TheAI->pathfinder()->updateGoal(me, me->getPosition(), TheTerrainLogic->getLayerForDestination(me->getPosition()));
-			}
-			ai->ignoreObstacle(NULL);
-			// The units often come out at the same position, and need to ignore collisions briefly
-			// as they move out.  jba.
-			ai->setIgnoreCollisionTime(LOGICFRAMES_PER_SECOND);
-			TheAI->pathfinder()->adjustToPossibleDestination(exitObj, ai->getLocomotorSet(), &endPosition);
-		}
-		std::vector<Coord3D> exitPath;
-		exitPath.push_back(endPosition);
-		exitPath.push_back(endPosition); // Do it twice, in case units stack up due to brief flying.  jba.
-		if (m_rallyPointExists) {
-			exitPath.push_back(m_rallyPoint);
-		}
-
-		if( ai )
-		{
-			if (physics) 
-			{
-				physics->setAllowToFall(false);
-			}
-
-			ai->aiFollowPath( &exitPath, me, CMD_FROM_AI );
-
-			TheAI->pathfinder()->updateGoal(exitObj, &endPosition, TheTerrainLogic->getLayerForDestination(&endPosition));
-		}
-		if (physics) 
-		{
-			physics->setAllowToFall(canFall);
-		}
-	}
-	else
-	{
-		///< @todo This really should be automatically wrapped up in an activation sequence	for objects in general
-		// tell the AI about it
-		TheAI->pathfinder()->addObjectToPathfindMap( exitObj );
-	}
-}
-// ------------------------------------------------------------------------------------------------
-/**
-	This call is used to evacuate units from a tunnel network via a persistent state (guard tunnel networ).
-	The main difference between this and exitObjectViaDoor is that this exit doesn't change the current
-	ai state, so the guard state doesn't get blown away. jba.
-*/
-void OpenContain::exitObjectInAHurry( Object *exitObj )
-{
-	removeFromContain( exitObj );
-
-	Object *me = getObject();
-
-	m_doorCloseCountdown = getOpenContainModuleData()->m_doorOpenTime;
-	if (m_doorCloseCountdown)
-	{
-		// srj sez: only diddle the doors if this countdown is nonzero. 
-		// this allows us to prevent this module from messing with the doors
-		// at all, which is required for DeliverPayloadAIUpdate.
-		/// @todo srj -- for now, OpenContain assumes at most one door
-		me->clearAndSetModelConditionState( MODELCONDITION_DOOR_1_CLOSING, MODELCONDITION_DOOR_1_OPENING );
-	}
-
-	Int numberExits = getOpenContainModuleData()->m_numberOfExitPaths;
-	if( numberExits > 0 )
-	{
-		// We have ExitStart/End specified in art to use when we kick people out.  If >1, then
-		// we have many and we need to decide which one to use.
-		AsciiString startBone("ExitStart");
-		AsciiString endBone("ExitEnd");
-		Coord3D startPosition;
-		Coord3D endPosition;
-		if( numberExits > 1 )
-		{
-			char suffix[8];
-			itoa(m_whichExitPath, suffix, 10);
-			if( m_whichExitPath < 10 )
-			{
-				startBone.concat('0');
-				endBone.concat('0');
-			}
-			
-			m_whichExitPath = (m_whichExitPath % numberExits) + 1;// To cycle from 1 to n
-
-			startBone.concat(suffix);
-			endBone.concat(suffix);
-		}
-		me->getSingleLogicalBonePosition( startBone.str(), &startPosition, NULL );
-		me->getSingleLogicalBonePosition( endBone.str(), &endPosition, NULL );
-
-		//startPosition.x = startPosition.y = 0;
-		Real exitAngle = me->getOrientation();
-		exitObj->setPosition( &startPosition );
-		exitObj->setOrientation( exitAngle );
-		
-		// Per JohnA: We need to set our layer to match our transports layer, or we'll try to pick a spot
-		// on the ground.
-		exitObj->setLayer( me->getLayer() );
-		std::vector<Coord3D> exitPath;
-		exitPath.push_back(endPosition);
-		AIUpdateInterface *ai = exitObj->getAI();
-		AIUpdateInterface *myAi = me->getAI();
-		TheAI->pathfinder()->addObjectToPathfindMap( exitObj );
-		if (ai) 
-		{
-			if (myAi && myAi->isIdle() && me->isKindOf(KINDOF_VEHICLE)) {
-				TheAI->pathfinder()->removeUnitFromPathfindMap(me);
-				TheAI->pathfinder()->updatePos(me, me->getPosition());
-				TheAI->pathfinder()->updateGoal(me, me->getPosition(), TheTerrainLogic->getLayerForDestination(me->getPosition()));
-			}
-			ai->ignoreObstacle(NULL);
-			// The units often come out at the same position, and need to ignore collisions briefly
-			// as they move out.  jba.
-			ai->setIgnoreCollisionTime(LOGICFRAMES_PER_SECOND);
-			TheAI->pathfinder()->adjustToPossibleDestination(exitObj, ai->getLocomotorSet(), &endPosition);
-		}
-		exitPath.push_back(endPosition);
-		if (m_rallyPointExists) {
-			exitPath.push_back(m_rallyPoint);
-		}
-
-		if( ai )
-		{
-			ai->doQuickExit( &exitPath );
-
-			TheAI->pathfinder()->updateGoal(exitObj, &endPosition, TheTerrainLogic->getLayerForDestination(&endPosition));
-		}
-	}
-	else
-	{
-		///< @todo This really should be automatically wrapped up in an activation sequence	for objects in general
-		// tell the AI about it
-		TheAI->pathfinder()->addObjectToPathfindMap( exitObj );
-	}
-}
+// OpenContain::exitObjectViaDoor (0x0046525F) and exitObjectInAHurry (0x004656DF) are BFME2 code
+// with a different module layout; they live in OpenContainExitObjectInAHurry.cpp.
 
 
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::isPassengerAllowedToFire present-unmatched
 Bool OpenContain::isPassengerAllowedToFire( ObjectID id ) const
 {
 //	const OpenContainModuleData *modData = getOpenContainModuleData();
@@ -1173,61 +723,22 @@ Bool OpenContain::isPassengerAllowedToFire( ObjectID id ) const
 	* to a new damage state, we will want to redeploy all our occupants to be at new fire
 	* points that are reflected in the new artwork */
 //-------------------------------------------------------------------------------------------------
-void OpenContain::monitorConditionChanges( void )
-{
-	Drawable *draw = getObject()->getDrawable();
-	Bool stateChanged = false;
-	ModelConditionFlags currCondition;
-
-	if( draw )
-	{
-		currCondition = draw->getModelConditionFlags();
-		if(currCondition != m_conditionState )
-			stateChanged = TRUE;
-	}
-
-	// on a state change we should redeploy our occupants
-	if( stateChanged )
-	{
-		// just yank all objects from the fire points and redeploy
-		redeployOccupants();
-		// record this as our current and up to date state
-		m_conditionState = currCondition;
-	}
-
-}  // end monitorConditionChanges
+// OpenContain::monitorConditionChanges: retail's body is the row at 0x00462C72
+// (OpenContainRva00462C72.cpp); this unit only declares it, so its vtable binds there.
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-void OpenContain::redeployOccupants( void )
-{
-
-	//
-	// because the state has changed, we will must give the deploy logic the opportunity
-	// to look for a new set of bones in the art ... so if we had them flagged as not
-	// having any before (for optimization reasons) we want to check at least one more
-	// time again
-	//
-	m_noFirePointsInArt = false;
-	m_firePointStart = -1;
-	m_firePointNext = 0;
-	m_firePointSize = 0;				// 0 here will cause a re-lookup in the new art
-
-	//
-	// redeploy the occupants, note that we're starting at the last occupant and going
-	// backwards to the start ... that reflects the order in which they actually went
-	// into the building since all list building constructs at the head
-	//
-	for (ContainedItemsList::const_reverse_iterator it = getContainList().rbegin(); it != getContainList().rend(); ++it)
-	{
-		putObjAtNextFirePoint( *it );
-	}
-
-}  // end redeployOccupants
+// OpenContain::redeployOccupants: retail's body is the row at 0x00464286
+// (OpenContainRva00464286.cpp); this unit only declares it, so its vtable binds there.
+// Its Zero Hour loop was the only user of these reverse-iterator compares, which are
+// rowed in this unit, so instantiate them explicitly.
+template bool std::operator==(const ContainedItemsList::const_reverse_iterator &, const ContainedItemsList::const_reverse_iterator &);
+template bool std::operator!=(const ContainedItemsList::const_reverse_iterator &, const ContainedItemsList::const_reverse_iterator &);
 
 //-------------------------------------------------------------------------------------------------
 /** Place the object at the 3D position of the next fire point to use */
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::putObjAtNextFirePoint present-unmatched
 void OpenContain::putObjAtNextFirePoint( Object *obj )
 {
 
@@ -1308,6 +819,7 @@ void OpenContain::putObjAtNextFirePoint( Object *obj )
 	when something is in the enter state, and wants=WANTS_NOTHING when the unit has
 	either entered, or given up...
 */
+// ?OpenContain::onObjectWantsToEnterOrExit present-unmatched
 void OpenContain::onObjectWantsToEnterOrExit(Object* obj, ObjectEnterExitType wants)
 {
 	if (obj == NULL)
@@ -1327,6 +839,7 @@ void OpenContain::onObjectWantsToEnterOrExit(Object* obj, ObjectEnterExitType wa
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::pruneDeadWanters present-unmatched
 void OpenContain::pruneDeadWanters()
 {
 	for (ObjectEnterExitMap::iterator it = m_objectEnterExitInfo.begin(); it != m_objectEnterExitInfo.end(); /*++it*/)
@@ -1347,6 +860,7 @@ void OpenContain::pruneDeadWanters()
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::markAllPassengersDetected present-unmatched
 void OpenContain::markAllPassengersDetected( )
 {
 	for( ContainedItemsList::iterator it = m_containList.begin(); it != m_containList.end(); )
@@ -1371,6 +885,7 @@ void OpenContain::markAllPassengersDetected( )
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::onSelling present-unmatched
 void OpenContain::onSelling()
 {
 	// An OpenContain tells everyone to leave.
@@ -1378,6 +893,7 @@ void OpenContain::onSelling()
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::orderAllPassengersToExit present-unmatched
 void OpenContain::orderAllPassengersToExit( CommandSourceType commandSource, Bool instantly )
 {
 	for( ContainedItemsList::const_iterator it = getContainedItemsList()->begin(); it != getContainedItemsList()->end(); )
@@ -1406,6 +922,7 @@ void OpenContain::orderAllPassengersToExit( CommandSourceType commandSource, Boo
 
  
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::orderAllPassengersToIdle present-unmatched
 void OpenContain::orderAllPassengersToIdle( CommandSourceType commandSource )
 {
 	for( ContainedItemsList::const_iterator it = getContainedItemsList()->begin(); it != getContainedItemsList()->end(); )
@@ -1421,6 +938,7 @@ void OpenContain::orderAllPassengersToIdle( CommandSourceType commandSource )
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::orderAllPassengersToHackInternet present-unmatched
 void OpenContain::orderAllPassengersToHackInternet( CommandSourceType commandSource )
 {
 	for( ContainedItemsList::const_iterator it = getContainedItemsList()->begin(); it != getContainedItemsList()->end(); )
@@ -1442,6 +960,7 @@ void OpenContain::orderAllPassengersToHackInternet( CommandSourceType commandSou
 
 
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::processDamageToContained present-unmatched
 void OpenContain::processDamageToContained(Real percentDamage)
 {
 	const OpenContainModuleData *data = getOpenContainModuleData();
@@ -1478,12 +997,14 @@ void OpenContain::processDamageToContained(Real percentDamage)
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::isWeaponBonusPassedToPassengers present-unmatched
 Bool OpenContain::isWeaponBonusPassedToPassengers() const
 {
 	return getOpenContainModuleData()->m_weaponBonusPassedToPassengers;
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::getWeaponBonusPassedToPassengers present-unmatched
 WeaponBonusConditionFlags OpenContain::getWeaponBonusPassedToPassengers() const
 {
 	// Our entire weapon bonus flag set is passed on.  Maybe that could be limited in the future.
@@ -1491,18 +1012,21 @@ WeaponBonusConditionFlags OpenContain::getWeaponBonusPassedToPassengers() const
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::getDamagePercentageToUnits present-unmatched
 Real OpenContain::getDamagePercentageToUnits( void ) 
 { 
 	return getOpenContainModuleData()->m_damagePercentageToUnits; 
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::isEnclosingContainerFor present-unmatched
 Bool OpenContain::isEnclosingContainerFor( const Object * ) const
 {
 	return TRUE; 
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::hasObjectsWantingToEnterOrExit present-unmatched
 Bool OpenContain::hasObjectsWantingToEnterOrExit() const
 {
 	return !m_objectEnterExitInfo.empty();
@@ -1510,6 +1034,7 @@ Bool OpenContain::hasObjectsWantingToEnterOrExit() const
 
 
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::setRallyPoint present-unmatched
 void OpenContain::setRallyPoint( const Coord3D *pos )
 {
 	m_rallyPoint = *pos;
@@ -1517,6 +1042,7 @@ void OpenContain::setRallyPoint( const Coord3D *pos )
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::getRallyPoint present-unmatched
 const Coord3D *OpenContain::getRallyPoint( void ) const
 {
 	if (m_rallyPointExists)
@@ -1526,24 +1052,7 @@ const Coord3D *OpenContain::getRallyPoint( void ) const
 }
 
 //-------------------------------------------------------------------------------------------------
-Bool OpenContain::getNaturalRallyPoint( Coord3D& rallyPoint, Bool offset )  const
-{
-	Int numberExits = getOpenContainModuleData()->m_numberOfExitPaths;
-	if( numberExits > 0 )
-	{
-		AsciiString endBone("ExitEnd");
-		if( numberExits > 1 )
-		{
-				endBone.concat("01");
-		}
-		getObject()->getSingleLogicalBonePosition( endBone.str(), &rallyPoint, NULL );
-	}
-	else
-	{
-		rallyPoint = *getObject()->getPosition();
-	}
-	return TRUE;
-}
+// OpenContain::getNaturalRallyPoint (0x0046363F) is rowed in SlaughterHordeContainIterate.cpp; a second definition here would not link.
 
 
 
@@ -1564,6 +1073,7 @@ void testForAttackingProc( Object *obj, void *userData )
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?OpenContain::isAnyRiderAttacking present-unmatched
 Bool OpenContain::isAnyRiderAttacking( void ) const
 {
   Bool wellIsHe = FALSE;
@@ -1586,6 +1096,7 @@ Bool OpenContain::isAnyRiderAttacking( void ) const
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
+// ?OpenContain::crc present-unmatched
 void OpenContain::crc( Xfer *xfer )
 {
 
@@ -1599,232 +1110,108 @@ void OpenContain::crc( Xfer *xfer )
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
-void OpenContain::xfer( Xfer *xfer )
-{
-
-	// version 
-	const XferVersion currentVersion = 2;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
-
-	// extend base class
-	UpdateModule::xfer( xfer );
-
-	// contain list data
-	ObjectID objectID;
-	if( xfer->getXferMode() == XFER_SAVE )
-	{
-
-		// contain list size
-		xfer->xferUnsignedInt( &m_containListSize );
-
-		for( ContainedItemsList::const_iterator it = m_containList.begin(); it != m_containList.end(); ++it )
-		{
-
-			objectID = (*it)->getID();
-			xfer->xferObjectID( &objectID );
-
-		}  // end for, it
-
-	}  // end if, save
-	else
-	{
-
-		// the containment list should be emtpy at this time
-		if( m_containList.empty() == FALSE )
-		{
-#if 1
-			// srj sez: yeah, it SHOULD be, but a few rogue things come into existence (via their ctor) preloaded
-			// with stuff (eg, "CabooseFullOfTerrorists"). so just nuke 'em here. sigh...
-			m_containListSize = 0;
-			for (ContainedItemsList::iterator it = m_containList.begin(); it != m_containList.end(); /*++it*/ )
-			{
-				// clear as go along, otherwise the obj will try to remove itself, munging things
-				Object* tmp = *it;
-				it = m_containList.erase(it);
-				TheGameLogic->destroyObject(tmp);
-			}
-			m_containList.clear();
-#else
-			DEBUG_CRASH(( "OpenContain::xfer - Contain list should be empty before load but is not\n" ));
-			throw SC_INVALID_DATA;
-#endif
-
-		}  // end if
-
-		// contain list size
-		xfer->xferUnsignedInt( &m_containListSize );
-
-		// read all contained items
-		for( UnsignedInt i = 0; i < m_containListSize; ++i )
-		{
-
-			// read id
-			xfer->xferObjectID( &objectID );
-
-			// put on list for later processing once objects are loaded
-			m_xferContainIDList.push_back( objectID );
-
-		}  // end for, i
-
-	}  // end else, load
-
-	// player entered mask
-	xfer->xferUser( &m_playerEnteredMask, sizeof( PlayerMaskType ) );
-
-	// last unload sound frame
-	xfer->xferUnsignedInt( &m_lastUnloadSoundFrame );
-
-	// last load sound frame
-	xfer->xferUnsignedInt( &m_lastLoadSoundFrame );
-
-	// stealth units contained
-	xfer->xferUnsignedInt( &m_stealthUnitsContained );
-
-	// door close countdown
-	xfer->xferUnsignedInt( &m_doorCloseCountdown );
-
-	// conditionstate
-	m_conditionState.xfer( xfer );
-
-	// fire points
-	xfer->xferUser( &m_firePoints, sizeof( Matrix3D ) * MAX_FIRE_POINTS );
-
-	// fire point start
-	xfer->xferInt( &m_firePointStart );
-
-	// fire point next
-	xfer->xferInt( &m_firePointNext );
-
-	// fire point size
-	xfer->xferInt( &m_firePointSize );
-
-	// no fire points in art
-	xfer->xferBool( &m_noFirePointsInArt );
-
-	// rally point
-	xfer->xferCoord3D( &m_rallyPoint );
-
-	// rally point exists
-	xfer->xferBool( &m_rallyPointExists );
-
-	// enter exit map info
-	UnsignedShort enterExitCount = m_objectEnterExitInfo.size();
-	xfer->xferUnsignedShort( &enterExitCount );
-	ObjectEnterExitType enterExitType;
-	if( xfer->getXferMode() == XFER_SAVE )
-	{
-
-		ObjectEnterExitMap::const_iterator it;
-		for( it = m_objectEnterExitInfo.begin(); it != m_objectEnterExitInfo.end(); ++it )
-		{
-
-			// object id
-			objectID = (*it).first;
-			xfer->xferObjectID( &objectID );
-
-			// enter exit type
-			enterExitType = (*it).second;
-			xfer->xferUser( &enterExitType, sizeof( ObjectEnterExitType ) );
-
-		}  // end for, it
-
-	}  // end if, save
-	else
-	{
-		
-		// the map should be emtpy now
-		if( m_objectEnterExitInfo.empty() == FALSE )
-		{
-
-			DEBUG_CRASH(( "OpenContain::xfer - m_objectEnterExitInfo should be empty, but is not\n" ));
-			throw SC_INVALID_DATA;
-
-		}  // end if
-
-		// read all data items
-		for( UnsignedShort i = 0; i < enterExitCount; ++i )
-		{
-
-			// object id
-			xfer->xferObjectID( &objectID );
-
-			// enter exit type
-			xfer->xferUser( &enterExitType, sizeof( ObjectEnterExitType ) );
-
-			// assign
-			m_objectEnterExitInfo[ objectID ] = enterExitType;
-
-		}  // end for, i
-
-	}  // end else, load
-	
-	// which exit path
-	xfer->xferInt( &m_whichExitPath );
-
-
-  if ( version >= 2 )
-  {
-    xfer->xferBool( &m_passengerAllowedToFire );
-  }
-
-
-}  // end xfer
+// OpenContain::xfer is defined by the retail-matched BFME2 body at
+// 0x00465EF1 in OpenContainXfer.cpp. The donor layout is different.
+  // end xfer
 
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
-void OpenContain::loadPostProcess( void )
+// Native 0x00463C6E..0x00463D58 restoration: owner +8, secondary
+// interface +0x20 / slot 44 returns a 16-byte mask, word 1 bit 29.
+// Lists +0x54/+0x74 and Object +0x250/+0x274 are target evidence;
+// the ZH/BFME1 loadPostProcess body supplies purpose and source provenance.
+// The enclosing walk is computed once before the restored-rider loop.
+// Slot 24's trailing zero arguments retain their unknown target meanings.
+class XferException {
+public:
+    XferException(int, const char *, ...);
+    XferException(const XferException &);
+    ~XferException();
+    char *text;
+    int tag;
+};
+template <int N> class Rva00463C6ESlots : public Rva00463C6ESlots<N - 1> {
+public: virtual void gap(char (*)[N]);
+};
+template <> class Rva00463C6ESlots<0> {};
+struct Rva00463C6EMask { unsigned int words[4]; bool test(int i) const { return (words[i / 32] >> (i % 32)) & 1; } };
+class Rva00463C6EStatus : public Rva00463C6ESlots<44> {
+public: virtual Rva00463C6EMask status(int);
+};
+class Rva00463C6EView;
+class Rva00463C6EModule : public Rva00463C6ESlots<1> {
+public: virtual Rva00463C6EView *contain() = 0;
+};
+struct Rva00463C6EObject {
+    char unknown00[0x250];
+    Rva00463C6EModule *module250;
+    char unknown254[0x274 - 0x254];
+    Object *containedBy274;
+};
+class Rva00463C6EView : public Rva00463C6ESlots<24> {
+public:
+    virtual void slot24(Object *, int, int) = 0;
+    void *moduleData;
+    Object *owner;
+    char unknown0C[0x20 - 0xC];
+    Rva00463C6EStatus status20;
+    char unknown24[0x54 - 0x24];
+    _STL::list<int> riders54;
+    char unknown58[0x74 - 0x58];
+    _STL::list<int> restoreIDs74;
+};
+void OpenContain::loadPostProcess()
 {
-	Object *us = getObject();
+    Rva00463C6EView *self = reinterpret_cast<Rva00463C6EView *>(this);
+    Object *owner = self->owner;
+    UpdateModule::loadPostProcess();
+    if (!self->riders54.empty())
+        throw XferException(5, 0);
+    bool enclosing = false;
+    Rva00463C6EView *probe = self;
+    do {
+        if (probe->status20.status(0).test(61)) {
+            enclosing = true;
+            break;
+        }
+        Object *object = probe->owner;
+        if (!object) break;
+        Object *outer = reinterpret_cast<Rva00463C6EObject *>(object)->containedBy274;
+        if (!outer) break;
+        Rva00463C6EModule *module = reinterpret_cast<Rva00463C6EObject *>(outer)->module250;
+        if (!module) break;
+        probe = module->contain();
+    } while (probe);
+    for (_STL::list<int>::iterator it = self->restoreIDs74.begin(); it != self->restoreIDs74.end(); ++it) {
+        Object *rider = TheGameLogic->findObjectByID((ObjectID)*it);
+        if (!rider) throw XferException(5, 0);
+        self->riders54.push_back(reinterpret_cast<const int &>(rider));
+        if (enclosing) self->slot24(rider, 0, 0);
+        reinterpret_cast<Rva00463C6EObject *>(rider)->containedBy274 = owner;
+    }
+    self->restoreIDs74.clear();
+}
 
-	// extend base class
-	UpdateModule::loadPostProcess();
+// Complete native entry 0x0046491E..0x00464923 forwards the unchanged
+// receiver and key reference to the verified erase at 0x004643E8 and
+// returns its unsigned count. The record/tree view is already established;
+// keep an address-derived label for the unidentified containing wrapper.
+struct Rva00463E09Record;
+typedef _STL::_Rb_tree<int, _STL::pair<int const, Rva00463E09Record>,
+	_STL::_Select1st<_STL::pair<int const, Rva00463E09Record> >,
+	_STL::less<int>, _STL::allocator<_STL::pair<int const, Rva00463E09Record> > > Rva0046491ETree;
+// Use the existing verified provider without emitting another template copy.
+namespace _STL {
+template <> unsigned int Rva0046491ETree::erase(const int &);
+}
+class Rva0046491E : public Rva0046491ETree
+{
+public:
+	unsigned int rva0046491E(const int &key);
+};
 
-	// the containment list should be emtpy at this time
-	if( m_containList.empty() == FALSE )
-	{
-
-		DEBUG_CRASH(( "OpenContain::loadPostProcess - Contain list should be empty before load but is not\n" ));
-		throw SC_INVALID_DATA;
-
-	}  // end if
-
-	// turn the contained id list into actual object pointers in the contain list
-	Object *obj;
-	std::list<ObjectID>::const_iterator idIt;
-	for( idIt = m_xferContainIDList.begin(); idIt != m_xferContainIDList.end(); ++idIt )
-	{
-
-		// find this object
-		obj = TheGameLogic->findObjectByID( *idIt );
-
-		// sanity
-		if( obj == NULL )
-		{
-
-			DEBUG_CRASH(( "OpenContain::loadPostProcess - Unable to find object to put on contain list\n" ));
-			throw SC_INVALID_DATA;
-
-		}  // end if
-
-		// put object on list
-		m_containList.push_back( obj );
-
-		// remove this object from the world if we need to
-		if( isEnclosingContainerFor( obj ) )
-			addOrRemoveObjFromWorld( obj, FALSE );
-
-		// record in the object who we are contained by
-		obj->friend_setContainedBy( us );
-
-	}  // end for, idIt
-
-	// sanity
-	DEBUG_ASSERTCRASH( m_containListSize == m_containList.size(),
-										 ("OpenContain::loadPostProcess - contain list count mismatch\n") );
-
-	// clear the list as we don't need it anymore
-	m_xferContainIDList.clear();
-
-}  // end loadPostProcess
+unsigned int Rva0046491E::rva0046491E(const int &key)
+{
+	return erase(key);
+}

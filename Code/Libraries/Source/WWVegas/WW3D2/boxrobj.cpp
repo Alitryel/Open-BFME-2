@@ -1,6 +1,25 @@
-// cl: /Ireference/shims/bfme2renderobj /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/bfme /arch:SSE /G7 /Ireference/shims/bfme2renderobj /Ireference/shims/bfmelight /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// Link view first: Vector3::Length (and Normalize/Vector3(x,y,z) in the full view) stay inline without
+// emitting /O2 copies that compete with retail's owners (0x000692B3, 0x0006924F, 0x006CD510).
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+#include "../../../../../reference/shims/bfme_vector3_lenfull_link/vector3_lenfull_link.h"
+// Link view first: Vector4(x,y,z,w) stays inline without emitting an SSE
+// copy that competes with retail's integer-move owner (0x006D8A30).
+#include "../../../../../reference/shims/bfme_matrix3d_sse_link/vector4.h"
 // Ported verbatim from the Generals Zero Hour reference
 // (Libraries/Source/WWVegas/WW3D2/boxrobj.cpp); this unit had no counterpart under Code/.
+
+// BFME 2 has no W3D memory pools (see Code/Libraries/Source/WWVegas/WWLib/always.h).
+// Link view first: Matrix3D(bool) stays inline without emitting an /O2 copy
+// that competes with retail's owner (0x0004C91A).
+#include "../../../../../reference/shims/bfme_matrix3d_bool_link/matrix3d.h"
+#include "always.h"
+#undef W3DMPO_GLUE
+#define W3DMPO_GLUE(ARGCLASS)
 #include "rendobj.h"	// the bfme2renderobj shim has to win the include guard
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -114,7 +133,7 @@
 #define NUM_BOX_FACES	12
 
 // Face Connectivity
-static TriIndex					_BoxFaces[NUM_BOX_FACES] = 
+extern "C" TriIndex					_BoxFaces[NUM_BOX_FACES] =
 {
 	TriIndex( 0,1,2 ),		// +z faces
 	TriIndex( 0,2,3 ),		
@@ -131,7 +150,7 @@ static TriIndex					_BoxFaces[NUM_BOX_FACES] =
 };
 
 // Vertex Positions as a function of the box extents
-static Vector3						_BoxVerts[NUM_BOX_VERTS] = 
+extern "C" Vector3						_BoxVerts[NUM_BOX_VERTS] =
 {
 	Vector3(  1.0f, 1.0f, 1.0f ),		// +z ring of 4 verts
 	Vector3( -1.0f, 1.0f, 1.0f ),
@@ -164,6 +183,75 @@ bool										BoxRenderObjClass::IsInitted			= false;
 int										BoxRenderObjClass::DisplayMask		= 0;
 static VertexMaterialClass *		_BoxMaterial								= NULL;
 static ShaderClass					_BoxShader;
+
+// BFME 2's dynamic vertex access takes a format index and a buffer argument
+// (render_box passes 2,5,8,0 to the matched constructor at 0x0013B040) and
+// is 24 bytes, its write lock 12; the layout follows the BfmeSortingVBAccess
+// view used by Line3DClassRender.cpp, whose members are pinned to the matched
+// bodies at 0x0013B040/0x0013A780/0x0013AA00/0x0013AB00.
+class BoxVertexBufferClass;
+
+struct BfmeSortingVBAccess {
+	const FVFInfoClass& FVFInfo;
+	unsigned Type;
+	unsigned formatIndex;
+	unsigned unused_0x0C;
+	unsigned short VertexCount;
+	unsigned short VertexBufferOffset;
+	BoxVertexBufferClass* VertexBuffer;
+
+	BfmeSortingVBAccess(unsigned type, unsigned format_index,
+		unsigned short vertex_count, unsigned buffer);
+	~BfmeSortingVBAccess();
+
+	class WriteLock {
+		BfmeSortingVBAccess* DynamicVBAccess;
+		VertexFormatXYZNDUV2* Vertices;
+		unsigned char targetDeviceGuard[4];
+
+	public:
+		WriteLock(BfmeSortingVBAccess* vb_access);
+		~WriteLock();
+		VertexFormatXYZNDUV2* Get_Formatted_Vertex_Array() { return Vertices; }
+	};
+};
+
+// The dynamic index access is the same 12-byte object as DynamicIBAccessClass,
+// but BFME 2's write lock carries a device guard at +8 (12 bytes); pinned to
+// the matched bodies at 0x00139240/0x00138BE0/0x00138CA0/0x00138D80.
+struct BfmeSortingIBAccess {
+	unsigned Type;
+	unsigned short IndexCount;
+	unsigned short IndexBufferOffset;
+	IndexBufferClass* IndexBuffer;
+
+	BfmeSortingIBAccess(unsigned short type, unsigned short index_count);
+	~BfmeSortingIBAccess();
+
+	class WriteLock {
+		BfmeSortingIBAccess* DynamicIBAccess;
+		unsigned short* Indices;
+		unsigned char targetDeviceGuard[4];
+
+	public:
+		WriteLock(BfmeSortingIBAccess* ib_access);
+		~WriteLock();
+		unsigned short* Get_Index_Array() { return Indices; }
+	};
+};
+
+// Retail binds stage 0 through a by-reference texture slot that the caller
+// releases afterwards (BFME 1 boxrobj.cpp donor).
+extern void BoxSetTexture(unsigned stage, TextureBaseClass*& texture);
+
+class BoxTextureRef {
+	TextureBaseClass* Texture;
+
+public:
+	BoxTextureRef() : Texture(NULL) {}
+	~BoxTextureRef() { if (Texture) Texture->Release_Ref(); }
+	operator TextureBaseClass*&() { return Texture; }
+};
 
 
 /*
@@ -205,16 +293,8 @@ BoxRenderObjClass::BoxRenderObjClass(void)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-BoxRenderObjClass::BoxRenderObjClass(const W3dBoxStruct & def)
-{
-	Set_Name(def.Name);
-	W3dUtilityClass::Convert_Color(def.Color,&Color);
-	W3dUtilityClass::Convert_Vector(def.Center,&ObjSpaceCenter);
-	W3dUtilityClass::Convert_Vector(def.Extent,&ObjSpaceExtent);
-	int col_bits = (def.Attributes & W3D_BOX_ATTRIBUTE_COLLISION_TYPE_MASK) >> W3D_BOX_ATTRIBUTE_COLLISION_TYPE_SHIFT;
-	Set_Collision_Type(col_bits<<1);
-	Opacity = 0.25f;
-}
+// BoxRenderObjClass(const W3dBoxStruct&): BFME 2's body is the row 0x00175A40 in BoxRenderObjClassCtor.cpp;
+// Zero Hour's copy here duplicated it.
 
 
 /***********************************************************************************************
@@ -272,6 +352,7 @@ BoxRenderObjClass & BoxRenderObjClass::operator = (const BoxRenderObjClass & tha
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?BoxRenderObjClass::Get_Num_Polys present-unmatched
 int BoxRenderObjClass::Get_Num_Polys(void) const
 {
 	return 12;
@@ -308,12 +389,7 @@ const char * BoxRenderObjClass::Get_Name(void) const
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-void BoxRenderObjClass::Set_Name(const char * name)
-{
-	WWASSERT(name != NULL);
-	WWASSERT(strlen(name) < 2*W3D_NAME_LEN);
-	strcpy(Name,name);
-}
+// BoxRenderObjClass::Set_Name: defined in BoxRenderObjClassCtor.cpp (its row's unit).
 
 
 /***********************************************************************************************
@@ -348,26 +424,7 @@ void BoxRenderObjClass::Set_Color(const Vector3 & color)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-void BoxRenderObjClass::Init(void)
-{
-	WWASSERT(IsInitted == false);
-
-	/*
-	** Set up the materials
-	*/
-	WWASSERT(_BoxMaterial == NULL);
-	_BoxMaterial = NEW_REF(VertexMaterialClass,());
-	_BoxMaterial->Set_Ambient(0,0,0);
-	_BoxMaterial->Set_Diffuse(0,0,0);
-	_BoxMaterial->Set_Specular(0,0,0);
-	_BoxMaterial->Set_Emissive(1,1,1);
-	_BoxMaterial->Set_Opacity(1.0f);		// uses vertex alpha...
-	_BoxMaterial->Set_Shininess(0.0f);
-
-	_BoxShader = ShaderClass::_PresetAlphaSolidShader; //_PresetAdditiveSolidShader;
-
-	IsInitted = true;
-}
+// BoxRenderObjClass::Init: defined in BoxRenderObjInit.cpp (its row's unit).
 
 
 /***********************************************************************************************
@@ -385,13 +442,7 @@ void BoxRenderObjClass::Init(void)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-void BoxRenderObjClass::Shutdown(void)
-{
-	WWASSERT(IsInitted == true);
-	REF_PTR_RELEASE(_BoxMaterial);
-	
-	IsInitted = false;
-}
+// BoxRenderObjClass::Shutdown: defined in BoxRenderObjInit.cpp (its row's unit).
 
 
 /***********************************************************************************************
@@ -433,6 +484,82 @@ int BoxRenderObjClass::Get_Box_Display_Mask(void)
 }
 
 
+// TU-local copy of dx8wrapper.h's Convert_Color(const Vector3&,float), which retail's
+// render_box inlines. Calling the header member would emit this /O2 unit's COMDAT copy of it,
+// which comes first in link order and is not retail's body (that is the /O1 copy
+// DX8ConvertColorVector3O1.cpp compiles, 0x0006E1C0); the bfmelight header only declares it.
+struct BfmeBoxColorOps {
+ static __forceinline unsigned int Convert_Color(const Vector3& color,float alpha)
+{
+	const float scale = 255.0;
+	unsigned int col=0;
+
+	// Multiply r, g, b and a components (0.0,...,1.0) by 255 and convert to integer. Or the integer values togerher
+	// such that 32 bit ingeger has AAAAAAAARRRRRRRRGGGGGGGGBBBBBBBB.
+	__asm
+	{
+		sub	esp,20					// space for a, r, g and b float plus fpu rounding mode
+
+		// Store the fpu rounding mode
+
+		fwait
+		fstcw		[esp+16]				// store control word to stack
+		mov		eax,[esp+16]		// load it to eax
+		mov		edi,eax				// take copy
+		and		eax,~(1024|2048)	// mask out certain bits
+		or			eax,(1024|2048)	// or with precision control value "truncate"
+		sub		edi,eax				// did it change?
+		jz			skip					// .. if not, skip
+		mov		[esp],eax			// .. change control word
+		fldcw		[esp]
+skip:
+
+		// Convert the color
+
+		mov	esi,dword ptr color
+		fld	dword ptr[scale]
+
+		fld	dword ptr[esi]			// r
+		fld	dword ptr[esi+4]		// g
+		fld	dword ptr[esi+8]		// b
+		fld	dword ptr[alpha]		// a
+		fld	st(4)
+		fmul	st(4),st
+		fmul	st(3),st
+		fmul	st(2),st
+		fmulp	st(1),st
+		fistp	dword ptr[esp+0]		// a
+		fistp	dword ptr[esp+4]		// b
+		fistp	dword ptr[esp+8]		// g
+		fistp	dword ptr[esp+12]		// r
+		mov	ecx,[esp]				// a
+		mov	eax,[esp+4]				// b
+		mov	edx,[esp+8]				// g
+		mov	ebx,[esp+12]			// r
+		shl	ecx,24					// a << 24
+		shl	ebx,16					// r << 16
+		shl	edx,8						//	g << 8
+		or		eax,ecx					// (a << 24) | b
+		or		eax,ebx					// (a << 24) | (r << 16) | b
+		or		eax,edx					// (a << 24) | (r << 16) | (g << 8) | b
+
+		fstp	st(0)
+
+		// Restore fpu rounding mode
+
+		cmp	edi,0					// did we change the value?
+		je		not_changed			// nope... skip now...
+		fwait
+		fldcw	[esp+16];
+not_changed:
+		add	esp,20
+
+		mov	col,eax
+	}
+	return col;
+}
+};
+
 /***********************************************************************************************
  * BoxRenderObjClass::render_box -- submits the box to the GERD                                *
  *                                                                                             *
@@ -462,13 +589,13 @@ void BoxRenderObjClass::render_box(RenderInfoClass & rinfo,const Vector3 & cente
 		/*
 		** Dump the box vertices into the sorting dynamic vertex buffer. 
 		*/
-		DWORD color = DX8Wrapper::Convert_Color(Color,Opacity);
+		DWORD color = BfmeBoxColorOps::Convert_Color(Color,Opacity);
 		
 		int buffer_type = BUFFER_TYPE_DYNAMIC_DX8;
 
-		DynamicVBAccessClass vbaccess(buffer_type,dynamic_fvf_type,NUM_BOX_VERTS);
+		BfmeSortingVBAccess vbaccess(buffer_type,5,NUM_BOX_VERTS,0);
 		{
-			DynamicVBAccessClass::WriteLockClass lock(&vbaccess);
+			BfmeSortingVBAccess::WriteLock lock(&vbaccess);
 			//unsigned char *vb=(unsigned char *) lock.Get_Vertex_Array();
 			VertexFormatXYZNDUV2* vb=lock.Get_Formatted_Vertex_Array();
 
@@ -494,9 +621,9 @@ void BoxRenderObjClass::render_box(RenderInfoClass & rinfo,const Vector3 & cente
 		/*
 		** Dump the faces into the sorting dynamic index buffer.
 		*/
-		DynamicIBAccessClass ibaccess(buffer_type,NUM_BOX_FACES*3);
+		BfmeSortingIBAccess ibaccess(buffer_type,NUM_BOX_FACES*3);
 		{
-			DynamicIBAccessClass::WriteLockClass lock(&ibaccess);
+			BfmeSortingIBAccess::WriteLock lock(&ibaccess);
 			unsigned short * indices = lock.Get_Index_Array();
 			for (int i=0; i<NUM_BOX_FACES; i++) {
 				indices[3*i] = _BoxFaces[i][0];
@@ -510,10 +637,13 @@ void BoxRenderObjClass::render_box(RenderInfoClass & rinfo,const Vector3 & cente
 		*/
 		DX8Wrapper::Set_Material(_BoxMaterial);
 		DX8Wrapper::Set_Shader(_BoxShader);
-		DX8Wrapper::Set_Texture(0,NULL);
+		{
+			BoxTextureRef texture;
+			BoxSetTexture(0,texture);
+		}
 		
-		DX8Wrapper::Set_Index_Buffer(ibaccess,0);
-		DX8Wrapper::Set_Vertex_Buffer(vbaccess);
+		DX8Wrapper::Set_Index_Buffer(*reinterpret_cast<DynamicIBAccessClass *>(&ibaccess),0);
+		DX8Wrapper::Set_Vertex_Buffer(*reinterpret_cast<DynamicVBAccessClass *>(&vbaccess));
 
 		SphereClass sphere;
 		Get_Obj_Space_Bounding_Sphere(sphere); 
@@ -537,22 +667,8 @@ void BoxRenderObjClass::render_box(RenderInfoClass & rinfo,const Vector3 & cente
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-void BoxRenderObjClass::vis_render_box(SpecialRenderInfoClass & rinfo,const Vector3 & center,const Vector3 & extent)
-{
-	if (!IsInitted) return;
-	
-	static Vector3 verts[NUM_BOX_VERTS];
+// Visibility rendering is defined beside the mesh visibility path in mesh.cpp.
 
-	// compute the vertex positions
-	for (int ivert=0; ivert<NUM_BOX_VERTS; ivert++) {
-		verts[ivert].X = center.X + _BoxVerts[ivert][0] * extent.X;
-		verts[ivert].Y = center.Y + _BoxVerts[ivert][1] * extent.Y;
-		verts[ivert].Z = center.Z + _BoxVerts[ivert][2] * extent.Z;
-	}
-
-	// render!
-	rinfo.VisRasterizer->Render_Triangles(verts,NUM_BOX_VERTS,_BoxFaces,NUM_BOX_FACES,Get_Bounding_Box());
-}
 
 /*
 ** AABoxRenderObjClass Implementation
@@ -570,10 +686,8 @@ void BoxRenderObjClass::vis_render_box(SpecialRenderInfoClass & rinfo,const Vect
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-AABoxRenderObjClass::AABoxRenderObjClass(void)
-{
-	update_cached_box();
-}
+// AABoxRenderObjClass(): BFME 2's body is the row 0x00175BB0 in AABoxRenderObjDefaultCtor.cpp;
+// Zero Hour's copy here duplicated it.
 
 
 /***********************************************************************************************
@@ -588,11 +702,8 @@ AABoxRenderObjClass::AABoxRenderObjClass(void)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-AABoxRenderObjClass::AABoxRenderObjClass(const W3dBoxStruct & def) :
-	BoxRenderObjClass(def)
-{
-	update_cached_box();
-}
+// AABoxRenderObjClass(const W3dBoxStruct&): BFME 2's body is the row 0x00175C40 in AABoxRenderObjFromDef.cpp;
+// Zero Hour's copy here duplicated it.
 
 
 /***********************************************************************************************
@@ -625,13 +736,8 @@ AABoxRenderObjClass::AABoxRenderObjClass(const AABoxRenderObjClass & src)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-AABoxRenderObjClass::AABoxRenderObjClass(const AABoxClass & box)
-{
-	ObjSpaceCenter.Set(0,0,0);
-	ObjSpaceExtent.Set(box.Extent);
-	Set_Position(box.Center);
-	update_cached_box();
-}
+// AABoxRenderObjClass(const AABoxClass&): BFME 2's body is the row 0x00175CD0 in AABoxRenderObjFromAABox.cpp;
+// Zero Hour's copy here duplicated it.
 
 
 /***********************************************************************************************
@@ -668,10 +774,7 @@ AABoxRenderObjClass & AABoxRenderObjClass::operator = (const AABoxRenderObjClass
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-RenderObjClass * AABoxRenderObjClass::Clone(void) const
-{
-	return W3DNEW AABoxRenderObjClass(*this);
-}
+// AABoxRenderObjClass::Clone: defined in AABoxRenderObjClone.cpp (its row's unit).
 
 
 /***********************************************************************************************
@@ -686,11 +789,25 @@ RenderObjClass * AABoxRenderObjClass::Clone(void) const
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?AABoxRenderObjClass::Class_ID present-unmatched
 int AABoxRenderObjClass::Class_ID(void) const
 {
 	return RenderObjClass::CLASSID_AABOX;
 }
 
+
+// Retail's Render adds the translation with the second and third products
+// parenthesized (each parenthesized float term is a paren node in c2's IL, so
+// the identity's 1.0 in rows 1 and 2 is folded only after the row sums are
+// reassociated): rows group as (y*0+z*0)+x, (y+x*0)+z*0, (z+x*0)+y*0, which
+// Matrix3D::Translate does not give. Evidence:
+// reverse/attempt_support/fp-paren-nodes-20261020.md.
+static inline void aaboxTranslate(Matrix3D &matrix3D, const Vector3 &t)
+{
+	matrix3D[0][3] += matrix3D[0][0]*t[0] + (matrix3D[0][1]*t[1]) + (matrix3D[0][2]*t[2]);
+	matrix3D[1][3] += matrix3D[1][0]*t[0] + (matrix3D[1][1]*t[1]) + (matrix3D[1][2]*t[2]);
+	matrix3D[2][3] += matrix3D[2][0]*t[0] + (matrix3D[2][1]*t[1]) + (matrix3D[2][2]*t[2]);
+}
 
 /***********************************************************************************************
  * AABoxRenderObjClass::Render -- render this box                                              *
@@ -704,10 +821,16 @@ int AABoxRenderObjClass::Class_ID(void) const
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?AABoxRenderObjClass::Render present-unmatched
 void AABoxRenderObjClass::Render(RenderInfoClass & rinfo)
 {
-	Matrix3D temp(1);
-	temp.Translate(Transform.Get_Translation());
+	Vector3 translation;
+	translation.X = Transform.Get_X_Translation();
+	translation.Y = Transform.Get_Y_Translation();
+	translation.Z = Transform.Get_Z_Translation();
+	Matrix3D temp;
+	temp.Make_Identity();
+	aaboxTranslate(temp, translation);
 	DX8Wrapper::Set_Transform(D3DTS_WORLD,temp);
 	render_box(rinfo,ObjSpaceCenter,ObjSpaceExtent);
 }
@@ -725,16 +848,8 @@ void AABoxRenderObjClass::Render(RenderInfoClass & rinfo)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-void AABoxRenderObjClass::Special_Render(SpecialRenderInfoClass & rinfo)
-{
-	if (rinfo.RenderType == SpecialRenderInfoClass::RENDER_VIS) {
-		WWASSERT(rinfo.VisRasterizer != NULL);
-		Matrix3D temp(1);
-		temp.Translate(Transform.Get_Translation());
-		rinfo.VisRasterizer->Set_Model_Transform(temp);
-		vis_render_box(rinfo,ObjSpaceCenter,ObjSpaceExtent);
-	}
-}
+// Visibility rendering is defined beside the mesh visibility path in mesh.cpp.
+
 
 
 /***********************************************************************************************
@@ -749,9 +864,9 @@ void AABoxRenderObjClass::Special_Render(SpecialRenderInfoClass & rinfo)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-void AABoxRenderObjClass::Set_Transform(const Matrix3D &m)
+void AABoxRenderObjClass::Set_Transform(const Matrix3D &matrix3D)
 {
-	RenderObjClass::Set_Transform(m);
+	RenderObjClass::Set_Transform(matrix3D);
 	update_cached_box();
 }
 
@@ -768,7 +883,7 @@ void AABoxRenderObjClass::Set_Transform(const Matrix3D &m)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-void AABoxRenderObjClass::Set_Position(const Vector3 &v)
+inline void AABoxRenderObjClass::Set_Position(const Vector3 &v)
 {
 	RenderObjClass::Set_Position(v);
 	update_cached_box();
@@ -787,11 +902,7 @@ void AABoxRenderObjClass::Set_Position(const Vector3 &v)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-void AABoxRenderObjClass::update_cached_box(void)
-{
-	CachedBox.Center = Transform.Get_Translation() + ObjSpaceCenter;
-	CachedBox.Extent = ObjSpaceExtent;
-}
+// AABoxRenderObjClass::update_cached_box: defined in AABoxUpdateCachedBox.cpp (its row's unit).
 
 
 /***********************************************************************************************
@@ -832,6 +943,7 @@ bool AABoxRenderObjClass::Cast_Ray(RayCollisionTestClass & raytest)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?AABoxRenderObjClass::Cast_AABox present-unmatched
 bool AABoxRenderObjClass::Cast_AABox(AABoxCollisionTestClass & boxtest)
 {
 	if ((Get_Collision_Type() & boxtest.CollisionType) == 0) return false;
@@ -857,6 +969,7 @@ bool AABoxRenderObjClass::Cast_AABox(AABoxCollisionTestClass & boxtest)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?AABoxRenderObjClass::Cast_OBBox present-unmatched
 bool AABoxRenderObjClass::Cast_OBBox(OBBoxCollisionTestClass & boxtest)
 {
 	if ((Get_Collision_Type() & boxtest.CollisionType) == 0) return false;
@@ -882,6 +995,7 @@ bool AABoxRenderObjClass::Cast_OBBox(OBBoxCollisionTestClass & boxtest)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?AABoxRenderObjClass::Intersect_AABox present-unmatched
 bool AABoxRenderObjClass::Intersect_AABox(AABoxIntersectionTestClass & boxtest)
 {
 	if ((Get_Collision_Type() & boxtest.CollisionType) == 0) return false;
@@ -901,6 +1015,7 @@ bool AABoxRenderObjClass::Intersect_AABox(AABoxIntersectionTestClass & boxtest)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?AABoxRenderObjClass::Intersect_OBBox present-unmatched
 bool AABoxRenderObjClass::Intersect_OBBox(OBBoxIntersectionTestClass & boxtest)
 {
 	if ((Get_Collision_Type() & boxtest.CollisionType) == 0) return false;
@@ -920,10 +1035,7 @@ bool AABoxRenderObjClass::Intersect_OBBox(OBBoxIntersectionTestClass & boxtest)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-void AABoxRenderObjClass::Get_Obj_Space_Bounding_Sphere(SphereClass & sphere) const
-{
-	sphere.Init(ObjSpaceCenter,ObjSpaceExtent.Length());
-}
+// AABoxRenderObjClass::Get_Obj_Space_Bounding_Sphere: defined in AABoxBoundingSphere.cpp (its row's unit).
 
 
 /***********************************************************************************************
@@ -1011,13 +1123,8 @@ OBBoxRenderObjClass::OBBoxRenderObjClass(const OBBoxRenderObjClass & that)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-OBBoxRenderObjClass::OBBoxRenderObjClass(const OBBoxClass & box)
-{
-	ObjSpaceCenter.Set(Vector3(0,0,0));
-	ObjSpaceExtent.Set(box.Extent);
-	Set_Transform(Matrix3D(box.Basis,box.Center));
-	update_cached_box(); // cached box should == box!
-}
+// OBBoxRenderObjClass(const OBBoxClass&): BFME 2's body is the row 0x00176000 in OBBoxRenderObjFromOBBox.cpp;
+// Zero Hour's copy here duplicated it.
 
 
 /***********************************************************************************************
@@ -1054,10 +1161,7 @@ OBBoxRenderObjClass & OBBoxRenderObjClass::operator = (const OBBoxRenderObjClass
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-RenderObjClass * OBBoxRenderObjClass::Clone(void) const
-{
-	return W3DNEW OBBoxRenderObjClass(*this);
-}
+// OBBoxRenderObjClass::Clone: defined in OBBoxRenderObjClone.cpp (its row's unit).
 
 
 /***********************************************************************************************
@@ -1072,6 +1176,7 @@ RenderObjClass * OBBoxRenderObjClass::Clone(void) const
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?OBBoxRenderObjClass::Class_ID present-unmatched
 int OBBoxRenderObjClass::Class_ID(void) const
 {
 	return RenderObjClass::CLASSID_OBBOX;
@@ -1109,14 +1214,8 @@ void OBBoxRenderObjClass::Render(RenderInfoClass & rinfo)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-void OBBoxRenderObjClass::Special_Render(SpecialRenderInfoClass & rinfo)
-{
-	if (rinfo.RenderType == SpecialRenderInfoClass::RENDER_VIS) {
-		WWASSERT(rinfo.VisRasterizer != NULL);
-		rinfo.VisRasterizer->Set_Model_Transform(Transform);
-		vis_render_box(rinfo,ObjSpaceCenter,ObjSpaceExtent);
-	}
-}
+// Visibility rendering is defined beside the mesh visibility path in mesh.cpp.
+
 
 
 /***********************************************************************************************
@@ -1131,9 +1230,10 @@ void OBBoxRenderObjClass::Special_Render(SpecialRenderInfoClass & rinfo)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-void OBBoxRenderObjClass::Set_Transform(const Matrix3D &m)
+// ?OBBoxRenderObjClass::Set_Transform present-unmatched
+inline void OBBoxRenderObjClass::Set_Transform(const Matrix3D &matrix3D)
 {
-	RenderObjClass::Set_Transform(m);
+	RenderObjClass::Set_Transform(matrix3D);
 	update_cached_box();
 }
 
@@ -1150,11 +1250,24 @@ void OBBoxRenderObjClass::Set_Transform(const Matrix3D &m)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?OBBoxRenderObjClass::Set_Position present-unmatched
 void OBBoxRenderObjClass::Set_Position(const Vector3 &v)
 {
 	RenderObjClass::Set_Position(v);
 	update_cached_box();
 }
+
+
+// Set_Position is a header inline in its copier units; the anchor retains this
+// unit's row copy and is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeAABoxRenderObjSetPositionInlineAnchor@@YAXXZ absent-from-retail
+void _bfmeAABoxRenderObjSetPositionInlineAnchor()
+{
+	static_cast<AABoxRenderObjClass *>(0)->AABoxRenderObjClass::Set_Position(
+		*static_cast<const Vector3 *>(0));
+}
+#pragma inline_depth()
 
 
 /***********************************************************************************************
@@ -1169,12 +1282,7 @@ void OBBoxRenderObjClass::Set_Position(const Vector3 &v)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-void OBBoxRenderObjClass::update_cached_box(void)
-{
-	Matrix3D::Transform_Vector(Transform,ObjSpaceCenter,&CachedBox.Center);
-	CachedBox.Extent.Set(ObjSpaceExtent);
-	CachedBox.Basis.Set(Transform);
-}
+// OBBoxRenderObjClass::update_cached_box: defined in OBBoxUpdateCachedBox.cpp (its row's unit).
 
 
 /***********************************************************************************************
@@ -1215,6 +1323,7 @@ bool OBBoxRenderObjClass::Cast_Ray(RayCollisionTestClass & raytest)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?OBBoxRenderObjClass::Cast_AABox present-unmatched
 bool OBBoxRenderObjClass::Cast_AABox(AABoxCollisionTestClass & boxtest)
 {
 	if ((Get_Collision_Type() & boxtest.CollisionType) == 0) return false;
@@ -1240,6 +1349,7 @@ bool OBBoxRenderObjClass::Cast_AABox(AABoxCollisionTestClass & boxtest)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?OBBoxRenderObjClass::Cast_OBBox present-unmatched
 bool OBBoxRenderObjClass::Cast_OBBox(OBBoxCollisionTestClass & boxtest)
 {
 	if ((Get_Collision_Type() & boxtest.CollisionType) == 0) return false;
@@ -1265,6 +1375,7 @@ bool OBBoxRenderObjClass::Cast_OBBox(OBBoxCollisionTestClass & boxtest)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?OBBoxRenderObjClass::Intersect_AABox present-unmatched
 bool OBBoxRenderObjClass::Intersect_AABox(AABoxIntersectionTestClass & boxtest)
 {
 	if ((Get_Collision_Type() & boxtest.CollisionType) == 0) return false;
@@ -1284,6 +1395,7 @@ bool OBBoxRenderObjClass::Intersect_AABox(AABoxIntersectionTestClass & boxtest)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?OBBoxRenderObjClass::Intersect_OBBox present-unmatched
 bool OBBoxRenderObjClass::Intersect_OBBox(OBBoxIntersectionTestClass & boxtest)
 {
 	if ((Get_Collision_Type() & boxtest.CollisionType) == 0) return false;
@@ -1303,6 +1415,7 @@ bool OBBoxRenderObjClass::Intersect_OBBox(OBBoxIntersectionTestClass & boxtest)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?OBBoxRenderObjClass::Get_Obj_Space_Bounding_Sphere present-unmatched
 void OBBoxRenderObjClass::Get_Obj_Space_Bounding_Sphere(SphereClass & sphere) const
 {
 	sphere.Init(ObjSpaceCenter,ObjSpaceExtent.Length());
@@ -1321,6 +1434,7 @@ void OBBoxRenderObjClass::Get_Obj_Space_Bounding_Sphere(SphereClass & sphere) co
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?OBBoxRenderObjClass::Get_Obj_Space_Bounding_Box present-unmatched
 void OBBoxRenderObjClass::Get_Obj_Space_Bounding_Box(AABoxClass & box) const
 {
 	box.Init(ObjSpaceCenter,ObjSpaceExtent);
@@ -1349,6 +1463,7 @@ OBBoxClass & OBBoxRenderObjClass::Get_Box(void)
 /*
 ** BoxLoaderClass Implementation
 */
+// ?BoxLoaderClass::Load_W3D present-unmatched
 PrototypeClass * BoxLoaderClass::Load_W3D(ChunkLoadClass & cload)
 {
 	W3dBoxStruct box;
@@ -1359,16 +1474,19 @@ PrototypeClass * BoxLoaderClass::Load_W3D(ChunkLoadClass & cload)
 /*
 ** BoxPrototypeClass Implementation
 */
+// ?BoxPrototypeClass::BoxPrototypeClass present-unmatched
 BoxPrototypeClass::BoxPrototypeClass(W3dBoxStruct box)
 {
 	Definition = box;
 }
 
+// ?BoxPrototypeClass::Get_Name present-unmatched
 const char * BoxPrototypeClass::Get_Name(void) const
 {
 	return Definition.Name;
 }
 
+// ?BoxPrototypeClass::Get_Class_ID present-unmatched
 int BoxPrototypeClass::Get_Class_ID(void) const
 {
 	if (Definition.Attributes & W3D_BOX_ATTRIBUTE_ORIENTED) {
@@ -1378,6 +1496,7 @@ int BoxPrototypeClass::Get_Class_ID(void) const
 	}
 }
 	
+// ?BoxPrototypeClass::Create present-unmatched
 RenderObjClass * BoxPrototypeClass::Create(void)
 {
 	if (Definition.Attributes & W3D_BOX_ATTRIBUTE_ORIENTED) {
@@ -1391,4 +1510,3 @@ RenderObjClass * BoxPrototypeClass::Create(void)
 ** Global instance of the box loader
 */
 BoxLoaderClass _BoxLoader;
-

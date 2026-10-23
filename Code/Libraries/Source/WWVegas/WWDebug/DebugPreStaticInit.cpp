@@ -10,7 +10,17 @@
 // count at +0x9C7C before returning the pointer kept in theDebug
 // (0x00DE0880).
 
-#include <new>      // placement new, as the debug library uses it
+// Keep the standard placement operations visible for construction and unwind,
+// while suppressing the unused competing external placement-new copy.
+#define __PLACEMENT_NEW_INLINE
+#include <new>
+__declspec(dllimport) __forceinline void *__cdecl operator new(size_t, void *memory) throw()
+{
+	return memory;
+}
+inline void __cdecl operator delete(void *, void *) throw()
+{
+}
 
 void *DebugAllocMemory(size_t numBytes);
 
@@ -29,6 +39,7 @@ private:
 	unsigned char m_pad9C80[0x9F68 - 0x9C80];
 };
 
+// theDebug: retail .bss 0x00DE0880, the one definition (the other units declare it extern).
 Debug *theDebug;
 
 // ?PreStaticInit@Debug@@CAPAV1@XZ

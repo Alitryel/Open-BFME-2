@@ -1,4 +1,4 @@
-// cl: /O2 /EHsc /MD /D_STLP_USE_STATIC_LIB
+// cl: /EHsc /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // STLport 4.5.3 integer writer. The upstream __write_integer_backward body
@@ -48,8 +48,12 @@ struct __integer_is_signed<unsigned long>
 
 typedef unsigned __int64 __umax_int_t;
 
-extern const char __hex_char_table_lo[];
-extern const char __hex_char_table_hi[];
+// STLport's numeric-output tables: entries 0..15 are digits and entry 16
+// supplies the showbase prefix. The matched 32-bit and 64-bit writers all
+// resolve these references to BFME2 VA 0x00BBC8FC and 0x00BBC910; the two
+// strings, including their terminators, match those retail .rdata bytes.
+extern const char __hex_char_table_lo[] = "0123456789abcdefx";
+extern const char __hex_char_table_hi[] = "0123456789ABCDEFX";
 
 template <class Integer>
 char *__cdecl __write_decimal_backward(

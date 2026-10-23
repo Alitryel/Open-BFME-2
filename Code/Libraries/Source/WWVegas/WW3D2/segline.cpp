@@ -1,4 +1,23 @@
 // cl: /Ireference/shims/bfmerendobj /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// Link view first: Vector3 Length/Normalize/ctor and the scalar operator* stay inline without emitting
+// /O2 copies that compete with retail's owners (0x000692B3, 0x0006924F, 0x006CD510, 0x00066382, 0x0007DFB3).
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+#include "../../../../../reference/shims/bfme_vector3_full_link/vector3_full_link.h"
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -35,7 +54,7 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-#include "../../../../../reference/shims/bfmesegline/rendobj.h" // scoped retail collision slots
+#include "../../../../../reference/shims/bfme2renderobj/rendobj.h"
 #include "segline.h"
 #include "ww3d.h"
 #include "rinfo.h"
@@ -49,6 +68,11 @@
 #include "vp.h"
 #include "vector3i.h"
 #include "sortingrenderer.h"
+// bfme link decl-only begin
+template <> bool SimpleDynVecClass<Vector3>::Add(Vector3 const &, int);
+template <> bool SimpleDynVecClass<Vector3>::Resize(int);
+template <> bool SimpleVecClass<Vector3>::Uninitialised_Grow(int);
+// bfme link decl-only end
 
 static SegLineRendererClass _LineRenderer;
 
@@ -59,6 +83,21 @@ static SegLineRendererClass _LineRenderer;
 void __cdecl operator delete(void *) throw();
 void __cdecl operator delete[](void *) throw();
 
+// Keep SimpleVec operations inline; their out-of-line owners use the retail size-built copies.
+
+template <> __declspec(dllimport) __forceinline
+SimpleVecClass<Vector3>::SimpleVecClass(int size) : Vector(NULL), VectorMax(0) {
+    if (size > 0) Resize(size);
+}
+
+template <> __declspec(dllimport) __forceinline
+SimpleDynVecClass<Vector3>::SimpleDynVecClass(int size) : SimpleVecClass<Vector3>(size), ActiveCount(0) {}
+
+template <> __declspec(dllimport) __forceinline
+bool SimpleDynVecClass<Vector3>::Shrink() {
+    if (ActiveCount < VectorMax / 4) return Resize(ActiveCount);
+    return true;
+}
 
 /*
 ** SegmentedLineClass implementation:

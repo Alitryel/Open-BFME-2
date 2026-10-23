@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 
 // The BFME1 GameWindowFields.cpp donor assigns m_tooltip and returns OK.
 // Retail at 0x0031416D confirms the field at +0x1EC and this 15B setter.
@@ -21,8 +21,13 @@ private:
 	GameWinTooltipFunc m_tooltip;
 };
 
-int GameWindow::winSetTooltipFunc(GameWinTooltipFunc tooltip)
+// Select-any: GameWindow.cpp keeps a class-inline copy of the same setter.
+__declspec(noinline) inline int GameWindow::winSetTooltipFunc(GameWinTooltipFunc tooltip)
 {
 	m_tooltip = tooltip;
 	return 0;
 }
+
+// The anchor keeps the rowed body emitted.
+// ?bfmeAnchorWinSetTooltipFunc@@YAXPAVGameWindow@@@Z absent-from-retail
+void bfmeAnchorWinSetTooltipFunc(GameWindow *gameWindow) { gameWindow->winSetTooltipFunc(0); }

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /arch:SSE
+// cl: /DNDEBUG /MD
 //
 // ??0GateOpenAndCloseBehavior@@QAE@PAVThing@@PBVModuleData@@@Z,
 // retail 0x0049889C, 200 bytes.
@@ -14,7 +14,7 @@
 // or-minus-one); their immediates are the retail-measured secondary slots.
 // The new behavior registers itself into the global gate list at
 // [0xDFEEF8]+0x940 through the rowed appendOnce helper; the list owner itself
-// is unidentified so the access is a documented absolute. Row supersedes the
+// is unidentified, so it is reached through its data-ledger name TheSkirmishAIManager. Row supersedes the
 // same-name pin; the instance factory (0x24E28B, news 0x4C) stays green via
 // the row, as does the appendOnce home TU.
 //
@@ -24,6 +24,18 @@
 // call hoists on its own. /arch:SSE is load-bearing for the movss pair (the
 // /O1 default emits an integer mov); the appendOnce home TU keeps its own
 // flags in a separate shard (same-class-in-2-TUs precedent).
+
+extern "C" const void *const vtbl_00C50178[];  // ??_7GateOpenAndCloseBehavior@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C50178=??_7GateOpenAndCloseBehavior@@6B@")
+
+extern "C" const void *const vtbl_00C50144[];  // ??_7GateOpenAndCloseBehavior@@6BBehaviorModule@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C50144=??_7GateOpenAndCloseBehavior@@6BBehaviorModule@@@")
+
+extern "C" const void *const vtbl_00C50138[];  // ??_7GateOpenAndCloseBehavior@@6BUpdateModuleInterface@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C50138=??_7GateOpenAndCloseBehavior@@6BUpdateModuleInterface@@@")
+
+extern "C" const void *const vtbl_00BEF248[];  // ??_7GateProxyBehavior@@6BProxyBaseC@@@
+#pragma comment(linker, "/alternatename:_vtbl_00BEF248=??_7GateProxyBehavior@@6BProxyBaseC@@@")
 
 class Thing;
 class ModuleData;
@@ -97,14 +109,13 @@ private:
 	void **m_end;
 };
 
-struct GameLogicFrameLocal
-{
-	char m_pad[0x40];
-	int m_gateObject; // +0x40
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
+extern GameLogic *TheGameLogic;
 
-#define TheGameLogic (*(GameLogicFrameLocal *const *)0x00DFE78C)
-#define GateListOwnerBlock (*(void *const *)0x00DFEEF8)
+// The list owner at 0x00DFEEF8 (data ledger name TheSkirmishAIManager); its class is
+// unidentified, so the +0x940 list is reached by offset.
+class Rva002A8F24;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class GateOpenAndCloseBehavior : public GatePrimary, public UpdateModule
 {
@@ -128,19 +139,19 @@ GateOpenAndCloseBehavior::GateOpenAndCloseBehavior(Thing *thing, const ModuleDat
 {
 	m_40 |= -1;
 	const GateOpenAndCloseModuleData *data = *(const GateOpenAndCloseModuleData **)((char *)this + 8);
-	*(unsigned int *)this = 0x00C50178;
-	*(unsigned int *)((char *)this + 4) = 0x00C50144;
-	*(unsigned int *)((char *)this + 0x10) = 0x00BEF248;
-	*(unsigned int *)((char *)this + 0x14) = 0x00C50138;
+	*(unsigned int *)this = ((unsigned int)vtbl_00C50178);
+	*(unsigned int *)((char *)this + 4) = ((unsigned int)vtbl_00C50144);
+	*(unsigned int *)((char *)this + 0x10) = ((unsigned int)vtbl_00BEF248);
+	*(unsigned int *)((char *)this + 0x14) = ((unsigned int)vtbl_00C50138);
 	m_44 = 1;
 	m_48 = false;
 	m_28 = data->m_openByDefault ? 1 : 3;
 	m_30 = true;
 	m_38 = 100.0f / data->m_resetTimeInMilliseconds;
 	m_34 = 100.0f;
-	m_3C = TheGameLogic->m_gateObject;
+	m_3C = TheGameLogic->getFrame();
 	m_2C = 0;
 	m_24 = 0;
-	GateOpenBehaviorList *list = *(GateOpenBehaviorList **)((char *)GateListOwnerBlock + 0x940);
+	GateOpenBehaviorList *list = *(GateOpenBehaviorList **)((char *)TheSkirmishAIManager + 0x940);
 	list->appendOnce(this);
 }

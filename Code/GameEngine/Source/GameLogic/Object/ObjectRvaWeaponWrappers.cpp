@@ -1,4 +1,4 @@
-// cl: /O1
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 //
 // Two Object wrappers over the rowed WeaponSet slot searches (retail
 // 0x0028AEEA/11 + 0x0028AEF5/54). The Object holds its WeaponSet at +0x330
@@ -27,8 +27,8 @@ class WeaponSet
 	RvaWeaponSlot *m_slots[6];		// +0x008
 
 public:
-	RvaWeaponSlot *rva002C73F7() const;
-	RvaWeaponSlot *rva002C741C() const;
+	const class Weapon *findAmmoPipShowingWeapon() const;
+	class Weapon *findWaypointFollowingCapableWeapon();
 };
 
 class Weapon
@@ -43,20 +43,21 @@ class Object
 	WeaponSet m_weaponSet;			// +0x330
 
 public:
-	RvaWeaponSlot *rva0028AEEA() const;
-	bool rva0028AEF5(void **outPtr, unsigned *outAmmo) const;
+	Weapon *findWaypointFollowingCapableWeapon();
+	bool getAmmoPipShowingInfo(void **outPtr, unsigned *outAmmo) const;
 };
 
-// ?rva0028AEEA@Object@@QBEPAURvaWeaponSlot@@XZ
-RvaWeaponSlot *Object::rva0028AEEA() const
+// ?findWaypointFollowingCapableWeapon@Object@@QAEPAVWeapon@@XZ: Zero Hour's and
+// BFME1's (0x001BE2B0, 11 bytes both) forwarder to WeaponSet's.
+Weapon *Object::findWaypointFollowingCapableWeapon()
 {
-	return m_weaponSet.rva002C741C();
+	return m_weaponSet.findWaypointFollowingCapableWeapon();
 }
 
-// ?rva0028AEF5@Object@@QBE_NPAPAXPAI@Z
-bool Object::rva0028AEF5(void **outPtr, unsigned *outAmmo) const
+// ?getAmmoPipShowingInfo@Object@@QBE_NPAPAXPAI@Z
+bool Object::getAmmoPipShowingInfo(void **outPtr, unsigned *outAmmo) const
 {
-	RvaWeaponSlot *slot = m_weaponSet.rva002C73F7();
+	RvaWeaponSlot *slot = (RvaWeaponSlot *)m_weaponSet.findAmmoPipShowingWeapon();
 	if (slot != 0)
 	{
 		*outPtr = slot->m_state->m_fieldE4;

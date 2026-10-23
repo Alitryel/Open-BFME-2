@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva00048E0FA@FloodUpdate@@SA?AW4NameKeyType@@XZ @0x48E0FA
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@FloodUpdate@@UBE?AW4NameKeyType@@XZ @0x48E0FA
 // (69B): cached pool-name key for FloodUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("FloodUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class FloodUpdate
 {
 public:
-	static NameKeyType rva00048E0FA();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00048E0FA@FloodUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType FloodUpdate::rva00048E0FA()
+// ?getModuleNameKey@FloodUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType FloodUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheFloodUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("FloodUpdate");

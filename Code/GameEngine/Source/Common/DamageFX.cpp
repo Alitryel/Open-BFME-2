@@ -1,7 +1,30 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/Common/DamageFX.cpp); this unit had no counterpart under Code/.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+// Retail keeps one unsigned max, RVA 0x00013740 (the vendored STLport row). This unit's
+// flags (/G7 /arch:SSE) compile a different copy, and retail kept another unit's. This unit-local
+// overload keeps the inlined code and offers the link no second copy.
+#define _STLP_BFME_LOWER_BOUND_EXTERN  // call retail's one __lower_bound<const size_t*> (vendor/stlport/stl/_hashtable.c)
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -41,12 +64,59 @@
 #include "Common/DamageFX.h"
 #include "Common/GameAudio.h"
 
-#include "GameClient/FXList.h"
 #include "GameLogic/Damage.h"
 #include "GameLogic/GameLogic.h"
 #include "GameLogic/Object.h"
 #include "GameClient/GameClient.h"
 #include "GameClient/InGameUI.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<void *,allocator<void *> >::size()const  { return (unsigned int)(this->_M_finish - this->_M_start); } }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * const * vector<void *,allocator<void *> >::begin()const  { return this->_M_start; } }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * & vector<void *,allocator<void *> >::operator[](unsigned int n) { return *(this->_M_start + n); } }
+// bfme link decl-only begin
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(allocator<void *> const &); }
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
+namespace _STL { template <> vector<void *, allocator<void *> >::~vector(); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::_M_clear(); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::_M_fill_insert(void **, unsigned int, void *const &); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::_M_insert_overflow(void **, void *const &, __true_type const &, unsigned int, bool); }
+namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, void const *) const; }
+namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::capacity() const; }
+namespace _STL { template <> void ** vector<void *, allocator<void *> >::end(); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::insert(void **, unsigned int, void *const &); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
+namespace _STL { template <> allocator<void *>::~allocator(); }
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ??0?$hash_map@W4NameKeyType@@VDamageFX@@U?$hash@W4NameKeyType@@@rts@@U?$equal_to@W4NameKey:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum NameKeyType; class DamageFX;
+namespace _STL { template <> hash_map<NameKeyType,DamageFX,rts::hash<NameKeyType>,rts::equal_to<NameKeyType>,allocator<pair<NameKeyType const ,DamageFX> > >::hash_map(); }
+// Suppress this TU's non-retail copy of ??0?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QAE@ABV?$allocator@PAX@1@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> vector<void *,allocator<void *> >::vector(allocator<void *> const &); }
+
+// LINK-COMDAT: static FXList::doFXObj is kept as the /O1 copy from ToppleUpdate.cpp;
+// this TU is default-flag, so the ZH header inline copy differs. Declare only (no
+// body) so calls reach the kept copy and this object emits no differing copy.
+class Object;
+class FXList
+{
+public:
+	static void doFXObj(const FXList *fx, const Object *primary, const Object *secondary);
+};
+
+// LINK-COMDAT: rts::equal_to<NameKeyType> is kept as the /O1 copy from FXList.cpp;
+// this TU is default-flag for its hashtable clear row, so its own copy differs.
+// Specialize only the member under "s" so our emitted copy matches the kept /O1 body,
+// while inlined key compares and the clear row keep default flags (as in FXListMapNodeEmit.cpp).
+#pragma optimize("s", on)
+namespace rts {
+template<> Bool equal_to<NameKeyType>::operator()(const NameKeyType &a, const NameKeyType &b) const { return a == b; }
+}
+#pragma optimize("", on)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // PUBLIC DATA ////////////////////////////////////////////////////////////////////////////////////
@@ -67,6 +137,7 @@ DamageFXStore *TheDamageFXStore = NULL;					///< the DamageFX store definition
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 //-------------------------------------------------------------------------------------------------
+// ?DamageFX::DamageFX present-unmatched
 DamageFX::DamageFX()
 {
 	// not necessary.
@@ -74,6 +145,7 @@ DamageFX::DamageFX()
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?DamageFX::clear present-unmatched
 void DamageFX::clear()
 {
 	for (Int dt = 0; dt < DAMAGE_NUM_TYPES; ++dt)
@@ -86,12 +158,14 @@ void DamageFX::clear()
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?DamageFX::getDamageFXThrottleTime present-unmatched
 UnsignedInt DamageFX::getDamageFXThrottleTime(DamageType t, const Object* source) const 
 { 
 	return m_dfx[t][source ? source->getVeterancyLevel() : LEVEL_REGULAR].m_damageFXThrottleTime; 
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?DamageFX::doDamageFX present-unmatched
 void DamageFX::doDamageFX(DamageType t, Real damageAmount, const Object* source, const Object* victim) const
 { 
 	ConstFXListPtr fx = getDamageFXList(t, damageAmount, source);
@@ -102,6 +176,7 @@ void DamageFX::doDamageFX(DamageType t, Real damageAmount, const Object* source,
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?DamageFX::getDamageFXList present-unmatched
 ConstFXListPtr DamageFX::getDamageFXList(DamageType t, Real damageAmount, const Object* source) const
 { 
 	/*
@@ -122,22 +197,7 @@ ConstFXListPtr DamageFX::getDamageFXList(DamageType t, Real damageAmount, const 
 }
 
 //-------------------------------------------------------------------------------------------------
-const FieldParse* DamageFX::getFieldParse() const
-{
-	static const FieldParse myFieldParse[] = 
-	{
-		{ "AmountForMajorFX",						parseAmount,			NULL, 0 },
-		{ "MajorFX",										parseMajorFXList,	NULL, 0 },
-		{ "MinorFX",										parseMinorFXList,	NULL, 0 },
-		{ "ThrottleTime",								parseTime,				NULL, 0 },
-		{ "VeterancyAmountForMajorFX",	parseAmount,			TheVeterancyNames, 0 },
-		{ "VeterancyMajorFX",						parseMajorFXList,	TheVeterancyNames, 0 },
-		{ "VeterancyMinorFX",						parseMinorFXList,	TheVeterancyNames, 0 },
-		{ "VeterancyThrottleTime",			parseTime,				TheVeterancyNames, 0 },
-		{ 0, 0, 0,0 }
-	};
-	return myFieldParse;
-}
+// DamageFX::getFieldParse is rowed in its home unit; this copy was a duplicate definition.
 
 //-------------------------------------------------------------------------------------------Static
 static void parseCommonStuff(
@@ -264,18 +324,21 @@ static void parseCommonStuff(
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ?DamageFXStore::DamageFXStore present-unmatched
 DamageFXStore::DamageFXStore()
 {
 	m_dfxmap.clear();
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?DamageFXStore::~DamageFXStore present-unmatched
 DamageFXStore::~DamageFXStore()
 {
 	m_dfxmap.clear();
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?DamageFXStore::findDamageFX present-unmatched
 const DamageFX *DamageFXStore::findDamageFX(AsciiString name) const
 {
 	NameKeyType namekey = TheNameKeyGenerator->nameToKey(name);
@@ -291,27 +354,19 @@ const DamageFX *DamageFXStore::findDamageFX(AsciiString name) const
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?DamageFXStore::init present-unmatched
 void DamageFXStore::init()
 {
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?DamageFXStore::reset present-unmatched
 void DamageFXStore::reset()
 {
 } 
 
 //-------------------------------------------------------------------------------------------------
+// ?DamageFXStore::update present-unmatched
 void DamageFXStore::update()
 {
-}
-
-//-------------------------------------------------------------------------------------------------
-/*static */ void DamageFXStore::parseDamageFXDefinition(INI* ini)
-{
-
-	const char *c = ini->getNextToken();
-	NameKeyType key = TheNameKeyGenerator->nameToKey(c);
-	DamageFX& dfx = TheDamageFXStore->m_dfxmap[key];
-	dfx.clear();
-	ini->initFromINI(&dfx, dfx.getFieldParse());
 }

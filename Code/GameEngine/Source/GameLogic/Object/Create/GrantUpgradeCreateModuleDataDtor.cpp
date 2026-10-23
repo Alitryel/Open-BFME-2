@@ -1,4 +1,4 @@
-// cl: /O1 /GX /DNDEBUG /MD /arch:SSE
+// cl: /Ireference/shims/moduledata /GX /DNDEBUG /MD
 //
 // ??1GrantUpgradeCreateModuleData@@UAE@XZ, retail 0x004B914B, 48 bytes.
 // ModuleData dtor: tears down upgradeName at +0x08 through the folded 0x36410
@@ -12,19 +12,7 @@
 // 0x24CA24, GiveOnBuildComplete at +0x1C, INI table 0x00C594A0). Caller is the
 // slot-0 ??_G at 0x4B912F (vtable 0xC594E0).
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc();
-	virtual void loadPostProcess();
-	virtual void xfer();
-};
-
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
+#include "Common/Snapshot.h"
 
 class AsciiStringMember
 {

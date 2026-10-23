@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /GX /arch:SSE /DNDEBUG /MD
+// cl: /GX /DNDEBUG /MD
 //
 // ??1PickupStuffUpdateModuleData@@UAE@XZ retail 0x00491F76 48B.
 // Dtor lane: ctor rowed at 0x00491E37 in PickupStuffUpdateModuleDataCtor.cpp vtable
@@ -10,21 +10,11 @@
 // suppresses entry derived store retail lacks). Single tracked member gives
 // and-state-0 exactly as retail. Caller is ??_G at 0x00491F5D.
 
+
 class Xfer;
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc(Xfer *xfer);
-	virtual void loadPostProcess();
-	virtual void xfer(Xfer *xfer);
-};
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
 
 class Rva00360D26Member
 {

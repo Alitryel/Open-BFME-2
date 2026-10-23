@@ -1,4 +1,4 @@
-// cl: /O1 /GX /DNDEBUG /MD /arch:SSE
+// cl: /GX /DNDEBUG /MD
 //
 // ??1RefundDieModuleData@@UAE@XZ, retail 0x00255067, 48 bytes.
 // ModuleData dtor: tears down the filter at +0x40 through the folded 0x360D26
@@ -7,26 +7,16 @@
 // call since Snapshot dtor is inline). Shape follows the landed
 // PillageModuleDataDtor/SpecialEnemySenseUpdateModuleDataDtor (TU-local
 // Snapshot with inline BBB554-restoring dtor, novtable derived, empty body).
-// Layout from the rowed ctor 0x2538DB (base 0x38 via Rva00253510, Upgrade at
+// Layout from the rowed ctor 0x2538DB (base 0x38 via DestroyDieModuleData, Upgrade at
 // +0x38, Percent at +0x3C, Building filter at +0x40 via 0x3623E5, size 0x44
 // via factory 0x253940) and table 0xBF0700. Caller is the slot-0 ??_G at
 // 0x25504B (vtable 0xBF0660).
 
+
 class Xfer;
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc(Xfer *xfer);
-	virtual void loadPostProcess();
-	virtual void xfer(Xfer *xfer);
-};
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
 
 class Rva003623E5Filter
 {

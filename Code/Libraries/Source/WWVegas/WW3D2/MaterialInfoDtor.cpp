@@ -18,50 +18,50 @@ template <class T>
 class RefCountPtr
 {
 public:
-	RefCountPtr() : Referent(0) {}
-	~RefCountPtr()
-	{
-		if (Referent != 0)
-		{
-			Referent->Release_Ref();
-			Referent = 0;
-		}
-	}
+ 	RefCountPtr() : Referent(0) {}
+ 	~RefCountPtr();
 
 private:
-	T *Referent;
+ 	T *Referent;
 };
 
 typedef RefCountPtr<TextureClass> TextureVectorCell;
 
+// The compiler-generated array deleting destructor takes the flags of its
+// first use. Instantiate retail's /O1 helper in an unemitted static function,
+// following TextureHandleAssignment.cpp, before the native vector cleanup.
+#pragma optimize("gsy", on)
+static void materialTextureDeleteAnchor(TextureVectorCell *cells) { delete[] cells; }
+#pragma optimize("", on)
+
 class TextureVectorBaseCtorShim
 {
 public:
-	__declspec(noinline) TextureVectorBaseCtorShim(int, TextureVectorCell const *);
-	virtual ~TextureVectorBaseCtorShim() {
+ 	__declspec(noinline) TextureVectorBaseCtorShim(int, TextureVectorCell const *);
+ 	virtual ~TextureVectorBaseCtorShim() {
   if(Vector && IsAllocated) { delete[] Vector; Vector=0; }
   IsAllocated=false;
   VectorMax=0;
  }
- TextureVectorBaseCtorShim &operator=(const TextureVectorBaseCtorShim &);
+ 	TextureVectorBaseCtorShim &operator=(const TextureVectorBaseCtorShim &);
 
 private:
-	TextureVectorCell *Vector;
-	int VectorMax;
-	bool IsValid;
-	bool IsAllocated;
-	bool VectorClassPad[2];
+ 	TextureVectorCell *Vector;
+ 	int VectorMax;
+ 	bool IsValid;
+ 	bool IsAllocated;
+ 	bool VectorClassPad[2];
 };
 
 // VectorClass<VertexMaterialClass *>'s vtable (retail 0x00BD4628, installed by the
-// matched MaterialCollectorClass dtor too). The BFME1 donor stored BFME1's address
-// as an integer; referencing the vtable lets the build take the slot from retail.
-extern "C" const unsigned char VectorClassVertexMaterialPtrVtable[];
+// matched MaterialCollectorClass dtor too). Bind the provider's real name directly,
+// following BFME1's ac2f5d9fd324 repair; BFME2's retail reference proves the slot.
+extern "C" const unsigned char __identifier("??_7?$VectorClass@PAVVertexMaterialClass@@@@6B@")[];
 
 class MaterialVector {
 public:
  ~MaterialVector() {
-  Vtable=(unsigned)VectorClassVertexMaterialPtrVtable;
+  Vtable=(unsigned)__identifier("??_7?$VectorClass@PAVVertexMaterialClass@@@@6B@");
   if(Vector && IsAllocated) { delete[] Vector; Vector=0; }
   IsAllocated=false;
   VectorMax=0;
@@ -78,6 +78,7 @@ private:
 	int ActiveCount, GrowthStep;
 };
 
+#pragma optimize("gsy", on)
 class RefCountClass
 {
 public:
@@ -90,6 +91,8 @@ protected:
 private:
 	int Count;
 };
+
+#pragma optimize("", on)
 
 class MaterialInfoClass : public RefCountClass
 {

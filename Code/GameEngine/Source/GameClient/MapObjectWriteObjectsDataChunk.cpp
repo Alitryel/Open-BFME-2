@@ -1,4 +1,4 @@
-// cl: /O1
+// cl: /Ireference/shims/bfme2_ascii
 //
 // Shared BFME map-object chunk writer, retail 0x0030D526, 196 bytes.
 // Dedicated TU (B2 has no MapUtil writer unit). Ported from the BFME1 twin
@@ -15,18 +15,9 @@ typedef int Int;
 typedef float Real;
 typedef bool Bool;
 
-struct Coord3D
-{
-	Real x;
-	Real y;
-	Real z;
-};
+#include "../../../Libraries/Include/Lib/Coord3D.h"
 
-class AsciiString
-{
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class Dict
 {
@@ -37,7 +28,7 @@ private:
 class MapObject
 {
 public:
-	const Coord3D *getLocation() const { return &m_location; }
+	__declspec(dllimport) __forceinline const Coord3D *getLocation() const { return &m_location; }
 
 	void *m_vftable;
 	MapObject *m_nextMapObject;

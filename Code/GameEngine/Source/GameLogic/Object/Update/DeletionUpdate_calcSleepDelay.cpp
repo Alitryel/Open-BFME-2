@@ -1,4 +1,4 @@
-// cl: /O1 /GX /DNDEBUG /MD /DWIN32 /D_WINDOWS
+// cl: /GX /DNDEBUG /MD /DWIN32 /D_WINDOWS
 //
 // DeletionUpdate::calcSleepDelay, retail 0x00488357 (52 bytes). Dedicated
 // TU so DeletionUpdate.cpp keeps its two matched bodies untouched: retail
@@ -13,7 +13,7 @@ typedef unsigned int UnsignedInt;
 class GameLogic
 {
 public:
-	UnsignedInt getFrame() { return m_frame; }
+	__declspec(dllimport) __forceinline UnsignedInt getFrame() { return m_frame; } // Native +0x40 inline frame load.
 
 private:
 	unsigned char m_pad[0x40];

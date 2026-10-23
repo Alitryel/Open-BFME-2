@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/local /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // Ported verbatim from the Generals Zero Hour reference
 // (Libraries/Source/WWVegas/WWLib/wwstring.cpp); this unit had no counterpart under Code/.
 /*
@@ -46,9 +46,9 @@
 #include "always.h"
 #undef W3DNEWARRAY
 void * __cdecl operator new[](unsigned int size, unsigned int tag);
-#define W3DNEWARRAY new(0x737472u)
+#define W3DNEWARRAY new('str')
 
-#include "wwstring.h"
+#include "bfme_wwstring_teardown.h"
 #include "win.h"
 #include "wwmemlog.h"
 #include <stdio.h>
@@ -70,8 +70,8 @@ extern "C" __declspec(dllimport) int __stdcall WideCharToMultiByte(
 // and ??3@YAXPAX@Z (0x0002FD60) rather than ??_U (0x0002FDE0) / ??_V
 // (0x0002FD80).  Kept here only because every row this unit already holds still
 // byte-verifies with it.
-inline void * __cdecl operator new[](size_t s) { return ::operator new(s); }
-inline void __cdecl operator delete[](void * p) { ::operator delete(p); }
+static inline void * __cdecl operator new[](size_t s) { return ::operator new(s); }
+static inline void __cdecl operator delete[](void * p) { ::operator delete(p); }
 
 
 ///////////////////////////////////////////////////////////////////
@@ -96,70 +96,7 @@ unsigned StringClass::ReservedMask=0;
 //	Get_String
 //
 ///////////////////////////////////////////////////////////////////
-void
-StringClass::Get_String (int length, bool is_temp)
-{
-	WWMEMLOG(MEM_STRINGS);
-
-	if (!is_temp && length == 0) {
-		m_Buffer = m_EmptyString;
-		return;
-	}
-
-	TCHAR *string = NULL;
-
-	//
-	//	Should we attempt to use a temp buffer for this string?
-	//
-	if (is_temp && length <= MAX_TEMP_LEN && ReservedMask!=ALL_TEMP_STRINGS_USED_MASK) {
-
-		//
-		//	Make sure no one else is requesting a temp pointer
-		// at the same time we are. There is a slight possibility that another
-		// thread stole the last available buffer in between the if sentence and
-		// the mutex lock, but that is a feature by design and doesn't cause
-		// anything bad to happen.
-		//
-		FastCriticalSectionClass::LockClass m(m_Mutex);
-
-		//
-		//	Try to find an available temporary buffer
-		//
-		// TODO: Don't loop, there are better ways
-		unsigned mask=1;
-		for (int index = 0; index < MAX_TEMP_STRING; index ++, mask<<=1) {
-			unsigned mask=1<<index;
-			if (!(ReservedMask&mask)) {
-				ReservedMask|=mask;
-				
-				//
-				//	Grab this unused buffer for our string
-				//
-				unsigned temp_string=reinterpret_cast<unsigned>(m_TempStrings);
-				temp_string+=MAX_TEMP_BYTES*MAX_TEMP_STRING;
-				temp_string&=~(MAX_TEMP_BYTES*MAX_TEMP_STRING-1);
-				temp_string+=index*MAX_TEMP_BYTES;
-				temp_string+=sizeof(_HEADER);	// The buffer contains header as well, and it needs to be at the start
-				string=reinterpret_cast<char*>(temp_string);
-
-				Set_Buffer_And_Allocated_Length (string, MAX_TEMP_LEN);
-				break;
-			}
-		}
-	}
-
-	if (string == NULL) {
-		
-		//
-		//	Allocate a new string as necessary
-		//
-		if (length > 0) {
-			Set_Buffer_And_Allocated_Length (Allocate_Buffer (length), length);
-		} else {
-			Free_String ();
-		}
-	}
-}
+// StringClass::Get_String: defined in wwstring_get_string.cpp (its row's unit).
 
 
 ///////////////////////////////////////////////////////////////////
@@ -225,44 +162,7 @@ StringClass::Uninitialised_Grow (int new_len)
 //	Uninitialised_Grow
 //
 ///////////////////////////////////////////////////////////////////
-void
-StringClass::Free_String (void)
-{
-	if (m_Buffer != m_EmptyString) {
-
-		unsigned buffer_base=reinterpret_cast<unsigned>(m_Buffer-sizeof (StringClass::_HEADER));
-		unsigned temp_base=reinterpret_cast<unsigned>(m_TempStrings+MAX_TEMP_BYTES*MAX_TEMP_STRING);
-
-		if ((buffer_base>>11)==(temp_base>>11)) {
-			m_Buffer[0] = 0;
-
-			//
-			//	Make sure no one else is changing the reserved mask
-			// at the same time we are.
-			//
-			FastCriticalSectionClass::LockClass m(m_Mutex);
-
-			unsigned index=(buffer_base/MAX_TEMP_BYTES)&(MAX_TEMP_STRING-1);
-			unsigned mask=1<<index;
-			ReservedMask&=~mask;
-		}
-		else {
-
-			//
-			//	String wasn't temporary, so free the memory
-			//
-			char *buffer = ((char *)m_Buffer) - sizeof (StringClass::_HEADER);
-			delete [] buffer;
-		}
-
-		//
-		//	Reset the buffer
-		//
-		m_Buffer = m_EmptyString;
-	}
-
-	return ;
-}
+// StringClass::Free_String: defined in wwstring_free_string.cpp (its row's unit).
 
 
 ///////////////////////////////////////////////////////////////////

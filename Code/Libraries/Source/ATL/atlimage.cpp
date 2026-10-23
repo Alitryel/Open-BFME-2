@@ -87,7 +87,7 @@ extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(CRITICAL_SE
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(CRITICAL_SECTION *section);
 extern "C" __declspec(dllimport) void __stdcall InitializeCriticalSection(CRITICAL_SECTION *section);
 extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(CRITICAL_SECTION *section);
-extern "C" __declspec(dllimport) __declspec(noreturn) void __stdcall RaiseException(
+extern "C" __declspec(dllimport) void __stdcall RaiseException(
     DWORD code, DWORD flags, DWORD argumentCount, const DWORD *arguments);
 extern "C" __declspec(dllimport) HBITMAP __stdcall CreateDIBSection(
     HDC dc, const BITMAPINFO *info, UINT usage, void **bits, HANDLE section, DWORD offset);
@@ -251,6 +251,7 @@ class Bitmap : public Image
 public:
     Bitmap(const unsigned short *filename, int useEmbeddedColorManagement = 0);
     Bitmap(INT width, INT height, INT stride, PixelFormat format, unsigned char *scan0);
+    virtual ~Bitmap();
 
     Status LockBits(const Rect *rect, UINT flags, PixelFormat format, BitmapData *lockedBitmapData);
     Status UnlockBits(BitmapData *lockedBitmapData);
@@ -461,6 +462,9 @@ private:
     void UpdateBitmapInfo(DIBOrientation orientation);
 };
 
+CImage::CDCCache CImage::s_cache;
+CImage::CInitGDIPlus CImage::s_initGDIPlus;
+
 // ATL 7.1 verbatim, with _AtlRaiseException inlined as atlbase.h defines it:
 // RaiseException(EXCEPTION_ACCESS_VIOLATION, EXCEPTION_NONCONTINUABLE, 0, NULL).
 inline void __declspec(noreturn) _AtlRaiseException(DWORD dwExceptionCode, DWORD dwExceptionFlags = 1)
@@ -654,13 +658,13 @@ CImage::CImage() throw() :
     s_initGDIPlus.IncreaseCImageCount();
 }
 
-CImage::~CImage() throw()
+inline CImage::~CImage() throw()
 {
     Destroy();
     s_initGDIPlus.DecreaseCImageCount();
 }
 
-void CImage::Destroy() throw()
+inline void CImage::Destroy() throw()
 {
     if (m_hBitmap != 0)
     {
@@ -839,3 +843,22 @@ HRESULT CImage::CreateFromGdiplusBitmap(Gdiplus::Bitmap &bmSrc) throw()
 }
 
 }
+
+// ??1CImage@ATL@@UAE@XZ and ?Destroy@CImage@ATL@@QAEXXZ are header inlines
+// elsewhere: other units emit select-any copies of them, so strong definitions
+// here were duplicate symbols in the linked build. This anchor only makes this
+// unit emit its copies for the ledger rows; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitatlimage@@YAXPAVCImage@ATL@@@Z present-unmatched
+void bfmeEmitatlimage(ATL::CImage *p)
+{
+    p->ATL::CImage::~CImage();
+    p->ATL::CImage::Destroy();
+}
+#pragma inline_depth()
+
+// Retail's call sites in this unit's matched rows land on bodies rowed under
+// other spellings at the same addresses (same ABI). Bind the spellings used here.
+#pragma comment(linker, "/alternatename:?GdiplusShutdown@Gdiplus@@YGXK@Z=?ji_00628f6e@@YAXXZ")
+#pragma comment(linker, "/alternatename:?GdiplusStartup@Gdiplus@@YG?AW4Status@1@PAKPBUGdiplusStartupInput@1@PAUGdiplusStartupOutput@1@@Z=?ji_00628f68@@YAXXZ")
+#pragma comment(linker, "/alternatename:??1Bitmap@Gdiplus@@UAE@XZ=??1Image@Gdiplus@@UAE@XZ")

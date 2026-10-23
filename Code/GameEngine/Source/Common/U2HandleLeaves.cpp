@@ -42,13 +42,13 @@ struct Rva00845250Node
 	void refresh();
 };
 
-int Rva00845250Equal(Rva00845250Node *a, Rva00845250Node *b)
+int Rva00845250Equal(Rva00845250Node *lhs, Rva00845250Node *rhs)
 {
-	if (a->m_source != 0)
-		a->refresh();
-	if (b->m_source != 0)
-		b->refresh();
-	return a->m_kind == b->m_kind;
+	if (lhs->m_source != 0)
+		lhs->refresh();
+	if (rhs->m_source != 0)
+		rhs->refresh();
+	return lhs->m_kind == rhs->m_kind;
 }
 
 // 0x008442E0 used to sit here. It is slot 1 of the collate<char> vtable at VA

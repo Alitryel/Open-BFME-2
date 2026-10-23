@@ -147,17 +147,40 @@ struct Gen007F47E0 : BfmeDirtyBase
 // ??0Gen007F47E0@@QAE@XZ present-unmatched   emitted only to force the vtable, and with it ??_G
 Gen007F47E0::Gen007F47E0() {}
 
-struct Gen007F4D00
+// Gen007F4D00 has a second polymorphic base at +4 (vtable 0x00CE2C10, the
+// FESL ariesudp datagram listener whose slot 2 is 0x00661650): its slot 0 is
+// the adjustor thunk 0x00661640 (sub ecx,4) into this ??_G, which the
+// two-base declaration below makes MSVC emit next to it.
+struct __declspec(novtable) Gen007F4D00Owner
+{
+	virtual ~Gen007F4D00Owner();		// retail 0x00666BA0
+};
+
+// Its own deleting dtor 0x006613E0 shows an empty inline destructor.
+struct Gen007F4D00Listener
+{
+	virtual ~Gen007F4D00Listener() {}
+};
+
+struct Gen007F4D00 : Gen007F4D00Owner, Gen007F4D00Listener
 {
 	Gen007F4D00();
 	virtual ~Gen007F4D00();		// retail 0x007F4D20
 	void operator delete( void *p, unsigned int n );
 
-	char m_bfmePad[ 0x18 - 4 ];
+	int m_08;
+	int m_0C;
+	int m_10;
+	int m_14;
 };
 
-// ??0Gen007F4D00@@QAE@XZ present-unmatched   emitted only to force the vtable, and with it ??_G
-Gen007F4D00::Gen007F4D00() {}
+// Retail 0x00661400 (37B): the first base carries no vptr store of its own
+// (novtable), the listener base installs 0x00CE2BCC before the derived tables
+// 0x00CE2C1C/0x00CE2C10, and the four trailing dwords start at zero.
+Gen007F4D00::Gen007F4D00()
+	: m_08(0), m_0C(0), m_10(0), m_14(0)
+{
+}
 
 struct Gen007F86D0
 {
@@ -367,3 +390,52 @@ Gen0080ACD0::~Gen0080ACD0()
 
 	m_flag174 = 0;
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?slot0@Gen0080ACD0@@UAEXXZ=?DX8_Assert@@YAXXZ")
+#pragma comment(linker, "/alternatename:?slot1@Gen0080ACD0@@UAEXXZ=?DX8_Assert@@YAXXZ")
+#pragma comment(linker, "/alternatename:?slot2@Gen0080ACD0@@UAEXXZ=?imbue@?$basic_streambuf@GV?$char_traits@G@_STL@@@_STL@@MAEXABVlocale@2@@Z")
+#pragma comment(linker, "/alternatename:?slot3@Gen0080ACD0@@UAEXXZ=?rva0080A680@BfmeThingUNC@@UAEXPAURva0080A680Input@@@Z")
+
+// Two more scalar deleting destructors, of classes derived from bases whose
+// destructors are empty and inline in this unit, so each body keeps only the
+// base's vptr restore before the flag-bit-0 free (owner identities unproven;
+// classes are named for their ??_G address, the padding carries the size):
+//   0x00666E10 (31B): slot 0 of vtable VA 0x00CE33D4; base vtable VA
+//                     0x00CE2BD8 (Rva00666BA0); global operator delete.
+//   0x00672460 (33B): slot 0 of vtable VA 0x00CE3F40; base vtable VA
+//                     0x00CE3F2C (Rva00672490); member delete of 0x48 bytes
+//                     through the shared pool free 0x0065D030.
+struct Rva00666BA0View
+{
+	virtual ~Rva00666BA0View() {}
+};
+
+struct Rva00666E10 : Rva00666BA0View
+{
+	Rva00666E10();
+	virtual ~Rva00666E10() {}
+};
+
+// ??0Rva00666E10@@QAE@XZ present-unmatched   emitted only to force the vtable, and with it ??_G
+Rva00666E10::Rva00666E10() {}
+
+struct Rva00672490View
+{
+	virtual ~Rva00672490View() {}
+};
+
+struct Rva00672460 : Rva00672490View
+{
+	Rva00672460();
+	virtual ~Rva00672460() {}
+	// The shared pool free 0x0065D030 that ICF folds every sized class delete onto.
+	__declspec(noinline) void operator delete( void *p, unsigned int ) { Gen007EFFC0()->release( p, 0 ); }
+
+	char m_bfmePad[ 0x48 - 4 ];
+};
+
+// ??0Rva00672460@@QAE@XZ present-unmatched   emitted only to force the vtable, and with it ??_G
+Rva00672460::Rva00672460() {}

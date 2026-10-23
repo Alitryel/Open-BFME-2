@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfmevector /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /O1 /DNDEBUG /MD /EHsc /arch:SSE2
+// cl: /Ireference/shims/bfmevector /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /DNDEBUG /MD /EHsc
 //
 // VectorClass<Vector3>::VectorClass(int, Vector3 const *) at 0x000F0D2F,
 // 150 bytes. It is the base-class constructor of every DynamicVectorClass
@@ -31,6 +31,50 @@
 #include "always.h"
 #include <new.h>
 #include "vector3.h"
-#include "vector.h"
 
-template class VectorClass<Vector3>;
+// LINK-COMDAT 2026-10-02: this TU owns only the (int, const T *) ctor row.
+// A whole-class explicit instantiation emitted its own differing copies of the
+// virtuals (operator==, Resize, Clear, both IDs, deleting dtor) that the link
+// census keeps from pointgr.cpp. Declare the rest instead of defining it, so
+// calls reach the kept copies. The dtor is really virtual (UAE, rowed from
+// pointgr); it is declared non-virtual here only to suppress our own ??_G,
+// which would otherwise differ the way the inlined Clear version does. No
+// vtable is emitted here; the ctor's vptr store resolves to the kept
+// 0x00BCEFAC table at link.
+template<class T>
+class VectorClass
+{
+public:
+	VectorClass(int size = 0, T const *array = 0);
+	~VectorClass();
+	virtual bool operator==(const VectorClass<T> &that) const;
+	virtual bool Resize(int newsize, T const *array = 0);
+	virtual void Clear();
+	virtual int ID(T const *ptr);
+	virtual int ID(T const &ptr);
+protected:
+	T *Vector;
+	int VectorMax;
+	bool IsValid;
+	bool IsAllocated;
+	bool VectorClassPad[2];
+};
+
+template<class T>
+VectorClass<T>::VectorClass(int size, T const *array) :
+	Vector(0),
+	VectorMax(size),
+	IsValid(true),
+	IsAllocated(false)
+{
+	if (size) {
+		if (array) {
+			Vector = new((void *)array) T[size];
+		} else {
+			Vector = new T[size];
+			IsAllocated = true;
+		}
+	}
+}
+
+template VectorClass<Vector3>::VectorClass(int, Vector3 const *);

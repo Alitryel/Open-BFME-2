@@ -11,6 +11,9 @@
 // (??0TextureVectorBaseCtorShim@@QAE@HPBV?$RefCountPtr@VTextureClass@@@@@Z)
 // lives at 0x0016ED80 (ghidra FUN_0056ed80, 191B, same size as BFME1's 191B
 // construct); declared only here and pinned, defined in its own TU next.
+extern "C" const void *__identifier("??_7?$DynamicVectorClass@PAVVertexMaterialClass@@@@6B@")[];
+extern "C" const void *__identifier("??_7?$DynamicVectorClass@VBfmeHandleCX@@@@6B@")[];
+
 class ShaderClass;
 
 template <class T>
@@ -18,6 +21,15 @@ class VectorClass
 {
 public:
 	VectorClass(int size, const T *array);
+	virtual ~VectorClass();
+	virtual bool operator==(const VectorClass &) const;
+	virtual bool Resize(int, const T *);
+	virtual void Clear();
+	virtual int ID(const T *);
+	virtual int ID(const T &);
+
+private:
+	unsigned char m_data[0x0c];
 };
 
 class TextureClass
@@ -52,22 +64,32 @@ public:
 	virtual ~TextureVectorBaseCtorShim();
 };
 
-class ShaderVector
+template <class T> class DynamicVectorClass;
+
+// Native shader member at +0 is DynamicVectorClass<ShaderClass> (vtable
+// BD46A0). Its unwind calls the existing virtual destructor at 16F960.
+// The native six-slot vector interface also supplies its vtable entries.
+template <>
+class DynamicVectorClass<ShaderClass>
 	: public VectorClass<ShaderClass>
 {
 public:
-	__forceinline ShaderVector()
+	__forceinline DynamicVectorClass()
 		: VectorClass<ShaderClass>(0, 0)
 	{
-		*(unsigned int *)this = 0x00BD46A0;
 		*(unsigned int *)((unsigned char *)this + 0x14) = 10;
 		*(unsigned int *)((unsigned char *)this + 0x10) = 0;
 	}
-	~ShaderVector();
+	virtual ~DynamicVectorClass();
+	virtual bool Resize(int, const ShaderClass *);
+	virtual void Clear();
+	virtual int ID(const ShaderClass *);
+	virtual int ID(const ShaderClass &);
 
 private:
-	unsigned char m_data[0x18];
+	unsigned char m_data[8];
 };
+typedef char ShaderVectorSize[sizeof(DynamicVectorClass<ShaderClass>) == 0x18 ? 1 : -1];
 
 class MaterialVector
 {
@@ -79,7 +101,7 @@ public:
 		*(unsigned int *)(self + 8) = 0;
 		*(unsigned char *)(self + 0x0c) = 1;
 		*(unsigned char *)(self + 0x0d) = 0;
-		*(unsigned int *)self = 0x00BD4658;
+		*(unsigned int *)self = ((unsigned int)__identifier("??_7?$DynamicVectorClass@PAVVertexMaterialClass@@@@6B@"));
 		*(unsigned int *)(self + 0x14) = 10;
 		*(unsigned int *)(self + 0x10) = 0;
 	}
@@ -97,7 +119,7 @@ public:
 		: TextureVectorBaseCtorShim(0, 0)
 	{
 		*(unsigned int *)((unsigned char *)this + 0x10) = 0;
-		*(unsigned int *)this = 0x00BD4688;
+		*(unsigned int *)this = ((unsigned int)__identifier("??_7?$DynamicVectorClass@VBfmeHandleCX@@@@6B@"));
 		*(unsigned int *)((unsigned char *)this + 0x14) = 10;
 	}
 	~TextureVector();
@@ -134,7 +156,7 @@ public:
 	MaterialCollectorClass();
 
 private:
-	ShaderVector m_shaders;
+	DynamicVectorClass<ShaderClass> m_shaders;
 	MaterialVector m_materials;
 	TextureVector m_textures;
 	ShaderValue LastShader;

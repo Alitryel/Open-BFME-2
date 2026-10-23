@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/shims/sweep
+// cl: /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/shims/sweep
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -33,11 +33,13 @@ private:
     int FirstFrame;
     int LastFrame;
     unsigned char *Bits;
-    void Free() { delete [] Bits; Bits = 0; }
+    // BitChannelClass::Free (motchan.cpp; pinned at the shared body 0x001960C0) inlined as retail
+    // does; a distinct name keeps this copy from emitting a COMDAT under the pinned name.
+    inline void Free_Inline() { delete [] Bits; Bits = 0; }
 };
 bool BitChannelClass::Load_W3D(ChunkLoadClass & cload)
 {
-	Free();
+	Free_Inline();
 
 
 
@@ -65,7 +67,7 @@ bool BitChannelClass::Load_W3D(ChunkLoadClass & cload)
 
 	if (bytesleft > 0) {
 		if (cload.Read(&(Bits[1]),bytesleft) != bytesleft) {
-			Free();
+			Free_Inline();
 			return false;
 		}
 	}

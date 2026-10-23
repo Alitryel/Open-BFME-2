@@ -176,3 +176,13 @@ void Rva007F5B40( Rva007E8810Message *msg, Rva007F7980Browser *browser )
 	}
 }
 
+void Rva007F79F0Callback( Rva007E8810Message *msg, Rva007F7980Browser *browser )
+{
+	browser->onRegionCount( msg );
+}
+
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?BfmeGameBrowserVJRCallback@@YGXXZ=?Rva007F5B40@@YAXPAVRva007E8810Message@@PAVRva007F7980Browser@@@Z")
+#pragma comment(linker, "/alternatename:?BfmeGameBrowserVJQCallback@@YGXXZ=?Rva007F5AC0@@YAXPAVRva007E8810Message@@PAVRva007F7980Browser@@@Z")

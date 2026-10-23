@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva004C391E@ElvenWoodSpecialPower@@SA?AW4NameKeyType@@XZ @0x004C391E
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@ElvenWoodSpecialPower@@UBE?AW4NameKeyType@@XZ @0x004C391E
 // (69B): cached pool-name key for ElvenWoodSpecialPower. The class
 // identity comes from the pool-name string the body pushes
 // ("ElvenWoodSpecialPower"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ElvenWoodSpecialPower
 {
 public:
-	static NameKeyType rva004C391E();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004C391E@ElvenWoodSpecialPower@@SA?AW4NameKeyType@@XZ
-NameKeyType ElvenWoodSpecialPower::rva004C391E()
+// ?getModuleNameKey@ElvenWoodSpecialPower@@UBE?AW4NameKeyType@@XZ
+NameKeyType ElvenWoodSpecialPower::getModuleNameKey() const
 {
 	static NameKeyType TheElvenWoodSpecialPowerPoolKey =
 		TheNameKeyGenerator->nameToKey("ElvenWoodSpecialPower");

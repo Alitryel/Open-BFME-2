@@ -36,3 +36,17 @@ void LZHLDestroyCompressor(void *handle)
 {
 	delete static_cast<LZHLCompressor *>(handle);
 }
+
+// Retail 0x0068ED20 (9B), between LZHLDecompress and the decompressor's
+// deleting destructor: reset a decompressor handle's decoder tables through
+// the rowed 0x00692360 (tail jump, ECX = handle). The API name is not in the
+// references; the spelling is address-derived.
+struct Rva00826840Owner
+{
+	void resetTables();
+};
+
+void Rva0068ED20ResetDecompressor(void *handle)
+{
+	static_cast<Rva00826840Owner *>(handle)->resetTables();
+}

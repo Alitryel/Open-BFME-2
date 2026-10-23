@@ -1,4 +1,4 @@
-// cl: /arch:SSE /Oy- /O1
+// cl: /Oy-
 // Donor: reference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath/
 // sphere.h, vector3.h and wwmath.h. Matched target Init/ctor corroborate the
 // center/radius offsets; caller 0x72256 uses this operation on a sphere copy.
@@ -22,6 +22,7 @@
 **	You should have received a copy of the GNU General Public License
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+#pragma optimize("ty", on)
 class WWMath { public: __forceinline static float Sqrt(float val) {
     float retval;
     __asm { fld val
@@ -33,15 +34,16 @@ class Vector3 {
 public:
     float X, Y, Z;
     __forceinline Vector3(void) {}
-    __forceinline Vector3(const Vector3& v) { X=v.X; Y=v.Y; Z=v.Z; }
-    __forceinline Vector3(float x, float y, float z) { X=x; Y=y; Z=z; }
-    __forceinline Vector3& operator=(const Vector3& v) { X=v.X; Y=v.Y; Z=v.Z; return *this; }
-    __forceinline float Length() const { return WWMath::Sqrt(Length2()); }
+    __forceinline Vector3(const Vector3& vec) { X=vec.X; Y=vec.Y; Z=vec.Z; }
+    __declspec(dllimport) __forceinline Vector3(float x, float y, float z) { X=x; Y=y; Z=z; }
+    __forceinline Vector3& operator=(const Vector3& vec) { X=vec.X; Y=vec.Y; Z=vec.Z; return *this; }
+    __declspec(dllimport) __forceinline float Length() const { return WWMath::Sqrt(Length2()); }
     __forceinline float Length2() const { return X*X + Y*Y + Z*Z; }
 };
-__forceinline Vector3 operator-(const Vector3& a, const Vector3& b) {
+__declspec(dllimport) __forceinline Vector3 operator-(const Vector3& a, const Vector3& b) {
     return Vector3(a.X-b.X, a.Y-b.Y, a.Z-b.Z);
 }
+#pragma optimize("", on)
 class SphereClass {
 public:
     Vector3 Center;

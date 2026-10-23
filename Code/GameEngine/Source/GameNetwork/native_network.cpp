@@ -39,13 +39,15 @@ public:
 	virtual void v04();
 	virtual void dispatchEvents();
 };
+class Debug;
+extern class Debug *theDebug;
 
 // _BFMENetworkBackendThreadStart@4 (b1 0x009DB630, 25B @0x00610490)
 extern "C" unsigned int __stdcall BFMENetworkBackendThreadStart(void *backend)
 {
 // Retail disp32 proves the BFME2 global lives at 0x00DE0880 (donor says
 // 0x01336e5c); displacement bytes outrank the donor.
-	BFMENetworkThreadRunner *globalNetwork = *reinterpret_cast<BFMENetworkThreadRunner **>(0x00DE0880);
+	BFMENetworkThreadRunner *globalNetwork = reinterpret_cast<BFMENetworkThreadRunner *>(theDebug);
 	globalNetwork->threadTick();
 	reinterpret_cast<BFMENetworkBackendThreadRunner *>(backend)->dispatchEvents();
 	return 0;

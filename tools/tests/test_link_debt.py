@@ -1,0 +1,87 @@
+"""link_debt: new hard-coded image addresses fail; moves and removals pass."""
+import subprocess
+import sys
+from pathlib import Path
+
+import pytest
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import link_debt as L  # noqa: E402
+
+
+def git(root, *args):
+    subprocess.run(["git", *args], cwd=root, check=True, capture_output=True)
+
+
+@pytest.fixture
+def repo(tmp_path, monkeypatch):
+    git(tmp_path, "init", "-q")
+    git(tmp_path, "config", "user.name", "Fixture")
+    git(tmp_path, "config", "user.email", "fixture@example.invalid")
+    monkeypatch.setattr(L, "ROOT", tmp_path)
+    return tmp_path
+
+
+def put(root, path, text):
+    target = root / path
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(text)
+    git(root, "add", "--", path)
+
+
+LITERAL = "int f() { return *(int *)0x00C2D5C8; }\n"
+NAMED = "extern int g_012ED5C8;\nint f() { return g_012ED5C8; }\n"
+
+
+def test_new_literal_fails(repo):
+    put(repo, "Code/A.cpp", NAMED)
+    git(repo, "commit", "-qm", "base")
+    put(repo, "Code/A.cpp", LITERAL)
+    assert L.staged() == 1
+
+
+def test_replacing_a_literal_passes(repo):
+    put(repo, "Code/A.cpp", LITERAL)
+    git(repo, "commit", "-qm", "base")
+    put(repo, "Code/A.cpp", NAMED)
+    assert L.staged() == 0
+
+
+def test_moving_a_file_keeps_its_count(repo):
+    put(repo, "Code/A.cpp", LITERAL)
+    git(repo, "commit", "-qm", "base")
+    git(repo, "mv", "Code/A.cpp", "Code/B.cpp")
+    assert L.staged() == 0
+
+
+def test_generated_roots_are_not_watched(repo):
+    put(repo, "Code/A.cpp", NAMED)
+    git(repo, "commit", "-qm", "base")
+    put(repo, "Code/gen_small/x.cpp", LITERAL)
+    assert L.staged() == 0
+
+
+def test_masks_and_comments_are_not_addresses():
+    assert L.literals("if (x & 0x80000000) {}  // *(int *)0x00C2D5C8\n") == []
+
+
+def test_addresses_catch_every_form_of_an_image_address():
+    text = """
+    *(unsigned *)this = 0x00E1C340;          // vftable stored as an integer
+    m_vptr = 0x00D1ff78u;
+    float f = BFME_AT(float, 0x00A76C24);
+    return reinterpret_cast<void (*)()>(0x0043c9cf);
+    """
+    assert L.addresses(text) == ["0x00E1C340", "0x00D1ff78u", "0x00A76C24", "0x0043c9cf"]
+
+
+def test_addresses_skip_flags_masks_sizes_comments_and_strings():
+    text = """
+    m_flags |= 0x1000100;      // two bits: a flag word
+    unsigned m = v & 0xffffff; // one repeated digit: a mask
+    size_t n = 0x00401000;     // low 12 bits clear
+    const char *s = "0x00E1C340";
+    /* 0x00E1C340 */
+    int small = 0x3FC;
+    """
+    assert L.addresses(text) == []

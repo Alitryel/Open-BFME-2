@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /arch:SSE
+// cl: /DNDEBUG /MD
 //
 // DeployStyle small-leaf shard: the home DeployStyleAIUpdateCtor TU carries
 // the file-unit's big bodies (ctor, dtor-adjacent reset), so single-serving
@@ -33,7 +33,7 @@ protected:
 class Rva0026AFDAMember
 {
 public:
-	void initMember();
+	Rva0026AFDAMember *initMember();
 
 	int m_headState;			// +0x3E4 (predicate 0x48E61F reads -1)
 	unsigned char m_pad[0xC4 - 4];
@@ -44,6 +44,8 @@ class DeployStyleAIUpdate : public Rva0026E9BDBase
 public:
 	DeployStyleAIUpdate(Thing *thing, const ModuleData *moduleData);
 	void Rva0048E634Reset();
+	void rva0048E6D2();
+	void rva0048E6AB();
 
 protected:
 	Rva0026AFDAMember m_member3E4;		// +0x3E4 (init 0x26AFDA, banked 0.9)
@@ -71,4 +73,24 @@ void DeployStyleAIUpdate::Rva0048E634Reset()
 {
 	m_member3E4.m_headState |= -1;
 	m_flag4A9 = false;
+}
+
+// ?rva0048E6D2@DeployStyleAIUpdate@@QAEXXZ @0x0048E6D2 38B DeployStyle file-unit leaf over +0x4B4 +0x4D5 +0x4D6; caller 0x004AE611 passes embedded DeployStyle at +0x258
+void DeployStyleAIUpdate::rva0048E6D2()
+{
+	m_flag4D5 = false;
+	if (m_4B4 == 0 || m_4B4 == 3)
+		m_flag4D6 = false;
+	else
+		m_flag4D6 = true;
+}
+
+// ?rva0048E6AB@DeployStyleAIUpdate@@QAEXXZ @0x0048E6AB 39B mirror leaf over +0x4B4 +0x4D6 +0x4D5; caller 0x004AE76A passes embedded DeployStyle
+void DeployStyleAIUpdate::rva0048E6AB()
+{
+	m_flag4D6 = false;
+	if (m_4B4 == 2 || m_4B4 == 1)
+		m_flag4D5 = false;
+	else
+		m_flag4D5 = true;
 }

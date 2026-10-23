@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
 
 typedef bool Bool;
 
@@ -20,10 +20,14 @@ private:
 	void *m_drawable;
 };
 
+enum ShadowType { SHADOW_NONE = 0 };
+class FXList;
+
 class DebrisDrawInterface
 {
 public:
-	virtual void debrisDrawInterfaceAnchor();
+	virtual void setModelName(AsciiString name, int color, ShadowType type) = 0;
+	virtual void setAnimNames(AsciiString initial, AsciiString flying, AsciiString final, const FXList *finalFX) = 0;
 };
 
 class RenderObjClass
@@ -56,14 +60,28 @@ public:
 	void handle(void *object);
 };
 
-extern SceneClass *g_scene;
-extern Gen0003AC38 *g_shadowManager;
+// The scene the debris render object leaves is W3DDisplay's 3D scene.
+class RTS3DScene : public SceneClass
+{
+};
+
+class W3DDisplay
+{
+public:
+	static RTS3DScene *m_3DScene;
+};
+class W3DShadowManager; extern W3DShadowManager *TheW3DShadowManager;
+// g_shadowManager: VA 0xde5dfc (zero-filled .bss).
+class W3DShadowManager; extern W3DShadowManager *TheW3DShadowManager;
 
 class W3DDebrisDraw : public DrawableModuleLayoutBase,
 	public DebrisDrawInterface
 {
 	protected:
 	virtual ~W3DDebrisDraw();
+public:
+	virtual void setModelName(AsciiString name, int color, ShadowType type);
+	virtual void setAnimNames(AsciiString initial, AsciiString flying, AsciiString final, const FXList *finalFX);
 
 private:
 	AsciiString m_modelName;
@@ -84,19 +102,19 @@ private:
 W3DDebrisDraw::~W3DDebrisDraw()
 {
 	register int zero = 0;
-	if ((void *)g_shadowManager != (void *)zero)
+	if ((void *)(*(Gen0003AC38 * *)&TheW3DShadowManager) != (void *)zero)
 	{
 		void *shadow = m_shadow;
 		if (shadow != (void *)zero)
 		{
-			g_shadowManager->handle(shadow);
+			(*(Gen0003AC38 * *)&TheW3DShadowManager)->handle(shadow);
 			*(volatile int *)&m_shadow = zero;
 		}
 	}
 	RenderObjClass *renderObject = m_renderObject;
 	if (renderObject != (RenderObjClass *)zero)
 	{
-		g_scene->Remove_Render_Object(renderObject);
+		W3DDisplay::m_3DScene->Remove_Render_Object(renderObject);
 		if (m_renderObject != (RenderObjClass *)zero)
 		{
 			m_renderObject->releaseRef();

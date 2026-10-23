@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva004C1F10@OathbreakerBody@@SA?AW4NameKeyType@@XZ @0x4C1F10
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@OathbreakerBody@@UBE?AW4NameKeyType@@XZ @0x4C1F10
 // (69B): cached pool-name key for OathbreakerBody. The class
 // identity comes from the pool-name string the body pushes
 // ("OathbreakerBody"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class OathbreakerBody
 {
 public:
-	static NameKeyType rva004C1F10();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004C1F10@OathbreakerBody@@SA?AW4NameKeyType@@XZ
-NameKeyType OathbreakerBody::rva004C1F10()
+// ?getModuleNameKey@OathbreakerBody@@UBE?AW4NameKeyType@@XZ
+NameKeyType OathbreakerBody::getModuleNameKey() const
 {
 	static NameKeyType TheOathbreakerBodyPoolKey =
 		TheNameKeyGenerator->nameToKey("OathbreakerBody");

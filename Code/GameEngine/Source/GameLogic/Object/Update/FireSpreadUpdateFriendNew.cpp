@@ -21,7 +21,18 @@ private:
 };
 
 // ?friend_newModuleInstance@FireSpreadUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *FireSpreadUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *FireSpreadUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new FireSpreadUpdate(thing, moduleData));
 }
+
+// Select-any anchor: this unit owns the row above while other TUs emit it as
+// an inline copy. The anchor keeps this unit emitting its copy for the ledger;
+// it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitFireSpreadUpdateFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitFireSpreadUpdateFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	FireSpreadUpdate::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

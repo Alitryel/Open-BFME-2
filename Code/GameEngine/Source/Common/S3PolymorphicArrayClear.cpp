@@ -76,3 +76,36 @@ S3_ARRAY_CLEAR( Rva00801570, 48 )
 S3_ARRAY_CLEAR( Rva00801600, 56 )
 // Rva00802A10 stride-128 has no BFME2 placement; omitted so the TU holds
 // only claimed bodies (hook requires a ledger row per defined function).
+
+// BFME1 donor accessors at 0x00801550 and 0x008029F0 transfer byte-for-byte
+// to BFME2 0x0066D870 and 0x0066EB20. The array layout and returned element
+// offset follow from those bytes; the address-derived class labels remain
+// provisional because the target has no named direct callers.
+#define S3_ARRAY_LOOKUP( NAME, SIZE )                                     \
+	class NAME##Elem                                                      \
+	{                                                                     \
+	public:                                                               \
+		virtual void step( int flags );                                   \
+		char m_pad[ SIZE - 4 ];                                           \
+	};                                                                    \
+	class NAME                                                            \
+	{                                                                     \
+	public:                                                               \
+		NAME##Elem *at( int index );                                      \
+		NAME##Elem *m_array;                                              \
+		int m_count;                                                      \
+	};                                                                    \
+	NAME##Elem *NAME::at( int index )                                     \
+	{                                                                     \
+		if ( index >= m_count )                                           \
+			return 0;                                                     \
+		return m_array + index;                                           \
+	}
+
+S3_ARRAY_LOOKUP( Rva00801550, 48 )
+S3_ARRAY_LOOKUP( Rva008029F0, 128 )
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeDtorATYA@BfmeHeadTYA@@QAEXXZ=?clear@Rva00801600@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?bfmeClearAVHW@BfmeSubAVHW@@QAEXXZ=?clear@Rva00801570@@QAEXXZ")

@@ -10,6 +10,7 @@
 // calls 0x255A42, and ??1GrantScienceUpgradeModuleData @0x25637D (matched)
 // calls it as its base dtor after destroying its own +0x60 string.
 
+inline void *operator new(unsigned int, void *p) { return p; }
 class AsciiStringMember
 {
 public:
@@ -32,11 +33,19 @@ public:
 };
 
 // ??0UpgradeModuleData@@QAE@XZ present-unmatched
-UpgradeModuleData::UpgradeModuleData()
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline UpgradeModuleData::UpgradeModuleData()
 {
 }
 
-void deleteUpgradeModuleData(UpgradeModuleData *p)
+// ?bfmeAnchorUpgradeModuleDataCtor absent-from-retail
+void *bfmeAnchorUpgradeModuleDataCtor(void *where)
 {
-	delete p;
+	return ::new (where) UpgradeModuleData();
+}
+
+void deleteUpgradeModuleData(UpgradeModuleData *upgradeModuleData)
+{
+	delete upgradeModuleData;
 }

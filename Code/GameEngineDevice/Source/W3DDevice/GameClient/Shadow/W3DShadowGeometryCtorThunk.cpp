@@ -1,5 +1,8 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
-// Open-BFME5: lift MASM dump to standalone C++ thunk.
+// cl: /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
+// W3DShadowGeometry constructor and virtual key accessor.
+// BFME 1 donor ba7ddda7e8f261163972ddbe23c7e7a12ac5b84f supplies Get_Key
+// semantics; retail constructor establishes AsciiString at complete this+0x10.
+// Native F1EC2..F1ED3 is a full 17-byte accessor with two terminal returns.
 
 #define MAX_SHADOW_CASTER_MESHES 160
 
@@ -9,7 +12,7 @@ typedef int Int;
 class RefCountClass
 {
 public:
-	RefCountClass(void) : NumRefs(1) {}
+	__declspec(dllimport) __forceinline RefCountClass(void) : NumRefs(1) {}
 	void Add_Ref(void) { NumRefs++; }
 	int Num_Refs(void) { return NumRefs; }
 	virtual void Delete_This(void);
@@ -25,6 +28,8 @@ private:
 class HashableClass
 {
 public:
+	// Donor hash.h initializer; native EF9C2..EF9CF stores NextHash+4 and
+	// the known BCEF94 base vtable. Previous body ends ret4 at EF9BF.
 	HashableClass(void) : NextHash(0) {}
 	virtual ~HashableClass(void) {}
 	virtual const char *Get_Key(void) = 0;
@@ -55,7 +60,9 @@ public:
 	W3DShadowGeometry(void);
 	~W3DShadowGeometry(void) {}
 
-	virtual const char *Get_Key(void);
+	// Secondary HashableClass vftable 0x00BCEFF4 slot 1 points to F1EC2.
+	// MSVC receives this as the Hashable subobject: m_namebuf is then +8.
+	virtual const char *Get_Key(void) { return m_namebuf.str(); }
 
 private:
 	AsciiString m_namebuf;

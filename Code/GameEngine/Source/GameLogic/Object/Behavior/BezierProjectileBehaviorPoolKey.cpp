@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva00045BFD9@BezierProjectileBehavior@@SA?AW4NameKeyType@@XZ @0x45BFD9
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@BezierProjectileBehavior@@UBE?AW4NameKeyType@@XZ @0x45BFD9
 // (69B): cached pool-name key for BezierProjectileBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("BezierProjectileBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class BezierProjectileBehavior
 {
 public:
-	static NameKeyType rva00045BFD9();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00045BFD9@BezierProjectileBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType BezierProjectileBehavior::rva00045BFD9()
+// ?getModuleNameKey@BezierProjectileBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType BezierProjectileBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheBezierProjectileBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("BezierProjectileBehavior");

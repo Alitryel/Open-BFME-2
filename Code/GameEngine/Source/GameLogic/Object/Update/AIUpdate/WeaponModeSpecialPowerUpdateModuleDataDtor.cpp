@@ -1,4 +1,4 @@
-// cl: /O1 /GX /DNDEBUG /MD
+// cl: /Ireference/shims/bfme2_ascii /GX /DNDEBUG /MD
 //
 // ??1WeaponModeSpecialPowerUpdateModuleData@@UAE@XZ, retail 0x00494D7C, 53 bytes.
 // WeaponMode ModuleData dtor: destroys the AsciiString member at +0x18 via
@@ -12,26 +12,8 @@
 // FXListAtBonePosFXNuggetDtor (TU-local AsciiString via folded 0x36410,
 // empty novtable derived body, base call last).
 
-template <typename T>
-class StringBase
-{
-	friend class AsciiString;
+#include "ascii_string.h"
 
-protected:
-	~StringBase();
-
-	void *m_data;
-
-private:
-	StringBase(const char *str);
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString(const char *str) : StringBase<char>(str) {}
-	~AsciiString();
-};
 
 class AIUpdateModuleData
 {

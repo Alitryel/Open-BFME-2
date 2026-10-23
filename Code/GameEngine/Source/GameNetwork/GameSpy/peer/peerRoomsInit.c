@@ -56,7 +56,7 @@ extern __declspec(dllimport) char *__cdecl strncpy(char *dest,
 int piParseFlags(const char *flags);
 void chatSetChannelKeysA(void *chat, const char *channel, const char *user,
 	int num, const char **keys, const char **values);
-void chatLeaveChannel(void *chat, const char *channel, const char *reason);
+void chatLeaveChannelA(void *chat, const char *channel, const char *reason);
 void piCancelJoinOperation(PEER peer, RoomType roomType);
 void piClearRoomPlayers(PEER peer, RoomType roomType);
 void piKeyCacheCleanse(PEER peer);
@@ -107,7 +107,7 @@ void piLeaveRoom(PEER peer, RoomType roomType, const char *reason)
 	if (peer->enteringRoom[roomType])
 		piCancelJoinOperation(peer, roomType);
 	if (peer->connected)
-		chatLeaveChannel(peer->chat, peer->room[roomType], reason);
+		chatLeaveChannelA(peer->chat, peer->room[roomType], reason);
 
 	piClearRoomPlayers(peer, roomType);
 	if (peer->inRoom[roomType])

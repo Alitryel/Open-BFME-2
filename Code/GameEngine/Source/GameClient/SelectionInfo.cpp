@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/GameClient/SelectionInfo.cpp); this unit had no counterpart under Code/.
@@ -27,6 +27,43 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "PreRTS.h"
+#include <list>
+
+// list<Drawable *> takes its nodes from the 12-byte pool at VA 0x00DBA5E0.
+// The base constructor (0x00239BB0) and node creator (0x00239BD8) are spelled
+// as stlport_list_drawable_base_ctor.cpp and InGameUISelectDrawable.cpp spell
+// them, and the destructor (0x00239AF4) is defined once elsewhere, so this
+// unit emits no stock allocator copy of them for the link to reject.
+class Drawable;
+class FreelistPool { public: void *pop(); };
+extern FreelistPool g_freelistPool00DBA5E0;
+namespace _STL {
+template <> __declspec(noinline)
+_List_base<Drawable *, allocator<Drawable *> >::_List_base(const allocator<Drawable *> &__a)
+	: _M_node(__a, (_List_node<Drawable *> *)0)
+{
+	_List_node<Drawable *> *node = (_List_node<Drawable *> *)g_freelistPool00DBA5E0.pop();
+	node->_M_next = node;
+	node->_M_prev = node;
+	_M_node._M_data = node;
+}
+template <> _List_base<Drawable *, allocator<Drawable *> >::~_List_base();
+template <> __declspec(noinline) _List_node<Drawable *> *
+list<Drawable *>::_M_create_node(Drawable *const &value)
+{
+	_List_node<Drawable *> *node = (_List_node<Drawable *> *)g_freelistPool00DBA5E0.pop();
+	_Construct(&node->_M_data, value);
+	return node;
+}
+}
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 
 #include "GameLogic/Damage.h"
 #include "GameLogic/Module/ContainModule.h"
@@ -42,6 +79,9 @@
 #include "GameClient/GameClient.h"
 #include "GameClient/Drawable.h"
 #include "GameClient/KeyDefs.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+// bfme link decl-only end
 
 #ifdef _INTERNAL
 // for occasional debugging...
@@ -72,6 +112,7 @@ SelectionInfo::SelectionInfo() :
 { }
 
 //-------------------------------------------------------------------------------------------------
+// ?PickDrawableStruct::PickDrawableStruct present-unmatched
 PickDrawableStruct::PickDrawableStruct() : drawableListToFill(NULL)
 {
 	//Added By Sadullah Nader
@@ -89,167 +130,10 @@ PickDrawableStruct::PickDrawableStruct() : drawableListToFill(NULL)
 
 //-------------------------------------------------------------------------------------------------
 /**
- * Given a list of currently selected things and a list of things that are currently under 
- * the selection (pointer or drag), generate some useful information about each.
+ * contextCommandForNewSelection (retail 0x0030ECD6) is defined in
+ * SelectionInfoContextCommand.cpp over BFME 2 views; the Zero Hour headers
+ * this unit includes disagree with its field offsets.
  */
-extern Bool contextCommandForNewSelection(const DrawableList *currentlySelectedDrawables, 
-																					const DrawableList *newlySelectedDrawables,
-																					SelectionInfo *outSelectionInfo,
-																					Bool selectionIsPoint)
-{
-	if (!(currentlySelectedDrawables && newlySelectedDrawables && outSelectionInfo))
-		return FALSE;
-
-	Bool forceFire = TheInGameUI->isInForceAttackMode();
-	Bool forceMove = TheInGameUI->isInForceMoveToMode();
-
-	if (forceFire || forceMove) {
-		return FALSE;
-	}
-
-
-	Player *localPlayer = ThePlayerList->getLocalPlayer();
-	DrawableListCIt it;
-	for (it = currentlySelectedDrawables->begin(); it != currentlySelectedDrawables->end(); ++it) {
-		if (!(*it)) {
-			continue;
-		}
-
-		Object *obj = (*it)->getObject();
-		if (!obj) {
-			continue;
-		}
-
-		if (obj->isLocallyControlled()) {
-			++outSelectionInfo->currentCountMine;
-			if (obj->isKindOf(KINDOF_INFANTRY)) {
-				++outSelectionInfo->currentCountMineInfantry;
-			} else if (obj->isKindOf(KINDOF_STRUCTURE)) {
-				++outSelectionInfo->currentCountMineBuildings;
-			}
-		} else {
-			Relationship rel = localPlayer->getRelationship(obj->getTeam());
-			if (rel == ALLIES) {
-				++outSelectionInfo->currentCountFriends;
-			} else if (rel == ENEMIES) {
-				++outSelectionInfo->currentCountEnemies;
-			} else if (rel == NEUTRAL) {
-				++outSelectionInfo->currentCountCivilians;
-			}
-		}
-	}
-
-	Drawable *newMine = NULL;
-	Drawable *newFriendly = NULL;
-	Drawable *newEnemy = NULL;
-	Drawable *newCivilian = NULL;
-
-	for (it = newlySelectedDrawables->begin(); it != newlySelectedDrawables->end(); ++it) {
-		if (!(*it)) {
-			continue;
-		}
-
-		Object *obj = (*it)->getObject();
-		if (!obj) {
-			continue;
-		}
-
-		if (TheActionManager->canPlayerGarrison(localPlayer, obj, CMD_FROM_PLAYER)) {
-			++outSelectionInfo->newCountGarrisonableBuildings;
-		}
-		if (obj->isKindOf(KINDOF_CRATE)) {
-			++outSelectionInfo->newCountCrates;
-		}
-
-		if (obj->isLocallyControlled()) {
-			++outSelectionInfo->newCountMine;	
-			newMine = *it;
-			if (obj->isKindOf(KINDOF_STRUCTURE)) {
-				++outSelectionInfo->newCountMineBuildings;
-			}
-		} else {
-			Relationship rel = localPlayer->getRelationship(obj->getTeam());
-			if (rel == ALLIES) {
-				newFriendly = *it;
-				++outSelectionInfo->newCountFriends;
-			} else if (rel == ENEMIES) {
-				newEnemy = *it;
-				++outSelectionInfo->newCountEnemies;
-			} else if (rel == NEUTRAL) {
-				newCivilian = *it;
-				++outSelectionInfo->newCountCivilians;
-			}
-		}
-	}
-
-	DEBUG_ASSERTCRASH(outSelectionInfo->currentCountEnemies <= 1, ("Selection bug. jkmcd"));
-	DEBUG_ASSERTCRASH(outSelectionInfo->currentCountFriends <= 1, ("Selection bug. jkmcd"));
-	DEBUG_ASSERTCRASH(outSelectionInfo->currentCountCivilians <= 1, ("Selection bug. jkmcd"));
-
-	if (outSelectionInfo->currentCountEnemies > 0) {
-		// If we have an enemy selected, there are no context sensitive commands
-		return FALSE;
-	}
-
-	if (outSelectionInfo->currentCountFriends > 0) {
-		return FALSE;
-	}
-
-	if (outSelectionInfo->currentCountCivilians > 0) {
-		return FALSE;
-	}
-
-	if (TheGlobalData->m_useAlternateMouse) {
-		// context sensitive commands never apply when selecting in alternate mouse mode
-		return FALSE;
-	}
-
-	if (outSelectionInfo->currentCountMine > 0) {
-		if (outSelectionInfo->newCountEnemies > 0) {
-			if (outSelectionInfo->newCountEnemies == 1 && selectionIsPoint) {
-				return TheGameClient->evaluateContextCommand(newEnemy, newEnemy->getPosition(), CommandTranslator::EVALUATE_ONLY) != GameMessage::MSG_INVALID;
-			}
-
-			return selectionIsPoint;
-		}
-
-		if (outSelectionInfo->newCountMine > 0) {
-			if (outSelectionInfo->newCountMine == 1 && selectionIsPoint && !TheInGameUI->isInPreferSelectionMode()) {
- 				return TheGameClient->evaluateContextCommand(newMine, newMine->getPosition(), CommandTranslator::EVALUATE_ONLY) != GameMessage::MSG_INVALID;
-			}
-
-			return FALSE;
-		}
-
-		if (outSelectionInfo->newCountFriends > 0) {
-			if (outSelectionInfo->newCountFriends == 1 && selectionIsPoint) {
-				return TheGameClient->evaluateContextCommand(newFriendly, newFriendly->getPosition(), CommandTranslator::EVALUATE_ONLY) != GameMessage::MSG_INVALID;
-			}
-			return FALSE;
-		}
-
-		if (outSelectionInfo->currentCountMineInfantry > 0 && outSelectionInfo->newCountGarrisonableBuildings == 1) {
-			return TRUE;
-		}
-
-		if (outSelectionInfo->newCountCivilians > 0) {
-			if (outSelectionInfo->newCountCivilians == 1 && selectionIsPoint) {
-				return TheGameClient->evaluateContextCommand(newCivilian, newCivilian->getPosition(), CommandTranslator::EVALUATE_ONLY) != GameMessage::MSG_INVALID;
-			}
-			return FALSE;
-		}
-
-		if (outSelectionInfo->newCountCrates > 0) {
-			return (outSelectionInfo->newCountCrates == 1 && selectionIsPoint);
-		}
-	}
-
-	if (outSelectionInfo->currentCountMine == 0) {
-		return FALSE;
-	}
-
-	return selectionIsPoint;
-}
 
 //-------------------------------------------------------------------------------------------------
 UnsignedInt getPickTypesForContext( Bool forceAttackMode )

@@ -1,11 +1,11 @@
-// cl: /O1 /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /arch:SSE
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/moduledata /ICode/GameEngine/Include/Common
 // stlport
 //
 // ??1W3DLaserDrawModuleData@@UAE@XZ, retail 0x000C9AE7, 54 bytes.
 // ModuleData dtor: reinstalls the vtable 0x00BCB960, tears down the Texture
 // vector at +0x2C through the rowed vector<AsciiString> dtor at 0x0002CC70,
-// then restores the Snapshot base vtable 0x00BBB554 through the TU-local
-// inline base dtor. Single EH state for the one vector member; frameless
+// then restores the Snapshot base vtable 0x00BBB554 through the shared base
+// dtor. Single EH state for the one vector member; frameless
 // companion ctor at 0x000C9A6F proves the layout (vptr +0, vector +0x2C,
 // size 0x74 per the factory at 0x00064962). Table 0x00BCB840 names the
 // members; the ??_G caller at 0x000C9CC9 is the slot-0 deleting dtor. Shape
@@ -14,27 +14,16 @@
 
 #include <vector>
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-};
+class Xfer;
+#include "Common/Snapshot.h"
+#include "BfmeModuleData.h"
+// Vtable 0x00BCB960 is the shared 31-slot ModuleData table; teardown restores
+// Snapshot's table 0x00BBB554 (as in Rva004ABFD9Dtor.cpp).
+inline ModuleData::~ModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
+#include "ascii_string.h"
 
-class AsciiString
-{
-public:
-	~AsciiString();
-
-private:
-	void *m_data;
-};
-
-class W3DLaserDrawModuleData : public Snapshot
+class W3DLaserDrawModuleData : public ModuleData
 {
 public:
 	virtual ~W3DLaserDrawModuleData();

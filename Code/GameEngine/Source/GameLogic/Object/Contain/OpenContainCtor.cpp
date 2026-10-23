@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /DNDEBUG /MD /GX /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0OpenContain@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x004649F8, 386 bytes.
@@ -28,9 +28,75 @@
 // ModuleData+0x84 flag byte into +0xDE with a null guard. The construct-
 // then-memset order at +0x84 is genuine retail. Zero new pins (all callees
 // rowed). Row supersedes the ctor pin.
+// STLport's tree-node allocator must see the C++-linkage free wrapper at
+// 0x00030830, not the CRT import, for the retail destructor shape.
+#define _INC_STDLIB
+typedef unsigned int size_t;
+typedef struct { int quot; int rem; } div_t;
+typedef struct { long quot; long rem; } ldiv_t;
+extern "C" void __cdecl free(void *block);
+extern "C" {
+void __cdecl abort(void);
+int __cdecl abs(int value);
+int __cdecl atexit(void (__cdecl *routine)(void));
+double __cdecl atof(const char *string);
+int __cdecl atoi(const char *string);
+long __cdecl atol(const char *string);
+void *__cdecl bsearch(const void *key, const void *base, size_t count,
+        size_t width, int (__cdecl *compare)(const void *, const void *));
+void *__cdecl calloc(size_t count, size_t size);
+div_t __cdecl div(int numerator, int denominator);
+void __cdecl exit(int status);
+char *__cdecl getenv(const char *string);
+long __cdecl labs(long value);
+ldiv_t __cdecl ldiv(long numerator, long denominator);
+void *__cdecl malloc(size_t size);
+int __cdecl mblen(const char *string, size_t count);
+size_t __cdecl mbstowcs(unsigned short *dest, const char *source, size_t count);
+int __cdecl mbtowc(unsigned short *dest, const char *source, size_t count);
+void __cdecl qsort(void *base, size_t count, size_t width,
+        int (__cdecl *compare)(const void *, const void *));
+int __cdecl rand(void);
+void *__cdecl realloc(void *block, size_t size);
+void __cdecl srand(unsigned int seed);
+double __cdecl strtod(const char *string, char **end);
+long __cdecl strtol(const char *string, char **end, int radix);
+unsigned long __cdecl strtoul(const char *string, char **end, int radix);
+int __cdecl system(const char *string);
+size_t __cdecl wcstombs(char *dest, const unsigned short *source, size_t count);
+int __cdecl wctomb(char *dest, unsigned short ch);
+}
+
 #include <map>
 #include <list>
+
+// Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
+// rather than emitting its own.
+namespace _STL {
+template <> void _List_base<int, allocator<int> >::clear();
+}
+
+// Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
+// rather than emitting its own.
+namespace _STL {
+template <> _List_base<int, allocator<int> >::~_List_base();
+}
 #include <string.h>
+
+// list<int> destruction otherwise instantiates per-TU deallocate
+// COMDATs (one byte shape per TU flags); explicit dllimport+forceinline
+// specializations take those calls inline so this TU emits no external copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<_List_node<int> >::deallocate(_List_node<int>* __p, size_t __n) const {
+  _STLP_ASSERT( (__p == 0) == (__n == 0) )
+    if (__p != 0) __sgi_alloc::deallocate((void*)__p, __n * sizeof(value_type));
+}
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<_List_node<int> *, _List_node<int>, allocator<_List_node<int> > >::deallocate(_List_node<int> *__p, size_t __n) {
+  allocator<_List_node<int> >().deallocate(__p, __n);
+}
+}
 
 class Thing;
 class ModuleData;
@@ -56,10 +122,14 @@ public:
 	BehaviorModule(Thing *thing, const ModuleData *moduleData);
 };
 
+enum UpdateSleepTime { UPDATE_SLEEP_NONE = 0 };
+template <int NUMBITS> class BitFlags;
+// Slot shapes from OpenContain.cpp, whose ??_7OpenContain@@6BUpdateModule@@@ this unit must reproduce.
 class UpdateModuleInterface
 {
 public:
-	virtual void update();
+	virtual UpdateSleepTime update() = 0;
+	virtual BitFlags<13> getDisabledTypesToProcess() const = 0;
 };
 
 class UpdateModule : public BehaviorModule, public UpdateModuleInterface
@@ -67,6 +137,7 @@ class UpdateModule : public BehaviorModule, public UpdateModuleInterface
 public:
 	UpdateModule(Thing *thing, const ModuleData *moduleData);
 	virtual ~UpdateModule();
+	virtual BitFlags<13> getDisabledTypesToProcess() const;
 protected:
 	void setWakeFrame(Object *obj, unsigned int frame);
 private:
@@ -90,15 +161,21 @@ private:
 	unsigned char m_pad[0x4C];
 };
 
+// map<ObjectID, int>: the tree family dtor 0x00286852 -> clear 0x00286656 ->
+// erase 0x00286183 (one instantiation: the self-recursive erase is not ICF-folded;
+// AITargetHeuristicEnemyStructure::findBestTarget 0x005735C6 keys it by object ID).
+enum ObjectID { INVALID_ID = 0 };
+typedef _STL::map<ObjectID, int> ObjectIDIntMap;
 class OpenContain : public UpdateModule, public ContainIface20, public ContainIface24, public ContainIface28, public ContainIface2C, public ContainIface30, public ContainIface34
 {
 public:
 	OpenContain(Thing *thing, const ModuleData *moduleData);
 	virtual ~OpenContain();
+	virtual UpdateSleepTime update();
 private:
 	int m_bfme38;
 	_STL::map<int, void *> m_riderMapA;
-	_STL::map<int, void *> m_riderMapB;
+	ObjectIDIntMap m_riderMapB;
 	_STL::list<int> m_riderIdListA;
 	int m_bfme58;
 	_STL::map<int, void *> m_riderMapC;
@@ -160,3 +237,8 @@ OpenContain::OpenContain(Thing *thing, const ModuleData *moduleData)
 	m_bfmeE8 = 0;
 	m_bfmeDE = m_moduleData ? *(const unsigned char *)((const char *)m_moduleData + 0x84) : 0;
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?behaviorModuleOtherAnchor@BehaviorModuleOther@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

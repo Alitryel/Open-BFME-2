@@ -70,3 +70,7 @@ void Rva00800780Owner::onConnectReply( Rva007E8810Message *msg )
 	addr.parse( buf, port );
 	m_sink->notify( 0, &addr, m_d0 );
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?onConnectReply@Rva00800E50Owner@@QAEXPAVRva007E8810Message@@@Z=?onConnectReply@Rva00800780Owner@@QAEXPAVRva007E8810Message@@@Z")

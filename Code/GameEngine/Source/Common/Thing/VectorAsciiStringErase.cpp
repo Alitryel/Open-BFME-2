@@ -1,4 +1,4 @@
-// cl: /O1
+// cl: /Ireference/shims/bfme2_ascii /O1
 // stlport
 //
 // vector<AsciiString>::erase(first, last), retail 0x002CCFC, 51 bytes.
@@ -10,14 +10,7 @@
 // The four-argument wrapper is defined here (Nugget-erase idiom): it
 // forwards to the five-argument __copy worker rowed at 0x000B4431 under
 // this TU's spelling. Both bodies are verified below.
-class AsciiString
-{
-public:
-	~AsciiString();
-
-private:
-	char *m_data;
-};
+#include "ascii_string.h"
 
 namespace _STL
 {
@@ -42,6 +35,7 @@ public:
 	typedef Type *iterator;
 
 	iterator erase(iterator first, iterator last);
+	iterator begin() { return m_start; }
 	iterator end() { return m_finish; }
 
 private:
@@ -69,11 +63,34 @@ void _Destroy(ForwardIter first, ForwardIter last);
 }
 
 _STL::vector<AsciiString, _STL::allocator<AsciiString> >::iterator
-_STL::vector<AsciiString, _STL::allocator<AsciiString> >::erase(
+inline _STL::vector<AsciiString, _STL::allocator<AsciiString> >::erase(
 	iterator first, iterator last)
 {
 	iterator result = __copy_ptrs(last, m_finish, first, __false_type());
 	_STL::_Destroy(result, m_finish);
 	m_finish = result;
 	return first;
+}
+
+// The genuine erase-all caller below emits this header-inline erase and
+// its copy-dispatch helper naturally; no synthetic emission caller is needed.
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?erase@SidesInfoStringVector@@QAEPAVAsciiString@@PAV2@0@Z=?erase@?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAEPAVAsciiString@@PAV3@0@Z")
+
+// Clean BFME1 f98983a7d3 Module.cpp supplies the erase-all pattern. Retail
+// proves pointer slots0/4 and the string-owning erase provider; original owner
+// and complete object size are unknown. The existing vector is an ABI exemplar.
+class Rva0002D1B0Range
+{
+public:
+    void rva0002D1B0Clear();
+private:
+    _STL::vector<AsciiString, _STL::allocator<AsciiString> > m_values;
+};
+
+void Rva0002D1B0Range::rva0002D1B0Clear()
+{
+    m_values.erase(m_values.begin(), m_values.end());
 }

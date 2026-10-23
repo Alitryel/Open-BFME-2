@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /arch:SSE /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // Online-Files MiscPref stat accumulator (retail 0x00384A62, 887B).
@@ -35,30 +35,8 @@ template <typename T> struct BfmeStringData
 	T text[1];
 };
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	void releaseBuffer();
+#include "ascii_string.h"
 
-public:
-	StringBase() : m_data(0) {}
-	~StringBase();
-
-protected:
-	BfmeStringData<T> *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString() {}
-	AsciiString(const char *text) : StringBase<char>(text) {}
-	void __cdecl format(const char *format, ...);
-
-	const char *str() const { return m_data ? &m_data->text[0] : ""; }
-};
 
 bool operator<(const AsciiString &left, const AsciiString &right);
 
@@ -232,6 +210,8 @@ public:
 };
 
 extern GameSpyInfoInterface *TheGameSpyInfo;
+// TheGameSpyInfo: matched references place it at VA 0xe02320 (zero-filled .bss).
+GameSpyInfoInterface * TheGameSpyInfo;
 
 Int sumOnlineMiscPrefs(Int profileIndex);
 
@@ -249,15 +229,15 @@ struct OnlineMiscProfileStats
 // ?accumulateOnlineMiscPrefs@@YAXPAUOnlineMiscProfileStats@@@Z @0x384A62
 void accumulateOnlineMiscPrefs(OnlineMiscProfileStats *stats)
 {
-	OnlineMiscProfileStats *s = stats;
-	if (!s)
+	OnlineMiscProfileStats *onlineMiscProfileStats = stats;
+	if (!onlineMiscProfileStats)
 		return;
-	if (s->m_profileSlot == 0)
+	if (onlineMiscProfileStats->m_profileSlot == 0)
 		return;
 
 	if (TheGameSpyInfo->slot178() > 0)
 	{
-		if (sumOnlineMiscPrefs(s->m_profileSlot) == 0)
+		if (sumOnlineMiscPrefs(onlineMiscProfileStats->m_profileSlot) == 0)
 			TheGameSpyInfo->slot17c();
 	}
 	if (TheGameSpyInfo->slot178() < 1)
@@ -265,7 +245,7 @@ void accumulateOnlineMiscPrefs(OnlineMiscProfileStats *stats)
 
 	UserPreferences prefs;
 	AsciiString path;
-	path.format("%s\\MiscPref%d.ini", "Online Files", s->m_profileSlot);
+	path.format("%s\\MiscPref%d.ini", "Online Files", onlineMiscProfileStats->m_profileSlot);
 	prefs.load(path);
 
 	{
@@ -279,7 +259,7 @@ void accumulateOnlineMiscPrefs(OnlineMiscProfileStats *stats)
 		{
 			AsciiString valueKey("0");
 			const char *text = foundDigitText(FINDER->find(valueKey));
-			s->m_lowDigitStats += abs(atoi(text));
+			onlineMiscProfileStats->m_lowDigitStats += abs(atoi(text));
 		}
 	}
 	{
@@ -293,7 +273,7 @@ void accumulateOnlineMiscPrefs(OnlineMiscProfileStats *stats)
 		{
 			AsciiString valueKey("1");
 			const char *text = foundDigitText(FINDER->find(valueKey));
-			s->m_lowDigitStats += abs(atoi(text));
+			onlineMiscProfileStats->m_lowDigitStats += abs(atoi(text));
 		}
 	}
 	{
@@ -307,7 +287,7 @@ void accumulateOnlineMiscPrefs(OnlineMiscProfileStats *stats)
 		{
 			AsciiString valueKey("2");
 			const char *text = foundDigitText(FINDER->find(valueKey));
-			s->m_lowDigitStats += abs(atoi(text));
+			onlineMiscProfileStats->m_lowDigitStats += abs(atoi(text));
 		}
 	}
 	{
@@ -321,7 +301,7 @@ void accumulateOnlineMiscPrefs(OnlineMiscProfileStats *stats)
 		{
 			AsciiString valueKey("3");
 			const char *text = foundDigitText(FINDER->find(valueKey));
-			s->m_highDigitStats += abs(atoi(text));
+			onlineMiscProfileStats->m_highDigitStats += abs(atoi(text));
 		}
 	}
 	{
@@ -335,7 +315,7 @@ void accumulateOnlineMiscPrefs(OnlineMiscProfileStats *stats)
 		{
 			AsciiString valueKey("4");
 			const char *text = foundDigitText(FINDER->find(valueKey));
-			s->m_highDigitStats += abs(atoi(text));
+			onlineMiscProfileStats->m_highDigitStats += abs(atoi(text));
 		}
 	}
 	{
@@ -349,7 +329,7 @@ void accumulateOnlineMiscPrefs(OnlineMiscProfileStats *stats)
 		{
 			AsciiString valueKey("5");
 			const char *text = foundDigitText(FINDER->find(valueKey));
-			s->m_highDigitStats += abs(atoi(text));
+			onlineMiscProfileStats->m_highDigitStats += abs(atoi(text));
 		}
 	}
 }

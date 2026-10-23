@@ -63,6 +63,7 @@ public:
 	GenericObjectCreationNugget();
 	static void parseObject(INI *ini, void *instance, void *, const void *);
 	static void parseDebris(INI *ini, void *instance, void *, const void *);
+	static const FieldParse *getCommonFieldParse();
 
 protected:
 	~GenericObjectCreationNugget();
@@ -84,13 +85,21 @@ static const FieldParse s_commonFieldParse[] =
 	{ 0, 0, 0, 0 }
 };
 
+// ?getCommonFieldParse@GenericObjectCreationNugget@@SAPBUFieldParse@@XZ,
+// retail 0x001F01EB (6B): returns the common table above (VA 0x00BE0CC0),
+// Zero Hour's GenericObjectCreationNugget::getCommonFieldParse.
+const FieldParse *GenericObjectCreationNugget::getCommonFieldParse()
+{
+	return s_commonFieldParse;
+}
+
 static const FieldParse s_objectFieldParse[] =
 {
 	{ 0, 0, 0, 0 }
 };
 
 // ?parseObject@GenericObjectCreationNugget@@SAXPAVINI@@PAX1PBX@Z
-void GenericObjectCreationNugget::parseObject(INI *ini, void *instance,
+inline void GenericObjectCreationNugget::parseObject(INI *ini, void *instance,
 	void *, const void *)
 {
 	MultiIniFieldParse fields;
@@ -113,7 +122,7 @@ static const FieldParse s_debrisFieldParse[] =
 // ?parseDebris@GenericObjectCreationNugget@@SAXPAVINI@@PAX1PBX@Z
 // retail 0x001F340A (148 bytes): parseObject's twin with the debris table and
 // m_nameAreObjects cleared.
-void GenericObjectCreationNugget::parseDebris(INI *ini, void *instance,
+inline void GenericObjectCreationNugget::parseDebris(INI *ini, void *instance,
 	void *, const void *)
 {
 	MultiIniFieldParse fields;
@@ -126,3 +135,16 @@ void GenericObjectCreationNugget::parseDebris(INI *ini, void *instance,
 	ini->initFromINIMulti(nugget, fields);
 	((ObjectCreationList *)instance)->addObjectCreationNugget(nugget);
 }
+
+// parseObject/parseDebris are header inlines elsewhere: other units emit
+// select-any copies, so strong definitions here were duplicate symbols in
+// the linked build. This anchor only makes this unit emit its copies for
+// the ledger rows; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitGenericObjectCreationNuggetParseObject@@YAXXZ present-unmatched
+void bfmeEmitGenericObjectCreationNuggetParseObject()
+{
+	GenericObjectCreationNugget::parseObject(0, 0, 0, 0);
+	GenericObjectCreationNugget::parseDebris(0, 0, 0, 0);
+}
+#pragma inline_depth()

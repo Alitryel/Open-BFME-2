@@ -40,41 +40,11 @@ BfmeEntryZI *BfmeThingZI::bfmeFindZI(int key, int other)
 	return 0;
 }
 
-struct BfmeGridZJ
-{
-	unsigned char m_bfmeHead[0xc];		// 0x0c
-	int m_bfmeValue;			// 0x0c
-	unsigned char m_bfmeGap[8];		// 0x10
-	unsigned char *m_bfmeRows;		// 0x18
-	int m_bfmeStride;			// 0x1c
-	unsigned char m_bfmeMask;		// 0x20
-	unsigned char m_bfmeSpare[3];		// 0x21
-	int *m_bfmeOut;				// 0x24
-	unsigned char m_bfmeTail[0x64];		// 0x28
-	unsigned int m_bfmeCount;		// 0x8c
-};
-
-void bfmeFillZJ(BfmeGridZJ *grid)
-{
-	unsigned int i = 0;
-	int value = grid->m_bfmeValue;
-
-	while (i < grid->m_bfmeCount)
-	{
-		unsigned char mark = grid->m_bfmeRows[grid->m_bfmeStride * i];
-
-		if ((grid->m_bfmeMask & mark) != 0)
-			grid->m_bfmeOut[i] = value;
-
-		++i;
-	}
-}
-
 #include <string.h>
 
 class Rva007E8810Message;
 
-void Rva007E8640Copy( char *destination, unsigned size, const char *source );
+void Rva00655700( char *destination, unsigned size, const char *source );
 
 class Rva007FC020Ticket
 {
@@ -121,10 +91,10 @@ public:
 	int m_extra;
 };
 
-class BfmeE1029
+class Rva006557F0Holder
 {
 public:
-	void bfmeGo1029E( char *text, int value );
+	void set( const char *text, int value );
 
 	char m_pad[ 8 ];
 	char m_text[ 0x1c ];
@@ -148,7 +118,7 @@ public:
 	virtual void onEntry( BfmeEntryZI *entry, int value );
 };
 
-class Rva007EB810Diag
+struct Rva007EB810Diag
 {
 public:
 	virtual void v0();
@@ -157,7 +127,7 @@ public:
 	virtual void fail( const char *expression, const char *file, int line );
 };
 
-extern int Rva007EB810Get();
+extern Rva007EB810Diag *Rva007EB810Get();
 
 class Rva00800920Owner
 {
@@ -177,7 +147,7 @@ void BfmeThingZI::rva007F7DA0( Rva007E8810Message *msg )
 
 	if( entry == 0 )
 	{
-		((Rva007EB810Diag *)Rva007EB810Get())->fail(
+		Rva007EB810Get()->fail(
 			"peri",
 			"\\views\\feslbuild_main\\jabba\\fesl\\source\\gamebrowser\\gamebrowser.cpp",
 			0x59f );
@@ -195,7 +165,7 @@ void BfmeThingZI::rva007F7DA0( Rva007E8810Message *msg )
 			*(int *)((char *)entry + 0x10) = 0;
 			*(unsigned char *)((char *)entry + 0x14) = 0;
 			*(int *)((char *)entry + 0x18) = 0;
-			((Rva00800290Buffer *)((char *)entry + 0x1c))->append( (const char *)0x00BBAC1C );
+			((Rva00800290Buffer *)((char *)entry + 0x1c))->append( "" );
 			entry->m_bfmeOther = 0;
 			entry->m_bfmeKey = 0;
 			*(char *)((char *)entry + 0x6c) = 0;
@@ -215,11 +185,11 @@ void BfmeThingZI::rva007F7DA0( Rva007E8810Message *msg )
 			entry->m_bfmeUsed = 4;
 			*(int *)((char *)entry + 0x18) = ticket.m_pid;
 			((Rva00800290Buffer *)((char *)entry + 0x1c))->append( ticket.m_ticket );
-			Rva007E8640Copy( (char *)entry + 0x6c, 0x25, ticket.m_ugid );
+			Rva00655700( (char *)entry + 0x6c, 0x25, ticket.m_ugid );
 
 			if( ticket.m_host[ 0 ] != 0 )
 			{
-				((BfmeE1029 *)( (char *)entry + 0x3c ))->bfmeGo1029E(
+				((Rva006557F0Holder *)( (char *)entry + 0x3c ))->set(
 					ticket.m_host, ticket.m_p );
 				*(void **)((char *)entry + 0x64) = (void *)((char *)entry + 0x3c);
 			}

@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // Assign-copy chain for Rva00297360Element (stride-0x10 element with an
 // AsciiString at +4): the random-access __copy loop at retail 0x0028F869
@@ -9,13 +9,7 @@
 // under explicit instantiation; the body is byte-identical either way.
 #include <algorithm>
 
-class AsciiString {
-public:
-  AsciiString() {}
-  AsciiString &operator=(const AsciiString &other);
-private:
-  void *m_data;
-};
+#include "ascii_string.h"
 
 class Rva00297360Element {
 public:

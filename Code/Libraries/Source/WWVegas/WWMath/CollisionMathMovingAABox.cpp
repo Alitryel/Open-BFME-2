@@ -1,10 +1,22 @@
-// cl: /Ireference/shims/bfmerendobj /G7 /arch:SSE2 /DNDEBUG /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// cl: /Ireference/shims/bfme2_vector3 /Ireference/shims/bfmerendobj /DNDEBUG /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
 //
 // CollisionMath::Collide for two moving AABoxes, with its AABCollisionStruct
 // and aab_separation_test helper. Donor: the BFME1 reconstruction of the same
 // upstream WWMath routine (their retail 0x008DA000, 237 bytes), which keeps
 // the helper TU-local exactly as below. BFME2's colmathaabox TU deliberately
 // omits this overload; it belongs here.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+#include "vector3.h" // select the verified three-word constructor before donor math headers
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "colmath.h"
 #include "colmathinlines.h"
@@ -144,7 +156,10 @@ bool CollisionMath::Collide(const AABoxClass & box,const Vector3 & move,const AA
 	** u0 = projected distance between the box centers at t0
 	** u1 = projected distance between the box centers at t1
 	*/
-	AABCollisionStruct context(box,move,box2,Vector3(0,0,0));
+	// Keep native inlined zero initialization with the shared bit-copy ctor.
+	Vector3 stationaryMove;
+	stationaryMove.Set(0,0,0);
+	AABCollisionStruct context(box,move,box2,stationaryMove);
 
 	if (aab_separation_test(context,0)) {
 		goto exit;

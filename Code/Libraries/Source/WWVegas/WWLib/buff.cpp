@@ -52,8 +52,8 @@
 // and ??3@YAXPAX@Z (0x0002FD60) rather than ??_U (0x0002FDE0) / ??_V
 // (0x0002FD80).  Kept here only because every row this unit already holds still
 // byte-verifies with it.
-inline void * __cdecl operator new[](size_t s) { return ::operator new(s); }
-inline void __cdecl operator delete[](void * p) { ::operator delete(p); }
+static inline void * __cdecl operator new[](size_t s) { return ::operator new(s); }
+static inline void __cdecl operator delete[](void * p) { ::operator delete(p); }
 //#include	<stddef.h>
 
 
@@ -209,7 +209,7 @@ Buffer & Buffer::operator = (Buffer const & buffer)
  * HISTORY:                                                                                    *
  *   07/29/1996 JLB : Created.                                                                 *
  *=============================================================================================*/
-Buffer::~Buffer(void)
+inline Buffer::~Buffer(void)
 {
 	Reset();
 }
@@ -241,3 +241,14 @@ void Buffer::Reset(void)
 	Size = 0;
 	IsAllocated = false;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeBufferInlineAnchor@@YAXPAVBuffer@@@Z absent-from-retail
+void _bfmeBufferInlineAnchor(Buffer *buffer)
+{
+    buffer->Buffer::~Buffer();
+}
+#pragma inline_depth()

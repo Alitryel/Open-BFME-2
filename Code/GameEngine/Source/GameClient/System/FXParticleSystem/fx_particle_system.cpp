@@ -1,3 +1,10 @@
+// cl: /Ireference/shims/moduledata
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#define BFME_SNAPSHOT_REFERENCE_XFER
+#include "Common/Snapshot.h"
+
 namespace FXParticleSystem
 {
 class EventModuleInfo
@@ -14,11 +21,9 @@ private:
     bool m_unk1;
 };
 
-EventModuleInfo::EventModuleInfo()
-{
-    m_unk0 = true;
-    m_unk1 = true;
-}
+// The constructor and ParticleSystemInfo::GetSnapshotName are rowed in
+// FXParticleSystemEarlyInlines.cpp (retail places them among the image's first
+// functions).
 
 EventModuleInfo::~EventModuleInfo()
 {
@@ -30,26 +35,18 @@ public:
     virtual const char *GetSnapshotName();
 };
 
-const char *ParticleSystemInfo::GetSnapshotName()
-{
-    return "FXParticleSystemInfo";
-}
-
 // LineEmissionVolumeInfo copy ctor, retail 0x003A653B (63B). BFME1 donor
 // b1 0x005D5A90: base EmissionVolumeInfo copy (inlined: base vtable +
 // flag byte) then the derived vtable and the six float copies. No
 // out-of-line calls, so no pins. Snapshot is vtable-only here (4 bytes),
 // which seats m_flag at +0x4 and the float block at +0x8 per retail.
-class Snapshot
-{
-public:
-    virtual ~Snapshot();
-};
-
 class EmissionVolumeInfo : public Snapshot
 {
 public:
-    virtual ~EmissionVolumeInfo();
+    virtual ~EmissionVolumeInfo() {}
+    virtual void LoadPostProcess();
+    virtual const char *GetSnapshotName();
+    virtual void DoXfer(::Xfer &);
 
     bool m_flag;
 };
@@ -75,3 +72,7 @@ LineEmissionVolumeInfo::LineEmissionVolumeInfo(const LineEmissionVolumeInfo &tha
     m_unk[5] = that.m_unk[5];
 }
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?construct_from@CylinderEmissionVolumeModuleTemplateSubCopyShim@FXParticleSystem@@QAEXPBX@Z=??0LineEmissionVolumeInfo@FXParticleSystem@@QAE@ABV01@@Z")

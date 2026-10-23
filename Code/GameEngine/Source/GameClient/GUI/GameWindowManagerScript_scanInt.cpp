@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 //
 // ?scanInt@@YAHPBDAAH@Z, retail 0x00314E96, 22 bytes.
 // Dedicated TU.
@@ -18,7 +18,7 @@ typedef int Int;
 extern "C" __declspec(dllimport) int __cdecl sscanf(const char *buf, const char *fmt, ...);
 
 // ?scanInt@@YAHPBDAAH@Z
-static Int scanInt(const char *source, Int &val)
+Int scanInt(const char *source, Int &val)
 {
 	Int ret = sscanf(source, "%d", &val);
 

@@ -9,6 +9,10 @@
 // allocate at 0x000307F0, one-argument _free at 0x00030830).
 
 #include <vector>
+// Suppress this TU's non-retail copy of ??$_M_allocate_and_copy@PAUAngleFXInfo@@@?$vector@UAngleFXInfo@@V?$allocator@UAngleFXInfo@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct AngleFXInfo;
+namespace _STL { template <> template <> AngleFXInfo * vector<AngleFXInfo,allocator<AngleFXInfo> >::_M_allocate_and_copy<AngleFXInfo *>(unsigned int,AngleFXInfo *,AngleFXInfo *); }
 
 class FXList;
 
@@ -19,4 +23,24 @@ struct AngleFXInfo
 	FXList *fxList;
 };
 
-template class _STL::vector<AngleFXInfo, _STL::allocator<AngleFXInfo> >;
+// Shared allocation/copy specialization, also emitted by Rva00181500Finish.cpp.
+template<>
+template<>
+__declspec(noinline) inline AngleFXInfo * _STL::vector<AngleFXInfo, _STL::allocator<AngleFXInfo> >::_M_allocate_and_copy<AngleFXInfo *>(
+	unsigned int n, AngleFXInfo *first, AngleFXInfo *last)
+{
+	AngleFXInfo *result = this->_M_end_of_storage.allocate(n);
+	for (AngleFXInfo *p = first; p != last; ++p)
+	{
+		AngleFXInfo *dest = (AngleFXInfo *)((char *)result + ((char *)p - (char *)first));
+		if (dest)
+			*dest = *p;
+	}
+	return result;
+}
+
+// Instantiate only the rowed members: a whole-class instantiation also emits
+// erase(first, last), which retail folds into vector<BfmePod8>'s 0x003FA4DB.
+template void _STL::vector<AngleFXInfo, _STL::allocator<AngleFXInfo> >::_M_insert_overflow(AngleFXInfo *, const AngleFXInfo &, const _STL::__false_type &, _STL::size_t, bool);
+template void _STL::vector<AngleFXInfo, _STL::allocator<AngleFXInfo> >::reserve(_STL::size_t);
+template AngleFXInfo *_STL::allocator<AngleFXInfo>::allocate(_STL::size_t, const void *) const;

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/reference/shims/ini /Ireference/open-bfme-1/reference/shims/gamelod /Ireference/open-bfme-1/reference/shims/ini_noinline /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /Ireference/shims/bfme2_ascii_common /O1 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/reference/shims/ini /Ireference/open-bfme-1/reference/shims/gamelod /Ireference/open-bfme-1/reference/shims/ini_noinline /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib
 // stlport
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -155,10 +155,13 @@ DynamicGameLODInfo::DynamicGameLODInfo(void)
 };
 
 //Keep this in sync with enum in GameLOD.h
-static char *CPUNames[] = 
-{
-	"XX","P3", "P4","K7", NULL
-};
+// ?CPUNames@@3PAPBDA, retail 0x009B96B8 (XX P3 P4 K7 then NULL). External
+// rather than Zero Hour's static: GameLODManager::init 0x002027EA (split out to
+// GameLODManagerInit.cpp; in retail it sits between parseBenchProfile 0x002026D4
+// and parseLODPreset 0x00202E23, as in Zero Hour's one GameLOD.cpp) reads it
+// for the BenchProfile line. GameLODManagerInit.cpp owns the definition (data
+// row 0x009B96B8); a second one here would not link.
+extern const char *CPUNames[];
 
 //Keep this in sync with enum in GameLOD.h
 static char *VideoNames[] = 
@@ -166,39 +169,9 @@ static char *VideoNames[] =
 	"XX","V2","V3","V4","V5","TNT","TNT2","GF2","R100","PS11","GF3","GF4","PS14","R200","PS20","R300", NULL
 };
 
-void parseReallyLowMHz(INI* ini)
-{
-	// BFME GameLODManager layout: m_reallyLowMHz @ +0x1734 (ZH header has it @ +0xa60).
-	// Local retail view keeps this leaf matchable without a class-wide layout rewrite.
-	struct RetailGameLODManager
-	{
-		char m_pad[0x1734];
-		Int m_reallyLowMHz;
-	};
-	Int mhz;
-	INI::parseInt(ini,NULL,&mhz,NULL);
-	if (TheGameLODManager)
-	{
-		reinterpret_cast<RetailGameLODManager *>(TheGameLODManager)->m_reallyLowMHz = mhz;
-	}
-}
+// parseReallyLowMHz lives in GameLODMHzParsers.cpp with the verified BFME 2 offset.
 
-void parseAudioLowMHz(INI* ini)
-{
-	// m_audioLowMHz sits immediately after m_reallyLowMHz above; the two INI
-	// keywords are a pair ("ReallyLowMHz" / "AudioLowMHz") and so are the fields.
-	struct RetailGameLODManager
-	{
-		char m_pad[0x1738];
-		Int m_audioLowMHz;
-	};
-	Int mhz;
-	INI::parseInt(ini,NULL,&mhz,NULL);
-	if (TheGameLODManager)
-	{
-		reinterpret_cast<RetailGameLODManager *>(TheGameLODManager)->m_audioLowMHz = mhz;
-	}
-}
+// parseAudioLowMHz lives in GameLODMHzParsers.cpp with the verified BFME 2 offset.
 
 // ABI shim for target helper 0x0020200D; this type name is inferred.
 // Retail bounds/increments count at +0x17C0 and returns a 20-byte profile.
@@ -226,56 +199,30 @@ void INI::parseBenchProfile( INI* ini)
 
 /**Parse a description of all the LOD settings for a given detail level*/
 // ?parseLODPreset@INI@@SAXPAV1@@Z
+// Retail 0x00202E23 226B. INI block-parse node for token LODPreset.
+// Calls rowed getNextToken set copy-ctor rva00202B6C newLODPreset parse helpers.
+class Rva00202B6C
+{
+public:
+	Int rva00202B6C(AsciiString name);
+};
 
-// ?parseLODPreset@INI@@SAXPAV1@@Z present-unmatched
 void INI::parseLODPreset(INI *ini)
 {
-	struct RetailLODPresetInfo
-	{
-		char bytes[0x20];
-	};
-	struct RetailGameLODManager
-	{
-		char padding0[0x160];
-		RetailLODPresetInfo presets[5][32];
-		char padding1[0x190];
-		Int counts[5];
-
-		RetailLODPresetInfo *newLODPreset(Int index)
-		{
-			if (counts[index] < 0x20)
-			{
-				counts[index] = counts[index] + 1;
-				return &presets[index][counts[index]];
-			}
-			return NULL;
-		}
-	};
-
 	AsciiString name;
-	const char *const c = ini->getNextToken();
-
-	Int length;
-	if (c != NULL)
-	{
-		length = (Int)strlen(c);
-	}
-	else
-		length = 0;
-	((StringBase<char> *)&name)->set(c, length);
+	name.set(ini->getNextToken());
 
 	if (TheGameLODManager)
 	{
-		Int index = TheGameLODManager->getStaticGameLODIndex(name);
-		if (index != STATIC_GAME_LOD_UNKNOWN)
+		Int index = reinterpret_cast<Rva00202B6C *>(TheGameLODManager)->rva00202B6C(name);
+		if (index != -1)
 		{
-			RetailLODPresetInfo *preset =
-				((RetailGameLODManager *)TheGameLODManager)->newLODPreset(index);
+			void *preset = TheGameLODManager->newLODPreset((StaticGameLODLevel)index);
 			if (preset)
 			{
-				INI::parseIndexList(ini, NULL, preset, (const void *)0x012a7418);
+				INI::parseIndexList(ini, NULL, preset, CPUNames);
 				INI::parseInt(ini, NULL, (char *)preset + 4, NULL);
-				INI::parseIndexList(ini, NULL, (char *)preset + 0x0c, (const void *)0x012a742c);
+				INI::parseIndexList(ini, NULL, (char *)preset + 0x0c, CPUNames + 6);
 				INI::parseInt(ini, NULL, (char *)preset + 0x14, NULL);
 				INI::parseInt(ini, NULL, (char *)preset + 0x10, NULL);
 				INI::parseInt(ini, NULL, (char *)preset + 0x18, NULL);
@@ -285,37 +232,8 @@ void INI::parseLODPreset(INI *ini)
 	}
 }
 
-// ??0GameLODManager@@QAE@XZ present-unmatched
-GameLODManager::GameLODManager(void)
-{
-	m_currentStaticLOD = STATIC_GAME_LOD_UNKNOWN;
-	m_currentDynamicLOD = DYNAMIC_GAME_LOD_HIGH;
-	m_numParticleGenerations=0;
-	m_dynamicParticleSkipMask=0;
-	m_numDebrisGenerations=0;
-	m_dynamicDebrisSkipMask=0;
-	m_videoPassed=false;
-	m_cpuPassed=false;
-	m_memPassed=false;
-	m_slowDeathScale=1.0f;
-	m_idealDetailLevel = STATIC_GAME_LOD_UNKNOWN;
-	m_videoChipType = DC_MAX;
-	m_cpuType = XX;
-	m_numRAM=0;
-	m_cpuFreq=0;
-	m_intBenchIndex=0;
-	m_floatBenchIndex=0;
-	m_memBenchIndex=0;
-	m_compositeBenchIndex=0;
-	m_numBenchProfiles=0;
-	m_currentTextureReduction=0;
-	m_reallyLowMHz = 400;
-	
-	for (Int i=0; i<STATIC_GAME_LOD_CUSTOM; i++)
-		m_numLevelPresets[i]=0;
-};
+// The retail constructor is defined in Rva00201DC4LODDefaults.cpp.
 
-// ??1GameLODManager@@QAE@XZ present-unmatched
 GameLODManager::~GameLODManager()
 {
 
@@ -334,18 +252,8 @@ BenchProfile *GameLODManager::newBenchProfile(void)
 	return NULL;
 }
 
-// ?newLODPreset@GameLODManager@@QAEPAULODPresetInfo@@W4StaticGameLODLevel@@@Z present-unmatched
-LODPresetInfo *GameLODManager::newLODPreset(StaticGameLODLevel index)
-{
-	if (m_numLevelPresets[index] < MAX_LOD_PRESETS_PER_LEVEL)
-	{	
-		m_numLevelPresets[index]++;
-		return &m_lodPresets[index][m_numLevelPresets[index]-1];
-	}
-
-	DEBUG_CRASH(( "GameLODManager::newLODPreset - Too many presets defined for '%s'\n", TheGameLODManager->getStaticGameLODLevelName(index)));
-	return NULL;
-}
+// GameLODManager::newLODPreset: retail 0x0020202B, rowed in
+// Rva0020202BFinish.cpp (BFME2 indexes the slot after the increment).
 
 // ?init@GameLODManager@@QAEXXZ
 // Body in GameLOD_init.asm (exact 967B retail).
@@ -376,28 +284,15 @@ void GameLODManager::refreshCustomStaticLODLevel(void)
 
 /**Convert LOD name to an index*/
 // byte-exact reconstruction: Code/GameEngine/Source/Common/GameLODManagerGetStaticGameLODIndex.cpp
-// ?getStaticGameLODIndex@GameLODManager@@QAEHVAsciiString@@@Z present-unmatched
-Int GameLODManager::getStaticGameLODIndex(AsciiString name)
-{
-	for (Int i=0; i<STATIC_GAME_LOD_COUNT; ++i)
-	{
-		if (name.compareNoCase(StaticGameLODNames[i]) == 0)
-			return i;
-	}
-
-	DEBUG_CRASH(( "GameLODManager::getGameLODIndex - Invalid LOD name '%s'\n", name.str() ));
-	return STATIC_GAME_LOD_UNKNOWN;
-}
+// GameLODManager::getStaticGameLODIndex: defined in GameLODManagerGetStaticGameLODIndex.cpp (its row's unit).
 
 /**Parse a description of all the LOD settings for a given detail level*/
 // ?parseStaticGameLODDefinition@INI@@SAXPAV1@@Z
 // The "StaticGameLOD" block. BFME's field set is not Zero Hour's, so this table
-// carries the offsets retail's own table at 0x01076760 holds rather than
-// offsetof against a reconstructed struct: the element is 0x30 bytes (the parse
-// function indexes it as index*0x30) but not every member type past the offset
-// is pinned yet. m_staticGameLODInfo sits at offset 0 of GameLODManager --
-// retail computes the element address as TheGameLODManager + index*0x30 with
-// nothing added.
+// carries the offsets retail's own table at 0x00BE3478 holds rather than
+// offsetof against a reconstructed struct. The matching retail parser passes
+// TheGameLODManager + 0x1c8 + (index << 4) to initFromINI; this proves the
+// address formula, not the complete layout of the parsed region.
 static const FieldParse TheBFMEStaticGameLODFieldParseTable[] =
 {
 	{ "MaxParticleCount",			INI::parseInt,			NULL,	0x00 },
@@ -425,14 +320,15 @@ static const FieldParse TheBFMEStaticGameLODFieldParseTable[] =
 /*static*/ void INI::parseStaticGameLODDefinition( INI* ini )
 {
 	AsciiString name;
-	name = ini->getNextToken();
+	((StringBase<char> *)&name)->set(ini->getNextToken());
 
 	if( TheGameLODManager )
 	{
 		Int index = TheGameLODManager->getStaticGameLODIndex( name );
 		if( index != STATIC_GAME_LOD_UNKNOWN )
 		{
-			void *lodInfo = (char *)TheGameLODManager + index * 0x30;
+			// Retail computes manager + 0x1c8 + (index << 4) here.
+			void *lodInfo = (char *)TheGameLODManager + index * 16 + 0x1c8;
 			ini->initFromINI( lodInfo, TheBFMEStaticGameLODFieldParseTable );
 		}
 	}
@@ -466,54 +362,7 @@ const char *GameLODManager::getStaticGameLODLevelName(StaticGameLODLevel level)
 
 /**Function which calculates the recommended LOD level for current hardware
 configuration.*/
-// byte-exact reconstruction: Code/GameEngine/Source/Common/GameLODManager_findStaticLODLevel_Thunk.cpp
-// ?findStaticLODLevel@GameLODManager@@QAE?AW4StaticGameLODLevel@@XZ present-unmatched
-StaticGameLODLevel GameLODManager::findStaticLODLevel(void)
-{
-	//Check if we have never done the test on current system
-	if (m_idealDetailLevel == STATIC_GAME_LOD_UNKNOWN)
-	{
-		//search all our presets for matching hardware
-		m_idealDetailLevel = STATIC_GAME_LOD_LOW;
-
-		//get system configuration - only need vide chip type, got rest in ::init().
-		testMinimumRequirements(&m_videoChipType,NULL,NULL,NULL,NULL,NULL,NULL);
-		if (m_videoChipType == DC_UNKNOWN)
-			m_videoChipType = DC_TNT2;	//presume it's at least TNT2 level
-
-		Int numMBRam=m_numRAM/(1024*1024);
-
-		for (Int i=STATIC_GAME_LOD_HIGH; i >= STATIC_GAME_LOD_LOW; i--)
-		{
-				LODPresetInfo *preset=&m_lodPresets[i][0];	//pointer to first preset at this LOD level.
-				for (Int j=0; j<m_numLevelPresets[i]; j++)
-				{
-
-					if(	m_cpuType == preset->m_cpuType &&
-							((Real)m_cpuFreq/(Real)preset->m_mhz >= PROFILE_ERROR_LIMIT) &&//make sure we're within 5% or higher
-							m_videoChipType >= preset->m_videoType &&
-							((Real)numMBRam/(Real)preset->m_memory >= PROFILE_ERROR_LIMIT)
-						)
-					{	m_idealDetailLevel = (StaticGameLODLevel)i;
-						break;
-					}
-
-					preset++;	//skip to next preset
-
-				}
-				if (m_idealDetailLevel >= i)
-					break;	//we already found a higher level than the remaining presets so no need to keep searching.
-		}
-		//Save ideal detail level for future usage
-		OptionPreferences optionPref;
-		optionPref["IdealStaticGameLOD"] = getStaticGameLODLevelName(m_idealDetailLevel);
-		if (getStaticLODLevel() == STATIC_GAME_LOD_UNKNOWN)	//save for future usage.
-			optionPref["StaticGameLOD"] = getStaticGameLODLevelName(m_idealDetailLevel);
-		optionPref.write();
-	}
-
-	return m_idealDetailLevel;
-}
+// The matched BFME 2 definition is in GameLODManagerFindStaticLODLevel.cpp.
 
 /**Set all game systems to match the desired LOD level.*/
 struct BfmeGameLODManagerState
@@ -535,10 +384,12 @@ struct BfmeGameLODGlobalData
 class Shell
 {
 public:
-	Bool showShellMap(Bool useShellMap);
+	Bool showShellMap(Bool useShellMap, Bool restartShellGame);
 };
 
 extern Shell *TheShell;
+// TheShell: matched references place it at VA 0xe01e48 (zero-filled .bss).
+Shell * TheShell;
 
 // ?setStaticLODLevel@GameLODManager@@QAE_NW4StaticGameLODLevel@@@Z
 // ?setStaticLODLevel@GameLODManager@@QAE_NW4StaticGameLODLevel@@@Z present-unmatched
@@ -581,7 +432,7 @@ Bool GameLODManager::setStaticLODLevel(StaticGameLODLevel level)
 	}
 
 	if (TheShell)
-		TheShell->showShellMap(TRUE);
+		TheShell->showShellMap(TRUE, TRUE);
 
 	return_true:
 	return TRUE;
@@ -673,39 +524,6 @@ void GameLODManager::applyStaticLODLevel(StaticGameLODLevel level)
 
 }
 
-/**Parse a description of all the LOD settings for a given detail level*/
-// ?parseDynamicGameLODDefinition@INI@@SAXPAV1@@Z
-// Same shape as the static variant. m_dynamicGameLODInfo is at +0x120 in
-// GameLODManager with a 16-byte stride: retail computes the element address as
-// (index + 0x12) << 4 added to TheGameLODManager, which is index*16 + 0x120.
-// Offsets in the table are the ones retail's own table at 0x01076890 carries.
-static const FieldParse TheBFMEDynamicGameLODFieldParseTable[] =
-{
-	{ "MinimumFPS",			INI::parseInt,	NULL,	0x00 },
-	{ "ParticleSkipMask",	INI::parseInt,	NULL,	0x04 },
-	{ "DebrisSkipMask",		INI::parseInt,	NULL,	0x08 },
-	{ "SlowDeathScale",		INI::parseReal,	NULL,	0x0c },
-	{ 0, 0, 0, 0 }
-};
-
-// ?parseDynamicGameLODDefinition@INI@@SAXPAV1@@Z present-unmatched
-void INI::parseDynamicGameLODDefinition( INI* ini )
-{
-	AsciiString name;
-
-	name = ini->getNextToken();
-
-	if( TheGameLODManager )
-	{
-		Int index = TheGameLODManager->getDynamicGameLODIndex( name );
-		if( index != DYNAMIC_GAME_LOD_UNKNOWN )
-		{
-			void *lodInfo = (char *)TheGameLODManager + index * 16 + 0x120;
-			ini->initFromINI( lodInfo, TheBFMEDynamicGameLODFieldParseTable );
-		}
-	}
-}
-
 /**Parse an LOD level*/
 void INI::parseDynamicGameLODLevel( INI* ini, void * , void *store, const void*)
 {
@@ -719,43 +537,6 @@ void INI::parseDynamicGameLODLevel( INI* ini, void * , void *store, const void*)
 	throw INIException( 3, "invalid GameLODLevel token %s -- expected LOW/MEDIUM/HIGH", tok );
 }
 
-/**Convert LOD name to an index*/
-struct RetailLODStringHeader
-{
-	Int references;
-	unsigned short length;
-	unsigned short capacity;
-	char data[1];
-};
-
-static __forceinline Int compareLODNameNoCase(const AsciiString &name, const char *lodName)
-{
-	static const char emptyString = 0;
-	Int lodNameLength = lodName ? strlen(lodName) : 0;
-	RetailLODStringHeader *header =
-		*reinterpret_cast<RetailLODStringHeader *const *>(&name);
-	Int nameLength = header ? header->length : 0;
-	const char *nameText = header ? header->data : &emptyString;
-	Int compareLength = nameLength < lodNameLength ? nameLength : lodNameLength;
-	Int result = _memicmp(nameText, lodName, compareLength);
-	return result == 0 ? nameLength - lodNameLength : result;
-}
-
-// ?getDynamicGameLODIndex@GameLODManager@@QAEHVAsciiString@@@Z present-unmatched
-Int GameLODManager::getDynamicGameLODIndex(AsciiString name)
-{
-	for (Int i=0; i<DYNAMIC_GAME_LOD_COUNT; ++i)
-	{
-		const char *lodName = DynamicGameLODNames[i];
-		if (compareLODNameNoCase(name, lodName) == 0)
-			return i;
-	}
-
-	DEBUG_CRASH(( "GameLODManager::getGameLODIndex - Invalid LOD name '%s'\n", name.str() ));
-	return STATIC_GAME_LOD_UNKNOWN;
-}
-
-// ?getDynamicGameLODLevelName@GameLODManager@@QAEPBDW4DynamicGameLODLevel@@@Z present-unmatched
 const char *GameLODManager::getDynamicGameLODLevelName(DynamicGameLODLevel level)
 {
 	return DynamicGameLODNames[level];
@@ -844,24 +625,4 @@ static const FieldParse TheBFMEAudioLODFieldParseTable[] =
 	{ 0, 0, 0, 0 }
 };
 
-/*static*/ void INI::parseAudioLODDefinition( INI* ini )
-{
-	AsciiString name;
-
-	const char *token = ini->getNextToken();
-	name = token;
-
-	if( TheGameLODManager )
-	{
-		Int index = TheGameLODManager->getAudioLODIndex( name );
-		if( index == -1 )
-		{
-			// the raw token, not name.str(): retail keeps the pointer in esi across
-			// the lookup precisely so it can hand it to the exception.
-			throw INIException( 8, "Unknown Audio LOD level '%s'", token );
-		}
-
-		void *lodInfo = (char *)TheGameLODManager + index * 8 + 0x170;
-		ini->initFromINI( lodInfo, TheBFMEAudioLODFieldParseTable );
-	}
-}
+// INI::parseAudioLODDefinition: defined in INIParseAudioLODDefinition.cpp (its row's unit).

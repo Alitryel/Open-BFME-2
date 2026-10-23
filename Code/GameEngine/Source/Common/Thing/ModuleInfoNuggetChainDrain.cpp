@@ -62,3 +62,4 @@ void Rva006CEAD0::drainChain()
 		}
 	} while (m_chainHead != 0);
 }
+

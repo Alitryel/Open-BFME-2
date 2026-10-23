@@ -7,7 +7,7 @@
 // vtable C7A9A8 whose slot4 target604873 tests _waccess(path,0)==0.
 // UnicodeString narrow ctor6CB6D0 has an explicit retail export. The PE
 // import table independently names _wstat at BBA4AC and _waccess at BBA400.
-// cl: /O1 /DNDEBUG /MD /EHs
+// cl: /DNDEBUG /MD /EHs
 #include <sys/stat.h>
 typedef unsigned short Wide;
 class AsciiString;
@@ -26,11 +26,17 @@ public:
     const T* find(T) const;
     bool startsWith(const T*) const;
     bool endsWith(const T*) const;
-    const T* str() const { return data ? data->data : (const T*)L""; }
+    const T* str() const { static const T TheNullChr = 0; return data ? data->data : &TheNullChr; }
     void set(const StringBase&);
     void concat(const T*,int);
     void concat(T c) { concat(&c,1); }
 };
+
+// Retail narrow cleanup calls the releaseBuffer worker directly.
+// Keep the forwarding destructor inline without emitting a competing copy.
+template <> __declspec(dllimport) __forceinline
+StringBase<char>::~StringBase() { releaseBuffer(); }
+
 class AsciiString:public StringBase<char> {
 public:
     AsciiString(const char *s):StringBase<char>(s){}
@@ -39,12 +45,12 @@ public:
 class UnicodeString:public StringBase<Wide> {
 public:
     UnicodeString(const AsciiString&);
-    UnicodeString(const UnicodeString& s):StringBase<Wide>(s){}
+    UnicodeString(const UnicodeString& unicodeString):StringBase<Wide>(unicodeString){}
     UnicodeString& operator=(const UnicodeString& s){set(s);return *this;}
 };
 struct BFME2WideConcatPair {
     const UnicodeString *a,*b;
-    BFME2WideConcatPair(const UnicodeString& x,const UnicodeString& y){b=&y;a=&x;}
+    BFME2WideConcatPair(const UnicodeString& unicodeString,const UnicodeString& y){b=&y;a=&unicodeString;}
     operator StringBase<Wide>();
 };
 inline BFME2WideConcatPair operator+(const UnicodeString& a,const UnicodeString& b) {
@@ -58,7 +64,8 @@ public:
 };
 class BFME2FileSystemFacade { public: bool doesWideFileExist(const Wide*); };
 extern GlobalData *TheWritableGlobalData;
-extern BFME2FileSystemFacade *BFME2FileFacade;
+class FileSystem;
+extern FileSystem *TheFileSystem;
 extern bool BFME2PreferLocalFiles;
 int parseMod(char *args[],int num) {
     BFME2PreferLocalFiles=true;
@@ -68,7 +75,7 @@ int parseMod(char *args[],int num) {
         } else {
             modPath.set(TheWritableGlobalData->rva002360FC()+modPath);
         }
-        if(!BFME2FileFacade->doesWideFileExist(modPath.str())) return 2;
+        if(!((BFME2FileSystemFacade *)TheFileSystem)->doesWideFileExist(modPath.str())) return 2;
         struct _stat statBuf;
         if(_wstat(modPath.str(),&statBuf)!=0) return 2;
         if(statBuf.st_mode & _S_IFDIR) {

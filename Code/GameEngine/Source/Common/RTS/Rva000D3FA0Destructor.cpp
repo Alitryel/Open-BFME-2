@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
+// cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
 // Byte-twin of ??1TeamRelationMap@@UAE@XZ at 0x000F21C0
 // (Code/GameEngine/Source/Common/RTS/TeamRelationMapDestructor.cpp): identical
@@ -10,6 +10,32 @@
 // provable, so this is claimed address-derived.
 
 #include <hash_map>
+#include <cstddef>
+// bfme link decl-only begin
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
+namespace _STL { template <> vector<void *, allocator<void *> >::~vector(); }
+namespace _STL { template <> allocator<void *>::~allocator(); }
+// bfme link decl-only end
+// Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
+// and this TU's /O1 COMDAT copy differs from the copy the link keeps.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
+{ if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
+}
+// Suppress this TU's non-retail vector<void*> operator[] copy (family2-LK3 row 25):
+// the retail copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL {
+template <> void *&_STL::vector<void*>::operator[](size_t);
+}
+// Suppress this TU's non-retail vector<void*> size copy (family2-LK3 row 17):
+// the retail copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL {
+template <> size_t vector<void*>::size() const;
+template <> void **vector<void*>::begin();
+template <> void **vector<void*>::end();
+}
 
 class Xfer;
 
@@ -52,3 +78,13 @@ Rva000D3FA0Map::~Rva000D3FA0Map()
 {
 	m_map.clear();
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?crc@Rva000D3FA0PoolObject@@MAEXPAVXfer@@@Z=__purecall")
+#pragma comment(linker, "/alternatename:?xfer@Rva000D3FA0PoolObject@@MAEXPAVXfer@@@Z=__purecall")
+#pragma comment(linker, "/alternatename:?loadPostProcess@Rva000D3FA0PoolObject@@MAEXXZ=__purecall")
+#pragma comment(linker, "/alternatename:?crc@Rva000D3FA0Map@@MAEXPAVXfer@@@Z=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?xfer@Rva000D3FA0Map@@MAEXPAVXfer@@@Z=?name@Rva002431A9Named@@QBEPBDXZ")
+#pragma comment(linker, "/alternatename:?loadPostProcess@Rva000D3FA0Map@@MAEXXZ=__purecall")

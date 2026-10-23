@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/moduledata /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0ReplaceSelfUpgradeModuleData@@QAE@XZ, retail 0x004B790B, 83 bytes.
@@ -14,32 +14,38 @@
 
 #include <vector>
 
-class AsciiString
+#include "ascii_string.h"
+
+// A declaration-only specialization stops this TU emitting its own
+// vector<AsciiString> dtor COMDAT, so the call binds the kept copy.
+namespace _STL {
+template <> vector<AsciiString, allocator<AsciiString> >::~vector();
+template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
+template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);
+template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
+template <> AsciiString *vector<AsciiString, allocator<AsciiString> >::erase(AsciiString*, AsciiString*);
+}
+
+// The base dtor (rowed 0x0049B47C in CommandSetUpgradeModuleDataCtor.cpp) is
+// Snapshot's: it restores Snapshot's table 0x00BBB554. Spell it the same way so
+// this TU's inline copy is the retail one.
+#include "Common/Snapshot.h"
+
+class Rva00253487Base
 {
 public:
-	AsciiString() : m_data(0) {}
-	void clear();
-	~AsciiString();
-
-private:
-	void *m_data;
-};
-
-class OpenContainModuleData
-{
-public:
-	OpenContainModuleData();
-	virtual ~OpenContainModuleData() {}
+	Rva00253487Base();
+	virtual ~Rva00253487Base() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 private:
 	char m_pad[0x118 - 4];
 };
 
-class ReplaceSelfUpgradeModuleData : public OpenContainModuleData
+class ReplaceSelfUpgradeModuleData : public Rva00253487Base
 {
 public:
 	ReplaceSelfUpgradeModuleData();
-	virtual ~ReplaceSelfUpgradeModuleData() {}
+	virtual ~ReplaceSelfUpgradeModuleData();
 
 	_STL::vector<AsciiString> m_replaceWith; // +0x118
 };

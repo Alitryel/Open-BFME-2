@@ -2,11 +2,18 @@
 // 0x007E90C0 / 0x007E91D0 / 0x007E9240 / 0x007E9130 / 0x007E8F20:
 // sprintf indexed keys then getString/getInt on a FESL message.
 
-class Rva007E8810Message
+class Rva007E8810Message;
+
+class BfmeThingUPB
 {
 public:
-	bool getString(const char *key, char *dest, int destSize);
-	int getInt(const char *key, int defaultValue);
+	char bfmeGoUPB(void *key, char *dest, void *destSize);
+};
+
+class BfmeThingRF
+{
+public:
+	void *bfmeGoRF(void *key, void *defaultValue);
 };
 
 extern "C" int __cdecl sprintf(char *buf, const char *fmt, ...);
@@ -25,7 +32,7 @@ bool Rva007E90C0Names::get(char *dest, int destSize)
 {
 	char key[0x40];
 	sprintf(key, "names.%d", m_count);
-	if (!m_msg->getString(key, dest, destSize))
+	if (!((BfmeThingUPB *)m_msg)->bfmeGoUPB((void *)key, dest, (void *)destSize))
 		return false;
 	m_count++;
 	return true;
@@ -45,7 +52,7 @@ bool Rva007E91D0Names::get(char *dest, int destSize)
 {
 	char key[0x40];
 	sprintf(key, "names.%d", m_count);
-	if (!m_msg->getString(key, dest, destSize))
+	if (!((BfmeThingUPB *)m_msg)->bfmeGoUPB((void *)key, dest, (void *)destSize))
 		return false;
 	m_count++;
 	return true;
@@ -65,7 +72,7 @@ bool Rva007E9240SubAccounts::get(char *dest, int destSize)
 {
 	char key[0x40];
 	sprintf(key, "subAccounts.%d", m_count);
-	if (!m_msg->getString(key, dest, destSize))
+	if (!((BfmeThingUPB *)m_msg)->bfmeGoUPB((void *)key, dest, (void *)destSize))
 		return false;
 	m_count++;
 	return true;
@@ -85,10 +92,10 @@ bool Rva007E9130Errors::get(char *fieldError, int *fieldName, int destSize)
 {
 	char key[0x40];
 	sprintf(key, "errorContainer.%d.fieldName", m_count);
-	if (m_msg->getString(key, fieldError, destSize))
+	if (((BfmeThingUPB *)m_msg)->bfmeGoUPB((void *)key, fieldError, (void *)destSize))
 	{
 		sprintf(key, "errorContainer.%d.fieldError", m_count);
-		*fieldName = m_msg->getInt(key, -1);
+		*fieldName = (int)(long)((BfmeThingRF *)m_msg)->bfmeGoRF((void *)key, (void *)-1);
 		m_count++;
 		return true;
 	}
@@ -111,13 +118,17 @@ bool Rva007E8F20Country::load(Rva007E8810Message *msg, int index)
 {
 	char key[0x40] = {0};
 	sprintf(key, "countryList.%d.description", index);
-	if (!msg->getString(key, m_description, 0x80))
+	if (!((BfmeThingUPB *)msg)->bfmeGoUPB((void *)key, m_description, (void *)0x80))
 		return false;
 	sprintf(key, "countryList.%d.ISOCode", index);
-	msg->getString(key, m_isoCode, 4);
+	((BfmeThingUPB *)msg)->bfmeGoUPB((void *)key, m_isoCode, (void *)4);
 	sprintf(key, "countryList.%d.parentalControlAgeLimit", index);
-	m_registrationAgeLimit = msg->getInt(key, 18);
+	m_registrationAgeLimit = (int)(long)((BfmeThingRF *)msg)->bfmeGoRF((void *)key, (void *)18);
 	sprintf(key, "countryList.%d.registrationAgeLimit", index);
-	m_parentalControlAgeLimit = msg->getInt(key, 13);
+	m_parentalControlAgeLimit = (int)(long)((BfmeThingRF *)msg)->bfmeGoRF((void *)key, (void *)13);
 	return true;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeCmpRE@BfmeOtherRE@@QAEDHH@Z=?load@Rva007E8F20Country@@QAE_NPAVRva007E8810Message@@H@Z")

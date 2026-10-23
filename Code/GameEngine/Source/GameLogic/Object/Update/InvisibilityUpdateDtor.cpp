@@ -1,4 +1,4 @@
-// cl: /O1 /MD
+// cl: /MD
 //
 // ??1InvisibilityUpdate@@MAE@XZ, retail 0x004A389F, 32 bytes. Behavior-side
 // destructor completing the InvisibilityUpdate file-unit (ctor rowed at
@@ -53,14 +53,17 @@ protected:
 	int m_bfmeReserved;
 };
 
+// The +0x20 interface's vftable 0x00C52518 opens with the rowed 0x004A3A09.
 class TrailingModuleInterface
 {
 public:
-	virtual void trailingAnchor();
+	virtual bool rva004A3A09() = 0;
 };
 
 class InvisibilityUpdate : public UpdateModule, public TrailingModuleInterface
 {
+public:
+	virtual bool rva004A3A09();
 protected:
 	virtual ~InvisibilityUpdate();
 };
@@ -68,3 +71,8 @@ protected:
 InvisibilityUpdate::~InvisibilityUpdate()
 {
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?behaviorModuleOtherAnchor@BehaviorModuleOther@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

@@ -1,11 +1,12 @@
-// cl: /O1 /GX /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// Rva0044ECCE is an address-derived base stand-in; its target class name is unproven.
 // stlport
 //
 // ??1RousingSpeechUpdateModuleData@@UAE@XZ, retail 0x004AD34F, 74 bytes.
 // RousingSpeechUpdateModuleData dtor: destroys the ObjectFilter at +0xF4
 // through the pinned 0x360D26 forwarder (state 1) then the ModifierName
 // AsciiString vector at +0xE4 through the rowed 0x2CC70 body (state 0) then
-// the DamageModuleBase base through the pinned 0x44ECCE body. Layout from
+// the Rva0044ECCE base through the pinned 0x44ECCE body. Layout from
 // the rowed ctor 0x4AD0EE (base 0xC8 plus BonusRadius +0xC8 plus
 // SpeechDuration +0xCC plus UpdateInterval +0xD0 plus LeaderFX +0xD4 plus
 // FollowerFX +0xD8 plus CreateWave +0xDC plus WaveWidth +0xE0 plus vector
@@ -17,14 +18,7 @@
 // plus LevelGrantSpecialPowerModuleDataDtor (novtable plus 0x44ECCE base).
 #include <vector>
 
-class AsciiString
-{
-public:
-	~AsciiString();
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class Rva00360D26Member
 {
@@ -35,16 +29,16 @@ private:
 	unsigned char m_data[4];
 };
 
-class DamageModuleBase
+class Rva0044ECCE
 {
 public:
-	virtual ~DamageModuleBase();
+	virtual ~Rva0044ECCE();
 
 private:
 	unsigned char m_pad[0xC8 - 4];
 };
 
-class __declspec(novtable) RousingSpeechUpdateModuleData : public DamageModuleBase
+class __declspec(novtable) RousingSpeechUpdateModuleData : public Rva0044ECCE
 {
 public:
 	virtual ~RousingSpeechUpdateModuleData();

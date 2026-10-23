@@ -2,6 +2,22 @@
 // Dedicated TU for CollisionMath::Collide(LineSeg, AABox/OBBox). colmathline.cpp
 // already holds four matched LineSeg collides; adding these there would
 // recompile those bodies.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+// Link views: these units' scalar-first Vector3 product and row-vector Matrix3
+// constructor stay inline without emitting copies competing with their owners.
+// Included first so the WWMath headers' own sibling includes find the guards set.
+#include "../../../../../reference/shims/bfme_colmath_linebox_link/vector3.h"
+#include "../../../../../reference/shims/bfme_colmath_linebox_link/matrix3.h"
 #include "rendobj.h"
 #include "colmath.h"
 #include "aaplane.h"

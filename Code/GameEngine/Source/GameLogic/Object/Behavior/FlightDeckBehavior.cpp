@@ -1,7 +1,38 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /Ireference/shims/flightdeck_info_public /Ireference/shims/aiupdatelayout /Ireference/shims/zh_outofline /FIzh_ascii.h /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// Matched operations inline; keep CRT math wrappers local to this unit.
+#pragma push_macro("inline")
+#define inline static inline
+#include <math.h>
+#pragma pop_macro("inline")
+
+// Link view first: Matrix3D(), Matrix3D(bool) and Matrix3D(const Matrix3D&) stay inline without
+// emitting /O2 copies that compete with retail's owners (0x000423C5, 0x0004C91A, 0x0006645C).
+#include "../../../../../../reference/shims/bfme_matrix3d_full_link/matrix3d_full_link.h"
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/GameLogic/Object/Behavior/FlightDeckBehavior.cpp); this unit had no counterpart under Code/.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+// Retail keeps one unsigned max, RVA 0x00013740 (the vendored STLport row). This unit's
+// flags (/G7 /arch:SSE) compile a different copy, and retail kept another unit's. This unit-local
+// overload keeps the inlined code and offers the link no second copy.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -33,6 +64,27 @@
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include <list>
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+// Bottom-loop overload: this TU's flags compile the generic range-destroy to
+// an early-out form, but retail's out-of-line copy is the bottom-tested loop
+// (row 32 family2-LK3). The overload wins for (AsciiString*,AsciiString*).
+inline void _Destroy(AsciiString * __first, AsciiString * __last)
+{ for (; __first != __last; ++__first) __first->~AsciiString(); }
+}
+
+#include <vector>
+// Bind assignment to the complete rowed provider at 0x002CD098.
+namespace _STL {
+template <> vector<Coord3D, allocator<Coord3D> > &
+vector<Coord3D, allocator<Coord3D> >::operator=(const vector<Coord3D, allocator<Coord3D> > &);
+}
 
 #include "Common/CRCDebug.h"
 #include "Common/Player.h"
@@ -55,6 +107,67 @@
 #include "GameLogic/Module/FlightDeckBehavior.h"
 #include "GameLogic/Module/JetAIUpdate.h"
 #include "GameLogic/Module/ProductionUpdate.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned long _Base_bitset<2>::_S_maskbit(unsigned int); }
+namespace _STL { template <> bool bitset<45>::_Unchecked_test(unsigned int) const; }
+namespace _STL { template <> unsigned int vector<Coord3D, allocator<Coord3D> >::capacity() const; }
+namespace _STL { template <> Coord3D * vector<Coord3D, allocator<Coord3D> >::erase(Coord3D *, Coord3D *); }
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ??0?$_Vector_base@UCoord3D@@V?$allocator@UCoord3D@@@_STL@@@_STL@@QAE@IABV?$allocator@UCoor:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Coord3D;
+namespace _STL { template <> _Vector_base<Coord3D,allocator<Coord3D> >::_Vector_base(unsigned int,allocator<Coord3D> const &); }
+// Suppress this TU's non-retail copy of ?deallocate@?$_STLP_alloc_proxy@PAUCoord3D@@U1@V?$allocator@UCoord3D@@@_STL@@@_STL@@QAEXPA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Coord3D;
+namespace _STL { template <> void _STLP_alloc_proxy<Coord3D *,Coord3D,allocator<Coord3D> >::deallocate(Coord3D *,unsigned int); }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@UCoord3D@@@_STL@@QBEXPAUCoord3D@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Coord3D;
+namespace _STL { template <> void allocator<Coord3D>::deallocate(Coord3D *,unsigned int) const; }
+// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAUCoord3D@@U1@V?$allocator@UCoord3D@@@_STL@@@_STL@@QAEPAUCo:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Coord3D;
+namespace _STL { template <> Coord3D * _STLP_alloc_proxy<Coord3D *,Coord3D,allocator<Coord3D> >::allocate(unsigned int); }
+// Suppress this TU's non-retail copy of ?set@?$bitset@$0CN@@_STL@@QAEAAV12@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bitset<45> & bitset<45>::set(unsigned int); }
+// Suppress this TU's non-retail copy of ??0?$_Base_bitset@$01@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Base_bitset<2>::_Base_bitset(); }
+// Suppress this TU's non-retail copy of ?test@?$bitset@$0CN@@_STL@@QBE_NI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bool bitset<45>::test(unsigned int) const; }
+
+// A declaration-only specialization stops this TU emitting its own
+// vector<AsciiString> COMDAT copies, so the calls bind the kept rowed copies.
+namespace _STL {
+template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
+template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);
+template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
+template <> _Vector_base<AsciiString, allocator<AsciiString> >::_Vector_base(size_t, const allocator<AsciiString>&);
+template <> vector<AsciiString, allocator<AsciiString> > &vector<AsciiString, allocator<AsciiString> >::operator=(const vector<AsciiString, allocator<AsciiString> >&);
+template <> vector<AsciiString, allocator<AsciiString> >::vector(const vector<AsciiString, allocator<AsciiString> >&);
+}
+
+// Declaration-only _Construct: retail's vector<Coord3D> push_back calls the
+// pinned out-of-line helper (0x002CA82C) instead of inlining the element
+// copy (row 35 family-LK3).
+namespace _STL {
+template <> void _Construct<Coord3D, Coord3D>(Coord3D *, const Coord3D &);
+// Use the complete retail push_back provider instead of this unit's copy.
+template <> void vector<Coord3D>::push_back(const Coord3D &);
+}
+
+// vector<FlightDeckInfo>'s push_back and growth path are the rowed /G6 retail
+// copies (FlightDeckInfoVectorInsertOverflow.cpp); declaration-only
+// specializations stop this /G7 TU emitting its own.
+namespace _STL {
+template <> void vector<FlightDeckBehavior::FlightDeckInfo>::push_back(const FlightDeckBehavior::FlightDeckInfo &);
+template <> void vector<FlightDeckBehavior::FlightDeckInfo>::_M_insert_overflow(FlightDeckBehavior::FlightDeckInfo *, const FlightDeckBehavior::FlightDeckInfo &, const __false_type &, size_t, bool);
+template <> FlightDeckBehavior::FlightDeckInfo *allocator<FlightDeckBehavior::FlightDeckInfo>::allocate(size_t, const void *) const;
+template <> FlightDeckBehavior::FlightDeckInfo *__uninitialized_fill_n<FlightDeckBehavior::FlightDeckInfo *, size_t, FlightDeckBehavior::FlightDeckInfo>(FlightDeckBehavior::FlightDeckInfo *, size_t, const FlightDeckBehavior::FlightDeckInfo &, const __false_type &);
+}
 
 #ifdef _INTERNAL
 // for occasional debugging...
@@ -62,6 +175,7 @@
 //#pragma MESSAGE("************************************** WARNING, optimization disabled for debugging purposes")
 #endif
 
+// ?FlightDeckBehaviorModuleData::FlightDeckBehaviorModuleData present-unmatched
 FlightDeckBehaviorModuleData::FlightDeckBehaviorModuleData()
 {
 	//m_framesForFullHeal = 0;
@@ -75,6 +189,7 @@ FlightDeckBehaviorModuleData::FlightDeckBehaviorModuleData()
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehaviorModuleData::parseRunwayStrip present-unmatched
 void FlightDeckBehaviorModuleData::parseRunwayStrip( INI* ini, void *instance, void *store, const void* /*userData*/ )
 {
 	AsciiString *runwayNames = (AsciiString*)store;
@@ -92,9 +207,10 @@ void FlightDeckBehaviorModuleData::parseRunwayStrip( INI* ini, void *instance, v
 }
 
 //-------------------------------------------------------------------------------------------------
-void FlightDeckBehaviorModuleData::buildFieldParse(MultiIniFieldParse& p)
+// ?FlightDeckBehaviorModuleData::buildFieldParse present-unmatched
+void FlightDeckBehaviorModuleData::buildFieldParse(MultiIniFieldParse& multiIniFieldParse)
 {
-	AIUpdateModuleData::buildFieldParse(p);
+	AIUpdateModuleData::buildFieldParse(multiIniFieldParse);
 
 	static const FieldParse dataFieldParse[] = 
 	{
@@ -130,12 +246,13 @@ void FlightDeckBehaviorModuleData::buildFieldParse(MultiIniFieldParse& p)
 
 		{ 0, 0, 0, 0 }
 	};
-	p.add(dataFieldParse);
+	multiIniFieldParse.add(dataFieldParse);
 }
 
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::FlightDeckBehavior present-unmatched
 FlightDeckBehavior::FlightDeckBehavior( Thing *thing, const ModuleData* moduleData ) : AIUpdateInterface( thing, moduleData )
 {
 	m_gotInfo = false;
@@ -164,12 +281,14 @@ FlightDeckBehavior::FlightDeckBehavior( Thing *thing, const ModuleData* moduleDa
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::~FlightDeckBehavior present-unmatched
 FlightDeckBehavior::~FlightDeckBehavior( void )
 {
 }
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::buildInfo present-unmatched
 void FlightDeckBehavior::buildInfo(Bool createUnits)
 {
 	if (m_gotInfo)
@@ -300,6 +419,7 @@ void FlightDeckBehavior::buildInfo(Bool createUnits)
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::purgeDead present-unmatched
 void FlightDeckBehavior::purgeDead()
 {
 	buildInfo();
@@ -363,6 +483,7 @@ void FlightDeckBehavior::purgeDead()
 
 //-------------------------------------------------------------------------------------------------
 // note: called from client, so MUST NOT modify self in any way, or desyncs will occur
+// ?FlightDeckBehavior::hasReservedSpace present-unmatched
 Bool FlightDeckBehavior::hasReservedSpace(ObjectID id) const
 {
 	if (!m_gotInfo)
@@ -380,6 +501,7 @@ Bool FlightDeckBehavior::hasReservedSpace(ObjectID id) const
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::getSpaceIndex present-unmatched
 Int FlightDeckBehavior::getSpaceIndex( ObjectID id ) const
 {
 	if( id == INVALID_ID )
@@ -399,6 +521,7 @@ Int FlightDeckBehavior::getSpaceIndex( ObjectID id ) const
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::findPPI present-unmatched
 FlightDeckBehavior::FlightDeckInfo* FlightDeckBehavior::findPPI(ObjectID id)
 {
 	DEBUG_ASSERTCRASH(id != INVALID_ID, ("call findEmptyPPI instead"));
@@ -416,6 +539,7 @@ FlightDeckBehavior::FlightDeckInfo* FlightDeckBehavior::findPPI(ObjectID id)
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::findEmptyPPI present-unmatched
 FlightDeckBehavior::FlightDeckInfo* FlightDeckBehavior::findEmptyPPI()
 {
 	if (!m_gotInfo)
@@ -432,6 +556,7 @@ FlightDeckBehavior::FlightDeckInfo* FlightDeckBehavior::findEmptyPPI()
 
 //-------------------------------------------------------------------------------------------------
 // note: called from client, so MUST NOT modify self in any way, or desyncs will occur
+// ?FlightDeckBehavior::shouldReserveDoorWhenQueued present-unmatched
 Bool FlightDeckBehavior::shouldReserveDoorWhenQueued(const ThingTemplate* thing) const
 {
 	return true;
@@ -439,6 +564,7 @@ Bool FlightDeckBehavior::shouldReserveDoorWhenQueued(const ThingTemplate* thing)
 
 //-------------------------------------------------------------------------------------------------
 // note: called from client, so MUST NOT modify self in any way, or desyncs will occur
+// ?FlightDeckBehavior::hasAvailableSpaceFor present-unmatched
 Bool FlightDeckBehavior::hasAvailableSpaceFor(const ThingTemplate* thing) const
 {
 	if (!m_gotInfo)	// degenerate case, shouldn't happen, but just in case...
@@ -468,12 +594,13 @@ Bool FlightDeckBehavior::hasAvailableSpaceFor(const ThingTemplate* thing) const
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::reserveSpace present-unmatched
 Bool FlightDeckBehavior::reserveSpace(ObjectID id, Real parkingOffset, ParkingPlaceBehaviorInterface::PPInfo* info)
 {
 	buildInfo();
 	purgeDead();
 
-	const FlightDeckBehaviorModuleData* d = getFlightDeckBehaviorModuleData();
+	const FlightDeckBehaviorModuleData* flightDeckBehaviorModuleData = getFlightDeckBehaviorModuleData();
 
 	FlightDeckInfo* ppi = findPPI(id);
 	if (ppi == NULL)
@@ -489,7 +616,7 @@ Bool FlightDeckBehavior::reserveSpace(ObjectID id, Real parkingOffset, ParkingPl
 	ppi->m_objectInSpace = id;
 	//validateAssignments();
 	
-	if( d->m_landingDeckHeightOffset )
+	if( flightDeckBehaviorModuleData->m_landingDeckHeightOffset )
 	{
 		Object *obj = TheGameLogic->findObjectByID( id );
 		if( obj )
@@ -512,6 +639,7 @@ Bool FlightDeckBehavior::reserveSpace(ObjectID id, Real parkingOffset, ParkingPl
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::validateAssignments present-unmatched
 void FlightDeckBehavior::validateAssignments()
 {
 	Int index = 0, index2 = 0;
@@ -537,6 +665,7 @@ void FlightDeckBehavior::validateAssignments()
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::calcPPInfo present-unmatched
 void FlightDeckBehavior::calcPPInfo( ObjectID id, PPInfo *info )
 {
 	FlightDeckInfo *ppi = findPPI( id );
@@ -549,7 +678,7 @@ void FlightDeckBehavior::calcPPInfo( ObjectID id, PPInfo *info )
 
 	if( info )
 	{
-		const FlightDeckBehaviorModuleData* d = getFlightDeckBehaviorModuleData();
+		const FlightDeckBehaviorModuleData* flightDeckBehaviorModuleData = getFlightDeckBehaviorModuleData();
 		const Real APPROACH_DIST = 0.75f;
 		info->parkingSpace = ppi->m_prep;
 		info->runwayPrep = ppi->m_prep;
@@ -559,14 +688,14 @@ void FlightDeckBehavior::calcPPInfo( ObjectID id, PPInfo *info )
 		info->runwayExit = rr.m_end;
 		info->runwayExit.x += (rr.m_end.x - rr.m_start.x) * APPROACH_DIST;
 		info->runwayExit.y += (rr.m_end.y - rr.m_start.y) * APPROACH_DIST;
-		info->runwayExit.z = rr.m_end.z + d->m_approachHeight + d->m_landingDeckHeightOffset;
+		info->runwayExit.z = rr.m_end.z + flightDeckBehaviorModuleData->m_approachHeight + flightDeckBehaviorModuleData->m_landingDeckHeightOffset;
 
 		info->runwayLandingStart = rr.m_landingStart;
 		info->runwayLandingEnd = rr.m_landingEnd;
 		info->runwayApproach = rr.m_landingStart;
 		info->runwayApproach.x += (rr.m_landingStart.x - rr.m_landingEnd.x) * APPROACH_DIST;
 		info->runwayApproach.y += (rr.m_landingStart.y - rr.m_landingEnd.y) * APPROACH_DIST;
-		info->runwayApproach.z = rr.m_landingStart.z + d->m_approachHeight + d->m_landingDeckHeightOffset;
+		info->runwayApproach.z = rr.m_landingStart.z + flightDeckBehaviorModuleData->m_approachHeight + flightDeckBehaviorModuleData->m_landingDeckHeightOffset;
 
 		//Cache the runway's takeoff distance used by JetAIUpdate for calculating lift.
 		Coord3D vector = info->runwayStart;
@@ -585,6 +714,7 @@ void FlightDeckBehavior::calcPPInfo( ObjectID id, PPInfo *info )
 
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::releaseSpace present-unmatched
 void FlightDeckBehavior::releaseSpace(ObjectID id)
 {
 	buildInfo();
@@ -607,6 +737,7 @@ void FlightDeckBehavior::releaseSpace(ObjectID id)
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::getRunwayReservation present-unmatched
 ObjectID FlightDeckBehavior::getRunwayReservation( Int runway, RunwayReservationType type )
 {
 	buildInfo();
@@ -623,12 +754,14 @@ ObjectID FlightDeckBehavior::getRunwayReservation( Int runway, RunwayReservation
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::transferRunwayReservationToNextInLineForTakeoff present-unmatched
 void FlightDeckBehavior::transferRunwayReservationToNextInLineForTakeoff(ObjectID id)
 {
 	//Aircraft carrier controls this functionality with an iron fist.
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::reserveRunway present-unmatched
 Bool FlightDeckBehavior::reserveRunway(ObjectID id, Bool forLanding)
 {
 	buildInfo();
@@ -694,6 +827,7 @@ Bool FlightDeckBehavior::reserveRunway(ObjectID id, Bool forLanding)
 
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::releaseRunway present-unmatched
 void FlightDeckBehavior::releaseRunway(ObjectID id)
 {
 	buildInfo();
@@ -761,6 +895,7 @@ const std::vector<Coord3D>* FlightDeckBehavior::getCreationLocations( ObjectID i
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::isAbleToGiveUpParkingSpace present-unmatched
 Bool FlightDeckBehavior::isAbleToGiveUpParkingSpace( Object *jet )
 {
 	//If we're airborne or non-existant, someone else can have my spot if they need it.
@@ -800,6 +935,7 @@ Bool FlightDeckBehavior::isAbleToGiveUpParkingSpace( Object *jet )
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::isInPositionToTakeoff present-unmatched
 Bool FlightDeckBehavior::isInPositionToTakeoff( const Object &jet ) const
 {
 	const AIUpdateInterface *ai = jet.getAI();
@@ -829,6 +965,7 @@ Bool FlightDeckBehavior::isInPositionToTakeoff( const Object &jet ) const
 
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::isAbleToMoveForward present-unmatched
 Bool FlightDeckBehavior::isAbleToMoveForward( const Object &jet ) const
 {
 	JetAIUpdate *jetAI = (JetAIUpdate*)jet.getAI();
@@ -852,6 +989,7 @@ Bool FlightDeckBehavior::isAbleToMoveForward( const Object &jet ) const
 
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::calcBestParkingAssignment present-unmatched
 Bool FlightDeckBehavior::calcBestParkingAssignment( ObjectID id, Coord3D *pos, Int *oldIndex, Int *newIndex )
 {
 	//Find the runway the object is assigned to.
@@ -959,6 +1097,7 @@ Bool FlightDeckBehavior::calcBestParkingAssignment( ObjectID id, Coord3D *pos, I
 const Int HEAL_RATE_FRAMES = LOGICFRAMES_PER_SECOND / 5;
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::resetWakeFrame present-unmatched
 void FlightDeckBehavior::resetWakeFrame()
 {
 	if (m_healing.empty())
@@ -972,6 +1111,7 @@ void FlightDeckBehavior::resetWakeFrame()
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::setHealee present-unmatched
 void FlightDeckBehavior::setHealee(Object* healee, Bool add)
 {
 	if (add)
@@ -1005,6 +1145,7 @@ void FlightDeckBehavior::setHealee(Object* healee, Bool add)
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::defectAllParkedUnits present-unmatched
 void FlightDeckBehavior::defectAllParkedUnits(Team* newTeam, UnsignedInt detectionTime)
 {
 	buildInfo();
@@ -1046,6 +1187,7 @@ void FlightDeckBehavior::defectAllParkedUnits(Team* newTeam, UnsignedInt detecti
 
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::killAllParkedUnits present-unmatched
 void FlightDeckBehavior::killAllParkedUnits()
 {
 	buildInfo();
@@ -1075,12 +1217,14 @@ void FlightDeckBehavior::killAllParkedUnits()
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::onDie present-unmatched
 void FlightDeckBehavior::onDie( const DamageInfo *damageInfo )
 {
 	killAllParkedUnits();
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::update present-unmatched
 UpdateSleepTime FlightDeckBehavior::update()
 {
 	// alas, we need to keep the buildInfo and dead-purged stuff pretty much up to date, for
@@ -1300,6 +1444,7 @@ UpdateSleepTime FlightDeckBehavior::update()
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::reserveDoorForExit present-unmatched
 ExitDoorType FlightDeckBehavior::reserveDoorForExit( const ThingTemplate* objType, Object *specificObject )
 {
 	//Uses the same door for all production.
@@ -1307,6 +1452,7 @@ ExitDoorType FlightDeckBehavior::reserveDoorForExit( const ThingTemplate* objTyp
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::exitObjectViaDoor present-unmatched
 void FlightDeckBehavior::exitObjectViaDoor( Object *newObj, ExitDoorType exitDoor ) ///< Here is the thing I want you to exit
 {
 	FlightDeckInfo* ppi = NULL;
@@ -1375,12 +1521,14 @@ void FlightDeckBehavior::exitObjectViaDoor( Object *newObj, ExitDoorType exitDoo
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::unreserveDoorForExit present-unmatched
 void FlightDeckBehavior::unreserveDoorForExit( ExitDoorType exitDoor )
 {
 	//Aircraft carrier doesn't use the door reservation system.
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::aiDoCommand present-unmatched
 void FlightDeckBehavior::aiDoCommand(const AICommandParms* parms)
 {
 	//Inspect the command and reset everything when necessary.
@@ -1432,6 +1580,7 @@ void FlightDeckBehavior::aiDoCommand(const AICommandParms* parms)
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::propagateOrdersToPlanes present-unmatched
 void FlightDeckBehavior::propagateOrdersToPlanes()
 {
 	//We just ordered the carrier to stop, so order all the planes that are out to return!
@@ -1449,6 +1598,7 @@ void FlightDeckBehavior::propagateOrdersToPlanes()
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::hasTakeoffOrders present-unmatched
 Bool FlightDeckBehavior::hasTakeoffOrders()
 {
 	Object *target = TheGameLogic->findObjectByID( m_designatedTarget );
@@ -1482,6 +1632,7 @@ Bool FlightDeckBehavior::hasTakeoffOrders()
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::propagateOrderToSpecificPlane present-unmatched
 void FlightDeckBehavior::propagateOrderToSpecificPlane( Object *jet )
 {
 	if( jet )
@@ -1516,6 +1667,7 @@ void FlightDeckBehavior::propagateOrderToSpecificPlane( Object *jet )
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::crc present-unmatched
 void FlightDeckBehavior::crc( Xfer *xfer )
 {
 
@@ -1529,6 +1681,7 @@ void FlightDeckBehavior::crc( Xfer *xfer )
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::xfer present-unmatched
 void FlightDeckBehavior::xfer( Xfer *xfer )
 {
 	Int i;
@@ -1712,6 +1865,7 @@ void FlightDeckBehavior::xfer( Xfer *xfer )
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
+// ?FlightDeckBehavior::loadPostProcess present-unmatched
 void FlightDeckBehavior::loadPostProcess( void )
 {
 

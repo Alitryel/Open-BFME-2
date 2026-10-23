@@ -1,9 +1,8 @@
-// cl: /Ireference/shims/bfmerendobj /G7 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /Ireference/shims/bfmerendobj /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // WWLib random number generators, verbatim from the Generals reference
 // (Libraries/Source/WWVegas/WWLib/random.cpp). Only functions located in the
 // binary are defined here; BFME does not use the member (minval, maxval)
 // operators, it instantiates Pick_Random_Number<T> directly.
-#include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "random.h"
 
 #define ARRAY_SIZE(x) (int(sizeof(x)/sizeof(x[0])))  // from always.h
@@ -133,3 +132,28 @@ template int Pick_Random_Number<RandomClass>(RandomClass &, int, int);
 template int Pick_Random_Number<Random2Class>(Random2Class &, int, int);
 template int Pick_Random_Number<Random3Class>(Random3Class &, int, int);
 template int Pick_Random_Number<Random4Class>(Random4Class &, int, int);
+
+// BFME2 0x006197B0, 0x00619820, 0x00619840 and 0x00619860 (from the Open-BFME-1
+// 5cae4bdff donor): the member (minval, maxval) operators of all four classes.
+// Each is identified by its call target, the rowed Pick_Random_Number
+// instantiation of its own class (the address map guessed Random4Class for
+// 0x00619840, but its call reads the Random3Class instantiation).
+int RandomClass::operator()(int minval, int maxval)
+{
+	return Pick_Random_Number(*this, minval, maxval);
+}
+
+int Random2Class::operator()(int minval, int maxval)
+{
+	return Pick_Random_Number(*this, minval, maxval);
+}
+
+int Random3Class::operator()(int minval, int maxval)
+{
+	return Pick_Random_Number(*this, minval, maxval);
+}
+
+int Random4Class::operator()(int minval, int maxval)
+{
+	return Pick_Random_Number(*this, minval, maxval);
+}

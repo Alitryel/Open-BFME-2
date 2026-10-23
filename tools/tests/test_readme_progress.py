@@ -1,8 +1,7 @@
-"""Persistent progress message behavior; no network requests."""
+"""README card and daily Discord post; no network requests."""
 import io
 import json
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 from urllib.error import URLError
 
@@ -11,11 +10,25 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import readme_progress as daily
 
+UP = "▲"
+
+
+def sample(authored=40, linked_authored=9, linked_game_code=90):
+    # rebuilt 60 of 100; game's own code = 100 - 5 vendored - 5 library = 90;
+    # our C++ 40; the census measured 9 of it linked, over its tree's 90.
+    return {"total": 100, "linked": 12, "linked_authored": linked_authored, "linked_game_code": linked_game_code,
+            "authored": authored, "vendored": 5, "generated": 50 - authored, "library": 5, "census": None}
+
+
+def previous(**changes):
+    """A saved post state: the figures the last post was drawn from."""
+    return {**sample(), **changes, "message_id": "1", "run_id": "old"}
+
 
 def setup_state(tmp_path, monkeypatch, state=None):
     (tmp_path / "docs").mkdir()
     monkeypatch.setattr(daily.progress, "ROOT", tmp_path)
-    path = tmp_path / "docs/discord-progress.json"
+    path = tmp_path / daily.STATE
     if state:
         path.write_text(json.dumps(state), encoding="utf-8")
     return path
@@ -23,53 +36,301 @@ def setup_state(tmp_path, monkeypatch, state=None):
 
 def test_retry_does_not_duplicate_post(tmp_path, monkeypatch):
     monkeypatch.setenv("GITHUB_RUN_ID", "run-123")
-    state = {"rebuilt": 50, "total": 100, "message_id": "123", "run_id": "run-123"}
-    setup_state(tmp_path, monkeypatch, state)
+    setup_state(tmp_path, monkeypatch, {"total": 100, "message_id": "123", "run_id": "run-123"})
     monkeypatch.setattr(daily, "urlopen", lambda *a, **k: pytest.fail("Unexpected post"))
-    daily.notify({"rebuilt": 50, "total": 100})
+    daily.notify(sample())
 
 
-def test_success_records_delivery_and_disables_mentions(tmp_path, monkeypatch):
+def test_success_posts_the_bars_and_saves_the_figures(tmp_path, monkeypatch):
     path = setup_state(tmp_path, monkeypatch)
     monkeypatch.setenv("DISCORD_PROGRESS_WEBHOOK", "https://discord.com/api/webhooks/test/token\n")
+
     def send(request, timeout):
         assert request.full_url.endswith("token?wait=true")
         payload = json.loads(request.data)
         assert payload["allowed_mentions"] == {"parse": []}
-        assert "url" not in payload["embeds"][0]
-        assert "50.00%" in payload["embeds"][0]["description"]
+        assert "**Rebuilt from source: 60.00%**" in payload["embeds"][0]["description"]
         return io.BytesIO(b'{"id":"123"}')
     monkeypatch.setattr(daily, "urlopen", send)
-    daily.notify({"rebuilt": 50, "total": 100})
-    assert json.loads(path.read_text())["message_id"] == "123"
+    daily.notify(sample())
+    state = json.loads(path.read_text())
+    assert state["message_id"] == "123"
+    assert daily.measures(state) == daily.measures(sample())  # the next post's arrows start from these
 
 
-@pytest.mark.parametrize("previous_count", [40, 50])
-def test_each_run_posts_new_message_even_if_unchanged(tmp_path, monkeypatch, previous_count):
+def test_each_run_posts_new_message_even_if_unchanged(tmp_path, monkeypatch):
     monkeypatch.setenv("GITHUB_RUN_ID", "new-run")
-    path = setup_state(tmp_path, monkeypatch, {"rebuilt": previous_count, "total": 100, "message_id": "123", "run_id": "old-run"})
+    path = setup_state(tmp_path, monkeypatch, previous())
     monkeypatch.setenv("DISCORD_PROGRESS_WEBHOOK", "https://discord.com/api/webhooks/test/token")
-    def send(request, timeout):
-        assert request.method == "POST"
-        assert request.full_url.endswith("?wait=true")
-        return io.BytesIO(b'{"id":"456"}')
-    monkeypatch.setattr(daily, "urlopen", send)
-    daily.notify({"rebuilt": 50, "total": 100})
-    assert json.loads(path.read_text())["rebuilt"] == 50
+    monkeypatch.setattr(daily, "urlopen", lambda request, timeout: io.BytesIO(b'{"id":"456"}'))
+    daily.notify(sample())
     assert json.loads(path.read_text())["message_id"] == "456"
 
 
 def test_failed_post_does_not_advance_state_or_leak_url(tmp_path, monkeypatch):
     path = setup_state(tmp_path, monkeypatch)
     monkeypatch.setenv("DISCORD_PROGRESS_WEBHOOK", "https://discord.com/api/webhooks/test/secret")
+
     def fail(*args, **kwargs):
         raise URLError("secret")
     monkeypatch.setattr(daily, "urlopen", fail)
     with pytest.raises(SystemExit, match="^Discord update failed: connection error$"):
-        daily.notify({"rebuilt": 50, "total": 100})
+        daily.notify(sample())
     assert not path.exists()
 
 
-def test_change_is_percentage_points():
-    payload = daily.announcement({"rebuilt": 55, "total": 100}, {"rebuilt": 50, "total": 100})
-    assert "+5.00 percentage points" in payload["embeds"][0]["description"]
+def test_discord_posts_four_measures_and_links_the_readme():
+    names = {"declared_names": 200, "readable_names": 142}
+    embed = daily.announcement({**sample(), **names}, previous(authored=36, generated=14, declared_names=200,
+                                                              readable_names=140))["embeds"][0]
+    M, C, L, N = (daily.BLOCK[key] for key in ("matched", "cpp", "linked", "names"))
+    R = daily.REST_BLOCK
+    assert embed["description"].split("\n") == [
+        "**Rebuilt from source: 60.00%**",
+        f"{M * 6}{R * 4}",
+        f"60 / 100 bytes rebuilt without copying {daily.EXE}",
+        "",
+        f"**Game code in C++: 44.44%**  {UP} 4.44",
+        f"{C * 4}{R * 6}",
+        "40 / 90 bytes of the game's own code, now C++ (libraries not counted)",
+        "",
+        "**Linking: 10.00%**",
+        f"{L * 1}{R * 9}",
+        "9 / 90 bytes of the game's own code linked (not measured yet)",
+        "",
+        f"**Readable names: 71.00%**  {UP} 1.00",
+        f"{N * 7}{R * 3}",
+        "142 / 200 declared names (files, types, functions, members, globals, parameters, locals) "
+        "that are not placeholders",
+        "",
+        f"[What each bar measures, with charts: README]({daily.README})"]
+    assert "footer" not in embed and "Whole game" not in embed["description"]
+
+
+def test_card_shows_the_same_three_measures():
+    svg = daily.render(sample(), previous(authored=36, generated=14))
+    for text in (">Rebuilt from source<", ">60.00%<", ">Game code in C++<", ">44.44%<", ">Linking<", ">10.00%<",
+                 f"60 / 100 bytes rebuilt without copying {daily.EXE}", f">{UP} 4.44<",
+                 "60.00% rebuilt from source, 44.44% game code in C++, 10.00% linking"):
+        assert text in svg
+    assert "prefers-color-scheme: light" in svg and "Whole game" not in svg
+
+
+def test_linking_is_one_census_snapshot():
+    # The census tree's game code (80) is the denominator, not today's (90).
+    current = sample(linked_authored=8, linked_game_code=80)
+    assert daily.measures(current)["linked"] == (8, 80)
+    assert "8 / 80 bytes of the game's own code linked" in daily.announcement(current, None)["embeds"][0]["description"]
+    with pytest.raises(ValueError):
+        daily.measures(sample(linked_game_code=None))  # bytes without their denominator
+    with pytest.raises(ValueError):
+        daily.measures(sample(linked_authored=91))  # more linked than there is code
+
+
+def test_linking_without_a_census_figure_says_so():
+    current = sample(linked_authored=None, linked_game_code=None)
+    assert "**Linking:** not measured yet" in daily.announcement(current, None)["embeds"][0]["description"]
+    assert ">not measured<" in daily.render(current)
+
+
+def test_arrow_is_the_change_in_the_bars_percentage():
+    # Linking went from 9/90 = 10.00% to 8/80 = 10.00%: same share, no arrow,
+    # though the bytes and the denominator both moved.
+    text = daily.announcement(sample(linked_authored=8, linked_game_code=80), previous())["embeds"][0]["description"]
+    assert UP not in text and "▼" not in text
+    # 9/90 -> 12/90: +3.33 points.
+    assert f"**Linking: 13.33%**  {UP} 3.33" in daily.announcement(sample(linked_authored=12), previous())[
+        "embeds"][0]["description"]
+    # A move that rounds to 0.00 shows nothing.
+    assert UP not in daily.announcement(sample(), previous(authored=39.999, generated=10.001))["embeds"][0][
+        "description"]
+
+
+def test_old_state_without_figures_gives_no_arrow():
+    old = {"total": 100, "matched_total": 55, "message_id": "1", "run_id": "old"}  # before these figures existed
+    assert UP not in daily.announcement(sample(), old)["embeds"][0]["description"]
+    # A state from before the census stored Linking: the other bars still compare.
+    text = daily.announcement(sample(), previous(authored=36, generated=14, linked_authored=None,
+                                                 linked_game_code=None))["embeds"][0]["description"]
+    assert f"44.44%**  {UP} 4.44" in text and "**Linking: 10.00%**\n" in text
+
+
+def test_nothing_claims_the_game_is_100_percent_done():
+    text = daily.announcement(sample(), previous())["embeds"][0]["description"] + daily.render(sample(), previous())
+    assert "100%" not in text
+
+
+@pytest.mark.parametrize("value", [0, 1, 4, 5, 49, 50, 95, 96, 100])
+def test_blocks_always_fill_exactly_ten(value):
+    text = daily.blocks(value, 100, daily.BLOCK["matched"])
+    assert text.count(daily.BLOCK["matched"]) + text.count(daily.REST_BLOCK) == 10
+
+
+@pytest.mark.parametrize("before, after, change", [
+    (71.014, 71.016, "▲ 0.01"),
+    (71.016, 71.014, "▼ 0.01"),
+    (71.011, 71.014, "· 0.00"),
+    (71.01, 71.01, "· 0.00"),
+])
+def test_names_always_compare_the_displayed_percentages(before, after, change):
+    current = {**sample(), "declared_names": 100_000, "readable_names": round(after * 1000)}
+    old = previous(declared_names=100_000, readable_names=round(before * 1000))
+    text = daily.announcement(current, old)["embeds"][0]["description"]
+    assert f"**Readable names: {after:.2f}%**  {change}" in text
+    assert f">{change}<" in daily.render(current, old)
+    if change.startswith("·"):
+        assert f'class="muted" dx="10" font-size="13" font-weight="600">{change}<' in daily.render(current, old)
+
+
+def test_names_compare_shares_not_counts():
+    current = {**sample(), "declared_names": 400, "readable_names": 280}
+    old = previous(declared_names=200, readable_names=142)
+    assert "**Readable names: 70.00%**  ▼ 1.00" in daily.announcement(current, old)["embeds"][0]["description"]
+
+
+def test_first_names_measurement_has_no_invented_delta():
+    current = {**sample(), "declared_names": 200, "readable_names": 142}
+    for old in (None, previous()):
+        assert "**Readable names: 71.00%**\n" in daily.announcement(current, old)["embeds"][0]["description"]
+
+
+@pytest.mark.parametrize("counts", [
+    {"declared_names": 10}, {"readable_names": 5},
+    {"declared_names": 10, "readable_names": 11},
+    {"declared_names": 10, "readable_names": -1},
+])
+def test_invalid_names_counts_fail(counts):
+    with pytest.raises(ValueError, match="Invalid readable-names count"):
+        daily.measures({**sample(), **counts})
+
+
+def test_main_measures_names_and_persists_them(tmp_path, monkeypatch):
+    path = setup_state(tmp_path, monkeypatch)
+    monkeypatch.setattr(sys, "argv", ["readme_progress.py", "--discord"])
+    monkeypatch.setenv("DISCORD_PROGRESS_WEBHOOK", "https://discord.com/api/webhooks/test/token")
+    monkeypatch.setattr(daily, "urlopen", lambda *a, **k: io.BytesIO(b'{"id":"123"}'))
+    monkeypatch.setattr(daily.progress, "matched_at", lambda *a: [])
+    monkeypatch.setattr(daily.progress, "notes_at", lambda *a: {})
+    monkeypatch.setattr(daily.progress, "retail_text", lambda: (0, 100))
+    monkeypatch.setattr(daily.progress, "naked_cpp_rows_at", lambda *a: [])
+    monkeypatch.setattr(daily.progress, "real_split", lambda *a, **k: dict(sample(), data=7))
+    monkeypatch.setattr(daily.progress, "census_at", lambda *a: None)
+    monkeypatch.setattr(daily.progress, "real_code_denominator", lambda *a: (0, 100))
+    monkeypatch.setattr(daily.name_metric, "readable", lambda: (200, 58))
+    daily.main()
+    state = json.loads(path.read_text())
+    assert state['data'] == 7 and daily.measures(state)['matched'] == (67, 100)
+    assert state["declared_names"] == 200 and state["readable_names"] == 142
+    assert ">71.00%<" in (tmp_path / "docs/progress.svg").read_text()
+
+
+def receipt(self_strict=2_000, closed=1_000, text=8_000, authoritative=True):
+    return {"tool": "link_cycle", "commit": "9193fd824711fe616f8ac6ee2b9f8fad405f3e3f",
+            "date_utc": "2026-10-09 07:57:15", "authoritative": authoritative,
+            "series": {"retail_text_bytes": text, "credit_unique_bytes": closed,
+                       "real": {"placed_self_strict": {"unique_bytes": self_strict}}}}
+
+
+def test_strict_link_reads_the_committed_receipt(tmp_path):
+    assert daily.strict_link(tmp_path) is None
+    path = tmp_path / daily.RECEIPT
+    path.parent.mkdir(parents=True)
+    path.write_text(json.dumps(receipt()), encoding="utf-8")
+    assert daily.strict_link(tmp_path) == {"date": "2026-10-09", "commit": "9193fd8247", "authoritative": True,
+                                           "self_strict": 2_000, "closed_strict": 1_000, "text": 8_000}
+    for bad in (receipt(self_strict=500, closed=1_000), {**receipt(), "series": {}}):
+        path.write_text(json.dumps(bad), encoding="utf-8")
+        assert "invalid" in daily.strict_link(tmp_path)
+    path.write_text('{"series": {"retail_text_bytes": Infinity}}', encoding="utf-8")
+    assert "invalid" in daily.strict_link(tmp_path)
+
+
+def test_strict_line_sits_beside_linking_never_instead(tmp_path, monkeypatch):
+    path = tmp_path / daily.RECEIPT
+    path.parent.mkdir(parents=True)
+    path.write_text(json.dumps(receipt()), encoding="utf-8")
+    current = {**sample(), "strict": daily.strict_link(tmp_path)}
+    line = ("Historical strict link check (2026-10-09 at 9193fd8247, no longer updated): 25.00% self-strict, "
+            "12.50% fully linked, of all retail .text")
+    lines = daily.announcement(current, None)["embeds"][0]["description"].split("\n")
+    readme = f"[What each bar measures, with charts: README]({daily.README})"
+    # until a bundle is published the card names no feed: one historical line
+    assert daily.PUBLISHED is False
+    assert "**Linking: 10.00%**" in lines and lines[-3:] == [line, "", readme]
+    svg = daily.render(current)
+    assert line in svg and daily.CURRENT_LINE not in svg and ">10.00%<" in svg and 'height="388"' in svg
+    # from the first published bundle a second line says where the current measurement is
+    monkeypatch.setattr(daily, "PUBLISHED", True)
+    lines = daily.announcement(current, None)["embeds"][0]["description"].split("\n")
+    assert lines[-4:] == [line, daily.CURRENT_LINE, "", readme]
+    assert "published link-cycle bundle" in daily.CURRENT_LINE and "cycle_artifacts.py fetch --latest" in daily.CURRENT_LINE
+    svg = daily.render(current)
+    assert line in svg and daily.CURRENT_LINE in svg and ">10.00%<" in svg and 'height="406"' in svg
+    assert 'height="366"' in daily.render(sample())
+
+
+def test_strict_line_flags_a_receipt_that_is_not_authoritative(tmp_path):
+    path = tmp_path / daily.RECEIPT
+    path.parent.mkdir(parents=True)
+    path.write_text(json.dumps(receipt(authoritative=False)), encoding="utf-8")
+    assert daily.strict_line({"strict": daily.strict_link(tmp_path)}).endswith("(not authoritative)")
+
+
+def test_unreadable_receipt_never_stops_the_daily_post(tmp_path, monkeypatch):
+    path = setup_state(tmp_path, monkeypatch)
+    receipt_path = tmp_path / daily.RECEIPT
+    receipt_path.parent.mkdir(parents=True)
+    receipt_path.write_text(json.dumps(receipt(self_strict=500, closed=1_000)), encoding="utf-8")
+    monkeypatch.setattr(sys, "argv", ["readme_progress.py", "--discord"])
+    monkeypatch.setenv("DISCORD_PROGRESS_WEBHOOK", "https://discord.com/api/webhooks/test/token")
+    posted = []
+    monkeypatch.setattr(daily, "urlopen", lambda request, *a, **k: posted.append(request) or io.BytesIO(b'{"id":"9"}'))
+    monkeypatch.setattr(daily.progress, "matched_at", lambda *a: [])
+    monkeypatch.setattr(daily.progress, "notes_at", lambda *a: {})
+    monkeypatch.setattr(daily.progress, "retail_text", lambda: (0, 100))
+    monkeypatch.setattr(daily.progress, "naked_cpp_rows_at", lambda *a: [])
+    monkeypatch.setattr(daily.progress, "real_split", lambda *a, **k: sample())
+    monkeypatch.setattr(daily.progress, "census_at", lambda *a: None)
+    monkeypatch.setattr(daily.progress, "real_code_denominator", lambda *a: (0, 100))
+    monkeypatch.setattr(daily.name_metric, "readable", lambda: (200, 58))
+    daily.main()
+    assert posted and json.loads(path.read_text())["message_id"] == "9"
+    assert "Strict link check unavailable" in (tmp_path / "docs/progress.svg").read_text()
+
+
+def test_huge_or_unreachable_receipts_degrade(tmp_path, monkeypatch):
+    path = tmp_path / daily.RECEIPT
+    path.parent.mkdir(parents=True)
+    path.write_text(json.dumps(receipt(self_strict=10, closed=5, text=10**400)), encoding="utf-8")
+    strict = daily.strict_link(tmp_path)
+    assert "invalid" in strict and daily.strict_line({"strict": strict}).startswith("Strict link check unavailable")
+
+    def denied(self):
+        raise PermissionError("denied")
+    monkeypatch.setattr(type(path), "exists", denied)
+    assert "invalid" in daily.strict_link(tmp_path)
+
+
+@pytest.mark.parametrize("text", [
+    "[" * 10000 + "0" + "]" * 10000,
+    json.dumps({**receipt(), "date_utc": "\ud800"}),
+    json.dumps({**receipt(), "commit": "\ud800"}),
+    json.dumps({**receipt(), "series": {**receipt()["series"], "credit_unique_bytes": True}}),
+    json.dumps({**receipt(), "series": {**receipt()["series"], "retail_text_bytes": "8000"}}),
+])
+def test_malformed_receipts_never_stop_main(tmp_path, monkeypatch, text):
+    path = setup_state(tmp_path, monkeypatch)
+    receipt_path = tmp_path / daily.RECEIPT
+    receipt_path.parent.mkdir(parents=True)
+    receipt_path.write_text(text, encoding="utf-8")
+    monkeypatch.setattr(sys, "argv", ["readme_progress.py", "--discord"])
+    monkeypatch.setenv("DISCORD_PROGRESS_WEBHOOK", "https://discord.com/api/webhooks/test/token")
+    monkeypatch.setattr(daily, "urlopen", lambda *a, **k: io.BytesIO(b'{"id":"7"}'))
+    for name, value in (("matched_at", lambda *a: []), ("notes_at", lambda *a: {}), ("retail_text", lambda: (0, 100)),
+                        ("naked_cpp_rows_at", lambda *a: []), ("real_split", lambda *a, **k: sample()),
+                        ("census_at", lambda *a: None), ("real_code_denominator", lambda *a: (0, 100))):
+        monkeypatch.setattr(daily.progress, name, value)
+    monkeypatch.setattr(daily.name_metric, "readable", lambda: (200, 58))
+    daily.main()
+    assert json.loads(path.read_text())["message_id"] == "7"
+    assert "Strict link check unavailable" in (tmp_path / "docs/progress.svg").read_text(encoding="utf-8")

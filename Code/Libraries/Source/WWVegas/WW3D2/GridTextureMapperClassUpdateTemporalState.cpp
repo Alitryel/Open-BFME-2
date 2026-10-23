@@ -6,7 +6,9 @@
 class WW3D
 {
 public:
+private:
 	static unsigned int SyncTime;
+public:
 	static unsigned int Get_Sync_Time() { return SyncTime; }
 };
 
@@ -28,6 +30,7 @@ class GridTextureMapperClass : public TextureMapperClass
 {
 protected:
 	void update_temporal_state();
+	friend void _bfmeGridTextureMapperUpdateTemporalStateInlineAnchor(GridTextureMapperClass *mapper);
 
 	float Fps;
 	int Sign;
@@ -41,7 +44,7 @@ protected:
 	unsigned LastUsedSyncTime;
 };
 
-void GridTextureMapperClass::update_temporal_state()
+inline void GridTextureMapperClass::update_temporal_state()
 {
 	unsigned int now = WW3D::Get_Sync_Time();
 	unsigned int delta = now - LastUsedSyncTime;
@@ -57,3 +60,12 @@ void GridTextureMapperClass::update_temporal_state()
 		CurrentFrame = (unsigned int)new_frame;
 	Remainder = Remainder % MSPerFrame;
 }
+
+// This method is a header inline in the copier unit; the anchor is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeGridTextureMapperUpdateTemporalStateInlineAnchor@@YAXPAVGridTextureMapperClass@@@Z absent-from-retail
+void _bfmeGridTextureMapperUpdateTemporalStateInlineAnchor(GridTextureMapperClass *mapper)
+{
+	mapper->update_temporal_state();
+}
+#pragma inline_depth()

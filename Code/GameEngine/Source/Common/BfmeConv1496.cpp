@@ -1,4 +1,7 @@
 // cl: /Od
+// At pinned 0x0002AE50, the five-word thiscall matches four range pointers
+// plus the provider's empty tag reference; the returned string reference is ignored.
+#pragma comment(linker, "/alternatename:?bfmeInsertV52@BfmeStrV52@@QAEXPAD0000@Z=?bfmeReplaceAliasedRange@Rva008312E0String@@QAEAAV1@PAD000ABURva008312E0Tag@@@Z")
 
 class BfmeStrV52
 {

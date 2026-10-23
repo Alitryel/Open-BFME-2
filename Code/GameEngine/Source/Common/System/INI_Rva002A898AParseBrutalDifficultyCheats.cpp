@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /GX- /arch:SSE
+// cl: /Oy- /DNDEBUG /MD /GX-
 // Rva002A898A_ParseBrutalDifficultyCheats (retail 0x002A898A, 72 bytes).
 // Builds a float pair {0.0, default from the float global at 0xBC2424},
 // fills it through the rowed INI::initFromINI at 0x002DE78 with the two
@@ -9,7 +9,14 @@
 // AnyTypeTemplateDisabledSlots). The struct name is a readable local model;
 // the owning struct is BFME2-new (no BFME1 donor).
 
-struct FieldParse;
+class INI;
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(INI *ini, void *instance, void *store, const void *userData);
+	const void *userData;
+	int offset;
+};
 
 struct BrutalDifficultyCheats
 {
@@ -17,13 +24,22 @@ struct BrutalDifficultyCheats
 	float buildTimeReduction;
 };
 
-extern const float kBrutalDifficultySecondDefault;
 
 class INI
 {
 public:
 	void initFromINI(void *instance, const FieldParse *table);
 	static void Rva002A898A_ParseBrutalDifficultyCheats(INI *ini, void *instance, void *store, const void *userData);
+	static void parsePercentToReal(INI *ini, void *instance, void *store, const void *userData);
+};
+
+// Retail's BrutalDifficultyCheats field table at VA 0x00BFD85C (.rdata, 32
+// bytes), transcribed from retail's own bytes. Retail has no zero sentinel
+// after the second record: the token strings follow directly.
+extern const FieldParse BrutalDifficultyCheatsFieldParse[] =
+{
+	{ "BuildCostReduction", &INI::parsePercentToReal, 0, 0x0 },
+	{ "BuildTimeReduction", &INI::parsePercentToReal, 0, 0x4 }
 };
 
 // ?Rva002A898A_ParseBrutalDifficultyCheats@INI@@SAXPAV1@PAX1PBX@Z
@@ -31,8 +47,8 @@ void INI::Rva002A898A_ParseBrutalDifficultyCheats(INI *ini, void *instance, void
 {
 	BrutalDifficultyCheats cheats;
 	cheats.buildCostReduction = 0.0f;
-	cheats.buildTimeReduction = kBrutalDifficultySecondDefault;
-	ini->initFromINI(&cheats, reinterpret_cast<const FieldParse *>(0x00BFD85C));
+	cheats.buildTimeReduction = 0.1f;
+	ini->initFromINI(&cheats, BrutalDifficultyCheatsFieldParse);
 	float *slot = (float *)((char *)instance + 0x840);
 	slot[0] = cheats.buildCostReduction;
 	slot[1] = cheats.buildTimeReduction;

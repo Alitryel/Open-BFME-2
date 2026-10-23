@@ -1,4 +1,4 @@
-// cl: /O1 /MD /GX /arch:SSE /DNDEBUG /Oy- /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /MD /D_CRTIMP= /GX /DNDEBUG /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0EmotionTrackerUpdateModuleData@@QAE@XZ, retail 0x004B115A (299 bytes).
@@ -17,6 +17,9 @@
 // 0x40 (sole caller); proc 0x4B235D is the rowed buildFieldParse.
 
 #include <vector>
+
+extern unsigned char g_00DFEFA4StoragePrototype[28];
+extern const void *const g_00C56530[];
 
 class BfmeFixedStorage0004543D
 {
@@ -38,25 +41,27 @@ private:
 	int m_x;
 };
 
-struct BfmeE16 { float x, y, z, w; };
+#include "../../../../../Libraries/Include/Lib/BfmeE16.h"
+// bfme link decl-only BfmeE16
+namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 
 class UpdateModuleData
 {
 public:
-	UpdateModuleData() {}
-	virtual ~UpdateModuleData();
+	__declspec(dllimport) __forceinline UpdateModuleData() {}
+	~UpdateModuleData();
 
 private:
-	unsigned int m_value04;
 };
 
 class EmotionTrackerUpdateModuleData : public UpdateModuleData
 {
 public:
 	EmotionTrackerUpdateModuleData();
-	virtual ~EmotionTrackerUpdateModuleData();
 
 private:
+	const void *m_vtable;						// +0x00 vtable 0x00C56530
+	unsigned int m_unused04;					// +0x04 retail never stores
 	float m_float08;							// +0x08 retail zeroes as float
 	unsigned int m_value0C : 32;				// +0x0C retail zeroes via and
 	Rva003623E5Member m_name0;					// +0x10
@@ -68,30 +73,35 @@ private:
 	float m_value28;							// +0x28
 	unsigned char m_flag2C;						// +0x2C
 	unsigned char m_pad2D[3];
-	unsigned int m_unk30;						// +0x30 retail sets 5; no donor counterpart
+	unsigned int m_immuneToFearLevel;						// +0x30 retail sets 5; no donor counterpart
 	_STL::vector<BfmeE16> m_entries;			// +0x34
 };
 
 // ??0EmotionTrackerUpdateModuleData@@QAE@XZ @0x4B115A
 EmotionTrackerUpdateModuleData::EmotionTrackerUpdateModuleData()
-	: m_float08( 0.0f )
+	: m_vtable( g_00C56530 )
+	, m_float08( 0.0f )
 	, m_value0C( 0 )
 	, m_value20( 0.0f )
 	, m_value24( 0.0f )
 	, m_value28( 0.0f )
 	, m_flag2C( 0 )
-	, m_unk30( 5 )
+	, m_immuneToFearLevel( 5 )
 {
 	m_name0.initFromStorages(
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(0x00DFEFA4)),
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(0x00DFEFA4)));
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)),
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)));
 	m_name1.initFromStorages(
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(0x00DFEFA4)),
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(0x00DFEFA4)));
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)),
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)));
 	m_name2.initFromStorages(
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(0x00DFEFA4)),
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(0x00DFEFA4)));
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)),
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)));
 	m_name3.initFromStorages(
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(0x00DFEFA4)),
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(0x00DFEFA4)));
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)),
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)));
 }
+
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
+#pragma comment(linker, "/alternatename:?g_00C56530@@3QBQBXB=??_7EmotionTrackerUpdateModuleData@@6B@")

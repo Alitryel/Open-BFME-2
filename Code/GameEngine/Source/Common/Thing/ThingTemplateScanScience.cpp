@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 //
 // Retail RE: ?scanScience@INI@@SA?AW4ScienceType@@PBD@Z @0x00338A8D (11B).
 //
@@ -31,3 +31,7 @@ ScienceType INI::scanScience(const char *token)
 {
 	return TheScienceStore->lookupScience(token);
 }
+
+// ?TheScienceStore@@3PAVScienceStore@@A: matched references place it at VA 0xdfe0e0; also referenced as ?g_scienceStoreLoaded@@3HA.
+ScienceStore * TheScienceStore = 0;
+#pragma comment(linker, "/alternatename:?g_scienceStoreLoaded@@3HA=?TheScienceStore@@3PAVScienceStore@@A")

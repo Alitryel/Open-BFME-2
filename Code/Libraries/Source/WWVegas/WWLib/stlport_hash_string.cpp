@@ -13,7 +13,7 @@ namespace _STL
 // Donor stl/_hash_fun.h lines 42-50 verbatim (_STLP_FIX_LITERAL_BUG is
 // empty; size_t is 32-bit here so the signature stays YAIPBD). /G7 selects
 // imul for the x5 step where the default /O1 strength-reduces it to lea.
-unsigned int __cdecl __stl_hash_string(const char *__s)
+inline unsigned int __cdecl __stl_hash_string(const char *__s)
 {
 	unsigned long __h = 0;
 	for (; *__s; ++__s)
@@ -23,3 +23,14 @@ unsigned int __cdecl __stl_hash_string(const char *__s)
 }
 
 }
+
+// __stl_hash_string is a header inline elsewhere: other units emit select-any
+// copies, so a strong definition here was a duplicate in the linked build. This
+// anchor only makes this unit emit its copy for the ledger row; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitstlport_hash_string@@YAXPBD@Z present-unmatched
+void bfmeEmitstlport_hash_string(const char *s)
+{
+	_STL::__stl_hash_string(s);
+}
+#pragma inline_depth()

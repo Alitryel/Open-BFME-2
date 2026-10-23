@@ -1,4 +1,4 @@
-// cl: /O1 /MD /DNDEBUG /arch:SSE
+// cl: /Ireference/shims/bfme2_ascii /O1 /MD /DNDEBUG /arch:SSE
 //
 // ??0SlavedUpdateModuleData@@QAE@XZ, retail 0x002552D7, 105 bytes
 // (frameless): compiler vtable store at +0 (pinned ??_7 at 0xBF34C0, slot0
@@ -9,14 +9,7 @@
 // ride as bfme-named members). The owning factory at 0x00255340 (news 0x70)
 // is the sole caller; the pool key at 0x4A1875 names the class. Row
 // supersedes the ctor pin.
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class SlavedUpdateModuleData
 {
@@ -45,17 +38,17 @@ public:
 	AsciiString m_weldingSysName;
 	AsciiString m_weldingFXBone;
 	bool m_stayOnSameLayerAsMaster;
-	bool m_bfme55;
-	float m_bfme58;
+	bool m_dieOnMastersDeath;
+	float m_guardPositionOffset;
 	float m_bfme5C;
 	float m_bfme60;
-	int m_bfme64;
-	int m_bfme68;
-	bool m_bfme6C;
-	bool m_bfme6D;
+	int m_fadeOutRange;
+	int m_fadeTime;
+	bool m_markUnselectable;
+	bool m_useSlaverAsControlForEvaObjectSightedEvents;
 };
 
-SlavedUpdateModuleData::SlavedUpdateModuleData()
+inline SlavedUpdateModuleData::SlavedUpdateModuleData()
 	: m_leashRange(0)
 	, m_guardMaxRange(0)
 	, m_attackRange(0)
@@ -72,13 +65,24 @@ SlavedUpdateModuleData::SlavedUpdateModuleData()
 	, m_minWeldFrames(0)
 	, m_maxWeldFrames(0)
 	, m_stayOnSameLayerAsMaster(false)
-	, m_bfme55(false)
-	, m_bfme58(0.0f)
+	, m_dieOnMastersDeath(false)
+	, m_guardPositionOffset(0.0f)
 	, m_bfme5C(0.0f)
 	, m_bfme60(0.0f)
-	, m_bfme64(0)
-	, m_bfme68(0)
-	, m_bfme6C(true)
-	, m_bfme6D(false)
+	, m_fadeOutRange(0)
+	, m_fadeTime(0)
+	, m_markUnselectable(true)
+	, m_useSlaverAsControlForEvaObjectSightedEvents(false)
 {
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeSlavedUpdateModuleDataInlineAnchor@@YAXPAVSlavedUpdateModuleData@@@Z absent-from-retail
+void _bfmeSlavedUpdateModuleDataInlineAnchor(SlavedUpdateModuleData *slavedUpdateModuleData)
+{
+    slavedUpdateModuleData->SlavedUpdateModuleData::SlavedUpdateModuleData();
+}
+#pragma inline_depth()

@@ -19,3 +19,7 @@ int bfmeGroupOL(const BfmeThingOL *what)
 
 	return 4;
 }
+
+// Callers elsewhere reach bodies in this unit through spellings pinned to the same
+// retail address (same cdecl/thiscall ABI); bind them here.
+#pragma comment(linker, "/alternatename:_Rva0081B9D0=?bfmeGroupOL@@YAHPBUBfmeThingOL@@@Z")

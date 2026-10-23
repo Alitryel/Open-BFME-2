@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHs-c- /O1 /G7
+// cl: /DNDEBUG /MD /EHs-c-
 // BoneFXUpdate::initTimes — retail 0x0048750B / 297B.
 // Upstream: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source/GameLogic/Object/Update/BoneFXUpdate.cpp
 // (BoneFXUpdate::initTimes, ZH uses REAL_TO_INT; retail BFME2 uses a plain
@@ -17,18 +17,9 @@
 //   retail StringBase::compare at 0x000069D6 (see symbols.csv pin); defining it
 //   locally with memcmp (as BFME1 did) would call memcmp instead and mismatch.
 
-class AsciiString
-{
-public:
-	static const AsciiString TheEmptyString;
+#include "../../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
-	int compare(const AsciiString &stringSrc) const;
-
-private:
-	struct AsciiStringHeader *m_data;
-};
-
-const AsciiString AsciiString::TheEmptyString;
+// AsciiString::TheEmptyString: defined in Common/Rva00380200Getter.cpp.
 
 class GameClientRandomVariable
 {
@@ -52,15 +43,7 @@ private:
 	float m_high;
 };
 
-class GameLogic
-{
-public:
-	unsigned int getFrame() const { return m_frame; }
-
-private:
-	char m_pad[0x40];
-	unsigned int m_frame;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 GameLogic *TheGameLogic;
 
@@ -130,22 +113,22 @@ private:
 void BoneFXUpdate::initTimes()
 {
 	int i;
-	const BoneFXUpdateModuleData *d = getBoneFXUpdateModuleData();
+	const BoneFXUpdateModuleData *boneFXUpdateModuleData = getBoneFXUpdateModuleData();
 	int now = TheGameLogic->getFrame();
 
 	for (i = 0; i < BONE_FX_MAX_BONES; ++i) {
-		if (d->m_fxList[m_curBodyState][i].boneName.compare(AsciiString::TheEmptyString) != 0) {
-			m_nextFXFrame[m_curBodyState][i] = now + (int)d->m_fxList[m_curBodyState][i].gameLogicDelay.getValue();
+		if (boneFXUpdateModuleData->m_fxList[m_curBodyState][i].boneName.compare(AsciiString::TheEmptyString) != 0) {
+			m_nextFXFrame[m_curBodyState][i] = now + (int)boneFXUpdateModuleData->m_fxList[m_curBodyState][i].gameLogicDelay.getValue();
 		} else {
 			m_nextFXFrame[m_curBodyState][i] = -1;
 		}
-		if (d->m_OCL[m_curBodyState][i].boneName.compare(AsciiString::TheEmptyString) != 0) {
-			m_nextOCLFrame[m_curBodyState][i] = now + (int)d->m_OCL[m_curBodyState][i].gameLogicDelay.getValue();
+		if (boneFXUpdateModuleData->m_OCL[m_curBodyState][i].boneName.compare(AsciiString::TheEmptyString) != 0) {
+			m_nextOCLFrame[m_curBodyState][i] = now + (int)boneFXUpdateModuleData->m_OCL[m_curBodyState][i].gameLogicDelay.getValue();
 		} else {
 			m_nextOCLFrame[m_curBodyState][i] = -1;
 		}
-		if (d->m_particleSystem[m_curBodyState][i].boneName.compare(AsciiString::TheEmptyString) != 0) {
-			m_nextParticleSystemFrame[m_curBodyState][i] = now + (int)d->m_particleSystem[m_curBodyState][i].gameClientDelay.getValue();
+		if (boneFXUpdateModuleData->m_particleSystem[m_curBodyState][i].boneName.compare(AsciiString::TheEmptyString) != 0) {
+			m_nextParticleSystemFrame[m_curBodyState][i] = now + (int)boneFXUpdateModuleData->m_particleSystem[m_curBodyState][i].gameClientDelay.getValue();
 		} else {
 			m_nextParticleSystemFrame[m_curBodyState][i] = -1;
 		}

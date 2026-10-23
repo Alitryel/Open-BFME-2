@@ -1,4 +1,4 @@
-// cl: /O1
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 // Open-BFME5: ATL 7.1 CSimpleArray<HINSTANCE>::Add.
 //
 // Ghidra names retail 0x009F6A90 "Add".  The implementation is the pristine
@@ -90,3 +90,7 @@ template BOOL CSimpleArray<HINSTANCE>::Add(const HINSTANCE& t);
 template int CSimpleArray<void *, CSimpleArrayEqualHelper<void *> >::RemoveAt(int);
 template void *& CSimpleArray<void *, CSimpleArrayEqualHelper<void *> >::operator[](int);
 }
+
+// Retail's call sites in this unit's matched rows land on bodies rowed under
+// other spellings at the same addresses (same ABI). Bind the spellings used here.
+#pragma comment(linker, "/alternatename:?realloc@@YAPAXPAXI@Z=?ji_006297ea@@YAXXZ")

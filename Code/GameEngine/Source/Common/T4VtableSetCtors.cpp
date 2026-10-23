@@ -15,13 +15,23 @@
 // the compiler may neither merge nor drop them, exactly as the donor models
 // the inlined-base-then-derived sequence.
 //
-// The vftables are integer literals, DIR32-masked at verification (same rule
-// as the HordeGarrisonContain precedent), so no identity is claimed for them.
+// Tables use address-derived aliases, preserving uncertainty about the
+// caller's class identity while resolving real linker definitions.
 // 0x00C1C780 is independently witnessed as a shared secondary vftable: the
 // Die-family intermediate base 0x45CEBD installs it alongside 0xC41E78 and
 // 0xC4A650, and the FXParticleSystem velocity template row 0x3A73F8 lists it
 // among its subobject vtables. No caller names this body, so the class keeps
 // its address-derived name.
+
+// Address-named alias: retail RVA 0x0081C780 is one __purecall slot.
+// The emitted donor table is independently checked as four bytes with
+// one __purecall relocation, whose matched body is at RVA 0x0003B810.
+// This establishes table contents; it assigns no donor class to the caller.
+extern "C" const void *const vtbl_00C1C780[];
+#pragma comment(linker, "/alternatename:_vtbl_00C1C780=??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@")
+
+extern "C" const void *const vtbl_00C1D2C0[];  // ??_7Rva005EA430@@6BV3Vt01111D90@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C1D2C0=??_7Rva005EA430@@6BV3Vt01111D90@@@")
 
 class Rva00563FE1
 {
@@ -31,19 +41,17 @@ private:
 	unsigned char m_storage[ 0x0c ];
 };
 
-// Stands for the same 0x00C1C780 secondary table the literal above names.
-// Retail stores that table twice, but a constant MSVC sees twice is hoisted
-// into ecx (mov ecx,imm / mov [eax+8],ecx), so the second store references
-// this anchor instead: a single-use address compiles to mov [eax+8],imm with
-// a DIR32 site, and the verifier fills that site from the target -- the same
-// mechanism as ToggleMounted's s_vtableAnchor.
-static int s_sharedSecondaryVtable;
+// Both table names alias the independently checked four-byte retail table.
+// Keeping separate compiler names preserves the two immediate stores while
+// the linker resolves them to the same address; no zero-filled anchor remains.
+extern "C" const void *const vtbl_00C1C780_again[];
+#pragma comment(linker, "/alternatename:_vtbl_00C1C780_again=??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@")
 
 Rva00563FE1::Rva00563FE1( unsigned int a )
 {
 	volatile unsigned int *slots = (unsigned int *)this;
 	slots[ 1 ] = a;
-	slots[ 2 ] = 0x00c1c780;
-	slots[ 0 ] = 0x00c1d2c0;
-	slots[ 2 ] = (unsigned int)&s_sharedSecondaryVtable;
+	slots[ 2 ] = ((unsigned int)vtbl_00C1C780);
+	slots[ 0 ] = ((unsigned int)vtbl_00C1D2C0);
+	slots[ 2 ] = (unsigned int)vtbl_00C1C780_again;
 }

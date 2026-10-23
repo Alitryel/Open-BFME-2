@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -45,15 +45,8 @@
 // into the already-huge converted Player.cpp, which other agents may be
 // touching concurrently.
 
-template <typename T> class StringBase
-{
-public:
-    int compareNoCase(const char *s) const;
-};
+#include "ascii_string.h"
 
-class AsciiString : public StringBase<char>
-{
-};
 
 enum ScienceAvailabilityType
 {
@@ -84,7 +77,7 @@ ScienceAvailabilityType Player::getScienceAvailabilityTypeFromString( const Asci
 {
 	for( int i = 0; i < SCIENCE_AVAILABILITY_COUNT; i++ )
 	{
-		if( !name.compareNoCase( ScienceAvailabilityNames[ i ] ) )
+		if( !((const StringBase<char> &)name).compareNoCase( ScienceAvailabilityNames[ i ] ) )
 		{
 			return (ScienceAvailabilityType)i;
 		}

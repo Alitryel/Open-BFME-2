@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /arch:SSE
+// cl: /DNDEBUG /MD
 //
 // ??0TintDrawableFXNugget@@QAE@XZ 82B @0x1E0986: no-arg ctor called by
 // TintDrawableFXNugget::parse (0x001E1798) for the TintDrawable FXList
@@ -10,6 +10,22 @@
 // default to 1.0f.
 // Base 0x001DFEAA is a shared FXNugget-family base ctor; pinned opaquely.
 
+// Retail VA 0x00BDD8E0 (.rdata): a 5-slot vftable no unit emits. Defined here as
+// data with retail's slot pointers, each bound to the ledger name at its
+// target (tools/vftable_map.py); its installers store this table.
+extern "C" void __identifier("?rva001DFF5D@Rva001DFEAABase@@UAE_NPAVObject@@0@Z")();
+extern "C" void __identifier("?doFXObj@TintDrawableFXNugget@@UBEXPBVObject@@0@Z")();
+extern "C" void __identifier("??_GRva001E009E@@UAEPAXI@Z")();
+extern "C" void __identifier("?rva001F01E8@Rva001F01E8@@QAEXHHHH@Z")();
+extern "C" void __identifier("?SkipBadBlock@Xfer@@UAEXAAVSnapshot@@I@Z")();
+extern "C" const void *const vtbl_00BDD8E0[] = {
+	(const void *)&__identifier("??_GRva001E009E@@UAEPAXI@Z"),
+	(const void *)&__identifier("?rva001F01E8@Rva001F01E8@@QAEXHHHH@Z"),
+	(const void *)&__identifier("?doFXObj@TintDrawableFXNugget@@UBEXPBVObject@@0@Z"),
+	(const void *)&__identifier("?SkipBadBlock@Xfer@@UAEXAAVSnapshot@@I@Z"),
+	(const void *)&__identifier("?rva001DFF5D@Rva001DFEAABase@@UAE_NPAVObject@@0@Z")
+};
+
 class Rva001DFEAABase
 {
 public:
@@ -20,13 +36,7 @@ protected:
 	unsigned char m_pad[0x148 - 8];
 };
 
-struct RGBColor
-{
-	void setFromInt(int color);
-	float red;
-	float green;
-	float blue;
-};
+#include "../../../Libraries/Include/Lib/RGBColor.h"
 
 class TintDrawableFXNugget : public Rva001DFEAABase
 {
@@ -44,7 +54,7 @@ private:
 // ??0TintDrawableFXNugget@@QAE@XZ
 TintDrawableFXNugget::TintDrawableFXNugget()
 {
-	*(unsigned int *)this = 0x00BDD8E0;
+	*(unsigned int *)this = ((unsigned int)vtbl_00BDD8E0);
 	m_color.setFromInt(-1);
 	m_preColorTime = 2000;
 	m_postColorTime = 2000;

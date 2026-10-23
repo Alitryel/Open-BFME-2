@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /GX
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX
 //
 // ?rva002360DE@GlobalData@@QBE?AVAsciiString@@XZ,
 // retail 0x002360DE, 30 bytes, plus the Unicode twin
@@ -19,33 +19,10 @@ typedef unsigned short WideChar;
 
 #define NULL 0
 
-template <typename T>
-class StringBase
-{
-	friend class AsciiString;
-	friend class UnicodeString;
+#include "ascii_string.h"
 
-public:
-	StringBase() : m_data(0) {}
 
-private:
-	StringBase(const StringBase<T> &that);
-	T *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	__forceinline AsciiString(const AsciiString &other) : StringBase<char>(other) {}
-	~AsciiString();
-};
-
-class UnicodeString : public StringBase<WideChar>
-{
-public:
-	__forceinline UnicodeString(const UnicodeString &other) : StringBase<WideChar>(other) {}
-	~UnicodeString();
-};
+#include "unicode_string.h"
 
 class GlobalData
 {

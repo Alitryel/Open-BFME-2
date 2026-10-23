@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 //
 // HTreeClass::Init_Default at 0x001666D0.
 //
@@ -13,13 +13,26 @@
 // adjustments of the Make_Identity it inlined on each block, which is why the
 // blocks are modelled as one struct with that member.  htree.cpp's shim keeps
 // Zero Hour's pivot layout, so this unit carries a reduced model of its own.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 
 extern "C" char *strcpy(char *destination, const char *source);
 #pragma intrinsic(strcpy)
 
 // Without this declaration MSVC routes `new T[n]` to the scalar ??2@YAPAXI@Z;
-// retail allocates the pivot through the array form ??_U@YAPAXI@Z.
+// retail allocates the pivot through the array form ??_U@YAPAXI@Z, and its
+// unwind funclet frees through ??_V@YAXPAX@Z, so declare that one as well.
 void *__cdecl operator new[](unsigned int size);
+void __cdecl operator delete[](void *block);
 
 // One of the pivot's two transform blocks.
 struct BfmePivotTransform

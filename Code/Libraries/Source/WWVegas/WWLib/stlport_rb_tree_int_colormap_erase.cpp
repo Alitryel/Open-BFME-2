@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /D_STLP_NO_EXCEPTIONS /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /EHsc /D_STLP_NO_EXCEPTIONS /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT /Ireference/shims/bfmealloc
 // stlport
 // Color-tree node eraser: retail 0x00380EB1, 53 bytes. Same 53B
 // Destroy-and-free shape as the landed string-pair erase 0x2E44BD (recurse
@@ -12,30 +12,10 @@
 // the list-pair precedent in stlport_string_list_pair_cleanup.cpp.
 #include <map>
 
-template <typename T> class StringBase
-{
-	void releaseBuffer();
+#include "ascii_string.h"
 
-public:
-	~StringBase();
 
-protected:
-	void *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString(const AsciiString &other);
-	~AsciiString();
-};
-
-struct RGBColor
-{
-	float red;
-	float green;
-	float blue;
-};
+#include "../../../Include/Lib/RGBColor.h"
 
 class MultiplayerColorDefinition
 {

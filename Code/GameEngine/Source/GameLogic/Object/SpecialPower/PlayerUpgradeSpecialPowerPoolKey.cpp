@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva004C7C4C@PlayerUpgradeSpecialPower@@SA?AW4NameKeyType@@XZ @0x004C7C4C
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@PlayerUpgradeSpecialPower@@UBE?AW4NameKeyType@@XZ @0x004C7C4C
 // (69B): cached pool-name key for PlayerUpgradeSpecialPower. The class
 // identity comes from the pool-name string the body pushes
 // ("PlayerUpgradeSpecialPower"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class PlayerUpgradeSpecialPower
 {
 public:
-	static NameKeyType rva004C7C4C();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004C7C4C@PlayerUpgradeSpecialPower@@SA?AW4NameKeyType@@XZ
-NameKeyType PlayerUpgradeSpecialPower::rva004C7C4C()
+// ?getModuleNameKey@PlayerUpgradeSpecialPower@@UBE?AW4NameKeyType@@XZ
+NameKeyType PlayerUpgradeSpecialPower::getModuleNameKey() const
 {
 	static NameKeyType ThePlayerUpgradeSpecialPowerPoolKey =
 		TheNameKeyGenerator->nameToKey("PlayerUpgradeSpecialPower");

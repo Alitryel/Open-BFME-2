@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG
+// cl: /DNDEBUG
 
 // VectorClass<TextureStatisticsStruct>::Resize at 0x00129990, split out of
 // TextureStatisticsVector.cpp because retail built it with /G7 -- add reg,1
@@ -25,21 +25,19 @@ class TextureClass : public TextureBaseClass
 {
 };
 
-void TextureBaseClass::Add_Ref()
-{
-	++*reinterpret_cast<unsigned short *>(reinterpret_cast<char *>(this) + 4);
-}
+// TextureBaseClass::Add_Ref lives in ringobj.cpp (row at 0x000424B6);
+// the in-class declaration above stays so this TU's calls keep the same name.
 
 template<class T>
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib/ref_ptr.h
 class RefCountPtr
 {
 public:
-	RefCountPtr() : Referent(0) {}
+	__declspec(dllimport) __forceinline RefCountPtr() : Referent(0) {}
 	RefCountPtr(RefCountPtr const &other) : Referent(other.Referent)
 	{
 		if (Referent != 0)
-			Referent->Add_Ref();
+			++*(unsigned short *)((char *)Referent + 4);
 	}
 	// BFME's destructor does not null the pointer (see TextureStatisticsVector.cpp).
 	~RefCountPtr()
@@ -49,10 +47,12 @@ public:
 			Referent->Release_Ref();
 		}
 	}
-	RefCountPtr const &operator=(RefCountPtr const &other)
+	// Inlined at every use here; the out-of-line copy is TextureStatisticsVector.cpp's
+	// row (0x000424D0, built without /G7), so this unit must not emit its own.
+	__declspec(dllimport) __forceinline RefCountPtr const &operator=(RefCountPtr const &other)
 	{
 		if (other.Referent != 0)
-			other.Referent->Add_Ref();
+			++*(unsigned short *)((char *)other.Referent + 4);
 		if (Referent != 0)
 			Referent->Release_Ref();
 		Referent = other.Referent;

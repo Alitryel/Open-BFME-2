@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /O1 /GX
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX
 //
 // FrameDataManager::reset clears every fixed-size frame ring entry, marks the
 // local manager's expected counts as unknown, and clears its quit state.  The
@@ -24,12 +24,12 @@ private:
 	int m_quitFrame;
 };
 
-#define FrameDataLength (*(const int *)0x00DD2DB8)
+extern int FRAME_DATA_LENGTH;
 
 void FrameDataManager::reset(void)
 {
 	int frame = 0;
-	if (FrameDataLength > 0)
+	if (FRAME_DATA_LENGTH > 0)
 	{
 		int offset = 0;
 		do
@@ -41,7 +41,7 @@ void FrameDataManager::reset(void)
 			++frame;
 			offset += 0x14;
 		}
-		while (frame < FrameDataLength);
+		while (frame < FRAME_DATA_LENGTH);
 	}
 	m_quitFrame = 0;
 	m_isQuitting = 0;

@@ -1,16 +1,29 @@
-// cl: /O1 /Ob2 /EHs /D_STLP_NO_EXCEPTIONS /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
+// cl: /Ob2 /EHs /D_STLP_NO_EXCEPTIONS /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // stlport
 // Semantic donor: reference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib/RvaTreeInsertUniqueHint.cpp.
 // BFME2 uses the established external AsciiString comparator.
 // Retail2031FB constructs the default mapped string directly. Disable the
 // old compiler-workaround wrapper locally; modern direct value-initialization
 // preserves its zero pointer and exact temporary lifetime.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <utility>
 #undef _STLP_DEFAULT_CONSTRUCTED
 #define _STLP_DEFAULT_CONSTRUCTED(T) T()
 #include <map>
-template<class T> class StringBase { void *m_data; void releaseBuffer(); protected: __forceinline StringBase() : m_data(0) {} __forceinline ~StringBase() { releaseBuffer(); } };
-class AsciiString : private StringBase<char> { public: __forceinline AsciiString() {} AsciiString(const AsciiString &); __forceinline ~AsciiString() {} };
+
+// __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
+// COMDATs (one byte shape per TU malloc/free wiring); explicit
+// dllimport+forceinline specializations take those calls inline so this
+// TU emits no external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void *__malloc_alloc<0>::allocate(size_t __n)
+{ void *__r = malloc(__n); if (!__r) __r = _S_oom_malloc(__n); return __r; }
+template <> __declspec(dllimport) __forceinline
+void __malloc_alloc<0>::deallocate(void *__p, size_t)
+{ free((char *)__p); }
+}
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 bool operator<(const AsciiString &, const AsciiString &);
 // Retail _M_create_node 0x00202B4A allocates 24 bytes: 16-byte links + two AsciiStrings.
 // _Construct 0x0002C71B invokes pair copy 0x0002C574, which calls the independently

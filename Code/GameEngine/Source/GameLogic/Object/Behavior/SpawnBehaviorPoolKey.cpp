@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva00045F688@SpawnBehavior@@SA?AW4NameKeyType@@XZ @0x45f688
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@SpawnBehavior@@UBE?AW4NameKeyType@@XZ @0x45f688
 // (69B): cached pool-name key for SpawnBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("SpawnBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class SpawnBehavior
 {
 public:
-	static NameKeyType rva00045F688();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00045F688@SpawnBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType SpawnBehavior::rva00045F688()
+// ?getModuleNameKey@SpawnBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType SpawnBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheSpawnBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("SpawnBehavior");

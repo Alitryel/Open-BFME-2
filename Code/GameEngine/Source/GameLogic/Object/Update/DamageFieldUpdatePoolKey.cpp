@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva000491264@DamageFieldUpdate@@SA?AW4NameKeyType@@XZ @0x491264
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@DamageFieldUpdate@@UBE?AW4NameKeyType@@XZ @0x491264
 // (69B): cached pool-name key for DamageFieldUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("DamageFieldUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class DamageFieldUpdate
 {
 public:
-	static NameKeyType rva000491264();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000491264@DamageFieldUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType DamageFieldUpdate::rva000491264()
+// ?getModuleNameKey@DamageFieldUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType DamageFieldUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheDamageFieldUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("DamageFieldUpdate");

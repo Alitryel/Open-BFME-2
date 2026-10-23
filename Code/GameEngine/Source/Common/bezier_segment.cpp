@@ -1,5 +1,25 @@
 // cl: /G7 /arch:SSE /Ireference/shims/bfmecamera /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/Code/GameEngine/Source/Common/System /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/GameEngine/Source/Common
+// Keep MSVC math.h float overloads local; matched operations already inline.
+#pragma push_macro("inline")
+#define inline static inline
+#include <math.h>
+#pragma pop_macro("inline")
 // stlport
+// Keep the MSVC float overloads local; the matched operations still inline.
+#define inline static inline
+#include <math.h>
+#undef inline
+// Retail keeps one unsigned max, RVA 0x00013740 (the vendored STLport row). This unit's
+// flags (/G7 /arch:SSE) compile a different copy, and retail kept another unit's. This unit-local
+// overload keeps the inlined code and offers the link no second copy.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
 #include <vector>
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -32,6 +52,23 @@
 #include "bez_fwd_iterator.h"
 
 #include "d3dx8math.h"
+// bfme link decl-only begin
+namespace _STL { template <> void vector<Coord3D, allocator<Coord3D> >::resize(unsigned int); }
+// bfme link decl-only end
+
+// Declaration-only: the rowed vector<Coord3D> members are bound, this TU emits no per-flag copy.
+namespace _STL {
+template <> void vector<Coord3D, allocator<Coord3D> >::_M_fill_insert(Coord3D*, size_t, const Coord3D&);
+template <> void vector<Coord3D, allocator<Coord3D> >::_M_insert_overflow(Coord3D*, const Coord3D&, const __false_type&, size_t, bool);
+template <> void vector<Coord3D, allocator<Coord3D> >::resize(size_t);
+}
+
+// vector<Coord3D>::erase is one shared STLport instantiation in retail
+// (0x002A133B: this getSegmentPoints' clear at 0x0055A800, vector<Coord3D>::
+// resize 0x000CA2F3 and AIStateMachine's ctor/clear all call it). These flags
+// would compile a different copy that comes early in link order, so clear()
+// and resize() here use the shared instantiation instead of emitting one.
+template <> Coord3D *std::vector<Coord3D>::erase( Coord3D *first, Coord3D *last );
 
 //-------------------------------------------------------------------------------------------------
 // ?BezierSegment::BezierSegment present-unmatched

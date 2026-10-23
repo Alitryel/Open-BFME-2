@@ -1,4 +1,4 @@
-// cl: /O2 /G7 /Oy /DNDEBUG /MD
+// cl: /Oy /DNDEBUG /MD
 //
 // DX8Wrapper::_Create_DX8_Surface, retail 0x0011DC60, 62 bytes.
 // Dedicated TU so SurfaceClass's constructor cannot inline this body.
@@ -55,3 +55,8 @@ IDirect3DSurface9 *DX8Wrapper::_Create_DX8_Surface(
 	++D3DCallCount;
 	return surface;
 }
+
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
+#pragma comment(linker, "/alternatename:?D3DCallCount@DX8Wrapper@@0IA=?number_of_DX8_calls@@3IA")
+#pragma comment(linker, "/alternatename:?D3DDevice@DX8Wrapper@@0PAUIDirect3DDevice9@@A=?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A")

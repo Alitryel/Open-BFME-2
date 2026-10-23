@@ -1,4 +1,4 @@
-﻿// cl: /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/ocls /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfme_autoheal /Ireference/shims/dockupdate /Ireference/shims/ocls /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
 // stlport
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -32,6 +32,15 @@
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include <list>
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 #include "Common/Thing.h"
 #include "Common/ThingTemplate.h"
 #include "Common/INI.h"
@@ -45,6 +54,9 @@
 #include "GameLogic/GameLogic.h"
 #include "GameLogic/Object.h"
 #include "GameLogic/PartitionManager.h"
+// bfme link decl-only begin
+namespace _STL { template <> _List_iterator<Object *, _Nonconst_traits<Object *> > list<Object *, allocator<Object *> >::insert(_List_iterator<Object *, _Nonconst_traits<Object *> >, Object *const &); }
+// bfme link decl-only end
 
 #ifdef _INTERNAL
 // for occasional debugging...
@@ -52,96 +64,20 @@
 //#pragma MESSAGE("************************************** WARNING, optimization disabled for debugging purposes")
 #endif
 
-//-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
-struct AutoHealPlayerScanHelper
-{
-	KindOfMaskType m_kindOfToTest;
-	KindOfMaskType m_forbiddenKindOf;
-	Object *m_theHealer;
-	ObjectPointerList *m_objectList;	
-	Bool m_skipSelfForHealing;
-};
-
-static void checkForAutoHeal( Object *testObj, void *userData )
-{
-	AutoHealPlayerScanHelper *helper = (AutoHealPlayerScanHelper*)userData;
-	ObjectPointerList *listToAddTo = helper->m_objectList;
-
-	if( testObj->isEffectivelyDead() )
-		return;
-
-	if( testObj->getControllingPlayer() != helper->m_theHealer->getControllingPlayer() )
-		return;
-
-	if( testObj->isOffMap() )
-		return;
-
-	if( helper->m_skipSelfForHealing && testObj == helper->m_theHealer )
-		return;
-
-	if( !testObj->isAnyKindOf(helper->m_kindOfToTest) )
-		return;
-
-	if( testObj->isAnyKindOf( helper->m_forbiddenKindOf ) )
-		return;
-
-	if( testObj->getBodyModule()->getHealth() >= testObj->getBodyModule()->getMaxHealth() )
-		return;
-
-	listToAddTo->push_back(testObj);
-}
-
 // BFME's module-data layout places the onDamage fields at different offsets
 // from the vendored Zero Hour declaration, and stores the radius gate as a
 // word tested for zero by the retail body.
 struct BfmeAutoHealDamageData
 {
-	UnsignedByte m_padding[0x7c];
+	UnsignedByte m_padding[0x124];
 	UnsignedInt m_startHealingDelay;
 	UnsignedInt m_radius;
 };
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Behavior/AutoHealBehaviorCtorThunk.cpp
-// ??0AutoHealBehavior@@ present-unmatched
-AutoHealBehavior::AutoHealBehavior( Thing *thing, const ModuleData* moduleData ) : UpdateModule( thing, moduleData )
-{
-	const AutoHealBehaviorModuleData *d = getAutoHealBehaviorModuleData();
-
-	m_radiusParticleSystemID = INVALID_PARTICLE_SYSTEM_ID;
-	m_soonestHealFrame = 0;
-	m_stopped = false;
-	Object *obj = getObject();
-
-	{
-		if( d->m_radiusParticleSystemTmpl )
-		{
-			ParticleSystem *particleSystem;
-
-			particleSystem = TheParticleSystemManager->createParticleSystem( d->m_radiusParticleSystemTmpl );
-			if( particleSystem )
-			{
-				particleSystem->setPosition( obj->getPosition() );
-				m_radiusParticleSystemID = particleSystem->getSystemID();
-			}
-		}
-	}
-
-	if (d->m_initiallyActive)
-	{
-		giveSelfUpgrade();
-		// start these guys with random phasings so that we don't
-		// have all of 'em check on the same frame.
-		UnsignedInt delay = getAutoHealBehaviorModuleData()->m_healingDelay;
-		setWakeFrame(getObject(), UPDATE_SLEEP(GameLogicRandomValue(1, delay)));
-	}
-	else
-	{
-		setWakeFrame(getObject(), UPDATE_SLEEP_FOREVER);
-	}
-}
+// ??0AutoHealBehavior@@QAE@PAVThing@@PBVModuleData@@@Z is owned by
+// Code/GameEngine/Source/GameLogic/Object/Update/AutoHealBehaviorCtor.cpp; declared only here.
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -187,11 +123,11 @@ void AutoHealBehavior::onDamage( DamageInfo *damageInfo )
 	{
 		// if this is nonzero, getting damaged resets our healing process. so go to
 		// sleep for this long.
-		if (d->m_startHealingDelay > 0)
+		if (*(const Int *)((const char *)damageInfo + 0x18) != 2 && d->m_startHealingDelay > 0)
 		{
 			setWakeFrame(*(Object *const *)((const char *)this + 0x08), UPDATE_SLEEP(d->m_startHealingDelay));
 		}
-		else if( TheGameLogic->getFrame() > *(const Int *)((const char *)this + 0x2c) )
+		else if( *(const UnsignedInt *)((const char *)TheGameLogic + 0x40) > *(const UnsignedInt *)((const char *)this + 0x2c) ) // BFME2 GameLogic frame at +0x40
 		{
 			// We can only force an immediate wake if we are ready to heal.  Otherwise we will
 			// heal on a timer AND at every damage input.
@@ -203,118 +139,12 @@ void AutoHealBehavior::onDamage( DamageInfo *damageInfo )
 //-------------------------------------------------------------------------------------------------
 /** The update callback. */
 //-------------------------------------------------------------------------------------------------
-// ?update@AutoHealBehavior@@ present-unmatched
-UpdateSleepTime AutoHealBehavior::update( void )
-{
-	if (m_stopped)
-		return UPDATE_SLEEP_FOREVER;
+// AutoHealBehavior::update: defined in AutoHealBehaviorPlayerScan.cpp (its row's unit).
 
-	Object *obj = getObject();
-	const AutoHealBehaviorModuleData *d = getAutoHealBehaviorModuleData();
+// Keeps this unit's rowed list<Object*>::push_back (0x001EC03C) emitted; nothing else here calls it.
+// ?bfmeAnchorAutoHealObjectListPushBack absent-from-retail
+void bfmeAnchorAutoHealObjectListPushBack(ObjectPointerList *list, Object *obj) { list->push_back(obj); }
 
-	// do not heal if our status bit is not on.
-	// do not heal if our status is effectively dead.  There ain't no coming back, man!
-	if (!isUpgradeActive() || obj->isEffectivelyDead())
-	{
-		DEBUG_ASSERTCRASH(isUpgradeActive(), ("hmm, this should not be possible"));
-		return UPDATE_SLEEP_FOREVER;
-	}
-
-//DEBUG_LOG(("doing auto heal %d\n",TheGameLogic->getFrame()));
-
-	if( d->m_affectsWholePlayer )
-	{
-		// Even newer system, I can ignore radius and iterate objects on the owning player.  Faster than scanning range 10,000,000
-		ObjectPointerList objectsToHeal;
-		Player *owningPlayer = getObject()->getControllingPlayer();
-		if( owningPlayer )
-		{
-			AutoHealPlayerScanHelper helper;
-			helper.m_kindOfToTest = d->m_kindOf;
-			helper.m_forbiddenKindOf = d->m_forbiddenKindOf;
-			helper.m_objectList = &objectsToHeal;
-			helper.m_theHealer = getObject();
-			helper.m_skipSelfForHealing = d->m_skipSelfForHealing;
-
-			// Smack all objects with this function, and we will end up with a list of Objects deserving of pulseHealObject
-			owningPlayer->iterateObjects( checkForAutoHeal, &helper );
-
-			for( ObjectPointerListIterator iter = objectsToHeal.begin(); iter != objectsToHeal.end(); ++iter )
-			{
-				pulseHealObject(*iter);
-			}
-			objectsToHeal.clear();
-		}
-		return UPDATE_SLEEP(d->m_healingDelay);
-	}
-	else if( d->m_radius == 0.0f )
-	{
-		//ORIGINAL SYSTEM -- JUST HEAL SELF!
-
-		// do not heal if we are at max health already
-		BodyModuleInterface *body = obj->getBodyModule();
-		if( body->getHealth() < body->getMaxHealth() )
-		{
-  		pulseHealObject( obj );
-			return UPDATE_SLEEP(d->m_healingDelay);
-		}
-		else
-		{
-			// go to sleep forever -- we'll wake back up when we are damaged again
-			return UPDATE_SLEEP_FOREVER;
-		}
-	}
-	else
-	{
-		//EXPANDED SYSTEM -- HEAL FRIENDLIES IN RADIUS 
-		// setup scan filters
-		PartitionFilterRelationship relationship( obj, PartitionFilterRelationship::ALLOW_ALLIES );
-		PartitionFilterSameMapStatus filterMapStatus(obj);
-		PartitionFilterAlive filterAlive;
-		PartitionFilter *filters[] = { &relationship, &filterAlive, &filterMapStatus, NULL };
-
-		// scan objects in our region
-		ObjectIterator *iter = ThePartitionManager->iterateObjectsInRange( obj->getPosition(), d->m_radius, FROM_CENTER_2D, filters );
-		MemoryPoolObjectHolder hold( iter );
-		for( obj = iter->first(); obj; obj = iter->next() )
-		{
-			// do not heal if we are at max health already
-			BodyModuleInterface *body = obj->getBodyModule();
-			if( body->getHealth() < body->getMaxHealth() )
-			{
-				if( obj->isAnyKindOf( d->m_kindOf ) && !obj->isAnyKindOf( d->m_forbiddenKindOf ) )
-				{
-					if( !d->m_skipSelfForHealing || obj != getObject() )
-					{
-						pulseHealObject( obj );
-
-						if( d->m_singleBurst && TheGameLogic->getDrawIconUI() )
-						{
-							if( TheAnim2DCollection && TheGlobalData->m_getHealedAnimationName.isEmpty() == FALSE )
-							{
-								Anim2DTemplate *animTemplate = TheAnim2DCollection->findTemplate( TheGlobalData->m_getHealedAnimationName );
-
-								if ( animTemplate )
-								{
-									Coord3D iconPosition;
-									iconPosition.set(obj->getPosition()->x, 
-																	 obj->getPosition()->y, 
-																	 obj->getPosition()->z + obj->getGeometryInfo().getMaxHeightAbovePosition() );
-									TheInGameUI->addWorldAnimation( animTemplate,	&iconPosition, WORLD_ANIM_FADE_ON_EXPIRE,
-																									TheGlobalData->m_getHealedAnimationDisplayTimeInSeconds,
-																									TheGlobalData->m_getHealedAnimationZRisePerSecond);
-								}
-							}
-						}
-					}
-				}
-			}
-		}  // end for obj
-
-		return UPDATE_SLEEP( d->m_singleBurst ? UPDATE_SLEEP_FOREVER : d->m_healingDelay );
-	}
-}
- 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 // ?pulseHealObject@AutoHealBehavior@@ present-unmatched
@@ -364,31 +194,8 @@ void AutoHealBehavior::crc( Xfer *xfer )
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
-// ?xfer@AutoHealBehavior@@ present-unmatched
-void AutoHealBehavior::xfer( Xfer *xfer )
-{
-
-	// version
-	XferVersion currentVersion = 1;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
-
-	// extend base class
-	UpdateModule::xfer( xfer );
-
-	// extend base class
-	UpgradeMux::upgradeMuxXfer( xfer );
-
-	// particle system id
-	xfer->xferUser( &m_radiusParticleSystemID, sizeof( ParticleSystemID ) );
-
-	// Timer safety
-	xfer->xferUnsignedInt( &m_soonestHealFrame );
-
-	// stopped
-	xfer->xferBool( &m_stopped );
-
-}  // end xfer
+// AutoHealBehavior::xfer: defined in AutoHealBehaviorXfer.cpp (its row's unit).
+  // end xfer
 
 // ------------------------------------------------------------------------------------------------
 /** Load post process */

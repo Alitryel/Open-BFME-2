@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHs-c- /O2 /Ob2 /Ireference/shims/sweep /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas
+// cl: /DNDEBUG /MD /EHs-c- /Ob2 /Ireference/shims/sweep /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas
 // WWDownload FTP.CPP Cftp::ConnectToServer.
 
 typedef const char *LPCSTR;
@@ -91,15 +91,10 @@ bool Use_Non_Blocking_Mode(void);
 class Cftp
 {
 public:
+	virtual ~Cftp();
+	HRESULT ConnectToServer(LPCSTR serverName);
 	int AsyncGetHostByName(char *name, sockaddr_in &address);
 	HRESULT RecvReply(const char *reply, int size, int *replyCode);
-};
-
-class Rva00884Ftp
-{
-public:
-	virtual ~Rva00884Ftp();
-	HRESULT ConnectToServer(LPCSTR serverName);
 
 private:
 	int m_iCommandSocket;
@@ -123,7 +118,7 @@ private:
 };
 
 // ?ConnectToServer@Cftp@@QAEJPBD@Z
-HRESULT Rva00884Ftp::ConnectToServer(LPCSTR serverName)
+HRESULT Cftp::ConnectToServer(LPCSTR serverName)
 {
 	unsigned long uTemp;
 	char buffer[256];

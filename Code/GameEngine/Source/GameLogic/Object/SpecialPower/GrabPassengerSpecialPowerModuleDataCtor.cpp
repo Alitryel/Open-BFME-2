@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /MD /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // ??0GrabPassengerSpecialPowerModuleData@@QAE@XZ, retail 0x004C5421, 33 bytes.
 // Frameless small ctor: runs the pinned opaque intermediate base ctor at
@@ -11,16 +11,19 @@
 // plus movss, hoisted above the stores), then the byte. Size 0x84 matches the
 // rowed 0x252088 factory news. Row supersedes the ctor pin.
 
-class Rva004930A0
+extern "C" const void *const vtbl_00C5E7A8[];  // folded, 2 classes; via ??_7CombineHordeSpecialPowerModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C5E7A8=??_7CombineHordeSpecialPowerModuleData@@6B@")
+
+class SpecialPowerModuleData
 {
 public:
-	Rva004930A0();
+	SpecialPowerModuleData();
 
 	void *m_vtable; // +0
 	unsigned char m_pad[0x7C - 4]; // +4..0x7B
 };
 
-class GrabPassengerSpecialPowerModuleData : public Rva004930A0
+class GrabPassengerSpecialPowerModuleData : public SpecialPowerModuleData
 {
 public:
 	GrabPassengerSpecialPowerModuleData();
@@ -32,9 +35,9 @@ private:
 
 // ??0GrabPassengerSpecialPowerModuleData@@QAE@XZ @0x4C5421
 GrabPassengerSpecialPowerModuleData::GrabPassengerSpecialPowerModuleData()
-	: Rva004930A0()
+	: SpecialPowerModuleData()
 {
-	m_vtable = reinterpret_cast<void *>(0x00C5E7A8);
+	m_vtable = reinterpret_cast<void *>(((unsigned int)vtbl_00C5E7A8));
 	m_grabRadius = 0.0f;
 	m_allowTree = true;
 }

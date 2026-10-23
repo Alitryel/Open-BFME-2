@@ -23,7 +23,12 @@ public:
 	void add(const FieldParse *parse, unsigned int extraOffset);
 };
 
-#define FIELD_PROC(cls, addr, field) \
+extern const int CrateCollideTable[];
+extern const int AODCrushCollideTable[];
+extern const int s_moneyCrateFieldTable[];
+extern const int s_veterancyCrateFieldTable[];
+
+#define FIELD_PROC(cls, field) \
 class cls \
 { \
 public: \
@@ -32,11 +37,11 @@ public: \
 \
 void cls::buildFieldParse(MultiIniFieldParse &parse) \
 { \
-	parse.add(reinterpret_cast<const FieldParse *>(addr), 0); \
+	parse.add(reinterpret_cast<const FieldParse *>(field), 0); \
 }
 
-FIELD_PROC(CrateCollideModuleData, 0x00C5A7A8, CrateCollideTable)
-FIELD_PROC(AODCrushCollideModuleData, 0x00C5A4A8, AODCrushCollideTable)
+FIELD_PROC(CrateCollideModuleData, CrateCollideTable)
+FIELD_PROC(AODCrushCollideModuleData, AODCrushCollideTable)
 
 // Chained proc: ?buildFieldParse@MoneyCrateCollideModuleData@@,
 // retail 0x00251168, 27 bytes. Calls the rowed CrateCollide base proc above,
@@ -50,10 +55,10 @@ public:
 	static void buildFieldParse(MultiIniFieldParse &parse);
 };
 
-void MoneyCrateCollideModuleData::buildFieldParse(MultiIniFieldParse &parse)
+inline void MoneyCrateCollideModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	CrateCollideModuleData::buildFieldParse(parse);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00BEFABC), 0);
+	parse.add(reinterpret_cast<const FieldParse *>(s_moneyCrateFieldTable), 0);
 }
 
 // Chained proc: ?buildFieldParse@VeterancyCrateCollideModuleData@@,
@@ -69,8 +74,17 @@ public:
 	static void buildFieldParse(MultiIniFieldParse &parse);
 };
 
-void VeterancyCrateCollideModuleData::buildFieldParse(MultiIniFieldParse &parse)
+inline void VeterancyCrateCollideModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	CrateCollideModuleData::buildFieldParse(parse);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00BEFB60), 0);
+	parse.add(reinterpret_cast<const FieldParse *>(s_veterancyCrateFieldTable), 0);
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitCollideModuleDataBuildFieldParse@@YAXAAVMultiIniFieldParse@@@Z present-unmatched
+void bfmeEmitCollideModuleDataBuildFieldParse(MultiIniFieldParse &parse)
+{
+	MoneyCrateCollideModuleData::buildFieldParse(parse);
+	VeterancyCrateCollideModuleData::buildFieldParse(parse);
+}
+#pragma inline_depth()

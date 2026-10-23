@@ -25,6 +25,13 @@
 // ProxyClass views other TUs use untouched.
 
 extern void *__cdecl operator new[](unsigned int size);
+extern void __cdecl operator delete[](void *block);
+
+class TextureBaseClass
+{
+public:
+	void Release_Ref();
+};
 
 class ProxyClass
 {
@@ -34,26 +41,24 @@ public:
 	ProxyClass &operator=(ProxyClass const &src);
 
 private:
-	struct ProxyData
-	{
-		void Release();
-	};
-
-	ProxyData *m_Data;
+	TextureBaseClass *m_Data;
 };
 
+// ?ProxyClass::ProxyClass present-unmatched
 inline ProxyClass::ProxyClass() :
 	m_Data(0)
 {
 }
 
+// ?ProxyClass::~ProxyClass present-unmatched
 inline ProxyClass::~ProxyClass()
 {
 	if (m_Data != 0) {
-		m_Data->Release();
+		m_Data->Release_Ref();
 	}
 }
 
+// ?ProxyClass::operator= present-unmatched (inlined into the matched VectorClass<ProxyClass>::operator=)
 inline ProxyClass &ProxyClass::operator=(ProxyClass const &src)
 {
 	if (src.m_Data != 0) {
@@ -61,7 +66,7 @@ inline ProxyClass &ProxyClass::operator=(ProxyClass const &src)
 			*(unsigned short *)((unsigned char *)src.m_Data + 4) + 1;
 	}
 	if (m_Data != 0) {
-		m_Data->Release();
+		m_Data->Release_Ref();
 	}
 	m_Data = src.m_Data;
 	return *this;
@@ -153,4 +158,6 @@ int VectorClass<T>::ID(T const &)
 	return 0;
 }
 
-template class VectorClass<ProxyClass>;
+// Instantiate only the recovered member: a whole-class instantiation also emits
+// the vtable's scalar deleting dtor, a copy that differs from the kept one.
+template VectorClass<ProxyClass> &VectorClass<ProxyClass>::operator=(VectorClass<ProxyClass> const &vec);

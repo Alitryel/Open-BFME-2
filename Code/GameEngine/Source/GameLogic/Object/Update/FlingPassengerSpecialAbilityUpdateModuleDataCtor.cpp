@@ -1,7 +1,7 @@
-// cl: /O1 /DNDEBUG /MD /arch:SSE
+// cl: /DNDEBUG /MD
 //
 // ??0FlingPassengerSpecialAbilityUpdateModuleData@@QAE@XZ, retail 0x00494F80,
-// 48 bytes. ModuleData ctor over the pinned Rva0044EB54 base (0x44EB54,
+// 48 bytes. ModuleData ctor over the pinned SpecialAbilityUpdateModuleData base (0x44EB54,
 // 0xC8 bytes per the ToggleHidden row): zeroes three floats at
 // +0xC8/+0xCC/+0xD0 via an xmm0-homed fzero local through an address-taken
 // float pointer (/arch:SSE emits retail lea+movss; the pointer CSEs the
@@ -10,8 +10,33 @@
 // Class size 0xD8 proven by the FlingPassengerSpecialAbilityUpdate data
 // factory (news 0xD8, sole caller at 0x24DE96). Row supersedes the ctor pin.
 
+extern "C" const void *const vtbl_00C5F778[];  // folded, 3 classes; via ??_7EvacuateGarrisonSpecialPowerModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C5F778=??_7EvacuateGarrisonSpecialPowerModuleData@@6B@")
+
 class MultiIniFieldParse;
-struct FieldParse;
+class INI;
+typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
+struct FieldParse
+{
+	const char *token;
+	INIFieldParseProc parse;
+	const void *userData;
+	int offset;
+};
+
+class INI
+{
+public:
+	static void parseCoord3D(INI *ini, void *instance, void *store, const void *userData);
+	static void parseWeaponTemplate(INI *ini, void *instance, void *store, const void *userData);
+};
+
+// Retail VA 0x00BEF20C (.rdata): 2 field records and a zero sentinel.
+extern const FieldParse g_00BEF20C[] = {
+	{ "FlingPassengerVelocity", &INI::parseCoord3D, 0, 0xC8 },
+	{ "FlingPassengerLandingWarhead", &INI::parseWeaponTemplate, 0, 0xD4 },
+	{ 0, 0, 0, 0 }
+};
 
 class MultiIniFieldParse
 {
@@ -19,11 +44,11 @@ public:
 	void add(const FieldParse *parseTable, unsigned int extraOffset);
 };
 
-class __declspec(novtable) Rva0044EB54
+class __declspec(novtable) SpecialAbilityUpdateModuleData
 {
 public:
-	Rva0044EB54();
-	virtual ~Rva0044EB54();
+	SpecialAbilityUpdateModuleData();
+	virtual ~SpecialAbilityUpdateModuleData();
 	static void buildFieldParse(MultiIniFieldParse &parse);
 
 private:
@@ -32,7 +57,7 @@ private:
 	unsigned char m_opaque[0xC4];
 };
 
-class __declspec(novtable) FlingPassengerSpecialAbilityUpdateModuleData : public Rva0044EB54
+class __declspec(novtable) FlingPassengerSpecialAbilityUpdateModuleData : public SpecialAbilityUpdateModuleData
 {
 public:
 	FlingPassengerSpecialAbilityUpdateModuleData();
@@ -47,11 +72,11 @@ private:
 
 // ??0FlingPassengerSpecialAbilityUpdateModuleData@@QAE@XZ @0x00494F80
 FlingPassengerSpecialAbilityUpdateModuleData::FlingPassengerSpecialAbilityUpdateModuleData()
-	: Rva0044EB54()
+	: SpecialAbilityUpdateModuleData()
 {
 	float fzero = 0.0f;
 	float *floats = m_floatC8;
-	*(unsigned int *)this = 0x00C5F778;
+	*(unsigned int *)this = ((unsigned int)vtbl_00C5F778);
 	floats[0] = fzero;
 	floats[1] = fzero;
 	floats[2] = fzero;
@@ -61,6 +86,6 @@ FlingPassengerSpecialAbilityUpdateModuleData::FlingPassengerSpecialAbilityUpdate
 // ?buildFieldParse@FlingPassengerSpecialAbilityUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z @0x0024DE1C
 void FlingPassengerSpecialAbilityUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
-	Rva0044EB54::buildFieldParse(parse);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00BEF20C), 0);
+	SpecialAbilityUpdateModuleData::buildFieldParse(parse);
+	parse.add(g_00BEF20C, 0);
 }

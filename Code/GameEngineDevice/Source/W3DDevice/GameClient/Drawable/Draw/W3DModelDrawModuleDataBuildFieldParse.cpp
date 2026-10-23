@@ -1,6 +1,6 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
-// ?buildFieldParse@W3DModelDrawModuleData@@SAXAAVMultiIniFieldParse@@@Z,
+// ?buildFieldParse@W3DModelDrawModuleData@@SAXAAVMultiIniFieldParse@@@Z
 // retail 0x000C9240 (17 bytes: a single MultiIniFieldParse::add of the class
 // table at 0x00BCB3C8 with offset 0). The table starts InitialRecoilSpeed,
 // MaxRecoilDistance, RecoilDamping, RecoilSettleSpeed and runs through the
@@ -22,6 +22,7 @@ class MultiIniFieldParse;
 
 struct FieldParse;
 
+extern const int s_modelDrawFieldTable[];
 class MultiIniFieldParse
 {
 public:
@@ -36,5 +37,9 @@ public:
 
 void W3DModelDrawModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
-	parse.add(reinterpret_cast<const FieldParse *>(0x00BCB3C8), 0);
+	parse.add(reinterpret_cast<const FieldParse *>(s_modelDrawFieldTable), 0);
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?W3DModelDrawModuleDataParse@@YAXAAVMultiIniFieldParse@@@Z=?buildFieldParse@W3DModelDrawModuleData@@SAXAAVMultiIniFieldParse@@@Z")

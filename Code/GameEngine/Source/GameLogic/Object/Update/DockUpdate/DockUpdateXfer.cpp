@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /arch:SSE /Ireference/shims/sweep
+// cl: /EHsc /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /Ireference/shims/sweep
 // stlport
 //
 // ?xfer@DockUpdate@@MAEXPAVXfer@@@Z, retail 0x0058A410, 439 bytes.
@@ -16,6 +16,16 @@
 // DockUpdate::xfer (same member order skipping +0x4C bones) plus BFME2
 // IsLightCRC and Version1 order. Recipe is QueueProductionExitUpdateXfer
 // slot-3 pattern with vectors.
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
 #include <limits.h>
 
 typedef float Real;
@@ -28,24 +38,13 @@ typedef bool Bool;
 #define FALSE 0
 #endif
 
-struct Coord3DBase
-{
-	float x;
-	float y;
-	float z;
-};
 
-struct Coord3D : public Coord3DBase
-{
-	Coord3D() {}
-	Coord3D(const Coord3D &);
-	void zero()
-	{
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-	}
-};
+// Coord3D: shared derived view (Coord3DBase base); no private copy.
+#define COORD3D_DV_CTOR_INLINE
+#define COORD3D_DV_COPY_EXTERN
+#define COORD3D_DV_ZERO
+#include "../../../../../../Libraries/Include/Lib/Coord3DDerivedView.h"
+
 
 enum ObjectID
 {
@@ -54,6 +53,12 @@ enum ObjectID
 };
 
 #include <stl/_bvector.h>
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int * _Bvector_base<allocator<bool> >::_M_bit_alloc(unsigned int); }
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
+namespace _STL { template <> void vector<bool, allocator<bool> >::_M_fill_insert(_Bit_iterator, unsigned int, bool); }
+// bfme link decl-only end
 
 namespace _STL
 {
@@ -140,60 +145,7 @@ class Thing;
 class ModuleData;
 class Object;
 
-class Xfer
-{
-public:
-	class Version;
-
-	Xfer();
-	virtual ~Xfer();
-
-	void Version1();
-
-	virtual bool IsLoading() const;
-	virtual bool IsStoring() const;
-	virtual bool IsCRC() const;
-	virtual bool IsLightCRC() const;
-
-	virtual void v5() = 0;
-	virtual void v6() = 0;
-	virtual void v7() = 0;
-
-	virtual void SkipBadBlock(Snapshot &snapshot, unsigned int size);
-	virtual Xfer &XferRawBytes(void *data, unsigned int size);
-	virtual Xfer &operator==(bool &value);
-	virtual Xfer &operator==(char &value);
-	virtual Xfer &operator==(unsigned char &value);
-	virtual Xfer &operator==(short &value);
-	virtual Xfer &operator==(unsigned short &value);
-	virtual Xfer &operator==(int &value);
-	virtual Xfer &operator==(unsigned int &value);
-	virtual Xfer &operator==(__int64 &value);
-	virtual Xfer &operator==(float &value);
-	virtual Xfer &operator==(AsciiString &value);
-	virtual Xfer &operator==(UnicodeString &value);
-	virtual Xfer &operator==(PooledString &value);
-	virtual Xfer &operator==(Coord3DBase &value);
-	virtual Xfer &operator==(ICoord3D &value);
-	virtual Xfer &operator==(Region3D &value);
-	virtual Xfer &operator==(IRegion3D &value);
-	virtual Xfer &operator==(Coord2D &value);
-	virtual Xfer &operator==(ICoord2D &value);
-	virtual Xfer &operator==(Region2D &value);
-	virtual Xfer &operator==(IRegion2D &value);
-	virtual Xfer &operator==(RealRange &value);
-	virtual Xfer &operator==(RGBColor &value);
-	virtual Xfer &operator==(RGBAColorReal &value);
-	virtual Xfer &operator==(RGBAColorInt &value);
-	virtual Xfer &operator==(Snapshot &value);
-	virtual Xfer &operator==(XferUnknown11 &value) = 0;
-	virtual Xfer &operator==(Version &value);
-
-	virtual Xfer &XferEnum(const char *name, void *data, unsigned int size);
-
-protected:
-	virtual void XferData(unsigned int type, void *data, unsigned int size) = 0;
-};
+#include "../../../../../Include/Common/BfmeXfer.h"
 
 void XferObjectID(Xfer *xfer, ObjectID *objectID);
 

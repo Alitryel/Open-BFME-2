@@ -42,6 +42,7 @@ public:
 	virtual ~_Locale_impl();
 	virtual void _M_incr();
 	virtual void _M_decr();
+	static _Locale_impl *make_classic_locale();
 
 	locale::facet **_M_facets;
 	unsigned int _M_count;
@@ -49,7 +50,20 @@ public:
 
 class ios_base
 {
+protected:
+    static void _S_initialize();
+    static void _S_uninitialize();
 public:
+    class Init
+    {
+    public:
+        Init();
+        ~Init();
+    private:
+        static long _S_count;
+        friend class ios_base;
+    };
+    friend class Init;
 	class _Loc_init
 	{
 	public:
@@ -63,7 +77,6 @@ public:
 // The facet tables the classic locale is built out of, and the builder that
 // returns the impl itself.
 void _Stl_loc_init_facets();
-_Locale_impl *_Stl_make_classic_locale();
 
 _Locale_impl *_Stl_classic_locale_impl;
 long ios_base::_Loc_init::_S_count;
@@ -73,7 +86,7 @@ ios_base::_Loc_init::_Loc_init()
 	if (_S_count == 0)
 	{
 		_Stl_loc_init_facets();
-		_Stl_classic_locale_impl = _Stl_make_classic_locale();
+		_Stl_classic_locale_impl = _Locale_impl::make_classic_locale();
 		++_S_count;
 	}
 }
@@ -92,7 +105,7 @@ void locale::_S_initialize()
 	if (ios_base::_Loc_init::_S_count <= 0)
 	{
 		_Stl_loc_init_facets();
-		_Stl_classic_locale_impl = _Stl_make_classic_locale();
+		_Stl_classic_locale_impl = _Locale_impl::make_classic_locale();
 		++ios_base::_Loc_init::_S_count;
 	}
 }
@@ -106,4 +119,65 @@ void locale::_S_uninitialize()
 	}
 }
 
+}
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?rva00832100Release@_STL@@YAXXZ=??1_Loc_init@ios_base@_STL@@QAE@XZ")
+
+// Stream-Init view: STLport4.5.3 _ios_base.h establishes the empty nested
+// class and its private long counter; no complete ios_base layout is modelled.
+// Native16AA0/21 initializes four global receivers: DDE070,DE1CCC,E01E40,E06664.
+// Each initializer then registers its matching destruction wrapper with atexit;
+// those wrappers load the same receiver and tail-call15E70. Shared DDEBA0 is
+// the Init counter also used by rowed _S_initialize166C0/_S_uninitialize15440.
+// Rehome the existing21-byte BfmeConv936 body under that established Init role.
+// Target omits the upstream count increment: initialize only when zero.
+namespace _STL {
+ios_base::Init::Init() {
+    if (_S_count==0) ios_base::_S_initialize();
+}
+}
+
+// BFME1 full source lead5cc75ddda6455c338a5068307e587a793f96d6b3,
+// game/GameEngine/Source/Common/BfmeConv436.cpp, emitted the15-byte guard.
+// Native Ghidra15E70/15 and the four receiver-preserving destruction wrappers
+// described above establish the Init destructor role independently of bytes.
+// Target-specific cleanup guards the shared stream-Init count as signed >0,
+// then tail-calls the rowed uninitializer15440. It does not decrement here.
+namespace _STL {
+ios_base::Init::~Init() {
+    if (_S_count>0) ios_base::_S_uninitialize();
+}
+}
+
+// A distinct retained locale cleanup copy lives at native 007B68A0/27.
+// The existing ledger previously described it through the 7670 symbol; give
+// the retained copy its own real C++ definition so its native startup callback
+// has one symbol and one address. Both bodies use the same established globals.
+void dup_007b68a0()
+{
+    if (_STL::ios_base::_Loc_init::_S_count > 0)
+    {
+        _STL::_Stl_classic_locale_impl->_M_decr();
+        --_STL::ios_base::_Loc_init::_S_count;
+    }
+}
+
+extern "C" int __cdecl atexit(void (__cdecl *callback)());
+#pragma comment(linker, "/alternatename:_atexit=__atexit")
+
+// Whole BFME1 Rva00C6D830Init.cpp at 6583b3c1ff21db4a561285717028fdafc780b7db
+// supplies the two-call startup lead. Native 007AB870/40 is INT3 delimited
+// and calls the independently rowed facet-id initializer 6F80 and classic
+// locale builder B730; it writes the established DDEB18 locale pointer and
+// increments DDEB20, then registers the separately retained 7B68A0 cleanup
+// through the rowed CRT atexit6291F8. The original startup symbol is unknown.
+// Its VA also occurs in the native initializer-pointer sequence at 9A4038.
+void Rva007AB870InitializeClassicLocale()
+{
+    _STL::_Stl_loc_init_facets();
+    _STL::_Stl_classic_locale_impl = _STL::_Locale_impl::make_classic_locale();
+    ++_STL::ios_base::_Loc_init::_S_count;
+    atexit(dup_007b68a0);
 }

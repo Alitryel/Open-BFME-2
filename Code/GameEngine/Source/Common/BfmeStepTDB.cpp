@@ -1,4 +1,4 @@
-// cl: /O2 /G7 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 // Open-BFME5 conversions.
 //
 // ?bfmeStepTDB@@YAXXZ, retail 0x0011DC20 (58B). Called once by the rowed
@@ -33,7 +33,11 @@ struct BfmeStateTDB
 };
 
 extern BfmeStateTDB *g_bfmeStateTDB;
+// g_bfmeStateTDB: matched references place it at VA 0xdee858 (zero-filled .bss).
+BfmeStateTDB * g_bfmeStateTDB;
 extern int g_bfmeModeTDB;
+// g_bfmeModeTDB: matched references place it at VA 0xdee844 (zero-filled .bss).
+int g_bfmeModeTDB;
 extern BfmeObjTDB *g_bfmeObjTDB;
 extern int g_bfmeCountTDB;
 

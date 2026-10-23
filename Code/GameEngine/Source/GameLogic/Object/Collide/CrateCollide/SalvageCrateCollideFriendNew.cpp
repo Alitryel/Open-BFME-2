@@ -24,7 +24,15 @@ private:
 };
 
 // ?friend_newModuleInstance@SalvageCrateCollide@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *SalvageCrateCollide::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *SalvageCrateCollide::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new SalvageCrateCollide(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitSalvageCrateCollideFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitSalvageCrateCollideFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	SalvageCrateCollide::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

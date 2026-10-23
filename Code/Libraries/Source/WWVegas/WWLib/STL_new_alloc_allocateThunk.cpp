@@ -59,7 +59,7 @@ public:
     static void *allocate(unsigned int n);
 };
 
-void *__new_alloc::allocate(unsigned int n)
+inline void *__new_alloc::allocate(unsigned int n)
 {
     void *result;
     _Obj * volatile *my_free_list = _S_free_list + ((n - 1) >> 3);
@@ -110,3 +110,20 @@ void *__node_alloc<__threads, __inst>::_M_allocate(unsigned int n)
 template class __node_alloc<true, 0>;
 
 }
+
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
+#pragma comment(linker, "/alternatename:?_S_free_list@?$__node_alloc@$00$0A@@_STL@@0PAPAU_Obj@12@A=_g_bfmeFreeList1150")
+#pragma comment(linker, "/alternatename:?_S_free_list@__new_alloc@_STL@@0PAPAU_Obj@12@A=_g_bfmeFreeList1150")
+
+// ?allocate@__new_alloc@_STL@@SAPAXI@Z is a header inline in STLport: another
+// unit emits a select-any copy of it, so a strong definition here was a
+// duplicate symbol in the linked build. This anchor only makes this unit emit
+// its copy for the ledger row; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitSTL_new_alloc_allocateThunk@@YAXPAV__new_alloc@_STL@@@Z present-unmatched
+void bfmeEmitSTL_new_alloc_allocateThunk(_STL::__new_alloc *p)
+{
+    p->allocate(0);
+}
+#pragma inline_depth()

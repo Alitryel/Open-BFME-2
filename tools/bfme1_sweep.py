@@ -48,6 +48,7 @@ import argparse
 import bisect
 import csv
 import json
+import os
 import re
 import shutil
 import struct
@@ -59,13 +60,17 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build
+import ledger_io
+import claims as shared_claims
+import wb_context
 
 ROOT = build.ROOT
 BFME1 = ROOT / "reference" / "open-bfme-1"
-BFME1_EXE = BFME1 / "baselines" / "bfme1" / "workshop-vanilla-1.03" / "files" / "lotrbfme.exe"
-BFME1_LEDGER = BFME1 / "reverse" / "functions.csv"
+BFME1_EXE = build.bfme1_path("baselines", "bfme1", "workshop-vanilla-1.03", "files", "lotrbfme.exe")
+BFME1_LEDGER = build.bfme1_path("ledger", "functions.csv")
 BFME2_LEDGER = ROOT / "reverse" / "functions.csv"
 BFME2_SYMBOLS = ROOT / "reverse" / "symbols.csv"
+BFME1_SYMBOLS = build.bfme1_path("ledger", "symbols.csv")
 OUT_DIR = ROOT / "build" / "bfme1_sweep"
 MATCH_JSON = OUT_DIR / "match.json"
 # Scratch, not tracked. A packet is derived from match.json and the live
@@ -104,7 +109,8 @@ FLAGGED_SUBSTRINGS = {
     "GameSpy": "GameSpy SDK is permitted but needs PROVENANCE.txt mirrored here first",
 }
 
-GEN_SOURCE_PREFIXES = ("Code/gen_small", "Code/gen_asm", "Code/masm_dumps")
+GEN_SOURCE_PREFIXES = ("Code/gen_small", "Code/gen_asm", "Code/masm_dumps",
+                       "game/gen_small", "game/gen_asm", "game/masm_dumps")
 # .githooks/pre-commit refuses a NEW source anywhere else under Code/. Wave 1
 # landed Code/stlport/CodecvtWideNarrow.cpp clean and could not commit it.
 PLACEMENT_ROOTS = ("Code/GameEngine/", "Code/GameEngineDevice/", "Code/Libraries/",
@@ -116,6 +122,13 @@ HELD_COPY_TIERS = {"L", "P", "S"}
 COPY_ORDER = {"A": 0, "B": 1, "C": 2, "D": 3, "S": 4, "P": 5, "L": 6}
 INCLUDE_RE = re.compile(r'^\s*#\s*include\s*([<"])([^">]+)[">]', re.M)
 CL_RE = re.compile(r"^// cl:(.*)$", re.M)
+
+
+def bfme2_source_path(donor_source):
+    """Map BFME 1's current ``game/`` tree into BFME 2's ``Code/`` tree."""
+    if donor_source.startswith("game/"):
+        return "Code/" + donor_source[len("game/"):]
+    return donor_source
 
 
 class Image:
@@ -524,7 +537,7 @@ def donor_rows(min_size):
     with BFME1_LEDGER.open(newline="", encoding="utf-8") as handle:
         for row in csv.DictReader(handle):
             source = row.get("source") or ""
-            if not source.startswith("Code/") or source.startswith(GEN_SOURCE_PREFIXES):
+            if not source.startswith(("Code/", "game/")) or source.startswith(GEN_SOURCE_PREFIXES):
                 continue
             notes = row.get("notes") or ""
             if "gen-" in notes or "vendored=" in notes:
@@ -631,9 +644,6 @@ def import_alias_note(source, imports):
             "import or Import-ref verify refuses it (no pin can fix this)")
 
 
-BFME1_SYMBOLS = BFME1 / "reverse" / "symbols.csv"
-
-
 def bfme1_names_by_rva():
     """Every name Open-BFME-1 resolves at an address, ledger rows AND pins.
 
@@ -712,6 +722,7 @@ def copy_tier(source):
        this repo owns; the donor needs a distinct TU name.
     """
     path = BFME1 / source
+    target_source = bfme2_source_path(source)
     try:
         text = path.read_text(encoding="utf-8", errors="replace")
     except OSError:
@@ -723,11 +734,11 @@ def copy_tier(source):
     if LIFT_RE.search(text):
         return ("L", "donor carries a __declspec(naked)/__emit body: a lift, which the "
                 "conversion gate refuses (AGENTS.md anti-lift policy)", cl_line, stlport)
-    if not source.startswith(PLACEMENT_ROOTS):
-        return ("P", f"{source.split('/')[1]}/ is not an allowed root for a new source "
+    if not target_source.startswith(PLACEMENT_ROOTS):
+        return ("P", f"{target_source.split('/')[1]}/ is not an allowed root for a new source "
                 "(.githooks/pre-commit placement rule)", cl_line, stlport)
-    if (ROOT / source).exists():
-        return "D", f"{source} already exists in this repo", cl_line, stlport
+    if (ROOT / target_source).exists():
+        return "D", f"{target_source} already exists in this repo", cl_line, stlport
     if "reference/CnC_Generals_Zero_Hour" in cl_line or "reference/shims" in cl_line:
         return "C", "// cl: include paths need the reference/open-bfme-1/ prefix", cl_line, stlport
     if project:
@@ -745,6 +756,7 @@ def copy_tier(source):
 
 
 def policy(source):
+    source = bfme2_source_path(source)
     for prefix, reason in REFUSED_PREFIXES.items():
         if source.startswith(prefix):
             return "refused", reason
@@ -976,6 +988,12 @@ def load_matches():
     return json.loads(MATCH_JSON.read_text(encoding="utf-8"))
 
 
+def position_independent(record, call):
+    """True when a decoded rel32 reaches the same offset from the body in both images."""
+    return (call["bfme1_target"] - record["bfme1_rva"]
+            == call["bfme2_target"] - record["bfme2_rva"])
+
+
 def body_tier(record, claims, pins):
     """T1 drop-in, T2 needs pins, T3 the name is an ICF guess, T4 do not serve.
 
@@ -998,15 +1016,34 @@ def body_tier(record, claims, pins):
     # Resolution is re-decided here rather than trusted from the scan: pins and
     # rows land continuously, and a four-minute scan would otherwise keep
     # serving a body as "needs a pin" that somebody already pinned.
-    unnamed = [call for call in record["calls"] if not call["bfme1_names"]]
+    # An unnamed site is evidence against the placement only when its target
+    # moved relative to the body. Open-BFME-1's build makes every real REL32 in
+    # a matched body resolve to a row or pin, so an unnamed one was never a
+    # relocation there: it is an internal `jmp rel32` or an E8/E9 byte inside
+    # another instruction. Its displacement is then identical in both images,
+    # which puts the target at the same offset from the body in each.
+    # _CommUdpProcess (0x00683A30, 2207B) was held here on 28 such jumps.
+    unnamed = [call for call in record["calls"]
+               if not call["bfme1_names"] and not position_independent(record, call)]
     if unnamed:
         reasons.append(f"{len(unnamed)} call site(s) with no name on the BFME1 side")
         return "T4", reasons, []
     # A callee this repo already places somewhere else is not a pin to paste
     # over: it says the two images disagree about what this call site calls,
     # which is evidence against the placement rather than work to do.
+    #
+    # The names on a BFME 1 call site are every name BFME 1 resolves at its
+    # target, so a callee BFME 1's linker folded (operator new with new[]) arrives
+    # as several aliases. When this repo already places one of them exactly at
+    # the BFME 2 target, the images agree about the call and the other aliases'
+    # BFME 2 addresses are not evidence against it. X4Iostream's
+    # ios_base::_S_initialize (0x000166C0) was held here on ??_U at 0x0002FDE0
+    # while its calls reach ??2 at 0x0002FDA0.
     needed = {}
     for call in record["calls"]:
+        if any(claims.addresses.get(name, pins.get(name)) == call["bfme2_target"]
+               for name in call["bfme1_names"]):
+            continue
         for name in call["bfme1_names"]:
             settled = claims.addresses.get(name, pins.get(name))
             if settled is None:
@@ -1040,7 +1077,7 @@ def bfme1_siblings():
     with BFME1_LEDGER.open(newline="", encoding="utf-8") as handle:
         for row in csv.DictReader(handle):
             source = row.get("source") or ""
-            if not source.startswith("Code/") or source.startswith(GEN_SOURCE_PREFIXES):
+            if not source.startswith(("Code/", "game/")) or source.startswith(GEN_SOURCE_PREFIXES):
                 continue
             notes = row.get("notes") or ""
             if "gen-" in notes or "vendored=" in notes:
@@ -1052,12 +1089,46 @@ def bfme1_siblings():
 TIER_ORDER = {"T1": 0, "T2": 1, "T3": 2, "T4": 3}
 
 
-def group_files(payload, include_refused=False, tiers=("T1", "T2", "T3"), include_held=False):
+def wb_lead_for(record):
+    """(WB lead at the body's game.dat address, how the donor agrees with it).
+
+    Agreement ("name": the donor's own name normalizes to WB's Class::method;
+    "file": only the donor's file stem matches WB's) is a second, independent
+    identity witness on top of the byte placement -- the one thing a T3 ICF
+    guess lacks. Disagreement refutes nothing: a BFME 1 file can move.
+    """
+    lead = wb_context.lead(record["bfme2_rva"])
+    return lead, wb_context.agreement(lead, name=record.get("name"),
+                                      source=record.get("source"))
+
+
+def wb_summary(bodies):
+    """Per-donor-file WB agreement: the strongest any body reaches, plus counts."""
+    agrees = [wb_lead_for(body) for body in bodies]
+    names = sum(1 for _, agree in agrees if agree == "name")
+    files = sum(1 for _, agree in agrees if agree == "file")
+    return {"agree": "name" if names else "file" if files else None,
+            "name": names, "file": files,
+            "leads": sum(1 for lead, _ in agrees if lead)}
+
+
+def wb_marker(summary):
+    """Short ranked-table suffix, or '' when no body has a lead."""
+    if not summary or not summary["leads"]:
+        return ""
+    return (f"  [WB {summary['leads']} lead(s); agree: name {summary['name']}, "
+            f"file {summary['file']}]")
+
+
+def group_files(payload, include_refused=False, tiers=("T1", "T2", "T3"),
+                include_held=False, busy_rvas=()):
     claims = Claims(ledger_claims(BFME2_LEDGER))
     pins = pinned_symbols()
     siblings = bfme1_siblings()
     files = defaultdict(lambda: {"bodies": [], "held": []})
     for record in payload["records"]:
+        if record["bfme2_rva"] in busy_rvas:
+            continue
         tier, reasons, pin_lines = body_tier(record, claims, pins)
         record = dict(record, tier=tier, reasons=reasons, pins=pin_lines)
         bucket = files[record["source"]]
@@ -1098,8 +1169,13 @@ def group_files(payload, include_refused=False, tiers=("T1", "T2", "T3"), includ
             "best_tier": min(body["tier"] for body in bodies),
             "bodies": bodies,
             "held": bucket["held"],
+            "wb": wb_summary(bodies),
         })
+    # Byte tier stays first. Within it, a donor whose name or file agrees with
+    # the WorldBuilder lead at its placement outranks one without: two
+    # independent identity witnesses beat one.
     served.sort(key=lambda entry: (TIER_ORDER[entry["best_tier"]],
+                                   wb_context.AGREE_RANK[entry["wb"]["agree"]],
                                    COPY_ORDER[entry["copy_tier"]],
                                    -entry["bytes"]))
     return served
@@ -1108,7 +1184,8 @@ def group_files(payload, include_refused=False, tiers=("T1", "T2", "T3"), includ
 def do_ranked(args):
     payload = load_matches()
     served = group_files(payload, include_refused=args.include_refused,
-                         include_held=args.include_held or bool(args.copy_tier))
+                         include_held=args.include_held or bool(args.copy_tier),
+                         busy_rvas=shared_claims.busy_rvas())
     if args.copy_tier:
         served = [entry for entry in served if entry["copy_tier"] in args.copy_tier]
     if args.tier:
@@ -1123,7 +1200,7 @@ def do_ranked(args):
     for entry in served[: args.limit]:
         flag = "!" if entry["policy"] != "ok" else " "
         print(f"{entry['bytes']:>7}  {len(entry['bodies']):>3}  {entry['best_tier']:>4}  "
-              f"{entry['copy_tier']:>4}{flag} {entry['source']}")
+              f"{entry['copy_tier']:>4}{flag} {entry['source']}{wb_marker(entry.get('wb'))}")
     if len(served) > args.limit:
         print(f"... {len(served) - args.limit} more (--limit)")
     if served:
@@ -1134,6 +1211,7 @@ def do_ranked(args):
 
 def packet_text(entry):
     source = entry["source"]
+    target_source = bfme2_source_path(source)
     donor = f"reference/open-bfme-1/{source}"
     lines = []
     lines.append(f"# {source}")
@@ -1143,7 +1221,7 @@ def packet_text(entry):
                  f"{entry['bytes']} bytes of unclaimed game.dat .text")
     lines.append("")
     lines.append(f"    donor   {donor}")
-    lines.append(f"    dest    {source}")
+    lines.append(f"    dest    {target_source}")
     lines.append(f"    copy    {entry['copy_note']}")
     lines.append(f"    cl:     {entry['cl'] or '(none — build.py base flags)'}")
     lines.append(f"    stlport {'yes' if entry['stlport'] else 'no'}")
@@ -1163,6 +1241,16 @@ def packet_text(entry):
         lines.append(f"| `{body['name']}` | 0x{body['bfme1_rva']:08X} | {body['size']} | "
                      f"0x{body['bfme2_rva']:08X} | {body['tier']} | {evidence} |")
     lines.append("")
+    led = [(body, *wb_lead_for(body)) for body in entry["bodies"]]
+    led = [item for item in led if item[1]]
+    if led:
+        lines.append("## WorldBuilder leads (identity evidence, not a byte match)")
+        lines.append("")
+        for body, lead, agree in led:
+            lines.append(f"- 0x{body['bfme2_rva']:08X} {wb_context.line(lead)}"
+                         f"{f'  [agrees: {agree}]' if agree else '  [disagrees]'}")
+            lines.append(f"  `{wb_context.show_command(body['bfme2_rva'])}`")
+        lines.append("")
 
     pins = sorted({(name, address) for body in entry["bodies"]
                    for name, address in body["pins"]})
@@ -1182,10 +1270,10 @@ def packet_text(entry):
     lines.append("## Steps")
     lines.append("")
     lines.append("```sh")
-    lines.append(f"mkdir -p {str(Path(source).parent)}")
+    lines.append(f"mkdir -p {str(Path(target_source).parent)}")
     lines.append(f"cp {donor} \\")
-    lines.append(f"   {source}")
-    lines.append(f"git add -- {source}       # check_csv refuses an untracked ledger source")
+    lines.append(f"   {target_source}")
+    lines.append(f"git add -- {target_source}       # check_csv refuses an untracked ledger source")
     if entry["copy_tier"] == "C":
         lines.append("# then rewrite the `// cl:` -I paths: reference/CnC_Generals_Zero_Hour/...")
         lines.append("#                              -> reference/open-bfme-1/reference/CnC_Generals_Zero_Hour/...")
@@ -1214,9 +1302,9 @@ def packet_text(entry):
     lines.append("```sh")
     for body in entry["bodies"]:
         lines.append(f"python3 tools/add_match.py '{body['name']}' 0x{body['bfme2_rva']:08X} "
-                     f"{body['size']} {source} \\")
+                     f"{body['size']} {target_source} \\")
         lines.append(f"    --notes '{ledger_note(body)}'")
-    lines.append(f"./build.sh {source}")
+    lines.append(f"./build.sh {target_source}")
     lines.append("python3 tools/check_csv.py")
     if pins:
         lines.append("python3 tools/pin_consistency.py --check")
@@ -1225,7 +1313,7 @@ def packet_text(entry):
     lines.append("On a refusal, revert your own work only and record the verdict:")
     lines.append("")
     lines.append("```sh")
-    lines.append(f"git checkout -- reverse/functions.csv reverse/symbols.csv && rm -f {source}")
+    lines.append(f"git checkout -- reverse/functions.csv reverse/symbols.csv && rm -f {target_source}")
     first = entry["bodies"][0]
     lines.append(f"python3 tools/re_log.py record '{first['name']}' 0x{first['bfme2_rva']:08X} "
                  f"{first['size']} no-match 'bfme1_sweep donor <what cl did instead>'")
@@ -1262,7 +1350,8 @@ def packet_path(source):
 
 def do_packets(args):
     payload = load_matches()
-    served = group_files(payload, include_refused=args.include_refused)
+    served = group_files(payload, include_refused=args.include_refused,
+                         busy_rvas=shared_claims.busy_rvas())
     PACKET_DIR.mkdir(parents=True, exist_ok=True)
     written = 0
     for entry in served[: args.limit]:
@@ -1299,7 +1388,7 @@ def find_entry(served, source, near=()):
     raise SystemExit("bfme1_sweep: ambiguous — " + ", ".join(entry["source"] for entry in loose[:8]))
 
 
-def near_candidates(payload, include_held=False, limit=None):
+def near_candidates(payload, include_held=False, limit=None, busy_rvas=()):
     """Classify the recorded near misses and return the ones worth serving.
 
     Classification is done here rather than in `scan` because it shells out to a
@@ -1312,6 +1401,8 @@ def near_candidates(payload, include_held=False, limit=None):
     scratch = OUT_DIR / "disasm"
     served = []
     for record in sorted(payload.get("near", ()), key=lambda r: -r["alignment"]):
+        if record["bfme2_rva"] in busy_rvas:
+            continue
         source = record["source"]
         if claims.covering(record["bfme2_rva"], record["size"]) is not None:
             continue                       # re-checked live, like the exact tier
@@ -1337,12 +1428,18 @@ def near_candidates(payload, include_held=False, limit=None):
         kind, hint = classify_near(donor, window, fields, scratch)
         if kind not in NEAR_SERVED:
             continue
+        lead, agree = wb_lead_for(record)
         served.append(dict(record, klass=kind, hint=hint, copy_tier=tier,
                            copy_note=copy_note, cl=cl_line, stlport=stlport,
                            policy=verdict, policy_note=policy_note,
-                           donor=donor, window=window, fields=fields))
+                           donor=donor, window=window, fields=fields,
+                           wb=wb_context.line(lead), wb_agree=agree))
         if limit is not None and len(served) >= limit:
             break
+    # Alignment ranks, but a near miss whose donor name or file agrees with the
+    # WorldBuilder lead is the same function with far more confidence: serve
+    # those first (stable, so alignment order holds inside each group).
+    served.sort(key=lambda e: wb_context.AGREE_RANK[e["wb_agree"]])
     return served
 
 
@@ -1457,6 +1554,7 @@ def do_ambiguous(args):
 
 def near_packet(entry):
     source = entry["source"]
+    target_source = bfme2_source_path(source)
     donor, window, fields = entry["donor"], entry["window"], entry["fields"]
     mask = mask_from(fields, len(donor))
     lines = [f"# {entry['name']}", ""]
@@ -1470,7 +1568,7 @@ def near_packet(entry):
     lines.append("look and never a bad match.")
     lines.append("")
     lines.append(f"    donor    reference/open-bfme-1/{source}")
-    lines.append(f"    dest     {source}")
+    lines.append(f"    dest     {target_source}")
     lines.append(f"    bfme1    0x{entry['bfme1_rva']:08X}  {entry['size']} bytes")
     lines.append(f"    bfme2    0x{entry['bfme2_rva']:08X}  [{entry['boundary']}]")
     if entry["ghidra_size"] is not None:
@@ -1478,6 +1576,10 @@ def near_packet(entry):
         lines.append(f"    ghidra   {agree}")
     lines.append(f"    cl:      {entry['cl'] or '(none -- build.py base flags)'}")
     lines.append(f"    why      {entry['hint']}")
+    if entry.get("wb"):
+        agree = entry.get("wb_agree")
+        lines.append(f"    {entry['wb']}  [{f'agrees: {agree}' if agree else 'disagrees'}]")
+        lines.append(f"    wb_show  {wb_context.show_command(entry['bfme2_rva'])}")
     if entry["copy_tier"] in HELD_COPY_TIERS:
         lines.append(f"    HELD     {entry['copy_note']}")
     lines.append("")
@@ -1498,16 +1600,16 @@ def near_packet(entry):
     lines.append("## Steps")
     lines.append("")
     lines.append("```sh")
-    lines.append(f"mkdir -p {Path(source).parent}")
+    lines.append(f"mkdir -p {Path(target_source).parent}")
     lines.append(f"cp reference/open-bfme-1/{source} \\")
-    lines.append(f"   {source}")
-    lines.append(f"git add -- {source}")
+    lines.append(f"   {target_source}")
+    lines.append(f"git add -- {target_source}")
     lines.append("# apply the difference above, then resolve the call sites:")
     lines.append(f"python3 tools/decode_calls.py '{entry['name']}' "
-                 f"--rva 0x{entry['bfme2_rva']:08X} --source {source}")
+                 f"--rva 0x{entry['bfme2_rva']:08X} --source {target_source}")
     lines.append("# check each suggested pin, append it to reverse/symbols.csv (LF only), then:")
     lines.append(f"python3 tools/add_match.py '{entry['name']}' 0x{entry['bfme2_rva']:08X} "
-                 f"{entry['size']} {source} \\")
+                 f"{entry['size']} {target_source} \\")
     lines.append(f"    --notes 'BFME1 near-miss donor; b1 0x{entry['bfme1_rva']:08X}; "
                  f"{entry['klass']} drift'")
     lines.append("```")
@@ -1516,7 +1618,7 @@ def near_packet(entry):
     lines.append("a nonmatching body in Code/:")
     lines.append("")
     lines.append("```sh")
-    lines.append(f"git checkout -- reverse/ && rm -f {source}")
+    lines.append(f"git checkout -- reverse/ && rm -f {target_source}")
     lines.append(f"python3 tools/re_log.py record '{entry['name']}' 0x{entry['bfme2_rva']:08X} "
                  f"{entry['size']} partial 'bfme1_sweep near miss; <what is still wrong>' "
                  f"--stash <your .cpp> --score 0.9")
@@ -1527,7 +1629,8 @@ def near_packet(entry):
 
 def do_near(args):
     payload = load_matches()
-    served = near_candidates(payload, include_held=args.include_held, limit=args.limit)
+    served = near_candidates(payload, include_held=args.include_held, limit=args.limit,
+                             busy_rvas=() if args.source else shared_claims.busy_rvas())
     if args.source:
         matches = [e for e in served if args.source in e["source"] or args.source == e["name"]]
         if not matches:
@@ -1546,6 +1649,9 @@ def do_near(args):
     for entry in served:
         print(f"{entry['alignment'] * 100:5.1f}%  {entry['size']:>5}  {entry['klass']:<15} "
               f"0x{entry['bfme2_rva']:08X} {entry['source']}")
+        if entry.get("wb"):
+            agree = entry.get("wb_agree")
+            print(f"{'':>8}{entry['wb']}  [{f'agrees: {agree}' if agree else 'disagrees'}]")
     if served:
         print()
         print(f"next: python3 tools/bfme1_sweep.py near --show '{served[0]['name']}'")
@@ -1566,15 +1672,70 @@ def remove_rows(source):
 
 
 def do_land(args):
+    """Acquire every donor body's shared claim before modifying the checkout."""
+    if args.dry_run:
+        return _do_land(args)
+    payload = load_matches()
+    served = group_files(payload, include_refused=args.include_refused, include_held=True)
+    entry = find_entry(served, args.source, near=near_candidates(payload, include_held=True))
+    wanted = ("T1", "T2", "T3") if args.allow_icf else ("T1", "T2")
+    rvas = [body["bfme2_rva"] for body in entry["bodies"] if body["tier"] in wanted]
+    try:
+        acquired, refused = shared_claims.claim(rvas, note=f"BFME1 donor {entry['source']}")
+    except shared_claims.ClaimsUnavailable as error:
+        # Origin failed mid-claim: land without a shared claim (AGENTS.md),
+        # unless origin already showed a peer holding one of the bodies.
+        print(f"bfme1_sweep: {error}; landing without a shared claim", file=sys.stderr)
+        acquired, refused = list(error.claimed), list(error.refused)
+    if refused:
+        if acquired:
+            shared_claims.release(acquired)
+        raise SystemExit("bfme1_sweep: donor body claimed by another worker: " +
+                         " ".join(f"0x{r:08X}" for r in refused))
+    try:
+        return _do_land(args, entry=entry)
+    finally:
+        if acquired:
+            # A verified row is not a published one: queue each body whose row
+            # this landing left in the ledger (its add_match runs had
+            # BFME_CLAIMS=off) and keep its claim until origin/master holds
+            # it. Release the rest -- refused, unwound or never tried.
+            landed = queue_landed_rows(entry, acquired)
+            shared_claims.settle([rva for rva in acquired if rva not in landed])
+
+
+def queue_landed_rows(entry, rvas):
+    """Queue (claims.queue_landed) each of `rvas` whose matched row for this
+    donor's BFME 2 source is in the ledger now; returns those RVAs. Every
+    row has the one source, so its evidence is scanned once."""
+    target = bfme2_source_path(entry["source"])
+    wanted, landed, scan = set(rvas), [], None
+    for row in BFME2_LEDGER.read_text(encoding="utf-8").splitlines():
+        fields = row.split(",")
+        if len(fields) < 6 or fields[4] != target or fields[5] != "matched":
+            continue
+        try:
+            rva = int(fields[2], 16)
+        except ValueError:
+            continue
+        if rva in wanted:
+            scan = scan or shared_claims.evidence_for(target)
+            shared_claims.queue_landed(rva, row, evidence=scan[0], unproven=scan[1])
+            landed.append(rva)
+    return landed
+
+
+def _do_land(args, entry=None):
     """Copy one donor file, append its pins, claim its bodies, build.
 
     add_match.py already verifies each row and puts the ledger back when the
     row does not byte-match, so all this owns is the copy and the pin lines --
     and putting those back, which it does before it reports anything.
     """
-    payload = load_matches()
-    served = group_files(payload, include_refused=args.include_refused, include_held=True)
-    entry = find_entry(served, args.source, near=near_candidates(payload, include_held=True))
+    if entry is None:
+        payload = load_matches()
+        served = group_files(payload, include_refused=args.include_refused, include_held=True)
+        entry = find_entry(served, args.source, near=near_candidates(payload, include_held=True))
     if entry["copy_tier"] in HELD_COPY_TIERS:
         raise SystemExit(f"bfme1_sweep: held (copy-tier {entry['copy_tier']}): {entry['copy_note']}")
     if entry.get("import_alias") and not args.ignore_import_alias:
@@ -1595,11 +1756,12 @@ def do_land(args):
 
     source = entry["source"]
     donor = BFME1 / source
-    dest = ROOT / source
+    target_source = bfme2_source_path(source)
+    dest = ROOT / target_source
     pins = sorted({(name, address) for body in bodies for name, address in body["pins"]})
 
     print(f"donor  {donor.relative_to(ROOT)}")
-    print(f"dest   {source}  (copy-tier {entry['copy_tier']}: {entry['copy_note']})")
+    print(f"dest   {target_source}  (copy-tier {entry['copy_tier']}: {entry['copy_note']})")
     for name, address in pins:
         print(f"pin    {name},0x{address:08X}")
     for body in bodies:
@@ -1612,12 +1774,14 @@ def do_land(args):
         raise SystemExit(f"bfme1_sweep: {source} already exists — landing would overwrite a "
                          "body this repo owns; resolve it by hand")
     symbols_before = BFME2_SYMBOLS.read_bytes() if BFME2_SYMBOLS.exists() else None
+    if pins:
+        ledger_io.lf_terminator(symbols_before or b"", "symbols.csv")
     dest.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(donor, dest)
     # check_csv refuses a row whose source is untracked, so the copy is staged
     # as part of making it: an unstaged donor is a ledger error, not a file the
     # committer will notice later.
-    subprocess.run(["git", "add", "--", source], cwd=ROOT, check=True)
+    subprocess.run(["git", "add", "--", target_source], cwd=ROOT, check=True)
     if pins:
         with BFME2_SYMBOLS.open("a", encoding="utf-8", newline="") as handle:
             for name, address in pins:
@@ -1627,16 +1791,21 @@ def do_land(args):
     try:
         for body in bodies:
             command = [sys.executable, str(ROOT / "tools" / "add_match.py"), body["name"],
-                       f"0x{body['bfme2_rva']:08X}", str(body["size"]), source,
+                       f"0x{body['bfme2_rva']:08X}", str(body["size"]), target_source,
                        "--notes", ledger_note(body)]
-            result = subprocess.run(command, cwd=ROOT)
+            # do_land owns the claims: after the last verification (or
+            # failure) it queues each row the ledger kept and releases the
+            # rest in one push, so no row is queued and then unwound here.
+            verify_env = os.environ.copy()
+            verify_env["BFME_CLAIMS"] = "off"
+            result = subprocess.run(command, cwd=ROOT, env=verify_env)
             if result.returncode != 0:
                 raise RuntimeError(f"add_match refused {body['name']} at 0x{body['bfme2_rva']:08X}")
             landed.append(body)
     except (RuntimeError, KeyboardInterrupt) as error:
         print(f"bfme1_sweep: {error}", file=sys.stderr)
         if not landed:
-            subprocess.run(["git", "rm", "--cached", "--quiet", "--", source], cwd=ROOT)
+            subprocess.run(["git", "rm", "--cached", "--quiet", "--", target_source], cwd=ROOT)
             dest.unlink(missing_ok=True)
             if symbols_before is not None:
                 BFME2_SYMBOLS.write_bytes(symbols_before)
@@ -1664,13 +1833,13 @@ def do_land(args):
     subprocess.run(["git", "add", "--", "reverse/functions.csv"], cwd=ROOT, check=True)
     declared = subprocess.run(
         [sys.executable, str(ROOT / "tools" / "find_declared_unmatched.py"), "--fail",
-         "--staged", source], cwd=ROOT, capture_output=True, text=True)
+         "--staged", target_source], cwd=ROOT, capture_output=True, text=True)
     if declared.returncode != 0:
-        remove_rows(source)
+        remove_rows(target_source)
         subprocess.run(["git", "add", "--", "reverse/functions.csv"], cwd=ROOT, check=True)
-        subprocess.run(["git", "rm", "--cached", "--quiet", "--", source], cwd=ROOT)
+        subprocess.run(["git", "rm", "--cached", "--quiet", "--", target_source], cwd=ROOT)
         dest.unlink(missing_ok=True)
-        print(f"bfme1_sweep: {source} defines functions the ledger does not declare, which the "
+        print(f"bfme1_sweep: {target_source} defines functions the ledger does not declare, which the "
               "pre-commit hook refuses. Rows and copy reverted (pins kept: they are additive "
               "and later files may resolve through them):", file=sys.stderr)
         print("\n".join(declared.stdout.splitlines()[:6]), file=sys.stderr)
@@ -1718,7 +1887,8 @@ def do_drain(args):
     """
     wanted = ("T1", "T2", "T3") if args.allow_icf else ("T1", "T2")
     queue = [entry["source"] for entry in
-             group_files(load_matches(), include_refused=False, include_held=False)
+             group_files(load_matches(), include_refused=False, include_held=False,
+                         busy_rvas=shared_claims.busy_rvas())
              if drainable(entry, wanted)]
     if args.limit:
         queue = queue[: args.limit]

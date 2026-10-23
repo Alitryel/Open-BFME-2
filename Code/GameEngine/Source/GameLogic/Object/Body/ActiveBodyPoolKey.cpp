@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004BF848@ActiveBody@@SA?AW4NameKeyType@@XZ @0x4BF848
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@ActiveBody@@UBE?AW4NameKeyType@@XZ @0x4BF848
 // (69B): cached pool-name key for ActiveBody. The class
 // identity comes from the pool-name string the body pushes
 // ("ActiveBody"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ActiveBody
 {
 public:
-	static NameKeyType rva0004BF848();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004BF848@ActiveBody@@SA?AW4NameKeyType@@XZ
-NameKeyType ActiveBody::rva0004BF848()
+// ?getModuleNameKey@ActiveBody@@UBE?AW4NameKeyType@@XZ
+NameKeyType ActiveBody::getModuleNameKey() const
 {
 	static NameKeyType TheActiveBodyPoolKey =
 		TheNameKeyGenerator->nameToKey("ActiveBody");

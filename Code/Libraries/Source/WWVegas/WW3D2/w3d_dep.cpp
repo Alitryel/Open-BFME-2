@@ -65,10 +65,35 @@ public:
 
 
 #include "w3d_dep.h"
+
+namespace _STL {
+
+template <> void _List_base<basic_string<char, char_traits<char>, allocator<char> >,
+                            allocator<basic_string<char, char_traits<char>, allocator<char> > > >::clear();
+
+template <> _List_iterator<basic_string<char, char_traits<char>, allocator<char> >,
+                           _Nonconst_traits<basic_string<char, char_traits<char>, allocator<char> > > >
+list<basic_string<char, char_traits<char>, allocator<char> >,
+     allocator<basic_string<char, char_traits<char>, allocator<char> > > >::erase(
+    _List_iterator<basic_string<char, char_traits<char>, allocator<char> >,
+                   _Nonconst_traits<basic_string<char, char_traits<char>, allocator<char> > > >);
+template <> bool equal_to<basic_string<char, char_traits<char>, allocator<char> > >::operator()(
+    basic_string<char, char_traits<char>, allocator<char> > const &,
+    basic_string<char, char_traits<char>, allocator<char> > const &) const;
+template <> void _Destroy(basic_string<char, char_traits<char>, allocator<char> > *);
+template <> bool operator<(basic_string<char, char_traits<char>, allocator<char> > const &,
+                           basic_string<char, char_traits<char>, allocator<char> > const &);
+template <> bool less<basic_string<char, char_traits<char>, allocator<char> > >::operator()(
+    basic_string<char, char_traits<char>, allocator<char> > const &,
+    basic_string<char, char_traits<char>, allocator<char> > const &) const;
+}
 #include "w3d_file.h"
 #include <assert.h>
 #include <chunkio.h>
 #include "ffactory.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<basic_string<char, char_traits<char>, allocator<char> >, basic_string<char, char_traits<char>, allocator<char> > >(basic_string<char, char_traits<char>, allocator<char> > *, basic_string<char, char_traits<char>, allocator<char> > const &); }
+// bfme link decl-only end
 
 
 /*
@@ -578,3 +603,5 @@ static const char * Make_W3D_Filename (const char *w3d_name)
 	strcat(buffer, ".w3d");
 	return buffer;
 }
+
+template bool _STL::operator==(basic_string<char, char_traits<char>, allocator<char> > const &, basic_string<char, char_traits<char>, allocator<char> > const &);

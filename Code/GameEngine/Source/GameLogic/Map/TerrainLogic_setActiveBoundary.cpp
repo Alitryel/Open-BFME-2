@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // stlport
 //
 // ?setActiveBoundary@TerrainLogic@@QAEXH@Z,
@@ -21,17 +21,9 @@
 typedef float Real;
 typedef int Int;
 
-struct ICoord2D
-{
-	Int x;
-	Int y;
-};
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
 
-struct Region3D
-{
-	Real lo[3];
-	Real hi[3];
-};
+#include "../../../../Libraries/Include/Lib/Region3D.h"
 
 typedef _STL::vector<ICoord2D> BoundaryVector;
 
@@ -169,8 +161,10 @@ public:
 extern Radar *TheRadar;
 extern PartitionManager *ThePartitionManager;
 extern PartitionManager *TheShroudManager;
-extern Rva00DFE758Holder *TheRva00DFE758;
-extern TerrainLogic *TheTerrainLogic;
+extern class GlobalData *TheWritableGlobalData;
+// Matched DIR32 sites establish TheTerrainLogic at VA 0x00DFEC50. This is in
+// the PE .data zero-fill tail, so the retail startup value is null.
+TerrainLogic *TheTerrainLogic = 0;
 extern GameLogic *TheGameLogic;
 extern View *TheTacticalView;
 
@@ -194,7 +188,7 @@ void TerrainLogic::setActiveBoundary(Int newActiveBoundary)
 	TheRadar->newMap(TheTerrainLogic);
 	ThePartitionManager->rva00625300(&region);
 	TheShroudManager->setRegion(&region, 0.0f);
-	TheGameLogic->m_opaque170->rva0035A2DC(&region, TheRva00DFE758->m_floatD4);
+	TheGameLogic->m_opaque170->rva0035A2DC(&region, (*(Rva00DFE758Holder **)&TheWritableGlobalData)->m_floatD4);
 
 	Object *object = TheGameLogic->getFirstObject();
 	while (object != 0)

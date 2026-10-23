@@ -42,6 +42,11 @@
 // BFME lock model (LockClass spins through a fastcall helper and inlines):
 // the BFME wwstring.h must set the shared __WWSTRING_H guard before the Zero
 // Hour widestring.h pulls its own wwstring.h/mutex.h pair in.
+// The data word keeps its existing FastCriticalSectionClass spelling.
+// Retail acquires these string pools through the pool backend at 0x6577F;
+// use its shared guard rather than emit the event-backend constructor name.
+#include "mutex.h"
+#include "bfme_pool_critical_section.h"
 #include "wwstring.h"
 #include "widestring.h"
 #include "win.h"
@@ -57,8 +62,8 @@ __declspec(dllimport) int __cdecl vswprintf(
 // instead of ??_U (0x0002FDE0).  Proven here by the displacement retail wrote
 // inside WideStringClass::Uninitialised_Grow at 0x00619E30, and independently
 // in ini.cpp.
-inline void * __cdecl operator new[](size_t s) { return ::operator new(s); }
-inline void __cdecl operator delete[](void * p) { ::operator delete(p); }
+static inline void * __cdecl operator new[](size_t s) { return ::operator new(s); }
+static inline void __cdecl operator delete[](void * p) { ::operator delete(p); }
 
 
 ///////////////////////////////////////////////////////////////////
@@ -118,7 +123,7 @@ WideStringClass::Get_String (int length, bool is_temp)
 			//	Make sure no one else is requesting a temp pointer
 			// at the same time we are.
 			//
-			FastCriticalSectionClass::LockClass lock(m_TempMutex);
+			BFMEPoolCriticalSection::LockClass lock(*reinterpret_cast<BFMEPoolCriticalSection *>(&m_TempMutex));
 
 			//
 			//	Try to find an available temporary buffer
@@ -212,7 +217,6 @@ WideStringClass::Uninitialised_Grow (int new_len)
 //
 ///////////////////////////////////////////////////////////////////
 void
-// ?Free_String@WideStringClass@@ present-unmatched
 WideStringClass::Free_String (void)
 {
 	if (m_Buffer != m_EmptyString) {
@@ -227,7 +231,7 @@ WideStringClass::Free_String (void)
 				//	Make sure no one else is modifying a temp pointer
 				// at the same time we are.
 				//
-				FastCriticalSectionClass::LockClass lock(m_TempMutex);
+				BFMEPoolCriticalSection::LockClass lock(*reinterpret_cast<BFMEPoolCriticalSection *>(&m_TempMutex));
 				
 				//
 				//	Release our hold on this temporary buffer

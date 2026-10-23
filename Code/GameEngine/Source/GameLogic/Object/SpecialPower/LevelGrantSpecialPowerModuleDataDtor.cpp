@@ -1,4 +1,5 @@
-// cl: /O1 /MD /GX /arch:SSE /DNDEBUG /Oy-
+// cl: /MD /GX /DNDEBUG /Oy-
+// Rva0044ECCE is an address-derived base stand-in; its target class name is unproven.
 //
 // ??1LevelGrantSpecialPowerModuleData@@UAE@XZ, retail 0x004C2C22, 56 bytes.
 // Dtor for the LevelGrantSpecialPower ModuleData (ctor rowed at 0x4C2AA0).
@@ -19,16 +20,16 @@ private:
 	unsigned char m_data[4];
 };
 
-class DamageModuleBase
+class Rva0044ECCE
 {
 public:
-	virtual ~DamageModuleBase();
+	virtual ~Rva0044ECCE();
 
 private:
 	unsigned char m_pad[0xC8 - 4];
 };
 
-class __declspec(novtable) LevelGrantSpecialPowerModuleData : public DamageModuleBase
+class __declspec(novtable) LevelGrantSpecialPowerModuleData : public Rva0044ECCE
 {
 public:
 	virtual ~LevelGrantSpecialPowerModuleData();

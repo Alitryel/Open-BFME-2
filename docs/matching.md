@@ -15,7 +15,9 @@
      references (`verify_dir32_consistency`). Write the real literal, not a lookalike.
    - **REL32** (calls/jumps): resolved to the callee's address. A matched callee resolves
      automatically; for anything else (CRT helpers like `__ftol2`, not-yet-matched functions)
-     add `name,address` to `reverse/symbols.csv`. The build prints the unresolved name on
+     pin it with `python3 tools/pin_admission.py --add NAME 0xRVA` (or `add_match.py --pin
+     NAME=0xRVA`): the tool checks the pin and admits it in the escape-hatch register, which
+     refuses hand-typed pins once enforced. The build prints the unresolved name on
      failure. Find the address by disassembling the target and computing the call destination,
      or look it up in the Ghidra inventory (`tools/ghidra/`). Append with canonical LF: the
      file is `merge=union`, so a pin that differs from its twin only by a `\r` is a new line
@@ -33,6 +35,19 @@ Useful iteration tools:
   `--all` for untracked functions.
 
 ## MSVC 7.1 shaping notes
+
+The default compiler remains 13.10.3077. A source may explicitly select
+`// compiler: vc71-sp1` for the hash-pinned 13.10.6030 optimizing compiler in
+`vendor/vc71-sp1/`, using the same submodule headers and libraries. This supports
+`/hotpatch` for SDK bodies whose retail archive was built by a later 13.10
+compiler. Record the retail evidence before selecting it; all normal byte,
+identity and relocation checks still apply. Its executable and runtime DLLs
+are part of object-cache fingerprints and dependency receipts.
+
+`// compiler: vc71-ddk-4035` selects the similarly pinned Windows Server 2003
+SP1 DDK compiler, 13.10.4035. Retail's DXErr object records that version; it
+emits the older `/GS` cookie shape required by DXTrace. Both profiles retain
+the default compiler's headers and libraries.
 
 Near-matches are still failures. If a candidate differs only by register choice, branch layout, or
 x87 operand order, revert it unless the exact decorated-symbol check passes.
@@ -98,6 +113,95 @@ push/call, `mov dword ptr [reg], 0` rather than the three-byte `and dword ptr [r
 `rep cmpsb` rather than a `memcmp` call (/O2 implies /Oi). Recompiling a whole unit at the other
 level and counting what breaks is a cheap, decisive test.
 
+A seventh: **a global that retail schedules around stores is file-static.** MSVC 7.1 keeps a
+store to an `extern` (or plain global) byte ahead of a later load through `this` (the vptr, a
+member pointer), and keeps its test after unrelated stores, because the byte could alias them. A
+`static` global whose address is never taken cannot, so retail's `mov eax,[ecx]` before
+`mov byte ptr [g],0`, or `cmp byte ptr [g],0` hoisted above two stores, means the byte was
+file-static. Making it `static` landed the reload notices 0x0031E7F0, 0x00289812 and 0x001E51AC
+after locals, reordering and branch duplication had all failed. Every reader and writer of that
+byte then belongs in the same unit (the static has no cross-unit name).
+
+An eighth: **retail's `operator delete[]` is nothrow.** A destructor whose inlined member
+teardown calls `delete[]` (a `VectorClass`/`DynamicVectorClass` member) carries no EH state store
+between its body and that teardown in retail; we emit `mov [esp+N],0` there, and usually cache 0
+in `ebx` for it, a few bytes long. Declaring `void __cdecl operator delete[](void *) throw();`
+before the unit's first `#include` lets the compiler drop the store. It closed ~HLodClass
+(0x0019EF70), ~AggregateDefClass (0x001A3C90) and ~NamedPivotMapClass (0x001976F0) with every
+existing row of their units still matching; the constructors' funclet `$L` labels can shift.
+
+Commutative SSE operand order is not set by source order (cl canonicalizes it), but it does move
+with the surrounding IL: reading a member directly instead of through an inline accessor
+(`IsTreeValid` for `Is_Hierarchy_Valid()`, Simple_Evaluate_Bone 0x001A5A60) or binding the operand
+to a local reference before an inline call (the plane clip at 0x00100362) flipped the operands
+where no spelling of the product did.
+
+**What decides it** (controlled `/FAsc` trials, identical at `/O1` and `/O2` with `/G7
+/arch:SSE`). For `x = A op B` with both operands in memory, one is loaded (`movss xmm,A`) and
+the other folded (`mulss xmm,B`). Within one expression tree, source order is irrelevant for
+operands reached through a pointer: `a*b`, `b*a`, inline `mul(a,b)`/`mul(b,a)` and even
+`x+y+z` against `z+y+x` (cl re-associates float chains) compile identically. Only operand
+identity decides, in this order:
+
+1. An operand that is the assignment's own destination (`v->x += f->x`, `a->x = a->x * b->y`)
+   is folded. This beats every rule below.
+2. A pointer dereference is loaded before a global, and a global before a stack parameter or
+   spilled local. Two plain globals are never swapped: the right operand is loaded.
+3. Between dereferences, the deeper address is loaded (`p->q->x` before `p->x`), then a base
+   plus displacement before a bare `[reg]` (displacement 0 behaves like a leaf).
+4. Same base: the higher displacement is loaded.
+5. Different bases: locals rank above parameters. Among locals, the variable **first assigned**
+   later is loaded first. Declaration order and later reassignments do not count. Parameters
+   rank by position, the first parameter highest. `this` ranks below a stack parameter.
+
+So flipping one site means changing which variable the address hangs off. A pointer cached in
+a local (first assigned before or after another), a different base for one row, or reading
+through the destination all work; respelling the arithmetic does not. Copies that CSE folds
+back into an address expression (`V *p = a->n`, `Coord3D *f = &m_p->force`, inline-function
+parameters) create no new variable and change nothing. The ranks are numbered per function, so
+unrelated locals can move them: HordeContain 0x0046BEAC's first centre add (retail loads the
+stack accumulator and folds the member, against rule 2) flipped only when the `pos`/`delta`
+locals of two later loops were declared once and shared.
+
+**Across statements there is no canonicalization.** Separate statements keep their order, so
+writing per-element updates in retail's element order is a real lever. Whether `m.X += t`
+folds `m.X` (`addss t,[m.X]`) or loads it (`movss r,[m.X]; addss r,t`) depends on how `t`
+was produced, not on operand order. `t` = a product written in the same statement folds; `t`
+= an element of a scalar-replaced local (`last *= u; m += last`) loads, unless the allocator
+coalesces. In Calculate_Texture_Matrix (0x00186380) retail folds row 0 in Y,Z,W,X order,
+which the per-element `m[0].Y += last.Y * u; ... X last` form reproduces; Zero Hour's
+`last *= u; m[0] += last` does not.
+
+A ninth: **retail's `pop esi; mov fs:[0],ecx; pop ebx` epilogue (the SEH restore between the
+last two pops) means the function passes an object of a class with a user-written copy constructor
+by value**; without one, cl sinks the restore below the last pop. Building the argument in place (an
+esp save `mov [ebp-x],esp`) and an inline callee taking the object by value from an lvalue both
+count; a temporary whose copy is elided does not. STLport iterators qualify, so this is usually
+`erase(it)`, `insert(hint, v)` or a constructor taking an iterator by value. Measured on the matched
+rows: none of the 2,002 with the late restore saves esp; 591 of the 842 with the early one do.
+`addHotKey` (0x00359302) landed by giving its result's constructor the iterator by value.
+
+**How callee-saved registers are assigned** (controlled `/O1 /G7` trials, 2026-10-18). Variables
+are coloured greedily in priority order; each takes the first of esi, edi, ebx not already held by
+a variable it interferes with. Priority grows with the number of references after CSE and copy
+propagation (so a redundant load or an alias of the same value adds nothing), each weighted by its
+block: 1 in straight-line code and after an early `return`, about 0.55 in one arm of an `if`, a
+`&&`/`||` operand or a ternary, about 0.67 in a loop body (trip count is ignored), and less again
+when nested. Ties go to the variable assigned first, which is why `this` wins an even contest. A
+live range that spans branchy code pays a small flat penalty, about 0.15 of a use per `if` it
+crosses whatever the variable's weight (straight-line length costs nothing), so a `this` used
+throughout a branchy function can lose esi to a local with fewer uses. **Measure the gap before
+hunting a spelling**: add N throwaway straight-line uses of the variable that should win
+(`g_sink = (int)this;` at the top, in a scratch copy) and find the N that flips the allocation.
+N = 1 means the levers below can close it; parseUserList (0x004D1616) is N = 1 and still did not
+yield to 130 combinations of statement-level respellings (guard and loop forms, accessor or
+member, locals for each `new`, `throw()` on every callee): those compile to identical IL, so do
+not spend trials on them. The levers that change a weight without
+changing the code are spellings that move a reference into or out of a conditional region: a use
+under `cond && x->f` weighs about half of the same use on its own, and a value read in both arms of
+a ternary weighs slightly more than one plain read. That is the whole effect behind the equal-arm
+`c ? x : x` hacks some banks carry; prefer a natural spelling with the same shape.
+
 Two smaller ones. **`inline` is a lever in both directions**: MSVC will not auto-inline a 93-byte
 `SetIdentity` however the file is ordered, and marking it `inline` (with its address taken to keep
 the standalone copy) is what lets two constructors absorb it; conversely a base constructor that
@@ -115,10 +219,10 @@ so `float`, `unsigned int`, `int`, and `const char *` land at the target vtable 
 BFME 2 is the SAGE engine — two ancestor trees ride in via the `reference/open-bfme-1`
 submodule (GPLv3, same license as this repo):
 
-1. **Open-BFME-1's converted `Code/`** (`reference/open-bfme-1/Code/`) — the nearest ancestor,
+1. **Open-BFME-1's converted game** (`reference/open-bfme-1/game/`) — the nearest ancestor,
    already ZH→BFME-reconciled, and still growing. Prefer it for anything BFME 1 has landed;
    calibration measured 756 of its bodies transferring to game.dat verbatim.
-2. **Zero Hour** (`reference/open-bfme-1/reference/CnC_Generals_Zero_Hour/`). **Always port
+2. **Zero Hour** (`reference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/`). **Always port
    from `GeneralsMD/` (= ZH), never `Generals/`.**
 
 Many functions match verbatim. Reconcile against the binary (the source of truth). game.dat's
@@ -142,6 +246,33 @@ and still not be committable (`ranked --include-held` lists them): **L** the don
 functions the sweep never placed, and `find_declared_unmatched` refuses a source with any
 definition the ledger lacks. Wave 1 found all three by landing into them; the tiers agreed with
 31 of 31 of that wave's files.
+
+**S is a bundling rule, not a byte difference, and it yields.** The way past it is to carry ONLY
+the placed bodies into a new `Code/` TU: keep the class declarations, because the member offsets
+are what the body's shape depends on, and omit the bodies the sweep never placed, so the gate has
+nothing left to refuse. Landed that way: 5 donors, 67 bodies, 1,512 bytes —
+`Rva0090C280Ctor.cpp` (20B), `Rva0089CompactHelpers.cpp` (145B/7),
+`AddressTinyBodiesD0083FDF0.cpp` (84B/3), `SmallGaps/Rva0083ED40StreamStateReport.cpp` (53B) and
+`StaticTagInitializers.cpp` (1210B/55, the largest donor the queue holds). The last needed no pins
+at all: its 62 tag-slot globals are reached through DIR32 data slots, so the file resolves with
+zero unresolved symbols — reading its `extern` declarations suggests a pin cost the build never
+charges. Test one body before declining a donor on how it looks.
+
+**A donor's inline immediates are not relocation slots.** The sweep derives DIR32 windows from the
+byte stream and blanks them, but the compiler emits no relocation for a source literal, so
+`mov DWORD PTR [ecx],0x0113A56C` is a blanked window to the sweep and a plain immediate to the
+linker, and the build's copy-from-retail cannot reach it. A donor that hardcodes BFME 1's vtable or
+a member offset therefore reports a clean transfer and then fails on exactly those four bytes. Both
+instances so far are one-constant repairs read off retail: `releaseResource0090C2D0` (0x001310CF,
+donor 0x0113A56C against this game's 0x00BD25C8) and `Rva0088D990Owner::set` (0x0003CD10, donor pad
+0x9F48 against 0x9F54) — 2 of the 67 bodies above. Treat T1 "clean transfer" as a hypothesis:
+compile the donor and diff it.
+
+**T3 byte counts overstate the yield.** A T3 donor is one whose name is an ICF guess, and its rows
+usually collapse onto a SINGLE BFME 2 address: `S1LazyPointerFieldReads` places 5 rows at one,
+`BfmeTwoHundredFifteen` 2 at one, `VirtualSlot5CallThunk` 3 at one. Count the packet's distinct
+`b2` addresses, not its rows, before costing the file — and where several BFME 1 names share one
+address, land a single row under an address-derived name rather than several real-looking ones.
 
 `bfme1_sweep.py ambiguous` resolves donors by WHERE they should be rather than by more
 bytes. The two images lay the same code out in the same order: order the placed bodies by
@@ -228,6 +359,19 @@ leaves 252 with no consistent copy and 16 with exactly one — every one of whic
 claimed. The anchor lands nothing, because the functions distinctive enough to anchor are
 the ones earlier passes already identified.
 
+`place_bodies` is a worked-out seam, and one family wide. Measured: the 669 `stlport_*`
+shards yielded 5 bodies (315B), and **1,711 further ledger sources yielded 0** — 395
+non-stlport `WWLib`, all 316 of the `FamilyDeletingDtors_*` / `GlobalFlagClearers_*` /
+`INI_*` shards, a 160-file `Common` probe, and 840 sources walked alphabetically from the
+top of the ledger list. The zero is not noise: at the stlport rate (0.75% of files) the
+expected count over that sample was ~13, and the walk is compile-bound at roughly 1.5
+minutes per 120 sources, so a full pass over the 7,649 untouched sources costs ~100 minutes
+to find single-digit bodies. The reason is structural rather than incidental —
+`place_bodies` pays only where a unit emits more than the ledger captured, which is a
+property of generated per-instantiation shards, not of ordinary source. It returns nothing
+on a file with many `present-unmatched` markers either, and that is consistent: those
+bodies are unmatched precisely because they do not place uniquely.
+
 `tools/conversion_gate.py` scans added lines under `Code/` only, so these rows fall outside
 its Rule A, and that is deliberate. Rule A stops a contributor deleting authored C++ and
 committing an `__emit` byte dump in its place; nobody authors the vendored tree, and nine of
@@ -281,3 +425,17 @@ all 219 of those units gained nothing (and SSE broke four).
 So: retail was built a unit at a time and neighbours in the same directory
 disagree. Sweep per unit, keep per unit, and do not look for a tree-wide
 setting.
+
+**Superseded (2026-10): flags come from the retail region.** Fingerprinting the
+image (research/25) shows a per-project build after all: BFME2 GameEngine and
+GameEngineDevice are `/O1 /arch:SSE /G7`, WW3D2 `/O2 /arch:SSE /G7`, WWLib and
+the third-party block `/O2` blend. `/G7` looked "mostly wrong" above only
+because the gate never compared `.text$x`: retail's static-guard funclets are
+`and al,0FEh`, which only `/G7` emits. `tools/flag_defaults.py` now gives
+every `Code/` TU the `/O`, `/arch` and `/G` of the region holding most of its
+rows (`reverse/retail_inventory/flag_regions.csv`); every other `// cl:` token
+still counts. A file's own codegen flags count only when
+`reverse/flag_overrides.csv` lists it. Never edit that file or an overridden
+file's codegen flags by hand: run `python3 tools/flag_defaults.py propose
+<source>`, which compiles both ways and records an override only when the
+region default loses a row.

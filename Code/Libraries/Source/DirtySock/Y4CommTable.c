@@ -169,7 +169,8 @@ void * __cdecl memcpy( void *dest, const void *src, unsigned int count );
  * the same three characters the run already contains contiguously, so this
  * buys nothing against a strings dump; it only makes the literal invisible to
  * a reader of the code. */
-extern char g_Rva012C499CTag[];
+/* Target VA 0x00DD90F4 contains "gEA\0" repeated five times (20 bytes). */
+char g_Rva012C499CTag[] = "gEA\0gEA\0gEA\0gEA\0gEA";
 
 /* 0x008125C0 SENDS THE MODULE'S ANNOUNCE PACKET.  Retail's own name for the
  * buffer, from the /GZ frame descriptor, is Packet.
@@ -201,6 +202,8 @@ int Rva008125C0( struct Rva00812320Module *context )
 /* The FESL allocator pair at 0x007F0000 and 0x007F0030 -- vtable slots 2 and 3
  * of the same lazily-fetched global.  Optimised code, so both are pinned
  * rather than converted. */
+/* The C entry at 0x007F0000 is the rowed allocator body in the C++ TU. */
+#pragma comment(linker, "/alternatename:_Rva007F0000=?Rva007F0000Alloc@@YAPAXH@Z")
 void *Rva007F0000( unsigned int size );
 void Rva007F0030( void *block );
 
@@ -211,17 +214,19 @@ int Rva007FD510( struct Rva007FD4E0Socket *socket, const void *address,
 	int addressLength );
 int Rva007FDE80( struct Rva007FD4E0Socket *socket, void *callback,
 	unsigned int rate, void *data,
-	void ( __cdecl *proc )( struct Rva007FD4E0Socket *, int, void * ) );
+	int ( __cdecl *proc )( struct Rva007FD4E0Socket *, int, void * ) );
 void Rva007FEA20( struct Rva0130AB68List *list );
 void Rva007FEBD0( void *list );
 void Rva007FECB0( void *list );
 void Rva007FEAA0( void *list );
 void Rva007FD3F0( void *socket );
-void __cdecl Rva00812690( struct Rva007FD4E0Socket *socket, int reason,
+int __cdecl Rva00812690( struct Rva007FD4E0Socket *socket, int reason,
 	void *data );
 
-extern struct Rva00812320Module *g_Rva0130AD00Module;
-extern int g_Rva0130ACFCRefCount;
+// g_Rva0130AD00Module: matched references place it at VA 0xe0a718 (retail .data initial value 0).
+struct Rva00812320Module *g_Rva0130AD00Module = 0;
+// g_Rva0130ACFCRefCount: matched references place it at VA 0xe0a714 (zero-filled .bss).
+int g_Rva0130ACFCRefCount = 0;
 
 struct Rva00811D70Entry
 {
@@ -422,7 +427,7 @@ void Rva00812CD0( void *object )
 	Rva007F0030( object );}
 
 unsigned int __cdecl strlen( const char *text );
-char * __cdecl strcpy( char *dest, const char *src );
+char * __cdecl _mbscpy( char *dest, const char *src );
 char * __cdecl strstr( const char *haystack, const char *needle );
 
 /* 0x00811E20 FORMATS MATCHING ENTRIES INTO A TEXT LISTING, one line per
@@ -531,7 +536,7 @@ int Rva00811E20( struct Rva00812320Module *module, const char *keyA,
 
 			addr[ 3 ] = ':';
 
-			strcpy( record, pEntry->m_nameB );
+			_mbscpy( record, pEntry->m_nameB );
 
 			/* AN EMPTY-BODIED FOR, unlike the two advances below it.  This
 			 * one carries an initialiser and retail steps the cursor in the
@@ -545,7 +550,7 @@ int Rva00811E20( struct Rva00812320Module *module, const char *keyA,
 			*pOut = 9;
 			pOut++;
 
-			strcpy( pOut, pEntry->m_detail );
+			_mbscpy( pOut, pEntry->m_detail );
 
 			while ( *pOut != 0 )
 			{
@@ -564,7 +569,7 @@ int Rva00811E20( struct Rva00812320Module *module, const char *keyA,
 						break;
 					}
 
-					strcpy( pOut, pEntry->m_substitution );
+					_mbscpy( pOut, pEntry->m_substitution );
 
 					while ( *pOut != 0 )
 					{
@@ -607,7 +612,7 @@ int Rva00811E20( struct Rva00812320Module *module, const char *keyA,
 				return iCount;
 			}
 
-			strcpy( out, record );
+			_mbscpy( out, record );
 			out += strlen( record );
 			outSize -= strlen( record );
 			iCount++;
@@ -666,4 +671,208 @@ int Rva00811900( struct Rva00812320Module *module, int *pStamp, void *dest,
 	}
 
 	return iSize;
+}
+
+/* Receive signature at target VA 0x00DD9100: a separate three-copy tag,
+ * not the request sender's string at 0x00DD90F4. */
+static char ProtoAdvtReceiveTag[] = "gEA\0gEA\0gEA";
+
+int Rva007FEB00( void *lock );
+int Rva007FDA50( struct Rva007FD4E0Socket *socket, char *buffer, int length,
+    int flags, void *from, int *fromLength );
+int Rva007FE310( void *host, int hostLength, const void *inet, int inetLength );
+unsigned int Rva007FEA00( void );
+char *Rva007FF860( const unsigned char *address, char *destination, int size );
+int __cdecl memcmp( const void *left, const void *right, unsigned int count );
+char * __cdecl strcpy( char *dest, const char *src );
+
+/* ProtoAdvt's socket callback, BFME2 RVA 0x0067E590, 1507 code bytes
+ * plus 81 bytes of matching compiler stack-check descriptors and names.
+ * Starting source: BFME1 bank at 34f59164f6d1efd413c5fd37f4894ec834c3c0fe,
+ * targets/game/reverse/attempts/0x00812690.cpp (not a matched donor).
+ * Madden NFL 07 PS3's named _ProtoAdvtCallback in DirtySDK
+ * 4.7.3-custom-090 supplied the semantic cross-check; all control flow,
+ * offsets, constants and helper targets below are established from BFME2.
+ * The original address-bound symbol is retained for existing callers.
+ *
+ * Recheck the socket each receive iteration. Empty receives leave the loop;
+ * expiry, cancellation and retransmission still run afterwards. Entries
+ * expire when their address text is empty, deadline is zero, or now exceeds
+ * the deadline. Cancellation clears the outgoing address text before send.
+ * See docs/reconstruction/protoadvt-callback.json for the donor differences.
+ */
+int __cdecl Rva00812690( struct Rva007FD4E0Socket *socket, int reason,
+void *data )
+{
+	int result;
+	int status;
+	int fromlen;
+	unsigned char base[ 0x10 ];
+	unsigned char from[ 0x10 ];
+	struct Rva00812220Entry *entry;
+	struct Rva00812220Entry *candidate;
+	struct Rva00812220Entry **cursor;
+	char packet[ 0x180 ];
+	struct Rva00812320Module *object;
+	unsigned int now;
+
+	object = ( struct Rva00812320Module * )data;
+	if ( Rva007FEB00( object ) == 0 )
+	{
+		return 0;
+	}
+
+	while ( object->m_socket != 0 )
+	{
+		if ( object->m_ready > 0 )
+		{
+			object->m_ready = 0;
+			Rva008125C0( object );
+		}
+
+		packet[ 8 ] = 0;
+		fromlen = 0x10;
+		result = Rva007FDA50( object->m_socket, packet, 0x180, 0,
+			from, &fromlen );
+		if ( result <= 0 || packet[ 8 ] == 0 )
+		{
+			break;
+		}
+		Rva007FE310( base, 0x10, from, 0x10 );
+		status = 0;
+		if ( *( unsigned short * )base == *( unsigned short * )from )
+		{
+			if ( *( unsigned short * )from == 2 )
+			{
+				status = memcmp( from + 2, base + 2, 6 ) == 0;
+			}
+		}
+
+		if ( (unsigned char)packet[ 0 ] != ProtoAdvtReceiveTag[ 0 ]
+			|| (unsigned char)packet[ 1 ] != ProtoAdvtReceiveTag[ 5 ]
+			|| (unsigned char)packet[ 2 ] != ProtoAdvtReceiveTag[ 10 ] )
+		{
+			continue;
+		}
+
+		if ( packet[ 8 ] == 0x3F && packet[ 9 ] == 0 )
+		{
+			now = Rva007FEA00() + 0x3E8;
+			for ( entry = *( struct Rva00812220Entry ** )
+				( ( char * )object + 0x24 ); entry != 0;
+				entry = *( struct Rva00812220Entry ** )
+				( ( char * )entry + 0x1A0 ) )
+			{
+				if ( *(int *)( ( char * )entry + 0x180 ) > now )
+				{
+					*(int *)( ( char * )entry + 0x180 ) = now;
+				}
+			}
+			continue;
+		}
+
+		if ( packet[ 0x28 ] == 0 )
+		{
+			continue;
+		}
+
+		candidate = 0;
+		for ( entry = object->m_first; entry != object->m_end;
+			entry++ )
+		{
+			if ( candidate == 0 && entry->m_nameB[ 0 ] == 0 )
+			{
+				candidate = entry;
+			}
+			if ( Rva00811CE0( packet + 8, entry->m_nameA ) == 0
+				&& Rva00811CE0( packet + 0x28, entry->m_nameB ) == 0
+				&& Rva00811CE0( packet + 0x48, entry->m_detail ) == 0
+				&& memcmp( packet + 4, (char *)entry + 4, 4 ) == 0 )
+			{
+				break;
+			}
+		}
+
+		if ( entry == object->m_end && candidate != 0 )
+		{
+			entry = candidate;
+			memset( entry, 0, 0x1A4 );
+			memcpy( ( char * )entry + 4, packet + 4, 4 );
+			strcpy( entry->m_nameA, packet + 8 );
+			strcpy( entry->m_nameB, packet + 0x28 );
+			strcpy( entry->m_detail, packet + 0x48 );
+			object->m_active++;
+		}
+
+		if ( entry != object->m_end )
+		{
+			strcpy( entry->m_templates, packet + 0x108 );
+			*(int *)( ( char * )entry + 0x180 ) =
+				Rva007FEA00() + ( (unsigned char)packet[ 3 ] * 0x3E8 ) * 2 + 0x3E8;
+			entry->m_pending = status;
+			*(unsigned int *)( ( char * )entry + 0x194 ) =
+				( ( ( ( (unsigned char)from[ 4 ] << 8 )
+				| (unsigned char)from[ 5 ] ) << 8
+				| (unsigned char)from[ 6 ] ) << 8
+				| (unsigned char)from[ 7 ] );
+			*(unsigned int *)( ( char * )entry + 0x198 ) =
+				( ( ( ( (unsigned char)base[ 4 ] << 8 )
+				| (unsigned char)base[ 5 ] ) << 8
+				| (unsigned char)base[ 6 ] ) << 8
+				| (unsigned char)base[ 7 ] );
+			Rva007FF860( from, entry->m_substitution, 0x10 );
+			object->m_active++;
+		}
+	}
+
+	now = Rva007FEA00();
+	for ( entry = object->m_first; entry != object->m_end; entry++ )
+	{
+		if ( entry->m_nameB[ 0 ] != 0 && ( entry->m_templates[ 0 ] == 0
+			|| *(int *)( ( char * )entry + 0x180 ) == 0
+			|| now > *(unsigned int *)( ( char * )entry + 0x180 ) ) )
+		{
+			entry->m_nameB[ 0 ] = 0;
+			entry->m_nameA[ 0 ] = 0;
+			object->m_active++;
+		}
+	}
+
+	cursor = ( struct Rva00812220Entry ** )
+		( ( char * )object + 0x24 );
+	while ( *cursor != 0 )
+	{
+		if ( *(int *)( ( char * )*cursor + 0x180 ) == 0 )
+		{
+			candidate = *cursor;
+			*cursor = *( struct Rva00812220Entry ** )
+				( ( char * )*cursor + 0x1A0 );
+			candidate->m_templates[ 0 ] = 0;
+			Rva007FD920( object->m_socket, ( const char * )candidate,
+				0x180, 0, object->m_peer, 0x10 );
+			Rva007F0030( candidate );
+		}
+		else
+		{
+			cursor = ( struct Rva00812220Entry ** )
+				( ( char * )*cursor + 0x1A0 );
+		}
+	}
+
+	now = Rva007FEA00();
+	for ( entry = *( struct Rva00812220Entry ** )
+		( ( char * )object + 0x24 ); entry != 0;
+	entry = *( struct Rva00812220Entry ** )( ( char * )entry + 0x1A0 ) )
+	{
+		if ( now > *(unsigned int *)( ( char * )entry + 0x180 ) )
+		{
+			Rva007FD920( object->m_socket, ( const char * )entry,
+				0x180, 0, object->m_peer, 0x10 );
+			*(int *)( ( char * )entry + 0x180 ) =
+				now + (unsigned char)*( ( char * )entry + 3 ) * 0x3E8;
+		}
+	}
+
+	Rva007FECB0( object );
+	return 0;
 }

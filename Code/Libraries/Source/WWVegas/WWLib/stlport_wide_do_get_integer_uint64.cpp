@@ -173,7 +173,8 @@ InputIter __cdecl _M_do_get_integer(
     const narrow_string &grouping = stream._M_grouping();
 
     const int base_or_zero =
-            _M_get_base_or_zero(in, end, stream, character);
+            _M_get_base_or_zero<wide_iterator, wchar_t>(
+                    in, end, stream, reinterpret_cast<wchar_t *>(character));
     int got = base_or_zero & 1;
 
     bool result;

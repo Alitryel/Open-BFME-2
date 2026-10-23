@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /MD
+// cl: /MD
 //
 // SimpleDynVecClass<unsigned>::Add. Twin of the landed Vector3 body
 // with a four-byte element.
@@ -16,11 +16,19 @@ public:
 	int ActiveCount;
 };
 
+struct BfmePod4 { char m_data[4]; };
+template <> class SimpleDynVecClass<BfmePod4>
+{
+protected:
+	bool Grow(int new_size_hint);
+	friend bool SimpleDynVecClass<unsigned>::Add(const unsigned &object, int new_size_hint);
+};
+
 template <class Type>
 bool SimpleDynVecClass<Type>::Add(const Type &object, int new_size_hint)
 {
 	if (ActiveCount >= VectorMax) {
-		if (!Grow(new_size_hint))
+		if (!((SimpleDynVecClass<BfmePod4> *)(void *)this)->Grow(new_size_hint))
 			return false;
 	}
 	int n = ActiveCount;

@@ -4,13 +4,9 @@
 
 typedef float Real;
 
-struct Coord3D
-{
-	Coord3D();
-	~Coord3D();
-
-	Real x, y, z;
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_DTOR
+#include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 class BezierSegment
 {

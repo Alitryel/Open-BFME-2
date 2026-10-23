@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /G7 /Oy-
+// cl: /DNDEBUG /MD /EHsc /Oy-
 // ?rva00225492@BfmeDfe6e4@@QAEXXZ
 // retail 0x00225492, 60 bytes. Dedicated TU: refresh the class timestamp
 // when called on the owning thread (GetCurrentThreadId gate at +0x50), via
@@ -26,6 +26,8 @@ class BfmeDfe6e4
 {
 public:
 	void rva00225492();
+    void rva00225460();
+    void rva0022546B();
 
 private:
 	// Retail layout: owning thread id at +0x50, timestamp at +0x54,
@@ -49,4 +51,17 @@ void BfmeDfe6e4::rva00225492()
 	EnterCriticalSection(&m_cs);
 	m_timestamp = now;
 	LeaveCriticalSection(&m_cs);
+}
+
+// ?rva00225460@BfmeDfe6e4@@QAEXXZ / ?rva0022546B@BfmeDfe6e4@@QAEXXZ, retail
+// 0x00225460 and 0x0022546B (11B each), directly before 0x00225476: enter and
+// leave the class critical section at +0x70 through the IAT.
+void BfmeDfe6e4::rva00225460()
+{
+    EnterCriticalSection(&m_cs);
+}
+
+void BfmeDfe6e4::rva0022546B()
+{
+    LeaveCriticalSection(&m_cs);
 }

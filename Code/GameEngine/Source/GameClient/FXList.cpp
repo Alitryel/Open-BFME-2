@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/GameClient/FXList.cpp); this unit had no counterpart under Code/.
@@ -33,6 +33,23 @@
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+#include <list>
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 
 #include "GameClient/FXList.h"
 
@@ -53,6 +70,54 @@
 #include "GameClient/Drawable.h"
 #include "GameClient/ParticleSys.h"
 #include "GameLogic/PartitionManager.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<void *,allocator<void *> >::size()const  { return (unsigned int)(this->_M_finish - this->_M_start); } }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * const * vector<void *,allocator<void *> >::begin()const  { return this->_M_start; } }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline bool less<unsigned int>::operator()(unsigned int const &x,unsigned int const &y)const  { return x < y; } }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * & vector<void *,allocator<void *> >::operator[](unsigned int n) { return *(this->_M_start + n); } }
+// bfme link decl-only begin
+namespace _STL { template <> void swap<_STLP_alloc_proxy<void **, void *, allocator<void *> > >(_STLP_alloc_proxy<void **, void *, allocator<void *> > &, _STLP_alloc_proxy<void **, void *, allocator<void *> > &); }
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(unsigned int, allocator<void *> const &); }
+namespace _STL { template <> vector<void *, allocator<void *> >::vector(unsigned int, void *const &, allocator<void *> const &); }
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
+namespace _STL { template <> vector<void *, allocator<void *> >::~vector(); }
+namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, void const *) const; }
+namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
+namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
+namespace _STL { template <> allocator<void *>::~allocator(); }
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_insert@?$hashtable@U?$pair@$$CBW4NameKeyType@@VFXList@@@_STL@@W4NameKeyType@@U?$hash@W:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum NameKeyType; class FXList;
+namespace _STL { template <> pair<NameKeyType const ,FXList> & hashtable<pair<NameKeyType const ,FXList>,NameKeyType,rts::hash<NameKeyType>,_Select1st<pair<NameKeyType const ,FXList> >,rts::equal_to<NameKeyType>,allocator<pair<NameKeyType const ,FXList> > >::_M_insert(pair<NameKeyType const ,FXList> const &); }
+// Suppress this TU's non-retail copy of ?resize@?$hashtable@U?$pair@$$CBW4NameKeyType@@VFXList@@@_STL@@W4NameKeyType@@U?$hash@W4Na:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum NameKeyType; class FXList;
+namespace _STL { template <> void hashtable<pair<NameKeyType const ,FXList>,NameKeyType,rts::hash<NameKeyType>,_Select1st<pair<NameKeyType const ,FXList> >,rts::equal_to<NameKeyType>,allocator<pair<NameKeyType const ,FXList> > >::resize(unsigned int); }
+// Suppress this TU's non-retail copy of ?_M_next_size@?$hashtable@U?$pair@$$CBW4NameKeyType@@VFXList@@@_STL@@W4NameKeyType@@U?$has:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum NameKeyType; class FXList;
+namespace _STL { template <> unsigned int hashtable<pair<NameKeyType const ,FXList>,NameKeyType,rts::hash<NameKeyType>,_Select1st<pair<NameKeyType const ,FXList> >,rts::equal_to<NameKeyType>,allocator<pair<NameKeyType const ,FXList> > >::_M_next_size(unsigned int) const; }
+// Suppress this TU's non-retail copy of ?_M_new_node@?$hashtable@U?$pair@$$CBW4NameKeyType@@VFXList@@@_STL@@W4NameKeyType@@U?$hash:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum NameKeyType; class FXList;
+namespace _STL { template <> _Hashtable_node<pair<NameKeyType const ,FXList> > * hashtable<pair<NameKeyType const ,FXList>,NameKeyType,rts::hash<NameKeyType>,_Select1st<pair<NameKeyType const ,FXList> >,rts::equal_to<NameKeyType>,allocator<pair<NameKeyType const ,FXList> > >::_M_new_node(pair<NameKeyType const ,FXList> const &); }
+// Suppress this TU's non-retail copy of ??$_Construct@U?$pair@$$CBW4NameKeyType@@VFXList@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBW4Nam:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum NameKeyType; class FXList;
+namespace _STL { template <> void _Construct<pair<NameKeyType const ,FXList>,pair<NameKeyType const ,FXList> >(pair<NameKeyType const ,FXList> *,pair<NameKeyType const ,FXList> const &); }
+// Suppress this TU's non-retail copy of ??0?$_List_base@PAVFXNugget@@V?$allocator@PAVFXNugget@@@_STL@@@_STL@@QAE@ABV?$allocator@PA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class FXNugget;
+namespace _STL { template <> _List_base<FXNugget *,allocator<FXNugget *> >::_List_base(allocator<FXNugget *> const &); }
+// Suppress this TU's non-retail copy of ??0?$pair@$$CBW4NameKeyType@@VFXList@@@_STL@@QAE@ABU01@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum NameKeyType; class FXList;
+namespace _STL { template <> pair<NameKeyType const ,FXList>::pair(pair<NameKeyType const ,FXList> const &); }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // PUBLIC DATA ////////////////////////////////////////////////////////////////////////////////////
@@ -67,7 +132,9 @@
 FXListStore *TheFXListStore = NULL;					///< the FXList store definition
 
 //-------------------------------------------------------------------------------------------------
-static void adjustVector(Coord3D *vec, const Matrix3D* mtx)
+// Zero Hour's helper is static; here it is select-any: DynamicDecalFXNuggetDoFXPos.cpp calls it,
+// and ParticleSystemFXNuggetReallyDoFX.cpp carries a visible copy for its caller's frame layout.
+__declspec(noinline) inline void adjustVector(Coord3D *vec, const Matrix3D* mtx)
 {
 	if (mtx)
 	{
@@ -76,9 +143,9 @@ static void adjustVector(Coord3D *vec, const Matrix3D* mtx)
 		vectmp.Y = vec->y;
 		vectmp.Z = vec->z;
 		vectmp = mtx->Rotate_Vector(vectmp);
-		vec->x = vectmp.X;
-		vec->y = vectmp.Y;
-		vec->z = vectmp.Z;
+		// Coord3D and Vector3 are the witnessed 12-byte float triplets.
+		// Preserve the aggregate copy from the returned rotation temporary.
+		*vec = *reinterpret_cast<const Coord3D *>(&vectmp);
 	}
 }
 
@@ -87,6 +154,7 @@ static void adjustVector(Coord3D *vec, const Matrix3D* mtx)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 //-------------------------------------------------------------------------------------------------
+// ?doFXObj@FXNugget@@ present-unmatched
 void FXNugget::doFXObj(const Object* primary, const Object* secondary) const
 {
 	const Coord3D* p = primary ? primary->getPosition() : NULL;
@@ -97,7 +165,7 @@ void FXNugget::doFXObj(const Object* primary, const Object* secondary) const
 }
 
 //-------------------------------------------------------------------------------------------------
-class SoundFXNugget : public FXNugget
+class __declspec(novtable) SoundFXNugget : public FXNugget
 {
 	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE(SoundFXNugget, "SoundFXNugget")		
 	
@@ -115,17 +183,9 @@ public:
 		TheAudio->addAudioEvent(&sound);
 	}
 
-	virtual void doFXObj(const Object* primary, const Object* secondary = NULL) const
-	{
-		AudioEventRTS sound(m_soundName);
-		if (primary)
-		{
-			sound.setPlayerIndex(primary->getControllingPlayer()->getPlayerIndex());
-			sound.setPosition(primary->getPosition());
-		}
-
-		TheAudio->addAudioEvent(&sound);
-	}
+	// Defined out of line in SoundFXNuggetSlots.cpp (retail 0x001E012E): the inline ZH
+	// port copy compiled differently and would be a conflicting COMDAT definition.
+	virtual void doFXObj(const Object* primary, const Object* secondary = NULL) const;
 
 
 	static void parse(INI *ini, void *instance, void* /*store*/, const void* /*userData*/)
@@ -143,6 +203,8 @@ public:
 
 private:
 	AsciiString		m_soundName;
+public:
+	SoundFXNugget();
 };  
 EMPTY_DTOR(SoundFXNugget)
 
@@ -206,9 +268,9 @@ public:
 			}
 
 			TracerDrawInterface* tdi = NULL;
-			for (DrawModule** d = tracer->getDrawModules(); *d; ++d)
+			for (DrawModule** drawModule = tracer->getDrawModules(); *drawModule; ++drawModule)
 			{
-				if ((tdi = (*d)->getTracerDrawInterface()) != NULL)
+				if ((tdi = (*drawModule)->getTracerDrawInterface()) != NULL)
 				{
 					tdi->setTracerParms(speed, m_length, m_width, m_color, 1.0f);
 				}
@@ -259,23 +321,18 @@ private:
 EMPTY_DTOR(TracerFXNugget)
 
 //-------------------------------------------------------------------------------------------------
-class RayEffectFXNugget : public FXNugget
+class __declspec(novtable) RayEffectFXNugget : public FXNugget
 {
 	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE(RayEffectFXNugget, "RayEffectFXNugget")		
 public:
 
-	RayEffectFXNugget()
-	{
-		m_templateName.clear();
-		m_primaryOffset.x = m_primaryOffset.y = m_primaryOffset.z = 0;
-		m_secondaryOffset.x = m_secondaryOffset.y = m_secondaryOffset.z = 0;
-	}
+	RayEffectFXNugget();
 
 	virtual void doFXPos(const Coord3D *primary, const Matrix3D* /*primaryMtx*/, const Real /*primarySpeed*/, const Coord3D * secondary, const Real /*overrideRadius*/ ) const
 	{
-		const ThingTemplate* tmpl = TheThingFactory->findTemplate(m_templateName);
-		DEBUG_ASSERTCRASH(tmpl, ("RayEffect %s not found\n",m_templateName.str()));
-		if (primary && secondary && tmpl)
+		const ThingTemplate* thingTemplate = TheThingFactory->findTemplate(m_templateName);
+		DEBUG_ASSERTCRASH(thingTemplate, ("RayEffect %s not found\n",m_templateName.str()));
+		if (primary && secondary && thingTemplate)
 		{
 			Coord3D sourcePos = *primary;
 			sourcePos.x += m_primaryOffset.x;
@@ -287,7 +344,7 @@ public:
 			targetPos.y += m_secondaryOffset.y;
 			targetPos.z += m_secondaryOffset.z;
 
-			TheGameClient->createRayEffectByTemplate(&sourcePos, &targetPos, tmpl);
+			TheGameClient->createRayEffectByTemplate(&sourcePos, &targetPos, thingTemplate);
 		}
 		else
 		{
@@ -323,27 +380,9 @@ class LightPulseFXNugget : public FXNugget
 	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE(LightPulseFXNugget, "LightPulseFXNugget")		
 public:
 
-	LightPulseFXNugget() : m_radius(0), m_increaseFrames(0), m_decreaseFrames(0), m_boundingCirclePct(0)
-	{
-		m_color.red = m_color.green = m_color.blue = 0;
-	}
+	LightPulseFXNugget();
 
-	virtual void doFXObj(const Object* primary, const Object* /*secondary*/) const
-	{
-		if (primary)
-		{
-			Real radius = m_radius;
-
-			if (m_boundingCirclePct > 0)
-				radius = (primary->getGeometryInfo().getBoundingCircleRadius() * m_boundingCirclePct);
-
-			TheDisplay->createLightPulse(primary->getPosition(), &m_color, 1, radius, m_increaseFrames, m_decreaseFrames);
-		}
-		else
-		{
-			DEBUG_CRASH(("You must have a primary source for this effect"));
-		}
-	}
+	virtual void doFXObj(const Object* primary, const Object* /*secondary*/);
 
 	virtual void doFXPos(const Coord3D *primary, const Matrix3D* /*primaryMtx*/, const Real /*primarySpeed*/, const Coord3D * /*secondary*/, const Real /*overrideRadius*/ ) const
 	{
@@ -357,22 +396,7 @@ public:
 		}
 	}
 
-	static void parse(INI *ini, void *instance, void* /*store*/, const void* /*userData*/)
-	{
-		static const FieldParse myFieldParse[] = 
-		{
-			{ "Color",						INI::parseRGBColor,								NULL, offsetof( LightPulseFXNugget, m_color ) },
-			{ "Radius",						INI::parseReal,										NULL, offsetof( LightPulseFXNugget, m_radius ) },
-			{ "RadiusAsPercentOfObjectSize",		INI::parsePercentToReal,	NULL, offsetof( LightPulseFXNugget, m_boundingCirclePct ) },
-			{ "IncreaseTime",			INI::parseDurationUnsignedInt,	NULL, offsetof( LightPulseFXNugget, m_increaseFrames ) },
-			{ "DecreaseTime",			INI::parseDurationUnsignedInt,	NULL, offsetof( LightPulseFXNugget, m_decreaseFrames ) },
-			{ 0, 0, 0, 0 }
-		};
-
-		LightPulseFXNugget* nugget = newInstance( LightPulseFXNugget );	
-		ini->initFromINI(nugget, myFieldParse);
-		((FXList*)instance)->addFXNugget(nugget);
-	}
+	static void parse(INI *ini, void *instance, void* /*store*/, const void* /*userData*/);
 
 private:
 	RGBColor			m_color;
@@ -389,9 +413,7 @@ class ViewShakeFXNugget : public FXNugget
 	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE(ViewShakeFXNugget, "ViewShakeFXNugget")		
 public:
 
-	ViewShakeFXNugget() : m_shake(View::SHAKE_NORMAL)
-	{
-	}
+	ViewShakeFXNugget();
 
 	virtual void doFXPos(const Coord3D *primary, const Matrix3D* /*primaryMtx*/, const Real /*primarySpeed*/, const Coord3D * /*secondary*/, const Real /*overrideRadius*/ ) const
 	{
@@ -406,18 +428,7 @@ public:
 		}
 	}
 
-	static void parse(INI *ini, void *instance, void* /*store*/, const void* /*userData*/)
-	{
-		static const FieldParse myFieldParse[] = 
-		{
-			{ "Type",				parseShakeType,								NULL, offsetof( ViewShakeFXNugget, m_shake ) },
-			{ 0, 0, 0, 0 }
-		};
-
-		ViewShakeFXNugget* nugget = newInstance( ViewShakeFXNugget );	
-		ini->initFromINI(nugget, myFieldParse);
-		((FXList*)instance)->addFXNugget(nugget);
-	}
+	static void parse(INI *ini, void *instance, void* /*store*/, const void* /*userData*/);
 
 protected:
 	static void parseShakeType( INI* ini, void *instance, void *store, const void* /*userData*/ )
@@ -447,9 +458,7 @@ class TerrainScorchFXNugget : public FXNugget
 	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE(TerrainScorchFXNugget, "TerrainScorchFXNugget")		
 public:
 
-	TerrainScorchFXNugget() : m_scorch(-1), m_radius(0)
-	{
-	}
+	TerrainScorchFXNugget();
 
 	virtual void doFXPos(const Coord3D *primary, const Matrix3D* /*primaryMtx*/, const Real /*primarySpeed*/, const Coord3D * /*secondary*/, const Real /*overrideRadius*/ ) const
 	{
@@ -468,19 +477,7 @@ public:
 		}
 	}
 
-	static void parse(INI *ini, void *instance, void* /*store*/, const void* /*userData*/)
-	{
-		static const FieldParse myFieldParse[] = 
-		{
-			{ "Type",				parseScorchType,			NULL, offsetof( TerrainScorchFXNugget, m_scorch ) },
-			{ "Radius",			INI::parseReal,				NULL, offsetof( TerrainScorchFXNugget, m_radius ) },
-			{ 0, 0, 0, 0 }
-		};
-
-		TerrainScorchFXNugget* nugget = newInstance( TerrainScorchFXNugget );	
-		ini->initFromINI(nugget, myFieldParse);
-		((FXList*)instance)->addFXNugget(nugget);
-	}
+	static void parse(INI *ini, void *instance, void* /*store*/, const void* /*userData*/);
 
 protected:
 
@@ -504,6 +501,14 @@ private:
 	Real	m_radius;
 };  
 EMPTY_DTOR(TerrainScorchFXNugget)
+
+// Address-derived ABI view for the Ghidra function at 0x001E19E8.
+// Its original helper identity is unresolved.
+class Rva001E19E8CallView
+{
+public:
+	void call(const Coord3D*, const Matrix3D*, const Object*, const Object*) const;
+};
 
 //-------------------------------------------------------------------------------------------------
 class ParticleSystemFXNugget : public FXNugget
@@ -543,8 +548,7 @@ public:
 	{
 		if (primary)
 		{
-
-			if (m_ricochet && secondary)
+			if (*(const Bool *)((const char *)this + 0x195) && secondary)
 			{
 				// HERE WE MUST BUILD A MATRIX WHICH WILL ORIENT THE NEW PARTICLE SYSTEM TO FACE AWAY FROM THE SECONDARY OBJECT
 				// THE RESULT SHOULD LOOK LIKE THE DIRECTION OF THE "ATTACK" IS CARRIED THROUGH LIKE A RICOCHET
@@ -554,12 +558,14 @@ public:
 				Matrix3D aimingMatrix(1);
 				aimingMatrix.Rotate_Z( aimingAngle );
 
-				reallyDoFX(primary->getPosition(), &aimingMatrix, primary, 0.0f);
+				reinterpret_cast<const Rva001E19E8CallView *>(this)->call(
+					primary->getPosition(), &aimingMatrix, primary, secondary);
 			}
 			else
 				// if we have an object, then adjust the offset and direction by the object's transformation
 				// matrix, so that (say) an offset of +10 in the z axis "follows" the orientation of the object.
-				reallyDoFX(primary->getPosition(), primary->getTransformMatrix(), primary, 0.0f);
+				reinterpret_cast<const Rva001E19E8CallView *>(this)->call(
+					primary->getPosition(), primary->getTransformMatrix(), primary, secondary);
 		}
 		else
 		{
@@ -603,13 +609,13 @@ protected:
 			adjustVector(&offset, mtx);
 		}
 
-		const ParticleSystemTemplate *tmp = TheParticleSystemManager->findTemplate(m_name);
-		DEBUG_ASSERTCRASH(tmp, ("ParticleSystem %s not found\n",m_name.str()));
-		if (tmp)
+		const ParticleSystemTemplate *particleSystemTemplate = TheParticleSystemManager->findTemplate(m_name);
+		DEBUG_ASSERTCRASH(particleSystemTemplate, ("ParticleSystem %s not found\n",m_name.str()));
+		if (particleSystemTemplate)
 		{
 			for (Int i = 0; i < m_count; i++ )
 			{
-				ParticleSystem *sys = TheParticleSystemManager->createParticleSystem(tmp);
+				ParticleSystem *sys = TheParticleSystemManager->createParticleSystem(particleSystemTemplate);
 				if (sys)
 				{
 					Coord3D newPos;
@@ -736,25 +742,8 @@ public:
 
 protected:
 
-	void doFxAtBones(const Object* obj, Int start) const
-	{
-    Coord3D bonePos[MAX_BONE_POINTS];
-    Matrix3D boneMtx[MAX_BONE_POINTS];
-
-    Drawable* draw = obj->getDrawable();
-		if (draw)
-		{
-			// yes, BONEPOS_CURRENT_CLIENT_ONLY -- this is client-only, so should be safe to do.
-			Int count = draw->getCurrentClientBonePositions(m_boneName.str(), start, bonePos, boneMtx, MAX_BONE_POINTS);
-			for (Int i = 0; i < count; ++i)
-			{
-				Coord3D p;
-				Matrix3D m;
-				obj->convertBonePosToWorldPos(&bonePos[i], &boneMtx[i], &p, &m);
-				FXList::doFXPos(m_fx, &p, &m, 0.0f, NULL, 0.0f);
-			}
-		}
-	}
+	// Rowed in FXListAtBonePosFXNugget_doFxAtBones.cpp (0x001E2DD6); this unit only calls it.
+	void doFxAtBones(const Object* obj, Int start) const;
 
 private:
 
@@ -771,7 +760,9 @@ EMPTY_DTOR(FXListAtBonePosFXNugget)
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 
-static const FieldParse TheFXListFieldParse[] =
+// Retain the donor nugget helper emissions. This unreferenced reference table
+// is removed by link-time /OPT:REF; FXListStoreParse.cpp owns the native table.
+extern const FieldParse BfmeReferenceFXListFieldParse[] =
 {
 	{ "Sound",											SoundFXNugget::parse, 0, 0},		
 	{ "RayEffect",									RayEffectFXNugget::parse, 0, 0},		
@@ -790,18 +781,31 @@ FXList::FXList()
 }
 
 //-------------------------------------------------------------------------------------------------
+// ??1FXList@@ present-unmatched
 FXList::~FXList()
 {
 	clear();
 }
 
+// Retail 0x001E11A6 calls vtable slot 0 with a zero flag, then passes its
+// returned allocation to operator delete. This is only that call-site ABI
+// view; target bytes do not establish the slot's C++ class name.
+class Rva001E11A6DeleteSlot0
+{
+public:
+	virtual void *deleteInstance(int flags);
+};
+
 //-------------------------------------------------------------------------------------------------
+// The unique BFME1 donor placement supplies the clear name. Retail bytes at
+// 0x001E11A6 independently show the sentinel walk and the list-base tailcall.
 void FXList::clear()
 {
 	for (FXNuggetList::iterator it = m_nuggets.begin(); it != m_nuggets.end(); ++it)
 	{
-		if (*it)
-			(*it)->deleteInstance();
+		Rva001E11A6DeleteSlot0 *nugget = (Rva001E11A6DeleteSlot0 *)*it;
+		if (nugget)
+			::operator delete(nugget->deleteInstance(0));
 	}
 	m_nuggets.clear();
 }
@@ -819,18 +823,6 @@ void FXList::doFXPos(const Coord3D *primary, const Matrix3D* primaryMtx, const R
 }
 
 //-------------------------------------------------------------------------------------------------
-void FXList::doFXObj(const Object* primary, const Object* secondary) const
-{
-	if (primary && primary->getShroudedStatus(ThePlayerList->getLocalPlayer()->getPlayerIndex()) > OBJECTSHROUD_PARTIAL_CLEAR)
-		return;	//the primary object is fogged or shrouded so don't bother with the effect.
-
-	for (FXNuggetList::const_iterator it = m_nuggets.begin(); it != m_nuggets.end(); ++it)
-	{
-
-		// HERE THE PRIMARY IS THE GUY RECEIVING THE FX, AND SECONDARY MIGHT BE THE GUY DEALING IT
-		(*it)->doFXObj(primary, secondary);
-	}
-}
 
 
 
@@ -839,40 +831,23 @@ void FXList::doFXObj(const Object* primary, const Object* secondary) const
 //-------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------
-FXListStore::FXListStore()
-{
-}
-
+// ??0FXListStore@@ present-unmatched
 //-------------------------------------------------------------------------------------------------
+// ??1FXListStore@@ present-unmatched
 FXListStore::~FXListStore()
 {
 	m_fxmap.clear();
 }
 
 //-------------------------------------------------------------------------------------------------
-const FXList *FXListStore::findFXList(const char* name) const
-{
-	if (stricmp(name, "None") == 0)
-		return NULL;
-
-  FXListMap::const_iterator it = m_fxmap.find(NAMEKEY(name));
-  if (it != m_fxmap.end()) 
-	{
-		return &(*it).second;
-	}
-	return NULL;
-}
+// FXListStore::findFXList: defined in FXListStoreFindFXList.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
-/*static */ void FXListStore::parseFXListDefinition(INI *ini)
-{
-	// read the FXList name
-	const char *c = ini->getNextToken();
-	NameKeyType key = TheNameKeyGenerator->nameToKey(c);
-	FXList& fxl = TheFXListStore->m_fxmap[key];
-	fxl.clear();
-	ini->initFromINI(&fxl, TheFXListFieldParse);
-}
+// The native parser and its table are owned by FXListStoreParse.cpp.
+// Explicitly retain the already-matched implicit FXList copy constructor;
+// the removed reference parser formerly instantiated this value-map member.
+template FXList &std::hash_map<NameKeyType, FXList, rts::hash<NameKeyType>,
+    rts::equal_to<NameKeyType> >::operator[](const NameKeyType &);
 
 //-------------------------------------------------------------------------------------------------
 /*static*/ void INI::parseFXListDefinition(INI *ini)

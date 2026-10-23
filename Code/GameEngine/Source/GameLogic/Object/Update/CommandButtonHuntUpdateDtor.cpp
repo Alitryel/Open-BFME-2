@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 
 // ??1CommandButtonHuntUpdate@@MAE@XZ, retail 0x00495389, 73 bytes.
 // Dtor lane: restores three vptrs (+0 0x0084ECFC plus +0x0C 0x007EFF90 plus
@@ -13,14 +13,7 @@ class Thing;
 class ModuleData;
 class Object;
 
-class AsciiString
-{
-public:
-	~AsciiString();
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class PB_DeepBase
 {

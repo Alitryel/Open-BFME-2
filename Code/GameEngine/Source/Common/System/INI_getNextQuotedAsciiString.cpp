@@ -1,4 +1,4 @@
-// cl: /O1 /Oi- /EHsc /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /Ireference/shims/bfme2_ascii /Oi- /EHsc /MD /DNDEBUG /DWIN32 /D_WINDOWS
 // INI::getNextQuotedAsciiString (retail 0x002E93F, 272 bytes). BFME2
 // adaptation of the Zero Hour donor: reads one (possibly quoted,
 // space-spanning) token into a line buffer, then materializes it as the
@@ -17,27 +17,8 @@ extern "C" char *__cdecl _mbscat(char *dest, const char *source);
 
 template <typename T> struct BfmeStringData;
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	void releaseBuffer();
+#include "ascii_string.h"
 
-public:
-	StringBase() : m_data(0) {}
-	~StringBase();
-	void set(const T *text);
-
-protected:
-	BfmeStringData<T> *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString() {}
-};
 
 class INI
 {

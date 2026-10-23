@@ -1,4 +1,4 @@
-// cl: /Og /Os /Ob1 /arch:SSE /GX- /G7 /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /Ob1 /GX- /MD /DNDEBUG /DWIN32 /D_WINDOWS
 // stlport
 //
 // ??0BannerCarrierUpdateModuleData@@QAE@XZ, retail 0x00496FA5, 149 bytes.
@@ -36,6 +36,12 @@
 // init would instead call the 18B vector-alloc thunk). Body order otherwise
 // follows retail.
 
+extern "C" const void *const vtbl_00C4F870[];  // ??_7BannerCarrierUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4F870=??_7BannerCarrierUpdateModuleData@@6B@")
+
+extern int BfmeLogicFramesPerSecond;
+
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 
 struct BfmeMorphCondition;
@@ -51,7 +57,7 @@ template<> _Vector_base<BfmeMorphCondition *, allocator<BfmeMorphCondition *> >:
 template<> _Vector_base<BfmeExpLevelDraw *, allocator<BfmeExpLevelDraw *> >::_Vector_base(const allocator<BfmeExpLevelDraw *> &);
 }
 
-#define LogicFramesPerSecond (*(const int *)0x00DBA4E4)
+#define LogicFramesPerSecond BfmeLogicFramesPerSecond
 
 class BannerCarrierUpdateModuleData
 {
@@ -76,8 +82,18 @@ private:
 };
 
 // ??0BannerCarrierUpdateModuleData@@QAE@XZ @0x496FA5
+// bfme link decl-only begin
+namespace _STL { template <> _Vector_base<BfmeExpLevelDraw *,_STL::allocator<BfmeExpLevelDraw *> >::~_Vector_base(); }
+namespace _STL { template <> _Vector_base<BfmeMorphCondition *,_STL::allocator<BfmeMorphCondition *> >::~_Vector_base(); }
+namespace _STL { template <> vector<BfmeExpLevelDraw *,_STL::allocator<BfmeExpLevelDraw *> >::~vector(); }
+namespace _STL { template <> vector<BfmeMorphCondition *,_STL::allocator<BfmeMorphCondition *> >::~vector(); }
+namespace _STL { template <> void _STLP_alloc_proxy<BfmeExpLevelDraw * *,BfmeExpLevelDraw *,_STL::allocator<BfmeExpLevelDraw *> >::deallocate(BfmeExpLevelDraw * *,unsigned int); }
+namespace _STL { template <> void _STLP_alloc_proxy<BfmeMorphCondition * *,BfmeMorphCondition *,_STL::allocator<BfmeMorphCondition *> >::deallocate(BfmeMorphCondition * *,unsigned int); }
+namespace _STL { template <> void allocator<BfmeExpLevelDraw *>::deallocate(BfmeExpLevelDraw * *,unsigned int) const; }
+namespace _STL { template <> void allocator<BfmeMorphCondition *>::deallocate(BfmeMorphCondition * *,unsigned int) const; }
+// bfme link decl-only end
 BannerCarrierUpdateModuleData::BannerCarrierUpdateModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C4F870))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C4F870)))
 	, m_upgradeRequired(0)
 {
 	m_idleSpawnRate = LogicFramesPerSecond * 15;

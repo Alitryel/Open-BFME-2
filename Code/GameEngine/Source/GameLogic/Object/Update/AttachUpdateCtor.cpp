@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??0AttachUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x00491A0F,
 // 89 bytes. Behavior-side ctor completing the AttachUpdate file-unit
@@ -17,6 +17,40 @@
 // Zero new pins (base ctor resolves via its row; setWakeFrame resolves via
 // the existing IAEX Object-uint pin at 0x44DF71).
 
+extern "C" const void *const vtbl_00BEFF90[];  // folded, 80 classes; via ??_7AIGateUpdate@@6BBehaviorModuleOther@@@
+#pragma comment(linker, "/alternatename:_vtbl_00BEFF90=??_7AIGateUpdate@@6BBehaviorModuleOther@@@")
+
+extern "C" const void *const vtbl_00C4DB14[];  // ??_7Rva0049188D@@6BRva0049188D_B2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4DB14=??_7Rva0049188D@@6BRva0049188D_B2@@@")
+// The retail table at RVA 0x0084DB20: 13 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva0049188D@@UAEPAXI@Z")();
+void __identifier("?loadPostProcess@Rva00497805@@MAEXXZ")();
+void __identifier("?name@Rva004918A6Named@@QBEPBDXZ")();
+void __identifier("?xfer@AttachUpdate@@MAEXPAVXfer@@@Z")();
+void __identifier("?getModuleNameKey@AttachUpdate@@UBE?AW4NameKeyType@@XZ")();
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+void __identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z")();
+void __identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")();
+void __identifier("?getUpdatePhase@UpdateModule@@MBE?AW4SleepyUpdatePhase@@XZ")();
+}
+extern "C" const void *const vtbl_00C4DB20[13] = {
+	(const void *)&__identifier("??_GRva0049188D@@UAEPAXI@Z"), // slot 0 0x00491A68
+	(const void *)&__identifier("?loadPostProcess@Rva00497805@@MAEXXZ"), // slot 1 0x00497805
+	(const void *)&__identifier("?name@Rva004918A6Named@@QBEPBDXZ"), // slot 2 0x004918A6
+	(const void *)&__identifier("?xfer@AttachUpdate@@MAEXPAVXfer@@@Z"), // slot 3 0x004918AC
+	(const void *)&__identifier("?getModuleNameKey@AttachUpdate@@UBE?AW4NameKeyType@@XZ"), // slot 4 0x00491912
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 5 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 6 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 7 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 8 0x000B3FD0
+	(const void *)&__identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z"), // slot 9 0x0050B238
+	(const void *)&__identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z"), // slot 10 0x000D43D0
+	(const void *)&__identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z"), // slot 11 0x000D43D0
+	(const void *)&__identifier("?getUpdatePhase@UpdateModule@@MBE?AW4SleepyUpdatePhase@@XZ"), // slot 12 0x0022C4CB
+};
+
 class Thing;
 class ModuleData;
 class Object;
@@ -33,7 +67,7 @@ public:
 	~UpdateModule();
 
 protected:
-	void setWakeFrame(Object *object, unsigned int frame);
+	void setWakeFrame(Object *object, UpdateSleepTime frame);
 
 	const void *m_vtable;
 	const ModuleData *m_moduleData;
@@ -61,8 +95,8 @@ AttachUpdate::AttachUpdate(Thing *thing, const ModuleData *moduleData)
 	m_20(0),
 	m_24(-1)
 {
-	m_vtable = (const void *)0x00C4DB20;
-	m_secondary0C = (const void *)0x00BEFF90;
-	m_secondary10 = (const void *)0x00C4DB14;
-	setWakeFrame(m_object, UPDATE_SLEEP_NONE);
+	m_vtable = (const void *)((unsigned int)vtbl_00C4DB20);
+	m_secondary0C = (const void *)((unsigned int)vtbl_00BEFF90);
+	m_secondary10 = (const void *)((unsigned int)vtbl_00C4DB14);
+	setWakeFrame(m_object, (UpdateSleepTime)UPDATE_SLEEP_NONE);
 }

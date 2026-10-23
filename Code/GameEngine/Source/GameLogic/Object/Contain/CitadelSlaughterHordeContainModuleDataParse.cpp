@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // CitadelSlaughterHordeContainModuleData parse-unit.
 //
@@ -12,6 +12,7 @@
 class MultiIniFieldParse;
 struct FieldParse;
 
+extern const int s_citadelSlaughterFieldTable[];
 class MultiIniFieldParse
 {
 public:
@@ -34,5 +35,5 @@ public:
 void CitadelSlaughterHordeContainModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	SlaughterHordeContainModuleData::buildFieldParse(parse);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00C48890), 0);
+	parse.add(reinterpret_cast<const FieldParse *>(s_citadelSlaughterFieldTable), 0);
 }

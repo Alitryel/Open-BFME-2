@@ -1,7 +1,21 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// Link view first: Matrix3D(), Matrix3D(bool) and Matrix3D(const Matrix3D&) stay inline without
+// emitting /O2 copies that compete with retail's owners (0x000423C5, 0x0004C91A, 0x0006645C).
+#include "../../../../../../reference/shims/bfme_matrix3d_full_link/matrix3d_full_link.h"
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/GameLogic/Object/Update/LaserUpdate.cpp); this unit had no counterpart under Code/.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -66,29 +80,13 @@
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-LaserUpdateModuleData::LaserUpdateModuleData()
-{
-	m_punchThroughScalar = 0.0f;
-}
+// LaserUpdateModuleData::LaserUpdateModuleData owned by LaserUpdateModuleDataCtor.cpp (row at 0x00363147).
 
-//-------------------------------------------------------------------------------------------------
-/*static*/ void LaserUpdateModuleData::buildFieldParse(MultiIniFieldParse& p)
-{
-	ModuleData::buildFieldParse(p);
-
-	static const FieldParse dataFieldParse[] = 
-	{
-		{ "MuzzleParticleSystem",		INI::parseAsciiString,	NULL, offsetof( LaserUpdateModuleData, m_particleSystemName ) },
-		{ "TargetParticleSystem",		INI::parseAsciiString,  NULL, offsetof( LaserUpdateModuleData, m_targetParticleSystemName ) },
-		{ "PunchThroughScalar",			INI::parseReal,					NULL, offsetof( LaserUpdateModuleData, m_punchThroughScalar ) },
-		{ 0, 0, 0, 0 }
-	};
-	p.add(dataFieldParse);
-}
+// LaserUpdateModuleData::buildFieldParse owned by ModuleDataBuildFieldParse.cpp (row at 0x00363166).
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-LaserUpdate::LaserUpdate( Thing *thing, const ModuleData* moduleData ) : ClientUpdateModule( thing, moduleData )
+inline LaserUpdate::LaserUpdate( Thing *thing, const ModuleData* moduleData ) : ClientUpdateModule( thing, moduleData )
 {
 	//Added By Sadullah Nader
 	//Initialization missing and needed
@@ -123,6 +121,7 @@ LaserUpdate::~LaserUpdate( void )
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?LaserUpdate::updateStartPos present-unmatched
 void LaserUpdate::updateStartPos()
 {
 	Coord3D oldStartPos = m_startPos;
@@ -170,6 +169,7 @@ void LaserUpdate::updateStartPos()
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?LaserUpdate::updateEndPos present-unmatched
 void LaserUpdate::updateEndPos()
 {
 	const LaserUpdateModuleData *data = getLaserUpdateModuleData();
@@ -212,40 +212,9 @@ void LaserUpdate::updateEndPos()
 //-------------------------------------------------------------------------------------------------
 /** The update callback. */
 //-------------------------------------------------------------------------------------------------
-void LaserUpdate::clientUpdate( void )
-{
-	updateStartPos();
-	updateEndPos();
 
-	if( m_decaying )
-	{
-		UnsignedInt now = TheGameLogic->getFrame();
-		m_currentWidthScalar = 1.0f - (Real)(now - m_decayStartFrame) / (Real)(m_decayFinishFrame - m_decayStartFrame);
-		m_dirty = true;
-		if( m_currentWidthScalar <= 0.0f )
-		{
-			m_currentWidthScalar = 0.0f;
 
-			//When decay is finished... delete the laser.
-			//TheGameLogic->destroyObject( getObject() );
-			return;
-		}
-	}
-	else if( m_widening )
-	{
-		//We need to resize our laser width based on the growth ratio completed.
-		UnsignedInt now = TheGameLogic->getFrame();
-		m_currentWidthScalar = (Real)(now - m_widenStartFrame) / (Real)(m_widenFinishFrame - m_widenStartFrame);
-		m_dirty = true;
-		if( m_currentWidthScalar >= 1.0f )
-		{
-			m_currentWidthScalar = 1.0f;
-			m_widening = false;
-		}
-	}
-	return;
-}
-
+// ?LaserUpdate::setDecayFrames present-unmatched
 void LaserUpdate::setDecayFrames( UnsignedInt decayFrames )
 {
 	if( decayFrames > 0 )
@@ -259,6 +228,7 @@ void LaserUpdate::setDecayFrames( UnsignedInt decayFrames )
 
 
 //-------------------------------------------------------------------------------------------------
+// ?LaserUpdate::initLaser present-unmatched
 void LaserUpdate::initLaser( const Object *parent, const Object *target, const Coord3D *startPos, const Coord3D *endPos, AsciiString parentBoneName, Int sizeDeltaFrames )
 {
 	const LaserUpdateModuleData *data = getLaserUpdateModuleData();
@@ -335,10 +305,10 @@ void LaserUpdate::initLaser( const Object *parent, const Object *target, const C
 			//If we don't have a particle system for the lense flare (muzzle flare), create it.
 			if( data->m_particleSystemName.isNotEmpty() )
 			{
-				const ParticleSystemTemplate *tmp = TheParticleSystemManager->findTemplate( data->m_particleSystemName );
-				if( tmp )
+				const ParticleSystemTemplate *particleSystemTemplate = TheParticleSystemManager->findTemplate( data->m_particleSystemName );
+				if( particleSystemTemplate )
 				{
-					system = TheParticleSystemManager->createParticleSystem( tmp );
+					system = TheParticleSystemManager->createParticleSystem( particleSystemTemplate );
 					if( system )
 					{
 						m_particleSystemID = system->getSystemID();
@@ -349,10 +319,10 @@ void LaserUpdate::initLaser( const Object *parent, const Object *target, const C
 			//If we don't have a particle system for the target effect, create it.
 			if( data->m_targetParticleSystemName.isNotEmpty() )
 			{
-				const ParticleSystemTemplate *tmp = TheParticleSystemManager->findTemplate( data->m_targetParticleSystemName );
-				if( tmp )
+				const ParticleSystemTemplate *particleSystemTemplate = TheParticleSystemManager->findTemplate( data->m_targetParticleSystemName );
+				if( particleSystemTemplate )
 				{
-					system = TheParticleSystemManager->createParticleSystem( tmp );
+					system = TheParticleSystemManager->createParticleSystem( particleSystemTemplate );
 					if( system )
 					{
 						m_targetParticleSystemID = system->getSystemID();
@@ -408,28 +378,10 @@ void LaserUpdate::initLaser( const Object *parent, const Object *target, const C
 }
 
 //-------------------------------------------------------------------------------------------------
-Real LaserUpdate::getCurrentLaserRadius() const
-{
-	const Drawable *draw = getDrawable();
-	const LaserDrawInterface* ldi = NULL;
-	for( const DrawModule** d = draw->getDrawModules(); *d; ++d )
-	{
-		ldi = (*d)->getLaserDrawInterface();
-		if( ldi )
-		{
-			//***NOTE***
-			//While it appears the logic is accessing client data, it is actually accessing template module
-			//data from the client. This value is INI constant thus can't change. It's grouped with other 
-			//laser defining attributes and having it there makes it easier for artists.
-			return ldi->getLaserTemplateWidth() * m_currentWidthScalar;
-		}
-	}
-	return 0.0f;
-}
+// getCurrentLaserRadius is defined and byte-verified in LaserUpdateDtor.cpp.
+// The shared declaration stays in the LaserUpdate header for callers.
 
-// ------------------------------------------------------------------------------------------------
-/** CRC */
-// ------------------------------------------------------------------------------------------------
+// ?LaserUpdate::crc present-unmatched
 void LaserUpdate::crc( Xfer *xfer )
 {
 
@@ -443,63 +395,12 @@ void LaserUpdate::crc( Xfer *xfer )
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
-void LaserUpdate::xfer( Xfer *xfer )
-{
-
-	// version
-	XferVersion currentVersion = 1;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
-
-	// extend base class
-	ClientUpdateModule::xfer( xfer );
-
-	// start pos
-	xfer->xferCoord3D( &m_startPos );
-
-	// end pos
-	xfer->xferCoord3D( &m_endPos );
-
-	// dirty
-	xfer->xferBool( &m_dirty );
-
-	// particle system ID
-	xfer->xferUser( &m_particleSystemID, sizeof( ParticleSystemID ) );
-
-	// target particle system id
-	xfer->xferUser( &m_targetParticleSystemID, sizeof( ParticleSystemID ) );
-
-	// widening
-	xfer->xferBool( &m_widening );
-
-	// decaying
-	xfer->xferBool( &m_decaying );
-
-	// widen start frame
-	xfer->xferUnsignedInt( &m_widenStartFrame );
-
-	// widen finish frame
-	xfer->xferUnsignedInt( &m_widenFinishFrame );
-
-	// current width scalar
-	xfer->xferReal( &m_currentWidthScalar );
-
-	// decay start frame
-	xfer->xferUnsignedInt( &m_decayStartFrame );
-
-	// decay finish frame
-	xfer->xferUnsignedInt( &m_decayFinishFrame );
-
-	xfer->xferDrawableID(&m_parentID);
-	xfer->xferDrawableID(&m_targetID);
-
-	xfer->xferAsciiString(&m_parentBoneName);
-
-}  // end xfer
+// Owned by LaserUpdateXfer.cpp.
 
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
+// ?LaserUpdate::loadPostProcess present-unmatched
 void LaserUpdate::loadPostProcess( void )
 {
 
@@ -507,3 +408,16 @@ void LaserUpdate::loadPostProcess( void )
 	ClientUpdateModule::loadPostProcess();
 
 }  // end loadPostProcess
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?loadPostProcess@Rva006DCD20@@MAEXXZ=?ForceDelete@AptValue@@UAEXXZ")
+
+// Anchor keeps the rowed base ctor (??0ClientUpdateModule 0x006CBCB0) emitted
+// after LaserUpdate::LaserUpdate became inline (select-any): calling the
+// inline ctor forces both it and its base to emit without changing their bytes.
+#pragma inline_depth(0)
+// ?RvaLaserAnchor present-unmatched
+void RvaLaserAnchor(Thing *thing, const ModuleData *moduleData) { char buf[sizeof(LaserUpdate)]; LaserUpdate *laserUpdate = ::new (buf) LaserUpdate(thing, moduleData); (void)laserUpdate; }
+#pragma inline_depth()

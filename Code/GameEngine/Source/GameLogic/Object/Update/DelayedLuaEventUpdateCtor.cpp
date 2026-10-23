@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE
+// cl: /DNDEBUG /MD /GX
 //
 // ??0DelayedLuaEventUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x004A8E7B,
 // 116 bytes. DelayedLuaEventUpdate behavior ctor over the rowed UpdateModule
@@ -51,6 +51,12 @@ public:
 	virtual void slot2() = 0;
 };
 
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1,
+	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
+};
+
 class UpdateModule : public UpdateModuleBase,
 		     public UpdateModuleInterface1,
 		     public UpdateModuleInterface2
@@ -60,7 +66,7 @@ public:
 	~UpdateModule();
 
 protected:
-	void setWakeFrame(Object *object, unsigned int frame);
+	void setWakeFrame(Object *object, UpdateSleepTime frame);
 
 	unsigned int m_nextCallFrameAndPhase;
 	int m_indexInLogic;
@@ -71,16 +77,17 @@ class DelayedLuaEventList
 {
 public:
 	DelayedLuaEventList();
-	~DelayedLuaEventList();
+	virtual ~DelayedLuaEventList();	// 0x000B6DD2
 
 private:
-	unsigned char m_data[0x4C];
+	unsigned char m_data[0x48];
 };
 
 class DelayedLuaEventUpdate : public UpdateModule
 {
 public:
 	DelayedLuaEventUpdate(Thing *thing, const ModuleData *moduleData);
+	virtual ~DelayedLuaEventUpdate();	// row 0x004A8D4A (DelayedLuaEventUpdateDtor.cpp)
 
 private:
 	unsigned int m_f20;
@@ -94,7 +101,7 @@ private:
 DelayedLuaEventUpdate::DelayedLuaEventUpdate(Thing *thing, const ModuleData *moduleData)
 	: UpdateModule(thing, moduleData), m_events()
 {
-	setWakeFrame(m_object, 0x3FFFFFFF);
+	setWakeFrame(m_object, UPDATE_SLEEP_FOREVER);
 	m_f20 = 0;
 	m_f70 = 0.0f;
 	m_f74 = false;

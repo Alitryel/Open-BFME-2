@@ -21,7 +21,15 @@ private:
 };
 
 // ?friend_newModuleInstance@DefectorSpecialPower@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *DefectorSpecialPower::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *DefectorSpecialPower::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new DefectorSpecialPower(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitDefectorSpecialPowerFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitDefectorSpecialPowerFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	DefectorSpecialPower::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

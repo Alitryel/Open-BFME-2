@@ -23,7 +23,8 @@ SAFETY IS NOT RELAXED ANYWHERE. Specifically:
     concurrent agent cannot interleave;
   * every validation add_match performs -- name already claimed, address
     already claimed, range overlapping a matched row, --replace-rva naming
-    exactly one gen-dump scaffold, ICF-owner agreement -- applied to each row;
+    exactly one anonymous scaffold (including proven imports), ICF-owner
+    agreement -- applied to each row;
   * PLUS a check add_match structurally cannot make: rows in the same batch are
     validated AGAINST EACH OTHER. A batch can collide with itself (two claims
     at one address, or two overlapping ranges), and an earlier run recorded
@@ -48,6 +49,7 @@ Usage:
 import argparse
 import csv
 import io
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -158,20 +160,21 @@ def main():
             if len(at) != 1:
                 add_match.fail(f"line {c['line']}: replace_rva 0x{old:08X} matches "
                                f"{len(at)} live rows; it retires exactly one")
-            if not at[0]["notes"].lstrip().startswith("gen-dump"):
+            if not add_match.replacement_scaffold(at[0], root):
                 add_match.fail(
                     f"line {c['line']}: replace_rva 0x{old:08X} is {at[0]['name']} "
-                    f"({at[0]['source']}), not a gen-dump scaffold row",
+                    f"({at[0]['source']}), not an anonymous scaffold row",
                     "only scaffolding may be taken over by name")
             retire[(at[0]["name"], at[0]["rva"])] = at[0]
         if by_name.get(name):
-            live = [r for r in by_name[name] if (r["name"], r["rva"]) not in retire]
+            live = [r for r in by_name[name] if (r["name"], r["rva"]) not in retire
+                    and ledger_io.same_function_name(r, c)]
             if live:
                 where = ", ".join(f"0x{r['rva']:08X} ({r['source']})" for r in live)
                 add_match.fail(f"line {c['line']}: {name} is already in the ledger at {where}",
                                "one name = one address")
         for other in accepted:
-            if other["name"] == name:
+            if ledger_io.same_function_name(other, c):
                 add_match.fail(f"line {c['line']}: {name} is claimed twice IN THIS BATCH "
                                f"(also line {other['line']})")
             if other["rva"] < end and rva < other["rva"] + other["size"]:
@@ -217,6 +220,7 @@ def main():
         export_rva = add_match.lookup_export_rva(root, c["name"])
         line = (f"{c['name']},{export_rva},0x{c['rva']:08X},{c['size']},"
                 f"{c['source']},matched,{c['notes']}")
+        c["row"] = line
         appended.write(line.encode("utf-8") + eol)
     functions_csv.write_bytes(new_raw + appended.getvalue())
 
@@ -242,6 +246,26 @@ def main():
             revert(f"verification failed for {s} (exit {result.returncode})")
             sys.exit(1)
     print(f"add_match_batch: verified OK -- {len(claims)} row(s) live")
+    for c in claims:
+        add_match.remove_stash(c["rva"], root)
+    add_match.record_landings(root, [(c["name"], c["rva"], c["size"], c["source"], c["notes"])
+                                     for c in claims])
+    # Verified is not landed: keep every claim and queue each row with the
+    # files its verification compiled, as add_match does; `claims.py release
+    # --landed` releases them once origin/master holds both. A test-only
+    # --root never queues.
+    if os.environ.get("BFME_CLAIMS", "on") != "off" and root == DEFAULT_ROOT.resolve():
+        import claims as shared_claims
+        who = shared_claims.owner(root)
+        scans = {}                      # one evidence scan per source
+        for c in claims:
+            if c["source"] not in scans:
+                scans[c["source"]] = shared_claims.evidence_for(c["source"], root)
+            evidence, unproven = scans[c["source"]]
+            shared_claims.queue_landed(c["rva"], c["row"], who=who, root=root,
+                                       evidence=evidence, unproven=unproven)
+        print(f"add_match_batch: {len(claims)} claim(s) kept until the rows are on "
+              "origin/master; after your push run `python3 tools/claims.py release --landed`")
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /arch:SSE /GX
+// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /arch:SSE /GX
 //
 // ??0RayEffectFXNugget@@QAE@XZ 123B @0x1E01B2: no-arg ctor called by
 // RayEffectFXNugget::parse (0x001E13A5) for the RayEffect FXList keyword;
@@ -18,28 +18,17 @@ protected:
 	unsigned char m_pad[0x148 - 8];
 };
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	void clear();
-	~AsciiString();
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-};
+#include "../../../Libraries/Include/Lib/Coord3D.h"
 
 class RayEffectFXNugget : public Rva001DFEAABase
 {
 public:
 	RayEffectFXNugget();
-	virtual ~RayEffectFXNugget();
+	// Compiler-generated destruction (members, then the rowed base dtor), the
+	// body retail's vtable slot 0 reaches.
+	virtual ~RayEffectFXNugget() {}
 private:
 	AsciiString m_templateName; // +0x148
 	Coord3D m_primaryOffset; // +0x14C
@@ -47,10 +36,21 @@ private:
 };
 
 // ??0RayEffectFXNugget@@QAE@XZ
-RayEffectFXNugget::RayEffectFXNugget()
+inline RayEffectFXNugget::RayEffectFXNugget()
 {
 	m_templateName.clear();
 	m_primaryOffset.x = m_primaryOffset.y = m_primaryOffset.z = 0.0f;
 	m_secondaryOffset.x = m_secondaryOffset.y = m_secondaryOffset.z = 0.0f;
 	m_nuggetType = 2;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeRayEffectFXNuggetInlineAnchor@@YAXPAVRayEffectFXNugget@@@Z absent-from-retail
+void _bfmeRayEffectFXNuggetInlineAnchor(RayEffectFXNugget *rayEffectFXNugget)
+{
+    rayEffectFXNugget->RayEffectFXNugget::RayEffectFXNugget();
+}
+#pragma inline_depth()

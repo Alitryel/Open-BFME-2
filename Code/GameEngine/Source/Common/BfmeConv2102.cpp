@@ -1,6 +1,11 @@
 struct Gen009F5040Node
 {
-	void bfmeUnhookYQ();
+};
+
+class BfmeThingZU
+{
+public:
+	void bfmeUnhookZU();
 };
 
 class BfmeThingYQ
@@ -15,14 +20,14 @@ public:
 	virtual Gen009F5040Node *bfmeTakeYQ() = 0;
 };
 
-class Gen009F5040
+class PartitionManagerImpl
 {
 public:
 	void remove(Gen009F5040Node *n);
 	void bfmeDropYQ(BfmeThingYQ *t);
 };
 
-void Gen009F5040::bfmeDropYQ(BfmeThingYQ *t)
+void PartitionManagerImpl::bfmeDropYQ(BfmeThingYQ *t)
 {
 	if (t == 0)
 		return;
@@ -34,7 +39,7 @@ void Gen009F5040::bfmeDropYQ(BfmeThingYQ *t)
 
 	remove(n);
 	t->bfmeClearYQ(0);
-	n->bfmeUnhookYQ();
+	((BfmeThingZU *)n)->bfmeUnhookZU();
 
 	::operator delete(n);
 }

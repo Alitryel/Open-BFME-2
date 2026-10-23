@@ -1,4 +1,4 @@
-// cl: /O1 /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // ?Create_Render_Obj@@YAPAVRenderObjClass@@PBD@Z,
 // retail 0x00136175, 199 bytes. Dedicated TU.
@@ -27,27 +27,8 @@ template <typename T> struct BfmeStringData
 	T text[1];
 };
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	~StringBase() { releaseBuffer(); }
-	void releaseBuffer();
-	BfmeStringData<T> *m_data;
+#include "ascii_string.h"
 
-public:
-	const T *str() const { return m_data ? &m_data->text[0] : (const T *)0x00BBAC1C; }
-};
-
-class AsciiString : private StringBase<char>
-{
-public:
-	AsciiString(const char *text) : StringBase<char>(text) {}
-	AsciiString(const AsciiString &other) : StringBase<char>(other) {}
-	~AsciiString() {}
-	void toLower();
-};
 
 class RenderObjClass;
 
@@ -79,6 +60,15 @@ public:
 	void Release_Ref();
 };
 
+// The pin proves HierarchyPrototype::Release_Ref is the rowed
+// TextureClass::Release_Ref body (0x0061ED10); call it by the rowed
+// spelling so this TU's releasing dtor matches the linked copy.
+class TextureClass
+{
+public:
+	void Release_Ref();
+};
+
 // Counted registry reference returned by value from the asset registry.
 // Non-trivial inline releasing destructor (GetHTree idiom): it forces the
 // hidden-return slot, emits the guarded release inline after the owner copy,
@@ -90,7 +80,7 @@ public:
 	~HierarchyPrototypeRef()
 	{
 		if (m_object != 0)
-			m_object->Release_Ref();
+			((TextureClass *)m_object)->Release_Ref();
 	}
 
 private:
@@ -124,7 +114,7 @@ RenderObjClass *Create_Render_Obj(const char *name)
 		return 0;
 
 	AsciiString lowered(name);
-	lowered.toLower();
+	((StringBase<char> &)(lowered)).toLower();
 
 	Rva00136001 owner(Rva0061F230_GetPrototype(lowered.str()));
 

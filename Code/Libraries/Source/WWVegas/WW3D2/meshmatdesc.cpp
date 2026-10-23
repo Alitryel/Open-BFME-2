@@ -1,6 +1,19 @@
-// cl: /Ireference/shims/meshmatdesclayout /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /Ireference/shims/bfmeshader /FIshader.h /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmelight /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // stlport
 #define Matrix4x4 Matrix4  // BFME renamed it
+
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it; retail links the
+// /O1 body at 0x00001423. Instantiate it first in an unemitted anchor (the
+// lookuptable.cpp pattern). auto_inline(off) keeps the later /O2
+// ShareBufferClass<ShaderClass> ctor (0x0015CF30) calling it, not inlining it.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+#pragma auto_inline(off)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma auto_inline(on)
+#pragma optimize("", on)
+
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -50,6 +63,11 @@
 // The local header is shared by 17 other TUs, so take the reference layout by
 // angle-bracket include (its VERTMATERIAL_H guard then swallows the local copy
 // meshmatdesc.h pulls in) and drop the glue for the length of that include only.
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
 #include "always.h"
 #pragma push_macro("W3DMPO_GLUE")
 #undef W3DMPO_GLUE
@@ -57,6 +75,23 @@
 #include <vertmaterial.h>
 #pragma pop_macro("W3DMPO_GLUE")
 
+#include "sharebuf.h"
+// Retail keeps one ShareBufferClass<VertexMaterialClass *> dtor (0x0015AC90); this unit calls it.
+template <> ShareBufferClass<VertexMaterialClass *>::~ShareBufferClass(void);
+// Its copy constructor (0x0015AB50) too: rowed in ShareBufferClassVertexMaterialCopyCtor.cpp.
+template <> ShareBufferClass<VertexMaterialClass *>::ShareBufferClass(const ShareBufferClass<VertexMaterialClass *> &that);
+// The Vector2 and unsigned instantiations are retail's too: copy ctors 0x15CD00 and
+// 0x15B000, dtor pairs 0xD1DC8/0xD1E50 and 0xD1E6C/0xD1E88, rowed in
+// sharebuf_vector2_copy_ctor.cpp, sharebuf_unsigned_copy_ctor.cpp and
+// ShareBufferClassUnsignedCtor.cpp.  They must be declared before meshmatdesc.h (whose
+// inline members destroy the class) and before any use; this unit then stays a caller,
+// so no in-unit /O2 copy can shadow retail's kept bodies at link time.
+template <> ShareBufferClass<Vector2>::~ShareBufferClass(void);
+template <> ShareBufferClass<Vector2>::ShareBufferClass(const ShareBufferClass<Vector2> &that);
+template <> ShareBufferClass<unsigned>::~ShareBufferClass(void);
+template <> ShareBufferClass<unsigned>::ShareBufferClass(const ShareBufferClass<unsigned> &that);
+// Retail's ??_GUVBufferClass (0x000D20FC) is the /O1 body.
+#define BFME_MESHMATDESC_UVBUFFER_O1
 #include "meshmatdesc.h"
 #include "texture.h"
 #include "vertmaterial.h"
@@ -64,7 +99,14 @@
 #include	"dx8wrapper.h"
 #include "dx8caps.h"
 #include "meshmdl.h"
+// bfme link decl-only begin
+template <> ShareBufferClass<unsigned int>::ShareBufferClass(ShareBufferClass<unsigned int> const &);
+template <> ShareBufferClass<Vector2>::ShareBufferClass(ShareBufferClass<Vector2> const &);
+template <> RefCountPtr<TextureClass>::~RefCountPtr();
+// bfme link decl-only end
 
+// The BFME2 ShaderClass specialization is defined in sharebuf_shader_copy_ctor.cpp.
+template<> ShareBufferClass<ShaderClass>::~ShareBufferClass(void);
 
 /**************************************************************************************************
 **
@@ -73,7 +115,9 @@
 **
 **
 **************************************************************************************************/
-MatBufferClass::MatBufferClass(const MatBufferClass & that) :
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline MatBufferClass::MatBufferClass(const MatBufferClass & that) :
 	ShareBufferClass<VertexMaterialClass *>(that)
 {
 	// add a reference for each pointer that was copied...
@@ -88,13 +132,13 @@ MatBufferClass::MatBufferClass(const MatBufferClass & that) :
 	}
 }
 
-// ??1MatBufferClass@@UAE@XZ present-unmatched
-MatBufferClass::~MatBufferClass(void)
+// ?bfmeAnchorMatBufferClassCtor absent-from-retail
+void *bfmeAnchorMatBufferClassCtor(void *where, const MatBufferClass & that)
 {
-	for (int i=0; i<Count; i++) {
-		REF_PTR_RELEASE(Array[i]);
-	}
+	return ::new (where) MatBufferClass(that);
 }
+
+// MatBufferClass::~MatBufferClass: defined in MatBufferCleanup.cpp (its row's unit).
 
 // ShareBufferClass keeps its Array at +0x08 in BFME and at +0x0C here -- the same
 // four bytes the MeshMatDescClass comment above records as an empty W3DMPO base
@@ -121,11 +165,7 @@ VertexMaterialClass * MatBufferClass::Get_Element(int index)
 	return Array[index];
 }
 
-// ?Peek_Element@MatBufferClass@@ present-unmatched
-VertexMaterialClass * MatBufferClass::Peek_Element(int index)
-{
-	return Array[index];
-}
+// MatBufferClass::Peek_Element: defined in MeshMatDescBufferAccessors.cpp (its row's unit).
 
 
 /**************************************************************************************************
@@ -135,40 +175,17 @@ VertexMaterialClass * MatBufferClass::Peek_Element(int index)
 **
 **
 **************************************************************************************************/
-// byte-exact reconstruction: Code/Libraries/Source/WWVegas/WW3D2/TexBufferClassCtorThunk.cpp
-TexBufferClass::TexBufferClass(const TexBufferClass & that) :
-	ShareBufferClass<TextureClass *>(that)
-{
-	// add a reference for each pointer that was copied...
-	for (int i=0; i<Count; i++) {
-		if (Array[i]) {
-			Array[i]->Add_Ref();
-		}
-	}
-}
+// TexBufferClass::TexBufferClass: defined in TexBufferClassCopyCtor.cpp (its row's unit).
 
 // ??1TexBufferClass@@UAE@XZ present-unmatched
-TexBufferClass::~TexBufferClass(void)
+inline TexBufferClass::~TexBufferClass(void)
 {
 	for (int i=0;i<Count;i++) {
 		REF_PTR_RELEASE(Array[i]);
 	}
 }
 
-// ?Set_Element@TexBufferClass@@QAEXHPAVTextureClass@@@Z present-unmatched
-void TexBufferClass::Set_Element(int index,TextureClass * tex)
-{
-	REF_PTR_SET(Array[index],tex);
-}
 
-// ?Get_Element@TexBufferClass@@QAEPAVTextureClass@@H@Z present-unmatched
-TextureClass * TexBufferClass::Get_Element(int index)
-{
-	if (Array[index]) {
-		Array[index]->Add_Ref();
-	}
-	return Array[index];
-}
 
 // ?Peek_Element@TexBufferClass@@ present-unmatched
 TextureClass * TexBufferClass::Peek_Element(int index)
@@ -204,7 +221,7 @@ bool UVBufferClass::Is_Equal_To(const UVBufferClass & that)
 }
 
 
-void UVBufferClass::Update_CRC(void)
+inline void UVBufferClass::Update_CRC(void)
 {
 	CRC = CRC_Memory((unsigned char *)Get_Array(),Get_Count() * sizeof(Vector2));
 }
@@ -225,177 +242,20 @@ ShaderClass MeshMatDescClass::NullShader(0);	// Used to mark no shader data
 
 // MeshMatDescClass copy constructor is recovered in MeshMatDescDefaultCtor.cpp.
 
-MeshMatDescClass &
-// ??4MeshMatDescClass@@QAEAAV0@ABV0@@Z present-unmatched
-MeshMatDescClass::operator = (const MeshMatDescClass & that)
-{
-	if (this != &that) {
+// MeshMatDescClass::operator = is recovered in MeshMatDescDefaultCtor.cpp.
 
-		PassCount = that.PassCount;
-		VertexCount = that.VertexCount;
-		PolyCount = that.PolyCount;
-
-		for (int array=0; array<MAX_COLOR_ARRAYS; array++) {
-			REF_PTR_SET(ColorArray[array],that.ColorArray[array]);
-		}
-
-		for (int uvarray=0; uvarray<MAX_UV_ARRAYS; uvarray++) {
-			REF_PTR_SET(UV[uvarray],that.UV[uvarray]);
-		}
-
-		for (int pass=0; pass<MAX_PASSES; pass++) {
-			for (int stage=0; stage < MAX_TEX_STAGES; stage++) {
-				UVSource[pass][stage] = that.UVSource[pass][stage];
-				REF_PTR_SET(Texture[pass][stage],that.Texture[pass][stage]);
-
-				// make our own array of texture pointers.
-				REF_PTR_RELEASE(TextureArray[pass][stage]);
-				if (that.TextureArray[pass][stage]) {
-					TextureArray[pass][stage] = NEW_REF(TexBufferClass,(*that.TextureArray[pass][stage]));
-				}
-			}
-
-			DCGSource[pass] = that.DCGSource[pass];
-			DIGSource[pass] = that.DIGSource[pass];
-
-			Shader[pass] = that.Shader[pass];
-			REF_PTR_SET(Material[pass],that.Material[pass]);
-
-			// make our own arrays of shaders and vertex material pointers
-			// NOTE: We don't just add-ref these arrays, we make our own copies.
-			// The only time we add-ref these arrays are when we make alternate material
-			// representations within this mesh... Then we re-use the same arrays in different
-			// passes...
-			REF_PTR_RELEASE(MaterialArray[pass]);
-			if (that.MaterialArray[pass]) {
-				MaterialArray[pass] = NEW_REF(MatBufferClass,(*that.MaterialArray[pass]));
-			}
-			REF_PTR_RELEASE(ShaderArray[pass]);
-			if (that.ShaderArray[pass]) {
-				ShaderArray[pass] = NEW_REF(ShareBufferClass<ShaderClass>,(*that.ShaderArray[pass]));
-			}
-		}
-	}
-	return *this;
-}
-
-// ??1MeshMatDescClass@@UAE@XZ present-unmatched
+// ??1MeshMatDescClass@@QAE@XZ, retail 0x0015DC40, 90 bytes: Reset(0,0,0), then the member
+// teardown runs the vector destructor iterator over the eight RefCountPtr<TextureClass>
+// Texture slots at +0x78 (0x0017098D); the meshmatdesclayout view gives them that type.
 MeshMatDescClass::~MeshMatDescClass(void)
 {
 	Reset(0,0,0);
 }
 
-// ?Get_Single_Texture@MeshMatDescClass@@QBEPAVTextureClass@@HH@Z present-unmatched
-TextureClass * MeshMatDescClass::Get_Single_Texture(int pass,int stage) const
-{
-	if (Texture[pass][stage]) {
-		Texture[pass][stage]->Add_Ref();
-	}
-	return Texture[pass][stage];
-}
 
 // MeshMatDescClass::Reset is recovered in MeshMatDescReset.cpp.
 
-// byte-exact reconstruction: Code/Libraries/Source/WWVegas/WW3D2/MeshMatDescInitAlternateThunk.cpp
-// ?Init_Alternate@MeshMatDescClass@@QAEXAAV1@0@Z present-unmatched
-void MeshMatDescClass::Init_Alternate(MeshMatDescClass & default_materials,MeshMatDescClass & alternate_materials)
-{
-	// just copy the counts
-	PassCount = default_materials.PassCount;
-	VertexCount = default_materials.VertexCount;
-	PolyCount = default_materials.PolyCount;
-
-	// Color arrays
-	for (int array=0; array<MAX_COLOR_ARRAYS; array++) {
-		if (alternate_materials.ColorArray[array] != NULL) {
-			REF_PTR_SET(ColorArray[array],alternate_materials.ColorArray[array]);
-		} else {
-			REF_PTR_SET(ColorArray[array],default_materials.ColorArray[array]);
-		}
-	}
-
-	// Copy the uv-arrays from the alternate materials to start.  Needed uv arrays from
-	// the default material set will be brought over as encountered below
-	for (int i=0; i<alternate_materials.Get_UV_Array_Count(); i++) {
-		REF_PTR_SET(UV[i],alternate_materials.UV[i]);
-	}
-
-	// add-ref the arrays in default_materials except when the same array is present in alternate_materials
-	for (int pass = 0; pass < MAX_PASSES; pass++) {
-		for (int stage = 0; stage < MAX_TEX_STAGES; stage++) {
-
-			// UV Coorindate arrays, Each UVSource[pass][stage] which is -1 in the alternate_materials
-			// but not -1 in the default_materials causes us to copy over a uv array from the default_materials
-			// and set its index into our UVSource array.
-			if (alternate_materials.UVSource[pass][stage] == -1) {
-				if (default_materials.UVSource[pass][stage] != -1) {
-
-					// Look up the uv array in default_materials that we need to bring over.
-					int default_uv_source = default_materials.UVSource[pass][stage];
-					UVBufferClass * uvarray = default_materials.UV[default_uv_source];
-					int found_index = -1;
-
-					// Check if we already have it.
-					for (int i=0; i<Get_UV_Array_Count(); i++) {
-						if (uvarray->Get_CRC() == UV[i]->Get_CRC()) {
-							found_index = i;
-							break;
-						}
-					}
-
-					// If we already have it, just set the source index.  Otherwise add-ref it
-					// into a new slot in our uv array and set that index.
-					if (found_index != -1) {
-						UVSource[pass][stage] = found_index;
-					} else {
-						int new_index = Get_UV_Array_Count();
-						REF_PTR_SET(UV[new_index],default_materials.UV[default_uv_source]);
-						UVSource[pass][stage] = new_index;
-					}
-				}
-			} else {
-				UVSource[pass][stage] = alternate_materials.UVSource[pass][stage];
-			}
-
-			// Texture pointer(s):  If alternate_materials has either a single texture or an array of textures,
-			// then add-ref only the texture data it contains.  Otherwise, add-ref the data in default_materials.
-			if ((alternate_materials.Texture[pass][stage] != NULL) || (alternate_materials.TextureArray[pass][stage])) {
-				REF_PTR_SET(Texture[pass][stage] , alternate_materials.Texture[pass][stage]);
-				REF_PTR_SET(TextureArray[pass][stage] , alternate_materials.TextureArray[pass][stage]);
-			} else {
-				REF_PTR_SET(Texture[pass][stage] , default_materials.Texture[pass][stage]);
-				REF_PTR_SET(TextureArray[pass][stage] , default_materials.TextureArray[pass][stage]);
-			}
-		}
-
-		// Vertex color configuration
-		if (alternate_materials.DCGSource[pass] == VertexMaterialClass::MATERIAL) {
-			DCGSource[pass] = default_materials.DCGSource[pass];
-		} else {
-			DCGSource[pass] = alternate_materials.DCGSource[pass];
-		}
-
-		// Shaders, currently I can't tell if the alternate data has a shader...  Can't override the shader for now.
-		Shader[pass] = default_materials.Shader[pass];
-		REF_PTR_SET(ShaderArray[pass],default_materials.ShaderArray[pass]);
-
-		// Vertex Materials.  If alternate_materials has either a single or array of materials, then copy them
-		if ((alternate_materials.Material[pass] != NULL) || (alternate_materials.MaterialArray[pass] != NULL)) {
-			REF_PTR_SET(Material[pass],alternate_materials.Material[pass]);
-			REF_PTR_SET(MaterialArray[pass],alternate_materials.MaterialArray[pass]);
-		} else {
-			// Dont share vertex materials! (because the UVSources can be different!)
-			if (default_materials.Material[pass]) {
-				Material[pass] = NEW_REF(VertexMaterialClass,(*(default_materials.Material[pass])));
-			} else {
-				if (default_materials.MaterialArray[pass]) {
-					WWDEBUG_SAY(("Unimplemented case: mesh has more than one default vertex material but no alternate vertex materials have been defined.\r\n"));
-				}
-				Material[pass] = NULL;
-			}
-		}
-	}
-}
+// MeshMatDescClass::Init_Alternate is recovered in MeshMatDescDefaultCtor.cpp.
 
 // MeshMatDescClass::Is_Empty is recovered in MeshMatDescDefaultCtor.cpp.
 
@@ -404,11 +264,6 @@ void MeshMatDescClass::Set_Single_Material(VertexMaterialClass * vmat,int pass)
 	REF_PTR_SET(Material[pass],vmat);
 }
 
-// ?Set_Single_Texture@MeshMatDescClass@@QAEXPAVTextureClass@@HH@Z present-unmatched
-void MeshMatDescClass::Set_Single_Texture(TextureClass * tex,int pass,int stage)
-{
-	REF_PTR_SET(Texture[pass][stage],tex);
-}
 
 void MeshMatDescClass::Set_Single_Shader(ShaderClass shader,int pass)
 {
@@ -427,12 +282,6 @@ void MeshMatDescClass::Set_Shader(int pidx,ShaderClass shader,int pass)
 	shaders[pidx] = shader;
 }
 
-// ?Set_Texture@MeshMatDescClass@@QAEXHPAVTextureClass@@HH@Z present-unmatched
-void MeshMatDescClass::Set_Texture(int pidx,TextureClass * tex,int pass,int stage)
-{
-	TexBufferClass * textures = Get_Texture_Array(pass,stage,true);
-	textures->Set_Element(pidx,tex);
-}
 
 // ?Get_Material@MeshMatDescClass@@QBEPAVVertexMaterialClass@@HH@Z present-unmatched
 VertexMaterialClass * MeshMatDescClass::Get_Material(int vidx,int pass) const
@@ -458,21 +307,6 @@ ShaderClass	MeshMatDescClass::Get_Shader(int pidx,int pass) const
 	return Shader[pass];
 }
 
-// ?Get_Texture@MeshMatDescClass@@QBEPAVTextureClass@@HHH@Z present-unmatched
-TextureClass * MeshMatDescClass::Get_Texture(int pidx,int pass,int stage) const
-{
-	if (TextureArray[pass][stage]) {
-
-		return TextureArray[pass][stage]->Get_Element(pidx);
-
-	} else if (Texture[pass][stage] != NULL) {
-
-		Texture[pass][stage]->Add_Ref();
-		return Texture[pass][stage];
-
-	}
-	return NULL;
-}
 
 VertexMaterialClass * MeshMatDescClass::Peek_Material(int vidx,int pass) const
 {
@@ -495,7 +329,7 @@ TextureClass * MeshMatDescClass::Peek_Texture(int pidx,int pass,int stage) const
 	if (TextureArray[pass][stage]) {
 		return TextureArray[pass][stage]->Peek_Element(pidx);
 	}
-	return Texture[pass][stage];
+	return Texture[pass][stage].Peek();
 }
 
 TexBufferClass * MeshMatDescClass::Get_Texture_Array(int pass,int stage,bool create)
@@ -545,60 +379,39 @@ void MeshMatDescClass::Make_Color_Array_Unique(int array)
 	}
 }
 
-void MeshMatDescClass::Install_UV_Array(int pass,int stage,Vector2 * uvs,int count)
-{
-	/*
-	** Compute the crc of this uv array
-	*/
-	unsigned int crc = CRC_Memory((unsigned char *)uvs,count * sizeof(Vector2));
-
-	/*
-	** See if there is an existing uv-array that matches the one just loaded
-	*/
-	bool found = false;
-
-	for (int i=0; i<Get_UV_Array_Count(); i++) {
-		if (UV[i]->Get_CRC() == crc) {
-			found = true;
-			Set_UV_Source(pass,stage,i);
-			break;
-		}
-	}
-
-	/*
-	** If there was no existing uv array, install this one
-	*/
-	if (found == false) {
-
-		/*
-		** Find the first empty UV-array slot
-		*/
-		int new_index = 0;
-		while ((UV[new_index] != NULL) && (new_index < MAX_UV_ARRAYS)) {
-			new_index++;
-		}
-
-		if (new_index < MAX_UV_ARRAYS) {
-
-			WWASSERT(UV[new_index] == NULL);
-			UV[new_index] = NEW_REF(UVBufferClass,(count, "MeshMatDescClass::UV"));
-			memcpy(UV[new_index]->Get_Array(),uvs,count * sizeof(Vector2));
-			UV[new_index]->Update_CRC();  // update the crc for future comparision
-			Set_UV_Source(pass,stage,new_index);
-		}
-	}
-}
+// MeshMatDescClass::Install_UV_Array: defined in MeshMatDescInstallUVArray.cpp (its row's unit).
 
 
-// ?Post_Load_Process@MeshMatDescClass@@ present-unmatched
+// TU-local copy of dx8wrapper.h's Convert_Color(unsigned), which retail's Post_Load_Process
+// inlines. Calling the header member would emit this /O2 unit's COMDAT copy of it, which comes
+// first in link order and is not retail's body (that is the /O1 copy DX8ConvertColorVector4O1.cpp
+// compiles, 0x000EDF46); the bfmelight header only declares it.
+struct BfmeMeshMatDescColorOps {
+ static __forceinline Vector4 Convert_Color(unsigned color)
+ {
+	Vector4 col;
+	col[3]=((color&0xff000000)>>24)/255.0f;
+	col[0]=((color&0xff0000)>>16)/255.0f;
+	col[1]=((color&0xff00)>>8)/255.0f;
+	col[2]=((color&0xff)>>0)/255.0f;
+	return col;
+ }
+};
+
+// BFME2 adds a pass skip for the two per-pass buffers at +0xB8 and +0x108 and
+// keeps the lighting flag inverted (retail zero-initialises it and sets it when
+// PassCount != 1). Convert_Color(const Vector4&) comes from the bfmelight dx8wrapper.h,
+// whose col=0 initialiser retail stores before each inline x87 conversion.
 void MeshMatDescClass::Post_Load_Process(bool lighting_enabled,MeshModelClass * parent)
 {
 	/*
 	** Configure all vertex materials to source the uv coordinates and colors from the correct arrays
 	** Pre-multiply the vertex color arrays.
 	*/
-	bool set_lighting_to_false=true;
+	bool keep_lighting=false;
 	for (int pass=0; pass<PassCount; pass++) {
+
+		if ((OpaquePassBuffers[pass] != NULL) || (OpaqueTailBuffers[pass] != NULL)) continue;
 
 		/*
 		** If this pass doesn't have a vertex material, create one
@@ -701,8 +514,8 @@ void MeshMatDescClass::Post_Load_Process(bool lighting_enabled,MeshModelClass * 
 			unsigned * emissive_array = ColorArray[1]->Get_Array();
 
 			for (int vidx=0; vidx<VertexCount; vidx++) {
-				Vector4 diffuse=DX8Wrapper::Convert_Color(diffuse_array[vidx]);
-				Vector4 emissive=DX8Wrapper::Convert_Color(emissive_array[vidx]);
+				Vector4 diffuse=BfmeMeshMatDescColorOps::Convert_Color(diffuse_array[vidx]);
+				Vector4 emissive=BfmeMeshMatDescColorOps::Convert_Color(emissive_array[vidx]);
 				diffuse.X *= emissive.X;
 				diffuse.Y *= emissive.Y;
 				diffuse.Z *= emissive.Z;
@@ -730,7 +543,7 @@ void MeshMatDescClass::Post_Load_Process(bool lighting_enabled,MeshModelClass * 
 
 				// If only diffuse is used apply diffuse to color channel and set diffuse source to color 1
 				if (diffuse_used && !ambient_used && !emissive_used) {
-					Vector4 diffuse=DX8Wrapper::Convert_Color(diffuse_array[vidx]);
+					Vector4 diffuse=BfmeMeshMatDescColorOps::Convert_Color(diffuse_array[vidx]);
 					diffuse.X *= mtl_diffuse.X;
 					diffuse.Y *= mtl_diffuse.Y;
 					diffuse.Z *= mtl_diffuse.Z;
@@ -747,7 +560,7 @@ void MeshMatDescClass::Post_Load_Process(bool lighting_enabled,MeshModelClass * 
 				// ambient are different but is probably the most reasonable thing to do. Why set
 				// diffuse and ambient differently anyway?)
 				if (diffuse_used && ambient_used && !emissive_used) {
-					Vector4 diffuse=DX8Wrapper::Convert_Color(diffuse_array[vidx]);
+					Vector4 diffuse=BfmeMeshMatDescColorOps::Convert_Color(diffuse_array[vidx]);
 					diffuse.X *= mtl_diffuse.X;
 					diffuse.Y *= mtl_diffuse.Y;
 					diffuse.Z *= mtl_diffuse.Z;
@@ -761,7 +574,7 @@ void MeshMatDescClass::Post_Load_Process(bool lighting_enabled,MeshModelClass * 
 
 				// If only ambient is used apply ambient to color channel and set ambient source to color 1
 				if (!diffuse_used && ambient_used && !emissive_used) {
-					Vector4 diffuse=DX8Wrapper::Convert_Color(diffuse_array[vidx]);
+					Vector4 diffuse=BfmeMeshMatDescColorOps::Convert_Color(diffuse_array[vidx]);
 					diffuse.X *= mtl_ambient.X;
 					diffuse.Y *= mtl_ambient.Y;
 					diffuse.Z *= mtl_ambient.Z;
@@ -775,7 +588,7 @@ void MeshMatDescClass::Post_Load_Process(bool lighting_enabled,MeshModelClass * 
 
 				// If only emissive is used apply emissive to color channel, set diffuse source to color 1, and turn off lighting
 				if (!diffuse_used && !ambient_used && emissive_used) {
-					Vector4 diffuse=DX8Wrapper::Convert_Color(diffuse_array[vidx]);
+					Vector4 diffuse=BfmeMeshMatDescColorOps::Convert_Color(diffuse_array[vidx]);
 					diffuse.X *= mtl_emissive.X;
 					diffuse.Y *= mtl_emissive.Y;
 					diffuse.Z *= mtl_emissive.Z;
@@ -789,7 +602,7 @@ void MeshMatDescClass::Post_Load_Process(bool lighting_enabled,MeshModelClass * 
 				}
 				else {
 					if (PassCount!=1) {
-						set_lighting_to_false=false;		// Lighting can only be set to false if ALL passes and ALL materials are requesting it
+						keep_lighting=true;		// Lighting can only be set to false if ALL passes and ALL materials are requesting it
 					}
 				}
 			}
@@ -833,7 +646,7 @@ void MeshMatDescClass::Post_Load_Process(bool lighting_enabled,MeshModelClass * 
 			Shader[pass].Set_Post_Detail_Alpha_Func(ShaderClass::DETAILALPHA_DISABLE);
 		}
 		// Set lighting to false if requested in all passes...
-		else if (set_lighting_to_false) {
+		else if (!keep_lighting) {
 			Vector3 single_diffuse(0.0f,0.0f,0.0f);
 			Vector3 single_ambient(0.0f,0.0f,0.0f);
 			Vector3 single_emissive(0.0f,0.0f,0.0f);
@@ -953,3 +766,14 @@ bool MeshMatDescClass::Do_Mappers_Need_Normals(void)
 
 	return false;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeUVBufferClassInlineAnchor@@YAXPAVUVBufferClass@@@Z absent-from-retail
+void _bfmeUVBufferClassInlineAnchor(UVBufferClass *uVBuffer)
+{
+    uVBuffer->Update_CRC();
+}
+#pragma inline_depth()

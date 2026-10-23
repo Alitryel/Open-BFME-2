@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004B6802@CastleUpgrade@@SA?AW4NameKeyType@@XZ @0x4B6802
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@CastleUpgrade@@UBE?AW4NameKeyType@@XZ @0x4B6802
 // (69B): cached pool-name key for CastleUpgrade. The class
 // identity comes from the pool-name string the body pushes
 // ("CastleUpgrade"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class CastleUpgrade
 {
 public:
-	static NameKeyType rva0004B6802();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004B6802@CastleUpgrade@@SA?AW4NameKeyType@@XZ
-NameKeyType CastleUpgrade::rva0004B6802()
+// ?getModuleNameKey@CastleUpgrade@@UBE?AW4NameKeyType@@XZ
+NameKeyType CastleUpgrade::getModuleNameKey() const
 {
 	static NameKeyType TheCastleUpgradePoolKey =
 		TheNameKeyGenerator->nameToKey("CastleUpgrade");

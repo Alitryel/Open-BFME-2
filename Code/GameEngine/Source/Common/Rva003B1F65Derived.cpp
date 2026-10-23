@@ -1,21 +1,21 @@
-// cl: /O1 /MD
+// cl: /MD
 //
-// Opaque single-inheritance destructors tail-calling Rva003B1F65::~
-// Rva003B1F65 at 0x003B1F65 (pinned opaque SEH base dtor; identity
-// unproven). Each class below stores its own vtable and tail-calls the base
-// destructor; the base itself is only declared here (defined nowhere -- it
-// resolves via the pin), because a same-TU definition would capture the call
-// locally instead of at the ledger address. Owner identities are unproven
-// (opaque Rva names). One ledger row per destructor, landed one commit at
-// a time.
+// Opaque single-inheritance destructors tail-calling
+// UserPreferences::~UserPreferences (rowed at 0x003B1F65 in
+// UserPreferences.cpp). Each class below stores its own vtable and tail-calls
+// the base destructor; the base is only declared here, because a same-TU
+// definition would capture the call locally. The derived owners are still
+// opaque here (Rva names); the IgnorePreferences, QuickMatchPreferences and
+// GameSpyMiscPreferences destructors that used to sit here are now defined
+// beside their constructors, where the vtables prove them.
 
-class Rva003B1F65
+class UserPreferences
 {
 public:
-	virtual ~Rva003B1F65();
+	virtual ~UserPreferences();
 };
 
-class Rva002E4272 : public Rva003B1F65
+class Rva002E4272 : public UserPreferences
 {
 public:
 	virtual ~Rva002E4272();
@@ -25,17 +25,7 @@ Rva002E4272::~Rva002E4272()
 {
 }
 
-class Rva003B1FD4 : public Rva003B1F65
-{
-public:
-	virtual ~Rva003B1FD4();
-};
-
-Rva003B1FD4::~Rva003B1FD4()
-{
-}
-
-class Rva00535776 : public Rva003B1F65
+class Rva00535776 : public UserPreferences
 {
 public:
 	virtual ~Rva00535776();
@@ -45,22 +35,8 @@ Rva00535776::~Rva00535776()
 {
 }
 
-class Rva005596EA : public Rva003B1F65
-{
-public:
-	virtual ~Rva005596EA();
-};
 
-Rva005596EA::~Rva005596EA()
-{
-}
-
-class Rva005DF17C : public Rva003B1F65
-{
-public:
-	virtual ~Rva005DF17C();
-};
-
-Rva005DF17C::~Rva005DF17C()
-{
-}
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??1RealTimeStatsPreferences@@UAE@XZ=??1Rva00535776@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1StrategicStatsPreferences@@UAE@XZ=??1Rva00535776@@UAE@XZ")

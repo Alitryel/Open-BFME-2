@@ -1,4 +1,7 @@
-// cl: /DNDEBUG /MD
+// cl: /DNDEBUG /MD /EHs-c-
+// Disable both C++ EH modes, as in the matched deleting-destructor units.
+// Otherwise VC7.1 emits deleting destructors that call these 11-byte bodies;
+// retail inlines the derived vptr store and calls the base destructor directly.
 //
 // Opaque single-inheritance destructors tail-calling BfmeDirtyBase::~
 // BfmeDirtyBase at 0x00658650 (matched 7B leaf base dtor in

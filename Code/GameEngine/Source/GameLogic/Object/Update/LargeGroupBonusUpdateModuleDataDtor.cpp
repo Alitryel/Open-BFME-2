@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_STLP_USE_MALLOC /D_CRTIMP=
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/moduledata
 // stlport
 //
 // ??1LargeGroupBonusUpdateModuleData@@UAE@XZ, retail 0x0049048E, 75 bytes.
@@ -9,39 +9,30 @@
 // the pinned 0x360D26, then restores the Snapshot base vtable 0xBBB554. The
 // member declaration order (filter plus vector plus string) drives states
 // 0 plus 1 plus 2 so the teardown reads 2 plus 1 plus 0 exactly as retail.
-// Shape follows GeometryInfoDtor (TU-local Snapshot with inline dtor doing
-// the explicit BBB554 restore after the members fall; novtable suppresses
+// Shape follows GeometryInfoDtor (shared Snapshot base dtor after the members
+// fall; novtable suppresses
 // the entry derived-vtable store retail lacks). The companion constructor
 // TU keeps dtor-less member declarations for its single-state frame; this TU
 // keeps the dtor-ful ones. Identity is the ctor TU plus the own table at
 // 0x00C4D1A8 plus the factory at 0x24D43F which news 0x30.
 
 #include <vector>
+#include "Common/Snapshot.h"
 
-class Xfer;
-
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc(Xfer *xfer);
-	virtual void loadPostProcess();
-	virtual void xfer(Xfer *xfer);
-};
-
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
+// __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
+// COMDATs (one byte shape per TU malloc/free wiring); explicit
+// dllimport+forceinline specializations take those calls inline so this
+// TU emits no external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void *__malloc_alloc<0>::allocate(size_t __n)
+{ void *__r = malloc(__n); if (!__r) __r = _S_oom_malloc(__n); return __r; }
+template <> __declspec(dllimport) __forceinline
+void __malloc_alloc<0>::deallocate(void *__p, size_t)
+{ free((char *)__p); }
 }
 
-class AsciiString
-{
-public:
-	~AsciiString();
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class Rva00360D26Member
 {

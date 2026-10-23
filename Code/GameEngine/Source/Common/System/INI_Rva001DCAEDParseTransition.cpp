@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX-
+// cl: /DNDEBUG /MD /GX-
 // Rva001DCAED_ParseTransition (retail 0x001DCAED, 69 bytes). Serves the
 // Transition entry of the 3-entry table at 0x7DBDB0 (siblings WinName,
 // FrameDelay). The token resolves through the rowed
@@ -33,7 +33,8 @@ public:
 };
 
 extern NameKeyGenerator *TheNameKeyGenerator;
-extern void *Rva00DFDC14Object;
+// ?Rva00DFDC14Object@@3PAXA: the global at this VA is ?theBfmeDfdc14@@3PAVAudioManager@@A; this name is an alias for it.
+extern class GameWindowTransitionsHandler *TheTransitionHandler;
 
 class INI
 {
@@ -46,6 +47,6 @@ public:
 void INI::Rva001DCAED_ParseTransition(INI *ini, void *instance, void *store, const void *userData)
 {
 	NameKeyType key = TheNameKeyGenerator->nameToKey(ini->getNextToken(0));
-	TransitionFunc *slot = (TransitionFunc *)((ObjectLookupMap *)((char *)Rva00DFDC14Object + 0xC))->findSlot((int *)&key);
+	TransitionFunc *slot = (TransitionFunc *)((ObjectLookupMap *)((char *)(*(void **)&TheTransitionHandler) + 0xC))->findSlot((int *)&key);
 	(*slot)(ini, instance, store, userData);
 }

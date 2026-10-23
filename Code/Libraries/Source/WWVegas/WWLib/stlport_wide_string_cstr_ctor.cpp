@@ -51,6 +51,8 @@ template <class CharT, class Alloc>
 class _String_base
 {
 public:
+	// The zeroing base is fully inlined; keep its differing external copy out.
+	__declspec(dllimport) __forceinline
 	_String_base(const Alloc &a) : _M_start(0), _M_finish(0), _M_end_of_storage(a, 0) {}
 	~_String_base();
 

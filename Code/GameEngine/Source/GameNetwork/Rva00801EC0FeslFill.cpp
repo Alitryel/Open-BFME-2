@@ -118,3 +118,7 @@ void Rva00801EC0Owner::rva00801ec0( Rva007FBEF0GameRecord *rec )
 
 	m_ugid = m_arena.append( rec->m_ugid );
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeHitZP@BfmeSlotZP@@QAEXPAVBfmeKeyZP@@@Z=?rva00801ec0@Rva00801EC0Owner@@QAEXPAVRva007FBEF0GameRecord@@@Z")

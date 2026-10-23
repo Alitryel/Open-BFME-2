@@ -1,5 +1,21 @@
 // cl: /Ireference/shims /Ireference/shims/bfmerendobj /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// The compiler-generated vector constructor iterator (??_H) takes the optimization
+// state of the first function that needs it; retail links one copy, the /O1 body at
+// 0x00001423. This unemitted anchor makes this unit's copy that body. auto_inline(off)
+// keeps the iterator out of line: without it the /O2 Copy_Emitter_Property_Struct
+// <Vector3> inlines it and loses retail's call to ??_H.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma auto_inline(off)
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+#pragma auto_inline(on)
 // Select the BFME2 legacy kernel32 import declarations before reference headers.
+
+// BFME 2 has no W3D memory pools (see Code/Libraries/Source/WWVegas/WWLib/always.h).
+#include "always.h"
+#undef W3DMPO_GLUE
+#define W3DMPO_GLUE(ARGCLASS)
 #include <sweep/winbase_shim.h>
 
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
@@ -60,7 +76,7 @@
 //
 //	Global variable initialization
 //
-ParticleEmitterLoaderClass	_ParticleEmitterLoader;
+// _ParticleEmitterLoader: defined in particle_emitter_read_props.cpp.
 
 //	This array is declared in "W3D_File.H"
 const char *EMITTER_TYPE_NAMES[EMITTER_TYPEID_COUNT] = 
@@ -129,35 +145,8 @@ ParticleEmitterDefClass::ParticleEmitterDefClass (const ParticleEmitterDefClass 
 }
 
 
-///////////////////////////////////////////////////////////////////////////////////
-//
-//	~ParticleEmitterDefClass
-//
-// ??1ParticleEmitterDefClass@@ present-unmatched
-ParticleEmitterDefClass::~ParticleEmitterDefClass (void)
-{
-	// Free the name buffer if necessary
-	if (m_pName != NULL) {
-		
-		// free() is used because the buffer was allocated with ::_strdup().
-		::free (m_pName);
-		m_pName = NULL;
-	}	
-
-	// Free the user-string buffer if necessary
-	if (m_pUserString != NULL) {
-		
-		// free() is used because the buffer was allocated with ::malloc() or ::_strdup().
-		::free (m_pUserString);
-		m_pUserString = NULL;
-	}
-
-	Free_Props ();
-
-	SAFE_DELETE (m_pCreationVolume);
-	SAFE_DELETE (m_pVelocityRandomizer);
-	return ;
-}
+// ~ParticleEmitterDefClass is owned by
+// particle_emitter_definition_destructor.cpp; declared in part_ldr.h.
 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -165,7 +154,6 @@ ParticleEmitterDefClass::~ParticleEmitterDefClass (void)
 //	ParticleEmitterDefClass
 //
 const ParticleEmitterDefClass &
-// ??4ParticleEmitterDefClass@@ present-unmatched
 ParticleEmitterDefClass::operator= (const ParticleEmitterDefClass &src)
 {
 	//
@@ -426,89 +414,16 @@ ParticleEmitterDefClass::Initialize_To_Ver2 (void)
 }
 
 
-///////////////////////////////////////////////////////////////////////////////////
-//
-//	Convert_To_Ver2
-//
-void
-// ?ParticleEmitterDefClass::Convert_To_Ver2 present-unmatched
-ParticleEmitterDefClass::Convert_To_Ver2 (void)
-{
-	if (m_Version < 0x00020000) {		
-		m_InfoV2.BurstSize = 1;
-		m_InfoV2.OutwardVel = 0;
-		m_InfoV2.VelInherit = 0;		
-
-		//
-		//	Determine which shader to use...
-		//
-		ShaderClass shader = ShaderClass::_PresetAdditiveSpriteShader;
-		TextureClass *ptexture = WW3DAssetManager::Get_Instance ()->Get_Texture (m_Info.TextureFilename);
-		if (ptexture != NULL) {
-			// If texture has an alpha channel do alpha blending instead of additive
-			// (which is the default for point groups):
-//			SurfaceClass::SurfaceDescription surf_desc;
-//			::ZeroMemory(&surf_desc, sizeof(SurfaceClass::SurfaceDescription));
-//			ptexture->Get_Level_Description(surf_desc);
-//			if (Has_Alpha(surf_desc.Format)) {
-			if (Has_Alpha(ptexture->Get_Texture_Format())) {
-				shader = ShaderClass::_PresetAlphaSpriteShader;
-			}
-			ptexture->Release_Ref();
-		}
-		W3dUtilityClass::Convert_Shader (shader, &m_InfoV2.Shader);
-
-				
-		//
-		//	Convert the randomziers
-		//
-		m_InfoV2.CreationVolume.ClassID = Vector3Randomizer::CLASSID_SOLIDBOX;
-		m_InfoV2.CreationVolume.Value1 = m_Info.PositionRandom / 1000.0f;
-		m_InfoV2.CreationVolume.Value2 = m_Info.PositionRandom / 1000.0f;
-		m_InfoV2.CreationVolume.Value3 = m_Info.PositionRandom / 1000.0f;
-
-		m_InfoV2.VelRandom.ClassID = Vector3Randomizer::CLASSID_SOLIDBOX;
-		m_InfoV2.VelRandom.Value1 = m_Info.VelocityRandom;
-		m_InfoV2.VelRandom.Value2 = m_Info.VelocityRandom;
-		m_InfoV2.VelRandom.Value3 = m_Info.VelocityRandom;
-
-		//
-		//	Recreate the randomizers
-		//
-		SAFE_DELETE (m_pCreationVolume);
-		SAFE_DELETE (m_pVelocityRandomizer);
-		m_pCreationVolume = Create_Randomizer (m_InfoV2.CreationVolume);
-		m_pVelocityRandomizer = Create_Randomizer (m_InfoV2.VelRandom);
-
-		//
-		//	Convert the colors, opacities, and sizes
-		//		
-		Free_Props ();
-		m_ColorKeyframes.Start = RGBA_TO_VECTOR3 (m_Info.StartColor);
-		m_ColorKeyframes.Rand = Vector3 (0, 0, 0);
-		m_ColorKeyframes.NumKeyFrames = 1;
-		m_ColorKeyframes.KeyTimes = W3DNEW float(m_Info.FadeTime);
-		m_ColorKeyframes.Values = W3DNEW Vector3(RGBA_TO_VECTOR3 (m_Info.EndColor));
-
-		m_OpacityKeyframes.Start = ((float)(m_Info.StartColor.A)) / 255;
-		m_OpacityKeyframes.Rand = 0;
-		m_OpacityKeyframes.NumKeyFrames = 1;
-		m_OpacityKeyframes.KeyTimes = W3DNEW float(m_Info.FadeTime);
-		m_OpacityKeyframes.Values = W3DNEW float(((float)(m_Info.EndColor.A)) / 255);
-
-		m_SizeKeyframes.Start = m_Info.StartSize;
-		m_SizeKeyframes.Rand = 0;
-		m_SizeKeyframes.NumKeyFrames = 0;
-	}
-
-	return ;
-}
+// Convert_To_Ver2 is owned by particle_emitter_convert_version.cpp;
+// declared in part_ldr.h.
 
 
 ///////////////////////////////////////////////////////////////////////////////////
 //
 //	Read_Header
 //
+extern "C" char * __cdecl strdup(const char *);
+
 WW3DErrorType
 // ?ParticleEmitterDefClass::Read_Header present-unmatched
 ParticleEmitterDefClass::Read_Header (ChunkLoadClass &chunk_load)
@@ -524,7 +439,7 @@ ParticleEmitterDefClass::Read_Header (ChunkLoadClass &chunk_load)
 		if (chunk_load.Read (&header, sizeof (header)) == sizeof (header)) {
 
 			// Copy the name from the header structure
-			m_pName = ::_strdup (header.Name);
+			m_pName = ::strdup (header.Name);	// the direct game strdup (0x006C4C70), not the CRT import
 			m_Version = header.Version;
 
 			// Success!
@@ -1891,3 +1806,12 @@ ParticleEmitterLoaderClass::Load_W3D (ChunkLoadClass &chunk_load)
     // Return a pointer to the prototype
 	 return pprototype;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0Rva7F4CC0Child@@QAE@XZ=??0PrototypeClass@@QAE@XZ")
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0SnapshotDupReplica@@QAE@XZ=??0PrototypeClass@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?bfmeInitTUA@BfmeSubTUA@@QAEXXZ=??0PrototypeClass@@QAE@XZ")

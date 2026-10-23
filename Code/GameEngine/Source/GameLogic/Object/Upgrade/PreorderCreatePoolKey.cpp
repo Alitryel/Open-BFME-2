@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva004B92A0@PreorderCreate@@SA?AW4NameKeyType@@XZ @0x004B92A0
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@PreorderCreate@@UBE?AW4NameKeyType@@XZ @0x004B92A0
 // (69B): cached pool-name key for PreorderCreate. The class
 // identity comes from the pool-name string the body pushes
 // ("PreorderCreate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class PreorderCreate
 {
 public:
-	static NameKeyType rva004B92A0();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004B92A0@PreorderCreate@@SA?AW4NameKeyType@@XZ
-NameKeyType PreorderCreate::rva004B92A0()
+// ?getModuleNameKey@PreorderCreate@@UBE?AW4NameKeyType@@XZ
+NameKeyType PreorderCreate::getModuleNameKey() const
 {
 	static NameKeyType ThePreorderCreatePoolKey =
 		TheNameKeyGenerator->nameToKey("PreorderCreate");

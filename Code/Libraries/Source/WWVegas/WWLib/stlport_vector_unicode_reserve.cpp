@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // Real STLport4.5.3 vector<UnicodeString> reserve family. Semantic donor:
 // BFME1 Code/GameEngine/Source/Common/System/XferUnicodeStringVector.cpp.
@@ -11,16 +11,12 @@
 // keeps its genuine EH frame. Do not globally disable the helper's exceptions.
 #include <vector>
 
-class UnicodeString
-{
-public:
-    UnicodeString();
-    UnicodeString(const UnicodeString &);
-    ~UnicodeString();
-    UnicodeString &operator=(const UnicodeString &);
-private:
-    void *m_data;
-};
+#include "unicode_string.h"
+// Preserve the native inline free without emitting per-unit allocator copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void allocator<UnicodeString>::deallocate(UnicodeString *p, size_t) const { if(p) ::free(p); }
+template <> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<UnicodeString *,UnicodeString,allocator<UnicodeString> >::deallocate(UnicodeString *p, size_t n) { __stl_alloc_rebind(static_cast<allocator<UnicodeString> &>(*this), (UnicodeString *)0).deallocate(p,n); }
+}
 
 // Already recovered from the true wide-string constructor chain in
 // stlport_construct_unicode_string.cpp; declaration prevents a different

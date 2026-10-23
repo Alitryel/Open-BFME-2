@@ -62,3 +62,8 @@ void Debug_Statistics::Record_DX8_Polys_And_Vertices(int polys, int verts, const
 	g_stat1 += verts;
 	g_stat8 += 1;
 }
+
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
+#pragma comment(linker, "/alternatename:?CurrentCaps@DX8Wrapper@@2PAVDX8Caps@@A=?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A")
+#pragma comment(linker, "/alternatename:?NPatchesLevel@WW3D@@2IA=?NPatchesLevel@WW3D@@0IA")

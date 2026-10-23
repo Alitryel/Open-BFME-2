@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/asciistring_outofline /Ireference/shims/iniexception /Ireference/shims/sweep /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /O1
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfme2_ascii /Ireference/shims/asciistring_outofline /Ireference/shims/iniexception /Ireference/shims/sweep /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
 
 // BFME2 target evidence: registeredFieldParse row RVA 0x840B40 bytes
 // e4 0a c4 00 a9 80 85 00 00 00 00 00 10 00 00 00 (BridgeDieFX name,
@@ -28,7 +28,7 @@
 */
 
 // stlport
-#include "Common/AsciiString.h"
+#include "ascii_string.h"
 #include "Common/INIException.h"
 
 extern "C" __declspec( dllimport ) int __cdecl _strcmpi( const char *, const char * );
@@ -53,11 +53,16 @@ public:
 
 class FXList;
 
+#pragma optimize("s", off)
+#pragma optimize("t", on)
 struct TimeAndLocationInfo
 {
 	UnsignedInt delay;
 	AsciiString boneName;
+	TimeAndLocationInfo() {}
+	~TimeAndLocationInfo() {}
 };
+#pragma optimize("", on)
 
 class BridgeBehaviorModuleData
 {
@@ -65,13 +70,28 @@ public:
 	static void parseFX( INI *, void *, void *, const void * );
 };
 
+#pragma optimize("s", off)
+#pragma optimize("t", on)
 struct BridgeFXInfo
 {
+	BridgeFXInfo() {}
+	~BridgeFXInfo() {}
     const FXList *fx;
     TimeAndLocationInfo timeAndLocationInfo;
 };
+#pragma optimize("", on)
 
 #include <list>
+
+// Keep the existing allocator inline at these call sites without emitting
+// another out-of-line copy under this unit's compiler settings.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void * _STLP_CALL __node_alloc<true, 0>::allocate(size_t __n)
+{ return (__n > (size_t)_MAX_BYTES) ? __stl_new(__n) : _M_allocate(__n); }
+}
+
+struct BridgeBehaviorListValue12;
 
 namespace _STL
 {
@@ -79,7 +99,16 @@ namespace _STL
 // _Construct call through donor ILT 0x00007C84 and donor body RVA 0x001F32A0.
 // BFME2 copy semantics are independently traced through 0x4570DD -> 0x456E70
 // -> 0x000CF475 -> 0x000365F0; do not interpret the donor addresses as target RVAs.
-template <> void _Construct<BridgeFXInfo, BridgeFXInfo>(BridgeFXInfo *, const BridgeFXInfo &);
+// The target's shared copy helper is already rowed under this neutral view.
+// Both callback payloads have pointer/delay/string at offsets 0/4/8.
+template <> void _Construct<BridgeBehaviorListValue12, BridgeBehaviorListValue12>(
+    BridgeBehaviorListValue12 *, const BridgeBehaviorListValue12 &);
+template <> __forceinline void _Construct<BridgeFXInfo, BridgeFXInfo>(
+    BridgeFXInfo *destination, const BridgeFXInfo &source)
+{
+    _Construct(reinterpret_cast<BridgeBehaviorListValue12 *>(destination),
+        reinterpret_cast<const BridgeBehaviorListValue12 &>(source));
+}
 }
 
 struct BoneNameSlot

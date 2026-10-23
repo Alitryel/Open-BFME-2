@@ -4,17 +4,14 @@
 // Its owner and name are not proven, so it keeps its address.
 
 #include <vector>
-#include <math.h>
+
+extern "C" double __cdecl cos(double);
+extern "C" double __cdecl sin(double);
 
 typedef float Real;
 typedef bool Bool;
 
-struct Coord3D
-{
-	Real x;
-	Real y;
-	Real z;
-};
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
 
 struct Point2D
 {
@@ -22,18 +19,9 @@ struct Point2D
 	Real y;
 };
 
-struct Region2D
-{
-	Point2D lo;
-	Point2D hi;
-};
+#include "../../../../Libraries/Include/Lib/Region2D.h"
 
-struct AsciiString
-{
-	~AsciiString();
-
-	char *m_data;
-};
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
 enum GeometryType
 {
@@ -76,15 +64,15 @@ struct GeometryShape
 typedef char GeometryShape_size_check[sizeof(GeometryShape) == 0x24 ? 1 : -1];
 
 template <class T>
-inline const T &bfmeMin(const T &a, const T &b)
+static inline const T &bfmeMin(const T &lhs, const T &rhs)
 {
-	return (a < b) ? a : b;
+	return (lhs < rhs) ? lhs : rhs;
 }
 
 template <class T>
-inline const T &bfmeMax(const T &a, const T &b)
+static inline const T &bfmeMax(const T &lhs, const T &rhs)
 {
-	return (a > b) ? a : b;
+	return (lhs > rhs) ? lhs : rhs;
 }
 
 class Rva0087E370

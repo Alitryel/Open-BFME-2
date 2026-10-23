@@ -21,7 +21,15 @@ private:
 };
 
 // ?friend_newModuleInstance@AIUpdateInterface@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *AIUpdateInterface::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *AIUpdateInterface::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new AIUpdateInterface(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitAIUpdateInterfaceFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitAIUpdateInterfaceFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	AIUpdateInterface::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

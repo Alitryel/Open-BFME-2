@@ -1,4 +1,4 @@
-// cl: /O1 /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // Identity: ModuleFactory registers this module as "CurseSpecialPower" (addModule pairs
 // the name with its factories); formerly misnamed SpawnPointProductionExitUpdate.
 // stlport
@@ -35,11 +35,6 @@ protected:
 	unsigned char m_pad2[0x88 - 0x24];
 };
 
-// ??1Rva0044EF5E@@ present-unmatched
-Rva0044EF5E::~Rva0044EF5E()
-{
-}
-
 class CurseSpecialPower : public Rva0044EF5E
 {
 public:
@@ -55,7 +50,4 @@ CurseSpecialPower::CurseSpecialPower(Thing *thing, const ModuleData *moduleData)
 	m_p20 = &s_dummy20;
 }
 
-// ??1CurseSpecialPower@@ present-unmatched
-CurseSpecialPower::~CurseSpecialPower()
-{
-}
+// CurseSpecialPower::~CurseSpecialPower: defined in ModuleUpdateDtors.cpp (its row's unit).

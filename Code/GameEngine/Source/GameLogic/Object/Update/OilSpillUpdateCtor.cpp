@@ -1,4 +1,4 @@
-// cl: /O1 /GX /DNDEBUG /MD
+// cl: /GX /DNDEBUG /MD
 // stlport
 //
 // ??0OilSpillUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x0048C1F7,
@@ -13,6 +13,23 @@
 // caller at 0x24CFA7). Row supersedes the ctor pin.
 
 #include <vector>
+
+// vector<int>/char destruction otherwise instantiates per-TU allocator
+// deallocate COMDATs (one byte shape per TU flags); explicit
+// dllimport+forceinline specializations take those calls inline so this
+// TU emits no external copies. Bodies are verbatim primary.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<int>::deallocate(int* __p, size_t __n) const {
+  _STLP_ASSERT( (__p == 0) == (__n == 0) )
+    if (__p != 0) __sgi_alloc::deallocate((void*)__p, __n * sizeof(value_type));
+}
+template <> void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int*, size_t);
+// Declaration-only: retail keeps one 14-byte copy of the vector<int> teardown
+// (0x0007FAB3); this TU's flags would emit a private 24-byte one.
+template <> vector<int, allocator<int> >::~vector();
+template <> _Vector_base<int, allocator<int> >::~_Vector_base();
+}
 
 class Thing;
 class ModuleData;
@@ -53,6 +70,7 @@ private:
 class OilSpillUpdate : public FireWeaponUpdate
 {
 public:
+	~OilSpillUpdate();	// rowed out of line; this view must not emit its own
 	OilSpillUpdate(Thing *thing, const ModuleData *moduleData);
 
 private:
@@ -65,3 +83,14 @@ OilSpillUpdate::OilSpillUpdate(Thing *thing, const ModuleData *moduleData)
 {
 	setWakeFrame(reinterpret_cast<Object *>(m_owner08), 1);
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?unusedB@FireWeaponBaseB@@EAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+#pragma comment(linker, "/alternatename:?unusedA@FireWeaponBaseA@@EAEXXZ=??_GOilSpillUpdate@@UAEPAXI@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?unusedC@FireWeaponBaseC@@EAEXXZ=?update@OilSpillUpdate@@UAE?AW4UpdateSleepTime@@XZ")

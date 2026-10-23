@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??1CritterEmitterUpdate@@MAE@XZ, retail 0x004C8D1B, 32 bytes. Destructor for
 // CritterEmitterUpdate (ctor rowed in CritterEmitterUpdateConstructorThunk.cpp,
@@ -50,14 +50,19 @@ protected:
 	int m_bfmeReserved;
 };
 
+class Coord3D;
+
+// The +0x20 interface's vftable 0x00C5E8C4 opens with onCollide (0x004C8E83).
 class CritterEmitterUpdateIface
 {
 public:
-	virtual void trailingAnchor();
+	virtual void onCollide(Object *other, const Coord3D *loc, const Coord3D *normal) = 0;
 };
 
 class CritterEmitterUpdate : public UpdateModule, public CritterEmitterUpdateIface
 {
+public:
+	virtual void onCollide(Object *other, const Coord3D *loc, const Coord3D *normal);
 protected:
 	virtual ~CritterEmitterUpdate();
 };
@@ -65,3 +70,8 @@ protected:
 CritterEmitterUpdate::~CritterEmitterUpdate()
 {
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?behaviorModuleOtherAnchor@BehaviorModuleOther@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /Oi /arch:SSE
+// cl: /DNDEBUG /MD /Oi
 //
 // ??0ProjectileStreamUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail
 // 0x0033EE25, 86 bytes. Behavior-side ctor completing the
@@ -67,13 +67,8 @@ enum
 	MAX_PROJECTILE_STREAM = 20
 };
 
-struct Coord3D
-{
-	void zero() { m_x = 0.0f; m_y = 0.0f; m_z = 0.0f; }
-	float m_x;
-	float m_y;
-	float m_z;
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../../Libraries/Include/Lib/Coord3DInline.h"
 
 extern "C" void *memset(void *, int, unsigned int);
 
@@ -102,3 +97,14 @@ ProjectileStreamUpdate::ProjectileStreamUpdate(Thing *thing, const ModuleData *m
 	m_targetObject = INVALID_ID;
 	m_targetPosition.zero();
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?unused@BehaviorModuleOther@@EAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?unused@BehaviorModuleBase@@EAEXXZ=??_GRva0033EEC9@@UAEPAXI@Z")
+#pragma comment(linker, "/alternatename:?update@UpdateModule@@UAEXXZ=?update@ProjectileStreamUpdate@@UAE?AW4UpdateSleepTime@@XZ")

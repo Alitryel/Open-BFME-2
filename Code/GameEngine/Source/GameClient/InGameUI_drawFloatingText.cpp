@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /EHsc /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /EHsc /MD /DNDEBUG /DWIN32 /D_WINDOWS
 // stlport
 //
 // InGameUI::drawFloatingText, retail 0x0029D200 (266 bytes).
@@ -15,18 +15,9 @@
 // the PartitionManager pin from handleRadiusCursor, and the color
 // unpacking is the reference GameGetColorComponents.
 
-struct ICoord2D
-{
-	int x;
-	int y;
-};
+#include "../../../Libraries/Include/Lib/ICoord2D.h"
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-};
+#include "../../../Libraries/Include/Lib/Coord3D.h"
 
 class Player
 {
@@ -138,7 +129,7 @@ public:
 	virtual int worldToScreen(const Coord3D *world, ICoord2D *screen);
 };
 
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 enum CellShroudStatus
 {
@@ -226,7 +217,7 @@ void InGameUI::drawFloatingText()
 
 		int playerIndex = ThePlayerList->m_localPlayer->m_playerIndex;
 
-		if (!TheTacticalView->worldToScreen(&ftd->m_pos3D, &pos) &&
+		if (!((TacticalView *)TheTacticalView)->worldToScreen(&ftd->m_pos3D, &pos) &&
 			ftd->m_dString &&
 			TheShroudManager->getShroudStatusForPlayer(playerIndex, &ftd->m_pos3D) == CELLSHROUD_CLEAR)
 		{

@@ -1,4 +1,11 @@
-// cl: /G7 /arch:SSE /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
+// cl: /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/bfme /G7 /arch:SSE /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
+#include "../../../../../reference/shims/bfme_mesh_refcount_link/refcount.h"
+// Link view first: Vector3::Length (and Normalize/Vector3(x,y,z) in the full view) stay inline without
+// emitting /O2 copies that compete with retail's owners (0x000692B3, 0x0006924F, 0x006CD510).
+#include "../../../../../reference/shims/bfme_vector3_lenfull_link/vector3_lenfull_link.h"
+// Link view first: Vector4(x,y,z,w) stays inline without emitting an SSE
+// copy that competes with retail's integer-move owner (0x006D8A30).
+#include "../../../../../reference/shims/bfme_matrix3d_sse_link/vector4.h"
 // Support types and wrapper algorithms follow BFME 1 WWVegas headers. Retail
 // evidence places Line3D Render at vtable slot 12, three-axis/scalar Scale at
 // 91/92, Get_Sort_Level at 94, and Is_Not_Hidden_At_All at 97 (table 0xBD3FA8).
@@ -6,6 +13,17 @@
 // accessors/copy construction. Other base slots stay opaque. The target
 // dynamic-index lock is 12 bytes; its fields are supported by the matched
 // index-buffer lock body.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 ** Command & Conquer Generals Zero Hour(tm)
 ** Copyright 2025 Electronic Arts Inc.
@@ -24,6 +42,12 @@
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #define Matrix4x4 Matrix4
+// Link view first: Matrix3D(), Matrix3D(bool) and Matrix3D(const Matrix3D&) stay inline without
+// emitting /O2 copies that compete with retail's owners (0x000423C5, 0x0004C91A, 0x0006645C).
+#include "../../../../../reference/shims/bfme_matrix3d_full_link/matrix3d_full_link.h"
+// Link view: Matrix4(Vector4 x4), Transpose and the Matrix3D overloads stay inline without emitting
+// copies that lose to retail's /O1 owners (0x0006A34E, 0x0006A3D1).
+#include "../../../../../reference/shims/bfme_matrix4_rows_link/matrix4_bfme1_rows_link.h"
 #include "winbase_shim.h"
 #include "vector3.h"
 #include "vector4.h"
@@ -101,17 +125,17 @@ protected:
     static unsigned matrix_changes;
 public:
     static IDirect3DDevice8 *_Get_D3D_Device8();
-    static void Set_Shader(const ShaderClass&);
-    static void Set_Material(const VertexMaterialClass*);
-    static void Set_Transform(D3DTRANSFORMSTATETYPE, const Matrix3D&);
-    static unsigned Convert_Color(const Vector3&, float);
-    static unsigned Convert_Color(const Vector4&);
+    static __declspec(dllimport) __forceinline void Set_Shader(const ShaderClass&);
+    static __declspec(dllimport) __forceinline void Set_Material(const VertexMaterialClass*);
+    static __declspec(dllimport) __forceinline void Set_Transform(D3DTRANSFORMSTATETYPE, const Matrix3D&);
+    static __declspec(dllimport) __forceinline unsigned Convert_Color(const Vector3&, float);
+    static __declspec(dllimport) __forceinline unsigned Convert_Color(const Vector4&);
     static void Set_Vertex_Buffer(const DynamicVBAccessClass&);
     static void Set_Index_Buffer(const DynamicIBAccessClass&, unsigned short);
     static void Draw_Triangles(unsigned, unsigned, unsigned, unsigned);
 };
 
-WWINLINE void DX8Wrapper::Set_Shader(const ShaderClass& shader)
+__declspec(dllimport) __forceinline void DX8Wrapper::Set_Shader(const ShaderClass& shader)
 {
 	if (!ShaderClass::ShaderDirty && ((unsigned&)shader==(unsigned&)render_state.shader)) {
 		return;
@@ -126,7 +150,7 @@ WWINLINE void DX8Wrapper::Set_Shader(const ShaderClass& shader)
 
 // ?Set_Material@DX8Wrapper@@SAXPBVVertexMaterialClass@@@Z present-unmatched
 // Retained for its verified inline expansion in Render; no separate body claim.
-WWINLINE void DX8Wrapper::Set_Material(const VertexMaterialClass* material)
+__declspec(dllimport) __forceinline void DX8Wrapper::Set_Material(const VertexMaterialClass* material)
 {
 	REF_PTR_SET(render_state.material,const_cast<VertexMaterialClass*>(material));
 	render_state_changed|=MATERIAL_CHANGED;
@@ -135,7 +159,7 @@ WWINLINE void DX8Wrapper::Set_Material(const VertexMaterialClass* material)
 
 // ?Set_Transform@DX8Wrapper@@SAXW4_D3DTRANSFORMSTATETYPE@@ABVMatrix3D@@@Z present-unmatched
 // Retained for its verified inline expansion in Render; no separate body claim.
-WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix3D& m)
+__declspec(dllimport) __forceinline void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix3D& m)
 {
 	Matrix4x4 m2(m);
 	switch ((int)transform) {
@@ -162,7 +186,7 @@ WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Ma
 // so retain this donor x87 sequence. Input is expected clamped to [0,1]; the
 // control word selects truncation for RGBA*255, packs AARRGGBB, then restores
 // the caller's rounding mode. The target-derived col=0 initialization remains.
-WWINLINE unsigned int DX8Wrapper::Convert_Color(const Vector3& color,float alpha)
+__declspec(dllimport) __forceinline unsigned int DX8Wrapper::Convert_Color(const Vector3& color,float alpha)
 {
 	const float scale = 255.0;
 	unsigned int col = 0;
@@ -218,7 +242,7 @@ not_changed:
 	return col;
 }
 
-WWINLINE unsigned int DX8Wrapper::Convert_Color(const Vector4& color)
+__declspec(dllimport) __forceinline unsigned int DX8Wrapper::Convert_Color(const Vector4& color)
 {
 	return Convert_Color(reinterpret_cast<const Vector3&>(color),color[3]);
 }
@@ -433,7 +457,7 @@ void Line3DClass::Get_Obj_Space_Bounding_Box(AABoxClass& box) const
 // Retail 0x167370 selects the same alpha/opaque shader globals, calls the
 // vtable Set_Sort_Level slot, and stores opacity in Color.W@0x13C. The target
 // Line3D constructor at 0x1673D0 performs the same sequence inline.
-void Line3DClass::Set_Opacity(float opacity)
+inline void Line3DClass::Set_Opacity(float opacity)
 {
     if (opacity < 1.0f) {
         Shader = ShaderClass::_PresetAlphaSolidShader;
@@ -521,3 +545,12 @@ int Line3DClass::Get_Sort_Level() const
 {
     return SortLevel;
 }
+
+// Set_Opacity is a header inline in the copier unit; the anchor is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeLine3DClassSetOpacityInlineAnchor@@YAXXZ absent-from-retail
+void _bfmeLine3DClassSetOpacityInlineAnchor()
+{
+    static_cast<Line3DClass *>(0)->Set_Opacity(0.0f);
+}
+#pragma inline_depth()

@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /GX- /O1 /Ob2
+// cl: /DNDEBUG /MD /GX- /Ob2
 
 // Open-BFME5: DefaultModuleTemplate (N=6) copy ctor
 // Retail: base copy; null-preserving sub at +8; dual outer vtbl + sub vtbl.
@@ -6,22 +6,25 @@
 namespace FXParticleSystem
 {
 
-class DefaultModuleTemplate05BaseCopyShim
+template <int CATEGORY>
+class CategoryModuleTemplate
 {
 public:
-	void construct_from(const void *src);
+	CategoryModuleTemplate(const CategoryModuleTemplate &that);
 };
 
-class DefaultModuleTemplate05SubCopyShim
+class DefaultDrawModuleInfo
 {
 public:
-	void construct_from(const void *src_sub_or_null);
+	DefaultDrawModuleInfo(const DefaultDrawModuleInfo &that);
 	virtual void dummy();
 };
 
-extern "C" char DefaultModuleTemplate05_vtbl0;
+// DefaultModuleTemplate05_vtbl0: matched references place it at VA 0xc1bd60 (retail .rdata value -97).
+extern "C" char DefaultModuleTemplate05_vtbl0 = -97;
 extern "C" char DefaultModuleTemplate05_vtbl4;
-extern "C" char DefaultModuleTemplate05_sub_vtbl;
+// DefaultModuleTemplate05_sub_vtbl: matched references place it at VA 0xc1bad0 (retail .rdata value 109).
+extern "C" char DefaultModuleTemplate05_sub_vtbl = 109;
 
 template <int N>
 class DefaultModuleTemplate
@@ -39,11 +42,11 @@ template <int N>
 DefaultModuleTemplate<N>::DefaultModuleTemplate(const DefaultModuleTemplate &that)
 {
 	const void *src = &that;
-	((DefaultModuleTemplate05BaseCopyShim *)this)->construct_from(src);
+	((CategoryModuleTemplate<0> *)this)->CategoryModuleTemplate<0>::CategoryModuleTemplate(
+		*(const CategoryModuleTemplate<0> *)src);
 	const void *sub_src = src ? (const char *)src + 8 : 0;
-	DefaultModuleTemplate05SubCopyShim *sub =
-		(DefaultModuleTemplate05SubCopyShim *)((char *)this + 8);
-	sub->construct_from(sub_src);
+	DefaultDrawModuleInfo *sub = (DefaultDrawModuleInfo *)((char *)this + 8);
+	sub->DefaultDrawModuleInfo::DefaultDrawModuleInfo(*(const DefaultDrawModuleInfo *)sub_src);
 	*(void **)sub = &DefaultModuleTemplate05_sub_vtbl;
 	m_v0 = &DefaultModuleTemplate05_vtbl0;
 	m_v4 = &DefaultModuleTemplate05_vtbl4;
@@ -51,3 +54,5 @@ DefaultModuleTemplate<N>::DefaultModuleTemplate(const DefaultModuleTemplate &tha
 
 template DefaultModuleTemplate<6>::DefaultModuleTemplate(const DefaultModuleTemplate &);
 }
+// _DefaultModuleTemplate05_vtbl4: the global at VA 0xc1c780 is ?vftable_0112B89C@@3HA.
+#pragma comment(linker, "/alternatename:_DefaultModuleTemplate05_vtbl4=?vftable_0112B89C@@3HA")

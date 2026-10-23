@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0045D459@SlowDeathBehavior@@SA?AW4NameKeyType@@XZ @0x45D459
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@SlowDeathBehavior@@UBE?AW4NameKeyType@@XZ @0x45D459
 // (68B): cached pool-name key for SlowDeathBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("SlowDeathBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class SlowDeathBehavior
 {
 public:
-	static NameKeyType rva0045D459();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0045D459@SlowDeathBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType SlowDeathBehavior::rva0045D459()
+// ?getModuleNameKey@SlowDeathBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType SlowDeathBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheSlowDeathBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("SlowDeathBehavior");

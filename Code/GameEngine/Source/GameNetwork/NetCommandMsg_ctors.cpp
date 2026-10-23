@@ -19,6 +19,7 @@ public:
 	virtual ~BFMENetInformPlayerLeaveFrameCommandMsg();
 
 	void setLeaveFrame(UnsignedInt frame);
+	void setLeavingPlayerID(Int playerID);
 
 private:
 	UnsignedInt m_timestamp; // this+0x04
@@ -37,4 +38,11 @@ void BFMENetInformPlayerLeaveFrameCommandMsg::setLeaveFrame(UnsignedInt frame)
 {
 	m_commandType = NETCOMMANDTYPE_INFORMPLAYERLEAVEFRAME;
 	m_leaveFrame = frame;
+}
+
+// The type-8 and type-9 packet readers both pass the dword at this+0x20 here.
+// ?setLeavingPlayerID@BFMENetInformPlayerLeaveFrameCommandMsg@@QAEXH@Z
+void BFMENetInformPlayerLeaveFrameCommandMsg::setLeavingPlayerID(Int playerID)
+{
+	m_leavingPlayerID = playerID;
 }

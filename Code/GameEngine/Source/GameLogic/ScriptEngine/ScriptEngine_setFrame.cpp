@@ -1,4 +1,4 @@
-// cl: /O1
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 // ScriptEngine frame setter at retail 0x00204094 (83B).
 // Decoded from retail bytes (all verified):
 // - Calls rva00203C21 row (SetTheSidesList gate, 89B) then GetProcAddress
@@ -8,18 +8,33 @@
 // - App module at [0xDFE158]; latch-free early outs.
 // Human-readable names; opaque free function (no this, standard ret).
 
+class Rva002BA8F1Logic;
+class LivingWorldLogic;
+extern LivingWorldLogic *TheLivingWorldLogic;
+extern class GameClient *TheGameClient;
+
 typedef int HMODULE;
+extern int st_DebugDLL;
 
 extern "C" __declspec(dllimport) void *__stdcall GetProcAddress(HMODULE module, const char *name);
 
 class GameLogic
 {
 public:
+	char m_pad00[0x40];
+	int m_frameNumber;
 	bool rva001DCD1C();
 };
+extern GameLogic *TheGameLogic;
 
-#define TheGameLogic (*(GameLogic **)0x00DFE78C)
-#define TheAppModule (*(HMODULE *)0x00DFE158)
+class LivingWorldLogic
+{
+public:
+	char m_pad00[0xFC];
+	int m_frameNumber;
+};
+
+#define TheAppModule st_DebugDLL
 
 void rva00203C21();
 
@@ -36,8 +51,8 @@ public:
 	virtual void slot1C(); virtual void slot1D(); virtual void slot1E(); virtual int slot1F();
 };
 
-#define TheRva00DFE77C (*(Rva00DFE77CHolder **)0x00DFE77C)
-#define TheRva00DFEF10 (*(void **)0x00DFEF10)
+#define TheRva00DFE77C (*(Rva00DFE77CHolder **)&TheGameClient)
+#define TheRva00DFEF10 (*(void **)&(*(Rva002BA8F1Logic **)&TheLivingWorldLogic))
 
 void rva00204094()
 {
@@ -53,5 +68,27 @@ void rva00204094()
 		value = TheRva00DFE77C->slot1F();
 	else
 		value = *(int *)((char *)TheRva00DFEF10 + 0xFC);
+	proc(value);
+}
+
+// ?Rva002040E7GetFrameNumber@@YAXXZ @0x002040E7 79B.
+// Evidence: adjacent debug frame setter uses GetProcAddress("SetFrameNumber");
+// target bytes select GameLogic::m_frameNumber or
+// TheLivingWorldLogic::m_frameNumber after the rowed mode check.
+void Rva002040E7GetFrameNumber()
+{
+	if (!TheAppModule)
+		return;
+	rva00203C21();
+	typedef void (__cdecl *SetFrameProc)(int value);
+	SetFrameProc proc = (SetFrameProc)GetProcAddress(TheAppModule, "SetFrameNumber");
+	if (!proc)
+		return;
+	GameLogic *logic = TheGameLogic;
+	int value;
+	if (!logic->rva001DCD1C())
+		value = logic->m_frameNumber;
+	else
+		value = TheLivingWorldLogic->m_frameNumber;
 	proc(value);
 }

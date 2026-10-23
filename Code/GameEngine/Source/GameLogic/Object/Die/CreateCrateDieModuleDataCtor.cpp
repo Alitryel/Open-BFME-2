@@ -1,9 +1,9 @@
-// cl: /O1 /MD /GX /DNDEBUG /Oy- /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /O1 /MD /D_CRTIMP= /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
-// ??0CreateCrateDieModuleData@@QAE@XZ, retail 0x002572EE, 74 bytes.
+// ??0CreateCrateDieModuleData@@QAE@XZ, retail 0x002572EE, 75 bytes.
 // CreateCrateDie ModuleData default ctor over the pinned SEH intermediate
-// base (??0Rva00253510@@QAE@XZ at 0x253510, shared with the Die family).
+// base (??0DestroyDieModuleData@@QAE@XZ at 0x253510, shared with the Die family).
 // The base and the derived both declare virtual dtors (KeepObjectDie/
 // CreateObjectDieModuleDataCtor precedent) and the compiler installs the
 // vptr itself right after the base call; the DIR32 slot is patched from
@@ -23,29 +23,28 @@
 // (pin 4079, superseded by this row).
 
 #include <list>
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
-class AsciiString
+#include "ascii_string.h"
+
+// Declaration-only: the rowed list<AsciiString> base members are bound,
+// this TU emits no per-flag copy of them or of their allocator leaves.
+namespace _STL {
+template <> _List_base<AsciiString, allocator<AsciiString> >::~_List_base();
+template <> void _List_base<AsciiString, allocator<AsciiString> >::clear();
+}
+
+class DestroyDieModuleData : public Snapshot
 {
 public:
-	AsciiString() : m_data(0) {}
-	void clear();
-	~AsciiString();
-
-private:
-	void *m_data;
-};
-
-class Rva00253510
-{
-public:
-	Rva00253510();
-	virtual ~Rva00253510();
+	DestroyDieModuleData();
+	virtual ~DestroyDieModuleData();
 
 private:
 	unsigned char m_pad[0x38 - 4];
 };
 
-class CreateCrateDieModuleData : public Rva00253510
+class CreateCrateDieModuleData : public DestroyDieModuleData
 {
 public:
 	CreateCrateDieModuleData();
@@ -56,17 +55,20 @@ private:
 };
 
 // ??0CreateCrateDieModuleData@@QAE@XZ @0x2572EE
-CreateCrateDieModuleData::CreateCrateDieModuleData()
+inline CreateCrateDieModuleData::CreateCrateDieModuleData()
 {
 	m_crateNameList.clear();
 }
 
-// ??1CreateCrateDieModuleData@@UAE@XZ present-unmatched
-CreateCrateDieModuleData::~CreateCrateDieModuleData()
-{
-}
+// CreateCrateDieModuleData::~CreateCrateDieModuleData: defined in CreateCrateDieModuleDataDtor.cpp (its row's unit).
 
-// ??1Rva00253510@@UAE@XZ present-unmatched
-Rva00253510::~Rva00253510()
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeCreateCrateDieModuleDataInlineAnchor@@YAXPAVCreateCrateDieModuleData@@@Z absent-from-retail
+void _bfmeCreateCrateDieModuleDataInlineAnchor(CreateCrateDieModuleData *createCrateDieModuleData)
 {
+    createCrateDieModuleData->CreateCrateDieModuleData::CreateCrateDieModuleData();
 }
+#pragma inline_depth()

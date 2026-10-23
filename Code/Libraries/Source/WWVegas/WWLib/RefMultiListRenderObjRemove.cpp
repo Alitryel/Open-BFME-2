@@ -34,7 +34,7 @@ public:
 	bool Release_Head(void);
 };
 
-bool RefMultiListClass<RenderObjClass>::Remove(RenderObjClass *obj)
+inline bool RefMultiListClass<RenderObjClass>::Remove(RenderObjClass *obj)
 {
 	bool result = Internal_Remove(obj);
 	if (result)
@@ -49,7 +49,7 @@ bool RefMultiListClass<RenderObjClass>::Remove(RenderObjClass *obj)
 // shape (dec at +4 then vtable slot 0) and same bool return in al, but for
 // the list head via Internal_Remove_List_Head (already matched at 0x6109A0).
 // Retail 0x0006EF8C, 33 bytes.
-bool RefMultiListClass<RenderObjClass>::Release_Head(void)
+inline bool RefMultiListClass<RenderObjClass>::Release_Head(void)
 {
 	RenderObjClass *headObject = (RenderObjClass *)Internal_Remove_List_Head();
 	if (headObject != 0) {
@@ -59,3 +59,16 @@ bool RefMultiListClass<RenderObjClass>::Release_Head(void)
 	}
 	return false;
 }
+
+// Both members are header inlines elsewhere: other units emit select-any
+// copies, so strong definitions here were duplicate symbols in the linked
+// build. This anchor only makes this unit emit its copies for the ledger
+// rows; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitRefMultiListRenderObjRemove@@YAXPAV?$RefMultiListClass@VRenderObjClass@@@@PAVRenderObjClass@@@Z present-unmatched
+void bfmeEmitRefMultiListRenderObjRemove(RefMultiListClass<RenderObjClass> *p, RenderObjClass *obj)
+{
+	p->Remove(obj);
+	p->Release_Head();
+}
+#pragma inline_depth()

@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004B7F3D@RemoveUpgradeUpgrade@@SA?AW4NameKeyType@@XZ @0x4B7F3D
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@RemoveUpgradeUpgrade@@UBE?AW4NameKeyType@@XZ @0x4B7F3D
 // (69B): cached pool-name key for RemoveUpgradeUpgrade. The class
 // identity comes from the pool-name string the body pushes
 // ("RemoveUpgradeUpgrade"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class RemoveUpgradeUpgrade
 {
 public:
-	static NameKeyType rva0004B7F3D();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004B7F3D@RemoveUpgradeUpgrade@@SA?AW4NameKeyType@@XZ
-NameKeyType RemoveUpgradeUpgrade::rva0004B7F3D()
+// ?getModuleNameKey@RemoveUpgradeUpgrade@@UBE?AW4NameKeyType@@XZ
+NameKeyType RemoveUpgradeUpgrade::getModuleNameKey() const
 {
 	static NameKeyType TheRemoveUpgradeUpgradePoolKey =
 		TheNameKeyGenerator->nameToKey("RemoveUpgradeUpgrade");

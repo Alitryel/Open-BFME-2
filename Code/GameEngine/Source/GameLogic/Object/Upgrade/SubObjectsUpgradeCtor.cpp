@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ??0SubObjectsUpgrade@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x004B4D63,
 // 64 bytes. Behavior-side ctor completing the SubObjectsUpgrade file-unit
@@ -17,11 +17,22 @@
 // +0x20 tail. Zero new pins (base resolves via the existing UpgradeModule
 // pin; global is DIR32-masked).
 
+extern "C" const void *const vtbl_00C57328[];  // folded, 41 classes; via ??_7AllowBannerSpawnUpgrade@@6BBehaviorModuleInterface@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C57328=??_7AllowBannerSpawnUpgrade@@6BBehaviorModuleInterface@@@")
+extern "C" const void *const vtbl_00C58790[];  // folded, 55 classes; via ??_7AODHordeContain@@6BIface2C@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C58790=??_7AODHordeContain@@6BIface2C@@@")
+
+extern "C" const void *const vtbl_00C57BF8[];  // ??_7Rva004B4CDF@@6BUpgradeDerivedBaseC@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C57BF8=??_7Rva004B4CDF@@6BUpgradeDerivedBaseC@@@")
+extern "C" const void *const vtbl_00C57C40[];  // ??_7Rva004B4CDF@@6BUpgradeDerivedBaseA@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C57C40=??_7Rva004B4CDF@@6BUpgradeDerivedBaseA@@@")
+
 class Thing;
 class ModuleData;
 
-struct GameLogic
+class GameLogic
 {
+public:
 	void *m_pad[16];
 	void *m_40;
 };
@@ -49,10 +60,11 @@ private:
 SubObjectsUpgrade::SubObjectsUpgrade(Thing *thing, const ModuleData *moduleData) :
 	UpgradeModule(thing, moduleData)
 {
-	*(unsigned int *)this = 0x00C57C40;
-	*(unsigned int *)((char *)this + 0xC) = 0x00C57328;
-	*(unsigned int *)((char *)this + 0x10) = 0x00C57BF8;
-	*(unsigned int *)((char *)this + 0x18) = 0x00C58790;
+	*(unsigned int *)this = ((unsigned int)vtbl_00C57C40);
+	*(unsigned int *)((char *)this + 0xC) = ((unsigned int)vtbl_00C57328);
+	*(unsigned int *)((char *)this + 0x10) = ((unsigned int)vtbl_00C57BF8);
+	*(unsigned int *)((char *)this + 0x18) = ((unsigned int)vtbl_00C58790);
 	m_1C = TheGameLogic->m_40;
 	m_20 = 0;
 }
+// ?TheGameLogic@@3PAUGameLogic@@A: the global at VA 0xdfe78c is ?TheGameLogic@@3PAVGameLogic@@A.

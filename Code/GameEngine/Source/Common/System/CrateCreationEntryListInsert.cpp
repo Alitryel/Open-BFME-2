@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // Dedicated unit without the bfmelist __forceinline _M_create_node shim so
@@ -10,16 +10,28 @@
 // crate _Construct twin pin at 0x0035CA02.
 #include <list>
 
-class AsciiString
-{
-public:
-	AsciiString();
-	AsciiString(const AsciiString &other);
-	~AsciiString();
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 
-private:
-	void *m_data;
-};
+
+#include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?erase@?$list@UcrateCreationEntry@@V?$allocator@UcrateCreationEntry@@@_STL@@@_STL@@QAE?AU?:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct crateCreationEntry;
+namespace _STL { template <> _List_iterator<crateCreationEntry,_Nonconst_traits<crateCreationEntry> > list<crateCreationEntry,allocator<crateCreationEntry> >::erase(_List_iterator<crateCreationEntry,_Nonconst_traits<crateCreationEntry> >); }
+// Suppress this TU's non-retail copy of ?_M_create_node@?$list@UcrateCreationEntry@@V?$allocator@UcrateCreationEntry@@@_STL@@@_STL:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct crateCreationEntry;
+namespace _STL { template <> _List_node<crateCreationEntry> * list<crateCreationEntry,allocator<crateCreationEntry> >::_M_create_node(crateCreationEntry const &); }
+// Suppress this TU's non-retail copy of ?clear@?$_List_base@UcrateCreationEntry@@V?$allocator@UcrateCreationEntry@@@_STL@@@_STL@@Q:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct crateCreationEntry;
+namespace _STL { template <> void _List_base<crateCreationEntry,allocator<crateCreationEntry> >::clear(); }
 
 struct crateCreationEntry
 {

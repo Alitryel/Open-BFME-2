@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??1PillageModuleData@@UAE@XZ, retail 0x0025501B, 48 bytes.
 // ModuleData dtor: tears down the filter at +0x10 through the folded 0x360D26
@@ -12,21 +12,11 @@
 // 0x14 via factory 0x25388A) and table 0xBF0620. Caller is the slot-0 ??_G at
 // 0x254FFF (vtable 0xBF0568).
 
+
 class Xfer;
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc(Xfer *xfer);
-	virtual void loadPostProcess();
-	virtual void xfer(Xfer *xfer);
-};
+#include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
 
 class Rva003623E5Filter
 {

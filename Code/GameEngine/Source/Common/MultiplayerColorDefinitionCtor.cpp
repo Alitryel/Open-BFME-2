@@ -1,4 +1,4 @@
-// cl: /O1 /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // ??0MultiplayerColorDefinition@@QAE@XZ, retail 0x00380C4E, 90 bytes.
 // Dedicated TU (the shared MultiplayerSettings.cpp TU carries the ZH-shaped
@@ -20,43 +20,10 @@
 // setFromInt calls. Called from the color-list miss path (lookup 0x3812E6)
 // and the new-color path (0x3813B7), which is the identity proof.
 
-template <typename T>
-class StringBase
-{
-	friend class AsciiString;
+#include "ascii_string.h"
 
-public:
-	StringBase() : m_data(0) {}
 
-private:
-	T *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString() {}
-	void clear();
-	AsciiString(const AsciiString &other);
-	AsciiString &operator=(const AsciiString &other);
-	// Inline teardown to the 0x36410 fold (writeNameKey/openDataChunk
-	// precedent): temp destruction emits a direct releaseBuffer call, which
-	// is what retail does here. A declare-only dtor instead resolves via the
-	// evidence-free 0x6CEAD0 pin (re_log proves that address is a 57B
-	// list-destroy, not the scalar dtor) and mismatches.
-	__forceinline ~AsciiString() { releaseBuffer(); }
-
-protected:
-	void releaseBuffer();
-};
-
-struct RGBColor
-{
-	float red;
-	float green;
-	float blue;
-	void setFromInt(int value);
-};
+#include "../../../Libraries/Include/Lib/RGBColor.h"
 
 class MultiplayerColorDefinition
 {
@@ -64,6 +31,8 @@ public:
 	MultiplayerColorDefinition();
 	MultiplayerColorDefinition *operator=(const MultiplayerColorDefinition &other);
 	AsciiString getTooltipName() const;
+	void setColor(RGBColor rgb);
+	void setNightColor(RGBColor rgb);
 
 private:
 	AsciiString m_tooltipName; // +0x00
@@ -113,4 +82,16 @@ MultiplayerColorDefinition *MultiplayerColorDefinition::operator=(const Multipla
 	m_rgbExtra2 = other.m_rgbExtra2;
 	m_extraFlag = other.m_extraFlag;
 	return this;
+}
+
+// Retail 0x00380C1E / 0x00380C36, 24 bytes each. The canonical RGBColor
+// declaration keeps getAsInt owned by color.cpp (retail 0x00004EA7).
+void MultiplayerColorDefinition::setColor( RGBColor rgb )
+{
+	m_color = rgb.getAsInt() | 0xFF << 24;
+}
+
+void MultiplayerColorDefinition::setNightColor( RGBColor rgb )
+{
+	m_colorNight = rgb.getAsInt() | 0xFF << 24;
 }

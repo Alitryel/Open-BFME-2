@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // vector<void *> again, optimised. The instantiation appears in game.dat from
@@ -9,6 +9,55 @@
 // keeps the vector in esi. That is the definition clear and _M_fill_assign
 // call, so it has to be built here rather than there.
 
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
 #include <vector>
 
-template class _STL::vector<void *, _STL::allocator<void *> >;
+#include <cstddef>
+
+// vector<void*> begin/end otherwise instantiate per-TU COMDATs (one byte
+// shape per TU flags); explicit dllimport+forceinline specializations take
+// those calls inline so this TU emits no external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::begin()
+{ return _M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::end()
+{ return _M_finish; }
+template <> __declspec(dllimport) __forceinline
+size_t vector<void*>::size() const
+{ return size_t(this->_M_finish - this->_M_start); }
+template <> __declspec(dllimport) __forceinline
+void *&vector<void*>::operator[](size_t __n)
+{ return *(begin() + __n); }
+}
+
+// Instantiate only the members and helpers this unit owns. A whole-class
+// instantiation here also emitted optimised copies of every other member,
+// and each one lost to the /Od bodies retail keeps (stlport_vector_voidptr.cpp,
+// stlport_vector_voidptr_alloc.cpp).
+template void **_STL::vector<void *, _STL::allocator<void *> >::erase(void **, void **);
+template void **_STL::vector<void *, _STL::allocator<void *> >::erase(void **);
+template void **_STL::fill_n(void **, unsigned int, void *const &);
+template void **_STL::__uninitialized_fill_n(void **, unsigned int, void *const &, const _STL::__false_type &);
+template void **_STL::__uninitialized_copy(void **, void **, void **, const _STL::__false_type &);
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?erase@Glo012F1028EntryList@@QAEPAPAVGlo012F1028Entry@@PAPAV2@0@Z=?erase@?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QAEPAPAXPAPAX0@Z")
+#pragma comment(linker, "/alternatename:?erase@RvaVector@@QAEPAPAXPAPAX0@Z=?erase@?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QAEPAPAXPAPAX0@Z")
+
+// The shell's owned screen pointers use the same verified POD pointer-vector
+// algorithms. The shell destructor establishes deletion through the screen
+// interface; pins require whole-body and every-relocation fold proof here.
+struct AptOnlineSubScreen;
+template class _STL::vector<AptOnlineSubScreen *, _STL::allocator<AptOnlineSubScreen *> >;

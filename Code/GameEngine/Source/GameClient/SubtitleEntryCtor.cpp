@@ -1,15 +1,19 @@
-// cl: /O2 /Ob0 /MD /EHsc
+// cl: /Ob0 /MD /EHsc
 // Retail 0x00688550 (74B). SubtitleEntry constructor: vptr immediate,
 // text member via the shared wide-string copy body, scalar stores, and a
 // cleared display flag. Transferred from the BFME1 reconstruction
 // (SubtitleEntryConstructorDestructor.cpp); only the ctor is claimed here.
 // The text member constructs through the StringBase<wchar_t> copy body at
-// 0x37050 (public-spelling pin, same pattern as the narrow StringBase pins).
+// 0x37050 (private AAE row, same pattern as the narrow StringBase pins).
+
+extern "C" const void *const __identifier("??_7SubtitleEntry@@6B@")[];
 
 template <typename T> class StringBase
 {
-public:
+private:
 	StringBase(const StringBase &other);
+	friend class SubtitleEntry;
+public:
 	~StringBase();
 
 private:
@@ -41,7 +45,7 @@ private:
 // ??0SubtitleEntry@@QAE@ABVUnicodeString@@IHHHHH@Z
 SubtitleEntry::SubtitleEntry(const UnicodeString &text, unsigned int color,
 	int style, int alignment, int line, int startFrame, int endFrame) :
-	m_vft((void *)0x00CE451C),
+	m_vft((void *)((unsigned int)__identifier("??_7SubtitleEntry@@6B@"))),
 	m_text(text),
 	m_color(color),
 	m_style(style),

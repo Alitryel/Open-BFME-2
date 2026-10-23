@@ -1,4 +1,4 @@
-// cl: /O1 /MD /GX /DNDEBUG /arch:SSE
+// cl: /MD /GX /DNDEBUG
 //
 // ??0AssaultTransportAIUpdateModuleData@@QAE@XZ, retail 0x0024D221 (39 bytes).
 // Frameless ctor over the pinned Transport base (0x26E5D7): zeroes
@@ -13,7 +13,11 @@
 // identical offsets, votes 2/2). Sole raw caller is the ModuleData factory
 // 0x24D29E which news 0x6C.
 
-class TransportAIUpdateModuleData
+inline void *operator new(unsigned int, void *p) { return p; }
+extern "C" const void *const vtbl_00C4B6C8[];  // folded, 3 classes; via ??_7AnimalAIUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4B6C8=??_7AnimalAIUpdateModuleData@@6B@")
+
+class __declspec(novtable) TransportAIUpdateModuleData
 {
 public:
 	TransportAIUpdateModuleData();
@@ -23,19 +27,27 @@ private:
 	unsigned char m_pad[0x64 - 4];
 };
 
-class AssaultTransportAIUpdateModuleData : public TransportAIUpdateModuleData
+class __declspec(novtable) AssaultTransportAIUpdateModuleData : public TransportAIUpdateModuleData
 {
 public:
 	AssaultTransportAIUpdateModuleData();
-	virtual ~AssaultTransportAIUpdateModuleData();
 
 private:
 	float m_membersGetHealedAtLifeRatio;		// +0x64
 	float m_clearRangeRequiredToContinueAttackMove;	// +0x68
 };
 
-AssaultTransportAIUpdateModuleData::AssaultTransportAIUpdateModuleData()
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline AssaultTransportAIUpdateModuleData::AssaultTransportAIUpdateModuleData()
 {
 	m_membersGetHealedAtLifeRatio = 0.0f;
+	*(unsigned int *)this = ((unsigned int)vtbl_00C4B6C8);
 	m_clearRangeRequiredToContinueAttackMove = 50.0f;
+}
+
+// ?bfmeAnchorAssaultTransportAIUpdateModuleDataCtor absent-from-retail
+void *bfmeAnchorAssaultTransportAIUpdateModuleDataCtor(void *where)
+{
+	return ::new (where) AssaultTransportAIUpdateModuleData();
 }

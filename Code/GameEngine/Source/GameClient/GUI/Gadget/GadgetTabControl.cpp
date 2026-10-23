@@ -1,5 +1,16 @@
-// cl: /Ireference/shims/bfme2gwm /O1 /G7 /DNDEBUG /DWIN32 /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /Ireference/shims/bfme2gwm /DNDEBUG /DWIN32 /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
 // stlport
+// CreateSubPanes: ZH donor semantics via Open-BFME-1 revision
+// 10af19f44a89ab7ecc23195bb9a842ceafbc02c9. Target identity: Ghidra
+// boundary 0x00327490/250 and caller 0x002C130F/134, which invokes
+// ComputeTabRegion then CreateSubPanes then ShowSubPane as the donor factory
+// does. Target stores and the call through manager slot +0x88 establish
+// the single-record ABI; snapshotCreateView 0x003146DC and duplicateGadget
+// establish its 0x34-byte size and zeroer 0x0022239C. Field names are
+// structural inferences from the donor arguments; the first word serves
+// as parent here and as id in other callers. Retail leaves the width and
+// height fields zero on creation and uses the computed sizes for existing
+// panes. Existing header flags and all seven sibling bodies are preserved.
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -54,6 +65,8 @@
 #include "Gameclient/GameWindowManager.h"
 #include "GameClient/Gadget.h"
 #include "GameClient/GadgetTabControl.h"
+
+#include "../GameWindowManagerRecordView.h"
 
 // DEFINES ////////////////////////////////////////////////////////////////////
 
@@ -343,11 +356,14 @@ void GadgetTabControlCreateSubPanes( GameWindow *tabControl )///< Create User Wi
 	{
 		if( (tabData->subPanes[paneIndex] == NULL) )//This one is blank
 		{
-			tabData->subPanes[paneIndex] = TheWindowManager->winCreate( tabControl,
-																																	WIN_STATUS_NONE, x, y,
-																																	width, height,
-																																	PassSelectedButtonsToParentSystem,
-																																	NULL);
+			GadgetCreateView view;
+			view.parent = tabControl;
+			view.status = WIN_STATUS_NONE;
+			view.x = x;
+			view.y = y;
+			view.system = (void *)PassSelectedButtonsToParentSystem;
+			tabData->subPanes[paneIndex] =
+				((TabWindowManagerView *)TheWindowManager)->createFromView(&view);
 			WinInstanceData *instData = tabData->subPanes[paneIndex]->winGetInstanceData();
 			BitSet( instData->m_style, GWS_TAB_PANE  );
 			char buffer[20];

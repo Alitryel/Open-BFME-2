@@ -21,7 +21,14 @@ private:
 };
 
 // ?friend_newModuleInstance@BoneFXUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *BoneFXUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *BoneFXUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new BoneFXUpdate(thing, moduleData));
 }
+#pragma inline_depth(0)
+// ?bfmeEmitBoneFXUpdateFriendNew@@YAXPAVBoneFXUpdate@@@Z present-unmatched
+void bfmeEmitBoneFXUpdateFriendNew(BoneFXUpdate *boneFXUpdate)
+{
+	boneFXUpdate->friend_newModuleInstance(0, 0);
+}
+#pragma inline_depth()

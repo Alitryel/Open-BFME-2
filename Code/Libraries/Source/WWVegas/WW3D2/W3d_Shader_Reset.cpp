@@ -22,9 +22,9 @@ struct W3dShaderStruct
 	unsigned char Pad0F;
 };
 
-void W3d_Shader_Reset(W3dShaderStruct *s)
+inline void W3d_Shader_Reset(W3dShaderStruct *w3dShader)
 {
-	unsigned char *p = (unsigned char *)s;
+	unsigned char *p = (unsigned char *)w3dShader;
 	p[0] = 3;
 	p[1] = 1;
 	p[2] = 0;
@@ -42,3 +42,9 @@ void W3d_Shader_Reset(W3dShaderStruct *s)
 	p[14] = 0;
 	p[15] = 0;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. Taking each one's
+// address keeps this unit's copy for its row; these pointers are not retail
+// data.
+void (*_bfmeInlineAnchor_W3d_Shader_Reset_0)(W3dShaderStruct *s) = &W3d_Shader_Reset;

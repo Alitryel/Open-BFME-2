@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva00028CB96@ObjectWeaponStatusHelper@@SA?AW4NameKeyType@@XZ @0x28CB96
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@ObjectWeaponStatusHelper@@UBE?AW4NameKeyType@@XZ @0x28CB96
 // (69B): cached pool-name key for ObjectWeaponStatusHelper. The class
 // identity comes from the pool-name string the body pushes
 // ("ObjectWeaponStatusHelper"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ObjectWeaponStatusHelper
 {
 public:
-	static NameKeyType rva00028CB96();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00028CB96@ObjectWeaponStatusHelper@@SA?AW4NameKeyType@@XZ
-NameKeyType ObjectWeaponStatusHelper::rva00028CB96()
+// ?getModuleNameKey@ObjectWeaponStatusHelper@@UBE?AW4NameKeyType@@XZ
+NameKeyType ObjectWeaponStatusHelper::getModuleNameKey() const
 {
 	static NameKeyType TheObjectWeaponStatusHelperPoolKey =
 		TheNameKeyGenerator->nameToKey("ObjectWeaponStatusHelper");

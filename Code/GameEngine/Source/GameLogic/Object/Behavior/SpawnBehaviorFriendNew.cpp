@@ -21,7 +21,15 @@ private:
 };
 
 // ?friend_newModuleInstance@SpawnBehavior@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *SpawnBehavior::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *SpawnBehavior::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new SpawnBehavior(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitSpawnBehaviorFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitSpawnBehaviorFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	SpawnBehavior::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 // INI::parseAsciiStringVectorAppend (retail 0x002E896, 169 bytes). BFME2
 // growth of the BFME1 donor: each token is macro-expanded, and expansions
 // differing from the token are split on the fly (nextToken with null seps)
@@ -11,30 +11,8 @@ typedef int Bool;
 
 template <typename T> struct BfmeStringData;
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	void releaseBuffer();
+#include "ascii_string.h"
 
-public:
-	StringBase() : m_data(0) {}
-	~StringBase();
-	Bool compare(const char *other) const;
-	void set(const T *text);
-	bool nextToken(StringBase<T> *out, const T *seps);
-
-protected:
-	BfmeStringData<T> *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString() {}
-	AsciiString(const char *text) : StringBase<char>(text) {}
-};
 
 namespace _STL
 {

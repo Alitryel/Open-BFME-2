@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG
+// cl: /GX /MD /DNDEBUG
 // stlport
 //
 // ??0ReplenishUnitsBehaviorModuleData@@QAE@XZ, retail 0x004841CC, 91 bytes.
@@ -11,13 +11,16 @@
 // and false bytes at +0x138/+0x139. No other globals, two callees. Factory
 // news 0x13C.
 
+extern "C" const void *const vtbl_00C4ED70[];  // folded, 9 classes; via ??_7BeaconClientUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4ED70=??_7BeaconClientUpdateModuleData@@6B@")
+
 #include <bitset>
 
 namespace _STL {
 template<> bitset<128> &bitset<128>::reset();
 }
 
-extern int g_Va00DBA4E4;
+extern int BfmeLogicFramesPerSecond;
 
 class Rva0025342CMember
 {
@@ -49,11 +52,11 @@ private:
 // ??0ReplenishUnitsBehaviorModuleData@@QAE@XZ @0x4841CC
 ReplenishUnitsBehaviorModuleData::ReplenishUnitsBehaviorModuleData()
 {
-	*(void **)this = reinterpret_cast<void *>(0x00C4ED70);
+	*(void **)this = reinterpret_cast<void *>(((unsigned int)vtbl_00C4ED70));
 	m_08.construct();
 	((_STL::bitset<128> *)m_124)->reset();
 	m_138 = false;
-	m_134 = g_Va00DBA4E4;
+	m_134 = BfmeLogicFramesPerSecond;
 	m_118 = 100.0f;
 	m_120 = 0;
 	m_139 = false;

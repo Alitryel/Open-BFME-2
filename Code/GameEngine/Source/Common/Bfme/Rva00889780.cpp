@@ -15,7 +15,7 @@ public:
 void Rva00889780Class::d_00889780( const char *arg1, int arg2 )
 {
 	// BFME1's donor baked its empty-string VA here; retail BFME2 uses 0x00BBAC1C.
-	strncpy( m_str, arg1 ? arg1 : (const char*)0x00BBAC1C, 0x0F );
+	strncpy( m_str, arg1 ? arg1 : "", 0x0F );
 	m_str[0x0F] = 0;
 	m_field9E8C = arg2;
 }

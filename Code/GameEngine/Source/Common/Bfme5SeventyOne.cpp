@@ -6,7 +6,7 @@ public:
 	void bfmeDetach(void);
 };
 
-class Gen_00470870
+class FadeInTextRender
 {
 public:
 	void bfmeExtend(int left, int top, int right, int bottom);
@@ -19,8 +19,8 @@ private:
 	int m_bfmeBottom;					// +0x14
 };
 
-// ?bfmeExtend@Gen_00470870@@QAEXHHHH@Z
-void Gen_00470870::bfmeExtend(int left, int top, int right, int bottom)
+// ?bfmeExtend@FadeInTextRender@@QAEXHHHH@Z
+void FadeInTextRender::bfmeExtend(int left, int top, int right, int bottom)
 {
 	if (m_bfmeLeft > left)
 		m_bfmeLeft = left;

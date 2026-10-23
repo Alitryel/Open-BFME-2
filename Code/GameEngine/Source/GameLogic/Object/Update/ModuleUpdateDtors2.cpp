@@ -37,6 +37,7 @@ static int s_07C9_0C;
 static int s_07C9_10;
 static int s_07C9_20;
 
+// ?Rva004907C0::~Rva004907C0 present-unmatched
 Rva004907C0::~Rva004907C0()
 {
 	m_p0C = &s_07C9_0C;

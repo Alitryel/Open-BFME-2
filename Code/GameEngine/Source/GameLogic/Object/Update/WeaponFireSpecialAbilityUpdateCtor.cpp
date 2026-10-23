@@ -1,7 +1,7 @@
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX
 //
 // ??0WeaponFireSpecialAbilityUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,
-// retail 0x00492708, 170 bytes. Behavior-side ctor completing the
+// retail 0x00492708, 172 bytes. Behavior-side ctor completing the
 // WeaponFireSpecialAbilityUpdate file-unit (behavior instance factory
 // rowed at 0x24DB1B news 0x8C with this pinned 2-arg ctor as its sole
 // caller; poolkey rowed at 0x492685; name getter rowed at 0x4925D5;
@@ -24,18 +24,23 @@
 // the explicit destruction); the declared-only base dtor arms them with
 // no emitted code. Row supersedes the ctor pin.
 
+extern "C" const void *const vtbl_00C4D640[];  // folded, 11 classes; via ??_7LevelGrantSpecialPower@@6BSpecialPowerModuleInterface@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4D640=??_7LevelGrantSpecialPower@@6BSpecialPowerModuleInterface@@@")
+
+extern "C" const void *const vtbl_00C4E05C[];  // ??_7WeaponFireSpecialAbilityUpdate@@6BWFS_Iface3@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4E05C=??_7WeaponFireSpecialAbilityUpdate@@6BWFS_Iface3@@@")
+extern "C" const void *const vtbl_00C4E080[];  // ??_7WeaponFireSpecialAbilityUpdate@@6BWFS_Iface2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4E080=??_7WeaponFireSpecialAbilityUpdate@@6BWFS_Iface2@@@")
+extern "C" const void *const vtbl_00C4E090[];  // ??_7WeaponFireSpecialAbilityUpdate@@6BWFS_RootBase@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4E090=??_7WeaponFireSpecialAbilityUpdate@@6BWFS_RootBase@@@")
+
 class Thing;
 class ModuleData;
 class Object;
 class WeaponTemplate;
 class Weapon;
 
-class AsciiString
-{
-public:
-	AsciiString(const AsciiString &other);
-	~AsciiString();
-};
+#include "ascii_string.h"
 
 enum WeaponSlotType
 {
@@ -51,11 +56,19 @@ public:
 
 extern WeaponStore *TheWeaponStore;
 
+// Retail's unwind of the base subobject calls the rowed
+// ~SpecialAbilityUpdate 0x00451F45 (the dtor of the 0x0044EF5E base).
+class SpecialAbilityUpdate
+{
+public:
+	virtual ~SpecialAbilityUpdate();
+};
+
 class Rva0044EF5E
 {
 public:
 	Rva0044EF5E(Thing *thing, const ModuleData *moduleData);
-	~Rva0044EF5E();
+	~Rva0044EF5E() { ((SpecialAbilityUpdate *)this)->SpecialAbilityUpdate::~SpecialAbilityUpdate(); }
 
 protected:
 	const void *m_vtable;
@@ -99,17 +112,23 @@ public:
 WeaponFireSpecialAbilityUpdate::WeaponFireSpecialAbilityUpdate(Thing *thing, const ModuleData *moduleData)
 	: Rva0044EF5E(thing, moduleData)
 {
-	*(const void **)this = (const void *)0x00C4E090;
-	*(const void **)((char *)this + 0x0C) = (const void *)0x00C4D640;
-	*(const void **)((char *)this + 0x10) = (const void *)0x00C4E080;
-	*(const void **)((char *)this + 0x20) = (const void *)0x00C4E05C;
+	*(const void **)this = (const void *)((unsigned int)vtbl_00C4E090);
+	*(const void **)((char *)this + 0x0C) = (const void *)((unsigned int)vtbl_00C4D640);
+	*(const void **)((char *)this + 0x10) = (const void *)((unsigned int)vtbl_00C4E080);
+	*(const void **)((char *)this + 0x20) = (const void *)((unsigned int)vtbl_00C4E05C);
 	m_weapon = 0;
 	AsciiString weaponName(getWeaponFireModuleData()->m_weaponName);
-	const WeaponTemplate *templ = TheWeaponStore->findWeaponTemplate(weaponName);
-	if (templ != 0)
+	const WeaponTemplate *weaponTemplate = TheWeaponStore->findWeaponTemplate(weaponName);
+	if (weaponTemplate != 0)
 	{
-		m_weapon = TheWeaponStore->allocateNewWeapon(templ, PRIMARY_WEAPON);
+		m_weapon = TheWeaponStore->allocateNewWeapon(weaponTemplate, PRIMARY_WEAPON);
 		m_weapon->m_status = 0;
 		m_weapon->Rva002CE1AC(m_object);
 	}
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??1Rva0044EF5E@@QAE@XZ=??1StringClass@@QAE@XZ")

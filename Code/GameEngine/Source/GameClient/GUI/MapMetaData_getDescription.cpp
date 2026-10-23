@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 // Retail RVA 0x003009CD, 285 bytes.
 // MapMetaData::getDescription, the lazy cached map.str text loader feeding
 // bfme_getDescriptionFirstLine. Ported from Open-BFME-1
@@ -10,57 +10,12 @@
 
 typedef unsigned short WideChar;
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-	friend class UnicodeString;
-	friend class MapMetaData;
-public:
-	int getLength() const { return m_data ? m_data->length : 0; }
-	const T *str() const { return m_data ? (const T *)((const char *)m_data + 8) : (const T *)""; }
-	const T *reverseFind(T c) const;
-	void concat(const T *text);
-	void set(const StringBase<T> &other);
-	bool endsWith(const T *text) const;
-	void removeLastChar();
-private:
-	StringBase() { m_data = 0; }
-	StringBase(const StringBase<T> &other);
-	StringBase(const StringBase<T> &other, int start, int len);
-	~StringBase() { releaseBuffer(); }
-	void releaseBuffer();
-	struct Header
-	{
-		int refCount;
-		unsigned short length;
-		unsigned short capacity;
-		T text[1];
-	};
-	Header *m_data;
-};
+#include "ascii_string.h"
+#include "unicode_string.h"
 
 class UnicodeString;
 
-class AsciiString : private StringBase<char>
-{
-	friend class MapMetaData;
-public:
-	AsciiString() {}
-	AsciiString(const AsciiString &other) : StringBase<char>(other) {}
-	AsciiString(const AsciiString &other, int start, int len) : StringBase<char>(other, start, len) {}
-	~AsciiString() {}
-	void translate(const WideChar *text);
-	void translate(const UnicodeString &text);
-};
 
-class UnicodeString : private StringBase<WideChar>
-{
-	friend class MapMetaData;
-public:
-	UnicodeString(const UnicodeString &other) : StringBase<WideChar>(other) {}
-	~UnicodeString() {}
-	void translate(const char *text);
-};
 
 class GameTextInterface
 {

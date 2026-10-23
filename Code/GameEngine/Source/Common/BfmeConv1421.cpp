@@ -3,8 +3,22 @@
 extern "C" void *memset(void *d, int c, unsigned n);
 #pragma intrinsic(memset)
 
-void *bfmeBigVLV(unsigned n);
-void *bfmeSmallVLV(unsigned n);
+void *bfmeBigAllocPR(unsigned n);
+void *bfmeAllocVLV(unsigned n);
+
+namespace _STL
+{
+template <bool __threads, int __inst>
+class __node_alloc;
+
+template <>
+class __node_alloc<true, 0>
+{
+private:
+	static void *_M_allocate(unsigned int n);
+	friend void *::bfmeAllocVLV(unsigned int n);
+};
+}
 
 struct BfmeHdrVLV
 {
@@ -23,9 +37,9 @@ void *bfmeAllocVLV(unsigned n)
 
 	n3 = n + 0x18;
 	if (n3 > 0x80)
-		n2 = (unsigned)bfmeBigVLV(n3);
+		n2 = (unsigned)bfmeBigAllocPR(n3);
 	else
-		n2 = (unsigned)bfmeSmallVLV(n3);
+		n2 = (unsigned)_STL::__node_alloc<true, 0>::_M_allocate(n3);
 	n1 = (BfmeHdrVLV *)n2;
 	memset(n1, 0xa3, n3);
 	n1->m_bfmeTag = 0xdeba;

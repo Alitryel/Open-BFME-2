@@ -1,4 +1,12 @@
-// cl: /Ireference/shims/bfmerendobj /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/bfme /Ireference/shims/bfmerendobj /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 // Ported verbatim from the Generals Zero Hour reference
 // (Libraries/Source/WWVegas/WW3D2/dx8polygonrenderer.cpp); this unit had no counterpart under Code/.
 /*
@@ -47,45 +55,7 @@
 
 // ----------------------------------------------------------------------------
 
-DX8PolygonRendererClass::DX8PolygonRendererClass(
-	unsigned index_count_,
-	MeshModelClass* mmc_,
-	DX8TextureCategoryClass* tex_cat,
-	unsigned vertex_offset_,
-	unsigned index_offset_,
-	bool strip_,
-	unsigned pass_)
-	:
-	mmc(mmc_), 
-	texture_category(tex_cat),
-	index_offset(index_offset_),
-	vertex_offset(vertex_offset_),
-	min_vertex_index(0),
-	vertex_index_range(0),
-	index_count(index_count_),
-	strip(strip_),
-	pass(pass_)
-{
-	WWASSERT(index_count);
-	mmc->PolygonRendererList.Add_Tail(this);
-}
-
-DX8PolygonRendererClass::DX8PolygonRendererClass(const DX8PolygonRendererClass& src,MeshModelClass* mmc_)
-	:
-	mmc(mmc_), 
-	texture_category(src.texture_category),
-	index_offset(src.index_offset),
-	vertex_offset(src.vertex_offset),
-	min_vertex_index(src.min_vertex_index),
-	vertex_index_range(src.vertex_index_range),
-	index_count(src.index_count),
-	strip(src.strip),
-	pass(src.pass)
-{
-	mmc->PolygonRendererList.Add_Tail(this);
-}
-
-DX8PolygonRendererClass::~DX8PolygonRendererClass()
+inline DX8PolygonRendererClass::~DX8PolygonRendererClass()
 {
 	if (texture_category) texture_category->Remove_Polygon_Renderer(this);
 }
@@ -116,3 +86,13 @@ void DX8PolygonRendererClass::Log()
 */	WWDEBUG_SAY((work));
 }
 
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeDX8PolygonRendererClassInlineAnchor@@YAXPAVDX8PolygonRendererClass@@@Z absent-from-retail
+void _bfmeDX8PolygonRendererClassInlineAnchor(DX8PolygonRendererClass *dX8PolygonRenderer)
+{
+    dX8PolygonRenderer->DX8PolygonRendererClass::~DX8PolygonRendererClass();
+}
+#pragma inline_depth()

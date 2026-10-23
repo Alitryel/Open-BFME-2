@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /DBFME_STLP_NODE_ALLOC /D_STLP_NO_EXCEPTIONS /Ireference/shims/stlp_nodealloc
 // stlport
-// Distinct TU for the BFME1 ShroudManagerImpl008FBA40 donor's constructor and
+// Distinct TU for the BFME1 ShroudManagerImpl donor's constructor and
 // drainPending (retail 0x0073E310 214B + 0x0073D7D0 54B). The donor path is
 // occupied by the near-miss getShroudStatus pair, so the two bodies live here
 // with declarations only for their callees (all pinned, none defined).
@@ -12,56 +12,29 @@ typedef int Int;
 typedef unsigned int UnsignedInt;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include/Lib/BaseType.h
-struct Coord3D
-{
-	Real x;
-	Real y;
-	Real z;
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
 
-	void zero()
-	{
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-	}
-};
+// Retail inlines these three zero stores; the canonical Coord3D::zero is the out-of-line owner.
+static inline void zeroInline(Coord3D &c) { c.x = 0.0f; c.y = 0.0f; c.z = 0.0f; }
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include/Lib/BaseType.h
-struct Region3D
-{
-	__forceinline Region3D() {}
+#include "../../../../Libraries/Include/Lib/Region3D.h"
 
-	__forceinline Region3D(const Region3D &other)
-	{
-		lo.x = other.lo.x;
-		lo.y = other.lo.y;
-		lo.z = other.lo.z;
-		hi.x = other.hi.x;
-		hi.y = other.hi.y;
-		hi.z = other.hi.z;
-	}
+// Opaque target32-byte queue element; its fields are not used in this unit.
+// ProcessPending record stride and the rowed E32 map helper prove the size.
+struct BfmeE32 { int a[8]; };
 
-	__forceinline ~Region3D() {}
+// Retail's copies live in stlport_deque_e32_initmap.cpp.
+namespace _STL {
+template <> void _Deque_base<BfmeE32, allocator<BfmeE32> >::_M_initialize_map(size_t);
+template <> void _Deque_base<BfmeE32, allocator<BfmeE32> >::_M_destroy_nodes(BfmeE32 **, BfmeE32 **);
+template <> deque<BfmeE32, allocator<BfmeE32> >::~deque();
+template <> _Deque_base<BfmeE32, allocator<BfmeE32> >::~_Deque_base();
+}
 
-	Real width() const { return hi.x - lo.x; }
-	Real height() const { return hi.y - lo.y; }
-
-	Coord3D lo;
-	Coord3D hi;
-};
-
-struct Gen_t_008fb350_p12pod
-{
-	unsigned int timestamp;
-	int x;
-	int y;
-	int radius;
-	unsigned int playerMask;
-};
-
-class ShroudManagerImpl008FBA40;
+class ShroudManagerImpl;
 class ShroudManagerImpl008FBA40Node;
-class ShroudManagerImpl008FBA40Element;
+class ShroudManagerCell;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/PartitionManager.h
 class PartitionData
@@ -71,19 +44,18 @@ public:
 	void makeDirty();
 
 private:
-	void updateCellsTouched();
-	friend class ShroudManagerImpl008FBA40;
+	friend class ShroudManagerImpl;
 };
 
 typedef void (__cdecl *ShroudManagerImpl008FBA40RefreshCallback)(
 	int x, int y, int status);
 
-class ShroudManagerImpl008FBA40
+class ShroudManagerImpl
 {
 public:
-	ShroudManagerImpl008FBA40();
+	ShroudManagerImpl();
 	void drainPending();
-	void configure(Region3D region, Real cellSize);
+	void _ReallocCells(Region3D region, Real cellSize);
 
 private:
 	int mode;
@@ -92,22 +64,26 @@ private:
 	Real inverseCellSize;
 	unsigned int width;
 	unsigned int height;
-	ShroudManagerImpl008FBA40Element *elements;
+	ShroudManagerCell *elements;
 	ShroudManagerImpl008FBA40Node *nodes;
 	PartitionData *pendingPartitionData;
 	int unknown38;
-	_STL::deque<Gen_t_008fb350_p12pod,
-		_STL::allocator<Gen_t_008fb350_p12pod> > records;
+	_STL::deque<BfmeE32,
+		_STL::allocator<BfmeE32> > records;
 	int unknown64;
 	bool enabled;
 	char padding69[3];
 	ShroudManagerImpl008FBA40RefreshCallback refreshCallback;
 
 	__declspec(noinline) void processPending(bool drainAll);
-	friend class ShroudManagerImpl008FBA40Element;
+	friend class ShroudManagerCell;
 };
 
-ShroudManagerImpl008FBA40::ShroudManagerImpl008FBA40()
+// Method-only view: the independently named target provider is73AD90.
+// No ShroudManager or nested Data object layout is asserted here.
+class ShroudManager { public: class Data { public: void UpdateCellsTouched(); }; };
+
+ShroudManagerImpl::ShroudManagerImpl()
 	: mode(2),
 	  defaultCellSize(1.0f),
 	  width(0),
@@ -121,20 +97,31 @@ ShroudManagerImpl008FBA40::ShroudManagerImpl008FBA40()
 	  enabled(true),
 	  refreshCallback(0)
 {
-	region.lo.zero();
-	region.hi.zero();
-	configure(region, 1.0f);
+	zeroInline(region.lo);
+	zeroInline(region.hi);
+	_ReallocCells(region, 1.0f);
 }
 
-void ShroudManagerImpl008FBA40::drainPending()
+inline void ShroudManagerImpl::drainPending()
 {
 	++unknown38;
 	while (pendingPartitionData)
 	{
 		PartitionData *partitionData = pendingPartitionData;
 		partitionData->unlink();
-		partitionData->updateCellsTouched();
+		((ShroudManager::Data *)partitionData)->UpdateCellsTouched();
 	}
 
 	processPending(true);
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeShroudManagerImpl008FBA40InlineAnchor@@YAXPAVShroudManagerImpl@@@Z absent-from-retail
+void _bfmeShroudManagerImpl008FBA40InlineAnchor(ShroudManagerImpl *shroudManagerImpl)
+{
+    shroudManagerImpl->drainPending();
+}
+#pragma inline_depth()

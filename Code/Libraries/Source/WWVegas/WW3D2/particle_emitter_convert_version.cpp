@@ -1,4 +1,15 @@
-// cl: /Ireference/shims/bfmeparticleload /EHsc /Ireference/shims/bfmeparticlehandle /Ireference/shims /Ireference/shims/bfmerendobj /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /Ireference/shims/bfmeparticleload /EHsc /Ireference/shims/bfmeparticlehandle /Ireference/shims /Ireference/shims/bfmerendobj /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -20,6 +31,7 @@
 // Select the BFME2 legacy kernel32 import declarations before reference headers.
 #include <sweep/winbase_shim.h>
 
+#include "../../../../../reference/shims/bfme_tri_math/vector3.h"
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "winbase_shim.h"
 #define MAX_PATH 260
@@ -73,16 +85,17 @@
 ///////////////////////////////////////////////////////////////////////////////////
 //
 //
-ParticleEmitterLoaderClass	_ParticleEmitterLoader;
+// _ParticleEmitterLoader: defined in particle_emitter_read_props.cpp.
 
-const char *EMITTER_TYPE_NAMES[EMITTER_TYPEID_COUNT] = 
-{
-	"Default"
-};
+extern const char *EMITTER_TYPE_NAMES[EMITTER_TYPEID_COUNT];
 
 
 #include "texture_handle.h"
-BFME2ParticleTextureHandle BFME2LoadParticleTexture(const char*,int,int);
+class TextureAsset
+{
+public:
+	static BFME2ParticleTextureHandle Get(const char*,int,int);
+};
 void
 ParticleEmitterDefClass::Convert_To_Ver2 (void)
 {
@@ -95,7 +108,7 @@ ParticleEmitterDefClass::Convert_To_Ver2 (void)
 		//	Determine which shader to use...
 		//
 		ShaderClass shader = ShaderClass::_PresetAdditiveSpriteShader;
-		BFME2ParticleTextureHandle ptexture = BFME2LoadParticleTexture(m_Info.TextureFilename,0,0);
+		BFME2ParticleTextureHandle ptexture = TextureAsset::Get(m_Info.TextureFilename,0,0);
 		if (ptexture) {
 			// If texture has an alpha channel do alpha blending instead of additive
 			// (which is the default for point groups):

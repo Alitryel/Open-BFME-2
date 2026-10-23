@@ -1,4 +1,4 @@
-// Eighteen B2-native flag-word clearers on thirteen .data flag words
+// B2-native flag-word clearers on .data flag words
 // (0x00E06220-0x00E06938):
 //
 //     mov eax,[<address>] / and al,<mask8> / mov [<address>],eax / ret
@@ -10,29 +10,49 @@
 // cl: /G7 /MD /EHsc /DNDEBUG
 
 extern unsigned int g_Va00E06220;
-extern unsigned int g_Va00E062DC;
+// g_Va00E06220: matched references place it at VA 0xe06220 (zero-filled .bss).
+unsigned int g_Va00E06220;
 extern unsigned int g_Va00E062E4;
+// g_Va00E062E4: matched references place it at VA 0xe062e4 (zero-filled .bss).
+unsigned int g_Va00E062E4;
 extern unsigned int g_Va00E06390;
+// g_Va00E06390: matched references place it at VA 0xe06390 (zero-filled .bss).
+unsigned int g_Va00E06390;
 extern unsigned int g_Va00E063C8;
-extern unsigned int g_Va00E06558;
-extern unsigned int g_Va00E065B0;
+// g_Va00E063C8: matched references place it at VA 0xe063c8 (zero-filled .bss).
+unsigned int g_Va00E063C8;
+// Only the startup flag word lives here (VA E06558). MainMenuUtils owns its
+// independent file-local state at E0655C..E06574; a 29-byte aggregate here
+// incorrectly made those statics alias arbitrary objects during compilation.
+unsigned int g_mainMenuStartupFlags;
+// E065B0 is the compiler-owned static-initializer guard in
+// ParasiticInGameCommandButton::Impl::Update. Its exact parent EH graph
+// supplies the reset at7A08F0 in Rva005C33DDWindowNotification.cpp.
 extern unsigned int g_Va00E065DC;
+// g_Va00E065DC: matched references place it at VA 0xe065dc (zero-filled .bss).
+unsigned int g_Va00E065DC;
 extern unsigned int g_Va00E065E8;
-extern unsigned int g_Va00E06774;
+// g_Va00E065E8: matched references place it at VA 0xe065e8 (zero-filled .bss).
+unsigned int g_Va00E065E8;
 extern unsigned int g_Va00E068CC;
+// g_Va00E068CC: matched references place it at VA 0xe068cc (zero-filled .bss).
+unsigned int g_Va00E068CC;
 extern unsigned int g_Va00E068D8;
+// g_Va00E068D8: matched references place it at VA 0xe068d8 (zero-filled .bss).
+unsigned int g_Va00E068D8;
 extern unsigned int g_Va00E068E0;
+// g_Va00E068E0: matched references place it at VA 0xe068e0 (zero-filled .bss).
+unsigned int g_Va00E068E0;
 extern unsigned int g_Va00E06930;
+// g_Va00E06930: matched references place it at VA 0xe06930 (zero-filled .bss).
+unsigned int g_Va00E06930;
 extern unsigned int g_Va00E06938;
+// g_Va00E06938: matched references place it at VA 0xe06938 (zero-filled .bss).
+unsigned int g_Va00E06938;
 
 unsigned int Rva00799992ClearFlag(void)
 {
 	return g_Va00E06220 &= 0xFFFFFFFEu;
-}
-
-unsigned int Rva0079A19CClearFlag(void)
-{
-	return g_Va00E062DC &= 0xFFFFFFFEu;
 }
 
 unsigned int Rva0079A20FClearFlag(void)
@@ -67,12 +87,7 @@ unsigned int Rva0079D3AAClearFlag(void)
 
 unsigned int Rva0079FB9CClearFlag(void)
 {
-	return g_Va00E06558 &= 0xFFFFFFFEu;
-}
-
-unsigned int Rva007A08F0ClearFlag(void)
-{
-	return g_Va00E065B0 &= 0xFFFFFFFEu;
+	return g_mainMenuStartupFlags &= 0xFFFFFFFEu;
 }
 
 unsigned int Rva007A0C2AClearFlag(void)
@@ -83,11 +98,6 @@ unsigned int Rva007A0C2AClearFlag(void)
 unsigned int Rva007A1034ClearFlag(void)
 {
 	return g_Va00E065E8 &= 0xFFFFFFFEu;
-}
-
-unsigned int Rva007A40C3ClearFlag(void)
-{
-	return g_Va00E06774 &= 0xFFFFFFFEu;
 }
 
 unsigned int Rva007A4B3FClearFlag(void)

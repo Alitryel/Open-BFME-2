@@ -1,4 +1,4 @@
-// cl: /O2 /MD
+// cl: /MD
 
 // Open-BFME5: STLport ios_base auxiliary word-array growth for iword and pword.
 
@@ -15,9 +15,9 @@ struct GrowPair
 };
 
 template <class T>
-inline const T &stlp_max(const T &a, const T &b)
+inline const T &stlp_max(const T &lhs, const T &rhs)
 {
-	return a < b ? b : a;
+	return lhs < rhs ? rhs : lhs;
 }
 
 template <class T>

@@ -1,7 +1,7 @@
-// cl: /O1 /MD /GX /DNDEBUG /Oy-
+// cl: /Ireference/shims/moduledata /MD /GX /DNDEBUG
 //
 // ??0BaseUpgradeModuleData@@QAE@XZ, retail 0x004B3698, 98 bytes. EH ctor
-// over the rowed OpenContainModuleData base (0x253487, frameless and
+// over the rowed Rva00253487Base base (0x253487, frameless and
 // therefore not unwindable): base call, xor-zero, lea of
 // BuildingTemplateName at +0x118, the distinctive vtable literal 0x00C57150
 // (via ??_7 pin: slot0 is the scalar-deleting dtor shape at 0x4B3769, slot1
@@ -16,15 +16,22 @@
 // BaseUpgrade pool key and the rowed chained proc. Supersedes the 0.98 bank
 // (its 94B size under-claimed the true 98B body; the full emission matches).
 
-class OpenContainModuleData
+// The base dtor (rowed 0x0049B47C in CommandSetUpgradeModuleDataCtor.cpp) is
+// Snapshot's: it restores Snapshot's table 0x00BBB554. Spell it the same way so
+// this TU's inline copy is the retail one.
+#include "Common/Snapshot.h"
+
+#pragma optimize("sy", on)
+class Rva00253487Base
 {
 public:
-	OpenContainModuleData();
-	virtual ~OpenContainModuleData() {}
+	Rva00253487Base();
+	virtual ~Rva00253487Base() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 private:
 	unsigned char m_pad[0x118 - 4];
 };
+#pragma optimize("", on)
 
 template <typename T> class StringBase
 {
@@ -39,7 +46,7 @@ private:
 
 typedef StringBase<char> AsciiString;
 
-class BaseUpgradeModuleData : public OpenContainModuleData
+class BaseUpgradeModuleData : public Rva00253487Base
 {
 public:
 	BaseUpgradeModuleData();

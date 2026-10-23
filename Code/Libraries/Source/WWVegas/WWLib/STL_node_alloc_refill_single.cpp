@@ -64,3 +64,9 @@ void *__node_alloc<__threads, __inst>::_S_refill(unsigned int n)
 template void *__node_alloc<false, 0>::_S_refill(unsigned int);
 
 }
+// ?g_bfmeFreeList1149@@3PAPADA: the global at VA 0xddf530 is ?_S_free_list@?$__node_alloc@$0A@$0A@@_STL@@2RCRAV_Node_alloc_obj@2@C.
+#pragma comment(linker, "/alternatename:?g_bfmeFreeList1149@@3PAPADA=?_S_free_list@?$__node_alloc@$0A@$0A@@_STL@@2RCRAV_Node_alloc_obj@2@C")
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeSmallRefillPR@@YAPAXI@Z=?_S_refill@?$__node_alloc@$0A@$0A@@_STL@@CAPAXI@Z")

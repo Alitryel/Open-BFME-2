@@ -1,4 +1,15 @@
-// cl: /G7 /arch:SSE /Ireference/shims/bfmecamera /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ibuild/toolchains/dx81/include /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
+// cl: /G7 /arch:SSE /Ireference/shims/bfmecamera /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/build/toolchains/dx81/include /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 ** Copyright 2025 Electronic Arts Inc.
 ** This program is free software: you can redistribute it and/or modify
@@ -113,15 +124,7 @@ public:
 
 protected:
     bool read_texture_ids(ChunkLoadClass &cload,MeshLoadContextClass *context);
-    bool read_per_face_texcoord_ids(ChunkLoadClass &cload,MeshLoadContextClass *context)
-    {
-        unsigned size = sizeof(Vector3i) * PolyCount;
-        if (cload.Cur_Chunk_Length() == size) {
-            cload.Seek(size);
-            return true;
-        }
-        return false;
-    }
+    bool read_per_face_texcoord_ids(ChunkLoadClass &cload,MeshLoadContextClass *context);
     bool read_texture_stage(ChunkLoadClass &cload,MeshLoadContextClass *context);
 	bool read_stage_texcoords(ChunkLoadClass &cload,MeshLoadContextClass *context);
 	bool read_dig(ChunkLoadClass &cload,MeshLoadContextClass *context);
@@ -129,148 +132,14 @@ protected:
 	bool read_vertex_colors(ChunkLoadClass &cload,MeshLoadContextClass *context);
 };
 
-// ?read_vertex_colors@MeshModelClass@@ present-unmatched
-bool MeshModelClass::read_vertex_colors(ChunkLoadClass &cload,MeshLoadContextClass *context)
+bool MeshModelClass::read_per_face_texcoord_ids(ChunkLoadClass &cload,MeshLoadContextClass *context)
 {
-	if (CurMatDesc->Has_Color_Array(0) == 0) {
-		W3dRGBStruct color;
-		unsigned *dcg = Get_Color_Array(0,true);
-		for (int i=0; i<VertexCount; i++) {
-			if (cload.Read(&color,sizeof(W3dRGBStruct)) != sizeof(W3dRGBStruct)) {
-				return false;
-			}
-
-			Vector4 col;
-			col.Set((float)color.R / 255.0f,(float)color.G / 255.0f,(float)color.B / 255.0f,1.0f);
-			dcg[i] = DX8Wrapper::Convert_Color(col);
-		}
-	}
-	CurMatDesc->Set_DCG_Source(context->CurPass,VertexMaterialClass::COLOR1);
-	return true;
-}
-
-bool MeshModelClass::read_dcg(ChunkLoadClass &cload,MeshLoadContextClass *context)
-{
-	MeshMatDescClass *matdesc = DefMatDesc;
-	if (DefMatDesc->Get_DCG_Source(context->CurPass) != VertexMaterialClass::MATERIAL) {
-		matdesc = &context->AlternateMatDesc;
-	}
-
-	if (matdesc->Has_Color_Array(0) == 0) {
-		W3dRGBAStruct color;
-		unsigned *dcg = matdesc->Get_Color_Array(0);
-		for (int i=0; i<VertexCount; i++) {
-			cload.Read(&color,sizeof(color));
-			Vector4 col;
-			col.Set((float)color.R / 255.0f,(float)color.G / 255.0f,
-				(float)color.B / 255.0f,(float)color.A / 255.0f);
-			dcg[i] = DX8Wrapper::Convert_Color(col);
-		}
-	} else if (context->PrelitChunkID == W3D_CHUNK_PRELIT_VERTEX) {
-		W3dRGBAStruct color;
-		unsigned *dcg = matdesc->Get_Color_Array(0);
-		for (int i=0; i<VertexCount; i++) {
-			cload.Read(&color,sizeof(color));
-			Vector4 col = DX8Wrapper::Convert_Color(dcg[i]);
-			col.W = (float)color.A / 255.0f;
-			dcg[i] = DX8Wrapper::Convert_Color(col);
-		}
-	}
-
-	matdesc->Set_DCG_Source(context->CurPass,VertexMaterialClass::COLOR1);
-	return true;
-}
-
-bool MeshModelClass::read_dig(ChunkLoadClass &cload,MeshLoadContextClass *context)
-{
-	MeshMatDescClass *matdesc = DefMatDesc;
-	if (context->Already_Loaded_DIG()) {
-		matdesc = &context->AlternateMatDesc;
-	}
-	context->Notify_Loaded_DIG_Chunk(true);
-
-	W3dRGBAStruct color;
-	if (matdesc->Has_Color_Array(0) == false) {
-		unsigned *dcg = matdesc->Get_Color_Array(0);
-		for (int i=0; i<VertexCount; i++) {
-			cload.Read(&color,sizeof(color));
-			Vector4 col;
-			col.X = (float)color.R / 255.0f;
-			col.Y = (float)color.G / 255.0f;
-			col.Z = (float)color.B / 255.0f;
-			col.W = 1.0f;
-			dcg[i] = DX8Wrapper::Convert_Color(col);
-		}
-	} else {
-		unsigned *dcg = matdesc->Get_Color_Array(0);
-		for (int i=0; i<VertexCount; i++) {
-			cload.Read(&color,sizeof(color));
-			Vector4 col = DX8Wrapper::Convert_Color(dcg[i]);
-			col.X *= (float)color.R / 255.0f;
-			col.Y *= (float)color.G / 255.0f;
-			col.Z *= (float)color.B / 255.0f;
-			dcg[i] = DX8Wrapper::Convert_Color(col);
-		}
-	}
-
-	matdesc->Set_DCG_Source(context->CurPass,VertexMaterialClass::COLOR1);
-	return true;
-}
-
-bool MeshModelClass::read_stage_texcoords(ChunkLoadClass &cload, MeshLoadContextClass *context)
-{
-    unsigned elementcount;
-    Vector2 *uvs;
-    W3dTexCoordStruct texcoord;
-    MeshMatDescClass *matdesc = DefMatDesc;
-
-    if (DefMatDesc->Has_UV(context->CurPass, context->CurTexStage)) {
-        matdesc = &(context->AlternateMatDesc);
+    unsigned size = sizeof(Vector3i) * PolyCount;
+    if (cload.Cur_Chunk_Length() == size) {
+        cload.Seek(size);
+        return true;
     }
-
-    elementcount = cload.Cur_Chunk_Length() / sizeof(W3dTexCoordStruct);
-    uvs = context->Get_Temporary_UV_Array(elementcount);
-
-    if (uvs != NULL) {
-        for (unsigned i = 0; i < elementcount; i++) {
-            cload.Read(&texcoord, sizeof(texcoord));
-            uvs[i].X = texcoord.U;
-            uvs[i].Y = 1.0f - texcoord.V;
-        }
-    }
-
-    matdesc->Install_UV_Array(context->CurPass, context->CurTexStage, uvs, elementcount);
-    return true;
+    return false;
 }
 
-bool MeshModelClass::read_texture_stage(ChunkLoadClass &cload,MeshLoadContextClass *context)
-{
-	while (cload.Open_Chunk()) {
-		bool error = true;
-		switch (cload.Cur_Chunk_ID()) {
-			case W3D_CHUNK_TEXTURE_IDS:
-				error = read_texture_ids(cload,context);
-				break;
-
-			case W3D_CHUNK_STAGE_TEXCOORDS:
-			case W3D_CHUNK_TEXCOORDS:
-				error = read_stage_texcoords(cload,context);
-				break;
-
-			case W3D_CHUNK_PER_FACE_TEXCOORD_IDS:
-				error = read_per_face_texcoord_ids(cload,context);
-				break;
-		}
-
-		if (error != true) {
-			return error;
-		}
-		cload.Close_Chunk();
-	}
-
-	context->CurTexStage++;
-	// Reconstruction shaping: retain the direct memory increment at the tail.
-	// The compiler barrier emits no instruction.
-	_ReadWriteBarrier();
-	return true;
-}
+// MeshModelClass::read_vertex_colors is defined with its retail-matched body in Code/Libraries/Source/WWVegas/WW3D2/MeshModelReadVertexColors.cpp (0x00188760).

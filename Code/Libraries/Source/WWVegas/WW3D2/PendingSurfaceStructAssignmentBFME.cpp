@@ -65,7 +65,7 @@ public:
 	};
 };
 
-Render2DSentenceClass::PendingSurfaceStruct &
+inline Render2DSentenceClass::PendingSurfaceStruct &
 Render2DSentenceClass::PendingSurfaceStruct::operator=(
 	const Render2DSentenceClass::PendingSurfaceStruct &that)
 {
@@ -81,3 +81,10 @@ Render2DSentenceClass::PendingSurfaceStruct::operator=(
 	renderers = that.renderers;
 	return *this;
 }
+#pragma inline_depth(0)
+// ?bfmeEmitPendingSurfaceStructAssignmentBFME@@YAXPAUPendingSurfaceStruct@Render2DSentenceClass@@@Z present-unmatched
+void bfmeEmitPendingSurfaceStructAssignmentBFME(Render2DSentenceClass::PendingSurfaceStruct *p)
+{
+	*p = *(Render2DSentenceClass::PendingSurfaceStruct *)0;
+}
+#pragma inline_depth()

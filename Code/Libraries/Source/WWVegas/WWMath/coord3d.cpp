@@ -42,9 +42,7 @@ struct Coord2DBase
     float y;
 };
 
-class Coord2D : public Coord2DBase
-{
-};
+#include "../../../Include/Lib/Coord2D.h"
 
 // The three floats live in a base, which is what splits the two assignments:
 // from another Coord3D the compiler block-copies the base with three movsd,
@@ -126,10 +124,9 @@ public:
     Coord3D &Sub(const Coord3DBase &that);
     Coord3D &operator-=(const Coord3DBase &that);
     bool IsExactlyEqualTo(const Coord3D &that) const;
-    bool equals(const Coord3DBase &that) const;
 };
 
-static const float length_estimate_factor = 0.25f;
+
 static const float one = 1.0f;
 
 // The 12-byte block copy folded with the integer-coordinate and random-variable
@@ -147,11 +144,11 @@ Coord3DBase &Coord3DBase::operator=(const Coord3DBase &that)
     return *this;
 }
 
-Coord3D::Coord3D()
+inline Coord3D::Coord3D()
 {
 }
 
-Coord3D::~Coord3D()
+inline Coord3D::~Coord3D()
 {
 }
 
@@ -171,7 +168,7 @@ Coord3D &Coord3D::operator=(const Coord3DBase &that)
     return *this;
 }
 
-Coord3D::Coord3D(float x, float y, float z)
+inline Coord3D::Coord3D(float x, float y, float z)
 {
     this->x = x;
     this->y = y;
@@ -187,7 +184,9 @@ Coord3D &Coord3D::Set(float x, float y, float z)
     return *this;
 }
 
-Coord3D &Coord3D::operator-=(const Coord3DBase &that)
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline Coord3D &Coord3D::operator-=(const Coord3DBase &that)
 {
     x -= that.x;
     y -= that.y;
@@ -195,6 +194,13 @@ Coord3D &Coord3D::operator-=(const Coord3DBase &that)
 
     return *this;
 }
+
+// ?bfmeAnchorCoord3DSubAssign absent-from-retail
+Coord3D &bfmeAnchorCoord3DSubAssign(Coord3D *pos, const Coord3DBase &that)
+{
+	return *pos -= that;
+}
+
 
 Coord3D &Coord3D::Sub(const Coord3DBase &that)
 {
@@ -318,7 +324,9 @@ Coord3D &Coord3D::Scale2D(const Coord3DBase &that, float scale)
     return *this;
 }
 
-float Coord3D::GetLength() const
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline float Coord3D::GetLength() const
 {
     float x_value = x;
     float y_value = y;
@@ -327,7 +335,14 @@ float Coord3D::GetLength() const
     return (float)sqrt(x_value * x_value + y_value * y_value + z_value * z_value);
 }
 
-float Coord3D::GetLength2D() const
+// ?bfmeAnchorCoord3DGetLength absent-from-retail
+float bfmeAnchorCoord3DGetLength(const Coord3D *pos)
+{
+	return pos->GetLength();
+}
+
+
+inline __declspec(noinline) float Coord3D::GetLength2D() const
 {
     float x_value = x;
     float y_value = y;
@@ -335,12 +350,12 @@ float Coord3D::GetLength2D() const
     return (float)sqrt(x_value * x_value + y_value * y_value);
 }
 
-float Coord3D::GetLengthEstimate2D() const
+inline __declspec(noinline) float Coord3D::GetLengthEstimate2D() const
 {
     if (fabs(x) > fabs(y)) {
-        return (float)(fabs(x) + length_estimate_factor * fabs(y));
+        return (float)(fabs(x) + 0.25f * fabs(y));
     }
-    return (float)(fabs(y) + length_estimate_factor * fabs(x));
+    return (float)(fabs(y) + 0.25f * fabs(x));
 }
 
 float Coord3D::GetLengthSqrd() const
@@ -352,7 +367,9 @@ float Coord3D::GetLengthSqrd() const
     return x_value * x_value + y_value * y_value + z_value * z_value;
 }
 
-float Coord3D::GetLengthSqrd2D() const
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline float Coord3D::GetLengthSqrd2D() const
 {
     float x_value = x;
     float y_value = y;
@@ -360,7 +377,14 @@ float Coord3D::GetLengthSqrd2D() const
     return x_value * x_value + y_value * y_value;
 }
 
-float Coord3D::length() const
+// ?bfmeAnchorCoord3DGetLengthSqrd2D absent-from-retail
+float bfmeAnchorCoord3DGetLengthSqrd2D(const Coord3D *pos)
+{
+	return pos->GetLengthSqrd2D();
+}
+
+
+inline float Coord3D::length() const
 {
     return (float)sqrt(x * x + y * y + z * z);
 }
@@ -379,19 +403,28 @@ Coord3D operator-(Coord3D that)
     return result;
 }
 
-void Coord3D::add(const Coord3DBase *that)
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline void Coord3D::add(const Coord3DBase *that)
 {
     x += that->x;
     y += that->y;
     z += that->z;
 }
 
-float Coord3D::lengthSqr() const
+// ?bfmeAnchorCoord3DAdd absent-from-retail
+void bfmeAnchorCoord3DAdd(Coord3D *pos, const Coord3DBase *that)
+{
+	pos->add(that);
+}
+
+
+inline float Coord3D::lengthSqr() const
 {
     return (float)((double)x * x + (double)y * y + (double)z * z);
 }
 
-void Coord3D::set(const Coord3DBase *that)
+inline void Coord3D::set(const Coord3DBase *that)
 {
     x = that->x;
     y = that->y;
@@ -406,18 +439,20 @@ Coord3D &Coord3D::Negate()
     return *this;
 }
 
-void Coord3D::normalize()
+inline void Coord3D::normalize()
 {
     float len = length();
     if (len != 0.0f) {
-        float scale = one / len;
+        float scale = 1.0f / len;
         x *= scale;
         y *= scale;
         z *= scale;
     }
 }
 
-float Coord3D::Normalize()
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline float Coord3D::Normalize()
 {
     float len = GetLength();
     float scale = one / len;
@@ -427,7 +462,14 @@ float Coord3D::Normalize()
     return len;
 }
 
-float Coord3D::Normalize2D()
+// ?bfmeAnchorCoord3DNormalize absent-from-retail
+float bfmeAnchorCoord3DNormalize(Coord3D *pos)
+{
+	return pos->Normalize();
+}
+
+
+inline __declspec(noinline) float Coord3D::Normalize2D()
 {
     float len = GetLength2D();
     float scale = one / len;
@@ -490,10 +532,19 @@ float Coord3D::operator*(const Coord2D &that) const
     return x * that.x + y * that.y;
 }
 
-float Coord3D::operator*(const Coord3DBase &that) const
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline float Coord3D::operator*(const Coord3DBase &that) const
 {
     return x * that.x + y * that.y + z * that.z;
 }
+
+// ?bfmeAnchorCoord3DDot absent-from-retail
+float bfmeAnchorCoord3DDot(const Coord3D *pos, const Coord3DBase &that)
+{
+	return *pos * that;
+}
+
 
 Coord3D &Coord3D::Set2D(float x, float y)
 {
@@ -550,21 +601,30 @@ Coord3D &Coord3D::SetZero()
     return *this;
 }
 
-void Coord3D::set(float x, float y, float z)
+inline void Coord3D::set(float x, float y, float z)
 {
     this->x = x;
     this->y = y;
     this->z = z;
 }
 
-void Coord3D::sub(const Coord3DBase *that)
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline void Coord3D::sub(const Coord3DBase *that)
 {
     x -= that->x;
     y -= that->y;
     z -= that->z;
 }
 
-void Coord3D::zero()
+// ?bfmeAnchorCoord3DSub absent-from-retail
+void bfmeAnchorCoord3DSub(Coord3D *pos, const Coord3DBase *that)
+{
+	pos->sub(that);
+}
+
+
+inline void Coord3D::zero()
 {
     x = 0.0f;
     y = 0.0f;
@@ -641,13 +701,31 @@ bool Coord3D::IsExactlyEqualTo(const Coord3D &that) const
     return x == that.x && y == that.y && z == that.z;
 }
 
-bool Coord3D::equals(const Coord3DBase &that) const
-{
-    return x == that.x && y == that.y && z == that.z;
-}
+// The retail-identical inline Coord3D::equals body is owned by
+// FiringTrackerXfer.cpp; an exclusive copy here collided with that emitter.
 
 // The generated assignment, which is the one that block-copies the base; the
 // declared overloads above hide it, so a member pointer is what names it.
 typedef Coord3D &(Coord3D::*Coord3DAssign)(const Coord3D &);
 
 Coord3DAssign g_coord3dAssign = &Coord3D::operator=;
+
+// These eleven are header inlines: the units that include Coord3D's header
+// emit them as select-any copies, which plain definitions here collided with.
+// The anchor keeps this unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeCoord3DInlineAnchor@@YAXPAVCoord3D@@@Z absent-from-retail
+void _bfmeCoord3DInlineAnchor(Coord3D *c)
+{
+    c->Coord3D::Coord3D();
+    c->Coord3D::Coord3D(0.0f, 0.0f, 0.0f);
+    c->zero();
+    c->set(c->length(), c->lengthSqr(), 0.0f);
+    c->set((const Coord3DBase *)0);
+    c->normalize();
+    c->GetLength2D();
+    c->GetLengthEstimate2D();
+    c->Normalize2D();
+    c->Coord3D::~Coord3D();
+}
+#pragma inline_depth()

@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0003A4CCD@StrafeAreaUpdate@@SA?AW4NameKeyType@@XZ @0x3A4CCD
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@StrafeAreaUpdate@@UBE?AW4NameKeyType@@XZ @0x3A4CCD
 // (69B): cached pool-name key for StrafeAreaUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("StrafeAreaUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class StrafeAreaUpdate
 {
 public:
-	static NameKeyType rva0003A4CCD();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0003A4CCD@StrafeAreaUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType StrafeAreaUpdate::rva0003A4CCD()
+// ?getModuleNameKey@StrafeAreaUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType StrafeAreaUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheStrafeAreaUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("StrafeAreaUpdate");

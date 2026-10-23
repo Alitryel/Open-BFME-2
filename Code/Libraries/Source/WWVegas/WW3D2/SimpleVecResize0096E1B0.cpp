@@ -4,6 +4,17 @@
 // ringobj.cpp and sphereobj.cpp all compile byte-identically for their own 8-byte elements;
 // same preprocessor preamble as decalmsh.cpp, address-tagged element.
 // BFME1 donor: reference/open-bfme-1 at 0x0096E1B0, byte-identical in game.dat.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 void __cdecl operator delete[](void *) throw();
 void __cdecl operator delete(void *) throw();
 #define Matrix4x4 Matrix4  // BFME renamed it

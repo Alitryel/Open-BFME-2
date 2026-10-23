@@ -1,4 +1,4 @@
-// cl: /O1 /Os /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // DLListClass<Smudge>::Add_Head, from the BFME1 Smudge list model.
 struct Smudge;
 struct SmudgeSet;
@@ -32,6 +32,36 @@ public:
     void Insert_After(DLNodeClass<T> *node);
     void Remove();
 };
+
+// BFME1's WW3D2/dllist.h supplies these two generic link operations. The
+// target call sites below instantiate Insert_After<SmudgeSet> at 0x002D2556
+// and Insert_Before<Smudge> at 0x002D2580. Their base-node fields are the same
+// three pointers (succ/pred/list at offsets 0/4/8) as the already-rowed
+// SortingNodeStruct instantiations; SmudgeSet's derived vptr is outside the
+// adjusted DLNodeClass subobject, so these member bodies have identical bytes.
+template <class T> void DLNodeClass<T>::Insert_Before(DLNodeClass<T> *n)
+{
+    list = n->list;
+    succ = n;
+    pred = n->pred;
+    if (n->pred)
+        n->pred->succ = this;
+    n->pred = this;
+    if (list->head == n)
+        list->head = this;
+}
+
+template <class T> void DLNodeClass<T>::Insert_After(DLNodeClass<T> *n)
+{
+    list = n->list;
+    pred = n;
+    succ = n->succ;
+    if (n->succ)
+        n->succ->pred = this;
+    n->succ = this;
+    if (list->tail == n)
+        list->tail = this;
+}
 
 template <class T> void DLListClass<T>::Add_Head(DLNodeClass<T> *node)
 {
@@ -132,6 +162,8 @@ template <class T> void DLNodeClass<T>::Remove()
 template void DLNodeClass<Smudge>::Remove();
 template void DLNodeClass<SmudgeSet>::Remove();
 template DLNodeClass<Smudge>::~DLNodeClass();
+template void DLNodeClass<Smudge>::Insert_Before(DLNodeClass<Smudge> *);
+template void DLNodeClass<SmudgeSet>::Insert_After(DLNodeClass<SmudgeSet> *);
 
 template <class T> void DLListClass<T>::Remove_Tail()
 {

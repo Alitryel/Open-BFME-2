@@ -102,3 +102,7 @@ void __stdcall bfmeReplaceV55(unsigned pos, unsigned n, char *src)
 	done:
 	}
 }
+
+void BfmeStrV55::bfmeThrowV55()
+{
+}

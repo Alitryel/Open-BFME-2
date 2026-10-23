@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ??0W3DBuffDrawModuleData@@QAE@XZ, retail 0x000CEE4C, 17 bytes.
 // Root ModuleData ctor (no base call): installs vtable 0x00BCD270
@@ -7,11 +7,36 @@
 // above the plain mov). Class size 0x10 proven by the rowed W3DBuffDraw data
 // factory 0x64C94 (news 0x10, sole caller). Row supersedes the ctor pin.
 
+extern "C" const void *const vtbl_00BCD270[];  // ??_7W3DBuffDrawModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BCD270=??_7W3DBuffDrawModuleData@@6B@")
+
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 
 class MultiIniFieldParse;
-struct FieldParse;
+class INI;
+typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
+struct FieldParse
+{
+	const char *token;
+	INIFieldParseProc parse;
+	const void *userData;
+	int offset;
+};
+
+class INI
+{
+public:
+	static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
+	static void parseBool(INI *ini, void *instance, void *store, const void *userData);
+};
+
+// Retail VA 0x00BCD2F4 (.rdata): 2 field records and a zero sentinel.
+extern const FieldParse g_00BCD2F4[] = {
+	{ "ModelName", &INI::parseAsciiString, 0, 0x8 },
+	{ "PreDraw", &INI::parseBool, 0, 0xC },
+	{ 0, 0, 0, 0 }
+};
 
 class MultiIniFieldParse
 {
@@ -31,23 +56,23 @@ private:
 	// +0x04 opaque pad (untouched by this ctor).
 	unsigned int m_pad04;
 	// +0x08 cleared word.
-	unsigned int m_08;
+	unsigned int m_modelName;
 	// +0x0C flag (false).
-	bool m_0C;
+	bool m_preDraw;
 	char m_pad0D[3]; // to the rowed 0x10 instance size
 };
 
 // ??0W3DBuffDrawModuleData@@QAE@XZ @0x000CEE4C
 W3DBuffDrawModuleData::W3DBuffDrawModuleData()
 {
-	*(unsigned int *)this = 0x00BCD270;
+	*(unsigned int *)this = ((unsigned int)vtbl_00BCD270);
 	_ReadWriteBarrier();
-	m_08 &= 0;
-	m_0C = false;
+	m_modelName &= 0;
+	m_preDraw = false;
 }
 
 // ?buildFieldParse@W3DBuffDrawModuleData@@SAXAAVMultiIniFieldParse@@@Z @0x000CEE93
 void W3DBuffDrawModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
-	parse.add(reinterpret_cast<const FieldParse *>(0x00BCD2F4), 0);
+	parse.add(g_00BCD2F4, 0);
 }

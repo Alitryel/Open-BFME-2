@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX-
+// cl: /Ireference/shims/moduledata /DNDEBUG /MD /GX-
 // LivingWorldRegionConnection default ctor.
 //
 // ??0LivingWorldRegionConnection@@QAE@XZ (retail 0x003F24F3, 36 bytes):
@@ -14,16 +14,9 @@
 // Serves the Connection (0x003F348F) and ConnectsTo (0x003F341E) entries
 // of the Region map table at 0x00836560 (sub-table 0x00C36FD4).
 
-class Xfer;
+#include "Common/Snapshot.h"
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void LoadPostProcess();
-	virtual const char *GetSnapshotName();
-	virtual void DoXfer(Xfer &xfer);
-};
+class Xfer;
 
 struct BfmeE8
 {
@@ -49,12 +42,7 @@ template <class T, class A = allocator<T> > struct _Vector_base
 };
 }
 
-struct AsciiString
-{
-	AsciiString() : m_data(0) {}
-
-	char *m_data;
-};
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
 class LivingWorldRegionConnection : public Snapshot
 {
@@ -78,3 +66,9 @@ LivingWorldRegionConnection::LivingWorldRegionConnection()
 	: m_regionName(), m_numberAllowed(-1), m_detourPoints(_STL::allocator<BfmeE8>())
 {
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?LoadPostProcess@LivingWorldRegionConnection@@UAEXXZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?GetSnapshotName@LivingWorldRegionConnection@@UAEPBDXZ=?Rva003F24D0Get@@YAHXZ")

@@ -18,7 +18,8 @@ struct BfmeQ1039
 	BfmeRec1039 *m_bfmeEnd;
 };
 
-void bfmeGrow1039(BfmeQ1039 *q, int n);
+struct lua_State;
+extern "C" void luaD_checkstack(lua_State *L, int n);
 
 void bfmeGo1039E(BfmeQ1039 *q, int v)
 {
@@ -26,7 +27,7 @@ void bfmeGo1039E(BfmeQ1039 *q, int v)
 	q->m_bfmeCur->m_bfmeVal = v;
 
 	if (q->m_bfmeCur == q->m_bfmeEnd)
-		bfmeGrow1039(q, 1);
+		luaD_checkstack((lua_State *)q, 1);
 
 	q->m_bfmeCur++;
 }

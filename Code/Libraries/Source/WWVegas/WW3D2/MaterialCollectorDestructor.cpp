@@ -1,4 +1,15 @@
-// cl: /G7 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ibuild/toolchains/dx81/include
+// cl: /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/build/toolchains/dx81/include
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 ** Copyright 2025 Electronic Arts Inc.
 ** This program is free software: you can redistribute it and/or modify
@@ -25,21 +36,49 @@
 // The former claim at 0x00C5C6A8 was retracted: it joined an array-deallocation
 // unwind funclet and a separate C++ exception handler, neither this body.
 void __cdecl operator delete[](void *) throw();
-#include "shader.h"
+// LINK-COMDAT: ShaderClass inline copies (ctor, Reset, 4 Set_*) differ from
+// the kept copies in decalmsh.cpp (ZH shifts: Cull 19, detail 20/24) while
+// this TU used BFME2 shifts (Cull 20, detail 21/25, default 0x10441b). Declare
+// them here so calls reach the kept copies; identical methods stay inline so
+// the vector Resize rows keep their bytes.
+class ShaderClass {
+public:
+    enum AlphaTestType { ALPHATEST_DISABLE = 0, ALPHATEST_ENABLE, ALPHATEST_MAX };
+    enum DetailAlphaFuncType { DETAILALPHA_DISABLE = 0, DETAILALPHA_DETAIL, DETAILALPHA_SCALE, DETAILALPHA_INVSCALE, DETAILALPHA_MAX };
+    enum DetailColorFuncType { DETAILCOLOR_DISABLE = 0, DETAILCOLOR_DETAIL, DETAILCOLOR_SCALE, DETAILCOLOR_INVSCALE, DETAILCOLOR_ADD, DETAILCOLOR_SUB, DETAILCOLOR_SUBR, DETAILCOLOR_BLEND, DETAILCOLOR_DETAILBLEND, DETAILCOLOR_ADDSIGNED, DETAILCOLOR_ADDSIGNED2X, DETAILCOLOR_SCALE2X, DETAILCOLOR_MODALPHAADDCOLOR, DETAILCOLOR_MAX };
+    enum CullModeType { CULL_MODE_DISABLE = 0, CULL_MODE_ENABLE, CULL_MODE_MAX };
+    ShaderClass();
+    ShaderClass(const ShaderClass &shader) { ShaderBits = shader.ShaderBits; }
+    ShaderClass(const unsigned int d) { ShaderBits = d; }
+    bool operator==(const ShaderClass &s) { return ShaderBits == s.ShaderBits; }
+    bool operator!=(const ShaderClass &s) { return ShaderBits != s.ShaderBits; }
+    void Reset();
+    void Set_Alpha_Test(AlphaTestType x);
+    void Set_Cull_Mode(CullModeType x);
+    void Set_Post_Detail_Alpha_Func(DetailAlphaFuncType x);
+    void Set_Post_Detail_Color_Func(DetailColorFuncType x);
+private:
+    unsigned int ShaderBits;
+};
 #include "vector.h"
 // Reset accesses the target's RefCountClass prefix only.
 class VertexMaterialClass {
 public:
     virtual void Delete_This();
-    void Release_Ref() { --m_refs; if (m_refs == 0) Delete_This(); }
+    __declspec(dllimport) __forceinline void Release_Ref() { --m_refs; if (m_refs == 0) Delete_This(); }
 private:
     unsigned int m_refs;
 };
 class TextureClass {
 public:
-    void Add_Ref() {
+    __declspec(dllimport) __forceinline void Add_Ref() {
         ++*reinterpret_cast<unsigned short *>(reinterpret_cast<char *>(this) + 4);
     }
+    void Release_Ref();
+};
+
+class TextureBaseClass {
+public:
     void Release_Ref();
 };
 
@@ -51,17 +90,24 @@ public:
         if (p) p->Add_Ref();
     }
     ~BfmeHandleCX() {
-        if (p) p->Release_Ref();
+        if (p) ((TextureBaseClass *)p)->Release_Ref();
     }
     BfmeHandleCX &operator=(const BfmeHandleCX &other) {
         if (other.p) other.p->Add_Ref();
-        if (p) p->Release_Ref();
+        if (p) ((TextureBaseClass *)p)->Release_Ref();
         p = other.p;
         return *this;
     }
     bool operator==(const BfmeHandleCX &other) const { return p == other.p; }
     bool operator!=(const BfmeHandleCX &other) const { return p != other.p; }
 };
+
+// The texture-vector constructor at 0x0016FE00 is owned by
+// DynamicVectorBfmeHandleCtor.cpp: its 46-byte body calls the native
+// texture-vector base constructor instead of expanding vector.h's version.
+// Keep this whole-class instantiation from emitting a competing constructor.
+template <>
+DynamicVectorClass<BfmeHandleCX>::DynamicVectorClass(unsigned int, BfmeHandleCX const *);
 
 class MaterialCollectorClass {
 public:
@@ -98,3 +144,10 @@ template class DynamicVectorClass<BfmeHandleCX>;
 template class DynamicVectorClass<ShaderClass>;
 // 0x0016FF30 ??_G?$DynamicVectorClass@PAVVertexMaterialClass@@@@UAEPAXI@Z 30B scalar deleting dtor; callee ??1 at 0x0016F580.
 template class DynamicVectorClass<VertexMaterialClass *>;
+
+// Retain the rowed vtable and deleting destructor when the size constructor
+// is supplied by its separate owner. The uncalled copy anchor is not emitted.
+static void bfmeAnchorTextureVectorCopy(const DynamicVectorClass<BfmeHandleCX> &source)
+{
+    DynamicVectorClass<BfmeHandleCX> copy(source);
+}

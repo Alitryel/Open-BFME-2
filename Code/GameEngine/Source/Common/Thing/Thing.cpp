@@ -1,6 +1,23 @@
-// cl: /DNDEBUG /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /Ireference/shims/zh_overridable_outofline /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// Link view first: Vector3::Length (and Normalize/Vector3(x,y,z) in the full view) stay inline without
+// emitting /O2 copies that compete with retail's owners (0x000692B3, 0x0006924F, 0x006CD510).
+#include "../../../../../reference/shims/bfme_vector3_lenfull_link/vector3_lenfull_link.h"
+// Link view first: Matrix3D(), Matrix3D(bool) and Matrix3D(const Matrix3D&) stay inline without
+// emitting /O2 copies that compete with retail's owners (0x000423C5, 0x0004C91A, 0x0006645C).
+#include "../../../../../reference/shims/bfme_matrix3d_full_link/matrix3d_full_link.h"
 // stlport
 // readable body of ?getTemplate@Thing@@QBEPBVThingTemplate@@XZ: Code/GameEngine/Source/Common/Thing/Thing_isKindOf.cpp
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -48,6 +65,9 @@
 #include "Common/Team.h"
 #include "Lib/Trig.h"
 #include "GameLogic/TerrainLogic.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Base_bitset<4>::_M_do_and(_Base_bitset<4> const &); }
+// bfme link decl-only end
 
 class BFMERetailThingVTable
 {
@@ -105,263 +125,77 @@ public:
 //#pragma MESSAGE("************************************** WARNING, optimization disabled for debugging purposes")
 #endif
 
-//=============================================================================
-/** Constructor */
-//=============================================================================
-Thing::Thing( const ThingTemplate *thingTemplate ) 
-{
-	// sanity
-	if( thingTemplate == NULL )
-	{
-	
-		// cannot create thing without template
-		DEBUG_CRASH(( "no template" ));
-		return;
+// Thing::Thing: defined in ThingConstructor.cpp (its row's unit).
 
-	}  // end if
-		
-	m_template = thingTemplate;
-#if defined(_DEBUG) || defined(_INTERNAL)
-	m_templateName = thingTemplate->getName();
-#endif
-	m_transform.Make_Identity();
-	m_cachedPos.zero();
-	m_cachedAngle = 0.0f;
-	m_cachedDirVector.zero();
-	m_cachedAltitudeAboveTerrain = 0;
-	m_cachedAltitudeAboveTerrainOrWater = 0;
-	m_cacheFlags = 0;
-
-}
-
-//=============================================================================
-/** Destructor */
-//=============================================================================
-// ??1Thing@@MAE@XZ present-unmatched
-Thing::~Thing()
-{
-}
+// Thing::~Thing: defined in ThingConstructor.cpp (its row's unit; retail lowers
+// the live-instance count, which Zero Hour's empty destructor here did not).
 
 //DECLARE_PERF_TIMER(ThingMatrixStuff)
 
 //=============================================================================
-const ThingTemplate *Thing::getTemplate() const
+// ?getTemplate@Thing@@ present-unmatched
+// Retail reads m_template raw: 26 TUs emit mov eax,[ecx+4]; ret, and rowed
+// bodies inline that load. ZH's OVERRIDE conversion would resolve overrides
+// (null-check plus tail-call to getFinalOverride); the non-overloaded
+// pointer keeps this TU's copy byte-identical to retail's.
+inline const ThingTemplate *Thing::getTemplate() const
 {
-	return m_template;
+	return m_template.getNonOverloadedPointer();
 }
 
 //=============================================================================
-const Coord3D* Thing::getUnitDirectionVector2D() const
-{
-	//USE_PERF_TIMER(ThingMatrixStuff)
-	if (!(m_cacheFlags & VALID_DIRVECTOR))
-	{
-		Real angle = getOrientation();
-		m_cachedDirVector.x = Cos( angle );
-		m_cachedDirVector.y = Sin( angle );
-		m_cachedDirVector.z = 0;
-		m_cacheFlags |= VALID_DIRVECTOR;
-	}
-
-	return &m_cachedDirVector;
-}
-
-//=============================================================================
+#pragma optimize("s", on)
 void Thing::getUnitDirectionVector2D(Coord3D& dir) const
 {
 	dir = *getUnitDirectionVector2D();
 }
+#pragma optimize("", on)
 
 //=============================================================================
-void Thing::getUnitDirectionVector3D(Coord3D& dir) const
+
+// File-static matrix copy (LK3-style): the TU's copy-ctor COMDAT loses
+// the link (first in link order), and the unrowed body below inlines the
+// construction, so the def cannot just go away. The helper keeps a call in
+// the source while the copy-ctor goes unused.
+static void CopyThingMatrix3D(Matrix3D &dst, const Matrix3D &src)
 {
-	Vector3 vdir = m_transform.Get_X_Vector();
-	vdir.Normalize();
-	dir.x = vdir.X;
-	dir.y = vdir.Y;
-	dir.z = vdir.Z;
+    dst[0] = src[0];
+    dst[1] = src[1];
+    dst[2] = src[2];
 }
 
 //=============================================================================
 // the nice thing about this is that we don't have to recalc out cached terrain stuff.
-// ?setPositionZ@Thing@@QAEXM@Z present-unmatched
-void Thing::setPositionZ( Real z )
-{
-	//USE_PERF_TIMER(ThingMatrixStuff)
-	if( !m_template->isKindOf( KINDOF_STICK_TO_TERRAIN_SLOPE) )
-	{
-		Real oldAngle = m_cachedAngle;
-		Coord3D oldPos = m_cachedPos;
-		Matrix3D oldMtx = m_transform;
-
-		m_transform.Set_Z_Translation( z );
-		m_cachedPos.z = z;
-
-		if (m_cacheFlags & VALID_ALTITUDE_TERRAIN)
-		{
-			m_cachedAltitudeAboveTerrain += (z - oldPos.z);
-		}
-		if (m_cacheFlags & VALID_ALTITUDE_SEALEVEL)
-		{
-			m_cachedAltitudeAboveTerrainOrWater += (z - oldPos.z);
-		}
-
-		reactToTransformChange(&oldMtx, &oldPos, oldAngle);
-	}
-	else
-	{
-		Matrix3D mtx;
-		const Bool stickToGround = true;	// yes, set the "z" pos		
-		Coord3D pos = m_cachedPos;
-		pos.z = z;
-		TheTerrainLogic->alignOnTerrain(getOrientation(), pos, stickToGround, mtx );
-		setTransformMatrix(&mtx);
-	}
-	DEBUG_ASSERTCRASH(!(_isnan(getPosition()->x) || _isnan(getPosition()->y) || _isnan(getPosition()->z)), ("Drawable/Object position NAN! '%s'\n", m_template->getName().str() ));
-}
+// Thing::setPositionZ: retail 0x0030A92C, matched in ThingRva0030A92C.cpp.
 
 //=============================================================================
-void Thing::setPosition( const Coord3D *pos )
-{
-	//USE_PERF_TIMER(ThingMatrixStuff)
-	if( !(reinterpret_cast<const unsigned char *>(m_template.operator->())[0xc8] & 0x10) )
-	{
-		Real oldAngle = m_cachedAngle;
-		Coord3D oldPos;
-		oldPos.x = m_cachedPos.x;
-		oldPos.y = m_cachedPos.y;
-		oldPos.z = m_cachedPos.z;
-		Matrix3D oldMtx;
-		oldMtx = m_transform;
-
-		//DEBUG_ASSERTCRASH(!(_isnan(pos->x) || _isnan(pos->y) || _isnan(pos->z)), ("Drawable/Object position NAN! '%s'\n", m_template->getName().str() ));
-		m_transform.Set_X_Translation( pos->x );
-		m_transform.Set_Y_Translation( pos->y );
-		m_transform.Set_Z_Translation( pos->z );
-		m_cachedPos = *pos;
-		m_cacheFlags &= ~(VALID_ALTITUDE_TERRAIN | VALID_ALTITUDE_SEALEVEL);	// but don't clear the dir flags.
-
-		reinterpret_cast<BFMERetailThingVTable *>(this)->reactToTransformChange(&oldMtx, &oldPos, oldAngle);
-	}
-	else
-	{
-		Matrix3D mtx;
-		const Bool stickToGround = true;	// yes, set the "z" pos				
-		reinterpret_cast<BFMERetailTerrainLogicVTable *>(TheTerrainLogic)->alignOnTerrain(getOrientation(), *pos, stickToGround, mtx );
-		setTransformMatrix(&mtx);
-	}
-	DEBUG_ASSERTCRASH(!(_isnan(getPosition()->x) || _isnan(getPosition()->y) || _isnan(getPosition()->z)), ("Drawable/Object position NAN! '%s'\n", m_template->getName().str() ));
-}
-
+// byte-exact reconstruction: Code/GameEngine/Source/Common/Thing/ThingSetPosition.cpp
 //=============================================================================
-// byte-exact reconstruction: Code/Libraries/Source/WWVegas/WWLib/ThingShadowTransformThunks.cpp
-// ?setOrientation@Thing@@QAEXM@Z present-unmatched
-void Thing::setOrientation( Real angle )
-{
-	//USE_PERF_TIMER(ThingMatrixStuff)
-	Coord3D u, x, y, z, pos;
-
-	// setOrientation always forces us straight up in the Z axis,
-	// or aligned with the terrain if we have the magic flag set.
-	// don't want this? call setTransformMatrix instead.
-
-	Real oldAngle = m_cachedAngle;
-	Coord3D oldPos = m_cachedPos;
-	Matrix3D oldMtx = m_transform;
-
-	pos.x = m_transform.Get_X_Translation();
-	pos.y = m_transform.Get_Y_Translation();
-	pos.z = m_transform.Get_Z_Translation();
-	if( m_template->isKindOf( KINDOF_STICK_TO_TERRAIN_SLOPE) )
-	{
-		Matrix3D mtx;
-		const Bool stickToGround = true;	// yes, set the "z" pos				
-		TheTerrainLogic->alignOnTerrain(angle, pos, stickToGround, m_transform );
-	}
-	else
-	{
-		z.x = 0.0f;
-		z.y = 0.0f;
-		z.z = 1.0f;
-
-		u.x = Cos(angle);
-		u.y = Sin(angle);
-		u.z = 0.0f;
-
-		y.crossProduct( &z, &u, &y );
-		x.crossProduct( &y, &z, &x );
-
-		m_transform.Set(  x.x, y.x, z.x, pos.x,
-											x.y, y.y, z.y, pos.y,
-											x.z, y.z, z.z, pos.z );
-	}
-
-	//DEBUG_ASSERTCRASH(-PI <= angle && angle <= PI, ("Please pass only normalized (-PI..PI) angles to setOrientation (%f).\n", angle));
-	m_cachedAngle = normalizeAngle(angle);
-	m_cachedPos = pos;
-	m_cacheFlags &= ~VALID_DIRVECTOR;	// but don't clear the altitude flags.
-
-	reactToTransformChange(&oldMtx, &oldPos, oldAngle);
-	DEBUG_ASSERTCRASH(!(_isnan(getPosition()->x) || _isnan(getPosition()->y) || _isnan(getPosition()->z)), ("Drawable/Object position NAN! '%s'\n", m_template->getName().str() ));
-}
-
+// byte-exact reconstruction: Code/GameEngine/Source/Common/Thing/ThingSetOrientation.cpp
 //=============================================================================
-/** Set the world transformation matrix */
+// byte-exact reconstruction: Code/GameEngine/Source/Common/Thing/ThingSetTransformMatrix.cpp
 //=============================================================================
-void Thing::setTransformMatrix( const Matrix3D *mx )
-{
-	//USE_PERF_TIMER(ThingMatrixStuff)
-	Real oldAngle = m_cachedAngle;
-	Real oldX = m_cachedPos.x;
-	Real oldY = m_cachedPos.y;
-	Real oldZ = m_cachedPos.z;
-
-	m_transform = *mx;
-	m_cachedPos.x = m_transform.Get_X_Translation();
-	m_cachedPos.y = m_transform.Get_Y_Translation();
-	m_cachedPos.z = m_transform.Get_Z_Translation();
-	m_cachedAngle = m_transform.Get_Z_Rotation();
-	m_cacheFlags = 0;
-
-	if (oldAngle != m_cachedAngle ||
-		oldX != m_cachedPos.x ||
-		oldY != m_cachedPos.y ||
-		oldZ != m_cachedPos.z)
-	{
-		reinterpret_cast<BFMEThingSetTransformVTable *>(this)->reactToTransformChange();
-	}
-	DEBUG_ASSERTCRASH(!(_isnan(getPosition()->x) || _isnan(getPosition()->y) || _isnan(getPosition()->z)), ("Drawable/Object position NAN! '%s'\n", m_template->getName().str() ));
-}
 
 //-------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/Common/Thing/Thing_isKindOf.cpp
 // ?isKindOf@Thing@@QBE_NW4KindOfType@@@Z present-unmatched
 Bool Thing::isKindOf(KindOfType t) const 
 { 
-	return getTemplate()->isKindOf(t); 
+	// Retail stores the template kind mask at +0x108.
+	const KindOfMaskType &kindOf = *(const KindOfMaskType *)((const char *)getTemplate() + 0x108);
+	return TEST_KINDOFMASK(kindOf, t);
 }
 
 //-------------------------------------------------------------------------------------------------
-struct Thing_BFME_Retail_ThingTemplateKindOf
-{
-	unsigned char pad[0xc8];
-	KindOfMaskType kindof;
-};
 static Bool (*volatile _bfme_force_test_kindof_any)(const KindOfMaskType&, const KindOfMaskType&) = &TEST_KINDOFMASK_ANY;
 
-Bool Thing::isKindOfMulti(const KindOfMaskType& mustBeSet, const KindOfMaskType& mustBeClear) const 
-{ 
-	return reinterpret_cast<const Thing_BFME_Retail_ThingTemplateKindOf *>(getTemplate())->kindof.testSetAndClear(mustBeSet, mustBeClear);
-}
+// Thing::isKindOfMulti: defined in ThingIsAnyKindOf.cpp (its row's unit).
+
+// Thing::isAnyKindOf: retail 0x0030ADC7 is rowed in ThingIsAnyKindOf.cpp (BFME 2's
+// BitFlags<69> spelling); the Zero Hour BitFlags<116> copy here was not retail's body.
 
 // ------------------------------------------------------------------------------------------------
-Bool Thing::isAnyKindOf( const KindOfMaskType& anyKindOf ) const
-{
-	const ThingTemplate *thingTemplate = getTemplate();
-	return reinterpret_cast<const Thing_BFME_Retail_ThingTemplateKindOf *>(thingTemplate)->kindof.anyIntersectionWith(anyKindOf);
-}
-
-// ------------------------------------------------------------------------------------------------
+#pragma optimize("s", on)
 Real Thing::calculateHeightAboveTerrain() const 
 {
 	//USE_PERF_TIMER(ThingMatrixStuff)
@@ -370,6 +204,7 @@ Real Thing::calculateHeightAboveTerrain() const
 	Real myZ = pos->z;
 	return myZ - terrainZ;
 }
+#pragma optimize("", on)
 
 //-------------------------------------------------------------------------------------------------
 Real Thing::getHeightAboveTerrain() const
@@ -383,25 +218,7 @@ Real Thing::getHeightAboveTerrain() const
 }
 
 //-------------------------------------------------------------------------------------------------
-Real Thing::getHeightAboveTerrainOrWater() const
-{
-	//USE_PERF_TIMER(ThingMatrixStuff)
-	if (!(m_cacheFlags & VALID_ALTITUDE_SEALEVEL))
-	{
-		const Coord3D* pos = getPosition();
-		Real waterZ;
-		if (reinterpret_cast<BFMERetailTerrainLogicVTable *>(TheTerrainLogic)->isUnderwater(pos->x, pos->y, &waterZ, 0))
-		{
-			m_cachedAltitudeAboveTerrainOrWater = pos->z - waterZ;
-		} 
-		else
-		{
-			m_cachedAltitudeAboveTerrainOrWater = getHeightAboveTerrain();
-		}
-		m_cacheFlags |= VALID_ALTITUDE_SEALEVEL;
-	}
-	return m_cachedAltitudeAboveTerrainOrWater;
-}
+// Thing::getHeightAboveTerrainOrWater: defined in ThingGetHeightAboveTerrainOrWater.cpp (its row's unit).
 
 //=============================================================================
 /** If we treat this as airborne, then they slide down slopes.  This checks whether
@@ -417,55 +234,28 @@ Bool Thing::isSignificantlyAboveTerrain() const
 
 
 //-------------------------------------------------------------------------------------------------
-void Thing::convertBonePosToWorldPos(const Coord3D* bonePos, const Matrix3D* boneTransform, Coord3D* worldPos, Matrix3D* worldTransform) const
-{
-	if (worldTransform)
-	{
-#ifdef ALLOW_TEMPORARIES
-		*worldTransform = m_transform * (*boneTransform);
-#else
-		worldTransform->mul(m_transform, *boneTransform);
-#endif
-	}
-	if (worldPos)
-	{
-		Vector3 vector;
-		vector.X = bonePos->x;
-		vector.Y = bonePos->y;
-		vector.Z = bonePos->z;
-		m_transform.Transform_Vector(m_transform, vector, &vector);
-		worldPos->x = vector.X;
-		worldPos->y = vector.Y;
-		worldPos->z = vector.Z;
-	}
-}
+// Thing::convertBonePosToWorldPos is defined with its retail-matched body in Code/GameEngine/Source/Common/Thing/ThingConvertBonePosToWorldPos.cpp (0x0030A528).
 
 // ------------------------------------------------------------------------------------------------
 /** Push the 'in' parameter through our transformation matrix and store in 'out' */
 // ------------------------------------------------------------------------------------------------
-void Thing::transformPoint( const Coord3D *in, Coord3D *out )
+// Thing::transformPoint is defined with its retail-matched body in Code/GameEngine/Source/Common/Thing/ThingTransformPointFinish.cpp (0x0030A812).
+
+// Carrier to keep emitting the 10B Matrix3D::Set_Y_Translation alias rowed from
+// this TU after Thing::setPosition moved to ThingSetPosition.cpp.
+// ?carrierThingSetYTranslation@@YAXXZ present-unmatched
+void carrierThingSetYTranslation()
 {
+	Matrix3D m;
+	m.Set_Y_Translation(0.0f);
+}
 
-	// santiy
-	if( in == NULL || out == NULL )
-		return;
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?setPeer@Rva007F9B80@@QAEXPAX@Z=?Set_Y_Translation@Matrix3D@@QAEXM@Z")
 
-	// for conversion
-	Vector3 vectorIn;
-	Vector3 vectorOut;
-
-	///@ todo this is dumb and we should not have to convert types
-	// convert to Vector3 datatypes
-	vectorIn.X = in->x;
-	vectorIn.Y = in->y;
-	vectorIn.Z = in->z;
-
-	// do the transform
-	m_transform.Transform_Vector( m_transform, vectorIn, &vectorOut );
-
-	// store converted vector in 'out'
-	out->x = vectorOut.X;
-	out->y = vectorOut.Y;
-	out->z = vectorOut.Z;
-
-}  // end transformPoint
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?m@Gen_007f9590@@QAEXH@Z=?Set_Y_Translation@Matrix3D@@QAEXM@Z")
+#pragma comment(linker, "/alternatename:?bfmeSetGM@BfmeDerivedGM@@QAEXPAX@Z=?Set_Y_Translation@Matrix3D@@QAEXM@Z")
+#pragma comment(linker, "/alternatename:?bfmeAddAEB@BfmeOwnerAEB@@QAEXPAVBfmeThingAEB@@@Z=?Set_Y_Translation@Matrix3D@@QAEXM@Z")

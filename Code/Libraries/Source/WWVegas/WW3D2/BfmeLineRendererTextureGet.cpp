@@ -1,4 +1,4 @@
-// cl: /O2 /G7 /EHsc /MD /DNDEBUG
+// cl: /EHsc /MD /DNDEBUG
 //
 // BFMELineRendererTexture::Get_Texture, retail 0x00191210 (29B).
 // Dedicated TU so part_buf.cpp keeps its matched callers.
@@ -19,9 +19,9 @@ public:
 	{
 	public:
 		TextureClass *Ptr;
-		TextureHandleClass( TextureClass *p ) : Ptr( p ) { if ( Ptr ) ++Ptr->Refs; }
-		TextureHandleClass( const TextureHandleClass &p ) : Ptr( p.Ptr ) { if ( Ptr ) ++Ptr->Refs; }
-		~TextureHandleClass() { if ( Ptr ) Ptr->Release_Ref(); }
+		TextureHandleClass( TextureClass *texture ) : Ptr( texture ) { if ( Ptr ) ++Ptr->Refs; }
+		TextureHandleClass( const TextureHandleClass &textureHandle ) : Ptr( textureHandle.Ptr ) { if ( Ptr ) ++Ptr->Refs; }
+		~TextureHandleClass();
 	};
 };
 

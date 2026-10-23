@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva00048828E@DelayedWeaponSetUpgradeUpdate@@SA?AW4NameKeyType@@XZ @0x48828e
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@DelayedWeaponSetUpgradeUpdate@@UBE?AW4NameKeyType@@XZ @0x48828e
 // (69B): cached pool-name key for DelayedWeaponSetUpgradeUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("DelayedWeaponSetUpgradeUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class DelayedWeaponSetUpgradeUpdate
 {
 public:
-	static NameKeyType rva00048828E();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00048828E@DelayedWeaponSetUpgradeUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType DelayedWeaponSetUpgradeUpdate::rva00048828E()
+// ?getModuleNameKey@DelayedWeaponSetUpgradeUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType DelayedWeaponSetUpgradeUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheDelayedWeaponSetUpgradeUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("DelayedWeaponSetUpgradeUpdate");

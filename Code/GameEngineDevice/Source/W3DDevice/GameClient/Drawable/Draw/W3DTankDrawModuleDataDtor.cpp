@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG
+// cl: /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG
 //
 // ??1W3DTankDrawModuleData@@UAE@XZ, retail 0x000CE764, 80 bytes.
 // W3DTankDraw ModuleData dtor: reinstalls vtable 0xBCCB58, tears down the
@@ -11,15 +11,7 @@
 // the banked Tank ctor at 0xCE6E6 (0.9 partial: push-lea order + missing
 // mov-state-1) and the rowed proc/factory.
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	~AsciiString();
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class W3DModelDrawModuleData
 {

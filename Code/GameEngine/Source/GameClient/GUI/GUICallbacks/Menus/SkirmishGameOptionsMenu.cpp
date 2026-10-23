@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /Ireference/shims/gameinfo /Ireference/shims/zh_outofline /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/SkirmishGameOptionsMenu.cpp); this unit had no counterpart under Code/.
@@ -32,7 +32,32 @@
 // Description: Lan Game Options Menu
 ///////////////////////////////////////////////////////////////////////////////////////
 
+// This unit retains the unrowed Zero Hour menu implementation and its
+// narrow slot initializer. Keep that local donor helper distinct from
+// BFME2 GameSlot::setPlayerTemplate, whose row at 0x00400E33 remaps factions
+// and clears two fields. The menu bodies and that layout remain unclaimed.
+#define setPlayerTemplate bfmeZhSetPlayerTemplate
+
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include <map>
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
+#include <list>
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 
 
 #include "Common/BattleHonors.h"
@@ -72,6 +97,22 @@
 #include "GameNetwork/GUIUtil.h"
 #include "GameNetwork/IPEnumeration.h"
 #include "WWDownload/Registry.h"
+#include "../../../../../../../reference/shims/bfme_coord3d_construct_link/coord3d_construct_link.h"
+// bfme link decl-only begin
+template <> int max<int>(int, int);
+template <> int min<int>(int, int);
+namespace _STL { template <> _Rb_tree_base<pair<AsciiString const, Coord3D>, allocator<pair<AsciiString const, Coord3D> > >::_Rb_tree_base(allocator<pair<AsciiString const, Coord3D> > const &); }
+namespace _STL { template <> _String_base<char, allocator<char> >::_String_base(allocator<char> const &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(char const *, allocator<char> const &); }
+namespace _STL { template <> _Rb_tree<AsciiString, pair<AsciiString const, Coord3D>, _Select1st<pair<AsciiString const, Coord3D> >, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > >::~_Rb_tree(); }
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+namespace _STL { template <> AsciiString & map<AsciiString, AsciiString, less<AsciiString>, allocator<pair<AsciiString const, AsciiString> > >::operator[](AsciiString const &); }
+namespace _STL { template <> _Rb_tree_node<pair<AsciiString const, Coord3D> > * _Rb_tree<AsciiString, pair<AsciiString const, Coord3D>, _Select1st<pair<AsciiString const, Coord3D> >, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > >::_M_create_node(pair<AsciiString const, Coord3D> const &); }
+namespace _STL { template <> _Rb_tree_node<pair<AsciiString const, Coord3D> > * allocator<_Rb_tree_node<pair<AsciiString const, Coord3D> > >::allocate(unsigned int, void const *) const; }
+namespace _STL { template <> void _STLP_alloc_proxy<char *, char, allocator<char> >::deallocate(char *, unsigned int); }
+namespace _STL { template <> _List_iterator<Coord3D, _Nonconst_traits<Coord3D> > list<Coord3D, allocator<Coord3D> >::insert(_List_iterator<Coord3D, _Nonconst_traits<Coord3D> >, Coord3D const &); }
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<AsciiString const, AsciiString>, _Nonconst_traits<pair<AsciiString const, AsciiString> > >, bool> _Rb_tree<AsciiString, pair<AsciiString const, AsciiString>, _Select1st<pair<AsciiString const, AsciiString> >, less<AsciiString>, allocator<pair<AsciiString const, AsciiString> > >::insert_unique(pair<AsciiString const, AsciiString> const &); }
+// bfme link decl-only end
 
 #ifdef _INTERNAL
 // for occasional debugging...
@@ -182,26 +223,25 @@ static Int getNextSelectablePlayer(Int start)
 	return -1;
 }
 
-SkirmishPreferences::SkirmishPreferences( void )
-{
-	// note, the superclass will put this in the right dir automatically, this is just a leaf name
-	load("Skirmish.ini");
-}
+// BFME2's constructor takes the profile index and is recovered in
+// Common/SkirmishPreferences.cpp. The Zero Hour no-argument constructor
+// emitted a competing, non-retail preference vtable.
 
-SkirmishPreferences::~SkirmishPreferences()
-{
-}
+// SkirmishPreferences::~SkirmishPreferences: defined in SkirmishPreferences.cpp (its row's unit).
 
+// ?getSlotList@SkirmishPreferences@@ present-unmatched
 AsciiString SkirmishPreferences::getSlotList(void)
 {
 	return getAsciiString("SlotList", AsciiString::TheEmptyString);
 }
 
+// ?setSlotList@SkirmishPreferences@@ present-unmatched
 void SkirmishPreferences::setSlotList(void)
 {
 	setAsciiString("SlotList", GameInfoToAsciiString(TheSkirmishGameInfo));
 }
 
+// ?getUserName@SkirmishPreferences@@ present-unmatched
 UnicodeString SkirmishPreferences::getUserName(void)
 {
 	UnicodeString ret;
@@ -225,6 +265,7 @@ UnicodeString SkirmishPreferences::getUserName(void)
 	return ret;
 }
 
+// ?getPreferredColor@SkirmishPreferences@@ present-unmatched
 Int SkirmishPreferences::getPreferredColor(void)
 {
 	Int ret;
@@ -241,6 +282,7 @@ Int SkirmishPreferences::getPreferredColor(void)
 	return ret;
 }
 
+// ?getPreferredFaction@SkirmishPreferences@@ present-unmatched
 Int SkirmishPreferences::getPreferredFaction(void)
 {
 	Int ret;
@@ -266,6 +308,7 @@ Int SkirmishPreferences::getPreferredFaction(void)
 	return ret;
 }
 
+// ?usesSystemMapDir@SkirmishPreferences@@ present-unmatched
 Bool SkirmishPreferences::usesSystemMapDir(void)
 {
 	OptionPreferences::const_iterator it = find("UseSystemMapDir");
@@ -278,29 +321,10 @@ Bool SkirmishPreferences::usesSystemMapDir(void)
 	return FALSE;
 }
 
-AsciiString SkirmishPreferences::getPreferredMap(void)
-{
-	AsciiString ret;
-	SkirmishPreferences::const_iterator it = find("Map");
-	if (it == end())
-	{
-		ret = getDefaultMap(TRUE);
-		return ret;
-	}
-
-	ret = QuotedPrintableToAsciiString(it->second);
-	ret.trim();
-	if (ret.isEmpty() || !isValidMap(ret, TRUE))
-	{
-		ret = getDefaultMap(TRUE);
-		return ret;
-	}
-	
-	return ret;
-}
 
 static const char superweaponRestrictionKey[] = "SuperweaponRestrict";
 
+// ?getSuperweaponRestricted@SkirmishPreferences@@ present-unmatched
 Bool SkirmishPreferences::getSuperweaponRestricted(void) const
 {
   const_iterator it = find(superweaponRestrictionKey);
@@ -309,15 +333,17 @@ Bool SkirmishPreferences::getSuperweaponRestricted(void) const
     return false;
   }
   
-  return ( it->second.compareNoCase( "yes" ) == 0 );
+  return ( ((const StringBase<char> &)(it->second)).compareNoCase( "yes" ) == 0 );
 }
 
+// ?setSuperweaponRestricted@SkirmishPreferences@@ present-unmatched
 void SkirmishPreferences::setSuperweaponRestricted( Bool superweaponRestricted )
 {
   (*this)[superweaponRestrictionKey] = superweaponRestricted ? "Yes" : "No";
 }
 
 static const char startingCashKey[] = "StartingCash";
+// ?getStartingCash@SkirmishPreferences@@ present-unmatched
 Money SkirmishPreferences::getStartingCash(void) const
 {
   const_iterator it = find(startingCashKey);
@@ -332,6 +358,7 @@ Money SkirmishPreferences::getStartingCash(void) const
   return money;
 }
 
+// ?setStartingCash@SkirmishPreferences@@ present-unmatched
 void SkirmishPreferences::setStartingCash( const Money & startingCash )
 {
   AsciiString option;
@@ -343,35 +370,7 @@ void SkirmishPreferences::setStartingCash( const Money & startingCash )
 
 
 
-Bool SkirmishPreferences::write(void)
-{
-	if (!TheSkirmishGameInfo)
-		return FALSE;
-
-	AsciiString tmp;
-
-	tmp.format("%d", TheSkirmishGameInfo->getConstSlot(0)->getColor());
-	(*this)["Color"] = tmp;
-
-	tmp.format("%d", TheSkirmishGameInfo->getConstSlot(0)->getPlayerTemplate());
-	(*this)["PlayerTemplate"] = tmp;
-
-	(*this)["Map"] = TheSkirmishGameInfo->getMap();
-
-	(*this)["UserName"] = UnicodeStringToQuotedPrintable(TheSkirmishGameInfo->getConstSlot(0)->getName());
-
-  setStartingCash( TheSkirmishGameInfo->getStartingCash() );
-  setSuperweaponRestricted( TheSkirmishGameInfo->getSuperweaponRestriction() != 0 );
-
-	setSlotList();
-
-//	NameKeyType sliderGameSpeedID = TheNameKeyGenerator->nameToKey( AsciiString( "SkirmishGameOptionsMenu.wnd:SliderGameSpeed" ) );
-	GameWindow *sliderGameSpeed = TheWindowManager->winGetWindowFromId( parentSkirmishGameOptions, sliderGameSpeedID );
-	Int maxFPS = GadgetSliderGetPosition( sliderGameSpeed );
-	setInt("FPS", maxFPS);
-
-	return UserPreferences::write();
-}
+// SkirmishPreferences::write: defined in SkirmishPreferences.cpp (its row's unit).
 
 /*
 static void playerTooltip(GameWindow *window,
@@ -513,7 +512,7 @@ static void startPressed(void)
 	BOOL isReady = FALSE;
 	Int playerCount = TheSkirmishGameInfo->getNumPlayers();
 	AsciiString lowerMap = TheSkirmishGameInfo->getMap();
-	lowerMap.toLower();
+	((StringBase<char> &)(lowerMap)).toLower();
 	std::map<AsciiString, MapMetaData>::iterator it = TheMapCache->find(lowerMap);
 	if (it == TheMapCache->end())
 	{
@@ -603,125 +602,18 @@ void MapSelectorTooltip(GameWindow *window,
 }
 
 
-void positionStartSpotControls( GameWindow *win, GameWindow *mapWindow, Coord3D *pos, MapMetaData *mmd, GameWindow *buttonMapStartPositions[])
-{
-	if(!win || !mmd || !mapWindow || !buttonMapStartPositions)
-		return;
-	DEBUG_ASSERTCRASH(win && mmd,("positionStartSpotControls:: we don't have a window to position or any mapmetadata"));
-	ICoord2D winMapSize, winMapPos, gadgetPos, gadgetSize;
-	mapWindow->winGetSize(&winMapSize.x, &winMapSize.y);
-	mapWindow->winGetScreenPosition(&winMapPos.x, &winMapPos.y);
-	win->winGetSize(&gadgetSize.x, &gadgetSize.y);
-	ICoord2D ul, lr;
-	findDrawPositions(0,0, winMapSize.x, winMapSize.y,mmd->m_extent, &ul, &lr);
-	Int smallWidth = lr.x - ul.x;
-	Int smallHeight= lr.y - ul.y;
-	
-	// When we actually draw the map, save off it's screen position and use that instead of the map window's position/size
-	Real position;
-	position = (pos->x - mmd->m_extent.lo.x) / (mmd->m_extent.hi.x - mmd->m_extent.lo.x);
-	gadgetPos.x = (position * smallWidth) - gadgetSize.x /2 + ul.x;// + winMapPos.x;
-
-	position = (pos->y - mmd->m_extent.lo.y) / (mmd->m_extent.hi.y - mmd->m_extent.lo.y);
-	gadgetPos.y = ((1- position) * smallHeight) - gadgetSize.y /2 + ul.y;// + winMapPos.y;
-	
-	
-
-	// loop through and make sure we're not on top of anyone else
-	for(Int i = 0; i < MAX_SLOTS; ++i)
-	{
-		if(buttonMapStartPositions[i] == win)
-			break;
-		ICoord2D tempPos;
-		buttonMapStartPositions[i]->winGetScreenPosition(&tempPos.x, &tempPos.y);
-		// we're inside the other gadget
-		if(gadgetPos.x > tempPos.x && gadgetPos.x < tempPos.x + gadgetSize.x
-				&& gadgetPos.y > tempPos.y && gadgetPos.y < tempPos.y + gadgetSize.y)
-		{
-			Int closerRight = tempPos.x + gadgetSize.x - gadgetPos.x;
-			Int closerBottom = tempPos.y + gadgetSize.y - gadgetPos.y;
-			// we're closer to the right then the bottom
-			if( closerRight < closerBottom)
-				gadgetPos.x = tempPos.x + gadgetSize.x + 1;
-			else if( closerBottom < closerRight)
-				gadgetPos.y = tempPos.y + gadgetSize.y + 1;
-			else
-			{
-				gadgetPos.x = tempPos.x + gadgetSize.x + 1;
-				gadgetPos.y = tempPos.y + gadgetSize.y + 1;
-			}
-		}
-	}
-	win->winSetPosition(gadgetPos.x,gadgetPos.y);
-}
+// Byte-verified definition lives in PositionStartSpotControls.cpp.
+void positionStartSpotControls(GameWindow *win, GameWindow *mapWindow,
+    Coord3D *pos, MapMetaData *mmd, GameWindow *buttonMapStartPositions[]);
 TechAndSupplyImages TheSupplyAndTechImageLocations;
 
-void positionAdditionalImages( MapMetaData *mmd, GameWindow *mapWindow, Bool force)
-{
-	TheSupplyAndTechImageLocations.m_supplyPosList.clear();
-	TheSupplyAndTechImageLocations.m_techPosList.clear();
-
-	if( !mmd || !mapWindow || mapWindow->winIsHidden())
-		return;
-	static MapMetaData *prevMMD = NULL;
-	if(force)
-		prevMMD = NULL;
-	// we already populated the supply and tech image locations.
-	if(mmd == prevMMD)
-		return;
-	ICoord2D winMapSize, winMapPos;
-	mapWindow->winGetSize(&winMapSize.x, &winMapSize.y);
-	mapWindow->winGetScreenPosition(&winMapPos.x, &winMapPos.y);
-
-	//SUPPLY_TECH_SIZE
-	ICoord2D ul, lr;
-	findDrawPositions(0,0, winMapSize.x, winMapSize.y,mmd->m_extent, &ul, &lr);
-	Int smallWidth = lr.x - ul.x;
-	Int smallHeight= lr.y - ul.y;
-	
-	Coord3DList::iterator it = mmd->m_supplyPositions.begin();
-		// loop through and make sure we're not on top of anyone else
-	while( it != mmd->m_supplyPositions.end())
-	{
-		
-		ICoord2D markerPos;
-
-		// When we actually draw the map, save off it's screen position and use that instead of the map window's position/size
-		Real position;
-		position = (it->x - mmd->m_extent.lo.x) / (mmd->m_extent.hi.x - mmd->m_extent.lo.x);
-		markerPos.x = (position * smallWidth) - SUPPLY_TECH_SIZE /2 + ul.x;// + winMapPos.x;
-
-		position = (it->y - mmd->m_extent.lo.y) / (mmd->m_extent.hi.y - mmd->m_extent.lo.y);
-		markerPos.y = ((1- position) * smallHeight) - SUPPLY_TECH_SIZE /2 + ul.y;// + winMapPos.y;
-		TheSupplyAndTechImageLocations.m_supplyPosList.push_front(markerPos);
-		it++;
-	}
-
-	it = mmd->m_techPositions.begin();
-		// loop through and make sure we're not on top of anyone else
-	while( it != mmd->m_techPositions.end())
-	{
-
-		ICoord2D markerPos;
-		// When we actually draw the map, save off it's screen position and use that instead of the map window's position/size
-		Real position;
-		position = (it->x - mmd->m_extent.lo.x) / (mmd->m_extent.hi.x - mmd->m_extent.lo.x);
-		markerPos.x = (position * smallWidth) - SUPPLY_TECH_SIZE /2 + ul.x;// + winMapPos.x;
-
-		position = (it->y - mmd->m_extent.lo.y) / (mmd->m_extent.hi.y - mmd->m_extent.lo.y);
-		markerPos.y = ((1- position) * smallHeight) - SUPPLY_TECH_SIZE /2 + ul.y;// + winMapPos.y;
-		TheSupplyAndTechImageLocations.m_techPosList.push_front(markerPos);
-		it++;
-	}
-
-
-	//TheSupplyAndTechImageLocations
-}
+// Byte-verified definition lives in SkirmishPositionAdditionalImages.cpp.
+void positionAdditionalImages(MapMetaData *mmd, GameWindow *mapWindow, Bool force);
 
 void positionStartSpots( AsciiString mapName, GameWindow *buttonMapStartPositions[], GameWindow *mapWindow)
 {
 	AsciiString lowerMap = mapName;
-	lowerMap.toLower();
+	((StringBase<char> &)(lowerMap)).toLower();
 	std::map<AsciiString, MapMetaData>::iterator it = TheMapCache->find(lowerMap);
 	if (it == TheMapCache->end())
 	{
@@ -829,68 +721,8 @@ void positionStartSpots( GameInfo *myGame, GameWindow *buttonMapStartPositions[]
 	positionStartSpots(localMapFname, buttonMapStartPositions, mapWindow);	
 }
 
-void updateMapStartSpots( GameInfo *myGame, GameWindow *buttonMapStartPositions[], Bool onLoadScreen )
-{
-	AsciiString lowerMap = myGame->getMap();
-	lowerMap.toLower();
-	std::map<AsciiString, MapMetaData>::iterator it = TheMapCache->find(lowerMap);
-	if (it == TheMapCache->end())
-	{
-		for (Int i = 0; i < MAX_SLOTS; ++i)
-    {
-      if ( buttonMapStartPositions[i] != NULL )
-      {
-  			buttonMapStartPositions[i]->winHide(TRUE);
-      }
-    }
-		return;
-	}
-	MapMetaData mmd = it->second;
-
-	for(Int i = 0; i < MAX_SLOTS; ++i)
-	{
-    if ( buttonMapStartPositions[i] != NULL )
-    {
-		  GadgetButtonSetText(buttonMapStartPositions[i], UnicodeString::TheEmptyString);
-		  if (!onLoadScreen)
-		  {
-			  buttonMapStartPositions[i]->winSetTooltip(TheGameText->fetch("TOOLTIP:StartPosition"));
-		  }
-    }
-	}
-	for( i = 0; i < MAX_SLOTS; ++i)
-	{
-    if ( buttonMapStartPositions[i] == NULL )
-      continue;
-
-		GameSlot *gs =myGame->getSlot(i);
-		if(onLoadScreen)
-		{
-			if(gs->getApparentStartPos() >=0 && gs->getApparentStartPos() < mmd.m_numPlayers && gs->getPlayerTemplate() > PLAYERTEMPLATE_MIN )
-			{
-				AsciiString displayNumber;
-				displayNumber.format("NUMBER:%d",i + 1);
-				GadgetButtonSetText(buttonMapStartPositions[gs->getApparentStartPos()], TheGameText->fetch(displayNumber));
-			}
-		}
-		else
-		{
-			if(gs->getStartPos() >=0 && gs->getStartPos() < mmd.m_numPlayers && gs->getPlayerTemplate() > PLAYERTEMPLATE_MIN )
-			{
-				AsciiString displayNumber;
-				displayNumber.format("NUMBER:%d",i + 1);
-				GadgetButtonSetText(buttonMapStartPositions[gs->getStartPos()], TheGameText->fetch(displayNumber));
-				//Added By Sadullah Nader
-				//Fix for no tooltips at start positions
-				//added start position tooltip
-				//Fixed again to show the right number , ie "i + 1"
-				UnicodeString temp;
-				temp.format(TheGameText->fetch("TOOLTIP:StartPositionN"), i + 1);
-				buttonMapStartPositions[gs->getStartPos()]->winSetTooltip(temp);
-			}
-		}
-	}
-}
+// BFME2 implementation is verified in SkirmishMapStartSpots.cpp.
+void updateMapStartSpots(GameInfo *, GameWindow *[], Bool);
 
 static void handlePlayerSelection(int index)
 {
@@ -1198,7 +1030,7 @@ void skirmishUpdateSlotList( void )
     doUpdateSlotList = FALSE;
 
 	  AsciiString lowerMap = TheSkirmishGameInfo->getMap();
-	  lowerMap.toLower();
+	  ((StringBase<char> &)(lowerMap)).toLower();
 	  std::map<AsciiString, MapMetaData>::iterator it = TheMapCache->find(lowerMap);
 	  if (it != TheMapCache->end())
 	  {
@@ -1378,7 +1210,7 @@ void SkirmishGameOptionsMenuInit( WindowLayout *layout, void *userData )
 	}
 
 	AsciiString lowerMap = prefs.getPreferredMap();
-	lowerMap.toLower();
+	((StringBase<char> &)(lowerMap)).toLower();
 	std::map<AsciiString, MapMetaData>::iterator it = TheMapCache->find(lowerMap);
 	if (it != TheMapCache->end())
 	{
@@ -2169,3 +2001,8 @@ void populateSkirmishBattleHonors(void)
 			BATTLE_HONOR_OFFICERSCLUB, row, column);
 	}
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?load@UserPreferences@@UAE_NVAsciiString@@@Z=?load@UserPreferences@@UAE_NABVUnicodeString@@@Z")

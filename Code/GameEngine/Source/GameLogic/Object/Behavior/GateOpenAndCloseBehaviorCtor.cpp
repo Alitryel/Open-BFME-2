@@ -1,6 +1,6 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
-// ?appendOnce@GateOpenBehaviorList@@QAEXPAX@Z, retail 0x004E9353, 34 bytes.
+// ?appendOnce@GateOpenBehaviorList@@QAEXPAX@Z, retail 0x004E9353, 37 bytes.
 // Dedup-append helper: linear find over the pointer range at +0/+4, push_back
 // the item only if absent. Sole caller is the GateOpenAndCloseBehavior ctor
 // (0x49889C), which registers the new behavior into the global list at

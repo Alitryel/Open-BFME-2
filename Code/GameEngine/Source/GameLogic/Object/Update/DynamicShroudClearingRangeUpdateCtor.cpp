@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE
+// cl: /DNDEBUG /MD /GX
 // stlport
 //
 // ??0DynamicShroudClearingRangeUpdate@@QAE@PAVThing@@PBVModuleData@@@Z retail 0x0048B067
@@ -19,6 +19,14 @@
 // The RadiusDecal element ctor/dtor ride the rowed/pinned 0x330DA4/0x330DD6
 // pair through the ehvec helper; clear resolves via its row.
 
+extern "C" const void *const vtbl_00BEFF90[];  // folded, 80 classes; via ??_7AIGateUpdate@@6BBehaviorModuleOther@@@
+#pragma comment(linker, "/alternatename:_vtbl_00BEFF90=??_7AIGateUpdate@@6BBehaviorModuleOther@@@")
+
+extern "C" const void *const vtbl_00C4BEB0[];  // ??_7DynamicShroudClearingRangeUpdate@@6BModuleInterface@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4BEB0=??_7DynamicShroudClearingRangeUpdate@@6BModuleInterface@@@")
+extern "C" const void *const vtbl_00C4BEBC[];  // ??_7DynamicShroudClearingRangeUpdate@@6BObjectModule@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4BEBC=??_7DynamicShroudClearingRangeUpdate@@6BObjectModule@@@")
+
 class Thing;
 class ModuleData;
 class Player;
@@ -30,13 +38,7 @@ public:
 	float getShroudClearingRange() const;
 };
 
-class GameLogic
-{
-public:
-	unsigned char m_unreconstructed_00[0x40];
-	unsigned int m_frame;
-	unsigned int getFrame() const { return m_frame; }
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -112,9 +114,9 @@ static const T &bfmeMax(const T &left, const T &right)
 DynamicShroudClearingRangeUpdate::DynamicShroudClearingRangeUpdate(
 	Thing *thing, const ModuleData *moduleData)
 	: UpdateModule(thing, moduleData)
-	, m_vtable(reinterpret_cast<const void *>(0x00C4BEBC))
-	, m_secondary0C(reinterpret_cast<const void *>(0x00BEFF90))
-	, m_secondary10(reinterpret_cast<const void *>(0x00C4BEB0))
+	, m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C4BEBC)))
+	, m_secondary0C(reinterpret_cast<const void *>(((unsigned int)vtbl_00BEFF90)))
+	, m_secondary10(reinterpret_cast<const void *>(((unsigned int)vtbl_00C4BEB0)))
 {
 	const DynamicShroudClearingRangeUpdateModuleData *md =
 		(const DynamicShroudClearingRangeUpdateModuleData *)moduleData;

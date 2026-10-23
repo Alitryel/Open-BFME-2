@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
+// cl: /Ireference/shims/bfme2_ascii /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // stlport
 // BFME2 STLport tree: AsciiString key and opaque 1-byte mapped value.
 // hint 0x302081 -> insert 0x207a04 -> _M_insert 0x207343 -> node 0x206C76.
@@ -7,14 +7,19 @@
 // followed by a raw 1-byte copy of the mapped value at pair offset +4.
 // Comparison reaches the established AsciiString operator< at 0x5598C.
 // Semantic donor: BFME1 RvaTreeInsertUniqueHint.cpp and STLport pair/tree.
+#include <stl/_prolog.h>
+#include <stl/type_traits.h>
+#undef _STLP_DEFAULT_CONSTRUCTOR_BUG
+#undef _STLP_DEFAULT_CONSTRUCTED
+#define _STLP_DEFAULT_CONSTRUCTED(_TTp) _TTp()
 #include <map>
-class AsciiString { public: AsciiString(const AsciiString &); ~AsciiString(); private: void *m_data; };
+#include "ascii_string.h"
 bool operator<(const AsciiString &, const AsciiString &);
 // Retail pair copying transfers this 1-byte mapped value without further calls.
 // Its original application type and any ownership/destruction behavior are unknown.
 struct TreeHintPayload00207343 {
     unsigned char value;
-    ~TreeHintPayload00207343();
+    TreeHintPayload00207343() : value(0) {}
 };
 
 typedef _STL::pair<const AsciiString, TreeHintPayload00207343> TreeHintPair00207343;
@@ -39,3 +44,4 @@ template TreeHint00207343::iterator TreeHint00207343::insert_unique(TreeHint0020
 // The map wrapper directly calls this tree's verified hinted insertion.
 typedef _STL::map<AsciiString,TreeHintPayload00207343,_STL::less<AsciiString >,_STL::allocator<TreeHintPair00207343> > MapInsert00302081;
 template MapInsert00302081::iterator MapInsert00302081::insert(MapInsert00302081::iterator, const TreeHintPair00207343 &);
+template TreeHintPayload00207343 &MapInsert00302081::operator[](const AsciiString &);

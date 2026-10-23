@@ -6,8 +6,19 @@
 // Rva000C828CElement is an address-derived opaque 180-byte emitter view. The
 // target Construct wrapper at 0xC2387 reaches the matched record-copy helper
 // at 0xC0B85; this TU does not claim a complete application element layout.
-// cl: /O1 /G7 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
+// Retail keeps one unsigned max, RVA 0x00013740 (the vendored STLport row). This unit's
+// flags (/G7) compile a different copy, and retail kept another unit's. This unit-local
+// overload keeps the inlined code and offers the link no second copy.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
 #include <vector>
 
 struct Rva000C828CElement {
@@ -17,7 +28,19 @@ struct Rva000C828CElement {
 	~Rva000C828CElement();
 };
 
+struct BfmeStringTailRecord180;
 namespace _STL {
+template <> void __destroy_aux<BfmeStringTailRecord180 *>(
+    BfmeStringTailRecord180 *, BfmeStringTailRecord180 *, const __false_type &);
+// The retail range wrapper at 0xC4DEF calls the rowed helper at 0xC47CF.
+// Keep that relationship without inventing an opaque element destructor.
+template <> inline void _Destroy<Rva000C828CElement *>(
+    Rva000C828CElement *first, Rva000C828CElement *last)
+{
+    __false_type nontrivial;
+    __destroy_aux((BfmeStringTailRecord180 *)first,
+                  (BfmeStringTailRecord180 *)last, nontrivial);
+}
 template <> void _Construct<Rva000C828CElement, Rva000C828CElement>(
 	Rva000C828CElement *, const Rva000C828CElement &);
 }

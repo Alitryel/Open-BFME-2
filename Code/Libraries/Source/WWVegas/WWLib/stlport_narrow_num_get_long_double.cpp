@@ -95,7 +95,7 @@ protected:
 };
 
 template <>
-narrow_iterator num_get<char, narrow_iterator>::do_get(
+inline narrow_iterator num_get<char, narrow_iterator>::do_get(
 		narrow_iterator in, narrow_iterator end, ios_base &stream,
 		ios_base::iostate &error, long double &value) const
 {
@@ -109,4 +109,32 @@ narrow_iterator num_get<char, narrow_iterator>::do_get(
 	return in;
 }
 
+// num_get<char>::do_get(long double) is a template member other units instantiate as
+// a select-any copy; the strong specialization here made it a duplicate in the linked build.
+// This anchor only makes this unit emit its copy for the ledger row; it is not retail code.
+struct bfmeNumGetEmitter : num_get<char, narrow_iterator>
+{
+	static void emit(const bfmeNumGetEmitter *p, narrow_iterator a, narrow_iterator b, ios_base &s,
+		ios_base::iostate &e, long double &v);
+};
+#pragma inline_depth(0)
+// ?emit@bfmeNumGetEmitter@_STL@@SAXPBU12@V?$istreambuf_iterator@DV?$char_traits@D@_STL@@@2@1AAVios_base@2@AAHAAO@Z present-unmatched
+void bfmeNumGetEmitter::emit(const bfmeNumGetEmitter *p, narrow_iterator a, narrow_iterator b, ios_base &s,
+	ios_base::iostate &e, long double &v)
+{
+	p->num_get<char, narrow_iterator>::do_get(a, b, s, e, v);
 }
+#pragma inline_depth()
+
+}
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??1Rva0007FAB3Vector@@QAE@XZ=??1?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ")
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??1CollapseFXVec@@QAE@XZ=??1?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??1CollapseOCLVec@@QAE@XZ=??1?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??1RubbleFXVec@@QAE@XZ=??1?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??1RubbleOCLVec@@QAE@XZ=??1?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ")

@@ -16,6 +16,10 @@ struct BfmePad44VMO
 	char n[2];
 };
 
+// At pinned 0x0002AE50, this five-word thiscall forwards four range pointers
+// and the provider's empty tag reference; its returned string reference is ignored.
+#pragma comment(linker, "/alternatename:?bfmeImplVMO@BfmeStrVMO@@QAEXHHHH@Z=?bfmeReplaceAliasedRange@Rva008312E0String@@QAEAAV1@PAD000ABURva008312E0Tag@@@Z")
+
 class BfmeStrVMO
 {
 public:

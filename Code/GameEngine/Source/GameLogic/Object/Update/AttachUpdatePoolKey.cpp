@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva000491912@AttachUpdate@@SA?AW4NameKeyType@@XZ @0x491912
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@AttachUpdate@@UBE?AW4NameKeyType@@XZ @0x491912
 // (69B): cached pool-name key for AttachUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("AttachUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class AttachUpdate
 {
 public:
-	static NameKeyType rva000491912();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000491912@AttachUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType AttachUpdate::rva000491912()
+// ?getModuleNameKey@AttachUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType AttachUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheAttachUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("AttachUpdate");

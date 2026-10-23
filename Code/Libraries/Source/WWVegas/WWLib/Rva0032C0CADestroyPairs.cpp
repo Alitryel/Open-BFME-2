@@ -1,4 +1,4 @@
-// cl: /O1 /MD /DNDEBUG
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /MD /DNDEBUG
 //
 // Rva0032C0CA 8-byte-pair range destroy, retail 0x0032C0CA, 25 bytes.
 // Leaf _Destroy loop over contiguous 8-byte pairs (AsciiString key plus a
@@ -8,14 +8,7 @@
 // unproven (any 4-byte POD produces these bytes); the Rva pair name claims
 // only the address plus the 8-byte stride the retail add proves.
 
-class AsciiString
-{
-public:
-	~AsciiString();
-
-private:
-	char *m_text;
-};
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
 struct RvaPair0032C0CA
 {

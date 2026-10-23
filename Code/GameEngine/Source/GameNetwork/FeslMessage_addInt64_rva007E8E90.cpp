@@ -27,3 +27,7 @@ void Rva007E8810Message::addInt64(const char *key, FeslInt64 value)
 	if (Rva007ECE60(m_10, m_14, key, buf) < 0)
 		m_24 = -100;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeSet2VJF@BfmeMsgVJF@@QAEXPBDPAX1@Z=?addInt64@Rva007E8810Message@@QAEXPBD_J@Z")

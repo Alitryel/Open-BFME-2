@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /EHsc
+// cl: /Oy- /DNDEBUG /MD /EHsc
 //
 // ?scanBool@@YAHPBDAA_N@Z, retail 0x00314E42, 43 bytes.
 // Dedicated TU.
@@ -15,7 +15,7 @@ typedef bool Bool;
 extern "C" __declspec(dllimport) int __cdecl sscanf(const char *buf, const char *fmt, ...);
 
 // ?scanBool@@YAHPBDAA_N@Z
-static Int scanBool(const char *source, Bool &val)
+Int scanBool(const char *source, Bool &val)
 {
 	Int temp = 0;
 	Int ret = sscanf(source, "%d", &temp);

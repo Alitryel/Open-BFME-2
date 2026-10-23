@@ -1,10 +1,14 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/texture.h
-class TextureClass
+class TextureBaseClass
 {
 public:
 	void Release_Ref(void);
+};
+
+class TextureClass : public TextureBaseClass
+{
 };
 
 class BfmeTexHold1137

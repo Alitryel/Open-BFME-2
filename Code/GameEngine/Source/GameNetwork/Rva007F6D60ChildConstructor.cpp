@@ -21,7 +21,6 @@
 // which retail does not; as members with their own inline constructors the
 // schedule is retail's.
 
-extern const char g_Rva0107301CEmptyString[];
 
 class Gen_00800280
 {
@@ -37,6 +36,7 @@ public:
 		((Gen_00800280 *)this)->m();
 	}
 	void append( const char *text );
+	void reset();
 
 	char *m_ptr;
 	int m_size;
@@ -48,6 +48,14 @@ public:
 	Rva007F6D60ZeroWord() : m_value( 0 ) {}
 
 	unsigned m_value;
+};
+
+// The rowed virtual base destructor at 0x00655780 (BfmeMsgCtor.cpp) is what
+// retail's child teardown runs on both records.
+class BfmeMsg
+{
+public:
+	virtual ~BfmeMsg();
 };
 
 class SnapshotDupReplica
@@ -66,7 +74,6 @@ public:
 		m_0c = 0;
 		m_04 = 0;
 	}
-	virtual void handle();
 
 	int m_04;
 	int m_08;
@@ -82,7 +89,6 @@ public:
 		m_08 = 0;
 		m_24 = 0;
 	}
-	virtual void handle();
 
 	int m_04;
 	char m_08;
@@ -93,14 +99,24 @@ public:
 class Rva007F6D60ChildBase
 {
 public:
-	virtual ~Rva007F6D60ChildBase();
+	// Inline: retail's child teardown (0x00661E10) and the base's deleting
+	// dtor (0x00663530) both end in this bare vptr store.
+	virtual ~Rva007F6D60ChildBase() {}
 };
 
 class Rva007F6D60Child : public Rva007F6D60ChildBase
 {
 public:
 	Rva007F6D60Child();
-	virtual ~Rva007F6D60Child();
+	// Retail 0x00661E10: clears +8, runs both records' base destructor and
+	// resets the +0x1c buffer before the base vptr store.
+	virtual ~Rva007F6D60Child()
+	{
+		m_08 = 0;
+		((BfmeMsg *)&m_chain3C)->BfmeMsg::~BfmeMsg();
+		((BfmeMsg *)&m_chain2C)->BfmeMsg::~BfmeMsg();
+		m_buffer1C.reset();
+	}
 
 	unsigned m_04;
 	unsigned m_08;
@@ -126,7 +142,7 @@ Rva007F6D60Child::Rva007F6D60Child()
 	m_10 = 0;
 	m_14 = 0;
 	m_18.m_value = 0;
-	m_buffer1C.append( g_Rva0107301CEmptyString );
+	m_buffer1C.append( "" );
 	m_24.m_value = 0;
 	m_28 = 0;
 	m_6c = 0;

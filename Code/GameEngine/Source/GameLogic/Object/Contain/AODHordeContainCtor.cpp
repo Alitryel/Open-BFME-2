@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /arch:SSE /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /DNDEBUG /MD /D_CRTIMP= /EHsc /arch:SSE /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0AODHordeContain@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x0047B3DB, 317 bytes.
@@ -28,7 +28,21 @@ struct Iface2C { virtual void f2C(); };
 struct Iface30 { virtual void f30(); };
 struct Iface34 { virtual void f34(); unsigned char m_pad[0xFC - 0x38]; };
 struct IfaceFC { virtual void fFC(); unsigned char m_pad[0x11C - 0x100]; };
-struct Iface11C { virtual void f11C(); unsigned char m_pad[0x30C - 0x11C - 4]; };
+struct Rva0047A6EDElem28 { int m_w[7]; };
+struct Rva0047A6EDVec28
+{
+	Rva0047A6EDElem28 *m_start;
+	Rva0047A6EDElem28 *m_finish;
+	Rva0047A6EDElem28 *m_end;
+	int size() const { return m_finish - m_start; }
+};
+struct Iface11C
+{
+	virtual void f11C();
+	unsigned char m_pad120[0x188 - 0x120];
+	Rva0047A6EDVec28 m_vec188;
+	unsigned char m_pad194[0x30C - 0x194];
+};
 
 class HordeContain
 	: public Iface00
@@ -45,16 +59,19 @@ class HordeContain
 {
 public:
 	HordeContain(Thing *thing, const ModuleData *moduleData);
-	~HordeContain();
-};
+	virtual ~HordeContain();
+	virtual void rva00470DC1();
+public: void rva0047A413(); };
 
-struct BfmeE16
-{
-	float x;
-	float y;
-	float z;
-	float w;
-};
+#include "../../../../../Libraries/Include/Lib/BfmeE16.h"
+// bfme link decl-only BfmeE16
+namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
+namespace _STL { template <> _Vector_base<BfmeE16, allocator<BfmeE16> >::~_Vector_base(); }
+// Suppress this TU's non-retail BfmeE16 proxy deallocate copy (family2-LK3 row 34):
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL {
+template <> void _STLP_alloc_proxy<BfmeE16*, BfmeE16, allocator<BfmeE16> >::deallocate(BfmeE16*, size_t);
+}
 
 struct Float3
 {
@@ -124,6 +141,11 @@ class AODHordeContain : public HordeContain
 {
 public:
 	AODHordeContain(Thing *thing, const ModuleData *moduleData);
+	virtual ~AODHordeContain();
+	int rva0047A6ED() const;
+	void rva0047A729(const Float3 *position);
+	void rva0047A77E();
+	/* the rowed HordeContain::rva0047A413 */ __declspec(dllimport) __forceinline void rva0047A413() { ((HordeContain *)this)->rva0047A413(); }
 	virtual void f00();
 	virtual void f20();
 	virtual void f11C();
@@ -149,6 +171,12 @@ void AODHordeContain::f20() {}
 // ?f11C@AODHordeContain@@UAEXXZ present-unmatched
 void AODHordeContain::f11C() {}
 
+// ?rva0047A6ED@AODHordeContain@@QBEHXZ @0x0047A6ED
+int AODHordeContain::rva0047A6ED() const
+{
+	return m_vec188.size();
+}
+
 // ??0AODHordeContain@@QAE@PAVThing@@PBVModuleData@@@Z
 AODHordeContain::AODHordeContain(Thing *thing, const ModuleData *moduleData)
 	: HordeContain(thing, moduleData)
@@ -164,4 +192,118 @@ AODHordeContain::AODHordeContain(Thing *thing, const ModuleData *moduleData)
 {
 	for (int j = 0; j != 0x3C; ++j)
 		m_arrayA[j].clear();
+}
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?f0C@Iface0C@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?f2C@Iface2C@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
+
+// Target 0x0047A729..0x0047A77E (RET 4). The adjacent constructor proves
+// the sixty 16-byte entries at +0x338 and count at +0x6F8. Each entry holds
+// a three-float position followed by a copy of the owner's field at +0x44.
+// The field and method keep address-derived spellings until named evidence
+// identifies them. No donor method identity is asserted.
+struct AODHistoryOwnerView
+{
+    unsigned char m_prefix[0x44];
+    float m_field44;
+};
+
+void AODHordeContain::rva0047A729(const Float3 *position)
+{
+    int count;
+    if (m_6F8 == 60)
+        count = 59;
+    else if ((count = m_6F8++) <= 0)
+        goto insertPosition;
+    Element16 *destination = m_arrayA + count;
+    do
+    {
+        --count;
+        Element16 *source = destination - 1;
+        *destination = *source;
+        destination = source;
+    }
+    while (count);
+insertPosition:
+    *reinterpret_cast<Float3 *>(&m_arrayA[0]) = *position;
+    AODHistoryOwnerView *owner = *reinterpret_cast<AODHistoryOwnerView **>(
+        reinterpret_cast<unsigned char *>(this) + 8);
+    m_arrayA[0].m_f[3] = owner->m_field44;
+}
+
+// BFME1 semantic donor: AODHordeContainUpdateFormation.cpp at1399ad37.
+// Native247B47A77E..47A875 has dynamic frame-rate defaults, out-of-line
+// Coord3D length and a KindOf215 query instead of the donor's condition bit.
+// The receiver/callee spellings retain unresolved target method identities.
+enum KindOfType { KINDOF_RVA_0 = 0 };
+
+class Object;
+struct Rva0028AC4EEntry;
+class Locomotor
+{
+public:
+    float getMaxSpeed(Object *object) const;
+};
+class Rva001E46E1
+{
+public:
+    float rva001E4845(Object *object);
+};
+class Object
+{
+public:
+    const Rva0028AC4EEntry *rva0028AC4E() const;
+    bool isKindOf(KindOfType kind) const;
+};
+class Rva0055A627Difference
+{
+public:
+    float x, y, z;
+    float length() const;
+};
+extern int BfmeLogicFramesPerSecond;
+
+void AODHordeContain::rva0047A77E()
+{
+    float scale = 1.0f / BfmeLogicFramesPerSecond;
+    float movementSpeed = scale * 100.0f;
+    float movementStep = scale * 10.0f;
+    Object *object = *reinterpret_cast<Object **>(
+        reinterpret_cast<unsigned char *>(this) + 8);
+    Rva001E46E1 *ai = reinterpret_cast<Rva001E46E1 *>(
+        const_cast<Rva0028AC4EEntry *>(object->rva0028AC4E()));
+    if (ai)
+    {
+        movementSpeed = ((Locomotor *)ai)->getMaxSpeed(object);
+        movementStep = ai->rva001E4845(object);
+    }
+    const Float3 *current = reinterpret_cast<const Float3 *>(
+        reinterpret_cast<const unsigned char *>(object) + 0x38);
+    Float3 position;
+    position.m_f[0] = current->m_f[0];
+    position.m_f[1] = current->m_f[1];
+    position.m_f[2] = current->m_f[2];
+    const Float3 *previous = reinterpret_cast<const Float3 *>(
+        reinterpret_cast<const unsigned char *>(this) + 0x704);
+    Rva0055A627Difference difference;
+    difference.x = position.m_f[0] - previous->m_f[0];
+    difference.y = position.m_f[1] - previous->m_f[1];
+    difference.z = position.m_f[2] - previous->m_f[2];
+    if (difference.length() > movementStep)
+        rva0047A729(&position);
+    rva0047A413();
+    const float &speed = movementSpeed;
+    if (object->isKindOf((KindOfType)215))
+    {
+        float &tail = m_334;
+        tail = tail + speed;
+    }
+    HordeContain::rva00470DC1();
 }

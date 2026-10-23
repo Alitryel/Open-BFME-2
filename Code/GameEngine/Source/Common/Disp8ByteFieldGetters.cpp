@@ -1,3 +1,4 @@
+// cl: /O1 /MD
 // Disp8 byte getters: four-byte __thiscall members with one shape:
 //
 //     mov al,[ecx+<DISP>] / ret
@@ -44,6 +45,7 @@ BFME_DISP8_BYTE_GETTER(Rva001DBA6DByteField, 0x10)
 BFME_DISP8_BYTE_GETTER(Rva001DCD01ByteField, 0x22)
 BFME_DISP8_BYTE_GETTER(Rva001EAE43ByteField, 0x78)
 BFME_DISP8_BYTE_GETTER(Rva0020354FByteField, 0x0D)
+BFME_DISP8_BYTE_GETTER(Rva0020359DByteField, 0x29)
 BFME_DISP8_BYTE_GETTER(Rva002035A1ByteField, 0x2B)
 BFME_DISP8_BYTE_GETTER(Rva002035A5ByteField, 0x2A)
 BFME_DISP8_BYTE_GETTER(Rva002035A9ByteField, 0x4C)
@@ -86,7 +88,6 @@ BFME_DISP8_BYTE_GETTER(Rva006D89D0ByteField, 0x08)
 BFME_DISP8_BYTE_GETTER(Rva005EE2C7ByteField, 0x19)
 BFME_DISP8_BYTE_GETTER(Rva005C4131ByteField, 0x61)
 BFME_DISP8_BYTE_GETTER(Rva002B235DByteField, 0x75)
-BFME_DISP8_BYTE_GETTER(Rva00232E8FByteField, 0x20)
 BFME_DISP8_BYTE_GETTER(Rva003FE57DByteField, 0x28)
 BFME_DISP8_BYTE_GETTER(Rva0045310DByteField, 0x3C)
 BFME_DISP8_BYTE_GETTER(Rva004A0DF8ByteField, 0x66)
@@ -126,3 +127,76 @@ BFME_DISP8_BYTE_GETTER(Rva0066D610ByteField, 0x64)
 BFME_DISP8_BYTE_GETTER(Rva0066D620ByteField, 0x65)
 BFME_DISP8_BYTE_GETTER(Rva006BD4F0ByteField, 0x21)
 BFME_DISP8_BYTE_GETTER(Rva006CFDB0ByteField, 0x0C)
+
+class Rva001DCD05
+{
+public:
+	void *rva001DCD05();
+private:
+	char m_pad[8];
+	char m_08;
+	char m_pad2[0x14 - 0x09];
+	char m_14;
+	char m_pad3[0x20 - 0x15];
+	unsigned char m_20;
+	bool m_21;
+};
+
+void *Rva001DCD05::rva001DCD05()
+{
+	if (m_21)
+		return &m_14;
+	return m_20 ? (char *)this + 8 : 0;
+}
+
+
+// Clean BFME1 9cbfb551 donor structural leads; native instructions independently
+// establish complete RET boundaries and each raw field operation and ABI.
+// Address-owned carriers retain unknown original receiver identity and bounds.
+
+// ?setBit2@Rva0030000CFields@@QAEXXZ
+struct Rva0030000CFields { char pad[0x44]; unsigned int flags44; void setBit2(); };
+void Rva0030000CFields::setBit2() { flags44 |= 4; }
+
+// Clean BFME1 9cbfb551 donor structural leads; native instructions independently
+// establish complete RET boundaries and each raw field operation and ABI.
+// Address-owned carriers retain unknown original receiver identity and bounds.
+
+// ?matches@Rva0056AB88Fields@@QBE_NI@Z
+struct Rva0056AB88Fields { char pad[0xC]; unsigned int wordC; bool matches(unsigned int value) const; };
+bool Rva0056AB88Fields::matches(unsigned int value) const { return wordC==value; }
+// Disp8 byte setter: mov al,[esp+4] / mov [ecx+<DISP>],al / ret 4 (10 bytes).
+// Address-derived class; the stored byte's meaning is unproven.
+class Rva0065D7C0ByteSetter
+{
+public:
+	void set(unsigned char value);
+	char m_lead[0x1D];
+	unsigned char m_value;
+};
+
+// ?set@Rva0065D7C0ByteSetter@@QAEXE@Z
+void Rva0065D7C0ByteSetter::set(unsigned char value)
+{
+	m_value = value;
+}
+
+// ?rva002259F3@Rva002259F3@@QBEHXZ, retail 0x002259F3 (25B): three flag bytes at
+// +0x44 (must be set), +0xA8 and +0x9D (must be clear).
+class Rva002259F3
+{
+public:
+	int rva002259F3() const;
+private:
+	char m_pad00[0x44];
+	unsigned char m_44;
+	char m_pad45[0x9D - 0x45];
+	unsigned char m_9d;
+	char m_pad9E[0xA8 - 0x9E];
+	unsigned char m_a8;
+};
+
+int Rva002259F3::rva002259F3() const
+{
+	return m_44 != 0 && m_a8 == 0 && m_9d == 0;
+}

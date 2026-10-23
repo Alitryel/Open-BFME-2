@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc_alloconly
 // stlport
 //
 // STLport vector<AsciiString>::operator= at 0x000BDB46, the copy path
@@ -20,22 +20,7 @@
 #include <vector>
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
-class AsciiString
-{
-	struct AsciiStringData
-	{
-		virtual void _M_slot_00();
-		int m_refCount;
-	};
-
-	AsciiStringData *m_data;
-
-public:
-	AsciiString();
-	AsciiString(const AsciiString &that);
-	AsciiString &operator=(const AsciiString &that);
-	~AsciiString();
-};
+#include "ascii_string.h"
 
 namespace _STL
 {
@@ -49,14 +34,16 @@ template <> void _Construct<AsciiString, AsciiString>(AsciiString *, const Ascii
 // non-const __copy_ptrs forwarder takes the const-ref tag (rowed at
 // 0x000B6614) and reaches the generic __copy worker. noinline keeps it out
 // of line so the callers keep retail's shape; the body is verbatim generic.
+// Match the vendor template's inline linkage so the verified helper can
+// coexist with the identical select-any copies emitted by other callers.
 template <>
-__declspec(noinline) AsciiString *__copy_ptrs<AsciiString *, AsciiString *>(AsciiString *__first, AsciiString *__last, AsciiString *__result, const __false_type &)
+__declspec(noinline) inline AsciiString *__copy_ptrs<AsciiString *, AsciiString *>(AsciiString *__first, AsciiString *__last, AsciiString *__result, const __false_type &)
 {
 	return __copy(__first, __last, __result, random_access_iterator_tag(), (ptrdiff_t *)0);
 }
 
 template <>
-vector<AsciiString, allocator<AsciiString> > &vector<AsciiString, allocator<AsciiString> >::operator=(const vector<AsciiString, allocator<AsciiString> > &__x)
+inline vector<AsciiString, allocator<AsciiString> > &vector<AsciiString, allocator<AsciiString> >::operator=(const vector<AsciiString, allocator<AsciiString> > &__x)
 {
 	if (&__x != this) {
 		const size_type __xlen = __x.size();
@@ -80,3 +67,11 @@ vector<AsciiString, allocator<AsciiString> > &vector<AsciiString, allocator<Asci
 }
 
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitStlportAsciiStringVectorAssign@@YAXPAV?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@ABV12@@Z present-unmatched
+void bfmeEmitStlportAsciiStringVectorAssign(_STL::vector<AsciiString, _STL::allocator<AsciiString> > *p, const _STL::vector<AsciiString, _STL::allocator<AsciiString> > &src)
+{
+	*p = src;
+}
+#pragma inline_depth()

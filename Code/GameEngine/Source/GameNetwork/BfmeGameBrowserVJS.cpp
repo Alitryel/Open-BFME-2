@@ -1,11 +1,20 @@
 // EA FESL gamebrowser host-state request at retail 0x007F5C30.
 
-class BfmeMsgVJH
+class BfmeMsg
+{
+public:
+	virtual ~BfmeMsg() throw();
+
+protected:
+	int m_state;
+};
+
+class BfmeMsgVJH : public BfmeMsg
 {
 public:
 	BfmeMsgVJH(char *buf, int n) throw();
-	~BfmeMsgVJH() throw();
-	char m_pad[0x34];
+	virtual ~BfmeMsgVJH() throw();
+	char m_pad[0x2C];
 };
 
 struct Rva007EB810Diag

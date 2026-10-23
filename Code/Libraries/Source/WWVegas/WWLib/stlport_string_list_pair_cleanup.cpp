@@ -1,4 +1,4 @@
-// cl: /O1 /Ob2 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /Ob2 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // List-valued string-map cleanup for GameSpyLoginPreferences' nick and
 // clan maps (+0x2c/+0x38). Instantiating the list-pair _Rb_tree destructor
@@ -10,26 +10,28 @@
 // 0x36410), and node release folds to the GameMemory free. The key
 // destructor stays declared-only so the pair keeps retail's out-of-line
 // key-teardown call.
+// Link: declare ~AsciiString only (the shim's documented per-unit switch) so this TU calls the out-of-line
+// retail destructor instead of emitting a non-retail ??_GAsciiString copy; the // cl: line is untouched.
+#ifndef BFME_ASCII_DTOR_DECL
+#define BFME_ASCII_DTOR_DECL
+#endif
 #include <map>
 #include <list>
 
-template <typename T> class StringBase
-{
-	void releaseBuffer();
-
-public:
-	~StringBase();
-
-protected:
-	void *m_data;
+#include "ascii_string.h"
+// Give the list-pair its native out-of-line destructor declaration. MSVC
+// still emits the implicit destructor when only that member is specialized.
+namespace _STL {
+template <> struct pair<const AsciiString, list<AsciiString> > {
+    typedef const AsciiString first_type;
+    typedef list<AsciiString> second_type;
+    const AsciiString first;
+    list<AsciiString> second;
+    ~pair();
 };
+}
 
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString(const AsciiString &other);
-	~AsciiString();
-};
+
 
 bool operator<(const AsciiString &left, const AsciiString &right);
 

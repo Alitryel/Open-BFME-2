@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // DelayedLuaEventUpdateModuleData file-unit (parse first; the ctor at
 // 0xB28BF remains pinned for a follow-up).
@@ -10,6 +10,7 @@
 
 class MultiIniFieldParse;
 struct FieldParse;
+extern const int g_emptyFieldParseTable[4];
 
 class MultiIniFieldParse
 {
@@ -26,5 +27,5 @@ public:
 // ?buildFieldParse@DelayedLuaEventUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z @0x004A8D06
 void DelayedLuaEventUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
-	parse.add(reinterpret_cast<const FieldParse *>(0x00C6BB18), 0);
+	parse.add(reinterpret_cast<const FieldParse *>(g_emptyFieldParseTable), 0);
 }

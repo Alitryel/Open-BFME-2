@@ -1,6 +1,6 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 // ?init@TextOnFrameTransition@@UAEXPAVGameWindow@@@Z
-// retail 0x0035FA90, 23 bytes. Dedicated TU.
+// retail 0x0035FA90, 62 bytes. Dedicated TU.
 //
 // Ported from Open-BFME-1
 // Code/GameEngine/Source/GameClient/GUI/GameWindowTransitionsStyles.cpp
@@ -44,6 +44,7 @@ public:
 	Bool m_isReversed;		// +0x0a
 	unsigned char m_pad0B;		// +0x0b
 	GameWindow *m_win;		// +0x0c
+	Int m_unknown10;		// +0x10, passed to update by retail init
 };
 
 enum
@@ -68,7 +69,7 @@ void TextOnFrameTransition::init(GameWindow *win)
 	else
 	{
 		m_isForward = FALSE;
-		update(TEXTONFRAMETRANSITION_START);
+		update(m_unknown10);
 		m_isFinished = FALSE;
 		m_isForward = TRUE;
 	}

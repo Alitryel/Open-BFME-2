@@ -1,6 +1,8 @@
-// cl: /G7 /arch:SSE /Ireference/shims/bfmecamera /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
+// cl: /Ireference/shims/bfmecamera /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
 
+#pragma optimize("s", on)
 #include "../WWMath/vector2.h"
+#pragma optimize("", on)
 
 class TextureClass;
 
@@ -61,62 +63,21 @@ private:
 	VertexFormatXYZUV1 *m_vertexBuffer;
 };
 
-StreakRendererClass::StreakRendererClass() :
-	Texture(0),
-	Shader(ShaderClass::_PresetAdditiveSpriteShader),
-	Width(0.0f),
-	Color(1.0f, 1.0f, 1.0f),
-	Opacity(1.0f),
-	SubdivisionLevel(0),
-	NoiseAmplitude(0.0f),
-	MergeAbortFactor(1.5f),
-	TextureTileFactor(1.0f),
-	LastUsedSyncTime(WW3D::Get_Sync_Time()),
-	CurrentUVOffset(0.0f, 0.0f),
-	UVOffsetDeltaPerMS(0.0f, 0.0f),
-	Bits(DEFAULT_BITS),
-	m_vertexBufferSize(0),
-	m_vertexBuffer(0)
-{
-}
+// StreakRendererClass::StreakRendererClass: defined in streakRender.cpp (its row's unit).
 
-void StreakRendererClass::Set_Merge_Intersections(int onoff)
-{
-	if (onoff) {
-		Bits |= 0x00000001;
-	} else {
-		Bits &= ~0x00000001;
-	}
-}
+// StreakRendererClass::Set_Merge_Intersections: defined in streakRender.cpp (its row's unit).
 
-void StreakRendererClass::Set_Freeze_Random(int onoff)
-{
-	if (onoff) {
-		Bits |= 0x00000002;
-	} else {
-		Bits &= ~0x00000002;
-	}
-}
+// StreakRendererClass::Set_Freeze_Random: defined in streakRender.cpp (its row's unit).
 
-void StreakRendererClass::Set_Disable_Sorting(int onoff)
-{
-	if (onoff) {
-		Bits |= 0x00000004;
-	} else {
-		Bits &= ~0x00000004;
-	}
-}
+// StreakRendererClass::Set_Disable_Sorting: defined in streakRender.cpp (its row's unit).
 
-void StreakRendererClass::Set_End_Caps(int onoff)
-{
-	if (onoff) {
-		Bits |= 0x00000008;
-	} else {
-		Bits &= ~0x00000008;
-	}
-}
+// StreakRendererClass::Set_End_Caps: defined in streakRender.cpp (its row's unit).
 
 void StreakRendererClass::Set_UV_Offset_Rate(const Vector2 &rate)
 {
 	UVOffsetDeltaPerMS = rate * 0.001f;
 }
+
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
+#pragma comment(linker, "/alternatename:?SyncTime@WW3D@@2IA=?SyncTime@WW3D@@0IA")

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 // Four REF_PTR_SET slots plus a signed count at +0x10, retail 0x0090F8C0.
 // Add_Ref/Release_Ref match the NDEBUG inlines: inc/dec the dword at +4,
@@ -37,16 +37,16 @@ private:
 	int m_count;
 };
 
-void Rva0090F8C0Holder::set(int count, RefCountClass *a, RefCountClass *b, RefCountClass *c, RefCountClass *d)
+void Rva0090F8C0Holder::set(int count, RefCountClass *refCount, RefCountClass *b, RefCountClass *c, RefCountClass *d)
 {
 	if (count < 0) {
 		return;
 	}
-	if (!a) {
+	if (!refCount) {
 		return;
 	}
 	m_count = count;
-	REF_PTR_SET(m_a, a);
+	REF_PTR_SET(m_a, refCount);
 	REF_PTR_SET(m_b, b);
 	REF_PTR_SET(m_c, c);
 	REF_PTR_SET(m_d, d);

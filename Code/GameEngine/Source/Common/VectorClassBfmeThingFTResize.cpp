@@ -67,19 +67,8 @@ protected:
 	bool VectorClassPad[2];
 };
 
-// ??0VectorClassBfmeThingFT@@ present-unmatched
-VectorClassBfmeThingFT::VectorClassBfmeThingFT(int size, BfmeThingFT const *array) :
-	Vector(0), VectorMax(size), IsValid(true), IsAllocated(false)
-{
-	if (size) {
-		if (array) {
-			Vector = new ((void *)array) BfmeThingFT[size];
-		} else {
-			Vector = new BfmeThingFT[size];
-			IsAllocated = true;
-		}
-	}
-}
+// The constructor (no matched body) is not defined here: defining it made this
+// unit emit the class vtable, whose other slots have no definitions.
 
 // ?Resize@VectorClassBfmeThingFT@@UAE_NHPBVBfmeThingFT@@@Z
 bool VectorClassBfmeThingFT::Resize(int newsize, BfmeThingFT const *array)
@@ -120,12 +109,4 @@ bool VectorClassBfmeThingFT::Resize(int newsize, BfmeThingFT const *array)
 		Clear();
 	}
 	return (true);
-}
-
-// Force emission of the Resize instantiation even though nothing else in
-// this isolated TU calls it.
-void rva0093e1f0ForceEmit()
-{
-	VectorClassBfmeThingFT v;
-	v.Resize(1);
 }

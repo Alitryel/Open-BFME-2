@@ -15,3 +15,8 @@ void *Rva00181450ReturnThis::get() const
 {
 	return (void *)this;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0Rva0027C36ASix@@QAE@XZ=?get@Rva00181450ReturnThis@@QBEPAXXZ")
+#pragma comment(linker, "/alternatename:??0CDEArraySlot@@QAE@XZ=?get@Rva00181450ReturnThis@@QBEPAXXZ")

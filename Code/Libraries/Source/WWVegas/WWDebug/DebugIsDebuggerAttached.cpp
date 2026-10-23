@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHs-c-
+// cl: /DNDEBUG /MD /EHs-c- /Oy-
 //
 // Late-bound debugger probe, retail 0x0003E3E0 (108 bytes), between
 // DebugFreeMemory and DebugAllocMemory in the debug library. The Debug
@@ -10,7 +10,6 @@
 // BFME2 additionally asks CheckRemoteDebuggerPresent for the current
 // process and ORs both answers.
 
-#pragma optimize("y", off)
 
 typedef void *HMODULE;
 typedef int(__stdcall *IsDebuggerPresentProc)(void);

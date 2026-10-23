@@ -1,4 +1,4 @@
-// cl: /O1 /Oi /DNDEBUG /MD
+// cl: /Oi /DNDEBUG /MD
 //
 // ??0ClickReactionBehaviorModuleData@@QAE@XZ, retail 0x004595F0, 27 bytes.
 // ClickReactionBehaviorModuleData frameless store-only ctor over table
@@ -13,6 +13,9 @@
 // inlined fixed-size memset (xor-eax plus lea-edi plus unrolled stosd, no
 // rep prefix); the timer and vtable stay body assignments in retail order.
 // Row supersedes the sole-caller pin.
+
+extern "C" const void *const vtbl_00C4ED70[];  // folded, 9 classes; via ??_7BeaconClientUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4ED70=??_7BeaconClientUpdateModuleData@@6B@")
 
 #include <cstring>
 
@@ -35,7 +38,7 @@ private:
 // ??0ClickReactionBehaviorModuleData@@QAE@XZ @0x4595F0
 ClickReactionBehaviorModuleData::ClickReactionBehaviorModuleData()
 {
-	m_vtable = reinterpret_cast<const void *>(0x00C4ED70);
+	m_vtable = reinterpret_cast<const void *>(((unsigned int)vtbl_00C4ED70));
 	m_clickReactionTimer = 0x258;
 	memset(&m_reactionFrames1, 0, sizeof(int) * 5);
 }

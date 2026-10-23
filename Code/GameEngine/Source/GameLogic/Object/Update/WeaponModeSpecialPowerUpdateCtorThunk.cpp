@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 // Open-BFME5: WeaponModeSpecialPowerUpdate module ctor.
 //
@@ -91,3 +91,8 @@ WeaponModeSpecialPowerUpdate::WeaponModeSpecialPowerUpdate(Thing *thing, const M
 
 	setWakeFrame(getObject(), UPDATE_SLEEP_FOREVER);
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?weaponModeIface1Anchor@WeaponModeSpecialPowerUpdateIface1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

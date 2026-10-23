@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE
+// cl: /DNDEBUG /MD /GX
 //
 // ??0PoisonedBehavior@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x00482F7D,
 // 120 bytes. Behavior-side ctor completing the PoisonedBehavior file-unit
@@ -48,31 +48,52 @@ public:
 	virtual void update();
 };
 
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1,
+	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
+};
+
 class UpdateModule : public BehaviorModule, public UpdateModuleInterface
 {
 public:
 	UpdateModule(Thing *thing, const ModuleData *moduleData);
 	virtual ~UpdateModule();
 protected:
-	void setWakeFrame(Object *obj, unsigned int frame);
+	void setWakeFrame(Object *obj, UpdateSleepTime frame);
 private:
 	unsigned m_nextCallFrameAndPhase;
 	int m_indexInLogic;
 	int m_bfmeReserved;
 };
 
+class DamageInfo;
+enum BodyDamageType;
+
 class DamageModuleInterface
 {
 public:
+	// Real layout per GameLogic/Module/DamageModule.h (kept copy in
+	// BridgeTowerBehavior.cpp): 3 pure virtuals. Previous 1-virtual view
+	// emitted a differing ??_7DamageModuleInterface@@6B@ COMDAT.
 	DamageModuleInterface() {}
-	virtual void onDamage(DamageInfo *damageInfo);
+	virtual void onDamage(DamageInfo *damageInfo) = 0;
+	virtual void onHealing(DamageInfo *damageInfo) = 0;
+	virtual void onBodyDamageStateChange(
+		const DamageInfo *damageInfo, BodyDamageType oldState, BodyDamageType newState) = 0;
 };
 
 class PoisonedBehavior : public UpdateModule, public DamageModuleInterface
 {
 public:
 	PoisonedBehavior(Thing *thing, const ModuleData *moduleData);
+protected:
 	virtual ~PoisonedBehavior();
+public:
+	virtual void onDamage(DamageInfo *damageInfo);
+	virtual void onHealing(DamageInfo *damageInfo);
+	virtual void onBodyDamageStateChange(
+		const DamageInfo *damageInfo, BodyDamageType oldState, BodyDamageType newState) {}
 private:
 	const Object *getObject() const { return m_object; }
 	unsigned int m_poisonDamageFrame;
@@ -89,5 +110,10 @@ PoisonedBehavior::PoisonedBehavior(Thing *thing, const ModuleData *moduleData) :
 	m_poisonDamageAmount(0.0f),
 	m_deathType(5)
 {
-	setWakeFrame(const_cast<Object*>(getObject()), 0x3fffffff);
+	setWakeFrame(const_cast<Object*>(getObject()), UPDATE_SLEEP_FOREVER);
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?behaviorModuleOtherAnchor@BehaviorModuleOther@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

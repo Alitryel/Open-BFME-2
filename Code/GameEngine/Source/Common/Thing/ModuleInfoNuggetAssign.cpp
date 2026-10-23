@@ -1,4 +1,4 @@
-// cl: /O1
+// cl: /Ireference/shims/bfme2_ascii /O1
 //
 // ??4Nugget@ModuleInfo@@QAEAAU01@ABU01@@Z @0x002CEFCD 57B.
 // ModuleInfo::Nugget copy assignment. Layout is the BFME1 donor
@@ -8,14 +8,7 @@
 // Identity is pin-proven: per-element callee of the rowed 5-arg
 // _STL::__copy_ptrs worker at 0x002CF0BE (ModuleInfoNuggetCopyPtrs.cpp).
 
-class AsciiString
-{
-public:
-	AsciiString &operator=(const AsciiString &other);
-
-private:
-	char *m_data;
-};
+#include "ascii_string.h"
 
 class ModuleData
 {
@@ -37,7 +30,7 @@ public:
 	};
 };
 
-ModuleInfo::Nugget &ModuleInfo::Nugget::operator=(const Nugget &other)
+inline ModuleInfo::Nugget &ModuleInfo::Nugget::operator=(const Nugget &other)
 {
 	m_first = other.m_first;
 	m_moduleTag = other.m_moduleTag;
@@ -47,3 +40,14 @@ ModuleInfo::Nugget &ModuleInfo::Nugget::operator=(const Nugget &other)
 	m_inheritable = other.m_inheritable;
 	return *this;
 }
+
+// Select-any anchor: this unit owns the row above while other TUs emit it as
+// an inline copy. The anchor keeps this unit emitting its copy for the ledger;
+// it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitModuleInfoNuggetAssign@@YAXPAUNugget@ModuleInfo@@ABU12@@Z present-unmatched
+void bfmeEmitModuleInfoNuggetAssign(ModuleInfo::Nugget *p, const ModuleInfo::Nugget &q)
+{
+	p->operator=(q);
+}
+#pragma inline_depth()

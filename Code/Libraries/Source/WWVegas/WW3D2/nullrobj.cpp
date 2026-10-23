@@ -1,6 +1,22 @@
 // cl: /Ireference/shims/bfmerendobj /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // Ported verbatim from the Generals Zero Hour reference
 // (Libraries/Source/WWVegas/WW3D2/nullrobj.cpp); this unit had no counterpart under Code/.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+
+// BFME 2 has no W3D memory pools (see Code/Libraries/Source/WWVegas/WWLib/always.h).
+#include "always.h"
+#undef W3DMPO_GLUE
+#define W3DMPO_GLUE(ARGCLASS)
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -50,26 +66,18 @@ NullLoaderClass _NullLoader;
 
 
 
-// Byte-exact /G7 copies live in Null3DObjClassCopyCtor.cpp; these stay so
-// this TU still emits Clone and the Set_ObjectScale gen-alias.
+// Byte-exact /G7 copies live in Null3DObjClassCopyCtor.cpp; these stay inline
+// (select-any) so this TU still emits Clone and the Set_ObjectScale gen-alias
+// without a duplicate plain definition.
 
-Null3DObjClass::Null3DObjClass(const char * name)																	
-{
-	strcpy(Name, name);
-}
-
-Null3DObjClass::Null3DObjClass(const Null3DObjClass & src)									
-{
-	strcpy(Name, src.Name);
-}
-
-Null3DObjClass & Null3DObjClass::operator = (const Null3DObjClass & that)				
+inline Null3DObjClass & Null3DObjClass::operator = (const Null3DObjClass & that)				
 {
 	strcpy(Name, that.Name);
 
 	RenderObjClass::operator = (that); return *this; 
 }
 
+// ?Null3DObjClass::Class_ID present-unmatched
 int Null3DObjClass::Class_ID(void) const													
 { 
 	return CLASSID_NULL; 
@@ -80,26 +88,19 @@ RenderObjClass * Null3DObjClass::Clone(void) const
 	return NEW_REF( Null3DObjClass, (*this)); 
 }
 
+// ?Null3DObjClass::Render present-unmatched
 void Null3DObjClass::Render(RenderInfoClass & rinfo)
 { 
 }
 
-void Null3DObjClass::Get_Obj_Space_Bounding_Sphere(SphereClass & sphere) const
-{
-   sphere.Center.Set(0,0,0);
-	sphere.Radius = 0.1f;
-}
-
-void Null3DObjClass::Get_Obj_Space_Bounding_Box(AABoxClass & box) const
-{
-	box.Center.Set(0,0,0);
-	box.Extent.Set(0.1f,0.1f,0.1f);
-}
+// Null3DObjClass::Get_Obj_Space_Bounding_Sphere and _Box: defined in
+// Null3DObjClassCopyCtor.cpp (their rows' unit; retail stores them with SSE).
 
 /*
 ** NullPrototypeClass
 */
 
+// ?NullPrototypeClass::NullPrototypeClass present-unmatched
 NullPrototypeClass::NullPrototypeClass (void)
 {
 	// Note that the other members of the definition are uninitialized..
@@ -107,6 +108,7 @@ NullPrototypeClass::NullPrototypeClass (void)
 	strcpy(Definition.Name, "NULL");
 }
 
+// ?NullPrototypeClass::NullPrototypeClass present-unmatched
 NullPrototypeClass::NullPrototypeClass (const W3dNullObjectStruct &null)
 {
 	Definition = null;
@@ -117,6 +119,7 @@ NullPrototypeClass::NullPrototypeClass (const W3dNullObjectStruct &null)
 ** NullLoaderClass
 */
 
+// ?NullLoaderClass::Load_W3D present-unmatched
 PrototypeClass * NullLoaderClass::Load_W3D (ChunkLoadClass &cload)
 {
 	W3dNullObjectStruct null;

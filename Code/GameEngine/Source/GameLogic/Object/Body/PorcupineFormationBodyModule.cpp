@@ -50,7 +50,6 @@ PorcupineFormationBodyModule::PorcupineFormationBodyModule(
 {
 }
 
-// ??1PorcupineFormationBodyModule@@UAE@XZ present-unmatched
 PorcupineFormationBodyModule::~PorcupineFormationBodyModule()
 {
 }

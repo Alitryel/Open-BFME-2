@@ -6,6 +6,10 @@ extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection( void* );
 extern "C" __declspec(dllimport) void __stdcall InterlockedDecrement( void* );
 extern "C" __declspec(dllimport) void __stdcall ReleaseMutex( void* );
 
+// Native lock address 0x00DE0884 is the global defined in Debug_CrashDone.cpp.
+struct DebugCriticalSection;
+extern DebugCriticalSection g_bfmeCsDWC;
+
 class Rva00889720Class
 {
 public:
@@ -21,7 +25,7 @@ public:
 bool Rva00889720Class::d_00889720( void )
 {
 	m_field9DFC = 0;
-	LeaveCriticalSection( (void*)0x00DE0884 );
+	LeaveCriticalSection( (void*)&g_bfmeCsDWC );
 	InterlockedDecrement( &m_field9DF8 );
 	ReleaseMutex( (void*)m_field9F50 );
 	return false;

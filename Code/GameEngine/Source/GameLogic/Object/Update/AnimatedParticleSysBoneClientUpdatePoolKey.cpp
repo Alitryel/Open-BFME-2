@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004C900E@AnimatedParticleSysBoneClientUpdate@@SA?AW4NameKeyType@@XZ @0x4C900E
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@AnimatedParticleSysBoneClientUpdate@@UBE?AW4NameKeyType@@XZ @0x4C900E
 // (69B): cached pool-name key for AnimatedParticleSysBoneClientUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("AnimatedParticleSysBoneClientUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class AnimatedParticleSysBoneClientUpdate
 {
 public:
-	static NameKeyType rva0004C900E();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004C900E@AnimatedParticleSysBoneClientUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType AnimatedParticleSysBoneClientUpdate::rva0004C900E()
+// ?getModuleNameKey@AnimatedParticleSysBoneClientUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType AnimatedParticleSysBoneClientUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheAnimatedParticleSysBoneClientUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("AnimatedParticleSysBoneClientUpdate");

@@ -1,18 +1,20 @@
-// cl: /O2 /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
-// BFME's raw byte allocator at RVA 0x307F0.
-// Every allocating container in game.dat funnels through this 19-byte body:
-// it forwards (bytes, memory-class 3, hint) to the game allocator table at
-// 0x00DE0404 and is folded image-wide across the char/wide/pair/BucketAlloc
-// spellings (five pins, one address). Rowed under the narrow-char spelling;
-// the sibling pins stand as fold candidates. The table call is a direct
-// memory-indirect FF15 through an extern function-pointer global whose DIR32
-// slot the verifier masks (clamp-table precedent).
+// STLport's raw byte allocator at BFME2 RVA 0x000307F0 (22 bytes).
+// Its matched indirect call forwards (bytes, memory class 3, hint) through
+// VA 0x00DE0404, the callback slot defined by mem_ops.cpp. Use that existing
+// definition so both wrappers share the same runtime binding.
+// Other allocator spellings remain fold candidates in the pin list; this
+// definition supplies the established narrow-char member.
 #include <memory>
-extern "C" void *(__cdecl *g_byteAllocatorTable)(unsigned int, int, const void *);
+extern "C" void *(__cdecl *__gameMemAllocatePtr)(unsigned int, int, const void *);
 char *_STL::allocator<char>::allocate(unsigned int n, const void *hint)
 {
     unsigned int bytes = n;
     const void *hintCopy = hint;
-    return (char *)g_byteAllocatorTable(bytes, 3, hintCopy);
+    return (char *)__gameMemAllocatePtr(bytes, 3, hintCopy);
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?allocate@BucketAlloc@@SAPAXIPBX@Z=?allocate@?$allocator@D@_STL@@SAPADIPBX@Z")

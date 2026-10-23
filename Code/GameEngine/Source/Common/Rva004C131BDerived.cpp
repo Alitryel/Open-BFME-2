@@ -1,4 +1,4 @@
-// cl: /O1 /MD
+// cl: /MD
 //
 // Opaque multiple-inheritance destructors tail-calling Rva004C131B::~
 // Rva004C131B at 0x004C131B (row in Rva00493DEFDerived.cpp). Each class below
@@ -27,7 +27,7 @@ public:
 class Rva004C1604_B2
 {
 public:
-	virtual void f2();
+	virtual void f2() = 0;
 };
 
 class Rva004C1604 : public Rva004C131B, public MiBase1, public Rva004C1604_B2
@@ -43,7 +43,7 @@ Rva004C1604::~Rva004C1604()
 class Rva004C1866_B2
 {
 public:
-	virtual void f2();
+	virtual void f2() = 0;
 };
 
 class Rva004C1866 : public Rva004C131B, public MiBase1, public Rva004C1866_B2

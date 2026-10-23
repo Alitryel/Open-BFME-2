@@ -1,4 +1,4 @@
-// cl: /O2
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 // BFME2 1.06 StringBase<char>::removeLastChar, RVA 0x00036C50 228B.
 // Pinned explicit export ?removeLastChar@?$StringBase@D@@QAEXXZ.
 // Copy-on-write tail trim: fast in-place when unique with spare capacity
@@ -45,7 +45,7 @@ void StringBase<char>::removeLastChar()
             throw 1;
         }
         int aligned = (total + 3) / 4 * 4;
-        Header *fresh = (Header *)_STL::allocator<char>::allocate(aligned, (const void *)0x737472);
+        Header *fresh = (Header *)_STL::allocator<char>::allocate(aligned, (const void *)'str');
         fresh->ref_count = 1;
         fresh->capacity = (unsigned short)(aligned - 8);
         if (m_data) {

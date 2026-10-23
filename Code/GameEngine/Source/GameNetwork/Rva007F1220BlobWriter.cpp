@@ -68,7 +68,8 @@ struct Rva007F1220Record
 	int downloadCount;
 };
 
-#define g_Rva0130A5D0 (*(void **)0x00E09FEC)
+// g_00E09FEC: VA 0x00E09FEC (.data(bss)); retail initial pointer is zero.
+const char *g_00E09FEC = 0;
 
 class Rva007F1220BlobWriter
 {
@@ -88,7 +89,7 @@ void Rva007F1220BlobWriter::write(Rva007E8810Message *message,
 	void *contentSize,
 	const Rva007F1220Record *record)
 {
-	const char *txn = *(const char **)0x00E09FEC;
+	const char *txn = g_00E09FEC;
 	message->reset();
 	message->m_category = 'blob';
 	message->addString("TXN", txn);

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /arch:SSE
+// cl: /DNDEBUG /MD
 //
 // ??0AICommandParms@@QAE@W4AICommandType@@W4CommandSourceType@@@Z,
 // retail 0x00351BD0, 120 bytes. Dedicated shard TU for the parameter-block
@@ -32,19 +32,8 @@ enum CommandSourceType
 	CMD_FROM_PLAYER = 0
 };
 
-struct Coord3D
-{
-	Real x;
-	Real y;
-	Real z;
-
-	void zero()
-	{
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-	}
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../Libraries/Include/Lib/Coord3DInline.h"
 
 struct AICommandCoordAlloc
 {

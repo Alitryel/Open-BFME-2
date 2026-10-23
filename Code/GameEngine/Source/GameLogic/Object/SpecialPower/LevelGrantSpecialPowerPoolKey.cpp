@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004C2BC1@LevelGrantSpecialPower@@SA?AW4NameKeyType@@XZ @0x4C2BC1
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@LevelGrantSpecialPower@@UBE?AW4NameKeyType@@XZ @0x4C2BC1
 // (69B): cached pool-name key for LevelGrantSpecialPower. The class
 // identity comes from the pool-name string the body pushes
 // ("LevelGrantSpecialPower"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class LevelGrantSpecialPower
 {
 public:
-	static NameKeyType rva0004C2BC1();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004C2BC1@LevelGrantSpecialPower@@SA?AW4NameKeyType@@XZ
-NameKeyType LevelGrantSpecialPower::rva0004C2BC1()
+// ?getModuleNameKey@LevelGrantSpecialPower@@UBE?AW4NameKeyType@@XZ
+NameKeyType LevelGrantSpecialPower::getModuleNameKey() const
 {
 	static NameKeyType TheLevelGrantSpecialPowerPoolKey =
 		TheNameKeyGenerator->nameToKey("LevelGrantSpecialPower");

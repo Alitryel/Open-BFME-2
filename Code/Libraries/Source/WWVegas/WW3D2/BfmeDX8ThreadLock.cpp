@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 
 // BFME_DX8_Thread_Lock at 0x0011F520.  BFME guards DX8 buffer access with a
 // real device mutex where Zero Hour had a thread assert that compiles to
@@ -6,7 +6,7 @@
 // crashes through the Debug singleton if another thread held it that long,
 // then records the owning thread and bumps the recursion count at
 // 0x00DEDA88/0x00DEDA8C under the critical section at 0x00DEC540.  The
-// release half is BFME_DX8_Thread_Assert at 0x00120F50.
+// release half is BFME_DX8_Thread_Assert at 0x00120F50, in dx8wrapper.cpp.
 //
 // The imports are declared by hand: WaitForSingleObject and the critical
 // section pair go through the import table, while GetCurrentThreadId is called
@@ -70,14 +70,19 @@ bool bfmeRva000387C0();
 
 // The device mutex and its recursion bookkeeping.
 extern void *bfmeDX8DeviceMutex;				// 0x00DEC598
-extern unsigned char bfmeDX8DeviceSection[24];		// 0x00DEC540
+// bfmeDX8DeviceMutex: matched references place it at VA 0xdec598 (zero-filled .bss).
+void * bfmeDX8DeviceMutex;
+// bfmeDX8DeviceSection: matched references place it at VA 0xdec540 (zero-filled).
+unsigned char bfmeDX8DeviceSection[24] = { 0 };
 // Volatile like the count: the try-lock stores the owner before it reads the
 // count, where a plain store is scheduled after the volatile read.
-extern volatile unsigned long bfmeDX8DeviceOwner;		// 0x00DEDA88
+// Defined here (zero-filled .bss, 4 bytes); this unit's lock/unlock pair are
+// among its referencing functions (data_xrefs).
+volatile unsigned long bfmeDX8DeviceOwner = 0;		// 0x00DEDA88
 // Volatile: retail loads, adds and stores the count as three instructions
 // with the next push scheduled between them, where a plain int is a single
 // add to memory.
-extern volatile int bfmeDX8DeviceRecursion;			// 0x00DEDA8C
+volatile int bfmeDX8DeviceRecursion = 0;			// 0x00DEDA8C
 
 void BFME_DX8_Thread_Lock(void)
 {
@@ -117,19 +122,14 @@ int bfmeRva0011F600()
 	return 0;
 }
 
-// 0x00120F50: the release half of the device mutex.  Undoes one take: when
-// the recursion count reaches zero the owner is cleared, then the mutex is
-// released.  Reports whether this was the last unlock.
-bool BFME_DX8_Thread_Assert(void)
-{
-	unsigned long threadId = GetCurrentThreadId();
-	if (threadId == bfmeDX8DeviceOwner)
-		threadId = bfmeDX8DeviceRecursion;
-	EnterCriticalSection(bfmeDX8DeviceSection);
-	bool lastUnlock = --bfmeDX8DeviceRecursion == 0;
-	if (lastUnlock)
-		bfmeDX8DeviceOwner = 0;
-	LeaveCriticalSection(bfmeDX8DeviceSection);
-	ReleaseMutex(bfmeDX8DeviceMutex);
-	return lastUnlock;
-}
+// The release half, BFME_DX8_Thread_Assert at 0x00120F50, is defined in
+// dx8wrapper.cpp: DX8Wrapper::Init inlines it on its success exit.
+bool BFME_DX8_Thread_Assert(void);
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?BFME_DX8_Thread_Assert@@YAXXZ=?BFME_DX8_Thread_Assert@@YA_NXZ")
+
+// Other units call this body (pinned at its address) under the spelling(s)
+// below, with the same calling convention and stack arguments; bind them.
+#pragma comment(linker, "/alternatename:?W3DRadarResetLock@@YAXXZ=?BFME_DX8_Thread_Lock@@YAXXZ")

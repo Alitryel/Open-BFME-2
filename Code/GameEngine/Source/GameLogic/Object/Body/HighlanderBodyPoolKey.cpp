@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva004C07CA@HighlanderBody@@SA?AW4NameKeyType@@XZ @0x004C07CA
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@HighlanderBody@@UBE?AW4NameKeyType@@XZ @0x004C07CA
 // (69B): cached pool-name key for HighlanderBody. The class
 // identity comes from the pool-name string the body pushes
 // ("HighlanderBody"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class HighlanderBody
 {
 public:
-	static NameKeyType rva004C07CA();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004C07CA@HighlanderBody@@SA?AW4NameKeyType@@XZ
-NameKeyType HighlanderBody::rva004C07CA()
+// ?getModuleNameKey@HighlanderBody@@UBE?AW4NameKeyType@@XZ
+NameKeyType HighlanderBody::getModuleNameKey() const
 {
 	static NameKeyType TheHighlanderBodyPoolKey =
 		TheNameKeyGenerator->nameToKey("HighlanderBody");

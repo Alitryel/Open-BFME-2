@@ -1,6 +1,21 @@
-// cl: /O2 /Ob0 /MD
-// Open-BFME5: STLport ios_base::iword, retail 0x0083F0C0, 117 bytes.
-
+// cl: /MD /G6 /Ob1
+// stlport
+// STLport 4.5.3 ios_base auxiliary slots and callback registration.
+// Native iword 0x0001BF90/117B; pword 0x0001C010/117B;
+// register_callback 0x0001C090/132B; callback-array growth 0x0001BEC0/147B.
+// Use the real vendored class and pair definitions. The callback grow helper
+// returns a non-POD pair, accounting for the native extra output argument.
+// The return form is reconstructed from vendor types and native calls. An
+// explicit output-pointer C++ signature has the same ABI but changes cl's
+// failure-tail allocation; the real return form reproduces the entire body.
+// The grow_array spelling comes from the existing recovery, not native name
+// evidence. Its actual pair instantiation is a whole-body ICF twin of the
+// existing helper; every relocation must match before its alias is admitted.
+#define _STLP_USE_STATIC_LIB
+#define _STLP_NO_EXCEPTIONS
+#include <ios>
+#include <stdio.h>
+#include <stdlib.h>
 namespace _STL
 {
 
@@ -14,49 +29,22 @@ struct GrowPair
 template <class T>
 GrowPair<T> *grow_array(GrowPair<T> *, T *, unsigned int, unsigned int);
 
-typedef void (__cdecl *IosBaseErrorCall)(void *, void *);
-extern IosBaseErrorCall g_call;
-extern void *g_global;
 
-class ios_base
-{
-public:
-	long &iword(int index);
-	void *&pword(int index);
-
-private:
-	char m_vtable[4];
-	int m_fmtflags;
-	int m_iostate;
-	int m_openmode;
-	int m_seekdir;
-	int m_exception_mask;
-	int m_precision;
-	int m_width;
-	char m_locale[4];
-	void *m_callbacks;
-	unsigned int m_num_callbacks;
-	unsigned int m_callback_index;
-	long *m_iwords;
-	unsigned int m_num_iwords;
-	void **m_pwords;
-	unsigned int m_num_pwords;
-};
 
 long &ios_base::iword(int index)
 {
 	GrowPair<long> grown;
-	grow_array(&grown, m_iwords, m_num_iwords, index);
+	grow_array(&grown, _M_iwords, _M_num_iwords, index);
 	if (grown.first)
 	{
-		m_iwords = grown.first;
-		m_num_iwords = grown.second;
-		return m_iwords[index];
+		_M_iwords = grown.first;
+		_M_num_iwords = grown.second;
+		return _M_iwords[index];
 	}
 
-	m_iostate |= 1;
-	if (m_iostate & m_exception_mask)
-		g_call((void *)"ios failure", (char *)g_global + 0x40);
+	_M_iostate |= 1;
+	if (_M_iostate & _M_exception_mask)
+		::fputs("ios failure", stderr);
 	static long fallbackIword;
 	return fallbackIword;
 }
@@ -64,19 +52,54 @@ long &ios_base::iword(int index)
 void *&ios_base::pword(int index)
 {
 	GrowPair<void *> grown;
-	grow_array(&grown, m_pwords, m_num_pwords, index);
+	grow_array(&grown, _M_pwords, _M_num_pwords, index);
 	if (grown.first)
 	{
-		m_pwords = grown.first;
-		m_num_pwords = grown.second;
-		return m_pwords[index];
+		_M_pwords = grown.first;
+		_M_num_pwords = grown.second;
+		return _M_pwords[index];
 	}
 
-	m_iostate |= 1;
-	if (m_iostate & m_exception_mask)
-		g_call((void *)"ios failure", (char *)g_global + 0x40);
+	_M_iostate |= 1;
+	if (_M_iostate & _M_exception_mask)
+		::fputs("ios failure", stderr);
 	static void *fallbackPword;
 	return fallbackPword;
+}
+
+template<class T> inline const T &stlp_max(const T&a,const T&b) { return a<b?b:a; }
+template<class T> __declspec(noinline) pair<T *,unsigned> grow_array(T *old_ptr,unsigned old_count,unsigned index) {
+ 
+ if((int)old_count<(int)(index+1)) {
+  unsigned needed=index+1;
+  unsigned grown=old_count+old_count;
+  unsigned count=stlp_max(grown,needed);
+  unsigned bytes=count*sizeof(T);
+  T *p=(T *)::realloc(old_ptr,bytes);
+  if(p) {
+   T zero=T();
+   T *end=(T *)(count*sizeof(T)+(unsigned)p);
+   T *dst=p+old_count;
+   if(dst!=end)do { *dst=zero; ++dst; } while(dst!=end);
+   return pair<T *,unsigned>(p,count);
+  }
+  return pair<T *,unsigned>(0,0);
+ }
+ return pair<T *,unsigned>(old_ptr,old_count);
+}
+void ios_base::register_callback(event_callback fn,int index) {
+ typedef pair<event_callback,int> Callback;
+ pair<Callback *,unsigned> grown=grow_array(_M_callbacks,_M_num_callbacks,_M_callback_index);
+ if(grown.first) {
+  pair<Callback *,unsigned> tmp=grown;
+  _M_num_callbacks=tmp.second;
+  _M_callbacks=tmp.first;
+  Callback cb; cb.first=fn; cb.second=index;
+  _M_callbacks[_M_callback_index++]=cb;
+  return;
+ }
+ _M_iostate|=1;
+ if(_M_iostate&_M_exception_mask) ::fputs("ios failure",stderr);
 }
 
 }

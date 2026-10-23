@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /arch:SSE /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // GlobalData's user-preference overrides, retail 0x0023576A (312 bytes):
@@ -26,60 +26,11 @@ template <typename T> struct BfmeStringData
 	T text[1];
 };
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-	friend class UnicodeString;
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	void releaseBuffer();
+#include "ascii_string.h"
 
-public:
-	StringBase() : m_data(0) {}
-	~StringBase();
-	Int compare(const char *other) const;
-	Int compareNoCase(const char *other) const;
 
-protected:
-	BfmeStringData<T> *m_data;
-};
 
-template <> class StringBase<unsigned short>
-{
-	friend class UnicodeString;
-	void releaseBuffer();
-
-public:
-	StringBase() : m_data(0) {}
-	~StringBase() { releaseBuffer(); }
-
-protected:
-	BfmeStringData<unsigned short> *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	static const AsciiString TheEmptyString;
-
-	AsciiString() {}
-	AsciiString(const char *text) : StringBase<char>(text) {}
-	AsciiString(const AsciiString &other) : StringBase<char>(other) {}
-	AsciiString &operator=(const AsciiString &other);
-
-	const char *str() const { return m_data ? &m_data->text[0] : ""; }
-	Bool isEmpty() const { return m_data == 0 || m_data->length == 0; }
-	void format(const char *fmt, ...);
-	void toLower();
-	Bool operator==(const char *other) const { return compare(other) == 0; }
-};
-
-class UnicodeString : public StringBase<unsigned short>
-{
-public:
-	UnicodeString() {}
-	void translate(const char *text);
-};
+#include "unicode_string.h"
 
 bool operator<(const AsciiString &left, const AsciiString &right);
 

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE
+// cl: /DNDEBUG /MD /GX
 //
 // ??0FireWeaponWhenDamagedBehavior@@QAE@PAVThing@@PBVModuleData@@@Z, retail
 // 0x00482803, 584 bytes. Behavior-side ctor completing the FireWeaponWhenDamaged
@@ -81,6 +81,8 @@ public:
 	virtual void update();
 };
 
+enum UpdateSleepTime {};
+
 class UpdateModule : public BehaviorModule, public UpdateModuleInterface
 {
 public:
@@ -88,7 +90,7 @@ public:
 	virtual ~UpdateModule();
 
 protected:
-	void setWakeFrame(Object *obj, unsigned int frame);
+	void setWakeFrame(Object *obj, UpdateSleepTime frame);
 
 private:
 	unsigned m_nextCallFrameAndPhase;
@@ -107,11 +109,15 @@ private:
 	bool m_upgradeExecuted;
 };
 
+class DamageInfo;
+enum BodyDamageType {};
+
 class DamageModuleInterface
 {
 public:
-	DamageModuleInterface() {}
-	virtual void onDamage(DamageInfo *damageInfo);
+	virtual void onDamage(DamageInfo *damageInfo) = 0;
+	virtual void onHealing(DamageInfo *damageInfo) = 0;
+	virtual void onBodyDamageStateChange(const DamageInfo *damageInfo, BodyDamageType oldState, BodyDamageType newState) = 0;
 };
 
 class FireWeaponWhenDamagedBehaviorModuleData
@@ -172,82 +178,87 @@ FireWeaponWhenDamagedBehavior::FireWeaponWhenDamagedBehavior(Thing *thing, const
 	m_continuousWeaponReallyDamaged(0),
 	m_continuousWeaponRubble(0)
 {
-	const FireWeaponWhenDamagedBehaviorModuleData *d = getFireWeaponWhenDamagedBehaviorModuleData();
+	const FireWeaponWhenDamagedBehaviorModuleData *fireWeaponWhenDamagedBehaviorModuleData = getFireWeaponWhenDamagedBehaviorModuleData();
 	const Object *obj = getObject();
 
-	if (d->m_reactionWeaponPristine)
+	if (fireWeaponWhenDamagedBehaviorModuleData->m_reactionWeaponPristine)
 	{
 		m_reactionWeaponPristine = TheWeaponStore->allocateNewWeapon(
-			d->m_reactionWeaponPristine, PRIMARY_WEAPON);
+			fireWeaponWhenDamagedBehaviorModuleData->m_reactionWeaponPristine, PRIMARY_WEAPON);
 		m_reactionWeaponPristine->reloadAmmo(obj);
 		m_reactionWeaponPristine->m_status = obj->m_weaponStatus;
 	}
-	if (d->m_reactionWeaponDamaged)
+	if (fireWeaponWhenDamagedBehaviorModuleData->m_reactionWeaponDamaged)
 	{
 		m_reactionWeaponDamaged = TheWeaponStore->allocateNewWeapon(
-			d->m_reactionWeaponDamaged, PRIMARY_WEAPON);
+			fireWeaponWhenDamagedBehaviorModuleData->m_reactionWeaponDamaged, PRIMARY_WEAPON);
 		m_reactionWeaponDamaged->reloadAmmo(obj);
 		m_reactionWeaponDamaged->m_status = obj->m_weaponStatus;
 	}
-	if (d->m_reactionWeaponReallyDamaged)
+	if (fireWeaponWhenDamagedBehaviorModuleData->m_reactionWeaponReallyDamaged)
 	{
 		m_reactionWeaponReallyDamaged = TheWeaponStore->allocateNewWeapon(
-			d->m_reactionWeaponReallyDamaged, PRIMARY_WEAPON);
+			fireWeaponWhenDamagedBehaviorModuleData->m_reactionWeaponReallyDamaged, PRIMARY_WEAPON);
 		m_reactionWeaponReallyDamaged->reloadAmmo(obj);
 		m_reactionWeaponReallyDamaged->m_status = obj->m_weaponStatus;
 	}
-	if (d->m_reactionWeaponRubble)
+	if (fireWeaponWhenDamagedBehaviorModuleData->m_reactionWeaponRubble)
 	{
 		m_reactionWeaponRubble = TheWeaponStore->allocateNewWeapon(
-			d->m_reactionWeaponRubble, PRIMARY_WEAPON);
+			fireWeaponWhenDamagedBehaviorModuleData->m_reactionWeaponRubble, PRIMARY_WEAPON);
 		m_reactionWeaponRubble->reloadAmmo(obj);
 		m_reactionWeaponRubble->m_status = obj->m_weaponStatus;
 	}
-	if (d->m_continuousWeaponPristine)
+	if (fireWeaponWhenDamagedBehaviorModuleData->m_continuousWeaponPristine)
 	{
 		m_continuousWeaponPristine = TheWeaponStore->allocateNewWeapon(
-			d->m_continuousWeaponPristine, PRIMARY_WEAPON);
+			fireWeaponWhenDamagedBehaviorModuleData->m_continuousWeaponPristine, PRIMARY_WEAPON);
 		m_continuousWeaponPristine->reloadAmmo(obj);
 		m_continuousWeaponPristine->m_status = obj->m_weaponStatus;
 	}
-	if (d->m_continuousWeaponDamaged)
+	if (fireWeaponWhenDamagedBehaviorModuleData->m_continuousWeaponDamaged)
 	{
 		m_continuousWeaponDamaged = TheWeaponStore->allocateNewWeapon(
-			d->m_continuousWeaponDamaged, PRIMARY_WEAPON);
+			fireWeaponWhenDamagedBehaviorModuleData->m_continuousWeaponDamaged, PRIMARY_WEAPON);
 		m_continuousWeaponDamaged->reloadAmmo(obj);
 		m_continuousWeaponDamaged->m_status = obj->m_weaponStatus;
 	}
-	if (d->m_continuousWeaponReallyDamaged)
+	if (fireWeaponWhenDamagedBehaviorModuleData->m_continuousWeaponReallyDamaged)
 	{
 		m_continuousWeaponReallyDamaged = TheWeaponStore->allocateNewWeapon(
-			d->m_continuousWeaponReallyDamaged, PRIMARY_WEAPON);
+			fireWeaponWhenDamagedBehaviorModuleData->m_continuousWeaponReallyDamaged, PRIMARY_WEAPON);
 		m_continuousWeaponReallyDamaged->reloadAmmo(obj);
 		m_continuousWeaponReallyDamaged->m_status = obj->m_weaponStatus;
 	}
-	if (d->m_continuousWeaponRubble)
+	if (fireWeaponWhenDamagedBehaviorModuleData->m_continuousWeaponRubble)
 	{
 		m_continuousWeaponRubble = TheWeaponStore->allocateNewWeapon(
-			d->m_continuousWeaponRubble, PRIMARY_WEAPON);
+			fireWeaponWhenDamagedBehaviorModuleData->m_continuousWeaponRubble, PRIMARY_WEAPON);
 		m_continuousWeaponRubble->reloadAmmo(obj);
 		m_continuousWeaponRubble->m_status = obj->m_weaponStatus;
 	}
 
-	if (d->m_initiallyActive)
+	if (fireWeaponWhenDamagedBehaviorModuleData->m_initiallyActive)
 	{
 		giveSelfUpgrade();
 	}
 
 	UpgradeMux *upgradeMux = this;
 	if (upgradeMux->isUpgradeActive() &&
-		(d->m_continuousWeaponPristine != NULL ||
-		d->m_continuousWeaponDamaged != NULL ||
-		d->m_continuousWeaponReallyDamaged != NULL ||
-		d->m_continuousWeaponRubble != NULL))
+		(fireWeaponWhenDamagedBehaviorModuleData->m_continuousWeaponPristine != NULL ||
+		fireWeaponWhenDamagedBehaviorModuleData->m_continuousWeaponDamaged != NULL ||
+		fireWeaponWhenDamagedBehaviorModuleData->m_continuousWeaponReallyDamaged != NULL ||
+		fireWeaponWhenDamagedBehaviorModuleData->m_continuousWeaponRubble != NULL))
 	{
-		setWakeFrame(const_cast<Object *>(getObject()), UPDATE_SLEEP_NONE);
+		setWakeFrame(const_cast<Object *>(getObject()), (UpdateSleepTime)UPDATE_SLEEP_NONE);
 	}
 	else
 	{
-		setWakeFrame(const_cast<Object *>(getObject()), UPDATE_SLEEP_FOREVER);
+		setWakeFrame(const_cast<Object *>(getObject()), (UpdateSleepTime)UPDATE_SLEEP_FOREVER);
 	}
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?behaviorModuleOtherAnchor@BehaviorModuleOther@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

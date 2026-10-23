@@ -21,7 +21,15 @@ private:
 };
 
 // ?friend_newModuleInstance@PropagandaTowerBehavior@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *PropagandaTowerBehavior::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *PropagandaTowerBehavior::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new PropagandaTowerBehavior(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitPropagandaTowerBehaviorFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitPropagandaTowerBehaviorFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	PropagandaTowerBehavior::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // ?Apply@BfmeApplyTextureRef@@QAEXI@Z @0x132AF8 (139B): per-stage texture apply.
 //
 // Null-resource path is DX8Wrapper::Set_DX8_Texture(stage, pointer) inlined
@@ -14,21 +14,17 @@
 // home dx8wrapper.cpp TU (/G7) emits add-mem -- hence the dedicated TU.
 // Globals are TU-local externs; DIR32 slots patch from retail, no pins.
 
-class IUnknown8
+// d3d8.h declares its interfaces with DECLARE_INTERFACE_, i.e. as structs:
+// every other copy of Set_DX8_Texture spells the parameter PAU.
+struct IDirect3DBaseTexture8
 {
-public:
 	virtual long __stdcall QueryInterface(const void *riid, void **ppvObject) = 0;
 	virtual unsigned long __stdcall AddRef() = 0;
 	virtual unsigned long __stdcall Release() = 0;
 };
 
-class IDirect3DBaseTexture8 : public IUnknown8
+struct IDirect3DDevice8
 {
-};
-
-class BfmeApplyDevice9
-{
-public:
 	virtual void _V00() = 0;
 	virtual void _V01() = 0;
 	virtual void _V02() = 0;
@@ -98,21 +94,25 @@ public:
 	// below (retail pushes device/stage/texture and calls [ecx+0x104]).
 };
 
-// TU-local replica of DX8Wrapper statics; DIR32 slots patch from retail.
+extern unsigned int number_of_DX8_calls;
+
+// DX8Wrapper's statics under dx8wrapper.cpp's own spellings (protected
+// members, the global call counter).
 class DX8Wrapper
 {
 public:
 	static const unsigned int MAX_TEXTURE_STAGES = 16;
+protected:
 	static IDirect3DBaseTexture8 *Textures[MAX_TEXTURE_STAGES];
-	static BfmeApplyDevice9 *D3DDevice;
-	static unsigned int number_of_DX8_calls;
+	static IDirect3DDevice8 *D3DDevice;
 	static unsigned int texture_changes;
+public:
 	static __forceinline void Set_DX8_Texture(unsigned int stage, IDirect3DBaseTexture8 *texture)
 	{
-		typedef long (__stdcall *BfmeSetTextureFn)(BfmeApplyDevice9 *, unsigned int, IDirect3DBaseTexture8 *);
+		typedef long (__stdcall *BfmeSetTextureFn)(IDirect3DDevice8 *, unsigned int, IDirect3DBaseTexture8 *);
 
 		if (stage >= MAX_TEXTURE_STAGES) {
-			BfmeApplyDevice9 *device = D3DDevice;
+			IDirect3DDevice8 *device = D3DDevice;
 			(*(BfmeSetTextureFn **)device)[65](device, stage, texture);
 			number_of_DX8_calls++;
 			return;
@@ -126,7 +126,7 @@ public:
 		Textures[stage] = texture;
 		if (Textures[stage])
 			Textures[stage]->AddRef();
-		BfmeApplyDevice9 *device = D3DDevice;
+		IDirect3DDevice8 *device = D3DDevice;
 		(*(BfmeSetTextureFn **)device)[65](device, stage, texture);
 		number_of_DX8_calls++;
 		texture_changes++;
@@ -192,3 +192,4 @@ void BfmeApplyTextureRef::Apply(unsigned int stage)
 		res->ApplyStage(stage);
 	}
 }
+

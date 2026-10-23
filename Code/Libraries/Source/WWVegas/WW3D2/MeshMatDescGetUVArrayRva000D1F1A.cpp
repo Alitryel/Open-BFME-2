@@ -9,7 +9,7 @@
 // header drops that empty base and instead places those tables at +0x0C/+0x2C;
 // this TU uses a target-evidenced partial view rather than claiming any wider
 // MeshMatDescClass layout. The Rva prefixes and buffer prefix stay opaque.
-// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2
+// cl: /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2
 // stlport
 #include <stddef.h>
 
@@ -32,7 +32,7 @@ public:
 	Vector2 *Get_UV_Array(int pass, int stage);
 };
 
-Vector2 *MeshMatDescClass::Get_UV_Array(int pass, int stage)
+inline Vector2 *MeshMatDescClass::Get_UV_Array(int pass, int stage)
 {
 	if (UVSource[pass][stage] == -1) {
 		return NULL;
@@ -42,3 +42,9 @@ Vector2 *MeshMatDescClass::Get_UV_Array(int pass, int stage)
 	}
 	return NULL;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. Taking each one's
+// address keeps this unit's copy for its row; these pointers are not retail
+// data.
+Vector2 * (MeshMatDescClass::*_bfmeInlineAnchor_MeshMatDescGetUVArrayRva000D1F1A_0)(int pass, int stage) = &MeshMatDescClass::Get_UV_Array;

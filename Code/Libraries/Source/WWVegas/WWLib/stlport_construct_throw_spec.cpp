@@ -71,14 +71,30 @@ public:
 };
 
 namespace _STL {
-template<> void _Construct<RvaSmartPtr12, RvaSmartPtr12>(RvaSmartPtr12 *dest, const RvaSmartPtr12 &source) throw() { new (dest) RvaSmartPtr12(source); }
-template<> void _Construct<AssetReference, AssetReference>(AssetReference *dest, const AssetReference &source) throw() { new (dest) AssetReference(source); }
+template<> inline void _Construct<RvaSmartPtr12, RvaSmartPtr12>(RvaSmartPtr12 *dest, const RvaSmartPtr12 &source) throw() { new (dest) RvaSmartPtr12(source); }
+template<> inline void _Construct<AssetReference, AssetReference>(AssetReference *dest, const AssetReference &source) throw() { new (dest) AssetReference(source); }
 template<> void _Construct<WeaponTemplateSetHead, WeaponTemplateSetHead>(WeaponTemplateSetHead *dest, const WeaponTemplateSetHead &source) throw() { new (dest) WeaponTemplateSetHead(source); }
-template<> void _Construct<Rva0036CA00Str, Rva0036CA00Str>(Rva0036CA00Str *dest, const Rva0036CA00Str &source) throw() { new (dest) Rva0036CA00Str(source); }
+template<> inline void _Construct<Rva0036CA00Str, Rva0036CA00Str>(Rva0036CA00Str *dest, const Rva0036CA00Str &source) throw() { new (dest) Rva0036CA00Str(source); }
 template<> void _Construct<Rva0028F68F, Rva0028F68F>(Rva0028F68F *dest, const Rva0028F68F &source) throw() { new (dest) Rva0028F68F(source); }
-template<> void _Construct<Rva002390CB, Rva002390CB>(Rva002390CB *dest, const Rva002390CB &source) throw() { new (dest) Rva002390CB(source); }
+template<> inline void _Construct<Rva002390CB, Rva002390CB>(Rva002390CB *dest, const Rva002390CB &source) throw() { new (dest) Rva002390CB(source); }
 template<> void _Construct<Gen_005e9a20, Gen_005e9a20>(Gen_005e9a20 *dest, const Gen_005e9a20 &source) throw() { new (dest) Gen_005e9a20(source); }
-template<> void _Construct<Rva00064640Record, Rva00064640Record>(Rva00064640Record *dest, const Rva00064640Record &source) throw() { new (dest) Rva00064640Record(source); }
+template<> inline void _Construct<Rva00064640Record, Rva00064640Record>(Rva00064640Record *dest, const Rva00064640Record &source) throw() { new (dest) Rva00064640Record(source); }
 template<> void _Construct<Rva003AD160, Rva003AD160>(Rva003AD160 *dest, const Rva003AD160 &source) throw() { new (dest) Rva003AD160(source); }
 template<> void _Construct<Rva003A6F70, Rva003A6F70>(Rva003A6F70 *dest, const Rva003A6F70 &source) throw() { new (dest) Rva003A6F70(source); }
 }
+
+// The four _Construct specializations above marked inline are header inlines
+// elsewhere: other units emit select-any copies of them, so plain definitions
+// here collided in the linked build. This anchor only makes this unit emit its
+// copies for the ledger rows; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitstlport_construct_throw_spec@@YAXPAVRvaSmartPtr12@@PAVRva002390CB@@PAVRva0036CA00Str@@PAVRva00064640Record@@PAVAssetReference@@@Z present-unmatched
+void bfmeEmitstlport_construct_throw_spec(RvaSmartPtr12 *p1, Rva002390CB *p2, Rva0036CA00Str *p3, Rva00064640Record *p4, AssetReference *p5)
+{
+	_STL::_Construct(p1, *p1);
+	_STL::_Construct(p2, *p2);
+	_STL::_Construct(p3, *p3);
+	_STL::_Construct(p4, *p4);
+	_STL::_Construct(p5, *p5);
+}
+#pragma inline_depth()

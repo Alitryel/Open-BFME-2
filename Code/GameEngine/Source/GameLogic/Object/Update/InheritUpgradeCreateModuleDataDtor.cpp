@@ -1,4 +1,4 @@
-// cl: /O1 /GX /DNDEBUG /MD /arch:SSE
+// cl: /GX /DNDEBUG /MD
 //
 // ??1InheritUpgradeCreateModuleData@@UAE@XZ, retail 0x004B9569, 51 bytes.
 // ModuleData dtor: tears down ObjectFilter at +0x8C through the folded
@@ -13,19 +13,9 @@
 // size 0x90 via factory 0x250CC3, INI table 0x00C59728). Caller is the slot-0
 // ??_G at 0x4B954D (vtable 0xC59768).
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc();
-	virtual void loadPostProcess();
-	virtual void xfer();
-};
 
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+
 
 class Rva003623E5Filter
 {

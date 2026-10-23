@@ -35,14 +35,14 @@ private:
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib/thread.h
+// Destructor-only base view; the complete Watchdog primary table is declared
+// below from retail BE6FD8, independently of provisional base method names.
 class ThreadClass
 {
 public:
 	ThreadClass(const char *name);
 	virtual ~ThreadClass();
-	void Execute(void);
 	void Stop(void);
-	virtual void Thread_Function(void) = 0;
 
 private:
 	char m_name[0x40];
@@ -81,8 +81,9 @@ public:
 	void suppressTimeouts(void);
 	void update(void);
 	void resumeTimeouts(void);
-	void start(void);
+	virtual void start(void);
 	virtual void Thread_Function(void);
+	virtual void reportWatchdog(void);
 	void stop(void);
 
 private:
@@ -163,22 +164,5 @@ void Watchdog::resumeTimeouts(void)
 	}
 }
 
-// ?start@Watchdog@@QAEXXZ present-unmatched
-void Watchdog::start(void)
-{
-	MutexClass::LockClass *lock = new MutexClass::LockClass(m_mutex, -1);
-	if (lock != m_ownedLock)
-	{
-		delete m_ownedLock;
-		m_ownedLock = lock;
-	}
-	ThreadClass::Execute();
-}
 
-// ?stop@Watchdog@@QAEXXZ present-unmatched
-void Watchdog::stop(void)
-{
-	delete m_ownedLock;
-	m_ownedLock = 0;
-	ThreadClass::Stop();
-}
+// Watchdog::stop: defined in WatchdogThreadFunction.cpp (its row's unit).

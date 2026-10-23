@@ -1,7 +1,10 @@
-class BfmeChunkVFC
+// The loader is WW3D's ChunkLoadClass: its Read (0x006151A0) is rowed in
+// WWLib/chunkio.cpp. readBlock's own row keeps the BfmeChunkVFC parameter spelling.
+class BfmeChunkVFC;
+class ChunkLoadClass
 {
 public:
-	unsigned int bfmeReadVFC(void *buffer, unsigned int bytes);
+	unsigned long Read(void *buf, unsigned long nbytes);
 };
 
 struct Rva0096D2C0Record
@@ -24,7 +27,7 @@ private:
 
 bool Rva0096D2C0Owner::readBlock(BfmeChunkVFC *loader, Rva0096D2C0Record *record)
 {
-	if (loader->bfmeReadVFC(&record->m_value78, 16) != 16)
+	if (reinterpret_cast<ChunkLoadClass *>(loader)->Read(&record->m_value78, 16) != 16)
 		return false;
 
 	*m_destination = record->m_value78;

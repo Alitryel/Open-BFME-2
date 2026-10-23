@@ -18,41 +18,9 @@ extern "C" int __cdecl memcmp(const void *, const void *, unsigned int);
 #pragma intrinsic(memcmp)
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
-class AsciiString
-{
-public:
-	~AsciiString();
-	AsciiString &operator=(const AsciiString &that);
+#include "../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
-	Int compare(const AsciiString &that) const
-	{
-		const Int thatLength = that.m_data ? that.m_data->length : 0;
-		const char *thatText = that.m_data ? that.m_data->text : "";
-		const Int thisLength = m_data ? m_data->length : 0;
-		const char *thisText = m_data ? m_data->text : "";
-		Int result = memcmp(thisText, thatText,
-			thisLength < thatLength ? thisLength : thatLength);
-		if (result != 0)
-			return result;
-		return thisLength - thatLength;
-	}
-
-private:
-	struct Data
-	{
-		Int refs;
-		unsigned short length;
-		unsigned short capacity;
-		char text[1];
-	};
-
-	Data *m_data;
-};
-
-inline bool operator==(const AsciiString &left, const AsciiString &right)
-{
-	return left.compare(right) == 0;
-}
+bool operator==(const AsciiString &left, const AsciiString &right);
 
 struct CameraMarker
 {
@@ -78,7 +46,7 @@ CameraMarker &CameraMarker::operator=(const CameraMarker &src)
 
 // ??1CameraMarker@@QAE@XZ, retail 0x0029D7C2; clear() is its only caller.
 // Removing the definition also changes clear()'s inlining.
-CameraMarker::~CameraMarker()
+inline CameraMarker::~CameraMarker()
 {
 }
 
@@ -110,7 +78,7 @@ CameraMarker *CameraMarkerList::find(
 	CameraMarker *marker = m_markers;
 	while (marker)
 	{
-		if (marker->m_name == name)
+		if (marker->m_name.compare(name) == 0)
 			return marker;
 		marker = marker->m_next;
 	}
@@ -133,3 +101,18 @@ void CameraMarkerList::remove(CameraMarker *marker)
 		link = &(*link)->m_next;
 	}
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeCameraMarkerInlineAnchor@@YAXPAVCameraMarker@@@Z absent-from-retail
+void _bfmeCameraMarkerInlineAnchor(CameraMarker *cameraMarker)
+{
+    cameraMarker->CameraMarker::~CameraMarker();
+}
+#pragma inline_depth()
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??1Rva002DFC30@@QAE@XZ=??1CameraMarker@@QAE@XZ")

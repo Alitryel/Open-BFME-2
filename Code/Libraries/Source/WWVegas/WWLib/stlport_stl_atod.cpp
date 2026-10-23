@@ -1,4 +1,4 @@
-// cl: /O2 /EHsc /MD /D_STLP_USE_STATIC_LIB
+// cl: /EHsc /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // Dedicated TU for STLport _Stl_atod. Do not add this to
@@ -8,15 +8,16 @@
 
 _STLP_BEGIN_NAMESPACE
 
+// The vendor representation is four/eight little-endian 16-bit words.
+// Matched DIR32 references establish BFME2's double (VA 0x00BBCC48)
+// and long-double (VA 0x00BBCC50) constants; all object bytes match retail.
+template <> const _D_rep _LimG<bool>::_D_inf = {{0, 0, 0, 0x7ff0}};
+template <> const _L_rep _LimG<bool>::_L_inf = {{0, 0, 0, 0x7ff0, 0, 0, 0, 0}};
+
 typedef unsigned int uint32;
 typedef unsigned __int64 uint64;
 #define ULL(x) x##Ui64
 
-template <class T>
-inline const T &(min)(const T &a, const T &b)
-{
-	return a < b ? a : b;
-}
 
 void _Stl_mult64(const uint64 u, const uint64 v, uint64 &high, uint64 &low)
 {
@@ -172,7 +173,9 @@ void _Stl_tenscale(uint64 &p, int exp, int &bexp)
 		return;
 	}
 	while (exp_hi) {
-		hi = (min)(num_hi, exp_hi);
+		// Keep the selected input as an lvalue to preserve the verified retail codegen.
+		const int &chosen_hi = num_hi < exp_hi ? num_hi : exp_hi;
+		hi = chosen_hi;
 		exp_hi -= hi;
 		hi += thi - 1;
 		_Stl_mult64(p, _Stl_tenpow[hi], prodhi, prodlo);

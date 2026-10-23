@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc
+// cl: /Ireference/shims/bfme2_ascii /EHsc
 
 // ?xfer@SkirmishGameInfo@@UAEXPAVXfer@@@Z
 // Retail 0x003FFA3C (272B): persists the skirmish setup through the Xfer
@@ -8,6 +8,10 @@
 // at +0x88). The layout widens BFME1's SkirmishGameInfo past the slots:
 // the string members are gone, replaced by the +0x40..0x88 int/uint runs.
 
+// The shared headers declare these members with the access/virtual spelling
+// retail's vftables reference; the ledger row keeps the spelling this TU
+// compiled to. Same function, same address: bind the header spelling here.
+#pragma comment(linker, "/alternatename:?xfer@SkirmishGameInfo@@MAEXPAVXfer@@@Z=?xfer@SkirmishGameInfo@@UAEXPAVXfer@@@Z")
 typedef int Int;
 typedef unsigned int UnsignedInt;
 typedef unsigned char UnsignedByte;
@@ -20,18 +24,9 @@ struct Coord3DBase
 	float z;
 };
 
-struct ICoord3D
-{
-	int x;
-	int y;
-	int z;
-};
+#include "../../../Libraries/Include/Lib/ICoord3D.h"
 
-struct Region3D
-{
-	Coord3DBase lo;
-	Coord3DBase hi;
-};
+#include "../../../Libraries/Include/Lib/Region3D.h"
 
 struct IRegion3D
 {
@@ -39,29 +34,13 @@ struct IRegion3D
 	ICoord3D hi;
 };
 
-struct Coord2D
-{
-	float x;
-	float y;
-};
+#include "../../../Libraries/Include/Lib/Coord2D.h"
 
-struct ICoord2D
-{
-	int x;
-	int y;
-};
+#include "../../../Libraries/Include/Lib/ICoord2D.h"
 
-struct Region2D
-{
-	Coord2D lo;
-	Coord2D hi;
-};
+#include "../../../Libraries/Include/Lib/Region2D.h"
 
-struct IRegion2D
-{
-	ICoord2D lo;
-	ICoord2D hi;
-};
+#include "../../../Libraries/Include/Lib/IRegion2D.h"
 
 struct RealRange
 {
@@ -69,12 +48,7 @@ struct RealRange
 	float hi;
 };
 
-struct RGBColor
-{
-	float red;
-	float green;
-	float blue;
-};
+#include "../../../Libraries/Include/Lib/RGBColor.h"
 
 struct RGBAColorReal
 {
@@ -101,15 +75,7 @@ struct XferUnknown11;
 // Minimal string handle: one pointer field, so by-value temporaries take one
 // stack slot. Only the shape matters here; construction and teardown happen
 // in the string-unit bodies these declarations pin.
-class AsciiString
-{
-public:
-	~AsciiString();
-	AsciiString &operator=(const AsciiString &other);
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class GameState
 {
@@ -120,14 +86,7 @@ public:
 
 extern GameState *TheGameState;
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc(Xfer *xfer) = 0;
-	virtual void loadPostProcess() = 0;
-	virtual void xfer(Xfer *xfer) = 0;
-};
+#include "../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 class Xfer
 {

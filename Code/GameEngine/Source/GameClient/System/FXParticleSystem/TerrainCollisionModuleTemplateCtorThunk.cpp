@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 
 // TerrainCollisionModuleTemplate default constructor @0x3AA078: the base at
 // rowed 0x00001EF9, then the info constructor at pinned 0x0056459E, then the
@@ -11,14 +11,12 @@ class ModuleTemplate
 {
 public:
     virtual ~ModuleTemplate();
-    virtual void v1() = 0;
 };
 
 class SecondaryModuleBase
 {
 public:
     virtual ~SecondaryModuleBase();
-    virtual void v1() = 0;
 };
 
 class ModuleInfo
@@ -28,7 +26,7 @@ class ModuleInfo
 class EventModuleInfo : public ModuleInfo
 {
 public:
-    EventModuleInfo() {}
+    EventModuleInfo();
 
     bool m_first;
     bool m_second;
@@ -43,6 +41,7 @@ class CategoryModuleTemplate<8> : public ModuleTemplate, public SecondaryModuleB
 {
 public:
     CategoryModuleTemplate();
+    ~CategoryModuleTemplate();
 };
 
 class TerrainCollisionModuleInfo
@@ -50,7 +49,6 @@ class TerrainCollisionModuleInfo
 public:
     TerrainCollisionModuleInfo();
     virtual ~TerrainCollisionModuleInfo();
-    virtual void v1() = 0;
 };
 
 class TerrainCollisionModuleTemplate : public CategoryModuleTemplate<8>,
@@ -58,6 +56,7 @@ class TerrainCollisionModuleTemplate : public CategoryModuleTemplate<8>,
 {
 public:
     TerrainCollisionModuleTemplate();
+    virtual ~TerrainCollisionModuleTemplate();
 };
 
 // ??0TerrainCollisionModuleTemplate@FXParticleSystem@@QAE@XZ @0x3AA078

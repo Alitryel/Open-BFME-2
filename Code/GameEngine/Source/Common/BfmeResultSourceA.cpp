@@ -8,10 +8,14 @@
 
 extern "C" void __cdecl free(void *block);
 
-class BfmeThingEQ
+class Object;
+
+// Partition filter base: allows (0x00625720) runs the chain from this filter
+// along the +0x04 links.
+class Rva000421C8
 {
 public:
-	unsigned char bfmeAskEQ(void *what);
+	bool allows(Object *obj);
 };
 
 class BfmeResultNodeItem
@@ -76,16 +80,21 @@ struct BfmeResultA : private Rva009F39F0Result
 	}
 };
 
-class BfmeResultSourceA
+class PartitionManagerImpl
 {
 	unsigned char m_bfmePadding[0x114];
 	BfmeResultNode *m_bfmeHead;
 
 public:
-	BfmeResultA bfmeMakeResultA(int value);
+	// ?GetAllObjects@PartitionManagerImpl@@QAE?AUBfmeResultA@@H@Z @0x00628980 209B:
+	// renamed from placeholder BfmeResultSourceA::bfmeMakeResultA — the
+	// WorldBuilder twin names PartitionManagerImpl::GetAllObjects at EA's own
+	// partitionmanager_impl.cpp (callgraph 2; the class is corroborated by the
+	// landed DoSmallFill/DoRectFill/_ClearNumObjBelow siblings).
+	BfmeResultA GetAllObjects(int value);
 };
 
-BfmeResultA BfmeResultSourceA::bfmeMakeResultA(int value)
+BfmeResultA PartitionManagerImpl::GetAllObjects(int value)
 {
 	BfmeResultA result;
 	BfmeResultNode *node = m_bfmeHead;
@@ -94,7 +103,7 @@ BfmeResultA BfmeResultSourceA::bfmeMakeResultA(int value)
 	{
 		void *thing = node->m_bfmeItem->bfmeGetResultThing();
 
-		if (thing != 0 && (value == 0 || ((BfmeThingEQ *)value)->bfmeAskEQ(thing) != 0))
+		if (thing != 0 && (value == 0 || ((Rva000421C8 *)value)->allows((Object *)thing) != 0))
 			((Rva009F39F0Result *)&result)->append((int)thing, 0);
 
 		node = node->m_bfmeNext;

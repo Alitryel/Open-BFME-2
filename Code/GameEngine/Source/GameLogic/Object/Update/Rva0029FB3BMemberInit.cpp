@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ?init@Rva0029FB3BMember@@QAEPAXPAX@Z, retail 0x0029FB3B, 40 bytes.
 // Freelist-node member init shared by 7 behavior ctors (ArrowStorm,
@@ -61,3 +61,10 @@ void Rva0029FB3BMember::reset()
 	((void **)m_head)[0] = m_head;
 	((void **)m_head)[1] = m_head;
 }
+
+// ?g_freeList@@3PAXA: matched references place it at VA 0xda60f0; also referenced as ?g_pool009A60F0@@3PAUPoolNode002ABB20@@A.
+void * g_freeList = 0;
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?init@Rva0029FB3BMember@@QAEXPAX@Z=?init@Rva0029FB3BMember@@QAEPAXPAX@Z")

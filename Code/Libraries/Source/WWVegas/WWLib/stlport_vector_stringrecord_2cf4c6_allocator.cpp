@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfmealloc
 // stlport
 // BFME2's shared 20-byte vector allocator at RVA 0x395960.
 // Retail keeps the imul; the home TU (stlport_vector_stringrecord_2cf4c6_allocate_copy.cpp)
@@ -8,7 +8,7 @@
 // by the rowed 2CF4C6/3B3F78/568CE0/SaveMapPreview allocate_and_copy bodies;
 // rowed under the 2CF4C6 spelling by caller evidence with the image-wide fold
 // documented, sibling 3B3F78/568CE0 pins standing as fold candidates.
-class AsciiString { public: AsciiString(const AsciiString &); __forceinline ~AsciiString() { releaseBuffer(); } protected: void releaseBuffer(); private: void *m_data; };
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 struct BfmeStringRecord002CF4C6 {
     AsciiString text0, text1;
     unsigned int word0, word1;

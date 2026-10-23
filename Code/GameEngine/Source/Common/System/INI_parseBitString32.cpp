@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /GX- /Oi-
+// cl: /Oy- /DNDEBUG /MD /GX- /Oi-
 //
 // ?parseBitString32@INI@@SAXPAV1@PAX1PBX@Z, retail 0x002EB38, 277 bytes.
 // Dedicated TU (same INI verb family as INI_parseRGBColor.cpp, framed).
@@ -30,21 +30,17 @@ public:
 	static void parseBitString32(INI *ini, void *instance, void *store, const void *userData);
 };
 
-struct INIException
+class INIException
 {
+public:
+	INIException(int argCount, const char *format, ...);
 	char *mFailureMessage;
 	int mErrorCode;
+	INIException(const INIException &that);
+	~INIException();
 };
 
-extern "C" void rva002f681_fill(void *dst, int code, const char *fmt, ...);
-__declspec(noreturn) void __stdcall _CxxThrowException(void *pExc, void *pInfo);
 extern "C" __declspec(dllimport) int __cdecl _strcmpi(const char *a, const char *b);
-
-// Address anchor only: the throw site pushes this object's address as an
-// immediate (DIR32, copied from retail's throwinfo at 0xCFE2FC). Content is
-// never compared; the real chain lives in the retail image.
-struct ParseBitString32ThrowInfoAnchor { int a; int b; int c; int d; };
-static const ParseBitString32ThrowInfoAnchor parseBitString32ThrowInfoAnchor = { 0, 0, 0, 0 };
 
 // ?parseBitString32@INI@@SAXPAV1@PAX1PBX@Z
 void INI::parseBitString32(INI *ini, void * /*instance*/, void *store, const void *userData)
@@ -53,9 +49,7 @@ void INI::parseBitString32(INI *ini, void * /*instance*/, void *store, const voi
 	UnsignedInt *bits = (UnsignedInt *)store;
 
 	if (flagList == NULL || flagList[0] == NULL) {
-		INIException e;
-		rva002f681_fill(&e, 2, "INTERNAL ERROR! parseBitString32: No flag list provided!");
-		_CxxThrowException(&e, (void *)&parseBitString32ThrowInfoAnchor);
+		throw INIException(2, "INTERNAL ERROR! parseBitString32: No flag list provided!");
 	}
 
 	Bool foundNormal = false;
@@ -65,9 +59,7 @@ void INI::parseBitString32(INI *ini, void * /*instance*/, void *store, const voi
 	for (const char *token = ini->getNextTokenOrNull(NULL); token != NULL; token = ini->getNextTokenOrNull(NULL)) {
 		if (_strcmpi(token, "NONE") == 0) {
 			if (foundNormal || foundAddOrSub) {
-				INIException e;
-				rva002f681_fill(&e, 2, "you may not mix normal and +- ops in bitstring lists");
-				_CxxThrowException(&e, (void *)&parseBitString32ThrowInfoAnchor);
+				throw INIException(2, "you may not mix normal and +- ops in bitstring lists");
 			}
 			*bits = 0;
 			break;
@@ -75,27 +67,21 @@ void INI::parseBitString32(INI *ini, void * /*instance*/, void *store, const voi
 
 		if (token[0] == '+') {
 			if (foundNormal) {
-				INIException e;
-				rva002f681_fill(&e, 2, "you may not mix normal and +- ops in bitstring lists");
-				_CxxThrowException(&e, (void *)&parseBitString32ThrowInfoAnchor);
+				throw INIException(2, "you may not mix normal and +- ops in bitstring lists");
 			}
 			Int bitIndex = ini->scanIndexList(token + 1, flagList);
 			*bits |= (1 << bitIndex);
 			foundAddOrSub = true;
 		} else if (token[0] == '-') {
 			if (foundNormal) {
-				INIException e;
-				rva002f681_fill(&e, 2, "you may not mix normal and +- ops in bitstring lists");
-				_CxxThrowException(&e, (void *)&parseBitString32ThrowInfoAnchor);
+				throw INIException(2, "you may not mix normal and +- ops in bitstring lists");
 			}
 			Int bitIndex = ini->scanIndexList(token + 1, flagList);
 			*bits &= ~(1 << bitIndex);
 			foundAddOrSub = true;
 		} else {
 			if (foundAddOrSub) {
-				INIException e;
-				rva002f681_fill(&e, 2, "you may not mix normal and +- ops in bitstring lists");
-				_CxxThrowException(&e, (void *)&parseBitString32ThrowInfoAnchor);
+				throw INIException(2, "you may not mix normal and +- ops in bitstring lists");
 			}
 
 			if (!foundNormal)

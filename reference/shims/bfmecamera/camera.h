@@ -127,7 +127,7 @@ public:
 	CameraClass & operator = (const CameraClass &);
 	virtual ~CameraClass(void);
 	virtual RenderObjClass *	Clone(void) const;
-	virtual int						Class_ID(void) const { return CLASSID_CAMERA; }
+	virtual int						Class_ID(void) const;	// out of line: retail's /O1 body 0x0007C3F8 (CameraClassClassID.cpp)
 		
 	/////////////////////////////////////////////////////////////////////////////
 	// Render Object Interface -  Rendering, cameras don't "render"
@@ -181,6 +181,8 @@ public:
 	// Access to the projection matrices for this camera
 	void								Get_Projection_Matrix(Matrix4x4 * set_tm);
 	void								Get_D3D_Projection_Matrix(Matrix4x4 * set_tm);
+	// Native 0x00134A80: D3D projection multiplied by the inverse camera transform.
+	void rva00134A80(Matrix4x4 *set_tm);
 	void								Get_View_Matrix(Matrix3D * set_tm);
 	const Matrix4x4 &				Get_Projection_Matrix(void);
 	const Matrix3D &				Get_View_Matrix(void);

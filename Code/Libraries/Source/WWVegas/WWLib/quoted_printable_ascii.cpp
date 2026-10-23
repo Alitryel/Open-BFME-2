@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /DNDEBUG /MD
+// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD
 // QuotedPrintableToAsciiString as retail compiled it for BFME 2: no length
 // cap, plain str() access and an own static buffer. Body from the Zero Hour
 // donor (GameEngine/Source/Common/System/QuotedPrintable.cpp); the missing
@@ -8,24 +8,8 @@
 #define MAGIC_CHAR '_'
 
 // Retail's AsciiString(const char *) is the StringBase<char> ctor at 0x37BA0.
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-	StringBase(const T *text);
+#include "ascii_string.h"
 
-public:
-	~StringBase();
-
-protected:
-	void *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString(const char *text) : StringBase<char>(text) {}
-	const char *str() const { return m_data ? (const char *)m_data + 8 : ""; }
-};
 
 // convert an ASCII representation of a hex digit into the digit itself
 static int hexDigitToInt(char c)

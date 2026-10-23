@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004C09B5@StructureBody@@SA?AW4NameKeyType@@XZ @0x4C09B5
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@StructureBody@@UBE?AW4NameKeyType@@XZ @0x4C09B5
 // (69B): cached pool-name key for StructureBody. The class
 // identity comes from the pool-name string the body pushes
 // ("StructureBody"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class StructureBody
 {
 public:
-	static NameKeyType rva0004C09B5();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004C09B5@StructureBody@@SA?AW4NameKeyType@@XZ
-NameKeyType StructureBody::rva0004C09B5()
+// ?getModuleNameKey@StructureBody@@UBE?AW4NameKeyType@@XZ
+NameKeyType StructureBody::getModuleNameKey() const
 {
 	static NameKeyType TheStructureBodyPoolKey =
 		TheNameKeyGenerator->nameToKey("StructureBody");

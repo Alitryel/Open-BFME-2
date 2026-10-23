@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /arch:SSE /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // ??1ProductionUpdateModuleData@@UAE@XZ, retail 0x0049E2B3, 153 bytes.
@@ -30,19 +30,34 @@
 // precedent). Members are declared in offset order so reverse destruction
 // yields states 3/2/1/0.
 
+
 #include <list>
+
+// Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
+// rather than emitting its own.
+namespace _STL {
+template <> void _List_base<int, allocator<int> >::clear();
+}
 #include <vector>
+
+// list<int> destruction otherwise instantiates per-TU deallocate
+// COMDATs (one byte shape per TU flags); explicit dllimport+forceinline
+// specializations take those calls inline so this TU emits no external copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<_List_node<int> >::deallocate(_List_node<int>* __p, size_t __n) const {
+  _STLP_ASSERT( (__p == 0) == (__n == 0) )
+    if (__p != 0) __sgi_alloc::deallocate((void*)__p, __n * sizeof(value_type));
+}
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<_List_node<int> *, _List_node<int>, allocator<_List_node<int> > >::deallocate(_List_node<int> *__p, size_t __n) {
+  allocator<_List_node<int> >().deallocate(__p, __n);
+}
+}
 
 typedef int Int;
 
-class AsciiString
-{
-public:
-	~AsciiString();
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class Rva00360D26Member
 {
@@ -107,19 +122,8 @@ vector<QuantityModifier, allocator<QuantityModifier> >::~vector();
 // ModuleData stand-in: virtuals give the derived dtor its entry vtable
 // store; the inline dtor restores the base table 0x00BBB554 after all
 // members fall (LargeGroupBonus precedent).
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc();
-	virtual void loadPostProcess();
-	virtual void xfer();
-};
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
 
 class ProductionUpdateModuleData : public Snapshot
 {

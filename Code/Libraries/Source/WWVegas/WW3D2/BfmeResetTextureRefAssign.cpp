@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // BfmeResetTextureRef::operator=(const BfmeResetAnyRef &), retail 0x00131D99,
 // 50 bytes. Dedicated TU so dx8wrapper.cpp cannot see this body.
@@ -44,7 +44,7 @@ struct BfmeResetTextureRef
 
 BfmeResetTextureRef &BfmeResetTextureRef::operator=(const BfmeResetAnyRef &rhs)
 {
-	if (rhs.pointer && rhs.pointer->GetClassId() != 0x544558)
+	if (rhs.pointer && rhs.pointer->GetClassId() != 'TEX')
 		clear();
 	else
 		*(BfmeMapPictureTexture *)this = *(const BfmeMapPictureTexture *)&rhs;

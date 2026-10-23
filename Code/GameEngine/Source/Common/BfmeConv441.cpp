@@ -1,4 +1,5 @@
-void *bfmeMakeBCE();
+struct Bfme5Obj18;
+struct Bfme5Obj18 *bfme5MakeObj18();
 
 class BfmeThingBCE
 {
@@ -10,5 +11,5 @@ public:
 
 void BfmeThingBCE::bfmeGoBCE()
 {
-	m_bfmeWhat = bfmeMakeBCE();
+	m_bfmeWhat = (void *)bfme5MakeObj18();
 }

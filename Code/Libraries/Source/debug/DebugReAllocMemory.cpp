@@ -54,7 +54,7 @@ public:
 	static bool SkipNext(bool set);
 };
 
-Debug *theDebug;
+extern Debug *theDebug;  // defined in DebugPreStaticInit.cpp
 
 void *DebugAllocMemory(unsigned int numBytes);
 

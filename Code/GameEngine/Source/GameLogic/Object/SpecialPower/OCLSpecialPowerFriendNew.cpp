@@ -21,7 +21,15 @@ private:
 };
 
 // ?friend_newModuleInstance@OCLSpecialPower@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *OCLSpecialPower::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *OCLSpecialPower::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new OCLSpecialPower(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitOCLSpecialPowerFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitOCLSpecialPowerFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	OCLSpecialPower::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

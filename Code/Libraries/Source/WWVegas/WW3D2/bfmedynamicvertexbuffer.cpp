@@ -1,9 +1,11 @@
-// cl: /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep
 // Copyright 2025 Electronic Arts Inc.
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Reconstructed from BFME2 and the GPL-3.0-or-later EA reference
 // Code/Libraries/Source/WWVegas/WW3D2/dx8vertexbuffer.cpp.
 // Recovered role names and independent identities: docs/reconstruction/dynamic-vertex-buffer.md.
+extern class MeshModelClass *MeshModelListHead;
+
 #include <d3d8.h>
 #include <string.h>
 typedef unsigned long ULONG;
@@ -23,7 +25,9 @@ struct BfmeFVFDescriptor {
  BfmeFVFDescriptor(unsigned fvf,unsigned fvf_size,bool additional_basis,unsigned extension_count);
  unsigned char record[0x60];
 };
-extern BfmeFVFDescriptor bfmeDynamicFVFDescriptors[15];
+extern BfmeFVFDescriptor bfmeDynamicFVFDescs[15];
+#define bfmeDynamicFVFDescriptors bfmeDynamicFVFDescs
+// ^ bfmeDynamicFVFDescriptors is only an alias of the owned global bfmeDynamicFVFDescs (ledger names column).
 struct BfmeDynamicFVFPrefix {
  unsigned fvf;bool additionalBasis;unsigned extensionCount,stride;
  unsigned Get_FVF() const { return fvf; }
@@ -67,6 +71,7 @@ public:
  BfmeFVFDescriptor *format;
  bool usesDeclaration;
  const BfmeDynamicFVFPrefix &FVF_Info() const { return *reinterpret_cast<BfmeDynamicFVFPrefix *>(format); }
+ void rva00139280(bool uses_declaration);
 };
 struct BfmeDynamicVertexBuffer9;
 class Vector2;
@@ -87,6 +92,8 @@ public:
  void Copy(const Vector3 *,const Vector3 *,const Vector2 *,const Vector4 *,unsigned,unsigned);
  void Copy(const Vector3 *,const Vector2 *,const Vector4 *,unsigned,unsigned);
  void Copy(const Vector3 *,const Vector2 *,unsigned,unsigned);
+ void Copy(const Vector3 *,unsigned,unsigned);
+ void Copy(const Vector3 *,const Vector3 *,unsigned,unsigned);
  BfmeDynamicVertexBuffer9 *Get_DX8_Vertex_Buffer() const { return reinterpret_cast<BfmeDynamicVertexBuffer9 *>(buffer); }
 };
 class BfmeDynamicSortingVB:public BfmeDynamicVBBase {
@@ -98,53 +105,71 @@ public:
 typedef char BfmeDynamicVBBaseSize[(sizeof(BfmeDynamicVBBase)==28)?1:-1];
 typedef char BfmeDynamicNativeVBSize[(sizeof(BfmeDynamicNativeVB)==32)?1:-1];
 extern bool bfmeDynamicVBInUse[15];
-extern BfmeDynamicNativeVB *bfmeDynamicVBs[15];
+// The pool slot is owned by DynamicVBAccessClassDeinit.cpp; cast only the access view.
+class BfmeDynamicVB;
+extern BfmeDynamicVB *bfmeDynamicVBs[15];
 extern unsigned short bfmeDynamicVBSizes[15],bfmeDynamicVBOffsets[15];
-extern unsigned bfmeDynamicFVFs[15];
+// bfmeDynamicFVFs: matched references place it at VA 0xbd2f04 (retail .rdata contents).
+// Entry 10 is position, normal, diffuse and four texture coordinate sets, the
+// last three of them three-component (D3DFVF_TEXCOORDSIZE3(1..3)).
+#define BFME_D3DFVF_XYZ			0x002u
+#define BFME_D3DFVF_NORMAL		0x010u
+#define BFME_D3DFVF_DIFFUSE		0x040u
+#define BFME_D3DFVF_TEX4		0x400u
+#define BFME_D3DFVF_TEXCOORDSIZE3(i)	(1u << ((i) * 2 + 16))
+unsigned bfmeDynamicFVFs[15] = {
+	2u, 0x12u, 0x112u, 0x212u, 0x152u, 0x252u, 0x142u, 0x242u,
+	0x102u, 0x202u,
+	BFME_D3DFVF_XYZ | BFME_D3DFVF_NORMAL | BFME_D3DFVF_DIFFUSE | BFME_D3DFVF_TEX4 |
+		BFME_D3DFVF_TEXCOORDSIZE3(1) | BFME_D3DFVF_TEXCOORDSIZE3(2) | BFME_D3DFVF_TEXCOORDSIZE3(3),
+	0xb0312u, 0x52u, 0x344u, 0x444u,
+};
 static bool bfmeSortingVBInUse;
 static BfmeDynamicSortingVB *bfmeSortingVB;
 static unsigned short bfmeSortingVBSize,bfmeSortingVBOffset;
 extern void BFME_DX8_Thread_Lock();
-extern void BFME_DX8_Thread_Assert();
+extern bool BFME_DX8_Thread_Assert();
 class BFMEDX8DeviceLock {
 public:
  BFMEDX8DeviceLock() { BFME_DX8_Thread_Lock(); }
  ~BFMEDX8DeviceLock() { BFME_DX8_Thread_Assert(); }
 };
 struct BfmeSortingVertex { float x,y,z,nx,ny,nz;unsigned diffuse;float u1,v1,u2,v2; };
-struct BfmeDynamicVBAccess {
+class DynamicVBAccessClass
+{
+public:
  const BfmeFVFDescriptor *format;
  unsigned type,formatIndex,declaration;
  unsigned short vertexCount,vertexOffset;
  BfmeDynamicVBBase *buffer;
- BfmeDynamicVBAccess(unsigned type,unsigned format_index,unsigned short vertex_count,unsigned declaration);
- void AllocateNative();
- void AllocateSorting();
+ DynamicVBAccessClass(unsigned type,unsigned format_index,unsigned short vertex_count,unsigned declaration);
+ void Allocate_DX8_Dynamic_Buffer();
+ void Allocate_Sorting_Dynamic_Buffer();
  static void _Reset(bool frame_changed);
  unsigned Get_Type() const { return type; }
- unsigned short Get_Vertex_Count() const { return vertexCount; }
+ __declspec(dllimport) __forceinline unsigned short Get_Vertex_Count() const { return vertexCount; }
  struct WriteLock {
-  BfmeDynamicVBAccess *owner;
+  DynamicVBAccessClass *owner;
   BfmeSortingVertex *data;
   BFMEDX8DeviceLock guard;
-  WriteLock(BfmeDynamicVBAccess *);
+  WriteLock(DynamicVBAccessClass *);
   ~WriteLock();
  };
 };
 // Type 2 draws from the per-format native pools; anything else shares the
 // single sorting buffer.  The vertex offset is left for the allocator to set.
-BfmeDynamicVBAccess::BfmeDynamicVBAccess(unsigned type,unsigned format_index,unsigned short vertex_count,unsigned declaration)
+DynamicVBAccessClass::DynamicVBAccessClass(unsigned type,unsigned format_index,unsigned short vertex_count,unsigned declaration)
  : format(&bfmeDynamicFVFDescriptors[format_index]),type(type),formatIndex(format_index),declaration(declaration),vertexCount(vertex_count),buffer(0)
 {
- if(type==2) AllocateNative();
- else AllocateSorting();
+ if(type==2) Allocate_DX8_Dynamic_Buffer();
+ else Allocate_Sorting_Dynamic_Buffer();
 }
-void BfmeDynamicVBAccess::AllocateNative()
+void DynamicVBAccessClass::Allocate_DX8_Dynamic_Buffer()
 {
  bfmeDynamicVBInUse[formatIndex]=true;
  if(vertexCount>bfmeDynamicVBSizes[formatIndex]) {
   if(bfmeDynamicVBs[formatIndex]) {
-   bfmeDynamicVBs[formatIndex]->ReleaseRef();
+   ((BfmeDynamicNativeVB *)bfmeDynamicVBs[formatIndex])->ReleaseRef();
    bfmeDynamicVBs[formatIndex]=0;
   }
   bfmeDynamicVBSizes[formatIndex]=vertexCount;
@@ -153,17 +178,17 @@ void BfmeDynamicVBAccess::AllocateNative()
  if(!bfmeDynamicVBs[formatIndex]) {
   unsigned usage=1;
   if(bfmeDynamicCaps->supportNPatches) usage|=4;
-  bfmeDynamicVBs[formatIndex]=new BfmeDynamicNativeVB(bfmeDynamicFVFs[formatIndex],bfmeDynamicVBSizes[formatIndex],usage,0);
+  bfmeDynamicVBs[formatIndex]=(BfmeDynamicVB *)new BfmeDynamicNativeVB(bfmeDynamicFVFs[formatIndex],bfmeDynamicVBSizes[formatIndex],usage,0);
   bfmeDynamicVBOffsets[formatIndex]=0;
  }
- bfmeDynamicVBs[formatIndex]->usesDeclaration=declaration!=0;
+ ((BfmeDynamicNativeVB *)bfmeDynamicVBs[formatIndex])->usesDeclaration=declaration!=0;
  if((unsigned(vertexCount)+bfmeDynamicVBOffsets[formatIndex])>bfmeDynamicVBSizes[formatIndex]) bfmeDynamicVBOffsets[formatIndex]=0;
- if(bfmeDynamicVBs[formatIndex]) bfmeDynamicVBs[formatIndex]->AddRef();
+ if(bfmeDynamicVBs[formatIndex]) ((BfmeDynamicNativeVB *)bfmeDynamicVBs[formatIndex])->AddRef();
  if(buffer) buffer->ReleaseRef();
- buffer=bfmeDynamicVBs[formatIndex];
+ buffer=(BfmeDynamicNativeVB *)bfmeDynamicVBs[formatIndex];
  vertexOffset=bfmeDynamicVBOffsets[formatIndex];
 }
-void BfmeDynamicVBAccess::AllocateSorting()
+void DynamicVBAccessClass::Allocate_Sorting_Dynamic_Buffer()
 {
  bfmeSortingVBInUse=true;
  unsigned newCount=bfmeSortingVBOffset+vertexCount;
@@ -184,7 +209,7 @@ void BfmeDynamicVBAccess::AllocateSorting()
 // Zero Hour's DynamicVBAccessClass::_Reset with BFME's fifteen native pools:
 // the sorting offset always rewinds, the per-format offsets only on a new
 // frame -- one 30-byte clear, seven dword stores and a word.
-void BfmeDynamicVBAccess::_Reset(bool frame_changed)
+void DynamicVBAccessClass::_Reset(bool frame_changed)
 {
  bfmeSortingVBOffset=0;
  if(frame_changed) memset(bfmeDynamicVBOffsets,0,sizeof(bfmeDynamicVBOffsets));
@@ -409,7 +434,7 @@ BfmeDynamicNativeVB::~BfmeDynamicNativeVB()
  Get_DX8_Vertex_Buffer()->Release();
 }
 extern void DX8_Assert();
-BfmeDynamicVBAccess::WriteLock::WriteLock(BfmeDynamicVBAccess *access):owner(access),data(0)
+DynamicVBAccessClass::WriteLock::WriteLock(DynamicVBAccessClass *access):owner(access),data(0)
 {
  switch(owner->Get_Type()) {
  case 2: {
@@ -429,7 +454,7 @@ BfmeDynamicVBAccess::WriteLock::WriteLock(BfmeDynamicVBAccess *access):owner(acc
  default:break;
  }
 }
-BfmeDynamicVBAccess::WriteLock::~WriteLock()
+DynamicVBAccessClass::WriteLock::~WriteLock()
 {
  switch(owner->Get_Type()) {
  case 2: {
@@ -443,7 +468,7 @@ BfmeDynamicVBAccess::WriteLock::~WriteLock()
  }
 }
 
-typedef char BfmeDynamicWriteLockSize[(sizeof(BfmeDynamicVBAccess::WriteLock)==12)?1:-1];
+typedef char BfmeDynamicWriteLockSize[(sizeof(DynamicVBAccessClass::WriteLock)==12)?1:-1];
 typedef char BfmeSortingVertexSize[(sizeof(BfmeSortingVertex)==44)?1:-1];
 
 // Zero Hour's VertexBufferClass lock helpers, layout-identical to the matched
@@ -477,15 +502,7 @@ public:
 	};
 };
 
-class Vector2
-{
-public:
-	float X;
-	float Y;
-
-	float &operator[](int i) { return (&X)[i]; }
-	const float &operator[](int i) const { return (&X)[i]; }
-};
+#include "../../../../../reference/shims/wwmath/Vector2.h"
 
 class Vector3
 {
@@ -530,7 +547,7 @@ struct VertexFormatXYZNDUV1
 // call survives: retail's Copy bodies inline it per vertex.
 struct DX8Wrapper
 {
-	static __forceinline unsigned int Convert_Color(const Vector3 &color, float alpha)
+	static __declspec(dllimport) __forceinline unsigned int Convert_Color(const Vector3 &color, float alpha)
 	{
 		const float scale = 255.0;
 		// Retail zeroes this slot before the asm block writes it back, so the
@@ -725,6 +742,90 @@ void BfmeDynamicNativeVB::Copy(const Vector3 *loc, const Vector2 *uv, unsigned f
 	}
 }
 
+// upstream layout: dx8fvf.h VertexFormatXYZ (12 bytes).
+struct VertexFormatXYZ
+{
+	float x;
+	float y;
+	float z;
+};
+
+// upstream layout: dx8fvf.h VertexFormatXYZN (24 bytes).
+struct VertexFormatXYZN
+{
+	float x;
+	float y;
+	float z;
+	float nx;
+	float ny;
+	float nz;
+};
+
+// ?rva00139280@BfmeDynamicVBBase@@QAEX_N@Z, retail 0x00139280 (10B): the
+// out-of-line setter of the uses-declaration flag at +0x18, in the int3-padded
+// run directly ahead of Convert_Color 0x00139290. No direct caller reaches it
+// in retail (the pool allocator stores the flag inline), so it keeps an
+// address-derived name.
+void BfmeDynamicVBBase::rva00139280(bool uses_declaration)
+{
+ usesDeclaration=uses_declaration;
+}
+
+// Zero Hour's DX8VertexBufferClass::Copy for XYZ, dx8vertexbuffer.cpp
+// (retail 0x00139BF0, between the XYZNUV1 and XYZUV1 copies as upstream
+// orders them): same lock dance, positions only.
+void BfmeDynamicNativeVB::Copy(const Vector3 *loc, unsigned first_vertex, unsigned count)
+{
+	if (first_vertex) {
+		VertexBufferClass::AppendLockClass l(reinterpret_cast<VertexBufferClass *>(this), first_vertex, count);
+		VertexFormatXYZ *verts = (VertexFormatXYZ *)l.Get_Vertex_Array();
+		for (unsigned v = 0; v < count; ++v) {
+			verts[v].x = (*loc)[0];
+			verts[v].y = (*loc)[1];
+			verts[v].z = (*loc++)[2];
+		}
+	}
+	else {
+		VertexBufferClass::WriteLockClass l(reinterpret_cast<VertexBufferClass *>(this));
+		VertexFormatXYZ *verts = (VertexFormatXYZ *)l.Get_Vertex_Array();
+		for (unsigned v = 0; v < count; ++v) {
+			verts[v].x = (*loc)[0];
+			verts[v].y = (*loc)[1];
+			verts[v].z = (*loc++)[2];
+		}
+	}
+}
+
+// Zero Hour's DX8VertexBufferClass::Copy for XYZN, dx8vertexbuffer.cpp
+// (retail 0x00139FE0, after the XYZUV1 copy): positions and normals.
+void BfmeDynamicNativeVB::Copy(const Vector3 *loc, const Vector3 *norm, unsigned first_vertex, unsigned count)
+{
+	if (first_vertex) {
+		VertexBufferClass::AppendLockClass l(reinterpret_cast<VertexBufferClass *>(this), first_vertex, count);
+		VertexFormatXYZN *verts = (VertexFormatXYZN *)l.Get_Vertex_Array();
+		for (unsigned v = 0; v < count; ++v) {
+			verts[v].x = (*loc)[0];
+			verts[v].y = (*loc)[1];
+			verts[v].z = (*loc++)[2];
+			verts[v].nx = (*norm)[0];
+			verts[v].ny = (*norm)[1];
+			verts[v].nz = (*norm++)[2];
+		}
+	}
+	else {
+		VertexBufferClass::WriteLockClass l(reinterpret_cast<VertexBufferClass *>(this));
+		VertexFormatXYZN *verts = (VertexFormatXYZN *)l.Get_Vertex_Array();
+		for (unsigned v = 0; v < count; ++v) {
+			verts[v].x = (*loc)[0];
+			verts[v].y = (*loc)[1];
+			verts[v].z = (*loc++)[2];
+			verts[v].nx = (*norm)[0];
+			verts[v].ny = (*norm)[1];
+			verts[v].nz = (*norm++)[2];
+		}
+	}
+}
+
 // Zero Hour's DX8VertexBufferClass::Copy for XYZNDUV1, dx8vertexbuffer.cpp:
 // lock the range (append when first_vertex is nonzero, full write otherwise)
 // and fan the four arrays out, packing diffuse through Convert_Color.
@@ -767,7 +868,7 @@ void BfmeDynamicNativeVB::Copy(const Vector3 *loc, const Vector3 *norm, const Ve
 class MeshModelClass { public: char m_pad00[0xB8]; MeshModelClass *m_next; void rva001716E0UnregisterMeshModel(); };
 __declspec(noinline) MeshModelClass *rva001718E0GetNextMeshModel(MeshModelClass *model)
 {
- if(!model) return *(MeshModelClass**)0x00DF6F90;
+ if(!model) return *(MeshModelClass **)&MeshModelListHead;
  return model->m_next;
 }
 
@@ -785,3 +886,32 @@ void WW3D::_Invalidate_Mesh_Cache()
  if(TheDX8MeshRenderer!=0)
   TheDX8MeshRenderer->Invalidate(false);
 }
+
+// ?bfmeDynamicDevice@@3PAUBfmeDynamicDevice9@@A: the global at this VA is ?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?bfmeDynamicDevice@@3PAUBfmeDynamicDevice9@@A=?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A")
+#pragma comment(linker, "/alternatename:?g_bfmeObjTDB@@3PAUBfmeObjTDB@@A=?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A")
+#pragma comment(linker, "/alternatename:?g_Va00DEDA34@@3HA=?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A")
+// ?bfmeDynamicCaps@@3PAUBfmeDynamicCapsPrefix@@A: the global at this VA is ?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?bfmeDynamicCaps@@3PAUBfmeDynamicCapsPrefix@@A=?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A")
+#pragma comment(linker, "/alternatename:?BfmeCurrentCaps@@3PAEA=?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A")
+#pragma comment(linker, "/alternatename:?BfmeCurrentCaps@@3PAVBfmeCaps@@A=?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A")
+#pragma comment(linker, "/alternatename:?g_Va00DEDA7C@@3HA=?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A")
+// ?bfmeDynamicDevice@@3PAUBfmeDynamicDevice9@@A: the global at VA 0xdeda34 is ?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A.
+#pragma comment(linker, "/alternatename:?bfmeDynamicDevice@@3PAUBfmeDynamicDevice9@@A=?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A")
+// ?bfmeDynamicCaps@@3PAUBfmeDynamicCapsPrefix@@A: the global at VA 0xdeda7c is ?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A.
+#pragma comment(linker, "/alternatename:?bfmeDynamicCaps@@3PAUBfmeDynamicCapsPrefix@@A=?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A")
+
+// Callers elsewhere reach bodies in this unit through spellings pinned to the same
+// retail address (same cdecl/thiscall ABI); bind them here.
+#pragma comment(linker, "/alternatename:??0DX8VertexBufferClass@@QAE@IGW4UsageType@0@I@Z=??0BfmeDynamicNativeVB@@QAE@IGII@Z")
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0BfmeSortingVBAccess@@QAE@IIGI@Z=??0DynamicVBAccessClass@@QAE@IIGI@Z")
+#pragma comment(linker, "/alternatename:??0WriteLock@BfmeSortingVBAccess@@QAE@PAU1@@Z=??0WriteLock@DynamicVBAccessClass@@QAE@PAV1@@Z")
+#pragma comment(linker, "/alternatename:??1WriteLock@BfmeSortingVBAccess@@QAE@XZ=??1WriteLock@DynamicVBAccessClass@@QAE@XZ")
+
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeDynamicVBInUse@@3PA_NA=?BfmeDynamicDX8VertexBufferInUse@@3PA_NA")
+#pragma comment(linker, "/alternatename:?bfmeDynamicVBOffsets@@3PAGA=?BfmeDynamicDX8VertexBufferOffset@@3PAGA")

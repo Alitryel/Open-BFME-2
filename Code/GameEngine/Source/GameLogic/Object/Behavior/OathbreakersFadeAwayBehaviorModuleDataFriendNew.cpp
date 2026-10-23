@@ -1,4 +1,4 @@
-// cl: /O1 /GX /DNDEBUG /MD
+// cl: /GX /DNDEBUG /MD
 //
 // ?friend_newModuleData@OathbreakersFadeAwayBehaviorModuleData@@SAPAVModuleData@@PAVINI@@@Z,
 // retail 0x00254936, 55 bytes. Dedicated TU: the factory news 0xC with an
@@ -15,6 +15,9 @@
 // (0x4B8A22); BFME1 carries the same OathbreakersFadeAwayBehaviorModuleData
 // class.
 
+extern "C" const void *const vtbl_00C4ED70[];  // folded, 9 classes; via ??_7BeaconClientUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4ED70=??_7BeaconClientUpdateModuleData@@6B@")
+
 class ModuleData;
 class INI;
 class MultiIniFieldParse;
@@ -30,7 +33,7 @@ class OathbreakersFadeAwayBehaviorModuleData
 public:
 	OathbreakersFadeAwayBehaviorModuleData()
 	{
-		m_vtable = reinterpret_cast<void *>(0x00C4ED70);
+		m_vtable = reinterpret_cast<void *>(((unsigned int)vtbl_00C4ED70));
 		m_fadeOutTime = 1;
 	}
 	static void buildFieldParse(MultiIniFieldParse &parse);

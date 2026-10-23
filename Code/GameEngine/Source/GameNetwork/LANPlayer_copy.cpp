@@ -1,13 +1,17 @@
-// cl: /DNDEBUG /MD /EHsc /O1 /Ob2
+// cl: /DNDEBUG /MD /EHsc /Ob2
+
+class LANPlayerUnicodeString;
 
 template <typename Character>
 class StringBase
 {
+	friend class LANPlayerUnicodeString;
 public:
-	StringBase(const StringBase &other);
 	~StringBase(void);
 
 private:
+	StringBase(const StringBase &other);
+
 	Character *m_data;
 };
 

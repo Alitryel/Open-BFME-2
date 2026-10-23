@@ -10,6 +10,31 @@
 
 #define _STLP_NO_EXCEPTIONS 1
 #include <hash_map>
+// Keep hash_map<unsigned, void *>::find and the hashtable lookups under it
+// inline-only: the lookup below inlines all three, and this TU's COMDAT copies
+// are not the bodies the link keeps.
+namespace _STL {
+typedef hashtable<pair<const unsigned int, void *>, unsigned int, hash<unsigned int>,
+	_Select1st<pair<const unsigned int, void *> >, equal_to<unsigned int>,
+	allocator<pair<const unsigned int, void *> > > BfmeUIntPtrTable;
+template <> template <> __declspec(dllimport) __forceinline
+_Hashtable_node<pair<const unsigned int, void *> > *BfmeUIntPtrTable::_M_find<unsigned int>(const unsigned int &__key) const
+{
+	size_type __n = _M_hash(__key) % _M_buckets.size();
+	_Node *__first;
+	for (__first = (_Node *)_M_buckets[__n];
+	     __first && !_M_equals(_M_get_key(__first->_M_val), __key);
+	     __first = __first->_M_next)
+		{}
+	return __first;
+}
+template <> template <> __declspec(dllimport) __forceinline
+BfmeUIntPtrTable::iterator BfmeUIntPtrTable::find<unsigned int>(const unsigned int &__key)
+{ return iterator(_M_find(__key), this); }
+template <> __declspec(dllimport) __forceinline
+hash_map<unsigned int, void *>::iterator hash_map<unsigned int, void *>::find(const unsigned int &__key)
+{ return _M_ht.find(__key); }
+}
 
 struct CRITICAL_SECTION
 {
@@ -21,6 +46,9 @@ extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(
 	CRITICAL_SECTION *lock);
 
+// Native standalone destructor at 0x0061FC60 uses mov/push (10B).
+// Size tuning emitted a 9B push-memory copy; preserve this unit's other bodies.
+#pragma optimize("t", on)
 class CriticalSectionLock
 {
 public:
@@ -35,6 +63,7 @@ public:
 
 	int m_lock;
 };
+#pragma optimize("", on)
 
 enum NameKeyType
 {
@@ -73,3 +102,7 @@ bool AssetRegistry::Render_Obj_Exists_Impl(const char *name)
 	AssetRegistryHash::iterator it = assets->find(key);
 	return it != assets->end();
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeSay1025@BfmeP1025@@QAEDPAD@Z=?Render_Obj_Exists_Impl@AssetRegistry@@QAE_NPBD@Z")

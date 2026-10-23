@@ -1,4 +1,12 @@
 // cl: /Ireference/shims/bfmerendobj /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -36,7 +44,7 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
-#include "v3_rnd.h"
+#include "../../../../../reference/shims/bfme_randomizer_dtor/v3_rnd.h"
 #include "vector2.h"
 
 const float Vector3Randomizer::OOIntMax = 1.0f / (float)INT_MAX;
@@ -91,11 +99,7 @@ void Vector3SolidSphereRandomizer::Get_Vector(Vector3 &vector)
 	}
 }
 
-// ?Vector3SolidSphereRandomizer::Get_Maximum_Extent present-unmatched
-float Vector3SolidSphereRandomizer::Get_Maximum_Extent(void)
-{
-	return Radius;
-}
+// Vector3SolidSphereRandomizer::Get_Maximum_Extent: defined in Vector3SolidSphereRandomizerExtent.cpp (its row's unit).
 
 // ?Vector3SolidSphereRandomizer::Scale present-unmatched
 void Vector3SolidSphereRandomizer::Scale(float scale)

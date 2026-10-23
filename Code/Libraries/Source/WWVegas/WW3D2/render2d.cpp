@@ -1,6 +1,33 @@
-// cl: /Ireference/shims/bfmestages /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /Ireference/shims/bfmeshader /FIshader.h /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /FIbfme_wwstring_teardown.h /Ireference/shims/wwstring_teardown/zhmd /Ireference/shims/bfmestages /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// Link view first: Vector4(x,y,z,w) stays inline without emitting an SSE
+// copy that competes with retail's integer-move owner (0x006D8A30).
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it; retail links the
+// /O1 body at 0x00001423. Instantiate it first in an unemitted anchor (the
+// lookuptable.cpp pattern) so this unit's copy is that body.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+// Preserve native inline math without a competing Normalize COMDAT.
+#include "always.h"
+#include "wwmath.h"
+#define BFME_VECTOR2_NORMALIZE_INLINE_ONLY
+#include "../../../../../reference/shims/wwmath/Vector2.h"
+#undef BFME_VECTOR2_NORMALIZE_INLINE_ONLY
+#include "../../../../../reference/shims/bfme_matrix3d_sse_link/vector4.h"
 // Ported verbatim from the Generals Zero Hour reference
 // (Libraries/Source/WWVegas/WW3D2/render2d.cpp); this unit had no counterpart under Code/.
+
+// BFME 2 has no W3D memory pools (see Code/Libraries/Source/WWVegas/WWLib/always.h).
+#include "always.h"
+#undef W3DMPO_GLUE
+#define W3DMPO_GLUE(ARGCLASS)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -60,6 +87,13 @@
 #include "wwprofile.h"
 #include "wwmemlog.h"
 #include "assetmgr.h"
+// bfme link decl-only begin
+template <> bool VectorClass<Vector2>::operator==(VectorClass<Vector2> const &) const;
+// bfme link decl-only end
+
+// Retail Vector2/Vector4 resize bodies belong to Vector2Resize.cpp.
+// Declare their specializations so this consumer references those owners.
+template <> bool VectorClass<Vector2>::Resize(int newsize, Vector2 const *array);
 
 //#pragma optimize("", off)
 //#pragma MESSAGE("************************************** WARNING, optimization disabled for debugging purposes")
@@ -188,25 +222,21 @@ void Render2DClass::Enable_Additive(bool b)
 	}
 }
 
-// ?Enable_Texturing@Render2DClass@@ present-unmatched
-void Render2DClass::Enable_Texturing(bool b)
-{
-	if (b) {
-		Shader.Set_Texturing( ShaderClass::TEXTURING_ENABLE );
-	}
-	else {
-		Shader.Set_Texturing( ShaderClass::TEXTURING_DISABLE );
-	}
-}
+// Render2DClass::Enable_Texturing: Zero Hour's out-of-line body (Shader
+// Set_Texturing) is not ported. BFME 2 has no out-of-line copy (retail holds
+// no body for it) and inlines it as a byte store: W3DDisplay::drawRectClock
+// (0x00045B45) writes byte +0x48 of the Render2DClass where Zero Hour calls
+// Enable_Texturing(FALSE). A strong copy here would collide with that inline
+// definition (W3DDisplayDrawRectClock.cpp) at link time.
 
 // Screen globals read by the coordinate bias below. The resolution words are
 // unsigned ints (retail converts them with fild plus the 2^32 fixup); the flag
-// byte is WW3D::IsScreenUVBiased (ww3d.cpp). All three addresses are already
-// bound by the matched getter rows over them (GlobalByteGetters.cpp and
-// Rva0011009AGetters.cpp), so these reuse the established spellings.
-extern unsigned char g_Va00DEC3D7;
-extern int g_Va00DB5FD4;
-extern int g_Va00DB5FD8;
+// byte is WW3D::IsScreenUVBiased (ww3d.cpp), reached through its inline
+// accessor so the coordinate bias and getter share the same defined datum.
+// Matched DIR32 sites place these screen globals at VA 0x00DB5FD4 and
+// 0x00DB5FD8. Retail stores 0x00000280 (640) and 0x000001E0 (480).
+int BfmeRenderWidth = 640;
+int BfmeRenderHeight = 480;
 
 void	Render2DClass::Set_Coordinate_Range( const RectClass & range )
 {
@@ -219,12 +249,12 @@ void	Render2DClass::Set_Coordinate_Range( const RectClass & range )
 	// Retail folds the UV-bias straight into CoordinateOffset: no Biased copy
 	// and no call. BFME1 derives the same shape for its own retail
 	// (Render2DSetCoordinateRangeThunk.cpp over lotrbfme.exe 0x00933A50).
-	if ( g_Va00DEC3D7 ) {	// Global bias setting
+	if ( WW3D::Is_Screen_UV_Biased() ) {	// Global bias setting
 		Vector2 bais_add( -0.5f ,-0.5f );	// offset by -0.5,-0.5 in pixels
 
 		// Convert from pixels to (-1,1)-(1,-1) units
-		bais_add.X = bais_add.X / ( (unsigned)g_Va00DB5FD4 * 0.5f );
-		bais_add.Y = bais_add.Y / ( (unsigned)g_Va00DB5FD8 * -0.5f );
+		bais_add.X = bais_add.X / ( (unsigned)BfmeRenderWidth * 0.5f );
+		bais_add.Y = bais_add.Y / ( (unsigned)BfmeRenderHeight * -0.5f );
 
 		CoordinateOffset.X = CoordinateOffset.X + bais_add.X;
 		CoordinateOffset.Y = CoordinateOffset.Y + bais_add.Y;
@@ -250,13 +280,13 @@ void	  Render2DClass::Update_Bias( void )
 
 #if 0
 // ?Convert_Vert@Render2DClass@@ present-unmatched
-Vector2 Render2DClass::Convert_Vert( const Vector2 & v ) 
+Vector2 Render2DClass::Convert_Vert( const Vector2 & vec ) 
 {
 	Vector2 out;
 
 	// Convert to (-1,1)-(1,-1)
-	out.X = v.X * CoordinateScale.X + CoordinateOffset.X;
-	out.Y = v.Y * CoordinateScale.Y + CoordinateOffset.Y;
+	out.X = vec.X * CoordinateScale.X + CoordinateOffset.X;
+	out.Y = vec.Y * CoordinateScale.Y + CoordinateOffset.Y;
 
 	// Convert to pixels 
 	out.X = (out.X + 1.0f) * (Get_Screen_Resolution().Width() * 0.5f);
@@ -533,58 +563,12 @@ void	Render2DClass::Add_Quad( const Vector2 & v0, const Vector2 & v1, const Vect
 	Internal_Add_Quad_Colors( color );
 }
 
-// ?Add_Quad@Render2DClass@@ present-unmatched
-void	Render2DClass::Add_Quad( const RectClass & screen, unsigned long color )
-{
-	Internal_Add_Quad_Indicies( Vertices.Count() );
-	Internal_Add_Quad_Vertices( screen );
-	Internal_Add_Quad_UVs( RectClass( 0,0,1,1 ) );
-	Internal_Add_Quad_Colors( color );
-}
-
 /*
 ** Add Tri
 */
-// ?Add_Tri@Render2DClass@@ present-unmatched
-void	Render2DClass::Add_Tri( const Vector2 & v0, const Vector2 & v1, const Vector2 & v2, const Vector2 & uv0, const Vector2 & uv1, const Vector2 & uv2, unsigned long color )
-{
-	int old_vert_count = Vertices.Count();
+// Add_Tri is recovered in Render2DClassAddTri.cpp using the native batch layout.
 
-	// Add the verticies (translated to new coordinates)
-#if 0
-	Vertices.Add( Convert_Vert( v0 ), new_vert_count );
-	Vertices.Add( Convert_Vert( v1 ), new_vert_count );
-	Vertices.Add( Convert_Vert( v2 ), new_vert_count );
-#else
-	Convert_Vert( *Vertices.Uninitialized_Add(), v0 );
-	Convert_Vert( *Vertices.Uninitialized_Add(), v1 );
-	Convert_Vert( *Vertices.Uninitialized_Add(), v2 );
-	
-#endif
-
-	// Add the uv coordinates
-
-	*UVCoordinates.Uninitialized_Add()=uv0;
-	*UVCoordinates.Uninitialized_Add()=uv1;
-	*UVCoordinates.Uninitialized_Add()=uv2;
-
-	// Add the colors
-	*Colors.Uninitialized_Add()=color;
-	*Colors.Uninitialized_Add()=color;
-	*Colors.Uninitialized_Add()=color;
-
-	// Add the faces
-	*Indices.Uninitialized_Add()=old_vert_count + 0;
-	*Indices.Uninitialized_Add()=old_vert_count + 1;
-	*Indices.Uninitialized_Add()=old_vert_count + 2;
-
-}
-
-// ?Add_Line@Render2DClass@@ present-unmatched
-void	Render2DClass::Add_Line( const Vector2 & a, const Vector2 & b, float width, unsigned long color )
-{
-	Add_Line( a, b, width, RectClass( 0,0,1,1 ), color );
-}
+// Add_Line(a, b, width, color) is recovered in Render2DClassAddQuadColor.cpp (0x00042A4D).
 
 // ?Add_Line@Render2DClass@@ present-unmatched
 void	Render2DClass::Add_Line( const Vector2 & a, const Vector2 & b, float width, const RectClass & uv, unsigned long color )
@@ -593,7 +577,14 @@ void	Render2DClass::Add_Line( const Vector2 & a, const Vector2 & b, float width,
 	float temp = corner_offset.X;					// Rotate 90
 	corner_offset.X = corner_offset.Y;
 	corner_offset.Y = -temp;
-	corner_offset.Normalize();						// scale to length width/2
+	// Expand the donor normalization here: the standalone retail Vector2
+	// helper has its own /Oy- owner in Vector2_Normalize.cpp.
+	float len2 = corner_offset.Length2();
+	if (len2 != 0.0f) {
+		float oolen = WWMath::Inv_Sqrt(len2);
+		corner_offset.X *= oolen;
+		corner_offset.Y *= oolen;
+	}
 	corner_offset *= width / 2;
 
 	Add_Quad( a - corner_offset, a + corner_offset, b - corner_offset, b + corner_offset, uv, color );
@@ -602,11 +593,7 @@ void	Render2DClass::Add_Line( const Vector2 & a, const Vector2 & b, float width,
 }
 
 
-// ?Add_Line@Render2DClass@@ present-unmatched
-void	Render2DClass::Add_Line( const Vector2 & a, const Vector2 & b, float width, unsigned long color, unsigned long color2 )
-{
-	Add_Line( a, b, width, RectClass( 0,0,1,1 ), color, color2 );
-}
+// Add_Line(a, b, width, color, color2) is recovered in Render2DClassAddQuadColor.cpp (0x00042C80).
 
 // ?Add_Line@Render2DClass@@ present-unmatched
 void Render2DClass::Add_Line( const Vector2 & a, const Vector2 & b, float width, const RectClass & uv, unsigned long color , unsigned long color2)
@@ -615,7 +602,14 @@ void Render2DClass::Add_Line( const Vector2 & a, const Vector2 & b, float width,
 	float temp = corner_offset.X;					// Rotate 90
 	corner_offset.X = corner_offset.Y;
 	corner_offset.Y = -temp;
-	corner_offset.Normalize();						// scale to length width/2
+	// Expand the donor normalization here: the standalone retail Vector2
+	// helper has its own /Oy- owner in Vector2_Normalize.cpp.
+	float len2 = corner_offset.Length2();
+	if (len2 != 0.0f) {
+		float oolen = WWMath::Inv_Sqrt(len2);
+		corner_offset.X *= oolen;
+		corner_offset.Y *= oolen;
+	}
 	corner_offset *= width / 2;
 
 	Add_Quad_HGradient( a - corner_offset, a + corner_offset, b - corner_offset, b + corner_offset, uv, color,color2);
@@ -647,131 +641,6 @@ void	Render2DClass::Add_Rect( const RectClass & rect, float border_width, uint32
 	return ;
 }
 
-// ?Add_Outline@Render2DClass@@ present-unmatched
-void	Render2DClass::Add_Outline( const RectClass & rect, float width, unsigned long color )
-{
-	Add_Outline( rect, width, RectClass( 0,0,1,1 ), color );
-}
-
-// ?Add_Outline@Render2DClass@@ present-unmatched
-void	Render2DClass::Add_Outline( const RectClass & rect, float width, const RectClass & uv, unsigned long color )
-{
-	//
-	//	Pretty straight forward, simply add the four side of the rectangle as lines.
-	//
-	/** @todo colin, I had to tweak these to get precise line drawing, as we want
-	the UV bias on, but it just isn't lining up */
-	Add_Line (Vector2 (rect.Left + 1, rect.Bottom),	Vector2 (rect.Left + 1, rect.Top + 1),		width, color);
-	Add_Line (Vector2 (rect.Left, rect.Top + 1),		Vector2 (rect.Right - 1, rect.Top + 1),			width, color);
-	Add_Line (Vector2 (rect.Right, rect.Top),		Vector2 (rect.Right, rect.Bottom - 1),		width, color);
-	Add_Line (Vector2 (rect.Right, rect.Bottom),	Vector2 (rect.Left + 1, rect.Bottom),	width, color);	
-}
-
-// ?Render@Render2DClass@@ present-unmatched
-void Render2DClass::Render(void)
-{
-	if ( !Indices.Count() || IsHidden) {
-		return;
-	}
-
-	// save the view and projection matrices since we're nuking them
-	Matrix4x4 view,proj;
-	Matrix4x4 identity(true);
-
-	DX8Wrapper::Get_Transform(D3DTS_VIEW,view);
-	DX8Wrapper::Get_Transform(D3DTS_PROJECTION,proj);
-
-	//
-	//	Configure the viewport for entire screen
-	//
-	int width, height, bits;
-	bool windowed;
-	WW3D::Get_Device_Resolution( width, height, bits, windowed );
-	D3DVIEWPORT8 vp = { 0 };
-	vp.X			= 0;
-	vp.Y			= 0;
-	vp.Width		= width;
-	vp.Height	= height;
-	vp.MinZ		= 0;
-	vp.MaxZ		= 1;
-	DX8Wrapper::Set_Viewport(&vp);
-	DX8Wrapper::Set_Texture(0,Texture);
-
-	VertexMaterialClass *vm=VertexMaterialClass::Get_Preset(VertexMaterialClass::PRELIT_DIFFUSE);
-	DX8Wrapper::Set_Material(vm);
-	REF_PTR_RELEASE(vm);
-
-	DX8Wrapper::Set_World_Identity();
-	DX8Wrapper::Set_View_Identity();
-	DX8Wrapper::Set_Transform(D3DTS_PROJECTION,identity);
-
-	DynamicVBAccessClass vb(BUFFER_TYPE_DYNAMIC_DX8,dynamic_fvf_type,Vertices.Count());
-	{
-		DynamicVBAccessClass::WriteLockClass Lock(&vb);
-		const FVFInfoClass &fi=vb.FVF_Info();
-		unsigned char *va=(unsigned char*)Lock.Get_Formatted_Vertex_Array();
-		int i;
-
-		for (i=0; i<Vertices.Count(); i++)
-		{
-			Vector3 temp(Vertices[i].X,Vertices[i].Y,ZValue);
-			*(Vector3*)(va+fi.Get_Location_Offset())=temp;
-			*(unsigned int*)(va+fi.Get_Diffuse_Offset())=Colors[i];
-			*(Vector2*)(va+fi.Get_Tex_Offset(0))=UVCoordinates[i];
-			va+=fi.Get_FVF_Size();
-		}		
-	}
-
-	DynamicIBAccessClass ib(BUFFER_TYPE_DYNAMIC_DX8,Indices.Count());
-	try {
-		DynamicIBAccessClass::WriteLockClass Lock(&ib);
-			unsigned short *mem=Lock.Get_Index_Array();
-			for (int i=0; i<Indices.Count(); i++)
-				mem[i]=Indices[i];
-	
-		IndexBufferExceptionFunc();
-	} catch(...) {
-		IndexBufferExceptionFunc();
-	}
-
-	DX8Wrapper::Set_Vertex_Buffer(vb);
-	DX8Wrapper::Set_Index_Buffer(ib,0);
-
-	if (IsGrayScale)
-	{	//special case added to draw grayscale non-alpha blended images.
-		DX8Wrapper::Set_Shader(ShaderClass::_PresetOpaqueShader);
-		DX8Wrapper::Apply_Render_State_Changes();	//force update of all regular W3D states.
-		if (DX8Wrapper::Get_Current_Caps()->Support_Dot3())
-		{	//Override W3D states with customizations for grayscale
-			DX8Wrapper::Set_DX8_Render_State(D3DRS_TEXTUREFACTOR, 0x80A5CA8E);
-			DX8Wrapper::Set_DX8_Texture_Stage_State( 0, D3DTSS_COLORARG0, D3DTA_TFACTOR | D3DTA_ALPHAREPLICATE);
-			DX8Wrapper::Set_DX8_Texture_Stage_State( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-			DX8Wrapper::Set_DX8_Texture_Stage_State( 0, D3DTSS_COLORARG2, D3DTA_TFACTOR | D3DTA_ALPHAREPLICATE);
-			DX8Wrapper::Set_DX8_Texture_Stage_State( 0, D3DTSS_COLOROP, D3DTOP_MULTIPLYADD);
-
-			DX8Wrapper::Set_DX8_Texture_Stage_State( 1, D3DTSS_COLORARG1, D3DTA_CURRENT);
-			DX8Wrapper::Set_DX8_Texture_Stage_State( 1, D3DTSS_COLORARG2, D3DTA_TFACTOR);
-			DX8Wrapper::Set_DX8_Texture_Stage_State( 1, D3DTSS_COLOROP, D3DTOP_DOTPRODUCT3);
-		}
-		else
-		{	//doesn't have DOT3 blend mode so fake it another way.
-			DX8Wrapper::Set_DX8_Render_State(D3DRS_TEXTUREFACTOR, 0x60606060);
-			DX8Wrapper::Set_DX8_Texture_Stage_State( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-			DX8Wrapper::Set_DX8_Texture_Stage_State( 0, D3DTSS_COLORARG2, D3DTA_TFACTOR);
-			DX8Wrapper::Set_DX8_Texture_Stage_State( 0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-		}
-	}
-	else
-		DX8Wrapper::Set_Shader(Shader);
-	DX8Wrapper::Draw_Triangles(0,Indices.Count()/3,0,Vertices.Count());	
-
-	DX8Wrapper::Set_Transform(D3DTS_VIEW,view);
-	DX8Wrapper::Set_Transform(D3DTS_PROJECTION,proj);
-	if (IsGrayScale)
-// ?Invalidate@ShaderClass@@ present-unmatched
-		ShaderClass::Invalidate();	//force both stages to be reset.
-
-}
 
 
 /*
@@ -937,4 +806,3 @@ Vector2	Render2DTextClass::Get_Text_Extents( const WCHAR * text )
 
 	return extent;
 }
-

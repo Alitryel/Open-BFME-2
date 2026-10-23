@@ -17,7 +17,7 @@ struct Rva007E9B70Obj
 	virtual unsigned int now();
 };
 
-Rva007E9B70Obj *Rva007E9B70Get();
+int Rva00656B60Get();
 
 class Rva0080A940Owner
 {
@@ -37,8 +37,25 @@ void Rva0080A940Owner::initFromMessage( Rva007E8810Message *msg )
 {
 	m_tid = msg->getInt( "TID", 0 );
 	msg->getString( "FAV-GAME-UID", m_favGameUid, 0x100 );
-	m_t0 = Rva007E9B70Get()->now() + 0x5DC;
-	m_t1 = Rva007E9B70Get()->now() + 0x64;
+	m_t0 = ((Rva007E9B70Obj *)Rva00656B60Get())->now() + 0x5DC;
+	m_t1 = ((Rva007E9B70Obj *)Rva00656B60Get())->now() + 0x64;
 	m_gap168[ 0 ] = 0;
 	finish();
+}
+
+// ?rva0066F730@Rva0066F730@@QAEXPAVRva007E8810Message@@@Z @0x0066F730 8B
+// member forwarder to rowed ?initFromMessage@Rva0080A940Owner@@QAEXPAVRva007E8810Message@@@Z
+// (0x00676840; message arg passes through the shared stack slot). No callers.
+// Honest address name.
+class Rva0066F730
+{
+public:
+	void rva0066F730(Rva007E8810Message *msg);
+private:
+	char m_pad[0x18];
+	Rva0080A940Owner *m_member;
+};
+void Rva0066F730::rva0066F730(Rva007E8810Message *msg)
+{
+	return m_member->initFromMessage(msg);
 }

@@ -1,4 +1,4 @@
-// cl: /O1 /GX /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/moduledata
 // stlport
 // ??1CivilianSpawnUpdateModuleData@@UAE@XZ @ 0x0047FABF 63B
 // Two-member dtor restoring Snapshot base vtable 0x00BBB554: vector at +0x14
@@ -6,28 +6,10 @@
 // via pinned 0x00360D26 (state 0). Layout from ctor TU 0x0047FA55 (base 0x0C
 // filter +0x0C int +0x10 vector +0x14). Vtable 0x00848530 slot 0 is ??_G
 // 0x0047FAA3. LargeGroupBonusUpdateModuleDataDtor precedent with novtable
-// suppressing derived store and inline Snapshot restoring BBB554.
+// suppressing derived store and the shared Snapshot base dtor restoring BBB554.
 #include <vector>
-class Xfer;
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc(Xfer *xfer);
-	virtual void loadPostProcess();
-	virtual void xfer(Xfer *xfer);
-};
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
-class AsciiString
-{
-public:
-	~AsciiString();
-private:
-	void *m_data;
-};
+#include "Common/Snapshot.h"
+#include "ascii_string.h"
 class Rva003623E5Filter
 {
 public:

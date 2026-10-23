@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva004B938E@SpecialPowerCreate@@SA?AW4NameKeyType@@XZ @0x004B938E
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@SpecialPowerCreate@@UBE?AW4NameKeyType@@XZ @0x004B938E
 // (69B): cached pool-name key for SpecialPowerCreate. The class
 // identity comes from the pool-name string the body pushes
 // ("SpecialPowerCreate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class SpecialPowerCreate
 {
 public:
-	static NameKeyType rva004B938E();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004B938E@SpecialPowerCreate@@SA?AW4NameKeyType@@XZ
-NameKeyType SpecialPowerCreate::rva004B938E()
+// ?getModuleNameKey@SpecialPowerCreate@@UBE?AW4NameKeyType@@XZ
+NameKeyType SpecialPowerCreate::getModuleNameKey() const
 {
 	static NameKeyType TheSpecialPowerCreatePoolKey =
 		TheNameKeyGenerator->nameToKey("SpecialPowerCreate");

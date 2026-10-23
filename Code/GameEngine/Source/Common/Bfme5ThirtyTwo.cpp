@@ -88,7 +88,12 @@ int __stdcall bfmeColor(const BfmeThingCZ *thing, int unused, bool bright)
 	return color;
 }
 
-extern int g_bfmeVtableCZ[];					// retail 0x0112D210
+int g_bfmeVtableCZ[30] = {
+	11051360, 11682992, 4438032, 4438032, 4438032, 4438032, 4438032, 11051312,
+	4438032, 4438032, 4438032, 4438032, 4438032, 4438032, 4438032, 4438032,
+	4438032, 4438032, 4438032, 1348887890, 7037793, 1663070030, 1919970671, 1769173861,
+	28271, 1699897188, 1667321958, 107, 1867407204, 25966
+};					// retail 0x008E4A10					// retail 0x008E4A10
 
 class Gen_0081E480
 {
@@ -112,3 +117,8 @@ Gen_0081E480::Gen_0081E480(int first, int second)
 	m_bfmeSecond = second;
 	m_bfmeFlags = 0;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?rva007F76D0@Rva00801670Host@@QAEPAHPAVBfmeVecCZ@@H@Z=?bfmeAt@@YGPAHPAVBfmeVecCZ@@H@Z")
+#pragma comment(linker, "/alternatename:?rva007F76D0@Rva00802550Host@@QAEPAHPAVBfmeVecCZ@@H@Z=?bfmeAt@@YGPAHPAVBfmeVecCZ@@H@Z")

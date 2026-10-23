@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /Oi-
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /Oi-
 //
 // ?parseText@@YA_NPADPAVWinInstanceData@@0PAX@Z, retail 0x00315D6D, 68 bytes.
 // Dedicated TU.
@@ -40,35 +40,8 @@ typedef bool Bool;
 class UnicodeString;
 class AsciiString;
 
-template <typename T>
-class StringBase
-{
-	friend class AsciiString;
-	friend class UnicodeString;
+#include "ascii_string.h"
 
-private:
-	struct Header
-	{
-		int ref_count;
-		unsigned short length;
-		unsigned short capacity;
-		T data[1];
-	};
-
-	Header *m_data;
-
-public:
-	void set(const char *s);
-};
-
-class AsciiString
-{
-public:
-	void set(const char *s) { m_data.set(s); }
-
-private:
-	StringBase<char> m_data;
-};
 
 class WinInstanceData
 {

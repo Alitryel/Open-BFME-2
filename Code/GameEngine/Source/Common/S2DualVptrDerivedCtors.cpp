@@ -26,7 +26,7 @@ class GenBase009A1A30
 {
 public:
 	GenBase009A1A30();
-	virtual void keepFirst();
+	virtual void keepFirst() = 0;
 	int m_pad;
 	int m_bfme2Pad;	// BFME2: the second base sits at +0xC, not +8
 };
@@ -34,7 +34,7 @@ public:
 class GenBase01073744
 {
 public:
-	virtual void keepSecond();
+	virtual void keepSecond() = 0;
 };
 
 #define BFME_DUAL_VPTR_CTOR( NAME )                                       \
@@ -52,3 +52,8 @@ public:
 BFME_DUAL_VPTR_CTOR( Rva001129B0 )
 // @??0Rva00694E00@@QAE@XZ 0x00694E00
 BFME_DUAL_VPTR_CTOR( Rva00694E00 )
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?keepOwn@Rva001129B0@@UAEXXZ=__purecall")

@@ -17,6 +17,12 @@ class MultiIniFieldParse;
 
 struct FieldParse;
 
+extern const int s_transportAiFieldTable[];
+extern const int s_supplyTruckAiFieldTable[];
+extern const int s_deployStyleFieldTable[];
+extern const int s_assaultTransportFieldTable[];
+extern const int s_animalAiFieldTable[];
+extern const int s_wanderAiFieldTable[];
 class MultiIniFieldParse
 {
 public:
@@ -32,7 +38,7 @@ public:
 // ?buildFieldParse@TransportAIUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z
 void TransportAIUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
-	parse.add(reinterpret_cast<const FieldParse *>(0x00BF9378), 0);
+	parse.add(reinterpret_cast<const FieldParse *>(s_transportAiFieldTable), 0);
 }
 
 class SupplyTruckAIUpdateModuleData
@@ -49,10 +55,10 @@ public:
 // HarvestPreparationTime at +0x7C plus HarvestActionTime at +0x80). All eight
 // fields match BFME1's SupplyTruckAIUpdateModuleData table verbatim at identical
 // offsets. The owning factory at 0x0024EF11 pushes this proc's VA.
-void SupplyTruckAIUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
+inline void SupplyTruckAIUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	TransportAIUpdateModuleData::buildFieldParse(parse);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00BEF4B0), 0);
+	parse.add(reinterpret_cast<const FieldParse *>(s_supplyTruckAiFieldTable), 0);
 }
 
 class DeployStyleAIUpdateModuleData
@@ -71,10 +77,10 @@ public:
 // offsets (votes 5/3); BFME2 appends MustDeployToAttack plus
 // DeployedAttributeModifier. The owning factory at 0x0025517E pushes this
 // proc's VA (unique image-wide).
-void DeployStyleAIUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
+inline void DeployStyleAIUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	TransportAIUpdateModuleData::buildFieldParse(parse);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00BEECB0), 0);
+	parse.add(reinterpret_cast<const FieldParse *>(s_deployStyleFieldTable), 0);
 }
 
 class AssaultTransportAIUpdateModuleData
@@ -83,7 +89,7 @@ public:
 	static void buildFieldParse(MultiIniFieldParse &parse);
 };
 
-// ?buildFieldParse@AssaultTransportAIUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z,
+// ?buildFieldParse@AssaultTransportAIUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z
 // retail 0x0024D248 (27 bytes): base-table call above plus the
 // AssaultTransport table at 0x00BEED74 (MembersGetHealedAtLifeRatio at +0x64
 // plus ClearRangeRequiredToContinueAttackMove at +0x68). Both fields match
@@ -91,10 +97,10 @@ public:
 // offsets (votes 2/2). The owning factory at 0x0024D29E pushes this proc's
 // VA (unique image-wide); the behavior side (AssaultTransportAIUpdate pool
 // key plus name getter) is rowed in its own file-unit.
-void AssaultTransportAIUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
+inline void AssaultTransportAIUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	TransportAIUpdateModuleData::buildFieldParse(parse);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00BEED74), 0);
+	parse.add(reinterpret_cast<const FieldParse *>(s_assaultTransportFieldTable), 0);
 }
 
 class AnimalAIUpdateModuleData
@@ -103,7 +109,7 @@ public:
 	static void buildFieldParse(MultiIniFieldParse &parse);
 };
 
-// ?buildFieldParse@AnimalAIUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z,
+// ?buildFieldParse@AnimalAIUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z
 // retail 0x0024BE7A (27 bytes): base-table call above plus the AnimalAI table
 // at 0x00BEEB88 (FleeRange at +0x64 plus FleeDistance at +0x68 plus
 // WanderPercentage at +0x6C matching the ctor stores 0x14/0x64/0x32 at
@@ -112,7 +118,7 @@ public:
 void AnimalAIUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	TransportAIUpdateModuleData::buildFieldParse(parse);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00BEEB88), 0);
+	parse.add(reinterpret_cast<const FieldParse *>(s_animalAiFieldTable), 0);
 }
 
 class WanderAIUpdateModuleData
@@ -121,7 +127,7 @@ public:
 	static void buildFieldParse(MultiIniFieldParse &parse);
 };
 
-// ?buildFieldParse@WanderAIUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z,
+// ?buildFieldParse@WanderAIUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z
 // retail 0x0024F1F2 (27 bytes): base-table call above plus the Wander table
 // at 0x00BEF580 (WildBeast at +0x64 plus ConditionForEntry at +0x68 plus
 // Selectable at +0x6C plus WanderDistance at +0x70). The owning factory at
@@ -130,5 +136,15 @@ public:
 void WanderAIUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	TransportAIUpdateModuleData::buildFieldParse(parse);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00BEF580), 0);
+	parse.add(reinterpret_cast<const FieldParse *>(s_wanderAiFieldTable), 0);
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitTransportAIUpdateModuleDataBuildFieldParse@@YAXAAVMultiIniFieldParse@@@Z present-unmatched
+void bfmeEmitTransportAIUpdateModuleDataBuildFieldParse(MultiIniFieldParse &parse)
+{
+	SupplyTruckAIUpdateModuleData::buildFieldParse(parse);
+	DeployStyleAIUpdateModuleData::buildFieldParse(parse);
+	AssaultTransportAIUpdateModuleData::buildFieldParse(parse);
+}
+#pragma inline_depth()

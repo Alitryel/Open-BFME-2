@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 //
 // Retail 0x00249430, 254 bytes [0x00249430,0x0024952E).
 // LANAPI::OnGameCreate. Ported from Open-BFME-1
@@ -17,38 +17,12 @@ typedef int Int;
 typedef int Color;
 typedef bool Bool;
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-	friend class UnicodeString;
-
-private:
-	StringBase( const T *text );
-	StringBase( const StringBase<T> &other );
-	~StringBase() { releaseBuffer(); }
-
-	void releaseBuffer();
-
-	void *m_data;
-};
+#include "ascii_string.h"
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
-class AsciiString : private StringBase<char>
-{
-public:
-	AsciiString( const char *text ) : StringBase<char>( text ) {}
-	AsciiString( const AsciiString &other ) : StringBase<char>( other ) {}
-	~AsciiString() {}
-};
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/UnicodeString.h
-class UnicodeString : private StringBase<unsigned short>
-{
-public:
-	UnicodeString( const unsigned short *text ) : StringBase<unsigned short>( text ) {}
-	UnicodeString( const UnicodeString &other ) : StringBase<unsigned short>( other ) {}
-	~UnicodeString() {}
-};
+#include "unicode_string.h"
 
 class Shell
 {
@@ -68,6 +42,15 @@ struct Rva004469D1Receiver
 	void Rva004469D1Advance( void );
 };
 extern Rva004469D1Receiver *g_Va00E03354;
+
+// Rowed callee at 0x004469D1: ?OnGameCreate@AptLanLobby@@QAEXXZ (the LAN
+// lobby screen, named from WorldBuilder's AptLanLobby.cpp). Declared exactly as its owner row spells it;
+// the call casts the global.
+class AptLanLobby
+{
+public:
+	void OnGameCreate( void );
+};
 
 class GameTextInterface
 {
@@ -165,7 +148,7 @@ void LANAPI::OnGameCreate( LANAPIInterface::ReturnType ret )
 	{
 		if( g_Va00E03354 )
 		{
-			g_Va00E03354->Rva004469D1Advance();
+			((AptLanLobby *)g_Va00E03354)->OnGameCreate();
 		}
 		else
 		{
@@ -190,3 +173,10 @@ void LANAPI::OnGameCreate( LANAPIInterface::ReturnType ret )
 		}
 	}
 }
+
+// ?g_Va00E03354@@3PAURva004469D1Receiver@@A: the global at this VA is ?g_Va00A03354@@3HA; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?g_Va00E03354@@3PAURva004469D1Receiver@@A=?g_Va00A03354@@3HA")
+#pragma comment(linker, "/alternatename:?g_Va00A03354@@3PAUGlobalA03354@@A=?g_Va00A03354@@3HA")
+#pragma comment(linker, "/alternatename:?g_Va00A03354@@3PAUOuter00446A77@@A=?g_Va00A03354@@3HA")
+// ?g_Va00E03354@@3PAURva004469D1Receiver@@A: the global at VA 0xe03354 is ?g_Va00A03354@@3HA.
+#pragma comment(linker, "/alternatename:?g_Va00E03354@@3PAURva004469D1Receiver@@A=?g_Va00A03354@@3HA")

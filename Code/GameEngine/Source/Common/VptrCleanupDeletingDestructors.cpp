@@ -19,6 +19,12 @@
 // scalar operator delete at 0x0002FD60. Identity beyond the address is not
 // recovered: every NAME derives from its retail address.
 
+// These zero-argument thiscall destinations now have unique matched rows:
+// the first two restore base vptrs; the third clears the TagBlockIndex SList.
+#pragma comment(linker, "/alternatename:?run@Rva007EB6C0Cleanup@@QAEXXZ=??1BfmeDirtyBase@@UAE@XZ")
+#pragma comment(linker, "/alternatename:?run@Rva007FA650Cleanup@@QAEXXZ=??1Rva00666BA0@@UAE@XZ")
+#pragma comment(linker, "/alternatename:?run@Rva009EDD30Cleanup@@QAEXXZ=?Remove_All@?$SList@VTagBlockIndex@@@@UAEXXZ")
+
 class Rva007EB6C0Cleanup
 {
 public:

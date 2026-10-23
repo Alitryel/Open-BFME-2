@@ -2,6 +2,10 @@
 // Matcheddeletingdtor7F8970 andctor7F8730 writeprimaryvtable112B8A4 atthis0;
 // its slot1 directlycontainsVA00BF8790. Secondarytable112B8A0 isatthis4.
 // Demangler source/assertstrings establishsubsystem; originalmethodnameunknown.
+// The shared headers declare these members with the access/virtual spelling
+// retail's vftables reference; the ledger row keeps the spelling this TU
+// compiled to. Same function, same address: bind the header spelling here.
+#pragma comment(linker, "/alternatename:?rva007F8790@BfmeThingTWA@@UAEXPBDH0E@Z=?rva007F8790@BfmeThingTWA@@UAEXPBDH0E@Z")
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -44,7 +48,7 @@ struct Rva007E9B70Obj
 	virtual unsigned int slot08();
 };
 
-Rva007E9B70Obj *Rva007E9B70Get();
+int Rva00656B60Get();
 
 class BfmeStrTWA
 {
@@ -60,9 +64,10 @@ public:
 class BfmeThingTWA
 {
 public:
-	void rva007F8790( const char *gameID, int port,
+	// Slot 1 of the primary table 0x00CE30B8 that the constructor installs
+	// at +0; the real vptr replaces the explicit word that modelled it.
+	virtual void rva007F8790( const char *gameID, int port,
 		const char *session, unsigned char flag );
-	void *m_bfmeVft0;
 	void *m_bfmeVft1;
 	Rva00804150ProtoMangleRef *m_bfme08;
 	int m_bfme0c;
@@ -88,7 +93,7 @@ void BfmeThingTWA::rva007F8790( const char *gameID, int port,
 
 	Rva008043F0Connect( ref, port, session );
 	m_bfmeStr.m_bfme24 = flag;
-	m_bfmeStr.m_bfme20 = Rva007E9B70Get()->slot08();
+	m_bfmeStr.m_bfme20 = ((Rva007E9B70Obj *)Rva00656B60Get())->slot08();
 	m_bfme0c = 1;
 }
 

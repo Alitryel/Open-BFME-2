@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc /O1
+// cl: /DNDEBUG /MD /EHsc
 // Xfer::operator==(Version &), ported from Open-BFME-1's
 // XferVersionTransfer.cpp. BFME 2 inserts one virtual ahead of the raw
 // transfer, so it is slot +0x98 here (BFME 1: +0x94); the version checks and
@@ -75,7 +75,7 @@ Xfer &Xfer::operator==(Xfer::Version &v)
 {
 	if (isStoring())
 	{
-		transfer(reinterpret_cast<void *>(0x00766572), &v.data[1], 1);
+		transfer(reinterpret_cast<void *>(('v' << 16) | ('e' << 8) | 'r'), &v.data[1], 1);
 	}
 	else
 	{
@@ -84,7 +84,7 @@ Xfer &Xfer::operator==(Xfer::Version &v)
 		unsigned char earliestVersion;
 		{
 			previousVersion = v.data[1];
-			transfer(reinterpret_cast<void *>(0x00766572), &v.data[1], 1);
+			transfer(reinterpret_cast<void *>(('v' << 16) | ('e' << 8) | 'r'), &v.data[1], 1);
 			loadedVersion = v.data[1];
 			earliestVersion = v.data[0];
 		}

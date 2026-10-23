@@ -15,7 +15,7 @@
 **	You should have received a copy of the GNU General Public License
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-// cl: /O1 /EHsc
+// cl: /Ireference/shims/bfme2_ascii /EHsc
 //
 // getStringFromRegistry, retail 0x00234417 (190 bytes). Reads a wide
 // registry string (typically DisplayName) under a caller-supplied root key
@@ -49,35 +49,8 @@ extern "C" __declspec(dllimport) LONG __stdcall RegCloseKey(HKEY hKey);
 // Only what this body reaches of the engine's reference-counted string:
 // the header layout behind str(), the out-of-line releaseBuffer the
 // destructor forwards to, and the one-argument set (pinned at 0x00565D).
-template <typename T>
-class StringBase
-{
-public:
-	void set(const T *src);
+#include "unicode_string.h"
 
-	struct Header
-	{
-		int ref_count;
-		unsigned short length;
-		unsigned short capacity;
-		T data[1];
-	};
-
-	void releaseBuffer();
-	Header *m_data;
-};
-
-class UnicodeString
-{
-public:
-	~UnicodeString()
-	{
-		m_data.releaseBuffer();
-	}
-
-private:
-	StringBase<unsigned short> m_data;
-};
 
 static const unsigned short *registryString(const UnicodeString &value)
 {

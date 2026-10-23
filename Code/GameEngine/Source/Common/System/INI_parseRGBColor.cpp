@@ -19,27 +19,18 @@ public:
 	static void parseRGBColor(INI *ini, void *instance, void *store, const void *userData);
 };
 
-struct RGBColor
-{
-	float red;
-	float green;
-	float blue;
-};
+#include "../../../../Libraries/Include/Lib/RGBColor.h"
 
-struct INIException
+class INIException
 {
+public:
+	INIException(int argCount, const char *format, ...);
 	char *mFailureMessage;
 	int mErrorCode;
+	INIException(const INIException &that);
+	~INIException();
 };
 
-extern "C" void rva002f681_fill(void *dst, int code, const char *fmt, ...);
-__declspec(noreturn) void __stdcall _CxxThrowException(void *pExc, void *pInfo);
-
-// Address anchor only: the throw site pushes this object's address as an
-// immediate (DIR32, copied from retail's throwinfo at 0xCFE2FC). Content is
-// never compared; the real chain lives in the retail image.
-struct ParseRGBColorThrowInfoAnchor { int a; int b; int c; int d; };
-static const ParseRGBColorThrowInfoAnchor parseRGBColorThrowInfoAnchor = { 0, 0, 0, 0 };
 
 // ?parseRGBColor@INI@@SAXPAV1@PAX1PBX@Z
 void INI::parseRGBColor(INI *ini, void * /*instance*/, void *store, const void * /*userData*/)
@@ -49,9 +40,7 @@ void INI::parseRGBColor(INI *ini, void * /*instance*/, void *store, const void *
 	for (int i = 0; i < 3; i++) {
 		colors[i] = ini->scanInt(ini->getNextSubToken(names[i]));
 		if (colors[i] < 0 || colors[i] > 255) {
-			INIException e;
-			rva002f681_fill(&e, 3, "color value %s=%i out of range (0..255)", names[i], colors[i]);
-			_CxxThrowException(&e, (void *)&parseRGBColorThrowInfoAnchor);
+			throw INIException(3, "color value %s=%i out of range (0..255)", names[i], colors[i]);
 		}
 	}
 

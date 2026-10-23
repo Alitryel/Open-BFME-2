@@ -1,5 +1,5 @@
 // stlport
-// cl: /O1 /EHs /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
+// cl: /EHs /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // BFME1 RvaTreeInsertUniqueHint.cpp and STLport tree/pair semantic donor.
 // Comparator0x240CE0 orders signed dword then AsciiString at key+4.
 // Keycopy0xCF475 calls AsciiString copy0x365F0; paircopy0x23E90D adds mapped dword+8.
@@ -7,8 +7,7 @@
 // Subscript0x246FF6 proves zero-initialized mapped storage and trivial cleanup:
 // the temporary destroys only its key's AsciiString through releaseBuffer36410.
 #include <map>
-template<class T> class StringBase { void *m_data; void releaseBuffer(); protected: __forceinline ~StringBase() { releaseBuffer(); } };
-class AsciiString : private StringBase<char> { public: AsciiString(const AsciiString &); __forceinline ~AsciiString() {} };
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 bool operator<(const AsciiString &, const AsciiString &);
 struct TreeKey00242F5E { int m_id; AsciiString m_name; };
 inline bool operator<(const TreeKey00242F5E &a, const TreeKey00242F5E &b) { return a.m_id < b.m_id || (!(b.m_id < a.m_id) && a.m_name < b.m_name); }

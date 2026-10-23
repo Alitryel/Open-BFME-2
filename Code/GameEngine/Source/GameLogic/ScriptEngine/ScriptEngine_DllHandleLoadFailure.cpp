@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // DllHandle::LoadFailure, retail 0x00203EA8 (18 bytes).
 // The thrown object of DllHandle::DllHandle on LoadLibrary failure; throw
@@ -9,6 +9,9 @@
 // vtable explicitly over the novtable model, mirroring FunctorNotSetCtor.
 // Shard (not graft): the home DllHandle TU carries /EHsc, which would wrap
 // this frameless leaf.
+
+extern "C" const void *const vtbl_00BD3B54[];  // ??_7FunctorNotSet@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BD3B54=??_7FunctorNotSet@@6B@")
 
 class __declspec(dllimport) exception
 {
@@ -36,5 +39,5 @@ public:
 DllHandle::LoadFailure::LoadFailure()
 	: FunctorNotSet()
 {
-	*(unsigned int *)this = 0x00BD3B54;
+	*(unsigned int *)this = ((unsigned int)vtbl_00BD3B54);
 }

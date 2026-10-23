@@ -21,7 +21,15 @@ private:
 };
 
 // ?friend_newModuleInstance@DozerAIUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *DozerAIUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *DozerAIUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new DozerAIUpdate(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitDozerAIUpdateInstanceNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitDozerAIUpdateInstanceNew(Thing *thing, const ModuleData *moduleData)
+{
+	DozerAIUpdate::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

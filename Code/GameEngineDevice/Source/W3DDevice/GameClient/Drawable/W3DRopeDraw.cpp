@@ -1,5 +1,21 @@
-// cl: /arch:SSE /DNDEBUG /MD /EHsc /DBFME_MODULE_NO_MPO /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /arch:SSE /DNDEBUG /MD /EHsc /DBFME_MODULE_NO_MPO /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // stlport
+
+// BFME 2 has no W3D memory pools (see Code/Libraries/Source/WWVegas/WWLib/always.h).
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+#include "always.h"
+#undef W3DMPO_GLUE
+#define W3DMPO_GLUE(ARGCLASS)
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -67,85 +83,17 @@ public:
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?buildSegments@W3DRopeDraw@@AAEXXZ present-unmatched
-void W3DRopeDraw::buildSegments()
-{
-	DEBUG_ASSERTCRASH(m_segments.empty(), ("Hmmn, not empty"));
-	m_segments.clear();
-
-	Int numSegs = ceil(m_maxLen / m_wobbleLen);
-	Real eachLen = m_maxLen / (Real)numSegs;
-	Coord3D pos = *getDrawable()->getPosition();
-	for (int i = 0; i < numSegs; ++i, pos.z += eachLen)
-	{
-		SegInfo info;
-
-		Real axis = GameClientRandomValueReal(0, 2*PI);
-		info.wobbleAxisX = Cos(axis);
-		info.wobbleAxisY = Sin(axis);
-		info.line = NEW Line3DClass( Vector3(pos.x,pos.y,pos.z),
-																	 Vector3(pos.x,pos.y,pos.z+eachLen),
-																	 m_width * 0.5f,  // width
-																	 m_color.red,  // red
-																	 m_color.green,  // green
-																	 m_color.blue,  // blue
-																	 1.0f );  // transparency
-
-		info.softLine = NEW Line3DClass( Vector3(pos.x,pos.y,pos.z),
-																	 Vector3(pos.x,pos.y,pos.z+eachLen),
-																	 m_width,  // width
-																	 m_color.red,  // red
-																	 m_color.green,  // green
-																	 m_color.blue,  // blue
-																	 0.5f );  // transparency
-
-		W3DDisplay::m_3DScene->Add_Render_Object( info.line );
-		W3DDisplay::m_3DScene->Add_Render_Object( info.softLine );
-		m_segments.push_back(info);
-	}
-}
+// Retail buildSegments is defined in Draw/W3DRopeDraw.cpp.
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/Common/W3DRopeDrawDestructorThunk.cpp
-// ?tossSegments@W3DRopeDraw@@AAEXXZ present-unmatched
-void W3DRopeDraw::tossSegments()
-{
-	// remove tracer from the scene and delete
-	for (std::vector<SegInfo>::iterator it = m_segments.begin(); it != m_segments.end(); ++it)
-	{
-		if (it->line)
-		{
-			W3DDisplay::m_3DScene->Remove_Render_Object(it->line);
-			REF_PTR_RELEASE((it->line));
-		}
-		if (it->softLine)
-		{
-			W3DDisplay::m_3DScene->Remove_Render_Object(it->softLine);
-			REF_PTR_RELEASE((it->softLine));
-		}
-	}
-	m_segments.clear();
-}
+// W3DRopeDraw::tossSegments: defined in W3DRopeDrawTossSegments.cpp (its row's unit).
 
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?initRopeParms@W3DRopeDraw@@UAEXMMABURGBColor@@MMM@Z present-unmatched
-void W3DRopeDraw::initRopeParms(Real length, Real width, const RGBColor& color, Real wobbleLen, Real wobbleAmp, Real wobbleRate)
-{ 
-	m_maxLen = max(1.0f, length);
-	m_curLen = 0.0f;
-	m_width = width;
-	m_color = color;
-	m_wobbleLen = min(m_maxLen, wobbleLen);
-	m_wobbleAmp = wobbleAmp;
-	m_wobbleRate = wobbleRate;
-	m_curZOffset = 0.0f;
-
-	tossSegments();
-	buildSegments();
-}
+// W3DRopeDraw::initRopeParms: defined in W3DRopeDrawInitRopeParms.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -173,8 +121,15 @@ W3DRopeDraw::~W3DRopeDraw()
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+#pragma optimize("s", on)
 void W3DRopeDraw::doDrawModule(const Matrix3D* transformMtx)
 {
+	// Retain the rowed SegInfo copy worker without the obsolete donor body.
+	// Member scope permits the private nested type; automatic storage emits no guard.
+	typedef void (__cdecl *ConstructSeg)(SegInfo *, const SegInfo &);
+	ConstructSeg const emitSegCopy = &_STL::_Construct<SegInfo, SegInfo>;
+	(void)emitSegCopy;
+
 	if (m_segments.empty())
 	{
 		buildSegments();
@@ -208,6 +163,7 @@ void W3DRopeDraw::doDrawModule(const Matrix3D* transformMtx)
 	else if (m_curSpeed < -m_maxSpeed)
 		m_curSpeed = -m_maxSpeed;
 }
+#pragma optimize("", on)
 
 // ------------------------------------------------------------------------------------------------
 /** CRC */
@@ -227,61 +183,8 @@ void W3DRopeDraw::crc( Xfer *xfer )
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/Common/W3DRopeDrawDestructorThunk.cpp
-// ?xfer@W3DRopeDraw@@MAEXPAVXfer@@@Z present-unmatched
-void W3DRopeDraw::xfer( Xfer *xfer )
-{
-
-	// version
-	const XferVersion currentVersion = 1;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
-
-	// extend base class
-	DrawModule::xfer( xfer );
-
-	// m_segments is not saved
-
-	// cur len
-	xfer->xferReal( &m_curLen );
-
-	// max len
-	xfer->xferReal( &m_maxLen );
-
-	// width
-	xfer->xferReal( &m_width );
-
-	// color
-	xfer->xferRGBColor( &m_color );
-
-	// cur speed
-	xfer->xferReal( &m_curSpeed );
-
-	// max speed
-	xfer->xferReal( &m_maxSpeed );
-
-	// acceleration
-	xfer->xferReal( &m_accel );
-
-	// wobble len
-	xfer->xferReal( &m_wobbleLen );
-
-	// wobble amp
-	xfer->xferReal( &m_wobbleAmp );
-
-	// wobble rate
-	xfer->xferReal( &m_wobbleRate );
-
-	// current wobble phase
-	xfer->xferReal( &m_curWobblePhase );
-
-	// cur Z offset
-	xfer->xferReal( &m_curZOffset );
-
-	if (xfer->getXferMode() == XFER_LOAD)
-		tossSegments();
-
-
-}  // end xfer
+// W3DRopeDraw::xfer: defined in W3DRopeDrawXfer.cpp (its row's unit).
+  // end xfer
 
 // ------------------------------------------------------------------------------------------------
 /** Load post process */

@@ -5,7 +5,6 @@ typedef unsigned short UnsignedShort;
 
 extern "C" int __cdecl memcmp(const void *buf1, const void *buf2, unsigned int count);
 
-extern char g_bfmeEmptyF9[];
 
 struct BfmeAsciiDataF9
 {
@@ -19,7 +18,7 @@ class BfmeStrF9
 {
 public:
 	Int getLength(void) const { return m_data ? m_data->m_len : 0; }
-	const char *str(void) const { return m_data ? (const char *)(m_data + 1) : g_bfmeEmptyF9; }
+	const char *str(void) const { return m_data ? (const char *)(m_data + 1) : (char *)""; }
 
 	Int compare(const BfmeStrF9 &other) const
 	{
@@ -47,11 +46,18 @@ struct BfmeShapeF9
 	char m_pad20[3];
 };
 
+class BfmeObjF9;
+class GeometryInfo
+{
+private:
+	void calcBoundingStuff();
+	friend class BfmeObjF9;
+};
+
 class BfmeObjF9
 {
 public:
 	void setFlag(const BfmeStrF9 &name, char flag);
-	void afterWalk();
 
 	unsigned char m_pad[0x2C];
 	BfmeShapeF9 *m_start;
@@ -66,5 +72,6 @@ void BfmeObjF9::setFlag(const BfmeStrF9 &name, char flag)
 		if (s->m_1C == name)
 			s->m_20 = flag;
 	}
-	self->afterWalk();
+	// Refresh the GeometryInfo shape bounds after flag updates (0x006BE700).
+	reinterpret_cast<GeometryInfo *>(self)->calcBoundingStuff();
 }

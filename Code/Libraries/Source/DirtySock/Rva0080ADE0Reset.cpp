@@ -5,11 +5,11 @@
 // (BFME1 bfmeGo1019C vs BFME2 Rva007F0030Free at 0x0065CF10, read from the
 // retail REL32 at +0xA1).
 // Dedicated TU (Y2Rva00806580Module.cpp already defines the pump family).
-extern "C" void *Rva007F0000( unsigned int size );
+void *Rva007F0000Alloc(int size);
 extern "C" void Rva007FD3F0( void *socket );
 extern "C" void Rva0080AD00( int a, int b, unsigned char *state );
 extern "C" void * __cdecl memset( void *dest, int c, unsigned int count );
-void Rva007F0030Free( void *block );
+void bfmeGo1019C(int a);
 extern "C" void __RTC_CheckEsp( void );
 
 struct Rva0080ADE0Object
@@ -50,7 +50,7 @@ extern "C" int __cdecl Rva0080ADE0( struct Rva0080ADE0Object *object, int releas
 	{
 		if ( object->m_backend != 0 )
 		{
-			Rva007F0030Free( object->m_backend );
+			bfmeGo1019C((int)object->m_backend);
 			object->m_backend = 0;
 		}
 	}
@@ -59,7 +59,7 @@ extern "C" int __cdecl Rva0080ADE0( struct Rva0080ADE0Object *object, int releas
 	{
 		if ( object->m_backend == 0 )
 		{
-			object->m_backend = Rva007F0000( 0x88C0 );
+			object->m_backend = Rva007F0000Alloc( 0x88C0 );
 			if ( object->m_backend != 0 )
 			{
 				memset( object->m_backend, 0, 0x88C0 );

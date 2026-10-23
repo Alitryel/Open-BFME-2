@@ -44,13 +44,13 @@ T2ElemA *T2OwnerA::at(int index)
 
 T2ElemA *T2OwnerA::find(int id)
 {
-	T2ElemA *p = m_base;
+	T2ElemA *t2ElemA = m_base;
 	T2ElemA *end = m_base + m_count;
-	while (p < end)
+	while (t2ElemA < end)
 	{
-		if (p->m_id == id)
-			return p;
-		++p;
+		if (t2ElemA->m_id == id)
+			return t2ElemA;
+		++t2ElemA;
 	}
 	return 0;
 }
@@ -103,13 +103,13 @@ T2ElemC *T2OwnerC::at(int index)
 
 T2ElemC *T2OwnerC::find(int id)
 {
-	T2ElemC *p = m_base;
+	T2ElemC *t2ElemC = m_base;
 	T2ElemC *end = m_base + m_count;
-	while (p < end)
+	while (t2ElemC < end)
 	{
-		if (p->m_id == id)
-			return p;
-		++p;
+		if (t2ElemC->m_id == id)
+			return t2ElemC;
+		++t2ElemC;
 	}
 	return 0;
 }
@@ -163,4 +163,107 @@ struct T2TableOwner6C
 void *Rva000210A0TableSlot(T2TableOwner6C *owner, int index)
 {
 	return owner->m_slots[index];
+}
+
+// BFME1 9cbfb551 Weapon.cpp's emitted getFireOCL body is the source lead.
+// Native10E4A4..10E4B2 and10E4B2..10E4C6 are complete RET4 entries after
+// the preceding RET4. They read raw four-byte slots at +B8, directly or
+// through the pointer at +94. These accessed-prefix views assert neither
+// original receiver identity nor slot value type or complete array bounds.
+struct Rva0010E4A4Words
+{
+	char unknown00[0xB8];
+	unsigned slots[1];
+	unsigned rva0010E4A4(unsigned index) const;
+};
+
+unsigned Rva0010E4A4Words::rva0010E4A4(unsigned index) const
+{
+	return slots[index];
+}
+
+struct Rva0010E4B2Words
+{
+	char unknown00[0x94];
+	const Rva0010E4A4Words *table;
+	unsigned rva0010E4B2(unsigned index) const;
+};
+
+unsigned Rva0010E4B2Words::rva0010E4B2(unsigned index) const
+{
+	return table->slots[index];
+}
+
+// BFME1 9cbfb551 LivingWorld/Rva003B46A0.cpp emits the source lead.
+// Native564C4C..564C58 is a complete RET4 entry between the independently
+// rowed 564C40/12 and 564C58/37 bodies. It indexes the pointer at receiver
+// offset zero with a 32-byte stride. Only that physical stride is proven;
+// the original owner, element identity and container bounds remain unknown.
+struct Rva00564C4CElement { unsigned char unknown[0x20]; };
+struct Rva00564C4CArray
+{
+	Rva00564C4CElement *elements;
+	void *at(unsigned index) const;
+};
+
+// Size optimization keeps retail's add-from-memory scheduling.
+#pragma optimize("s", on)
+void *Rva00564C4CArray::at(unsigned index) const
+{
+	return elements + index;
+}
+// Clean BF1 f98983a7 Common/Rva003A2070Update.cpp is a source guide.
+// Native 0x000897B9..0x000897C8 starts after complete RET12 at 0x000897B6;
+// its own RET4 ends before the next EH prologue at 0x000897C8. It multiplies
+// the stack word by 0xB8 and adds receiver word0 without dereferencing it.
+// The original container and element identity remain unknown. This accessed
+// word projection preserves only the witnessed 32-bit address arithmetic.
+// The established size-optimized indexed block gives target-proven O1 scheduling.
+struct Rva000897B9
+{
+    unsigned int addressBits;
+    unsigned int elementAddressBits(unsigned int index) const;
+};
+
+unsigned int Rva000897B9::elementAddressBits(unsigned int index) const
+{
+    return addressBits + index * 0xB8u;
+}
+#pragma optimize("", on)
+
+// BFME1 9cbfb551 whole PAVectorEraseRangeFamily003AF.cpp supplies the source
+// lead in the clean named Common O2/x87/G6 min5 sweep. Sixteen donor vector
+// names place here, so none establishes an original template or owner.
+// Native6BE260..6BE26E is independently INT3-bounded: it reads receiver word0,
+// shifts the unsigned stack index by4, adds the two words and pops4 bytes.
+// No calls, globals, literals or witnessed direct/address references choose
+// an element type or original receiver. This accessed-word projection keeps
+// the 32-bit address arithmetic without claiming a container or full layout.
+struct Rva006BE260
+{
+    unsigned int addressBits;
+    unsigned int elementAddressBits(unsigned int index) const;
+};
+
+unsigned int Rva006BE260::elementAddressBits(unsigned int index) const
+{
+    return addressBits + (index << 4);
+}
+
+// Clean BF1 f98983a7 Common/Rva001EB060OffsetGetter.cpp is the source guide.
+// Native143280..14328B follows complete RET4 at14327D and ends before INT3;
+// it loads a raw four-byte value at receiver+18+4*stackword and returns RET4.
+// This accessed-prefix view does not establish the original owner, slot value
+// meaning or the complete array extent. Donor O2/SSE/G6 placement is a lead;
+// the normal home settings and whole body are independently byte verified.
+struct Rva00143280
+{
+    unsigned char unknown00[0x18];
+    unsigned int words[1];
+    unsigned int at(unsigned int index) const;
+};
+
+unsigned int Rva00143280::at(unsigned int index) const
+{
+    return words[index];
 }

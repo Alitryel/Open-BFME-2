@@ -15,7 +15,7 @@
 **	You should have received a copy of the GNU General Public License
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-// cl: /O1 /EHsc
+// cl: /Ireference/shims/bfme2_ascii /EHsc
 //
 // Narrow-pair to wide-string helpers for the WinMain title builders,
 // retail 0x0023428D (26 bytes), 0x0023436C (60 bytes) and 0x00234788
@@ -28,41 +28,8 @@
 
 class UnicodeString;
 
-template <typename T>
-class StringBase
-{
-	friend class UnicodeString;
-	StringBase(const T *text);
+#include "unicode_string.h"
 
-public:
-	StringBase() : m_data(0) {}
-	StringBase(const StringBase &src);
-	~StringBase() { releaseBuffer(); }
-
-	struct Header
-	{
-		int ref_count;
-		unsigned short length;
-		unsigned short capacity;
-		T data[1];
-	};
-
-	void releaseBuffer();
-	T *getBufferForRead(int len);
-	void set(const StringBase &src);
-
-protected:
-	Header *m_data;
-};
-
-class UnicodeString : public StringBase<unsigned short>
-{
-public:
-	UnicodeString() {}
-	UnicodeString(const unsigned short *text) : StringBase<unsigned short>(text) {}
-	UnicodeString &operator=(const UnicodeString &src) { set(src); return *this; }
-	const unsigned short *str() const { return m_data ? m_data->data : L""; }
-};
 
 // A (pointer, length) string reference. The same shape holds narrow text
 // (init) and wide text (initWide); the empty constructor keeps it non-POD,
@@ -77,6 +44,7 @@ public:
 	void convertToWide(unsigned short *dst, int off, int len);
 	int convertToWideBuffer(unsigned short *dst);
 	int copyWchars(unsigned short *dst);
+	int write(char *dst);
 	operator UnicodeString();
 	int length() const { return m_len; }
 
@@ -113,6 +81,7 @@ struct Rva002343C3TitleSegment : PairWithChar
 struct WinMainTitlePair : Rva000B3F84Pair
 {
 	int convertTitlePair(unsigned short *dst);
+	int write(char *dst);
 	operator UnicodeString();
 	int length() const { return firstLength() + m_secondPair.length(); }
 	int firstLength() const { return Rva000B3F84Pair::length(); }
@@ -244,6 +213,22 @@ WinMainTitlePair operator+(const Rva000B3F84Pair &left, const unsigned short *ri
 	return result;
 }
 
+// Native109CFD..109D3A: narrow text-pair plus C string. The shadow cache
+//10BC90 and StatsDisplay57A09F pass the eight-byte pair made by108B93;
+// the16-byte result is materialized by the existing narrow title converter.
+// Complete body and init(B3F84) relocation fold onto the existing generic
+// eight-byte-expression plus text owner, without asserting that owner type
+// as this pair's layout. Keep this overload beside its wide-string twin.
+WinMainTitlePair operator+(const Rva000B3F84Pair &left, const char *right)
+{
+	Rva000B3F84Pair text;
+	text.init(right);
+	WinMainTitlePair result;
+	static_cast<Rva000B3F84Pair &>(result) = left;
+	result.m_secondPair = text;
+	return result;
+}
+
 // ??H@YA?AURva002343C3TitleSegment@@ABUPairWithChar@@PBG@Z @0x513B5B
 Rva002343C3TitleSegment operator+(const PairWithChar &left, const unsigned short *right)
 {
@@ -313,4 +298,22 @@ UnicodeString getUserDataLeafName()
 	if (GetStringFromRegistry(L"", L"UserDataLeafName", leafName))
 		return leafName;
 	return makeStringRef(GetRegistryUserDataLeafName());
+}
+
+// ?Rva00108B93Make@@YA?AVRva000B3F84Pair@@PBD@Z @0x00108B93 33B
+// By-value pair snapshot like makeStringRef at 0x002343F7 but deref-returning
+// via init; callers at 0x005F94E3 0x005F9588 0x005FA033 0x0057A109 0x0057A17A.
+Rva000B3F84Pair Rva00108B93Make(const char *src)
+{
+	Rva000B3F84Pair ref;
+	return *ref.init(src);
+}
+
+// ?write@WinMainTitlePair@@QAEHPAD@Z @0x00109D3A 37B
+// Narrow concat write like AsciiStringCharPlusText::write at 0x002349D8:
+// base pair then second pair; callers at 0x0010BAD1 0x002D4692.
+int WinMainTitlePair::write(char *dst)
+{
+	int n = Rva000B3F84Pair::write(dst);
+	return n + m_secondPair.write(dst + n);
 }

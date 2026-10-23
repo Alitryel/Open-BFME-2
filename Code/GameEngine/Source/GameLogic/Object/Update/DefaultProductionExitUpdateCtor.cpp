@@ -1,7 +1,7 @@
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE
+// cl: /DNDEBUG /MD /GX
 //
 // ??0DefaultProductionExitUpdate@@QAE@PAVThing@@PBVModuleData@@@Z retail
-// 0x00487FC7 117 bytes. Behavior-side ctor completing the
+// 0x00487FC7 120 bytes. Behavior-side ctor completing the
 // DefaultProductionExitUpdate file-unit (behavior instance factory rowed
 // at 0x24CC84 news 0x34 with this 2-arg ctor as its sole caller; poolkey
 // rowed at 0x487F82; rally-point methods rowed at 0x487F60 and 0x487F75).
@@ -20,9 +20,27 @@
 // resolves via the existing IAEX Object-uint pin at 0x44DF71). Row
 // supersedes the ctor pin.
 
+extern "C" const void *const vtbl_00C430B4[];  // folded, 2 classes; via ??_7ContainIface30@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C430B4=??_7ContainIface30@@6B@")
+extern "C" const void *const vtbl_00C4B1E0[];  // folded, 5 classes; via ??_7Rva00452D52@@6BRva0024A797_B2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4B1E0=??_7Rva00452D52@@6BRva0024A797_B2@@@")
+extern "C" const void *const vtbl_00C4B1F0[];  // folded, 4 classes; via ??_7QueueProductionExitUpdate@@6BBehaviorModuleOther@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4B1F0=??_7QueueProductionExitUpdate@@6BBehaviorModuleOther@@@")
+
+extern "C" const void *const vtbl_00C4B1B0[];  // ??_7Rva00487F3A@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4B1B0=??_7Rva00487F3A@@6B@")
+extern "C" const void *const vtbl_00C4B2AC[];  // ??_7Rva00487F3A@@6BRva0024A797_Root@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4B2AC=??_7Rva00487F3A@@6BRva0024A797_Root@@@")
+
 class Thing;
 class ModuleData;
 class Object;
+
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1,
+	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
+};
 
 class UpdateModule
 {
@@ -31,7 +49,7 @@ public:
 	~UpdateModule();
 
 protected:
-	void setWakeFrame(Object *object, unsigned int frame);
+	void setWakeFrame(Object *object, UpdateSleepTime frame);
 
 	const void *m_vtable;
 	const ModuleData *m_moduleData;
@@ -62,16 +80,16 @@ DefaultProductionExitUpdate::DefaultProductionExitUpdate(Thing *thing, const Mod
 {
 	float fzero = 0.0f;
 	int *slot20 = (int *)&m_secondary20;
-	*slot20 = (int)0x00C430B4;
+	*slot20 = (int)((unsigned int)vtbl_00C430B4);
 	unsigned char *readySlot = &m_exitReady30;
 	Object **objSlot = &m_object;
-	m_vtable = (const void *)0x00C4B2AC;
-	m_secondary0C = (const void *)0x00C4B1F0;
-	m_secondary10 = (const void *)0x00C4B1E0;
-	m_secondary20 = (const void *)0x00C4B1B0;
+	m_vtable = (const void *)((unsigned int)vtbl_00C4B2AC);
+	m_secondary0C = (const void *)((unsigned int)vtbl_00C4B1F0);
+	m_secondary10 = (const void *)((unsigned int)vtbl_00C4B1E0);
+	m_secondary20 = (const void *)((unsigned int)vtbl_00C4B1B0);
 	*readySlot = 0;
 	m_doorDelay24 = fzero;
 	m_queueDelay28 = fzero;
 	m_idleDelay2C = fzero;
-	setWakeFrame(*objSlot, 0x3FFFFFFF);
+	setWakeFrame(*objSlot, UPDATE_SLEEP_FOREVER);
 }

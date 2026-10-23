@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ?frameToSleepTime@UpdateModule@@IAE?AW4UpdateSleepTime@@IIII@Z,
 // retail 0x0044DF28, 51 bytes. UpdateModule sleep-time helper: returns the
@@ -22,15 +22,7 @@ enum UpdateSleepTime
 	UPDATE_SLEEP_FOREVER = 0x3fffffff
 };
 
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() { return m_frame; }
-
-private:
-	unsigned char m_pad[0x40];
-	UnsignedInt m_frame; // +0x40 (Poisoned precedent)
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 

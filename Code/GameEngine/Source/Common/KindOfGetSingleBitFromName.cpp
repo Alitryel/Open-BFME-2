@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /DWIN32 /MD /EHsc /D_STLP_USE_STATIC_LIB
+// cl: /DNDEBUG /DWIN32 /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
 
 // Evidence: retail 0x002AA2F9 (54 bytes) is byte-identical to the landed
@@ -24,7 +24,7 @@
 typedef int Int;
 typedef bool Bool;
 
-extern const char *TheKindOfBitNames[0xDA]; ///< retail [0x00DBBE18]
+extern const char *TheKindOfBitNames[0xDA + 1]; ///< retail [0x00DBBE18]
 
 template <size_t NUMBITS>
 class BitFlags

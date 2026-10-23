@@ -1,4 +1,4 @@
-// cl: /EHsc /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfmealloc_alloconly /Ireference/shims/iniexception /Ireference/shims/bfme2_ascii /EHsc /MD /D_STLP_USE_STATIC_LIB
 // stlport
 // ?addSubtitle@SubtitleManager@@QAEXABVAsciiString@@IHHHHH@Z, retail 0x00688AA0 (105B).
 // Ported from Open-BFME-1 Code/GameEngine/Source/GameClient/SubtitleManagerAccessors.cpp
@@ -8,44 +8,28 @@
 // declared-only.
 
 #include <vector>
+extern "C" void __cdecl free(void *);
 
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 
-template <typename T>
-class StringBase
-{
-	friend class AsciiString;
+#include "ascii_string.h"
+// Preserve the visible null initialization without a competing wide-base copy.
+template <> __declspec(dllimport) __forceinline
+StringBase<unsigned short>::StringBase() : m_data(0) {}
+// The empty Unicode wrapper has the native six-byte size profile.
+#pragma optimize("s", on)
+#include "unicode_string.h"
+#pragma optimize("", on)
+template<> inline bool StringBase<unsigned short>::isEmpty() const throw() { return m_data == 0 || m_data->length == 0; }
+// Keep __node_alloc<true,0>::allocate inline-only: every call here is inlined,
+// and this TU's COMDAT copy differs from the copy the link keeps.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void * _STLP_CALL __node_alloc<true, 0>::allocate(size_t __n)
+{ return (__n > (size_t)_MAX_BYTES) ? __stl_new(__n) : _M_allocate(__n); }
+}
 
-private:
-	StringBase(const StringBase<T> &src);
-
-	struct Header
-	{
-		int ref_count;
-		unsigned short length;
-		unsigned short capacity;
-		T data[1];
-	};
-
-	Header *m_data;
-};
-
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	AsciiString(const AsciiString &other)
-	{
-		((StringBase<char> *)this)->StringBase<char>::StringBase(
-			*(const StringBase<char> *)&other);
-	}
-	~AsciiString();
-	AsciiString &operator=(const AsciiString &that);
-
-private:
-	void *m_data;
-};
 
 union SubtitleEntryBulk
 {
@@ -84,8 +68,10 @@ public:
 typedef SubtitleEntry *(__cdecl *CreateSubtitleEntry)(AsciiString *, int,
 	const AsciiString &, unsigned int, int, int, int, int, int);
 
+class INI;
 class SubtitleManager
 {
+ friend void parseSubtitleText(INI*,void*,void*,const void*);
 public:
 	SubtitleManager(CreateSubtitleEntry createEntry, int second, const AsciiString &name);
 	void addSubtitle(const AsciiString &label, unsigned int color, int style,
@@ -146,4 +132,209 @@ SubtitleManager::SubtitleManager(CreateSubtitleEntry createEntry, int second,
 	m_state[12] = 0;
 	m_state[13] = 0;
 	m_state[14] = 0;
+}
+
+typedef int Int;
+typedef unsigned char Bool;
+typedef unsigned int UnsignedInt;
+
+class INI
+{
+public:
+	AsciiString getFilename() const;
+	Int getLineNum() const;
+	const char *getNextTokenOrNull(const char *separators);
+	const char *getNextSubToken(const char *expected);
+	Int scanInt(const char *token);
+	Int scanIndexList(const char *token, const char *const *names);
+
+	const char *getSeps() const { return m_seps; }
+	const char *getSepsColon() const { return m_sepsColon; }
+
+	char m_unreconstructed_000[0x418];
+	const char *m_seps;			// +0x418
+	const char *m_sepsPercent;	// +0x41C
+	const char *m_sepsColon;	// +0x420
+};
+
+class VideoPlayerInterface
+{
+public:
+	virtual ~VideoPlayerInterface();
+	virtual void slot01() = 0;
+	virtual void slot02() = 0;
+	virtual void slot03() = 0;
+	virtual void slot04() = 0;
+	virtual void slot05() = 0;
+	virtual void slot06() = 0;
+	virtual void slot07() = 0;
+	virtual void slot08() = 0;
+	virtual void slot09() = 0;
+	virtual void slot10() = 0;
+	virtual void slot11() = 0;
+	virtual void slot12() = 0;
+	virtual void slot13() = 0;
+	virtual void slot14() = 0;
+	virtual void slot15() = 0;
+	virtual void slot16() = 0;
+	virtual void slot17() = 0;
+	virtual void slot18() = 0;
+	virtual void slot19() = 0;
+	virtual void slot20() = 0;
+	virtual void slot21() = 0;
+	virtual void slot22() = 0;
+	virtual void slot23() = 0;
+	virtual void slot24() = 0;
+	virtual void slot25() = 0;
+	virtual void slot26() = 0;
+	virtual void *getVideo(const AsciiString &title) = 0;
+};
+
+extern VideoPlayerInterface *TheVideoPlayer;
+
+#include "Common/INIException.h"
+
+extern "C" __declspec(dllimport) int __cdecl _strcmpi(const char *, const char *);
+
+static const char *const subtitleStyles[] = {
+	"TRANSPARENT", "TRANSPARENT_FADE", "OUTLINED", "OUTLINED_FADE",
+	"SOLID", "SOLID_FADE", 0
+};
+
+static const char *const subtitleAlignments[] = {
+	"CENTER", "LEFT", "RIGHT", 0
+};
+
+// ?parseSubtitleText@@YAXPAVINI@@PAX1PBX@Z, retail 0x00688B10 (1578B). INI field
+// parser for one subtitle entry (Label/Color/Style/Align/Line/StartFrame/EndFrame),
+// adding it to the video's SubtitleManager. Semantic lead: Open-BFME-1
+// Rva0081DE40ParseSubTitleEntry.cpp. The separator reads go through INI's inline
+// getters as in the donor; raw member reads rotate the scratch registers.
+void parseSubtitleText( INI *ini, void *, void *store, const void * )
+{
+	void *target = store;
+	SubtitleManager *manager = (SubtitleManager *)TheVideoPlayer->getVideo( ini->getFilename() );
+	if ( manager != 0 && target != 0 )
+	{
+	UnicodeString text;
+	unsigned int color = 0;
+	int style = 0x7fffffff;
+	int align = 0x7fffffff;
+	int line = 0x7fffffff;
+	int startFrame = 0x7fffffff;
+	int endFrame = 0x7fffffff;
+	for ( const char *token = ini->getNextTokenOrNull( ini->getSepsColon() ); token != 0;
+		token = ini->getNextTokenOrNull( ini->getSepsColon() ) )
+	{
+		if ( _strcmpi( token, "Label" ) == 0 && text.isEmpty() )
+		{
+			const char *label = ini->getNextTokenOrNull( ini->getSeps() );
+			if ( label == 0 || !text.isEmpty() || !((Bool (__cdecl *)(const char *,UnicodeString *))manager->m_second)(label, &text) )
+			{
+				throw INIException( 8, "Invalid text label while parsing %s on line %d",
+					ini->getFilename(), ini->getLineNum() );
+			}
+		}
+		else if ( _strcmpi( token, "Color" ) == 0 && color == 0 )
+		{
+			const char *names[ 3 ] = { "R", "G", "B" };
+			for ( int i = 0; i < 3; ++i )
+			{
+				int value = ini->scanInt( ini->getNextSubToken( names[ i ] ) );
+				if ( value < 0 || value > 255 )
+				{
+					throw INIException( 3, "color value %s=%i out of range (0..255) in %s on line %d",
+						names[ i ], value, ini->getFilename(), ini->getLineNum() );
+				}
+				color = ( color << 8 ) | value;
+			}
+			color |= 0xff000000;
+		}
+		else if ( _strcmpi( token, "Style" ) == 0 && style == 0x7fffffff )
+		{
+			const char *value = ini->getNextTokenOrNull( ini->getSepsColon() );
+			if ( value == 0 )
+			{
+				throw INIException( 8, "Expected subtitle style type not found in %s on line %d",
+					ini->getFilename(), ini->getLineNum() );
+			}
+			style = ini->scanIndexList( value, subtitleStyles );
+		}
+		else if ( _strcmpi( token, "Align" ) == 0 && align == 0x7fffffff )
+		{
+			const char *value = ini->getNextTokenOrNull( ini->getSepsColon() );
+			if ( value == 0 )
+			{
+				throw INIException( 8, "Expected subtitle alignment type not found in %s on line %d",
+					ini->getFilename(), ini->getLineNum() );
+			}
+			align = ini->scanIndexList( value, subtitleAlignments );
+		}
+		else if ( _strcmpi( token, "Line" ) == 0 && line == 0x7fffffff )
+		{
+			const char *value = ini->getNextTokenOrNull( ini->getSepsColon() );
+			if ( value != 0 )
+			{
+				line = ini->scanInt( value ) - 1;
+				if ( line < 0 || line >= 15 )
+				{
+					throw INIException( 3, "Subtitle Line value %d out of range (%d..%d) in %s on line %d",
+						line, 1, 15, ini->getFilename(), ini->getLineNum() );
+				}
+			}
+			else
+			{
+				throw INIException( 8, "Expected subtitle line value for Line: not found in %s on line %d",
+					ini->getFilename(), ini->getLineNum() );
+			}
+		}
+		else if ( _strcmpi( token, "StartFrame" ) == 0 && startFrame == 0x7fffffff )
+		{
+			const char *value = ini->getNextTokenOrNull( ini->getSepsColon() );
+			if ( value != 0 )
+			{
+				startFrame = ini->scanInt( value );
+				if ( startFrame < 0 )
+				{
+					throw INIException( 3, "Subtitle StartFrame must be greater than 0 in %s on line %d",
+						ini->getFilename(), ini->getLineNum() );
+				}
+			}
+			else
+			{
+				throw INIException( 8, "Expected subtitle StartFrame value for StartFrame: not found in %s on line %d",
+					ini->getFilename(), ini->getLineNum() );
+			}
+		}
+		else if ( _strcmpi( token, "EndFrame" ) == 0 && endFrame == 0x7fffffff )
+		{
+			const char *value = ini->getNextTokenOrNull( ini->getSepsColon() );
+			if ( value != 0 )
+			{
+				endFrame = ini->scanInt( value );
+				if ( endFrame < 0 )
+				{
+					throw INIException( 3, "Subtitle EndFrame must be greater than 0 in %s on line %d",
+						ini->getFilename(), ini->getLineNum() );
+				}
+			}
+			else
+			{
+				throw INIException( 8, "Expected subtitle EndFrame value for EndFrame: not found in %s on line %d",
+					ini->getFilename(), ini->getLineNum() );
+			}
+		}
+		else
+		{
+			throw INIException( 3, "bad colon spacing, or unexpected token in TransitionDamageFXModuleData::NeighborIDSubobjectNameDataAppend" );
+		}
+	}
+	// The ledger types addSubtitle's first argument as AsciiString; retail
+	// passes this UnicodeString.
+	manager->addSubtitle( *(const AsciiString *)&text, color, style, align, line, startFrame, endFrame );
+	}
+	else
+	{
+		throw INIException( 9, "Could not locate SubTitleManager for %s", ini->getFilename() );
+	}
 }

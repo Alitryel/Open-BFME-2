@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ??0W3DQuadrupedDraw@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x000CA0A4,
 // 42 bytes. Draw-side ctor completing the W3DQuadrupedDraw file-unit (name
@@ -12,6 +12,11 @@
 // declared anywhere so no vtable is emitted here; the immediates are
 // DIR32-masked in comparison). Zero new pins (base resolves via the existing
 // W3DScriptedModelDraw pin). Row supersedes the ctor pin.
+
+extern "C" const unsigned char __identifier("??_7Rva000CA119@@6BRva000CA119_B2@@@")[];
+
+extern "C" const unsigned char __identifier("??_7Rva000CA119@@6BMiBase1@@@")[];
+extern "C" const unsigned char __identifier("??_7Rva000CA119@@6BRva000C79C9@@@")[];
 
 class Thing;
 class ModuleData;
@@ -32,7 +37,7 @@ public:
 W3DQuadrupedDraw::W3DQuadrupedDraw(Thing *thing, const ModuleData *moduleData) :
 	W3DScriptedModelDraw(thing, moduleData)
 {
-	*(unsigned int *)this = 0x00BCBC40;
-	*(unsigned int *)((char *)this + 0x0C) = 0x00BCBB78;
-	*(unsigned int *)((char *)this + 0x10) = 0x00BCA08C;
+	*(unsigned int *)this = ((unsigned int)__identifier("??_7Rva000CA119@@6BRva000C79C9@@@"));
+	*(unsigned int *)((char *)this + 0x0C) = ((unsigned int)__identifier("??_7Rva000CA119@@6BMiBase1@@@"));
+	*(unsigned int *)((char *)this + 0x10) = ((unsigned int)__identifier("??_7Rva000CA119@@6BRva000CA119_B2@@@"));
 }

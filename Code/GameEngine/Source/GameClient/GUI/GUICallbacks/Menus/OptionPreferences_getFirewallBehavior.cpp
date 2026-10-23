@@ -1,4 +1,4 @@
-// cl: /O1 /GX- /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /GX- /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // ?getFirewallBehavior@OptionPreferences@@QAEHXZ, retail 0x002E4815,
@@ -24,27 +24,8 @@ template <typename T> struct BfmeStringData
 	T text[1];
 };
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-private:
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	~StringBase() { releaseBuffer(); }
-	void releaseBuffer();
-	BfmeStringData<T> *m_data;
+#include "ascii_string.h"
 
-public:
-	const T *str() const { return m_data ? &m_data->text[0] : (const T *)""; }
-};
-
-class AsciiString : private StringBase<char>
-{
-public:
-	AsciiString(const char *text) : StringBase<char>(text) {}
-	AsciiString(const AsciiString &other) : StringBase<char>(other) {}
-	~AsciiString() {}
-};
 
 bool operator<(const AsciiString &left, const AsciiString &right);
 
@@ -68,7 +49,7 @@ public:
 	Int m_firewallBehavior;
 };
 
-extern GlobalData *TheGlobalData;
+extern class GlobalData *TheWritableGlobalData;
 
 class OptionPreferences : public AsciiPreferenceMap
 {
@@ -82,7 +63,7 @@ Int OptionPreferences::getFirewallBehavior()
 {
 	OptionPreferences::const_iterator it = find("FirewallBehavior");
 	if (it == end())
-		return TheGlobalData->m_firewallBehavior;
+		return TheWritableGlobalData->m_firewallBehavior;
 
 	Int behavior = atoi(it->second.str());
 	if (behavior < 0)

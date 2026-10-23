@@ -51,12 +51,67 @@ struct DebugIoBuffer
 	bool lastWasCR;
 };
 
+class DebugIOInterface
+{
+public:
+	enum StringType {};
+};
+
+// The virtuals are declared exactly as debug_debug.cpp's Debug view
+// (reference/shims/debugvtable), so this unit's ??_7Debug@@6B@ is the same
+// 35-slot copy the link keeps; the constructor only stores its address.
 class Debug
 {
 public:
-	virtual ~Debug();
+	class MemDump;
+	class HResult;
+	class Hex;
+	class Dec;
+	class Bin;
+	class Width;
+	class FillChar;
+	class RepeatChar;
+	class Format;
+
+	virtual Debug &operator<<(Hex &);
+	virtual Debug &operator<<(Dec &);
+	virtual Debug &operator<<(Bin &);
+	virtual Debug &operator<<(Width &);
+	virtual Debug &operator<<(FillChar &);
+	virtual Debug &operator<<(RepeatChar &);
+	virtual Debug &operator<<(const Format &);
+	virtual bool AssertDone(void);
+	virtual bool CheckDone(void);
+	virtual bool LogDone(void);
+	virtual bool CrashDone(bool die);
+	virtual Debug &operator<<(const char *str);
+	virtual void SetPrefixAndRadix(const char *prefix, int radix);
+	virtual Debug &operator<<(int val);
+	virtual Debug &operator<<(unsigned val);
+	virtual Debug &operator<<(long val);
+	virtual Debug &operator<<(unsigned long val);
+	virtual Debug &operator<<(bool val);
+	virtual Debug &operator<<(float val);
+	virtual Debug &operator<<(double val);
+	virtual Debug &operator<<(short val);
+	virtual Debug &operator<<(unsigned short val);
+	virtual Debug &operator<<(__int64 val);
+	virtual Debug &operator<<(unsigned __int64 val);
+	virtual Debug &operator<<(const void *ptr);
+	virtual Debug &operator<<(const MemDump &dump);
+	virtual Debug &operator<<(HResult hres);
+	virtual void WriteBuildInfo(void);
 
 private:
+	struct FrameHashEntry;
+	virtual void UpdateFrameStatus(FrameHashEntry &entry);
+	virtual void StartOutput(DebugIOInterface::StringType type, const char *fmt, ...);
+	virtual void AddOutput(const char *str, unsigned len);
+	virtual void FlushOutput(bool defaultLog = true);
+	virtual void AddPatternEntry(unsigned types, bool isActive, const char *pattern);
+	virtual void ExecCommand(const char *cmdstart, const char *cmdend);
+	virtual bool IsWindowed(void);
+
 	Debug();
 
 	struct FrameCommand

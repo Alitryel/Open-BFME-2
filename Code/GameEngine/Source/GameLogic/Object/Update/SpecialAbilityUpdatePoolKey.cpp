@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva00044F054@SpecialAbilityUpdate@@SA?AW4NameKeyType@@XZ @0x44f054
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@SpecialAbilityUpdate@@UBE?AW4NameKeyType@@XZ @0x44f054
 // (69B): cached pool-name key for SpecialAbilityUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("SpecialAbilityUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class SpecialAbilityUpdate
 {
 public:
-	static NameKeyType rva00044F054();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00044F054@SpecialAbilityUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType SpecialAbilityUpdate::rva00044F054()
+// ?getModuleNameKey@SpecialAbilityUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType SpecialAbilityUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheSpecialAbilityUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("SpecialAbilityUpdate");

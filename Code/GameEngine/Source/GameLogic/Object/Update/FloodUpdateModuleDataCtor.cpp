@@ -1,4 +1,4 @@
-// cl: /O1 /GX /MD /DNDEBUG
+// cl: /GX /MD /DNDEBUG /Ireference/shims/moduledata
 //
 // ??0FloodUpdateModuleData@@QAE@XZ, retail 0x0048DF7A, 55 bytes. Framed
 // single-state EH ctor: folded vtable 0x00C4C8C0 plus one std::list
@@ -16,6 +16,9 @@
 // explicit allocator temporary in the init-list needs a user-defined
 // empty allocator ctor, else MSVC value-initializes the one-byte stack
 // slot with a stosb retail never emits. Row supersedes the pinned ctor.
+
+extern "C" const void *const vtbl_00C4C8C0[];  // ??_7FloodUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4C8C0=??_7FloodUpdateModuleData@@6B@")
 
 struct FloodMember;
 
@@ -41,10 +44,15 @@ private:
 
 }
 
+// Retail's state-0 unwind funclet jumps to 0x0049B47C, the ModuleData-family
+// dtor fold that restores the Snapshot vptr 0x00BBB554; the base dtor is
+// that reset (WallHubBehaviorModuleDataCtor precedent).
+#include "Common/Snapshot.h"
+
 class FloodUpdateModuleDataBase
 {
 public:
-	~FloodUpdateModuleDataBase();
+	~FloodUpdateModuleDataBase() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 };
 
 class FloodUpdateModuleData : public FloodUpdateModuleDataBase
@@ -60,7 +68,7 @@ private:
 
 // ??0FloodUpdateModuleData@@QAE@XZ @0x48DF7A
 FloodUpdateModuleData::FloodUpdateModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C4C8C0))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C4C8C0)))
 	, m_list(_STL::allocator<struct FloodMember>())
 {
 }

@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /Ireference/shims/bfmecamera /DNDEBUG /MD /EHs-c- /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
+// cl: /Ireference/shims/bfmecamera /DNDEBUG /MD /EHs-c- /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
 // DynamicVectorClass::Add of an 8-byte record whose second word is a COM
 // pointer (AddRef slot 1, Release slot 2).
 
@@ -29,6 +29,7 @@ public:
 	virtual bool Unused(void);
 	virtual bool Resize(int count, const Gen_0093E730_Elem *array);
 	bool Add(const Gen_0093E730_Elem &object);
+	bool rva001558D0(int index);
 
 private:
 	Gen_0093E730_Elem *vector;
@@ -63,4 +64,27 @@ bool Gen_0093E730::Add(const Gen_0093E730_Elem &object)
 		outgoing->ops->release(outgoing);
 	slot->surface = object.surface;
 	return true;
+}
+
+bool Gen_0093E730::rva001558D0(int index)
+{
+	if (index < active_count) {
+		--active_count;
+		if (index < active_count) {
+			for (int i = index; i < active_count; ++i) {
+				Gen_0093E730_Elem *slot = &vector[i];
+				Gen_0093E730_Elem *next = slot + 1;
+				slot->first = next->first;
+				SurfaceClass *incoming = next->surface;
+				if (incoming)
+					incoming->ops->add_ref(incoming);
+				SurfaceClass *outgoing = slot->surface;
+				if (outgoing)
+					outgoing->ops->release(outgoing);
+				slot->surface = next->surface;
+			}
+		}
+		return true;
+	}
+	return false;
 }

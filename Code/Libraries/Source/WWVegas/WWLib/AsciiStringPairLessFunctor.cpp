@@ -1,4 +1,4 @@
-// cl: /O1 /GX- /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /GX- /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // less<pair<AsciiString,AsciiString>>::operator() at 0x00207150 (18B): push
@@ -10,11 +10,7 @@
 #include <functional>
 #include <utility>
 
-class AsciiString
-{
-public:
-    void *m_data;
-};
+#include "ascii_string.h"
 
 bool operator<(const _STL::pair<AsciiString, AsciiString> &a,
     const _STL::pair<AsciiString, AsciiString> &b);

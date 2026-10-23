@@ -1,8 +1,8 @@
 // cl: /GX
 // Distinct TU for two Bfme5SeventySix bodies (dest TU is twin-owned):
 // ?bfmeRasterCircleFC@@YAXHHHVBfmeRangeUpdaterFC@@@Z @ 0x006C1150 (137B,
-// b1 0x00881770) and ??0Gen_008812D0@@QAE@XZ @ 0x006C1490 (102B,
-// b1 0x00881AA0). Trimmed copy of the BFME1 donor; bfmeConfigure and the
+// b1 0x00881770) and ??0TaintManagerImpl@@QAE@XZ @ 0x006C1490 (102B,
+// b1 0x00881AA0). Trimmed copy of the BFME1 donor; _ReallocCells and the
 // range-updater call resolve through ledger pins.
 
 // MSVC 7.1 folds `delete []` onto the scalar ??3@YAXPAX@Z unless the array
@@ -37,49 +37,66 @@ __forceinline long bfmeFloatToLongFC(Real value)
 }
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include/Lib/BaseType.h
-struct Coord3D
-{
-	Real x;
-	Real y;
-	Real z;
+#include "../../../Libraries/Include/Lib/Coord3D.h"
 
-	void zero()
-	{
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-	}
-};
+// Retail inlines these stores; no separate private Coord3D::zero body.
+static __forceinline void zeroCoord3D(Coord3D &value)
+{
+    value.x = 0.0f;
+    value.y = 0.0f;
+    value.z = 0.0f;
+}
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include/Lib/BaseType.h
-struct Region3D
-{
-	__forceinline Region3D() {}
+#include "../../../Libraries/Include/Lib/Region3D.h"
 
-	__forceinline Region3D(const Region3D &other)
-	{
-		lo.x = other.lo.x;
-		lo.y = other.lo.y;
-		lo.z = other.lo.z;
-		hi.x = other.hi.x;
-		hi.y = other.hi.y;
-		hi.z = other.hi.z;
-	}
-
-	__forceinline ~Region3D() {}
-
-	Real width() const { return hi.x - lo.x; }
-	Real height() const { return hi.y - lo.y; }
-
-	Coord3D lo;
-	Coord3D hi;
+// Target6C1680 and6C0F50 transfer schema: version min/current bytes;
+// raw slot9 version10 region22 float28 unsigned30 int31 byte34.
+// GridXferView is an explicit ABI view; unused slots remain unidentified.
+struct GridXferVersion {unsigned char minimum,current;GridXferVersion(unsigned char lo,unsigned char hi):minimum(lo),current(hi){}};
+class GridXferView {
+public:
+ virtual ~GridXferView();
+ virtual bool isLoading()const;virtual bool isStoring()const;virtual bool isCRC()const;virtual bool isLightCRC()const;
+virtual void slot5();
+virtual void slot6();
+virtual void slot7();
+virtual void slot8();
+virtual void raw(void*,unsigned);
+virtual void version(GridXferVersion*);
+virtual void slot11();
+virtual void slot12();
+virtual void slot13();
+virtual void slot14();
+virtual void slot15();
+virtual void slot16();
+virtual void slot17();
+virtual void slot18();
+virtual void slot19();
+virtual void slot20();
+virtual void slot21();
+virtual void region(Region3D*);
+virtual void slot23();
+virtual void slot24();
+virtual void slot25();
+virtual void slot26();
+virtual void slot27();
+virtual void real(float*);
+virtual void slot29();
+virtual void uintValue(unsigned*);
+virtual void intValue(int*);
+virtual void slot32();
+virtual void slot33();
+virtual void byteValue(unsigned char*);
 };
-
+unsigned __cdecl ComputeCRC(const unsigned char*,unsigned,unsigned);
 class BfmeCellFC
 {
 public:
 	BfmeCellFC();
 	~BfmeCellFC();
+ __declspec(noinline) void rva006C1680(GridXferView*);
+	int rva006C0BC0(int *extra) const;
 
 	unsigned char m_bfmeKind;				// +0x00
 	unsigned char m_bfmeGap[3];				// +0x01
@@ -87,20 +104,38 @@ public:
 	int m_bfmeExtra;					// +0x08
 
 	// BFME2 paints through a three-argument helper (retail 0x006C15E0);
-	// declared here so the range updater below resolves it.
-	void bfmeUpdate(int amount, bool absolute, int mode);
+	// defined below, kept out of line because retail calls it.
+	__declspec(noinline) void bfmeUpdate(int amount, bool absolute, int mode);
 };
 
 typedef void (__cdecl *BfmeCellVisitorFC)(int x, int y,
 	unsigned char kind);
 
-class Gen_008812D0
+struct BfmePointFC
+{
+	Real x;
+	Real y;
+};
+
+class TaintManagerImpl
 {
 public:
-	Gen_008812D0();
-	void bfmeConfigure(Region3D region, Real cellSize);
+	TaintManagerImpl();
+ void rva006C0F50(GridXferView*);
+	void rva006C0DA0();
+	void _ReallocCells(Region3D region, Real cellSize);
 	void bfmeGetCellRange(BfmeCellFC **first, BfmeCellFC **last,
 		int x1, int x2, int y);
+	void ChangeTaintLevel(int x, int y, int radius, int amount, bool absolute, int mode);
+	BfmeCellFC *bfmeCellAtWorld(Real worldX, Real worldY) const;
+	int rva006C0E40(const BfmePointFC *point, int *extra);
+	BfmeCellFC *rva006C0C60(int x, int y);
+	int rva006C0DF0(int x, int y, int *extra);
+	int rva006C0E70(int x, int y);
+	int rva006C0EB0(const BfmePointFC *point) const;
+	int rva006C0860(Real worldX) const;
+	int rva006C0890(Real worldY) const;
+	int rva006C08C0(Real distance) const;
 
 	friend class BfmeRangeUpdaterFC;
 
@@ -117,29 +152,33 @@ private:
 class BfmeRangeUpdaterFC
 {
 public:
+	BfmeRangeUpdaterFC() {}
+	BfmeRangeUpdaterFC(TaintManagerImpl *grid, int amount, bool absolute, int mode);
 	__declspec(noinline) void operator()(int firstX, int lastX, int y);
+
+	friend class TaintManagerImpl;
 
 private:
 	// BFME2 carries a fourth paint-mode word after the amount; the flag stays
 	// byte-sized at +0x0C (retail passes it through cl).
-	Gen_008812D0 *m_bfmeGrid;				// +0x00
+	TaintManagerImpl *m_bfmeGrid;				// +0x00
 	int m_bfmeAmount;					// +0x04
 	int m_bfmeMode;						// +0x08
 	bool m_bfmeAbsolute;					// +0x0C
 };
 
-// ??0Gen_008812D0@@QAE@XZ
-Gen_008812D0::Gen_008812D0()
+// ??0TaintManagerImpl@@QAE@XZ
+TaintManagerImpl::TaintManagerImpl()
 {
-	m_bfmeRegion.lo.zero();
+	zeroCoord3D(m_bfmeRegion.lo);
 	m_bfmeWidth = 0;
 	m_bfmeHeight = 0;
 	m_bfmeCells = 0;
 	m_bfmeVisitor = 0;
 	m_bfmeCellSize = 1.0f;
-	m_bfmeRegion.hi.zero();
+	zeroCoord3D(m_bfmeRegion.hi);
 
-	bfmeConfigure(m_bfmeRegion, 1.0f);
+	_ReallocCells(m_bfmeRegion, 1.0f);
 }
 
 // ?bfmeRasterCircleFC@@YAXHHHVBfmeRangeUpdaterFC@@@Z
@@ -197,8 +236,8 @@ void BfmeRangeUpdaterFC::operator()(int firstX, int lastX, int y)
 	}
 }
 
-// ?bfmeGetCellRange@Gen_008812D0@@QAEXPAPAVBfmeCellFC@@0HHH@Z
-void Gen_008812D0::bfmeGetCellRange(BfmeCellFC **first,
+// ?bfmeGetCellRange@TaintManagerImpl@@QAEXPAPAVBfmeCellFC@@0HHH@Z
+void TaintManagerImpl::bfmeGetCellRange(BfmeCellFC **first,
 	BfmeCellFC **last, int x1, int x2, int y)
 {
 	if (x2 < 0 || x1 >= m_bfmeWidth || y < 0 || y >= m_bfmeHeight)
@@ -226,14 +265,49 @@ BfmeCellFC::BfmeCellFC()
 {
 }
 
-// ??1BfmeCellFC@@QAE@XZ present-unmatched
-BfmeCellFC::~BfmeCellFC()
+// ?rva006C0BC0@BfmeCellFC@@QBEHPAH@Z @ 0x006C0BC0 13B, right after the cell
+// constructor: returns the value at +0x04 and writes the +0x08 word through the
+// out pointer (RET 4). Unreferenced in retail (no call, jump or pointer to it);
+// the old 6B Get_Hash_Value placement at 0x006C0BC9 was this body's tail.
+int BfmeCellFC::rva006C0BC0(int *extra) const
 {
+	*extra = m_bfmeExtra;
+	return m_bfmeValue;
+}
+
+// ?bfmeUpdate@BfmeCellFC@@QAEXH_NH@Z @ 0x006C15E0 101B
+// The three-argument paint the range updater calls (BFME 1 inlines a two-
+// argument form). Target evidence: the updater's call site, ret 0xC, and the
+// +0/+4/+8 cell fields the constructor above initialises. A neutral (0x80)
+// paint only clears a cell its own mode owns; the kind is added unless the
+// paint is absolute, clamped to a byte, and a non-neutral kind records which
+// side of neutral it sits on (1 above, 2 below) and the painting mode.
+void BfmeCellFC::bfmeUpdate(int amount, bool absolute, int mode)
+{
+	if (mode != -1 && amount == 0x80 && mode != m_bfmeExtra)
+		return;
+
+	if (!absolute)
+		amount += m_bfmeKind;
+	if (amount < 0)
+		amount = 0;
+	else if (amount > 0xFF)
+		amount = 0xFF;
+
+	m_bfmeKind = (unsigned char)amount;
+	if (m_bfmeKind == 0x80)
+	{
+		mode = -1;
+		m_bfmeValue = 0;
+	}
+	else
+		m_bfmeValue = m_bfmeKind > 0x80 ? 1 : 2;
+	m_bfmeExtra = mode;
 }
 
 // Transferred from BFME 1's taintmanager_impl.cpp; only the cell size differs.
-// ?bfmeConfigure@Gen_008812D0@@QAEXURegion3D@@M@Z
-void Gen_008812D0::bfmeConfigure(Region3D region, Real cellSize)
+// ?_ReallocCells@TaintManagerImpl@@QAEXURegion3D@@M@Z
+void TaintManagerImpl::_ReallocCells(Region3D region, Real cellSize)
 {
 	if (region.width() < 1.0f)
 		region.hi.x = region.lo.x + 1.0f;
@@ -283,4 +357,186 @@ void Gen_008812D0::bfmeConfigure(Region3D region, Real cellSize)
 	m_bfmeWidth = width;
 	m_bfmeHeight = height;
 	m_bfmeCellSize = cellSize;
+}
+
+// Retail 0x006C1580 86B: circle paint via bfmeRasterCircleFC; early-out on
+// radius<0 and on (amount==0 && !absolute). BFME2 adds trailing mode word.
+void TaintManagerImpl::ChangeTaintLevel(int x, int y, int radius, int amount, bool absolute, int mode)
+{
+	if (radius < 0)
+		return;
+	if (amount == 0 && !absolute)
+		return;
+	BfmeRangeUpdaterFC updater;
+	updater.m_bfmeGrid = this;
+	updater.m_bfmeAmount = amount;
+	updater.m_bfmeMode = mode;
+	updater.m_bfmeAbsolute = absolute;
+	bfmeRasterCircleFC(x, y, radius, updater);
+}
+
+// Retail 0x006C0BD0 135B: world-to-cell via floor/inv, null when outside.
+// Evidence: same lo.x/lo.y at +0x00/+0x04 and inv at +0x1C as ApplyWorld,
+// 12-byte cells via x3/x4 lea pair, unlock callers 0x006C0E40/0x006C0E70.
+BfmeCellFC *TaintManagerImpl::bfmeCellAtWorld(Real worldX, Real worldY) const
+{
+	int x = bfmeFloatToLongFC(bfmeFloatFloorFC((worldX - m_bfmeRegion.lo.x) * m_bfmeCellSizeInv));
+	if (x < 0 || x >= m_bfmeWidth)
+		return 0;
+	int y = bfmeFloatToLongFC(bfmeFloatFloorFC((worldY - m_bfmeRegion.lo.y) * m_bfmeCellSizeInv));
+	if (y < 0 || y >= m_bfmeHeight)
+		return 0;
+	return &m_bfmeCells[y * m_bfmeWidth + x];
+}
+
+// ?rva006C0E40@TaintManagerImpl@@QAEHPBUBfmePointFC@@PAH@Z @ 0x006C0E40 40B
+// Honest address name: thiscall forwards ECX to bfmeCellAtWorld, so the
+// owner is TaintManagerImpl. Takes world XY plus out-word; returns m_bfmeValue
+// and stores m_bfmeExtra, 0 when outside. Evidence: ECX passthrough call to
+// rowed bfmeCellAtWorld 0x006C0BD0, +8/+4 cell reads, ret 8, tail-jmp thunk
+// at 0x006C0850 via +0x10 grid member.
+int TaintManagerImpl::rva006C0E40(const BfmePointFC *point, int *extra)
+{
+	BfmeCellFC *cell = bfmeCellAtWorld(point->x, point->y);
+	if (cell != 0)
+	{
+		*extra = cell->m_bfmeExtra;
+		return cell->m_bfmeValue;
+	}
+	return 0;
+}
+
+// ??0BfmeRangeUpdaterFC@@QAE@PAVTaintManagerImpl@@H_NH@Z @ 0x006C0B80 32B.
+// Ghidra-unlisted out-of-line updater constructor: grid +0, amount +4, mode
+// +8 and the absolute flag byte +0C, in ChangeTaintLevel's argument order
+// (retail stores arg4 at +8 and the byte arg3 at +0C). Owner by layout.
+BfmeRangeUpdaterFC::BfmeRangeUpdaterFC(TaintManagerImpl *grid, int amount, bool absolute, int mode)
+{
+	m_bfmeGrid = grid;
+	m_bfmeAmount = amount;
+	m_bfmeMode = mode;
+	m_bfmeAbsolute = absolute;
+}
+
+// ?rva006C0C60@TaintManagerImpl@@QAEPAVBfmeCellFC@@HH@Z @ 0x006C0C60 53B.
+// Ghidra-unlisted bounds-checked cell lookup by cell coordinates over the
+// +0x20/+0x24 extents and 12-byte +0x28 cells; null when outside.
+BfmeCellFC *TaintManagerImpl::rva006C0C60(int x, int y)
+{
+	if (x < 0 || x >= m_bfmeWidth)
+		return 0;
+	if (y < 0 || y >= m_bfmeHeight)
+		return 0;
+	return &m_bfmeCells[y * m_bfmeWidth + x];
+}
+
+// ?rva006C0DF0@TaintManagerImpl@@QAEHHHPAH@Z @ 0x006C0DF0 69B. Ghidra-unlisted
+// cell-coordinate twin of rva006C0E40: the inlined lookup above, then the
+// +8 extra word out and the +4 value returned; 0 when outside.
+int TaintManagerImpl::rva006C0DF0(int x, int y, int *extra)
+{
+	BfmeCellFC *cell = rva006C0C60(x, y);
+	if (cell != 0)
+	{
+		*extra = cell->m_bfmeExtra;
+		return cell->m_bfmeValue;
+	}
+	return 0;
+}
+
+// ?rva006C0E70@TaintManagerImpl@@QAEHHH@Z @ 0x006C0E70 63B
+// Honest address name: thiscall reads width/height/cells at +0x20/+0x24/+0x28
+// so owner is TaintManagerImpl. Returns cell kind byte or 0x80 default when out
+// of bounds. Evidence: gap between rowed 0x006C0E40 and range updater in same
+// /GX TU, imul width*y plus x3 x4 lea for 12B cells, tail-jmp thunk at
+// 0x006C0840 via grid member.
+int TaintManagerImpl::rva006C0E70(int x, int y)
+{
+	if (x < 0 || x >= m_bfmeWidth)
+		return 0x80;
+	if (y < 0 || y >= m_bfmeHeight)
+		return 0x80;
+	BfmeCellFC *cell = &m_bfmeCells[y * m_bfmeWidth + x];
+	if (cell == 0)
+		return 0x80;
+	return cell->m_bfmeKind;
+}
+
+// ?rva006C0EB0@TaintManagerImpl@@QBEHPBUBfmePointFC@@@Z @ 0x006C0EB0 34B
+// Transferred from Open-BFME-1's taintmanager_impl.cpp (submodule 968ca36c:
+// rva00881500, BFME 1 0x00881500), whose compiled body masks to exactly one
+// hit in this image, free ground between rowed 0x006C0E70 and the range
+// updater at 0x006C0EE0. The m_bfmeKind twin of rva006C0E40: the same
+// thiscall to the rowed bfmeCellAtWorld, and 0x80 (BfmeCellFC's default
+// kind) when the point is outside the grid. The name is this image's address.
+int TaintManagerImpl::rva006C0EB0(const BfmePointFC *point) const
+{
+	BfmeCellFC *cell = bfmeCellAtWorld(point->x, point->y);
+	return cell ? cell->m_bfmeKind : 0x80;
+}
+
+// Three world-to-cell helpers from Open-BFME-1's taintmanager_impl.cpp
+// (submodule 10af19f44a: rva00880E70 / rva00880EA0 / rva00880ED0, BFME 1
+// 0x00880E70 / 0x00880EA0 / 0x00880ED0), byte-identical here at 0x006C0860,
+// 0x006C0890 and 0x006C08C0, in the same order and 0x30 apart. BFME 1 folds
+// each with other copies, so the names are this image's addresses.
+// ?rva006C0860@TaintManagerImpl@@QBEHM@Z: world x to cell column (floor).
+int TaintManagerImpl::rva006C0860(Real worldX) const
+{
+	return bfmeFloatToLongFC(bfmeFloatFloorFC(
+		(worldX - m_bfmeRegion.lo.x) * m_bfmeCellSizeInv));
+}
+
+// ?rva006C0890@TaintManagerImpl@@QBEHM@Z: world y to cell row (floor).
+int TaintManagerImpl::rva006C0890(Real worldY) const
+{
+	return bfmeFloatToLongFC(bfmeFloatFloorFC(
+		(worldY - m_bfmeRegion.lo.y) * m_bfmeCellSizeInv));
+}
+
+// ?rva006C08C0@TaintManagerImpl@@QBEHM@Z: a distance in cells (ceiling).
+int TaintManagerImpl::rva006C08C0(Real distance) const
+{
+	return bfmeFloatToLongFC(bfmeFloatCeilFC(distance * m_bfmeCellSizeInv));
+}
+
+// Ghidra6C1680..6C16CF RET4; cell0 kind4 value8 mode proven by rowed
+// constructor6C0BA0/paint6C15E0. Version2 adds mode; raw4 preserves value bits.
+void BfmeCellFC::rva006C1680(GridXferView *xfer) {
+ GridXferVersion version(1,2);
+ xfer->version(&version);
+ xfer->byteValue(&m_bfmeKind);
+ xfer->raw(&m_bfmeValue,4);
+ if(version.current>=2) xfer->intValue(&m_bfmeExtra);
+}
+// Ghidra6C0F50..6C114C RET4. BF1 taintmanager_impl grid layout and
+// ZH snapshot transfer convention are reference guides; this target schema
+// is established by slots/offsets/calls. Light CRC sums kind1B/value4B
+// through rowed ComputeCRC3EC8F7. Loading allocates width*height12B cells
+// then calls existing visitor refresh6C0DA0. Full508 hot and EH exact.
+// Native direct call6C1680 in each iteration proves the noinline boundary.
+void TaintManagerImpl::rva006C0F50(GridXferView*xfer){
+ if(!xfer->isLightCRC()) {
+  GridXferVersion version(1,1);xfer->version(&version);
+  xfer->region(&m_bfmeRegion);
+  xfer->real(&m_bfmeCellSize);xfer->real(&m_bfmeCellSizeInv);
+  xfer->intValue(&m_bfmeWidth);xfer->intValue(&m_bfmeHeight);
+  unsigned checksum=0;xfer->uintValue(&checksum);
+  if(xfer->isLoading()) {
+   delete[] m_bfmeCells;
+   m_bfmeCells=new BfmeCellFC[m_bfmeWidth*m_bfmeHeight];
+  }
+  BfmeCellFC*cell=m_bfmeCells;
+  for(unsigned y=0;y<(unsigned)m_bfmeHeight;++y)
+   for(unsigned x=0;x<(unsigned)m_bfmeWidth;++x,++cell) cell->rva006C1680(xfer);
+ } else {
+  BfmeCellFC*cell=m_bfmeCells;unsigned checksum=0;
+  for(unsigned y=0;y<(unsigned)m_bfmeHeight;++y)
+   for(unsigned x=0;x<(unsigned)m_bfmeWidth;++x,++cell) {
+    checksum+=ComputeCRC(&cell->m_bfmeKind,1,0);
+    checksum+=ComputeCRC((const unsigned char*)&cell->m_bfmeValue,4,0);
+   }
+  xfer->uintValue(&checksum);
+ }
+ if(xfer->isLoading()) rva006C0DA0();
 }

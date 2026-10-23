@@ -1,4 +1,4 @@
-// cl: /O1
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 //
 // _bfme_updateTimedOps, retail 0x003FE74B (71 bytes), and
 // ?update@TimedOp@@QAEIXZ, retail 0x003FE6E8 (99 bytes).
@@ -40,6 +40,8 @@ public:
 };
 
 extern TimedOp *g_timedOperationHead;
+// g_timedOperationHead: matched references place it at VA 0xe02ec0 (zero-filled .bss).
+TimedOp * g_timedOperationHead;
 
 // ?update@TimedOp@@QAEIXZ
 unsigned int TimedOp::update(void)

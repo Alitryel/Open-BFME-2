@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 #include <new>
 
@@ -6,11 +6,11 @@
 // (??_V@YAXPAX@Z, 0x00881EF0), not the scalar operator delete at
 // 0x00881EB0 -- a different 21-byte body.
 void __cdecl operator delete[](void *block);
-class BfmeShadowBufferOwnerBase
-{
-public:
-	virtual ~BfmeShadowBufferOwnerBase() {}
-};
+// The base deleting destructor must call its complete destructor (retail EFAD2/28).
+// Keep the base thunk out of line while preserving this owner's inline reset.
+#pragma inline_depth(0)
+#include "BfmeShadowPrefix.h"
+#pragma inline_depth(255)
 
 class BfmeShadowRefCount
 {
@@ -35,21 +35,21 @@ struct BfmeShadowBufferEntry
 	unsigned int unreconstructed14;
 };
 
-class BfmeVolumetricShadowBufferOwner : public BfmeShadowBufferOwnerBase
+class W3DVolumetricShadowV2 : public BfmeShadowBufferOwnerBase
 {
-	unsigned char m_unreconstructed_004[ 0x64 ];
-	BfmeVolumetricShadowBufferOwner **m_prevLink;
-	BfmeVolumetricShadowBufferOwner *m_next;
+	unsigned char m_unreconstructed_058[ 0x10 ];
+	W3DVolumetricShadowV2 **m_prevLink;
+	W3DVolumetricShadowV2 *m_next;
 	unsigned int m_unreconstructed_070;
 	BfmeShadowRefCount *m_resource;
 	int m_entryCount;
 	BfmeShadowBufferEntry *m_entries;
 
 public:
-	virtual ~BfmeVolumetricShadowBufferOwner();
+	virtual ~W3DVolumetricShadowV2();
 };
 
-BfmeVolumetricShadowBufferOwner::~BfmeVolumetricShadowBufferOwner()
+W3DVolumetricShadowV2::~W3DVolumetricShadowV2()
 {
 	if (m_next != 0)
 		m_next->m_prevLink = m_prevLink;

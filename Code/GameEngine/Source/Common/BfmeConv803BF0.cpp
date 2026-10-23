@@ -24,22 +24,27 @@ class BfmeOwner803BF0
 {
 public:
 	void go(BfmeSrc803BF0 *src);
-	void send(BfmeMsg803BF0 *m) throw();
 	void bfmeGoVJH(int a) throw();
 };
 
-extern char g_bfmeName1052[];
-extern char g_bfmeNumLobbies803BF0[];
+// Ledger row at 0x0066F930 owns the send body (?send@Rva008038F0Sender); call it by that name.
+class BfmeC994;
+class Rva008038F0Sender
+{
+public:
+	void send(BfmeC994 *m) throw();
+};
+
 
 void BfmeOwner803BF0::go(BfmeSrc803BF0 *src)
 {
 	char buf[0x40];
 	BfmeMsg803BF0 msg(buf, 0x40);
 	msg.m_category = 'LLST';
-	msg.addInt(g_bfmeNumLobbies803BF0, 1);
-	int tid = src->getInt(g_bfmeName1052, -1);
+	msg.addInt((char *)"NUM-LOBBIES", 1);
+	int tid = src->getInt((char *)"TID", -1);
 	if (tid != -1)
-		msg.addInt(g_bfmeName1052, tid);
-	send(&msg);
-	bfmeGoVJH(src->getInt(g_bfmeName1052, 0));
+		msg.addInt((char *)"TID", tid);
+	((Rva008038F0Sender *)this)->send((BfmeC994 *)&msg);
+	bfmeGoVJH(src->getInt((char *)"TID", 0));
 }

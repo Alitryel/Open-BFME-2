@@ -12,8 +12,7 @@ public:
 	char bfmeSay1025(char *t);
 };
 
-extern BfmeP1025 *g_bfmeP1025;
-extern char g_bfmeLit1025[];
+extern class Q1Receiver0134FAAC *TheQ1Receiver;
 
 struct BfmeR1025
 {
@@ -23,15 +22,15 @@ struct BfmeR1025
 // ?bfmeGo1025F@@YADPAUBfmeR1025@@@Z, retail 0x0061F3E0 (45B).
 char bfmeGo1025F(BfmeR1025 *p)
 {
-	if (g_bfmeP1025 != 0) {
+	if ((*(BfmeP1025 **)&TheQ1Receiver) != 0) {
 		char *t;
 
 		if (p->m_bfmeName != 0)
 			t = p->m_bfmeName + 8;
 		else
-			t = g_bfmeLit1025;
+			t = (char *)"";
 
-		return g_bfmeP1025->bfmeSay1025(t);
+		return (*(BfmeP1025 **)&TheQ1Receiver)->bfmeSay1025(t);
 	}
 
 	return 0;

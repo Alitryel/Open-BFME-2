@@ -143,12 +143,24 @@ __copy(_RandomAccessIter __first, _RandomAccessIter __last,
   return __result;
 }
 
+// Retail keeps one out-of-line copy (0x000179B0, frameless, dllimport
+// memmove) and every call site reaches it with a plain cdecl call. A unit
+// built with other flags emits a copy the link rejects; such a unit defines
+// _STLP_BFME_COPY_TRIVIAL_EXTERN to call retail's copy instead. The same
+// holds for __copy_trivial_backward (0x00620840) below.
+// Both are declared throw(): retail's callers treat them as nothrow (the
+// inline memmove body), so callers such as vector<unsigned int>'s copy
+// constructor (0x002CFAB9) register no EH frame around the call.
+#ifdef _STLP_BFME_COPY_TRIVIAL_EXTERN
+void* __copy_trivial(const void* __first, const void* __last, void* __result) throw();
+#else
 inline void*
 __copy_trivial(const void* __first, const void* __last, void* __result) {
   return (__last == __first) ? __result : 
     ((char*)memmove(__result, __first, ((const char*)__last - (const char*)__first))) + 
     ((const char*)__last - (const char*)__first);
 }
+#endif
 
 //--------------------------------------------------
 // copy_backward auxiliary functions
@@ -178,11 +190,15 @@ inline _BidirectionalIter __copy_backward(_RandomAccessIter __first,
   return __result;
 }
 
+#ifdef _STLP_BFME_COPY_TRIVIAL_EXTERN
+void* __copy_trivial_backward(const void* __first, const void* __last, void* __result) throw();
+#else
 inline void*
 __copy_trivial_backward(const void* __first, const void* __last, void* __result) {
   const ptrdiff_t _Num = (const char*)__last - (const char*)__first;
   return (_Num > 0) ? memmove((char*)__result - _Num, __first, _Num) : __result ;
 }
+#endif
 
 template <class _InputIter, class _OutputIter>
 inline _OutputIter __copy_ptrs(_InputIter __first, _InputIter __last, _OutputIter __result, const __false_type&) {

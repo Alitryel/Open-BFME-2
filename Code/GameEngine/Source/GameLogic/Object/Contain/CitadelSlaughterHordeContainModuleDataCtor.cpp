@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /GX /MD /D_CRTIMP= /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0CitadelSlaughterHordeContainModuleData@@QAE@XZ, retail 0x0048112F
@@ -29,16 +29,18 @@ namespace _STL {
 template<> bitset<128> &bitset<128>::reset();
 }
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	void clear();
-	~AsciiString();
+#include "ascii_string.h"
 
-private:
-	void *m_data;
-};
+// A declaration-only specialization stops this TU emitting its own
+// vector<AsciiString> dtor COMDAT, so the call binds the kept copy.
+namespace _STL {
+template <> vector<AsciiString, allocator<AsciiString> >::~vector();
+template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
+template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);
+template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
+}
+
+extern unsigned char g_00DFEFA4StoragePrototype[28];
 
 class BfmeFixedStorage0004543D
 {
@@ -102,6 +104,6 @@ CitadelSlaughterHordeContainModuleData::CitadelSlaughterHordeContainModuleData()
 	m_fxForRingEntry = 0;
 	memset(m_statusForRingEntry.m_words, 0, sizeof(m_statusForRingEntry.m_words));
 	m_objectToDestroy.initFromStorages(
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(0x00DFEFA4)),
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(0x00DFEFA4)));
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)),
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)));
 }

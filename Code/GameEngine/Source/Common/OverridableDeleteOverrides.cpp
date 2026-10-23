@@ -11,8 +11,9 @@ public:
     Overridable *m_nextOverride;
     bool m_isOverride;
     Overridable *deleteOverrides();
+    Overridable &operator=(const Overridable &that);
 };
-Overridable *Overridable::deleteOverrides() {
+inline Overridable *Overridable::deleteOverrides() {
     if (m_isOverride) {
         ::delete this;
         return 0;
@@ -20,4 +21,24 @@ Overridable *Overridable::deleteOverrides() {
     if (m_nextOverride)
         m_nextOverride = m_nextOverride->deleteOverrides();
     return this;
+}
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeOverridableInlineAnchor@@YAXPAVOverridable@@@Z absent-from-retail
+void _bfmeOverridableInlineAnchor(Overridable *overridable)
+{
+    overridable->deleteOverrides();
+}
+#pragma inline_depth()
+
+// Native assignment callers reach the folded return-this body at 1FD28E.
+// Template copying preserves destination override-chain/allocation state.
+// This provider stays separate from the callers: a visible empty definition
+// lets VC7.1 remove their native base-assignment call even with noinline.
+Overridable &Overridable::operator=(const Overridable &that)
+{
+    return *this;
 }

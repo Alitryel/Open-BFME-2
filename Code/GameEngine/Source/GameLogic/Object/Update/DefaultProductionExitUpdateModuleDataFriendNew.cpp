@@ -1,4 +1,4 @@
-// cl: /O1 /GX /DNDEBUG /MD /arch:SSE
+// cl: /GX /DNDEBUG /MD
 //
 // ?friend_newModuleData@DefaultProductionExitUpdateModuleData@@SAPAVModuleData@@PAVINI@@@Z,
 // retail 0x002543C7, 81 bytes. Dedicated TU: the factory news 0x20 with an
@@ -15,16 +15,14 @@
 // DefaultProductionExitUpdate bodies (setRallyPoint plus getRallyPoint plus
 // pool key).
 
+extern "C" const void *const vtbl_00C4ED70[];  // folded, 9 classes; via ??_7BeaconClientUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4ED70=??_7BeaconClientUpdateModuleData@@6B@")
+
 class ModuleData;
 class INI;
 class MultiIniFieldParse;
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-};
+#include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
 class INI
 {
@@ -37,7 +35,7 @@ class DefaultProductionExitUpdateModuleData
 public:
 	__forceinline DefaultProductionExitUpdateModuleData()
 	{
-		m_vtable = reinterpret_cast<void *>(0x00C4ED70);
+		m_vtable = reinterpret_cast<void *>(((unsigned int)vtbl_00C4ED70));
 		m_unitCreatePoint.x = 0.0f;
 		m_unitCreatePoint.y = 0.0f;
 		m_unitCreatePoint.z = 0.0f;

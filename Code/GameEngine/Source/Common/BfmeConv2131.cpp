@@ -15,11 +15,20 @@ public:
 class BfmeThingCDE
 {
 public:
-	bool bfmeCheckABI();
 	void bfmeDtorCDE();
 
 	void *m_bfme00ABI;
 	void *m_bfme04ABI;
+};
+
+class ShroudManager
+{
+public:
+	class Data
+	{
+	public:
+		bool KeepAsGhost();
+	};
 };
 
 void __stdcall bfmeReleaseABI(void *owner);
@@ -37,9 +46,13 @@ void __stdcall bfmeReleaseABI(void *owner)
 	if (t->m_bfme04ABI != owner)
 		return;
 
-	if (t->bfmeCheckABI())
+	if (((ShroudManager::Data *)t)->KeepAsGhost())
 		return;
 
 	t->bfmeDtorCDE();
 	::operator delete(t);
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeOneCDE@BfmeOwnerCDE@@QAEXPAX@Z=?bfmeReleaseABI@@YGXPAX@Z")

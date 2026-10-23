@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 //
 // BFME2's 48-byte Pod vector allocator at RVA 0x003F40D3 (28B: imul-0x30
@@ -13,4 +13,6 @@
 // here). The BfmePod48 layout mirrors the home TU declaration.
 struct BfmePod48 { int a[12]; };
 #include <memory>
-template class _STL::allocator<BfmePod48>;
+// Instantiate only the rowed allocate: a whole-class instantiation also emits
+// construct and its _Construct<BfmePod48> COMDAT, which is not retail's body.
+template BfmePod48 *_STL::allocator<BfmePod48>::allocate(size_t, const void *) const;

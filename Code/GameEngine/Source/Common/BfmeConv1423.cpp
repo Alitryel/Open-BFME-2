@@ -3,8 +3,23 @@
 extern "C" void *memset(void *d, int c, unsigned n);
 #pragma intrinsic(memset)
 
-void bfmeBigFreeVLX(void *p);
-void bfmeSmallFreeVLX(void *p, unsigned n);
+void bfmeBigFreePM(void *p);
+
+void bfmeFreeVLX(void *p, unsigned n);
+
+namespace _STL
+{
+template <bool __threads, int __inst>
+class __node_alloc;
+
+template <>
+class __node_alloc<true, 0>
+{
+private:
+	static void _M_deallocate(void *p, unsigned int n);
+	friend void ::bfmeFreeVLX(void *p, unsigned int n);
+};
+}
 
 struct BfmeHdrVLX
 {
@@ -32,7 +47,7 @@ void bfmeFreeVLX(void *p, unsigned n)
 	n1->m_bfmeTag = 0xdebd;
 	memset(p, 0xa3, n);
 	if (n3 > 0x80)
-		bfmeBigFreeVLX(n1);
+		bfmeBigFreePM(n1);
 	else
-		bfmeSmallFreeVLX(n1, n3);
+		_STL::__node_alloc<true, 0>::_M_deallocate(n1, n3);
 }

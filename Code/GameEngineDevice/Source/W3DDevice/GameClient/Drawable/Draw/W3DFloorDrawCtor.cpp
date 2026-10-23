@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ??0W3DFloorDraw@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x000CF10B,
 // 68 bytes. Draw-side ctor completing the W3DFloorDraw file-unit (name getter
@@ -15,6 +15,18 @@
 // anywhere so no vtable is emitted here; the immediates are DIR32-masked in
 // comparison). Zero new pins (base resolves to its row). Row supersedes the
 // ctor pin.
+
+// Address-named alias: retail RVA 0x0081C780 is one __purecall slot.
+// The emitted donor table is independently checked as four bytes with
+// one __purecall relocation, whose matched body is at RVA 0x0003B810.
+// This establishes table contents; it assigns no donor class to the caller.
+extern "C" const void *const vtbl_00C1C780[];
+#pragma comment(linker, "/alternatename:_vtbl_00C1C780=??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@")
+
+extern "C" const void *const vtbl_00BCD4D8[];  // ??_7W3DFloorDraw@@6BW3DFloorDrawSecondBase@@@
+#pragma comment(linker, "/alternatename:_vtbl_00BCD4D8=??_7W3DFloorDraw@@6BW3DFloorDrawSecondBase@@@")
+extern "C" const void *const vtbl_00BCD4E0[];  // ??_7W3DFloorDraw@@6BRva000CEB6F@@@
+#pragma comment(linker, "/alternatename:_vtbl_00BCD4E0=??_7W3DFloorDraw@@6BRva000CEB6F@@@")
 
 class ModuleData;
 
@@ -55,9 +67,9 @@ W3DFloorDraw::W3DFloorDraw(Thing *thing, const ModuleData *moduleData) :
 	W3DPropDraw(thing, moduleData)
 {
 	int *slot10 = (int *)&m_10;
-	*slot10 = (int)0x00C1C780;
-	*(unsigned int *)this = 0x00BCD4E0;
-	m_10 = (const void *)0x00BCD4D8;
+	*slot10 = (int)((unsigned int)vtbl_00C1C780);
+	*(unsigned int *)this = ((unsigned int)vtbl_00BCD4E0);
+	m_10 = (const void *)((unsigned int)vtbl_00BCD4D8);
 	m_flag14 = false;
 	m_flag15 = false;
 	m_flag16 = false;

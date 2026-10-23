@@ -16,17 +16,32 @@ private:
 	void Get_String(int new_len, bool flag);
 
 	static char *m_EmptyString;
+	static char m_NullChar;
 	static char m_LeadByte;
 	char *m_Buffer;
 };
 
-char *StringClass::m_EmptyString;
+// StringClass::m_EmptyString: defined in wwstring.cpp (= &m_NullChar).
 char StringClass::m_LeadByte;
 
 // ??0StringClass@@QAE@H_N@Z
-StringClass::StringClass(int value, bool flag)
+inline StringClass::StringClass(int value, bool flag)
 {
 	m_Buffer = m_EmptyString;
 	Get_String(value, flag);
-	m_Buffer[0] = m_LeadByte;
+	// wwstring.cpp's m_NullChar (VA 0x00A08C18), as the 33 other copies of this
+	// inline ctor spell the lead-byte global.
+	m_Buffer[0] = m_NullChar;
 }
+
+// StringClass int-bool ctor is a header inline elsewhere: other units emit
+// select-any copies, so a strong definition here was a duplicate in the
+// linked build. This anchor only makes this unit emit its copy for the ledger
+// row; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitwwstring_ctor_int_bool@@YAXPAVStringClass@@H_N@Z present-unmatched
+void bfmeEmitwwstring_ctor_int_bool(StringClass *string, int value, bool flag)
+{
+	string->StringClass::StringClass(value, flag);
+}
+#pragma inline_depth()

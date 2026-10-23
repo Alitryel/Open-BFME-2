@@ -145,3 +145,11 @@ void bfmeGoTDB(void)
 	bfmeStepTDB();
 	g_bfmeDoneTDB = 1;
 }
+// ?g_bfmeObjTDB@@3PAUBfmeObjTDB@@A: the global at VA 0xdeda34 is ?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A.
+#pragma comment(linker, "/alternatename:?g_bfmeObjTDB@@3PAUBfmeObjTDB@@A=?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A")
+// ?g_bfmeVftTDA@@3PAPAXA: the global at VA 0xce157c is ?vftable_01129D30@@3HA.
+#pragma comment(linker, "/alternatename:?g_bfmeVftTDA@@3PAPAXA=?vftable_01129D30@@3HA")
+// ?g_bfmeCountTDB@@3HA: the global at VA 0xdeda98 is ?number_of_DX8_calls@@3IA.
+#pragma comment(linker, "/alternatename:?g_bfmeCountTDB@@3HA=?number_of_DX8_calls@@3IA")
+// ?g_bfmeDoneTDB@@3DA: the global at VA 0xdb621c is ?ShaderDirty@ShaderClass@@1_NA.
+#pragma comment(linker, "/alternatename:?g_bfmeDoneTDB@@3DA=?ShaderDirty@ShaderClass@@1_NA")

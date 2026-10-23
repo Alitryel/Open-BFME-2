@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /GX /MD /DNDEBUG
+// cl: /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG
 //
 // ??0W3DTreeDrawModuleData@@QAE@XZ 231B @0x000CEBBF.
 // Same file-unit layout as W3DTreeDrawModuleDataCtor.cpp (empty virtual base,
@@ -10,18 +10,11 @@
 // +2C/+30/+34/+38 before the +3C/+3D bools and the FPS*10 pair). Factory
 // 0x64C0B news 0x64 with this ctor as sole caller. Donor: BFME1 W3DTreeDraw.
 
-#define LogicFramesPerSecond (*(const int *)0x00DBA4E4)
+extern int BfmeLogicFramesPerSecond;
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	~AsciiString();
-	void clear();
+#define LogicFramesPerSecond BfmeLogicFramesPerSecond
 
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class W3DTreeDrawModuleDataBase
 {

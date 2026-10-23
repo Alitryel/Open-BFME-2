@@ -14,6 +14,15 @@
 // hand-declared like BfmeDX8ThreadLock.cpp's.
 
 #include <hash_map>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<void *,allocator<void *> >::size()const  { return (unsigned int)(this->_M_finish - this->_M_start); } }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * const * vector<void *,allocator<void *> >::begin()const  { return this->_M_start; } }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * & vector<void *,allocator<void *> >::operator[](unsigned int n) { return *(this->_M_start + n); } }
+// bfme link decl-only begin
+namespace _STL { template <> void hashtable<pair<int const, int>, int, hash<int>, _Select1st<pair<int const, int> >, equal_to<int>, allocator<pair<int const, int> > >::resize(unsigned int); }
+// bfme link decl-only end
 
 extern "C" {
 __declspec(dllimport) void __stdcall EnterCriticalSection(void *section);
@@ -39,15 +48,33 @@ typedef _STL::hashtable<_STL::pair<const int, int>, int, _STL::hash<int>,
 typedef _STL::hash_map<int, int, _STL::hash<int>, _STL::equal_to<int>,
 	_STL::allocator<_STL::pair<const int, int> > > BfmePrototypeMap;
 
+// The iterator equality test is always inlined in the bodies below; keep the
+// unit from emitting its own out-of-line, non-retail copy.
+namespace _STL {
+typedef _Ht_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> >, int,
+	hash<int>, _Select1st<pair<const int, int> >, equal_to<int>,
+	allocator<pair<const int, int> > > BfmePrototypeIterator;
+template <> __declspec(dllimport) __forceinline
+bool operator==(const BfmePrototypeIterator &__x, const BfmePrototypeIterator &__y)
+{ return __x._M_cur == __y._M_cur; }
+}
+
 // String-interning name table holding the 45007-bucket registry that
 // Add_Prototype_Impl queries. Retail 0x00620500 (187B) hashes the name
 // case-insensitively (tolower fold, times 33), buckets via div 0xAFCF,
 // compares with strcmp and allocates 12-byte nodes via operator new;
 // it returns the interned integer ID, or 0 for a null name.
-class BfmePrototypeNameTable
+enum NameKeyType
+{
+    NAMEKEY_INVALID = 0,
+    NAMEKEY_MAX = 1 << 23,
+    FORCE_NAMEKEYTYPE_LONG = 0x7fffffff
+};
+
+class NameKeyGenerator
 {
 public:
-	int FindOrCreatePrototypeId(const char *prototypeName);
+	NameKeyType nameToLowercaseKey(const char *prototypeName);
 };
 
 // Prototype template handed to Add_Prototype_Impl. The allocating caller
@@ -98,16 +125,16 @@ private:
 	unsigned char m_unknown68[0x1F0 - 0x68];
 	unsigned m_tag; // +0x1F0
 	unsigned char m_unknownF4[0x1F8 - 0x1F4];
-	BfmePrototypeNameTable *m_nameTable; // +0x1F8
+	NameKeyGenerator *m_nameTable; // +0x1F8
 };
 
-extern BfmeResourceEnumerator *TheResourceEnumerator;
+extern class Q1Receiver0134FAAC *TheQ1Receiver;
 
 // ?Add_Prototype@@YAXPAX@Z
 void Add_Prototype(void *prototype)
 {
-	if (TheResourceEnumerator)
-		TheResourceEnumerator->Add_Prototype_Impl(prototype);
+	if (((BfmeResourceEnumerator *)TheQ1Receiver))
+		((BfmeResourceEnumerator *)TheQ1Receiver)->Add_Prototype_Impl(prototype);
 }
 
 void BfmeResourceEnumerator::Begin(unsigned tag)
@@ -128,7 +155,7 @@ void BfmeResourceEnumerator::Add_Prototype_Impl(void *prototype)
 		return;
 	BfmeCriticalSectionGuard registryGuard(&m_lock);
 	const char *prototypeName = addedPrototype->GetPrototypeName();
-	int prototypeId = m_nameTable->FindOrCreatePrototypeId(prototypeName);
+	int prototypeId = m_nameTable->nameToLowercaseKey(prototypeName);
 	if (prototypeId == 0)
 		return;
 	BfmePrototypeTable::iterator foundIter = m_prototypes.find(prototypeId);

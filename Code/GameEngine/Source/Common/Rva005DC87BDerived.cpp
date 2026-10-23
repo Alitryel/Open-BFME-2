@@ -1,35 +1,51 @@
-// cl: /O1 /MD
+// cl: /MD
 //
-// Opaque single-inheritance destructors tail-calling Rva005DC87B::~
-// Rva005DC87B at 0x005DC87B (row in Rva005DC73CDerived.cpp). Each class below
+// Opaque single-inheritance destructors tail-calling AITacticSiege::~
+// AITacticSiege at 0x005DC87B (row in Rva005DC73CDerived.cpp). Each class below
 // stores its own vtable and tail-calls the base destructor; the base itself
 // is only declared here (defined once in Rva005DC73CDerived.cpp), because a
 // same-TU definition would capture the call locally instead of at the ledger
 // address. Owner identities are unproven (opaque Rva names). One ledger row
 // per destructor, landed one commit at a time.
 
-class Rva005DC87B
+class AITacticSiege
 {
 public:
-	virtual ~Rva005DC87B();
+	virtual ~AITacticSiege();
 };
 
-class Rva005A9ACD : public Rva005DC87B
+class AISiegeGatesTactic : public AITacticSiege
 {
 public:
-	virtual ~Rva005A9ACD();
+	virtual ~AISiegeGatesTactic();
 };
 
-Rva005A9ACD::~Rva005A9ACD()
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline AISiegeGatesTactic::~AISiegeGatesTactic()
 {
 }
 
-class Rva005A9CB3 : public Rva005DC87B
+// ?bfmeAnchorAISiegeGatesTacticDtor absent-from-retail
+void bfmeAnchorAISiegeGatesTacticDtor(AISiegeGatesTactic *aISiegeGatesTactic)
+{
+	aISiegeGatesTactic->AISiegeGatesTactic::~AISiegeGatesTactic();
+}
+
+class AISimpleSiegeTactic : public AITacticSiege
 {
 public:
-	virtual ~Rva005A9CB3();
+	virtual ~AISimpleSiegeTactic();
 };
 
-Rva005A9CB3::~Rva005A9CB3()
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline AISimpleSiegeTactic::~AISimpleSiegeTactic()
 {
+}
+
+// ?bfmeAnchorAISimpleSiegeTacticDtor absent-from-retail
+void bfmeAnchorAISimpleSiegeTacticDtor(AISimpleSiegeTactic *aISimpleSiegeTactic)
+{
+	aISimpleSiegeTactic->AISimpleSiegeTactic::~AISimpleSiegeTactic();
 }

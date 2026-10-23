@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // Open-BFME5: ModuleFactory's create proc 0x0011E0B0 allocates 0x30 and
 // reaches this body, which identifies AudioLoopUpgrade.
 //
@@ -24,14 +24,17 @@ protected:
 	Object *m_object;
 };
 
-class ALU_Iface1 { public: virtual void slot(); };
-class ALU_Iface2 { public: virtual void slot(); };
+class ALU_Iface1 { public: virtual void slot() = 0; };
+class ALU_Iface2 { public: virtual void slot() = 0; };
 
-class ALU_UpdateModule : public ALU_DeepBase, public ALU_Iface1, public ALU_Iface2
+// The base is retail's UpdateModule: its constructor (0x00253390),
+// destructor and setWakeFrame are rowed elsewhere, so they are declared,
+// never defined here.
+class UpdateModule : public ALU_DeepBase, public ALU_Iface1, public ALU_Iface2
 {
 public:
-	ALU_UpdateModule(Thing *thing, const ModuleData *moduleData)
-		: ALU_DeepBase(thing, moduleData), m_f14(0), m_f18(-1), m_f1c(-1) {}
+	UpdateModule(Thing *thing, const ModuleData *moduleData);
+	virtual ~UpdateModule();
 
 protected:
 	void setWakeFrame(Object *, UpdateSleepTime);
@@ -43,24 +46,28 @@ private:
 	int m_f1c;
 };
 
-class ALU_UpgradeMux
+class UpgradeMux
 {
 public:
-	ALU_UpgradeMux();
-	virtual void slot();
+	UpgradeMux();
+	// Rowed: slot 0 of retail's UpgradeMux table 0x00C5FF10 and of this class's 0x00C58C70.
+	virtual bool isAlreadyUpgraded() const;
 
 private:
 	bool m_upgradeExecuted;
 };
 
-class ALU_Iface4 { public: virtual void slot(); };
+// Slot 0 of the interface table 0x00C1C780 is __purecall.
+class ALU_Iface4 { public: virtual void rva004B7E3C(int) = 0; };
 
-class AudioLoopUpgrade : public ALU_UpdateModule,
-	public ALU_UpgradeMux,
+class AudioLoopUpgrade : public UpdateModule,
+	public UpgradeMux,
 	public ALU_Iface4
 {
 public:
 	AudioLoopUpgrade(Thing *, const ModuleData *);
+	// Rowed in AudioLoopUpgradeRva004B7E3C.cpp: slot 0 of retail's table 0x00C58C68.
+	virtual void rva004B7E3C(int);
 
 private:
 	int m_x2c;
@@ -68,7 +75,7 @@ private:
 
 // ??0AudioLoopUpgrade@@QAE@PAVThing@@PBVModuleData@@@Z
 AudioLoopUpgrade::AudioLoopUpgrade(Thing *thing, const ModuleData *moduleData)
-	: ALU_UpdateModule(thing, moduleData), ALU_UpgradeMux()
+	: UpdateModule(thing, moduleData), UpgradeMux()
 {
 	m_x2c = 1;
 	setWakeFrame(getObject(), UPDATE_SLEEP_FOREVER);

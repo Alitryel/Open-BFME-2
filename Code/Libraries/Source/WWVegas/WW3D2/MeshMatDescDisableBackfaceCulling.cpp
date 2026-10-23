@@ -29,6 +29,8 @@ struct ShaderBuffer
 
 class MeshMatDescClass
 {
+public:
+	static void bfmeEmitMeshMatDescDisableBackfaceCulling(MeshMatDescClass *p);
 protected:
 	void Disable_Backface_Culling();
 
@@ -43,7 +45,7 @@ private:
 
 typedef char MeshMatDescSizeCheck[sizeof(MeshMatDescClass) == 0x118 ? 1 : -1];
 
-void MeshMatDescClass::Disable_Backface_Culling()
+inline void MeshMatDescClass::Disable_Backface_Culling()
 {
 	for (int pass = 0; pass < PassCount; pass++) {
 		Shader[pass].Clear_Cull_Bit();
@@ -54,3 +56,15 @@ void MeshMatDescClass::Disable_Backface_Culling()
 		}
 	}
 }
+
+// This file owns the row, but other files emit the same function as an inline
+// copy they cannot stop emitting, so a strong definition here was a duplicate
+// symbol in the linked build. The anchor below emits the select-any copy for
+// the ledger row; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitMeshMatDescDisableBackfaceCulling@MeshMatDescClass@@SAXPAV1@@Z present-unmatched
+void MeshMatDescClass::bfmeEmitMeshMatDescDisableBackfaceCulling(MeshMatDescClass *meshMatDesc)
+{
+	meshMatDesc->Disable_Backface_Culling();
+}
+#pragma inline_depth()

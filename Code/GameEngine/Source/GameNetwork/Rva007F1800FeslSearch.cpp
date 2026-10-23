@@ -164,3 +164,7 @@ void Rva007F1800Search::serialize(Rva007E8810Message *message, int maxRecords,
 			(void *)query->m_attributes[i].m_type);
 	}
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeSubVJE@BfmeThingVJE@@QAEXPAVBfmeMsgVJC@@HPAX@Z=?serialize@Rva007F1800Search@@QAEXPAVRva007E8810Message@@HPAX@Z")

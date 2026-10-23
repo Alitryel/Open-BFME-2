@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -43,16 +43,17 @@ public:
 class MultiListObjectClass
 {
 public:
-	MultiListObjectClass() : ListNode(0) {}
+	__declspec(dllimport) __forceinline MultiListObjectClass() : ListNode(0) {}
 	virtual ~MultiListObjectClass();
 private:
 	MultiListNodeClass *ListNode;
 };
 
-class GenericMultiListClass
+// Only the derived member list is constructed; retail stores its vptr.
+class __declspec(novtable) GenericMultiListClass
 {
 public:
-	GenericMultiListClass()
+	__declspec(dllimport) __forceinline GenericMultiListClass()
 	{
 		Head.Next = Head.Prev = &Head;
 		Head.Object = 0;
@@ -63,18 +64,12 @@ private:
 	MultiListNodeClass Head;
 };
 
-template <class T> class MultiListClass : public GenericMultiListClass
-{
-public:
-	MultiListClass() {}
-	virtual ~MultiListClass();
-};
-
 class TextureClass
 {
 public:
 	virtual void Delete_This() = 0;
-	void Add_Ref() { ++NumRefs; }
+	// Preserve inline increments without emitting a competing external copy.
+	__declspec(dllimport) __forceinline void Add_Ref() { ++NumRefs; }
 	unsigned short NumRefs;
 	void Release_Ref();
 };
@@ -82,28 +77,39 @@ public:
 template <class T> class RefCountPtr
 {
 public:
-	RefCountPtr() : Referent(0) {}
-	~RefCountPtr()
-	{
-		if (Referent != 0) {
-			Referent->Release_Ref();
-			Referent = 0;
-		}
-	}
+	RefCountPtr(); // The array callback uses the rowed six-byte constructor.
+	~RefCountPtr();
 	T *Referent;
 };
+
+// Native array initialization uses the same six-byte callback as the
+// material/texture migration units (326BE6).
+#pragma optimize("s", on)
+#pragma optimize("t", off)
+template<> inline RefCountPtr<TextureClass>::RefCountPtr() : Referent(0) {}
+#pragma optimize("", on)
 
 class VertexMaterialClass
 {
 public:
 	virtual void Delete_This() = 0;
-	void Add_Ref() { ++NumRefs; }
+	// Preserve the inline 32-bit increment without a competing external copy.
+	__declspec(dllimport) __forceinline void Add_Ref() { ++NumRefs; }
 	int NumRefs;
 };
 
 class DX8PolygonRendererClass;
 class DX8FVFCategoryContainer;
 class ShaderClass { public: unsigned ShaderBits; };
+
+// Member +1C installs table BD34E0 and unwinds to 144690; use that
+// existing opaque provider without asserting the list's original type name.
+class Rva00144690 : public GenericMultiListClass
+{
+public:
+	Rva00144690() {}
+	virtual ~Rva00144690();
+};
 
 class DX8TextureCategoryClass : public MultiListObjectClass
 {
@@ -116,7 +122,7 @@ private:
 	RefCountPtr<TextureClass> textures[2];
 	ShaderClass shader;
 	VertexMaterialClass *material;
-	MultiListClass<DX8PolygonRendererClass> PolygonRendererList;
+	Rva00144690 PolygonRendererList;
 	DX8FVFCategoryContainer *container;
 	void *render_task_head;
 };

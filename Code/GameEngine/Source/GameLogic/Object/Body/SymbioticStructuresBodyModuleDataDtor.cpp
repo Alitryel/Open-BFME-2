@@ -1,4 +1,4 @@
-// cl: /O1 /MD /DNDEBUG /EHsc
+// cl: /Ireference/shims/bfme2_ascii /MD /DNDEBUG /EHsc
 //
 // ??1SymbioticStructuresBodyModuleData@@UAE@XZ, retail 0x002570F9, 53 bytes.
 // Virtual dtor over vtable 0x007F3EE0 (slot 0 deleting dtor at 0x002570DD
@@ -8,14 +8,7 @@
 // 0x004BF59F vtable 0xBF3EE0 string +0x64 via set 0x55F5). Shape follows
 // the ctor (novtable base plus derived string) with the base call
 // untracked (or-minus1) exactly as retail.
-class AsciiString
-{
-public:
-	~AsciiString();
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class __declspec(novtable) ActiveBodyModuleData
 {

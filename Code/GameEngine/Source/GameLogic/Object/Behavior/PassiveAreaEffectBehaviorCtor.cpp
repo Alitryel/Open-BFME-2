@@ -1,4 +1,4 @@
-// cl: /O1 /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc  /D_CRTIMP=
 // stlport
 //
 // ??0PassiveAreaEffectBehavior@@QAE@PAVThing@@PBVModuleData@@@Z, retail
@@ -18,13 +18,27 @@
 
 #include <list>
 
+// Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
+// rather than emitting its own.
+namespace _STL {
+template <> void _List_base<int, allocator<int> >::clear();
+}
+
+// Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
+// rather than emitting its own.
+namespace _STL {
+template <> _List_base<int, allocator<int> >::~_List_base();
+}
+
 class Thing;
 class ModuleData;
 class Object;
 
+// Slot 0 of each module's primary vftable is its deleting destructor
+// (0x00484C3C in 0x00C4A448), so the base's first virtual is the destructor.
 class BehaviorModuleBase
 {
-	virtual void unused();
+	virtual ~BehaviorModuleBase();
 	int a;
 	int b;
 };
@@ -46,6 +60,12 @@ public:
 	virtual void update() = 0;
 };
 
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1,
+	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
+};
+
 class UpdateModule : public BehaviorModule, public UpdateModuleInterface
 {
 	unsigned m_nextCallFrameAndPhase;
@@ -57,7 +77,7 @@ public:
 	virtual ~UpdateModule();
 
 protected:
-	void setWakeFrame(Object *obj, unsigned int frame);
+	void setWakeFrame(Object *obj, UpdateSleepTime frame);
 };
 
 class PassiveAreaEffectBehavior : public UpdateModule
@@ -77,5 +97,10 @@ PassiveAreaEffectBehavior::PassiveAreaEffectBehavior(Thing *thing, const ModuleD
 	, m_20(0)
 {
 	m_trackedIds.clear();
-	setWakeFrame(*(Object **)((char *)this + 8), 1);
+	setWakeFrame(*(Object **)((char *)this + 8), UPDATE_SLEEP_NONE);
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?unused@BehaviorModuleOther@@EAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

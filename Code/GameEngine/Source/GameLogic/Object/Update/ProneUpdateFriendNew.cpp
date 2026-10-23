@@ -21,7 +21,15 @@ private:
 };
 
 // ?friend_newModuleInstance@ProneUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *ProneUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *ProneUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new ProneUpdate(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitProneUpdateFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitProneUpdateFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	ProneUpdate::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

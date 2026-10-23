@@ -1,0 +1,67 @@
+// cl: /Ireference/shims/bfme2_ascii /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// stlport
+//
+// ?push_back@?$vector@UFileInfoStruct@MixFileCreator@@V?$allocator@UFileInfoStruct@MixFileCreator@@@_STL@@@_STL@@QAEXABUFileInfoStruct@MixFileCreator@@@Z @0x00218DD2 55B
+// STLport vector<MixFileCreator::FileInfoStruct>::push_back. Fast path calls
+// the rowed placement-copy helper at 0x0021781D; growth path calls the rowed
+// _M_insert_overflow at 0x00218B20 with n=1 fill=1. Layout from
+// MixFileCreatorFileInfoStructAssign and stlport_vector_fileinfo_allocate_copy
+// (CRC Offset Size Filename, 16-byte stride). Chain from 0x00218B20;
+// unblocks 0x00218E96.
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
+#include <vector>
+
+#include "ascii_string.h"
+
+class MixFileCreator
+{
+public:
+	struct FileInfoStruct
+	{
+		FileInfoStruct();
+		FileInfoStruct(const FileInfoStruct &src);
+		FileInfoStruct &operator=(const FileInfoStruct &src);
+		unsigned long CRC;
+		unsigned long Offset;
+		unsigned long Size;
+		AsciiString Filename;
+	};
+};
+
+typedef MixFileCreator::FileInfoStruct FileInfoStruct;
+
+// Use the rowed growth specialization at 0x00218B20.
+namespace _STL { template <> void vector<FileInfoStruct>::_M_insert_overflow(FileInfoStruct *, const FileInfoStruct &, const __false_type &, size_t, bool); }
+
+void Rva0021781DConstruct(FileInfoStruct *, const FileInfoStruct &);
+
+
+// The empty dispatch tag carries no state and needs no initialization.
+namespace _STL
+{
+template <>
+void vector<FileInfoStruct>::push_back(const FileInfoStruct &__x)
+{
+	if (_M_finish != _M_end_of_storage._M_data)
+	{
+		Rva0021781DConstruct(_M_finish, __x);
+		++_M_finish;
+	}
+	else
+	{
+		__false_type tag;
+		this->_M_insert_overflow(_M_finish, __x, tag, 1, true);
+	}
+}
+
+template void vector<FileInfoStruct>::push_back(const FileInfoStruct &);
+}

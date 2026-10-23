@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??1HordeWorkerAIUpdate@@UAE@XZ, retail 0x0049AC94 (49 bytes).
 // Behavior-side destructor (class of rowed ctor 0x49AD15, vtable 0x008508C8):
@@ -7,6 +7,10 @@
 // the inherited extra, then tail-jumps to the rowed base dtor
 // ??1Rva0049A64B@@UAE@XZ at 0x0049A64B. Sole caller is the scalar-deleting
 // dtor at 0x0049AD9B.
+
+// Same complete secondary-interface table installed by both Horde constructors.
+// The existing data-row owner supplies its twenty verified function entries.
+extern const void *const g_00C50868[];
 
 class Thing;
 class ModuleData;
@@ -60,7 +64,7 @@ public:
 
 protected:
 	char m_pad0028[0x3E4 - 0x28];
-	int m_extra03E4;
+	const void *m_extra03E4;
 };
 
 class HordeWorkerAIUpdate : public Rva0049A64B
@@ -71,5 +75,10 @@ public:
 
 HordeWorkerAIUpdate::~HordeWorkerAIUpdate()
 {
-	m_extra03E4 = 0x00C50868;
+	m_extra03E4 = g_00C50868;
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?f1@DBaseM1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

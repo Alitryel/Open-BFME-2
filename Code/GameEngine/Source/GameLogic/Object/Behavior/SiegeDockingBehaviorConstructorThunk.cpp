@@ -1,7 +1,24 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
+// cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
 
 #include <vector>
+
+// vector<int>/char destruction otherwise instantiates per-TU allocator
+// deallocate COMDATs (one byte shape per TU flags); explicit
+// dllimport+forceinline specializations take those calls inline so this
+// TU emits no external copies. Bodies are verbatim primary.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<int>::deallocate(int* __p, size_t __n) const {
+  _STLP_ASSERT( (__p == 0) == (__n == 0) )
+    if (__p != 0) __sgi_alloc::deallocate((void*)__p, __n * sizeof(value_type));
+}
+template <> void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int*, size_t);
+// Declaration-only: retail keeps one 14-byte copy of the vector<int> teardown
+// (0x0007FAB3); this TU's flags would emit a private 24-byte one.
+template <> vector<int, allocator<int> >::~vector();
+template <> _Vector_base<int, allocator<int> >::~_Vector_base();
+}
 
 class Thing;
 class ModuleData;
@@ -52,15 +69,11 @@ public:
 class UpdateModule : public BehaviorModule, public UpdateModuleInterface
 {
 public:
-	UpdateModule(Thing *thing, const ModuleData *data) :
-		BehaviorModule(thing, data),
-		m_nextCallFrameAndPhase(0),
-		m_indexInLogic(-1),
-		m_updateState(-1)
-	{
-	}
-	virtual ~UpdateModule() {}
-
+	// Defined once, out of line, in UpdateModuleCtor.cpp (retail 0x00253390): derived
+	// ctors call it, and a copy here would offer the link a second, non-retail body.
+	UpdateModule(Thing *thing, const ModuleData *data);
+	virtual ~UpdateModule();
+ 
 	void setWakeFrame(Object *object, unsigned int frame);
 
 protected:
@@ -71,10 +84,12 @@ private:
 	unsigned int m_updateState;
 };
 
+// Retail installs this base's vtable 0x00C4EF80 first (ctor store at +0x20);
+// every slot there is __purecall (0x0003B810), so the slot is pure.
 class SiegeDockingBehaviorSecondaryBase
 {
 public:
-	virtual void slot();
+	virtual void slot() = 0;
 };
 
 class SiegeDockingBehavior : public UpdateModule, public SiegeDockingBehaviorSecondaryBase

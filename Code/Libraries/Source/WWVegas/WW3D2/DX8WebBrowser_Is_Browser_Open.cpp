@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /Ireference/shims/bfmecamera /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
+// cl: /Ireference/shims/bfmecamera /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
 
 struct _GUID { unsigned char bytes[16]; };
 typedef _GUID GUID;
@@ -24,7 +24,10 @@ public:
 	~_bstr_t() throw()
 	{
 		if (m_data)
+		{
 			m_data->bfmeGoVGP();
+			m_data = 0;
+		}
 	}
 };
 
@@ -69,3 +72,5 @@ __declspec(noinline) bool forceIsBrowserOpen(const char *browsername)
 {
 	return DX8WebBrowser::Is_Browser_Open(browsername);
 }
+// ?g_bfmeObjECF@@3VBfmeObjECFPtr@@A: the global at VA 0xdf7040 is ?g_bfmeObjECF@@3PAUBfmeObjECF@@A.
+#pragma comment(linker, "/alternatename:?g_bfmeObjECF@@3VBfmeObjECFPtr@@A=?g_bfmeObjECF@@3PAUBfmeObjECF@@A")

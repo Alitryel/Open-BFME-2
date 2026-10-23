@@ -4,24 +4,20 @@
 // ??0CurseSpecialPowerModuleData@@QAE@XZ (0x44EB54-base family).
 // Default ctor; two trailing ints plus one trailing float. Vtable hand-placed
 // late (novtable) after the ints.
-class Rva0044EB54
+class SpecialAbilityUpdateModuleData
 {
 public:
-	Rva0044EB54();
-	virtual ~Rva0044EB54();
+	SpecialAbilityUpdateModuleData();
+	virtual ~SpecialAbilityUpdateModuleData();
 
 protected:
 	unsigned char m_pad[0xC8 - 4];
 };
 
-// ??1Rva0044EB54@@ present-unmatched
-Rva0044EB54::~Rva0044EB54()
-{
-}
+// SpyVisionUpdate_vftable: matched references place it at VA 0xc5f778 (retail .rdata value 56).
+extern "C" char SpyVisionUpdate_vftable = 56;
 
-extern "C" char SpyVisionUpdate_vftable;
-
-class __declspec(novtable) CurseSpecialPowerModuleData : public Rva0044EB54
+class __declspec(novtable) CurseSpecialPowerModuleData : public SpecialAbilityUpdateModuleData
 {
 public:
 	CurseSpecialPowerModuleData();
@@ -36,7 +32,7 @@ private:
 static float kZero = 0.0f;
 
 CurseSpecialPowerModuleData::CurseSpecialPowerModuleData()
-	: Rva0044EB54()
+	: SpecialAbilityUpdateModuleData()
 {
 	m_iC8 = 0;
 	m_iCC = 0;

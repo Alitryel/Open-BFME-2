@@ -1,6 +1,25 @@
 // cl: /Ireference/shims/bfmehrawanim /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// Link view first: Vector3 Lerp (and the rest of the vector3 view) stays inline without emitting an /O2
+// copy that competes with retail's owner (0x0009AA48).
+#include "../../../../../reference/shims/bfme_vector3_lerp_link/vector3_lerp_link.h"
 // Ported verbatim from the Generals Zero Hour reference
 // (Libraries/Source/WWVegas/WW3D2/hrawanim.cpp); this unit had no counterpart under Code/.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+
+// BFME 2 has no W3D memory pools (see Code/Libraries/Source/WWVegas/WWLib/always.h).
+#include "always.h"
+#undef W3DMPO_GLUE
+#define W3DMPO_GLUE(ARGCLASS)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -148,16 +167,8 @@ NodeMotionStruct::~NodeMotionStruct()
  * HISTORY:                                                                                    * 
  *   08/11/1997 GH  : Created.                                                                 * 
  *=============================================================================================*/
-// ??0HRawAnimClass@@QAE@XZ present-unmatched
-HRawAnimClass::HRawAnimClass(void) :
-	NumFrames(0),
-	NumNodes(0),
-	FrameRate(0),
-	NodeMotion(NULL)
-{
-	memset(Name,0,W3D_NAME_LEN);
-	memset(HierarchyName,0,W3D_NAME_LEN);
-}
+// HRawAnimClass constructor: target-layout definition in HRawLoadW3D.cpp.
+
 
 
 /*********************************************************************************************** 
@@ -190,7 +201,7 @@ HRawAnimClass::~HRawAnimClass(void)
  * HISTORY:                                                                                    * 
  *   08/11/1997 GH  : Created.                                                                 * 
  *=============================================================================================*/
-void HRawAnimClass::Free(void)
+inline void HRawAnimClass::Free(void)
 {
 	if (NodeMotion != NULL) {
 		delete[] NodeMotion;
@@ -226,18 +237,7 @@ void HRawAnimClass::Free(void)
  * HISTORY:                                                                                    * 
  *   08/11/1997 GH  : Created.                                                                 * 
  *=============================================================================================*/
-bool HRawAnimClass::read_channel(ChunkLoadClass & cload,MotionChannelClass * * newchan,bool pre30)
-{
-	*newchan = W3DNEW MotionChannelClass;
-	bool result = (*newchan)->Load_W3D(cload);	
-	
-	if (result && pre30) {
-//		(*newchan)->PivotIdx += 1;
-		(*newchan)->Set_Pivot((*newchan)->Get_Pivot()+1);
-	}
-	
-	return result;
-}
+// HRawAnimClass::read_channel: exact provider and ledger rows live in HRawLoadW3D.cpp.
 
 /*********************************************************************************************** 
  * HRawAnimClass::add_channel -- Adds a motion channel to the animation                           * 
@@ -251,48 +251,7 @@ bool HRawAnimClass::read_channel(ChunkLoadClass & cload,MotionChannelClass * * n
  * HISTORY:                                                                                    * 
  *   08/11/1997 GH  : Created.                                                                 * 
  *=============================================================================================*/
-void HRawAnimClass::add_channel(MotionChannelClass * newchan)
-{
-	int idx = newchan->Get_Pivot();
-
-	switch (newchan->Get_Type())
-	{
-		case ANIM_CHANNEL_X:
-			NodeMotion[idx].X = newchan;
-			break;
-
-		case ANIM_CHANNEL_Y:
-			NodeMotion[idx].Y = newchan;
-			break;
-
-		case ANIM_CHANNEL_Z:
-			NodeMotion[idx].Z = newchan;
-			break;
-
-		case ANIM_CHANNEL_XR:
-			NodeMotion[idx].XR = newchan;
-			break;
-
-		case ANIM_CHANNEL_YR:
-			NodeMotion[idx].YR = newchan;
-			break;
-
-		case ANIM_CHANNEL_ZR:
-			NodeMotion[idx].ZR = newchan;
-			break;
-
-		case ANIM_CHANNEL_Q:
-			NodeMotion[idx].Q = newchan;
-			break;
-
-		case 15: // ANIM_CHANNEL_FADE: BFME per-pivot fade channel (value 15,
-			// BFME1 w3d_file.h; Zero Hour's enum ends at ADAPTIVEDELTA_Q).
-			// Stored at NodeMotion[idx].Fade (+0x1C), ahead of Vis.
-			NodeMotion[idx].Fade = newchan;
-			break;
-	}
-
-}
+// HRawAnimClass::add_channel: exact provider and ledger rows live in HRawLoadW3D.cpp.
 
 
 /***********************************************************************************************
@@ -307,18 +266,7 @@ void HRawAnimClass::add_channel(MotionChannelClass * newchan)
  * HISTORY:                                                                                    *
  *   1/19/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?read_bit_channel@HRawAnimClass@@AAE_NAAVChunkLoadClass@@PAPAVBitChannelClass@@_N@Z present-unmatched
-bool HRawAnimClass::read_bit_channel(ChunkLoadClass & cload,BitChannelClass * * newchan,bool pre30)
-{
-	*newchan = W3DNEW BitChannelClass;
-	bool result = (*newchan)->Load_W3D(cload);	
-
-	if (result && pre30) {
-		(*newchan)->PivotIdx += 1;
-	}
-	
-	return result;
-}
+// HRawAnimClass::read_bit_channel: exact provider and ledger row live in HRawLoadW3D.cpp.
 
 
 /***********************************************************************************************
@@ -333,16 +281,43 @@ bool HRawAnimClass::read_bit_channel(ChunkLoadClass & cload,BitChannelClass * * 
  * HISTORY:                                                                                    *
  *   1/19/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-void HRawAnimClass::add_bit_channel(BitChannelClass * newchan)
-{
-	int idx = newchan->Get_Pivot();
+// HRawAnimClass::add_bit_channel: exact provider and ledger rows live in HRawLoadW3D.cpp.
 
-	switch (newchan->Get_Type())
-	{
-		case BIT_CHANNEL_VIS:
-			NodeMotion[idx].Vis = newchan;
-			break;
+// BFME per-pivot fade (vtable 0x007D5D24 slot 11, retail 0x0018D540): the
+// fade channel at NodeMotion[pividx].Fade blended like Get_Translation's
+// components, 1.0 when the pivot has none. BFME1 hrawanim.cpp donor.
+float HRawAnimClass::Get_VisibilityF(int pividx,float frame)
+{
+	struct NodeMotionStruct * node = Get_Node_Motion_Array() + pividx;
+	float value0;
+	float value1;
+	if (node->Fade == NULL) {
+		return 1.0f;
 	}
+
+	int frame0 = WWMath::Float_To_Long(frame-0.499999f);
+	int frame1 = frame0 + 1;
+	float ratio = frame - (float)frame0;
+
+	if (frame1 >= NumFrames) {
+		frame1 = 0;
+	}
+
+	value0 = 1.0f;
+	if (node->Fade != NULL) {
+		node->Fade->Get_Vector(frame0,&value0);
+	}
+
+	if (ratio == 0.0f) {
+		return value0;
+	}
+
+	value1 = 1.0f;
+	if (node->Fade != NULL) {
+		node->Fade->Get_Vector(frame1,&value1);
+	}
+
+	return value0 + (value1 - value0) * ratio;
 }
 
 /*********************************************************************************************** 
@@ -357,7 +332,6 @@ void HRawAnimClass::add_bit_channel(BitChannelClass * newchan)
  * HISTORY:                                                                                    * 
  *   08/11/1997 GH  : Created.                                                                 * 
  *=============================================================================================*/
-// ?Get_Translation@HRawAnimClass@@UBEXAAVVector3@@HM@Z present-unmatched
 void HRawAnimClass::Get_Translation(Vector3& trans, int pividx, float frame ) const
 {
 	struct NodeMotionStruct * motion = &NodeMotion[pividx];
@@ -408,7 +382,9 @@ void HRawAnimClass::Get_Translation(Vector3& trans, int pividx, float frame ) co
 		motion->Z->Get_Vector((int)frame1,&(trans1[2]));
 	}
 
-	Vector3::Lerp( trans0, trans1, ratio, &trans );
+	trans.X = trans0.X + (trans1.X - trans0.X)*ratio;
+	trans.Y = trans0.Y + (trans1.Y - trans0.Y)*ratio;
+	trans.Z = trans0.Z + (trans1.Z - trans0.Z)*ratio;
 }
 
 /*********************************************************************************************** 
@@ -423,7 +399,7 @@ void HRawAnimClass::Get_Translation(Vector3& trans, int pividx, float frame ) co
  * HISTORY:                                                                                    * 
  *   08/11/1997 GH  : Created.                                                                 * 
  *=============================================================================================*/
- bool HRawAnimClass::Get_Orientation(Quaternion& q, int pividx,float frame) const
+ bool HRawAnimClass::Get_Orientation(Quaternion& quaternion, int pividx,float frame) const
 {
 	// BFME reports success like BFME1's bool revision (retail 0x0018DD60 sets
 	// al=1 on every return path); the quaternion logic below is Zero Hour's.
@@ -458,15 +434,15 @@ void HRawAnimClass::Get_Translation(Vector3& trans, int pividx, float frame ) co
 
 	if ( ratio == 0.0f ) 
 	{
-		q = q0;
+		quaternion = q0;
 	}
 	else if ( ratio == 1.0f ) 
 	{
-		q = q1;
+		quaternion = q1;
 	}
 	else
 	{
-		BFME2_Nlerp(q, q0, q1, ratio);
+		BFME2_Nlerp(quaternion, q0, q1, ratio);
 	}
 
 #else
@@ -479,7 +455,7 @@ void HRawAnimClass::Get_Translation(Vector3& trans, int pividx, float frame ) co
 	}
 
 	if ( ratio == 0.0f ) {
-		q=q0;
+		quaternion=q0;
 		return;
 	}
 
@@ -489,7 +465,7 @@ void HRawAnimClass::Get_Translation(Vector3& trans, int pividx, float frame ) co
 		q1.Set(vals[0],vals[1],vals[2],vals[3]);
 	}
 
-	Fast_Slerp(q, q0, q1, ratio );
+	Fast_Slerp(quaternion, q0, q1, ratio );
 #endif
 	// BFME1 keeps Zero Hour behaviour behind a bool report: always true here.
 	return true;
@@ -507,15 +483,13 @@ void HRawAnimClass::Get_Translation(Vector3& trans, int pividx, float frame ) co
  * HISTORY:                                                                                    * 
  *   08/11/1997 GH  : Created.                                                                 * 
  *=============================================================================================*/
-// ?Get_Transform@HRawAnimClass@@UBEXAAVMatrix3D@@HM@Z present-unmatched
 void HRawAnimClass::Get_Transform(Matrix3D& mtx, int pividx, float frame ) const
 {
+	// BFME: retail 0x0018DF20 (vtable 0x007D5D24 slot 9) never builds a matrix.
+	// Like HCompressedAnimClass::Get_Transform (0x0018F3F0) it stores the
+	// orientation quaternion at mtx+0 and the translation at mtx+0x10, and it
+	// blends with the normalized lerp at 0x00717550.
 	struct NodeMotionStruct * motion = &NodeMotion[pividx];
-
-//	if ( (motion->X == NULL) && (motion->Y == NULL) && (motion->Z == NULL) ) {
-//		 trans.Set(0.0f,0.0f,0.0f);
-//		return;
-//	}
 
 	int frame0=WWMath::Float_To_Long(frame-0.499999f);
 
@@ -536,10 +510,10 @@ void HRawAnimClass::Get_Transform(Matrix3D& mtx, int pividx, float frame ) const
 	}
 
 	if ( ratio == 0.0f ) {
-		::Build_Matrix3D(q0,mtx);
-		if (motion->X != NULL) motion->X->Get_Vector((int)frame0,&(mtx[0][3]));
-		if (motion->Y != NULL) motion->Y->Get_Vector((int)frame0,&(mtx[1][3]));
-		if (motion->Z != NULL) motion->Z->Get_Vector((int)frame0,&(mtx[2][3]));
+		(Quaternion &)mtx = q0;
+		if (motion->X != NULL) motion->X->Get_Vector((int)frame0,(float *)&mtx + 4);
+		if (motion->Y != NULL) motion->Y->Get_Vector((int)frame0,(float *)&mtx + 5);
+		if (motion->Z != NULL) motion->Z->Get_Vector((int)frame0,(float *)&mtx + 6);
 		return;
 	}
 
@@ -549,9 +523,7 @@ void HRawAnimClass::Get_Transform(Matrix3D& mtx, int pividx, float frame ) const
 		q1.Set(vals[0],vals[1],vals[2],vals[3]);
 	}
 
-	Quaternion q;
-	Fast_Slerp(q, q0, q1, ratio );
-	::Build_Matrix3D(q,mtx);
+	BFME2_Nlerp((Quaternion &)mtx, q0, q1, ratio );
 
 	Vector3 trans0(0.0f,0.0f,0.0f);
 	if (motion->X != NULL) motion->X->Get_Vector((int)frame0,&(trans0[0]));
@@ -563,10 +535,10 @@ void HRawAnimClass::Get_Transform(Matrix3D& mtx, int pividx, float frame ) const
 	if (motion->Y != NULL) motion->Y->Get_Vector((int)frame1,&(trans1[1]));
 	if (motion->Z != NULL) motion->Z->Get_Vector((int)frame1,&(trans1[2]));
 
-	Vector3 trans;
-	Vector3::Lerp( trans0, trans1, ratio, &trans );
-
-	mtx.Set_Translation(trans);
+	Vector3 *translation = (Vector3 *)((char *)&mtx + 16);
+	translation->X = trans0.X + (trans1.X - trans0.X)*ratio;
+	translation->Y = trans0.Y + (trans1.Y - trans0.Y)*ratio;
+	translation->Z = trans0.Z + (trans1.Z - trans0.Z)*ratio;
 }
 
 /***********************************************************************************************
@@ -581,11 +553,23 @@ void HRawAnimClass::Get_Transform(Matrix3D& mtx, int pividx, float frame ) const
  * HISTORY:                                                                                    *
  *   1/19/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?Get_Visibility@HRawAnimClass@@UAE_NHM@Z present-unmatched
+// BFME 2's bit lookup indexes with shifts (sar 3, and 7) where Zero Hour's
+// BitChannelClass::Get_Bit divides; the shared motchan.h shim keeps Zero
+// Hour's form, so the lookup is spelled out here (HRawAnimClass is a friend).
 bool HRawAnimClass::Get_Visibility(int pividx,float frame)
 {
-	if (NodeMotion[pividx].Vis != NULL) {
-		return (NodeMotion[pividx].Vis->Get_Bit((int)frame) == 1);
+	BitChannelClass *vis = NodeMotion[pividx].Vis;
+	if (vis != NULL) {
+		int f = (int)frame;
+		int value;
+		if ((f < vis->FirstFrame) || (f > vis->LastFrame)) {
+			value = vis->DefaultVal;
+		} else {
+			int bit = f - vis->FirstFrame;
+			uint8 mask = (uint8)(1 << (bit & 7));
+			value = ((*(vis->Bits + (bit >> 3)) & mask) != 0);
+		}
+		return (value == 1);
 	}
 
 	// default to always visible...
@@ -652,3 +636,8 @@ bool HRawAnimClass::Has_Visibility (int pividx)
 }
 
 
+
+// The WeightInfoStruct vector deleting destructor (??_E) this unit emits takes the
+// optimization state at the end of the unit: retail links the size-optimized copy
+// (htree.cpp emits it), so the unit ends in that state.
+#pragma optimize("gsy", on)

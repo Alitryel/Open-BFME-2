@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // ModuleFactory reaches this constructor body through ILT 0x0004773F. The
 // registration string and 0x24-byte allocation independently identify the
 // retail-only DetachableRiderUpdate class.
@@ -6,7 +6,7 @@
 class Thing;
 class ModuleData;
 class Object;
-enum UpdateSleepTime { UPDATE_SLEEP_FOREVER = 0x3fffffff };
+enum UpdateSleepTime { UPDATE_SLEEP_NONE = 1, UPDATE_SLEEP_FOREVER = 0x3fffffff };
 
 class DRU_DeepBase
 {
@@ -26,8 +26,12 @@ class DRU_Iface2 { public: virtual void slot(); };
 class UpdateModule : public DRU_DeepBase, public DRU_Iface1, public DRU_Iface2
 {
 public:
-    UpdateModule(Thing *thing, const ModuleData *moduleData)
-        : DRU_DeepBase(thing, moduleData), m_f14(0), m_f18(-1), m_f1c(-1) {}
+    // Defined once, out of line, in UpdateModuleCtor.cpp (retail 0x00253390): derived
+    // ctors call it, and a copy here would offer the link a second, non-retail body.
+    UpdateModule(Thing *thing, const ModuleData *moduleData);
+    // Declared only: retail's ~UpdateModule (0x0024A797, pin) restores the three vtables and
+    // tail-jumps on; the implicit one here compiled to a 5-byte jmp the link could keep.
+    virtual ~UpdateModule();
 
 protected:
     void setWakeFrame(Object *, UpdateSleepTime);
@@ -43,6 +47,7 @@ class DetachableRiderUpdate : public UpdateModule
 {
 public:
     DetachableRiderUpdate(Thing *, const ModuleData *);
+    void rva004AE8FA();
 
 private:
     bool m_flag20;
@@ -56,3 +61,18 @@ DetachableRiderUpdate::DetachableRiderUpdate(
 {
     setWakeFrame(getObject(), UPDATE_SLEEP_FOREVER);
 }
+
+// ?rva004AE8FA@DetachableRiderUpdate@@QAEXXZ @0x004AE8FA 15B: clear +0x20 then
+// wake (none) via rowed UpdateModule::setWakeFrame 0x0044DF71; caller
+// ReplenishUnitsBehavior::rva004842DD casts to DetachableRiderUpdate and calls it.
+void DetachableRiderUpdate::rva004AE8FA()
+{
+    m_flag20 = false;
+    setWakeFrame(m_object, UPDATE_SLEEP_NONE);
+}
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?slot@DRU_Iface1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+#pragma comment(linker, "/alternatename:?slot@DRU_Iface2@@UAEXXZ=?update@DetachableRiderUpdateUpdateReceiver@@QAE?AW4UpdateSleepTime@@XZ")

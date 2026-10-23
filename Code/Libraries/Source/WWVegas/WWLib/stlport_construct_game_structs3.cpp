@@ -1,4 +1,4 @@
-// cl: /O1 /Ob2 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB
+// cl: /Ob2 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // Fifth batch of STLport _Construct<T> placement-copy helpers, same-shape
@@ -9,8 +9,8 @@
 // matched row. Each T is declared minimally (declared-only copy ctor,
 // matching the struct/class-ness of its copy ctor); no member is ever
 // touched, so the emitted code is identical apart from the callee. Ledger
-// names are dup_ with an object-symbol note; the true _Construct<T> names
-// stay unspent.
+// uses the actual _Construct<T> compiler names. The helper pattern is carried
+// from STLport; original application identity of the opaque record is unknown.
 
 #include <memory>
 

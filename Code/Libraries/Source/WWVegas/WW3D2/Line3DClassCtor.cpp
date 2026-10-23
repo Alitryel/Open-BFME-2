@@ -1,4 +1,20 @@
-// cl: /Ireference/shims/bfme2renderobj /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// cl: /Ireference/shims/bfme2renderobj /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// Link view first: Vector3::Length (and Normalize/Vector3(x,y,z) in the full view) stay inline without
+// emitting /O2 copies that compete with retail's owners (0x000692B3, 0x0006924F, 0x006CD510).
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it; retail links the
+// /O1 body at 0x00001423. Instantiate it first in an unemitted anchor (the
+// lookuptable.cpp pattern) so this unit's copy is that body.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+#include "../../../../../reference/shims/bfme_vector3_lenfull_link/vector3_lenfull_link.h"
 /*
 ** Command & Conquer Generals Zero Hour(tm)
 ** Copyright 2025 Electronic Arts Inc.
@@ -16,6 +32,8 @@
 ** You should have received a copy of the GNU General Public License
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
+// Keep the visible identity constructor inline, binding calls to its retail owner.
+#include "../../../../../reference/shims/bfme_matrix3d_bool_link/matrix3d.h"
 #include "rendobj.h"
 #include "vector3.h"
 #include "vector4.h"
@@ -46,8 +64,9 @@ typedef char Line3DSizeIsRetail[(sizeof(Line3DClass) == 0x144) ? 1 : -1];
 enum { SORT_LEVEL_NONE = 0 };
 
 // Donor: reference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2/line3d.cpp.
-// Retail has this helper at 0x167370; ctor inlines the equivalent stores.
-void Line3DClass::Set_Opacity(float opacity)
+// Retail helper ?Set_Opacity@Line3DClass@@QAEXM@Z at 0x00167370 is owned by
+// Line3DClassRender.cpp; inline here so the ctor inlines it (select-any, linkcheck-clean).
+inline void Line3DClass::Set_Opacity(float opacity)
 {
     if (opacity < 1.0f) {
         Shader = ShaderClass::_PresetAlphaSolidShader;
@@ -104,3 +123,8 @@ Line3DClass::Line3DClass(const Vector3& start, const Vector3& end,
     transform.Obj_Look_At(start, end, 0.0f);
     Set_Transform(transform);
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?Class_ID@Line3DClass@@UBEHXZ=?Rva00166C10Get@@YAHXZ")

@@ -1,4 +1,4 @@
-// cl: /O1
+// cl: /Ireference/shims/bfme2_ascii /O1
 // stlport
 //
 // vector<FXBoneInfo>::erase(first, last), retail 0x00207F0D, 51 bytes,
@@ -32,14 +32,7 @@
 // with a zeroed [ebp-1] temp instead (six probed spellings). The destroy
 // call takes reinterpreted pair pointers (free casts) so it resolves to
 // the rowed range destroy with no new pins.
-class AsciiString
-{
-public:
-	~AsciiString();
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 struct FXBoneInfo
 {
@@ -53,8 +46,16 @@ struct RvaPair0032C0CA
 	int m_value;
 };
 
-FXBoneInfo *copyEightByteRange(FXBoneInfo *first, FXBoneInfo *last,
-	FXBoneInfo *dest, void *tag, int extra);
+// Rowed worker at 254D65 uses an opaque eight-byte element view. The
+// caller preserves its native pointer/tag/null-distance argument ABI.
+struct Rva00254D65Element;
+namespace _STL {
+struct random_access_iterator_tag;
+template <class Input, class Output, class Distance>
+Output __copy(Input, Input, Output, const random_access_iterator_tag &, Distance *);
+}
+typedef Rva00254D65Element *(__cdecl *NativeEightByteCall)(Rva00254D65Element *, Rva00254D65Element *, Rva00254D65Element *, const _STL::random_access_iterator_tag &, int *);
+typedef FXBoneInfo *(__cdecl *CopyEightByteCall)(FXBoneInfo *, FXBoneInfo *, FXBoneInfo *, void *, int);
 
 void Rva0032C0CADestroyPairs(RvaPair0032C0CA *first, RvaPair0032C0CA *last);
 
@@ -89,13 +90,13 @@ template <class InputIter, class OutputIter>
 OutputIter __copy_ptrs(InputIter first, InputIter last, OutputIter result,
 	const __false_type &tag){
 	__false_type local;
-	return copyEightByteRange(first, last, result,
+	return (reinterpret_cast<CopyEightByteCall>(static_cast<NativeEightByteCall>(&_STL::__copy<Rva00254D65Element *, Rva00254D65Element *, int>)))(first, last, result,
 		reinterpret_cast<void *>(&local), 0);
 }
 
 }
 
-_STL::vector<FXBoneInfo, _STL::allocator<FXBoneInfo> >::iterator
+inline _STL::vector<FXBoneInfo, _STL::allocator<FXBoneInfo> >::iterator
 _STL::vector<FXBoneInfo, _STL::allocator<FXBoneInfo> >::erase(
 	iterator first, iterator last){
 	iterator result = _STL::__copy_ptrs(last, m_finish, first, _STL::__false_type());
@@ -103,3 +104,20 @@ _STL::vector<FXBoneInfo, _STL::allocator<FXBoneInfo> >::erase(
 	m_finish = result;
 	return first;
 }
+
+// vector<FXBoneInfo>::erase is a header inline in retail: other units emit
+// select-any copies of it, so a strong definition here was a duplicate symbol
+// in the linked build. This anchor only makes this unit emit its copy for the
+// ledger row; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitFXBoneInfoVectorErase@@YAXPAV?$vector@UFXBoneInfo@@V?$allocator@UFXBoneInfo@@@_STL@@@_STL@@@Z present-unmatched
+void bfmeEmitFXBoneInfoVectorErase(
+	_STL::vector<FXBoneInfo, _STL::allocator<FXBoneInfo> > *p)
+{
+	p->erase(0, 0);
+}
+#pragma inline_depth()
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?erase@?$vector@UQuantityModifier@@V?$allocator@UQuantityModifier@@@_STL@@@_STL@@QAEPAUQuantityModifier@@PAU3@0@Z=?erase@?$vector@UFXBoneInfo@@V?$allocator@UFXBoneInfo@@@_STL@@@_STL@@QAEPAUFXBoneInfo@@PAU3@0@Z")

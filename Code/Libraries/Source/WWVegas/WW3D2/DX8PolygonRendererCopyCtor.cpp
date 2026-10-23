@@ -17,7 +17,7 @@
 class MultiListObjectClass
 {
 public:
-	MultiListObjectClass() : ListNode(0) { }
+	__declspec(dllimport) __forceinline MultiListObjectClass() : ListNode(0) { }
 	virtual ~MultiListObjectClass();
 
 private:
@@ -66,6 +66,7 @@ public:
 class DX8PolygonRendererClass : public MultiListObjectClass
 {
 public:
+	virtual ~DX8PolygonRendererClass();
 	DX8PolygonRendererClass(
 		const DX8PolygonRendererClass &src,
 		MeshModelClass *mmc_);

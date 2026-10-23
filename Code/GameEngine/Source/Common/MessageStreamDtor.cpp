@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // ??1MessageStream@@UAE@XZ, retail 0x00310FA1 (84 bytes).
 // MessageStream dtor shard (regular virtual, not novtable, so the compiler
@@ -8,15 +8,16 @@
 // delete resolve via the rowed bodies; the GameMessageList base dtor resolves
 // via the existing 0x0030F57C pin until that dtor lands.
 
-class SubsystemInterface
+class GameMessage
 {
 public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-
-private:
-	unsigned char m_pad[0xC - 4]; // +0x04..+0x0B
+	enum Type
+	{
+		DUMMY_TYPE
+	};
 };
+
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 void operator delete(void *ptr);
 
@@ -25,6 +26,13 @@ class GameMessageList : public SubsystemInterface
 public:
 	GameMessageList();
 	virtual ~GameMessageList();
+	virtual void init();
+	virtual void reset();
+	virtual void update();
+	virtual void appendMessage(GameMessage *msg);
+	virtual void insertMessage(GameMessage *msg, GameMessage *messageToInsertAfter);
+	virtual void removeMessage(GameMessage *msg);
+	virtual bool containsMessageOfType(GameMessage::Type type);
 
 	void *m_firstMessage; // +0x0C
 	void *m_lastMessage; // +0x10
@@ -42,6 +50,11 @@ class MessageStream : public GameMessageList
 public:
 	MessageStream();
 	virtual ~MessageStream();
+	virtual void init();
+	virtual void reset();
+	virtual void update();
+	virtual GameMessage *appendMessage(GameMessage::Type type);
+	virtual GameMessage *insertMessage(GameMessage::Type type, GameMessage *messageToInsertAfter);
 
 	struct TranslatorData
 	{
@@ -59,9 +72,9 @@ private:
 	int m_nextTranslatorID; // +0x1C
 };
 
-void deleteMessageStream(MessageStream *p)
+void deleteMessageStream(MessageStream *messageStream)
 {
-	delete p;
+	delete messageStream;
 }
 
 // ??1MessageStream@@UAE@XZ @0x00310FA1

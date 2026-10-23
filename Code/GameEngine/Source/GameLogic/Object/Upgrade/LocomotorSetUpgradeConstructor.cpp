@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 // Open-BFME5: LocomotorSetUpgrade module ctor via UpgradeModule multi-inheritance.
 
@@ -52,6 +52,10 @@ class LocomotorSetUpgrade : public UpgradeModule
 {
 public:
 	LocomotorSetUpgrade( Thing *thing, const ModuleData *moduleData );
+
+// Protected virtual, as UpgradeModuleTailDtors.cpp (row 0x004B3EA0) declares it.
+protected:
+	virtual ~LocomotorSetUpgrade();
 };
 
 // ??0LocomotorSetUpgrade@@QAE@PAVThing@@PBVModuleData@@@Z

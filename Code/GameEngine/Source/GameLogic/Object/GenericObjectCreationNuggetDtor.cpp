@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc
 //
 // ??1GenericObjectCreationNugget@@MAE@XZ at retail 0x001F31C6 (169B).
 // Dedicated TU (the parseObject caller lives in the sibling
@@ -15,18 +15,7 @@
 // padding; the ctor stash (reverse/attempts/0x001f0e32.cpp) carries the
 // full scalar map.
 
-class AsciiString
-{
-public:
-	AsciiString() : m_text(0) {}
-	__forceinline ~AsciiString() { releaseBuffer(); }
-
-protected:
-	void releaseBuffer();
-
-private:
-	char *m_text;
-};
+#include "ascii_string.h"
 
 class PoolMember
 {
@@ -69,13 +58,30 @@ private:
 class ObjectCreationNugget
 {
 public:
-	virtual ~ObjectCreationNugget() {}
+	ObjectCreationNugget();
+	virtual ~ObjectCreationNugget();
 };
+// ??0ObjectCreationNugget@@QAE@XZ @0x001F0102 9B: the default constructor, storing the
+// class's own vtable (VA 0x00BE09D0) and returning this.
+inline void *operator new(unsigned int, void *p) { return p; }
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline ObjectCreationNugget::ObjectCreationNugget()
+{
+}
+
+// ?bfmeAnchorObjectCreationNugget absent-from-retail
+void *bfmeAnchorObjectCreationNugget(void *where)
+{
+	return new (where) ObjectCreationNugget();
+}
+
 
 class GenericObjectCreationNugget : public ObjectCreationNugget
 {
 public:
 	GenericObjectCreationNugget();
+	static void bfmeEmitDtor(GenericObjectCreationNugget *p);
 
 protected:
 	virtual ~GenericObjectCreationNugget();
@@ -99,6 +105,24 @@ private:
 typedef char NuggetSizeMatchesRetail[(sizeof(GenericObjectCreationNugget) == 0x12C) ? 1 : -1];
 
 // ??1GenericObjectCreationNugget@@MAE@XZ
-GenericObjectCreationNugget::~GenericObjectCreationNugget()
+inline GenericObjectCreationNugget::~GenericObjectCreationNugget()
+{
+}
+
+// ??1GenericObjectCreationNugget is a header inline elsewhere: another unit
+// emits a select-any copy, so a strong definition here was a duplicate
+// symbol in the linked build. This anchor only makes this unit emit its
+// copy for the ledger row; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitDtor@GenericObjectCreationNugget@@SAXPAV1@@Z present-unmatched
+void GenericObjectCreationNugget::bfmeEmitDtor(GenericObjectCreationNugget *genericObjectCreationNugget)
+{
+	genericObjectCreationNugget->GenericObjectCreationNugget::~GenericObjectCreationNugget();
+}
+#pragma inline_depth()
+
+// ??1ObjectCreationNugget@@UAE@XZ @0x001F0409 7B: the empty dtor, restoring the vtable (the
+// deleting dtor still expands it inline).
+inline ObjectCreationNugget::~ObjectCreationNugget()
 {
 }

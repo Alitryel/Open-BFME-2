@@ -156,7 +156,7 @@ protected:
 };
 
 template <>
-narrow_iterator num_get<char, narrow_iterator>::do_get(
+inline narrow_iterator num_get<char, narrow_iterator>::do_get(
 		narrow_iterator in, narrow_iterator end, ios_base &stream,
 		ios_base::iostate &error, double &value) const
 {
@@ -171,7 +171,7 @@ narrow_iterator num_get<char, narrow_iterator>::do_get(
 }
 
 template <>
-narrow_iterator num_get<char, narrow_iterator>::do_get(
+inline narrow_iterator num_get<char, narrow_iterator>::do_get(
 		narrow_iterator in, narrow_iterator end, ios_base &stream,
 		ios_base::iostate &error, float &value) const
 {
@@ -184,6 +184,24 @@ narrow_iterator num_get<char, narrow_iterator>::do_get(
 		error |= ios_base::eofbit;
 	return in;
 }
+
+// num_get<char>::do_get(float/double) are template members other units instantiate as
+// select-any copies; the strong specializations here made them duplicates in the linked build.
+// This anchor only makes this unit emit its copies for the ledger rows; it is not retail code.
+struct bfmeNumGetEmitter : num_get<char, narrow_iterator>
+{
+	static void emit(const bfmeNumGetEmitter *p, narrow_iterator a, narrow_iterator b, ios_base &s,
+		ios_base::iostate &e, double &d, float &f);
+};
+#pragma inline_depth(0)
+// ?emit@bfmeNumGetEmitter@_STL@@SAXPBU12@V?$istreambuf_iterator@DV?$char_traits@D@_STL@@@2@1AAVios_base@2@AAHAANAAM@Z present-unmatched
+void bfmeNumGetEmitter::emit(const bfmeNumGetEmitter *p, narrow_iterator a, narrow_iterator b, ios_base &s,
+	ios_base::iostate &e, double &d, float &f)
+{
+	p->num_get<char, narrow_iterator>::do_get(a, b, s, e, d);
+	p->num_get<char, narrow_iterator>::do_get(a, b, s, e, f);
+}
+#pragma inline_depth()
 
 // STLport 4.6 narrow numeric output helper. BFME2's retail object uses the
 // 4.6 string-backed formatter here rather than the vendored 4.5.3 fixed buffer.

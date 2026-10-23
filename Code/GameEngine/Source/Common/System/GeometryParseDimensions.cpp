@@ -1,4 +1,4 @@
-// cl: /O2 /DNDEBUG /MD /GX- /Ob2
+// cl: /DNDEBUG /MD /GX- /Ob2
 // stlport
 // Adapted from BFME1 GeometryParseHeightAndMajorRadius.cpp.
 // PC FieldParse C0EC00 identifies GeometryMajorRadius -> ABEA60.
@@ -14,6 +14,13 @@ struct GeometryShape {
     int type; float height, majorRadius, minorRadius, x, y, z;
     char *name; bool active; bool usedForHealthBox; char padding[2];
 };
+// Keep the existing STLport size operation inline in these native consumers.
+namespace _STL {
+template<> __declspec(dllimport) __forceinline
+vector<GeometryShape, allocator<GeometryShape> >::size_type
+vector<GeometryShape, allocator<GeometryShape> >::size() const
+{ return size_type(this->_M_finish - this->_M_start); }
+}
 class GeometryInfo {
 public:
     static void parseGeometryMajorRadius(INI *, void *, void *, const void *);
@@ -21,7 +28,9 @@ public:
     static void parseGeometryHeight(INI *, void *, void *, const void *);
     static void parseGeometryIsSmall(INI *, void *, void *, const void *);
     static void parseGeometryUsedForHealthBox(INI *, void *, void *, const void *);
+private:
     void calcBoundingStuff();
+public:
     char unmodelled00[4]; bool isSmall; char unmodelled05[0x27];
     std::vector<GeometryShape> shapes;
 };

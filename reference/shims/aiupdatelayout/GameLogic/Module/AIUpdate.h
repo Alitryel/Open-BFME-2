@@ -360,7 +360,11 @@ public:
 	virtual const ObjectID getGuardObject( void ) const { return m_objectToGuard; }
 	virtual const PolygonTrigger *getAreaToGuard( void ) const { return m_areaToGuard; }
 	virtual GuardTargetType getGuardTargetType() const { return m_guardTargetType[1]; }
-	virtual void clearGuardTargetType() { m_guardTargetType[1] = m_guardTargetType[0]; m_guardTargetType[0] = GUARDTARGET_NONE; }
+	// BFME2's AIUpdateInterface keeps m_guardTargetType at +0x50 (element 1 at
+	// +0x54) and GUARDTARGET_NONE is 4, so this ZH-derived view must not
+	// define the body: AIUpdateInterfacePrivateCommands.cpp emits retail's
+	// out-of-line definition and every vtable here resolves to it.
+	virtual void clearGuardTargetType();
 	virtual GuardMode getGuardMode() const { return m_guardMode; }
 
 	virtual Object* construct( const ThingTemplate *what, 
@@ -578,7 +582,9 @@ public:
 	ObjectID getCrateID(void) const { return m_crateCreated; }
 	Object* checkForCrateToPickup();
 
-	void setIgnoreCollisionTime(Int frames) { m_ignoreCollisionsUntil = TheGameLogic->getFrame() + frames; }
+	// BFME2's m_ignoreCollisionsUntil is at +0x178, not this ZH view's offset;
+	// AIUpdateInterfacePrivateCommands.cpp emits retail's out-of-line body.
+	void setIgnoreCollisionTime(Int frames);
 
 	void setQueueForPathTime(Int frames);
 

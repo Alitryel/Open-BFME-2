@@ -1,4 +1,4 @@
-// cl: /O1 /GX /DNDEBUG /MD
+// cl: /O1 /GX /DNDEBUG /MD /Ireference/shims/moduledata
 //
 // ??1FlammableUpdateModuleData@@UAE@XZ, retail 0x0048D075, 73 bytes.
 // FlammableUpdateModuleData destructor: restores the own vtable 0x00C4C408,
@@ -9,8 +9,8 @@
 // vtable 0x00BBB554. The holder's inline dtor keeps Release_Ref
 // throw()-declared so it stays EH-untracked; the vector is the only
 // tracked member, giving states 1/0 exactly as retail. Shape follows the
-// landed LargeGroupBonusUpdateModuleDataDtor (TU-local Snapshot with an
-// inline BBB554-restoring dtor, empty derived body). Member names and
+// landed LargeGroupBonusUpdateModuleDataDtor (shared Snapshot base with its
+// BBB554-restoring dtor, empty derived body). Member names and
 // offsets are the own INI table at 0x00C4C600 (BurnedDelay at +0x08
 // through DamageType at +0x24, flags at +0x34..+0x3A, waters at
 // +0x3C/+0x40/+0x44, PanicLocomotor at +0x48, CustomAnimAndDuration at
@@ -18,21 +18,7 @@
 // The parse proc at 0x739900 allocates the +0x18 holder (new + vtable
 // install), which is why the dtor Releases instead of string-teardown.
 
-class Xfer;
-
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc(Xfer *xfer);
-	virtual void loadPostProcess();
-	virtual void xfer(Xfer *xfer);
-};
-
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
+#include "Common/Snapshot.h"
 
 class OpaqueRefCounted
 {
@@ -93,6 +79,17 @@ private:
 };
 
 // ??1FlammableUpdateModuleData@@UAE@XZ @0x0048D075
-FlammableUpdateModuleData::~FlammableUpdateModuleData()
+inline FlammableUpdateModuleData::~FlammableUpdateModuleData()
 {
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeFlammableUpdateModuleDataInlineAnchor@@YAXPAVFlammableUpdateModuleData@@@Z absent-from-retail
+void _bfmeFlammableUpdateModuleDataInlineAnchor(FlammableUpdateModuleData *flammableUpdateModuleData)
+{
+    flammableUpdateModuleData->FlammableUpdateModuleData::~FlammableUpdateModuleData();
+}
+#pragma inline_depth()

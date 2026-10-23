@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ?setTurretTargetPosition@AIUpdateInterface@@QAEXW4WhichTurretType@@PBUCoord3D@@@Z,
 // retail 0x00262636, 27 bytes. Dedicated TU.
@@ -13,12 +13,7 @@ enum WhichTurretType
 	TURRET_PRIMARY = 0
 };
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-};
+#include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
 struct TurretAI
 {

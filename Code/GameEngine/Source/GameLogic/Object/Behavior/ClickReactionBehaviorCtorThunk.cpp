@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 class Thing;
 class ModuleData;
@@ -36,8 +36,12 @@ public:
 class UpdateModule : public PB_DeepBase, public PB_Iface1, public PB_Iface2
 {
 public:
-    UpdateModule(Thing *thing, const ModuleData *moduleData)
-        : PB_DeepBase(thing, moduleData), m_f14(0), m_f18(-1), m_f1c(-1) {}
+    // Defined once, out of line, in UpdateModuleCtor.cpp (retail 0x00253390): derived
+    // ctors call it, and a copy here would offer the link a second, non-retail body.
+    UpdateModule(Thing *thing, const ModuleData *moduleData);
+    // Declared only: retail's ~UpdateModule (0x0024A797, pin) restores the three vtables and
+    // tail-jumps on; the implicit one here compiled to a 5-byte jmp the link could keep.
+    virtual ~UpdateModule();
 
 protected:
     void setWakeFrame(Object *, UpdateSleepTime);
@@ -72,3 +76,10 @@ ClickReactionBehavior::ClickReactionBehavior(Thing *thing, const ModuleData *mod
 {
     setWakeFrame(getObject(), UPDATE_SLEEP_NONE);
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?slot@ClickReactionBehaviorIface@@UAEXXZ=?get@Rva004543A9LeaNegSbbField@@WBE@BEHXZ")
+#pragma comment(linker, "/alternatename:?slot@PB_Iface1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+#pragma comment(linker, "/alternatename:?slot@PB_Iface2@@UAEXXZ=?update@Rva0045969F@@UAEHXZ")

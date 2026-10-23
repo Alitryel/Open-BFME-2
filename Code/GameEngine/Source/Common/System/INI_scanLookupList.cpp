@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /GX- /Oi-
+// cl: /Oy- /DNDEBUG /MD /GX- /Oi-
 //
 // ?scanLookupList@INI@@QAEHPBDPBULookupListRec@@@Z, retail 0x002BD85, 108 bytes.
 // Dedicated TU (same INI family as INI_parseBitString32.cpp, framed).
@@ -29,12 +29,13 @@ public:
 
 struct INIException
 {
+	INIException() {}
+	INIException(int argCount, const char *format, ...);
 	char *mFailureMessage;
 	int mErrorCode;
 };
 
-extern "C" void rva002f681_fill(void *dst, int code, const char *fmt, ...);
-__declspec(noreturn) void __stdcall _CxxThrowException(void *pExc, void *pInfo);
+extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
 extern "C" __declspec(dllimport) int __cdecl _strcmpi(const char *a, const char *b);
 
 // Address anchor only: the throw site pushes this object's address as an
@@ -49,8 +50,8 @@ int INI::scanLookupList(const char *token, const LookupListRec *lookupList)
 	INIException e;
 
 	if (lookupList == NULL || lookupList[0].name == NULL) {
-		rva002f681_fill(&e, 2, "INTERNAL ERROR! scanLookupList: No name list provided!");
-		_CxxThrowException(&e, (void *)&scanLookupListThrowInfoAnchor);
+		e.INIException::INIException(2, "INTERNAL ERROR! scanLookupList: No name list provided!");
+		_CxxThrowException(&e, (const _s__ThrowInfo *)&scanLookupListThrowInfoAnchor); __assume(0);
 	}
 
 	// search for matching name
@@ -60,6 +61,6 @@ int INI::scanLookupList(const char *token, const LookupListRec *lookupList)
 		}
 	}
 
-	rva002f681_fill(&e, 3, "Token '%s' is not a valid member of the lookup list", token);
-	_CxxThrowException(&e, (void *)&scanLookupListThrowInfoAnchor);
+	e.INIException::INIException(3, "Token '%s' is not a valid member of the lookup list", token);
+	_CxxThrowException(&e, (const _s__ThrowInfo *)&scanLookupListThrowInfoAnchor); __assume(0);
 }

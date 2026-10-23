@@ -1,11 +1,11 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/reference/shims/stringinline
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 
 // A reference parameter forwarded to a sibling member taking the object BY
 // VALUE: the copy is built in the argument area by the StringBase<char>
 // copy ctor alias at 0x00887B60. IDENTITY NOT RECOVERED; BfmeRoomZC is named
-// to match the already-pinned callee ?bfmeRunZC@BfmeOwnZC@@QAEXVBfmeRoomZC@@PAX@Z.
+// to match the rowed callee ?bfmeRunZC@BfmeOwnZC@@QAEPAXVBfmeRoomZC@@PAX@Z.
 
-#include "StringInline.h"
+#include "ascii_string.h"
 
 class BfmeRoomZC
 {
@@ -20,11 +20,11 @@ private:
 class BfmeOwnZC
 {
 public:
-	void bfmeCallZC( const BfmeRoomZC &name, void *extra );
-	void bfmeRunZC( BfmeRoomZC name, void *extra );
+	void *bfmeCallZC( const BfmeRoomZC &name, void *extra );
+	void *bfmeRunZC( BfmeRoomZC name, void *extra );
 };
 
-void BfmeOwnZC::bfmeCallZC( const BfmeRoomZC &name, void *extra )
+void *BfmeOwnZC::bfmeCallZC( const BfmeRoomZC &name, void *extra )
 {
-	bfmeRunZC( name, extra );
+	return bfmeRunZC( name, extra );
 }

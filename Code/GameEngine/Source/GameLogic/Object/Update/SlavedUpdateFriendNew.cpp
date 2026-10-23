@@ -21,7 +21,15 @@ private:
 };
 
 // ?friend_newModuleInstance@SlavedUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *SlavedUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *SlavedUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new SlavedUpdate(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitSlavedUpdateFriendNew@@YAXXZ present-unmatched
+void bfmeEmitSlavedUpdateFriendNew()
+{
+	SlavedUpdate::friend_newModuleInstance(0, 0);
+}
+#pragma inline_depth()

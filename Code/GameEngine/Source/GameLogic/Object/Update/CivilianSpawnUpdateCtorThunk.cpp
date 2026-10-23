@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 class Thing;
 class Object;
@@ -47,13 +47,10 @@ public:
 class UpdateModule : public PB_DeepBase, public PB_Iface1, public PB_Iface2
 {
 public:
-    UpdateModule(Thing *thing, const ModuleData *moduleData)
-        : PB_DeepBase(thing, moduleData),
-          m_nextCallFrameAndPhase(0),
-          m_indexInLogic(-1),
-          m_indexInUpdate(-1)
-    {
-    }
+    // Defined once, out of line, in UpdateModuleCtor.cpp (retail 0x00253390): derived
+    // ctors call it, and a copy here would offer the link a second, non-retail body.
+    UpdateModule(Thing *thing, const ModuleData *moduleData);
+    virtual ~UpdateModule();
 
 protected:
     unsigned int m_nextCallFrameAndPhase;
@@ -77,6 +74,12 @@ CivilianSpawnUpdate::CivilianSpawnUpdate(Thing *thing, const ModuleData *moduleD
     m_spawnFrame = GetGameLogicRandomValue(
         m_moduleData->m_spawnDelay / 2,
         m_moduleData->m_spawnDelay,
-        "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update",
+        "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\CivilianSpawnUpdate.cpp",
         61);
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?slot@PB_Iface1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+#pragma comment(linker, "/alternatename:?slot@PB_Iface2@@UAEXXZ=?update@CivilianSpawnUpdate@@UAE?AW4UpdateSleepTime@@XZ")

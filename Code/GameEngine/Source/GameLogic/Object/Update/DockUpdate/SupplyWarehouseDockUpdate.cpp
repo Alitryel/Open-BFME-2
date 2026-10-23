@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/dockupdate /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
+// cl: /Ireference/shims/zh_outofline /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /Ireference/shims/dockupdate /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
 // stlport
 // Ported verbatim from the Generals Zero Hour reference (GameEngine/Source/GameLogic/Object/Update/DockUpdate/SupplyWarehouseDockUpdate.cpp); this unit had no counterpart under Code/.
 // Ported verbatim from the Generals Zero Hour reference (GameEngine/Source/GameLogic/Object/Update/DockUpdate/SupplyWarehouseDockUpdate.cpp); this unit had no counterpart under Code/.
@@ -58,21 +58,8 @@ SupplyWarehouseDockUpdateModuleData::SupplyWarehouseDockUpdateModuleData( void )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-/*static*/ void SupplyWarehouseDockUpdateModuleData::buildFieldParse(MultiIniFieldParse& p)
-{
-
-	DockUpdateModuleData::buildFieldParse( p );
-
-	static const FieldParse dataFieldParse[] = 
-	{
-		{ "StartingBoxes",	INI::parseInt,	NULL, offsetof( SupplyWarehouseDockUpdateModuleData, m_startingBoxesData ) },
-		{ "DeleteWhenEmpty",	INI::parseBool,	NULL, offsetof( SupplyWarehouseDockUpdateModuleData, m_deleteWhenEmpty ) },
-		{ 0, 0, 0, 0 }
-	};
-
-  p.add(dataFieldParse);
-
-}  // end buildFieldParse
+// SupplyWarehouseDockUpdateModuleData::buildFieldParse: defined in ModuleDataBuildFieldParseChained.cpp (its row's unit).
+  // end buildFieldParse
 
 
 // ------------------------------------------------------------------------------------------------
@@ -111,6 +98,7 @@ public:
 	Int m_startingBoxes;
 };
 
+// ?onObjectCreated@SupplyWarehouseDockUpdate@@MAEXXZ present-unmatched
 void SupplyWarehouseDockUpdate::onObjectCreated()
 {
 	char *rawThis = reinterpret_cast<char *>( this );
@@ -261,6 +249,7 @@ public:
 	Bool m_deleteWhenEmpty;
 };
 
+// ?action@SupplyWarehouseDockUpdate@@UAE_NPAVObject@@0@Z present-unmatched
 Bool SupplyWarehouseDockUpdate::action( Object* docker, Object *drone )
 {
 	char *rawThis = reinterpret_cast<char *>( this );
@@ -322,8 +311,38 @@ Bool SupplyWarehouseDockUpdate::action( Object* docker, Object *drone )
 	return FALSE;
 }
 
-// byte-exact reconstruction: Code/GameEngine/Source/Common/SupplyWarehouseDockUpdate_setDockCrippledMethodThunk.cpp
-// ?setDockCrippled@SupplyWarehouseDockUpdate@@UAEX_N@Z present-unmatched
+// BFME 2 views for setDockCrippled: the Object's AI pointer sits at +0x258,
+// AIUpdateInterface hands out its supply truck interface from slot +0x17C,
+// and setForceWantingState is that interface's slot +0x2C. Only the slot
+// positions matter (the interfaces gained entries rather than reordering).
+template <Int N>
+class BfmeWarehouseSlots : public BfmeWarehouseSlots<N - 1>
+{
+public:
+	virtual void unused(char (*)[N]) = 0;
+};
+template <>
+class BfmeWarehouseSlots<0>
+{
+};
+class BfmeWarehouseSupplyTruckSlots : public BfmeWarehouseSlots<11>
+{
+public:
+	virtual void setForceWantingState( Bool want ) = 0;		///< +0x2C
+};
+class BfmeWarehouseAISlots : public BfmeWarehouseSlots<95>
+{
+public:
+	virtual BfmeWarehouseSupplyTruckSlots *getSupplyTruckAIInterface( void ) = 0;	///< +0x17C
+};
+struct BfmeWarehouseVictimFields
+{
+	unsigned char m_unreconstructed_000[ 0x258 ];
+	AIUpdateInterface *m_ai;				///< +0x258
+};
+#define WAREHOUSE_VICTIM_AI(obj) (((BfmeWarehouseVictimFields *)(obj))->m_ai)
+// Retail 0x004A800D (127B): Zero Hour's body with BFME 2's offsets; the
+// kill uses BFME 2's unresistable damage type 8.
 void SupplyWarehouseDockUpdate::setDockCrippled( Bool setting )
 {
 	// At this level, Crippling means I kill any activeDocker between enter and exit.
@@ -337,16 +356,16 @@ void SupplyWarehouseDockUpdate::setDockCrippled( Bool setting )
 				if( m_dockerInside )
 				{
 					if( !victim->isUsingAirborneLocomotor() )
-						victim->kill();
+						victim->kill( (DamageType)8, (DeathType)0 );
 				}
 				else
 				{
 					// Else, he was between Approach and Enter.  Lucky guy.  Tell him to stop, but then
 					// remind him that he wants to try again later
-					SupplyTruckAIInterface* supplyTruckAI = victim->getAI()->getSupplyTruckAIInterface();
+					BfmeWarehouseSupplyTruckSlots* supplyTruckAI = ((BfmeWarehouseAISlots *)WAREHOUSE_VICTIM_AI(victim))->getSupplyTruckAIInterface();
 					if( supplyTruckAI )
 					{
-						victim->getAI()->aiIdle( CMD_FROM_AI );
+						WAREHOUSE_VICTIM_AI(victim)->aiIdle( CMD_FROM_AI );
 						supplyTruckAI->setForceWantingState( TRUE );
 					}
 				}
@@ -356,6 +375,7 @@ void SupplyWarehouseDockUpdate::setDockCrippled( Bool setting )
 
 	DockUpdate::setDockCrippled( setting );
 }
+#undef WAREHOUSE_VICTIM_AI
 
 // byte-exact reconstruction: Code/GameEngine/Source/Common/promoted__setCashValue_SupplyWarehouseDockUpdate_QAEXH_Z_002CFA50.cpp
 // ?setCashValue@SupplyWarehouseDockUpdate@@QAEXH@Z present-unmatched
@@ -383,28 +403,6 @@ void SupplyWarehouseDockUpdate::crc( Xfer *xfer )
 }  // end crc
 
 // ------------------------------------------------------------------------------------------------
-/** Xfer method
-	* Version Info:
-	* 1: Initial version */
-// ------------------------------------------------------------------------------------------------
-// ?xfer@SupplyWarehouseDockUpdate@@MAEXPAVXfer@@@Z present-unmatched
-void SupplyWarehouseDockUpdate::xfer( Xfer *xfer )
-{
-
-	// version
-	XferVersion currentVersion = 1;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
-
-	// extend base class
-	DockUpdate::xfer( xfer );
-
-	// boxes stored
-	xfer->xferInt( &m_boxesStored );
-
-}  // end xfer
-
-// ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
 class SupplyWarehouseDockUpdateRetailModuleData
@@ -430,6 +428,7 @@ public:
 	virtual Drawable *getDrawable( void ) = 0;
 };
 
+// ?loadPostProcess@SupplyWarehouseDockUpdate@@MAEXXZ present-unmatched
 void SupplyWarehouseDockUpdate::loadPostProcess( void )
 {
 	// extend base class

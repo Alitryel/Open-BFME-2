@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/debugstacklayout /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /Ireference/shims/debugstacklayout /Ireference/shims/debugvtable /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep /Oy-
 // stlport
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
@@ -30,8 +30,20 @@
 // Stack walker
 //////////////////////////////////////////////////////////////////////////////
 #include <debug_stack.h>
-#include "_pch.h"
+#include <_pch.h>
 #include "dbghelp.h"
+
+// From Open-BFME-1's copy, for the BFME StackWalk below.
+extern "C" __declspec(dllimport) BOOL WINAPI ReadProcessMemory(
+	HANDLE process, const void *address, void *buffer, DWORD size, DWORD *read);
+bool DebugIsDebuggerAttached();
+
+// Retail's STACKFRAME is 0xA4 bytes (a newer dbghelp.h KDHELP); the shim's is
+// three dwords shorter.
+struct BfmeStackFrame : public STACKFRAME
+{
+	DWORD retailTail[3];
+};
 
 // Definitions to allow run-time linking to the dbghelp.dll functions.
 
@@ -307,15 +319,32 @@ void DebugStackwalk::Signature::GetSymbol(unsigned addr,
   }
 }
 
+// BFME 2 prints each frame from the twelve-argument GetSymbol (0x0003BC80)
+// rather than Zero Hour's single formatted buffer: file(line):+offset, then
+// module and symbol, each followed by its +offset when non-zero. Debug's stream
+// operators are virtual here (the debugvtable shim), as retail calls them.
 Debug& operator<<(Debug &dbg, const DebugStackwalk::Signature &sig)
 {
   dbg << sig.Size() << " addresses:\n";
 
   for (unsigned k=0;k<sig.Size();k++)
   {
-    char buf[512];
-    sig.GetSymbol(sig.GetAddress(k),buf,sizeof(buf));
-    dbg << buf << "\n";
+    char bufMod[128], bufFile[256], bufSym[256];
+    unsigned relSym, line, relMod, relLine;
+    DebugStackwalk::Signature::GetSymbol(sig.GetAddress(k),
+                                         bufMod,sizeof(bufMod),&relMod,
+                                         bufSym,sizeof(bufSym),&relSym,
+                                         bufFile,sizeof(bufFile),&line,&relLine,true);
+    dbg << bufFile << "(" << line << "):";
+    if (relLine)
+      dbg << "+" << relLine;
+    dbg << " " << bufMod;
+    if (relMod)
+      dbg << "+" << relMod;
+    dbg << " " << bufSym;
+    if (relSym)
+      dbg << "+" << relSym;
+    dbg << "\n";
   }
 
   return dbg;
@@ -334,20 +363,29 @@ DebugStackwalk::~DebugStackwalk()
 {
 }
 
-// ?GetDbghelpHandle@DebugStackwalk@@SAPAXXZ present-unmatched
 void *DebugStackwalk::GetDbghelpHandle(void)
 {
   return g_dbghelp;
 }
 
-// ?IsOldDbghelp@DebugStackwalk@@SA_NXZ present-unmatched
 bool DebugStackwalk::IsOldDbghelp(void)
 {
   return g_oldDbghelp;
 }
 
-// ?StackWalk@DebugStackwalk@@SAHAAVSignature@1@PAU_CONTEXT@@@Z present-unmatched
-int DebugStackwalk::StackWalk(Signature &sig, struct _CONTEXT *ctx)
+// ?StackWalk@DebugStackwalk@@SAHAAVSignature@1@PAU_CONTEXT@@_N@Z
+// BFME 2: Open-BFME-1's body (submodule 10af19f44a), byte-identical in game.dat
+// at 0x0003C110. It replaces Zero Hour's two-argument StackWalk, which game.dat
+// does not contain; the debugger test is the rowed DebugIsDebuggerAttached
+// (0x0003E3E0, BFME 1's Rva0088EAF0IsDebuggerPresent).
+// BFME builds this one function without optimization (retail keeps every local
+// in its frame slot, reloads each parameter and adds with `add r,1`), and adds a
+// raw stack scan for return addresses when dbghelp finds fewer than five frames.
+// Under /Od MSVC 7.1 orders frame slots by local NAME (a hash), not by
+// declaration; ctxCopy, curProcess and value are names that reproduce retail's
+// slots, the original names are unknown.
+#pragma optimize("", off)
+int DebugStackwalk::StackWalk(Signature &sig, struct _CONTEXT *ctx, bool useFallback)
 {
   InitDbghelp();
 
@@ -358,25 +396,25 @@ int DebugStackwalk::StackWalk(Signature &sig, struct _CONTEXT *ctx)
     return 0;
 
 	// Set up the stack frame structure for the start point of the stack walk (i.e. here).
-	STACKFRAME stackFrame;
+	BfmeStackFrame stackFrame;
 	memset(&stackFrame,0,sizeof(stackFrame));
 
 	stackFrame.AddrPC.Mode = AddrModeFlat;
-	stackFrame.AddrStack.Mode = AddrModeFlat;
 	stackFrame.AddrFrame.Mode = AddrModeFlat;
+	stackFrame.AddrStack.Mode = AddrModeFlat;
 
 	// Use the context struct if it was provided.
-	if (ctx) 
+	unsigned long reg_eip, reg_ebp, reg_esp;
+	if (ctx)
   {
 		stackFrame.AddrPC.Offset = ctx->Eip;
-		stackFrame.AddrStack.Offset = ctx->Esp;
 		stackFrame.AddrFrame.Offset = ctx->Ebp;
+		stackFrame.AddrStack.Offset = ctx->Esp;
 	}
   else
   {
     // walk stack back using current call chain
-	  unsigned long reg_eip, reg_ebp, reg_esp;
-	  __asm 
+	  __asm
     {
     here:
 		  lea	eax,here
@@ -385,15 +423,19 @@ int DebugStackwalk::StackWalk(Signature &sig, struct _CONTEXT *ctx)
 		  mov	reg_esp,esp
 	  };
 	  stackFrame.AddrPC.Offset = reg_eip;
-	  stackFrame.AddrStack.Offset = reg_esp;
 	  stackFrame.AddrFrame.Offset = reg_ebp;
+	  stackFrame.AddrStack.Offset = reg_esp;
   }
+
+	CONTEXT ctxCopy;
+	if (ctx)
+		ctxCopy = *ctx;
 
 	// Walk the stack by the requested number of return address iterations.
   bool skipFirst=!ctx;
   while (sig.m_numAddr<Signature::MAX_ADDR&&
 		     gDbg._StackWalk(IMAGE_FILE_MACHINE_I386,GetCurrentProcess(),GetCurrentThread(),
-                         &stackFrame,NULL,NULL,gDbg._SymFunctionTableAccess,gDbg._SymGetModuleBase,NULL))
+                         &stackFrame,ctx ? &ctxCopy : NULL,NULL,gDbg._SymFunctionTableAccess,gDbg._SymGetModuleBase,NULL))
   {
     if (skipFirst)
       skipFirst=false;
@@ -401,5 +443,201 @@ int DebugStackwalk::StackWalk(Signature &sig, struct _CONTEXT *ctx)
       sig.m_addr[sig.m_numAddr++]=stackFrame.AddrPC.Offset;
   }
 
+	if (sig.m_numAddr < 5 && useFallback && !DebugIsDebuggerAttached())
+	{
+		DWORD *stack = reinterpret_cast<DWORD *>(ctx ? ctx->Esp : reg_ebp);
+		HANDLE curProcess = GetCurrentProcess();
+		sig.m_numAddr = 1;
+		for (; sig.m_numAddr < Signature::MAX_ADDR; ++stack)
+		{
+			DWORD value;
+			if (!ReadProcessMemory(curProcess, stack, &value, sizeof(value), NULL))
+				break;
+			if (IsBadCodePtr(reinterpret_cast<FARPROC>(value)))
+				continue;
+
+			unsigned char code[12];
+			if (!ReadProcessMemory(curProcess, reinterpret_cast<void *>(value - 12),
+				code, sizeof(code), NULL))
+				continue;
+
+			bool call = false;
+			if (code[7] == 0xe8)
+			{
+				call = true;
+			}
+			else
+			{
+				for (int length = 7; length >= 2; --length)
+				{
+					if (code[12 - length] != 0xff)
+						continue;
+					switch (length)
+					{
+						case 7:
+							if (code[6] == 0x94)
+								call = true;
+							break;
+						case 6:
+							if (code[7] == 0x15)
+								call = true;
+							if ((code[7] & 0xf8) == 0x90)
+								call = true;
+							break;
+						case 4:
+							if ((code[9] & 0xbf) == 0x14)
+								call = true;
+							break;
+						case 3:
+							if (code[10] == 0x14)
+								call = true;
+							if ((code[10] & 0xf8) == 0x50)
+								call = true;
+							break;
+						case 2:
+							if ((code[11] & 0xf8) == 0x10)
+								call = true;
+							if ((code[11] & 0xd8) == 0xd0)
+								call = true;
+							break;
+					}
+					if (call)
+						break;
+				}
+			}
+			if (call && sig.m_numAddr < Signature::MAX_ADDR)
+				sig.m_addr[sig.m_numAddr++] = value;
+		}
+	}
+
 	return sig.m_numAddr;
+}
+#pragma optimize("", on)
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?StackWalk@DebugStackwalk@@SAHAAUSignature@1@PAU_CONTEXT@@_N@Z=?StackWalk@DebugStackwalk@@SAHAAVSignature@1@PAU_CONTEXT@@_N@Z")
+
+// Crash minidump writer (retail 0x0003C550, 465 bytes), right after
+// StackWalk in this unit. It reads this unit's static g_dbghelp directly.
+// The exception filter (DebugExceptionFilter.cpp) calls it with the
+// exception and Debug's full-dump flag (+0x9F56). BFME 1 has the same body
+// (b1 0x0088D240) only as a generated dump, and no Zero Hour source exists;
+// the name follows that dump and the filter's existing declaration.
+
+struct MiniDumpLuid
+{
+  DWORD LowPart;
+  LONG HighPart;
+};
+
+struct MiniDumpTokenPrivileges
+{
+  DWORD PrivilegeCount;
+  MiniDumpLuid Luid;
+  DWORD Attributes;
+};
+
+struct MiniDumpExceptionInformation
+{
+  DWORD ThreadId;
+  struct _EXCEPTION_POINTERS *ExceptionPointers;
+  BOOL ClientPointers;
+};
+
+extern "C"
+{
+  __declspec(dllimport) int __cdecl _snprintf(char *buffer, unsigned int count, const char *fmt, ...);
+  __declspec(dllimport) BOOL WINAPI OpenThreadToken(HANDLE thread, DWORD access, BOOL openAsSelf,
+    HANDLE *token);
+  __declspec(dllimport) BOOL WINAPI OpenProcessToken(HANDLE process, DWORD access, HANDLE *token);
+  __declspec(dllimport) BOOL WINAPI LookupPrivilegeValueA(LPCSTR systemName, LPCSTR name,
+    MiniDumpLuid *luid);
+  __declspec(dllimport) BOOL WINAPI AdjustTokenPrivileges(HANDLE token, BOOL disableAll,
+    MiniDumpTokenPrivileges *newState, DWORD bufferLength, MiniDumpTokenPrivileges *previousState,
+    DWORD *returnLength);
+}
+
+typedef BOOL (WINAPI *MiniDumpWriteDumpType)(HANDLE process, DWORD processId, HANDLE file,
+  int dumpType, MiniDumpExceptionInformation *exceptionParam, void *userStreamParam,
+  void *callbackParam);
+
+// Debug's version getters (vtable +0xA0/+0xA4); the shim's Debug lacks them.
+class MiniDumpDebugView
+{
+public:
+  virtual void pad00(); virtual void pad01(); virtual void pad02(); virtual void pad03();
+  virtual void pad04(); virtual void pad05(); virtual void pad06(); virtual void pad07();
+  virtual void pad08(); virtual void pad09(); virtual void pad10(); virtual void pad11();
+  virtual void pad12(); virtual void pad13(); virtual void pad14(); virtual void pad15();
+  virtual void pad16(); virtual void pad17(); virtual void pad18(); virtual void pad19();
+  virtual void pad20(); virtual void pad21(); virtual void pad22(); virtual void pad23();
+  virtual void pad24(); virtual void pad25(); virtual void pad26(); virtual void pad27();
+  virtual void pad28(); virtual void pad29(); virtual void pad30(); virtual void pad31();
+  virtual void pad32(); virtual void pad33(); virtual void pad34(); virtual void pad35();
+  virtual void pad36(); virtual void pad37(); virtual void pad38(); virtual void pad39();
+  virtual const char *GetVersion();
+  virtual const char *GetInternalVersion();
+};
+
+extern Debug *theDebug;
+
+// _d_0088d240
+extern "C" void d_0088d240(struct _EXCEPTION_POINTERS *exptr, bool fullMemory)
+{
+  if (!g_dbghelp)
+    return;
+  MiniDumpWriteDumpType writeDump=(MiniDumpWriteDumpType)GetProcAddress(g_dbghelp,"MiniDumpWriteDump");
+  if (!writeDump)
+    return;
+
+  SYSTEMTIME time;
+  GetLocalTime(&time);
+  const char *internalVersion=((MiniDumpDebugView *)theDebug)->GetInternalVersion();
+  const char *version=((MiniDumpDebugView *)theDebug)->GetVersion();
+  char fileName[262];
+  _snprintf(fileName,sizeof(fileName),"DUMP_%s_%04d%02d%02d-%02d%02d%02d_%s_%ld_%ld.dmp",
+    version,time.wYear,time.wMonth,time.wDay,time.wHour,time.wMinute,time.wSecond,
+    internalVersion,GetCurrentProcessId(),GetCurrentThreadId());
+
+  HANDLE file=CreateFileA(fileName,GENERIC_READ|GENERIC_WRITE,FILE_SHARE_READ|FILE_SHARE_WRITE,NULL,
+                          CREATE_ALWAYS,0,NULL);
+  if (file==INVALID_HANDLE_VALUE)
+    return;
+
+  // the dump wants SeDebugPrivilege on the thread (or else process) token
+  HANDLE token=NULL;
+  if (!OpenThreadToken(GetCurrentThread(),0x28,TRUE,&token))  // TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY
+  {
+    if (GetLastError()!=0x3F0)                                  // ERROR_NO_TOKEN
+      return;
+    if (!OpenProcessToken(GetCurrentProcess(),0x28,&token))
+      return;
+  }
+
+  MiniDumpExceptionInformation info={0};
+  info.ThreadId=GetCurrentThreadId();
+  info.ExceptionPointers=exptr;
+  info.ClientPointers=TRUE;
+
+  MiniDumpTokenPrivileges privileges;
+  privileges.PrivilegeCount=1;
+  privileges.Attributes=2;                                      // SE_PRIVILEGE_ENABLED
+  MiniDumpTokenPrivileges previous;
+  BOOL ok=FALSE;
+  ok=LookupPrivilegeValueA(NULL,"SeDebugPrivilege",&privileges.Luid);
+  if (ok)
+  {
+    DWORD previousSize=sizeof(previous);
+    ok=AdjustTokenPrivileges(token,FALSE,&privileges,previousSize,&previous,&previousSize);
+  }
+  BOOL adjusted=ok&&GetLastError()!=0x514;                     // ERROR_NOT_ALL_ASSIGNED
+
+  // MiniDumpWithFullMemory or MiniDumpWithDataSegs
+  writeDump(GetCurrentProcess(),GetCurrentProcessId(),file,fullMemory?2:1,&info,NULL,NULL);
+
+  if (adjusted)
+    AdjustTokenPrivileges(token,FALSE,&previous,0,NULL,NULL);
+  CloseHandle(token);
+  CloseHandle(file);
 }

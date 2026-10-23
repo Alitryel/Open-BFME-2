@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 
 #define NULL 0
 
@@ -7,12 +7,14 @@
 // its rowed FreeObject body; the local node type carries its next link at
 // +0x0 (matching the rowed PathNode layout).
 
-struct Rva00065964ObjectPool
+class Rva00065964ObjectPool
 {
+public:
 	void FreeObject(void *obj);
 };
 
-extern Rva00065964ObjectPool g_pathNodePool;
+// g_pathNodePool: matched references place it at VA 0xe01e94 (zero-filled; a plain-data view).
+Rva00065964ObjectPool g_pathNodePool;
 
 struct PathNode
 {
@@ -51,4 +53,38 @@ Path::~Path()
 		FreePooledNode(node);
 		node = next;
 	} while (next != NULL);
+}
+
+class Rva00364A37
+{
+public:
+	~Rva00364A37();
+};
+
+class Rva003652FF
+{
+public:
+	void rva003652FF();
+};
+
+void Rva003652FF::rva003652FF()
+{
+	((Rva00364A37 *)this)->~Rva00364A37();
+}
+
+class Rva00364A60
+{
+public:
+	~Rva00364A60();
+};
+
+class Rva00365304
+{
+public:
+	void rva00365304();
+};
+
+void Rva00365304::rva00365304()
+{
+	((Rva00364A60 *)this)->~Rva00364A60();
 }

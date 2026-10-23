@@ -12,6 +12,8 @@ public:
 struct BfmeOwnerVIR;
 
 extern void *g_bfmeVIR;
+// g_bfmeVIR: matched references place it at VA 0xe0a088 (zero-filled .bss).
+void * g_bfmeVIR;
 
 class BfmeThingVIR
 {
@@ -30,6 +32,8 @@ void BfmeThingVIR::bfmeGoVIR(BfmeMsgVIR *m, const BfmeOwnerVIR *o, const char *c
 }
 
 extern void *g_bfmeVIS;
+// g_bfmeVIS: matched references place it at VA 0xe0a0dc (zero-filled .bss).
+void * g_bfmeVIS;
 
 class BfmeThingVIS
 {

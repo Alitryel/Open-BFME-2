@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva00045A3CE@AutoAbilityBehavior@@SA?AW4NameKeyType@@XZ @0x45A3CE
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@AutoAbilityBehavior@@UBE?AW4NameKeyType@@XZ @0x45A3CE
 // (69B): cached pool-name key for AutoAbilityBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("AutoAbilityBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class AutoAbilityBehavior
 {
 public:
-	static NameKeyType rva00045A3CE();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00045A3CE@AutoAbilityBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType AutoAbilityBehavior::rva00045A3CE()
+// ?getModuleNameKey@AutoAbilityBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType AutoAbilityBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheAutoAbilityBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("AutoAbilityBehavior");

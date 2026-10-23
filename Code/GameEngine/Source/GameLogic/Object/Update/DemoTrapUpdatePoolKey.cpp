@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva000495935@DemoTrapUpdate@@SA?AW4NameKeyType@@XZ @0x495935
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@DemoTrapUpdate@@UBE?AW4NameKeyType@@XZ @0x495935
 // (69B): cached pool-name key for DemoTrapUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("DemoTrapUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class DemoTrapUpdate
 {
 public:
-	static NameKeyType rva000495935();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000495935@DemoTrapUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType DemoTrapUpdate::rva000495935()
+// ?getModuleNameKey@DemoTrapUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType DemoTrapUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheDemoTrapUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("DemoTrapUpdate");

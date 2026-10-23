@@ -1,3 +1,5 @@
+char g_00BF4028;
+
 // cl: /O1 /arch:SSE /GX /Oy- /MD /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // ??0StructureBodyModuleData@@QAE@XZ, retail 0x00257006, 101 bytes.
@@ -37,7 +39,7 @@ public:
 	AsciiString m_healingBuff;
 };
 
-extern GlobalData *TheGlobalData;
+extern class GlobalData *TheWritableGlobalData;
 
 class FXList;
 class FXListStore
@@ -52,25 +54,35 @@ class ActiveBodyModuleData
 {
 public:
 	ActiveBodyModuleData();
-	~ActiveBodyModuleData();
+	virtual ~ActiveBodyModuleData(); // virtual, as rowed (0x00256CB0)
 };
 
-class StructureBodyModuleData : public ActiveBodyModuleData
+class __declspec(novtable) StructureBodyModuleData : public ActiveBodyModuleData
 {
 public:
 	StructureBodyModuleData();
 
 private:
-	const void *m_vtable; // +0
 	unsigned char m_pad[0x48 - 4]; // +4
 	const FXList *m_healingBuffFx; // +0x48
 };
 
 // ??0StructureBodyModuleData@@QAE@XZ @0x257006
-StructureBodyModuleData::StructureBodyModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00BF4028))
+inline StructureBodyModuleData::StructureBodyModuleData()
 {
-	AsciiString &healingDefault = TheGlobalData->m_healingBuff;
+	*(const void **)this = reinterpret_cast<const void *>((unsigned int)&g_00BF4028);
+	AsciiString &healingDefault = TheWritableGlobalData->m_healingBuff;
 	if (!healingDefault.isEmpty())
 		m_healingBuffFx = TheFXListStore->findFXList(healingDefault.c_str());
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeStructureBodyModuleDataInlineAnchor@@YAXPAVStructureBodyModuleData@@@Z absent-from-retail
+void _bfmeStructureBodyModuleDataInlineAnchor(StructureBodyModuleData *structureBodyModuleData)
+{
+    structureBodyModuleData->StructureBodyModuleData::StructureBodyModuleData();
+}
+#pragma inline_depth()

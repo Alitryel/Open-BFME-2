@@ -28,7 +28,13 @@ struct Rva007EDB10Time
  * common ones.  Which half is used is selected by the PARITY of the year's
  * length -- 366 is even and picks index 0, 365 is odd and picks index 12 --
  * rather than by testing the leap flag again. */
-extern int g_Rva0112A530MonthDays[];
+/* The matched _Rva007EDB10 DIR32 operand resolves to retail VA 0x00CE1D80;
+ * these 24 words are the bytes stored there. */
+int g_Rva0112A530MonthDays[24] =
+{
+	31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31,
+	31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+};
 
 /* 0x007EDB10 CONVERTS SECONDS SINCE 1970 INTO BROKEN-DOWN TIME, filling the
  * caller's structure and returning it.
@@ -212,8 +218,27 @@ unsigned int Rva007EDE00( const struct Rva007EDB10Time *pTime )
 
 /* A 256-entry hex digit table.  Indexed by a SIGNED char, so a high-bit byte
  * reads before the table start, the same quirk the fold and class tables in
- * Y4TextToValue.c have. */
-extern unsigned char g_Rva0112A110Hex[];
+ * Y4TextToValue.c have.  The matched _Rva007EF780 DIR32 operand resolves to
+ * retail VA 0x00CE1960; all 256 entries below are read from those retail bytes. */
+unsigned char g_Rva0112A110Hex[256] =
+{
+	/* 0x00 */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	/* 0x10 */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	/* 0x20 */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	/* 0x30 */ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0, 0, 0,
+	/* 0x40 */ 0, 10, 11, 12, 13, 14, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	/* 0x50 */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	/* 0x60 */ 0, 10, 11, 12, 13, 14, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	/* 0x70 */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	/* 0x80 */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	/* 0x90 */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	/* 0xA0 */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	/* 0xB0 */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	/* 0xC0 */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	/* 0xD0 */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	/* 0xE0 */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	/* 0xF0 */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+};
 
 /* Declared rather than included: under /MD the CRT header marks memset
  * dllimport and the call becomes an indirect through the IAT, where retail

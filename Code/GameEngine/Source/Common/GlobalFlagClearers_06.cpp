@@ -10,10 +10,20 @@
 // word. Identity is not recovered; every name is derived from an address.
 
 extern unsigned int g_Va00DE084C;
+// g_Va00DE084C: matched references place it at VA 0xde084c (zero-filled .bss).
+unsigned int g_Va00DE084C;
 extern unsigned int g_Va00DE0874;
+// g_Va00DE0874: matched references place it at VA 0xde0874 (zero-filled .bss).
+unsigned int g_Va00DE0874;
 extern unsigned int g_Va00DFEDE4;
+// g_Va00DFEDE4: matched references place it at VA 0xdfede4 (zero-filled .bss).
+unsigned int g_Va00DFEDE4;
 extern unsigned int g_Va00E09E2C;
+// g_Va00E09E2C: matched references place it at VA 0xe09e2c (zero-filled .bss).
+unsigned int g_Va00E09E2C;
 extern unsigned int g_Va00E176C4;
+// g_Va00E176C4: matched references place it at VA 0xe176c4 (zero-filled .bss).
+unsigned int g_Va00E176C4;
 
 unsigned int Rva0075CCA0ClearFlag(void)
 {

@@ -8,6 +8,13 @@ extern "C" unsigned int __cdecl strlen(const char *at);
 
 extern "C" __declspec(dllimport) char *__cdecl _itoa(int value, char *out, int base);
 
+class BfmeThingQQ;
+class Debug
+{
+	friend class BfmeThingQQ;
+	virtual void AddOutput(const char *str, unsigned int len);
+};
+
 class BfmeThingQQ
 {
 public:
@@ -29,8 +36,6 @@ public:
 
 	void bfmeShowQQ(short what);
 
-	void bfmeSetQQ(const char *at, unsigned int many);
-
 	unsigned char m_bfmeHead[0x9e78];	// 0x0004
 	char m_bfmeName[0x10];			// 0x9e7c
 	int m_bfmeBase;				// 0x9e8c
@@ -40,7 +45,7 @@ void BfmeThingQQ::bfmeShowQQ(short what)
 {
 	char tmp[0x14];
 
-	bfmeSetQQ(m_bfmeName, strlen(m_bfmeName));
+	reinterpret_cast<Debug *>(this)->Debug::AddOutput(m_bfmeName, strlen(m_bfmeName));
 
 	bfmeAddQQ(_itoa(what, tmp, m_bfmeBase));
 }

@@ -1,4 +1,4 @@
-// cl: /O1 /MD /GX /arch:SSE /DNDEBUG /Oy-
+// cl: /MD /GX /DNDEBUG
 //
 // ??0AODCrushCollideModuleData@@QAE@XZ, retail 0x004BBF89 (115 bytes).
 // Standalone Collide-side ModuleData for the Army-of-the-Dead crush: nulls
@@ -30,14 +30,23 @@ private:
 // EH-driving shim (ToppleUpdateModuleDataCtor precedent): the retail body
 // has an EH frame with a single state-0 store but makes no base call and
 // declares no member with a dtor, so the unwindable is manufactured with an
-// empty base carrying a declared-only (never defined, never linked) dtor.
+// empty base whose dtor forwards to the body retail's funclet reaches.
 // It emits zero code and covers the +0 vptr plus +4 gap ahead of the +0x08
 // members below.
+// Retail's state-0 funclet 0x0078F6E3 unwinds it through the Snapshot
+// destructor fold 0x0049B47C, rowed here under its non-virtual spelling
+// ??1Rva0040E3EEBase@@QAE@XZ (Rva0040E3EEFinish.cpp): forward to it.
+class Rva0040E3EEBase
+{
+public:
+	~Rva0040E3EEBase();
+};
+
 class AODCrushCollideEmptyBase
 {
 public:
 	AODCrushCollideEmptyBase() {}
-	~AODCrushCollideEmptyBase();
+	~AODCrushCollideEmptyBase() { ((Rva0040E3EEBase *)this)->Rva0040E3EEBase::~Rva0040E3EEBase(); }
 
 private:
 	unsigned char m_pad[4];
@@ -57,15 +66,15 @@ private:
 	void *m_largeFX; // +0x18
 	void *m_largeOCL; // +0x1C
 	int m_damageType; // +0x20
-	int m_24; // +0x24
+	int m_deathType; // +0x24
 	float m_damage; // +0x28
 	Rva003623E5Member m_filter; // +0x2C
-	int m_30; // +0x30
-	int m_34; // +0x34
-	float m_38; // +0x38
-	int m_3C; // +0x3C
-	int m_40; // +0x40
-	float m_44; // +0x44
+	int m_specialDamageType; // +0x30
+	int m_specialDeathType; // +0x34
+	float m_specialDamage; // +0x38
+	int m_selfDamageType; // +0x3C
+	int m_selfDeathType; // +0x40
+	float m_selfDamage; // +0x44
 };
 
 // ??0AODCrushCollideModuleData@@QAE@XZ @0x4BBF89
@@ -78,14 +87,14 @@ AODCrushCollideModuleData::AODCrushCollideModuleData()
 	, m_largeFX(0)
 	, m_largeOCL(0)
 	, m_damageType(1)
-	, m_24(0)
+	, m_deathType(0)
 	, m_damage(0.0f)
 	, m_filter()
-	, m_30(1)
-	, m_34(0)
-	, m_38(0.0f)
-	, m_3C(1)
-	, m_40(0)
-	, m_44(0.0f)
+	, m_specialDamageType(1)
+	, m_specialDeathType(0)
+	, m_specialDamage(0.0f)
+	, m_selfDamageType(1)
+	, m_selfDeathType(0)
+	, m_selfDamage(0.0f)
 {
 }

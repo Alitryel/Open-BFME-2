@@ -8,6 +8,13 @@ extern "C" unsigned int __cdecl strlen(const char *at);
 
 extern "C" __declspec(dllimport) char *__cdecl _itoa(int value, char *out, int base);
 
+class BfmeThingQR;
+class Debug
+{
+	friend class BfmeThingQR;
+	virtual void AddOutput(const char *str, unsigned int len);
+};
+
 class BfmeThingQR
 {
 public:
@@ -29,8 +36,6 @@ public:
 
 	void bfmeShowQR(unsigned short what);
 
-	void bfmeSetQR(const char *at, unsigned int many);
-
 	unsigned char m_bfmeHead[0x9e78];	// 0x0004
 	char m_bfmeName[0x10];			// 0x9e7c
 	int m_bfmeBase;				// 0x9e8c
@@ -40,7 +45,7 @@ void BfmeThingQR::bfmeShowQR(unsigned short what)
 {
 	char tmp[0x14];
 
-	bfmeSetQR(m_bfmeName, strlen(m_bfmeName));
+	reinterpret_cast<Debug *>(this)->Debug::AddOutput(m_bfmeName, strlen(m_bfmeName));
 
 	bfmeAddQR(_itoa(what, tmp, m_bfmeBase));
 }

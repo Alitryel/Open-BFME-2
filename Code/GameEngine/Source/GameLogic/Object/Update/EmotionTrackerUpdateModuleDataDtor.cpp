@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /arch:SSE /DNDEBUG /MD
+// cl: /EHsc /DNDEBUG /MD
 //
 // ??1EmotionTrackerUpdateModuleData@@UAE@XZ, retail 0x004B1285, 157 bytes.
 // EmotionTrackerUpdateModuleData destructor over the ctor TU layout
@@ -12,19 +12,9 @@
 // 0x00BBB554. The ??_G at 0x004B15AE calls this body directly. EH arms
 // count live tracked members (5/4/3/2/1/0).
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc();
-	virtual void loadPostProcess();
-	virtual void xfer();
-};
 
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+
 
 class Rva003623E5Filter
 {

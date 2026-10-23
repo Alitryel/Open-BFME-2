@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 
 // Two small hooks just below BFME_DX8_Thread_Lock, each driving a function
 // pointer the engine can install:
@@ -32,10 +32,15 @@ void bfmeRva0011F340(const char *text, void *context)
 	}
 }
 
-// ?bfmeRva0011F3C0@@YAXXZ present-unmatched
-void bfmeRva0011F3C0(void)
+// The hook's result is returned to the caller (WorldBuilder's debug body
+// returns the call result or zero). Returning it as int puts the null path on
+// the fall-through ('jne / ret / jmp eax'); a void spelling of the same body
+// lays out 'je / jmp eax / ret'. The data global keeps its void-hook type
+// (dx8wrapper.cpp owns it); the call goes through an int-returning cast.
+int bfmeRva0011F3C0(void)
 {
 	BfmeVoidHook hook = bfmeData00DEDBE0;
-	if (hook != 0)
-		hook();
+	if (!hook)
+		return 0;
+	return ((int (*)(void))hook)();
 }

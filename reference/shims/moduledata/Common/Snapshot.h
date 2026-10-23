@@ -23,19 +23,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // FILE: Snapshot.h ///////////////////////////////////////////////////////////////////////////////
-// Desc:   Private shim for ModuleData-derived ctor TUs where the retail binary
-//         compiles the base chain's ctor inline (no `call ??0Snapshot`), e.g.
-//         FloatUpdateModuleData@0x294F60 (13B). Only these TUs reference this
-//         dir via a private `/I` in their `// cl:` line.
+// Desc:   Canonical BFME2 Snapshot base. Retail vtable 0x00BBB554 has a
+//         deleting destructor followed by three pure virtual slots, in
+//         retail order: loadPostProcess, GetSnapshotName, xfer.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 
 #ifndef __SNAPSHOT_H_
 #define __SNAPSHOT_H_
-
-// USER INCLUDES //////////////////////////////////////////////////////////////////////////////////
-#include "Common/AsciiString.h"
 
 // FORWARD REFERENCES /////////////////////////////////////////////////////////////////////////////
 class Xfer;
@@ -53,20 +49,64 @@ friend class XferCRC;
 public:
 	
 	Snapshot() {}
-	~Snapshot( void );
+	Snapshot( const Snapshot &that ) {}
+	virtual ~Snapshot( void ) {}
 
 protected:
 
-	/// run the "light" crc check on this data structure
-	virtual void crc( Xfer *xfer ) = 0;
-
-	/** run save, load, or deep CRC check on this data structure, the type depends on the
-	setup of the Xfer pointer */
-	virtual void xfer( Xfer *xfer ) = 0;
+	// Retail order. Vtable 0x00BBB554 is the deleting destructor, then three
+	// __purecall slots, and the overriders fix what each slot is:
+	//  - the exports name every FXParticleSystem info's overriders
+	//    LoadPostProcess, GetSnapshotName and DoXfer(Xfer &), and their
+	//    vtables (e.g. 0x00BBB5C8) hold them in slots 1, 2 and 3;
+	//  - Xfer::operator&(Snapshot &) (export, 0x0060B8C6) calls slot 3
+	//    ([eax+0Ch]) with the Xfer;
+	//  - Module and ModuleData vtables (0x00C59368, 0x00C52534, 0x00C594E0)
+	//    hold loadPostProcess in slot 1, a getter returning the class-name
+	//    literal in slot 2 and xfer in slot 3.
+	// Retail has no crc. The Zero Hour classes still compiled against this
+	// header override crc(Xfer *), so it stands in for GetSnapshotName in
+	// slot 2 and keeps every derived table at four base slots; slots 1 and 3
+	// keep the Zero Hour spellings the ledger's rows use.
 
 	/** post process phase for loading save games.  All save systems have their xfer
 	run using XferLoad mode, and then all systems each have their post process run */
+// BFME2's named tracker table has the capitalized API. This selects the
+	// spelling of the same three slots; the default ZH surface stays available.
+#ifdef BFME_SNAPSHOT_CAPITALIZED_SLOTS
+	virtual void LoadPostProcess( void ) = 0;
+#else
 	virtual void loadPostProcess( void ) = 0;
+#endif
+
+	// Named BFME2 snapshot getters use the proven retail slot-2 signature.
+	// Other imported units retain the Zero Hour crc spelling described above.
+	// Both declarations occupy the same single slot, never an added fifth one.
+#ifdef BFME_SNAPSHOT_NAME_SLOT
+// FX info exports and retail vtable C1BBA0 use the non-const getter at
+// 001F354A. Other consumers retain their established const signature.
+#ifdef BFME_SNAPSHOT_NONCONST_NAME_SLOT
+	virtual const char *GetSnapshotName( void ) = 0;
+#else
+	virtual const char *GetSnapshotName( void ) const = 0;
+#endif
+#else
+	virtual void crc( Xfer *xfer ) = 0;
+#endif
+
+	/** run save, load, or deep CRC check on this data structure, the type depends on the
+	setup of the Xfer pointer */
+#ifdef BFME_SNAPSHOT_CAPITALIZED_SLOTS
+// FX info DoXfer exports take Xfer& (e.g. 0047A69C); it occupies the same
+// slot and has the same one-pointer ABI as the existing pointer surface.
+#ifdef BFME_SNAPSHOT_REFERENCE_XFER
+	virtual void DoXfer( Xfer &xfer ) = 0;
+#else
+	virtual void DoXfer( Xfer *xfer ) = 0;
+#endif
+#else
+	virtual void xfer( Xfer *xfer ) = 0;
+#endif
 
 };
 

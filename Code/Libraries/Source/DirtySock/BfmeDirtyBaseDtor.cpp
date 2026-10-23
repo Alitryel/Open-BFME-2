@@ -13,6 +13,6 @@ struct BfmeDirtyBase
 	virtual ~BfmeDirtyBase();
 };
 
-BfmeDirtyBase::~BfmeDirtyBase()
+__declspec(noinline) BfmeDirtyBase::~BfmeDirtyBase()
 {
 }

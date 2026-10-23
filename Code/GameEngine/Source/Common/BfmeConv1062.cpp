@@ -1,5 +1,9 @@
 // Open-BFME5 conversions.
 
+// The BFME1 donor's bfmeGo1062A and bfmeGo1062D have no BFME 2 row and read
+// globals with no BFME 2 address (unresolved at link), so they stay out of
+// the build; only bfmeGo1062B (0x006E8EF0) is rowed.
+#if 0
 class BfmeA1062
 {
 public:
@@ -23,6 +27,8 @@ void bfmeGo1062A(void)
 		g_bfmeB1062->bfmeF1062B();
 }
 
+#endif
+
 class BfmeC1062
 {
 public:
@@ -31,7 +37,11 @@ public:
 };
 
 extern BfmeC1062 *g_bfmeC1062;
+// g_bfmeC1062: matched references place it at VA 0xe1816c (zero-filled .bss).
+BfmeC1062 * g_bfmeC1062;
 extern BfmeC1062 *g_bfmeD1062;
+// g_bfmeD1062: matched references place it at VA 0xe18170 (zero-filled .bss).
+BfmeC1062 * g_bfmeD1062;
 
 void bfmeGo1062B(void)
 {
@@ -45,6 +55,7 @@ void bfmeGo1062B(void)
 	}
 }
 
+#if 0
 struct BfmeP1062
 {
 	char m_bfmePad[0x50];
@@ -85,3 +96,4 @@ void bfmeGo1062D(void)
 	}
 	g_bfmeR1062->bfmeRun1062(g_bfmeX1062, g_bfmeLitC1062, 1, s, 0, 0, 0, 0);
 }
+#endif

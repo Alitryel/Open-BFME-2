@@ -8,7 +8,7 @@
 
 #include "string_base.h"
 
-__declspec(noinline) bool StringBase<char>::startsWithNoCase(const char *str, int len) const
+inline bool StringBase<char>::startsWithNoCase(const char *str, int len) const
 {
     if (str[0] == '\0') {
         return true;
@@ -39,3 +39,15 @@ const T *StringBase<T>::find(T c) const
 }
 
 template const wchar_t *StringBase<wchar_t>::find(wchar_t c) const;
+
+// startsWithNoCase is a header inline in retail: other units emit select-any
+// copies of it, so a strong definition here was a duplicate symbol in the
+// linked build. This anchor only makes this unit emit its copy for the ledger
+// row; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitStringBaseStartsWithNoCase@@YAXPAV?$StringBase@D@@@Z present-unmatched
+void bfmeEmitStringBaseStartsWithNoCase(StringBase<char> *p)
+{
+    p->startsWithNoCase((const char *)0, 0);
+}
+#pragma inline_depth()

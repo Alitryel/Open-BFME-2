@@ -96,6 +96,7 @@ void Rva00739C70::cleanup()
 	}
 }
 
+// ?Rva00739C70::reset present-unmatched
 void Rva00739C70::reset()
 {
 	cleanup();
@@ -107,6 +108,7 @@ void Rva00739C70::reset()
 	m_member0c.reset();
 }
 
+// ?Rva00739C70::update present-unmatched
 TextureBaseClass *Rva00739C70::update( int arg )
 {
 	TextureBaseClass *result = 0;
@@ -130,10 +132,8 @@ TextureBaseClass *Rva00739C70::update( int arg )
 	return result;
 }
 
-Rva00739C70::~Rva00739C70()
-{
-}
-
+// ?Rva00739C70::~Rva00739C70 present-unmatched
+// ?Rva00739C70::rva_00739E50 present-unmatched
 bool Rva00739C70::rva_00739E50()
 {
 	return m_ptr08.m_ptr != 0 || m_member0c.m_obj != 0;
@@ -150,6 +150,7 @@ public:
 	Rva00739C70 *m_subObject;
 };
 
+// ?Owner00739C90::cleanup present-unmatched
 void Owner00739C90::cleanup()
 {
 	m_subObject->cleanup();

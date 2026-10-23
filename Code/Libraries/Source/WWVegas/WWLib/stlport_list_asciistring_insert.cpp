@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // Dedicated unit without the bfmelist __forceinline _M_create_node shim so
@@ -8,40 +8,63 @@
 // insert worker; the node is 12 bytes (8 links + 4-byte StringBase-model
 // AsciiString) and create delegates per element to the matched StringBase
 // _Construct helper at 0x0002C485, which names the element type.
+#define BFME_ASCII_DTOR_DECL
+#include "ascii_string.h"
 #include <list>
 
-template <typename T> struct BfmeStringData
-{
-	int refCount;
-	unsigned short length;
-	unsigned short capacity;
-	T text[1];
-};
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class Traits>
+static inline bool operator!=(const _List_iterator<T, Traits>& a,
+                              const _List_iterator<T, Traits>& b)
+{ return a._M_node != b._M_node; }
+}
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-private:
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	__forceinline ~StringBase() { releaseBuffer(); }
-	void releaseBuffer();
-	BfmeStringData<T> *m_data;
 
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _List_node<AsciiString> * list<AsciiString,allocator<AsciiString> >::_M_create_node(AsciiString const &); }
+
+// Keep the verified operations and reuse their existing base providers.
+// A whole-class instantiation emits incompatible copies of unused members.
+extern template _STL::_List_base<AsciiString,_STL::allocator<AsciiString> >::_List_base(const _STL::allocator<AsciiString> &);
+extern template _STL::_List_base<AsciiString,_STL::allocator<AsciiString> >::~_List_base();
+typedef _STL::list<AsciiString,_STL::allocator<AsciiString> > AsciiList;
+template _STL::list<AsciiString,_STL::allocator<AsciiString> >::list(const AsciiList &);
+template AsciiList &AsciiList::operator=(const AsciiList &);
+template AsciiList::iterator AsciiList::insert(AsciiList::iterator,const AsciiString &);
+template void AsciiList::push_back(const AsciiString &);
+template AsciiList::iterator AsciiList::erase(AsciiList::iterator);
+
+class Rva001FD42B
+{
 public:
-	const T *str() const { return m_data ? &m_data->text[0] : (const T *)""; }
+	~Rva001FD42B();
 };
 
-class AsciiString : private StringBase<char>
+class Rva001FD85E
 {
 public:
-	AsciiString();
-	AsciiString(const char *text);
-	AsciiString(const AsciiString &other);
-	~AsciiString();
+	void rva001FD85E();
 };
 
-bool operator==(const AsciiString &a, const AsciiString &b);
-bool operator<(const AsciiString &a, const AsciiString &b);
+void Rva001FD85E::rva001FD85E()
+{
+	((Rva001FD42B *)this)->~Rva001FD42B();
+}
 
-template class _STL::list<AsciiString, _STL::allocator<AsciiString> >;
+class Rva001FD458
+{
+public:
+	~Rva001FD458();
+};
+
+class Rva001FD863
+{
+public:
+	void rva001FD863();
+};
+
+void Rva001FD863::rva001FD863()
+{
+	((Rva001FD458 *)this)->~Rva001FD458();
+}

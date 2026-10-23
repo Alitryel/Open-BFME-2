@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // ?regainFocus@AudioManager@@QAEXXZ
 // retail 0x0035D2F7, 47 bytes. Dedicated TU: WinMain.cpp owns the class
 // declaration (stub `class AudioManager { void regainFocus(); }`) and the
@@ -79,7 +79,7 @@ public:
 	void regainFocus();
 };
 
-extern AudioMixer *g_audioMixer;
+extern class AudioManager *TheAudio;
 
 float LookupFocusChannelVolume(int channelIndex);
 
@@ -88,6 +88,6 @@ void AudioManager::regainFocus()
 {
 	for (int channel = 0; channel < 3; ++channel) {
 		float volume = LookupFocusChannelVolume(channel);
-		g_audioMixer->setChannelVolume(volume, 1 << channel);
+		(*(AudioMixer **)&TheAudio)->setChannelVolume(volume, 1 << channel);
 	}
 }

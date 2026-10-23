@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004B627F@MaxHealthUpgrade@@SA?AW4NameKeyType@@XZ @0x4B627F
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@MaxHealthUpgrade@@UBE?AW4NameKeyType@@XZ @0x4B627F
 // (69B): cached pool-name key for MaxHealthUpgrade. The class
 // identity comes from the pool-name string the body pushes
 // ("MaxHealthUpgrade"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class MaxHealthUpgrade
 {
 public:
-	static NameKeyType rva0004B627F();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004B627F@MaxHealthUpgrade@@SA?AW4NameKeyType@@XZ
-NameKeyType MaxHealthUpgrade::rva0004B627F()
+// ?getModuleNameKey@MaxHealthUpgrade@@UBE?AW4NameKeyType@@XZ
+NameKeyType MaxHealthUpgrade::getModuleNameKey() const
 {
 	static NameKeyType TheMaxHealthUpgradePoolKey =
 		TheNameKeyGenerator->nameToKey("MaxHealthUpgrade");

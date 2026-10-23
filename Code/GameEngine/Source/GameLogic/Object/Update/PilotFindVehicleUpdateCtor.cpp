@@ -4,7 +4,8 @@
 // Trial: ??0EvaAnnounceClientCreateModuleData@@QAE@XZ.
 // Root-class default ctor: three INVALID_ID ors, vtable hand-placed late
 // (novtable), then zeroed tail. Factory stub order names it.
-extern "C" char PilotFindVehicleUpdate_vftable;
+// PilotFindVehicleUpdate_vftable: matched references place it at VA 0xc4ed70 (retail .rdata value -3).
+extern "C" char PilotFindVehicleUpdate_vftable = -3;
 
 class __declspec(novtable) EvaAnnounceClientCreateModuleData
 {

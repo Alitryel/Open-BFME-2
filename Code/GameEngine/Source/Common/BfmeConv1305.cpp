@@ -33,11 +33,11 @@ struct BfmeCtxSZA
 	BfmeRecSZA *m_bfmeRec;
 };
 
-void bfmeSymbolSZA(unsigned a, char *buf, unsigned n);
+class DebugStackwalk { public: class Signature { public: static void __cdecl GetSymbol(unsigned a, char *buf, unsigned n); }; };
 
 void bfmeGoSZA(BfmeStreamSZA *out, BfmeCtxSZA *ctx)
 {
 	char m_bfmeBuf[0x200];
-	bfmeSymbolSZA(ctx->m_bfmeRec->m_bfmeAddr, m_bfmeBuf, 0x200);
+	DebugStackwalk::Signature::GetSymbol(ctx->m_bfmeRec->m_bfmeAddr, m_bfmeBuf, 0x200);
 	out->bfmeAddSZA("Exception occured at\n")->bfmeAddSZA(m_bfmeBuf)->bfmeAddSZA(".");
 }

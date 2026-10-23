@@ -1,4 +1,7 @@
-// cl: /O1 /DNDEBUG /MD /GX- /arch:SSE
+char g_00C54FD8;
+char g_00C54FE8;
+
+// cl: /DNDEBUG /MD /GX-
 //
 // ??1RousingSpeechUpdate@@UAE@XZ, retail 0x004ACE96, 60 bytes. Virtual dtor
 // shard: ctor TU keeps its verified shape untouched (adding a dtor decl
@@ -14,6 +17,11 @@
 // this-adjust). (2) NO explicit base call (explicit doubles with the
 // implicit one). (3) /GX- (retail dtor is frameless with no EH prologue;
 // /GX adds cookie+frame+states).
+
+extern "C" const void *const vtbl_00C4D640[];  // folded, 11 classes; via ??_7LevelGrantSpecialPower@@6BSpecialPowerModuleInterface@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4D640=??_7LevelGrantSpecialPower@@6BSpecialPowerModuleInterface@@@")
+extern "C" const void *const vtbl_00C552A4[];  // folded, 6 classes; via ??_7GiveOrRestoreUpgradeSpecialPower@@6BDamageModuleInterface@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C552A4=??_7GiveOrRestoreUpgradeSpecialPower@@6BDamageModuleInterface@@@")
 
 class Thing;
 class ModuleData;
@@ -57,10 +65,10 @@ private:
 RousingSpeechUpdate::~RousingSpeechUpdate()
 {
 	Rva0029FB3BMember *member = (Rva0029FB3BMember *)((char *)this + 0x88);
-	*(const void **)this = (const void *)0x00C54FE8;
-	*(const void **)((char *)this + 0x0C) = (const void *)0x00C4D640;
-	*(const void **)((char *)this + 0x10) = (const void *)0x00C54FD8;
-	*(const void **)((char *)this + 0x20) = (const void *)0x00C552A4;
+	*(const void **)this = (const void *)(unsigned int)&g_00C54FE8;
+	*(const void **)((char *)this + 0x0C) = (const void *)((unsigned int)vtbl_00C4D640);
+	*(const void **)((char *)this + 0x10) = (const void *)(unsigned int)&g_00C54FD8;
+	*(const void **)((char *)this + 0x20) = (const void *)((unsigned int)vtbl_00C552A4);
 	member->reset();
 	((PoolMember *)member)->Rva00268902();
 }

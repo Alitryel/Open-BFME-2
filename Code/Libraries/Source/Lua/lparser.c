@@ -743,7 +743,6 @@ static int explist1 (LexState *ls) {
 }
 
 
-// _expr present-unmatched
 static void expr (LexState *ls, expdesc *v) {
   subexpr(ls, v, -1);
 }

@@ -11,7 +11,11 @@ public:
 
 extern T_007ea120 *g_Va0130A588;
 extern unsigned char g_Va0130A58D;
+// g_Va0130A58D: matched references place it at VA 0xe09fa9 (zero-filled .bss).
+unsigned char g_Va0130A58D;
 extern unsigned char g_Va0130A58C;
+// g_Va0130A58C: matched references place it at VA 0xe09fa8 (zero-filled .bss).
+unsigned char g_Va0130A58C;
 
 void Rva007EB830Release(void);
 void Rva007F0060();

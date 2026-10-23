@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva004CDC53@EvacuateGarrisonSpecialPower@@SA?AW4NameKeyType@@XZ @0x004CDC53
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@EvacuateGarrisonSpecialPower@@UBE?AW4NameKeyType@@XZ @0x004CDC53
 // (69B): cached pool-name key for EvacuateGarrisonSpecialPower. The class
 // identity comes from the pool-name string the body pushes
 // ("EvacuateGarrisonSpecialPower"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class EvacuateGarrisonSpecialPower
 {
 public:
-	static NameKeyType rva004CDC53();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004CDC53@EvacuateGarrisonSpecialPower@@SA?AW4NameKeyType@@XZ
-NameKeyType EvacuateGarrisonSpecialPower::rva004CDC53()
+// ?getModuleNameKey@EvacuateGarrisonSpecialPower@@UBE?AW4NameKeyType@@XZ
+NameKeyType EvacuateGarrisonSpecialPower::getModuleNameKey() const
 {
 	static NameKeyType TheEvacuateGarrisonSpecialPowerPoolKey =
 		TheNameKeyGenerator->nameToKey("EvacuateGarrisonSpecialPower");

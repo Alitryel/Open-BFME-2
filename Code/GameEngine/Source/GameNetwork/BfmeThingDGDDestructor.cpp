@@ -238,3 +238,7 @@ BfmeThingDGD::~BfmeThingDGD()
 
 typedef char BfmeThingDGDChildSize[ ( sizeof( Rva007F6D60Child ) == 0x94 ) ? 1 : -1 ];
 typedef char BfmeThingDGDSize[ ( sizeof( BfmeThingDGD ) == 0x6e0 ) ? 1 : -1 ];
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??1Gen007F86D0@@UAE@XZ=??1BfmeThingDGD@@QAE@XZ")

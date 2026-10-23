@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // DynamicPortalBehaviourModuleData parse-unit (the ctor lives in
 // DynamicPortalBehaviourCtor.cpp).
@@ -13,6 +13,7 @@
 class MultiIniFieldParse;
 struct FieldParse;
 
+extern const int s_dynamicPortalFieldTable[];
 class MultiIniFieldParse
 {
 public:
@@ -31,5 +32,5 @@ public:
 void DynamicPortalBehaviourModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	parse.add(reinterpret_cast<const FieldParse *>(Rva004CE29DGet()), 8);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00C42A38), 0);
+	parse.add(reinterpret_cast<const FieldParse *>(s_dynamicPortalFieldTable), 0);
 }

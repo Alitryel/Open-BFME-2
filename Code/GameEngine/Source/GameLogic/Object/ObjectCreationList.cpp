@@ -1,4 +1,4 @@
-// cl: /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/ocls /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
+// cl: /Ireference/shims/bfme_pathfinder_get_cell_link /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/ocls /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/GameLogic/Object/ObjectCreationList.cpp); this unit had no counterpart under Code/.
@@ -76,7 +76,34 @@
 
 
 #include "Common/CRCDebug.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>::operator()(int const &x,int const &y)const  { return x < y; } }
+// bfme link decl-only begin
+namespace _STL { template <> void _Destroy<AsciiString *>(AsciiString *, AsciiString *); }
+namespace _STL { template <> void _Destroy<AsciiString>(AsciiString *); }
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool>::pair(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > const &, bool const &); }
+namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator++(); }
+namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--(); }
+namespace _STL { template <> bool less<int>::operator()(int const &, int const &) const; }
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool> _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::insert_unique(pair<int const, int> const &); }
+// Call retail's hinted insert_unique (0x00422EC0) instead of emitting this unit's own copy.
+namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::insert_unique(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, pair<int const, int> const &); }
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ?insert_unique@?$_Rb_tree@HU?$pair@$$CBHH@_STL@@U?$_Select1st@U?$pair@$$CBHH@_STL@@@2@U?$l:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
 
+namespace _STL { template <> pair<_Rb_tree<int, pair<const int, int>, _Select1st<pair<const int, int> >, less<int>, allocator<pair<const int, int> > >::iterator, bool> _Rb_tree<int, pair<const int, int>, _Select1st<pair<const int, int> >, less<int>, allocator<pair<const int, int> > >::insert_unique(const pair<const int, int> &); }
+
+// Keep comparisons local: external tree-base and max<unsigned> copies
+// conflict with their selected providers. TRANSITIVE STL anchor.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{ return a < b ? b : a; }
+}
 #ifdef _INTERNAL
 // for occasional debugging...
 //#pragma optimize("", off)
@@ -158,18 +185,7 @@ public:
 		return NULL;
   }
 
-	static void parse(INI *ini, void *instance, void* /*store*/, const void* /*userData*/)
-	{
-		static const FieldParse myFieldParse[] = 
-		{
-			{ "Weapon", INI::parseWeaponTemplate,	NULL, offsetof( FireWeaponNugget, m_weapon ) },
-			{ 0, 0, 0, 0 }
-		};
-
-		FireWeaponNugget* nugget = newInstance(FireWeaponNugget);
-		ini->initFromINI(nugget, myFieldParse);
-		((ObjectCreationList*)instance)->addObjectCreationNugget(nugget);
-	}
+	static void parse(INI *ini, void *instance, void *store, const void *userData);
 
 private:
 	const WeaponTemplate* m_weapon;
@@ -183,12 +199,7 @@ class AttackNugget : public ObjectCreationNugget
 	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE(AttackNugget, "AttackNugget")		
 public:
 
-	AttackNugget() : 
-    m_numberOfShots(1),
-		m_weaponSlot(PRIMARY_WEAPON),
-		m_deliveryDecalRadius(0)
-	{
-	}
+	AttackNugget();
 
 	virtual Object* create( const Object* primaryObj, const Coord3D *primary, const Coord3D* secondary, Real angle, UnsignedInt lifetimeFrames = 0 ) const
 	{
@@ -226,21 +237,7 @@ public:
 		return NULL;
   }
 
-	static void parse(INI *ini, void *instance, void* /*store*/, const void* /*userData*/)
-	{
-		static const FieldParse myFieldParse[] = 
-		{
-			{ "NumberOfShots",	INI::parseInt,				NULL, offsetof( AttackNugget, m_numberOfShots ) },
-			{ "WeaponSlot",			INI::parseLookupList,	TheWeaponSlotTypeNamesLookupList, offsetof( AttackNugget, m_weaponSlot ) },
-			{ "DeliveryDecal",				RadiusDecalTemplate::parseRadiusDecalTemplate,	NULL, offsetof( AttackNugget, m_deliveryDecalTemplate ) },
-			{ "DeliveryDecalRadius",	INI::parseReal, NULL, offsetof(AttackNugget, m_deliveryDecalRadius) },
-			{ 0, 0, 0, 0 }
-		};
-
-		AttackNugget* nugget = newInstance(AttackNugget);
-		ini->initFromINI(nugget, myFieldParse);
-		((ObjectCreationList*)instance)->addObjectCreationNugget(nugget);
-	}
+	static void parse(INI *ini, void *instance, void *store, const void *userData);
 
 private:
 	RadiusDecalTemplate	m_deliveryDecalTemplate;
@@ -602,12 +599,15 @@ private:
 EMPTY_DTOR(DeliverPayloadNugget)
 
 //-------------------------------------------------------------------------------------------------
-static void calcRandomForce(Real minMag, Real maxMag, Real minPitch, Real maxPitch, Coord3D* force)
+// The separately recovered ApplyRandomForceNugget::create calls this owner.
+void calcRandomForce(Real minMag, Real maxMag, Real minPitch, Real maxPitch, Coord3D* force)
 {
+#line 581 "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\ObjectCreationList.cpp"
 	Real angle = GameLogicRandomValueReal(0, 2*PI);
 	Real pitch = GameLogicRandomValueReal(minPitch, maxPitch);
 	Real mag = GameLogicRandomValueReal(minMag, maxMag);
 
+#line 611 "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\ObjectCreationList.cpp"
 	Matrix3D mtx(1);
 	mtx.Scale(mag);
 	mtx.Rotate_Z(angle);
@@ -615,12 +615,15 @@ static void calcRandomForce(Real minMag, Real maxMag, Real minPitch, Real maxPit
 
 	Vector3 v = mtx.Get_X_Vector();
 
-	force->x = v.X;
-	force->y = v.Y;
-	force->z = v.Z;
+	Coord3D result;
+	result.x = v.X;
+	result.y = v.Y;
+	result.z = v.Z;
+	*force = result;
 }
 
 
+#line 624 "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\ObjectCreationList.cpp"
 //-------------------------------------------------------------------------------------------------
 class ApplyRandomForceNugget : public ObjectCreationNugget
 {
@@ -641,19 +644,19 @@ public:
 		if (primary)
 		{
 			/// @todo srj -- ack. const_cast is evil.
-			PhysicsBehavior* p = const_cast<Object*>(primary)->getPhysics();
-      if (p)
+			PhysicsBehavior* physicsBehavior = const_cast<Object*>(primary)->getPhysics();
+      if (physicsBehavior)
       {
 				Coord3D force;
 				calcRandomForce(m_minMag, m_maxMag, m_minPitch, m_maxPitch, &force);
-				p->applyForce(&force);
+				physicsBehavior->applyForce(&force);
 
 			  Real yaw = GameLogicRandomValueReal( -m_spinRate, m_spinRate );
 			  Real roll = GameLogicRandomValueReal( -m_spinRate, m_spinRate );
 			  Real pitch = GameLogicRandomValueReal( -m_spinRate, m_spinRate );
-			  p->setYawRate(yaw);
-			  p->setRollRate(roll);
-			  p->setPitchRate(pitch);
+			  physicsBehavior->setYawRate(yaw);
+			  physicsBehavior->setRollRate(roll);
+			  physicsBehavior->setPitchRate(pitch);
       }
       else
       {
@@ -673,22 +676,7 @@ public:
 		return NULL;
 	}
 
-	static void parse(INI *ini, void *instance, void* /*store*/, const void* /*userData*/)
-	{
-		static const FieldParse myFieldParse[] = 
-		{
-			{ "SpinRate",					INI::parseAngularVelocityReal,	NULL, offsetof(ApplyRandomForceNugget, m_spinRate) },
-			{ "MinForceMagnitude",	INI::parseReal,	NULL, offsetof(ApplyRandomForceNugget, m_minMag) },
-			{ "MaxForceMagnitude",	INI::parseReal,	NULL, offsetof(ApplyRandomForceNugget, m_maxMag) },
-			{ "MinForcePitch",	INI::parseAngleReal,	NULL, offsetof(ApplyRandomForceNugget, m_minPitch) },
-			{ "MaxForcePitch",	INI::parseAngleReal,	NULL, offsetof(ApplyRandomForceNugget, m_maxPitch) },
-			{ 0, 0, 0, 0 }
-		};
-
-		ApplyRandomForceNugget* nugget = newInstance(ApplyRandomForceNugget);
-		ini->initFromINI(nugget, myFieldParse);
-		((ObjectCreationList*)instance)->addObjectCreationNugget(nugget);
-	}
+	static void parse(INI *ini, void *instance, void *store, const void *userData);
 
 protected:
 
@@ -743,55 +731,7 @@ class GenericObjectCreationNugget : public ObjectCreationNugget
 	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE(GenericObjectCreationNugget, "GenericObjectCreationNugget")		
 public:
 
-	GenericObjectCreationNugget() : 
-		m_requiresLivePlayer(FALSE),
-		m_debrisToGenerate(1), 
-		m_mass(0), 
-		m_extraBounciness(0),
-		m_extraFriction(0),
-		m_disposition(ON_GROUND_ALIGNED),
-		m_dispositionIntensity(0.0f),
-		m_spinRate(-1.0f),
-		m_yawRate(-1.0f),
-		m_rollRate(-1.0f),
-		m_pitchRate(-1.0f),
-		m_nameAreObjects(true),
-		m_okToChangeModelColor(false),
-		m_minLODRequired(STATIC_GAME_LOD_LOW),
-		m_ignorePrimaryObstacle(false),
-		m_inheritsVeterancy(false),
-    m_diesOnBadLand(FALSE),
-		m_skipIfSignificantlyAirborne(false),
-		m_invulnerableTime(0),
-		m_containInsideSourceObject(FALSE),
-    m_minHealth(1.0f),
-		m_maxHealth(1.0f),
-		m_orientInForceDirection(false),
-		m_spreadFormation(false),
-		m_minDistanceAFormation(0.0f),
-		m_minDistanceBFormation(0.0f),
-		m_maxDistanceFormation(0.0f),
-		m_fadeIn(false),
-		m_fadeOut(false),
-		m_fadeFrames(0),
-		m_fadeSoundName(AsciiString::TheEmptyString), // Added By Sadullah Nader
-		m_particleSysName(AsciiString::TheEmptyString), // Added By Sadullah Nader
-		m_putInContainer(AsciiString::TheEmptyString), // Added By Sadullah Nader
-		m_minMag(0.0f),
-		m_maxMag(0.0f),
-		m_minPitch(0.0f),
-		m_maxPitch(0.0f),
-		m_minFrames(0),
-		m_maxFrames(0),
-		m_shadowType(SHADOW_NONE),
-		m_fxFinal(NULL),
-		m_preserveLayer(true),
-		m_objectCount(0) // Added By Sadullah Nader
-	{
-		// Change Made by Sadullah Nader
-		// for init purposes, easier to read
-		m_offset.zero(); 
-	}
+	GenericObjectCreationNugget();	// rowed 0x001F0E32 (GenericObjectCreationNuggetCtor.cpp)
 
 	virtual Object* create(const Object* primary, const Object* secondary, UnsignedInt lifetimeFrames = 0 ) const
 	{
@@ -828,100 +768,11 @@ public:
 		return NULL;
 	}
 
-	static const FieldParse* getCommonFieldParse()
-	{
-		static const FieldParse commonFieldParse[] =
-		{
-			{ "PutInContainer", INI::parseAsciiString, NULL, offsetof( GenericObjectCreationNugget, m_putInContainer) },
-			{ "ParticleSystem",		INI::parseAsciiString, NULL, offsetof( GenericObjectCreationNugget, m_particleSysName) },
-			{ "Count",						INI::parseInt,						NULL, offsetof( GenericObjectCreationNugget, m_debrisToGenerate ) },
-			{ "IgnorePrimaryObstacle", INI::parseBool, NULL, offsetof(GenericObjectCreationNugget, m_ignorePrimaryObstacle) },
-			{ "OrientInForceDirection", INI::parseBool, NULL, offsetof(GenericObjectCreationNugget, m_orientInForceDirection) },
-			{ "ExtraBounciness",				INI::parseReal,						NULL, offsetof( GenericObjectCreationNugget, m_extraBounciness ) },
-			{ "ExtraFriction",				parseFrictionPerSec,						NULL, offsetof( GenericObjectCreationNugget, m_extraFriction ) },
-			{ "Offset",						INI::parseCoord3D,				NULL, offsetof( GenericObjectCreationNugget, m_offset ) },
-			{ "Disposition",			INI::parseBitString32,			DebrisDispositionNames, offsetof( GenericObjectCreationNugget, m_disposition ) },
-			{ "DispositionIntensity",	INI::parseReal,						NULL,	offsetof( GenericObjectCreationNugget, m_dispositionIntensity ) },
-			{ "SpinRate",					INI::parseAngularVelocityReal,	NULL, offsetof(GenericObjectCreationNugget, m_spinRate) },
-			{ "YawRate",					INI::parseAngularVelocityReal,	NULL, offsetof(GenericObjectCreationNugget, m_yawRate) },
-			{ "RollRate",					INI::parseAngularVelocityReal,	NULL, offsetof(GenericObjectCreationNugget, m_rollRate) },
-			{ "PitchRate",				INI::parseAngularVelocityReal,	NULL, offsetof(GenericObjectCreationNugget, m_pitchRate) },
-			{ "MinForceMagnitude",	INI::parseReal,	NULL, offsetof(GenericObjectCreationNugget, m_minMag) },
-			{ "MaxForceMagnitude",	INI::parseReal,	NULL, offsetof(GenericObjectCreationNugget, m_maxMag) },
-			{ "MinForcePitch",	INI::parseAngleReal,	NULL, offsetof(GenericObjectCreationNugget, m_minPitch) },
-			{ "MaxForcePitch",	INI::parseAngleReal,	NULL, offsetof(GenericObjectCreationNugget, m_maxPitch) },
-			{ "MinLifetime",					INI::parseDurationUnsignedInt,		NULL, offsetof( GenericObjectCreationNugget, m_minFrames ) },
-			{ "MaxLifetime",					INI::parseDurationUnsignedInt,		NULL, offsetof( GenericObjectCreationNugget, m_maxFrames ) },
-			{ "SpreadFormation",			INI::parseBool,	NULL, offsetof(GenericObjectCreationNugget, m_spreadFormation) },
-			{ "MinDistanceAFormation",	INI::parseReal, NULL, offsetof(GenericObjectCreationNugget, m_minDistanceAFormation) },
-			{ "MinDistanceBFormation",	INI::parseReal, NULL, offsetof(GenericObjectCreationNugget, m_minDistanceBFormation) },
-			{ "MaxDistanceFormation",	INI::parseReal, NULL, offsetof(GenericObjectCreationNugget, m_maxDistanceFormation) },
-			{ "FadeIn",			INI::parseBool,	NULL, offsetof(GenericObjectCreationNugget, m_fadeIn) },
-			{ "FadeOut",			INI::parseBool,	NULL, offsetof(GenericObjectCreationNugget, m_fadeOut) },
-			{ "FadeTime",	INI::parseDurationUnsignedInt,	NULL, offsetof(GenericObjectCreationNugget, m_fadeFrames) },
-			{ "FadeSound", INI::parseAsciiString, NULL, offsetof( GenericObjectCreationNugget, m_fadeSoundName) },
-			{ "PreserveLayer", INI::parseBool, NULL, offsetof( GenericObjectCreationNugget, m_preserveLayer) },
-			{ "DiesOnBadLand",	INI::parseBool, NULL, offsetof(GenericObjectCreationNugget, m_diesOnBadLand) },
-			{ 0, 0, 0, 0 }
-		};
-		return commonFieldParse;
-	}
+	static const FieldParse* getCommonFieldParse();	// rowed 0x001F01EB
 
-	static void parseObject(INI *ini, void *instance, void* /*store*/, const void* /*userData*/)
-	{
-		static const FieldParse myFieldParse[] = 
-		{
-			{ "ContainInsideSourceObject", INI::parseBool, NULL, offsetof( GenericObjectCreationNugget, m_containInsideSourceObject) },
-			{ "ObjectNames",				parseDebrisObjectNames,		NULL, 0 },
-			{ "ObjectCount",				INI::parseInt,  NULL, offsetof(GenericObjectCreationNugget, m_objectCount) },
-			{ "InheritsVeterancy",	INI::parseBool, NULL, offsetof(GenericObjectCreationNugget, m_inheritsVeterancy) },
-			{ "SkipIfSignificantlyAirborne", INI::parseBool, NULL, offsetof(GenericObjectCreationNugget, m_skipIfSignificantlyAirborne) },
-			{ "InvulnerableTime",		INI::parseDurationUnsignedInt, NULL, offsetof(GenericObjectCreationNugget, m_invulnerableTime) },
-			{ "MinHealth",					INI::parsePercentToReal, NULL, offsetof(GenericObjectCreationNugget, m_minHealth) },
-			{ "MaxHealth",					INI::parsePercentToReal, NULL, offsetof(GenericObjectCreationNugget, m_maxHealth) },
-			{ "RequiresLivePlayer",	INI::parseBool, NULL, offsetof(GenericObjectCreationNugget, m_requiresLivePlayer) },
-			{ 0, 0, 0, 0 }
-		};
+	static void parseObject(INI *ini, void *instance, void *store, const void *userData);	// rowed 0x001F311B
 
-		MultiIniFieldParse p;
-		p.add(getCommonFieldParse());
-		p.add(myFieldParse);
-
-		GenericObjectCreationNugget* nugget = newInstance(GenericObjectCreationNugget);
-		nugget->m_nameAreObjects = true;
-
-		ini->initFromINIMulti(nugget, p);
-
-		((ObjectCreationList*)instance)->addObjectCreationNugget(nugget);
-	}
-
-	static void parseDebris(INI *ini, void *instance, void* /*store*/, const void* /*userData*/)
-	{
-		static const FieldParse myFieldParse[] = 
-		{
-			{ "ModelNames",							parseDebrisObjectNames,							NULL,					0 },
-			{ "Mass",										INI::parsePositiveNonZeroReal,			NULL,					offsetof( GenericObjectCreationNugget, m_mass ) },
-			{ "AnimationSet",						parseAnimSet,												NULL,					offsetof( GenericObjectCreationNugget, m_animSets) },
-			{ "FXFinal",								INI::parseFXList,										NULL,					offsetof( GenericObjectCreationNugget, m_fxFinal) },
-			{ "OkToChangeModelColor",		INI::parseBool,											NULL,					offsetof(GenericObjectCreationNugget, m_okToChangeModelColor) },
-			{ "MinLODRequired",					INI::parseStaticGameLODLevel,				NULL,					offsetof(GenericObjectCreationNugget, m_minLODRequired) },
-			{ "Shadow",									INI::parseBitString32,							TheShadowNames,	offsetof( GenericObjectCreationNugget, m_shadowType ) },
-			{ "BounceSound",						INI::parseAudioEventRTS,						NULL,					offsetof( GenericObjectCreationNugget, m_bounceSound) },
-			{ 0, 0, 0, 0 }
-		};
-
-		MultiIniFieldParse p;
-		p.add(getCommonFieldParse());
-		p.add(myFieldParse);
-
-		GenericObjectCreationNugget* nugget = newInstance(GenericObjectCreationNugget);
-		nugget->m_nameAreObjects = false;
-
-		ini->initFromINIMulti(nugget, p);
-
-		DEBUG_ASSERTCRASH(nugget->m_mass > 0.0f, ("Zero masses are not allowed for debris!\n"));
-		((ObjectCreationList*)instance)->addObjectCreationNugget(nugget);
-	}
+	static void parseDebris(INI *ini, void *instance, void *store, const void *userData);	// rowed 0x001F340A
 
 	static void parseAnimSet(INI *ini, void * /*instance*/, void* store, const void* /*userData*/)
 	{
@@ -991,19 +842,19 @@ protected:
 		
 		if (!m_particleSysName.isEmpty())
 		{
-			const ParticleSystemTemplate *tmp = TheParticleSystemManager->findTemplate(m_particleSysName);
-			if (tmp)
+			const ParticleSystemTemplate *particleSystemTemplate = TheParticleSystemManager->findTemplate(m_particleSysName);
+			if (particleSystemTemplate)
 			{
-				ParticleSystem *sys = TheParticleSystemManager->createParticleSystem(tmp);
+				ParticleSystem *sys = TheParticleSystemManager->createParticleSystem(particleSystemTemplate);
 				sys->attachToObject(obj);
 			}
 		}
 		
 		if (m_ignorePrimaryObstacle)
 		{
-			PhysicsBehavior* p = obj->getPhysics();
-			if (p)
-				p->setIgnoreCollisionsWith(sourceObj);
+			PhysicsBehavior* physicsBehavior = obj->getPhysics();
+			if (physicsBehavior)
+				physicsBehavior->setIgnoreCollisionsWith(sourceObj);
 		}
 
 		// set its beginning health
@@ -1357,25 +1208,25 @@ protected:
 		{
 			Int pick = GameLogicRandomValue(0, m_names.size() - 1);
 
-			const ThingTemplate* tmpl;
+			const ThingTemplate* thingTemplate;
 			if (m_nameAreObjects)
-				tmpl = TheThingFactory->findTemplate(m_names[pick]);
+				thingTemplate = TheThingFactory->findTemplate(m_names[pick]);
 			else
 			{	//this is using the generic debris type so it's probably safe to
 				//remove if requested by the GameLOD manager.
 				if (TheGameLODManager->isDebrisSkipped())
 					continue;
 
-				tmpl = debrisTemplate;
+				thingTemplate = debrisTemplate;
 			}
-			DEBUG_ASSERTCRASH(tmpl, ("Object %s not found\n",m_names[pick].str()));
-			if (!tmpl)
+			DEBUG_ASSERTCRASH(thingTemplate, ("Object %s not found\n",m_names[pick].str()));
+			if (!thingTemplate)
 				continue;
 
-			Object *debris = TheThingFactory->newObject( tmpl, debrisOwner );
+			Object *debris = TheThingFactory->newObject( thingTemplate, debrisOwner );
 			if( !debris )
 			{
-				DEBUG_CRASH( ("OCL::reallyCreate() failed to create debris %s.", tmpl->getName().str() ) );
+				DEBUG_CRASH( ("OCL::reallyCreate() failed to create debris %s.", thingTemplate->getName().str() ) );
 				return firstObject;
 			}
 			if( !firstObject )
@@ -1510,7 +1361,9 @@ EMPTY_DTOR(GenericObjectCreationNugget)
 //-------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------
-static const FieldParse TheObjectCreationListFieldParse[] =
+// Keep the donor callback table emitted: existing matched callbacks depend on
+// its references. This is not the BFME2 table at 0x00BE07F0.
+extern const FieldParse ObjectCreationListDonorFieldParse[] =
 {
 	{ "CreateObject",			GenericObjectCreationNugget::parseObject, 0, 0},		
 	{ "CreateDebris",			GenericObjectCreationNugget::parseDebris, 0, 0},		
@@ -1522,6 +1375,19 @@ static const FieldParse TheObjectCreationListFieldParse[] =
 };
 
 //-------------------------------------------------------------------------------------------------
+// Retail table at RVA 0x007E07F0: five named callbacks and a terminator.
+// Names, order and callback addresses are read from retail; the donor's
+// DeliverPayload entry is absent. Each callback has its own matched owner.
+extern const FieldParse TheObjectCreationListFieldParse[] =
+{
+    { "CreateObject", GenericObjectCreationNugget::parseObject, 0, 0 },
+    { "CreateDebris", GenericObjectCreationNugget::parseDebris, 0, 0 },
+    { "ApplyRandomForce", ApplyRandomForceNugget::parse, 0, 0 },
+    { "FireWeapon", FireWeaponNugget::parse, 0, 0 },
+    { "Attack", AttackNugget::parse, 0, 0 },
+    { NULL, NULL, 0, 0 }
+};
+
 // ?clear@ObjectCreationList@@ present-unmatched
 void ObjectCreationList::clear()
 {
@@ -1607,10 +1473,11 @@ ObjectCreationListStore::~ObjectCreationListStore()
 }
 
 //-------------------------------------------------------------------------------------------------
+// Native IAT 0x00BBA518 is msvcr71.dll's _strcmpi import.
+extern "C" int (__cdecl *_imp___strcmpi)(const char *, const char *);
 const ObjectCreationList *ObjectCreationListStore::findObjectCreationList(const char* name) const
 {
-	typedef int (__cdecl *CaseInsensitiveCompare)(const char *, const char *);
-	if ((*reinterpret_cast<CaseInsensitiveCompare *>(0x00BBA518))(name, "None") == 0)
+	if (_imp___strcmpi(name, "None") == 0)
 		return NULL;
 
 	NameKeyType key = NAMEKEY(name);
@@ -1635,18 +1502,66 @@ void ObjectCreationListStore::addObjectCreationNugget(ObjectCreationNugget* nugg
 }
 
 //-------------------------------------------------------------------------------------------------
-/*static */ void ObjectCreationListStore::parseObjectCreationListDefinition(INI *ini)
+
+// Target parser 0x001F0C0B..0x001F0D04; named by WB 0x00B092E0 and
+// reached by the retail ObjectCreationList INI dispatch at 0x007AD4CC.
+// The owned constructor at 0x001F073A initializes 20 bytes: vector at +0,
+// override flag at +0x0C and AsciiString at +0x10. Keep its existing name.
+struct Rva001F073ACtor { Rva001F073ACtor(AsciiString *s); char bytes[20]; };
+// Target-proven offsets. The template element spellings are ABI call views;
+// the retired values are list pointers, not independently proven nuggets.
+struct OclStoreParseView {
+	char prefix[12];
+	_STL::map<int, int> m_map0C;
+	_STL::vector<ObjectCreationNugget *> m_vec18;
+};
+static __forceinline OclStoreParseView *oclParseStore() {
+	return reinterpret_cast<OclStoreParseView *>(TheObjectCreationListStore);
+}
+void ObjectCreationListStore::parseObjectCreationListDefinition(INI *ini)
 {
-	// read the ObjectCreationList name
-	const char *c = ini->getNextToken();
-	NameKeyType key = TheNameKeyGenerator->nameToKey(c);
-	ObjectCreationList& ocl = TheObjectCreationListStore->m_ocls[key];
-	ocl.clear();
-	ini->initFromINI(&ocl, TheObjectCreationListFieldParse);
+	const char *token = ini->getNextToken(0);
+	NameKeyType key = TheNameKeyGenerator->nameToKey(token);
+	int keySlot = key;
+	_STL::map<int, int> *map = &oclParseStore()->m_map0C;
+	_STL::map<int, int>::iterator found = map->find(keySlot);
+	// The donor INI layout differs; retail reads load type at +8.
+	if (found != map->end() && *reinterpret_cast<const int *>(reinterpret_cast<const char *>(ini) + 8) == 5)
+	{
+		_STL::map<int, void *>::iterator eit = (_STL::map<int, void *>::iterator &)found;
+		((_STL::map<int, void *> *)map)->erase(eit);
+		// Preserve retail's post-erase read order, also seen in WorldBuilder.
+		ObjectCreationNugget *old = (ObjectCreationNugget *)found->second;
+		if (old)
+		{
+			oclParseStore()->m_vec18.push_back(old);
+			*(char *)((char *)old + 0x0C) = 1;
+		}
+	}
+	// MSVC temporary lifetime supplies the conditional EH cleanup in retail.
+	Rva001F073ACtor *result = new Rva001F073ACtor(&AsciiString(token));
+	oclParseStore()->m_map0C.operator[](keySlot) = (int)result;
+	ini->initFromINI(result, TheObjectCreationListFieldParse);
 }
 
 //-------------------------------------------------------------------------------------------------
 /*static*/ void INI::parseObjectCreationListDefinition(INI *ini)
 {
 	ObjectCreationListStore::parseObjectCreationListDefinition(ini);
+}
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?findObjectCreationList@ObjectCreationListStore@@QAEPBVObjectCreationList@@PBD@Z=?findObjectCreationList@ObjectCreationListStore@@QBEPBVObjectCreationList@@PBD@Z")
+// Retain the already-rowed default constructor formerly emitted by the donor
+// parser's by-value map. Retail's replacement parser instead stores pointers.
+template ObjectCreationList& _STL::map<NameKeyType, ObjectCreationList>::operator[](const NameKeyType&);
+
+// parseObject/parseDebris are rowed in GenericObjectCreationNuggetParseObject.cpp;
+// parseDebris's table used to be what emitted this unit's rowed parseAnimSet
+// (and with it the AnimSet vector helpers), so reference it here.
+// ?bfmeAnchorParseAnimSet absent-from-retail
+void *bfmeAnchorParseAnimSet()
+{
+	return (void *)&GenericObjectCreationNugget::parseAnimSet;
 }

@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG
+// cl: /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG
 //
 // ??1W3DTruckDrawModuleData@@UAE@XZ, retail 0x000CB28E, 269 bytes.
 // W3DTruckDraw ModuleData dtor: reinstalls vtable 0xBCC508, tears down the
@@ -10,15 +10,7 @@
 // folded pin at 0x36410. Member names follow retail's FieldParse table at
 // 0xBCC358. File-unit companion to the landed ctor at 0xCB1C9.
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	~AsciiString();
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class W3DModelDrawModuleData
 {

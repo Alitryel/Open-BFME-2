@@ -1,4 +1,6 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+char g_00C50EE8;
+
+// cl: /GX /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /DNDEBUG /DWIN32 /D_WINDOWS
 // stlport
 //
 // ??0AttributeModifierAuraUpdateModuleData@@QAE@XZ, retail 0x0049BBD5,
@@ -21,7 +23,9 @@
 #include <vector>
 #include <cstring>
 
-struct BfmeE16 { float x, y, z, w; };
+#include "../../../../../Libraries/Include/Lib/BfmeE16.h"
+// bfme link decl-only BfmeE16
+namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 
 template <typename T> class StringBase
 {
@@ -64,11 +68,15 @@ private:
 	int m_value;
 };
 
+extern "C" const void *const __identifier("??_7Snapshot@@6B@")[];
+
 class UpdateBase
 {
 public:
 	UpdateBase() {}
-	~UpdateBase();
+	// Retail's ctor unwind (state 0) destroys this base through 0x0049B47C,
+	// the folded Snapshot destructor: restore table 0x00BBB554 at +0, return.
+	~UpdateBase() { *(const void *const **)this = __identifier("??_7Snapshot@@6B@"); }
 };
 
 class AttributeModifierAuraUpdateModuleData : public UpdateBase
@@ -105,7 +113,7 @@ private:
 
 // ??0AttributeModifierAuraUpdateModuleData@@QAE@XZ @0x49BBD5
 AttributeModifierAuraUpdateModuleData::AttributeModifierAuraUpdateModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C50EE8))
+	: m_vtable(reinterpret_cast<const void *>((unsigned int)&g_00C50EE8))
 	, m_bonusName()
 	, m_vec0C()
 {

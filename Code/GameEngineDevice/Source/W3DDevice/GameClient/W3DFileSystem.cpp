@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /O1 /DNDEBUG /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // stlport
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
@@ -53,6 +53,34 @@
 // DEFINES ////////////////////////////////////////////////////////////////////////////////////////
 
 #include <io.h>
+// Retail calls MSVCR71 _mbscat here (thunk 0x0062988C), not strcat.
+extern "C" char *__cdecl _mbscat(char *dest, const char *source);
+
+// BFME's File vtable, which the vendored Zero Hour header does not describe:
+// BFME's File is not a MemoryPoolObject, so every slot sits one earlier than
+// Common/File.h puts it (read 3, seek 5, size 11 -- the numbering the matched
+// File / LocalFile / RAMFile rows prove from their own vtables). Calls through
+// m_theFile go through this TU-local view instead of editing the shared header.
+class BfmeFileSlots
+{
+public:
+	virtual ~BfmeFileSlots();								// slot 0
+	virtual Bool open( const char *filename, Int access );	// slot 1
+	virtual void close( void );								// slot 2
+	virtual Int read( void *buffer, Int bytes );			// slot 3
+	virtual Int write( const void *buffer, Int bytes );		// slot 4
+	virtual Int seek( Int bytes, File::seekMode mode );		// slot 5
+	virtual void nextLine( char *buf, Int bufSize );		// slot 6
+	virtual Bool scanInt( Int &newInt );					// slot 7
+	virtual Bool scanReal( Real &newReal );					// slot 8
+	virtual Bool scanString( AsciiString &newString );		// slot 9
+	virtual Bool print( const char *format, ... );			// slot 10
+	virtual Int size( void );								// slot 11
+};
+
+// A cast at the call site, not a helper: retail re-reads m_theFile after the
+// null test, which the plain member expression gives and a helper call folds.
+#define BFME_FILE(file) reinterpret_cast<BfmeFileSlots *>(file)
 
 //-------------------------------------------------------------------------------------------------
 /** Game file access.  At present this allows us to access test assets, assets from
@@ -98,7 +126,6 @@ GameFileClass::GameFileClass( void )
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ??1GameFileClass@@UAE@XZ present-unmatched
 GameFileClass::~GameFileClass()
 {
 
@@ -141,201 +168,7 @@ inline static Bool isImageFileType( GameFileType fileType )
 	Finally we try UserData.
 */
 //-------------------------------------------------------------------------------------------------
-// ?Set_Name@GameFileClass@@ present-unmatched
-char const * GameFileClass::Set_Name( char const *filename )
-{
-
-	if( Is_Open() ) 
-		Close();
-
-	// save the filename
-	strncpy( m_filename, filename, _MAX_PATH );
-
-	char name[_MAX_PATH];
-	const Int EXT_LEN = 32;
-	char extension[EXT_LEN];
-	extension[0] = 0;
-	strcpy(name, filename);
-	Int i = strlen(name);
-	i--;
-	Int extLen = 1;
-	while(i>0 && extLen < EXT_LEN) {
-		if (name[i] == '.') {
-			strcpy(extension, name+i);
-			name[i] = 0;
-			break;
-		}
-		i--;
-		extLen++;
-	}
-	Int j = 0;
-	// Strip out spaces.
-	for (i=0; name[i]; i++) {
-		if (name[i] != ' ') {
-			name[j] = name[i];
-			j++;
-		}
-	}
-	name[j] = 0;
-
-	// test the extension to recognize a few key file types
-	GameFileType fileType = FILE_TYPE_COMPLETELY_UNKNOWN;  // MBL FILE_TYPE_UNKNOWN change due to compile error
-	if( stricmp( extension, ".w3d" ) == 0 )
-		fileType = FILE_TYPE_W3D;
-	else if( stricmp( extension, ".tga" ) == 0 )
-		fileType = FILE_TYPE_TGA;
-	else if( stricmp( extension, ".dds" ) == 0 )
-		fileType = FILE_TYPE_DDS;
-
-
-
-	// We need to be able to grab w3d's from a localization dir, since Germany hates exploding people units.
-	if( fileType == FILE_TYPE_W3D )
-	{
-		static const char *localizedPathFormat = "Data/%s/Art/W3D/";
-		sprintf(m_filePath,localizedPathFormat, GetRegistryLanguage().str());
-		strcat( m_filePath, filename );
-
-	}  // end if
-
-	// We need to be able to grab images from a localization dir, because Art has a fetish for baked-in text.  Munkee.
-	if( isImageFileType(fileType) )
-	{
-		static const char *localizedPathFormat = "Data/%s/Art/Textures/";
-		sprintf(m_filePath,localizedPathFormat, GetRegistryLanguage().str());
-		strcat( m_filePath, filename );
-
-	}  // end else if
-
-	// see if the file exists
-	m_fileExists = TheFileSystem->doesFileExist( m_filePath );
-
-
-
-	// Now try the main lookup of hitting local files and big files
-	if( m_fileExists == FALSE )
-	{
-		// all .w3d files are in W3D_DIR_PATH, all .tga files are in TGA_DIR_PATH
-		if( fileType == FILE_TYPE_W3D )
-		{
-			
-			strcpy( m_filePath, W3D_DIR_PATH );
-			strcat( m_filePath, filename );
-			
-		}  // end if
-		else if( isImageFileType(fileType) )
-		{
-			
-			strcpy( m_filePath, TGA_DIR_PATH );
-			strcat( m_filePath, filename );
-			
-		}  // end else if
-		else
-			strcpy( m_filePath, filename );
-		
-		// see if the file exists
-		m_fileExists = TheFileSystem->doesFileExist( m_filePath );
-	}
-
-
-
-	// maintain legacy compatibility directories for now
-	#ifdef MAINTAIN_LEGACY_FILES
-	if( m_fileExists == FALSE )
-	{
-
-		if( fileType == FILE_TYPE_W3D )
-		{
-
-			strcpy( m_filePath, LEGACY_W3D_DIR_PATH );
-			strcat( m_filePath, filename );
-
-		}  // end if
-		else if( isImageFileType(fileType) )
-		{
-
-			strcpy( m_filePath, LEGACY_TGA_DIR_PATH );
-			strcat( m_filePath, filename );
-
-		}  // end else if
-
-		// see if the file exists
-		m_fileExists = TheFileSystem->doesFileExist( m_filePath );
-
-	}  // end if
-	#endif
-
-
-
-	// if file is still not found, try the test art folders
-	#ifdef LOAD_TEST_ASSETS
-	if( m_fileExists == FALSE )
-	{
-
-		if( fileType == FILE_TYPE_W3D )
-		{
-			
-			strcpy( m_filePath, TEST_W3D_DIR_PATH );
-			strcat( m_filePath, filename );
-
-		}  // end if
-		else if( isImageFileType(fileType) )
-		{
-
-			strcpy( m_filePath, TEST_TGA_DIR_PATH );
-			strcat( m_filePath, filename );
-
-		}  // end else if
-
-		// see if the file exists
-		m_fileExists = TheFileSystem->doesFileExist( m_filePath );
-
-	}  // end if
-	#endif
-
-	// We allow the user to load their own images for various assets (like the control bar)
-	if( m_fileExists == FALSE  && TheGlobalData)
-	{
-		if( fileType == FILE_TYPE_W3D )
-		{
-			sprintf(m_filePath,USER_W3D_DIR_PATH, TheGlobalData->getPath_UserData().str());
-			//strcpy( m_filePath, USER_W3D_DIR_PATH );
-			strcat( m_filePath, filename );
-
-		}  // end if
-		if( isImageFileType(fileType) )
-		{
-			sprintf(m_filePath,USER_TGA_DIR_PATH, TheGlobalData->getPath_UserData().str());
-			//strcpy( m_filePath, USER_TGA_DIR_PATH );
-			strcat( m_filePath, filename );
-
-		}  // end else if
-
-		// see if the file exists
-		m_fileExists = TheFileSystem->doesFileExist( m_filePath );
-
-	}  // end if
-
-
-	// We Need to be able to "temporarily copy over the map preview for whichever directory it came from
-	if( m_fileExists == FALSE  && TheGlobalData)
-	{
-		if( fileType == FILE_TYPE_TGA ) // just TGA, since we don't dds previews
-		{
-			sprintf(m_filePath,MAP_PREVIEW_DIR_PATH, TheGlobalData->getPath_UserData().str());
-			//strcpy( m_filePath, USER_TGA_DIR_PATH );
-			strcat( m_filePath, filename );
-
-		}  // end else if
-
-		// see if the file exists
-		m_fileExists = TheFileSystem->doesFileExist( m_filePath );
-
-	}  // end if
-
-	return m_filename;
-
-}
+// GameFileClass::Set_Name is defined in GameFileClassSetName.cpp.
 
 //-------------------------------------------------------------------------------------------------
 /** If we found a gdi asset, the file is available. */
@@ -351,7 +184,6 @@ bool GameFileClass::Is_Available( int forced )
 //-------------------------------------------------------------------------------------------------
 /** Is the file open. */
 //-------------------------------------------------------------------------------------------------
-// ?Is_Open@GameFileClass@@UBE_NXZ present-unmatched
 bool GameFileClass::Is_Open(void) const
 {
 	return m_theFile != NULL;
@@ -360,7 +192,6 @@ bool GameFileClass::Is_Open(void) const
 //-------------------------------------------------------------------------------------------------
 /** Open the named file. */
 //-------------------------------------------------------------------------------------------------
-// ?Open@GameFileClass@@UAEHPBDH@Z present-unmatched
 int  GameFileClass::Open(char const *filename, int rights) 
 {
 	Set_Name(filename);
@@ -373,29 +204,15 @@ int  GameFileClass::Open(char const *filename, int rights)
 //-------------------------------------------------------------------------------------------------
 /** Open the file using the current file name. */
 //-------------------------------------------------------------------------------------------------
-// ?Open@GameFileClass@@UAEHH@Z present-unmatched
-int  GameFileClass::Open(int rights) 
-{
-	if( rights != READ ) 
-	{
-		return(false);
-	}
-
-	// just open up the file in m_filePath
-	m_theFile = TheFileSystem->openFile( m_filePath, File::READ | File::BINARY );
-
-	return (m_theFile != NULL);
-
-}
+// GameFileClass::Open: defined in GameFileClassOpen.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
 /** Read. */
 //-------------------------------------------------------------------------------------------------
-// ?Read@GameFileClass@@UAEHPAXH@Z present-unmatched
 int GameFileClass::Read(void *buffer, int len) 
 {
 	if (m_theFile) {
-		return m_theFile->read(buffer, len);
+		return BFME_FILE(m_theFile)->read(buffer, len);
 	}
 	return(0);
 }
@@ -403,8 +220,6 @@ int GameFileClass::Read(void *buffer, int len)
 //-------------------------------------------------------------------------------------------------
 /** Seek. */
 //-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngineDevice/Source/W3DDevice/GameClient/GameFileClassSeek.cpp
-// ?Seek@GameFileClass@@UAEHHH@Z present-unmatched
 int GameFileClass::Seek(int pos, int dir) 
 {
 	File::seekMode mode = File::CURRENT;
@@ -415,7 +230,7 @@ int GameFileClass::Seek(int pos, int dir)
 		case SEEK_END: mode = File::END; break;
 	}
 	if (m_theFile) {
-		return m_theFile->seek(pos, mode);
+		return BFME_FILE(m_theFile)->seek(pos, mode);
 	}
 	return 0xFFFFFFFF;
 }
@@ -423,11 +238,10 @@ int GameFileClass::Seek(int pos, int dir)
 //-------------------------------------------------------------------------------------------------
 /** Size. */
 //-------------------------------------------------------------------------------------------------
-// ?Size@GameFileClass@@UAEHXZ present-unmatched
 int GameFileClass::Size(void) 
 {
 	if (m_theFile) {
-		return m_theFile->size();
+		return BFME_FILE(m_theFile)->size();
 	}
 	return 0xFFFFFFFF;
 }
@@ -435,7 +249,6 @@ int GameFileClass::Size(void)
 //-------------------------------------------------------------------------------------------------
 /** Write. */
 //-------------------------------------------------------------------------------------------------
-// ?Write@GameFileClass@@UAEHPBXH@Z present-unmatched
 int GameFileClass::Write(void const *buffer, Int len) 
 {
 #ifdef _DEBUG
@@ -446,7 +259,6 @@ int GameFileClass::Write(void const *buffer, Int len)
 //-------------------------------------------------------------------------------------------------
 /** Close. */
 //-------------------------------------------------------------------------------------------------
-// ?Close@GameFileClass@@UAEXXZ present-unmatched
 void GameFileClass::Close(void) 
 {
 	if (m_theFile) {
@@ -486,7 +298,6 @@ W3DFileSystem::W3DFileSystem(void)
 /** Destructor.  This removes the W3D file factory, so shouldn't be done until
 after W3D is shutdown.  */
 //-------------------------------------------------------------------------------------------------
-// ??1W3DFileSystem@@UAE@XZ present-unmatched
 W3DFileSystem::~W3DFileSystem(void)
 {
 	_TheFileFactory = NULL; // remove the w3d file factory.
@@ -495,7 +306,6 @@ W3DFileSystem::~W3DFileSystem(void)
 //-------------------------------------------------------------------------------------------------
 /** Gets a file with the specified filename. */
 //-------------------------------------------------------------------------------------------------
-// ?Get_File@W3DFileSystem@@UAEPAVFileClass@@PBD@Z present-unmatched
 FileClass * W3DFileSystem::Get_File( char const *filename )
 {
 	return NEW GameFileClass( filename );	// poolify
@@ -504,8 +314,15 @@ FileClass * W3DFileSystem::Get_File( char const *filename )
 //-------------------------------------------------------------------------------------------------
 /** Releases a file returned by Get_File. */
 //-------------------------------------------------------------------------------------------------
-// ?Return_File@W3DFileSystem@@UAEXPAVFileClass@@@Z present-unmatched
+// Slot 2 of the W3DFileSystem vtable 0x007C67D0. Retail destroys through the
+// virtual destructor with a zero flag and then frees with the global operator
+// delete -- the ::delete form, as the matched File::close spells it.
 void W3DFileSystem::Return_File( FileClass *file )
 {
-	delete file;
+	::delete file;
 }
+
+// Retail's call sites in this unit's matched rows land on bodies rowed under
+// other spellings at the same addresses (same ABI). Bind the spellings used here.
+#pragma comment(linker, "/alternatename:_strcat=?ji_0062988c@@YAXXZ")
+#pragma comment(linker, "/alternatename:_strcpy=?ji_00629176@@YAXXZ")

@@ -1,4 +1,4 @@
-// cl: /O2 /EHsc /MD /D_STLP_USE_STATIC_LIB
+// cl: /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /DNDEBUG /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS
 // stlport
 // STLport 4.6.2 src/num_put_float.cpp with its two private headers embedded.
 // Modified only to embed includes and declare the build options above.
@@ -168,7 +168,31 @@ typedef long double max_double_type;
 #endif
 #ifndef _STLP_INTERNAL_OSTREAM_H
 #include <stl/_ostream.h>
+#include <cstddef>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void _String_base<char,allocator<char> >::_M_deallocate_block(); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+// Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL {
+template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char*, size_t);
+}
 #endif
+
+// Retail's __node_alloc<true, 0>::_M_deallocate is BFME's own build at 0x00027B40,
+// owned by node_alloc_M_deallocateThunk.cpp. Leave the specialization declared so
+// this unit does not emit the stock STLport copy, which link order would keep.
+namespace _STL {
+template <> void __node_alloc<true, 0>::_M_deallocate(void *, size_t);
+}
+
+// Retail's one __malloc_alloc<0>::_S_oom_malloc is the /Od body at 0x00024200
+// (STLMallocAlloc0OutOfMemory.cpp). This unit's /O2 copy precedes it in link
+// order and would be kept for every unit that calls it: declare it instead.
+namespace _STL {
+template <> void * _STLP_CALL __malloc_alloc<0>::_S_oom_malloc(size_t);
+}
 
 _STLP_BEGIN_NAMESPACE
 
@@ -292,6 +316,17 @@ extern "C" {
        extern int _Fpclassifyf(float);
 #    else
 #      include "math_ia64_internal.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Node_Alloc_Lock<1, 0>::~_Node_Alloc_Lock(); }
+namespace _STL { template <> void * __node_alloc<1, 0>::_S_refill(unsigned int); }
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$append@PBD@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@AAEAAV01@PBD0:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> template <> basic_string<char,char_traits<char>,allocator<char> > & basic_string<char,char_traits<char>,allocator<char> >::append<char const *>(char const *,char const *,forward_iterator_tag const &); }
+// Suppress this TU's non-retail copy of ??$append@PBD@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@AAEAAV01@PBD0:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> basic_string<char,char_traits<char>,allocator<char> > & basic_string<char,char_traits<char>,allocator<char> >::append<char const *>(char const *,char const *,forward_iterator_tag const &); }
 #      define _FPCLASSIFY(x)     (_IS32(x)?_Fpclassf(x):_Fpclass(x))
        extern int _Fpclass(double);
        extern int _Fpclassf(float);
@@ -874,12 +909,10 @@ __convert_float_buffer(const char* first, const char* last, wchar_t* out,
 
 # endif
 
-void _STLP_CALL
-__adjust_float_buffer(char* first, char* last, char dot)
-{
-  if ('.' != dot)
-    replace(first, last, '.', dot);
-}
+// __adjust_float_buffer is stlport_adjust_float_buffer.cpp's row (0x0001B3B0); a second
+// definition here was a duplicate symbol in the linked build.
+// Its body was this unit's only use of replace<char *, char>, whose row lives here.
+template void _STLP_CALL replace<char *, char>(char *, char *, const char &, const char &);
 
 _STLP_END_NAMESPACE
 

@@ -17,6 +17,7 @@ public:
 class BfmeC994 : public Rva007E86B0Base
 {
 public:
+	virtual ~BfmeC994();
 	BfmeC994( char *buffer, int capacity );
 
 	int m_field08;
@@ -100,6 +101,7 @@ public:
 	void handle( BfmeC994 *message, int gid, char *name );
 };
 
+struct Rva0080A680Input;
 class BfmeThingUNC
 {
 public:
@@ -107,8 +109,10 @@ public:
 	void rva00809400( BfmeC994 *message, int gid,
 		Rva00802680Owner *player );
 	void rva0080A3C0( Rva0080A3C0Input *input );
+	// Slot 3 of the table 0x00CE4008 that the constructor installs at +0;
+	// the real vptr replaces the explicit word that modelled it.
+	virtual void rva0080A680(Rva0080A680Input *input);
 
-	void *m_vtable;
 	int m_registrationValue;
 	BfmeOwnerUNC *m_owner;
 	char m_pad0c[ 4 ];
@@ -116,7 +120,6 @@ public:
 };
 
 void *Rva007F93E0( void *message, void *route, void *owner );
-extern int g_bfmeKeyVHE;
 
 void BfmeThingUNC::rva0080A3C0( Rva0080A3C0Input *input )
 {
@@ -126,9 +129,9 @@ void BfmeThingUNC::rva0080A3C0( Rva0080A3C0Input *input )
 	BfmeThingCIB *messageCIB = reinterpret_cast< BfmeThingCIB * >( &message );
 
 	message.m_category = input->m_field1c;
-	void *value = sourceRF->bfmeGoRF( &g_bfmeKeyVHE, (void *)-1 );
+	void *value = sourceRF->bfmeGoRF( (int *)"TID", (void *)-1 );
 	if( value != (void *)-1 )
-		messageCIB->bfmeGoCIB( &g_bfmeKeyVHE, value );
+		messageCIB->bfmeGoCIB( (int *)"TID", value );
 	message.m_field04 = input->m_field04;
 	message.m_field08 = input->m_field08;
 	message.m_field0c = input->m_field0c;
@@ -151,9 +154,9 @@ void BfmeThingUNC::rva0080A3C0( Rva0080A3C0Input *input )
 	BfmeC994 second( buffer, sizeof( buffer ) );
 	BfmeThingCIB *secondCIB = reinterpret_cast< BfmeThingCIB * >( &second );
 	second.m_category = input->m_field1c;
-	value = sourceRF->bfmeGoRF( &g_bfmeKeyVHE, (void *)-1 );
+	value = sourceRF->bfmeGoRF( (int *)"TID", (void *)-1 );
 	if( value != (void *)-1 )
-		secondCIB->bfmeGoCIB( &g_bfmeKeyVHE, value );
+		secondCIB->bfmeGoCIB( (int *)"TID", value );
 	second.m_field04 = input->m_field04;
 	second.m_field08 = input->m_field08;
 	second.m_field0c = input->m_field0c;
@@ -173,9 +176,9 @@ void BfmeThingUNC::rva0080A3C0( Rva0080A3C0Input *input )
 			BfmeThingCIB *playerCIB =
 				reinterpret_cast< BfmeThingCIB * >( &playerMessage );
 			playerMessage.m_category = input->m_field1c;
-			value = sourceRF->bfmeGoRF( &g_bfmeKeyVHE, (void *)-1 );
+			value = sourceRF->bfmeGoRF( (int *)"TID", (void *)-1 );
 			if( value != (void *)-1 )
-				playerCIB->bfmeGoCIB( &g_bfmeKeyVHE, value );
+				playerCIB->bfmeGoCIB( (int *)"TID", value );
 			playerMessage.m_field04 = input->m_field04;
 			playerMessage.m_field08 = input->m_field08;
 			playerMessage.m_field0c = input->m_field0c;
@@ -188,3 +191,74 @@ void BfmeThingUNC::rva0080A3C0( Rva0080A3C0Input *input )
 		count = sender->count();
 	}
 }
+// BFME 2: the PDAT/TADP router below is Open-BFME-1's (submodule 10af19f44a),
+// byte-identical in game.dat at 0x00676580. The BFME 1 addresses in its
+// comments are the donor's.
+class Gen_007e86c0 { public: void m(); };
+class Rva007E8810Message
+{
+public:
+ Rva007E8810Message();
+ ~Rva007E8810Message();
+ unsigned m_00, m_04, m_08, m_0c, m_10, m_14, m_18, m_1c, m_20, m_24, m_28, m_2c;
+ char m_30;
+};
+struct Rva0080A680Input { int m_00, m_04, m_08, m_0c, m_10, m_14, m_18, m_1c, m_20; };
+struct Rva00800E50Header;
+void Rva007F91D0(Rva00800E50Header *, const char *);
+struct Rva00809500Entry;
+struct Rva00809500Sink { void accept(Rva00809500Entry *); };
+class Rva00809010Finder { public: Rva00809500Sink *find(Rva00809500Entry *); };
+class Rva00809E40Owner { public: void rva00809E40(Rva007E8810Message *); };
+struct Rva0080A110Message;
+class Rva0080A110Owner { public: void route(Rva0080A110Message *); };
+struct Rva0080A280Input;
+class Rva0080A280Owner { public: void rva0080A280(Rva0080A280Input *); };
+class Rva0080A680Forwarder
+{
+public:
+ virtual void slot00();
+ virtual void slot04();
+ virtual void slot08();
+ virtual void slot0c(Rva0080A680Input *);
+};
+class Rva0080A680Base { public: virtual void base00(); };
+class Rva0080A680ForwarderOwner : public Rva0080A680Base, public Rva0080A680Forwarder {};
+// Int3 at 0x0080A67F proves the start; final ret 4 at 0x0080A7D6
+// is followed by seven int3 bytes. The vtable reference is VA 0x0112C83C.
+void BfmeThingUNC::rva0080A680(Rva0080A680Input *input)
+{
+ bool response = (input->m_04 & 0x80000000) && (input->m_04 & 0x40000000);
+ Rva007F91D0((Rva00800E50Header *)input, "<-L");
+ Rva007E8810Message message;
+ message.m_10 = input->m_08;
+ message.m_14 = input->m_0c;
+ message.m_20 = input->m_04;
+ message.m_1c = input->m_00;
+ message.m_04 = input->m_18;
+ message.m_08 = input->m_1c;
+ message.m_0c = input->m_20;
+ if (!response) {
+  if (message.m_1c != 0x474c5354) {
+   ((Rva0080A680ForwarderOwner *)m_registrationValue)->slot0c(input);
+   return;
+  }
+  Rva00809500Sink *sink = ((Rva00809010Finder *)this)->find((Rva00809500Entry *)&message);
+  if (sink) sink->accept((Rva00809500Entry *)&message);
+ } else {
+  switch ((int)message.m_1c) {
+   case 0x4547414d: ((Rva00809E40Owner *)this)->rva00809E40(&message); break;
+   case 0x45434e4c: ((Rva0080A110Owner *)this)->route((Rva0080A110Message *)&message); break;
+   case 0x47444154: rva0080A3C0((Rva0080A3C0Input *)&message); break;
+   case 0x474c5354: ((Rva0080A280Owner *)this)->rva0080A280((Rva0080A280Input *)&message); break;
+  }
+ }
+}
+
+// Existing retail thiscall teardown spelling targets the matched seven-byte
+// vptr reinstall worker at RVA 0x655780, also used by Gen_007e86c0::m.
+#pragma comment(linker, "/alternatename:??1Rva007E8810Message@@QAE@XZ=??1BfmeMsg@@UAE@XZ")
+
+// Existing thiscall teardown pin at RVA 0x655780 names the matched
+// seven-byte base-vptr reinstall worker; no receiver adjustment is needed.
+#pragma comment(linker, "/alternatename:??1BfmeC994@@UAE@XZ=??1BfmeMsg@@UAE@XZ")

@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 //
 // ?skipGroup@Rva003B485AHolder@@QAEHPAX@Z,
 // retail 0x003B485A, 43 bytes. Dedicated TU.
@@ -49,3 +49,7 @@ Int Rva003B485AHolder::skipGroup(void *record)
 	}
 	return skip;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?skipGroup@Rva003B485AHolder@@QAE_NPAX@Z=?skipGroup@Rva003B485AHolder@@QAEHPAX@Z")

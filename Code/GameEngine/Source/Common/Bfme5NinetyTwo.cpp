@@ -4,14 +4,16 @@
 // Code/GameEngine/Source/Common/Bfme5NinetyTwo.cpp); trimmed to the single T1
 // body the sweep places.
 
+#include "../../Include/GameClient/BfmeVideoTable.h"
+
 class BfmeRecJD
 {
 public:
 	int m_bfmeWords[7];
 };
 
-extern BfmeRecJD *g_bfmeBeginJD;
-extern BfmeRecJD *g_bfmeEndJD;
+#define g_bfmeBeginJD ((BfmeRecJD *)g_bfmeVideoTableStorage.begin)
+#define g_bfmeEndJD ((BfmeRecJD *)g_bfmeVideoTableStorage.end)
 
 BfmeRecJD * __stdcall bfmeSlotAt(int index)
 {

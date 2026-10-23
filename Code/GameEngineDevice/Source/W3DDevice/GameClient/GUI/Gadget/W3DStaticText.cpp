@@ -1,4 +1,4 @@
-// cl: /O1 /Ireference/shims/bfme2gwm /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
+// cl: /Ireference/shims/bfme2gwm /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
 // stlport
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -26,12 +26,12 @@
 
 // FILE: W3DStaticText.cpp ////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------
-//                                                                          
-//                       Westwood Studios Pacific.                          
-//                                                                          
-//                       Confidential Information                           
-//                Copyright (C) 2001 - All Rights Reserved                  
-//                                                                          
+//
+//                       Westwood Studios Pacific.
+//
+//                       Confidential Information
+//                Copyright (C) 2001 - All Rights Reserved
+//
 //-----------------------------------------------------------------------------
 //
 // Project:   RTS3
@@ -79,71 +79,105 @@
 #endif
 
 // drawStaticTextText =========================================================
+// byte-exact reconstruction: ?drawStaticTextText@@YAXPAVGameWindow@@PAVWinInstanceData@@HH@Z 0x000A08FD 341B
+// evidence: BFME1 donor W3DStaticTextDraw_Thunk.cpp drawStaticTextText (literal 7, unconditional Y, setTextColor+draw); caller W3DGadgetStaticTextImageDraw 0x000A0B6A; DisplayString slots +0x0C/+0x20/+0x24/+0x28/+0x38/+0x3C/+0x4C/+0x50; GlobalData hotkey at +0xBA0 via TheGlobalData; TextData {text+0 centered+4}
 /** Draw the text for a static text window */
+// BFME2 retail DisplayString vtable layout (witnessed from 0x000A08FD).
+class BfmeStaticDisplayString
+{
+public:
+	virtual void unused00();								///< +0x00
+	virtual void unused01();								///< +0x04
+	virtual void unused02();								///< +0x08
+	virtual Int getTextLength(void);						///< +0x0C
+	virtual void unused04();								///< +0x10
+	virtual void unused05();								///< +0x14
+	virtual void unused06();								///< +0x18
+	virtual void unused07();								///< +0x1C
+	virtual void setWordWrap(Int wordWrap);					///< +0x20
+	virtual void setWordWrapCentered(Bool centered);		///< +0x24
+	virtual void setTextColor(Color color, Color drop);		///< +0x28
+	virtual void unused11();								///< +0x2C
+	virtual void unused12();								///< +0x30
+	virtual void unused13();								///< +0x34
+	virtual void draw(Int x, Int y, Int a, Int b);			///< +0x38
+	virtual void getSize(Int *width, Int *height);			///< +0x3C
+	virtual void unused16();								///< +0x40
+	virtual void unused17();								///< +0x44
+	virtual void unused18();								///< +0x48
+	virtual void setUseHotkey(Bool use, Color color);		///< +0x4C
+	virtual void setClipRegion(IRegion2D *region);			///< +0x50
+};
+
+struct BfmeStaticTextData
+{
+	BfmeStaticDisplayString *text;							///< +0x00
+	Bool centered;											///< +0x04
+};
+
+struct BfmeStaticGlobalData
+{
+	unsigned char pad[0xBA0];								///< retail hotkey offset
+	Color hotKeyColor;										///< retail this+0xBA0
+};
 //=============================================================================
 static void drawStaticTextText( GameWindow *window, WinInstanceData *instData,
 																Color textColor, Color textDropColor )
 {
-	TextData *tData = (TextData *)window->winGetUserData();
-	Int textWidth, textHeight, wordWrap;
-	DisplayString *text = tData->text;
+	Int textHeight, textWidth, wordWrap;
+	BfmeStaticDisplayString *text;
+	BfmeStaticTextData *tData;
 	ICoord2D origin, size, textPos;
 	IRegion2D clipRegion;
+
+	tData = (BfmeStaticTextData *)window->winGetUserData();
+	text = tData->text;
 	// sanity
-	if( text == NULL || text->getTextLength() == 0 )
+	if(NULL == text)
 		return;
-	
+	if( text->getTextLength() == 0 )
+		return;
+
 	// get window position and size
 	window->winGetScreenPosition( &origin.x, &origin.y );
 	window->winGetSize( &size.x, &size.y );
-	
+
 	// Set the text Wrap width
 	wordWrap = size.x - 10;
-	//if(wordWrap == 89)
-	//	wordWrap = 95;
-	text->setWordWrap(wordWrap);	
+	text->setWordWrap(wordWrap);
 	if( BitTest(window->winGetStatus(), WIN_STATUS_WRAP_CENTERED)		)
 		text->setWordWrapCentered(TRUE);
 	else
 		text->setWordWrapCentered(FALSE);
 	if( BitTest( window->winGetStatus(), WIN_STATUS_HOTKEY_TEXT ) && TheGlobalData)
-		text->setUseHotkey(TRUE, TheGlobalData->m_hotKeyTextColor);
+		text->setUseHotkey(TRUE, ((BfmeStaticGlobalData *)TheGlobalData)->hotKeyColor);
 	else
 		text->setUseHotkey(FALSE, 0);
 
 
 	// how much space will this text take up
 	text->getSize( &textWidth, &textHeight );
-		
+
 	//Init the clip region
 	clipRegion.lo.x = origin.x ;
 	clipRegion.lo.y = origin.y ;
 	clipRegion.hi.x = origin.x + size.x ;
 	clipRegion.hi.y = origin.y + size.y;
-	
+
 	// horizontal centering?
-	if( tData->centered ) 
+	if( tData->centered )
 	{
-		textPos.x = origin.x + (size.x / 2) - (textWidth / 2);
+		textPos.x = origin.x + ((size.x / 2) - (textWidth / 2));
+		textPos.y = origin.y + ((size.y / 2) - (textHeight / 2));
 	}
 	else
 	{
-		textPos.x = origin.x + tData->leftMargin;
+		textPos.x = origin.x + 7;
+		textPos.y = origin.y + ((size.y / 2) - (textHeight / 2));
 	}
-
-	// vertical centering?
-	if ( tData->centeredVertically ) 
-	{
-		textPos.y = origin.y + (size.y / 2) - (textHeight / 2);
-	}
-	else
-	{
-		textPos.y = origin.y + tData->topMargin;
-	}
-
-	// draw the text
 	text->setClipRegion(&clipRegion);
-	text->draw( textPos.x, textPos.y, textColor, textDropColor );
+	text->setTextColor(textColor, textDropColor);
+	text->draw(textPos.x, textPos.y, 1, 1);
 
 }  // end drawStaticTextText
 
@@ -192,7 +226,7 @@ void W3DGadgetStaticTextDraw( GameWindow *window, WinInstanceData *instData )
 		start.y = origin.y;
 		end.x = start.x + size.x;
 		end.y = start.y + size.y;
-		TheWindowManager->winOpenRect( backBorder, WIN_DRAW_LINE_WIDTH, 
+		TheWindowManager->winOpenRect( backBorder, WIN_DRAW_LINE_WIDTH,
 																	 start.x, start.y, end.x, end.y );
 
 	}  // end if
@@ -201,10 +235,11 @@ void W3DGadgetStaticTextDraw( GameWindow *window, WinInstanceData *instData )
 	if( backColor != WIN_COLOR_UNDEFINED )
 	{
 
-		start.x = origin.x + 1;
-		start.y = origin.y + 1;
-		end.x = start.x + size.x - 2;
-		end.y = start.y + size.y - 2;
+		Int sx = origin.x + 1, sy = origin.y + 1;
+		start.x = sx;
+		start.y = sy;
+		end.x = sx + size.x - 2;
+		end.y = sy + size.y - 2;
 		TheWindowManager->winFillRect( backColor, WIN_DRAW_LINE_WIDTH,
 																	 start.x, start.y, end.x, end.y );
 	}  // end if
@@ -213,7 +248,7 @@ void W3DGadgetStaticTextDraw( GameWindow *window, WinInstanceData *instData )
   if( tData->text && (textColor != WIN_COLOR_UNDEFINED) )
 		drawStaticTextText( window, instData, textColor, textOutlineColor );
 
-  
+
 
 }  // end W3DGadgetStaticTextDraw
 
@@ -265,7 +300,6 @@ void W3DGadgetStaticTextImageDraw( GameWindow *window, WinInstanceData *instData
   if( tData->text && (textColor != WIN_COLOR_UNDEFINED) )
 		drawStaticTextText( window, instData, textColor, textOutlineColor );
 
-  
+
 
 }  // end W3DGadgetStaticTextImageDraw
-

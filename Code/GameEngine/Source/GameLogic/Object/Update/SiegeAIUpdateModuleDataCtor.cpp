@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ??0SiegeAIUpdateModuleData@@QAE@XZ, retail 0x004904D9, 18 bytes.
 // ModuleData ctor over the pinned TransportAIUpdateModuleData base
@@ -7,8 +7,12 @@
 // data factory (news 0x64, sole caller at 0x24D4EC). Row supersedes the
 // ctor pin.
 
+extern "C" const void *const vtbl_00C4B6C8[];  // folded, 3 classes; via ??_7AnimalAIUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4B6C8=??_7AnimalAIUpdateModuleData@@6B@")
+
 class MultiIniFieldParse;
 struct FieldParse;
+extern const int g_emptyFieldParseTable[4];
 
 class MultiIniFieldParse
 {
@@ -40,12 +44,12 @@ public:
 SiegeAIUpdateModuleData::SiegeAIUpdateModuleData()
 	: TransportAIUpdateModuleData()
 {
-	*(unsigned int *)this = 0x00C4B6C8;
+	*(unsigned int *)this = ((unsigned int)vtbl_00C4B6C8);
 }
 
 // ?buildFieldParse@SiegeAIUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z @0x004904EB
 void SiegeAIUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	TransportAIUpdateModuleData::buildFieldParse(parse);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00C6BB18), 0);
+	parse.add(reinterpret_cast<const FieldParse *>(g_emptyFieldParseTable), 0);
 }

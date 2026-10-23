@@ -71,3 +71,7 @@ void BfmeMgrVNC::bfmeFreeVNC(BfmeKeyVNC *key)
 		}
 	}
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeFreeVNC@Rva00800E50Owner@@QAEXPAVRva007E8810Message@@@Z=?bfmeFreeVNC@BfmeMgrVNC@@QAEXPAVBfmeKeyVNC@@@Z")

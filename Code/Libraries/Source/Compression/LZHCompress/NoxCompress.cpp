@@ -43,6 +43,18 @@ template <class T> const T &min(const T &a, const T &b)
 	}
 }
 
+// Retail's only out-of-line min<unsigned> is the /G7 cmovae leaf 0x0009FDD5
+// (W3DTextEntry.cpp); this unit's blend flags inline the select and must not
+// emit a second, jb-shaped copy of it.
+template <> __declspec(dllimport) __forceinline const UnsignedInt &min<UnsignedInt>(const UnsignedInt &a, const UnsignedInt &b)
+{
+	if (a < b) {
+		return a;
+	} else {
+		return b;
+	}
+}
+
 typedef void *LZHL_CHANDLE;
 
 LZHL_CHANDLE LZHLCreateCompressor();
@@ -58,6 +70,13 @@ __declspec(noinline) unsigned int LZHLCompressorCalcMaxBuf(unsigned int rawSize)
 }
 
 #define BLOCKSIZE 500000
+
+// Original Nox wrapper; BFME2 RVA 0x0068A7A0 tail-calls the named bound
+// implementation at 0x0068ED50. CompressionManager supplies the caller.
+UnsignedInt CalcNewSize(UnsignedInt uncompressedSize)
+{
+	return LZHLCompressorCalcMaxBuf(uncompressedSize);
+}
 
 Bool CompressFile(char *infile, char *outfile)
 {

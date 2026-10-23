@@ -1,4 +1,4 @@
-// cl: /O2 /Ob0
+// cl: /Ob0
 // Converted from Code/gen_asm/d_007f2a50.asm (?d_007f6a80@@YAXXZ).
 // Void thiscall: zeros +8..+18, append empty literal onto +0x1C, then +24/+28/+6C.
 // Not a constructor -- retail has no mov eax,esi.
@@ -11,7 +11,6 @@ public:
 	int m_size;
 };
 
-extern const char g_Rva0107301CEmptyString[];
 
 class Rva007F6A80Host
 {
@@ -40,7 +39,7 @@ void Rva007F6A80Host::setup()
 	m_10 = 0;
 	m_14 = 0;
 	m_18 = 0;
-	m_buf.append(g_Rva0107301CEmptyString);
+	m_buf.append("");
 	m_24 = 0;
 	m_28 = 0;
 	m_6C = 0;

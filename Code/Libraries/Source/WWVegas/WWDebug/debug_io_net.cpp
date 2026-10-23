@@ -29,21 +29,12 @@
 //
 // Debug I/O class net (Network destination via named pipe)
 //////////////////////////////////////////////////////////////////////////////
-#include "_pch.h"
+#include <_pch.h>
 #include <new>      // needed for placement new prototype
 
-// ??0DebugIONet@@QAE@XZ present-unmatched
-DebugIONet::DebugIONet(void)
-{
-}
-
-// byte-exact reconstruction: Code/GameEngine/Source/Common/DebugIONetDestructorThunk.cpp
-// ??1DebugIONet@@UAE@XZ present-unmatched
-DebugIONet::~DebugIONet()
-{
-  if (m_pipe!=INVALID_HANDLE_VALUE)
-    CloseHandle(m_pipe);
-}
+// DebugIONet::DebugIONet: defined in DebugIONetConstructorThunk.cpp (its row's unit).
+// DebugIONet::~DebugIONet: retail 0x0003F4F0 lives in DebugIONetPipeDestructorThunk.cpp
+// as ??1Rva0088FB30NetIO; this TU must not emit its own copy (LINK-COMDAT).
 
 int DebugIONet::Read(char *buf, int maxchar)
 {
@@ -142,12 +133,9 @@ void DebugIONet::Execute(class Debug& dbg, const char *cmd, bool structuredCmd,
   }
 }
 
-// ?Create@DebugIONet@@SAPAVDebugIOInterface@@XZ present-unmatched
-DebugIOInterface *DebugIONet::Create(void)
-{
-  return new (DebugAllocMemory(sizeof(DebugIONet))) DebugIONet();
-}
+// DebugIONet::Create: defined in DebugIONet_Create.cpp (its row's unit).
 
+// ?DebugIONet::Delete present-unmatched
 void DebugIONet::Delete(void)
 {
   this->~DebugIONet();

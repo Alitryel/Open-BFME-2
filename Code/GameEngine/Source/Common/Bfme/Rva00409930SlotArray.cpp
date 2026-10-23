@@ -1,3 +1,4 @@
+// cl: /O1 /MD
 // 6-slot aggregate managing subobjects with position and flag updates
 
 struct Block3
@@ -47,6 +48,7 @@ struct Rva00409850SubObject
 	void rva_00409810( const Block3 &pos );
 };
 
+// ?Rva00409850SubObject::method present-unmatched
 void Rva00409850SubObject::method( unsigned char arg )
 {
 	if ( arg )
@@ -81,6 +83,7 @@ void Rva00409850SubObject::rva_004097F0( unsigned char value )
 	}
 }
 
+// ?Rva00409850SubObject::rva_00409810 present-unmatched
 void Rva00409850SubObject::rva_00409810( const Block3 &pos )
 {
 	if ( m_flag == 1 && m_target )
@@ -105,6 +108,7 @@ public:
 	Rva00409930Slot m_slots[6];
 };
 
+// ?Rva00409930::dispatchSlot present-unmatched
 void Rva00409930::dispatchSlot( int index, unsigned char arg )
 {
 	if ( index < 6 && index >= 1 )
@@ -113,6 +117,7 @@ void Rva00409930::dispatchSlot( int index, unsigned char arg )
 	}
 }
 
+// ?Rva00409930::setTargetFlag present-unmatched
 void Rva00409930::setTargetFlag( unsigned char value )
 {
 	for ( int i = 0; i < 6; ++i )
@@ -124,6 +129,7 @@ void Rva00409930::setTargetFlag( unsigned char value )
 	}
 }
 
+// ?Rva00409930::setPositions present-unmatched
 void Rva00409930::setPositions( const Block3 &pos )
 {
 	for ( int i = 0; i < 6; ++i )
@@ -133,4 +139,42 @@ void Rva00409930::setPositions( const Block3 &pos )
 			m_slots[i].m_subObject.m_target->setPos( pos );
 		}
 	}
+}
+
+struct Rva003626CESlot
+{
+	char m_lead[0x8];
+	Rva00409850SubObject m_sub;
+};
+
+class Rva003626CE
+{
+public:
+	void rva003626CE(unsigned char value);
+	void rva003626EA(const Block3 &pos);
+
+private:
+	Rva003626CESlot m_slots[9];
+};
+
+void Rva003626CE::rva003626CE(unsigned char value)
+{
+	Rva00409850SubObject *slot = &m_slots[0].m_sub;
+	int count = 9;
+	do
+	{
+		slot->rva_004097F0(value);
+		slot = (Rva00409850SubObject *)((char *)slot + 0x44);
+	} while (--count != 0);
+}
+
+void Rva003626CE::rva003626EA(const Block3 &pos)
+{
+	Rva00409850SubObject *slot = &m_slots[0].m_sub;
+	int count = 9;
+	do
+	{
+		slot->rva_00409810(pos);
+		slot = (Rva00409850SubObject *)((char *)slot + 0x44);
+	} while (--count != 0);
 }

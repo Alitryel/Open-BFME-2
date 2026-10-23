@@ -1,4 +1,4 @@
-// cl: /O1 /GX /DNDEBUG /MD
+// cl: /GX /DNDEBUG /MD
 //
 // ??0AudioLoopUpgradeModuleData@@QAE@XZ, retail 0x004B7C00, 76 bytes.
 // Audio-side upgrade ModuleData: vtable 0x00C58CF8, size 0x154 (factory
@@ -7,6 +7,9 @@
 // (0x110 bytes, via rowed construct 0x25342C), DieMuxData at +0x124 (via
 // rowed init 0x4CE534). Shape follows AttributeModifierAuraUpdateModuleData
 // (explicit vtable plus empty base plus string member).
+
+extern "C" const void *const vtbl_00C58CF8[];  // ??_7AudioLoopUpgradeModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C58CF8=??_7AudioLoopUpgradeModuleData@@6B@")
 
 class Rva0025342CMember
 {
@@ -38,11 +41,15 @@ private:
 
 typedef StringBase<char> AsciiString;
 
+extern "C" const void *const __identifier("??_7Snapshot@@6B@")[];
+
 class UpdateBase
 {
 public:
 	UpdateBase() {}
-	~UpdateBase();
+	// Retail's ctor unwind (state 0) destroys this base through 0x0049B47C,
+	// the folded Snapshot destructor: restore table 0x00BBB554 at +0, return.
+	~UpdateBase() { *(const void *const **)this = __identifier("??_7Snapshot@@6B@"); }
 };
 
 class AudioLoopUpgradeModuleData : public UpdateBase
@@ -64,7 +71,7 @@ private:
 
 // ??0AudioLoopUpgradeModuleData@@QAE@XZ @0x004B7C00
 AudioLoopUpgradeModuleData::AudioLoopUpgradeModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C58CF8))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C58CF8)))
 	, m_soundToPlay()
 {
 	m_killAfterMS = 0;
@@ -72,3 +79,9 @@ AudioLoopUpgradeModuleData::AudioLoopUpgradeModuleData()
 	m_member14.construct();
 	m_die124.init();
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??1UpdateBase@@QAE@XZ=??3@YAXPAX@Z")

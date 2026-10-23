@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
 // BFME's implementation follows the released Zero Hour routine, returning
 // the shared empty string when WinSock setup or hostname discovery fails.
 
@@ -23,16 +23,7 @@ void __cdecl operator delete(void *);
 // has to be visible here for this TU to encode the same call.
 #include "string_base.h"
 
-class AsciiString : private StringBase<char>
-{
-public:
-	AsciiString(const AsciiString &that) : StringBase<char>(that) {}
-	AsciiString(const char *text);
-	~AsciiString();
-
-	static AsciiString TheEmptyString;
-
-};
+#include "ascii_string.h"
 
 // BFME enumeration nodes omit the pooled base word present in Zero Hour;
 // their next pointer is at +0x08.
@@ -60,31 +51,7 @@ private:
 	bool m_isWinsockInitialized;
 };
 
-AsciiString IPEnumeration::getMachineName(void)
-{
-	if (!m_isWinsockInitialized)
-	{
-		WORD version = 0x0202;
-		WSADATA data;
-		if (WSAStartup(version, &data) != 0)
-			return AsciiString::TheEmptyString;
-
-		if ((unsigned char)data.wVersion != 2 ||
-			(unsigned char)(data.wVersion >> 8) != 2)
-		{
-			WSACleanup();
-			return AsciiString::TheEmptyString;
-		}
-
-		m_isWinsockInitialized = true;
-	}
-
-	char hostname[256];
-	if (gethostname(hostname, sizeof(hostname)) != 0)
-		return AsciiString::TheEmptyString;
-
-	return AsciiString(hostname);
-}
+// IPEnumeration::getMachineName: defined in IPEnumerationGetMachineName.cpp (its row's unit).
 
 IPEnumeration::~IPEnumeration()
 {

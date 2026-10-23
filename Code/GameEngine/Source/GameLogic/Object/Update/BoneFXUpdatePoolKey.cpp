@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva000487A19@BoneFXUpdate@@SA?AW4NameKeyType@@XZ @0x487a19
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@BoneFXUpdate@@UBE?AW4NameKeyType@@XZ @0x487a19
 // (69B): cached pool-name key for BoneFXUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("BoneFXUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class BoneFXUpdate
 {
 public:
-	static NameKeyType rva000487A19();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000487A19@BoneFXUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType BoneFXUpdate::rva000487A19()
+// ?getModuleNameKey@BoneFXUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType BoneFXUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheBoneFXUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("BoneFXUpdate");

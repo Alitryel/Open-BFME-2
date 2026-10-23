@@ -1,4 +1,4 @@
-// cl: /O1 /MD
+// cl: /MD
 //
 // Opaque single-inheritance destructors tail-calling Rva0045D39E::~
 // Rva0045D39E at 0x0045D39E (matched opaque MI-grandchild dtor in
@@ -9,6 +9,9 @@
 // and overrides every vptr before tail-calling the base destructor. Vtable
 // values are DIR32 auto-patches. Owner identities are unproven (opaque Rva
 // names). One ledger row per destructor, landed one commit at a time.
+
+extern "C" const void *const vtbl_00C49D70[];  // ??_7ClearanceTestingSlowDeathBehavior@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C49D70=??_7ClearanceTestingSlowDeathBehavior@@6B@")
 
 class Rva0045D39E_Root
 {
@@ -72,17 +75,29 @@ Rva00461EEB::~Rva00461EEB()
 {
 }
 
-class Rva00483C35 : public Rva0045D39E
+class ClearanceTestingSlowDeathBehavior : public Rva0045D39E
 {
 public:
-	virtual ~Rva00483C35();
+	virtual ~ClearanceTestingSlowDeathBehavior();
 
 private:
 	char m_pad0028[0x50 - 0x28];
 	int m_extra0050;
 };
 
-Rva00483C35::~Rva00483C35()
+ClearanceTestingSlowDeathBehavior::~ClearanceTestingSlowDeathBehavior()
 {
-	m_extra0050 = 0xC49D70;
+	m_extra0050 = ((unsigned int)vtbl_00C49D70);
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?f1@Rva0045D39E_Mid@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?f2@Rva0045D39E_B2@@UAEXXZ=?update@SlowDeathBehavior@@UAE?AW4UpdateSleepTime@@XZ")
+#pragma comment(linker, "/alternatename:?fe@Rva0045D39E_E1@@UAEXXZ=?onDie@SlowDeathBehavior@@UAEXPBVDamageInfo@@@Z")
+#pragma comment(linker, "/alternatename:?ff@Rva0045D39E_E2@@UAEXXZ=?beginSlowDeath@SlowDeathBehavior@@UAEXPBVDamageInfo@@@Z")

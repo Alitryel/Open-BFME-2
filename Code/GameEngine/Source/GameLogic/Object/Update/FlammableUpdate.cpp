@@ -1,6 +1,8 @@
-// cl: /Ireference/shims/dockupdate /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /Ireference/shims/dockupdate /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
 // stlport
 // Ported verbatim from the Generals Zero Hour reference (GameEngine/Source/GameLogic/Object/Update/FlammableUpdate.cpp); this unit had no counterpart under Code/.
+extern class GameLogic *TheGameLogic;
+
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -56,124 +58,40 @@ private:
 	unsigned char m_pad[ 0x40 ];
 	UnsignedInt m_frame;
 };
-#define TheGameLogic (*(FlammableGameLogic **)0x00DFE78C)
+#define TheGameLogic (*(FlammableGameLogic **)&TheGameLogic)
 
 //-------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/GameLogic/AI/FlammableUpdateModuleDataCtorThunk.cpp
-// ??0FlammableUpdateModuleData@@QAE@XZ present-unmatched
-FlammableUpdateModuleData::FlammableUpdateModuleData()
-{
-	m_burnedDelay = 0;
-	m_aflameDuration = 0;
-	m_aflameDamageDelay = 0;
-	m_aflameDamageAmount = 0;
-	// Enabled By Sadullah Nader
-	// Initialization needed
-	m_burningSoundName.clear();
-	//
-	m_flameDamageLimitData = 20.0f;
-	m_flameDamageExpirationDelay = LOGICFRAMES_PER_SECOND * 2;
-}
+// rowed in its own unit
 
 //-------------------------------------------------------------------------------------------------
-/*static*/ void FlammableUpdateModuleData::buildFieldParse(MultiIniFieldParse& p) 
-{
-  UpdateModuleData::buildFieldParse(p);
-
-	static const FieldParse dataFieldParse[] = 
-	{
-		{ "BurnedDelay",						INI::parseDurationUnsignedInt,	NULL, offsetof( FlammableUpdateModuleData, m_burnedDelay ) },
-		{ "AflameDuration",					INI::parseDurationUnsignedInt,	NULL, offsetof( FlammableUpdateModuleData, m_aflameDuration ) },
-		{ "AflameDamageDelay",			INI::parseDurationUnsignedInt,	NULL, offsetof( FlammableUpdateModuleData, m_aflameDamageDelay ) },
-		{ "AflameDamageAmount",			INI::parseInt,									NULL, offsetof( FlammableUpdateModuleData, m_aflameDamageAmount ) },
-		{ "BurningSoundName",				INI::parseAsciiString,					NULL,	offsetof( FlammableUpdateModuleData, m_burningSoundName) },
-		{ "FlameDamageLimit",				INI::parseReal,									NULL,	offsetof( FlammableUpdateModuleData, m_flameDamageLimitData ) },
-		{ "FlameDamageExpiration",	INI::parseDurationUnsignedInt,	NULL,	offsetof( FlammableUpdateModuleData, m_flameDamageExpirationDelay ) },
-		{ 0, 0, 0, 0 }
-	};
-  p.add(dataFieldParse);
-}
+// FlammableUpdateModuleData::buildFieldParse: defined in ModuleDataBuildFieldParse.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 /** Damage has been dealt, this is an opportunity to reach to that damage */
 //-------------------------------------------------------------------------------------------------
-// ?onDamage@FlammableUpdate@@UAEXPAVDamageInfo@@@Z present-unmatched
-void FlammableUpdate::onDamage( DamageInfo *damageInfo )
-{
-	if( damageInfo->in.m_damageType == DAMAGE_FLAME || damageInfo->in.m_damageType == DAMAGE_PARTICLE_BEAM )
-	{
-		UnsignedInt now = TheGameLogic->getFrame();
-		if( now - getFlammableUpdateModuleData()->m_flameDamageExpirationDelay > m_lastFlameDamageDealt )
-		{
-			// If it has been a long time since our last flame damage, reset the threshold
-			m_flameDamageLimit = getFlammableUpdateModuleData()->m_flameDamageLimitData;
-		}
-		m_lastFlameDamageDealt = now;
-		
-		Object *me = getObject();
-		if( !me->getStatusBits().test( OBJECT_STATUS_AFLAME ) && !me->getStatusBits().test( OBJECT_STATUS_BURNED ) )
-		{
-			// If I'm not on fire, and I haven't burned up, see if I should try to catch fire.
-			m_flameDamageLimit -= damageInfo->out.m_actualDamageDealt;
-			if( m_flameDamageLimit <= 0 )
-			{
-				tryToIgnite();
-			}
-		}
-	}
-}
+// FlammableUpdate::onDamage is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateDtor.cpp (0x0048CE3E).
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?update@FlammableUpdate@@UAE?AW4UpdateSleepTime@@XZ present-unmatched
-UpdateSleepTime FlammableUpdate::update( void )
+// FlammableUpdate::update is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateDtor.cpp (0x0048D0BE).
+
+// ------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
+// BFME2 adds a Bool after Zero Hour's last member (target evidence: retail
+// 0x0048C50D and WB's calcSleepTime both test the byte at +0x40 first and
+// wake every frame when it is set). The shared ZH header does not carry it,
+// so this unit reads it by offset.
+static inline Bool flammableField40(const FlammableUpdate *update)
 {
-	Object *me = getObject();
-	DEBUG_ASSERTCRASH(m_status == FS_AFLAME, ("hmm, should be aflame"));
-
-	UnsignedInt now = TheGameLogic->getFrame();
-	const FlammableUpdateModuleData *data = getFlammableUpdateModuleData();
-
-	if( m_damageEndFrame != 0 && now >= m_damageEndFrame )
-	{
-		m_damageEndFrame = now + data->m_aflameDamageDelay;
-		doAflameDamage();
-	}
-
-	if( m_burnedEndFrame != 0 && now >= m_burnedEndFrame )
-	{
-		// So this status is set, but I am still aflame on an independent timer.
-		me->setStatus( MAKE_OBJECT_STATUS_MASK( OBJECT_STATUS_BURNED ) );
-		me->setModelConditionState( MODELCONDITION_SMOLDERING );
-	}
-
-	if( m_aflameEndFrame != 0 && now >= m_aflameEndFrame )
-	{
-		// This is the important one.  I am no longer on fire.
-		if( me->getStatusBits().test( OBJECT_STATUS_BURNED ) )
-		{
-			// If I am burned, then I will never catch fire again.
-			m_status = FS_BURNED;
-		}
-		else
-		{
-			// otherwise I am free to burn again
-			m_status = FS_NORMAL;
-		}
-		stopBurningSound();
-		me->clearStatus( MAKE_OBJECT_STATUS_MASK( OBJECT_STATUS_AFLAME ) );
-		me->getBodyModule()->setAflame( FALSE );
-		me->clearModelConditionState( MODELCONDITION_AFLAME );
-	}
-
-	return calcSleepTime();
+	return *((const Bool *)update + 0x40);
 }
 
-// ------------------------------------------------------------------------------------------------
-// ------------------------------------------------------------------------------------------------
 UpdateSleepTime FlammableUpdate::calcSleepTime()
 {
+	if (flammableField40(this))
+		return UPDATE_SLEEP_NONE;
 	UnsignedInt now = TheGameLogic->getFrame();
 	if (m_status == FS_AFLAME && m_aflameEndFrame != 0 && m_aflameEndFrame > now)
 	{
@@ -192,36 +110,7 @@ UpdateSleepTime FlammableUpdate::calcSleepTime()
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?tryToIgnite@FlammableUpdate@@QAEXXZ present-unmatched
-void FlammableUpdate::tryToIgnite()
-{
-	if( m_status == FS_NORMAL )
-	{
-		Object *me = getObject();
-		me->setStatus( MAKE_OBJECT_STATUS_MASK( OBJECT_STATUS_AFLAME ) );
-		me->getBodyModule()->setAflame( TRUE );
-		me->setModelConditionState( MODELCONDITION_AFLAME );
-		startBurningSound();
-
-		// bleah. this sucks. (srj)
-		static const NameKeyType key_FireSpreadUpdate = NAMEKEY("FireSpreadUpdate");
-		FireSpreadUpdate* fu = (FireSpreadUpdate*)getObject()->findUpdateModule(key_FireSpreadUpdate);
-		if (fu != NULL)
-		{
-			fu->startFireSpreading();
-		}
-
-		m_status = FS_AFLAME;
-
-		const FlammableUpdateModuleData *data = getFlammableUpdateModuleData();
-		UnsignedInt now = TheGameLogic->getFrame();
-		m_aflameEndFrame = now + data->m_aflameDuration;
-		m_burnedEndFrame = data->m_burnedDelay ? now + data->m_burnedDelay : 0;
-		m_damageEndFrame = data->m_aflameDamageDelay ? now + data->m_aflameDamageDelay : 0;
-
-		setWakeFrame(getObject(), calcSleepTime());
-	}
-}
+// FlammableUpdate::tryToIgnite is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateDtor.cpp (0x0048CB18).
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -314,37 +203,8 @@ void FlammableUpdate::crc( Xfer *xfer )
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
-// ?xfer@FlammableUpdate@@MAEXPAVXfer@@@Z present-unmatched
-void FlammableUpdate::xfer( Xfer *xfer )
-{
-
-	// version
-	XferVersion currentVersion = 1;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
-
-	// extend base class
-	UpdateModule::xfer( xfer );
-
-	// flammability status
-	xfer->xferUser( &m_status, sizeof( FlammabilityStatusType ) );
-
-	// aflame end frame
-	xfer->xferUnsignedInt( &m_aflameEndFrame );
-
-	// burned end frame
-	xfer->xferUnsignedInt( &m_burnedEndFrame );
-
-	// damage end frame
-	xfer->xferUnsignedInt( &m_damageEndFrame );
-
-	// flame damage limit
-	xfer->xferReal( &m_flameDamageLimit );
-
-	// last flame damage dealt
-	xfer->xferUnsignedInt( &m_lastFlameDamageDealt );
-
-}  // end xfer
+// FlammableUpdate::xfer: defined in FlammableUpdateXfer.cpp (its row's unit).
+  // end xfer
 
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
@@ -362,8 +222,8 @@ void FlammableUpdate::loadPostProcess( void )
 // This empty inline virtual only gets an out-of-line copy when something in the
 // TU needs one; a qualified call with inlining off is the smallest way to ask.
 #pragma inline_depth(0)
-void forceFlammableOnBodyDamageStateChange(FlammableUpdate *u)
+void forceFlammableOnBodyDamageStateChange(FlammableUpdate *flammableUpdate)
 {
-	u->FlammableUpdate::onBodyDamageStateChange(NULL, BODY_PRISTINE, BODY_PRISTINE);
+	flammableUpdate->FlammableUpdate::onBodyDamageStateChange(NULL, BODY_PRISTINE, BODY_PRISTINE);
 }
 #pragma inline_depth()

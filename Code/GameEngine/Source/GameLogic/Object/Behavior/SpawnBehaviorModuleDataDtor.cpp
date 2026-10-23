@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /Oy- /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??1SpawnBehaviorModuleData@@UAE@XZ, retail 0x0025766F, 48 bytes. Virtual
@@ -12,32 +12,24 @@
 // entry derived store retail lacks). BFME1 donor
 // SpawnBehaviorModuleDataDestructorThunk.cpp proves the single-vector
 // teardown.
+
 #include <vector>
 
 class Xfer;
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc(Xfer *xfer);
-	virtual void loadPostProcess();
-	virtual void xfer(Xfer *xfer);
-};
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
+
+#include "ascii_string.h"
+
+// A declaration-only specialization stops this TU emitting its own
+// vector<AsciiString> dtor COMDAT, so the call binds the kept copy.
+namespace _STL {
+template <> vector<AsciiString, allocator<AsciiString> >::~vector();
+template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
+template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);
+template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
 }
-
-class AsciiString
-{
-public:
-	~AsciiString();
-
-private:
-	void *m_data;
-};
 
 class __declspec(novtable) SpawnBehaviorModuleData : public Snapshot
 {
@@ -61,6 +53,14 @@ private:
 	unsigned char m_pad2C[0x174 - 0x2C]; // +0x2C tail to 0x174 (DieMux plus slave block plus fade tail)
 };
 
-SpawnBehaviorModuleData::~SpawnBehaviorModuleData()
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline SpawnBehaviorModuleData::~SpawnBehaviorModuleData()
 {
+}
+
+// ?bfmeAnchorSpawnBehaviorModuleDataDtor absent-from-retail
+void bfmeAnchorSpawnBehaviorModuleDataDtor(SpawnBehaviorModuleData *spawnBehaviorModuleData)
+{
+	spawnBehaviorModuleData->SpawnBehaviorModuleData::~SpawnBehaviorModuleData();
 }

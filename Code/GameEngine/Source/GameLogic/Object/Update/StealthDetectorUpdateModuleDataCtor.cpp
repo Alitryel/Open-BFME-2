@@ -51,7 +51,7 @@ public:
 	int m_requiredUpgrade;
 };
 
-StealthDetectorUpdateModuleData::StealthDetectorUpdateModuleData()
+inline StealthDetectorUpdateModuleData::StealthDetectorUpdateModuleData()
 	: m_detectionRate(1)
 	, m_detectionRange(0.0f)
 	, m_initiallyDisabled(false)
@@ -61,3 +61,14 @@ StealthDetectorUpdateModuleData::StealthDetectorUpdateModuleData()
 	m_cancelOneRingEffect = false;
 	m_requiredUpgrade = 0;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeStealthDetectorUpdateModuleDataInlineAnchor@@YAXPAVStealthDetectorUpdateModuleData@@@Z absent-from-retail
+void _bfmeStealthDetectorUpdateModuleDataInlineAnchor(StealthDetectorUpdateModuleData *stealthDetectorUpdateModuleData)
+{
+    stealthDetectorUpdateModuleData->StealthDetectorUpdateModuleData::StealthDetectorUpdateModuleData();
+}
+#pragma inline_depth()

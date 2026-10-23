@@ -18,6 +18,7 @@
 
 typedef unsigned int size_t;
 void *__cdecl operator new[](size_t bytes);
+void __cdecl operator delete[](void *ptr);
 
 #define NULL 0
 
@@ -34,7 +35,8 @@ protected:
 class TextureClass : public TextureBaseClass
 {
 public:
-	void Add_Ref(void) { m_refs++; }
+	// Preserve inline increments without emitting a competing external copy.
+	__declspec(dllimport) __forceinline void Add_Ref(void) { m_refs++; }
 };
 
 class VertexMaterialClass;
@@ -44,8 +46,9 @@ template<class T>
 class RefCountPtr
 {
 public:
-	RefCountPtr() : Referent(0) {}
-	RefCountPtr &operator=(const RefCountPtr &src)
+	__declspec(dllimport) __forceinline RefCountPtr() : Referent(0) {}
+	// The constructor inlines this assignment; do not emit a competing copy.
+	__declspec(dllimport) __forceinline RefCountPtr &operator=(const RefCountPtr &src)
 	{
 		if (src.Referent) {
 			src.Referent->Add_Ref();
@@ -73,7 +76,8 @@ class MaterialInfoClass
 public:
 	void Add_Ref(void) { NumRefs++; }
 	int Vertex_Material_Count(void) const { return m_vmatCount; }
-	VertexMaterialClass *Peek_Vertex_Material(int index) const
+	// Keep the bounds check inline; the native out-of-line body has its owner.
+	__declspec(dllimport) __forceinline VertexMaterialClass *Peek_Vertex_Material(int index) const
 	{
 		if (index < m_vmatCount) {
 			return m_vmatBase[index];

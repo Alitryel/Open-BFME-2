@@ -1,14 +1,14 @@
-// cl: /O1 /Ob0
+// cl: /Ob0
 
-// ?Rva003285AA@@YAXPAVGameWindow@@H@Z, retail 0x003285AA (42B).
+// ?GadgetButtonSetDisallowed@@YAXPAVGameWindow@@H@Z, retail 0x003285AA (42B).
 // Dedicated TU.
 //
 // Twin of Rva0032857F (0x0032857F, landed): same ensure-push-button-data
 // shape, but stamps the flag byte at +0x34 and only (re)installs the user
 // data on the factory path. There is no null-window guard (retail enters
 // straight into winGetUserData). Adjacent bodies (0x32857F+0x2B = 0x3285AA),
-// identical prologue rhythm, no direct callers yet; kept servable under its
-// address until a caller names it.
+// identical prologue rhythm. External, so the control bar units that call it
+// resolve to this row.
 //
 // BFME2 facts (all retail-measured):
 // - null window returns immediately (cmp [esp+4],0 shape).
@@ -36,8 +36,8 @@ struct Rva003285AAData
 	unsigned char m_flag;					// +0x34
 };
 
-// ?Rva003285AA@@YAXPAVGameWindow@@H@Z
-static void Rva003285AA(GameWindow *window, int value)
+// ?GadgetButtonSetDisallowed@@YAXPAVGameWindow@@H@Z
+void GadgetButtonSetDisallowed(GameWindow *window, int value)
 {
 	Rva003285AAData *data;
 
@@ -49,5 +49,3 @@ static void Rva003285AA(GameWindow *window, int value)
 	}
 	data->m_flag = (unsigned char)value;
 }
-
-static const void *s_Rva003285AAAnchor = (const void *)Rva003285AA;

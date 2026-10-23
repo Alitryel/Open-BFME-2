@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
 // stlport
 //
 // Ported from reference/open-bfme-1/Code/GameEngine/Source/Common/MultiplayerColorMapOperator.cpp.
@@ -12,34 +12,34 @@
 
 #include <map>
 
+// __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
+// COMDATs (one byte shape per TU malloc/free wiring); explicit
+// dllimport+forceinline specializations take those calls inline so this
+// TU emits no external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void *__malloc_alloc<0>::allocate(size_t __n)
+{ void *__r = malloc(__n); if (!__r) __r = _S_oom_malloc(__n); return __r; }
+template <> __declspec(dllimport) __forceinline
+void __malloc_alloc<0>::deallocate(void *__p, size_t)
+{ free((char *)__p); }
+}
+
+// map/set<int> internals otherwise instantiate the less<int>::operator()
+// COMDAT (one byte shape per TU flags); an explicit dllimport+forceinline
+// specialization takes those calls inline so this TU emits no external copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+bool less<int>::operator()(const int &a, const int &b) const
+{ return a < b; }
+}
+
 typedef int Int;
 
-template <typename T>
-class StringBase
-{
-	friend class AsciiString;
+#include "ascii_string.h"
 
-public:
-	StringBase() : m_data(0) {}
 
-private:
-	T *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString() {}
-	AsciiString(const AsciiString &other);
-	~AsciiString();
-};
-
-struct RGBColor
-{
-	float red;
-	float green;
-	float blue;
-};
+#include "../../../Libraries/Include/Lib/RGBColor.h"
 
 class MultiplayerColorDefinition
 {
@@ -90,3 +90,8 @@ MultiplayerColorDefinition *RetailColorList::lookup(int *which)
 		it = m_list.insert(it, MultiplayerColorList::value_type(*which, MultiplayerColorDefinition()));
 	return &it->second;
 }
+// bfme link decl-only begin
+namespace _STL { template <> _STL::_Rb_tree_node<_STL::pair<int const,MultiplayerColorDefinition> > * _Rb_tree<int,_STL::pair<int const,MultiplayerColorDefinition>,_STL::_Select1st<_STL::pair<int const,MultiplayerColorDefinition> >,_STL::less<int>,_STL::allocator<_STL::pair<int const,MultiplayerColorDefinition> > >::_M_create_node(_STL::pair<int const,MultiplayerColorDefinition> const &); }
+namespace _STL { template <> _STL::_Rb_tree_node<_STL::pair<int const,MultiplayerColorDefinition> > * allocator<_STL::_Rb_tree_node<_STL::pair<int const,MultiplayerColorDefinition> > >::allocate(unsigned int,void const *) const; }
+namespace _STL { template <> _STL::pair<_STL::_Rb_tree_iterator<_STL::pair<int const,MultiplayerColorDefinition>,_STL::_Nonconst_traits<_STL::pair<int const,MultiplayerColorDefinition> > >,bool> _Rb_tree<int,_STL::pair<int const,MultiplayerColorDefinition>,_STL::_Select1st<_STL::pair<int const,MultiplayerColorDefinition> >,_STL::less<int>,_STL::allocator<_STL::pair<int const,MultiplayerColorDefinition> > >::insert_unique(_STL::pair<int const,MultiplayerColorDefinition> const &); }
+// bfme link decl-only end

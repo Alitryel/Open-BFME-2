@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva00048C25E@OilSpillUpdate@@SA?AW4NameKeyType@@XZ @0x48c25e
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@OilSpillUpdate@@UBE?AW4NameKeyType@@XZ @0x48c25e
 // (69B): cached pool-name key for OilSpillUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("OilSpillUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class OilSpillUpdate
 {
 public:
-	static NameKeyType rva00048C25E();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00048C25E@OilSpillUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType OilSpillUpdate::rva00048C25E()
+// ?getModuleNameKey@OilSpillUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType OilSpillUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheOilSpillUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("OilSpillUpdate");

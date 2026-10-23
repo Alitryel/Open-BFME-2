@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 // Open-BFME5: EntEnragedUpdate constructor with the retail module layout.
 
@@ -14,8 +14,9 @@ public:
 	unsigned int m_initialValue;
 };
 
-extern "C" char EntEnragedInitialValueData;
-int __cdecl entEnragedInitialValue(int, unsigned int, const void *, int);
+enum UpdateSleepTime { UPDATE_SLEEP_FOREVER = 0x3fffffff };
+
+int GetGameLogicRandomValue(int lo, int hi, char *file, int line);
 
 class PB_DeepBase
 {
@@ -28,17 +29,27 @@ protected:
 	Object *m_object;
 };
 
-class BehaviorModuleInterface { public: virtual void slot(); };
-class UpdateModuleInterface { public: virtual void slot(); };
+class BodyModuleInterface;
+
+// Slot 0 of the shared BehaviorModuleInterface vftable 0x007EFF90 this ctor
+// stores at +0xC is the folded xor eax,eax/ret at 0x000D43D0: ZH's
+// BehaviorModule::getBody returning NULL. The inline body folds onto it.
+class BehaviorModuleInterface
+{
+public:
+	virtual BodyModuleInterface *getBody() { return 0; }
+};
+class UpdateModuleInterface { public: virtual UpdateSleepTime update() = 0; };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/UpdateModule.h
 class UpdateModule : public PB_DeepBase, public BehaviorModuleInterface,
 	public UpdateModuleInterface
 {
 public:
-	UpdateModule(Thing *thing, const ModuleData *moduleData)
-		: PB_DeepBase(thing, moduleData), m_field14(0),
-		  m_field18(-1), m_field1C(-1) {}
+	// Defined once, out of line, in UpdateModuleCtor.cpp (retail 0x00253390): derived
+	// ctors call it, and a copy here would offer the link a second, non-retail body.
+	UpdateModule(Thing *thing, const ModuleData *moduleData);
+	virtual ~UpdateModule();
 
 private:
 	unsigned int m_field14;
@@ -51,6 +62,8 @@ class EntEnragedUpdate : public UpdateModule
 public:
 	EntEnragedUpdate(Thing *, const ModuleData *);
 	virtual ~EntEnragedUpdate();
+	// Rowed in EntEnragedUpdateUpdate.cpp: slot 0 of retail's UpdateModuleInterface table 0x00C5693C.
+	virtual UpdateSleepTime update();
 
 private:
 	int m_value;
@@ -69,8 +82,8 @@ EntEnragedUpdate::EntEnragedUpdate(Thing *thing, const ModuleData *moduleData)
 {
 	const ModuleData *data = m_moduleData;
 	m_value = 0;
-	m_value += entEnragedInitialValue(0, data->m_initialValue,
-		&EntEnragedInitialValueData, 0x4c);
+	m_value += GetGameLogicRandomValue(0, data->m_initialValue,
+		(char *)"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\EntEnraged.cpp", 0x4c);
 	m_field2C = false;
 	m_field2E = false;
 	m_field2F = false;

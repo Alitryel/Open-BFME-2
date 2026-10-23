@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /GX /MD /D_CRTIMP= /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0RampageBehaviorModuleData@@QAE@XZ, retail 0x00458C0F, 112 bytes.
@@ -16,32 +16,38 @@
 
 #include <vector>
 
-class AsciiString
-{
-public:
-	AsciiString();
-	~AsciiString();
+#include "ascii_string.h"
 
-private:
-	void *m_data;
-};
+// The matched destructor unit provides retail's module-data vtable.
+extern "C" const void *__identifier("??_7RampageBehaviorModuleData@@6B@")[];
+
+// A declaration-only specialization stops this TU emitting its own
+// vector<AsciiString> dtor COMDAT, so the call binds the kept copy.
+namespace _STL {
+template <> vector<AsciiString, allocator<AsciiString> >::~vector();
+template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
+template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);
+template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
+template <> AsciiString *vector<AsciiString, allocator<AsciiString> >::erase(AsciiString*, AsciiString*);
+}
 
 class BehaviorModuleData
 {
 public:
-	BehaviorModuleData() {}
+	__declspec(dllimport) __forceinline BehaviorModuleData() {}
 	~BehaviorModuleData();
 
 private:
 };
 
-struct GlobalWithB8
+class GlobalData
 {
+public:
 	int m_pad[0xB8 / 4];
 	int m_value;
 };
 
-extern GlobalWithB8 *g_rampageGlobal;
+extern GlobalData *TheWritableGlobalData;
 
 class RampageBehaviorModuleData : public BehaviorModuleData
 {
@@ -62,8 +68,8 @@ private:
 
 // ??0RampageBehaviorModuleData@@QAE@XZ @0x458C0F
 RampageBehaviorModuleData::RampageBehaviorModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C40EF8))
-	, m_healthThreshold(g_rampageGlobal->m_value)
+	: m_vtable(reinterpret_cast<const void *>(__identifier("??_7RampageBehaviorModuleData@@6B@")))
+	, m_healthThreshold(TheWritableGlobalData->m_value)
 	, m_lifeTimer(0)
 	, m_angryLifeTimer(0)
 	, m_resetTimer(0)

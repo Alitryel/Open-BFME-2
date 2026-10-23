@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // ObjectPoolClass<HAnimComboDataClass,256>::Allocate_Object_Memory,
 // retail 0x001963A0, 198 bytes.
 //
@@ -29,37 +29,8 @@ public:
 };
 }
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib/mutex.h
-class FastCriticalSectionClass
-{
-	unsigned Flag;
-
-public:
-	FastCriticalSectionClass() : Flag(0) {}
-
-	class LockClass
-	{
-		FastCriticalSectionClass& cs;
-	public:
-		LockClass(FastCriticalSectionClass& critical_section) : cs(critical_section)
-		{
-			spin(&cs.Flag);
-		}
-
-		~LockClass()
-		{
-			cs.Flag=0;
-		}
-
-	private:
-		static void __fastcall spin(unsigned *flag);		// pinned 0x0006577F
-
-		LockClass &operator=(const LockClass&);
-		LockClass(const LockClass&);
-	};
-
-	friend class LockClass;
-};
+// The one-word lock is the measured BFME pool lock at 0x0006577F.
+#include "../WWLib/bfme_pool_critical_section.h"
 
 template<class T,int BLOCK_SIZE = 64>
 class ObjectPoolClass
@@ -73,14 +44,14 @@ protected:
 	uint32 *	BlockListHead;
 	int		FreeObjectCount;
 	int		TotalObjectCount;
-	FastCriticalSectionClass ObjectPoolCS;
+	BFMEPoolCriticalSection ObjectPoolCS;
 
 };
 
 template<class T,int BLOCK_SIZE>
 T * ObjectPoolClass<T,BLOCK_SIZE>::Allocate_Object_Memory(void)
 {
-	FastCriticalSectionClass::LockClass lock(ObjectPoolCS);
+	BFMEPoolCriticalSection::LockClass lock(ObjectPoolCS);
 
 	if ( FreeListHead == 0 ) {
 

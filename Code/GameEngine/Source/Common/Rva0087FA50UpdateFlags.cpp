@@ -5,7 +5,6 @@ typedef unsigned short UnsignedShort;
 
 extern "C" int __cdecl memcmp(const void *buf1, const void *buf2, unsigned int count);
 
-extern char g_bfmeEmptyF9[];
 
 struct BfmeAsciiDataF9
 {
@@ -19,7 +18,7 @@ class BfmeStrF9
 {
 public:
 	Int getLength(void) const { return m_data ? m_data->m_len : 0; }
-	const char *str(void) const { return m_data ? (const char *)(m_data + 1) : g_bfmeEmptyF9; }
+	const char *str(void) const { return m_data ? (const char *)(m_data + 1) : (char *)""; }
 
 	Int compare(const BfmeStrF9 &other) const
 	{

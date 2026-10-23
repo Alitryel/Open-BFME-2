@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc /O1
+// cl: /DNDEBUG /MD /EHsc /Ireference/shims/moduledata
 // Identity: ModuleFactory registers this data class under "CivilianSpawnCollide" (addModule
 // pairs the name with its factory); formerly misnamed AnimationSteeringUpdate/AnimationSteeringUpdateModuleData.
 //
@@ -14,6 +14,9 @@
 // Identity proof: reloc-named by the ModuleFactory call site; the B8+E8 head
 // is the function's own __EH_prolog (scope 0xB8F889), not a shared fragment.
 
+extern "C" const void *const vtbl_00C5AAB8[];
+#pragma comment(linker, "/alternatename:_vtbl_00C5AAB8=??_7CivilianSpawnCollideModuleData@@6B@")
+
 class Rva003623E5Member
 {
 public:
@@ -21,21 +24,32 @@ public:
 	char m_data[16];
 };
 
+// Retail's state-0 unwind funclet jumps to 0x0049B47C, the ModuleData-family
+// dtor fold that restores the Snapshot vptr 0x00BBB554; the base dtor is
+// that reset (WallHubBehaviorModuleDataCtor precedent).
+#include "Common/Snapshot.h"
+
 class ModuleDataBase
 {
 public:
-	virtual ~ModuleDataBase() {}
-	unsigned int m_moduleTagNameKey;
+	__declspec(dllimport) __forceinline ModuleDataBase() {}
+	~ModuleDataBase() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 };
 
 class CivilianSpawnCollideModuleData : public ModuleDataBase
 {
 public:
 	CivilianSpawnCollideModuleData();
-	Rva003623E5Member m_updateMember;
+
+private:
+	const void *m_vtable; // +0, retail 0x00C5AAB8
+	int m_tag; // +4, untouched padding
+	Rva003623E5Member m_updateMember; // +0x08
 };
 
 // ??0CivilianSpawnCollideModuleData@@QAE@XZ
 CivilianSpawnCollideModuleData::CivilianSpawnCollideModuleData()
+	: ModuleDataBase()
+	, m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C5AAB8)))
 {
 }

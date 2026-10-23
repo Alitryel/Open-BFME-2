@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehavior.cpp); this unit had no counterpart under Code/.
@@ -46,13 +46,9 @@
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-BridgeTowerBehavior::BridgeTowerBehavior( Thing *thing, const ModuleData *moduleData )
-									 : BehaviorModule( thing, moduleData )
-{
 
-	m_bridgeID = INVALID_ID;
-
-}  // end BridgeTowerBehavior
+// The native constructor and scalar deleting destructor are provided by
+// BridgeTowerBehaviorCtor.cpp using this same virtual class declaration.
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
@@ -75,6 +71,7 @@ void BridgeTowerBehavior::setBridge( Object *bridge )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// ?getBridgeID@BridgeTowerBehavior@@ present-unmatched
 ObjectID BridgeTowerBehavior::getBridgeID( void )
 {
 
@@ -84,6 +81,7 @@ ObjectID BridgeTowerBehavior::getBridgeID( void )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// ?setTowerType@BridgeTowerBehavior@@ present-unmatched
 void BridgeTowerBehavior::setTowerType( BridgeTowerType type )
 {
 
@@ -93,156 +91,13 @@ void BridgeTowerBehavior::setTowerType( BridgeTowerType type )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-void BridgeTowerBehavior::onDamage( DamageInfo *damageInfo )
-{
-	Object *bridge = TheGameLogic->findObjectByID( getBridgeID() );
-
-	// sanity
-	if( bridge == NULL )
-		return;
-
-	//
-	// get our body info so we now how much damage percent is being done to us ... we need this
-	// so that we can propagate the same damage percentage amont the towers and the bridge
-	//
-	BodyModuleInterface *body = getObject()->getBodyModule();
-	Real damagePercentage = damageInfo->in.m_amount / body->getMaxHealth();
-
-	// get the bridge behavior module for our bridge
-	BehaviorModule **bmi;
-	BridgeBehaviorInterface *bridgeInterface = NULL;
-	for( bmi = bridge->getBehaviorModules(); *bmi; ++bmi )
-	{
-
-		bridgeInterface = (*bmi)->getBridgeBehaviorInterface();
-		if( bridgeInterface )
-			break;
-
-	}  // end for bmi
-	DEBUG_ASSERTCRASH( bridgeInterface != NULL, ("BridgeTowerBehavior::onDamage - no 'BridgeBehaviorInterface' found\n") );
-	if( bridgeInterface )
-	{
-
-		//
-		// damage each of the other towers if the source of this damage isn't from the bridge
-		// or other towers
-		//
-		Object *source = TheGameLogic->findObjectByID( damageInfo->in.m_sourceID );
-		if( source == NULL || 
-			  (source->isKindOf( KINDOF_BRIDGE ) == FALSE &&
-				 source->isKindOf( KINDOF_BRIDGE_TOWER ) == FALSE) )
-		{
-
-			for( Int i = 0; i < BRIDGE_MAX_TOWERS; ++i )
-			{
-				Object *tower;
-
-				tower = TheGameLogic->findObjectByID( bridgeInterface->getTowerID( (BridgeTowerType)i ) );
-				if( tower && tower != getObject() )
-				{
-					BodyModuleInterface *towerBody = tower->getBodyModule();
-					DamageInfo towerDamage;
-
-					towerDamage.in.m_amount = damagePercentage * towerBody->getMaxHealth();
-					towerDamage.in.m_sourceID = getObject()->getID();  // we're now the source
-					towerDamage.in.m_damageType = damageInfo->in.m_damageType;
-					towerDamage.in.m_deathType = damageInfo->in.m_deathType;
-					tower->attemptDamage( &towerDamage );
-
-				}  // end if
-
-			}  // end for i
-
-			//
-			// damage bridge object, but make sure it's done through the bridge interface
-			// so that it doesn't automatically propagate that damage to the towers
-			//
-			BodyModuleInterface *bridgeBody = bridge->getBodyModule();
-			DamageInfo bridgeDamage;
-
-			bridgeDamage.in.m_amount = damagePercentage * bridgeBody->getMaxHealth();
-			bridgeDamage.in.m_sourceID = getObject()->getID();  // we're now the source
-			bridgeDamage.in.m_damageType = damageInfo->in.m_damageType;
-			bridgeDamage.in.m_deathType = damageInfo->in.m_deathType;
-			bridge->attemptDamage( &bridgeDamage );
-
-		}  // end if
-
-	}  // end if
-
-}  // end onDamage
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-void BridgeTowerBehavior::onHealing( DamageInfo *damageInfo )
-{
-	Object *bridge = TheGameLogic->findObjectByID( getBridgeID() );
-
-	// sanity
-	if( bridge == NULL )
-		return;
-
-	//
-	// get our body info so we now how much healing percent is being done to us ... we need this
-	// so that we can propagate the same healing percentage amont the towers and the bridge
-	//
-	BodyModuleInterface *body = getObject()->getBodyModule();
-	Real healingPercentage = damageInfo->in.m_amount / body->getMaxHealth();
-
-	// get the bridge behavior module for our bridge
-	BehaviorModule **bmi;
-	BridgeBehaviorInterface *bridgeInterface = NULL;
-	for( bmi = bridge->getBehaviorModules(); *bmi; ++bmi )
-	{
-
-		bridgeInterface = (*bmi)->getBridgeBehaviorInterface();
-		if( bridgeInterface )
-			break;
-
-	}  // end for bmi
-	DEBUG_ASSERTCRASH( bridgeInterface != NULL, ("BridgeTowerBehavior::onHealing - no 'BridgeBehaviorInterface' found\n") );
-	if( bridgeInterface )
-	{
-
-		//
-		// heal each of the other towers if the source of this healing isn't from the bridge
-		// or other towers
-		//
-		Object *source = TheGameLogic->findObjectByID( damageInfo->in.m_sourceID );
-		if( source == NULL || 
-			  (source->isKindOf( KINDOF_BRIDGE ) == FALSE &&
-				 source->isKindOf( KINDOF_BRIDGE_TOWER ) == FALSE) )
-		{
-
-			for( Int i = 0; i < BRIDGE_MAX_TOWERS; ++i )
-			{
-				Object *tower;
-
-				tower = TheGameLogic->findObjectByID( bridgeInterface->getTowerID( (BridgeTowerType)i ) );
-				if( tower && tower != getObject() )
-				{
-					BodyModuleInterface *towerBody = tower->getBodyModule();
-					tower->attemptHealing(healingPercentage * towerBody->getMaxHealth(), getObject());
-
-				}  // end if
-
-			}  // end for i
-
-			//
-			// heal bridge object, but make sure it's done through the bridge interface
-			// so that it doesn't automatically propagate that healing to the towers.
-			//
-			BodyModuleInterface *bridgeBody = bridge->getBodyModule();
-			bridge->attemptHealing(healingPercentage * bridgeBody->getMaxHealth(), getObject());
-
-		}  // end if
-
-	}  // end if
-
-}  // end onHealing
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// ?onBodyDamageStateChange@BridgeTowerBehavior@@ present-unmatched
 void BridgeTowerBehavior::onBodyDamageStateChange( const DamageInfo* damageInfo, 
 																									 BodyDamageType oldState, 
 																									 BodyDamageType newState )
@@ -255,10 +110,13 @@ void BridgeTowerBehavior::onBodyDamageStateChange( const DamageInfo* damageInfo,
 void BridgeTowerBehavior::onDie( const DamageInfo *damageInfo )
 {
 
-	// kill the bridge object, this will kill all the towers
+	// kill the bridge object, this will kill all the towers.  BFME 2 numbers
+	// DamageType differently from the Zero Hour Damage.h this unit includes:
+	// retail passes 8, BFME 2's DAMAGE_UNRESISTABLE (as SpawnBehavior_onSpawnDeath.cpp
+	// declares it), where Zero Hour's default argument would push 11.
 	Object *bridge = TheGameLogic->findObjectByID( getBridgeID() );
 	if( bridge )
-		bridge->kill();
+		bridge->kill( (DamageType)8 /* DAMAGE_UNRESISTABLE */ );
 
 }  // end onDie
 
@@ -269,32 +127,13 @@ void BridgeTowerBehavior::onDie( const DamageInfo *damageInfo )
 // ------------------------------------------------------------------------------------------------
 /** Given an object, return a bridge tower interface if that object has one */
 // ------------------------------------------------------------------------------------------------
-BridgeTowerBehaviorInterface *BridgeTowerBehavior::getBridgeTowerBehaviorInterfaceFromObject( Object *obj )
-{
-
-	// sanity
-	if( obj == NULL || obj->isKindOf( KINDOF_BRIDGE_TOWER ) == FALSE )
-		return NULL;
-
-	BehaviorModule **bmi;
-	BridgeTowerBehaviorInterface *bridgeTowerInterface = NULL;
-	for( bmi = obj->getBehaviorModules(); *bmi; ++bmi )
-	{
-
-		bridgeTowerInterface = (*bmi)->getBridgeTowerBehaviorInterface();
-		if( bridgeTowerInterface )
-			return bridgeTowerInterface;
-
-	}  // end for bmi
-
-	// interface not found
-	return NULL;
-
-}  // getBridgeTowerBehaviorInterfaceFromObject
+// BridgeTowerBehavior::getBridgeTowerBehaviorInterfaceFromObject: defined in BridgeTowerBehaviorGetInterfaceFromObject.cpp (its row's unit).
+  // getBridgeTowerBehaviorInterfaceFromObject
 
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
+// ?crc@BridgeTowerBehavior@@ present-unmatched
 void BridgeTowerBehavior::crc( Xfer *xfer )
 {
 
@@ -308,28 +147,13 @@ void BridgeTowerBehavior::crc( Xfer *xfer )
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
-void BridgeTowerBehavior::xfer( Xfer *xfer )
-{
-
-	// version
-	XferVersion currentVersion = 1;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
-
-	// extend base class
-	BehaviorModule::xfer( xfer );
-
-	// xfer bridge object ID
-	xfer->xferObjectID( &m_bridgeID );
-
-	// xfer tower type
-	xfer->xferUser( &m_type, sizeof( BridgeTowerType ) );
-
-}  // end xfer
+// BridgeTowerBehavior::xfer: defined in BridgeTowerBehaviorXfer.cpp (its row's unit).
+  // end xfer
 
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
+// ?loadPostProcess@BridgeTowerBehavior@@ present-unmatched
 void BridgeTowerBehavior::loadPostProcess( void )
 {
 

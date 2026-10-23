@@ -24,9 +24,20 @@ public:
 	Rva007F4DA0();
 };
 
-Rva007F4DA0::Rva007F4DA0()
+inline Rva007F4DA0::Rva007F4DA0()
 {
 	m_08 = 0;
 	m_24 = 0;
 	m_04 = 1;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeRva007F4DA0InlineAnchor@@YAXPAVRva007F4DA0@@@Z absent-from-retail
+void _bfmeRva007F4DA0InlineAnchor(Rva007F4DA0 *p)
+{
+    p->Rva007F4DA0::Rva007F4DA0();
+}
+#pragma inline_depth()

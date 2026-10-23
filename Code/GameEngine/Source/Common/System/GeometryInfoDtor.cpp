@@ -9,30 +9,28 @@
 // vtable store retail lacks; the restore to BBB554 stays explicit. The next
 // 11 bytes are a separate push-push-call-ret tail, not claimed here.
 
+
 #include <vector>
+
+// __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
+// COMDATs (one byte shape per TU malloc/free wiring); explicit
+// dllimport+forceinline specializations take those calls inline so this
+// TU emits no external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void *__malloc_alloc<0>::allocate(size_t __n)
+{ void *__r = malloc(__n); if (!__r) __r = _S_oom_malloc(__n); return __r; }
+template <> __declspec(dllimport) __forceinline
+void __malloc_alloc<0>::deallocate(void *__p, size_t)
+{ free((char *)__p); }
+}
 
 class Xfer;
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void LoadPostProcess();
-	virtual const char *GetSnapshotName();
-	virtual void DoXfer(Xfer &xfer);
-};
+#include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
 
-struct AsciiString
-{
-	~AsciiString();
-
-	char *m_data;
-};
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
 struct GeometryRecord
 {
@@ -55,7 +53,7 @@ namespace _STL
 {
 
 template <>
-__declspec(noinline) void _Destroy<GeometryRecord *>(GeometryRecord *__first, GeometryRecord *__last)
+inline void _Destroy<GeometryRecord *>(GeometryRecord *__first, GeometryRecord *__last)
 {
 	for ( ; __first != __last; ++__first)
 		_Destroy(&*__first);
@@ -83,11 +81,45 @@ private:
 	std::vector<GeometryRecord> m_records;
 };
 // ??1GeometryInfo@@UAE@XZ @0x00050B2A
-GeometryInfo::~GeometryInfo()
+inline GeometryInfo::~GeometryInfo()
 {
 }
 
 // ??1GeometryRecord@@QAE@XZ @0x0004F82B
-GeometryRecord::~GeometryRecord()
+inline GeometryRecord::~GeometryRecord()
 {
 }
+
+// ??1Rva002189C5@@QAE@XZ @0x00218803
+// A second GeometryRecord vector destructor: the same 63 bytes as 0x50AB8
+// (rowed _Destroy 0x217B1E, then free) under its own EH handler. The scalar
+// deleting destructor 0x002189C5 and FontLibrary's map-value cleanup call it
+// directly; the owning class is not established, so it keeps its address
+// name and spells out the vector destructor over the vector's base.
+class Rva002189C5 : public _STL::_Vector_base<GeometryRecord, _STL::allocator<GeometryRecord> >
+{
+public:
+	~Rva002189C5();
+};
+Rva002189C5::~Rva002189C5()
+{
+	_STL::_Destroy(_M_start, _M_finish);
+}
+
+// The three bodies above are header inlines elsewhere: other units emit
+// select-any copies, so strong definitions here were duplicates in the linked
+// build. This anchor only makes this unit emit its copies for the ledger rows;
+// it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitGeometryInfoDtor@@YAXPAVGeometryInfo@@PAUGeometryRecord@@11@Z present-unmatched
+void bfmeEmitGeometryInfoDtor(GeometryInfo *pi, GeometryRecord *pr, GeometryRecord *first, GeometryRecord *last)
+{
+	pi->GeometryInfo::~GeometryInfo();
+	pr->GeometryRecord::~GeometryRecord();
+	_STL::_Destroy(first, last);
+}
+#pragma inline_depth()
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??1ClearanceTestingSlowDeathBehaviorModuleDataMember@@QAE@XZ=??1GeometryInfo@@UAE@XZ")

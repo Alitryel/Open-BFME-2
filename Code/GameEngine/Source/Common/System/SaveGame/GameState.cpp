@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/Common/System/SaveGame/GameState.cpp); this unit had no counterpart under Code/.
@@ -33,6 +33,28 @@
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
 #include "PreRTS.h"
+#include <list>
+
+// The native Snapshot-pointer list bodies are owned by GameStatePostProcess.
+// Keep this unmatched ZH donor from supplying competing COMDAT definitions.
+class Snapshot;
+namespace _STL {
+template<> void _List_base<Snapshot *, allocator<Snapshot *> >::clear();
+template<> _List_base<Snapshot *, allocator<Snapshot *> >::~_List_base();
+template<> void list<Snapshot *>::push_front(Snapshot *const &);
+template<> void list<Snapshot *>::push_back(Snapshot *const &);
+template<> list<Snapshot *>::iterator list<Snapshot *>::insert(iterator, Snapshot *const &);
+template<> void allocator<_List_node<Snapshot *> >::deallocate(_List_node<Snapshot *> *, size_t) const;
+template<> void _STLP_alloc_proxy<_List_node<Snapshot *> *, _List_node<Snapshot *>, allocator<_List_node<Snapshot *> > >::deallocate(_List_node<Snapshot *> *, size_t);
+}
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 #include "Common/File.h"
 #include "Common/FileSystem.h"
 #include "Common/GameEngine.h"
@@ -84,6 +106,7 @@ static const Int MAX_SAVE_FILE_NUMBER  =  99999999;
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// ??0SaveGameInfo@@ present-unmatched
 SaveGameInfo::SaveGameInfo( void )
 {
 
@@ -102,6 +125,7 @@ SaveGameInfo::SaveGameInfo( void )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// ??1SaveGameInfo@@ present-unmatched
 SaveGameInfo::~SaveGameInfo( void )
 {
 
@@ -110,6 +134,7 @@ SaveGameInfo::~SaveGameInfo( void )
 // ------------------------------------------------------------------------------------------------
 /** Is this date newer than the other one passed in? */
 // ------------------------------------------------------------------------------------------------
+#pragma optimize("s", on)
 Bool SaveDate::isNewerThan( SaveDate *other )
 {
 
@@ -180,36 +205,12 @@ Bool SaveDate::isNewerThan( SaveDate *other )
 	}  // end else
 
 }  // end isNewerThan
+#pragma optimize("", on)
 
 // ------------------------------------------------------------------------------------------------
 /** Find a snapshot block info that matches the token passed in */
 // ------------------------------------------------------------------------------------------------
-GameState::SnapshotBlock *GameState::findBlockInfoByToken( AsciiString token, SnapshotType which )
-{
-
-	// sanity
-	if( token.isEmpty() )
-		return NULL;
-
-	// search for match our list
-	SnapshotBlock *blockInfo;
-	SnapshotBlockListIterator it;
-	for( it = m_snapshotBlockList[which].begin(); it != m_snapshotBlockList[which].end(); ++it )
-	{
-
-		// get info
-		blockInfo = &(*it);
-
-		// check for match
-		if( blockInfo->blockName == token )
-			return blockInfo;
-
-	}  // end for
-
-	// not found
-	return NULL;
-
-}  // end findLexiconEntryByToken
+// Token lookup is provided by verified GameStateAddSnapshotBlock.cpp.
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -282,87 +283,30 @@ UnicodeString getUnicodeTimeBuffer(SYSTEMTIME timeVal)
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-GameState::GameState( void )
-{
+// Constructor is provided by verified GameStateConstructor.cpp.
 
-	m_availableGames = NULL;
-	m_isInLoadGame = FALSE;
-
-}  // end GameState
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-GameState::~GameState( void )
-{
-
-	// clear our snapshot block list
-	for (Int i=0; i<SNAPSHOT_MAX; ++i)
-	m_snapshotBlockList[i].clear();
-
-	// make certain that the post process list is clean
-	m_snapshotPostProcessList.clear();
-
-	// clear any available game 
-	clearAvailableGames();
-
-}  // end ~GameState
+// Destructor is provided by verified GameStateDtor.cpp.
 
 // ------------------------------------------------------------------------------------------------
 /** Init the game state subsystem */
 // ------------------------------------------------------------------------------------------------
-void GameState::init( void )
-{
+// init is provided by the verified GameStateInit.cpp unit.
 
-	// add all the snapshot objects to our list of data blocks for save game files
-	addSnapshotBlock( GAME_STATE_BLOCK_STRING,				TheGameState,							SNAPSHOT_SAVELOAD );
-	addSnapshotBlock( CAMPAIGN_BLOCK_STRING,					TheCampaignManager,				SNAPSHOT_SAVELOAD );
-	addSnapshotBlock( "CHUNK_GameStateMap",						TheGameStateMap,					SNAPSHOT_SAVELOAD );
-	addSnapshotBlock( "CHUNK_TerrainLogic",						TheTerrainLogic,					SNAPSHOT_SAVELOAD );
-	addSnapshotBlock( "CHUNK_TeamFactory",						TheTeamFactory,						SNAPSHOT_SAVELOAD );
-	addSnapshotBlock( "CHUNK_Players",								ThePlayerList,						SNAPSHOT_SAVELOAD );
-	addSnapshotBlock( "CHUNK_GameLogic",							TheGameLogic,							SNAPSHOT_SAVELOAD );
-	addSnapshotBlock( "CHUNK_Radar",									TheRadar,									SNAPSHOT_SAVELOAD );
-	addSnapshotBlock( "CHUNK_ScriptEngine",						TheScriptEngine,					SNAPSHOT_SAVELOAD );
-	addSnapshotBlock( "CHUNK_SidesList",							TheSidesList,							SNAPSHOT_SAVELOAD );
-	addSnapshotBlock( "CHUNK_TacticalView",						TheTacticalView,					SNAPSHOT_SAVELOAD );
-	addSnapshotBlock( "CHUNK_GameClient",							TheGameClient,						SNAPSHOT_SAVELOAD );
-	addSnapshotBlock( "CHUNK_InGameUI",								TheInGameUI,							SNAPSHOT_SAVELOAD );
-	addSnapshotBlock( "CHUNK_Partition",							ThePartitionManager,			SNAPSHOT_SAVELOAD );
-	addSnapshotBlock( "CHUNK_ParticleSystem",					TheParticleSystemManager,	SNAPSHOT_SAVELOAD );
-	addSnapshotBlock( "CHUNK_TerrainVisual",					TheTerrainVisual,					SNAPSHOT_SAVELOAD );
-	addSnapshotBlock( "CHUNK_GhostObject",						TheGhostObjectManager,		SNAPSHOT_SAVELOAD );
-
-	// add all the snapshot objects to our list of data blocks for deep CRCs of logic
-	addSnapshotBlock( "CHUNK_TeamFactory",						TheTeamFactory,						SNAPSHOT_DEEPCRC_LOGICONLY );
-	addSnapshotBlock( "CHUNK_Players",								ThePlayerList,						SNAPSHOT_DEEPCRC_LOGICONLY );
-	addSnapshotBlock( "CHUNK_GameLogic",							TheGameLogic,							SNAPSHOT_DEEPCRC_LOGICONLY );
-	addSnapshotBlock( "CHUNK_ScriptEngine",						TheScriptEngine,					SNAPSHOT_DEEPCRC_LOGICONLY );
-	addSnapshotBlock( "CHUNK_SidesList",							TheSidesList,							SNAPSHOT_DEEPCRC_LOGICONLY );
-	addSnapshotBlock( "CHUNK_Partition",							ThePartitionManager,			SNAPSHOT_DEEPCRC_LOGICONLY );
-
-	m_isInLoadGame = FALSE;
-
-}  // end init
 
 // ------------------------------------------------------------------------------------------------
 /** Reset */
 // ------------------------------------------------------------------------------------------------a
-void GameState::reset( void )
-{
-
-	// clear the post process snapshot list
-	m_snapshotPostProcessList.clear();
-
-	// clear any available game 
-	clearAvailableGames();
-
-	m_isInLoadGame = FALSE;
-
-}  // end reset
+// GameState::reset is retail 0x002DEE9A (rowed in Rva002DEE9AClear.cpp): BFME2
+// clears two lists, runs 0x002DE311 and zeroes +0xE18. The Zero Hour body that
+// stood here is not retail's and would be the copy the link keeps.
 
 // ------------------------------------------------------------------------------------------------
 /** Clear any available games entries */
 // ------------------------------------------------------------------------------------------------
+// ?clearAvailableGames@GameState@@ present-unmatched
 void GameState::clearAvailableGames( void )
 {
 	AvailableGameInfo *gameInfo;
@@ -381,25 +325,8 @@ void GameState::clearAvailableGames( void )
 // ------------------------------------------------------------------------------------------------
 /** Add a snapshot and block name pair to the systems used to load and save */
 // ------------------------------------------------------------------------------------------------
-void GameState::addSnapshotBlock( AsciiString blockName, Snapshot *snapshot, SnapshotType which )
-{
+// addSnapshotBlock is provided by the verified GameStateAddSnapshotBlock.cpp unit.
 
-	// sanity
-	if( blockName.isEmpty() || snapshot == NULL )
-	{
-
-		DEBUG_CRASH(( "addSnapshotBlock: Invalid parameters\n" ));
-		return;
-
-	}  // end if
-
-	// add to the list
-	SnapshotBlock blockInfo;
-	blockInfo.snapshot = snapshot;
-	blockInfo.blockName = blockName;
-	m_snapshotBlockList[which].push_back( blockInfo );
-
-}  // end addSnapshotBlock
 
 // ------------------------------------------------------------------------------------------------
 /** Given the filename of a save file, find the highest filename number */
@@ -441,6 +368,7 @@ static void findHighFileNumber( AsciiString filename, void *userData )
 // ------------------------------------------------------------------------------------------------
 /** Given the save files on disk, find the "next" filename to use when saving a game */
 // ------------------------------------------------------------------------------------------------
+// ?findNextSaveFilename@GameState@@ present-unmatched
 AsciiString GameState::findNextSaveFilename( UnicodeString desc )
 {
 // works, but needs approval from mgmt (srj)
@@ -543,6 +471,7 @@ AsciiString GameState::findNextSaveFilename( UnicodeString desc )
 /** Save the current state of the engine in a save file
 	* NOTE: filename is a *filename only* */
 // ------------------------------------------------------------------------------------------------
+// ?saveGame@GameState@@ present-unmatched
 SaveCode GameState::saveGame( AsciiString filename, UnicodeString desc, 
 															SaveFileType saveType, SnapshotType which )
 {
@@ -586,7 +515,7 @@ SaveCode GameState::saveGame( AsciiString filename, UnicodeString desc,
 	if( saveType == SAVE_FILE_TYPE_MISSION )
 		gameInfo->missionMapName = TheCampaignManager->getCurrentMap();
 	else
-		gameInfo->missionMapName.clear();
+		((StringBase<char> *)&gameInfo->missionMapName)->clear();
 
 	// set the pristine map to the current campaign map
 	// this is now done during startNewGame()
@@ -631,6 +560,7 @@ SaveCode GameState::saveGame( AsciiString filename, UnicodeString desc,
 // ------------------------------------------------------------------------------------------------
 /** A mission save */
 // ------------------------------------------------------------------------------------------------
+// ?missionSave@GameState@@ present-unmatched
 SaveCode GameState::missionSave( void )
 {
 
@@ -653,6 +583,7 @@ SaveCode GameState::missionSave( void )
 // ------------------------------------------------------------------------------------------------
 /** Load the save game pointed to by filename */
 // ------------------------------------------------------------------------------------------------
+// ?loadGame@GameState@@ present-unmatched
 SaveCode GameState::loadGame( AvailableGameInfo gameInfo )
 {
 
@@ -760,7 +691,7 @@ SaveCode GameState::loadGame( AvailableGameInfo gameInfo )
 		// remove the mission save data, we've got all we need and have started the load
 		SaveGameInfo *gameInfo = getSaveGameInfo();
 		gameInfo->saveFileType = SAVE_FILE_TYPE_NORMAL;
-		gameInfo->missionMapName.clear();
+		((StringBase<char> *)&gameInfo->missionMapName)->clear();
 
 	}  // end if
 		
@@ -769,48 +700,36 @@ SaveCode GameState::loadGame( AvailableGameInfo gameInfo )
 }  // end loadGame
 
 //-------------------------------------------------------------------------------------------------
+static __forceinline void concatStringBase(AsciiString &dst, const AsciiString &src)
+{
+	((StringBase<char> *)&dst)->concat(*(const StringBase<char> *)&src);
+}
+
+// ?getSaveDirectory@GameState@@ present-unmatched
 AsciiString GameState::getSaveDirectory() const
 {
 	AsciiString tmp = TheGlobalData->getPath_UserData();
-	tmp.concat("Save\\");
+	((StringBase<char> *)&tmp)->concat("Save\\");
 	return tmp;
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?getFilePathInSaveDirectory@GameState@@ present-unmatched
 AsciiString GameState::getFilePathInSaveDirectory(const AsciiString& leaf) const
 {
 	AsciiString tmp = getSaveDirectory();
-	tmp.concat(leaf);
+	((StringBase<char> *)&tmp)->concat(*(const StringBase<char> *)&leaf);
 	return tmp;
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?isInSaveDirectory@GameState@@ present-unmatched
 Bool GameState::isInSaveDirectory(const AsciiString& path) const
 {
-	return path.startsWithNoCase(getSaveDirectory());
+	return ((const StringBase<char> *)&path)->startsWithNoCase(getSaveDirectory().str());
 }
 
 // ------------------------------------------------------------------------------------------------
-AsciiString GameState::getMapLeafName(const AsciiString& in) const
-{
-	char* p = strrchr(in.str(), '\\');
-	if (p)
-	{
-		//
-		// p points to the last '\' (if found), however, if a '\' was found there better
-		// be another character beyond it, otherwise the map filename would actually
-		// be a *directory*  Just move to the first character beyond it so we are looking
-		// at the name only
-		//
-		++p;
-		DEBUG_ASSERTCRASH( p != NULL && *p != 0, ("GameState::xfer - Illegal map name encountered\n") );
-		return p;
-	}
-	else
-	{
-		return in;
-	}
-}
 
 // ------------------------------------------------------------------------------------------------
 static const char* findLastBackslashInRangeInclusive(const char* start, const char* end)
@@ -868,78 +787,18 @@ static AsciiString removeExtension(const AsciiString& in)
 }
 
 // ------------------------------------------------------------------------------------------------
-const char* PORTABLE_SAVE				= "Save\\";
-const char* PORTABLE_MAPS				= "Maps\\";
-const char* PORTABLE_USER_MAPS	= "UserData\\Maps\\";
+// GameState::realMapPathToPortableMapPath is defined with its retail-matched body in Code/GameEngine/Source/Common/System/SaveGame/GameStateRealMapPathToPortable.cpp (0x002DC833).
 
-// ------------------------------------------------------------------------------------------------
-AsciiString GameState::realMapPathToPortableMapPath(const AsciiString& in) const
-{
-	AsciiString prefix;
-	if (in.startsWithNoCase(getSaveDirectory()))
-	{
-		prefix = PORTABLE_SAVE;
-		prefix.concat(getMapLeafName(in));
-	}
-	else if (in.startsWithNoCase(TheMapCache->getMapDir()))
-	{
-		prefix = PORTABLE_MAPS;
-		prefix.concat(getMapLeafAndDirName(in));
-	}
-	else if (in.startsWithNoCase(TheMapCache->getUserMapDir()))
-	{
-		prefix = PORTABLE_USER_MAPS;
-		prefix.concat(getMapLeafAndDirName(in));
-	}
-	else
-	{
-		DEBUG_CRASH(("Map file was not found in any of the expected directories; this is impossible"));
-		//throw INI_INVALID_DATA;
-		// uncaught exceptions crash us. better to just use a bad path.
-		prefix = in;
-	}
-	prefix.toLower();
-	return prefix;
-}
-
-// ------------------------------------------------------------------------------------------------
-AsciiString GameState::portableMapPathToRealMapPath(const AsciiString& in) const
-{
-	AsciiString prefix;
-	if (in.startsWithNoCase(PORTABLE_SAVE))
-	{
-		// the save dir ends with "\\"
-		prefix = getSaveDirectory();
-		prefix.concat(getMapLeafName(in));
-	}
-	else if (in.startsWithNoCase(PORTABLE_MAPS))
-	{
-		// the map dir DOES NOT end with "\\", must add it
-		prefix = TheMapCache->getMapDir();
-		prefix.concat("\\");
-		prefix.concat(getMapLeafAndDirName(in));
-	}
-	else if (in.startsWithNoCase(PORTABLE_USER_MAPS))
-	{
-		// the map dir DOES NOT end with "\\", must add it
-		prefix = TheMapCache->getUserMapDir();
-		prefix.concat("\\");
-		prefix.concat(getMapLeafAndDirName(in));
-	}
-	else
-	{
-		DEBUG_CRASH(("Map file was not found in any of the expected directories; this is impossible"));
-		//throw INI_INVALID_DATA;
-		// uncaught exceptions crash us. better to just use a bad path.
-		prefix = in;
-	}
-	prefix.toLower();
-	return prefix;
-}
+// GameState::portableMapPathToRealMapPath is defined with its retail-matched
+// body in Code/GameEngine/Source/Common/System/SaveGame/GameStatePortableMapPathToReal.cpp
+// (0x002DC9F7, 421B). The donor-derived duplicate that stood here missed
+// retail's bytes (notably the 4th LivingWorldScripts branch) and lost the
+// link to the rowed copy, so it is deleted rather than kept.
 
 // ------------------------------------------------------------------------------------------------
 /** Does the save game file exist */
 // ------------------------------------------------------------------------------------------------
+// ?doesSaveGameExist@GameState@@ present-unmatched
 Bool GameState::doesSaveGameExist( AsciiString filename ) 
 {
 
@@ -973,6 +832,7 @@ Bool GameState::doesSaveGameExist( AsciiString filename )
 // ------------------------------------------------------------------------------------------------
 /** Get save game info from the filename specified */
 // ------------------------------------------------------------------------------------------------
+// ?getSaveGameInfoFromFile@GameState@@ present-unmatched
 void GameState::getSaveGameInfoFromFile( AsciiString filename, SaveGameInfo *saveGameInfo )
 {
 	AsciiString token;
@@ -1007,7 +867,7 @@ void GameState::getSaveGameInfoFromFile( AsciiString filename, SaveGameInfo *sav
 		xferLoad.xferAsciiString( &token );
 
 		// check for end of file token
-		if( token.compareNoCase( SAVE_FILE_EOF ) == 0 )
+		if( ((const StringBase<char> *)&token)->compareNoCase( SAVE_FILE_EOF ) == 0 )
 		{
 
 			// we should never get here, if we did, we didn't find block of data we needed
@@ -1152,6 +1012,7 @@ static void addGameToAvailableList( AsciiString filename, void *userData )
 // ------------------------------------------------------------------------------------------------
 /** Populate the listbox passed in with a list of the save games present on the hard drive */
 // ------------------------------------------------------------------------------------------------
+// ?populateSaveGameListbox@GameState@@ present-unmatched
 void GameState::populateSaveGameListbox( GameWindow *listbox, SaveLoadLayoutType layoutType )
 {
 	Int index;
@@ -1250,6 +1111,7 @@ void GameState::populateSaveGameListbox( GameWindow *listbox, SaveLoadLayoutType
 // ------------------------------------------------------------------------------------------------
 /** Iterate the save game files */
 // ------------------------------------------------------------------------------------------------
+// ?iterateSaveFiles@GameState@@ present-unmatched
 void GameState::iterateSaveFiles( IterateSaveFileCallback callback, void *userData )
 {
 
@@ -1297,7 +1159,7 @@ void GameState::iterateSaveFiles( IterateSaveFileCallback callback, void *userDa
 
 				// construction asciistring filename
 				AsciiString filename;
-				filename.set( item.cFileName );
+				((StringBase<char> *)&filename)->set( item.cFileName );
 
 				// call the callback
 				callback( filename, userData );
@@ -1323,21 +1185,12 @@ void GameState::iterateSaveFiles( IterateSaveFileCallback callback, void *userDa
 // ------------------------------------------------------------------------------------------------
 /** Save game to xfer or load game using xfer */
 // ------------------------------------------------------------------------------------------------
-void GameState::friend_xferSaveDataForCRC( Xfer *xfer, SnapshotType which )
-{
-	DEBUG_LOG(("GameState::friend_xferSaveDataForCRC() - SnapshotType %d\n", which));
-	SaveGameInfo *gameInfo = getSaveGameInfo();
-	gameInfo->description.clear();
-	gameInfo->saveFileType = SAVE_FILE_TYPE_NORMAL;
-	gameInfo->missionMapName.clear();
-	gameInfo->pristineMapName.clear();
-
-	xferSaveData(xfer, which);
-}
+// GameState::friend_xferSaveDataForCRC is defined with its retail-matched body in Code/GameEngine/Source/Common/System/SaveGame/GameStateFriend.cpp (0x002DDD0B).
 
 // ------------------------------------------------------------------------------------------------
 /** Save game to xfer or load game using xfer */
 // ------------------------------------------------------------------------------------------------
+// ?xferSaveData@GameState@@ present-unmatched
 void GameState::xferSaveData( Xfer *xfer, SnapshotType which )
 {
 
@@ -1370,8 +1223,8 @@ void GameState::xferSaveData( Xfer *xfer, SnapshotType which )
 			// because anything else is not needed.
 			//
 			if( getSaveGameInfo()->saveFileType != SAVE_FILE_TYPE_MISSION || 
-					(blockName.compareNoCase( GAME_STATE_BLOCK_STRING ) == 0 ||
-					 blockName.compareNoCase( CAMPAIGN_BLOCK_STRING ) == 0) )
+					(((const StringBase<char> *)&blockName)->compareNoCase( GAME_STATE_BLOCK_STRING ) == 0 ||
+					 ((const StringBase<char> *)&blockName)->compareNoCase( CAMPAIGN_BLOCK_STRING ) == 0) )
 			{
 
 				// xfer block name
@@ -1425,7 +1278,7 @@ void GameState::xferSaveData( Xfer *xfer, SnapshotType which )
 			xfer->xferAsciiString( &token );
 
 			// check for end of file token
-			if( token.compareNoCase( SAVE_FILE_EOF ) == 0 )
+			if( ((const StringBase<char> *)&token)->compareNoCase( SAVE_FILE_EOF ) == 0 )
 			{
 
 				// all done
@@ -1488,6 +1341,7 @@ void GameState::xferSaveData( Xfer *xfer, SnapshotType which )
 // ------------------------------------------------------------------------------------------------
 /** Add a snapshot to the post process list for later */
 // ------------------------------------------------------------------------------------------------
+// ?addPostProcessSnapshot@GameState@@ present-unmatched
 void GameState::addPostProcessSnapshot( Snapshot *snapshot )
 {
 
@@ -1530,6 +1384,7 @@ void GameState::addPostProcessSnapshot( Snapshot *snapshot )
 // ------------------------------------------------------------------------------------------------
 /** Post process entry point after all game data has been xferd from disk */
 // ------------------------------------------------------------------------------------------------
+// ?gameStatePostProcessLoad@GameState@@ present-unmatched
 void GameState::gameStatePostProcessLoad( void )
 {
 
@@ -1564,107 +1419,8 @@ void GameState::gameStatePostProcessLoad( void )
 	* 1: Initial version 
 	* 2: Added save file type and mission map name (regular save vs automatic mission save) */
 // ------------------------------------------------------------------------------------------------
-void GameState::xfer( Xfer *xfer )
-{
+// GameState::xfer is defined with its retail-matched body in Code/GameEngine/Source/Common/Rva002DBCCAForward.cpp (0x002DBCCA).
 
-	// version
-	XferVersion currentVersion = 2;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
-
-	// get structure for our current game info
-	SaveGameInfo *saveGameInfo = getSaveGameInfo();
-
-	// version 2
-	if( version >= 2 )
-	{
-
-		// file type
-		xfer->xferUser( &saveGameInfo->saveFileType, sizeof( SaveFileType ) );
-
-		// mission map name
-		xfer->xferAsciiString( &saveGameInfo->missionMapName );
-
-	}  // end if
-
-	// current system time
-	SYSTEMTIME systemTime;
-	GetLocalTime( &systemTime );
-
-	// date and time
-	saveGameInfo->date.year = systemTime.wYear;
-	xfer->xferUnsignedShort( &saveGameInfo->date.year );
-	saveGameInfo->date.month = systemTime.wMonth;
-	xfer->xferUnsignedShort( &saveGameInfo->date.month );
-	saveGameInfo->date.day = systemTime.wDay;
-	xfer->xferUnsignedShort( &saveGameInfo->date.day );
-	saveGameInfo->date.dayOfWeek = systemTime.wDayOfWeek;
-	xfer->xferUnsignedShort( &saveGameInfo->date.dayOfWeek );
-	saveGameInfo->date.hour = systemTime.wHour;
-	xfer->xferUnsignedShort( &saveGameInfo->date.hour );
-	saveGameInfo->date.minute = systemTime.wMinute;
-	xfer->xferUnsignedShort( &saveGameInfo->date.minute );
-	saveGameInfo->date.second = systemTime.wSecond;
-	xfer->xferUnsignedShort( &saveGameInfo->date.second );
-	saveGameInfo->date.milliseconds = systemTime.wMilliseconds;
-	xfer->xferUnsignedShort( &saveGameInfo->date.milliseconds );
-
-	// user description
-	xfer->xferUnicodeString( &saveGameInfo->description );
-
-	Bool exists = FALSE;
-	Dict *dict = MapObject::getWorldDict();
-	if( dict )
-		saveGameInfo->mapLabel = dict->getAsciiString( TheKey_mapName, &exists );
-
-	// if no label was found, we'll use the map name (just filename, no directory info)
-	if( exists == FALSE || saveGameInfo->mapLabel == AsciiString::TheEmptyString )
-	{
-		char string[ _MAX_PATH ];
-
-		strcpy( string, TheGlobalData->m_mapName.str() );
-		char *p = strrchr( string, '\\' );
-		if( p == NULL )
-			saveGameInfo->mapLabel = TheGlobalData->m_mapName;
-		else
-		{
-
-			p++;  // skip the '\' we're on
-			saveGameInfo->mapLabel.set( p );
-
-		}  // end else
-
-	}  // end if
-
-	// xfer map label
-	xfer->xferAsciiString( &saveGameInfo->mapLabel );
-
-	// campaign info
-	Campaign *campaign = TheCampaignManager->getCurrentCampaign();
-	if( campaign )
-	{
-
-		// campaign side
-		saveGameInfo->campaignSide = campaign->m_name;
-		xfer->xferAsciiString( &saveGameInfo->campaignSide );
-
-		// campaign mission number
-		saveGameInfo->missionNumber = TheCampaignManager->getCurrentMissionNumber();
-		xfer->xferInt( &saveGameInfo->missionNumber );
-
-		
-	}  // end if
-	else
-	{
-
-		// write empty campaign side
-		saveGameInfo->campaignSide = AsciiString::TheEmptyString;
-		xfer->xferAsciiString( &saveGameInfo->campaignSide );
-
-		// invalid mission number
-		saveGameInfo->missionNumber = CampaignManager::INVALID_MISSION_NUMBER;
-		xfer->xferInt( &saveGameInfo->missionNumber );
-
-	}  // end else
-
-}  // end xfer
+// Retail's call sites in this unit's matched rows land on bodies rowed under
+// other spellings at the same addresses (same ABI). Bind the spellings used here.
+#pragma comment(linker, "/alternatename:_strcpy=?ji_00629176@@YAXXZ")

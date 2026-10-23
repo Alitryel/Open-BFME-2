@@ -7,7 +7,8 @@
 class Thing;
 class ModuleData;
 
-extern "C" char PointDefenseLaserUpdate_vftable;
+// PointDefenseLaserUpdate_vftable: matched references place it at VA 0xc5eb30 (retail .rdata value -26).
+extern "C" char PointDefenseLaserUpdate_vftable = -26;
 
 struct OpaqueGlobal
 {
@@ -15,7 +16,7 @@ struct OpaqueGlobal
 	void *m_p40;
 };
 
-extern OpaqueGlobal *g_updateGlobal;
+extern class GameLogic *TheGameLogic;
 
 // Opaque intermediate; ctor resolves to the opaque pin at 0x00362EC7.
 class Rva00362EC7
@@ -31,11 +32,6 @@ protected:
 	unsigned char m_pad1[0x20 - 0x14];
 };
 
-// ??1Rva00362EC7@@ present-unmatched
-Rva00362EC7::~Rva00362EC7()
-{
-}
-
 class __declspec(novtable) BeaconClientUpdate : public Rva00362EC7
 {
 public:
@@ -49,7 +45,7 @@ BeaconClientUpdate::BeaconClientUpdate(Thing *thing, const ModuleData *moduleDat
 {
 	m_i0C = 0;
 	*reinterpret_cast<char **>(this) = &PointDefenseLaserUpdate_vftable;
-	m_p10 = g_updateGlobal->m_p40;
+	m_p10 = (*(OpaqueGlobal **)&TheGameLogic)->m_p40;
 }
 
 // ??1BeaconClientUpdate@@ present-unmatched

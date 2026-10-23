@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 //
 // BFME2's 80-byte Pod vector allocator at RVA 0x002DF9A3 (28B: imul-0x50
@@ -13,4 +13,8 @@
 // here). The BfmePod80 layout mirrors the home TU declaration.
 struct BfmePod80 { int a[20]; };
 #include <memory>
+// _Construct<BfmePod80> is rowed at 0x0051F920 (stlport_construct_pod80_rva.cpp,
+// a copy-ctor call); this TU's inline memberwise copy is not that body. The
+// call here is out of line: declaration-only, so it binds the rowed copy.
+namespace _STL { template <> void _Construct<BfmePod80, BfmePod80>(BfmePod80 *, const BfmePod80 &); }
 template class _STL::allocator<BfmePod80>;

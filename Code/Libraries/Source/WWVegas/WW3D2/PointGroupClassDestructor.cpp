@@ -1,9 +1,13 @@
-// cl: /G7 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// cl: /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
 // PointGroupClass destructor, retail 0x00178ED0 (194 bytes). BFME1 port of
 // PointGroupClassDestructor.cpp (their 0x009125E0, 193 bytes): six share-buffer
 // releases plus the texture release. Layout matches the matched ctor
 // (PointLoc +4 through PointFrame +0x18, Texture +0x24).
 
+// Match the retail RefCountClass release helper in its provider's size context.
+#pragma optimize("gsy", on)
+#include "../../../../../reference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib/refcount.h"
+#pragma optimize("", on)
 #include "sharebuf.h"
 #include "texture.h"
 #include "vector3.h"

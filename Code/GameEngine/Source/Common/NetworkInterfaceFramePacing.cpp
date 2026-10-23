@@ -1,8 +1,13 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /O1 /GX /arch:SSE
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX
 //
 // BFME2's native network vtable stores the concrete pacing query at +0x58.
 // The fields below are deliberately laid out from the constructor and the
 // retail body; no network policy is changed by exposing this query.
+
+extern class CommandList *TheCommandList;
+extern class GameLogic *TheGameLogic;
+
+extern int BfmeLogicFramesPerSecond;
 
 extern "C" __declspec(dllimport) int __stdcall QueryPerformanceCounter(__int64 *counter);
 
@@ -16,6 +21,8 @@ struct BFMEConnectionManager
 	char unknown[0x1205C];
 	volatile int frameCeiling;
 };
+
+class NetWrapperCommandMsg;
 
 class NetworkInterface
 {
@@ -44,6 +51,7 @@ public:
 	virtual void slot21(void);
 	virtual void slot22(void);
 	int getFramePacingStatus(void);
+	void ProcessDestroyPlayerCommand(NetWrapperCommandMsg *msg);
 	virtual void slot23(void);
 	virtual void slot24(void);
 	virtual void slot25(void);
@@ -76,9 +84,9 @@ private:
 	__int64 m_accumulator;
 };
 
-#define TheGameLogic (*(volatile GameLogicFrame **)0x00DFE78C)
-#define LogicFramesPerSecond (*(const int *)0x00DBA4E4)
-#define OneAndHalf (*(const float *)0x00BC8980)
+#define TheGameLogic (*(volatile GameLogicFrame **)&TheGameLogic)
+#define LogicFramesPerSecond BfmeLogicFramesPerSecond
+#define OneAndHalf 1.5f
 
 int NetworkInterface::getFramePacingStatus(void)
 {
@@ -102,4 +110,119 @@ int NetworkInterface::getFramePacingStatus(void)
 		return 1;
 
 	return 2;
+}
+
+// ?ProcessDestroyPlayerCommand@NetworkInterface@@QAEXPAVNetWrapperCommandMsg@@@Z at 0x0025E539 (187B).
+// Thiscall handler: slot index from NetWrapperCommandMsg::getData, GameSlot name
+// to NameKey to Player, new Rva0030F47A((void*)0x448) with bool true, +0x14 from
+// Player+0x54, virtual send at +0x38 on global 0xA00954. Evidence: caller
+// 0x0025E5F4 push edi + mov ecx,esi, all callees rowed/pinned, ret 4.
+
+#include "ascii_string.h"
+
+enum NameKeyType
+{
+	NAMEKEY_INVALID = 0
+};
+
+class NameKeyGenerator
+{
+public:
+	NameKeyType nameToKey(const AsciiString &s);
+};
+extern NameKeyGenerator *TheNameKeyGenerator;
+
+class GameSlot
+{
+public:
+	char m_pad[0x34];
+	AsciiString m_name;
+};
+
+class GameInfo
+{
+public:
+	GameSlot *getSlot(int n);
+};
+extern GameInfo *TheGameInfo;
+
+class Player
+{
+public:
+	char m_pad[0x54];
+	void *m_54;
+};
+
+class PlayerList
+{
+public:
+	Player *findPlayerWithNameKey(NameKeyType key);
+};
+extern PlayerList *ThePlayerList;
+
+class NetWrapperCommandMsg
+{
+public:
+	unsigned char *getData();
+};
+
+class GameMessage
+{
+public:
+	void appendBooleanArgument(bool arg);
+};
+
+class Rva0030F47A
+{
+public:
+	Rva0030F47A(void *arg);
+	void *m_vft;
+	int m_04;
+	int m_08;
+	int m_0C;
+	void *m_10;
+	void *m_14;
+	bool m_18;
+	int m_1C;
+	int m_20;
+};
+
+class MessageTarget
+{
+public:
+	virtual void s00(void);
+	virtual void s01(void);
+	virtual void s02(void);
+	virtual void s03(void);
+	virtual void s04(void);
+	virtual void s05(void);
+	virtual void s06(void);
+	virtual void s07(void);
+	virtual void s08(void);
+	virtual void s09(void);
+	virtual void s10(void);
+	virtual void s11(void);
+	virtual void s12(void);
+	virtual void s13(void);
+	virtual void s14(Rva0030F47A *m);
+};
+
+#define TheMessageTarget (*(MessageTarget **)&TheCommandList)
+
+void NetworkInterface::ProcessDestroyPlayerCommand(NetWrapperCommandMsg *msg)
+{
+	unsigned int idx = (unsigned int)msg->getData();
+	if (idx >= 8)
+		return;
+	GameSlot *slot = TheGameInfo->getSlot((int)idx);
+	AsciiString tmp(slot->m_name);
+	NameKeyType key = TheNameKeyGenerator->nameToKey(tmp);
+	Player *player = ThePlayerList->findPlayerWithNameKey(key);
+	if (player)
+	{
+		Rva0030F47A *m = new Rva0030F47A((void *)0x448);
+		((GameMessage *)m)->appendBooleanArgument(true);
+		m->m_14 = player->m_54;
+		TheMessageTarget->s14(m);
+	}
 }

@@ -96,15 +96,40 @@ class Rva007F7980Browser;
 class Rva00802DF0Element
 {
 public:
-	void set( const Rva007F4E50Region *record, Rva007F7980Browser *browser ); // 0x00802DF0
 	char m_pad[ 0x1C ];
+};
+
+struct Rva00802DF0Source
+{
+	int m_field0;
+	char m_pad004[ 8 ];
+	char m_name[ 0x80 ];
+	char m_text[ 1 ];
+};
+
+class Rva00802DF0Owner
+{
+public:
+	void set( Rva00802DF0Source *source, int value );
 };
 
 class Rva00802810Element
 {
 public:
-	void set( const Rva007F4EF0Lobby *record, Rva007F7980Browser *browser );  // 0x00802810
 	char m_pad[ 0x40 ];
+};
+
+struct BfmeSrcVCB
+{
+	int m_bfme00, m_bfme04, m_bfme08, m_bfme0c, m_bfme10, m_bfme14;
+	char m_bfmeTextA[ 0x80 ];
+	char m_bfmeTextB[ 4 ];
+};
+
+class BfmeThingVCB
+{
+public:
+	void bfmeInitVCB( BfmeSrcVCB *source, int value );
 };
 
 class Rva007F7980Listener
@@ -148,7 +173,7 @@ void Rva007F7980Browser::onRegion( Rva007E8810Message *msg )
 	Rva00802DF0Element *slot = ( index >= m_regions.m_count )
 		? 0
 		: (Rva00802DF0Element *)( (char *)m_regions.m_array + index * 0x1C );
-	slot->set( &record, this );
+	((Rva00802DF0Owner *)slot)->set( (Rva00802DF0Source *)&record, (int)this );
 	if( m_regionIndex >= m_regions.m_count )
 		m_listener->onRegionCountDone( 0 );
 }
@@ -166,7 +191,23 @@ void Rva007F7980Browser::onLobby( Rva007E8810Message *msg )
 	Rva00802810Element *slot = ( index >= m_lobbies.m_count )
 		? 0
 		: (Rva00802810Element *)( (char *)m_lobbies.m_array + index * 0x40 );
-	slot->set( &record, this );
+	((BfmeThingVCB *)slot)->bfmeInitVCB( (BfmeSrcVCB *)&record, (int)this );
 	if( m_lobbyIndex >= m_lobbies.m_count )
 		m_listener->onLobbyCountDone( 0 );
+}
+
+// Retail's wrapper passes the browser as ECX, the message, and status 1 to the
+// matched Rva007F65E0Owner::handleGameLobbyReply at 0x00662D70.
+class Rva007F65E0Owner
+{
+public:
+	void handleGameLobbyReply( Rva007E8810Message *msg, int status );
+};
+
+void Rva007F6FC0BrowserGameReply( Rva007E8810Message *msg,
+	Rva007F7980Browser *browser )
+{
+	typedef void (Rva007F65E0Owner::*GameReply)( Rva007E8810Message *, int );
+	GameReply reply = &Rva007F65E0Owner::handleGameLobbyReply;
+	(((Rva007F65E0Owner *)browser)->*reply)( msg, 1 );
 }

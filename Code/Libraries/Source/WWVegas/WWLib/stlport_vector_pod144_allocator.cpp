@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 //
 // BFME2's 144-byte Pod vector allocator at RVA 0x00051A79 (28B: imul-0x90
@@ -12,4 +12,8 @@
 // POD-PLACEHOLDER LAW (element construction never passes through here).
 struct BfmePod144 { int a[36]; };
 #include <memory>
-template class _STL::allocator<BfmePod144>;
+// Only allocate (the rowed body) is instantiated: a whole-class
+// instantiation also emits allocator::construct, which references
+// _Construct<BfmePod144> (no definer under that spelling; an /alternatename
+// to another type's row did not reach the census), so the unit could not link.
+template BfmePod144 *_STL::allocator<BfmePod144>::allocate(unsigned int, const void *) const;

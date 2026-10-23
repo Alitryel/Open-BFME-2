@@ -20,9 +20,9 @@ private:
 	char *m_Buffer;
 };
 
-char *StringClass::m_EmptyString;
+// StringClass::m_EmptyString: defined in wwstring.cpp (= &m_NullChar).
 
-const StringClass &StringClass::operator=(const char *string)
+inline const StringClass &StringClass::operator=(const char *string)
 {
 	if (string != 0)
 	{
@@ -34,3 +34,14 @@ const StringClass &StringClass::operator=(const char *string)
 	}
 	return *this;
 }
+
+// operator= is a header inline in retail: other units emit select-any copies,
+// so a strong definition here was a duplicate in the linked build. This anchor
+// only makes this unit emit its copy for the ledger row; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitwwstring_assign_cstr@@YAXPAVStringClass@@PBD@Z present-unmatched
+void bfmeEmitwwstring_assign_cstr(StringClass *string, const char *s)
+{
+	string->operator=(s);
+}
+#pragma inline_depth()

@@ -1,4 +1,23 @@
 // cl: /Ireference/shims/bfmerendobj /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// Keep MSVC math.h float overloads local; matched operations already inline.
+#pragma push_macro("inline")
+#define inline static inline
+#include <math.h>
+#pragma pop_macro("inline")
+// Link view first: Vector3::Length (and Normalize/Vector3(x,y,z) in the full view) stay inline without
+// emitting /O2 copies that compete with retail's owners (0x000692B3, 0x0006924F, 0x006CD510).
+#include "../../../../../reference/shims/bfme_vector3_lenfull_link/vector3_lenfull_link.h"
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -35,6 +54,7 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+#include "../../../../../reference/shims/bfme_matrix3d_invrot_link/matrix3d_generals.h"
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "vehiclecurve.h"
 #include "vector3.h"
@@ -524,7 +544,16 @@ VehicleCurveClass::Evaluate (float time, Vector3 *set_val)
 		set_val->X = arc_info0.center.X + (arc_info0.radius * ::WWMath::Sin (angle));
 		set_val->Y = arc_info0.center.Y + (arc_info0.radius * -::WWMath::Cos (angle));
 
-		m_Sharpness = WWMath::Clamp (WWMath::Fabs (arc_info0.angle_out_delta) / DEG_TO_RADF (15), 0, 1.0F);
+		// Inline Clamp without emitting a competing external copy.
+		float sharpness = WWMath::Fabs (arc_info0.angle_out_delta) / DEG_TO_RADF (15);
+		float clamped;
+		if (sharpness < 0.0F)
+			clamped = 0.0F;
+		else if (sharpness > 1.0F)
+			clamped = 1.0F;
+		else
+			clamped = sharpness;
+		m_Sharpness = clamped;
 		m_SharpnessPos.X = set_val->X;
 		m_SharpnessPos.Y = set_val->Y;
 		m_SharpnessPos.Z = Keys[index0].Point.Z + (Keys[index1].Point.Z - Keys[index0].Point.Z) * seg_time;
@@ -550,7 +579,15 @@ VehicleCurveClass::Evaluate (float time, Vector3 *set_val)
 		//set_val->X = arc_info0.point_out.X + (arc_info1.point_in.X - arc_info0.point_out.X) * percent;
 		//set_val->Y = arc_info0.point_out.Y + (arc_info1.point_in.Y - arc_info0.point_out.Y) * percent;
 
-		m_Sharpness = WWMath::Clamp (WWMath::Fabs (arc_info1.angle_out_delta) / DEG_TO_RADF (15), 0, 1.0F);
+		float sharpness = WWMath::Fabs (arc_info1.angle_out_delta) / DEG_TO_RADF (15);
+		float clamped;
+		if (sharpness < 0.0F)
+			clamped = 0.0F;
+		else if (sharpness > 1.0F)
+			clamped = 1.0F;
+		else
+			clamped = sharpness;
+		m_Sharpness = clamped;
 		m_SharpnessPos = arc_info1.point_in;
 		
 		m_LastTime = Keys[index0].Time + (Keys[index1].Time - Keys[index0].Time) * time2;
@@ -572,7 +609,15 @@ VehicleCurveClass::Evaluate (float time, Vector3 *set_val)
 		set_val->X = arc_info1.center.X + (arc_info1.radius * ::WWMath::Sin (angle));
 		set_val->Y = arc_info1.center.Y + (arc_info1.radius * -::WWMath::Cos (angle));		
 
-		m_Sharpness = WWMath::Clamp (WWMath::Fabs (arc_info1.angle_out_delta) / DEG_TO_RADF (15), 0, 1.0F);
+		float sharpness = WWMath::Fabs (arc_info1.angle_out_delta) / DEG_TO_RADF (15);
+		float clamped;
+		if (sharpness < 0.0F)
+			clamped = 0.0F;
+		else if (sharpness > 1.0F)
+			clamped = 1.0F;
+		else
+			clamped = sharpness;
+		m_Sharpness = clamped;
 		m_SharpnessPos.X = set_val->X;
 		m_SharpnessPos.Y = set_val->Y;
 		m_SharpnessPos.Z = Keys[index0].Point.Z + (Keys[index1].Point.Z - Keys[index0].Point.Z) * seg_time;
@@ -692,3 +737,7 @@ VehicleCurveClass::Load_Variables (ChunkLoadClass &cload)
 
 	return ;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0GadgetCreateView@@QAE@XZ=??0_ArcInfoStruct@VehicleCurveClass@@QAE@XZ")

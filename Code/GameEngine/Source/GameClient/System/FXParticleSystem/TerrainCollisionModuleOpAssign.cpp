@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc
 
 // TerrainCollision module assignment operators.
 //
@@ -11,22 +11,8 @@
 // info subobject at +0xc to 0x003A81AE. Layouts mirror the landed copy ctor
 // thunk TerrainCollisionModuleTemplateCopyCtorThunk.cpp in this folder.
 
-template <typename Character>
-class StringBase
-{
-public:
-	StringBase(const StringBase &);
-};
+#include "ascii_string.h"
 
-class AsciiString : private StringBase<char>
-{
-public:
-	AsciiString(const AsciiString &that)
-		: StringBase<char>(that)
-	{
-	}
-	AsciiString &operator=(const AsciiString &that);
-};
 
 namespace FXParticleSystem
 {
@@ -110,7 +96,7 @@ public:
 };
 
 // ??4TerrainCollisionModuleTemplate@FXParticleSystem@@QAEAAV01@ABV01@@Z @0x3A81E2
-TerrainCollisionModuleTemplate &TerrainCollisionModuleTemplate::operator=(const TerrainCollisionModuleTemplate &that)
+inline TerrainCollisionModuleTemplate &TerrainCollisionModuleTemplate::operator=(const TerrainCollisionModuleTemplate &that)
 {
 	const void *source = &that;
 	const void *word_source = source ? (const unsigned char *)source + 8 : 0;
@@ -120,3 +106,10 @@ TerrainCollisionModuleTemplate &TerrainCollisionModuleTemplate::operator=(const 
 }
 
 }
+#pragma inline_depth(0)
+// ?bfmeEmitTerrainCollisionModuleOpAssign@@YAXPAVTerrainCollisionModuleTemplate@FXParticleSystem@@@Z present-unmatched
+void bfmeEmitTerrainCollisionModuleOpAssign(FXParticleSystem::TerrainCollisionModuleTemplate *p)
+{
+	*p = *(FXParticleSystem::TerrainCollisionModuleTemplate *)0;
+}
+#pragma inline_depth()

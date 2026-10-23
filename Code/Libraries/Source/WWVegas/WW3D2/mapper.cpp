@@ -1,6 +1,42 @@
-// cl: /Ireference/shims/bfmerendobj /Ireference/shims/bfmemapper /arch:SSE /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /Ireference/shims/bfme2_get_transform /Ireference/shims/bfme2_matrix4_init16 /Ireference/shims/bfmestages /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/bfme /Ireference/shims/bfmerendobj /Ireference/shims/bfmemapper /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// Keep MSVC's float overloads local; the inlined fabs operations remain exact.
+#define inline static inline
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+#include <math.h>
+#undef inline
+
+// Load Vector2 dependencies before the scoped size setting below.
+#include "wwmath.h"
+
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+// The same size setting emits Vector2 operators as their retail providers.
+#include "vector2.h"
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 
 
+// Keep the verified inline expansion; external math bodies are owned elsewhere.
+#include "../../../../../reference/shims/bfme_matrix3d_sse_link/vector4.h"
+// Use the existing ZH Matrix4 link view with BFME's class names. The
+// BFME dependencies stay first; the target's sixteen-float Init remains inline.
+#include "matrix3d.h"
+#include "matrix3.h"
+#define Matrix3x3 Matrix3
+#define Matrix4x4 Matrix4
+#define BFME_MATRIX4_INCLASS_DEFAULT_CTOR	// Calculate_Texture_Matrix was matched inlining the in-class body
+#include "../../../../../reference/shims/bfme_matrix4_rows_link/matrix4_zh_rows_link.h"
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "mapper.h"
 #include "ini.h"
@@ -38,20 +74,6 @@ ScaleTextureMapperClass::ScaleTextureMapperClass(const ScaleTextureMapperClass &
 {
 }
 
-// ?Apply@ScaleTextureMapperClass@@UAEXH@Z present-unmatched
-void ScaleTextureMapperClass::Apply(int uv_array_index)
-{
-	// Set up the texture matrix
-	Matrix4x4 m;
-	Calculate_Texture_Matrix(m);
-	DX8Wrapper::Set_Transform((D3DTRANSFORMSTATETYPE) (D3DTS_TEXTURE0+Stage),m);
-
-	// Disable Texgen
-	DX8Wrapper::Set_DX8_Texture_Stage_State(Stage,D3DTSS_TEXCOORDINDEX,D3DTSS_TCI_PASSTHRU | uv_array_index);	
-
-	// Tell rasterizer to expect 2D texture coordinates
-	DX8Wrapper::Set_DX8_Texture_Stage_State(Stage,D3DTSS_TEXTURETRANSFORMFLAGS,D3DTTFF_COUNT2);
-}
 
 LinearOffsetTextureMapperClass::LinearOffsetTextureMapperClass(const Vector2 &offset_per_sec,
 		const Vector2 & start_offset, bool clamp_fix, const Vector2 &scale, unsigned int stage) :
@@ -118,19 +140,22 @@ GridTextureMapperClass::GridTextureMapperClass(const INIClass &ini, const char *
 	initialize(fps, gridwidth_log2);
 }
 
-GridTextureMapperClass::GridTextureMapperClass(const GridTextureMapperClass & src) :
-	TextureMapperClass(src),	
-	Sign(src.Sign),
-	MSPerFrame(src.MSPerFrame),
-	OOGridWidth(src.OOGridWidth),
-	GridWidthLog2(src.GridWidthLog2),
-	LastFrame(src.LastFrame),
-	Offset(src.Offset)
+// BFME2 also copies the rate at +0x0C first (row 0x00184420,
+// GridTextureMapperClassCopyCtor.cpp), so the members are assigned in its order.
+inline GridTextureMapperClass::GridTextureMapperClass(const GridTextureMapperClass & src) :
+	TextureMapperClass(src)
 {
+	*reinterpret_cast<int *>(_bfme_unk_grid_head) = *reinterpret_cast<const int *>(src._bfme_unk_grid_head);
+	Sign = src.Sign;
+	MSPerFrame = src.MSPerFrame;
+	OOGridWidth = src.OOGridWidth;
+	GridWidthLog2 = src.GridWidthLog2;
+	LastFrame = src.LastFrame;
+	Offset = src.Offset;
 	Reset();
 }
 
-void GridTextureMapperClass::Reset(void)
+inline void GridTextureMapperClass::Reset(void)
 {
 	Remainder = 0;
 	if (Sign >= 0) {
@@ -146,7 +171,7 @@ void GridTextureMapperClass::Set_Frame_Per_Second(float fps)
 	initialize(fps, GridWidthLog2);
 }
 
-void GridTextureMapperClass::initialize(float fps, unsigned int gridwidth_log2)
+inline void GridTextureMapperClass::initialize(float fps, unsigned int gridwidth_log2)
 {
 	unsigned int grid_width = (1 << gridwidth_log2);
 
@@ -155,6 +180,9 @@ void GridTextureMapperClass::initialize(float fps, unsigned int gridwidth_log2)
 	LastUsedSyncTime = WW3D::Get_Sync_Time();
 	GridWidthLog2 = gridwidth_log2;
 	OOGridWidth = 1.0f / (float)(grid_width);
+	// BFME2 keeps the rate at +0x0C (the shim's unnamed grid head), as the
+	// out-of-line row 0x00182480 does.
+	*reinterpret_cast<float *>(_bfme_unk_grid_head) = fps;
 	if (fps == 0.0f) {
 		// Value of MSPerFrame does not matter as long as it is not 0 - sign will multiply results,
 		// zeroing them out.
@@ -173,7 +201,7 @@ void GridTextureMapperClass::initialize(float fps, unsigned int gridwidth_log2)
 	Remainder = 0;
 }
 
-void GridTextureMapperClass::update_temporal_state(void)
+inline void GridTextureMapperClass::update_temporal_state(void)
 {
 	unsigned int now = WW3D::Get_Sync_Time();
 	unsigned int delta = now - LastUsedSyncTime;
@@ -528,6 +556,12 @@ GridWSEnvMapperClass::GridWSEnvMapperClass(const INIClass &ini, const char *sect
 	}
 }
 
+// ??0GridWSClassicEnvironmentMapperClass@@QAE@MIIIW4AxisType@GridWSEnvMapperClass@@I@Z
+GridWSClassicEnvironmentMapperClass::GridWSClassicEnvironmentMapperClass(float fps, unsigned int gridwidth_log2, unsigned int last_frame, unsigned int offset, AxisType axis, unsigned int stage):
+	GridWSEnvMapperClass(fps, gridwidth_log2, last_frame, offset, axis, stage)
+{
+}
+
 // ??0GridWSClassicEnvironmentMapperClass@@QAE@ABVINIClass@@PBDI@Z
 GridWSClassicEnvironmentMapperClass::GridWSClassicEnvironmentMapperClass(const INIClass &ini, const char *section, unsigned int stage):
 	GridWSEnvMapperClass(ini,section,stage)
@@ -556,4 +590,98 @@ GridWSEnvironmentMapperClass::GridWSEnvironmentMapperClass(float fps, unsigned i
 GridWSEnvironmentMapperClass::GridWSEnvironmentMapperClass(const GridWSEnvMapperClass & src):
 	GridWSEnvMapperClass(src)
 {
+}
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeBaseF1050@BfmeF1050@@QAEXHHH@Z=??0GridTextureMapperClass@@QAE@ABVINIClass@@PBDI@Z")
+#pragma comment(linker, "/alternatename:?bfmeInit1039@BfmeC1039@@QAEXPAVBfmeD1039@@@Z=??0GridWSEnvMapperClass@@QAE@ABV0@@Z")
+
+// Both world-space environment virtuals now have their real source providers.
+
+// Native 0x001854E0..0x00185976 (1174 bytes), WSEnv vftable slot +0x24.
+// EA GeneralsMD mapper.cpp body, unchanged. The BFME2 transform and Init16
+// views are shared with the exact GridWSEnv sibling; source context matters.
+void WSEnvMapperClass::Calculate_Texture_Matrix(Matrix4x4 &tex_matrix)
+{
+	// The canonical environment map
+	// scale the normal by (.5,.5) and add (.5,.5) to move it to (0,1) range
+	switch (Axis) {
+		case AXISTYPE_X:
+			tex_matrix.Init(	0.0f, 0.5f, 0.0f, 0.5f,
+									0.0f, 0.0f, 0.5f, 0.5f,
+									0.0f, 0.0f, 1.0f, 0.0f,
+									0.0f, 0.0f, 0.0f, 1.0f );
+			break;
+		case AXISTYPE_Y:
+			tex_matrix.Init(	0.5f, 0.0f, 0.0f, 0.5f,
+									0.0f, 0.0f, 0.5f, 0.5f,
+									0.0f, 0.0f, 1.0f, 0.0f,
+									0.0f, 0.0f, 0.0f, 1.0f );
+			break;
+		case AXISTYPE_Z:
+		default:
+			tex_matrix.Init(	0.5f, 0.0f, 0.0f, 0.5f,
+									0.0f, 0.5f, 0.0f, 0.5f,
+									0.0f, 0.0f, 1.0f, 0.0f,
+									0.0f, 0.0f, 0.0f, 1.0f );
+			break;
+	}
+	// multiply by inverse of view transform
+	Matrix4x4 mat;
+	DX8Wrapper::Get_Transform(D3DTS_VIEW,mat);
+	Matrix4x4 mat2(	mat[0].X, mat[1].X, mat[2].X, 0.0f,
+						mat[0].Y, mat[1].Y, mat[2].Y, 0.0f,
+						mat[0].Z, mat[1].Z, mat[2].Z, 0.0f,
+						0.0f, 0.0f, 0.0f, 1.0f );
+	tex_matrix = tex_matrix * mat2;
+}
+
+// Existing target 0x00186F10 (1166 bytes), moved home from the split unit.
+// EA GeneralsMD body; native vftable slot +0x24 and WB 0x00A38240 identify it.
+void GridWSEnvMapperClass::Calculate_Texture_Matrix(Matrix4x4 &tex_matrix)
+{
+	// multiply by inverse of view transform
+	Matrix4x4 mat;
+	DX8Wrapper::Get_Transform(D3DTS_VIEW,mat);
+	Matrix4x4 mv (	mat[0].X, mat[1].X, mat[2].X, 0.0f,
+						mat[0].Y, mat[1].Y, mat[2].Y, 0.0f,
+						mat[0].Z, mat[1].Z, mat[2].Z, 0.0f,
+						0.0f, 0.0f, 0.0f, 1.0f );
+
+	update_temporal_state();
+
+	float u_offset, v_offset;
+	calculate_uv_offset(&u_offset, &v_offset);
+
+	float del=0.5f * OOGridWidth;
+	// Set up the offset matrix
+	Matrix4x4 md;
+
+	switch (Axis) {
+		case AXISTYPE_X:
+			md.Init(				0.0f, del, 0.0f, u_offset + del,
+									0.0f, 0.0f, del, v_offset + del,
+									0.0f, 0.0f, 1.0f, 0.0f,
+									0.0f, 0.0f, 0.0f, 1.0f );
+			break;
+		case AXISTYPE_Y:
+			md.Init(				del, 0.0f, 0.0f, u_offset + del,
+									0.0f, 0.0f, del, v_offset + del,
+									0.0f, 0.0f, 1.0f, 0.0f,
+									0.0f, 0.0f, 0.0f, 1.0f );
+			break;
+		case AXISTYPE_Z:
+		default:
+			md.Init(				del, 0.0f, 0.0f, u_offset + del,
+									0.0f, del, 0.0f, v_offset + del,
+									0.0f, 0.0f, 1.0f, 0.0f,
+									0.0f, 0.0f, 0.0f, 1.0f );
+			break;
+	}
+	// multiply by inverse of view transform, then
+	// change the world space reflection vector to a UV coordinate
+	// then offset by the grid coordinate
+
+	tex_matrix = md * mv;
 }

@@ -3,8 +3,8 @@
 extern "C" void *memset(void *d, int c, unsigned n);
 #pragma intrinsic(memset)
 
-void *bfmeBigVLW(unsigned n);
-void *bfmeSmallVLW(unsigned n);
+void *bfmeBigAllocPR(unsigned n);
+void *bfmeSmallAllocPR(unsigned n);
 
 struct BfmeHdrVLW
 {
@@ -23,9 +23,9 @@ void *bfmeAllocVLW(unsigned n)
 
 	n3 = n + 0x18;
 	if (n3 > 0x80)
-		n2 = (unsigned)bfmeBigVLW(n3);
+		n2 = (unsigned)bfmeBigAllocPR(n3);
 	else
-		n2 = (unsigned)bfmeSmallVLW(n3);
+		n2 = (unsigned)bfmeSmallAllocPR(n3);
 	n1 = (BfmeHdrVLW *)n2;
 	memset(n1, 0xa3, n3);
 	n1->m_bfmeTag = 0xdeba;

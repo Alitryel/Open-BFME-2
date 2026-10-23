@@ -78,6 +78,29 @@ BFME_DISP_DWORD_SETTER(Rva002AA257DwordSlot, 0x750)
 BFME_DISP_DWORD_SETTER(Rva002B23AFDwordSlot, 0x2B4)
 BFME_DISP_DWORD_SETTER(Rva002B23C3DwordSlot, 0x2B8)
 BFME_DISP_DWORD_SETTER(Rva002B23D7DwordSlot, 0x2C0)
+
+// Native UpdateTurnPhase reads the complete EAX result at 2BD6E3,
+// 2BD7A6 and 2BD885, not just AL. The complete 20-byte predicate returns
+// integer zero or one; the original class and method names stay unknown.
+// Its previous narrow bool claim was retracted separately (94c03954b6).
+// ?rva002B2405@Rva002B2405@@QAEHXZ @ 0x002B2405, 20 B. The packet's
+// callers do not prove a target class name; the adjacent setter identifies
+// the field at 0x2C4, and retail reads another dword at 0x44.
+class Rva002B2405
+{
+public:
+	int rva002B2405();
+	char m_lead[0x44];
+	int m_field44;
+	char m_padding[0x2C4 - 0x48];
+	int m_field2C4;
+};
+
+int Rva002B2405::rva002B2405()
+{
+	return (m_field2C4 != 0 || m_field44 == 2) ? 1 : 0;
+}
+
 BFME_DISP_DWORD_SETTER(Rva002C8EC2DwordSlot, 0x174)
 BFME_DISP_DWORD_SETTER(Rva002CEF8EDwordSlot, 0x484)
 BFME_DISP_DWORD_SETTER(Rva002D75D8DwordSlot, 0x260)
@@ -130,9 +153,47 @@ BFME_DISP_DWORD_SETTER(Rva002628B6DwordSlot, 0x220)
 BFME_DISP_DWORD_SETTER(Rva00552C2CDwordSlot, 0x101C)
 BFME_DISP_DWORD_SETTER(Rva00372D13DwordSlot, 0xB0)
 BFME_DISP_DWORD_SETTER(Rva0046F815DwordSlot, 0x150)
-BFME_DISP_DWORD_SETTER(Rva00167EC4DwordSlot, 0xE8)
 BFME_DISP_DWORD_SETTER(Rva00219370DwordSlot, 0x1E0)
 BFME_DISP_DWORD_SETTER(Rva00248D77DwordSlot, 0xEC)
 BFME_DISP_DWORD_SETTER(Rva002C67C2DwordSlot, 0x178)
 BFME_DISP_DWORD_SETTER(Rva004608BDDwordSlot, 0xB4)
 BFME_DISP_DWORD_SETTER(Rva0046F7D7DwordSlot, 0x160)
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?setAt1C4@Rva002E2903Player@@QAEXH@Z=?set@Rva002E062EDwordSlot@@QAEXH@Z")
+#pragma comment(linker, "/alternatename:?setTimeOfDay@W3DGameClientWaterShim@@QAEXW4TimeOfDay@@@Z=?set@Rva0007E18DDwordSlot@@QAEXH@Z")
+
+// Clean BF1 9cbfb551fe Common/Rva001A1AE0Sub.cpp semantic guide.
+// Native 0027C2A4..0027C2AE is a complete independently bounded RET leaf.
+// Target behavior: receiver28 dword subtracts stack argument modulo32; RET4.
+// Original owner and full array bounds remain unknown; address-owned view only.
+class Rva0027C2A4Fields {
+public: void subtract(unsigned int value);
+private: unsigned char unknown[0x28]; unsigned int value28;
+};
+void Rva0027C2A4Fields::subtract(unsigned int value) { value28 -= value; }
+
+// BF1 9cbfb551fe Common/Rva005BD470ZeroTest.cpp is the clean semantic guide.
+// Complete native 001F34FE..001F350B RET leaf proves: cdecl pointer argument; byte1C equals zero; full EAX result0 or1.
+// Original owner and complete bounds unresolved; independent address-owned view.
+struct Rva001F34FEFields { unsigned char unknown[0x1C]; unsigned char value; };
+int isZero_Rva001F34FE(const Rva001F34FEFields *fields) { return fields->value == 0; }
+
+// BF1 9cb Rva005FC2B0Set.cpp guides the raw store/receiver-return pattern.
+// Target 563E5F..563E65 follows RET8 and writes byte0=1, returning this.
+// Original owner and complete class bounds remain unknown.
+struct Rva00563E5FFields
+{
+    unsigned char flag;
+    Rva00563E5FFields *enable();
+};
+Rva00563E5FFields *Rva00563E5FFields::enable() { flag = 1; return this; }
+
+// Clean BFME1 9cbfb551 donor structural leads; native instructions independently
+// establish complete RET boundaries and each raw field operation and ABI.
+// Address-owned carriers retain unknown original receiver identity and bounds.
+
+// ?set@Rva002DAC16Fields@@QAEXM@Z
+struct Rva002DAC16Fields { char pad[0x144]; float value144; void set(float value); };
+void Rva002DAC16Fields::set(float value) { value144=value; }

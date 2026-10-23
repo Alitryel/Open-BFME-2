@@ -16,7 +16,8 @@ struct BfmeHolderRG
 	BfmeMakerRG *m_bfmeMaker;
 };
 
-BfmeMakerRG *bfmeMakeRG();
+struct Bfme5Obj18;
+struct Bfme5Obj18 *bfme5MakeObj18();
 
 class BfmeThingRG
 {
@@ -30,6 +31,6 @@ void BfmeThingRG::bfmeRunRG()
 {
 	BfmeHolderRG *holder = m_bfmeHolder;
 	if (holder->m_bfmeMaker == 0)
-		holder->m_bfmeMaker = bfmeMakeRG();
+		holder->m_bfmeMaker = (BfmeMakerRG *)bfme5MakeObj18();
 	m_bfmeHolder->m_bfmeMaker->bfmeDoRG();
 }

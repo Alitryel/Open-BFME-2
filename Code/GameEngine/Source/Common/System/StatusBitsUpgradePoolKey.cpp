@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004B48F9@StatusBitsUpgrade@@SA?AW4NameKeyType@@XZ @0x4B48F9
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@StatusBitsUpgrade@@UBE?AW4NameKeyType@@XZ @0x4B48F9
 // (69B): cached pool-name key for StatusBitsUpgrade. The class
 // identity comes from the pool-name string the body pushes
 // ("StatusBitsUpgrade"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class StatusBitsUpgrade
 {
 public:
-	static NameKeyType rva0004B48F9();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004B48F9@StatusBitsUpgrade@@SA?AW4NameKeyType@@XZ
-NameKeyType StatusBitsUpgrade::rva0004B48F9()
+// ?getModuleNameKey@StatusBitsUpgrade@@UBE?AW4NameKeyType@@XZ
+NameKeyType StatusBitsUpgrade::getModuleNameKey() const
 {
 	static NameKeyType TheStatusBitsUpgradePoolKey =
 		TheNameKeyGenerator->nameToKey("StatusBitsUpgrade");

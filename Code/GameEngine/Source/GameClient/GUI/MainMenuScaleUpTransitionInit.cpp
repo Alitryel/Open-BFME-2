@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 // ?init@MainMenuScaleUpTransition@@UAEXPAVGameWindow@@@Z
 // retail 0x0035E01E, 217 bytes. Dedicated TU.
 //
@@ -26,11 +26,7 @@ typedef unsigned char Bool;
 #define TRUE 1
 #endif
 
-struct ICoord2D
-{
-	Int x;
-	Int y;
-};
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
 
 class Image;
 

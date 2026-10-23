@@ -15,7 +15,8 @@ struct BfmeHolderRE
 	BfmeMakerRE *m_bfmeMaker;
 };
 
-BfmeMakerRE *bfmeMakeRE();
+struct Bfme5Obj18;
+struct Bfme5Obj18 *bfme5MakeObj18();
 
 class BfmeThingRE
 {
@@ -29,6 +30,10 @@ void BfmeThingRE::bfmeRunRE()
 {
 	BfmeHolderRE *holder = m_bfmeHolder;
 	if (holder->m_bfmeMaker == 0)
-		holder->m_bfmeMaker = bfmeMakeRE();
+		holder->m_bfmeMaker = (BfmeMakerRE *)bfme5MakeObj18();
 	m_bfmeHolder->m_bfmeMaker->bfmeDoRE();
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeRunRE@BfmeThingRE@@QAEXPAX@Z=?bfmeRunRE@BfmeThingRE@@QAEXXZ")

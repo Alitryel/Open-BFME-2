@@ -21,6 +21,13 @@ public:
 	Player *getControllingPlayer(void) const;
 };
 
+// The table probe is the rowed Rva2225E0Filter::accepts.
+class Rva2225E0Filter
+{
+public:
+	bool accepts(Object *obj, Player *player);
+};
+
 class BfmeTab1026
 {
 public:
@@ -33,13 +40,9 @@ struct BfmeOwner1026
 	BfmeTab1026 m_bfmeTab;
 };
 
-class GameLogic
-{
-public:
-	void destroyObject(Object *obj);
-};
+#include "GameLogicObjectLookupView.h"
 
-extern GameLogic *g_bfmeStore1026;
+extern GameLogic *TheGameLogic;
 
 class BfmeF1026
 {
@@ -53,8 +56,8 @@ void BfmeF1026::bfmeGo1026F(int h, int u1, int u2)
 		return;
 
 	BfmeOwner1026 *o = *(BfmeOwner1026 **)((char *)this - 0xc);
-	Object *p = *(Object **)((char *)this - 8);
+	Object *object = *(Object **)((char *)this - 8);
 
-	if (o->m_bfmeTab.bfmeHas1026(h, (int)p->getControllingPlayer()) != 0)
-		g_bfmeStore1026->destroyObject((Object *)h);
+	if (((Rva2225E0Filter *)&o->m_bfmeTab)->accepts((Object *)h, (Player *)object->getControllingPlayer()) != 0)
+		TheGameLogic->destroyObject((Object *)h);
 }

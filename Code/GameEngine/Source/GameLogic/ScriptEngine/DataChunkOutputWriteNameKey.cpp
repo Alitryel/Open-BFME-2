@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /EHsc
+// cl: /Ireference/shims/bfme2_ascii /EHsc
 //
 // DataChunkOutput::writeNameKey, retail 0x00307D29 (true 92 bytes; the 10B
 // reloc row covers only the SEH-prologue head: mov eax,cookie + call
@@ -23,22 +23,8 @@ struct BfmeStringData
 };
 
 class AsciiString;
-template <typename T>
-class StringBase
-{
-	friend class AsciiString;
-private:
-	StringBase(const StringBase<T> &other);
-	void releaseBuffer();
-	BfmeStringData *m_data;
-};
+#include "ascii_string.h"
 
-class AsciiString : private StringBase<char>
-{
-public:
-	AsciiString(const AsciiString &other) : StringBase<char>(other) {}
-	__forceinline ~AsciiString() { releaseBuffer(); }
-};
 
 enum NameKeyType
 {

@@ -1,0 +1,43 @@
+// cl: /EHs /DNDEBUG /MD /D_CRTIMP= /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB
+// stlport
+// ??0SpecialPowerStore@@QAE@XZ retail 0x003B11AD 37B
+// Evidence: vtable store plus baseConstruct 0x001B4E63 plus Vector_base 0x00211E58 at +0xC plus clear +0x18; caller 0x0022EC4B; neighbours 0x003B1101/0x003B1337 share O1 EHs SSE flags; precedent Rva00426402Ctor.cpp for novtable base plus vector layout
+#include <vector>
+
+#include "../../../Libraries/Include/Lib/BfmeE16.h"
+// bfme link decl-only BfmeE16
+namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
+
+class BFME2NativeNetwork
+{
+public:
+};
+
+// 0x001B4E63 is the rowed SubsystemInterface ctor.
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
+
+class __declspec(novtable) Rva003B11ADBase
+{
+public:
+	Rva003B11ADBase() { reinterpret_cast<SubsystemInterface *>(this)->SubsystemInterface::SubsystemInterface(); }
+	virtual void unused();
+	char m_flag;
+	int m_value;
+};
+
+class SpecialPowerStore : public Rva003B11ADBase
+{
+public:
+	SpecialPowerStore();
+protected:
+	virtual ~SpecialPowerStore();
+private:
+	_STL::vector<BfmeE16> m_vec0C;
+	int m_18;
+};
+
+SpecialPowerStore::SpecialPowerStore()
+	: m_vec0C()
+	, m_18(0)
+{
+}

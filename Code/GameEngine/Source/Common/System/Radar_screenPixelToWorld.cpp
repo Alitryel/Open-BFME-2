@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ?screenPixelToWorld@Radar@@QAE_NPBUICoord2D@@PAUCoord3D@@@Z,
 // retail 0x002D82E4, 106 bytes. Dedicated TU.
@@ -11,20 +11,11 @@
 // helpers. BFME2 keeps the radar window at Radar+0x1430 (proven by the
 // landed Radar::newMap); the 20-byte delta is under investigation.
 
-struct ICoord2D
-{
-	int x;
-	int y;
-};
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
 
 #define NULL 0
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-};
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
 
 class GameWindow
 {

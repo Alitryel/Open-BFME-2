@@ -5,8 +5,11 @@
 
 extern "C" void *__cdecl memcpy(void *, const void *, unsigned int);
 
+int __cdecl utf8EncodedLength(int c);
+
 class EAStringC
 {
+public:
 	class StringDataC
 	{
 	public:
@@ -16,6 +19,9 @@ class EAStringC
 		unsigned short m_uHash;
 	};
 
+	static void FreeData(StringDataC *data);
+
+private:
 	enum CBPushZero
 	{
 		CB_NO_PUSH_ZERO,
@@ -35,7 +41,11 @@ class EAStringC
 public:
 	void SetSize(int size);
 	EAStringC &Assign(const EAStringC &other);
+	void rva006D4190(int c);
+	EAStringC &rva006D61E0(int c);
 };
+
+extern EAStringC::StringDataC g_eaEmptyStringData;
 
 EAStringC &EAStringC::Assign(const EAStringC &other)
 {
@@ -49,5 +59,18 @@ EAStringC &EAStringC::Assign(const EAStringC &other)
 	dst[otherSize] = 0;
 	SetSize(otherSize);
 	m_pData->m_uHash = other.m_pData->m_uHash;
+	return *this;
+}
+EAStringC &EAStringC::rva006D61E0(int c)
+{
+	FreeData(m_pData);
+	m_pData = &g_eaEmptyStringData;
+	++g_eaEmptyStringData.m_uRefCount;
+	int len = utf8EncodedLength(c);
+	unsigned int n = m_pData->m_uSize;
+	if (n > (unsigned int)len)
+		n = len;
+	ChangeBuffer(len, 0, n, CB_PUSH_ZERO, n);
+	rva006D4190(c);
 	return *this;
 }

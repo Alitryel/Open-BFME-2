@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ??0PartTheHeavensUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x004AC998,
 // 70 bytes. PartTheHeavensUpdate behavior ctor over the rowed UpdateModule
@@ -22,12 +22,7 @@ static int s_vtable;
 static int s_secondary0C;
 static int s_secondary10;
 
-class GameLogic
-{
-public:
-	int m_pad[0x40 / 4];
-	int m_40;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -68,5 +63,5 @@ PartTheHeavensUpdate::PartTheHeavensUpdate(Thing *thing, const ModuleData *modul
 	m_p10 = &s_secondary10;
 	m_20 = 0x3FFFFFFF;
 	if (m_owner != 0)
-		m_20 = TheGameLogic->m_40;
+		m_20 = TheGameLogic->getFrame();
 }

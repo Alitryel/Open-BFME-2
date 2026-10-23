@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 //
 // Twelve record copy bodies over one shape: a struct whose members include an
 // AsciiString, copied either by its own copy constructor (__thiscall, `ret 4`,
@@ -102,11 +102,12 @@ public:
 };
 
 // @??0Open2Rec3A4420@@QAE@ABV0@@Z 0x003A4420
-// ??0Open2Rec3A4420@@QAE@ABV0@@Z present-unmatched
+#pragma optimize("s", on)
 Open2Rec3A4420::Open2Rec3A4420( const Open2Rec3A4420 &other )
 	: m_at00( other.m_at00 ), m_at04( other.m_at04 ), m_at08( other.m_at08 ), m_at0c( other.m_at0c ), m_at10( other.m_at10 )
 {
 }
+#pragma optimize("", on)
 
 // -------------------------------------------------------------------------
 // 0x00439370 -- 81 bytes, ctor
@@ -126,11 +127,17 @@ Open2Rec439370::Open2Rec439370( const Open2Rec439370 &other )
 }
 
 // -------------------------------------------------------------------------
-// 0x004F1120 -- 158 bytes, ctor
-class Open2Rec4F1120
+// 0x004F1120 -- 158 bytes, ctor (BFME 1 address; BFME 2 0x001EF485, 137 bytes)
+// GameSpy PlayerInfo copy constructor: the GameSpyInfo virtual at 0x00382D39
+// and AptOnlineQuickMatch::OnMatched (0x005BAF35) copy a PlayerInfo local
+// through it into the by-value argument of GameSpyInfo::updatePlayerInfo
+// (vtable slot 0x4C; row 0x00386EF8 takes VPlayerInfo@@ by value), and the
+// pair<const AsciiString PlayerInfo> constructors 0x003829AC and 0x00382BF0
+// copy the mapped value through it.
+class PlayerInfo
 {
 public:
-	Open2Rec4F1120( const Open2Rec4F1120 &other );
+	PlayerInfo( const PlayerInfo &other );
 	AsciiString m_at00;
 	AsciiString m_at04;
 	AsciiString m_at08;
@@ -146,12 +153,13 @@ public:
 	int m_at30;
 };
 
-// @??0Open2Rec4F1120@@QAE@ABV0@@Z 0x004F1120
-// ??0Open2Rec4F1120@@QAE@ABV0@@Z present-unmatched
-Open2Rec4F1120::Open2Rec4F1120( const Open2Rec4F1120 &other )
+// @??0PlayerInfo@@QAE@ABV0@@Z 0x004F1120
+#pragma optimize("s", on)
+inline PlayerInfo::PlayerInfo( const PlayerInfo &other )
 	: m_at00( other.m_at00 ), m_at04( other.m_at04 ), m_at08( other.m_at08 ), m_at0c( other.m_at0c ), m_at10( other.m_at10 ), m_at14( other.m_at14 ), m_at18( other.m_at18 ), m_at1c( other.m_at1c ), m_at20( other.m_at20 ), m_at24( other.m_at24 ), m_at28( other.m_at28 ), m_at2c( other.m_at2c ), m_at30( other.m_at30 )
 {
 }
+#pragma optimize("", on)
 
 // -------------------------------------------------------------------------
 // 0x00582090 -- 104 bytes, ctor
@@ -231,11 +239,12 @@ public:
 };
 
 // @??0Open2Rec74A060@@QAE@ABV0@@Z 0x0074A060
-// ??0Open2Rec74A060@@QAE@ABV0@@Z present-unmatched
+#pragma optimize("s", on)
 Open2Rec74A060::Open2Rec74A060( const Open2Rec74A060 &other )
 	: m_at00( other.m_at00 ), m_at04( other.m_at04 ), m_at08( other.m_at08 ), m_at0c( other.m_at0c ), m_at10( other.m_at10 ), m_at14( other.m_at14 ), m_at18( other.m_at18 ), m_at1c( other.m_at1c ), m_at20( other.m_at20 ), m_at24( other.m_at24 )
 {
 }
+#pragma optimize("", on)
 
 // -------------------------------------------------------------------------
 // 0x00764FA0 -- 121 bytes, construct
@@ -282,10 +291,10 @@ Open2Rec767F60::Open2Rec767F60( const Open2Rec767F60 &other )
 
 // -------------------------------------------------------------------------
 // 0x0081C6B0 -- 122 bytes, ctor
-class Open2Rec81C6B0
+struct Rva001D28F0Element
 {
 public:
-	Open2Rec81C6B0( const Open2Rec81C6B0 &other );
+	Rva001D28F0Element( const Rva001D28F0Element &other );
 	AsciiString m_at00;
 	AsciiString m_at04;
 	AsciiString m_at08;
@@ -297,8 +306,19 @@ public:
 	int m_at18;
 };
 
-// @??0Open2Rec81C6B0@@QAE@ABV0@@Z 0x0081C6B0
-Open2Rec81C6B0::Open2Rec81C6B0( const Open2Rec81C6B0 &other )
+// @??0Rva001D28F0Element@@QAE@ABU0@@Z 0x0081C6B0
+Rva001D28F0Element::Rva001D28F0Element( const Rva001D28F0Element &other )
 	: m_at00( other.m_at00 ), m_at04( other.m_at04 ), m_at08( other.m_at08 ), m_at0c( other.m_at0c ), m_at10( other.m_at10 ), m_at14( other.m_at14 ), m_at18( other.m_at18 )
 {
 }
+
+// PlayerInfo's copy constructor is a header inline elsewhere: other units emit
+// select-any copies, so a strong definition here was a duplicate in the linked build. This
+// anchor only makes this unit emit its copy for the ledger row; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitOpen2Records@@YAXPAVPlayerInfo@@ABV1@@Z present-unmatched
+void bfmeEmitOpen2Records(PlayerInfo *playerInfo, const PlayerInfo &q)
+{
+	playerInfo->PlayerInfo::PlayerInfo(q);
+}
+#pragma inline_depth()

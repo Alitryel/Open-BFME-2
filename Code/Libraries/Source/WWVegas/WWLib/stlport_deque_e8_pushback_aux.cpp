@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /DNDEBUG /MD /EHsc /Oy- /arch:SSE
+// cl: /DNDEBUG /MD /EHsc /Oy-
 
 // Dedicated TU for deque<BfmeE8> auxiliary push-back path. The element's
 // second half copies through xmm0 (retail `movss xmm0,[eax+4]`), so BfmeE8
@@ -6,6 +6,10 @@
 // already landed under {int, int} in stlport_deque_e8_o1.cpp -- and the
 // frame is ebp (/Oy-), with the reserve call unconditional (STLport
 // _M_reserve_map_at_back default 1).
+// At the retail call site alignment is zero; the pinned byte allocator accepts
+// the same two-word cdecl ABI with a null hint.
+#pragma comment(linker, "/alternatename:?vectorSmallAllocate@_STL@@YAPAXII@Z=?allocate@?$allocator@D@_STL@@SAPADIPBX@Z")
+
 struct BfmeE8
 {
 	int a;

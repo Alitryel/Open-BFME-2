@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??0RadiateFearUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x0049C106,
 // 115 bytes. Behavior-side ctor (rowed instance factory 0x24E6B0 news
@@ -15,6 +15,16 @@
 // data flag at +0x08 (rowed giveSelfUpgrade 0x45230C). Row supersedes the
 // ctor pin.
 
+extern "C" const void *const vtbl_00C49F78[];  // folded, 3 classes; via ??_7Rva0049BFB7@@6BRva0024A797_Mid@@@ (a provider the tree emits)
+#pragma comment(linker, "/alternatename:_vtbl_00C49F78=??_7Rva0049BFB7@@6BRva0024A797_Mid@@@")
+
+extern "C" const void *const vtbl_00C50F68[];  // ??_7Rva0049BFB7@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C50F68=??_7Rva0049BFB7@@6B@")
+extern "C" const void *const vtbl_00C50FB0[];  // ??_7Rva0049BFB7@@6BRva0024A797_B2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C50FB0=??_7Rva0049BFB7@@6BRva0024A797_B2@@@")
+extern "C" const void *const vtbl_00C50FBC[];  // ??_7Rva0049BFB7@@6BRva0024A797_Root@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C50FBC=??_7Rva0049BFB7@@6BRva0024A797_Root@@@")
+
 class Thing;
 class ModuleData;
 class Object;
@@ -22,7 +32,7 @@ class Object;
 struct RadiateFearUpdateModuleData
 {
 	unsigned char m_pad00[8];
-	bool m_08;
+	bool m_initiallyActive;
 };
 
 class UpgradeMux
@@ -36,6 +46,12 @@ private:
 	unsigned int m_executed;
 };
 
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1,
+	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
+};
+
 class UpdateModule
 {
 public:
@@ -43,7 +59,7 @@ public:
 	~UpdateModule();
 
 protected:
-	void setWakeFrame(Object *object, unsigned int frame);
+	void setWakeFrame(Object *object, UpdateSleepTime frame);
 
 	const void *m_vtable;
 	const ModuleData *m_moduleData;
@@ -68,12 +84,12 @@ private:
 RadiateFearUpdate::RadiateFearUpdate(Thing *thing, const ModuleData *moduleData)
 	: UpdateModule(thing, moduleData), m_20()
 {
-	m_vtable = (const void *)0x00C50FBC;
-	m_secondary0C = (const void *)0x00C49F78;
-	m_secondary10 = (const void *)0x00C50FB0;
-	*(void **)&m_20 = (void *)0x00C50F68;
-	setWakeFrame(m_object, 1);
+	m_vtable = (const void *)((unsigned int)vtbl_00C50FBC);
+	m_secondary0C = (const void *)((unsigned int)vtbl_00C49F78);
+	m_secondary10 = (const void *)((unsigned int)vtbl_00C50FB0);
+	*(void **)&m_20 = (void *)((unsigned int)vtbl_00C50F68);
+	setWakeFrame(m_object, UPDATE_SLEEP_NONE);
 	const RadiateFearUpdateModuleData *data = (const RadiateFearUpdateModuleData *)m_moduleData;
-	if (data->m_08)
+	if (data->m_initiallyActive)
 		m_20.giveSelfUpgrade();
 }

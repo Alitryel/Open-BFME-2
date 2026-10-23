@@ -14,6 +14,8 @@
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G009F2A40;
+// G009F2A40: matched references place it at VA 0xdf2a40 (zero-filled .bss).
+int G009F2A40;
 int Rva00139450Get(void)
 {
 	return G009F2A40;
@@ -23,6 +25,8 @@ int Rva00139450Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G009F2A84;
+// G009F2A84: matched references place it at VA 0xdf2a84 (zero-filled .bss).
+int G009F2A84;
 int Rva00139460Get(void)
 {
 	return G009F2A84;
@@ -32,6 +36,8 @@ int Rva00139460Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G009F2A00;
+// G009F2A00: matched references place it at VA 0xdf2a00 (zero-filled .bss).
+int G009F2A00;
 int Rva00139470Get(void)
 {
 	return G009F2A00;
@@ -41,6 +47,8 @@ int Rva00139470Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G009ED5EC;
+// G009ED5EC: matched references place it at VA 0xded5ec (zero-filled .bss).
+int G009ED5EC;
 int Rva0011CDB0Get(void)
 {
 	return G009ED5EC;
@@ -50,6 +58,8 @@ int Rva0011CDB0Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G009EE5D0;
+// G009EE5D0: matched references place it at VA 0xdee5d0 (zero-filled .bss).
+int G009EE5D0;
 int Rva00120130Get(void)
 {
 	return G009EE5D0;
@@ -68,6 +78,8 @@ int Rva00129450Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00DEDAB0;
+// G00DEDAB0: matched references place it at VA 0xdedab0 (zero-filled .bss).
+int G00DEDAB0;
 int Rva0011D250Get(void)
 {
 	return G00DEDAB0;
@@ -77,6 +89,8 @@ int Rva0011D250Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00DEDAB4;
+// G00DEDAB4: matched references place it at VA 0xdedab4 (zero-filled .bss).
+int G00DEDAB4;
 int Rva0011D260Get(void)
 {
 	return G00DEDAB4;
@@ -86,6 +100,8 @@ int Rva0011D260Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00DEDAB8;
+// G00DEDAB8: matched references place it at VA 0xdedab8 (zero-filled .bss).
+int G00DEDAB8;
 int Rva0011D270Get(void)
 {
 	return G00DEDAB8;
@@ -95,6 +111,8 @@ int Rva0011D270Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00DEDABC;
+// G00DEDABC: matched references place it at VA 0xdedabc (zero-filled .bss).
+int G00DEDABC;
 int Rva0011D280Get(void)
 {
 	return G00DEDABC;
@@ -104,6 +122,8 @@ int Rva0011D280Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00DEDAC0;
+// G00DEDAC0: matched references place it at VA 0xdedac0 (zero-filled .bss).
+int G00DEDAC0;
 int Rva0011D290Get(void)
 {
 	return G00DEDAC0;
@@ -113,6 +133,8 @@ int Rva0011D290Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00DEDA84;
+// ?G00DEDA84@@3HA: the global at this VA is ?FrameCount@DX8Wrapper@@1KA; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?G00DEDA84@@3HA=?FrameCount@DX8Wrapper@@1KA")
 int Rva0011D2A0Get(void)
 {
 	return G00DEDA84;
@@ -122,6 +144,8 @@ int Rva0011D2A0Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00DEC3E0;
+// ?G00DEC3E0@@3HA: the global at this VA is ?FrameCount@WW3D@@0HA; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?G00DEC3E0@@3HA=?FrameCount@WW3D@@0HA")
 int Rva001432A0Get(void)
 {
 	return G00DEC3E0;
@@ -131,33 +155,42 @@ int Rva001432A0Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00DEDA78;
+// G00DEDA78: matched references place it at VA 0xdeda78 (zero-filled .bss).
+int G00DEDA78;
 int Rva00143300Get(void)
 {
 	return G00DEDA78;
+}
+
+// ?Rva001432F0Set@@YAXH@Z @ 0x001432F0 (10B): the matching setter that sits
+// just before the getter (mov eax,[esp+4] / mov [0xDEDA78],eax / ret);
+// prev and next are CC padding, no direct callers. Opaque address-derived name.
+void Rva001432F0Set(int value)
+{
+	G00DEDA78 = value;
 }
 
 // ?Rva00187F30Get@@YAHXZ @ 0x00187F30 (6B): returns global at 0xDB5F88.
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00DB5F88;
+// G00DB5F88: matched references place it at VA 0xdb5f88 (retail .data initial value 1).
+int G00DB5F88 = 1;
 int Rva00187F30Get(void)
 {
 	return G00DB5F88;
 }
 
-// ?Rva001B6390Get@@YAHXZ @ 0x001B6390 (6B): returns global at 0xDFDA54.
-// Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
-// no direct callers, no branch sources. Opaque address-derived name.
 extern int G00DFDA54;
-int Rva001B6390Get(void)
-{
-	return G00DFDA54;
-}
+// G00DFDA54: VA 0xdfda54 (zero-filled .bss).
+int G00DFDA54;
 
 // ?Rva00610F10Get@@YAHXZ @ 0x00610F10 (6B): returns global at 0xE08C48.
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00E08C48;
+// ?G00E08C48@@3HA: the global at this VA is ?FeatureBits@CPUDetectClass@@0IA; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?G00E08C48@@3HA=?FeatureBits@CPUDetectClass@@0IA")
 int Rva00610F10Get(void)
 {
 	return G00E08C48;
@@ -167,6 +200,8 @@ int Rva00610F10Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00E08CF0;
+// ?G00E08CF0@@3HA: the global at this VA is ?ExtendedFeatureBits@CPUDetectClass@@0IA; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?G00E08CF0@@3HA=?ExtendedFeatureBits@CPUDetectClass@@0IA")
 int Rva00610F20Get(void)
 {
 	return G00E08CF0;
@@ -176,6 +211,8 @@ int Rva00610F20Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00E08C44;
+// ?G00E08C44@@3HA: the global at this VA is ?L2CacheSize@CPUDetectClass@@0IA; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?G00E08C44@@3HA=?L2CacheSize@CPUDetectClass@@0IA")
 int Rva00610F30Get(void)
 {
 	return G00E08C44;
@@ -185,6 +222,8 @@ int Rva00610F30Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00E08CA0;
+// ?G00E08CA0@@3HA: the global at this VA is ?L2CacheLineSize@CPUDetectClass@@0IA; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?G00E08CA0@@3HA=?L2CacheLineSize@CPUDetectClass@@0IA")
 int Rva00610F40Get(void)
 {
 	return G00E08CA0;
@@ -194,6 +233,8 @@ int Rva00610F40Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00E08CA4;
+// ?G00E08CA4@@3HA: the global at this VA is ?L2CacheSetAssociative@CPUDetectClass@@0IA; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?G00E08CA4@@3HA=?L2CacheSetAssociative@CPUDetectClass@@0IA")
 int Rva00610F50Get(void)
 {
 	return G00E08CA4;
@@ -203,6 +244,8 @@ int Rva00610F50Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00E08C28;
+// ?G00E08C28@@3HA: the global at this VA is ?L1DataCacheSize@CPUDetectClass@@0IA; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?G00E08C28@@3HA=?L1DataCacheSize@CPUDetectClass@@0IA")
 int Rva00610F60Get(void)
 {
 	return G00E08C28;
@@ -212,6 +255,8 @@ int Rva00610F60Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00E08CC0;
+// ?G00E08CC0@@3HA: the global at this VA is ?L1DataCacheLineSize@CPUDetectClass@@0IA; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?G00E08CC0@@3HA=?L1DataCacheLineSize@CPUDetectClass@@0IA")
 int Rva00610F70Get(void)
 {
 	return G00E08CC0;
@@ -221,6 +266,8 @@ int Rva00610F70Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00E08D08;
+// ?G00E08D08@@3HA: the global at this VA is ?L1DataCacheSetAssociative@CPUDetectClass@@0IA; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?G00E08D08@@3HA=?L1DataCacheSetAssociative@CPUDetectClass@@0IA")
 int Rva00610F80Get(void)
 {
 	return G00E08D08;
@@ -230,6 +277,8 @@ int Rva00610F80Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00E08CD8;
+// ?G00E08CD8@@3HA: the global at this VA is ?L1InstructionCacheSize@CPUDetectClass@@0IA; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?G00E08CD8@@3HA=?L1InstructionCacheSize@CPUDetectClass@@0IA")
 int Rva00610F90Get(void)
 {
 	return G00E08CD8;
@@ -239,6 +288,8 @@ int Rva00610F90Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00E08CC4;
+// ?G00E08CC4@@3HA: the global at this VA is ?L1InstructionCacheLineSize@CPUDetectClass@@0IA; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?G00E08CC4@@3HA=?L1InstructionCacheLineSize@CPUDetectClass@@0IA")
 int Rva00610FA0Get(void)
 {
 	return G00E08CC4;
@@ -248,6 +299,8 @@ int Rva00610FA0Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00E08C40;
+// ?G00E08C40@@3HA: the global at this VA is ?L1InstructionCacheSetAssociative@CPUDetectClass@@0IA; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?G00E08C40@@3HA=?L1InstructionCacheSetAssociative@CPUDetectClass@@0IA")
 int Rva00610FB0Get(void)
 {
 	return G00E08C40;
@@ -257,6 +310,8 @@ int Rva00610FB0Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00E08CFC;
+// ?G00E08CFC@@3HA: the global at this VA is ?L1InstructionTraceCacheSize@CPUDetectClass@@0IA; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?G00E08CFC@@3HA=?L1InstructionTraceCacheSize@CPUDetectClass@@0IA")
 int Rva00610FC0Get(void)
 {
 	return G00E08CFC;
@@ -266,6 +321,8 @@ int Rva00610FC0Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00E08D24;
+// ?G00E08D24@@3HA: the global at this VA is ?ProcessorType@CPUDetectClass@@0HA; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?G00E08D24@@3HA=?ProcessorType@CPUDetectClass@@0HA")
 int Rva00611020Get(void)
 {
 	return G00E08D24;
@@ -275,16 +332,26 @@ int Rva00611020Get(void)
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
 extern int G00E0BE00;
+// G00E0BE00: VA 0xe0be00 (zero-filled .bss).
+int G00E0BE00;
 int Rva0069BD50Get(void)
 {
 	return G00E0BE00;
 }
 
-// ?Rva006C5E70Get@@YAHXZ @ 0x006C5E70 (6B): returns global at 0xE0C620.
+// ?Rva006C5E70Get@@YAHXZ @ 0x006C5E70 (6B): returns ProfileId::first (0xE0C620,
+// defined in profile/profile_highlevel.cpp); inside that unit's address range.
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
-extern int G00E0C620;
+#include "../../../Libraries/Source/profile/internal_highlevel.h"
+
 int Rva006C5E70Get(void)
 {
-	return G00E0C620;
+	return (int)ProfileId::GetFirst();
 }
+
+// ?G009B5F94@@3HA: the global at this VA is ?NPatchesLevel@WW3D@@0IA; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?G009B5F94@@3HA=?NPatchesLevel@WW3D@@0IA")
+#pragma comment(linker, "/alternatename:?NPatchesLevel@@3IA=?NPatchesLevel@WW3D@@0IA")
+// ?G009B5F94@@3HA: the global at VA 0xdb5f94 is ?NPatchesLevel@WW3D@@0IA.
+#pragma comment(linker, "/alternatename:?G009B5F94@@3HA=?NPatchesLevel@WW3D@@0IA")

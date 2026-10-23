@@ -1,15 +1,38 @@
-// cl: /O1 /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // BFME2's 20-byte BfmeStringRecord00568CE0 vector allocation/copy helper at RVA 0x56930C.
-class AsciiString { public: AsciiString(const AsciiString &); __forceinline ~AsciiString() { releaseBuffer(); } protected: void releaseBuffer(); private: void *m_data; };
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 struct BfmeStringRecord00568CE0 {
     AsciiString text0, text1;
     unsigned int word0, word1;
     unsigned char flag;
     BfmeStringRecord00568CE0();
-    BfmeStringRecord00568CE0(const BfmeStringRecord00568CE0 &o) : text0(o.text0), text1(o.text1), word0(o.word0), word1(o.word1), flag(o.flag) {}
+    BfmeStringRecord00568CE0(const BfmeStringRecord00568CE0 &o);
 };
 #include <memory>
-template void _STL::_Construct<BfmeStringRecord00568CE0,BfmeStringRecord00568CE0>(BfmeStringRecord00568CE0*,const BfmeStringRecord00568CE0&);
+namespace _STL {
+template <> void _Construct<BfmeStringRecord00568CE0, BfmeStringRecord00568CE0>(
+	BfmeStringRecord00568CE0 *, const BfmeStringRecord00568CE0 &);
+}
 #include <vector>
-template class _STL::vector<BfmeStringRecord00568CE0, _STL::allocator<BfmeStringRecord00568CE0> >;
+namespace _STL {
+template <> BfmeStringRecord00568CE0 *allocator<BfmeStringRecord00568CE0>::allocate(unsigned int, const void *) const;
+}
+// Only the members whose bodies are rowed here (and the helpers they emit)
+// are instantiated: a whole-class instantiation also emits resize() and the
+// count ctor, which reference the record's default ctor (no row, no
+// definer).
+typedef _STL::vector<BfmeStringRecord00568CE0, _STL::allocator<BfmeStringRecord00568CE0> > BfmeStringRecord00568CE0Vector;
+template void BfmeStringRecord00568CE0Vector::push_back(const BfmeStringRecord00568CE0 &);
+template BfmeStringRecord00568CE0Vector &BfmeStringRecord00568CE0Vector::operator=(const BfmeStringRecord00568CE0Vector &);
+template void BfmeStringRecord00568CE0Vector::_M_clear();

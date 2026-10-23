@@ -6,15 +6,15 @@
 // for eight bytes total. Identity is not recovered: every name is derived
 // from its address, with the SetFlag verb describing the store.
 // No // cl: line (defaults match the frameless eight-byte shape).
-void Rva0031AB77SetFlag(void)
-{
-	*(volatile unsigned char *)0x00E01D0C = 1;
-}
+// Each address is one zero-filled .data/bss byte in the retail image.
+unsigned char g_Va00E0302C;
+unsigned char g_Va00E1770C;
+
 void Rva004128E8SetFlag(void)
 {
-	*(volatile unsigned char *)0x00E0302C = 1;
+	g_Va00E0302C = 1;
 }
 void Rva006CD200SetFlag(void)
 {
-	*(volatile unsigned char *)0x00E1770C = 1;
+	g_Va00E1770C = 1;
 }

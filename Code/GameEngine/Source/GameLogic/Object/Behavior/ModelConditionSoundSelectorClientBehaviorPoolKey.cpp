@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva000254BAC@ModelConditionSoundSelectorClientBehavior@@SA?AW4NameKeyType@@XZ @0x254BAC
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@ModelConditionSoundSelectorClientBehavior@@UBE?AW4NameKeyType@@XZ @0x254BAC
 // (69B): cached pool-name key for ModelConditionSoundSelectorClientBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("ModelConditionSoundSelectorClientBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ModelConditionSoundSelectorClientBehavior
 {
 public:
-	static NameKeyType rva000254BAC();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000254BAC@ModelConditionSoundSelectorClientBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType ModelConditionSoundSelectorClientBehavior::rva000254BAC()
+// ?getModuleNameKey@ModelConditionSoundSelectorClientBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType ModelConditionSoundSelectorClientBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheModelConditionSoundSelectorClientBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("ModelConditionSoundSelectorClientBehavior");

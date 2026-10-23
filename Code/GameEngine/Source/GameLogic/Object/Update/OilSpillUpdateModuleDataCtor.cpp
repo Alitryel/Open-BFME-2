@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /MD /DNDEBUG
+// cl: /MD /DNDEBUG
 //
 // ??0OilSpillUpdateModuleData@@QAE@XZ, retail 0x0048C16C (37 bytes).
 // Frameless derived ctor over the Breadcrumb table 0x00C4C2A8
@@ -23,16 +23,19 @@
 // while the reg-only xorps plus xor float above the vtable and the float
 // store waits last. 37 of 37.
 
-class Rva0048BC03Base
+extern "C" const void *const vtbl_00C4C2F8[];  // ??_7OilSpillUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4C2F8=??_7OilSpillUpdateModuleData@@6B@")
+
+class FireWeaponUpdateModuleData
 {
 public:
-	Rva0048BC03Base();
+	FireWeaponUpdateModuleData();
 
 private:
 	unsigned char m_pad[0x10];
 };
 
-class OilSpillUpdateModuleData : public Rva0048BC03Base
+class OilSpillUpdateModuleData : public FireWeaponUpdateModuleData
 {
 public:
 	OilSpillUpdateModuleData();
@@ -46,12 +49,12 @@ private:
 
 // ??0OilSpillUpdateModuleData@@QAE@XZ @0x48C16C
 OilSpillUpdateModuleData::OilSpillUpdateModuleData()
-	: Rva0048BC03Base()
+	: FireWeaponUpdateModuleData()
 {
 	int *breadcrumbName = &m_breadcrumbName;
 	int *ignitionWeaponName = &m_ignitionWeaponName;
 	int *oilSpillFX = &m_oilSpillFX;
-	*(unsigned int *)this = 0x00C4C2F8;
+	*(unsigned int *)this = ((unsigned int)vtbl_00C4C2F8);
 	*breadcrumbName = 0;
 	*ignitionWeaponName = 0;
 	*oilSpillFX = 0;

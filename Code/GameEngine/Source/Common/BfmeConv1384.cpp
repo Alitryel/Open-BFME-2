@@ -21,6 +21,8 @@ struct BfmePairVJF
 };
 
 extern void *g_bfmeVJF;
+// g_bfmeVJF: matched references place it at VA 0xe0a04c (zero-filled .bss).
+void * g_bfmeVJF;
 
 void __stdcall bfmeGoVJF(BfmeMsgVJF *m, BfmePairVJF *arr, int n)
 {

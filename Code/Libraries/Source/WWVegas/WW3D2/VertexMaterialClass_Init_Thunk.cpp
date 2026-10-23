@@ -65,7 +65,7 @@ private:
 	static VertexMaterialClass *Presets[PRESET_COUNT];
 };
 
-void VertexMaterialClass::Set_Diffuse_Color_Source(ColorSourceType src)
+inline void VertexMaterialClass::Set_Diffuse_Color_Source(ColorSourceType src)
 {
 	CRCDirty = true;
 	switch (src)
@@ -76,7 +76,7 @@ void VertexMaterialClass::Set_Diffuse_Color_Source(ColorSourceType src)
 	}
 }
 
-void VertexMaterialClass::Set_Lighting(bool lighting)
+inline void VertexMaterialClass::Set_Lighting(bool lighting)
 {
 	CRCDirty = true;
 	UseLighting = lighting;

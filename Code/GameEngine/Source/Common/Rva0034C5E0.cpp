@@ -2,7 +2,7 @@
 // Vtable 0x010E7D00 and the releaseBuffer call identify the constructor
 // layout, but the owning class name remains unknown.
 
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /O1 /Ob2
+// cl: /Ireference/shims/moduledata /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ob2
 
 class BfmeStringYK
 {
@@ -22,21 +22,16 @@ public:
 	void *m_bfmeDataYK;
 };
 
-class BfmeBaseYK
-{
-public:
-	BfmeBaseYK()
-	{
-	}
+// Base: the canonical Snapshot. Its inline ctor's vptr store is dead in
+// retail, and unwind state 0 runs ~Snapshot (funclet 0x0077D6C0 jumps to
+// 0x0049B47C). The virtual destructor is defined in Rva0034C5E0Dtor.cpp.
+#include "Common/Snapshot.h"
 
-	~BfmeBaseYK();
-	virtual void slot00();
-};
-
-class Rva0034C5E0 : public BfmeBaseYK
+class Rva0034C5E0 : public Snapshot
 {
 public:
 	Rva0034C5E0();
+	virtual ~Rva0034C5E0();
 
 	BfmeStringYK m_bfmeStrYK;
 	int m_bfmeAYK;

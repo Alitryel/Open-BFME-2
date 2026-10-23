@@ -1,4 +1,4 @@
-// cl: /O1 /MD /EHs-c-
+// cl: /MD /EHs-c-
 // Identity: ModuleFactory registers this data class under "WeaponModeSpecialPowerUpdate" (addModule
 // pairs the name with its factory); formerly misnamed DozerAIUpdate/DozerAIUpdateModuleData.
 // stlport
@@ -23,14 +23,17 @@ namespace _STL {
 template<> bitset<128> &bitset<128>::reset();
 }
 
+// The derived vftable (retail 0x0084EA88), emitted by the unit owning its deleting dtor.
+extern "C" const void *const __identifier("??_7WeaponModeSpecialPowerUpdateModuleData@@6B@")[];
+
 class AIUpdateModuleData
 {
 public:
 	AIUpdateModuleData();
-	virtual ~AIUpdateModuleData();
+	~AIUpdateModuleData();
 
 private:
-	unsigned char m_pad[0x18 - 4];
+	unsigned char m_pad[0x18];	// vftable pointer at +0x00, stored by the derived ctor body
 };
 
 class WeaponModeSpecialPowerUpdateModuleData : public AIUpdateModuleData
@@ -39,18 +42,18 @@ public:
 	WeaponModeSpecialPowerUpdateModuleData();
 
 private:
-	int m_18;					// +0x18
-	int m_1C;					// +0x1C
+	int m_attributeModifier;					// +0x18
+	int m_duration;					// +0x1C
 	int m_count;				// +0x20
 	unsigned long m_bits[4];	// +0x24
 };
 
 WeaponModeSpecialPowerUpdateModuleData::WeaponModeSpecialPowerUpdateModuleData()
 {
-	*(unsigned int *)this = 0x00C4EA88;
+	*(unsigned int *)this = ((unsigned int)__identifier("??_7WeaponModeSpecialPowerUpdateModuleData@@6B@"));
 	_ReadWriteBarrier();
-	m_18 = 0;
-	m_1C = 0;
+	m_attributeModifier = 0;
+	m_duration = 0;
 	m_count = 5;
 	((_STL::bitset<128> *)m_bits)->reset();
 	memset(m_bits, 0, 0x10);

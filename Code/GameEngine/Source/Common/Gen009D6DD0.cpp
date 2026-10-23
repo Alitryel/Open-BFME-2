@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /O1
+// cl: /DNDEBUG /MD
 // Clean C++ conversion of the channel close helper at retail RVA 0x009D6DD0.
 
 class BfmeChannel
@@ -28,7 +28,7 @@ void Gen009D6DD0::bfmeClose()
 	{
 		if (m_emitEnd)
 		{
-			unsigned int endTag = 0x00454E44;
+			unsigned int endTag = ('E' << 16) | ('N' << 8) | 'D';
 			m_channel->bfmeWrite(&endTag, sizeof(endTag));
 		}
 		m_channel = 0;

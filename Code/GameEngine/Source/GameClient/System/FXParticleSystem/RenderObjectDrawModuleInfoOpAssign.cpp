@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 
 // RenderObjectDrawModuleInfo assignment operator.
 //
@@ -10,26 +10,8 @@
 // companion (null-preserving sub at +8 forwarding to this body) is already
 // rowed at 0x003A7DA9.
 
-template <typename Character>
-class StringBase
-{
-public:
-	StringBase(const StringBase &);
+#include "ascii_string.h"
 
-private:
-	void *m_data;
-};
-
-class AsciiString : private StringBase<char>
-{
-public:
-	AsciiString(const AsciiString &that)
-		: StringBase<char>(that)
-	{
-	}
-	~AsciiString();
-	AsciiString &operator=(const AsciiString &that);
-};
 
 namespace FXParticleSystem
 {

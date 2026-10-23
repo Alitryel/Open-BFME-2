@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /arch:SSE
+// cl: /DNDEBUG /MD
 // ?init@FullFadeTransition@@UAEXPAVGameWindow@@@Z
 // retail 0x0035F1DF, 98 bytes. Virtual slot 1 (offset 0x4) of vtable 0x0081663C,
 // the class of ??1Rva0035F1D0@@UAE@XZ (dtor clears +0xC then tail-calls base
@@ -17,11 +17,7 @@ typedef bool Bool;
 #define TRUE 1
 #endif
 
-struct ICoord2D
-{
-	Int x;
-	Int y;
-};
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
 
 typedef float Real;
 

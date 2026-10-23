@@ -1,7 +1,49 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/GameEngine/Source/Common/System /Ireference/open-bfme-1/Code/GameEngine/Source/GameClient /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
+// cl: /O1 /DNDEBUG /MD /EHsc /DBFME_ASCII_DTOR_DECL /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfme_windowvideo /Ireference/open-bfme-1/Code/GameEngine/Source/Common/System /Ireference/open-bfme-1/Code/GameEngine/Source/GameClient /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
 // stlport
+// Use the native 17-byte specialization at RVA 0x00013740 rather than
+// emitting a separately optimized copy from this unit.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
+#define _STLP_BFME_LOWER_BOUND_EXTERN  // call retail's one __lower_bound<const size_t*> (vendor/stlport/stl/_hashtable.c)
+#include <stl/_algobase.h>
+namespace _STL {
+template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
+}
+
 #include <map>
 #include <hash_map>
+
+// map/set<unsigned> internals otherwise instantiate the less<unsigned>::operator()
+// COMDAT (one byte shape per TU flags); a declaration-only specialization
+// stops this TU emitting its copy so callers bind the kept copy.
+// Plain (non-dllimport) form: no __imp_ reference is emitted.
+namespace _STL {
+template <> bool less<unsigned>::operator()(const unsigned &a, const unsigned &b) const;
+}
+
+#include <cstddef>
+// Suppress this TU's non-retail const-begin copy (row 47 family2-LK3): the
+// /Od retail copy in stlport_vector_voidptr.cpp serves the link instead.
+namespace _STL {
+template <> vector<void *>::const_iterator _STL::vector<void *>::begin() const;
+}
+
+// vector<void*> begin/end otherwise instantiate per-TU COMDATs (one byte
+// shape per TU flags); explicit dllimport+forceinline specializations take
+// those calls inline so this TU emits no external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::begin()
+{ return _M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::end()
+{ return _M_finish; }
+template <> __declspec(dllimport) __forceinline
+size_t vector<void*>::size() const
+{ return size_t(this->_M_finish - this->_M_start); }
+template <> __declspec(dllimport) __forceinline
+void *&vector<void*>::operator[](size_t __n)
+{ return *(begin() + __n); }
+}
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -75,7 +117,45 @@
 #include "window_video_manager.h"
 #include "game_window.h"
 #include "video_player.h"
+// display.h (shim bfme_windowvideo) declares TheDisplay as its private DisplayInterface
+// view; spell that declaration aside and bind the one global, ?TheDisplay@@3PAVDisplay@@A.
+#define TheDisplay TheDisplay_displayInterfaceView
 #include "display.h"
+// bfme link decl-only begin
+namespace _STL { template <> void swap<_STLP_alloc_proxy<void **, void *, allocator<void *> > >(_STLP_alloc_proxy<void **, void *, allocator<void *> > &, _STLP_alloc_proxy<void **, void *, allocator<void *> > &); }
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(unsigned int, allocator<void *> const &); }
+namespace _STL { template <> vector<void *, allocator<void *> >::vector(unsigned int, void *const &, allocator<void *> const &); }
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
+namespace _STL { template <> vector<void *, allocator<void *> >::~vector(); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::_M_clear(); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::_M_fill_insert(void **, unsigned int, void *const &); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::_M_insert_overflow(void **, void *const &, __true_type const &, unsigned int, bool); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::_M_set(void **, void **, void **); }
+namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, void const *) const; }
+namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::capacity() const; }
+namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
+namespace _STL { template <> void vector<void *, allocator<void *> >::insert(void **, unsigned int, void *const &); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Hashtable_node@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class GameWindow; class WindowVideo;
+namespace _STL { template <> void allocator<_Hashtable_node<pair<GameWindow const * const,WindowVideo *> > >::deallocate(_Hashtable_node<pair<GameWindow const * const,WindowVideo *> > *,unsigned int) const; }
+// Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
+// and this TU's /O1 COMDAT copy differs from the copy the link keeps.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
+{ if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
+}
+// Suppress this TU's non-retail copy of ??A?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBEABQAXI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void *const &vector<void *>::operator[](size_t) const; }
+#undef TheDisplay
+class Display;
+extern Display *TheDisplay;
 
 //-----------------------------------------------------------------------------
 // DEFINES ////////////////////////////////////////////////////////////////////
@@ -90,9 +170,10 @@ WindowVideo::WindowVideo( void )
 	
 	m_playType = WINDOW_PLAY_MOVIE_ONCE;
 	m_win = NULL;
-	m_videoBuffer = NULL;
 	m_videoStream = NULL;
-	m_movieName.clear();
+	// BFME2 retail (0x53F0F3) calls releaseBuffer 0x36410 directly (clear() inlined), which is the
+	// address the AsciiString teardown folds to; the StringBase::clear thunk (0x48BA39) is not used here.
+	m_movieName.~AsciiString();
 	m_state = WINDOW_VIDEO_STATE_STOP;
 
 }
@@ -104,9 +185,6 @@ WindowVideo::~WindowVideo( void )
 	if(m_win)
 		m_win->winGetInstanceData()->setVideoBuffer( NULL );
 	m_win = NULL;
-	
-	delete m_videoBuffer;
-	m_videoBuffer = NULL;
 
 	if ( m_videoStream )
 		m_videoStream->close();
@@ -117,16 +195,23 @@ WindowVideo::~WindowVideo( void )
 // ?WindowVideo::init present-unmatched
 void WindowVideo::init( GameWindow *win, AsciiString movieName, 
 												WindowVideoPlayType playType,
-												VideoBuffer *videoBuffer, VideoStreamInterface *videoStream)
+												VideoStreamInterface *videoStream)
 {
 	m_win = win;
 	m_movieName = movieName;
 	m_playType = playType;
-	m_videoBuffer = videoBuffer;
 	m_videoStream = videoStream;
 	m_state = WINDOW_VIDEO_STATE_PLAY;
 	if(m_win)
-		m_win->winGetInstanceData()->setVideoBuffer( m_videoBuffer );
+		m_win->winGetInstanceData()->setVideoBuffer( m_videoStream->getVideoBuffer() );
+}
+
+// BFME2: the stream owns its buffer (vtable +0x3C); out-of-line at 0x53F0BF
+VideoBuffer *WindowVideo::getVideoBuffer( void )
+{
+	if ( m_videoStream )
+		return m_videoStream->getVideoBuffer();
+	return NULL;
 }
 	
 // ?WindowVideo::setWindowState present-unmatched
@@ -138,7 +223,7 @@ void WindowVideo::setWindowState( WindowVideoStates state )
 		m_win->winGetInstanceData()->setVideoBuffer( NULL );
 
 	if((m_state == WINDOW_VIDEO_STATE_PLAY || m_state == WINDOW_VIDEO_STATE_PAUSE )&& m_win)
-		m_win->winGetInstanceData()->setVideoBuffer( m_videoBuffer );
+		m_win->winGetInstanceData()->setVideoBuffer( m_videoStream->getVideoBuffer() );
 }	
 
 //-----------------------------------------------------------------------------
@@ -178,7 +263,6 @@ WindowVideoManager::~WindowVideoManager( void )
 }
 
 	
-// ?init@WindowVideoManager@@UAEXXZ present-unmatched
 void WindowVideoManager::init( void )
 {
 	m_playingVideos.clear();
@@ -187,7 +271,6 @@ void WindowVideoManager::init( void )
 	m_pauseAllMovies = FALSE;
 }
 
-// ?reset@WindowVideoManager@@UAEXXZ present-unmatched
 void WindowVideoManager::reset( void )
 {
 	WindowVideoMap::iterator it = m_playingVideos.begin();
@@ -247,20 +330,21 @@ void WindowVideoManager::update( void )
 		
 		if ( videoStream && videoBuffer )
 		{
-			if ( videoStream->isFrameReady())
+			// BFME2: the stream advances itself (vtable +0x18); looping streams pass the loop flag,
+			// the others report a finished frame in bit 0 and are paused or stopped at frame 0.
+			switch(winVid->getPlayType())
 			{
-				videoStream->frameDecompress();
-				videoStream->frameRender( videoBuffer );
-				videoStream->frameNext();
-				
-				// If we reach frame Index of 0, we might have to pause, or loop.
-				if ( videoStream->frameIndex() == 0 )
-				{
-					if(winVid->getPlayType() == WINDOW_PLAY_MOVIE_ONCE)
-						stopMovie(win);
-					else if (winVid->getPlayType() == WINDOW_PLAY_MOVIE_SHOW_LAST_FRAME)
+				case WINDOW_PLAY_MOVIE_LOOP:
+					videoStream->frameUpdate( 4 );
+					break;
+				case WINDOW_PLAY_MOVIE_SHOW_LAST_FRAME:
+					if ( (videoStream->frameUpdate( 0 ) & 1) && videoStream->frameIndex() == 0 )
 						pauseMovie(win);
-				}
+					break;
+				default:
+					if ( (videoStream->frameUpdate( 0 ) & 1) && videoStream->frameIndex() == 0 )
+						stopMovie(win);
+					break;
 			}
 		}
 		
@@ -275,27 +359,16 @@ void WindowVideoManager::playMovie( GameWindow *win, AsciiString movieName, Wind
 	stopAndRemoveMovie( win );
 	
 	// create the new stream
-	VideoStreamInterface *videoStream = TheVideoPlayer->open( movieName );
+	VideoStreamInterface *videoStream = TheVideoPlayer->open( movieName, 0 );
 	if ( videoStream == NULL )
 	{
 		return;
 	}
 
-	// Create the new buffer
-	VideoBuffer *videoBuffer = TheDisplay->createVideoBuffer();
-	if (	videoBuffer == NULL || 
-				!videoBuffer->allocate(	videoStream->width(), 
-													videoStream->height())
-		)
+	// BFME2: the stream takes ownership of a display-created buffer (vtable +0x38)
+	if ( !videoStream->attach( ((DisplayInterface *)TheDisplay)->createVideoBuffer( false ) ) )
 	{
-		// If we failed to create the buffer...
-		delete videoBuffer;
-		videoBuffer = NULL;
-
-		if ( videoStream )
-			videoStream->close();
-		videoStream = NULL;
-
+		videoStream->close();
 		return;
 	}
 
@@ -303,7 +376,7 @@ void WindowVideoManager::playMovie( GameWindow *win, AsciiString movieName, Wind
 	WindowVideo *winVid = NEW WindowVideo;
 	
 	// init it.
-	winVid->init( win, movieName,playType,videoBuffer,videoStream);
+	winVid->init( win, movieName,playType,videoStream);
 
 	// add it to our map.
 	m_playingVideos[win] = winVid;
@@ -327,7 +400,6 @@ void WindowVideoManager::pauseMovie( GameWindow *win )
 }
 // ?hideMovie@WindowVideoManager@@QAEXPAVGameWindow@@@Z
 // Open-BFME5: map lookup + direct state store at +0x10 (BFME WindowVideo layout).
-// ?hideMovie@WindowVideoManager@@QAEXPAVGameWindow@@@Z present-unmatched
 void WindowVideoManager::hideMovie( GameWindow *win )
 {
 	WindowVideoMap::iterator it = m_playingVideos.find(win);
@@ -335,7 +407,7 @@ void WindowVideoManager::hideMovie( GameWindow *win )
 	{
 		WindowVideo *winVid = it->second;
 		if(winVid)
-			*reinterpret_cast<int *>(reinterpret_cast<char *>(winVid) + 0x10) = WINDOW_VIDEO_STATE_HIDDEN;
+			winVid->setWindowState(WINDOW_VIDEO_STATE_HIDDEN);
 	}
 }
 
@@ -365,7 +437,6 @@ void WindowVideoManager::stopMovie( GameWindow *win )
 	}
 }
 
-// ?stopAndRemoveMovie@WindowVideoManager@@QAEXPAVGameWindow@@@Z present-unmatched
 void WindowVideoManager::stopAndRemoveMovie( GameWindow *win )
 {
 	WindowVideoMap::iterator it = m_playingVideos.find(win);
@@ -445,3 +516,8 @@ Int WindowVideoManager::getWinState( GameWindow *win )
 //-----------------------------------------------------------------------------
 // PRIVATE FUNCTIONS //////////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------
+// ?TheDisplay@@3PAVDisplayInterface@@A: the global at VA 0xdfe9d8 is ?TheDisplay@@3PAVDisplay@@A.
+
+// Callers elsewhere reach this body through a spelling pinned to the same retail
+// address with the same calling convention; bind it here.
+#pragma comment(linker, "/alternatename:?first@Rva000427195@@QAEPAXPAVRva000411084@@@Z=?begin@?$hashtable@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@PBVGameWindow@@UhashConstGameWindowPtr@WindowVideoManager@@U?$_Select1st@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@@2@U?$equal_to@PBVGameWindow@@@2@V?$allocator@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@@2@@_STL@@QAE?AU?$_Ht_iterator@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@U?$_Nonconst_traits@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@@2@PBVGameWindow@@UhashConstGameWindowPtr@WindowVideoManager@@U?$_Select1st@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@@2@U?$equal_to@PBVGameWindow@@@2@V?$allocator@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@@2@@2@XZ")

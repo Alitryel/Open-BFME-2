@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /GX /Oi-
+// cl: /Oy- /DNDEBUG /MD /GX /Oi-
 //
 // ?scanBool@INI@@QAE_NPBD@Z, retail 0x002D14A, 101 bytes.
 // Dedicated TU (same INI scanner family as INI_scanReal.cpp).
@@ -19,21 +19,17 @@ public:
 	bool scanBool(const char *token);
 };
 
-struct INIException
+class INIException
 {
+public:
+	INIException(int argCount, const char *format, ...);
 	char *mFailureMessage;
 	int mErrorCode;
+	INIException(const INIException &that);
+	~INIException();
 };
 
-extern "C" void rva002f681_fill(void *dst, int code, const char *fmt, ...);
-__declspec(noreturn) void __stdcall _CxxThrowException(void *pExc, void *pInfo);
 extern "C" __declspec(dllimport) int __cdecl _strcmpi(const char *a, const char *b);
-
-// Address anchor only: the throw site pushes this object's address as an
-// immediate (DIR32, copied from retail's throwinfo at 0xCFE2FC). Content is
-// never compared; the real chain lives in the retail image.
-struct ScanBoolThrowInfoAnchor { int a; int b; int c; int d; };
-static const ScanBoolThrowInfoAnchor scanBoolThrowInfoAnchor = { 0, 0, 0, 0 };
 
 // ?scanBool@INI@@QAE_NPBD@Z
 bool INI::scanBool(const char *token)
@@ -43,7 +39,5 @@ bool INI::scanBool(const char *token)
 		return true;
 	if (_strcmpi(text, "no") == 0)
 		return false;
-	INIException e;
-	rva002f681_fill(&e, 3, "invalid boolean token %s -- expected Yes or No", token);
-	_CxxThrowException(&e, (void *)&scanBoolThrowInfoAnchor);
+	throw INIException(3, "invalid boolean token %s -- expected Yes or No", token);
 }

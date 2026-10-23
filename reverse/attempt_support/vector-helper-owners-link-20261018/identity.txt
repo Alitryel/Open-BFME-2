@@ -1,0 +1,3 @@
+identity problems: 0
+
+rows: 5 mode: shadow

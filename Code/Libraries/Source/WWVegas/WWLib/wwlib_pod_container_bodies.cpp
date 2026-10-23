@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /arch:SSE /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug
+// cl: /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug
 //
 // Westwood WWLib SimpleVecClass / SimpleDynVecClass members (this
 // directory's simplevec.h) for a placeholder 4-byte element, each
@@ -12,3 +12,7 @@ inline bool operator==(const BfmePod4 &x, const BfmePod4 &y) { return x.a[0] == 
 inline bool operator!=(const BfmePod4 &x, const BfmePod4 &y) { return x.a[0] != y.a[0]; }
 template class SimpleVecClass<BfmePod4>;
 template class SimpleDynVecClass<BfmePod4>;
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?Grow@?$SimpleDynVecClass@VVector3@@@@QAE_NH@Z=?Grow@?$SimpleDynVecClass@UBfmePod4@@@@IAE_NH@Z")

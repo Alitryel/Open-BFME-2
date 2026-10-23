@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ??0AssaultTransportAIUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail
 // 0x0048F5A3 (89 bytes). Behavior ctor over the pinned opaque Transport
@@ -21,10 +21,10 @@ static int s_secondary24;
 static int s_slot3E4first;
 static int s_slot3E4second;
 
-class Rva0026E9BDBase
+class AIUpdateInterface
 {
 public:
-	Rva0026E9BDBase(Thing *thing, const ModuleData *moduleData);
+	AIUpdateInterface(Thing *thing, const ModuleData *moduleData);
 
 protected:
 	const void *m_vtable;			// +0x00
@@ -40,7 +40,7 @@ protected:
 	int m_count43C;			// +0x43C
 };
 
-class AssaultTransportAIUpdate : public Rva0026E9BDBase
+class AssaultTransportAIUpdate : public AIUpdateInterface
 {
 public:
 	AssaultTransportAIUpdate(Thing *thing, const ModuleData *moduleData);
@@ -49,7 +49,7 @@ public:
 
 // ??0AssaultTransportAIUpdate@@QAE@PAVThing@@PBVModuleData@@@Z @0x48F5A3
 AssaultTransportAIUpdate::AssaultTransportAIUpdate(Thing *thing, const ModuleData *moduleData)
-	: Rva0026E9BDBase(thing, moduleData)
+	: AIUpdateInterface(thing, moduleData)
 {
 	*(const void * volatile *)&m_p3E4 = &s_slot3E4first;
 	m_vtable = &s_vtable;
@@ -61,3 +61,9 @@ AssaultTransportAIUpdate::AssaultTransportAIUpdate(Thing *thing, const ModuleDat
 	m_count43C = 0xA;
 	Rva0048F365Helper();
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x0026E9BD -> ??0AIUpdateInterface@@QAE@PAVThing@@PBVModuleData@@@Z (defined by Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/AIUpdateInterfaceCtor.cpp)
+#pragma comment(linker, "/alternatename:??0Rva0026E9BDBase@@QAE@PAVThing@@PBVModuleData@@@Z=??0AIUpdateInterface@@QAE@PAVThing@@PBVModuleData@@@Z")

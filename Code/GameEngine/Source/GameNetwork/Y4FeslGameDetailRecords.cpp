@@ -23,14 +23,36 @@
 
 typedef __int64 FeslInt64;
 
+class BfmeThingRF
+{
+public:
+	void *bfmeGoRF( void *key, void *defaultValue );
+};
+
+class BfmeThingVMQ
+{
+public:
+	bool bfmeGoVMQ( const char *key, char defaultValue );
+};
+
+class BfmeThingUPB
+{
+public:
+	char bfmeGoUPB( void *key, char *dest, void *destSize );
+};
+
 class Rva007E8810Message
 {
 public:
-	int getInt( const char *key, int defaultValue );                 // 0x007E8900
-	bool getBool( const char *key, bool defaultValue );              // 0x007E89C0
-	bool getString( const char *key, char *dest, int destSize );     // 0x007E8A80
 	FeslInt64 getInt64( const char *key, FeslInt64 defaultValue );   // 0x007E8930
 };
+
+#define FESL_GET_INT(message, key, defaultValue) \
+	(int)((BfmeThingRF *)(message))->bfmeGoRF((void *)(key), (void *)(defaultValue))
+#define FESL_GET_BOOL(message, key, defaultValue) \
+	((BfmeThingVMQ *)(message))->bfmeGoVMQ((key), (char)(defaultValue))
+#define FESL_GET_STRING(message, key, dest, destSize) \
+	((BfmeThingUPB *)(message))->bfmeGoUPB((void *)(key), (dest), (void *)(destSize))
 
 // ----------------------------------------------------------- the game record
 class Rva007FBC60Game
@@ -62,28 +84,28 @@ Rva007FBC60Game::Rva007FBC60Game( Rva007E8810Message *msg )
 {
 	char joinText[ 10 ];
 
-	m_lid = msg->getInt( "LID", 0 );
-	m_gid = msg->getInt( "GID", 0 );
+	m_lid = FESL_GET_INT(msg, "LID", 0);
+	m_gid = FESL_GET_INT(msg, "GID", 0);
 	m_msg = msg;
-	msg->getString( "N", m_n, 0x80 );
-	m_mp = m_msg->getInt( "MP", 0 );
-	m_msg->getString( "I", m_i, 0x20 );
-	m_p = m_msg->getInt( "P", 0 );
-	m_pw = m_msg->getBool( "PW", false );
-	m_ap = m_msg->getInt( "AP", 0 );
-	m_jp = m_msg->getInt( "JP", 0 );
-	m_qp = m_msg->getInt( "QP", 0 );
-	m_msg->getString( "HN", m_hn, 0x80 );
+	FESL_GET_STRING(msg, "N", m_n, 0x80);
+	m_mp = FESL_GET_INT(m_msg, "MP", 0);
+	FESL_GET_STRING(m_msg, "I", m_i, 0x20);
+	m_p = FESL_GET_INT(m_msg, "P", 0);
+	m_pw = FESL_GET_BOOL(m_msg, "PW", false);
+	m_ap = FESL_GET_INT(m_msg, "AP", 0);
+	m_jp = FESL_GET_INT(m_msg, "JP", 0);
+	m_qp = FESL_GET_INT(m_msg, "QP", 0);
+	FESL_GET_STRING(m_msg, "HN", m_hn, 0x80);
 	m_hu = m_msg->getInt64( "HU", 0 );
-	m_msg->getString( "V", m_v, 0x40 );
-	m_f = m_msg->getBool( "F", false );
-	m_nf = m_msg->getInt( "NF", 0 );
-	msg->getString( "PL", m_platform, 0x20 );
+	FESL_GET_STRING(m_msg, "V", m_v, 0x40);
+	m_f = FESL_GET_BOOL(m_msg, "F", false);
+	m_nf = FESL_GET_INT(m_msg, "NF", 0);
+	FESL_GET_STRING(msg, "PL", m_platform, 0x20);
 	if( strcmp( m_platform, "XBOX" ) == 0 )
 		strncpy( m_platform, m_i, 0x20 );
 	else
 		m_platform[ 0 ] = 0;
-	msg->getString( "J", joinText, 10 );
+	FESL_GET_STRING(msg, "J", joinText, 10);
 	switch( joinText[ 0 ] )
 	{
 		case 'O':
@@ -121,16 +143,16 @@ public:
 
 Rva007FC020Ticket::Rva007FC020Ticket( Rva007E8810Message *msg )
 {
-	m_lid = msg->getInt( "LID", 0 );
-	m_gid = msg->getInt( "GID", 0 );
-	m_pid = msg->getInt( "PID", 0 );
-	msg->getString( "TICKET", m_ticket, 0x80 );
-	msg->getString( "REASON", m_reason, 0x100 );
-	msg->getString( "I", m_i, 0x20 );
-	msg->getString( "PL", m_platform, 0x10 );
+	m_lid = FESL_GET_INT(msg, "LID", 0);
+	m_gid = FESL_GET_INT(msg, "GID", 0);
+	m_pid = FESL_GET_INT(msg, "PID", 0);
+	FESL_GET_STRING(msg, "TICKET", m_ticket, 0x80);
+	FESL_GET_STRING(msg, "REASON", m_reason, 0x100);
+	FESL_GET_STRING(msg, "I", m_i, 0x20);
+	FESL_GET_STRING(msg, "PL", m_platform, 0x10);
 	_strlwr( m_platform );
-	msg->getString( "UGID", m_ugid, 0x25 );
-	m_p = msg->getInt( "P", 0 );
+	FESL_GET_STRING(msg, "UGID", m_ugid, 0x25);
+	m_p = FESL_GET_INT(msg, "P", 0);
 	m_host[ 0 ] = 0;
 	if( strcmp( m_platform, "xbox" ) == 0 )
 		strncpy( m_host, m_i, 0x20 );

@@ -7,9 +7,19 @@ typedef __int64 FeslInt64;
 class Rva007E8810Message
 {
 public:
-	int getInt( const char *key, int defaultValue );
-	bool getString( const char *key, char *dest, int destSize );
 	FeslInt64 getInt64( const char *key, FeslInt64 defaultValue );
+};
+
+class BfmeThingRF
+{
+public:
+	void *bfmeGoRF( void *key, void *defaultValue );
+};
+
+class BfmeThingUPB
+{
+public:
+	char bfmeGoUPB( void *key, char *dest, void *destSize );
 };
 
 struct Rva007FF700Date
@@ -70,54 +80,54 @@ bool Rva007F05A0BlobCursor::next( Rva007F0CB0BlobRecord *record )
 	record->m_ownerId = m_msg->getInt64( name, -1 );
 
 	sprintf( name, "blobs.%d.ownerType", m_index );
-	record->m_ownerType = m_msg->getInt( "ownerType", -1 );
+		record->m_ownerType = (int)((BfmeThingRF *)m_msg)->bfmeGoRF( (void *)"ownerType", (void *)-1 );
 
 	sprintf( name, "blobs.%d.type", m_index );
-	record->m_type = m_msg->getInt( name, -1 );
+		record->m_type = (int)((BfmeThingRF *)m_msg)->bfmeGoRF( (void *)name, (void *)-1 );
 
 	sprintf( name, "blobs.%d.formatType", m_index );
-	record->m_formatType = m_msg->getInt( name, -1 );
+		record->m_formatType = (int)((BfmeThingRF *)m_msg)->bfmeGoRF( (void *)name, (void *)-1 );
 
 	sprintf( name, "blobs.%d.iconId", m_index );
 	record->m_iconId = m_msg->getInt64( name, -1 );
 
 	text[ 0 ] = 0;
 	sprintf( name, "blobs.%d.createDate", m_index );
-	m_msg->getString( name, text, 0x20 );
+		((BfmeThingUPB *)m_msg)->bfmeGoUPB( (void *)name, text, (void *)0x20 );
 	record->m_creator.parse( text );
 
 	sprintf( name, "blobs.%d.updateDate", m_index );
-	m_msg->getString( "updateDate", text, 0x20 );
+		((BfmeThingUPB *)m_msg)->bfmeGoUPB( (void *)"updateDate", text, (void *)0x20 );
 	record->m_update.parse( text );
 
 	sprintf( name, "blobs.%d.creator", m_index );
-	m_msg->getString( name, record->m_updateDate, 0x20 );
+		((BfmeThingUPB *)m_msg)->bfmeGoUPB( (void *)name, record->m_updateDate, (void *)0x20 );
 
 	sprintf( name, "blobs.%d.name", m_index );
-	m_msg->getString( name, record->m_createDate, 0x20 );
+		((BfmeThingUPB *)m_msg)->bfmeGoUPB( (void *)name, record->m_createDate, (void *)0x20 );
 
 	sprintf( name, "blobs.%d.downloadCount", m_index );
-	record->m_downloadCount = m_msg->getInt( name, -1 );
+		record->m_downloadCount = (int)((BfmeThingRF *)m_msg)->bfmeGoRF( (void *)name, (void *)-1 );
 
 	sprintf( name, "blobs.%d.rating", m_index );
-	m_msg->getString( name, text + 0x0C, 0x40 );
+		((BfmeThingUPB *)m_msg)->bfmeGoUPB( (void *)name, text + 0x0C, (void *)0x40 );
 	sscanf( text + 0x0C, "%f", &rating );
 	record->m_rating = rating;
 
 	sprintf( name, "blobs.%d.reviewCount", m_index );
-	record->m_reviewCount = m_msg->getInt( name, -1 );
+		record->m_reviewCount = (int)((BfmeThingRF *)m_msg)->bfmeGoRF( (void *)name, (void *)-1 );
 
 	sprintf( name, "blobs.%d.version", m_index );
-	m_msg->getString( name, record->m_version, 0x20 );
+		((BfmeThingUPB *)m_msg)->bfmeGoUPB( (void *)name, record->m_version, (void *)0x20 );
 
 	sprintf( name, "blobs.%d.shortDescription", m_index );
-	m_msg->getString( name, record->m_shortDescription, 0x50 );
+		((BfmeThingUPB *)m_msg)->bfmeGoUPB( (void *)name, record->m_shortDescription, (void *)0x50 );
 
 	sprintf( name, "blobs.%d.longDescription", m_index );
-	m_msg->getString( name, record->m_longDescription, 0xff );
+		((BfmeThingUPB *)m_msg)->bfmeGoUPB( (void *)name, record->m_longDescription, (void *)0xff );
 
 	sprintf( name, "blobs.%d.locale", m_index );
-	m_msg->getString( name, record->m_locale, 0x20 );
+		((BfmeThingUPB *)m_msg)->bfmeGoUPB( (void *)name, record->m_locale, (void *)0x20 );
 
 	++m_index;
 	return true;

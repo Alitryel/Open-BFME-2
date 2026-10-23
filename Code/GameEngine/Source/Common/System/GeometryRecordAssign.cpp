@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD
+// cl: /Ireference/shims/bfme2_ascii /O1 /EHsc /MD
 // GeometryRecord value assignment at retail 0x0004E512 (36 bytes).
 // The record is three scalar fields followed by an AsciiString name at +0x0C;
 // the vector<GeometryRecord> copy path calls this operator through the
@@ -8,11 +8,7 @@
 extern "C" void *__cdecl memcpy( void *dst, const void *src, unsigned int count );
 #pragma intrinsic( memcpy )
 
-class AsciiString
-{
-public:
-	AsciiString &operator=( const AsciiString &other );
-};
+#include "ascii_string.h"
 
 struct GeometryRecord
 {
@@ -24,9 +20,17 @@ struct GeometryRecord
 	GeometryRecord &operator=( const GeometryRecord &other );
 };
 
-GeometryRecord &GeometryRecord::operator=( const GeometryRecord &other )
+inline GeometryRecord &GeometryRecord::operator=( const GeometryRecord &other )
 {
 	memcpy( this, &other, sizeof( int ) * 3 );
 	m_name = other.m_name;
 	return *this;
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitGeometryRecordAssign@@YAXPAUGeometryRecord@@ABU1@@Z present-unmatched
+void bfmeEmitGeometryRecordAssign(GeometryRecord *geometryRecord, const GeometryRecord &other)
+{
+	*geometryRecord = other;
+}
+#pragma inline_depth()

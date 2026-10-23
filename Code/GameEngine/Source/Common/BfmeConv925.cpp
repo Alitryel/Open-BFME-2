@@ -27,6 +27,8 @@ struct BfmeNodeLC
 	void *m_bfmeR;
 };
 
+class GameWindow { public: void *winGetUserData(); };
+
 class BfmeKeyLC
 {
 public:
@@ -35,7 +37,7 @@ public:
 
 void *bfmeGo925A(BfmeKeyLC *k)
 {
-	BfmeNodeLC *o = k->bfmeFindLC();
+	BfmeNodeLC *o = (BfmeNodeLC *)((GameWindow *)k)->winGetUserData();
 	if (o) {
 		void *p = o->m_bfmeQ;
 		if (p)
@@ -51,12 +53,21 @@ public:
 	BfmeKeyLC *m_bfmeKey;
 };
 
-void BfmeThing925D::bfmeGo925D(void *v)
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline void BfmeThing925D::bfmeGo925D(void *v)
 {
 	BfmeKeyLC *k = m_bfmeKey;
 	if (k) {
-		BfmeNodeLC *o = k->bfmeFindLC();
-		BfmeNodeLC *p = ((BfmeKeyLC *)o->m_bfmeP)->bfmeFindLC();
+		BfmeNodeLC *o = (BfmeNodeLC *)((GameWindow *)k)->winGetUserData();
+		BfmeNodeLC *p = (BfmeNodeLC *)((GameWindow *)o->m_bfmeP)->winGetUserData();
 		p->m_bfmeR = v;
 	}
 }
+
+// ?bfmeAnchorBfmeGo925D absent-from-retail
+void bfmeAnchorBfmeGo925D(BfmeThing925D *p)
+{
+	p->bfmeGo925D(0);
+}
+

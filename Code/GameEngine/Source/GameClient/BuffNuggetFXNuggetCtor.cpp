@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /GX /MD /D_CRTIMP= /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0BuffNuggetFXNugget@@QAE@XZ 295B @0x001E2FCE: no-arg ctor called by
@@ -16,26 +16,18 @@
 
 #include <vector>
 
-template <typename T>
-class StringBase
-{
-	friend class AsciiString;
+#include "ascii_string.h"
 
-protected:
-	~StringBase();
+// A declaration-only specialization stops this TU emitting its own
+// vector<AsciiString> dtor COMDAT, so the call binds the kept copy.
+namespace _STL {
+template <> vector<AsciiString, allocator<AsciiString> >::~vector();
+template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
+template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);
+template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
+template <> AsciiString *vector<AsciiString, allocator<AsciiString> >::erase(AsciiString*, AsciiString*);
+}
 
-	void *m_data;
-
-private:
-	StringBase(const char *str);
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString(const char *str) : StringBase<char>(str) {}
-	~AsciiString();
-};
 
 class Rva001DFEAABase
 {
@@ -47,12 +39,7 @@ protected:
 	unsigned char m_pad[0x148 - 8];
 };
 
-struct RGBColor
-{
-	float red;
-	float green;
-	float blue;
-};
+#include "../../../Libraries/Include/Lib/RGBColor.h"
 
 class BuffNuggetFXNugget : public Rva001DFEAABase
 {
@@ -92,8 +79,8 @@ BuffNuggetFXNugget::BuffNuggetFXNugget()
 	, m_buffMonsterTemplate("INVALID_THING")
 	, m_extrusion(1.0f)
 {
-	m_color.red = *reinterpret_cast<volatile const float *>(0x00BC4DD8);
-	m_color.green = *reinterpret_cast<volatile const float *>(0x00BCAE8C);
-	m_color.blue = *reinterpret_cast<volatile const float *>(0x00BBB8D8);
+	m_color.red = 0.2f;
+	m_color.green = 0.4f;
+	m_color.blue = 1.0f;
 	m_member.clear();
 }

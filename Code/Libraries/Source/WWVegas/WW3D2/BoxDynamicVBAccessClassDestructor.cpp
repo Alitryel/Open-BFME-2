@@ -1,8 +1,13 @@
-// cl: /G7 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 
 // Open-BFME5: BoxDynamicVBAccessClass::~BoxDynamicVBAccessClass, retail
 // 0x0091D9E0, 79 bytes. The body carried only a machine byte-dump row;
 // reverse/reloc_names.csv holds the name with identity=real.
+//
+// In BFME2 (0x0013A780) it is DynamicVBAccessClass::~DynamicVBAccessClass:
+// Flush_Sorting_Pool (0x0012E8C0) constructs [esp+38h] with
+// DynamicVBAccessClass::DynamicVBAccessClass (0x0013B040) and destroys the same
+// object here, and the body sits with that class's _Deinit, WriteLock and _Reset.
 //
 // It is WW3D's dynamic vertex-buffer release, with one BFME change: the
 // dynamic-DX8 arm indexes a pair of globals by the slot at +8 rather than
@@ -20,7 +25,9 @@
 
 typedef unsigned short UnsignedShort;
 
-enum { BFME_MAX_DYNAMIC_BUFFERS = 21 };
+// The matched target-side deinit traverses 15 slots; the adjacent
+// bfmeDynamicVBs table at VA 0x00DF2A04 rules out the 21-slot donor view.
+enum { BFME_MAX_DYNAMIC_BUFFERS = 15 };
 
 class BfmeDynamicVertexBuffer
 {
@@ -39,15 +46,23 @@ public:
 
 extern bool BfmeDynamicDX8VertexBufferInUse[BFME_MAX_DYNAMIC_BUFFERS];		// 0x01346740
 extern UnsignedShort BfmeDynamicDX8VertexBufferOffset[BFME_MAX_DYNAMIC_BUFFERS];	// 0x01346794
+// BFME2 retail zero-filled .data storage. Matched DIR32 witnesses pin both
+// starts; the shared 15-slot deinit and adjacent arrays bound these extents.
+bool BfmeDynamicDX8VertexBufferInUse[BFME_MAX_DYNAMIC_BUFFERS];		// VA 0x00DF29F0, RVA 0x009F29F0
+UnsignedShort BfmeDynamicDX8VertexBufferOffset[BFME_MAX_DYNAMIC_BUFFERS];	// VA 0x00DF2A44, RVA 0x009F2A44
 extern UnsignedShort BfmeDynamicSortingVertexArrayOffset;			// 0x013467E4
+// BfmeDynamicSortingVertexArrayOffset: VA 0xdf2a94 (zero-filled .bss).
+UnsignedShort BfmeDynamicSortingVertexArrayOffset;
 extern bool BfmeDynamicSortingVertexArrayInUse;					// 0x013467D8
+// BfmeDynamicSortingVertexArrayInUse: VA 0xdf2a88 (zero-filled .bss).
+bool BfmeDynamicSortingVertexArrayInUse;
 
 enum { BFME_BUFFER_TYPE_DYNAMIC_DX8 = 2 };
 
-class BoxDynamicVBAccessClass
+class DynamicVBAccessClass
 {
 public:
-	~BoxDynamicVBAccessClass(void);
+	~DynamicVBAccessClass(void);
 
 private:
 	int m_bfmeField00;					// +0x00
@@ -59,8 +74,8 @@ private:
 	BfmeDynamicVertexBuffer *m_bfmeVertexBuffer;		// +0x14
 };
 
-// ??1BoxDynamicVBAccessClass@@QAE@XZ
-BoxDynamicVBAccessClass::~BoxDynamicVBAccessClass(void)
+// ??1DynamicVBAccessClass@@QAE@XZ
+DynamicVBAccessClass::~DynamicVBAccessClass(void)
 {
 	if (m_bfmeType == BFME_BUFFER_TYPE_DYNAMIC_DX8)
 	{
@@ -81,3 +96,7 @@ BoxDynamicVBAccessClass::~BoxDynamicVBAccessClass(void)
 		m_bfmeVertexBuffer = 0;
 	}
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??1BfmeSortingVBAccess@@QAE@XZ=??1DynamicVBAccessClass@@QAE@XZ")

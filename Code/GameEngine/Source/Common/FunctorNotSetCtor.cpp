@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ??0FunctorNotSet@@QAE@XZ, retail 0x002035E2, 19 bytes. FunctorNotSet
 // default ctor (frameless leaf: CRT std::exception base through the
@@ -12,21 +12,51 @@
 // TimedOperationRef TU keeps its own address-derived spelling through
 // the standing alias pin.
 
+extern "C" const void *const vtbl_00BD3B54[];  // ??_7FunctorNotSet@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BD3B54=??_7FunctorNotSet@@6B@")
+
+inline void *operator new(unsigned int, void *p) { return p; }
 class __declspec(dllimport) exception
 {
 public:
 	exception();
+	virtual ~exception();
 };
 
 class __declspec(novtable) FunctorNotSet : public exception
 {
 public:
 	FunctorNotSet();
+	virtual ~FunctorNotSet();
 };
 
 // ??0FunctorNotSet@@QAE@XZ @0x2035E2
-FunctorNotSet::FunctorNotSet()
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline FunctorNotSet::FunctorNotSet()
 	: exception()
 {
-	*(unsigned int *)this = 0x00BD3B54;
+	*(unsigned int *)this = ((unsigned int)vtbl_00BD3B54);
 }
+
+// ?bfmeAnchorFunctorNotSetCtor absent-from-retail
+void *bfmeAnchorFunctorNotSetCtor(void *where)
+{
+	return ::new (where) FunctorNotSet();
+}
+
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline FunctorNotSet::~FunctorNotSet()
+{
+}
+
+// ?bfmeAnchorFunctorNotSetDtor absent-from-retail
+void bfmeAnchorFunctorNotSetDtor(FunctorNotSet *functorNotSet)
+{
+	functorNotSet->FunctorNotSet::~FunctorNotSet();
+}
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0Rva002035E2@@QAE@XZ=??0FunctorNotSet@@QAE@XZ")

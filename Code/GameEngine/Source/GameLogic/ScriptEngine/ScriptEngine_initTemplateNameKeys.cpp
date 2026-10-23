@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc
+// cl: /Ireference/shims/bfme2_ascii /EHsc
 //
 // ScriptEngine template finishing pass, retail 0x00204D87 (221 bytes).
 // ScriptEngine::init calls it right after the action (0x003D46DB) and
@@ -12,23 +12,8 @@
 // order here. The record layout is the one the two table initializers
 // establish from retail store offsets.
 
-template <typename T>
-class StringBase
-{
-public:
-	StringBase() : m_data(0) {}
-	~StringBase();
-	void concat(const StringBase<T> &that);
+#include "ascii_string.h"
 
-private:
-	T *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	void format(const char *fmt, ...);
-};
 
 enum NameKeyType
 {
@@ -77,13 +62,13 @@ void ScriptEngine::initTemplateNameKeys()
 	for (i = 0; i < 599; i++) {
 		AsciiString str;
 		str.format("[%d]", i);
-		m_actionTemplates[i].m_uiName.concat(str);
+		((StringBase<char> *)&m_actionTemplates[i].m_uiName)->concat(*(const StringBase<char> *)&str);
 		m_actionTemplates[i].m_internalNameKey = NAMEKEY(m_actionTemplates[i].m_internalName);
 	}
 	for (i = 0; i < 202; i++) {
 		AsciiString str;
 		str.format("[%d]", i);
-		m_conditionTemplates[i].m_uiName.concat(str);
+		((StringBase<char> *)&m_conditionTemplates[i].m_uiName)->concat(*(const StringBase<char> *)&str);
 		m_conditionTemplates[i].m_internalNameKey = NAMEKEY(m_conditionTemplates[i].m_internalName);
 	}
 }

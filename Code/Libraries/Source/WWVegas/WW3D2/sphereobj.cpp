@@ -1,6 +1,22 @@
-﻿// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/shims/sweep
+﻿// cl: /DBFME_RENDEROBJ_SIZE_LOD /Ireference/shims/g7_renderobj/donor /G7 /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/bfme /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/shims/sweep
+// Keep MSVC math.h float overloads local; matched operations already inline.
+#pragma push_macro("inline")
+#define inline static inline
+#include <math.h>
+#pragma pop_macro("inline")
 // stlport
+
+// BFME 2 has no W3D memory pools (see Code/Libraries/Source/WWVegas/WWLib/always.h).
+// Link view first: Matrix3D(bool) and Matrix3D(const Matrix3D&) stay inline without
+// emitting /O2 copies that compete with retail's owners (0x0004C91A, 0x0006645C).
+#include "../../../../../reference/shims/bfme_matrix3d_copy_link/matrix3d_copy_link.h"
+#include "always.h"
+#undef W3DMPO_GLUE
+#define W3DMPO_GLUE(ARGCLASS)
 #define Matrix4x4 Matrix4  // BFME renamed it
+// Link view: Matrix4(Vector4 x4), Transpose and the Matrix3D overloads stay inline without emitting
+// copies that lose to retail's /O1 owners (0x0006A34E, 0x0006A3D1).
+#include "../../../../../reference/shims/bfme_matrix4_rows_link/matrix4_bfme1_rows_link.h"
 #define __PLACEMENT_VEC_NEW_INLINE  // always.h/GameMemory.h define array placement-new themselves
 // stlport
 /*
@@ -73,6 +89,21 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+// Retail Release_Ref at 0x005D1A7D uses dec-dword under /G7.
+// Parse its refcount inlines with size optimization, preserving other headers.
+#include "wwstring.h"
+#pragma optimize("t", off)
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+#include "rendobj.h"
+// Keep shader inlines in their normal context before the size-optimized
+// TextureBase::Add_Ref at 0x000424B6 (word increment at +4).
+#include "shader.h"
+#pragma optimize("t", off)
+#pragma optimize("s", on)
+#include "texture.h"
+#pragma optimize("", on)
 #include "sphereobj.h"
 #include "w3d_util.h"
 #include "wwdebug.h"
@@ -95,6 +126,44 @@
 #include "dx8indexbuffer.h"
 #include "sortingrenderer.h"
 #include "visrasterizer.h"
+// Suppress this TU's non-retail copy of ?Evaluate@?$LERPAnimationChannelClass@M@@UAEMM@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+template <> float LERPAnimationChannelClass<float>::Evaluate(float);
+// Suppress this TU's non-retail copy of ?Evaluate@?$LERPAnimationChannelClass@VVector3@@@@UAE?AVVector3@@M@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Vector3;
+template <> Vector3 LERPAnimationChannelClass<Vector3>::Evaluate(float);
+// Suppress this TU's non-retail copy of ?Load_Variables@?$PrimitiveAnimationChannelClass@M@@IAEXAAVChunkLoadClass@@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ChunkLoadClass;
+template <> void PrimitiveAnimationChannelClass<float>::Load_Variables(ChunkLoadClass &);
+// Suppress this TU's non-retail copy of ?Load_Variables@?$PrimitiveAnimationChannelClass@VVector3@@@@IAEXAAVChunkLoadClass@@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Vector3; class ChunkLoadClass;
+template <> void PrimitiveAnimationChannelClass<Vector3>::Load_Variables(ChunkLoadClass &);
+// Suppress this TU's non-retail copy of ?Save@?$PrimitiveAnimationChannelClass@M@@UAEXAAVChunkSaveClass@@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ChunkSaveClass;
+template <> void PrimitiveAnimationChannelClass<float>::Save(ChunkSaveClass &);
+// Suppress this TU's non-retail copy of ?Save@?$PrimitiveAnimationChannelClass@VVector3@@@@UAEXAAVChunkSaveClass@@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Vector3; class ChunkSaveClass;
+template <> void PrimitiveAnimationChannelClass<Vector3>::Save(ChunkSaveClass &);
+// Suppress this TU's non-retail copy of ?Uninitialised_Grow@?$SimpleVecClass@VKeyClass@?$PrimitiveAnimationChannelClass@M@@@@UAE_N:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class PrimitiveAnimationChannelClass;
+template <> bool SimpleVecClass<PrimitiveAnimationChannelClass<float>::KeyClass>::Uninitialised_Grow(int);
+// Suppress this TU's non-retail copy of ?Uninitialised_Grow@?$SimpleVecClass@VKeyClass@?$PrimitiveAnimationChannelClass@VVector3@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class PrimitiveAnimationChannelClass; class Vector3;
+template <> bool SimpleVecClass<PrimitiveAnimationChannelClass<Vector3>::KeyClass>::Uninitialised_Grow(int);
+// Suppress this TU's non-retail copy of ??0KeyClass@?$PrimitiveAnimationChannelClass@M@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+template <> PrimitiveAnimationChannelClass<float>::KeyClass::KeyClass();
+// Suppress this TU's non-retail copy of ??0KeyClass@?$PrimitiveAnimationChannelClass@VVector3@@@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Vector3;
+template <> PrimitiveAnimationChannelClass<Vector3>::KeyClass::KeyClass();
 
 static bool Sphere_Array_Valid = false;
 
@@ -563,6 +632,7 @@ void SphereRenderObjClass::render_sphere()
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?SphereRenderObjClass::vis_render_sphere present-unmatched
 void SphereRenderObjClass::vis_render_sphere(SpecialRenderInfoClass & rinfo,const Vector3 & center,const Vector3 & extent)
 {
 }	// vis_render_sphere
@@ -744,9 +814,9 @@ void SphereRenderObjClass::Special_Render(SpecialRenderInfoClass & rinfo)
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
 // ?Set_Transform@SphereRenderObjClass@@UAEXABVMatrix3D@@@Z present-unmatched
-void SphereRenderObjClass::Set_Transform(const Matrix3D &m)
+void SphereRenderObjClass::Set_Transform(const Matrix3D &matrix3D)
 {
-	RenderObjClass::Set_Transform(m);
+	RenderObjClass::Set_Transform(matrix3D);
 	update_cached_box();
 }
 
@@ -853,6 +923,7 @@ void SphereRenderObjClass::Decrement_LOD(void)
 	if (CurrentLOD > 0) CurrentLOD--;
 }
 
+// ?SphereRenderObjClass::Get_Cost present-unmatched
 float SphereRenderObjClass::Get_Cost(void) const
 {
 	return Get_Num_Polys();	// Currently cost == polys
@@ -1489,12 +1560,12 @@ inverse_alpha(false)
  *   3/07/00    jga : Created.                                                                 *
  *=============================================================================================*/
 // ?Set_Alpha_Vector@SphereMeshClass@@QAEXABUAlphaVectorStruct@@_N11@Z present-unmatched
-void	SphereMeshClass::Set_Alpha_Vector (const AlphaVectorStruct &v, bool inverse, bool is_additive, bool force)
+void	SphereMeshClass::Set_Alpha_Vector (const AlphaVectorStruct &alphaVector, bool inverse, bool is_additive, bool force)
 {
 	//
 	//	Exit if there is nothing to do...
 	//
-	if (	alpha_vector == v &&
+	if (	alpha_vector == alphaVector &&
 			inverse == inverse_alpha &&
 			is_additive == IsAdditive &&
 			!force)
@@ -1503,9 +1574,9 @@ void	SphereMeshClass::Set_Alpha_Vector (const AlphaVectorStruct &v, bool inverse
 	}
 
 	inverse_alpha = inverse;
-	alpha_vector = v;
+	alpha_vector = alphaVector;
 
-	float Intensity = v.intensity;
+	float Intensity = alphaVector.intensity;
 	assert(Intensity >= 0.0f);
 
 	Vector3 vec = alpha_vector.angle.Rotate_Vector (Vector3 (1, 0, 0));

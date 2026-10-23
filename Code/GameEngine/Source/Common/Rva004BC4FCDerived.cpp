@@ -1,4 +1,4 @@
-// cl: /O1 /MD
+// cl: /MD
 //
 // Opaque single-inheritance destructors tail-calling Rva004BC4FC::~
 // Rva004BC4FC at 0x004BC4FC (matched opaque MI base dtor in
@@ -96,3 +96,13 @@ public:
 Rva004BD207::~Rva004BD207()
 {
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?f1@Rva004BC4FC_Mid@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?f2@Rva004BC4FC_B2@@UAEXXZ=?onCollide@CrateCollide@@UAEXPAVObject@@PBUCoord3D@@1@Z")

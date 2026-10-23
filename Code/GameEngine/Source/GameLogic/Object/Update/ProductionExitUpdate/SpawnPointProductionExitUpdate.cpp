@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/dockupdate /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /Ireference/shims/dockupdate /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/zh_outofline /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
 // stlport
 // Ported verbatim from the Generals Zero Hour reference (GameEngine/Source/GameLogic/Object/Update/ProductionExitUpdate/SpawnPointProductionExitUpdate.cpp); this unit had no counterpart under Code/.
 #define Matrix4x4 Matrix4  // BFME renamed it
@@ -71,80 +71,68 @@ public:
 };
 
 //-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Update/ProductionExitUpdate/SpawnPointProductionExitUpdateCtorModuleFactoryBody.cpp
-// ??0SpawnPointProductionExitUpdate@@QAE@PAVThing@@PBVModuleData@@@Z present-unmatched
-SpawnPointProductionExitUpdate::SpawnPointProductionExitUpdate( Thing *thing, const ModuleData* moduleData ) : UpdateModule( thing, moduleData )
-{
-	m_bonesInitialized = FALSE;
-	m_spawnPointCount = 0;
-	for( Int positionIndex = 0; positionIndex < MAX_SPAWN_POINTS; positionIndex++ )
-	{
-		m_worldCoordSpawnPoints[positionIndex].zero();
-		m_worldAngleSpawnPoints[positionIndex] = 0.0f;
-		m_spawnPointOccupier[positionIndex] = INVALID_ID;
-	}
-	setWakeFrame(getObject(), UPDATE_SLEEP_FOREVER);
-}
+// SpawnPointProductionExitUpdate::SpawnPointProductionExitUpdate: defined in SpawnPointProductionExitUpdateCtor.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
-// ??1SpawnPointProductionExitUpdate@@MAE@XZ present-unmatched
-SpawnPointProductionExitUpdate::~SpawnPointProductionExitUpdate()
-{
-}
+// SpawnPointProductionExitUpdate::~SpawnPointProductionExitUpdate: defined in SpawnPointProductionExitUpdateDtor.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
-void SpawnPointProductionExitUpdate::exitObjectViaDoor( Object *newObj, ExitDoorType exitDoor )
-{
-	DEBUG_ASSERTCRASH(exitDoor == DOOR_1, ("multiple exit doors not supported here"));
+// ?SpawnPointProductionExitUpdate::exitObjectViaDoor present-unmatched
+//   (byte-exact definition lives in SpawnPointExitObjectViaDoor.cpp: retail's
+//    receiver is the ExitUpdateInterface sub-object at module+0x20, so the
+//    merged-module ZH layout here cannot host the retail bytes.)
+// void SpawnPointProductionExitUpdate::exitObjectViaDoor( Object *newObj, ExitDoorType exitDoor )
+// {
+// 	DEBUG_ASSERTCRASH(exitDoor == DOOR_1, ("multiple exit doors not supported here"));
 
-	if( !m_bonesInitialized )
-		initializeBonePositions();
+// 	if( !m_bonesInitialized )
+// 		initializeBonePositions();
 
 	// BFME's UpdateModule carries one additional dword before m_object.
-	Object *creationObject = *(Object **)((char *)this + 8);
-	if (creationObject)
-	{
-		for( Int positionIndex = 0; positionIndex < m_spawnPointCount; positionIndex++ )
-		{
-			if( m_spawnPointOccupier[positionIndex] == INVALID_ID )
-				break;
-		}
-		if( positionIndex == m_spawnPointCount )
-		{
-			DEBUG_CRASH( ("A SpawnPoint exit thought it had room but then failed") );
-			return;
-		}
+// 	Object *creationObject = *(Object **)((char *)this + 8);
+// 	if (creationObject)
+// 	{
+// 		for( Int positionIndex = 0; positionIndex < m_spawnPointCount; positionIndex++ )
+// 		{
+// 			if( m_spawnPointOccupier[positionIndex] == INVALID_ID )
+// 				break;
+// 		}
+// 		if( positionIndex == m_spawnPointCount )
+// 		{
+// 			DEBUG_CRASH( ("A SpawnPoint exit thought it had room but then failed") );
+// 			return;
+// 		}
 
-		Coord3D createPoint;
-		Real createAngle;
+// 		Coord3D createPoint;
+// 		Real createAngle;
 
 		// Get the location from our bone array
-		createPoint = m_worldCoordSpawnPoints[positionIndex];
+// 		createPoint = m_worldCoordSpawnPoints[positionIndex];
 
 		// make sure the point is on the terrain
-		createPoint.z = TheTerrainLogic ? ((BfmeSpawnPointTerrainLogic *)TheTerrainLogic)->getLayerHeight( createPoint.x, createPoint.y,
-			((BfmeSpawnPointCreationObject *)creationObject)->getLayer(), FALSE, TRUE) : 0.0f;
+// 		createPoint.z = TheTerrainLogic ? ((BfmeSpawnPointTerrainLogic *)TheTerrainLogic)->getLayerHeight( createPoint.x, createPoint.y,
+// 			((BfmeSpawnPointCreationObject *)creationObject)->getLayer(), FALSE, TRUE) : 0.0f;
 
 		// get the angle
-		createAngle = m_worldAngleSpawnPoints[positionIndex];
+// 		createAngle = m_worldAngleSpawnPoints[positionIndex];
 
 		// record him as taking this spot
-		m_spawnPointOccupier[positionIndex] = newObj->getID();
+// 		m_spawnPointOccupier[positionIndex] = newObj->getID();
 
 		// put him there
-		newObj->setPosition( &createPoint );
-		newObj->setOrientation( createAngle );
-		newObj->setLayer(((BfmeSpawnPointCreationObject *)creationObject)->getLayer());
+// 		newObj->setPosition( &createPoint );
+// 		newObj->setOrientation( createAngle );
+// 		newObj->setLayer(((BfmeSpawnPointCreationObject *)creationObject)->getLayer());
 
-		/** @todo This really should be automatically wrapped up in an actication sequence
-		for objects in general */
+// 		/** @todo This really should be automatically wrapped up in an actication sequence
+// 		for objects in general */
 		// tell the AI about it
-		((BfmeSpawnPointPathfinder *)TheAI->pathfinder())->addObjectToPathfindMap( newObj );
+// 		((BfmeSpawnPointPathfinder *)TheAI->pathfinder())->addObjectToPathfindMap( newObj );
 
 		// You are stuck here, little man.
-		newObj->setDisabled( DISABLED_HELD );
-	}
-}
+// 		newObj->setDisabled( DISABLED_HELD );
+// 	}
+// }
 
 //-------------------------------------------------------------------------------------------------
 ExitDoorType SpawnPointProductionExitUpdate::reserveDoorForExit( const ThingTemplate* objType, Object *specificObject )
@@ -175,40 +163,7 @@ void SpawnPointProductionExitUpdate::unreserveDoorForExit( ExitDoorType exitDoor
 
 //-------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Update/ProductionExitUpdate/SpawnPointProductionExitUpdateInitializeBonePositionsThunk.cpp
-// ?initializeBonePositions@SpawnPointProductionExitUpdate@@AAEXXZ present-unmatched
-void SpawnPointProductionExitUpdate::initializeBonePositions()
-{
-	Object *me = getObject();
-	Drawable *myDrawable = me->getDrawable();
-
-	// This fundamental failure will result in this never ever thinking it is free
-	if( myDrawable == NULL )
-		return;
-
-	Matrix3D boneTransforms[MAX_SPAWN_POINTS];
-	for( Int matrixIndex = 0; matrixIndex < MAX_SPAWN_POINTS; matrixIndex++ )
-		boneTransforms[matrixIndex].Make_Identity();
-
-	// Get all the bones of the right name
-	const SpawnPointProductionExitUpdateModuleData* md = getSpawnPointProductionExitUpdateModuleData();
-	m_spawnPointCount = myDrawable->getPristineBonePositions( md->m_spawnPointBoneNameData.str(), 1, NULL, boneTransforms, MAX_SPAWN_POINTS );
-
-	for( matrixIndex = 0; matrixIndex < m_spawnPointCount; matrixIndex++ )
-	{
-		Matrix3D *currentTransform = &(boneTransforms[matrixIndex]);
-		// Convert their matrix one by one
-		me->convertBonePosToWorldPos( NULL, currentTransform, NULL, currentTransform );
-
-		// Then save the world coord and angle
-		m_worldCoordSpawnPoints[matrixIndex].x = currentTransform->Get_X_Translation();
-		m_worldCoordSpawnPoints[matrixIndex].y = currentTransform->Get_Y_Translation();
-		m_worldCoordSpawnPoints[matrixIndex].z = 0; //set at creation time
-
-		m_worldAngleSpawnPoints[matrixIndex] = currentTransform->Get_Z_Rotation();
-	}
-
-	m_bonesInitialized = TRUE;
-}
+// SpawnPointProductionExitUpdate::initializeBonePositions: defined in SpawnPointInitializeBonePositions.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Update/ProductionExitUpdate/SpawnPointRevalidateOccupiers.cpp
@@ -216,14 +171,14 @@ void SpawnPointProductionExitUpdate::initializeBonePositions()
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
-// ?crc@SpawnPointProductionExitUpdate@@MAEXPAVXfer@@@Z present-unmatched
-void SpawnPointProductionExitUpdate::crc( Xfer *xfer )
-{
+// Zero Hour's SpawnPointProductionExitUpdate::crc (it only extends the base-class crc) has no BFME 2
+// counterpart: BFME 2's module vtables (BoneFXUpdate 0x00C4B170, FireSpreadUpdate
+// 0x00C4BF90, StructureCollapseUpdate, SlowDeathBehavior, OpenContain) run
+// deleting dtor, loadPostProcess, name, xfer, module key with no crc slot, so
+// the ZH body is dropped (blank lines keep later __LINE__ values unchanged).
 
-	// extend base class
-	UpdateModule::crc( xfer );
 
-}  // end crc
+
 
 // ------------------------------------------------------------------------------------------------
 /** Xfer method

@@ -27,6 +27,9 @@
 // The element is spelled `unsigned short` rather than `wchar_t` because this
 // build has no native wide type (/Zc:wchar_t-), which is also why the decorated
 // name reads `G` and not `_W`.
+// The proxy converts element counts to bytes before the pinned wide allocator
+// alias; bind that spelling to the matched raw-byte allocator provider.
+#pragma comment(linker, "/alternatename:?allocate@?$allocator@G@_STL@@SAPAGIPBX@Z=?allocate@?$allocator@D@_STL@@SAPADIPBX@Z")
 
 extern "C" void __cdecl free(void *block);
 

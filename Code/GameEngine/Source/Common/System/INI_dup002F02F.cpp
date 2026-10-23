@@ -17,20 +17,16 @@ public:
 	static void dup_002F02F(INI *ini, void *instance, void *store, const void *userData);
 };
 
-struct INIException
+class INIException
 {
+public:
+	INIException(int argCount, const char *format, ...);
 	char *mFailureMessage;
 	int mErrorCode;
+	INIException(const INIException &that);
+	~INIException();
 };
 
-extern "C" void rva002f681_fill(void *dst, int code, const char *fmt, ...);
-__declspec(noreturn) void __stdcall _CxxThrowException(void *pExc, void *pInfo);
-
-// Address anchor only: the throw site pushes this object's address as an
-// immediate (DIR32, copied from retail's throwinfo at 0xCFE2FC). Content is
-// never compared; the real chain lives in the retail image.
-struct Dup002F02FThrowInfoAnchor { int a; int b; int c; int d; };
-static const Dup002F02FThrowInfoAnchor dup002F02FThrowInfoAnchor = { 0, 0, 0, 0 };
 
 // ?dup_002F02F@INI@@SAXPAV1@PAX1PBX@Z
 void INI::dup_002F02F(INI *ini, void *instance, void *store, const void *userData)
@@ -38,8 +34,6 @@ void INI::dup_002F02F(INI *ini, void *instance, void *store, const void *userDat
 	float value = ini->scanReal(ini->getNextToken(0));
 	*(float *)store = value;
 	if (value < 0.0f) {
-		INIException e;
-		rva002f681_fill(&e, 3, "invalid Real value %1.7f -- expected >= 0", value);
-		_CxxThrowException(&e, (void *)&dup002F02FThrowInfoAnchor);
+		throw INIException(3, "invalid Real value %1.7f -- expected >= 0", value);
 	}
 }

@@ -1,5 +1,5 @@
 // ?bfmeAppendVKG@BfmeBufVKG@@QAEPAV1@PBDI@Z
-// cl: /O2 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 
 extern "C" void *__cdecl memcpy(void *, const void *, unsigned int);
 #pragma intrinsic(memcpy)
@@ -12,14 +12,26 @@ struct BfmeStringDataVKG
 	unsigned short m_hash;
 };
 
+class BfmeBufVKG;
+class EAStringC
+{
+public:
+	enum CBPushZero
+	{
+		CB_NO_PUSH_ZERO,
+		CB_PUSH_ZERO
+	};
+
+private:
+	void ChangeBuffer(unsigned int reserve, unsigned int offset,
+		unsigned int size, CBPushZero pushZero, unsigned int internalSize);
+	friend class BfmeBufVKG;
+};
+
 class BfmeStrVKJ
 {
 	protected:
 	BfmeStringDataVKG *m_data;
-
-	public:
-	void bfmeReserveVKJ(unsigned int reserve, int offset,
-		unsigned int size, int pushZero, unsigned int internalSize);
 };
 
 class BfmeBufVKG : public BfmeStrVKJ
@@ -41,7 +53,8 @@ BfmeBufVKG *BfmeBufVKG::bfmeAppendVKG(const char *source, unsigned int limit)
 	{
 		unsigned int oldSize = m_data->m_size;
 		unsigned int newSize = oldSize + count;
-		bfmeReserveVKJ(newSize, 0, oldSize, 1, newSize);
+		((EAStringC *)this)->ChangeBuffer(newSize, 0, oldSize,
+			EAStringC::CB_PUSH_ZERO, newSize);
 		memcpy(reinterpret_cast<char *>(m_data) + 8 + oldSize,
 			source, count);
 	}

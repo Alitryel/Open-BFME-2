@@ -21,7 +21,18 @@ private:
 };
 
 // ?friend_newModuleInstance@SwayClientUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *SwayClientUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *SwayClientUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new SwayClientUpdate(thing, moduleData));
 }
+
+// Select-any anchor: this unit owns the row above while other TUs emit it as
+// an inline copy. The anchor keeps this unit emitting its copy for the ledger;
+// it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitSwayClientUpdateFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitSwayClientUpdateFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	SwayClientUpdate::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
 // readable body of ?setFont@SuperweaponInfo@@QAEXABVAsciiString@@H_N@Z: Code/GameEngine/Source/GameClient/InGameUI.cpp
 // readable body of ?drawName@SuperweaponInfo@@QAEXHHHH@Z: Code/GameEngine/Source/GameClient/InGameUI.cpp
 // readable body of ?drawTime@SuperweaponInfo@@QAEXHHHH@Z: Code/GameEngine/Source/GameClient/InGameUI.cpp
@@ -42,7 +42,7 @@ public:
 	virtual void slot10() = 0;
 	virtual void slot14() = 0;
 	virtual void setFont(GameFont *font) = 0;
-	virtual void slot1C() = 0;
+	virtual GameFont *getFont() = 0;
 	virtual void slot20() = 0;
 	virtual void slot24() = 0;
 	virtual void setColors(Color color, Color dropColor) = 0;
@@ -71,7 +71,7 @@ public:
 	virtual void freeDisplayString(DisplayString *string) = 0;
 };
 
-class GlobalLanguageData
+class GlobalLanguage
 {
 public:
 	Int adjustFontSize(Int point);
@@ -81,11 +81,13 @@ public:
 class FontLibrary
 {
 public:
-	GameFont *getFont(AsciiString *name, Real pointSize, unsigned char bold);
+	GameFont *getFont(const AsciiString *name, Real pointSize, bool bold);
 };
 
 extern DisplayStringManager *TheDisplayStringManager;
-extern GlobalLanguageData *TheGlobalLanguageData;
+extern GlobalLanguage *TheGlobalLanguageData;
+// TheGlobalLanguageData: matched references place it at VA 0xdfdc84 (zero-filled .bss).
+GlobalLanguage * TheGlobalLanguageData;
 extern FontLibrary *TheFontLibrary;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameClient/InGameUI.h
@@ -95,6 +97,7 @@ public:
 	void setFont(const AsciiString &fontName, Int pointSize, Bool bold);
 	void drawName(Int x, Int y, Color color, Color dropColor);
 	void drawTime(Int x, Int y, Color color, Color dropColor);
+	Real getHeight() const;
 
 protected:
 	virtual ~SuperweaponInfo();
@@ -111,7 +114,6 @@ private:
 // ?setFont@SuperweaponInfo@@QAEXABVAsciiString@@H_N@Z
 // Both strings take the same font, and the point size passes through the
 // language data's adjustment on the way in.
-// ?setFont@SuperweaponInfo@@QAEXABVAsciiString@@H_N@Z present-unmatched
 void SuperweaponInfo::setFont(const AsciiString &fontName, Int pointSize, Bool bold)
 {
 	m_nameDisplayString->setFont(TheFontLibrary->getFont(
@@ -146,15 +148,17 @@ void SuperweaponInfo::drawTime(Int x, Int y, Color color, Color dropColor)
 	m_timeDisplayString->drawAtOffsets(x - m_nameDisplayString->getWidth(-1), y, 1, 1);
 }
 
-// ??1SuperweaponInfo@@MAE@XZ
-// ??1SuperweaponInfo@@MAE@XZ present-unmatched
-SuperweaponInfo::~SuperweaponInfo()
-{
-	if (m_nameDisplayString)
-		TheDisplayStringManager->freeDisplayString(m_nameDisplayString);
-	m_nameDisplayString = 0;
+// SuperweaponInfo::~SuperweaponInfo: defined in InGameUI.cpp (its unit).
 
-	if (m_timeDisplayString)
-		TheDisplayStringManager->freeDisplayString(m_timeDisplayString);
-	m_timeDisplayString = 0;
+// Readable BF1 f989 InGameUI.cpp supplies SuperweaponInfo::getHeight.
+// Native29A5CA..29A5D6 follows RET16 at29A5C7; caller2A0664 passes the
+// same ESI as rowed drawName29A541/drawTime29A585 and adds the result to y.
+// Native DisplayString tables BCF900/C15338 slot1C both select30F45F,
+// the font pointer getter at+8. Native W3DFontLibraryLoadFontData902A6
+// independently stores font height at+10. Keep the forward GameFont type
+// and read that proven signed word without adding another private class view.
+// ?getHeight@SuperweaponInfo@@QBEMXZ
+Real SuperweaponInfo::getHeight() const
+{
+    return reinterpret_cast<const Int *>(m_nameDisplayString->getFont())[4];
 }

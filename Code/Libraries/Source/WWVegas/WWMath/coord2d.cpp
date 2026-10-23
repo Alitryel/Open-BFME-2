@@ -103,19 +103,21 @@ class Coord2D : public Coord2DBase
     float GetLengthEstimate() const;
 };
 
-// Out of line, because an in-class body is implicitly inline and MSVC folds it
-// into its callers instead of emitting the COMDAT.
-Coord2D::Coord2D()
+// These header bodies must be select-any copies, like their inlined callers.
+// The anchor below retains their exact three-byte and one-byte ledger bodies.
+inline Coord2D::Coord2D()
 {
 }
 
-Coord2D::~Coord2D()
+inline Coord2D::~Coord2D()
 {
 }
 
 // Two loads and two stores of the base pair, whatever the argument is nominally
 // declared as - which is why one body carries six names.
-Coord2D::Coord2D(const Coord2D &that)
+// The same native copy constructor is emitted by header consumers as a
+// select-any COMDAT; this copy must use the same linkage to fold with them.
+inline Coord2D::Coord2D(const Coord2D &that)
 {
     x = that.x;
     y = that.y;
@@ -157,7 +159,8 @@ Coord2D &Coord2D::operator=(const Coord3DBase &that)
     return *this;
 }
 
-Coord2D::Coord2D(float x, float y)
+// Header consumers (Coord2DCtorView.h) emit this as a select-any copy too.
+inline Coord2D::Coord2D(float x, float y)
 {
     this->x = x;
     this->y = y;
@@ -274,12 +277,12 @@ bool Coord2D::IsExactlyEqualTo(const Coord2D &that) const
     return x == that.x && y == that.y;
 }
 
-float Coord2D::length() const
+inline float Coord2D::length() const
 {
     return (float)sqrt(x * x + y * y);
 }
 
-void Coord2D::normalize()
+inline void Coord2D::normalize()
 {
     float len = length();
     if (len != 0.0f) {
@@ -384,7 +387,7 @@ float Coord2D::GetLength() const
     return (float)sqrt(x_value * x_value + y_value * y_value);
 }
 
-float Coord2D::GetLengthSqrd() const
+inline float Coord2D::GetLengthSqrd() const
 {
     float x_value = x;
     float y_value = y;
@@ -415,7 +418,7 @@ float ACos(float value);
 // out of range. The sign of y picks the half-turn; MSVC stores the 1.0f
 // speculatively before the upper comparison, which is what the pair of
 // movss-to-[ebp-4] around the ja is.
-float Coord2D::toAngle() const
+inline float Coord2D::toAngle() const
 {
     float len = length();
 
@@ -440,3 +443,48 @@ float Coord2D::toAngle() const
 
     return ACos(cosine);
 }
+
+// Native1040AE is the by-value subtraction called twice by the exported
+// ClosestPointOnLineSegment6B3100. WorldBuilder's MathCoord2D.h twin names
+// its operand class Coord2D; the existing MathCoord2D row is a lifetime view
+// of the same39B scalar-SSE body. Keep the real class spelling in this home.
+inline Coord2D operator-(Coord2D left, const Coord2D &right)
+{
+    left.x -= right.x;
+    left.y -= right.y;
+    return left;
+}
+
+// The same native call chain ends in by-value addition at7DEC8.
+inline Coord2D operator+(Coord2D left, const Coord2D &right)
+{
+    left.x += right.x;
+    left.y += right.y;
+    return left;
+}
+
+// These are header inlines that the units including the header emit as
+// select-any copies, which plain definitions here collided with. The anchor
+// keeps this unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeCoord2DInlineAnchor absent-from-retail
+void _bfmeCoord2DInlineAnchor(Coord2D *c)
+{
+    Coord2D local;
+    Coord2D copy(*c);
+    Coord2D pair(c->x, c->y);
+    copy = copy + pair;
+    copy = copy - local;
+    copy = copy + local;
+    c->normalize();
+    c->length();
+    c->GetLengthSqrd();
+    c->toAngle();
+}
+#pragma inline_depth()
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??1BfmeElemVVD@@QAE@XZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??0Rva0047A040Base9E0@@QAE@XZ=??0Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:_bfmeDtorCbDSE=??1Coord2D@@QAE@XZ")

@@ -6,6 +6,12 @@
 // module-template destructor onto. Named templates whose destructors share
 // the fold ride in the same TU under the same standalone shape.
 
+extern "C" const void *const __identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@")[];  // folded, 35 classes
+
+extern "C" const void *const __identifier("??_7BfmeBaseVUQ@@6B@")[];  // folded, 23 classes
+
+extern "C" const void *const __identifier("??_7ModuleTemplate@FXParticleSystem@@6B@")[];
+
 namespace FXParticleSystem
 {
 
@@ -21,14 +27,14 @@ public:
     virtual ~DefaultModuleTemplate();
 };
 
-DefaultModuleTemplate<1>::~DefaultModuleTemplate()
+inline DefaultModuleTemplate<1>::~DefaultModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = 0x00BBB554;
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = 0x00C1C780;
-    *(volatile unsigned int *)this = 0x00BBB52C;
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 template <>
@@ -38,14 +44,14 @@ public:
     virtual ~DefaultModuleTemplate();
 };
 
-DefaultModuleTemplate<2>::~DefaultModuleTemplate()
+inline DefaultModuleTemplate<2>::~DefaultModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = 0x00BBB554;
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = 0x00C1C780;
-    *(volatile unsigned int *)this = 0x00BBB52C;
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 template <>
@@ -55,14 +61,14 @@ public:
     virtual ~DefaultModuleTemplate();
 };
 
-DefaultModuleTemplate<3>::~DefaultModuleTemplate()
+inline DefaultModuleTemplate<3>::~DefaultModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = 0x00BBB554;
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = 0x00C1C780;
-    *(volatile unsigned int *)this = 0x00BBB52C;
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 template <>
@@ -72,14 +78,14 @@ public:
     virtual ~DefaultModuleTemplate();
 };
 
-DefaultModuleTemplate<0>::~DefaultModuleTemplate()
+inline DefaultModuleTemplate<0>::~DefaultModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = 0x00BBB554;
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = 0x00C1C780;
-    *(volatile unsigned int *)this = 0x00BBB52C;
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 template <>
@@ -89,14 +95,14 @@ public:
     virtual ~DefaultModuleTemplate();
 };
 
-DefaultModuleTemplate<6>::~DefaultModuleTemplate()
+inline DefaultModuleTemplate<6>::~DefaultModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = 0x00BBB554;
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = 0x00C1C780;
-    *(volatile unsigned int *)this = 0x00BBB52C;
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 // Category 7 delegates: its template destructor is a bare tail call into the
@@ -117,10 +123,6 @@ public:
     DefaultModuleTemplate<7> &operator=(const DefaultModuleTemplate<7> &that);
 };
 
-// A file-scope instance forces the implicit destructor out; it is what the
-// ledger compares.
-DefaultModuleTemplate<7> g_defaultModuleTemplate7;
-
 // The assignment hands straight through to the category base, the eighteen
 // bytes retail keeps next to the destructor fold.
 DefaultModuleTemplate<7> &DefaultModuleTemplate<7>::operator=(
@@ -138,14 +140,14 @@ public:
     virtual ~CylindricalEmissionVelocityModuleTemplate();
 };
 
-CylindricalEmissionVelocityModuleTemplate::~CylindricalEmissionVelocityModuleTemplate()
+inline CylindricalEmissionVelocityModuleTemplate::~CylindricalEmissionVelocityModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = 0x00BBB554;
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = 0x00C1C780;
-    *(volatile unsigned int *)this = 0x00BBB52C;
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 class __declspec(novtable) OrthoEmissionVelocityModuleTemplate
@@ -154,14 +156,14 @@ public:
     virtual ~OrthoEmissionVelocityModuleTemplate();
 };
 
-OrthoEmissionVelocityModuleTemplate::~OrthoEmissionVelocityModuleTemplate()
+inline OrthoEmissionVelocityModuleTemplate::~OrthoEmissionVelocityModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = 0x00BBB554;
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = 0x00C1C780;
-    *(volatile unsigned int *)this = 0x00BBB52C;
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 class __declspec(novtable) LightningDrawModuleTemplate
@@ -170,14 +172,14 @@ public:
     virtual ~LightningDrawModuleTemplate();
 };
 
-LightningDrawModuleTemplate::~LightningDrawModuleTemplate()
+inline LightningDrawModuleTemplate::~LightningDrawModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = 0x00BBB554;
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = 0x00C1C780;
-    *(volatile unsigned int *)this = 0x00BBB52C;
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 class __declspec(novtable) LightningEmissionModuleTemplate
@@ -186,14 +188,14 @@ public:
     virtual ~LightningEmissionModuleTemplate();
 };
 
-LightningEmissionModuleTemplate::~LightningEmissionModuleTemplate()
+inline LightningEmissionModuleTemplate::~LightningEmissionModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = 0x00BBB554;
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = 0x00C1C780;
-    *(volatile unsigned int *)this = 0x00BBB52C;
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 class __declspec(novtable) RenderObjectUpdateModuleTemplate
@@ -202,14 +204,14 @@ public:
     virtual ~RenderObjectUpdateModuleTemplate();
 };
 
-RenderObjectUpdateModuleTemplate::~RenderObjectUpdateModuleTemplate()
+inline RenderObjectUpdateModuleTemplate::~RenderObjectUpdateModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = 0x00BBB554;
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = 0x00C1C780;
-    *(volatile unsigned int *)this = 0x00BBB52C;
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 class __declspec(novtable) TerrainFireEmissionModuleTemplate
@@ -218,14 +220,14 @@ public:
     virtual ~TerrainFireEmissionModuleTemplate();
 };
 
-TerrainFireEmissionModuleTemplate::~TerrainFireEmissionModuleTemplate()
+inline TerrainFireEmissionModuleTemplate::~TerrainFireEmissionModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = 0x00BBB554;
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = 0x00C1C780;
-    *(volatile unsigned int *)this = 0x00BBB52C;
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 class __declspec(novtable) OutwardEmissionVelocityModuleTemplate
@@ -234,14 +236,36 @@ public:
     virtual ~OutwardEmissionVelocityModuleTemplate();
 };
 
-OutwardEmissionVelocityModuleTemplate::~OutwardEmissionVelocityModuleTemplate()
+inline OutwardEmissionVelocityModuleTemplate::~OutwardEmissionVelocityModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = 0x00BBB554;
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = 0x00C1C780;
-    *(volatile unsigned int *)this = 0x00BBB52C;
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 }
+
+// These header-inline destructors retain their row copies through this anchor.
+// The anchor is absent from retail.
+#pragma inline_depth(0)
+// ?_bfmeFXParticleSystemDefaultTemplateDtorInlineAnchor@@YAXXZ absent-from-retail
+void _bfmeFXParticleSystemDefaultTemplateDtorInlineAnchor()
+{
+    static_cast<FXParticleSystem::DefaultModuleTemplate<7> *>(0)->FXParticleSystem::DefaultModuleTemplate<7>::~DefaultModuleTemplate();
+    static_cast<FXParticleSystem::DefaultModuleTemplate<0> *>(0)->FXParticleSystem::DefaultModuleTemplate<0>::~DefaultModuleTemplate();
+    static_cast<FXParticleSystem::DefaultModuleTemplate<1> *>(0)->FXParticleSystem::DefaultModuleTemplate<1>::~DefaultModuleTemplate();
+    static_cast<FXParticleSystem::DefaultModuleTemplate<2> *>(0)->FXParticleSystem::DefaultModuleTemplate<2>::~DefaultModuleTemplate();
+    static_cast<FXParticleSystem::DefaultModuleTemplate<3> *>(0)->FXParticleSystem::DefaultModuleTemplate<3>::~DefaultModuleTemplate();
+    static_cast<FXParticleSystem::DefaultModuleTemplate<6> *>(0)->FXParticleSystem::DefaultModuleTemplate<6>::~DefaultModuleTemplate();
+    static_cast<FXParticleSystem::CylindricalEmissionVelocityModuleTemplate *>(0)->FXParticleSystem::CylindricalEmissionVelocityModuleTemplate::~CylindricalEmissionVelocityModuleTemplate();
+    static_cast<FXParticleSystem::OrthoEmissionVelocityModuleTemplate *>(0)->FXParticleSystem::OrthoEmissionVelocityModuleTemplate::~OrthoEmissionVelocityModuleTemplate();
+    static_cast<FXParticleSystem::LightningDrawModuleTemplate *>(0)->FXParticleSystem::LightningDrawModuleTemplate::~LightningDrawModuleTemplate();
+    static_cast<FXParticleSystem::LightningEmissionModuleTemplate *>(0)->FXParticleSystem::LightningEmissionModuleTemplate::~LightningEmissionModuleTemplate();
+    static_cast<FXParticleSystem::RenderObjectUpdateModuleTemplate *>(0)->FXParticleSystem::RenderObjectUpdateModuleTemplate::~RenderObjectUpdateModuleTemplate();
+    static_cast<FXParticleSystem::TerrainFireEmissionModuleTemplate *>(0)->FXParticleSystem::TerrainFireEmissionModuleTemplate::~TerrainFireEmissionModuleTemplate();
+    static_cast<FXParticleSystem::OutwardEmissionVelocityModuleTemplate *>(0)->FXParticleSystem::OutwardEmissionVelocityModuleTemplate::~OutwardEmissionVelocityModuleTemplate();
+}
+#pragma inline_depth()

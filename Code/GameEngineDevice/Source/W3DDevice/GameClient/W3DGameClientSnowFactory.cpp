@@ -30,7 +30,23 @@ protected:
     virtual SnowManager *createSnowManager();
 };
 
-SnowManager *W3DGameClient::createSnowManager()
+inline SnowManager *W3DGameClient::createSnowManager()
 {
     return new W3DSnowManager;
 }
+
+// createSnowManager is a header inline: other units emit select-any copies
+// of it, so a strong definition here was a duplicate symbol in the linked
+// build. This anchor only makes this unit emit its copy for the ledger row;
+// it is not retail code. The qualified call emits the copy without a virtual
+// dispatch (a plain virtual call would not emit it).
+struct W3DGameClientSnowEmitter : public W3DGameClient {
+    static void emit(W3DGameClientSnowEmitter *p);
+};
+#pragma inline_depth(0)
+// ?emit@W3DGameClientSnowEmitter@@SAXPAU1@@Z present-unmatched
+void W3DGameClientSnowEmitter::emit(W3DGameClientSnowEmitter *w3DGameClientSnowEmitter)
+{
+    w3DGameClientSnowEmitter->W3DGameClient::createSnowManager();
+}
+#pragma inline_depth()

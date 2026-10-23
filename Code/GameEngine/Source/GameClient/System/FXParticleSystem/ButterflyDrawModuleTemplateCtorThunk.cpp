@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 // Open-BFME5: clean-C++ ButterflyDrawModuleTemplate default constructor.
 
 namespace FXParticleSystem
@@ -12,32 +12,32 @@ public:
     virtual ~ModuleTemplate() {}
 };
 
-template <int Category>
-class CategoryModuleInfo
+class SecondaryModuleBase
 {
 public:
-    CategoryModuleInfo() {}
-    virtual void unusedVirtual();
-
-protected:
-    ~CategoryModuleInfo() {}
+    __declspec(dllimport) __forceinline SecondaryModuleBase() {}
+    virtual ~SecondaryModuleBase() {}
+    virtual void v1() = 0;
 };
+
+class ModuleInfo {};
 
 template <int Category>
 class CategoryModuleTemplateBase : public ModuleTemplate,
-    public CategoryModuleInfo<Category>
+    public SecondaryModuleBase
 {
 public:
     CategoryModuleTemplateBase() {}
-    virtual ~CategoryModuleTemplateBase() {}
 };
 
 template <int Category>
-class CategoryModuleTemplate : public CategoryModuleTemplateBase<Category>
+class CategoryModuleTemplate : public CategoryModuleTemplateBase<Category>,
+    public ModuleInfo
 {
 public:
     CategoryModuleTemplate() {}
-    virtual ~CategoryModuleTemplate() {}
+    virtual ~CategoryModuleTemplate();
+    virtual void v1();
 };
 
 class ButterflyDrawModuleInfo
@@ -55,6 +55,7 @@ class ButterflyDrawModuleTemplate : public CategoryModuleTemplate<6>,
 {
 public:
     ButterflyDrawModuleTemplate();
+    virtual ~ButterflyDrawModuleTemplate();
 };
 
 // ??0ButterflyDrawModuleTemplate@FXParticleSystem@@QAE@XZ

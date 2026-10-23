@@ -264,7 +264,16 @@ public:
 	RenderObjClass(void);
 	RenderObjClass(const RenderObjClass & src);
 	RenderObjClass & RenderObjClass::operator = (const RenderObjClass &);
-	virtual ~RenderObjClass(void)																					{ }
+	virtual ~RenderObjClass(void);
+
+// Retail's out-of-line copies of these header inlines are size-optimised (/O1 shape:
+// one shared RET in the bit setters, INC for Add_Ref): 0x0006CE71..0x0006D054 holds them
+// in vtable order, with Set_Sub_Object_Transforms_Dirty at 0x0006334D and Get_Current_LOD at
+// 0x0007E4AF. Inlined call sites keep each caller's own optimisation (75 units verified).
+// In-class bodies are compiled with the state at the class's closing brace, so the two whose
+// retail copies are /O2-shaped are defined after it, once the pragma is reset: the destructor
+// (0x0013BE20, /O2 EH frame) and Set_Sub_Objects_Match_LOD (0x001A30F0, two RETs).
+#pragma optimize("s", on)
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -546,7 +555,15 @@ public:
    virtual int						Get_Sort_Level(void) const										{ return 0; /* SORT_LEVEL_NONE */ }
    virtual void					Set_Sort_Level(int level)										{ }
 
+// The bit setters below are emitted only by the units that hold their retail rows:
+// BFME_RO_DEFINE_VISIBILITY in RenderObjO1Inlines.cpp, BFME_RO_DEFINE_FLAGS in
+// HeightMap.cpp. Every other unit only declares them, so its vtables reference
+// the one retail copy instead of emitting a differently-compiled COMDAT.
+#ifdef BFME_RO_DEFINE_VISIBILITY
 	virtual int						Is_Really_Visible(void)														{ return ((Bits & IS_NOT_HIDDEN_AT_ALL) == IS_NOT_HIDDEN_AT_ALL) && Is_Visible(); }
+#else
+	virtual int						Is_Really_Visible(void);
+#endif
 	virtual int						Is_Not_Hidden_At_All(void)													{ return ((Bits & IS_NOT_HIDDEN_AT_ALL) == IS_NOT_HIDDEN_AT_ALL); }
 	virtual int						Is_Visible(void) const														{ return (Bits & IS_VISIBLE); }
 	// BFME: retail Set_Visible takes a second parameter (stored at member 0x90);
@@ -558,18 +575,34 @@ public:
 //	virtual void					Set_VisibleWithCheatSpy(int onoff)								{ if (onoff) { Bits |= IS_VISIBLE|0x80; } else { Bits &= ~IS_VISIBLE; } }
 
 	virtual int						Is_Hidden(void) const														{ return !(Bits & IS_NOT_HIDDEN); }
+#ifdef BFME_RO_DEFINE_VISIBILITY
 	virtual void					Set_Hidden(int onoff)														{ if (onoff) { Bits &= ~IS_NOT_HIDDEN; } else { Bits |= IS_NOT_HIDDEN; } }
+#else
+	virtual void					Set_Hidden(int onoff);
+#endif
 	virtual int						Is_Animation_Hidden(void) const											{ return !(Bits & IS_NOT_ANIMATION_HIDDEN); }
+#ifdef BFME_RO_DEFINE_VISIBILITY
 	virtual void					Set_Animation_Hidden(int onoff)											{ if (onoff) { Bits &= ~IS_NOT_ANIMATION_HIDDEN; } else { Bits |= IS_NOT_ANIMATION_HIDDEN; } }
+#else
+	virtual void					Set_Animation_Hidden(int onoff);
+#endif
 	virtual int						Is_Force_Visible(void) const												{ return Bits & IS_FORCE_VISIBLE; }
 	// BFME drift: out-of-line in retail (0x91F890) — callers emit a call instead
 	// of inlining the Bits update (ParticleBufferClass ctor at 0x9897A7).
 	virtual void					Set_Force_Visible(int onoff);
 
 	virtual int						Is_Translucent(void) const													{ return Bits & IS_TRANSLUCENT; }
+#ifdef BFME_RO_DEFINE_VISIBILITY
 	virtual void					Set_Translucent(int onoff)													{ if (onoff) { Bits |= IS_TRANSLUCENT; } else { Bits &= ~IS_TRANSLUCENT; } }
+#else
+	virtual void					Set_Translucent(int onoff);
+#endif
 	virtual int						Is_Alpha(void) const														{ return Bits & IS_ALPHA; }
+#ifdef BFME_RO_DEFINE_FLAGS
 	virtual void					Set_Alpha(int onoff)														{ if (onoff) { Bits |= IS_ALPHA; } else { Bits &= ~IS_ALPHA; } }
+#else
+	virtual void					Set_Alpha(int onoff);
+#endif
 	virtual int						Is_Additive(void) const													{ return Bits & IS_ADDITIVE; }
 	// BFME2 uses the out-of-line shared-return implementation.
 	virtual void Set_Additive(int onoff);
@@ -577,13 +610,29 @@ public:
 	// and Get_Collision_Type (Bits masks 0x02000000, 0x04000000, 0x08000000,
 	// 0x01000000 in retail).
 	virtual int						_bfme_ro_flag109(void) const												{ return Bits & 0x02000000; }
+#ifdef BFME_RO_DEFINE_FLAGS
 	virtual void					_bfme_ro_flag110(int onoff)												{ if (onoff) { Bits |= 0x02000000; } else { Bits &= ~0x02000000; } }
+#else
+	virtual void					_bfme_ro_flag110(int onoff);
+#endif
 	virtual int						_bfme_ro_flag111(void) const												{ return Bits & 0x04000000; }
+#ifdef BFME_RO_DEFINE_FLAGS
 	virtual void					_bfme_ro_flag112(int onoff)												{ if (onoff) { Bits |= 0x04000000; } else { Bits &= ~0x04000000; } }
+#else
+	virtual void					_bfme_ro_flag112(int onoff);
+#endif
 	virtual int						_bfme_ro_flag113(void) const												{ return Bits & 0x08000000; }
+#ifdef BFME_RO_DEFINE_FLAGS
 	virtual void					_bfme_ro_flag114(int onoff)												{ if (onoff) { Bits |= 0x08000000; } else { Bits &= ~0x08000000; } }
+#else
+	virtual void					_bfme_ro_flag114(int onoff);
+#endif
 	virtual int						_bfme_ro_flag115(void) const												{ return Bits & 0x01000000; }
+#ifdef BFME_RO_DEFINE_FLAGS
 	virtual void					_bfme_ro_flag116(int onoff)												{ if (onoff) { Bits |= 0x01000000; } else { Bits &= ~0x01000000; } }
+#else
+	virtual void					_bfme_ro_flag116(int onoff);
+#endif
 	// BFME: retail Get_Collision_Type returns (Bits & 0xFFE) | 1; Set_Collision_Type
 	// is out-of-line with a second recursion parameter (retail @ 0x91FA10).
 	virtual int						Get_Collision_Type(void) const											{ return (Bits & 0xFFE) | 1; }
@@ -601,7 +650,7 @@ public:
 	virtual void					Create_Decal(DecalGeneratorClass * generator, bool unk = false)	{ }
 	virtual void					Delete_Decal(uint32 decal_id)												{ }
 
-	void								Set_Sub_Objects_Match_LOD(int onoff)									{ if (onoff) { Bits |= SUBOBJS_MATCH_LOD; } else { Bits &= ~SUBOBJS_MATCH_LOD; } }
+	void								Set_Sub_Objects_Match_LOD(int onoff);
 	int								Is_Sub_Objects_Match_LOD_Enabled(void)									{ return (Bits & SUBOBJS_MATCH_LOD) != 0; }	// BFME normalises to 0/1
 
 	void								Set_Sub_Object_Transforms_Dirty(bool onoff)							{ if (onoff) { Bits |= SUBOBJ_TRANSFORMS_DIRTY; } else { Bits &= ~SUBOBJ_TRANSFORMS_DIRTY; } }
@@ -698,6 +747,19 @@ protected:
 	friend class SceneClass;
 	friend class RenderObjProxyClass;
 };
+
+#pragma optimize("", on)
+
+// Size-optimized clients call the retail-owned destructor instead of emitting
+// a second, differently framed exception-handling body.
+#ifndef BFME_RO_DTOR_DECL_ONLY
+inline RenderObjClass::~RenderObjClass(void)
+{
+}
+#endif
+
+inline void RenderObjClass::Set_Sub_Objects_Match_LOD(int onoff)
+{ if (onoff) { Bits |= SUBOBJS_MATCH_LOD; } else { Bits &= ~SUBOBJS_MATCH_LOD; } }
 
 WWINLINE const SphereClass & RenderObjClass::Get_Bounding_Sphere(void) const
 {

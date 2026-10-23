@@ -1,5 +1,22 @@
 // cl: /G7 /arch:SSE /Ireference/shims/bfmecamera /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #define Matrix4x4 Matrix4
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "../../../../../reference/shims/bfmepool/mempool.h"
+#include "refcount.h"
+#pragma optimize("", on)
 #include "winbase_shim.h"
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -39,6 +56,18 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+// Retail links the size-optimized WeightInfoStruct vector deleting destructor (??_E,
+// the copy htree.cpp emits); it takes the optimization state of the first function
+// that needs it, so this unemitted anchor needs it first. The private struct is reached
+// by befriending the anchor while hanim.h is first read; layout and names are unchanged.
+struct BfmeWeightInfoVddAnchor;
+#define private private: friend struct BfmeWeightInfoVddAnchor; private
+#include "hanim.h"
+#undef private
+struct BfmeWeightInfoVddAnchor { typedef NamedPivotMapClass::WeightInfoStruct Info; };
+#pragma optimize("gsy", on)
+static void bfmeWeightInfoVddAnchor(BfmeWeightInfoVddAnchor::Info *p) { delete [] p; }
+#pragma optimize("", on)
 #include "hanim.h"
 #include "assetmgr.h"
 #include "htree.h"
@@ -48,6 +77,17 @@
 #include "wwdebug.h"
 #include <string.h>
 #include "nstrdup.h"
+// bfme link decl-only begin
+template <> bool VectorClass<float>::operator==(VectorClass<float> const &) const;
+template <> int DynamicVectorClass<float>::ID(float const &);
+template <> int VectorClass<float>::ID(float const &);
+template <> int VectorClass<float>::ID(float const *);
+template <> bool VectorClass<float>::Resize(int, float const *);
+template <> bool VectorClass<BfmeWeightInfoVddAnchor::Info>::Resize(int, BfmeWeightInfoVddAnchor::Info const *);
+// bfme link decl-only end
+
+// Retail keeps one HAnimComboDataClass pool allocator (0x001963A0); this unit calls it.
+template <> HAnimComboDataClass *ObjectPoolClass<HAnimComboDataClass, 256>::Allocate_Object_Memory(void);
 
 // BFME1's hanim.h inserts _bfme_hanim_fade before Get_Num_Pivots, while the
 // BFME2 retail calls in this TU use Get_Num_Pivots at vtable +0x34 and
@@ -96,30 +136,6 @@ public:
 */
 
 
-// ??1NamedPivotMapClass@@ present-unmatched
-NamedPivotMapClass::~NamedPivotMapClass(void)
-{
-}
-
-NamedPivotMapClass::WeightInfoStruct & NamedPivotMapClass::WeightInfoStruct::operator = (WeightInfoStruct const &that)
-{	
-	if(Name) delete [] Name;
-	assert(that.Name != 0);
-	Name = nstrdup(that.Name); 
-	Weight = that.Weight; 
-	return *this; 
-}
-
-// add a name & weight to the arrays
-void NamedPivotMapClass::Add(const char *Name, float Weight)
-{
-	WeightInfoStruct info;
-	info.Name = (char *) Name;
-	info.Weight = Weight;
-	WeightInfo.Add(info);	
-	info.Name = 0;
-}
-
 // configure the base pivot map using the specified tree
 void NamedPivotMapClass::Update_Pivot_Map(const HTreeClass *Tree)
 {
@@ -149,11 +165,6 @@ void NamedPivotMapClass::Update_Pivot_Map(const HTreeClass *Tree)
 **
 */
 DEFINE_AUTO_POOL(HAnimComboDataClass,256);
-
-// ??1HAnimClass@@UAE@XZ
-HAnimClass::~HAnimClass(void)
-{
-}
 
 
 // ?HAnimComboDataClass::HAnimComboDataClass present-unmatched
@@ -188,15 +199,6 @@ void HAnimComboDataClass::Copy(const HAnimComboDataClass *src)
 	}
 }
 
-// ?HAnimComboDataClass::~HAnimComboDataClass present-unmatched
-HAnimComboDataClass::~HAnimComboDataClass(void)
-{
-	if(HAnim) 
-		HAnim->Release_Ref();
-	if(PivotMap)
-		PivotMap->Release_Ref();
-}
-
 // ?HAnimComboDataClass::Clear present-unmatched
 void HAnimComboDataClass::Clear(void) 
 {
@@ -217,7 +219,7 @@ void HAnimComboDataClass::Clear(void)
 	PivotMap = NULL;
 }
 
-void HAnimComboDataClass::Set_HAnim(HAnimClass *motion)
+inline void HAnimComboDataClass::Set_HAnim(HAnimClass *motion)
 {
 	if ( motion != NULL ) {
 		motion->Add_Ref();
@@ -278,9 +280,6 @@ void HAnimComboDataClass::Build_Active_Pivot_Map(void)
 **
 */
 
-HAnimComboClass::HAnimComboClass(void)
-{}
-
 HAnimComboClass::HAnimComboClass( int num_animations )
 {
 	HAnimComboData.Resize(num_animations);
@@ -291,11 +290,7 @@ HAnimComboClass::HAnimComboClass( int num_animations )
 }
 
 
-// ??1HAnimComboClass@@ present-unmatched
-HAnimComboClass::~HAnimComboClass(void)
-{
-	Reset();
-}
+// ??1HAnimComboClass@@QAE@XZ is rowed in its own unit; this copy collided with it.
 
 
 // ?HAnimComboClass::Clear present-unmatched
@@ -307,19 +302,6 @@ void	HAnimComboClass::Clear( void )
 		if(data && (! data->Is_Shared()))
 			data->Clear();
 	}
-}
-
-// ?HAnimComboClass::Reset present-unmatched
-void	HAnimComboClass::Reset( void )
-{
-	int numAnimations = HAnimComboData.Count();
-	while ( numAnimations-- ) {
-		HAnimComboDataClass *data = HAnimComboData[numAnimations];
-		if(data && (! data->Is_Shared())) {
-			delete data; 
-		}
-	}
-	HAnimComboData.Reset_Active();
 }
 
 // ?HAnimComboClass::Normalize_Weights present-unmatched
@@ -388,7 +370,7 @@ bool	HAnimComboClass::Normalize_Weights(void)
 					float oo_total = 1.0f / weight_total;
 					for (anim_idx = 0; anim_idx < anim_count; anim_idx++ ) {
 						if (Peek_Motion(anim_idx) != NULL ) {
-							PivotMapClass *pivot_map = Get_Pivot_Weight_Map(anim_idx);
+							PivotMapClass *pivot_map = HAnimComboData[anim_idx]->Get_Pivot_Map();
 							float new_weight = (*pivot_map)[piv_idx] * oo_total;
 							(*pivot_map)[piv_idx] = new_weight;
 							pivot_map->Release_Ref();
@@ -415,50 +397,18 @@ void	HAnimComboClass::Set_Motion( int index, HAnimClass *motion )
 	data->Set_HAnim(motion);
 }
 
-// ?HAnimComboClass::Get_Motion present-unmatched
-HAnimClass *HAnimComboClass::Get_Motion( int index )
-{
-	HAnimComboDataClass *data = HAnimComboData[index];
-	WWASSERT(data);
-
-	HAnimClass *anim = data->Peek_HAnim();
-
-	if ( anim != NULL ) {
-		anim->Add_Ref();
-	}
-	return anim;
-}
-
 // ?HAnimComboClass::Peek_Motion present-unmatched
-HAnimClass *HAnimComboClass::Peek_Motion( int index )
+inline HAnimClass *HAnimComboClass::Peek_Motion( int index )
 {
 	HAnimComboDataClass *data = HAnimComboData[index];
 	WWASSERT(data);
 
 	HAnimClass *anim = data->Peek_HAnim();
 	return anim;
-}
-
-// ?HAnimComboClass::Set_Frame present-unmatched
-void	HAnimComboClass::Set_Frame( int index, float frame )
-{
-	HAnimComboDataClass *data = HAnimComboData[index];
-	WWASSERT(data);
-
-	data->Set_Frame(frame);
-}
-
-// ?HAnimComboClass::Get_Frame present-unmatched
-float	HAnimComboClass::Get_Frame( int index )
-{
-	HAnimComboDataClass *data = HAnimComboData[index];
-	WWASSERT(data);
-
-	return data->Get_Frame();
 }
 
 // ?HAnimComboClass::Set_Weight present-unmatched
-void	HAnimComboClass::Set_Weight( int index, float weight )
+inline void	HAnimComboClass::Set_Weight( int index, float weight )
 {
 	HAnimComboDataClass *data = HAnimComboData[index];
 	WWASSERT(data);
@@ -467,7 +417,7 @@ void	HAnimComboClass::Set_Weight( int index, float weight )
 }
 
 // ?HAnimComboClass::Get_Weight present-unmatched
-float	HAnimComboClass::Get_Weight( int index )
+inline float	HAnimComboClass::Get_Weight( int index )
 {
 	HAnimComboDataClass *data = HAnimComboData[index];
 	WWASSERT(data);
@@ -484,17 +434,11 @@ void	HAnimComboClass::Set_Pivot_Weight_Map( int index, PivotMapClass *map )
 	data->Set_Pivot_Map(map);
 }
 
-// ?HAnimComboClass::Get_Pivot_Weight_Map present-unmatched
-PivotMapClass	*HAnimComboClass::Get_Pivot_Weight_Map( int index )
-{
-	HAnimComboDataClass *data = HAnimComboData[index];
-	WWASSERT(data);
-
-	return data->Get_Pivot_Map();
-}
+// Get_Pivot_Weight_Map is owned by HAnimComboClassGetMotion.cpp at 0x00196740.
+// Normalize_Weights inlines the data accessor; do not emit a competing copy.
 
 // ?HAnimComboClass::Peek_Pivot_Weight_Map present-unmatched
-PivotMapClass	*HAnimComboClass::Peek_Pivot_Weight_Map( int index )
+inline PivotMapClass	*HAnimComboClass::Peek_Pivot_Weight_Map( int index )
 {
 	HAnimComboDataClass *data = HAnimComboData[index];
 	WWASSERT(data);
@@ -511,3 +455,6 @@ void HAnimComboClass::Remove_Anim_Combo_Data(HAnimComboDataClass * Data)
 {
 	HAnimComboData.Delete(Data);
 }
+
+template int VectorClass<BfmeWeightInfoVddAnchor::Info>::ID(BfmeWeightInfoVddAnchor::Info const &);
+template bool VectorClass<BfmeWeightInfoVddAnchor::Info>::operator==(VectorClass<BfmeWeightInfoVddAnchor::Info> const &) const;

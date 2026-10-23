@@ -1,4 +1,4 @@
-// cl: /O2 /G7 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 //
 // ?Record_Texture_End@@YAXXZ, retail 0x00129E50, 948 bytes. Dedicated TU so
 // the /G7 scheduling this body needs cannot disturb the TextureStatistics
@@ -23,25 +23,23 @@ extern "C" __declspec(dllimport) int __cdecl _snprintf(char *buffer,
 class StringClass
 {
 public:
-	StringClass(int initial_len = 0, bool hint_temporary = false)
-		: m_Buffer(m_EmptyString)
-	{
-		Get_String(initial_len, hint_temporary);
-		m_Buffer[0] = m_NullChar;
-	}
-	StringClass(const char *string, bool hint_temporary = false)
+StringClass(int initial_len = 0, bool hint_temporary = false);
+
+	// Both literal constructors expand inline in retail's Record_Texture_End.
+	// Keep that expansion while ordinary C-string assignment uses its owner.
+	StringClass(const char *string, bool hint_temporary = false);
+	enum InlineCopy { COPY_INLINE };
+	__forceinline StringClass(const char *string, bool hint_temporary, InlineCopy)
 		: m_Buffer(m_EmptyString)
 	{
 		int len = string ? (int)strlen(string) : 0;
 		if (hint_temporary || len > 0)
 			Get_String(len + 1, hint_temporary);
-		(*this) = string;
+		bfmeAssignInline(string);
 	}
-	~StringClass()
-	{
-		Free_String();
-	}
-	const StringClass &operator=(const char *string)
+	__forceinline ~StringClass(void) { Free_String(); }
+	const StringClass &operator=(const char *string);
+	__forceinline const StringClass &bfmeAssignInline(const char *string)
 	{
 		if (string != 0)
 		{
@@ -64,9 +62,9 @@ public:
 		return m_Buffer;
 	}
 
-	static char *m_EmptyString;
 
 private:
+	static char *m_EmptyString;
 	struct HEADER
 	{
 		int allocated_length;
@@ -86,9 +84,20 @@ private:
 	char *m_Buffer;
 	static char m_NullChar;
 };
+// Keep the member body under its own compiler optimization context.
+#pragma optimize("t", off)
+#pragma optimize("s", on)
+inline StringClass::StringClass(int initial_len, bool hint_temporary)
+		: m_Buffer(m_EmptyString)
+	{
+		Get_String(initial_len, hint_temporary);
+		m_Buffer[0] = m_NullChar;
+	}
+#pragma optimize("", on)
 
-char *StringClass::m_EmptyString;
-char StringClass::m_NullChar;
+
+// StringClass::m_EmptyString: defined in wwstring.cpp (= &m_NullChar).
+// StringClass::m_NullChar: defined in wwstring.cpp.
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/texture.h
 // Add_Ref is inline so the TU emits no standalone copy: the ledger holds no
@@ -96,7 +105,7 @@ char StringClass::m_NullChar;
 class TextureClass
 {
 public:
-	void Add_Ref()
+	__declspec(dllimport) __forceinline void Add_Ref()
 	{
 		++*reinterpret_cast<unsigned short *>(reinterpret_cast<char *>(this) + 4);
 	}
@@ -109,7 +118,7 @@ class RefCountPtr
 {
 public:
 	RefCountPtr() : Referent(0) {}
-	RefCountPtr(RefCountPtr const &other) : Referent(other.Referent)
+	__declspec(dllimport) __forceinline RefCountPtr(RefCountPtr const &other) : Referent(other.Referent)
 	{
 		if (Referent != 0)
 			Referent->Add_Ref();
@@ -171,7 +180,7 @@ class VectorClass
 {
 public:
 	int Length() const { return VectorMax; }
-	T &operator[](int index) { return Vector[index]; }
+	__declspec(dllimport) __forceinline T &operator[](int index) { return Vector[index]; }
 
 protected:
 	T *Vector;
@@ -229,7 +238,7 @@ void Record_Texture_End()
 	lastFrameRecordCount = record_count;
 	lastFrameTextureChangeCount = texture_change_count;
 
-	textureStatisticsString = "";
+	textureStatisticsString.bfmeAssignInline("");
 	if (recordTextureMode == Debug_Statistics::RECORD_TEXTURE_DETAILS)
 	{
 		char temporary[1024];
@@ -242,13 +251,13 @@ void Record_Texture_End()
 			StringClass workingString;
 			RefCountPtr<TextureClass> texture = texture_statistics[index].tex;
 			int id = 0;
-			StringClass flash = "  ";
+			StringClass flash("  ", false, StringClass::COPY_INLINE);
 			workingString.Format("%4.4d  %3.3d   %3.3d     %s ", id,
 				texture_statistics[index].usage_count,
 				texture_statistics[index].change_count, flash.Peek_Buffer());
 			textureStatisticsString += workingString;
 
-			StringClass error = "";
+			StringClass error("", false, StringClass::COPY_INLINE);
 			if (texture.Peek() != 0)
 			{
 				unsigned bytes = texture.Get_Texture_Memory_Usage();
@@ -285,3 +294,5 @@ void Record_Texture_End()
 		textureStatisticsString += "\n";
 	}
 }
+
+// Inline public teardown calls Free_String directly; the standalone destructor is 0x00065F5B.

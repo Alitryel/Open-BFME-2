@@ -1,4 +1,4 @@
-// cl: /O1 /GX /MD /DNDEBUG /arch:SSE
+// cl: /GX /MD /DNDEBUG
 //
 // ??1RubbleRiseUpdateModuleData@@UAE@XZ, retail 0x00256C5A, 86 bytes.
 // Virtual dtor over vtable RVA 0x7F3B40 (VA 0xBF3B40, slot 0 deleting dtor
@@ -11,6 +11,9 @@
 // at +0xB8/+0xC8. Empty body: the two reverse-order ??_M destroys plus the
 // base restore are compiler-generated. No base call in retail (inline).
 // Size 0xD8 matches the rowed factory 0x002566F6.
+
+extern "C" const void *const vtbl_00BBB554[];  // folded, 23 classes; via ??_7BfmeBaseVUQ@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BBB554=??_7BfmeBaseVUQ@@6B@")
 
 class DieMuxData
 {
@@ -46,7 +49,7 @@ class RubbleRiseBase
 public:
 	virtual ~RubbleRiseBase()
 	{
-		*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
+		*(const void **)this = reinterpret_cast<const void *>(((unsigned int)vtbl_00BBB554));
 	}
 
 private:

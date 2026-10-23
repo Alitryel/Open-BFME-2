@@ -45,15 +45,3 @@ void DebugIOOds::Write(StringType type, const char *src, const char *str)
   if (type!=BfmeStructuredCmdReply&&str)
     OutputDebugString(str);
 }
-
-// ?Create@DebugIOOds@@SAPAVDebugIOInterface@@XZ present-unmatched
-DebugIOInterface *DebugIOOds::Create(void)
-{
-  return new (DebugAllocMemory(sizeof(DebugIOOds))) DebugIOOds();
-}
-
-void DebugIOOds::Delete(void)
-{
-  this->~DebugIOOds();
-  DebugFreeMemory(this);
-}

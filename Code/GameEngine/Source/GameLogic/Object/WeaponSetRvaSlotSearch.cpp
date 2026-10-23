@@ -1,4 +1,4 @@
-// cl: /O1
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 //
 // Two WeaponSet slot-search leaves (retail 0x002C73F7/37 + 0x002C741C/43).
 // Both scan the six slots at +0x8 for the first entry whose state link at
@@ -20,18 +20,20 @@ struct RvaWeaponSlot
 	RvaWeaponSlotState *m_state;	// +0x004
 };
 
+class Weapon;
+
 class WeaponSet
 {
 	char m_pad[8];					// +0x000..+0x008 unknown
 	RvaWeaponSlot *m_slots[6];		// +0x008
 
 public:
-	RvaWeaponSlot *rva002C73F7() const;
-	RvaWeaponSlot *rva002C741C() const;
+	const Weapon *findAmmoPipShowingWeapon() const;
+	Weapon *findWaypointFollowingCapableWeapon();
 };
 
-// ?rva002C73F7@WeaponSet@@QBEPAURvaWeaponSlot@@XZ
-RvaWeaponSlot *WeaponSet::rva002C73F7() const
+// ?findAmmoPipShowingWeapon@WeaponSet@@QBEPBVWeapon@@XZ (ZH WeaponSet::findAmmoPipShowingWeapon)
+const Weapon *WeaponSet::findAmmoPipShowingWeapon() const
 {
 	int i = 0;
 	RvaWeaponSlot **pp = (RvaWeaponSlot **)((char *)this + 8);
@@ -39,13 +41,13 @@ RvaWeaponSlot *WeaponSet::rva002C73F7() const
 	{
 		RvaWeaponSlot *slot = *pp;
 		if (slot != 0 && slot->m_state->m_flag133)
-			return slot;
+			return (const Weapon *)slot;
 	}
 	return 0;
 }
 
-// ?rva002C741C@WeaponSet@@QBEPAURvaWeaponSlot@@XZ
-RvaWeaponSlot *WeaponSet::rva002C741C() const
+// ?findWaypointFollowingCapableWeapon@WeaponSet@@QAEPAVWeapon@@XZ (ZH WeaponSet::findWaypointFollowingCapableWeapon)
+Weapon *WeaponSet::findWaypointFollowingCapableWeapon()
 {
 	int i = 5;
 	RvaWeaponSlot **pp = (RvaWeaponSlot **)((char *)this + 0x1C);
@@ -53,7 +55,7 @@ RvaWeaponSlot *WeaponSet::rva002C741C() const
 	{
 		RvaWeaponSlot *slot = *pp;
 		if (slot != 0 && slot->m_state->m_flag132)
-			return m_slots[i];
+			return (Weapon *)m_slots[i];
 	}
 	return 0;
 }

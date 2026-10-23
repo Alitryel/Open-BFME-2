@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ?Rva00288A5CAssign@@YAXPAUCameraMarker@@00PAX@Z, retail 0x00288A5C,
 // 29 bytes. CameraMarker range-assign wrapper: materializes the
@@ -31,3 +31,7 @@ void Rva00288A5CAssign(CameraMarker *first, CameraMarker *last, CameraMarker *de
 	_STL::random_access_iterator_tag tag;
 	_STL::__copy(first, last, dest, tag, (int *)0);
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?Rva00288A5CAssign@@YAPAVCameraMarker@@PAV1@00PAX@Z=?Rva00288A5CAssign@@YAXPAUCameraMarker@@00PAX@Z")

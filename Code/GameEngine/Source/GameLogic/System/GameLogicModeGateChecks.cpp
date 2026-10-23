@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /O1
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD
 //
 // GameLogic game-mode gate leaf called by BFMEDesyncCheck::writeReportIfMismatched:
 // it rejects modes 9/4/7. Retail keeps the cold return in a tail block after
@@ -8,26 +8,27 @@
 // lesson). The sibling gate at 0x42235 is the real ZH-verbatim
 // GameLogic::isInMultiplayerGame in its own TU, not here.
 
-class GameLogic
-{
-public:
-    bool rva0042219(void);
-    bool rva001DCD1C(void);
-
-private:
-    char m_pad[0x110];
-    int m_gameMode;
-    int m_unk114;
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 // ?rva0042219@GameLogic@@QAE_NXZ
 bool GameLogic::rva0042219(void)
 {
-    return m_gameMode != 9 && m_gameMode != 4 && m_gameMode != 7;
+    return m_110 != 9 && m_110 != 4 && m_110 != 7;
 }
 
-// ?rva001DCD1C@GameLogic@@QAE_NXZ at retail 0x001DCD1C (32B).
-bool GameLogic::rva001DCD1C(void)
+// ?rva001DCD1C@GameLogic@@QAE_NXZ at retail 0x001DCD1C (32B). Inline (a COMDAT)
+// because ScriptEngineRva0020A586.cpp needs the body visible and emits the same
+// copy; taking its address keeps this unit's copy for its row (not retail data).
+inline bool GameLogic::rva001DCD1C(void)
 {
-    return m_gameMode == 8 || (m_gameMode == 9 && m_unk114 != 3);
+    return m_110 == 8 || (m_110 == 9 && m_114 != 3);
+}
+bool (GameLogic::*_bfmeInlineAnchor_GameLogicModeGateChecks_0)() = &GameLogic::rva001DCD1C;
+
+// Native2DB9AC loads the existing TheGameLogic pointer and clears byte+6F.
+// The byte's purpose and original operation name remain unknown.
+extern GameLogic *TheGameLogic;
+void Rva002DB9ACClearGameLogicByte()
+{
+    reinterpret_cast<unsigned char *>(TheGameLogic)[0x6F] = 0;
 }

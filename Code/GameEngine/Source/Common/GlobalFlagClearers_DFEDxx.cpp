@@ -11,20 +11,50 @@
 // cl: /G7 /MD /EHsc /DNDEBUG
 
 extern unsigned int g_Va00DFED00;
+// g_Va00DFED00: matched references place it at VA 0xdfed00 (zero-filled .bss).
+unsigned int g_Va00DFED00;
 extern unsigned int g_Va00DFED08;
+// g_Va00DFED08: matched references place it at VA 0xdfed08 (zero-filled .bss).
+unsigned int g_Va00DFED08;
 extern unsigned int g_Va00DFED10;
+// g_Va00DFED10: matched references place it at VA 0xdfed10 (zero-filled .bss).
+unsigned int g_Va00DFED10;
 extern unsigned int g_Va00DFED18;
+// g_Va00DFED18: matched references place it at VA 0xdfed18 (zero-filled .bss).
+unsigned int g_Va00DFED18;
 extern unsigned int g_Va00DFED20;
+// g_Va00DFED20: matched references place it at VA 0xdfed20 (zero-filled .bss).
+unsigned int g_Va00DFED20;
 extern unsigned int g_Va00DFED28;
+// g_Va00DFED28: matched references place it at VA 0xdfed28 (zero-filled .bss).
+unsigned int g_Va00DFED28;
 extern unsigned int g_Va00DFED30;
+// g_Va00DFED30: matched references place it at VA 0xdfed30 (zero-filled .bss).
+unsigned int g_Va00DFED30;
 extern unsigned int g_Va00DFED38;
+// g_Va00DFED38: matched references place it at VA 0xdfed38 (zero-filled .bss).
+unsigned int g_Va00DFED38;
 extern unsigned int g_Va00DFED40;
+// g_Va00DFED40: matched references place it at VA 0xdfed40 (zero-filled .bss).
+unsigned int g_Va00DFED40;
 extern unsigned int g_Va00DFED48;
+// g_Va00DFED48: matched references place it at VA 0xdfed48 (zero-filled .bss).
+unsigned int g_Va00DFED48;
 extern unsigned int g_Va00DFED54;
+// g_Va00DFED54: matched references place it at VA 0xdfed54 (zero-filled .bss).
+unsigned int g_Va00DFED54;
 extern unsigned int g_Va00DFED5C;
+// g_Va00DFED5C: matched references place it at VA 0xdfed5c (zero-filled .bss).
+unsigned int g_Va00DFED5C;
 extern unsigned int g_Va00DFED6C;
+// g_Va00DFED6C: matched references place it at VA 0xdfed6c (zero-filled .bss).
+unsigned int g_Va00DFED6C;
 extern unsigned int g_Va00DFED74;
+// g_Va00DFED74: matched references place it at VA 0xdfed74 (zero-filled .bss).
+unsigned int g_Va00DFED74;
 extern unsigned int g_Va00DFED7C;
+// g_Va00DFED7C: matched references place it at VA 0xdfed7c (zero-filled .bss).
+unsigned int g_Va00DFED7C;
 
 unsigned int Rva00774353ClearFlag(void)
 {

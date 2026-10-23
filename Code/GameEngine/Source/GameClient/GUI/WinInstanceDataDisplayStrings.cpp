@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc
 //
 // ?setTooltipText@WinInstanceData@@QAEXVUnicodeString@@@Z, retail 0x00322352, 97 bytes.
 // New file-unit TU (sibling setters init/setText to follow).
@@ -29,40 +29,8 @@ typedef unsigned short wchar_t;
 #define NULL 0
 #endif
 
-template <typename T>
-class StringBase
-{
-	friend class UnicodeString;
+#include "unicode_string.h"
 
-	StringBase(const StringBase<T> &other);
-	void releaseBuffer();
-
-public:
-	StringBase() { m_data = NULL; }
-	~StringBase() { releaseBuffer(); }
-
-private:
-	struct Header
-	{
-		int ref_count;
-		unsigned short length;
-		unsigned short capacity;
-		T data[1];
-	};
-
-	Header *m_data;
-};
-
-class UnicodeString
-{
-public:
-	UnicodeString() {}
-	UnicodeString(const UnicodeString &that) : m_data(that.m_data) {}
-	~UnicodeString() {}
-
-private:
-	StringBase<wchar_t> m_data;
-};
 
 // Retail fetch call uses vtable offset 0x38 for the factory (BFME2 widens
 // the manager vtable past the donor's slot 0x24); pads stay declared-only
@@ -72,6 +40,7 @@ class DisplayString
 public:
 	virtual ~DisplayString() {}
 	virtual void setText(UnicodeString text);
+	virtual UnicodeString getText();
 };
 
 class DisplayStringManager
@@ -101,6 +70,8 @@ class WinInstanceData
 public:
 	void setTooltipText(UnicodeString tip);
 	void setText(UnicodeString text);
+	UnicodeString getTooltipText();
+	UnicodeString getText();
 
 private:
 	char m_pad[0x19C];
@@ -129,3 +100,33 @@ void WinInstanceData::setText(UnicodeString text)
 	// set text
 	m_text->setText(text);
 }
+
+inline UnicodeString WinInstanceData::getTooltipText()
+{
+	if (m_tooltip)
+		return m_tooltip->getText();
+	return UnicodeString::TheEmptyString;
+}
+
+// ?getText@WinInstanceData@@QAE?AVUnicodeString@@XZ, retail 0x003148F1, 53 bytes:
+// the text twin of getTooltipText (m_text at +0x19C). Placed by compiling the
+// Open-BFME-1 donor WinInstanceData_getText.cpp at /O1; the pin from
+// winSetInstanceData's call site already names this address.
+inline UnicodeString WinInstanceData::getText()
+{
+	if (m_text)
+		return m_text->getText();
+	return UnicodeString::TheEmptyString;
+}
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeWinInstanceDataInlineAnchorWinInstanceDataDisplayStrings@@YAXPAVWinInstanceData@@@Z absent-from-retail
+void _bfmeWinInstanceDataInlineAnchorWinInstanceDataDisplayStrings(WinInstanceData *winInstanceData)
+{
+    winInstanceData->getTooltipText();
+    winInstanceData->getText();
+}
+#pragma inline_depth()

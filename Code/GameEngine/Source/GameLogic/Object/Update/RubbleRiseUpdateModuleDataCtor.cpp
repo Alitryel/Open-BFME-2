@@ -1,4 +1,5 @@
-// cl: /O1 /GX /MD /DNDEBUG /arch:SSE
+// cl: /GX /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// stlport
 //
 // ??0RubbleRiseUpdateModuleData@@QAE@XZ, retail 0x00256653 (163 bytes).
 // RubbleRise ModuleData default ctor: trivial virtual base (vptr 0x00BF3B40
@@ -6,8 +7,8 @@
 // rowed 0x004CE534 body (spelled here as its default ctor via the alias pin;
 // StructureCollapse precedent), two four-element 0xC member arrays (OCL/FX
 // vectors at +0x58/+0x88) built through the rowed ehvec iterator at
-// 0x00629512 (opaque element ctor/dtor keep the frame while the element
-// addresses stay DIR32 slots the patcher copies from retail), the scalar
+// 0x00629512. The actual STLport pointer vectors emit the folded default
+// constructor closure at 0x00256646 and destructor at 0x0007FAB3. The scalar
 // cadence from the rowed parse table 0x00C52960 (min/max rise 0, min burst
 // 9999, big burst 0, damping/height/shudder 0.0; max burst is INI-only so
 // never stored), and the count loop (ocl/fx counts at +0xB8/+0xC8 set to 1,
@@ -23,25 +24,16 @@ private:
 	unsigned char m_bytes[0x30];
 };
 
-class RubbleOCLVec
-{
-public:
-	RubbleOCLVec();
-	~RubbleOCLVec();
+#include <vector>
 
-private:
-	unsigned char m_data[0x0C];
-};
+class ObjectCreationList;
+class FXList;
 
-class RubbleFXVec
-{
-public:
-	RubbleFXVec();
-	~RubbleFXVec();
-
-private:
-	unsigned char m_data[0x0C];
-};
+// ZH StructureCollapseUpdate.h supplies the element types; native parser
+// calls bind OCL and FX vectors separately. Retail proves the 12-byte header,
+// array counts, offsets and complete EH callback bodies.
+typedef _STL::vector<const ObjectCreationList *> RubbleOCLVec;
+typedef _STL::vector<const FXList *> RubbleFXVec;
 
 class RubbleRiseBase
 {

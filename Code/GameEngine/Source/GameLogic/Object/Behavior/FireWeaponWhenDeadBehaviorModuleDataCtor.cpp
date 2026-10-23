@@ -9,6 +9,9 @@
 // factory 0x2537DC news 0x160 with this ctor as sole caller and pushes the
 // rowed proc. Shape follows SpawnBehavior (empty base, init-listed explicit
 // vtable, rowed construct plus rowed init).
+extern "C" const void *const vtbl_00C4ED70[];  // folded, 9 classes; via ??_7BeaconClientUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4ED70=??_7BeaconClientUpdateModuleData@@6B@")
+
 class Rva0025342CMember
 {
 public:
@@ -30,7 +33,7 @@ private:
 class BehaviorModuleData
 {
 public:
-	BehaviorModuleData() {}
+	__declspec(dllimport) __forceinline BehaviorModuleData() {}
 	~BehaviorModuleData();
 };
 
@@ -53,8 +56,8 @@ private:
 };
 
 // ??0FireWeaponWhenDeadBehaviorModuleData@@QAE@XZ @0x00253737
-FireWeaponWhenDeadBehaviorModuleData::FireWeaponWhenDeadBehaviorModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C4ED70))
+inline FireWeaponWhenDeadBehaviorModuleData::FireWeaponWhenDeadBehaviorModuleData()
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C4ED70)))
 {
 	m_muxData.construct();
 	m_dieMuxData.init();
@@ -67,3 +70,14 @@ FireWeaponWhenDeadBehaviorModuleData::FireWeaponWhenDeadBehaviorModuleData()
 	weaponOffset[1] = 0.0f;
 	weaponOffset[2] = 0.0f;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeFireWeaponWhenDeadBehaviorModuleDataInlineAnchor@@YAXPAVFireWeaponWhenDeadBehaviorModuleData@@@Z absent-from-retail
+void _bfmeFireWeaponWhenDeadBehaviorModuleDataInlineAnchor(FireWeaponWhenDeadBehaviorModuleData *fireWeaponWhenDeadBehaviorModuleData)
+{
+    fireWeaponWhenDeadBehaviorModuleData->FireWeaponWhenDeadBehaviorModuleData::FireWeaponWhenDeadBehaviorModuleData();
+}
+#pragma inline_depth()

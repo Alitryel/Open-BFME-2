@@ -36,7 +36,7 @@ public:
 };
 
 // ??0DamageModule@@QAE@PAVThing@@PBVModuleData@@@Z @0x004B9704
-DamageModule::DamageModule(Thing *thing, const ModuleData *moduleData) :
+inline DamageModule::DamageModule(Thing *thing, const ModuleData *moduleData) :
 	BehaviorModule(thing, moduleData)
 {
 	*(volatile unsigned int *)((char *)this + 0x10) = (unsigned int)&s_first10;
@@ -44,3 +44,15 @@ DamageModule::DamageModule(Thing *thing, const ModuleData *moduleData) :
 	*(unsigned int *)((char *)this + 0xC) = (unsigned int)&s_secondary0C;
 	*(unsigned int *)((char *)this + 0x10) = (unsigned int)&s_second10;
 }
+
+// DamageModule ctor is a header inline elsewhere: other units emit select-any
+// copies, so a strong definition here was a duplicate in the linked build.
+// This anchor only makes this unit emit its copy for the ledger row; it is
+// not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitDamageModuleCtor@@YAXPAVDamageModule@@PAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitDamageModuleCtor(DamageModule *damageModule, Thing *thing, const ModuleData *moduleData)
+{
+	damageModule->DamageModule::DamageModule(thing, moduleData);
+}
+#pragma inline_depth()

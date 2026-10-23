@@ -21,7 +21,15 @@ private:
 };
 
 // ?friend_newModuleInstance@UnpauseSpecialPowerUpgrade@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *UnpauseSpecialPowerUpgrade::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *UnpauseSpecialPowerUpgrade::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new UnpauseSpecialPowerUpgrade(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitUnpauseSpecialPowerUpgradeFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitUnpauseSpecialPowerUpgradeFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	UnpauseSpecialPowerUpgrade::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

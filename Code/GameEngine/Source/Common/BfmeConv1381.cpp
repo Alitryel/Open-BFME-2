@@ -13,7 +13,8 @@ public:
 	int m_bfme1c;
 };
 
-extern void *g_bfmeVJA;
+// g_bfmeVJA: matched references place it at VA 0xe09ed4 (retail .data initial value 0).
+void * g_bfmeVJA = 0;
 
 void __stdcall bfmeGoVJA(BfmeMsgVJA *m, void *name, void **kw, int n, int max)
 {
@@ -32,7 +33,8 @@ void __stdcall bfmeGoVJA(BfmeMsgVJA *m, void *name, void **kw, int n, int max)
 	m->bfmeSet3VJA("keywords.[]", n);
 }
 
-extern void *g_bfmeVJB;
+// g_bfmeVJB: matched references place it at VA 0xe09f64 (retail .data initial value 0).
+void * g_bfmeVJB = 0;
 
 void __stdcall bfmeGoVJB(BfmeMsgVJA *m, void *name, void **kw, int n, int max)
 {

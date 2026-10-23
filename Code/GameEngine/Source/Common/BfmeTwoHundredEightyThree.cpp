@@ -1,6 +1,16 @@
 // cl: /Od
 
-int bfmeMakeOX(void *one);
+namespace _STL {
+
+template<class _CharT> struct char_traits;
+
+template<> struct char_traits<char>
+{
+	static unsigned int length(const char *text);
+	static int compare(const char *first, const char *otherFirst, unsigned int count);
+};
+
+}
 
 int bfmeDoPW(char *first, char *last, char *otherFirst, char *otherLast);
 
@@ -16,18 +26,7 @@ void BfmeThingPW::bfmeGoPW(char *at)
 {
 	unsigned char spare[0x10];
 
-	bfmeDoPW(m_bfmeAt, m_bfmeEnd, at, at + bfmeMakeOX(at));
-}
-
-namespace _STL {
-
-template<class _CharT> struct char_traits;
-
-template<> struct char_traits<char>
-{
-	static int compare(const char *first, const char *otherFirst, unsigned int count);
-};
-
+	bfmeDoPW(m_bfmeAt, m_bfmeEnd, at, at + _STL::char_traits<char>::length(at));
 }
 
 // Lexicographical range compare used by the PW table: memcmp over the shared
@@ -68,3 +67,10 @@ int bfmeDoPW(char *first, char *last, char *otherFirst, char *otherLast)
 
 	return result;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeDoPQ@@YAXPAD000@Z=?bfmeDoPW@@YAHPAD000@Z")
+#pragma comment(linker, "/alternatename:_bfmeCopy1153=?bfmeDoPW@@YAHPAD000@Z")
+#pragma comment(linker, "/alternatename:_bfmeCopy1152=?bfmeDoPW@@YAHPAD000@Z")
+#pragma comment(linker, "/alternatename:_bfmeCopy1154=?bfmeDoPW@@YAHPAD000@Z")

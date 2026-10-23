@@ -4,8 +4,8 @@
 //
 // gridcull.cpp's DEFINE_AUTO_POOL(GridLinkClass,256) twin of
 // MultiListNodeClass's pool landed at 0x00610680 in
-// ObjectPoolAllocateObjectMemory.cpp - same FastCriticalSectionClass, same
-// BFME byte allocator at 0x000307F0, same spin() pin (0x0006577F).
+// ObjectPoolAllocateObjectMemory.cpp - same pool lock, same
+// BFME byte allocator at 0x000307F0, same Lock() pin (0x0006577F).
 
 typedef unsigned int uint32;
 
@@ -27,37 +27,12 @@ public:
 };
 }
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib/mutex.h
-class FastCriticalSectionClass
-{
-	unsigned Flag;
-
-public:
-	FastCriticalSectionClass() : Flag(0) {}
-
-	class LockClass
-	{
-		FastCriticalSectionClass& cs;
-	public:
-		LockClass(FastCriticalSectionClass& critical_section) : cs(critical_section)
-		{
-			spin(&cs.Flag);
-		}
-
-		~LockClass()
-		{
-			cs.Flag=0;
-		}
-
-	private:
-		static void __fastcall spin(unsigned *flag);		// pinned 0x0006577F
-
-		LockClass &operator=(const LockClass&);
-		LockClass(const LockClass&);
-	};
-
-	friend class LockClass;
-};
+// The one-word lock is the measured BFME pool lock at 0x0006577F, as in
+// ObjectPoolAllocateObjectMemory.cpp. The retail body inlines a Lock()
+// call, not FastCriticalSectionClass::spin, so this is not
+// FastCriticalSectionClass::LockClass (kept copy calls spin): using the pool
+// model keeps the bytes and emits no differing FastCriticalSection COMDAT.
+#include "../WWLib/bfme_pool_critical_section.h"
 
 template<class T,int BLOCK_SIZE = 64>
 class ObjectPoolClass
@@ -71,14 +46,14 @@ protected:
 	uint32 *	BlockListHead;
 	int		FreeObjectCount;
 	int		TotalObjectCount;
-	FastCriticalSectionClass ObjectPoolCS;
+	BFMEPoolCriticalSection ObjectPoolCS;
 
 };
 
 template<class T,int BLOCK_SIZE>
 T * ObjectPoolClass<T,BLOCK_SIZE>::Allocate_Object_Memory(void)
 {
-	FastCriticalSectionClass::LockClass lock(ObjectPoolCS);
+	BFMEPoolCriticalSection::LockClass lock(ObjectPoolCS);
 
 	if ( FreeListHead == 0 ) {
 

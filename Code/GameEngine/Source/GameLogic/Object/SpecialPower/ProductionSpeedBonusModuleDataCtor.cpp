@@ -1,8 +1,8 @@
-// cl: /O1 /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /arch:SSE /GX
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /GX
 // stlport
 //
 // ??0ProductionSpeedBonusModuleData@@QAE@XZ, retail 0x004C2FE6, 98 bytes.
-// ProductionSpeedBonus data ctor over the pinned Rva004930A0 base
+// ProductionSpeedBonus data ctor over the pinned SpecialPowerModuleData base
 // (0x4930A0, 0x7C bytes): installs vtable 0x00C5CA80 via the ??_7 pin,
 // constructs the Type string list at +0x84 through the ICF-folded
 // Vector_base at 0x00211E58, zeroes NumberOfFrames at +0x7C and
@@ -18,30 +18,32 @@
 
 #include <vector>
 
-class AsciiString
+#include "ascii_string.h"
+
+// A declaration-only specialization stops this TU emitting its own
+// vector<AsciiString> COMDAT copies, so the calls bind the kept rowed copies.
+namespace _STL {
+template <> vector<AsciiString, allocator<AsciiString> >::~vector();
+template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
+template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);
+template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
+template <> AsciiString *vector<AsciiString, allocator<AsciiString> >::erase(AsciiString*, AsciiString*);
+}
+
+class SpecialPowerModuleData
 {
 public:
-	~AsciiString();
-
-private:
-	char *m_data;
-};
-
-class Rva004930A0
-{
-public:
-	Rva004930A0();
-	virtual ~Rva004930A0();
+	SpecialPowerModuleData();
+	virtual ~SpecialPowerModuleData();
 
 protected:
 	unsigned char m_pad[0x7C - 4];
 };
 
-Rva004930A0::~Rva004930A0()
-{
-}
+// ??1SpecialPowerModuleData owned by SpecialPowerModuleDataDtor.cpp (row at 0x0049334F):
+// declared above so calls keep the same name without a second definition.
 
-class ProductionSpeedBonusModuleData : public Rva004930A0
+class ProductionSpeedBonusModuleData : public SpecialPowerModuleData
 {
 public:
 	ProductionSpeedBonusModuleData();
@@ -54,7 +56,7 @@ private:
 };
 
 ProductionSpeedBonusModuleData::ProductionSpeedBonusModuleData()
-	: Rva004930A0()
+	: SpecialPowerModuleData()
 {
 	m_numberOfFrames = 0;
 	m_speedMultiplier = 0.0f;

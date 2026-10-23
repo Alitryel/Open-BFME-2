@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva000492459@WeaponSetSpecialAbilityUpdate@@SA?AW4NameKeyType@@XZ @0x492459
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@WeaponSetSpecialAbilityUpdate@@UBE?AW4NameKeyType@@XZ @0x492459
 // (69B): cached pool-name key for WeaponSetSpecialAbilityUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("WeaponSetSpecialAbilityUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class WeaponSetSpecialAbilityUpdate
 {
 public:
-	static NameKeyType rva000492459();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000492459@WeaponSetSpecialAbilityUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType WeaponSetSpecialAbilityUpdate::rva000492459()
+// ?getModuleNameKey@WeaponSetSpecialAbilityUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType WeaponSetSpecialAbilityUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheWeaponSetSpecialAbilityUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("WeaponSetSpecialAbilityUpdate");

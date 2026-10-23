@@ -1,4 +1,4 @@
-// cl: /O1 /Ob2 /EHs /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS
+// cl: /Ireference/shims/bfme2_ascii /Ob2 /EHs /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS
 // stlport
 /*
 ** Copyright 2025 Electronic Arts Inc.
@@ -9,32 +9,23 @@
 // The filesystem forwards a third 32-bit argument, passed as zero here.
 #include <map>
 
+// __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
+// COMDATs (one byte shape per TU malloc/free wiring); explicit
+// dllimport+forceinline specializations take those calls inline so this
+// TU emits no external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void *__malloc_alloc<0>::allocate(size_t __n)
+{ void *__r = malloc(__n); if (!__r) __r = _S_oom_malloc(__n); return __r; }
+template <> __declspec(dllimport) __forceinline
+void __malloc_alloc<0>::deallocate(void *__p, size_t)
+{ free((char *)__p); }
+}
+
 typedef int Int;
 typedef bool Bool;
-template<class T> class StringBase {
-    struct Header { int refCount; unsigned short length; unsigned short capacity; T data[1]; };
-    Header *m_data;
-    friend class UnicodeString;
-    StringBase(const StringBase &other);
-    __forceinline ~StringBase() { releaseBuffer(); }
-    void releaseBuffer();
-    StringBase(const T *text);
-public:
-    int compareNoCase(const StringBase &other) const throw();
-};
+#include "unicode_string.h"
 
-class UnicodeString : private StringBase<unsigned short> {
-public:
-    __forceinline UnicodeString(const unsigned short *text)
-        : StringBase<unsigned short>(text) {}
-    __forceinline UnicodeString(const UnicodeString &other)
-        : StringBase<unsigned short>((const StringBase<unsigned short>&)other) {}
-    __forceinline ~UnicodeString() {}
-    int compareNoCase(const UnicodeString &other) const throw() {
-        return ((const StringBase<unsigned short>&)*this).compareNoCase(
-            (const StringBase<unsigned short>&)other);
-    }
-};
 
 struct UnicodeStringLessThan {
     Bool operator()(UnicodeString a, UnicodeString b) const {
@@ -88,19 +79,27 @@ protected:
     LanguageFilterMap m_wordList;
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> _STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> > * _Rb_tree<UnicodeString,_STL::pair<UnicodeString const,bool>,_STL::_Select1st<_STL::pair<UnicodeString const,bool> >,UnicodeStringLessThan,_STL::allocator<_STL::pair<UnicodeString const,bool> > >::_M_create_node(_STL::pair<UnicodeString const,bool> const &); }
+namespace _STL { template <> void _Rb_tree<UnicodeString,_STL::pair<UnicodeString const,bool>,_STL::_Select1st<_STL::pair<UnicodeString const,bool> >,UnicodeStringLessThan,_STL::allocator<_STL::pair<UnicodeString const,bool> > >::_M_erase(_STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> > *); }
+namespace _STL { template <> _STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> > * allocator<_STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> > >::allocate(unsigned int,void const *) const; }
+namespace _STL { template <> void _STLP_alloc_proxy<_STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> > *,_STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> >,_STL::allocator<_STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> > > >::deallocate(_STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> > *,unsigned int); }
+namespace _STL { template <> void allocator<_STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> > >::deallocate(_STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> > *,unsigned int) const; }
+namespace _STL { template <> _STL::pair<_STL::_Rb_tree_iterator<_STL::pair<UnicodeString const,bool>,_STL::_Nonconst_traits<_STL::pair<UnicodeString const,bool> > >,bool> _Rb_tree<UnicodeString,_STL::pair<UnicodeString const,bool>,_STL::_Select1st<_STL::pair<UnicodeString const,bool> >,UnicodeStringLessThan,_STL::allocator<_STL::pair<UnicodeString const,bool> > >::insert_unique(_STL::pair<UnicodeString const,bool> const &); }
+// bfme link decl-only end
 void LanguageFilter::init()
 {
     m_wordList.clear();
-    File *file1 = TheFileSystem->openFile(BadWordFileName,
+    File *file = TheFileSystem->openFile(BadWordFileName,
         File::READ | File::BINARY, 0);
-    if (file1 == 0)
+    if (file == 0)
         return;
-    file1 = file1->convertToRAMFile();
-    if (file1 == 0)
+    file = file->convertToRAMFile();
+    if (file == 0)
         return;
-    file1->deleteOnClose();
+    file->deleteOnClose();
     unsigned short word[128];
-    while (readWord(file1, word)) {
+    while (readWord(file, word)) {
         Int wordLen = wcslen(word);
         if (wordLen == 0)
             continue;
@@ -111,6 +110,6 @@ void LanguageFilter::init()
         unHaxor(uniword);
         m_wordList[uniword] = true;
     }
-    file1->close();
-    file1 = 0;
+    file->close();
+    file = 0;
 }

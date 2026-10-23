@@ -24,7 +24,18 @@ public:
 };
 
 // ??0GateProxyBehaviorModuleData@@QAE@XZ @0x24E359
-GateProxyBehaviorModuleData::GateProxyBehaviorModuleData()
+inline GateProxyBehaviorModuleData::GateProxyBehaviorModuleData()
 	: GateOpenAndCloseBehaviorModuleData()
 {
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeGateProxyBehaviorModuleDataInlineAnchor@@YAXPAVGateProxyBehaviorModuleData@@@Z absent-from-retail
+void _bfmeGateProxyBehaviorModuleDataInlineAnchor(GateProxyBehaviorModuleData *gateProxyBehaviorModuleData)
+{
+    gateProxyBehaviorModuleData->GateProxyBehaviorModuleData::GateProxyBehaviorModuleData();
+}
+#pragma inline_depth()

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX
 //
 // ??0GeometryUpgrade@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x004B6A5E,
 // 91 bytes. Behavior-side module ctor: UpgradeModule base plus the four
@@ -67,19 +67,12 @@ class UpgradeModule : public BehaviorModule, public UpgradeMux, public UpgradeTa
 {
 public:
 	UpgradeModule(Thing *thing, const ModuleData *moduleData);
-	~UpgradeModule();
+
+protected:
+	virtual ~UpgradeModule(); // retail ??1UpgradeModule@@MAE@XZ, 0x0046089D
 };
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	void clear();
-	~AsciiString();
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class GeometryUpgrade : public UpgradeModule
 {
@@ -97,3 +90,15 @@ GeometryUpgrade::GeometryUpgrade(Thing *thing, const ModuleData *moduleData) :
 {
 	m_upgradeName.clear();
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?upgradeMuxAnchor@UpgradeMuxBase@@UAEXXZ=?Is_Valid@RegistryClass@@QAE_NXZ")
+#pragma comment(linker, "/alternatename:?upgradeIfaceBAnchor@UpgradeIfaceB@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+#pragma comment(linker, "/alternatename:?upgradeIfaceAAnchor@UpgradeIfaceA@@UAEXXZ=??_GGeometryUpgrade@@UAEPAXI@Z")
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?upgradeTailAnchor@UpgradeTailBase@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")

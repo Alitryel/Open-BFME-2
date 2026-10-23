@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0Rva00330757Member@@QAE@XZ, retail 0x00330757, 23 bytes. Homeless
@@ -14,12 +14,15 @@
 
 #include <vector>
 
-struct BfmeE16 { float x, y, z, w; };
+#include "../../../../../Libraries/Include/Lib/BfmeE16.h"
+// bfme link decl-only BfmeE16
+namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 
 class Rva00330757Member
 {
 public:
-	Rva00330757Member();
+	__declspec(noinline) Rva00330757Member();
+	~Rva00330757Member();
 
 private:
 	_STL::vector<BfmeE16> m_items; // +0
@@ -27,8 +30,21 @@ private:
 };
 
 // ??0Rva00330757Member@@QAE@XZ @0x330757
-Rva00330757Member::Rva00330757Member()
+inline Rva00330757Member::Rva00330757Member()
 	: m_items(_STL::allocator<BfmeE16>())
 {
 	m_flags |= -1;
+}
+
+class Rva0033076E
+{
+public:
+	Rva0033076E();
+private:
+	Rva00330757Member m_00;
+	_STL::vector<BfmeE16> m_10;
+};
+
+Rva0033076E::Rva0033076E()
+{
 }

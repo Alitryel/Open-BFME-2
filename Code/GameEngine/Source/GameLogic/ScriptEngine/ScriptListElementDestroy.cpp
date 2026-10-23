@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 //
 // Element destroy loops at 0x003B678A and 0x003B713E (41B each): they
 // drain the 0x14-byte string-record elements in [start,finish),
@@ -11,6 +11,8 @@
 // (the Iter precedent). The typed record pointers give the 0x14 stride
 // (sub for the local, add-to-memory for the range update); the loop
 // condition reads start first. Same /EHsc scheduling as the drains.
+// Both names reach the same +0x08 AsciiString adjust-and-tail destructor.
+#pragma comment(linker, "/alternatename:??1ScriptListElementName@@QAE@XZ=??1PrereqUnitRec@ProductionPrerequisite@@QAE@XZ")
 
 void __cdecl operator delete(void *block);
 

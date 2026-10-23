@@ -36,7 +36,9 @@ extern "C"
 	__declspec(dllimport) char *__cdecl strncpy(char *dest, const char *src, unsigned int count);
 }
 
+#pragma optimize("y", on)
 #include <new>      // placement new, as the debug library uses it
+#pragma optimize("", on)
 
 void *DebugAllocMemory(unsigned int numBytes);
 const char *DebugGetDefaultCommands(void);
@@ -90,6 +92,7 @@ public:
 	static bool IsOldDbghelp(void);
 };
 
+#pragma optimize("y", on)
 class Debug
 {
 public:
@@ -147,6 +150,7 @@ private:
 	virtual void FlushOutput(bool defaultLog);
 	bool ExecCommand(const char *cmdstart, const char *cmdend);
 };
+#pragma optimize("", on)
 
 extern Debug *theDebug;
 

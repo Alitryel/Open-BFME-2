@@ -124,7 +124,7 @@ private:
 
 };
 
-basic_filebuf<char, char_traits<char> >::int_type
+inline basic_filebuf<char, char_traits<char> >::int_type
 basic_filebuf<char, char_traits<char> >::overflow(int_type c)
 {
 	if (!_M_in_output_mode)
@@ -163,5 +163,21 @@ basic_filebuf<char, char_traits<char> >::overflow(int_type c)
 
 	return traits_type::not_eof(c);
 }
+
+// overflow is a header inline in STLport: another unit emits a select-any copy
+// of it, so a strong definition here was a duplicate symbol in the linked
+// build. This anchor only makes this unit emit its copy for the ledger row;
+// it is not retail code.
+struct bfmeFilebufEmitter : basic_filebuf<char, char_traits<char> >
+{
+	static void emit(bfmeFilebufEmitter *p);
+};
+#pragma inline_depth(0)
+// ?emit@bfmeFilebufEmitter@_STL@@SAXPAU12@@Z present-unmatched
+void bfmeFilebufEmitter::emit(bfmeFilebufEmitter *p)
+{
+	p->basic_filebuf<char, char_traits<char> >::overflow(0);
+}
+#pragma inline_depth()
 
 } // namespace _STL

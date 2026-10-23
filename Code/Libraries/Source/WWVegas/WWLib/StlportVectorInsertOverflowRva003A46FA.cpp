@@ -7,28 +7,23 @@
 // AsciiString-shaped first member are target-supported, but the full
 // application record identity/layout is not claimed. The target Construct
 // wrapper at 0x3A454E forwards to the observed record-copy body at 0x3A451B.
-// cl: /O1 /G7 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
+// Retail keeps one unsigned max, RVA 0x00013740 (the vendored STLport row). This unit's
+// flags (/G7) compile a different copy, and retail kept another unit's. This unit-local
+// overload keeps the inlined code and offers the link no second copy.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
 #include <vector>
 
-template<class T> class StringBase {
-	void *m_data;
-	void releaseBuffer();
-public:
-	StringBase();
-	StringBase(const StringBase &);
-	StringBase &operator=(const StringBase &);
-protected:
-	__forceinline ~StringBase() { releaseBuffer(); }
-};
+#include "ascii_string.h"
 
-class AsciiString : private StringBase<char> {
-public:
-	__forceinline AsciiString() {}
-	__forceinline AsciiString(const AsciiString &o) : StringBase<char>(o) {}
-	__forceinline ~AsciiString() {}
-	AsciiString &operator=(const AsciiString &);
-};
 
 struct BfmeStringHeadRecord160 { AsciiString s; int a[39]; };
 

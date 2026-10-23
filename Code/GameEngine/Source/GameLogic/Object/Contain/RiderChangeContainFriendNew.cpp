@@ -21,7 +21,15 @@ private:
 };
 
 // ?friend_newModuleInstance@RiderChangeContain@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *RiderChangeContain::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *RiderChangeContain::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new RiderChangeContain(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitRiderChangeContainFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitRiderChangeContainFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	RiderChangeContain::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

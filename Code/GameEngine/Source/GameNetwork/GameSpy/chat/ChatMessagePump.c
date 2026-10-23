@@ -1,6 +1,8 @@
 // cl: /DNDEBUG /MD -Ireference/shims/gamespy
 // GameSpy Chat SDK 2007 source algorithm; BFME 2004 field offsets.
 #include <string.h>
+/* Match the GameSpy chat sibling's retail msvcr71!_strcmpi import. */
+#define _stricmp _strcmpi
 typedef void *CHAT;
 typedef struct ciServerMessage { char *message; char beforeCommand[16]; char *command; } ciServerMessage;
 typedef struct ciServerMessageType { const char *command; void (*handler)(CHAT,const ciServerMessage*); } ciServerMessageType;
@@ -118,7 +120,5 @@ void chatGetChannelBasicUserInfoA(CHAT chat, const char *channel,
 	}
 }
 
-void chatThink(CHAT chat)
-{
-	ciThink(chat, 0);
-}
+// chatThink: defined in chatMain.c (its row's unit).
+void chatThink(CHAT chat);

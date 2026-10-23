@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 // stlport
 // Retail RE: ?parsePrerequisiteUpgrade@@YAXPAVINI@@PAX1PBX@Z @0x0033EB1A (93B).
 //
@@ -23,6 +23,7 @@ enum ScienceType
 };
 
 class UpgradeTemplate;
+class ModuleData;
 
 template <typename T>
 struct StringInlineData
@@ -32,31 +33,8 @@ struct StringInlineData
 	T m_text[1];
 };
 
-template <typename T>
-class StringBase
-{
-	friend class AsciiString;
+#include "ascii_string.h"
 
-private:
-	StringBase() : m_data(0) {}
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-
-public:
-	~StringBase();
-
-private:
-	StringInlineData<T> *m_data;
-};
-
-class AsciiString : private StringBase<char>
-{
-public:
-	AsciiString() : StringBase<char>() {}
-	AsciiString(const char *text) : StringBase<char>(text) {}
-	AsciiString(const AsciiString &other) : StringBase<char>(other) {}
-	~AsciiString() {}
-};
 
 class UpgradeCenter
 {
@@ -125,6 +103,10 @@ void __cdecl parsePrerequisiteUpgrade(INI *ini, void *instance, void *, const vo
 		static_cast<_STL::vector<ProductionPrerequisite> *>(instance);
 
 	ProductionPrerequisite prerequisite;
-	prerequisite.m_prereqUpgrades.push_back(bfmeFindUpgradeByName(ini->getNextToken(0)));
+	// 0x004DFCB0 is the ledger-rowed ModuleData* push_back; symbols.csv pins
+	// this UpgradeTemplate* call to the same ICF-folded pointer-vector body.
+	reinterpret_cast<_STL::vector<const ModuleData *> *>(
+		&prerequisite.m_prereqUpgrades)->push_back(
+		reinterpret_cast<const ModuleData *>(bfmeFindUpgradeByName(ini->getNextToken(0))));
 	prerequisites->push_back(prerequisite);
 }

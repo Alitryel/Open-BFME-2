@@ -15,7 +15,7 @@ public:
 class Gen_0094AC70
 {
 public:
-	void bfmeSetPair(const BfmeVecHF *a, const BfmeVecHF *b);
+	void bfmeSetPair(const BfmeVecHF *lhs, const BfmeVecHF *rhs);
 private:
 	unsigned char m_bfmeFlag;					// +0x000
 	unsigned char m_bfmeGap[3];					// +0x001
@@ -25,17 +25,17 @@ private:
 	BfmeVecHF m_bfmeB;							// +0x164
 };
 
-void Gen_0094AC70::bfmeSetPair(const BfmeVecHF *a, const BfmeVecHF *b)
+void Gen_0094AC70::bfmeSetPair(const BfmeVecHF *lhs, const BfmeVecHF *rhs)
 {
 	m_bfmeState = 0;
 
-	m_bfmeA.m_bfmeX = a->m_bfmeX;
-	m_bfmeA.m_bfmeY = a->m_bfmeY;
-	m_bfmeA.m_bfmeZ = a->m_bfmeZ;
+	m_bfmeA.m_bfmeX = lhs->m_bfmeX;
+	m_bfmeA.m_bfmeY = lhs->m_bfmeY;
+	m_bfmeA.m_bfmeZ = lhs->m_bfmeZ;
 
-	m_bfmeB.m_bfmeX = b->m_bfmeX;
-	m_bfmeB.m_bfmeY = b->m_bfmeY;
-	m_bfmeB.m_bfmeZ = b->m_bfmeZ;
+	m_bfmeB.m_bfmeX = rhs->m_bfmeX;
+	m_bfmeB.m_bfmeY = rhs->m_bfmeY;
+	m_bfmeB.m_bfmeZ = rhs->m_bfmeZ;
 
 	m_bfmeFlag = 0;
 }

@@ -92,6 +92,8 @@ struct TRoadPt
 
 struct TRoadSegInfo 
 {
+	// Defined once in TRoadSegInfoCtor.cpp (rowed 0x000D4ED0); declared here so consumers bind that copy instead of emitting the implicit inline (whose bytes differ from retail's).
+	TRoadSegInfo();
 	Vector2 loc;
 	Vector2 roadNormal;
 	Vector2 roadVector;
@@ -156,17 +158,21 @@ public:
 	~RoadType(void);
 protected:
 	TextureClass *m_roadTexture;	///<Roads texture
+	// BFME 2 keeps a second texture handle at +0x04: ~RoadType (0x000D4F4F)
+	// releases +0x08/+0x0C as the render buffers and +0x04/+0x00 as textures,
+	// and loadLitRoadsInVertexAndIndexBuffers (0x000D9A5D) locks +0x0C/+0x08
+	// and stores the counts at +0x10/+0x14.
+	TextureClass *m_roadTexture2;
 	DX8VertexBufferClass	*m_vertexRoad;	///<Road vertex buffer.
 	DX8IndexBufferClass			*m_indexRoad;	///<indices defining a triangles for the road drawing.
 	Int			m_numRoadVertices; ///<Number of vertices used in m_vertexRoad.
 	Int			m_numRoadIndices;	///<Number of indices used in b_indexRoad;
+	// uniqueID at +0x18, stacking at +0x20 in a 0x24 stride (adjustStacking
+	// 0x000D4941, clearAllRoads 0x000D7942, vector deleting dtor 0x0018E830).
+	// The donor's test-only texture path has no slot in BFME 2.
 	Int					  m_uniqueID;     ///< ID of the road type in INI.
 	Bool					m_isAutoLoaded;
 	Int						m_stackingOrder; ///< Order in the drawing.  0 drawn first, then 1 and so on.
-
-#ifdef LOAD_TEST_ASSETS
-	AsciiString		m_texturePath;
-#endif
 public:
 	void loadTexture(AsciiString path, Int id);
 	void applyTexture(void);
@@ -182,8 +188,6 @@ public:
 #ifdef LOAD_TEST_ASSETS
 	void setAutoLoaded(void) {m_isAutoLoaded = true;};
 	Bool isAutoLoaded(void) {return m_isAutoLoaded;};
-	AsciiString getPath(void) {return(m_texturePath);};
-	void loadTestTexture(void);
 #endif
 }	;
 
@@ -192,6 +196,27 @@ class WorldHeightMap;
 // W3DRoadBuffer: Draw buffer for the roads.
 //
 //
+// A four-byte reference holder at W3DRoadBuffer+0x18: the ctor (0x000DC568)
+// zeroes it, the dtor (0x000DC51D) releases a non-null pointee through
+// 0x0061ED10, and freeRoadBuffers calls its clear() (release, then zero;
+// 0x0004D75B). The pointee type is not identified, so both keep
+// offset-derived names.
+class W3DRoadBufferRef18Target
+{
+public:
+	void Release_Ref();	// 0x0061ED10
+};
+
+class W3DRoadBufferRef18
+{
+public:
+	W3DRoadBufferRef18() : m_ptr(0) {}
+	~W3DRoadBufferRef18() { if (m_ptr) m_ptr->Release_Ref(); }
+	void clear();
+private:
+	W3DRoadBufferRef18Target *m_ptr;
+};
+
 class W3DRoadBuffer 
 {	
 friend class BaseHeightMapRenderObjClass;
@@ -220,29 +245,29 @@ protected:
 	Bool		m_initialized;		///< True if the subsystem initialized.
 	WorldHeightMap *m_map;		///< Pointer to the height map data.
 	RefRenderObjListIterator *m_lightsIterator;	///< Lighting iterator.
-	// BFME-only fields inserted here vs ZH (TU-scoped shim). insertTee and
-	// insert4Way's CHECK_SEGMENTS macro reads m_maxRoadSegments at target
-	// this+0x38 against ZH's this+0x28, which fixes the size of the gap at
-	// 0x10 (four dwords) but not where it sits: anywhere between
-	// m_lightsIterator and m_maxRoadSegments produces the same 0x38.
+	// BFME-only fields inserted here vs ZH (TU-scoped shim).
+	// addMapObject, insertCrossTypeJoins, insertTee and insert4Way compare
+	// m_numRoads with m_maxRoadSegments at target this+0x34. The target
+	// adjustStacking body reads m_maxRoadTypes at this+0x40, so the test-only
+	// m_curOpenRoad slot follows the capacity fields, unlike the donor header.
 	//
-	// loadRoadSegment (0x00704610) settles it. That function compares
-	// pRoad->m_uniqueID against m_curUniqueID at target this+0x28, where the
-	// gap-after-m_curRoadType placement leaves it at this+0x18; putting the
-	// four dwords ahead of m_curUniqueID lands it on 0x28 and still leaves
-	// m_maxRoadVertex on 0x3c, which the same function already agreed on.
-	// True field identities remain unknown -- no landed function reads them.
-	Int m__bfmeUnk0;
+	// The three dwords after m_ref18 remain opaque; their identities and the
+	// intervening capacity layout are inferred only where the target reads
+	// them above.
+	W3DRoadBufferRef18 m_ref18;	// +0x18: freeRoadBuffers clears it (0x0004D75B)
 	Int m__bfmeUnk1;
 	Int m__bfmeUnk2;
 	Int m__bfmeUnk3;
 
+	// BFME 2: both road loaders filter on m_curUniqueID at +0x2C, as Zero
+	// Hour's do (loadRoadSegment 0x000D487E, loadLit4PtSection 0x000D869C),
+	// and the road-type index is +0x30 (loadLitRoadsInVertexAndIndexBuffers
+	// 0x000D9A5D indexes m_roadTypes by it; the constructor 0x000DC568 zeroes
+	// only it). The +0x28 word's identity is open; Zero Hour's test-only
+	// m_maxUID has no slot.
+	Int m_int28;
 	Int m_curUniqueID;				///< Road type we are rendering at this pass.
 	Int m_curRoadType;
-#ifdef LOAD_TEST_ASSETS
-	Int m_maxUID;				///< Maximum UID.
-	Int m_curOpenRoad;  ///< First road type not used.
-#endif
 
 	Int m_maxRoadSegments;  ///< Size of m_roads.
 	Int m_maxRoadVertex;		///< Size of m_vertexRoad.
@@ -250,8 +275,14 @@ protected:
 	Int m_maxRoadTypes;			///< Size of m_roadTypes.
 	Int			m_curNumRoadVertices; ///<Number of vertices used in current road type.
 	Int			m_curNumRoadIndices;	///<Number of indices used in current road type;
-
+	// BFME 2 keeps the dirty flag directly after the index count: loadRoads
+	// (0x000DD71C) and updateLighting (0x000D4A4B) both end with
+	// `mov byte [esi+0x4C],1`. The donor's test-only slot follows it.
 	Bool m_updateBuffers; ///< If true, update the vertex buffers.
+	Bool m_bool4D;	///< BFME 2 flag at +0x4D, set true by the ctor.
+#ifdef LOAD_TEST_ASSETS
+	Int m_curOpenRoad;  ///< First road type not used.
+#endif
 
 	void addMapObjects(void);
 	void addMapObject(RoadSegment *pRoad, Bool updateTheCounts);
@@ -292,7 +323,11 @@ protected:
 	void loadLit4PtSection(RoadSegment *pRoad, UnsignedShort *ib, VertexFormatXYZDUV1 *vb, RefRenderObjListIterator *pDynamicLightsIterator);
 	void loadRoadsInVertexAndIndexBuffers(void); ///< Fills the index and vertex buffers for drawing.
 	void loadLitRoadsInVertexAndIndexBuffers(RefRenderObjListIterator *pDynamicLightsIterator); ///< Fills the index and vertex buffers for drawing.
+public:
+	// Public under the ledger's established name (rowed 0x000D487E in
+	// W3DRoadBufferLoadRoadSegment.cpp).
 	void loadRoadSegment(UnsignedShort *ib, VertexFormatXYZDUV1 *vb, RoadSegment *pRoad); ///< Fills the index and vertex buffers for drawing 1 segment.
+protected:
 	void allocateRoadBuffers(void);							 ///< Allocates the buffers.
 	void freeRoadBuffers(void);									 ///< Frees the index and vertex buffers.
 	Bool visibilityChanged(const IRegion2D &bounds);								///< Returns true if some roads are now visible that weren't, or vice versa.

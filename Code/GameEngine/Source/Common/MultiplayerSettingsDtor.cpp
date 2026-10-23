@@ -1,4 +1,4 @@
-// cl: /O1 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // MultiplayerSettings destructor (retail 0x00381293, 83B): tears down the
@@ -9,23 +9,10 @@
 // Definition bodies (+0x34 list, +0x44 observer, +0x84 random, 0x88 total).
 #include <map>
 
-class AsciiString
-{
-public:
-	~AsciiString();
+#include "ascii_string.h"
 
-private:
-	void *m_data;
-};
-
-class GameEngineDeletingBase
-{
-public:
-	virtual ~GameEngineDeletingBase();
-
-private:
-	char m_pad04[8];
-};
+// Base dtor at 0x001B4E74 by its row name ??1SubsystemInterface@@UAE@XZ (SubsystemInterface.cpp).
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class MultiplayerColorDefinition;
 
@@ -51,7 +38,7 @@ public:
 	~MultiplayerSettings();
 
 private:
-	GameEngineDeletingBase m_deletingBase; // +0x00
+	SubsystemInterface m_deletingBase; // +0x00
 	char m_pad0C[0x34 - 0x0C];
 	ColorMapTree m_colorList; // +0x34
 	AsciiString m_observer; // +0x44

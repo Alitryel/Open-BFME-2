@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /D_STLP_NO_EXCEPTIONS /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
+// cl: /EHsc /D_STLP_NO_EXCEPTIONS /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // stlport
 // BFME2 STLport tree with an AsciiString key and a four-byte opaque mapped value.
 // The application's original mapped-type name is not established.
@@ -11,12 +11,33 @@
 // RVA 0x0005598C, and both iterator-step helpers are already independently matched.
 // Semantic reference: reference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib/
 // RvaTreeInsertUniqueHint.cpp. Here /O1 leaves the comparator out of line.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
-class AsciiString { public: AsciiString(const AsciiString &); ~AsciiString(); private: void *m_data; };
+
+// __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
+// COMDATs (one byte shape per TU malloc/free wiring); explicit
+// dllimport+forceinline specializations take those calls inline so this
+// TU emits no external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void *__malloc_alloc<0>::allocate(size_t __n)
+{ void *__r = malloc(__n); if (!__r) __r = _S_oom_malloc(__n); return __r; }
+template <> __declspec(dllimport) __forceinline
+void __malloc_alloc<0>::deallocate(void *__p, size_t)
+{ free((char *)__p); }
+}
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 bool operator<(const AsciiString &, const AsciiString &);
 struct TreeHintPayload001F8ACB { char m_body[4]; };
 typedef _STL::pair<const AsciiString, TreeHintPayload001F8ACB> TreeHintPair001F8ACB;
 typedef _STL::_Rb_tree<AsciiString, TreeHintPair001F8ACB, _STL::_Select1st<TreeHintPair001F8ACB>, _STL::less<AsciiString>, _STL::allocator<TreeHintPair001F8ACB> > TreeHint001F8ACB;
+// The copy constructor row calls the tree-base constructor out of line. This
+// unit's malloc wiring made its copy of that constructor, and of the node
+// allocate it calls, differ from the retail-proven copy the CreateAHeroData
+// units emit first in link order. Declare it only, so the call binds there.
+namespace _STL {
+template <> _Rb_tree_base<TreeHintPair001F8ACB, allocator<TreeHintPair001F8ACB> >::_Rb_tree_base(const allocator<TreeHintPair001F8ACB> &);
+}
 // BFME replaces STLport allocation with a static byte allocator (RVA 0x307F0).
 namespace _STL {
 template <> class allocator<char> {

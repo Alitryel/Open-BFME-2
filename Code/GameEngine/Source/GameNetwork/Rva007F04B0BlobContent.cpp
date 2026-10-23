@@ -1,6 +1,6 @@
 // EA FESL blob-service content fetch at retail RVA 0x007F04B0.
 
-class Rva007EFFC0Allocator
+class GenAlloc
 {
 public:
 	virtual void v0();
@@ -9,7 +9,7 @@ public:
 	virtual void release( void *block, int flags );
 };
 
-extern void *bfmeGo929C();
+extern GenAlloc *Gen007EFFC0();
 
 class BfmeThingUPB
 {
@@ -17,7 +17,7 @@ public:
 	char bfmeGoUPB( void *a, char *b, void *c );
 };
 
-class Rva007EB810Diag
+struct Rva007EB810Diag
 {
 public:
 	virtual void v0();
@@ -26,7 +26,7 @@ public:
 	virtual void fail( const char *expr, const char *file, int line );
 };
 
-extern int Rva007EB810Get();
+extern Rva007EB810Diag *Rva007EB810Get();
 
 // Retail calls the decoder with the encoded blob first and writes decoded bytes
 // into this method's destination buffer.  Its return value is intentionally
@@ -45,15 +45,15 @@ public:
 bool Rva007F04B0BlobService::fetchContent( char *destination, unsigned int length )
 {
 	Rva007F04B0BlobService *self = this;
-	Rva007EFFC0Allocator *allocator = (Rva007EFFC0Allocator *)bfmeGo929C();
+	GenAlloc *allocator = Gen007EFFC0();
 	unsigned int adjustedLength = length + 2;
 	unsigned int size = ( adjustedLength / 3 ) * 4 + 1;
 	void *content = allocator->allocate( size, 2 );
 	if( content == 0 )
 	{
-		Rva007EB810Diag *diag = (Rva007EB810Diag *)Rva007EB810Get();
+		Rva007EB810Diag *diag = Rva007EB810Get();
 		diag->assertValue( content, "--- out of memory\n" );
-		((Rva007EB810Diag *)Rva007EB810Get())->fail(
+		Rva007EB810Get()->fail(
 			"false",
 			"\\views\\feslbuild_main\\jabba\\fesl\\source\\blobservice.cpp",
 			0x1F9 );
@@ -61,11 +61,11 @@ bool Rva007F04B0BlobService::fetchContent( char *destination, unsigned int lengt
 	}
 	if( !self->m_reader->bfmeGoUPB( (void *)"content", (char *)content, (void *)size ) )
 	{
-		((Rva007EFFC0Allocator *)bfmeGo929C())->release( content, 0 );
+		Gen007EFFC0()->release( content, 0 );
 		return false;
 	}
 	rva007FF250Decode( ( (int)length + 2 ) / 3 * 4, (const char *)content,
 		(unsigned char *)destination );
-	((Rva007EFFC0Allocator *)bfmeGo929C())->release( content, 0 );
+	Gen007EFFC0()->release( content, 0 );
 	return true;
 }

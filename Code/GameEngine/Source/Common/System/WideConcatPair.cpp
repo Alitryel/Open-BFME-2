@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD
+// cl: /EHsc /MD
 //
 // Wide-string concat pair behind retail 0x0021C3F7 (98 bytes) with its
 // helpers: length sum at 0x002198C8 (36 bytes), payload copy at 0x0021B8A0
@@ -17,11 +17,13 @@ class StringBase
 	friend struct BFME2WideStringRef;
 	friend class BFME2WideConcatPair;
 	StringBase(const T *text);
+	void releaseBuffer();
 
 public:
 	StringBase() : m_data(0) {}
 	StringBase(const StringBase &src);
 	~StringBase() { releaseBuffer(); }
+	int getLength() const { return m_data ? m_data->length : 0; }
 
 	struct Header
 	{
@@ -31,7 +33,6 @@ public:
 		T data[1];
 	};
 
-	void releaseBuffer();
 	T *getBufferForRead(int len);
 	void set(const StringBase &src);
 
@@ -71,11 +72,14 @@ struct BFME2WideStringRef
 };
 
 // @0x0021AC32 (56B): ref payload copy
-// ?copyPayloadTo@BFME2WideStringRef@@ present-unmatched
 int BFME2WideStringRef::copyPayloadTo(unsigned short *dst) const
 {
-	int len = length();
-	memcpy(dst, payload(), len * 2);
+	const UnicodeString *text = m_ptr;
+	StringBase<unsigned short>::Header *lengthData = text->m_data;
+	int len = lengthData != 0 ? lengthData->length : 0;
+	StringBase<unsigned short>::Header *payloadData =
+		*const_cast<StringBase<unsigned short>::Header * const volatile *>(&text->m_data);
+	memcpy(dst, payloadData != 0 ? payloadData->data : L"", len * 2);
 	return len;
 }
 
@@ -92,20 +96,9 @@ private:
 };
 
 // @0x002198C8 (36B): pair length sum
-// ?totalLength@BFME2WideConcatPair@@ present-unmatched
 int BFME2WideConcatPair::totalLength() const
 {
-	int first;
-	{
-		StringBase<unsigned short>::Header *data = m_first.m_ptr->m_data;
-		first = data != 0 ? data->length : 0;
-	}
-	int second;
-	{
-		StringBase<unsigned short>::Header *data = m_second.m_ptr->m_data;
-		second = data != 0 ? data->length : 0;
-	}
-	return first + second;
+	return m_first.m_ptr->getLength() + m_second.m_ptr->getLength();
 }
 
 // @0x0021B8A0 (37B): pair payload copy
@@ -113,6 +106,31 @@ int BFME2WideConcatPair::copyPayloads(unsigned short *dst) const
 {
 	int first = m_first.copyPayloadTo(dst);
 	int second = m_second.copyPayloadTo(dst + first);
+	return first + second;
+}
+
+
+class Rva000B3F84Pair
+{
+public:
+	int copyWchars(unsigned short *dst);
+};
+
+class Rva002DCD9A
+{
+public:
+	int copyToBuffer(unsigned short *dst);
+private:
+	BFME2WideStringRef m_first;
+	Rva000B3F84Pair m_second;
+};
+
+// @0x002DCD9A (37B): copies two adjacent wide payloads. The retail call sites
+// identify the first as BFME2WideStringRef and the second as Rva000B3F84Pair.
+int Rva002DCD9A::copyToBuffer(unsigned short *dst)
+{
+	int first = m_first.copyPayloadTo(dst);
+	int second = m_second.copyWchars(dst + first);
 	return first + second;
 }
 
@@ -135,7 +153,7 @@ BFME2WideConcatPair::operator StringBase<unsigned short>()
 class BFME2WideConcatTriple : public BFME2WideConcatPair
 {
 public:
-	operator StringBase<unsigned short>();
+	operator UnicodeString();
 	int totalLength() const;
 	int copyPayloads(unsigned short *dst) const;
 
@@ -157,7 +175,7 @@ int BFME2WideConcatTriple::copyPayloads(unsigned short *dst) const
 	return first + second;
 }
 
-BFME2WideConcatTriple::operator StringBase<unsigned short>()
+BFME2WideConcatTriple::operator UnicodeString()
 {
 	UnicodeString tmp;
 	copyPayloads(tmp.getBufferForRead(totalLength()));

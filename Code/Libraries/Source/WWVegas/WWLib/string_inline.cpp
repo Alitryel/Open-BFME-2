@@ -1,4 +1,4 @@
-// cl: /O2
+// cl: /Ireference/shims/bfme2_ascii
 
 // The AsciiString and UnicodeString members retail emits from a translation
 // unit built for speed, the same split string_base_inline.cpp records for
@@ -18,12 +18,7 @@ class UnicodeString;
 // Both format members forward into StringBase's formatter, not a member of
 // their own: the retail call targets are the exported
 // ?format_va@?$StringBase@[DG]@@QAEXPB[DG]PAD@Z pair.
-template <typename T>
-class StringBase
-{
-public:
-    void format_va(const T *format, char *args);
-};
+#include "ascii_string.h"
 
 // Only the buffer pointer matters here; the header block is read for the text.
 struct StringHeader
@@ -42,33 +37,8 @@ struct WideStringHeader
     wchar_t data[1];
 };
 
-class AsciiString
-{
-public:
-    // A member cdecl varargs function: `this` is the first stack argument, so
-    // the argument pointer comes off the format parameter and not off a
-    // register-passed this.
-    void __cdecl format(const char *format, ...);
-    void __cdecl format(const AsciiString *format, ...);
-    void translate(const wchar_t *text);
-    void translate(const UnicodeString &that);
-    AsciiString &operator=(const UnicodeString &that);
 
-private:
-    StringHeader *m_data;
-};
-
-class UnicodeString
-{
-public:
-    void __cdecl format(const wchar_t *format, ...);
-    void __cdecl format(const UnicodeString *format, ...);
-    void translate(const char *text);
-    void translate(const AsciiString &that);
-
-private:
-    WideStringHeader *m_data;
-};
+#include "unicode_string.h"
 
 void __cdecl AsciiString::format(const char *format, ...)
 {

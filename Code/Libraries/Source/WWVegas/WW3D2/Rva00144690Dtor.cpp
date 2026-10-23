@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD
 //
 // ??1Rva00144690@@UAE@XZ at retail 0x00144690 (95B) with its scalar
 // deleting destructor ??_GRva00144690@@UAEPAXI@Z at 0x00144850 (27B).
@@ -14,6 +14,8 @@
 // @0x610640. Base flags (-EHsc-) kept: the retail dtor carries an SEH
 // prolog with states that /EHsc does not reproduce.
 
+inline void *operator new(unsigned int, void *where) { return where; }
+
 class MultiListObjectClass
 {
 public:
@@ -24,6 +26,7 @@ public:
 class MultiListNodeClass
 {
 public:
+	MultiListNodeClass() { Prev = Next = NextList = 0; Object = 0; List = 0; }
 	void *Prev;
 	void *Next;
 	void *NextList;
@@ -31,11 +34,15 @@ public:
 	void *List;
 };
 
-class GenericMultiListClass
+// This unit constructs only the derived list. Its native constructor installs
+// the derived vptr; the base view must not emit a competing base vtable or
+// scalar deleting destructor under this unit's SEH compiler settings.
+class __declspec(novtable) GenericMultiListClass
 {
 public:
 	MultiListNodeClass Head;
 
+	__declspec(dllimport) __forceinline GenericMultiListClass() { Head.Next = Head.Prev = &Head; Head.Object = 0; Head.NextList = 0; }
 	virtual ~GenericMultiListClass();
 
 protected:
@@ -45,6 +52,7 @@ protected:
 class Rva00144690 : public GenericMultiListClass
 {
 public:
+	Rva00144690();
 	virtual ~Rva00144690();
 };
 
@@ -54,4 +62,23 @@ Rva00144690::~Rva00144690()
 	while (Head.Next != (void *)&Head) {
 		Internal_Remove_List_Head();
 	}
+}
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??1DX8PolygonRendererList@@UAE@XZ=??1Rva00144690@@UAE@XZ")
+
+// ??0Rva00144690@@QAE@XZ, retail 0x00143D10 (39 bytes): the constructor, the
+// multilist.h inline chain (the node constructor clears all five words, the
+// list constructor points the head at itself) under this class's vtable.
+// Inline, as the MeshModelClass ctor units see it (they inline it and emit the
+// same COMDAT); a strong copy here duplicated theirs at link.
+inline Rva00144690::Rva00144690()
+{
+}
+
+// ?bfmeAnchorRva00144690Ctor absent-from-retail
+void *bfmeAnchorRva00144690Ctor(void *where)
+{
+	return ::new (where) Rva00144690();
 }

@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004B4727@RadarUpgrade@@SA?AW4NameKeyType@@XZ @0x4B4727
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@RadarUpgrade@@UBE?AW4NameKeyType@@XZ @0x4B4727
 // (69B): cached pool-name key for RadarUpgrade. The class
 // identity comes from the pool-name string the body pushes
 // ("RadarUpgrade"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class RadarUpgrade
 {
 public:
-	static NameKeyType rva0004B4727();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004B4727@RadarUpgrade@@SA?AW4NameKeyType@@XZ
-NameKeyType RadarUpgrade::rva0004B4727()
+// ?getModuleNameKey@RadarUpgrade@@UBE?AW4NameKeyType@@XZ
+NameKeyType RadarUpgrade::getModuleNameKey() const
 {
 	static NameKeyType TheRadarUpgradePoolKey =
 		TheNameKeyGenerator->nameToKey("RadarUpgrade");

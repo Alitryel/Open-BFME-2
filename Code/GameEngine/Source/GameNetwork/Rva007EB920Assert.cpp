@@ -58,3 +58,8 @@ int Rva007EB8B0Log::errorFrom(int code, const char *from, const char *file, int 
 	return 0;
 }
 
+// ?g_Va0130A5A0@@3PAURva007EB810Diag@@A: matched references place it at VA 0xe09fbc; also referenced as ?g_Va0130A5A0@@3PAXA, ?g_Va0130A5A0@@3PAVRva007EB830Target@@A, ?g_FeslDiagReporter@@3HA.
+Rva007EB810Diag * g_Va0130A5A0 = 0;
+#pragma comment(linker, "/alternatename:?g_Va0130A5A0@@3PAXA=?g_Va0130A5A0@@3PAURva007EB810Diag@@A")
+#pragma comment(linker, "/alternatename:?g_Va0130A5A0@@3PAVRva007EB830Target@@A=?g_Va0130A5A0@@3PAURva007EB810Diag@@A")
+#pragma comment(linker, "/alternatename:?g_FeslDiagReporter@@3HA=?g_Va0130A5A0@@3PAURva007EB810Diag@@A")

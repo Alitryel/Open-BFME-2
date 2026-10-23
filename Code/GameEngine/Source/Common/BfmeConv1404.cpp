@@ -8,12 +8,23 @@ struct BfmeHdrVKK
 	unsigned short m_bfme06;
 };
 
+class BfmeStrVKK;
+class EAStringC
+{
+public:
+	enum CBPushZero { CB_NO_PUSH_ZERO, CB_PUSH_ZERO };
+
+private:
+	friend class BfmeStrVKK;
+	void ChangeBuffer(unsigned int reserve, unsigned int offset, unsigned int copy,
+		CBPushZero pushZero, unsigned int size);
+};
+
 class BfmeStrVKK
 {
 public:
 	void bfmeTruncVKK(unsigned n);
 	BfmeStrVKK *bfmeReverseVKK();
-	void bfmeReserveVKK(unsigned a, int b, unsigned c, int d, unsigned e);
 	BfmeHdrVKK *m_bfme00;
 };
 
@@ -22,13 +33,13 @@ void BfmeStrVKK::bfmeTruncVKK(unsigned n)
 	unsigned len = m_bfme00->m_bfme02;
 	if (len > n)
 		len = n;
-	bfmeReserveVKK(n, 0, len, 1, len);
+	((EAStringC *)this)->ChangeBuffer(n, 0, len, EAStringC::CB_PUSH_ZERO, len);
 }
 
 BfmeStrVKK *BfmeStrVKK::bfmeReverseVKK()
 {
 	unsigned len = m_bfme00->m_bfme02;
-	bfmeReserveVKK(len, 0, len, 1, len);
+	((EAStringC *)this)->ChangeBuffer(len, 0, len, EAStringC::CB_PUSH_ZERO, len);
 	unsigned n = m_bfme00->m_bfme02;
 	if (n > 1)
 	{

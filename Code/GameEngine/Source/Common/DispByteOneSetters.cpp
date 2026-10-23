@@ -724,19 +724,7 @@ void Rva00210CB6ByteOneSetter::enable()
 	m_enabled = 1;
 }
 
-class Rva0039B78DByteOneSetter
-{
-public:
-	void enable();
-
-	char m_lead[0x110];
-	unsigned char m_enabled;
-};
-
-void Rva0039B78DByteOneSetter::enable()
-{
-	m_enabled = 1;
-}
+// Native 39B78D is ScoreKeeper::LoadPostProcess, owned by ScoreKeeperDtor.cpp.
 
 class Rva0046F822ByteOneSetter
 {
@@ -793,3 +781,14 @@ void Rva005B022AByteOneSetter::enable()
 {
 	m_enabled = 1;
 }
+
+// BF1 9cb Rva000C3EF0ByteGetter.cpp is a structural lead only. Complete
+// native 2A87EA..2A87F1 follows a terminal JMP and reads raw byte+4B0 into
+// AL. Original owner and complete class bounds remain unknown.
+struct Rva002A87EAFields
+{
+    char unknown00[0x4B0];
+    unsigned char value;
+    unsigned char get() const;
+};
+unsigned char Rva002A87EAFields::get() const { return value; }

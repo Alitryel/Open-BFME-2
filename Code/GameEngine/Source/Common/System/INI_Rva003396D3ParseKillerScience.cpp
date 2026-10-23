@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX-
+// cl: /DNDEBUG /MD /GX-
 // Rva003396D3_ParseKillerScience (retail 0x003396D3, 58 bytes). Reads a
 // token through the rowed getNextToken at 0x002DF97; when the ScienceStore
 // global at 0xDFE0E0 is unloaded it throws a 0xDEAD0001-marked word through
@@ -22,17 +22,36 @@ public:
 	const char *getNextToken(const char *seps);
 	static ScienceType scanScience(const char *token);
 	static void Rva003396D3_ParseKillerScience(INI *ini, void *instance, void *store, const void *userData);
+	static void parseScience(INI *ini, void *instance, void *store, const void *userData);
 };
 
-__declspec(noreturn) void __stdcall _CxxThrowException(void *pExc, void *pInfo);
+// Zero Hour's Common/Errors.h; retail's ErrorCode throw info is at 0x00CFEEE4.
+enum ErrorCode
+{
+	ERROR_BASE = 0xdead0001,
+	ERROR_BUG = (ERROR_BASE + 0x0000)
+};
 
 // ?Rva003396D3_ParseKillerScience@INI@@SAXPAV1@PAX1PBX@Z
 void INI::Rva003396D3_ParseKillerScience(INI *ini, void *instance, void *store, const void *userData)
 {
 	const char *token = ini->getNextToken(0);
 	if (g_scienceStoreLoaded == 0) {
-		int marker = 0xDEAD0001;
-		_CxxThrowException(&marker, (void *)0xCFEEE4);
+		throw ERROR_BUG;
 	}
 	*(int *)store = INI::scanScience(token);
 }
+
+// ICF-folded twin of Rva003396D3_ParseKillerScience above (same 58 bytes at
+// 0x003396D3): static member functions take no receiver, so the same
+// statements under a different name compile to the identical body.
+void INI::parseScience(INI *ini, void *instance, void *store, const void *userData)
+{
+	const char *token = ini->getNextToken(0);
+	if (g_scienceStoreLoaded == 0) {
+		throw ERROR_BUG;
+	}
+	*(int *)store = INI::scanScience(token);
+}
+// ?g_scienceStoreLoaded@@3HA: the global at VA 0xdfe0e0 is ?TheScienceStore@@3PAVScienceStore@@A.
+#pragma comment(linker, "/alternatename:?g_scienceStoreLoaded@@3HA=?TheScienceStore@@3PAVScienceStore@@A")

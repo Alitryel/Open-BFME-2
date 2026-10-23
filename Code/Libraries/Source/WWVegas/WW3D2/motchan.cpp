@@ -45,6 +45,13 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+// The compiler-generated vector constructor iterator (??_H) takes the optimization
+// state of the first function that needs it; retail links one copy, the /O1 body at
+// 0x00001423. This unemitted anchor makes this unit's copy that body.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "motchan.h"
 #include "w3d_file.h"
@@ -254,10 +261,11 @@ BitChannelClass::~BitChannelClass(void)
 // ?BitChannelClass::Free present-unmatched
 void BitChannelClass::Free(void)
 {
-	if (Bits != NULL) {
-		delete[] Bits;
-		Bits = NULL;
-	}
+	// No null test, as in MotionChannelClass::Free: retail's ~NodeMotionStruct
+	// (0x0018E750) releases Vis through the shared body at 0x001960C0, which
+	// loads [esi+0x14], deletes it and nulls it with nothing in between.
+	delete[] Bits;
+	Bits = NULL;
 }
 
 
@@ -273,48 +281,10 @@ void BitChannelClass::Free(void)
  * HISTORY:                                                                                    *
  *   1/21/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?BitChannelClass::Load_W3D present-unmatched
-bool BitChannelClass::Load_W3D(ChunkLoadClass & cload)
-{
-	Free();
-	
-	int chunk_size = cload.Cur_Chunk_Length();
-
-	W3dBitChannelStruct chan;
-	if (cload.Read(&chan,sizeof(W3dBitChannelStruct)) != sizeof(W3dBitChannelStruct)) {
-		return false;
-	}
-
-	FirstFrame = chan.FirstFrame;
-	LastFrame = chan.LastFrame;
-	Type = chan.Flags;
-	PivotIdx = chan.Pivot;
-	DefaultVal = chan.DefaultVal;
-
-	uint32 numbits = LastFrame - FirstFrame + 1;
-	uint32 numbytes = (numbits + 7) / 8;
-	uint32 bytesleft = numbytes - 1;
-
-	assert((sizeof(W3dBitChannelStruct) + bytesleft) == (unsigned)chunk_size);
-
-	Bits = MSGW3DNEWARRAY("BitChannelClass::Bits") uint8[numbytes];
-	assert(Bits);
-
-	Bits[0] = chan.Data[0];
-	
-	if (bytesleft > 0) {
-		if (cload.Read(&(Bits[1]),bytesleft) != bytesleft) {
-			Free();
-			return false;
-		}	
-	}
-
-	return true;
-}
 
 
-/*********************************************************************************************** 
- * TimeCodedMotionChannelClass::TimeCodedMotionChannelClass -- constructor                                       * 
+/***********************************************************************************************
+ * TimeCodedMotionChannelClass::TimeCodedMotionChannelClass -- constructor                                       *
  *                                                                                             * 
  * INPUT:                                                                                      * 
  *                                                                                             * 
@@ -437,119 +407,8 @@ bool TimeCodedMotionChannelClass::Load_W3D(ChunkLoadClass & cload)
  * HISTORY:                                                                                    * 
  *   08/11/1997 GH  : Created.                                                                 * 
  *=============================================================================================*/
-// ?TimeCodedMotionChannelClass::Get_Vector present-unmatched
-void	TimeCodedMotionChannelClass::Get_Vector(float32 frame,float * setvec)
-{		
-	
-  uint32	tc0;
-  
-  tc0 = frame;
-	
-  uint32 pidx = get_index( tc0 );						
-  uint32 p2idx;
-  
-  if (pidx == ((NumTimeCodes - 1) * PacketSize))  {
-  	
-     float32 *frm = (float32 *) &Data[pidx+1];	 									
-                           
-		for (int i=0; i < VectorLen; i++)  {
-	  	
-	   	setvec[i] = frm[i];
-	     
-	  }               
-     
-     return;		  
-             
-  }
-  else {
-  	p2idx = pidx + PacketSize;
-  }
-  
-  uint32 time = Data[p2idx];
-
-   if (time & W3D_TIMECODED_BINARY_MOVEMENT_FLAG) {
-		float32 *frm = (float32 *) &Data[pidx+1];
-		for (int i=0; i < VectorLen; i++) {
-			setvec[i] = frm[i];
-		}
-		return;
-   }
-
-  float32 time1 = (Data[pidx]  & ~W3D_TIMECODED_BINARY_MOVEMENT_FLAG);
-  float32 time2 = (time & ~W3D_TIMECODED_BINARY_MOVEMENT_FLAG);
-  
-  float32 ratio = (frame - time1) / (time2 - time1);	
-     
-  float32 *frame1 = (float32 *) &Data[pidx+1];
-  float32 *frame2 = (float32 *) &Data[p2idx+1];
-  					
-  for (int i=0; i < VectorLen; i++)  {
-  	
-     setvec[i] = WWMath::Lerp(frame1[i],frame2[i],ratio);
-     
-  }               
-
-}	// Get_Vector
 
 
-// ?TimeCodedMotionChannelClass::Get_QuatVector present-unmatched
-Quaternion TimeCodedMotionChannelClass::Get_QuatVector(float32 frame)
-{
-
-	assert(VectorLen == 4);
-
-	Quaternion q(1);
-
-	uint32	tc0;
-  
-	tc0 = frame;
-	
-	uint32 pidx = get_index( tc0 );						
-	uint32 p2idx;
-  
-	if (pidx == ((NumTimeCodes - 1) * PacketSize))  {
-  	
-		float32 *vec = (float32 *) &Data[pidx+1];	 									
-               
-		q.Set(vec[0], vec[1], vec[2], vec[3]);
-
-		return( q );		  
-             
-	}
-	else {
-  		p2idx = pidx + PacketSize;
-	}
-  
-	uint32 time = Data[p2idx];
-
-	if (time & W3D_TIMECODED_BINARY_MOVEMENT_FLAG) {
-		// its a binary movement!
-		float32 *vec = (float32 *) &Data[pidx+1];
-
-		q.Set(vec[0], vec[1], vec[2], vec[3]);
-		
-		return( q );
-	}
-	
-	float32 time1 = (Data[pidx]  & ~W3D_TIMECODED_BINARY_MOVEMENT_FLAG);
-	float32 time2 = (time & ~W3D_TIMECODED_BINARY_MOVEMENT_FLAG);
-
-	float32 ratio = (frame - time1) / (time2 - time1);	
-	   
-	float32 *frame1 = (float32 *) &Data[pidx+1];
-	float32 *frame2 = (float32 *) &Data[p2idx+1];
-  					
-	Quaternion q1(1);
-	Quaternion q2(1);
-
-	q1.Set(frame1[0], frame1[1], frame1[2], frame1[3]);
-	q2.Set(frame2[0], frame2[1], frame2[2], frame2[3]);
-
-	Fast_Slerp(q, q1, q2, ratio);
-
-	return( q );
-
-} // Get_QuatVector
 
 
 
@@ -593,19 +452,16 @@ Quaternion TimeCodedMotionChannelClass::Get_QuatVector(float32 frame)
  * HISTORY:                                                                                    * 
  *   08/11/1997 GH  : Created.                                                                 * 
  *=============================================================================================*/
-// ?TimeCodedMotionChannelClass::set_identity present-unmatched
+// Retail 0x00195DD0 (43 bytes, RET4): BFME 2 stores the shared first
+// component before the type test, where the reference zeroes it in both arms.
 void TimeCodedMotionChannelClass::set_identity(float * setvec)
 {
+	setvec[0] = 0.0f;
 	if (Type == ANIM_CHANNEL_Q) {
 
-		setvec[0] = 0.0f;
 		setvec[1] = 0.0f;
 		setvec[2] = 0.0f;
 		setvec[3] = 1.0f;
-
-	} else {
-
-		setvec[0] = 0.0f;
 
 	}
 }	// set_identity
@@ -783,37 +639,7 @@ int TimeCodedBitChannelClass::Get_Bit(int frame)
  * HISTORY:                                                                                    * 
  *   02/18/2000 JGA : Created.                                                                 * 
  *=============================================================================================*/
-// ?AdaptiveDeltaMotionChannelClass::AdaptiveDeltaMotionChannelClass present-unmatched
-AdaptiveDeltaMotionChannelClass::AdaptiveDeltaMotionChannelClass(void) :
-	PivotIdx(0),
-	Type(0),
-	VectorLen(0),
-	_bfme_adm_scale2(0.0f),
-	Data(NULL),
-	NumFrames(0),
-	CacheFrame(0),
-	CacheData(NULL),
-	Scale(0.0f)	
-{
-
-	if (false == table_valid) {
-		// Create Filter Table, used in delta compression
-
-		for (int i=0; i<FILTER_TABLE_GEN_SIZE; i++)
-		{
-			float ratio = i;
-
-			//ratio = ((ratio + 1.0f) / 128.0f); 
-			ratio/=((float) FILTER_TABLE_GEN_SIZE);
-
-			filtertable[i + FILTER_TABLE_GEN_START] = 1.0f - WWMath::Sin( DEG_TO_RAD(90.0f * ratio));
-		}
-
-		table_valid = true;
-
-	}
-
-}
+// AdaptiveDeltaMotionChannelClass::AdaptiveDeltaMotionChannelClass (?) is rowed in AdaptiveDeltaMotionChannelFinish.cpp; a second definition here would not link.
 
 /*********************************************************************************************** 
  * MotionChannelClass::~MotionChannelClass -- destructor                                       * 
@@ -848,16 +674,11 @@ AdaptiveDeltaMotionChannelClass::~AdaptiveDeltaMotionChannelClass(void)
 // ?AdaptiveDeltaMotionChannelClass::Free present-unmatched
 void AdaptiveDeltaMotionChannelClass::Free(void)
 {
-	if (Data) {
-		delete[] Data;
-		Data = NULL;
-	}
-
-	if (CacheData) {
-		delete CacheData;
-		CacheData = NULL;
-	}
-
+	// BFME2: retail's ~AdaptiveDeltaMotionChannelClass (0x001960E0, folded with
+	// TimeCodedMotionChannelClass::Free) deletes Data at +0x18 with no null test
+	// and frees no cache buffer.
+	delete[] Data;
+	Data = NULL;
 }	// Free
 
 
@@ -873,41 +694,8 @@ void AdaptiveDeltaMotionChannelClass::Free(void)
  * HISTORY:                                                                                    * 
  *   02/18/2000 JGA : Created.                                                                 * 
  *=============================================================================================*/
-bool AdaptiveDeltaMotionChannelClass::Load_W3D(ChunkLoadClass & cload)
-{
-	int size = cload.Cur_Chunk_Length();
-	unsigned int datasize = size - sizeof(W3dAdaptiveDeltaAnimChannelStruct);
-	unsigned int numInts  = (datasize / sizeof(uint32)) + 1;
-
-	W3dAdaptiveDeltaAnimChannelStruct chan;
-	if (cload.Read(&chan,sizeof(W3dAdaptiveDeltaAnimChannelStruct)) != sizeof(W3dAdaptiveDeltaAnimChannelStruct)) {
-		return false;
-	}
-						
-	VectorLen   = chan.VectorLen;
-	Type 		   = chan.Flags;
-	PivotIdx    = chan.Pivot;
-	NumFrames	= chan.NumFrames;
-	Scale			= chan.Scale;
-	CacheFrame	= 0x7FFFFFFF;	// a big number, so we know its not valid
-	CacheData   = MSGW3DNEWARRAY("AdaptiveDeltaMotionChannelClass::CacheData") float[VectorLen * 2]; // cacheframe & cachedframe+1 by VectorLen
-
-	Data = MSGW3DNEWARRAY("AdaptiveDeltaMotionChannelClass::Data") uint32[numInts];
-	// BFME stores the byte size of the Data allocation in the dword that this
-	// header spells _bfme_adm_scale2 (this+0x10): retail reuses the very
-	// register it just passed to operator new[] and stores it here at
-	// 0x00977D3E, between the Data assignment and the Data[0] copy.  Written
-	// through a pun so no header change is required.
-	*(uint32 *)&_bfme_adm_scale2 = numInts * sizeof(uint32);
-	Data[0] = chan.Data[0];
-	
-	if (cload.Read(&(Data[1]), datasize) != datasize) {
-		Free();
-		return false;
-	}	
-	return true;
-
-}	// Load_W3D
+// AdaptiveDeltaMotionChannelClass::Load_W3D: defined in AdaptiveDeltaLoadW3D.cpp (its row's unit).
+	// Load_W3D
 
 
 /*********************************************************************************************** 
@@ -923,6 +711,7 @@ bool AdaptiveDeltaMotionChannelClass::Load_W3D(ChunkLoadClass & cload)
  *   02/23/2000 JGA  : Created.                                                                * 
  *=============================================================================================*/
 #define PACKET_SIZE (9)
+// ?AdaptiveDeltaMotionChannelClass::decompress present-unmatched
 void AdaptiveDeltaMotionChannelClass::decompress(uint32 frame_idx, float *outdata)
 {	  
 	// Start Over from the beginning
@@ -1167,6 +956,7 @@ float AdaptiveDeltaMotionChannelClass::getframe(uint32 frame_idx, uint32 vector_
  * HISTORY:                                                                                    * 
  *   02/18/2000 JGA  : Created.                                                                 * 
  *=============================================================================================*/
+// ?AdaptiveDeltaMotionChannelClass::Get_Vector present-unmatched
 void	AdaptiveDeltaMotionChannelClass::Get_Vector(float32 frame,float * setvec)
 {		
 
@@ -1186,6 +976,7 @@ void	AdaptiveDeltaMotionChannelClass::Get_Vector(float32 frame,float * setvec)
 //
 //  Special Case Quats, so we can use Slerp
 //
+// ?AdaptiveDeltaMotionChannelClass::Get_QuatVector present-unmatched
 Quaternion AdaptiveDeltaMotionChannelClass::Get_QuatVector(float32 frame)
 {
 

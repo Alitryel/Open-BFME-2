@@ -1,9 +1,11 @@
+char g_00BF33C0;
+
 // cl: /O1 /MD /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // ??0UpgradeDieModuleData@@QAE@XZ, retail 0x002550ED, 22 bytes.
-// Frameless ctor over the pinned SEH base (??0Rva00253510@@QAE@XZ at
+// Frameless ctor over the pinned SEH base (??0DestroyDieModuleData@@QAE@XZ at
 // 0x253510, whose 12 ctor-position callers include this body at 0x2550F0):
-// base call, then the distinctive vtable literal 0x00BF33C0, then the
+// base call, then the distinctive vtable literal (unsigned int)&g_00BF33C0, then the
 // compact and-zero of the UpgradeToRemove name word at +0x38 (the rowed
 // buildFieldParse table 0x00BF0958 holds UpgradeToRemove at +0x38, and
 // BFME1's UpgradeDieModuleDataCtorThunk donor models the same word as the
@@ -18,13 +20,13 @@
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 
-class Rva00253510
+class DestroyDieModuleData
 {
 public:
-	Rva00253510();
+	DestroyDieModuleData();
 };
 
-class UpgradeDieModuleData : public Rva00253510
+class UpgradeDieModuleData : public DestroyDieModuleData
 {
 public:
 	UpgradeDieModuleData();
@@ -36,9 +38,20 @@ private:
 };
 
 // ??0UpgradeDieModuleData@@QAE@XZ @0x2550ED
-UpgradeDieModuleData::UpgradeDieModuleData()
+inline UpgradeDieModuleData::UpgradeDieModuleData()
 {
-	m_vtable = reinterpret_cast<void *>(0x00BF33C0);
+	m_vtable = reinterpret_cast<void *>((unsigned int)&g_00BF33C0);
 	_ReadWriteBarrier();
 	m_upgradeName = 0;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeUpgradeDieModuleDataInlineAnchor@@YAXPAVUpgradeDieModuleData@@@Z absent-from-retail
+void _bfmeUpgradeDieModuleDataInlineAnchor(UpgradeDieModuleData *upgradeDieModuleData)
+{
+    upgradeDieModuleData->UpgradeDieModuleData::UpgradeDieModuleData();
+}
+#pragma inline_depth()

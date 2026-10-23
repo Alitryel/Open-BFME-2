@@ -1,4 +1,4 @@
-// cl: /O1 /MD /DNDEBUG /EHsc
+// cl: /Ireference/shims/bfme2_ascii /MD /DNDEBUG /EHsc
 //
 // ??0SymbioticStructuresBodyModuleData@@QAE@XZ, retail 0x00256D0D (67 bytes).
 // EH ModuleData ctor over the rowed ActiveBodyModuleData base (0x004BF59F,
@@ -10,16 +10,7 @@
 // "SymbioticStructuresBody"; same inline-zero plus set shape as the
 // HeroModeSpecialAbilityUpdateModuleData ctor).
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	void set(const char *text);
-	~AsciiString();
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class __declspec(novtable) ActiveBodyModuleData
 {
@@ -35,6 +26,7 @@ class SymbioticStructuresBodyModuleData : public ActiveBodyModuleData
 {
 public:
 	SymbioticStructuresBodyModuleData();
+	virtual ~SymbioticStructuresBodyModuleData();
 
 private:
 	AsciiString m_string64;	// +0x64
@@ -45,3 +37,8 @@ SymbioticStructuresBodyModuleData::SymbioticStructuresBodyModuleData()
 {
 	m_string64.set("Not likely to duplicate this name, is he, Fred?");
 }
+
+// LINK-DUP: inline copy (owner SymbioticStructuresBodyModuleDataDtor.cpp
+// holds the ??1 row, FamilyDeletingDtors holds ??_G); select-any so the
+// linked build keeps the owners' copies.
+// SymbioticStructuresBodyModuleData::~SymbioticStructuresBodyModuleData: defined in SymbioticStructuresBodyModuleDataDtor.cpp (its row's unit).

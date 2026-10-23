@@ -21,7 +21,18 @@ private:
 };
 
 // ?friend_newModuleInstance@WorkerAIUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *WorkerAIUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *WorkerAIUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new WorkerAIUpdate(thing, moduleData));
 }
+
+// Select-any anchor: this unit owns the row above while other TUs emit it as
+// an inline copy. The anchor keeps this unit emitting its copy for the ledger;
+// it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitWorkerAIUpdateFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitWorkerAIUpdateFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	WorkerAIUpdate::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

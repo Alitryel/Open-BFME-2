@@ -8,6 +8,7 @@
 // allocator 0x000307F0. Model/flags donor TU
 // Code/Libraries/Source/WWVegas/WWLib/StringBaseWideStrLenSet.cpp // cl: /O2 /EHsc
 // plus char-size bytes len+9 and capacity bytes-8 (no divide).
+#include <string.h>
 namespace _STL {
 template <class _Tp> class allocator;
 template <> class allocator<char> {
@@ -19,8 +20,10 @@ public:
 template <typename T>
 class CharSource {
 public:
+    // Retail setter EH restores the abstract base vtable at BE2B78.
+    ~CharSource() {}
     virtual int getLength() const = 0;
-    virtual void _gap() const = 0;
+    virtual void getCharRange(T *dest, int start, int count) const = 0;
     virtual int getChars(T *dest) const = 0;
 };
 
@@ -49,18 +52,16 @@ public:
     NarrowStrLenSource(const char *s, int l) : m_str(s), m_len(l) {}
     ~NarrowStrLenSource() {}
     virtual int getLength() const { return m_len; }
-    virtual void _gap() const {}
+    virtual void getCharRange(char *dest, int start, int count) const {
+        memcpy(dest, m_str + start, count);
+    }
     virtual int getChars(char *dest) const {
-        for (int i = 0; i < m_len; i++)
-            dest[i] = m_str[i];
+        memcpy(dest, m_str, m_len);
         return m_len;
     }
 };
 
 // ?getLength@NarrowStrLenSource@@UBEHXZ present-unmatched
-// ?_gap@NarrowStrLenSource@@UBEXXZ present-unmatched
-// ?getChars@NarrowStrLenSource@@UBEHPAD@Z present-unmatched
-// ??0NarrowStrLenSource@@QAE@PBDH@Z present-unmatched
 // ??1NarrowStrLenSource@@QAE@XZ present-unmatched
 template <>
 void StringBase<char>::set(const char *str, int len)
@@ -80,7 +81,7 @@ void StringBase<char>::set(const char *str, int len)
         if (bytes > 0x7fff)
             throw 1;
         bytes = ((bytes + 3) / 4) * 4;
-        Header *fresh = (Header *)_STL::allocator<char>::allocate(bytes, (const void *)0x737472);
+        Header *fresh = (Header *)_STL::allocator<char>::allocate(bytes, (const void *)'str');
         fresh->ref_count = 1;
         fresh->capacity = (unsigned short)(bytes - 8);
         fresh->length = 0;
@@ -123,7 +124,7 @@ void StringBase<char>::set(const CharSource<char> &source)
         if (bytes > 0x7fff)
             throw 1;
         bytes = ((bytes + 3) / 4) * 4;
-        Header *fresh = (Header *)_STL::allocator<char>::allocate(bytes, (const void *)0x737472);
+        Header *fresh = (Header *)_STL::allocator<char>::allocate(bytes, (const void *)'str');
         fresh->ref_count = 1;
         fresh->capacity = (unsigned short)(bytes - 8);
         fresh->length = 0;

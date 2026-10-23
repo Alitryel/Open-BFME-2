@@ -15,7 +15,7 @@
 // declared with C++ linkage: as extern "C" the compiler treats it as nothrow
 // and drops the same states again.
 
-void __cdecl free(void *);
+extern "C" void __cdecl free(void *block) throw(...);
 
 namespace _STL
 {
@@ -66,8 +66,20 @@ public:
 	string _M_long_date_time_format;
 };
 
-_Time_Info::~_Time_Info()
+inline _Time_Info::~_Time_Info()
 {
 }
 
 }
+
+// _Time_Info::~_Time_Info is a header inline in STLport: another unit emits a
+// select-any copy of it, so a strong definition here was a duplicate symbol
+// in the linked build. This anchor only makes this unit emit its copy for the
+// ledger row; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitTimeInfoDtor@@YAXPAV_Time_Info@_STL@@@Z present-unmatched
+void bfmeEmitTimeInfoDtor(_STL::_Time_Info *p)
+{
+	p->_Time_Info::~_Time_Info();
+}
+#pragma inline_depth()

@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /DNDEBUG /MD
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD
 //
 // ?WriteScriptSubRecord_Rva003B24F2@@YAXAAVDataChunkOutput@@PBUScriptSubRecord@@@Z,
 // retail 0x003B24F2, 66 bytes. Dedicated TU.
@@ -16,11 +16,7 @@ typedef unsigned char Byte;
 
 // Minimal 4-byte AsciiString view (member use needs a complete type; this TU
 // never constructs, copies or destroys one, so no ctor/dtor is declared).
-class AsciiString
-{
-public:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class DataChunkOutput
 {

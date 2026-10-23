@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /O1 /GX
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX
 //
 // BFME2's native-network vtable slot +0x54 decides how many logic frames may
 // advance during the current client tick.  The two branches are deliberately
@@ -6,6 +6,10 @@
 // manager's announced frame ceiling and command-count gate, while the packet
 // router uses a QPC accumulator and the same logic-frame quantum as the pacing
 // query at slot +0x58.
+
+extern class GameLogic *TheGameLogic;
+
+extern int BfmeLogicFramesPerSecond;
 
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime(void);
 extern "C" __declspec(dllimport) int __stdcall QueryPerformanceCounter(__int64 *counter);
@@ -90,16 +94,22 @@ private:
 	int m_lastValue;
 };
 
-#define TheGameLogic (*(volatile GameLogicFrame **)0x00DFE78C)
-#define LogicFramesPerSecond (*(const int *)0x00DBA4E4)
-#define StallStartTime (*(unsigned long *)0x00DFEA2C)
-#define LastAdvanceTime (*(unsigned long *)0x00DFEA30)
-#define LastStallFrame (*(unsigned int *)0x00DFEA38)
+#define TheGameLogic (*(volatile GameLogicFrame **)&TheGameLogic)
+#define LogicFramesPerSecond BfmeLogicFramesPerSecond
+
+// g_00DFEA2C: VA 0x00DFEA2C (.data(bss)); retail initial value is zero.
+unsigned long g_00DFEA2C = 0;
+// g_00DFEA30: VA 0x00DFEA30 (.data(bss)); retail initial value is zero.
+unsigned long g_00DFEA30 = 0;
+// g_00DFEA38: VA 0x00DFEA38 (.data(bss)); retail initial value is zero.
+unsigned int g_00DFEA38 = 0;
 
 // The compiler's external-data form is intentional: retail increments this
 // global with the one-byte `inc [absolute]` encoding.  The byte verifier binds
 // this relocation to the fixed BFME2 address 0x00DFEA34.
 extern int NetworkTimingOverruns;
+// NetworkTimingOverruns: matched references place it at VA 0xdfea34 (zero-filled .bss).
+int NetworkTimingOverruns;
 
 int NetworkInterface::getFrameAdvanceCount(void)
 {
@@ -110,7 +120,7 @@ int NetworkInterface::getFrameAdvanceCount(void)
 	{
 		if (!m_stallTimerRunning)
 		{
-			StallStartTime = timeGetTime();
+			g_00DFEA2C = timeGetTime();
 			m_stallTimerRunning = true;
 		}
 
@@ -134,10 +144,10 @@ int NetworkInterface::getFrameAdvanceCount(void)
 
 			m_stallTimerRunning = false;
 		}
-		else if (currentFrame != LastStallFrame)
+		else if (currentFrame != g_00DFEA38)
 		{
 			++m_stallCount;
-			LastStallFrame = TheGameLogic->frame;
+			g_00DFEA38 = TheGameLogic->frame;
 		}
 		return allowance;
 	}
@@ -168,6 +178,6 @@ int NetworkInterface::getFrameAdvanceCount(void)
 		NetworkTimingOverruns = 0;
 	}
 
-	LastAdvanceTime = timeGetTime();
+	g_00DFEA30 = timeGetTime();
 	return 1;
 }

@@ -1,30 +1,24 @@
-// cl: /O1 /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // STLport donor: reference/open-bfme-1/vendor/stlport/stl/_vector.h.
 // Target assignment 0x5FDEC7 copies words +0/+4 and sets the wide string at +8.
 // The destroy loop confirms a 12-byte stride; application identity is unknown.
-template<class T> class StringBase {
-    void *m_data;
-    void releaseBuffer();
-public:
-    void set(const StringBase<T> &other);
-    StringBase(const StringBase<T> &other);
-protected:
-    __forceinline ~StringBase() { releaseBuffer(); }
-};
-class UnicodeString : private StringBase<unsigned short> {
-public:
-    __declspec(nothrow) __forceinline UnicodeString &operator=(const UnicodeString &other) {
-        StringBase<unsigned short>::set(other);
-        return *this;
-    }
-    __forceinline ~UnicodeString() {}
-};
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
+#include "unicode_string.h"
 struct BfmeContainerRecord005FDEC7 {
     unsigned int word0;
     unsigned int word4;
     UnicodeString text08;
-    BfmeContainerRecord005FDEC7();
+    BfmeContainerRecord005FDEC7() : word0(0), word4(0) {}
     __declspec(nothrow) BfmeContainerRecord005FDEC7 &operator=(const BfmeContainerRecord005FDEC7 &other);
 };
 __declspec(nothrow) BfmeContainerRecord005FDEC7 &BfmeContainerRecord005FDEC7::operator=(const BfmeContainerRecord005FDEC7 &other) {
@@ -34,4 +28,9 @@ __declspec(nothrow) BfmeContainerRecord005FDEC7 &BfmeContainerRecord005FDEC7::op
     return *this;
 }
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> void vector<BfmeContainerRecord005FDEC7, allocator<BfmeContainerRecord005FDEC7> >::_M_fill_insert(BfmeContainerRecord005FDEC7 *, unsigned int, BfmeContainerRecord005FDEC7 const &); }
+namespace _STL { template <> BfmeContainerRecord005FDEC7 *uninitialized_fill_n(BfmeContainerRecord005FDEC7 *, unsigned int, BfmeContainerRecord005FDEC7 const &); }
+// bfme link decl-only end
+namespace _STL { template <> BfmeContainerRecord005FDEC7 *vector<BfmeContainerRecord005FDEC7, allocator<BfmeContainerRecord005FDEC7> >::erase(BfmeContainerRecord005FDEC7 *, BfmeContainerRecord005FDEC7 *); }
 template class _STL::vector<BfmeContainerRecord005FDEC7, _STL::allocator<BfmeContainerRecord005FDEC7> >;

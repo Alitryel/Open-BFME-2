@@ -6,8 +6,19 @@
 // Rva00520211Element is an address-derived opaque 80-byte emitter view. Its
 // copy/destroy helpers are pinned from target calls; no application fields or
 // concrete element identity are asserted.
-// cl: /O1 /G7 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
+// Retail keeps one unsigned max, RVA 0x00013740 (the vendored STLport row). This unit's
+// flags (/G7) compile a different copy, and retail kept another unit's. This unit-local
+// overload keeps the inlined code and offers the link no second copy.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
 #include <vector>
 
 struct Rva00520211Element {
@@ -17,9 +28,13 @@ struct Rva00520211Element {
 	~Rva00520211Element();
 };
 
+class Rva0051F87B { public: Rva0051F87B(const Rva0051F87B &); };
 namespace _STL {
-template <> void _Construct<Rva00520211Element, Rva00520211Element>(
-	Rva00520211Element *, const Rva00520211Element &);
+template <> __declspec(noinline) inline void _Construct<Rva00520211Element, Rva00520211Element>(
+	Rva00520211Element *p, const Rva00520211Element &value)
+{
+ new ((void *)p) Rva0051F87B((const Rva0051F87B &)value);
+}
 }
 
 template void _STL::_Destroy<Rva00520211Element *>(

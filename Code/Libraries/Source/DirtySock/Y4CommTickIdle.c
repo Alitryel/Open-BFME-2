@@ -291,7 +291,7 @@ int Rva008144C0( struct Rva00814700Comm *comm )
 	return 4;
 }
 
-unsigned int Rva00680420( void )
+unsigned int Rva00814520( void )
 {
 	return Rva007FEA00();
 }
@@ -426,7 +426,7 @@ struct Rva00813E50Comm
 };
 
 char *strchr( const char *text, int value );
-char *strcpy( char *dest, const char *source );
+char *_mbscpy( char *dest, const char *source );
 int strcmp( const char *left, const char *right );
 int _strcmpi( const char *left, const char *right );
 unsigned int strlen( const char *text );
@@ -461,7 +461,7 @@ int Rva00813E50( struct Rva00813E50Comm *comm, char *text )
 	if ( text == 0 )
 		return -3;
 
-	strcpy( comm->m_host, text + 1 );
+	_mbscpy( comm->m_host, text + 1 );
 	comm->m_state = 3;
 	Rva00813100( comm->m_port, 2, comm, 0x4000, 0, 0 );
 	return 0;
@@ -473,9 +473,9 @@ int Rva00813A50( struct Rva00813E50Comm *comm, const char *text,
 	char *name;
 	int iDevice;
 	int iResult;
-	int apiVersion;
-	struct Rva008136C0ExtensionId extensionId;
-	char capabilities[ 0x400 ];
+	int version;
+	struct Rva008136C0ExtensionId extend;
+	char caps[ 0x400 ];
 	char *initialOutput;
 
 	initialOutput = output;
@@ -494,18 +494,18 @@ int Rva00813A50( struct Rva00813E50Comm *comm, const char *text,
 		iDevice++ )
 	{
 		iResult = Rva0081BDBA( *(int *)( (char *)comm + 0x84 ), iDevice,
-			0x10004, 0x20002, &apiVersion, &extensionId );
+			0x10004, 0x20002, &version, &extend );
 		if ( iResult != 0 )
 			continue;
 
-		memset( capabilities, 0, 0x400 );
-		*(int *)capabilities = 0x400;
+		memset( caps, 0, 0x400 );
+		*(int *)caps = 0x400;
 		iResult = Rva0081BDD2( *(int *)( (char *)comm + 0x84 ), iDevice,
-			apiVersion, 0, capabilities );
-		if ( *(int *)( capabilities + 0x7C ) == 0 )
+			version, 0, caps );
+		if ( *(int *)( caps + 0x7C ) == 0 )
 			continue;
 
-		name = capabilities + *(int *)( capabilities + 0x24 );
+		name = caps + *(int *)( caps + 0x24 );
 		if ( strcmp( text, "localhost" ) == 0 )
 		{
 			if ( (unsigned int)( strlen( name ) + 2 )
@@ -517,7 +517,7 @@ int Rva00813A50( struct Rva00813E50Comm *comm, const char *text,
 				output++;
 				size--;
 			}
-			strcpy( output, name );
+			_mbscpy( output, name );
 			output += strlen( name );
 			size -= strlen( name );
 		}
@@ -537,15 +537,15 @@ int Rva00813A50( struct Rva00813E50Comm *comm, const char *text,
 
 int Rva00813D00( struct Rva00813E50Comm *comm, char *text )
 {
-	char address[ 64 ];
+	char resolve[ 64 ];
 
 	if ( comm->m_state != 2 )
 		return -2;
 
 	if ( *text < '0' || *text > '9' )
 	{
-		Rva00813A50( comm, text, address, 64, 0 );
-		text = address;
+		Rva00813A50( comm, text, resolve, 64, 0 );
+		text = resolve;
 	}
 
 	comm->m_port = 0;
@@ -604,8 +604,8 @@ int Rva00814770( struct Rva00814700Comm *comm, unsigned int tick )
 	int iTotal;
 	struct Rva00814770Record *record;
 	char *payload;
-	unsigned char address[ 16 ];
-	int addressLength;
+	unsigned char addr[ 16 ];
+	int addrlen;
 	void *newSocket;
 
 	iTotal = 0;
@@ -620,9 +620,9 @@ int Rva00814770( struct Rva00814700Comm *comm, unsigned int tick )
 
 	if ( comm->m_state == 3 )
 	{
-		addressLength = 0x10;
+		addrlen = 0x10;
 		newSocket = 0;
-		newSocket = Rva007FD7D0( comm->m_socket, address, &addressLength );
+		newSocket = Rva007FD7D0( comm->m_socket, addr, &addrlen );
 		if ( newSocket != 0 )
 		{
 			Rva007FD3F0( comm->m_socket );
@@ -775,18 +775,18 @@ int Rva007FD7A0( void *socket, int backlog );
 int Rva00814FE0( struct Rva008151E0Comm *comm, const char *text )
 {
 	int result;
-	unsigned char address[ 16 ];
+	unsigned char bindaddr[ 16 ];
 	void *socket;
 
 	if ( comm->m_state != 1 || comm->m_socket != 0 )
 		return -2;
 
-	*(unsigned short *)&address[ 0 ] = 2;
-	*(unsigned short *)&address[ 2 ] = 0;
-	*(unsigned int *)&address[ 4 ] = 0;
-	*(unsigned int *)&address[ 8 ] = 0;
-	*(unsigned int *)&address[ 12 ] = 0;
-	if ( ( Rva007FFCB0( (struct Rva008151E0Address *)address, text ) & 2 ) == 0 )
+	*(unsigned short *)&bindaddr[ 0 ] = 2;
+	*(unsigned short *)&bindaddr[ 2 ] = 0;
+	*(unsigned int *)&bindaddr[ 4 ] = 0;
+	*(unsigned int *)&bindaddr[ 8 ] = 0;
+	*(unsigned int *)&bindaddr[ 12 ] = 0;
+	if ( ( Rva007FFCB0( (struct Rva008151E0Address *)bindaddr, text ) & 2 ) == 0 )
 		return -3;
 
 	Rva00815170( (struct Rva00814700Comm *)comm );
@@ -796,7 +796,7 @@ int Rva00814FE0( struct Rva008151E0Comm *comm, const char *text )
 		return -4;
 
 	result = Rva007FD510( comm->m_socket,
-		(struct Rva008151E0Address *)address, 16 );
+		(struct Rva008151E0Address *)bindaddr, 16 );
 	if ( result < 0 )
 	{
 		Rva007FD3F0( comm->m_socket );
@@ -823,21 +823,30 @@ struct Rva00814D60Comm
 
 int Rva007FDB60( void *socket, int selector, void *address, int size );
 int Rva007FE780( const char *format, ... );
-extern char Rva012C4A80[];
+// Rva012C4A80: matched references place it at VA 0xdd91d8; retail contents, sized to the
+// 0x2c-byte gap before the next known global there.
+char Rva012C4A80[44] = {
+	99, 111, 109, 109, 116, 99, 112, 58,
+	32, 112, 101, 101, 114, 61, 48, 120,
+	37, 48, 56, 120, 58, 37, 100, 44,
+	32, 104, 111, 115, 116, 61, 48, 120,
+	37, 48, 56, 120, 58, 37, 100, 10,
+	0, 0, 0, 0,
+};
 
 void Rva00814D60( struct Rva00814D60Comm *comm )
 {
-	unsigned char address[ 16 ];
+	unsigned char SockAddr[ 16 ];
 
-	Rva007FDB60( comm->m_socket, 0x70656572, address, 16 );
-	comm->m_peerAddress = ( ( ( ( address[ 4 ] << 8 ) | address[ 5 ] )
-		<< 8 | address[ 6 ] ) << 8 ) | address[ 7 ];
-	comm->m_portA = ( address[ 2 ] << 8 ) | address[ 3 ];
+	Rva007FDB60( comm->m_socket, 0x70656572, SockAddr, 16 );
+	comm->m_peerAddress = ( ( ( ( SockAddr[ 4 ] << 8 ) | SockAddr[ 5 ] )
+		<< 8 | SockAddr[ 6 ] ) << 8 ) | SockAddr[ 7 ];
+	comm->m_portA = ( SockAddr[ 2 ] << 8 ) | SockAddr[ 3 ];
 
-	Rva007FDB60( comm->m_socket, 0x62696E64, address, 16 );
-	comm->m_bindAddress = ( ( ( ( address[ 4 ] << 8 ) | address[ 5 ] )
-		<< 8 | address[ 6 ] ) << 8 ) | address[ 7 ];
-	comm->m_portA = ( address[ 2 ] << 8 ) | address[ 3 ];
+	Rva007FDB60( comm->m_socket, 0x62696E64, SockAddr, 16 );
+	comm->m_bindAddress = ( ( ( ( SockAddr[ 4 ] << 8 ) | SockAddr[ 5 ] )
+		<< 8 | SockAddr[ 6 ] ) << 8 ) | SockAddr[ 7 ];
+	comm->m_portA = ( SockAddr[ 2 ] << 8 ) | SockAddr[ 3 ];
 
 	Rva007FE780( Rva012C4A80, comm->m_peerAddress, comm->m_portB,
 		comm->m_bindAddress, comm->m_portA );
@@ -864,8 +873,24 @@ struct Rva00814540Comm
 	void *m_buffer;                  /* +0xC8 */
 };
 
-extern char Rva012C4AF0[];
-extern char Rva012C4B0C[];
+// Rva012C4AF0: matched references place it at VA 0xdd9248; retail contents, sized to the
+// 0x1c-byte gap before the next known global there.
+char Rva012C4AF0[28] = {
+	84, 67, 80, 58, 32, 111, 117, 116,
+	112, 117, 116, 32, 98, 117, 102, 102,
+	101, 114, 32, 102, 117, 108, 108, 10,
+	0, 0, 0, 0,
+};
+// Rva012C4B0C: matched references place it at VA 0xdd9264; retail contents, sized to the
+// 0x2c-byte gap before the next known global there.
+char Rva012C4B0C[44] = {
+	67, 111, 109, 109, 84, 67, 80, 58,
+	32, 79, 118, 101, 114, 115, 105, 122,
+	101, 100, 32, 112, 97, 99, 107, 101,
+	116, 32, 115, 101, 110, 100, 32, 40,
+	37, 100, 32, 98, 121, 116, 101, 115,
+	41, 10, 0, 0,
+};
 void *memcpy( void *dest, const void *source, unsigned int size );
 
 int Rva00814540( struct Rva00814540Comm *comm, const void *payload,
@@ -952,15 +977,16 @@ void Rva00815FA0( struct Rva00815DA0Comm *comm,
 	struct Rva00815DA0Record *record );
 int Rva00816280( struct Rva00815DA0Comm *comm,
 	struct Rva00815DA0Record *record );
-extern char Rva012C4C24[];
+/* Receive-error diagnostic format: retail .data 0x009D937C. */
+char Rva012C4C24[] = "_CommSRPProcessRecvQueue: Error %d - closing connection\n";
 
 void Rva00815DA0( struct Rva00815DA0Comm *comm )
 {
 	int result;
-	int addressLength;
+	int sinlen;
 	int status;
 	char *payload;
-	unsigned char address[ 16 ];
+	unsigned char sin[ 16 ];
 	struct Rva00815DA0Record *record;
 
 	status = 0;
@@ -969,16 +995,16 @@ void Rva00815DA0( struct Rva00815DA0Comm *comm )
 		record = (struct Rva00815DA0Record *)( (char *)comm->m_buffer
 			+ comm->m_readOffset );
 		payload = (char *)record + 8;
-		addressLength = 16;
+		sinlen = 16;
 		result = Rva007FDA50( comm->m_socket, payload,
-			comm->m_receiveSize, 0, (char *)address, &addressLength );
+			comm->m_receiveSize, 0, (char *)sin, &sinlen );
 		if ( result > 0 )
 		{
 			record->m_length = result;
-			record->m_address = ( ( ( ( address[ 8 ] << 8 ) | address[ 9 ] )
-				<< 8 | address[ 10 ] ) << 8 ) | address[ 11 ];
+			record->m_address = ( ( ( ( sin[ 8 ] << 8 ) | sin[ 9 ] )
+				<< 8 | sin[ 10 ] ) << 8 ) | sin[ 11 ];
 			if ( record->m_type >= 0x10 && record->m_type <= 0x3F )
-				Rva00816020( comm, record, address );
+				Rva00816020( comm, record, sin );
 			else if ( record->m_type >= 0xC0 )
 				Rva00815FA0( comm, record );
 			else
@@ -1005,7 +1031,20 @@ void Rva00815DA0( struct Rva00815DA0Comm *comm )
 	}
 }
 
-extern char Rva012C4BD8[];
+// Rva012C4BD8: matched references place it at VA 0xdd9330; retail contents, sized to the
+// 0x4c-byte gap before the next known global there.
+char Rva012C4BD8[76] = {
+	95, 67, 111, 109, 109, 83, 82, 80,
+	80, 114, 111, 99, 101, 115, 115, 68,
+	97, 116, 97, 58, 32, 82, 101, 108,
+	105, 97, 98, 108, 101, 32, 112, 97,
+	99, 107, 101, 116, 32, 100, 105, 115,
+	99, 97, 114, 100, 101, 100, 32, 100,
+	117, 101, 32, 116, 111, 32, 105, 110,
+	112, 117, 116, 32, 98, 117, 102, 102,
+	101, 114, 32, 111, 118, 101, 114, 114,
+	117, 110, 10, 0,
+};
 
 int Rva00816280( struct Rva00815DA0Comm *comm,
 	struct Rva00815DA0Record *record )
@@ -1082,9 +1121,13 @@ struct Rva008140D0Comm
 void *Rva007F0000( int size );
 void Rva007FEA20( void *lock );
 void CommTCPResolve( void );
-void Rva008143F0( void );
-void Rva00814520( void );
-extern char Rva012C4AAC[];
+/* Operation-table slot 3: an empty /Od body (retail 0x006802F0, 5 bytes). */
+void Rva008143F0( void )
+{
+}
+
+/* The transport name copied into m_name: retail .data 0x009D9204, "TCP". */
+char Rva012C4AAC[] = "TCP";
 void *memset( void *dest, int value, unsigned int size );
 int Rva00814EA0( struct Rva00814700Comm *comm, void *buffer, int size,
 	unsigned int *when );
@@ -1115,7 +1158,7 @@ struct Rva008140D0Comm *Rva008140D0( int payloadSize, int countA,
 	comm->m_ops[ 11 ] = (void *)Rva00814540;
 	comm->m_ops[ 12 ] = (void *)Rva00814EA0;
 	comm->m_ops[ 13 ] = (void *)Rva00814F70;
-	strcpy( comm->m_name, Rva012C4AAC );
+	_mbscpy( comm->m_name, Rva012C4AAC );
 	Rva007FEA20( comm->m_lock );
 
 	comm->m_recordSizeA = payloadSize + 8;
@@ -1246,41 +1289,52 @@ int __stdcall Rva0081BDC6( int line, int address, char *destination,
 int Rva00813890( int line, int address, const char *destination,
 	int countryCode )
 {
-	unsigned char callParameters[ 0x470 ];
+	unsigned char dial[ 0x470 ];
 
-	memset( callParameters, 0, sizeof( callParameters ) );
-	*(int *)( callParameters + 0x00 ) = sizeof( callParameters );
-	*(int *)( callParameters + 0x04 ) = 1;
-	*(int *)( callParameters + 0x10 ) = 0x10;
-	*(int *)( callParameters + 0x14 ) = 2;
-	*(int *)( callParameters + 0x18 ) = 1;
-	*(int *)( callParameters + 0x1C ) = 0;
-	*(int *)( callParameters + 0x3C ) = 0x70;
-	strcpy( (char *)callParameters + 0x70, destination );
-	*(int *)( callParameters + 0x38 ) = strlen( (char *)callParameters + 0x70 );
+	memset( dial, 0, sizeof( dial ) );
+	*(int *)( dial + 0x00 ) = sizeof( dial );
+	*(int *)( dial + 0x04 ) = 1;
+	*(int *)( dial + 0x10 ) = 0x10;
+	*(int *)( dial + 0x14 ) = 2;
+	*(int *)( dial + 0x18 ) = 1;
+	*(int *)( dial + 0x1C ) = 0;
+	*(int *)( dial + 0x3C ) = 0x70;
+	_mbscpy( (char *)dial + 0x70, destination );
+	*(int *)( dial + 0x38 ) = strlen( (char *)dial + 0x70 );
 
-	return Rva0081BDC6( line, address, (char *)callParameters + 0x70,
-		countryCode, callParameters );
+	return Rva0081BDC6( line, address, (char *)dial + 0x70,
+		countryCode, dial );
 }
 
-extern char Rva012C4A40[];
+// Rva012C4A40: matched references place it at VA 0xdd9198; retail contents, sized to the
+// 0x40-byte gap before the next known global there.
+char Rva012C4A40[64] = {
+	99, 111, 109, 109, 47, 100, 97, 116,
+	97, 109, 111, 100, 101, 109, 0, 0,
+	84, 65, 80, 73, 37, 100, 58, 0,
+	84, 65, 80, 73, 37, 100, 58, 0,
+	84, 65, 80, 73, 0, 0, 0, 0,
+	108, 111, 99, 97, 108, 104, 111, 115,
+	116, 0, 0, 0, 37, 100, 37, 99,
+	0, 0, 0, 0, 0, 0, 0, 0,
+};
 int __stdcall Rva0081BDC0( int line, int requestMode, int extension,
 	int versionCount, void *capabilities, void *apiVersion );
 
 int Rva008137C0( int line )
 {
 	int iResult;
-	unsigned char capabilities[ 0x11C ];
+	unsigned char info[ 0x11C ];
 	int iReturn;
 
-	memset( capabilities, 0, sizeof( capabilities ) );
-	*(int *)capabilities = sizeof( capabilities );
-	iResult = Rva0081BDC0( line, 0, 0, 1, capabilities, Rva012C4A40 );
+	memset( info, 0, sizeof( info ) );
+	*(int *)info = sizeof( info );
+	iResult = Rva0081BDC0( line, 0, 0, 1, info, Rva012C4A40 );
 
 	if ( iResult != 0 )
 		iReturn = -1;
 	else
-		iReturn = *(int *)( capabilities + 0x18 );
+		iReturn = *(int *)( info + 0x18 );
 
 	return iReturn;
 }
@@ -1293,16 +1347,16 @@ int Rva008136C0( int lineApplication, int deviceId, void *line,
 	int callbackInstance, int privileges, int mediaModes )
 {
 	int iResult;
-	int apiVersion;
-	struct Rva008136C0ExtensionId extensionId;
+	int version;
+	struct Rva008136C0ExtensionId extend;
 
-	apiVersion = 0;
+	version = 0;
 	iResult = Rva0081BDBA( lineApplication, deviceId, 0x10004, 0x20002,
-		&apiVersion, &extensionId );
+		&version, &extend );
 	if ( iResult != 0 )
 		return iResult;
 
-	return Rva0081BDB4( lineApplication, deviceId, line, apiVersion, 0,
+	return Rva0081BDB4( lineApplication, deviceId, line, version, 0,
 		callbackInstance, privileges, mediaModes, 0 );
 }
 
@@ -1359,12 +1413,12 @@ void __stdcall Rva00813100( int port, int kind, void *comm, int size,
 
 int Rva00812FD0( struct Rva00814700Comm *argument )
 {
-	struct Rva00812FD0Message message;
+	struct Rva00812FD0Message msg;
 	int iResult;
 	struct Rva00814700Comm *comm;
 
 	comm = argument;
-	PeekMessageA( &message, 0, 0, 0, 0 );
+	PeekMessageA( &msg, 0, 0, 0, 0 );
 	iResult = Rva0081BDA2( comm->m_endpoint + 4,
 		GetModuleHandleA( 0 ), Rva00813100, 0,
 		comm->m_endpoint );
@@ -1376,12 +1430,23 @@ int Rva00812FD0( struct Rva00814700Comm *argument )
 	}
 
 	comm->m_state = 2;
-	while ( GetMessageA( &message, 0, 0, 0 ) != 0 )
+	while ( GetMessageA( &msg, 0, 0, 0 ) != 0 )
 	{
-		TranslateMessage( &message );
-		DispatchMessageA( &message );
+		TranslateMessage( &msg );
+		DispatchMessageA( &msg );
 	}
 
 	comm->m_state = 1;
 	return 0;
 }
+
+// Retail's call sites in this unit's matched rows land on bodies rowed under
+// other spellings at the same addresses (same ABI). Bind the spellings used here.
+#pragma comment(linker, "/alternatename:_Rva0081BDAE@4=?ji_00687cae@@YAXXZ")
+#pragma comment(linker, "/alternatename:_Rva0081BDA2@20=?ji_00687ca2@@YAXXZ")
+#pragma comment(linker, "/alternatename:_Rva0081BDB4@36=?ji_00687cb4@@YAXXZ")
+#pragma comment(linker, "/alternatename:_Rva0081BDBA@24=?ji_00687cba@@YAXXZ")
+#pragma comment(linker, "/alternatename:_Rva0081BDC0@24=?ji_00687cc0@@YAXXZ")
+#pragma comment(linker, "/alternatename:_Rva0081BDC6@20=?ji_00687cc6@@YAXXZ")
+#pragma comment(linker, "/alternatename:_Rva0081BDCC@4=?ji_00687ccc@@YAXXZ")
+#pragma comment(linker, "/alternatename:_Rva0081BDD2@20=?ji_00687cd2@@YAXXZ")

@@ -1,9 +1,29 @@
 // cl: /Ireference/shims/bfmerendobj /O2 /G7 /MD /arch:SSE /DNDEBUG /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
 // Dedicated SSE TU for Matrix3D helpers that matrix3d.cpp compiles without /arch:SSE.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 
+// Keep CRT inline adapters local, as in the verified native math siblings.
+#define inline static inline
+#include <math.h>
+#undef inline
+#include "../../../../../reference/shims/bfme_colmathaabox/wwmath.h"
+#include "../../../../../reference/shims/bfme_matrix3d_sse_link/vector3.h"
+#include "../../../../../reference/shims/bfme_matrix3d_sse_link/vector4.h"
+#include "../../../../../reference/shims/bfme_matrix3d_sse_link/matrix3d.h"
 #include "rendobj.h"
 #include "matrix3d.h"
 #include "vector3.h"
+#include "quat.h"
 
 #include <math.h>
 
@@ -231,4 +251,72 @@ bool Matrix3D::Solve_Linear_System(Matrix3D & system)
 	system[0] -= system[0][1] * system[1];
 
 	return true;
+}
+
+void Matrix3D::Set_Rotation(const Quaternion & quaternion)
+{
+	Row[0][0] = (float)(1.0 - 2.0 * (quaternion[1] * quaternion[1] + quaternion[2] * quaternion[2]));
+	Row[0][1] = (float)(2.0 * (quaternion[0] * quaternion[1] - quaternion[2] * quaternion[3]));
+	Row[0][2] = (float)(2.0 * (quaternion[2] * quaternion[0] + quaternion[1] * quaternion[3]));
+
+	Row[1][0] = (float)(2.0 * (quaternion[0] * quaternion[1] + quaternion[2] * quaternion[3]));
+	Row[1][1] = (float)(1.0 - 2.0f * (quaternion[2] * quaternion[2] + quaternion[0] * quaternion[0]));
+	Row[1][2] = (float)(2.0 * (quaternion[1] * quaternion[2] - quaternion[0] * quaternion[3]));
+
+	Row[2][0] = (float)(2.0 * (quaternion[2] * quaternion[0] - quaternion[1] * quaternion[3]));
+	Row[2][1] = (float)(2.0 * (quaternion[1] * quaternion[2] + quaternion[0] * quaternion[3]));
+	Row[2][2] =(float)(1.0 - 2.0 * (quaternion[1] * quaternion[1] + quaternion[0] * quaternion[0]));
+}
+
+void Matrix3D::Set(const Quaternion & rot,const Vector3 & pos)
+{
+   Set_Rotation(rot);
+   Set_Translation(pos);
+}
+
+void Matrix3D::Lerp(const Matrix3D &A, const Matrix3D &matrix3D, float factor, Matrix3D& result)
+{
+	// Lerp position
+	Vector3 pos;
+	Vector3::Lerp(A.Get_Translation(), matrix3D.Get_Translation(), factor, &pos);
+
+	float scale = WWMath::Sqrt(A[2].X * A[2].X + A[2].Y * A[2].Y + A[2].Z * A[2].Z);
+	if (fabs(scale - 1.0f) > 0.000001f) {
+		Matrix3D a = A;
+		Matrix3D b = matrix3D;
+		a.Scale(1.0f / scale);
+		b.Scale(1.0f / scale);
+
+		Quaternion rot;
+		Slerp(rot, Build_Quaternion(a), Build_Quaternion(b), factor);
+		result.Set_Rotation(rot);
+		result.Set_Translation(pos);
+		result.Scale(scale);
+	} else {
+		Quaternion rot;
+		Slerp(rot, Build_Quaternion(A), Build_Quaternion(matrix3D), factor);
+		result.Set_Rotation(rot);
+		result.Set_Translation(pos);
+	}
+}
+
+// ?Rva00711BB0Median@@YAMMMM@Z, retail 0x00711BB0 (58B). Ghidra-unlisted SSE
+// median of three floats between WWMath::Random_Float and the Vector4 row
+// above; original name unknown, address-derived.
+float Rva00711BB0Median(float a, float b, float c)
+{
+	if (b > a)
+	{
+		if (c > b)
+			return b;
+		if (c > a)
+			return c;
+		return a;
+	}
+	if (c > a)
+		return a;
+	else if (c > b)
+		return c;
+	else
+		return b;
 }

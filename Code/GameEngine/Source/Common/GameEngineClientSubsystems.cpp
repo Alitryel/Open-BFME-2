@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /O1 /GX /arch:SSE
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX
 //
 // GameEngine's vtable slot 39 (RVA 0x00225C12) is the client-side half of
 // the frame loop.  Its ordering is useful for the later delay investigation:
@@ -6,11 +6,7 @@
 // update calls, while a skipped frame records the client frame number and
 // returns without consuming those queues.
 
-class GameLogic
-{
-public:
-    void deleteLoadScreen(void);
-};
+#include "GameLogicObjectLookupView.h"
 
 class ClientSubsystem
 {
@@ -129,18 +125,27 @@ private:
 };
 
 extern GameLogic *TheGameLogic;
-extern ClientFrameSubsystem *TheGameClient;
+class ClientFrameSubsystem; extern class GameClient *TheGameClient;
+// TheGameClient (0x009FE77C) is GameClient.cpp's global; this unit reads it through its own view.
 extern ClientSubsystem *WindowManagerSubsystem;
 extern RadarSubsystem *Radar;
-extern MessageStream *MessageStreamSubsystem;
-extern ClientSubsystem *InputLockSubsystem;
-extern class InGameUI *InGameUISubsystem;
-extern class Mouse *MouseSubsystem;
-extern ClientSubsystem *AudioSubsystem;
+extern MessageStream *TheMessageStream;	// 0x00A00950, MessageStream.cpp's global
+extern class Keyboard *TheKeyboard;
+extern class InGameUI *TheInGameUI;
+extern class Mouse *TheMouse;
+extern class AudioManager *TheAudio;
 extern NetworkInterface *TheNetwork;
+// TheNetwork: matched references place it at VA 0xdfea28 (zero-filled .bss).
+NetworkInterface * TheNetwork;
 extern int SkippedClientFrames;
+// SkippedClientFrames: matched references place it at VA 0xdfe6f0 (zero-filled .bss).
+int SkippedClientFrames;
 extern int SavedClientFrame;
+// SavedClientFrame: matched references place it at VA 0xdfe6f4 (zero-filled .bss).
+int SavedClientFrame;
 extern int TimedOpInputLocked;
+// TimedOpInputLocked: matched references place it at VA 0xdfe71c (zero-filled .bss).
+int TimedOpInputLocked;
 
 class InGameUI
 {
@@ -158,53 +163,62 @@ unsigned int _bfme_updateTimedOps(void);
 
 void GameEngine::_bfme_updateClientSubsystems(void)
 {
-    TheGameLogic->deleteLoadScreen();
+    TheGameLogic->rva002423E3();
 
-    unsigned char advanceFrame = TheGameClient->m_advanceFrame;
+    unsigned char advanceFrame = ((ClientFrameSubsystem *)TheGameClient)->m_advanceFrame;
     if (advanceFrame != 0)
     {
-        TheGameClient->setFrame(TheGameClient->getFrame() + 1);
+        ((ClientFrameSubsystem *)TheGameClient)->setFrame(((ClientFrameSubsystem *)TheGameClient)->getFrame() + 1);
     }
 
     WindowManagerSubsystem->update();
     if (_bfme_shouldSkipClientFrame())
     {
         ++SkippedClientFrames;
-        SavedClientFrame = TheGameClient->getFrame();
+        SavedClientFrame = ((ClientFrameSubsystem *)TheGameClient)->getFrame();
         return;
     }
 
     BFMEDesyncCheck desyncCheck;
     Radar->m_update.update();
-    TheGameClient->update();
-    MessageStreamSubsystem->propagateMessages();
+    ((ClientFrameSubsystem *)TheGameClient)->update();
+    TheMessageStream->propagateMessages();
 
     unsigned int timedOps = _bfme_updateTimedOps();
     int inputLocked = timedOps & 1;
     if (inputLocked)
     {
-        InputLockSubsystem->update();
+        ((ClientSubsystem *)TheKeyboard)->update();
     }
 
     if (inputLocked != TimedOpInputLocked)
     {
         if (inputLocked)
         {
-            InGameUISubsystem->setEngineInputEnabled(false);
-            MouseSubsystem->_bfme_setEngineVisibility(false);
+            TheInGameUI->setEngineInputEnabled(false);
+            TheMouse->_bfme_setEngineVisibility(false);
         }
         else
         {
-            InGameUISubsystem->setEngineInputEnabled(true);
+            TheInGameUI->setEngineInputEnabled(true);
             if ((timedOps & 4) == 0)
-                MouseSubsystem->_bfme_setEngineVisibility(true);
+                TheMouse->_bfme_setEngineVisibility(true);
         }
     }
 
-    ClientSubsystem *audio = AudioSubsystem;
+    ClientSubsystem *audio = ((ClientSubsystem *)TheAudio);
     ClientSubsystemVtable *audioVtable = *(ClientSubsystemVtable **)audio;
     TimedOpInputLocked = inputLocked;
     audioVtable->update(audio);
     if (TheNetwork != 0)
         TheNetwork->liteupdate(0);
 }
+
+#pragma comment(linker, "/alternatename:?TheAudio@@3PAVBfmeAudioVtblIndexed@@A=?TheAudio@@3PAVAudioManager@@A")
+// ?Radar@@3PAVRadarSubsystem@@A: the global at this VA is ?TheRadar@@3PAVRadar@@A; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?Radar@@3PAVRadarSubsystem@@A=?TheRadar@@3PAVRadar@@A")
+#pragma comment(linker, "/alternatename:?TheRadar@@3PAVPartitionManager@@A=?TheRadar@@3PAVRadar@@A")
+// ?WindowManagerSubsystem@@3PAVClientSubsystem@@A: the global at VA 0xdfe4cc is ?g_bfmeAptWindowManager@@3PAVBfmeAptWindowManager@@A.
+#pragma comment(linker, "/alternatename:?WindowManagerSubsystem@@3PAVClientSubsystem@@A=?g_bfmeAptWindowManager@@3PAVBfmeAptWindowManager@@A")
+// ?Radar@@3PAVRadarSubsystem@@A: the global at VA 0xdff070 is ?TheRadar@@3PAVRadar@@A.
+#pragma comment(linker, "/alternatename:?Radar@@3PAVRadarSubsystem@@A=?TheRadar@@3PAVRadar@@A")

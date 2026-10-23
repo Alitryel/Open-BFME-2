@@ -21,7 +21,15 @@ private:
 };
 
 // ?friend_newModuleInstance@PoisonedBehavior@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *PoisonedBehavior::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *PoisonedBehavior::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new PoisonedBehavior(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitPoisonedBehaviorFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitPoisonedBehaviorFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	PoisonedBehavior::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

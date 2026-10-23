@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ?cleanUp@SpectreGunshipUpdate@@QAEXXZ 75B @0x4984CC: destroys the spawned
 // object tracked by this update (if any) through the rowed GameLogic
@@ -8,10 +8,7 @@
 // Member offsets from retail (object at +0x08, payload at +0x2C/+0x40,
 // target id at +0x88); TheGameLogic is the rowed 0xDFE78C singleton.
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class Object;
 class Player;
@@ -22,19 +19,18 @@ public:
 	Player *getControllingPlayer() const;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	void destroyObject(Object *obj);
-};
 
 extern GameLogic *TheGameLogic;
+
+// Mirrors PlayerBattlePlanChange.cpp (home of rowed 0x002ADB4F): the handler
+// at 0x002ADB4F is Player::changeBattlePlan.
+enum BattlePlanStatus { PLANSTATUS_BOMBARDMENT = 1, PLANSTATUS_HOLDTHELINE = 2, PLANSTATUS_SEARCHANDDESTROY = 3 };
+class Rva002AA14DBonuses;
 
 class Player
 {
 public:
-	void Rva002ADB4FHandler(void *data, int b, int c);
+	void changeBattlePlan(BattlePlanStatus, int, Rva002AA14DBonuses *);
 };
 
 class SpectreGunshipUpdate
@@ -67,6 +63,6 @@ void SpectreGunshipUpdate::cleanUp()
 	Player *player = m_object->getControllingPlayer();
 	if (player != 0 && m_unk2C != 0)
 	{
-		player->Rva002ADB4FHandler(m_unk2C, -1, m_unk40);
+		player->changeBattlePlan((BattlePlanStatus)(int)m_unk2C, -1, (Rva002AA14DBonuses *)m_unk40);
 	}
 }

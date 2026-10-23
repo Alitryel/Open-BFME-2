@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /arch:SSE
+// cl: /DNDEBUG /MD
 //
 // ??0BridgeScaffoldBehavior@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x0045831C,
 // 141 bytes. Behavior-side ctor (called by the rowed friend_newModuleInstance
@@ -21,23 +21,21 @@
 // zeros; frameless so no /GX. Zero new pins (base resolves via its row;
 // interface so small it inlines).
 
+extern "C" const void *const vtbl_00C40B70[];  // ??_7Rva00458402@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C40B70=??_7Rva00458402@@6B@")
+extern "C" const void *const vtbl_00C40B88[];  // ??_7Rva00458402@@6BRva0024A797_B2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C40B88=??_7Rva00458402@@6BRva0024A797_B2@@@")
+extern "C" const void *const vtbl_00C40B98[];  // ??_7Rva00458402@@6BRva0024A797_Mid@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C40B98=??_7Rva00458402@@6BRva0024A797_Mid@@@")
+extern "C" const void *const vtbl_00C40C54[];  // ??_7Rva00458402@@6BRva0024A797_Root@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C40C54=??_7Rva00458402@@6BRva0024A797_Root@@@")
+
 class Thing;
 class ModuleData;
 class Object;
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-
-	void zero()
-	{
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-	}
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../../Libraries/Include/Lib/Coord3DInline.h"
 
 enum ScaffoldTargetMotion
 {
@@ -88,12 +86,12 @@ class BridgeScaffoldBehaviorInterface
 {
 public:
 	BridgeScaffoldBehaviorInterface() {}
-	virtual void setPositions(const Coord3D *createPos, const Coord3D *riseToPos, const Coord3D *buildPos);
-	virtual void setMotion(ScaffoldTargetMotion targetMotion);
-	virtual ScaffoldTargetMotion getCurrentMotion(void);
-	virtual void reverseMotion(void);
-	virtual void setLateralSpeed(float lateralSpeed);
-	virtual void setVerticalSpeed(float verticalSpeed);
+	virtual void setPositions(const Coord3D *createPos, const Coord3D *riseToPos, const Coord3D *buildPos) = 0;
+	virtual void setMotion(ScaffoldTargetMotion targetMotion) = 0;
+	virtual ScaffoldTargetMotion getCurrentMotion(void) = 0;
+	virtual void reverseMotion(void) = 0;
+	virtual void setLateralSpeed(float lateralSpeed) = 0;
+	virtual void setVerticalSpeed(float verticalSpeed) = 0;
 };
 
 class BridgeScaffoldBehavior : public UpdateModule,
@@ -114,22 +112,21 @@ private:
 
 // Shared speed default both speeds are copied from. Nothing in the image
 // names it; it is reached by what this body reads from it.
-extern float TheBridgeScaffoldSpeedDefault;	// 0x00BBB8D8
 
 // ??0BridgeScaffoldBehavior@@QAE@PAVThing@@PBVModuleData@@@Z @0x0045831C
 BridgeScaffoldBehavior::BridgeScaffoldBehavior(Thing *thing, const ModuleData *moduleData) :
 	UpdateModule(thing, moduleData)
 {
 	m_targetMotion = STM_STILL;
-	*(unsigned int *)this = 0x00C40C54;
-	*(unsigned int *)((char *)this + 0x0C) = 0x00C40B98;
-	*(unsigned int *)((char *)this + 0x10) = 0x00C40B88;
-	*(unsigned int *)((char *)this + 0x20) = 0x00C40B70;
+	*(unsigned int *)this = ((unsigned int)vtbl_00C40C54);
+	*(unsigned int *)((char *)this + 0x0C) = ((unsigned int)vtbl_00C40B98);
+	*(unsigned int *)((char *)this + 0x10) = ((unsigned int)vtbl_00C40B88);
+	*(unsigned int *)((char *)this + 0x20) = ((unsigned int)vtbl_00C40B70);
 	m_createPos.zero();
 	m_riseToPos.zero();
 	m_buildPos.zero();
 	m_targetPos.zero();
-	float defaultSpeed = TheBridgeScaffoldSpeedDefault;
+	float defaultSpeed = 1.0f;
 	m_lateralSpeed = defaultSpeed;
 	m_verticalSpeed = defaultSpeed;
 }

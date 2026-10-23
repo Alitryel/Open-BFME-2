@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 // Retail RVA 0x00301534, 155 bytes (the reloc size 10 is stale).
 // MapMetaData::bfme_getDescriptionFirstLine, the cached map.str description
 // first-line accessor called by AptMapPreview::bfmeSetMapDescription.
@@ -19,30 +19,8 @@
 
 typedef unsigned short WideChar;
 
-template <typename T> class StringBase
-{
-	friend class UnicodeString;
-	friend class MapMetaData;
-public:
-	const T *find(T c) const;
-	const T *str() const { return m_data ? (const T *)((const char *)m_data + 8) : L""; }
-	void set(const StringBase<T> &other);
-private:
-	StringBase(const StringBase<T> &other);
-	StringBase(const StringBase<T> &other, int start, int len);
-	~StringBase() { releaseBuffer(); }
-	void releaseBuffer();
-	void *m_data;
-};
+#include "unicode_string.h"
 
-class UnicodeString : private StringBase<unsigned short>
-{
-	friend class MapMetaData;
-public:
-	UnicodeString(const UnicodeString &other) : StringBase<unsigned short>(other) {}
-	UnicodeString(const UnicodeString &other, int start, int len) : StringBase<unsigned short>(other, start, len) {}
-	~UnicodeString() {}
-};
 
 class MapMetaData
 {

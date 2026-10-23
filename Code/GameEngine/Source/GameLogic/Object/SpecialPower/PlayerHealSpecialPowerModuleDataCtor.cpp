@@ -1,4 +1,4 @@
-// cl: /O1 /MD /DNDEBUG /arch:SSE
+// cl: /MD /DNDEBUG
 //
 // ??0PlayerHealSpecialPowerModuleData@@QAE@XZ, retail 0x004C803A (91 bytes).
 // SpecialPower-side ModuleData for the PlayerHeal power (PlayerHeal file-unit
@@ -9,7 +9,7 @@
 // SpecialPower base 0x004930A0) owns the six-entry INI table at 0x00C5E298
 // (HealAmount at +0x7C plus HealAsPercent at +0x80 plus HealRadius at +0x84
 // plus HealAffects at +0x88 plus HealFX at +0xA4 plus HealOCL at +0xA8) which
-// sizes the class at 0xAC bytes over the pinned 0x7C-byte Rva004930A0 base.
+// sizes the class at 0xAC bytes over the pinned 0x7C-byte SpecialPowerModuleData base.
 // The rowed PlayerHealSpecialPower pool key at 0x004C7EFB plus the BFME1
 // PlayerHealSpecialPower files prove the name.
 //
@@ -32,14 +32,16 @@
 // the store waits at the later assignment below the byte store and the
 // memset push pair hoists above the byte store as stack ops. 91 of 91.
 
+extern "C" const void *const vtbl_00C5E7A8[];  // folded, 2 classes; via ??_7CombineHordeSpecialPowerModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C5E7A8=??_7CombineHordeSpecialPowerModuleData@@6B@")
+
 #include <string.h>
 
-extern float g_healRadiusDefault; // 0x00BC292C, 100.0f
 
-class Rva004930A0
+class SpecialPowerModuleData
 {
 public:
-	Rva004930A0();
+	SpecialPowerModuleData();
 };
 
 class Rva0024C7B3Member
@@ -50,7 +52,7 @@ public:
 	unsigned char m_data[0x1C];
 };
 
-class PlayerHealSpecialPowerModuleData : public Rva004930A0
+class PlayerHealSpecialPowerModuleData : public SpecialPowerModuleData
 {
 public:
 	PlayerHealSpecialPowerModuleData();
@@ -69,12 +71,12 @@ private:
 
 // ??0PlayerHealSpecialPowerModuleData@@QAE@XZ @0x4C803A
 PlayerHealSpecialPowerModuleData::PlayerHealSpecialPowerModuleData()
-	: Rva004930A0()
-	, m_vtable(reinterpret_cast<const void *>(0x00C5E7A8))
+	: SpecialPowerModuleData()
+	, m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C5E7A8)))
 	, m_filter()
 {
 	m_healAmount = 0.0f;
-	float healRadius = g_healRadiusDefault;
+	float healRadius = 100.0f;
 	m_healAsPercent = 1;
 	m_healRadius = healRadius;
 	memset(&m_filter, 0, 0x1C);

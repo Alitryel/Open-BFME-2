@@ -125,3 +125,10 @@ void Rva007EAB40Owner::prepare()
 	((Rva007EAServiceList *)this)->add((Rva00803080 *)svc);
 	m_29C = Rva007FCF80(m_04);
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?prepare@Rva007EAD30Owner@@QAEXXZ=?prepare@Rva007EAA70Owner@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?prepare@Rva007EADC0Owner@@QAEXXZ=?prepare@Rva007EAB40Owner@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?bfmeDoECKa@BfmeHeldECKa@@QAEXXZ=?prepare@Rva007EAA70Owner@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?bfmeDoECKb@BfmeHeldECKb@@QAEXXZ=?prepare@Rva007EAB40Owner@@QAEXXZ")

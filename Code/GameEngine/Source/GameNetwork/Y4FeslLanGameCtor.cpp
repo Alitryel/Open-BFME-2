@@ -59,6 +59,8 @@ public:
 	int m_sequence;
 	int m_field14;
 	char m_tail18[ 8 ];
+
+	virtual ~Rva00808CB0LanGameEntry();
 };
 
 class Rva00808920LanGame : public Gen007F0130
@@ -168,4 +170,33 @@ Rva00808920LanGame::Rva00808920LanGame( int maxPlayers )
 	strcat( m_ugid, "-" );
 	strncat( m_ugid, text + 20, 12 );
 	m_ugid[ 0x24 ] = 0;
+}
+
+// BFME1 donor 266226456f9751c8a71a3cec7a0bf3f82ac97bf7; B1 0x00808E00.
+// BFME2 native 0x00674D50..0x00674D74 (36 B): a file-static tokenizer step. It returns the token at *cursor,
+// cuts it at the first separator and advances *cursor past it, or clears *cursor when no
+// separator is left. The original target name and source linkage are unknown.
+// This static source view reproduces the observed AL separator / EDI cursor inputs.
+// The donor supplies the tokenizer interpretation, independently confirmed by the
+// target's strchr call and token/cursor writes.
+// ?rva00674D50@@YAPADDPAPAD@Z
+static __declspec(noinline) char *rva00674D50( char separator, char **cursor )
+{
+	char *token = *cursor;
+	char *end = strchr( token, separator );
+	if( end == 0 )
+	{
+		*cursor = 0;
+		return token;
+	}
+	*end++ = 0;
+	*cursor = end;
+	return token;
+}
+
+// ?rva00674D50Caller@@YAPADDPAPAD@Z absent-from-retail TU-local caller that keeps the
+// static above alive.
+char *rva00674D50Caller( char separator, char **cursor )
+{
+	return rva00674D50( separator, cursor );
 }

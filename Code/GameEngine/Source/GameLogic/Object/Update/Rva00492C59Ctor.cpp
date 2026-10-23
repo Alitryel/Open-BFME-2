@@ -32,10 +32,6 @@ protected:
 	unsigned char m_pad2[0x88 - 0x24];
 };
 
-Rva0044EF5E::~Rva0044EF5E()
-{
-}
-
 class Rva00492C59 : public Rva0044EF5E
 {
 public:
@@ -51,6 +47,7 @@ Rva00492C59::Rva00492C59(Thing *thing, const ModuleData *moduleData)
 	m_p20 = &s_dummy20;
 }
 
+// ?Rva00492C59::~Rva00492C59 present-unmatched
 Rva00492C59::~Rva00492C59()
 {
 }

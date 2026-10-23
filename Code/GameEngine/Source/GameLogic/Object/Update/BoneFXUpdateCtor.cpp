@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /DNDEBUG /MD /GX /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0BoneFXUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x004878E6, 307 bytes.
@@ -19,6 +19,14 @@
 // and-zero, push-8/pop-edi and EBP frame; /GX for the EH prologue and
 // states 0-3; /arch:SSE for xorps/movss zeros.
 
+extern "C" const void *const vtbl_00BEFF90[];  // folded, 80 classes; via ??_7AIGateUpdate@@6BBehaviorModuleOther@@@
+#pragma comment(linker, "/alternatename:_vtbl_00BEFF90=??_7AIGateUpdate@@6BBehaviorModuleOther@@@")
+
+extern "C" const void *const vtbl_00C4B164[];  // ??_7BoneFXUpdate@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4B164=??_7BoneFXUpdate@@6B@")
+extern "C" const void *const vtbl_00C4B170[];  // ??_7BoneFXUpdate@@6BBehaviorModuleBase@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4B170=??_7BoneFXUpdate@@6BBehaviorModuleBase@@@")
+
 #include <vector>
 
 class Thing;
@@ -32,20 +40,10 @@ public:
 	~UpdateModule();
 };
 
-struct Coord3D
-{
-	Coord3D();
-	~Coord3D();
-	void zero()
-	{
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-	}
-	float x;
-	float y;
-	float z;
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_INLINE
+#define COORD3D_VIEW_DTOR
+#include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 enum ParticleSystemID
 {
@@ -53,6 +51,31 @@ enum ParticleSystemID
 };
 
 typedef _STL::vector<ParticleSystemID, _STL::allocator<ParticleSystemID> > ParticleSystemIDVec;
+
+namespace _STL {
+// The destructor unit supplies the native 14-byte POD vector teardown.
+// Keep constructor-failure cleanup calls external to that shared provider.
+template <>
+_Vector_base<ParticleSystemID, allocator<ParticleSystemID> >::~_Vector_base();
+template <>
+vector<ParticleSystemID, allocator<ParticleSystemID> >::~vector();
+
+// Declared-only explicit specializations: keep the calls external so this TU
+// emits no COMDAT copy of its own (the kept retail/first copies link).
+// throw() keeps retail's nothrow analysis (no extra EH state in the ctor).
+template <>
+void allocator<ParticleSystemID>::deallocate(
+	allocator<ParticleSystemID>::pointer p,
+	allocator<ParticleSystemID>::size_type n) const throw();
+template <>
+void _STLP_alloc_proxy<ParticleSystemID *, ParticleSystemID, allocator<ParticleSystemID> >::deallocate(
+	ParticleSystemID *p, unsigned n) throw();
+template <>
+vector<ParticleSystemID, allocator<ParticleSystemID> >::iterator
+vector<ParticleSystemID, allocator<ParticleSystemID> >::erase(
+	vector<ParticleSystemID, allocator<ParticleSystemID> >::iterator first,
+	vector<ParticleSystemID, allocator<ParticleSystemID> >::iterator last) throw();
+}
 
 enum BodyDamageType
 {
@@ -96,9 +119,9 @@ private:
 
 BoneFXUpdate::BoneFXUpdate(Thing *thing, const ModuleData *moduleData)
 	: UpdateModule(thing, moduleData),
-	m_vtable(reinterpret_cast<const void *>(0x00C4B170)),
-	m_secondary0C(reinterpret_cast<const void *>(0x00BEFF90)),
-	m_secondary10(reinterpret_cast<const void *>(0x00C4B164))
+	m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C4B170))),
+	m_secondary0C(reinterpret_cast<const void *>(((unsigned int)vtbl_00BEFF90))),
+	m_secondary10(reinterpret_cast<const void *>(((unsigned int)vtbl_00C4B164)))
 {
 	int i, j;
 	for (i = 0; i < BODYDAMAGETYPE_COUNT; ++i) {

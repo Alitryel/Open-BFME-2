@@ -121,12 +121,12 @@ __forceinline _Locale_impl *_M_add_ref(_Locale_impl *impl)
 	return impl;
 }
 
-extern _Locale_impl *_Stl_loc_global_impl;
+extern _Locale_impl *_Stl_classic_locale_impl;
 
 __forceinline locale::locale()
 {
 	_M_impl = 0;
-	_M_impl = _M_add_ref(_Stl_loc_global_impl);
+	_M_impl = _M_add_ref(_Stl_classic_locale_impl);
 }
 
 __forceinline locale::locale(const locale& that) {
@@ -136,7 +136,7 @@ __forceinline locale::locale(const locale& that) {
  _M_impl = impl;
 }
 
-__forceinline locale::~locale()
+inline locale::~locale()
 {
 	_M_impl->_M_decr();
 }
@@ -174,7 +174,9 @@ private:
 	_STLP_auto_lock(const _STLP_auto_lock &);
 };
 
-extern _STLP_mutex_base _Stl_loc_global_locale_lock;
+// STLport locale_impl.cpp's global-locale lock (0x009DEB1C), defined with locale::global
+// as there (_STLP_MUTEX_INITIALIZER: zero).
+_STLP_mutex_base _Stl_loc_global_locale_lock = { 0 };
 extern string _Nameless;
 
 locale __cdecl locale::global(const locale &L)
@@ -185,8 +187,8 @@ locale __cdecl locale::global(const locale &L)
 
 	{
 		_STLP_auto_lock lock(_Stl_loc_global_locale_lock);
-		_Stl_loc_global_impl->_M_decr();
-		_Stl_loc_global_impl = L._M_impl;
+		_Stl_classic_locale_impl->_M_decr();
+		_Stl_classic_locale_impl = L._M_impl;
 	}
 
 	if (L.name() != _Nameless)

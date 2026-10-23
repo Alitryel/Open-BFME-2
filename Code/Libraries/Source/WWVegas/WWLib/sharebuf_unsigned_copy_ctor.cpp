@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 /*
 ** Copyright 2025 Electronic Arts Inc.
 ** SPDX-License-Identifier: GPL-3.0-or-later
@@ -17,6 +17,11 @@ void *operator new[](unsigned int size);
 inline void *operator new(unsigned int, void *place) { return place; }
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib/refcount.h
+// Retail's out-of-line RefCountClass deleting-dtor copy is the /O1 form
+// (pop ecx after the delete call); this TU builds /G7 which emits add esp,4
+// instead. Compile just the base class for size so our COMDAT matches the
+// first copy in link order. Code this TU's rows inline keeps this TU's flags.
+#pragma optimize("s", on)
 class RefCountClass
 {
 public:
@@ -30,6 +35,7 @@ protected:
 private:
 	int NumRefs;
 };
+#pragma optimize("", on)
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib/sharebuf.h,
 // with BFME's RawBuffer/Alignment pair around Zero Hour's Array and Count.
@@ -38,6 +44,7 @@ class ShareBufferClass : public RefCountClass
 {
 public:
 	ShareBufferClass(const ShareBufferClass &);
+	~ShareBufferClass();
 
 protected:
 	Type *RawBuffer;
@@ -46,17 +53,23 @@ protected:
 	int Alignment;
 };
 
-template <class Type>
-ShareBufferClass<Type>::ShareBufferClass(const ShareBufferClass<Type> &that) :
+// The region supplies /O2 /arch:SSE /G7. Keep the explicit copy constructor
+// in its native speed profile and emit the deferred virtual wrapper for size.
+// No new imported symbols or virtual slots are introduced.
+template <> ShareBufferClass<unsigned>::ShareBufferClass(const ShareBufferClass<unsigned> &);
+template class ShareBufferClass<unsigned>;
+#pragma optimize("gt", on)
+template <>
+ShareBufferClass<unsigned>::ShareBufferClass(const ShareBufferClass<unsigned> &that) :
 	Count(that.Count)
 {
 	Alignment = that.Alignment;
 	if (Alignment == 0) {
-		RawBuffer = new Type[Count];
+		RawBuffer = new unsigned[Count];
 		Array = RawBuffer;
 	} else {
-		RawBuffer = (Type *)new char[Count * sizeof(Type) + Alignment];
-		Array = (Type *)(((unsigned int)RawBuffer + Alignment - 1) &
+		RawBuffer = (unsigned *)new char[Count * sizeof(unsigned) + Alignment];
+		Array = (unsigned *)(((unsigned int)RawBuffer + Alignment - 1) &
 			~(unsigned int)(Alignment - 1));
 	}
 	for (int index = 0; index < Count; ++index) {
@@ -64,8 +77,7 @@ ShareBufferClass<Type>::ShareBufferClass(const ShareBufferClass<Type> &that) :
 	}
 }
 
-template ShareBufferClass<unsigned>::ShareBufferClass(
-	const ShareBufferClass<unsigned> &);
+#pragma optimize("s", on)
 
 // Color cloning15B840 calls this175-byte constructor. Its vtableBCE330
 // agrees with the unsigned-buffer constructor used by Get_Color_Array D1FBD.

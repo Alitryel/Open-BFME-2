@@ -1,4 +1,4 @@
-// cl: /O1 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // MultiplayerSettings constructor (retail 0x003811D8, 159B): constructs
@@ -11,21 +11,9 @@
 // rowed bodies or pins; nothing extra is defined here.
 #include <map>
 
-class AsciiString
-{
-public:
-	~AsciiString();
+#include "ascii_string.h"
 
-private:
-	void *m_data;
-};
-
-struct RGBColor
-{
-	float red;
-	float green;
-	float blue;
-};
+#include "../../../Libraries/Include/Lib/RGBColor.h"
 
 class MultiplayerColorDefinition
 {
@@ -43,14 +31,13 @@ private:
 	bool m_extraFlag; // +0x3C
 };
 
+extern const void *const g_00C191B8[];
+
 class SubsystemInterface
 {
 public:
 	SubsystemInterface();
-	virtual ~SubsystemInterface();
-
-private:
-	char m_pad[8];
+	~SubsystemInterface();
 };
 
 namespace _STL
@@ -73,9 +60,11 @@ class MultiplayerSettings : public SubsystemInterface
 {
 public:
 	MultiplayerSettings();
-	virtual ~MultiplayerSettings();
+	~MultiplayerSettings();
 
 private:
+	const void *m_vtable; // +0x00, retail vtable 0x008191B8 (instruction holds 0x00C191B8)
+	char m_pad04[8]; // +0x04, preserves +0x0C layout (empty base via EBO)
 	int m_unknown0C; // +0x0C, zeroed
 	int m_startCountdownTimerSeconds; // +0x10, retail default 0x2710
 	int m_unknown14; // +0x14, zeroed
@@ -93,6 +82,8 @@ private:
 
 // ??0MultiplayerSettings@@QAE@XZ @0x3811D8
 MultiplayerSettings::MultiplayerSettings()
+	: SubsystemInterface()
+	, m_vtable(reinterpret_cast<const void *>(g_00C191B8))
 {
 	m_unknown0C = 0;
 	m_unknown14 = 0;

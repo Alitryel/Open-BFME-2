@@ -1,13 +1,8 @@
-// cl: /O1 /Ob2 /arch:SSE /G6 /DNDEBUG /MD /GX-
+// cl: /Ireference/shims/bfme2_ascii /Ob2 /DNDEBUG /MD /GX-
 
 enum { MAX_SPAWN_POINTS = 10 };
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-};
+#include "../../../../../../Libraries/Include/Lib/Coord3D.h"
 
 struct BfmeAsciiStringData
 {
@@ -17,22 +12,15 @@ struct BfmeAsciiStringData
 	unsigned short m_pad;
 };
 
-class AsciiString
+#include "ascii_string.h"
+
+// One 16-byte transform row (Vector4 layout); the nullary row ctor is the
+// shared inline Vector4 body, so this TU's Matrix3D default ctor matches the
+// linked copy instead of offering a SpawnBoneRow-ctor variant to the link.
+class Vector4
 {
 public:
-	const char *str() const
-	{
-		return m_data ? reinterpret_cast<const char *>(m_data + 1) : "";
-	}
-
-private:
-	BfmeAsciiStringData *m_data;
-};
-
-class SpawnBoneRow
-{
-public:
-	SpawnBoneRow();
+	__forceinline Vector4() {}
 	void Set(float x, float y, float z, float w)
 	{
 		X = x;
@@ -63,7 +51,7 @@ public:
 	float Get_Z_Translation() const { return Row[2].W; }
 	float Get_Z_Rotation() const;
 
-	SpawnBoneRow Row[3];
+	Vector4 Row[3];
 };
 
 class Drawable

@@ -1,24 +1,21 @@
-// cl: /O1 /arch:SSE /MD /DNDEBUG
-// ??0Rva004C908B@@QAE@PAVThing@@PBVModuleData@@@Z at retail 0x004C908B
+// cl: /MD /DNDEBUG
+// ??0SwayClientUpdate@@QAE@PAVThing@@PBVModuleData@@@Z at retail 0x004C908B
 // (79B). Dedicated TU.
 //
-// Re-homed 2026-09-20: this row was landed as
-// ??0LaserUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, but the LaserUpdate
-// factory (?friend_newModuleInstance@LaserUpdate@@..., 0x000649EE) calls
-// 0x000CA752 -- the ONLY direct caller of that body in all of .text --
-// and the destructor at 0x000CA8C1 installs the same vtable (0xBCBD60)
-// the 0xCA752 ctor installs. A factory call site naming the symbol
-// outranks stub-order inference, so 0xCA752 is the LaserUpdate ctor and
-// this 79B body (vtable 0xC5EA8C, opaque base 0x362EC7, 44-byte class
-// per its factory's 0x2C alloc at 0x0025298F) belongs to another,
-// currently unidentified update class. It keeps an address-derived
-// opaque name so the verified bytes stay claimed without asserting an
-// identity the evidence does not support.
+// Identity: the vftable this ctor installs (0x00C5EA8C) carries the
+// "SwayClientUpdate" pool key 0x004C90E0 (slot 4), the rowed
+// SwayClientUpdate::loadPostProcess 0x004C9593 (slot 1) and
+// SwayClientUpdate::clientUpdate 0x004C923B (slot 12), and the
+// SwayClientUpdate factory stub (0x0025298F, a 0x2C new) is its caller. The
+// member stores are Zero Hour's SwayClientUpdate ctor initializers plus the
+// two BFME floats at +0x24/+0x28. It was named by address (Rva004C908B)
+// after the 2026-09-20 re-home took the LaserUpdate name away from it.
 
 class Thing;
 class ModuleData;
 
-extern "C" char Rva004C908B_vftable;
+// Rva004C908B_vftable: matched references place it at VA 0xc5ea8c (retail .rdata value -26).
+extern "C" char Rva004C908B_vftable = -26;
 
 // Opaque intermediate; ctor resolves to the opaque row at 0x00362EC7.
 class Rva00362EC7
@@ -41,15 +38,15 @@ protected:
 	float m_f28;
 };
 
-class __declspec(novtable) Rva004C908B : public Rva00362EC7
+class __declspec(novtable) SwayClientUpdate : public Rva00362EC7
 {
 public:
-	Rva004C908B(Thing *thing, const ModuleData *moduleData);
-	virtual ~Rva004C908B();
+	SwayClientUpdate(Thing *thing, const ModuleData *moduleData);
+	virtual ~SwayClientUpdate();
 
 };
 
-Rva004C908B::Rva004C908B(Thing *thing, const ModuleData *moduleData)
+SwayClientUpdate::SwayClientUpdate(Thing *thing, const ModuleData *moduleData)
 	: Rva00362EC7(thing, moduleData)
 {
 	m_w20 = -1;

@@ -71,4 +71,38 @@ void basic_string<CharT, Traits, Alloc>::_M_allocate_block(size_type count)
 template void
 basic_string<char, char_traits<char>, allocator<char> >::_M_allocate_block(unsigned int);
 
+// The same body under the upstream _String_base scope, which every unit compiling the
+// vendored headers references (pinned to 0x00007460 as well): this unit supplies the
+// retail copy of that spelling.
+template <class CharT, class Alloc>
+class _String_base
+{
+public:
+	typedef unsigned int size_type;
+
+	void _M_allocate_block(size_type count);
+
+	__declspec(dllimport) __forceinline size_type max_size() const
+	{
+		return (size_type(-1) / sizeof(CharT)) - 1;
+	}
+
+	CharT *_M_start;
+	CharT *_M_finish;
+	_STLP_alloc_proxy<CharT *, CharT, Alloc> _M_end_of_storage;
+};
+
+template <class CharT, class Alloc>
+void _String_base<CharT, Alloc>::_M_allocate_block(size_type count)
+{
+	if (count <= max_size() + 1 && count > 0)
+	{
+		_M_start = _M_end_of_storage.allocate(count);
+		_M_finish = _M_start;
+		_M_end_of_storage._M_data = _M_start + count;
+	}
+}
+
+template void _String_base<char, allocator<char> >::_M_allocate_block(unsigned int);
+
 }

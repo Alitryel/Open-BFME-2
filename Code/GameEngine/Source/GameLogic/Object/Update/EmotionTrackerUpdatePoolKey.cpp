@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004B1393@EmotionTrackerUpdate@@SA?AW4NameKeyType@@XZ @0x4B1393
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@EmotionTrackerUpdate@@UBE?AW4NameKeyType@@XZ @0x4B1393
 // (69B): cached pool-name key for EmotionTrackerUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("EmotionTrackerUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class EmotionTrackerUpdate
 {
 public:
-	static NameKeyType rva0004B1393();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004B1393@EmotionTrackerUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType EmotionTrackerUpdate::rva0004B1393()
+// ?getModuleNameKey@EmotionTrackerUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType EmotionTrackerUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheEmotionTrackerUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("EmotionTrackerUpdate");

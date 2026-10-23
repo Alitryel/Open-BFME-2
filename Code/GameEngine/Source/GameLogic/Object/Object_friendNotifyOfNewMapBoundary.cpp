@@ -1,29 +1,23 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /EHsc /arch:SSE
+// cl: /Oy- /DNDEBUG /MD /EHsc
 //
 // ?friend_notifyOfNewMapBoundary@Object@@QAEXXZ,
 // retail 0x0028B5EE, 113 bytes. Dedicated TU.
 //
 // Battle for Middle-earth reference
 // (reference/open-bfme-1/Code/GameEngine/Source/GameLogic/Object/Object.cpp,
-// Object::friend_notifyOfNewMapBoundary): re-registers with the partition
-// manager (via TheRadar), adds to the pathfind map, refreshes the map extent,
+// Object::friend_notifyOfNewMapBoundary): re-adds itself to the radar
+// (Radar::addObject), adds to the pathfind map, refreshes the map extent,
 // then sets or clears OFF_MAP from the in-region test. Retail keeps the world
 // position at +0x38 and the private status byte at +0x438; the in-region test
 // inlines to four SSE compares.
 
-#pragma optimize("y", off)
 
 typedef float Real;
 typedef int Int;
 typedef unsigned char UnsignedByte;
 typedef int Bool;
 
-struct Coord3D
-{
-	Real x;
-	Real y;
-	Real z;
-};
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
 
 struct Region3D
 {
@@ -39,28 +33,28 @@ struct Region3D
 
 class Object;
 
-class PartitionManager
+class Radar
 {
 public:
-	void registerObject(Object *object);
-};
-
-class BFMEPathfinderMapShim
-{
-public:
-	void addObjectToPathfindMap(Object *object);
+	void addObject(Object *obj);
 };
 
 class Pathfinder
 {
 public:
-	void addObjectToPathfindMap(Object *object);
+	void AddObjectToPathfindMap(Object *object);
 };
 
 class AI
 {
 public:
 	Pathfinder *pathfinder() { return m_pathfinder; }
+	// LINK: same-body helper under a TU-unique name (identical inlined
+	// bytes). This TU's pathfinder copy loses to the first-in-order copy (no
+	// retail address); the call below inlines it but still emits the loser
+	// COMDAT. Rebinding there emits only this unique (trivially kept) copy.
+	// No flags touched.
+	Pathfinder *bfme_pathfinder() { return m_pathfinder; }
 
 private:
 	unsigned char m_pad[0x10];
@@ -81,7 +75,7 @@ public:
 	virtual void getExtent(Region3D *extent) const = 0;
 };
 
-extern PartitionManager *TheRadar;
+extern Radar *TheRadar;
 extern AI *TheAI;
 extern TerrainLogic *TheTerrainLogic;
 
@@ -106,8 +100,8 @@ enum ObjectPrivateStatus
 // ?friend_notifyOfNewMapBoundary@Object@@QAEXXZ
 void Object::friend_notifyOfNewMapBoundary()
 {
-	reinterpret_cast<PartitionManager *>(TheRadar)->registerObject(this);
-	reinterpret_cast<BFMEPathfinderMapShim *>(TheAI->pathfinder())->addObjectToPathfindMap(this);
+	TheRadar->addObject(this);
+	TheAI->bfme_pathfinder()->AddObjectToPathfindMap(this);
 
 	Region3D mapExtent;
 	TheTerrainLogic->getExtent(&mapExtent);

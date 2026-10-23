@@ -37,7 +37,7 @@ typedef unsigned int size_t;
 typedef struct { int quot; int rem; } div_t;
 typedef struct { long quot; long rem; } ldiv_t;
 
-void __cdecl free(void *block);
+extern "C" void __cdecl free(void *block) throw(...);
 
 extern "C" {
 void __cdecl abort(void);
@@ -72,6 +72,19 @@ int __cdecl wctomb(char *dest, unsigned short ch);
 }
 
 #define _STLP_INTERNAL_STREAMBUF
+#include <stl/_alloc.h>
+// Keep retail's inline character-buffer cleanup; the public allocator
+// entry point is supplied by its separately verified owner.
+namespace _STL {
+template <> void __malloc_alloc<0>::deallocate(void *, size_t);
+#pragma optimize("gsy", on)
+template <> __forceinline void allocator<char>::deallocate(char *p, size_t) const { if (p != 0) free(p); }
+template <> __forceinline void allocator<unsigned short>::deallocate(unsigned short *p, size_t) const { if (p != 0) free(p); }
+#pragma optimize("", on)
+}
+
+// Keep this TU's inline string storage implementation local.
+#define _String_base _String_base_NumGetBool_RV
 #include <locale>
 // The locale implementation is opaque in _locale.h. Its three vtable slots
 // are established by stlport_locale.cpp; visibility here inlines _M_decr.
@@ -86,7 +99,14 @@ public:
     string _M_name;
 };
 typedef char _LocaleImplStorage[(sizeof(_Locale_impl)==24)?1:-1];
-locale::~locale() _STLP_NOTHROW { _M_impl->_M_decr(); }
+// Keep the copy used by getloc identical to the verified locale owner at 0x7130.
+inline locale::locale(const locale &that) _STLP_NOTHROW {
+    _M_impl = 0;
+    _Locale_impl *impl = that._M_impl;
+    impl->_M_incr();
+    _M_impl = impl;
+}
+inline locale::~locale() _STLP_NOTHROW { _M_impl->_M_decr(); }
 
 }
 namespace _STL {
@@ -94,9 +114,38 @@ template<> class basic_streambuf<char,char_traits<char> > { public: typedef char
 template<> __declspec(noinline) void istreambuf_iterator<char,char_traits<char> >::_M_getc() const {
  if (_M_have_c) return; int_type c=_M_buf->sgetc(); _M_c=traits_type::to_char_type(c); _M_eof=traits_type::eq_int_type(c,traits_type::eof()); _M_have_c=true;
 }
+// istreambuf_iterator<char>::equal is retail's 126-byte body at 0x0000FA00, owned by
+// stlport_narrow_istreambuf_iterator_equal.cpp. This unit's copy (with _M_getc out of
+// line) is not retail's and came before it in link order; the body still inlines
+// here, imported, so the unit emits no copy.
+template <> __declspec(dllimport) __forceinline
+bool istreambuf_iterator<char, char_traits<char> >::equal(const istreambuf_iterator<char, char_traits<char> >& __i) const {
+  if (this->_M_buf)
+    this->_M_getc();
+  if (__i._M_buf)
+    __i._M_getc();
+  return this->_M_eof == __i._M_eof;
+}
+// Retain the inline algorithms while importing their canonical standalone bodies.
+template <> __declspec(dllimport) __forceinline
+void istreambuf_iterator<char,char_traits<char> >::_M_bumpc() {
+  _M_buf->sbumpc();
+  _M_have_c = false;
+}
+template <> __declspec(dllimport) __forceinline
+char istreambuf_iterator<char,char_traits<char> >::operator*() const {
+  this->_M_getc();
+  return _M_c;
+}
+template <> __declspec(dllimport) __forceinline
+istreambuf_iterator<char,char_traits<char> >&
+istreambuf_iterator<char,char_traits<char> >::operator++() {
+  this->_M_bumpc();
+  return *this;
+}
 typedef istreambuf_iterator<char,char_traits<char> > _BoolIn;
 template <>
-_BoolIn
+inline _BoolIn
 num_get<char, _BoolIn>::do_get(_BoolIn __in, _BoolIn __end,
                                     ios_base& __s,
                                     ios_base::iostate& __err, bool& __x) const
@@ -156,5 +205,23 @@ num_get<char, _BoolIn>::do_get(_BoolIn __in, _BoolIn __end,
     return __tmp;
   }
 }
+
+// num_get<char>::do_get(bool) is a template member another unit instantiates
+// as a select-any copy; the strong specialization here made it a duplicate in
+// the linked build. This anchor only makes this unit emit its copy for the
+// ledger row; it is not retail code.
+struct bfmeNumGetBoolEmitter : num_get<char, _BoolIn>
+{
+  static void emit(const bfmeNumGetBoolEmitter *p, _BoolIn a, _BoolIn b, ios_base &s,
+    ios_base::iostate &e, bool &v);
+};
+#pragma inline_depth(0)
+// ?emit@bfmeNumGetBoolEmitter@_STL@@SAXPBU12@V?$istreambuf_iterator@DV?$char_traits@D@_STL@@@2@1AAVios_base@2@AAHAA_N@Z present-unmatched
+void bfmeNumGetBoolEmitter::emit(const bfmeNumGetBoolEmitter *p, _BoolIn a, _BoolIn b, ios_base &s,
+  ios_base::iostate &e, bool &v)
+{
+  p->num_get<char, _BoolIn>::do_get(a, b, s, e, v);
+}
+#pragma inline_depth()
 
 }

@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /EHsc /Oi-
+// cl: /Ireference/shims/bfme2_ascii /Oy- /DNDEBUG /MD /EHsc /Oi-
 //
 // ?parseTooltipText@@YA_NPADPAVWinInstanceData@@0PAX@Z, retail 0x00315CFD, 112 bytes.
 // Dedicated TU.
@@ -44,46 +44,10 @@ typedef unsigned short wchar_t;
 class UnicodeString;
 class AsciiString;
 
-template <typename T>
-class StringBase
-{
-	friend class AsciiString;
-	friend class UnicodeString;
+#include "ascii_string.h"
+#include "unicode_string.h"
 
-private:
-	struct Header
-	{
-		int ref_count;
-		unsigned short length;
-		unsigned short capacity;
-		T data[1];
-	};
 
-	Header *m_data;
-
-public:
-	void set(const char *s);
-};
-
-class AsciiString
-{
-public:
-	void set(const char *s) { m_data.set(s); }
-
-private:
-	StringBase<char> m_data;
-};
-
-class UnicodeString
-{
-public:
-	UnicodeString() {}
-	UnicodeString(const UnicodeString &that);
-	~UnicodeString();
-
-private:
-	StringBase<wchar_t> m_data;
-};
 
 // Retail fetch call uses vtable offset 0x3c (VersionUnicode.cpp recipe).
 class GameTextInterface
@@ -119,7 +83,7 @@ public:
 };
 
 // ?parseTooltipText@@YA_NPADPAVWinInstanceData@@0PAX@Z
-static Bool parseTooltipText(char *token, WinInstanceData *instData, char *buffer, void *data)
+Bool parseTooltipText(char *token, WinInstanceData *instData, char *buffer, void *data)
 {
 	char *ptr = buffer;
 	char *c;

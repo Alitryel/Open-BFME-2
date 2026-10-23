@@ -3,29 +3,38 @@
 class BfmeMsgVIX
 {
 public:
-	void bfmeRunVIX();
-	void bfmeSetVIX(const char *k, void *v);
-	void bfmeSet2VIX(const char *k, void *a, void *b);
-	void bfmeSet4VIX(const char *k, void *v);
-	void rva007E8EF0(const char *k, void *v);
 	char m_bfmePad[0x1c];
 	int m_bfme1c;
 };
 
+class Rva007E8810Message
+{
+public:
+	void reset();
+	void addString(const char *key, const char *value);
+	void addInt64(const char *key, __int64 value);
+	void addBool(const char *key, bool value);
+	void rva007E8EF0(const char *key, const char *value);
+};
+
 extern void *g_bfmeFVIX;
+// g_bfmeFVIX: matched references place it at VA 0xe09ec8 (zero-filled .bss).
+void * g_bfmeFVIX;
 extern void *g_bfmeGVIY;
+// g_bfmeGVIY: matched references place it at VA 0xe0a028 (zero-filled .bss).
+void * g_bfmeGVIY;
 
 void __stdcall bfmeGoVIX(BfmeMsgVIX *m, void *email, void *parentalEmail, void *countryCode, void *eaMail, void *thirdPartyMail)
 {
 	void *g = g_bfmeFVIX;
-	m->bfmeRunVIX();
+	((Rva007E8810Message *)m)->reset();
 	m->m_bfme1c = 0x61636374;
-	m->bfmeSetVIX("TXN", g);
-	m->bfmeSetVIX("email", email);
-	m->bfmeSetVIX("parentalEmail", parentalEmail);
-	m->bfmeSetVIX("countryCode", countryCode);
-	m->bfmeSet4VIX("eaMailFlag", eaMail);
-	m->bfmeSet4VIX("thirdPartyMailFlag", thirdPartyMail);
+	((Rva007E8810Message *)m)->addString("TXN", (const char *)g);
+	((Rva007E8810Message *)m)->addString("email", (const char *)email);
+	((Rva007E8810Message *)m)->addString("parentalEmail", (const char *)parentalEmail);
+	((Rva007E8810Message *)m)->addString("countryCode", (const char *)countryCode);
+	((Rva007E8810Message *)m)->addBool("eaMailFlag", *(bool *)&eaMail);
+	((Rva007E8810Message *)m)->addBool("thirdPartyMailFlag", *(bool *)&thirdPartyMail);
 }
 
 class BfmeThingVIY
@@ -65,23 +74,24 @@ public:
 };
 
 extern Rva007EB810Diag *Rva007EB810Get();
-extern void *bfmeGo929C();
+class GenAlloc;
+GenAlloc *Gen007EFFC0();
 void rva007FF100Encode(unsigned int length, const char *source, void *destination);
 
 void BfmeThingVIY::bfmeGoVIY(BfmeMsgVIX *m, void *a, void *b, void *c, void *d, void *e)
 {
 	void *g = g_bfmeGVIY;
-	m->bfmeRunVIX();
+	((Rva007E8810Message *)m)->reset();
 	m->m_bfme1c = 0x626c6f62;
-	m->bfmeSetVIX("TXN", g);
-	m->bfmeSet2VIX("blobId", a, b);
+	((Rva007E8810Message *)m)->addString("TXN", (const char *)g);
+	((Rva007E8810Message *)m)->addInt64("blobId", *(__int64 *)&a);
 	bfmeSubVIY(m, c, d);
-	m->bfmeSetVIX("version", e);
+	((Rva007E8810Message *)m)->addString("version", (const char *)e);
 }
 
 void BfmeThingVIY::bfmeSubVIY(BfmeMsgVIX *m, void *c, void *d)
 {
-	Rva007EFFC0Allocator *allocator = (Rva007EFFC0Allocator *)bfmeGo929C();
+	Rva007EFFC0Allocator *allocator = (Rva007EFFC0Allocator *)Gen007EFFC0();
 	unsigned int length = (unsigned int)d;
 	unsigned int size = ((length + 2) / 3) * 4 + 1;
 	void *content = allocator->allocate(size, 2);
@@ -95,7 +105,7 @@ void BfmeThingVIY::bfmeSubVIY(BfmeMsgVIX *m, void *c, void *d)
 		return;
 	}
 	rva007FF100Encode(length, (const char *)c, content);
-	m->rva007E8EF0("content", content);
-	((Rva007EFFC0Allocator *)bfmeGo929C())->release(content, 0);
+	((Rva007E8810Message *)m)->rva007E8EF0("content", (const char *)content);
+	((Rva007EFFC0Allocator *)Gen007EFFC0())->release(content, 0);
 	((BfmeThingCIB *)m)->bfmeGoCIB((void *)"size", d);
 }

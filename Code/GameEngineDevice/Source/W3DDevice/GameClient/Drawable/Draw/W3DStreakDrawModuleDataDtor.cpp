@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG
+// cl: /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG /Ireference/shims/moduledata
 //
 // ??1W3DStreakDrawModuleData@@UAE@XZ, retail 0x000D057C, 69 bytes.
 // W3DStreakDraw ModuleData dtor: reinstalls the vtable 0x00BCDAB0, tears
@@ -7,8 +7,8 @@
 // 8-byte elements and the dup_ vector-dtor row lives at this address, plus
 // the +8 stride in the 0xD068F insert), tears down the Texture AsciiString
 // at +0x24 through the folded AsciiString dtor at 0x36410, then restores
-// the Snapshot base vtable 0x00BBB554 through the TU-local inline base
-// dtor. Two EH states for the two members, frameless companion ctor at
+// the Snapshot base vtable 0x00BBB554 through the shared base dtor. Two EH
+// states for the two members, frameless companion ctor at
 // 0xD0520 proves the layout (vptr +0, pad +0x04, Length +0x08, Width +0x0C,
 // Additive +0x10, Color +0x14/+0x18/+0x1C, NumSegments +0x20, Texture +0x24,
 // WeatherTexture +0x28, size 0x34 per the factory at 0x64F47). Table
@@ -16,26 +16,9 @@
 // deleting dtor. Shape follows the landed W3DLightDrawModuleDataDtor and
 // FlammableUpdateModuleDataDtor TUs.
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-};
+#include "Common/Snapshot.h"
 
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
-
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	~AsciiString();
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 struct W3DStreakWeatherVec
 {

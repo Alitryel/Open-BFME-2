@@ -40,29 +40,29 @@ __declspec(noinline) UnsignedInt calcHashForString(const char* p);
 // and its independently pinned insertion helper.
 NameKeyType NameKeyGenerator::nameToKey(const char* nameString)
 {
-	Bucket *b;
+	Bucket *bucket;
 	ScopedCriticalSection scopedCriticalSection(&m_mutex);
 
 	UnsignedInt hash = calcHashForString(nameString) % SOCKET_COUNT;
 
 	// hmm, do we have it already?
-	for (b = m_sockets[hash]; b; b = b->m_nextInSocket)
+	for (bucket = m_sockets[hash]; bucket; bucket = bucket->m_nextInSocket)
 	{
-		if (strcmp(nameString, b->m_nameString.str()) == 0)
-			return b->m_key;
+		if (strcmp(nameString, bucket->m_nameString.str()) == 0)
+			return bucket->m_key;
 	}
 
 	// nope, guess not. let's allocate it.
-	b = newInstance(Bucket);
-	b->m_key = (NameKeyType)m_nextID++;
-	((StringBase<char>*)&b->m_nameString)->set(nameString);
-	b->m_nextInSocket = m_sockets[hash];
-	m_sockets[hash] = b;
+	bucket = newInstance(Bucket);
+	bucket->m_key = (NameKeyType)m_nextID++;
+	((StringBase<char>*)&bucket->m_nameString)->set(nameString);
+	bucket->m_nextInSocket = m_sockets[hash];
+	m_sockets[hash] = bucket;
 
 	// BFME2 also indexes it in the reverse key->Bucket map (see the shim).
-	keyToBucketMap().insert(KeyToBucketMap::value_type(b->m_key, b));
+	keyToBucketMap().insert(KeyToBucketMap::value_type(bucket->m_key, bucket));
 
-	NameKeyType result = b->m_key;
+	NameKeyType result = bucket->m_key;
 
 #if defined(_DEBUG) || defined(_INTERNAL)
 	// reality-check to be sure our hasher isn't going bad.
@@ -71,7 +71,7 @@ NameKeyType NameKeyGenerator::nameToKey(const char* nameString)
 	for (Int i = 0; i < SOCKET_COUNT; ++i)
 	{
 		Int numInThisSocket = 0;
-		for (b = m_sockets[i]; b; b = b->m_nextInSocket)
+		for (bucket = m_sockets[i]; bucket; bucket = bucket->m_nextInSocket)
 			++numInThisSocket;
 
 		if (numInThisSocket > maxThresh)
@@ -88,3 +88,45 @@ NameKeyType NameKeyGenerator::nameToKey(const char* nameString)
 	return result;
 
 }  // end nameToKey
+
+// ?freeSockets@NameKeyGenerator@@AAEXXZ 0x00148B42 66B donor ZH NameKeyGenerator.cpp freeSockets plus BFME aux KeyToBucketMap clear; callers 0x00148BFB 0x00148C6B; tail clear at this+0x2bf4c rowed as Armor hashtable clear via ICF fold
+#include "GameLogic/Armor.h"
+// bfme link decl-only begin
+namespace _STL { template <> void hashtable<_STL::pair<NameKeyType const,ArmorTemplate>,NameKeyType,rts::hash<NameKeyType>,_STL::_Select1st<_STL::pair<NameKeyType const,ArmorTemplate> >,rts::equal_to<NameKeyType>,_STL::allocator<_STL::pair<NameKeyType const,ArmorTemplate> > >::clear(); }
+// bfme link decl-only end
+// bfme link decl-only begin
+namespace _STL { template <> void hashtable<pair<NameKeyType const, ArmorTemplate>, NameKeyType, rts::hash<NameKeyType>, _Select1st<pair<NameKeyType const, ArmorTemplate> >, rts::equal_to<NameKeyType>, allocator<pair<NameKeyType const, ArmorTemplate> > >::_M_delete_node(_Hashtable_node<pair<NameKeyType const, ArmorTemplate> > *); }
+// bfme link decl-only end
+
+// The NameKeyGenerator singleton pointer. Matched DIR32 sites (e.g. the
+// Rva00148F5ECache::get row at 0x00148F5E reads it with mov ecx,[0x00DF36A4])
+// place it at VA 0x00DF36A4 in the .data zero-fill tail, so retail starts it
+// null. Upstream 6c58ed268 deleted the split-out unit that used to define it.
+NameKeyGenerator *TheNameKeyGenerator = NULL;
+void NameKeyGenerator::freeSockets()
+{
+	for (Int i = 0; i < SOCKET_COUNT; ++i)
+	{
+		Bucket *next;
+		for (Bucket *bucket = m_sockets[i]; bucket; bucket = next)
+		{
+			next = bucket->m_nextInSocket;
+			struct FakeBucket { virtual void *del(int flag); };
+			void *mem = ((FakeBucket *)bucket)->del(0);
+			::operator delete(mem);
+		}
+		m_sockets[i] = NULL;
+	}
+	// Tail clears the aux key->Bucket index at this+0x2bf4c. Retail folds its
+	// hashtable::clear body onto the ArmorTemplate instantiation at 0x1DBCDC,
+	// so call through that rowed spelling; same lea+jmp shape as the donor.
+	((std::hash_map<NameKeyType, ArmorTemplate, rts::hash<NameKeyType>, rts::equal_to<NameKeyType> > &)keyToBucketMap()).clear();
+}  // end freeSockets
+
+// ?reset@NameKeyGenerator@@UAEXXZ 0x00148C41 84B chain from freeSockets 0x00148B42; ZH reset plus BFME lock; sets m_nextID at this+0x2bf48
+void NameKeyGenerator::reset()
+{
+	ScopedCriticalSection scopedCriticalSection(&m_mutex);
+	freeSockets();
+	m_nextID = 1;
+}  // end reset

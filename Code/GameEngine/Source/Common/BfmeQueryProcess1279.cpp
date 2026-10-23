@@ -1,4 +1,4 @@
-// ?bfmeProcess1279@BfmeWrapper1279@@QAEXPAX@Z, retail 0x006F7230 (96B).
+// ?bfmeProcess1279@AptDisplayList@@QAEXPAX@Z, retail 0x006F7230 (96B).
 // Adapted from Open-BFME-1 Code/GameEngine/Source/Common/BfmeQueryProcess1279.cpp.
 // BFME2 repairs (all retail-proven): node carries the provider at +0x48 and
 // the key at +0x8; the provider exposes the lookup at vtable slot 3; the
@@ -52,18 +52,24 @@ public:
 	void bfmeErase1279(BfmeKey1279 &key);
 };
 
+class Rva0070B380
+{
+public:
+	void *lookup(const EAStringC &key);
+};
+
 class BfmeNestedBE;
 
 BfmeNestedBE *bfmeUnlinkNestedBE(BfmeNestedBE *item);
 
-class BfmeWrapper1279
+class AptDisplayList
 {
 public:
 	void bfmeProcess1279(void *value);
 };
 
-// ?bfmeProcess1279@BfmeWrapper1279@@QAEXPAX@Z
-void BfmeWrapper1279::bfmeProcess1279(void *value)
+// ?bfmeProcess1279@AptDisplayList@@QAEXPAX@Z
+void AptDisplayList::bfmeProcess1279(void *value)
 {
 	BfmeNode1279 *node = (BfmeNode1279 *)value;
 	if (node != 0) {
@@ -73,10 +79,10 @@ void BfmeWrapper1279::bfmeProcess1279(void *value)
 				BfmeLookup1279 *lookup = provider->bfmeGetLookup1279();
 				BfmeKey1279 &key = node->m_key;
 				if (!((EAStringC *)&key)->IsEmpty()) {
-					if (lookup != 0) {
-						if (lookup->bfmeLookup1279(key) == node)
-							lookup->bfmeErase1279(key);
-					}
+				if (lookup != 0) {
+					if (((Rva0070B380 *)lookup)->lookup(*(EAStringC *)&key) == node)
+						lookup->bfmeErase1279(key);
+				}
 				}
 			}
 			bfmeUnlinkNestedBE((BfmeNestedBE *)node);

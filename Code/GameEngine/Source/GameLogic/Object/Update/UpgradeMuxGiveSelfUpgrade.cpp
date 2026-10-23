@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ?giveSelfUpgrade@UpgradeMux@@QAEXXZ, retail 0x0045230C, 33 bytes.
 // UpgradeMux self-upgrade (frameless leaf: four virtual dispatches through
@@ -8,6 +8,10 @@
 // Shard (not graft): the UpgradeMux home TU carries the novtable leaf
 // ctor, and same-TU virtuals would collide with its explicit vtable.
 
+// The shared headers declare these members with the access/virtual spelling
+// retail's vftables reference; the ledger row keeps the spelling this TU
+// compiled to. Same function, same address: bind the header spelling here.
+#pragma comment(linker, "/alternatename:?giveSelfUpgrade@UpgradeMux@@IAEXXZ=?giveSelfUpgrade@UpgradeMux@@QAEXXZ")
 class UpgradeMux
 {
 public:

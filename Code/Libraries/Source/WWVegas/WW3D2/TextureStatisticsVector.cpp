@@ -23,7 +23,7 @@ class TextureClass : public TextureBaseClass
 {
 };
 
-void TextureBaseClass::Add_Ref()
+inline void TextureBaseClass::Add_Ref()
 {
 	++*reinterpret_cast<unsigned short *>(reinterpret_cast<char *>(this) + 4);
 }
@@ -33,7 +33,7 @@ template<class T>
 class RefCountPtr
 {
 public:
-	RefCountPtr() : Referent(0) {}
+	__declspec(dllimport) __forceinline RefCountPtr() : Referent(0) {}
 	RefCountPtr(RefCountPtr const &other) : Referent(other.Referent)
 	{
 		if (Referent != 0)
@@ -50,7 +50,9 @@ public:
 			Referent->Release_Ref();
 		}
 	}
-	RefCountPtr const &operator=(RefCountPtr const &other)
+	// Inlined at every use here (retail's /G7 family); the out-of-line copy,
+	// built without /G7, is RefCountPtrTextureAssign.cpp's row (0x000424D0).
+	__declspec(dllimport) __forceinline RefCountPtr const &operator=(RefCountPtr const &other)
 	{
 		if (other.Referent != 0)
 			other.Referent->Add_Ref();
@@ -149,53 +151,22 @@ VectorClass<T>::VectorClass(unsigned size, T const *array)
 	}
 }
 
-template<class T>
-bool VectorClass<T>::Resize(int newsize, T const *array)
-{
-	if (newsize)
-	{
-		T *newptr;
-		IsValid = false;
-		if (!array)
-		{
-			newptr = new T[newsize];
-		}
-		else
-		{
-			newptr = new ((void *)array) T[newsize];
-		}
-		IsValid = true;
-		if (!newptr)
-			return false;
-
-		if (Vector != 0)
-		{
-			int copycount = (newsize < VectorMax) ? newsize : VectorMax;
-			for (int index = 0; index < copycount; ++index)
-				newptr[index] = Vector[index];
-
-			if (IsAllocated)
-			{
-				delete [] Vector;
-				Vector = 0;
-			}
-		}
-
-		Vector = newptr;
-		VectorMax = newsize;
-		IsAllocated = (Vector && !array);
-	}
-	else
-	{
-		Clear();
-	}
-	return true;
-}
+// VectorClass<T>::Resize is defined in TextureStatisticsVectorResize.cpp,
+// which builds retail's /G7 body (0x00129990); this unit only calls it, so
+// it emits no second (non-/G7) copy for the link to choose.
 
 template<class T>
 VectorClass<T>::~VectorClass()
 {
 	VectorClass<T>::Clear();
+}
+
+// DynamicVectorClass adds nothing to destroy: its destructor is the inlined
+// ~VectorClass, which /OPT:ICF folded onto 0x0012A4D0 (the DynamicVectorClass
+// vftable 0x00BD14EC's ??_G at 0x0012A620 calls it there).
+template<class T>
+DynamicVectorClass<T>::~DynamicVectorClass()
+{
 }
 
 template<class T>
@@ -291,3 +262,18 @@ void Record_Texture_Begin()
 	latest_texture.Clear();
 	texture_statistics.Resize(0);
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??4CursorTextureSlot@@QAEXABVBFME2ParticleTextureHandle@@@Z=??4?$RefCountPtr@VTextureClass@@@@QAEABV0@ABV0@@Z")
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??4BfmeMapPictureTexture@@QAEAAV0@ABV0@@Z=??4?$RefCountPtr@VTextureClass@@@@QAEABV0@ABV0@@Z")
+#pragma comment(linker, "/alternatename:??4?$RefCountPtr@VHierarchyPrototype@@@@QAEABV0@ABV0@@Z=??4?$RefCountPtr@VTextureClass@@@@QAEABV0@ABV0@@Z")
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?ID@?$VectorClass@UTextureStatisticsStruct@@@@UAEHPBUTextureStatisticsStruct@@@Z=?ID@?$VectorClass@VVector3@@@@UAEHPBVVector3@@@Z")
+#pragma comment(linker, "/alternatename:?ID@?$DynamicVectorClass@UTextureStatisticsStruct@@@@UAEHPBUTextureStatisticsStruct@@@Z=?ID@?$VectorClass@VVector3@@@@UAEHPBVVector3@@@Z")

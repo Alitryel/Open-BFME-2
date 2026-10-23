@@ -1,4 +1,4 @@
-// cl: /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 //
 // ?Unregister_Mesh_Type@DX8MeshRendererClass@@QAEXPAVMeshModelClass@@@Z at
 // retail 0x001445E0 (54B). Dedicated TU: BFME1's dx8renderer.cpp body also
@@ -73,7 +73,7 @@ public:
 // ?Unregister_Mesh_Type@DX8MeshRendererClass@@QAEXPAVMeshModelClass@@@Z
 void DX8MeshRendererClass::Unregister_Mesh_Type(MeshModelClass *mmc)
 {
-	while (DX8PolygonRendererClass *n = mmc->PolygonRendererList.Remove_Head()) {
-		::delete n;
+	while (DX8PolygonRendererClass *dX8PolygonRenderer = mmc->PolygonRendererList.Remove_Head()) {
+		::delete dX8PolygonRenderer;
 	}
 }

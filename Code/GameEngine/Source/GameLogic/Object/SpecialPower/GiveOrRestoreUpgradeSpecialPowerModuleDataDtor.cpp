@@ -1,9 +1,10 @@
-// cl: /O1 /GX /arch:SSE /MD /DNDEBUG
+// cl: /GX /MD /DNDEBUG
+// Rva0044ECCE is an address-derived base stand-in; its target class name is unproven.
 //
 // ??1GiveOrRestoreUpgradeSpecialPowerModuleData@@UAE@XZ, retail 0x004CD2E8, 74 bytes.
 // Dtor over ctor TU layout (vtable 0x00C5F900, strings at +0xC8/+0xCC, toggle
 // bitset at +0xD0 trivial): destroys +0xCC then +0xC8 through pinned
-// ??1StringBase@D at 0x36410 (states 1/0), then base DamageModuleBase through
+// ??1StringBase@D at 0x36410 (states 1/0), then base Rva0044ECCE through
 // pinned ??1 at 0x44ECCE (state -1). Shape follows LevelGrant precedent
 // (novtable derived plus virtual base).
 
@@ -16,16 +17,16 @@ private:
 	void *m_data;
 };
 
-class DamageModuleBase
+class Rva0044ECCE
 {
 public:
-	virtual ~DamageModuleBase();
+	virtual ~Rva0044ECCE();
 
 private:
 	unsigned char m_pad[0xC8 - 4];
 };
 
-class __declspec(novtable) GiveOrRestoreUpgradeSpecialPowerModuleData : public DamageModuleBase
+class __declspec(novtable) GiveOrRestoreUpgradeSpecialPowerModuleData : public Rva0044ECCE
 {
 public:
 	virtual ~GiveOrRestoreUpgradeSpecialPowerModuleData();

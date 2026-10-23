@@ -47,7 +47,6 @@
 	}
 
 BFME_DISP8_PTRCHASE_DWORD_GETTER(Rva000425C4PtrChaseField, 0x08, 0x18)
-BFME_DISP8_PTRCHASE_DWORD_GETTER(RvaB49A1PtrChaseField, 0x2C, 0x0C)
 BFME_DISP8_PTRCHASE_DWORD_GETTER(Rva262193PtrChaseField, 0x04, 0x74)
 BFME_DISP8_PTRCHASE_DWORD_GETTER(Rva262FF8PtrChaseField, 0x04, 0x40)
 BFME_DISP8_PTRCHASE_DWORD_GETTER(Rva26FFDBPtrChaseField, 0x04, 0x4C)
@@ -122,6 +121,21 @@ BFME_DISP8_PTRCHASE_DWORD_GETTER(Rva004F614BPtrChase32Field, 0x2C, 0x494)
 BFME_DISP8_PTRCHASE_DWORD_GETTER(Rva00507548PtrChase32Field, 0x04, 0x110)
 BFME_DISP8_PTRCHASE_BEFORE_DWORD_GETTER(Rva005A00CCPtrChase32Field, 0x08, 0x274)
 
+// Address-named indexed pointer-chase getter at retail 0x005F6B12.
+class Rva005F6B12
+{
+public:
+	int rva005F6B12(int index) const;
+private:
+	char m_pad00[4];
+	int *m_values;
+};
+
+int Rva005F6B12::rva005F6B12(int index) const
+{
+	return m_values[index + 15];
+}
+
 // Byte bit-7 getters: ptr-chase byte read plus shr to LSB (bool from high bit).
 // Retail 0x005FC73B is mov eax,[ecx+0x18] / mov al,[eax+0x34] / shr al,7 / ret.
 struct Rva005FC73BPtrChaseInner
@@ -165,3 +179,43 @@ void *Rva005FC745PtrChaseField::get() const
 		return fetch();
 	return m_ptr;
 }
+
+// Clean BFME1 9cbfb551 donor structural leads; native instructions independently
+// establish complete RET boundaries and each raw field operation and ABI.
+// Address-owned carriers retain unknown original receiver identity and bounds.
+
+// ?clear@Rva002D2CDCFields@@QAEPAU1@XZ
+struct Rva002D2CDCFields { unsigned char byte0; Rva002D2CDCFields *clear(); };
+Rva002D2CDCFields *Rva002D2CDCFields::clear() { byte0=0; return this; }
+
+// Current BF1 9cbfb551fe20dae985f91f2319d8997287b6a705 ambiguous-min5 leads.
+// Rva00537850IndirectGet.cpp suggests the first operation; list iterator
+// dereference in Rva006CCCA0LoadSchemeVariant.cpp suggests the second.
+// Several donor names share each shape, so no donor owner/type is asserted.
+// Each native entry follows INT3 padding and ends its own RET: 1CD70..1CD76
+// and6F6830..6F6836. They read raw words through independently proved offsets.
+class Rva0001CD70Word
+{
+public:
+ unsigned int get() const;
+ char m_pad00[4];
+ unsigned int *m_ptr;
+};
+unsigned int Rva0001CD70Word::get() const { return *m_ptr; }
+// 0x0001CDA0 is the same shape with the pointer at receiver offset 8 (1CDA0..1CDA5,
+// INT3 padding before, no reference in the image).
+class Rva0001CDA0Word
+{
+public:
+ unsigned int get() const;
+ char m_pad00[8];
+ unsigned int *m_ptr;
+};
+unsigned int Rva0001CDA0Word::get() const { return *m_ptr; }
+class Rva006F6830Word
+{
+public:
+ unsigned int get() const;
+ unsigned int *m_ptr;
+};
+unsigned int Rva006F6830Word::get() const { return m_ptr[2]; }

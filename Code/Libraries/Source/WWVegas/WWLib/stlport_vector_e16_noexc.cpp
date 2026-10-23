@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 //
 // vector<BfmeE16>::_M_insert_overflow, retail 0x005B3970, 186 bytes. The same
@@ -10,6 +10,26 @@
 // second unit claiming only the body the no-exceptions build reproduces.
 //
 // BfmeE16 is the same element-size stand-in the sibling unit documents.
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
 #include <vector>
-struct BfmeE16 { float x, y, z, w; };
+#include "../../../Include/Lib/BfmeE16.h"
+// Assignment is not used by this instantiation's rowed members.
+namespace _STL { template <> vector<BfmeE16> &vector<BfmeE16>::operator=(const vector<BfmeE16> &); }
+
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<BfmeE16, BfmeE16>(BfmeE16 *, BfmeE16 const &); }
+namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::vector(vector<BfmeE16, allocator<BfmeE16> > const &); }
+namespace _STL { template <> void vector<BfmeE16, allocator<BfmeE16> >::_M_fill_insert(BfmeE16 *, unsigned int, BfmeE16 const &); }
+// bfme link decl-only end
+// bfme link decl-only BfmeE16
+namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 template class _STL::vector<BfmeE16, _STL::allocator<BfmeE16 > >;

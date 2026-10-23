@@ -42,3 +42,7 @@ BfmeThingVLZ *BfmeThingVLZ::bfmeCtorVLZ()
 		g_bfmeRegVLZ.bfmeInitVLZ();
 	return this;
 }
+// ?g_bfmeRegVLY@@3VBfmeRegVLY@@A: the global at VA 0xddf570 is ?_S_lock@?$_Node_Alloc_Lock@$0A@$0A@@_STL@@2VNodeAllocMutex@2@A.
+#pragma comment(linker, "/alternatename:?g_bfmeRegVLY@@3VBfmeRegVLY@@A=?_S_lock@?$_Node_Alloc_Lock@$0A@$0A@@_STL@@2VNodeAllocMutex@2@A")
+// ?g_bfmeRegVLZ@@3VBfmeRegVLZ@@A: the global at VA 0xddf574 is ?_S_lock@?$_Node_Alloc_Lock@$00$0A@@_STL@@2VNodeAllocMutex@2@A.
+#pragma comment(linker, "/alternatename:?g_bfmeRegVLZ@@3VBfmeRegVLZ@@A=?_S_lock@?$_Node_Alloc_Lock@$00$0A@@_STL@@2VNodeAllocMutex@2@A")

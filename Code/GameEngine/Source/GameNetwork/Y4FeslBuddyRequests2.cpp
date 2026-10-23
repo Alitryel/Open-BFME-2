@@ -9,12 +9,27 @@
 
 typedef __int64 FeslInt64;
 
+class Rva007E8AC0
+{
+public:
+	void run( void );
+};
+
+class BfmeThingCIB
+{
+public:
+	void bfmeGoCIB( void *key, void *value );
+};
+
+class BfmeThingCIC
+{
+public:
+	void bfmeGoCIC( void *key, void *value );
+};
+
 class Rva007E8810Message
 {
 public:
-	void reset( void );                                              // 0x007E8AC0
-	void addString( const char *key, const char *value );            // 0x007E8A10
-	void addInt( const char *key, int value );                       // 0x007E88D0
 	void addInt64( const char *key, FeslInt64 value );               // 0x007E8E90
 	void addBool( const char *key, bool value );                     // 0x007E8980
 	void setError( int code );                                       // 0x007E88C0
@@ -25,22 +40,28 @@ public:
 	int m_depth;
 };
 
+#define FESL_RESET(message) ((Rva007E8AC0 *)(message))->run()
+#define FESL_ADD_STRING(message, key, value) \
+	((BfmeThingCIC *)(message))->bfmeGoCIC((void *)(key), (void *)(value))
+#define FESL_ADD_INT(message, key, value) \
+	((BfmeThingCIB *)(message))->bfmeGoCIB((void *)(key), (void *)(value))
+
 void __stdcall Rva007FB810( Rva007E8810Message *msg, const char *user, int answer )
 {
-	msg->reset();
+	FESL_RESET(msg);
 	msg->m_category = 'GRSP';
 	msg->m_depth = 3;
-	msg->addString( "USER", user );
+	FESL_ADD_STRING(msg, "USER", user);
 	switch( answer )
 	{
 		case 0:
-			msg->addString( "ANSW", "Y" );
+			FESL_ADD_STRING(msg, "ANSW", "Y");
 			break;
 		case 1:
-			msg->addString( "ANSW", "N" );
+			FESL_ADD_STRING(msg, "ANSW", "N");
 			break;
 		case 2:
-			msg->addString( "ANSW", "R" );
+			FESL_ADD_STRING(msg, "ANSW", "R");
 			break;
 	}
 }
@@ -48,87 +69,123 @@ void __stdcall Rva007FB810( Rva007E8810Message *msg, const char *user, int answe
 void __stdcall Rva007FB8D0( Rva007E8810Message *msg, int kind, const char *user,
 	const char *subject, const char *body, int secs )
 {
-	msg->reset();
+	FESL_RESET(msg);
 	msg->m_category = 'SEND';
 	msg->m_depth = 3;
 	switch( kind )
 	{
 		case 1:
-			msg->addString( "TYPE", "C" );
+			FESL_ADD_STRING(msg, "TYPE", "C");
 			break;
 		case 2:
-			msg->addString( "TYPE", "A" );
+			FESL_ADD_STRING(msg, "TYPE", "A");
 			break;
 	}
-	msg->addString( "USER", user );
-	msg->addString( "SUBJ", subject );
-	msg->addString( "BODY", body );
-	msg->addInt( "SECS", secs );
+	FESL_ADD_STRING(msg, "USER", user);
+	FESL_ADD_STRING(msg, "SUBJ", subject);
+	FESL_ADD_STRING(msg, "BODY", body);
+	FESL_ADD_INT(msg, "SECS", secs);
 }
 
 void __stdcall Rva007FB960( Rva007E8810Message *msg, int kind, const char *user,
 	const char *subject, const char *body, int secs )
 {
-	msg->reset();
+	FESL_RESET(msg);
 	msg->m_category = 'BRDC';
 	msg->m_depth = 3;
 	switch( kind )
 	{
 		case 1:
-			msg->addString( "TYPE", "C" );
+			FESL_ADD_STRING(msg, "TYPE", "C");
 			break;
 		case 2:
-			msg->addString( "TYPE", "A" );
+			FESL_ADD_STRING(msg, "TYPE", "A");
 			break;
 	}
-	msg->addString( "USER", user );
-	msg->addString( "SUBJ", subject );
-	msg->addString( "BODY", body );
-	msg->addInt( "SECS", secs );
+	FESL_ADD_STRING(msg, "USER", user);
+	FESL_ADD_STRING(msg, "SUBJ", subject);
+	FESL_ADD_STRING(msg, "BODY", body);
+	FESL_ADD_INT(msg, "SECS", secs);
 }
 
 void __stdcall Rva007FB410( Rva007E8810Message *msg, const char *user,
 	int answer, bool pres )
 {
-	msg->reset();
+	FESL_RESET(msg);
 	msg->m_category = 'RRSP';
 	msg->m_depth = 3;
-	msg->addString( "USER", user );
+	FESL_ADD_STRING(msg, "USER", user);
 	switch( answer )
 	{
 		case 0:
-			msg->addString( "ANSW", "Y" );
+			FESL_ADD_STRING(msg, "ANSW", "Y");
 			break;
 		case 1:
-			msg->addString( "ANSW", "N" );
+			FESL_ADD_STRING(msg, "ANSW", "N");
 			break;
 		case 2:
-			msg->addString( "ANSW", "B" );
+			FESL_ADD_STRING(msg, "ANSW", "B");
 			break;
 	}
 	if( answer == 0 )
-		msg->addString( "PRES", pres ? "Y" : "N" );
+		FESL_ADD_STRING(msg, "PRES", pres ? "Y" : "N");
 }
 
 void __stdcall Rva007FB6D0( Rva007E8810Message *msg, int list, const char *group,
 	const char *lsrc, bool pres, bool pend )
 {
-	msg->reset();
+	FESL_RESET(msg);
 	msg->m_category = 'RGET';
 	msg->m_depth = 3;
 	switch( list )
 	{
 		case 1:
-			msg->addString( "LIST", "B" );
+			FESL_ADD_STRING(msg, "LIST", "B");
 			break;
 		case 2:
-			msg->addString( "LIST", "I" );
+			FESL_ADD_STRING(msg, "LIST", "I");
 			break;
 	}
 	if( group && strlen( group ) != 0 )
-		msg->addString( "GROUP", group );
+		FESL_ADD_STRING(msg, "GROUP", group);
 	if( lsrc && strlen( lsrc ) != 0 )
-		msg->addString( "LSRC", lsrc );
-	msg->addString( "PRES", pres ? "Y" : "N" );
-	msg->addString( "PEND", pend ? "T" : "F" );
+		FESL_ADD_STRING(msg, "LSRC", lsrc);
+	FESL_ADD_STRING(msg, "PRES", pres ? "Y" : "N");
+	FESL_ADD_STRING(msg, "PEND", pend ? "T" : "F");
+}
+
+// FESL 'RADD' friend-list request with an optional single-letter attribute.
+// BFME 2: Open-BFME-1's body (submodule 10af19f44a), byte-identical in game.dat
+// at 0x00667770, written with this file's row-name calls. Its strcat is the
+// /Oi intrinsic: retail scans for the terminator and stores the letter inline.
+
+void __stdcall Rva007FB260( Rva007E8810Message *msg, int list,
+	const char *user, const char *group, const char *lsrc, bool pres,
+	int attribute )
+{
+	FESL_RESET(msg);
+	msg->m_category = 'RADD';
+	msg->m_depth = 3;
+	switch( list )
+	{
+		case 1: FESL_ADD_STRING(msg, "LIST", "B"); break;
+		case 2: FESL_ADD_STRING(msg, "LIST", "I"); break;
+	}
+	FESL_ADD_STRING(msg, "USER", user);
+	if( group )
+		FESL_ADD_STRING(msg, "GROUP", group);
+	if( lsrc )
+		FESL_ADD_STRING(msg, "LSRC", lsrc);
+	FESL_ADD_STRING(msg, "PRES", pres ? "Y" : "N");
+	if( attribute )
+	{
+		char text[ 4 ] = "";
+		if( attribute == 1 )
+			strcat( text, "A" );
+		else if( attribute == 2 )
+			strcat( text, "M" );
+		else if( attribute == 3 )
+			strcat( text, "I" );
+		FESL_ADD_STRING(msg, "ATTR", text);
+	}
 }

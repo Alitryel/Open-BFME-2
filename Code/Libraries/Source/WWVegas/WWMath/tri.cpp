@@ -3,9 +3,31 @@
 // (Libraries/Source/WWVegas/WWMath/tri.cpp). The unused find_dominant_plane_fast
 // path and the #if 0 alternatives inside Contains_Point are omitted; the retained
 // source is reused from Open-BFME-1; ledger rows record BFME2 byte verification.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "tri.h"
 #include "vector2.h"
+
+// The normal projection uses the IEEE sign-bit operation in WWMath::Fabs.
+// Keep this file's inlined calculation local; the shared out-of-line Fabs
+// provider has a different compiler frame setting.
+static inline float normal_component_magnitude(float value)
+{
+    union { float value; unsigned int bits; } magnitude;
+    magnitude.value = value;
+    magnitude.bits &= 0x7fffffffU;
+    return magnitude.value;
+}
 
 
 static inline void find_dominant_plane(const TriClass & tri, int * axis1,int * axis2,int * axis3)
@@ -14,9 +36,9 @@ static inline void find_dominant_plane(const TriClass & tri, int * axis1,int * a
 	** Find the largest component of the normal
 	*/
 	int ni = 0;
-	float x = WWMath::Fabs(tri.N->X);
-	float y = WWMath::Fabs(tri.N->Y);
-	float z = WWMath::Fabs(tri.N->Z);
+	float x = normal_component_magnitude(tri.N->X);
+	float y = normal_component_magnitude(tri.N->Y);
+	float z = normal_component_magnitude(tri.N->Z);
 	float val = x;
 
 	if (y > val) {
@@ -61,9 +83,9 @@ void TriClass::Find_Dominant_Plane(int * axis1,int * axis2) const
 	** Find the largest component of the normal
 	*/
 	int ni = 0;
-	float x = WWMath::Fabs(N->X);
-	float y = WWMath::Fabs(N->Y);
-	float z = WWMath::Fabs(N->Z);
+	float x = normal_component_magnitude(N->X);
+	float y = normal_component_magnitude(N->Y);
+	float z = normal_component_magnitude(N->Z);
 	float val = x;
 
 	if (y > val) {

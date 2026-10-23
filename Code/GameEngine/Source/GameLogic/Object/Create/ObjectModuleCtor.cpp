@@ -57,28 +57,23 @@ private:
 	Object *m_object; // +4
 };
 
-struct INIException
+class INIException
 {
+public:
+	INIException(int argCount, const char *format, ...);
 	char *mFailureMessage;
 	int mErrorCode;
+	INIException(const INIException &that);
+	~INIException();
 };
 
-extern "C" void rva002f681_fill(void *dst, int code, const char *fmt, ...);
-__declspec(noreturn) void __stdcall _CxxThrowException(void *pExc, void *pInfo);
-
-// Address anchor only: the throw site pushes this object's address as an
-// immediate (DIR32, copied from retail); content never compared.
-struct ObjectModuleThrowInfoAnchor { int a; int b; int c; int d; };
-static const ObjectModuleThrowInfoAnchor gThrowInfoAnchor = { 0, 0, 0, 0 };
 
 // ??0ObjectModule@@QAE@PAVThing@@PBVModuleData@@@Z
 ObjectModule::ObjectModule(Thing *thing, const ModuleData *moduleData)
 	: Module(moduleData)
 {
 	if (!moduleData) {
-		INIException e;
-		rva002f681_fill(&e, 3, "module data may not be null\n");
-		_CxxThrowException(&e, (void *)&gThrowInfoAnchor);
+		throw INIException(3, "module data may not be null\n");
 	}
 	m_object = AsObject(thing);
 }

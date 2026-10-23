@@ -3,7 +3,7 @@
 // only content. What the choice yields is never read. Built without
 // optimisation; the callee is pinned by address.
 
-void *bfmeAllocQF(int kind, unsigned int bytes);
+void *__cdecl operator new(unsigned int size, void *placement);
 
 class BfmeThingQF
 {
@@ -13,7 +13,7 @@ public:
 
 void BfmeThingQF::bfmeMakeQF(unsigned int bytes, const char *from)
 {
-	char *got = (char *)bfmeAllocQF(1, bytes);
+	char *got = (char *)::operator new(1, (void *)bytes);
 
 	(got != 0) ? (*got = *from, (void *)got) : (void *)0;
 }

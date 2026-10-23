@@ -1,4 +1,4 @@
-// cl: /O1 /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // ??1CommandPointsUpgradeModuleData@@UAE@XZ, retail 0x00255959, 51 bytes.
 // ModuleData dtor: tears down the RequiredObject filter at +0x11C through
@@ -12,21 +12,11 @@
 // via 0x3623E5, size 0x120 via factory 0x2548D2) and table 0xC590E8.
 // Caller is the slot-0 ??_G at 0x25593D (vtable 0xBF2658).
 
+
 class Xfer;
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc(Xfer *xfer);
-	virtual void loadPostProcess();
-	virtual void xfer(Xfer *xfer);
-};
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
 
 class Rva00360D26Member
 {

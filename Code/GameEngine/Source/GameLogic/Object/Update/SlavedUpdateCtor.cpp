@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE
+// cl: /DNDEBUG /MD /GX
 //
 // ??0SlavedUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x004A18C5,
 // 97 bytes. Behavior-side ctor (rowed instance factory 0x24EB7D news 0x48
@@ -12,6 +12,18 @@
 // (/arch:SSE emits retail xorps+movss). No setWakeFrame tail call and no
 // EH frame: the base is declared without virtuals or a dtor so the derived
 // ctor stays frameless. Row supersedes the ctor pin.
+
+extern "C" const void *const vtbl_00C6F248[];  // folded, 4 classes; via ??_7Rva0057BCD7@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C6F248=??_7Rva0057BCD7@@6B@")
+
+extern "C" const void *const vtbl_00C51E30[];  // ??_7Rva004A1855@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C51E30=??_7Rva004A1855@@6B@")
+extern "C" const void *const vtbl_00C51E54[];  // ??_7Rva004A1855@@6BRva0024A797_B2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C51E54=??_7Rva004A1855@@6BRva0024A797_B2@@@")
+extern "C" const void *const vtbl_00C51E60[];  // ??_7Rva004A1855@@6BRva0024A797_Mid@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C51E60=??_7Rva004A1855@@6BRva0024A797_Mid@@@")
+extern "C" const void *const vtbl_00C51F1C[];  // ??_7Rva004A1855@@6BRva0024A797_Root@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C51F1C=??_7Rva004A1855@@6BRva0024A797_Root@@@")
 
 class Thing;
 class ModuleData;
@@ -61,13 +73,13 @@ SlavedUpdate::SlavedUpdate(Thing *thing, const ModuleData *moduleData)
 {
 	float fzero = 0.0f;
 	int *slot20 = (int *)&m_secondary20;
-	*slot20 = (int)0x00C6F248;
+	*slot20 = (int)((unsigned int)vtbl_00C6F248);
 	int zero = 0;
 	m_24 = zero;
-	m_vtable = (const void *)0x00C51F1C;
-	m_secondary0C = (const void *)0x00C51E60;
-	m_secondary10 = (const void *)0x00C51E54;
-	m_secondary20 = (const void *)0x00C51E30;
+	m_vtable = (const void *)((unsigned int)vtbl_00C51F1C);
+	m_secondary0C = (const void *)((unsigned int)vtbl_00C51E60);
+	m_secondary10 = (const void *)((unsigned int)vtbl_00C51E54);
+	m_secondary20 = (const void *)((unsigned int)vtbl_00C51E30);
 	m_28 = fzero;
 	m_2C = fzero;
 	m_30 = fzero;

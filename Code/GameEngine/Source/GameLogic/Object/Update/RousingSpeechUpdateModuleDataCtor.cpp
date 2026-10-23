@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
 // stlport
 //
 // ??0RousingSpeechUpdateModuleData@@QAE@XZ, retail 0x004AD0EE, 136 bytes.
@@ -19,7 +19,17 @@
 
 #include <vector>
 
-struct BfmeE16 { float x, y, z, w; };
+#include "../../../../../Libraries/Include/Lib/BfmeE16.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Vector_base<BfmeE16,_STL::allocator<BfmeE16> >::~_Vector_base(); }
+// bfme link decl-only end
+// bfme link decl-only BfmeE16
+namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
+// Suppress this TU's non-retail BfmeE16 proxy deallocate copy (family2-LK3 row 34):
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL {
+template <> void _STLP_alloc_proxy<BfmeE16*, BfmeE16, allocator<BfmeE16> >::deallocate(BfmeE16*, size_t);
+}
 
 class Rva003623E5Member
 {
@@ -31,21 +41,17 @@ private:
 	int m_x;
 };
 
-class Rva0044EB54
+class SpecialAbilityUpdateModuleData
 {
 public:
-	Rva0044EB54();
-	virtual ~Rva0044EB54();
+	SpecialAbilityUpdateModuleData();
+	virtual ~SpecialAbilityUpdateModuleData();
 
 protected:
 	unsigned char m_pad[0xC8 - 4];
 };
 
-Rva0044EB54::~Rva0044EB54()
-{
-}
-
-class RousingSpeechUpdateModuleData : public Rva0044EB54
+class RousingSpeechUpdateModuleData : public SpecialAbilityUpdateModuleData
 {
 public:
 	RousingSpeechUpdateModuleData();
@@ -66,13 +72,11 @@ private:
 	Rva003623E5Member m_objectFilter; // +0xF4
 };
 
-RousingSpeechUpdateModuleData::~RousingSpeechUpdateModuleData()
-{
-}
+// RousingSpeechUpdateModuleData::~RousingSpeechUpdateModuleData: defined in RousingSpeechUpdateModuleDataDtor.cpp (its row's unit).
 
 // ??0RousingSpeechUpdateModuleData@@QAE@XZ @0x4AD0EE
 RousingSpeechUpdateModuleData::RousingSpeechUpdateModuleData()
-	: Rva0044EB54()
+	: SpecialAbilityUpdateModuleData()
 	, m_bonusRadius(0.0f)
 	, m_speechDuration(0)
 	, m_updateInterval(0)

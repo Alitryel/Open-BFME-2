@@ -1,6 +1,6 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
-// ?Rva0048F61ACheck@AssaultTransportAIUpdate@@QAE_NXZ, retail 0x0048F61A
+// ?isAttackPointless@AssaultTransportAIUpdate@@QBE_NXZ, retail 0x0048F61A
 // (52 bytes). Readiness gate over the +0x41A passenger flags: the +0x08
 // object must carry status 0x16 (rowed Object::testStatus) and every flag
 // for the +0x43C count must be set. Any failure returns false; the count may
@@ -17,7 +17,7 @@ public:
 class AssaultTransportAIUpdate
 {
 public:
-	bool Rva0048F61ACheck();
+	bool isAttackPointless() const;
 
 private:
 	unsigned char m_pad00[8];
@@ -28,7 +28,7 @@ private:
 	int m_count43C;
 };
 
-bool AssaultTransportAIUpdate::Rva0048F61ACheck()
+bool AssaultTransportAIUpdate::isAttackPointless() const
 {
 	if (!m_object08->testStatus((ObjectStatusTypes)0x16))
 		return false;

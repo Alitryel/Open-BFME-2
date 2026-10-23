@@ -1,5 +1,5 @@
 // BFME2 carries five more virtuals ahead of bfmeHeadUC than BFME1 (slot 0x48, not 0x34).
-extern "C" unsigned char bfmeVftUC[];
+extern int g_bfmeVtableCZ[];					// retail 0x008E4A10
 
 class BfmeThingUC;
 class BfmeNodeUC;
@@ -51,7 +51,7 @@ extern BfmeNodeUC *g_bfmeThingUCHead; // 0x0130B198
 void BfmeThingUC::bfmeResetUC()
 {
 	BfmeSubUC *sub = m_bfmeSub;
-	m_bfmeVft = bfmeVftUC;
+	m_bfmeVft = (unsigned char *)g_bfmeVtableCZ;
 	if (sub != 0)
 		sub->bfmeDropUC(this);
 }
@@ -77,3 +77,9 @@ void BfmeSubUC::bfmeDropUC(BfmeThingUC *who)
 		at = at->bfmeNextUC();
 	}
 }
+// ?g_bfmeThingUCHead@@3PAVBfmeNodeUC@@A: the global at VA 0xe0abb0 is ?g_Va00E0ABB0@@3HA.
+#pragma comment(linker, "/alternatename:?g_bfmeThingUCHead@@3PAVBfmeNodeUC@@A=?g_Va00E0ABB0@@3HA")
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeDropVIH@BfmeSubVIH@@QAEXPAVBfmeThingVIH@@@Z=?bfmeDropUC@BfmeSubUC@@QAEXPAVBfmeThingUC@@@Z")

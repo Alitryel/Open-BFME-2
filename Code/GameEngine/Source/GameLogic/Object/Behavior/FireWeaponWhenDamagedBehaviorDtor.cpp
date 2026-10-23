@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE
+// cl: /DNDEBUG /MD /GX
 //
 // ??1FireWeaponWhenDamagedBehavior@@UAE@XZ, retail 0x00482551 (234 bytes).
 // Behavior-side dtor completing the FireWeaponWhenDamagedBehavior file-unit
@@ -84,7 +84,11 @@ class DamageModuleInterface
 {
 public:
 	DamageModuleInterface() {}
-	virtual void onDamage(DamageInfo *damageInfo);
+	// The interface's three slots, pure here as FireWeaponWhenDamagedBehaviorCtor.cpp
+	// declares them: one copy of this class's DamageModuleInterface table.
+	virtual void onDamage(DamageInfo *damageInfo) = 0;
+	virtual void onHealing(DamageInfo *damageInfo) = 0;
+	virtual void onBodyDamageStateChange(const DamageInfo *damageInfo, int oldState, int newState) = 0;
 };
 
 class FireWeaponWhenDamagedBehavior : public UpdateModule, public UpgradeMux, public DamageModuleInterface
@@ -131,3 +135,8 @@ FireWeaponWhenDamagedBehavior::~FireWeaponWhenDamagedBehavior()
 		::operator delete(m_continuousWeaponRubble->deleteInstance(0));
 	}
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?behaviorModuleOtherAnchor@BehaviorModuleOther@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

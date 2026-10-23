@@ -1,4 +1,6 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /GX- /Oi-
+char g_00BE2870;
+
+// cl: /Oy- /DNDEBUG /MD /GX- /Oi- /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB /D_CRTIMP=
 // stlport
 //
 // ?friend_parseRankDefinition@RankInfoStore@@SAXPAVINI@@@Z,
@@ -16,6 +18,24 @@
 // plus CxxThrow. Member names come from the reference Overridable layout
 // (m_nextOverride +0x04, m_isAllocatedOverride +0x08); the three string
 // literals and the field-table address are retail-measured.
+
+// Use the CRT placement operations inline without exporting this optimized
+// copy over retail's separately compiled provider. No placement cleanup
+// import is referenced: this unit disables C++ EH.
+#define __PLACEMENT_NEW_INLINE
+__declspec(dllimport) __forceinline void *operator new(unsigned int, void *where) throw() { return where; }
+__declspec(dllimport) __forceinline void operator delete(void *, void *) throw() {}
+
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
+#include <stl/_algobase.h>
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
 
 #include <vector>
 
@@ -38,7 +58,7 @@ public:
 	const char *getNextToken(const char *seps);
 	int scanInt(const char *token);
 	void initFromINI(void *what, const FieldParse *table);
-	INILoadType getLoadType() const { return m_loadType; }
+	__declspec(dllimport) INILoadType getLoadType() const { return m_loadType; }
 
 private:
 	unsigned char m_pad[8];
@@ -61,7 +81,7 @@ class RankInfo : public Overridable
 public:
 	RankInfo();
 	RankInfo &operator=(const RankInfo &that);
-	void setNextOverride(RankInfo *o) { m_nextOverride = o; }
+	void setNextOverride(RankInfo *rankInfo) { m_nextOverride = rankInfo; }
 	void markAsOverride() { m_isAllocatedOverride = true; }
 
 private:
@@ -83,14 +103,15 @@ private:
 
 extern RankInfoStore *TheRankInfoStore;
 
-extern "C" void rva002f681_fill(void *dst, int code, const char *fmt, ...);
-__declspec(noreturn) void __stdcall _CxxThrowException(void *pExc, void *pInfo);
-
-// Address anchor only: each throw site pushes this object's address as an
-// immediate (DIR32, copied from retail's throwinfo at 0xCFE2FC). Its content
-// is never compared; the real chain lives in the retail image.
-struct RankInfoThrowInfoAnchor { int a; int b; int c; int d; };
-static const RankInfoThrowInfoAnchor rankInfoThrowInfoAnchor = { 0, 0, 0, 0 };
+class INIException
+{
+public:
+	char *mFailureMessage;
+	int mErrorCode;
+	INIException(int argCount, const char *format, ...);
+	INIException(const INIException &that);
+	~INIException();
+};
 
 // ?friend_parseRankDefinition@RankInfoStore@@SAXPAVINI@@@Z
 void RankInfoStore::friend_parseRankDefinition(INI *ini)
@@ -105,17 +126,13 @@ void RankInfoStore::friend_parseRankDefinition(INI *ini)
 			// NOTE: unsigned comparison against size() (retail ja, not jg).
 			if (rank < 1 || (unsigned int)rank > TheRankInfoStore->m_rankInfos.size())
 			{
-				char exc[8];
-				rva002f681_fill(exc, 3, "Rank not found in map.ini");
-				_CxxThrowException(exc, (void *)&rankInfoThrowInfoAnchor);
+				throw INIException(3, "Rank not found in map.ini");
 			}
 
 			RankInfo *info = TheRankInfoStore->m_rankInfos[rank - 1];
 			if (!info)
 			{
-				char exc[8];
-				rva002f681_fill(exc, 3, "Rank not found in map.ini");
-				_CxxThrowException(exc, (void *)&rankInfoThrowInfoAnchor);
+				throw INIException(3, "Rank not found in map.ini");
 			}
 
 			RankInfo *newInfo = new RankInfo;
@@ -129,16 +146,14 @@ void RankInfoStore::friend_parseRankDefinition(INI *ini)
 			info->setNextOverride(newInfo);
 			newInfo->markAsOverride(); // must do AFTER the copy
 
-			ini->initFromINI(newInfo, reinterpret_cast<const FieldParse *>(0x00BE2870));
+			ini->initFromINI(newInfo, reinterpret_cast<const FieldParse *>((unsigned int)&g_00BE2870));
 			//TheRankInfoStore->m_rankInfos.push_back(newInfo);	// NO, BAD, WRONG -- don't add in this case.
 		}
 		else
 		{
 			if (rank != (Int)TheRankInfoStore->m_rankInfos.size() + 1)
 			{
-				char exc[8];
-				rva002f681_fill(exc, 3, "Ranks must increase monotonically");
-				_CxxThrowException(exc, (void *)&rankInfoThrowInfoAnchor);
+				throw INIException(3, "Ranks must increase monotonically");
 			}
 			// NOTE: the push_back argument rides a copy, not `info` itself.
 			// `info` stays register-held (push eax, xor-eax null path) while
@@ -149,7 +164,10 @@ void RankInfoStore::friend_parseRankDefinition(INI *ini)
 			// an address-taken variable pins early, a copy sinks late).
 			RankInfo *info = new RankInfo;
 			RankInfo *const storedInfo = info;
-			ini->initFromINI(info, reinterpret_cast<const FieldParse *>(0x00BE2870));
+			ini->initFromINI(info, reinterpret_cast<const FieldParse *>((unsigned int)&g_00BE2870));
 			TheRankInfoStore->m_rankInfos.push_back(storedInfo);		}
 	}
 }
+
+// ?TheRankInfoStore@@3PAVRankInfoStore@@A: matched references place it at VA 0xdfe0ec.
+RankInfoStore * TheRankInfoStore = 0;

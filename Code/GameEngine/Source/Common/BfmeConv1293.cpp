@@ -27,3 +27,7 @@ void BfmeThingSKA::bfmeGoSKA(int a, int b)
 	m_bfmeSink->bfmeSendSKA(0x504c5654, a,
 		m_bfmeSub->bfmeTestSKA(b) == 0 ? 0x6e74666e : 0);
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeUseSB@BfmeSinkSB@@QAEXPAX0@Z=?bfmeGoSKA@BfmeThingSKA@@QAEXHH@Z")

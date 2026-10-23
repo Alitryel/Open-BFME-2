@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 // Open-BFME5: ExperienceLevelCreate module ctor.
 // Out-of-line base MI, then three most-derived vtbls at +0/+0xC/+0x10.
@@ -47,3 +47,9 @@ ExperienceLevelCreate::ExperienceLevelCreate(Thing *thing, const ModuleData *mod
 	: ExperienceLevelCreateBase(thing, moduleData)
 {
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?experienceLevelCreateIface2Anchor@ExperienceLevelCreateIface2@@UAEXXZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?experienceLevelCreateIface1Anchor@ExperienceLevelCreateIface1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

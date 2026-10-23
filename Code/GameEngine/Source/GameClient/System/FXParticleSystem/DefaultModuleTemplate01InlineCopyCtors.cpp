@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /GX- /O1 /Ob2
+// cl: /DNDEBUG /MD /GX- /Ob2
 
 // Default-module template 01 (DefaultAlpha) copy constructors.
 // Inner 0x003AEA42 (97B): shared base 0x003AEEB3 plus generated DefaultAlpha
@@ -32,12 +32,24 @@ struct AlphaKeys
 	FXKeyframe m_keys[8];
 };
 
-extern "C" char DefaultAlphaModuleInfo_vtbl;
+// DefaultAlphaModuleInfo_vtbl: matched references place it at VA 0xc1ba60 (retail .rdata value -77).
+extern "C" char DefaultAlphaModuleInfo_vtbl = -77;
 
 class DefaultAlphaModuleInfo
 {
 public:
 	__forceinline DefaultAlphaModuleInfo(const DefaultAlphaModuleInfo &that)
+	{
+		*(void **)this = &DefaultAlphaModuleInfo_vtbl;
+		*(struct AlphaKeys *)((char *)this + 4) =
+			*(const struct AlphaKeys *)((const char *)&that + 4);
+	}
+	// LINK: same-body helper under a TU-unique name (identical inlined
+	// bytes: vtable store plus 128B member copy). The Rva003AEA42 copy ctor
+	// below calls the qualified copy ctor, inlining it but still emitting the
+	// loser COMDAT (copy unproven, differs from kept). Rebinding there emits
+	// only this unique (trivially kept) copy. No flags touched.
+	__forceinline void bfme_copy_from(const DefaultAlphaModuleInfo &that)
 	{
 		*(void **)this = &DefaultAlphaModuleInfo_vtbl;
 		*(struct AlphaKeys *)((char *)this + 4) =
@@ -51,13 +63,16 @@ private:
 
 }
 
-extern "C" char Rva003AEA42_v0a;
+// Rva003AEA42_v0a: matched references place it at VA 0xc1d5e8 (retail .rdata value 24).
+extern "C" char Rva003AEA42_v0a = 24;
 extern "C" char Rva003AEA42_v14a;
 extern "C" char Rva003AEA42_v18a;
-extern "C" char Rva003AEA42_v0b;
+// Rva003AEA42_v0b: matched references place it at VA 0xc1d5d4 (retail .rdata value -10).
+extern "C" char Rva003AEA42_v0b = -10;
 extern "C" char Rva003AEA42_v14b;
 extern "C" char Rva003AEA42_v18b;
-extern "C" char Rva003AEA42_vsub;
+// Rva003AEA42_vsub: matched references place it at VA 0xc1d5c4 (retail .rdata value -114).
+extern "C" char Rva003AEA42_vsub = -114;
 
 class Rva003AEA42
 {
@@ -83,7 +98,7 @@ Rva003AEA42::Rva003AEA42(const Rva003AEA42 &that)
 	*(void **)this = &Rva003AEA42_v0a;
 	*(void **)((char *)this + 0x14) = &Rva003AEA42_v14a;
 	*(void **)((char *)this + 0x18) = &Rva003AEA42_v18a;
-	sub->DefaultAlphaModuleInfo::DefaultAlphaModuleInfo(
+	sub->bfme_copy_from(
 		*(const FXParticleSystem::DefaultAlphaModuleInfo *)sub_src);
 	*(void **)this = &Rva003AEA42_v0b;
 	*(void **)((char *)this + 0x14) = &Rva003AEA42_v14b;
@@ -93,3 +108,11 @@ Rva003AEA42::Rva003AEA42(const Rva003AEA42 &that)
 
 // Inner 0x003AEA42 only; outer 0x003AEA15 raced (sibling Rva003AEA15CopyCtor.cpp
 // won 8c789e53b with the same Rva owner for the middle). Dropped our outer dup.
+// _Rva003AEA42_v18b: the global at VA 0xc1c780 is ?vftable_0112B89C@@3HA.
+#pragma comment(linker, "/alternatename:_Rva003AEA42_v18b=?vftable_0112B89C@@3HA")
+// _Rva003AEA42_v14a: the global at VA 0xc1c780 is ?vftable_0112B89C@@3HA.
+#pragma comment(linker, "/alternatename:_Rva003AEA42_v14a=?vftable_0112B89C@@3HA")
+// _Rva003AEA42_v18a: the global at VA 0xc1c780 is ?vftable_0112B89C@@3HA.
+#pragma comment(linker, "/alternatename:_Rva003AEA42_v18a=?vftable_0112B89C@@3HA")
+// _Rva003AEA42_v14b: the global at VA 0xc1c780 is ?vftable_0112B89C@@3HA.
+#pragma comment(linker, "/alternatename:_Rva003AEA42_v14b=?vftable_0112B89C@@3HA")

@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /Ireference/shims/zh_outofline /Ireference/shims/updatemodule_ctor /Ireference/shims/bfme2_vector3 /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
 // stlport
 // Ported verbatim from the Generals Zero Hour reference (GameEngine/Source/GameLogic/Object/Behavior/DumbProjectileBehavior.cpp); this unit had no counterpart under Code/.
 #define Matrix4x4 Matrix4  // BFME renamed it
@@ -32,6 +32,9 @@
 // Author: Steven Johnson, July 2002
 // Desc:   
 
+// Select the frozen Vector3 view before transitive donor headers. Its
+// Normalize/Length COMDATs are independently verified at retail RVAs.
+#include "vector3.h"
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
 
 #include "Common/BezierSegment.h"
@@ -51,6 +54,51 @@
 #include "GameLogic/Module/MissileAIUpdate.h"
 #include "GameLogic/Module/PhysicsUpdate.h"
 #include "GameLogic/Weapon.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+// bfme link decl-only end
+
+// BFME 2's Object keeps its behavior list at +0x244 (the matched
+// Object::findModule 0x0028B6D6 walks it there), its contain module at +0x250
+// and its body module at +0x254; this tree's Zero Hour Object.h has +0x18C,
+// +0x190 and +0x194. This unit reads them through these functions instead of
+// the header's inline getters, whose Zero Hour copies would otherwise come
+// early in link order and displace every BFME 2 unit's copy (retail has no
+// out-of-line Object getter: the 7-byte bodies at 0x00313E8C/93/9A are
+// GameWindow text-colour getters).
+static BehaviorModule **getRetailBehaviorModules( const Object *obj ) { return *(BehaviorModule ** const *)((const char *)obj + 0x244); }
+static ContainModuleInterface *getRetailContain( const Object *obj ) { return *(ContainModuleInterface * const *)((const char *)obj + 0x250); }
+static BodyModuleInterface *getRetailBodyModule( const Object *obj ) { return *(BodyModuleInterface * const *)((const char *)obj + 0x254); }
+
+// vector<Coord3D>::erase is one shared STLport instantiation in retail
+// (0x002A133B: BezierSegment's clear, vector<Coord3D>::resize 0x000CA2F3 and
+// AIStateMachine's ctor/clear all call it) and it passes its copy tag by
+// reference. This unit's bfmealloc headers would instantiate a by-value-tag
+// copy, the first of that name in link order, so the constructor's
+// m_flightPath.clear() uses the shared instantiation instead of emitting one.
+template <> Coord3D *std::vector<Coord3D>::erase( Coord3D *first, Coord3D *last );
+
+// This unit imports free (no /D_CRTIMP=), so its out-of-line vector<Coord3D>
+// deallocation helpers call __imp__free where every other unit's call _free.
+// Nothing here calls them out of line, but as the first copies in link order
+// they displaced the rest. Declared imported and force-inlined (bodies
+// verbatim from the headers), they are not emitted.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<Coord3D>::deallocate(Coord3D *__p, size_t __n) const {
+  _STLP_ASSERT( (__p == 0) == (__n == 0) )
+    if (__p != 0) ::free((void*)__p);
+}
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<Coord3D*, Coord3D, allocator<Coord3D> >::deallocate(Coord3D *__p, size_t __n) {
+    __stl_alloc_rebind(__STATIC_CAST(_Base&, *this),(Coord3D*)0).deallocate(__p, __n);
+}
+template <> __declspec(dllimport) __forceinline
+_Vector_base<Coord3D, allocator<Coord3D> >::~_Vector_base() {
+    if (_M_start !=0)
+    _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start);
+}
+}
 
 #ifdef _INTERNAL
 // for occasional debugging...
@@ -84,9 +132,9 @@ DumbProjectileBehaviorModuleData::DumbProjectileBehaviorModuleData() :
 
 //-----------------------------------------------------------------------------
 // ?buildFieldParse@DumbProjectileBehaviorModuleData@@ present-unmatched
-void DumbProjectileBehaviorModuleData::buildFieldParse(MultiIniFieldParse& p)
+void DumbProjectileBehaviorModuleData::buildFieldParse(MultiIniFieldParse& multiIniFieldParse)
 {
-  UpdateModuleData::buildFieldParse(p);
+  UpdateModuleData::buildFieldParse(multiIniFieldParse);
 
 	static const FieldParse dataFieldParse[] = 
 	{
@@ -111,7 +159,7 @@ void DumbProjectileBehaviorModuleData::buildFieldParse(MultiIniFieldParse& p)
 		{ 0, 0, 0, 0 }
 	};
 
-  p.add(dataFieldParse);
+  multiIniFieldParse.add(dataFieldParse);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -346,7 +394,7 @@ void DumbProjectileBehavior::projectileLaunchAtObjectOrPosition(
 	const ParticleSystemTemplate* exhaustSysOverride
 )
 {
-	const DumbProjectileBehaviorModuleData* d = getDumbProjectileBehaviorModuleData();
+	const DumbProjectileBehaviorModuleData* dumbProjectileBehaviorModuleData = getDumbProjectileBehaviorModuleData();
 
 	DEBUG_ASSERTCRASH(specificBarrelToUse>=0, ("specificBarrelToUse must now be explicit"));
 
@@ -354,7 +402,7 @@ void DumbProjectileBehavior::projectileLaunchAtObjectOrPosition(
 	m_extraBonusFlags = launcher ? launcher->getWeaponBonusCondition() : 0;
 	m_victimID = victim ? victim->getID() : INVALID_ID;
 	m_detonationWeaponTmpl = detWeap;
-	m_lifespanFrame = TheGameLogic->getFrame() + d->m_maxLifespan;
+	m_lifespanFrame = TheGameLogic->getFrame() + dumbProjectileBehaviorModuleData->m_maxLifespan;
 
 	Object* projectile = getObject();
 
@@ -369,7 +417,7 @@ void DumbProjectileBehavior::projectileLaunchAtObjectOrPosition(
 // ?projectileFireAtObjectOrPosition@DumbProjectileBehavior@@ present-unmatched
 void DumbProjectileBehavior::projectileFireAtObjectOrPosition( const Object *victim, const Coord3D *victimPos, const WeaponTemplate *detWeap, const ParticleSystemTemplate* exhaustSysOverride )
 {
-	const DumbProjectileBehaviorModuleData* d = getDumbProjectileBehaviorModuleData();
+	const DumbProjectileBehaviorModuleData* dumbProjectileBehaviorModuleData = getDumbProjectileBehaviorModuleData();
 	Object* projectile = getObject();
 	Real weaponSpeed = detWeap ? detWeap->getWeaponSpeed() : 0.0f;
 	Real minWeaponSpeed = detWeap ? detWeap->getMinWeaponSpeed() : 0.0f;
@@ -396,7 +444,7 @@ void DumbProjectileBehavior::projectileFireAtObjectOrPosition( const Object *vic
 	}
 	
  	PhysicsBehavior* physics = projectile->getPhysics();
- 	if ( d->m_tumbleRandomly && physics)
+ 	if ( dumbProjectileBehaviorModuleData->m_tumbleRandomly && physics)
 	{
 		physics->setPitchRate( GameLogicRandomValueReal( -1.0f/PI, 1.0f/PI ) );
 		physics->setYawRate( GameLogicRandomValueReal( -1.0f/PI, 1.0f/PI ) );
@@ -419,7 +467,7 @@ void DumbProjectileBehavior::projectileFireAtObjectOrPosition( const Object *vic
 // ?calcFlightPath@DumbProjectileBehavior@@ present-unmatched
 Bool DumbProjectileBehavior::calcFlightPath(Bool recalcNumSegments)
 {
-	const DumbProjectileBehaviorModuleData* d = getDumbProjectileBehaviorModuleData();
+	const DumbProjectileBehaviorModuleData* dumbProjectileBehaviorModuleData = getDumbProjectileBehaviorModuleData();
 
 	Coord3D controlPoints[4];
 	//First point is us, last point is them
@@ -440,10 +488,19 @@ Bool DumbProjectileBehavior::calcFlightPath(Bool recalcNumSegments)
 	targetVector.Y = controlPoints[3].y - controlPoints[0].y;
 	targetVector.Z = controlPoints[3].z - controlPoints[0].z;
 
-	Real targetDistance = targetVector.Length();
+	Real targetDistance = WWMath::Sqrt(
+		targetVector.X * targetVector.X + targetVector.Y * targetVector.Y + targetVector.Z * targetVector.Z);
 	targetVector.Normalize();
-	Vector3 firstPointAlongLine = targetVector * (targetDistance * d->m_firstPercentIndent );
-	Vector3 secondPointAlongLine = targetVector * (targetDistance * d->m_secondPercentIndent );
+	Real firstIndent = targetDistance * dumbProjectileBehaviorModuleData->m_firstPercentIndent;
+	Vector3 firstPointAlongLine;
+	firstPointAlongLine.X = targetVector.X * firstIndent;
+	firstPointAlongLine.Y = targetVector.Y * firstIndent;
+	firstPointAlongLine.Z = targetVector.Z * firstIndent;
+	Real secondIndent = targetDistance * dumbProjectileBehaviorModuleData->m_secondPercentIndent;
+	Vector3 secondPointAlongLine;
+	secondPointAlongLine.X = targetVector.X * secondIndent;
+	secondPointAlongLine.Y = targetVector.Y * secondIndent;
+	secondPointAlongLine.Z = targetVector.Z * secondIndent;
 
 	controlPoints[1].x = firstPointAlongLine.X + controlPoints[0].x;// add world start to offset along the origin based vector
 	controlPoints[1].y = firstPointAlongLine.Y + controlPoints[0].y;
@@ -453,8 +510,8 @@ Bool DumbProjectileBehavior::calcFlightPath(Bool recalcNumSegments)
 	// Z's are determined using the highest intervening height so they won't hit hills, low end bounded by current Zs
 	highestInterveningTerrain = max( highestInterveningTerrain, controlPoints[0].z );
 	highestInterveningTerrain = max( highestInterveningTerrain, controlPoints[3].z );
-	controlPoints[1].z = highestInterveningTerrain + d->m_firstHeight;
-	controlPoints[2].z = highestInterveningTerrain + d->m_secondHeight;
+	controlPoints[1].z = highestInterveningTerrain + dumbProjectileBehaviorModuleData->m_firstHeight;
+	controlPoints[2].z = highestInterveningTerrain + dumbProjectileBehaviorModuleData->m_secondHeight;
 
 	// With four control points, we have a curve.  We will decide how many frames we want to take to get to the target,
 	// and fill our vector with those curve points.
@@ -480,7 +537,7 @@ Bool DumbProjectileBehavior::calcFlightPath(Bool recalcNumSegments)
 // ?projectileHandleCollision@DumbProjectileBehavior@@ present-unmatched
 Bool DumbProjectileBehavior::projectileHandleCollision( Object *other )
 {
-	const DumbProjectileBehaviorModuleData* d = getDumbProjectileBehaviorModuleData();
+	const DumbProjectileBehaviorModuleData* dumbProjectileBehaviorModuleData = getDumbProjectileBehaviorModuleData();
 
 	if (other != NULL)
 	{
@@ -493,9 +550,9 @@ Bool DumbProjectileBehavior::projectileHandleCollision( Object *other )
 			return true;
 		}
 
-		if (d->m_garrisonHitKillCount > 0)
+		if (dumbProjectileBehaviorModuleData->m_garrisonHitKillCount > 0)
 		{
-			ContainModuleInterface* contain = other->getContain();
+			ContainModuleInterface* contain = getRetailContain(other);
 			if( contain && contain->getContainCount() > 0 && contain->isGarrisonable() && !contain->isImmuneToClearBuildingAttacks() )
 			{
 				Int numKilled = 0;
@@ -504,10 +561,10 @@ Bool DumbProjectileBehavior::projectileHandleCollision( Object *other )
 				const ContainedItemsList* items = contain->getContainedItemsList();
 				if (items)
 				{
-					for (ContainedItemsList::const_iterator it = items->begin(); *it != NULL && numKilled < d->m_garrisonHitKillCount; )
+					for (ContainedItemsList::const_iterator it = items->begin(); *it != NULL && numKilled < dumbProjectileBehaviorModuleData->m_garrisonHitKillCount; )
 					{
 						Object* thingToKill = *it++;
-						if (!thingToKill->isEffectivelyDead() && thingToKill->isKindOfMulti(d->m_garrisonHitKillKindof, d->m_garrisonHitKillKindofNot))
+						if (!thingToKill->isEffectivelyDead() && thingToKill->isKindOfMulti(dumbProjectileBehaviorModuleData->m_garrisonHitKillKindof, dumbProjectileBehaviorModuleData->m_garrisonHitKillKindofNot))
 						{
 							//DEBUG_LOG(("Killed a garrisoned unit (%08lx %s) via Flash-Bang!\n",thingToKill,thingToKill->getTemplate()->getName().str()));
 							if (projectileLauncher)
@@ -521,7 +578,7 @@ Bool DumbProjectileBehavior::projectileHandleCollision( Object *other )
 				if (numKilled > 0)
 				{
 					// note, fx is played at center of building, not at grenade's location
-					FXList::doFXObj(d->m_garrisonHitKillFX, other, NULL);
+					FXList::doFXObj(dumbProjectileBehaviorModuleData->m_garrisonHitKillFX, other, NULL);
 
 					getObject()->getControllingPlayer()->getAcademyStats()->recordClearedGarrisonedBuilding();
 
@@ -562,7 +619,7 @@ void DumbProjectileBehavior::detonate()
 			damageInfo.in.m_damageType = DAMAGE_UNRESISTABLE;
 			damageInfo.in.m_deathType = DEATH_DETONATED;
 			damageInfo.in.m_sourceID = INVALID_ID;
-			damageInfo.in.m_amount = obj->getBodyModule()->getMaxHealth();
+			damageInfo.in.m_amount = getRetailBodyModule(obj)->getMaxHealth();
 			obj->attemptDamage( &damageInfo );
 		}
 		else
@@ -578,7 +635,7 @@ void DumbProjectileBehavior::detonate()
 		damageInfo.in.m_damageType = DAMAGE_UNRESISTABLE;
 		damageInfo.in.m_deathType = DEATH_DETONATED;
 		damageInfo.in.m_sourceID = INVALID_ID;
-		damageInfo.in.m_amount = obj->getBodyModule()->getMaxHealth();
+		damageInfo.in.m_amount = getRetailBodyModule(obj)->getMaxHealth();
 		obj->attemptDamage( &damageInfo );
 	}
 
@@ -596,7 +653,7 @@ void DumbProjectileBehavior::detonate()
 // ?update@DumbProjectileBehavior@@ present-unmatched
 UpdateSleepTime DumbProjectileBehavior::update()
 {
-	const DumbProjectileBehaviorModuleData* d = getDumbProjectileBehaviorModuleData();
+	const DumbProjectileBehaviorModuleData* dumbProjectileBehaviorModuleData = getDumbProjectileBehaviorModuleData();
 
 	if (m_lifespanFrame != 0 && TheGameLogic->getFrame() >= m_lifespanFrame)
 	{
@@ -614,7 +671,7 @@ UpdateSleepTime DumbProjectileBehavior::update()
 		return UPDATE_SLEEP_NONE;
 	}
 
-	if (m_victimID != INVALID_ID && d->m_flightPathAdjustDistPerFrame > 0.0f)
+	if (m_victimID != INVALID_ID && dumbProjectileBehaviorModuleData->m_flightPathAdjustDistPerFrame > 0.0f)
 	{
 		Object* victim = TheGameLogic->findObjectByID(m_victimID);
 		if (victim)
@@ -629,8 +686,8 @@ UpdateSleepTime DumbProjectileBehavior::update()
 			if (distVictimMovedSqr > 0.1f)
 			{
 				Real distVictimMoved = sqrtf(distVictimMovedSqr);
-				if (distVictimMoved > d->m_flightPathAdjustDistPerFrame)
-					distVictimMoved = d->m_flightPathAdjustDistPerFrame;
+				if (distVictimMoved > dumbProjectileBehaviorModuleData->m_flightPathAdjustDistPerFrame)
+					distVictimMoved = dumbProjectileBehaviorModuleData->m_flightPathAdjustDistPerFrame;
 				delta.normalize();
 				m_flightPathEnd.x += distVictimMoved * delta.x;
 				m_flightPathEnd.y += distVictimMoved * delta.y;
@@ -648,7 +705,7 @@ UpdateSleepTime DumbProjectileBehavior::update()
 	//Otherwise, continue to force the flight path
 	Coord3D flightStep = m_flightPath[m_currentFlightPathStep];
 
-	if (d->m_orientToFlightPath && (!d->m_tumbleRandomly) )
+	if (dumbProjectileBehaviorModuleData->m_orientToFlightPath && (!dumbProjectileBehaviorModuleData->m_tumbleRandomly) )
   {
     if ( m_currentFlightPathStep > 0)
 	  {
@@ -659,10 +716,17 @@ UpdateSleepTime DumbProjectileBehavior::update()
 
 		  Coord3D prevPos = m_flightPath[m_currentFlightPathStep - 1];
 
-		  Vector3 curDir(flightStep.x - prevPos.x, flightStep.y - prevPos.y, flightStep.z - prevPos.z);
+		  Vector3 curDir;
+		  curDir.X = flightStep.x - prevPos.x;
+		  curDir.Y = flightStep.y - prevPos.y;
+		  curDir.Z = flightStep.z - prevPos.z;
 		  curDir.Normalize();	// buildTransformMatrix wants it this way
       Matrix3D orientMtx;
-		  orientMtx.buildTransformMatrix(Vector3(flightStep.x, flightStep.y, flightStep.z), curDir);
+		  Vector3 flightPosition;
+		  flightPosition.X = flightStep.x;
+		  flightPosition.Y = flightStep.y;
+		  flightPosition.Z = flightStep.z;
+		  orientMtx.buildTransformMatrix(flightPosition, curDir);
 		  getObject()->setTransformMatrix(&orientMtx);
     }
     else // oops! how do we orient the projectile on the zeroeth frame? This didn't matter until we started using the
@@ -672,10 +736,17 @@ UpdateSleepTime DumbProjectileBehavior::update()
 		  Coord3D prevPos = m_flightPath[0];
 		  Coord3D curPos = m_flightPath[1];
 
-		  Vector3 curDir(curPos.x - prevPos.x, curPos.y - prevPos.y, curPos.z - prevPos.z);
+		  Vector3 curDir;
+		  curDir.X = curPos.x - prevPos.x;
+		  curDir.Y = curPos.y - prevPos.y;
+		  curDir.Z = curPos.z - prevPos.z;
 		  curDir.Normalize();	// buildTransformMatrix wants it this way
       Matrix3D orientMtx;
-		  orientMtx.buildTransformMatrix(Vector3(flightStep.x, flightStep.y, flightStep.z), curDir);
+		  Vector3 flightPosition;
+		  flightPosition.X = flightStep.x;
+		  flightPosition.Y = flightStep.y;
+		  flightPosition.Z = flightStep.z;
+		  orientMtx.buildTransformMatrix(flightPosition, curDir);
 		  getObject()->setTransformMatrix(&orientMtx);
     }
 

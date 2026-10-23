@@ -20,9 +20,11 @@ class GeometryInfo
 {
 public:
 	void expandFootprint(float radius);
-	void calcBoundingStuff();
 	GeometryShape *shapeBegin() { return *(GeometryShape **)((char *)this + 0x2c); }
 	GeometryShape *shapeEnd() { return *(GeometryShape **)((char *)this + 0x30); }
+private:
+	void calcBoundingStuff();
+	friend class GeometryShape;
 };
 
 void GeometryInfo::expandFootprint(float radius)

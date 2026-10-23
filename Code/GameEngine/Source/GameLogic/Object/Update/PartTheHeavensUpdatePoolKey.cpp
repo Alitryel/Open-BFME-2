@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004AC942@PartTheHeavensUpdate@@SA?AW4NameKeyType@@XZ @0x4AC942
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@PartTheHeavensUpdate@@UBE?AW4NameKeyType@@XZ @0x4AC942
 // (69B): cached pool-name key for PartTheHeavensUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("PartTheHeavensUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class PartTheHeavensUpdate
 {
 public:
-	static NameKeyType rva0004AC942();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004AC942@PartTheHeavensUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType PartTheHeavensUpdate::rva0004AC942()
+// ?getModuleNameKey@PartTheHeavensUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType PartTheHeavensUpdate::getModuleNameKey() const
 {
 	static NameKeyType ThePartTheHeavensUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("PartTheHeavensUpdate");

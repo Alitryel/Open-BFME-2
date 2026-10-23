@@ -82,6 +82,15 @@ public:
     Pointer _M_data;
 };
 
+// _STLP_alloc_proxy::allocate otherwise emits a per-TU COMDAT that loses to
+// another unit's copy in link order; this dllimport+forceinline specialization
+// keeps the body inline (same text as the template member).
+template <> __declspec(dllimport) __forceinline
+char *_STLP_alloc_proxy<char *, char, allocator<char> >::allocate(size_t count)
+{
+    return count != 0 ? allocator<char>::allocate(count * sizeof(char), 0) : 0;
+}
+
 template <class CharT, class Traits, class Alloc>
 class basic_string
 {

@@ -1,4 +1,4 @@
-// ?bfmeInvoke@Gen_009EBA60Target@@QAEXPAX0@Z
+// ?RegisterDependencies@Gen_009EBA60Target@@QAEXPAX0@Z
 // cl: /DNDEBUG /MD /EHsc /O2 /Ob2 /D_STLP_USE_STATIC_LIB
 // stlport
 //
@@ -27,6 +27,17 @@
 #define _STLP_USE_STATIC_LIB 1
 #include <hash_map>
 #include <set>
+
+// The hash table reads its bucket vector's size() and begin() const inline; their
+// unreferenced copies here differed from retail's. Declared imported and
+// force-inlined, they are not emitted.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+size_t vector<void *>::size() const { return size_t(this->_M_finish - this->_M_start); }
+template <> __declspec(dllimport) __forceinline
+vector<void *>::const_iterator vector<void *>::begin() const { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline void *const &vector<void *>::operator[](size_t __n) const { return *(begin() + __n); }
+}
 
 struct CRITICAL_SECTION
 {
@@ -90,7 +101,7 @@ struct GenAssetRecord
 class Gen_009EBA60Target
 {
 public:
-	void bfmeInvoke(void *name, void *source);
+	void RegisterDependencies(void *name, void *source);
 
 private:
 	char m_prefix[0x34];
@@ -100,7 +111,7 @@ private:
 	NameKeyGenerator *m_hash_context;
 };
 
-void Gen_009EBA60Target::bfmeInvoke(void *name, void *source)
+void Gen_009EBA60Target::RegisterDependencies(void *name, void *source)
 {
 	if (name == 0)
 		return;

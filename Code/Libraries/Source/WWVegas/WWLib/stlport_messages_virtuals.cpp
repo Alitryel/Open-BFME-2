@@ -1,4 +1,4 @@
-// cl: /O2 /EHsc /MD /D_STLP_USE_STATIC_LIB
+// cl: /EHsc /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // messages<char> and messages<wchar_t> are pure forwarders onto a _Messages
@@ -14,7 +14,30 @@
 // the call offsets were known first and the declaration order follows from
 // them.
 
+#include <string>
+// bfme link decl-only begin
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_deallocate_block@?$_String_base@GV?$allocator@G@_STL@@@_STL@@QAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _String_base<unsigned short, allocator<unsigned short> >::_M_deallocate_block(); }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@G@_STL@@QBEXPAGI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void allocator<unsigned short>::deallocate(unsigned short *, size_t) const; }
+// Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL {
+template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char*, size_t);
+}
+// Nothing here destroys a string out of line: keep the string destructors
+// inline, since this unit's own copies of them are not retail's.
+namespace _STL {
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline _String_base<unsigned short, allocator<unsigned short> >::~_String_base() { _M_deallocate_block(); }
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline basic_string<char, char_traits<char>, allocator<char> >::~basic_string() { _Destroy(this->_M_start, this->_M_finish + 1); }
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::~basic_string() { _Destroy(this->_M_start, this->_M_finish + 1); }
+}
 #include <locale>
+#include <cstddef>
 
 namespace _STL
 {

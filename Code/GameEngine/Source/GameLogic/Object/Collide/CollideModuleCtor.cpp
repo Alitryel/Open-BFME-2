@@ -59,7 +59,20 @@ public:
 };
 
 // ??0CollideModule@@QAE@PAVThing@@PBVModuleData@@@Z @0x004BB702
-CollideModule::CollideModule(Thing *thing, const ModuleData *moduleData) :
+inline CollideModule::CollideModule(Thing *thing, const ModuleData *moduleData) :
 	BehaviorModule(thing, moduleData)
 {
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitCollideModuleCtor@@YAXPAVCollideModule@@PAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitCollideModuleCtor(CollideModule *collideModule, Thing *thing, const ModuleData *moduleData)
+{
+	collideModule->CollideModule::CollideModule(thing, moduleData);
+}
+#pragma inline_depth()
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?getCollide@CollideModule@@UAEPAVCollideModuleInterface@@XZ=?Rva004BB733Get@@YAHXZ")

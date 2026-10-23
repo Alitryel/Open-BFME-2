@@ -1,12 +1,52 @@
-// cl: /G7 /arch:SSE /Ireference/shims/bfmecamera /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
-// BFME's Render2D layout predates the later vendored class. Keep the retail
-// layout and nonvirtual Reset ABI local to this translation unit.
+// cl: /G7 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// stlport
+// BFME2 retail's Render2D layout uses an STLport vector of 0x74-byte BfmeRender2DBatch
+// records. BfmeRender2DBatch is a descriptive name: retail stride and fields
+// establish the batch layout, not the former ProxyClass name shared with
+// unrelated WW3D types. The live 1.06.2429.30210 snapshot has the same .text
+// as the audited image; Ghidra shows Reset clearing Batches at +0x34, appending one initialized
+// BfmeRender2DBatch, then selecting CurrentBatch from Texture at +0x40.
+//
+// Reset (0x00119F00) and the vector<BfmeRender2DBatch> machinery it instantiates sit
+// together at 0x00118E00..0x0011A040, and every caller of them is in this
+// Render2D unit (0x00118800..0x0011C1C0): push_back 0x00119EC0 and its
+// _M_insert_overflow 0x00119D80, clear 0x00119D70 / _M_clear 0x00119CC0,
+// operator[] 0x00119A60, the member-wise copy constructor 0x00119A80 (handle
+// AddRef, one rep movsd per range) and its _Construct / uninitialized_copy /
+// uninitialized_fill_n / allocate helpers. None is folded with another type's.
+// The STLport allocator is BFME 2's (bytes, hint) pair (bfmealloc shim), whose
+// tag arguments are by value, as __copy_ptrs 0x00119BB0 is mangled.
+// Reset writes the init loops itself: a forceinline helper spends the inline
+// budget and leaves push_back's copy constructor out of line, unlike retail.
+// /GX rather than /EHsc: ~vector (0x00119C00) leaves its EH state (-1) before
+// the storage free, so that free is a call that may throw; under /EHsc the C
+// free counts as nothrow and the store is dropped. ~Render2DClass, which frees
+// its raw arrays through the msvcr71 import, is Render2DClassDestructor.cpp.
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/texture.h
+// Retail keeps one unsigned max, RVA 0x00013740 (the vendored STLport row). This unit's
+// flags (/G7 /arch:SSE) compile a different copy, and retail kept another unit's. This unit-local
+// overload keeps the inlined code and offers the link no second copy.
+// Keep STLport allocation calls native while the raw index array uses
+// imported realloc. Declare that one CRT import separately below.
+#define realloc bfmeUnusedReallocDeclaration
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
+#include <vector>
+#include <string.h>
+#include <stdlib.h>
+#undef realloc
+extern "C" __declspec(dllimport) void *__cdecl realloc(void *, size_t);
+
 class TextureBaseClass
 {
 public:
-	void Add_Ref() { ++RefCount; }
+	void Add_Ref();
 	void Release_Ref();
 
 	int Unknown00;
@@ -14,136 +54,96 @@ public:
 	unsigned short Unknown06;
 };
 
+typedef unsigned long BfmeUInt32;
+
+struct BfmeRenderVertex
+{
+	float x;
+	float y;
+	float z;
+	int NextRun;
+	int IndexStart;
+	int IndexCount;
+	BfmeUInt32 color;
+	float u;
+	float v;
+	unsigned char m_unmodelled_24[0x08];
+};
+
+
 class Render2DRawArray
 {
 public:
 	void Reset_Active() { Count = 0; }
+    void *rva00118CC0(int count);
+    BfmeRenderVertex &operator[](unsigned int index) {
+        if (index >= Count) return Data[0];
+        return Data[index];
+    }
 
-	void *Data;
-	int Size;
-	int Count;
+	BfmeRenderVertex *Data;
+	unsigned int Size;
+	unsigned int Count;
 	int GrowthStep;
 };
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/proxy.h
-class ProxyClass
+// BFME 2's owning texture handle: copy adds a reference, destruction and
+// reassignment release the old one (16-bit count at +4, release 0x0061ED10).
+template<class T>
+class RefCountPtr
 {
 public:
-	__forceinline ProxyClass();
-	__forceinline void Initialize();
-	__forceinline ~ProxyClass()
+	RefCountPtr() : Referent(0) {}
+	RefCountPtr(const RefCountPtr &rhs) : Referent(rhs.Referent)
 	{
-		if (Texture)
-			Texture->Release_Ref();
+		if (Referent)
+			++Referent->RefCount;
 	}
-	ProxyClass &operator=(ProxyClass const &other);
+	~RefCountPtr()
+	{
+		if (Referent)
+			Referent->Release_Ref();
+	}
+	RefCountPtr &operator=(const RefCountPtr &rhs)
+	{
+		if (rhs.Referent)
+			++rhs.Referent->RefCount;
+		if (Referent)
+			Referent->Release_Ref();
+		Referent = rhs.Referent;
+		return *this;
+	}
 
-	TextureBaseClass *Texture;
-	int Field04;
-	int Field08;
-	int Field0C;
-	int Field10;
-	int Field14;
-	int Field18;
-	int Field1C;
-	int Field20;
-	int Field24;
-	int Field28;
-	int Field2C;
-	int Field30;
-	int Field34;
-	int Field38;
-	int Field3C;
-	int Field40;
-	int Field44;
-	int Field48;
-	int Field4C;
-	int Field50;
-	int Field54;
-	int Field58;
-	int Field5C;
-	int Field60;
-	int Field64;
-	int Field68;
-	int Field6C;
-	int Field70;
+	T *Referent;
 };
 
-// ??0ProxyClass@@ present-unmatched
-__forceinline ProxyClass::ProxyClass()
+// One 0x74-byte texture batch: the texture handle and four seven-entry
+// ranges. Retail copy-constructs it member by member (0x00119A80: the handle,
+// then one rep movsd per range).
+class BfmeRender2DBatch
 {
-	Texture = 0;
-}
+public:
+	BfmeRender2DBatch() {}
+	BfmeRender2DBatch &operator=(BfmeRender2DBatch const &other);
 
-// ?Initialize@ProxyClass@@ present-unmatched
-__forceinline void ProxyClass::Initialize()
+	RefCountPtr<TextureBaseClass> Texture;
+	int RangeA[7];
+	int RangeB[7];
+	int RangeC[7];
+	int RangeD[7];
+};
+
+inline BfmeRender2DBatch &BfmeRender2DBatch::operator=(BfmeRender2DBatch const &other)
 {
-	Field20 = -1;
-	Field3C = -1;
-	Field04 = -1;
-	Field24 = -1;
-	Field40 = -1;
-	Field08 = -1;
-	Field28 = -1;
-	Field44 = -1;
-	Field0C = -1;
-	Field2C = -1;
-	Field48 = -1;
-	Field10 = -1;
-	Field30 = -1;
-	Field4C = -1;
-	Field14 = -1;
-	Field34 = -1;
-	Field50 = -1;
-	Field18 = -1;
-	Field38 = -1;
-	Field54 = -1;
-	Field1C = -1;
-	Field58 = 0;
-	Field5C = 0;
-	Field60 = 0;
-	Field64 = 0;
-	Field68 = 0;
-	Field6C = 0;
-	Field70 = 0;
-}
-
-ProxyClass &ProxyClass::operator=(ProxyClass const &other)
-{
-	if (other.Texture)
-		other.Texture->Add_Ref();
-	if (Texture)
-		Texture->Release_Ref();
-
 	Texture = other.Texture;
-	Field04 = other.Field04;
-	Field08 = other.Field08;
-	Field0C = other.Field0C;
-	Field10 = other.Field10;
-	Field14 = other.Field14;
-	Field18 = other.Field18;
-	Field1C = other.Field1C;
-	Field20 = other.Field20;
-	Field24 = other.Field24;
-	Field28 = other.Field28;
-	Field2C = other.Field2C;
-	Field30 = other.Field30;
-	Field34 = other.Field34;
-	Field38 = other.Field38;
-	Field3C = other.Field3C;
-	Field40 = other.Field40;
-	Field44 = other.Field44;
-	Field48 = other.Field48;
-	Field4C = other.Field4C;
-	Field50 = other.Field50;
-	Field54 = other.Field54;
-	Field58 = other.Field58;
-	Field5C = other.Field5C;
-	Field60 = other.Field60;
-	Field64 = other.Field64;
-	Field68 = other.Field68;
-	Field6C = other.Field6C;
-	Field70 = other.Field70;
+	for (int i = 0; i < 7; ++i)
+		RangeA[i] = other.RangeA[i];
+	for (int j = 0; j < 7; ++j)
+		RangeB[j] = other.RangeB[j];
+	for (int k = 0; k < 7; ++k)
+		RangeC[k] = other.RangeC[k];
+	for (int l = 0; l < 7; ++l)
+		RangeD[l] = other.RangeD[l];
 	return *this;
 }
 
@@ -207,35 +207,138 @@ protected:
 	int GrowthStep;
 };
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/render2d.h
+class Render2DIndexArray
+{
+public:
+    void Reset_Active() { Count = 0; }
+	unsigned short *Add(unsigned int count)
+	{
+		if (count == 0 || count >= 0x80000000u)
+			return 0;
+		Count += count;
+		if (Count <= Size)
+			return Data + (Count - count);
+		Size = Count + GrowthStep;
+		Data = (unsigned short *)realloc(Data, Size * sizeof(unsigned short));
+		if (Data == 0)
+			return 0;
+		return Data + (Count - count);
+	}
+
+	unsigned short *Data;
+	unsigned int Size;
+	unsigned int Count;
+	int GrowthStep;
+};
+
 class Render2DClass
 {
 public:
 	void Reset();
-
 private:
+    BfmeRenderVertex *allocateGeometry006e(unsigned int vertexCount,
+        unsigned int indexCount, BfmeUInt32 **indices, BfmeUInt32 *baseVertexPair);
 	int Shader;
 	float CoordinateScale[2];
 	float CoordinateOffset[2];
 	Render2DRawArray ArrayA;
-	Render2DRawArray ArrayB;
-	DynamicVectorClass<ProxyClass> Batches;
-	TextureBaseClass *Texture;
+	Render2DIndexArray ArrayB;
+	std::vector<BfmeRender2DBatch> Batches;
+	RefCountPtr<TextureBaseClass> Texture;
 	int CurrentBatch;
 	bool IsDirty;
 	unsigned char Tail[3];
 };
 
-// ?Reset@Render2DClass@@QAEXXZ present-unmatched
 void Render2DClass::Reset()
 {
 	ArrayA.Reset_Active();
 	ArrayB.Reset_Active();
-	Batches.Clear();
-	ProxyClass batch;
-	DynamicVectorClass<ProxyClass> *batches = &Batches;
-	int count = batches->Count();
-	batch.Initialize();
-	batches->Add(batch, count);
-	CurrentBatch = Texture ? -1 : 0;
+	Batches.clear();
+	BfmeRender2DBatch batch;
+	for (int i = 0; i < 7; ++i) {
+		batch.RangeB[i] = -1;
+		batch.RangeC[i] = -1;
+		batch.RangeA[i] = -1;
+	}
+	for (int j = 0; j < 7; ++j)
+		batch.RangeD[j] = 0;
+	Batches.push_back(batch);
+	CurrentBatch = Texture.Referent ? -1 : 0;
+}
+
+template void std::_Destroy<BfmeRender2DBatch *>(BfmeRender2DBatch *, BfmeRender2DBatch *);
+template void std::vector<BfmeRender2DBatch>::push_back(const BfmeRender2DBatch &);
+template void std::vector<BfmeRender2DBatch>::clear();
+template std::vector<BfmeRender2DBatch>::~vector();
+template BfmeRender2DBatch &std::vector<BfmeRender2DBatch>::operator[](unsigned int);
+template BfmeRender2DBatch *std::__uninitialized_fill_n(BfmeRender2DBatch *, unsigned int, const BfmeRender2DBatch &, const std::__false_type &);
+template BfmeRender2DBatch *std::__uninitialized_copy(BfmeRender2DBatch *, BfmeRender2DBatch *, BfmeRender2DBatch *, const std::__false_type &);
+template class std::allocator<BfmeRender2DBatch>;
+
+// BfmeRender2DBatch's assignment operator is a header inline in copier units. This
+// anchor retains its matched row body here, but the anchor is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeBfmeRender2DBatchAssignInlineAnchor@@YAXPAVBfmeRender2DBatch@@@Z absent-from-retail
+void _bfmeBfmeRender2DBatchAssignInlineAnchor(BfmeRender2DBatch *proxy)
+{
+	proxy->BfmeRender2DBatch::operator=(*proxy);
+}
+#pragma inline_depth()
+
+// Native allocator 0x0011BD80..0x0011C0EB (875 bytes), banked in BFME2
+// 2bbec0d919. Add_* callers at 0x4272E; 0x428DC; 0x42AE3; 0x42D16;
+// 0x4571D reserve 44-byte vertices and 16-bit indices through this ABI.
+// The donor-derived name is already established by Render2DClassAddQuadColor.
+// Native frame FuncInfo 0x00909034 and its unwind funclet also verify exactly.
+// A handle copy increments the native word at +4 directly; this avoids
+// emitting a competing /G7 Add_Ref copy beside retail's /G6 provider.
+BfmeRenderVertex *Render2DClass::allocateGeometry006e(
+	unsigned int vertexCount,
+	unsigned int indexCount,
+	BfmeUInt32 **indices,
+	BfmeUInt32 *baseVertexPair)
+{
+	*baseVertexPair = (ArrayA.Count << 16) | ArrayA.Count;
+	if (CurrentBatch < 0 && IsDirty && Texture.Referent) {
+		unsigned int i;
+		for (i = 1; i < Batches.size(); ++i) {
+			if (Batches[i].Texture.Referent == Texture.Referent)
+				break;
+		}
+		if (i == Batches.size()) {
+			BfmeRender2DBatch batch;
+			batch.Texture = Texture;
+			for (int k = 0; k < 7; ++k) {
+				batch.RangeB[k] = -1;
+				batch.RangeC[k] = -1;
+				batch.RangeA[k] = -1;
+				batch.RangeD[k] = 0;
+			}
+			Batches.push_back(batch);
+		}
+		CurrentBatch = i;
+	}
+	BfmeRender2DBatch &batch = Batches[(IsDirty && Texture.Referent) ? CurrentBatch : 0];
+	BfmeRenderVertex *vertices = (BfmeRenderVertex *)ArrayA.rva00118CC0(vertexCount);
+	*indices = (BfmeUInt32 *)ArrayB.Add(indexCount);
+	batch.RangeD[Shader] += indexCount;
+	if (batch.RangeC[Shader] >= 0) {
+		int last = batch.RangeC[Shader];
+		if (ArrayA[last].IndexStart + ArrayA[last].IndexCount == ArrayB.Count) {
+			ArrayA[last].IndexCount += indexCount;
+			return vertices;
+		}
+		// Retail reads the count before the bounds-checked access.
+		unsigned int count = ArrayA.Count;
+		ArrayA[last].NextRun = count - vertexCount;
+	} else {
+		batch.RangeA[Shader] = ArrayA.Count - vertexCount;
+		batch.RangeB[Shader] = ArrayB.Count - indexCount;
+	}
+	vertices->NextRun = 0;
+	vertices->IndexStart = ArrayB.Count - indexCount;
+	vertices->IndexCount = indexCount;
+	batch.RangeC[Shader] = ArrayA.Count - vertexCount;
+	return vertices;
 }

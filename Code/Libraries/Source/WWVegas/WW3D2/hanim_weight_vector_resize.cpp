@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
+// cl: /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
 //
 // VectorClass<NamedPivotMapClass::WeightInfoStruct>::Resize at 0x00197270,
 // split out of hanim.cpp because retail built it with /G7 (cmp-mem count and
@@ -32,7 +32,13 @@ public:
 	};
 };
 
-NamedPivotMapClass::WeightInfoStruct & NamedPivotMapClass::WeightInfoStruct::operator = (WeightInfoStruct const &that)
+// Retail links the size-optimized WeightInfoStruct vector deleting destructor (??_E,
+// the copy htree.cpp emits); it takes the optimization state of the first function
+// that needs it, so this unemitted anchor needs it first.
+#pragma optimize("gsy", on)
+static void bfmeWeightInfoVddAnchor(NamedPivotMapClass::WeightInfoStruct *p) { delete [] p; }
+#pragma optimize("", on)
+inline NamedPivotMapClass::WeightInfoStruct & NamedPivotMapClass::WeightInfoStruct::operator = (WeightInfoStruct const &that)
 {
 	if(Name) delete [] Name;
 	assert(that.Name != 0);

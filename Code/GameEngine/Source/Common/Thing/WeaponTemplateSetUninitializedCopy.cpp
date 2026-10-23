@@ -32,5 +32,6 @@ ForwardIter __uninitialized_copy(InputIter first, InputIter last,
 
 }
 
+// ?_STL::__uninitialized_copy present-unmatched
 template WeaponTemplateSet *_STL::__uninitialized_copy(WeaponTemplateSet *,
 	WeaponTemplateSet *, WeaponTemplateSet *, const _STL::__false_type &);

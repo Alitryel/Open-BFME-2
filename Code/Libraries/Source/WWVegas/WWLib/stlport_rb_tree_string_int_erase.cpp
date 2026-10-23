@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /D_STLP_NO_EXCEPTIONS /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT /Ireference/shims/bfmealloc
+// cl: /EHsc /D_STLP_NO_EXCEPTIONS /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT /Ireference/shims/bfmealloc
 // stlport
 // String->int tree node eraser: retail 0x00389C9, 53 bytes. Same 53B
 // Destroy-and-free shape as the landed color-tree erase 0x380EB1 (recurse
@@ -9,6 +9,16 @@
 // the rowed tree clear 0x389A4C in PeerThread.cpp.
 #include <map>
 #include <string>
+#include <cstddef>
+// bfme link decl-only begin
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::~basic_string(); }
+// bfme link decl-only end
+// Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL {
+template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char*, size_t);
+}
 
 typedef _STL::pair<const _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >, int> StringIntValue;
 typedef _STL::_Rb_tree<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >, StringIntValue, _STL::_Select1st<StringIntValue>, _STL::less<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > >, _STL::allocator<StringIntValue> > StringIntTree;

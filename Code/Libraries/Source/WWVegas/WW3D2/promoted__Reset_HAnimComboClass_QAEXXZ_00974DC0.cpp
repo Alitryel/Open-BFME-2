@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /Ireference/shims/bfmecamera /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHs-c- /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
+// cl: /Ireference/shims/bfmecamera /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHs-c- /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
 // Lift the HAnimComboClass::Reset naked dump to clean C++.
 //
 // Zero Hour's hanim.cpp body. The loop is ZH's verbatim; what retail expands is
@@ -28,7 +28,8 @@ typedef int Int;
 class RefCountClass
 {
 public:
-	void Release_Ref(void)
+	// Always inlined here, so this unit emits no copy of the rowed 0x5D1A7D body.
+	__declspec(dllimport) __forceinline void Release_Ref(void)
 	{
 		NumRefs--;
 		if (NumRefs == 0)
@@ -137,3 +138,5 @@ void	HAnimComboClass::Reset( void )
 	}
 	HAnimComboData.Reset_Active();
 }
+// ?TheHAnimComboDataPool@@3V?$ObjectPoolClass@VHAnimComboDataClass@@$0BAA@@@A: the global at VA 0xdfcec4 is ?Allocator@?$AutoPoolClass@VHAnimComboDataClass@@$0BAA@@@0V?$ObjectPoolClass@VHAnimComboDataClass@@$0BAA@@@A.
+#pragma comment(linker, "/alternatename:?TheHAnimComboDataPool@@3V?$ObjectPoolClass@VHAnimComboDataClass@@$0BAA@@@A=?Allocator@?$AutoPoolClass@VHAnimComboDataClass@@$0BAA@@@0V?$ObjectPoolClass@VHAnimComboDataClass@@$0BAA@@@A")

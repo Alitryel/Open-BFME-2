@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004C90E0@SwayClientUpdate@@SA?AW4NameKeyType@@XZ @0x4C90E0
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@SwayClientUpdate@@UBE?AW4NameKeyType@@XZ @0x4C90E0
 // (69B): cached pool-name key for SwayClientUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("SwayClientUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class SwayClientUpdate
 {
 public:
-	static NameKeyType rva0004C90E0();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004C90E0@SwayClientUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType SwayClientUpdate::rva0004C90E0()
+// ?getModuleNameKey@SwayClientUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType SwayClientUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheSwayClientUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("SwayClientUpdate");

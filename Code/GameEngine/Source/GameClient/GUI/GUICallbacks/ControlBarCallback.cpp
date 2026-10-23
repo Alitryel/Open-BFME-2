@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2gwm /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHs-c-
+// cl: /Ireference/shims/bfme2gwm /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHs-c-
 // ControlBarInput, retail 0x004BFFD0 (3 bytes).
 //
 // The FunctionLexicon input table at 0x012A96E4 stores the string
@@ -23,3 +23,7 @@ WindowMsgHandledType ControlBarInput( GameWindow *window, UnsignedInt msg,
 {
 	return MSG_IGNORED;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?DebugGetDefaultCommands@@YAPBDXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

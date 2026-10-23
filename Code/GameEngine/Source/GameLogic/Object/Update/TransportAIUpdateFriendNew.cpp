@@ -21,7 +21,14 @@ private:
 };
 
 // ?friend_newModuleInstance@TransportAIUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *TransportAIUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *TransportAIUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new TransportAIUpdate(thing, moduleData));
 }
+#pragma inline_depth(0)
+// ?bfmeEmitTransportAIUpdateFriendNew@@YAXPAVTransportAIUpdate@@@Z present-unmatched
+void bfmeEmitTransportAIUpdateFriendNew(TransportAIUpdate *transportAIUpdate)
+{
+	transportAIUpdate->friend_newModuleInstance(0, 0);
+}
+#pragma inline_depth()

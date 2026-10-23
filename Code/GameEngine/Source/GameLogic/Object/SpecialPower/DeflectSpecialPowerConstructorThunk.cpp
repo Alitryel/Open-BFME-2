@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 class Thing;
 class ModuleData;
@@ -77,3 +77,8 @@ DeflectSpecialPower::DeflectSpecialPower(Thing *thing, const ModuleData *moduleD
 	m_byte3C = 0;
 	m_byte3D = 0;
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?deflectSpecialPowerIface1Anchor@DeflectSpecialPowerIface1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

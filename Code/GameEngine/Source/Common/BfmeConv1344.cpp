@@ -14,8 +14,6 @@ public:
 
 // BfmeThingUVA::bfmeGoUVA is declared (line 10) but not defined here: only
 // bfmeGoUVB is served, and the gate refuses unrowed definitions.
-extern char g_bfmeFileUVB[];
-extern char g_bfmeMsgUVB[];
 
 class BfmeLogUVB
 {
@@ -36,7 +34,7 @@ struct BfmeRecUVB
 };
 
 int bfmeConvertUVB(char *out, void **v);
-void bfmeCopyUVB(char *dst, unsigned n, const char *src);
+void Rva00655700(char *dst, unsigned n, const char *src);
 
 int bfmeGoUVB(BfmeRecUVB *r, char *out)
 {
@@ -47,9 +45,9 @@ int bfmeGoUVB(BfmeRecUVB *r, char *out)
 	}
 	if (r->m_bfmeKind == 1) {
 		*out = '$';
-		bfmeCopyUVB(out + 1, 0x13, r->m_bfmeText);
+		Rva00655700(out + 1, 0x13, r->m_bfmeText);
 		return 1;
 	}
-	bfmeGetLogUVB()->bfmeWarnUVB(g_bfmeMsgUVB, g_bfmeFileUVB, 0x2e);
+	bfmeGetLogUVB()->bfmeWarnUVB((char *)"false", (char *)"\\views\\feslbuild_main\\jabba\\fesl\\source\\util.cpp", 0x2e);
 	return 0;
 }

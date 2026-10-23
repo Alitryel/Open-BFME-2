@@ -1,4 +1,4 @@
-// cl: /O1 /GX /DNDEBUG /MD /arch:SSE /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /D_STLP_USE_MALLOC /Ireference/shims/bfmealloc
+// cl: /GX /DNDEBUG /MD /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /D_STLP_USE_MALLOC /Ireference/shims/bfmealloc /Ireference/shims/moduledata
 // stlport
 //
 // ??1RandomSoundSelectorClientBehaviorModuleData@@UAE@XZ, retail 0x002578DE,
@@ -10,27 +10,12 @@
 // Snapshot base vtable 0x00BBB554. Layout from the rowed ctor TU at
 // 0x0025785C (news 0x1E0 vtable 0xBF42A8 array 0x1C0 via 0x00254FE4 map
 // 0x0C via pinned 0x0024613C). Shape follows LargeGroupBonus and Passive
-// ModuleData dtors (TU-local Snapshot with inline BBB554 restore novtable
+// ModuleData dtors (shared Snapshot base dtor, novtable
 // suppressing the entry derived store retail lacks). BFME1 donor
 // RandomSoundSelectorClientBehaviorModuleDataDestructor.cpp proves the
 // map-then-array teardown order.
 #include <map>
-
-class Xfer;
-
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc(Xfer *xfer);
-	virtual void loadPostProcess();
-	virtual void xfer(Xfer *xfer);
-};
-
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
+#include "Common/Snapshot.h"
 
 class Rva002390CB
 {

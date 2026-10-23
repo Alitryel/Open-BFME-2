@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 
 // INI per-file record accessors: filename and file-id lookups behind the
 // INIFileTable at INI +0x838 (see INILineAccessors.cpp for the callers).
@@ -40,31 +40,8 @@ template <typename T> struct StringInlineData
 	T m_text[ 1 ];
 };
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
+#include "ascii_string.h"
 
-private:
-	StringBase() : m_data( 0 ) {}
-	StringBase( const StringBase<T> &other );
-	~StringBase() { releaseBuffer(); }
-	void releaseBuffer();
-
-	StringInlineData<T> *m_data;
-};
-
-class AsciiString : private StringBase<char>
-{
-public:
-	AsciiString() : StringBase<char>() {}
-	AsciiString( const AsciiString &other ) : StringBase<char>( other ) {}
-	~AsciiString() {}
-
-	const char *str( void ) const
-	{
-		return (const char *)m_data;
-	}
-};
 
 struct INIFileRecord
 {
@@ -98,7 +75,6 @@ private:
 	INIFileRecordTable m_records;	// +0x04
 };
 
-extern const AsciiString g_emptyAsciiString;
 
 
 // ?getRecordName@INIFileRecordTable@@QBE?AVAsciiString@@H@Z
@@ -126,5 +102,5 @@ AsciiString INIFileTable::getName( int fileIndex ) const
 	int count = ((int)table->m_end - (int)table->m_begin) / (int)sizeof( INIFileRecord );
 	if ( fileIndex < count )
 		return table->getRecordName( fileIndex );
-	return g_emptyAsciiString;
+	return AsciiString::TheEmptyString;
 }

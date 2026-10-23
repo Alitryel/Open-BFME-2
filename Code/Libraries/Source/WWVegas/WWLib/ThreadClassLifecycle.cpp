@@ -27,16 +27,7 @@ private:
     int m_priority;
 };
 
-ThreadClass::ThreadClass(const char *name)
-{
-    m_handle = 0;
-    m_priority = 0;
-    m_threadId = 0;
-    if (name)
-        strcpy(m_name, name);
-    else
-        memcpy(m_name, "No name", 8);
-}
+// ThreadClass::ThreadClass: defined in ThreadClassCtor.cpp (its row's unit).
 
 void ThreadClass::Set_Priority(int priority)
 {
@@ -45,7 +36,7 @@ void ThreadClass::Set_Priority(int priority)
         SetThreadPriority(m_handle, m_priority);
 }
 
-// ??1ThreadClass@@UAE@XZ present-unmatched
+// ??1ThreadClass@@UAE@XZ @0x00610480 7B: resets the vptr to ??_7ThreadClass (0x0087B6AC).
 ThreadClass::~ThreadClass()
 {
 }
@@ -73,3 +64,7 @@ void ThreadClass::Execute()
     SetThreadPriority(m_handle, m_priority);
     ResumeThread(m_handle);
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?stop@Rva006105F0@@QAEXXZ=?Stop@ThreadClass@@QAEXXZ")

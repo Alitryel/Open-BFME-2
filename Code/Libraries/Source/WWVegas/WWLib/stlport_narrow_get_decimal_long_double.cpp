@@ -17,7 +17,7 @@
 //
 // The body itself is unchanged from the twins - a default-constructed empty
 // grouping string handed to the base-10 accumulator.
-void __cdecl free(void *);
+extern "C" void __cdecl free(void *block) throw(...);
 
 namespace _STL
 {
@@ -40,7 +40,7 @@ class basic_string
 {
 public:
     basic_string();
-    __declspec(dllimport) __forceinline ~basic_string()
+    __forceinline ~basic_string()
     {
         if (_M_start != 0)
             free(_M_start);

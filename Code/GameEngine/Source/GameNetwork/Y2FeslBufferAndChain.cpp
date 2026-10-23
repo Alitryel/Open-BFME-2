@@ -262,3 +262,30 @@ void Rva00802DF0Owner::set( Rva00802DF0Source *source, int value )
 	m_text.append( source->m_text );
 	m_field8 = source->m_field0;
 }
+
+// BFME2 0x0066C950; body from Open-BFME-1 5cae4bdff (BFME1 0x00800520), unchanged.
+// 0x00800520 -- acquire a chain node for (int)owner + 4 bytes and zero its
+// head link. Same Gen007EFFC0()->acquire(size + 4, 0) + null-store shape as
+// Rva00800550Chain::append in this TU; the (int)owner + 4 spelling (not a
+// member load) reproduces retail's add ecx,4 after the vtable load.
+// Identity is address-derived: no caller, string, or vtable names it.
+void *Rva00800520Alloc( void *owner )
+{
+	void *node = Gen007EFFC0()->acquire( (int)owner + 4, 0 );
+	*(void **)node = 0;
+	return node;
+}
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??1Gen_dtor_007f6d20@@UAE@XZ=?reset@Rva00800290Buffer@@QAEXXZ")
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeAppendFN@BfmeBufFN@@QAEXPBD@Z=?append@Rva00800290Buffer@@QAEXPBD@Z")
+#pragma comment(linker, "/alternatename:?bfmeDropTWB@BfmeListTWB@@QAEXXZ=?reset@Rva00800290Buffer@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?bfmeResetVJO@BfmeCVJO@@QAEXPAVBfmeXVJO@@@Z=?Rva008014F0ResetHpState@@YGXPAVRva008022A0Owner@@@Z")
+#pragma comment(linker, "/alternatename:?bfmeAppendVFD@BfmeBufVFD@@QAEXPBD@Z=?append@Rva00800290Buffer@@QAEXPBD@Z")
+#pragma comment(linker, "/alternatename:?bfmeSetESI@BfmeStateESI@@QAEXH@Z=?Rva008014F0ResetHpState@@YGXPAVRva008022A0Owner@@@Z")
+#pragma comment(linker, "/alternatename:?bfmeClearBVHW@BfmeSubBVHW@@QAEXXZ=?clear@Rva008003C0Owner@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?bfmeSet1251@BfmeSub1251@@QAEXPAX@Z=?append@Rva00800290Buffer@@QAEXPBD@Z")

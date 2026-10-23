@@ -20,7 +20,15 @@ private:
 };
 
 // ?friend_newModuleInstance@DynamicShroudClearingRangeUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *DynamicShroudClearingRangeUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *DynamicShroudClearingRangeUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new DynamicShroudClearingRangeUpdate(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitDynamicShroudClearingRangeUpdateFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitDynamicShroudClearingRangeUpdateFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	DynamicShroudClearingRangeUpdate::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

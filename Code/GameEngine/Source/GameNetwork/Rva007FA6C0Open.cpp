@@ -9,7 +9,7 @@ struct Rva007E9B70Obj
 	virtual int v2();
 };
 
-Rva007E9B70Obj *Rva007E9B70Get();
+extern int Rva00656B60Get();
 
 struct Rva00806580Record;
 
@@ -38,7 +38,7 @@ int Rva007FA6C0::openHost(Rva007FA6C0Arg *arg, unsigned char flag)
 {
 	if (!m_08)
 		return -202;
-	m_0C = Rva007E9B70Get()->v2();
+	m_0C = ((Rva007E9B70Obj *)Rva00656B60Get())->v2();
 	unsigned b = arg->m_0C;
 	unsigned a = arg->m_08;
 	int r = Rva00806710(m_08, "fesl.ea.com", a, b);

@@ -1,4 +1,4 @@
-// cl: /O1 /MD /GX /arch:SSE /DNDEBUG /Oy-
+// cl: /Ireference/shims/bfme2_ascii /MD /GX /DNDEBUG
 //
 // ??0DamageFieldUpdateModuleData@@QAE@XZ, retail 0x00491102, 76 bytes.
 // DamageField behavior's module data: the rowed chained proc 0x004910E7
@@ -17,11 +17,11 @@
 // through the rowed 0x00365F0 copy ctor advances state 1 (AsciiString
 // dtor via the 0x0036410 fold). Row supersedes the ctor pin.
 
-class Rva0048BC03Base
+class FireWeaponUpdateModuleData
 {
 public:
-	Rva0048BC03Base();
-	virtual ~Rva0048BC03Base();
+	FireWeaponUpdateModuleData();
+	virtual ~FireWeaponUpdateModuleData();
 
 private:
 	unsigned char m_pad[0x10 - 4];
@@ -37,19 +37,10 @@ private:
 	unsigned char m_data[4];
 };
 
-class AsciiString
-{
-public:
-	AsciiString(const AsciiString &other);
-	~AsciiString();
+#include "ascii_string.h"
 
-private:
-	void *m_data;
-};
 
-extern AsciiString g_emptyAsciiString;
-
-class DamageFieldUpdateModuleData : public Rva0048BC03Base
+class DamageFieldUpdateModuleData : public FireWeaponUpdateModuleData
 {
 public:
 	DamageFieldUpdateModuleData();
@@ -66,6 +57,6 @@ private:
 // ??0DamageFieldUpdateModuleData@@QAE@XZ @0x00491102
 DamageFieldUpdateModuleData::DamageFieldUpdateModuleData()
 	: m_radius(0)
-	, m_requiredUpgrade(g_emptyAsciiString)
+	, m_requiredUpgrade(AsciiString::TheEmptyString)
 {
 }

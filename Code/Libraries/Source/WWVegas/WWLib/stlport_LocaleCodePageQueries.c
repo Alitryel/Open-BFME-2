@@ -1,7 +1,6 @@
-// cl: /O2 /MD
+// cl: /MD
 // STLport 4.5.3 Win32 locale code-page helpers.
-// Trimmed to the five bodies game.dat keeps: the default-locale and
-// ctype-name entry points plus the three workers they inline or call
+// The default-locale and ctype-name entry points retain the donor workers
 // (__GetLocaleName, __ConvertToCP, __GetDefaultCP). The donor's Rva* probe
 // wrappers and T3 guess bodies stay out: their names are this sweep's pick
 // among ICF twins, so they get no row and no definition here.
@@ -165,6 +164,15 @@ char *_Locale_common_default(char *buf)
     return __GetLocaleName(0x400, cp, buf);
 }
 
+// __Locale_ctype_default (0x00021980, 5B, unreferenced): STLport
+// c_locale_win32.c's first per-category default, a tail jump into
+// _Locale_common_default; the other categories' identical forwarders fold
+// onto it.
+char *_Locale_ctype_default(char *buf)
+{
+    return _Locale_common_default(buf);
+}
+
 // __Locale_ctype_name
 char *_Locale_ctype_name(const void *loc, char *buf)
 {
@@ -195,9 +203,9 @@ static const ConvertToCPForwarder g_convertToCPForwarders[] =
 // Rva0084ECA0/Rva0084ECE0 (retail 0x00021E30/0x00021E70, 61B each): locale
 // language/country name getters. The sweep promotes them from T3 guesses to
 // unique free-ground placements at distinct addresses with distinct buffers.
-// The locale buffers are hardcoded .data addresses (retail pushes them as
-// immediates with no reloc, so a named extern would add a reloc retail does
-// not have). __ConvertFromACP stays static exactly like the donor: retail
+// Retail uses separate zero-filled .data buffers. Named arrays retain
+// those operands while allowing the buffers to move in the linked image.
+// __ConvertFromACP stays static exactly like the donor: retail
 // passes its first argument in edi (caller cleans 8 for the other two),
 // which MSVC only does for static callees, and the tail call needs the
 // Rva0084DE40Tail pin (same TU shape as the BFME1 donor).
@@ -219,12 +227,20 @@ static void __ConvertFromACP(char *buf, int bufSize, const char *cp)
 
 extern char *__cdecl Rva0084DE40Tail(char *buffer);
 
+// Retail operands identify distinct zero-filled buffers at VA 0x00DDF368
+// and 0x00DDEF58. Their original declared capacities are unknown; the linked
+// storage covers each unchanged GetLocaleInfoA request of 0x104 bytes.
+char locale_buffer_0084ECA0[0x104];
+char locale_buffer_0084ECE0[0x104];
+char locale_buffer_0084EED0[9];
+char locale_buffer_0084EF00[9];
+
 char *Rva0084ECA0(LocaleCodePageObject_0084EED0 *object)
 {
     LCID locale = object->locale;
-    GetLocaleInfoA(locale, 0x1f, (char *)0x00DDF368, 0x104);
+    GetLocaleInfoA(locale, 0x1f, locale_buffer_0084ECA0, 0x104);
     {
-        char *buffer = (char *)0x00DDF368;
+        char *buffer = locale_buffer_0084ECA0;
         __ConvertFromACP(buffer, 0x50, object->codePage);
         return Rva0084DE40Tail(buffer);
     }
@@ -233,9 +249,9 @@ char *Rva0084ECA0(LocaleCodePageObject_0084EED0 *object)
 char *Rva0084ECE0(LocaleCodePageObject_0084EED0 *object)
 {
     LCID locale = object->locale;
-    GetLocaleInfoA(locale, 0x20, (char *)0x00DDEF58, 0x104);
+    GetLocaleInfoA(locale, 0x20, locale_buffer_0084ECE0, 0x104);
     {
-        char *buffer = (char *)0x00DDEF58;
+        char *buffer = locale_buffer_0084ECE0;
         __ConvertFromACP(buffer, 0x50, object->codePage);
         return Rva0084DE40Tail(buffer);
     }
@@ -243,15 +259,15 @@ char *Rva0084ECE0(LocaleCodePageObject_0084EED0 *object)
 
 // Rva0084EED0 (retail 0x00022060, 48B): locale measurement-system getter.
 // Same file-unit as Rva0084ECA0/ECE0 above: donor-verbatim wrapper around the
-// rowed ___ConvertFromACP (0x00021740) with hardcoded .data buffer,
+// rowed ___ConvertFromACP (0x00021740) with its named output buffer,
 // GetLocaleInfoA type 0x28 and 9-byte size. Returns the converted buffer
 // directly (no Rva0084DE40Tail tail call), hence 48B not 61B.
 char *Rva0084EED0(LocaleCodePageObject_0084EED0 *object)
 {
     LCID locale = object->locale;
-    GetLocaleInfoA(locale, 0x28, (char *)0x00DDF210, 9);
+    GetLocaleInfoA(locale, 0x28, locale_buffer_0084EED0, 9);
     {
-        char *buffer = (char *)0x00DDF210;
+        char *buffer = locale_buffer_0084EED0;
         __ConvertFromACP(buffer, 9, object->codePage);
         return buffer;
     }
@@ -259,16 +275,167 @@ char *Rva0084EED0(LocaleCodePageObject_0084EED0 *object)
 
 // Rva0084EF00 (retail 0x00022090, 48B): locale digit-substitution getter.
 // Same file-unit as Rva0084EED0 above: donor-verbatim wrapper around the
-// rowed ___ConvertFromACP (0x00021740) with hardcoded .data buffer,
+// rowed ___ConvertFromACP (0x00021740) with its named output buffer,
 // GetLocaleInfoA type 0x29 and 9-byte size. Returns the converted buffer
 // directly (no Rva0084DE40Tail tail call), hence 48B not 61B.
 char *Rva0084EF00(LocaleCodePageObject_0084EED0 *object)
 {
     LCID locale = object->locale;
-    GetLocaleInfoA(locale, 0x29, (char *)0x00DDF3BC, 9);
+    GetLocaleInfoA(locale, 0x29, locale_buffer_0084EF00, 9);
     {
-        char *buffer = (char *)0x00DDF3BC;
+        char *buffer = locale_buffer_0084EF00;
         __ConvertFromACP(buffer, 9, object->codePage);
         return buffer;
     }
 }
+
+// Rva000219C0LocaleName (retail 0x000219C0, 23B): the donor's five
+// Rva0084E7B0/7D0/7F0/810/830LocaleName twins, which lotrbfme.exe ICF-folded
+// onto one body. Retail keeps a single identity here, so the name stays
+// address-derived rather than borrowing one twin's. The argument slots are
+// read off the callee (0x000215B0): it keeps its destination in eax and its
+// appended code-page string on the stack, so retail's caller puts the object's
+// codePage field on the stack and the caller's buffer in eax.
+char *Rva000219C0LocaleName(LocaleCodePageObject_0084EED0 *object, char *buf)
+{
+    return __GetLocaleName(object->locale, object->codePage, buf);
+}
+
+// Rva0084EF30 (retail 0x000220C0, 227B): time-format builder, last of the
+// locale-buffer getters in this file-unit. GetLocaleInfoA fills a 4-byte
+// separator (type 0x1e), the rowed ___ConvertFromACP (0x00021740) re-codes it,
+// then the donor composes "%H<sep>%M<sep>%S %p" with strcpy/strcat into the
+// static format buffer. Retail reads the three literals from the .rdata pool
+// at 0x00BBD3F4/0x00BBD3FC/0x00BBD400 and writes the format at 0x00DDEFA8; the
+// zero-filled output buffer is defined below and follows the linked image.
+extern char locale_format_0084EF30[];
+
+char *Rva0084EF30(LocaleCodePageObject_0084EED0 *object)
+{
+    LCID locale = object->locale;
+    char separator[4];
+    GetLocaleInfoA(locale, 0x1e, separator, 4);
+    __ConvertFromACP(separator, 4, object->codePage);
+    {
+        char *format = locale_format_0084EF30;
+        strcpy(format, "%H");
+        strcat(format, separator);
+        strcat(format, "%M");
+        strcat(format, separator);
+        strcat(format, "%S %p");
+        return format;
+    }
+}
+
+// Rva00850560 (retail 0x000236F0, 159B): locale long-date/time formatter.
+// The BFME1 donor supplies the operation order; retail proves its locale type,
+// conversion calls, buffer addresses and appended separator. The output is
+// a 0x104-byte .data buffer at 0x009DEFC0 (BFME 1 donor name
+// locale_output_00850560); STLport's own __FndLang is the static pointer just
+// before it (0x009DEFBC, stlport_LocaleFacets.cpp).
+char locale_output_00850560[0x104];
+extern char *Rva0084ED20Tail(LocaleCodePageObject_0084EED0 *object);
+char *Rva00850560(LocaleCodePageObject_0084EED0 *object)
+{
+    LCID locale = object->locale;
+    GetLocaleInfoA(locale, 0x20, locale_buffer_0084ECE0, 0x104);
+    {
+        char *buffer = locale_buffer_0084ECE0;
+        __ConvertFromACP(buffer, 0x50, object->codePage);
+        strcpy(locale_output_00850560, Rva0084DE40Tail(buffer));
+        strcat(locale_output_00850560, " ");
+        strcat(locale_output_00850560, Rva0084ED20Tail(object));
+        return locale_output_00850560;
+    }
+}
+
+// Rva008504C0 (retail 0x00023650, 159B): locale long-date/time formatter,
+// twin of Rva00850560 above. Same BFME1 donor operation order
+// (game/stlport/LocaleCodePageQueries.c Rva008504C0); retail proves locale
+// type 0x1f, input buffer locale_buffer_0084ECA0 and a 0x104-byte output
+// buffer at 0x009DF220 (BFME 1 donor name locale_output_008504C0).
+// Caller 0x000195A6 in stlport_X4TimeFacets _Init_timeinfo. LINK leaf.
+char locale_output_008504C0[0x104];
+char *Rva008504C0(LocaleCodePageObject_0084EED0 *object)
+{
+    LCID locale = object->locale;
+    GetLocaleInfoA(locale, 0x1f, locale_buffer_0084ECA0, 0x104);
+    {
+        char *buffer = locale_buffer_0084ECA0;
+        __ConvertFromACP(buffer, 0x50, object->codePage);
+        strcpy(locale_output_008504C0, Rva0084DE40Tail(buffer));
+        strcat(locale_output_008504C0, " ");
+        strcat(locale_output_008504C0, Rva0084ED20Tail(object));
+        return locale_output_008504C0;
+    }
+}
+
+/* BFME1 donor: game/stlport/LocaleCodePageQueries.c at 10af19f44a.
+ * BFME2 evidence: unique 420-byte placement at RVA 0x00021EB0; the return
+ * ends the 308-byte instruction stream and switch tables fill the rest.
+ * GetLocaleInfoA type 0x1003 uses retail's 0x104 count and 80-byte local;
+ * the following worker converts the locale pattern to strftime directives.
+ * The locale object layout and helper name are donor facts. Retail proves
+ * the same field accesses, imports, branches and separate output buffer. */
+extern char locale_format_0084ED20[];
+char *Rva0084ED20Tail(LocaleCodePageObject_0084EED0 *object)
+{
+    char format[80];
+    char *source;
+    char *out;
+    GetLocaleInfoA(object->locale, 0x1003, format, 0x104);
+    __ConvertFromACP(format, 80, object->codePage);
+    source = format;
+    out = locale_format_0084ED20;
+    while (*source) {
+        switch (*source) {
+        case 'h':
+            *out++ = '%';
+            if (source[1] == 'h') { *out++ = 'I'; ++source; }
+            else { *out++ = '#'; *out++ = 'I'; }
+            break;
+        case 'H':
+            *out++ = '%';
+            if (source[1] == 'H') { *out++ = 'H'; ++source; }
+            else { *out++ = '#'; *out++ = 'H'; }
+            break;
+        case 'm':
+            *out++ = '%';
+            if (source[1] == 'm') { *out++ = 'M'; ++source; }
+            else { *out++ = '#'; *out++ = 'M'; }
+            break;
+        case 's':
+            *out++ = '%';
+            if (source[1] == 's') { *out++ = 'S'; ++source; }
+            else { *out++ = '#'; *out++ = 'S'; }
+            break;
+        case 't':
+            if (source[1] == 't') ++source;
+            *out++ = '%'; *out++ = 'p';
+            break;
+        case '%':
+            *out++ = '%'; *out++ = '%';
+            break;
+        case '\'':
+            ++source;
+            while (*source != '\'') {
+                if (!*source) goto done;
+                *out++ = *source++;
+            }
+            break;
+        default:
+            *out++ = *source;
+        }
+        if (!*source) break;
+        ++source;
+    }
+done:
+    *out = 0;
+    return locale_format_0084ED20;
+}
+
+// Retail VA 0x00DDEFA8: zero-filled; covers the donor's 80-byte format bound.
+char locale_format_0084EF30[0x50];
+// Retail VA 0x00DDF3C8; its original declared capacity is unknown.
+// Linked storage covers at most two output characters per input byte.
+char locale_format_0084ED20[2 * 80 + 1];

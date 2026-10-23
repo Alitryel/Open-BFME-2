@@ -1,5 +1,16 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
+// cl: /Ireference/shims/bfmealloc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
 // stlport
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #define Matrix4x4 Matrix4  // BFME renamed it
 #define __PLACEMENT_VEC_NEW_INLINE  // always.h/GameMemory.h define array placement-new themselves
 // stlport
@@ -88,10 +99,16 @@ static const FieldParse GameSpyColorFieldParse[] =
 
 };
 
-// INI::parseOnlineChatColorDefinition is not carried over from the BFME1
-// donor: its body has no masked retail match here, the only BSim pairing
-// (0x0035ABC0) is a different function, and the retail string xrefs hold
-// no OnlineChatColor block keyword.
+// The "OnlineChatColors" block parser, Zero Hour's body unchanged: the
+// block-parse registration at VA 0x00DB918C binds that token to 0x001EF471,
+// which hands GameSpyColor (VA 0x00DB9198) and this table (VA 0x00BE0428)
+// to INI::initFromINI. Ghidra never started a function there (it is
+// reached only through the registration), so no BSim pairing found it.
+void INI::parseOnlineChatColorDefinition( INI* ini )
+{
+	// parse the ini definition
+	ini->initFromINI( GameSpyColor, GameSpyColorFieldParse );
+}
 
 
 Color GameSpyColor[GSCOLOR_MAX] =
@@ -125,214 +142,23 @@ Color GameSpyColor[GSCOLOR_MAX] =
 	GameMakeColor(255,255,  0,255),	// GSCOLOR_MOTD_HEADING,
 };
 
-// ?sendChat@GameSpyInfo@@ present-unmatched
-Bool GameSpyInfo::sendChat( UnicodeString message, Bool isAction, GameWindow *playerListbox )
-{
-	getCurrentGroupRoom();
+// GameSpyInfo::sendChat is not defined here either. The Zero Hour body built a
+// PeerRequest with the shim's Zero Hour layout, so this unit emitted
+// ??0PeerRequest@@QAE@XZ and ??1PeerRequest@@QAE@XZ COMDATs that are not
+// retail's 492-byte record (ctor 0x001EF661, dtor 0x001EF723) and the link kept
+// them. No other unit references sendChat; the body remains in git history.
 
-	PeerRequest req;
-	req.text = message.str();
+// GameSpyInfo::addChat (both overloads) is declared in PeerDefsImplementation.h
+// and not defined here. The Zero Hour bodies took PlayerInfo by value and
+// searched the PlayerInfoMap, so this unit emitted PlayerInfo's copy
+// constructor, destructor and map find COMDATs with the shim's Zero Hour
+// layout (two strings); retail's PlayerInfo destructor 0x001EF50E releases
+// three strings (+8, +4, +0), and the link kept these wrong copies against the
+// rowed map units. The bodies remain in git history.
 
-	message.trim();
-	// Echo the user's input to the chat window
-	if (!message.isEmpty())
-	{
-		if (!playerListbox)
-		{	// Public message
-			req.message.isAction = isAction;
-			req.peerRequestType = PeerRequest::PEERREQUEST_MESSAGEROOM;
-			TheGameSpyPeerMessageQueue->addRequest(req);
-			return false;
-		}
-
-		// Get the selections (is this a private message?)
-		Int maxSel = GadgetListBoxGetListLength(playerListbox);
-		Int *selections;
-		GadgetListBoxGetSelected(playerListbox, (Int *)&selections);
-
-		if (selections[0] == -1)
-		{	// Public message
-			req.message.isAction = isAction;
-			req.peerRequestType = PeerRequest::PEERREQUEST_MESSAGEROOM;
-			TheGameSpyPeerMessageQueue->addRequest(req);
-			return false;
-		}
-		else
-		{
-			// Private message
-
-			// Construct a list
-			AsciiString names = AsciiString::TheEmptyString;
-			AsciiString tmp = AsciiString::TheEmptyString;
-			AsciiString aStr; // AsciiString buf for translating Unicode entries
-			names.format("%s", TheGameSpyInfo->getLocalName().str());
-			for (int i=0; i<maxSel; i++)
-			{
-				if (selections[i] != -1)
-				{
-					aStr.translate(GadgetListBoxGetText(playerListbox, selections[i], GadgetListBoxGetNumColumns(playerListbox)-1));
-					if (aStr.compareNoCase(TheGameSpyInfo->getLocalName()))
-					{
-						tmp.format(",%s", aStr.str());
-						names.concat(tmp);
-					}
-				}
-				else
-				{
-					break;
-				}
-			}
-
-			if (!names.isEmpty())
-			{
-				req.nick = names.str();
-				req.message.isAction = isAction;
-				req.peerRequestType = PeerRequest::PEERREQUEST_MESSAGEPLAYER;
-				TheGameSpyPeerMessageQueue->addRequest(req);
-			}
-			return true;
-		}
-	}
-	return false;
-}
-
-// ?addChat@GameSpyInfo@@ present-unmatched
-void GameSpyInfo::addChat( AsciiString nick, Int profileID, UnicodeString msg, Bool isPublic, Bool isAction, GameWindow *win )
-{
-	PlayerInfoMap::iterator it = getPlayerInfoMap()->find(nick);
-	if (it != getPlayerInfoMap()->end())
-	{
-		addChat( it->second, msg, isPublic, isAction, win );
-	}
-	else
-	{
-	}
-}
-
-// ?addChat@GameSpyInfo@@ present-unmatched
-void GameSpyInfo::addChat( PlayerInfo p, UnicodeString msg, Bool isPublic, Bool isAction, GameWindow *win )
-{
-	Int style;
-	if(isSavedIgnored(p.m_profileID) || isIgnored(p.m_name))
-		return;
-	
-	Bool isOwner = p.m_flags & PEER_FLAG_OP;
-	Bool isBuddy = getBuddyMap()->find(p.m_profileID) != getBuddyMap()->end();
-
-	Bool isMe = p.m_name.compare(TheGameSpyInfo->getLocalName()) == 0;
-
-	if(!isMe)
-	{
-		if(m_disallowAsainText)
-		{
-			const WideChar *buff = msg.str();
-			Int length =  msg.getLength();	
-			for(Int i = 0; i < length; ++i)
-			{
-				if(buff[i] >= 256)
-					return;
-			}
-		}
-		else if(m_disallowNonAsianText)
-		{
-			const WideChar *buff = msg.str();
-			Int length =  msg.getLength();	
-			Bool hasUnicode = FALSE;
-			for(Int i = 0; i < length; ++i)
-			{
-				if(buff[i] >= 256)
-				{
-					hasUnicode = TRUE;
-					break;
-				}
-			}
-			if(!hasUnicode)
-				return;
-		}
-
-		if (!isPublic)
-		{
-			AudioEventRTS privMsgAudio("GUIMessageReceived");
-
-			if( TheAudio )
-			{
-				TheAudio->addAudioEvent( &privMsgAudio );
-			}  // end if
-		}
-	}
-
-
-	if (isBuddy)
-	{
-		style = GSCOLOR_CHAT_BUDDY;
-	}
-	else if (isPublic && isAction)
-	{
-		style = (isOwner)?GSCOLOR_CHAT_OWNER_EMOTE:GSCOLOR_CHAT_EMOTE;
-	}
-	else if (isPublic)
-	{
-		style = (isOwner)?GSCOLOR_CHAT_OWNER:GSCOLOR_CHAT_NORMAL;
-	}
-	else if (isAction)
-	{
-		style = (isOwner)?GSCOLOR_CHAT_PRIVATE_OWNER_EMOTE:GSCOLOR_CHAT_PRIVATE_EMOTE;
-	}
-	else
-	{
-		style = (isOwner)?GSCOLOR_CHAT_PRIVATE_OWNER:GSCOLOR_CHAT_PRIVATE;
-	}
-
-	UnicodeString name;
-	name.translate(p.m_name);
-
-	// filters language
-//  if( TheGlobalData->m_languageFilterPref )
-//  {
-    TheLanguageFilter->filterLine(msg);
-//  }
-
-	UnicodeString fullMsg;
-	if (isAction)
-	{
-		fullMsg.format( L"%ls %ls", name.str(), msg.str() );
-	}
-	else
-	{
-		fullMsg.format( L"[%ls] %ls", name.str(), msg.str() );
-	}
-
-	Int index = addText(fullMsg, GameSpyColor[style], win);
-	if (index >= 0)
-	{
-		GadgetListBoxSetItemData(win, (void *)p.m_profileID, index);
-	}
-}
-
-// ?addText@GameSpyInfo@@ present-unmatched
-Int GameSpyInfo::addText( UnicodeString message, Color c, GameWindow *win )
-{
-	if (TheGameSpyGame && TheGameSpyGame->isInGame() && TheGameSpyGame->isGameInProgress())
-	{
-		static AudioEventRTS messageFromChatSound("GUIMessageReceived");
-		TheAudio->addAudioEvent(&messageFromChatSound);
-
-		TheInGameUI->message(message);
-	}
-
-	if (!win)
-	{
-		// try to pick up a registered text window
-		if (m_textWindows.empty())
-			return -1;
-
-		win = *(m_textWindows.begin());
-	}
-	Int index = GadgetListBoxAddEntryText(win, message, c, -1, -1);
-	GadgetListBoxSetItemData(win, (void *)-1, index);
-
-	return index;
-}
+// The unmatched Zero Hour addText body remains in git history. Its audio event
+// construction has no verified BFME 2 provider; the matched tree helpers below
+// do not require it.
 
 // byte-exact reconstruction: Code/GameEngine/Source/GameNetwork/GameSpy/PeerDefsRegisterTextWindow.cpp
 // ?registerTextWindow@GameSpyInfo@@ present-unmatched
@@ -346,4 +172,3 @@ void GameSpyInfo::unregisterTextWindow( GameWindow *win )
 {
 	m_textWindows.erase(win);
 }
-

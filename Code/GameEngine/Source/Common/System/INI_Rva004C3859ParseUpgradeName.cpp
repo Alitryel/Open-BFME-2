@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 // Rva004C3859_ParseUpgradeName (retail 0x004C3859, 63 bytes). Reads one
 // AsciiString through the rowed getNextAsciiString at 0x002EA4F by value
 // (hidden-pointer construction into a stack temp, no zero-init store),
@@ -8,15 +8,7 @@
 // (sibling UpgradeOCL). The callback name stays address-derived; the owning
 // struct is BFME2-new (no BFME1 donor).
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	~AsciiString();
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 namespace _STL
 {
@@ -40,6 +32,19 @@ public:
 
 // ?Rva004C3859_ParseUpgradeName@INI@@SAXPAV1@PAX1PBX@Z
 void INI::Rva004C3859_ParseUpgradeName(INI *ini, void *instance, void *store, const void *userData)
+{
+	AsciiString name = ini->getNextAsciiString();
+	((_STL::vector<AsciiString> *)store)->push_back(name);
+}
+
+// A second real callback, retail 0x004C7E09..0x004C7E48. Its field-parse
+// entry at RVA 0x0085E23C independently names UpgradeName, selects this
+// callback at +4 and writes the destination at instance+0x7C. Native reads
+// the INI and destination stack arguments and uses the same string/vector
+// providers as the callback above. Original C++ declaration scope is unknown.
+// These are separate bodies with separate exception graphs: an object-symbol
+// alias to the first body cannot supply this callback's own cleanup handler.
+void Rva004C7E09_ParseUpgradeName(INI *ini, void *instance, void *store, const void *userData)
 {
 	AsciiString name = ini->getNextAsciiString();
 	((_STL::vector<AsciiString> *)store)->push_back(name);

@@ -103,6 +103,9 @@ public:
 	bool							Get_Orientation(Quaternion& orientation, int pividx,float frame) const;
 	void							Get_Transform(Matrix3D& transform, int pividx,float frame) const;
 	bool							Get_Visibility(int pividx,float frame);
+	// BFME: per-pivot fade blend, vtable slot 11 after Get_Visibility (retail
+	// 0x0018D540); BFME1's hrawanim.h declares the same virtual.
+	virtual float				Get_VisibilityF(int pividx,float frame);
 
 	bool							Is_Node_Motion_Present(int pividx);
 	int							Get_Num_Pivots(void) const { return NumNodes; }
@@ -120,6 +123,8 @@ private:
 
 	char							Name[2*W3D_NAME_LEN];
 	char							HierarchyName[W3D_NAME_LEN];
+	// Native ctor18D2A0 / loader18E780 key Name+10 into this +40 field.
+	unsigned int				NameKey;
 
 	int							NumFrames;
 	int							NumNodes;

@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /GX- /Oi-
+// cl: /Ireference/shims/bfme2_ascii /Oy- /DNDEBUG /MD /GX- /Oi-
 //
 // ?getAIKindOfFromName@@YAH PBD@Z, retail 0x004E8DE7, 112 bytes.
 // Dedicated TU.
@@ -27,10 +27,8 @@
 // - `if (i != -1) goto done` over the throw block forces retail's block order
 //   (loop, check, throw, return). A plain `return i` there lets the throw
 //   block sort before the check and the loop-exit jump lands wrong.
-// - The throwinfo is pushed as the address of a TU-local anchor object so the
-//   site is a push-immediate DIR32 (copied from retail). Calling through a
-//   pointer or `throw e` instead emits a push-memory or a throw-copy that
-//   retail does not have.
+// - The throw site references the canonical INIException throw information
+//   by its compiler symbol, retaining the native push-immediate DIR32 operand.
 // - The TU-local AsciiString inherits publicly (the true header inherits
 //   privately) so the free function can reach the truly-public compare;
 //   layout and emitted calls are identical either way.
@@ -45,44 +43,40 @@ template <typename T> struct BfmeStringData
 	T text[1];
 };
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-private:
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	~StringBase() { releaseBuffer(); }
-	void releaseBuffer();
-	BfmeStringData<T> *m_data;
+#include "ascii_string.h"
 
-public:
-	int compare(const char *other) const;
+
+// AIKindOfNames: the retail string table at VA 0xdd0288.
+const char *AIKindOfNames[16] = {
+	"INFANTRY",
+	"ARCHER",
+	"PIKEMAN",
+	"CAVALRY",
+	"CREEP",
+	"CREEP_STRUCTURE",
+	"STRUCTURE",
+	"SIEGEWEAPON",
+	"EXPLORABLE_AREA",
+	"WALL",
+	"HERO",
+	"BATTLE_TOWER",
+	"SHIP_BATTLESHIP",
+	"SHIP_BOMBARD",
+	"SHIP_TRANSPORT",
+	"SHIP_SUICIDE",
 };
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString(const char *text) : StringBase<char>(text) {}
-	AsciiString(const AsciiString &other) : StringBase<char>(other) {}
-	~AsciiString() {}
-};
-
-extern const char *AIKindOfNames[16]; ///< retail table at 0x009D0288
 
 struct INIException
 {
+	INIException(int argCount, const char *format, ...);
 	char *mFailureMessage;
 	int mErrorCode;
 };
 
-extern "C" void rva002f681_fill(void *dst, int code, const char *fmt, ...);
-void __stdcall _CxxThrowException(void *pExc, void *pInfo);
+extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
 
-// Address anchor only: the throw site pushes this object's address as an
-// immediate (DIR32, copied from retail's throwinfo at 0x8FE2FC). Its content
-// is never compared; the real chain lives in the retail image.
-struct AIKindOfThrowInfoAnchor { int a; int b; int c; int d; };
-static const AIKindOfThrowInfoAnchor aikindThrowInfoAnchor = { 0, 0, 0, 0 };
+// Canonical compiler throw metadata, provided by the existing typed throw TUs.
+extern "C" const struct _s__ThrowInfo __identifier("_TI1?AVINIException@@");
 
 // ?getAIKindOfFromName@@YAH PBD@Z
 int getAIKindOfFromName(const char *name)
@@ -105,10 +99,43 @@ found:
 		goto done;
 fail:
 	{
-		INIException e;
-		rva002f681_fill(&e, 2, "invalid AI_KINDOF\n");
-		_CxxThrowException(&e, (void *)&aikindThrowInfoAnchor);
+		INIException e(2, "invalid AI_KINDOF\n");
+		_CxxThrowException(&e, &__identifier("_TI1?AVINIException@@"));
 	}
 done:
 	return i;
+}
+
+// Native five-entry AI target table at VA DBC1A8 and full 112-byte
+// converter at 2C5DD0. The error literal is "invalid AITARGET\n";
+// each native string was read independently. This is the existing AI-kind
+// algorithm applied to a separately evidenced domain. The converter's
+// original native spelling is unknown; the name describes its observed role.
+// Both converters reference the canonical INIException throw information
+// directly; the old sibling's zero-filled local anchor has been removed.
+const char *AITargetTypeNames[5] = {
+    "ENEMY_STRUCTURE", "DEFENSIVE", "OPPORTUNITY", "EXPANSION", "TARGETLESS"
+};
+int getAITargetTypeFromName(const char *name)
+{
+    int i = 0;
+    if (name == 0) goto fail;
+    for (; i < 5; ++i) {
+        Bool match;
+        {
+            AsciiString tmp(AITargetTypeNames[i]);
+            match = (tmp.compare(name) == 0);
+        }
+        if (match) goto found;
+    }
+    goto fail;
+found:
+    if (i != -1) goto done;
+fail:
+    {
+        INIException e(2, "invalid AITARGET\n");
+        _CxxThrowException(&e, &__identifier("_TI1?AVINIException@@"));
+    }
+done:
+    return i;
 }

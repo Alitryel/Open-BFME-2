@@ -1,4 +1,4 @@
-// cl: /O1 /EHs-c-
+// cl: /EHs-c-
 // FXParticleSystem module-class singletons for the named ModuleTag
 // instantiations: ConcreteModuleClass<TAG>::getInstance and the
 // ConcreteModuleTemplate<TAG>::getClass accessor that forwards to it.
@@ -85,4 +85,42 @@ FX_NAMED_TAG(8, TERRAIN_COLLISION, TerrainCollisionModule, ParticleTerrainCollis
 
 #undef FX_NAMED_TAG
 
+}
+
+// Native560129 and5635C1 call their named singleton then return the receiver.
+// Original outer names, receiver extents and constructor role remain unknown.
+struct Rva00560129SingletonTouch {
+    Rva00560129SingletonTouch *touch();
+};
+Rva00560129SingletonTouch *Rva00560129SingletonTouch::touch()
+{
+    FXParticleSystem::ConcreteModuleClass<FXParticleSystem::StreakDrawModuleTag>::getInstance();
+    return this;
+}
+struct Rva005635C1SingletonTouch {
+    Rva005635C1SingletonTouch *touch();
+};
+Rva005635C1SingletonTouch *Rva005635C1SingletonTouch::touch()
+{
+    FXParticleSystem::ConcreteModuleClass<FXParticleSystem::RenderObjectDrawModuleTag>::getInstance();
+    return this;
+}
+
+// Native5613A6 and563D22 do the same for the butterfly and GPU draw singletons.
+struct Rva005613A6
+{
+    void *rva005613A6();
+};
+void *Rva005613A6::rva005613A6()
+{
+    FXParticleSystem::ConcreteModuleClass<FXParticleSystem::ButterflyDrawModuleTag>::getInstance();
+    return this;
+}
+struct Rva00563D22SingletonTouch {
+    Rva00563D22SingletonTouch *touch();
+};
+Rva00563D22SingletonTouch *Rva00563D22SingletonTouch::touch()
+{
+    FXParticleSystem::ConcreteModuleClass<FXParticleSystem::GpuDrawModuleTag>::getInstance();
+    return this;
 }

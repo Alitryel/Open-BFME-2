@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 //
 // GlobalData::setTimeOfDay, retail 0x002352BC (86 bytes). Zero Hour's
 // GlobalData.cpp body: select one of the five lit times of day and copy its
@@ -21,15 +21,9 @@ enum TimeOfDay
 
 enum { MAX_GLOBAL_LIGHTS = 3 };
 
-struct RGBColor
-{
-	Real red, green, blue;
-};
+#include "../../../Libraries/Include/Lib/RGBColor.h"
 
-struct Coord3D
-{
-	Real x, y, z;
-};
+#include "../../../Libraries/Include/Lib/Coord3D.h"
 
 struct TerrainLighting
 {

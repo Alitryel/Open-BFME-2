@@ -33,12 +33,12 @@
 #include <locale>
 namespace _STL {
 typedef ostreambuf_iterator<char,char_traits<char> > narrow_output_iterator;
-template <> __declspec(noinline) char* __copy_aux<char*,char*>(char* first,char* last,char* result,const __true_type&) {
+template <> inline __declspec(noinline) char* __copy_aux<char*,char*>(char* first,char* last,char* result,const __true_type&) {
  return (char*)__copy_trivial(first,last,result);
 }
 template <> narrow_output_iterator __copy_integer_and_fill<char,narrow_output_iterator>(const char*,ptrdiff_t,narrow_output_iterator,ios_base::fmtflags,streamsize,char,char,char);
 template <>
-narrow_output_iterator __put_integer<narrow_output_iterator>(
+inline narrow_output_iterator __put_integer<narrow_output_iterator>(
 		char *buf, char *iend, narrow_output_iterator s,
 		ios_base &f, ios_base::fmtflags flags, char fill)
 {
@@ -81,3 +81,17 @@ narrow_output_iterator __put_integer<narrow_output_iterator>(
 }
 
 }
+
+// This specialization is a header inline in copier units. The anchor retains
+// its matched row body here, but the anchor is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeNarrowPutIntegerInlineAnchor@@YAXPAX@Z absent-from-retail
+void _bfmeNarrowPutIntegerInlineAnchor(void *storage)
+{
+	_STL::narrow_output_iterator *out = (_STL::narrow_output_iterator *)storage;
+	_STL::ios_base *fmt = (_STL::ios_base *)storage;
+	_STL::__put_integer<_STL::narrow_output_iterator>(
+		(char *)storage, (char *)storage, *out, *fmt,
+		(_STL::ios_base::fmtflags)0, (char)0);
+}
+#pragma inline_depth()

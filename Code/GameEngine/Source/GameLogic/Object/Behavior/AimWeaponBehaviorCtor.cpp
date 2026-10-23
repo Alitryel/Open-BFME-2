@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??0AimWeaponBehavior@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x0045B226,
 // 85 bytes. Behavior-side ctor completing the AimWeaponBehavior file-unit
@@ -43,13 +43,19 @@ public:
 	virtual void update();
 };
 
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1,
+	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
+};
+
 class UpdateModule : public BehaviorModule, public UpdateModuleInterface
 {
 public:
 	UpdateModule(Thing *thing, const ModuleData *moduleData);
 	virtual ~UpdateModule();
 protected:
-	void setWakeFrame(Object *obj, unsigned int frame);
+	void setWakeFrame(Object *obj, UpdateSleepTime frame);
 private:
 	unsigned m_nextCallFrameAndPhase;
 	int m_indexInLogic;
@@ -71,5 +77,17 @@ AimWeaponBehavior::AimWeaponBehavior(Thing *thing, const ModuleData *moduleData)
 	UpdateModule(thing, moduleData)
 {
 	m_bfme20 = false;
-	setWakeFrame(const_cast<Object*>(getObject()), 1);
+	setWakeFrame(const_cast<Object*>(getObject()), UPDATE_SLEEP_NONE);
 }
+
+// ??1AimWeaponBehavior@@UAE@XZ @0x0045B134 (formerly the placeholder
+// Rva0045B134 in Rva0024A797Derived.cpp: vftable 0x00C418CC slot 0 is its
+// deleting dtor 0x0045B27B, which calls 0x0045B134).
+AimWeaponBehavior::~AimWeaponBehavior()
+{
+}
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?behaviorModuleOtherAnchor@BehaviorModuleOther@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

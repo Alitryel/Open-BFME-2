@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva004C880D@CombineHordeSpecialPower@@SA?AW4NameKeyType@@XZ @0x004C880D
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@CombineHordeSpecialPower@@UBE?AW4NameKeyType@@XZ @0x004C880D
 // (69B): cached pool-name key for CombineHordeSpecialPower. The class
 // identity comes from the pool-name string the body pushes
 // ("CombineHordeSpecialPower"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class CombineHordeSpecialPower
 {
 public:
-	static NameKeyType rva004C880D();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004C880D@CombineHordeSpecialPower@@SA?AW4NameKeyType@@XZ
-NameKeyType CombineHordeSpecialPower::rva004C880D()
+// ?getModuleNameKey@CombineHordeSpecialPower@@UBE?AW4NameKeyType@@XZ
+NameKeyType CombineHordeSpecialPower::getModuleNameKey() const
 {
 	static NameKeyType TheCombineHordeSpecialPowerPoolKey =
 		TheNameKeyGenerator->nameToKey("CombineHordeSpecialPower");

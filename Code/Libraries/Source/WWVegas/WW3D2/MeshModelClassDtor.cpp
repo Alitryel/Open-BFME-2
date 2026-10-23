@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 //
 // ??1MeshModelClass@@UAE@XZ at retail 0x00172AB0 (306 bytes).
 //
@@ -156,6 +156,15 @@ extern Rva00DF6F94GapFillerContext *TheMeshGapFillerContext;
 
 class GapFillerClass;
 
+class WW3D
+{
+public:
+	static bool Is_Munge_Sort_On_Load_Enabled(void) { return MungeSortOnLoad; }
+
+private:
+	static bool MungeSortOnLoad;
+};
+
 class MeshModelClass : public MeshGeometryClass
 {
 public:
@@ -164,6 +173,11 @@ public:
 
 	void Reset(int polycount, int vertcount, int passcount, bool skinned);
 	void rva001716E0UnregisterMeshModel();
+	void Enable_Alternate_Material_Description(bool onoff);
+	bool Is_Alternate_Material_Description_Enabled(void);
+
+protected:
+	void compute_static_sort_levels(void);
 
 private:
 	MeshMatDescClass *DefMatDesc;
@@ -177,7 +191,9 @@ private:
 	bool HasBeenInUse;
 };
 
-bool __cdecl Rva00199FA5TeardownMeshMatDescRenderers(MeshMatDescClass *matdesc);
+// 0x00199FA5 is rowed as rva00199FA5 (Rva00199FA5Check.cpp); called by that name.
+class Rva00199FA5Rec;
+bool __cdecl rva00199FA5(Rva00199FA5Rec *p);
 
 // ??1MeshModelClass@@UAE@XZ
 MeshModelClass::~MeshModelClass(void)
@@ -189,7 +205,7 @@ MeshModelClass::~MeshModelClass(void)
 		TheMeshGapFillerContext->DeleteModelGapFiller(this);
 	}
 	if (CurMatDesc->UV[0] != NULL) {
-		Rva00199FA5TeardownMeshMatDescRenderers(CurMatDesc);
+		rva00199FA5((Rva00199FA5Rec *)CurMatDesc);
 	}
 	Reset(0, 0, 0, (Flags >> SKIN_BIT_INDEX) & true);
 	if (MatInfo != NULL) {
@@ -224,6 +240,44 @@ void MeshModelClass::rva001716E0UnregisterMeshModel(void)
 	}
 	MeshMatDescClass *curDesc = CurMatDesc;
 	if (curDesc->UV[0] != NULL) {
-		Rva00199FA5TeardownMeshMatDescRenderers(curDesc);
+		rva00199FA5((Rva00199FA5Rec *)curDesc);
 	}
+}
+
+// Retail 0x00171790, 180 bytes. ZH meshmdl.cpp body with BFME 2's DX8 data
+// handling: switching to the alternate description unregisters through the
+// out-of-line 0x001716E0 helper, switching back spells the same three guarded
+// steps out; both arms then rerun the munge-sort pass (Flags SORT 0x10) instead
+// of ZH's overbright pass and renderer invalidate.
+void MeshModelClass::Enable_Alternate_Material_Description(bool onoff)
+{
+	if ((onoff == true) && (AlternateMatDesc != NULL)) {
+		if (CurMatDesc != AlternateMatDesc) {
+			rva001716E0UnregisterMeshModel();
+			CurMatDesc = AlternateMatDesc;
+			if ((Flags & 0x10) && WW3D::Is_Munge_Sort_On_Load_Enabled())
+				compute_static_sort_levels();
+		}
+	} else {
+		if (CurMatDesc != DefMatDesc) {
+			if (TheDX8MeshRenderer != NULL) {
+				TheDX8MeshRenderer->Unregister_Mesh_Type(this);
+			}
+			if (TheMeshGapFillerContext != NULL) {
+				TheMeshGapFillerContext->DeleteModelGapFiller(this);
+			}
+			if (CurMatDesc->UV[0] != NULL) {
+				rva00199FA5((Rva00199FA5Rec *)CurMatDesc);
+			}
+			CurMatDesc = DefMatDesc;
+			if ((Flags & 0x10) && WW3D::Is_Munge_Sort_On_Load_Enabled())
+				compute_static_sort_levels();
+		}
+	}
+}
+
+// Retail 0x00171830, 20 bytes (ZH meshmdl.cpp).
+bool MeshModelClass::Is_Alternate_Material_Description_Enabled(void)
+{
+	return CurMatDesc == AlternateMatDesc;
 }

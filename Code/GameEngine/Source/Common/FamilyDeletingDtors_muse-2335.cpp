@@ -1,25 +1,13 @@
 // cl: /O1 /MD
 // ??_GRandomSoundSelectorClientBehaviorModuleData@@UAEPAXI@Z @0x002578C2 28B
 // Deleting dtor slot 0 of vtable 0x007F42A8; calls rowed ??1 at 0x002578DE then rowed operator delete at 0x0002FD60.
-class RandomSoundSelectorClientBehaviorModuleData { public: __declspec(noinline) virtual ~RandomSoundSelectorClientBehaviorModuleData(); private: int m_famgen; };
-// ??1RandomSoundSelectorClientBehaviorModuleData@@UAE@XZ present-unmatched
-RandomSoundSelectorClientBehaviorModuleData::~RandomSoundSelectorClientBehaviorModuleData() { m_famgen = 0; }
-void famgenDelete(RandomSoundSelectorClientBehaviorModuleData *p) { delete p; }
-// ??_GSpawnBehaviorModuleData@@UAEPAXI@Z @0x00257653 28B
-// Deleting dtor slot 0 of vtable 0x007F4128; calls rowed ??1 at 0x0025766F then rowed operator delete at 0x0002FD60.
-class SpawnBehaviorModuleData { public: __declspec(noinline) virtual ~SpawnBehaviorModuleData(); private: int m_famgen; };
-// ??1SpawnBehaviorModuleData@@UAE@XZ present-unmatched
-SpawnBehaviorModuleData::~SpawnBehaviorModuleData() { m_famgen = 0; }
-void famgenDelete(SpawnBehaviorModuleData *p) { delete p; }
-// ??_GSymbioticStructuresBodyModuleData@@UAEPAXI@Z @0x002570DD 28B
-// Deleting dtor slot 0 of vtable 0x007F3EE0; calls rowed ??1 at 0x002570F9 then rowed operator delete at 0x0002FD60.
-class SymbioticStructuresBodyModuleData { public: __declspec(noinline) virtual ~SymbioticStructuresBodyModuleData(); private: int m_famgen; };
-// ??1SymbioticStructuresBodyModuleData@@UAE@XZ present-unmatched
-SymbioticStructuresBodyModuleData::~SymbioticStructuresBodyModuleData() { m_famgen = 0; }
-void famgenDelete(SymbioticStructuresBodyModuleData *p) { delete p; }
+struct EmitVtableTag;
+
+class RandomSoundSelectorClientBehaviorModuleData { public: RandomSoundSelectorClientBehaviorModuleData(EmitVtableTag *); virtual ~RandomSoundSelectorClientBehaviorModuleData(); };
+// ?<RandomSoundSelectorClientBehaviorModuleData::RandomSoundSelectorClientBehaviorModuleData> absent-from-retail
+RandomSoundSelectorClientBehaviorModuleData::RandomSoundSelectorClientBehaviorModuleData(EmitVtableTag *) {}
 // ??_GActiveBodyModuleData@@UAEPAXI@Z @0x004BF9B5 28B
 // Deleting dtor slot 0 of vtable 0x0085AFB8; calls rowed ??1 at 0x00256CB0 then rowed operator delete at 0x0002FD60.
-class ActiveBodyModuleData { public: __declspec(noinline) virtual ~ActiveBodyModuleData(); private: int m_famgen; };
-// ??1ActiveBodyModuleData@@UAE@XZ present-unmatched
-ActiveBodyModuleData::~ActiveBodyModuleData() { m_famgen = 0; }
-void famgenDelete(ActiveBodyModuleData *p) { delete p; }
+class ActiveBodyModuleData { public: ActiveBodyModuleData(EmitVtableTag *); virtual ~ActiveBodyModuleData(); };
+// ?<ActiveBodyModuleData::ActiveBodyModuleData> absent-from-retail
+ActiveBodyModuleData::ActiveBodyModuleData(EmitVtableTag *) {}

@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ??0RainOfFireUpdateModuleData@@QAE@XZ, retail 0x004AC03D, 89 bytes.
 // Frameless SSE ctor: two global floats into +0x10/+0x14, vtable literal,
@@ -9,8 +9,9 @@
 // free per the DieMuxData precedent): emitter height at 0x00BC292C, darkness
 // level at 0x00BBB8D4. The 1.0f defaults stay literals: the compiler folds
 // them onto the shared literal at 0x00BBB8D8 per the Prone precedent.
-extern float g_defaultRainEmitterHeight;
-extern float g_defaultDarknessLevel;
+
+extern "C" const void *const vtbl_00C4ED70[];  // folded, 9 classes; via ??_7BeaconClientUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4ED70=??_7BeaconClientUpdateModuleData@@6B@")
 
 class RainOfFireUpdateModuleData
 {
@@ -35,9 +36,9 @@ private:
 // ??0RainOfFireUpdateModuleData@@QAE@XZ
 RainOfFireUpdateModuleData::RainOfFireUpdateModuleData()
 {
-	m_rainEmitterHeight = g_defaultRainEmitterHeight;
-	m_darknessLevel = g_defaultDarknessLevel;
-	m_vtable = reinterpret_cast<void *>(0x00C4ED70);
+	m_rainEmitterHeight = 100.0f;
+	m_darknessLevel = 0.25f;
+	m_vtable = reinterpret_cast<void *>(((unsigned int)vtbl_00C4ED70));
 	m_startRainTime = 150;
 	m_darknessFadeTime = 120;
 	m_jitterRadius = 0.0f;

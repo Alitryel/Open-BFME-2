@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ?getSpawnBehaviorInterface@Object@@QBEPAVSpawnBehaviorInterface@@XZ,
 // retail 0x0028BCD4, 32 bytes. Dedicated TU.
@@ -71,9 +71,9 @@ public:
 // ?getSpawnBehaviorInterface@Object@@QBEPAVSpawnBehaviorInterface@@XZ
 SpawnBehaviorInterface *Object::getSpawnBehaviorInterface() const
 {
-	for (BehaviorModule **m = m_modules244; *m; ++m)
+	for (BehaviorModule **behaviorModule = m_modules244; *behaviorModule; ++behaviorModule)
 	{
-		SpawnBehaviorInterface *sbi = (*m)->getSpawnBehaviorInterface();
+		SpawnBehaviorInterface *sbi = (*behaviorModule)->getSpawnBehaviorInterface();
 		if (sbi)
 		{
 			return sbi;

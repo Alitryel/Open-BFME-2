@@ -1,4 +1,4 @@
-// cl: /O2 /GR- /EHsc-
+// cl: /GR- /EHsc-
 
 typedef unsigned long ulong;
 
@@ -55,4 +55,11 @@ void *AllocateMemory(unsigned long nbytes, int *errorcode)
 	if (AddMemArray(true_addr, adj_addr))
 		*errorcode = 2;
 	return returnval;
+}
+
+// nbench sysspec.c ReportError: nbench1 calls it where the source does and
+// every call lands on 0x0069E440, a lone ret shared with DX8_Assert. The
+// error report is compiled out of this build.
+void ReportError(char *context, int errorcode)
+{
 }

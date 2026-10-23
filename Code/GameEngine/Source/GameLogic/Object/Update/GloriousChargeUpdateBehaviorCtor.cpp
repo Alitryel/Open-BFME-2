@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??0GloriousChargeUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x004AD680,
 // 116 bytes. Behavior-side ctor (poolkey rowed; ModuleData ctor rowed;
@@ -11,14 +11,30 @@
 // via 0x26549E alias pin. Tail is direct and-imm plus mov-byte (no zero
 // register). Zero new pins (all callees rowed/pinned).
 
+extern "C" const void *const vtbl_00C4D640[];  // folded, 11 classes; via ??_7LevelGrantSpecialPower@@6BSpecialPowerModuleInterface@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4D640=??_7LevelGrantSpecialPower@@6BSpecialPowerModuleInterface@@@")
+extern "C" const void *const vtbl_00C552A4[];  // folded, 6 classes; via ??_7GiveOrRestoreUpgradeSpecialPower@@6BDamageModuleInterface@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C552A4=??_7GiveOrRestoreUpgradeSpecialPower@@6BDamageModuleInterface@@@")
+
+extern char g_00C55108;
+extern char g_00C55118;
+
 class Thing;
 class ModuleData;
+
+// Retail's unwind of the base subobject calls the rowed
+// ~SpecialAbilityUpdate 0x00451F45 (the dtor of the 0x0044EF5E base).
+class SpecialAbilityUpdate
+{
+public:
+	virtual ~SpecialAbilityUpdate();
+};
 
 class Rva0044EF5E
 {
 public:
 	Rva0044EF5E(Thing *thing, const ModuleData *moduleData);
-	~Rva0044EF5E();
+	~Rva0044EF5E() { ((SpecialAbilityUpdate *)this)->SpecialAbilityUpdate::~SpecialAbilityUpdate(); }
 private:
 	char m_pad[0x88];
 };
@@ -46,12 +62,18 @@ GloriousChargeUpdate::GloriousChargeUpdate(Thing *thing, const ModuleData *modul
 {
 	Rva0029FB3BMember *member = (Rva0029FB3BMember *)((char *)this + 0x88);
 	void *context = (void *)((char *)&moduleData + 3);
-	*(const void **)this = (const void *)0x00C55118;
-	*(const void **)((char *)this + 0x0C) = (const void *)0x00C4D640;
-	*(const void **)((char *)this + 0x10) = (const void *)0x00C55108;
-	*(const void **)((char *)this + 0x20) = (const void *)0x00C552A4;
+	*(const void **)this = (const void *)(unsigned int)&g_00C55118;
+	*(const void **)((char *)this + 0x0C) = (const void *)((unsigned int)vtbl_00C4D640);
+	*(const void **)((char *)this + 0x10) = (const void *)(unsigned int)&g_00C55108;
+	*(const void **)((char *)this + 0x20) = (const void *)((unsigned int)vtbl_00C552A4);
 	member->init(context);
 	m_8C &= 0;
 	m_90 = 0;
 	member->reset();
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??1Rva0044EF5E@@QAE@XZ=??3@YAXPAX@Z")

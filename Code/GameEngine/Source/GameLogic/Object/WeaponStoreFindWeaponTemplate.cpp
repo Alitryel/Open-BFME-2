@@ -1,11 +1,11 @@
-// cl: /O1 /DNDEBUG /MD /GX-
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX-
 //
 // WeaponStore::findWeaponTemplate, retail 0x002CB8BF, 67 bytes.
 //
 // Returns NULL for the "None" name (via _strcmpi against the inline
 // str() with empty-string fallback), otherwise looks the template up
-// by NameKeyType through the Rva002CADBE key search (0x002CADBE,
-// pinned; 0.85 partial banked for the body itself).
+// by NameKeyType through the findWeaponTemplatePrivate key search (0x002CADBE,
+// matched in WeaponStoreNewOverride.cpp).
 //
 // Modeling notes: AsciiString is the 4-byte m_data spelling whose str()
 // is m_data + 8 with the "" fallback (TerrainTypes precedent); the key
@@ -19,14 +19,7 @@ enum NameKeyType
 	NAMEKEY_INVALID = 0
 };
 
-class AsciiString
-{
-public:
-	const char *str() const { return m_data ? (const char *)m_data + 8 : ""; }
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class NameKeyGenerator
 {
@@ -45,8 +38,8 @@ class WeaponStore
 public:
 	const WeaponTemplate *findWeaponTemplate(const AsciiString &name) const;
 
-private:
-	const WeaponTemplate *Rva002CADBE(int key) const;
+protected:
+	WeaponTemplate *findWeaponTemplatePrivate(NameKeyType key) const;
 };
 
 // ?findWeaponTemplate@WeaponStore@@QBEPBVWeaponTemplate@@ABVAsciiString@@@Z
@@ -54,5 +47,5 @@ const WeaponTemplate *WeaponStore::findWeaponTemplate(const AsciiString &name) c
 {
 	if (_strcmpi(name.str(), "None") == 0)
 		return 0;
-	return Rva002CADBE(TheNameKeyGenerator->nameToKey(name));
+	return findWeaponTemplatePrivate(TheNameKeyGenerator->nameToKey(name));
 }

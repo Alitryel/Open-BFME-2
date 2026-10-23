@@ -16,6 +16,11 @@
  * temporary one-byte flag.
  */
 
+/* The two TAPI address formats, retail .data 0x009D91A8 and 0x009D91B0
+ * (8 bytes each); this body is their only reference (data_xrefs). */
+char Rva012C4A50[] = "TAPI%d:";
+char Rva012C4A58[] = "TAPI%d:";
+
 struct Rva00813100Comm
 {
 	char m_head[ 0x78 ];
@@ -169,7 +174,7 @@ extern "C" void __stdcall Rva00813100( int port, int kind,
 			}
 			else
 			{
-				wsprintfA( addr, (const char *)0x012C4A50,
+				wsprintfA( addr, Rva012C4A50,
 					firstResult );
 				if ( active->m_state == 3 )
 					Rva0081B910( active->m_transport, addr );
@@ -193,7 +198,7 @@ extern "C" void __stdcall Rva00813100( int port, int kind,
 			}
 			else
 			{
-				wsprintfA( addr, (const char *)0x012C4A58,
+				wsprintfA( addr, Rva012C4A58,
 					secondResult );
 				Rva0081B010( active->m_transport, addr );
 				active->m_state = 5;
@@ -205,3 +210,8 @@ Rva00813100Done:
 	(void)unusedA;
 	(void)unusedB;
 }
+
+// Retail's call sites in this unit's matched rows land on bodies rowed under
+// other spellings at the same addresses (same ABI). Bind the spellings used here.
+#pragma comment(linker, "/alternatename:_Rva0081BDAE@4=?ji_00687cae@@YAXXZ")
+#pragma comment(linker, "/alternatename:?ji_0081bda8@@YAXXZ=?ji_00687ca8@@YAXXZ")

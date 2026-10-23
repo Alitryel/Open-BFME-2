@@ -1,4 +1,4 @@
-// cl: /O1 /MD
+// cl: /MD
 //
 // Opaque multiple-inheritance destructors tail-calling Rva004B8CDE::~
 // Rva004B8CDE at 0x004B8CDE (pinned opaque MI base: three vptrs tail-jumping
@@ -136,3 +136,14 @@ public:
 Rva004B9458::~Rva004B9458()
 {
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?f2@Rva004B8C3E_B2@@UAEXXZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?f2@Rva004B8DB1_B2@@UAEXXZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?f2@Rva004B8EA8_B2@@UAEXXZ=?onCreate@SupplyWarehouseCreate@@UAEXXZ")
+#pragma comment(linker, "/alternatename:?f2@Rva004B8F92_B2@@UAEXXZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?f2@Rva004B9287_B2@@UAEXXZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?f2@Rva004B9375_B2@@UAEXXZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?f2@Rva004B9458_B2@@UAEXXZ=??1Coord2D@@QAE@XZ")

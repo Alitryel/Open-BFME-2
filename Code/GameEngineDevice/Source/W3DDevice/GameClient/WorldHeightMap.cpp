@@ -1,7 +1,45 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /Ireference/shims/bfmeheightmap /Ireference/shims/zh_overridable_outofline /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// Matched operations inline; keep CRT math wrappers local to this unit.
+#pragma push_macro("inline")
+#define inline static inline
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+#include <math.h>
+#pragma pop_macro("inline")
+
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngineDevice/Source/W3DDevice/GameClient/WorldHeightMap.cpp); this unit had no counterpart under Code/.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+// Retail keeps one unsigned max, RVA 0x00013740 (the vendored STLport row). This unit's
+// flags (/G7 /arch:SSE) compile a different copy, and retail kept another unit's. This unit-local
+// overload keeps the inlined code and offers the link no second copy.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+
+// BFME 2 has no W3D memory pools (see Code/Libraries/Source/WWVegas/WWLib/always.h).
+#include "always.h"
+#undef W3DMPO_GLUE
+#define W3DMPO_GLUE(ARGCLASS)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -47,6 +85,25 @@
 #include "Common/ThingTemplate.h"
 #include "Common/WellKnownKeys.h"
 
+// BFME2-only caches used by 30DA25/30D773. Retail .data contains a zero
+// key plus each exact name pointer at DBDC84, DBDD84 and DBDD8C. Keep
+// them beside the existing StaticNameKey owners instead of address aliases.
+extern const StaticNameKey TheKey_GenericAIObjectType("GenericAIObjectType");
+extern const StaticNameKey TheKey_objectBasePriority("objectBasePriority");
+extern const StaticNameKey TheKey_objectBasePhase("objectBasePhase");
+// Waypoint keys TerrainLogic's map load reads: zero cache plus the name
+// pointer at 0x009BDCB4/0x009BDCBC (names at VA 0x00C091A8/0x00C091B8).
+extern const StaticNameKey TheKey_waypointType("waypointType");
+extern const StaticNameKey TheKey_waypointTypeOption("waypointTypeOption");
+// BFME2 player keys between the WellKnownKeys player block entries: zero
+// cache plus the name pointer at 0x009BDE74 (after playerNightColor),
+// 0x009BDEA4 and 0x009BDEAC (after playerAIType; names at VA 0x00C09600,
+// 0x00C09674, 0x00C09688). Player::initFromDict and GameLogic read them.
+extern const StaticNameKey TheKey_playerHandicap("playerHandicap");
+extern const StaticNameKey TheKey_playerFactionIcon("playerFactionIcon");
+extern const StaticNameKey TheKey_livingWorldPlayerID("livingWorldPlayerID");
+
+
 #include "GameLogic/PolygonTrigger.h"
 #include "GameLogic/SidesList.h"
 
@@ -57,6 +114,26 @@
 #include "W3DDevice/GameClient/W3DShadow.h"
 
 #include "Common/file.h"
+// Preserve STLport operations inline without unused external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline ICoord2D *
+__copy_backward_ptrs<ICoord2D *, ICoord2D *>(ICoord2D *__first, ICoord2D *__last, ICoord2D *__result, const __false_type &)
+{
+    return __copy_backward(__first, __last, __result, random_access_iterator_tag(), (ptrdiff_t *)0);
+}
+template <> __declspec(dllimport) __forceinline ICoord2D *
+vector<ICoord2D, allocator<ICoord2D> >::erase(ICoord2D *__first, ICoord2D *__last)
+{
+    pointer __i = __copy_ptrs(__last, this->_M_finish, __first, _TrivialAss());
+    _Destroy(__i, this->_M_finish);
+    this->_M_finish = __i;
+    return __first;
+}
+}
+// bfme link decl-only begin
+namespace _STL { template <> void vector<ICoord2D, allocator<ICoord2D> >::_M_insert_overflow(ICoord2D *, ICoord2D const &, __false_type const &, unsigned int, bool); }
+namespace _STL { template <> ICoord2D * allocator<ICoord2D>::allocate(unsigned int, void const *) const; }
+// bfme link decl-only end
 
 #ifdef _INTERNAL
 // for occasional debugging...
@@ -163,7 +240,7 @@ void MapObject::setRenderObj(RenderObjClass *pObj)
 	REF_PTR_SET(m_renderObj, pObj);
 }
 
-// ?setBridgeRenderObject@MapObject@@ present-unmatched
+#pragma optimize("s", on)
 void MapObject::setBridgeRenderObject( BridgeTowerType type, RenderObjClass* renderObj )
 {
 
@@ -171,8 +248,9 @@ void MapObject::setBridgeRenderObject( BridgeTowerType type, RenderObjClass* ren
 		REF_PTR_SET( m_bridgeTowers[ type ], renderObj );
 
 }
+#pragma optimize("", on)
 
-// ?getBridgeRenderObject@MapObject@@ present-unmatched
+#pragma optimize("s", on)
 RenderObjClass* MapObject::getBridgeRenderObject( BridgeTowerType type )
 {
 
@@ -181,167 +259,23 @@ RenderObjClass* MapObject::getBridgeRenderObject( BridgeTowerType type )
 	return NULL;
 
 }
+#pragma optimize("", on)
 
-// ?validate@MapObject@@ present-unmatched
 void MapObject::validate(void)
 {
 	verifyValidTeam();
 	verifyValidUniqueID();
 }
 
-// ?verifyValidTeam@MapObject@@ present-unmatched
-void MapObject::verifyValidTeam(void)
-{
-	// if this map object has a valid team, then do nothing.
-	// if it has an invalid team, the place it on the default neutral team, (by clearing the 
-	// existing team name.)
-	Bool exists;
-	AsciiString teamName = getProperties()->getAsciiString(TheKey_originalOwner, &exists);
-	if (exists) {
-		Bool valid = false;
+// MapObject::verifyValidTeam is defined with its retail-matched body in Code/GameEngineDevice/Source/W3DDevice/GameClient/MapObject_verifyValidTeamMethodThunk_Rva0030D6C7.cpp (0x0030D6C7).
 
-		int numSides = TheSidesList->getNumTeams();
+// MapObject::verifyValidUniqueID is defined with its retail-matched body in Code/GameEngineDevice/Source/W3DDevice/GameClient/MapObject_verifyValidUniqueIDMethodThunk_Rva0030E0AA.cpp (0x0030E0AA).
 
-		for (int i = 0; i < numSides; ++i) {
-			TeamsInfo *teamInfo = TheSidesList->getTeamInfo(i);
-			if (!teamInfo) {
-				continue;
-			}
-			
-			Bool itBetter;
-			AsciiString testAgainstTeamName = teamInfo->getDict()->getAsciiString(TheKey_teamName, &itBetter);
-			if (itBetter) {
-				if (testAgainstTeamName.compare(teamName) == 0) {
-					valid = true;
-				}
-			}
-		}
-
-		if (!valid) {
-			getProperties()->remove(TheKey_originalOwner);
-		}
-	}
-}
-
-// ?verifyValidUniqueID@MapObject@@ present-unmatched
-void MapObject::verifyValidUniqueID(void)
-{
-	Bool exists;
-	AsciiString uniqueID = getProperties()->getAsciiString(TheKey_uniqueID, &exists);
-	MapObject *obj = MapObject::getFirstMapObject();
-
-	// -1 is the sentinel
-	int highestIndex = -1;
-
-	while (obj) {
-		if (obj == this) {
-			// the first object is THIS OBJECT, cause we've already been added. 
-			obj = obj->getNext();
-			continue;
-		}
-
-		if (obj->isWaypoint()) {
-			// waypoints throw this off. Sad but true. :-(
-			obj = obj->getNext();
-			continue;
-		}
-
-		Bool iterateExists;
-		AsciiString tempStr = obj->getProperties()->getAsciiString(TheKey_uniqueID, &iterateExists);
-		const char* lastSpace = tempStr.reverseFind(' ');
-
-		int testIndex = -1; 
-		if (lastSpace) {
-			testIndex = atoi(lastSpace);
-		}
-
-		if (testIndex > highestIndex) {
-			highestIndex = testIndex;
-		}
-		break;
-	}
-
-	int indexOfThisObject = highestIndex + 1;
-	
-	const char* thingName;
-	if (getThingTemplate()) {
-		thingName = getThingTemplate()->getName().str();
-	} else if (isWaypoint()) {
-		thingName = getWaypointName().str();
-	} else {
-		thingName = getName().str();
-	}
-	const char* pName = thingName;
-
-	while (*thingName) {
-		if ((*thingName) == '/') {
-			pName = thingName + 1;
-		}
-		++thingName;
-	}
-
-	AsciiString newID;
-	if (isWaypoint()) {
-		newID.format("%s", pName);
-	} else {
-		newID.format("%s %d", pName, indexOfThisObject);
-	}
-	getProperties()->setAsciiString(TheKey_uniqueID, newID);
-}
-
-// ?fastAssignAllUniqueIDs@MapObject@@ present-unmatched
-void MapObject::fastAssignAllUniqueIDs(void)
-{
-	// here's what we do. Take all of them, push them onto a stack. Then, pop each one, setting its id.
-	// should be much faster than what we currently do.
-
-	MapObject *pMapObj = getFirstMapObject();
-
-	std::stack<MapObject*> objStack;
-	Int actualNumObjects = 0;
-	
-	while (pMapObj) {
-		++actualNumObjects;
-		objStack.push(pMapObj);
-		pMapObj = pMapObj->getNext();
-	}
-
-	Int indexOfThisObject = 0;
-	while (actualNumObjects) {
-		MapObject *obj = objStack.top();
-		
-
-		const char* thingName;
-		if (obj->getThingTemplate()) {
-			thingName = obj->getThingTemplate()->getName().str();
-		} else if (obj->isWaypoint()) {
-			thingName = obj->getWaypointName().str();
-		} else {
-			thingName = obj->getName().str();
-		}
-		const char* pName = thingName;
-
-		while (*thingName) {
-			if ((*thingName) == '/') {
-				pName = thingName + 1;
-			}
-			++thingName;
-		}
-
-		AsciiString newID;
-		if (obj->isWaypoint()) {
-			newID.format("%s", pName);
-		} else {
-			newID.format("%s %d", pName, indexOfThisObject);
-		}
-
-		obj->getProperties()->setAsciiString(TheKey_uniqueID, newID);
-		objStack.pop();
-	
-		++indexOfThisObject;
-		--actualNumObjects;
-	}
-}
+// MapObject::fastAssignAllUniqueIDs is defined with its retail-matched body in Code/GameEngineDevice/Source/W3DDevice/GameClient/MapObject_fastAssignAllUniqueIDs_Rva0030E390.cpp (0x0030E390).
+// Its std::stack<MapObject*> draft used to instantiate the deque node allocator
+// rowed from this unit (0x0030E390's retail body uses a folded 4-byte deque); the
+// member is kept emitted here explicitly.
+template void std::_Deque_base<MapObject *, std::allocator<MapObject *> >::_M_create_nodes(MapObject ***, MapObject ***);
 
 
 
@@ -368,86 +302,16 @@ void MapObject::setWaypointID(Int i) { getProperties()->setInt(TheKey_waypointID
 // ?setWaypointName@MapObject@@ present-unmatched
 void MapObject::setWaypointName(AsciiString n) { getProperties()->setAsciiString(TheKey_waypointName, n); }
 
-/*static */ Int MapObject::countMapObjectsWithOwner(const AsciiString& n)
-{
-	Int count = 0;
-	for (MapObject *pMapObj = MapObject::getFirstMapObject(); pMapObj; pMapObj = pMapObj->getNext()) 
-	{
-		if (pMapObj->getProperties()->getAsciiString(TheKey_originalOwner) == n)
-			++count;
-	}
-	return count;
-}
-
-//-------------------------------------------------------------------------------------------------
-// ?getThingTemplate@MapObject@@ present-unmatched
-const ThingTemplate *MapObject::getThingTemplate( void ) const
-{
-	if (m_thingTemplate)
-		return (const ThingTemplate*) m_thingTemplate->getFinalOverride(); 
-	
-	return NULL;
-}
-
+// MapObject::countMapObjectsWithOwner is recovered in WorldHeightMap_Rva0030e26f.cpp.
 
 /* ********* WorldHeightMap class ****************************/
 
 TileData *WorldHeightMap::m_alphaTiles[NUM_ALPHA_TILES]={0,0,0,0,0,0,0,0,0,0,0,0};
 
-//
-// WorldHeightMap destructor .
-//
-// ??1WorldHeightMap@@ present-unmatched
-WorldHeightMap::~WorldHeightMap(void)
-{
-	if (m_data) {
-		delete(m_data);
-		m_data = NULL;
-	}
-	if (m_tileNdxes) {
-		delete(m_tileNdxes);
-		m_tileNdxes = NULL;
-	}
-	if (m_blendTileNdxes) {
-		delete(m_blendTileNdxes);
-		m_blendTileNdxes = NULL;
-	}
-	if (m_extraBlendTileNdxes) {
-		delete(m_extraBlendTileNdxes);
-		m_extraBlendTileNdxes = NULL;
-	}
-	if (m_cliffInfoNdxes) {
-		delete(m_cliffInfoNdxes);
-		m_cliffInfoNdxes = NULL;
-	}
-	if (m_cellFlipState)
-	{	delete (m_cellFlipState);
-		m_cellFlipState = NULL;
-	}
-	if (m_seismicUpdateFlag)
-	{	delete (m_seismicUpdateFlag);
-		m_seismicUpdateFlag = NULL;
-	}
-	if (m_seismicZVelocities)
-	{	delete (m_seismicZVelocities);
-		m_seismicZVelocities = NULL;
-	}
-	if (m_cellCliffState)
-	{	delete (m_cellCliffState);
-		m_cellCliffState = NULL;
-	}
-	int i;
-	for (i=0; i<NUM_SOURCE_TILES; i++) {
-		REF_PTR_RELEASE(m_sourceTiles[i]);
-		REF_PTR_RELEASE(m_edgeTiles[i]);
-	}
-	for (i=0; i<NUM_ALPHA_TILES; i++) {
-		REF_PTR_RELEASE(m_alphaTiles[i]);
-	}
-	REF_PTR_RELEASE(m_terrainTex);
-	REF_PTR_RELEASE(m_alphaTerrainTex);
-	REF_PTR_RELEASE(m_alphaEdgeTex);
-}
+// BFME 2's WorldHeightMap constructors and destructor are rowed in
+// WorldHeightMapCtors.cpp and Rva00B0028Dtor.cpp. The Zero Hour copies
+// that stood here emitted a six-slot WorldHeightMap vtable where retail's
+// (0x007C967C) has two, and kept those units from linking.
 
 // ?freeListOfMapObjects@WorldHeightMap@@ present-unmatched
 void WorldHeightMap::freeListOfMapObjects(void)
@@ -461,35 +325,6 @@ void WorldHeightMap::freeListOfMapObjects(void)
 }
 
 
-/**
- WorldHeightMap - create a new height map for class WorldHeightMap.
- Note that there is 1 m_numBlendedTiles, which is the implied
- transparent tile for non-blended tiles.
-*/
-// ??0WorldHeightMap@@ present-unmatched
-WorldHeightMap::WorldHeightMap():
-	m_width(0), m_height(0),  m_dataSize(0), m_data(NULL), m_cellFlipState(NULL), m_seismicUpdateFlag(NULL), m_seismicZVelocities(NULL),
-	m_drawOriginX(0), m_drawOriginY(0), 
-	m_numTextureClasses(0),	
-	m_drawWidthX(NORMAL_DRAW_WIDTH), m_drawHeightY(NORMAL_DRAW_HEIGHT), 
-	m_tileNdxes(NULL), m_blendTileNdxes(NULL), m_extraBlendTileNdxes(NULL), m_cliffInfoNdxes(NULL),
-	m_terrainTexHeight(1), m_alphaTexHeight(1),	m_cellCliffState(NULL),
-#ifdef EVAL_TILING_MODES
-	m_tileMode(TILE_4x4),
-#endif
-	m_numCliffInfo(1),
-	m_terrainTex(NULL), m_alphaTerrainTex(NULL), m_numBitmapTiles(0), m_numBlendedTiles(1)
-{
-	Int i;
-	for (i=0; i<NUM_SOURCE_TILES; i++) {
-		m_sourceTiles[i] = NULL;
-		m_edgeTiles[i] = NULL;
-	}
-
-	TheSidesList->validateSides();
-	setupAlphaTiles();
-}
-
 #ifdef EVAL_TILING_MODES
 static Bool ParseFunkyTilingDataChunk(DataChunkInput &file, DataChunkInfo *info, void *userData)
 {
@@ -498,91 +333,6 @@ static Bool ParseFunkyTilingDataChunk(DataChunkInput &file, DataChunkInfo *info,
 	return true;
 }
 #endif
-
-/**
-* WorldHeightMap - read a height map from a file.
-* Format is  Chunky.
-*
-*	Input: ChunkInputStream, 
-*		
-*/
-// ??0WorldHeightMap@@ present-unmatched
-WorldHeightMap::WorldHeightMap(ChunkInputStream *pStrm, Bool logicalDataOnly):
-	m_width(0), m_height(0),  m_dataSize(0), m_data(NULL), m_cellFlipState(NULL), m_seismicUpdateFlag(NULL), m_seismicZVelocities(NULL),
-	m_drawOriginX(0),	m_cellCliffState(NULL), m_drawOriginY(0),
-	m_numTextureClasses(0),	
-	m_drawWidthX(NORMAL_DRAW_WIDTH), m_drawHeightY(NORMAL_DRAW_HEIGHT), 
-	m_tileNdxes(NULL), m_blendTileNdxes(NULL), m_extraBlendTileNdxes(NULL), m_cliffInfoNdxes(NULL),
-	m_terrainTexHeight(1), m_alphaTexHeight(1),
-#ifdef EVAL_TILING_MODES
-	m_tileMode(TILE_4x4),
-#endif
-	m_numCliffInfo(1),
-	m_terrainTex(NULL), m_alphaTerrainTex(NULL), m_numBitmapTiles(0), m_numBlendedTiles(1)
-{
-
-	int i;
-	for (i=0; i<NUM_SOURCE_TILES; i++) {
-		m_sourceTiles[i]=NULL;
-		m_edgeTiles[i]=NULL;
-	}
-	if (TheGlobalData && TheGlobalData->m_stretchTerrain) {
-		m_drawWidthX=STRETCH_DRAW_WIDTH;
-		m_drawHeightY=STRETCH_DRAW_HEIGHT;
-	}
-
-	DataChunkInput file( pStrm );
-
-	if (logicalDataOnly) {
-		file.registerParser( AsciiString("HeightMapData"), AsciiString::TheEmptyString, ParseSizeOnlyInChunk );
-		file.registerParser( AsciiString("WorldInfo"), AsciiString::TheEmptyString, ParseWorldDictDataChunk );
-		file.registerParser( AsciiString("ObjectsList"), AsciiString::TheEmptyString, ParseObjectsDataChunk );
-		freeListOfMapObjects(); // just in case.
-		file.registerParser( AsciiString("PolygonTriggers"), AsciiString::TheEmptyString, PolygonTrigger::ParsePolygonTriggersDataChunk );
-// ?deleteTriggers@PolygonTrigger@@ present-unmatched
-		PolygonTrigger::deleteTriggers(); // just in case.
-		TheSidesList->emptySides();
-		file.registerParser(AsciiString("SidesList"), AsciiString::TheEmptyString,	SidesList::ParseSidesDataChunk );
-	}	else {
-		file.registerParser( AsciiString("HeightMapData"), AsciiString::TheEmptyString, ParseHeightMapDataChunk );
-		file.registerParser( AsciiString("BlendTileData"), AsciiString::TheEmptyString, ParseBlendTileDataChunk );
-#ifdef EVAL_TILING_MODES
-		file.registerParser( AsciiString("FUNKY_TILING"), AsciiString::TheEmptyString, ParseFunkyTilingDataChunk );
-#endif
-		file.registerParser( AsciiString("GlobalLighting"), AsciiString::TheEmptyString, ParseLightingDataChunk );
-	}
-	if (!file.parse(this)) {
-    
-		throw(ERROR_CORRUPT_FILE_FORMAT);
-	}
-	// patch bad maps. 
-	if (!logicalDataOnly) {
-		for(i=0; i<m_dataSize; i++) {
-			if (m_cliffInfoNdxes[i]<0 || m_cliffInfoNdxes[i]>= m_numCliffInfo) {
-				m_cliffInfoNdxes[i] = 0;		
-			}
-			if (m_blendTileNdxes[i]<0 || m_blendTileNdxes[i]>= m_numBlendedTiles) {
-				m_blendTileNdxes[i] = 0;		
-			}
-			if (m_extraBlendTileNdxes[i]<0 || m_extraBlendTileNdxes[i]>= m_numBlendedTiles) {
-				m_extraBlendTileNdxes[i] = 0;		
-			}
-		}
-	}
-	if (TheGlobalData && TheGlobalData->m_drawEntireTerrain) {
-		m_drawWidthX=m_width;
-		m_drawHeightY=m_height;
-	}
-	if (m_drawWidthX > m_width) {
-		m_drawWidthX = m_width;
-	}
-	if (m_drawHeightY > m_height) {
-		m_drawHeightY = m_height;
-	}
-
-	TheSidesList->validateSides();
-	setupAlphaTiles();
-}
 
 /** Optimized version of method to get triangle flip state of a terrain cell.  Use this
 *	instead of getAlphaUVData() whenever possible.
@@ -1057,55 +807,12 @@ Bool WorldHeightMap::ParseSizeOnly(DataChunkInput &file, DataChunkInfo *info, vo
 *	Input: DataChunkInput 
 *		
 */
-// ?ParseBlendTileDataChunk@WorldHeightMap@@ present-unmatched
-Bool WorldHeightMap::ParseBlendTileDataChunk(DataChunkInput &file, DataChunkInfo *info, void *userData)
-{
-	WorldHeightMap *pThis = (WorldHeightMap *)userData;
-	return pThis->ParseBlendTileData(file, info, userData);
-}
+// WorldHeightMap::ParseBlendTileDataChunk has no located retail body: BFME 2 registers
+// "BlendTileData" through a parser object (0x000AEFC8). The 19-byte forwarder at
+// 0x002811CA once credited to it is TerrainLogic::parseWaypointDataChunk.
 
 /** Function to read in the tiles for a texture class. */
-// ?readTexClass@WorldHeightMap@@ present-unmatched
-void WorldHeightMap::readTexClass(TXTextureClass *texClass, TileData **tileData) 
-{
-	char path[_MAX_PATH];
-	path[0] = 0;
-	File *theFile = NULL;
-
-	// get the file from the description in TheTerrainTypes
-	TerrainType *terrain = TheTerrainTypes->findTerrain( texClass->name );
-	char texturePath[ _MAX_PATH ];
-	if (terrain==NULL) 
-	{
-#ifdef LOAD_TEST_ASSETS
-		theFile = TheFileSystem->openFile( texClass->name.str(), File::READ|File::BINARY);
-#endif
-	} 
-	else 
-	{
-		sprintf( texturePath, "%s%s", TERRAIN_TGA_DIR_PATH, terrain->getTexture().str() );
-		theFile = TheFileSystem->openFile( texturePath, File::READ|File::BINARY);
-	}
-
-	if (theFile != NULL) {
-		GDIFileStream theStream(theFile);
-		InputStream *pStr = &theStream;
-		Int numTiles = WorldHeightMap::countTiles(pStr);
-		theFile->seek(0, File::START);
-		if (numTiles >= texClass->numTiles) { 
-			numTiles = texClass->numTiles;
-			Int width;
-			for (width = 10; width >= 1; width--) {
-				if (numTiles >= width*width) {
-					numTiles = width*width;
-					break;
-				}
-			}
-			WorldHeightMap::readTiles(pStr, tileData+texClass->firstTile, width);						
-		}
-		theFile->close();
-	}
-}
+// WorldHeightMap::readTexClass is defined with its retail-matched body in Code/GameEngine/Source/Common/Rva000AF917Finish.cpp (0x000AF917).
 
 /**
 * WorldHeightMap::ParseBlendTileData - read a blend tile info chunk.
@@ -2266,43 +1973,8 @@ TerrainTextureClass *WorldHeightMap::getFlatTexture(Int xCell, Int yCell, Int ce
 }
 
 
-// ?setDrawOrg@WorldHeightMap@@ present-unmatched
-Bool WorldHeightMap::setDrawOrg(Int xOrg, Int yOrg)
-{
-	Int newX, newY;
-	Int newWidth, newHeight;
-	newX = xOrg;
-	newY = yOrg;
-	newWidth = m_drawWidthX;
-	newHeight = m_drawHeightY;
-	if (TheGlobalData && TheGlobalData->m_stretchTerrain) {
-		newWidth=STRETCH_DRAW_WIDTH;
-		newHeight=STRETCH_DRAW_HEIGHT;
-	}
-	if (TheGlobalData && TheGlobalData->m_drawEntireTerrain) {
-		newWidth=m_width;
-		newHeight=m_height;
-	}
-	if (newWidth > m_width) newWidth = m_width;
-	if (newHeight > m_height) newHeight = m_height;
-	if (newX > m_width - newWidth) newX = m_width-newWidth; 
-	if (newX<0) newX=0;
-	if (newY > m_height - newHeight) newY = m_height - newHeight; 
-	if (newY<0) newY=0;
-	Bool anythingDifferent = (m_drawOriginX!=newX) ||
-										 (m_drawOriginY!=newY) ||
-										 (m_drawWidthX!=newWidth) ||
-										 (m_drawHeightY!=newHeight) ;
-
-	if (anythingDifferent) {
-		m_drawOriginX=newX;
-		m_drawOriginY=newY;
-		m_drawWidthX=newWidth;
-		m_drawHeightY=newHeight;
-		return(true);
-	}
-	return(false);
-}
+// setDrawOrg (retail 0x000AC40D) is recovered against the BFME 2 layout in
+// WorldHeightMapSetDrawOrg.cpp.
 
 /** Gets global texture class. */
 // ?getTextureClass@WorldHeightMap@@ present-unmatched
@@ -2379,62 +2051,13 @@ TXTextureClass WorldHeightMap::getTextureFromIndex( Int textureIndex )
 	return m_textureClasses[textureIndex];
 }
 
-// ?getTerrainColorAt@WorldHeightMap@@ present-unmatched
-void WorldHeightMap::getTerrainColorAt(Real x, Real y, RGBColor *pColor)
-{
-	Int xIndex = REAL_TO_INT_FLOOR(x/MAP_XY_FACTOR);
-	Int yIndex = REAL_TO_INT_FLOOR(y/MAP_XY_FACTOR);
-	xIndex += m_borderSize;
-	yIndex += m_borderSize;
-	pColor->red = pColor->green = pColor->blue = 0;
-	if (xIndex<0) xIndex = 0;
-	if (yIndex<0) yIndex = 0;
-	if (xIndex >= m_width) xIndex = m_width-1;
-	if (yIndex >= m_height) yIndex = m_height-1;
-	Int ndx = (yIndex*m_width)+xIndex;
-	if (ndx<0 || ndx >= this->m_dataSize) return;
-	Int tileNdx = m_tileNdxes[ndx];
-	tileNdx = tileNdx>>2;	 // We pack 4 grids into a tile.
 
-	TileData *pTile = getSourceTile(tileNdx);
-	if (pTile) {
-		// pTile contains the bitmap data for 4 squares.
-		// Get the data mipped down to one pixel for the tile.
-		UnsignedByte *pData = pTile->getRGBDataForWidth(1);
-		// Data is in microsoft bgra format.
-		pColor->red = pData[2]/255.0;
-		pColor->green = pData[1]/255.0;
-		pColor->blue = pData[0]/255.0;
-	}
-}	
-
-// ?getTerrainNameAt@WorldHeightMap@@ present-unmatched
-AsciiString WorldHeightMap::getTerrainNameAt(Real x, Real y)
-{
-	Int xIndex = REAL_TO_INT_FLOOR(x/MAP_XY_FACTOR);
-	Int yIndex = REAL_TO_INT_FLOOR(y/MAP_XY_FACTOR);
-	xIndex += m_borderSize;
-	yIndex += m_borderSize;
-	if (xIndex<0) xIndex = 0;
-	if (yIndex<0) yIndex = 0;
-	if (xIndex >= m_width) xIndex = m_width-1;
-	if (yIndex >= m_height) yIndex = m_height-1;
-	Int ndx = (yIndex*m_width)+xIndex;
-	if (ndx<0 || ndx >= this->m_dataSize) return AsciiString::TheEmptyString;
-	Int tileNdx = m_tileNdxes[ndx];
-	tileNdx = tileNdx>>2;	 // We pack 4 grids into a tile.
-
-	Int i;
-	for (i=0; i<this->m_numTextureClasses; i++) {
-		if (tileNdx >= m_textureClasses[i].firstTile && tileNdx < m_textureClasses[i].firstTile + m_textureClasses[i].numTiles) {
-			return(m_textureClasses[i].name);
-		}
-	}
-	return AsciiString::TheEmptyString;
-}	
+// WorldHeightMap::getTerrainNameAt (0x000AEC4E) is rowed in WorldHeightMapGetTerrainNameAt.cpp; a second definition here would not link.	
 
 
-static UnsignedByte s_buffer[DATA_LEN_BYTES];
+// The ledger names this buffer _s_buffer (0x009E81C8); the six-argument
+// getPointerToTileData in WorldHeightMapRva000AED2E.cpp shares it.
+extern "C" { UnsignedByte s_buffer[DATA_LEN_BYTES]; }
 static UnsignedByte s_blendBuffer[DATA_LEN_BYTES];
 
 // ?getPointerToTileData@WorldHeightMap@@ present-unmatched
@@ -2488,7 +2111,7 @@ UnsignedByte * WorldHeightMap::getPointerToTileData(Int xIndex, Int yIndex, Int 
 #define K_DIR_MOD 0x05
 #define K_INV 6
 
-// ?getRGBAlphaDataForWidth@WorldHeightMap@@ present-unmatched
+#pragma optimize("s", on)
 UnsignedByte *WorldHeightMap::getRGBAlphaDataForWidth(Int width, TBlendTileInfo *pBlend)
 {
 	Int alphaTileNdx = 0;
@@ -2508,6 +2131,31 @@ UnsignedByte *WorldHeightMap::getRGBAlphaDataForWidth(Int width, TBlendTileInfo 
 	}
 	return m_alphaTiles[alphaTileNdx]->getRGBDataForWidth(width);
 }
+// Native000ADDCE..000ADE29 RET12. BFME1 ba7ddda7e8
+// WorldHeightMap.cpp supplies the blendTileData semantic lead; target adds
+// the raw-tile mode argument. Existing TU buffers and alpha getter are reused.
+// External helper declarations below are native call ABI views; original
+// linkage spelling remains unknown. Raw loaderAC88E reads signed word arg8,
+// four further words and ECX, RET20/AL. SetupAC6F9 RET0 ignores ECX. MMX
+// blendAC63F reads four cdecl words, RET0, source/destination/alpha/count.
+class Rva000ADDCEWorldHeightMapView
+{
+public:
+ bool rawTile(Short tile,Int width,UnsignedByte *buffer,Int bytes,Int mode);
+ void blendTile(TBlendTileInfo *blend,Int width,Int mode);
+};
+void __cdecl Rva000AC6F9SetupAlphaTiles();
+void __cdecl Rva000AC63FBlendPixels(UnsignedByte *source,UnsignedByte *destination,UnsignedByte *alpha,Int pixels);
+void Rva000ADDCEWorldHeightMapView::blendTile(TBlendTileInfo *blend,Int width,Int mode)
+{
+ if(rawTile(blend->blendNdx,width,s_blendBuffer,0x2000,mode)) {
+  Rva000AC6F9SetupAlphaTiles();
+  UnsignedByte *alpha=reinterpret_cast<WorldHeightMap *>(this)->getRGBAlphaDataForWidth(width,blend);
+  if(alpha)Rva000AC63FBlendPixels(s_blendBuffer,s_buffer,alpha,width*width);
+ }
+}
+
+#pragma optimize("", on)
 
 // ?setupAlphaTiles@WorldHeightMap@@ present-unmatched
 void WorldHeightMap::setupAlphaTiles(void)

@@ -1,4 +1,5 @@
-// cl: /O1 /MD
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// stlport
 //
 // Opaque destructors that free a heap member at +0x04 (null-checked), the
 // same shape seven times with distinct vtables. The free target at
@@ -38,16 +39,16 @@ Rva0030F42E::~Rva0030F42E()
 		free(m_ptr04);
 }
 
-class Rva004FCD14
+class Rva004FD719Data
 {
 public:
-	virtual ~Rva004FCD14();
+	virtual ~Rva004FD719Data();
 
 private:
 	void *m_ptr04;
 };
 
-Rva004FCD14::~Rva004FCD14()
+Rva004FD719Data::~Rva004FD719Data()
 {
 	if (m_ptr04)
 		free(m_ptr04);
@@ -68,16 +69,22 @@ Rva004FCD49::~Rva004FCD49()
 		free(m_ptr04);
 }
 
-class Rva00578C0E
+// The class whose constructor 0x00578C2E stores the vtable this destructor
+// restores; rowed under that constructor's name. That vtable (0x00BE2B78)
+// holds three __purecall slots and no destructor: the destructor is not virtual.
+class Rva00578C2E
 {
 public:
-	virtual ~Rva00578C0E();
+	virtual void slot0() = 0;
+	virtual void slot1() = 0;
+	virtual void slot2() = 0;
+	~Rva00578C2E();
 
 private:
 	void *m_ptr04;
 };
 
-Rva00578C0E::~Rva00578C0E()
+Rva00578C2E::~Rva00578C2E()
 {
 	if (m_ptr04)
 		free(m_ptr04);
@@ -98,17 +105,70 @@ Rva0057BCEC::~Rva0057BCEC()
 		free(m_ptr04);
 }
 
-class Rva005D639A
+// The constructor 0x005D66E7 proves a vector base at +4. Its automatic
+// destruction emits the already verified null-checked free at 0x005D639A.
+#include <vector>
+struct BfmeE8 { void *p; unsigned char flag; char pad[3]; };
+#include "../../Include/Common/Rva005D639A.h"
+
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline Rva005D639A::~Rva005D639A() {}
+
+// ?bfmeAnchorRva005D639ADtor absent-from-retail
+void bfmeAnchorRva005D639ADtor(Rva005D639A *p)
+{
+	p->Rva005D639A::~Rva005D639A();
+}
+
+class Rva004FCA9C
 {
 public:
-	virtual ~Rva005D639A();
-
-private:
-	void *m_ptr04;
+	~Rva004FCA9C();
 };
 
-Rva005D639A::~Rva005D639A()
+class Rva004FCAC9
 {
-	if (m_ptr04)
-		free(m_ptr04);
+public:
+	~Rva004FCAC9();
+};
+
+class Rva004FCAF6
+{
+public:
+	~Rva004FCAF6();
+};
+
+class Rva004FCD5E
+{
+public:
+	void rva004FCD5E();
+};
+
+void Rva004FCD5E::rva004FCD5E()
+{
+	((Rva004FCA9C *)this)->~Rva004FCA9C();
 }
+
+class Rva004FCD63
+{
+public:
+	void rva004FCD63();
+};
+
+void Rva004FCD63::rva004FCD63()
+{
+	((Rva004FCAC9 *)this)->~Rva004FCAC9();
+}
+
+class Rva004FCD68
+{
+public:
+	void rva004FCD68();
+};
+
+void Rva004FCD68::rva004FCD68()
+{
+	((Rva004FCAF6 *)this)->~Rva004FCAF6();
+}
+

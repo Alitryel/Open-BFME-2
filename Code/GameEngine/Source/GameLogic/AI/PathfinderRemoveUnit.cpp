@@ -22,3 +22,11 @@ void Pathfinder::removeUnitFromPathfindMap(Object *obj)
 	removePos(obj);
 	removeGoal(obj);
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x006D5B50 -> ?TrimRight@EAStringC@@QAEAAV1@PBD@Z
+#pragma comment(linker, "/alternatename:?removeGoal@Pathfinder@@QAEXPAVObject@@@Z=?TrimRight@EAStringC@@QAEAAV1@PBD@Z")
+//   0x006D59F0 -> ?rva006D59F0@EAStringC@@QAEAAV1@PBD@Z
+#pragma comment(linker, "/alternatename:?removePos@Pathfinder@@QAEXPAVObject@@@Z=?rva006D59F0@EAStringC@@QAEAAV1@PBD@Z")

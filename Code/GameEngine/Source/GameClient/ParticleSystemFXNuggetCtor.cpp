@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /arch:SSE /GX
+// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /arch:SSE /GX
 //
 // ??0ParticleSystemFXNugget@@QAE@XZ 392B @0x001E0AEF: no-arg ctor called by
 // ParticleSystemFXNugget::parse (0x001E2679) for the ParticleSystem FXList
@@ -25,22 +25,9 @@ protected:
 	unsigned char m_pad[0x148 - 8];
 };
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	void clear();
-	~AsciiString();
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-};
+#include "../../../Libraries/Include/Lib/Coord3D.h"
 
 class GameClientRandomVariable
 {
@@ -103,7 +90,7 @@ private:
 	Coord3D m_targetOffset; // +0x1B0
 };
 
-ParticleSystemFXNugget::ParticleSystemFXNugget()
+inline ParticleSystemFXNugget::ParticleSystemFXNugget()
 {
 	m_name.clear();
 	m_count = 1;
@@ -126,3 +113,14 @@ ParticleSystemFXNugget::ParticleSystemFXNugget()
 	m_onlyIfOnWater = false;
 	m_ricochet = false;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeParticleSystemFXNuggetInlineAnchor@@YAXPAVParticleSystemFXNugget@@@Z absent-from-retail
+void _bfmeParticleSystemFXNuggetInlineAnchor(ParticleSystemFXNugget *particleSystemFXNugget)
+{
+    particleSystemFXNugget->ParticleSystemFXNugget::ParticleSystemFXNugget();
+}
+#pragma inline_depth()

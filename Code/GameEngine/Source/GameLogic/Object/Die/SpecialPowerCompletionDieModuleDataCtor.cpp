@@ -2,7 +2,7 @@
 //
 // ??0SpecialPowerCompletionDieModuleData@@QAE@XZ, retail 0x004C230E,
 // 22 bytes. Frameless ctor over the pinned SEH base
-// (??0Rva00253510@@QAE@XZ at 0x253510, shared with the UpgradeDie ctor):
+// (??0DestroyDieModuleData@@QAE@XZ at 0x253510, shared with the UpgradeDie ctor):
 // base call, then the compact and-zero of the SpecialPowerTemplate word
 // at +0x38, then the folded-trivial vtable literal 0x00C4ED70 (shared by
 // DeletionUpdate plus SlotToLock plus ReflectDamage, so the install alone
@@ -13,13 +13,16 @@
 // SpecialPowerTemplate field at +0x38 per the BFME1 donor) beside the
 // rowed SpecialPowerCompletionDie pool key and behavior rows.
 
-class Rva00253510
+extern "C" const void *const vtbl_00C4ED70[];  // folded, 9 classes; via ??_7BeaconClientUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4ED70=??_7BeaconClientUpdateModuleData@@6B@")
+
+class DestroyDieModuleData
 {
 public:
-	Rva00253510();
+	DestroyDieModuleData();
 };
 
-class SpecialPowerCompletionDieModuleData : public Rva00253510
+class SpecialPowerCompletionDieModuleData : public DestroyDieModuleData
 {
 public:
 	SpecialPowerCompletionDieModuleData();
@@ -31,8 +34,19 @@ private:
 };
 
 // ??0SpecialPowerCompletionDieModuleData@@QAE@XZ @0x4C230E
-SpecialPowerCompletionDieModuleData::SpecialPowerCompletionDieModuleData()
+inline SpecialPowerCompletionDieModuleData::SpecialPowerCompletionDieModuleData()
 {
 	m_specialPowerTemplate = 0;
-	m_vtable = reinterpret_cast<void *>(0x00C4ED70);
+	m_vtable = reinterpret_cast<void *>(((unsigned int)vtbl_00C4ED70));
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeSpecialPowerCompletionDieModuleDataInlineAnchor@@YAXPAVSpecialPowerCompletionDieModuleData@@@Z absent-from-retail
+void _bfmeSpecialPowerCompletionDieModuleDataInlineAnchor(SpecialPowerCompletionDieModuleData *specialPowerCompletionDieModuleData)
+{
+    specialPowerCompletionDieModuleData->SpecialPowerCompletionDieModuleData::SpecialPowerCompletionDieModuleData();
+}
+#pragma inline_depth()

@@ -1,5 +1,5 @@
 // cl: /EHsc
-// ?rva008fa850@BfmeOwnerCDE@@QAEXPAX@Z
+// ?RegisterObject@BfmeOwnerCDE@@QAEXPAX@Z
 //
 // The caller at 0x008F73A0 dispatches to this owner method through its CDE
 // interface. The sibling at 0x008F8D00 removes the same BfmeThingCDE nodes.
@@ -44,7 +44,7 @@ public:
 class BfmeOwnerCDE
 {
 public:
-	void rva008fa850(void *what);
+	void RegisterObject(void *what);
 	int getCDECount(void *what);
 
 	char m_pad[0x30];
@@ -53,10 +53,8 @@ public:
 };
 
 #pragma comment(linker, "/alternatename:??0BfmeThingCDE@@QAE@PAX00@Z=?d_008f78b0@@YAXXZ")
-#pragma comment(linker, "/alternatename:?initializeArray@BfmeThingCDE@@QAEXH@Z=?d_008f7e20@@YAXXZ")
-#pragma comment(linker, "/alternatename:?getCDECount@BfmeOwnerCDE@@QAEHPAX@Z=?d_008fa4b0@@YAXXZ")
 
-void BfmeOwnerCDE::rva008fa850(void *what)
+void BfmeOwnerCDE::RegisterObject(void *what)
 {
 	if (what == 0 || ((CDEProvider *)what)->f4() != 0)
 		return;

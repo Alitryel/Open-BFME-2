@@ -33,10 +33,7 @@ protected:
 	unsigned char m_pad2[0x88 - 0x24];
 };
 
-// ??1Rva0044EF5E@@ present-unmatched
-Rva0044EF5E::~Rva0044EF5E()
-{
-}
+// ??1Rva0044EF5E@@UAE@XZ defined by its owner; declared here for the base call.
 
 class ActivateModuleSpecialPower : public Rva0044EF5E
 {

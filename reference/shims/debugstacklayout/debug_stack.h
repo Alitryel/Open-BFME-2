@@ -161,9 +161,11 @@ public:
 
     \param sig stack signature to return
     \param ctx processor context, if NULL then use current address
+    \param useFallback scan the raw stack when dbghelp finds fewer than five
+           frames (BFME; declared as in Open-BFME-1's debug_stack.h)
     \return number of addresses found
   */
-  static int StackWalk(Signature &sig, struct _CONTEXT *ctx=0);
+  static int StackWalk(Signature &sig, struct _CONTEXT *ctx=0, bool useFallback=true);
 };
 
 /**

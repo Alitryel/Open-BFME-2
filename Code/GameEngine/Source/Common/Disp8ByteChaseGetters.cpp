@@ -106,12 +106,25 @@ BFME_DISP8_BYTECHASE_GETTER(Rva002D37B3ByteChase32Field, 0x10, 0x128)
 BFME_DISP8_BYTECHASE_GETTER(Rva00333027ByteChase32Field, 0x4, 0x630)
 BFME_DISP8_BYTECHASE_GETTER(Rva0033F8A2ByteChase32Field, 0x4, 0x10B)
 BFME_DISP8_BYTECHASE_GETTER(Rva003427D3ByteChase32Field, 0x4, 0x5FD)
-BFME_DISP8_BYTECHASE_GETTER(Rva0039ADAFByteChase32Field, 0x4, 0x5E7)
+// 0x0039ADAF is ExperienceTracker::isTrainable (pinned under that name from
+// VeterancyCrateCollide::isValidToExecute; ZH's isTrainable reads the
+// template's trainable flag): the byte at +0x5E7 of the +0x04 template.
+class ExperienceTracker
+{
+public:
+	bool isTrainable() const;
+	char m_lead[0x4];
+	void *m_template;
+};
+bool ExperienceTracker::isTrainable() const
+{
+	return *(bool *)((char *)m_template + 0x5E7);
+}
 BFME_DISP8_BYTECHASE_GETTER(Rva0041B805ByteChase32Field, 0x4, 0x80)
 BFME_DISP8_BYTECHASE_BEFORE_GETTER(Rva0045F479ByteChase32Field, 0x2C, 0x168)
 BFME_DISP8_BYTECHASE_BEFORE_GETTER(Rva0045F483ByteChase32Field, 0x2C, 0x169)
-BFME_DISP8_BYTECHASE_BEFORE_GETTER(Rva00460A98ByteChase32Field, 0x0C, 0x114)
-BFME_DISP8_BYTECHASE_BEFORE_GETTER(Rva00460AA2ByteChase32Field, 0x0C, 0x115)
+// 0x00460A98 and 0x00460AA2 are UpgradeModule's UpgradeMux slots 13 and 14:
+// Code/GameEngine/Source/Common/VslotSmallBodiesU.cpp.
 BFME_DISP8_BYTECHASE_BEFORE_GETTER(Rva004827EFByteChase32Field, 0x1C, 0x114)
 BFME_DISP8_BYTECHASE_BEFORE_GETTER(Rva0049B657ByteChase32Field, 0x1C, 0x134)
 BFME_DISP8_BYTECHASE_BEFORE_GETTER(Rva0049B661ByteChase32Field, 0x1C, 0x135)

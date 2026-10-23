@@ -8,7 +8,7 @@ class BFME2MotionChannel
 {
 public:
 	BFME2MotionChannel();
-	virtual ~BFME2MotionChannel();
+	virtual ~BFME2MotionChannel() {}
 	int Type;
 	int Pivot;
 	int Count;

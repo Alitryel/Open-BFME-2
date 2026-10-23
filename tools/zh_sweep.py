@@ -38,6 +38,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import boundary_validator
 import build
 import ledger_io
+import wb_context
 
 ROOT = build.ROOT
 ZH = build.ZH_REFERENCE_ROOT
@@ -260,6 +261,11 @@ def merged_claims():
 
 
 def do_compile(args):
+    from concurrent.futures import ThreadPoolExecutor
+
+    jobs = getattr(args, "jobs", 1)
+    if jobs < 1:
+        raise SystemExit("compile: --jobs must be at least 1")
     sources = []
     for subtree in SUBTREES:
         found = sorted((ZH / subtree).rglob("*.cpp"))
@@ -268,23 +274,29 @@ def do_compile(args):
             found = [found[int(i * step)] for i in range(args.limit)]
         sources += found
     OBJ_DIR.mkdir(parents=True, exist_ok=True)
-    built = failed = cached = 0
-    for source in sources:
+
+    def compile_one(source):
         obj = OBJ_DIR / (object_stem(source.relative_to(ROOT))
                          + (".stl" if build.source_needs_stlport(source) else "") + ".obj")
         if obj.exists() and not args.force:
-            cached += 1
-            continue
+            return "cached"
         try:
             build.compile_source(source, obj)
-            built += 1
+            return "built"
         except SystemExit:
-            # A ZH TU that will not compile is the expected minority (the sweep
-            # runs at ~95%), not a reason to abandon the other 400.
-            failed += 1
+            # A failed forced rebuild must not leave an older object available
+            # to match/packets under the new source or header configuration.
+            obj.unlink(missing_ok=True)
+            obj.with_suffix(".deps.json").unlink(missing_ok=True)
             print(f"  compile FAILED {source.relative_to(ROOT)}", flush=True)
-    print(f"compile: {built} built, {cached} cached, {failed} failed "
-          f"of {len(sources)} translation unit(s)")
+            return "failed"
+
+    counts = {"built": 0, "cached": 0, "failed": 0}
+    with ThreadPoolExecutor(max_workers=jobs) as pool:
+        for result in pool.map(compile_one, sources):
+            counts[result] += 1
+    print(f"compile: {counts['built']} built, {counts['cached']} cached, "
+          f"{counts['failed']} failed of {len(sources)} translation unit(s)")
 
 
 def do_match(args):
@@ -675,7 +687,7 @@ def elsewhere(callee):
     return f" (unpinned: this is the address retail calls; {'; '.join(known)})" if known else ""
 
 
-def callee_pins(rva, body, relocs, sources):
+def callee_pins(rva, placed_at, body, relocs, sources):
     """Each REL32 callee with the address THIS call site encodes in retail.
 
     The displacement is read out of the retail bytes, so the address is the
@@ -685,13 +697,34 @@ def callee_pins(rva, body, relocs, sources):
     called HERE at a copy the ledger does not hold, and a pin that reads the
     name alone asserts a symbol is landed while quoting an address no row
     covers.
+
+    `placed_at` is where the sweep's alignment placed the candidate, which is
+    NOT always `rva`: do_packets corrects a near placement back to the
+    inventory's function start, and the candidate's reloc offsets stay relative
+    to the placement it aligned at. Reading them against the corrected start put
+    0x005E16DA's only call four bytes early -- retail inserts `push [esp+8]`
+    after the corrected start -- and printed the pin as `0x-16B05E16`, an
+    address no converter can use. Offsets are rebased by the correction, and a
+    site is refused rather than guessed when retail does not carry a call or
+    jump opcode where the reloc says one is.
     """
+    shift = placed_at - rva
     lines = []
+    outside = 0
     for offset, kind, callee in relocs:
-        if kind != REL32 or offset + 4 > len(body):
+        if kind != REL32:
             continue
-        displacement = struct.unpack_from("<i", body, offset)[0]
-        target = rva + offset + 4 + displacement
+        index = offset + shift
+        if index < 1 or index + 4 > len(body):
+            outside += 1
+            continue
+        if body[index - 1] not in (0xE8, 0xE9):
+            lines.append(f"{callee} (retail carries no call or jump opcode at the "
+                         f"rebased site +0x{index:x}; the layouts differ, so no address "
+                         "is derived here)")
+            continue
+        displacement = struct.unpack_from("<i", body, index)[0]
+        target = rva + index + 4 + displacement
         symbol = sources.get(callee)
         if symbol is None:
             mark = ""
@@ -702,6 +735,14 @@ def callee_pins(rva, body, relocs, sources):
         else:
             mark = elsewhere(symbol)
         lines.append(f"{callee},0x{target:08X}{mark}")
+    if outside:
+        # One line, not one per site: for a candidate the sweep could only align
+        # by its reloc-free runs, every site can fall outside the served body,
+        # and 0x0075B948's 59B candidate did exactly that against a 4B retail
+        # extent. Repeating it per site read as five pins to add.
+        lines.insert(0, f"({outside} REL32 site(s) of the candidate lie outside the "
+                        f"{len(body)}B retail body once the placement is rebased; the "
+                        "layouts differ, so no pin is derived here)")
     return "\n".join(lines) or "(no relative calls in this body)"
 
 
@@ -804,6 +845,25 @@ def header_lines(rva, bounds, best):
     return [wrap(line, indent="  ") for line in lines]
 
 
+def wb_lines(rva, group):
+    """The packet's WorldBuilder section: the lead at this address and whether
+    each Zero Hour candidate's name or file agrees with it. [] with no lead.
+
+    Agreement is a second identity witness the byte alignment cannot give --
+    in particular it can separate tied candidates. It is not a byte match."""
+    lead = wb_context.lead(rva)
+    if not lead:
+        return []
+    lines = ["## WorldBuilder lead", "", f"- {wb_context.line(lead)}"]
+    for record in group:
+        agree = wb_context.agreement(lead, name=record["sym"], source=record["source"])
+        if agree:
+            lines.append(f"- agrees ({agree}) with candidate {record['sym']}")
+    lines += ["", "WB's near-source debug body beside retail's:", "",
+              "```", wb_context.show_command(rva), "```", ""]
+    return lines
+
+
 def packet_text(rva, bounds, group, body, relocs, sources):
     best = group[0]
     candidates = [f"- `{r['sym']}`\n  in `{r['source']}` "
@@ -827,6 +887,7 @@ def packet_text(rva, bounds, group, body, relocs, sources):
         *ambiguous,
         "\n".join(candidates),
         "",
+        *wb_lines(rva, group),
         "## What this is",
         "",
         "The vendored Zero Hour tree contains a body that nearly reproduces these retail",
@@ -845,7 +906,7 @@ def packet_text(rva, bounds, group, body, relocs, sources):
         "## Callee pins (paste unresolved ones into reverse/symbols.csv)",
         "",
         "```",
-        callee_pins(rva, body, relocs, sources),
+        callee_pins(rva, group[0].get("rva", rva), body, relocs, sources),
         "```",
         "",
         "## Landing it",
@@ -1564,6 +1625,8 @@ def main():
     compile_parser.add_argument("--limit", type=int, default=0,
                                 help="sample at most N sources per subtree")
     compile_parser.add_argument("--force", action="store_true", help="rebuild cached objects")
+    compile_parser.add_argument("--jobs", type=int, default=1,
+                                help="parallel compiler processes (default 1)")
     compile_parser.set_defaults(run=do_compile)
     sub.add_parser("match", help="place every carved COMDAT in .text").set_defaults(run=do_match)
     land_parser = sub.add_parser("land", help="ledger rows for landable placements")

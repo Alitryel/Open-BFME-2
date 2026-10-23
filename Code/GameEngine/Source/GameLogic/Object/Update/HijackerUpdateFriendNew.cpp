@@ -21,7 +21,15 @@ private:
 };
 
 // ?friend_newModuleInstance@HijackerUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *HijackerUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *HijackerUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new HijackerUpdate(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitHijackerUpdateFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitHijackerUpdateFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	HijackerUpdate::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

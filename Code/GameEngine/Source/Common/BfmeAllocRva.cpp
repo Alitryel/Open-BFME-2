@@ -7,6 +7,8 @@
 // 0x000279A0. The true instance name is not proven by these bytes, so this
 // row rides under an Rva owner.
 
+#pragma comment(linker, "/alternatename:?bfmeSmallAllocPS@@YAPAXI@Z=?_M_allocate@?$__node_alloc@$00$0A@@_STL@@CAPAXI@Z")
+
 void *bfmeBigAllocPR(unsigned int bytes);
 
 void *bfmeSmallAllocPS(unsigned int bytes);

@@ -1,4 +1,4 @@
-// cl: /O1 /MD /DNDEBUG /arch:SSE
+// cl: /MD /DNDEBUG
 //
 // ??0RepairDockUpdateModuleData@@QAE@XZ, retail 0x004A1297 (31 bytes).
 // Frameless derived ctor over the rowed DockUpdateModuleData base
@@ -9,6 +9,9 @@
 // stores. No EH (the lone base call precedes any construction). Identity is
 // the ModuleFactory registration under "RepairDockUpdate" (sole-caller data
 // factory per the superseded ctor pin).
+
+extern "C" const void *const vtbl_00C4ED70[];  // folded, 9 classes; via ??_7BeaconClientUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4ED70=??_7BeaconClientUpdateModuleData@@6B@")
 
 class DockUpdateModuleData
 {
@@ -33,6 +36,6 @@ private:
 RepairDockUpdateModuleData::RepairDockUpdateModuleData()
 	: DockUpdateModuleData()
 {
-	*(unsigned int *)this = 0x00C4ED70;
+	*(unsigned int *)this = ((unsigned int)vtbl_00C4ED70);
 	m_float10 = 1.0f;
 }

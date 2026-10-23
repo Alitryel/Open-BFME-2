@@ -1,7 +1,18 @@
-// cl: /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /Ireference/shims/bfme2ray /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/zhmd /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // The old +0x9C getter placement depended on a refuted base-destructor layout.
 // Precise BFME2 lifetime/copy proofs retain 32 opaque bytes there; no hook identity is claimed.
 // stlport
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -66,6 +77,17 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+// multilist.h's inline members are retail's size-optimised bodies: compile
+// them for size (as hlod.cpp/decalsys.cpp do) so this unit's copies match.
+#pragma optimize("s", on)
+#include "multilist.h"
+#pragma optimize("", on)
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
 #include "scene.h"
 #include "plane.h"
 #include "camera.h"
@@ -130,15 +152,18 @@ protected:
  * HISTORY:                                                                                    *
  *   12/10/98   GTH : Created.                                                                 *
  *=============================================================================================*/
-SceneClass::SceneClass(void) : 
-	AmbientLight(0.5f,0.5f,0.5f),
-	PolyRenderMode(FILL),
-	ExtraPassPolyRenderMode(EXTRA_PASS_DISABLE),
-	FogEnabled(false),
-	FogColor(0,0,0),
-	FogStart(0.0f),
-	FogEnd(1000.0f)	// Arbitrary default value
+// SceneClass::SceneClass (0x00140C60) is rowed in SimpleSceneClassConstructorBFME2.cpp,
+// whose SimpleSceneClass ctor emits the same body; a strong copy here duplicated it.
+// The ctor also emitted (through the vtable) five scene.h inline virtuals rowed here;
+// direct calls keep them emitted.
+// ?bfmeAnchorSceneClassInlineRows absent-from-retail
+void bfmeAnchorSceneClassInlineRows(SceneClass *scene, RenderInfoClass &rinfo, const Vector3 &v, bool on)
 {
+	scene->SceneClass::Set_Fog_Color(v);
+	scene->SceneClass::Set_Ambient_Light(v);
+	scene->SceneClass::Set_Fog_Range(0.0f, 1.0f);
+	scene->SceneClass::Set_Fog_Enable(on);
+	scene->SceneClass::Compute_Point_Visibility(rinfo, v);
 }
 
 
@@ -155,7 +180,8 @@ SceneClass::SceneClass(void) :
  *   12/10/98   GTH : Created.                                                                 *
  *=============================================================================================*/
 // ??1SceneClass@@UAE@XZ present-unmatched
-SceneClass::~SceneClass(void)
+// inline (a COMDAT copy) like the SceneClass views that the SimpleSceneClass units emit.
+inline SceneClass::~SceneClass(void)
 {
 }
 
@@ -176,10 +202,7 @@ SceneClass::~SceneClass(void)
  * HISTORY:                                                                                    *
  *   2/25/99    GTH : Created.                                                                 *
  *=============================================================================================*/
-void SceneClass::Add_Render_Object(RenderObjClass * obj)
-{
-	obj->Notify_Added(this);
-}
+// SceneClass::Add_Render_Object is defined with its retail-matched body in Code/Libraries/Source/WWVegas/WW3D2/SceneOwnership.cpp (0x00140CD0).
 
 
 /***********************************************************************************************
@@ -198,10 +221,7 @@ void SceneClass::Add_Render_Object(RenderObjClass * obj)
  * HISTORY:                                                                                    *
  *   2/25/99    GTH : Created.                                                                 *
  *=============================================================================================*/
-void SceneClass::Remove_Render_Object(RenderObjClass * obj)
-{
-	obj->Notify_Removed(this);
-}
+// SceneClass::Remove_Render_Object is defined with its retail-matched body in Code/Libraries/Source/WWVegas/WW3D2/SceneOwnership.cpp (0x00140CE0).
 
 
 /***********************************************************************************************
@@ -216,45 +236,8 @@ void SceneClass::Remove_Render_Object(RenderObjClass * obj)
  * HISTORY:                                                                                    *
  *   12/10/98   GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?Render@SceneClass@@MAEXAAVRenderInfoClass@@@Z present-unmatched
-void SceneClass::Render(RenderInfoClass & rinfo)
-{
-	// Any stuff that needs to get done before anything else
-	Pre_Render_Processing(rinfo);
-
-	DX8Wrapper::Set_Fog(FogEnabled, FogColor, FogStart, FogEnd);
-
-	if (Get_Extra_Pass_Polygon_Mode()==EXTRA_PASS_DISABLE) {
-		Customized_Render(rinfo);
-	}
-	else {
-		bool old_enable=WW3D::Is_Texturing_Enabled();
-
-		DX8Wrapper::Set_DX8_Render_State (D3DRS_ZBIAS, 0);
-		Customized_Render(rinfo);
-		switch (Get_Extra_Pass_Polygon_Mode()) {
-		case EXTRA_PASS_LINE:
-			WW3D::Enable_Texturing(false);
-			DX8Wrapper::Set_DX8_Render_State(D3DRS_FILLMODE,D3DFILL_WIREFRAME);
-			DX8Wrapper::Set_DX8_Render_State (D3DRS_ZBIAS, 7);
-			Customized_Render(rinfo);
-			break;
-		case EXTRA_PASS_CLEAR_LINE:
-// ?Clear@DX8Wrapper@@ present-unmatched
-			DX8Wrapper::Clear(true, false, Vector3(0.0f,0.0f,0.0f));	// Clear color but not z
-			WW3D::Enable_Texturing(false);
-			DX8Wrapper::Set_DX8_Render_State(D3DRS_FILLMODE,D3DFILL_WIREFRAME);
-			DX8Wrapper::Set_DX8_Render_State (D3DRS_ZBIAS, 7);
-			Customized_Render(rinfo);
-			break;
-		}
-
-		WW3D::Enable_Texturing(old_enable);
-	}
-
-	// Any stuff that needs to get done after anything else
-	Post_Render_Processing(rinfo);
-}
+// SceneClass::Render: BFME 2's body is the row 0x00141170 in SceneClass_Render.cpp;
+// Zero Hour's copy here duplicated it.
 
 /***********************************************************************************************
  * SceneClass::Save -- saves scene settings into a chunk                                       *
@@ -328,12 +311,8 @@ void SceneClass::Load(ChunkLoadClass & cload)
  *   3/24/98    GTH : Created.                                                                 *
  *   9/10/99    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ??0SimpleSceneClass@@QAE@XZ present-unmatched
-SimpleSceneClass::SimpleSceneClass(void) :
-   Visibility_Checked(false)
-{
-
-}
+// SimpleSceneClass::SimpleSceneClass is defined byte-exact in
+// SimpleSceneClassConstructorBFME2.cpp (0x00142960).
 
 /***********************************************************************************************
  * SimpleSceneClass::~SimpleSceneClass -- destructor                                           *
@@ -347,11 +326,9 @@ SimpleSceneClass::SimpleSceneClass(void) :
  * HISTORY:                                                                                    *
  *   3/24/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ??1SimpleSceneClass@@UAE@XZ present-unmatched
-SimpleSceneClass::~SimpleSceneClass(void)
-{
-	Remove_All_Render_Objects();
-}
+// Native SimpleSceneClass destructor is owned by SimpleSceneClass_dtor.cpp.
+// The unrowed donor copy here did not reproduce the native member teardown.
+
 
 /***********************************************************************************************
  * SimpleSceneClass::Remove_All_Render_Objects -- Removes all render objects from the scene    *
@@ -368,14 +345,8 @@ SimpleSceneClass::~SimpleSceneClass(void)
  * HISTORY:                                                                                    *
  *   8/27/2001  hy : Created.                                                                  *
  *=============================================================================================*/
-void SimpleSceneClass::Remove_All_Render_Objects(void)
-{
-	RenderObjClass * obj;
-	while ( ( obj = RenderList.Remove_Head() ) != NULL ) {
-		SceneClass::Remove_Render_Object(obj);
-		obj->Release_Ref();							// remove head gets a ref
-	}
-}
+// The retail loop is defined in SceneOwnership.cpp (0x00141370).
+// It peeks the owning list and removes through SimpleScene's virtual path.
 
 /***********************************************************************************************
  * SimpleSceneClass::Add_Render_Object -- add a render object to the scene                     *
@@ -390,11 +361,7 @@ void SimpleSceneClass::Remove_All_Render_Objects(void)
  *   3/24/98    GTH : Created.                                                                 *
  *=============================================================================================*/
 // byte-exact reconstruction: Code/GameEngine/Source/Common/SimpleSceneClass_Add_Render_Object_Thunk.cpp
-void SimpleSceneClass::Add_Render_Object(RenderObjClass * obj)
-{
-	SceneClass::Add_Render_Object(obj);
-	RenderList.Add(obj);
-}
+// SimpleSceneClass::Add_Render_Object is defined with its retail-matched body in Code/Libraries/Source/WWVegas/WW3D2/SceneOwnership.cpp (0x001413A0).
 
 
 /***********************************************************************************************
@@ -410,46 +377,13 @@ void SimpleSceneClass::Add_Render_Object(RenderObjClass * obj)
  *   3/24/98    GTH : Created.                                                                 *
  *=============================================================================================*/
 // byte-exact reconstruction: Code/GameEngine/Source/Common/SimpleSceneClass_Remove_Render_Object_Thunk.cpp
-void SimpleSceneClass::Remove_Render_Object(RenderObjClass * obj)
-{
-	SceneClass::Remove_Render_Object(obj);
-	// HY
-	// this line must come last because otherwise it might cause
-	// a premature release ref and cause a crash
-	RenderList.Remove(obj);
-}
+// SimpleSceneClass::Remove_Render_Object is defined with its retail-matched body in Code/Libraries/Source/WWVegas/WW3D2/SceneOwnership.cpp (0x00141860).
 
 // byte-exact reconstruction: Code/GameEngine/Source/Common/SimpleSceneClass_Register_Thunk.cpp
-void SimpleSceneClass::Register(RenderObjClass * obj,RegType for_what)
-{
-	switch (for_what) {
-		case ON_FRAME_UPDATE:	
-			UpdateList.Add(obj);			
-			break;
-		case LIGHT:	
-			LightList.Add_Tail(obj);	
-			break;
-		case RELEASE:				
-			ReleaseList.Add(obj);		
-			break;
-	};
-}
+// SimpleSceneClass::Register is defined with its retail-matched body in Code/Libraries/Source/WWVegas/WW3D2/SceneOwnership.cpp (0x00141400).
 
 // byte-exact reconstruction: Code/GameEngine/Source/Common/SimpleSceneClass_Unregister_Thunk.cpp
-void SimpleSceneClass::Unregister(RenderObjClass * obj,RegType for_what)
-{
-	switch (for_what) {
-		case ON_FRAME_UPDATE:	
-			UpdateList.Remove(obj);			
-			break;
-		case LIGHT:	
-			LightList.Remove(obj);	
-			break;
-		case RELEASE:				
-			ReleaseList.Remove(obj);		
-			break;
-	}
-}
+// SimpleSceneClass::Unregister is defined with its retail-matched body in Code/Libraries/Source/WWVegas/WW3D2/SceneOwnership.cpp (0x001414D0).
 
 
 
@@ -466,31 +400,6 @@ void SimpleSceneClass::Unregister(RenderObjClass * obj,RegType for_what)
  *   3/24/98    GTH : Created.                                                                 *
  *   4/13/98    NH : Added non-trivial checking (sphere vs. frustum).                          *
  *=============================================================================================*/
-// ?Visibility_Check@SimpleSceneClass@@UAEXPAVCameraClass@@@Z present-unmatched
-void SimpleSceneClass::Visibility_Check(CameraClass * camera)
-{
-	RefRenderObjListIterator it(&RenderList);
-
-	// Loop over all top-level RenderObjects in this scene. If the bounding sphere is not in front
-	// of all the frustum planes, it is invisible.
-	for (it.First(); !it.Is_Done(); it.Next()) {
-
-		RenderObjClass * robj = it.Peek_Obj();
-
-		if (robj->Is_Force_Visible()) {
-			robj->Set_Visible(true);
-		} else {
-			robj->Set_Visible(!camera->Cull_Sphere(robj->Get_Bounding_Sphere()));
-		}
-
-		// Prepare visible objects for LOD:
-		if(robj->Is_Really_Visible() && !robj->Is_Ignoring_LOD_Cost()) {
-			robj->Prepare_LOD(*camera);
-		}
-	}
-
-   Visibility_Checked = true;
-}
 
 
 /***********************************************************************************************
@@ -508,28 +417,8 @@ void SimpleSceneClass::Visibility_Check(CameraClass * camera)
  * HISTORY:                                                                                    *
  *   6/13/2001  gth : Created.                                                                 *
  *=============================================================================================*/
-float SimpleSceneClass::Compute_Point_Visibility
-(	
-	RenderInfoClass & rinfo,
-	const Vector3 & point
-)
-{
-	CastResultStruct res;
-	LineSegClass ray(rinfo.Camera.Get_Position(),point);
-	RayCollisionTestClass raytest(ray,&res,COLL_TYPE_PROJECTILE);
-
-	RefRenderObjListIterator it(&RenderList);
-	for (it.First(); !it.Is_Done(); it.Next()) {
-		RenderObjClass * robj = it.Peek_Obj();
-		robj->Cast_Ray(raytest);
-	}
-
-	if (res.Fraction == 1.0f) {
-		return 1.0f;
-	} else {
-		return 0.0f;
-	}
-}
+// SimpleSceneClass::Compute_Point_Visibility: BFME 2's body is the row 0x001418F0 in SceneOwnership.cpp;
+// Zero Hour's copy here duplicated it.
 
 
 /***********************************************************************************************
@@ -547,112 +436,14 @@ float SimpleSceneClass::Compute_Point_Visibility
  *   12/10/98  GTH : Created.                                                                 *
  *   06/27/02	KM Shader system light environment updates                                       *
  *=============================================================================================*/
-// ?Customized_Render@SimpleSceneClass@@ present-unmatched
-void SimpleSceneClass::Customized_Render(RenderInfoClass & rinfo)
-{	
-//	SceneClass::Render(rinfo);
+// SimpleSceneClass::Customized_Render is rowed in SimpleSceneClassConstructorBFME2.cpp;
+// the Zero Hour copy here duplicated it. It was also what emitted the rowed
+// RenderObjClass::Get_Render_Hook inline here; this pointer is a compile anchor for
+// that row, not a retail data claim.
+extern RenderHookClass *(RenderObjClass::*const _bfmeInlineAnchorGetRenderHook)() =
+	&RenderObjClass::Get_Render_Hook;
 
-   // If visibility has not been checked for this scene since the last
-   // Render() call, check it (set/clear the visibility bit in all render
-   // objects in the scene).
-   if (!Visibility_Checked) {
-      // set the visibility bit in all render objects in all layers.
-	   Visibility_Check(&rinfo.Camera);
-   }
-   Visibility_Checked = false;	
-	
-	RefRenderObjListIterator it(&UpdateList);	
-
-	// allow all objects in the update list to do their "every frame" processing
-	for (it.First(); !it.Is_Done(); it.Next()) {
-		it.Peek_Obj()->On_Frame_Update();
-	}
-
-	// apply only the first four lights in the scene
-	// derived classes should use light environment
-	WWASSERT(rinfo.light_environment==NULL);
-	int count=0;
-	// Turn off lights in case we have none
-	DX8Wrapper::Set_Light(0,NULL);
-	DX8Wrapper::Set_Light(1,NULL);
-	DX8Wrapper::Set_Light(2,NULL);
-	DX8Wrapper::Set_Light(3,NULL);
-
-// (gth) WWShade only works with light environments.  We need to upgrade LightEnvironment to
-// support real point lights, etc.  It will likely just evolve into "the n most important" lights
-// rather than optimizing lights into directional lights...
-#if 0
-	for (it.First(&LightList); !it.Is_Done(); it.Next())
-	{		
-		if (count<4)
-		{
-			DX8Wrapper::Set_Light(count,*(LightClass*)it.Peek_Obj());
-		} else
-		{
-			// Simple scene only supports 4 global lights
-			WWDEBUG_SAY(("Light %d ignored\n",count));
-		}
-		count++;
-	}
-#endif
-
-	// adding light environment for new shader system
-	if (!rinfo.light_environment)
-	{
-		static LightEnvironmentClass lenv;
-
-		lenv.Reset(Vector3(0,0,0),AmbientLight);
-
-		for (it.First(&LightList); !it.Is_Done(); it.Next()) 
-		{
-			lenv.Add_Light(*(LightClass*)it.Peek_Obj());
-		}	
-		lenv.Pre_Render_Update(rinfo.Camera.Get_Transform());
-
-		rinfo.light_environment=&lenv;
-	}
-
-
-	// loop through all render objects in the list:
-	for (it.First(&RenderList); !it.Is_Done(); it.Next()) {
-
-		// get the render object
-		RenderObjClass * robj = it.Peek_Obj();
-
-		if (robj->Is_Really_Visible()) {
-			if (robj->Get_Render_Hook()) {
-				if (robj->Get_Render_Hook()->Pre_Render(robj, rinfo)) {
-					robj->Render(rinfo);
-				}
-				robj->Get_Render_Hook()->Post_Render(robj, rinfo);
-			} else {
-				robj->Render(rinfo);
-			}
-		}
-	}
-}
-
-// ?Post_Render_Processing@SimpleSceneClass@@MAEXAAVRenderInfoClass@@@Z present-unmatched
-void SimpleSceneClass::Post_Render_Processing(RenderInfoClass& rinfo)
-{
-	// process the 'Release' list.  These are objects that have notified us that they
-	// want to be released.  We have to walk this list twice, first un-linking the
-	// object from the scene or its container.  And then removing them all from 
-	// the list.  (this last removal will destroy any auto-created objects)
-	RefRenderObjListIterator it(&ReleaseList);
-	for (it.First(&ReleaseList); !it.Is_Done(); it.Next()) {
-		RenderObjClass * robj = it.Peek_Obj();
-		if (robj->Get_Container()) {
-			robj->Get_Container()->Remove_Sub_Object(robj);
-		} else {
-			robj->Remove();
-		}
-	}
-
-	while(!ReleaseList.Is_Empty()) {
-		ReleaseList.Release_Head();
-	}
-}
+// SimpleSceneClass::Post_Render_Processing is defined with its retail-matched body in Code/Libraries/Source/WWVegas/WW3D2/SimpleSceneClass_Post_Render_Processing.cpp (0x00141BB0).
 
 /***********************************************************************************************
  * SimpleSceneClass::Create_Iterator -- create an iterator for this scene                      *
@@ -666,12 +457,6 @@ void SimpleSceneClass::Post_Render_Processing(RenderInfoClass& rinfo)
  * HISTORY:                                                                                    *
  *   3/27/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?Create_Iterator@SimpleSceneClass@@UAEPAVSceneIterator@@_N@Z present-unmatched
-SceneIterator * SimpleSceneClass::Create_Iterator(bool onlyvisible)
-{
-	SimpleSceneIterator * it = W3DNEW SimpleSceneIterator(&RenderList,onlyvisible);
-	return it;
-}
 
 
 /***********************************************************************************************
@@ -711,11 +496,8 @@ void SimpleSceneIterator::Next(void)
 	RobjIterator.Next();
 }
 
-// ?Is_Done@SimpleSceneIterator@@ present-unmatched
-bool SimpleSceneIterator::Is_Done(void)
-{
-	return RobjIterator.Is_Done();
-}
+// SimpleSceneIterator::Is_Done: BFME 2's body is the row 0x00140E90 in scene_Is_Done_SimpleSceneIterator_UAE_NXZ.cpp;
+// Zero Hour's copy here duplicated it.
 
 RenderObjClass * SimpleSceneIterator::Current_Item(void)
 {

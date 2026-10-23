@@ -1,6 +1,22 @@
 // cl: /Ireference/shims/bfmerendobj /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // Ported verbatim from the Generals Zero Hour reference
 // (Libraries/Source/WWVegas/WW3D2/decalsys.cpp); this unit had no counterpart under Code/.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+// Shared multilist inline members (Is_Done/Is_Empty) are emitted as COMDATs from
+// multilist.h; retail keeps the /O1 small form (multilist.cpp / static_sort_list.cpp).
+// Compile just the headers favouring size with frame omission so this unit's copies
+// match the kept ones. Row code below still follows the unit's own flags.
+#pragma optimize("sy", on)
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -57,6 +73,10 @@
 #include "decalmsh.h"
 #include "matrixmapper.h"
 #include "texture.h"
+// bfme link decl-only begin
+template <> RenderObjClass * MultiListClass<RenderObjClass>::Remove_Head();
+// bfme link decl-only end
+#pragma optimize("", on)
 
 
 uint32 DecalSystemClass::DecalIDGenerator = 0;
@@ -77,6 +97,7 @@ uint32 DecalSystemClass::DecalIDGenerator = 0;
  *                                                                                             *
  * HISTORY:                                                                                    *
  *=============================================================================================*/
+// ?DecalSystemClass::DecalSystemClass present-unmatched
 DecalSystemClass::DecalSystemClass(void)
 {
 }
@@ -93,6 +114,7 @@ DecalSystemClass::DecalSystemClass(void)
  *                                                                                             *
  * HISTORY:                                                                                    *
  *=============================================================================================*/
+// ?DecalSystemClass::~DecalSystemClass present-unmatched
 DecalSystemClass::~DecalSystemClass(void)
 {
 }
@@ -110,6 +132,7 @@ DecalSystemClass::~DecalSystemClass(void)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?DecalSystemClass::Lock_Decal_Generator present-unmatched
 DecalGeneratorClass * DecalSystemClass::Lock_Decal_Generator(void)
 {
 	DecalGeneratorClass * gen = W3DNEW DecalGeneratorClass(Generate_Decal_Id(), this);
@@ -132,6 +155,7 @@ DecalGeneratorClass * DecalSystemClass::Lock_Decal_Generator(void)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?DecalSystemClass::Unlock_Decal_Generator present-unmatched
 void DecalSystemClass::Unlock_Decal_Generator(DecalGeneratorClass * generator)
 {
 	delete generator;
@@ -151,6 +175,7 @@ void DecalSystemClass::Unlock_Decal_Generator(DecalGeneratorClass * generator)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?DecalSystemClass::Generate_Unique_Global_Decal_Id present-unmatched
 uint32 DecalSystemClass::Generate_Unique_Global_Decal_Id(void)			
 { 
 	return DecalIDGenerator++; 
@@ -173,6 +198,7 @@ uint32 DecalSystemClass::Generate_Unique_Global_Decal_Id(void)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?DecalGeneratorClass::DecalGeneratorClass present-unmatched
 DecalGeneratorClass::DecalGeneratorClass(uint32 id,DecalSystemClass * system) :
 	DecalID(id),
 	System(system),
@@ -199,6 +225,7 @@ DecalGeneratorClass::DecalGeneratorClass(uint32 id,DecalSystemClass * system) :
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?DecalGeneratorClass::~DecalGeneratorClass present-unmatched
 DecalGeneratorClass::~DecalGeneratorClass(void)
 {
 	REF_PTR_RELEASE(Material);
@@ -220,6 +247,7 @@ DecalGeneratorClass::~DecalGeneratorClass(void)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?DecalGeneratorClass::Add_Mesh present-unmatched
 void DecalGeneratorClass::Add_Mesh(RenderObjClass * mesh)
 {
 	WWASSERT(mesh->Class_ID() == RenderObjClass::CLASSID_MESH);
@@ -241,6 +269,7 @@ void DecalGeneratorClass::Add_Mesh(RenderObjClass * mesh)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?DecalGeneratorClass::Get_Mesh_List present-unmatched
 NonRefRenderObjListClass & DecalGeneratorClass::Get_Mesh_List(void)
 {
 	return MeshList;
@@ -262,6 +291,7 @@ NonRefRenderObjListClass & DecalGeneratorClass::Get_Mesh_List(void)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?DecalGeneratorClass::Set_Mesh_Transform present-unmatched
 void DecalGeneratorClass::Set_Mesh_Transform(const Matrix3D & mesh_transform)
 {
 	/*
@@ -298,6 +328,7 @@ void DecalGeneratorClass::Set_Mesh_Transform(const Matrix3D & mesh_transform)
 ** MultiFixedPoolDecalSystemClass implementation
 */
 
+// ?MultiFixedPoolDecalSystemClass::MultiFixedPoolDecalSystemClass present-unmatched
 MultiFixedPoolDecalSystemClass::MultiFixedPoolDecalSystemClass(uint32 num_pools, const uint32 *pool_sizes) :
 	Pools(0),
 	PoolCount(num_pools),
@@ -315,6 +346,7 @@ MultiFixedPoolDecalSystemClass::MultiFixedPoolDecalSystemClass(uint32 num_pools,
 	}
 }
 
+// ?MultiFixedPoolDecalSystemClass::MultiFixedPoolDecalSystemClass present-unmatched
 MultiFixedPoolDecalSystemClass::MultiFixedPoolDecalSystemClass(const MultiFixedPoolDecalSystemClass & that) :
 	Pools(0),
 	PoolCount(that.PoolCount),
@@ -331,6 +363,7 @@ MultiFixedPoolDecalSystemClass::MultiFixedPoolDecalSystemClass(const MultiFixedP
 	}
 }
 
+// ?MultiFixedPoolDecalSystemClass::~MultiFixedPoolDecalSystemClass present-unmatched
 MultiFixedPoolDecalSystemClass::~MultiFixedPoolDecalSystemClass(void)
 {
 	if (Pools) {
@@ -341,6 +374,8 @@ MultiFixedPoolDecalSystemClass::~MultiFixedPoolDecalSystemClass(void)
 
 // This clears the slot in addition to locking the generator, thus preventing any decal id
 // collisions (since any decal previously in that slot will have the same id as the new one).
+// ?MultiFixedPoolDecalSystemClass::Lock_Decal_Generator present-unmatched
+// ?DecalSystemClass::Lock_Decal_Generator present-unmatched
 DecalGeneratorClass * MultiFixedPoolDecalSystemClass::Lock_Decal_Generator(void)
 {
 	Clear_Decal_Slot(Generator_PoolID, Generator_SlotID);
@@ -349,6 +384,8 @@ DecalGeneratorClass * MultiFixedPoolDecalSystemClass::Lock_Decal_Generator(void)
 
 // This will register the decal in the system in the appropriate pool and slot (determined by
 // the generator's pool and slot ids), removing any decal which may have been there before.
+// ?DecalSystemClass::Unlock_Decal_Generator present-unmatched
+// ?MultiFixedPoolDecalSystemClass::Unlock_Decal_Generator present-unmatched
 void MultiFixedPoolDecalSystemClass::Unlock_Decal_Generator(DecalGeneratorClass * generator)
 {
 	find_logical_decal(generator->Get_Decal_ID()).Set(generator);
@@ -357,6 +394,7 @@ void MultiFixedPoolDecalSystemClass::Unlock_Decal_Generator(DecalGeneratorClass 
 
 // This notifies the system that a mesh which has decals on it was destroyed - therefore we
 // need to remove the mesh from our list to avoid dangling pointers.
+// ?MultiFixedPoolDecalSystemClass::Decal_Mesh_Destroyed present-unmatched
 void MultiFixedPoolDecalSystemClass::Decal_Mesh_Destroyed(uint32 decal_id,DecalMeshClass * mesh)
 {
 	// We must remove this mesh from all lists where it is present. The method is: for each
@@ -369,12 +407,14 @@ void MultiFixedPoolDecalSystemClass::Decal_Mesh_Destroyed(uint32 decal_id,DecalM
 
 // Not part of the DecalSystemClass interface - this function removes any decal currently in
 // the given slot in the given pool.
+// ?MultiFixedPoolDecalSystemClass::Clear_Decal_Slot present-unmatched
 void MultiFixedPoolDecalSystemClass::Clear_Decal_Slot(uint32 pool_id, uint32 slot_id)
 {
 	find_logical_decal(pool_id, slot_id).Clear(encode_decal_id(pool_id, slot_id));
 }
 
 // This one removes all decals in a given pool.
+// ?MultiFixedPoolDecalSystemClass::Clear_Pool present-unmatched
 void MultiFixedPoolDecalSystemClass::Clear_Pool(uint32 pool_id)
 {
 	LogicalDecalPoolClass & pool = Pools[pool_id];
@@ -385,6 +425,7 @@ void MultiFixedPoolDecalSystemClass::Clear_Pool(uint32 pool_id)
 }
 
 // And this one removes all decals in the system.
+// ?MultiFixedPoolDecalSystemClass::Clear_All_Decals present-unmatched
 void MultiFixedPoolDecalSystemClass::Clear_All_Decals(void)
 {
 	for (uint32 pool_id = 0; pool_id < PoolCount; pool_id++) {
@@ -397,6 +438,7 @@ void MultiFixedPoolDecalSystemClass::Clear_All_Decals(void)
 }
 
 // Get a reference to the logical decal at the given pool and slot id (performs range checking)
+// ?MultiFixedPoolDecalSystemClass::find_logical_decal present-unmatched
 MultiFixedPoolDecalSystemClass::LogicalDecalClass & MultiFixedPoolDecalSystemClass::find_logical_decal(uint32 pool_id, uint32 slot_id)
 {
 	assert(pool_id < PoolCount);
@@ -408,6 +450,7 @@ MultiFixedPoolDecalSystemClass::LogicalDecalClass & MultiFixedPoolDecalSystemCla
 }
 
 // Get a reference to the logical decal with the given decal id
+// ?MultiFixedPoolDecalSystemClass::find_logical_decal present-unmatched
 MultiFixedPoolDecalSystemClass::LogicalDecalClass & MultiFixedPoolDecalSystemClass::find_logical_decal(uint32 decal_id)
 {
 	uint32 pool_id, slot_id;
@@ -424,6 +467,7 @@ MultiFixedPoolDecalSystemClass::LogicalDecalClass::LogicalDecalClass(void)
 {
 }
 
+// ?MultiFixedPoolDecalSystemClass::LogicalDecalClass::~LogicalDecalClass present-unmatched
 MultiFixedPoolDecalSystemClass::LogicalDecalClass::~LogicalDecalClass(void)
 {
 	// We don't need to do anything here since the mesh list will get removed automatically and
@@ -433,6 +477,7 @@ MultiFixedPoolDecalSystemClass::LogicalDecalClass::~LogicalDecalClass(void)
 
 // Sets the logical decal to the one specified by the given generator (clearing any existing
 // decal information)
+// ?MultiFixedPoolDecalSystemClass::LogicalDecalClass::Set present-unmatched
 void MultiFixedPoolDecalSystemClass::LogicalDecalClass::Set(DecalGeneratorClass * generator)
 {
 	Clear(generator->Get_Decal_ID());
@@ -447,6 +492,7 @@ void MultiFixedPoolDecalSystemClass::LogicalDecalClass::Set(DecalGeneratorClass 
 }
 
 // Just clears any existing logical decal information, leaving the decal empty.
+// ?MultiFixedPoolDecalSystemClass::LogicalDecalClass::Clear present-unmatched
 void MultiFixedPoolDecalSystemClass::LogicalDecalClass::Clear(uint32 decal_id)
 {
 	// Remove the decal with this ID from all meshes where it appears
@@ -466,12 +512,14 @@ void MultiFixedPoolDecalSystemClass::LogicalDecalClass::Clear(uint32 decal_id)
 ** MultiFixedPoolDecalSystemClass::LogicalDecalPoolClass implementation
 */
 
+// ?MultiFixedPoolDecalSystemClass::LogicalDecalPoolClass::LogicalDecalPoolClass present-unmatched
 MultiFixedPoolDecalSystemClass::LogicalDecalPoolClass::LogicalDecalPoolClass(void) :
 	Array(0),
 	Size(0)
 {
 }
 
+// ?MultiFixedPoolDecalSystemClass::LogicalDecalPoolClass::~LogicalDecalPoolClass present-unmatched
 MultiFixedPoolDecalSystemClass::LogicalDecalPoolClass::~LogicalDecalPoolClass(void)
 {
 	if (Array) {
@@ -480,6 +528,7 @@ MultiFixedPoolDecalSystemClass::LogicalDecalPoolClass::~LogicalDecalPoolClass(vo
 	}
 }
 
+// ?MultiFixedPoolDecalSystemClass::LogicalDecalPoolClass::Initialize present-unmatched
 void MultiFixedPoolDecalSystemClass::LogicalDecalPoolClass::Initialize(uint32 size)
 {
 	if (Array) {

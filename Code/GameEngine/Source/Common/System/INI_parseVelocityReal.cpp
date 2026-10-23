@@ -1,4 +1,4 @@
-// cl: /O1 /Oy /DNDEBUG /MD /GX- /Oi-
+// cl: /Oy /DNDEBUG /MD /GX- /Oi-
 //
 // ?parseVelocityReal@INI@@SAXPAV1@PAX1PBX@Z, retail 0x00338BBD, 37 bytes.
 // Dedicated frameless TU (same INI verb family as INI_parseAngleReal.cpp).
@@ -22,13 +22,22 @@ public:
 	static void parseVelocityReal(INI *ini, void *instance, void *store, const void *userData);
 };
 
-// Retail value at 0x009BA4F8 (ZH SECONDS_PER_LOGICFRAME_REAL); read by
-// address (DIR32) like the duration scale global.
-float g_secondsPerLogicFrame = 0.2f;
+// Retail value at 0x009BA4F8 (ZH SECONDS_PER_LOGICFRAME_REAL); owned by
+// INI_parseAccelerationReal.cpp, declared here.
+extern float g_secondsPerLogicFrame;
 
 // ?parseVelocityReal@INI@@SAXPAV1@PAX1PBX@Z
 void INI::parseVelocityReal(INI *ini, void * /*instance*/, void *store, const void * /*userData*/)
 {
 	float val = ini->scanReal(ini->getNextToken(0));
 	*(float *)store = g_secondsPerLogicFrame * val;
+}
+
+// BFME1 f989 GameCommon.h ConvertVelocityInSecsToFrames is the
+// reference expression. BFME2 uses the existing mutable factor above.
+// Native 001E347D..001E3488/11 follows RET at001E347C: fld factor,
+// fmul stack float, RET0, x87 ST0 result. Original helper name unknown.
+float rva001e347d(float value)
+{
+    return g_secondsPerLogicFrame * value;
 }

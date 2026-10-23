@@ -1,4 +1,4 @@
-// cl: /O1
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 //
 // ScriptConditions constructor, retail 0x003E5513 (18 bytes). ScriptEngine::init
 // creates it with operator new(0xC) and stores it in TheScriptConditions. The
@@ -8,17 +8,7 @@
 // SubsystemInterface base call (0x001B4E63) and the vtable store (0xC35B38)
 // remain.
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	virtual void init() = 0;
-
-private:
-	bool m_subsystemFlag;  // +0x04
-	int  m_subsystemValue; // +0x08
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class ScriptConditionsInterface : public SubsystemInterface
 {
@@ -35,3 +25,12 @@ public:
 ScriptConditions::ScriptConditions()
 {
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?init@ScriptConditions@@UAEXXZ=?rva000D20D6@Rva000D20D6@@UAEXXZ")
+
+// The class's destructor: this unit's constructor row stores the vftable whose slot 0 is the
+// deleting destructor at 0x003E5DCD, and its body calls 0x003E5525, where the destructor row lives.
+#pragma comment(linker, "/alternatename:??1ScriptConditions@@UAE@XZ=??1CDManager@@UAE@XZ")

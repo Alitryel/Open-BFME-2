@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
 // readable body of ??1W3DBridge@@QAE@XZ: Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBridgeBuffer.cpp
 // W3DBridge destructor, retail 0x006D88A0 (94 bytes).
 //
@@ -7,7 +7,13 @@
 // then the texture pointer at +0x34 (TextureClass::Release_Ref 0x009EB7A0).
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/texture.h
-class TextureClass
+class TextureBaseClass
+{
+};
+
+// Released through TextureClass's spelling, like W3DBridgeCtor.cpp, so both
+// units emit the same inline TextureRef teardown.
+class TextureClass : public TextureBaseClass
 {
 public:
 	void Release_Ref(void);

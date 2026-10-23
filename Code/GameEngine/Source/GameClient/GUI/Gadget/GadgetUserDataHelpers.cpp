@@ -1,4 +1,4 @@
-// cl: /O1 /Ob0
+// cl: /Ob0
 
 // ?Rva004BCB20@@YAXPAVGameWindow@@H@Z, retail 0x00328543 (60B).
 // Ported from Open-BFME-1 Code/GameEngine/Source/GameClient/GUI/Gadget/GadgetUserDataHelpers.cpp
@@ -12,7 +12,7 @@ class GameWindow
 public:
 	void *winGetUserData(void);
 	void winSetUserData(void *data);
-	void winSetStatus(unsigned int status);
+	unsigned int winSetStatus(unsigned int status);
 	int winGetSize(int *width, int *height);
 };
 
@@ -221,4 +221,96 @@ void Rva004BCB20(GameWindow *window, int value)
 _PushButtonData *getNewPushButtonData(void)
 {
 	return new _PushButtonData;
+}
+
+struct Rva003284EDData
+{
+	char m_prefix[0x18];
+	int m_value;						// +0x18
+};
+
+void Rva003284ED(GameWindow *window, int value)
+{
+	if (window == 0)
+		return;
+	Rva003284EDData *data =
+		(Rva003284EDData *)window->winGetUserData();
+	if (data == 0)
+		data = (Rva003284EDData *)getNewPushButtonData();
+	data->m_value = value;
+	window->winSetUserData(data);
+}
+
+struct Rva00328518Data
+{
+	char m_prefix[0x14];
+	int m_value;						// +0x14
+};
+
+void Rva00328518(GameWindow *window, int value)
+{
+	if (window == 0)
+		return;
+	Rva00328518Data *data =
+		(Rva00328518Data *)window->winGetUserData();
+	if (data == 0)
+		data = (Rva00328518Data *)getNewPushButtonData();
+	data->m_value = value;
+	window->winSetUserData(data);
+}
+
+struct Rva003284B9Data
+{
+	char m_byte00;			// +0x00
+	int m_int04;			// +0x04
+	int m_int08;			// +0x08
+};
+
+void Rva003284B9(GameWindow *window, int a, int b)
+{
+	if (window == 0)
+		return;
+	Rva003284B9Data *data =
+		(Rva003284B9Data *)window->winGetUserData();
+	if (data == 0)
+		data = (Rva003284B9Data *)getNewPushButtonData();
+	data->m_int04 = a;
+	data->m_int08 = b;
+	data->m_byte00 = 2;
+	window->winSetUserData(data);
+}
+
+// ?GadgetButtonSetBorder@@YAXPAVGameWindow@@I_N@Z @0x00328454 49B
+// Ported from Open-BFME-1 GadgetPushButton.cpp GadgetButtonSetBorder
+// (donor drawBorder at +0x0C and colorBorder at +0x10 match _PushButtonData
+// m_byte0C/m_int10 here); null-guarded create via getNewPushButtonData and
+// winSetUserData like Rva003284B9 siblings in this TU.
+void GadgetButtonSetBorder(GameWindow *gameWindow, unsigned int color, bool drawBorder)
+{
+	if (gameWindow == 0)
+		return;
+	_PushButtonData *pData = (_PushButtonData *)gameWindow->winGetUserData();
+	if (pData == 0)
+		pData = getNewPushButtonData();
+	pData->m_byte0C = (char)drawBorder;
+	pData->m_int10 = (int)color;
+	gameWindow->winSetUserData(pData);
+}
+
+// ?GadgetButtonDrawClock@@YAXPAVGameWindow@@HI@Z @0x00328485 52B
+// Ported from Open-BFME-1 GadgetPushButton.cpp GadgetButtonDrawClock
+// (donor drawClock NORMAL_CLOCK=1 at +0x00 plus percentClock at +0x04 and
+// colorClock at +0x08 match _PushButtonData m_byte00/m_int04/m_int08);
+// same create and winSetUserData shape as SetBorder above.
+void GadgetButtonDrawClock(GameWindow *gameWindow, int percent, unsigned int color)
+{
+	if (gameWindow == 0)
+		return;
+	_PushButtonData *pData = (_PushButtonData *)gameWindow->winGetUserData();
+	if (pData == 0)
+		pData = getNewPushButtonData();
+	pData->m_byte00 = 1;
+	pData->m_int04 = percent;
+	pData->m_int08 = (int)color;
+	gameWindow->winSetUserData(pData);
 }

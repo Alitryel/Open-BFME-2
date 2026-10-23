@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD
+// cl: /Oy- /DNDEBUG /MD
 // stlport
 //
 // ??0MineshaftPortalBehaviour@@QAE@PAVThing@@PBVModuleData@@@Z,
@@ -14,6 +14,26 @@
 // (news 0x3C, sole caller at 0x24B625). Row supersedes the ctor pin.
 
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> _Vector_base<int, allocator<int> >::_Vector_base(allocator<int> const &); }
+// bfme link decl-only end
+
+// vector<int>/char destruction otherwise instantiates per-TU allocator
+// deallocate COMDATs (one byte shape per TU flags); explicit
+// dllimport+forceinline specializations take those calls inline so this
+// TU emits no external copies. Bodies are verbatim primary.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<int>::deallocate(int* __p, size_t __n) const {
+  _STLP_ASSERT( (__p == 0) == (__n == 0) )
+    if (__p != 0) __sgi_alloc::deallocate((void*)__p, __n * sizeof(value_type));
+}
+template <> void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int*, size_t);
+// Declaration-only: retail keeps one 14-byte copy of the vector<int> teardown
+// (0x0007FAB3); this TU's flags would emit a private 24-byte one.
+template <> vector<int, allocator<int> >::~vector();
+template <> _Vector_base<int, allocator<int> >::~_Vector_base();
+}
 
 class Thing;
 class ModuleData;
@@ -86,3 +106,14 @@ MineshaftPortalBehaviour::MineshaftPortalBehaviour(Thing *thing, const ModuleDat
 	m_flag38 = 0;
 	m_mode39 = 1;
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?unused@BehaviorModuleOther@@EAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?unused@BehaviorModuleBase@@EAEXXZ=??_GRva0037343B@@UAEPAXI@Z")
+#pragma comment(linker, "/alternatename:?update@UpdateModule@@UAEXXZ=?update@Rva0037343B@@UAE?AW4UpdateSleepTime@@XZ")

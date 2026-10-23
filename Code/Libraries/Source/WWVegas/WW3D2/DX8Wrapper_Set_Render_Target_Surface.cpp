@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // BFME's Direct3D device keeps the D3D8 type name but uses the D3D9 render-target
 // slots, so this local ABI slice avoids changing the shared legacy SDK shim.
 
@@ -38,12 +38,24 @@ public:
 	static void Set_Render_Target(IDirect3DSurface8 *renderTarget, bool useDefaultDepthBuffer);
 
 private:
+protected:
 	static IDirect3DDevice8 *D3DDevice;
+private:
+protected:
 	static IDirect3DSurface8 *CurrentRenderTarget;
+private:
+protected:
 	static IDirect3DSurface8 *CurrentDepthBuffer;
+private:
+protected:
 	static IDirect3DSurface8 *DefaultRenderTarget;
+private:
+protected:
 	static IDirect3DSurface8 *DefaultDepthBuffer;
+private:
+protected:
 	static bool IsRenderToTexture;
+private:
 	static unsigned int D3DCallCount;
 };
 
@@ -106,3 +118,7 @@ void DX8Wrapper::Set_Render_Target(IDirect3DSurface8 *renderTarget, bool useDefa
 
 	IsRenderToTexture = false;
 }
+
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
+#pragma comment(linker, "/alternatename:?D3DCallCount@DX8Wrapper@@0IA=?number_of_DX8_calls@@3IA")

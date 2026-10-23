@@ -1,4 +1,4 @@
-// cl: /O1 /GX- /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /GX- /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // ImageCollection::findImageByName, BFME2 retail 0x002D92F6 (53B).
@@ -10,16 +10,20 @@
 // base (vptr + byte@4 + dword@8 zeroed by 0x001B4E63).
 
 #include <map>
+// Preserve the native inline unsigned comparison without an external copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+bool less<unsigned int>::operator()(const unsigned int &left, const unsigned int &right) const
+{ return left < right; }
+}
+
 
 enum NameKeyType
 {
 	NAMEKEY_INVALID = 0
 };
 
-class AsciiString
-{
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class NameKeyGenerator
 {
@@ -34,6 +38,9 @@ class Image
 public:
 	virtual ~Image();
 	const AsciiString &getName() const { return m_name; }
+	// LINK: same-body helper under a TU-unique name (identical inlined bytes); the
+	// original copy loses to the first-in-order copy. No flags touched.
+	const AsciiString &bfme_image_name_fi() const { return m_name; }
 
 private:
 	AsciiString m_name;
@@ -42,18 +49,7 @@ private:
 typedef _STL::map<unsigned int, Image *> ImageNameMap;
 // TU-local BFME2 SubsystemInterface (12-byte base, retail-proven).
 #define __SUBSYSTEMINTERFACE_H_
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	virtual void init() = 0;
-	virtual void reset() = 0;
-	virtual void update() = 0;
-
-private:
-	unsigned char m_bfmeBasePad[8];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class ImageCollection : public SubsystemInterface
 {
@@ -85,5 +81,5 @@ const Image *ImageCollection::findImageByName(const AsciiString &name)
 // ?addImage@ImageCollection@@QAEXPAVImage@@@Z, retail 0x002D9457 (48B).
 void ImageCollection::addImage(Image *image)
 {
-	((ImageSubscriptMap *)&m_imageMap)->operator[](TheNameKeyGenerator->Rva002D91AF(image->getName())) = image;
+	((ImageSubscriptMap *)&m_imageMap)->operator[](TheNameKeyGenerator->Rva002D91AF(image->bfme_image_name_fi())) = image;
 }

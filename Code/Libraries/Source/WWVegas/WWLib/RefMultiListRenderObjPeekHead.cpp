@@ -61,7 +61,18 @@ public:
 	T *Peek_Head(void);
 };
 
-RenderObjClass *RefMultiListClass<RenderObjClass>::Peek_Head(void)
+inline RenderObjClass *RefMultiListClass<RenderObjClass>::Peek_Head(void)
 {
 	return (RenderObjClass *)Internal_Get_List_Head();
 }
+
+// This TU owns the row, but other TUs emit the same body as an inline copy,
+// so a strong definition is a duplicate in the linked build. The anchor below
+// emits the same copy as select-any with inlining off; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitRefMultiListRenderObjPeekHead@@YAXPAV?$RefMultiListClass@VRenderObjClass@@@@@Z present-unmatched
+void bfmeEmitRefMultiListRenderObjPeekHead(RefMultiListClass<RenderObjClass> *p)
+{
+	p->Peek_Head();
+}
+#pragma inline_depth()

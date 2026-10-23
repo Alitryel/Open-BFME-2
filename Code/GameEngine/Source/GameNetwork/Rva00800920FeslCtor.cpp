@@ -1,5 +1,16 @@
 // cl: /GX- /GS
 // jabba gamebrowserdemangler.cpp constructor at 0x00800920 (210B).
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 
 extern int vftable_0112B89C;
 extern int vftable_011296B0;
@@ -131,3 +142,19 @@ Rva00800920Owner::Rva00800920Owner( Rva00800920Host *host )
 	m_1f4 = z;
 	host->m_hub->add( (Rva00803080 *)static_cast<Rva00800920Sec *>( this ) );
 }
+
+// ?vftable_0112B89C@@3HA: matched references place it at VA 0xc1c780; also referenced as _s_slot3E4first, _Rva003ADEBF_v8, _DefaultModuleTemplate6_vtbl4.
+int vftable_0112B89C = 4438032;
+#pragma comment(linker, "/alternatename:_s_slot3E4first=?vftable_0112B89C@@3HA")
+#pragma comment(linker, "/alternatename:_Rva003ADEBF_v8=?vftable_0112B89C@@3HA")
+#pragma comment(linker, "/alternatename:_DefaultModuleTemplate6_vtbl4=?vftable_0112B89C@@3HA")
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?v0@Rva00800920Sec@@UAEXXZ=?update@Rva00800F40PendingProbeUpdate@@QAEXI@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?v0@Rva00800920Primary@@UAEXXZ=?DX8_Assert@@YAXXZ")

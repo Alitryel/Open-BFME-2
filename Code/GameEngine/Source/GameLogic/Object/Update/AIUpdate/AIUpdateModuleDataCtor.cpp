@@ -1,4 +1,6 @@
-// cl: /O1 /DNDEBUG /MD /GX /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_STLP_USE_MALLOC /D_CRTIMP=
+char g_00C70220;
+
+// cl: /DNDEBUG /MD /GX /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_STLP_USE_MALLOC /D_CRTIMP=
 //
 // ??0AIUpdateModuleData@@QAE@XZ at retail 0x0058925D (58B). The
 // AIUpdateModuleData base is vtable 0xC70220 at +0, an int zero at +8, an
@@ -38,9 +40,13 @@ private:
 
 // ??0AIUpdateModuleData@@QAE@XZ @0x58925D
 AIUpdateModuleData::AIUpdateModuleData()
-	: m_vtable(reinterpret_cast<void *>(0x00C70220))
+	: m_vtable(reinterpret_cast<void *>((unsigned int)&g_00C70220))
 	, m_unused08(0)
 	, m_voice()
 {
 	m_unused14 = false;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0DeflectSpecialPowerModuleDataBase@@QAE@XZ=??0AIUpdateModuleData@@QAE@XZ")

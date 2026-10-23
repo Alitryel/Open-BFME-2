@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /GX- /Oi- /arch:SSE
+// cl: /Oy- /DNDEBUG /MD /GX- /Oi-
 //
 // ?parseColorInt@INI@@SAXPAV1@PAX1PBX@Z, retail 0x002F3FE, 264 bytes.
 // Dedicated TU (same INI verb family as INI_parseRGBAColorInt.cpp, framed).
@@ -34,21 +34,17 @@ private:
 // GameMakeColor(r, g, b, a) callers pass components in R,G,B,A order).
 typedef unsigned int Color;
 
-struct INIException
+class INIException
 {
+public:
+	INIException(int argCount, const char *format, ...);
 	char *mFailureMessage;
 	int mErrorCode;
+	INIException(const INIException &that);
+	~INIException();
 };
 
-extern "C" void rva002f681_fill(void *dst, int code, const char *fmt, ...);
-__declspec(noreturn) void __stdcall _CxxThrowException(void *pExc, void *pInfo);
 extern "C" __declspec(dllimport) int __cdecl _strcmpi(const char *a, const char *b);
-
-// Address anchor only: the throw site pushes this object's address as an
-// immediate (DIR32, copied from retail's throwinfo at 0xCFE2FC). Content is
-// never compared; the real chain lives in the retail image.
-struct ParseColorIntThrowInfoAnchor { int a; int b; int c; int d; };
-static const ParseColorIntThrowInfoAnchor parseColorIntThrowInfoAnchor = { 0, 0, 0, 0 };
 
 // ?parseColorInt@INI@@SAXPAV1@PAX1PBX@Z
 void INI::parseColorInt(INI *ini, void * /*instance*/, void *store, const void * /*userData*/)
@@ -59,9 +55,7 @@ void INI::parseColorInt(INI *ini, void * /*instance*/, void *store, const void *
 		const char *token = ini->getNextTokenOrNull(ini->getSepsColon());
 		if (token == NULL) {
 			if (i < 3) {
-				INIException e;
-				rva002f681_fill(&e, 3, "can't omit value for color %s", names[i]);
-				_CxxThrowException(&e, (void *)&parseColorIntThrowInfoAnchor);
+				throw INIException(3, "can't omit value for color %s", names[i]);
 			} else {
 				// it's ok for A to be omitted.
 				colors[i] = 255;
@@ -69,16 +63,12 @@ void INI::parseColorInt(INI *ini, void * /*instance*/, void *store, const void *
 		} else {
 			// if present, the token must match.
 			if (_strcmpi(token, names[i]) != 0) {
-				INIException e;
-				rva002f681_fill(&e, 3, "expected '%s'", names[i]);
-				_CxxThrowException(&e, (void *)&parseColorIntThrowInfoAnchor);
+				throw INIException(3, "expected '%s'", names[i]);
 			}
 			colors[i] = ini->scanInt(ini->getNextToken(ini->getSepsColon()));
 		}
 		if (colors[i] < 0 || colors[i] > 255) {
-			INIException e;
-			rva002f681_fill(&e, 3, "color value %s=%i out of range (0..255)", names[i], colors[i]);
-			_CxxThrowException(&e, (void *)&parseColorIntThrowInfoAnchor);
+			throw INIException(3, "color value %s=%i out of range (0..255)", names[i], colors[i]);
 		}
 	}
 

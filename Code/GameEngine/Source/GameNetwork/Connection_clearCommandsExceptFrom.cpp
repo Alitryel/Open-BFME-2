@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 
 typedef int Int;
 
@@ -12,8 +12,8 @@ public:
 class NetCommandRef
 {
 public:
-	NetCommandMsg *getCommand() { return m_msg; }
-	NetCommandRef *getNext() { return m_next; }
+	__declspec(dllimport) __forceinline NetCommandMsg *getCommand() { return m_msg; }
+	__declspec(dllimport) __forceinline NetCommandRef *getNext() { return m_next; }
 	~NetCommandRef();
 
 	NetCommandMsg *m_msg;
@@ -41,19 +41,19 @@ public:
 
 void Connection::clearCommandsExceptFrom(Int playerIndex)
 {
-	NetCommandRef *tmp = m_netCommandList->getFirstMessage();
-	while (tmp != 0)
+	NetCommandRef *netCommandRef = m_netCommandList->getFirstMessage();
+	while (netCommandRef != 0)
 	{
-		if (tmp->getCommand()->m_playerID != playerIndex)
+		if (netCommandRef->getCommand()->m_playerID != playerIndex)
 		{
-			m_netCommandList->removeMessage(tmp);
-			NetCommandRef *toDelete = tmp;
-			tmp = tmp->getNext();
+			m_netCommandList->removeMessage(netCommandRef);
+			NetCommandRef *toDelete = netCommandRef;
+			netCommandRef = netCommandRef->getNext();
 			delete toDelete;
 		}
 		else
 		{
-			tmp = tmp->getNext();
+			netCommandRef = netCommandRef->getNext();
 		}
 	}
 }

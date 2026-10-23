@@ -1,12 +1,38 @@
-// cl: /Ireference/shims/bfmerendobj /Ob2 /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// cl: /Ireference/shims/bfmepool /Ireference/shims/bfmerendobj /Ob2 /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 
 
+// Retail links the size-form copies of these header inlines (RefCountClass
+// Release_Ref 0x005D1A7D, the CRT floorf, WWMath::Fabs as vector3.cpp emits it).
+// The spin-locked BFME object pool (as multilist.cpp): mempool.h first, by -I, so the
+// submodule copy multilist.h reaches from its own directory loses the include guard.
+#include "mempool.h"
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+#pragma optimize("gsy", on)
+#include <math.h>
+#include "wwmath.h"
+#pragma optimize("", on)
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "gridcull.h"
 #include "chunkio.h"
 #include "iostruct.h"
 #include "colmath.h"
 #include "colmathinlines.h"
+
+// Retail keeps one GridLinkClass pool allocator (0x0071AED0); this unit calls it.
+template <> GridLinkClass *ObjectPoolClass<GridLinkClass, 256>::Allocate_Object_Memory(void);
 
 
 DEFINE_AUTO_POOL(GridLinkClass,256);
@@ -65,15 +91,6 @@ GridCullSystemClass::GridCullSystemClass(void) :
 	CellCount[0] = CellCount[1] = CellCount[2] = 0;
 	Re_Partition(Vector3(-100,-100,-100),Vector3(100,100,100),15);
 	Reset_Statistics();
-}
-
-
-GridCullSystemClass::~GridCullSystemClass(void)
-{
-	if (Cells != NULL) {
-		delete Cells;
-		Cells = NULL;
-	}
 }
 
 
@@ -500,6 +517,21 @@ void GridCullSystemClass::Add_Object_Internal(CullableClass * obj)
 	obj->Add_Ref();
 }
 
+void GridCullSystemClass::Remove_Object_Internal(CullableClass * obj)
+{
+	WWASSERT(obj);
+	WWASSERT(obj->Get_Culling_System() == this);
+	GridLinkClass * link = (GridLinkClass *)obj->Get_Cull_Link();
+
+	unlink_object(obj);
+	link->Set_Culling_System(NULL);
+	delete link;
+	obj->Set_Cull_Link(NULL);
+
+	ObjCount--;
+	obj->Release_Ref();
+}
+
 
 void GridCullSystemClass::link_object(CullableClass * obj)
 {
@@ -672,4 +704,11 @@ void GridCullSystemClass::collect_objects_in_leaf(const FrustumClass & frustum,C
 			}
 		}
 	}
+}
+
+// BFME1 815ab5e395 declares this provider out of line. Native BFME2
+// constructor 71CBE0 binds vtable 8EFCB0; slot 9 targets 66D5E0 (count at 54).
+int GridCullSystemClass::Get_Object_Count(void) const
+{
+	return ObjCount;
 }

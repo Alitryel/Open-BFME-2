@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /arch:SSE /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /EHsc /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0ProductionUpdateModuleData@@QAE@XZ, retail 0x0049F7DB, 178 bytes.
@@ -26,8 +26,38 @@
 // 0xBBAC1C). The class keeps an explicit vtable slot with no virtuals so
 // nothing is emitted, and the +4 word is untouched padding.
 
+extern "C" const void *const vtbl_00C515F0[];  // ??_7ProductionUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C515F0=??_7ProductionUpdateModuleData@@6B@")
+
 #include <list>
+
+// Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
+// rather than emitting its own.
+namespace _STL {
+template <> void _List_base<int, allocator<int> >::clear();
+}
+
+// Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
+// rather than emitting its own.
+namespace _STL {
+template <> _List_base<int, allocator<int> >::~_List_base();
+}
 #include <vector>
+
+// list<int> destruction otherwise instantiates per-TU deallocate
+// COMDATs (one byte shape per TU flags); explicit dllimport+forceinline
+// specializations take those calls inline so this TU emits no external copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<_List_node<int> >::deallocate(_List_node<int>* __p, size_t __n) const {
+  _STLP_ASSERT( (__p == 0) == (__n == 0) )
+    if (__p != 0) __sgi_alloc::deallocate((void*)__p, __n * sizeof(value_type));
+}
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<_List_node<int> *, _List_node<int>, allocator<_List_node<int> > >::deallocate(_List_node<int> *__p, size_t __n) {
+  allocator<_List_node<int> >().deallocate(__p, __n);
+}
+}
 
 typedef int Int;
 typedef unsigned int UnsignedInt;
@@ -47,6 +77,7 @@ struct QuantityModifier
 {
 	AsciiString m_templateName;
 	Int m_quantity;
+	~QuantityModifier();
 };
 
 template <int NUM_BITS>
@@ -91,7 +122,7 @@ vector<QuantityModifier, allocator<QuantityModifier> >::erase(
 class UpdateModuleData
 {
 public:
-	UpdateModuleData() {}
+	__declspec(dllimport) __forceinline UpdateModuleData() {}
 	~UpdateModuleData();
 };
 
@@ -123,9 +154,12 @@ private:
 };
 
 // ??0ProductionUpdateModuleData@@QAE@XZ @0x49F7DB
+// bfme link decl-only begin
+namespace _STL { template <> vector<QuantityModifier,_STL::allocator<QuantityModifier> >::~vector(); }
+// bfme link decl-only end
 ProductionUpdateModuleData::ProductionUpdateModuleData()
 	: UpdateModuleData()
-	, m_vtable(reinterpret_cast<const void *>(0x00C515F0))
+	, m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C515F0)))
 	, m_bonusForType(0)
 	, m_speedBonusAudioLoop(0)
 {

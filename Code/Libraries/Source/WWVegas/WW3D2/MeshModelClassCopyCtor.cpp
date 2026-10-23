@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 //
 // ??0MeshModelClass@@QAE@ABV0@@Z at retail 0x00172940 (361 bytes).
 //
@@ -75,6 +75,7 @@ private:
 	MultiListNodeClass *ListNode;
 };
 
+#pragma optimize("s", on)
 class GenericMultiListClass
 {
 public:
@@ -83,12 +84,15 @@ public:
 
 	MultiListNodeClass Head;
 };
+#pragma optimize("", on)
 
-class DX8PolygonRendererList : public GenericMultiListClass
+class Rva00144690 : public GenericMultiListClass
 {
 public:
-	virtual ~DX8PolygonRendererList();
+	virtual ~Rva00144690();
 };
+// The proven DX8PolygonRendererList vtable slot 0 is rowed at 0x00144690.
+typedef Rva00144690 DX8PolygonRendererList;
 
 class MeshMatDescClass
 {
@@ -137,7 +141,7 @@ private:
 };
 
 // Head of the global MeshModelClass instance list (retail .data head).
-MeshModelClass *MeshModelListHead;
+extern MeshModelClass *MeshModelListHead;  // defined in MeshModelClassDefaultCtor.cpp
 
 // ??0MeshModelClass@@QAE@ABV0@@Z
 MeshModelClass::MeshModelClass(const MeshModelClass &that) :

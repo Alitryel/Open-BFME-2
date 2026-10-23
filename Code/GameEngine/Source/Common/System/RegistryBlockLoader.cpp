@@ -18,7 +18,9 @@
 
 // Directory prefix the gi.dat path is built from. Written at runtime by
 // startup code nobody has converted yet; read here and in no other TU.
-extern char g_registryBlockDir[];
+// g_registryBlockDir: matched references place it at VA 0xde01d0; zero-filled at retail, sized to the
+// 0x200-byte gap before the next known global there.
+char g_registryBlockDir[512];
 
 void __cdecl Rva0002F720(const char *key, const char *value);
 

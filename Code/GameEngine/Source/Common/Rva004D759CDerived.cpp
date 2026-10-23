@@ -1,41 +1,60 @@
-// cl: /O1 /MD
+// cl: /MD
 //
-// Opaque single-inheritance destructors tail-calling Rva004D759C::~
-// Rva004D759C at 0x004D759C (pinned opaque MI base dtor: SEH, vptrs, list
-// walk; identity unproven). Each class below stores its own vtable and
-// tail-calls the base destructor; the base itself is only declared here
-// (defined nowhere -- it resolves via the pin), because a same-TU definition
-// would capture the call locally instead of at the ledger address. Owner
-// identities are unproven (opaque Rva names). One ledger row per destructor,
-// landed one commit at a time.
+// Opaque single-inheritance destructors tail-calling
+// StateMachine::~StateMachine at 0x004D759C (rowed in StateMachineDtor.cpp).
+// Each class below stores its own vtable and tail-calls the base destructor;
+// the base itself is only declared here, because a same-TU definition would
+// capture the call locally instead of at the ledger address. One ledger row
+// per destructor.
+//
+// Named owners (target facts): each destructor stores the vtable its rowed
+// constructor installs, that vtable's slot 0 is the deleting destructor
+// rowed here (which calls this destructor) and its slot 2 returns the class
+// name string -- AIGuardMachine (dtor 0x00542C19 / vtable 0x00869680 / ctor
+// 0x00543163), AIDockMachine (0x005440BC / 0x008699A0 / 0x005448A1),
+// AIGuardRetaliateMachine (0x00545211 / 0x00869E78 / 0x0054551F),
+// AITNGuardMachine (0x00545B84 / 0x0086A090 / 0x00546001), TurretStateMachine
+// (0x004D7E61 / 0x008609C8 / 0x004D7CE6), SupplyTruckStateMachine
+// (0x004A6C59 / 0x008532A8 / 0x004A7010), AttackStateMachine (0x0033FAE9 /
+// 0x00811A68 / 0x00346D17), AttackMeleeStateMachine (0x0033FAFA /
+// 0x00811AC0 / 0x0034316A), AttackFireWhileChargingMachine (0x0033FB95 /
+// 0x00811C30 / 0x00343838), BackAwayAndCowerStateMachine (0x003402D0 /
+// 0x00811FE8 / 0x003444CE), AttackContesterStateMachine (0x0033FB84 /
+// 0x00811BD0 / 0x00343756) and AIAttackMoveStateMachine (0x0034004C /
+// 0x00811E58 / 0x0034C6EF; the getter 0x00340057 spells it
+// "AIAttackMOveStateMachine"). The other owners stay address
+// named. Every class declares only its destructor, like the views in the
+// constructor units, so the vtable and deleting destructor copies agree.
+// AttackPositionStateMachine (0x0033FBA6) and AIAttackSwoopThenIdleStateMachine
+// (0x003677B3) define theirs in their constructor units.
 
-class Rva004D759C
+class StateMachine
 {
 public:
-	virtual ~Rva004D759C();
+	virtual ~StateMachine();
 };
 
-class Rva0033FAE9 : public Rva004D759C
+class AttackStateMachine : public StateMachine
 {
 public:
-	virtual ~Rva0033FAE9();
+	virtual ~AttackStateMachine();
 };
 
-Rva0033FAE9::~Rva0033FAE9()
+AttackStateMachine::~AttackStateMachine()
 {
 }
 
-class Rva0033FAFA : public Rva004D759C
+class AttackMeleeStateMachine : public StateMachine
 {
 public:
-	virtual ~Rva0033FAFA();
+	virtual ~AttackMeleeStateMachine();
 };
 
-Rva0033FAFA::~Rva0033FAFA()
+AttackMeleeStateMachine::~AttackMeleeStateMachine()
 {
 }
 
-class Rva0033FB73 : public Rva004D759C
+class Rva0033FB73 : public StateMachine
 {
 public:
 	virtual ~Rva0033FB73();
@@ -45,37 +64,27 @@ Rva0033FB73::~Rva0033FB73()
 {
 }
 
-class Rva0033FB84 : public Rva004D759C
+class AttackContesterStateMachine : public StateMachine
 {
 public:
-	virtual ~Rva0033FB84();
+	virtual ~AttackContesterStateMachine();
 };
 
-Rva0033FB84::~Rva0033FB84()
+AttackContesterStateMachine::~AttackContesterStateMachine()
 {
 }
 
-class Rva0033FB95 : public Rva004D759C
+class AttackFireWhileChargingMachine : public StateMachine
 {
 public:
-	virtual ~Rva0033FB95();
+	virtual ~AttackFireWhileChargingMachine();
 };
 
-Rva0033FB95::~Rva0033FB95()
+AttackFireWhileChargingMachine::~AttackFireWhileChargingMachine()
 {
 }
 
-class Rva0033FBA6 : public Rva004D759C
-{
-public:
-	virtual ~Rva0033FBA6();
-};
-
-Rva0033FBA6::~Rva0033FBA6()
-{
-}
-
-class Rva0033FC0A : public Rva004D759C
+class Rva0033FC0A : public StateMachine
 {
 public:
 	virtual ~Rva0033FC0A();
@@ -85,27 +94,27 @@ Rva0033FC0A::~Rva0033FC0A()
 {
 }
 
-class Rva0034004C : public Rva004D759C
+class AIAttackMoveStateMachine : public StateMachine
 {
 public:
-	virtual ~Rva0034004C();
+	virtual ~AIAttackMoveStateMachine();
 };
 
-Rva0034004C::~Rva0034004C()
+AIAttackMoveStateMachine::~AIAttackMoveStateMachine()
 {
 }
 
-class Rva003402D0 : public Rva004D759C
+class BackAwayAndCowerStateMachine : public StateMachine
 {
 public:
-	virtual ~Rva003402D0();
+	virtual ~BackAwayAndCowerStateMachine();
 };
 
-Rva003402D0::~Rva003402D0()
+BackAwayAndCowerStateMachine::~BackAwayAndCowerStateMachine()
 {
 }
 
-class Rva0034144B : public Rva004D759C
+class Rva0034144B : public StateMachine
 {
 public:
 	virtual ~Rva0034144B();
@@ -115,17 +124,7 @@ Rva0034144B::~Rva0034144B()
 {
 }
 
-class Rva003677B3 : public Rva004D759C
-{
-public:
-	virtual ~Rva003677B3();
-};
-
-Rva003677B3::~Rva003677B3()
-{
-}
-
-class Rva0048898C : public Rva004D759C
+class Rva0048898C : public StateMachine
 {
 public:
 	virtual ~Rva0048898C();
@@ -135,17 +134,17 @@ Rva0048898C::~Rva0048898C()
 {
 }
 
-class Rva004A6C59 : public Rva004D759C
+class SupplyTruckStateMachine : public StateMachine
 {
 public:
-	virtual ~Rva004A6C59();
+	virtual ~SupplyTruckStateMachine();
 };
 
-Rva004A6C59::~Rva004A6C59()
+SupplyTruckStateMachine::~SupplyTruckStateMachine()
 {
 }
 
-class Rva004A9964 : public Rva004D759C
+class Rva004A9964 : public StateMachine
 {
 public:
 	virtual ~Rva004A9964();
@@ -155,37 +154,37 @@ Rva004A9964::~Rva004A9964()
 {
 }
 
-class Rva004D7E61 : public Rva004D759C
+class TurretStateMachine : public StateMachine
 {
 public:
-	virtual ~Rva004D7E61();
+	virtual ~TurretStateMachine();
 };
 
-Rva004D7E61::~Rva004D7E61()
+TurretStateMachine::~TurretStateMachine()
 {
 }
 
-class Rva00542C19 : public Rva004D759C
+class AIGuardMachine : public StateMachine
 {
 public:
-	virtual ~Rva00542C19();
+	virtual ~AIGuardMachine();
 };
 
-Rva00542C19::~Rva00542C19()
+AIGuardMachine::~AIGuardMachine()
 {
 }
 
-class Rva005440BC : public Rva004D759C
+class AIDockMachine : public StateMachine
 {
 public:
-	virtual ~Rva005440BC();
+	virtual ~AIDockMachine();
 };
 
-Rva005440BC::~Rva005440BC()
+AIDockMachine::~AIDockMachine()
 {
 }
 
-class Rva00544C51 : public Rva004D759C
+class Rva00544C51 : public StateMachine
 {
 public:
 	virtual ~Rva00544C51();
@@ -195,22 +194,22 @@ Rva00544C51::~Rva00544C51()
 {
 }
 
-class Rva00545211 : public Rva004D759C
+class AIGuardRetaliateMachine : public StateMachine
 {
 public:
-	virtual ~Rva00545211();
+	virtual ~AIGuardRetaliateMachine();
 };
 
-Rva00545211::~Rva00545211()
+AIGuardRetaliateMachine::~AIGuardRetaliateMachine()
 {
 }
 
-class Rva00545B84 : public Rva004D759C
+class AITNGuardMachine : public StateMachine
 {
 public:
-	virtual ~Rva00545B84();
+	virtual ~AITNGuardMachine();
 };
 
-Rva00545B84::~Rva00545B84()
+AITNGuardMachine::~AITNGuardMachine()
 {
 }

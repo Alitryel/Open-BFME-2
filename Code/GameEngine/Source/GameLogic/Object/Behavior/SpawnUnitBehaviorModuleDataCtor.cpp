@@ -15,6 +15,9 @@
 // stores need no extra states). /arch:SSE for movss float zeroing (DemoTrap
 // precedent: x87 fldz otherwise).
 
+extern "C" const void *const vtbl_00BF36C0[];  // ??_7Rva0025559B@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BF36C0=??_7Rva0025559B@@6B@")
+
 template <typename T>
 class StringBase
 {
@@ -34,7 +37,7 @@ typedef StringBase<char> AsciiString;
 class UpdateModuleData
 {
 public:
-	UpdateModuleData()
+	__declspec(dllimport) UpdateModuleData()
 	{
 	}
 	~UpdateModuleData();
@@ -57,8 +60,8 @@ private:
 };
 
 // ??0SpawnUnitBehaviorModuleData@@QAE@XZ @0x25598C
-SpawnUnitBehaviorModuleData::SpawnUnitBehaviorModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00BF36C0))
+inline SpawnUnitBehaviorModuleData::SpawnUnitBehaviorModuleData()
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00BF36C0)))
 {
 	m_unitName.set("");
 	m_unitCommand.set("");
@@ -67,3 +70,14 @@ SpawnUnitBehaviorModuleData::SpawnUnitBehaviorModuleData()
 	m_unused18 = 0.0f;
 	m_spawnOnce = false;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeSpawnUnitBehaviorModuleDataInlineAnchor@@YAXPAVSpawnUnitBehaviorModuleData@@@Z absent-from-retail
+void _bfmeSpawnUnitBehaviorModuleDataInlineAnchor(SpawnUnitBehaviorModuleData *spawnUnitBehaviorModuleData)
+{
+    spawnUnitBehaviorModuleData->SpawnUnitBehaviorModuleData::SpawnUnitBehaviorModuleData();
+}
+#pragma inline_depth()

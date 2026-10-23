@@ -21,7 +21,14 @@ private:
 };
 
 // ?friend_newModuleInstance@AutoDepositUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *AutoDepositUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *AutoDepositUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new AutoDepositUpdate(thing, moduleData));
 }
+#pragma inline_depth(0)
+// ?bfmeEmitAutoDepositUpdateFriendNew@@YAXPAVAutoDepositUpdate@@@Z present-unmatched
+void bfmeEmitAutoDepositUpdateFriendNew(AutoDepositUpdate *autoDepositUpdate)
+{
+	autoDepositUpdate->friend_newModuleInstance(0, 0);
+}
+#pragma inline_depth()

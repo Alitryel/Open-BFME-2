@@ -36,3 +36,7 @@ void BfmeE1036::bfmeGo1036E(void)
 	m_bfmeB = empty;
 	m_bfmeC = empty;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeStepTWA@BfmeThingTWA@@QAEXXZ=?bfmeGo1036E@BfmeE1036@@QAEXXZ")

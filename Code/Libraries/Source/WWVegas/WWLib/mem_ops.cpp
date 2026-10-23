@@ -9,8 +9,13 @@
 typedef void(__cdecl *GameFreeFunction)(void *, int);
 typedef void *(__cdecl *GameAllocateFunction)(unsigned int, int, const void *);
 
-extern "C" GameFreeFunction __gameMemFreePtr;
-extern "C" GameAllocateFunction __gameMemAllocatePtr;
+// Six matched wrappers independently locate these runtime binding slots.
+// Both four-byte pointers start at zero in BFME2; their types follow the
+// existing wrapper call contracts rather than an allocator implementation.
+extern "C" {
+GameFreeFunction __gameMemFreePtr = 0;             // VA 0x00DE03FC
+GameAllocateFunction __gameMemAllocatePtr = 0;    // VA 0x00DE0404
+}
 
 void __cdecl operator delete(void *block)
 {
@@ -18,7 +23,7 @@ void __cdecl operator delete(void *block)
 		__gameMemFreePtr(block, 1);
 }
 
-void __cdecl operator delete[](void *block)
+inline void __cdecl operator delete[](void *block)
 {
 	if (block)
 		__gameMemFreePtr(block, 2);
@@ -29,7 +34,16 @@ void *__cdecl operator new(unsigned int size)
 	return __gameMemAllocatePtr(size, 1, 0);
 }
 
-void *__cdecl operator new[](unsigned int size)
+inline void *__cdecl operator new[](unsigned int size)
 {
 	return __gameMemAllocatePtr(size, 2, 0);
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitMemOps@@YAXPAXI@Z present-unmatched
+void bfmeEmitMemOps(void *p, unsigned int s)
+{
+	operator delete[](p);
+	operator new[](s);
+}
+#pragma inline_depth()

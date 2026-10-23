@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/shims/sweep
+// cl: /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/shims/sweep
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -51,10 +51,10 @@ inline bool operator==(TextureClass *left, const BfmeHandleCX &right)
 	return left == right.p;
 }
 
-struct BFME2TextureResource { unsigned Vtable; unsigned short Refs; void Release_Ref(); };
+struct TextureBaseClass { unsigned Vtable; unsigned short Refs; void Release_Ref(); };
 struct BFME2TextureRef {
- BFME2TextureResource* Ptr;
- BFME2TextureRef(BFME2TextureResource* p):Ptr(p) { if(Ptr) ++Ptr->Refs; }
+ TextureBaseClass* Ptr;
+ BFME2TextureRef(TextureBaseClass* textureBase):Ptr(textureBase) { if(Ptr) ++Ptr->Refs; }
  BFME2TextureRef(const BFME2TextureRef& p):Ptr(p.Ptr) { if(Ptr) ++Ptr->Refs; }
  ~BFME2TextureRef() { if(Ptr) Ptr->Release_Ref(); }
 };
@@ -116,7 +116,18 @@ private:
 };
 
 typedef MultiListClass<DX8TextureCategoryClass> TextureCategoryList;
-typedef MultiListIterator<DX8TextureCategoryClass> TextureCategoryListIterator;
+// Keep the node step local: the shared header also emits an unused
+// GenericMultiListIterator::Next copy with a different register choice.
+namespace {
+class TextureCategoryListIterator : public MultiListIterator<DX8TextureCategoryClass>
+{
+public:
+    TextureCategoryListIterator(TextureCategoryList *list)
+        : MultiListIterator<DX8TextureCategoryClass>(list) {}
+    __forceinline void Next() { CurNode = CurNode->Next; }
+};
+}
+
 
 class DX8FVFCategoryContainer : public MultiListObjectClass
 {

@@ -1,4 +1,6 @@
-// cl: /O1 /DNDEBUG /MD
+char g_00BDD7B8;
+
+// cl: /DNDEBUG /MD
 //
 // ??0LaserFXNugget@@QAE@XZ 32B @0x1E04DE: no-arg ctor called by
 // LaserFXNugget::parse (0x001E1519) for the Laser FXList keyword; class name
@@ -29,7 +31,7 @@ private:
 // ??0LaserFXNugget@@QAE@XZ
 LaserFXNugget::LaserFXNugget()
 {
-	*(unsigned int *)this = 0x00BDD7B8;
+	*(unsigned int *)this = (unsigned int)&g_00BDD7B8;
 	_ReadWriteBarrier();
 	m_laserName = 0;
 	m_laserBackwards = false;

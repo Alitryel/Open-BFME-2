@@ -21,7 +21,18 @@ private:
 };
 
 // ?friend_newModuleInstance@DemoTrapUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *DemoTrapUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *DemoTrapUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new DemoTrapUpdate(thing, moduleData));
 }
+
+// Select-any anchor: this unit owns the row above while other TUs emit it as
+// an inline copy. The anchor keeps this unit emitting its copy for the ledger;
+// it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitDemoTrapUpdateFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitDemoTrapUpdateFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	DemoTrapUpdate::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

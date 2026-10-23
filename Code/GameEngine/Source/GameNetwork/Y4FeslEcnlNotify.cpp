@@ -31,7 +31,13 @@ struct Rva00809500Sink
 	int m_f0c;
 };
 
-Rva00809500Sink *__stdcall Rva00809010Find( Rva00809500Entry *entry );
+class Rva00809010Finder
+{
+public:
+	Rva00809500Sink *find( Rva00809500Entry *entry );
+	char m_pad00[ 0x18 ];
+	Rva00809500Sink *m_sinks[ 16 ];
+};
 
 class BfmeSinkSKA
 {
@@ -58,7 +64,7 @@ void Rva00809BF0Owner::notify( Rva00809500Entry *entry )
 	Rva007E8810Message *msg;
 
 	msg = (Rva007E8810Message *)entry;
-	sink = Rva00809010Find( entry );
+	sink = ((Rva00809010Finder *)this)->find( entry );
 	if ( sink == 0 )
 	{
 		m_sink->bfmeSendSKA( 'ECNL', msg->getInt( "TID", 0 ), 'ngam' );
@@ -68,4 +74,21 @@ void Rva00809BF0Owner::notify( Rva00809500Entry *entry )
 	msg->m_f08 = sink->m_f08;
 	msg->m_f0c = sink->m_f0c;
 	Rva007F93E0( msg, "->L", m_field10 );
+}
+
+// ?rva0066F760@Rva0066F760@@QAEXPAURva00809500Entry@@@Z @0x0066F760 8B member
+// forwarder to rowed ?notify@Rva00809BF0Owner@@QAEXPAURva00809500Entry@@@Z
+// (0x00675AF0; entry arg passes through the shared stack slot). No callers.
+// Honest address name.
+class Rva0066F760
+{
+public:
+	void rva0066F760(Rva00809500Entry *entry);
+private:
+	char m_pad[0x18];
+	Rva00809BF0Owner *m_member;
+};
+void Rva0066F760::rva0066F760(Rva00809500Entry *entry)
+{
+	return m_member->notify(entry);
 }

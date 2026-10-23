@@ -21,7 +21,15 @@ private:
 };
 
 // ?friend_newModuleInstance@MaxHealthUpgrade@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *MaxHealthUpgrade::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *MaxHealthUpgrade::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new MaxHealthUpgrade(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitMaxHealthUpgradeFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitMaxHealthUpgradeFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	MaxHealthUpgrade::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

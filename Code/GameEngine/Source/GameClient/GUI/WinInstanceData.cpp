@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib
 // stlport
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -161,10 +161,12 @@ void WinInstanceData::init( void )
 	m_style = 0;
 	m_status = WIN_STATUS_NONE;
 	m_owner = NULL;
-	m_textLabelString.clear();
-	m_tooltipString.clear();
+	// Retail calls the shared release worker. Name the base operation directly
+	// to avoid the kept AsciiString::clear definition that the census rejects.
+	((StringBase<char> *)&m_textLabelString)->clear();
+	((StringBase<char> *)&m_tooltipString)->clear();
   m_tooltipDelay = -1; ///< default value
-	m_decoratedNameString.clear();
+	((StringBase<char> *)&m_decoratedNameString)->clear();
 
 	m_imageOffset.x = 0;
 	m_imageOffset.y = 0;
@@ -194,37 +196,15 @@ void WinInstanceData::init( void )
 // WinInstanceData::setTooltipText ============================================
 //=============================================================================
 // byte-exact reconstruction: Code/GameEngine/Source/GameClient/GUI/WinInstanceDataDisplayStrings.cpp
-// ?setTooltipText@WinInstanceData@@QAEXVUnicodeString@@@Z present-unmatched
-void WinInstanceData::setTooltipText( UnicodeString tip )
-{
-
-	// allocate a text tooltip string if needed
-	if( m_tooltip == NULL )
-		m_tooltip = TheDisplayStringManager->newDisplayString();
-	DEBUG_ASSERTCRASH( m_tooltip, ("no tooltip") );
-
-	// set text
-	m_tooltip->setText( tip );
-
-}  // end setTooltipText
+// WinInstanceData::setTooltipText: defined in WinInstanceDataDisplayStrings.cpp (its row's unit).
+  // end setTooltipText
 
 // WinInstanceData:setText ====================================================
 /** Set the text for this window instance data */
 //=============================================================================
 // byte-exact reconstruction: Code/GameEngine/Source/GameClient/GUI/WinInstanceDataDisplayStrings.cpp
-// ?setText@WinInstanceData@@QAEXVUnicodeString@@@Z present-unmatched
-void WinInstanceData::setText( UnicodeString text )
-{
-
-	// allocate a text instance if needed
-	if( m_text == NULL )
-		m_text = TheDisplayStringManager->newDisplayString();
-	DEBUG_ASSERTCRASH( m_text, ("no text") );
-
-	// set the text
-	m_text->setText( text );
-
-}  // end set text
+// WinInstanceData::setText: defined in WinInstanceDataDisplayStrings.cpp (its row's unit).
+  // end set text
 
 // WinInstanceData:setText ====================================================
 /** Set the text for this window instance data */
@@ -234,3 +214,14 @@ void WinInstanceData::setVideoBuffer( VideoBuffer * videoBuffer )
 {
 	m_videoBuffer = videoBuffer;
 }
+// ??4WinInstanceData@@QAEAAV0@ABV0@@Z
+// Clean BFME1 GameWindow.cpp donor revision
+// 6d9434269164392c5ba62aaa7c15a86b5b020d76 emits a unique 393-byte implicit
+// assignment at RVA 0x00313EBD under BFME2 /O1 /G7. Native boundary
+// 0x00313EBD-0x00314046 preserves the vptr, copies three nine-element draw
+// arrays, assigns four 4-byte strings via 0x000366F0, and returns this.
+// Native offsets agree with this class's already matched init/ctor/dtor;
+// field labels follow the donor. Retain the compiler-generated operator in
+// the existing home unit rather than introduce a competing class view.
+typedef WinInstanceData &(WinInstanceData::*WindowInstanceAssignment)(const WinInstanceData &);
+static WindowInstanceAssignment instanceAssignment = &WinInstanceData::operator=;

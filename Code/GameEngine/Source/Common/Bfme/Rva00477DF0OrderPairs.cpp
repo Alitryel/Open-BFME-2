@@ -26,3 +26,7 @@ void Rva00477DF0::orderPairs()
 		m_fourth = value;
 	}
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?orderPairs@GameWindow@@QAEXXZ=?orderPairs@Rva00477DF0@@QAEXXZ")

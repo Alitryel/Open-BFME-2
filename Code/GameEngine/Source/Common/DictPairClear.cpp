@@ -1,31 +1,10 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /O1 /G7 /DNDEBUG /MD
 // Dict pair clear plus releaseData.
 // Reference basis is BFME1 Dict_releaseData.cpp (retail 0x000681C0), which
 // carries the Dict layout, the pair switch and releaseData. BFME2 outlines
 // the pair switch as its own 43B body and frees through the game _free.
 
-class AsciiString
-{
-public:
-	static const AsciiString TheEmptyString;
-
-	AsciiString(const AsciiString &other);
-	~AsciiString();
-	AsciiString &operator=(const AsciiString &other);
-
-private:
-	char *m_data;
-};
-
-template <typename T> class StringBase
-{
-public:
-	StringBase(const StringBase &other);
-	void set(const StringBase &other);
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 extern "C" void free(void *);
 
@@ -34,26 +13,17 @@ extern "C" void *memset(void *dst, int value, unsigned int size);
 
 namespace _STL { template <class _Tp> class allocator; template <> class allocator<char> { public: static char *allocate(unsigned int bytes, const void *hint); }; }
 
-__declspec(noreturn) void __stdcall _CxxThrowException(void *pExc, void *pInfo);
 
-class UnicodeString
+enum NameKeyType
 {
-public:
-	UnicodeString(const UnicodeString &other)
-	{
-		((StringBase<unsigned short> *)this)->StringBase<unsigned short>::StringBase(*(const StringBase<unsigned short> *)&other);
-	}
-	~UnicodeString();
-	void releaseBuffer();
-
-	static const UnicodeString TheEmptyString;
-
-private:
-	unsigned short *m_data;
+	NAMEKEY_INVALID = 0
 };
+
+#include "unicode_string.h"
 
 class Dict
 {
+    friend struct Rva000ABB82CleanupForward;
 public:
 	enum DataType
 	{
@@ -73,6 +43,10 @@ public:
 		void clear();
 		void setNameAndType(int key, DataType type);
 		void copyFrom(DictPair *that);
+        static unsigned int Rva00306B8FNameBits(unsigned int key);
+        unsigned int Rva00306B97TypeBits() const;
+        unsigned int Rva00306B9FNameBits() const;
+		AsciiString *asAsciiString() { return (AsciiString *)&m_value; }
 	};
 
 	struct DictPairData
@@ -93,14 +67,26 @@ public:
  int getNthInt(int n) const;
  float getNthReal(int n) const;
  AsciiString getNthAsciiString(int n) const;
+ NameKeyType getNthKey(int n) const;
+ DataType getNthType(int n) const;
+ UnicodeString getNthUnicodeString(int n) const;
  AsciiString getAsciiString(int key, bool *exists) const;
+ AsciiString getAsciiString(NameKeyType key, bool *exists) const;
  UnicodeString getUnicodeString(int key, bool *exists) const;
+ void setBool(int key, bool value);
+ void setInt(int key, int value);
+ void setReal(int key, float value);
+ void setAsciiString(int key, const AsciiString &value);
+ void setUnicodeString(int key, const UnicodeString &value);
+ bool remove(int key);
+ void copyPairFrom(const Dict &that, int key);
 
 private:
 	void releaseData();
 	DictPair *findPairByKey(int key) const;
 	void sortPairs();
 	DictPair *ensureUnique(int numPairsNeeded, bool preserveData, DictPair *pairToTranslate);
+	DictPair *setPrep(int key, DataType type);
 
 	DictPairData *m_data;
 };
@@ -118,10 +104,10 @@ void Dict::DictPair::clear()
 			m_value = 0;
 			break;
 		case DICT_ASCIISTRING:
-			((AsciiString *)&m_value)->~AsciiString();
+			((StringBase<char> *)&m_value)->clear(); // inline releaseBuffer(): retail calls the 133-byte narrow buffer owner
 			break;
 		case DICT_UNICODESTRING:
-			((UnicodeString *)&m_value)->releaseBuffer();
+			((UnicodeString *)&m_value)->clear();	// inline releaseBuffer(): retail tail-jumps to StringBase<unsigned short>::releaseBuffer
 			break;
 	}
 }
@@ -176,9 +162,16 @@ void Dict::DictPair::copyFrom(DictPair *that)
 	}
 }
 
+// Zero Hour's Common/Errors.h.
+enum ErrorCode
+{
+	ERROR_BASE = 0xdead0001,
+	ERROR_OUT_OF_MEMORY = (ERROR_BASE + 0x0001)
+};
+
 // ?ensureUnique@Dict@@AAEPAUDictPair@1@H_NPAU21@@Z @0x0031346B 265B
 // Dict::ensureUnique from ZH Dict.cpp donor (BFME1 0x000683D0). Early-out when
-// unique with enough slots, throws 0xDEAD0002 via 0xCFEEE4 info when over
+// unique with enough slots, throws ERROR_OUT_OF_MEMORY (0xDEAD0002; retail's ErrorCode throw info is at 0x00CFEEE4) when over
 // MAX_LEN, else rounds to 4 via allocate plus memset and copies via copyFrom.
 // Callers at 0x00313594 0x003136C3 0x003137C4, layout from DictPairData header.
 Dict::DictPair *Dict::ensureUnique(int numPairsNeeded, bool preserveData, DictPair *pairToTranslate)
@@ -187,8 +180,7 @@ Dict::DictPair *Dict::ensureUnique(int numPairsNeeded, bool preserveData, DictPa
 		return pairToTranslate;
 	if (numPairsNeeded > 32767)
 	{
-		int marker = 0xdead0002;
-		_CxxThrowException(&marker, (void *)0xCFEEE4);
+		throw ERROR_OUT_OF_MEMORY;
 	}
 	DictPairData *newData = 0;
 	if (numPairsNeeded > 0)
@@ -368,6 +360,44 @@ AsciiString Dict::getNthAsciiString(int n) const
 	return AsciiString::TheEmptyString;
 }
 
+// ?getNthKey@Dict@@QBE?AW4NameKeyType@@H@Z @0x00306BA9 36B
+// Dict indexed key getter from ZH Dict.h donor inline getNthKey. Range-checked
+// via m_data plus n against m_numPairsUsed then returns peek name m_key>>8
+// or NAMEKEY_INVALID. Caller at 0x00307DD4 via keyToName. Prev/next disp getters.
+NameKeyType Dict::getNthKey(int n) const
+{
+	if (m_data && n >= 0 && n < m_data->m_numPairsUsed)
+		return (NameKeyType)((unsigned int)((DictPair *)(m_data + 1) + n)->m_key >> 8);
+	return NAMEKEY_INVALID;
+}
+
+// ?getNthType@Dict@@QBE?AW4DataType@1@H@Z @0x00306BCD 39B
+// Dict indexed type getter from ZH Dict.h donor inline getNthType. Range-checked
+// via m_data plus n against m_numPairsUsed then returns peek type m_key&0xFF
+// or DICT_NONE. Caller at 0x00307E08 for writeDict dispatch. Prev/next disp getters.
+Dict::DataType Dict::getNthType(int n) const
+{
+	if (m_data && n >= 0 && n < m_data->m_numPairsUsed)
+		return (DataType)(((DictPair *)(m_data + 1) + n)->m_key & 0xFF);
+	return DICT_NONE;
+}
+
+// ?getNthUnicodeString@Dict@@QBE?AVUnicodeString@@H@Z @0x00313665 56B
+// Dict indexed Unicode getter twin of rowed getNthAsciiString at 0x0031362D.
+// Checks pair type DICT_UNICODESTRING via m_data peek plus n then copies through
+// pinned StringBase wide copy at 0x00037050 or returns TheEmptyString. Caller at
+// 0x00307E3F. Prev getNthAsciiString next SidesList getter.
+UnicodeString Dict::getNthUnicodeString(int n) const
+{
+	if (m_data)
+	{
+		DictPair *pair = (DictPair *)(m_data + 1) + n;
+		if (pair && (pair->m_key & 0xFF) == DICT_UNICODESTRING)
+			return *(UnicodeString *)&pair->m_value;
+	}
+	return UnicodeString::TheEmptyString;
+}
+
 // ?sortPairs@Dict@@AAEXXZ @0x00313299
 void Dict::sortPairs()
 {
@@ -379,12 +409,12 @@ void Dict::sortPairs()
 		{
 			for (int j = i - gap; j >= 0; j -= gap)
 			{
-				DictPair *a = (DictPair *)(m_data + 1) + j;
+				DictPair *dictPair = (DictPair *)(m_data + 1) + j;
 				DictPair *b = (DictPair *)(m_data + 1) + j + gap;
-				if ((int)((unsigned int)a->m_key >> 8) > (int)((unsigned int)b->m_key >> 8))
+				if ((int)((unsigned int)dictPair->m_key >> 8) > (int)((unsigned int)b->m_key >> 8))
 				{
-					DictPair tmp = *a;
-					*a = *b;
+					DictPair tmp = *dictPair;
+					*dictPair = *b;
 					*b = tmp;
 				}
 				else
@@ -396,6 +426,23 @@ void Dict::sortPairs()
 
 // ?getAsciiString@Dict@@QBE?AVAsciiString@@HPA_N@Z @0x0031359F
 AsciiString Dict::getAsciiString(int key, bool *exists) const
+{
+	DictPair *pair = findPairByKey(key);
+	if (pair && (pair->m_key & 0xFF) == DICT_ASCIISTRING)
+	{
+		if (exists)
+			*exists = true;
+		return *(AsciiString *)&pair->m_value;
+	}
+	if (exists)
+		*exists = false;
+	return AsciiString::TheEmptyString;
+}
+
+// ICF-folded twin of getAsciiString above (same 71 bytes at 0x0031359F):
+// the NameKeyType spelling passes the key opaquely like the int spelling,
+// so every load, check and copy matches exactly.
+AsciiString Dict::getAsciiString(NameKeyType key, bool *exists) const
 {
 	DictPair *pair = findPairByKey(key);
 	if (pair && (pair->m_key & 0xFF) == DICT_ASCIISTRING)
@@ -426,4 +473,150 @@ UnicodeString Dict::getUnicodeString(int key, bool *exists) const
 	if (exists)
 		*exists = false;
 	return UnicodeString::TheEmptyString;
+}
+
+// ?setPrep@Dict@@AAEPAUDictPair@1@HW4DataType@1@@Z @0x0031369D 89B
+// Dict::setPrep from ZH Dict.cpp donor (BFME1 0xsetPrep). Finds pair by key,
+// grows via rowed ensureUnique at 0x0031346B when missing, appends at
+// m_data peek plus used when ensure returns null, then rowed setNameAndType
+// at 0x00313376. Callers at 0x003136F6 0x00313716 0x00313736 0x0031375A
+// 0x00313781 0x00313812.
+Dict::DictPair *Dict::setPrep(int key, DataType type)
+{
+	DictPair *pair = findPairByKey(key);
+	int pairsNeeded = m_data ? m_data->m_numPairsUsed : 0;
+	if (!pair)
+		++pairsNeeded;
+	pair = ensureUnique(pairsNeeded, true, pair);
+	if (!pair)
+		pair = (DictPair *)(m_data + 1) + m_data->m_numPairsUsed++;
+	pair->setNameAndType(key, type);
+	return pair;
+}
+
+// ?setBool@Dict@@QAEXH_N@Z @0x003136F6 32B
+// Dict::setBool from ZH Dict.cpp donor. Rowed setPrep at 0x0031369D plus
+// bool store plus rowed sortPairs at 0x00313299. Callers in INI parse.
+void Dict::setBool(int key, bool value)
+{
+	DictPair *pair = setPrep(key, DICT_BOOL);
+	*(bool *)&pair->m_value = value;
+	sortPairs();
+}
+
+// ?setInt@Dict@@QAEXHH@Z @0x00313716 32B
+// Dict::setInt from ZH Dict.cpp donor. Rowed setPrep at 0x0031369D plus
+// int store plus rowed sortPairs at 0x00313299. Callers in INI parse.
+void Dict::setInt(int key, int value)
+{
+	DictPair *pair = setPrep(key, DICT_INT);
+	*(int *)&pair->m_value = value;
+	sortPairs();
+}
+
+// ?setAsciiString@Dict@@QAEXHABVAsciiString@@@Z @0x0031375A 39B
+// Dict::setAsciiString from ZH Dict.cpp donor. Rowed setPrep at 0x0031369D
+// plus pinned AsciiString assign at 0x000366F0 plus rowed sortPairs.
+void Dict::setAsciiString(int key, const AsciiString &value)
+{
+	DictPair *pair = setPrep(key, DICT_ASCIISTRING);
+	AsciiString *slot = pair->asAsciiString();
+	*slot = value;
+	sortPairs();
+}
+
+// ?setUnicodeString@Dict@@QAEXHABVUnicodeString@@@Z @0x00313781 39B
+// Dict::setUnicodeString from ZH Dict.cpp donor. Rowed setPrep at 0x0031369D
+// plus pinned StringBase wide set at 0x00037150 plus rowed sortPairs.
+void Dict::setUnicodeString(int key, const UnicodeString &value)
+{
+	DictPair *pair = setPrep(key, DICT_UNICODESTRING);
+	StringBase<unsigned short> *slot = (StringBase<unsigned short> *)&pair->m_value;
+	slot->set(*(const StringBase<unsigned short> *)&value);
+	sortPairs();
+}
+
+// ?remove@Dict@@QAE_NH@Z @0x003137A8 70B
+// Dict::remove from ZH Dict.cpp donor. Rowed findPairByKey at 0x0031313B,
+// rowed ensureUnique at 0x0031346B, rowed setNameAndType at 0x00313376,
+// rowed sortPairs at 0x00313299, then dec used. Caller at 0x00313835.
+bool Dict::remove(int key)
+{
+	DictPair *pair = findPairByKey(key);
+	if (pair)
+	{
+		pair = ensureUnique(m_data->m_numPairsUsed, true, pair);
+		pair->setNameAndType(0x7fffffff, DICT_BOOL);
+		sortPairs();
+		--m_data->m_numPairsUsed;
+		return true;
+	}
+	return false;
+}
+
+// ?copyPairFrom@Dict@@QAEXABV1@H@Z @0x003137EE 82B
+// Dict::copyPairFrom from ZH Dict.cpp donor. Rowed findPairByKey at
+// 0x0031313B, rowed setPrep at 0x0031369D, rowed copyFrom at 0x00313404,
+// rowed sortPairs at 0x00313299, rowed remove at 0x003137A8.
+void Dict::copyPairFrom(const Dict &that, int key)
+{
+	DictPair *thatPair = that.findPairByKey(key);
+	if (thatPair)
+	{
+		DictPair *thisPair = setPrep(key, (DataType)(thatPair->m_key & 0xFF));
+		thisPair->copyFrom(thatPair);
+		sortPairs();
+	}
+	else
+	{
+		if (findPairByKey(key))
+			remove(key);
+	}
+}
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeInitUBB@BfmeSubUBB@@QAEXH@Z=??0Dict@@QAE@H@Z")
+
+// Whole BFME1 Dict.cpp/Dict_releaseData.cpp at9cbfb551fe20dae985f91f2319d8997287b6a705
+// emit these three adjacent retail leaves. Their key-bit contract is also
+// present in the verified native getNthKey/getNthType bodies above.
+// Preserve unknown original helper names and key-enum identity explicitly.
+unsigned int Dict::DictPair::Rva00306B8FNameBits(unsigned int key)
+{
+    return key >> 8;
+}
+
+unsigned int Dict::DictPair::Rva00306B97TypeBits() const
+{
+    return (unsigned int)m_key & 0xff;
+}
+
+unsigned int Dict::DictPair::Rva00306B9FNameBits() const
+{
+    return (unsigned int)m_key >> 8;
+}
+
+// BF1 9cbfb551fe clean Dict.cpp emits the key-building expression under the
+// named Common O1/x87/G6 sweep. Private/public createKey spellings both place
+// here, so placement does not choose a target access spelling or class owner.
+// Native 31312F..31313B lies exactly between the already rowed 92-byte append
+// ending 31312F and Dict::findPairByKey starting 31313B. It shifts the first
+// stack dword by 8, ORs the unmasked second dword, and returns all 32 bits in EAX.
+// ECX is unused, with no calls/globals/literals or witnessed direct callers.
+// This is also the operation used by the native dictionary key encoding, so
+// the existing key-bits home is appropriate; original helper identity remains
+// unknown. The unsigned minimal contract preserves every input bit pattern.
+unsigned int Rva0031312FCombineBits(unsigned int shiftedValue, unsigned int otherValue)
+{
+    return (shiftedValue << 8) | otherValue;
+}
+
+// NativeABB82..ABB875B tail JMP31339C to sole Dict::releaseData owner.
+// ECX/stack unchanged no arguments RET0. Original enclosing wrapper type
+// name and lifetime role unknown; only existing Dict receiver ABI reused.
+struct Rva000ABB82CleanupForward { void cleanup(); };
+void Rva000ABB82CleanupForward::cleanup()
+{
+    reinterpret_cast<Dict*>(this)->releaseData();
 }

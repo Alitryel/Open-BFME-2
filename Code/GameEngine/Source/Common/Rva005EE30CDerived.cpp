@@ -11,26 +11,35 @@
 class Rva005EE30C
 {
 public:
+	Rva005EE30C();
 	virtual ~Rva005EE30C();
 };
 
 class Rva005D736E : public Rva005EE30C
 {
 public:
+	Rva005D736E();
 	virtual ~Rva005D736E();
 };
+
+// ??0Rva005D736E@@QAE@XZ, retail 0x005D735C (18B): calls the rowed base
+// constructor 0x005EE2E6 and stores vtable 0x00C75CEC, the one the
+// destructor below restores, so it is this class's constructor.
+Rva005D736E::Rva005D736E()
+{
+}
 
 Rva005D736E::~Rva005D736E()
 {
 }
 
-class Rva005D7706 : public Rva005EE30C
+class AISpellBookTreeKiller : public Rva005EE30C
 {
 public:
-	virtual ~Rva005D7706();
+	virtual ~AISpellBookTreeKiller();
 };
 
-Rva005D7706::~Rva005D7706()
+AISpellBookTreeKiller::~AISpellBookTreeKiller()
 {
 }
 
@@ -57,8 +66,16 @@ Rva005D7A1B::~Rva005D7A1B()
 class Rva005D7AC5 : public Rva005EE30C
 {
 public:
+	Rva005D7AC5();
 	virtual ~Rva005D7AC5();
 };
+
+// ??0Rva005D7AC5@@QAE@XZ, retail 0x005D7AB3 (18B): base constructor
+// 0x005EE2E6 then vtable 0x00C75E44, the one this class's destructor
+// restores.
+Rva005D7AC5::Rva005D7AC5()
+{
+}
 
 Rva005D7AC5::~Rva005D7AC5()
 {
@@ -120,7 +137,7 @@ public:
 	virtual ~Rva005D8317();
 };
 
-Rva005D8317::~Rva005D8317()
+inline Rva005D8317::~Rva005D8317()
 {
 }
 
@@ -233,3 +250,11 @@ public:
 Rva005D9CD5::~Rva005D9CD5()
 {
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitRva005EE30CDerived@@YAXPAVRva005D8317@@@Z present-unmatched
+void bfmeEmitRva005EE30CDerived(Rva005D8317 *p)
+{
+	p->Rva005D8317::~Rva005D8317();
+}
+#pragma inline_depth()

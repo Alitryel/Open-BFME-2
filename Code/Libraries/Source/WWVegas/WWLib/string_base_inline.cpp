@@ -1,4 +1,8 @@
-// cl: /O2
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
+// The shared headers declare these members with the access/virtual spelling
+// the referring objects use; this TU emits the paired definition spelling.
+// Same function, same address: bind the header spelling here.
+#pragma comment(linker, "/alternatename:??0?$StringBase@D@@QAE@PBD@Z=??0?$StringBase@D@@AAE@PBD@Z")
 
 // The StringBase members that retail emits as COMDATs from a translation unit
 // built for speed rather than size. They sit together at 0x00035720, 0x00035740
@@ -515,28 +519,13 @@ const wchar_t *StringBase<wchar_t>::reverseFind(wchar_t c) const
 // operand and loads the string byte into the register, while MSVC 7.1 hoists the
 // parameter into the register before the loop and compares against memory. Four
 // loop shapes all produce the hoisted form.
-// 0x000359B0 - the startsWith of this pair - stays unclaimed: retail holds the
-// string's own length in edx and the argument length in ecx, MSVC 7.1 the other
-// way round, and swapping the comparison, naming the length, casting the count
-// and splitting the result out all leave it unchanged. The endsWith twin, which
-// uses the length twice, comes out with retail's assignment on its own.
-//
-// The case-insensitive pair, identical to the case-sensitive one except that
-// the comparison is the _memicmp import rather than an inlined rep cmpsb, and
-// the result is inverted with neg/sbb/inc rather than a sete.
-template <typename T>
-bool StringBase<T>::startsWithNoCase(const T *str, int len) const
-{
-    if (*str == 0) {
-        return true;
-    }
-
-    if ((m_data ? m_data->length : 0) < len) {
-        return false;
-    }
-
-    return _memicmp(&m_data->data[0], str, len) == 0;
-}
+// The exact 0x000359B0 length-bounded narrow prefix worker is emitted by
+// string_base_starts_with_nocase.cpp. This unit's former explicit template
+// instantiation reversed the native register assignment and emitted a proven
+// nonretail COMDAT before that correct copy. Keep only the header declaration
+// here so the linked build selects the verified worker. The single-argument
+// body below already spells out its own comparison and does not need that
+// discarded template definition.
 
 // Single-argument narrow prefix test: measures with an inlined strlen scan,
 // then runs the length-bounded worker. Routes the comparison through an
@@ -593,13 +582,11 @@ template int StringBase<char>::compareNoCase(char c) const;
 template bool StringBase<char>::endsWithNoCase(const char *str) const;
 template bool StringBase<char>::endsWithNoCase(const StringBase<char> &str) const;
 template bool StringBase<wchar_t>::isNotEmpty() const;
-template bool StringBase<char>::startsWithNoCase(const char *str, int len) const;
 template bool StringBase<char>::endsWithNoCase(const char *str, int len) const;
 template bool StringBase<char>::startsWith(const StringBase<char> &str) const;
 template bool StringBase<char>::startsWith(const char *str, int len) const;
 template bool StringBase<char>::endsWith(const StringBase<char> &str) const;
 template bool StringBase<char>::endsWith(const char *str, int len) const;
-template const char *StringBase<char>::find(char c) const;
 template const char *StringBase<char>::reverseFind(char c) const;
 template char StringBase<char>::getCharAt(int index) const;
 template wchar_t StringBase<wchar_t>::getCharAt(int index) const;
@@ -614,3 +601,21 @@ template StringBase<char>::StringBase(const CharSource<char> &source);
 template StringBase<wchar_t>::StringBase(wchar_t character);
 template StringBase<wchar_t>::StringBase(const wchar_t *str, int len);
 template StringBase<wchar_t>::StringBase(const CharSource<wchar_t> &source);
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?init@CustomAsciiStringShim@@QAEXPBD@Z=??0?$StringBase@D@@AAE@PBD@Z")
+
+// BFME1 donor: 1281192f682ce6f29b8f06b7daea4b5e8fdfbb24,
+// game/Libraries/Source/string/StringBase.cpp, compiled under BFME2 /O2.
+// The donor spells this operator!=<char>(text, string); that original template
+// identity is not asserted for the target. Native 0x006BEF60 is a complete
+// 21-byte cdecl body between INT3 padding runs. It passes its second argument
+// as receiver and its first as the text argument to the already-rowed narrow
+// StringBase compare worker at 0x000069B1, then converts the result to 0 or 1.
+// Those operand roles and the nonzero test are target facts; this view uses
+// the existing string declaration and introduces no private string layout.
+bool Rva006BEF60NotEqual(const char *left, const StringBase<char> &right)
+{
+    return right.compare(left) != 0;
+}

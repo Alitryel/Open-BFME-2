@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE
+// cl: /DNDEBUG /MD /GX
 //
 // ??0StrafeAreaUpdate@@QAE@PAVThing@@PBVModuleData@@@Z retail 0x003A4D23
 // 129 bytes. Behavior-side ctor completing the StrafeAreaUpdate file-unit
@@ -22,9 +22,49 @@
 // state store; the declared-only base dtor arms it with no emitted code.
 // Row supersedes the ctor pin (surgical delete, same commit).
 
+extern "C" const void *const vtbl_00BEFF90[];  // folded, 80 classes; via ??_7AIGateUpdate@@6BBehaviorModuleOther@@@
+#pragma comment(linker, "/alternatename:_vtbl_00BEFF90=??_7AIGateUpdate@@6BBehaviorModuleOther@@@")
+
+extern "C" const void *const vtbl_00C1B158[];  // ??_7Rva003A4CAE@@6BRva003A4CAE_B2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C1B158=??_7Rva003A4CAE@@6BRva003A4CAE_B2@@@")
+// The retail table at RVA 0x0081B164: 13 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva003A4CAE@@UAEPAXI@Z")();
+void __identifier("?loadPostProcess@Rva00497805@@MAEXXZ")();
+void __identifier("?name@Rva003A4CC7Named@@QBEPBDXZ")();
+void __identifier("?xfer@Rva003A4CAE@@MAEXPAVXfer@@@Z")();
+void __identifier("?getModuleNameKey@StrafeAreaUpdate@@UBE?AW4NameKeyType@@XZ")();
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+void __identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z")();
+void __identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")();
+void __identifier("?getUpdatePhase@UpdateModule@@MBE?AW4SleepyUpdatePhase@@XZ")();
+}
+extern "C" const void *const vtbl_00C1B164[13] = {
+	(const void *)&__identifier("??_GRva003A4CAE@@UAEPAXI@Z"), // slot 0 0x003A4DA4
+	(const void *)&__identifier("?loadPostProcess@Rva00497805@@MAEXXZ"), // slot 1 0x00497805
+	(const void *)&__identifier("?name@Rva003A4CC7Named@@QBEPBDXZ"), // slot 2 0x003A4CC7
+	(const void *)&__identifier("?xfer@Rva003A4CAE@@MAEXPAVXfer@@@Z"), // slot 3 0x003A4DC0
+	(const void *)&__identifier("?getModuleNameKey@StrafeAreaUpdate@@UBE?AW4NameKeyType@@XZ"), // slot 4 0x003A4CCD
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 5 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 6 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 7 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 8 0x000B3FD0
+	(const void *)&__identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z"), // slot 9 0x0050B238
+	(const void *)&__identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z"), // slot 10 0x000D43D0
+	(const void *)&__identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z"), // slot 11 0x000D43D0
+	(const void *)&__identifier("?getUpdatePhase@UpdateModule@@MBE?AW4SleepyUpdatePhase@@XZ"), // slot 12 0x0022C4CB
+};
+
 class Thing;
 class ModuleData;
 class Object;
+
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1,
+	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
+};
 
 class UpdateModule
 {
@@ -33,7 +73,7 @@ public:
 	~UpdateModule();
 
 protected:
-	void setWakeFrame(Object *object, unsigned int frame);
+	void setWakeFrame(Object *object, UpdateSleepTime frame);
 
 	const void *m_vtable;
 	const ModuleData *m_moduleData;
@@ -70,9 +110,9 @@ StrafeAreaUpdate::StrafeAreaUpdate(Thing *thing, const ModuleData *moduleData)
 	float fzero = 0.0f;
 	int zero = 0;
 	float *fromSlot = &m_strafeFromX;
-	m_vtable = (const void *)0x00C1B164;
-	m_secondary0C = (const void *)0x00BEFF90;
-	m_secondary10 = (const void *)0x00C1B158;
+	m_vtable = (const void *)((unsigned int)vtbl_00C1B164);
+	m_secondary0C = (const void *)((unsigned int)vtbl_00BEFF90);
+	m_secondary10 = (const void *)((unsigned int)vtbl_00C1B158);
 	m_sweepOffset = fzero;
 	m_strafeMode = zero;
 	m_strafing = 0;
@@ -84,5 +124,5 @@ StrafeAreaUpdate::StrafeAreaUpdate(Thing *thing, const ModuleData *moduleData)
 	m_strafeToY = fzero;
 	m_strafeToX = fzero;
 	Object **objSlot = &m_object;
-	setWakeFrame(*objSlot, 1);
+	setWakeFrame(*objSlot, UPDATE_SLEEP_NONE);
 }

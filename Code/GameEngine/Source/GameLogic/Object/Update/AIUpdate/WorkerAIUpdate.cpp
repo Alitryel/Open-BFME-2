@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims
+// cl: /Ireference/shims/aiupdatelayout /Ireference/shims/zh_outofline /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims
 // stlport
 // Ported verbatim from the Generals Zero Hour reference (GameEngine/Source/GameLogic/Object/Update/AIUpdate/WorkerAIUpdate.cpp); this unit had no counterpart under Code/.
 #define Matrix4x4 Matrix4  // BFME renamed it
@@ -64,6 +64,9 @@
 #include "GameLogic/Module/SupplyCenterDockUpdate.h"
 #include "GameLogic/Module/SupplyWarehouseDockUpdate.h"
 #include "GameLogic/Module/WorkerAIUpdate.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+// bfme link decl-only end
 
 
 #ifdef _INTERNAL
@@ -89,65 +92,20 @@ enum
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/WorkerAIUpdate_ctor_Thunk.cpp
-// ??0WorkerAIUpdate@@QAE@PAVThing@@PBVModuleData@@@Z present-unmatched
-WorkerAIUpdate::WorkerAIUpdate( Thing *thing, const ModuleData* moduleData ) : 
-							 AIUpdateInterface( thing, moduleData )
-               
+// WorkerAIUpdate::WorkerAIUpdate is rowed in WorkerAIUpdateCtor.cpp; the Zero Hour copy here
+// was a non-retail second definition. Two header-inline virtuals rowed here were emitted
+// only through its vtable; direct calls keep them emitted.
+// ?bfmeAnchorWorkerAIUpdateInlineRows absent-from-retail
+void bfmeAnchorWorkerAIUpdateInlineRows(WorkerAIUpdate *worker, DozerBuildSubTask task, Bool on)
 {
-
-	//
-	// initialize the dozer machine to NULL, we want to do this and create it during the update
-	// implementation because at this point we don't have the object all setup
-	//
-
-	//Added By Sadullah Nader
-	//Initialization(s) inserted
-	m_isRebuild = FALSE;
-	//
-	m_dozerMachine = NULL;
-	for( Int i = 0; i < DOZER_NUM_TASKS; i++ )
-	{
-		m_task[ i ].m_targetObjectID = INVALID_ID;
-		m_task[ i ].m_taskOrderFrame = 0;
-		for( Int j = 0; j < DOZER_NUM_DOCK_POINTS; j++ )
-		{
-			m_dockPoint[ i ][ j ].valid = FALSE;
-			m_dockPoint[ i ][ j ].location.zero();
-		}
-	} 
-	m_currentTask = DOZER_TASK_INVALID;
-	m_buildSubTask = DOZER_SELECT_BUILD_DOCK_LOCATION;  // irrelavant, but I want non-garbage value
-	
-	m_supplyTruckStateMachine = NULL;
-	m_numberBoxes = 0;
-	m_forcePending = FALSE;
-	m_forcedBusyPending = FALSE;
-
-	m_workerMachine = NULL;
-
- 	m_suppliesDepletedVoice = getWorkerAIUpdateModuleData()->m_suppliesDepletedVoice;
-	
-	createMachines();
-
+	worker->WorkerAIUpdate::setBuildSubTask(task);
+	worker->WorkerAIUpdate::setForceWantingState(on);
 }
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ??1WorkerAIUpdate@@MAE@XZ present-unmatched
-WorkerAIUpdate::~WorkerAIUpdate( void )
-{
-
-	// delete our behavior state machine
-	if( m_dozerMachine )
-		m_dozerMachine->deleteInstance();
-
-	if( m_supplyTruckStateMachine )
-		m_supplyTruckStateMachine->deleteInstance();
-
-	if( m_workerMachine )
-		m_workerMachine->deleteInstance();
-
-}
+// WorkerAIUpdate's destructor is rowed with BFME2's body in WorkerAIUpdateDtor.cpp;
+// the Zero Hour copy here was a second definition.
 
 //-------------------------------------------------------------------------------------------------
 // One instruction away, and the instruction is the class. With the three offsets
@@ -208,40 +166,11 @@ Real WorkerAIUpdate::getBoredRange( void ) const
 }
 
 // ------------------------------------------------------------------------------------------------
-// ?createMachines@WorkerAIUpdate@@AAEXXZ present-unmatched
-void WorkerAIUpdate::createMachines( void )
-{
-
-	if( m_workerMachine == NULL )
-	{
-		m_workerMachine = newInstance(WorkerStateMachine)( getObject() );
-
-		if( m_dozerMachine == NULL )
-		{
-			m_dozerMachine = newInstance(DozerPrimaryStateMachine)( getObject() );
-			m_dozerMachine->initDefaultState();
-		}
-
-		if( m_supplyTruckStateMachine == NULL )
-		{
-			m_supplyTruckStateMachine = newInstance(SupplyTruckStateMachine)( getObject() );
-			m_supplyTruckStateMachine->initDefaultState();
-		}
-
-		m_workerMachine->initDefaultState();// this has to wait until all three are in place since
-		// an immediate transition check will ask questions of the machines.
-
-//#ifdef _DEBUG
-//		m_workerMachine->setDebugOutput(TRUE);
-//		m_dozerMachine->setDebugOutput(TRUE);
-//		m_supplyTruckStateMachine->setDebugOutput(TRUE);
-//#endif
-	}
-
-}
+// WorkerAIUpdate::createMachines is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/WorkerAIUpdateCtor.cpp (0x004A9ED5).
 
 //-------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------
+// ?getActionDelayForDock@WorkerAIUpdate@@ present-unmatched
 UnsignedInt WorkerAIUpdate::getActionDelayForDock( Object *dock )
 {
 	// BFME's AIUpdate module-data pointer is at retail this-0x340.  The
@@ -281,7 +210,64 @@ Real WorkerAIUpdate::getWarehouseScanDistance() const
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?update@WorkerAIUpdate@@UAE?AW4UpdateSleepTime@@XZ present-unmatched
+// BFME 2's Object private status byte (+0x438); bit 0 is effectively-dead.
+struct BfmeWorkerPrivateStatus { unsigned char m_unreconstructed_000[ 0x438 ]; unsigned char m_privateStatus; };
+// Only the slot positions matter in these views: the interface gained
+// entries rather than being reordered (DozerAIUpdate.cpp spells the same).
+template <Int N>
+class BfmeWorkerSlots : public BfmeWorkerSlots<N - 1>
+{
+public:
+	virtual void unused(char (*)[N]) = 0;
+};
+template <>
+class BfmeWorkerSlots<0>
+{
+};
+class BfmeWorkerTaskSlots : public BfmeWorkerSlots<7>
+{
+public:
+	virtual ObjectID getTaskTarget( DozerTask task ) = 0;		///< +0x1C
+	virtual void unusedSlot8() = 0;
+	virtual DozerTask getCurrentTask( void ) = 0;			///< +0x24
+	virtual void unusedSlot10() = 0;
+	virtual void unusedSlot11() = 0;
+	virtual void unusedSlot12() = 0;
+	virtual void cancelTask( DozerTask task ) = 0;			///< +0x34
+};
+class BfmeWorkerCommandSourceSlots : public BfmeWorkerSlots<143>
+{
+public:
+	virtual CommandSourceType getLastCommandSource( void ) = 0;	///< +0x23C
+};
+class BfmeWorkerMachine : public BfmeWorkerSlots<4>
+{
+public:
+	virtual void updateStateMachine( void ) = 0;			///< +0x10
+	struct CurrentState { void *m_vtable; StateID m_id; };
+	StateID getCurrentStateID( void ) const { return m_currentState ? m_currentState->m_id : INVALID_STATE_ID; }
+	CurrentState *m_currentState;					///< +0x04
+};
+// BFME 2's module fields: the dozer task interface (+0x3E4), a byte at
+// +0x3CC that suspends the worker, and the worker, dozer and supply truck
+// machines (+0x4C0/+0x4C4/+0x4C8).
+struct BfmeWorkerUpdateFields
+{
+	unsigned char m_unreconstructed_000[ 0x3cc ];
+	Bool m_suspended;						///< +0x3CC
+	unsigned char m_unreconstructed_3cd[ 0x3e4 - 0x3cd ];
+	unsigned char m_taskInterface[ 4 ];				///< +0x3E4, a BfmeWorkerTaskSlots
+	unsigned char m_unreconstructed_3e8[ 0x4c0 - 0x3e8 ];
+	BfmeWorkerMachine *m_workerMachine;				///< +0x4C0
+	BfmeWorkerMachine *m_dozerMachine;				///< +0x4C4
+	BfmeWorkerMachine *m_supplyTruckStateMachine;			///< +0x4C8
+};
+#define WORKER_FIELDS ((BfmeWorkerUpdateFields *)this)
+#define WORKER_TASKS ((BfmeWorkerTaskSlots *)WORKER_FIELDS->m_taskInterface)
+// Retail 0x004AA92B (222B), update-interface slot 0 (this = module +0x10):
+// Zero Hour's WorkerAIUpdate::update; BFME 2 also stops while the +0x3CC
+// byte is set, tests the worker machine before reading its state and no
+// longer raises the mine-clearing weapon set flag.
 UpdateSleepTime WorkerAIUpdate::update( void )
 {
 
@@ -297,56 +283,56 @@ UpdateSleepTime WorkerAIUpdate::update( void )
 	// create all the machines if they don't yet exist
 	createMachines();
 
-	// DO NOT set us as being to able to move with super precision off grid locations
-	// Causes workers to get stuck.  jba.
-	//if( getCurLocomotor() )
-		//getCurLocomotor()->setUltraAccurate( TRUE );
-
 	// extend the normal AI system
 	AIUpdateInterface::update();
 
 	// do nothing if we're dead
-	///@todo shouldn't this be at a higher level?
-	if( getObject()->isEffectivelyDead() )
+	if( ((const BfmeWorkerPrivateStatus *)getObject())->m_privateStatus & 1 )	// isEffectivelyDead, inline in retail
+		return UPDATE_SLEEP_NONE;
+	if( WORKER_FIELDS->m_suspended )
 		return UPDATE_SLEEP_NONE;
 
 	// run our own state machine, and the appropriate sub machine
-	m_workerMachine->updateStateMachine();
+	WORKER_FIELDS->m_workerMachine->updateStateMachine();
 
-	if( m_workerMachine->getCurrentStateID() == AS_DOZER )
+	if( WORKER_FIELDS->m_workerMachine )
 	{
-
-		// get and validate our current task
-		DozerTask currentTask = getCurrentTask();
-		if( currentTask != DOZER_TASK_INVALID )
+		if( WORKER_FIELDS->m_workerMachine->getCurrentStateID() == AS_DOZER )
 		{
-			ObjectID taskTarget = getTaskTarget( currentTask );
-			Object *targetObject = TheGameLogic->findObjectByID( taskTarget );
-			Bool invalidTask = FALSE;
 
-			// validate the task and the target
-			if( currentTask == DOZER_TASK_REPAIR &&
-					TheActionManager->canRepairObject( getObject(), targetObject, getLastCommandSource() ) == FALSE )
-				invalidTask = TRUE;
-			
-			// cancel the task if it's now invalid
-			if( invalidTask == TRUE )
-				cancelTask( currentTask );
+			// get and validate our current task
+			DozerTask currentTask = WORKER_TASKS->getCurrentTask();
+			if( currentTask != DOZER_TASK_INVALID )
+			{
+				ObjectID taskTarget = WORKER_TASKS->getTaskTarget( currentTask );
+				Object *targetObject = TheGameLogic->findObjectByID( taskTarget );
+				Bool invalidTask = FALSE;
+
+				// validate the task and the target
+				if( currentTask == DOZER_TASK_REPAIR &&
+						TheActionManager->canRepairObject( getObject(), targetObject,
+							((BfmeWorkerCommandSourceSlots *)this)->getLastCommandSource() ) == FALSE )
+					invalidTask = TRUE;
+
+				// cancel the task if it's now invalid
+				if( invalidTask == TRUE )
+					WORKER_TASKS->cancelTask( currentTask );
+
+			}  // end if
+
+			// update dozer behavior
+			WORKER_FIELDS->m_dozerMachine->updateStateMachine();
 
 		}  // end if
-
-		// update dozer behavior
-		m_dozerMachine->updateStateMachine();
-
-	}  // end if
-	else
-	{
-		m_supplyTruckStateMachine->updateStateMachine();
-		// If we are harvesting, we can be diverted to clear mines.  jba.
-		getObject()->setWeaponSetFlag(WEAPONSET_MINE_CLEARING_DETAIL);//maybe go clear some mines, if I feel like it
+		else
+		{
+			WORKER_FIELDS->m_supplyTruckStateMachine->updateStateMachine();
+		}
 	}
 	return UPDATE_SLEEP_NONE;
-} 
+}
+#undef WORKER_TASKS
+#undef WORKER_FIELDS
 
 
 // ------------------------------------------------------------------------------------------------
@@ -520,7 +506,18 @@ void WorkerAIUpdate::exitingSupplyTruckState()
 // ------------------------------------------------------------------------------------------------
 /** Given our current task and repair target, can we accept this as a new repair target */
 // ------------------------------------------------------------------------------------------------
-// ?canAcceptNewRepair@WorkerAIUpdate@@UAE_NPAVObject@@@Z present-unmatched
+// BFME 2's KINDOF_BRIDGE_TOWER test as retail inlines it here: bit 24 of the
+// KindOf dword at +0x108 of the Object's raw template pointer (Thing +0x04),
+// without the override walk Zero Hour's isKindOf takes. Retail tests the
+// masked dword itself (mask hoisted into a register for both tests), so the
+// helper answers the masked bits rather than a bool, which MSVC would narrow
+// to a byte test.
+static inline UnsignedInt workerIsBridgeTower( const Object *obj )
+{
+	const UnsignedInt *kindOf = (const UnsignedInt *)( *(const char * const *)((const char *)obj + 0x04) + 0x100 );
+	return kindOf[ 2 ] & 0x1000000;
+}
+
 Bool WorkerAIUpdate::canAcceptNewRepair( Object *obj )
 {
 
@@ -543,8 +540,7 @@ Bool WorkerAIUpdate::canAcceptNewRepair( Object *obj )
 			return FALSE;
 
 		// check for repairing any tower on the same bridge
-		if( currentRepair->isKindOf( KINDOF_BRIDGE_TOWER ) && 
-				obj->isKindOf( KINDOF_BRIDGE_TOWER ) )
+		if( workerIsBridgeTower( currentRepair ) && workerIsBridgeTower( obj ) )
 		{
 			BridgeTowerBehaviorInterface *currentTowerInterface = NULL;
 			BridgeTowerBehaviorInterface *newTowerInterface = NULL;
@@ -607,30 +603,9 @@ void WorkerAIUpdate::privateDock( Object *dock, CommandSourceType cmdSource )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?privateRepair@WorkerAIUpdate@@MAEXPAVObject@@W4CommandSourceType@@@Z present-unmatched
-void WorkerAIUpdate::privateRepair( Object *obj, CommandSourceType cmdSource )
-{
-	Object *dozer = getObject();
+// WorkerAIUpdate::privateRepair is defined with its retail body in DozerAIUpdate.cpp.
+// The Worker primary table at VA 0x00C54190 binds slot 44 to that body.
 
-	// sanity, if we can't repair the object then get out of there
-	if( TheActionManager->canRepairObject( dozer, obj, cmdSource ) == FALSE )
-		return;
-
-	// if we are already repairing this target do nothing
-	if( canAcceptNewRepair( obj ) == FALSE )
-		return;
-
-	//
-	// if this object has already been targeted for repair by an object we won't also try to
-	// go repair it
-	ObjectID currentRepairer = obj->getSoleHealingBenefactor();
-	if( currentRepairer != INVALID_ID && currentRepairer != dozer->getID() )
-		return;
-
-	// start the new task
-	newTask( DOZER_TASK_REPAIR, obj );
-
-}  // end privateRepair
 
 // ------------------------------------------------------------------------------------------------
 /** Resume construction on a building */
@@ -655,82 +630,7 @@ void WorkerAIUpdate::privateResumeConstruction( Object *obj, CommandSourceType c
 //-------------------------------------------------------------------------------------------------
 /** Issue and order to the dozer */
 //-------------------------------------------------------------------------------------------------
-// ?newTask@WorkerAIUpdate@@UAEXW4DozerTask@@PAVObject@@@Z present-unmatched
-void WorkerAIUpdate::newTask( DozerTask task, Object* target )
-{
-
-	// sanity
-	DEBUG_ASSERTCRASH( task >= 0 && task < DOZER_NUM_TASKS, ("Illegal dozer task '%d'\n", task) );
-
-	// sanity
-	if( target == NULL )
-		return;
-
-	m_preferredDock = INVALID_ID; // If we are dozing, we don't want any supply truck stuff going on. jba.
-
-	//
-	// special check for the build task, we should never be given more than one of them ...
-	// for the other tasks we just forget what we were doing and the new target takes
-	// precedence for the task
-	//
-	if( task == DOZER_TASK_BUILD || task == DOZER_TASK_REPAIR )
-	{
-
-		// handle getting two tasks
-		if( isTaskPending( task ) == TRUE )
-			cancelTask( task );
-
-		// get our object
-		Object *me = getObject();
-
-		Coord3D position;
-		target = DozerAIUpdate::findGoodBuildOrRepairPositionAndTarget(me, target, position);
-		if (target == NULL)
-			return;	// could happen for some bridges
-
-		//
-		// for building, we say that even "thinking" about building or rebuilding an object
-		// sets us as the current builder of that object.  this allows any dozers that are 
-		// ordered later to resume construction on something to see that somebody is already taking
-		// care of it and then they won't be even try to resume a build since we don't allow
-		// multiple dozers/workers to double up on construction efforts
-		//
-		if( task == DOZER_TASK_BUILD )
-			target->setBuilder( me );
-
-		m_dockPoint[ task ][ DOZER_DOCK_POINT_START ].valid			= TRUE;
-		m_dockPoint[ task ][ DOZER_DOCK_POINT_START ].location	= position;
-		m_dockPoint[ task ][ DOZER_DOCK_POINT_ACTION ].valid		= TRUE;
-		m_dockPoint[ task ][ DOZER_DOCK_POINT_ACTION ].location = position;
-		m_dockPoint[ task ][ DOZER_DOCK_POINT_END ].valid				= TRUE;
-		m_dockPoint[ task ][ DOZER_DOCK_POINT_END ].location		= position;
-
-	}  // end if, build task
-
-	// set the new task target and the frame in which we got this order
-	m_task[ task ].m_targetObjectID = target->getID();
-	m_task[ task ].m_taskOrderFrame = TheGameLogic->getFrame();
-
-	// reset the dozer behavior so that it can re-evluate which task to continue working on
-	m_dozerMachine->resetToDefaultState();
-
-	// reset the workermachine, if we've been acting like a supply truck
-	if( m_workerMachine->getCurrentStateID() == AS_SUPPLY_TRUCK )
-	{
-		// We've been given a Dozer specific order that the Supply Truck machine doesn't recognize
-		// as BUSY (because this command also recognizes its own busy and is likewise waiting).
-		// Explicitly slap it upside the head.
-		if( getObject()->getAIUpdateInterface() )
-		{
-			getObject()->getAIUpdateInterface()->aiIdle(CMD_FROM_AI);
-		}
-		m_workerMachine->setState( AS_DOZER );
-		// To clarify, I leave supply truck mode when I notice I am doing something not supply
-		// truck related.  When given a construct command, I wait to do anything until I notice
-		// I'm not busy.  Both states are being polite, so I must force the switch.
-	}
-
-} 
+// WorkerAIUpdate::newTask is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/WorkerAIUpdateCtor.cpp (0x004AADB1).
 
 //-------------------------------------------------------------------------------------------------
 /** Cancel a task and reset the dozer behavior state machine so that it can 
@@ -765,6 +665,7 @@ Bool WorkerAIUpdate::isTaskPending( DozerTask task )
 //-------------------------------------------------------------------------------------------------
 /** Is there any task pending */
 //-------------------------------------------------------------------------------------------------
+// ?isAnyTaskPending@WorkerAIUpdate@@ present-unmatched
 Bool WorkerAIUpdate::isAnyTaskPending( void )
 {
 	
@@ -815,144 +716,18 @@ void WorkerAIUpdate::internalTaskComplete( DozerTask task )
 /** Clear a task from the Dozer for consideration, we can use this when a goal object becomes
 	* invalid/destroyed etc. */
 //-------------------------------------------------------------------------------------------------
-// ?internalCancelTask@WorkerAIUpdate@@UAEXW4DozerTask@@@Z present-unmatched
-void WorkerAIUpdate::internalCancelTask( DozerTask task )
-{
-
-	// sanity
-	DEBUG_ASSERTCRASH( task >= 0 && task < DOZER_NUM_TASKS, ("Illegal dozer task '%d'\n", task) );
-	
-	if(task < 0 || task >= DOZER_NUM_TASKS)
-		return;  //DAMNIT!  You CANNOT assert and then not handle the damn error!  The.  Code.  Must.  Not.  Crash.
-
-	// call the single method that gets called for completing and canceling tasks
-	internalTaskCompleteOrCancelled( task );
-
-	// remove the info for this task
-	m_task[ task ].m_targetObjectID = INVALID_ID;
-	m_task[ task ].m_taskOrderFrame = 0;
-	
-	// remove dock point info for this task
-	for( Int i = 0; i < DOZER_NUM_DOCK_POINTS; i++ )
-		m_dockPoint[ task ][ i ].valid = FALSE;
-	
-	// stop the dozer from moving
-	AIUpdateInterface *ai = getObject()->getAIUpdateInterface();
-	if( !ai )
-	{
-		return;
-	}
-	/// @todo we really need a stop command instead of making it move to it's current location
-	ai->aiMoveToPosition( getObject()->getPosition(), CMD_FROM_AI );
-
-}  
+// WorkerAIUpdate::internalCancelTask is implemented with its target-matched
+// body in WorkerAIUpdateCtor.cpp.
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?internalTaskCompleteOrCancelled@WorkerAIUpdate@@UAEXW4DozerTask@@@Z present-unmatched
-void WorkerAIUpdate::internalTaskCompleteOrCancelled( DozerTask task )
-{
-
-	switch( task )
-	{
-
-		// --------------------------------------------------------------------------------------------
-		case DOZER_TASK_INVALID:	
-		{
-
-			break;  // do nothing, this is really no task 
-
-		}  // end invalid
-		
-		// --------------------------------------------------------------------------------------------
-		case DOZER_TASK_BUILD:
-		{
-
-			// the builder is no longer actively building something
-			getObject()->clearModelConditionState( MODELCONDITION_ACTIVELY_CONSTRUCTING );
-
-			// And the thing we were working on is no longer being actively built
-
-			///@todo This would be correct except that we don't have idle crane animations and it is December.
-//			Object* goalObject = TheGameLogic->findObjectByID(m_task[task].m_targetObjectID);
-//			if (goalObject != NULL)
-//			{
-//				goalObject->clearModelConditionState(MODELCONDITION_ACTIVELY_BEING_CONSTRUCTED);
-//			}
-			break;
-		
-		}  // end build
-
-		// --------------------------------------------------------------------------------------------
-		case DOZER_TASK_REPAIR:
-		{
-			Object *obj = NULL;
-
-			// the builder is no longer actively repairing something
-			getObject()->clearModelConditionState( MODELCONDITION_ACTIVELY_CONSTRUCTING );
-
-			// get object to reapir (if present)
-			obj = TheGameLogic->findObjectByID( m_task[ task ].m_targetObjectID );
-
-			if( obj )
-			{
- 				// when we're done repairing bridges, tell the scaffolding to go away
- 				if( obj->isKindOf( KINDOF_BRIDGE_TOWER ) )
- 					removeBridgeScaffolding( obj );
-
-			}  // end if
-
-			break;
-
-		}  // end repair
-
-		// --------------------------------------------------------------------------------------------
-		case DOZER_TASK_FORTIFY:
-		{
-
-			break;
-
-		}  // end fortify
-
-		// --------------------------------------------------------------------------------------------
-		default:
-		{
-
-			DEBUG_CRASH(( "internalTaskCompleteOrCancelled: Unknown Dozer task '%d'\n", task ));
-			break;
-
-		}  // end default
-
-	}  // end switch( task )
-
-}
+// WorkerAIUpdate::internalTaskCompleteOrCancelled is implemented with its target-matched
+// body in WorkerAIUpdateCtor.cpp.
 
 //-------------------------------------------------------------------------------------------------
 /** If we were building something, kill the active-construction flag on it */
 //-------------------------------------------------------------------------------------------------
-// ?onDelete@WorkerAIUpdate@@ present-unmatched
-void WorkerAIUpdate::onDelete( void )
-{
-	Int i;
-
-	// cancel any of the tasks we had queued up
-	for( i = DOZER_TASK_FIRST; i < DOZER_NUM_TASKS; ++i )
-	{
-		
-		if( isTaskPending( (DozerTask)i ) )
-			cancelTask( (DozerTask)i );
-			
-	}  // end for i
-
-	for( i = 0; i < DOZER_NUM_TASKS; i++ )
-	{
-		Object* goalObject = TheGameLogic->findObjectByID(m_task[i].m_targetObjectID);
-		if (goalObject != NULL)
-		{
-			goalObject->clearModelConditionState(MODELCONDITION_ACTIVELY_BEING_CONSTRUCTED);
-		}
-	}
-}
+// WorkerAIUpdate::onDelete is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/WorkerAIUpdateCtor.cpp (0x004AAB0B).
 
 //-------------------------------------------------------------------------------------------------
 /** Get the most recently issued task */
@@ -1007,85 +782,6 @@ const Coord3D* WorkerAIUpdate::getDockPoint( DozerTask task, DozerDockPoint poin
 // ------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------
-// ?aiDoCommand@WorkerAIUpdate@@UAEXPBUAICommandParms@@@Z present-unmatched
-void WorkerAIUpdate::aiDoCommand(const AICommandParms* parms)
-{
-
-	//
-	// anytime we get a command, just remove any model condition that has us actively building
-	// if we need to show that, that bit will be set anyway again during the build process
-	//
-	getObject()->clearModelConditionState( MODELCONDITION_ACTIVELY_CONSTRUCTING );
-
-	if (!isAllowedToRespondToAiCommands(parms))
-		return;
-	
-	// create our machines if they don't yet exist
-	createMachines();
-
-	switch( parms->m_cmd )
-	{
-
-		// --------------------------------------------------------------------------------------------
-		case AICMD_REPAIR:
-		{
-
-			// if we have no task right now, go idle so we can immediately respond to this
-			if( getCurrentTask() == DOZER_TASK_INVALID )
-				aiIdle( CMD_FROM_AI );
-
-			// do the repair
-			privateRepair(parms->m_obj, parms->m_cmdSource);
-			break;
-
-		}  // end repair
-
-		// --------------------------------------------------------------------------------------------
-		case AICMD_RESUME_CONSTRUCTION:
-		{
-
-			// if we have no task right now, go idle so we can immediately respond to this
-			if( getCurrentTask() == DOZER_TASK_INVALID )
-				aiIdle( CMD_FROM_AI );
-
-			// do the command
-			privateResumeConstruction( parms->m_obj, parms->m_cmdSource );
-			break;
-
-		}  // end resume construction
-
-		// --------------------------------------------------------------------------------------------
-		default:
-		{
-
-			// if this is from the player, cancel our current task
-			if( parms->m_cmdSource == CMD_FROM_PLAYER && getCurrentTask() != DOZER_TASK_INVALID )
-				cancelTask( getCurrentTask() );
-
-			// issue the command
-			AIUpdateInterface::aiDoCommand(parms);
-
-			// when a player issues commands, this will cause the dozer to re-evaluate what it's doing
-			if( parms->m_cmdSource == CMD_FROM_PLAYER )
-				m_dozerMachine->resetToDefaultState();
-			break;
-
-		}  // end default
-
-	}  // end switch
-
-	if (isClearingMines() && m_numberBoxes > 0 )
-	{
-		// if clearing mines, we drop any boxes we were carrying
-		m_numberBoxes = 0;
-		Drawable *draw = getObject()->getDrawable();
-		if( draw )
-		{
-			draw->updateDrawableSupplyStatus( getWorkerAIUpdateModuleData()->m_maxBoxesData, m_numberBoxes );
-		}
-	}
-
-}
 
 
 // ------------------------------------------------------------------------------------------------
@@ -1098,76 +794,15 @@ void WorkerAIUpdate::aiDoCommand(const AICommandParms* parms)
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?loseOneBox@WorkerAIUpdate@@UAE_NXZ present-unmatched
-Bool WorkerAIUpdate::loseOneBox()
-{
-	if( m_numberBoxes == 0 )
-		return FALSE;
-
-	m_numberBoxes--;
-
-	Drawable *draw = getObject()->getDrawable();
-	if( draw )
-	{
-		draw->updateDrawableSupplyStatus( getWorkerAIUpdateModuleData()->m_maxBoxesData, m_numberBoxes );
-	}
-
-	return TRUE;
-}
+// WorkerAIUpdate::loseOneBox: retail's body is the row at 0x004A98AC
+// (WorkerAIUpdateCtor.cpp); this unit only declares it, so its vtable binds there.
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?gainOneBox@WorkerAIUpdate@@UAE_NH@Z present-unmatched
-Bool WorkerAIUpdate::gainOneBox( Int remainingStock )
-{
-	if( getWorkerAIUpdateModuleData() && m_numberBoxes >= getWorkerAIUpdateModuleData()->m_maxBoxesData )
-		return FALSE;
-
-	++m_numberBoxes;
-
-	//if I just took the last box, 
-	//i will announce that this supply source is now empty
-	if (remainingStock == 0)
-	{
-		Object* bestWarehouse = getObject()->getControllingPlayer()->getResourceGatheringManager()->findBestSupplyWarehouse( getObject() );
-		
-		Bool playDepleted = FALSE;
-		if ( bestWarehouse )
-		{
-			//figure out whether the best one is considerably far from the previous one (current position)
-			Coord3D delta = *getObject()->getPosition();
-			delta.sub( bestWarehouse->getPosition() ); 
-			if ( delta.length() > getWarehouseScanDistance()/4)
-			playDepleted = TRUE;
-		}
-		else
-			playDepleted = TRUE;
-
-		if (playDepleted && m_suppliesDepletedVoice.getEventName().isEmpty() == false)
-		{
-			m_suppliesDepletedVoice.setObjectID(getObject()->getID());
-			m_suppliesDepletedVoice.setPlayingHandle(TheAudio->addAudioEvent(&m_suppliesDepletedVoice));
-		}
-	}
-
-
-	Drawable *draw = getObject()->getDrawable();
-	if( draw )
-	{
-		draw->updateDrawableSupplyStatus( getWorkerAIUpdateModuleData()->m_maxBoxesData, m_numberBoxes );
-	}
-
-	return TRUE;
-}
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?isSupplyTruckBrainActiveAndBusy@WorkerAIUpdate@@QAE_NXZ present-unmatched
-Bool WorkerAIUpdate::isSupplyTruckBrainActiveAndBusy()
-{
-	return (m_workerMachine->getCurrentStateID() == AS_SUPPLY_TRUCK)
-				&& (m_supplyTruckStateMachine->getCurrentStateID() == ST_BUSY);
-}
+// WorkerAIUpdate::isSupplyTruckBrainActiveAndBusy is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/WorkerAIUpdateCtor.cpp (0x004A98D6).
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
@@ -1273,47 +908,13 @@ void WorkerStateMachine::loadPostProcess( void )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?supplyTruckSubMachineWantsToEnter@WorkerStateMachine@@SA_NPAVState@@PAX@Z present-unmatched
-Bool WorkerStateMachine::supplyTruckSubMachineWantsToEnter( State *thisState, void* userData )
-{
-	Object *owner = thisState->getMachineOwner();
-	WorkerAIUpdate *update = (WorkerAIUpdate*)owner->getAIUpdateInterface();
-	if( !update )
-	{
-		return false;
-	}
-	AIStateType masterState = update->getAIStateType();
-
-	//If I detect a Supply force message, or if I have been put straight in dock,
-	//then the worker master part of me wants to switch to the Supply sub-brain
-
-	return update->isForcedIntoWantingState() || (masterState == AI_DOCK);
-}
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?supplyTruckSubMachineReadyToLeave@WorkerStateMachine@@SA_NPAVState@@PAX@Z present-unmatched
-Bool WorkerStateMachine::supplyTruckSubMachineReadyToLeave( State *thisState, void* userData )
-{
-	Object *owner = thisState->getMachineOwner();
-	WorkerAIUpdate *update = (WorkerAIUpdate*)owner->getAIUpdateInterface();
-	if( !update )
-	{
-		return false;
-	}
-//	AIStateType masterState = update->getAIStateType();
-
-	// It isn't ready to leave if it is on its way in.  The first clause
-	// allow a latch for a moment
-	// so there is no transition out on the way in.  Active and Busy means it isn't doing
-	// anything Supply related.
-
-	return !supplyTruckSubMachineWantsToEnter( thisState, NULL )
-				&& update->isSupplyTruckBrainActiveAndBusy();
-}
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// ?onEnter@ActAsDozerState@@ present-unmatched
 StateReturnType ActAsDozerState::onEnter()
 {
 	return STATE_CONTINUE;
@@ -1321,6 +922,7 @@ StateReturnType ActAsDozerState::onEnter()
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// ?update@ActAsDozerState@@ present-unmatched
 StateReturnType ActAsDozerState::update()
 {
 	return STATE_CONTINUE;
@@ -1346,6 +948,7 @@ StateReturnType ActAsDozerState::onExit()
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// ?onEnter@ActAsSupplyTruckState@@ present-unmatched
 StateReturnType ActAsSupplyTruckState::onEnter()
 {
 	return STATE_CONTINUE;
@@ -1353,6 +956,7 @@ StateReturnType ActAsSupplyTruckState::onEnter()
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// ?update@ActAsSupplyTruckState@@ present-unmatched
 StateReturnType ActAsSupplyTruckState::update()
 {
 	return STATE_CONTINUE;
@@ -1474,58 +1078,7 @@ void WorkerAIUpdate::crc( Xfer *xfer )
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
-// ?xfer@WorkerAIUpdate@@MAEXPAVXfer@@@Z present-unmatched
-void WorkerAIUpdate::xfer( Xfer *xfer )
-{
-  XferVersion currentVersion = 1;
-  XferVersion version = currentVersion;
-  xfer->xferVersion( &version, currentVersion );
- 
- // extend base class
-	AIUpdateInterface::xfer(xfer);
-
-
-	//------------------------- xfer Dozer info
-
-	Int numTasks = DOZER_NUM_TASKS;
-	xfer->xferInt(&numTasks);
-	if (numTasks != DOZER_NUM_TASKS) {
-		DEBUG_CRASH(("DOZER_NUM_TASKS changed unexpectedly."));
-		throw SC_INVALID_DATA;
-	}
-	Int i, j;
-	for (i=0; i<DOZER_NUM_TASKS; i++) {
-		xfer->xferObjectID(&m_task[i].m_targetObjectID);
-		xfer->xferUnsignedInt(&m_task[i].m_taskOrderFrame);
-	}
-	xfer->xferSnapshot(m_dozerMachine);
-	xfer->xferUser(&m_currentTask, sizeof(m_currentTask));
-
-	Int dockPoints = DOZER_NUM_DOCK_POINTS;
-	xfer->xferInt(&dockPoints);
-	if (dockPoints!=DOZER_NUM_DOCK_POINTS) {
-		DEBUG_CRASH(("DOZER_NUM_DOCK_POINTS changed unexpectedly."));
-		throw SC_INVALID_DATA;
-	}
-	for (i=0; i<DOZER_NUM_TASKS; i++) {
-		for (j=0; j<DOZER_NUM_DOCK_POINTS; j++) {
-			xfer->xferBool(&m_dockPoint[i][j].valid);
-			xfer->xferCoord3D(&m_dockPoint[i][j].location);
-		}
-	}
-	xfer->xferUser(&m_buildSubTask, sizeof(m_buildSubTask));
-
-
-	//------------------------- xfer Supply Truck info
-	xfer->xferSnapshot(m_supplyTruckStateMachine);
-	xfer->xferObjectID(&m_preferredDock);
-	xfer->xferInt(&m_numberBoxes);
-	xfer->xferBool(&m_forcePending);
-
-	//-------------------------- xfer Worker info
-	xfer->xferSnapshot(m_workerMachine);
-
-}  // end xfer
+// WorkerAIUpdate::xfer is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/WorkerAIUpdateXfer.cpp (0x004AA1DB).
 
 // ------------------------------------------------------------------------------------------------
 /** Load post process */

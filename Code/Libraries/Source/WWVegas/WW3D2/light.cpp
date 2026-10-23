@@ -1,5 +1,16 @@
 // cl: /arch:SSE2 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // stlport
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -59,6 +70,12 @@
  *   LightImpClass::Process_Pop -- exposes the "pop" process for an srLight                    *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+// Keep this inlined header helper private to the unit. Its O2 copy is
+// not retail's shared 106-byte out-of-line Float_To_Int_Floor provider.
+#define Float_To_Int_Floor BfmeLightInlineFloatFloor
+// Link view first: Matrix3D(bool) and Matrix3D(const Matrix3D&) stay inline without
+// emitting /O2 copies that compete with retail's owners (0x0004C91A, 0x0006645C).
+#include "../../../../../reference/shims/bfme_matrix3d_copy_zh_link/matrix3d_copy_zh_link.h"
 #include "light.h"
 #include "ww3d.h"
 #include "ww3dids.h"
@@ -70,6 +87,7 @@
 #include "scene.h"
 #include "persistfactory.h"
 #include "statistics.h"
+#undef Float_To_Int_Floor
 
 
 
@@ -159,31 +177,7 @@ enum
  * HISTORY:                                                                                    *
  *   3/21/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ??0LightClass@@ present-unmatched
-LightClass::LightClass(LightType type) :
-	Type(type),	
-	Flags(0),
-	CastShadows(false),
-	Intensity(1.0f),
-	Ambient(1,1,1),
-	Diffuse(1,1,1),
-	Specular(1,1,1),
-	NearAttenStart(0.0f),
-	NearAttenEnd(0.0f),
-	FarAttenStart(50.0f),
-	FarAttenEnd(100.0f),
-	SpotAngle(DEG_TO_RADF(45.0f)),
-	SpotAngleCos(0.707f),
-	SpotExponent(1.0f),
-	SpotDirection(0,0,1)//,
-	//Donut (false)
-
-{
-	if (type == DIRECTIONAL) {
-		Set_Force_Visible(true);	// The light has no position so culling cant work.
-	}
-}
-
+// LightClass::LightClass(LightType): defined in LightClassCopyCtor.cpp (its row's unit).
 
 /***********************************************************************************************
  * LightClass::LightClass -- copy constructor                                                  *
@@ -197,25 +191,7 @@ LightClass::LightClass(LightType type) :
  * HISTORY:                                                                                    *
  *   3/21/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ??0LightClass@@ present-unmatched
-LightClass::LightClass(const LightClass & src) :
-	Type(src.Type),	
-	Flags(src.Flags),
-	CastShadows(src.CastShadows),
-	Intensity(src.Intensity),
-	Ambient(src.Ambient),
-	Diffuse(src.Diffuse),
-	Specular(src.Specular),
-	NearAttenStart(src.NearAttenStart),
-	NearAttenEnd(src.NearAttenEnd),
-	FarAttenStart(src.FarAttenStart),
-	FarAttenEnd(src.FarAttenEnd),
-	SpotAngle(src.SpotAngle),
-	SpotAngleCos(src.SpotAngleCos),
-	SpotExponent(src.SpotExponent),
-	SpotDirection(src.SpotDirection)
-{
-}
+// LightClass::LightClass(const LightClass &): defined in LightClassCopyCtor.cpp (its row's unit).
 
 
 /***********************************************************************************************
@@ -230,31 +206,7 @@ LightClass::LightClass(const LightClass & src) :
  * HISTORY:                                                                                    *
  *   3/21/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ??4LightClass@@QAEAAV0@ABV0@@Z present-unmatched
-LightClass & LightClass::operator = (const LightClass & that)
-{
-	if (this != &that) {
-		RenderObjClass::operator = (that);
-
-		Type = that.Type;	
-		Flags = that.Flags;
-		CastShadows = that.CastShadows;
-		Intensity = that.Intensity;
-		Ambient = that.Ambient;
-		Diffuse = that.Diffuse;
-		Specular = that.Specular;
-		NearAttenStart = that.NearAttenStart;
-		NearAttenEnd = that.NearAttenEnd;
-		FarAttenStart = that.FarAttenStart;
-		FarAttenEnd = that.FarAttenEnd;
-		SpotAngle = that.SpotAngle;
-		SpotAngleCos = that.SpotAngleCos;
-		SpotExponent = that.SpotExponent;
-		SpotDirection = that.SpotDirection;
-	}
-	return * this;
-}
-
+// LightClass::operator=: defined in LightClassCopyCtor.cpp (its row's unit).
 
 /***********************************************************************************************
  * LightClass::~LightClass -- destructor                                                       *
@@ -268,10 +220,7 @@ LightClass & LightClass::operator = (const LightClass & that)
  * HISTORY:                                                                                    *
  *   3/21/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ??1LightClass@@UAE@XZ present-unmatched
-LightClass::~LightClass(void)
-{
-}
+// LightClass::~LightClass: defined in LightClassCopyCtor.cpp (its row's unit).
 
 
 /***********************************************************************************************
@@ -286,11 +235,7 @@ LightClass::~LightClass(void)
  * HISTORY:                                                                                    *
  *   3/21/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?Clone@LightClass@@QBEPAVRenderObjClass@@XZ present-unmatched
-RenderObjClass * LightClass::Clone(void) const
-{
-	return W3DNEW LightClass(*this);
-}
+// LightClass::Clone: defined in LightClassCopyCtor.cpp (its row's unit).
 
 
 /* NOTE: LightClass::Notify_Added lives in light_notify.cpp (split TU: direct
@@ -325,12 +270,7 @@ RenderObjClass * LightClass::Clone(void) const
  * HISTORY:                                                                                    *
  *   12/8/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?Get_Obj_Space_Bounding_Sphere@LightClass@@QBEXAAVSphereClass@@@Z present-unmatched
-void LightClass::Get_Obj_Space_Bounding_Sphere(SphereClass & sphere) const
-{
-	sphere.Center.Set(0,0,0);
-	sphere.Radius = Get_Attenuation_Range();
-}
+// LightClass::Get_Obj_Space_Bounding_Sphere: defined in LightClassCopyCtor.cpp (its row's unit).
 
 
 /***********************************************************************************************
@@ -345,13 +285,7 @@ void LightClass::Get_Obj_Space_Bounding_Sphere(SphereClass & sphere) const
  * HISTORY:                                                                                    *
  *   12/8/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?Get_Obj_Space_Bounding_Box@LightClass@@QBEXAAVAABoxClass@@@Z present-unmatched
-void LightClass::Get_Obj_Space_Bounding_Box(AABoxClass & box) const
-{
-	float r = Get_Attenuation_Range();
-	box.Center.Set(0,0,0);
-	box.Extent.Set(r,r,r);
-}
+// LightClass::Get_Obj_Space_Bounding_Box: defined in LightClassCopyCtor.cpp (its row's unit).
 
 
 /***********************************************************************************************

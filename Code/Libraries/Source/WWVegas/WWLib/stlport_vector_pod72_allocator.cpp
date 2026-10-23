@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 //
 // BFME2's 72-byte Pod vector allocator at RVA 0x000B4106 (28B: imul-0x48
@@ -14,4 +14,6 @@
 // the retail imul stride.
 struct BfmePod72 { int a[18]; };
 #include <memory>
-template class _STL::allocator<BfmePod72>;
+// Instantiate only the rowed allocate: a whole-class instantiation also emits
+// construct and its _Construct<BfmePod72> COMDAT, which is not retail's body.
+template BfmePod72 *_STL::allocator<BfmePod72>::allocate(size_t, const void *) const;

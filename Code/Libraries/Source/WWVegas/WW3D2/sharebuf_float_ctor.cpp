@@ -1,4 +1,15 @@
 // cl: /Ireference/shims/bfmerendobj /arch:SSE2 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 
 // ShareBufferClass<float> for the FX particle draw-category size buffer.
 //
@@ -21,6 +32,11 @@
 // before first use so it wins over the primary template's guarded body, and
 // the deleting destructor needs no source once the destructor is rowed.
 
+// Retail's RefCountClass inline copies (Release_Ref 0x005D1A7D, scalar deleting
+// dtor 0x00072899) are the size form: compile refcount.h for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "sharebuf.h"
 
@@ -29,12 +45,10 @@ extern void __cdecl operator delete[](void *) throw();
 // ShareBufferClass<float> owns a raw float array (the FX draw-category
 // particle sizes); the destructor frees it. The 0x1A7B80 constructor
 // installs vtable 0xBD71C0, whose deleting destructor at 0x1A7F70 calls
-// this body at 0x1A7F90.
+// the owner body at 0x1A7F90 (WWLib/sharebuf_float_dtor.cpp): declared
+// here so calls keep the same name without a second definition.
 template <>
-ShareBufferClass<float>::~ShareBufferClass()
-{
-	::operator delete[](RawBuffer);
-}
+ShareBufferClass<float>::~ShareBufferClass();
 
 // Force-emit helper: instantiates the float constructor (and through the
 // vtable the deleting destructor) with the retail buffer name. Sell nothing

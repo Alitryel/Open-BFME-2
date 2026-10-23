@@ -11,12 +11,7 @@
 typedef bool Bool;
 typedef float Real;
 
-struct Coord3D
-{
-	Real x;
-	Real y;
-	Real z;
-};
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
 
 template <typename NUM>
 inline NUM sqr(NUM x)
@@ -24,14 +19,14 @@ inline NUM sqr(NUM x)
 	return x * x;
 }
 
-static Real calcDotProduct(const Coord3D &a, const Coord3D &b)
+static Real calcDotProduct(const Coord3D &lhs, const Coord3D &rhs)
 {
-	return a.x * b.x + a.y * b.y + a.z * b.z;
+	return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
 }
 
-static Real calcDistSquared(const Coord3D &a, const Coord3D &b)
+static Real calcDistSquared(const Coord3D &lhs, const Coord3D &rhs)
 {
-	return sqr(a.x - b.x) + sqr(a.y - b.y) + sqr(a.z - b.z);
+	return sqr(lhs.x - rhs.x) + sqr(lhs.y - rhs.y) + sqr(lhs.z - rhs.z);
 }
 
 static Real calcPointToLineDistSquared(const Coord3D &pt, const Coord3D &lineStart, const Coord3D &lineEnd)
@@ -81,4 +76,16 @@ Bool GeometryInfo::isIntersectedByLineSegment(const Coord3D &loc, const Coord3D 
 	Real boundingSphereRadius = *(const Real *)((const char *)this + 0x14);
 	Real distSquared = calcPointToLineDistSquared(loc, from, to);
 	return distSquared <= sqr(boundingSphereRadius);
+}
+
+// BF1 9cbfb551fe GeometryInfoCalcBoundingStuff.cpp emits sqr<double> in the
+// clean named Common O1/SSE/G7 sweep. This supplies the expression, not a
+// target template identity. Retail 6BD4D0..6BD4D9 is independently INT3-bounded
+// on both sides: load a stack double, multiply by itself, return in ST0.
+// No calls/globals/literals; no direct CALL/JMP was found in all image sections.
+// The original name/owner/template identity remain unknown, so this ordinary
+// helper has a neutral address name in the existing geometry arithmetic home.
+double Rva006BD4D0Square(double value)
+{
+    return value * value;
 }

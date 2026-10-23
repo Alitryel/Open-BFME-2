@@ -341,7 +341,9 @@ static void pingerProcessPing(piUDPPing *udpPing,
 		piProcessTrip3(udpPing, data, from, recvTime);
 }
 
-static __declspec(noinline) void piProcessIncoming(void)
+/* External: pingerThink in peer/peerPing.c (the other half of retail's pinger
+   TU) calls it, so it cannot be static to this file. */
+__declspec(noinline) void piProcessIncoming(void)
 {
 	int rcode;
 	unsigned char buffer[32];
@@ -375,4 +377,3 @@ static __declspec(noinline) void piProcessIncoming(void)
 	piLastThinkTime = current_time();
 }
 
-static void (*const piProcessIncomingAnchor)(void) = piProcessIncoming;

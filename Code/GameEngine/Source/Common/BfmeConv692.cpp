@@ -1,15 +1,32 @@
-class BfmeThingDGF
+class BfmeThingDGF;
+
+class Gen007F0130
 {
 public:
-	BfmeThingDGF *bfmeInitDGF(void *a);
+	static void *operator new(unsigned int size);
 };
 
-void *__cdecl bfmeAllocDGF(unsigned int size);
+class Rva007EAServiceList;
+
+class BfmeThingTWA
+{
+public:
+	BfmeThingTWA(Rva007EAServiceList *service);
+};
+
+inline void *operator new(unsigned int, void *p)
+{
+	return p;
+}
 
 BfmeThingDGF *bfmeGoDGF(void *a)
 {
-	void *p = bfmeAllocDGF(0x30);
+	void *p = Gen007F0130::operator new(0x30);
 	if (p != 0)
-		return ((BfmeThingDGF *)p)->bfmeInitDGF(a);
+		return (BfmeThingDGF *)new (p) BfmeThingTWA((Rva007EAServiceList *)a);
 	return 0;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?Gen007F89D0@@YAPAURva007E9F30Cached@@PAURva007E9F30Owner@@@Z=?bfmeGoDGF@@YAPAVBfmeThingDGF@@PAX@Z")

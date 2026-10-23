@@ -14,6 +14,12 @@ files, commit, pull with rebase, push, then pull again. Writers publish
 optimistically to the same branch. If a push loses a race, rebase and retry.
 Run long full gates in only one writer at a time.
 
+Give each writer a distinct `BFME_CLAIM_OWNER` that stays the same for its
+session. Workers selecting through `tools/next_work.py` or
+`tools/list_naked_candidates.py` use `--claim`; workers selecting from the
+reference lanes claim the chosen retail RVAs with `tools/claims.py claim`
+before starting. The queues omit claims held in other clones or on other hosts.
+
 The fleet manifest is machine-local at
 `~/Projects/open-bfme2-local-fleet/fleet.json`. It lists only the primary and
 writer clones. Re-running setup refreshes configuration without resetting them.

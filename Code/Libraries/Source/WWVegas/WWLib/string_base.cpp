@@ -69,38 +69,14 @@ struct CharCompare
     char m_unused;
 };
 
-int compareRange(const char *a, int alen, const char *b, int blen, CharCompare tag)
-{
-    // Retail selects the shorter length with cmovge; MSVC 7.1 will only emit
-    // cmp/jl here, which is the one instruction keeping 0x00005816 and
-    // 0x00005841 unclaimed. The ternary is not cosmetic: written as an if
-    // statement cl also picks the other length for esi, so three more bytes
-    // move. As written, the only difference from retail is the select -
-    // 42 of 43 bytes and 43 of 44. See reverse/attempts/0x00005816.cpp.
-    const int len = alen < blen ? alen : blen;
-    const int result = memcmp(a, b, len);
-    if (result != 0)
-        return result;
-    return alen - blen;
-}
+// compareRange: defined in string_base_compare_range.cpp (its row's unit).
+int compareRange(const char *a, int alen, const char *b, int blen, CharCompare tag);
 
-int compareRangeNoCase(const char *a, int alen, const char *b, int blen, CharCompare tag)
-{
-    // Retail selects the shorter length with cmovge; MSVC 7.1 will only emit
-    // cmp/jl here, which is the one instruction keeping 0x00005816 and
-    // 0x00005841 unclaimed. The ternary is not cosmetic: written as an if
-    // statement cl also picks the other length for esi, so three more bytes
-    // move. As written, the only difference from retail is the select -
-    // 42 of 43 bytes and 43 of 44. See reverse/attempts/0x00005816.cpp.
-    const int len = alen < blen ? alen : blen;
-    const int result = _memicmp(a, b, len);
-    if (result != 0)
-        return result;
-    return alen - blen;
-}
+// compareRangeNoCase: defined in string_base_compare_range.cpp (its row's unit).
+int compareRangeNoCase(const char *a, int alen, const char *b, int blen, CharCompare tag);
 
 template <>
-int StringBase<char>::compare(const char *str, int len) const
+inline __declspec(noinline) int StringBase<char>::compare(const char *str, int len) const
 {
     return compareRange(m_data ? &m_data->data[0] : "", m_data ? m_data->length : 0, str, len,
         CharCompare());
@@ -159,7 +135,7 @@ bool StringBase<char>::endsWith(const char *str) const
 }
 
 template <>
-int StringBase<char>::compare(const char *str) const
+inline __declspec(noinline) int StringBase<char>::compare(const char *str) const
 {
     return compare(str, str ? (int)strlen(str) : 0);
 }
@@ -187,7 +163,7 @@ int StringBase<wchar_t>::compare(const StringBase<wchar_t> &str) const
 }
 
 template <>
-int StringBase<char>::compareNoCase(const StringBase<char> &str) const
+inline int StringBase<char>::compareNoCase(const StringBase<char> &str) const
 {
     const int len = str.m_data ? str.m_data->length : 0;
     const char *data = str.m_data ? &str.m_data->data[0] : "";
@@ -335,4 +311,58 @@ template void StringBase<wchar_t>::swap(StringBase<wchar_t> &other);
 template void StringBase<wchar_t>::set(wchar_t c);
 template void StringBase<wchar_t>::concat(wchar_t c);
 template const wchar_t *StringBase<wchar_t>::str() const;
-template bool StringBase<wchar_t>::isEmpty() const;
+// No isEmpty<wchar_t> here: retail's copy is string_base_inline.cpp's /O2 body
+// (0x00035740), and this unit's /O1 instantiation came first in link order.
+
+// compareNoCase is a header inline in retail: another unit emits a select-any
+// copy of it, so a strong definition here was a duplicate symbol in the
+// linked build. This anchor only makes this unit emit its copy for the ledger
+// row; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitstring_base@@YAXPAV?$StringBase@D@@ABV1@@Z present-unmatched
+void bfmeEmitstring_base(StringBase<char> *p, const StringBase<char> &that)
+{
+    p->compareNoCase(that);
+}
+#pragma inline_depth()
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeTry1033@BfmeSub1033@@QAEHPAVBfmeF1033@@@Z=?compare@?$StringBase@D@@QBEHABV1@@Z")
+
+// AsciiString's own spellings of clear(), set(const char*) and concat(const char*) are these
+// StringBase<char> bodies in retail (symbols.csv pins 0x00036410, 0x000055F5, 0x00005629; callers
+// in matched rows land there). No unit defines the AsciiString names any more; bind them.
+#pragma comment(linker, "/alternatename:?clear@AsciiString@@QAEXXZ=?releaseBuffer@?$StringBase@D@@AAEXXZ")
+#pragma comment(linker, "/alternatename:?set@AsciiString@@QAEXPBD@Z=?set@?$StringBase@D@@QAEXPBD@Z")
+#pragma comment(linker, "/alternatename:?concat@AsciiString@@QAEXPBD@Z=?concat@?$StringBase@D@@QAEXPBD@Z")
+#pragma comment(linker, "/alternatename:?concat@AsciiString@@QAEXABV1@@Z=?concat@?$StringBase@D@@QAEXABV1@@Z")
+
+// Native 0x0002C5E6..0x0002C621, cdecl two-pointer bool predicate.
+// A nullable descriptor holds contiguous 4-byte StringBase<char> objects
+// between words +0/+4. Check its unsigned element count then scan until the
+// rowed startsWithNoCase succeeds. WB's unnamed counterpart independently
+// corroborates the range and string predicate; no original helper or container
+// identity is asserted. The explicit unsigned >0 test preserves retail's SAR.
+struct Rva0002C5E6Range {
+ StringBase<char> *first,*last;
+ unsigned int size() const {return last-first;}
+};
+bool Rva0002C5E6(const StringBase<char> &text,const Rva0002C5E6Range *range) {
+ if(range && range->size()>0) {
+  for(StringBase<char> *it=range->first;it!=range->last;++it) {
+   if(text.startsWithNoCase(*it)) return true;
+  }
+ }
+ return false;
+}
+
+
+// PlayerInitFromDict.cpp keeps both narrow compare bodies visible (its row's
+// EH and register shape depend on them), so they are select-any copies of the
+// same body there and here; this anchor keeps this unit's copies emitted.
+// ?bfmeAnchorStringBaseCompare absent-from-retail
+int bfmeAnchorStringBaseCompare(const StringBase<char> &s, const char *text)
+{
+    return s.compare(text);
+}

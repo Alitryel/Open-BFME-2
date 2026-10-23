@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc
 //
 // ?parseDrawCallback@@YA_NPADPAVWinInstanceData@@0PAX@Z,
 // retail 0x003164CC, 76 bytes. Dedicated TU.
@@ -21,31 +21,8 @@ enum NameKeyType
 	NAMEKEY_INVALID = 0
 };
 
-template <typename T>
-class StringBase
-{
-	struct Header
-	{
-		int ref_count;
-		unsigned short length;
-		unsigned short capacity;
-		T data[1];
-	};
+#include "ascii_string.h"
 
-	Header *m_data;
-
-public:
-	void set(const char *s);
-};
-
-class AsciiString
-{
-public:
-	void set(const char *s) { m_data.set(s); }
-
-private:
-	StringBase<char> m_data;
-};
 
 class NameKeyGenerator
 {
@@ -55,24 +32,40 @@ public:
 
 extern NameKeyGenerator *TheNameKeyGenerator;
 
+// The registry is TheFunctionLexicon; its lookup is FunctionLexicon::findFunction
+// 0x002D225F (rowed in Common/System/FunctionLexicon.cpp), reached through
+// this unit's forwarding view.
+class Rva00DFF024Registry;
+class FunctionLexicon
+{
+public:
+	enum TableIndex { TABLE_ANY = -1 };
+protected:
+	void *findFunction(NameKeyType key, TableIndex index);	// 0x002D225F
+	friend class Rva00DFF024Registry;
+};
+
 class Rva00DFF024Registry
 {
 public:
-	void *lookup(int key, int index);
+	__forceinline void *lookup(int key, int index) { return ((FunctionLexicon *)(void *)this)->findFunction((NameKeyType)key, (FunctionLexicon::TableIndex)index); }
 	void *lookup34(int key, int index);
 	void *lookup56(int key, int index);
 };
 
-extern Rva00DFF024Registry *TheRva00DFF024Registry;
+// TheFunctionLexicon (GameEngine::init registers it under that name): matched
+// references place it at VA 0xdff024 (zero-filled .bss). Read through the
+// registry view.
+FunctionLexicon *TheFunctionLexicon;
 extern AsciiString g_drawCallbackName;
-extern void *g_drawCallback;
+#include "WindowScriptCreateRecord.h"
 
 class WinInstanceData;
 
 extern "C" __declspec(dllimport) char *__cdecl strtok(char *str, const char *delimiters);
 
 // ?parseDrawCallback@@YA_NPADPAVWinInstanceData@@0PAX@Z
-static Bool parseDrawCallback(char *token, WinInstanceData *instData, char *buffer, void *data)
+Bool parseDrawCallback(char *token, WinInstanceData *instData, char *buffer, void *data)
 {
 	char *c, *ptr;
 	char *stringSeps = "\"";
@@ -85,7 +78,7 @@ static Bool parseDrawCallback(char *token, WinInstanceData *instData, char *buff
 	g_drawCallbackName.set(c);
 
 	NameKeyType key = TheNameKeyGenerator->nameToKey(g_drawCallbackName);
-	g_drawCallback = TheRva00DFF024Registry->lookup34(key, -1);
+	g_windowScriptCreateRecord.draw = ((Rva00DFF024Registry *)TheFunctionLexicon)->lookup34(key, -1);
 
 	return true;
 }

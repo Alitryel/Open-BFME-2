@@ -35,3 +35,7 @@ Rva0081C2F0 &Rva0081C2F0::set(int n)
 		m_24 = 0;
 	return *this;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0VideoBuffer@@QAE@H@Z=?set@Rva0081C2F0@@QAEAAV1@H@Z")

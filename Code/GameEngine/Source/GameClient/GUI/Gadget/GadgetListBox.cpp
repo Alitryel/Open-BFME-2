@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // GadgetListBoxReset, retail 0x003247E5, 34 bytes.
 // Dedicated TU so GameWindowManager.cpp bodies cannot see this wrapper.
@@ -8,12 +8,22 @@ typedef int Int;
 typedef bool Bool;
 typedef short Short;
 
+class WinInstanceData;
+class GameFont;
+
 class GameWindow
 {
 public:
 	void *winGetUserData(void);
+	WinInstanceData *winGetInstanceData(void);
 	GameWindow *winGetChild(void);
+	Int winHide(Bool hide);
+	Bool winIsHidden(void);
 };
+
+GameWindow *GadgetComboBoxGetEditBox(GameWindow *comboBox);
+GameWindow *GadgetListBoxGetDownButton(GameWindow *listbox);
+GameWindow *GadgetListBoxGetSlider(GameWindow *listbox);
 
 class GameWindowManager
 {
@@ -29,9 +39,13 @@ public:
 	V(56) V(57)
 #undef V
 	virtual int winSendSystemMsg(GameWindow *window, unsigned msg, int mData1, int mData2) = 0;
+#define V(n) virtual void r##n() = 0;
+	V(59) V(60) V(61) V(62) V(63) V(64) V(65) V(66) V(67) V(68) V(69) V(70) V(71)
+#undef V
+	virtual int winFontHeight(GameFont *font) = 0;		// +0x120
 };
 
-GameWindowManager *TheWindowManager;
+extern GameWindowManager *TheWindowManager;  // defined in GameWindowManager.cpp
 
 void GadgetListBoxReset(GameWindow *listbox)
 {
@@ -186,4 +200,276 @@ int __fastcall Rva0032378(ListboxData *list)
 	}
 
 	return 0;
+}
+
+// ?GadgetListBoxGetSelected@@YAXPAVGameWindow@@PAH@Z, retail 0x00324773, 37 bytes.
+// Ported from Open-BFME-1 Code/GameEngine/Source/GameClient/GUI/Gadget/GadgetListBox.cpp
+// GadgetListBoxGetSelected (BFME1 0x004B7xxx): null-guards the listbox then
+// winSendSystemMsg 0x4018 with mData1 0 and the select list pointer through
+// vtable slot +0xE8. Callers at 0x00323694 and 0x005B5C11 pass a stack Int slot.
+void GadgetListBoxGetSelected(GameWindow *listbox, Int *selectList)
+{
+	if (listbox == 0)
+		return;
+	TheWindowManager->winSendSystemMsg(listbox, 0x4018, 0, (int)selectList);
+}
+
+// ?GadgetListBoxSetSelected@@YAXPAVGameWindow@@H@Z, retail 0x00324798, 38 bytes.
+// Ported from Open-BFME-1 Code/GameEngine/Source/GameClient/GUI/Gadget/GadgetListBox.cpp
+// GadgetListBoxSetSelected single-index overload: null-guards the listbox then
+// winSendSystemMsg 0x4017 with the index address and count 1 through slot +0xE8.
+void GadgetListBoxSetSelected(GameWindow *listbox, Int selectIndex)
+{
+	if (listbox == 0)
+		return;
+	TheWindowManager->winSendSystemMsg(listbox, 0x4017, (int)&selectIndex, 1);
+}
+
+// ?GadgetListBoxSetSelected@@YAXPAVGameWindow@@PBHH@Z, retail 0x003247BE, 39 bytes.
+// Ported from Open-BFME-1 Code/GameEngine/Source/GameClient/GUI/Gadget/GadgetListBox.cpp
+// GadgetListBoxSetSelected list overload: null-guards the listbox then
+// winSendSystemMsg 0x4017 with the list pointer and count through slot +0xE8.
+// Caller at 0x00326FAD pushes count then list then window.
+void GadgetListBoxSetSelected(GameWindow *listbox, const Int *selectList, Int selectCount)
+{
+	if (listbox == 0)
+		return;
+	TheWindowManager->winSendSystemMsg(listbox, 0x4017, (int)selectList, selectCount);
+}
+
+// Candidate 0x0032434A 54B: null-guarded listbox cell store through winGetUserData.
+// listLength bound at +0x00, rows at +0x18 (16B stride, cell at +8), cells 28B
+// stride with the stored value at +4. Callers pass row then column then value.
+struct Rva2434ACell
+{
+	Int cellType;
+	Int color;
+	Int data;
+	Int userData;
+	Int width;
+	Int height;
+	Int pad18;
+};
+
+struct Rva2434ARow
+{
+	Int listHeight;
+	Int height;
+	Rva2434ACell *cell;
+	Int padC;
+};
+
+struct Rva2434AData
+{
+	Short listLength;
+	char pad2[0x16];
+	Rva2434ARow *listData;
+};
+
+void GadgetListBoxJustifyEntry(GameWindow *listbox, Int row, Int column, Int value)
+{
+	if (listbox == 0)
+		return;
+	Rva2434AData *data = (Rva2434AData *)listbox->winGetUserData();
+	if (data == 0)
+		return;
+	if ((unsigned)row >= (unsigned)data->listLength)
+		return;
+	data->listData[row].cell[column].color = value;
+}
+
+// ?GadgetListBoxAddEntryImage@@YAHPAVGameWindow@@PBVImage@@HHHH_NH@Z, retail 0x00324380, 80 bytes.
+// Ported from Open-BFME-1 Code/GameEngine/Source/GameClient/GUI/Gadget/GadgetListBox.cpp
+// GadgetListBoxAddEntryImage 8-arg overload: builds the 28B AddMessageStruct
+// with type LISTBOX_IMAGE (2) and sends GLM_ADD_ENTRY 0x4011 through slot +0xE8.
+class Image;
+
+struct AddMessageStruct
+{
+	Int row;
+	Int column;
+	const void *data;
+	Int type;
+	Bool overwrite;
+	Int width;
+	Int height;
+};
+
+Int GadgetListBoxAddEntryImage(GameWindow *listbox, const Image *image, Int row, Int column, Int hight, Int width, Bool overwrite, Int color)
+{
+	AddMessageStruct addInfo;
+	addInfo.row = row;
+	addInfo.column = column;
+	addInfo.type = 2;
+	addInfo.data = image;
+	addInfo.overwrite = overwrite;
+	addInfo.height = hight;
+	addInfo.width = width;
+	return TheWindowManager->winSendSystemMsg(listbox, 0x4011, (int)&addInfo, color);
+}
+
+// ?GadgetListBoxAddEntryImage@@YAHPAVGameWindow@@PBVImage@@HH_NH@Z, retail 0x003243D0, 35 bytes.
+// Ported from Open-BFME-1 Code/GameEngine/Source/GameClient/GUI/Gadget/GadgetListBox.cpp
+// GadgetListBoxAddEntryImage 6-arg overload: forwards to the 8-arg body with
+// hight -1 and width -1.
+Int GadgetListBoxAddEntryImage(GameWindow *listbox, const Image *image, Int row, Int column, Bool overwrite, Int color)
+{
+	return GadgetListBoxAddEntryImage(listbox, image, row, column, -1, -1, overwrite, color);
+}
+
+// ?GadgetComboBoxGetSelectedPos@@YAXPAVGameWindow@@PAH@Z, retail 0x003228EB (37B).
+// Ported from Open-BFME-1 Code/GameEngine/Source/GameClient/GUI/Gadget/GadgetComboBox.cpp
+// GadgetComboBoxGetSelectedPos (BFME1 same name). Null-checks the combobox then
+// GCM_GET_SELECTION (0x402c in BFME2, +3 from ZH 0x4029) through TheWindowManager
+// at 0x9FEF1C slot 58 0xE8 with mData1=0 and mData2=selectedIndex. Caller
+// 0x00322910 passes a stack slot address and returns it, proving Int* out-param.
+void GadgetComboBoxGetSelectedPos(GameWindow *comboBox, Int *selectedIndex)
+{
+	if (comboBox == 0)
+		return;
+	TheWindowManager->winSendSystemMsg(comboBox, 0x402c, 0, (int)selectedIndex);
+}
+
+// ?GadgetComboBoxHideDropDown@@YAXPAVGameWindow@@_N@Z, retail 0x0032277F (33B).
+// Null-checks the combobox, gets its edit box via rowed GadgetComboBoxGetEditBox,
+// null-checks that, then hides it with the Bool arg via rowed GameWindow::winHide.
+// Callers at 0x0057E17D/0x0057E643. True name unknown, honest address name.
+void GadgetComboBoxHideDropDown(GameWindow *comboBox, Bool hide)
+{
+	if (comboBox == 0)
+		return;
+	GameWindow *editBox = GadgetComboBoxGetEditBox(comboBox);
+	if (editBox == 0)
+		return;
+	editBox->winHide(hide);
+}
+
+// ?GadgetComboBoxHideList@@YAXPAVGameWindow@@@Z, retail 0x0032275D (34B).
+// Ported from Open-BFME-1 Code/GameEngine/Source/GameClient/GUI/Gadget/GadgetComboBox.cpp
+// GadgetComboBoxHideList: null-checks the combobox then GGM_CLOSE (0x4005)
+// through TheWindowManager at 0x9FEF1C slot 58 0xE8. Same xor-shape as the
+// landed GadgetComboBoxReset 0x0032273B (34B). Callers at 0x00440617 etc.
+void GadgetComboBoxHideList(GameWindow *comboBox)
+{
+	if (comboBox == 0)
+		return;
+	TheWindowManager->winSendSystemMsg(comboBox, 0x4005, 0, 0);
+}
+
+// ?GadgetComboBoxSetItemData@@YAXPAVGameWindow@@HPAX@Z, retail 0x0032295A (39B).
+// Ported from Open-BFME-1 GadgetComboBox.cpp GadgetComboBoxSetItemData.
+// Null-checks the combobox then GCM_SET_ITEM_DATA (0x402b in BFME2, +3 from
+// ZH 0x4028) through TheWindowManager at 0x9FEF1C slot 58 0xE8 with
+// mData1=index and mData2=data. 37 callers.
+void GadgetComboBoxSetItemData(GameWindow *comboBox, Int index, void *data)
+{
+	if (comboBox == 0)
+		return;
+	TheWindowManager->winSendSystemMsg(comboBox, 0x402b, index, (int)data);
+}
+
+// ?GadgetComboBoxSetSelectedPos@@YAXPAVGameWindow@@H_N@Z, retail 0x00322931 (41B).
+// Ported from Open-BFME-1 GadgetComboBox.cpp GadgetComboBoxSetSelectedPos.
+// Null-checks the combobox then GCM_SET_SELECTION (0x402d in BFME2, +3 from
+// ZH 0x402a) through TheWindowManager at 0x9FEF1C slot 58 0xE8 with
+// mData1=selectedIndex and mData2=dontHide (movzx bool). 37 callers.
+void GadgetComboBoxSetSelectedPos(GameWindow *comboBox, Int selectedIndex, Bool dontHide)
+{
+	if (comboBox == 0)
+		return;
+	TheWindowManager->winSendSystemMsg(comboBox, 0x402d, selectedIndex, (int)dontHide);
+}
+
+// ?GadgetComboBoxGetItemData@@YAPAXPAVGameWindow@@H@Z, retail 0x00322981 (48B).
+// Ported from Open-BFME-1 GadgetComboBox.cpp GadgetComboBoxGetItemData.
+// Null data local, then GCM_GET_ITEM_DATA (0x402a in BFME2, +3 from ZH 0x4027)
+// through TheWindowManager at 0x9FEF1C slot 58 0xE8 with mData1=index and
+// mData2=&data; returns data. 26 callers.
+void *GadgetComboBoxGetItemData(GameWindow *comboBox, Int index)
+{
+	void *data = 0;
+	if (comboBox != 0)
+		TheWindowManager->winSendSystemMsg(comboBox, 0x402a, index, (int)&data);
+	return data;
+}
+
+// ?Rva003248F5Show@@YAXPAVGameWindow@@_N@Z @0x003248F5 115B
+// Listbox children visibility sync: editbox via ComboBoxGetEditBox plus downbutton and slider, hide where isHidden != flag.
+// Evidence: GadgetComboBoxGetEditBox 0x002C02FE GadgetListBoxGetDownButton 0x002C02D0 GadgetListBoxGetSlider 0x002C02E7
+// winIsHidden 0x00313CD9 winHide 0x00313C64 unlock same TU.
+void Rva003248F5Show(GameWindow *listbox, Bool hide)
+{
+	if (listbox == 0)
+		return;
+	GameWindow *editBox = GadgetComboBoxGetEditBox(listbox);
+	if (editBox != 0 && editBox->winIsHidden() != hide)
+		editBox->winHide(hide);
+	GameWindow *downButton = GadgetListBoxGetDownButton(listbox);
+	if (downButton != 0 && downButton->winIsHidden() != hide)
+		downButton->winHide(hide);
+	GameWindow *slider = GadgetListBoxGetSlider(listbox);
+	if (slider != 0 && slider->winIsHidden() != hide)
+		slider->winHide(hide);
+}
+
+// ?GadgetListBoxDisableEntry@@YAXPAVGameWindow@@HE@Z, retail 0x0032431F, 43 bytes.
+// Listbox row flag store: null-guards listbox and user data, bounds row
+// against Short listLength at +0x00, stores byte value at rows[row]+0x0C.
+// Rows hang at +0x18 with 16B stride like GadgetListBoxJustifyEntry. Caller at
+// 0x00322732 cleans 0xC (3 __cdecl args). Evidence: rowed winGetUserData.
+struct Rva2431FRow
+{
+	Int f00;
+	Int f04;
+	Int f08;
+	unsigned char f0C;
+	char pad0D[3];
+};
+
+struct Rva2431FData
+{
+	Short listLength;
+	char pad02[0x16];
+	Rva2431FRow *rows;
+};
+
+void GadgetListBoxDisableEntry(GameWindow *listbox, Int row, unsigned char value)
+{
+	if (listbox == 0)
+		return;
+	Rva2431FData *data = (Rva2431FData *)listbox->winGetUserData();
+	if (data == 0)
+		return;
+	if ((unsigned)row >= (unsigned)data->listLength)
+		return;
+	data->rows[row].f0C = value;
+}
+
+// BFME1 6d943426 donor; native multiselect byte+B and signed16 capacity+0.
+Int GadgetListBoxGetListLength(GameWindow *listbox)
+{
+ void *listboxData=listbox->winGetUserData();
+ if(*(Bool *)((char *)listboxData+0x0B))
+  return *(Short *)listboxData;
+ else return 1;
+}
+
+// GedgetListBoxGetDefaultHeight (sic), retail 0x003249A7, named by the
+// WorldBuilder lead (GadgetListBox.cpp): the font height of the window's
+// instance-data font (+0x184), or -1 without a window or instance data.
+struct WinInstanceDataView
+{
+	char pad[0x184];
+	GameFont *m_font;
+};
+
+Int GedgetListBoxGetDefaultHeight(GameWindow *listbox)
+{
+	if (listbox == 0)
+		return -1;
+	WinInstanceDataView *instData = (WinInstanceDataView *)listbox->winGetInstanceData();
+	if (instData == 0)
+		return -1;
+	GameFont *font = instData->m_font;
+	return TheWindowManager->winFontHeight(font);
 }

@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004BB470@CallHelpOnDamage@@SA?AW4NameKeyType@@XZ @0x4BB470
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@CallHelpOnDamage@@UBE?AW4NameKeyType@@XZ @0x4BB470
 // (69B): cached pool-name key for CallHelpOnDamage. The class
 // identity comes from the pool-name string the body pushes
 // ("CallHelpOnDamage"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class CallHelpOnDamage
 {
 public:
-	static NameKeyType rva0004BB470();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004BB470@CallHelpOnDamage@@SA?AW4NameKeyType@@XZ
-NameKeyType CallHelpOnDamage::rva0004BB470()
+// ?getModuleNameKey@CallHelpOnDamage@@UBE?AW4NameKeyType@@XZ
+NameKeyType CallHelpOnDamage::getModuleNameKey() const
 {
 	static NameKeyType TheCallHelpOnDamagePoolKey =
 		TheNameKeyGenerator->nameToKey("CallHelpOnDamage");

@@ -1,6 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc /Oy-
 // ?clipCursorToClient@@YAXXZ, retail 0x000430C8, 98 bytes.
-#pragma optimize("y", off)
 // Ported from Open-BFME-1
 // (Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayClipCursor.cpp,
 // their matched 113B row). Retail-measured deltas: the application window
@@ -23,7 +22,7 @@ struct BfmePoint
 };
 
 // Retail address 0x00DDE024; patched from retail like any extern (no pin).
-extern void *Rva00DDE024;
+extern void *ApplicationHWnd;
 
 extern "C" __declspec(dllimport) int __stdcall GetClientRect(void *window, BfmeRect *rect);
 extern "C" __declspec(dllimport) int __stdcall ClientToScreen(void *window, BfmePoint *point);
@@ -32,13 +31,13 @@ extern "C" __declspec(dllimport) int __stdcall ClipCursor(const BfmeRect *rect);
 void clipCursorToClient(void)
 {
 	BfmeRect rect;
-	GetClientRect(Rva00DDE024, &rect);
+	GetClientRect(ApplicationHWnd, &rect);
 	int width = rect.right - rect.left;
 	int height = rect.bottom - rect.top;
 	BfmePoint point;
 	point.x = rect.left;
 	point.y = rect.top;
-	ClientToScreen(Rva00DDE024, &point);
+	ClientToScreen(ApplicationHWnd, &point);
 	rect.left = point.x;
 	rect.top = point.y;
 	rect.right = point.x + width;

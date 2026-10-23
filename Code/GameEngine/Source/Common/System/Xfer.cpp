@@ -1,4 +1,4 @@
-// cl: /O1
+// cl: /Ireference/shims/bfme2_ascii
 
 // The composite transfer operators need real layouts: each one announces a
 // four-character tag with a zero-length transfer and then moves the payload as
@@ -11,31 +11,13 @@ struct Coord3DBase
     float z;
 };
 
-struct ICoord3D
-{
-    int x;
-    int y;
-    int z;
-};
+#include "../../../../Libraries/Include/Lib/ICoord3D.h"
 
-class Coord2D
-{
-public:
-    float x;
-    float y;
-};
+#include "../../../../Libraries/Include/Lib/Coord2D.h"
 
-struct ICoord2D
-{
-    int x;
-    int y;
-};
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
 
-struct Region3D
-{
-    Coord3DBase lo;
-    Coord3DBase hi;
-};
+#include "../../../../Libraries/Include/Lib/Region3D.h"
 
 struct IRegion3D
 {
@@ -43,17 +25,9 @@ struct IRegion3D
     ICoord3D hi;
 };
 
-struct Region2D
-{
-    Coord2D lo;
-    Coord2D hi;
-};
+#include "../../../../Libraries/Include/Lib/Region2D.h"
 
-struct IRegion2D
-{
-    ICoord2D lo;
-    ICoord2D hi;
-};
+#include "../../../../Libraries/Include/Lib/IRegion2D.h"
 
 struct RealRange
 {
@@ -61,12 +35,7 @@ struct RealRange
     float hi;
 };
 
-struct RGBColor
-{
-    float red;
-    float green;
-    float blue;
-};
+#include "../../../../Libraries/Include/Lib/RGBColor.h"
 
 struct RGBAColorReal
 {
@@ -103,6 +72,32 @@ class UnicodeString;
 class PooledString;
 struct XferUnknown11;
 
+// Retail StringBase<char> layout (Header at m_data): ref_count +0, length
+// WORD +4, capacity WORD +6, data +8. getLength/str/clear inline here so the
+// AsciiString transfer below emits the witnessed movzx/getBufferForRead/clear
+// sequence; getBufferForRead and releaseBuffer resolve via pins 0x36640/0x36410.
+#include "ascii_string.h"
+
+// AsciiString is one pointer (StringBase<char> layover): delegate so the
+// transfer below inlines call-free getLength/str and direct getBufferForRead
+// (0x36640) and clear/releaseBuffer (0x36410) calls.
+
+// UnicodeString is one pointer (StringBase<unsigned short> layover): same
+// pattern with wide getBufferForRead (0x370A0) and clear (0x36E70).
+#include "unicode_string.h"
+
+class XferException
+{
+public:
+	XferException(int tag, const char *format, ...);
+	XferException(const XferException &that);
+	~XferException();
+
+	void *text;
+	int tag;
+};
+
+
 // The retail vtable at 0x00BBB910 is 39 slots wide and the primitive transfer
 // operators call slot 38 (0x98) through it, so every preceding slot has to be
 // declared here in retail order even where only the pure-virtual shape of it is
@@ -117,12 +112,14 @@ public:
     class Version;
 
     Xfer();
-    virtual ~Xfer();
+    // Retail's scalar deleting destructor calls ~Xfer instead of inlining its
+    // vtable restore; keep the dtor out of line in this TU.
+    __declspec(noinline) virtual ~Xfer();
 
     void Version1();
 
-    virtual bool IsStoring() const;
     virtual bool IsLoading() const;
+    virtual bool IsStoring() const;
     virtual bool IsCRC() const;
     virtual bool IsLightCRC() const;
 
@@ -183,16 +180,16 @@ Xfer::Xfer()
 {
 }
 
-Xfer::~Xfer()
+inline Xfer::~Xfer()
 {
 }
 
-bool Xfer::IsStoring() const
+bool Xfer::IsLoading() const
 {
     return false;
 }
 
-bool Xfer::IsLoading() const
+bool Xfer::IsStoring() const
 {
     return false;
 }
@@ -211,6 +208,14 @@ void Xfer::Version1()
 {
     Version version(1, 1);
     *this == version;
+}
+
+// Retail 0x00306A9B (12B): Version1-only DoXfer shared as slot 3 (offset 0x0C)
+// by 10+ FXParticleSystem ConcreteModule vtables (0x0081BAC0 and siblings).
+// Caller is FUN_004926EC at 0x000926FA. Ignores this.
+void __stdcall Rva00306A9BDoXfer(Xfer *xfer)
+{
+    xfer->Version1();
 }
 
 Xfer &Xfer::operator==(char &value)
@@ -390,3 +395,119 @@ Xfer &Xfer::XferRawBytes(void *data, unsigned int size)
 
     return *this;
 }
+
+Xfer &Xfer::XferEnum(const char *name, void *data, unsigned int size)
+{
+    if (size == 0 || size > 4)
+    {
+        throw XferException(4, 0);
+    }
+    switch (size)
+    {
+    case 1:
+        XferData(0x656E7531, data, 1);
+        break;
+    case 2:
+        XferData(0x656E7532, data, 2);
+        break;
+    case 3:
+        XferData(0x656E7533, data, 3);
+        break;
+    case 4:
+        XferData(0x656E7534, data, 4);
+        break;
+    }
+    return *this;
+}
+
+// Retail 0x0060BEA4, 250B, vtable slot 27 of 0x007BB910. Base AsciiString
+// transfer (astr tag 0x61737472) via XferData slot 38; donor
+// XferAsciiStringTransfer.cpp logic with Xfer.cpp /O1 layout.
+Xfer &Xfer::operator==(AsciiString &as)
+{
+    if (IsStoring())
+    {
+        int length = as.getLength();
+        if (length >= 255)
+        {
+            unsigned char marker = 255;
+            XferData(0x61737472, &marker, 1);
+            XferData(0, &length, 4);
+        }
+        else
+        {
+            XferData(0x61737472, &length, 1);
+        }
+        XferData(0, (void *)as.str(), length);
+    }
+    else
+    {
+        int length = 0;
+        XferData(0x61737472, &length, 1);
+        if (length == 255)
+        {
+            XferData(0, &length, 4);
+        }
+        if (length != 0)
+        {
+            XferData(0, ((StringBase<char> *)&as)->getBufferForRead(length), length);
+            ((StringBase<char> *)&as)->getBufferForRead(length)[length] = 0;
+        }
+        else
+        {
+            as.clear();
+        }
+    }
+    return *this;
+}
+
+// Retail 0x0060BF9E, 258B, vtable slot 26 of 0x007BB910. Base UnicodeString
+// transfer (ustr tag 0x75737472) via XferData slot 38; donor
+// XferUnicodeStringTransfer.cpp logic with Xfer.cpp /O1 layout.
+Xfer &Xfer::operator==(UnicodeString &us)
+{
+    if (IsStoring())
+    {
+        int length = us.getLength();
+        if (length >= 255)
+        {
+            unsigned char marker = 255;
+            XferData(0x75737472, &marker, 1);
+            XferData(0, &length, 4);
+        }
+        else
+        {
+            XferData(0x75737472, &length, 1);
+        }
+        XferData(0, (void *)us.str(), length * 2);
+    }
+    else
+    {
+        int length = 0;
+        XferData(0x75737472, &length, 1);
+        if (length == 255)
+        {
+            XferData(0, &length, 4);
+        }
+        if (length != 0)
+        {
+            XferData(0, ((StringBase<unsigned short> *)&us)->getBufferForRead(length), length * 2);
+            ((StringBase<unsigned short> *)&us)->getBufferForRead(length)[length] = 0;
+        }
+        else
+        {
+            us.clear();
+        }
+    }
+    return *this;
+}
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?Use_Alpha_Shader@BFME2ParticleTextureHandle@@QBE_NXZ=?IsCRC@Xfer@@UBE_NXZ")
+#pragma comment(linker, "/alternatename:?Is_Lightmap@?$RefCountPtr@VTextureClass@@@@QBE_NXZ=?IsCRC@Xfer@@UBE_NXZ")
+#pragma comment(linker, "/alternatename:?Is_Procedural@?$RefCountPtr@VTextureClass@@@@QBE_NXZ=?IsCRC@Xfer@@UBE_NXZ")
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeReset@Gen009D6E10@@QAEXPAVBfmePeer@@@Z=??8Xfer@@UAEAAV0@AAVSnapshot@@@Z")

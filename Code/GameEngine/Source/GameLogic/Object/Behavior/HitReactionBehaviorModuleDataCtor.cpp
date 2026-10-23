@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ??0HitReactionBehaviorModuleData@@QAE@XZ, retail 0x004591EA, 45 bytes.
 // Frameless loop ctor over table 0xC410F0 (HitReactionLifeTimer1 at +8,
@@ -11,6 +11,9 @@
 // loop over the three timer/threshold pairs reproduces retail's
 // and-plus-movss interleaved loop with push-3/pop-edx count materialization.
 // Thresholds default to FLT_MAX (pool 0xBBB8E0, float-ref verified).
+
+extern "C" const void *const vtbl_00C4ED70[];  // folded, 9 classes; via ??_7BeaconClientUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4ED70=??_7BeaconClientUpdateModuleData@@6B@")
 
 class HitReactionBehaviorModuleData
 {
@@ -29,7 +32,7 @@ private:
 // ??0HitReactionBehaviorModuleData@@QAE@XZ @0x4591EA
 HitReactionBehaviorModuleData::HitReactionBehaviorModuleData()
 {
-	m_vtable = reinterpret_cast<const void *>(0x00C4ED70);
+	m_vtable = reinterpret_cast<const void *>(((unsigned int)vtbl_00C4ED70));
 	m_fastHitsReset = false;
 	m_hitsParalyze = false;
 	for (int i = 0; i < 3; ++i)

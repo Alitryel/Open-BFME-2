@@ -14,7 +14,7 @@ public:
 	void *m_bfmeVfptr;
 };
 
-void *bfmeAlloc1039(int n);
+void *__cdecl operator new(unsigned int size);
 
 class BfmeD1039
 {
@@ -24,7 +24,7 @@ public:
 
 BfmeC1039 *BfmeD1039::bfmeGo1039C(void)
 {
-	BfmeC1039 *p = (BfmeC1039 *)bfmeAlloc1039(0x38);
+	BfmeC1039 *p = (BfmeC1039 *)::operator new(0x38);
 
 	if (p != 0) {
 		p->bfmeInit1039(this);
@@ -34,3 +34,7 @@ BfmeC1039 *BfmeD1039::bfmeGo1039C(void)
 
 	return 0;
 }
+
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
+#pragma comment(linker, "/alternatename:_bfmeVft1039C=??_7GridWSClassicEnvironmentMapperClass@@6B@")

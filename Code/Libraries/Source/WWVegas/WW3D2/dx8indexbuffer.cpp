@@ -1,5 +1,13 @@
 // cl: /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // stlport
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it; retail links the
+// /O1 body at 0x00001423. Instantiate it first in an unemitted anchor (the
+// lookuptable.cpp pattern) so this unit's copy is that body.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -47,8 +55,18 @@
 // it from its own directory, and a quoted include searches the including
 // file's directory before the -I list, so the reference copy would win the
 // include guard before reference/shims/indexbuffercount/ ever got a look in.
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
 #include "dx8caps.h"
+// These buffers use global allocation and deallocation.
+#pragma push_macro("W3DMPO_GLUE")
+#undef W3DMPO_GLUE
+#define W3DMPO_GLUE(ARGCLASS) public:
 #include "dx8indexbuffer.h"
+#pragma pop_macro("W3DMPO_GLUE")
 #include "dx8wrapper.h"
 #include "dx8caps.h"
 
@@ -267,7 +285,6 @@ void IndexBufferClass::Copy(unsigned short* indices,unsigned first_index,unsigne
 // ----------------------------------------------------------------------------
 
 
-// ??0WriteLockClass@@ present-unmatched
 IndexBufferClass::WriteLockClass::WriteLockClass(IndexBufferClass* index_buffer_, int flags)
 	:
 	index_buffer(index_buffer_),
@@ -299,7 +316,6 @@ IndexBufferClass::WriteLockClass::WriteLockClass(IndexBufferClass* index_buffer_
 //
 // ----------------------------------------------------------------------------
 
-// ??1WriteLockClass@@ present-unmatched
 IndexBufferClass::WriteLockClass::~WriteLockClass()
 {
 	switch (index_buffer->Type()) {
@@ -318,7 +334,6 @@ IndexBufferClass::WriteLockClass::~WriteLockClass()
 
 // ----------------------------------------------------------------------------
 
-// ??0AppendLockClass@@ present-unmatched
 IndexBufferClass::AppendLockClass::AppendLockClass(IndexBufferClass* index_buffer_,unsigned start_index, unsigned index_range, int flags)
 	:
 	index_buffer(index_buffer_),
@@ -509,53 +524,21 @@ void DynamicIBAccessClass::_Deinit()
 //
 // ----------------------------------------------------------------------------
 
-// ??0WriteLockClass@@ present-unmatched
-DynamicIBAccessClass::WriteLockClass::WriteLockClass(DynamicIBAccessClass* ib_access_)
-{
-	DynamicIBAccess = ib_access_;
-	W3DRadarResetLock();
-	DX8_THREAD_ASSERT();
-	DynamicIBAccess->IndexBuffer->Add_Ref();
-	switch (DynamicIBAccess->Get_Type()) {
-	case BUFFER_TYPE_DYNAMIC_DX8:
-		WWASSERT(DynamicIBAccess);
-//		WWASSERT(!dynamic_dx8_index_buffer->Engine_Refs());
-		DX8_Assert();
-		BFME_DX8_ErrorCode(
-			static_cast<DX8IndexBufferClass*>(DynamicIBAccess->IndexBuffer)->Get_DX8_Index_Buffer()->Lock(
-			DynamicIBAccess->IndexBufferOffset*sizeof(WORD),
-			DynamicIBAccess->Get_Index_Count()*sizeof(WORD),
-			(unsigned char**)&Indices,
-			!DynamicIBAccess->IndexBufferOffset ? D3DLOCK_DISCARD : D3DLOCK_NOOVERWRITE));
-		break;
-	case BUFFER_TYPE_DYNAMIC_SORTING:
-		Indices=static_cast<SortingIndexBufferClass*>(DynamicIBAccess->IndexBuffer)->index_buffer;
-		Indices+=DynamicIBAccess->IndexBufferOffset;
-		break;
-	default:
-		WWASSERT(0);
-		break;
-	}
-}
+// DynamicIBAccessClass::WriteLockClass::WriteLockClass lives in
+// DynamicIBAccessWriteLock.cpp (rowed there at 0x00138CA0); the former
+// duplicate here is removed so the rowed copy links.
 
-// ??1WriteLockClass@@ present-unmatched
-DynamicIBAccessClass::WriteLockClass::~WriteLockClass()
+// The rowed Get_Index_Count below was emitted only through the removed
+// duplicate's call, so an anchor keeps emitting it here.
+#pragma inline_depth(0)
+// ?bfmeEmitGetIndexCount@@YAXPAVDynamicIBAccessClass@@@Z present-unmatched
+void bfmeEmitGetIndexCount(DynamicIBAccessClass *dynamicIBAccess)
 {
-	DX8_THREAD_ASSERT();
-	switch (DynamicIBAccess->Get_Type()) {
-	case BUFFER_TYPE_DYNAMIC_DX8:
-		DX8_Assert();
-		BFME_DX8_ErrorCode(static_cast<DX8IndexBufferClass*>(DynamicIBAccess->IndexBuffer)->Get_DX8_Index_Buffer()->Unlock());
-		break;
-	case BUFFER_TYPE_DYNAMIC_SORTING:
-		break;
-	default:
-		WWASSERT(0);
-		break;
-	}
-	DynamicIBAccess->IndexBuffer->Release_Ref();
-	BFME_DX8_Thread_Assert();
+	dynamicIBAccess->Get_Index_Count();
 }
+#pragma inline_depth()
+
+// DynamicIBAccessClass::WriteLockClass::~WriteLockClass: defined in DynamicIBAccessWriteLock.cpp (its row's unit).
 
 // ----------------------------------------------------------------------------
 //
@@ -617,23 +600,7 @@ void DynamicIBAccessClass::Allocate_Sorting_Dynamic_Buffer()
 	}
 
 	if (!_DynamicSortingIndexArray) {
-		// Retail allocates here with `push 24; call ??2@YAPAXI@Z` -- the GLOBAL
-		// operator new -- not the getClassMemoryPool() + allocateFromW3DMemPool
-		// pair that SortingIndexBufferClass's W3DMPO_GLUE generates.  Retail
-		// built the class in this unit with no glue at all, so `::new` is what
-		// reproduces its bytes.
-		//
-		// KNOWN ASYMMETRY, recorded rather than hidden: the glue also supplies a
-		// POOLED operator delete, and this class still carries it, so the
-		// deleting destructor reached from Release_Ref() would hand a
-		// globally-allocated pointer to freeFromW3DMemPool.  Retail had no such
-		// mismatch because its class had neither half.  The correct fix is to
-		// suppress W3DMPO_GLUE for the length of the dx8indexbuffer.h include,
-		// the way meshmatdesc.cpp does for VertexMaterialClass; that is blocked
-		// on an include-order problem (pulling always.h in first makes a
-		// different copy of the header win, one that declares this method
-		// private, so the unit stops exporting ?...@QAE and exports @AAE).
-		// See reverse/re_attempts.log for 0x00138F50.
+		// The buffer header selects global deallocation, matching this allocation.
 		_DynamicSortingIndexArray=::new SortingIndexBufferClass(_DynamicSortingIndexArraySize);
 		_DynamicSortingIndexArrayOffset=0;
 	}
@@ -663,3 +630,10 @@ int IndexBufferExceptionFunc(void)
 	b += _IndexBufferTotalIndices;
 	return b;
 }
+// ?g_BFMEIndexBufferDebug@@3PAVBFMEIndexBufferDebugClass@@A: the global at VA 0xde0880 is ?theDebug@@3PAVDebug@@A.
+#pragma comment(linker, "/alternatename:?g_BFMEIndexBufferDebug@@3PAVBFMEIndexBufferDebugClass@@A=?theDebug@@3PAVDebug@@A")
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0BfmeSortingIBAccess@@QAE@GG@Z=??0DynamicIBAccessClass@@QAE@GG@Z")
+#pragma comment(linker, "/alternatename:??1BfmeSortingIBAccess@@QAE@XZ=??1DynamicIBAccessClass@@QAE@XZ")

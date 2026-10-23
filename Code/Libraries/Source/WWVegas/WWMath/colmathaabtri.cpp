@@ -8,6 +8,20 @@
 //
 // Compiled with the same flags and the same include order as colmathaabox.cpp,
 // so the two agree on AABoxClass and on the corrected RenderObjClass size.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+// Reuse the verified AABox consumer math and vector ownership.
+#include "../../../../../reference/shims/bfme_colmathaabox/wwmath.h"
+#include "../../../../../reference/shims/bfme_colmathaabox/vector3.h"
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -228,7 +242,7 @@ static inline bool aabtri_separation_test
 	*/
 	float eps = 0.0f;
 	if (lp - leb0 <= 0.0f) {
-		eps = COLLISION_EPSILON * CollisionContext.TestAxis.Length();	// trying to only compute epsilon if I have to
+		eps = COLLISION_EPSILON * WWMath::Sqrt(CollisionContext.TestAxis.Length2());	// trying to only compute epsilon if I have to
 	}
 
 	if (lp - leb0 > -eps) {

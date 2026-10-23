@@ -1,4 +1,4 @@
-// cl: /O2 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // BfmeMsgVJH::BfmeMsgVJH, retail 0x00655900 (76 bytes).
 // EA FESL game-browser message: base subobject (retail vtable 0xCE0BC4,
@@ -9,17 +9,17 @@
 // The base is polymorphic in retail; it is declared without virtuals here
 // because only its ctor address reaches codegen.
 
-class BfmeMsg
+class PrototypeClass
 {
 public:
-	BfmeMsg();
-	virtual ~BfmeMsg();
+	PrototypeClass();
+	virtual ~PrototypeClass();
 
 protected:
 	int m_state;
 };
 
-class BfmeMsgVJH : public BfmeMsg
+class BfmeMsgVJH : public PrototypeClass
 {
 public:
 	BfmeMsgVJH(char *buffer, int size) throw();
@@ -58,3 +58,16 @@ BfmeMsgVJH::BfmeMsgVJH(char *buffer, int size) throw()
 	m_flag = 0;
 	m_count = 4;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0BfmeMsgVJI@@QAE@PADH@Z=??0BfmeMsgVJH@@QAE@PADH@Z")
+#pragma comment(linker, "/alternatename:?bfmeInitVJO@BfmeMsgVJO@@QAEXPADH@Z=??0BfmeMsgVJH@@QAE@PADH@Z")
+#pragma comment(linker, "/alternatename:??0BfmeMsg803BF0@@QAE@PADH@Z=??0BfmeMsgVJH@@QAE@PADH@Z")
+#pragma comment(linker, "/alternatename:??0BfmeMsg803A00@@QAE@PADH@Z=??0BfmeMsgVJH@@QAE@PADH@Z")
+#pragma comment(linker, "/alternatename:??0BfmeMsg803B60@@QAE@PADH@Z=??0BfmeMsgVJH@@QAE@PADH@Z")
+#pragma comment(linker, "/alternatename:??0BfmeMsg803C90@@QAE@PADH@Z=??0BfmeMsgVJH@@QAE@PADH@Z")
+#pragma comment(linker, "/alternatename:?bfmeInitVJN@BfmeMsgVJN@@QAEXPADH@Z=??0BfmeMsgVJH@@QAE@PADH@Z")
+#pragma comment(linker, "/alternatename:?bfmeInitVJM@BfmeMsgVJM@@QAEXPADH@Z=??0BfmeMsgVJH@@QAE@PADH@Z")
+#pragma comment(linker, "/alternatename:?bfmeInitVJL@BfmeMsgVJL@@QAEXPADH@Z=??0BfmeMsgVJH@@QAE@PADH@Z")
+#pragma comment(linker, "/alternatename:?bfmeInitVJK@BfmeMsgVJK@@QAEXPADH@Z=??0BfmeMsgVJH@@QAE@PADH@Z")

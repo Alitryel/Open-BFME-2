@@ -43,3 +43,5 @@ void WW3D::Set_NPatches_Level( unsigned level )
 	if( NPatchesLevel > 1 && level == 1 ) TheDX8MeshRenderer->Invalidate( false );
 	NPatchesLevel = level;
 }
+// ?NPatchesLevel@@3IA: the global at VA 0xdb5f94 is ?NPatchesLevel@WW3D@@0IA.
+#pragma comment(linker, "/alternatename:?NPatchesLevel@@3IA=?NPatchesLevel@WW3D@@0IA")

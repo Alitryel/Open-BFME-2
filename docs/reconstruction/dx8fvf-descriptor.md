@@ -24,7 +24,7 @@ compiler's unrolled loop and countdown. No assembler or forced register bindings
 are used.
 
 The original bundled DX8.1 SDK, at
-`reference/open-bfme-1/build/toolchains/dx81/include/d3d8types.h:577`, defines the
+`reference/open-bfme-1/inputs/toolchains/dx81/include/d3d8types.h:577`, defines the
 five blend-position constants as `6,8,0xA,0xC,0xE`. The legacy shared shim had
 incorrect values for the last four. This recovered body uses an explicit SDK
 `XYZB4=0xC`, independently of that shared-header repair.

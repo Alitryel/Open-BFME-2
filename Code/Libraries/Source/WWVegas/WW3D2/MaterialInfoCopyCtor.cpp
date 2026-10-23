@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /MD /EHsc /O2 /Ob2
+// cl: /DNDEBUG /MD /EHsc /Ob2
 // BFME1 MaterialInfoCopyCtor.cpp, adapted to BFME2 RVA 0x16FFD0 (351B).
 // Uses the layout and vector vtable identities already established by
 // MaterialInfoClassCtor.cpp. Upstream matinfo.cpp clones vertex materials;
@@ -6,6 +6,9 @@
 // 0x6c bytes. Texture handles are copied via the base-vector assignment.
 // MaterialVector::Add follows WWLib/vector.h: increment the count before the
 // element store, preserving the distinct old and new indices.
+
+extern "C" const void *__identifier("??_7?$DynamicVectorClass@PAVVertexMaterialClass@@@@6B@")[];
+extern "C" const void *__identifier("??_7?$DynamicVectorClass@VBfmeHandleCX@@@@6B@")[];
 
 class VertexMaterialClass {
 public:
@@ -73,7 +76,7 @@ public:
   VectorMax = 0;
   IsValid = true;
   IsAllocated = false;
-  Vtable = 0x00BD4658;
+  Vtable = ((unsigned int)__identifier("??_7?$DynamicVectorClass@PAVVertexMaterialClass@@@@6B@"));
   GrowthStep = 10;
   ActiveCount = 0;
  }
@@ -106,7 +109,7 @@ public:
 	__forceinline TextureVector()
 		: TextureVectorBaseCtorShim(0, 0)
 	{
-		*(unsigned int *)this = 0x00BD4688;
+		*(unsigned int *)this = ((unsigned int)__identifier("??_7?$DynamicVectorClass@VBfmeHandleCX@@@@6B@"));
   GrowthStep = 10;
   ActiveCount = 0;
 	}
@@ -122,6 +125,9 @@ private:
 	int ActiveCount, GrowthStep;
 };
 
+// The kept RefCountClass helpers come from size-optimized hlod.cpp, as
+// in MaterialInfoClassCtor.cpp. Keep the copy-constructor body at /O2.
+#pragma optimize("gsy", on)
 class RefCountClass
 {
 public:
@@ -134,6 +140,8 @@ protected:
 private:
 	int Count;
 };
+
+#pragma optimize("", on)
 
 class MaterialInfoClass : public RefCountClass
 {
@@ -156,3 +164,7 @@ MaterialInfoClass::MaterialInfoClass(const MaterialInfoClass &src)
  }
  Textures = src.Textures;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0BfmeCreated_0035B680@@QAE@PAVGen_0035B680@@@Z=??0MaterialInfoClass@@QAE@ABV0@@Z")

@@ -21,7 +21,15 @@ private:
 };
 
 // ?friend_newModuleInstance@StealthUpgrade@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *StealthUpgrade::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *StealthUpgrade::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new StealthUpgrade(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitStealthUpgradeFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitStealthUpgradeFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	StealthUpgrade::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

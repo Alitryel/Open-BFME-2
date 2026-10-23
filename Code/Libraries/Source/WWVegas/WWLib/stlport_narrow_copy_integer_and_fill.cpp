@@ -123,7 +123,8 @@ __forceinline OutputIter copy_inline(
 }
 
 template <class OutputIter, class Size, class Value>
-__forceinline OutputIter fill_n(
+// Keep this inlined loop local; the external fill_n has a rowed provider.
+static __forceinline OutputIter fill_n(
 		OutputIter first, Size count, const Value &value)
 {
 	for (; count > 0; --count, ++first)

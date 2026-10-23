@@ -1,4 +1,4 @@
-// cl: /O2 /MD /EHsc
+// cl: /MD /EHsc
 // BFME2 Keyboard::resetKeys, RVA 0x00232BDD (16 bytes).
 // Identity: WndProc's focus-change calls in WinMain.cpp.
 // BFME2 differs from the Generals memset implementation: it gathers pending
@@ -9,8 +9,8 @@ class Keyboard
 {
 public:
     void resetKeys();
+    void rva00232B7B(); // public, as its row spells it
 private:
-    void rva00232B7B();
     void rva00232AE8();
 };
 

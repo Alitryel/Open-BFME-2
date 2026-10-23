@@ -1,5 +1,16 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // stlport
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #define Matrix4x4 Matrix4  // BFME renamed it
 #define __PLACEMENT_VEC_NEW_INLINE  // always.h/GameMemory.h define array placement-new themselves
 // stlport
@@ -60,6 +71,24 @@
 #include "Common/LocalFileSystem.h"
 #include "Common/PerfTimer.h"
 
+
+// Native uint-bool tree node creation is supplied by 0x002D464E (34B).
+// The donor map touch must not emit a competing allocator/cleanup shape.
+namespace _STL {
+typedef pair<const unsigned int, bool> FileSystemUIntBoolPair;
+typedef _Rb_tree<unsigned int, FileSystemUIntBoolPair,
+    _Select1st<FileSystemUIntBoolPair>, less<unsigned int>,
+    allocator<FileSystemUIntBoolPair> > FileSystemUIntBoolTree;
+template <> FileSystemUIntBoolTree::_Link_type
+FileSystemUIntBoolTree::_M_create_node(const FileSystemUIntBoolPair &);
+template <> bool &map<unsigned int, bool>::operator[](const unsigned int &);
+template FileSystemUIntBoolTree::_Link_type FileSystemUIntBoolTree::_M_lower_bound(const unsigned int &) const;
+template FileSystemUIntBoolTree::iterator FileSystemUIntBoolTree::lower_bound(const unsigned int &);
+// Retain this unit's separately matched pair construction helpers.
+template void _Construct<FileSystemUIntBoolPair, FileSystemUIntBoolPair>(
+    FileSystemUIntBoolPair *, const FileSystemUIntBoolPair &);
+template pair<const unsigned int, bool>::pair(const FileSystemUIntBoolPair &);
+}
 
 DECLARE_PERF_TIMER(FileSystem)
 
@@ -183,24 +212,6 @@ void		FileSystem::reset( void )
 //============================================================================
 
 // byte-exact reconstruction: Code/GameEngine/Source/Common/System/FileSystem_openFile.cpp
-// ?openFile@FileSystem@@ present-unmatched
-File*		FileSystem::openFile( const Char *filename, Int access ) 
-{
-	USE_PERF_TIMER(FileSystem)
-	File *file = NULL;
-
-	if ( TheLocalFileSystem != NULL )
-	{
-		file = TheLocalFileSystem->openFile( filename, access );
-	}
-
-	if ( (TheArchiveFileSystem != NULL) && (file == NULL) )
-	{
-		file = TheArchiveFileSystem->openFile( filename );
-	}
-
-	return file;
-}
 
 //============================================================================
 // FileSystem::doesFileExist — matched body in FileSystem_doesFileExist.cpp
@@ -227,25 +238,9 @@ void FileSystem::getFileListInDirectory(const AsciiString& directory, const Asci
 //============================================================================
 // FileSystem::getFileInfo
 //============================================================================
-// ?getFileInfo@FileSystem@@ present-unmatched
-Bool FileSystem::getFileInfo(const AsciiString& filename, FileInfo *fileInfo) const
-{
-	USE_PERF_TIMER(FileSystem)
-	if (fileInfo == NULL) {
-		return FALSE;
-	}
-	memset(fileInfo, 0, sizeof(fileInfo));
-	
-	if (TheLocalFileSystem->getFileInfo(filename, fileInfo)) {
-		return TRUE;
-	}
-
-	if (TheArchiveFileSystem->getFileInfo(filename, fileInfo)) {
-		return TRUE;
-	}
-
-	return FALSE;
-}
+// The native AsciiString wrapper at 0x00077BF8 is owned by
+// FileSystemRva00077BF8.cpp and forwards to the native lookup at 0x00600E3A.
+// BFME 1 repair 7b5ff42000 at f989 likewise retires its obsolete donor body.
 
 //============================================================================
 // FileSystem::createDirectory
@@ -283,8 +278,8 @@ Bool FileSystem::areMusicFilesOnCD()
 
 		cdRoot = cdi->getPath();
 		if (!cdRoot.endsWith("\\"))
-			cdRoot.concat("\\");
-		cdRoot.concat("genseczh.big");
+			((StringBase<char> *)&cdRoot)->concat("\\");
+		((StringBase<char> *)&cdRoot)->concat("genseczh.big");
 		DEBUG_LOG(("FileSystem::areMusicFilesOnCD() - checking for %s\n", cdRoot.str()));
 		File *musicBig = TheLocalFileSystem->openFile(cdRoot.str());
 		if (musicBig)

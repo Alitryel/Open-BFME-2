@@ -25,7 +25,7 @@
 // $Revision: #1 $
 // $DateTime: 2003/07/03 11:55:26 $
 //
-// ©2003 Electronic Arts
+// ï¿½2003 Electronic Arts
 //
 // Implementation of internal code
 //////////////////////////////////////////////////////////////////////////////
@@ -44,43 +44,9 @@ void DebugInternalAssert(const char *file, int line, const char *expr)
   TerminateProcess(GetCurrentProcess(),666);
 }
 
-void *DebugAllocMemory(unsigned numBytes)
-{
-  HGLOBAL h=GlobalAlloc(GMEM_FIXED,numBytes);
-  if (!h)
-    DCRASH_RELEASE("Debug mem alloc failed");
-  return (void *)h;
-}
+// DebugAllocMemory(unsigned): defined in DebugAllocMemory.cpp (its row's unit).
 
-void *DebugReAllocMemory(void *oldPtr, unsigned newSize)
-{
-  // Windows doesn't like ReAlloc with NULL handle/ptr...
-  if (!oldPtr)
-    return newSize?DebugAllocMemory(newSize):0;
-
-  // Shrinking to 0 size is basically freeing memory
-  if (!newSize)
-  {
-    GlobalFree((HGLOBAL)oldPtr);
-    return 0;
-  }
-
-  // now try GlobalReAlloc first
-  HGLOBAL h=GlobalReAlloc((HGLOBAL)oldPtr,newSize,0);
-  if (!h)
-  {
-    // this failed (Windows doesn't like ReAlloc'ing larger
-    // fixed memory blocks) - go with Alloc/Free instead
-    h=GlobalAlloc(GMEM_FIXED,newSize);
-    if (!h)
-      DCRASH_RELEASE("Debug mem realloc failed");
-    unsigned oldSize=GlobalSize((HGLOBAL)oldPtr);
-    memcpy((void *)h,oldPtr,oldSize<newSize?oldSize:newSize);
-    GlobalFree((HGLOBAL)oldPtr);
-  }
-
-  return (void *)h;
-}
+// DebugReAllocMemory(void *, unsigned): defined in DebugReAllocMemory.cpp (its row's unit).
 
 void DebugFreeMemory(void *ptr)
 {

@@ -5,8 +5,12 @@
 // fills from retail) and carry no type information, per the donor's own notes.
 
 extern int R2Data010EC784;
+// R2Data010EC784: matched references place it at VA 0xc61ca8 (retail .rdata value 9313586).
+int R2Data010EC784 = 9313586;
 extern int R2Data010EC760;
 extern int R2Data01085DBC;
+// R2Data01085DBC: matched references place it at VA 0xc61c30 (retail .rdata value 9313558).
+int R2Data01085DBC = 9313558;
 
 class Rva003B85D0
 {

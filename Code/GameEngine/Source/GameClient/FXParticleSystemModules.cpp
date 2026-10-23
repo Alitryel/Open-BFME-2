@@ -347,6 +347,7 @@ public:
     public:                                                                                        \
         NAME();                                                                                    \
         NAME(const NAME &that);                                                                    \
+        virtual ~NAME();                                                                           \
                                                                                                    \
         NAME &operator=(const NAME &that);                                                         \
     };
@@ -380,6 +381,7 @@ class StreakDrawModuleTemplate : public ModuleTemplate, public SecondaryModuleBa
 public:
     StreakDrawModuleTemplate();
     StreakDrawModuleTemplate(const StreakDrawModuleTemplate &that);
+    virtual ~StreakDrawModuleTemplate();
 };
 
 class QuadDrawModule;
@@ -390,6 +392,7 @@ class QuadDrawModuleTemplate : public ModuleTemplate, public SecondaryModuleBase
 public:
     QuadDrawModuleTemplate();
     QuadDrawModuleTemplate(const QuadDrawModuleTemplate &that);
+    virtual ~QuadDrawModuleTemplate();
 };
 
 class ButterflyDrawModule;
@@ -400,6 +403,7 @@ class ButterflyDrawModuleTemplate : public ModuleTemplate, public SecondaryModul
 public:
     ButterflyDrawModuleTemplate();
     ButterflyDrawModuleTemplate(const ButterflyDrawModuleTemplate &that);
+    virtual ~ButterflyDrawModuleTemplate();
 };
 
 #define FX_EVENT_MODULE_TEMPLATE(NAME, INFO)                                                       \
@@ -408,6 +412,7 @@ public:
     public:                                                                                        \
         NAME();                                                                                    \
         NAME(const NAME &that);                                                                    \
+        virtual ~NAME();                                                                           \
                                                                                                    \
         NAME &operator=(const NAME &that);                                                         \
     };
@@ -587,13 +592,17 @@ struct PointEmissionVolumeModuleTag
     static const char *const &s_name;
 };
 
-const char *const &PointEmissionVolumeModuleTag::s_key = POINT_EMISSION_VOLUME_MODULE_KEY;
-const char *const &PointEmissionVolumeModuleTag::s_name = POINT_EMISSION_VOLUME_MODULE_NAME;
-
 typedef ConcreteModuleTemplate<PointEmissionVolumeModuleTag> PointEmissionVolumeModuleConcrete;
 typedef ConcreteModuleClass<PointEmissionVolumeModuleTag> PointEmissionVolumeModuleClassConcrete;
 
 PointEmissionVolumeModuleConcrete g_pointEmissionVolumeModuleConcrete;
+
+// Defined after the concrete global: retail initialises both references at
+// run time (0x007AF6B1 and 0x007AF6BC store the key and name pointers), and
+// cl 7.1 only does that once a dynamic initializer precedes them in the unit.
+// Ahead of every dynamic initializer it binds them statically in .data.
+const char *const &PointEmissionVolumeModuleTag::s_key = POINT_EMISSION_VOLUME_MODULE_KEY;
+const char *const &PointEmissionVolumeModuleTag::s_name = POINT_EMISSION_VOLUME_MODULE_NAME;
 template class ConcreteModuleClass<PointEmissionVolumeModuleTag>;
 
 // Same empty-tag fold as the ortho tag above.
@@ -647,7 +656,7 @@ OrthoEmissionVelocityModuleTag &(OrthoEmissionVelocityModuleTag::*g_orthoEmissio
     const OrthoEmissionVelocityModuleTag &) = &OrthoEmissionVelocityModuleTag::operator=;
 
 // The per-category default templates, each over the info its own category uses.
-#define FX_DEFAULT_TEMPLATE(CATEGORY, INFO)                                                            template <>                                                                                        class DefaultModuleTemplate<CATEGORY> : public ModuleTemplate, public SecondaryModuleBase,                                                 public INFO                                                {                                                                                                  public:                                                                                                DefaultModuleTemplate();                                                                           DefaultModuleTemplate(const DefaultModuleTemplate<CATEGORY> &that);                            };
+#define FX_DEFAULT_TEMPLATE(CATEGORY, INFO)                                                            template <>                                                                                        class DefaultModuleTemplate<CATEGORY> : public ModuleTemplate, public SecondaryModuleBase,                                                 public INFO                                                {                                                                                                  public:                                                                                                DefaultModuleTemplate();                                                                           DefaultModuleTemplate(const DefaultModuleTemplate<CATEGORY> &that); virtual ~DefaultModuleTemplate();                            };
 
 template <int CATEGORY>
 class DefaultModuleTemplate;
@@ -765,15 +774,15 @@ SphereEmissionVolumeModuleConcreteAssign g_sphereEmissionVolumeModuleConcreteAss
 
 typedef BoxEmissionVolumeModuleConcrete &(BoxEmissionVolumeModuleConcrete::*BoxEmissionVolumeModuleConcreteAssign)(const BoxEmissionVolumeModuleConcrete &);
 
-BoxEmissionVolumeModuleConcreteAssign g_boxEmissionVolumeModuleConcreteAssign = &BoxEmissionVolumeModuleConcrete::operator=;
+extern BoxEmissionVolumeModuleConcreteAssign g_boxEmissionVolumeModuleConcreteAssign;
 
 typedef LineEmissionVolumeModuleConcrete &(LineEmissionVolumeModuleConcrete::*LineEmissionVolumeModuleConcreteAssign)(const LineEmissionVolumeModuleConcrete &);
 
-LineEmissionVolumeModuleConcreteAssign g_lineEmissionVolumeModuleConcreteAssign = &LineEmissionVolumeModuleConcrete::operator=;
+extern LineEmissionVolumeModuleConcreteAssign g_lineEmissionVolumeModuleConcreteAssign;
 
 typedef CylinderEmissionVolumeModuleConcrete &(CylinderEmissionVolumeModuleConcrete::*CylinderEmissionVolumeModuleConcreteAssign)(const CylinderEmissionVolumeModuleConcrete &);
 
-CylinderEmissionVolumeModuleConcreteAssign g_cylinderEmissionVolumeModuleConcreteAssign = &CylinderEmissionVolumeModuleConcrete::operator=;
+extern CylinderEmissionVolumeModuleConcreteAssign g_cylinderEmissionVolumeModuleConcreteAssign;
 
 typedef OrthoEmissionVelocityModuleConcrete &(OrthoEmissionVelocityModuleConcrete::*OrthoEmissionVelocityModuleConcreteAssign)(const OrthoEmissionVelocityModuleConcrete &);
 
@@ -793,15 +802,15 @@ SphericalEmissionVelocityModuleConcreteAssign g_sphericalEmissionVelocityModuleC
 
 typedef LightningDrawModuleConcrete &(LightningDrawModuleConcrete::*LightningDrawModuleConcreteAssign)(const LightningDrawModuleConcrete &);
 
-LightningDrawModuleConcreteAssign g_lightningDrawModuleConcreteAssign = &LightningDrawModuleConcrete::operator=;
+extern LightningDrawModuleConcreteAssign g_lightningDrawModuleConcreteAssign;
 
 typedef TerrainFireEmissionModuleConcrete &(TerrainFireEmissionModuleConcrete::*TerrainFireEmissionModuleConcreteAssign)(const TerrainFireEmissionModuleConcrete &);
 
-TerrainFireEmissionModuleConcreteAssign g_terrainFireEmissionModuleConcreteAssign = &TerrainFireEmissionModuleConcrete::operator=;
+extern TerrainFireEmissionModuleConcreteAssign g_terrainFireEmissionModuleConcreteAssign;
 
 typedef LightningEmissionModuleConcrete &(LightningEmissionModuleConcrete::*LightningEmissionModuleConcreteAssign)(const LightningEmissionModuleConcrete &);
 
-LightningEmissionModuleConcreteAssign g_lightningEmissionModuleConcreteAssign = &LightningEmissionModuleConcrete::operator=;
+extern LightningEmissionModuleConcreteAssign g_lightningEmissionModuleConcreteAssign;
 
 typedef RenderObjectUpdateModuleConcrete &(RenderObjectUpdateModuleConcrete::*RenderObjectUpdateModuleConcreteAssign)(const RenderObjectUpdateModuleConcrete &);
 
@@ -809,27 +818,27 @@ RenderObjectUpdateModuleConcreteAssign g_renderObjectUpdateModuleConcreteAssign 
 
 typedef RenderObjectDrawModuleConcrete &(RenderObjectDrawModuleConcrete::*RenderObjectDrawModuleConcreteAssign)(const RenderObjectDrawModuleConcrete &);
 
-RenderObjectDrawModuleConcreteAssign g_renderObjectDrawModuleConcreteAssign = &RenderObjectDrawModuleConcrete::operator=;
+extern RenderObjectDrawModuleConcreteAssign g_renderObjectDrawModuleConcreteAssign;
 
 typedef GpuDrawModuleConcrete &(GpuDrawModuleConcrete::*GpuDrawModuleConcreteAssign)(const GpuDrawModuleConcrete &);
 
-GpuDrawModuleConcreteAssign g_gpuDrawModuleConcreteAssign = &GpuDrawModuleConcrete::operator=;
+extern GpuDrawModuleConcreteAssign g_gpuDrawModuleConcreteAssign;
 
 typedef DefaultConcrete0 &(DefaultConcrete0::*DefaultConcrete0Assign)(const DefaultConcrete0 &);
 
-DefaultConcrete0Assign g_defaultConcrete0Assign = &DefaultConcrete0::operator=;
+extern DefaultConcrete0Assign g_defaultConcrete0Assign;
 
 typedef DefaultConcrete1 &(DefaultConcrete1::*DefaultConcrete1Assign)(const DefaultConcrete1 &);
 
-DefaultConcrete1Assign g_defaultConcrete1Assign = &DefaultConcrete1::operator=;
+extern DefaultConcrete1Assign g_defaultConcrete1Assign;
 
 typedef DefaultConcrete2 &(DefaultConcrete2::*DefaultConcrete2Assign)(const DefaultConcrete2 &);
 
-DefaultConcrete2Assign g_defaultConcrete2Assign = &DefaultConcrete2::operator=;
+extern DefaultConcrete2Assign g_defaultConcrete2Assign;
 
 typedef DefaultConcrete3 &(DefaultConcrete3::*DefaultConcrete3Assign)(const DefaultConcrete3 &);
 
-DefaultConcrete3Assign g_defaultConcrete3Assign = &DefaultConcrete3::operator=;
+extern DefaultConcrete3Assign g_defaultConcrete3Assign;
 
 typedef DefaultConcrete6 &(DefaultConcrete6::*DefaultConcrete6Assign)(const DefaultConcrete6 &);
 
@@ -852,5 +861,24 @@ LifeEventModuleNamedConcreteAssign g_lifeEventModuleNamedConcreteAssign = &LifeE
 typedef TerrainCollisionModuleNamedConcrete &(TerrainCollisionModuleNamedConcrete::*TerrainCollisionModuleNamedConcreteAssign)(const TerrainCollisionModuleNamedConcrete &);
 
 TerrainCollisionModuleNamedConcreteAssign g_terrainCollisionModuleNamedConcreteAssign = &TerrainCollisionModuleNamedConcrete::operator=;
+
+#pragma inline_depth(0)
+// ?bfmeEmitFXParticleSystemModulesAssign@@YAXXZ present-unmatched
+void bfmeEmitFXParticleSystemModulesAssign()
+{
+    (void)&BoxEmissionVolumeModuleConcrete::operator=;
+    (void)&LineEmissionVolumeModuleConcrete::operator=;
+    (void)&CylinderEmissionVolumeModuleConcrete::operator=;
+    (void)&LightningDrawModuleConcrete::operator=;
+    (void)&TerrainFireEmissionModuleConcrete::operator=;
+    (void)&LightningEmissionModuleConcrete::operator=;
+    (void)&RenderObjectDrawModuleConcrete::operator=;
+    (void)&GpuDrawModuleConcrete::operator=;
+    (void)&DefaultConcrete0::operator=;
+    (void)&DefaultConcrete1::operator=;
+    (void)&DefaultConcrete2::operator=;
+    (void)&DefaultConcrete3::operator=;
+}
+#pragma inline_depth()
 
 }

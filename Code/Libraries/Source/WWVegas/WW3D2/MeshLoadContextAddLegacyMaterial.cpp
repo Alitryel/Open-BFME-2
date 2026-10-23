@@ -1,4 +1,18 @@
-// cl: /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/Compression
+// cl: /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /DBFME_WWSTRING_NATIVE_CSTR_CONSTRUCTOR /DBFME_WWSTRING_INLINE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/bfme /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/Compression
+// Link view first: Vector3 operator== (and Length/Normalize/ctor/operator*) stay inline without emitting
+// COMDAT copies that disagree with the first copy in link order.
+#include "../../../../../reference/shims/bfme_vector3_eq_link/vector3_eq_link.h"
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 ** Copyright 2025 Electronic Arts Inc.
 ** This program is free software: you can redistribute it and/or modify
@@ -25,15 +39,39 @@
 // view; its getter body null-checks the pointer, calls the texture name slot,
 // and returns a StringClass. This view is ABI/behavioral evidence, not a claim
 // that the two handle class identities are the same.
+//
+// MeshModelClass::read_v3_materials (0x18A750, 1336 bytes, RET 8 at +0x51B,
+// cold failure tail to +0x538) follows Add_Legacy_Material in retail as in the
+// BFME1 donor TU (BFME1 0x0096F5B0), whose body it ports. read_chunks reaches
+// it through the 0x15 chunk dispatch. BFME2 loads map textures through
+// TextureAsset::Get (0x132D89), assigns them with the owning wrapper at
+// 0x42707 and drops the reference with the release-and-clear helper at
+// 0x4D75B; the context Textures vector sits at +0x10C and the model's
+// CurMatDesc at +0x94. Retail keeps the texture handle's pointer in EDI across
+// the chunk loop and skips its cleanup on the early failures, which VC7.1 does
+// only when it can see that the wrapper, the clear helper and
+// Add_Legacy_Material (with the name getter it calls) never retain the
+// handle's address: making any one of the three opaque reloads the pointer on
+// every failure path. All three stay out of line, as in retail; the name
+// getter compiles to retail's 176-byte body here, so its row lives in this TU.
 #include "w3d_file.h"
 #include "wwstring.h"
 #include "shader.h"
 #include "vector.h"
+#include "vector3.h"
+#include "chunkio.h"
 
 class VertexMaterialClass {
 public:
+    VertexMaterialClass();
     virtual void Delete_This();
-    void Add_Ref() { ++RefCount; }
+    __declspec(dllimport) __forceinline void Add_Ref() { ++RefCount; }
+    __declspec(dllimport) __forceinline void Release_Ref() { RefCount--; if (RefCount == 0) Delete_This(); }
+    void Init_From_Material3(const W3dMaterial3Struct &mat3);
+    void Set_Name(const char *name) { Name = name; }
+    void Set_Ambient(const Vector3 &color);
+    void Get_Diffuse(Vector3 *set_color) const;
+    void Set_Diffuse(const Vector3 &color);
     unsigned long Get_CRC() const {
         if (CRCDirty) {
             CRC = Compute_CRC();
@@ -43,18 +81,24 @@ public:
     }
 private:
     int RefCount;
-    unsigned char beforeCRC[0x64 - 8];
+    unsigned char beforeName[0x1c - 8];
+    StringClass Name;
+    unsigned char beforeCRC[0x64 - 0x20];
     mutable unsigned long CRC;
     mutable bool CRCDirty;
     unsigned long Compute_CRC() const;
 };
 
-class TextureClass {
+class TextureBaseClass {
 public:
-    void Add_Ref() {
+    virtual const char *Get_Name() const;
+    __declspec(dllimport) __forceinline void Add_Ref() {
         ++*reinterpret_cast<unsigned short *>(reinterpret_cast<char *>(this) + 4);
     }
     void Release_Ref();
+};
+
+class TextureClass : public TextureBaseClass {
 };
 
 class BfmeHandleCX {
@@ -77,13 +121,75 @@ public:
     bool operator!=(const BfmeHandleCX &other) const { return p != other.p; }
 };
 
-// Declaration-only local view of the already matched target getter. Its
-// pointer-at-zero shape is supported by the donor handle and target call sites.
+// Local view of the target getter at 0x129D30 (BFME1 donor
+// BfmeHandleCX::Get_Texture_Name). Its pointer-at-zero shape is supported by
+// the donor handle and target call sites; the name is virtual slot 0.
 class BFME2ParticleTextureHandle {
 public:
     TextureClass *Ptr;
-    StringClass Get_Texture_Name() const;
+    StringClass Get_Texture_Name() const {
+        // The tagged constructor inlines like retail without emitting a
+        // second copy of the 0x000F0ED1 worker.
+        const char *name = Ptr ? Ptr->Get_Name() : 0;
+        StringClass result(name, false, StringClass::COPY_NATIVE);
+        return result;
+    }
+    ~BFME2ParticleTextureHandle() {
+        if (Ptr) Ptr->Release_Ref();
+    }
 };
+
+class TextureAsset
+{
+public:
+	static BFME2ParticleTextureHandle Get(const char *name, int, int);
+};
+
+// The wrapper, its RefCountPtr assignment (0x000424D0) and the clear helper
+// below stay visible but noinline, favoring size like their retail copies (inc,
+// and-zero): this /O2 unit's own copies then match retail's and do not lose.
+template<class T> class RefCountPtr {
+public:
+    const RefCountPtr &operator=(const RefCountPtr &);
+    T *Referent;
+};
+#pragma optimize("s", on)
+template<> __declspec(noinline) inline const RefCountPtr<TextureClass> &
+RefCountPtr<TextureClass>::operator=(const RefCountPtr<TextureClass> &other)
+{
+    if (other.Referent != 0) other.Referent->Add_Ref();
+    if (Referent != 0) Referent->Release_Ref();
+    Referent = other.Referent;
+    return *this;
+}
+#pragma optimize("", on)
+
+// Owning-assignment wrapper matched at 0x00042707 (TextureHandleAssignment.cpp).
+// Defined here only so read_v3_materials can see it keeps no handle address.
+#pragma optimize("s", on)
+class BfmeTextureHandle {
+public:
+    RefCountPtr<TextureClass> Handle;
+    __declspec(noinline) BfmeTextureHandle &operator=(const BfmeTextureHandle &other) {
+        Handle = other.Handle;
+        return *this;
+    }
+};
+#pragma optimize("", on)
+
+// Release-and-clear helper matched at 0x0004D75B (BfmeResetTextureRefClear.cpp).
+// Defined here only so read_v3_materials can see it keeps no handle address.
+#pragma optimize("s", on)
+struct BfmeResetTextureRef {
+    TextureClass *pointer;
+    __declspec(noinline) void clear() {
+        if (pointer) {
+            pointer->Release_Ref();
+            pointer = 0;
+        }
+    }
+};
+#pragma optimize("", on)
 
 class MeshLoadContextClass {
     struct LegacyMaterialClass {
@@ -93,7 +199,10 @@ class MeshLoadContextClass {
         int TextureIdx;
         LegacyMaterialClass() : VertexMaterialIdx(0), ShaderIdx(0), TextureIdx(0) {}
     };
-    unsigned char beforeLegacyMaterials[0x94];
+public:
+    W3dMeshHeader3Struct Header;
+private:
+    unsigned char afterHeader[0x94 - sizeof(W3dMeshHeader3Struct)];
     DynamicVectorClass<LegacyMaterialClass *> LegacyMaterials;
     DynamicVectorClass<ShaderClass> Shaders;
     DynamicVectorClass<VertexMaterialClass *> VertexMaterials;
@@ -118,6 +227,41 @@ class MeshLoadContextClass {
         return index;
     }
     void Add_Legacy_Material(ShaderClass, VertexMaterialClass *, const BfmeHandleCX &);
+    BfmeHandleCX Peek_Texture(int index);
+    int Vertex_Material_Count() { return VertexMaterials.Count(); }
+    __declspec(dllimport) __forceinline int Texture_Count() { return Textures.Count(); }
+    int Shader_Count() { return Shaders.Count(); }
+    VertexMaterialClass *Peek_Vertex_Material(int index) { return VertexMaterials[index]; }
+    ShaderClass Peek_Shader(int index) { return Shaders[index]; }
+    friend class MeshModelClass;
+};
+
+class MeshMatDescClass {
+public:
+    void Set_Single_Material(VertexMaterialClass *vmat, int pass);
+    void Set_Single_Shader(ShaderClass shader, int pass);
+    void Set_Single_Texture(const RefCountPtr<TextureClass> &tex, int pass, int stage);
+};
+
+// Retail BFME2 accesses: Flags at +0x18 (SORT is 0x10), CurMatDesc at +0x94.
+class MeshGeometryClass {
+protected:
+    void Set_Flag(int flag, bool onoff) { if (onoff) Flags |= flag; else Flags &= ~flag; }
+    unsigned char beforeFlags[0x18];
+    int Flags;
+};
+
+class MeshModelClass : public MeshGeometryClass {
+public:
+    enum { SORT = 0x10 };
+protected:
+    bool read_v3_materials(ChunkLoadClass &cload, MeshLoadContextClass *context);
+    void Set_Single_Texture(const BfmeHandleCX &tex, int pass = 0, int stage = 0) { CurMatDesc->Set_Single_Texture(reinterpret_cast<const RefCountPtr<TextureClass> &>(tex), pass, stage); }
+    void Set_Single_Material(VertexMaterialClass *vmat, int pass = 0) { CurMatDesc->Set_Single_Material(vmat, pass); }
+    void Set_Single_Shader(ShaderClass shader, int pass = 0) { CurMatDesc->Set_Single_Shader(shader, pass); }
+private:
+    unsigned char beforeMatDesc[0x94 - 0x1c];
+    MeshMatDescClass *CurMatDesc;
 };
 
 void MeshLoadContextClass::Add_Legacy_Material(ShaderClass shader,VertexMaterialClass * vmat,const BfmeHandleCX &tex)
@@ -170,4 +314,97 @@ void MeshLoadContextClass::Add_Legacy_Material(ShaderClass shader,VertexMaterial
 	}
 
 	LegacyMaterials.Add(mat);
+}
+
+bool MeshModelClass::read_v3_materials(ChunkLoadClass &cload, MeshLoadContextClass *context)
+{
+	for (unsigned int mi = 0; mi < context->Header.NumMaterials; ++mi) {
+		if (!cload.Open_Chunk()) goto Error;
+		if (cload.Cur_Chunk_ID() != W3D_CHUNK_MATERIAL3) goto Error;
+
+		VertexMaterialClass *vmat = 0;
+		ShaderClass shader(0x0010441b);
+		BfmeHandleCX texture;
+		char name[256];
+
+		if (!cload.Open_Chunk()) goto Error;
+		if (cload.Cur_Chunk_ID() != W3D_CHUNK_MATERIAL3_NAME) goto Error;
+		cload.Read(name, cload.Cur_Chunk_Length());
+		if (!cload.Close_Chunk()) goto Error;
+
+		if (!cload.Open_Chunk()) goto Error;
+		W3dMaterial3Struct material;
+		if (cload.Cur_Chunk_ID() != W3D_CHUNK_MATERIAL3_INFO) goto Error;
+		if (cload.Read(&material, sizeof(material)) != sizeof(material)) goto Error;
+		vmat = new VertexMaterialClass;
+		vmat->Init_From_Material3(material);
+		vmat->Set_Name(name);
+		shader.Init_From_Material3(material);
+		if (shader.Get_Dst_Blend_Func() != ShaderClass::DSTBLEND_ZERO)
+			Set_Flag(MeshModelClass::SORT, true);
+		if (!cload.Close_Chunk()) goto Error;
+
+		while (cload.Open_Chunk()) {
+			if (cload.Cur_Chunk_ID() == W3D_CHUNK_MATERIAL3_DC_MAP) {
+				char filename[0x200];
+				if (!cload.Open_Chunk()) goto Error;
+				if (cload.Cur_Chunk_ID() != W3D_CHUNK_MAP3_FILENAME) goto Error;
+				if (cload.Cur_Chunk_Length() >= sizeof(filename)) goto Error;
+				cload.Read(filename, cload.Cur_Chunk_Length());
+				if (!cload.Close_Chunk()) goto Error;
+				W3dMap3Struct mapinfo;
+				if (!cload.Open_Chunk()) goto Error;
+				if (cload.Cur_Chunk_ID() != W3D_CHUNK_MAP3_INFO) goto Error;
+				if (cload.Read(&mapinfo, sizeof(mapinfo)) != sizeof(mapinfo)) goto Error;
+				if (!cload.Close_Chunk()) goto Error;
+				reinterpret_cast<BfmeTextureHandle &>(texture) = reinterpret_cast<const BfmeTextureHandle &>(TextureAsset::Get(filename, 0, 0));
+				shader.Set_Texturing(ShaderClass::TEXTURING_ENABLE);
+			} else if (cload.Cur_Chunk_ID() == W3D_CHUNK_MATERIAL3_SI_MAP) {
+				Vector3 diffuse;
+				vmat->Get_Diffuse(&diffuse);
+				if (diffuse == Vector3(0, 0, 0)) {
+					char filename[0x200];
+					if (!cload.Open_Chunk()) goto Error;
+					if (cload.Cur_Chunk_ID() != W3D_CHUNK_MAP3_FILENAME) goto Error;
+					if (cload.Cur_Chunk_Length() >= sizeof(filename)) goto Error;
+					cload.Read(filename, cload.Cur_Chunk_Length());
+					if (!cload.Close_Chunk()) goto Error;
+					W3dMap3Struct mapinfo;
+					if (!cload.Open_Chunk()) goto Error;
+					if (cload.Cur_Chunk_ID() != W3D_CHUNK_MAP3_INFO) goto Error;
+					if (cload.Read(&mapinfo, sizeof(mapinfo)) != sizeof(mapinfo)) goto Error;
+					if (!cload.Close_Chunk()) goto Error;
+					reinterpret_cast<BfmeTextureHandle &>(texture) = reinterpret_cast<const BfmeTextureHandle &>(TextureAsset::Get(filename, 0, 0));
+					shader.Set_Texturing(ShaderClass::TEXTURING_ENABLE);
+					shader.Set_Dst_Blend_Func(ShaderClass::DSTBLEND_ONE);
+					shader.Set_Src_Blend_Func(ShaderClass::SRCBLEND_ONE);
+					shader.Set_Primary_Gradient(ShaderClass::GRADIENT_DISABLE);
+				}
+			}
+			cload.Close_Chunk();
+		}
+
+		if (shader.Get_Texturing() == ShaderClass::TEXTURING_DISABLE) {
+			Vector3 color;
+			vmat->Get_Diffuse(&color);
+			vmat->Set_Ambient(color);
+			vmat->Set_Diffuse(Vector3(0, 0, 0));
+		}
+		context->Add_Legacy_Material(shader, vmat, texture);
+		vmat->Release_Ref();
+		reinterpret_cast<BfmeResetTextureRef &>(texture).clear();
+		cload.Close_Chunk();
+	}
+
+	if (context->Vertex_Material_Count() >= 1)
+		Set_Single_Material(context->Peek_Vertex_Material(0), 0);
+	if (context->Texture_Count() >= 1) {
+		Set_Single_Texture(context->Peek_Texture(0), 0, 0);
+	}
+	if (context->Shader_Count() >= 1)
+		Set_Single_Shader(context->Peek_Shader(0), 0);
+	return true;
+
+Error:
+	return false;
 }

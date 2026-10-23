@@ -195,8 +195,11 @@ int Rva007EFD00( const char *a, const char *b )
  * among the literals, so both are configurable at run time.  The separator is
  * a plain char -- read with movsx where the buffer's own bytes are read with
  * movzx, which is what types the two differently. */
+// _g_Rva012C391CSeparator: the global at this VA is ?g_Rva012C391CSeparator@@3DA; this name is an alias for it.
 extern char g_Rva012C391CSeparator;
-extern char g_Rva012C392CSuffix[];
+#pragma comment(linker, "/alternatename:_g_Rva012C391CSeparator=?g_Rva012C391CSeparator@@3DA")
+/* g_Rva012C392CSuffix: matched references place it at VA 0xdd8084 (.data); retail bytes. */
+char g_Rva012C392CSuffix[8] = "~~=\n";
 
 /* 0x007EC4D0 APPENDS THE SUFFIX TO A BUFFER, inserting the separator first if
  * the buffer needs one, and returns 0 or -1 for "did not fit".
@@ -364,6 +367,9 @@ const char *Rva007EFAB0( const char *text, int *value, int maxLength )
  * two, so the distinctions above 1 are the caller's business, not ours.  It is
  * indexed by the buffer's bytes UNSIGNED and by the field text's bytes SIGNED,
  * so a high-bit byte in the field reads BEFORE the table start. */
+/* The same .rdata tables Y2Rva007EBAE0Module.cpp defines (VA 0xce1b60, 0xce1a60). */
+#pragma comment(linker, "/alternatename:_g_Rva0112A310Class=?g_Rva0112A310Class@@3PAEA")
+#pragma comment(linker, "/alternatename:_g_Rva0112A210Fold=?g_Rva0112A210Lower@@3QBEB")
 extern unsigned char g_Rva0112A310Class[];
 
 /* 0x007EC780 REPLACES ONE NAMED FIELD IN A RECORD, or appends it, and returns
@@ -887,7 +893,25 @@ char *Rva007EE600( char *field, int iUnused, char *dest, int destSize,
 /* The high-nibble half of the hex decode.  Its low-nibble partner is the table
  * the dollar-prefixed parser already uses, so a byte is decoded by OR-ing one
  * lookup from each -- no shift and no multiply anywhere. */
-extern unsigned char g_Rva0112A010HexHigh[];
+/* g_Rva0112A010HexHigh: matched references place it at VA 0xce1860 (.rdata); retail bytes. */
+unsigned char g_Rva0112A010HexHigh[256] = {
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x10, 0x20, 0x30, 0x40, 0x50, 0x60, 0x70, 0x80, 0x90, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0xa0, 0xb0, 0xc0, 0xd0, 0xe0, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0xa0, 0xb0, 0xc0, 0xd0, 0xe0, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+};
 extern unsigned char g_Rva0112A110Hex[];
 
 unsigned int __cdecl strlen( const char *text );
@@ -1281,7 +1305,8 @@ int Rva007EEFF0( const char *text, unsigned char *dest, int destSize )
  * hold the same two bytes.  They round-trip today because the contents agree,
  * not because anything ties them together -- these are writable data, so a
  * caller that changes one at run time silently breaks the pair. */
-extern unsigned char g_Rva012C3950DefaultKey[];
+/* g_Rva012C3950DefaultKey: matched references place it at VA 0xdd80a8 (.data); retail bytes. */
+unsigned char g_Rva012C3950DefaultKey[4] = { 'G', 'S', 0, 0 };
 
 /* 0x007EF5B0 IS THE INVERSE OF THE OBSCURING WRITER at 0x007ED850: it reads a
  * dollar-prefixed hex field and undoes the chained rotate-and-xor.
@@ -1381,7 +1406,8 @@ int Rva007EF5B0( const char *text, unsigned char *dest, int destSize,
 /* Uninitialised data again -- the text substituted when the caller passes
  * none.  No bytes for it exist in the image, so what it holds is set at run
  * time and is not recoverable here. */
-extern char g_Rva0130A5ACEmpty[];
+/* g_Rva0130A5ACEmpty: matched references place it at VA 0xe09fc8 (zero-filled .data tail, 4 bytes before g_genAlloc); retail bytes. */
+char g_Rva0130A5ACEmpty[4];
 
 /* 0x007EF190 IS THE INVERSE OF THE FORMAT-DRIVEN SERIALISER at 0x007ED470: it
  * reads comma-separated values back into a binary buffer under the same
@@ -1571,3 +1597,8 @@ int Rva007EF190( const char *text, unsigned char *data, int length,
 
 	return pOut - data;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeTwoRF@@YAPAXPAX0@Z=_Rva007EE720")
+#pragma comment(linker, "/alternatename:?bfmeFormatUPB@@YAXPAXPAD0PBD@Z=_Rva007EEC30")

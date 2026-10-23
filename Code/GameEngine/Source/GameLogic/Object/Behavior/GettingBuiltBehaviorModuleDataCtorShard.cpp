@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX
 //
 // GettingBuiltBehaviorModuleData ctor shard (retail 0x0045324E, 199 bytes).
 // File-unit with GettingBuiltBehaviorModuleDataCtor.cpp (parse proc there).
@@ -6,23 +6,18 @@
 // Retail shape: EH frame with states 5 and 6 which require 6 pre-call
 // unwindables. Five are the stored members below (3 ThingRef at +8/+C/+10
 // plus 2 AsciiString at +14/+18 all nulled by stores). The sixth lives in
-// the +4 slot which retail never stores to so it has a trivial ctor here;
-// its opaque dtor plus the empty-base EBO keep the slot store-free while
-// still counting for EH and reproducing retail's xor-before-vtable prologue.
+// the ModuleData base, whose inlined constructor leaves +4 untouched.
+// Its teardown restores Snapshot's table, as established by the matched dtor.
 // Vtable 0xC40090 (DIR32-masked). Floats 60/30/0.25/0.5/0.75/1.0 from pool
 // literals. Two AsciiString::set("") via the rowed StringBase set alias pin.
-// The +0x40 member builds through the pinned nullary Rva003623E5Member ctor.
+// The +0x40 member builds through the rowed Rva00360D26Member ctor at 0x003623E5
+// (twin of Rva003623E5Member) and tears down through the rowed dtor at 0x00360D26.
 // Bytes and ints nulled in retail order.
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	~AsciiString();
-	void set(const char *s);
-private:
-	char *m_data;
-};
+#include "ascii_string.h"
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+#include "../../../../Include/Common/BfmeModuleData.h"
+inline ModuleData::~ModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile *lpAddend);
 
@@ -49,31 +44,16 @@ private:
 	RefCountedThing *m_ptr;
 };
 
-class Rva003623E5Member
+class Rva00360D26Member
 {
 public:
-	Rva003623E5Member();
-	~Rva003623E5Member()
-	{
-		InterlockedDecrement(&m_val);
-	}
+	Rva00360D26Member();
+	~Rva00360D26Member();
 private:
 	long m_val;
 };
 
-long g_emptyBaseSink;
-
-class EmptyBase
-{
-public:
-	EmptyBase() {}
-	~EmptyBase()
-	{
-		InterlockedDecrement(&g_emptyBaseSink);
-	}
-};
-
-class GettingBuiltBehaviorModuleData : public EmptyBase
+class GettingBuiltBehaviorModuleData : public ModuleData
 {
 public:
 	GettingBuiltBehaviorModuleData();
@@ -94,12 +74,12 @@ private:
 	float m_f34;
 	float m_f38;
 	float m_f3C;
-	Rva003623E5Member m_member40;
+	Rva00360D26Member m_member40;
 	float m_f44;
 	unsigned char m_flag48;
 };
 
-GettingBuiltBehaviorModuleData::~GettingBuiltBehaviorModuleData() {}
+// GettingBuiltBehaviorModuleData::~GettingBuiltBehaviorModuleData: defined in GettingBuiltBehaviorModuleDataDtor.cpp (its row's unit).
 
 // ??0GettingBuiltBehaviorModuleData@@QAE@XZ @0x0045324E
 GettingBuiltBehaviorModuleData::GettingBuiltBehaviorModuleData()

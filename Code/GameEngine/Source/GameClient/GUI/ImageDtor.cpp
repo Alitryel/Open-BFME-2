@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /DNDEBUG /MD
+// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD
 //
 // Image::~Image, retail 0x002D91CC (94B) plus its scalar deleting
 // destructor 0x002D9262 (28B).
@@ -22,32 +22,13 @@ typedef unsigned int size_t;
 void *__cdecl operator new(size_t);
 void __cdecl operator delete(void *);
 
-class AsciiString
-{
-public:
-	~AsciiString();
+#include "ascii_string.h"
 
-private:
-	void *m_data;
-};
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
 
-struct ICoord2D
-{
-	int x;
-	int y;
-};
+#include "../../../../Libraries/Include/Lib/Coord2D.h"
 
-struct Coord2D
-{
-	float x;
-	float y;
-};
-
-struct Region2D
-{
-	Coord2D lo;
-	Coord2D hi;
-};
+#include "../../../../Libraries/Include/Lib/Region2D.h"
 
 class TextureBaseClass
 {

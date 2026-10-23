@@ -1,14 +1,10 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /O1 /GX
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX
 //
 // Replaces the connection manager's transport, releasing the previous
 // transport through its reset path and the game allocator before installing
 // the new pointer.
 
-class Transport
-{
-public:
-	~Transport(void);
-};
+#include "../../Include/GameNetwork/Transport.h"
 
 void __cdecl operator delete(void *block);
 

@@ -40,17 +40,4 @@ void MixFileInfoBuffer::bfmeUnlink(void)
 	}
 }
 
-// ?bfmeLinkInto@MixFileInfoBuffer@@AAEXPAPAV1@@Z (present-unmatched here)
-void MixFileInfoBuffer::bfmeLinkInto(MixFileInfoBuffer **head)
-{
-	if (m_bfmePrevNext)
-		bfmeUnlink();
-
-	m_bfmePrevNext = head;
-	m_bfmeNext = *head;
-
-	if (m_bfmeNext)
-		m_bfmeNext->m_bfmePrevNext = &m_bfmeNext;
-
-	*head = this;
-}
+// MixFileInfoBuffer::bfmeLinkInto: defined in MixFileInfoBuffer_releaseInto.cpp (its row's unit).

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // readable body of ??0MaxHealthUpgrade@@QAE@PAVThing@@PBVModuleData@@@Z: Code/GameEngine/Source/GameLogic/Object/Upgrade/MaxHealthUpgrade.cpp
 // readable body of ??0MaxHealthUpgradeModuleData@@QAE@XZ: Code/GameEngine/Source/GameLogic/Object/Upgrade/MaxHealthUpgrade.cpp
 
@@ -104,15 +104,4 @@ MaxHealthUpgrade::MaxHealthUpgrade(
 {
 }
 
-// ??0MaxHealthUpgradeModuleData@@QAE@XZ
-MaxHealthUpgradeModuleData::MaxHealthUpgradeModuleData()
-{
-	UpgradeModuleDataSub *sub =
-		(UpgradeModuleDataSub *)((char *)this + 8);
-	sub->UpgradeModuleDataSub::UpgradeModuleDataSub();
-	m_70 = 0;
-	m_74 = 0;
-	MaxHealthUpgradeModuleDataVtbl *v =
-		(MaxHealthUpgradeModuleDataVtbl *)this;
-	v->MaxHealthUpgradeModuleDataVtbl::MaxHealthUpgradeModuleDataVtbl();
-}
+// ??0MaxHealthUpgradeModuleData@@QAE@XZ owned by MaxHealthUpgradeModuleDataCtor.cpp; declared in-class above.

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // BFME1 MultiPlayMultParseCallbacks.cpp donor, adapted to PC GlobalData.
 // Named PC FieldParse rows VA 0xBE9C20..0xBE9C50 all pass GlobalData+0xEC4.
 // INI colon separators are +0x420; scanReal is thiscall here.
@@ -16,7 +16,6 @@ class INI
 public:
 	const char *getNextToken( const char *seps );
 	const char *getNextTokenOrNull( const char *seps );
-	const char *getSepsColon( void ) const { return m_sepsColon; }
 	Real scanReal( const char *token );
 
 	char m_unreconstructed_000[ 0x420 ];
@@ -47,10 +46,10 @@ public:
 void parseMultiPlayUnitXPMult( INI *ini, void *, void *store, const void * )
 {
 	MultiPlayMults *mults = (MultiPlayMults *)store;
-	const char *token = ini->getNextTokenOrNull( ini->getSepsColon() );
+	const char *token = ini->getNextTokenOrNull( ini->m_sepsColon );
 	while ( token )
 	{
-		const char *valueToken = ini->getNextToken( ini->getSepsColon() );
+		const char *valueToken = ini->getNextToken( ini->m_sepsColon );
 		if ( valueToken )
 		{
 			Real value = ini->scanReal( valueToken );
@@ -71,7 +70,7 @@ void parseMultiPlayUnitXPMult( INI *ini, void *, void *store, const void * )
 			else if ( !_strcmpi( token, "MP8" ) )
 				mults->setUnitXPMult( 8, value );
 
-			token = ini->getNextTokenOrNull( ini->getSepsColon() );
+			token = ini->getNextTokenOrNull( ini->m_sepsColon );
 		}
 	}
 }
@@ -79,10 +78,10 @@ void parseMultiPlayUnitXPMult( INI *ini, void *, void *store, const void * )
 void parseMultiPlayBuildingXPMult( INI *ini, void *, void *store, const void * )
 {
 	MultiPlayMults *mults = (MultiPlayMults *)store;
-	const char *token = ini->getNextTokenOrNull( ini->getSepsColon() );
+	const char *token = ini->getNextTokenOrNull( ini->m_sepsColon );
 	while ( token )
 	{
-		const char *valueToken = ini->getNextToken( ini->getSepsColon() );
+		const char *valueToken = ini->getNextToken( ini->m_sepsColon );
 		if ( valueToken )
 		{
 			Real value = ini->scanReal( valueToken );
@@ -103,7 +102,7 @@ void parseMultiPlayBuildingXPMult( INI *ini, void *, void *store, const void * )
 			else if ( !_strcmpi( token, "MP8" ) )
 				mults->setBuildingXPMult( 8, value );
 
-			token = ini->getNextTokenOrNull( ini->getSepsColon() );
+			token = ini->getNextTokenOrNull( ini->m_sepsColon );
 		}
 	}
 }
@@ -111,10 +110,10 @@ void parseMultiPlayBuildingXPMult( INI *ini, void *, void *store, const void * )
 void parseMultiPlayUnitSpeedMult( INI *ini, void *, void *store, const void * )
 {
 	MultiPlayMults *mults = (MultiPlayMults *)store;
-	const char *token = ini->getNextTokenOrNull( ini->getSepsColon() );
+	const char *token = ini->getNextTokenOrNull( ini->m_sepsColon );
 	while ( token )
 	{
-		const char *valueToken = ini->getNextToken( ini->getSepsColon() );
+		const char *valueToken = ini->getNextToken( ini->m_sepsColon );
 		if ( valueToken )
 		{
 			Real value = ini->scanReal( valueToken );
@@ -135,7 +134,7 @@ void parseMultiPlayUnitSpeedMult( INI *ini, void *, void *store, const void * )
 			else if ( !_strcmpi( token, "MP8" ) )
 				mults->setUnitSpeedMult( 8, value );
 
-			token = ini->getNextTokenOrNull( ini->getSepsColon() );
+			token = ini->getNextTokenOrNull( ini->m_sepsColon );
 		}
 	}
 }
@@ -143,10 +142,10 @@ void parseMultiPlayUnitSpeedMult( INI *ini, void *, void *store, const void * )
 void parseMultiPlayBuildingSpeedMult( INI *ini, void *, void *store, const void * )
 {
 	MultiPlayMults *mults = (MultiPlayMults *)store;
-	const char *token = ini->getNextTokenOrNull( ini->getSepsColon() );
+	const char *token = ini->getNextTokenOrNull( ini->m_sepsColon );
 	while ( token )
 	{
-		const char *valueToken = ini->getNextToken( ini->getSepsColon() );
+		const char *valueToken = ini->getNextToken( ini->m_sepsColon );
 		if ( valueToken )
 		{
 			Real value = ini->scanReal( valueToken );
@@ -167,7 +166,7 @@ void parseMultiPlayBuildingSpeedMult( INI *ini, void *, void *store, const void 
 			else if ( !_strcmpi( token, "MP8" ) )
 				mults->setBuildingSpeedMult( 8, value );
 
-			token = ini->getNextTokenOrNull( ini->getSepsColon() );
+			token = ini->getNextTokenOrNull( ini->m_sepsColon );
 		}
 	}
 }

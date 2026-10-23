@@ -9,7 +9,6 @@ public:
 	void bfmeSet1042(char *text, int a, int b);
 };
 
-extern char g_bfmeLit1042[];
 
 class BfmeC1042
 {
@@ -30,7 +29,7 @@ void BfmeC1042::bfmeGo1042E(BfmeR1042 *rec)
 	if (rec->m_bfmeName != 0)
 		text = rec->m_bfmeName + 8;
 	else
-		text = g_bfmeLit1042;
+		text = (char *)L"";
 
 	m_bfmeSub.bfmeSet1042(text, 0, 0);
 	m_bfmeFlag = 1;

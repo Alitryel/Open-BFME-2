@@ -1,4 +1,4 @@
-// cl: /O1 /Ob2 /EHs /MD /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DNDEBUG /D_CRTIMP=
+// cl: /Ireference/shims/bfme2_ascii /Ob2 /EHs /MD /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DNDEBUG /D_CRTIMP=
 // stlport
 /*
 ** Copyright 2025 Electronic Arts Inc.
@@ -17,28 +17,11 @@ template<class T> class StringBase;
 class UnicodeString;
 struct UnicodeStringLessThan;
 
-template<class T>
-class StringBase
-{
-    void *m_data;
-    StringBase(const StringBase& other);
-    StringBase(const T *text);
-    __forceinline ~StringBase() { releaseBuffer(); }
-    void releaseBuffer();
-    friend class UnicodeString;
-public:
-    int compareNoCase(const StringBase& other) const throw();
-};
+#include "unicode_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> _STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> > * allocator<_STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> > >::allocate(unsigned int,void const *) const; }
+// bfme link decl-only end
 
-class UnicodeString : private StringBase<WideChar>
-{
-    friend struct UnicodeStringLessThan;
-public:
-    __forceinline UnicodeString(const WideChar *text) : StringBase<WideChar>(text) {}
-    __forceinline UnicodeString(const UnicodeString &other)
-        : StringBase<WideChar>(static_cast<const StringBase<WideChar>&>(other)) {}
-    __forceinline ~UnicodeString() {}
-};
 
 struct UnicodeStringLessThan
 {
@@ -52,15 +35,7 @@ typedef _STL::pair<const UnicodeString, Bool> LanguageFilterValue;
 typedef _STL::map<UnicodeString, Bool, UnicodeStringLessThan,
     _STL::allocator<LanguageFilterValue> > LanguageFilterMap;
 
-class SubsystemInterface
-{
-public:
-    SubsystemInterface();
-    virtual ~SubsystemInterface();
-    virtual void init();
-protected:
-    void *m_name[2];
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class LanguageFilter : public SubsystemInterface
 {

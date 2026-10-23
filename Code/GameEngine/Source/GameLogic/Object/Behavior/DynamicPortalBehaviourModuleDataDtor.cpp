@@ -1,7 +1,7 @@
-// cl: /O1 /arch:SSE /EHsc /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /Ireference/shims/moduledata /Ireference/shims/bfme2_ascii /O1 /arch:SSE /EHsc /MD /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // ??1DynamicPortalBehaviourModuleData@@UAE@XZ, retail 0x00461602 (120 bytes).
-// ??_GDynamicPortalBehaviourModuleData@@UAEPAXI@Z, retail 0x004615E6 (26 bytes).
+// ??_GDynamicPortalBehaviourModuleData@@UAEPAXI@Z, retail 0x004615E6 (28 bytes).
 // Destruction shard for the DynamicPortal wall-portal data (ctor lives in
 // DynamicPortalBehaviourModuleDataCtor.cpp, which keeps its own decls; this
 // shard declares the destruction view with stlport-free member views so the
@@ -24,26 +24,22 @@
 // retail does not have; UpgradeModuleDataDtor precedent) forced out by the
 // delete helper, which also emits the vtable and scalar-deleting dtor.
 
-class OpenContainModuleData
+// The base dtor (rowed 0x0049B47C in CommandSetUpgradeModuleDataCtor.cpp) is
+// Snapshot's: it restores Snapshot's table 0x00BBB554. Spell it the same way so
+// this TU's inline copy is the retail one.
+#include "Common/Snapshot.h"
+
+class Rva00253487Base
 {
 public:
-	virtual ~OpenContainModuleData() {}
+	Rva00253487Base(); // rowed base constructor; also used by the vtable anchor
+	virtual ~Rva00253487Base() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 private:
 	unsigned char m_pad[0x118 - 4]; // +0x04..+0x117
 };
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	void clear();
-	AsciiString &operator=(const char *str);
-	~AsciiString();
-
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 // TU-local throwing free spelling for the WayPoint inline teardown
 // (pinned at 0x00030830; see header note).
@@ -95,17 +91,13 @@ private:
 	int m_timeoutMs;
 };
 
-struct Coord3D
-{
-	float m_x;
-	float m_y;
-	float m_z;
-};
+#include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
-class DynamicPortalBehaviourModuleData : public OpenContainModuleData
+class DynamicPortalBehaviourModuleData : public Rva00253487Base
 {
 public:
-	DynamicPortalBehaviourModuleData();
+	DynamicPortalBehaviourModuleData(); // rowed in DynamicPortalBehaviourModuleDataCtor.cpp
+	DynamicPortalBehaviourModuleData(struct EmitVtableTag *); // vtable anchor, no retail body
 
 // Implicit virtual dtor (never declared, never defined): the compiler
 // emits it for the vtable/??_G chain with member teardown in reverse
@@ -126,14 +118,14 @@ private:
 	Rva003623E5Filter m_destroyedDamageTimeout; // +0x158, DestroyedDamageTimeoutMS
 };
 
-// ??0DynamicPortalBehaviourModuleData@@QAE@XZ present-unmatched
-DynamicPortalBehaviourModuleData::DynamicPortalBehaviourModuleData()
+// ?<DynamicPortalBehaviourModuleData::DynamicPortalBehaviourModuleData> absent-from-retail
+DynamicPortalBehaviourModuleData::DynamicPortalBehaviourModuleData(EmitVtableTag *)
 {
 }
 
 // Forces the vtable, implicit virtual dtor and scalar-deleting dtor to be
 // emitted here (UpgradeModuleDataDtor precedent).
-void deleteDynamicPortalBehaviourModuleData(DynamicPortalBehaviourModuleData *p)
+void deleteDynamicPortalBehaviourModuleData(DynamicPortalBehaviourModuleData *dynamicPortalBehaviourModuleData)
 {
-	delete p;
+	delete dynamicPortalBehaviourModuleData;
 }

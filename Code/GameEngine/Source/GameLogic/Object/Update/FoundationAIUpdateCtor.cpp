@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??0FoundationAIUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x004551B3,
 // 107 bytes. Behavior-side ctor (rowed instance factory 0x24AA26 news
@@ -14,9 +14,27 @@
 // and the setWakeFrame tail (protected IAEX Object-uint spelling resolves
 // via the existing pin at 0x44DF71). Row supersedes the ctor pin.
 
+extern "C" const void *const vtbl_00BFBC9C[];  // ??_7Rva005EEF2FBase0@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BFBC9C=??_7Rva005EEF2FBase0@@6B@")
+
+extern "C" const void *const vtbl_00C1A690[];  // ??_7Rva00455050@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C1A690=??_7Rva00455050@@6B@")
+extern "C" const void *const vtbl_00C40538[];  // ??_7Rva00455050@@6BRva0024A797_B2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C40538=??_7Rva00455050@@6BRva0024A797_B2@@@")
+extern "C" const void *const vtbl_00C40548[];  // ??_7Rva00455050@@6BRva0024A797_Mid@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C40548=??_7Rva00455050@@6BRva0024A797_Mid@@@")
+extern "C" const void *const vtbl_00C40608[];  // ??_7Rva00455050@@6BRva0024A797_Root@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C40608=??_7Rva00455050@@6BRva0024A797_Root@@@")
+
 class Thing;
 class ModuleData;
 class Object;
+
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1,
+	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
+};
 
 class UpdateModule
 {
@@ -25,7 +43,7 @@ public:
 	~UpdateModule();
 
 protected:
-	void setWakeFrame(Object *object, unsigned int frame);
+	void setWakeFrame(Object *object, UpdateSleepTime frame);
 
 	const void *m_vtable;
 	const ModuleData *m_moduleData;
@@ -54,14 +72,14 @@ FoundationAIUpdate::FoundationAIUpdate(Thing *thing, const ModuleData *moduleDat
 	: UpdateModule(thing, moduleData)
 {
 	int *slot20 = (int *)&m_20;
-	*slot20 = (int)0x00BFBC9C;
+	*slot20 = (int)((unsigned int)vtbl_00BFBC9C);
 	m_28 &= 0;
 	int one = 1;
-	m_vtable = (const void *)0x00C40608;
-	m_secondary0C = (const void *)0x00C40548;
-	m_secondary10 = (const void *)0x00C40538;
-	m_20 = (const void *)0x00C1A690;
+	m_vtable = (const void *)((unsigned int)vtbl_00C40608);
+	m_secondary0C = (const void *)((unsigned int)vtbl_00C40548);
+	m_secondary10 = (const void *)((unsigned int)vtbl_00C40538);
+	m_20 = (const void *)((unsigned int)vtbl_00C1A690);
 	m_24 = one;
 	m_2C = (unsigned char)one;
-	setWakeFrame(m_object, one);
+	setWakeFrame(m_object, (UpdateSleepTime)one);
 }

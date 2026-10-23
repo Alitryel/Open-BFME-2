@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // Word-element vector resize (retail 0x000824F9, 61 bytes, two-argument
@@ -21,7 +21,52 @@
 // locate.py pin, but the stride-2 arithmetic disproves a char element;
 // the erase/fill callees (0x31BD55 vector erase, 0x7FF18 fill-insert) are
 // the vector family.
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> unsigned short * allocator<unsigned short>::allocate(unsigned int, void const *) const; }
+// Preserve inline allocation while the first provider owns the external copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline unsigned short *
+_STLP_alloc_proxy<unsigned short *, unsigned short, allocator<unsigned short> >::allocate(size_t n)
+{
+    return __stl_alloc_rebind(static_cast<allocator<unsigned short> &>(*this),
+                             (unsigned short *)0).allocate(n, 0);
+}
+}
+// Keep the header's inline word construction, but leave the external copy to
+// stlport_wide_string.cpp (retail 0x00019A00). This TU's compiler settings
+// otherwise emit a competing out-of-line implementation of the same function.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _Construct<unsigned short, unsigned short>(unsigned short *p, const unsigned short &value)
+{ new (p) unsigned short(value); }
+}
+// bfme link decl-only end
+// The wide-string units ahead in link order emit the first copies of these word helpers;
+// this TU takes them inline only.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+unsigned short *__uninitialized_copy<unsigned short *, unsigned short *>(unsigned short *first, unsigned short *last, unsigned short *result, const __true_type &)
+{
+    return __copy_aux(first, last, result, _BothPtrType<unsigned short *, unsigned short *>::_Ret());
+}
+template <> __declspec(dllimport) __forceinline
+unsigned short *__uninitialized_fill_n<unsigned short *, unsigned int, unsigned short>(unsigned short *__first, unsigned int __n, const unsigned short &__x, const __true_type &)
+{ return fill_n(__first, __n, __x); }
+template <> __declspec(dllimport) __forceinline
+unsigned short *uninitialized_fill_n<unsigned short *, unsigned int, unsigned short>(unsigned short *__first, unsigned int __n, const unsigned short &__x)
+{ return __uninitialized_fill_n(__first, __n, __x, __true_type()); }
+}
 struct BfmeWordVec : _STL::vector<unsigned short, _STL::allocator<unsigned short> >
 {
 	void resize(unsigned n, unsigned short x);
@@ -32,16 +77,17 @@ struct BfmeWordVec : _STL::vector<unsigned short, _STL::allocator<unsigned short
 	// push from memory.
 	static unsigned short null_fill() { return 0; }
 };
-void BfmeWordVec::resize(unsigned n, unsigned short x)
+__declspec(noinline) inline void BfmeWordVec::resize(unsigned n, unsigned short x)
 {
 	if (n < size())
 		erase(begin() + n, end());
 	else
 		_M_fill_insert(end(), n - size(), x);
 }
-// ?resize@BfmeWordVec@@QAEXI@Z present-unmatched
-void BfmeWordVec::resize(unsigned n)
-{
-	resize(n, null_fill());
-}
 template class _STL::vector<unsigned short, _STL::allocator<unsigned short> >;
+
+// ?_bfmeWordVecResizeAnchor@@YAXPAUBfmeWordVec@@IG@Z absent-from-retail
+void _bfmeWordVecResizeAnchor(BfmeWordVec *vector, unsigned n, unsigned short value)
+{
+    vector->resize(n, value);
+}

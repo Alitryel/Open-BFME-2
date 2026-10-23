@@ -1,4 +1,4 @@
-// cl: /O1 /GX /DNDEBUG /MD
+// cl: /GX /DNDEBUG /MD /Ireference/shims/moduledata
 //
 // ??1AudioLoopUpgradeModuleData@@UAE@XZ, retail 0x004B7C4C, 58 bytes.
 // AudioLoop upgrade ModuleData dtor: restores own vtable 0x00C58CF8, releases
@@ -8,21 +8,7 @@
 // Layout from ctor TU (factory 0x250798 news 0x154); shape follows
 // FlammableUpdateModuleDataDtor (Release_Ref holder plus BBB554 base).
 
-class Xfer;
-
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc(Xfer *xfer);
-	virtual void loadPostProcess();
-	virtual void xfer(Xfer *xfer);
-};
-
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
+#include "Common/Snapshot.h"
 
 class OpaqueRefCounted
 {

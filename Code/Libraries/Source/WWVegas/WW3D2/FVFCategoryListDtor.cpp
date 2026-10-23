@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD
 //
 // ??1FVFCategoryList@@UAE@XZ at retail 0x00144750 (95B) with its scalar
 // deleting destructor ??_GFVFCategoryList@@UAEPAXI@Z at 0x00144890 (27B).
@@ -23,6 +23,7 @@ public:
 class MultiListNodeClass
 {
 public:
+	MultiListNodeClass(void) { Prev = Next = NextList = 0; Object = 0; List = 0; }
 	void *Prev;
 	void *Next;
 	void *NextList;
@@ -30,21 +31,28 @@ public:
 	void *List;
 };
 
-class GenericMultiListClass
+// Only derived lists are constructed here; their native constructors install
+// the derived vptr. Keep the base table and its SEH deleting dtor external.
+class __declspec(novtable) GenericMultiListClass
 {
 public:
 	MultiListNodeClass Head;
 
+	__declspec(dllimport) __forceinline GenericMultiListClass(void) { Head.Next = Head.Prev = &Head; Head.Object = 0; Head.NextList = 0; }
 	virtual ~GenericMultiListClass();
 
 protected:
+	bool Internal_Remove(MultiListObjectClass *obj);
 	MultiListObjectClass *Internal_Remove_List_Head();
 };
 
 class FVFCategoryList : public GenericMultiListClass
 {
 public:
+	FVFCategoryList(void);
 	virtual ~FVFCategoryList();
+	bool rva00143E40(MultiListObjectClass *obj);
+	MultiListObjectClass *rva00143E50();
 };
 
 // ??1FVFCategoryList@@UAE@XZ
@@ -53,4 +61,37 @@ FVFCategoryList::~FVFCategoryList()
 	while (Head.Next != (void *)&Head) {
 		Internal_Remove_List_Head();
 	}
+}
+
+// ??0FVFCategoryList@@QAE@XZ at retail 0x00143D90 (39B): the constructor, the Zero
+// Hour multilist node and list-head constructors inlined (an empty circular
+// head) before the vtable store. No direct caller remains in retail.
+inline FVFCategoryList::FVFCategoryList(void)
+{
+}
+
+// Retail 0x00143E40 and 0x00143E50 (5-byte tail jumps): the
+// typed remove and remove-head forwards of a category list (ZH
+// MultiListClass<T>::Remove / Remove_Head shape) into the matched
+// GenericMultiListClass::Internal_Remove 0x00610930 and
+// Internal_Remove_List_Head 0x006109A0, placed after the FVFCategoryList
+// constructor. Which BFME 2 list class owns these ICF-shared copies is not
+// established, so the names are address-derived.
+bool FVFCategoryList::rva00143E40(MultiListObjectClass *obj)
+{
+	return Internal_Remove(obj);
+}
+
+MultiListObjectClass *FVFCategoryList::rva00143E50()
+{
+	return Internal_Remove_List_Head();
+}
+
+// Emit the native inline constructor with the same COMDAT linkage as its consumers.
+inline void *operator new(unsigned int, void *where) { return where; }
+
+// ?bfmeAnchorFVFCategoryListCtor absent-from-retail
+void *bfmeAnchorFVFCategoryListCtor(void *where)
+{
+	return ::new (where) FVFCategoryList();
 }

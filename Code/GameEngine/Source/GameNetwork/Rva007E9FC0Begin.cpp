@@ -2,12 +2,17 @@
 // 0x007E9FC0: if the peer arg is live, stash both args and slot4 through
 // +0x250; otherwise send the +0x30/0/+0x90 triple or report -203.
 
+class Rva007E9FC0Owner;
+void __cdecl rva007EAC10BeginCallback(Rva007E9FC0Owner *owner, int count, void *peer);
+
+typedef void (__cdecl *Rva007E9FC0Callback)(Rva007E9FC0Owner *, int, void *);
+
 class Rva007E9FC0Iface
 {
 public:
 	virtual void v0();
 	virtual void v1();
-	virtual void sendTriple(char *a, char *b, char *c, int n, int tag, void *self);
+	virtual void sendTriple(char *a, char *b, char *c, int n, Rva007E9FC0Callback callback, void *self);
 };
 
 class Rva007E9FC0Inner
@@ -78,7 +83,7 @@ void Rva007E9FC0Owner::begin(int n, void *peer)
 	{
 		m_2AC = 1;
 		// BFME2 retail passes 0x00A57BB0 here (BFME1 0x00BEAC10 drifted).
-		m_0C->sendTriple(m_buf30, 0, m_buf90, n, 0x00A57BB0, this);
+		m_0C->sendTriple(m_buf30, 0, m_buf90, n, &rva007EAC10BeginCallback, this);
 	}
 	else
 	{

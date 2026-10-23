@@ -21,7 +21,14 @@ private:
 };
 
 // ?friend_newModuleInstance@StructureBody@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *StructureBody::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *StructureBody::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new StructureBody(thing, moduleData));
 }
+#pragma inline_depth(0)
+// ?bfmeEmitStructureBodyFriendNew@@YAXPAVStructureBody@@@Z present-unmatched
+void bfmeEmitStructureBodyFriendNew(StructureBody *structureBody)
+{
+	structureBody->friend_newModuleInstance(0, 0);
+}
+#pragma inline_depth()

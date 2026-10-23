@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /DWIN32 /MD /EHsc /D_STLP_USE_STATIC_LIB
+// cl: /DNDEBUG /DWIN32 /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
 
 // Evidence: retail 0x003182F3 (54 bytes) is byte-identical to the landed
@@ -12,7 +12,24 @@
 typedef int Int;
 typedef bool Bool;
 
-extern const char *CommandSetNames[15]; ///< retail [0x00DBAA00]
+// CommandSetNames: the retail string table at VA 0xdbaa00.
+const char *CommandSetNames[15] = {
+	"NONE",
+	"LEADERSHIP",
+	"FORMATION",
+	"SPELL",
+	"WEAPON",
+	"STRUCTURE",
+	"LEVEL",
+	"BUFF",
+	"DEBUFF",
+	"STUN",
+	"INNATE_ARMOR",
+	"INNATE_DAMAGEMULT",
+	"INNATE_VISION",
+	"INNATE_AUTOHEAL",
+	"INNATE_HEALTH",
+};
 
 template <size_t NUMBITS>
 class BitFlags

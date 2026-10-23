@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004591A5@HitReactionBehavior@@SA?AW4NameKeyType@@XZ @0x4591a5
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@HitReactionBehavior@@UBE?AW4NameKeyType@@XZ @0x4591a5
 // (69B): cached pool-name key for HitReactionBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("HitReactionBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class HitReactionBehavior
 {
 public:
-	static NameKeyType rva0004591A5();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004591A5@HitReactionBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType HitReactionBehavior::rva0004591A5()
+// ?getModuleNameKey@HitReactionBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType HitReactionBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheHitReactionBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("HitReactionBehavior");

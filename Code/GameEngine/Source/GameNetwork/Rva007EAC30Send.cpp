@@ -2,15 +2,18 @@
 // 0x007EAC30: strncpy MAC into +0x1E3, lazy-make +0x244, then send through
 // the +0xA0 flag or the +0x30/+0x70/+0x90 triple.
 //
-// The message tag below is the retail-measured BFME2 literal 0x00A57BB0
-// (the BFME1 donor spells its own 0x00BEAC10 here).
+// Retail callback 0x00A57BB0 is rowed as rva007EAC10BeginCallback.
+
+class Rva007E9FC0Owner;
+void __cdecl rva007EAC10BeginCallback(Rva007E9FC0Owner *owner, int count, void *peer);
+typedef void (__cdecl *Rva007EACCallback)(Rva007E9FC0Owner *, int, void *);
 
 class Rva007EAC30Iface
 {
 public:
 	virtual void v0();
-	virtual void sendFlag(char *flag, int n, int tag, void *self);
-	virtual void sendTriple(char *a, char *b, char *c, int n, int tag, void *self);
+	virtual void sendFlag(char *flag, int n, Rva007EACCallback callback, void *self);
+	virtual void sendTriple(char *a, char *b, char *c, int n, Rva007EACCallback callback, void *self);
 };
 
 class Rva007EAC30Inner
@@ -87,13 +90,33 @@ void Rva007EAC30Owner::send(int arg)
 	if (m_04->m_flag)
 	{
 		int n = m_224;
-		m_04->m_iface->sendFlag(m_bufA0, n > 0 ? n : arg, 0x00A57BB0, this);
+		m_04->m_iface->sendFlag(m_bufA0, n > 0 ? n : arg,
+			&rva007EAC10BeginCallback, this);
 	}
 	else
 	{
 		int n = m_224;
 		if (n <= 0)
 			n = arg;
-		m_0C->sendTriple(m_buf30, m_buf70, m_buf90, n, 0x00A57BB0, this);
+		m_0C->sendTriple(m_buf30, m_buf70, m_buf90, n,
+			&rva007EAC10BeginCallback, this);
 	}
+}
+
+// ?rva00657CA0@Rva00657CA0@@QAEXH@Z retail 0x00657CA0 8 bytes.
+// Forwarder to the rowed Rva007EAC30Owner::send through the pointer at +4:
+// same unclaimed 116B caller as the 0x006572A0/0x006575F0 siblings (call at
+// 0x005522B2).
+class Rva00657CA0
+{
+public:
+	void rva00657CA0(int arg);
+
+	char m_pad[4];
+	Rva007EAC30Owner *m_ptr04;
+};
+
+void Rva00657CA0::rva00657CA0(int arg)
+{
+	m_ptr04->send(arg);
 }

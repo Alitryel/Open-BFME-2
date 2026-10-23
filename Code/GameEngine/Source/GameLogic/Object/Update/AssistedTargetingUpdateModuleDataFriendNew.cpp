@@ -1,4 +1,4 @@
-// cl: /O1 /GX /DNDEBUG /MD
+// cl: /GX /DNDEBUG /MD
 //
 // ?friend_newModuleData@AssistedTargetingUpdateModuleData@@SAPAVModuleData@@PAVINI@@@Z,
 // retail 0x00253C23, 68 bytes. Dedicated TU: the factory news 0x18 with an
@@ -13,6 +13,9 @@
 // (AssistingClipSize plus AssistingWeaponSlot plus LaserFromAssisted plus
 // LaserToTarget per ZH AssistedTargetingUpdate.h) beside the rowed
 // AssistedTargetingUpdate bodies (pool key plus name plus isFreeToAssist).
+
+extern "C" const void *const vtbl_00C4ED70[];  // folded, 9 classes; via ??_7BeaconClientUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4ED70=??_7BeaconClientUpdateModuleData@@6B@")
 
 class ModuleData;
 class INI;
@@ -29,7 +32,7 @@ class AssistedTargetingUpdateModuleData
 public:
 	AssistedTargetingUpdateModuleData()
 	{
-		m_vtable = reinterpret_cast<void *>(0x00C4ED70);
+		m_vtable = reinterpret_cast<void *>(((unsigned int)vtbl_00C4ED70));
 		m_assistingClipSize = 1;
 		m_assistingWeaponSlot = 0;
 		m_laserFromAssisted = 0;

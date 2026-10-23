@@ -3,7 +3,7 @@
 // ??1Rva0014CD63@@UAE@XZ @ 0x0014CD63 (82 bytes). Prototype dtor for the
 // vtable at 0x00BD37EC: stores the vtable, releases the counted +0x14 tree
 // link inline (same shape as Rva0014CDCB_ReleaseTree, without the final
-// null), tears down the +0x18 StringClass via the 0x00610A40 pin, then
+// null), tears down the +0x18 StringClass via Free_String at 0x00610A40, then
 // delegates to the 0x0061ED80 base. Class view mirrors the sibling
 // Rva0014CDCBReleaseTree.cpp TU (PrototypeTreeRef + pad + m_tree); the
 // StringClass member is TU-local with a declared-only dtor so the call
@@ -19,7 +19,9 @@ public:
 class StringClass
 {
 public:
-	~StringClass();
+	~StringClass() { Free_String(); }
+private:
+	void Free_String();
 };
 
 class Rva0061ED80
@@ -39,7 +41,7 @@ public:
 };
 
 // ??1Rva0014CD63@@UAE@XZ
-Rva0014CD63::~Rva0014CD63()
+inline Rva0014CD63::~Rva0014CD63()
 {
 	PrototypeTreeRef *tree = m_tree;
 	if (tree != 0)
@@ -48,3 +50,14 @@ Rva0014CD63::~Rva0014CD63()
 			tree->DeleteThis();
 	}
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeRva0014CD63InlineAnchor@@YAXPAVRva0014CD63@@@Z absent-from-retail
+void _bfmeRva0014CD63InlineAnchor(Rva0014CD63 *p)
+{
+    p->Rva0014CD63::~Rva0014CD63();
+}
+#pragma inline_depth()

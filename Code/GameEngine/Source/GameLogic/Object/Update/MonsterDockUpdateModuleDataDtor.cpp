@@ -1,4 +1,4 @@
-// cl: /O1 /GX /MD /DNDEBUG
+// cl: /GX /MD /DNDEBUG
 //
 // ??1MonsterDockUpdateModuleData@@UAE@XZ, retail 0x004A156E, 48 bytes.
 // ModuleData dtor: tears down the filter at +0x10 through the folded 0x360D26
@@ -12,21 +12,12 @@
 // and table 0xC51CE4. Caller is the slot-0 ??_G at 0x004A1552 (vtable 0x851DA8).
 // Donor: BFME1 MonsterDockUpdateModuleDataCtorThunk.cpp virtual dtor.
 
+extern "C" const void *const vtbl_00BBB554[];  // folded, 23 classes; via ??_7BfmeBaseVUQ@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BBB554=??_7BfmeBaseVUQ@@6B@")
+
 class Xfer;
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc(Xfer *xfer);
-	virtual void loadPostProcess();
-	virtual void xfer(Xfer *xfer);
-};
-
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 class Rva003623E5Filter
 {

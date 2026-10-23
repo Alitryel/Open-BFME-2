@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc- /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS
+// cl: /DNDEBUG /MD /EHsc- /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmelist /Ireference/shims/bfmealloc
 // stlport
 //
 // ?onSpawnDeath@SpawnBehavior@@UAEXW4ObjectID@@PAVDamageInfo@@@Z,
@@ -16,14 +16,42 @@
 
 #define _STLP_NO_EXCEPTIONS 1
 #include <list>
+
+// vector<int> fill/insert otherwise instantiates the _Construct<int,int>
+// COMDAT (one byte shape per TU flags); a file-static overload takes those
+// calls instead so this TU emits no external copy.
+#include <new>
+namespace _STL {
+static inline void _Construct(int *__p, const int &__val)
+{ new (__p) int(__val); }
+}
+
+// __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
+// COMDATs (one byte shape per TU malloc/free wiring); explicit
+// dllimport+forceinline specializations take those calls inline so this
+// TU emits no external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void *__malloc_alloc<0>::allocate(size_t __n)
+{ void *__r = malloc(__n); if (!__r) __r = _S_oom_malloc(__n); return __r; }
+template <> __declspec(dllimport) __forceinline
+void __malloc_alloc<0>::deallocate(void *__p, size_t)
+{ free((char *)__p); }
+}
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class Traits>
+static inline bool operator!=(const _List_iterator<T, Traits>& a,
+                              const _List_iterator<T, Traits>& b)
+{ return a._M_node != b._M_node; }
+}
+
 #include <algorithm>
 
 typedef bool Bool;
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 enum DamageType
 {
@@ -63,13 +91,6 @@ public:
 	int m_spawnReplaceDelayData;
 };
 
-class GameLogic
-{
-public:
-	unsigned char m_pad00[0x40];
-	unsigned int m_frame;
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 
@@ -100,7 +121,7 @@ void SpawnBehavior::onSpawnDeath(ObjectID deadSpawn, DamageInfo *damageInfo)
 
 	SpawnBehaviorModuleData *moduleData = *reinterpret_cast<SpawnBehaviorModuleData **>(
 		reinterpret_cast<unsigned char *>(this) - 0x1c);
-	int replacementTime = moduleData->m_spawnReplaceDelayData + TheGameLogic->m_frame;
+	int replacementTime = moduleData->m_spawnReplaceDelayData + TheGameLogic->getFrame();
 	m_replacementTimes.push_back(replacementTime);
 	m_spawnIDs.erase(it);
 	--m_spawnCount;

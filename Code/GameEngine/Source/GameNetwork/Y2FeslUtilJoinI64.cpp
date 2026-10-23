@@ -27,7 +27,7 @@ struct Rva007EB810Diag
 	virtual void fail(const char *expr, const char *file, int line);
 };
 
-int Rva007EB810Get(void);
+Rva007EB810Diag *Rva007EB810Get(void);
 
 void Rva00800040JoinI64(const __int64 *parts, unsigned count, char *dest, unsigned destSize, char sep)
 {
@@ -55,7 +55,7 @@ void Rva00800040JoinI64(const __int64 *parts, unsigned count, char *dest, unsign
 		len = (unsigned)strlen(buf);
 		if (used + len + 1 >= destSize)
 		{
-			((Rva007EB810Diag *)Rva007EB810Get())->fail("false", "\\views\\feslbuild_main\\jabba\\fesl\\source\\util.cpp", 0x48);
+			Rva007EB810Get()->fail("false", "\\views\\feslbuild_main\\jabba\\fesl\\source\\util.cpp", 0x48);
 			return;
 		}
 		if (i > 0)
@@ -66,4 +66,28 @@ void Rva00800040JoinI64(const __int64 *parts, unsigned count, char *dest, unsign
 		strcat(dest, buf);
 		used += len;
 	}
+}
+
+// BFME2 0x0066C460; body from Open-BFME-1 5cae4bdff (BFME1 0x007FFFB0), unchanged.
+// 0x007FFFB0 -- length of a present C string including its NUL, 0 for null.
+// Same jabba util.cpp neighbourhood as the joins below the DirtySock text
+// helpers. The goto-loop spelling selects retail's EDX cursor register; the
+// while form mirrors into ECX. Identity is address-derived: no caller,
+// string, or vtable names it.
+unsigned int Rva007FFFB0Span( const char *text )
+{
+	const char *cursor;
+	const char *afterStart;
+	if( text == 0 )
+		return 0;
+	cursor = text;
+	afterStart = text + 1;
+loop:
+	{
+		char c = *cursor;
+		++cursor;
+		if( c != 0 )
+			goto loop;
+	}
+	return (unsigned int)( cursor - afterStart ) + 1;
 }

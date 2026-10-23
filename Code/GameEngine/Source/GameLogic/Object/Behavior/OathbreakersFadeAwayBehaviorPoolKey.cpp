@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva004B89DD@OathbreakersFadeAwayBehavior@@SA?AW4NameKeyType@@XZ @0x004B89DD
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@OathbreakersFadeAwayBehavior@@UBE?AW4NameKeyType@@XZ @0x004B89DD
 // (69B): cached pool-name key for OathbreakersFadeAwayBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("OathbreakersFadeAwayBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class OathbreakersFadeAwayBehavior
 {
 public:
-	static NameKeyType rva004B89DD();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004B89DD@OathbreakersFadeAwayBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType OathbreakersFadeAwayBehavior::rva004B89DD()
+// ?getModuleNameKey@OathbreakersFadeAwayBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType OathbreakersFadeAwayBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheOathbreakersFadeAwayBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("OathbreakersFadeAwayBehavior");

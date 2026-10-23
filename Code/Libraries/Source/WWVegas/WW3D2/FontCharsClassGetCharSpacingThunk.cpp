@@ -1,4 +1,4 @@
-// cl: /O2 /G7 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // FontCharsClass::Get_Char_Spacing, retail 0x00158760 (90 bytes).
 // Dedicated TU (render2dsentence.cpp documents the ABI as
@@ -31,7 +31,7 @@ private:
 };
 
 // ?Get_Char_Spacing@FontCharsClass@@QAEHG@Z
-int FontCharsClass::Get_Char_Spacing(unsigned short ch)
+inline int FontCharsClass::Get_Char_Spacing(unsigned short ch)
 {
 	const FontCharsClassCharDataStruct *data = loadCharacterData(ch);
 	if (data != 0 && data->Width != 0) {
@@ -47,3 +47,8 @@ int FontCharsClass::Get_Char_Spacing(unsigned short ch)
 
 	return 0;
 }
+
+// The render-2D sentence units inline this method and emit the same select-any
+// copy, which a plain definition here collided with. The anchor keeps this
+// unit's copy for its row; it is not retail data.
+int (FontCharsClass::*_bfmeInlineAnchor_FontCharsClassGetCharSpacingThunk)(unsigned short) = &FontCharsClass::Get_Char_Spacing;

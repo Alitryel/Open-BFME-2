@@ -1,7 +1,18 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/GameLogic/Object/WeaponSet.cpp); this unit had no counterpart under Code/.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -34,6 +45,15 @@
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include <list>
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 
 #define DEFINE_WEAPONSLOTTYPE_NAMES
 #define DEFINE_COMMANDSOURCEMASK_NAMES
@@ -55,6 +75,12 @@
 #include "GameLogic/Module/SpawnBehavior.h"
 
 #include "GameLogic/Weapon.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_Unchecked_set@?$bitset@$0HF@@_STL@@QAEAAV12@IH@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bitset<117> & bitset<117>::_Unchecked_set(unsigned int,int); }
 
 
 #ifdef _INTERNAL
@@ -103,6 +129,7 @@ const char* WeaponSetFlags::s_bitNameList[] =
 //-------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------
+// ?WeaponTemplateSet::clear present-unmatched
 void WeaponTemplateSet::clear()
 {
 	m_isReloadTimeShared = false;
@@ -117,6 +144,7 @@ void WeaponTemplateSet::clear()
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?WeaponTemplateSet::hasAnyWeapons present-unmatched
 Bool WeaponTemplateSet::hasAnyWeapons() const
 {
 	for (int i = 0; i < WEAPONSLOT_COUNT; ++i) 
@@ -128,28 +156,8 @@ Bool WeaponTemplateSet::hasAnyWeapons() const
 }
 
 //-------------------------------------------------------------------------------------------------
-void WeaponTemplateSet::parseWeapon(INI* ini, void *instance, void * /*store*/, const void* userData)
-{
-	WeaponTemplateSet* self = (WeaponTemplateSet*)instance;
-	WeaponSlotType wslot = (WeaponSlotType)INI::scanIndexList(ini->getNextToken(), TheWeaponSlotTypeNames);
-	INI::parseWeaponTemplate(ini, instance, &self->m_template[wslot], NULL);
-}
-
-//-------------------------------------------------------------------------------------------------
-void WeaponTemplateSet::parseAutoChoose(INI* ini, void *instance, void * /*store*/, const void* userData)
-{
-	WeaponTemplateSet* self = (WeaponTemplateSet*)instance;
-	WeaponSlotType wslot = (WeaponSlotType)INI::scanIndexList(ini->getNextToken(), TheWeaponSlotTypeNames);
-	INI::parseBitString32(ini, instance, &self->m_autoChooseMask[wslot], TheCommandSourceMaskNames);
-}
-
-//-------------------------------------------------------------------------------------------------
-void WeaponTemplateSet::parsePreferredAgainst(INI* ini, void *instance, void * /*store*/, const void* userData)
-{
-	WeaponTemplateSet* self = (WeaponTemplateSet*)instance;
-	WeaponSlotType wslot = (WeaponSlotType)INI::scanIndexList(ini->getNextToken(), TheWeaponSlotTypeNames);
-	KindOfMaskType::parseFromINI(ini, instance, &self->m_preferredAgainst[wslot], NULL);
-}
+// WeaponTemplateSet::parseWeapon, parseAutoChoose and parsePreferredAgainst:
+// defined in WeaponTemplateSetParse.cpp (their rows' unit, BFME 2 slot layout).
 
 //-------------------------------------------------------------------------------------------------
 void WeaponTemplateSet::parseWeaponTemplateSet( INI* ini, const ThingTemplate* tt )
@@ -170,6 +178,7 @@ void WeaponTemplateSet::parseWeaponTemplateSet( INI* ini, const ThingTemplate* t
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?WeaponTemplateSet::testWeaponSetFlag present-unmatched
 Bool WeaponTemplateSet::testWeaponSetFlag( WeaponSetType wst ) const
 {
 	return m_types.test( wst );
@@ -180,21 +189,10 @@ Bool WeaponTemplateSet::testWeaponSetFlag( WeaponSetType wst ) const
 //-------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------
-WeaponSet::WeaponSet()
-{
-	m_curWeapon = PRIMARY_WEAPON;
-	m_curWeaponLockedStatus = NOT_LOCKED;
-	m_curWeaponTemplateSet = NULL;
-	m_filledWeaponSlotMask = 0;
-	m_totalAntiMask = 0;
-	m_totalDamageTypeMask.clear();
-	m_hasPitchLimit = false;
-	m_hasDamageWeapon = false;
-	for (Int i = 0; i < WEAPONSLOT_COUNT; ++i)
-		m_weapons[i] = NULL;
-}
+// WeaponSet::WeaponSet: defined in WeaponSetCtor.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
+// ?WeaponSet::~WeaponSet present-unmatched
 WeaponSet::~WeaponSet()
 {
 	for (Int i = 0; i < WEAPONSLOT_COUNT; ++i)
@@ -205,6 +203,7 @@ WeaponSet::~WeaponSet()
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
+// ?WeaponSet::crc present-unmatched
 void WeaponSet::crc( Xfer *xfer )
 {
 
@@ -215,138 +214,20 @@ void WeaponSet::crc( Xfer *xfer )
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
-void WeaponSet::xfer( Xfer *xfer )
-{
-	// version
-	const XferVersion currentVersion = 1;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
-
-	if (xfer->getXferMode() == XFER_LOAD)
-	{
-		AsciiString ttName;
-		WeaponSetFlags wsFlags;
-
-		xfer->xferAsciiString(&ttName);
-		wsFlags.xfer( xfer );
-
-		if (ttName.isEmpty())
-		{
-			m_curWeaponTemplateSet = NULL;
-		}
-		else
-		{
-			const ThingTemplate* tt = TheThingFactory->findTemplate(ttName);
-			if (tt == NULL)
-				throw INI_INVALID_DATA;
-
-			m_curWeaponTemplateSet = tt->findWeaponTemplateSet(wsFlags);
-			if (m_curWeaponTemplateSet == NULL)
-				throw INI_INVALID_DATA;
-		}
-	}
-	else if (xfer->getXferMode() == XFER_SAVE)
-	{
-		AsciiString ttName;				// leave 'em empty in case we're null
-		WeaponSetFlags wsFlags;
-		if (m_curWeaponTemplateSet != NULL)
-		{
-			const ThingTemplate* tt = m_curWeaponTemplateSet->friend_getThingTemplate();
-			if (tt == NULL)
-				throw INI_INVALID_DATA;
-		
-			ttName = tt->getName();
-			wsFlags = m_curWeaponTemplateSet->friend_getWeaponSetFlags();
-		}
-		xfer->xferAsciiString(&ttName);
-		wsFlags.xfer( xfer );
-	}
-
-	for (Int i = 0; i < WEAPONSLOT_COUNT; ++i)
-	{
-		Bool hasWeaponInSlot = (m_weapons[i] != NULL);
-		xfer->xferBool(&hasWeaponInSlot);
-		if (hasWeaponInSlot)
-		{
-			if (xfer->getXferMode() == XFER_LOAD && m_weapons[i] == NULL)
-			{
-				const WeaponTemplate* wt = m_curWeaponTemplateSet->getNth((WeaponSlotType)i);
-				if (wt==NULL) {
-					DEBUG_CRASH(("xfer backwards compatibility code - old save file??? jba."));
-					wt = m_curWeaponTemplateSet->getNth((WeaponSlotType)0);
-				}
-				m_weapons[i] = TheWeaponStore->allocateNewWeapon(wt, (WeaponSlotType)i);
-			}
-			xfer->xferSnapshot(m_weapons[i]);
-		}
-	}
-	xfer->xferUser(&m_curWeapon, sizeof(m_curWeapon));
-	xfer->xferUser(&m_curWeaponLockedStatus, sizeof(m_curWeaponLockedStatus));
-	xfer->xferUnsignedInt(&m_filledWeaponSlotMask);
-	xfer->xferInt(&m_totalAntiMask);
-	xfer->xferBool(&m_hasDamageWeapon);
-	xfer->xferBool(&m_hasDamageWeapon);
-
-	m_totalDamageTypeMask.xfer(xfer);// BitSet has built in xfer
-
-}
+// WeaponSet::xfer is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/WeaponSetXfer.cpp (0x002C8872).
 
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
+// ?WeaponSet::loadPostProcess present-unmatched
 void WeaponSet::loadPostProcess( void )
 {
 
 }  // end loadPostProcess
 
 //-------------------------------------------------------------------------------------------------
-void WeaponSet::updateWeaponSet(const Object* obj)
-{
-	const WeaponTemplateSet* set = obj->getTemplate()->findWeaponTemplateSet(obj->getWeaponSetFlags());
-	DEBUG_ASSERTCRASH(set, ("findWeaponSet should never return null"));
-	if (set && set != m_curWeaponTemplateSet)
-	{
-		if( ! set->isWeaponLockSharedAcrossSets() )
-		{
-			DEBUG_ASSERTLOG(!isCurWeaponLocked(), ("changing WeaponSet while Weapon is Locked... implicit unlock occurring!\n"));
-			releaseWeaponLock(LOCKED_PERMANENTLY);	// release all locks. sorry!
-			m_curWeapon = PRIMARY_WEAPON;
-		}
-		m_filledWeaponSlotMask = 0;
-		m_totalAntiMask = 0;
-		m_totalDamageTypeMask.clear();
-		m_hasPitchLimit = false;
-		m_hasDamageWeapon = false;
-		for (Int i = WEAPONSLOT_COUNT - 1; i >= PRIMARY_WEAPON ; --i)
-		{
-			if (m_weapons[i] != NULL)
-			{
-				m_weapons[i]->deleteInstance();
-				m_weapons[i] = NULL;
-			}
-
-			if (set->getNth((WeaponSlotType)i))
-			{
-				m_weapons[i] = TheWeaponStore->allocateNewWeapon(set->getNth((WeaponSlotType)i), (WeaponSlotType)i);
-				m_weapons[i]->loadAmmoNow(obj);	// start 'em all with full clips.
-				m_filledWeaponSlotMask |= (1 << i);
-				m_totalAntiMask |= m_weapons[i]->getAntiMask();
-				m_totalDamageTypeMask.set(m_weapons[i]->getDamageType());
-				if (m_weapons[i]->isPitchLimited())
-					m_hasPitchLimit = true;
-				if (m_weapons[i]->isDamageWeapon())
-					m_hasDamageWeapon = true;
-
-				// no, do NOT do this; always start with the cur weapon being primary, even if there is no primary
-				// weapon. this is by design, to allow us to have units that have only "spell" weapons and no
-				// "normal" weapons. (srj)
-				// m_curWeapon = (WeaponSlotType)i;
-			}
-		}
-		m_curWeaponTemplateSet = set;
-		//DEBUG_LOG(("WeaponSet::updateWeaponSet -- changed curweapon to %s\n",getCurWeapon()->getName().str()));
-	}
-}
+// WeaponSet::updateWeaponSet is defined in WeaponSetSetWeaponLock.cpp
+// with the native six-slot reload-state transfer (0x002C8C97, 418B).
 
 //-------------------------------------------------------------------------------------------------
 /*static*/ ModelConditionFlags WeaponSet::getModelConditionForWeaponSlot(WeaponSlotType wslot, WeaponSetConditionType a)
@@ -418,6 +299,7 @@ static Int getVictimAntiMask(const Object* victim)
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?WeaponSet::weaponSetOnWeaponBonusChange present-unmatched
 void WeaponSet::weaponSetOnWeaponBonusChange(const Object *source)
 {
 	for( Int i = 0; i < WEAPONSLOT_COUNT;	i++ )
@@ -431,23 +313,10 @@ void WeaponSet::weaponSetOnWeaponBonusChange(const Object *source)
 }
 
 //-------------------------------------------------------------------------------------------------
-Bool WeaponSet::isAnyWithinTargetPitch(const Object* obj, const Object* victim) const
-{
-	if (!m_hasPitchLimit)
-		return true;
-
-	for( Int i = 0; i < WEAPONSLOT_COUNT;	i++ )
-	{
-		const Weapon* weapon = m_weapons[ i ];
-		if (weapon && weapon->isWithinTargetPitch(obj, victim))
-		{
-			return true;
-		}
-	}
-	return false;
-}
+// WeaponSet::isAnyWithinTargetPitch: defined in WeaponSetIsOutOfAmmo.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
+// ?WeaponSet::getAbleToAttackSpecificObject present-unmatched
 CanAttackResult WeaponSet::getAbleToAttackSpecificObject( AbleToAttackType attackType, const Object* source, const Object* victim, CommandSourceType commandSource, WeaponSlotType specificSlot ) const
 {
 
@@ -606,6 +475,7 @@ CanAttackResult WeaponSet::getAbleToAttackSpecificObject( AbleToAttackType attac
 //This is formerly the 2nd half of getAbleToAttackSpecificObject
 //This function is responsible for determining if our object is physically capable of attacking the target and it
 //supports both victim or position.
+// ?WeaponSet::getAbleToUseWeaponAgainstTarget present-unmatched
 CanAttackResult WeaponSet::getAbleToUseWeaponAgainstTarget( AbleToAttackType attackType, const Object *source, const Object *victim, const Coord3D *pos, CommandSourceType commandSource, WeaponSlotType specificSlot ) const
 {
 
@@ -789,253 +659,27 @@ CanAttackResult WeaponSet::getAbleToUseWeaponAgainstTarget( AbleToAttackType att
 }
 
 //-------------------------------------------------------------------------------------------------
-Bool WeaponSet::chooseBestWeaponForTarget(const Object* obj, const Object* victim, WeaponChoiceCriteria criteria, CommandSourceType cmdSource)
-{
-	/*
-		1) The first criteria is weapon fitness.  If the object has two weapons that can fire concurrently, 
-			find the set of weapons that can hit the given target.  If two weapons can hit the given target,
-		2) Figure potential damage. If both weapons have the same potential damage (should never happen) then,
-		3) Pick one.
+// WeaponSet::chooseBestWeaponForTarget: native six-slot implementation is
+// byte-verified in WeaponSetSetWeaponLock.cpp with its private anti-mask helper.
 
-		Another consideration is reloading.  A weapon that is not ready to fire right this moment should
-		never be returned if there is another weapon that could be fired.  Readiness trumps Criteria.
-
-		Note that this will never result in being locked into a wrong choice (ie "If only I had waited one
-		more frame, I would have gotten the better weapon") because the AI is recomputing this choice
-		every frame.  Picture a tank with a slow reloading missile and a fast low damage gun.  This function
-		will choose the missile, then choose the gun, then want to choose the missile until the gun reloads,
-		then choose the gun and go back to wanting to choose the missile, etc
-	*/
-
-	if( isCurWeaponLocked() )
-		return TRUE; // I have been forced into choosing a specific weapon, so it is right until someone says otherwise
-
-	if (victim == NULL)
-	{
-		// Weapon lock is checked first for specific attack- ground powers.  Otherwise, we will reproduce the old behavior
-		// and make only Primary attack the ground.
-		m_curWeapon = PRIMARY_WEAPON;
-		return TRUE;
-	}
-
-	Bool found = FALSE;				// A Ready weapon has been found
-	Bool foundBackup = FALSE;	// An unready, but valid weapon has been found
-
-	Real longestRange = 0.0f;
-	Real bestDamage = 0.0f;
-	Real longestRangeBackup = 0.0f;
-	Real bestDamageBackup = 0.0f;
-
-	WeaponSlotType currentDecision = PRIMARY_WEAPON;
-	WeaponSlotType currentDecisionBackup = PRIMARY_WEAPON;
-
-	// go backwards, so that in the event of ties, the primary weapon is preferred
-	for (Int i = WEAPONSLOT_COUNT - 1; i >= PRIMARY_WEAPON ; --i)
-	{
-		/*
-			First: eliminate the weapons that cannot be used.
-		*/
-
-		// no weapon in this slot.
-		if (!m_weapons[i])
-			continue;
-		
-		// weapon not allowed to be specified via this command source.
-		CommandSourceMask okSrcs = m_curWeaponTemplateSet->getNthCommandSourceMask((WeaponSlotType)i);
-		if( ( okSrcs & (1 << cmdSource) ) == 0 )
-		{
-			if( !( okSrcs & CMD_DEFAULT_SWITCH_WEAPON ) )
-			{
-				continue;
-			}
-		}
-
-		Weapon* weapon = m_weapons[i];
-		if (weapon == NULL)
-			continue;
-
-		// No bad wrong!  Being out of range does not mean this weapon can not affect the target!
-		// weapon out of range.
-//		if (!weapon->isWithinAttackRange(obj, victim))
-//			continue;
-
-		// weapon out of ammo.
-		if (weapon->getStatus() == OUT_OF_AMMO && !weapon->getAutoReloadsClip())
-			continue;
-		
-		// weapon not allowed to target this kind of thing.
-		if (!(weapon->getAntiMask() & getVictimAntiMask(victim)))
-			continue;
-
-		if (!weapon->isWithinTargetPitch(obj, victim))
-			continue;
-		
-		Real damage = weapon->estimateWeaponDamage(obj, victim);
-		Real attackRange = weapon->getAttackRange(obj);
-		Bool weaponIsReady = (weapon->getStatus() == READY_TO_FIRE);
-
-		const AIUpdateInterface* ai = obj->getAI();
-		if (ai && ai->isWeaponSlotOnTurretAndAimingAtTarget((WeaponSlotType)i, victim))
-			weaponIsReady = false;
-
-		// weapon would do no damage against this target.
-		// exception: 'unresistable' weapons are allowed to do zero damage.
-		if (damage <= 0.0f && weapon->getDamageType() != DAMAGE_UNRESISTABLE)
-			continue;
-	
-		/*
-			now that we've eliminated the impossible ones, let's decide which
-			one we will prefer.
-		*/
-
-		/*
-			if a weapon matches the magic "preferred" bits, it's ALWAYS preferred over other weapons, regardless
-			of actual damage/range. (eg, the Comanche cannon, which is always preferred against infantry, rather
-			than its antitank missiles.) we accomplish this cheesily, by magnifying the damage/range, and by declaring
-			the weapon "ready" in a more liberal manner.
-		*/
-		const KindOfMaskType& preferredAgainst = m_curWeaponTemplateSet->getNthPreferredAgainstMask((WeaponSlotType)i);
-		if (KINDOFMASK_ANY_SET(preferredAgainst) && victim->isKindOfMulti(preferredAgainst, KINDOFMASK_NONE))
-		{
-			const Real HUGE_DAMAGE = 1e10;		// wow, that's a lot of damage.
-			const Real HUGE_RANGE = 1e10;			
-			damage = HUGE_DAMAGE;
-			attackRange = HUGE_RANGE;
-			// preferred weapons are also kept if they are merely reloading. (if out of ammo, we can punt.)
-			weaponIsReady = (weapon->getStatus() != OUT_OF_AMMO);
-		}
-
-		switch (criteria)
-		{
-			case PREFER_MOST_DAMAGE:
-				if( !weaponIsReady )
-				{
-					// If this weapon is not ready, the best it can do is qualify as the Best Backup choice
-					if (damage >= bestDamageBackup)
-					{
-						bestDamageBackup = damage;
-						currentDecisionBackup = (WeaponSlotType)i;
-						foundBackup = true;
-					}
-				}
-				else
-				{
-					if (damage >= bestDamage)
-					{
-						bestDamage = damage;
-						currentDecision = (WeaponSlotType)i;
-						found = true;
-					}
-				}
-				break;
-			case PREFER_LONGEST_RANGE:
-				{
-					if( !weaponIsReady )
-					{
-						if (attackRange > longestRangeBackup)
-						{
-							longestRangeBackup = attackRange;
-							currentDecisionBackup = (WeaponSlotType)i;
-							foundBackup = true;
-						}
-					}
-					else
-					{
-						if (attackRange > longestRange)
-						{
-							longestRange = attackRange;
-							currentDecision = (WeaponSlotType)i;
-							found = true;
-						}
-					}
-				}
-				break;
-		}
-	}
-
-	if ( found )
-	{
-		// If we found a good best one, then just use it
-		m_curWeapon = currentDecision;
-	}
-	else if ( foundBackup )
-	{
-		// No ready weapon was found, so return the most suitable unready one.
-		m_curWeapon = currentDecisionBackup;
-		found = TRUE;
-	}
-	else 
-	{
-		// No weapon at all was found, so we go back to primary.
-		m_curWeapon = PRIMARY_WEAPON;
-	}
-
-	//DEBUG_LOG(("WeaponSet::chooseBestWeaponForTarget -- changed curweapon to %s\n",getCurWeapon()->getName().str()));
-
-	return found;
-}
 
 
 //-------------------------------------------------------------------------------------------------
-void WeaponSet::reloadAllAmmo(const Object *obj, Bool now)
-{
-	for( Int i = 0; i < WEAPONSLOT_COUNT;	i++ )
-	{
-		Weapon* weapon = m_weapons[i];
-		if (weapon != NULL)
-		{
-			if (now)
-				weapon->loadAmmoNow(obj);
-			else
-				weapon->reloadAmmo(obj);
-		}
-	}
-}
+// WeaponSet::reloadAllAmmo: defined in WeaponSetIsOutOfAmmo.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
-Bool WeaponSet::isOutOfAmmo() const
-{
-	for( Int i = 0; i < WEAPONSLOT_COUNT;	i++ )
-	{
-		const Weapon* weapon = m_weapons[i];
-		if (weapon == NULL)
-			continue;
-		if (weapon->getStatus() != OUT_OF_AMMO)
-		{
-			return false;
-		}
-	}
-	return true;
-}
+// WeaponSet::isOutOfAmmo: defined in WeaponSetIsOutOfAmmo.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
-const Weapon* WeaponSet::findAmmoPipShowingWeapon() const
-{
-	for( Int i = 0; i < WEAPONSLOT_COUNT;	i++ )
-	{
-		const Weapon *weapon = m_weapons[ i ];
-		if (weapon && weapon->isShowsAmmoPips())
-		{
-			return weapon;
-		}
-	}
-	return NULL;
-}
+// WeaponSet::findAmmoPipShowingWeapon: retail's body is the row at 0x002C73F7
+// (WeaponSetRvaSlotSearch.cpp); this unit only declares it.
 
 //-------------------------------------------------------------------------------------------------
-Weapon* WeaponSet::findWaypointFollowingCapableWeapon()
-{
-	for( Int i = WEAPONSLOT_COUNT - 1; i >= PRIMARY_WEAPON; i-- )
-	{
-		if( m_weapons[i] && m_weapons[i]->isCapableOfFollowingWaypoint() )
-		{
-			return m_weapons[i];
-		}
-	}
-	return NULL;
-}
+// WeaponSet::findWaypointFollowingCapableWeapon: retail's body is the row at 0x002C741C
+// (WeaponSetRvaSlotSearch.cpp); this unit only declares it.
 
 //-------------------------------------------------------------------------------------------------
+// ?WeaponSet::getMostPercentReadyToFireAnyWeapon present-unmatched
 UnsignedInt WeaponSet::getMostPercentReadyToFireAnyWeapon() const
 {
 	UnsignedInt mostReady = 0;
@@ -1060,64 +704,15 @@ UnsignedInt WeaponSet::getMostPercentReadyToFireAnyWeapon() const
 //-------------------------------------------------------------------------------------------------
 // A special type of command demands that you use this (normally unchooseable) weapon
 // until told otherwise.
-Bool WeaponSet::setWeaponLock( WeaponSlotType weaponSlot, WeaponLockType lockType )
-{
-	if (lockType == NOT_LOCKED)
-	{
-		DEBUG_CRASH(("calling setWeaponLock with NOT_LOCKED, so I am doing nothing... did you mean to use releaseWeaponLock()?\n"));
-		return false;
-	}
-
-	// Verify the asked for weapon exists , choose it, and then lock it as choosen until unlocked
-	// the old code was just plain wrong. (look at it in perforce and you'll see...)
-	if (m_weapons[weaponSlot] != NULL)
-	{
-		if( lockType == LOCKED_PERMANENTLY )
-		{
-			m_curWeapon = weaponSlot;
-			m_curWeaponLockedStatus = lockType;
-			//DEBUG_LOG(("WeaponSet::setWeaponLock permanently -- changed curweapon to %s\n",getCurWeapon()->getName().str()));
-		}
-		else if( lockType == LOCKED_TEMPORARILY && m_curWeaponLockedStatus != LOCKED_PERMANENTLY )
-		{
-			m_curWeapon = weaponSlot;
-			m_curWeaponLockedStatus = lockType;
-			//DEBUG_LOG(("WeaponSet::setWeaponLock temporarily -- changed curweapon to %s\n",getCurWeapon()->getName().str()));
-		}
-
-		return true;
-	}
-
-	DEBUG_CRASH(("setWeaponLock: weapon %d not found (missing an upgrade?)\n", (Int)weaponSlot));
-	return false;
-}
+// WeaponSet::setWeaponLock: defined in WeaponSetSetWeaponLock.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
 // Either we have successfully fired a full clip of our special attack, or we have switched
 // weaponsets entirely, or any Player issued command besides special attack has been given.
-void WeaponSet::releaseWeaponLock(WeaponLockType lockType)
-{
-	if( m_curWeaponLockedStatus == NOT_LOCKED )
-		return;// Nothing to do
-
-	if (lockType == LOCKED_PERMANENTLY)
-	{
-		// all locks released.
-		m_curWeaponLockedStatus = NOT_LOCKED;
-	}
-	else if (lockType == LOCKED_TEMPORARILY)
-	{
-		// only unlocked if the current lock is temporary.
-		if (m_curWeaponLockedStatus == LOCKED_TEMPORARILY)
-			m_curWeaponLockedStatus = NOT_LOCKED;
-	}
-	else
-	{
-		DEBUG_CRASH(("calling releaseWeaponLock with NOT_LOCKED makes no sense. why did you do this?\n"));
-	}
-}
+// WeaponSet::releaseWeaponLock: defined in WeaponSetSetWeaponLock.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
+// ?WeaponSet::getWeaponInWeaponSlot present-unmatched
 Weapon* WeaponSet::getWeaponInWeaponSlot(WeaponSlotType wslot) const
 { 
 	return m_weapons[wslot]; 
@@ -1126,6 +721,7 @@ Weapon* WeaponSet::getWeaponInWeaponSlot(WeaponSlotType wslot) const
 //-------------------------------------------------------------------------------------------------
 	//When an AIAttackState is over, it needs to clean up any weapons that might be in leech range mode
 	//or else those weapons will have unlimited range!
+// ?WeaponSet::clearLeechRangeModeForAllWeapons present-unmatched
 void WeaponSet::clearLeechRangeModeForAllWeapons()
 {
 	for( Int i = 0; i < WEAPONSLOT_COUNT;	i++ )
@@ -1140,6 +736,7 @@ void WeaponSet::clearLeechRangeModeForAllWeapons()
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?WeaponSet::isSharedReloadTime present-unmatched
 Bool WeaponSet::isSharedReloadTime() const
 {
 	if (m_curWeaponTemplateSet)

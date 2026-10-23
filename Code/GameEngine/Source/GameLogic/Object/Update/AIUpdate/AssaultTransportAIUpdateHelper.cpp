@@ -1,11 +1,11 @@
-// cl: /O1 /DNDEBUG /MD /arch:SSE
+// cl: /DNDEBUG /MD
 //
 // ?Rva0048F365Helper@AssaultTransportAIUpdate@@QAEXXZ, retail 0x0048F365
 // (93 bytes). Loop-zeroing helper over three count-sized arrays plus scalar
 // tails: clears the dword run at +0x3E8 plus the byte runs at +0x410 and
 // +0x41A for the +0x43C count, zeroes the count, zeroes the three floats at
 // +0x424/+0x428/+0x42C, zeroes the ints at +0x430/+0x434/+0x438 plus the
-// byte at +0x440. Called at member position by the behavior ctor plus the
+// byte stores at +0x440/+0x441/+0x442. Called at member position by the behavior ctor plus the
 // dispatcher methods. Row supersedes the helper pin.
 
 class AssaultTransportAIUpdate
@@ -26,6 +26,8 @@ private:
 	int m_int438;
 	int m_count43C;
 	unsigned char m_byte440;
+	unsigned char m_byte441;
+	unsigned char m_byte442;
 };
 
 void AssaultTransportAIUpdate::Rva0048F365Helper()
@@ -45,4 +47,6 @@ void AssaultTransportAIUpdate::Rva0048F365Helper()
 	m_int434 = 0;
 	m_int438 = 0;
 	m_byte440 = 0;
+	m_byte441 = 0;
+	m_byte442 = 0;
 }

@@ -1,7 +1,28 @@
-// cl: /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmeanimobj /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /Ireference/shims/bfme2hanim /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmeanimobj /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // Derived from the Generals Zero Hour reference with verified BFME2 ownership.
 // (Libraries/Source/WWVegas/WW3D2/animobj.cpp); this unit had no counterpart under Code/.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+// bfmeHeadersForSize: the headers' out-of-line inline copies that retail keeps are
+// the size-optimised bodies (decalsys.cpp pattern); the rows below keep the unit's flags.
+#pragma optimize("s", on)
 #include "rendobj.h"	// the verified BFME2 base object must win the include guard
+// Open-BFME-1's composite.h (donor 6583b3c1ff) must win its guard over Zero
+// Hour's: Zero Hour re-declares Cast_AABox / Cast_OBBox / Intersect_AABox as
+// virtual and Create_Decal without the BFME base's trailing bool, four new
+// CompositeRenderObjClass slots that push Animatable3DObjClass's own virtuals
+// four places down. Retail table 0x007D6D10 has them at 129..133 (the
+// float-frame Simple_Evaluate_Bone 0x001A4F50 at 132, called via +0x210).
+#include "../../../../../reference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2/composite.h"
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -62,6 +83,15 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+// Retail links the size-optimized WeightInfoStruct vector deleting destructor (??_E,
+// the copy htree.cpp emits); it takes the optimization state of the first function
+// that needs it, so this unemitted anchor needs it first. The private struct is reached
+// by befriending the anchor while hanim.h is first read; layout and names are unchanged.
+struct BfmeWeightInfoVddAnchor;
+#define private private: friend struct BfmeWeightInfoVddAnchor; private
+#include "hanim.h"
+#undef private
+struct BfmeWeightInfoVddAnchor { typedef NamedPivotMapClass::WeightInfoStruct Info; };
 #include "animobj.h"
 #include "htree.h"
 #include "assetmgr.h"
@@ -70,6 +100,19 @@
 #include "ww3d.h"
 #include "wwmemlog.h"
 #include "animatedsoundmgr.h"
+#pragma optimize("", on)
+#pragma optimize("gsy", on)
+static void bfmeWeightInfoVddAnchor(BfmeWeightInfoVddAnchor::Info *p) { delete [] p; }
+#pragma optimize("", on)
+
+// Likewise for HTreeClass's scalar deleting destructor: retail links one copy,
+// the /O1-shaped body at 0x0017FADF (pop ecx after operator delete), where this
+// unit's command-line state emits add esp,4. The ??_H anchor cannot share this
+// block: it has to precede the includes, and this one needs the complete
+// HTreeClass. If a later HTree delete here will not match, try it without this.
+#pragma optimize("gsy", on)
+static void bfmeHTreeDeleteAnchor(HTreeClass * tree) { delete tree; }
+#pragma optimize("", on)
 
 
 /***********************************************************************************************
@@ -247,40 +290,7 @@ Animatable3DObjClass & Animatable3DObjClass::operator = (const Animatable3DObjCl
  * HISTORY:                                                                                    *
  *   12/8/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?Animatable3DObjClass::Release present-unmatched
-void Animatable3DObjClass::Release( void ) 
-{
-	switch (CurMotionMode) {
-
-		case BASE_POSE:
-			break;
-
-		case SINGLE_ANIM:
-			if ( ModeAnim.Motion != NULL ) {
-				ModeAnim.Motion->Release_Ref();
-				ModeAnim.Motion = NULL;
-			}
-			break;
-
-		case DOUBLE_ANIM:
-			if ( ModeInterp.Motion0 != NULL ) {
-				ModeInterp.Motion0->Release_Ref();
-				ModeInterp.Motion0 = NULL;
-			}
-
-			if ( ModeInterp.Motion1 != NULL ) {
-				ModeInterp.Motion1->Release_Ref();
-				ModeInterp.Motion1 = NULL;
-			}
-			break;
-
-		case MULTIPLE_ANIM:
-			break;
-
-		default:
-			break;
-	}
-}
+// Animatable3DObjClass::Release: defined in Animatable3DObjRelease.cpp (its row's unit).
 
 /***********************************************************************************************
  * Animatable3DObjClass::Render -- Update this object for rendering                            *
@@ -356,9 +366,9 @@ void Animatable3DObjClass::Special_Render(SpecialRenderInfoClass & rinfo)
  *   3/2/99     GTH : Created.                                                                 *
  *=============================================================================================*/
 // ?Animatable3DObjClass::Set_Transform present-unmatched
-void Animatable3DObjClass::Set_Transform(const Matrix3D &m)
+void Animatable3DObjClass::Set_Transform(const Matrix3D &matrix3D)
 { 
-	CompositeRenderObjClass::Set_Transform(m); 
+	CompositeRenderObjClass::Set_Transform(matrix3D); 
 	Set_Hierarchy_Valid(false); 
 }
 
@@ -482,40 +492,7 @@ void Animatable3DObjClass::Set_Animation(void)
  * HISTORY:                                                                                    *
  *   12/8/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-void Animatable3DObjClass::Set_Animation(HAnimClass * motion, float frame, int mode)
-{
-
-	if ( motion ) {
-		// Add_Ref before we remove, in case it is the same one.
-		motion->Add_Ref();
-		Release();
-		CurMotionMode = SINGLE_ANIM;
-		ModeAnim.Motion = motion;
-		ModeAnim.PrevFrame = ModeAnim.Frame;
-		ModeAnim.Frame = frame;		
-		ModeAnim.LastSyncTime = WW3D::Get_Sync_Time();
-		ModeAnim.frameRateMultiplier=1.0;	// 020607 srj -- added
-		ModeAnim.animDirection=1.0;	// 020607 srj -- added
-
-		ModeAnim.AnimMode = mode;
-
-		if (mode < ANIM_MODE_LOOP_BACKWARDS)
-			ModeAnim.animDirection = 1.0f;	//assume playing forwards
-		else
-			ModeAnim.animDirection = -1.0f;	//reverse animation playback
- 
-		const char* sound_name = AnimatedSoundMgrClass::Get_Embedded_Sound_Name(motion);
-		if (sound_name) {
-			int bone_index = Get_Bone_Index(sound_name);
-			motion->Set_Embedded_Sound_Bone_Index(bone_index);
-		}
-	} else {
-		CurMotionMode = BASE_POSE;
-		Release();
-	}
-
-	Set_Hierarchy_Valid(false);
-}	
+// Animatable3DObjClass::Set_Animation(HAnimClass*, float, int): defined in Animatable3DObjSetAnimationMH.cpp (its row's unit).	
 
 /***********************************************************************************************
  * Animatable3DObjClass::Set_Animation -- set the animation state to a blend of two anims      *
@@ -529,45 +506,7 @@ void Animatable3DObjClass::Set_Animation(HAnimClass * motion, float frame, int m
  * HISTORY:                                                                                    *
  *   12/8/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-void Animatable3DObjClass::Set_Animation
-( 
-	HAnimClass * motion0,
-	float frame0,
-	HAnimClass * motion1,
-	float frame1,
-	float percentage
-)
-{
-	Release();
-
-	CurMotionMode = DOUBLE_ANIM;
-	ModeInterp.Motion0 = motion0;
-	ModeInterp.Motion1 = motion1;
-	ModeInterp.PrevFrame0 = ModeInterp.Frame0;
-	ModeInterp.PrevFrame1 = ModeInterp.Frame1;
-	ModeInterp.Frame0 = frame0;
-	ModeInterp.Frame1 = frame1;
-	ModeInterp.Percentage = percentage;
-	Set_Hierarchy_Valid(false);
-
-	if ( ModeInterp.Motion0 != NULL ) {
-		ModeInterp.Motion0->Add_Ref();
-		const char* sound_name = AnimatedSoundMgrClass::Get_Embedded_Sound_Name(motion0);
-		if (sound_name) {
-			int bone_index = Get_Bone_Index(sound_name);
-			motion0->Set_Embedded_Sound_Bone_Index(bone_index);
-		}
-	}
-
-	if ( ModeInterp.Motion1 != NULL ) {
-		ModeInterp.Motion1->Add_Ref();
-		const char* sound_name = AnimatedSoundMgrClass::Get_Embedded_Sound_Name(motion1);
-		if (sound_name) {
-			int bone_index = Get_Bone_Index(sound_name);
-			motion1->Set_Embedded_Sound_Bone_Index(bone_index);
-		}
-	}
-}
+// Animatable3DObjClass::Set_Animation(HAnimClass*, float, HAnimClass*, float, float): defined in Animatable3DObjSetAnimationBlend.cpp (its row's unit).
 
 
 /***********************************************************************************************
@@ -582,30 +521,7 @@ void Animatable3DObjClass::Set_Animation
  * HISTORY:                                                                                    *
  *   12/8/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-void Animatable3DObjClass::Set_Animation
-( 
-	HAnimComboClass * anim_combo
-)
-{
-	Release();
-
-	CurMotionMode = MULTIPLE_ANIM;
-	ModeCombo.AnimCombo = anim_combo;
-	Set_Hierarchy_Valid(false);
-
-	if (anim_combo) {
-		int count = anim_combo->Get_Num_Anims();
-		for (int index = 0; index < count; index ++) {				
-			HAnimClass *motion = anim_combo->Peek_Motion(index);
-
-			const char* sound_name = AnimatedSoundMgrClass::Get_Embedded_Sound_Name(motion);
-			if (sound_name) {
-				int bone_index = Get_Bone_Index(sound_name);
-				motion->Set_Embedded_Sound_Bone_Index(bone_index);
-			}
-		}
-	}
-}						 
+// Animatable3DObjClass::Set_Animation(HAnimComboClass*): defined in Animatable3DObjSetAnimationCombo.cpp (its row's unit).
 
 
 /***********************************************************************************************
@@ -795,9 +711,40 @@ void Animatable3DObjClass::Control_Bone(int bindex,const Matrix3D & objtm,bool w
  * HISTORY:                                                                                    *
  *   12/8/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?Animatable3DObjClass::Update_Sub_Object_Transforms present-unmatched
 void Animatable3DObjClass::Update_Sub_Object_Transforms(void)
 {
+	/*
+	** BFME: an object slaved to another animatable takes that one's finished
+	** pose instead of evaluating any motion of its own. The master's pivots are
+	** in the master's object space, so they are carried across through the
+	** transform that maps the master's space into ours. (Ported from Open-BFME-1
+	** animobj.cpp; retail 0x001A5900 has the same shape.)
+	*/
+	if (_bfme_a3o_v0 != NULL) {
+
+		if (!_bfme_a3o_v0->Is_Hierarchy_Valid()) {
+			_bfme_a3o_v0->Update_Sub_Object_Transforms();
+		}
+
+		// Named only after that call: retail re-reads the member across it and
+		// then keeps it in a register for the three uses below.
+		Animatable3DObjClass * master = _bfme_a3o_v0;
+
+		Matrix3D tm;
+		master->Validate_Transform();
+		master->Transform.Get_Inverse(tm);
+
+		Validate_Transform();
+		Matrix3D::Multiply(Transform,tm,&tm);
+
+		// The member again, not `master`: retail re-reads it across the Multiply,
+		// which it has to -- nothing tells the compiler that call cannot touch it.
+		HTree->Slave_Update(_bfme_a3o_v0->HTree,tm);
+
+		Set_Hierarchy_Valid(true);
+		return;
+	}
+
 	/*
 	** The RenderObj impementation will cause our 'container' 
 	** to update if we are not valid yet
@@ -813,63 +760,86 @@ void Animatable3DObjClass::Update_Sub_Object_Transforms(void)
 			Base_Update(Transform);
 			break;
 
+		/*
+		** BFME dropped the AnimatedSoundMgrClass::Trigger_Sound call Zero Hour
+		** makes after each of these updates; retail's arms are the bare update.
+		*/
 		case SINGLE_ANIM:
 			
 			if ( ModeAnim.AnimMode != ANIM_MODE_MANUAL ) {
 				Single_Anim_Progress();
 			}
 			Anim_Update(Transform,ModeAnim.Motion,ModeAnim.Frame);
-			
-			/*
-			**	Play any sounds that are triggered by this frame of animation
-			*/
-			if ( ModeAnim.Motion->Has_Embedded_Sounds() ) {
-				ModeAnim.PrevFrame = AnimatedSoundMgrClass::Trigger_Sound(ModeAnim.Motion, ModeAnim.PrevFrame, ModeAnim.Frame, HTree->Get_Transform(ModeAnim.Motion->Get_Embedded_Sound_Bone_Index()));
-			}
 			break;
 
 		case DOUBLE_ANIM:
 			Blend_Update(Transform,ModeInterp.Motion0,ModeInterp.Frame0,
 				ModeInterp.Motion1,ModeInterp.Frame1,ModeInterp.Percentage);
-
-			/*
-			**	Play any sounds that are triggered by this frame of animation
-			*/
-			if ( ModeInterp.Motion0->Has_Embedded_Sounds() ) {
-				ModeInterp.PrevFrame0 = AnimatedSoundMgrClass::Trigger_Sound(ModeInterp.Motion0, ModeInterp.PrevFrame0, ModeInterp.Frame0, HTree->Get_Transform(ModeInterp.Motion0->Get_Embedded_Sound_Bone_Index()));
-			}
-
-			if ( ModeInterp.Motion1->Has_Embedded_Sounds() ) {
-				ModeInterp.PrevFrame1 = AnimatedSoundMgrClass::Trigger_Sound(ModeInterp.Motion1, ModeInterp.PrevFrame1, ModeInterp.Frame1, HTree->Get_Transform(ModeInterp.Motion1->Get_Embedded_Sound_Bone_Index()));
-			}
-
   			break;
 
 		case MULTIPLE_ANIM:
-		{
 			Combo_Update(Transform,ModeCombo.AnimCombo);
-
-			/*
-			**	Play any sounds that are triggered by this frame of animation
-			*/
-			int count = ModeCombo.AnimCombo->Get_Num_Anims();
-			for (int index = 0; index < count; index ++) {				
-				HAnimClass *motion = ModeCombo.AnimCombo->Peek_Motion(index);
-
-				if ( motion != NULL && motion->Has_Embedded_Sounds() ) {
-					float prev_frame = AnimatedSoundMgrClass::Trigger_Sound(motion, ModeCombo.AnimCombo->Get_Prev_Frame(index),
-																				ModeCombo.AnimCombo->Get_Frame(index), HTree->Get_Transform(motion->Get_Embedded_Sound_Bone_Index()));
-					ModeCombo.AnimCombo->Set_Prev_Frame(index, prev_frame);
-				}
-				
-			}
 			break;
-		}
 
 		default:
 			break;
 	}
 	Set_Hierarchy_Valid(true);
+}
+
+
+/*
+** BFME 2's pivot keeps its current transform as a rotation quaternion at +0x30
+** and a translation at +0x40, stride 0x58 (HTreePivotClass.cpp's constructor and
+** assignment prove the offsets), where Zero Hour's htree.h, which this unit
+** includes, still has a Matrix3D. Simple_Evaluate_Bone expands it in place
+** through this local view, the same expansion as the matched HLod siblings.
+*/
+struct BfmePivotTransformView
+{
+	float X, Y, Z, W;
+	Vector3 Position;
+};
+
+struct BfmePivotView
+{
+	unsigned char unaccessed[0x30];
+	BfmePivotTransformView Transform;
+	unsigned char rest[0x58 - 0x4C];
+};
+
+struct BfmeTreeView
+{
+	char Name[16];
+	int NumPivots;
+	BfmePivotView * Pivot;
+};
+
+static __forceinline Matrix3D & Bfme_Pivot_Matrix(const BfmePivotTransformView & q, Matrix3D & matrix3D)
+{
+	const float xx = q.X * q.X * 2.0f;
+	const float xy = q.X * q.Y * 2.0f;
+	const float xz = q.Z * q.X * 2.0f;
+	const float wx = q.W * q.X * 2.0f;
+	const float yy = q.Y * q.Y * 2.0f;
+	const float yz = q.Z * q.Y * 2.0f;
+	const float wy = q.W * q.Y * 2.0f;
+	const float zz = q.Z * q.Z * 2.0f;
+	const float wz = q.W * q.Z * 2.0f;
+
+	matrix3D[0][0] = 1.0f - yy - zz;
+	matrix3D[0][1] = xy - wz;
+	matrix3D[0][2] = xz + wy;
+	matrix3D[1][0] = xy + wz;
+	matrix3D[1][1] = 1.0f - zz - xx;
+	matrix3D[1][2] = yz - wx;
+	matrix3D[2][0] = xz - wy;
+	matrix3D[2][1] = yz + wx;
+	matrix3D[2][2] = 1.0f - yy - xx;
+	matrix3D[0][3] = q.Position.X;
+	matrix3D[1][3] = q.Position.Y;
+	matrix3D[2][3] = q.Position.Z;
+	return matrix3D;
 }
 
 
@@ -906,8 +876,16 @@ bool Animatable3DObjClass::Simple_Evaluate_Bone(int boneindex, Matrix3D *tm) con
 	
 	} else {
 		
-		const_cast <Animatable3DObjClass *>(this)->Update_Sub_Object_Transforms();
-		*tm = HTree->Get_Transform(boneindex);
+		/*
+		** BFME re-evaluates only a stale hierarchy, then expands the pivot's
+		** quaternion and translation straight into *tm. The flag is read
+		** directly: through Is_Hierarchy_Valid() the products below come out
+		** with their operands swapped against retail.
+		*/
+		if (!IsTreeValid) {
+			const_cast <Animatable3DObjClass *>(this)->Update_Sub_Object_Transforms();
+		}
+		Bfme_Pivot_Matrix(reinterpret_cast<const BfmeTreeView *>(HTree)->Pivot[boneindex].Transform,*tm);
 
 	}
 
@@ -1000,38 +978,12 @@ void Animatable3DObjClass::Single_Anim_Progress(void)
  * HISTORY:                                                                                    *
  *   4/13/99    BMG : Created.                                                                 *
  *=============================================================================================*/
-// ?Animatable3DObjClass::Is_Animation_Complete present-unmatched
-bool	Animatable3DObjClass::Is_Animation_Complete( void ) const
-{
-	if (CurMotionMode == SINGLE_ANIM) {
-	
-		if ( ModeAnim.AnimMode == ANIM_MODE_ONCE ) {
-			return ( ModeAnim.Frame == ModeAnim.Motion->Get_Num_Frames() - 1 );
-		}
-		else
-		if ( ModeAnim.AnimMode == ANIM_MODE_ONCE_BACKWARDS)
-		{	return ( ModeAnim.Frame == 0);
-		}
-	}
-	return false;
-}
+// Animatable3DObjClass::Is_Animation_Complete: defined in Animatable3DObjIsAnimationComplete.cpp (its row's unit).
 
 /***********************************************************************************************
  * Animatable3DObjClass::Peek_Animation_And_Info *
  *=============================================================================================*/
-// ?Animatable3DObjClass::Peek_Animation_And_Info present-unmatched
-HAnimClass * Animatable3DObjClass::Peek_Animation_And_Info(float& frame, int& numFrames, int& mode, float& mult)
-{
-	if ( CurMotionMode == SINGLE_ANIM ) {
-		frame = ModeAnim.Frame;
-		numFrames = ModeAnim.Motion ? ModeAnim.Motion->Get_Num_Frames() : 0;
-		mode = ModeAnim.AnimMode;
-		mult = ModeAnim.frameRateMultiplier;
-		return ModeAnim.Motion;
-	} else {
-		return NULL;
-	}
-}
+// Animatable3DObjClass::Peek_Animation_And_Info: defined in Animatable3DObjPeekAnimationAndInfo.cpp (its row's unit).
 
 /***********************************************************************************************
  * Animatable3DObjClass::Set_Animation_Frame_Rate_Multiplier *
@@ -1061,3 +1013,4 @@ void Animatable3DObjClass::Set_HTree(HTreeClass * new_htree)
 
 
 // EOF - animobj.cpp
+

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /arch:SSE
+// cl: /DNDEBUG /MD /EHsc
 // Reused from reference/open-bfme-1/Code/GameEngine/Source/Common/MultiPlayMultParseCallbacks.cpp.
 // PC FieldParse row VA 0xBE9C10 binds MultiPlayMoneyMult to RVA 0x235AB6,
 // GlobalData+0xEC4. PC writes MP1..MP8 at subobject+0..0x1C; setter at
@@ -17,7 +17,6 @@ class INI
 public:
 	const char *getNextToken( const char *seps );
 	const char *getNextTokenOrNull( const char *seps );
-	const char *getSepsColon( void ) const { return m_sepsColon; }
 	Real scanReal( const char *token );
 	static void parseInt( INI *ini, void *instance, void *store, const void *userData );
 
@@ -71,10 +70,10 @@ MultiPlayMults::MultiPlayMults()
 void parseMultiPlayMoneyMult( INI *ini, void *, void *store, const void * )
 {
 	MultiPlayMults *mults = (MultiPlayMults *)store;
-	const char *token = ini->getNextTokenOrNull( ini->getSepsColon() );
+	const char *token = ini->getNextTokenOrNull( ini->m_sepsColon );
 	while ( token )
 	{
-		const char *valueToken = ini->getNextToken( ini->getSepsColon() );
+		const char *valueToken = ini->getNextToken( ini->m_sepsColon );
 		if ( valueToken )
 		{
 			Real value = ini->scanReal( valueToken );
@@ -95,7 +94,7 @@ void parseMultiPlayMoneyMult( INI *ini, void *, void *store, const void * )
 			else if ( !_strcmpi( token, "MP8" ) )
 				mults->setMoneyMult( 8, value );
 
-			token = ini->getNextTokenOrNull( ini->getSepsColon() );
+			token = ini->getNextTokenOrNull( ini->m_sepsColon );
 		}
 	}
 }

@@ -22,6 +22,10 @@
  */
 
 #include <locale>
+// STLport defines locale::facet::~facet out of line in locale_impl.cpp, where
+// retail's ??_Gfacet (0x00007490) inlines the empty body; seeing it here makes
+// this unit's select-any copy of ??_Gfacet retail's.
+namespace _STL { inline locale::facet::~facet() {} }
 namespace _STL {
 ctype<char>::ctype(const mask* table,bool del,size_t refs)
  : locale::facet(refs), _M_ctype_table(table ? table : classic_table()),

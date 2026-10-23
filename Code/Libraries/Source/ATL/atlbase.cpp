@@ -1,4 +1,4 @@
-// cl: /O1
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 // Microsoft Visual C++ .NET 2003 ATL 7.1 _ATL_WIN_MODULE70 and the
 // CSimpleArray<ATOM> it embeds.
 
@@ -14,7 +14,7 @@ typedef unsigned long DWORD;
 typedef const char *LPCSTR;
 
 extern "C" __declspec(dllimport) void __cdecl free(void *memory);
-extern "C" __declspec(dllimport) __declspec(noreturn) void __stdcall RaiseException(
+extern "C" __declspec(dllimport) void __stdcall RaiseException(
     DWORD code, DWORD flags, DWORD argumentCount, const DWORD *arguments);
 extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void *section);
 extern "C" __declspec(dllimport) void __stdcall InitializeCriticalSection(void *section);
@@ -77,6 +77,7 @@ class CSimpleArray
 {
 public:
     CSimpleArray() : m_aT(0), m_nSize(0), m_nAllocSize(0) {}
+    ~CSimpleArray();
 
     int GetSize() const { return m_nSize; }
     T &operator[](int nIndex);
@@ -103,6 +104,12 @@ T &CSimpleArray<T, TEqual>::operator[](int nIndex)
 }
 
 template <class T, class TEqual>
+CSimpleArray<T, TEqual>::~CSimpleArray()
+{
+    RemoveAll();
+}
+
+template <class T, class TEqual>
 void CSimpleArray<T, TEqual>::RemoveAll()
 {
     if (m_aT != 0)
@@ -122,6 +129,7 @@ struct _ATL_WIN_MODULE70
     CSimpleArray<ATOM> m_rgWindowClassAtoms;
 
     _ATL_WIN_MODULE70();
+    void rva0000682F();
 };
 
 _ATL_WIN_MODULE70::_ATL_WIN_MODULE70()
@@ -162,11 +170,16 @@ public:
     static bool m_bInitFailed;
 };
 
+bool CAtlBaseModule::m_bInitFailed;
+
 class CAtlWinModule : public _ATL_WIN_MODULE70
 {
 public:
     CAtlWinModule();
+    void Term();
 };
+
+HINSTANCE g_00E09E64;
 
 CAtlWinModule::CAtlWinModule()
 {
@@ -176,7 +189,39 @@ CAtlWinModule::CAtlWinModule()
         CAtlBaseModule::m_bInitFailed = true;
 }
 
+void CAtlWinModule::Term()
+{
+    AtlWinModuleTerm(this, g_00E09E64);
+    return m_rgWindowClassAtoms.RemoveAll();
+}
+
 template void CSimpleArray<ATOM>::RemoveAll();
+template CSimpleArray<ATOM>::~CSimpleArray();
 template ATOM &CSimpleArray<ATOM>::operator[](int);
 
+// Native682F is a complete13B no-argument receiver wrapper. Its actual
+// stdcallcallee58C3 takes _ATL_WIN_MODULE70* and the already-owned
+// HINSTANCE globalE09E64. Original wrapper name remains unknown.
+void _ATL_WIN_MODULE70::rva0000682F()
+{
+    AtlWinModuleTerm(this, g_00E09E64);
 }
+
+// CComCriticalSection::Term (retail 0x0000328B, 10B) is unreferenced there:
+// the out-of-line copy of the header inline (DeleteCriticalSection on the
+// section at +0, S_OK). The anchor (no retail counterpart) only makes this
+// unit emit it.
+#pragma inline_depth(0)
+// ?bfmeEmitAtlCritSecTerm@ATL@@YAXPAVCComCriticalSection@1@@Z present-unmatched
+void bfmeEmitAtlCritSecTerm(CComCriticalSection *comCriticalSection)
+{
+    comCriticalSection->Term();
+}
+#pragma inline_depth()
+
+}
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?m@Gen_00800540@@QAEPAXXZ=??0?$CSimpleArray@GV?$CSimpleArrayEqualHelper@G@ATL@@@ATL@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??0Rva00800630Owner@@QAE@XZ=??0?$CSimpleArray@GV?$CSimpleArrayEqualHelper@G@ATL@@@ATL@@QAE@XZ")

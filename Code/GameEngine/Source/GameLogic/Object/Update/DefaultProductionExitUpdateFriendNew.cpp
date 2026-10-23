@@ -21,7 +21,15 @@ private:
 };
 
 // ?friend_newModuleInstance@DefaultProductionExitUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *DefaultProductionExitUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *DefaultProductionExitUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new DefaultProductionExitUpdate(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitDefaultProductionExitUpdateFriendNew@@YAXXZ present-unmatched
+void bfmeEmitDefaultProductionExitUpdateFriendNew()
+{
+	DefaultProductionExitUpdate::friend_newModuleInstance(0, 0);
+}
+#pragma inline_depth()

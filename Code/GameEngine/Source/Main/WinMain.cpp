@@ -16,7 +16,7 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 // Modified for BFME2: local CRT declaration and original-binary compiler flags.
-// cl: /O1 /arch:SSE2 /EHsc
+// cl: /Ireference/shims/bfme2_ascii /EHsc
 //
 // /EHsc (VC's /GX) lets the extern "C" Win32 imports count as non-throwing.
 // Retail initializeAppWindows keeps its title UnicodeString temporary alive
@@ -170,7 +170,7 @@ typedef struct tagPAINTSTRUCT
 #define WA_INACTIVE 0
 #define HTCLIENT    1
 #define VK_ESCAPE   0x1B
-#define SRCCOPY     0x00CC0020
+#define SRCCOPY     (0x00CC0000 | 0x20)  // Win32 BitBlt ROP code (13369376); not a retail address
 #define SC_SIZE          0xF000
 #define SC_MOVE          0xF010
 #define SC_MAXIMIZE      0xF030
@@ -248,7 +248,7 @@ public:
 		const char *buildDate);
 };
 
-Debug *theDebug;
+extern Debug *theDebug;  // defined in DebugPreStaticInit.cpp
 
 class IMEManager
 {
@@ -362,15 +362,27 @@ public:
 	virtual void setMouseLimits();
 };
 
-Mouse *TheMouse;
+extern Mouse *TheMouse;  // defined in Mouse.cpp
 
-class AudioManager
+// Existing five-byte focus forwarder at1DBC0B; this native call encodes
+// the forwarder, not the separate AudioManager body at35D2F7.
+class Rva001DBAA4
 {
 public:
 	void regainFocus();
 };
 
-AudioManager *TheAudio;
+class GameWindowTransitionsHandler;
+
+// The WM_ACTIVATE singleton at 0x00DFDC14 is TheTransitionHandler, not
+// TheAudio (0x00DFE6E8: this body's WM_ACTIVATEAPP focus slots,
+// FlammableUpdate/AudioLoopUpgrade sound calls). INI::parseWindowTransitions
+// (0x001DC66F) reads this same global and calls getNewGroup on it, and the
+// object behind it (ctor 0x001DCBC3, vftable 0x00BDBC30) is the transitions
+// handler. The full native focus forwarder at1DBC0B ignores the supplied
+// receiver and jumps to the channel-volume restore helper; name the
+// actual encoded forwarder rather than giving its address to AudioManager.
+GameWindowTransitionsHandler *TheTransitionHandler;
 
 class GameEngine
 {
@@ -432,7 +444,9 @@ public:
 	virtual void _M_slot_4c();
 };
 
-BfmeDfe6e8 *theBfmeDfe6e8;
+// The global at this VA is TheAudio; this name aliases it rather than
+// defining a second variable the rest of the game never sees.
+extern class AudioManager *TheAudio;
 
 class BfmeDfe6e4
 {
@@ -454,7 +468,9 @@ public:
 	static void shutdown();
 };
 
-extern "C" void bfmeRva0042CF86(WPARAM wParam);
+// Native2CF86 is the existing cdecl no-argument mixer hook. The retail
+// message arm still passes its unused WPARAM on the caller-owned stack.
+void Rva0002CF86MixerFieldEdit();
 
 void Reset_D3D_Device(bool active);
 
@@ -581,16 +597,16 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 					if( TheWin32Mouse )
 						TheWin32Mouse->setCursor( TheWin32Mouse->getMouseCursor() );
 
-					if( theBfmeDfe6e8 )
-						theBfmeDfe6e8->_M_slot_4c();
+					if( ((BfmeDfe6e8 *)TheAudio) )
+						((BfmeDfe6e8 *)TheAudio)->_M_slot_4c();
 
 					if( theBfmeDfe6e4 )
 						theBfmeDfe6e4->_M_rva00625699();
 				}
 				else
 				{
-					if( theBfmeDfe6e8 )
-						theBfmeDfe6e8->_M_slot_48();
+					if( ((BfmeDfe6e8 *)TheAudio) )
+						((BfmeDfe6e8 *)TheAudio)->_M_slot_48();
 
 					if( theBfmeDfe6e4 )
 						theBfmeDfe6e4->_M_rva00625476();
@@ -618,8 +634,8 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 				if( TheMouse )
 					TheMouse->setMouseLimits();
 
-				if( TheAudio )
-					TheAudio->regainFocus();
+				if( TheTransitionHandler )
+					((Rva001DBAA4 *)TheTransitionHandler)->regainFocus();
 			}
 			break;
 		}
@@ -735,7 +751,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 
 		//-------------------------------------------------------------------------
 		case 0x2707:
-			bfmeRva0042CF86( wParam );
+			reinterpret_cast<void (__cdecl *)(WPARAM)>(&Rva0002CF86MixerFieldEdit)( wParam );
 			break;
 	}
 
@@ -826,40 +842,8 @@ void bfmeNotifyDebugWindowed(unsigned runWindowed);
 // Only what this body reaches of the engine's reference-counted string:
 // str() with its shared empty buffer, and the out-of-line releaseBuffer the
 // destructor forwards to.
-template <typename T>
-class StringBase
-{
-	friend class UnicodeString;
+#include "unicode_string.h"
 
-	struct Header
-	{
-		int ref_count;
-		unsigned short length;
-		unsigned short capacity;
-		T data[1];
-	};
-
-	void releaseBuffer();
-	Header *m_data;
-};
-
-class UnicodeString
-{
-public:
-	const unsigned short *str() const
-	{
-		static const unsigned short empty[1] = {0};
-		return m_data.m_data ? m_data.m_data->data : empty;
-	}
-
-	~UnicodeString()
-	{
-		m_data.releaseBuffer();
-	}
-
-private:
-	StringBase<unsigned short> m_data;
-};
 
 UnicodeString bfmeGetMainWindowTitle();
 
@@ -1110,7 +1094,7 @@ __declspec(dllimport) int __cdecl _strcmpi(const char *, const char *);
 __declspec(dllimport) long __cdecl atol(const char *);
 __declspec(dllimport) int __cdecl sprintf(char *, const char *, ...);
 unsigned int __cdecl strlen(const char *);
-char *__cdecl strcpy(char *, const char *);
+extern "C" char *__cdecl _mbscpy(char *, const char *);
 int __cdecl strcmp(const char *, const char *);
 }
 
@@ -1179,7 +1163,9 @@ private:
 }
 
 // The engine's reference-counted narrow string: str() over the shared empty
-// literal, and the out-of-line StringBase<char> destructor.
+// literal. The destructor is declaration-only so this TU does not emit its
+// own select-any copy: calls reach the kept copy in ascii_string.cpp
+// (jmp releaseBuffer), not this TU's old jmp to ~StringBase.
 template <>
 class StringBase<char>
 {
@@ -1203,6 +1189,7 @@ private:
 class AsciiString
 {
 public:
+	~AsciiString();
 	const char *str() const { return m_data.m_data ? m_data.m_data->data : ""; }
 
 private:
@@ -1235,7 +1222,7 @@ public:
 	bool m_bfmeTeardownEngineFirst;
 };
 
-extern GlobalData *TheGlobalData;
+extern class GlobalData *TheWritableGlobalData;
 
 // The two singletons torn down after GameMain; both are released through
 // their virtual destructor in slot 0 with a global delete.
@@ -1253,19 +1240,24 @@ public:
 	virtual ~BfmeDfe6e8Owner();
 };
 
+// Native 0x1C2E..0x1C72 retains a null guard and one common return.
+// The real WinMain caller gives this static helper its ESI input convention.
 static inline char *trimArgument(char *buffer)
 {
-	char *source = buffer;
-	while (*source != 0 && (unsigned char)*source <= ' ')
-		source++;
-	if (source != buffer)
-		strcpy(buffer, source);
-	for (int index = strlen(buffer) - 1; index >= 0; index--)
+	if (buffer)
 	{
-		if (*source != 0 && (unsigned char)buffer[index] <= ' ')
-			buffer[index] = 0;
-		else
-			break;
+		char *source = buffer;
+		while (*source != 0 && (unsigned char)*source <= ' ')
+			source++;
+		if (source != buffer)
+			_mbscpy(buffer, source);
+		for (int index = strlen(buffer) - 1; index >= 0; index--)
+		{
+			if (*source != 0 && (unsigned char)buffer[index] <= ' ')
+				buffer[index] = 0;
+			else
+				break;
+		}
 	}
 	return buffer;
 }
@@ -1419,7 +1411,7 @@ extern "C" int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		delete TheVersion;
 		TheVersion = 0;
 
-		if (TheGlobalData->m_bfmeTeardownEngineFirst)
+		if (TheWritableGlobalData->m_bfmeTeardownEngineFirst)
 		{
 			if (TheGameEngine)
 			{
@@ -1431,11 +1423,11 @@ extern "C" int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		else
 		{
 			shutdownRenderDevice();
-			BfmeDfe6e8Owner *owner = (BfmeDfe6e8Owner *)theBfmeDfe6e8;
+			BfmeDfe6e8Owner *owner = (BfmeDfe6e8Owner *)((BfmeDfe6e8 *)TheAudio);
 			if (owner)
 			{
 				::delete owner;
-				theBfmeDfe6e8 = 0;
+				(*(BfmeDfe6e8 **)&TheAudio) = 0;
 			}
 		}
 	}

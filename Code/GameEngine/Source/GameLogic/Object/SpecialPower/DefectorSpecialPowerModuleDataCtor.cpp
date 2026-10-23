@@ -1,41 +1,18 @@
-// cl: /O1 /MD /DNDEBUG /arch:SSE
-//
-// ??0DefectorSpecialPowerModuleData@@QAE@XZ, retail 0x004C2A6A (26 bytes).
-// Frameless trivial ctor over the pinned SpecialPower base (0x4930A0):
-// overwrites the base vptr slot with the explicit vtable 0x00C5E7A8 first
-// (ElvenWood precedent: pointer-cast write, no virtuals declared anywhere
-// so no vtable is emitted here), then zeroes the FatCursorRadius float at
-// +0x7C (/arch:SSE keeps the float zero as xorps plus movss, ReflectDamage
-// precedent). Flat classes throughout (no declared dtors anywhere) keep the
-// body frameless. Field identity is the rowed base-call buildFieldParse
-// table 0x00C5C764 holding exactly FatCursorRadius at +0x7C, matching BFME1's
-// DefectorSpecialPowerModuleData table. The ctor body is shared with the
-// Bounty factory 0x251DCC (same size, same trivial shape, SlotToLock
-// shared-fold precedent); this row proves the body. Row supersedes the
-// 0x4C2A6A ctor pin.
+// cl: /Ireference/shims/bfme2_specialpower_layout /Ireference/open-bfme-1/reference/shims/specialpowermoduledata /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
+// stlport
+// BFME2 DefectorSpecialPowerModuleData constructor and implicit destructors.
+// Native ctor 0x004C2A6A and FatCursorRadius parse entry C5C764 prove
+// the base extent 0x7C. Keep the real virtual declaration so the native
+// deleting destructor and tail-call destructor have one provider here.
+// The donor declarations are inherited from verified BFME1 f36a4db066;
+// eight added base bytes remain unidentified.
+#include "PreRTS.h"
+class Waypoint;
+#include "GameLogic/Module/DefectorSpecialPower.h"
 
-class Rva004930A0
+DefectorSpecialPowerModuleData::DefectorSpecialPowerModuleData( void )
 {
-public:
-	Rva004930A0();
 
-private:
-	unsigned char m_pad[0x7C];
-};
-
-class DefectorSpecialPowerModuleData : public Rva004930A0
-{
-public:
-	DefectorSpecialPowerModuleData();
-
-private:
-	float m_fatCursorRadius;	// +0x7C
-};
-
-// ??0DefectorSpecialPowerModuleData@@QAE@XZ @0x4C2A6A
-DefectorSpecialPowerModuleData::DefectorSpecialPowerModuleData()
-	: Rva004930A0()
-{
-	*(unsigned int *)this = 0x00C5E7A8;
 	m_fatCursorRadius = 0.0f;
-}
+
+}  // end DefectorSpecialPowerModuleData

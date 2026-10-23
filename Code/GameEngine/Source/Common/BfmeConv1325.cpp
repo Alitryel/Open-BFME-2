@@ -5,7 +5,8 @@
 
 extern void *g_bfmeVftATWA[];
 extern void *g_bfmeVftBTWA[];
-extern void *g_bfmeVftCTWA[];
+// 0xCE30A8, the vtable already emitted as ??_7Rva00665030@@6B@ (data ledger).
+extern "C" void *__identifier("??_7Rva00665030@@6B@")[];
 
 class BfmeStrTWA
 {
@@ -33,7 +34,7 @@ void *BfmeThingTWA::bfmeDelTWA(unsigned char flags)
 	m_bfmeVft1 = g_bfmeVftBTWA;
 	bfmeStepTWA();
 	m_bfmeStr.bfmeDtorTWA();
-	m_bfmeVft0 = g_bfmeVftCTWA;
+	m_bfmeVft0 = __identifier("??_7Rva00665030@@6B@");
 	if (flags & 1)
 		bfmeFreeTWA(this, 0x30);
 	return this;
@@ -56,7 +57,6 @@ public:
 	char m_bfmePad[0x10];
 };
 
-void bfmeFreeTWB(void *place);
 
 class BfmeThingTWB
 {
@@ -81,6 +81,12 @@ void *BfmeThingTWB::bfmeDelTWB(unsigned char flags)
 	m_bfmeList.bfmeDropTWB();
 	m_bfmeVft = g_bfmeVftBTWB;
 	if (flags & 1)
-		bfmeFreeTWB(this);
+		::operator delete(this);
 	return this;
 }
+
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
+#pragma comment(linker, "/alternatename:?g_bfmeVftATWB@@3PAPAXA=??_7Rva007F6D60Child@@6B@")
+#pragma comment(linker, "/alternatename:?g_bfmeVftATWA@@3PAPAXA=??_7BfmeThingTWA@@6BDemanglerPrimary@@@")
+#pragma comment(linker, "/alternatename:?g_bfmeVftBTWA@@3PAPAXA=??_7BfmeThingTWA@@6BRva00803080@@@")

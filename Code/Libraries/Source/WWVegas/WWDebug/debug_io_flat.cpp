@@ -29,9 +29,12 @@
 //
 // Debug I/O class flat (flat or split log file)
 //////////////////////////////////////////////////////////////////////////////
-#include "_pch.h"
+#pragma optimize("y", on)
+#include <_pch.h>
 #include <stdlib.h>
+#pragma optimize("y",on)
 #include <new>      // needed for placement new prototype
+#pragma optimize("y",off)
 
 class DebugIOFlatDebugShim
 {
@@ -526,8 +529,10 @@ void DebugIOFlat::Execute(class Debug& dbg, const char *cmd, bool structuredCmd,
         switch(t)
         {
           case 0: flatDbg << "a"; break;
-          case 1: flatDbg << "c"; break;
-          case 2: flatDbg << "l"; break;
+          // Retail's jump table (+0x598) prints "l" for 1 and "c" for 2;
+          // the bodies stay in this order, only their labels differ.
+          case 2: flatDbg << "c"; break;
+          case 1: flatDbg << "l"; break;
           case 3: flatDbg << "x"; break;
           case 4: flatDbg << "r"; break;
           case 6: flatDbg << "o"; break;

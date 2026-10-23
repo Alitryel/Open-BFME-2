@@ -1,4 +1,4 @@
-// cl: /O2 /G7 /EHsc /MD /DNDEBUG
+// cl: /EHsc /MD /DNDEBUG
 // Reconstructed from retail RVA 143400 and caller 146F50.
 // Descriptive BFME2 type names: the original smart-reference spelling is unknown.
 // Category texture pointers begin at +0C; resources use a WORD refcount at +4.
@@ -7,7 +7,7 @@
 struct BFME2TextureResource { unsigned Vtable; unsigned short Refs; void Release_Ref(); };
 struct BFME2TextureRef {
  BFME2TextureResource* Ptr;
- BFME2TextureRef(BFME2TextureResource* p):Ptr(p) { if(Ptr) ++Ptr->Refs; }
+ __declspec(dllimport) __forceinline BFME2TextureRef(BFME2TextureResource* p):Ptr(p) { if(Ptr) ++Ptr->Refs; }
  BFME2TextureRef(const BFME2TextureRef& p):Ptr(p.Ptr) { if(Ptr) ++Ptr->Refs; }
  ~BFME2TextureRef() { if(Ptr) Ptr->Release_Ref(); }
 };

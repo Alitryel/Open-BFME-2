@@ -21,7 +21,18 @@ private:
 };
 
 // ?friend_newModuleInstance@SlowDeathBehavior@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *SlowDeathBehavior::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *SlowDeathBehavior::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new SlowDeathBehavior(thing, moduleData));
 }
+
+// Select-any anchor: this unit owns the row above while other TUs emit it as
+// an inline copy. The anchor keeps this unit emitting its copy for the ledger;
+// it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitSlowDeathBehaviorFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitSlowDeathBehaviorFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	SlowDeathBehavior::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

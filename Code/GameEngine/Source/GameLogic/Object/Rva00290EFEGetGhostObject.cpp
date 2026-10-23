@@ -1,4 +1,4 @@
-// cl: /O1 /EHs-c-
+// cl: /EHs-c- /Ireference/shims/bfme2_ascii
 
 // Rva00290EFE::getGhostObject, retail 0x00290EFE (189 bytes).
 // BFME2 ghost-object predicate for the subobject at Object+0x64: when global
@@ -15,15 +15,7 @@
 // the 4-byte-string temp teardown resolve through this TU own spellings at
 // 0x001F12DF and 0x00036410; strcmp rides the existing _strcmp pin.
 
-class BFMERetailAsciiString
-{
-public:
-	~BFMERetailAsciiString();
-	const char *str() const { return m_data ? m_data + 8 : ""; }
-
-private:
-	char *m_data;
-};
+#include "ascii_string.h"
 
 struct ModuleNugget
 {
@@ -33,7 +25,7 @@ struct ModuleNugget
 class ModuleInfo
 {
 public:
-	BFMERetailAsciiString getNthName(int i) const;
+	AsciiString getNthName(int i) const;
 	int getCount() const { return ((char *)m_end - (char *)m_begin) / 20; }
 
 	ModuleNugget *m_begin;
@@ -66,6 +58,8 @@ public:
 };
 
 extern GhostObjectManager *TheGhostObjectManager;
+// TheGhostObjectManager: matched references place it at VA 0xdff188 (zero-filled .bss).
+GhostObjectManager * TheGhostObjectManager;
 
 class GlobalData
 {
@@ -93,7 +87,10 @@ void *Rva00290EFE::getGhostObject()
 	if ((thing->m_kindOf & 4) != 0) {
 		ModuleInfo *drawMod = &thing->m_drawModuleInfo;
 		int makeGhostObject = 1;
-		for (int i = 0; i < drawMod->getCount(); i++) {
+		// LINK: drawMod->getCount() inlined here but the live call emits a
+		// loser COMDAT (first-copy-wins, no retail address). Manual inline of
+		// the identical body keeps the bytes and drops the emission.
+		for (int i = 0; i < (((char *)drawMod->m_end - (char *)drawMod->m_begin) / 20); i++) {
 			if (strcmp(drawMod->getNthName(i).str(), "W3DDefaultDraw") == 0) {
 				makeGhostObject = 0;
 				break;

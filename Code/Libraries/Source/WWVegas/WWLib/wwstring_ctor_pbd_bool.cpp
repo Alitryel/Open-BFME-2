@@ -24,10 +24,10 @@ private:
 	char *m_Buffer;
 };
 
-char *StringClass::m_EmptyString;
+// StringClass::m_EmptyString: defined in wwstring.cpp (= &m_NullChar).
 
 // ??0StringClass@@QAE@PBD_N@Z
-StringClass::StringClass(const char *name, bool flag)
+inline StringClass::StringClass(const char *name, bool flag)
 {
 	int len;
 
@@ -40,3 +40,15 @@ StringClass::StringClass(const char *name, bool flag)
 		Get_String(len + 1, flag);
 	*this = name;
 }
+
+// The constructor is a header inline in Zero Hour's wwstring.h; registry.cpp
+// and the particle-texture unit emit it as select-any copies, which a plain
+// definition here collided with. The anchor keeps this unit's copy for the
+// row; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeStringClassCtorAnchor@@YAXPAVStringClass@@PBD@Z absent-from-retail
+void _bfmeStringClassCtorAnchor(StringClass *string, const char *name)
+{
+	string->StringClass::StringClass(name, false);
+}
+#pragma inline_depth()

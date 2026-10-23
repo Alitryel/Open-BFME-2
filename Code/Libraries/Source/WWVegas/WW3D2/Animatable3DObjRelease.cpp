@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHs-c-
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHs-c-
 //
 // Animatable3DObjClass::Release at 0x001A4AA0.
 //
@@ -15,6 +15,9 @@
 // 1's.  /G7 is the unit's tell.
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib/refcount.h
+// Match the retail RefCountClass release helper at 0x5D1A7D.
+// Its declaration uses the verified provider's size context; callers retain theirs.
+#pragma optimize("gsy", on)
 class RefCountClass
 {
 public:
@@ -32,6 +35,7 @@ protected:
 
 	int NumRefs;
 };
+#pragma optimize("", on)
 
 class HAnimClass : public RefCountClass {};
 class HTreeClass : public RefCountClass {};

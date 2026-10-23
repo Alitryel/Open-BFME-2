@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 // Open-BFME5: LevelGrantSpecialPower module ctor.
 // Base MI: vptrs at +0/+0xC/+0x10/+0x20.
@@ -38,16 +38,16 @@ public:
 	virtual void moduleInterfaceAnchor();
 };
 
-class LevelGrantSpecialPowerBase : public BehaviorModule,
+class Rva0044EF5E : public BehaviorModule,
 	public SpecialPowerModuleInterface,
 	public SpecialPowerModuleExtra,
 	public ModuleInterface
 {
 public:
-	LevelGrantSpecialPowerBase( Thing *thing, const ModuleData *moduleData );
+	Rva0044EF5E( Thing *thing, const ModuleData *moduleData );
 };
 
-class LevelGrantSpecialPower : public LevelGrantSpecialPowerBase
+class LevelGrantSpecialPower : public Rva0044EF5E
 {
 public:
 	LevelGrantSpecialPower( Thing *thing, const ModuleData *moduleData );
@@ -55,6 +55,11 @@ public:
 
 // ??0LevelGrantSpecialPower@@QAE@PAVThing@@PBVModuleData@@@Z
 LevelGrantSpecialPower::LevelGrantSpecialPower( Thing *thing, const ModuleData *moduleData )
-	: LevelGrantSpecialPowerBase( thing, moduleData )
+	: Rva0044EF5E( thing, moduleData )
 {
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?specialPowerModuleInterfaceAnchor@SpecialPowerModuleInterface@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

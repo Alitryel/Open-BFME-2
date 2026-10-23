@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /O1 /G7 /GX
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX
 // Adapted from Open-BFME-1 FrameDataManager.cpp (EA GPL-3.0-or-later).
 // BFME2 callers and retail bodies verify the ring global, 20-byte stride,
 // count accessors and quit-state offsets independently of BFME1.
@@ -6,10 +6,15 @@ class NetCommandList {
 public:
  void reset();
 };
+enum FrameDataReturnType { FRAMEDATA_NOTREADY, FRAMEDATA_RESEND, FRAMEDATA_READY };
 class FrameData {
 public:
+ FrameDataReturnType allCommandsReady(bool debugSpewage);
+ unsigned int getAckCommandCount();
  __declspec(noinline) unsigned int getFrameCommandCount();
  unsigned int getCommandCount();
+ NetCommandList *getCommandList();
+ void init();
  __declspec(noinline) void setFrameCommandCount(unsigned int count);
  __declspec(noinline) void zeroFrame();
  __declspec(noinline) void destroyGameMessages();
@@ -19,7 +24,15 @@ private:
  NetCommandList *m_commandList;
  char storage[8];
 };
-#define FRAME_DATA_LENGTH (*(const int *)0x00DD2DB8)
+// FRAME_DATA_LENGTH: VA 0x00DD2DB8 (.data); retail initial value is 258.
+// Target callers use it to size/index the frame-data ring; Open-BFME-1's
+// NetworkUtil.cpp defines the same runtime global at its BFME1 address.
+// Its Zero Hour NetworkUtil.cpp neighbours, in the same order: MAX_FRAMES_AHEAD at
+// VA 0x00DD2DB0 (128) and MIN_RUNAHEAD at 0x00DD2DB4 (BFME 2's value is 100;
+// Zero Hour's is 10). FRAMES_TO_KEEP (65) follows at 0x00DD2DBC.
+int MAX_FRAMES_AHEAD = 128;
+int MIN_RUNAHEAD = 100;
+int FRAME_DATA_LENGTH = 258;
 
 void FrameData::zeroFrame() {
  m_commandCount &= 0;
@@ -40,12 +53,18 @@ __declspec(noinline) void FrameData::setFrameCommandCount(unsigned int count) {
 
 class FrameDataManager {
 public:
+ FrameDataReturnType allCommandsReady(unsigned int frame, bool debugSpewage);
+ int rva00670890(unsigned int frame, int mark);
+ unsigned int getAckCommandCount(unsigned int frame);
  void destroyGameMessages();
  unsigned int getCommandCount(unsigned int frame);
+ NetCommandList *getFrameCommandList(unsigned int frame);
  unsigned int getFrameCommandCount(unsigned int frame);
  void setFrameCommandCount(unsigned int frame, unsigned int count);
+ void resetFrame(unsigned int frame, bool isAdvancing);
  void setQuitFrame(unsigned int frame);
  bool getIsQuitting();
+ unsigned int getQuitFrame();
 private:
  void *vtable;
  FrameData *m_frameData;
@@ -68,6 +87,10 @@ unsigned int FrameDataManager::getCommandCount(unsigned int frame) {
  unsigned int frameindex = frame % FRAME_DATA_LENGTH;
  return m_frameData[frameindex].getCommandCount();
 }
+NetCommandList *FrameDataManager::getFrameCommandList(unsigned int frame) {
+ unsigned int frameindex = frame % FRAME_DATA_LENGTH;
+ return m_frameData[frameindex].getCommandList();
+}
 unsigned int FrameDataManager::getFrameCommandCount(unsigned int frame) {
  unsigned int frameindex = frame % FRAME_DATA_LENGTH;
  return m_frameData[frameindex].getFrameCommandCount();
@@ -76,8 +99,39 @@ void FrameDataManager::setFrameCommandCount(unsigned int frame, unsigned int cou
  unsigned int frameindex = frame % FRAME_DATA_LENGTH;
  m_frameData[frameindex].setFrameCommandCount(count);
 }
+void FrameDataManager::resetFrame(unsigned int frame, bool isAdvancing) {
+ unsigned int frameindex = frame % FRAME_DATA_LENGTH;
+ m_frameData[frameindex].init();
+ if (m_isLocal) {
+  m_frameData[frameindex].setFrameCommandCount((unsigned int)-1);
+ }
+}
 void FrameDataManager::setQuitFrame(unsigned int frame) {
  m_isQuitting = true;
  m_quitFrame = frame;
 }
 bool FrameDataManager::getIsQuitting() { return m_isQuitting; }
+// Folded onto the shared +0xC getter 0x001DB0A8; ConnectionManager::update
+// 0x004D342A calls it to compare the quit frame with the logic frame.
+unsigned int FrameDataManager::getQuitFrame() { return m_quitFrame; }
+
+// Open-BFME-1 1399ad37d42ea52a63829e417c46a1ba9ed2cd20 FrameDataManager.cpp;
+// BFME2 verifies the same ring global and 20-byte element stride. Each callee
+// has a matched BFME2 provider. The count-by-mark helper keeps its donor name;
+// its original type and method name remain unknown.
+FrameDataReturnType FrameDataManager::allCommandsReady(unsigned int frame, bool debugSpewage) {
+ unsigned int frameindex = frame % FRAME_DATA_LENGTH;
+ return m_frameData[frameindex].allCommandsReady(debugSpewage);
+}
+class BfmeThingYN {
+public:
+ int bfmeCountYN(int mark) const;
+};
+int FrameDataManager::rva00670890(unsigned int frame, int mark) {
+ unsigned int frameindex = frame % FRAME_DATA_LENGTH;
+ return ((const BfmeThingYN *)&m_frameData[frameindex])->bfmeCountYN(mark);
+}
+unsigned int FrameDataManager::getAckCommandCount(unsigned int frame) {
+ unsigned int frameindex = frame % FRAME_DATA_LENGTH;
+ return m_frameData[frameindex].getAckCommandCount();
+}

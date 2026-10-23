@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc  /D_CRTIMP=
 // stlport
 //
 // ??0SiegeEngineContain@@QAE@PAVThing@@PBVModuleData@@@Z @0x0047C21E 184B.
@@ -16,7 +16,22 @@
 // list-map-list plus int-bool concept with shifted offsets. Row supersedes
 // ctor pin.
 #include <list>
+
+// Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
+// rather than emitting its own.
+namespace _STL {
+template <> void _List_base<int, allocator<int> >::clear();
+}
+
+// Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
+// rather than emitting its own.
+namespace _STL {
+template <> _List_base<int, allocator<int> >::~_List_base();
+}
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<int, pair<int const, void *>, _Select1st<pair<int const, void *> >, less<int>, allocator<pair<int const, void *> > >::~_Rb_tree(); }
+// bfme link decl-only end
 
 class Thing;
 class ModuleData;
@@ -46,16 +61,24 @@ class TransportContain
 {
 public:
 	TransportContain(Thing *thing, const ModuleData *moduleData);
-	~TransportContain();
+	// Match the rowed destructor unit's primary virtual contract.
+	virtual ~TransportContain();
 
 private:
 	unsigned char m_pad100[0x11C - 0x100];
 };
 
+// map<ObjectID, int>: the tree family dtor 0x00286852 -> clear 0x00286656 ->
+// erase 0x00286183 (one instantiation: the self-recursive erase is not ICF-folded;
+// AITargetHeuristicEnemyStructure::findBestTarget 0x005735C6 keys it by object ID).
+enum ObjectID { INVALID_ID = 0 };
+typedef _STL::map<ObjectID, int> ObjectIDIntMap;
+namespace _STL { template <> _Rb_tree<ObjectID, pair<ObjectID const, int>, _Select1st<pair<ObjectID const, int> >, less<ObjectID>, allocator<pair<ObjectID const, int> > >::~_Rb_tree(); }
 class SiegeEngineContain : public TransportContain
 {
 public:
 	SiegeEngineContain(Thing *thing, const ModuleData *moduleData);
+	virtual ~SiegeEngineContain();
 	virtual void f00();
 	virtual void f20();
 	virtual void f30();
@@ -66,7 +89,7 @@ private:
 	int m_120;
 	bool m_124;
 	unsigned char m_pad125[3];
-	_STL::map<int, void *> m_map128;
+	ObjectIDIntMap m_map128;
 	_STL::list<int> m_list134;
 };
 
@@ -88,3 +111,13 @@ SiegeEngineContain::SiegeEngineContain(Thing *thing, const ModuleData *moduleDat
 	m_120 = 0;
 	m_124 = false;
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?f0C@Iface0C@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?f2C@Iface2C@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")

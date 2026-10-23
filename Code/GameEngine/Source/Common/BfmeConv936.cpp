@@ -24,19 +24,10 @@ public:
 
 void bfmeGo936C(void);
 
-class BfmeThing936G
-{
-public:
-	BfmeThing936G *bfmeGo936G(void);
-	void bfmeInit936G(void);
-};
+// The former936G view was the stream Init constructor at16AA0. It now
+// shares the STLport ios_base::Init view in stlport_loc_init.cpp, beside the
+// matching Init lifetime protocol; no duplicate guessed owner remains here.
 
-extern void *g_bfme936GlobG;
-
-// ?bfmeGo936G@BfmeThing936G@@QAEPAV1@XZ, retail 0x00016AA0 (21B).
-BfmeThing936G *BfmeThing936G::bfmeGo936G(void)
-{
-	if (!g_bfme936GlobG)
-		bfmeInit936G();
-	return this;
-}
+// Retail's call sites in this unit's matched rows land on bodies rowed under
+// other spellings at the same addresses (same ABI). Bind the spellings used here.
+#pragma comment(linker, "/alternatename:?bfmeVecDtor936B@@YGXPAXIHP6GX0@Z@Z=??_M@YGXPAXIHP6EX0@Z@Z")

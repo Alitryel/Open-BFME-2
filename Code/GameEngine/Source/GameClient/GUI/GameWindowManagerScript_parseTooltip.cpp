@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /EHsc /Oi-
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /Oi-
 //
 // ?parseTooltip@@YA_NPADPAVWinInstanceData@@0PAX@Z, retail 0x00315BA3, 82 bytes.
 // Dedicated TU.
@@ -31,39 +31,8 @@ typedef unsigned short wchar_t;
 
 class UnicodeString;
 
-template <typename T>
-class StringBase
-{
-	friend class UnicodeString;
+#include "unicode_string.h"
 
-private:
-	struct Header
-	{
-		int ref_count;
-		unsigned short length;
-		unsigned short capacity;
-		T data[1];
-	};
-
-	Header *m_data;
-
-	StringBase(const StringBase<T> &other);
-	void releaseBuffer();
-
-public:
-	StringBase() { m_data = NULL; }
-	~StringBase() { releaseBuffer(); }
-	void set(const T *s);
-};
-
-class UnicodeString
-{
-public:
-	void set(const wchar_t *s) { m_data.set(s); }
-
-private:
-	StringBase<wchar_t> m_data;
-};
 
 class WinInstanceData
 {
@@ -72,7 +41,7 @@ public:
 };
 
 // ?parseTooltip@@YA_NPADPAVWinInstanceData@@0PAX@Z
-static Bool parseTooltip(char *token, WinInstanceData *instData, char *buffer, void *data)
+Bool parseTooltip(char *token, WinInstanceData *instData, char *buffer, void *data)
 {
 	UnicodeString tooltip;
 	tooltip.set(L"Need tooltip translation");

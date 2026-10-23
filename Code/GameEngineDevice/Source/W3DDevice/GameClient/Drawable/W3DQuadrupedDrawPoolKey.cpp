@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0000CA0CE@W3DQuadrupedDraw@@SA?AW4NameKeyType@@XZ @0xCA0CE
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@W3DQuadrupedDraw@@UBE?AW4NameKeyType@@XZ @0xCA0CE
 // (69B): cached pool-name key for W3DQuadrupedDraw. The class
 // identity comes from the pool-name string the body pushes
 // ("W3DQuadrupedDraw"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class W3DQuadrupedDraw
 {
 public:
-	static NameKeyType rva0000CA0CE();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0000CA0CE@W3DQuadrupedDraw@@SA?AW4NameKeyType@@XZ
-NameKeyType W3DQuadrupedDraw::rva0000CA0CE()
+// ?getModuleNameKey@W3DQuadrupedDraw@@UBE?AW4NameKeyType@@XZ
+NameKeyType W3DQuadrupedDraw::getModuleNameKey() const
 {
 	static NameKeyType TheW3DQuadrupedDrawPoolKey =
 		TheNameKeyGenerator->nameToKey("W3DQuadrupedDraw");

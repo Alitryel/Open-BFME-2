@@ -1,4 +1,18 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/zh_outofline /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims
+// Link view first: Matrix3D(), Matrix3D(bool) and Matrix3D(const Matrix3D&) stay inline without
+// emitting /O2 copies that compete with retail's owners (0x000423C5, 0x0004C91A, 0x0006645C).
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to change nothing else in this unit, but if a function added later that builds
+#include "../../../../../../../reference/shims/bfme_namekey_inline_link/namekey_inline_link.h"  // NAMEKEY inline-only link view
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+#include "../../../../../../../reference/shims/bfme_matrix3d_full_link/matrix3d_full_link.h"
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/GameLogic/Object/Update/AIUpdate/RailroadGuideAIUpdate.cpp); this unit had no counterpart under Code/.
@@ -32,6 +46,20 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "PreRTS.h"	
+#include <list>
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+// Bottom-loop overload: this TU's flags compile the generic range-destroy to
+// an early-out form, but retail's out-of-line copy is the bottom-tested loop
+// (row 32 family2-LK3). The overload wins for (AsciiString*,AsciiString*).
+inline void _Destroy(AsciiString * __first, AsciiString * __last)
+{ for (; __first != __last; ++__first) __first->~AsciiString(); }
+}
 
 #include "Common/Player.h"
 #include "Common/ThingFactory.h"
@@ -54,6 +82,50 @@
 
 #ifdef RAILROAD_DESYNC_TEST
 #include "winbase.h"
+// bfme link decl-only begin
+namespace _STL { template <> AsciiString * __copy<AsciiString *, AsciiString *, int>(AsciiString *, AsciiString *, AsciiString *, random_access_iterator_tag const &, int *); }
+namespace _STL { template <> AsciiString * __uninitialized_copy<AsciiString const *, AsciiString *>(AsciiString const *, AsciiString const *, AsciiString *, __false_type const &); }
+namespace _STL { template <> vector<AsciiString, allocator<AsciiString> >::vector(vector<AsciiString, allocator<AsciiString> > const &); }
+namespace _STL { template <> vector<AsciiString, allocator<AsciiString> >::vector(allocator<AsciiString> const &); }
+namespace _STL { template <> unsigned long _Base_bitset<2>::_S_maskbit(unsigned int); }
+namespace _STL { template <> bool bitset<45>::_Unchecked_test(unsigned int) const; }
+namespace _STL { template <> AsciiString * vector<AsciiString, allocator<AsciiString> >::erase(AsciiString *, AsciiString *); }
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ??0?$_Vector_base@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@IABV?$allocat:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> _Vector_base<AsciiString,allocator<AsciiString> >::_Vector_base(unsigned int,allocator<AsciiString> const &); }
+// Suppress this TU's non-retail copy of ??$_Construct@VAsciiString@@V1@@_STL@@YAXPAVAsciiString@@ABV1@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _Construct<AsciiString,AsciiString>(AsciiString *,AsciiString const &); }
+// Suppress this TU's non-retail copy of ??$__uninitialized_copy@PBVAsciiString@@PAV1@@_STL@@YAPAVAsciiString@@PBV1@0PAV1@ABU__fals:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> AsciiString * __uninitialized_copy<AsciiString const *,AsciiString *>(AsciiString const *,AsciiString const *,AsciiString *,__false_type const &); }
+// Suppress this TU's non-retail copy of ??$__copy@PAVAsciiString@@PAV1@H@_STL@@YAPAVAsciiString@@PAV1@00ABUrandom_access_iterator_:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> AsciiString * __copy<AsciiString *,AsciiString *,int>(AsciiString *,AsciiString *,AsciiString *,random_access_iterator_tag const &,int *); }
+// Suppress this TU's non-retail copy of ?erase@?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAEPAVAsciiString@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> AsciiString * vector<AsciiString,allocator<AsciiString> >::erase(AsciiString *,AsciiString *); }
+// Suppress this TU's non-retail copy of ?deallocate@?$_STLP_alloc_proxy@PAVAsciiString@@V1@V?$allocator@VAsciiString@@@_STL@@@_STL:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> void _STLP_alloc_proxy<AsciiString *,AsciiString,allocator<AsciiString> >::deallocate(AsciiString *,unsigned int); }
+
+// A declaration-only specialization stops this TU emitting its own
+// vector<AsciiString> COMDAT copies, so the calls bind the kept rowed copies.
+namespace _STL {
+template <> vector<AsciiString, allocator<AsciiString> >::~vector();
+template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
+template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);
+template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
+template <> _Vector_base<AsciiString, allocator<AsciiString> >::_Vector_base(size_t, const allocator<AsciiString>&);
+template <> vector<AsciiString, allocator<AsciiString> >::vector(const vector<AsciiString, allocator<AsciiString> >&);
+template <> AsciiString *vector<AsciiString, allocator<AsciiString> >::erase(AsciiString*, AsciiString*);
+}
 #endif
 
 // TYPES //////////////////////////////////////////////////////////////////////////////////////////
@@ -74,11 +146,13 @@ static const Int INVALID_PATH = -1;
 #define FRAMES_UNPULLED_LONG_ENOUGH_TO_UNHITCH (2)
 
 
+// ?incReference@TrainTrack@@ present-unmatched
 void TrainTrack::incReference() 
 { 
 	++m_refCount; 
 }
 
+// ?releaseReference@TrainTrack@@ present-unmatched
 Bool TrainTrack::releaseReference() 
 { 
 	return ( --m_refCount == 0 ); 
@@ -87,6 +161,7 @@ Bool TrainTrack::releaseReference()
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// ??0RailroadBehaviorModuleData@@ present-unmatched
 RailroadBehaviorModuleData::RailroadBehaviorModuleData( void )
 {
 	m_carriageTemplateNameData.clear();
@@ -106,6 +181,7 @@ RailroadBehaviorModuleData::RailroadBehaviorModuleData( void )
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ??0RailroadBehavior@@ present-unmatched
 RailroadBehavior::RailroadBehavior( Thing *thing, const ModuleData *moduleData ) 
 											 : PhysicsBehavior( thing, moduleData )          
 {
@@ -177,6 +253,7 @@ RailroadBehavior::RailroadBehavior( Thing *thing, const ModuleData *moduleData )
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ??1RailroadBehavior@@ present-unmatched
 RailroadBehavior::~RailroadBehavior( void )
 {
 
@@ -196,6 +273,7 @@ RailroadBehavior::~RailroadBehavior( void )
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
 
+// ?isRailroad@RailroadBehavior@@ present-unmatched
 Bool RailroadBehavior::isRailroad() const 
 {
 	if ( ! m_track )
@@ -218,6 +296,7 @@ Bool RailroadBehavior::isRailroad() const
 
 // ------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ?onCollide@RailroadBehavior@@ present-unmatched
 void RailroadBehavior::onCollide( Object *other, const Coord3D *loc, const Coord3D *normal )
 {
 	Object *obj = getObject();
@@ -235,9 +314,9 @@ void RailroadBehavior::onCollide( Object *other, const Coord3D *loc, const Coord
 	if (m_endOfLine)
 		return ;
 
-	for (BehaviorModule** m = other->getBehaviorModules(); *m; ++m)
+	for (BehaviorModule** behaviorModule = other->getBehaviorModules(); *behaviorModule; ++behaviorModule)
 	{
-		CollideModuleInterface* collide = (*m)->getCollide();
+		CollideModuleInterface* collide = (*behaviorModule)->getCollide();
 		if (!collide)
 			continue;
 
@@ -433,6 +512,7 @@ void RailroadBehavior::onCollide( Object *other, const Coord3D *loc, const Coord
 // ------------------------------------------------------------------------------------------------
 
 
+// ?playImpactSound@RailroadBehavior@@ present-unmatched
 void RailroadBehavior::playImpactSound(Object *victim, const Coord3D *impactPosition)
 {
 	AudioEventRTS impact;
@@ -505,6 +585,7 @@ void RailroadBehavior::playImpactSound(Object *victim, const Coord3D *impactPosi
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// ?loadTrackData@RailroadBehavior@@ present-unmatched
 void RailroadBehavior::loadTrackData( void )
 {
 
@@ -647,6 +728,7 @@ void RailroadBehavior::loadTrackData( void )
 
 
 
+// ?makeAWallOutOfThisTrain@RailroadBehavior@@ present-unmatched
 void RailroadBehavior::makeAWallOutOfThisTrain( Bool on )
 {
   if ( on == TRUE )
@@ -677,6 +759,7 @@ void RailroadBehavior::makeAWallOutOfThisTrain( Bool on )
 
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// ?update@RailroadBehavior@@ present-unmatched
 UpdateSleepTime RailroadBehavior::update( void )
 {
 
@@ -865,6 +948,7 @@ UpdateSleepTime RailroadBehavior::update( void )
 
 
 
+// ?disembark@RailroadBehavior@@ present-unmatched
 void RailroadBehavior::disembark(void)
 {
 	ContainModuleInterface *contain = getObject()->getContain();
@@ -946,6 +1030,7 @@ public:
 };
 
 
+// ?createCarriages@RailroadBehavior@@ present-unmatched
 void RailroadBehavior::createCarriages( void )
 {
 
@@ -991,18 +1076,18 @@ void RailroadBehavior::createCarriages( void )
 		TemplateNameIterator iter = list.begin();
 		if ( iter != list.end() )
 		{
-			const ThingTemplate* temp = TheThingFactory->findTemplate( *iter );
+			const ThingTemplate* thingTemplate = TheThingFactory->findTemplate( *iter );
 
 
 
 
-			if (temp)
+			if (thingTemplate)
 			{
 				if ( closeCarriage )
 					firstCarriage = closeCarriage;
 				else // or else let's use the defualt template list prvided in the INI
 				{
-					firstCarriage = TheThingFactory->newObject( temp, self->getTeam() ); 
+					firstCarriage = TheThingFactory->newObject( thingTemplate, self->getTeam() ); 
 					DEBUG_LOG(("%s Added a carriage, %s \n", self->getTemplate()->getName().str(),firstCarriage->getTemplate()->getName().str()));
 				}
 				
@@ -1038,6 +1123,7 @@ void RailroadBehavior::createCarriages( void )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// ?hitchNewCarriagebyTemplate@RailroadBehavior@@ present-unmatched
 void RailroadBehavior::hitchNewCarriagebyTemplate( ObjectID locoID, const TemplateNameVector& list, TemplateNameIterator& iter, TrainTrack *track)
 {
 
@@ -1065,11 +1151,11 @@ void RailroadBehavior::hitchNewCarriagebyTemplate( ObjectID locoID, const Templa
 
 	if ( iter != list.end() )// this test is bogus
 	{
-		const ThingTemplate* temp = TheThingFactory->findTemplate( *iter );
+		const ThingTemplate* thingTemplate = TheThingFactory->findTemplate( *iter );
 
-		if (temp)
+		if (thingTemplate)
 		{
-			newCarriage = TheThingFactory->newObject( temp, locomotive->getTeam() ); // just a little worried about this...
+			newCarriage = TheThingFactory->newObject( thingTemplate, locomotive->getTeam() ); // just a little worried about this...
 			newCarriage->setProducer(locomotive);
 			m_trailerID = newCarriage->getID();
 
@@ -1097,6 +1183,7 @@ void RailroadBehavior::hitchNewCarriagebyTemplate( ObjectID locoID, const Templa
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// ?hitchNewCarriagebyProximity@RailroadBehavior@@ present-unmatched
 void RailroadBehavior::hitchNewCarriagebyProximity( ObjectID locoID, TrainTrack *track)
 {
 	if ( m_isLocomotive )
@@ -1173,6 +1260,7 @@ void RailroadBehavior::hitchNewCarriagebyProximity( ObjectID locoID, TrainTrack 
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// ?getPulled@RailroadBehavior@@ present-unmatched
 void RailroadBehavior::getPulled( PullInfo *info )
 {
 	//ENFORCE MY STATUS AS A PULLEE, NOT A PULLER, and update my position, speed etc.
@@ -1229,6 +1317,7 @@ void RailroadBehavior::getPulled( PullInfo *info )
 
 // ------------------------------------------------------------------------------------------------
 
+#pragma optimize("s", on)
 void alignToTerrain( Real angle, const Coord3D& pos, const Coord3D& normal, Matrix3D& mtx)
 {
 	Coord3D x, y, z;
@@ -1254,10 +1343,12 @@ void alignToTerrain( Real angle, const Coord3D& pos, const Coord3D& normal, Matr
 							x.y, y.y, z.y, pos.y,
 							x.z, y.z, z.z, pos.z );
 }
+#pragma optimize("", on)
 
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// ?updatePositionTrackDistance@RailroadBehavior@@ present-unmatched
 void RailroadBehavior::updatePositionTrackDistance( PullInfo *pullerInfo, PullInfo *myInfo )
 {
 
@@ -1349,6 +1440,7 @@ void RailroadBehavior::updatePositionTrackDistance( PullInfo *pullerInfo, PullIn
 
 //---------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------
+// ?destroyTheWholeTrainNow@RailroadBehavior@@ present-unmatched
 void RailroadBehavior::destroyTheWholeTrainNow( void )
 {
 	TheGameLogic->destroyObject( getObject());
@@ -1380,6 +1472,7 @@ void RailroadBehavior::destroyTheWholeTrainNow( void )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// ?FindPosByPathDistance@RailroadBehavior@@ present-unmatched
 void RailroadBehavior::FindPosByPathDistance( Coord3D *pos, const Real dist, const Real length, Bool setState )
 {
 	
@@ -1513,6 +1606,7 @@ void RailroadBehavior::FindPosByPathDistance( Coord3D *pos, const Real dist, con
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
+// ?crc@RailroadBehavior@@ present-unmatched
 void RailroadBehavior::crc( Xfer *xfer )
 {
 	// extend base class
@@ -1528,6 +1622,7 @@ void RailroadBehavior::crc( Xfer *xfer )
 	* 3: m_held script driven flag for hanging out
 	**/
 // ------------------------------------------------------------------------------------------------
+// ?xfer@RailroadBehavior@@ present-unmatched
 void RailroadBehavior::xfer( Xfer *xfer )
 {
 
@@ -1608,6 +1703,7 @@ void RailroadBehavior::xfer( Xfer *xfer )
 
 
 
+// ?xferPullInfo@PullInfo@@ present-unmatched
 void RailroadBehavior::PullInfo::xferPullInfo( Xfer *xfer )
 {
 	XferVersion currentVersion = 1;
@@ -1626,6 +1722,7 @@ void RailroadBehavior::PullInfo::xferPullInfo( Xfer *xfer )
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
+// ?loadPostProcess@RailroadBehavior@@ present-unmatched
 void RailroadBehavior::loadPostProcess( void )
 {
 	// extend base class

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??1PartTheHeavensUpdate@@UAE@XZ, retail 0x004AC8EF, 77 bytes.
 // PartTheHeavensUpdate dtor: reinstalls the three MI vtable slots (+0
@@ -36,10 +36,10 @@ class UpdateModuleInterface
 public:
 	virtual void update();
 };
-class Rva0024A797 : public BehaviorModule, public UpdateModuleInterface
+class UpdateModule : public BehaviorModule, public UpdateModuleInterface
 {
 public:
-	virtual ~Rva0024A797();
+	virtual ~UpdateModule();
 protected:
 	unsigned m_nextCallFrameAndPhase;
 	int m_indexInLogic;
@@ -52,7 +52,7 @@ public:
 	virtual void pointeeSlot1();
 	virtual void releasePointee();
 };
-class PartTheHeavensUpdate : public Rva0024A797
+class PartTheHeavensUpdate : public UpdateModule
 {
 public:
 	virtual ~PartTheHeavensUpdate();
@@ -65,3 +65,10 @@ PartTheHeavensUpdate::~PartTheHeavensUpdate()
 	if (m_pointee)
 		m_pointee->releasePointee();
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?behaviorModuleOtherAnchor@BehaviorModuleOther@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+#pragma comment(linker, "/alternatename:?behaviorModuleBaseAnchor@BehaviorModuleBase@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+#pragma comment(linker, "/alternatename:?update@UpdateModuleInterface@@UAEXXZ=?update@PartTheHeavensUpdate@@UAE?AW4UpdateSleepTime@@XZ")

@@ -1,4 +1,4 @@
-// cl: /O2 /arch:SSE2 /MD
+// cl: /MD
 //
 // Matrix3D::Set(const Matrix3 &, const Vector3 &), retail 0x00711E70, 118 bytes.
 // Dedicated TU so matrix3d.cpp's other matched bodies stay untouched.
@@ -16,7 +16,7 @@ public:
 class Vector4
 {
 public:
-	void Set(float x, float y, float z, float w)
+	__declspec(dllimport) __forceinline void Set(float x, float y, float z, float w)
 	{
 		X = x;
 		Y = y;
@@ -33,7 +33,7 @@ public:
 class Matrix3
 {
 public:
-	const Vector3 &operator[](int i) const { return Row[i]; }
+	__declspec(dllimport) __forceinline const Vector3 &operator[](int i) const { return Row[i]; }
 
 	Vector3 Row[3];
 };

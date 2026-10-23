@@ -1,5 +1,10 @@
 // cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /DBFME_STLP_NODE_ALLOC /D_STLP_NO_EXCEPTIONS /Ireference/shims/stlp_nodealloc
 // stlport
+// Keep MSVC's float math overloads local; the matched operations inline.
+#define inline static inline
+#include <math.h>
+#undef inline
+#pragma intrinsic(sin,cos)
 
 #include <deque>
 
@@ -54,58 +59,20 @@ void *operator new[](unsigned int bytes);
 void operator delete[](void *pointer);
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include/Lib/BaseType.h
-struct Coord3D
-{
-	Real x;
-	Real y;
-	Real z;
-
-	void zero()
-	{
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-	}
-};
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include/Lib/BaseType.h
-struct Region3D
-{
-	__forceinline Region3D() {}
+#include "../../../../Libraries/Include/Lib/Region3D.h"
 
-	__forceinline Region3D(const Region3D &other)
-	{
-		lo.x = other.lo.x;
-		lo.y = other.lo.y;
-		lo.z = other.lo.z;
-		hi.x = other.hi.x;
-		hi.y = other.hi.y;
-		hi.z = other.hi.z;
-	}
+// Opaque target32-byte queue element; its fields are not used in this unit.
+// ProcessPending record stride and the rowed E32 map helper prove the size.
+struct BfmeE32 { int a[8]; };
 
-	__forceinline ~Region3D() {}
-
-	Real width() const { return hi.x - lo.x; }
-	Real height() const { return hi.y - lo.y; }
-
-	Coord3D lo;
-	Coord3D hi;
-};
-
-struct Gen_t_008fb350_p12pod
-{
-	unsigned int timestamp;
-	int x;
-	int y;
-	int radius;
-	unsigned int playerMask;
-};
-
-class ShroudManagerImpl008FBA40;
+class ShroudManagerImpl;
 class PartitionManager;
 struct ShroudManagerImpl008FBA40ElementLayout;
 __forceinline ShroudManagerImpl008FBA40ElementLayout *shroudElementAt(
-	const ShroudManagerImpl008FBA40 *manager, Int x, Int y);
+	const ShroudManagerImpl *manager, Int x, Int y);
 
 class BfmePartVRA;
 
@@ -118,11 +85,72 @@ public:
 };
 
 bool processShroudRevealCircle008F9A70(Int cellX, Int cellY, Int cellRadius,
-	ShroudManagerImpl008FBA40 *manager, Int playerMask);
+	ShroudManagerImpl *manager, Int playerMask);
 bool processShroudRevealCircle008F9B10(Int cellX, Int cellY, Int cellRadius,
-	ShroudManagerImpl008FBA40 *manager, Int playerMask);
+	ShroudManagerImpl *manager, Int playerMask);
 
-class ShroudManagerImpl008FBA40Element;
+// Method-only view of the retail Xfer vtable (0x00BBB910): the slots this
+// unit calls, named as in Rva0073EBB0Cluster.cpp; Version1 is retail's
+// 0x000053EE (System/Xfer.cpp), inlined here as in the native body.
+class Xfer
+{
+public:
+	struct Version
+	{
+		__declspec(dllimport) __declspec(nothrow) __forceinline
+		Version(unsigned char current, unsigned char minimum)
+			: m_current(current), m_minimum(minimum) {}
+
+		unsigned char m_current;
+		unsigned char m_minimum;
+	};
+
+	__declspec(dllimport) __declspec(nothrow) __forceinline void Version1()
+	{
+		Version version(1, 1);
+		xferVersion(&version);
+	}
+
+	virtual ~Xfer();
+	virtual bool isLoading();
+	virtual bool isSaving();
+	virtual bool isCRC();
+	virtual bool isLightCRC();
+	virtual void slot05();
+	virtual void slot06();
+	virtual void slot07();
+	virtual void slot08();
+	virtual void slot09();
+	virtual Xfer &xferVersion(Version *version);
+	virtual void slot11();
+	virtual void slot12();
+	virtual void slot13();
+	virtual void slot14();
+	virtual void slot15();
+	virtual void slot16();
+	virtual void slot17();
+	virtual void slot18();
+	virtual void slot19();
+	virtual void slot20();
+	virtual void slot21();
+	virtual Xfer &xferRegion3D(Region3D *value);
+	virtual void slot23();
+	virtual void slot24();
+	virtual void slot25();
+	virtual void slot26();
+	virtual void slot27();
+	virtual Xfer &xferReal(Real *value);
+	virtual void slot29();
+	virtual Xfer &xferUnsignedInt(UnsignedInt *value);
+	virtual Xfer &xferInt(Int *value);
+	virtual void slot32();
+	virtual void slot33();
+	virtual void slot34();
+	virtual void slot35();
+	virtual Xfer &xferBool(bool *value);
+};
+
+class ShroudManagerCell;
 
 struct ShroudManagerImpl008FBA40CellObject
 {
@@ -152,10 +180,10 @@ private:
 	ShroudManagerImpl008FBA40CellObject *object;
 	int unknown08;
 	ShroudManagerImpl008FBA40Node *next;
-	friend class ShroudManagerImpl008FBA40Element;
+	friend class ShroudManagerCell;
 };
 
-class ShroudManagerImpl008FBA40;
+class ShroudManagerImpl;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/PartitionManager.h
 class PartitionData
@@ -165,8 +193,7 @@ public:
 	void makeDirty();
 
 private:
-	void updateCellsTouched();
-	friend class ShroudManagerImpl008FBA40;
+	friend class ShroudManagerImpl;
 
 };
 
@@ -192,24 +219,25 @@ __forceinline int shroudStatusFromRaw(unsigned short status)
 typedef void (__cdecl *ShroudManagerImpl008FBA40RefreshCallback)(
 	int x, int y, int status);
 
-class ShroudManagerImpl008FBA40Element
+class ShroudManagerCell
 {
 public:
-	ShroudManagerImpl008FBA40Element();
-	~ShroudManagerImpl008FBA40Element();
+	__declspec(noinline) ShroudManagerCell();
+	__declspec(noinline) ~ShroudManagerCell() {}
+	void xfer(Xfer *xfer);
 	void adjustPlayerCounter008FC1F0(int playerIndex, int counterIndex,
 		int amount);
-	void updatePlayerCells008FC300(ShroudManagerImpl008FBA40 *manager,
+	void AddLooker(ShroudManagerImpl *manager,
 		int playerIndex);
-	void updatePlayerCells008FC3B0(ShroudManagerImpl008FBA40 *manager,
+	void updatePlayerCells008FC3B0(ShroudManagerImpl *manager,
 		int playerIndex);
-	void updatePlayerCells008FC450(ShroudManagerImpl008FBA40 *manager,
+	void ShroudIfFogged(ShroudManagerImpl *manager,
 		int playerIndex);
 	__declspec(noinline) int getPlayerStatus_Rva0073EA40(int playerIndex);
 
 private:
 	__forceinline void copyPlayerStatesFrom(
-		const ShroudManagerImpl008FBA40Element &other)
+		const ShroudManagerCell &other)
 	{
 		for (int i = 0; i < 20; ++i)
 			playerStates[i] = other.playerStates[i];
@@ -218,31 +246,32 @@ private:
 	ShroudManagerImpl008FBA40Node *cellNodes;
 	ShroudManagerImpl008FBA40PlayerState playerStates[20];
 	int unknown64;
-	friend class ShroudManagerImpl008FBA40;
+	friend class ShroudManagerImpl;
 };
 
-class ShroudManagerImpl008FBA40
+class ShroudManagerImpl
 {
 public:
-	ShroudManagerImpl008FBA40();
-	~ShroudManagerImpl008FBA40();
-	__declspec(noinline) CellShroudStatus getShroudStatusForPlayer(
+	ShroudManagerImpl();
+	~ShroudManagerImpl();
+	void rva0073D8B0(Xfer *xfer);
+	__declspec(noinline) CellShroudStatus GetShroudStatusForPlayer(
 		Int playerIndex, Int x, Int y) const;
-	CellShroudStatus getShroudStatusForPlayerCoord_Rva0073B940(
+	CellShroudStatus GetShroudStatusForPlayer(
 		Int playerIndex, const Coord3D *loc) const;
-	int getPlayerStatusWord_Rva0073B890(
+	int GetLookerCount(
 		Int playerIndex, const Coord3D *loc) const;
 	void setEnabled_Rva0073B460(bool value);
-	void updatePlayerCells300_Rva0073B410(int playerIndex);
-	void updatePlayerCells300And3B0_Rva0073B3B0(int playerIndex);
-	ObjectShroudStatus getPropShroudStatusForPlayer(Int playerIndex,
+	void RevealMapForPlayerPermanently(int playerIndex);
+	void RevealMapForPlayer(int playerIndex);
+	ObjectShroudStatus GetPropShroudStatusForPlayer(Int playerIndex,
 		const Coord3D *loc) const;
 	void drainPending();
 	void updatePlayerCells008FB010(int playerIndex);
 	void updatePlayerCells008FB060(int playerIndex);
 	void reset();
 	void setRegion(const Region3D *region, Real cellSize);
-	void configure(Region3D region, Real cellSize);
+	void _ReallocCells(Region3D region, Real cellSize);
 	__declspec(noinline) void notify();
 	__declspec(noinline) void doShroudReveal(Int cellX, Int cellY,
 		Int cellRadius, UnsignedInt playerMask);
@@ -250,18 +279,20 @@ public:
 		Int cellRadius, UnsignedInt playerMask);
 
 private:
+	void DoShroudReveal(int,int,void*,float,int);
+	void UndoShroudReveal(int,int,void*,float,int);
 	int mode;
 	Region3D region;
 	Real defaultCellSize;
 	Real inverseCellSize;
 	unsigned int width;
 	unsigned int height;
-	ShroudManagerImpl008FBA40Element *elements;
+	ShroudManagerCell *elements;
 	ShroudManagerImpl008FBA40Node *nodes;
 	PartitionData *pendingPartitionData;
 	int unknown38;
-	_STL::deque<Gen_t_008fb350_p12pod,
-		_STL::allocator<Gen_t_008fb350_p12pod> > records;
+	_STL::deque<BfmeE32,
+		_STL::allocator<BfmeE32> > records;
 	int unknown64;
 	bool enabled;
 	char padding69[3];
@@ -270,11 +301,21 @@ private:
 	__declspec(noinline) void processPending(bool drainAll);
 	ShroudManagerImpl008FBA40ElementLayout *elementAtByCoord_Rva0073A1D0(
 		Real x, Real y) const;
-	friend class ShroudManagerImpl008FBA40Element;
+	friend class ShroudManagerCell;
 	friend class PartitionManager;
 	friend class ShroudManager;
 	friend ShroudManagerImpl008FBA40ElementLayout *shroudElementAt(
-		const ShroudManagerImpl008FBA40 *manager, Int x, Int y);
+		const ShroudManagerImpl *manager, Int x, Int y);
+};
+
+class ShroudManager : public ShroudManagerImpl
+{
+public:
+	// Method-only view of the independently recovered73AD90 provider.
+	// No nested Data size, inheritance, or field layout is assumed here.
+	class Data { public: void UpdateCellsTouched(); };
+	void undoRevealMapForPlayerPermanently(int playerIndex);
+	void ShroudMapForPlayer(int playerIndex);
 };
 
 struct ShroudManagerImpl008FBA40ElementLayout
@@ -285,7 +326,7 @@ struct ShroudManagerImpl008FBA40ElementLayout
 };
 
 __forceinline ShroudManagerImpl008FBA40ElementLayout *shroudElementAt(
-	const ShroudManagerImpl008FBA40 *manager, Int x, Int y)
+	const ShroudManagerImpl *manager, Int x, Int y)
 {
 	if (x < 0 || x >= (Int)manager->width || y < 0 ||
 		y >= (Int)manager->height)
@@ -296,7 +337,7 @@ __forceinline ShroudManagerImpl008FBA40ElementLayout *shroudElementAt(
 }
 
 __declspec(noinline) CellShroudStatus
-ShroudManagerImpl008FBA40::getShroudStatusForPlayer(
+ShroudManagerImpl::GetShroudStatusForPlayer(
 	Int playerIndex, Int x, Int y) const
 {
 	ShroudManagerImpl008FBA40ElementLayout *element =
@@ -314,7 +355,7 @@ ShroudManagerImpl008FBA40::getShroudStatusForPlayer(
 // Retail 0x0073B940 is the coordinate overload of the cell-status getter: it
 // floors the world point through elementAtByCoord and maps the status word the
 // same way. No direct callers remain in retail; the name is descriptive.
-CellShroudStatus ShroudManagerImpl008FBA40::getShroudStatusForPlayerCoord_Rva0073B940(
+CellShroudStatus ShroudManagerImpl::GetShroudStatusForPlayer(
 	Int playerIndex, const Coord3D *loc) const
 {
 	if (playerIndex < 0 || playerIndex >= 20)
@@ -333,7 +374,7 @@ CellShroudStatus ShroudManagerImpl008FBA40::getShroudStatusForPlayerCoord_Rva007
 // out-of-range players report 2, a missed element reports 0, otherwise the
 // element's unmapped status word comes back through getPlayerStatus_Rva0073EA40.
 // No direct callers remain in retail; the name is descriptive.
-int ShroudManagerImpl008FBA40::getPlayerStatusWord_Rva0073B890(
+int ShroudManagerImpl::GetLookerCount(
 	Int playerIndex, const Coord3D *loc) const
 {
 	if (playerIndex < 0 || playerIndex >= 20)
@@ -342,14 +383,14 @@ int ShroudManagerImpl008FBA40::getPlayerStatusWord_Rva0073B890(
 	ShroudManagerImpl008FBA40ElementLayout *element =
 		elementAtByCoord_Rva0073A1D0(loc->x, loc->y);
 	if (element)
-		return reinterpret_cast<ShroudManagerImpl008FBA40Element *>(element)->
+		return reinterpret_cast<ShroudManagerCell *>(element)->
 			getPlayerStatus_Rva0073EA40(playerIndex);
 	return CELLSHROUD_CLEAR;
 }
 
 // Retail 0x0073B460 stores one byte into the manager's enabled flag at +0x68.
 // No BFME 1 donor names it; descriptive Rva-qualified name.
-void ShroudManagerImpl008FBA40::setEnabled_Rva0073B460(bool value)
+void ShroudManagerImpl::setEnabled_Rva0073B460(bool value)
 {
 	enabled = value;
 }
@@ -358,16 +399,16 @@ void ShroudManagerImpl008FBA40::setEnabled_Rva0073B460(bool value)
 // player. It matches the BFME 1 updatePlayerCells008FB010/008FB060 loop shape
 // but calls only the 008FC300 variant, so it lands under a descriptive
 // Rva-qualified name instead of a donor name.
-void ShroudManagerImpl008FBA40::updatePlayerCells300_Rva0073B410(
+void ShroudManagerImpl::RevealMapForPlayerPermanently(
 	int playerIndex)
 {
 	if (playerIndex >= 0 && playerIndex < 20)
 	{
-		ShroudManagerImpl008FBA40Element *end = elements + height * width;
-		for (ShroudManagerImpl008FBA40Element *element = elements;
+		ShroudManagerCell *end = elements + height * width;
+		for (ShroudManagerCell *element = elements;
 			element != end; ++element)
 		{
-			element->updatePlayerCells008FC300(this, playerIndex);
+			element->AddLooker(this, playerIndex);
 		}
 	}
 }
@@ -376,23 +417,23 @@ void ShroudManagerImpl008FBA40::updatePlayerCells300_Rva0073B410(
 // decrement variant over every element for one player. Same sweep shape as
 // the 0x0073B410 body with the element-first declaration order; descriptive
 // Rva-qualified name.
-void ShroudManagerImpl008FBA40::updatePlayerCells300And3B0_Rva0073B3B0(
+void ShroudManagerImpl::RevealMapForPlayer(
 	int playerIndex)
 {
 	if (playerIndex >= 0 && playerIndex < 20)
 	{
-		ShroudManagerImpl008FBA40Element *element = elements;
-		ShroudManagerImpl008FBA40Element *end = element + height * width;
+		ShroudManagerCell *element = elements;
+		ShroudManagerCell *end = element + height * width;
 		while (element != end)
 		{
-			element->updatePlayerCells008FC300(this, playerIndex);
+			element->AddLooker(this, playerIndex);
 			element->updatePlayerCells008FC3B0(this, playerIndex);
 			++element;
 		}
 	}
 }
 
-ObjectShroudStatus ShroudManagerImpl008FBA40::getPropShroudStatusForPlayer(
+ObjectShroudStatus ShroudManagerImpl::GetPropShroudStatusForPlayer(
 	Int playerIndex, const Coord3D *loc) const
 {
 	if (playerIndex < 0 || playerIndex >= 20)
@@ -405,12 +446,12 @@ ObjectShroudStatus ShroudManagerImpl008FBA40::getPropShroudStatusForPlayer(
 		0.5f - region.lo.y) *
 		inverseCellSize));
 
-	CellShroudStatus cellStatus = getShroudStatusForPlayer(playerIndex, x, y);
-	if (cellStatus != getShroudStatusForPlayer(playerIndex, x + 1, y))
+	CellShroudStatus cellStatus = GetShroudStatusForPlayer(playerIndex, x, y);
+	if (cellStatus != GetShroudStatusForPlayer(playerIndex, x + 1, y))
 		return OBJECTSHROUD_PARTIAL_CLEAR;
-	if (cellStatus != getShroudStatusForPlayer(playerIndex, x, y + 1))
+	if (cellStatus != GetShroudStatusForPlayer(playerIndex, x, y + 1))
 		return OBJECTSHROUD_PARTIAL_CLEAR;
-	if (cellStatus != getShroudStatusForPlayer(playerIndex, x + 1, y + 1))
+	if (cellStatus != GetShroudStatusForPlayer(playerIndex, x + 1, y + 1))
 		return OBJECTSHROUD_PARTIAL_CLEAR;
 	switch (cellStatus)
 	{
@@ -426,23 +467,112 @@ ObjectShroudStatus ShroudManagerImpl008FBA40::getPropShroudStatusForPlayer(
 	}
 }
 
-// Retail inlines drainPending into configure; the same body is also emitted
+// Retail inlines drainPending into _ReallocCells; the same body is also emitted
 // out of line from ShroudManagerImpl008FBA40CtorDrain.cpp (0x0073D7D0).
-inline void ShroudManagerImpl008FBA40::drainPending()
+inline void ShroudManagerImpl::drainPending()
 {
 	++unknown38;
 	while (pendingPartitionData)
 	{
 		PartitionData *partitionData = pendingPartitionData;
 		partitionData->unlink();
-		partitionData->updateCellsTouched();
+		// Native _ReallocCells calls the73AD90 ShroudManager::Data owner.
+		((ShroudManager::Data *)partitionData)->UpdateCellsTouched();
 	}
 
 	processPending(true);
 }
 
+// WorldBuilder's out-of-line twin (WB 0x017E1900) takes a buffer, a length and a
+// seed; retail inlines it at both call sites below.
+static UnsignedInt shroudCalcCRC(const void *buffer, UnsignedInt length,
+	UnsignedInt crc)
+{
+	if (buffer == 0)
+		return crc;
+	const unsigned char *data = (const unsigned char *)buffer;
+	for (UnsignedInt i = 0; i < length; ++i)
+	{
+		UnsignedInt hibit = crc >> 31;
+		crc <<= 1;
+		crc += *data;
+		++data;
+		crc += hibit;
+	}
+	return crc;
+}
+
+// Retail 0x0073D8B0 (818 B): the shroud manager's transfer. Statement order,
+// the drainPending pair (first call out of line, second inlined), the
+// element walk and the light-CRC checksum follow WorldBuilder's debug twin at
+// WB 0x017E6FC0 call for call.
+void ShroudManagerImpl::rva0073D8B0(Xfer *xfer)
+{
+	if (!xfer->isLightCRC())
+	{
+		drainPending();
+
+		for (BfmeThingCDE *node = reinterpret_cast<BfmeThingCDE *>(nodes);
+			node != 0; node = node->next)
+		{
+			node->d_008f7ec0();
+			node->d_008f7990();
+			reinterpret_cast<PartitionData *>(node)->makeDirty();
+		}
+
+		processPending(false);
+
+		xfer->Version1();
+		xfer->xferUnsignedInt((UnsignedInt *)&mode);
+		xfer->xferRegion3D(&region);
+		xfer->xferReal(&defaultCellSize);
+		xfer->xferReal(&inverseCellSize);
+		xfer->xferInt((Int *)&width);
+		xfer->xferInt((Int *)&height);
+		xfer->xferUnsignedInt((UnsignedInt *)&unknown38);
+		if (!xfer->isCRC())
+			xfer->xferInt(&unknown64);
+		xfer->xferBool(&enabled);
+
+		if (xfer->isLoading())
+		{
+			delete[] elements;
+			elements = new ShroudManagerCell[width * height];
+		}
+
+		ShroudManagerCell *cell = elements;
+		for (UnsignedInt y = 0; y < height; ++y)
+		{
+			for (UnsignedInt x = 0; x < width; ++x, ++cell)
+				cell->xfer(xfer);
+		}
+
+		if (xfer->isLoading())
+			notify();
+		else
+			drainPending();
+	}
+	else
+	{
+		UnsignedInt crc = 0;
+		ShroudManagerCell *cell = elements;
+		for (UnsignedInt y = 0; y < height; ++y)
+		{
+			for (UnsignedInt x = 0; x < width; ++x, ++cell)
+			{
+				for (UnsignedInt i = 0; i < 20; ++i)
+				{
+					crc += shroudCalcCRC(&cell->playerStates[i].status, 2, 0);
+					crc += shroudCalcCRC(&cell->playerStates[i].counters, 6, 0);
+				}
+			}
+		}
+		xfer->xferUnsignedInt(&crc);
+	}
+}
+
 // Transferred from BFME 1; the element is BFME 2's 20-player layout.
-void ShroudManagerImpl008FBA40::configure(Region3D newRegion, Real cellSize)
+void ShroudManagerImpl::_ReallocCells(Region3D newRegion, Real cellSize)
 {
 	drainPending();
 
@@ -471,9 +601,9 @@ void ShroudManagerImpl008FBA40::configure(Region3D newRegion, Real cellSize)
 	if (newHeight < 1)
 		newHeight = 1;
 
-	ShroudManagerImpl008FBA40Element *newElements =
-		new ShroudManagerImpl008FBA40Element[newWidth * newHeight];
-	ShroudManagerImpl008FBA40Element *newElement = newElements;
+	ShroudManagerCell *newElements =
+		new ShroudManagerCell[newWidth * newHeight];
+	ShroudManagerCell *newElement = newElements;
 	for (unsigned int y = 0; y < (unsigned int)newHeight; ++y)
 	{
 		int oldY = shroudFloatToLong(shroudFloor(
@@ -524,13 +654,13 @@ void ShroudManagerImpl008FBA40::configure(Region3D newRegion, Real cellSize)
 // cell's status for the active player through the refresh callback, then
 // clear that player's state on each node. BFME 2 tracks 20
 // players (BFME 1: 16) in its 0xA8-byte element.
-void ShroudManagerImpl008FBA40::notify()
+void ShroudManagerImpl::notify()
 {
 	if (unknown64 < 0 || unknown64 >= 20)
 		return;
 
-	ShroudManagerImpl008FBA40Element *element = elements;
-	ShroudManagerImpl008FBA40Element *end = element + width * height;
+	ShroudManagerCell *element = elements;
+	ShroudManagerCell *end = element + width * height;
 	int y = 0;
 	int x = 0;
 	while (element != end)
@@ -553,9 +683,9 @@ void ShroudManagerImpl008FBA40::notify()
 		node->playerShroudState[unknown64] = 0;
 }
 
-// Transferred from BFME 1's ShroudManagerImpl008FBA40.cpp verbatim: saturating
+// Transferred from BFME 1's ShroudManagerImpl.cpp verbatim: saturating
 // adjust of one player's counter word inside the 0xA8-byte element.
-void ShroudManagerImpl008FBA40Element::adjustPlayerCounter008FC1F0(
+void ShroudManagerCell::adjustPlayerCounter008FC1F0(
 	int playerIndex, int counterIndex, int amount)
 {
 	unsigned short *counter =
@@ -568,11 +698,11 @@ void ShroudManagerImpl008FBA40Element::adjustPlayerCounter008FC1F0(
 	*counter = (unsigned short)amount;
 }
 
-// Transferred from BFME 1's ShroudManagerImpl008FBA40.cpp verbatim: the
+// Transferred from BFME 1's ShroudManagerImpl.cpp verbatim: the
 // reveal-count-increment variant refreshes through the manager callback when
 // the visible status word changes.
-void ShroudManagerImpl008FBA40Element::updatePlayerCells008FC300(
-	ShroudManagerImpl008FBA40 *manager, int playerIndex)
+void ShroudManagerCell::AddLooker(
+	ShroudManagerImpl *manager, int playerIndex)
 {
 	ShroudManagerImpl008FBA40PlayerState &playerState =
 		playerStates[playerIndex];
@@ -598,11 +728,11 @@ void ShroudManagerImpl008FBA40Element::updatePlayerCells008FC300(
 	}
 }
 
-// Transferred from BFME 1's ShroudManagerImpl008FBA40.cpp verbatim: the
+// Transferred from BFME 1's ShroudManagerImpl.cpp verbatim: the
 // reveal-count-decrement variant refreshes through the manager callback when
 // the visible status word changes.
-void ShroudManagerImpl008FBA40Element::updatePlayerCells008FC3B0(
-	ShroudManagerImpl008FBA40 *manager, int playerIndex)
+void ShroudManagerCell::updatePlayerCells008FC3B0(
+	ShroudManagerImpl *manager, int playerIndex)
 {
 	ShroudManagerImpl008FBA40PlayerState &playerState =
 		playerStates[playerIndex];
@@ -628,10 +758,10 @@ void ShroudManagerImpl008FBA40Element::updatePlayerCells008FC3B0(
 	}
 }
 
-// Transferred from BFME 1's ShroudManagerImpl008FBA40.cpp verbatim: the
+// Transferred from BFME 1's ShroudManagerImpl.cpp verbatim: the
 // full-shroud variant sets the status word and reports constant status 2.
-void ShroudManagerImpl008FBA40Element::updatePlayerCells008FC450(
-	ShroudManagerImpl008FBA40 *manager, int playerIndex)
+void ShroudManagerCell::ShroudIfFogged(
+	ShroudManagerImpl *manager, int playerIndex)
 {
 	ShroudManagerImpl008FBA40PlayerState &playerState =
 		playerStates[playerIndex];
@@ -658,7 +788,7 @@ void ShroudManagerImpl008FBA40Element::updatePlayerCells008FC450(
 // only inlines the integer form, so this lands under a descriptive
 // Rva-qualified name.
 ShroudManagerImpl008FBA40ElementLayout *
-ShroudManagerImpl008FBA40::elementAtByCoord_Rva0073A1D0(Real x, Real y) const
+ShroudManagerImpl::elementAtByCoord_Rva0073A1D0(Real x, Real y) const
 {
 	Int cellX = shroudFloatToLong(shroudFloor(
 		(x - region.lo.x) * inverseCellSize));
@@ -676,7 +806,7 @@ ShroudManagerImpl008FBA40::elementAtByCoord_Rva0073A1D0(Real x, Real y) const
 // at 0x0073EA40 loads the same element's status word for one player. No BFME 1
 // donor names it (its only caller is 0x0073B890), so it lands under a
 // descriptive Rva-qualified name.
-__declspec(noinline) int ShroudManagerImpl008FBA40Element::getPlayerStatus_Rva0073EA40(
+__declspec(noinline) int ShroudManagerCell::getPlayerStatus_Rva0073EA40(
 	int playerIndex)
 {
 	return playerStates[playerIndex].status;
@@ -684,16 +814,12 @@ __declspec(noinline) int ShroudManagerImpl008FBA40Element::getPlayerStatus_Rva00
 
 // Retail 0x0073D810 is ShroudManager::undoRevealMapForPlayerPermanently,
 // the tail-call target of the PartitionManager undo thunk at 0x007397B0.
-// It is the decrement twin of updatePlayerCells300_Rva0073B410 above:
+// It is the decrement twin of RevealMapForPlayerPermanently above:
 // same 20-player guard and element sweep, but it drains pending work
 // first and runs the 008FC3B0 (reveal-decrement) variant. ShroudManager
 // derives from the Impl (base at +0), so the member reads and the
 // processPending call need no this adjustment.
-class ShroudManager : public ShroudManagerImpl008FBA40
-{
-public:
-	void undoRevealMapForPlayerPermanently(int playerIndex);
-};
+
 
 // ?undoRevealMapForPlayerPermanently@ShroudManager@@QAEXH@Z
 void ShroudManager::undoRevealMapForPlayerPermanently(int playerIndex)
@@ -702,11 +828,48 @@ void ShroudManager::undoRevealMapForPlayerPermanently(int playerIndex)
 	{
 		processPending(false);
 
-		ShroudManagerImpl008FBA40Element *end = elements + height * width;
-		for (ShroudManagerImpl008FBA40Element *element = elements;
+		ShroudManagerCell *end = elements + height * width;
+		for (ShroudManagerCell *element = elements;
 			element != end; ++element)
 		{
 			element->updatePlayerCells008FC3B0(this, playerIndex);
 		}
+	}
+}
+
+void ShroudManager::ShroudMapForPlayer(int playerIndex)
+{
+	if (playerIndex >= 0 && playerIndex < 20)
+	{
+		processPending(false);
+
+		ShroudManagerCell *end = elements + height * width;
+		for (ShroudManagerCell *element = elements;
+			element != end; ++element)
+		{
+			element->ShroudIfFogged(this, playerIndex);
+		}
+	}
+}
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?getShroudStatusForPlayer@ShroudManager@@QBE?AW4CellShroudStatus@@HPBUCoord3D@@@Z=?GetShroudStatusForPlayer@ShroudManagerImpl@@QBE?AW4CellShroudStatus@@HPBUCoord3D@@@Z")
+#pragma comment(linker, "/alternatename:?revealMapForPlayerPermanently@ShroudManager@@QAEXH@Z=?RevealMapForPlayerPermanently@ShroudManagerImpl@@QAEXH@Z")
+
+// Native 0x0073B600: array constructor used by _ReallocCells (0x73DBF0)
+// and the shroud transfer (0x73D8B0). Both pass the verified 0xA8 element
+// stride. Target initializes the cell link and trailing word, then twenty
+// status words to shrouded and all three counter words to zero.
+__declspec(noinline) ShroudManagerCell::ShroudManagerCell()
+{
+	cellNodes = 0;
+	unknown64 = 0;
+	for (int i = 0; i < 20; ++i)
+	{
+		playerStates[i].status = 0xffff;
+		unsigned short *values = &playerStates[i].counters[0];
+		for (int j = 0; j < 3; ++j)
+			values[j] = 0;
 	}
 }

@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /MD /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // ??0UnpauseSpecialPowerUpgradeModuleData@@QAE@XZ, retail 0x004B544A, 32
 // bytes. Frameless ctor over the rowed OpenContain base (0x253487): vtable
@@ -10,10 +10,13 @@
 // (DestroyEnvironment precedent, so no vtable is emitted); the and-zero
 // floats above the vtable on its own (GiveOrRestore inverse: no barrier).
 
-class OpenContainModuleData
+extern "C" const void *const vtbl_00BF2558[];  // ??_7WeaponSetUpgradeModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BF2558=??_7WeaponSetUpgradeModuleData@@6B@")
+
+class Rva00253487Base
 {
 public:
-	OpenContainModuleData();
+	Rva00253487Base();
 
 protected:
 	void *m_vtable; // +0
@@ -22,7 +25,7 @@ private:
 	unsigned char m_pad[0x118 - 4];
 };
 
-class UnpauseSpecialPowerUpgradeModuleData : public OpenContainModuleData
+class UnpauseSpecialPowerUpgradeModuleData : public Rva00253487Base
 {
 public:
 	UnpauseSpecialPowerUpgradeModuleData();
@@ -36,7 +39,7 @@ private:
 // ??0UnpauseSpecialPowerUpgradeModuleData@@QAE@XZ @0x4B544A
 UnpauseSpecialPowerUpgradeModuleData::UnpauseSpecialPowerUpgradeModuleData()
 {
-	m_vtable = reinterpret_cast<void *>(0x00BF2558);
+	m_vtable = reinterpret_cast<void *>(((unsigned int)vtbl_00BF2558));
 	m_specialPowerTemplate = 0;
 	m_obeyRechargeOnTrigger = false;
 }

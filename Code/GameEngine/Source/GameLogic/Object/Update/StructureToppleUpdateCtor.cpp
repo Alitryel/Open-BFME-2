@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE
+// cl: /DNDEBUG /MD /GX
 //
 // ??0StructureToppleUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail
 // 0x004A5556, 182 bytes. Behavior-side ctor completing the
@@ -26,25 +26,12 @@ class ModuleData;
 class Object;
 class DamageInfo;
 
-struct Coord2D
-{
-	float x;
-	float y;
-};
+#include "../../../../../Libraries/Include/Lib/Coord2D.h"
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
+#include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
-	void zero()
-	{
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-	}
-};
+// Retail inlines these three zero stores; the canonical Coord3D::zero is the out-of-line owner.
+static inline void zeroInline(Coord3D &c) { c.x = 0.0f; c.y = 0.0f; c.z = 0.0f; }
 
 class GeometryInfo
 {
@@ -98,7 +85,7 @@ public:
 	UpdateModule(Thing *thing, const ModuleData *moduleData);
 	virtual ~UpdateModule();
 protected:
-	void setWakeFrame(Object *obj, unsigned int frame);
+	void setWakeFrame(Object *obj, UpdateSleepTime frame);
 	Object *getObject(void) const { return m_object; }
 private:
 	unsigned m_nextCallFrameAndPhase;
@@ -110,7 +97,7 @@ class DieModuleInterface
 {
 public:
 	DieModuleInterface() {}
-	virtual void onDie(DamageInfo *damageInfo);
+	virtual void onDie(const DamageInfo *damageInfo) = 0;
 };
 
 enum StructureToppleStateType
@@ -126,7 +113,10 @@ class StructureToppleUpdate : public UpdateModule, public DieModuleInterface
 {
 public:
 	StructureToppleUpdate(Thing *thing, const ModuleData *moduleData);
+	// Retail's dtor 0x004A54A8 stores the four vptrs this ctor installs
+	// and tail-jumps UpdateModule::~UpdateModule.
 	virtual ~StructureToppleUpdate();
+	virtual void onDie(const DamageInfo *damageInfo);
 private:
 	const Object *getObject(void) const { return m_object; }
 	unsigned int m_toppleFrame;
@@ -152,9 +142,14 @@ StructureToppleUpdate::StructureToppleUpdate(Thing *thing, const ModuleData *mod
 	m_accumulatedAngle = 0.001f;
 	m_structuralIntegrity = 0.0f;
 	m_lastCrushedLocation = 0.0f;
-	m_delayBurstLocation.zero();
+	zeroInline(m_delayBurstLocation);
 	m_toppleDirection.x = m_toppleDirection.y = 0;
-	setWakeFrame(const_cast<Object*>(getObject()), UPDATE_SLEEP_FOREVER);
+	setWakeFrame(const_cast<Object*>(getObject()), (UpdateSleepTime)UPDATE_SLEEP_FOREVER);
 	Object *building = const_cast<Object*>(getObject());
 	m_buildingHeight = building->getGeometryInfo().getMaxHeightAbovePosition();
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?behaviorModuleOtherAnchor@BehaviorModuleOther@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

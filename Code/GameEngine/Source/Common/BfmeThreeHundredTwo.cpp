@@ -3,7 +3,7 @@
 // its only content. What each choice yields is never read. The place reached is
 // handed back. Built without optimisation; the callee is pinned by address.
 
-void *bfmeAllocQT(int kind, void *what);
+void *__cdecl operator new(unsigned int size, void *where);
 
 int **bfmeFillQT(int **out, unsigned int many, int **from)
 {
@@ -11,7 +11,7 @@ int **bfmeFillQT(int **out, unsigned int many, int **from)
 
 	for ( ; many > 0; --many, ++at)
 	{
-		int *got = (int *)bfmeAllocQT(4, at);
+		int *got = (int *)::operator new(4, at);
 
 		(got != 0) ? (*got = *(int *)from, (void *)got) : (void *)0;
 	}

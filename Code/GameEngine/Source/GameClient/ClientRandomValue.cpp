@@ -43,7 +43,7 @@ GameClientRandomVariable::DistributionType GameClientRandomVariable::getDistribu
     return m_type;
 }
 
-GameClientRandomVariable::GameClientRandomVariable()
+inline GameClientRandomVariable::GameClientRandomVariable()
 {
     m_type = CONSTANT;
     m_low = 0.0f;
@@ -83,3 +83,14 @@ bool operator!=(const GameClientRandomVariable &a, const GameClientRandomVariabl
 {
     return !(a == b);
 }
+
+// These are header inlines that the units including the header emit as
+// select-any copies, which plain definitions here collided with. The anchor
+// keeps this unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeGameClientRandomVariableInlineAnchor absent-from-retail
+void _bfmeGameClientRandomVariableInlineAnchor(GameClientRandomVariable *gameClientRandomVariable)
+{
+    gameClientRandomVariable->GameClientRandomVariable::GameClientRandomVariable();
+}
+#pragma inline_depth()

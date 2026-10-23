@@ -20,7 +20,7 @@ struct Rva007E9B70Obj
 	virtual unsigned now();
 };
 
-extern Rva007E9B70Obj *Rva007E9B70Get();
+extern int Rva00656B60Get();
 
 struct BfmeRecUVB
 {
@@ -97,7 +97,7 @@ void BfmeSink1028::bfmeSend1028( int a, int *b, int *c )
 		if( id >= 0 )
 		{
 			m_0C[m_10].m_00 = id;
-			m_0C[m_10].m_04 = (int)Rva007E9B70Get()->now();
+			m_0C[m_10].m_04 = (int)((Rva007E9B70Obj *)Rva00656B60Get())->now();
 			m_0C[m_10].m_0C = *pc;
 			m_0C[m_10].m_08 = *pb;
 			( (BfmeSvcVMO *)this )->bfmeSetVMO( m_10 + 1 );

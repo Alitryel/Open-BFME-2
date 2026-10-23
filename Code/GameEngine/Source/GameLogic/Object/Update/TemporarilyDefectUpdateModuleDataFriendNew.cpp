@@ -1,4 +1,4 @@
-// cl: /O1 /GX /DNDEBUG /MD
+// cl: /GX /DNDEBUG /MD
 //
 // ?friend_newModuleData@TemporarilyDefectUpdateModuleData@@SAPAVModuleData@@PAVINI@@@Z,
 // retail 0x00254C9B, 52 bytes. Dedicated TU: the factory news 0x0C with an
@@ -12,6 +12,9 @@
 // DeletionUpdateModuleDataFriendNew.cpp with the Deletion explicit-m_vtable
 // precedent. Class identity is the rowed TemporarilyDefectUpdate pool key at
 // 0x4CC659 (ends where the class proc begins) plus the pushed proc VA.
+
+extern "C" const void *const vtbl_00C4ED70[];  // folded, 9 classes; via ??_7BeaconClientUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4ED70=??_7BeaconClientUpdateModuleData@@6B@")
 
 class ModuleData;
 class INI;
@@ -29,7 +32,7 @@ public:
 	TemporarilyDefectUpdateModuleData()
 	{
 		m_defectDuration = 0;
-		m_vtable = reinterpret_cast<void *>(0x00C4ED70);
+		m_vtable = reinterpret_cast<void *>(((unsigned int)vtbl_00C4ED70));
 	}
 	static void buildFieldParse(MultiIniFieldParse &parse);
 	static ModuleData *friend_newModuleData(INI *ini);
@@ -48,3 +51,76 @@ ModuleData *TemporarilyDefectUpdateModuleData::friend_newModuleData(INI *ini)
 		ini->initFromINIMultiProc(data, TemporarilyDefectUpdateModuleData::buildFieldParse);
 	return reinterpret_cast<ModuleData *>(data);
 }
+
+struct FieldParse;
+extern const int g_emptyFieldParseTable[];
+
+class MultiIniFieldParse
+{
+public:
+	void add(const FieldParse *f, unsigned int extraOffset);
+};
+
+// ?rva00254545@@YAXAAVMultiIniFieldParse@@@Z @0x00254545 (17B)
+void __declspec(noinline) rva00254545(MultiIniFieldParse &p)
+{
+	p.add(reinterpret_cast<const FieldParse *>(g_emptyFieldParseTable), 0);
+}
+
+// ?rva004607F3@@YAXAAVMultiIniFieldParse@@@Z @0x004607F3 (17B)
+void __declspec(noinline) rva004607F3(MultiIniFieldParse &p)
+{
+	p.add(reinterpret_cast<const FieldParse *>(g_emptyFieldParseTable), 0);
+}
+
+class Rva002533FCData
+{
+public:
+	Rva002533FCData()
+	{
+		m_vtable = reinterpret_cast<void *>(((unsigned int)vtbl_00C4ED70));
+	}
+
+private:
+	void *m_vtable;
+	int m_unused04;
+};
+
+// ?ModuleFactoryDataAt002533FC@@YAPAVModuleData@@PAVINI@@@Z @0x002533FC (48B)
+ModuleData *ModuleFactoryDataAt002533FC(INI *ini)
+{
+	Rva002533FCData *data = new Rva002533FCData;
+	if (ini)
+		ini->initFromINIMultiProc(data, rva00254545);
+	return reinterpret_cast<ModuleData *>(data);
+}
+
+// ?ModuleFactoryDataAt00253575@@YAPAVModuleData@@PAVINI@@@Z @0x00253575 (48B)
+ModuleData *ModuleFactoryDataAt00253575(INI *ini)
+{
+	Rva002533FCData *data = new Rva002533FCData;
+	if (ini)
+		ini->initFromINIMultiProc(data, rva004607F3);
+	return reinterpret_cast<ModuleData *>(data);
+}
+
+class DebugDisplayInterface;
+struct _iobuf;
+void __cdecl rva000B3FD0DebugDisplay(DebugDisplayInterface *, void *, _iobuf *);
+
+// ICF-folded twin of the 1-byte bodies at 0x000B3FD0: a cdecl empty body is
+// a bare ret like every other name folded there; this TU takes its address
+// as the initFromINIMultiProc callback, so it provides the spelling itself.
+void __cdecl rva000B3FD0DebugDisplay(DebugDisplayInterface *, void *, _iobuf *)
+{
+}
+
+// ?ModuleFactoryDataAt00255ED8@@YAPAVModuleData@@PAVINI@@@Z @0x00255ED8 (48B)
+ModuleData *ModuleFactoryDataAt00255ED8(INI *ini)
+{
+	Rva002533FCData *data = new Rva002533FCData;
+	if (ini)
+		ini->initFromINIMultiProc(data, reinterpret_cast<void (__cdecl *)(MultiIniFieldParse &)>(rva000B3FD0DebugDisplay));
+	return reinterpret_cast<ModuleData *>(data);
+}
+

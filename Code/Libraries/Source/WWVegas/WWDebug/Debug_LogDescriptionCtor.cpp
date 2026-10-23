@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc /Oy-
 //
 // Debug::LogDescription::LogDescription, retail 0x00038410 (35 bytes).
 // Ported from Open-BFME-1 WWDebug/debug_debug.cpp LogDescription (a memberless
@@ -67,9 +67,8 @@ public:
 	};
 };
 
-Debug *theDebug;
+extern Debug *theDebug;  // defined in DebugPreStaticInit.cpp
 
-#pragma optimize("y", off)
 
 // ??0LogDescription@Debug@@QAE@PBD0@Z
 Debug::LogDescription::LogDescription(const char *fileOrGroup, const char *description)

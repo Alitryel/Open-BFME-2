@@ -1,4 +1,6 @@
-// cl: /O1 /DNDEBUG /MD
+char g_00BEFDB4;
+
+// cl: /DNDEBUG /MD
 //
 // ??0SpecialPowerTimerRefreshSpecialPower@@QAE@PAVThing@@PBVModuleData@@@Z,
 // retail 0x00251BDE, 40 bytes. Behavior-side ctor completing the
@@ -12,6 +14,11 @@
 // declared anywhere so no vtable is emitted here; all three immediates are
 // DIR32-masked in comparison). Zero new pins (base resolves via the
 // rowed SpecialPowerModule spelling).
+
+extern "C" const void *const vtbl_00BEFCF8[];  // folded, 38 classes; via ??_7CashHackSpecialPower@@6BBehaviorModuleInterface@@@
+#pragma comment(linker, "/alternatename:_vtbl_00BEFCF8=??_7CashHackSpecialPower@@6BBehaviorModuleInterface@@@")
+extern "C" const void *const vtbl_00C5E080[];  // folded, 2 classes; via ??_7Rva004C7B36@@6BRva004C7B36_B2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C5E080=??_7Rva004C7B36@@6BRva004C7B36_B2@@@")
 
 class Thing;
 class ModuleData;
@@ -32,7 +39,7 @@ public:
 SpecialPowerTimerRefreshSpecialPower::SpecialPowerTimerRefreshSpecialPower(Thing *thing, const ModuleData *moduleData) :
 	SpecialPowerModule(thing, moduleData)
 {
-	*(unsigned int *)this = 0x00BEFDB4;
-	*(unsigned int *)((char *)this + 0xC) = 0x00BEFCF8;
-	*(unsigned int *)((char *)this + 0x10) = 0x00C5E080;
+	*(unsigned int *)this = (unsigned int)&g_00BEFDB4;
+	*(unsigned int *)((char *)this + 0xC) = ((unsigned int)vtbl_00BEFCF8);
+	*(unsigned int *)((char *)this + 0x10) = ((unsigned int)vtbl_00C5E080);
 }

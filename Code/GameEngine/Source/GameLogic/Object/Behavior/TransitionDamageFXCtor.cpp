@@ -1,5 +1,6 @@
 // cl: /O1 /DNDEBUG /MD
 // stlport
+// The protected destructor is the separately verified body at 0x004BA47C.
 //
 // ??0TransitionDamageFX@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x004BA3EA,
 // 71 bytes. TransitionDamageFX ctor over the rowed DamageModule base
@@ -17,6 +18,23 @@
 // registration literal) proves the class. Row supersedes the ctor pin.
 
 #include <vector>
+
+// vector<int>/char destruction otherwise instantiates per-TU allocator
+// deallocate COMDATs (one byte shape per TU flags); explicit
+// dllimport+forceinline specializations take those calls inline so this
+// TU emits no external copies. Bodies are verbatim primary.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<int>::deallocate(int* __p, size_t __n) const {
+  _STLP_ASSERT( (__p == 0) == (__n == 0) )
+    if (__p != 0) __sgi_alloc::deallocate((void*)__p, __n * sizeof(value_type));
+}
+template <> void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int*, size_t);
+// Declaration-only: retail keeps one 14-byte copy of the vector<int> teardown
+// (0x0007FAB3); this TU's flags would emit a private 24-byte one.
+template <> vector<int, allocator<int> >::~vector();
+template <> _Vector_base<int, allocator<int> >::~_Vector_base();
+}
 
 class Thing;
 class ModuleData;
@@ -52,12 +70,16 @@ class DamageModule : public DamageModuleBase,
 {
 public:
 	DamageModule(Thing *thing, const ModuleData *moduleData);
+	virtual ~DamageModule();
 };
 
 class TransitionDamageFX : public DamageModule
 {
 public:
 	TransitionDamageFX(Thing *thing, const ModuleData *moduleData);
+
+protected:
+	virtual ~TransitionDamageFX();
 
 private:
 	int m_clear[0x30]; // +0x14

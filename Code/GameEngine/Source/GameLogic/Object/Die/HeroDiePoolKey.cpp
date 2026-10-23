@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004C22C9@HeroDie@@SA?AW4NameKeyType@@XZ @0x4C22C9
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@HeroDie@@UBE?AW4NameKeyType@@XZ @0x4C22C9
 // (69B): cached pool-name key for HeroDie. The class
 // identity comes from the pool-name string the body pushes
 // ("HeroDie"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class HeroDie
 {
 public:
-	static NameKeyType rva0004C22C9();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004C22C9@HeroDie@@SA?AW4NameKeyType@@XZ
-NameKeyType HeroDie::rva0004C22C9()
+// ?getModuleNameKey@HeroDie@@UBE?AW4NameKeyType@@XZ
+NameKeyType HeroDie::getModuleNameKey() const
 {
 	static NameKeyType TheHeroDiePoolKey =
 		TheNameKeyGenerator->nameToKey("HeroDie");

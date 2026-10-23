@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva000028CADE@ObjectRepulsorHelper@@SA?AW4NameKeyType@@XZ @0x28CADE
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@ObjectRepulsorHelper@@UBE?AW4NameKeyType@@XZ @0x28CADE
 // (69B): cached pool-name key for ObjectRepulsorHelper. The class
 // identity comes from the pool-name string the body pushes
 // ("ObjectRepulsorHelper"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ObjectRepulsorHelper
 {
 public:
-	static NameKeyType rva000028CADE();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000028CADE@ObjectRepulsorHelper@@SA?AW4NameKeyType@@XZ
-NameKeyType ObjectRepulsorHelper::rva000028CADE()
+// ?getModuleNameKey@ObjectRepulsorHelper@@UBE?AW4NameKeyType@@XZ
+NameKeyType ObjectRepulsorHelper::getModuleNameKey() const
 {
 	static NameKeyType TheObjectRepulsorHelperPoolKey =
 		TheNameKeyGenerator->nameToKey("ObjectRepulsorHelper");

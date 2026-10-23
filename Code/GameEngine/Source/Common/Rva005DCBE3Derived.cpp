@@ -1,4 +1,4 @@
-// cl: /O1 /MD
+// cl: /MD
 //
 // Opaque single-inheritance destructor tail-calling Rva005DCBE3::~
 // Rva005DCBE3 at 0x005DCBE3 (row in Rva004EDCE9Derived.cpp). The class below
@@ -15,12 +15,20 @@ public:
 	virtual ~Rva005DCBE3();
 };
 
-class Rva005AA860 : public Rva005DCBE3
+class AISimpleExpansionTactic : public Rva005DCBE3
 {
 public:
-	virtual ~Rva005AA860();
+	virtual ~AISimpleExpansionTactic();
 };
 
-Rva005AA860::~Rva005AA860()
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline AISimpleExpansionTactic::~AISimpleExpansionTactic()
 {
+}
+
+// ?bfmeAnchorAISimpleExpansionTacticDtor absent-from-retail
+void bfmeAnchorAISimpleExpansionTacticDtor(AISimpleExpansionTactic *aISimpleExpansionTactic)
+{
+	aISimpleExpansionTactic->AISimpleExpansionTactic::~AISimpleExpansionTactic();
 }

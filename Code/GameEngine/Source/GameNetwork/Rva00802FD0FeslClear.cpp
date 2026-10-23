@@ -3,6 +3,13 @@
 // service list while pending, free the 0x10-stride request block, clear the
 // DirtySock ping ref at +8.
 
+// Both symbol candidates pin this class-specific deallocator to 0x0065D030;
+// the matched row names Gen007F0170::operator delete(void *). The call below
+// passes that request pointer plus a cdecl size argument, so bind its legacy
+// two-argument reference to the same one-argument deallocator without changing
+// the verified call sequence.
+#pragma comment(linker, "/alternatename:??3Rva00803080Request@@SAXPAXI@Z=??3Gen007F0170@@SAXPAX@Z")
+
 struct Rva00807BA0Ping;
 struct Rva00808140Ref;
 void Rva00808140( Rva00808140Ref *ref );

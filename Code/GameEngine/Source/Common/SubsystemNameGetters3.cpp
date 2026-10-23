@@ -18,5 +18,13 @@
 		return TEXT; \
 	}
 
-BFME_LITERAL_NAME_GETTER(Rva002FEB2CNamed, "AI")
-BFME_LITERAL_NAME_GETTER(Rva00305947Named, "GhostObjectManager")
+class AI
+{
+public:
+	virtual const char *GetSnapshotName() const;
+};
+
+const char *AI::GetSnapshotName() const
+{
+	return "AI";
+}

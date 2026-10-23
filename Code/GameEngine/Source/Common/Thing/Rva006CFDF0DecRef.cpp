@@ -12,3 +12,9 @@ int Rva006CFDF0DecRef(int *refCount)
 {
 	return --*refCount;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?decrement@Rva00894D90Accessor@@SAIPAI@Z=?Rva006CFDF0DecRef@@YAHPAH@Z")
+#pragma comment(linker, "/alternatename:?decrement@Rva00894D90Accessor@@SAIPAH@Z=?Rva006CFDF0DecRef@@YAHPAH@Z")
+#pragma comment(linker, "/alternatename:?bfmeDecVGO@@YAIPAI@Z=?Rva006CFDF0DecRef@@YAHPAH@Z")

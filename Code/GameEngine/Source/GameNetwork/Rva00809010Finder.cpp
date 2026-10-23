@@ -27,9 +27,8 @@ public:
 Rva00809500Sink *Rva00809010Finder::find( Rva00809500Entry *entry )
 {
 	void *match = reinterpret_cast< BfmeThingRF * >( entry )->bfmeGoRF(
-		// BFME1 key 0x0112B568 drifted to 0x00CE2D84 in BFME2 (retail push
-		// imm32); opaque registry key, not an image pointer.
-		reinterpret_cast< void * >( 0x00CE2D84 ), 0 );
+		// Retail's key is the pooled "GID" literal (not an image pointer).
+		const_cast< char * >( "GID" ), 0 );
 	for( int index = 0; index < 16; ++index )
 	{
 		Rva00809500Sink *sink = m_sinks[ index ];
@@ -38,3 +37,7 @@ Rva00809500Sink *Rva00809010Finder::find( Rva00809500Entry *entry )
 	}
 	return 0;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?Rva00809010Find@@YGPAURva00809500Sink@@PAURva00809500Entry@@@Z=?find@Rva00809010Finder@@QAEPAURva00809500Sink@@PAURva00809500Entry@@@Z")

@@ -1,4 +1,4 @@
-// cl: /O1
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 // BfmeRefVGO copy constructor, retail 0x000A9806 (28B). The BFME1 donor
 // (BfmeConv1355.cpp) only carries bfmeAssignVGO; the copy is the same
 // single-pointer acquire through the shared VGO refcount helpers: copy the
@@ -31,8 +31,63 @@ BfmeRefVGO::BfmeRefVGO(const BfmeRefVGO &other)
 // of bfmeAssignVGO in BfmeConv1355.cpp: decrement, dropping the shared block
 // when the count reaches zero. Dec resolves through the rowed Rva006CFDF0DecRef
 // leaf, drop through the bfmeDropVGO pin at 0x006D0440.
-BfmeRefVGO::~BfmeRefVGO()
+// Rva006CDE50Collect.cpp emits a select-any copy of this same body for its
+// unwind path; defined inline-noinline here too so the name keeps one body.
+inline __declspec(noinline) BfmeRefVGO::~BfmeRefVGO()
 {
     if (m_bfmeP && bfmeDecVGO(m_bfmeP) == 0)
         bfmeDropVGO(m_bfmeP);
+}
+
+// ?bfmeAnchorBfmeRefVGODtor absent-from-retail
+void bfmeAnchorBfmeRefVGODtor(BfmeRefVGO *p)
+{
+    p->BfmeRefVGO::~BfmeRefVGO();
+}
+
+// The counted Apt key's native cleanup funclets (for example 0x007A9168
+// in AptAnimation) jump to 0x000A9DF3, the five-byte tail call to this
+// BfmeRefVGO destructor. Its single-pointer member is a structural view;
+// the original class name remains unknown. Keep the out-of-line provider
+// here, where the release helper is not inlined, while consumer TUs retain
+// the visible release required by their matched main paths.
+class Rva006D07E0Key
+{
+public:
+    ~Rva006D07E0Key();
+private:
+    BfmeRefVGO m_object;
+};
+
+// ??1Rva006D07E0Key@@QAE@XZ present-unmatched
+inline __declspec(noinline) Rva006D07E0Key::~Rva006D07E0Key()
+{
+}
+
+// ?bfmeAnchorAptKeyDtor absent-from-retail
+void bfmeAnchorAptKeyDtor(Rva006D07E0Key *p)
+{
+    p->Rva006D07E0Key::~Rva006D07E0Key();
+}
+
+// The by-value handle and member cleanups at 0x007A91A0/0x007A91B0 of
+// Rva008A2C80 also target the folded tail call at 0x000A9DF3. This member
+// view records their single counted pointer without asserting a class name.
+class Rva008A2BA0Handle
+{
+public:
+    ~Rva008A2BA0Handle();
+private:
+    BfmeRefVGO m_object;
+};
+
+// ??1Rva008A2BA0Handle@@QAE@XZ present-unmatched
+inline __declspec(noinline) Rva008A2BA0Handle::~Rva008A2BA0Handle()
+{
+}
+
+// ?bfmeAnchorCountedHandleDtor absent-from-retail
+void bfmeAnchorCountedHandleDtor(Rva008A2BA0Handle *p)
+{
+    p->Rva008A2BA0Handle::~Rva008A2BA0Handle();
 }

@@ -59,3 +59,7 @@ int Rva00802240Host::rva007F76F0( Rva007F76F0Vector *vector,
 
 	return -1;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeFindFN@BfmeOwnerFN@@QAEHPAVBfmeVecFN@@PBD@Z=?rva007F76F0@Rva00802240Host@@QAEHPAURva007F76F0Vector@@PBD@Z")

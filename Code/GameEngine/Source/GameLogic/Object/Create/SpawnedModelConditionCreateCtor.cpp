@@ -1,4 +1,7 @@
-// cl: /O1 /DNDEBUG /MD
+char g_00BEF9B0;
+char g_00BEFA7C;
+
+// cl: /DNDEBUG /MD
 //
 // ??0SpawnedModelConditionCreate@@QAE@PAVThing@@PBVModuleData@@@Z, retail
 // 0x00250A1F, 40 bytes. Behavior-side ctor completing the
@@ -12,6 +15,9 @@
 // declared anywhere so no vtable is emitted here; all three immediates are
 // DIR32-masked in comparison). Zero new pins (base resolves via the
 // rowed CreateModule spelling).
+
+extern "C" const void *const vtbl_00BEF9C0[];  // folded, 15 classes; via ??_7CreateModule@@6BBehaviorModuleInterface@@@
+#pragma comment(linker, "/alternatename:_vtbl_00BEF9C0=??_7CreateModule@@6BBehaviorModuleInterface@@@")
 
 class Thing;
 class ModuleData;
@@ -32,7 +38,7 @@ public:
 SpawnedModelConditionCreate::SpawnedModelConditionCreate(Thing *thing, const ModuleData *moduleData) :
 	CreateModule(thing, moduleData)
 {
-	*(unsigned int *)this = 0x00BEFA7C;
-	*(unsigned int *)((char *)this + 0xC) = 0x00BEF9C0;
-	*(unsigned int *)((char *)this + 0x10) = 0x00BEF9B0;
+	*(unsigned int *)this = (unsigned int)&g_00BEFA7C;
+	*(unsigned int *)((char *)this + 0xC) = ((unsigned int)vtbl_00BEF9C0);
+	*(unsigned int *)((char *)this + 0x10) = (unsigned int)&g_00BEF9B0;
 }

@@ -50,7 +50,6 @@ HighlanderBody::HighlanderBody( Thing *thing, const ModuleData *moduleData )
 {
 }
 
-// ??1HighlanderBody@@UAE@XZ present-unmatched
 HighlanderBody::~HighlanderBody()
 {
 }

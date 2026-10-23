@@ -25,13 +25,15 @@
 //
 // Identity is not recovered; every name is derived from an address.
 
+#include "../../Include/GameClient/BfmeVideoTable.h"
+
 struct Rva0081C5C0Element
 {
 	char m_body[28];
 };
 
-extern Rva0081C5C0Element *g_Rva0081C5C0Begin;
-extern Rva0081C5C0Element *g_Rva0081C5C0End;
+#define g_Rva0081C5C0Begin ((Rva0081C5C0Element *)g_bfmeVideoTableStorage.begin)
+#define g_Rva0081C5C0End ((Rva0081C5C0Element *)g_bfmeVideoTableStorage.end)
 
 int Rva0081C5C0Count()
 {

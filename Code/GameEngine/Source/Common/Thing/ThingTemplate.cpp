@@ -1,7 +1,18 @@
-// cl: /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
+// cl: /Ireference/shims/sparse_public /Ireference/shims/bfme_geometryinfo_ctor_link /DBFME_ASCII_DTOR_DECL /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/Common/Thing/ThingTemplate.cpp); this unit had no counterpart under Code/.
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -33,6 +44,24 @@
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+// The exact assignment specialization is provided by StlportAsciiStringVectorAssign.cpp.
+// Keep this consumer on that verified body rather than instantiate the stock copy.
+#include <vector>
+#include "ascii_string.h"
+namespace _STL {
+template <> vector<AsciiString, allocator<AsciiString> > &
+vector<AsciiString, allocator<AsciiString> >::operator=(const vector<AsciiString, allocator<AsciiString> > &);
+}
+
+#include <map>
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 
 #define DEFINE_POWER_NAMES								// for PowerNames[]
 #define DEFINE_SHADOW_NAMES								// for TheShadowNames[]
@@ -61,6 +90,30 @@
 #include "Common/ThingSort.h"
 #include "Common/BitFlagsIO.h"
 
+// ZH's BitFlags intersection counters count through std::bitset inlines; retail
+// keeps the four-word SWAR bodies out of line in BitFlagsCountIntersection.cpp
+// (intersection 0x0033ADC0, inverse 0x0028F55C). The same computation here, so
+// this TU emits retail's bytes while findBestInfoSlow keeps the alias knowledge
+// the ZH inline gave it (SparseMatchFinder's matched body caches the vector end
+// across these calls). BFME2's BitFlags<11> storage is one dword at +0.
+template<> inline int BitFlags<11>::countIntersection(const BitFlags<11> &that) const
+{
+	unsigned v = *(const unsigned *)&m_bits & *(const unsigned *)&that.m_bits;
+	v = v - ((v >> 1) & 0x55555555);
+	v = (v & 0x33333333) + ((v >> 2) & 0x33333333);
+	v = (v + (v >> 4)) & 0x0F0F0F0F;
+	return (int)((v * 0x01010101u) >> 24);
+}
+
+template<> inline int BitFlags<11>::countInverseIntersection(const BitFlags<11> &that) const
+{
+	unsigned v = ~*(const unsigned *)&m_bits & *(const unsigned *)&that.m_bits;
+	v = v - ((v >> 1) & 0x55555555);
+	v = (v & 0x33333333) + ((v >> 2) & 0x33333333);
+	v = (v + (v >> 4)) & 0x0F0F0F0F;
+	return (int)((v * 0x01010101u) >> 24);
+}
+
 #include "GameClient/Drawable.h"
 #include "GameClient/FXList.h"
 #include "GameClient/GameText.h"
@@ -75,6 +128,63 @@
 #include "GameLogic/Weapon.h"
 
 #include "Common/UnitTimings.h" //Contains the DO_UNIT_TIMINGS define jba.	
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<WeaponTemplateSet, WeaponTemplateSet>(WeaponTemplateSet *, WeaponTemplateSet const &); }
+namespace _STL { template <> void _Destroy<ProductionPrerequisite *>(ProductionPrerequisite *, ProductionPrerequisite *); }
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+// Retail's ProductionPrerequisite range copy (0x0033E9DE) assigns through the
+// out-of-line assign 0x002D0C44; this unit's ZH-layout copy is not that body.
+namespace _STL { template <> ProductionPrerequisite *__copy<ProductionPrerequisite *, ProductionPrerequisite *, int>(ProductionPrerequisite *, ProductionPrerequisite *, ProductionPrerequisite *, const random_access_iterator_tag &, int *); }
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ?parse@?$BitFlags@$0HE@@@QAEXPAVINI@@PAVAsciiString@@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class INI; class AsciiString;
+template <> void BitFlags<116>::parse(INI *,AsciiString *);
+
+// Retail keeps one vector<ProductionPrerequisite>::push_back (0x0033EA10); this
+// unit calls it rather than leading link order with its own copy.
+namespace _STL {
+template <> void vector<ProductionPrerequisite, allocator<ProductionPrerequisite> >::push_back(const ProductionPrerequisite &);
+template <> void _Construct<WeaponTemplateSet, WeaponTemplateSet>(WeaponTemplateSet *, const WeaponTemplateSet &);
+}
+
+// Preserve the native comparator's visible read-only contract. The established
+// ledger spelling is BitFlags<17>; retail tests 21 bits in its first flag word.
+// BitFlags contains only STLport bitset storage: one 32-bit unsigned long at
+// offset zero. Read that measured word directly, without the legacy bit-count
+// bound checked by BitFlags::test. This does not establish the original count.
+typedef char BfmeWeaponFlagsWordSize[(sizeof(unsigned long) == 4) ? 1 : -1];
+typedef char BfmeWeaponFlagsStorageSize[(sizeof(BitFlags<17>) == 4) ? 1 : -1];
+template <> __declspec(noinline) bool SparseMatchFinder<WeaponTemplateSet, BitFlags<17> >::MapHelper::operator()(const BitFlags<17> &a, const BitFlags<17> &b) const
+{
+    const unsigned long *aWords = reinterpret_cast<const unsigned long *>(&a);
+    const unsigned long *bWords = reinterpret_cast<const unsigned long *>(&b);
+    for (int i = 0; i < 21; ++i)
+    {
+        bool aBit = (aWords[(unsigned)i >> 5] & (1u << (i & 31))) != 0;
+        bool bBit = (bWords[(unsigned)i >> 5] & (1u << (i & 31))) != 0;
+        if (aBit && !bBit)
+            return false;
+        if (!aBit && bBit)
+            return true;
+    }
+    return false;
+}
+
+// The recovered Weapon map providers own these operations. This donor unit's
+// incidental copies differ from retail; refer to the verified bodies instead.
+// The existing sparse_public include profile exposes only MapHelper so
+// VC7.1 accepts the explicit specialization declarations below.
+namespace _STL {
+template <> _Rb_tree<const BitFlags<17>, pair<const BitFlags<17>, const WeaponTemplateSet *>, _Select1st<pair<const BitFlags<17>, const WeaponTemplateSet *> >, SparseMatchFinder<WeaponTemplateSet, BitFlags<17> >::MapHelper, allocator<pair<const BitFlags<17>, const WeaponTemplateSet *> > >::_Link_type
+_Rb_tree<const BitFlags<17>, pair<const BitFlags<17>, const WeaponTemplateSet *>, _Select1st<pair<const BitFlags<17>, const WeaponTemplateSet *> >, SparseMatchFinder<WeaponTemplateSet, BitFlags<17> >::MapHelper, allocator<pair<const BitFlags<17>, const WeaponTemplateSet *> > >::_M_create_node(const pair<const BitFlags<17>, const WeaponTemplateSet *> &);
+template <> pair<_Rb_tree<const BitFlags<17>, pair<const BitFlags<17>, const WeaponTemplateSet *>, _Select1st<pair<const BitFlags<17>, const WeaponTemplateSet *> >, SparseMatchFinder<WeaponTemplateSet, BitFlags<17> >::MapHelper, allocator<pair<const BitFlags<17>, const WeaponTemplateSet *> > >::iterator, bool>
+_Rb_tree<const BitFlags<17>, pair<const BitFlags<17>, const WeaponTemplateSet *>, _Select1st<pair<const BitFlags<17>, const WeaponTemplateSet *> >, SparseMatchFinder<WeaponTemplateSet, BitFlags<17> >::MapHelper, allocator<pair<const BitFlags<17>, const WeaponTemplateSet *> > >::insert_unique(const pair<const BitFlags<17>, const WeaponTemplateSet *> &);
+template <> _Rb_tree<const BitFlags<17>, pair<const BitFlags<17>, const WeaponTemplateSet *>, _Select1st<pair<const BitFlags<17>, const WeaponTemplateSet *> >, SparseMatchFinder<WeaponTemplateSet, BitFlags<17> >::MapHelper, allocator<pair<const BitFlags<17>, const WeaponTemplateSet *> > >::iterator
+_Rb_tree<const BitFlags<17>, pair<const BitFlags<17>, const WeaponTemplateSet *>, _Select1st<pair<const BitFlags<17>, const WeaponTemplateSet *> >, SparseMatchFinder<WeaponTemplateSet, BitFlags<17> >::MapHelper, allocator<pair<const BitFlags<17>, const WeaponTemplateSet *> > >::insert_unique(_Rb_tree<const BitFlags<17>, pair<const BitFlags<17>, const WeaponTemplateSet *>, _Select1st<pair<const BitFlags<17>, const WeaponTemplateSet *> >, SparseMatchFinder<WeaponTemplateSet, BitFlags<17> >::MapHelper, allocator<pair<const BitFlags<17>, const WeaponTemplateSet *> > >::iterator, const pair<const BitFlags<17>, const WeaponTemplateSet *> &);
+template <> const WeaponTemplateSet *&
+map<const BitFlags<17>, const WeaponTemplateSet *, SparseMatchFinder<WeaponTemplateSet, BitFlags<17> >::MapHelper, allocator<pair<const BitFlags<17>, const WeaponTemplateSet *> > >::operator[](const BitFlags<17> &);
+}
 
 #ifdef _INTERNAL
 // for occasional debugging...
@@ -284,6 +394,7 @@ const FieldParse ThingTemplate::s_objectReskinFieldParseTable[] =
 // ------------------------------------------------------------------------------------------------
 /** See if the tag string is present in any of the module info entries here */
 // ------------------------------------------------------------------------------------------------
+// ?ModuleInfo::getNuggetWithTag present-unmatched
 const ModuleInfo::Nugget *ModuleInfo::getNuggetWithTag( const AsciiString& tag ) const
 {
 
@@ -300,326 +411,18 @@ const ModuleInfo::Nugget *ModuleInfo::getNuggetWithTag( const AsciiString& tag )
 // ------------------------------------------------------------------------------------------------
 /** Add this module info to the thing template */
 // ------------------------------------------------------------------------------------------------
-void ModuleInfo::addModuleInfo(ThingTemplate *thingTemplate, 
-															 const AsciiString& name, 
-															 const AsciiString& moduleTag, 
-															 const ModuleData* data, 
-															 Int interfaceMask, 
-															 Bool inheritable,
-                               Bool overrideableByLikeKind)
-{
-
-	//
-	// there must be a module tag present, and it must be unique across all module infos
-	// for this thing template
-	//
-#if defined(_DEBUG) || defined(_INTERNAL)
-	// get module info
-	const Nugget *nugget;
-	
-	nugget = thingTemplate->getBehaviorModuleInfo().getNuggetWithTag( moduleTag );
-	if( nugget != NULL )
-	{
-
-		// compare this nugget tag against the tag for the new data we're going to submit
-		DEBUG_ASSERTCRASH( nugget->m_moduleTag != moduleTag,
-											 ("addModuleInfo - ERROR defining module '%s' on thing template '%s'.  The module '%s' has the tag '%s' which must be unique among all modules for this object, but the tag '%s' is also already on module '%s' within this object.\n\nPlease make unique tag names within an object definition\n",
-												name.str(),
-												thingTemplate->getName().str(),
-												name.str(),
-												moduleTag.str(),
-												moduleTag.str(),
-												nugget->first.str()) );
-
-		// srj sez: prevent people from ignoring this.
-		throw INI_INVALID_DATA;
-	}  // end if
-
-	nugget = thingTemplate->getDrawModuleInfo().getNuggetWithTag( moduleTag );
-	if( nugget != NULL )
-	{
-
-		// compare this nugget tag against the tag for the new data we're going to submit
-		DEBUG_ASSERTCRASH( nugget->m_moduleTag != moduleTag,
-											 ("addModuleInfo - ERROR defining module '%s' on thing template '%s'.  The module '%s' has the tag '%s' which must be unique among all modules for this object, but the tag '%s' is also already on module '%s' within this object.\n\nPlease make unique tag names within an object definition\n",
-												name.str(),
-												thingTemplate->getName().str(),
-												name.str(),
-												moduleTag.str(),
-												moduleTag.str(),
-												nugget->first.str()) );
-
-		// srj sez: prevent people from ignoring this.
-		throw INI_INVALID_DATA;
-	}  // end if
-
-	nugget = thingTemplate->getClientUpdateModuleInfo().getNuggetWithTag( moduleTag );
-	if( nugget != NULL )
-	{
-
-		// compare this nugget tag against the tag for the new data we're going to submit
-		DEBUG_ASSERTCRASH( nugget->m_moduleTag != moduleTag,
-											 ("addModuleInfo - ERROR defining module '%s' on thing template '%s'.  The module '%s' has the tag '%s' which must be unique among all modules for this object, but the tag '%s' is also already on module '%s' within this object.\n\nPlease make unique tag names within an object definition\n",
-												name.str(),
-												thingTemplate->getName().str(),
-												name.str(),
-												moduleTag.str(),
-												moduleTag.str(),
-												nugget->first.str()) );
-		// srj sez: prevent people from ignoring this.
-		throw INI_INVALID_DATA;
-	}  // end if
-
-#endif
-
-	m_info.push_back(Nugget(name, moduleTag, data, interfaceMask, inheritable, overrideableByLikeKind));
-
-}
+// ModuleInfo::addModuleInfo is defined with its retail-matched body in Code/GameEngine/Source/Common/Thing/ModuleInfoAddModuleInfo.cpp (0x0033D553).
 
 //-------------------------------------------------------------------------------------------------
-Bool ModuleInfo::clearModuleDataWithTag(const AsciiString& tagToClear, AsciiString& clearedModuleNameOut) 
-{ 
-	Bool cleared = false;
-
-	// do NOT clear... we only want to modify this if we return true.
-	// if we return false, we should leave this unmodified.
-	//clearedModuleNameOut.clear();
-
-	for (std::vector<Nugget>::iterator it = m_info.begin(); it != m_info.end(); /* empty */ ) 
-	{
-		if (it->m_moduleTag == tagToClear)
-		{
-			DEBUG_ASSERTCRASH(!cleared, ("Hmm, multiple clears in ModuleInfo::clearModuleDataWithTag, should this be possible?"));
-			clearedModuleNameOut = it->first;
-			it = m_info.erase(it);
-			cleared = true;
-		}
-		else
-		{
-			++it;
-		}
-	}
-	return cleared;
-}
-
-
-
-
+// ModuleInfo's vector<Nugget> filters live in their own BFME 2 units: clearModuleDataWithTag
+// (0x0033C807, Rva0033C807FindErase.cpp), the interface-mask filter (0x0033C84A,
+// ModuleInfoRva0033C84A.cpp) and clearAiModuleInfo (0x0033C882, ModuleInfoRva0033C8B5.cpp).
+// The Zero Hour copies formerly here (3-bool Nugget) emitted a non-retail
+// vector<Nugget>::erase and Nugget::operator= ahead of retail's 0x0033C3BC/0x002CEFCD.
 
 //-------------------------------------------------------------------------------------------------
-Bool ModuleInfo::clearCopiedFromDefaultEntries(Int interfaceMask, const AsciiString &newName, const ThingTemplate *fullTemplate ) 
-{ 
-  static KindOfMaskType ImmuneToGPSScramblerMask;
-  KindOfMaskType &m = ImmuneToGPSScramblerMask;
-  m.set(KINDOF_AIRCRAFT);// NO PLANES or helicopters
-  m.set(KINDOF_SHRUBBERY);// NO trees or bushes
-  m.set(KINDOF_OPTIMIZED_TREE);
-  m.set(KINDOF_STRUCTURE);// NO buildings
-  m.set(KINDOF_DRAWABLE_ONLY);
-  m.set(KINDOF_MOB_NEXUS);
-  m.set(KINDOF_IGNORED_IN_GUI);
-  m.set(KINDOF_CLEARED_BY_BUILD);
-  m.set(KINDOF_DEFENSIVE_WALL);
-  m.set(KINDOF_BALLISTIC_MISSILE);
-  m.set(KINDOF_SUPPLY_SOURCE);
-  m.set(KINDOF_BOAT);
-  m.set(KINDOF_INERT);
-  m.set(KINDOF_BRIDGE);
-  m.set(KINDOF_LANDMARK_BRIDGE);
-  m.set(KINDOF_BRIDGE_TOWER);
-  Bool disallowed =  fullTemplate->isAnyKindOf( ImmuneToGPSScramblerMask );
-
-  static KindOfMaskType CandidateForGPSScramblerMask;
-  CandidateForGPSScramblerMask.set(KINDOF_SCORE);
-  CandidateForGPSScramblerMask.set(KINDOF_VEHICLE);
-  CandidateForGPSScramblerMask.set(KINDOF_INFANTRY);
-  CandidateForGPSScramblerMask.set(KINDOF_PORTABLE_STRUCTURE);
-  Bool candidate =  fullTemplate->isAnyKindOf( CandidateForGPSScramblerMask );
-
-  Bool ret = false;
-
-	std::vector<Nugget>::iterator it = m_info.begin();
-	while( it != m_info.end() )
-	{
-		if( (it->interfaceMask & interfaceMask) != 0 && it->copiedFromDefault )
-		{
-      if ( it->inheritable )
-			{
-				if( it->m_moduleTag.compare("ModuleTag_DefaultAutoHealBehavior") == 0  && !fullTemplate->isTrainable() )
-				{
-					// Don't inherit this module if it is entirely useless to us.
-          it = m_info.erase( it );
-			    ret = true;
-				}
-				else
-				{
-					++it;//skip to the next nugget, 'cause we inherit this one
-				}
-			}
-      else if ( it->overrideableByLikeKind)
-      {
-        
-        AsciiString oldName = it->first;
-        if ( oldName == newName  //we will dump this instance, since the INI author requested a specific one of the same class
-             || disallowed  // or, we just do not Add these special overrideables to these kinds of templates, so just dump it
-             || candidate == FALSE )
-        {
-          it = m_info.erase( it );
-			    ret = true;
-        }
-        else
-			    ++it;//no match, preserve the default instnace of this Module for now
-      }
-      else // just dump this instance of this Module, since one of the same interface mask has been added by caller
-      {
-        it = m_info.erase( it );
-			  ret = true;
-      }
-    }
-    else
-			++it;
-	}
-	return ret;
-}
-
-
-
-
-
-
-
-
 //-------------------------------------------------------------------------------------------------
-Bool ModuleInfo::clearAiModuleInfo() 
-{ 
-	Bool ret = false;
-
-	std::vector<Nugget>::iterator it = m_info.begin();
-	while( it != m_info.end() )
-	{
-		if (it->second->isAiModuleData() )
-		{
-			it = m_info.erase( it );
-			ret = true;
-		}
-		else
-		{
-			++it;
-		}
-	}
-	return ret;
-}
-
-//-------------------------------------------------------------------------------------------------
-void ThingTemplate::parseModuleName(INI* ini, void *instance, void* store, const void* userData)
-{
-	ThingTemplate* self = (ThingTemplate*)instance;
-	ModuleInfo* mi = (ModuleInfo*)store;
-	ModuleType type = (ModuleType)(UnsignedInt)userData;
-	const char* token = ini->getNextToken();
-	AsciiString tokenStr = token;
-
-	// get the tag string (it is now required)
-	AsciiString moduleTagStr;
-	try
-	{
-		moduleTagStr = ini->getNextToken();
-	}
-	catch( ... )
-	{
-
-		DEBUG_CRASH(( "[LINE: %d - FILE: '%s'] Module tag not found for module '%s' on thing template '%s'.  Module tags are required and must be unique for all modules within an object definition\n",
-									ini->getLineNum(), ini->getFilename().str(), 
-									tokenStr.str(), self->getName().str() ));
-		throw;
-				
-	}
-
-	Int interfaceMask;
-
-	// ugh -- special case for "Body".
-	if (type == 999)
-	{
-		type = MODULETYPE_BEHAVIOR;
-	// what interface(s) does this module support?
-		interfaceMask = TheModuleFactory->findModuleInterfaceMask(tokenStr, type);
-		if ((interfaceMask & (MODULEINTERFACE_BODY)) == 0)
-		{
-			DEBUG_CRASH(("Only Body allowed here"));
-			throw INI_INVALID_DATA;
-		}
-	}
-	else
-	{
-		interfaceMask = TheModuleFactory->findModuleInterfaceMask(tokenStr, type);
-		if ((interfaceMask & (MODULEINTERFACE_BODY)) != 0)
-		{
-			DEBUG_CRASH(("No Body allowed here"));
-			throw INI_INVALID_DATA;
-		}
-	}
-	
-	// if we're overriding, we can totally skip over this block
-	if (ini->getLoadType() == INI_LOAD_CREATE_OVERRIDES)
-	{	
-		if (self->m_moduleParsingMode == MODULEPARSE_ADD_REMOVE_REPLACE)
-		{
-			// do nothing, just fall thru
-		}
-		else
-		{
-			DEBUG_CRASH(("[LINE: %d - FILE: '%s'] You must use AddModule to add modules in override INI files.\n",
-				ini->getLineNum(), ini->getFilename().str(), self->getName().str()));
-			throw INI_INVALID_DATA;
-		}
-	}
-	else
-	{
-
-//    if (self->getName().compare("GLAVehicleQuadCannon"))
-//      DEBUG_ASSERTCRASH( FALSE, ("WE ARE CLEARING DEFAULT MODULES FROM A QUAD CANNON.") );
-
-		self->m_behaviorModuleInfo.clearCopiedFromDefaultEntries(interfaceMask, tokenStr, self );
-		self->m_drawModuleInfo.clearCopiedFromDefaultEntries(interfaceMask, tokenStr, self );
-		self->m_clientUpdateModuleInfo.clearCopiedFromDefaultEntries(interfaceMask, tokenStr, self );
-	}
-
-	if (self->m_moduleParsingMode == MODULEPARSE_ADD_REMOVE_REPLACE 
-			&& self->m_moduleBeingReplacedName.isNotEmpty()
-			&& self->m_moduleBeingReplacedName != tokenStr)
-	{
-		DEBUG_CRASH(("[LINE: %d - FILE: '%s'] ReplaceModule must replace modules with another module of the same type, but you are attempting to replace a %s with a %s for Object %s.\n",
-			ini->getLineNum(), ini->getFilename().str(), self->m_moduleBeingReplacedName.str(), tokenStr.str(), self->getName().str()));
-		throw INI_INVALID_DATA;
-	}
-
-	if (self->m_moduleParsingMode == MODULEPARSE_ADD_REMOVE_REPLACE 
-			&& self->m_moduleBeingReplacedTag.isNotEmpty()
-			&& self->m_moduleBeingReplacedTag == moduleTagStr)
-	{
-		DEBUG_CRASH(("[LINE: %d - FILE: '%s'] ReplaceModule must specify a new, unique tag for the replaced module, but you are not doing so for %s (%s) for Object %s.\n",
-			ini->getLineNum(), ini->getFilename().str(), moduleTagStr.str(), self->m_moduleBeingReplacedName.str(), self->getName().str()));
-		throw INI_INVALID_DATA;
-	}
-
-	ModuleData* data = TheModuleFactory->newModuleDataFromINI(ini, tokenStr, type, moduleTagStr);
-
-	if (data->isAiModuleData())
-	{
-		Bool replaced = mi->clearAiModuleInfo();
-		if (replaced)
-		{
-			//Kris: Commented this out for SPAM reasons. Do we really need this?
-			//DEBUG_LOG(("replaced an AI for %s!\n",self->getName().str()));
-		}
-	}
-
-	Bool inheritable = (self->m_moduleParsingMode == MODULEPARSE_INHERITABLE);
-  Bool overrideableByLikeKind = (self->m_moduleParsingMode == MODULEPARSE_OVERRIDEABLE_BY_LIKE_KIND);
-	mi->addModuleInfo(self, tokenStr, moduleTagStr, data, interfaceMask, inheritable, overrideableByLikeKind);
-}
-
-//-------------------------------------------------------------------------------------------------
+// ?ThingTemplate::parseIntList present-unmatched
 void ThingTemplate::parseIntList(INI* ini, void *instance, void* store, const void* userData)
 {
 	Int numberEntries = (Int)userData;
@@ -660,27 +463,27 @@ static void parsePrerequisiteScience( INI* ini, void *instance, void * /*store*/
 }
 
 //-------------------------------------------------------------------------------------------------
-void ThingTemplate::parsePrerequisites( INI* ini, void *instance, void *store, const void* userData )
+// ThingTemplate::parsePrerequisites is rowed at 0x0033EBB5 with BFME2's body
+// (ThingTemplateParsePrerequisites.cpp); the Zero Hour copy here was a second,
+// non-retail definition.
+// The anchor keeps the two prerequisite field parsers, whose science-vector
+// callees this unit rows, emitted.
+// ?bfmeAnchorThingTemplatePrereqParsers absent-from-retail
+const void *bfmeAnchorThingTemplatePrereqParsers( int science )
 {
-	ThingTemplate* self = (ThingTemplate*)instance;
-
-	static const FieldParse myFieldParse[] = 
-	{
-		{ "Object", parsePrerequisiteUnit, 0, 0 },
-		{ "Science", parsePrerequisiteScience,	0, 0 },
-		{ 0, 0, 0, 0 }
-	};
-
-	if (ini->getLoadType() == INI_LOAD_CREATE_OVERRIDES)
-	{
-		self->m_prereqInfo.clear();
-	}
-
-	ini->initFromINI(&self->m_prereqInfo, myFieldParse);
+	return science ? (const void *)parsePrerequisiteScience : (const void *)parsePrerequisiteUnit;
+}
+// The prerequisite-list clear the Zero Hour parser did keeps the science
+// vector's rowed copy helper emitted.
+// ?bfmeAnchorThingTemplatePrereqClear absent-from-retail
+void bfmeAnchorThingTemplatePrereqClear( std::vector<ProductionPrerequisite> *prereqs )
+{
+	prereqs->clear();
 }
 
 //-------------------------------------------------------------------------------------------Static
-static void parseArbitraryFXIntoMap( INI* ini, void *instance, void* /* store */, const void* userData )
+// The rowed native callback also belongs to the external UnitSpecificFX table.
+void parseArbitraryFXIntoMap( INI* ini, void *instance, void* /* store */, const void* userData )
 {
 	PerUnitFXMap* mapFX = (PerUnitFXMap*)instance;
 	const char* name = (const char*)userData;
@@ -692,6 +495,7 @@ static void parseArbitraryFXIntoMap( INI* ini, void *instance, void* /* store */
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ?ThingTemplate::parsePerUnitFX present-unmatched
 void ThingTemplate::parsePerUnitFX( INI* ini, void *instance, void *store, const void *userData )
 {
 	PerUnitFXMap* fxmap = (PerUnitFXMap*)store;
@@ -723,6 +527,7 @@ static void parseArbitrarySoundsIntoMap( INI* ini, void *instance, void* /* stor
 //-------------------------------------------------------------------------------------------------
 /** Parse Additional per unit sounds such as TankTurretMove and TankTurretMoveLoop. */
 //-------------------------------------------------------------------------------------------------
+// ?ThingTemplate::parsePerUnitSounds present-unmatched
 void ThingTemplate::parsePerUnitSounds( INI* ini, void *instance, void *store, const void *userData )
 {
 	PerUnitSoundMap *mapSounds = (PerUnitSoundMap*)store;
@@ -740,101 +545,32 @@ void ThingTemplate::parsePerUnitSounds( INI* ini, void *instance, void *store, c
 //-------------------------------------------------------------------------------------------------
 /** Parse modules to add to the existing set of modules. */
 //-------------------------------------------------------------------------------------------------
-void ThingTemplate::parseAddModule(INI *ini, void *instance, void *store, const void *userData)
-{
-	// don't care about the result.
-	ThingTemplate* self = (ThingTemplate*)instance;	
+// Native AddModule parser lives in ThingTemplateParseAddModule.cpp.
 
-	ModuleParseMode oldMode = (ModuleParseMode)self->m_moduleParsingMode;
-	if (oldMode != MODULEPARSE_NORMAL)
-		throw INI_INVALID_DATA;
-
-	self->m_moduleParsingMode = MODULEPARSE_ADD_REMOVE_REPLACE;
-
-	ini->initFromINI(self, self->getFieldParse());
-
-	self->m_moduleParsingMode = oldMode;
-}
 
 //-------------------------------------------------------------------------------------------------
 /** Parse modules to remove from the existing set of modules. */
 //-------------------------------------------------------------------------------------------------
-void ThingTemplate::parseRemoveModule(INI *ini, void *instance, void *store, const void *userData)
-{
-	ThingTemplate* self = (ThingTemplate*)instance;	
+// Native RemoveModule parser lives in ThingTemplateParseRemoveModule.cpp.
 
-	ModuleParseMode oldMode = (ModuleParseMode)self->m_moduleParsingMode;
-	if (oldMode != MODULEPARSE_NORMAL)
-		throw INI_INVALID_DATA;
-
-	self->m_moduleParsingMode = MODULEPARSE_ADD_REMOVE_REPLACE;
-
-	const char *modToRemove = ini->getNextToken();
-	AsciiString removedModuleName;
-	Bool removed = self->removeModuleInfo(modToRemove, removedModuleName);
-	if (!removed)
-	{
-		DEBUG_ASSERTCRASH(removed, ("RemoveModule %s was not found for %s. The game will crash now!\n",modToRemove, self->getName().str()));
-		throw INI_INVALID_DATA;
-	}
-
-	self->m_moduleParsingMode = oldMode;
-}
 
 //-------------------------------------------------------------------------------------------------
 /** Replace the existing tagged modules with the new modules. */
 //-------------------------------------------------------------------------------------------------
-void ThingTemplate::parseReplaceModule(INI *ini, void *instance, void *store, const void *userData)
-{
-	ThingTemplate* self = (ThingTemplate*)instance;	
+// Native ReplaceModule parser lives in ThingTemplateParseReplaceModule.cpp.
 
-	ModuleParseMode oldMode = (ModuleParseMode)self->m_moduleParsingMode;
-	if (oldMode != MODULEPARSE_NORMAL)
-		throw INI_INVALID_DATA;
-
-	self->m_moduleParsingMode = MODULEPARSE_ADD_REMOVE_REPLACE;
-
-	const char *modToRemove = ini->getNextToken();
-	AsciiString removedModuleName;
-	Bool removed = self->removeModuleInfo(modToRemove, removedModuleName);
-	if (!removed)
-	{
-		DEBUG_CRASH(("[LINE: %d - FILE: '%s'] ReplaceModule %s was not found for %s; cannot continue.\n",
-															ini->getLineNum(), ini->getFilename().str(), modToRemove, self->getName().str()));
-		throw INI_INVALID_DATA;
-	}
-
-	self->m_moduleBeingReplacedName = removedModuleName;
-	self->m_moduleBeingReplacedTag = modToRemove;
-	ini->initFromINI(self, self->getFieldParse());
-	self->m_moduleBeingReplacedName.clear();
-	self->m_moduleBeingReplacedTag.clear();
-
-	self->m_moduleParsingMode = oldMode;
-}
 
 //-------------------------------------------------------------------------------------------------
 /** mark the module(s) as being "Inheritable". */
 //-------------------------------------------------------------------------------------------------
-void ThingTemplate::parseInheritableModule(INI *ini, void *instance, void *store, const void *userData)
-{
-	ThingTemplate* self = (ThingTemplate*)instance;	
+// Native inheritable-module parser lives in ThingTemplateParseInheritable.cpp.
 
-	ModuleParseMode oldMode = (ModuleParseMode)self->m_moduleParsingMode;
-	if (oldMode != MODULEPARSE_NORMAL)
-		throw INI_INVALID_DATA;
-
-	self->m_moduleParsingMode = MODULEPARSE_INHERITABLE;
-
-	ini->initFromINI(self, self->getFieldParse());
-
-	self->m_moduleParsingMode = oldMode;
-}
 
 
 //-------------------------------------------------------------------------------------------------
 /** mark the module(s) as being "VverrideableByLikeKind". default module will be replaced by any of the exact same class */
 //-------------------------------------------------------------------------------------------------
+// ?ThingTemplate::OverrideableByLikeKind present-unmatched
 void ThingTemplate::OverrideableByLikeKind(INI *ini, void *instance, void *store, const void *userData)
 {
 	ThingTemplate* self = (ThingTemplate*)instance;	
@@ -858,6 +594,7 @@ void ThingTemplate::OverrideableByLikeKind(INI *ini, void *instance, void *store
 //-------------------------------------------------------------------------------------------------
 /** Remove the module whose tag matches moduleToRemove. */
 //-------------------------------------------------------------------------------------------------
+// ?ThingTemplate::removeModuleInfo present-unmatched
 Bool ThingTemplate::removeModuleInfo(const AsciiString& moduleToRemove, AsciiString& clearedModuleNameOut)
 {
 	Bool removed = false;
@@ -887,6 +624,7 @@ Bool ThingTemplate::removeModuleInfo(const AsciiString& moduleToRemove, AsciiStr
 
 //-------------------------------------------------------------------------------------------------
 /// @todo srj -- move this to another file
+// ?ArmorTemplateSet::parseArmorTemplateSet present-unmatched
 void ArmorTemplateSet::parseArmorTemplateSet( INI* ini )
 {
 	static const FieldParse myFieldParse[] = 
@@ -901,6 +639,7 @@ void ArmorTemplateSet::parseArmorTemplateSet( INI* ini )
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ThingTemplate::parseArmorTemplateSet present-unmatched
 void ThingTemplate::parseArmorTemplateSet( INI* ini, void *instance, void * /*store*/, const void* /*userData*/ )
 {
 	ThingTemplate* self = (ThingTemplate*)instance;
@@ -929,6 +668,7 @@ void ThingTemplate::parseArmorTemplateSet( INI* ini, void *instance, void * /*st
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ThingTemplate::parseWeaponTemplateSet present-unmatched
 void ThingTemplate::parseWeaponTemplateSet( INI* ini, void *instance, void * /*store*/, const void* /*userData*/ )
 {
 	ThingTemplate* self = (ThingTemplate*)instance;
@@ -958,6 +698,7 @@ void ThingTemplate::parseWeaponTemplateSet( INI* ini, void *instance, void * /*s
 
 //-------------------------------------------------------------------------------------------------
 // Parse the "maxSimultaneousOfType" keyword
+// ?ThingTemplate::parseMaxSimultaneous present-unmatched
 void ThingTemplate::parseMaxSimultaneous(INI *ini, void *instance, void *store, const void *userData)
 {
   // Most of the time, this is an UnsignedShort, but sometimes this is the keyword
@@ -990,86 +731,14 @@ void ThingTemplate::parseMaxSimultaneous(INI *ini, void *instance, void *store, 
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-ThingTemplate::ThingTemplate() :
-	m_geometryInfo(GEOMETRY_SPHERE, FALSE, 1, 1, 1)
-{
-	m_moduleParsingMode = MODULEPARSE_NORMAL;
-	m_reskinnedFrom = NULL;
-	m_radarPriority = RADAR_PRIORITY_INVALID;
-
-	m_nextThingTemplate = NULL;
-	m_transportSlotCount = 0;
-	m_fenceWidth = 0;
-	m_fenceXOffset = 0;
-	m_visionRange = 0.0f;
-	m_shroudClearingRange = -1.0f;
-	m_shroudRevealToAllRange = -1.0f;
-
-	m_buildCost = 0;
-	m_buildTime = 1;
-	m_refundValue = 0;
-	m_energyProduction = 0;
-	m_energyBonus = 0;
-	m_buildCompletion = BC_APPEARS_AT_RALLY_POINT;
-
-	for( Int levelIndex = 0; levelIndex < LEVEL_COUNT; levelIndex++ )
-	{
-		m_experienceValues[levelIndex] = 0;
-		m_experienceRequired[levelIndex] = 0;
-		// -1 means "same value as experienceValues for that level"
-		m_skillPointValues[levelIndex] = USE_EXP_VALUE_FOR_SKILL_VALUE;
-	}
-	m_isTrainable = FALSE;
-	m_enterGuard = FALSE;
-	m_hijackGuard = FALSE;
-
-	m_templateID = 0;
-	m_kindof = KINDOFMASK_NONE;
-	//m_defaultOwningSide = "";	// unnecessary
-	m_isBuildFacility = FALSE;
-	m_isPrerequisite = FALSE;
-	m_placementViewAngle = 0.0f;
-	m_factoryExitWidth = 0.0f;
-	m_factoryExtraBibWidth = 0.0f;
-
-	m_selectedPortraitImage = NULL;
-	m_buttonImage = NULL;
-
-	m_shadowType = SHADOW_NONE;
-	m_shadowSizeX = 0.0f;
-	m_shadowSizeY = 0.0f;
-	m_shadowOffsetX = 0.0f;
-	m_shadowOffsetY = 0.0f;
-	m_occlusionDelay = TheGlobalData->m_defaultOcclusionDelay;
-
-	m_structureRubbleHeight = 0;
-	m_instanceScaleFuzziness = 0;
-	m_threatValue = 0;
-	m_maxSimultaneousOfType = 0;	// unlimited
-  m_maxSimultaneousLinkKey = NAMEKEY_INVALID; // Not linked
-  m_maxSimultaneousDeterminedBySuperweaponRestriction = false;
-	m_crusherLevel = 0;			//Unspecified, this object is unable to crush anything!
-	m_crushableLevel = 255; //Unspecified, this object is unable to be crushed by anything!
-
-}
+// ??0ThingTemplate@@QAE@XZ is rowed in its own unit; this copy collided with it.
 
 //-------------------------------------------------------------------------------------------------
-AIUpdateModuleData *ThingTemplate::friend_getAIModuleInfo(void)
-{
-	Int numModInfos = m_behaviorModuleInfo.getCount();
-	for (int j = 0; j < numModInfos; ++j) 
-	{
-		if (m_behaviorModuleInfo.getNthData(j) && m_behaviorModuleInfo.getNthData(j)->isAiModuleData()) 
-		{
-			return (AIUpdateModuleData *)m_behaviorModuleInfo.friend_getNthData(j);
-		}
-	}
-
-	return NULL;
-}
+// ThingTemplate::friend_getAIModuleInfo is defined with its retail-matched body in Code/GameEngine/Source/Common/Thing/ModuleInfoGetNthData.cpp (0x0033B387).
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ?ThingTemplate::validateAudio present-unmatched
 void ThingTemplate::validateAudio()
 {
 #if defined(_DEBUG) || defined(_INTERNAL)
@@ -1143,110 +812,18 @@ void ThingTemplate::validateAudio()
 }
 
 //-------------------------------------------------------------------------------------------------
-void ThingTemplate::validate()
-{
-	if (m_shadowTextureName.isEmpty())
-	{	
-		// no texture given, pick a default
-		switch (getTemplateGeometryInfo().getGeomType())
-		{
-			case GEOMETRY_SPHERE:
-			case GEOMETRY_CYLINDER:
-				m_shadowTextureName = "shadow";
-				break;
-			case GEOMETRY_BOX:
-				m_shadowTextureName = "shadows";
-				break;
-		}
-	}
-
-	validateAudio();
-
-#if defined(_DEBUG) || defined(_INTERNAL)
-	
-	if (getName() == "DefaultThingTemplate")
-		return;
-
-	// neutron missile is an old special case....
-	if (getName() == "NeutronMissile")
-		return;
-
-	// another cheesy special case....
-	if (getName() == "FlamethrowerProjectileStream")
-		return;
-
-	// drawable-only templates are exempt from further checks.
-	if (isKindOf(KINDOF_DRAWABLE_ONLY))
-		return;
-
-	// build-variation templates are exempt from further checks.
-	if (!m_buildVariations.empty())
-		return;
-
-	Bool isImmobile = isKindOf(KINDOF_IMMOBILE);
-	
-	if (isKindOf(KINDOF_SHRUBBERY) && !isImmobile)
-	{
-		DEBUG_CRASH(("SHRUBBERY %s must be marked IMMOBILE!",getName().str()));
-	}
-
-	if (isKindOf(KINDOF_STRUCTURE) && !isImmobile)
-	{
-		DEBUG_CRASH(("Structure %s is not marked immobile, but probably should be -- please fix it. (If we ever add mobile structures, this debug sniffer will need to be revised.)\n",getName().str()));
-	}
-
-	if (isKindOf(KINDOF_STICK_TO_TERRAIN_SLOPE) && !isImmobile)
-	{
-		DEBUG_CRASH(("item %s is marked STICK_TO_TERRAIN_SLOPE but not IMMOBILE -- please fix it.\n",getName().str()));
-	}
-
-	if (isKindOf(KINDOF_STRUCTURE))
-	{
-		if (m_armorTemplateSets.empty() || (m_armorTemplateSets.size() == 1 && m_armorTemplateSets[0].getArmorTemplate() == NULL))
-		{
-			DEBUG_CRASH(("Structure %s has no armor, but probably should (StructureArmor) -- please fix it.)\n",getName().str()));
-		}
-		for (ArmorTemplateSetVector::const_iterator it = m_armorTemplateSets.begin(); it != m_armorTemplateSets.end(); ++it)
-		{
-			if (it->getDamageFX() == NULL)
-			{
-				DEBUG_CRASH(("Structure %s has no ArmorDamageFX, and really should.\n",getName().str()));
-			}
-		}
-	}
-
-#endif
-}
+// ThingTemplate::validate is defined with its retail-matched body in Code/GameEngine/Source/Common/Thing/ThingTemplateValidate.cpp (0x0033B4CD).
 
 //-------------------------------------------------------------------------------------------------
 // copy the guts of that into this, but preserve this' name, id, and list-links.
-void ThingTemplate::copyFrom(const ThingTemplate* that)
-{
-	if (!that)
-		return;
-
-	ThingTemplate* next = this->m_nextThingTemplate;
-	UnsignedShort id = this->m_templateID;
-	AsciiString name = this->m_nameString;
-
-	*this = *that;
-
-	this->m_nextThingTemplate = next;
-	this->m_templateID = id;
-	this->m_nameString = name;
-}
+// BFME2 copyFrom is recovered in ThingTemplateSetCopiedFromDefault.cpp.
 
 //-------------------------------------------------------------------------------------------------
-void ThingTemplate::setCopiedFromDefault()
-{
-	m_armorCopiedFromDefault = true;
-	m_weaponsCopiedFromDefault = true;
-	m_behaviorModuleInfo.setCopiedFromDefault(true);
-	m_drawModuleInfo.setCopiedFromDefault(true);
-	m_clientUpdateModuleInfo.setCopiedFromDefault(true);
-}
+// ThingTemplate::setCopiedFromDefault is defined with its retail-matched body (four ModuleInfos)
+// in Code/GameEngine/Source/Common/Thing/ThingTemplateSetCopiedFromDefault.cpp (0x0033B539).
 
 //-------------------------------------------------------------------------------------------------
+// ?ThingTemplate::~ThingTemplate present-unmatched
 ThingTemplate::~ThingTemplate()
 {
 	// note, we don't need to take any special action for Armor/WeaponSets...
@@ -1255,71 +832,14 @@ ThingTemplate::~ThingTemplate()
 } 
 
 //=============================================================================
-void ThingTemplate::resolveNames()
-{
-	Int i, j;
-	
-	//Kris: July 31, 2003
-	//NOTE: Make sure that all code in this function supports caching properly. For example,
-	//      templates can be partially overridden by map.ini files. When this happens, strings
-	//      that have been parsed are looked up, cached, then cleared. The problem is if a string
-	//      gets cached, but not overridden, it will be clear the next time we call this function.
-	//      so we will want to make sure we don't NULL out cached data if the string is empty. A
-	//      concrete example is overriding an object with prerequisites. We just override the portrait.
-	//      So the 1st time we call this function, we get the standard template data. During this first
-	//      call, the strings are looked up, cached, and cleared. Then we override the portrait in the 
-	//      map.ini. The next time we call this function, we look up all the strings again. The prereq
-	//      names didn't used to check for empty strings so they would NULL out all the previous prereqs
-	//      the object had. So be sure to make sure all string lookups don't blindly lookup things -- check
-	//      if the string isNotEmpty first!
-
-	for (i = 0; i < m_prereqInfo.size(); i++)
-	{
-		m_prereqInfo[i].resolveNames();
-	}
-
-	const Int MAX_BF = 32;
-	const ThingTemplate* tmpls[MAX_BF];
-	for (i = 0; i < m_prereqInfo.size(); i++)
-	{
-		Int count = m_prereqInfo[i].getAllPossibleBuildFacilityTemplates(tmpls, MAX_BF);
-		for (j = 0; j < count; j++)
-		{
-			// casting const away is a little evil, but justified in this case:
-			// PropductionPrerequisite should only be allowed 'const' access,
-			// but ThingTemplate can muck with stuff with gleeful abandon. (srj)
-			if( tmpls[ j ] )
-				const_cast<ThingTemplate*>(tmpls[j])->m_isBuildFacility = true;
-			// DEBUG_LOG(("BF: %s is a buildfacility for %s\n",tmpls[j]->m_nameString.str(),this->m_nameString.str()));
-		}
-	}
-	
-	if (isKindOf(KINDOF_COMMANDCENTER)) {
-		// Command centers are considered factories. jba.
-		m_isBuildFacility = true;
-	}
-
-	// keep a pointer to portrait and button image if present for speed later
-	if( TheMappedImageCollection )
-	{
-		if( m_selectedPortraitImageName.isNotEmpty() )
-		{
-			m_selectedPortraitImage = TheMappedImageCollection->findImageByName( m_selectedPortraitImageName );
-			DEBUG_ASSERTCRASH( m_selectedPortraitImage, ("%s is looking for Portrait %s but can't find it. Skipping...", getName().str(), m_buttonImageName.str() ) );
-			m_selectedPortraitImageName.clear();	// we're done with this, so nuke it
-		}
-		if( m_buttonImageName.isNotEmpty() )
-		{
-			m_buttonImage = TheMappedImageCollection->findImageByName( m_buttonImageName );
-			DEBUG_ASSERTCRASH( m_buttonImage, ("%s is looking for ButtonImage %s but can't find it. Skipping...", getName().str(), m_buttonImageName.str() ) );
-			m_buttonImageName.clear();	// we're done with this, so nuke it
-		}
-	}
-
-}
+// ThingTemplate::resolveNames is defined with its retail-matched body in Code/GameEngine/Source/Common/Thing/Rva0033C2C2ResolveNames.cpp (0x0033C2C2).
 
 //=============================================================================
-#ifdef LOAD_TEST_ASSETS
+// Zero Hour's LOAD_TEST_ASSETS initForLTA has no BFME 2 body; compiled here, its
+// ModuleInfo::clear() calls emitted a non-retail Nugget::operator= (3-bool
+// Nugget) ahead of retail's 0x002CEFCD. Kept for reference only.
+#if defined(LOAD_TEST_ASSETS) && 0
+// ?ThingTemplate::initForLTA present-unmatched
 void ThingTemplate::initForLTA(const AsciiString& name)
 {
 	m_nameString = name;
@@ -1366,20 +886,23 @@ void ThingTemplate::initForLTA(const AsciiString& name)
 
 
 //=============================================================================
-const ArmorTemplateSet* ThingTemplate::findArmorTemplateSet(const ArmorSetFlags& t) const
+// ?ThingTemplate::findArmorTemplateSet present-unmatched
+const ArmorTemplateSet* ThingTemplate::findArmorTemplateSet(const ArmorSetFlags& armorSetFlags) const
 {
-  return m_armorTemplateSetFinder.findBestInfo(m_armorTemplateSets, t);
+  return m_armorTemplateSetFinder.findBestInfo(m_armorTemplateSets, armorSetFlags);
 }
 
 //=============================================================================
-const WeaponTemplateSet* ThingTemplate::findWeaponTemplateSet(const WeaponSetFlags& t) const
+// ?ThingTemplate::findWeaponTemplateSet present-unmatched
+const WeaponTemplateSet* ThingTemplate::findWeaponTemplateSet(const WeaponSetFlags& weaponSetFlags) const
 {
-  return m_weaponTemplateSetFinder.findBestInfo(m_weaponTemplateSets, t);
+  return m_weaponTemplateSetFinder.findBestInfo(m_weaponTemplateSets, weaponSetFlags);
 }
 
 //-----------------------------------------------------------------------------
 // returns true iff we have at least one weaponset that contains a weapon.
 // returns false if we have no weaponsets, or they are all empty.
+// ?ThingTemplate::canPossiblyHaveAnyWeapon present-unmatched
 Bool ThingTemplate::canPossiblyHaveAnyWeapon() const
 {
 	for (WeaponTemplateSetVector::const_iterator it = m_weaponTemplateSets.begin(); 
@@ -1393,6 +916,7 @@ Bool ThingTemplate::canPossiblyHaveAnyWeapon() const
 }
 
 //-----------------------------------------------------------------------------
+// ?ThingTemplate::getSkillPointValue present-unmatched
 Int ThingTemplate::getSkillPointValue(Int level) const 
 { 
 	Int value = m_skillPointValues[level]; 
@@ -1404,29 +928,13 @@ Int ThingTemplate::getSkillPointValue(Int level) const
 }
 
 //-----------------------------------------------------------------------------
-const ThingTemplate *ThingTemplate::getBuildFacilityTemplate( const Player *player ) const
-{
-	if (getPrereqCount() > 0)
-	{
-		return m_prereqInfo[0].getExistingBuildFacilityTemplate(player);	// might return null
-	}
-	else
-	{
-		return NULL;
-	}
-}
+// ThingTemplate::getBuildFacilityTemplate is defined with its retail-matched body in Code/GameEngine/Source/Common/ThingTemplateBuildFacility.cpp (0x0033A97F).
 
 //-------------------------------------------------------------------------------------------------
-BuildableStatus ThingTemplate::getBuildable() const 
-{ 
-	BuildableStatus bs;
-	if (TheGameLogic && TheGameLogic->findBuildableStatusOverride(this, bs))
-		return bs;
-
-	return (BuildableStatus)m_buildable; 
-}
+// Target getBuildable is defined by the verified owner in Rva0033A632.cpp.
 
 //-------------------------------------------------------------------------------------------------
+// ?ThingTemplate::getPerUnitFX present-unmatched
 const FXList *ThingTemplate::getPerUnitFX(const AsciiString& fxName) const
 {
 	if (fxName.isEmpty()) 
@@ -1445,6 +953,7 @@ const FXList *ThingTemplate::getPerUnitFX(const AsciiString& fxName) const
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ThingTemplate::getPerUnitSound present-unmatched
 const AudioEventRTS *ThingTemplate::getPerUnitSound(const AsciiString& soundName) const
 {
 	if (soundName.isEmpty()) 
@@ -1465,64 +974,19 @@ const AudioEventRTS *ThingTemplate::getPerUnitSound(const AsciiString& soundName
 }
 
 //-------------------------------------------------------------------------------------------------
-UnsignedInt ThingTemplate::getMaxSimultaneousOfType() const
-{
-  if ( m_maxSimultaneousDeterminedBySuperweaponRestriction && TheGameLogic )
-  {
-    return TheGameLogic->getSuperweaponRestriction();
-  }
-
-  return m_maxSimultaneousOfType;
-}
+// ThingTemplate::getMaxSimultaneousOfType: its only emitted copy is the inline one in
+// GenericObjectCreationNuggetReallyCreate.cpp.
 
 
 
 
 //-------------------------------------------------------------------------------------------------
-Bool ThingTemplate::isEquivalentTo(const ThingTemplate* tt) const
-{
-	// sanity
-	if (!(this && tt)) 
-		return false;
+// BFME2 isEquivalentTo is defined in ThingTemplateIsEquivalentTo.cpp.
+// The former Zero Hour donor body is not the retail BFME2 implementation.
 
-	// sanity
-	if (this == tt) 
-		return true;
-	
-	if (this->getFinalOverride() == tt->getFinalOverride()) 
-		return true;
-
-	// This reskinned from that?
-	if (this->m_reskinnedFrom == tt)
-		return true;
-
-	// That reskinned from this?
-	if (this == tt->m_reskinnedFrom)
-		return true;
-
-	// This reskinned from that reskinned from?
-	// Kris: added case (chassis 2 compared to chassis 3 -- NULL possible if not reskinned)
-	if( this->m_reskinnedFrom && this->m_reskinnedFrom == tt->m_reskinnedFrom )
-		return true;
-
-	// Is this thing a build variation of that thing or vice versa
-	Int i;
-
-	Int numVariations = m_buildVariations.size();
-	for (i = 0; i < numVariations; ++i) 
-		if (m_buildVariations[i].compareNoCase(tt->getName()) == 0)
-			return true;
-	
-	numVariations = tt->m_buildVariations.size();
-	for (i = 0; i < numVariations; ++i)
-		if (tt->m_buildVariations[i].compareNoCase(getName()) == 0)
-			return true;
-
-	// Guess we're not equivalent.
-	return false;
-}
 
 //-------------------------------------------------------------------------------------------------
+// ?ThingTemplate::isBuildableItem present-unmatched
 Bool ThingTemplate::isBuildableItem(void) const
 {
 	return (getBuildCost() != 0);
@@ -1533,6 +997,7 @@ Bool ThingTemplate::isBuildableItem(void) const
 	* that retrieve template data values use the get() wrappers, which *DO* pay
 	* attention to the override values */
 //-------------------------------------------------------------------------------------------------
+// ?ThingTemplate::calcCostToBuild present-unmatched
 Int ThingTemplate::calcCostToBuild( const Player* player) const
 {
 	if (!player)
@@ -1549,6 +1014,7 @@ Int ThingTemplate::calcCostToBuild( const Player* player) const
 	* that retrieve template data values use the get() wrappers, which *DO* pay
 	* attention to the override values */
 //-------------------------------------------------------------------------------------------------
+// ?ThingTemplate::calcTimeToBuild present-unmatched
 Int ThingTemplate::calcTimeToBuild( const Player* player) const
 {
 	Int buildTime = getBuildTime() * LOGICFRAMES_PER_SECOND;
@@ -1586,11 +1052,11 @@ Int ThingTemplate::calcTimeToBuild( const Player* player) const
 
 	if (getBuildCompletion() == BC_APPEARS_AT_RALLY_POINT)
 	{
-		const ThingTemplate *tmpl = getBuildFacilityTemplate(player);	// could be null if none exist
+		const ThingTemplate *thingTemplate = getBuildFacilityTemplate(player);	// could be null if none exist
 		Int count = 0;
-		if (tmpl)
+		if (thingTemplate)
 		{
-			player->countObjectsByThingTemplate(1, &tmpl, false, &count);
+			player->countObjectsByThingTemplate(1, &thingTemplate, false, &count);
 			Real factoryMult = TheGlobalData->m_MultipleFactory;
 			if (factoryMult > 0.0f)
 			{
@@ -1605,6 +1071,7 @@ Int ThingTemplate::calcTimeToBuild( const Player* player) const
 
 //---------------------------------------------------------------------------------------ModuleInfo
 //-------------------------------------------------------------------------------------------------
+// ?ModuleInfo::friend_getNthData present-unmatched
 ModuleData* ModuleInfo::friend_getNthData(Int i)
 {
 	if (i >= 0 && i < m_info.size())
@@ -1615,3 +1082,61 @@ ModuleData* ModuleInfo::friend_getNthData(Int i)
 	return NULL;
 }
 
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeCallJA@BfmeHookJA@@QAEPAUBfmeSlotJA@@XZ=?getFinalOverride@Rva001E35DFView@@QBEPBV1@XZ")
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?crc@GeometryInfo@@MAEXPAVXfer@@@Z=??_GRva0050B2A@@UAEPAXI@Z")
+#pragma comment(linker, "/alternatename:?xfer@GeometryInfo@@MAEXPAVXfer@@@Z=??1Coord2D@@QAE@XZ")
+
+// Native boundary 0x00331578..0x0033162B (179B), RET 4. The target compares
+// scalar words at +8/+18/+28, seven floats at +C/+10/+14/+24/+20/+2C/+30,
+// and the two string subobjects at +0/+4 through rowed compare 0x69D6.
+// Offset +1C is not read. Equality is the observed behavior; the original
+// class, method, field names and association with ThingTemplate are unknown.
+class Rva00331578
+{
+public:
+	bool rva00331578(const Rva00331578 &other);
+
+private:
+	AsciiString word00, word04;
+	unsigned int value08;
+	float value0C, value10, value14;
+	unsigned int value18;
+	char unknown1C[4];
+	float value20, value24;
+	unsigned int value28;
+	float value2C, value30;
+};
+
+bool Rva00331578::rva00331578(const Rva00331578 &other)
+{
+	if (value08 == other.value08 && value0C == other.value0C &&
+		value10 == other.value10 && value14 == other.value14 &&
+		value18 == other.value18 && word00.compare(other.word00) == 0 &&
+		word04.compare(other.word04) == 0 && value24 == other.value24 &&
+		value20 == other.value20 && value28 == other.value28 &&
+		value2C == other.value2C && value30 == other.value30)
+		return true;
+	return false;
+}
+
+// Preserve this unit's existing vector allocation helper after moving the
+// unfinished copyFrom caller. This member pointer only retains emission;
+// it is a compile anchor and makes no retail data or assignment-body claim.
+namespace _STL {
+template _Vector_base<ScienceType, allocator<ScienceType> >::_Vector_base(size_t, const allocator<ScienceType> &);
+// Its rowed ScienceType range copy was instantiated through this unit's
+// ProductionPrerequisite copy, which the unit now calls (0x0033E9DE).
+template ScienceType *__copy<const ScienceType *, ScienceType *, int>(const ScienceType *, const ScienceType *, ScienceType *, const random_access_iterator_tag &, int *);
+}
+
+// clearCopiedFromDefaultEntries (gone, see above) was this unit's user of the
+// KindOf bitset AND row; a compile anchor, not a retail data claim, keeps it.
+extern void (_STL::_Base_bitset<4>::*const _bfmeInlineAnchorBitsetAnd)(const _STL::_Base_bitset<4> &) =
+    &_STL::_Base_bitset<4>::_M_do_and;

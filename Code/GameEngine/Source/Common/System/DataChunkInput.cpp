@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /O1 /arch:SSE /DNDEBUG /MD /EHsc
 // readable body of ??1DataChunkInput@@QAE@XZ: Code/GameEngine/Source/Common/System/DataChunk.cpp
 // readable body of ?readArrayOfBytes@DataChunkInput@@QAEXPADH@Z: Code/GameEngine/Source/Common/System/DataChunk.cpp
 // readable body of ?readAsciiString@DataChunkInput@@QAE?AVAsciiString@@XZ: Code/GameEngine/Source/Common/System/DataChunk.cpp
@@ -77,61 +77,9 @@ static void bfmeDataChunkYieldToOS(void)
 // The retail bodies use the shared StringBase<char> implementations at
 // 0x00887B60 and 0x00887BE0, while the returned type keeps the AsciiString
 // ABI name at the DataChunkInput boundary.
-template <typename T>
-class StringBase
-{
-public:
-	StringBase(void) : m_data(0) {}
-	StringBase(const StringBase &other);
-	T *getBufferForRead(Int len);
-	// ?set@?$StringBase@D@@QAEXABV1@@Z aliases the retail
-	// ?set@UnicodeString@@QAEXABV1@@Z pin (see symbols.csv) -- both types
-	// share this StringBase<char> implementation.
-	void set(const StringBase &other);
-
-protected:
-	void *m_data;
-};
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString(void) : StringBase<char>() {}
-	// Retail's AsciiString adds no members to StringBase<char>: a copy of one
-	// encodes the base copy ctor at 0x00887B60 directly, so the delegation has
-	// to be visible here.
-	AsciiString(const AsciiString &other) : StringBase<char>(other) {}
-	~AsciiString();
-
-	AsciiString &operator=(const AsciiString &other)
-	{
-		set(other);
-		return *this;
-	}
-
-	const char *str() const
-	{
-		static const char empty = 0;
-		return m_data ? static_cast<const char *>(m_data) + 8 : &empty;
-	}
-
-	// parse()'s scope/label matches inline this compare (repe cmpsb) rather
-	// than calling out -- there is no separate call target for it in the
-	// retail body.
-	int compare(const AsciiString &that) const
-	{
-		int thatLen = that.m_data ? *reinterpret_cast<const UnsignedShort *>(static_cast<const char *>(that.m_data) + 4) : 0;
-		const char *thatData = that.m_data ? static_cast<const char *>(that.m_data) + 8 : "";
-		int thisLen = m_data ? *reinterpret_cast<const UnsignedShort *>(static_cast<const char *>(m_data) + 4) : 0;
-		const char *thisData = m_data ? static_cast<const char *>(m_data) + 8 : "";
-		int n = thisLen < thatLen ? thisLen : thatLen;
-		int c = memcmp(thisData, thatData, n);
-		if (c != 0)
-			return c;
-		return thisLen - thatLen;
-	}
-};
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/NameKeyGenerator.h
 class NameKeyGenerator
@@ -157,7 +105,7 @@ public:
 class InputChunk
 {
 public:
-	virtual ~InputChunk();					// vptr this+0x00
+	virtual ~InputChunk() {}	// native slot 0 is the rowed scalar deleting destructor
 
 	InputChunk *next;					// this+0x04
 	UnsignedInt id;						// this+0x08
@@ -173,6 +121,7 @@ class DataChunkInput;
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/DataChunk.h
 struct DataChunkInfo
 {
+	~DataChunkInfo();
 	AsciiString label;
 	AsciiString parentLabel;
 	DataChunkVersionType version;
@@ -188,6 +137,7 @@ typedef Bool (*DataChunkParserPtr)(DataChunkInput &file, DataChunkInfo *info, vo
 class UserParser
 {
 	public:
+	virtual void *deleteInstance(int flags);
 	virtual ~UserParser();
 	UserParser *next;					// this+0x04
 	UserParser **previous;					// this+0x08
@@ -211,15 +161,7 @@ public:
 	AsciiString getName(UnsignedInt id);
 	Bool isOpenedForRead(void) { return m_headerOpened; }
 
-	~DataChunkTableOfContents()
-	{
-		Mapping *mapping = m_list;
-		while (mapping != 0) {
-			Mapping *next = mapping->next;
-			delete mapping;
-			mapping = next;
-		}
-	}
+	~DataChunkTableOfContents();
 
 	Mapping *m_list;					// this+0x00
 	Int m_listLength;
@@ -237,7 +179,7 @@ protected:
 	UserParser *m_parserList;				// this+0x18
 	InputChunk *m_chunkStack;				// this+0x1C
 
-	void decrementDataLeft(Int size)
+	__declspec(noinline) void decrementDataLeft(Int size)
 	{
 		InputChunk *c;
 
@@ -257,8 +199,11 @@ protected:
 	}
 
 	// parse() has no separate call target for closeDataChunk -- MSVC inlines
-	// this whole body (the deleting destructor call at the end is the only
+	// this whole body (the deleteInstance call at the end is the only
 	// call still visible), so it is modelled here rather than as its own row.
+	// Retail 0x00306F53 (82B) is the standalone out-of-line copy, called by
+	// 0x00307BF6; evidence is the tell/absoluteSeek/decrement/unlink/
+	// deleteInstance(0)/operator-delete sequence.
 	void closeDataChunk(void)
 	{
 		if (m_chunkStack == 0) {
@@ -270,9 +215,10 @@ protected:
 			decrementDataLeft(m_chunkStack->dataLeft);
 		}
 
-		InputChunk *c = m_chunkStack;
+		InputChunk *inputChunk = m_chunkStack;
 		m_chunkStack = m_chunkStack->next;
-		delete c;
+		// Both node types expose the same scalar-deleting ABI at slot 0.
+		::operator delete(inputChunk != 0 ? ((UserParser *)inputChunk)->deleteInstance(0) : 0);
 	}
 
 public:
@@ -286,91 +232,79 @@ public:
 		void *userData);
 
 	AsciiString openDataChunk(DataChunkVersionType *ver);
-	// parse()'s call site has no separate call target for this either -- it
-	// is the same 12-byte body as the standalone matched row at 0x00102740,
-	// inlined here because the caller is visibly small too.
-	UnsignedInt getChunkDataSize(void)
+	// Retail parse() at 0x00307AC0 CALLs the 12-byte out-of-line copy at
+	// 0x00306E16 (rowed in this TU); do not inline it there.
+	__declspec(noinline) UnsignedInt getChunkDataSize(void)
 	{
 		if (m_chunkStack == 0) {
 			return 0;
 		}
 		return m_chunkStack->dataSize;
 	}
-	Bool atEndOfFile(void) { return m_file->eof(); }
+	// Retail 0x00306E2E (18B): atEndOfChunk via dataLeft<=0 (null=>true).
+	// ZH donor DataChunk.cpp atEndOfChunk verbatim. Caller 0x000AD07F.
+	Bool atEndOfChunk(void);
+	Bool atEndOfFile(void) { return m_file->eof() ? true : false; }
 
 	Bool parse(void *userData);
+	void clearChunkStack();
+	void reset();
 };
 
+Bool DataChunkInput::atEndOfChunk(void)
+{
+	if (m_chunkStack) {
+		if (m_chunkStack->dataLeft <= 0)
+			return true;
+		return false;
+	}
+	return true;
+}
+
+void operator delete(void *ptr);
+
+// Retail 0x00306DCC (20B): reset the stream to just-opened state: drain the
+// chunk stack, then seek the file back to the first-chunk position. ZH
+// DataChunk.cpp donor verbatim (clearChunkStack(); m_file->absoluteSeek(
+// m_fileposOfFirstChunk)); absoluteSeek at ChunkInputStream slot 2 (+0x08)
+// is proven by parse()'s inlined closeDataChunk. Rowed clearChunkStack at
+// 0x00306DA4 resolves the call. Served via the chain lane.
+void DataChunkInput::reset()
+{
+	clearChunkStack();
+	m_file->absoluteSeek(m_fileposOfFirstChunk);
+}
+
 // ??1DataChunkInput@@QAE@XZ
-// ??1DataChunkInput@@QAE@XZ present-unmatched
+// Retail 0x00306F01 (82B): clearChunkStack() for the InputChunk stack, the
+// deleteInstance(0)/operator-delete loop over m_parserList at +0x18, then
+// the implicit m_contents dtor (rowed 0x00306D5C) under the /EHsc frame.
+// ZH donor proves the three phases; BFME2 routes both lists through the
+// virtual deleteInstance at slot 0 (MessageStreamListCtors.cpp precedent).
 DataChunkInput::~DataChunkInput()
 {
-	InputChunk *chunk = m_chunkStack;
-	while (chunk != 0) {
-		InputChunk *next = chunk->next;
-		delete chunk;
-		chunk = next;
-	}
-	m_chunkStack = 0;
+	clearChunkStack();
 
 	UserParser *parser = m_parserList;
 	while (parser != 0) {
 		UserParser *next = parser->next;
-		delete parser;
+		::operator delete(parser->deleteInstance(0));
 		parser = next;
 	}
 }
 
 // ?readArrayOfBytes@DataChunkInput@@QAEXPADH@Z
-// ?readArrayOfBytes@DataChunkInput@@QAEXPADH@Z present-unmatched
-void DataChunkInput::readArrayOfBytes(char *ptr, Int len)
-{
-	InputChunk *c;
-
-	bfmeDataChunkYieldToOS();
-	m_file->read(ptr, len);
-
-	for (c = m_chunkStack; c; c = c->next)
-		c->dataLeft -= len;
-}
+// DataChunkInput::readArrayOfBytes: defined in DataChunkInputReadScalars.cpp (its row's unit).
 
 // ?readAsciiString@DataChunkInput@@QAE?AVAsciiString@@XZ
-// ?readAsciiString@DataChunkInput@@QAE?AVAsciiString@@XZ present-unmatched
-AsciiString DataChunkInput::readAsciiString(void)
-{
-	UnsignedShort len;
+// ?readAsciiString@DataChunkInput@@QAE?AVAsciiString@@XZ is a row of DataChunkInputReadAsciiString.cpp; this unit's copy was
+// a second, non-retail definition of it.
 
-	bfmeDataChunkYieldToOS();
-	m_file->read(&len, sizeof(UnsignedShort));
-	decrementDataLeft(sizeof(UnsignedShort));
-
-	AsciiString theString;
-	if (len > 0) {
-		char *str = theString.getBufferForRead(len);
-		m_file->read(str, len);
-		decrementDataLeft(len);
-
-		str[len] = '\0';
-	}
-
-	return theString;
-}
-
-// ?readNameKey@DataChunkInput@@QAE?AW4NameKeyType@@XZ
-// ?readNameKey@DataChunkInput@@QAE?AW4NameKeyType@@XZ present-unmatched
-NameKeyType DataChunkInput::readNameKey(void)
-{
-	bfmeDataChunkYieldToOS();
-	Int keyAndType = readInt();
-	keyAndType >>= 8;
-
-	AsciiString kname = m_contents.getName(keyAndType);
-	NameKeyType k = TheNameKeyGenerator->nameToKey(kname.str());
-	return k;
-}
+// readNameKey lives in DataChunkReadNameKey.cpp (declared-only callees keep
+// the out-of-line readInt call; this TU's inline readInt would fold it).
+// See 0x003077E0.
 
 // ?parse@DataChunkInput@@QAE_NPAX@Z
-// ?parse@DataChunkInput@@QAE_NPAX@Z present-unmatched
 Bool DataChunkInput::parse(void *userData)
 {
 	AsciiString label;
@@ -444,24 +378,71 @@ UserParser *DataChunkInput::registerParser(const AsciiString &label,
 	DataChunkParserPtr parser,
 	void *userData)
 {
-	UserParser *p;
+	UserParser *userParser;
 	DataChunkInput *self = this;
 
-	p = new UserParser;
-	p->label.set(label);
-	p->parentLabel.set(parentLabel);
-	p->parser = parser;
+	userParser = new UserParser;
+	((StringBase<char> *)&userParser->label)->set(*(const StringBase<char> *)&label);
+	((StringBase<char> *)&userParser->parentLabel)->set(*(const StringBase<char> *)&parentLabel);
+	userParser->parser = parser;
 
 	void *ud = userData;
 	UserParser **head = &self->m_parserList;
-	p->userData = ud;
+	userParser->userData = ud;
 
 	UserParser *next = *head;
-	UserParser **pn = &p->next;
+	UserParser **pn = &userParser->next;
 	*pn = next;
 	if (next != 0)
 		next->previous = pn;
-	p->previous = head;
-	*head = p;
-	return p;
+	userParser->previous = head;
+	*head = userParser;
+	return userParser;
 }
+
+AsciiString DataChunkInput::openDataChunk(DataChunkVersionType *ver)
+{
+	InputChunk *inputChunk = new InputChunk;
+	inputChunk->id = 0;
+	inputChunk->version = 0;
+	inputChunk->dataSize = 0;
+	m_file->read((char *)&inputChunk->id, sizeof(UnsignedInt));
+	decrementDataLeft(sizeof(UnsignedInt));
+	m_file->read((char *)&inputChunk->version, sizeof(DataChunkVersionType));
+	decrementDataLeft(sizeof(DataChunkVersionType));
+	m_file->read((char *)&inputChunk->dataSize, sizeof(Int));
+	decrementDataLeft(sizeof(Int));
+	inputChunk->dataLeft = inputChunk->dataSize;
+	inputChunk->chunkStart = m_file->tell();
+	*ver = inputChunk->version;
+	inputChunk->next = m_chunkStack;
+	m_chunkStack = inputChunk;
+	if (atEndOfFile())
+		return AsciiString("");
+	return m_contents.getName(inputChunk->id);
+}
+
+UserParser::~UserParser()
+{
+}
+
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline DataChunkInfo::~DataChunkInfo()
+{
+}
+
+// ?bfmeAnchorDataChunkInfoDtor absent-from-retail
+void bfmeAnchorDataChunkInfoDtor(DataChunkInfo *dataChunkInfo)
+{
+	dataChunkInfo->DataChunkInfo::~DataChunkInfo();
+}
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?consume@DataChunkInput@@QAEXH@Z=?decrementDataLeft@DataChunkInput@@IAEXH@Z")
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?deleteInstance@UserParser@@UAEPAXH@Z=??_GUserParser@@UAEPAXI@Z")

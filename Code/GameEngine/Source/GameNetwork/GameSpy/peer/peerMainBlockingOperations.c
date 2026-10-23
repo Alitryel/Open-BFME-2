@@ -174,6 +174,8 @@ void piRoomsCleanup(PEER peer);
 void piPlayersCleanup(PEER peer);
 void piPingCleanup(PEER peer);
 void piStopAutoMatch(PEER peer);
+void Rva00860380(void *chat, int sessionKey, const char *nick,
+	const char *secondNick);
 int piSBInit(PEER peer);
 void peerClearTitle(PEER peer);
 void piOperationsCleanup(PEER peer);
@@ -188,7 +190,6 @@ void piPingThink(PEER peer);
 void piSBThink(PEER peer);
 void piQRThink(PEER peer);
 __declspec(noinline) void piDisconnect(PEER peer);
-void bfmePiDisconnect(PEER peer);
 void chatDisconnect(void *chat);
 void piOperationsReset(PEER peer);
 void piCallbacksThink(PEER peer, int opID);
@@ -235,15 +236,24 @@ void piSetAutoMatchStatus(PEER peer, int status);
 void piSendStateChanged(PEER peer);
 void piAddConnectCallback(PEER peer, int success, int failureReason,
 	void *callback, void *param, int opID);
-void bfmePiDisconnectCleanupFromEsi(void);
 void msleep(unsigned int milliseconds);
-void bfmePiThinkFromEsi(int opID);
 int piIsOperationFinished(PEER peer, int opID);
 int PeerOperationsComplete(PEER peer, int opID);
 int piIsCallbackFinished(PEER peer, int opID);
+int piNewListGroupRoomsOperation(PEER peer, const char *fields,
+	void *callback, void *param, int opID);
+void piAddListGroupRoomsCallback(PEER peer, int success, int groupID,
+	const char *name, int maxWaiting, int numWaiting, int numGames,
+	int numPlaying, int numRooms, void *callback, void *param, int opID);
 void peerShutdown(PEER peer);
 __declspec(dllimport) char *__cdecl strncpy(char *destination,
 	const char *source, unsigned int count);
+
+static int piCheckBlockingID(PEER peer, int opID)
+{
+	return PeerOperationsComplete(peer, opID) &&
+		piIsCallbackFinished(peer, opID);
+}
 
 static unsigned int piGetPrivateIP(void)
 {
@@ -416,19 +426,14 @@ static void piDisconnectCleanup(PEER peer)
 	connection->disconnect = 0;
 }
 
-__declspec(noinline) void piDisconnect(PEER peer)
-{
-	piConnection *connection = (piConnection *)peer;
-
-	if (connection->callbackDepth > 0)
-	{
-		connection->disconnect = 1;
-		return;
-	}
-	connection->stayInTitleRoom = 0;
-	piDisconnectCleanup(peer);
-	piThink(peer, -1);
-}
+// piDisconnect's *definition* is at the end of this file. Please leave it there:
+// MSVC 7.1 passes piThink's and piDisconnectCleanup's PEER argument in ESI (retail
+// does the same - both rowed bodies have no prologue and read [esi]), and it drops
+// that register ABI back to the stack convention as soon as it can see both edges
+// of the piThink <-> piDisconnect recursion while generating piThink. Keeping the
+// definition below piThink hides the piThink -> piDisconnect edge, so every call
+// site emits retail's shape: peerShutdown/peerDisconnect's piThink(peer, -1) is a
+// bare `push -1` and the fifteen blocking loops are a bare `push opID`.
 
 void peerShutdown(PEER peer)
 {
@@ -443,8 +448,8 @@ void peerShutdown(PEER peer)
 		else
 		{
 			connection->stayInTitleRoom = 0;
-			bfmePiDisconnectCleanupFromEsi();
-			bfmePiThinkFromEsi(-1);
+			piDisconnectCleanup(peer);
+			piThink(peer, -1);
 		}
 		connection->disconnectedCallback = callback;
 	}
@@ -492,7 +497,7 @@ static void piThink(PEER peer, int opID)
 	piSBThink(peer);
 	piQRThink(peer);
 	if (connection->disconnect && connection->callbackDepth == 0)
-		bfmePiDisconnect(peer);
+		piDisconnect(peer);
 	piCallbacksThink(peer, opID);
 }
 
@@ -580,7 +585,7 @@ void peerChangeNickA(PEER peer, const char *newNick, void *callback,
 		do
 		{
 			msleep(1);
-			bfmePiThinkFromEsi(opID);
+			piThink(peer, opID);
 		}
 		while (!piIsOperationFinished(peer, opID) ||
 			!piIsCallbackFinished(peer, opID));
@@ -614,7 +619,7 @@ void peerGetPlayerGlobalKeysA(PEER peer, const char *nick, int num,
 		do
 		{
 			msleep(1);
-			bfmePiThinkFromEsi(opID);
+			piThink(peer, opID);
 		}
 		while (!piIsOperationFinished(peer, opID) ||
 			!piIsCallbackFinished(peer, opID));
@@ -651,7 +656,7 @@ void peerConnectA(PEER peer, const char *nick, int profileID,
 				connectCallback, param, opID))
 		{
 			success = 0;
-			bfmePiDisconnectCleanupFromEsi();
+			piDisconnectCleanup(peer);
 		}
 	}
 
@@ -663,7 +668,7 @@ void peerConnectA(PEER peer, const char *nick, int profileID,
 		do
 		{
 			msleep(1);
-			bfmePiThinkFromEsi(opID);
+			piThink(peer, opID);
 		}
 		while (!PeerOperationsComplete(peer, opID) ||
 			!piIsCallbackFinished(peer, opID));
@@ -684,8 +689,8 @@ void peerDisconnect(PEER peer)
 	else
 	{
 		connection->stayInTitleRoom = 0;
-		bfmePiDisconnectCleanupFromEsi();
-		bfmePiThinkFromEsi(-1);
+		piDisconnectCleanup(peer);
+		piThink(peer, -1);
 	}
 
 	if (connection->shutdown && connection->callbackDepth == 0)
@@ -721,7 +726,7 @@ void peerConnectLoginA(PEER peer, int namespaceID, const char *email,
 				connectCallback, param, opID))
 		{
 			success = 0;
-			bfmePiDisconnectCleanupFromEsi();
+			piDisconnectCleanup(peer);
 		}
 	}
 
@@ -733,7 +738,56 @@ void peerConnectLoginA(PEER peer, int namespaceID, const char *email,
 		do
 		{
 			msleep(1);
-			bfmePiThinkFromEsi(opID);
+			piThink(peer, opID);
+		}
+		while (!PeerOperationsComplete(peer, opID) ||
+			!piIsCallbackFinished(peer, opID));
+
+		if (connection->shutdown && connection->callbackDepth == 0)
+			peerShutdown(peer);
+	}
+}
+
+void peerConnectPreAuthA(PEER peer, const char *authtoken,
+	const char *partnerchallenge, void *nickErrorCallback,
+	void *connectCallback, void *param, int blocking)
+{
+	int success = 1;
+	int opID = piGetNextID(peer);
+	piConnection *connection = (piConnection *)peer;
+
+	if (connection->connected || connection->connecting)
+		success = 0;
+	if (success && !connection->title[0])
+		success = 0;
+
+	if (success)
+	{
+		connection->chat = 0;
+		connection->nick[0] = '\0';
+		connection->connected = 0;
+		connection->connecting = 1;
+		connection->nickErrorCallback = nickErrorCallback;
+		connection->profileID = 0;
+		connection->disconnect = 0;
+
+		if (!piNewConnectOperation(peer, 3, 0, 0, 0, 0, 0, 0,
+				authtoken, partnerchallenge, connectCallback, param, opID))
+		{
+			success = 0;
+			piDisconnectCleanup(peer);
+		}
+	}
+
+	if (!success)
+		piAddConnectCallback(peer, 0, 0, connectCallback, param, opID);
+
+	if (blocking)
+	{
+		do
+		{
+			msleep(1);
+			piThink(peer, opID);
 		}
 		while (!PeerOperationsComplete(peer, opID) ||
 			!piIsCallbackFinished(peer, opID));
@@ -767,7 +821,7 @@ void peerGetRoomKeysA(PEER peer, int roomType, const char *nick, int num,
 		do
 		{
 			msleep(1);
-			bfmePiThinkFromEsi(opID);
+			piThink(peer, opID);
 		}
 		while (!piIsOperationFinished(peer, opID) ||
 			!piIsCallbackFinished(peer, opID));
@@ -834,7 +888,7 @@ void peerGetPlayerIPA(PEER peer, const char *nick, void *callback,
 		do
 		{
 			msleep(1);
-			bfmePiThinkFromEsi(opID);
+			piThink(peer, opID);
 		}
 		while (!piIsOperationFinished(peer, opID) ||
 			!piIsCallbackFinished(peer, opID));
@@ -883,7 +937,7 @@ void peerGetPlayerProfileIDA(PEER peer, const char *nick, void *callback,
 		do
 		{
 			msleep(1);
-			bfmePiThinkFromEsi(opID);
+			piThink(peer, opID);
 		}
 		while (!piIsOperationFinished(peer, opID) ||
 			!piIsCallbackFinished(peer, opID));
@@ -932,7 +986,7 @@ void peerGetPlayerInfoA(PEER peer, const char *nick, void *callback,
 		do
 		{
 			msleep(1);
-			bfmePiThinkFromEsi(opID);
+			piThink(peer, opID);
 		}
 		while (!piIsOperationFinished(peer, opID) ||
 			!piIsCallbackFinished(peer, opID));
@@ -990,7 +1044,7 @@ void peerJoinGroupRoom(PEER peer, int groupID, void *callback, void *param,
 		do
 		{
 			msleep(1);
-			bfmePiThinkFromEsi(opID);
+			piThink(peer, opID);
 		}
 		while (!piIsOperationFinished(peer, opID) ||
 			!piIsCallbackFinished(peer, opID));
@@ -1060,7 +1114,7 @@ void peerJoinTitleRoomA(PEER peer, const char *password, void *callback,
 		do
 		{
 			msleep(1);
-			bfmePiThinkFromEsi(opID);
+			piThink(peer, opID);
 		}
 		while (!piIsOperationFinished(peer, opID) ||
 			!piIsCallbackFinished(peer, opID));
@@ -1116,10 +1170,60 @@ void peerCreateStagingRoomWithSocketA(PEER peer, const char *name,
 		do
 		{
 			msleep(1);
-			bfmePiThinkFromEsi(opID);
+			piThink(peer, opID);
 		}
 		while (!piIsOperationFinished(peer, opID) ||
 			!piIsCallbackFinished(peer, opID));
+
+		if (connection->shutdown && connection->callbackDepth == 0)
+			peerShutdown(peer);
+	}
+}
+
+void peerLeaveRoomA(PEER peer, int roomType, const char *reason)
+{
+	piConnection *connection = (piConnection *)peer;
+
+	if (!connection->title[0])
+		return;
+	if (!connection->connected)
+		return;
+	if (!connection->enteringRoom[roomType] && !connection->inRoom[roomType])
+		return;
+
+	piLeaveRoom(peer, roomType, reason);
+	if (roomType == 2 && connection->autoMatchStatus != 0 &&
+		connection->autoMatchStatus != 5)
+		piSetAutoMatchStatus(peer, 1);
+}
+
+void peerListGroupRoomsA(PEER peer, const char *fields, void *callback,
+	void *param, int blocking)
+{
+	piConnection *connection = (piConnection *)peer;
+	int success = 1;
+	int opID = piGetNextID(peer);
+
+	if (!connection->title[0])
+		success = 0;
+	if (!fields)
+		fields = "";
+	if (success &&
+		!piNewListGroupRoomsOperation(peer, fields, callback, param, opID))
+		success = 0;
+
+	if (!success)
+		piAddListGroupRoomsCallback(peer, 0, 0, 0, 0, 0, 0, 0, 0,
+			callback, param, opID);
+
+	if (blocking)
+	{
+		do
+		{
+			msleep(1);
+			piThink(peer, opID);
+		}
+		while (!piCheckBlockingID(peer, opID));
 
 		if (connection->shutdown && connection->callbackDepth == 0)
 			peerShutdown(peer);
@@ -1167,7 +1271,7 @@ void peerStartAutoMatchWithSocketA(PEER peer, int maxPlayers,
 		do
 		{
 			msleep(1);
-			bfmePiThinkFromEsi(opID);
+			piThink(peer, opID);
 		}
 		while (!piIsOperationFinished(peer, opID) ||
 			!piIsCallbackFinished(peer, opID));
@@ -1739,4 +1843,197 @@ void piSendPlayerUTM(PEER peer, const char *nick, const char *command,
 	sprintf(buffer, "%s %s", command, parameters);
 	chatSendUserMessageA(connection->chat, nick, buffer,
 		authenticate ? 4 : 3);
+}
+
+// BFME1 donors at 0x00858100 and 0x008571E0 transfer to BFME2 0x006996C0
+// and 0x006987A0. The piConnection offsets come from this target TU; the
+// address-derived helper names remain provisional. Their callees are the
+// independently matched piStopAutoMatch and chatRegisterUniqueNickA bodies.
+void Rva00858100StopAutoMatchIfTitled(PEER peer)
+{
+	piConnection *connection = (piConnection *)peer;
+	if (connection->title[0] && connection->connected)
+		piStopAutoMatch(peer);
+}
+
+void Rva008571E0RegisterNick(PEER peer, int sessionKey, const char *nick,
+	const char *secondNick)
+{
+	piConnection *connection = (piConnection *)peer;
+	if (connection->connecting)
+		Rva00860380(connection->chat, sessionKey, nick, secondNick);
+}
+
+// GameSpy peerMain.c peerIsConnected, retail 0x006987C0 (8 bytes), between the
+// 0x006987A0 helper above and piConnectTitle 0x006987D0 as in peerMain.c order;
+// PeerThread.cpp calls it. The linker folded GameWindowManager's 8-byte
+// GadgetSliderGetEnabledColor onto the same bytes (ICF).
+int peerIsConnected(PEER peer)
+{
+	piConnection *connection = (piConnection *)peer;
+	return connection->connected;
+}
+
+// Reference: Open-BFME-1 071013b3c6f1228dfda315732197bed0fd191209,
+// peerMainBlockingOperations.c, Rva00858960Join and its two wrappers.
+// Names below retain target addresses because the reference byte queue's
+// folded wrapper names do not establish the original BFME2 API names.
+unsigned SBServerGetPublicInetAddress(void *);
+unsigned SBServerGetPrivateInetAddress(void *);
+int SBServerHasPrivateAddress(void *);
+unsigned short SBServerGetPrivateQueryPort(void *);
+unsigned short SBServerGetPublicQueryPort(void *);
+void piMangleStagingRoom(char *, const char *, unsigned, unsigned, unsigned short);
+void *piSBCloneServer(void *);
+
+static __declspec(noinline) void Rva00699F20Join(PEER peer, void *server,
+    const char *channel, const char *password, void *callback, void *param,
+    int blocking)
+{
+    piConnection *connection = (piConnection *)peer;
+    int success = 1;
+    int result = 10;
+    char room[257];
+    unsigned publicIP, privateIP;
+    unsigned short port;
+    int opID = piGetNextID(peer);
+    if (!password) password = "";
+    if (!connection->title[0]) { success = 0; result = 6; }
+    if (success && !connection->connected) { success = 0; result = 7; }
+    if (success && (connection->enteringRoom[2] || connection->inRoom[2])) {
+        success = 0; result = 5;
+    }
+    if (success && connection->autoMatchStatus && connection->autoMatchStatus != 5) {
+        success = 0; result = 8;
+    }
+    if (success) {
+        if (server) {
+            publicIP = SBServerGetPublicInetAddress(server);
+            privateIP = SBServerGetPrivateInetAddress(server);
+            port = SBServerHasPrivateAddress(server) ?
+                SBServerGetPrivateQueryPort(server) : SBServerGetPublicQueryPort(server);
+            if (!publicIP) goto failed;
+        } else if (!channel || !channel[0]) success = 0;
+    }
+    if (success) {
+        piStopHosting(peer, 1);
+        if (server) {
+            piMangleStagingRoom(room, connection->title, publicIP, privateIP, port);
+            channel = room;
+        }
+        if (!piNewJoinRoomOperation(peer, 2, channel, password, callback, param, opID))
+            success = 0;
+        if (success && server) connection->hostServer = piSBCloneServer(server);
+    }
+    if (!success) {
+failed:
+        piAddJoinRoomCallback(peer, 0, result, 2, callback, param, opID);
+    }
+    if (blocking) {
+        do { msleep(1); piThink(peer, opID); }
+        while (!PeerOperationsComplete(peer, opID) || !piIsCallbackFinished(peer, opID));
+        if (connection->shutdown && connection->callbackDepth == 0) peerShutdown(peer);
+    }
+}
+
+void Rva0069A130JoinServer(PEER peer, void *server, const char *password,
+    void *callback, void *param, int blocking)
+{
+    Rva00699F20Join(peer, server, 0, password, callback, param, blocking);
+}
+
+void Rva0069A160JoinChannel(PEER peer, const char *channel, const char *password,
+    void *callback, void *param, int blocking)
+{
+    Rva00699F20Join(peer, 0, channel, password, callback, param, blocking);
+}
+
+// Same BFME1 revision, dup_008593A0. Its original API name is unresolved.
+void Rva0069A960RoomGlobalKeys(PEER peer, int roomType, int num,
+    const char **keys, void *callback, void *param, int blocking)
+{
+    piConnection *connection = (piConnection *)peer;
+    int success = 1;
+    int opID = piGetNextID(peer);
+
+    if (!connection->connected)
+        return;
+    if (!connection->enteringRoom[roomType] && !connection->inRoom[roomType])
+        return;
+
+    if (!piNewGetGlobalKeysOperation(peer, connection->room[roomType], num,
+            keys, callback, param, opID))
+        success = 0;
+    if (!success)
+        piAddGetGlobalKeysCallback(peer, 0, "", 0, 0, 0, callback, param, opID);
+
+    if (blocking)
+    {
+        do
+        {
+            msleep(1);
+            piThink(peer, opID);
+        }
+        while (!PeerOperationsComplete(peer, opID) || !piIsCallbackFinished(peer, opID));
+
+        if (connection->shutdown && connection->callbackDepth == 0)
+            peerShutdown(peer);
+    }
+}
+
+int piNewAuthenticateCDKeyOperation(PEER peer, const char *cdkey,
+    void *callback, void *param, int opID);
+void piAddAuthenticateCDKeyCallback(PEER peer, int result,
+    const char *message, void *callback, void *param, int opID);
+
+// Same BFME1 revision, peerAuthenticateCDKey. Target identity is supported
+// by the rowed CD-key operation/callback and the checked error literal.
+// Extent is 146 bytes: ret at 0x00699C41, then int3 padding. The older
+// 144-byte banked attempt truncated this boundary.
+void peerAuthenticateCDKey(PEER peer, const char *cdkey, void *callback,
+    void *param, int blocking)
+{
+    piConnection *connection = (piConnection *)peer;
+    int success = 1;
+    int opID = piGetNextID(peer);
+
+    if (!piNewAuthenticateCDKeyOperation(peer, cdkey, callback, param, opID))
+        success = 0;
+    if (!success)
+        piAddAuthenticateCDKeyCallback(peer, 0,
+            "Error starting CD Key check", callback, param, opID);
+
+    if (blocking)
+    {
+        do
+        {
+            msleep(1);
+            piThink(peer, opID);
+        }
+        while (!PeerOperationsComplete(peer, opID) || !piIsCallbackFinished(peer, opID));
+
+        if (connection->shutdown && connection->callbackDepth == 0)
+            peerShutdown(peer);
+    }
+}
+
+__declspec(noinline) void piDisconnect(PEER peer)
+{
+	piConnection *connection = (piConnection *)peer;
+
+	if (connection->callbackDepth > 0)
+	{
+		connection->disconnect = 1;
+		return;
+	}
+	connection->stayInTitleRoom = 0;
+	piDisconnectCleanup(peer);
+	piThink(peer, -1);
+}
+
+void piSendNatNegotiateCookie(PEER peer, unsigned int ip, unsigned short port, int cookie);
+
+void peerSendNatNegotiateCookie(PEER peer, unsigned int ip, unsigned short port, int cookie)
+{
+	piSendNatNegotiateCookie(peer, ip, port, cookie);
 }

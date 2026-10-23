@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc /O1 /Ob2
+// cl: /DNDEBUG /MD /EHsc /Ob2
 
 namespace FXParticleSystem
 {
@@ -31,25 +31,21 @@ public:
     virtual ~TerrainCollisionCategoryBase();
 };
 
-class TerrainCollisionCategoryTemplate : public TerrainCollisionCategoryBase
+// The category base is retail's CategoryModuleTemplate<8>: its copy
+// constructor at 0x00001F30 is rowed in FXParticleSystem.cpp, so it is
+// declared, never defined here.
+template <int N>
+class CategoryModuleTemplate : public TerrainCollisionCategoryBase
 {
 public:
-    TerrainCollisionCategoryTemplate(const TerrainCollisionCategoryTemplate &that)
-        : TerrainCollisionCategoryBase(that)
-    {
-        const void *source = &that;
-        const void *word_source = source ? (const unsigned char *)source + 8 : 0;
-        m_word = *(const unsigned short *)word_source;
-        *(volatile unsigned int *)this = 0x01073848;
-        *(volatile unsigned int *)((unsigned char *)this + 4) = 0x01073844;
-    }
-    virtual ~TerrainCollisionCategoryTemplate();
+    CategoryModuleTemplate(const CategoryModuleTemplate &that);
+    virtual ~CategoryModuleTemplate();
 
 private:
     volatile unsigned short m_word;
 };
 
-class TerrainCollisionModuleTemplate : public TerrainCollisionCategoryTemplate,
+class TerrainCollisionModuleTemplate : public CategoryModuleTemplate<8>,
                                        public TerrainCollisionModuleInfo
 {
 public:
@@ -59,7 +55,7 @@ public:
 
 // ??0TerrainCollisionModuleTemplate@FXParticleSystem@@QAE@ABV01@@Z
 TerrainCollisionModuleTemplate::TerrainCollisionModuleTemplate(const TerrainCollisionModuleTemplate &that)
-    : TerrainCollisionCategoryTemplate(that),
+    : CategoryModuleTemplate<8>(that),
       TerrainCollisionModuleInfo(that)
 {
 }

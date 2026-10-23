@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfmelist /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmelist /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // No-TRY twin of stlport_list_unicodestring_insert.cpp. Retail's
@@ -10,6 +10,15 @@
 // this member is rowed from here.
 #include <list>
 
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class Traits>
+static inline bool operator!=(const _List_iterator<T, Traits>& a,
+                              const _List_iterator<T, Traits>& b)
+{ return a._M_node != b._M_node; }
+}
+
+
 template <typename T> struct BfmeStringData
 {
 	int refCount;
@@ -18,28 +27,14 @@ template <typename T> struct BfmeStringData
 	T text[1];
 };
 
-template <typename T> class StringBase
-{
-	friend class UnicodeString;
-private:
-	StringBase() {}
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	void releaseBuffer();
-	BfmeStringData<T> *m_data;
+#include "unicode_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _S_unique<UnicodeString,_STL::allocator<UnicodeString>,_STL::equal_to<UnicodeString> >(_STL::list<UnicodeString,_STL::allocator<UnicodeString> > &,_STL::equal_to<UnicodeString>); }
+namespace _STL { template <> bool equal_to<UnicodeString>::operator()(UnicodeString const &,UnicodeString const &) const; }
+namespace _STL { template <> _STL::_List_iterator<UnicodeString,_STL::_Nonconst_traits<UnicodeString> > list<UnicodeString,_STL::allocator<UnicodeString> >::insert(_STL::_List_iterator<UnicodeString,_STL::_Nonconst_traits<UnicodeString> >,UnicodeString const &); }
+namespace _STL { template <> void list<UnicodeString,_STL::allocator<UnicodeString> >::remove(UnicodeString const &); }
+// bfme link decl-only end
 
-public:
-	const T *str() const { return m_data ? &m_data->text[0] : (const T *)L""; }
-};
-
-class UnicodeString : private StringBase<wchar_t>
-{
-public:
-	UnicodeString() { m_data = 0; }
-	UnicodeString(const wchar_t *text);
-	UnicodeString(const UnicodeString &other);
-	~UnicodeString() { releaseBuffer(); }
-};
 
 bool operator==(const UnicodeString &a, const UnicodeString &b);
 bool operator<(const UnicodeString &a, const UnicodeString &b);

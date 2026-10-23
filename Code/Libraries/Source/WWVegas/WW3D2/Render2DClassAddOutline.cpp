@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /Ireference/shims/bfmecamera /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
+// cl: /Ireference/shims/bfmecamera /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
 // readable body of ?Add_Outline@Render2DClass@@: Code/Libraries/Source/WWVegas/WW3D2/render2d.cpp
 
 // BFME emits the three-argument outline overload directly instead of routing
@@ -8,14 +8,7 @@
 
 typedef unsigned long uint32;
 
-class Vector2
-{
-public:
-	Vector2(float x, float y) : X(x), Y(y) {}
-
-	float X;
-	float Y;
-};
+#include "../../../../../reference/shims/wwmath/Vector2.h"
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath/rect.h
 class RectClass

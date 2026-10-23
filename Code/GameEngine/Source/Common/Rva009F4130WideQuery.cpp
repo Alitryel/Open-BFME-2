@@ -1,8 +1,8 @@
-// Address-derived reconstruction of the recursive wide-result query at RVA 0x009F4130.
+// PartitionManagerImpl::_GetObjectsInRange, the recursive wide-result query at RVA 0x00626AF0.
 // The caller supplies a result, four-way node storage, bounds, and an optional distance path.
-// The owner name remains opaque because no independent vtable or named caller proves it.
+// WorldBuilder names it: its body carries the __FUNCTION__ string
+// "PartitionManagerImpl::_GetObjectsInRange" and recurses into itself as retail does.
 
-extern const float g_bfmeK1253;
 
 struct Rva009F4130Point
 {
@@ -44,8 +44,8 @@ struct Rva009F4130Range
 	float m_y1;
     void center(Rva009F4130Point *out) const
     {
-        out->x = (m_x0 + m_x1) * g_bfmeK1253;
-        out->y = (m_y0 + m_y1) * g_bfmeK1253;
+        out->x = (m_x0 + m_x1) * 0.5f;
+        out->y = (m_y0 + m_y1) * 0.5f;
     }
 };
 
@@ -55,26 +55,31 @@ struct Rva009F4130NodeList
 	Rva009F4130Node *m_head;
 };
 
-class BfmeThingEQ
+class BfmeThingEQ;
+class Object;
+
+// Partition filter base: allows (0x00625720) runs the chain from this filter
+// along the +0x04 links.
+class Rva000421C8
 {
 public:
-	unsigned char bfmeAskEQ(void *value);
+	bool allows(Object *obj);
 };
 
 typedef float (__cdecl *Rva009F4130Distance)(void *context, void *item, float threshold);
 
-class Rva009F4130Owner
+class PartitionManagerImpl
 {
 public:
-    void query(Rva009F39F0Result *result, Rva009F4130NodeList *nodes,
+    void _GetObjectsInRange(Rva009F39F0Result *result, Rva009F4130NodeList *nodes,
     unsigned int count, int xmin, int ymin, int xmax, int ymax,
     int xorigin, int yorigin, int size, void *distanceContext,
     float threshold, const Rva009F4130Range *range,
     Rva009F4130Distance distance, BfmeThingEQ *filter);
 };
 
-// ?query@Rva009F4130Owner@@QAEXPAURva009F39F0Result@@PAURva009F4130NodeList@@IHHHHHHHPAXMPBURva009F4130Range@@P6AM22M@ZPAVBfmeThingEQ@@@Z
-void Rva009F4130Owner::query(Rva009F39F0Result *result, Rva009F4130NodeList *nodes,
+// ?_GetObjectsInRange@PartitionManagerImpl@@QAEXPAURva009F39F0Result@@PAURva009F4130NodeList@@IHHHHHHHPAXMPBURva009F4130Range@@P6AM22M@ZPAVBfmeThingEQ@@@Z
+void PartitionManagerImpl::_GetObjectsInRange(Rva009F39F0Result *result, Rva009F4130NodeList *nodes,
     unsigned int count, int xmin, int ymin, int xmax, int ymax,
     int xorigin, int yorigin, int size, void *distanceContext,
     float threshold, const Rva009F4130Range *range,
@@ -102,7 +107,7 @@ void Rva009F4130Owner::query(Rva009F39F0Result *result, Rva009F4130NodeList *nod
             resultDistance.distance = dx * dx + dy * dy;
         }
         void *value = node->m_item->value();
-        if (value && (!filter || filter->bfmeAskEQ(value)))
+        if (value && (!filter || ((Rva000421C8 *)filter)->allows((Object *)value)))
             result->append((int)value, resultDistance.bits);
     }
     if (!nodes->m_hasChildren)
@@ -114,15 +119,15 @@ void Rva009F4130Owner::query(Rva009F39F0Result *result, Rva009F4130NodeList *nod
     {
         int xmid = xorigin + size;
         if (xmin < xmid)
-            query(result, nodes, count >> 2, xmin, ymin, xmax, ymax, xorigin, yorigin, size, distanceContext, threshold, range, distance, filter);
+            _GetObjectsInRange(result, nodes, count >> 2, xmin, ymin, xmax, ymax, xorigin, yorigin, size, distanceContext, threshold, range, distance, filter);
         if (xmax >= xmid)
-            query(result, nodes + count, count >> 2, xmin, ymin, xmax, ymax, xmid, yorigin, size, distanceContext, threshold, range, distance, filter);
+            _GetObjectsInRange(result, nodes + count, count >> 2, xmin, ymin, xmax, ymax, xmid, yorigin, size, distanceContext, threshold, range, distance, filter);
     }
     if (ymax < ymid)
         return;
     int xmid = xorigin + size;
     if (xmin < xmid)
-        query(result, nodes + count * 2, count >> 2, xmin, ymin, xmax, ymax, xorigin, ymid, size, distanceContext, threshold, range, distance, filter);
+        _GetObjectsInRange(result, nodes + count * 2, count >> 2, xmin, ymin, xmax, ymax, xorigin, ymid, size, distanceContext, threshold, range, distance, filter);
     if (xmax >= xmid)
-        query(result, nodes + count * 3, count >> 2, xmin, ymin, xmax, ymax, xmid, ymid, size, distanceContext, threshold, range, distance, filter);
+        _GetObjectsInRange(result, nodes + count * 3, count >> 2, xmin, ymin, xmax, ymax, xmid, ymid, size, distanceContext, threshold, range, distance, filter);
 }

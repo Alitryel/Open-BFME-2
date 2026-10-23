@@ -237,13 +237,9 @@ public:
 	}
 
 };
-inline UpdateModule::UpdateModule( Thing *thing, const ModuleData* moduleData ) : 
-	BehaviorModule( thing, moduleData ),
-	m_indexInLogic(-1),
-	m_nextCallFrameAndPhase(0) 
-{ 
-	// nothing
-}
+// The ctor is not defined inline here. Retail has one body, 0x00253390 (UpdateModuleCtor.cpp),
+// which every derived ctor calls and which stores the -1 at +0x1C (m_bfmeReserved); the
+// inline copy this header carried lacked that store and offered the link a second body.
 inline UpdateModule::~UpdateModule() 
 { 
 	DEBUG_ASSERTCRASH(m_indexInLogic == -1, ("destroying an updatemodule still in the logic list"));

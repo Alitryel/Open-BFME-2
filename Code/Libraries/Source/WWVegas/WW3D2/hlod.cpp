@@ -1,4 +1,33 @@
-// cl: /Ireference/shims/bfme2renderobj /Ireference/shims /Ireference/shims/bfmerendobj /G7 /arch:SSE /DNDEBUG /MD /Ireference/shims/bfmevector /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /Ireference/shims/bfme_sphere_link /Ireference/shims/bfme2_vector3 /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims /Ireference/shims/bfmerendobj /G7 /arch:SSE /DNDEBUG /MD /Ireference/shims/bfmevector /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// Link view first: Vector3 Length/Normalize/ctor and the scalar operator* stay inline without emitting
+// /O2 copies that compete with retail's owners (0x000692B3, 0x0006924F, 0x006CD510, 0x00066382, 0x0007DFB3).
+#include "../../../../../reference/shims/bfme_vector3_full_link/vector3_full_link.h"
+// Link view first: Matrix3D(bool) stays inline without emitting an /O2 copy
+// that competes with retail's owner (0x0004C91A).
+// Retail links the /O1 copies of Matrix3D's default constructor, operator== and the
+// vector constructor iterator it uses: the view compiles for size (its vector headers
+// first, unchanged).
+#include <assert.h>
+#include "vector2.h"
+#include "vector4.h"
+#pragma optimize("gsy", on)
+#include "../../../../../reference/shims/bfme_matrix3d_bool_link/matrix3d.h"
+#pragma optimize("", on)
+#include "../WWMath/SphereClassLink.h"
+
+// rendobj.h: this unit inlines RenderObjClass::Set_Hidden (a qualified or
+// in-constructor call), so it needs the bit setters' bodies.
+#define BFME_RO_DEFINE_VISIBILITY
+
+// Retail treats array delete as nothrow: ~HLodClass (0x0019EF70) frees
+// AdditionalModels' storage with no EH state store between Free() and the
+// base destructor, which the compiler drops only when delete[] cannot throw.
+void __cdecl operator delete[](void *) throw();
+
+// BFME 2 has no W3D memory pools (see Code/Libraries/Source/WWVegas/WWLib/always.h).
+#include "always.h"
+#undef W3DMPO_GLUE
+#define W3DMPO_GLUE(ARGCLASS)
 #define Matrix4x4 Matrix4
 
 // Retail reaches operator delete[] with a direct call: HLodDefClass::Free at
@@ -35,6 +64,14 @@ void __cdecl operator delete[](void *block);
 
 #include <string.h>
 #define _CRTIMP
+#include "../../../../../reference/shims/bfme_hlod_vector3/vector3.h" // preserve the constructor and use the retail operator providers
+// Native RefCountClass::Release_Ref is the10B dec form at5D1A7D.
+// Under/G7 the default speed form emits add[ecx+4],-1 (11B).
+// Compile the existing RefCount inline definitions for size before rendobj.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+#include "../../../../../reference/shims/bfme_hlod_aabox/aabox.h"
 #include "rendobj.h"	// the scoped BFME2 RenderObj layout and slots must win the include guard
 #include "winbase_shim.h"
 /*
@@ -165,7 +202,25 @@ void __cdecl operator delete[](void *block);
 
 
 
+// Retail links the size-optimized WeightInfoStruct vector deleting destructor (??_E,
+// the copy htree.cpp emits); it takes the optimization state of the first function
+// that needs it, so this unemitted anchor needs it first. The private struct is reached
+// by befriending the anchor while hanim.h is first read; layout and names are unchanged.
+struct BfmeWeightInfoVddAnchor;
+#define private private: friend struct BfmeWeightInfoVddAnchor; private
+#include "hanim.h"
+#undef private
+struct BfmeWeightInfoVddAnchor { typedef NamedPivotMapClass::WeightInfoStruct Info; };
+#pragma optimize("gsy", on)
+static void bfmeWeightInfoVddAnchor(BfmeWeightInfoVddAnchor::Info *p) { delete [] p; }
+#pragma optimize("", on)
+#include <htree.h>
 #include "hlod.h"
+// Access the donor protected type without changing any member access or ABI.
+struct BfmeHLodModelNodeAccess : HLodClass { typedef ModelNodeClass Node; };
+// Use the independently rowed native 19E700 owner instead of a local copy.
+template <> bool VectorClass<BfmeHLodModelNodeAccess::Node>::Resize(
+    int newsize, const BfmeHLodModelNodeAccess::Node *array);
 #include "assetmgr.h"
 #include "hmdldef.h"
 #include "w3derr.h"
@@ -186,9 +241,14 @@ extern "C" char * __cdecl strdup(const char *);
 
 
 /*
-** Loader Instance
+** BFME2 has no HLodLoaderClass in this unit: the HLOD loader and its
+** prototype moved to the /O1 unit around 0x0017FE00 (Load_HLOD@Rva00970880Proto
+** at 0x0018012A is the sole caller of the HLodDefClass constructor 0x0019EC00,
+** and 0x0017FF2F the sole caller of HLodClass(const HLodDefClass &) 0x0019FC80).
+** That unit also owns HLodDefClass's 28-byte scalar deleting destructor
+** (0x0017FEA5); the donor loader's HLodPrototypeClass would emit a 30-byte /O2
+** copy here.
 */
-HLodLoaderClass			_HLodLoader;
 
 
 /** 
@@ -238,47 +298,6 @@ public:
 	{
 	}
 };
-
-
-
-/*
-** The HLod Loader Implementation
-*/
-
-/***********************************************************************************************
- * HLodLoaderClass::Load_W3D -- Loads an HlodDef from a W3D file                               *
- *                                                                                             *
- * INPUT:                                                                                      *
- *                                                                                             *
- * OUTPUT:                                                                                     *
- *                                                                                             *
- * WARNINGS:                                                                                   *
- *                                                                                             *
- * HISTORY:                                                                                    *
- *   1/26/00    gth : Created.                                                                 *
- *=============================================================================================*/
-// ?HLodLoaderClass::Load_W3D present-unmatched
-PrototypeClass *HLodLoaderClass::Load_W3D( ChunkLoadClass &cload )
-{
-	HLodDefClass * def = W3DNEW HLodDefClass;
-
-	if (def == NULL)
-	{
-		return NULL;
-	}
-
-	if (def->Load_W3D(cload) != WW3D_ERROR_OK) {
-		// load failed, delete the model and return an error
-		delete def;
-		return NULL;
-	} else {
-		// ok, accept this model! 
-		HLodPrototypeClass *proto = W3DNEW HLodPrototypeClass(def);
-		return proto;	
-	}
-	return NULL;
-}
-
 
 
 
@@ -492,30 +511,6 @@ void HLodDefClass::Initialize(HLodClass &src_lod)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?HLodDefClass::Save present-unmatched
-WW3DErrorType HLodDefClass::Save(ChunkSaveClass & csave)
-{
-	// Assume error
-	WW3DErrorType ret_val = WW3D_ERROR_SAVE_FAILED;
-
-	// Begin a chunk that identifies an aggregate
-	if (csave.Begin_Chunk (W3D_CHUNK_HLOD) == TRUE) {
-		
-		// Attempt to save the different sections of the aggregate definition
-		if ((Save_Header (csave) == WW3D_ERROR_OK) &&
-			 (Save_Lod_Array (csave) == WW3D_ERROR_OK)) {
-			
-			// Success!
-			ret_val = WW3D_ERROR_OK;
-		}
-
-		// Close the aggregate chunk
-		csave.End_Chunk ();
-	}
-
-	// Return the WW3DErrorType return code
-	return ret_val;
-}
 
 
 /***********************************************************************************************
@@ -530,42 +525,6 @@ WW3DErrorType HLodDefClass::Save(ChunkSaveClass & csave)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?HLodDefClass::Save_Header present-unmatched
-WW3DErrorType HLodDefClass::Save_Header(ChunkSaveClass &csave)
-{
-	// Assume error
-	WW3DErrorType ret_val = WW3D_ERROR_SAVE_FAILED;
-
-	// Begin a chunk that identifies the aggregate
-	if (csave.Begin_Chunk (W3D_CHUNK_HLOD_HEADER) == TRUE) {
-		
-		// Fill the header structure
-		W3dHLodHeaderStruct header = { 0 };
-		header.Version = W3D_CURRENT_HLOD_VERSION;
-		header.LodCount = LodCount;
-		
-		// Copy the name to the header
-		::lstrcpyn (header.Name, Name, sizeof (header.Name));
-		header.Name[sizeof (header.Name) - 1] = 0;
-
-		// Copy the hierarchy tree name to the header
-		::lstrcpyn (header.HierarchyName, HierarchyTreeName, sizeof (header.HierarchyName));
-		header.HierarchyName[sizeof (header.HierarchyName) - 1] = 0;		
-
-		// Write the header out to the chunk
-		if (csave.Write (&header, sizeof (header)) == sizeof (header)) {
-
-			// Success!
-			ret_val = WW3D_ERROR_OK;			
-		}
-
-		// End the header chunk
-		csave.End_Chunk ();
-	}
-
-	// Return the WW3DErrorType return code
-	return ret_val;
-}
 
 
 /***********************************************************************************************
@@ -580,20 +539,6 @@ WW3DErrorType HLodDefClass::Save_Header(ChunkSaveClass &csave)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?HLodDefClass::Save_Lod_Array present-unmatched
-WW3DErrorType HLodDefClass::Save_Lod_Array(ChunkSaveClass &csave)
-{
-	// Loop through all the LODs and save their model array to the chunk
-	bool success = true;
-	for (int lod_index = 0;
-		  (lod_index < LodCount) && success;
-		  lod_index ++) {		
-		success = Lod[lod_index].Save_W3D (csave);
-	}
-
-	// Return the WW3DErrorType return code
-	return success ? WW3D_ERROR_OK : WW3D_ERROR_SAVE_FAILED;
-}
 
 
 /***********************************************************************************************
@@ -700,32 +645,7 @@ WW3DErrorType HLodDefClass::Load_W3D(ChunkLoadClass & cload)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?HLodDefClass::read_header present-unmatched
-bool HLodDefClass::read_header(ChunkLoadClass & cload)
-{
-	/*
-	**	Open the first chunk, it should be the LOD header
-	*/
-	if (!cload.Open_Chunk()) return false;
-
-	if (cload.Cur_Chunk_ID() != W3D_CHUNK_HLOD_HEADER) {
-		// ERROR: Expected HLOD Header!
-		return false;
-	}
-
-	W3dHLodHeaderStruct header;
-	if (cload.Read(&header,sizeof(header)) != sizeof(header)) {
-		return false;
-	}
-	cload.Close_Chunk();
-
-	// Copy the name into our internal variable
-	Name = ::_strdup(header.Name);
-	HierarchyTreeName = ::strdup(header.HierarchyName);
-	LodCount = header.LodCount;
-	Lod = W3DNEWARRAY SubObjectArrayClass[LodCount];
-	return true;
-}
+// HLodDefClass::read_header: defined in hlod_read_header.cpp (its row's unit).
 
 
 /***********************************************************************************************
@@ -745,7 +665,7 @@ bool HLodDefClass::read_header(ChunkLoadClass & cload)
  *   10/27/2000 gth : Created.                                                                 *
  *=============================================================================================*/
 // ?HLodDefClass::read_proxy_array present-unmatched
-bool HLodDefClass::read_proxy_array(ChunkLoadClass & cload)
+inline bool HLodDefClass::read_proxy_array(ChunkLoadClass & cload)
 {
 	REF_PTR_RELEASE(ProxyArray);
 
@@ -812,8 +732,9 @@ HLodDefClass::SubObjectArrayClass::SubObjectArrayClass(void) :
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?HLodDefClass::SubObjectArrayClass::~SubObjectArrayClass present-unmatched
-HLodDefClass::SubObjectArrayClass::~SubObjectArrayClass(void)
+// Inline, so hlod_read_header.cpp can define the same body and its vector deleting
+// destructor inlines Reset as retail's (0x0019EC30) does; one COMDAT copy links.
+inline HLodDefClass::SubObjectArrayClass::~SubObjectArrayClass(void)
 {
 	Reset();
 }
@@ -1044,7 +965,10 @@ HLodClass::HLodClass(const HLodClass & src) :
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?HLodClass::HLodClass present-unmatched
+// EA/BFME1 array-of-LODs constructor; target 0x0019F9B0..0x0019FC7E.
+// Retail installs the already identified HLod table7D6780 and allocates a
+// 0x34-byte HTree (the existing bfme2htree declaration). Its class test is
+// HLOD/0x19 or more than one child; the donor HMODEL/1 arm is absent.
 HLodClass::HLodClass(const char * name,RenderObjClass ** lods,int count) :
 	Animatable3DObjClass(NULL),
 	LodCount(0),
@@ -1092,8 +1016,7 @@ HLodClass::HLodClass(const char * name,RenderObjClass ** lods,int count) :
 		RenderObjClass * lod_obj = lods[lod_index];
 		WWASSERT(lod_obj);
 
-		if (	(lod_obj->Class_ID() == RenderObjClass::CLASSID_HMODEL) || 
-				(lod_obj->Class_ID() == RenderObjClass::CLASSID_HLOD) ||
+		if (	(lod_obj->Class_ID() == RenderObjClass::CLASSID_HLOD) ||
 				(lod_obj->Get_Num_Sub_Objects() > 1) ) {
 			
 			// here we insert all sub-objects of this render object into the current LOD array
@@ -1147,7 +1070,13 @@ HLodClass::HLodClass(const char * name,RenderObjClass ** lods,int count) :
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?HLodClass::HLodClass present-unmatched
+// BFME2 factory used by both this constructor and Include_NULL_Lod.
+extern RenderObjClass *Create_Render_Obj(const char *name);
+// EA/BFME1 donor identity; retail 0x0019FC80 installs the same HLod vtable
+// as the matched constructors and consumes the donor definition's LOD arrays.
+// Its three newly resolved direct callees also occupy that table's slots
+// +0x234 (Add_Lod_Model), +0x98 (Add_Sub_Object_To_Bone), and +0x114
+// (Update_Obj_Space_Bounding_Volumes); their target behavior supports the names.
 HLodClass::HLodClass(const HLodDefClass & def) :
 	Animatable3DObjClass(def.HierarchyTreeName),
 	LodCount(0),
@@ -1184,7 +1113,7 @@ HLodClass::HLodClass(const HLodDefClass & def) :
 
 		for (int imodel=0; imodel < def.Lod[ilod].ModelCount; imodel++) {
 
-			RenderObjClass * robj = WW3DAssetManager::Get_Instance()->Create_Render_Obj(def.Lod[ilod].ModelName[imodel]);
+			RenderObjClass * robj = ::Create_Render_Obj(def.Lod[ilod].ModelName[imodel]);
 			int boneindex = def.Lod[ilod].BoneIndex[imodel];
 			if (robj != NULL) {
 				Add_Lod_Model(ilod,robj,boneindex);
@@ -1197,7 +1126,7 @@ HLodClass::HLodClass(const HLodDefClass & def) :
 	
 	// Add aggregates to this model
 	for (int iagg=0; iagg<def.Aggregates.ModelCount; iagg++) {
-		RenderObjClass * robj = WW3DAssetManager::Get_Instance()->Create_Render_Obj(def.Aggregates.ModelName[iagg]);
+		RenderObjClass * robj = ::Create_Render_Obj(def.Aggregates.ModelName[iagg]);
 		int boneindex = def.Aggregates.BoneIndex[iagg];
 		if (robj != NULL) {
 			Add_Sub_Object_To_Bone(robj,boneindex);
@@ -1401,7 +1330,6 @@ HLodClass & HLodClass::operator = (const HLodClass & that)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?HLodClass::~HLodClass present-unmatched
 HLodClass::~HLodClass(void)
 {
 	Free();
@@ -2040,7 +1968,13 @@ bool HLodClass::Is_NULL_Lod_Included(void) const
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?HLodClass::Include_NULL_Lod present-unmatched
+// BFME2: matched HLod constructors at 0x0019F8C0 and 0x001A0410 install
+// vtable RVA 0x007D6780. Slot +0x23C names this body, immediately after the
+// matched Is_NULL_Lod_Included slot. The method name and semantics come from
+// the EA/BFME1 donor; target calls and accesses independently support them.
+// Retail uses the global factory and global array deletion, as in Free above.
+// Boundary batch 6 spans [0x001A0560,0x001A09E4): 1156 bytes including the
+// three alignment bytes at 0x001A085D excluded from its reachable-byte count.
 void HLodClass::Include_NULL_Lod(bool include)
 {
 	if ((include == false) && Is_NULL_Lod_Included ()) {
@@ -2060,9 +1994,9 @@ void HLodClass::Include_NULL_Lod(bool include)
 		// Resize the lod array
 		LodCount -= 1;
 		Lod[index].Delete_All ();		
-		ModelArrayClass *temp_lods = W3DNEWARRAY ModelArrayClass[LodCount];
+		ModelArrayClass *modelArray = W3DNEWARRAY ModelArrayClass[LodCount];
 		for (index = 0; index < LodCount; index ++) {
-			temp_lods[index] = Lod[index + 1];
+			modelArray[index] = Lod[index + 1];
 		}
 
 		// Now resize the value and cost arrays
@@ -2071,10 +2005,10 @@ void HLodClass::Include_NULL_Lod(bool include)
 		::memcpy (temp_cost, &Cost[1], sizeof (float) * LodCount);
 		::memcpy (temp_value, &Value[1], sizeof (float) * (LodCount + 1));
 
-		delete [] Lod;
+		::delete [] Lod;
 		delete [] Value;
 		delete [] Cost;
-		Lod = temp_lods;
+		Lod = modelArray;
 		Value = temp_value;
 		Cost = temp_cost;
 		CurLod = (CurLod >= LodCount) ? (LodCount - 1) : CurLod;
@@ -2082,14 +2016,14 @@ void HLodClass::Include_NULL_Lod(bool include)
 	} else if (include && (Is_NULL_Lod_Included () == false)) {
 
 		// Tag the NULL render object onto the end
-		RenderObjClass *null_object = WW3DAssetManager::Get_Instance ()->Create_Render_Obj ("NULL");
+		RenderObjClass *null_object = ::Create_Render_Obj ("NULL");
 		WWASSERT (null_object != NULL);
 		if (null_object != NULL) {
 
 			// Resize the lod array
-			ModelArrayClass *temp_lods = W3DNEWARRAY ModelArrayClass[LodCount + 1];
+			ModelArrayClass *modelArray = W3DNEWARRAY ModelArrayClass[LodCount + 1];
 			for (int index = 0; index < LodCount; index ++) {
-				temp_lods[index + 1] = Lod[index];
+				modelArray[index + 1] = Lod[index];
 			}
 
 			// Now resize the value and cost arrays
@@ -2098,10 +2032,10 @@ void HLodClass::Include_NULL_Lod(bool include)
 			::memcpy (&temp_cost[1], Cost, sizeof (float) * LodCount);
 			::memcpy (&temp_value[1], Value, sizeof (float) * (LodCount + 1));
 
-			delete [] Lod;
+			::delete [] Lod;
 			delete [] Value;
 			delete [] Cost;
-			Lod = temp_lods;
+			Lod = modelArray;
 			Value = temp_value;
 			Cost = temp_cost;
 			LodCount ++;
@@ -2157,34 +2091,7 @@ int HLodClass::Get_Proxy_Count(void) const
  * HISTORY:                                                                                    *
  *   10/27/2000 gth : Created.                                                                 *
  *=============================================================================================*/
-// ?HLodClass::Get_Proxy present-unmatched
-bool HLodClass::Get_Proxy (int index, ProxyClass &proxy) const
-{
-	bool retval = false;
-
-	if (ProxyArray != NULL) {
-		
-		//
-		//	Lookup the proxy's transform
-		//
-		HTree->Base_Update(Get_Transform());
-		Matrix3D transform = HTree->Get_Transform((*ProxyArray)[index].Get_Bone_Index());
-		Set_Hierarchy_Valid(false);
-		
-		//
-		//	Pass the data onto the proxy object
-		//
-		proxy.Set_Transform(transform);
-		proxy.Set_Name((*ProxyArray)[index].Get_Name());		
-		retval = true;
-
-	} else {
-		proxy.Set_Name ("");
-		proxy.Set_Transform (Matrix3D (1));
-	}
-
-	return retval;
-}
+// HLodClass::Get_Proxy: defined in HLodGetProxy.cpp (its row's unit).
 
 
 /***********************************************************************************************
@@ -2312,10 +2219,12 @@ void HLodClass::Special_Render(SpecialRenderInfoClass & rinfo)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?HLodClass::Set_Transform present-unmatched
-void HLodClass::Set_Transform(const Matrix3D &m)
+// BFME2 table RVA 0x007D6780 slot 0x54 -> 0x0019B6F0. Retail first
+// compares all 12 matrix components and returns if none changed.
+void HLodClass::Set_Transform(const Matrix3D &matrix3D)
 {
-	Animatable3DObjClass::Set_Transform(m); 
+	if (Transform == matrix3D) return;
+	Animatable3DObjClass::Set_Transform(matrix3D); 
 	Set_Sub_Object_Transforms_Dirty(true);
 }
 
@@ -2672,40 +2581,7 @@ int HLodClass::Get_Sub_Object_Bone_Index(int LodIndex, int ModelIndex)	const
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?HLodClass::Add_Sub_Object_To_Bone present-unmatched
-int HLodClass::Add_Sub_Object_To_Bone(RenderObjClass * subobj,int boneindex, const Vector3 * offset)
-{
-	WWASSERT(subobj);
-	if ((boneindex < 0) || (boneindex >= HTree->Num_Pivots())) return 0;
-
-	subobj->Set_LOD_Bias(LODBias);
-	
-	ModelNodeClass newnode;
-	newnode.Model = subobj;
-	newnode.Model->Add_Ref();
-	newnode.Model->Set_Container(this);
-	newnode.Model->Set_Animation_Hidden(HTree->Get_Visibility (boneindex) == false);
-	newnode.BoneIndex = boneindex;
-	// BFME: retail copies the caller's Vector3 into the node, zeros when NULL.
-	if (offset) {
-		newnode.Offset = *offset;
-	} else {
-		newnode.Offset.X = newnode.Offset.Y = newnode.Offset.Z = 0.0f;
-	}
-
-	int result = AdditionalModels.Add(newnode);
-
-	Update_Sub_Object_Bits();
-	Update_Obj_Space_Bounding_Volumes();
-	Set_Hierarchy_Valid (false);
-	Set_Sub_Object_Transforms_Dirty(true);
-
-	if (Is_In_Scene()) {
-		subobj->Notify_Added(Scene);
-	}
-	
-	return result;
-}
+// HLodClass::Add_Sub_Object_To_Bone: defined in HLodAttachSubObject.cpp (its row's unit).
 
 
 /***********************************************************************************************
@@ -2806,28 +2682,7 @@ void HLodClass::Set_Animation(HAnimComboClass * anim_combo)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?HLodClass::Cast_Ray present-unmatched
-bool HLodClass::Cast_Ray(RayCollisionTestClass & raytest)
-{
-	if (Are_Sub_Object_Transforms_Dirty ()) {
-		Update_Sub_Object_Transforms ();
-	}
-
-	bool res = false;
-	int i;
-
-	// collide against the top LOD
-	int top = LodCount-1;
-	for (i = 0; i < Lod[top].Count(); i++) {
-		res |= Lod[top][i].Model->Cast_Ray(raytest);
-	}
-
-	for (i = 0; i < AdditionalModels.Count(); i++) {
-		res |= AdditionalModels[i].Model->Cast_Ray(raytest);
-	}
-
-	return res;
-}
+// HLodClass::Cast_Ray: defined in HLodCastRay.cpp (its row's unit).
 
 
 /***********************************************************************************************
@@ -2986,7 +2841,9 @@ bool HLodClass::Intersect_OBBox(OBBoxIntersectionTestClass & boxtest)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?HLodClass::Prepare_LOD present-unmatched
+// EA/BFME1 donor; retail19D0A0..19D146 in HLod table7D6780 slot120.
+// Target keeps screen-size/clamping and visible additional-model recursion;
+// the donor optimizer registration and single-LOD cost accumulation are absent.
 void HLodClass::Prepare_LOD(CameraClass &camera)
 {
 	if (Is_Not_Hidden_At_All() == false) {
@@ -3010,16 +2867,6 @@ void HLodClass::Prepare_LOD(CameraClass &camera)
 		int minlod = Calculate_Cost_Value_Arrays(norm_area, Value, Cost);
 		if (CurLod < minlod) Set_LOD_Level(minlod);
 
-
-		/*
-		** Add myself to the LOD optimizer:
-		*/
-		PredictiveLODOptimizerClass::Add_Object(this);
-
-	} else {
-
-		// Not added to optimizer, need to add cost
-		PredictiveLODOptimizerClass::Add_Cost(Get_Cost());
 
 	}
 
@@ -3698,44 +3545,7 @@ void HLodClass::Get_Snap_Point(int index,Vector3 * set)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?HLodClass::Update_Sub_Object_Transforms present-unmatched
-void HLodClass::Update_Sub_Object_Transforms(void)
-{
-	/*
-	** Update the animation transforms, recurse up to the
-	** top of the tree...
-	*/
-	Animatable3DObjClass::Update_Sub_Object_Transforms();
-
-	/*
-	** Put the computed transforms into our sub objects.
-	*/
-	int lod,model;
-	
-	for (lod = 0; lod < LodCount; lod++) {
-		for (model = 0; model < Lod[lod].Count(); model++) {
-
-			RenderObjClass * robj = Lod[lod][model].Model;
-			int bone = Lod[lod][model].BoneIndex;
-
-			robj->Set_Transform(HTree->Get_Transform(bone)); 
-			robj->Set_Animation_Hidden(!HTree->Get_Visibility(bone));
-			robj->Update_Sub_Object_Transforms();
-		}
-	}
-
-	for (model = 0; model < AdditionalModels.Count(); model++) {
-
-		RenderObjClass * robj = AdditionalModels[model].Model;
-		int bone = AdditionalModels[model].BoneIndex;
-
-		robj->Set_Transform(HTree->Get_Transform(bone)); 
-		robj->Set_Animation_Hidden(!HTree->Get_Visibility(bone));
-		robj->Update_Sub_Object_Transforms();
-	}
-
-	Set_Sub_Object_Transforms_Dirty(false);
-}
+// HLodClass::Update_Sub_Object_Transforms: defined in HLodUpdateSubObjectTransforms.cpp (its row's unit).
 
 
 /***********************************************************************************************
@@ -3750,109 +3560,16 @@ void HLodClass::Update_Sub_Object_Transforms(void)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?HLodClass::Update_Obj_Space_Bounding_Volumes present-unmatched
-void HLodClass::Update_Obj_Space_Bounding_Volumes(void)
+// HLodClass::Update_Obj_Space_Bounding_Volumes: defined in HLodUpdateObjSpaceBoundingVolumes.cpp (its row's unit).
+// ?bfmeAnchorBoundingVolumeInlines absent-from-retail
+// Emits this unit's rowed out-of-line copies of the bounding-volume inlines.
+void bfmeAnchorBoundingVolumeInlines(Matrix3D &tm, SphereClass &sphere, AABoxClass &aabox, MinMaxAABoxClass &box)
 {
-	//
-	//	Do we still have a valid bounding box index?
-	//
-	ModelArrayClass &high_lod = Lod[LodCount - 1];
-	int count = high_lod.Count ();
-	if (	BoundingBoxIndex < 0 ||
-			BoundingBoxIndex >= count ||
-			high_lod[BoundingBoxIndex].Model->Class_ID () != RenderObjClass::CLASSID_OBBOX)
-	{
-		BoundingBoxIndex = -1;
-	}
-
-	//
-	//	Attempt to find an OBBox mesh inside the heirarchy
-	//
-	int index = high_lod.Count ();
-	while (index -- && BoundingBoxIndex == -1) {
-		RenderObjClass *model = high_lod[index].Model;
-		
-		//
-		//	Is this an OBBox mesh?
-		//
-		if (model->Class_ID () == RenderObjClass::CLASSID_OBBOX)
-		{
-			const char *name = model->Get_Name ();
-			const char *name_seg = ::strchr (name, '.');
-			if (name_seg != NULL) {
-				name = name_seg + 1;
-			}
-
-			//
-			//	Does the name match the designator we are looking for?
-			//
-			if (::stricmp (name, "BOUNDINGBOX") == 0) {				
-				BoundingBoxIndex = index;
-			}
-		}
-	}
-
-
-	int i;
-	RenderObjClass * robj = NULL;
-
-	// if we don't have any sub objects, just set default bounds
-	if (Get_Num_Sub_Objects() <= 0) {
-		ObjSphere.Init(Vector3(0,0,0),0);
-		ObjBox.Center.Set(0,0,0);
-		ObjBox.Extent.Set(0,0,0);
-		return;
-	}
-
-	// loop through all sub-objects, combining their object-space bounding spheres and boxes.
-	// Put our HTree in its base pose at the origin.
-	SphereClass sphere;
-	AABoxClass obj_aabox;
-	MinMaxAABoxClass box;
-
-	HTree->Base_Update(Matrix3D(1));
-	
-	robj = Get_Sub_Object(0);
-	WWASSERT(robj);
-	
-	const Matrix3D & bonetm = HTree->Get_Transform(Get_Sub_Object_Bone_Index(robj));
-	robj->Get_Obj_Space_Bounding_Sphere(sphere);
-	sphere.Transform(bonetm);
-	robj->Get_Obj_Space_Bounding_Box(obj_aabox);
-	
-	box.Init(obj_aabox);
-	box.Transform(bonetm);
-
-	robj->Release_Ref();
-
-	for (i=1; i<Get_Num_Sub_Objects(); i++) {
-		robj = Get_Sub_Object(i);
-		WWASSERT(robj);
-		
-		const Matrix3D & bonetm = HTree->Get_Transform(Get_Sub_Object_Bone_Index(robj));
-		
-		SphereClass tmpsphere;
-		robj->Get_Obj_Space_Bounding_Sphere(tmpsphere);
-		tmpsphere.Transform(bonetm);
-		sphere.Add_Sphere(tmpsphere);
-
-		AABoxClass tmpbox; 
-		robj->Get_Obj_Space_Bounding_Box(tmpbox);
-		tmpbox.Transform(bonetm);
-		box.Add_Box(tmpbox);
-
-		robj->Release_Ref();
-	}
-
-	ObjSphere = sphere;
-	ObjBox = box;
-
-   Invalidate_Cached_Bounding_Volumes();
-	Set_Hierarchy_Valid(false);
-
-   // Now update the object space bounding volumes of this object's container:
-   RenderObjClass *container = Get_Container();
-   if (container) container->Update_Obj_Space_Bounding_Volumes();
+	tm.Make_Identity();
+	sphere.Init(Vector3(0,0,0),0);
+	sphere.Transform(tm);
+	aabox.Transform(tm);
+	box.Transform(tm);
 }
 
 
@@ -3868,31 +3585,7 @@ void HLodClass::Update_Obj_Space_Bounding_Volumes(void)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?HLodClass::Add_Lod_Model present-unmatched
-void HLodClass::Add_Lod_Model(int lod, RenderObjClass * robj, int boneindex)
-{		
-	WWASSERT(robj != NULL);
-
-	// (gth) survive the case where the skeleton for this object no longer has
-	// the bone that we're trying to use.  This happens when a skeleton is re-exported
-	// but the models that depend on it aren't re-exported...
-	if (boneindex >= HTree->Num_Pivots()) {
-		WWDEBUG_SAY(("ERROR: Model %s tried to use bone %d in skeleton %s.  Please re-export!\n",Get_Name(),boneindex,HTree->Get_Name()));
-		boneindex = 0;
-	}
-	
-	ModelNodeClass newnode;
-	newnode.Model = robj;
-	newnode.Model->Add_Ref();
-	newnode.BoneIndex = boneindex;
-	newnode.Model->Set_Container(this);
-	newnode.Model->Set_Transform(HTree->Get_Transform(boneindex));
-
-	if (Is_In_Scene() && lod == CurLod) {
-		newnode.Model->Notify_Added(Scene);
-	}
-	Lod[lod].Add(newnode);
-}
+// HLodClass::Add_Lod_Model: defined in HLodAddLodModel.cpp (its row's unit).
 
 
 /***********************************************************************************************
@@ -3937,18 +3630,17 @@ void HLodClass::Create_Decal(DecalGeneratorClass * generator, bool unk)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?HLodClass::Delete_Decal present-unmatched
+// BFME2: matched HLod constructors install RVA 0x007D6780; slot 0x1F4
+// selects this body at 0x0019BA20. Retail enumerates virtual children and
+// releases each acquired reference instead of walking the donor arrays.
 void HLodClass::Delete_Decal(uint32 decal_id)
 {
-	for (int lod=0; lod<LodCount; lod++) {
-		for (int model=0; model<Lod[lod].Count(); model++) {
-			Lod[lod][model].Model->Delete_Decal(decal_id);
-		}
-	}
-
-	for (int model=0; model<AdditionalModels.Count(); model++) {
-		AdditionalModels[model].Model->Delete_Decal(decal_id);
-	}
+    const int count = Get_Num_Sub_Objects();
+    for (int i = 0; i < count; ++i) {
+        RenderObjClass *object = Get_Sub_Object(i);
+        object->Delete_Decal(decal_id);
+        object->Release_Ref();
+    }
 }
 
 

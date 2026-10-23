@@ -49,7 +49,6 @@ BFME_DISP8_FLOAT_GETTER(Rva006C03E0FloatField, 0x0C)
 BFME_DISP8_FLOAT_GETTER(Rva00723490FloatField, 0x08)
 BFME_DISP8_FLOAT_GETTER(Rva0073A1C0FloatField, 0x20)
 BFME_DISP8_FLOAT_GETTER(Rva0008BB38FloatField, 0x40)
-BFME_DISP8_NEG_FLOAT_GETTER(Rva0030592FFloatField, -26)
 BFME_DISP8_FLOAT_GETTER(Rva004987FEFloatField, 0x38)
 BFME_DISP8_FLOAT_GETTER(Rva00094A94FloatField, 0x1C)
 BFME_DISP8_FLOAT_GETTER(Rva00094A98FloatField, 0x28)
@@ -73,3 +72,56 @@ BFME_DISP8_FLOAT_GETTER(Rva0008BB58FloatField, 0x50)
 BFME_DISP8_FLOAT_GETTER(Rva0008BB7DFloatField, 0x68)
 BFME_DISP8_FLOAT_GETTER(Rva0008E10EFloatField, 0x3C)
 BFME_DISP8_FLOAT_GETTER(Rva005D870DFloatField, 0x10)
+BFME_DISP8_FLOAT_GETTER(Rva00318B13FloatField, 0x44)
+
+// Clean BF1 9cbfb551fe Common/Rva00880960Accessors.cpp semantic guide.
+// Native 006C03D0..006C03DB is a complete independently bounded RET leaf.
+// Target behavior: receiver18 plus four-byte element stride; RET4.
+// Original owner and full array bounds remain unknown; address-owned view only.
+struct Rva006C03D0Slot { unsigned char bytes[4]; };
+class Rva006C03D0Fields {
+public: void *at(int index);
+private: unsigned char unknown[0x18]; Rva006C03D0Slot entries[1];
+};
+void *Rva006C03D0Fields::at(int index) { return &entries[index]; }
+
+// BF1 9cbfb551fe Common/R2SmallMemberOps.cpp Rva004223B0::isNonNegative
+// supplies the first comparison expression. Native adjacent predicate is a
+// local condition/offset adaptation, not a second asserted donor identity.
+// Independent complete RET extents: 1DCCDE..1DCCF0 reads float04>=0.0f after
+// RET1DCCDD; 1DCCF0..1DCD01 reads float00>0.0f before the rowed byte getter.
+// Both use independently verified BBAEAC=00000000; unordered returns false.
+// Original owners, field purposes and complete bounds remain unknown. Separate
+// address-owned carriers avoid equating classes merely because bodies adjoin.
+struct Rva001DCCDEFields {
+    unsigned char unknown[4]; float value04;
+    bool isNonNegative() const;
+};
+bool Rva001DCCDEFields::isNonNegative() const { return value04 >= 0.0f; }
+struct Rva001DCCF0Fields {
+    float value00;
+    bool isPositive() const;
+};
+bool Rva001DCCF0Fields::isPositive() const { return value00 > 0.0f; }
+
+// Clean BF1 f98983a7d3 PhysicsUpdate.cpp Get_Z_Vector supplied the expression
+// guide under /O1 /arch:SSE /G7. That name already owns a distinct native
+// body at 143260; no Matrix3D or Vector3 identity is transferred here.
+// Independent native 6643C..6645C follows RET16 at66439 and precedes the
+// rowed Matrix3D copy at6645C. It reads float32 at receiver08/18/28 and writes
+// result00/04/08 through the stack result pointer, returned in EAX, RET4.
+// Whole-image E8/E9 and absolute-address searches find no incoming references.
+// This consumed prefix and result representation claim only those accesses;
+// original class, result name, field purposes and full object size are unknown.
+
+struct Rva0006643CResult {
+ float value0,value4,value8;
+ Rva0006643CResult(float a,float b,float c):value0(a),value4(b),value8(c) {}
+};
+class Rva0006643CFields {
+ unsigned char unknown0[8]; float value8; unsigned char unknownC[12];
+ float value18; unsigned char unknown1C[12]; float value28;
+public:
+ Rva0006643CResult project() const;
+};
+Rva0006643CResult Rva0006643CFields::project() const { return Rva0006643CResult(value8,value18,value28); }

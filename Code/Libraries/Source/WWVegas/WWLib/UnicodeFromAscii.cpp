@@ -3,25 +3,20 @@
 // Export ??0UnicodeString@@QAE@ABVAsciiString@@@Z identifies6CB6D0 (91B).
 // Masked code also matches the reverse conversion at38250; the export and
 // callee translate(const char*)6CB5F0 prove this identity independently.
-// cl: /O2 /DNDEBUG /MD /EHsc
-template<class T> class StringBase {
-    T *data;
-public:
-    StringBase():data(0){}
-    void releaseBuffer();
-    ~StringBase(){releaseBuffer();}
-};
-class AsciiString {
-    struct Header { int refs; unsigned short length,capacity; char data[1]; };
-    Header *data;
-public:
-    const char *str()const {return data?data->data:"";}
-};
-class UnicodeString:public StringBase<unsigned short> {
-public:
-    UnicodeString(const AsciiString&);
-    void translate(const char*);
-};
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
+#include "ascii_string.h"
+// StringBase<unsigned short>::StringBase() is otherwise emitted here as a
+// losing COMDAT (string_base_clear.cpp owns the kept copy); TU-local
+// dllimport+forceinline specialization of the same one-store body.
+template <> __declspec(dllimport) __forceinline
+StringBase<unsigned short>::StringBase() : m_data(0) {}
+#include "unicode_string.h"
+// LINK-COMDAT: StringBase<G> default ctor kept as /O1 (and) from
+// unicode_string.cpp; file is /O1 so the COMDAT matches, row below forced to
+// /O2 via t on / s off to keep its 91B match.
+#pragma optimize("t", on)
+#pragma optimize("s", off)
 UnicodeString::UnicodeString(const AsciiString& text) {
     translate(text.str());
 }
+#pragma optimize("", on)

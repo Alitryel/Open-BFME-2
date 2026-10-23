@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /arch:SSE /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // OptionPreferences::getLANIPAddress, retail 0x002E4F98 (194 bytes). Zero
@@ -23,24 +23,7 @@ template <typename T> struct BfmeStringData
 	T text[1];
 };
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-	friend class UnicodeString;
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	void releaseBuffer();
-
-public:
-	StringBase() : m_data(0) {}
-	~StringBase();
-	Int compare(const char *other) const;
-	Int compareNoCase(const char *other) const;
-	Int compareNoCase(const StringBase &other) const throw();
-
-protected:
-	BfmeStringData<T> *m_data;
-};
+#include "../../../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
 template <> class StringBase<unsigned short>
 {
@@ -55,22 +38,6 @@ protected:
 	BfmeStringData<unsigned short> *m_data;
 };
 
-class AsciiString : public StringBase<char>
-{
-public:
-	static const AsciiString TheEmptyString;
-
-	AsciiString() {}
-	AsciiString(const char *text) : StringBase<char>(text) {}
-	AsciiString(const AsciiString &other) : StringBase<char>(other) {}
-	AsciiString &operator=(const AsciiString &other);
-
-	const char *str() const { return m_data ? &m_data->text[0] : ""; }
-	Bool isEmpty() const { return m_data == 0 || m_data->length == 0; }
-	void format(const char *fmt, ...);
-	void toLower();
-	Bool operator==(const char *other) const { return compare(other) == 0; }
-};
 
 class UnicodeString : public StringBase<unsigned short>
 {
@@ -92,6 +59,11 @@ template <> struct less<AsciiString>
 };
 }
 
+// Declaration-only: the rowed map<AsciiString,AsciiString>::operator[] is bound,
+// this TU emits no per-flag copy of it or of the tree internals it pulls in.
+namespace _STL {
+template <> AsciiString &map<AsciiString, AsciiString, less<AsciiString>, allocator<pair<const AsciiString, AsciiString> > >::operator[](const AsciiString &);
+}
 typedef _STL::map<AsciiString, AsciiString> PreferenceMap;
 
 class UserPreferences : public PreferenceMap
@@ -164,7 +136,7 @@ public:
 	UnsignedInt m_defaultIP;
 };
 
-extern GlobalData *TheGlobalData;
+extern class GlobalData *TheWritableGlobalData;
 
 // ?getLANIPAddress@OptionPreferences@@QAEIXZ @0x2E4F98
 UnsignedInt OptionPreferences::getLANIPAddress(void)
@@ -180,5 +152,5 @@ UnsignedInt OptionPreferences::getLANIPAddress(void)
 		}
 		IPlist = IPlist->getNext();
 	}
-	return TheGlobalData->m_defaultIP;
+	return TheWritableGlobalData->m_defaultIP;
 }

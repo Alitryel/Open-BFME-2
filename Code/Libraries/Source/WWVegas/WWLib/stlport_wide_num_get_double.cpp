@@ -89,7 +89,7 @@ protected:
 };
 
 template <>
-wide_iterator num_get<wchar_t, wide_iterator>::do_get(
+inline wide_iterator num_get<wchar_t, wide_iterator>::do_get(
 		wide_iterator in, wide_iterator end, ios_base &stream,
 		ios_base::iostate &error, double &value) const
 {
@@ -102,5 +102,23 @@ wide_iterator num_get<wchar_t, wide_iterator>::do_get(
 		error |= ios_base::eofbit;
 	return in;
 }
+
+// num_get<wchar_t>::do_get(double) is a template member other units instantiate
+// as select-any copies; the strong specialization here made it a duplicate in
+// the linked build. This anchor only makes this unit emit its copy for the
+// ledger row; it is not retail code.
+struct bfmeWideNumGetEmitter : num_get<wchar_t, wide_iterator>
+{
+	static void emit(const bfmeWideNumGetEmitter *p, wide_iterator a, wide_iterator b, ios_base &s,
+		ios_base::iostate &e, double &d);
+};
+#pragma inline_depth(0)
+// ?emit@bfmeWideNumGetEmitter@_STL@@SAXPBU12@V?$istreambuf_iterator@GV?$char_traits@G@_STL@@@2@1AAVios_base@2@AAHAAN@Z present-unmatched
+void bfmeWideNumGetEmitter::emit(const bfmeWideNumGetEmitter *p, wide_iterator a, wide_iterator b, ios_base &s,
+	ios_base::iostate &e, double &d)
+{
+	p->num_get<wchar_t, wide_iterator>::do_get(a, b, s, e, d);
+}
+#pragma inline_depth()
 
 }

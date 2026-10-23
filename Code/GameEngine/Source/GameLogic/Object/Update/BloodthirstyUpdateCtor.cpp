@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??0BloodthirstyUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x0044E0AA,
 // 105 bytes. BloodthirstyUpdate behavior ctor over the rowed UpdateModule
@@ -20,6 +20,18 @@
 // base dtor arms it with no emitted code. Recipe: PlayerHealSpecialPowerCtor
 // plus AIGateUpdateCtor over the same rowed base.
 
+extern "C" const void *const vtbl_00BFBCBC[];  // folded, 2 classes; via ??_7Rva005F6941Base@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BFBCBC=??_7Rva005F6941Base@@6B@")
+
+extern "C" const void *const vtbl_00C3EFC4[];  // ??_7BloodthirstyUpdate@@6BBloodthirstyUpdateIface@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C3EFC4=??_7BloodthirstyUpdate@@6BBloodthirstyUpdateIface@@@")
+extern "C" const void *const vtbl_00C3EFEC[];  // ??_7BloodthirstyUpdate@@6BUpdateModule@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C3EFEC=??_7BloodthirstyUpdate@@6BUpdateModule@@@")
+extern "C" const void *const vtbl_00C3EFF8[];  // ??_7BloodthirstyUpdate@@6BBehaviorModuleOther@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C3EFF8=??_7BloodthirstyUpdate@@6BBehaviorModuleOther@@@")
+extern "C" const void *const vtbl_00C3F0B4[];  // ??_7BloodthirstyUpdate@@6BBehaviorModuleBase@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C3F0B4=??_7BloodthirstyUpdate@@6BBehaviorModuleBase@@@")
+
 class Thing;
 class ModuleData;
 class Object;
@@ -36,7 +48,7 @@ public:
 	~UpdateModule();
 
 protected:
-	void setWakeFrame(Object *object, unsigned int frame);
+	void setWakeFrame(Object *object, UpdateSleepTime frame);
 
 	const void *m_vtable;
 	const ModuleData *m_moduleData;
@@ -65,13 +77,13 @@ BloodthirstyUpdate::BloodthirstyUpdate(Thing *thing, const ModuleData *moduleDat
 	: UpdateModule(thing, moduleData)
 {
 	int *wakeSlot = (int *)&m_secondary20;
-	*wakeSlot = (int)0x00BFBCBC;
-	m_vtable = (const void *)0x00C3F0B4;
-	m_secondary0C = (const void *)0x00C3EFF8;
-	m_secondary10 = (const void *)0x00C3EFEC;
-	m_secondary20 = (const void *)0x00C3EFC4;
+	*wakeSlot = (int)((unsigned int)vtbl_00BFBCBC);
+	m_vtable = (const void *)((unsigned int)vtbl_00C3F0B4);
+	m_secondary0C = (const void *)((unsigned int)vtbl_00C3EFF8);
+	m_secondary10 = (const void *)((unsigned int)vtbl_00C3EFEC);
+	m_secondary20 = (const void *)((unsigned int)vtbl_00C3EFC4);
 	m_bestTargetID = 0;
 	m_inRange = 0;
 	m_nextScanFrames = 0;
-	setWakeFrame(m_object, UPDATE_SLEEP_NONE);
+	setWakeFrame(m_object, (UpdateSleepTime)UPDATE_SLEEP_NONE);
 }

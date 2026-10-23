@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??0HordeTransportContain@@QAE@PAVThing@@PBVModuleData@@@Z, retail
 // 0x00477003, 149 bytes. Behavior-side ctor (rowed instance factory
@@ -13,6 +13,26 @@
 // +0x124 through pointer casts into the member tail (the rowed Coord2D is
 // eight bytes so both overlap it), and no setWakeFrame tail. The base
 // runs to +0x11D. Row supersedes the ctor pin.
+
+extern "C" const void *const vtbl_00C441B8[];  // folded, 6 classes; via ??_7AODHordeContain@@6BIface0C@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C441B8=??_7AODHordeContain@@6BIface0C@@@")
+extern "C" const void *const vtbl_00C45CEC[];  // folded, 2 classes; via ??_7TransportContain@@6BB8@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C45CEC=??_7TransportContain@@6BB8@@@")
+extern "C" const void *const vtbl_00C46064[];  // folded, 12 classes; via ??_7CaveContain@@6BB4@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C46064=??_7CaveContain@@6BB4@@@")
+extern "C" const void *const vtbl_00C47834[];  // folded, 5 classes; via ??_7AODHordeContain@@6BIfaceFC@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C47834=??_7AODHordeContain@@6BIfaceFC@@@")
+extern "C" const void *const vtbl_00C58790[];  // folded, 55 classes; via ??_7AODHordeContain@@6BIface2C@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C58790=??_7AODHordeContain@@6BIface2C@@@")
+
+extern "C" const void *const vtbl_00C45D2C[];  // ??_7HordeSiegeEngineContain@@6BIface28@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C45D2C=??_7HordeSiegeEngineContain@@6BIface28@@@")
+extern "C" const void *const vtbl_00C45EA8[];  // ??_7HordeSiegeEngineContain@@6BIface10@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C45EA8=??_7HordeSiegeEngineContain@@6BIface10@@@")
+
+char g_00C45CFC;
+char g_00C45D30;
+char g_00C45EB8;
 
 class Thing;
 class ModuleData;
@@ -64,16 +84,16 @@ private:
 HordeTransportContain::HordeTransportContain(Thing *thing, const ModuleData *moduleData)
 	: TransportContain(thing, moduleData), m_11D()
 {
-	m_vtable = (const void *)0x00C45EB8;
-	m_secondary0C = (const void *)0x00C441B8;
-	m_secondary10 = (const void *)0x00C45EA8;
-	m_20 = (const void *)0x00C45D30;
-	m_24 = (const void *)0x00C46064;
-	m_28 = (const void *)0x00C45D2C;
-	m_2C = (const void *)0x00C58790;
-	m_30 = (const void *)0x00C45CFC;
-	m_34 = (const void *)0x00C45CEC;
-	m_FC = (const void *)0x00C47834;
+	m_vtable = (const void *)(unsigned int)&g_00C45EB8;
+	m_secondary0C = (const void *)((unsigned int)vtbl_00C441B8);
+	m_secondary10 = (const void *)((unsigned int)vtbl_00C45EA8);
+	m_20 = (const void *)(unsigned int)&g_00C45D30;
+	m_24 = (const void *)((unsigned int)vtbl_00C46064);
+	m_28 = (const void *)((unsigned int)vtbl_00C45D2C);
+	m_2C = (const void *)((unsigned int)vtbl_00C58790);
+	m_30 = (const void *)(unsigned int)&g_00C45CFC;
+	m_34 = (const void *)((unsigned int)vtbl_00C45CEC);
+	m_FC = (const void *)((unsigned int)vtbl_00C47834);
 	*(int *)((char *)&m_11D + 3) = -1000;
 	*(unsigned char *)((char *)&m_11D + 7) = 0;
 }

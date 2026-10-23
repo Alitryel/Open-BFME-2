@@ -1,4 +1,4 @@
-// cl: /O1 /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // Identity: ModuleFactory registers this data class under "UpgradeSoundSelectorClientBehaviorModuleData" (addModule
 // pairs the name with this factory); formerly misnamed BattlePlanUpdate/BattlePlanUpdateModuleData.
 // stlport
@@ -10,7 +10,9 @@
 // Factory stub order names it; stub size 0x14 confirms the layout.
 #include <vector>
 
-struct BfmeE16 { float x, y, z, w; };
+#include "../../../../../Libraries/Include/Lib/BfmeE16.h"
+// bfme link decl-only BfmeE16
+namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 
 class Thing;
 class ModuleData;
@@ -31,7 +33,4 @@ UpgradeSoundSelectorClientBehaviorModuleData::UpgradeSoundSelectorClientBehavior
 {
 }
 
-// ??1UpgradeSoundSelectorClientBehaviorModuleData@@ present-unmatched
-UpgradeSoundSelectorClientBehaviorModuleData::~UpgradeSoundSelectorClientBehaviorModuleData()
-{
-}
+// UpgradeSoundSelectorClientBehaviorModuleData::~UpgradeSoundSelectorClientBehaviorModuleData: defined in UpgradeSoundSelectorClientBehaviorModuleDataDtor.cpp (its row's unit).

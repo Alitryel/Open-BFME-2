@@ -3,7 +3,7 @@
 //
 // STLport num_put<wchar_t>::do_put(bool), retail RVA 0x0000EB60, 371 bytes.
 // The boolalpha body is _num_put.c's algorithm. Retail destroys the two
-// conditional return-value temporaries through _String_base out of line,
+// conditional return-value temporaries through ~basic_string out of line,
 // but frees the named string inline. A separate storage owner expresses that
 // distinction without changing the string constructor or facet identities.
 //
@@ -17,7 +17,7 @@ typedef unsigned int size_t;
 typedef struct { int quot; int rem; } div_t;
 typedef struct { long quot; long rem; } ldiv_t;
 
-void __cdecl free(void *block);
+extern "C" void __cdecl free(void *block) throw(...);
 
 extern "C" {
 void __cdecl abort(void);
@@ -51,7 +51,36 @@ size_t __cdecl wcstombs(char *dest, const unsigned short *source, size_t count);
 int __cdecl wctomb(char *dest, unsigned short ch);
 }
 
+#include <string>
+
+// Both return-value temporaries call the out-of-line 63-byte complete-object
+// destructor at 0x0000B3C0.
+namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::~basic_string(); }
+// deallocate binds to the rowed retail copy (0x0046264A fold): this unit's own
+// out-of-line copy is not retail's and is first in link order.
+namespace _STL { template <> __declspec(dllimport) __forceinline void allocator<unsigned short>::deallocate(unsigned short *__p, size_t) const { if (__p != 0) free(__p); } }
+
+namespace _STL { template <> unsigned short * allocator<unsigned short>::allocate(unsigned int, void const *) const; }
+// Forward to the rowed allocator without emitting a separate proxy copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline unsigned short *
+_STLP_alloc_proxy<unsigned short *, unsigned short, allocator<unsigned short> >::allocate(size_t count)
+{ return allocator<unsigned short>::allocate(count, 0); }
+}
+
 #include <locale>
+// bfme link decl-only begin
+namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > __copy_integer_and_fill<unsigned short, ostreambuf_iterator<unsigned short, char_traits<unsigned short> > >(unsigned short const *, int, ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, int, int, unsigned short, unsigned short, unsigned short); }
+namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > & ostreambuf_iterator<unsigned short, char_traits<unsigned short> >::operator=(unsigned short); }
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$uninitialized_copy@PAGPAG@_STL@@YAPAGPAG00@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> unsigned short * uninitialized_copy<unsigned short *,unsigned short *>(unsigned short *,unsigned short *,unsigned short *); }
+// Suppress this TU's non-retail copy of ??0?$_String_base@GV?$allocator@G@_STL@@@_STL@@QAE@ABV?$allocator@G@1@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _String_base<unsigned short,allocator<unsigned short> >::_String_base(allocator<unsigned short> const &); }
 
 // The locale implementation is opaque in _locale.h. Its three vtable slots
 // are established by stlport_locale.cpp; visibility here inlines _M_decr.
@@ -64,10 +93,8 @@ public:
     locale::facet **_M_facets;
     unsigned int _M_count;
 };
-locale::~locale() _STLP_NOTHROW { _M_impl->_M_decr(); }
+inline locale::~locale() _STLP_NOTHROW { _M_impl->_M_decr(); }
 
-// Both return-value temporaries call the 63-byte ICF-folded destructor.
-template <> _String_base<unsigned short, allocator<unsigned short> >::~_String_base();
 }
 
 // The storage is owned by the caller, so failed construction has no allocation

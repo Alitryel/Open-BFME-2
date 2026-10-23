@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /GX- /O1 /Ob2
+// cl: /DNDEBUG /MD /GX- /Ob2
 
 // Open-BFME5: OrthoEmissionVelocityModuleTemplate copy ctor
 // Retail: base copy; null-preserving sub copy at +8; dual outer vtbl + sub vtbl.
@@ -6,22 +6,25 @@
 namespace FXParticleSystem
 {
 
-class OrthoEmissionVelocityModuleTemplateBaseCopyShim
+template <int CATEGORY>
+class CategoryModuleTemplate
 {
 public:
-	void construct_from(const void *src);
+	CategoryModuleTemplate(const CategoryModuleTemplate &that);
 };
 
-class OrthoEmissionVelocityModuleTemplateSubCopyShim
+class OrthoEmissionVelocityInfo
 {
 public:
-	void construct_from(const void *src_sub_or_null);
+	OrthoEmissionVelocityInfo(const OrthoEmissionVelocityInfo &that);
 	virtual void dummy();
 };
 
-extern "C" char OrthoEmissionVelocityModuleTemplate_cvtbl0;
+// OrthoEmissionVelocityModuleTemplate_cvtbl0: matched references place it at VA 0xc1bc10 (retail .rdata value -44).
+extern "C" char OrthoEmissionVelocityModuleTemplate_cvtbl0 = -44;
 extern "C" char OrthoEmissionVelocityModuleTemplate_cvtbl4;
-extern "C" char OrthoEmissionVelocityModuleTemplate_csub_vtbl;
+// OrthoEmissionVelocityModuleTemplate_csub_vtbl: matched references place it at VA 0xc1bc20 (retail .rdata value -35).
+extern "C" char OrthoEmissionVelocityModuleTemplate_csub_vtbl = -35;
 
 class OrthoEmissionVelocityModuleTemplate
 {
@@ -39,14 +42,16 @@ OrthoEmissionVelocityModuleTemplate::OrthoEmissionVelocityModuleTemplate(
 	const OrthoEmissionVelocityModuleTemplate &that)
 {
 	const void *src = &that;
-	((OrthoEmissionVelocityModuleTemplateBaseCopyShim *)this)->construct_from(src);
+	((CategoryModuleTemplate<0> *)this)->CategoryModuleTemplate<0>::CategoryModuleTemplate(
+		*(const CategoryModuleTemplate<0> *)src);
 	const void *sub_src = src ? (const char *)src + 8 : 0;
-	OrthoEmissionVelocityModuleTemplateSubCopyShim *sub =
-		(OrthoEmissionVelocityModuleTemplateSubCopyShim *)((char *)this + 8);
-	sub->construct_from(sub_src);
+	OrthoEmissionVelocityInfo *sub = (OrthoEmissionVelocityInfo *)((char *)this + 8);
+	sub->OrthoEmissionVelocityInfo::OrthoEmissionVelocityInfo(*(const OrthoEmissionVelocityInfo *)sub_src);
 	// Sub vtbl then outer dual vtbls (retail store order).
 	*(void **)sub = &OrthoEmissionVelocityModuleTemplate_csub_vtbl;
 	m_v0 = &OrthoEmissionVelocityModuleTemplate_cvtbl0;
 	m_v4 = &OrthoEmissionVelocityModuleTemplate_cvtbl4;
 }
 }
+// _OrthoEmissionVelocityModuleTemplate_cvtbl4: the global at VA 0xc1c780 is ?vftable_0112B89C@@3HA.
+#pragma comment(linker, "/alternatename:_OrthoEmissionVelocityModuleTemplate_cvtbl4=?vftable_0112B89C@@3HA")

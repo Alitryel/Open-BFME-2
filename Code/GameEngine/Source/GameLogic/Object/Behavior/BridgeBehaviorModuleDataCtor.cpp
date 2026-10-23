@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /arch:SSE
+// cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0BridgeBehaviorModuleData@@QAE@XZ, retail 0x00457FF1 (89 bytes).
@@ -15,14 +15,17 @@
 // is load-bearing for the EH state machine (SpawnUnit precedent). /arch:SSE
 // for movss float stores; /EHsc for the __EH_prolog frame.
 
+extern "C" const void *const vtbl_00C40A10[];  // ??_7BridgeBehaviorModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C40A10=??_7BridgeBehaviorModuleData@@6B@")
+
+// Match the rowed Coord3D sentinel constructor's BFME allocator ABI.
 #include <list>
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-};
+#include "../../../../../Libraries/Include/Lib/Coord3D.h"
+// bfme link decl-only begin
+namespace _STL { template <> _List_base<Coord3D, allocator<Coord3D> >::~_List_base(); }
+namespace _STL { template <> void _List_base<Coord3D, allocator<Coord3D> >::clear(); }
+// bfme link decl-only end
 
 class UpdateModuleData
 {
@@ -49,7 +52,7 @@ private:
 
 // ??0BridgeBehaviorModuleData@@QAE@XZ @0x457FF1
 BridgeBehaviorModuleData::BridgeBehaviorModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C40A10))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C40A10)))
 {
 	m_lateralScaffoldSpeed = 1.0f;
 	m_verticalScaffoldSpeed = 1.0f;

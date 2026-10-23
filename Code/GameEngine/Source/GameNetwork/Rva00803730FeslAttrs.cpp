@@ -9,6 +9,17 @@
 // verbatim go body. The two pushed-literal drifts in the sweep packet are
 // string-literal DIR32s ("TID" 0xCE3930, "ALLOWED" 0xCE38E4), auto-patched.
 
+// C994 and BfmeMsgVJH share the 8-byte message base and fields through +0x30;
+// the keyed calls use the matched FESL accessors' record/capacity slots +0x10/+0x14.
+// getPtr's PID/REASON results are consumed as ints, getBool's char default is 0,
+// and the FESL route helper's returned pointer is ignored by this caller.
+#pragma comment(linker, "/alternatename:??0BfmeC994@@QAE@PADH@Z=??0BfmeMsgVJH@@QAE@PADH@Z")
+#pragma comment(linker, "/alternatename:?addInt@BfmeC994@@QAEXPBDH@Z=?addInt@Rva007E8810Message@@QAEXPBDH@Z")
+#pragma comment(linker, "/alternatename:?addString@BfmeC994@@QAEXPBD0@Z=?addString@Rva007E8810Message@@QAEXPBD0@Z")
+#pragma comment(linker, "/alternatename:?getBool@Rva00803730Getter@@QAE_NPBDD@Z=?getBool@Rva007E8810Message@@QAE_NPBD_N@Z")
+#pragma comment(linker, "/alternatename:?getPtr@Rva00803730Getter@@QAEPAXPAX0@Z=?getInt@Rva007E8810Message@@QAEHPBDH@Z")
+#pragma comment(linker, "/alternatename:?sendFeslMessage@@YAXPAXPBD0@Z=?Rva007F93E0@@YAPAXPAX00@Z")
+
 class Rva00803730Getter
 {
 public:

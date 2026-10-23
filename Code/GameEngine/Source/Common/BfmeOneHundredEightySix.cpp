@@ -48,3 +48,7 @@ struct BfmeThingDG;
 class BfmeTargetDG;
 int __stdcall bfmeAskDG(BfmeThingDG *thing);
 int __stdcall bfmeAlsoDG(BfmeThingDG *thing);
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0W3DRadarResetSurface@@QAE@PAVSurfaceResource@@@Z=??0BfmeThingDC@@QAE@PAUBfmeItemDC@@@Z")

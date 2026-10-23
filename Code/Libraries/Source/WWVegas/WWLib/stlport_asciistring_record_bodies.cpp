@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // Pristine STLport 4.5.3 members, each placed by a single masked whole-.text
@@ -16,78 +16,174 @@
 // modeled in stlport_stringtailrecord144_dtor.cpp and differs from this view.
 // The assignable records spelled with ints first likewise follow only the
 // placed helper layout; no application identity is inferred from their size.
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
 #include <vector>
 #include <map>
 
-template<class T> class StringBase {
-    void *m_data;
-    void releaseBuffer();
-public:
-    StringBase();
-    StringBase(const StringBase &);
-    StringBase &operator=(const StringBase &);
-protected:
-    __forceinline ~StringBase() { releaseBuffer(); }
-};
-class AsciiString : private StringBase<char> {
-public:
-    __forceinline AsciiString() {}
-    __forceinline AsciiString(const AsciiString &o) : StringBase<char>(o) {}
-    __forceinline ~AsciiString() {}
-    AsciiString &operator=(const AsciiString &);
-};
+#include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?erase@?$vector@UBfmeAssignRecord44@@V?$allocator@UBfmeAssignRecord44@@@_STL@@@_STL@@QAEPA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeAssignRecord44;
+namespace _STL { template <> BfmeAssignRecord44 * vector<BfmeAssignRecord44,allocator<BfmeAssignRecord44> >::erase(BfmeAssignRecord44 *,BfmeAssignRecord44 *); }
+// Suppress this TU's non-retail copy of ??$__uninitialized_fill_n@PAUBfmeStringTailRecord156@@IU1@@_STL@@YAPAUBfmeStringTailRecord:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeStringTailRecord156;
+namespace _STL { template <> BfmeStringTailRecord156 * __uninitialized_fill_n<BfmeStringTailRecord156 *,unsigned int,BfmeStringTailRecord156>(BfmeStringTailRecord156 *,unsigned int,BfmeStringTailRecord156 const &,__false_type const &); }
+// Suppress this TU's non-retail copy of ??$__uninitialized_copy@PAUBfmeStringTailRecord156@@PAU1@@_STL@@YAPAUBfmeStringTailRecord1:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeStringTailRecord156;
+namespace _STL { template <> BfmeStringTailRecord156 * __uninitialized_copy<BfmeStringTailRecord156 *,BfmeStringTailRecord156 *>(BfmeStringTailRecord156 *,BfmeStringTailRecord156 *,BfmeStringTailRecord156 *,__false_type const &); }
+// Suppress this TU's non-retail copy of ?erase@?$vector@UBfmeAssignRecord104@@V?$allocator@UBfmeAssignRecord104@@@_STL@@@_STL@@QAE:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeAssignRecord104;
+namespace _STL { template <> BfmeAssignRecord104 * vector<BfmeAssignRecord104,allocator<BfmeAssignRecord104> >::erase(BfmeAssignRecord104 *,BfmeAssignRecord104 *); }
+// Suppress this TU's non-retail copy of ??1?$vector@UBfmeAssignRecord172@@V?$allocator@UBfmeAssignRecord172@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeAssignRecord172;
+namespace _STL { template <> vector<BfmeAssignRecord172,allocator<BfmeAssignRecord172> >::~vector(); }
+// Suppress this TU's non-retail copy of ??1?$vector@UBfmeAssignRecord44@@V?$allocator@UBfmeAssignRecord44@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeAssignRecord44;
+namespace _STL { template <> vector<BfmeAssignRecord44,allocator<BfmeAssignRecord44> >::~vector(); }
 bool operator<(const AsciiString &, const AsciiString &);
 bool operator==(const AsciiString &, const AsciiString &);
 struct BfmeAssignRecord24 { AsciiString s; int a[5]; };
 inline bool operator==(const BfmeAssignRecord24 &x, const BfmeAssignRecord24 &y) { return x.s == y.s; }
-struct BfmeAssignRecord28 { AsciiString s; int a[6]; };
+// Native copy/fill callers reach the separately verified record assignments.
+// These size-only views supply algorithm strides, not assignment layouts;
+// declare the owners so implicit assignments cannot compete with them.
+struct BfmeAssignRecord28 { AsciiString s; int a[6]; BfmeAssignRecord28 &operator=(const BfmeAssignRecord28 &); };
 inline bool operator==(const BfmeAssignRecord28 &x, const BfmeAssignRecord28 &y) { return x.s == y.s; }
-struct BfmeAssignRecord32 { AsciiString s; int a[7]; };
+// This shape view supplies assignment helpers; the independently verified
+// 71B destructor at0x0017330A owns destruction of the complete native record.
+struct BfmeAssignRecord32 { AsciiString s; int a[7]; ~BfmeAssignRecord32(); BfmeAssignRecord32 &operator=(const BfmeAssignRecord32 &); };
 inline bool operator==(const BfmeAssignRecord32 &x, const BfmeAssignRecord32 &y) { return x.s == y.s; }
-struct BfmeAssignRecord36 { AsciiString s; int a[8]; };
+struct BfmeAssignRecord36 { AsciiString s; int a[8]; BfmeAssignRecord36 &operator=(const BfmeAssignRecord36 &); };
 inline bool operator==(const BfmeAssignRecord36 &x, const BfmeAssignRecord36 &y) { return x.s == y.s; }
-struct BfmeAssignRecord44 { AsciiString s; int a[10]; };
+struct BfmeAssignRecord44 { AsciiString s; int a[10]; BfmeAssignRecord44 &operator=(const BfmeAssignRecord44 &); };
 inline bool operator==(const BfmeAssignRecord44 &x, const BfmeAssignRecord44 &y) { return x.s == y.s; }
-struct BfmeAssignRecord52 { AsciiString s; int a[12]; };
+struct BfmeAssignRecord52 { AsciiString s; int a[12]; BfmeAssignRecord52 &operator=(const BfmeAssignRecord52 &); ~BfmeAssignRecord52(); };
 inline bool operator==(const BfmeAssignRecord52 &x, const BfmeAssignRecord52 &y) { return x.s == y.s; }
 struct BfmePod8 { int a[2]; };
-struct BfmeAssignRecord84 { AsciiString s; int a[20]; };
+struct BfmeAssignRecord84 { AsciiString s; int a[20]; BfmeAssignRecord84 &operator=(const BfmeAssignRecord84 &); };
 inline bool operator==(const BfmeAssignRecord84 &x, const BfmeAssignRecord84 &y) { return x.s == y.s; }
 struct BfmeStringHeadRecord148 { AsciiString s; int a[36]; };
 inline bool operator==(const BfmeStringHeadRecord148 &x, const BfmeStringHeadRecord148 &y) { return x.s == y.s; }
 struct BfmeStringHeadRecord160 { AsciiString s; int a[39]; };
 inline bool operator==(const BfmeStringHeadRecord160 &x, const BfmeStringHeadRecord160 &y) { return x.s == y.s; }
-struct BfmeStringHeadRecord184 { AsciiString s; int a[45]; };
-inline bool operator==(const BfmeStringHeadRecord184 &x, const BfmeStringHeadRecord184 &y) { return x.s == y.s; }
+// Native184B stride; this algorithm view performs no member accesses.
+struct BfmeStringHeadRecord184 { unsigned char body[184]; ~BfmeStringHeadRecord184(); BfmeStringHeadRecord184 &operator=(const BfmeStringHeadRecord184 &); };
+bool operator==(const BfmeStringHeadRecord184 &x, const BfmeStringHeadRecord184 &y);
 struct BfmeAssignRecord40 { int a[9]; AsciiString s; };
 inline bool operator==(const BfmeAssignRecord40 &x, const BfmeAssignRecord40 &y) { return x.s == y.s; }
 struct BfmeAssignRecord80 { int a[19]; AsciiString s; };
 inline bool operator==(const BfmeAssignRecord80 &x, const BfmeAssignRecord80 &y) { return x.s == y.s; }
 struct BfmeAssignRecord104 { int a[25]; AsciiString s; };
 inline bool operator==(const BfmeAssignRecord104 &x, const BfmeAssignRecord104 &y) { return x.s == y.s; }
-struct BfmeAssignRecord172 { int a[42]; AsciiString s; };
+struct BfmeAssignRecord172 { int a[42]; AsciiString s; BfmeAssignRecord172 &operator=(const BfmeAssignRecord172 &); };
 inline bool operator==(const BfmeAssignRecord172 &x, const BfmeAssignRecord172 &y) { return x.s == y.s; }
-struct BfmeStringTailRecord144 { int a[35]; AsciiString s; };
-inline bool operator==(const BfmeStringTailRecord144 &x, const BfmeStringTailRecord144 &y) { return x.s == y.s; }
-struct BfmeStringTailRecord156 { int a[38]; AsciiString s; };
+// Only the native0x90 stride is used by these algorithm instantiations.
+// Native destruction and assignment are provided by their verified owners.
+struct BfmeStringTailRecord144 { unsigned char body[0x90]; ~BfmeStringTailRecord144(); BfmeStringTailRecord144 &operator=(const BfmeStringTailRecord144 &); };
+bool operator==(const BfmeStringTailRecord144 &x, const BfmeStringTailRecord144 &y);
+// Native __destroy_aux at 0x4CC15D strides 156 bytes but calls the rowed
+// owner-at-offset-zero destructor 0x10F149. Do not emit the implicit trailing
+// AsciiString destructor from this historical copy/code-generation view.
+struct BfmeStringTailRecord156 { int a[38]; AsciiString s; ~BfmeStringTailRecord156(); };
 inline bool operator==(const BfmeStringTailRecord156 &x, const BfmeStringTailRecord156 &y) { return x.s == y.s; }
-struct BfmeStringTailRecord180 { int a[44]; AsciiString s; };
+// _Construct<BfmeStringTailRecord156> is the rowed copy construct at 0x004CC095: declare it so this
+// unit calls it rather than emitting the only other copy of that name.
+namespace _STL { template <> void _Construct<BfmeStringTailRecord156, BfmeStringTailRecord156>(BfmeStringTailRecord156 *__p, const BfmeStringTailRecord156 &__val); }
+struct BfmeStringTailRecord180 { int a[44]; AsciiString s; BfmeStringTailRecord180(); ~BfmeStringTailRecord180(); };
 inline bool operator==(const BfmeStringTailRecord180 &x, const BfmeStringTailRecord180 &y) { return x.s == y.s; }
+namespace _STL {
+// Declared only: defined by their owning TUs. Declaring these explicit
+// specializations before the whole-class instantiations below suppresses
+// emission here; this file's bodies keep calling them by the same names.
+template <> void _Destroy<BfmeAssignRecord32 *>(BfmeAssignRecord32 *, BfmeAssignRecord32 *);
+template <> void _Destroy<BfmeAssignRecord44 *>(BfmeAssignRecord44 *, BfmeAssignRecord44 *);
+template <> BfmeAssignRecord32 *vector<BfmeAssignRecord32, allocator<BfmeAssignRecord32> >::erase(BfmeAssignRecord32 *, BfmeAssignRecord32 *);
+template <> BfmeAssignRecord172 *vector<BfmeAssignRecord172, allocator<BfmeAssignRecord172> >::erase(BfmeAssignRecord172 *, BfmeAssignRecord172 *);
+}
 template class _STL::vector<BfmeAssignRecord24, _STL::allocator<BfmeAssignRecord24> >;
 template class _STL::vector<BfmeAssignRecord28, _STL::allocator<BfmeAssignRecord28> >;
-template class _STL::vector<BfmeAssignRecord32, _STL::allocator<BfmeAssignRecord32> >;
+// Emit the recovered record32 algorithms without unrelated vector APIs.
+namespace _STL {
+template BfmeAssignRecord32 *__copy_backward<BfmeAssignRecord32 *, BfmeAssignRecord32 *, int>(BfmeAssignRecord32 *, BfmeAssignRecord32 *, BfmeAssignRecord32 *, const random_access_iterator_tag &, int *);
+template void fill<BfmeAssignRecord32 *, BfmeAssignRecord32>(BfmeAssignRecord32 *, BfmeAssignRecord32 *, const BfmeAssignRecord32 &);
+template BfmeAssignRecord32 *__copy_backward_ptrs<BfmeAssignRecord32 *, BfmeAssignRecord32 *>(BfmeAssignRecord32 *, BfmeAssignRecord32 *, BfmeAssignRecord32 *, const __false_type &);
+template BfmeAssignRecord32 *__copy<BfmeAssignRecord32 *, BfmeAssignRecord32 *, int>(BfmeAssignRecord32 *, BfmeAssignRecord32 *, BfmeAssignRecord32 *, const random_access_iterator_tag &, int *);
+template BfmeAssignRecord32 *__copy_ptrs<BfmeAssignRecord32 *, BfmeAssignRecord32 *>(BfmeAssignRecord32 *, BfmeAssignRecord32 *, BfmeAssignRecord32 *, __false_type);
+}
 template class _STL::vector<BfmeAssignRecord36, _STL::allocator<BfmeAssignRecord36> >;
 template class _STL::vector<BfmeAssignRecord44, _STL::allocator<BfmeAssignRecord44> >;
 template class _STL::vector<BfmeAssignRecord52, _STL::allocator<BfmeAssignRecord52> >;
 template struct _STL::pair<const AsciiString, BfmePod8>;
 template class _STL::vector<BfmeAssignRecord84, _STL::allocator<BfmeAssignRecord84> >;
+// Declared only: the retail vector<BfmeStringHeadRecord148/160> overflow
+// helper, its prefix copy/fill helpers and the 160 destructor are emitted and
+// rowed by the StlportVectorInsertOverflow units. This TU's per-flag copies
+// sort first in link order and win, blocking those owners; declaring the
+// explicit specializations before the whole-class instantiations below stops
+// this TU emitting them. Its own _M_clear, _Destroy and __destroy_aux rows
+// stay instantiated (kept for the same units).
+namespace _STL {
+template <> BfmeStringHeadRecord148 *__uninitialized_copy<BfmeStringHeadRecord148 *, BfmeStringHeadRecord148 *>(BfmeStringHeadRecord148 *, BfmeStringHeadRecord148 *, BfmeStringHeadRecord148 *, const __false_type &);
+template <> BfmeStringHeadRecord148 *__uninitialized_fill_n<BfmeStringHeadRecord148 *, unsigned int, BfmeStringHeadRecord148>(BfmeStringHeadRecord148 *, unsigned int, const BfmeStringHeadRecord148 &, const __false_type &);
+template <> void vector<BfmeStringHeadRecord148, allocator<BfmeStringHeadRecord148> >::_M_insert_overflow(BfmeStringHeadRecord148 *, const BfmeStringHeadRecord148 &, const __false_type &, unsigned int, bool);
+template <> void vector<BfmeStringHeadRecord160, allocator<BfmeStringHeadRecord160> >::_M_insert_overflow(BfmeStringHeadRecord160 *, const BfmeStringHeadRecord160 &, const __false_type &, unsigned int, bool);
+template <> BfmeStringHeadRecord160 *__uninitialized_copy<BfmeStringHeadRecord160 *, BfmeStringHeadRecord160 *>(BfmeStringHeadRecord160 *, BfmeStringHeadRecord160 *, BfmeStringHeadRecord160 *, const __false_type &);
+template <> BfmeStringHeadRecord160 *__uninitialized_fill_n<BfmeStringHeadRecord160 *, unsigned int, BfmeStringHeadRecord160>(BfmeStringHeadRecord160 *, unsigned int, const BfmeStringHeadRecord160 &, const __false_type &);
+template <> vector<BfmeStringHeadRecord160, allocator<BfmeStringHeadRecord160> >::~vector();
+}
 template class _STL::vector<BfmeStringHeadRecord148, _STL::allocator<BfmeStringHeadRecord148> >;
 template class _STL::vector<BfmeStringHeadRecord160, _STL::allocator<BfmeStringHeadRecord160> >;
-template class _STL::vector<BfmeStringHeadRecord184, _STL::allocator<BfmeStringHeadRecord184> >;
+namespace _STL {
+template BfmeStringHeadRecord184 *__copy_backward<BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, int>(BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, const random_access_iterator_tag &, int *);
+template void __destroy_aux<BfmeStringHeadRecord184 *>(BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, const __false_type &);
+template BfmeStringHeadRecord184 *__copy_backward_ptrs<BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *>(BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, const __false_type &);
+template void _Destroy<BfmeStringHeadRecord184 *>(BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *);
+template BfmeStringHeadRecord184 *__copy<BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, int>(BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, const random_access_iterator_tag &, int *);
+template void vector<BfmeStringHeadRecord184, allocator<BfmeStringHeadRecord184> >::_M_clear();
+}
 template class _STL::vector<BfmeAssignRecord40, _STL::allocator<BfmeAssignRecord40> >;
 template class _STL::vector<BfmeAssignRecord80, _STL::allocator<BfmeAssignRecord80> >;
+namespace _STL { template <> vector<BfmeAssignRecord104, allocator<BfmeAssignRecord104> >::~vector(); }
 template class _STL::vector<BfmeAssignRecord104, _STL::allocator<BfmeAssignRecord104> >;
 template class _STL::vector<BfmeAssignRecord172, _STL::allocator<BfmeAssignRecord172> >;
-template class _STL::vector<BfmeStringTailRecord144, _STL::allocator<BfmeStringTailRecord144> >;
-template class _STL::vector<BfmeStringTailRecord156, _STL::allocator<BfmeStringTailRecord156> >;
+namespace _STL {
+template void __destroy_aux<BfmeStringTailRecord144 *>(BfmeStringTailRecord144 *, BfmeStringTailRecord144 *, const __false_type &);
+template void _Destroy<BfmeStringTailRecord144 *>(BfmeStringTailRecord144 *, BfmeStringTailRecord144 *);
+template BfmeStringTailRecord144 *__copy<BfmeStringTailRecord144 *, BfmeStringTailRecord144 *, int>(BfmeStringTailRecord144 *, BfmeStringTailRecord144 *, BfmeStringTailRecord144 *, const random_access_iterator_tag &, int *);
+template void _Destroy<BfmeStringTailRecord144>(BfmeStringTailRecord144 *);
+}
+// Emit only the recovered APIs. Whole-class instantiation also emitted a
+// footprint-only default ctor writing the trailing field at+0x98, conflicting
+// with the genuine four-byte owner constructor used by TerrainRoadType.
+namespace _STL {
+template void __destroy_aux<BfmeStringTailRecord156 *>(BfmeStringTailRecord156 *, BfmeStringTailRecord156 *, const __false_type &);
+template void _Destroy<BfmeStringTailRecord156 *>(BfmeStringTailRecord156 *, BfmeStringTailRecord156 *);
+template void vector<BfmeStringTailRecord156, allocator<BfmeStringTailRecord156> >::_M_clear();
+template void vector<BfmeStringTailRecord156, allocator<BfmeStringTailRecord156> >::push_back(const BfmeStringTailRecord156 &);
+}
 template class _STL::vector<BfmeStringTailRecord180, _STL::allocator<BfmeStringTailRecord180> >;
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??$_Destroy@PAVRva0036105B@@@_STL@@YAXPAVRva0036105B@@0@Z=??$_Destroy@PAUBfmeStringHeadRecord148@@@_STL@@YAXPAUBfmeStringHeadRecord148@@0@Z")
+
+// Both assignment spellings designate the existing45B native body51C3F.
+#pragma comment(linker, "/alternatename:??4BfmeStringTailRecord144@@QAEAAU0@ABU0@@Z=??4Rva00051C3F@@QAEAAV0@ABV0@@Z")
+
+// Both ABI aliases preserve the existing native pin endpoints.
+#pragma comment(linker, "/alternatename:??1BfmeStringHeadRecord184@@QAE@XZ=??1RunwayInfo@FlightDeckBehavior@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??4BfmeStringHeadRecord184@@QAEAAU0@ABU0@@Z=??4Rva003A35A0Element@@QAEAAU0@ABU0@@Z")

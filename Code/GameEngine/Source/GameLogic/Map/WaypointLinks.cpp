@@ -1,4 +1,4 @@
-// cl: /O1 /Ob0
+// cl: /Ob0
 // ?getLink@Waypoint@@QBEPAV1@H@Z @0x00085404
 // ?addLink@Waypoint@@QAEXPAV1@@Z @0x00272306
 // Waypoint link array: 8 slots at +0x20, count at +0x4C, source at +0x40.
@@ -19,7 +19,7 @@ private:
 };
 
 // ?getLink@Waypoint@@QBEPAV1@H@Z
-Waypoint *Waypoint::getLink(int index) const
+inline Waypoint *Waypoint::getLink(int index) const
 {
 	return (index < 0 || index >= 8) ? 0 : m_links[index];
 }
@@ -35,3 +35,9 @@ void Waypoint::addLink(Waypoint *other)
 	}
 	target->m_linkSource = this;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. Taking each one's
+// address keeps this unit's copy for its row; these pointers are not retail
+// data.
+Waypoint * (Waypoint::*_bfmeInlineAnchor_WaypointLinks_0)(int index) const = &Waypoint::getLink;

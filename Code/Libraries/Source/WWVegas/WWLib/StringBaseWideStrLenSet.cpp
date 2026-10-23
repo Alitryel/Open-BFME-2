@@ -13,6 +13,7 @@
 // ensure 0x00036F00, allocator 0x000307F0. Model/flags donor TU
 // Code/Libraries/Source/WWVegas/WWLib/StringBaseWideCharSourceSet.cpp // cl: /O2
 // plus /EHsc for the handler 0x0075CD08 scope unwind of the stack source.
+#include <string.h>
 typedef unsigned short wchar_t;
 
 namespace _STL {
@@ -26,8 +27,10 @@ public:
 template <typename T>
 class CharSource {
 public:
+    // Retail setter/concat EH restores the abstract base vtable at BE2B78.
+    ~CharSource() {}
     virtual int getLength() const = 0;
-    virtual void _gap() const = 0;
+    virtual void getCharRange(T *dest, int start, int count) const = 0;
     virtual int getChars(T *dest) const = 0;
 };
 
@@ -55,19 +58,16 @@ public:
     WideStrLenSource(const wchar_t *s, int l) : m_str(s), m_len(l) {}
     ~WideStrLenSource() {}
     virtual int getLength() const { return m_len; }
-    virtual void _gap() const {}
+    virtual void getCharRange(wchar_t *dest, int start, int count) const {
+        memcpy(dest, m_str + start, count * 2);
+    }
     virtual int getChars(wchar_t *dest) const {
-        for (int i = 0; i < m_len; i++)
-            dest[i] = m_str[i];
+        memcpy(dest, m_str, m_len * 2);
         return m_len;
     }
 };
 
 // ?getLength@WideStrLenSource@@UBEHXZ present-unmatched
-// ?_gap@WideStrLenSource@@UBEXXZ present-unmatched
-// ?getChars@WideStrLenSource@@UBEHPAG@Z present-unmatched
-// ??0WideStrLenSource@@QAE@PBGH@Z present-unmatched
-// ??1WideStrLenSource@@QAE@XZ present-unmatched
 template <>
 void StringBase<wchar_t>::set(const wchar_t *str, int len)
 {
@@ -86,7 +86,7 @@ void StringBase<wchar_t>::set(const wchar_t *str, int len)
         if (bytes > 0x7fff)
             throw 1;
         bytes = ((bytes + 3) / 4) * 4;
-        Header *fresh = (Header *)_STL::allocator<char>::allocate(bytes, (const void *)0x737472);
+        Header *fresh = (Header *)_STL::allocator<char>::allocate(bytes, (const void *)'str');
         fresh->ref_count = 1;
         fresh->capacity = (unsigned short)((unsigned int)(bytes - 8) / 2u);
         fresh->length = 0;

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 // Open-BFME5: ArmorUpgrade module ctor via UpgradeModule multi-inheritance.
 
@@ -52,6 +52,10 @@ class ArmorUpgrade : public UpgradeModule
 {
 public:
 	ArmorUpgrade( Thing *thing, const ModuleData *moduleData );
+
+// Protected virtual, as ArmorUpgradeDtor.cpp (row 0x004B33FD) declares it.
+protected:
+	virtual ~ArmorUpgrade();
 };
 
 // ??0ArmorUpgrade@@QAE@PAVThing@@PBVModuleData@@@Z

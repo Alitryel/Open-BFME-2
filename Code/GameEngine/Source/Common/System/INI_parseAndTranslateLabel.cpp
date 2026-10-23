@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /GX /Oi-
+// cl: /Oy- /DNDEBUG /MD /GX /Oi-
 //
 // ?parseAndTranslateLabel@INI@@SAXPAV1@PAX1PBX@Z, retail 0x0033987B, 133 bytes.
 // Dedicated TU (same INI parser family as INI_parseFXList.cpp).
@@ -35,7 +35,10 @@ class UnicodeString : public StringBase<unsigned short>
 public:
 	__forceinline ~UnicodeString() { releaseBuffer(); }
 	bool isEmpty() const { return m_data == 0 || m_data->m_length == 0; }
-	const unsigned short *str() const { return m_data->m_chars; }
+	const unsigned short *str() const { return m_data ? m_data->m_chars : (const unsigned short *)""; }
+	// LINK: same-body helper under a TU-unique name (identical inlined bytes); the
+	// original copy loses to the first-in-order copy. No flags touched.
+	const unsigned short *bfme_str_patl() const { return m_data ? m_data->m_chars : (const unsigned short *)""; }
 };
 
 class GameTextInterface
@@ -75,5 +78,5 @@ void INI::parseAndTranslateLabel(INI *ini, void *, void *store, const void *)
 	UnicodeString translated = TheGameText->fetch(token);
 	if (translated.isEmpty())
 		throw INIException(3, "Label '%s' not found in game text", token);
-	((StringBase<unsigned short> *)store)->set(translated.str());
+	((StringBase<unsigned short> *)store)->set(translated.bfme_str_patl());
 }

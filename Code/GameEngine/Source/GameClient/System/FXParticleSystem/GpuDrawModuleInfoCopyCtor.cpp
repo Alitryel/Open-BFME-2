@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 
 // GpuDrawModuleInfo copy constructor.
 //
@@ -10,23 +10,8 @@
 // TU GpuDrawModuleInfoDoXfer.cpp and the op= TU
 // GpuDrawModuleInfoOpAssign.cpp in this folder.
 
-template <typename Character>
-class StringBase
-{
-public:
-	StringBase(const StringBase &);
-};
+#include "ascii_string.h"
 
-class AsciiString : private StringBase<char>
-{
-public:
-	AsciiString(const AsciiString &that)
-		: StringBase<char>(that)
-	{
-	}
-	~AsciiString();
-	AsciiString &operator=(const AsciiString &that);
-};
 
 namespace FXParticleSystem
 {

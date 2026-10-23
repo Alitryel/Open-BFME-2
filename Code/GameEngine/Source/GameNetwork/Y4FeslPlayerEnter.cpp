@@ -31,6 +31,7 @@ public:
 class BfmeC994 : public Rva007E86B0Base
 {
 public:
+	virtual ~BfmeC994();
 	BfmeC994( char *buffer, int capacity );
 	void addInt( const char *key, int value );
 
@@ -95,3 +96,7 @@ void BfmeSinkSA::bfmeUseSA( int tid, int pid )
 	message.addInt( "PID", pid );
 	m_sender->send( &message );
 }
+
+// Existing thiscall teardown pin at RVA 0x655780 names the matched
+// seven-byte base-vptr reinstall worker; no receiver adjustment is needed.
+#pragma comment(linker, "/alternatename:??1BfmeC994@@UAE@XZ=??1BfmeMsg@@UAE@XZ")

@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004C9A0C@EvaAnnounceClientCreate@@SA?AW4NameKeyType@@XZ @0x4C9A0C
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@EvaAnnounceClientCreate@@UBE?AW4NameKeyType@@XZ @0x4C9A0C
 // (69B): cached pool-name key for EvaAnnounceClientCreate. The class
 // identity comes from the pool-name string the body pushes
 // ("EvaAnnounceClientCreate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class EvaAnnounceClientCreate
 {
 public:
-	static NameKeyType rva0004C9A0C();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004C9A0C@EvaAnnounceClientCreate@@SA?AW4NameKeyType@@XZ
-NameKeyType EvaAnnounceClientCreate::rva0004C9A0C()
+// ?getModuleNameKey@EvaAnnounceClientCreate@@UBE?AW4NameKeyType@@XZ
+NameKeyType EvaAnnounceClientCreate::getModuleNameKey() const
 {
 	static NameKeyType TheEvaAnnounceClientCreatePoolKey =
 		TheNameKeyGenerator->nameToKey("EvaAnnounceClientCreate");

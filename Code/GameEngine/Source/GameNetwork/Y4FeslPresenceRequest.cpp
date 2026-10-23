@@ -20,11 +20,21 @@
 
 typedef __int64 FeslInt64;
 
+class Rva007E8AC0
+{
+public:
+	void run( void );
+};
+
+class BfmeThingCIC
+{
+public:
+	void bfmeGoCIC( void *key, void *value );
+};
+
 class Rva007E8810Message
 {
 public:
-	void reset( void );                                              // 0x007E8AC0
-	void addString( const char *key, const char *value );            // 0x007E8A10
 	void addInt( const char *key, int value );                       // 0x007E88D0
 	void addBool( const char *key, bool value );                     // 0x007E8980
 
@@ -34,36 +44,40 @@ public:
 	int m_depth;
 };
 
+#define FESL_RESET(message) ((Rva007E8AC0 *)(message))->run()
+#define FESL_ADD_STRING(message, key, value) \
+	((BfmeThingCIC *)(message))->bfmeGoCIC((void *)(key), (void *)(value))
+
 void __stdcall Rva007FB0E0( Rva007E8810Message *msg, const char *rsrc, int show,
 	const char *stat, const char *prod, int attributes, const char *sess,
 	const char *titl, const char *tiid, const char *extr )
 {
-	msg->reset();
+	FESL_RESET(msg);
 	msg->m_category = 'PSET';
 	msg->m_depth = 3;
 	if( rsrc )
-		msg->addString( "RSRC", rsrc );
+		FESL_ADD_STRING( msg, "RSRC", rsrc );
 	switch( show )
 	{
 		case 2:
-			msg->addString( "SHOW", "CHAT" );
+			FESL_ADD_STRING( msg, "SHOW", "CHAT" );
 			break;
 		case 3:
-			msg->addString( "SHOW", "AWAY" );
+			FESL_ADD_STRING( msg, "SHOW", "AWAY" );
 			break;
 		case 4:
-			msg->addString( "SHOW", "XA" );
+			FESL_ADD_STRING( msg, "SHOW", "XA" );
 			break;
 		case 5:
-			msg->addString( "SHOW", "DND" );
+			FESL_ADD_STRING( msg, "SHOW", "DND" );
 			break;
 		case 6:
-			msg->addString( "SHOW", "GAME" );
+			FESL_ADD_STRING( msg, "SHOW", "GAME" );
 			break;
 	}
-	msg->addString( "STAT", stat );
+	FESL_ADD_STRING( msg, "STAT", stat );
 	if( prod )
-		msg->addString( "PROD", prod );
+		FESL_ADD_STRING( msg, "PROD", prod );
 	if( attributes )
 	{
 		char attr[ 4 ] = "";
@@ -74,14 +88,14 @@ void __stdcall Rva007FB0E0( Rva007E8810Message *msg, const char *rsrc, int show,
 			strcat( attr, "J" );
 		if( attributes & 4 )
 			strcat( attr, "P" );
-		msg->addString( "ATTR", attr );
+		FESL_ADD_STRING( msg, "ATTR", attr );
 	}
 	if( sess )
-		msg->addString( "SESS", sess );
+		FESL_ADD_STRING( msg, "SESS", sess );
 	if( titl )
-		msg->addString( "TITL", titl );
+		FESL_ADD_STRING( msg, "TITL", titl );
 	if( tiid )
-		msg->addString( "TIID", tiid );
+		FESL_ADD_STRING( msg, "TIID", tiid );
 	if( extr )
-		msg->addString( "EXTR", extr );
+		FESL_ADD_STRING( msg, "EXTR", extr );
 }

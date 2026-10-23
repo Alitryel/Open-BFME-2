@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 //
 // ??0?$ShareBufferClass@VVector2@@@@QAE@HPBDH@Z, retail 0x000D1D33 (149 bytes).
 //
@@ -15,17 +15,10 @@ void *operator new[](unsigned int size) throw();
 void operator delete[](void *place) throw();
 inline void *operator new(unsigned int, void *place) { return place; }
 
-class Vector2
-{
-public:
-	Vector2();
-
-private:
-	float X;
-	float Y;
-};
+#include "../../../../../reference/shims/wwmath/Vector2.h"
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib/refcount.h
+#pragma optimize("s", on)
 class RefCountClass
 {
 public:
@@ -39,6 +32,7 @@ protected:
 private:
 	int NumRefs;
 };
+#pragma optimize("", on)
 
 // upstream layout: reference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib/sharebuf.h,
 // with BFME's RawBuffer/Alignment pair around Zero Hour's Array and Count.

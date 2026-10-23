@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /GX /Oi-
+// cl: /Ireference/shims/bfme2_ascii /Oy- /DNDEBUG /MD /GX /Oi-
 //
 // ?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z, retail 0x002F11E, 60 bytes.
 // Dedicated SEH TU (same AsciiString-temp family as INI_getNextAsciiString.cpp).
@@ -9,28 +9,8 @@
 // ??4AsciiString pin) and the temp tears down through releaseBuffer at
 // 0x36410 (existing IAE pin), exactly the writeNameKey idiom.
 
-template <typename T>
-class StringBase
-{
-	friend class AsciiString;
+#include "ascii_string.h"
 
-public:
-	StringBase() : m_data(0) {}
-
-private:
-	StringBase(const StringBase<T> &that);
-	T *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString &operator=(const AsciiString &other);
-	__forceinline ~AsciiString() { releaseBuffer(); }
-
-protected:
-	void releaseBuffer();
-};
 
 class INI
 {

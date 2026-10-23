@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE
+// cl: /DNDEBUG /MD /GX
 // stlport
 //
 // ?xfer@BehaviorModule@@QAEXPAVXfer@@@Z retail 0x004C9C7D
@@ -11,11 +11,28 @@
 // Version1 on the stream, then the ObjectModule base xfer (pinned).
 // Version1 resolves via its row.
 
-class Xfer
-{
-public:
-	void Version1();
-};
+// The shared headers declare these members with the access/virtual spelling
+// retail's vftables reference; the ledger row keeps the spelling this TU
+// compiled to. Same function, same address: bind the header spelling here.
+#pragma comment(linker, "/alternatename:?xfer@BehaviorModule@@MAEXPAVXfer@@@Z=?xfer@BehaviorModule@@QAEXPAVXfer@@@Z")
+class Snapshot;
+class AsciiString;
+class UnicodeString;
+class PooledString;
+class Coord3DBase;
+struct ICoord3D;
+struct Region3D;
+struct IRegion3D;
+class Coord2D;
+struct ICoord2D;
+struct Region2D;
+struct IRegion2D;
+class RealRange;
+struct RGBColor;
+class RGBAColorReal;
+class RGBAColorInt;
+struct XferUnknown11;
+#include "../../../../Include/Common/BfmeXfer.h"
 
 class ObjectModule
 {

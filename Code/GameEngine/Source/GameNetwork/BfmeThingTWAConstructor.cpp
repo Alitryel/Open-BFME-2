@@ -5,23 +5,23 @@
 // The +0x10 value has the observed 16-byte prefix of the existing
 // Rva00808CB0LanGameEntry view. Ordinary constructors explain the interleaved
 // vtable stores and ECX setup; no volatile fields or hand-written vptrs.
-// cl: /O2 /GX-
-class Rva007E86B0Base {
+// cl: /GX-
+class PrototypeClass {
 public:
- Rva007E86B0Base();
- virtual ~Rva007E86B0Base();
+ PrototypeClass();
+ virtual ~PrototypeClass();
  int field04;
 };
-class Rva00808CB0LanGameEntry : public Rva007E86B0Base {
+class Rva00808CB0LanGameEntry : public PrototypeClass {
 public:
- Rva00808CB0LanGameEntry() { field08=0; field0c=0; field04=0; }
- virtual ~Rva00808CB0LanGameEntry();
- int field08, field0c;
+  __declspec(dllimport) __forceinline Rva00808CB0LanGameEntry() { field08=0; field0c=0; field04=0; }
+  ~Rva00808CB0LanGameEntry();
+  int field08, field0c;
 };
 class Rva00803080 {
 public:
  Rva00803080() {}
- virtual void slot0(unsigned int);
+ virtual void slot0(unsigned int) = 0;
 };
 class Rva007EAServiceList {
 public: void add(Rva00803080*);
@@ -29,14 +29,14 @@ public: void add(Rva00803080*);
 class DemanglerPrimary {
 public:
  virtual ~DemanglerPrimary();
- virtual void rva007F8790(const char*,int,const char*,unsigned char);
- virtual void set(int,int);
+ virtual void rva007F8790(const char*,int,const char*,unsigned char) = 0;
+ virtual void set(int,int) = 0;
 };
 class BfmeThingTWA : public DemanglerPrimary, public Rva00803080 {
 public:
  BfmeThingTWA(Rva007EAServiceList*);
  virtual ~BfmeThingTWA();
- virtual void slot0(unsigned int);
+ virtual void slot0(unsigned int) = 0;
  virtual void rva007F8790(const char*,int,const char*,unsigned char);
  virtual void set(int,int);
  int field08, field0c;
@@ -56,3 +56,8 @@ BfmeThingTWA::BfmeThingTWA(Rva007EAServiceList* service) {
  field2c=0;
  service->add(this);
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?set@BfmeThingTWA@@UAEXHH@Z=?rva00664EA0@Rva00664EA0@@QAEXII@Z")

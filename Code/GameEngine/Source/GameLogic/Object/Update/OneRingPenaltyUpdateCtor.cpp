@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE
+// cl: /DNDEBUG /MD /GX
 //
 // ??0OneRingPenaltyUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail
 // 0x00499A70, 113 bytes. Behavior-side ctor (pinned by its Update factory
@@ -15,9 +15,27 @@
 // Object-uint spelling resolves via the existing pin at 0x44DF71). Row
 // supersedes the ctor pin.
 
+extern "C" const void *const vtbl_00C49188[];  // folded, 8 classes; via ??_7PropagandaTowerBehavior@@6BPB_Iface1@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C49188=??_7PropagandaTowerBehavior@@6BPB_Iface1@@@")
+
+extern "C" const void *const vtbl_00C50250[];  // ??_7Rva00499934@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C50250=??_7Rva00499934@@6B@")
+extern "C" const void *const vtbl_00C50254[];  // ??_7Rva00499934@@6BRva0024A797_B2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C50254=??_7Rva00499934@@6BRva0024A797_B2@@@")
+extern "C" const void *const vtbl_00C50260[];  // ??_7Rva00499934@@6BRva0024A797_Root@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C50260=??_7Rva00499934@@6BRva0024A797_Root@@@")
+extern "C" const void *const vtbl_00C1C780[];  // folded, 49 classes; via ??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C1C780=??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@")
+
 class Thing;
 class ModuleData;
 class Object;
+
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1,
+	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
+};
 
 class UpdateModule
 {
@@ -26,7 +44,7 @@ public:
 	~UpdateModule();
 
 protected:
-	void setWakeFrame(Object *object, unsigned int frame);
+	void setWakeFrame(Object *object, UpdateSleepTime frame);
 
 	const void *m_vtable;
 	const ModuleData *m_moduleData;
@@ -57,15 +75,15 @@ OneRingPenaltyUpdate::OneRingPenaltyUpdate(Thing *thing, const ModuleData *modul
 {
 	float fzero = 0.0f;
 	int *slot20 = (int *)&m_20;
-	*slot20 = (int)0x00C1C780;
+	*slot20 = (int)((unsigned int)vtbl_00C1C780);
 	int zero = 0;
-	m_vtable = (const void *)0x00C50260;
-	m_secondary0C = (const void *)0x00C49188;
-	m_secondary10 = (const void *)0x00C50254;
-	m_20 = (const void *)0x00C50250;
+	m_vtable = (const void *)((unsigned int)vtbl_00C50260);
+	m_secondary0C = (const void *)((unsigned int)vtbl_00C49188);
+	m_secondary10 = (const void *)((unsigned int)vtbl_00C50254);
+	m_20 = (const void *)((unsigned int)vtbl_00C50250);
 	m_24 = zero;
 	m_28 = zero;
 	m_2C = fzero;
 	m_30 = zero;
-	setWakeFrame(m_object, 1);
+	setWakeFrame(m_object, UPDATE_SLEEP_NONE);
 }

@@ -21,7 +21,18 @@ private:
 };
 
 // ?friend_newModuleInstance@StealthUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *StealthUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *StealthUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new StealthUpdate(thing, moduleData));
 }
+
+// Select-any anchor: this unit owns the row above while other TUs emit it as
+// an inline copy. The anchor keeps this unit emitting its copy for the ledger;
+// it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitStealthUpdateFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitStealthUpdateFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	StealthUpdate::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

@@ -11,16 +11,23 @@ public:
 	char pad[0x2C];
 	int m_size2C;
 
-	void d_008859d0( const char* name, char* outBuf );
 	int d_00886a20( const char* name, int dummy );
+};
+
+class Cftp
+{
+public:
+	char pad0[0x34];
+	const char* m_dir34;
+	void d_008859d0( const char* name, char* outBuf );
 };
 
 int Rva00886A20Class::d_00886a20( const char* name, int dummy )
 {
 	char buf[256];
-	d_008859d0( name, buf );
+	((Cftp *)this)->d_008859d0( name, buf );
 
-	int file = (int)fopen( buf, (const char*)0x00BD2384 );
+	int file = (int)fopen( buf, "rb" );
 	if ( !file )
 	{
 		m_size2C = file;

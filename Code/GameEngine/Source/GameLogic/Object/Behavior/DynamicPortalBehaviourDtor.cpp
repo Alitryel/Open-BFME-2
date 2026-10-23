@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 //
 // ??1DynamicPortalBehaviour@@MAE@XZ, retail 0x00460C18, 91 bytes. Behavior-side
 // destructor completing the DynamicPortalBehaviour file-unit (ctor rowed at
@@ -72,16 +72,13 @@ public:
 	virtual void dynamicPortalExtraB();
 };
 
-class BfmeOwnerEBC
-{
-public:
-	void bfmeCallEBC();
-};
-
+// LINK: the owner call binds the rowed 0x0046094C (DynamicPortalBehaviour::rva0046094C, DynamicPortalBehaviourClearPortals.cpp).
 class DynamicPortalBehaviour : public UpgradeModule,
 	public DynamicPortalExtraA,
 	public DynamicPortalExtraB
 {
+public:
+	void rva0046094C();
 protected:
 	virtual ~DynamicPortalBehaviour();
 
@@ -95,5 +92,11 @@ private:
 // ??1DynamicPortalBehaviour@@MAE@XZ @0x00460C18
 DynamicPortalBehaviour::~DynamicPortalBehaviour()
 {
-	((BfmeOwnerEBC *)this)->bfmeCallEBC();
+	rva0046094C();
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?dynamicPortalExtraB@DynamicPortalExtraB@@UAEXXZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?dynamicPortalExtraA@DynamicPortalExtraA@@UAEXXZ=?bfmeGoEBC@BfmeThingEBC@@QAEXPAX@Z")

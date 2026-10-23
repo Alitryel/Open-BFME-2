@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE
+// cl: /DNDEBUG /MD /GX
 //
 // ??0TerrainResourceBehavior@@QAE@PAVThing@@PBVModuleData@@@Z, retail
 // 0x0048209B, 125 bytes. Behavior-side ctor (rowed instance factory
@@ -15,9 +15,58 @@
 // tail (protected IAEX Object-uint spelling resolves via the existing pin
 // at 0x44DF71). Row supersedes the ctor pin.
 
+extern "C" const void *const vtbl_00C42B60[];  // folded, 3 classes; via ??_7FakePathfindPortalBehaviour@@6BMiBase1@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C42B60=??_7FakePathfindPortalBehaviour@@6BMiBase1@@@")
+extern "C" const void *const vtbl_00C4EF80[];  // folded, 7 classes; via ??_7ContainIface34@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4EF80=??_7ContainIface34@@6B@")
+
+extern "C" const void *const vtbl_00C493E8[];  // ??_7Rva00481F82@@6BRva00481F82_S4@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C493E8=??_7Rva00481F82@@6BRva00481F82_S4@@@")
+extern "C" const void *const vtbl_00C493F8[];  // ??_7Rva00481F82@@6BRva00481F82_S3@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C493F8=??_7Rva00481F82@@6BRva00481F82_S3@@@")
+extern "C" const void *const vtbl_00C493FC[];  // ??_7Rva00481F82@@6BRva00481F82_S2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C493FC=??_7Rva00481F82@@6BRva00481F82_S2@@@")
+// The retail table at RVA 0x00849408: 13 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva00481F82@@UAEPAXI@Z")();
+void __identifier("?loadPostProcess@TerrainResourceBehavior@@MAEXXZ")();
+void __identifier("?name@Rva00481FA9Named@@QBEPBDXZ")();
+void __identifier("?xfer@TerrainResourceBehavior@@MAEXPAVXfer@@@Z")();
+void __identifier("?getModuleNameKey@TerrainResourceBehavior@@UBE?AW4NameKeyType@@XZ")();
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+void __identifier("?rva00482134@Rva00482134@@QAEXXZ")();
+void __identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z")();
+void __identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")();
+void __identifier("?getUpdatePhase@UpdateModule@@MBE?AW4SleepyUpdatePhase@@XZ")();
+}
+extern "C" const void *const vtbl_00C49408[13] = {
+	(const void *)&__identifier("??_GRva00481F82@@UAEPAXI@Z"), // slot 0 0x00482118
+	(const void *)&__identifier("?loadPostProcess@TerrainResourceBehavior@@MAEXXZ"), // slot 1 0x0048223D
+	(const void *)&__identifier("?name@Rva00481FA9Named@@QBEPBDXZ"), // slot 2 0x00481FA9
+	(const void *)&__identifier("?xfer@TerrainResourceBehavior@@MAEXPAVXfer@@@Z"), // slot 3 0x004821CB
+	(const void *)&__identifier("?getModuleNameKey@TerrainResourceBehavior@@UBE?AW4NameKeyType@@XZ"), // slot 4 0x00481FBD
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 5 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 6 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 7 0x000B3FD0
+	(const void *)&__identifier("?rva00482134@Rva00482134@@QAEXXZ"), // slot 8 0x00482134
+	(const void *)&__identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z"), // slot 9 0x0050B238
+	(const void *)&__identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z"), // slot 10 0x000D43D0
+	(const void *)&__identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z"), // slot 11 0x000D43D0
+	(const void *)&__identifier("?getUpdatePhase@UpdateModule@@MBE?AW4SleepyUpdatePhase@@XZ"), // slot 12 0x0022C4CB
+};
+extern "C" const void *const vtbl_00C1C780[];  // folded, 49 classes; via ??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C1C780=??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@")
+
 class Thing;
 class ModuleData;
 class Object;
+
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1,
+	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
+};
 
 class UpdateModule
 {
@@ -26,7 +75,7 @@ public:
 	~UpdateModule();
 
 protected:
-	void setWakeFrame(Object *object, unsigned int frame);
+	void setWakeFrame(Object *object, UpdateSleepTime frame);
 
 	const void *m_vtable;
 	const ModuleData *m_moduleData;
@@ -58,15 +107,15 @@ TerrainResourceBehavior::TerrainResourceBehavior(Thing *thing, const ModuleData 
 	float fzero = 0.0f;
 	int *slot20 = (int *)&m_20;
 	int *slot24 = (int *)&m_24;
-	*slot20 = (int)0x00C1C780;
-	*slot24 = (int)0x00C4EF80;
-	m_vtable = (const void *)0x00C49408;
-	m_secondary0C = (const void *)0x00C42B60;
-	m_secondary10 = (const void *)0x00C493FC;
-	m_20 = (const void *)0x00C493F8;
-	m_24 = (const void *)0x00C493E8;
+	*slot20 = (int)((unsigned int)vtbl_00C1C780);
+	*slot24 = (int)((unsigned int)vtbl_00C4EF80);
+	m_vtable = (const void *)((unsigned int)vtbl_00C49408);
+	m_secondary0C = (const void *)((unsigned int)vtbl_00C42B60);
+	m_secondary10 = (const void *)((unsigned int)vtbl_00C493FC);
+	m_20 = (const void *)((unsigned int)vtbl_00C493F8);
+	m_24 = (const void *)((unsigned int)vtbl_00C493E8);
 	m_28 = false;
 	m_29 = true;
 	m_2C = fzero;
-	setWakeFrame(m_object, 1);
+	setWakeFrame(m_object, UPDATE_SLEEP_NONE);
 }

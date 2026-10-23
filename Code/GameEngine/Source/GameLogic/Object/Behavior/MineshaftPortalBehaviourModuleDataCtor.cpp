@@ -1,9 +1,9 @@
-// cl: /O1 /MD -D_STLP_NO_EXCEPTIONS /EHs-c-
+// cl: /MD -D_STLP_NO_EXCEPTIONS /EHs-c-
 //
 // ??0MineshaftPortalBehaviourModuleData@@QAE@XZ, retail 0x00372DB8,
-// 32 bytes. ModuleData ctor over the rowed OpenContainModuleData base
+// 32 bytes. ModuleData ctor over the rowed Rva00253487Base base
 // (0x253487, 21B, folded vtable 0x00BF2558): installs the same folded vtable
-// explicitly (novtable, mirroring OpenContainModuleDataCtor.cpp) and zeroes
+// explicitly (novtable, mirroring Rva00253487BaseCtor.cpp) and zeroes
 // the two trailing flags at +0x118/+0x119. Class size 0x11C proven by both
 // instance factories (FakePathfind 0x24B545 and Mineshaft 0x24B65D news
 // 0x11C and both call this address): the two ModuleData ctors are ICF-folded
@@ -12,11 +12,14 @@
 // Mineshaft ModuleData pin; the FakePathfind pin at the same address is left
 // in place as the fold alias.
 
-class __declspec(novtable) OpenContainModuleData
+extern "C" const void *const vtbl_00BF2558[];  // ??_7WeaponSetUpgradeModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BF2558=??_7WeaponSetUpgradeModuleData@@6B@")
+
+class __declspec(novtable) Rva00253487Base
 {
 public:
-	OpenContainModuleData();
-	virtual ~OpenContainModuleData();
+	Rva00253487Base();
+	virtual ~Rva00253487Base();
 
 private:
 	// +0x00 vptr (novtable: installed explicitly by each ctor).
@@ -26,7 +29,24 @@ private:
 };
 
 class MultiIniFieldParse;
-struct FieldParse;
+class INI;
+typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
+struct FieldParse
+{
+	const char *token;
+	INIFieldParseProc parse;
+	const void *userData;
+	int offset;
+};
+
+class INI
+{
+public:
+	static void parseBool(INI *ini, void *instance, void *store, const void *userData);
+};
+
+// Retail VA 0x00C42B10 (.rdata): defined with its records in the sibling unit.
+extern const FieldParse g_00C42B10[];
 
 class MultiIniFieldParse
 {
@@ -36,7 +56,7 @@ public:
 
 int __cdecl Rva004CE29DGet();
 
-class __declspec(novtable) MineshaftPortalBehaviourModuleData : public OpenContainModuleData
+class __declspec(novtable) MineshaftPortalBehaviourModuleData : public Rva00253487Base
 {
 public:
 	MineshaftPortalBehaviourModuleData();
@@ -51,9 +71,9 @@ private:
 
 // ??0MineshaftPortalBehaviourModuleData@@QAE@XZ @0x00372DB8
 MineshaftPortalBehaviourModuleData::MineshaftPortalBehaviourModuleData()
-	: OpenContainModuleData()
+	: Rva00253487Base()
 {
-	*(unsigned int *)this = 0x00BF2558;
+	*(unsigned int *)this = ((unsigned int)vtbl_00BF2558);
 	m_trailingFlag0 = false;
 	m_trailingFlag1 = false;
 }
@@ -62,5 +82,9 @@ MineshaftPortalBehaviourModuleData::MineshaftPortalBehaviourModuleData()
 void MineshaftPortalBehaviourModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	parse.add(reinterpret_cast<const FieldParse *>(Rva004CE29DGet()), 8);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00C42B10), 0);
+	parse.add(g_00C42B10, 0);
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0FakePathfindPortalBehaviourModuleData@@QAE@XZ=??0MineshaftPortalBehaviourModuleData@@QAE@XZ")

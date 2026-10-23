@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??1RadiateFearUpdateModuleData@@UAE@XZ, retail 0x0049C1EE, 48 bytes.
 // ModuleData dtor: tears down the VictimFilter at +0x1C through the folded
@@ -9,21 +9,11 @@
 // +0x1C, size 0x130 via factory 0x24E6E8). Caller is the slot-0 ??_G at
 // 0x49C1D2 (vtable 0x850FF0).
 
+
 class Xfer;
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc(Xfer *xfer);
-	virtual void loadPostProcess();
-	virtual void xfer(Xfer *xfer);
-};
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
 
 class Rva003623E5Filter
 {

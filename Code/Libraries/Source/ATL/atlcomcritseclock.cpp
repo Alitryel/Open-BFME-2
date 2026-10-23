@@ -1,4 +1,4 @@
-// cl: /O1
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 // Microsoft Visual C++ .NET 2003 ATL 7.1 CComCritSecLock<CComCriticalSection>.
 //
 // Identity: atls.lib's ??1CComCritSecLock COMDAT places uniquely at 0x00628CE7,
@@ -106,4 +106,14 @@ inline void CComCritSecLock< TLock >::Unlock() throw()
 
 template class CComCritSecLock< CComCriticalSection >;
 
+}
+
+// Retail keeps the library object's out-of-line copies of CComCriticalSection's
+// inline Lock (0x00628C42) and Unlock (0x00628C4C); taking their addresses
+// emits them here.
+namespace ATL
+{
+typedef HRESULT (CComCriticalSection::*CComCriticalSectionOp)();
+CComCriticalSectionOp g_atlCritSecLockOp = &CComCriticalSection::Lock;
+CComCriticalSectionOp g_atlCritSecUnlockOp = &CComCriticalSection::Unlock;
 }

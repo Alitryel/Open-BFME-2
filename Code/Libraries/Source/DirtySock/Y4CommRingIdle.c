@@ -237,7 +237,17 @@ int Rva007FD920( struct Rva007FD4E0Socket *socket, const char *buffer,
 	int length, int flags, void *to, int toLength );
 int Rva007FE780( const char *format, ... );
 
-extern char g_Rva012C4B64Message[];
+// g_Rva012C4B64Message: matched references place it at VA 0xdd92bc; retail contents, sized to the
+// 0x34-byte gap before the next known global there.
+char g_Rva012C4B64Message[52] = {
+	95, 67, 111, 109, 109, 83, 82, 80,
+	83, 101, 110, 100, 73, 109, 109, 101,
+	100, 105, 97, 116, 101, 58, 32, 83,
+	111, 99, 107, 101, 116, 83, 101, 110,
+	100, 116, 111, 32, 114, 101, 116, 117,
+	114, 110, 101, 100, 32, 37, 100, 10,
+	0, 0, 0, 0,
+};
 
 /* 0x00815680 SENDS ONE PACKET.  The length on the wire is the payload length
  * PLUS ONE, and the buffer starts at +0x08 -- so the leading data byte is a
@@ -314,8 +324,28 @@ void *__cdecl memcpy( void *destination, const void *source,
 
 void Rva00816160( struct Rva00815B50Comm *comm, const void *from );
 
-extern char g_Rva012C4B98Message[];
-extern char g_Rva012C4B38Message[];
+// g_Rva012C4B98Message: matched references place it at VA 0xdd92f0; retail contents, sized to the
+// 0x40-byte gap before the next known global there.
+char g_Rva012C4B98Message[64] = {
+	95, 67, 111, 109, 109, 83, 82, 80,
+	80, 114, 111, 99, 101, 115, 115, 83,
+	101, 116, 117, 112, 58, 32, 85, 110,
+	114, 101, 99, 111, 103, 110, 105, 122,
+	101, 100, 32, 99, 111, 110, 116, 114,
+	111, 108, 32, 112, 97, 99, 107, 101,
+	116, 32, 116, 121, 112, 101, 32, 37,
+	100, 10, 0, 0, 0, 0, 0, 0,
+};
+// g_Rva012C4B38Message: matched references place it at VA 0xdd9290; retail contents, sized to the
+// 0x2c-byte gap before the next known global there.
+char g_Rva012C4B38Message[44] = {
+	99, 111, 109, 109, 115, 114, 112, 58,
+	32, 112, 101, 101, 114, 61, 48, 120,
+	37, 48, 56, 120, 58, 37, 100, 44,
+	32, 104, 111, 115, 116, 61, 48, 120,
+	37, 48, 56, 120, 58, 37, 100, 10,
+	0, 0, 0, 0,
+};
 
 /* 0x00816020 is the CONTROL-PACKET HANDLER -- the connection handshake.  The
  * packet's first data byte selects the action, and the five recognised values
@@ -379,12 +409,14 @@ void Rva00816020( struct Rva00815B50Comm *comm,
 		}
 		break;
 
-	case 0x13:
+	/* Retail's jump table sends 0x14, not 0x13, to the state 3 -> 4 step;
+	 * 0x13 is the empty case. */
+	case 0x14:
 		if ( comm->m_state == 3 )
 			comm->m_state = 4;
 		break;
 
-	case 0x14:
+	case 0x13:
 		break;
 
 	default:
@@ -414,18 +446,18 @@ int Rva007FDEE0( void );
 
 void Rva00816160( struct Rva00815B50Comm *comm, const unsigned char *from )
 {
-	char local[ 0x10 ];
+	char SockAddr[ 0x10 ];
 
 	comm->m_peerAddress = ( ( ( ( from[ 4 ] << 8 ) | from[ 5 ] ) << 8 )
 		| from[ 6 ] ) << 8 | from[ 7 ];
 	comm->m_peerPort = (unsigned short)( ( from[ 2 ] << 8 ) | from[ 3 ] );
 
-	Rva007FDB60( comm->m_socket, 'bind', local, 0x10 );
+	Rva007FDB60( comm->m_socket, 'bind', SockAddr, 0x10 );
 
 	comm->m_localAddress = Rva007FDEE0();
 	comm->m_localPort = (unsigned short)
-		( ( ( (unsigned char *)local )[ 2 ] << 8 )
-		| ( (unsigned char *)local )[ 3 ] );
+		( ( ( (unsigned char *)SockAddr )[ 2 ] << 8 )
+		| ( (unsigned char *)SockAddr )[ 3 ] );
 
 	Rva007FE780( g_Rva012C4B38Message, comm->m_peerAddress, comm->m_peerPort,
 		comm->m_localAddress, comm->m_localPort );

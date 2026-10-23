@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /EHsc /Oi- /arch:SSE2
+// cl: /Ireference/shims/bfme2_ascii /Oy- /DNDEBUG /MD /EHsc /Oi-
 //
 // ?parseFont@@YA_NPADPAVWinInstanceData@@0PAX@Z, retail 0x00315BF5, 218 bytes.
 // Dedicated TU.
@@ -37,37 +37,8 @@ typedef bool Bool;
 class AsciiString;
 class GameFont;
 
-template <typename T>
-class StringBase
-{
-	friend class AsciiString;
+#include "ascii_string.h"
 
-private:
-	struct Header
-	{
-		int ref_count;
-		unsigned short length;
-		unsigned short capacity;
-		T data[1];
-	};
-
-	Header *m_data;
-
-	StringBase(const T *text);
-	void releaseBuffer();
-
-public:
-	~StringBase() { releaseBuffer(); }
-};
-
-class AsciiString
-{
-public:
-	AsciiString(const char *text) : m_data(text) {}
-
-private:
-	StringBase<char> m_data;
-};
 
 class FontLibrary
 {
@@ -76,6 +47,8 @@ public:
 };
 
 extern FontLibrary *TheFontLibrary;
+// TheFontLibrary: matched references place it at VA 0xdfe33c (zero-filled .bss).
+FontLibrary * TheFontLibrary;
 
 class WinInstanceData
 {
@@ -90,10 +63,10 @@ public:
 Int scanInt(const char *source, Int &val);
 
 extern "C" __declspec(dllimport) char *__cdecl strtok(char *str, const char *delimiters);
-extern "C" char *__cdecl strcpy(char *dst, const char *src);
+extern "C" char *__cdecl _mbscpy(char *dst, const char *src);
 
 // ?parseFont@@YA_NPADPAVWinInstanceData@@0PAX@Z
-static Bool parseFont(char *token, WinInstanceData *instData, char *buffer, void *data)
+Bool parseFont(char *token, WinInstanceData *instData, char *buffer, void *data)
 {
 	char *c, *ptr;
 	char *seps = " ,\n\r\t";
@@ -110,7 +83,7 @@ static Bool parseFont(char *token, WinInstanceData *instData, char *buffer, void
 		ptr++;
 	ptr++;  // skip the "
 	c = strtok(ptr, stringSeps);  // value
-	strcpy(fontName, c);
+	_mbscpy(fontName, c);
 
 	// "SIZE"
 	c = strtok(NULL, seps);  // label

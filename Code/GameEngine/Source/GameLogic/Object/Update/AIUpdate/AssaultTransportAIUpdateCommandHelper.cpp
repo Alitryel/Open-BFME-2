@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ?Rva0048F6EEHelper@AssaultTransportAIUpdate@@QAEXXZ, retail 0x0048F6EE
 // (185 bytes). Dual-command passenger sweep over the +0x3E8 ObjectID array
@@ -11,15 +11,19 @@
 // jumps over the position check). Counter and cursor stay homed in stack
 // slots while constants live in registers, matching the retail prologue.
 
-enum ObjectID
+#include "../../../../Common/GameLogicObjectLookupView.h"
+
+class Object;
+
+enum CommandSourceType
 {
-	INVALID_ID = 0
+	CMD_FROM_PLAYER = 0
 };
 
-class Rva0026C2D9Commands
+class AICommandInterface
 {
 public:
-	void Rva0026C2D9Command(void *target, int range, int source);
+	void rva0026C2D9(Object *target, int range, CommandSourceType source);
 };
 
 class Rva00295A0FCommands
@@ -32,7 +36,7 @@ class AIUpdateInterface
 {
 public:
 	unsigned char m_pad00[0x20];
-	Rva0026C2D9Commands m_commands;
+	AICommandInterface m_commands;
 	unsigned char m_pad21[0x3C1 - 0x21];
 	unsigned char m_byte3C1;
 };
@@ -44,11 +48,6 @@ public:
 	AIUpdateInterface *m_aiDirect;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 
 extern GameLogic *TheGameLogic;
 
@@ -85,7 +84,7 @@ void AssaultTransportAIUpdate::Rva0048F6EEHelper()
 		{
 			Object *other = TheGameLogic->findObjectByID(m_member430);
 			if (m_byte441 != 0 && other != 0)
-				commandInterface->m_commands.Rva0026C2D9Command(other, 0x7FFFFFFF, 0);
+				commandInterface->m_commands.rva0026C2D9(other, 0x7FFFFFFF, (CommandSourceType)0);
 			else if (m_byte440 != 0)
 				((Rva00295A0FCommands *)&commandInterface->m_commands)->Rva00295A0FCommand(&m_float424, 0x7FFFFFFF, 0);
 			commandInterface->m_byte3C1 = 0;

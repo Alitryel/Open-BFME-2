@@ -1,9 +1,14 @@
-// cl: /DNDEBUG /MD /EHsc /G7
+// cl: /DNDEBUG /MD /EHsc
+// platformsdk
 // BFME2 port of Open-BFME-1 Code/Libraries/Source/WWVegas/WW3D2/Rva0093C4A0.cpp:
 // GDI missing-glyph check with three retail exceptions (LF/CR/0x95).
 // BFME2 adaptations: font-state global moved to 0x00DF6F24; /G7 so the
 // missing-scan loop emits add (not inc). Dedicated TU so the already-matched
 // Rva0093C870Owner::Check in Rva0093C870ChildCheck.cpp keeps its shape.
+extern class FontCharsClassGdiState *g_fontCharsGdiState;
+
+// The existing font-state view stores opaque Win32 handles.
+#define NO_STRICT
 #include <windows.h>
 
 extern "C" __declspec(dllimport) DWORD WINAPI GetGlyphIndicesW(
@@ -18,7 +23,7 @@ struct FontCharsGDIState
 	void *dc;
 };
 
-#define TheFontCharsGDIState (*(FontCharsGDIState **)0x00DF6F24)
+#define TheFontCharsGDIState (*(FontCharsGDIState **)&g_fontCharsGdiState)
 
 class Rva0093C4A0Target
 {

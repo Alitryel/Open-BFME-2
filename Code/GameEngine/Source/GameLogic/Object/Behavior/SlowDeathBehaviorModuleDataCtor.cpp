@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG
+// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
 // stlport
 //
 // ??0SlowDeathBehaviorModuleData@@QAE@XZ, retail 0x0045E386, 287 bytes.
@@ -23,6 +23,17 @@
 // (friend_new 0x24B2C0 Ship 0x45E964 GiantBird 0x461F83 ClearanceTesting
 // 0x483E36).
 #include <bitset>
+#include <vector>
+#include "Common/Snapshot.h"
+#include "../../../../Include/Common/BfmeModuleData.h"
+#include "../../../../Include/Common/BfmeAudioEventPrefix136.h"
+
+// The native 31-slot interface tears down to Snapshot; the word at +4 is separate.
+inline ModuleData::~ModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
+
+class FXList;
+class ObjectCreationList;
+class WeaponTemplate;
 
 namespace _STL {
 template<> bitset<128> &bitset<128>::reset() throw();
@@ -37,44 +48,30 @@ private:
 	unsigned char m_bytes[0x30];
 };
 
-class SlowDeathFXVec
-{
-public:
-	SlowDeathFXVec();
-	~SlowDeathFXVec();
+// Native parsers 45E533/45E5A4/45E618 establish these pointer-vector members;
+// the same types appear in the ZH SlowDeathBehavior.h reference. Retail's
+// constructor and destructor EH graphs independently establish four headers
+// per array. Full callback bodies and relocations agree with the folded
+// constructor closure at 256646 and the destructor at 7FAB3.
+typedef _STL::vector<const FXList *> SlowDeathFXVec;
+typedef _STL::vector<const ObjectCreationList *> SlowDeathOCLVec;
+typedef _STL::vector<const WeaponTemplate *> SlowDeathWeaponVec;
 
-private:
-	unsigned char m_data[0x0C];
-};
+namespace _STL {
+template<> void _Destroy<OpaqueRefElement4 *>(OpaqueRefElement4 *, OpaqueRefElement4 *);
+template<> vector<OpaqueRefElement4>::~vector();
+}
 
-class SlowDeathOCLVec
-{
-public:
-	SlowDeathOCLVec();
-	~SlowDeathOCLVec();
-
-private:
-	unsigned char m_data[0x0C];
-};
-
-class SlowDeathWeaponVec
-{
-public:
-	SlowDeathWeaponVec();
-	~SlowDeathWeaponVec();
-
-private:
-	unsigned char m_data[0x0C];
-};
-
+// The allocator default argument supplies the native array-construction callback.
+// Teardown uses the separately declared owning-vector destructor.
 class SlowDeathSoundVec
 {
 public:
-	SlowDeathSoundVec();
+	SlowDeathSoundVec(const _STL::allocator<OpaqueRefElement4> &alloc = _STL::allocator<OpaqueRefElement4>()) : m_data(alloc) {}
 	~SlowDeathSoundVec();
 
 private:
-	unsigned char m_data[0x0C];
+	_STL::vector<OpaqueRefElement4> m_data;
 };
 
 class Rva0042526Member
@@ -86,28 +83,19 @@ private:
 	unsigned char m_pad[0x4C];
 };
 
-class UpdateModuleData
-{
-public:
-	UpdateModuleData() {}
-	virtual ~UpdateModuleData() {}
-
-private:
-	unsigned char m_pad04[4];
-};
-
 enum
 {
 	SLOWDEATH_PHASE_COUNT = 4,
 };
 
-class SlowDeathBehaviorModuleData : public UpdateModuleData
+class SlowDeathBehaviorModuleData : public ModuleData
 {
 public:
 	SlowDeathBehaviorModuleData();
 	virtual ~SlowDeathBehaviorModuleData();
 
 private:
+	unsigned char m_pad04[4];
 	DieMuxData m_dieMuxData; // +0x08
 	float m_sinkRate; // +0x38
 	int m_probabilityModifier; // +0x3c
@@ -154,6 +142,15 @@ SlowDeathBehaviorModuleData::SlowDeathBehaviorModuleData()
 	m_fadeDelay = 0xfacade00;
 }
 
-SlowDeathBehaviorModuleData::~SlowDeathBehaviorModuleData()
+inline SlowDeathBehaviorModuleData::~SlowDeathBehaviorModuleData()
 {
 }
+
+// This destructor is a header inline in the copier units; the anchor is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeSlowDeathBehaviorModuleDataDtorInlineAnchor@@YAXXZ absent-from-retail
+void _bfmeSlowDeathBehaviorModuleDataDtorInlineAnchor()
+{
+	static_cast<SlowDeathBehaviorModuleData *>(0)->SlowDeathBehaviorModuleData::~SlowDeathBehaviorModuleData();
+}
+#pragma inline_depth()

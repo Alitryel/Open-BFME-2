@@ -1,4 +1,6 @@
-// cl: /O1 /arch:SSE /GX /Oy- /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+char g_00BF4128;
+
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /O1 /arch:SSE /GX /MD /D_CRTIMP= /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0SpawnBehaviorModuleData@@QAE@XZ, retail 0x002575C2, 145 bytes.
@@ -21,16 +23,17 @@
 
 #include <vector>
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	void clear();
-	~AsciiString();
+#include "ascii_string.h"
 
-private:
-	void *m_data;
-};
+// A declaration-only specialization stops this TU emitting its own
+// vector<AsciiString> dtor COMDAT, so the call binds the kept copy.
+namespace _STL {
+template <> vector<AsciiString, allocator<AsciiString> >::~vector();
+template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
+template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);
+template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
+template <> AsciiString *vector<AsciiString, allocator<AsciiString> >::erase(AsciiString*, AsciiString*);
+}
 
 class DieMuxData
 {
@@ -53,7 +56,7 @@ private:
 class BehaviorModuleData
 {
 public:
-	BehaviorModuleData() {}
+	__declspec(dllimport) __forceinline BehaviorModuleData() {}
 	~BehaviorModuleData();
 };
 
@@ -87,8 +90,8 @@ private:
 };
 
 // ??0SpawnBehaviorModuleData@@QAE@XZ @0x2575C2
-SpawnBehaviorModuleData::SpawnBehaviorModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00BF4128))
+inline SpawnBehaviorModuleData::SpawnBehaviorModuleData()
+	: m_vtable(reinterpret_cast<const void *>((unsigned int)&g_00BF4128))
 {
 	m_dieMuxData.init();
 	m_slaveBlock.construct();
@@ -107,3 +110,14 @@ SpawnBehaviorModuleData::SpawnBehaviorModuleData()
 	m_shareUpgrades = false;
 	m_spawnInsideBuilding = false;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeSpawnBehaviorModuleDataInlineAnchor@@YAXPAVSpawnBehaviorModuleData@@@Z absent-from-retail
+void _bfmeSpawnBehaviorModuleDataInlineAnchor(SpawnBehaviorModuleData *spawnBehaviorModuleData)
+{
+    spawnBehaviorModuleData->SpawnBehaviorModuleData::SpawnBehaviorModuleData();
+}
+#pragma inline_depth()

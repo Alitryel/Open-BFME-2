@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /Ireference/shims/bfmecamera /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
+// cl: /Ireference/shims/bfmecamera /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
 // DX8Wrapper::Set_Render_Target(surface, depth) retail 0x00905470.
 // Sibling of the bool overload at 0x009052B0; D3D9 split SetRenderTarget /
 // SetDepthStencilSurface, IsRenderToTexture = true.
@@ -39,12 +39,24 @@ public:
 	static void Set_Render_Target(IDirect3DSurface8 *renderTarget, IDirect3DSurface8 *depthBuffer);
 
 private:
+protected:
 	static IDirect3DDevice8 *D3DDevice;
+private:
+protected:
 	static IDirect3DSurface8 *CurrentRenderTarget;
+private:
+protected:
 	static IDirect3DSurface8 *CurrentDepthBuffer;
+private:
+protected:
 	static IDirect3DSurface8 *DefaultRenderTarget;
+private:
+protected:
 	static IDirect3DSurface8 *DefaultDepthBuffer;
+private:
+protected:
 	static bool IsRenderToTexture;
+private:
 	static unsigned int D3DCallCount;
 };
 
@@ -104,3 +116,7 @@ void DX8Wrapper::Set_Render_Target(IDirect3DSurface8 *renderTarget, IDirect3DSur
 
 	IsRenderToTexture = true;
 }
+
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
+#pragma comment(linker, "/alternatename:?D3DCallCount@DX8Wrapper@@0IA=?number_of_DX8_calls@@3IA")

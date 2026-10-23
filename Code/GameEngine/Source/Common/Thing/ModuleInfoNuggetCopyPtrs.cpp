@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 //
 // STLport five-argument __copy_ptrs worker over ModuleInfo::Nugget, retail
 // 0x002CF0BE (50 bytes). The rowed four-argument forwarder at 0x002CF2B8
@@ -8,14 +8,7 @@
 // Nugget operator= at 0x002CEFCD). Nugget layout is the erase TU's model
 // verbatim (two AsciiStrings, a ModuleData pointer, an Int, three Bools).
 
-class AsciiString
-{
-public:
-	~AsciiString();
-
-private:
-	char *m_data;
-};
+#include "ascii_string.h"
 
 class ModuleData
 {

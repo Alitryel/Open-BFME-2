@@ -1,7 +1,9 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 class Thing;
 class ModuleData;
+class Object;
+class Coord3D;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Module.h
 class ObjectModule
@@ -29,17 +31,15 @@ public:
     virtual ~CritterEmitterUpdateIface2();
 };
 
-class CritterEmitterUpdateBase : public ObjectModule,
+// The base is retail's UpdateModule: its constructor (0x00253390) and
+// destructor are rowed elsewhere, so they are declared, never defined here.
+class UpdateModule : public ObjectModule,
     public CritterEmitterUpdateIface1,
     public CritterEmitterUpdateIface2
 {
 public:
-    CritterEmitterUpdateBase(Thing *thing, const ModuleData *moduleData)
-        : ObjectModule(thing, moduleData), m_14(0), m_18(-1), m_1c(-1)
-    {
-    }
-
-    virtual ~CritterEmitterUpdateBase();
+    UpdateModule(Thing *thing, const ModuleData *moduleData);
+    virtual ~UpdateModule();
 
 private:
     unsigned int m_14;
@@ -50,14 +50,18 @@ private:
 class CritterEmitterUpdateIface3
 {
 public:
-    virtual ~CritterEmitterUpdateIface3();
+    virtual void onCollide(Object *, const Coord3D *, const Coord3D *) = 0;
 };
 
-class CritterEmitterUpdate : public CritterEmitterUpdateBase,
+class CritterEmitterUpdate : public UpdateModule,
     public CritterEmitterUpdateIface3
 {
 public:
     CritterEmitterUpdate(Thing *, const ModuleData *);
+    virtual void onCollide(Object *, const Coord3D *, const Coord3D *);
+
+protected:
+    virtual ~CritterEmitterUpdate();
 
 private:
     unsigned char m_24;
@@ -66,7 +70,7 @@ private:
 
 // ??0CritterEmitterUpdate@@QAE@PAVThing@@PBVModuleData@@@Z
 CritterEmitterUpdate::CritterEmitterUpdate(Thing *thing, const ModuleData *moduleData)
-    : CritterEmitterUpdateBase(thing, moduleData)
+    : UpdateModule(thing, moduleData)
 {
     m_24 = 0;
     m_25 = 1;

@@ -34,7 +34,7 @@ typedef unsigned int size_t;
 typedef struct { int quot; int rem; } div_t;
 typedef struct { long quot; long rem; } ldiv_t;
 
-void __cdecl free(void *block);
+extern "C" void __cdecl free(void *block) throw(...);
 
 extern "C" {
 void __cdecl abort(void);
@@ -72,9 +72,39 @@ int __cdecl wctomb(char *dest, unsigned short ch);
 // the public member signature in this reconstruction. Limit this access
 // adaptation to the string header; layout and source semantics are unchanged.
 #define private public
+#include <stl/_alloc.h>
+// Keep retail's inline character-buffer cleanup; the public allocator
+// entry point is supplied by its separately verified owner.
+namespace _STL {
+template <> void __malloc_alloc<0>::deallocate(void *, size_t);
+#pragma optimize("gsy", on)
+template <> __forceinline void allocator<char>::deallocate(char *p, size_t) const { if (p != 0) free(p); }
+template <> __forceinline void allocator<unsigned short>::deallocate(unsigned short *p, size_t) const { if (p != 0) free(p); }
+#pragma optimize("", on)
+}
+
 #include <string>
 #undef private
 #include <locale>
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > &ostreambuf_iterator<char, char_traits<char> >::operator=(char); }  // rowed 0x00009820 (stlport_ostreambuf_iterator_assign.cpp)
+// bfme link decl-only begin
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > fill_n<ostreambuf_iterator<char, char_traits<char> >, unsigned int, char>(ostreambuf_iterator<char, char_traits<char> >, unsigned int, char const &); }
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > & ostreambuf_iterator<char, char_traits<char> >::operator=(char); }
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+namespace _STL { template <> void basic_string<char, char_traits<char>, allocator<char> >::reserve(unsigned int); }
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$fill_n@V?$ostreambuf_iterator@DV?$char_traits@D@_STL@@@_STL@@ID@_STL@@YA?AV?$ostreambuf:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> ostreambuf_iterator<char,char_traits<char> > fill_n<ostreambuf_iterator<char,char_traits<char> >,unsigned int,char>(ostreambuf_iterator<char,char_traits<char> >,unsigned int,char const &); }
+// Suppress this TU's non-retail copy of ??$_M_range_initialize@PAD@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> template <> void basic_string<char,char_traits<char>,allocator<char> >::_M_range_initialize<char *>(char *,char *); }
+// Suppress this TU's non-retail copy of ??$_M_range_initialize@PBD@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> template <> void basic_string<char,char_traits<char>,allocator<char> >::_M_range_initialize<char const *>(char const *,char const *); }
+// Suppress this TU's non-retail copy of ??4?$ostreambuf_iterator@DV?$char_traits@D@_STL@@@_STL@@QAEAAV01@D@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> ostreambuf_iterator<char,char_traits<char> > & ostreambuf_iterator<char,char_traits<char> >::operator=(char); }
 
 // The locale implementation is opaque in _locale.h. Its three vtable slots
 // are established by stlport_locale.cpp; visibility here inlines _M_decr.
@@ -87,19 +117,19 @@ public:
     locale::facet **_M_facets;
     unsigned int _M_count;
 };
-locale::~locale() _STLP_NOTHROW { _M_impl->_M_decr(); }
+inline locale::~locale() _STLP_NOTHROW { _M_impl->_M_decr(); }
 
-}
+} // _Locale_impl only; ~locale owned by stlport_locale.cpp, inline copy here
 
 // Keep the two-argument range helper visible for call-side analysis without
 // inlining it into the constructor. Both pointer instantiations have been
 // independently reproduced at 0x8D00 with their complete 84-byte bodies.
 namespace _STL {
-template <> template <> __declspec(noinline) void
+template <> template <> inline __declspec(noinline) void
 basic_string<char>::_M_range_initialize(char* first, char* last) {
   _M_range_initialize(first, last, forward_iterator_tag());
 }
-template <> template <> __declspec(noinline) void
+template <> template <> inline __declspec(noinline) void
 basic_string<char>::_M_range_initialize(const char* first, const char* last) {
   _M_range_initialize(first, last, forward_iterator_tag());
 }
@@ -108,11 +138,15 @@ namespace _STL {
 // The range constructor retains its allocator-base call; ordinary string
 // copies inline their base initialization. Scope the inline-depth constraint
 // to this constructor instead of changing every string operation.
+// The digit copy is spelled with its own iterator type: an explicit
+// specialization is emitted even when every call inlines, and under the
+// const char* name that optimized copy would compete with retail's.
+struct _MoneyDigitIt { const char* p; };
 #pragma inline_depth(0)
 template <> template <> __forceinline basic_string<char>::basic_string(
-    const char* first, const char* last, const allocator<char>& a)
+    _MoneyDigitIt first, _MoneyDigitIt last, const allocator<char>& a)
     : _String_base<char, allocator<char> >(a) {
-  _M_range_initialize(first, last);
+  _M_range_initialize(first.p, last.p);
 }
 }
 namespace _STL {
@@ -130,7 +164,7 @@ template <> __forceinline _MoneyOut& _MoneyOut::operator=(char c) {
       _M_buf->sputc(c), traits_type::eof());
   return *this;
 }
-template <> __declspec(noinline) _MoneyOut __copy(
+template <> inline _MoneyOut __copy(
     const char* first, const char* last, _MoneyOut result,
     const random_access_iterator_tag&, int*) {
   for (int n = last - first; n > 0; --n) {
@@ -144,7 +178,7 @@ template <> __declspec(noinline) _MoneyOut __copy(
 // dereference operators return itself. Spell that specialization directly,
 // retaining one external assignment per iteration as in retail.
 #pragma inline_depth(0)
-template <> __forceinline _MoneyOut fill_n(_MoneyOut first, unsigned int n, const char& value) {
+__forceinline _MoneyOut __money_fill_n(_MoneyOut first, unsigned int n, const char& value) {
   for (; n > 0; --n) first = value;
   return first;
 }
@@ -171,7 +205,7 @@ __forceinline _MoneyOut __money_copy_symbol(
     const _MoneySignPolicy& policy) {
   return __copy(first, last, out, policy, (ptrdiff_t*)0);
 }
-template <> _MoneyOut money_put<char, _MoneyOut>::do_put(
+template <> inline _MoneyOut money_put<char, _MoneyOut>::do_put(
     _MoneyOut __s, bool __intl, ios_base& __str,
     char_type __fill, const string_type& __digits) const
 {
@@ -243,7 +277,9 @@ template <> _MoneyOut money_put<char, _MoneyOut>::do_put(
   // by frac_digits.  If there is only one group, we need first
   // to duplicate it.
 
-  string_type __new_digits(__digits_first, __digits_last);
+  _MoneyDigitIt __new_first = { __digits_first };
+  _MoneyDigitIt __new_last = { __digits_last };
+  string_type __new_digits(__new_first, __new_last);
 
   if (__grouping.size() != 0) {
     if (__grouping.size() == 1)
@@ -299,18 +335,18 @@ template <> _MoneyOut money_put<char, _MoneyOut>::do_put(
 
   if (__fill_amt != 0 &&
       !(__fill_pos & (ios_base::left | ios_base::internal)))
-    __s = fill_n(__s, __fill_amt, __fill);
+    __s = __money_fill_n(__s, __fill_amt, __fill);
 
   for (int __i = 0; __i < 4; ++__i) {
     char __ffield = __format.field[__i];
     if (__ffield == money_base::none) {
       if (__fill_amt != 0 && __fill_pos == ios_base::internal)
-        __s = fill_n(__s, __fill_amt, __fill);
+        __s = __money_fill_n(__s, __fill_amt, __fill);
     }
     else if (__ffield == money_base::space) {
       *__s++ = __space;
       if (__fill_amt != 0 && __fill_pos == ios_base::internal)
-        __s = fill_n(__s, __fill_amt, __fill);
+        __s = __money_fill_n(__s, __fill_amt, __fill);
     }
     else if (__ffield == money_base::symbol) {
       if (__generate_curr)
@@ -327,7 +363,7 @@ template <> _MoneyOut money_put<char, _MoneyOut>::do_put(
         if ((int)__value_length <= __frac_digits) {
           __money_write_point(__s,__point);
           __s = copy(__digits_first, __digits_last, __s);
-          __s =  fill_n(__s, __frac_digits - __value_length, __zero);
+          __s =  __money_fill_n(__s, __frac_digits - __value_length, __zero);
         }
         else {
           __s = copy(__digits_first, __digits_last - __frac_digits, __s);
@@ -345,8 +381,27 @@ template <> _MoneyOut money_put<char, _MoneyOut>::do_put(
   if (__sign.size() > 1)
     __s = copy(static_cast<const string_type&>(__sign).begin() + 1, static_cast<const string_type&>(__sign).end(), __s);
   if (!(__fill_pos & (ios_base::right | ios_base::internal)))
-    __s = fill_n(__s, __fill_amt, __fill);
+    __s = __money_fill_n(__s, __fill_amt, __fill);
 
   return __s;
 }
+
+// do_put is a header inline in STLport (another unit emits a select-any
+// copy), so a strong definition here was a duplicate in the linked build.
+// This anchor only makes this unit emit its copy for the ledger row; it is
+// not retail code.
+struct bfmeNarrowMoneyPutEmitter : money_put<char, _MoneyOut>
+{
+	static void emit(const bfmeNarrowMoneyPutEmitter *p, _MoneyOut a, bool b, ios_base &s,
+		char f, const string &d);
+};
+#pragma inline_depth(0)
+// ?emit@bfmeNarrowMoneyPutEmitter@_STL@@SAXPBU12@V?$ostreambuf_iterator@DV?$char_traits@D@_STL@@@2@_NAAVios_base@2@DABV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@2@@Z present-unmatched
+void bfmeNarrowMoneyPutEmitter::emit(const bfmeNarrowMoneyPutEmitter *p, _MoneyOut a, bool b, ios_base &s,
+	char f, const string &d)
+{
+	p->money_put<char, _MoneyOut>::do_put(a, b, s, f, d);
+}
+#pragma inline_depth()
+
 }

@@ -184,7 +184,7 @@ public:
 	// ids and binding
 	ObjectID getID() const { return m_id; }												///< this object's unique ID
 	void friend_bindToDrawable( Drawable *draw );									///< set drawable association. for use ONLY by GameLogic!
-	Drawable* getDrawable() const { return m_drawable; }					///< drawable (if any) bound to obj
+	Drawable* getDrawable() const;	// out of line: retail 0x005508E2 reads +0x84 (alias to Thing::getDrawable, ThingGetDrawable.cpp); this layout has +0x80					///< drawable (if any) bound to obj
 
 	ObjectID getProducerID() const { return m_producerID; }
 	void setProducer(const Object* obj);
@@ -298,7 +298,7 @@ public:
 	inline AIUpdateInterface *getAIUpdateInterface() { return m_ai; }
 	inline const AIUpdateInterface* getAIUpdateInterface() const { return m_ai; }
 
-	inline AIUpdateInterface *getAI() { return m_ai; }
+	AIUpdateInterface *getAI();	// out of line: retail 0x00313EB6 (Object.cpp) reads +0x19C; this layout has +0x258
 	inline const AIUpdateInterface* getAI() const { return m_ai; }
 
 	inline PhysicsBehavior* getPhysics() { return m_physics; }
@@ -334,7 +334,9 @@ public:
 	const CountermeasuresBehaviorInterface* Object::getCountermeasuresBehaviorInterface() const;
 
 	inline ObjectStatusMaskType getStatusBits() const { return m_status; }
-	inline Bool testStatus( ObjectStatusTypes bit ) const { return m_status.test( bit ); }
+	// Out of line: one retail body (Object.cpp, 0x0004E536); the inline copy read Zero Hour's
+	// m_status at +0x90 with a range check and offered the link a second, non-retail body.
+	Bool testStatus( ObjectStatusTypes bit ) const;
 	void setStatus( ObjectStatusMaskType objectStatus, Bool set = true );
 	inline void clearStatus( ObjectStatusMaskType objectStatus ) { setStatus( objectStatus, false ); }
 	void updateUpgradeModules();	///< We need to go through our Upgrade Modules and see which should be activated
@@ -376,8 +378,10 @@ public:
 	void getHealthBoxPosition(Coord3D& pos) const;
 	Bool getHealthBoxDimensions(Real &healthBoxHeight, Real &healthBoxWidth) const;
 
-	inline Bool isEffectivelyDead() const { return (m_privateStatus & EFFECTIVELY_DEAD) != 0; }
+	Bool isEffectivelyDead() const;	// out of line: retail 0x0006DFF1 reads +0x438; this layout has +0x297
 	void setEffectivelyDead(Bool dead);
+	void rva0028BAC0();	// retail 0x0028BAC0, BFME 2 member unnamed in WB (pinned)
+	void rva0028DCC4();	// retail 0x0028DCC4, BFME 2 member unnamed in WB (pinned)
 
 	void markSingleUseCommandUsed() { m_singleUseCommandUsed = true; }
 	Bool hasSingleUseCommandBeenUsed() const { return m_singleUseCommandUsed; }
@@ -544,7 +548,7 @@ public:
 	void clearWeaponSetFlag(WeaponSetType wst);
 	inline Bool testWeaponSetFlag(WeaponSetType wst) const { return m_curWeaponSetFlags.test(wst); }
 	inline const WeaponSetFlags& getWeaponSetFlags() const { return m_curWeaponSetFlags; }
-	Bool setWeaponLock( WeaponSlotType weaponSlot, WeaponLockType lockType ){ return m_weaponSet.setWeaponLock( weaponSlot, lockType ); }
+	Bool setWeaponLock( WeaponSlotType weaponSlot, WeaponLockType lockType );	// out of line: one retail body
 	void releaseWeaponLock(WeaponLockType lockType){ m_weaponSet.releaseWeaponLock(lockType); }
 	Bool isCurWeaponLocked() const { return m_weaponSet.isCurWeaponLocked(); }
 

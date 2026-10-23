@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /O1 /GX
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX
 //
 // The first BFME2 connection-manager virtual after the two destructors
 // reinitializes frame data and clears the announced frame horizon.  This is a
@@ -9,10 +9,35 @@ struct FrameDataManager
 	void reset(void);
 };
 
+extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime(void);
+
+class Object;
+#include "GameLogicObjectLookupView.h"
+
+extern GameLogic *TheGameLogic;
+
+class GlobalData
+{
+public:
+	char m_padC20[0xC20];
+	unsigned int m_networkDisconnectTime;
+};
+
+extern class GlobalData *TheWritableGlobalData;
+extern unsigned int g_007ED97C;
+
+struct ConnSlot
+{
+	char m_pad[0x34C];
+	unsigned long m_34C;
+};
+
 class BFMEConnectionManager
 {
 public:
 	void init(void);
+	unsigned char rva004CEF58(int slot);
+	unsigned char rva004CEFC2(int slot, unsigned int timeoutParam);
 
 private:
 	char unknown0[4];
@@ -58,3 +83,63 @@ void BFMEConnectionManager::init(void)
 	while (--framesRemaining != 0);
 	m_initialized = 0;
 }
+
+// ?rva004CEF58@BFMEConnectionManager@@QAEEH@Z, retail 0x004CEF58 106B.
+// Unlock: timeout check via m_localSlot 0x12028 plus +4 conn array
+// plus +0x34C timeGetTime plus m_40 vs g_007ED97C plus m_networkDisconnectTime shift.
+// Callers 0x4D3BA2 0x4D42E3 0x4D4758, prev 0x4CEF44 next 0x4CF032.
+
+unsigned char BFMEConnectionManager::rva004CEF58(int slot)
+{
+	if (slot == m_localSlot)
+		return 1;
+	ConnSlot *conn = *(ConnSlot **)((char *)this + 4 + slot * 4);
+	if (conn == 0)
+		return 1;
+	if (conn->m_34C == 0)
+	{
+		conn->m_34C = timeGetTime();
+		return 1;
+	}
+	unsigned long now = timeGetTime();
+	unsigned int m40 = TheGameLogic->getFrame();
+	unsigned int timeout;
+	if (m40 < g_007ED97C)
+		timeout = TheWritableGlobalData->m_networkDisconnectTime << 2;
+	else
+		timeout = TheWritableGlobalData->m_networkDisconnectTime;
+	unsigned long elapsed = now - conn->m_34C;
+	return (unsigned char)(timeout >= elapsed);
+}
+
+// ?rva004CEFC2@BFMEConnectionManager@@QAEEHI@Z, retail 0x004CEFC2 112B.
+// Sibling of 0x4CEF58: same m_localSlot plus conn plus +0x34C time,
+// m40 vs g_007ED97C selects param timeout vs m_networkDisconnectTime shift.
+// Caller 0x4D4748, prev 0x4CEF58 next 0x4CF032.
+
+unsigned char BFMEConnectionManager::rva004CEFC2(int slot, unsigned int timeoutParam)
+{
+	if (slot == m_localSlot)
+		return 1;
+	ConnSlot *conn = *(ConnSlot **)((char *)this + 4 + slot * 4);
+	if (conn == 0)
+		return 1;
+	if (conn->m_34C == 0)
+	{
+		conn->m_34C = timeGetTime();
+		return 1;
+	}
+	unsigned long now = timeGetTime();
+	unsigned int m40 = TheGameLogic->getFrame();
+	unsigned int timeout;
+	if (m40 >= g_007ED97C)
+		timeout = timeoutParam;
+	else
+		timeout = TheWritableGlobalData->m_networkDisconnectTime << 2;
+	unsigned long elapsed = now - conn->m_34C;
+	return (unsigned char)(timeout >= elapsed);
+}
+
+// ?g_007ED97C@@3IA: matched references place it at VA 0xbed97c; also referenced as ?g_007ED97C@@3HA.
+unsigned int g_007ED97C = 6u;
+#pragma comment(linker, "/alternatename:?g_007ED97C@@3HA=?g_007ED97C@@3IA")

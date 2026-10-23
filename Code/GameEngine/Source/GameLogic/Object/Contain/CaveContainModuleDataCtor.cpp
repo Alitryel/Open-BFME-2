@@ -12,13 +12,19 @@
 // 0x00257714 which news 0x9C; the TimeForFullHeal factory shares this body
 // (fold) and that name stays unclaimed.
 
-class Rva00465124Base
+// The retail vtable 0x00C43F40 is referenced by symbol so the store
+// carries a relocation instead of a hard-coded image address (link debt).
+// ModuleFactory.obj emits the ??_7 COMDAT this alias resolves to.
+extern "C" const void *const vtbl_00C43F40[];  // ??_7CaveContainModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C43F40=??_7CaveContainModuleData@@6B@")
+
+class OpenContainModuleData
 {
 public:
-	Rva00465124Base();
+	OpenContainModuleData();
 };
 
-class CaveContainModuleData : public Rva00465124Base
+class CaveContainModuleData : public OpenContainModuleData
 {
 public:
 	CaveContainModuleData();
@@ -29,8 +35,23 @@ private:
 	int m_caveIndexData;		// +0x98
 };
 
-CaveContainModuleData::CaveContainModuleData()
+inline CaveContainModuleData::CaveContainModuleData()
 {
 	m_caveIndexData = 0;
-	m_vtable = reinterpret_cast<void *>(0x00C43F40);
+	m_vtable = (void *)vtbl_00C43F40;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeCaveContainModuleDataInlineAnchor@@YAXPAVCaveContainModuleData@@@Z absent-from-retail
+void _bfmeCaveContainModuleDataInlineAnchor(CaveContainModuleData *caveContainModuleData)
+{
+    caveContainModuleData->CaveContainModuleData::CaveContainModuleData();
+}
+#pragma inline_depth()
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0HealContainModuleData@@QAE@XZ=??0CaveContainModuleData@@QAE@XZ")

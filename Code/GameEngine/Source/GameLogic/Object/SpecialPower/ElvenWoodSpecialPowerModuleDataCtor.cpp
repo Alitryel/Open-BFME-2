@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
 // stlport
 //
 // ??0ElvenWoodSpecialPowerModuleData@@QAE@XZ, retail 0x004C3DA9, 75 bytes.
@@ -16,23 +16,29 @@
 
 #include <vector>
 
-struct BfmeE16 { float x, y, z, w; };
+#include "../../../../../Libraries/Include/Lib/BfmeE16.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Vector_base<BfmeE16,_STL::allocator<BfmeE16> >::~_Vector_base(); }
+// bfme link decl-only end
+// bfme link decl-only BfmeE16
+namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
+// Suppress this TU's non-retail BfmeE16 proxy deallocate copy (family2-LK3 row 34):
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL {
+template <> void _STLP_alloc_proxy<BfmeE16*, BfmeE16, allocator<BfmeE16> >::deallocate(BfmeE16*, size_t);
+}
 
-class Rva004930A0
+class SpecialPowerModuleData
 {
 public:
-	Rva004930A0();
-	virtual ~Rva004930A0();
+	SpecialPowerModuleData();
+	virtual ~SpecialPowerModuleData();
 
 protected:
 	unsigned char m_pad[0x7C - 4];
 };
 
-Rva004930A0::~Rva004930A0()
-{
-}
-
-class ElvenWoodSpecialPowerModuleData : public Rva004930A0
+class ElvenWoodSpecialPowerModuleData : public SpecialPowerModuleData
 {
 public:
 	ElvenWoodSpecialPowerModuleData();
@@ -47,13 +53,9 @@ private:
 	int m_elvenWoodOCL; // +0x98
 };
 
-ElvenWoodSpecialPowerModuleData::~ElvenWoodSpecialPowerModuleData()
-{
-}
-
 // ??0ElvenWoodSpecialPowerModuleData@@QAE@XZ @0x4C3DA9
 ElvenWoodSpecialPowerModuleData::ElvenWoodSpecialPowerModuleData()
-	: Rva004930A0()
+	: SpecialPowerModuleData()
 	, m_elvenGroveObject(0)
 	, m_elvenNumObjects(0)
 	, m_elvenWoodRadius(10.0f)

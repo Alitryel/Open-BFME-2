@@ -1,4 +1,4 @@
-// cl: /O1 /GX- /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /GX- /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // Free pair<AsciiString,AsciiString>::operator< at 0x00206BCF (65B).
@@ -12,11 +12,7 @@
 
 typedef bool Bool;
 
-class AsciiString
-{
-public:
-    void *m_data;
-};
+#include "ascii_string.h"
 
 Bool operator<(const AsciiString &left, const AsciiString &right);
 

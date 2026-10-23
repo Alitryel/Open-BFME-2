@@ -50,8 +50,30 @@ private:
 	unsigned char m_pad30[0x38 - 0x30];
 };
 
-OilSpillUpdate::~OilSpillUpdate()
+inline OilSpillUpdate::~OilSpillUpdate()
 {
 	if (m_buf2C)
 		free(m_buf2C);
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeOilSpillUpdateInlineAnchor@@YAXPAVOilSpillUpdate@@@Z absent-from-retail
+void _bfmeOilSpillUpdateInlineAnchor(OilSpillUpdate *oilSpillUpdate)
+{
+    oilSpillUpdate->OilSpillUpdate::~OilSpillUpdate();
+}
+#pragma inline_depth()
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?unusedB@FireWeaponBaseB@@EAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+#pragma comment(linker, "/alternatename:?unusedA@FireWeaponBaseA@@EAEXXZ=??_GOilSpillUpdate@@UAEPAXI@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?unusedC@FireWeaponBaseC@@EAEXXZ=?update@OilSpillUpdate@@UAE?AW4UpdateSleepTime@@XZ")

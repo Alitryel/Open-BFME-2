@@ -44,6 +44,7 @@ TARGET = 0x0000D828
 # One of the 19 addresses retail pushes as a placement tag: .data, well past the
 # last raw byte of that section, at the 104-byte stride of the table it sits in.
 TAG = 0x0130B260
+SYMBOLS_HEADER = "name,address,notes"
 
 
 def body(hexed, call_at):
@@ -272,7 +273,7 @@ def test_two_operator_delete_pins_at_one_address_stop_the_run(tmp_path, monkeypa
     an operator delete is a function, so two delete pins at one address are a
     contradiction the run must not write.
     """
-    sized = [gen_uw.Funclet("S", RVA + 8 * i, 15, -0x10, TARGET, 100 + i)
+    sized = [gen_uw.Funclet("S", RVA + 8 * i, 15, -0x10, TARGET, TAG + 8 * i)
              for i in range(2)]
     monkeypatch.setattr(gen_uw, "compiled_slots",
                         lambda source: {gen_uw.key_of(f): "$L%d" % (700 + i)
@@ -280,6 +281,15 @@ def test_two_operator_delete_pins_at_one_address_stop_the_run(tmp_path, monkeypa
     monkeypatch.setattr(gen_uw, "SOURCE_DIR", tmp_path)
     monkeypatch.setattr(gen_uw, "source_name", lambda index: "uw_gen_%03d.cpp" % index)
     monkeypatch.setattr(gen_uw, "ROOT", tmp_path)
+    # The run must stop before it writes; if it ever does not, it writes these copies, not the
+    # checkout's ledger (an unisolated run rewrote the real one without its generated rows).
+    (tmp_path / "reverse").mkdir()
+    for attr, header in (("FUNCTIONS", "name,export_rva,target_rva,target_size,source,status,notes"),
+                         ("SYMBOLS", SYMBOLS_HEADER), ("DELETED", None)):
+        path = tmp_path / "reverse" / getattr(gen_uw, attr).name
+        if header:
+            path.write_bytes((header + "\n").encode())
+        monkeypatch.setattr(gen_uw, attr, path)
 
     class Nothing:
         tombstoned, owned, pinned, declined = {}, {}, set(), {}
@@ -296,3 +306,26 @@ def test_two_operator_delete_pins_at_one_address_stop_the_run(tmp_path, monkeypa
 
     assert "two different operator deletes" in str(raised.value)
     assert "0x%08X" % TARGET in str(raised.value)
+
+
+def test_a_delete_reached_with_several_class_sizes_is_held():
+    """A base class's sized delete inherited by derived classes is one retail function reached
+    with each derived size (0x006D8680: 0xC..0x38). Per-size invented names cannot express it,
+    so those funclets stay unclaimed instead of tripping the one-delete-per-address guard."""
+    sized = [gen_uw.Funclet("S", RVA + 8 * i, 15, -0x10, TARGET, size)
+             for i, size in enumerate((0x10, 0x14))]
+    other = gen_uw.Funclet("S", RVA + 0x40, 15, -0x10, TARGET + 0x100, 0x20)
+
+    kept, held, shared = gen_uw.hold_shared_sized_deletes(sized + [other])
+
+    assert held == sized and kept == [other] and shared == {TARGET}
+
+
+def test_a_misread_address_size_is_not_held():
+    """Sizes at or above the image base are pushed addresses mis-read as sizes. Holding them
+    would hide the mis-read; they stay on the ladder so the delete-pin guard stops the run."""
+    sized = [gen_uw.Funclet("S", RVA + 8 * i, 15, -0x10, TARGET, TAG + 8 * i) for i in range(2)]
+
+    kept, held, shared = gen_uw.hold_shared_sized_deletes(sized)
+
+    assert kept == sized and held == [] and shared == set()

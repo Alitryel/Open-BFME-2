@@ -98,3 +98,7 @@ basic_string<char, char_traits<char>, allocator<char> >::_M_assign_dispatch<char
 		char *, char *, const __false_type &);
 
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeInitV37@BfmeStrV37@@QAEXPAD00@Z=??$_M_assign_dispatch@PAD@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAEAAV01@PAD0ABU__false_type@1@@Z")

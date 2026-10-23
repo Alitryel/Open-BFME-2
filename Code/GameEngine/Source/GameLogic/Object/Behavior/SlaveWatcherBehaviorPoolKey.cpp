@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva00048462E@SlaveWatcherBehavior@@SA?AW4NameKeyType@@XZ @0x48462e
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@SlaveWatcherBehavior@@UBE?AW4NameKeyType@@XZ @0x48462e
 // (69B): cached pool-name key for SlaveWatcherBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("SlaveWatcherBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class SlaveWatcherBehavior
 {
 public:
-	static NameKeyType rva00048462E();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00048462E@SlaveWatcherBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType SlaveWatcherBehavior::rva00048462E()
+// ?getModuleNameKey@SlaveWatcherBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType SlaveWatcherBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheSlaveWatcherBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("SlaveWatcherBehavior");

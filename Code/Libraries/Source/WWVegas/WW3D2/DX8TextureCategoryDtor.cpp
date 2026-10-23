@@ -44,6 +44,8 @@ protected:
 	MultiListObjectClass *Internal_Remove_List_Head();
 };
 
+// RefCountClass inline copies take the size form retail links (0x005D1A7D).
+#pragma optimize("s", on)
 class RefCountClass
 {
 public:
@@ -60,6 +62,7 @@ protected:
 private:
 	mutable int NumRefs;
 };
+#pragma optimize("", on)
 
 class VertexMaterialClass : public RefCountClass
 {
@@ -73,13 +76,7 @@ template <class T> class RefCountPtr
 {
 public:
 	RefCountPtr() : Referent(0) {}
-	~RefCountPtr()
-	{
-		if (Referent != 0) {
-			Referent->Release_Ref();
-			Referent = 0;
-		}
-	}
+	~RefCountPtr();
 	T *Referent;
 };
 
@@ -132,6 +129,8 @@ public:
 };
 
 extern DX8MeshRendererClass *TheDX8MeshRenderer;
+// TheDX8MeshRenderer: matched references place it at VA 0xdf363c (zero-filled .bss).
+DX8MeshRendererClass * TheDX8MeshRenderer;
 
 class DX8TextureCategoryClass : public MultiListObjectClass
 {
@@ -149,16 +148,28 @@ private:
 	void *render_task_head;
 };
 
-DX8TextureCategoryClass::~DX8TextureCategoryClass()
+inline DX8TextureCategoryClass::~DX8TextureCategoryClass()
 {
 	if (TheDX8MeshRenderer != 0) {
 		while (DX8PolygonRendererClass *p_renderer = PolygonRendererList.Get_Head()) {
 			MeshModelClass *mmc = p_renderer->Get_Mesh_Model_Class();
-			while (DX8PolygonRendererClass *n = mmc->PolygonRendererList.Remove_Head()) {
-				::delete n;
+			while (DX8PolygonRendererClass *dX8PolygonRenderer = mmc->PolygonRendererList.Remove_Head()) {
+				::delete dX8PolygonRenderer;
 			}
 		}
 	}
 	if (material != 0)
 		material->Release_Ref();
 }
+
+// DX8TextureCategoryClass dtor is a header inline elsewhere: other units emit
+// select-any copies, so a strong definition here was a duplicate in the linked
+// build. This anchor only makes this unit emit its copy for the ledger row;
+// it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitDX8TextureCategoryDtor@@YAXPAVDX8TextureCategoryClass@@@Z present-unmatched
+void bfmeEmitDX8TextureCategoryDtor(DX8TextureCategoryClass *dX8TextureCategory)
+{
+	dX8TextureCategory->DX8TextureCategoryClass::~DX8TextureCategoryClass();
+}
+#pragma inline_depth()

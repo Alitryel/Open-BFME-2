@@ -53,3 +53,8 @@ void *Rva00800B70Owner::bfmeGo( unsigned char flags )
 
 	return this;
 }
+
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
+#pragma comment(linker, "/alternatename:_bfmeVft1045A=??_7Rva00800920Owner@@6BRva00800920Primary@@@")
+#pragma comment(linker, "/alternatename:_bfmeVft1045B=??_7Rva00800920Owner@@6BRva00800920Sec@@@")

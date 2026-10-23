@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG
+// cl: /GX /MD /DNDEBUG
 //
 // ??0SlowDeathBehavior@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x0045D4B4, 266 bytes.
 // SlowDeathBehavior EH ctor over the rowed UpdateModule base (0x253390, thing
@@ -14,6 +14,23 @@
 // plus reference thunk facade (0x7C layout); BFME2 adds members/branches so
 // retail is followed. Callers proving class: friend_new 0x24B264 plus Ship
 // 0x45E9AA plus GiantBird 0x461E58 plus ClearanceTesting 0x483D39.
+
+extern "C" const void *const vtbl_00C42030[];  // folded, 5 classes; via ??_7ClearanceTestingSlowDeathBehavior@@6BClearanceTestingSlowDeathBehaviorIface3@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C42030=??_7ClearanceTestingSlowDeathBehavior@@6BClearanceTestingSlowDeathBehaviorIface3@@@")
+extern "C" const void *const vtbl_00C42034[];  // folded, 3 classes; via ??_7ClearanceTestingSlowDeathBehavior@@6BClearanceTestingSlowDeathBehaviorIface2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C42034=??_7ClearanceTestingSlowDeathBehavior@@6BClearanceTestingSlowDeathBehaviorIface2@@@")
+extern "C" const void *const vtbl_00C42DA8[];  // folded, 3 classes; via ??_7Rva0045D39E@@6BRva0024A797_Mid@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C42DA8=??_7Rva0045D39E@@6BRva0024A797_Mid@@@")
+extern "C" const void *const vtbl_00C4EF80[];  // folded, 7 classes; via ??_7ContainIface34@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4EF80=??_7ContainIface34@@6B@")
+
+extern "C" const void *const vtbl_00C42020[];  // ??_7Rva0045D39E@@6BRva0045D39E_E2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C42020=??_7Rva0045D39E@@6BRva0045D39E_E2@@@")
+extern "C" const void *const vtbl_00C42040[];  // ??_7Rva0045D39E@@6BRva0024A797_Root@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C42040=??_7Rva0045D39E@@6BRva0024A797_Root@@@")
+
+extern "C" const void *const vtbl_00C1C780[];  // folded, 49 classes; via ??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C1C780=??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@")
 
 class Thing;
 class ModuleData;
@@ -100,8 +117,8 @@ SlowDeathBehavior::SlowDeathBehavior(Thing *thing, const ModuleData *moduleData)
 {
 	int *slot20 = (int *)&m_secondary20;
 	int *slot24 = (int *)&m_secondary24;
-	*slot20 = 0x00C1C780;
-	*slot24 = 0x00C4EF80;
+	*slot20 = (int)((unsigned int)vtbl_00C1C780);
+	*slot24 = ((unsigned int)vtbl_00C4EF80);
 	m_4C = -1;
 	m_3C = 0;
 	m_28 = 0;
@@ -110,11 +127,11 @@ SlowDeathBehavior::SlowDeathBehavior(Thing *thing, const ModuleData *moduleData)
 	m_34 = 0;
 	m_40 = false;
 	m_48 = false;
-	m_vtable = (const void *)0x00C42040;
-	m_p0C = (const void *)0x00C42DA8;
-	m_p10 = (const void *)0x00C42034;
-	m_secondary20 = (const void *)0x00C42030;
-	m_secondary24 = (const void *)0x00C42020;
+	m_vtable = (const void *)((unsigned int)vtbl_00C42040);
+	m_p0C = (const void *)((unsigned int)vtbl_00C42DA8);
+	m_p10 = (const void *)((unsigned int)vtbl_00C42034);
+	m_secondary20 = (const void *)((unsigned int)vtbl_00C42030);
+	m_secondary24 = (const void *)((unsigned int)vtbl_00C42020);
 	m_38 = 1.0f;
 	m_44 = 99999;
 
@@ -134,3 +151,7 @@ SlowDeathBehavior::SlowDeathBehavior(Thing *thing, const ModuleData *moduleData)
 
 	setWakeFrame(m_object, UPDATE_SLEEP_FOREVER);
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0ClearanceTestingSlowDeathBehaviorBase@@QAE@PAVThing@@PBVModuleData@@@Z=??0SlowDeathBehavior@@QAE@PAVThing@@PBVModuleData@@@Z")

@@ -1,56 +1,42 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // ??1BuffNuggetFXNugget@@UAE@XZ 179B @0x001E32D3: virtual dtor.
 // Installs no derived vptr (novtable view like Helix 0x001E116E sibling).
 // Destroys _STL::vector<AsciiString> at +0x184 via rowed 0x0002CC70 then eight
 // AsciiString/StringBase<char> members at +0x170 down to +0x154 via folded
-// 0x00036410 then calls base ??1TransportContainModuleData@@UAE@XZ at
+// 0x00036410 then calls base ??1Rva001DFEAABase@@UAE@XZ at
 // 0x001DFA48. Identity: ctor 0x001E2FCE installs vtable 0x007DD9B4 whose slot 0
 // ??_G 0x001E32B7 calls here; FieldParse table 0x00BDCEB8 fixes the eight
 // strings; news 0x190 fixes the extent.
 
 #include <vector>
 
-template <typename T>
-class StringBase
-{
-	friend class AsciiString;
+#include "ascii_string.h"
 
-protected:
-	~StringBase();
+// A declaration-only specialization stops this TU emitting its own
+// vector<AsciiString> dtor COMDAT, so the call binds the kept copy.
+namespace _STL {
+template <> vector<AsciiString, allocator<AsciiString> >::~vector();
+template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
+template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);
+template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
+}
 
-	void *m_data;
 
-private:
-	StringBase(const char *str);
-};
-
-class AsciiString : public StringBase<char>
+class Rva001DFEAABase
 {
 public:
-	AsciiString(const char *str) : StringBase<char>(str) {}
-	~AsciiString();
-};
-
-class TransportContainModuleData
-{
-public:
-	virtual ~TransportContainModuleData();
+	virtual ~Rva001DFEAABase();
 
 private:
 	unsigned char unknownBaseTail[0x144];
 };
 
-struct RGBColor
-{
-	float red;
-	float green;
-	float blue;
-};
+#include "../../../Libraries/Include/Lib/RGBColor.h"
 
 // The target dtor has no derived-vptr store. novtable keeps this view's dtor
 // body aligned with that fact; no constructor is emitted from this file.
-class __declspec(novtable) BuffNuggetFXNugget : public TransportContainModuleData
+class __declspec(novtable) BuffNuggetFXNugget : public Rva001DFEAABase
 {
 public:
 	virtual ~BuffNuggetFXNugget();
@@ -73,7 +59,7 @@ private:
 	_STL::vector<AsciiString> m_member; // +0x184
 };
 
-typedef char BaseExtent[sizeof(TransportContainModuleData) == 0x148 ? 1 : -1];
+typedef char BaseExtent[sizeof(Rva001DFEAABase) == 0x148 ? 1 : -1];
 typedef char AsciiExtent[sizeof(AsciiString) == 4 ? 1 : -1];
 
 BuffNuggetFXNugget::~BuffNuggetFXNugget() {}

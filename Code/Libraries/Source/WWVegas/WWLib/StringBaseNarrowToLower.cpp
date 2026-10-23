@@ -1,4 +1,4 @@
-// cl: /O2
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 // BFME2 1.06 StringBase<char>::toLower, RVA 0x00036A70 233B.
 // Pinned explicit export ?toLower@?$StringBase@D@@QAEXXZ, alias pin ?toLower@AsciiString@@QAEXXZ.
 // Copy-on-write duplicate via rowed byte allocator tagged rts 0x737472 then per-char tolower via IAT.
@@ -47,7 +47,7 @@ void StringBase<char>::toLower()
             throw 1;
         }
         int aligned = (total + 3) / 4 * 4;
-        Header *fresh = (Header *)_STL::allocator<char>::allocate(aligned, (const void *)0x737472);
+        Header *fresh = (Header *)_STL::allocator<char>::allocate(aligned, (const void *)'str');
         fresh->ref_count = 1;
         fresh->capacity = (unsigned short)(aligned - 8);
         if (m_data) {

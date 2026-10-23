@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /MD /EHsc /DNDEBUG /arch:SSE
+// cl: /Oy- /MD /EHsc /DNDEBUG
 
 // ?Get_Surface_Level@CursorTextureSlot@@QAE?AVW3DRadarResetSurface@@XZ,
 // retail 0x00132D70, 25 bytes. Zero-level forwarder: the cursor loader keeps
@@ -24,7 +24,14 @@ public:
 	W3DRadarResetSurface(void *surface) : m_surface(surface) {}
 	W3DRadarResetSurface(const W3DRadarResetSurface &other);
 	~W3DRadarResetSurface();
-	void Rva00116990(float a, float b, float c);
+};
+
+// The holder's level-fill callee is the rowed SurfaceClass::TintSurface
+// (0x00116990, SurfaceByteSize.cpp); the holder is passed as its this.
+class SurfaceClass
+{
+public:
+	void TintSurface(float a, float b, float c);
 };
 
 struct CursorTextureSlot
@@ -64,7 +71,12 @@ struct GUID
 	unsigned short Data3;
 	unsigned char Data4[8];
 };
-static const GUID IID_TexSurface = { 0, 0, 0, { 0, 0, 0, 0, 0, 0, 0, 0 } };
+// Native VA CE0AD8 is IID_IDirect3DTexture9, established by its complete
+// 16 bytes and Texture9 GetSurfaceLevel at slot18 (0x48). The legacy
+// ISurface8 label below is a numeric COM view, not a D3D8 identity claim.
+// Keep the existing _IID_TexSurface datum and its sole ownership.
+static const GUID IID_TexSurface = { 0x85C31227, 0x3DE5, 0x4F00,
+    { 0x9B, 0x3A, 0xF1, 0x1A, 0xC3, 0x8C, 0x18, 0xB5 } };
 
 struct ISurface8
 {
@@ -186,6 +198,6 @@ void CursorTextureSlot::FillLevelSurfaces(void)
 			c = 0.0f;
 			break;
 		}
-		Get_Surface_Level(level).Rva00116990(a, b, c);
+		((SurfaceClass *)&Get_Surface_Level(level))->TintSurface(a, b, c);
 	}
 }

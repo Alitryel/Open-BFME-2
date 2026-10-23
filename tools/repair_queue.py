@@ -1,0 +1,810 @@
+#!/usr/bin/env python3
+"""Queue items with a machine pass test, and where new code goes (FIX_PLAN_v2 rule 7).
+
+tools/next_work.py serves these as tiers; this module builds them.
+
+  repair  gate debt: one keyed baseline line = one row a gate check excuses
+          (BFME2 reverse/gate_baseline.txt; BFME1 body_guard_baseline.csv and
+          full_gate_baseline.txt). The item names the check and the row's source.
+          PASS TEST: `repair_queue.py pass-test LINE` deletes the line and runs the
+          row's own gate (tools/build.py SOURCE); a failure puts the line back.
+          Exit 0 = the row passes the check and the line stays deleted: commit it
+          with the fix. Repairs are credited: progress_v2 shows the debt shrinking.
+          Also served: tools/match_tiers.py tier C rows (<reverse>/match_tiers.csv;
+          pass: a regrade no longer puts the row in C) and diffexec logic/binding
+          divergences (build/diffexec/results.json or REPAIR_DIFFEXEC, JSON or JSONL;
+          pass: `tools/diffexec.py --row RVA` exits 0). Twin-body findings are left out.
+          And boot-smoke crashes: rows `tools/boot_smoke.py --bisect` found break start-up
+          when their authored code is overlaid (build/boot/boot_queue.json or REPAIR_BOOT;
+          pass: `boot_smoke.py --overlay rva:RVA` reaches the menu); game-smoke desyncs
+          (`tools/game_smoke.py bisect`: build/game/desync_queue.json or REPAIR_DESYNC;
+          pass: determinism with the row alone); static relayout findings, `inline-data`
+          and `truncated-table` (`tools/boot_relayout.py findings`: build/boot/
+          static_queue.json or REPAIR_STATIC; pass: the row is no longer flagged).
+  link    BFME2: rows the last link cycle did not place at their retail RVA, or
+          placed but not self-strict, with the reason (build/link_cycle/
+          link_status.csv, or REPAIR_LINK_STATUS). PASS TEST: the next cycle reports
+          the row placed=1 self_strict=1 (`tools/link_cycle.py --measure-only`).
+          That file is a build product: only a machine that ran the cycle has it.
+          Without it, or when it describes an older commit than the committed link
+          census, the tier reads the census instead (reverse/link_status.csv, one
+          row per source, measured at the commit its link_census_history.csv row
+          names): units that do not link, with their blockers. PASS TEST: `tools/
+          link_check.py SOURCE` says LINKS; the next census records linked=yes.
+          The output names the source used and the commit it describes; with
+          neither, `link` says so and exits 1. A status file may be gzip.
+          `link --bundle STORE` reads a PUBLISHED link-cycle bundle instead: the
+          newest measurement in the store tools/cycle_artifacts.py fetch keeps
+          (build/cycle_bundles), authenticated there (designated publisher,
+          immutable release, tag at the measured commit, asset digests) and
+          validated here. It is served only when its rules are positively this
+          checkout's link_cycle's and it was measured at most 24 h ago
+          (--allow-stale serves an older one, labelled STALE, and overrides
+          nothing else). A bundle directory with no fetch evidence (one built
+          locally) needs --local-unpublished and is labelled UNAUTHENTICATED.
+          Nothing falls back to the local cycle or the census; a refusal exits
+          with its reason and prints `[reason=...]`:
+            1 corrupt  2 unavailable  3 empty  4 stale  5 incompatible-rules
+            6 unauthenticated  7 no-closure-report
+          Only 2 is worth retrying; 4 and 7 end with the next published bundle;
+          1, 5 and 6 need a person. An orchestrator routes the seat to other
+          work on any of them and never adds --allow-stale itself.
+          `link --closure --bundle STORE` serves what the rows above cannot
+          show: the CLOSURE ROOTS, the failed nodes that keep placed,
+          self-strict rows out of the credit, ranked by conditional
+          single-address gain (tools/closure_report.py: the unique bytes the
+          credit would gain if every failed node at that one retail address
+          passed, with every edge and every other verdict of the measured graph
+          unchanged). It reads the store's newest bundle THAT HAS a closure
+          report and says so when a newer measurement was published without
+          one. The output names the bundle, whether its graph is the measured
+          one bound to the receipt or a replay, how little of the closure
+          bucket single roots cover, and its limits. It is a conditional figure
+          on a frozen graph, not a repair proof. PASS TEST: a later published
+          bundle no longer lists the root and its beneficiaries are
+          closed_strict=1.
+  dest    for a NEW match: the translation unit the row belongs in. EA evidence of
+          the source file first (BFME1 ea_evidence.csv `file` rows), then the
+          address's approved TU in tu_map.csv (the one tu_ownership A3 checks, read
+          through tu_map.tu_at) unless the address's own F/Z/S evidence names another
+          TU, then the existing file the address's own `__FILE__` string (F) names,
+          then -- labelled a neighbour heuristic -- address contiguity: the unit both
+          neighbouring rows come from, else the nearest neighbour's unit within
+          DEST_WINDOW. A file that does not exist yet is offered only for an
+          uncontradicted approved TU. Generated, dump and address-named one-function
+          files are never offered; with no known neighbour the answer says so instead
+          of inviting a fresh one-function file.
+
+  python3 tools/repair_queue.py repair [--limit N]
+  python3 tools/repair_queue.py link [--limit N] [--bundle STORE [--closure] [--allow-stale] [--local-unpublished]]
+  python3 tools/repair_queue.py dest 0xRVA
+  python3 tools/repair_queue.py pass-test "<baseline line>"
+  python3 tools/repair_queue.py verify-removed     # pre-commit, when a debt line is deleted:
+                                                   # builds each such row's source not already staged
+"""
+import argparse
+import bisect
+import calendar
+import csv
+import gzip
+import io
+import json
+import os
+import re
+import subprocess
+import sys
+import time
+from functools import lru_cache
+from pathlib import Path
+
+# The hooks run HEAD's copy through stdin (an edit cannot approve itself): no __file__ then.
+ROOT = Path(os.environ.get("REPAIR_ROOT")
+            or (Path(__file__).resolve().parents[1] if "__file__" in globals() else Path.cwd()))
+BFME1 = (ROOT / "targets" / "game" / "reverse").is_dir()
+REV = "targets/game/reverse" if BFME1 else "reverse"
+LEDGER = f"{REV}/functions.csv"
+EVIDENCE = f"{REV}/ea_evidence.csv"
+SOURCE_PREFIX = "game/" if BFME1 else "Code/"
+NOT_A_HOME = ("game/gen_small/", "game/gen_asm/", "game/masm_dumps/", "Code/gen_small/", "Code/gen_asm/",
+              "Code/masm_dumps/")
+ADDRESS_FILE = re.compile(r"(?i)(?=(?:[0-9a-f]*\d){3})[0-9a-f]{6,8}")
+DEST_WINDOW = 0x4000
+LINK_STATUS_SET = os.environ.get("REPAIR_LINK_STATUS")      # named by hand: used whenever it exists
+LINK_STATUS = LINK_STATUS_SET or str(ROOT / "build" / "link_cycle" / "link_status.csv")
+CENSUS_STATUS = f"{REV}/link_status.csv"                     # committed: tools/link_census.py --history
+CENSUS_HISTORY = f"{REV}/link_census_history.csv"            # its last row names the census's commit
+FILE_ROUTES = ("wb1", "zh", "wb1-run", "retail-run", "wb2", "wb2-run")
+
+CHECKS = {
+    "strnul": "a string literal ends before retail's; write the whole literal",
+    "ltable": "a jump-table entry or same-section pointer lands on the wrong case; fix the case mapping",
+    "tail": "compiled bytes past the row's extent differ from retail; fix the tail (or the extent)",
+    "truncated": "the compiled body is longer than the row and retail agrees; raise the extent",
+    "genalias": "a gen-alias row's masked call is not a twin of its callee; call the real callee",
+    "alias-row": "an object-symbol= alias still resolves callers; give the row its real body or name",
+    "static": "TU-local data the body reads ($SG string, local static, const table) differs from retail",
+    "dir32": "a DIR32 name does not resolve by retail address",
+    "full-gate": "the row is red in the full gate",
+}
+
+
+def _read(rel):
+    path = ROOT / rel
+    return path.read_text(encoding="utf-8", errors="replace") if path.exists() else ""
+
+
+@lru_cache(maxsize=1)
+def ledger():
+    """(rows by rva, sorted [(rva, size, source)] of real homes)."""
+    by_rva, homes = {}, []
+    for row in csv.DictReader(io.StringIO(_read(LEDGER))):
+        if row.get("status") != "matched" or not row.get("target_rva"):
+            continue
+        rva = int(row["target_rva"], 16)
+        by_rva.setdefault(rva, []).append(row)
+        source = row["source"]
+        if is_home(source):
+            homes.append((rva, int(row["target_size"] or 0), source))
+    homes.sort()
+    return by_rva, homes
+
+
+def is_home(source):
+    """A unit a new row may be added to: real source, not generated, a dump, a .lib, or an
+    address-named one-function file."""
+    return (source.startswith(SOURCE_PREFIX) and not source.startswith(NOT_A_HOME)
+            and source.lower().endswith((".cpp", ".c", ".cc", ".cxx"))
+            and not ADDRESS_FILE.search(Path(source).stem))
+
+
+# ---------------------------------------------------------------- repair tier
+
+def baseline_files():
+    if BFME1:
+        return ((f"{REV}/body_guard_baseline.csv", "csv"), (f"{REV}/full_gate_baseline.txt", "full"))
+    return ((f"{REV}/gate_baseline.txt", "keyed"),)
+
+
+def parse_debt():
+    """[(path, line, check, rva or None, name, detail)] for every baseline line."""
+    out = []
+    for path, kind in baseline_files():
+        text = _read(path)
+        if kind == "csv":
+            body = [l for l in text.splitlines() if l.strip()]
+            for line, row in zip(body[1:], csv.DictReader(io.StringIO("\n".join(body)))):
+                out.append((path, line, row["check"], int(row["target_rva"], 16), row["name"], row.get("detail", "")))
+        for line in text.splitlines():
+            if not line.strip() or line.startswith("#") or kind == "csv":
+                continue
+            if kind == "keyed":
+                check, rva, name = (line.split(None, 2) + ["", ""])[:3]
+                out.append((path, line, check, int(rva, 16), name.strip(), ""))
+            else:                                   # BFME1 full gate: `name (source)`
+                m = re.match(r"(\S+) \((.+)\)$", line.strip())
+                if m:
+                    out.append((path, line, "full-gate", None, m[1], m[2]))
+    return out
+
+
+def repair_items():
+    """Gate-debt rows, each with its check, the row's source and a pass test."""
+    by_rva, _ = ledger()
+    items = []
+    for path, line, check, rva, name, detail in parse_debt():
+        rows = by_rva.get(rva, []) if rva is not None else []
+        row = next((r for r in rows if r["name"] == name), rows[0] if rows else None)
+        # A dir32 key names the referenced datum; its source is the unit that spells it.
+        source = row["source"] if row and check != "dir32" else (detail if check == "full-gate" else "")
+        size = int(row["target_size"]) if row and check != "dir32" else 0
+        items.append({
+            "tier": "repair", "check": check, "target_rva": f"0x{rva:08X}" if rva is not None else "",
+            "function": name, "source": source or "(git grep -l the name)", "size": size, "credit": size,
+            "why": detail or CHECKS.get(check, check), "baseline": path, "baseline_line": line,
+            "pass_test": f"python3 tools/repair_queue.py pass-test {shell_quote(line)}",
+        })
+    items.sort(key=lambda item: (item["check"] == "dir32", -item["size"]))
+    return items
+
+
+MATCH_TIERS = f"{REV}/match_tiers.csv"
+DIFFEXEC = os.environ.get("REPAIR_DIFFEXEC") or str(ROOT / "build" / "diffexec" / "results.json")
+
+
+def diffexec_items(path=None):
+    """diffexec logic/binding divergences (a list, {"rows"|"results": [...]} or JSONL),
+    `(twin bodies)` findings left out: the code is equal, only the name differs."""
+    import json
+    path = Path(path or DIFFEXEC)
+    if not path.exists():
+        return []
+    text = path.read_text(encoding="utf-8-sig", errors="replace")
+    try:
+        data = json.loads(text)
+        rows = data if isinstance(data, list) else data.get("rows") or data.get("results") or []
+    except ValueError:
+        rows = [json.loads(l) for l in text.splitlines() if l.strip().startswith("{")]
+    items = []
+    for r in rows:
+        verdict = str(r.get("verdict", r.get("class", ""))).lower()
+        rva = r.get("target_rva", r.get("rva"))
+        if verdict not in ("logic", "binding") or "twin bodies" in str(r.get("reason", "")) or rva is None:
+            continue
+        rva = rva if isinstance(rva, str) else f"0x{int(rva):08X}"
+        items.append({
+            "tier": "repair", "check": f"diffexec-{verdict}", "target_rva": rva, "function": r.get("name", ""),
+            "source": r.get("source", ""), "size": int(r.get("size") or 0), "credit": int(r.get("size") or 0),
+            "why": str(r.get("reason", ""))[:300], "baseline": "", "baseline_line": "",
+            "pass_test": f"python3 tools/diffexec.py --row {rva}  (exit 0: no logic/binding divergence)",
+        })
+    return items
+
+
+BOOT_QUEUE = os.environ.get("REPAIR_BOOT") or str(ROOT / "build" / "boot" / "boot_queue.json")
+DESYNC_QUEUE = os.environ.get("REPAIR_DESYNC") or str(ROOT / "build" / "game" / "desync_queue.json")
+STATIC_QUEUE = os.environ.get("REPAIR_STATIC") or str(ROOT / "build" / "boot" / "static_queue.json")
+STATIC_CHECKS = ("inline-data", "truncated-table")
+
+
+def boot_items(path=None):
+    """Rows whose authored code breaks the game when overlaid: `tools/boot_smoke.py
+    --bisect` (start-up; build/boot/boot_queue.json or REPAIR_BOOT), `tools/game_smoke.py
+    bisect` (a skirmish desyncs or crashes; build/game/desync_queue.json or REPAIR_DESYNC),
+    and `tools/boot_relayout.py findings` (static: data past the row's extent, a truncated
+    code-pointer table; build/boot/static_queue.json or REPAIR_STATIC). An item's own
+    `check` and `pass_test` win; boot_smoke's items have neither (boot-crash). One path:
+    that queue alone."""
+    import json
+    items = []
+    for p in ([path] if path else [BOOT_QUEUE, DESYNC_QUEUE, STATIC_QUEUE]):
+        p = Path(p)
+        if not p.exists():
+            continue
+        for r in json.loads(p.read_text(encoding="utf-8")).get("items", []):
+            items.append({
+                "tier": "repair", "check": r.get("check") or "boot-crash", "target_rva": r["target_rva"],
+                "function": r["name"], "source": r["source"], "size": int(r.get("size") or 0),
+                "credit": int(r.get("size") or 0), "why": str(r.get("why", r.get("outcome", "")))[:300],
+                "baseline": "", "baseline_line": "", "queue": str(p),
+                "pass_test": r.get("pass_test") or f"python3 tools/boot_smoke.py --game-dir SANDBOX --overlay "
+                                                   f"rva:{r['target_rva']} --timeout 150  (exit 0: reached-menu "
+                                                   "with the row overlaid)",
+            })
+    return items
+
+
+def tier_c_items(seen=()):
+    """match_tiers.py tier C rows (contradicted) not already served from a baseline line."""
+    seen = set(seen)
+    items = []
+    for r in csv.DictReader(io.StringIO(_read(MATCH_TIERS))):
+        if r.get("tier") != "C" or (r["target_rva"].upper(), r["name"]) in seen:
+            continue
+        items.append({
+            "tier": "repair", "check": "tier-C", "target_rva": r["target_rva"], "function": r["name"],
+            "source": r["source"], "size": int(r["target_size"] or 0), "credit": int(r["target_size"] or 0),
+            "why": r.get("reasons", "")[:300], "baseline": "", "baseline_line": "",
+            "pass_test": "python3 tools/match_tiers.py --out build/match_tiers.csv: the row is no longer tier C",
+        })
+    return items
+
+
+def all_repair_items():
+    """Gate debt, then match_tiers tier C, diffexec divergences, boot/game-smoke
+    failures and static relayout findings not already listed (a row once, first wins)."""
+    items = repair_items()
+    seen = {(i["target_rva"].upper(), i["function"]) for i in items}
+    extra = []
+    for i in diffexec_items() + boot_items():
+        key = (i["target_rva"].upper(), i["function"])
+        if key not in seen:
+            seen.add(key)
+            extra.append(i)
+    extra += tier_c_items(seen)
+    # static relayout findings after the failures a run or the emulator showed
+    return items + sorted(extra, key=lambda i: (i["check"] in STATIC_CHECKS, -i["size"]))
+
+
+def shell_quote(text):
+    return "'" + text.replace("'", "'\"'\"'") + "'"
+
+
+def locate_source(name):
+    got = subprocess.run(["git", "grep", "-l", "-F", "--", name, SOURCE_PREFIX], cwd=ROOT,
+                         capture_output=True, text=True)
+    files = got.stdout.split()
+    return files[0] if files else None
+
+
+def pass_test(line, build_cmd=None):
+    """Delete LINE from its baseline and run the row's own gate; restore the line on
+    failure. Returns (ok, message)."""
+    item = next((i for i in repair_items() if i["baseline_line"].strip() == line.strip()), None)
+    if item is None:
+        return False, "no such baseline line (already removed, or mistyped)"
+    source = item["source"]
+    if source.startswith("("):
+        source = locate_source(item["function"])
+        if not source:
+            return False, f"no source spells {item['function']}; nothing left to verify"
+    path = ROOT / item["baseline"]
+    raw = path.read_bytes()
+    eol = b"\r\n" if b"\r\n" in raw else b"\n"
+    kept = [l for l in raw.split(eol) if l.decode("utf-8", "replace").strip() != line.strip()]
+    path.write_bytes(eol.join(kept))
+    cmd = build_cmd or [sys.executable, str(ROOT / "tools" / "build.py"), source]
+    result = subprocess.run(cmd, cwd=ROOT)
+    if result.returncode != 0:
+        path.write_bytes(raw)
+        return False, f"{item['check']} still fails for {item['function']} ({source}); line restored"
+    return True, (f"PASS: {item['function']} passes {item['check']}; the line is deleted from "
+                  f"{item['baseline']} -- commit it with the fix")
+
+
+def _git(*args):
+    return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True,
+                          encoding="utf-8", errors="replace")
+
+
+def removed_debt_sources():
+    """{source: [baseline lines]} for gate-debt lines the index deletes against HEAD.
+    A removal is credited as a repair, so each one is re-verified (rule 5)."""
+    out = {}
+    for path, kind in baseline_files():
+        old, new = _git("show", f"HEAD:{path}"), _git("show", f":{path}")
+        if old.returncode or old.stdout == new.stdout:
+            continue
+        gone = set(old.stdout.splitlines()) - set(new.stdout.splitlines())
+        for item in repair_items_from(path, kind, old.stdout):
+            if item["baseline_line"] in gone:
+                source = item["source"]
+                if source.startswith("("):
+                    source = locate_source(item["function"])
+                if source:                          # nothing spells it any more: nothing to verify
+                    out.setdefault(source, []).append(item["baseline_line"])
+    return out
+
+
+def verify_removed(build_cmd=None):
+    """Build each removed line's row source the commit does not already stage (the hook's
+    delta verify builds staged ones). Returns the failures."""
+    removed = removed_debt_sources()
+    if not removed:
+        return []
+    staged = set(_git("diff", "--cached", "--name-only").stdout.split())
+    failures = []
+    for source, lines in sorted(removed.items()):
+        if source in staged:
+            continue
+        cmd = (build_cmd or [sys.executable, str(ROOT / "tools" / "build.py")]) + [source]
+        if subprocess.run(cmd, cwd=ROOT).returncode != 0:
+            failures.append(f"{source}: removed {lines[0]!r} but the row still fails its check")
+    return failures
+
+
+def repair_items_from(path, kind, text):
+    """repair_items() for one baseline text (HEAD's, when judging a removal)."""
+    saved = _read
+    try:
+        others = {p for p, _ in baseline_files()} - {path}
+        globals()["_read"] = lambda rel: text if rel == path else ("" if rel in others else saved(rel))
+        return repair_items()
+    finally:
+        globals()["_read"] = saved
+
+
+# ---------------------------------------------------------------- link tier
+
+def stored_census():
+    """{"commit", "date", "when"} of the committed link census, or None when the repo has
+    no reverse/link_status.csv or no history row saying what it measured."""
+    if not (ROOT / CENSUS_STATUS).exists():
+        return None
+    rows = list(csv.DictReader(io.StringIO(_read(CENSUS_HISTORY))))
+    if not rows or not rows[-1].get("commit"):
+        return None
+    last = rows[-1]
+    try:                                            # link_census.py writes the date in UTC
+        when = calendar.timegm(time.strptime(last["date"], "%Y-%m-%d %H:%M"))
+    except (TypeError, ValueError):
+        when = 0
+    return {"commit": last["commit"], "date": last.get("date", ""), "when": when}
+
+
+def cycle_commit(path):
+    """(commit, dirty) a link cycle's status describes, from the receipt.json beside it;
+    (None, False) without one."""
+    try:
+        receipt = json.loads((Path(path).parent / "receipt.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None, False
+    return (receipt.get("commit") or None), receipt.get("dirty", False)
+
+
+def link_source(path=None):
+    """(kind, path, note) of the link status the link tier reads, or (None, None, why).
+
+    A link cycle's per-row status (kind "cycle") is preferred: it says which ROW failed and
+    why. It is used when named by hand (PATH, REPAIR_LINK_STATUS), or when it exists and is
+    not older than the committed census: its receipt's commit descends from the census's
+    commit, or, with no receipt or a commit this clone lacks, the file is newer than the
+    census's date. Otherwise the committed census (kind "census")."""
+    local = Path(path or LINK_STATUS)
+    census = stored_census()
+    skipped = ""
+    if local.exists():
+        commit, dirty = cycle_commit(local)
+        newer, basis = True, "named by hand"
+        if not (path or LINK_STATUS_SET) and census:
+            got = subprocess.run(["git", "merge-base", "--is-ancestor", census["commit"], commit],
+                                 cwd=ROOT, capture_output=True) if commit else None
+            if got is not None and got.returncode in (0, 1):
+                newer, basis = got.returncode == 0, "commit vs the census's %s" % census["commit"][:10]
+            else:
+                newer, basis = local.stat().st_mtime >= census["when"], "file time vs the census's date"
+        when = time.ctime(local.stat().st_mtime)
+        described = ("commit %s%s" % (commit[:10], " +uncommitted edits" if dirty else "") if commit
+                     else "commit unknown (no receipt.json)")
+        if newer:
+            return "cycle", local, f"local link cycle {local} ({described}, written {when})"
+        skipped = f"; local {local} ({described}) is not newer ({basis}), not used"
+    if census:
+        return "census", ROOT / CENSUS_STATUS, (f"committed link census {CENSUS_STATUS} (measured at commit "
+                                                f"{census['commit']}, {census['date']} UTC){skipped}")
+    return None, None, (f"no link status: no link-cycle status at {local} (run tools/link_cycle.py) and no "
+                        f"committed census at {CENSUS_STATUS} with a {CENSUS_HISTORY} row")
+
+
+def census_items(path):
+    """Units the committed census says do not link: one item per source, credited with
+    its matched bytes, nearest to linking (fewest blockers) first."""
+    by_rva, _ = ledger()
+    rows_of = {}
+    for rva, rows in by_rva.items():
+        for row in rows:
+            rows_of.setdefault(row["source"], []).append((rva, row))
+    items = []
+    with Path(path).open(encoding="utf-8", newline="") as handle:
+        for row in csv.DictReader(handle):
+            if row.get("linked") == "yes" or row["source"] not in rows_of:
+                continue
+            owned = sorted(rows_of[row["source"]], key=lambda r: r[0])
+            blockers = {k: int(row.get(k) or 0) for k in
+                        ("unresolved", "duplicates", "comdat_losers", "addresses", "wrong_selected")}
+            size = sum(int(r["target_size"] or 0) for _, r in owned)
+            items.append({
+                "tier": "link", "target_rva": "0x%08X" % owned[0][0], "function": owned[0][1]["name"],
+                "source": row["source"], "size": size, "credit": size, "placed": False,
+                "blockers": sum(blockers.values()),
+                "why": ("unit does not link (%d matched row(s)): " % len(owned)
+                        + (", ".join("%s %d" % kv for kv in blockers.items() if kv[1]) or "linked=no")),
+                "pass_test": f"python3 tools/link_check.py {row['source']}: LINKS (the next census: linked=yes)",
+            })
+    items.sort(key=lambda item: (item["blockers"], -item["size"]))
+    return items
+
+
+def link_items(path=None):
+    """BFME2 link repairs, with a note naming the source read and the commit it describes:
+    a link cycle's rows not placed at retail RVA or placed but not self-strict, else the
+    committed census's units that do not link (link_source)."""
+    if BFME1:
+        return [], "BFME1 has no link cycle yet"
+    kind, path, note = link_source(path)
+    if kind is None:
+        return [], note
+    if kind == "census":
+        items = census_items(path)
+        return items, f"{len(items)} unit(s) that do not link, from the {note}"
+    items = cycle_items(path)
+    return items, f"{len(items)} row(s) from the {note}"
+
+
+def open_status(path):
+    """A link_status.csv, plain or gzip (by its magic bytes), as text."""
+    path = Path(path)
+    with path.open("rb") as handle:
+        gz = handle.read(2) == b"\x1f\x8b"
+    if gz:
+        return io.TextIOWrapper(gzip.open(path), encoding="utf-8", newline="")
+    return path.open(encoding="utf-8", newline="")
+
+
+def cycle_items(path):
+    """A link cycle's real rows not placed at their retail RVA, or placed but not
+    self-strict: placed ones first, then by size."""
+    items = []
+    with open_status(path) as handle:
+        for row in csv.DictReader(handle):
+            if row.get("kind") != "real" or (row["placed"] == "1" and row["self_strict"] == "1"):
+                continue
+            placed = row["placed"] == "1"
+            reason = (row["failures"] or "not self-strict") if placed else (row["placement_reason"] or "not placed")
+            items.append({
+                "tier": "link", "target_rva": row["retail_rva"], "function": row["name"],
+                "source": row["source"], "size": int(row["size"] or 0), "credit": int(row["size"] or 0),
+                "placed": placed, "why": reason[:300],
+                "pass_test": "python3 tools/link_cycle.py --measure-only: this row placed=1 self_strict=1",
+            })
+    # placed-but-not-strict first: one relocation fix credits the whole row
+    items.sort(key=lambda item: (not item["placed"], -item["size"]))
+    return items
+
+
+def cycle_artifacts():
+    """tools/cycle_artifacts.py, imported here, not at the top: the hooks run this file
+    through stdin (verify-removed) without tools/ on the path."""
+    tools = str(Path(__file__).resolve().parent if "__file__" in globals() else ROOT / "tools")
+    if tools not in sys.path:
+        sys.path.insert(0, tools)
+    import cycle_artifacts as ca
+    return ca
+
+
+def bundle_note(b, fr, what):
+    return (f"{what} from link-cycle bundle {b.tag} ({b.dir}; commit {b.commit[:12]}, measured "
+            f"{fr['measured_end_utc']} UTC, {fr['age_hours']:.1f} h ago{', STALE' if fr['stale'] else ''}; "
+            + ("authenticated publication" if b.evidence else "UNAUTHENTICATED LOCAL BUNDLE") + f"; {fr['ancestry']})")
+
+
+def bundle_warnings(lines, fr):
+    out = [line for line in lines if line.startswith(("STALE", "UNAUTHENTICATED", "NOT THE NEWEST"))]
+    if fr["tool_digest_matches"] is False:
+        out += [line for line in lines if line.startswith("link_cycle tool digest")]
+    return out
+
+
+def bundle_link_items(bundle, now=None, allow_stale=False, local_unpublished=False):
+    """(items, note, warnings) from a published link-cycle bundle (a store, or a bundle
+    directory): authenticated, validated, of this checkout's rules, and fresh or ALLOW_STALE.
+    Raises a cycle_artifacts.Problem with its reason: never a census fallback."""
+    ca = cycle_artifacts()
+    b, fr, lines = ca.serve(bundle, allow_stale=allow_stale, now=now, root=ROOT, local_unpublished=local_unpublished)
+    items = cycle_items(b.link_status)
+    return items, bundle_note(b, fr, f"{len(items)} row(s)"), bundle_warnings(lines, fr)
+
+
+def closure_items(bundle, now=None, allow_stale=False, local_unpublished=False):
+    """(items, note lines, warnings): the closure roots (tools/closure_report.py) of the
+    store's newest bundle that has a closure report, ranked by conditional single-address
+    gain. Raises as bundle_link_items does; reason no-closure-report when there is none."""
+    ca = cycle_artifacts()
+    import closure_report as cr
+    b, fr, lines = ca.serve(bundle, allow_stale=allow_stale, now=now, root=ROOT, need_closure=True,
+                            local_unpublished=local_unpublished)
+    try:
+        doc = cr.load_roots(b.closure_roots)
+    except cr.ReportError as e:                   # another schema or algorithm: not this checkout's ranking
+        raise ca.Refused(f"bundle {b.tag}: {e}", "incompatible-rules") from None
+    items = []
+    for e in doc["roots"]:
+        name, source = cr.root_line(e)
+        items.append({
+            "tier": "closure", "target_rva": e["root"], "function": name, "source": source or "(no unit)",
+            "size": e["conditional_gain_bytes"], "credit": e["conditional_gain_bytes"], "placed": True,
+            "check": "closure",
+            "why": (f"beneficiaries {e['beneficiary_rows']} row(s) {e['beneficiary_bytes']} B + own failing rows "
+                    f"{e['direct_rows']} / {e['direct_bytes']} B; {len(e['nodes'])} failed node(s) at this address; "
+                    f"{len(e['failures'])} failure(s) to clear: " + "; ".join(e["failures"])),
+            "pass_test": "a later published bundle (tools/cycle_artifacts.py fetch --latest) no longer lists root "
+                         f"{e['root']} and its rows are closed_strict=1"
+                         + ("" if e.get("verified") else " [gain not re-proved by a forced closure]"),
+        })
+    s = doc["summary"]
+    reach, buckets = s["closure_blocked_reach"], s["buckets"]
+    size = (lambda table, k: table.get(k, {}).get("unique_bytes", 0))
+    bucket, single = size(buckets, "closure-blocked"), size(reach, "one scored root")
+    share = f"{100.0 * single / bucket:.1f}%" if bucket else "n/a"
+    notes = [bundle_note(b, fr, f"{len(items)} closure root(s) with a gain"),
+             f"  graph: {doc['graph']['label']}"
+             + ("" if doc["graph"]["bound"] else ": the edges were rebuilt after the run, not written by its measure"),
+             f"  credit {s['credit_unique_bytes']:,} B. Placed real rows outside it: {size(buckets, 'failing'):,} B "
+             f"fail their own checks; {bucket:,} B are self-strict but closure-blocked; closed-strict but not "
+             f"placed: {size(buckets, 'closed-strict-unplaced'):,} B (repair_queue.py link).",
+             f"  COVERAGE: single roots cover only {single:,} B of the {bucket:,} B closure bucket ({share}); "
+             f"{size(reach, 'two or more'):,} B sit behind two or more roots and {size(reach, 'one unscored leaf'):,} B "
+             "behind one filler or unknown target, and are in no root's score. "
+             f"{s['roots_with_no_beneficiary']} of the {len(items)} roots unblock only their own failing rows.",
+             "  B column: CONDITIONAL single-address gain = credit(graph with every failed node at that retail "
+             "address passing) - credit(graph), unique bytes, on the frozen graph of the measured commit.",
+             "  limits: " + "; ".join(doc["limits"]) + "."]
+    return items, notes, bundle_warnings(lines, fr)
+
+
+# ---------------------------------------------------------------- destination
+
+@lru_cache(maxsize=1)
+def file_evidence():
+    out = {}
+    for row in csv.DictReader(io.StringIO(_read(EVIDENCE))):
+        if row.get("kind") == "file":
+            out.setdefault(int(row["rva"], 16), []).append((row["route"], row["value"]))
+    return out
+
+
+@lru_cache(maxsize=1)
+def tu_routes():
+    """tools/tu_map.py's map and its tu_at index (with the retail image for boundary
+    evidence); imported here, not at the top, because the hooks run this file through
+    stdin (verify-removed) without tools/ on the path."""
+    sys.path.insert(0, str(Path(__file__).resolve().parent if "__file__" in globals() else ROOT / "tools"))
+    import tu_map
+    m = tu_map.load(ROOT)
+    return tu_map, m, tu_map.code_index(m, tu_map.Image.open(tu_map.Layout(ROOT).image))
+
+
+def dest_tu(rva):
+    """{"dest": path or None, "basis": why} for a new row at RVA."""
+    for route, value in sorted(file_evidence().get(rva, ()),
+                               key=lambda rv: FILE_ROUTES.index(rv[0]) if rv[0] in FILE_ROUTES else 99):
+        path = SOURCE_PREFIX + value.lstrip("/")
+        if (ROOT / path).exists():
+            return {"dest": path, "basis": f"EA source-file evidence ({route})"}
+    tu_map, m, index = tu_routes()
+    t = tu_map.tu_at(m, rva, index)
+    own = tu_map.anchors(t["evidence"]) if t else {}
+    # What tu_ownership A2/A3 hold a row to (the same predicate): an approved TU no F/Z/S
+    # anchor of the address, or of the rows its C evidence rests on, disputes. A map built
+    # before contradicted approvals were demoted can still carry one, and then a merged
+    # cluster's file is not created over the file retail's own __FILE__ string names.
+    tu = tu_map.approved_tu(m, t)
+    if tu:
+        made = "" if (ROOT / tu).exists() else "; the file does not exist yet: create it"
+        return {"dest": tu, "basis": f"approved TU in tu_map.csv (by {t['by']}{made})"}
+    dispute = tu_map.disputed(m, t) if t and t["confidence"] == "approved" else None
+    state = "no TU" if not t else (t["confidence"] or "no TU") + (f" {t['tu']}" if t["tu"] else "")
+    if dispute:
+        state += f", contradicted by {dispute}"
+    if t and t["kind"] == "code-interior":
+        state += f", {t['evidence'].split()[0]} {t['evidence'].split()[1]}"   # inside 0x... (a known body)
+    if own.get("F") and (ROOT / own["F"]).exists():
+        return {"dest": own["F"], "basis": f"retail __FILE__ string at this address (F in tu_map.csv; "
+                                           f"tu_map: {state})"}
+    if not t and index.host(rva) is None and index.gap(rva) == "padding":
+        return {"dest": None, "basis": "retail padding (0xCC) inside no known body: no function starts here"}
+    got = neighbour_dest(rva)
+    got["basis"] = f"neighbour heuristic, no usable approved TU (tu_map: {state}): " + got["basis"]
+    return got
+
+
+def neighbour_dest(rva):
+    """The pre-tu_map rule: the unit both neighbouring ledger rows come from, else the
+    nearest neighbour's within DEST_WINDOW."""
+    _, homes = ledger()
+    starts = [h[0] for h in homes]
+    i = bisect.bisect_left(starts, rva)
+    prev = homes[i - 1] if i > 0 else None
+    nxt = homes[i] if i < len(homes) and homes[i][0] != rva else (homes[i + 1] if i + 1 < len(homes) else None)
+    if prev and nxt and prev[2] == nxt[2] and nxt[0] - (prev[0] + prev[1]) <= DEST_WINDOW:
+        return {"dest": prev[2], "basis": f"between two rows of this unit (0x{prev[0]:08X}, 0x{nxt[0]:08X})"}
+    near = []
+    if prev and rva - (prev[0] + prev[1]) <= DEST_WINDOW:
+        near.append((rva - (prev[0] + prev[1]), prev))
+    if nxt and nxt[0] - rva <= DEST_WINDOW:
+        near.append((nxt[0] - rva, nxt))
+    if near:
+        gap, home = min(near)
+        return {"dest": home[2], "basis": f"nearest neighbour row 0x{home[0]:08X}, {gap} bytes away"}
+    return {"dest": None, "basis": f"no neighbouring unit within 0x{DEST_WINDOW:X} bytes; put it in its "
+                                   "class's file, never a new one-function file"}
+
+
+REPAIR_EVERY = 3
+ROTATION = "build/next_work_rotation.json"
+
+
+def repair_turn(every=None, owner=None):
+    """Is this default pick a repair turn? About 1 pick in EVERY (--repair-every, else
+    BFME_REPAIR_EVERY, else 3; 1 = every pick, 0 = never first), rotated per agent
+    (BFME_CLAIM_OWNER) by a counter in the untracked build/next_work_rotation.json and
+    phase-shifted by the owner's name, so seats sharing a clock do not all repair at once."""
+    import hashlib
+    import json
+    if every is None:
+        env = os.environ.get("BFME_REPAIR_EVERY", "").strip()
+        every = int(env) if env.isdigit() else REPAIR_EVERY
+    if every <= 0:
+        return False
+    if every == 1:
+        return True
+    owner = owner or os.environ.get("BFME_CLAIM_OWNER") or "default"
+    path = ROOT / ROTATION
+    try:
+        state = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        state = {}
+    count = int(state.get(owner, 0))
+    state[owner] = count + 1
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(state, sort_keys=True), encoding="utf-8")
+    except OSError:
+        pass
+    phase = int(hashlib.sha256(owner.encode()).hexdigest(), 16) % every
+    return (count + phase) % every == 0
+
+
+def annotate_dest(candidates):
+    """Add dest/dest_basis to queue candidates (new matches)."""
+    for candidate in candidates:
+        rva = candidate.get("target_rva") or candidate.get("candidate_rva")
+        try:
+            got = dest_tu(int(rva, 16))
+        except (TypeError, ValueError):
+            continue
+        candidate["dest"], candidate["dest_basis"] = got["dest"], got["basis"]
+    return candidates
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    sub = ap.add_subparsers(dest="cmd", required=True)
+    for name in ("repair", "link"):
+        p = sub.add_parser(name)
+        p.add_argument("--limit", type=int, default=20)
+        if name == "link":
+            p.add_argument("--bundle", metavar="DIR",
+                           help="a link-cycle bundle (tools/cycle_artifacts.py fetch): its rows, validated, with "
+                                "their freshness; no census fallback")
+            p.add_argument("--allow-stale", action="store_true",
+                           help="with --bundle: serve a bundle measured over 24 h ago, labelled STALE")
+            p.add_argument("--closure", action="store_true",
+                           help="with --bundle: closure roots ranked by conditional single-address gain")
+            p.add_argument("--local-unpublished", action="store_true",
+                           help="with --bundle DIR: a locally built bundle with no fetch evidence, labelled "
+                                "UNAUTHENTICATED (a producer inspecting its own bundle; never for shared work)")
+    sub.add_parser("dest").add_argument("rva")
+    sub.add_parser("pass-test").add_argument("line")
+    sub.add_parser("verify-removed", help="hook: re-verify rows whose debt lines the index deletes")
+    args = ap.parse_args(argv)
+    if args.cmd == "verify-removed":
+        failures = verify_removed()
+        for line in failures:
+            print(f"repair_queue: {line}", file=sys.stderr)
+        return 1 if failures else 0
+    if args.cmd == "dest":
+        got = dest_tu(int(args.rva, 16))
+        print(f"{got['dest'] or '(no unit)'}  <- {got['basis']}")
+        return 0
+    if args.cmd == "pass-test":
+        ok, message = pass_test(args.line)
+        print(message)
+        return 0 if ok else 1
+    if getattr(args, "bundle", None):
+        if BFME1:
+            print("repair_queue: BFME1 has no link cycle yet", file=sys.stderr)
+            return 1
+        ca = cycle_artifacts()
+        try:
+            if args.closure:
+                items, notes, warnings = closure_items(args.bundle, allow_stale=args.allow_stale,
+                                                       local_unpublished=args.local_unpublished)
+                note = "\n".join(notes)
+            else:
+                items, note, warnings = bundle_link_items(args.bundle, allow_stale=args.allow_stale,
+                                                          local_unpublished=args.local_unpublished)
+        except ca.Problem as e:                              # a reason, never a fallback
+            print(f"repair_queue: link-cycle bundle {ca.describe(e)}", file=sys.stderr)
+            return ca.exit_code(e)
+        for line in warnings:
+            print(f"repair_queue: {line}", file=sys.stderr)
+    elif any(getattr(args, flag, False) for flag in ("closure", "allow_stale", "local_unpublished")):
+        print("repair_queue: --closure, --allow-stale and --local-unpublished need --bundle STORE "
+              "(tools/cycle_artifacts.py fetch): the closure roots exist only in a published bundle; nothing else "
+              "is served in their place", file=sys.stderr)
+        return 1
+    else:
+        items, note = (all_repair_items(), f"{len(parse_debt())} baseline line(s), plus tier C / diffexec / boot, game and static queues") if args.cmd == "repair" else link_items()
+        if args.cmd == "link" and not BFME1 and link_source()[0] is None:
+            print(f"repair_queue: {note}", file=sys.stderr)     # an empty queue would read as "nothing to fix"
+            return 1
+    print(note)
+    for item in items[:args.limit]:
+        print(f"  {item['size']:>6}B {item.get('check', '')} {item['target_rva']} {item['function'][:80]}")
+        print(f"         {item['source']}: {item['why'][:400 if item.get('tier') == 'closure' else 160]}")
+        print(f"         pass test: {item['pass_test']}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 //
 // BFME2 network Transport constructor. Same class model as Transport.cpp
 // but this TU builds without EH: retail's constructor has no exception
@@ -22,7 +22,7 @@ class Transport
 {
 public:
 	Transport(void) throw();
-	void clearSlot_Rva004D5133(unsigned short index);
+	void RemoveSocketForSlot(unsigned short index);
 	void Rva004D5496(void);
 	void clearBuffer_Rva004D4A59(void);
 
@@ -67,15 +67,27 @@ Transport::Transport(void) throw()
 		((Transport*)(out + 128))->clearBuffer_Rva004D4A59();
 		++out;
 	} while (--n != 0);
-	int *p = m_stats1;
-	int m = 30;
-	do {
-		p[-30] = 0;
-		p[0] = 0;
-		p[30] = 0;
-		p[60] = 0;
-		p[90] = 0;
-		p[120] = 0;
-		++p;
-	} while (--m != 0);
+ 	int *p = m_stats1;
+ 	int m = 30;
+ 	do {
+ 		p[-30] = 0;
+ 		p[0] = 0;
+ 		p[30] = 0;
+ 		p[60] = 0;
+ 		p[90] = 0;
+ 		p[120] = 0;
+ 		++p;
+ 	} while (--m != 0);
+}
+
+void Transport::clearBuffer_Rva004D4A59(void)
+{
+	int *d = (int *)this;
+	*d &= 0;
+	int *p = d + 1;
+	for (int i = 0; i < 0x100; ++i)
+		*p++ = 0;
+	d[0x101] &= 0;
+	d[0x102] &= 0;
+	*(short *)(d + 0x103) &= 0;
 }

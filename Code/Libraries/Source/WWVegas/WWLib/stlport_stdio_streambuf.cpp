@@ -77,6 +77,14 @@ int stdio_streambuf_base::sync()
 	return fflush(_M_file) == 0 ? 0 : -1;
 }
 
+// RTTI-identified stdio_ostreambuf vtable at RVA 0x7BBCA8, slot 5,
+// points to the complete 83 C8 FF C3 body at 0x13B5E0. STLport's
+// reference body returns -1; it folds with narrow basic_streambuf::underflow.
+streamsize stdio_ostreambuf::showmanyc()
+{
+	return -1;
+}
+
 streamsize stdio_istreambuf::showmanyc()
 {
 	if (feof(_M_file))

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /DWIN32 /MD /EHsc /D_STLP_USE_STATIC_LIB
+// cl: /DNDEBUG /DWIN32 /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
 
 // Evidence: retail 0x004DC6CC (54 bytes) is byte-identical to the landed
@@ -12,7 +12,15 @@
 typedef int Int;
 typedef bool Bool;
 
-extern const char *AIStateNames[6]; ///< retail [0x00DBA9AC]
+// AIStateNames: the retail string table at VA 0xdba9ac.
+const char *AIStateNames[6] = {
+	"BACK_AWAY",
+	"AVOID_SCARER",
+	"IDLE",
+	"RUN_AWAY_PANIC",
+	"FACE_OBJECT",
+	"QUARREL",
+};
 
 template <size_t NUMBITS>
 class BitFlags

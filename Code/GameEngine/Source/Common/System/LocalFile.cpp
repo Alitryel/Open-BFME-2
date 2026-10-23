@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /G7
+// cl: /O1 /DNDEBUG /MD /EHsc /G7 /arch:SSE
 // Open-BFME5: LocalFile, retail vtable 0x01143D38.
 //
 // File.cpp already pins this class by construction: 0x009D23E0 installs
@@ -83,17 +83,11 @@ public:
 	~AsciiString() { releaseBuffer(); }
 
 	void clear();
+	AsciiString &operator=(const AsciiString &other);
 
 	void concat(const char *text, int length)
 	{
 		StringBase<char>::concat(text, length);
-	}
-
-	void concat(char value)
-	{
-		char text[2];
-		text[0] = value;
-		StringBase<char>::concat(text, 1);
 	}
 
 	const char *str() const
@@ -186,9 +180,11 @@ public:
 		m_deleteOnClose = true;
 	}
 
-	void deleteInstance( void )
+	// ::delete, as File::close spells it: retail calls slot 0 with a zero flag
+	// and then the global operator delete, not the flag-1 deleting dtor.
+	__forceinline void deleteInstance( void )
 	{
-		delete this;
+		::delete this;
 	}
 
 protected:
@@ -246,8 +242,48 @@ protected:
 class StreamingArchiveFile : public RAMFile
 {
 public:
+	StreamingArchiveFile();
 	virtual ~StreamingArchiveFile();
+	virtual bool open( const char *filename, int access );
+	virtual bool open( File *file );
+	virtual void close( void );
+	virtual int seek( int pos, seekMode mode );
+	virtual bool openFromArchive(File *archiveFile, const AsciiString &filename, int offset, int size);
+	virtual int read(void *buffer, int bytes);
+
+protected:
+	File *m_file;		// +0x20
+	int m_startingPos;	// +0x24
+	int m_curPos;		// +0x28
 };
+
+class FileSystem
+{
+public:
+	File *openFile( const char *filename, int access, int flags );
+};
+
+extern FileSystem *TheFileSystem;
+
+class Debug
+{
+public:
+	virtual void pad00(); virtual void pad01(); virtual void pad02(); virtual void pad03();
+	virtual void pad04(); virtual void pad05(); virtual void pad06(); virtual void pad07();
+	virtual void pad08(); virtual void pad09(); virtual void pad10(); virtual void pad11();
+	virtual void pad12(); virtual void pad13();
+	virtual Debug &operator<<(const char *str);
+	virtual void pad15(); virtual void pad16(); virtual void pad17(); virtual void pad18();
+	virtual bool CrashDone(int mode);
+	virtual void pad20(); virtual void pad21(); virtual void pad22();
+	virtual void SetCrashAddress(void *returnAddress, int set);
+	virtual void SkipNext();
+	virtual void pad25(); virtual void pad26();
+	virtual Debug &CrashBegin(const char *file, int line, int reserved);
+};
+
+extern Debug *theDebug;
+extern void _bfme_debugRecordCallsite(int kind);
 
 // The running count of open local files, retail 0x0134D064. Bumped once per
 // successful _open and never read here, so only the increment is visible.
@@ -267,50 +303,85 @@ LocalFile::~LocalFile()
 
 }
 
-// ??1RAMFile@@UAE@XZ, retail 0x00605504, 67 bytes. RAMFile destructor: stores
-// vtable 0x0087AA00, array-deletes m_data at +0x14 via rowed ??_V 0x0002FD80,
-// calls rowed File::close 0x0060259A, then the rowed File dtor 0x006025CE.
-// Vtable slots prove RAMFile (slot 2 is rowed RAMFile::close 0x00605547, slot 3
-// is 0x00605564 read, slot 5 seek, slot 6 nextLine); donor is BFME1
-// RAMFileDestructorThunk (protected spelling) but File-family dtors here are
-// public UAE like LocalFile/File, and the ctor at 0x006054E7 is public QAE.
-RAMFile::~RAMFile()
-{
-	::operator delete[](m_data);
-	File::close();
-}
 
-// ??1StreamingArchiveFile@@UAE@XZ, retail 0x00605A45, 56 bytes.
-// StreamingArchiveFile dtor (vtable 0x0087AA50): stores its vtable, calls rowed
-// File::close 0x0060259A, then the rowed RAMFile dtor 0x00605504 as base.
-// The ctor at 0x00605A28 (mislabeled EjectPilotDieModuleData) calls the RAMFile
-// ctor and zeroes +0x20/+0x24/+0x28 (m_file/startingPos/size), matching BFME1
-// StreamingArchiveFile layout; slot 3 read at 0x00605A82 uses +0x20 File*.
-// Packet class EjectPilotDieModuleData is a ledger mislabel: that ModuleData
-// cannot call File::close or a RAMFile base.
-StreamingArchiveFile::~StreamingArchiveFile()
-{
-	File::close();
-}
+
+
 
 // Closes the current file if it is open. Must be called once per successful
 // LocalFile::open.
 //
-// Left unclaimed on purpose. The body is a bare tail jump to File::close, so it
-// compiles to the same five bytes an incremental-link thunk does, and the
-// address the vtable gives (slot 2, retail 0x009D2540) is already carried by
-// ?j_009d2540@@YAXXZ in Code/gen_small/gthunks_086.cpp -- which does jump to
-// File::close at 0x009CB880, so the two claims are indistinguishable by bytes.
-// Repointing it would orphan that generated definition; the row is worth one
-// function and the retraction is a separate commit's work.
-// ?close@LocalFile@@UAEXXZ present-unmatched
+// BFME 2 retail 0x00605A7D: slot 2 of both LocalFile vtables (0x0087AB28 and
+// the derived 0x0087AAE0), a bare 5-byte tail jump to File::close. (In BFME 1
+// the same address was already carried by a generated incremental-link thunk
+// row, which is why the donor leaves this unclaimed; nothing claims it here.)
 void LocalFile::close( void )
 {
 	File::close();
 }
 
-// ?convertToRAMFile@LocalFile@@UAEPAVFile@@XZ
-// ?convertToRAMFile@LocalFile@@UAEPAVFile@@XZ present-unmatched
+// ?open@StreamingArchiveFile@@UAE_NPBDH@Z, retail 0x00605B36, 50 bytes: slot 1 of
+// the StreamingArchiveFile vtable 0x0087AA50. ZH StreamingArchiveFile::open
+// verbatim (BFME1 matched it at 0x009D2190) through BFME 2's three-argument
+// FileSystem::openFile (rowed 0x00600C34); open(File*) is slot 17, whose
+// return-TRUE body is ICF-folded into a stub shared by many vtables.
+bool StreamingArchiveFile::open( const char *filename, int access )
+{
+	File *file = TheFileSystem->openFile( filename, access, 0 );
+
+	if ( file == NULL )
+	{
+		return false;
+	}
+
+	return (open( file ) != NULL);
+}
+
+// ?seek@StreamingArchiveFile@@UAEHHW4seekMode@File@@@Z, retail 0x00605ADD, 61
+// bytes: slot 5 of vtable 0x0087AA50. ZH StreamingArchiveFile::seek verbatim
+// over m_curPos (+0x28) and the inherited RAMFile m_size (+0x1c).
+int StreamingArchiveFile::seek( int pos, seekMode mode )
+{
+	int newPos;
+
+	switch( mode )
+	{
+		case START:
+			newPos = pos;
+			break;
+		case CURRENT:
+			newPos = m_curPos + pos;
+			break;
+		case END:
+			newPos = m_size + pos;
+			break;
+		default:
+			// bad seek mode
+			return -1;
+	}
+
+	if ( newPos < 0 )
+	{
+		newPos = 0;
+	}
+	else if ( newPos > m_size )
+	{
+		newPos = m_size;
+	}
+
+	m_curPos = newPos;
+
+	return m_curPos;
+}
+
+// Zero Hour StreamingArchiveFile::close verbatim. Slot 2 of the
+// StreamingArchiveFile vtable (0x0087AA50) is the same 0x00605A7D: identical
+// bytes to LocalFile::close, folded by /OPT:ICF.
+void StreamingArchiveFile::close( void )
+{
+	File::close();
+}
+
+// ?convertToRAMFile@LocalFile@@UAEPAVFile@@XZ: slot 14 of the LocalFile vtables (retail 0x00605FDF, 144B).
 File *LocalFile::convertToRAMFile( void )
 {
 	RAMFile *ramFile = new RAMFile;
@@ -586,7 +657,6 @@ bool LocalFile::scanString( AsciiString &newString )
 }
 
 // ?scanReal@LocalFile@@UAE_NAAM@Z
-// ?scanReal@LocalFile@@UAE_NAAM@Z present-unmatched
 bool LocalFile::scanReal( float &newReal )
 {
 	newReal = 0.0f;
@@ -605,7 +675,9 @@ bool LocalFile::scanReal( float &newReal )
 	}
 
 	do {
-		tempstr.concat( c );
+		char value[2];
+		value[0] = c;
+		tempstr.concat(value, 1);
 		if (c == '.') {
 			sawDec = true;
 		}
@@ -671,3 +743,48 @@ bool RAMFile::copyDataToFile( File *file )
 
 	return true;
 }
+
+
+// ?read@StreamingArchiveFile@@UAEHPAXH@Z @ 0x00605A82 (91B)
+// Slot 3 (offset 0xC) of vtable 0x0087AA50. ZH StreamingArchiveFile::read plus
+// BFME2 m_file lock/unlock: lock, seek(startingPos+curPos START), clamp to
+// RAMFile m_size, read, unlock, advance curPos. Donor is the ZH/BFME1
+// StreamingArchiveFile::read (see reference/open-bfme-1/.../StreamingArchiveFile.cpp)
+// with File::lock (slot 15 0x3C) and unlock (slot 16 0x40) around the seek/read.
+// Vtable 0087AA50 plus neighbours dtor 0x00605A45 / deleter 0x00605B1A prove
+// StreamingArchiveFile; +0x20 m_file +0x24 startingPos +0x28 curPos +0x1C m_size
+// match the openFromArchive layout in this TU.
+int StreamingArchiveFile::read( void *buffer, int bytes )
+{
+	if( !m_file )
+	{
+		return 0;
+	}
+
+	m_file->lock();
+
+	m_file->seek( m_startingPos + m_curPos, File::START );
+
+	if( bytes + m_curPos > RAMFile::m_size )
+	{
+		bytes = RAMFile::m_size - m_curPos;
+	}
+
+	int bytesRead = m_file->read( buffer, bytes );
+
+	m_file->unlock();
+
+	m_curPos += bytesRead;
+
+	return bytesRead;
+}
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??1Rva00605CA7@@UAE@XZ=??1LocalFile@@UAE@XZ")
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?wideOpenStub@LocalFile@@UAE_NPBGH@Z=?open@LocalFile@@UAE_NPBDH@Z")
+#pragma comment(linker, "/alternatename:?convertToRAMFile@File@@UAEPAV1@XZ=??0Coord2D@@QAE@XZ")

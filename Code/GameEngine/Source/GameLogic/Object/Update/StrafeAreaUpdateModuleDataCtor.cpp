@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /Ireference/shims/moduledata
 //
 // ??0StrafeAreaUpdateModuleData@@QAE@XZ, retail 0x003A4E5A, 117 bytes.
 //
@@ -17,26 +17,22 @@
 // emitted code, so the member init is bracketed by state 0/1 exactly as
 // retail. Body order follows retail.
 
+extern "C" const void *const vtbl_00C1B268[];  // ??_7StrafeAreaUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C1B268=??_7StrafeAreaUpdateModuleData@@6B@")
+
 typedef int Int;
 
 #define NULL 0
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	void clear();
-	~AsciiString();
+#include "ascii_string.h"
 
-private:
-	void *m_data;
-};
+#include "Common/Snapshot.h"
 
 class UpdateModuleData
 {
 public:
-	UpdateModuleData() {}
-	~UpdateModuleData();
+	__declspec(dllimport) __forceinline UpdateModuleData() {}
+	~UpdateModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 private:
 };
@@ -54,17 +50,17 @@ private:
 	float m_sweepFrequency;			// +0x10
 	float m_sweepAmplitude;			// +0x14
 	float m_slope;				// +0x18
-	float m_unk1C;				// +0x1C
+	float m_initialSweepPhase;				// +0x1C
 };
 
 StrafeAreaUpdateModuleData::StrafeAreaUpdateModuleData()
-	: m_vtable( reinterpret_cast<const void *>(0x00C1B268) )
+	: m_vtable( reinterpret_cast<const void *>(((unsigned int)vtbl_00C1B268)) )
 	, m_weaponName()
 {
 	m_strafeAreaRadius = 150.0f;
 	m_sweepFrequency = 0.4f;
 	m_sweepAmplitude = 100.0f;
 	m_slope = 50.0f;
-	m_unk1C = 0.0f;
+	m_initialSweepPhase = 0.0f;
 	m_weaponName.clear();
 }

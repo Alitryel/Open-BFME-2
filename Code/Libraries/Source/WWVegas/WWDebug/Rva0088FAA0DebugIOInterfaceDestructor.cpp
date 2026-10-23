@@ -15,7 +15,7 @@ protected:
     virtual ~DebugIOInterface(void) {}
 
 public:
-    DebugIOInterface(void);
+    explicit DebugIOInterface(void) {}
     virtual int Read(char *, int) = 0;
     virtual void Write(int, const char *, const char *) = 0;
     virtual void EmergencyFlush(void) = 0;
@@ -23,7 +23,15 @@ public:
     virtual void Delete(void) = 0;
 };
 
-// ??0DebugIOInterface@@QAE@XZ absent-from-retail
-DebugIOInterface::DebugIOInterface(void)
+// The constructor is inline in Zero Hour's debug_io.h, so every unit that
+// builds a DebugIO emits it as a select-any copy; a plain definition here
+// collided with each of them. Constructing the base is what makes this unit
+// emit the vftable and the deleting destructor row, so the anchor below keeps
+// one out-of-line call. It is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeDebugIOInterfaceAnchor@@YAXPAVDebugIOInterface@@@Z absent-from-retail
+void _bfmeDebugIOInterfaceAnchor(DebugIOInterface *io)
 {
+    io->DebugIOInterface::DebugIOInterface();
 }
+#pragma inline_depth()

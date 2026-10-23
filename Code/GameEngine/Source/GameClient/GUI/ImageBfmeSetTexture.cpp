@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // Image::bfmeSetTexture, retail 0x002D905E, 47 bytes.
 // Dedicated TU so AptMapPreviewPictureImage.cpp cannot see this body.
@@ -12,7 +12,7 @@ class BfmeMapPictureTexture
 	void *m_ptr;
 
 public:
-	BfmeMapPictureTexture() : m_ptr(0) {}
+	__declspec(dllimport) __forceinline BfmeMapPictureTexture() : m_ptr(0) {}
 	BfmeMapPictureTexture &operator=(const BfmeMapPictureTexture &that);
 };
 

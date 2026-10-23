@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc /O1
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 // stlport
 //
 // ??1RemoveUpgradeUpgradeModuleData@@UAE@XZ, retail 0x004B8050, 69 bytes.
@@ -6,12 +6,15 @@
 // then +0x118 (state 0) through the rowed 0x2CC70 body, then restores the
 // Snapshot base vtable 0x00BBB554. Empty derived body with no base call since
 // the large 0x118 base dtor is inline. Shape follows the landed
-// BaikonurLaunchPowerDtor/CivilianSpawnCollideModuleDataDtor (TU-local base
+// ModelConditionSoundSelectorClientBehaviorModuleDataDtor/CivilianSpawnCollideModuleDataDtor (TU-local base
 // with inline BBB554-restoring dtor, novtable derived, empty body) plus the
 // Rampage vector precedent. Layout from the rowed ctor 0x004B7FF1 (base
 // 0x118 via OpenContain 0x253487, vectors at +0x118/+0x124, bytes at
 // +0x130/+0x131, size 0x134 via factory 0x0025082A) and table 0xC58EA0.
 // Caller is the slot-0 ??_G at 0x004B8034 (vtable 0x58EF0).
+extern "C" const void *const vtbl_00BBB554[];  // folded, 23 classes; via ??_7BfmeBaseVUQ@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BBB554=??_7BfmeBaseVUQ@@6B@")
+
 #include <vector>
 
 class Xfer;
@@ -20,9 +23,9 @@ class Snapshot
 {
 public:
 	virtual ~Snapshot();
-	virtual void crc(Xfer *xfer);
-	virtual void loadPostProcess();
-	virtual void xfer(Xfer *xfer);
+	virtual void crc(Xfer *xfer) = 0;
+	virtual void loadPostProcess() = 0;
+	virtual void xfer(Xfer *xfer) = 0;
 
 private:
 	unsigned char m_pad[0x118 - 4];
@@ -30,18 +33,18 @@ private:
 
 inline Snapshot::~Snapshot()
 {
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
 }
 
-class AsciiString
-{
-public:
-	AsciiString();
-	~AsciiString();
+#include "ascii_string.h"
 
-private:
-	void *m_data;
-};
+// A declaration-only specialization stops this TU emitting its own
+// vector<AsciiString> dtor COMDAT, so the call binds the kept copy.
+namespace _STL {
+template <> vector<AsciiString, allocator<AsciiString> >::~vector();
+template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
+template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);
+template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
+}
 
 class __declspec(novtable) RemoveUpgradeUpgradeModuleData : public Snapshot
 {

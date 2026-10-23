@@ -1,13 +1,15 @@
 // cl: /GX-
 // Global byte getters, each `mov al,[mem]; ret` (6B), ported from Open-BFME-1
 // (same shape as its GlobalDwordGetters file, byte-width). Each reads one
-// .data byte global into AL; identity unrecoverable, so globals and functions
-// are address-derived (g_Va<VA> / Rva<RVA>GetByte). One shared TU, one row
+// .data byte global into AL; identity unrecoverable, so functions are
+// address-derived (g_Va<VA> / Rva<RVA>GetByte). One shared TU, one row
 // per body.
 
 // ?Rva0004CAB1GetByte@@YAEXZ @ 0x0004CAB1 (6B) over 0x00DB5F7D.
 
 extern unsigned char g_Va00DB5F7D;
+// g_Va00DB5F7D: matched references place it at VA 0xdb5f7d (retail .data initial value 1).
+unsigned char g_Va00DB5F7D = 1;
 
 unsigned char Rva0004CAB1GetByte(void)
 {
@@ -16,99 +18,116 @@ unsigned char Rva0004CAB1GetByte(void)
 
 // ?Rva0004CAB7GetByte@@YAEXZ @ 0x0004CAB7 (6B) over 0x00DEC3D9.
 
-extern unsigned char g_Va00DEC3D9;
+// Reuse ww3d.cpp's and dx8wrapper.cpp's private/protected static bytes through
+// TU-scoped friend views: the friends keep each member's real decoration
+// (?X@WW3D@@0_NA, ?X@DX8Wrapper@@1_NA) without a second datum or an alias.
+class WW3D
+{
+	friend unsigned char Rva0004CAB7GetByte(void);
+	friend unsigned char Rva00131062GetByte(void);
+	friend unsigned char Rva00110094GetByte(void);
+	friend unsigned char Rva00171670GetByte(void);
+	static bool AreStaticSortListsEnabled;
+	static bool IsTexturingEnabled;
+	static bool IsScreenUVBiased;
+	static bool MungeSortOnLoad;
+};
+
+class DX8Wrapper
+{
+	friend unsigned char Rva00131068GetByte(void);
+	friend unsigned char Rva0006E19BGetByte(void);
+	friend unsigned char Rva00116F70GetByte(void);
+protected:
+	static bool IsInitted;
+	static bool _EnableTriangleDraw;
+	static bool IsWindowed;
+};
+
+extern bool bfmeCameraProjectionOverride;
 
 unsigned char Rva0004CAB7GetByte(void)
 {
-	return g_Va00DEC3D9;
+	return WW3D::AreStaticSortListsEnabled;
 }
 
 // ?Rva00131062GetByte@@YAEXZ @ 0x00131062 (6B) over 0x00DB5F98.
 
-extern unsigned char g_Va00DB5F98;
-
 unsigned char Rva00131062GetByte(void)
 {
-	return g_Va00DB5F98;
+	return WW3D::IsTexturingEnabled;
 }
 
 // ?Rva00131068GetByte@@YAEXZ @ 0x00131068 (6B) over 0x00DEDA04.
 
-extern unsigned char g_Va00DEDA04;
-
 unsigned char Rva00131068GetByte(void)
 {
-	return g_Va00DEDA04;
+	return DX8Wrapper::IsInitted;
 }
 
 // ?Rva0006E19BGetByte@@YAEXZ @ 0x0006E19B (6B) over 0x00DB5FCD.
 
-extern unsigned char g_Va00DB5FCD;
-
 unsigned char Rva0006E19BGetByte(void)
 {
-	return g_Va00DB5FCD;
+	return DX8Wrapper::_EnableTriangleDraw;
 }
 
 // ?Rva0006E1A1GetByte@@YAEXZ @ 0x0006E1A1 (6B) over 0x00DEDA05.
 
-extern unsigned char g_Va00DEDA05;
-
 unsigned char Rva0006E1A1GetByte(void)
 {
-	return g_Va00DEDA05;
+	return bfmeCameraProjectionOverride;
 }
 
 // ?Rva00110094GetByte@@YAEXZ @ 0x00110094 (6B) over 0x00DEC3D7.
 
-extern unsigned char g_Va00DEC3D7;
-
 unsigned char Rva00110094GetByte(void)
 {
-	return g_Va00DEC3D7;
+	return WW3D::IsScreenUVBiased;
 }
 
 // ?Rva000308D0GetByte@@YAEXZ @ 0x000308D0 (6B) over 0x00DE0818.
+// TU-scoped minimal HeapTable view (+0x404 only). Same tag so ?g_heaps@MemoryPool@@3UHeapTable@1@A
+// resolves to the single memory_pool.cpp BSS definition. Size 0x410, member at +0x404.
+// No second definition, no /alternatename, no initializer, no header edit.
+namespace MemoryPool
+{
+struct HeapTable
+{
+	unsigned char _pad404[0x404];
+	bool m_clearAllocations;
+	unsigned char _tail[0x410 - 0x405];
+};
 
-extern unsigned char g_Va00DE0818;
+extern HeapTable g_heaps;
+} // namespace MemoryPool
 
 unsigned char Rva000308D0GetByte(void)
 {
-	return g_Va00DE0818;
-}
-
-// ?Rva0003C100GetByte@@YAEXZ @ 0x0003C100 (6B) over 0x00DE08A8.
-
-extern unsigned char g_Va00DE08A8;
-
-unsigned char Rva0003C100GetByte(void)
-{
-	return g_Va00DE08A8;
+	return MemoryPool::g_heaps.m_clearAllocations;
 }
 
 // ?Rva00116F70GetByte@@YAEXZ @ 0x00116F70 (6B) over 0x00DEDA06.
 
-extern unsigned char g_Va00DEDA06;
-
 unsigned char Rva00116F70GetByte(void)
 {
-	return g_Va00DEDA06;
+	return DX8Wrapper::IsWindowed;
 }
 
 // ?Rva00171650GetByte@@YAEXZ @ 0x00171650 (6B) over 0x00DEC410.
 
-extern unsigned char g_Va00DEC410;
+extern unsigned char LODMeshCacheSetting;
+// LODMeshCacheSetting: matched references place it at VA 0xdec410 (zero-filled .bss).
+unsigned char LODMeshCacheSetting;
 
 unsigned char Rva00171650GetByte(void)
 {
-	return g_Va00DEC410;
+	return LODMeshCacheSetting;
 }
 
 // ?Rva00171670GetByte@@YAEXZ @ 0x00171670 (6B) over 0x00DEC3DA.
 
-extern unsigned char g_Va00DEC3DA;
-
 unsigned char Rva00171670GetByte(void)
 {
-	return g_Va00DEC3DA;
+	return WW3D::MungeSortOnLoad;
 }

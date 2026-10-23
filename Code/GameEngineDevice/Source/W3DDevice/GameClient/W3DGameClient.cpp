@@ -1,5 +1,16 @@
-// cl: /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /O1 /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // stlport
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -57,7 +68,7 @@ public:
 	virtual void updateIniSettings();
 
 private:
-	unsigned char m_retailData[ 0x60 ];
+	unsigned char m_retailData[ 0x6c ];
 };
 
 #define _W3DSNOW_H_
@@ -73,11 +84,12 @@ public:
 	virtual void updateIniSettings();
 
 private:
-	unsigned char m_retailData[ 0x34 ];
+	unsigned char m_retailData[ 0x3c ];
 };
 
-typedef char BFMERetailSnowManagerSizeCheck[ sizeof( SnowManager ) == 0x68 ? 1 : -1 ];
-typedef char BFMERetailW3DSnowManagerSizeCheck[ sizeof( W3DSnowManager ) == 0x9c ? 1 : -1 ];
+// Retail extents 0x74/0xB0: createSnowManager's operator new (0x0004C5F8, matched) pushes 0xB0.
+typedef char BFMERetailSnowManagerSizeCheck[ sizeof( SnowManager ) == 0x74 ? 1 : -1 ];
+typedef char BFMERetailW3DSnowManagerSizeCheck[ sizeof( W3DSnowManager ) == 0xb0 ? 1 : -1 ];
 
 #define __TERRAINVISUAL_H_
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameClient/TerrainVisual.h
@@ -181,6 +193,8 @@ class W3DFontLibrary : public BFMERetailFontLibrary
 {
 protected:
 	Bool loadFontData( GameFont *font );
+public:
+	~W3DFontLibrary();
 };
 
 #define __KEYBOARD_H_
@@ -227,6 +241,9 @@ typedef char BFMERetailDirectInputKeyboardSizeCheck[ sizeof( DirectInputKeyboard
 #include "WW3D2/HAnim.h"
 #include "WW3D2/HTree.h"
 #include "WW3D2/AnimObj.h"  ///< @todo superhack for demo, remove!
+// bfme link decl-only begin
+template <> DynamicVectorClass<Render2DClass *>::~DynamicVectorClass();
+// bfme link decl-only end
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -289,16 +306,16 @@ void W3DGameClient::reset( void )
 	* in the GameLogic and GameClient themselves */
 //-------------------------------------------------------------------------------------------------
 // ?friend_createDrawable@W3DGameClient@@UAEPAVDrawable@@PBVThingTemplate@@W4DrawableStatus@@@Z present-unmatched
-Drawable *W3DGameClient::friend_createDrawable( const ThingTemplate *tmplate,
+Drawable *W3DGameClient::friend_createDrawable( const ThingTemplate *thingTemplate,
 																								DrawableStatus statusBits )
 {
 	Drawable *draw = NULL;
 
 	// sanity
-	if( tmplate == NULL )
+	if( thingTemplate == NULL )
 		return NULL;
 	
-	draw = newInstance(Drawable)( tmplate, statusBits );
+	draw = newInstance(Drawable)( thingTemplate, statusBits );
 
 	return draw;
 
@@ -306,6 +323,7 @@ Drawable *W3DGameClient::friend_createDrawable( const ThingTemplate *tmplate,
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ?W3DGameClient::addScorch present-unmatched
 void W3DGameClient::addScorch(const Coord3D *pos, Real radius, Scorches type)
 {
 	if (TheTerrainRenderObject) 
@@ -324,11 +342,12 @@ public:
 	Drawable *newDrawable(const ThingTemplate *tmplate, DrawableStatus statusBits, Int drawableID);
 };
 
+// ?W3DGameClient::createRayEffectByTemplate present-unmatched
 void W3DGameClient::createRayEffectByTemplate( const Coord3D *start, 
 																		 const Coord3D *end, 
-																		 const ThingTemplate* tmpl )
+																		 const ThingTemplate* thingTemplate )
 {
-	Drawable *draw = ((BFMEThingFactory *)TheThingFactory)->newDrawable(tmpl, DRAWABLE_STATUS_NONE, -1);
+	Drawable *draw = ((BFMEThingFactory *)TheThingFactory)->newDrawable(thingTemplate, DRAWABLE_STATUS_NONE, -1);
 
 	if( draw )
 	{
@@ -405,17 +424,8 @@ public:
 	virtual void setTimeOfDay(TimeOfDay tod) = 0;
 };
 
-void W3DGameClient::setTimeOfDay( TimeOfDay tod )
-{
-	void *water = *(void **)0x01306D7C;
-	if (water)
-		((W3DGameClientWaterShim *)water)->setTimeOfDay(tod);
-	void *shadow = *(void **)0x01306EEC;
-	if (shadow)
-		((W3DGameClientShadowShim *)shadow)->setTimeOfDay(tod);
-	void *display = *(void **)0x012F1270;
-	((W3DGameClientDisplayShim *)display)->setTimeOfDay(tod);
-}  // end setTimeOfDay
+// W3DGameClient::setTimeOfDay: defined in W3DGameClient_setTimeOfDay.cpp (its row's unit).
+  // end setTimeOfDay
 
 
 //-------------------------------------------------------------------------------------------------
@@ -464,3 +474,13 @@ void W3DGameClient::notifyTerrainObjectMoved(Object *obj)
 	}
 
 }  // end setTimeOfDay
+
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
+#pragma comment(linker, "/alternatename:?m_needUpdate@W3DStatusCircle@@1_NA=?g_trackDirty@@3EA")
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?reset@FontLibrary@@UAEXXZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?anchor@BFMERetailFontLibrary@@UAEXXZ=??1Coord2D@@QAE@XZ")

@@ -1,0 +1,75 @@
+// cl: /Ireference/shims/bfmelist /O1 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// stlport
+// ??1BuildAssistant@@UAE@XZ 89B @0x0039225E: virtual dtor storing vtable 0x0081A088. Layout base 0xC plus list<int> at +0xC (size 4) plus Rva0039205C at +0x10 (size 12). Retail calls the Rva dtor twice on the same address (explicit early destroy plus implicit) then list base then GameEngineDeletingBase. Evidence: vptr store plus rowed callees plus ??_G caller at 0x00392DA4. /EHs keeps the list state store.
+#include <list>
+
+// Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
+// rather than emitting its own.
+namespace _STL {
+template <> void _List_base<int, allocator<int> >::clear();
+}
+
+// Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
+// rather than emitting its own.
+namespace _STL {
+template <> _List_base<int, allocator<int> >::~_List_base();
+}
+
+// list<int> destruction otherwise instantiates per-TU deallocate
+// COMDATs (one byte shape per TU flags); explicit dllimport+forceinline
+// specializations take those calls inline so this TU emits no external copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<_List_node<int> >::deallocate(_List_node<int>* __p, size_t __n) const {
+  _STLP_ASSERT( (__p == 0) == (__n == 0) )
+    if (__p != 0) __sgi_alloc::deallocate((void*)__p, __n * sizeof(value_type));
+}
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<_List_node<int> *, _List_node<int>, allocator<_List_node<int> > >::deallocate(_List_node<int> *__p, size_t __n) {
+  allocator<_List_node<int> >().deallocate(__p, __n);
+}
+}
+
+class Rva004D9A3C
+{
+public:
+	~Rva004D9A3C();
+};
+
+class Rva0039205C
+{
+public:
+	~Rva0039205C();
+private:
+	int m_unk00; // +0
+	unsigned char m_pad04[4]; // +4
+	Rva004D9A3C *m_array08; // +8
+};
+
+// Base dtor at 0x001B4E74 by its row name ??1SubsystemInterface@@UAE@XZ (SubsystemInterface.cpp).
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
+
+class BuildAssistant : public SubsystemInterface
+{
+public:
+	virtual ~BuildAssistant();
+private:
+	_STL::list<int, _STL::allocator<int> > m_list0C;
+	Rva0039205C m_obj10;
+};
+
+inline BuildAssistant::~BuildAssistant()
+{
+	m_obj10.~Rva0039205C();
+}
+
+// Header inline that other units including the header emit as select-any
+// copies, which the plain definition here collided with. The anchor keeps this
+// unit's copy for the row; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitRva0039225EDtor@@YAXPAVBuildAssistant@@@Z present-unmatched
+void bfmeEmitRva0039225EDtor(BuildAssistant *p)
+{
+	p->BuildAssistant::~BuildAssistant();
+}
+#pragma inline_depth()

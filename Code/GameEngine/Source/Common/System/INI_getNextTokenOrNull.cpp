@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 //
 // ?getNextTokenOrNull@INI@@QAEPBDPBD@Z, retail 0x002DEED, 170 bytes.
 // Dedicated shard TU (same-TU visibility law: grafting into the sibling
@@ -17,6 +17,8 @@ extern "C" __declspec(dllimport) char *__cdecl strtok(char *str, const char *del
 template <typename T>
 class StringBase
 {
+	friend class AsciiString;
+	void releaseBuffer();
 public:
 	bool nextToken(StringBase<T> *out, const T *seps);
 
@@ -39,7 +41,7 @@ class AsciiString : public StringBase<char>
 {
 public:
 	AsciiString() { m_data = 0; }
-	~AsciiString();
+	~AsciiString() { releaseBuffer(); }
 	bool isEmpty() const;
 	void clear();
 	const char *str() const

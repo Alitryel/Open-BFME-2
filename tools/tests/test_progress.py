@@ -22,6 +22,16 @@ def row(name, rva, size, source):
     return {(name, f"0x{rva:X}"): (size, source)}
 
 
+def test_compiled_sdk_source_is_cpp_with_vendored_provenance():
+    for source in (
+        "Code/Libraries/Source/DirectX/strsafe.cpp",
+        "Code/Libraries/Source/CRT/VS2003/security_cookie_report.cpp",
+    ):
+        assert progress.source_kind(source) == "cpp"
+        assert progress.source_lane(source, "", False) == "vendored"
+    assert progress.source_lane("Code/Libraries/Source/CRT/RtcStack.cpp", "", False) == "authored"
+
+
 def test_marker_delta_handles_legacy_source_encoding():
     with tempfile.TemporaryDirectory() as directory:
         repo = Path(directory)
@@ -53,6 +63,7 @@ def test_union_and_cpp_precedence():
     assert stats == {
         "cpp": 15,
         "asm_only": 15,
+        "data_only": 0,
         "unmatched": 70,
         "exact": 30,
         "text": 100,
@@ -289,7 +300,7 @@ def test_source_lanes_partition_claims_and_exclude_dumps():
     split = progress.source_split(matched, notes, 0x1000, 200,
                                   naked_rows={("emit", "0x1060")})
     assert split == {"authored": 10, "vendored": 10, "generated": 20,
-                     "library": 10, "dump": 20, "recovered": 20}, split
+                     "library": 10, "data": 0, "assembly": 0, "dump": 20, "recovered": 20}, split
     stats = progress.coverage(matched, 0x1000, 200, {("emit", "0x1060")})
     assert sum(split[lane] for lane in progress.SOURCE_LANES) == stats["exact"]
     print("PASS provenance lanes partition claimed bytes; dumps excluded")
@@ -378,28 +389,35 @@ def test_dump_pass_moved_zero_recovered_bytes():
 
 
 def test_readme_headline_is_a_recovered_figure():
-    """The first percentage the README's Status section quotes is its headline
-    claim, and it may never exceed what the tool calls recovered source.
+    """The badge makes three claims -- rebuilt from source, game code in C++ and
+    linking -- and none may exceed what progress.py prints for it
+    (BYTE-MATCHED, GAME CODE C++ and LINKING).
 
-    Upper bound only, for the same reason as the test below: contributors land
-    functions continuously, so a README that lags is fine and a README that
-    flatters is not.
+    A README that lags is fine (contributors land continuously, the census is
+    daily) and a README that flatters is not.
     """
     printed = subprocess.run([sys.executable, str(TOOL)],
-                             cwd=ROOT, capture_output=True, text=True, check=True).stdout
-    line = next(l for l in printed.splitlines()
-                if "REBUILDS FROM WHAT WE HOLD" in l)
-    rebuilds = float(line.split("(")[1].split("%")[0])
+                             cwd=ROOT, capture_output=True, text=True, check=True).stdout.splitlines()
 
-    status = (ROOT / "README.md").read_text(encoding="utf-8").split("## Status", 1)[1]
-    headline = float(re.search(r"(\d+\.\d+)%", status).group(1))
-    assert headline <= rebuilds + 0.005, (
-        f"README headlines {headline}% where progress.py says {rebuilds}%. "
-        f"The README may lag reality; it may never flatter it")
-    assert headline >= rebuilds - 5.0, (
-        f"README headlines {headline}% where the project is already at "
-        f"{rebuilds}% — more than five points stale. Update it")
-    print(f"PASS README headlines {headline}% against {rebuilds}%")
+    def figure(prefix):
+        line = next(l for l in printed if l.startswith(prefix))
+        # "not measured" (no census yet) is 0%: the badge may not claim more.
+        return float(line.split("(")[1].split("%")[0]) if "(" in line else 0.0
+
+    tool = {"rebuilt": figure("BYTE-MATCHED "), "cpp": figure("GAME CODE C++ "), "linking": figure("LINKING ")}
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "docs/progress.svg" in readme, "README no longer shows the progress badge"
+    svg = (ROOT / "docs/progress.svg").read_text(encoding="utf-8")
+    title = re.search(r"<title[^>]*>BFME 2: ([\d.]+)% rebuilt from source, ([\d.]+)% game code in C\+\+, "
+                      r"(?:([\d.]+)% linking|linking not measured)</title>", svg)
+    assert title, "the badge's title no longer states its three figures"
+    badge = {"rebuilt": float(title.group(1)), "cpp": float(title.group(2)), "linking": float(title.group(3) or 0)}
+    for key, value in badge.items():
+        assert value <= tool[key] + 0.005, (
+            f"README says {value}% {key} where progress.py says {tool[key]}%; it may lag, never flatter")
+    assert badge["rebuilt"] >= tool["rebuilt"] - 5.0, (
+        f"README says {badge['rebuilt']}% rebuilt where the project is at {tool['rebuilt']}%: more than five points stale")
+    print(f"PASS README {badge} against {tool}")
 
 
 def test_readme_never_overstates_coverage():
@@ -416,10 +434,11 @@ def test_readme_never_overstates_coverage():
     printed = subprocess.run([sys.executable, str(TOOL)],
                              cwd=ROOT, capture_output=True, text=True, check=True).stdout
     line = next(l for l in printed.splitlines()
-                if "REBUILDS FROM WHAT WE HOLD" in l)
+                if l.startswith("BYTE-MATCHED "))
     rebuilds = float(line.split("(")[1].split("%")[0])
 
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    readme += (ROOT / "docs/progress.svg").read_text(encoding="utf-8")
     quoted = sorted(float(v) for v in re.findall(r"(\d+\.\d+)%", readme))
     assert quoted, "README quotes no coverage figure at all"
     for value in quoted:

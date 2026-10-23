@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/open-bfme-1/Code/GameEngine/Source/Common/System /Ireference/open-bfme-1/Code/GameEngine/Include /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
+// cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/open-bfme-1/Code/GameEngine/Source/Common/System /Ireference/open-bfme-1/Code/GameEngine/Include /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
 
 // Module-constructor family shape: an out-of-line ObjectModule base call
 // (pinned at 0x000170E4), then UpdateModule's constructor inlined -- its two
@@ -42,13 +42,7 @@ class UpdateModule : public ObjectModule,
 	public BehaviorInterface, public UpdateInterface
 {
 public:
-	UpdateModule(Thing *thing, const ModuleData *moduleData)
-		: ObjectModule(thing, moduleData)
-	{
-		m_nextCallFrameAndPhase = 0;
-		m_indexInLogic = -1;
-		m_updateState = -1;
-	}
+	UpdateModule(Thing *thing, const ModuleData *moduleData);
 
 	virtual void behaviorAnchor();
 	virtual void updateAnchor();
@@ -81,3 +75,10 @@ RadarUpdate::RadarUpdate( Thing *thing, const ModuleData *moduleData )
 	m_value20 = 0;
 	m_flag24 = false;
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?updateAnchor@RadarUpdate@@UAEXXZ=?update@RadarUpdate@@UAE?AW4UpdateSleepTime@@XZ")
+#pragma comment(linker, "/alternatename:?behaviorAnchor@RadarUpdate@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+#pragma comment(linker, "/alternatename:?objectModuleAnchor@RadarUpdate@@UAEXXZ=??_GRva004A0C0E@@UAEPAXI@Z")

@@ -25,8 +25,8 @@ unsigned short Rva007FFA60Swap16( unsigned short value );   // 0x007FFA60
 unsigned int   Rva007FFAD0( unsigned int value );           // 0x007FFAD0
 // The second argument is a KEY POINTER, not a flag: 0x00806710 passes the
 // 0x20-byte Secret it just derived, and 0x00806A90 passes null.
-void Rva0080DFC0( void *object, const void *secret );        // 0x0080DFC0
-int  Rva0080DF70( const char *key, char *secret, char *ticket ); // 0x0080DF70
+extern "C" void Rva0080DFC0( void *object, const void *secret );        // 0x0080DFC0
+extern "C" int  Rva0080DF70( const char *key, char *secret, char *ticket ); // 0x0080DF70
 extern "C" char *strncpy( char *dest, const char *src, unsigned int count );
 extern "C" void *memcpy( void *dest, const void *src, unsigned int count );
 extern "C" void *memset( void *dest, int value, unsigned int count );
@@ -34,8 +34,8 @@ void *Rva007F0000Alloc( int size );                         // 0x007F0000
 int Rva007FF990Swap16( unsigned short value );   // 0x007FF990
 unsigned int   Rva007FF9F0Swap32( unsigned int value );     // 0x007FF9F0
 void *Rva0080B000Create( void );                            // 0x0080B000
-int   Rva0080B150( void *object, void *addr, int addrLen );  // 0x0080B150
-int   Rva0080B460( void *object, int mode );                // 0x0080B460
+extern "C" int   Rva0080B150( void *object, void *addr, int addrLen );  // 0x0080B150
+extern "C" int   Rva0080B460( void *object, int mode );                // 0x0080B460
 extern "C" int Rva0080ADE0( void *object, int releaseState );
 extern "C" void *Rva007FD2D0( int family, int type, int protocol );
 extern "C" int Rva007FF790( char *address, const char *text );  // 0x0066BC60
@@ -48,7 +48,7 @@ int   Rva00807370( Rva00806580Record *record, int selector, int flag,
 int   Rva008076E0( Rva00806580Record *record, unsigned int *outA,
 		unsigned int *outB, char **outText );               // 0x008076E0
 void  Rva00806B10( Rva00806580Record *record );             // 0x00806B10
-int   Rva0080E330( void *crypto, int length );              // 0x0080E330
+extern "C" int   Rva0080E330( void *crypto, int length );              // 0x0080E330
 // Accept at 0x0080B0A0, connect at 0x0080B1B0, the comm pump at 0x0080B4B0,
 // send/recv/info through the comm object, and the three crypto helpers the
 // packet path uses after a complete header has arrived.
@@ -64,16 +64,28 @@ extern "C" int   Rva0080E200( void *crypto, const unsigned char *data,
 		int length );
 extern "C" int   Rva0080E300( void *crypto, int length );
 int   Rva00807520( Rva00806580Record *record, int length, int limit ); // 0x00807520
-void  Rva0080E350( void *crypto, char *packet, int length );  // 0x0080E350
-void  Rva0080E410( void *crypto, char *packet, int length );  // 0x0080E410
+extern "C" void  Rva0080E350( void *crypto, char *packet, int length );  // 0x0080E350
+extern "C" void  Rva0080E410( void *crypto, char *packet, int length );  // 0x0080E410
 extern "C" unsigned int strlen( const char *text );
 
 // The empty string this module hands back for a block with no payload.
-extern char g_Rva0130ACE0Empty[];
+// g_Rva0130ACE0Empty: matched references place it at VA 0xe0a6f8; zero-filled at retail, sized to the
+// 0x19-byte gap before the next known global there.
+char g_Rva0130ACE0Empty[25];
 unsigned int Rva007FEA00Tick( void );                       // 0x007FEA00
+
+// Retail bytes at 0x00E0A710 consumed by Rva0080B1B0's null-name fallback:
+// the loop reaches the colon at +9 and atoi reads the non-digit at +10. The
+// surrounding data block has no proven extent or type in this TU, so keep only
+// this exact, bounded access window instead of claiming the whole block.
+char g_Rva00E0A710Prefix[ 11 ] = {
+	0x69, 0x36, 0x77, 0x36, 0x1a, 0x37, 0x22, 0x37, 0x85, 0x3a, 0xab
+};
 
 // The tick this module first ran at, filled in once and never again.
 extern unsigned int g_Rva0130ACDCEpoch;
+// g_Rva0130ACDCEpoch: matched references place it at VA 0xe0a6f4 (zero-filled .bss).
+unsigned int g_Rva0130ACDCEpoch;
 
 // Declared here rather than included: retail reaches WSAStartup by a direct
 // rel32 to the stub at 0x0081BDF6, which a <winsock2.h> declaration's dllimport
@@ -222,7 +234,7 @@ static const unsigned char g_Rva0080B4B0ClientPrefix[ 3 ] = { 1, 0, 0x80 };
 extern "C" void Rva0080B4B0( Rva0080B1B0Comm *comm )
 {
 	int result;
-	unsigned char head[ 0x400 ];
+	unsigned char strBuffer[ 0x400 ];
 	Rva0080B4B0Secure *secure;
 	unsigned int hostAddress;
 	unsigned char *handshake;
@@ -234,13 +246,6 @@ extern "C" void Rva0080B4B0( Rva0080B1B0Comm *comm )
 	int certSize;
 	int cipherSize;
 	int challengeSize;
-	unsigned char contextA[ 0x54 ];
-	unsigned char certificate[ 0x518 ];
-	unsigned char *state12Data;
-	unsigned char *state13Reply;
-	unsigned char contextB[ 0x54 ];
-	unsigned char *state14Data;
-	unsigned char *state15Reply;
 
 	secure = ( Rva0080B4B0Secure * )comm->m_backend;
 
@@ -347,7 +352,7 @@ extern "C" void Rva0080B4B0( Rva0080B1B0Comm *comm )
 
 	if( comm->m_state == 10 )
 	{
-		handshake = head;
+		handshake = strBuffer;
 		headEnd = handshake + 9;
 		memset( handshake, 0, 10 );
 		handshake[ 0 ] = 1;
@@ -415,30 +420,33 @@ extern "C" void Rva0080B4B0( Rva0080B1B0Comm *comm )
 
 	if( comm->m_state == 12 )
 	{
-		state12Data = head;
+		unsigned char MD5Context[ 0x54 ];
+		unsigned char RSAContext[ 0x518 ];
+		unsigned char *state12Data;
+		state12Data = strBuffer;
 		secure->m_certWordCount = secure->m_certFlags[ 2 ] >> 3;
 		Rva0080AD00( secure->m_certData, secure->m_certWordCount,
 			secure->m_cryptoState );
-		Rva00810020( contextA );
-		Rva00810060( contextA, secure->m_certData,
+		Rva00810020( MD5Context );
+		Rva00810060( MD5Context, secure->m_certData,
 				secure->m_certWordCount );
-		Rva00810060( contextA, ( const unsigned char * )"0", -1 );
-		Rva00810060( contextA, secure->m_sessionData,
+		Rva00810060( MD5Context, ( const unsigned char * )"0", -1 );
+		Rva00810060( MD5Context, secure->m_sessionData,
 				secure->m_sessionSize );
-		Rva00810060( contextA, secure->m_challengeData,
+		Rva00810060( MD5Context, secure->m_challengeData,
 				secure->m_challengeSize );
 		secure->m_field80A8 = 0x10;
-		Rva00810FF0( contextA,
+		Rva00810FF0( MD5Context,
 				( char * )secure->m_field80AC,
 				0x10 );
 				Rva0080F200( secure->m_cryptoState,
 				secure->m_field80AC, secure->m_field80A8, 1 );
-		Rva0080F3D0( certificate, secure->m_cipherData,
+		Rva0080F3D0( RSAContext, secure->m_cipherData,
 			secure->m_cipherDataSize, secure->m_verifyData,
 			secure->m_verifyDataSize );
-		Rva0080F430( certificate, secure->m_certData,
+		Rva0080F430( RSAContext, secure->m_certData,
 			secure->m_certWordCount );
-		Rva0080F550( certificate );
+		Rva0080F550( RSAContext );
 		memset( state12Data, 0, 0xB );
 		state12Data[ 0 ] = 2;
 		state12Data[ 1 ] = secure->m_certFlags[ 0 ];
@@ -446,7 +454,7 @@ extern "C" void Rva0080B4B0( Rva0080B1B0Comm *comm )
 		state12Data[ 3 ] = secure->m_certFlags[ 2 ];
 		state12Data[ 6 ] = ( unsigned char )( secure->m_cipherDataSize >> 8 );
 		state12Data[ 7 ] = ( unsigned char )secure->m_cipherDataSize;
-		memcpy( state12Data + 0xA, certificate, secure->m_cipherDataSize );
+		memcpy( state12Data + 0xA, RSAContext, secure->m_cipherDataSize );
 		Rva0080C390( comm, state12Data, secure->m_cipherDataSize + 0xA );
 		comm->m_state = 13;
 	}
@@ -454,6 +462,7 @@ extern "C" void Rva0080B4B0( Rva0080B1B0Comm *comm )
 	if( comm->m_state == 13 && secure->m_recvBegin == secure->m_recvSize
 		&& secure->m_recvSize > 4 )
 	{
+		unsigned char *state13Reply;
 		state13Reply = Rva0080C6F0( comm );
 		if( state13Reply == 0 || state13Reply[ 0 ] != 5 )
 			Rva007FE780( "server verify failed\n" );
@@ -470,17 +479,19 @@ extern "C" void Rva0080B4B0( Rva0080B1B0Comm *comm )
 
 	if( comm->m_state == 14 )
 	{
-		state14Data = head;
-		Rva00810020( contextB );
-		Rva00810060( contextB, secure->m_certData,
+		unsigned char MD5Context[ 0x54 ];
+		unsigned char *state14Data;
+		state14Data = strBuffer;
+		Rva00810020( MD5Context );
+		Rva00810060( MD5Context, secure->m_certData,
 				secure->m_certWordCount );
-		Rva00810060( contextB, ( const unsigned char * )"1", -1 );
-		Rva00810060( contextB, secure->m_sessionData,
+		Rva00810060( MD5Context, ( const unsigned char * )"1", -1 );
+		Rva00810060( MD5Context, secure->m_sessionData,
 				secure->m_sessionSize );
-		Rva00810060( contextB, secure->m_challengeData,
+		Rva00810060( MD5Context, secure->m_challengeData,
 				secure->m_challengeSize );
 				secure->m_field812C = 0x10;
-		Rva00810FF0( contextB, ( char * )secure->m_field8130, 0x10 );
+		Rva00810FF0( MD5Context, ( char * )secure->m_field8130, 0x10 );
 		Rva0080F200( secure->m_rc4State, secure->m_field8130,
 				secure->m_field812C, 1 );
 		state14Data[ 0 ] = 3;
@@ -493,6 +504,7 @@ extern "C" void Rva0080B4B0( Rva0080B1B0Comm *comm )
 	if( comm->m_state == 15 && secure->m_recvBegin == secure->m_recvSize
 		&& secure->m_recvSize > 4 )
 	{
+		unsigned char *state15Reply;
 		state15Reply = Rva0080C6F0( comm );
 		if( state15Reply[ 0 ] != 6 )
 			Rva007FE780( "did not get finish message\n" );
@@ -525,7 +537,7 @@ extern "C" int Rva0080B1B0( Rva0080B1B0Comm *comm, int secu, char *name,
 	comm->m_field114 = 0;
 
 	if( name == 0 )
-		name = (char *)0x00E0A710;	/* this-image default-name block; BFME1 carries 0x0130ACF8 here */
+		name = g_Rva00E0A710Prefix;	/* BFME1 carries 0x0130ACF8 here */
 
 	if( port <= 0 )
 		port = comm->m_backend != 0 ? 0x1BB : 0x50;
@@ -1473,13 +1485,13 @@ extern "C" int Rva007FF790( char *sa, const char *text )
 // returns int.
 unsigned short Rva007FFA60Swap16( unsigned short value )
 {
-	unsigned char bytePair[ 2 ];
+	unsigned char x[ 2 ];
 
-	bytePair[ 1 ] = (unsigned char)value;
+	x[ 1 ] = (unsigned char)value;
 	value >>= 8;
-	bytePair[ 0 ] = (unsigned char)value;
+	x[ 0 ] = (unsigned char)value;
 
-	return *(unsigned short *)bytePair;
+	return *(unsigned short *)x;
 }
 
 // 0x0066BEC0 is the 32-bit companion of the swaps above -- retail's frame
@@ -1489,10 +1501,10 @@ unsigned short Rva007FFA60Swap16( unsigned short value )
 // unsigned return matches the existing decl/pin (32-bit mov, no sign effect).
 unsigned int Rva007FF9F0Swap32( unsigned int value )
 {
-	unsigned char quad[ 4 ];
+	unsigned char x[ 4 ];
 
-	*(unsigned int *)quad = value;
-	return ( ( ( ( quad[ 0 ] << 8 ) | quad[ 1 ] ) << 8 ) | quad[ 2 ] ) << 8 | quad[ 3 ];
+	*(unsigned int *)x = value;
+	return ( ( ( ( x[ 0 ] << 8 ) | x[ 1 ] ) << 8 ) | x[ 2 ] ) << 8 | x[ 3 ];
 }
 
 // 0x0066BE60 is a 16-bit byte swap -- network-to-host order, or equally
@@ -1507,10 +1519,10 @@ unsigned int Rva007FF9F0Swap32( unsigned int value )
 // rather than short (unlike 0x0066BF30 which returns via mov ax).
 int Rva007FF990Swap16( unsigned short value )
 {
-	unsigned char pair[ 2 ];
+	unsigned char x[ 2 ];
 
-	*(unsigned short *)pair = value;
-	return ( pair[ 0 ] << 8 ) | pair[ 1 ];
+	*(unsigned short *)x = value;
+	return ( x[ 0 ] << 8 ) | x[ 1 ];
 }
 
 // 0x0066BFA0 reverses 32-bit byte order by shifting the PARAMETER and storing
@@ -1521,17 +1533,17 @@ int Rva007FF990Swap16( unsigned short value )
 // threshold, just like the 2-byte swap buffers above).
 unsigned int Rva007FFAD0( unsigned int value )
 {
-	unsigned char result[ 4 ];
+	unsigned char x[ 4 ];
 
-	result[ 3 ] = (unsigned char)value;
+	x[ 3 ] = (unsigned char)value;
 	value >>= 8;
-	result[ 2 ] = (unsigned char)value;
+	x[ 2 ] = (unsigned char)value;
 	value >>= 8;
-	result[ 1 ] = (unsigned char)value;
+	x[ 1 ] = (unsigned char)value;
 	value >>= 8;
-	result[ 0 ] = (unsigned char)value;
+	x[ 0 ] = (unsigned char)value;
 
-	return *(unsigned int *)result;
+	return *(unsigned int *)x;
 }
 
 // 0x00676C00 mixes the tick counters with a 32-dword window off iCount, then
@@ -1568,3 +1580,15 @@ extern "C" void Rva0080AD00( unsigned char *data, int length, void *state )
 		Rva0080F300( state, data, length );
 	}
 }
+
+// Retail's call sites in this unit's matched rows land on bodies rowed under
+// other spellings at the same addresses (same ABI). Bind the spellings used here.
+#pragma comment(linker, "/alternatename:_Rva0081BDE4=?ji_006556ac@@YAXXZ")
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeFreeRecUNA@@YAXPAX@Z=?Rva00806580@@YAXPAURva00806580Record@@@Z")
+#pragma comment(linker, "/alternatename:?bfmeMakeRecUNB@@YAPAXH@Z=?Rva008064A0@@YAPAURva00806580Record@@XZ")
+#pragma comment(linker, "/alternatename:?bfmeSendVFA@@YAHPAXHHHH@Z=?Rva00807370@@YAHPAURva00806580Record@@HHPADH@Z")
+#pragma comment(linker, "/alternatename:?bfmeFreeTMB@@YAXPAX@Z=?Rva008068B0@@YAHPAURva00806580Record@@@Z")
+#pragma comment(linker, "/alternatename:?bfmeAlloc1053@@YAPAXH@Z=?Rva008064A0@@YAPAURva00806580Record@@XZ")

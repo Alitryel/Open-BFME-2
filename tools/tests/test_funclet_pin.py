@@ -70,7 +70,7 @@ def write_object(path, bodies):
     symbol_at = reloc_at + len(relocs) * 10
     header = struct.pack("<HHIIIHH", 0x014C, 1, 0, symbol_at, len(symbols), 0, 0)
     section = struct.pack("<8sIIIIIIHHI", b".text\0\0\0", 0, 0, len(blobs), raw_at,
-                          reloc_at, 0, len(relocs), 0, 0)
+                          reloc_at, 0, len(relocs), 0, 0x20)
     path.write_bytes(header + section + blobs + b"".join(relocs)
                      + b"".join(symbols) + bytes(strings))
     return path
@@ -157,3 +157,217 @@ def test_a_vanished_pin_with_nothing_to_recover_names_the_symbol(tmp_path):
         compile_row(obj, "$L47551")
 
     assert str(exc.value) == "symbol not found in object: $L47551"
+
+
+def test_masked_twins_are_distinguished_by_established_callees(tmp_path, monkeypatch):
+    obj = write_object(tmp_path / "callees.obj",
+                       {"$L47543": BIT0, "$L47547": BIT0, "$L47551": BIT16})
+    original = build.read_object_symbol_bytes
+    rva = int(make_row("$L47551")["target_rva"], 16)
+
+    def read(path, name, size, **kwargs):
+        body, relocs = original(path, name, size, **kwargs)
+        if name in ("$L47543", "$L47547"):
+            return body, [(1, 0x0014, "right" if name == "$L47543" else "wrong"),
+                          relocs[1]]
+        return body, relocs
+
+    displacement = struct.unpack_from("<i", TARGET, 1)[0]
+    address = rva + 5 + displacement
+    monkeypatch.setattr(build, "read_object_symbol_bytes", read)
+    monkeypatch.setattr(build, "load_symbol_map", lambda: {"right": [address], "wrong": [address + 1]})
+    patch = build.compile_function(make_row("$L47551"), {"right": [address]}, obj)
+    assert patch["bytes"] == patch["target"]
+    assert "$L47543" in patch["note"]
+
+
+def test_dir32_gate_uses_reidentified_funclet_instead_of_stale_pin(tmp_path, monkeypatch):
+    obj = write_object(tmp_path / "dir32.obj", {"$L47543": BIT0, "$L47551": BIT16})
+    (tmp_path / "reverse").mkdir()
+    (tmp_path / "reverse/dir32_consistency_whitelist.txt").write_text("")
+    monkeypatch.setattr(build, "ROOT", tmp_path)
+    monkeypatch.setattr(build, "require_row_object", lambda row: obj)
+    # Both retail rows reference the same guard. Reading the stale longer
+    # body pairs the guard with instruction bytes and invents a second base.
+    build.verify_dir32_consistency([make_row("$L47543"), make_row("$L47551")])
+
+
+def test_identical_funclets_are_identified_by_verified_parent_eh_location(tmp_path, monkeypatch):
+    obj = write_object(tmp_path / "located-twins.obj",
+                       {"$L47543": BIT0, "$L47547": BIT0, "$L47551": BIT16})
+    rva = int(make_row("$L47551")["target_rva"], 16)
+    monkeypatch.setattr(build, "funclet_eh_locations", lambda *_: {
+        "$L47543": rva + 18, "$L47547": rva})
+    patch = compile_row(obj, "$L47551")
+    assert patch["bytes"] == patch["target"]
+    assert "$L47547" in patch["note"] and "verified parent EH" in patch["note"]
+
+
+def test_matching_ordinal_still_uses_the_proven_eh_location(tmp_path, monkeypatch):
+    obj = write_object(tmp_path / "current-looking-twins.obj", {"$L47543": BIT0, "$L47551": BIT0})
+    rva = int(make_row("$L47551")["target_rva"], 16)
+    monkeypatch.setattr(build, "funclet_eh_locations", lambda *_: {
+        "$L47543": rva, "$L47551": rva + 18})
+    patch = compile_row(obj, "$L47551")
+    assert "$L47543" in patch["note"]
+
+
+def test_eh_location_does_not_admit_wrong_funclet_bytes(tmp_path, monkeypatch):
+    obj = write_object(tmp_path / "located-wrong.obj", {"$L47543": BIT1, "$L47551": BIT16})
+    rva = int(make_row("$L47551")["target_rva"], 16)
+    monkeypatch.setattr(build, "funclet_eh_locations", lambda *_: {"$L47543": rva})
+    patch = compile_row(obj, "$L47551")
+    assert patch["bytes"] != patch["target"]
+
+
+def test_missing_or_duplicate_parent_ledger_cannot_supply_identity(tmp_path, monkeypatch):
+    (tmp_path / "reverse").mkdir()
+    ledger = tmp_path / "reverse/functions.csv"
+    ledger.write_text("name,target_rva,status,notes\n" +
+                      f"uw_fixture,0x2000,matched,gen-funclet;parent={PARENT}\n" +
+                      f"{PARENT},0x1000,matched,\n" * 2)
+    monkeypatch.setattr(build, "ROOT", tmp_path)
+    assert build.funclet_eh_locations("absent.obj", 1, 1, PARENT, str(ledger), 1, 1, "pins", 1, 1) == {}
+
+
+def test_wrong_parent_body_cannot_supply_eh_identity(monkeypatch):
+    from types import SimpleNamespace
+    parent = {"name": PARENT, "target_rva": "0x1000", "status": "matched", "notes": ""}
+    monkeypatch.setattr(build, "funclet_parent_rows", lambda *_: {PARENT: [parent]})
+    monkeypatch.setattr(build, "funclet_eh_object", lambda *_: SimpleNamespace(by_name={PARENT: {}}))
+    monkeypatch.setattr(build, "load_symbol_map", lambda: {})
+    monkeypatch.setattr(build, "compile_function", lambda *_: {
+        "bytes": b"\xc3", "target": b"\xc2", "unresolved": [], "masked": False})
+    assert build.funclet_eh_locations("wrong-parent.obj", 1, 1, PARENT, "ledger", 1, 1, "pins", 1, 1) == {}
+
+
+def test_unresolved_parent_call_cannot_supply_eh_identity(monkeypatch):
+    from types import SimpleNamespace
+    parent = {"name": PARENT, "target_rva": "0x1000", "status": "matched", "notes": ""}
+    monkeypatch.setattr(build, "funclet_parent_rows", lambda *_: {PARENT: [parent]})
+    monkeypatch.setattr(build, "funclet_eh_object", lambda *_: SimpleNamespace(by_name={PARENT: {}}))
+    monkeypatch.setattr(build, "load_symbol_map", lambda: {})
+    monkeypatch.setattr(build, "compile_function", lambda *_: {
+        "bytes": b"\xc3", "target": b"\xc3", "unresolved": ["unproved"], "masked": False})
+    assert build.funclet_eh_locations("unresolved-parent.obj", 1, 1, PARENT, "ledger", 1, 1, "pins", 1, 1) == {}
+
+
+def test_parent_call_map_is_cached_and_invalidated_by_both_inputs(monkeypatch):
+    calls = []
+    def load():
+        calls.append(1)
+        return {"callee": [len(calls)]}
+    monkeypatch.setattr(build, "load_symbol_map", load)
+    build.funclet_parent_symbol_map.cache_clear()
+    one = build.funclet_parent_symbol_map("ledger", 1, 10, "pins", 2, 20)
+    assert build.funclet_parent_symbol_map("ledger", 1, 10, "pins", 2, 20) is one
+    assert len(calls) == 1
+    assert build.funclet_parent_symbol_map("ledger", 3, 10, "pins", 2, 20) != one
+    assert build.funclet_parent_symbol_map("ledger", 3, 10, "pins", 4, 20)["callee"] == [3]
+
+
+def test_masked_parent_cannot_supply_eh_identity(monkeypatch):
+    from types import SimpleNamespace
+    parent = {"name": PARENT, "target_rva": "0x1000", "status": "matched", "notes": ""}
+    monkeypatch.setattr(build, "funclet_parent_rows", lambda *_: {PARENT: [parent]})
+    monkeypatch.setattr(build, "funclet_eh_object", lambda *_: SimpleNamespace(by_name={PARENT: {}}))
+    monkeypatch.setattr(build, "load_symbol_map", lambda: {})
+    monkeypatch.setattr(build, "compile_function", lambda *_: {
+        "bytes": b"\xc3", "target": b"\xc3", "unresolved": [], "masked": True})
+    assert build.funclet_eh_locations("masked-parent.obj", 1, 1, PARENT, "ledger", 1, 1, "pins", 1, 1) == {}
+
+
+def local_row():
+    row = make_row("$L47551")
+    row["name"] = "$L47551"
+    row["notes"] = f"gen-funclet;parent={PARENT}"
+    return row
+
+
+def test_bare_local_label_requires_parent_proof_even_when_bytes_match(tmp_path, monkeypatch):
+    obj = write_object(tmp_path / "unowned-local.obj", {"$L47551": BIT0})
+    monkeypatch.setattr(build, "located_funclet", lambda *_: None)
+    monkeypatch.setattr(build, "scoped_funclet_collision", lambda *_: True)
+    with pytest.raises(SystemExit, match="exact same-source parent EH location"):
+        build.compile_function(local_row(), {}, obj)
+
+
+@pytest.mark.parametrize("storage", [2, 3])
+def test_bare_label_requires_local_coff_storage(tmp_path, monkeypatch, storage):
+    obj = write_object(tmp_path / "storage.obj", {"$L47551": BIT0})
+    monkeypatch.setattr(build, "located_funclet", lambda *_: "$L47551")
+    monkeypatch.setattr(build, "scoped_funclet_collision", lambda *_: True)
+    original = build._object_layout
+    def layout(*args):
+        data, sections, symbols = original(*args)
+        return data, sections, [dict(symbol, storage=storage) if symbol["name"] == "$L47551"
+                                else symbol for symbol in symbols]
+    monkeypatch.setattr(build, "_object_layout", layout)
+    if storage == 2:
+        with pytest.raises(SystemExit, match="not a local COFF label"):
+            build.compile_function(local_row(), {}, obj)
+    else:
+        patch = build.compile_function(local_row(), {}, obj)
+        assert patch["bytes"] == patch["target"]
+
+
+def test_bare_label_cannot_borrow_another_sources_parent(tmp_path, monkeypatch):
+    obj = write_object(tmp_path / "foreign-parent.obj", {"$L47551": BIT0})
+    (tmp_path / "reverse").mkdir()
+    (tmp_path / "reverse/functions.csv").write_text("fixture\n")
+    monkeypatch.setattr(build, "ROOT", tmp_path)
+    monkeypatch.setattr(build, "scoped_funclet_collision", lambda *_: True)
+    monkeypatch.setattr(build, "funclet_parent_rows", lambda *_: {PARENT: [
+        {"source": "Code/foreign.cpp", "name": PARENT}]})
+    def forbidden(*_):
+        raise AssertionError("foreign parent reached EH identity resolver")
+    monkeypatch.setattr(build, "funclet_eh_locations", forbidden)
+    with pytest.raises(SystemExit, match="exact same-source parent EH location"):
+        build.compile_function(local_row(), {}, obj)
+
+
+@pytest.fixture
+def aliased_parent_graph(tmp_path, monkeypatch):
+    """A real COFF parent whose old ledger spelling is not its emitted name."""
+    from test_eh_verify import FUNC, OURS, Retail, obj
+
+    compiled = obj(tmp_path, OURS)
+    compiled.symbols[99] = {"name": "$L123", "section": 2, "value": 10, "storage": 3}
+    image = Retail(OURS)
+    parent = {"name": PARENT, "target_rva": hex(FUNC), "target_size": "6",
+              "source": "Code/x.cpp", "status": "matched", "notes": "object-symbol=_f"}
+    parents = [parent]
+    monkeypatch.setattr(build, "funclet_parent_rows", lambda *_: {PARENT: parents})
+    monkeypatch.setattr(build, "funclet_eh_object", lambda *_: compiled)
+    monkeypatch.setattr(build, "funclet_retail_image", lambda: image)
+    monkeypatch.setattr(build, "funclet_parent_symbol_map", lambda *_: {})
+    monkeypatch.setattr(build, "read_target_bytes", lambda rva, size: image.bytes[rva:rva + size])
+    build.funclet_eh_locations.cache_clear()
+    return compiled, image, parents, tmp_path / "t.obj"
+
+
+def alias_locations(path):
+    return build.funclet_eh_locations(str(path), 1, 1, PARENT,
+                                      "ledger", 1, 1, "pins", 1, 1)
+
+
+def test_existing_parent_object_alias_supplies_exact_eh_identity(aliased_parent_graph):
+    from test_eh_verify import THUNK
+
+    assert alias_locations(aliased_parent_graph[3]) == {"$L123": THUNK + 10}
+
+
+@pytest.mark.parametrize("damage", ["body", "eh", "missing", "duplicate"])
+def test_parent_alias_still_requires_exact_unique_parent(aliased_parent_graph, damage):
+    from test_eh_verify import FUNC, FUNCINFO
+
+    _, image, parents, path = aliased_parent_graph
+    if damage in ("body", "eh"):
+        data = bytearray(image.bytes)
+        data[FUNC + 5 if damage == "body" else FUNCINFO + 4] ^= 1
+        image.bytes = bytes(data)
+    elif damage == "missing":
+        parents[0]["notes"] = "object-symbol=_absent"
+    else:
+        parents.append(dict(parents[0]))
+    assert alias_locations(path) == {}

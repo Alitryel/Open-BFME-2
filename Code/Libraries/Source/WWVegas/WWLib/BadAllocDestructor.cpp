@@ -18,7 +18,15 @@ public:
 	virtual ~bad_alloc();
 };
 
-bad_alloc::~bad_alloc()
+inline bad_alloc::~bad_alloc()
 {
 }
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitBadAllocDestructor@@YAXPAVbad_alloc@std@@@Z present-unmatched
+void bfmeEmitBadAllocDestructor(std::bad_alloc *p)
+{
+	p->bad_alloc::~bad_alloc();
+}
+#pragma inline_depth()

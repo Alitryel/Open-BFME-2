@@ -1,6 +1,20 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /Ireference/shims/zh_outofline /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// Link view first: Matrix3D(bool) stays inline without emitting an /O2 copy
+// that competes with retail's owner (0x0004C91A).
+#include "../../../../../../reference/shims/bfme_matrix3d_bool_link/matrix3d.h"
 // stlport
 // Ported verbatim from the Generals Zero Hour reference (GameEngine/Source/GameLogic/Object/Behavior/SlowDeathBehavior.cpp); this unit had no counterpart under Code/.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -63,29 +77,7 @@
 const Real BEGIN_MIDPOINT_RATIO = 0.35f;
 const Real END_MIDPOINT_RATIO = 0.65f;
 
-//-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/Common/SlowDeathBehaviorModuleData_ctor_Thunk.cpp
-// ??0SlowDeathBehaviorModuleData@@QAE@XZ present-unmatched
-SlowDeathBehaviorModuleData::SlowDeathBehaviorModuleData()
-{
-	m_sinkRate = 0;
-	m_probabilityModifier = 10;
-	m_modifierBonusPerOverkillPercent = 0;
-	m_sinkDelay = 0;
-	m_sinkDelayVariance = 0;
-	m_destructionDelay = 0;
-	m_destructionDelayVariance = 0;
-	m_destructionAltitude = -10;
-	m_maskOfLoadedEffects = 0; //assume no ocl, fx, or weapons.
-	m_flingForce = 0;
-	m_flingForceVariance = 0;
-	m_flingPitch = 0;
-	m_flingPitchVariance = 0;
-	// redundant.
-	//m_fx.clear();
-	//m_ocls.clear();
-	//m_weapons.clear();
-}
+// ??0SlowDeathBehaviorModuleData@@QAE@XZ: defined in SlowDeathBehaviorModuleDataCtor.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
 static void parseFX( INI* ini, void *instance, void * /*store*/, const void* /*userData*/ )
@@ -95,8 +87,8 @@ static void parseFX( INI* ini, void *instance, void * /*store*/, const void* /*u
 	for (const char* token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
 	{
 		const FXList *fxl = TheFXListStore->findFXList((token));	// could be null! this is OK!
-		FXListVec * const bfmeFx = (FXListVec *)((char *)self + 0x58);
-		bfmeFx[sdphase].push_back(fxl);
+		FXListVec * const fXListVec = (FXListVec *)((char *)self + 0x58);
+		fXListVec[sdphase].push_back(fxl);
 		if (fxl)
 			*((Byte *)self + 0x1A4) |= SlowDeathBehaviorModuleData::HAS_FX;
 	}
@@ -115,8 +107,8 @@ static void parseOCL( INI* ini, void *instance, void * /*store*/, const void* /*
 		// lea esi,[ebx+ecx*4+0x88]. Correcting the header is the real fix and
 		// the full gate is red (docs/lessons.md), so the array base is taken at
 		// the retail offset here.
-		OCLVec * const bfmeOcls = (OCLVec *)((char *)self + 0x88);
-		bfmeOcls[sdphase].push_back(ocl);
+		OCLVec * const oCLVec = (OCLVec *)((char *)self + 0x88);
+		oCLVec[sdphase].push_back(ocl);
 		if (ocl)
 			// and m_maskOfLoadedEffects at this+0x1A4, not +0xBC: retail
 			// @0x00209862 does or byte ptr [ebx+0x1A4],2.
@@ -138,54 +130,9 @@ static void parseWeapon( INI* ini, void *instance, void * /*store*/, const void*
 	}
 }
 
-//-------------------------------------------------------------------------------------------------
-/*static*/ void SlowDeathBehaviorModuleData::buildFieldParse(MultiIniFieldParse& p) 
-{
-  UpdateModuleData::buildFieldParse(p);
+// ?buildFieldParse@SlowDeathBehaviorModuleData@@SAXAAVMultiIniFieldParse@@@Z: defined in ModuleDataBuildFieldParse.cpp (its row's unit).
 
-	static const FieldParse dataFieldParse[] = 
-	{
-		{ "SinkRate",													INI::parseVelocityReal,						NULL, offsetof( SlowDeathBehaviorModuleData, m_sinkRate ) },
-		{ "ProbabilityModifier",							INI::parseInt,										NULL, offsetof( SlowDeathBehaviorModuleData, m_probabilityModifier ) },
-		{ "ModifierBonusPerOverkillPercent",	INI::parsePercentToReal,					NULL, offsetof( SlowDeathBehaviorModuleData, m_modifierBonusPerOverkillPercent ) },
-		{ "SinkDelay",												INI::parseDurationUnsignedInt,		NULL, offsetof( SlowDeathBehaviorModuleData, m_sinkDelay ) },
-		{ "SinkDelayVariance",								INI::parseDurationUnsignedInt,		NULL, offsetof( SlowDeathBehaviorModuleData, m_sinkDelayVariance ) },
-		{ "DestructionDelay",									INI::parseDurationUnsignedInt,		NULL, offsetof( SlowDeathBehaviorModuleData, m_destructionDelay ) },
-		{ "DestructionDelayVariance",					INI::parseDurationUnsignedInt,		NULL, offsetof( SlowDeathBehaviorModuleData, m_destructionDelayVariance ) },
-		{ "DestructionAltitude",							INI::parseReal,										NULL, offsetof( SlowDeathBehaviorModuleData, m_destructionAltitude ) },
-		{ "FX",																parseFX,													NULL, 0 },
-		{ "OCL",															parseOCL,													NULL, 0 },
-		{ "Weapon",														parseWeapon,											NULL, 0 },
-		{ "FlingForce",												INI::parseReal,										NULL, offsetof( SlowDeathBehaviorModuleData, m_flingForce) },
-		{ "FlingForceVariance",								INI::parseReal,										NULL, offsetof( SlowDeathBehaviorModuleData, m_flingForceVariance) },
-		{ "FlingPitch",												INI::parseAngleReal,							NULL, offsetof( SlowDeathBehaviorModuleData, m_flingPitch) },
-		{ "FlingPitchVariance",								INI::parseAngleReal,							NULL, offsetof( SlowDeathBehaviorModuleData, m_flingPitchVariance) },
-		{ 0, 0, 0, 0 }
-	};
-  p.add(dataFieldParse);
-	p.add(DieMuxData::getFieldParse(), offsetof( SlowDeathBehaviorModuleData, m_dieMuxData ));
-}
-
-//-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Behavior/SlowDeathBehavior_ctor_Thunk.cpp
-// ??0SlowDeathBehavior@@QAE@PAVThing@@PBVModuleData@@@Z present-unmatched
-SlowDeathBehavior::SlowDeathBehavior( Thing *thing, const ModuleData* moduleData ) : UpdateModule( thing, moduleData )
-{
-	m_flags = 0;
-	m_sinkFrame = 0;
-	m_midpointFrame = 0;
-	m_destructionFrame = 0;
-	m_acceleratedTimeScale = 1.0f;
-
-	if (getSlowDeathBehaviorModuleData()->m_probabilityModifier < 1)
-	{
-		DEBUG_CRASH(("ProbabilityModifer must be >= 1.\n"));
-		throw INI_INVALID_DATA;
-	}
-
-	setWakeFrame(getObject(), UPDATE_SLEEP_FOREVER);
-}
+// ??0SlowDeathBehavior@@QAE@PAVThing@@PBVModuleData@@@Z: defined in SlowDeathBehaviorCtor.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -196,18 +143,7 @@ SlowDeathBehavior::~SlowDeathBehavior( void )
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?getProbabilityModifier@SlowDeathBehavior@@UBEHPBVDamageInfo@@@Z present-unmatched
-Int SlowDeathBehavior::getProbabilityModifier( const DamageInfo *damageInfo ) const
-{
-	// Calculating how far past dead we were allows us to pick more spectacular deaths when
-	// severly killed, and more sedate ones when only slightly killed.
-	// eg ( 200 hp max, had 10 left, took 50 damage, 40 overkill, (40/200) * 100 = 20 overkill %)
-	Int overkillDamage = damageInfo->out.m_actualDamageDealt - damageInfo->out.m_actualDamageClipped;
-	Real overkillPercent = (float)overkillDamage / (float)getObject()->getBodyModule()->getMaxHealth();
-	Int overkillModifier = overkillPercent * getSlowDeathBehaviorModuleData()->m_modifierBonusPerOverkillPercent;
-
-	return max( getSlowDeathBehaviorModuleData()->m_probabilityModifier + overkillModifier, 1 );
-}
+// SlowDeathBehavior::getProbabilityModifier is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Behavior/SlowDeathBehaviorUpdate.cpp (0x0045D5DA).
 
 //-------------------------------------------------------------------------------------------------
 // Line-number padding and filename restore so GameLogicRandomValueReal calls match retail.
@@ -328,7 +264,22 @@ static void calcRandomForce(Real minMag, Real maxMag, Real minPitch, Real maxPit
 	Matrix3D mtx(1);
 	mtx.Scale(mag);
 	mtx.Rotate_Z(angle);
-	mtx.Rotate_Y(-pitch);
+	// Inline the Y-rotation post-multiply (header Rotate_Y math): this TU's
+	// fsin/fcos-computed Rotate_Y copy loses the link, and the kept copy must
+	// stay the out-of-line sin/cos one. sin/cos are CRT imports (no COMDATs);
+	// the float-pointer write avoids Matrix3D/Vector4 inline accessors that
+	// would emit more copies. Enclosing function is unrowed.
+	{
+		float s = (float)sin((double)-pitch);
+		float c = (float)cos((double)-pitch);
+		float *m = (float*)&mtx; // 3 Vector4 rows; layout verified by rowed bodies
+		float t0 = m[0], t2 = m[2];
+		m[0] = c*t0 - s*t2; m[2] = s*t0 + c*t2;
+		t0 = m[4]; t2 = m[6];
+		m[4] = c*t0 - s*t2; m[6] = s*t0 + c*t2;
+		t0 = m[8]; t2 = m[10];
+		m[8] = c*t0 - s*t2; m[10] = s*t0 + c*t2;
+	}
 
 	Vector3 v = mtx.Get_X_Vector();
 
@@ -340,324 +291,24 @@ static void calcRandomForce(Real minMag, Real maxMag, Real minPitch, Real maxPit
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-void SlowDeathBehavior::beginSlowDeath(const DamageInfo *damageInfo)
-{
-	if (!isSlowDeathActivated())
-	{
-		const SlowDeathBehaviorModuleData* d = getSlowDeathBehaviorModuleData();
-		Object* obj = getObject();
-
-		if (d->m_sinkRate && obj->isKindOf(KINDOF_INFANTRY))
-		{
-
-			Drawable *draw = getObject()->getDrawable();
-			if ( draw )
-			{
-				// this object sinks slowly after it dies so don't draw a
-				// floating shadow decal on the ground above it.
-				obj->getDrawable()->setShadowsEnabled(false);
-				draw->setTerrainDecalFadeTarget( 0.0f, -0.2f );
-			}
-
-
-
-		}
-
-		
-		// Ask game detail manager if we need to speedup all deaths to improve performance
-		Real timeScale = TheGameLODManager->getSlowDeathScale();
-		m_acceleratedTimeScale = 1.0f;	// assume normal death speed.
-
-		if (timeScale == 0.0f && !d->hasNonLodEffects())
-		{	
-			// Deaths happen instantly so just delete the object and return
-			TheGameLogic->destroyObject(obj);
-			return;
-		}
-		else
-		{	
-			// timescale is some non-zero value so we may need to speed up death
-			if( getObject()->isKindOf( KINDOF_HULK ) && TheGameLogic->getHulkMaxLifetimeOverride() != -1 )
-			{
-				//Scripts don't want hulks around, so start sinking immediately!
-				m_sinkFrame = 1;
-				m_midpointFrame = (LOGICFRAMES_PER_SECOND/2) + 1;
-				m_destructionFrame = LOGICFRAMES_PER_SECOND + 1;
-				m_acceleratedTimeScale = 1.0f;
-			}
-			else
-			{
-				m_sinkFrame = timeScale * (d->m_sinkDelay + GameLogicRandomValue(0, d->m_sinkDelayVariance));
-				m_destructionFrame = timeScale * (d->m_destructionDelay + GameLogicRandomValue(0, d->m_destructionDelayVariance));
-				m_midpointFrame = GameLogicRandomValue( BEGIN_MIDPOINT_RATIO * m_destructionFrame, END_MIDPOINT_RATIO * m_destructionFrame );
-				m_acceleratedTimeScale = timeScale;
-			}
-		}
-
-		UnsignedInt now = TheGameLogic->getFrame();
-
-		if (d->m_flingForce > 0)
-		{
-
-			
-			//Just in case this is a stingersoldier or other HELD object, lets set them free so they will fly
-			// with their own physics during slow death
-			if( obj->isDisabledByType( DISABLED_HELD ) )
-			{
-				static NameKeyType key_SlavedUpdate = NAMEKEY( "SlavedUpdate" );
-				SlavedUpdate* slave = (SlavedUpdate*)obj->findUpdateModule( key_SlavedUpdate );
-				if( slave )
-				{
-					slave->onSlaverDie( NULL );
-				}
-			}				
-
-			PhysicsBehavior* physics = obj->getPhysics();
-			if (physics)
-			{
-				// make sure we are at least a bit above the ground
-				const Real MIN_ALTITUDE = 1.0f;
-				Real altitude = obj->getHeightAboveTerrain();
-				if (altitude < MIN_ALTITUDE)
-				{
-					Coord3D pos = *obj->getPosition();
-					pos.z += MIN_ALTITUDE;
-					obj->setPosition(&pos);
-				}
-
-				Coord3D force;
-				calcRandomForce(d->m_flingForce, d->m_flingForce + d->m_flingForceVariance, 
-												d->m_flingPitch, d->m_flingPitch + d->m_flingPitchVariance, force);
-				physics->setAllowToFall(true);
-				physics->applyForce(&force);
-				physics->setExtraBounciness(-1.0);					// we don't want this guy to bounce at all
-				physics->setExtraFriction(-3 * SECONDS_PER_LOGICFRAME_REAL);							// reduce his ground friction a bit
-				physics->setAllowBouncing(true);
-				Real orientation = atan2(force.y, force.x);
-				physics->setAngles(orientation, 0, 0);
-				obj->getDrawable()->setModelConditionState(MODELCONDITION_EXPLODED_FLAILING);
-				m_flags |= (1<<FLUNG_INTO_AIR);
-			}
-			setWakeFrame(obj, UPDATE_SLEEP_NONE);
-		}
-		else
-		{
-			// we don't need to wake up immediately, but only when the first of these
-			// counters wants to trigger....
-			Int whenToWakeTime = m_sinkFrame;
-			if (whenToWakeTime > m_destructionFrame) 
-				whenToWakeTime = m_destructionFrame;
-			if (whenToWakeTime > m_midpointFrame) 
-				whenToWakeTime = m_midpointFrame;
-			setWakeFrame(obj, UPDATE_SLEEP(whenToWakeTime));
-		}
-		m_sinkFrame += now;
-		m_destructionFrame += now;
-		m_midpointFrame += now;
-
-		m_flags |= (1<<SLOW_DEATH_ACTIVATED);
-
-		doPhaseStuff(SDPHASE_INITIAL);
-
-	}
-}
+// SlowDeathBehavior::beginSlowDeath is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Behavior/SlowDeathBehaviorUpdate.cpp (0x0045DE65);
+// ZH's version here was the strong copy the link kept. Retail has no direct callers of the
+// out-of-line PhysicsBehavior setters rowed to this unit, which ZH's beginSlowDeath alone
+// emitted; the anchors below keep their copies.
+static void (PhysicsBehavior::*const _bfmeInlineAnchor_SlowDeathBehavior_0)(Real) = &PhysicsBehavior::setExtraBounciness;
+static void (PhysicsBehavior::*const _bfmeInlineAnchor_SlowDeathBehavior_1)(Real) = &PhysicsBehavior::setExtraFriction;
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-void SlowDeathBehavior::doPhaseStuff(SlowDeathPhaseType sdphase)
-{
-	const SlowDeathBehaviorModuleData* d = getSlowDeathBehaviorModuleData();
-	Int idx, listSize;
-
-	if (!d->m_maskOfLoadedEffects)
-		return;	//has no ocl, fx, or weapons.
-
-	listSize = d->m_fx[sdphase].size();
-	if (listSize > 0)
-	{
-		idx = GameLogicRandomValue(0, listSize-1);
-		const FXListVec& v = d->m_fx[sdphase];
-		DEBUG_ASSERTCRASH(idx>=0&&idx<v.size(),("bad idx"));
-		const FXList* fxl = v[idx];
-		FXList::doFXObj(fxl, getObject(), NULL);
-	}
-
-	listSize = d->m_ocls[sdphase].size();
-	if (listSize > 0)
-	{
-		idx = GameLogicRandomValue(0, listSize-1);
-		const OCLVec& v = d->m_ocls[sdphase];
-		DEBUG_ASSERTCRASH(idx>=0&&idx<v.size(),("bad idx"));
-		const ObjectCreationList* ocl = v[idx];
-		ObjectCreationList::create(ocl, getObject(), NULL);
-	}
-
-	listSize = d->m_weapons[sdphase].size();
-	if (listSize > 0)
-	{
-		idx = GameLogicRandomValue(0, listSize-1);
-		const WeaponTemplateVec& v = d->m_weapons[sdphase];
-		DEBUG_ASSERTCRASH(idx>=0&&idx<v.size(),("bad idx"));
-		const WeaponTemplate* wt = v[idx];
-		if (wt)
-		{
-			TheWeaponStore->createAndFireTempWeapon(wt, getObject(), getObject()->getPosition());
-		}
-	}
-}
+// SlowDeathBehavior::doPhaseStuff is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Behavior/SlowDeathBehaviorUpdate.cpp (0x0045D97A).
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?update@SlowDeathBehavior@@UAE?AW4UpdateSleepTime@@XZ present-unmatched
-UpdateSleepTime SlowDeathBehavior::update()
-{
-	//DEBUG_LOG(("updating SlowDeathBehavior %08lx\n",this));
-	DEBUG_ASSERTCRASH(isSlowDeathActivated(), ("hmm, this should not be possible"));
-
-	const SlowDeathBehaviorModuleData* d = getSlowDeathBehaviorModuleData();
-	Object* obj = getObject();
-
-	Real timeScale = TheGameLODManager->getSlowDeathScale();
-
-	// Check if we have normal time scale but LODManager is requeseting acceleration
-	if (timeScale != 1.0f && m_acceleratedTimeScale == 1.0f && !d->hasNonLodEffects())
-	{	
-		// speed of deaths has been increased since beginning of death
-		// so adjust it to current levels.
-		if (timeScale == 0)
-		{	
-			// instant death
-			TheGameLogic->destroyObject(obj);
-			return UPDATE_SLEEP_NONE;
-		}
-
-		m_sinkFrame = (Real)m_sinkFrame * timeScale;
-		m_midpointFrame = (Real)m_midpointFrame * timeScale;
-		m_destructionFrame = (Real)m_destructionFrame * timeScale;
-		m_acceleratedTimeScale = timeScale;
-	};	
-
-	UnsignedInt now = TheGameLogic->getFrame();
-	
-
-	if ((m_flags & (1<<FLUNG_INTO_AIR)) != 0)
-	{
-		if ((m_flags & (1<<BOUNCED)) == 0)
-		{
-			++m_sinkFrame;
-			++m_midpointFrame;
-			++m_destructionFrame;
-			if (!obj->isAboveTerrain())
-			{
-				obj->clearAndSetModelConditionFlags(MAKE_MODELCONDITION_MASK(MODELCONDITION_EXPLODED_FLAILING), 
-																						MAKE_MODELCONDITION_MASK(MODELCONDITION_EXPLODED_BOUNCING));
-				m_flags |= (1<<BOUNCED);
-			}
-			
-			// Here we want to make sure we die if we collide with a tree on the way down
-			PhysicsBehavior *phys = obj->getPhysics();
-			if ( phys )
-			{
-				ObjectID treeID = phys->getLastCollidee();
-				Object *tree = TheGameLogic->findObjectByID( treeID );
-				if ( tree )
-				{
-					if (tree->isKindOf( KINDOF_SHRUBBERY ) )
-					{
-						obj->setDisabled( DISABLED_HELD );
-						obj->clearModelConditionFlags( MAKE_MODELCONDITION_MASK(MODELCONDITION_EXPLODED_FLAILING) ); 
-						obj->clearModelConditionFlags( MAKE_MODELCONDITION_MASK(MODELCONDITION_EXPLODED_BOUNCING) ); 
-						obj->setModelConditionFlags(   MAKE_MODELCONDITION_MASK(MODELCONDITION_PARACHUTING) ); //looks like he is snagged in a tree
-						obj->setPositionZ( obj->getPosition()->z - (d->m_sinkRate * 50.0f) );// make him sink faster
-						if ( !obj->isAboveTerrain() )
-							TheGameLogic->destroyObject(obj);
-
-					}
-				}
-			}
-
-
-
-		}
-	}
-
-	if ( (now >= m_sinkFrame && d->m_sinkRate > 0.0f) )
-	{
-		// disable Physics (if any) so that we can control the sink...
-		obj->setDisabled( DISABLED_HELD );
-		Coord3D pos = *obj->getPosition();
-		pos.z -= d->m_sinkRate / m_acceleratedTimeScale;
-		obj->setPosition( &pos );
-	}
-
-	if( now >= m_midpointFrame && (m_flags & (1<<MIDPOINT_EXECUTED)) == 0 )
-	{
-		doPhaseStuff(SDPHASE_MIDPOINT);
-		m_flags |= (1<<MIDPOINT_EXECUTED);
-	}
-
-	if (now >= m_destructionFrame)
-	{
-		doPhaseStuff(SDPHASE_FINAL);
-		TheGameLogic->destroyObject(obj);
-	}
-
-	return UPDATE_SLEEP_NONE;
-}
+// SlowDeathBehavior::update is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Behavior/SlowDeathBehaviorUpdate.cpp (0x0045DB0B).
 
 //-------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Behavior/SlowDeathBehavior_onDie_Thunk.cpp
-// ?onDie@SlowDeathBehavior@@UAEXPBVDamageInfo@@@Z present-unmatched
-void SlowDeathBehavior::onDie( const DamageInfo *damageInfo )
-{
-	Object *obj = getObject();
-
-	if (!isDieApplicable(damageInfo))
-		return;
-
-	AIUpdateInterface *ai = obj->getAIUpdateInterface();
-	if (ai)
-	{
-		// has another AI already handled us. (hopefully another SlowDeathBehavior)
-		if (ai->isAiInDeadState())
-			return;
-		ai->markAsDead();
-	}
-
-	// deselect this unit for all players.
-	TheGameLogic->deselectObject(obj, PLAYERMASK_ALL, TRUE);
-
-	Int total = 0;
-	for (BehaviorModule** update = obj->getBehaviorModules(); *update; ++update)
-	{
-		SlowDeathBehaviorInterface* sdu = (*update)->getSlowDeathBehaviorInterface();
-		if (sdu != NULL && sdu->isDieApplicable(damageInfo))
-		{
-			total += sdu->getProbabilityModifier( damageInfo );
-		}
-	}
-	DEBUG_ASSERTCRASH(total > 0, ("Hmm, this is wrong"));
-
-
-	// this returns a value from 1...total, inclusive
-	Int roll = GameLogicRandomValue(1, total);
-
-	for (/* UpdateModuleInterface** */ update = obj->getBehaviorModules(); *update; ++update)
-	{
-		SlowDeathBehaviorInterface* sdu = (*update)->getSlowDeathBehaviorInterface();
-		if (sdu != NULL && sdu->isDieApplicable(damageInfo))
-		{
-			roll -= sdu->getProbabilityModifier( damageInfo );
-			if (roll <= 0)
-			{
-				sdu->beginSlowDeath(damageInfo);
-				return;
-			}
-		}
-	}
-
-	DEBUG_CRASH(("We should never get here"));
-}
+// SlowDeathBehavior::onDie is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Behavior/SlowDeathBehaviorUpdate.cpp (0x0045E6B8).
 
 // ------------------------------------------------------------------------------------------------
 /** CRC */
@@ -676,34 +327,7 @@ void SlowDeathBehavior::crc( Xfer *xfer )
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
-// ?xfer@SlowDeathBehavior@@MAEXPAVXfer@@@Z present-unmatched
-void SlowDeathBehavior::xfer( Xfer *xfer )
-{
-
-	// version
-	XferVersion currentVersion = 1;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
-
-	// extend base class
-	UpdateModule::xfer( xfer );
-
-	// sink frame
-	xfer->xferUnsignedInt( &m_sinkFrame );
-
-	// midpoint frame
-	xfer->xferUnsignedInt( &m_midpointFrame );
-
-	// destruction frame
-	xfer->xferUnsignedInt( &m_destructionFrame );
-
-	// accelerated time scale
-	xfer->xferReal( &m_acceleratedTimeScale );
-
-	// flags
-	xfer->xferUnsignedInt( &m_flags );
-
-}  // end xfer
+// Owned by SlowDeathBehaviorXfer.cpp.
 
 // ------------------------------------------------------------------------------------------------
 /** Load post process */

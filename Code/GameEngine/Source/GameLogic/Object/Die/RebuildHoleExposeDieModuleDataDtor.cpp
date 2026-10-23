@@ -1,4 +1,4 @@
-// cl: /O1 /GX /DNDEBUG /MD /arch:SSE
+// cl: /GX /DNDEBUG /MD
 //
 // ??1RebuildHoleExposeDieModuleData@@UAE@XZ, retail 0x004869CC, 48 bytes.
 // ModuleData dtor: tears down HoleName at +0x38 through the folded 0x36410
@@ -13,19 +13,10 @@
 // (HoleName plus HoleMaxHealth table 0x00C4AE00). Caller is the slot-0 ??_G
 // at 0x4869B0 (vtable 0xC4AD40).
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc();
-	virtual void loadPostProcess();
-	virtual void xfer();
-};
+extern "C" const void *const vtbl_00BBB554[];  // folded, 23 classes; via ??_7BfmeBaseVUQ@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BBB554=??_7BfmeBaseVUQ@@6B@")
 
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 class AsciiStringMember
 {

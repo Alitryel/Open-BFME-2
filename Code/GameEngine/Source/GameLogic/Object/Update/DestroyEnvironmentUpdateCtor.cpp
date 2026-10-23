@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ??0DestroyEnvironmentUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail
 // 0x004AC63A, 68 bytes. DestroyEnvironmentUpdate ctor over the rowed
@@ -51,15 +51,7 @@ public:
 	virtual void update();
 };
 
-class GameLogic
-{
-public:
-	unsigned getFrame() const { return m_frame; }
-
-private:
-	unsigned char m_reserved[0x40];
-	unsigned m_frame;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -82,3 +74,14 @@ DestroyEnvironmentUpdate::DestroyEnvironmentUpdate(Thing *thing, const ModuleDat
 	if (getModuleData() != 0)
 		m_nextCallFrame = TheGameLogic->getFrame();
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?unused@BehaviorModuleOther@@EAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?unused@BehaviorModuleBase@@EAEXXZ=??_GDestroyEnvironmentUpdate@@UAEPAXI@Z")
+#pragma comment(linker, "/alternatename:?update@UpdateModule@@UAEXXZ=?update@DestroyEnvironmentUpdate@@UAE?AW4UpdateSleepTime@@XZ")

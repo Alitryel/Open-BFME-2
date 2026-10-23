@@ -13,3 +13,7 @@ void bfmeGoOR(void *one, void *two, unsigned char three)
 
 	bfmeDoOR(one, two, three, &got);
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeSearchQW@@YAPADPAD0E@Z=?bfmeGoOR@@YAXPAX0E@Z")

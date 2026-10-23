@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva00047B51E@AODHordeContain@@SA?AW4NameKeyType@@XZ @0x47B51E
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@AODHordeContain@@UBE?AW4NameKeyType@@XZ @0x47B51E
 // (69B): cached pool-name key for AODHordeContain. The class
 // identity comes from the pool-name string the body pushes
 // ("AODHordeContain"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class AODHordeContain
 {
 public:
-	static NameKeyType rva00047B51E();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00047B51E@AODHordeContain@@SA?AW4NameKeyType@@XZ
-NameKeyType AODHordeContain::rva00047B51E()
+// ?getModuleNameKey@AODHordeContain@@UBE?AW4NameKeyType@@XZ
+NameKeyType AODHordeContain::getModuleNameKey() const
 {
 	static NameKeyType TheAODHordeContainPoolKey =
 		TheNameKeyGenerator->nameToKey("AODHordeContain");

@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2gwm /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /Ireference/shims/bfme2gwm /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
 // stlport
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
@@ -27,12 +27,12 @@
 
 // FILE: StaticText.cpp ///////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------
-//                                                                          
-//                       Westwood Studios Pacific.                          
-//                                                                          
-//                       Confidential Information                           
-//                Copyright (C) 2001 - All Rights Reserved                  
-//                                                                          
+//
+//                       Westwood Studios Pacific.
+//
+//                       Confidential Information
+//                Copyright (C) 2001 - All Rights Reserved
+//
 //-----------------------------------------------------------------------------
 //
 // Project:   RTS3
@@ -63,12 +63,9 @@
 #include "string_base.h"
 
 // ?set@?$StringBase@G@@QAEXABV1@@Z at 0x00888530
-// ?set@UnicodeString@@QAEXABV1@@Z present-unmatched
-inline void UnicodeString::set( const UnicodeString &stringSrc )
-{
-	reinterpret_cast<StringBase<WideChar> &>( *this ).set(
-		reinterpret_cast<const StringBase<WideChar> &>( stringSrc ) );
-}
+// (UnicodeString::set forwarder removed: retail call sites encode the
+// StringBase<WideChar> body directly, so the extra UnicodeString copy only
+// broke the link census.)
 
 // ??0?$StringBase@G@@AAE@ABV0@@Z at 0x00888400 -- private, which is what
 // mangles it AAE.
@@ -119,6 +116,11 @@ public:
 	virtual void slot7( void );
 	virtual void slot8( void );
 	virtual void slot9( void );
+	virtual void slot10( void );
+	virtual void slot11( void );
+	virtual void slot12( void );
+	virtual void slot13( void );
+	virtual void slot14( void );
 	virtual void freeDisplayString( DisplayString *string );
 };
 
@@ -129,13 +131,13 @@ WindowMsgHandledType GadgetStaticTextInput( GameWindow *window, UnsignedInt msg,
 											      WindowMsgData mData1, WindowMsgData mData2 )
 {
 
-  switch( msg ) 
+  switch( msg )
 	{
 		// ------------------------------------------------------------------------
     case GWM_CHAR:
       switch (mData1)
 			{
-					
+
         case KEY_DOWN:
         case KEY_RIGHT:
         case KEY_TAB:
@@ -161,7 +163,7 @@ WindowMsgHandledType GadgetStaticTextInput( GameWindow *window, UnsignedInt msg,
 
   }
 	return MSG_HANDLED;
- 
+
 
 }  // end GadgetStaticTextInput
 
@@ -180,9 +182,9 @@ WindowMsgHandledType GadgetStaticTextSystem( GameWindow *window, UnsignedInt msg
 		{
 			TextData *tData = (TextData *)window->winGetUserData();
 			if (tData && tData->text)
-				*(UnicodeString*)mData2 = ((BFMEStaticTextDisplayString *)tData->text)->getText();
+				((StringBase<WideChar> *)mData2)->set( *(const StringBase<WideChar> *)&(const UnicodeString &)((BFMEStaticTextDisplayString *)tData->text)->getText() );
 			break;
-		
+
 		}  // end get label
 
 		// ------------------------------------------------------------------------
@@ -252,16 +254,16 @@ UnicodeString GadgetStaticTextGetText( GameWindow *window )
 	* text font, the tooltip font, and the static text display strings for
 	* the text data itself */
 //=============================================================================
-void GadgetStaticTextSetFont( GameWindow *g, GameFont *font )
+void GadgetStaticTextSetFont( GameWindow *gameWindow, GameFont *font )
 {
-	TextData *textData = (TextData *)g->winGetUserData();
+	TextData *textData = (TextData *)gameWindow->winGetUserData();
 	DisplayString *dString;
 
 	// set the font for the display strings all windows have
-	dString = g->winGetInstanceData()->getTextDisplayString();
+	dString = gameWindow->winGetInstanceData()->getTextDisplayString();
 	if( dString )
 		((BFMEStaticTextDisplayString *)dString)->setFont( font );
-	dString = g->winGetInstanceData()->getTooltipDisplayString();
+	dString = gameWindow->winGetInstanceData()->getTooltipDisplayString();
 	if( dString )
 		((BFMEStaticTextDisplayString *)dString)->setFont( font );
 

@@ -1,9 +1,11 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /O1 /GX
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX
 //
 // These predicates sit directly on the BFME2 frame-stall and command-routing
 // paths.  The state predicate accepts states 1 through 3; the connection
 // predicate treats the local slot as connected and otherwise requires the
 // peer's open-state sentinel.
+
+extern class GameLogic *TheGameLogic;
 
 struct Connection
 {
@@ -16,21 +18,23 @@ struct GameLogicFrame
 	unsigned int frame;
 };
 
-struct GlobalData
+class GlobalData
 {
+public:
 	char unknown[0xC18];
 	unsigned int networkRunAheadSlack;
 };
 
-#define TheGameLogic (*(volatile GameLogicFrame **)0x00DFE78C)
-#define TheGlobalData (*(volatile GlobalData **)0x00DFE758)
-#define LastPacketRouterStallFrame (*(volatile unsigned int *)0x00E043F4)
+#define TheGameLogic (*(volatile GameLogicFrame **)&TheGameLogic)
+extern GlobalData *TheWritableGlobalData;
+// g_00E043F4: VA 0x00E043F4 (.data(bss)); retail initial value is zero.
+unsigned int g_00E043F4 = 0;
 
 class BFMEConnectionManager
 {
 public:
 	bool isPlayerConnected(int slot);
-	int isPlayerInGame(int slot);
+	bool isPlayerInGame(int slot);
 	int isPlayerSlotActive(int slot);
 	bool hasPacketRouterFrameStall(void);
 
@@ -52,12 +56,12 @@ bool BFMEConnectionManager::isPlayerConnected(int slot)
 		(m_connections[slot] != 0 && m_connections[slot]->m_openState == -1);
 }
 
-int BFMEConnectionManager::isPlayerInGame(int slot)
+// Bool: its callers (doRelay 0x004D325F, the disconnect manager's slot loops)
+// test al; returning the && chain gives the whole-register xor/inc tail.
+bool BFMEConnectionManager::isPlayerInGame(int slot)
 {
-	if ((unsigned int)slot >= 8 || m_playerState[slot] != 1 ||
-		!isPlayerConnected(slot))
-		return 0;
-	return 1;
+	return (unsigned int)slot < 8 && m_playerState[slot] == 1 &&
+		isPlayerConnected(slot);
 }
 
 int BFMEConnectionManager::isPlayerSlotActive(int slot)
@@ -74,7 +78,7 @@ bool BFMEConnectionManager::hasPacketRouterFrameStall(void)
 		return false;
 
 	unsigned int frame = TheGameLogic->frame;
-	unsigned int slack = frame > 5 ? TheGlobalData->networkRunAheadSlack : 3;
+	unsigned int slack = frame > 5 ? TheWritableGlobalData->networkRunAheadSlack : 3;
 	int slot = 0;
 	Connection **connectionSlot = m_connections;
 	for (; slot < 8; ++slot, ++connectionSlot) {
@@ -83,8 +87,8 @@ bool BFMEConnectionManager::hasPacketRouterFrameStall(void)
 			(unsigned char)isPlayerSlotActive(slot) == 0 &&
 			*(unsigned int *)((char *)connectionSlot + 0x1205C) + slack <= frame) {
 			unsigned int stalledFrame = *(unsigned int *)((char *)this + slot * 4 + 0x12060);
-			if (stalledFrame != LastPacketRouterStallFrame)
-				LastPacketRouterStallFrame = stalledFrame;
+			if (stalledFrame != g_00E043F4)
+				g_00E043F4 = stalledFrame;
 			return true;
 		}
 	}

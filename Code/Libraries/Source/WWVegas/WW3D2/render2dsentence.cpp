@@ -1,5 +1,23 @@
-// cl: /Ireference/shims/bfmevector /G7 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/zhmd /Ireference/shims/bfmevector /G7 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // stlport
+
+// BFME 2 has no W3D memory pools (see Code/Libraries/Source/WWVegas/WWLib/always.h).
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it; retail links the
+// /O1 body at 0x00001423. Instantiate it first in an unemitted anchor (the
+// lookuptable.cpp pattern) so this unit's copy is that body.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+#include "always.h"
+#undef W3DMPO_GLUE
+#define W3DMPO_GLUE(ARGCLASS)
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -40,12 +58,32 @@
 // This TU's retail Compare_No_Case calls msvcr71!_strcmpi.
 #include <string.h>
 #define _stricmp _strcmpi
+// Prime the teardown view after this TU's allocation/pool declarations.
+// Preserve the established BFME vector view before mutex dependencies see it.
+#include "vector.h"
+#include "bfme_wwstring_teardown.h"
 #include "render2dsentence.h"
 #include "surfaceclass.h"
 #include "texture.h"
 #include "wwprofile.h"
 #include "wwmemlog.h"
 #include "dx8wrapper.h"
+// Suppress this TU's non-retail copy of ??8?$VectorClass@PAVRender2DClass@@@@UBE_NABV0@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Render2DClass; class VectorClass;
+template <> bool VectorClass<Render2DClass *>::operator==(VectorClass<Render2DClass *> const &) const;
+// Suppress this TU's non-retail copy of ?ID@?$VectorClass@PAVRender2DClass@@@@UAEHPBQAVRender2DClass@@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Render2DClass;
+template <> int VectorClass<Render2DClass *>::ID(Render2DClass * const *);
+// Suppress this TU's non-retail copy of ?ID@?$VectorClass@PAVRender2DClass@@@@UAEHABQAVRender2DClass@@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Render2DClass;
+template <> int VectorClass<Render2DClass *>::ID(Render2DClass * const &);
+// Suppress this TU's non-retail copy of ?Resize@?$VectorClass@PAVRender2DClass@@@@UAE_NHPBQAVRender2DClass@@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Render2DClass;
+template <> bool VectorClass<Render2DClass *>::Resize(int,Render2DClass * const *);
 
 #ifdef _INTERNAL
 // for occasional debugging...
@@ -64,31 +102,7 @@
 //	Render2DSentenceClass
 //
 ////////////////////////////////////////////////////////////////////////////////////
-// ??0Render2DSentenceClass@@QAE@XZ present-unmatched
-Render2DSentenceClass::Render2DSentenceClass (void) :
-	Font (NULL),
-	Location (0.0F,0.0F),
-	Cursor (0.0F,0.0F),
-	TextureOffset (0, 0),
-	TextureStartX (0),
-	CurSurface (NULL),
-	CurrTextureSize (0),
-	MonoSpaced (false),
-	IsClippedEnabled (false),
-	ClipRect (0, 0, 0, 0),
-	BaseLocation (0, 0),
-	LockedPtr (NULL),
-	LockedStride (0),
-	TextureSizeHint (0),
-	WrapWidth (0),
-	Centered (false),
-	DrawExtents (0, 0, 0, 0),
-	ParseHotKey( false ),
-	useHardWordWrap( false)
-{
-	Shader = Render2DClass::Get_Default_Shader ();
-	return ;
-}
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -96,13 +110,7 @@ Render2DSentenceClass::Render2DSentenceClass (void) :
 //	~Render2DSentenceClass
 //
 ////////////////////////////////////////////////////////////////////////////////////
-// ??1Render2DSentenceClass@@QAE@XZ present-unmatched
-Render2DSentenceClass::~Render2DSentenceClass (void)
-{
-	REF_PTR_RELEASE (Font);
-	Reset ();
-	return ;
-}
+// BFME 2's body is the row 0x00157C70 in Render2DSentenceDestructorBFME2.cpp; Zero Hour's copy here duplicated it.
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -124,16 +132,7 @@ Render2DSentenceClass::Set_Font (FontCharsClass *font)
 //	Reset_Polys
 //
 ////////////////////////////////////////////////////////////////////////////////////
-void
-// ?Reset_Polys@Render2DSentenceClass@@QAEXXZ present-unmatched
-Render2DSentenceClass::Reset_Polys (void)
-{
-	for (int index = 0; index < Renderers.Count (); index ++) {
-		Renderers[index].Renderer->Reset ();
-	}
-
-	return ;
-}
+// BFME 2's body is the row 0x00154EC0 in Rva00154EC0Cluster.cpp; Zero Hour's copy here duplicated it.
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -141,39 +140,7 @@ Render2DSentenceClass::Reset_Polys (void)
 //	Reset
 //
 ////////////////////////////////////////////////////////////////////////////////////
-void
-// ?Reset@Render2DSentenceClass@@UAEXXZ present-unmatched
-Render2DSentenceClass::Reset (void)
-{
-	//
-	//	Make sure we unlock the current surface (if necessary)
-	//
-	if (LockedPtr != NULL) {
-		CurSurface->Unlock ();
-		LockedPtr = NULL;
-	}
-
-	//
-	//	Release our hold on the current surface
-	//
-	REF_PTR_RELEASE (CurSurface);
-
-	//
-	//	Free each renderer
-	//
-	while (Renderers.Count () > 0) {
-		delete Renderers[0].Renderer;
-		Renderers.Delete(0);
-	}
-
-	Cursor.Set (0, 0);
-	MonoSpaced = false;
-	ParseHotKey = false;
-
-	Release_Pending_Surfaces ();
-	Reset_Sentence_Data ();
-	return ;
-}
+// BFME 2's body is the row 0x00155A20 in Render2DSentenceClass_Reset.cpp; Zero Hour's copy here duplicated it.
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -223,24 +190,9 @@ Render2DSentenceClass::Set_Shader (ShaderClass shader)
 //	Render
 //
 ////////////////////////////////////////////////////////////////////////////////////
-void
-// ?Render@Render2DSentenceClass@@ present-unmatched
-Render2DSentenceClass::Render (void)
-{
-	//
-	//	Build any textures that are pending
-	//
-	Build_Textures ();
-
-	//
-	//	Ask each renderer to draw its contents
-	//
-	for (int i = 0; i < Renderers.Count (); i ++) {
-		Renderers[i].Renderer->Render ();
-	}
-
-	return ;
-}
+// BFME 2's Render2DSentenceClass::Render is the row 0x00155AD0 (Rva00155AD0.cpp, address-derived name;
+// it brackets the renderer loop with two calls Zero Hour lacks); Zero Hour's copy here was a second,
+// non-retail definition of the name.
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -280,22 +232,8 @@ Render2DSentenceClass::Set_Location (const Vector2 &loc)
 //	Get_Text_Extents
 //
 ////////////////////////////////////////////////////////////////////////////////////
-Vector2
-// ?Get_Text_Extents@Render2DSentenceClass@@QAE?AVVector2@@PBG@Z present-unmatched
-Render2DSentenceClass::Get_Text_Extents (const WCHAR *text)
-{
-	Vector2 extent (0, Font->Get_Char_Height());
-
-	while (*text) {
-		WCHAR ch = *text++;
-
-		if ( ch != (WCHAR)'\n' ) {
-			extent.X += Font->Get_Char_Spacing( ch );
-		}
-	}
-
-	return extent;
-}
+// BFME 2's body (retail 0x00158BA0) is matched in Render2DSentenceExtentBFME2.cpp; the
+// Zero Hour copy that stood here was a second strong definition of the rowed name.
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -315,22 +253,7 @@ Render2DSentenceClass::Get_Formatted_Text_Extents (const WCHAR *text)
 //	Reset_Sentence_Data
 //
 ////////////////////////////////////////////////////////////////////////////////////
-void
-// ?Reset_Sentence_Data@Render2DSentenceClass@@AAEXXZ present-unmatched
-Render2DSentenceClass::Reset_Sentence_Data (void)
-{
-	//
-	//	Release our hold on each texture used in the sentence
-	//
-	for (int index = 0; index < SentenceData.Count (); index ++) {
-		REF_PTR_RELEASE (SentenceData[index].Surface);
-	}
-
-	if (SentenceData.Count()>0) {
-		SentenceData.Delete_All ();
-	}
-	return ;
-}
+// BFME 2's body is the row 0x00154F10 in Render2DSentenceClass_Reset_Sentence_Data.cpp; Zero Hour's copy here duplicated it.
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -338,21 +261,7 @@ Render2DSentenceClass::Reset_Sentence_Data (void)
 //	Release_Pending_Surfaces
 //
 ////////////////////////////////////////////////////////////////////////////////////
-void
-// ?Release_Pending_Surfaces@Render2DSentenceClass@@AAEXXZ present-unmatched
-Render2DSentenceClass::Release_Pending_Surfaces (void)
-{
-	//
-	//	Release our hold on each pending surface
-	//
-	for (int index = 0; index < PendingSurfaces.Count (); index ++) {		
-		SurfaceClass *curr_surface = PendingSurfaces[index].Surface;
-		REF_PTR_RELEASE (curr_surface);
-	}
-
-	if (PendingSurfaces.Count()>0) PendingSurfaces.Delete_All ();
-	return; 
-}
+// Owned by Render2DSentenceClass_Release_Pending_Surfaces.cpp.
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -443,163 +352,8 @@ Render2DSentenceClass::Build_Textures (void)
 //	Draw_Sentence
 //
 ////////////////////////////////////////////////////////////////////////////////////
-void
-// ?Draw_Sentence@Render2DSentenceClass@@QAEXK@Z present-unmatched
-Render2DSentenceClass::Draw_Sentence (uint32 color)
-{
-	Render2DClass *curr_renderer	= NULL;
-	SurfaceClass *curr_surface		= NULL;
-
-	DrawExtents.Set (0, 0, 0, 0);
-
-	int offset = 0;
-	//
-	//	Loop over all the parts of the sentence
-	//
-	for (int index = 0; index < SentenceData.Count (); index ++) {
-		SentenceDataStruct &data = SentenceData[index];
-
-		//
-		//	Has the surface changed?
-		//
-		if (data.Surface != curr_surface) {
-			curr_surface = data.Surface;
-
-			//
-			//	Try to find a renderer that uses the same "texture"
-			//
-			bool found = false;
-			for (int renderer_index = 0; renderer_index < Renderers.Count (); renderer_index ++) {
-				if (Renderers[renderer_index].Surface == curr_surface) {
-					found = true;
-					curr_renderer = Renderers[renderer_index].Renderer;
-					break;
-				}
-			}
-			
-			//
-			//	Create a new renderer if we couldn't find an appropriate one
-			//
-			if (found == false) {
-
-				//
-				//	Allocate a new renderer
-				//
-				curr_renderer = W3DNEW Render2DClass;
-				curr_renderer->Set_Coordinate_Range (Render2DClass::Get_Screen_Resolution ());
-				ShaderClass *curr_shader = curr_renderer->Get_Shader ();
-				(*curr_shader) = Shader;
-				
-				//
-				//	Add it to our list
-				//
-				RendererDataStruct render_info;
-				render_info.Renderer	= curr_renderer;
-				render_info.Surface	= curr_surface;
-				Renderers.Add (render_info);
-
-				//
-				//	Now, add this renderer to the surface pending list
-				//
-				for (int surface_index = 0; surface_index < PendingSurfaces.Count (); surface_index ++) {
-					PendingSurfaceStruct &surface_info = PendingSurfaces[surface_index];
-					if (surface_info.Surface == curr_surface) {
-						surface_info.Renderers.Add (curr_renderer);
-					}
-				}
-			}
-		}
-
-		//
-		//	Get the dimensions of the surface
-		//
-		SurfaceClass::SurfaceDescription desc;
-		curr_surface->Get_Description (desc);
-
-		//
-		//	Add a quad that contains this sentence chunk
-		//
-		RectClass screen_rect	= data.ScreenRect;
-		screen_rect					+= Location;
-		RectClass uv_rect			= data.UVRect;
-
-		//
-		//	Clip the quad (as necessary)
-		//
-		bool add_quad = true;
-		if (IsClippedEnabled) {
-			
-			//
-			//	Check for completely clipped
-			//
-			if (	screen_rect.Right <= ClipRect.Left ||
-					screen_rect.Bottom <= ClipRect.Top)
-			{
-				add_quad = false;
-			} else {
-
-				//
-				//	Clip the polygons to the specified area
-				//
-				RectClass clipped_rect;
-				clipped_rect.Left		= max (screen_rect.Left, ClipRect.Left);
-				clipped_rect.Right	= min (screen_rect.Right, ClipRect.Right);
-				clipped_rect.Top		= max (screen_rect.Top, ClipRect.Top);
-				clipped_rect.Bottom	= min (screen_rect.Bottom, ClipRect.Bottom);
-
-				//
-				//	Clip the texture to the specified area
-				//
-				RectClass clipped_uv_rect;
-				float percent				= ((clipped_rect.Left - screen_rect.Left) / screen_rect.Width ());
-				clipped_uv_rect.Left		= uv_rect.Left + (uv_rect.Width () * percent);
-
-				percent						= ((clipped_rect.Right - screen_rect.Left) / screen_rect.Width ());
-				clipped_uv_rect.Right	= uv_rect.Left + (uv_rect.Width () * percent);
-
-				percent						= ((clipped_rect.Top - screen_rect.Top) / screen_rect.Height ());
-				clipped_uv_rect.Top		= uv_rect.Top + (uv_rect.Height () * percent);
-
-				percent						= ((clipped_rect.Bottom - screen_rect.Top) / screen_rect.Height ());
-				clipped_uv_rect.Bottom	= uv_rect.Top + (uv_rect.Height () * percent);
-
-				//
-				//	Use the clipped rectangles to render
-				//
-				screen_rect = clipped_rect;
-				uv_rect		= clipped_uv_rect;
-
-				if (screen_rect.Right <= screen_rect.Left ||
-						screen_rect.Bottom <= screen_rect.Top)
-				{
-					add_quad = false;
-				}
-			}
-		}
-
-		if (add_quad) {
-			//uv_rect.Bottom += 0.5f;
-			uv_rect *=  1.0F / ((float)desc.Width);
-#ifdef TEST_PLACEMENT	 
-			screen_rect.Left += offset*3;
-			screen_rect.Right += offset*3;
-#endif
-			offset++;
-			curr_renderer->Add_Quad (screen_rect, uv_rect, color);
-
-			//
-			//	Add this rectangle to the total draw extents
-			//
-			if (DrawExtents.Width () == 0) {
-				DrawExtents = screen_rect;
-			} else {
-				DrawExtents += screen_rect;
-			}
-		}
-	}
-
-	return ;
-}
+// Render2DSentenceClass::Draw_Sentence(uint32) is defined with its retail-matched BFME2 body in
+// Code/GameEngineDevice/Source/W3DDevice/GameClient/Render2DSentenceDrawSentenceOneColour.cpp (0x00104D97).
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -607,41 +361,7 @@ Render2DSentenceClass::Draw_Sentence (uint32 color)
 //	Record_Sentence_Chunk
 //
 ////////////////////////////////////////////////////////////////////////////////////
-void
-// ?Record_Sentence_Chunk@Render2DSentenceClass@@AAEXXZ present-unmatched
-Render2DSentenceClass::Record_Sentence_Chunk (void)
-{
-	//
-	//	Do we have anything to store?
-	//
-	int width = TextureOffset.I - TextureStartX;
-	if (width > 0) {
-		float char_height = Font->Get_Char_Height ();
-		
-		//
-		//	Build a structure that contains enough information
-		// to hold this portion of the sentence
-		//
-		SentenceDataStruct sentence_data;
-		sentence_data.Surface = CurSurface;
-		sentence_data.Surface->Add_Ref ();
-		sentence_data.ScreenRect.Left		= Cursor.X;
-		sentence_data.ScreenRect.Right	= Cursor.X + width;
-		sentence_data.ScreenRect.Top		= Cursor.Y;
-		sentence_data.ScreenRect.Bottom	= Cursor.Y + char_height;
-		sentence_data.UVRect.Left			= TextureStartX;
-		sentence_data.UVRect.Top			= TextureOffset.J;
-		sentence_data.UVRect.Right			= TextureOffset.I;
-		sentence_data.UVRect.Bottom		= TextureOffset.J + char_height;		
-
-		//
-		//	Add this information to our list
-		//
-		SentenceData.Add (sentence_data);
-	}
-
-	return ;
-}
+// Render2DSentenceClass::Record_Sentence_Chunk is defined with its retail-matched body in Render2DSentenceRecordChunkBFME2.cpp.
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -649,98 +369,12 @@ Render2DSentenceClass::Record_Sentence_Chunk (void)
 //	Allocate_New_Surface
 //
 ////////////////////////////////////////////////////////////////////////////////////
-void
-// ?Allocate_New_Surface@Render2DSentenceClass@@AAEXPBG_N@Z present-unmatched
-Render2DSentenceClass::Allocate_New_Surface (const WCHAR *text, bool justCalcExtents)
+// Render2DSentenceClass::Allocate_New_Surface is defined with its retail-matched body in
+// Render2DSentenceAllocateSurfaceBFME2.cpp (0x00158C60). The BFME1 body here was the first user
+// of max<int>; keep that instantiation's place in this unit.
+int render2dsentenceMaxAnchor(int a, int b)
 {
-	if (!justCalcExtents)
-	{
-		//
-		//	Unlock the last surface (if necessary)
-		//
-		if (LockedPtr != NULL) {
-			CurSurface->Unlock ();
-			LockedPtr = NULL;
-		}
-	}
-
-	//
-	// Calculate the width of the text
-	//	
-	int text_width = 0;
-	for (int index = 0; text[index] != 0; index ++) {
-		text_width += Font->Get_Char_Spacing (text[index]);
-	}
-	
-	int char_height = Font->Get_Char_Height ();
-
-	//
-	//	Find the best texture size for the remaining text
-	//
-	CurrTextureSize = 256;
-	int best_tex_mem_usage = 999999999;
-	for (int pow2 = 6; pow2 <= 8; pow2 ++) {		
-		
-		int size					= 1 << pow2;
-		int row_count			= (text_width / size) + 1;
-		int rows_per_texture	= size / (char_height + 1);
-		
-		//
-		//	Can we even fit one character on this texture?
-		//
-		if (rows_per_texture > 0) {			
-
-			//
-			//	How many textures (at this size) would it take to render
-			// the remaining text?
-			//
-			int texture_count	= row_count / rows_per_texture;
-			texture_count		= max (texture_count, 1);
-
-			//
-			//	Is this the best usage of texture memory we've found yet?
-			//
-			int texture_mem_usage = (texture_count * size * size);
-			if (texture_mem_usage < best_tex_mem_usage) {
-				CurrTextureSize		= size;
-				best_tex_mem_usage	= texture_mem_usage;
-			}
-		}
-	}
-
-	//
-	//	Use whichever is larger, the hint or the calculated size
-	//
-	CurrTextureSize = max (TextureSizeHint, CurrTextureSize);
-
-	if (!justCalcExtents)
-	{
-		//
-		//	Release our extra hold on the old surface
-		//
-		REF_PTR_RELEASE (CurSurface);
-
-		//
-		//	Create the new surface
-		//	
-		CurSurface = NEW_REF (SurfaceClass, (CurrTextureSize, CurrTextureSize, WW3D_FORMAT_A4R4G4B4));
-		WWASSERT (CurSurface != NULL);
-		CurSurface->Add_Ref ();
-
-		//
-		//	Add this surface to our list
-		//
-		PendingSurfaceStruct surface_info;
-		surface_info.Surface = CurSurface;
-		PendingSurfaces.Add (surface_info);
-	}
-
-	//
-	//	Reset to the upper left corner
-	//
-	TextureOffset.Set (0, 0);
-	TextureStartX = 0;	
-	return ;
+	return max (a, b);
 }
 
 float FindStartingXPos( const WCHAR *text )
@@ -1005,187 +639,8 @@ void	Render2DSentenceClass::Build_Sentence_Centered (const WCHAR *text, int *hkX
 //
 ////////////////////////////////////////////////////////////////////////////////////
 // byte-exact reconstruction: Code/Libraries/Source/WWVegas/WW3D2/Render2DSentenceBuildNotCenteredThunk.cpp
-// ?Build_Sentence_Not_Centered@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z present-unmatched
-Vector2	Render2DSentenceClass::Build_Sentence_Not_Centered (const WCHAR *text, int *hkX, int *hkY, bool justCalcExtents)
-{
-	Vector2 cursor = Cursor;
-	int textureStartX = TextureStartX;
-	float maxX = 0;
-
-	int hotKeyPosX = 0;
-	int hotKeyPosY = 0;
-	bool calcHotKeyX = false;
-	bool dontBlit = false;
-	Vector2i textureOffset = TextureOffset;
-
-
-	//
-	//	Start fresh
-	//
-	if (!justCalcExtents)
-	{
-		Reset_Sentence_Data ();
-	}
-	Cursor.Set (0, 0);
-
-	//
-	//	Ensure we have a surface to start with
-	//
-	if (CurSurface == NULL) {
-		Allocate_New_Surface (text, justCalcExtents);
-	}
-
-	TextureOffset.Set (TEXTURE_OFFSET, 0);
-	TextureStartX = TEXTURE_OFFSET;	
-
-	float char_height = Font->Get_Char_Height ();
-
-	//
-	//	Loop over all the characters in the string
-	//
-	while (text != NULL) {
-		WCHAR ch = *text++;
-		dontBlit = false;
-		//
-		//	Determine how much horizontal space this character requires
-		//
-		if(ParseHotKey && (ch == L'&') && (*text != 0) && (*text > L' ') && (*text != L'\n'))
-		{
-				hotKeyPosY = Cursor.Y;
-			if (calcHotKeyX)
-				hotKeyPosX = 0;
-			else
-				hotKeyPosX = Cursor.X + TextureOffset.I -TextureStartX;//TextureOffset.I;
-
-			ch = *text++;
-			dontBlit = true;
-		}
-		float char_spacing = Font->Get_Char_Spacing (ch);
-
-		bool exceeded_texture_width	= ((TextureOffset.I + char_spacing) >= CurrTextureSize);
-		bool encountered_break_char	= (ch == L' ' || ch == L'\n' || ch == 0);
-		bool wordBiggerThenLine = ((useHardWordWrap) && ( WrapWidth != 0 ) &&((Cursor.X + TextureOffset.I -TextureStartX + char_spacing) >= WrapWidth));
-		//
-		//	Do we need to record this portion of the sentence to its own chunk?
-		//
-		if (exceeded_texture_width || encountered_break_char|| wordBiggerThenLine) {
-			if (!justCalcExtents)
-			{
-				Record_Sentence_Chunk ();
-			}
-
-			//
-			//	Adjust the positions
-			//
-			Cursor.X			+= (TextureOffset.I - TextureStartX);
-			maxX = max(maxX, Cursor.X);
-			TextureStartX	= TextureOffset.I;
-
-			//
-			//	Adjust the output coordinates
-			//
-			if (ch == L' ') {
-				//Cursor.X += char_spacing;
-				//maxX = max(maxX, Cursor.X);
-
-				//
-				// Check to see if we need to wrap on this word-break
-				//
-				if (WrapWidth > 0) {
-					
-					//
-					//	Find the length of the next word
-					//
-					const WCHAR *word	= text;
-					float word_width	= char_spacing;
-					while ((*word != 0) && (*word > L' ')) {
-						if(ParseHotKey && (*word == L'&') && (*word+1 != 0) && (*word+1 > L' ') && (*word+1 != L'\n'))
-							*word++;
-						word_width += Font->Get_Char_Spacing (*word++);
-					}
-
-					//
-					//	Should we wrap the next word?
-					//
-					if ((Cursor.X + word_width) >= WrapWidth) {
-						Cursor.X = 0;
-						Cursor.Y += char_height;
-						calcHotKeyX = true;
-					}
-				}
-
-			} else if (ch == L'\n') {
-				Cursor.X = 0;
-				Cursor.Y += char_height;
-			} else if (ch == 0) {
-				break;
-			} else if (wordBiggerThenLine){ // we've entered this loop because we're greater then the wordwrap so we need to force a wordwrap
-				Cursor.X = 0;
-				Cursor.Y += char_height;
-			}
-
-			
-			//
-			//	Did the text extend past the edge of the texture?
-			//
-			if (exceeded_texture_width) {
-				TextureStartX		= TEXTURE_OFFSET;
-				TextureOffset.I	= TextureStartX;
-				TextureOffset.J	+= char_height;
-
-				//
-				//	Did the text extent completely off the texture?
-				//
-				if ((TextureOffset.J + char_height) >= CurrTextureSize) {
-					Allocate_New_Surface (text, justCalcExtents);
-				}
-			}
-		}
-		
-		if (ch != L'\n' ) {
-
-			//
-			//	Ensure the surface is locked	
-			//
-			if (!justCalcExtents)
-			{
-				if (LockedPtr == NULL) {
-					LockedPtr = (uint16 *)CurSurface->Lock (&LockedStride);
-					WWASSERT (LockedPtr != NULL);
-				}
-			}
-
-			//
-			//	Check to ensure the text will fit on this texture
-			//
-			WWASSERT (((TextureOffset.I + char_spacing) < CurrTextureSize) && ((TextureOffset.J + char_height) < CurrTextureSize));
-
-			//
-			//	Blit the character to the surface
-			//
-			if (!justCalcExtents && !dontBlit )
-			{
-				Font->Blit_Char (ch, LockedPtr, LockedStride, TextureOffset.I, TextureOffset.J);			
-			}
-			TextureOffset.I += char_spacing;
-		} 
-	}
-
-	Vector2 extent;
-	extent.X = maxX + Font->Get_Extra_Overlap();
-	extent.Y = Cursor.Y + char_height;
-
-	Cursor = cursor;
-	TextureOffset = textureOffset;
-	TextureStartX = textureStartX;
-	
-	if(hkX)						
-		*hkX = hotKeyPosX;
-	if(hkX)
-		*hkY = hotKeyPosY;
-
-	return extent;
-}
+// Render2DSentenceClass::Build_Sentence_Not_Centered is defined by its row's unit,
+// Render2DSentenceBuildNotCenteredBFME2.cpp (retail 0x00159700).
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -1193,23 +648,8 @@ Vector2	Render2DSentenceClass::Build_Sentence_Not_Centered (const WCHAR *text, i
 //	Build_Sentence
 //
 ////////////////////////////////////////////////////////////////////////////////////
-void
-// ?Build_Sentence@Render2DSentenceClass@@QAEXPBGPAH1@Z present-unmatched
-Render2DSentenceClass::Build_Sentence (const WCHAR *text, int *hkX, int *hkY)
-{
-	if (text == NULL) {
-		return ;
-	}
-
-
-	if(Centered && (WrapWidth > 0 || wcschr(text,L'\n')))
-		Build_Sentence_Centered(text, hkX, hkY);
-	else
-		Build_Sentence_Not_Centered(text, hkX, hkY);
-	
-	return;
-	
-}
+// BFME 2's Render2DSentenceClass::Build_Sentence is the row 0x00159FC0 (Gen_00942BC0.cpp, BFME 1 donor
+// name; it always takes the not-centered path); Zero Hour's copy here was a second, non-retail definition.
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -1217,26 +657,7 @@ Render2DSentenceClass::Build_Sentence (const WCHAR *text, int *hkX, int *hkY)
 //	FontCharsClass
 //
 ////////////////////////////////////////////////////////////////////////////////////
-// ??0FontCharsClass@@QAE@XZ present-unmatched
-FontCharsClass::FontCharsClass (void) :
-	OldGDIFont(	NULL ),
-	OldGDIBitmap( NULL ),
-	GDIFont( NULL ),
-	GDIBitmap( NULL ),
-	GDIBitmapBits ( NULL ),
-	MemDC( NULL ),
-	CurrPixelOffset( 0 ),
-	PointSize( 0 ),
-	CharHeight( 0 ),
-	UnicodeCharArray( NULL ),
-	FirstUnicodeChar( 0xFFFF ),
-	LastUnicodeChar( 0 ),
-	IsBold (false)
-{
-	AlternateUnicodeFont = NULL;
-	::memset( ASCIICharArray, 0, sizeof (ASCIICharArray) );
-	return ;
-}
+// BFME 2's body is the row 0x00157950 in FontCharsClassConstructorBFME.cpp; Zero Hour's copy here duplicated it.
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -1244,18 +665,8 @@ FontCharsClass::FontCharsClass (void) :
 //	~FontCharsClass
 //
 ////////////////////////////////////////////////////////////////////////////////////
-// ??1FontCharsClass@@UAE@XZ present-unmatched
-FontCharsClass::~FontCharsClass (void) 
-{
-	while ( BufferList.Count() ) {
-		delete [] BufferList[0];
-		BufferList.Delete(0);
-	}
-
-	Free_GDI_Font();
-	Free_Character_Arrays();
-	return ;
-}
+// BFME 2's body is the row 0x00157390 in FontCharsClassDestructorBFME.cpp; Zero Hour's copy here
+// duplicated it and was the definition the link kept.
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -1263,36 +674,7 @@ FontCharsClass::~FontCharsClass (void)
 //	Get_Char_Data
 //
 ////////////////////////////////////////////////////////////////////////////////////
-const FontCharsClassCharDataStruct *
-// ?Get_Char_Data@FontCharsClass@@AAEPBVFontCharsClassCharDataStruct@@G@Z present-unmatched
-FontCharsClass::Get_Char_Data (WCHAR ch)
-{
-	const FontCharsClassCharDataStruct *retval = NULL;
-
-	if ( ch < 256 ) 
-	{
-		retval = ASCIICharArray[ch];
-	} 
- 	else if ( AlternateUnicodeFont && this != AlternateUnicodeFont )
-	{
-		return AlternateUnicodeFont->Get_Char_Data( ch );
-	}
-	else
-	{
-		Grow_Unicode_Array( ch );
-		retval = UnicodeCharArray[ch - FirstUnicodeChar];
-	}	
-
-	//
-	//	If the character wasn't found, then add it to our list
-	//
-	if ( retval == NULL ) {
-		retval = Store_GDI_Char( ch );
-	}
-
-	WWASSERT( retval->Value == ch );
-	return retval;
-}
+// Owned by FontCharsClassGetCharData.cpp.
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -1337,38 +719,7 @@ FontCharsClass::Get_Char_Width (WCHAR ch)
 //	Blit_Char
 //
 ////////////////////////////////////////////////////////////////////////////////////
-void
-// ?Blit_Char@FontCharsClass@@QAEXGPAGHHH@Z present-unmatched
-FontCharsClass::Blit_Char (WCHAR ch, uint16 *dest_ptr, int dest_stride, int x, int y)
-{
-	const FontCharsClassCharDataStruct	* data = Get_Char_Data( ch );
-	if ( data != NULL && data->Width != 0 ) {
-
-		//
-		//	Setup the src and destination pointers
-		//
-		int dest_inc		= (dest_stride >> 1);
-		uint16 *src_ptr	= data->Buffer;
-		dest_ptr				+= (dest_inc * y) + x;
-
-		//
-		//	Simply copy the data from the src buffer to the destination
-		//
-		for ( int row = 0; row < CharHeight; row ++ ) {
-			for ( int col = 0; col < data->Width; col ++ ) {
-				uint16 curData = *src_ptr;
-				if (col<PixelOverlap) {
-					curData |= dest_ptr[col];
-				} 
-				dest_ptr[col] = curData;
-				src_ptr++;
-			}
-			dest_ptr	+= dest_inc;
-		}		
-	}
-
-	return ;
-}
+// Owned by FontCharsClassBlitChar.cpp.
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -1505,35 +856,25 @@ FontCharsClass::Store_GDI_Char (WCHAR ch)
 //	Update_Current_Buffer
 //
 ////////////////////////////////////////////////////////////////////////////////////
-void
-// ?Update_Current_Buffer@FontCharsClass@@AAEXH@Z present-unmatched
-FontCharsClass::Update_Current_Buffer (int char_width)
+// The buffer-update body lives under FontCharsClass_Update_Current_Buffer.cpp
+// (retail 0x00156490); this TU keeps only the class declaration so callers
+// bind the kept copy and this unit emits no competing COMDAT.
+//
+// ?bfmeEmitFontCharsBufferAdd@@YAXPAV?$DynamicVectorClass@PAVFontCharsBuffer@@@@PAVFontCharsBuffer@@@Z present-unmatched
+// Emit-anchor: the deleted Update_Current_Buffer was the only referrer of the
+// rowed DynamicVectorClass<FontCharsBuffer*>::Add (0x001A3A60); this anchor
+// keeps emitting it. It is not retail code.
+void bfmeEmitFontCharsBufferAdd(DynamicVectorClass<FontCharsBuffer *> *v, FontCharsBuffer *fontCharsBuffer) { v->Add(fontCharsBuffer); }
+
+// ?bfmeEmitFontCharsBufferTeardown@@YAXPAV?$DynamicVectorClass@PAVFontCharsBuffer@@@@@Z present-unmatched
+// Emit-anchor: the deleted ~FontCharsClass duplicate was the only referrer of the rowed
+// DynamicVectorClass<FontCharsBuffer*>::Delete and, through the vector destructor, the
+// VectorClass<FontCharsBuffer*> ID / operator== slots; this keeps emitting them. It is not
+// retail code.
+void bfmeEmitFontCharsBufferTeardown(DynamicVectorClass<FontCharsBuffer *> *v)
 {
-	//
-	//	Check to see if we need to allocate a new buffer
-	//
-	bool needs_new_buffer = (BufferList.Count () == 0);
-	if (needs_new_buffer == false) {
-		
-		//
-		//	Would we extend past this buffer?
-		//
-		if ( (CurrPixelOffset + (char_width * CharHeight)) > CHAR_BUFFER_LEN ) {
-			needs_new_buffer = true;
-		}
-	}
-
-	//
-	//	Do we need to create a new surface?
-	//
-	if (needs_new_buffer) 
-	{
-		FontCharsBuffer* new_buffer = W3DNEW FontCharsBuffer;
-		BufferList.Add( new_buffer );
-		CurrPixelOffset = 0;
-	}
-
-	return ;
+	v->Delete(0);
+	v->DynamicVectorClass<FontCharsBuffer *>::~DynamicVectorClass();
 }
 
 
@@ -1542,103 +883,8 @@ FontCharsClass::Update_Current_Buffer (int char_width)
 //	Create_GDI_Font
 //
 ////////////////////////////////////////////////////////////////////////////////////
-void
 // byte-exact reconstruction: Code/GameEngine/Source/Common/FontCharsClass_Create_GDI_FontMethodThunk.cpp
-// ?Create_GDI_Font@FontCharsClass@@AAEXPBD@Z present-unmatched
-FontCharsClass::Create_GDI_Font (const char *font_name)
-{
-	HDC screen_dc = ::GetDC ((HWND)WW3D::Get_Window());
-
-	const char *fontToUseForGenerals = "Arial";
-	bool doingGenerals = false;
-	if (strcmp(font_name, "Generals")==0) {
-		font_name = fontToUseForGenerals;
-		doingGenerals = true;
-	}
-
-	//
-	//	Calculate the height of the font in logical units
-	//
-	const int dotsPerInch = 96; // always use 96.	jba.
-	int font_height = -MulDiv (PointSize, dotsPerInch, 72);
-
-	int fontWidth = 0; // use font default.
-	if (doingGenerals) {
-		//fontWidth = -font_height*0.35f; //2 pixels tighter.
-		fontWidth = -font_height*0.40f; // one pixel tighter
-	}
-	PixelOverlap = (-font_height)/8;
-
-	// Sanity check in case of perversion. :)
-	if (PixelOverlap<0) PixelOverlap = 0;
-	if (PixelOverlap>4) PixelOverlap = 4;
-	//
-	//	Create the Windows font
-	//
-	DWORD bold		= IsBold ? FW_BOLD : FW_NORMAL;
-	DWORD italic	= 0;
-	GDIFont			= ::CreateFont (font_height, fontWidth, 0, 0, bold, italic,
-								FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
-								CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY,
-								VARIABLE_PITCH, font_name);
-	
-	//
-	// Set-up the fields of the BITMAPINFOHEADER
-	//	Note: Top-down DIBs use negative height in Win32.
-	//
-	BITMAPINFOHEADER bitmap_info = { 0 };
-	bitmap_info.biSize				= sizeof (BITMAPINFOHEADER);
-	bitmap_info.biWidth				= PointSize * 2;
-	bitmap_info.biHeight				= -(PointSize * 2);
-	bitmap_info.biPlanes				= 1;
-	bitmap_info.biBitCount			= 24;
-	bitmap_info.biCompression		= BI_RGB;
-	bitmap_info.biSizeImage			= ((PointSize * PointSize * 4) * 3);
-	bitmap_info.biXPelsPerMeter	= 0;
-	bitmap_info.biYPelsPerMeter	= 0;
-	bitmap_info.biClrUsed			= 0;
-	bitmap_info.biClrImportant		= 0;
-
-	//
-	// Create a bitmap that we can access the bits directly of
-	//
-	GDIBitmap	= ::CreateDIBSection (	screen_dc,
-													(const BITMAPINFO *)&bitmap_info,
-													DIB_RGB_COLORS,
-													(void **)&GDIBitmapBits,
-													NULL,
-													0L);
-
-	//
-	//	Create a device context we can select the font and bitmap into
-	//
-	MemDC = ::CreateCompatibleDC (screen_dc);
-
-	//
-	// Release our temporary screen DC
-	//
-	::ReleaseDC ((HWND)WW3D::Get_Window(), screen_dc);
-
-	//
-	//	Now select the BMP and font into the DC
-	//
-	OldGDIBitmap	= (HBITMAP)::SelectObject (MemDC, GDIBitmap);
-	OldGDIFont		= (HFONT)::SelectObject (MemDC, GDIFont);
-	::SetBkColor (MemDC, RGB (0, 0, 0));
-	::SetTextColor (MemDC, RGB (255, 255, 255));
-
-	//
-	//	Lookup the pixel height of the font
-	//
-	TEXTMETRIC text_metric = { 0 };
-	::GetTextMetrics (MemDC, &text_metric);
-	CharHeight = text_metric.tmHeight;	
-	CharAscent = text_metric.tmAscent;
-	CharOverhang = text_metric.tmOverhang;
-	if (doingGenerals) {
-		CharOverhang = 0;
-	}
-}
+// BFME 2's body is the row 0x00154630 in FontCharsClassCreateGDIFont.cpp; Zero Hour's copy here duplicated it.
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -1796,40 +1042,17 @@ FontCharsClass::Grow_Unicode_Array (WCHAR ch)
 //	Free_Character_Arrays
 //
 ////////////////////////////////////////////////////////////////////////////////////
-void
-// ?Free_Character_Arrays@FontCharsClass@@ present-unmatched
-FontCharsClass::Free_Character_Arrays (void)
-{
-	if ( UnicodeCharArray != NULL ) {
+// Owned by FontCharsClassFreeCharacterArrays.cpp.
 
-		int count = (LastUnicodeChar - FirstUnicodeChar) + 1;
-		
-		//
-		//	Delete each member of the unicode array
-		//
-		for (int index = 0; index < count; index ++) {
-			if ( UnicodeCharArray[index] != NULL && UnicodeCharArray[index] != (FontCharsClassCharDataStruct *)-1 ) {
-				::operator delete( UnicodeCharArray[index] );
-				UnicodeCharArray[index] = NULL;
-			}
-		}
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??4BfmeRendererVectorBase@@QAEAAV0@ABV0@@Z=??4?$VectorClass@PAVRender2DClass@@@@QAEAAV0@ABV0@@Z")
 
-		//
-		//	Delete the array itself
-		//
-		::operator delete[]( UnicodeCharArray );
-		UnicodeCharArray = NULL;
-	}
-
-	//
-	//	Delete each member of the ascii character array
-	//
-	for (int index = 0; index < 256; index ++) {		
-		if ( ASCIICharArray[index] != NULL && ASCIICharArray[index] != (FontCharsClassCharDataStruct *)-1 ) {
-			::operator delete( ASCIICharArray[index] );
-			ASCIICharArray[index] = NULL;
-		}
-	}
-	
-	return ;
-}
+// Keep the already rowed container members that the retired donor sentence
+// constructor used to instantiate; the native sentence constructor lives in
+// Render2DSentenceConstructorBFME2.cpp. Explicit instantiation preserves the
+// header's private nested-type identity without altering its declarations.
+template class VectorClass<Render2DSentenceClass::PendingSurfaceStruct>;
+template class DynamicVectorClass<Render2DSentenceClass::PendingSurfaceStruct>;
+template class VectorClass<Render2DSentenceClass::RendererDataStruct>;
+template class VectorClass<Render2DSentenceClass::SentenceDataStruct>;

@@ -1,5 +1,16 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /Ireference/shims/nat /Ireference/shims/bfme2_ascii_native_copy /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // stlport
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #define Matrix4x4 Matrix4  // BFME renamed it
 #define __PLACEMENT_VEC_NEW_INLINE  // always.h/GameMemory.h define array placement-new themselves
 // stlport
@@ -53,6 +64,14 @@
 #include "GameClient/Drawable.h"
 #include "Common/INI.h"
 
+// Bottom-loop overload: this TU's flags compile the generic range-destroy to
+// a non-retail form; the overload wins for (AsciiString*,AsciiString*) and
+// offers the link no competing template copy (row 32 family2-LK3).
+namespace _STL {
+inline void _Destroy(AsciiString * __first, AsciiString * __last)
+{ for (; __first != __last; ++__first) __first->~AsciiString(); }
+}
+
 #ifdef _INTERNAL
 // for occasional debugging...
 //#pragma optimize("", off)
@@ -73,39 +92,12 @@ ThingFactory *TheThingFactory = NULL;  ///< Thing manager singleton declaration
 //-------------------------------------------------------------------------------------------------
 /** Free all data loaded into this template database */
 //-------------------------------------------------------------------------------------------------
-// ?freeDatabase@ThingFactory@@ present-unmatched
-void ThingFactory::freeDatabase( void )
-{
-	while (m_firstTemplate)
-	{
-		ThingTemplate* tmpl = m_firstTemplate;
-		m_firstTemplate = m_firstTemplate->friend_getNextTemplate();
-		tmpl->deleteInstance();
-	}
-
-	m_templateHashMap.clear();
-
-}  // end freeDatabase
+// BFME2 freeDatabase is recovered in ThingFactoryReset.cpp.
 
 //-------------------------------------------------------------------------------------------------
 /** add the thing template passed in, into the databse */
 //-------------------------------------------------------------------------------------------------
-// ?addTemplate@ThingFactory@@ present-unmatched
-void ThingFactory::addTemplate( ThingTemplate *tmplate )
-{
-	ThingTemplateHashMapIt tIt = m_templateHashMap.find(tmplate->getName());
-
-	if (tIt != m_templateHashMap.end()) {
-		DEBUG_CRASH(("Duplicate Thing Template name found: %s\n", tmplate->getName().str()));
-	}
-
-	// Link it to the list
-	tmplate->friend_setNextTemplate(m_firstTemplate);
-	m_firstTemplate = tmplate;
-
-	// Add it to the hash table.
-	m_templateHashMap[tmplate->getName()] = tmplate;
-}  // end addTemplate
+// BFME2 addTemplate, including its replacement path, is recovered in ThingFactoryReset.cpp.
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // PUBLIC METHODS
@@ -113,98 +105,19 @@ void ThingFactory::addTemplate( ThingTemplate *tmplate )
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ??0ThingFactory@@ present-unmatched
-ThingFactory::ThingFactory()
-{
-	m_firstTemplate = NULL;
-	m_nextTemplateID = 1;	// not zero!
-
-	m_templateHashMap.resize( TEMPLATE_HASH_SIZE );
-}  // end ThingFactory
+// BFME2's complete85B constructor is recovered at002D0E14 in
+// Rva002D0E14Ctor.cpp. The unmatched ZH constructor formerly left here
+// also emitted a non-retail30B deleting destructor; keep that competing
+// construction/vtable copy out of the link. ThingFactoryDtor.cpp emits
+// the native28B deleting destructor with its verified71B out-of-line dtor.
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 // ??1ThingFactory@@ present-unmatched
-ThingFactory::~ThingFactory()
-{
-
-	// free all the template data
-	freeDatabase();
-
-}  // end ~ThingFactory
-
-//-------------------------------------------------------------------------------------------------
-/** Create a new template with name 'name' and add to our template list */
-//-------------------------------------------------------------------------------------------------
-// ?newTemplate@ThingFactory@@ present-unmatched
-ThingTemplate *ThingFactory::newTemplate( const AsciiString& name )
-{
-	ThingTemplate *newTemplate;
-
-	// allocate template
-	newTemplate = newInstance(ThingTemplate);
-
-	// if the default template is present, get it and copy over any data to the new template
-	const ThingTemplate *defaultT = findTemplate( AsciiString( "DefaultThingTemplate" ), FALSE );
-	if( defaultT )
-	{
-
-		// copy over static data
-		*newTemplate = *defaultT;
-		newTemplate->setCopiedFromDefault();
-
-	}  // end if
-
-	// give template a unique identifier
-	newTemplate->friend_setTemplateID( m_nextTemplateID++ );
-	DEBUG_ASSERTCRASH( m_nextTemplateID != 0, ("m_nextTemplateID wrapped to zero") );
-
-	// assign name
-	newTemplate->friend_setTemplateName( name );
-
-	// add to list
-	addTemplate( newTemplate );
-
-	// return the newly created template
-	return newTemplate;
-
-}
-
-//-------------------------------------------------------------------------------------------------
-/** Create newTemplate, copy data from final override of 'thingTemplate' to the newly created one,
-	* and add newTemplate as the m_override of that final override.  NOTE that newTemplate
-	* is *NOT* added to master template list, it is a hidden place to store
-	* override values for 'thingTemplate' */
-//-------------------------------------------------------------------------------------------------
-// ?newOverride@ThingFactory@@ present-unmatched
-ThingTemplate* ThingFactory::newOverride( ThingTemplate *thingTemplate )
-{
-
-	// sanity
-	DEBUG_ASSERTCRASH( thingTemplate, ("newOverride(): NULL 'parent' thing template\n") );
-
-	// sanity just for debuging, the weapon must be in the master list to do overrides
-	DEBUG_ASSERTCRASH( findTemplate( thingTemplate->getName() ) != NULL,
-										 ("newOverride(): Thing template '%s' not in master list\n", 
-										 thingTemplate->getName().str()) );
-
-	// find final override of the 'parent' template
-	ThingTemplate *child = (ThingTemplate*) thingTemplate->friend_getFinalOverride();
-
-	// allocate new template
-	ThingTemplate *newTemplate = newInstance(ThingTemplate);
-
-	// copy data from final override to 'newTemplate' as a set of initial default values
-	*newTemplate = *child;
-	newTemplate->setCopiedFromDefault();
-
-	newTemplate->markAsOverride();
-	child->setNextOverride(newTemplate);
-
-	// return the newly created override for us to set values with etc
-	return newTemplate;
-
-}  // end newOverride
+// BFME2's newTemplate and newOverride are recovered in ThingFactoryNewTemplate.cpp
+// and ThingFactoryNewOverride.cpp. The unmatched ZH copies formerly left here
+// emitted a non-retail 1216-byte ThingTemplate::operator= (Zero Hour layout)
+// ahead of retail's 0x002D1101 in link order; keep them out of the link.
 
 //-------------------------------------------------------------------------------------------------
 /** Init */
@@ -218,41 +131,7 @@ void ThingFactory::init( void )
 //-------------------------------------------------------------------------------------------------
 /** Reset */
 //-------------------------------------------------------------------------------------------------
-// ?reset@ThingFactory@@ present-unmatched
-void ThingFactory::reset( void )
-{
-	ThingTemplate *t;
-	// go through all templates and delete any overrides
-	for( t = m_firstTemplate; t; /* empty */ )
-	{
-		Bool possibleAdjustment = FALSE;
-		// t itself can be deleted if it is something created for this map only. Therefore, 
-		// we need to store what the next item is so that we don't orphan a bunch of templates.
-		ThingTemplate *nextT = t->friend_getNextTemplate();
-		if (t == m_firstTemplate) {
-			possibleAdjustment = TRUE;
-		}
-
-		// if stillValid is NULL after we delete the overrides, then this template was created for 
-		// this map only. If it also happens to be m_firstTemplate, then we need to update m_firstTemplate
-		// as well. Finally, if it was only created for this map, we need to remove the name from the 
-		// hash map, to prevent any crashes.
-
-		AsciiString templateName = t->getName();
-		
-		Overridable *stillValid = t->deleteOverrides();
-		if (stillValid == NULL && possibleAdjustment) {
-			m_firstTemplate = nextT;
-		}
-		
-		if (stillValid == NULL) {
-			// Also needs to be removed from the Hash map.
-			m_templateHashMap.erase(templateName);
-		}
-
-		t = nextT;
-	}
-}  // end reset
+// BFME2 reset is recovered in ThingFactoryReset.cpp.
 
 //-------------------------------------------------------------------------------------------------
 /** Update */
@@ -267,6 +146,7 @@ void ThingFactory::update( void )
 /** Return the template with the matching database name */
 //-------------------------------------------------------------------------------------------------
 // BFME ThingTemplate: m_nextTemplate @+0x38c, m_templateID @+0x478 (ZH headers differ).
+// ?ThingFactory::findByTemplateID present-unmatched
 const ThingTemplate *ThingFactory::findByTemplateID( UnsignedShort id )
 {
 	struct BFMEThingTemplateLinks {
@@ -275,12 +155,12 @@ const ThingTemplate *ThingFactory::findByTemplateID( UnsignedShort id )
 		unsigned char padId[0x478 - 0x38c - sizeof(ThingTemplate *)];
 		UnsignedShort templateID;
 	};
-	for (ThingTemplate *tmpl = m_firstTemplate; tmpl; )
+	for (ThingTemplate *thingTemplate = m_firstTemplate; thingTemplate; )
 	{
-		BFMEThingTemplateLinks *links = reinterpret_cast<BFMEThingTemplateLinks *>(tmpl);
+		BFMEThingTemplateLinks *links = reinterpret_cast<BFMEThingTemplateLinks *>(thingTemplate);
 		if (links->templateID == id)
-			return tmpl;
-		tmpl = links->nextTemplate;
+			return thingTemplate;
+		thingTemplate = links->nextTemplate;
 	}
 	return NULL;
 }
@@ -300,14 +180,14 @@ ThingTemplate *ThingFactory::findTemplateInternal( const AsciiString& name, Bool
 #ifdef LOAD_TEST_ASSETS
 	if (!strncmp(name.str(), TEST_STRING, strlen(TEST_STRING))) 
 	{
-		ThingTemplate *tmplate = newTemplate( AsciiString( "Un-namedTemplate" ) );
+		ThingTemplate *thingTemplate = newTemplate( AsciiString( "Un-namedTemplate" ) );
 
 		// load the values
-		tmplate->initForLTA( name );
+		thingTemplate->initForLTA( name );
 
 		// Kinda lame, but necessary.
 		m_templateHashMap.erase("Un-namedTemplate");
-		m_templateHashMap[name] = tmplate;
+		m_templateHashMap[name] = thingTemplate;
 
 		// add tmplate template to the database
 		return findTemplateInternal( name );
@@ -326,32 +206,32 @@ ThingTemplate *ThingFactory::findTemplateInternal( const AsciiString& name, Bool
 
 //=============================================================================
 // ?newObject@ThingFactory@@ present-unmatched
-Object *ThingFactory::newObject( const ThingTemplate *tmplate, Team *team, ObjectStatusMaskType statusBits )
+Object *ThingFactory::newObject( const ThingTemplate *thingTemplate, Team *team, ObjectStatusMaskType statusBits )
 {
-	if (tmplate == NULL)
+	if (thingTemplate == NULL)
 		throw ERROR_BAD_ARG;
 
-	const std::vector<AsciiString>& asv = tmplate->getBuildVariations();
+	const std::vector<AsciiString>& asv = thingTemplate->getBuildVariations();
 	if (!asv.empty())
 	{
 		Int which = GameLogicRandomValue(0, asv.size()-1);
 		const ThingTemplate* tmp = findTemplate( asv[which] );
 		if (tmp != NULL)
-			tmplate = tmp;
+			thingTemplate = tmp;
 	}
 
-	DEBUG_ASSERTCRASH(!tmplate->isKindOf(KINDOF_DRAWABLE_ONLY), ("You may not create Objects with the template %s, only Drawables\n",tmplate->getName().str()));
+	DEBUG_ASSERTCRASH(!thingTemplate->isKindOf(KINDOF_DRAWABLE_ONLY), ("You may not create Objects with the template %s, only Drawables\n",thingTemplate->getName().str()));
 
 	// have the game logic create an object of the correct type.
 	// (this will throw an exception on failure.)
 	//Added ability to pass in optional statusBits. This is needed to be set prior to
 	//the onCreate() calls... in the case of constructing.
-	Object *obj = TheGameLogic->friend_createObject( tmplate, statusBits, team );
+	Object *obj = TheGameLogic->friend_createObject( thingTemplate, statusBits, team );
 
 	// run the create function for the thing
-	for (BehaviorModule** m = obj->getBehaviorModules(); *m; ++m)
+	for (BehaviorModule** behaviorModule = obj->getBehaviorModules(); *behaviorModule; ++behaviorModule)
 	{
-		CreateModuleInterface* create = (*m)->getCreate();
+		CreateModuleInterface* create = (*behaviorModule)->getCreate();
 		if (!create)
 			continue;
 	
@@ -371,21 +251,6 @@ Object *ThingFactory::newObject( const ThingTemplate *tmplate, Team *team, Objec
 } 
 
 //=============================================================================
-// ?newDrawable@ThingFactory@@ present-unmatched
-Drawable *ThingFactory::newDrawable(const ThingTemplate *tmplate, DrawableStatus statusBits)
-{
-	if (tmplate == NULL)
-		throw ERROR_BAD_ARG;
-
-	Drawable *draw = TheGameClient->friend_createDrawable( tmplate, statusBits );
-
-	/** @todo we should keep track of all the drawables we've allocated here
-	but we'll wait until we have an drawable storage to do that cause it will
-	all be tied together */
-
-	return draw;
-
-}  // end newDrawableByType
 
 #if defined(_DEBUG) || defined(_INTERNAL)
 AsciiString TheThingTemplateBeingParsedName;
@@ -464,6 +329,62 @@ AsciiString TheThingTemplateBeingParsedName;
 #ifdef CHECK_THING_NAMES
 
 #include "Common/STLTypedefs.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Destroy<ProductionPrerequisite::PrereqUnitRec *>(ProductionPrerequisite::PrereqUnitRec *, ProductionPrerequisite::PrereqUnitRec *); }
+namespace _STL { template <> ScienceType * __copy<ScienceType const *, ScienceType *, int>(ScienceType const *, ScienceType const *, ScienceType *, random_access_iterator_tag const &, int *); }
+namespace _STL { template <> unsigned int const * __lower_bound<unsigned int const *, unsigned int, less<unsigned int>, int>(unsigned int const *, unsigned int const *, unsigned int const &, less<unsigned int>, int *); }
+namespace _STL { template <> void advance<unsigned int const *, int>(unsigned int const *&, int); }
+namespace _STL { template <> unsigned int hash<char const *>::operator()(char const *) const; }
+namespace _STL { template <> pair<AsciiString const, ThingTemplate *> & hashtable<pair<AsciiString const, ThingTemplate *>, AsciiString, rts::hash<AsciiString>, _Select1st<pair<AsciiString const, ThingTemplate *> >, rts::equal_to<AsciiString>, allocator<pair<AsciiString const, ThingTemplate *> > >::_M_insert(pair<AsciiString const, ThingTemplate *> const &); }
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$_Destroy@PAUPrereqUnitRec@ProductionPrerequisite@@@_STL@@YAXPAUPrereqUnitRec@Production:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _Destroy<ProductionPrerequisite::PrereqUnitRec *>(ProductionPrerequisite::PrereqUnitRec *,ProductionPrerequisite::PrereqUnitRec *); }
+// Suppress this TU's non-retail copy of ??$_M_find@VAsciiString@@@?$hashtable@U?$pair@$$CBVAsciiString@@PAVThingTemplate@@@_STL@@V:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString; class ThingTemplate;
+namespace _STL { template <> template <> _Hashtable_node<pair<AsciiString const ,ThingTemplate *> > * hashtable<pair<AsciiString const ,ThingTemplate *>,AsciiString,rts::hash<AsciiString>,_Select1st<pair<AsciiString const ,ThingTemplate *> >,rts::equal_to<AsciiString>,allocator<pair<AsciiString const ,ThingTemplate *> > >::_M_find<AsciiString>(AsciiString const &) const; }
+// Suppress this TU's non-retail copy of ?_M_insert@?$hashtable@U?$pair@$$CBVAsciiString@@PAVThingTemplate@@@_STL@@VAsciiString@@U?:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString; class ThingTemplate;
+namespace _STL { template <> pair<AsciiString const ,ThingTemplate *> & hashtable<pair<AsciiString const ,ThingTemplate *>,AsciiString,rts::hash<AsciiString>,_Select1st<pair<AsciiString const ,ThingTemplate *> >,rts::equal_to<AsciiString>,allocator<pair<AsciiString const ,ThingTemplate *> > >::_M_insert(pair<AsciiString const ,ThingTemplate *> const &); }
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@UPrereqUnitRec@ProductionPrerequisite@@V?$allocator@UPrereqUnitRec@Prod:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void vector<ProductionPrerequisite::PrereqUnitRec,allocator<ProductionPrerequisite::PrereqUnitRec> >::_M_clear(); }
+// Suppress this TU's non-retail copy of ??$_Construct@U?$pair@$$CBVAsciiString@@PAVThingTemplate@@@_STL@@U12@@_STL@@YAXPAU?$pair@$:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString; class ThingTemplate;
+namespace _STL { template <> void _Construct<pair<AsciiString const ,ThingTemplate *>,pair<AsciiString const ,ThingTemplate *> >(pair<AsciiString const ,ThingTemplate *> *,pair<AsciiString const ,ThingTemplate *> const &); }
+// Suppress this TU's non-retail copy of ?__stl_hash_string@_STL@@YAIPBD@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> unsigned int __stl_hash_string(char const *); }
+// Suppress this TU's non-retail copy of ??$advance@PBIH@_STL@@YAXAAPBIH@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void advance<unsigned int const *,int>(unsigned int const * &,int); }
+// Suppress this TU's non-retail copy of ??$_M_allocate_and_copy@PBW4ScienceType@@@?$vector@W4ScienceType@@V?$allocator@W4ScienceTy:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum ScienceType;
+namespace _STL { template <> template <> ScienceType * vector<ScienceType,allocator<ScienceType> >::_M_allocate_and_copy<ScienceType const *>(unsigned int,ScienceType const *,ScienceType const *); }
+// Suppress this TU's non-retail copy of ??$_M_allocate_and_copy@PBW4ScienceType@@@?$vector@W4ScienceType@@V?$allocator@W4ScienceTy:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum ScienceType;
+namespace _STL { template <> ScienceType * vector<ScienceType,allocator<ScienceType> >::_M_allocate_and_copy<ScienceType const *>(unsigned int,ScienceType const *,ScienceType const *); }
+// Suppress this TU's non-retail copy of ??$__advance@PBIH@_STL@@YAXAAPBIHABUrandom_access_iterator_tag@0@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void __advance<unsigned int const *,int>(unsigned int const * &,int,random_access_iterator_tag const &); }
+// Suppress this TU's non-retail copy of ??$__lower_bound@PBIIU?$less@I@_STL@@H@_STL@@YAPBIPBI0ABIU?$less@I@0@PAH@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> const unsigned int *__lower_bound<const unsigned int *, unsigned int, less<unsigned int>, int>(const unsigned int *, const unsigned int *, const unsigned int &, less<unsigned int>, int *); }
+
+// A declaration-only specialization stops this TU emitting its own
+// vector<AsciiString> COMDAT copies, so the calls bind the kept rowed copies.
+namespace _STL {
+template <> vector<AsciiString, allocator<AsciiString> >::~vector();
+template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
+template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);
+template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
+template <> vector<AsciiString, allocator<AsciiString> > &vector<AsciiString, allocator<AsciiString> >::operator=(const vector<AsciiString, allocator<AsciiString> >&);
+}
 
 const char *outFilenameINI				= "thing.txt";
 const char *outFilenameStringFile	= "thingString.txt";
@@ -536,41 +457,23 @@ void reportMissingNameInTemplate( AsciiString templateName )
 //-------------------------------------------------------------------------------------------------
 /** Post process phase after loading the database files */
 //-------------------------------------------------------------------------------------------------
-// ?postProcessLoad@ThingFactory@@ present-unmatched
-void ThingFactory::postProcessLoad()
-{
-#ifdef CHECK_THING_NAMES
-	//resetReportFile();
-#endif
+// BFME2 postProcessLoad is recovered in ThingFactoryReset.cpp.
 
-	// go through all thing templates
-	for( ThingTemplate *thingTemplate = m_firstTemplate; 
-			 thingTemplate; 
-			 thingTemplate = thingTemplate->friend_getNextTemplate() )
-	{
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?dup_002ca82c@@YAXXZ=??$_Construct@VArmorTemplateSet@@V1@@_STL@@YAXPAVArmorTemplateSet@@ABV1@@Z")
 
-		// resolve the prerequisite names
-		thingTemplate->resolveNames();
+// Retain this unit's existing header-inline row after the unfinished
+// freeDatabase caller moves to its verified BFME2 unit. This pointer is
+// a compile anchor, not a retail data claim.
+extern ThingTemplate *(ThingTemplate::*const _bfmeInlineAnchorFriendNext)() const =
+    &ThingTemplate::friend_getNextTemplate;
 
-#ifdef CHECK_THING_NAMES
-		if (thingTemplate->getDisplayName().isEmpty())
-		{
-			reportMissingNameInTemplate( thingTemplate->getName() );
-		}
-		else if (wcsstr(thingTemplate->getDisplayName().str(), L"MISSING:"))
-		{
-			AsciiString asciiName;
-			asciiName.translate(thingTemplate->getDisplayName());
-			asciiName.removeLastChar();
-			asciiName = asciiName.str() + 17;
-			reportMissingNameInStringFile( asciiName );
-		}
-#endif
-
-	}  // end for 
-
-#ifdef CHECK_THING_NAMES
-	dumpMissingStringNames();
-	exit(0);
-#endif
-}  // end postProcess
+// The same for the header-inline rows that the ZH ThingTemplate::operator=
+// used to pull in: compile anchors, not retail data claims.
+extern ProductionPrerequisite &(ProductionPrerequisite::*const _bfmeInlineAnchorPrereqAssign)(const ProductionPrerequisite &) =
+    &ProductionPrerequisite::operator=;
+extern DynamicAudioEventRTS &(DynamicAudioEventRTS::*const _bfmeInlineAnchorDynAudioAssign)(const DynamicAudioEventRTS &) =
+    &DynamicAudioEventRTS::operator=;
+extern std::vector<ProductionPrerequisite>::size_type (std::vector<ProductionPrerequisite>::*const _bfmeInlineAnchorPrereqSize)() const =
+    &std::vector<ProductionPrerequisite>::size;

@@ -12,11 +12,18 @@
 
 #include <stdio.h>
 
-class BfmeC994
+class BfmeC994;
+
+class BfmeThingCIB
 {
 public:
-	void addInt( const char *key, int value );
-	void addString( const char *key, const char *value );
+	void bfmeGoCIB( void *key, void *value );
+};
+
+class BfmeThingCIC
+{
+public:
+	void bfmeGoCIC( void *key, void *value );
 };
 
 class GetterWord
@@ -114,8 +121,8 @@ void BfmeThingUNC::rva00809330( BfmeC994 *message, int gid )
 {
 	Rva00809330Sender const *sender = m_owner->m_sender;
 
-	message->addInt( "LID", -2 );
-	message->addInt( "GID", gid );
+	((BfmeThingCIB *)message)->bfmeGoCIB( (void *)"LID", (void *)-2 );
+	((BfmeThingCIB *)message)->bfmeGoCIB( (void *)"GID", (void *)gid );
 
 	Rva00809330Attributes *attributes = &m_owner->m_gameAttributes;
 	int count = attributes->m_count;
@@ -124,10 +131,10 @@ void BfmeThingUNC::rva00809330( BfmeC994 *message, int gid )
 		char key[ 0x40 ];
 		const char *attribute = attributes->at( index )->m_key;
 		sprintf( key, "D-%.60s", attribute );
-		message->addString( key, sender->value( attribute ) );
+		((BfmeThingCIC *)message)->bfmeGoCIC( (void *)key, (void *)sender->value( attribute ) );
 	}
 
-	message->addString( "UGID", sender->uid() );
+	((BfmeThingCIC *)message)->bfmeGoCIC( (void *)"UGID", (void *)sender->uid() );
 }
 
 void BfmeThingUNC::rva00809400( BfmeC994 *message, int gid,
@@ -135,11 +142,11 @@ void BfmeThingUNC::rva00809400( BfmeC994 *message, int gid,
 {
 	GetterWord pid = player->get();
 
-	message->addInt( "LID", -2 );
-	message->addInt( "GID", gid );
-	message->addInt( "PID", pid.m_value );
-	message->addString( "NAME", player->name() );
-	message->addInt( "UID", 0 );
+	((BfmeThingCIB *)message)->bfmeGoCIB( (void *)"LID", (void *)-2 );
+	((BfmeThingCIB *)message)->bfmeGoCIB( (void *)"GID", (void *)gid );
+	((BfmeThingCIB *)message)->bfmeGoCIB( (void *)"PID", (void *)pid.m_value );
+	((BfmeThingCIC *)message)->bfmeGoCIC( (void *)"NAME", (void *)player->name() );
+	((BfmeThingCIB *)message)->bfmeGoCIB( (void *)"UID", (void *)0 );
 
 	const Rva00809400Attributes *attributes = &m_owner->m_playerAttributes;
 	int count = attributes->m_count;
@@ -148,6 +155,6 @@ void BfmeThingUNC::rva00809400( BfmeC994 *message, int gid,
 		char key[ 0x40 ];
 		const char *attribute = attributes->at( index )->m_key;
 		sprintf( key, "P-%.60s", attribute );
-		message->addString( key, player->valueForKey( attribute ) );
+		((BfmeThingCIC *)message)->bfmeGoCIC( (void *)key, (void *)player->valueForKey( attribute ) );
 	}
 }

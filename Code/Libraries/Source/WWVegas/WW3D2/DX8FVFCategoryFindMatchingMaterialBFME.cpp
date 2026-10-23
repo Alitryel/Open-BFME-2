@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/shims/sweep
+// cl: /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/shims/sweep
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -115,7 +115,18 @@ private:
 };
 
 typedef MultiListClass<DX8TextureCategoryClass> TextureCategoryList;
-typedef MultiListIterator<DX8TextureCategoryClass> TextureCategoryListIterator;
+// Keep the node step local: the shared header also emits an unused
+// GenericMultiListIterator::Next copy with a different register choice.
+namespace {
+class TextureCategoryListIterator : public MultiListIterator<DX8TextureCategoryClass>
+{
+public:
+    TextureCategoryListIterator(TextureCategoryList *list)
+        : MultiListIterator<DX8TextureCategoryClass>(list) {}
+    __forceinline void Next() { CurNode = CurNode->Next; }
+};
+}
+
 
 class DX8FVFCategoryContainer : public MultiListObjectClass
 {

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 
 // ObjectLookupMap::findSlot, retail 0x0041F4E5, 63 bytes: find-or-insert
 // over the GameLogic object lookup table (sole caller is
@@ -66,7 +66,9 @@ private:
 
 
 // ?findSlot@ObjectLookupMap@@QAEPAPAVObject@@PAH@Z
-Object **ObjectLookupMap::findSlot( int *key )
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline Object **ObjectLookupMap::findSlot( int *key )
 {
 	NameKeyGenerator::KeyToBucketMap::Slot out;
 	m_map.find( out, key );
@@ -80,4 +82,72 @@ Object **ObjectLookupMap::findSlot( int *key )
 		return (Object **)(m_map.insertNode( (const NameKeyGenerator::KeyToBucketMap::value_type &)out ) + 1);
 	}
 	return &node->value;
+}
+
+// ?bfmeAnchorObjectLookupMapFindSlot absent-from-retail
+Object **bfmeAnchorObjectLookupMapFindSlot(ObjectLookupMap *p, int *key)
+{
+	return p->findSlot(key);
+}
+
+
+class Player
+{
+public:
+	// Matched callers use the target player index at +0x54 directly;
+	// avoid an out-of-line getter shared with incompatible layouts.
+public:
+	char m_pad00[0x54];
+	int m_index54; // +0x54
+};
+
+struct MapHolder
+{
+	void *m_vtbl;
+	ObjectLookupMap m_map; // +0x04
+};
+
+class Rva002ADF9C
+{
+public:
+	void rva002ADF9C(const Player *p, Object *o);
+private:
+	char m_pad00[0x330];
+	MapHolder *m_holder; // +0x330
+};
+
+void Rva002ADF9C::rva002ADF9C(const Player *p, Object *o)
+{
+	if (!p)
+		return;
+	int key = p->m_index54;
+	Object **slot = m_holder->m_map.findSlot(&key);
+	*slot = o;
+}
+
+class Team
+{
+public:
+	int getTeamKey() const { return m_key34; }
+private:
+	char m_pad00[0x34];
+	int m_key34; // +0x34
+};
+
+class Rva002ADFC7
+{
+public:
+	void rva002ADFC7(const Team *t, Object *o);
+private:
+	char m_pad00[0x334];
+	MapHolder *m_holder; // +0x334
+};
+
+void Rva002ADFC7::rva002ADFC7(const Team *t, Object *o)
+{
+	if (!t)
+		return;
+	int key = t->getTeamKey();
+	Object **slot = m_holder->m_map.findSlot(&key);
+	*slot = o;
 }

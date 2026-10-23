@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 
 // LifeEventModuleTemplate default constructor @0x3A999C: the base at rowed
 // 0x00001EF9, then the info constructor at pinned 0x00564001, then the three
@@ -11,14 +11,12 @@ class ModuleTemplate
 {
 public:
     virtual ~ModuleTemplate();
-    virtual void v1() = 0;
 };
 
 class SecondaryModuleBase
 {
 public:
     virtual ~SecondaryModuleBase();
-    virtual void v1() = 0;
 };
 
 class ModuleInfo
@@ -43,6 +41,12 @@ class CategoryModuleTemplate<8> : public ModuleTemplate, public SecondaryModuleB
 {
 public:
     CategoryModuleTemplate();
+    // LINK: declaration-only dtor (no body in this TU). The derived
+    // LifeEventModuleTemplate ctor's EH references it; with no local body the
+    // reference binds the kept copy instead of instantiating this TU's loser
+    // copy, and all references are unchanged (same mangled name). The
+    // rowed derived ctor is untouched. No flags touched.
+    ~CategoryModuleTemplate();
 };
 
 class LifeEventModuleInfo
@@ -50,13 +54,13 @@ class LifeEventModuleInfo
 public:
     LifeEventModuleInfo();
     virtual ~LifeEventModuleInfo();
-    virtual void v1() = 0;
 };
 
 class LifeEventModuleTemplate : public CategoryModuleTemplate<8>, public LifeEventModuleInfo
 {
 public:
     LifeEventModuleTemplate();
+    virtual ~LifeEventModuleTemplate();
 };
 
 // ??0LifeEventModuleTemplate@FXParticleSystem@@QAE@XZ @0x3A999C

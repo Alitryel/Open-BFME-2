@@ -1,4 +1,4 @@
-// cl: /G7 /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
+// cl: /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
 // stlport
 // ??$_M_find@VAsciiString@@@?$hashtable@U?$pair@$$CBVAsciiString@@PAVThingTemplate@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAVThingTemplate@@@_STL@@@2@U?$equal_to@VAsciiString@@@5@V?$allocator@U?$pair@$$CBVAsciiString@@PAVThingTemplate@@@_STL@@@2@@_STL@@ABEPAU?$_Hashtable_node@U?$pair@$$CBVAsciiString@@PAVThingTemplate@@@_STL@@@1@ABVAsciiString@@@Z,
 // retail 0x0016D710, 70 bytes. Dedicated TU.
@@ -14,7 +14,59 @@
 // call-free like retail. Table layout (buckets.start+4/finish+8) and the
 // div/modulo bucket selection fall out of the STLport 4.5.3 hashtable.
 
+// Retail keeps one unsigned max, RVA 0x00013740 (the vendored STLport row). This unit's
+// flags (/G7) compile a different copy, and retail kept another unit's. This unit-local
+// overload keeps the inlined code and offers the link no second copy.
+#define _STLP_BFME_LOWER_BOUND_EXTERN  // call retail's one __lower_bound<const size_t*> (vendor/stlport/stl/_hashtable.c)
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
+#include <vector>
+// vector<void*> members kept from this unit's link copies, moved beside <vector> so
+// they precede every use. Import-inline: these members are inlined at every use here,
+// and this unit's out-of-line copies (referenced from .debug$F alone) are not the ones
+// the link keeps.
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<void *,allocator<void *> >::size()const  { return (unsigned int)(this->_M_finish - this->_M_start); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void * const * vector<void *,allocator<void *> >::begin()const  { return this->_M_start; } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::begin() { return this->_M_start; } }
+namespace _STL { template <> void swap<_STLP_alloc_proxy<void **, void *, allocator<void *> > >(_STLP_alloc_proxy<void **, void *, allocator<void *> > &, _STLP_alloc_proxy<void **, void *, allocator<void *> > &); }
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(allocator<void *> const &); }
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(unsigned int, allocator<void *> const &); }
+namespace _STL { template <> vector<void *, allocator<void *> >::vector(unsigned int, void *const &, allocator<void *> const &); }
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::_M_clear(); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::_M_fill_insert(void **, unsigned int, void *const &); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::_M_insert_overflow(void **, void *const &, __true_type const &, unsigned int, bool); }
+namespace _STL { template <> void ** vector<void *, allocator<void *> >::end(); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
+namespace _STL { template <> allocator<void *>::~allocator(); }
+namespace _STL {
+template <> __declspec(dllimport) __forceinline vector<void *, allocator<void *> >::vector(const allocator<void *> &__a) : _Vector_base<void *, allocator<void *> >(__a) {}
+}
 #include <hash_map>
+// Bind to the kept retail copy instead of emitting this unit's own.
+// Bind to the kept retail copy instead of emitting this unit's own.
+// Bind to the kept retail copy instead of emitting this unit's own.
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * & vector<void *,allocator<void *> >::operator[](unsigned int n) { return *(this->_M_start + n); } }
+// bfme link decl-only begin
+namespace _STL { template <> vector<void *, allocator<void *> >::~vector(); }
+namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, void const *) const; }
+namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::capacity() const; }
+namespace _STL { template <> void ** vector<void *, allocator<void *> >::erase(void **, void **); }
+namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
+namespace _STL { template <> void vector<void *, allocator<void *> >::insert(void **, unsigned int, void *const &); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ?clear@?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void vector<void *, allocator<void *> >::clear(); }
 
 class ThingTemplate;
 
@@ -38,6 +90,8 @@ struct hash
 {
 };
 
+// Both functors are expanded at every use and never called out of line, so this unit
+// emits no copy of either (import-inline).
 template <>
 struct hash<AsciiString>
 {
@@ -45,7 +99,7 @@ struct hash<AsciiString>
 	// canonicalizes most spellings identically; this order is tried for its
 	// effect on the bucket-size load scheduling (retail computes the size
 	// first and subtracts the start from memory).
-	size_t operator()(const AsciiString &key) const
+	__declspec(dllimport) __forceinline size_t operator()(const AsciiString &key) const
 	{
 		return key.m_first + (key.m_second << 16);
 	}
@@ -64,7 +118,7 @@ struct equal_to<AsciiString>
 	// against [key+0]/[key+4] with no calls; the identically-named
 	// out-of-line body at 0x6E054B (which forwards to operator==) belongs
 	// to another TU's view of this functor.
-	bool operator()(const AsciiString &a, const AsciiString &b) const
+	__declspec(dllimport) __forceinline bool operator()(const AsciiString &a, const AsciiString &b) const
 	{
 		return a.m_first == b.m_first && a.m_second == b.m_second;
 	}

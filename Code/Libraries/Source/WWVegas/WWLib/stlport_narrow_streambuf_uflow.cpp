@@ -22,35 +22,6 @@
 namespace _STL
 {
 
-streamsize basic_streambuf<char, char_traits<char> >::xsgetn(char *__s, streamsize __n)
-{
-	streamsize __result = 0;
-
-	while (__result < __n) {
-		ptrdiff_t __avail = _FILE_I_avail(_M_get);
-		if (__avail > 0) {
-			size_t __chunk = (min) (__STATIC_CAST(size_t, __avail),
-			                        __STATIC_CAST(size_t, __n - __result));
-			char_traits<char>::copy(__s, _FILE_I_next(_M_get), __chunk);
-			__result += __chunk;
-			__s += __chunk;
-			_FILE_I_bump(_M_get, __chunk);
-		}
-		else {
-			int_type __c = this->sbumpc();
-			if (!char_traits<char>::eq_int_type(__c, char_traits<char>::eof())) {
-				*__s = __c;
-				++__result;
-				++__s;
-			}
-			else
-				break;
-		}
-	}
-
-	return __result;
-}
-
 basic_streambuf<char, char_traits<char> >::int_type
 basic_streambuf<char, char_traits<char> >::uflow()
 {
@@ -79,29 +50,6 @@ streamsize basic_streambuf<char, char_traits<char> >::xsputn(const char *__s, st
 			++__result;
 			++__s;
 		}
-		else
-			break;
-	}
-	return __result;
-}
-
-streamsize basic_streambuf<char, char_traits<char> >::_M_xsputnc(char __c, streamsize __n)
-{
-	streamsize __result = 0;
-
-	while (__result < __n) {
-		ptrdiff_t __avail = _FILE_O_avail(_M_put);
-		if (__avail > 0) {
-			size_t __chunk = (min) (__STATIC_CAST(size_t, __avail),
-			                        __STATIC_CAST(size_t, __n - __result));
-			char_traits<char>::assign(_FILE_O_next(_M_put), __chunk, __c);
-			__result += __chunk;
-			_FILE_O_bump(_M_put, __chunk);
-		}
-		else if (!char_traits<char>::eq_int_type(
-		             this->overflow(char_traits<char>::to_int_type(__c)),
-		             char_traits<char>::eof()))
-			++__result;
 		else
 			break;
 	}

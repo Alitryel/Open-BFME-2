@@ -1,4 +1,4 @@
-// cl: /O2 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 // ?m@T_009f4fb0@@QAEXPAURva009F5970StateInit@@@Z @ 0x006276E0 (129B)
 //
@@ -21,7 +21,7 @@ struct BfmeNode912C
 	BfmeNode912C *m_next;
 };
 
-class Gen_dtor_009f2600
+class PartitionManagerImpl
 {
 public:
 	void cleanup();
@@ -57,7 +57,7 @@ public:
 void T_009f4fb0::m(Rva009F5970StateInit *value)
 {
 	T_009f4fb0 *self = this;
-	((Gen_dtor_009f2600 *)self)->cleanup();
+	((PartitionManagerImpl *)self)->cleanup();
 
 	self->m_values = *value;
 
@@ -73,3 +73,8 @@ void T_009f4fb0::m(Rva009F5970StateInit *value)
 		node = node->m_next;
 	}
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?Rva006276E0@ShroudManager@@QAEXPBURegion3D@@@Z=?m@T_009f4fb0@@QAEXPAURva009F5970StateInit@@@Z")
+#pragma comment(linker, "/alternatename:?m@T_009f4fb0@@QAEXXZ=?m@T_009f4fb0@@QAEXPAURva009F5970StateInit@@@Z")

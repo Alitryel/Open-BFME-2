@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva000253E8E@NotifyTargetsOfImminentProbableCrushingUpdate@@SA?AW4NameKeyType@@XZ @0x253E8E
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@NotifyTargetsOfImminentProbableCrushingUpdate@@UBE?AW4NameKeyType@@XZ @0x253E8E
 // (69B): cached pool-name key for NotifyTargetsOfImminentProbableCrushingUpdate.
 // The class identity comes from the pool-name string the body pushes
 // ("NotifyTargetsOfImminentProbableCrushingUpdate"); the body guards a
@@ -26,11 +26,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class NotifyTargetsOfImminentProbableCrushingUpdate
 {
 public:
-	static NameKeyType rva000253E8E();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000253E8E@NotifyTargetsOfImminentProbableCrushingUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType NotifyTargetsOfImminentProbableCrushingUpdate::rva000253E8E()
+// ?getModuleNameKey@NotifyTargetsOfImminentProbableCrushingUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType NotifyTargetsOfImminentProbableCrushingUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheNotifyTargetsOfImminentProbableCrushingUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("NotifyTargetsOfImminentProbableCrushingUpdate");

@@ -1,4 +1,4 @@
-// cl: /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil
 /*
 ** Copyright 2025 Electronic Arts Inc.
 ** SPDX-License-Identifier: GPL-3.0-or-later
@@ -13,31 +13,62 @@ void __cdecl operator delete[](void *) throw();
 class Vector3 { public: Vector3() {} float X, Y, Z; };
 class Vector4 { public: Vector4() {} float X, Y, Z, W; };
 
-template<class T> class SimpleVecClass {
-public:
-    __forceinline virtual ~SimpleVecClass() {
-        if (Vector) {
-            delete[] Vector;
-            Vector = NULL;
-            VectorMax = 0;
-        }
-    }
-protected:
-    T *Vector;
-    int VectorMax;
-};
+#include "simplevec.h"
 
-template<class T> class SimpleDynVecClass : public SimpleVecClass<T> {
-public:
-    __forceinline virtual ~SimpleDynVecClass() {
-        if (this->Vector) {
-            delete[] this->Vector;
-            this->Vector = NULL;
-        }
+// Bind virtual growth operations to their owned template bodies.
+template <> bool SimpleVecClass<Vector3>::Resize(int);
+template <> bool SimpleVecClass<Vector3>::Uninitialised_Grow(int);
+template <> bool SimpleDynVecClass<Vector3>::Resize(int);
+template <> bool SimpleVecClass<Vector4>::Resize(int);
+template <> bool SimpleVecClass<Vector4>::Uninitialised_Grow(int);
+template <> bool SimpleDynVecClass<Vector4>::Resize(int);
+template <> bool SimpleVecClass<float>::Resize(int);
+template <> bool SimpleVecClass<float>::Uninitialised_Grow(int);
+template <> bool SimpleDynVecClass<float>::Resize(int);
+
+// Inline member cleanup while the shared template supplies all virtual slots.
+template <> __declspec(dllimport) __forceinline SimpleVecClass<Vector3>::~SimpleVecClass()
+{
+    if (Vector) {
+        delete[] Vector;
+        Vector = NULL;
+        VectorMax = 0;
     }
-protected:
-    int ActiveCount;
-};
+}
+
+template <> __declspec(dllimport) __forceinline SimpleVecClass<Vector4>::~SimpleVecClass()
+{
+    if (Vector) {
+        delete[] Vector;
+        Vector = NULL;
+        VectorMax = 0;
+    }
+}
+
+template <> __declspec(dllimport) __forceinline SimpleVecClass<float>::~SimpleVecClass()
+{
+    if (Vector) {
+        delete[] Vector;
+        Vector = NULL;
+        VectorMax = 0;
+    }
+}
+
+template <> __forceinline SimpleDynVecClass<Vector3>::~SimpleDynVecClass()
+{
+    if (Vector) {
+        delete[] Vector;
+        Vector = NULL;
+    }
+}
+
+template <> __forceinline SimpleDynVecClass<float>::~SimpleDynVecClass()
+{
+    if (Vector) {
+        delete[] Vector;
+        Vector = NULL;
+    }
+}
 
 class RenderObjClass {
 public:
@@ -72,6 +103,15 @@ private:
     SegLineRendererClass LineRenderer;
     StreakRendererClass StreakRenderer;
 };
-StreakLineClass::~StreakLineClass() {}
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline StreakLineClass::~StreakLineClass() {}
 
-template class SimpleDynVecClass<Vector4>;
+// ?bfmeAnchorStreakLineClassDtor absent-from-retail
+void bfmeAnchorStreakLineClassDtor(StreakLineClass *streakLine)
+{
+	streakLine->StreakLineClass::~StreakLineClass();
+}
+
+// Emit the owned Vector4 deleting wrapper without unrelated template members.
+template SimpleDynVecClass<Vector4>::~SimpleDynVecClass();

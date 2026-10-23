@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /GX /MD /D_CRTIMP= /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/moduledata
 // stlport
 //
 // ??0WallHubBehaviorModuleData@@QAE@XZ, retail 0x00453020, 148 bytes.
@@ -17,24 +17,30 @@
 // in decl order, body in retail order: clears first, then the radius,
 // options, factor and distance stores).
 
+extern "C" const void *const vtbl_00C3FF98[];  // ??_7WallHubBehaviorModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C3FF98=??_7WallHubBehaviorModuleData@@6B@")
+
 #include <vector>
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	void clear();
-	~AsciiString();
+#include "ascii_string.h"
 
-private:
-	void *m_data;
-};
+// A declaration-only specialization stops this TU emitting its own
+// vector<AsciiString> dtor COMDAT, so the call binds the kept copy.
+namespace _STL {
+template <> vector<AsciiString, allocator<AsciiString> >::~vector();
+template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
+template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);
+template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
+template <> AsciiString *vector<AsciiString, allocator<AsciiString> >::erase(AsciiString*, AsciiString*);
+}
+
+#include "Common/Snapshot.h"
 
 class UpdateModuleData
 {
 public:
-	UpdateModuleData() {}
-	~UpdateModuleData();
+	__declspec(dllimport) __forceinline UpdateModuleData() {}
+	~UpdateModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 private:
 };
@@ -62,7 +68,7 @@ private:
 
 // ??0WallHubBehaviorModuleData@@QAE@XZ @0x453020
 WallHubBehaviorModuleData::WallHubBehaviorModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C3FF98))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C3FF98)))
 {
 	m_segmentTemplateNames.clear();
 	m_hubCapTemplateName.clear();

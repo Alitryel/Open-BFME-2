@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva000495CEC@AutoPickUpUpdate@@SA?AW4NameKeyType@@XZ @0x495cec
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@AutoPickUpUpdate@@UBE?AW4NameKeyType@@XZ @0x495cec
 // (69B): cached pool-name key for AutoPickUpUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("AutoPickUpUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class AutoPickUpUpdate
 {
 public:
-	static NameKeyType rva000495CEC();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000495CEC@AutoPickUpUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType AutoPickUpUpdate::rva000495CEC()
+// ?getModuleNameKey@AutoPickUpUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType AutoPickUpUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheAutoPickUpUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("AutoPickUpUpdate");

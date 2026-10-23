@@ -1,4 +1,4 @@
-// cl: /O1 /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // ??0BfmeMapPictureTexture@@QAE@PBD@Z,
 // retail 0x002DB93E, 85 bytes. Dedicated TU.
@@ -14,6 +14,13 @@ typedef int Int;
 
 typedef unsigned int size_t;
 void *__cdecl operator new(size_t bytes);
+
+class BfmeThingJC
+{
+public:
+	BfmeThingJC(void *a);
+	char m_pad[0x3C];
+};
 
 class TextureClass
 {
@@ -67,5 +74,5 @@ void BfmeMapPictureTexture::Set_Texture(TextureClass *texture)
 // ??0BfmeMapPictureTexture@@QAE@PBD@Z
 BfmeMapPictureTexture::BfmeMapPictureTexture(const char *filename)
 {
-	Set_Texture(new TextureClass(filename));
+	Set_Texture((TextureClass *)new BfmeThingJC((void *)filename));
 }

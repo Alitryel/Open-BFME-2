@@ -1,4 +1,4 @@
-// cl: /O2 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 
 // Open-BFME7: release the eighteen ref-counted globals at 0x01337A34 through
 // 0x01337A78 through virtual slot +4, then clear each slot.
@@ -11,23 +11,59 @@ public:
 };
 
 extern Rva008A4630Item *g_rva008A4630_0;
+// g_rva008A4630_0: matched references place it at VA 0xe18104 (zero-filled .bss).
+Rva008A4630Item * g_rva008A4630_0;
 extern Rva008A4630Item *g_rva008A4630_1;
+// g_rva008A4630_1: matched references place it at VA 0xe18108 (zero-filled .bss).
+Rva008A4630Item * g_rva008A4630_1;
 extern Rva008A4630Item *g_rva008A4630_2;
+// g_rva008A4630_2: matched references place it at VA 0xe1810c (zero-filled .bss).
+Rva008A4630Item * g_rva008A4630_2;
 extern Rva008A4630Item *g_rva008A4630_3;
+// g_rva008A4630_3: matched references place it at VA 0xe18110 (zero-filled .bss).
+Rva008A4630Item * g_rva008A4630_3;
 extern Rva008A4630Item *g_rva008A4630_4;
+// g_rva008A4630_4: matched references place it at VA 0xe18114 (zero-filled .bss).
+Rva008A4630Item * g_rva008A4630_4;
 extern Rva008A4630Item *g_rva008A4630_5;
+// g_rva008A4630_5: matched references place it at VA 0xe18118 (zero-filled .bss).
+Rva008A4630Item * g_rva008A4630_5;
 extern Rva008A4630Item *g_rva008A4630_6;
+// g_rva008A4630_6: matched references place it at VA 0xe1811c (zero-filled .bss).
+Rva008A4630Item * g_rva008A4630_6;
 extern Rva008A4630Item *g_rva008A4630_7;
+// g_rva008A4630_7: matched references place it at VA 0xe18120 (zero-filled .bss).
+Rva008A4630Item * g_rva008A4630_7;
 extern Rva008A4630Item *g_rva008A4630_8;
+// g_rva008A4630_8: matched references place it at VA 0xe18124 (zero-filled .bss).
+Rva008A4630Item * g_rva008A4630_8;
 extern Rva008A4630Item *g_rva008A4630_9;
+// g_rva008A4630_9: matched references place it at VA 0xe18128 (zero-filled .bss).
+Rva008A4630Item * g_rva008A4630_9;
 extern Rva008A4630Item *g_rva008A4630_10;
+// g_rva008A4630_10: matched references place it at VA 0xe1812c (zero-filled .bss).
+Rva008A4630Item * g_rva008A4630_10;
 extern Rva008A4630Item *g_rva008A4630_11;
+// g_rva008A4630_11: matched references place it at VA 0xe18130 (zero-filled .bss).
+Rva008A4630Item * g_rva008A4630_11;
 extern Rva008A4630Item *g_rva008A4630_12;
+// g_rva008A4630_12: matched references place it at VA 0xe18134 (zero-filled .bss).
+Rva008A4630Item * g_rva008A4630_12;
 extern Rva008A4630Item *g_rva008A4630_13;
+// g_rva008A4630_13: matched references place it at VA 0xe18138 (zero-filled .bss).
+Rva008A4630Item * g_rva008A4630_13;
 extern Rva008A4630Item *g_rva008A4630_14;
+// g_rva008A4630_14: matched references place it at VA 0xe1813c (zero-filled .bss).
+Rva008A4630Item * g_rva008A4630_14;
 extern Rva008A4630Item *g_rva008A4630_15;
+// g_rva008A4630_15: matched references place it at VA 0xe18140 (zero-filled .bss).
+Rva008A4630Item * g_rva008A4630_15;
 extern Rva008A4630Item *g_rva008A4630_16;
+// g_rva008A4630_16: matched references place it at VA 0xe18144 (zero-filled .bss).
+Rva008A4630Item * g_rva008A4630_16;
 extern Rva008A4630Item *g_rva008A4630_17;
+// g_rva008A4630_17: matched references place it at VA 0xe18148 (zero-filled .bss).
+Rva008A4630Item * g_rva008A4630_17;
 
 void rva008A4630ReleaseGlobals()
 {

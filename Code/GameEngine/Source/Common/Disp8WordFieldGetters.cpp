@@ -23,9 +23,33 @@
 	}
 
 BFME_DISP8_WORD_FIELD_GETTER(Rva004D5767WordField, 0x1C)
+BFME_DISP8_WORD_FIELD_GETTER(Rva004D5973WordField, 0x20)
 BFME_DISP8_WORD_FIELD_GETTER(Rva00531E0FWordField, 0x06)
 BFME_DISP8_WORD_FIELD_GETTER(Rva00594F07WordField, 0x0C)
 BFME_DISP8_WORD_FIELD_GETTER(Rva0011C420WordField, 0x0C)
 BFME_DISP8_WORD_FIELD_GETTER(Rva0011C440WordField, 0x10)
 BFME_DISP8_WORD_FIELD_GETTER(Rva004CEE9CWordField, 0x10)
 BFME_DISP8_WORD_FIELD_GETTER(Rva00568645WordField, 0x44)
+
+// BF1 9cb Rva003D4BD0Word.cpp guides this two-load leaf. Target
+// 531EA5..531EAB follows RET and returns the pointed-to raw word in AX.
+// Original owner, signedness and complete class bounds remain unknown.
+struct Rva00531EA5Fields
+{
+    const unsigned short *pointer;
+    unsigned short get() const;
+};
+unsigned short Rva00531EA5Fields::get() const { return *pointer; }
+
+// Clean BF1 9cb Rva004708F0WordGetter.cpp and Rva1A1A90Offset46WordGetter.cpp
+// supply the raw16 accessor expressions. Native2D6AEA follows a complete tail
+// jump and reads word12; native27C27B follows a complete RET4 and reads word2E.
+// Both leaves end in RET after five bytes. No direct native calls establish
+// their original owners; adjacent known types are not asserted as identities.
+// Signedness and complete receiver bounds remain unresolved.
+
+// ?get@Rva002D6AEAWordField@@QBEGXZ
+BFME_DISP8_WORD_FIELD_GETTER(Rva002D6AEAWordField, 0x12)
+
+// ?get@Rva0027C27BWordField@@QBEGXZ
+BFME_DISP8_WORD_FIELD_GETTER(Rva0027C27BWordField, 0x2E)

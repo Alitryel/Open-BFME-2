@@ -1,4 +1,4 @@
-// cl: /O1 /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /MD /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // ??0PoisonedBehaviorModuleData@@QAE@XZ, retail 0x00253CDD, 17 bytes.
 // Frameless trivial ctor with no base call: the and-zeros of the
@@ -9,6 +9,9 @@
 // pin. Class identity is the rowed PoisonedBehaviorModuleData::
 // buildFieldParse proc (PoisonDamageInterval at +0x8 plus PoisonDuration
 // at +0xC) beside the rowed PoisonedBehavior pool key (0x482F27).
+
+extern "C" const void *const vtbl_00C4ED70[];  // folded, 9 classes; via ??_7BeaconClientUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4ED70=??_7BeaconClientUpdateModuleData@@6B@")
 
 class PoisonedBehaviorModuleData
 {
@@ -27,5 +30,5 @@ PoisonedBehaviorModuleData::PoisonedBehaviorModuleData()
 {
 	m_poisonDamageInterval = 0;
 	m_poisonDuration = 0;
-	m_vtable = reinterpret_cast<void *>(0x00C4ED70);
+	m_vtable = reinterpret_cast<void *>(((unsigned int)vtbl_00C4ED70));
 }

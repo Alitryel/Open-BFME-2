@@ -1,5 +1,5 @@
-// ?Rva00516660@@YA_NPAVGameWindow@@@Z
-// cl: /O2 /Ob0
+// ?GadgetTextEntryHasSelection@@YA_NPAVGameWindow@@@Z
+// cl: /Ob0
 
 class GameWindow
 {
@@ -14,7 +14,7 @@ struct Rva00516660User
 	unsigned short at1E;
 };
 
-bool Rva00516660(GameWindow *window)
+bool GadgetTextEntryHasSelection(GameWindow *window)
 {
 	Rva00516660User *user = (Rva00516660User *)window->winGetUserData();
 	(void)user;

@@ -1,4 +1,4 @@
-// cl: /O1 /Ob2 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB
+// cl: /Ob2 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // Fourth batch of STLport _Construct<T> placement-copy helpers, same-shape
@@ -13,14 +13,7 @@
 #include <memory>
 #include <vector>
 
-class AsciiString
-{
-public:
-	AsciiString(const AsciiString &other);
-
-private:
-	char m_pad[4];
-};
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
 struct BfmePod88
 {
@@ -41,9 +34,10 @@ struct TreeHintPayload003012F0
 	char m_body[12];
 };
 
+struct TargetRef00217D4C;
 struct TreeHintRef00217D4C
 {
-	char m_body[8];
+    TargetRef00217D4C *m_ptr;
 };
 
 typedef _STL::vector<BfmePod88> ConstructPodVec;
@@ -51,7 +45,47 @@ typedef _STL::pair<const int, MultiplayerColorDefinition> ConstructPairMP;
 typedef _STL::pair<const AsciiString, TreeHintPayload003012F0> ConstructPairHP;
 typedef _STL::pair<const AsciiString, TreeHintRef00217D4C> ConstructPairHR;
 
+// The placement-copy helpers call external complete copy constructors.
+// Their providers already own the target bodies; instantiating the generic
+// copies here emitted competing definitions. The mapped handle is four bytes,
+// proven by the canonical 358B43 copy's +4 pointer and pointee +4 AddRef.
+namespace _STL {
+template <> ConstructPodVec::vector(const ConstructPodVec &);
+template <> ConstructPairHP::pair(const ConstructPairHP &);
+template <> ConstructPairHR::pair(const ConstructPairHR &);
+}
+
+
 template void _STL::_Construct<ConstructPodVec, ConstructPodVec>(ConstructPodVec *, const ConstructPodVec &);
 template void _STL::_Construct<ConstructPairMP, ConstructPairMP>(ConstructPairMP *, const ConstructPairMP &);
 template void _STL::_Construct<ConstructPairHP, ConstructPairHP>(ConstructPairHP *, const ConstructPairHP &);
 template void _STL::_Construct<ConstructPairHR, ConstructPairHR>(ConstructPairHR *, const ConstructPairHR &);
+
+#pragma comment(linker, "/alternatename:??$_Construct@URva0056644EElement@@U1@@_STL@@YAXPAURva0056644EElement@@ABU1@@Z=??$_Construct@U?$pair@$$CBVAsciiString@@UTreeHintPayload003012F0@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBVAsciiString@@UTreeHintPayload003012F0@@@0@ABU10@@Z")
+
+
+// Distinct native copy helpers. Two-pointer ABI is proven; original signatures remain unknown.
+void Rva00223168Construct(void *dest, const void *source)
+{
+    ::new (dest) ConstructPairHR(*static_cast<const ConstructPairHR *>(source));
+}
+
+void Rva002BF35BConstruct(void *dest, const void *source)
+{
+    ::new (dest) ConstructPairHR(*static_cast<const ConstructPairHR *>(source));
+}
+
+void Rva00358CA0Construct(void *dest, const void *source)
+{
+    ::new (dest) ConstructPairHR(*static_cast<const ConstructPairHR *>(source));
+}
+
+void Rva004109BCConstruct(void *dest, const void *source)
+{
+    ::new (dest) ConstructPairHR(*static_cast<const ConstructPairHR *>(source));
+}
+
+void Rva0052C404Construct(void *dest, const void *source)
+{
+    ::new (dest) ConstructPairHP(*static_cast<const ConstructPairHP *>(source));
+}

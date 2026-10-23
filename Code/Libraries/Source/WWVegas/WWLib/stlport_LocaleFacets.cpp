@@ -1,4 +1,4 @@
-// cl: /O2 /MD
+// cl: /MD
 // STLport 4.5.3 numeric, monetary and time locale facets.
 /*
  * Copyright (c) 1999
@@ -27,9 +27,14 @@
 
 typedef unsigned long LCID;
 
-extern const char *g_Rva012C83A8;
-extern const char *g_Rva012C83A4;
-extern const char *g_Rva012C83AC;
+// Native VA DA7190 holds six contiguous four-byte category-string pointers.
+// Their payloads, in this order, are BBCD94/BBCD88/BBCD7C/BBCD70/BBCD64/BBCD5C.
+// The five facet consumers independently reference slots +4/+8/+12/+16/+20;
+// the retained locale-name extractor indexes the same table. Keep one provider
+// for this shared storage rather than five overlapping per-category objects.
+extern "C" const char *__category_name[6] = {
+    "LC_ALL", "LC_COLLATE", "LC_CTYPE", "LC_MONETARY", "LC_NUMERIC", "LC_TIME"
+};
 
 extern "C" {
 
@@ -72,7 +77,7 @@ typedef unsigned long LCID;
 __declspec(dllimport) int __stdcall GetLocaleInfoA(
     LCID locale, unsigned long type, char *data, int count);
 // Retail imports this name with no A/W suffix (IAT slot 0x00BBA150); the
-// donor's lstrcmpiA spelling cannot resolve there (see EnumLocalesProcA TU).
+// donor's lstrcmpiA spelling cannot resolve there.
 __declspec(dllimport) int __stdcall lstrcmpi(const char *left, const char *right);
 __declspec(dllimport) char *__cdecl strcpy(char *destination, const char *source);
 __declspec(dllimport) char *__cdecl strcat(char *destination, const char *source);
@@ -89,9 +94,102 @@ typedef struct _LOCALECONV {
     const char *abbrev;
 } LOCALECONV;
 
-/* Retail tables at 0x012C80D0 (65) and 0x012C82D8 (23). */
-extern LOCALECONV __rg_language[];
-extern LOCALECONV __rg_country[];
+// Donor entry type and symbols retained. Matched BFME2 DIR32 references
+// establish the tables' locations; their pointer payloads match retail.
+// BFME2 VA 0x00DA6EC8: all 65 pairs read from the referenced retail table.
+LOCALECONV __rg_language[65] = {
+    {"american", "ENU"},
+    {"american english", "ENU"},
+    {"american-english", "ENU"},
+    {"australian", "ENA"},
+    {"belgian", "NLB"},
+    {"canadian", "ENC"},
+    {"chh", "ZHH"},
+    {"chi", "ZHI"},
+    {"chinese", "CHS"},
+    {"chinese-hongkong", "ZHH"},
+    {"chinese-simplified", "CHS"},
+    {"chinese-singapore", "ZHI"},
+    {"chinese-traditional", "CHT"},
+    {"dutch-belgian", "NLB"},
+    {"english-american", "ENU"},
+    {"english-aus", "ENA"},
+    {"english-belize", "ENL"},
+    {"english-can", "ENC"},
+    {"english-caribbean", "ENB"},
+    {"english-ire", "ENI"},
+    {"english-jamaica", "ENJ"},
+    {"english-nz", "ENZ"},
+    {"english-south africa", "ENS"},
+    {"english-trinidad y tobago", "ENT"},
+    {"english-uk", "ENG"},
+    {"english-us", "ENU"},
+    {"english-usa", "ENU"},
+    {"french-belgian", "FRB"},
+    {"french-canadian", "FRC"},
+    {"french-luxembourg", "FRL"},
+    {"french-swiss", "FRS"},
+    {"german-austrian", "DEA"},
+    {"german-lichtenstein", "DEC"},
+    {"german-luxembourg", "DEL"},
+    {"german-swiss", "DES"},
+    {"irish-english", "ENI"},
+    {"italian-swiss", "ITS"},
+    {"norwegian", "NOR"},
+    {"norwegian-bokmal", "NOR"},
+    {"norwegian-nynorsk", "NON"},
+    {"portuguese-brazilian", "PTB"},
+    {"spanish-argentina", "ESS"},
+    {"spanish-bolivia", "ESB"},
+    {"spanish-chile", "ESL"},
+    {"spanish-colombia", "ESO"},
+    {"spanish-costa rica", "ESC"},
+    {"spanish-dominican republic", "ESD"},
+    {"spanish-ecuador", "ESF"},
+    {"spanish-el salvador", "ESE"},
+    {"spanish-guatemala", "ESG"},
+    {"spanish-honduras", "ESH"},
+    {"spanish-mexican", "ESM"},
+    {"spanish-modern", "ESN"},
+    {"spanish-nicaragua", "ESI"},
+    {"spanish-panama", "ESA"},
+    {"spanish-paraguay", "ESZ"},
+    {"spanish-peru", "ESR"},
+    {"spanish-puerto rico", "ESU"},
+    {"spanish-uruguay", "ESY"},
+    {"spanish-venezuela", "ESV"},
+    {"swedish-finland", "SVF"},
+    {"swiss", "DES"},
+    {"uk", "ENG"},
+    {"us", "ENU"},
+    {"usa", "ENU"}
+};
+// BFME2 VA 0x00DA70D0: all 23 pairs read from the referenced retail table.
+LOCALECONV __rg_country[23] = {
+    {"america", "USA"},
+    {"britain", "GBR"},
+    {"china", "CHN"},
+    {"czech", "CZE"},
+    {"england", "GBR"},
+    {"great britain", "GBR"},
+    {"holland", "NLD"},
+    {"hong-kong", "HKG"},
+    {"new-zealand", "NZL"},
+    {"nz", "NZL"},
+    {"pr china", "CHN"},
+    {"pr-china", "CHN"},
+    {"puerto-rico", "PRI"},
+    {"slovak", "SVK"},
+    {"south africa", "ZAF"},
+    {"south korea", "KOR"},
+    {"south-africa", "ZAF"},
+    {"south-korea", "KOR"},
+    {"trinidad & tobago", "TTO"},
+    {"uk", "GBR"},
+    {"united-kingdom", "GBR"},
+    {"united-states", "USA"},
+    {"us", "USA"}
+};
 
 static int __FindFlag;
 static LCID __FndLCID;
@@ -382,7 +480,7 @@ void *_Locale_numeric_create(const char *name)
 
     if (name[0] == 'L' && name[1] == 'C' && name[2] == '_')
     {
-        char *p = strstr(name, g_Rva012C83A8);
+        char *p = strstr(name, __category_name[4]);
         if (p != 0)
         {
             char *q = strchr(p, '=');
@@ -457,7 +555,7 @@ void *_Locale_time_create(const char *name)
 
     if (name[0] == 'L' && name[1] == 'C' && name[2] == '_')
     {
-        char *p = strstr(name, g_Rva012C83AC);
+        char *p = strstr(name, __category_name[5]);
         if (p != 0)
         {
             char *q = strchr(p, '=');
@@ -576,7 +674,7 @@ void *_Locale_monetary_create(const char *name)
 
     if (name[0] == 'L' && name[1] == 'C' && name[2] == '_')
     {
-        char *p = strstr(name, g_Rva012C83A4);
+        char *p = strstr(name, __category_name[3]);
         if (p != 0)
         {
             char *q = strchr(p, '=');
@@ -642,7 +740,6 @@ void *_Locale_monetary_create(const char *name)
 
 }
 
-extern const char *g_Rva012C839C;
 typedef struct
 {
     LCID lcid;
@@ -662,7 +759,7 @@ extern "C" void *_Locale_collate_create(const char *name)
 
     if (name[0] == 'L' && name[1] == 'C' && name[2] == '_')
     {
-        char *p = strstr(name, g_Rva012C839C);
+        char *p = strstr(name, __category_name[1]);
         if (p != 0)
         {
             char *q = strchr(p, '=');
@@ -689,4 +786,368 @@ extern "C" void *_Locale_collate_create(const char *name)
         return 0;
     }
     return obj;
+}
+
+// Ctype donor: Open-BFME-1 1281192f682ce6f29b8f06b7daea4b5e8fdfbb24
+// whole game/Libraries/Source/WWVegas/WWLib/stlport_LocaleFacets.cpp /O2.
+// Target22360 is unlisted by Ghidra and has no observed direct/data entry
+// xref. Its start follows7CC after prior ret22358; all1316 native bytes
+// decode through final ret22883 and12CC before numeric-create22890.
+// Native cdecl name argument, allocation40C, category pointerDA7198
+// (LC_CTYPE), code-page queries and character-type APIs independently
+// support the upstream ctype-create purpose and 256-dword table at+0C.
+// Existing rowed same-TU resolver221B0 supplies the sole direct call.
+extern "C" {
+
+typedef struct _OSVERSIONINFOA {
+    unsigned long dwOSVersionInfoSize;
+    unsigned long dwMajorVersion;
+    unsigned long dwMinorVersion;
+    unsigned long dwBuildNumber;
+    unsigned long dwPlatformId;
+    char szCSDVersion[128];
+} OSVERSIONINFOA;
+
+typedef struct _cpinfo {
+    unsigned int MaxCharSize;
+    unsigned char DefaultChar[2];
+    unsigned char LeadByte[12];
+} CPINFO;
+
+__declspec(dllimport) int __stdcall GetCPInfo(unsigned int codePage, CPINFO *info);
+__declspec(dllimport) int __stdcall GetVersionExA(OSVERSIONINFOA *info);
+__declspec(dllimport) int __stdcall GetStringTypeA(
+    LCID locale, unsigned long infoType, const char *source, int count, unsigned short *charType);
+__declspec(dllimport) int __stdcall GetStringTypeW(
+    unsigned long infoType, const unsigned short *source, int count, unsigned short *charType);
+
+typedef struct _Locale_ctype_t
+{
+    LCID lcid;
+    unsigned int cp;
+    unsigned int unknown08;
+    unsigned int ctable[256];
+} _Locale_ctype_t;
+
+// STLport 4.5.3 _Locale_ctype_create with __Extract_locale_name and
+// __GetDefaultCP expanded in place, as retail inlines them.
+void *_Locale_ctype_create(const char *name)
+{
+    char lname[256];
+    char cp_name[6];
+    int NativeCP;
+    unsigned char Buffer[256];
+    unsigned char *ptr;
+    unsigned short ctable[256];
+    CPINFO CPInfo;
+    int i;
+    unsigned short *wbuffer;
+    int BufferSize;
+
+    _Locale_ctype_t *ltype = (_Locale_ctype_t *)malloc(sizeof(_Locale_ctype_t));
+
+    if (!ltype)
+        return ltype;
+    memset(ltype, 0, sizeof(_Locale_ctype_t));
+
+    lname[0] = 0;
+
+    if (name[0] == 'L' && name[1] == 'C' && name[2] == '_')
+    {
+        char *p = strstr(name, __category_name[2]);
+        if (p != 0)
+        {
+            char *q = strchr(p, '=');
+            if (q != 0)
+            {
+                unsigned int matchLen;
+                ++q;
+                matchLen = strcspn(q, ";");
+                if (matchLen > 0x100)
+                    matchLen = 0x100;
+                strncpy(lname, q, matchLen);
+                lname[matchLen] = 0;
+            }
+        }
+    }
+    else
+    {
+        strncpy(lname, name, 0x100);
+    }
+
+    if (__GetLCIDFromName(lname, &ltype->lcid, cp_name) == -1)
+    {
+        free(ltype);
+        return 0;
+    }
+
+    ltype->cp = atoi(cp_name);
+
+    {
+        char cp[6];
+        GetLocaleInfoA(ltype->lcid, 0x1004, cp, 6);
+        NativeCP = atoi(cp);
+        if (NativeCP == 0)
+        {
+            GetLocaleInfoA(ltype->lcid, 0x0b, cp, 6);
+            NativeCP = atoi(cp);
+        }
+    }
+
+    for (i = 0; i < 256; ++i)
+        Buffer[i] = (unsigned char)i;
+
+    if (!GetCPInfo(NativeCP, &CPInfo))
+    {
+        free(ltype);
+        return 0;
+    }
+
+    if (CPInfo.MaxCharSize > 1)
+    {
+        for (ptr = (unsigned char *)CPInfo.LeadByte; *ptr && *(ptr + 1); ptr += 2)
+            for (i = *ptr; i <= *(ptr + 1); ++i)
+                Buffer[i] = 0;
+    }
+
+    if ((unsigned int)NativeCP != ltype->cp)
+    {
+        OSVERSIONINFOA ver_info;
+        ver_info.dwOSVersionInfoSize = sizeof(ver_info);
+        GetVersionExA(&ver_info);
+        if (ver_info.dwPlatformId == 2)
+        {
+            BufferSize = MultiByteToWideChar(ltype->cp, 1, (const char *)Buffer, 256, 0, 0);
+            wbuffer = (unsigned short *)malloc(BufferSize * sizeof(unsigned short));
+            if (!MultiByteToWideChar(ltype->cp, 1, (const char *)Buffer, 256, wbuffer, BufferSize))
+            {
+                free(wbuffer);
+                free(ltype);
+                return 0;
+            }
+
+            GetStringTypeW(1, wbuffer, 256, ctable);
+
+            for (i = 0; i < 256; ++i)
+                ltype->ctable[i] = (unsigned int)ctable[i];
+
+            if (CPInfo.MaxCharSize > 1)
+            {
+                for (ptr = (unsigned char *)CPInfo.LeadByte; *ptr && *(ptr + 1); ptr += 2)
+                    for (i = *ptr; i <= *(ptr + 1); ++i)
+                        ltype->ctable[i] = 0x8000;
+            }
+
+            free(wbuffer);
+        }
+        else
+        {
+            unsigned char TargetBuffer[256];
+            GetStringTypeA(ltype->lcid, 1, (const char *)Buffer, 256, ctable);
+
+            BufferSize = MultiByteToWideChar(NativeCP, 1, (const char *)Buffer, 256, 0, 0);
+            wbuffer = (unsigned short *)malloc(BufferSize * sizeof(unsigned short));
+            if (!MultiByteToWideChar(NativeCP, 1, (const char *)Buffer, 256, wbuffer, BufferSize))
+            {
+                free(wbuffer);
+                free(ltype);
+                return 0;
+            }
+            if (!WideCharToMultiByte(ltype->cp, 0x220, wbuffer, BufferSize, (char *)TargetBuffer, 256, 0, 0))
+            {
+                free(wbuffer);
+                free(ltype);
+                return 0;
+            }
+
+            free(wbuffer);
+
+            for (i = 0; i < 256; ++i)
+            {
+                if (!TargetBuffer[i])
+                    continue;
+                ltype->ctable[TargetBuffer[i]] = ctable[i];
+            }
+
+            ltype->unknown08 = 0;
+            if (!GetCPInfo(ltype->cp, &CPInfo))
+            {
+                free(ltype);
+                return 0;
+            }
+
+            if (CPInfo.MaxCharSize > 1)
+            {
+                for (ptr = (unsigned char *)CPInfo.LeadByte; *ptr && *(ptr + 1); ptr += 2)
+                    for (i = *ptr; i <= *(ptr + 1); ++i)
+                        ltype->ctable[i] = 0x8000;
+            }
+        }
+    }
+    else
+    {
+        GetStringTypeA(ltype->lcid, 1, (const char *)Buffer, 256, ctable);
+        for (i = 0; i < 256; ++i)
+            ltype->ctable[i] = (unsigned int)ctable[i];
+
+        if (CPInfo.MaxCharSize > 1)
+        {
+            for (ptr = (unsigned char *)CPInfo.LeadByte; *ptr && *(ptr + 1); ptr += 2)
+                for (i = *ptr; i <= *(ptr + 1); ++i)
+                    ltype->ctable[i] = 0x8000;
+        }
+    }
+
+    ltype->unknown08 = 0;
+    return ltype;
+}
+
+}
+
+// BFME1's five category-name extraction wrappers share an ICF body. The
+// BFME2 category-pointer operands identify their distinct target slots:
+// CTYPE, NUMERIC, TIME, COLLATE, MONETARY, respectively.
+extern "C" char *Rva00023100(const char *name, char *out)
+{
+    char lname[256];
+    LCID lcid;
+    char cp[6];
+    lname[0] = 0;
+    if (name[0] == 'L' && name[1] == 'C' && name[2] == '_') {
+        char *p = strstr(name, __category_name[2]);
+        if (p != 0) {
+            char *q = strchr(p, '=');
+            if (q != 0) {
+                unsigned int len;
+                ++q;
+                len = strcspn(q, ";");
+                if (len > 256) len = 256;
+                strncpy(lname, q, len);
+                lname[len] = 0;
+            }
+        }
+    } else {
+        strncpy(lname, name, 256);
+    }
+    if (lname[0] == 'C' && lname[1] == 0)
+        return strcpy(out, lname);
+    if (__GetLCIDFromName(lname, &lcid, cp) != 0)
+        return 0;
+    return __GetLocaleName(lcid, cp, out);
+}
+
+extern "C" char *Rva00023210(const char *name, char *out)
+{
+    char lname[256];
+    LCID lcid;
+    char cp[6];
+    lname[0] = 0;
+    if (name[0] == 'L' && name[1] == 'C' && name[2] == '_') {
+        char *p = strstr(name, __category_name[4]);
+        if (p != 0) {
+            char *q = strchr(p, '=');
+            if (q != 0) {
+                unsigned int len;
+                ++q;
+                len = strcspn(q, ";");
+                if (len > 256) len = 256;
+                strncpy(lname, q, len);
+                lname[len] = 0;
+            }
+        }
+    } else {
+        strncpy(lname, name, 256);
+    }
+    if (lname[0] == 'C' && lname[1] == 0)
+        return strcpy(out, lname);
+    if (__GetLCIDFromName(lname, &lcid, cp) != 0)
+        return 0;
+    return __GetLocaleName(lcid, cp, out);
+}
+
+extern "C" char *Rva00023320(const char *name, char *out)
+{
+    char lname[256];
+    LCID lcid;
+    char cp[6];
+    lname[0] = 0;
+    if (name[0] == 'L' && name[1] == 'C' && name[2] == '_') {
+        char *p = strstr(name, __category_name[5]);
+        if (p != 0) {
+            char *q = strchr(p, '=');
+            if (q != 0) {
+                unsigned int len;
+                ++q;
+                len = strcspn(q, ";");
+                if (len > 256) len = 256;
+                strncpy(lname, q, len);
+                lname[len] = 0;
+            }
+        }
+    } else {
+        strncpy(lname, name, 256);
+    }
+    if (lname[0] == 'C' && lname[1] == 0)
+        return strcpy(out, lname);
+    if (__GetLCIDFromName(lname, &lcid, cp) != 0)
+        return 0;
+    return __GetLocaleName(lcid, cp, out);
+}
+
+extern "C" char *Rva00023430(const char *name, char *out)
+{
+    char lname[256];
+    LCID lcid;
+    char cp[6];
+    lname[0] = 0;
+    if (name[0] == 'L' && name[1] == 'C' && name[2] == '_') {
+        char *p = strstr(name, __category_name[1]);
+        if (p != 0) {
+            char *q = strchr(p, '=');
+            if (q != 0) {
+                unsigned int len;
+                ++q;
+                len = strcspn(q, ";");
+                if (len > 256) len = 256;
+                strncpy(lname, q, len);
+                lname[len] = 0;
+            }
+        }
+    } else {
+        strncpy(lname, name, 256);
+    }
+    if (lname[0] == 'C' && lname[1] == 0)
+        return strcpy(out, lname);
+    if (__GetLCIDFromName(lname, &lcid, cp) != 0)
+        return 0;
+    return __GetLocaleName(lcid, cp, out);
+}
+
+extern "C" char *Rva00023540(const char *name, char *out)
+{
+    char lname[256];
+    LCID lcid;
+    char cp[6];
+    lname[0] = 0;
+    if (name[0] == 'L' && name[1] == 'C' && name[2] == '_') {
+        char *p = strstr(name, __category_name[3]);
+        if (p != 0) {
+            char *q = strchr(p, '=');
+            if (q != 0) {
+                unsigned int len;
+                ++q;
+                len = strcspn(q, ";");
+                if (len > 256) len = 256;
+                strncpy(lname, q, len);
+                lname[len] = 0;
+            }
+        }
+    } else {
+        strncpy(lname, name, 256);
+    }
+    if (lname[0] == 'C' && lname[1] == 0)
+        return strcpy(out, lname);
+    if (__GetLCIDFromName(lname, &lcid, cp) != 0)
+        return 0;
+    return __GetLocaleName(lcid, cp, out);
 }

@@ -1,6 +1,6 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
-// ?buildFieldParse@W3DLaserDrawModuleData@@SAXAAVMultiIniFieldParse@@@Z,
+// ?buildFieldParse@W3DLaserDrawModuleData@@SAXAAVMultiIniFieldParse@@@Z
 // retail 0x000C928F (17 bytes: a single MultiIniFieldParse::add of the class
 // table at 0x00BCB840 with offset 0). The table runs NumBeams,
 // Inner/OuterBeamWidth, Inner/OuterColor, MaxIntensityLifetime, FadeLifetime,
@@ -15,6 +15,7 @@ class MultiIniFieldParse;
 
 struct FieldParse;
 
+extern const int s_laserDrawFieldTable[];
 class MultiIniFieldParse
 {
 public:
@@ -29,5 +30,9 @@ public:
 
 void W3DLaserDrawModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
-	parse.add(reinterpret_cast<const FieldParse *>(0x00BCB840), 0);
+	parse.add(reinterpret_cast<const FieldParse *>(s_laserDrawFieldTable), 0);
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?W3DLaserDrawModuleDataParse@@YAXAAVMultiIniFieldParse@@@Z=?buildFieldParse@W3DLaserDrawModuleData@@SAXAAVMultiIniFieldParse@@@Z")

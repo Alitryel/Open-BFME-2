@@ -1,4 +1,4 @@
-// cl: /O1 /Oy /DNDEBUG /MD /GX- /Oi-
+// cl: /Oy /DNDEBUG /MD /GX- /Oi-
 //
 // ?parseCoord3D@INI@@SAXPAV1@PAX1PBX@Z, retail 0x002F507, 81 bytes.
 // Dedicated frameless TU (twin of INI_parseReal.cpp, three components).
@@ -7,12 +7,7 @@
 // INI::parseCoord3D): verbatim X/Y/Z sub-token floats. Unlocked by the
 // getNextSubToken row at 0x002E06B.
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-};
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
 
 class INI
 {

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 // ?advance@Rva000411084@@QAEPAXXZ, retail 0x003F7925 (47B).
 // Shard TU: the EvaMessageName TU owns next/messageToName under the same
 // flags, and defining the 47B advance there would capture next's out-of-line
@@ -7,51 +7,11 @@
 // {next+0 name+4 key+8} are read off the rowed next/messageToName pins'
 // archaeology notes; bucketIndex resolves via its ledger pin.
 
-template <typename T>
-class StringBase
-{
-public:
-    void concat(const T *text);
-
-private:
-    friend class AsciiString;
-
-    StringBase(const T *text);
-    StringBase(const StringBase<T> &that);
-
-    struct Header
-    {
-        int ref_count;
-        unsigned short length;
-        unsigned short capacity;
-        T data[1];
-    };
-
-    Header *m_data;
-};
+#include "ascii_string.h"
 
 // Inline throughout: retail reaches StringBase's private constructors directly
 // from the caller rather than through a wrapper, which is what an inlined
 // AsciiString constructor looks like.
-class AsciiString
-{
-public:
-    AsciiString(const char *text)
-    {
-        ((StringBase<char> *)this)->StringBase<char>::StringBase(text);
-    }
-
-    AsciiString(const AsciiString &that)
-    {
-        ((StringBase<char> *)this)->StringBase<char>::StringBase(
-            (const StringBase<char> &)that);
-    }
-
-    ~AsciiString();
-
-private:
-    char *m_text;
-};
 
 
 class Rva000411084
@@ -91,7 +51,7 @@ struct EvaMessageNameNode
 };
 
 // ?advance@Rva000411084@@QAEPAXXZ
-void *Rva000411084::advance()
+__declspec(noinline) inline void *Rva000411084::advance()
 {
 	EvaMessageNameNode *node = (EvaMessageNameNode *)m_current;
 	Rva000427195 *table = (Rva000427195 *)m_owner;
@@ -106,3 +66,6 @@ void *Rva000411084::advance()
 	} while (head == 0);
 	return head;
 }
+// Select-any: another unit compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva000411084Advance absent-from-retail
+void *bfmeAnchorRva000411084Advance(Rva000411084 *p) { return p->advance(); }

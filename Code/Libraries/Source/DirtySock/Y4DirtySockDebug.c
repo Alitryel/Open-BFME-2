@@ -8,7 +8,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-extern void (__stdcall *g_Rva01358EA8Print)(const char *text);
+void (__stdcall *g_Rva01358EA8Print)(const char *text) = 0;
 
 int Rva007FE780(const char *pFormat, ...)
 {

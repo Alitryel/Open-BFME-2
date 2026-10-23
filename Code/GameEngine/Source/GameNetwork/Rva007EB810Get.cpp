@@ -1,15 +1,29 @@
 // cl: /GX-
-// ?Rva007EB810Get@@YAHXZ @ 0x006587A0 (6B): global dword getter reading
+// ?Rva007EB810Get@@YAPAURva007EB810Diag@@XZ @ 0x006587A0 (6B): getter reading
 // 0x00E09FBC (mov eax,[mem]; ret). Ported from Open-BFME-1
 // Code/GameEngine/Source/Common/GlobalDwordGetters.cpp
 // (?Rva007EB810Get@@YAHXZ at 0x7EB810, same shape). The diagnostic reporter
-// pointer the FESL join fail paths call through; kept in its own TU so the
+// pointer the FESL join fail paths call through (returned as the Diag
+// pointer every caller declares, not as the int of the BFME1 port); kept in its own TU so the
 // Join callers keep their call-through-edx shape (same-TU definition lets
 // MSVC inline the load and breaks them).
 
+struct Rva007EB810Diag;
+
 extern int g_FeslDiagReporter;
 
-int Rva007EB810Get(void)
+Rva007EB810Diag *Rva007EB810Get(void)
 {
-	return g_FeslDiagReporter;
+	return (Rva007EB810Diag *)g_FeslDiagReporter;
 }
+// ?g_FeslDiagReporter@@3HA: the global at VA 0xe09fbc is ?g_Va0130A5A0@@3PAURva007EB810Diag@@A.
+#pragma comment(linker, "/alternatename:?g_FeslDiagReporter@@3HA=?g_Va0130A5A0@@3PAURva007EB810Diag@@A")
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeReportVJO@@YAPAVBfmeRVJO@@XZ=?Rva007EB810Get@@YAPAURva007EB810Diag@@XZ")
+#pragma comment(linker, "/alternatename:?bfmeGetLogVNC@@YAPAVBfmeLogVNC@@XZ=?Rva007EB810Get@@YAPAURva007EB810Diag@@XZ")
+#pragma comment(linker, "/alternatename:?bfmeLogGetESI@@YAPAVBfmeLogESI@@XZ=?Rva007EB810Get@@YAPAURva007EB810Diag@@XZ")
+#pragma comment(linker, "/alternatename:?bfmeGetLogUUA@@YAPAVBfmeLogUUA@@XZ=?Rva007EB810Get@@YAPAURva007EB810Diag@@XZ")
+#pragma comment(linker, "/alternatename:?bfmeGetLogUVB@@YAPAVBfmeLogUVB@@XZ=?Rva007EB810Get@@YAPAURva007EB810Diag@@XZ")
+#pragma comment(linker, "/alternatename:?bfmeGetLog1038@@YAPAVBfmeLog1038@@XZ=?Rva007EB810Get@@YAPAURva007EB810Diag@@XZ")

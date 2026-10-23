@@ -25,10 +25,6 @@
 		return m_value; \
 	}
 
-BFME_DISP_DWORD_GETTER(Rva0002BAD5DwordField, 0x418)
-BFME_DISP_DWORD_GETTER(Rva0002BADCDwordField, 0x41C)
-BFME_DISP_DWORD_GETTER(Rva0002BAE3DwordField, 0x420)
-BFME_DISP_DWORD_GETTER(Rva0002BAEADwordField, 0x424)
 BFME_DISP_DWORD_GETTER(Rva00042272DwordField, 0x45C)
 BFME_DISP_DWORD_GETTER(Rva00042279DwordField, 0x254)
 BFME_DISP_DWORD_GETTER(Rva0004228BDwordField, 0x280)
@@ -71,7 +67,6 @@ BFME_DISP_DWORD_GETTER(Rva001187F0DwordField, 0x2B0)
 BFME_DISP_DWORD_GETTER(Rva00137540DwordField, 0x2C0)
 BFME_DISP_DWORD_GETTER(Rva0013C960DwordField, 0x2C4)
 BFME_DISP_DWORD_GETTER(Rva00140C20DwordField, 0x8C)
-BFME_DISP_DWORD_GETTER(Rva00142C20DwordField, 0xB0)
 BFME_DISP_DWORD_GETTER(Rva001435B0DwordField, 0x304)
 BFME_DISP_DWORD_GETTER(Rva001435E0DwordField, 0x310)
 BFME_DISP_DWORD_GETTER(Rva00149270DwordField, 0x98)
@@ -95,11 +90,7 @@ BFME_DISP_DWORD_GETTER(Rva0020353ADwordField, 0x484)
 BFME_DISP_DWORD_GETTER(Rva00215E3BDwordField, 0x3AC)
 BFME_DISP_DWORD_GETTER(Rva002190A1DwordField, 0x244)
 BFME_DISP_DWORD_GETTER(Rva002190A8DwordField, 0x134)
-BFME_DISP_DWORD_GETTER(Rva00232E93DwordField, 0x3028)
-BFME_DISP_DWORD_GETTER(Rva00232F7DDwordField, 0x3030)
-BFME_DISP_DWORD_GETTER(Rva00233043DwordField, 0x303C)
-BFME_DISP_DWORD_GETTER(Rva0023304ADwordField, 0x3038)
-BFME_DISP_DWORD_GETTER(Rva00233051DwordField, 0x3034)
+BFME_DISP_DWORD_GETTER(Rva0021914DDwordField, 0x88)
 BFME_DISP_DWORD_GETTER(Rva0023C434DwordField, 0x8C)
 BFME_DISP_DWORD_GETTER(Rva0023C44FDwordField, 0x188)
 BFME_DISP_DWORD_GETTER(Rva0023C490DwordField, 0x13C)
@@ -108,7 +99,6 @@ BFME_DISP_DWORD_GETTER(Rva0023C4C0DwordField, 0xE6C)
 BFME_DISP_DWORD_GETTER(Rva0023C4C7DwordField, 0xE74)
 BFME_DISP_DWORD_GETTER(Rva0023C7A9DwordField, 0x154)
 BFME_DISP_DWORD_GETTER(Rva002622B7DwordField, 0x55C)
-BFME_DISP_DWORD_GETTER(Rva0026FF1EDwordField, 0x1F0)
 BFME_DISP_DWORD_GETTER(Rva0026FF33DwordField, 0x558)
 BFME_DISP_DWORD_GETTER(Rva0026FF3ADwordField, 0x580)
 BFME_DISP_DWORD_GETTER(Rva0026FF41DwordField, 0x584)
@@ -206,10 +196,39 @@ BFME_DISP_DWORD_GETTER(Rva004F612ADwordField, 0x494)
 BFME_DISP_DWORD_GETTER(Rva00505266DwordField, 0x15C)
 BFME_DISP_DWORD_GETTER(Rva0051825BDwordField, 0x17C4)
 BFME_DISP_DWORD_GETTER(Rva00524F12DwordField, 0x988)
+
+// ?rva00524F35@Rva00524F35@@QAEAAV1@H@Z @0x00524F35 37B
+class Rva00524F35
+{
+public:
+	int m_00;
+	int m_04;
+	int m_08;
+	int m_0c;
+	int m_10;
+	unsigned char m_14;
+	unsigned char m_15;
+	unsigned char m_16;
+	Rva00524F35& rva00524F35(int v);
+};
+
+Rva00524F35& Rva00524F35::rva00524F35(int v)
+{
+	m_08 = -1;
+	m_0c = -1;
+	m_10 = -1;
+	m_00 = v;
+	m_04 = 0;
+	m_14 = 0;
+	m_15 = 0;
+	m_16 = 0;
+	return *this;
+}
 BFME_DISP_DWORD_GETTER(Rva0057429ADwordField, 0x26C)
 BFME_DISP_DWORD_GETTER(Rva0059EB33DwordField, 0x2B0)
 BFME_DISP_DWORD_GETTER(Rva005B2666DwordField, 0x414)
 BFME_DISP_DWORD_GETTER(Rva005B5ABCDwordField, 0x40C)
+BFME_DISP_DWORD_GETTER(Rva005BE199DwordField, 0x94)
 BFME_DISP_DWORD_GETTER(Rva005BE1A0DwordField, 0x98)
 BFME_DISP_DWORD_GETTER(Rva005BE1A7DwordField, 0xB0)
 BFME_DISP_DWORD_GETTER(Rva005BE1AEDwordField, 0xD8)
@@ -263,7 +282,6 @@ BFME_DISP_DWORD_GETTER(Rva0028569CDwordField, 0x49C)
 BFME_DISP_DWORD_GETTER(Rva002C8EDDDwordField, 0xB4)
 BFME_DISP_DWORD_GETTER(Rva00367395DwordField, 0x180)
 BFME_DISP_DWORD_GETTER(Rva00381D2DDwordField, 0xC0)
-BFME_DISP_DWORD_GETTER(Rva0023303CDwordField, 0x3040)
 BFME_DISP_DWORD_GETTER(Rva0008E172DwordField, 0x1A138)
 BFME_DISP_DWORD_GETTER(Rva002C8E39DwordField, 0x380)
 BFME_DISP_DWORD_GETTER(Rva003BA6D0DwordField, 0x1A15C)
@@ -282,3 +300,18 @@ BFME_DISP_DWORD_GETTER(Rva0054902CDwordField, 0x568)
 BFME_DISP_DWORD_GETTER(Rva003BA5F2DwordField, 0x2A4)
 BFME_DISP_DWORD_GETTER(Rva00143590DwordField, 0xC8)
 BFME_DISP_DWORD_GETTER(Rva00108430DwordField, 0x170)
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeFindDEB@BfmeThingDEB@@QAEPAUBfmeSubDEB@@XZ=?get@Rva003140C8DwordField@@QBEHXZ")
+#pragma comment(linker, "/alternatename:?bfmeFindDEC@BfmeThingDEC@@QAEPAUBfmeSubDEC@@XZ=?get@Rva003140C8DwordField@@QBEHXZ")
+#pragma comment(linker, "/alternatename:?bfmeFindDEA@BfmeThingDEA@@QAEPAUBfmeSubDEA@@XZ=?get@Rva003140C8DwordField@@QBEHXZ")
+
+// BF1 9cbfb551fe Common/Bfme/Rva001BD660_setFlags.cpp is the clean semantic guide.
+// Complete native 0023C4CE..0023C4DB RET leaf proves: OR stack dword into receiver114; RET4.
+// Original owner and complete bounds unresolved; independent address-owned view.
+class Rva0023C4CEFields {
+public: void setFlags(unsigned int value);
+private: unsigned char unknown[0x114]; unsigned int flags;
+};
+void Rva0023C4CEFields::setFlags(unsigned int value) { flags |= value; }

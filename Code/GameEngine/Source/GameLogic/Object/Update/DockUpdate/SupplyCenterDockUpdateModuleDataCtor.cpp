@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /MD /GX /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /MD /GX /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // SupplyCenterDockUpdateModuleData constructor 40B @0x4A10D5.
 // BFME1 donor: Code/GameEngine/Source/GameLogic/Object/Update/DockUpdate/
@@ -22,7 +22,7 @@ class SupplyCenterDockUpdateModuleData : public DockUpdateModuleData
 {
 public:
 	SupplyCenterDockUpdateModuleData();
-	virtual ~SupplyCenterDockUpdateModuleData();
+	// Implicit destructor: retail's vtable 0x0084ED70 slot 0 0x004A10FD calls 0x0049B47C directly: the whole chain is trivial.
 private:
 	float m_valueMultiplier;
 	int m_bonusScience;

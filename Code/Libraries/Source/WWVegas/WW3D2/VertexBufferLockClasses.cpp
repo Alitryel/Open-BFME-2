@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 // VertexBufferClass::WriteLockClass constructor at 0x001394A0 and destructor
 // at 0x00139530, and AppendLockClass's constructor at 0x001395B0.  The append
@@ -18,7 +18,7 @@
 extern void DX8_Assert();
 extern void Log_DX8_ErrorCode(unsigned);
 extern void BFME_DX8_Thread_Lock(void);
-extern void BFME_DX8_Thread_Assert(void);
+extern bool BFME_DX8_Thread_Assert(void);
 
 class BFMEDX8DeviceLock
 {
@@ -51,8 +51,13 @@ enum
 	BUFFER_TYPE_SORTING = 1,
 };
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/dx8fvf.h
-class FVFInfoClass
+// NOT FVFInfoClass: retail inlines the stride at +0xC here (mov eax,[edx+0xC)),
+// while the kept ?Get_FVF_Size@FVFInfoClass@@QBEIXZ in dynamesh.cpp reads
+// [ecx+0x4]. This is the BFME 96-byte descriptor prefix (stride at 0x0C, cf.
+// BfmeFVFDescriptor in dx8fvf.cpp and BfmeDynamicFVFPrefix in
+// bfmedynamicvertexbuffer.cpp); named Rva001394A0FvfInfo to avoid a COMDAT
+// clash with the real FVFInfoClass.
+class Rva001394A0FvfInfo
 {
 public:
 	unsigned Get_FVF_Size() const { return fvf_size; }
@@ -86,7 +91,7 @@ public:
 	}
 
 	unsigned Type() const { return type; }
-	const FVFInfoClass &FVF_Info() const { return *fvf_info; }
+	const Rva001394A0FvfInfo &FVF_Info() const { return *fvf_info; }
 
 	class WriteLockClass
 	{
@@ -115,7 +120,7 @@ protected:
 	unsigned type;
 	unsigned short VertexCount;
 	int engine_refs;
-	FVFInfoClass *fvf_info;
+	Rva001394A0FvfInfo *fvf_info;
 	bool unexamined18;
 };
 
@@ -207,3 +212,7 @@ VertexBufferClass::AppendLockClass::AppendLockClass(VertexBufferClass *VertexBuf
 		break;
 	}
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??1AppendLockClass@VertexBufferClass@@QAE@XZ=??1WriteLockClass@VertexBufferClass@@QAE@XZ")

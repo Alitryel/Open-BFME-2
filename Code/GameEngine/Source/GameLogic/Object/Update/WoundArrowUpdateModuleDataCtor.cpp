@@ -1,7 +1,7 @@
-// cl: /O1 /DNDEBUG /MD /arch:SSE
+// cl: /DNDEBUG /MD
 //
 // ??0WoundArrowUpdateModuleData@@QAE@XZ, retail 0x004C68C1, 41 bytes.
-// ModuleData ctor over the pinned Rva0044EB54 base (0x44EB54, 0xC8 bytes
+// ModuleData ctor over the pinned SpecialAbilityUpdateModuleData base (0x44EB54, 0xC8 bytes
 // per the ToggleHidden row): loads the 100.0f cap (literal pool VA
 // 0xBC292C; /arch:SSE emits retail movss), clears the +0xCC word (and-RMW,
 // stays first per the ScaleWall precedent), installs vtable 0x00C5F778
@@ -10,8 +10,43 @@
 // (Enraged precedent). Class size 0xD0 proven by the WoundArrowUpdate data
 // factory (news 0xD0, sole caller at 0x252368). Row supersedes the ctor pin.
 
+extern "C" const void *const vtbl_00C5F778[];  // folded, 3 classes; via ??_7EvacuateGarrisonSpecialPowerModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C5F778=??_7EvacuateGarrisonSpecialPowerModuleData@@6B@")
+
 class MultiIniFieldParse;
-struct FieldParse;
+
+class INI
+{
+public:
+	static void parseReal(INI *ini, void *instance, void *store, const void *userData);
+	static void parseBitString32(INI *ini, void *instance, void *store, const void *userData);
+};
+
+typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
+
+struct FieldParse
+{
+	const char *token;
+	INIFieldParseProc parse;
+	const void *userData;
+	int offset;
+};
+
+// The own table at 0x00C5DEAC and the ForbiddenConditions bit names at
+// 0x00DCE9DC (.data) it alone points to, from retail's bytes (data rows;
+// descriptive names, the originals are unknown).
+const char *WoundArrowForbiddenConditionNames[2] =
+{
+	"MOUNTED",
+	0
+};
+
+extern const FieldParse WoundArrowUpdateModuleDataFieldParse[3] =
+{
+	{ "FleeDistance",			&INI::parseReal,		0, 0xC8 },
+	{ "ForbiddenConditions",	&INI::parseBitString32,	WoundArrowForbiddenConditionNames, 0xCC },
+	{ 0, 0, 0, 0 }
+};
 
 class MultiIniFieldParse
 {
@@ -19,11 +54,11 @@ public:
 	void add(const FieldParse *parseTable, unsigned int extraOffset);
 };
 
-class __declspec(novtable) Rva0044EB54
+class __declspec(novtable) SpecialAbilityUpdateModuleData
 {
 public:
-	Rva0044EB54();
-	virtual ~Rva0044EB54();
+	SpecialAbilityUpdateModuleData();
+	virtual ~SpecialAbilityUpdateModuleData();
 	static void buildFieldParse(MultiIniFieldParse &parse);
 
 private:
@@ -32,7 +67,7 @@ private:
 	unsigned char m_opaque[0xC4];
 };
 
-class __declspec(novtable) WoundArrowUpdateModuleData : public Rva0044EB54
+class __declspec(novtable) WoundArrowUpdateModuleData : public SpecialAbilityUpdateModuleData
 {
 public:
 	WoundArrowUpdateModuleData();
@@ -47,17 +82,17 @@ private:
 
 // ??0WoundArrowUpdateModuleData@@QAE@XZ @0x004C68C1
 WoundArrowUpdateModuleData::WoundArrowUpdateModuleData()
-	: Rva0044EB54()
+	: SpecialAbilityUpdateModuleData()
 {
 	float cap = 100.0f;
 	m_wordCC &= 0;
-	*(unsigned int *)this = 0x00C5F778;
+	*(unsigned int *)this = ((unsigned int)vtbl_00C5F778);
 	m_capC8 = cap;
 }
 
 // ?buildFieldParse@WoundArrowUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z @0x004C68EA
 void WoundArrowUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
-	Rva0044EB54::buildFieldParse(parse);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00C5DEAC), 0);
+	SpecialAbilityUpdateModuleData::buildFieldParse(parse);
+	parse.add(WoundArrowUpdateModuleDataFieldParse, 0);
 }

@@ -11,7 +11,11 @@ class BfmeSubDXH
 	unsigned char m_bfmeHead[4];
 };
 
-extern void (__cdecl *g_bfmeDropDXH)(BfmeSubDXH *what);
+// Native70E6D1 reaches the same E177A0 matrix callback defined by
+// AptRenderingContextStacks.cpp; Apt.cpp405 names pfnSetVertexMatrix.
+// Reuse that owner directly instead of a second global plus linker alias.
+struct AptMatrix;
+extern void (__cdecl *g_bfmeAptMatrixCallbackAtE177A0)(AptMatrix *);
 void __cdecl bfmeCallDXH(BfmeSubDXH *a, void *b, BfmeSubDXH *c);
 
 struct BfmeThingDXH
@@ -26,7 +30,7 @@ void BfmeThingDXH::bfmeGoDXH(void *a)
 {
 	BfmeSubDXH *s = &m_bfmeSub;
 	bfmeCallDXH(s, a, s);
-	g_bfmeDropDXH(s);
+	g_bfmeAptMatrixCallbackAtE177A0(reinterpret_cast<AptMatrix *>(s));
 }
 
 struct BfmeThingDXG
@@ -62,3 +66,4 @@ void BfmeThingDXK::bfmeGoDXKa()
 	if (p)
 		::operator delete[](p);
 }
+

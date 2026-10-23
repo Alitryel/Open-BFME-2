@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva000498857@GateOpenAndCloseBehavior@@SA?AW4NameKeyType@@XZ @0x498857
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@GateOpenAndCloseBehavior@@UBE?AW4NameKeyType@@XZ @0x498857
 // (69B): cached pool-name key for GateOpenAndCloseBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("GateOpenAndCloseBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class GateOpenAndCloseBehavior
 {
 public:
-	static NameKeyType rva000498857();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000498857@GateOpenAndCloseBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType GateOpenAndCloseBehavior::rva000498857()
+// ?getModuleNameKey@GateOpenAndCloseBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType GateOpenAndCloseBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheGateOpenAndCloseBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("GateOpenAndCloseBehavior");

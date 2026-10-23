@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ??0W3DSupplyDraw@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x000CAE43,
 // 56 bytes. Draw-side ctor completing the W3DSupplyDraw file-unit (name
@@ -13,6 +13,11 @@
 // emitted here; the immediates are DIR32-masked in comparison). Zero new pins
 // (base resolves via the existing W3DScriptedModelDraw pin). Row supersedes
 // the ctor pin.
+
+extern "C" const unsigned char __identifier("??_7Rva000CA119@@6BRva000CA119_B2@@@")[];
+
+extern "C" const unsigned char __identifier("??_7Rva000CAEC6@@6BMiBase1@@@")[];
+extern "C" const unsigned char __identifier("??_7Rva000CAEC6@@6BRva000C79C9@@@")[];
 
 class Thing;
 class ModuleData;
@@ -42,7 +47,7 @@ W3DSupplyDraw::W3DSupplyDraw(Thing *thing, const ModuleData *moduleData) :
 {
 	m_flags2E8 |= -1;
 	m_2EC = 0;
-	*(unsigned int *)this = 0x00BCBFC0;
-	*(unsigned int *)((char *)this + 0x0C) = 0x00BCBEF8;
-	*(unsigned int *)((char *)this + 0x10) = 0x00BCA08C;
+	*(unsigned int *)this = ((unsigned int)__identifier("??_7Rva000CAEC6@@6BRva000C79C9@@@"));
+	*(unsigned int *)((char *)this + 0x0C) = ((unsigned int)__identifier("??_7Rva000CAEC6@@6BMiBase1@@@"));
+	*(unsigned int *)((char *)this + 0x10) = ((unsigned int)__identifier("??_7Rva000CA119@@6BRva000CA119_B2@@@"));
 }

@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva004AB897@LargeGroupAudioUpdate@@SA?AW4NameKeyType@@XZ @0x004AB897
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@LargeGroupAudioUpdate@@UBE?AW4NameKeyType@@XZ @0x004AB897
 // (69B): cached pool-name key for LargeGroupAudioUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("LargeGroupAudioUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class LargeGroupAudioUpdate
 {
 public:
-	static NameKeyType rva004AB897();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004AB897@LargeGroupAudioUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType LargeGroupAudioUpdate::rva004AB897()
+// ?getModuleNameKey@LargeGroupAudioUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType LargeGroupAudioUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheLargeGroupAudioUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("LargeGroupAudioUpdate");

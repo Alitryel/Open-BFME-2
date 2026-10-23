@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /Ireference/shims/bfmecamera /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
+// cl: /Ireference/shims/bfmecamera /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
 // readable body of ?Create_Additional_Swap_Chain@DX8Wrapper@@: Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp
 // readable body of ?_Create_DX8_Surface@DX8Wrapper@@: Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp
 // readable body of ?_Get_DX8_Front_Buffer@DX8Wrapper@@: Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp
@@ -130,46 +130,21 @@ protected:
 	static bool __cdecl Find_Color_Mode(_D3DFORMAT colorbuffer, int resx, int resy, UINT *mode);
 
 private:
+protected:
 	static IDirect3DDevice8 *D3DDevice;
+private:
 	static unsigned D3DCallCount;
 	static D3DPRESENT_PARAMETERS _PresentParameters;
 };
 
 // ?Create_Additional_Swap_Chain@DX8Wrapper@@SAPAUIDirect3DSwapChain8@@PAX@Z
 // Zero Hour's windowed present-parameter fill, then CreateAdditionalSwapChain.
-IDirect3DSwapChain8 *DX8Wrapper::Create_Additional_Swap_Chain(void *render_window)
-{
-	D3DPRESENT_PARAMETERS params = { 0 };
-	params.BackBufferFormat = _PresentParameters.BackBufferFormat;
-	params.BackBufferCount = 1;
-	params.MultiSampleType = 0;
-	params.hDeviceWindow = render_window;
-	params.SwapEffect = D3DSWAPEFFECT_COPY;
-	params.Windowed = 1;
-	params.EnableAutoDepthStencil = 1;
-	params.AutoDepthStencilFormat = _PresentParameters.AutoDepthStencilFormat;
-	params.Flags = 0;
-	params.FullScreen_RefreshRateInHz = 0;
-	params.PresentationInterval = 0;
-
-	IDirect3DSwapChain8 *swap_chain = 0;
-	D3DDevice->lpVtbl->CreateAdditionalSwapChain(D3DDevice, &params, &swap_chain);
-	++D3DCallCount;
-	return swap_chain;
-}
+// DX8Wrapper::Create_Additional_Swap_Chain: defined in dx8wrapper.cpp (its row's unit).
 
 // ?_Create_DX8_Surface@DX8Wrapper@@SAPAVIDirect3DSurface9@@IIW4WW3DFormat@@W4_D3DPOOL@@@Z
 // BFME wraps D3D9's CreateOffscreenPlainSurface on the D3D8-typed device
 // pointer where Zero Hour called CreateImageSurface.
-IDirect3DSurface9 *DX8Wrapper::_Create_DX8_Surface(
-	unsigned width, unsigned height, WW3DFormat format, D3DPOOL pool)
-{
-	IDirect3DSurface9 *surface = 0;
-	D3DDevice->lpVtbl->CreateOffscreenPlainSurface(
-		D3DDevice, width, height, format, pool, &surface, 0);
-	++D3DCallCount;
-	return surface;
-}
+// DX8Wrapper::_Create_DX8_Surface: defined in DX8Wrapper_Create_DX8_Surface.cpp (its row's unit).
 
 // ?_Get_DX8_Front_Buffer@DX8Wrapper@@SAPAVIDirect3DSurface9@@XZ
 // ZH CreateImageSurface/GetFrontBuffer, BFME D3D9 GetDisplayMode(0),
@@ -193,44 +168,8 @@ IDirect3DSurface9 *DX8Wrapper::_Get_DX8_Front_Buffer()
 // ?Find_Color_Mode@DX8Wrapper@@KA_NW4_D3DFORMAT@@HHPAI@Z
 // The adapter's mode list is walked twice: once to find the first mode of the
 // requested size and format, then on from there to find where that run ends.
-bool __cdecl DX8Wrapper::Find_Color_Mode(_D3DFORMAT colorbuffer, int resx, int resy, UINT *mode)
-{
-	UINT i, j, modemax;
-	UINT rx, ry;
-	D3DDISPLAYMODE dmode;
-	memset(&dmode, 0, sizeof(D3DDISPLAYMODE));
+// Defined in dx8wrapper.cpp (its row's unit).
 
-	rx = static_cast<UINT>(resx);
-	ry = static_cast<UINT>(resy);
-	bool found = false;
-	modemax = D3DInterface->lpVtbl->GetAdapterModeCount(D3DInterface, 0, colorbuffer);
-
-	i = 0;
-	while (i < modemax && !found) {
-		D3DInterface->lpVtbl->EnumAdapterModes(D3DInterface, 0, colorbuffer, i, &dmode);
-		if (dmode.Width == rx && dmode.Height == ry && dmode.Format == colorbuffer)
-			found = true;
-		++i;
-	}
-
-	--i;
-	if (!found)
-		return false;
-
-	bool stillok = true;
-	j = i;
-	while (j < modemax && stillok) {
-		D3DInterface->lpVtbl->EnumAdapterModes(D3DInterface, 0, colorbuffer, j, &dmode);
-		if (dmode.Width == rx && dmode.Height == ry && dmode.Format == colorbuffer)
-			stillok = true;
-		else
-			stillok = false;
-		++j;
-	}
-
-	if (!stillok)
-		*mode = j - 2;
-	else
-		*mode = i;
-	return true;
-}
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
+#pragma comment(linker, "/alternatename:?D3DCallCount@DX8Wrapper@@0IA=?number_of_DX8_calls@@3IA")

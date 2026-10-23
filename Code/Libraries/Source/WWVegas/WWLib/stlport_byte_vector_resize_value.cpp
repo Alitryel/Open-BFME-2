@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /D_CRTIMP=
+// cl: /EHsc /MD /D_CRTIMP=
 // STLport 4.5.3 vector resize with a one-byte element passed by value.
 // The element's actual retail type is not yet established; char fixes its size.
 // Shape follows Open-BFME-1 vector_ICoord2D_resize.cpp. The retail call site
@@ -12,6 +12,7 @@ public:
     iterator erase(iterator first, iterator last);
     void _M_fill_insert(iterator position, size_type count, const T &value);
     void resize(size_type newSize, T value);
+    void resize(size_type newSize) { resize(newSize, T()); }
 private:
     iterator begin() { return m_start; }
     iterator end() { return m_finish; }
@@ -28,4 +29,7 @@ void vector<T,A>::resize(size_type newSize, T value) {
         _M_fill_insert(end(), newSize - size(), value);
 }
 template void vector<char,allocator<char> >::resize(unsigned int,char);
+// 0x00082C54 (14B), unreferenced in retail: the one-argument overload,
+// forwarding a value-initialised element.
+template void vector<char,allocator<char> >::resize(unsigned int);
 }

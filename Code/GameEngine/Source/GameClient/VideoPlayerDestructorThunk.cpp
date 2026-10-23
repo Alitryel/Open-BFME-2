@@ -4,11 +4,7 @@
 // Open-BFME5: VideoPlayer destructor ? clear global singleton then chain bases
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/SubsystemInterface.h
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-};
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class VideoPlayerBase : public SubsystemInterface
 {
@@ -23,7 +19,7 @@ public:
 	virtual ~VideoPlayer();
 };
 
-extern VideoPlayer *TheVideoPlayer;
+extern class VideoPlayerInterface *TheVideoPlayer;
 
 // empty intermediate so MSVC emits its vtbl store then jumps to SubsystemInterface
 // ??1VideoPlayerBase@@ present-unmatched
@@ -32,8 +28,21 @@ VideoPlayerBase::~VideoPlayerBase()
 }
 
 // ??1VideoPlayer@@UAE@XZ
-VideoPlayer::~VideoPlayer()
+// noinline: retail's ??_GVideoPlayer (0x006894E0) calls this body out of line,
+// so the deleting destructor this unit emits must not fold it in.
+__declspec(noinline) inline VideoPlayer::~VideoPlayer()
 {
-	if (this == TheVideoPlayer)
-		TheVideoPlayer = 0;
+	if (this == ((VideoPlayer *)TheVideoPlayer))
+		(*(VideoPlayer **)&TheVideoPlayer) = 0;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeVideoPlayerInlineAnchor@@YAXPAVVideoPlayer@@@Z absent-from-retail
+void _bfmeVideoPlayerInlineAnchor(VideoPlayer *videoPlayer)
+{
+    videoPlayer->VideoPlayer::~VideoPlayer();
+}
+#pragma inline_depth()

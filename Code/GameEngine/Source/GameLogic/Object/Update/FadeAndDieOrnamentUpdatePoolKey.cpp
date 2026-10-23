@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0003A4358@FadeAndDieOrnamentUpdate@@SA?AW4NameKeyType@@XZ @0x3a4358
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@FadeAndDieOrnamentUpdate@@UBE?AW4NameKeyType@@XZ @0x3a4358
 // (69B): cached pool-name key for FadeAndDieOrnamentUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("FadeAndDieOrnamentUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class FadeAndDieOrnamentUpdate
 {
 public:
-	static NameKeyType rva0003A4358();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0003A4358@FadeAndDieOrnamentUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType FadeAndDieOrnamentUpdate::rva0003A4358()
+// ?getModuleNameKey@FadeAndDieOrnamentUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType FadeAndDieOrnamentUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheFadeAndDieOrnamentUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("FadeAndDieOrnamentUpdate");

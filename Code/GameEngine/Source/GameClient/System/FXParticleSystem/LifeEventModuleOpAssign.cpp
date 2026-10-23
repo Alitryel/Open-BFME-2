@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc
 
 // LifeEvent module assignment operators.
 //
@@ -11,22 +11,8 @@
 // ctor thunks LifeEventModuleInfoCopyCtorThunk.cpp and
 // LifeEventModuleTemplateCopyCtorThunk.cpp in this folder.
 
-template <typename Character>
-class StringBase
-{
-public:
-	StringBase(const StringBase &);
-};
+#include "ascii_string.h"
 
-class AsciiString : private StringBase<char>
-{
-public:
-	AsciiString(const AsciiString &that)
-		: StringBase<char>(that)
-	{
-	}
-	AsciiString &operator=(const AsciiString &that);
-};
 
 namespace FXParticleSystem
 {
@@ -108,7 +94,7 @@ public:
 };
 
 // ??4LifeEventModuleTemplate@FXParticleSystem@@QAEAAV01@ABV01@@Z @0x3A7A7F
-LifeEventModuleTemplate &LifeEventModuleTemplate::operator=(const LifeEventModuleTemplate &that)
+inline LifeEventModuleTemplate &LifeEventModuleTemplate::operator=(const LifeEventModuleTemplate &that)
 {
 	const void *source = &that;
 	const void *word_source = source ? (const unsigned char *)source + 8 : 0;
@@ -118,3 +104,13 @@ LifeEventModuleTemplate &LifeEventModuleTemplate::operator=(const LifeEventModul
 }
 
 }
+
+// LINK-OWNER anchor: this unit owns ??4LifeEventModuleTemplate; other units emit
+// it inline, so the owner must also emit a select-any (inline) copy.
+#pragma inline_depth(0)
+// ?bfmeEmitLifeEventModuleOpAssign@@YAXPAVLifeEventModuleTemplate@FXParticleSystem@@PBV12@@Z present-unmatched
+void bfmeEmitLifeEventModuleOpAssign(FXParticleSystem::LifeEventModuleTemplate *p, const FXParticleSystem::LifeEventModuleTemplate *q)
+{
+	p->operator=(*q);
+}
+#pragma inline_depth()

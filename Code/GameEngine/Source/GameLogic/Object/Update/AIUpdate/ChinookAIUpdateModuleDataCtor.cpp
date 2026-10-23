@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
 // Identity: ModuleFactory registers this data class under "DetachableRiderBody" (addModule
 // pairs the name with this factory); formerly misnamed ChinookAIUpdateModuleData.
 //
@@ -31,6 +31,9 @@ private:
 	unsigned char m_pad[0x110];
 };
 
+// Vtable 0x00BF4028, defined in PorcupineFormationBodyModuleDataCtor.cpp.
+extern "C" const void *const vtbl_00BF4028[];
+
 class DetachableRiderBodyModuleData : public ActiveBodyModuleData
 {
 public:
@@ -40,18 +43,18 @@ private:
 	const void *m_vtable;
 	unsigned char m_pad[0x64 - 4];
 	Rva0025342CMember m_ropes;		// +0x64
-	float m_174;				// +0x174
-	unsigned char m_178;			// +0x178
+	float m_healthPercentageWhenRiderDies;				// +0x174
+	unsigned char m_startsActive;			// +0x178
 	unsigned char m_pad178[3];
-	float m_17C;				// +0x17C
+	float m_riderlessDeathChance;				// +0x17C
 };
 
 // ??0DetachableRiderBodyModuleData@@QAE@XZ
 DetachableRiderBodyModuleData::DetachableRiderBodyModuleData()
-	: m_vtable( reinterpret_cast<const void *>(0x00BF4028) )
+	: m_vtable(vtbl_00BF4028)
 {
 	m_ropes.construct();
-	m_17C = 0.0f;
-	m_178 = 0;
-	m_174 = 1.0f;
+	m_riderlessDeathChance = 0.0f;
+	m_startsActive = 0;
+	m_healthPercentageWhenRiderDies = 1.0f;
 }

@@ -21,7 +21,15 @@ private:
 };
 
 // ?friend_newModuleInstance@HighlanderBody@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *HighlanderBody::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *HighlanderBody::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new HighlanderBody(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitHighlanderBodyFriendNew@@YAXPAVHighlanderBody@@@Z present-unmatched
+void bfmeEmitHighlanderBodyFriendNew(HighlanderBody *highlanderBody)
+{
+	highlanderBody->friend_newModuleInstance(0, 0);
+}
+#pragma inline_depth()

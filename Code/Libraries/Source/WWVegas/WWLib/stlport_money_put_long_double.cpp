@@ -18,7 +18,7 @@ typedef unsigned int size_t;
 typedef struct { int quot; int rem; } div_t;
 typedef struct { long quot; long rem; } ldiv_t;
 
-void __cdecl free(void *block);
+extern "C" void __cdecl free(void *block) throw(...);
 
 extern "C" {
 void __cdecl abort(void);
@@ -52,7 +52,26 @@ size_t __cdecl wcstombs(char *dest, const unsigned short *source, size_t count);
 int __cdecl wctomb(char *dest, unsigned short ch);
 }
 
+#include <stl/_alloc.h>
+// Keep retail's inline character-buffer cleanup; the public allocator
+// entry point is supplied by its separately verified owner.
+namespace _STL {
+template <> void __malloc_alloc<0>::deallocate(void *, size_t);
+#pragma optimize("gsy", on)
+template <> __forceinline void allocator<char>::deallocate(char *p, size_t) const { if (p != 0) free(p); }
+template <> __forceinline void allocator<unsigned short>::deallocate(unsigned short *p, size_t) const { if (p != 0) free(p); }
+#pragma optimize("", on)
+}
+
 #include <locale>
+// STLport defines locale::facet::~facet out of line in locale_impl.cpp, where
+// retail's ??_Gfacet (0x00007490) inlines the empty body; seeing it here makes
+// this unit's select-any copy of ??_Gfacet retail's.
+namespace _STL { inline locale::facet::~facet() {} }
+// basic_string<char>::reserve is retail's 116-byte body at 0x0000C390, owned by
+// stlport_narrow_string_reserve.cpp; this unit's header copy is not retail's and
+// came before it in link order, so only declare its instantiation here.
+namespace _STL { extern template void basic_string<char, char_traits<char>, allocator<char> >::reserve(size_t); }
 
 // _locale.h forward-declares _Locale_impl as an opaque type and declares
 // ~locale() without a body, so MSVC has to emit a call to it. Retail INLINES
@@ -75,11 +94,25 @@ public:
 	unsigned int _M_count;
 };
 
-locale::~locale() _STLP_NOTHROW
+inline locale::~locale() _STLP_NOTHROW
 {
 	_M_impl->_M_decr();
 }
 
 }
 
+#include <cstddef>
+// bfme link decl-only begin
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > & ostreambuf_iterator<char, char_traits<char> >::operator=(char); }
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > money_put<char, ostreambuf_iterator<char, char_traits<char> > >::do_put(ostreambuf_iterator<char, char_traits<char> >, bool, ios_base &, char, basic_string<char, char_traits<char>, allocator<char> > const &) const; }
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_allocate_block@?$_String_base@DV?$allocator@D@_STL@@@_STL@@QAEXI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _String_base<char,allocator<char> >::_M_allocate_block(unsigned int); }
+// Suppress this TU's non-retail proxy<char> allocate copy (family2-LK3 row 30):
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL {
+template <> char *_STLP_alloc_proxy<char*, char, allocator<char> >::allocate(size_t);
+}
 template class _STL::money_put<char, _STL::ostreambuf_iterator<char, _STL::char_traits<char> > >;

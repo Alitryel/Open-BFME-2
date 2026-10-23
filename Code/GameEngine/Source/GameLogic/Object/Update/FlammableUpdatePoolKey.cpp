@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva00048C6DF@FlammableUpdate@@SA?AW4NameKeyType@@XZ @0x48C6DF
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@FlammableUpdate@@UBE?AW4NameKeyType@@XZ @0x48C6DF
 // (69B): cached pool-name key for FlammableUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("FlammableUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class FlammableUpdate
 {
 public:
-	static NameKeyType rva00048C6DF();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00048C6DF@FlammableUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType FlammableUpdate::rva00048C6DF()
+// ?getModuleNameKey@FlammableUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType FlammableUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheFlammableUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("FlammableUpdate");

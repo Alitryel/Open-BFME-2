@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // Open-BFME5: lift the radius-decal update constructor to clean C++.
 
 class Thing;
@@ -35,9 +35,8 @@ public:
 class UpdateModule : public ObjectModule, public UpdateModuleInterface, public ModuleInterface
 {
 public:
-	UpdateModule(Thing *thing, const ModuleData *moduleData)
-		: ObjectModule(thing, moduleData), m_f14(0), m_f18(-1), m_f1c(-1) {}
-	virtual ~UpdateModule() {}
+	UpdateModule(Thing *thing, const ModuleData *moduleData);
+	virtual ~UpdateModule();
 	void setWakeFrame(Object *, unsigned int);
 
 private:

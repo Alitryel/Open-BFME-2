@@ -80,6 +80,9 @@ static void LoadVector (lua_State* L, void* b, int m, size_t size, ZIO* Z, int s
   ezread(L,Z,b,m*size);
 }
 
+// BFME1 donor revision 5cae4bdf: LoadInt and LoadSize are byte-identical 25B
+// bodies folded onto BFME2 0x007564B0; the target bytes cannot distinguish the
+// two names, so both are recorded as an ICF alias group with the carried names.
 static int LoadInt (lua_State* L, ZIO* Z, int swap)
 {
  int x;

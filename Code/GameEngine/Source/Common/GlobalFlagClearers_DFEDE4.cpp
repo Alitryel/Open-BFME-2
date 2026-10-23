@@ -13,7 +13,11 @@
 
 extern unsigned int g_Va00DFEDE4;
 extern unsigned int g_Va00DFEDEC;
+// g_Va00DFEDEC: matched references place it at VA 0xdfedec (zero-filled .bss).
+unsigned int g_Va00DFEDEC;
 extern unsigned int g_Va00DFEE10;
+// g_Va00DFEE10: matched references place it at VA 0xdfee10 (zero-filled .bss).
+unsigned int g_Va00DFEE10;
 
 unsigned int Rva0077489DClearFlag(void)
 {

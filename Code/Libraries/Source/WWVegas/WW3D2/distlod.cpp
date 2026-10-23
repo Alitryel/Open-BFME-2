@@ -1,4 +1,20 @@
-﻿// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/shims/sweep
+﻿// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /D_CRTIMP= /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/shims/sweep
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+
+// BFME 2 has no W3D memory pools (see Code/Libraries/Source/WWVegas/WWLib/always.h).
+#include "always.h"
+#undef W3DMPO_GLUE
+#define W3DMPO_GLUE(ARGCLASS)
 #define Matrix4x4 Matrix4
 #include "winbase_shim.h"
 /*
@@ -80,7 +96,25 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+// Retail compiles RenderObjClass's Set_Alpha, Set_Additive and the four
+// _bfme_ro_flag setters /O1 (0x0006CF6F..0x0006D000, held by HeightMap.cpp and
+// RenderObjAccessors.cpp). The BFME 1 rendobj.h this header pulls in defines
+// them inline, and the vtables this unit emits would make this unit's /O2
+// copies the first ones in link order; the macros leave the virtuals declared
+// only and move the inline bodies to unreferenced non-virtual members.
+#define Set_Alpha(onoff) Set_Alpha(onoff); void Bfme1_Inline_Set_Alpha(onoff)
+#define Set_Additive(onoff) Set_Additive(onoff); void Bfme1_Inline_Set_Additive(onoff)
+#define _bfme_ro_flag110(onoff) _bfme_ro_flag110(onoff); void Bfme1_Inline_flag110(onoff)
+#define _bfme_ro_flag112(onoff) _bfme_ro_flag112(onoff); void Bfme1_Inline_flag112(onoff)
+#define _bfme_ro_flag114(onoff) _bfme_ro_flag114(onoff); void Bfme1_Inline_flag114(onoff)
+#define _bfme_ro_flag116(onoff) _bfme_ro_flag116(onoff); void Bfme1_Inline_flag116(onoff)
 #include "distlod.h"
+#undef _bfme_ro_flag116
+#undef _bfme_ro_flag114
+#undef _bfme_ro_flag112
+#undef _bfme_ro_flag110
+#undef Set_Additive
+#undef Set_Alpha
 #include "nstrdup.h"
 #include "ww3d.h"
 #include "assetmgr.h"
@@ -380,6 +414,7 @@ bool DistLODDefClass::read_header(ChunkLoadClass & cload)
  * HISTORY:                                                                                    *
  *   7/15/98    GTH : Created.                                                                 *
  *=============================================================================================*/
+// ?DistLODDefClass::read_node present-unmatched
 bool DistLODDefClass::read_node(ChunkLoadClass & cload,DistLODNodeDefStruct * node)
 {
 	return true;
@@ -468,6 +503,7 @@ DistLODClass::DistLODClass(const DistLODClass & that) :
  * HISTORY:                                                                                    *
  *   3/3/99     GTH : Created.                                                                 *
  *=============================================================================================*/
+// ?DistLODClass::~DistLODClass present-unmatched
 DistLODClass::~DistLODClass(void)
 {
 	Free();
@@ -646,12 +682,12 @@ int DistLODClass::Add_Sub_Object_To_Bone(RenderObjClass * subobj,int bone_index,
  *   3/3/99     GTH : Created.                                                                 *
  *=============================================================================================*/
 // ?DistLODClass::Set_Transform present-unmatched
-void DistLODClass::Set_Transform(const Matrix3D &m)
+void DistLODClass::Set_Transform(const Matrix3D &matrix3D)
 {
-	RenderObjClass::Set_Transform(m);
+	RenderObjClass::Set_Transform(matrix3D);
 	for (int i=0; i<LodCount; i++) {
 		assert(Lods[i].Model != NULL);
-		Lods[i].Model->Set_Transform(m);
+		Lods[i].Model->Set_Transform(matrix3D);
 	}
 }
 
@@ -1142,10 +1178,20 @@ void DistLODClass::Scale(float scalex, float scaley, float scalez)
 void DistLODClass::Update_Lod(const CameraClass & camera)
 {
 	// evaluate the distance from the camera and select an LOD based on it.
-	float dist =	(
-							camera.Get_Position() - 
-							Lods[CurLod].Model->Get_Bounding_Sphere().Center
-						).Quick_Length();
+	// Inlined Vector3::Quick_Length (Graphics Gems approx, header math):
+	// this TU's x87 copy of the out-of-line helper loses the link to the
+	// SSE home copy, so the helper is not called here at all. Enclosing
+	// function is unrowed.
+	Vector3 diff = camera.Get_Position() -
+		Lods[CurLod].Model->Get_Bounding_Sphere().Center;
+	float ax = diff.X < 0.0f ? -diff.X : diff.X;
+	float ay = diff.Y < 0.0f ? -diff.Y : diff.Y;
+	float az = diff.Z < 0.0f ? -diff.Z : diff.Z;
+	float max = ax, mid = ay, min = az, tmp;
+	if (max < mid) { tmp = max; max = mid; mid = tmp; }
+	if (max < min) { tmp = max; max = min; min = tmp; }
+	if (mid < min) { tmp = mid; mid = min; min = mid; }
+	float dist = max + (11.0f / 32.0f) * mid + (1.0f / 4.0f) * min;
 
 	if (dist < Lods[CurLod].ResUpDist) {
 		Increment_Lod();

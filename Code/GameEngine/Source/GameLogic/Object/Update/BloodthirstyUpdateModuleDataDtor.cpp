@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /Ireference/shims/moduledata
 //
 // ??1BloodthirstyUpdateModuleData@@UAE@XZ, retail 0x0044E331, 67 bytes.
 // BloodthirstyUpdateModuleData destructor (ctor rowed at 0x0044E2AC in
@@ -11,24 +11,10 @@
 // follows the ctor TU (+0 vtable, +4 unused, +8 filter 4B, +0xC float,
 // +0x10 voice index, +0x14 holder pointer). Shape follows
 // FlammableUpdateModuleDataDtor / LargeGroupBonusUpdateModuleDataDtor
-// (TU-local Snapshot with inline BBB554-restoring dtor, empty derived body,
+// (shared Snapshot base dtor, empty derived body,
 // novtable suppresses the entry derived-vtable store retail lacks).
 
-class Xfer;
-
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc(Xfer *xfer);
-	virtual void loadPostProcess();
-	virtual void xfer(Xfer *xfer);
-};
-
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
+#include "Common/Snapshot.h"
 
 class OpaqueRefCounted
 {

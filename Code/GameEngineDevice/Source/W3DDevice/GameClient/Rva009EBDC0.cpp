@@ -36,11 +36,17 @@ public:
 	AssetReference Get_Current_Asset();
 };
 
-extern AssetRegistry *g_theAssetRegistry;
+extern class Q1Receiver0134FAAC *TheQ1Receiver;
 
 AssetReference Rva009EBDC0()
 {
-	return g_theAssetRegistry
-		? g_theAssetRegistry->Get_Current_Asset()
+	return ((AssetRegistry *)TheQ1Receiver)
+		? ((AssetRegistry *)TheQ1Receiver)->Get_Current_Asset()
 		: AssetReference();
 }
+
+#pragma comment(linker, "/alternatename:?Rva00F4FAACRegistry@@3PAVRva009EEC60Registry@@A=?TheQ1Receiver@@3PAVQ1Receiver0134FAAC@@A")
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeNextResource@@YA?AUBfmeResetAnyRef@@XZ=?Rva009EBDC0@@YA?AVAssetReference@@XZ")

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??0SlaveWatcherBehavior@@QAE@PAVThing@@PBVModuleData@@@Z, retail
 // 0x004845CB, 93 bytes. Behavior-side ctor (rowed instance factory
@@ -13,6 +13,14 @@
 // +0x20, and the setWakeFrame tail (protected IAEX Object-uint spelling
 // resolves via the existing pin at 0x44DF71). Row supersedes the ctor pin.
 
+extern "C" const void *const vtbl_00BEFF90[];  // folded, 80 classes; via ??_7AIGateUpdate@@6BBehaviorModuleOther@@@
+#pragma comment(linker, "/alternatename:_vtbl_00BEFF90=??_7AIGateUpdate@@6BBehaviorModuleOther@@@")
+
+extern "C" const void *const vtbl_00C4A258[];  // ??_7SlaveWatcherBehavior@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4A258=??_7SlaveWatcherBehavior@@6B@")
+extern "C" const void *const vtbl_00C4A264[];  // ??_7SlaveWatcherBehavior@@6BBehaviorModuleBase@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4A264=??_7SlaveWatcherBehavior@@6BBehaviorModuleBase@@@")
+
 class Thing;
 class ModuleData;
 class Object;
@@ -26,6 +34,12 @@ private:
 	char m_pad[0x80];
 };
 
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1,
+	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
+};
+
 class UpdateModule
 {
 public:
@@ -33,7 +47,7 @@ public:
 	~UpdateModule();
 
 protected:
-	void setWakeFrame(Object *object, unsigned int frame);
+	void setWakeFrame(Object *object, UpdateSleepTime frame);
 
 	const void *m_vtable;
 	const ModuleData *m_moduleData;
@@ -59,10 +73,10 @@ private:
 SlaveWatcherBehavior::SlaveWatcherBehavior(Thing *thing, const ModuleData *moduleData)
 	: UpdateModule(thing, moduleData)
 {
-	m_vtable = (const void *)0x00C4A264;
-	m_secondary0C = (const void *)0x00BEFF90;
-	m_secondary10 = (const void *)0x00C4A258;
+	m_vtable = (const void *)((unsigned int)vtbl_00C4A264);
+	m_secondary0C = (const void *)((unsigned int)vtbl_00BEFF90);
+	m_secondary10 = (const void *)((unsigned int)vtbl_00C4A258);
 	m_24.clear80();
 	m_20 &= 0;
-	setWakeFrame(m_object, 1);
+	setWakeFrame(m_object, UPDATE_SLEEP_NONE);
 }

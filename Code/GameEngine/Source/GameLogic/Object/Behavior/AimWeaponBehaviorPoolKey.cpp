@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva00045B198@AimWeaponBehavior@@SA?AW4NameKeyType@@XZ @0x45b198
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@AimWeaponBehavior@@UBE?AW4NameKeyType@@XZ @0x45b198
 // (69B): cached pool-name key for AimWeaponBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("AimWeaponBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class AimWeaponBehavior
 {
 public:
-	static NameKeyType rva00045B198();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00045B198@AimWeaponBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType AimWeaponBehavior::rva00045B198()
+// ?getModuleNameKey@AimWeaponBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType AimWeaponBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheAimWeaponBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("AimWeaponBehavior");

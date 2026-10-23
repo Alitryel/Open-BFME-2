@@ -6,6 +6,16 @@
 // donor (same class, same member order, same resize-if/else-zero loop); BFME 2
 // carries the extra UpdateModule dword the dockupdate shim proves, which keeps
 // DockUpdateInterface at +0x20 exactly as here.
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
 #include <limits.h>
 
 typedef float Real;
@@ -18,23 +28,9 @@ typedef bool Bool;
 #define FALSE 0
 #endif
 
-struct Coord3D
-{
-	// Retail Coord3D has an empty default ctor and a nontrivial copy ctor;
-	// this keeps resize fill values in place.
-	Coord3D() {}
-	Coord3D(const Coord3D &);
-	void zero()
-	{
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-	}
-
-	float x;
-	float y;
-	float z;
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_INLINE
+#include "../../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 enum ObjectID
 {
@@ -43,6 +39,26 @@ enum ObjectID
 };
 
 #include <stl/_bvector.h>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> vector<bool,allocator<bool> >::~vector(); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _Vector_base<ObjectID,allocator<ObjectID> >::~_Vector_base(); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _Vector_base<Coord3D,allocator<Coord3D> >::~_Vector_base(); }
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int * _Bvector_base<allocator<bool> >::_M_bit_alloc(unsigned int); }
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
+namespace _STL { template <> void vector<bool, allocator<bool> >::_M_fill_insert(_Bit_iterator, unsigned int, bool); }
+namespace _STL { template <> void allocator<unsigned int>::deallocate(unsigned int *, unsigned int) const; }
+namespace _STL { template <> void allocator<ObjectID>::deallocate(ObjectID *, unsigned int) const; }
+namespace _STL { template <> void _Bvector_base<allocator<bool> >::_M_deallocate(); }
+namespace _STL { template <> _Bvector_base<allocator<bool> >::~_Bvector_base(); }
+// bfme link decl-only end
+// Retail keeps the 16-byte /O2 copy of the default _Bit_iter constructor
+// (0x00672310, stlport_vector_bool.cpp); this /O1 unit inlines every use, so
+// it must not emit its own 10-byte copy.
+namespace _STL { template <> __declspec(dllimport) __forceinline _Bit_iter<_Bit_reference, _Bit_reference *>::_Bit_iter() {} }
 
 // BFME's resize overload passes its fill value by value. The vendored STLport
 // headers use const references, so only these two element types are shadowed
@@ -54,6 +70,8 @@ class vector<Coord3D, allocator<Coord3D> > : public _Vector_base<Coord3D, alloca
 {
 public:
 	__forceinline vector() : _Vector_base<Coord3D, allocator<Coord3D> >(allocator<Coord3D>()) {}
+	// Both dtors bind to retail's inlined 14-byte copy (0x0007FAB3).
+	~vector();
 
 	unsigned int size() const
 	{
@@ -82,6 +100,7 @@ class vector<ObjectID, allocator<ObjectID> > : public _Vector_base<ObjectID, all
 {
 public:
 	__forceinline vector() : _Vector_base<ObjectID, allocator<ObjectID> >(allocator<ObjectID>()) {}
+	~vector();
 
 	typedef _STL::__type_traits<ObjectID>::has_trivial_assignment_operator _TrivialAss;
 
@@ -137,10 +156,17 @@ public:
 	BehaviorModule(Thing *thing, const ModuleData *moduleData);
 };
 
+// Native secondary table 0x00851D68: DockUpdate::update, followed by
+// UpdateModule's disabled-mask getter and wake-delay slot.
+enum UpdateSleepTime { UPDATE_SLEEP_NONE = 1 };
+template<int NumBits> class BitFlags;
+
 class UpdateModuleInterface
 {
 public:
-	virtual void update() = 0;
+	virtual UpdateSleepTime update() = 0;
+	virtual BitFlags<11> getDisabledTypesToProcess() const = 0;
+	virtual void rva0044DF8D(UpdateSleepTime) = 0;
 };
 
 class UpdateModule : public BehaviorModule, public UpdateModuleInterface
@@ -152,7 +178,9 @@ class UpdateModule : public BehaviorModule, public UpdateModuleInterface
 public:
 	UpdateModule(Thing *thing, const ModuleData *moduleData);
 	virtual ~UpdateModule();
-	virtual void update();
+	virtual UpdateSleepTime update() = 0;
+	virtual BitFlags<11> getDisabledTypesToProcess() const;
+	virtual void rva0044DF8D(UpdateSleepTime);
 };
 
 class DockUpdateInterface
@@ -175,10 +203,11 @@ class DockUpdate : public UpdateModule, public DockUpdateInterface
 public:
 	DockUpdate(Thing *thing, const ModuleData *moduleData);
 	virtual ~DockUpdate();
+	virtual UpdateSleepTime update();
 
 	virtual void objectModuleAnchor();
 	virtual void behaviorAnchor();
-	virtual void updateAnchor();
+	virtual void updateAnchor() = 0;
 	virtual void dockAnchor();
 
 	Coord3D m_enterPosition;
@@ -204,7 +233,7 @@ enum
 
 _STLP_BEGIN_NAMESPACE
 template<>
-__declspec(noinline) void _Construct<Coord3D, Coord3D>(Coord3D *destination, const Coord3D &value)
+inline __declspec(noinline) void _Construct<Coord3D, Coord3D>(Coord3D *destination, const Coord3D &value)
 {
 	if (destination != NULL)
 	{
@@ -215,6 +244,7 @@ __declspec(noinline) void _Construct<Coord3D, Coord3D>(Coord3D *destination, con
 }
 _STLP_END_NAMESPACE
 
+// ?ObjectIDVector::resize present-unmatched
 void ObjectIDVector::resize(unsigned int newSize, ObjectID value)
 {
 	if (newSize < size())
@@ -223,7 +253,8 @@ void ObjectIDVector::resize(unsigned int newSize, ObjectID value)
 		insert(_M_finish, newSize - size(), value);
 }
 
-ObjectID *ObjectIDVector::erase(ObjectID *first, ObjectID *last)
+// ?ObjectIDVector::erase present-unmatched
+inline ObjectID *ObjectIDVector::erase(ObjectID *first, ObjectID *last)
 {
 	ObjectID *pos = _STL::__copy_ptrs(last, _M_finish, first, _TrivialAss());
 	_M_finish = pos;
@@ -269,4 +300,42 @@ DockUpdate::DockUpdate(
 		m_approachPositionOwners[vectorIndex] = INVALID_ID;
 		m_approachPositionReached[vectorIndex] = FALSE;
 	}
+}
+
+#pragma inline_depth(0)
+// ?bfmeEmitDockUpdateCtor@@YAXPAV?$vector@W4ObjectID@@V?$allocator@W4ObjectID@@@_STL@@@_STL@@@Z present-unmatched
+void bfmeEmitDockUpdateCtor(ObjectIDVector *objectIDVector)
+{
+	objectIDVector->erase((ObjectID *)0, (ObjectID *)0);
+}
+#pragma inline_depth()
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0SupplyCenterDockUpdateBase@@QAE@PAVThing@@PBVModuleData@@@Z=??0DockUpdate@@QAE@PAVThing@@PBVModuleData@@@Z")
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?unused@BehaviorModuleOther@@EAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+#pragma comment(linker, "/alternatename:?objectModuleAnchor@DockUpdate@@UAEXXZ=?name@DockUpdate@@QBEPBDXZ")
+#pragma comment(linker, "/alternatename:?behaviorAnchor@DockUpdate@@UAEXXZ=?xfer@DockUpdate@@MAEXPAVXfer@@@Z")
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?dockAnchor@DockUpdate@@UAEXXZ=?isClearToApproach@DockUpdate@@UBE_NPBVObject@@@Z")
+
+// _M_fill_insert binds to the kept retail copy (declared above), so its two
+// rowed callees are no longer pulled in by it; emit them explicitly.
+namespace _STL {
+template _Bit_iterator __copy_backward(_Bit_iterator, _Bit_iterator, _Bit_iterator,
+	const random_access_iterator_tag &, int *);
+}
+
+// ?bfmeAnchorDockBitIterNe absent-from-retail
+void *bfmeAnchorDockBitIterNe()
+{
+	bool (*ne)(const _STL::_Bit_iterator_base &, const _STL::_Bit_iterator_base &) = &_STL::operator!=;
+	return (void *)ne;
 }

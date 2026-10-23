@@ -16,6 +16,9 @@ struct BfmeGuidUKA
 };
 
 extern BfmeGuidUKA g_bfmeIidUKA;
+// Both retail references resolve to VA 0x00BD4E3C with the same 16 bytes.
+// Reuse the existing GUID storage without asserting a separate IID identity.
+#pragma comment(linker, "/alternatename:?g_bfmeIidUKA@@3UBfmeGuidUKA@@A=?g_bfmeIidTSA@@3U_GUID@@A")
 
 class BfmeThingUKA;
 

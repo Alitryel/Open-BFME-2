@@ -1,8 +1,9 @@
-// cl: /O1 /DNDEBUG /DWIN32 /MD /EHsc /Ireference/open-bfme-1/reference/shims/stringinline
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /DWIN32 /MD /EHsc
 // readable body of ?setText@SuperweaponInfo@@QAEXABVUnicodeString@@0@Z: Code/GameEngine/Source/GameClient/InGameUI.cpp
 // Canonical Zero Hour SuperweaponInfo::setText body with BFME's vtable layout.
 
-#include "StringInline.h"
+#include "ascii_string.h"
+#include "unicode_string.h"
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameClient/DisplayString.h
 class DisplayString

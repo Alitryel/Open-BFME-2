@@ -17,12 +17,7 @@ enum ObjectID
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include/Lib/BaseType.h
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-};
+#include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/FlightDeckBehavior.h
 class FlightDeckBehavior
@@ -36,5 +31,11 @@ public:
 		ObjectID m_objectInSpace;
 	};
 };
+
+// These operations bind to the copies in FlightDeckBehavior.cpp.
+namespace _STL {
+template <> void vector<FlightDeckBehavior::FlightDeckInfo>::reserve(unsigned int);
+template <> template <> FlightDeckBehavior::FlightDeckInfo *vector<FlightDeckBehavior::FlightDeckInfo>::_M_allocate_and_copy<FlightDeckBehavior::FlightDeckInfo *>(unsigned int, FlightDeckBehavior::FlightDeckInfo *, FlightDeckBehavior::FlightDeckInfo *);
+}
 
 template class _STL::vector<FlightDeckBehavior::FlightDeckInfo, _STL::allocator<FlightDeckBehavior::FlightDeckInfo> >;

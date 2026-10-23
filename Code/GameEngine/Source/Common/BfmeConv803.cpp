@@ -14,7 +14,8 @@ public:
 	void bfmeTwoEBK(void *x, void *b);
 };
 
-extern void *g_bfmeXEBK;
+// Provides the storage its two bodies reference; no other TU defines it.
+void *g_bfmeXEBK;
 
 class BfmeObjEBL
 {
@@ -73,4 +74,21 @@ void __stdcall bfmeGoEBKb(BfmeObjEBK *o, void *b)
 void __stdcall bfmeGoEBKa(BfmeObjEBK *o)
 {
 	o->bfmeOneEBK(g_bfmeXEBK, 0);
+}
+
+class GameWindow
+{
+public:
+	void *winGetUserData();
+};
+
+// ?Rva00327E0EGet@@YADPAVGameWindow@@@Z, retail 0x00727E0E (20B).
+// Target evidence is the GameWindow user-data call and byte read at +0x34;
+// the address-based name and argument class are structural inferences.
+char Rva00327E0EGet(GameWindow *window)
+{
+	unsigned char *data = (unsigned char *)window->winGetUserData();
+	if (data)
+		return data[0x34];
+	return 0;
 }

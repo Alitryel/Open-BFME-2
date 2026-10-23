@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /arch:SSE
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0W3DStreakDrawModuleData@@QAE@XZ, retail 0x000D0520, 92 bytes.
@@ -18,17 +18,11 @@
 
 #include <vector>
 
-struct BfmeE16 { float x, y, z, w; };
+#include "../../../../../../Libraries/Include/Lib/BfmeE16.h"
+// bfme link decl-only BfmeE16
+namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	~AsciiString();
-
-private:
-	const char *m_data;
-};
+#include "ascii_string.h"
 
 class W3DStreakDrawModuleDataBase
 {
@@ -59,6 +53,10 @@ private:
 	int m_numSegments;	// +0x20 NumSegments
 	AsciiString m_texture;	// +0x24 Texture
 	_STL::vector<BfmeE16> m_weatherTexture;	// +0x28 WeatherTexture
+public:
+	virtual void bfmeVtSlot1() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot2() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot3() = 0; // __purecall in every copy of this vtable
 };
 
 W3DStreakDrawModuleData::W3DStreakDrawModuleData()

@@ -1,4 +1,4 @@
-// cl: /O1 /Ob2 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /Ob2 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // List-valued string-map insertion support for GameSpyLoginPreferences'
 // nick and clan maps (+0x2c/+0x38). Retail's list-map operator[] 0x5CAC49
@@ -13,31 +13,50 @@
 #define _STLP_DEFAULT_CONSTRUCTED(T) T()
 #include <map>
 #include <list>
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
+
 #include <new>
 
-template <typename T> class StringBase
-{
-	void releaseBuffer();
-
-public:
-	~StringBase();
-
-protected:
-	void *m_data;
+#include "ascii_string.h"
+// Give the list-pair its native out-of-line destructor declaration. MSVC
+// still emits the implicit destructor when only that member is specialized.
+namespace _STL {
+template <> struct pair<const AsciiString, list<AsciiString> > {
+    typedef const AsciiString first_type;
+    typedef list<AsciiString> second_type;
+    const AsciiString first;
+    list<AsciiString> second;
+    ~pair();
+    pair(const AsciiString &key, const list<AsciiString> &value)
+        : first(key), second(value) {}
 };
+}
 
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString(const AsciiString &other);
-	~AsciiString();
-};
+// bfme link decl-only begin
+namespace _STL { template <> _List_node<AsciiString> * list<AsciiString, allocator<AsciiString> >::_M_create_node(AsciiString const &); }
+// bfme link decl-only end
+
 
 bool operator<(const AsciiString &left, const AsciiString &right);
 
 typedef _STL::list<AsciiString> AsciiStringList;
 typedef _STL::pair<const AsciiString, AsciiStringList> ListPair;
 typedef _STL::map<AsciiString, AsciiStringList, _STL::less<AsciiString>, _STL::allocator<ListPair> > ListMap;
+
+// Use the canonical list-map node and insertion providers. Their generic
+// copies here differ from the retail specializations in the tree unit.
+typedef _STL::_Rb_tree<AsciiString, ListPair, _STL::_Select1st<ListPair>, _STL::less<AsciiString>, _STL::allocator<ListPair> > ListTree;
+namespace _STL {
+template <> ListTree::_Link_type ListTree::_M_create_node(const ListPair &);
+template <> pair<ListTree::iterator, bool> ListTree::insert_unique(const ListPair &);
+}
 
 // Retail 0x005CAC49: the list-map subscript used by the nick/clan load
 // helper 0x5CAEA3. Misses lower-bound through 0x221B8D, builds the

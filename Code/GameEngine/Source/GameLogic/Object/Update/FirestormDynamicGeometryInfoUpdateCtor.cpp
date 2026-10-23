@@ -7,7 +7,8 @@
 class Thing;
 class ModuleData;
 
-extern "C" char FirestormDynamicGeometryInfoUpdate_vftable;
+// FirestormDynamicGeometryInfoUpdate_vftable: matched references place it at VA 0xc5ea50 (retail .rdata value -26).
+extern "C" char FirestormDynamicGeometryInfoUpdate_vftable = -26;
 
 // Opaque intermediate; ctor resolves to the opaque pin at 0x00362EC7.
 class Rva00362EC7
@@ -21,11 +22,6 @@ protected:
 	int m_i0C;
 	unsigned char m_pad1[0x20 - 0x10];
 };
-
-// ??1Rva00362EC7@@ present-unmatched
-Rva00362EC7::~Rva00362EC7()
-{
-}
 
 class __declspec(novtable) AnimatedParticleSysBoneClientUpdate : public Rva00362EC7
 {

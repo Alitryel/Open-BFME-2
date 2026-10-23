@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??0AutoHealBehavior@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x00452592,
 // 189 bytes. Behavior-side ctor (rowed instance factory 0x24A8DC news
@@ -17,6 +17,20 @@
 // IAEX Object-uint spelling resolves via the existing pin at 0x44DF71).
 // Row supersedes the ctor pin.
 
+extern "C" const void *const vtbl_00BE2B78[];  // folded, 9 classes; via ??_7ClearanceTestingSlowDeathBehaviorIface5@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BE2B78=??_7ClearanceTestingSlowDeathBehaviorIface5@@6B@")
+extern "C" const void *const vtbl_00C495A0[];  // folded, 2 classes; via ??_7FireWeaponWhenDamagedBehavior@@6BBehaviorModuleOther@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C495A0=??_7FireWeaponWhenDamagedBehavior@@6BBehaviorModuleOther@@@")
+
+extern "C" const void *const vtbl_00C3FC78[];  // ??_7Rva0045232D@@6BRva0045232D_E2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C3FC78=??_7Rva0045232D@@6BRva0045232D_E2@@@")
+extern "C" const void *const vtbl_00C3FC88[];  // ??_7Rva0045232D@@6BRva0045232D_E1@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C3FC88=??_7Rva0045232D@@6BRva0045232D_E1@@@")
+extern "C" const void *const vtbl_00C3FCD0[];  // ??_7Rva0045232D@@6BRva0024A797_B2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C3FCD0=??_7Rva0045232D@@6BRva0024A797_B2@@@")
+extern "C" const void *const vtbl_00C3FCDC[];  // ??_7Rva0045232D@@6BRva0024A797_Root@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C3FCDC=??_7Rva0045232D@@6BRva0024A797_Root@@@")
+
 class Thing;
 class ModuleData;
 class Object;
@@ -27,10 +41,10 @@ Int GetGameLogicRandomValue(Int lo, Int hi, char *file, int line);
 struct AutoHealBehaviorModuleData
 {
 	unsigned char m_pad00[0x118];
-	bool m_118;
-	unsigned char m_119;
-	Int m_11C;
-	Int m_120;
+	bool m_startsActive;
+	unsigned char m_buttonTriggered;
+	Int m_healingAmount;
+	Int m_healingDelay;
 };
 
 class UpgradeMux
@@ -44,6 +58,12 @@ private:
 	unsigned int m_executed;
 };
 
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1,
+	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
+};
+
 class UpdateModule
 {
 public:
@@ -51,7 +71,7 @@ public:
 	~UpdateModule();
 
 protected:
-	void setWakeFrame(Object *object, unsigned int frame);
+	void setWakeFrame(Object *object, UpdateSleepTime frame);
 
 	const void *m_vtable;
 	const ModuleData *m_moduleData;
@@ -81,25 +101,25 @@ AutoHealBehavior::AutoHealBehavior(Thing *thing, const ModuleData *moduleData)
 	: UpdateModule(thing, moduleData), m_20()
 {
 	int *slot28 = (int *)&m_28;
-	*slot28 = (int)0x00BE2B78;
+	*slot28 = (int)((unsigned int)vtbl_00BE2B78);
 	const AutoHealBehaviorModuleData *data = (const AutoHealBehaviorModuleData *)m_moduleData;
 	m_2C &= 0;
-	m_vtable = (const void *)0x00C3FCDC;
-	m_secondary0C = (const void *)0x00C495A0;
-	m_secondary10 = (const void *)0x00C3FCD0;
-	*(void **)&m_20 = (void *)0x00C3FC88;
-	m_28 = (unsigned int)0x00C3FC78;
-	m_30 = data->m_119;
+	m_vtable = (const void *)((unsigned int)vtbl_00C3FCDC);
+	m_secondary0C = (const void *)((unsigned int)vtbl_00C495A0);
+	m_secondary10 = (const void *)((unsigned int)vtbl_00C3FCD0);
+	*(void **)&m_20 = (void *)((unsigned int)vtbl_00C3FC88);
+	m_28 = (unsigned int)((unsigned int)vtbl_00C3FC78);
+	m_30 = data->m_buttonTriggered;
 	m_34 &= 0;
-	if (data->m_118)
+	if (data->m_startsActive)
 	{
 		m_20.giveSelfUpgrade();
-		int hi = ((const AutoHealBehaviorModuleData *)m_moduleData)->m_120;
+		int hi = ((const AutoHealBehaviorModuleData *)m_moduleData)->m_healingDelay;
 		Object *obj = m_object;
-		setWakeFrame(obj, GetGameLogicRandomValue(1, hi, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Behavior\\AutoHealBehavior.cpp", 0x9D));
+		setWakeFrame(obj, (UpdateSleepTime)(GetGameLogicRandomValue(1, hi, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Behavior\\AutoHealBehavior.cpp", 0x9D)));
 	}
 	else
 	{
-		setWakeFrame(m_object, 0x3FFFFFFF);
+		setWakeFrame(m_object, UPDATE_SLEEP_FOREVER);
 	}
 }

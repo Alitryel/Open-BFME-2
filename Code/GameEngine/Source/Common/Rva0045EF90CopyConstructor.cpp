@@ -1,12 +1,12 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/reference/shims/stringinline
+// cl: /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/open-bfme-1/reference/shims/stringinline
 
-#include "StringInline.h"
+#include "ascii_string.h"
 
 class Rva0045EF90Base
 {
 public:
 	Rva0045EF90Base(const Rva0045EF90Base &source) : m_value(source.m_value) {}
-	virtual ~Rva0045EF90Base();
+	virtual ~Rva0045EF90Base() {}
 
 private:
 	unsigned m_value;

@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // ?setVolume@OptionPreferences@@QAEXHM@Z, retail 0x002E545A,
@@ -26,31 +26,8 @@ template <typename T> struct BfmeStringData
 	T text[1];
 };
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-private:
-	StringBase() {}
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	~StringBase() { releaseBuffer(); }
-	void releaseBuffer();
-	BfmeStringData<T> *m_data;
+#include "ascii_string.h"
 
-public:
-	const T *str() const { return m_data ? &m_data->text[0] : (const T *)""; }
-};
-
-class AsciiString : private StringBase<char>
-{
-public:
-	AsciiString() { m_data = 0; }
-	AsciiString(const char *text) : StringBase<char>(text) {}
-	AsciiString(const AsciiString &other) : StringBase<char>(other) {}
-	~AsciiString() {}
-	void set(const AsciiString &other);
-	void format(const char *fmt, ...);
-};
 
 bool operator<(const AsciiString &left, const AsciiString &right);
 
@@ -104,5 +81,5 @@ void OptionPreferences::setVolume(Int index, Real value)
 	index += (Int)volumeNames;
 	AsciiString key((const char *)index);
 	AsciiString &slot = (*this)[key];
-	slot.set(text);
+	((StringBase<char> *)&slot)->set(*(const StringBase<char> *)&text);
 }

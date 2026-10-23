@@ -1,4 +1,4 @@
-// cl: /O2 /G7 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ?Install_UV_Array@MeshMatDescClass@@QAEXHHPAVVector2@@H@Z,
 // retail 0x0015B960 (413 bytes).
@@ -24,12 +24,7 @@
 #define NULL 0
 #endif
 
-class Vector2
-{
-public:
-	float X;
-	float Y;
-};
+#include "../../../../../reference/shims/wwmath/Vector2.h"
 
 unsigned long CRC_Memory(const unsigned char *data, unsigned long length, unsigned long crc);
 
@@ -43,7 +38,7 @@ public:
 	virtual void Delete_This();
 
 protected:
-	virtual ~RefCountClass() {}
+	virtual ~RefCountClass();
 
 private:
 	int NumRefs;
@@ -57,6 +52,7 @@ class ShareBufferClass : public RefCountClass
 {
 public:
 	ShareBufferClass(int count, const char *msg, int alignment = 0);
+	~ShareBufferClass();
 	Type *Get_Array(void) { return Array; }
 	int Get_Count(void) { return Count; }
 
@@ -72,10 +68,17 @@ private:
 };
 
 // upstream layout: reference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2/meshmatdesc.h
-class UVBufferClass : public ShareBufferClass<Vector2>
+extern const void *const g_007CE338[];
+class __declspec(novtable) UVBufferClass : public ShareBufferClass<Vector2>
 {
 public:
-	UVBufferClass(int count, const char *msg) : ShareBufferClass<Vector2>(count, msg), CRC(0xFFFFFFFF) {}
+	// Keep the inlined construction here; MatInfoUVBufferO1Inlines owns the retail body.
+	__declspec(dllimport) __forceinline UVBufferClass(int count, const char *msg) : ShareBufferClass<Vector2>(count, msg)
+	{
+		*(const void **)this = g_007CE338;
+		CRC = 0xFFFFFFFF;
+	}
+	virtual ~UVBufferClass();
 	unsigned Get_CRC(void) { return CRC; }
 	void Update_CRC(void) { CRC = CRC_Memory((const unsigned char *)Get_Array(), Get_Count() * sizeof(Vector2), 0); }
 
@@ -153,3 +156,7 @@ void MeshMatDescClass::Install_UV_Array(int pass, int stage, Vector2 *uvs, int c
 		}
 	}
 }
+
+// The global(s) below are defined elsewhere under another name at the same
+// address (the census owner of that DIR32 target); bind this unit's spelling.
+#pragma comment(linker, "/alternatename:?g_007CE338@@3QBQBXB=??_7UVBufferClass@@6B@")

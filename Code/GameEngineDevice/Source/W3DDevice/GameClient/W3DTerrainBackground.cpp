@@ -1,7 +1,25 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// Link view first: scalar Vector3 operator* stays inline without emitting a copy that competes with retail's owners (0x00066382, 0x0007DFB3).
+#include "../../../../../reference/shims/bfme_vector3_full_link/vector3_full_link.h"
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainBackground.cpp); this unit had no counterpart under Code/.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+
+// BFME 2 has no W3D memory pools (see Code/Libraries/Source/WWVegas/WWLib/always.h).
+#include "always.h"
+#undef W3DMPO_GLUE
+#define W3DMPO_GLUE(ARGCLASS)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -92,6 +110,7 @@ const Int PIXELS_PER_GRID = 8; // default tex resolution allocated for each tile
 //=============================================================================
 /** Loads the terrain into the vertex buffer for drawing. */
 //=============================================================================
+// ?W3DTerrainBackground::setFlip present-unmatched
 void W3DTerrainBackground::setFlip(WorldHeightMap *htMap)
 {
 	if (m_map==NULL) return;
@@ -116,6 +135,7 @@ const Int STEP=4;
 The coordinates in partialRange are map cell coordinates, relative to the entire map.
 The vertex coordinates and texture coordinates, as well as static lighting are updated.
 */
+// ?W3DTerrainBackground::doPartialUpdate present-unmatched
 void W3DTerrainBackground::doPartialUpdate(const IRegion2D &partialRange, WorldHeightMap *htMap, Bool doTextures )
 {	
 	if (m_map==NULL) return;
@@ -241,6 +261,7 @@ void W3DTerrainBackground::doPartialUpdate(const IRegion2D &partialRange, WorldH
 //=============================================================================
 /** Fills in vertex & index buffers.
 */
+// ?W3DTerrainBackground::advanceLeft present-unmatched
 Bool W3DTerrainBackground::advanceLeft(ICoord2D &left, Int xOffset, Int yOffset, Int width)
 {
 	while (left.y < yOffset+width) {
@@ -263,6 +284,7 @@ Bool W3DTerrainBackground::advanceLeft(ICoord2D &left, Int xOffset, Int yOffset,
 //=============================================================================
 /** Fills in vertex & index buffers.
 */
+// ?W3DTerrainBackground::advanceRight present-unmatched
 Bool W3DTerrainBackground::advanceRight(ICoord2D &right, Int xOffset, Int yOffset, Int width)
 {
 	while (right.x < xOffset+width) {
@@ -285,6 +307,7 @@ Bool W3DTerrainBackground::advanceRight(ICoord2D &right, Int xOffset, Int yOffse
 //=============================================================================
 /** Fills in vertex & index buffers.
 */
+// ?W3DTerrainBackground::fillVBRecursive present-unmatched
 void W3DTerrainBackground::fillVBRecursive(UnsignedShort *ib, Int xOffset, Int yOffset, 
 																					 Int width, UnsignedShort *ndx, Int &curIndex)
 {
@@ -422,6 +445,7 @@ void W3DTerrainBackground::fillVBRecursive(UnsignedShort *ib, Int xOffset, Int y
 //=============================================================================
 /** Fills in vertex & index buffers.
 */
+// ?W3DTerrainBackground::setFlipRecursive present-unmatched
 void W3DTerrainBackground::setFlipRecursive(Int xOffset, Int yOffset, Int width)
 {
 	
@@ -473,146 +497,6 @@ void W3DTerrainBackground::setFlipRecursive(Int xOffset, Int yOffset, Int width)
 The coordinates in partialRange are map cell coordinates, relative to the entire map.
 The vertex coordinates and texture coordinates, as well as static lighting are updated.
 */
-void W3DTerrainBackground::doTesselatedUpdate(const IRegion2D &partialRange, WorldHeightMap *htMap, Bool doTextures )
-{	
-	if (m_map==NULL) return;
-	if (htMap) {
-		REF_PTR_SET(m_map, htMap);
-	}
-	if (!m_initialized) {
-		return;
-	}
-	Int minX = m_xOrigin;
-	Int minY = m_yOrigin;
-	Int maxX = m_xOrigin + m_width;
-	Int maxY = m_yOrigin + m_width;
-	Int limitX = m_map->getXExtent()-1;
-	Int limitY = m_map->getYExtent()-1;
-
-	if (partialRange.lo.x > maxX) return;
-	if (partialRange.lo.y > maxY) return;
-	if (partialRange.hi.x < minX) return;
-	if (partialRange.hi.y < minY) return;
-
-	setFlip(htMap);
-
-	Int count = (m_width+1)*(m_width+1);
-
-	UnsignedShort *ndx = new UnsignedShort[count];
-
-	Int requiredVertex = 0;
-	Int i, j;
-	for (j=minY; j<=maxY; j++) {
-		for (i=minX; i<=maxX; i++) {
-			Int ndxNdx = i-minX + (m_width+1)*(j-minY);
-			DEBUG_ASSERTCRASH(ndxNdx<count, ("Bad ndxNdx"));
-			ndx[ndxNdx] = 0;
-			if (m_map->getFlipState(i, j)) {
-				requiredVertex++;
-			}
-		}
-	}
-
-	if (m_vertexTerrainSize<requiredVertex || m_vertexTerrain==NULL) {
-		m_vertexTerrainSize = requiredVertex;
-		REF_PTR_RELEASE(m_vertexTerrain);
-		m_vertexTerrain=NEW_REF(DX8VertexBufferClass,(DX8_FVF_XYZDUV2,m_vertexTerrainSize+4,DX8VertexBufferClass::USAGE_DEFAULT));
-	}
-
-	m_curNumTerrainVertices = 0;
-	VertexFormatXYZDUV2 *vb;
-	// Lock the buffer.
-	DX8VertexBufferClass::WriteLockClass lockVtxBuffer(m_vertexTerrain);
-	vb=(VertexFormatXYZDUV2*)lockVtxBuffer.Get_Vertex_Array();
-	VertexFormatXYZDUV2 *curVb = vb;
-	// Add to the vertex buffer.
-	for (j=minY; j<=maxY; j++) {
-		for (i=minX; i<=maxX; i++) {
-			if (m_map->getFlipState(i, j)) {
-				curVb->diffuse = (0<<24)|TheTerrainRenderObject->getStaticDiffuse(i,j);
-				Vector3 pos;
-				Int k = i<limitX?i:limitX;
-				Int l = j<limitY?j:limitY;
-				pos.Z = ((float)m_map->getHeight(k,l)*MAP_HEIGHT_SCALE);
-				pos.X = (i)*MAP_XY_FACTOR - m_map->getBorderSizeInline()*MAP_XY_FACTOR; 
-				pos.Y = (j)*MAP_XY_FACTOR - m_map->getBorderSizeInline()*MAP_XY_FACTOR;
-				curVb->u1 = (float)(i-minX)/(float)(m_width);
-				curVb->v1 = 1.0f - (float)(j-minY)/(float)(m_width);
-				curVb->x = pos.X;
-				curVb->y = pos.Y;
-				curVb->z = pos.Z;
-				curVb++;
-				Int ndxNdx = i-minX + (m_width+1)*(j-minY);
-				DEBUG_ASSERTCRASH(ndxNdx<count, ("Bad ndxNdx"));
-				ndx[ndxNdx] = m_curNumTerrainVertices;
-				m_curNumTerrainVertices++;
-			}
-		}
-	}
-
-	Int requiredIndex = 0;
-
-	fillVBRecursive(NULL, 0, 0, m_width, ndx, requiredIndex);
-
-	if (m_indexTerrainSize<requiredIndex || m_indexTerrain==NULL) {
-		m_indexTerrainSize = requiredIndex;
-		REF_PTR_RELEASE(m_indexTerrain);
-		m_indexTerrain=NEW_REF(DX8IndexBufferClass,(m_indexTerrainSize+4,DX8IndexBufferClass::USAGE_DEFAULT));
-	}
-
-	m_curNumTerrainIndices = 0;
-
-	UnsignedShort *ib;
-	DX8IndexBufferClass::WriteLockClass lockIdxBuffer(m_indexTerrain);
-	ib = lockIdxBuffer.Get_Index_Array();
-	fillVBRecursive(ib, 0, 0, m_width, ndx, m_curNumTerrainIndices);
-	delete ndx;
-	ndx = NULL;
-
-	MinMaxAABoxClass bounds;
-	bounds.Init_Empty();
-
-	for (j=minY; j<=maxY; j+=1) {
-		for (i=minX; i<=maxX; i+=1) {
-			Vector3 pos;
-			Int k = i<limitX?i:limitX;
-			Int l = j<limitY?j:limitY;
-			pos.Z = ((float)m_map->getHeight(k,l)*MAP_HEIGHT_SCALE);
-			pos.X = (i)*MAP_XY_FACTOR - m_map->getBorderSizeInline()*MAP_XY_FACTOR; 
-			pos.Y = (j)*MAP_XY_FACTOR - m_map->getBorderSizeInline()*MAP_XY_FACTOR;
-			bounds.Add_Point(pos);
-		}
-	}
-	m_bounds.Init(bounds);
-
-	if (m_terrainTexture == NULL || doTextures) {
-		REF_PTR_RELEASE(m_terrainTexture);
-		REF_PTR_RELEASE(m_terrainTexture2X);
-		REF_PTR_RELEASE(m_terrainTexture4X);
-		m_terrainTexture = m_map->getFlatTexture(m_xOrigin, m_yOrigin, m_width, PIXELS_PER_GRID);
-		//	DEBUG ONLY. jba. m_terrainTexture =  (TerrainTextureClass *)NEW_REF(TextureClass, ("TBBib.tga"));  
-		m_terrainTexture->Get_Filter().Set_U_Addr_Mode(TextureFilterClass::TEXTURE_ADDRESS_CLAMP);
-		m_terrainTexture->Get_Filter().Set_V_Addr_Mode(TextureFilterClass::TEXTURE_ADDRESS_CLAMP);
-	}
-
-}
-
-//-----------------------------------------------------------------------------
-//         Public Functions                                                
-//-----------------------------------------------------------------------------
-
-//=============================================================================
-// W3DTerrainBackground::~W3DTerrainBackground
-//=============================================================================
-/** Destructor. Releases w3d assets. */
-//=============================================================================
-W3DTerrainBackground::~W3DTerrainBackground(void)
-{
-	freeTerrainBuffers();
-	REF_PTR_RELEASE(m_terrainTexture);
-	REF_PTR_RELEASE(m_terrainTexture2X);
-	REF_PTR_RELEASE(m_terrainTexture4X);
-}
 
 //=============================================================================
 // W3DTerrainBackground::W3DTerrainBackground
@@ -620,6 +504,7 @@ W3DTerrainBackground::~W3DTerrainBackground(void)
 /** Constructor. Sets m_initialized to true if it finds the w3d models it needs
 for the bibs. */
 //=============================================================================
+// ?W3DTerrainBackground::W3DTerrainBackground present-unmatched
 W3DTerrainBackground::W3DTerrainBackground(void):
 m_vertexTerrain(NULL),
 m_vertexTerrainSize(0),
@@ -639,6 +524,7 @@ m_texMultiplier(TEX1X)
 //=============================================================================
 /** Frees the index and vertex buffers. */
 //=============================================================================
+// ?W3DTerrainBackground::freeTerrainBuffers present-unmatched
 void W3DTerrainBackground::freeTerrainBuffers(void)
 {
 	REF_PTR_RELEASE(m_vertexTerrain);
@@ -655,6 +541,7 @@ void W3DTerrainBackground::freeTerrainBuffers(void)
 //=============================================================================
 /** Allocates the index and vertex buffers. */
 //=============================================================================
+// ?W3DTerrainBackground::allocateTerrainBuffers present-unmatched
 void W3DTerrainBackground::allocateTerrainBuffers(WorldHeightMap *htMap, Int xOrigin, Int yOrigin, Int width)
 {
 	if (htMap==NULL) return;
@@ -674,95 +561,24 @@ void W3DTerrainBackground::allocateTerrainBuffers(WorldHeightMap *htMap, Int xOr
 //=============================================================================
 /** Updates the culling status. */
 //=============================================================================
-void W3DTerrainBackground::updateCenter(CameraClass *camera)
-{
-	if (camera->Cull_Box(m_bounds)) {
-		m_cullStatus = CULL_STATUS_INVISIBLE;
-	}	else {
-		m_cullStatus = CULL_STATUS_VISIBLE;
-	}
-
-	if (m_cullStatus==CULL_STATUS_INVISIBLE) {
-		REF_PTR_RELEASE(m_terrainTexture2X);
-		REF_PTR_RELEASE(m_terrainTexture4X);
-		m_texMultiplier = TEX1X;
-		return;
-	}
-	Vector3 cameraPos = camera->Get_Position();
-	const Real mipDistance = 310;
-	const Real mipSlop = 40;
-	const Real mip4xDistanceSqr = sqr(mipDistance+mipSlop);
-	const Real mip2xDistanceSqr = sqr(2*mipDistance+mipSlop);
-	const Real mipLODDistanceSqr = sqr(4*mipDistance+mipSlop);
-	Real minDistSqr = 2*mip2xDistanceSqr;
-	Int i, j, k;
-	for (i=-1; i<2; i++) {
-		for (j=-1; j<2; j++) {
-			for (k=-1; k<2; k++) {
-				Vector3 corner = m_bounds.Center;
-				corner.X += m_bounds.Extent.X * i;
-				corner.Y += m_bounds.Extent.Y * j;
-				corner.Z += m_bounds.Extent.Z * k;
-				Real distSqr = (cameraPos-corner).Length2();
-				if (distSqr<minDistSqr) minDistSqr = distSqr;
-			}
-		}
-	}
-	m_texMultiplier = TEX1X;
-	if (minDistSqr<mip4xDistanceSqr) {
-		m_texMultiplier = TEX4X;
-	} else if (minDistSqr<mip2xDistanceSqr) {
-		m_texMultiplier = TEX2X;
-	} else {
-		REF_PTR_RELEASE(m_terrainTexture4X);
-		REF_PTR_RELEASE(m_terrainTexture2X);
-		Int LOD = 0; 
-		if (minDistSqr>mipLODDistanceSqr) {
-			LOD = 1;
-		}
-		m_terrainTexture->setLOD(LOD);
-	}
-
-}
 
 //=============================================================================
 // W3DTerrainBackground::updateCenter
 //=============================================================================
 /** Updates the culling status. */
 //=============================================================================
-void W3DTerrainBackground::updateTexture(void)
-{
-	if (m_cullStatus==CULL_STATUS_INVISIBLE) {
-		REF_PTR_RELEASE(m_terrainTexture2X);
-		REF_PTR_RELEASE(m_terrainTexture4X);
-		return;
-	}
-
-	if (m_texMultiplier == TEX4X) {
-		REF_PTR_RELEASE(m_terrainTexture2X);
-		if (m_terrainTexture4X == NULL) {
-			m_terrainTexture4X = m_map->getFlatTexture(m_xOrigin, m_yOrigin, m_width, 4*PIXELS_PER_GRID);
-			m_terrainTexture4X->Get_Filter().Set_U_Addr_Mode(TextureFilterClass::TEXTURE_ADDRESS_CLAMP);
-			m_terrainTexture4X->Get_Filter().Set_V_Addr_Mode(TextureFilterClass::TEXTURE_ADDRESS_CLAMP);
-		}	
-	} else if (m_texMultiplier == TEX2X) {
-		REF_PTR_RELEASE(m_terrainTexture4X);
-		if (m_terrainTexture2X == NULL) {
-			m_terrainTexture2X = m_map->getFlatTexture(m_xOrigin, m_yOrigin, m_width, 2*PIXELS_PER_GRID);
-			m_terrainTexture2X->Get_Filter().Set_U_Addr_Mode(TextureFilterClass::TEXTURE_ADDRESS_CLAMP);
-			m_terrainTexture2X->Get_Filter().Set_V_Addr_Mode(TextureFilterClass::TEXTURE_ADDRESS_CLAMP);
-		}	
-	} else {
-		REF_PTR_RELEASE(m_terrainTexture4X);
-		REF_PTR_RELEASE(m_terrainTexture2X);
-	}
-
-}
 
 //=============================================================================
 // W3DTerrainBackground::renderTerrain
 //=============================================================================
 //=============================================================================
+// BFME2's DX8Wrapper draws a triangle list through the rowed 32-bit overload
+// DX8Wrapper::Draw_Triangles(unsigned x4) at 0x00120620; the Zero Hour header
+// here only declares the 16-bit one, which BFME2 does not have.
+extern "C" void __cdecl __identifier("?Draw_Triangles@DX8Wrapper@@SAXIIII@Z")(unsigned int, unsigned int, unsigned int, unsigned int);
+#define bfmeDrawTriangles __identifier("?Draw_Triangles@DX8Wrapper@@SAXIIII@Z")
+
+// ?W3DTerrainBackground::drawVisiblePolys present-unmatched
 void W3DTerrainBackground::drawVisiblePolys(RenderInfoClass & rinfo, Bool disableTextures)
 {
 #if 1
@@ -784,7 +600,7 @@ void W3DTerrainBackground::drawVisiblePolys(RenderInfoClass & rinfo, Bool disabl
 			DX8Wrapper::Set_Texture(1, m_terrainTexture);
 		}
 	}
-	DX8Wrapper::Draw_Triangles(	0, m_curNumTerrainIndices/3, 0,	m_curNumTerrainVertices);
+	bfmeDrawTriangles(	0, m_curNumTerrainIndices/3, 0,	m_curNumTerrainVertices);
 #else
 	if (m_curNumTerrainIndices == 0) {
 		return;
@@ -804,7 +620,7 @@ void W3DTerrainBackground::drawVisiblePolys(RenderInfoClass & rinfo, Bool disabl
 			DX8Wrapper::Set_Texture(0, m_terrainTexture);
 		}
 	}
-	DX8Wrapper::Draw_Triangles(	0, m_curNumTerrainIndices/3, 0,	m_curNumTerrainVertices);
+	bfmeDrawTriangles(	0, m_curNumTerrainIndices/3, 0,	m_curNumTerrainVertices);
 #endif
 }
 

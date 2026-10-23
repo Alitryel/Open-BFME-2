@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/open-bfme-1/Code/GameEngine/Source/Common/System /Ireference/open-bfme-1/Code/GameEngine/Include /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
+// cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/open-bfme-1/Code/GameEngine/Source/Common/System /Ireference/open-bfme-1/Code/GameEngine/Include /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
 
 // Module-constructor family shape: an out-of-line ObjectModule base call
 // (pinned at 0x000170E4), then UpdateModule's constructor inlined -- its two
@@ -30,10 +30,16 @@ public:
 	virtual void behaviorAnchor() = 0;		///< vptr at 0x0c
 };
 
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1
+};
+
+// The 0x10 vftable 0x00C4ED30 opens with DemoTrapUpdate::update (0x00495ABA).
 class UpdateInterface
 {
 public:
-	virtual void updateAnchor() = 0;		///< vptr at 0x10
+	virtual UpdateSleepTime update() = 0;	///< vptr at 0x10
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/UpdateModule.h
@@ -41,16 +47,11 @@ class UpdateModule : public ObjectModule,
 	public BehaviorInterface, public UpdateInterface
 {
 public:
-	UpdateModule(Thing *thing, const ModuleData *moduleData)
-		: ObjectModule(thing, moduleData)
-	{
-		m_nextCallFrameAndPhase = 0;
-		m_indexInLogic = -1;
-		m_updateState = -1;
-	}
+	// Defined once, out of line, in UpdateModuleCtor.cpp (retail 0x00253390): derived
+	// ctors call it, and a copy here would offer the link a second, non-retail body.
+	UpdateModule(Thing *thing, const ModuleData *moduleData);
 
 	virtual void behaviorAnchor();
-	virtual void updateAnchor();
 
 	int m_nextCallFrameAndPhase;			///< 0x14
 	int m_indexInLogic;						///< 0x18
@@ -65,7 +66,7 @@ public:
 
 	virtual void objectModuleAnchor();
 	virtual void behaviorAnchor();
-	virtual void updateAnchor();
+	virtual UpdateSleepTime update();
 
 	int m_value20;							///< 0x20
 	bool m_flag24;							///< 0x24
@@ -78,3 +79,9 @@ DemoTrapUpdate::DemoTrapUpdate( Thing *thing, const ModuleData *moduleData )
 	m_value20 = 0;
 	m_flag24 = false;
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?behaviorAnchor@DemoTrapUpdate@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+#pragma comment(linker, "/alternatename:?objectModuleAnchor@DemoTrapUpdate@@UAEXXZ=??_GDemoTrapUpdate@@UAEPAXI@Z")

@@ -1,6 +1,17 @@
 // cl: /DNDEBUG /Ireference/shims/bfmerendobj /G7 /arch:SSE2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // Ported verbatim from the Generals Zero Hour reference
 // (Libraries/Source/WWVegas/WWMath/colmathobbobb.cpp); this unit had no counterpart under Code/.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -56,6 +67,10 @@
  *   CollisionMath::Collide -- collide an AAB with an OBB                                      *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+// Reuse the verified native math and indexed-matrix consumer views.
+#include "../../../../../reference/shims/bfme_colmathaabox/wwmath.h"
+#include "../../../../../reference/shims/bfme_colmathaabox/vector3.h"
+#include "../../../../../reference/shims/bfme_matrix3_owner_link/matrix3.h"
 #include "colmath.h"
 #include "obbox.h"
 #include "aabox.h"
@@ -464,7 +479,10 @@ bool CollisionMath::Intersection_Test(const OBBoxClass & box0,const OBBoxClass &
  *=============================================================================================*/
 bool CollisionMath::Intersection_Test(const OBBoxClass & box0,const AABoxClass & box1)
 {
-	OBBoxClass obbox1(box1.Center,box1.Extent);
+	OBBoxClass obbox1;
+	obbox1.Basis.Make_Identity();
+	obbox1.Center = box1.Center;
+	obbox1.Extent = box1.Extent;
 	ObbIntersectionStruct context(box0,obbox1);
 	return intersect_obb_obb(context);
 }
@@ -484,7 +502,10 @@ bool CollisionMath::Intersection_Test(const OBBoxClass & box0,const AABoxClass &
  *=============================================================================================*/
 bool CollisionMath::Intersection_Test(const AABoxClass & box0,const OBBoxClass & box1)
 {
-	OBBoxClass obbox0(box0.Center,box0.Extent);
+	OBBoxClass obbox0;
+	obbox0.Basis.Make_Identity();
+	obbox0.Center = box0.Center;
+	obbox0.Extent = box0.Extent;
 	ObbIntersectionStruct context(obbox0,box1);
 	return intersect_obb_obb(context);
 }
@@ -1372,7 +1393,10 @@ bool CollisionMath::Collide
 	CastResultStruct *		result
 )
 {
-	OBBoxClass obbox1(box1.Center,box1.Extent);
+	OBBoxClass obbox1;
+	obbox1.Basis.Make_Identity();
+	obbox1.Center = box1.Center;
+	obbox1.Extent = box1.Extent;
 	ObbCollisionStruct context(box0,move0,obbox1,move1);
 	return collide_obb_obb(context,result);	
 }
@@ -1399,7 +1423,10 @@ bool CollisionMath::Collide
 	CastResultStruct *		result
 )
 {
-	OBBoxClass obbox0(box0.Center,box0.Extent);
+	OBBoxClass obbox0;
+	obbox0.Basis.Make_Identity();
+	obbox0.Center = box0.Center;
+	obbox0.Extent = box0.Extent;
 	ObbCollisionStruct context(obbox0,move0,box1,move1);
 	return collide_obb_obb(context,result);	
 }

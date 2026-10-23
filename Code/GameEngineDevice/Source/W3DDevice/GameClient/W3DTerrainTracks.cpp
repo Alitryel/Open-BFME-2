@@ -1,5 +1,29 @@
-// cl: /Ireference/shims/bfmeterraintracks /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /Ireference/shims/bfmeshader /FIshader.h /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /Ireference/shims/bfmeterraintracks /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// Link view first: Vector3 Length/Normalize/ctor and the scalar operator* stay inline without emitting
+// /O2 copies that compete with retail's owners (0x000692B3, 0x0006924F, 0x006CD510, 0x00066382, 0x0007DFB3).
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+#include "../../../../../reference/shims/bfme_vector3_full_link/vector3_full_link.h"
 // stlport
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+
+// BFME 2 has no W3D memory pools (see Code/Libraries/Source/WWVegas/WWLib/always.h).
+#include "always.h"
+#undef W3DMPO_GLUE
+#define W3DMPO_GLUE(ARGCLASS)
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -46,6 +70,13 @@
 //			  moves.
 //-----------------------------------------------------------------------------
 
+#include "../../../../../reference/shims/bfme2renderobj/rendobj.h"
+
+// The legacy Zero Hour edge element has a trivial three-byte constructor.
+// Keep its private spelling separate from the retail edgeInfo constructor
+// at 0x00083C8A, whose forty-byte body constructs both coordinate arrays.
+// The unrowed donor track constructor keeps its existing behavior.
+#define edgeInfo BfmeZhTrackEdgeInfo
 #include "W3DDevice/GameClient/W3DTerrainTracks.h"
 #include "W3DDevice/GameClient/heightmap.h"
 #include "Common/PerfTimer.h"
@@ -75,13 +106,14 @@
 //=============================================================================
 /** Destructor. Releases w3d assets. */
 //=============================================================================
-// ??1TerrainTracksRenderObjClass@@UAE@XZ present-unmatched
 // The former 0x190F10 placement destroys compressed animation channels and calls
 // HAnimClass::~HAnimClass at 0x196150. It is not this TerrainTracks destructor.
+#pragma optimize("s", on)
 TerrainTracksRenderObjClass::~TerrainTracksRenderObjClass(void)
 {
 	freeTerrainTracksResources();
 }
+#pragma optimize("", on)
 
 //=============================================================================
 // TerrainTracksRenderObjClass::TerrainTracksRenderObjClass
@@ -144,26 +176,6 @@ RenderObjClass *	 TerrainTracksRenderObjClass::Clone(void) const
 {
 	assert(false);
 	return NULL;
-}
-
-//=============================================================================
-// TerrainTracksRenderObjClass::freeTerrainTracksResources
-//=============================================================================
-/** Free any W3D resources associated with this object */
-//=============================================================================
-// ?freeTerrainTracksResources@TerrainTracksRenderObjClass@@QAEHXZ present-unmatched
-Int TerrainTracksRenderObjClass::freeTerrainTracksResources(void)
-{
-	REF_PTR_RELEASE(m_stageZeroTexture);
-	m_haveAnchor=false;
-	m_haveCap=true;
-	m_topIndex=0;
-	m_bottomIndex=0;
-	m_activeEdgeCount=0;
-	m_totalEdgesAdded=0;
-	m_ownerDrawable = NULL;
-
-	return 0;
 }
 
 //=============================================================================
@@ -461,8 +473,10 @@ static Real computeTrackSpacing(RenderObjClass *renderObj)
 	if ((leftTrack=renderObj->Get_Bone_Index( "TREADFX01" )) != 0 && (rightTrack=renderObj->Get_Bone_Index( "TREADFX02" )) != 0)
 	{	//both bones found, determine distance between them.
 		Vector3 leftPos,rightPos;
-		leftPos=renderObj->Get_Bone_Transform( leftTrack ).Get_Translation();
-		rightPos=renderObj->Get_Bone_Transform( rightTrack ).Get_Translation();
+		const Matrix3D &leftMtx=renderObj->Get_Bone_Transform( leftTrack );
+		leftPos=Vector3(leftMtx[0][3],leftMtx[1][3],leftMtx[2][3]);
+		const Matrix3D &rightMtx=renderObj->Get_Bone_Transform( rightTrack );
+		rightPos=Vector3(rightMtx[0][3],rightMtx[1][3],rightMtx[2][3]);
 		rightPos -= leftPos;	//get distance between centers of tracks
 		trackSpacing = rightPos.Length() + DEFAULT_TRACK_WIDTH;	//add width of each track
 		///@todo: It's assumed that all tank treads have the same width.
@@ -603,43 +617,10 @@ TerrainTracksRenderObjClassSystem::~TerrainTracksRenderObjClassSystem( void )
 
 }
 
-//=============================================================================
-// TerrainTracksRenderObjClassSystem::ReAcquireResources
-//=============================================================================
-/** (Re)allocates all W3D assets after a reset.. */
-//=============================================================================
-// ?ReAcquireResources@TerrainTracksRenderObjClassSystem@@QAEXXZ present-unmatched
-void TerrainTracksRenderObjClassSystem::ReAcquireResources(void)
-{
-	Int i;
-	const Int numModules=TheGlobalData->m_maxTerrainTracks;
-
-	// just for paranoia's sake.
-	REF_PTR_RELEASE(m_indexBuffer);
-	REF_PTR_RELEASE(m_vertexBuffer);
-
-	//Create static index buffers.  These will index the vertex buffers holding the track segments
-	m_indexBuffer=NEW_REF(DX8IndexBufferClass,((m_maxTankTrackEdges-1)*6));
-
-	// Fill up the IB
-	{
-		DX8IndexBufferClass::WriteLockClass lockIdxBuffer(m_indexBuffer);
-		UnsignedShort *ib=lockIdxBuffer.Get_Index_Array();
-
-		for (i=0; i<(m_maxTankTrackEdges-1); i++)
-		{
-			ib[3]=ib[0]=i*2;
-			ib[1]=i*2+1;
-			ib[4]=ib[2]=(i+1)*2+1;
-			ib[5]=(i+1)*2;
-			ib+=6;	//skip the 6 indices we just filled
-		}
-	}
-
-	DEBUG_ASSERTCRASH(numModules*m_maxTankTrackEdges*2 < 65535, ("Too many terrain track edges"));
-
-	m_vertexBuffer=NEW_REF(DX8VertexBufferClass,(DX8_FVF_XYZDUV1,numModules*m_maxTankTrackEdges*2,DX8VertexBufferClass::USAGE_DYNAMIC));
-}
+// TerrainTracksRenderObjClassSystem::ReAcquireResources is in
+// W3DTerrainTracksReAcquire.cpp: it needs BFME's 12-byte buffer locks, and
+// taking those headers here changes how this unit's bounding-volume copies
+// compile.
 
 //=============================================================================
 // TerrainTracksRenderObjClassSystem::ReleaseResources

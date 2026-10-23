@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??0DetachableRiderBody@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x004C1C82,
 // 109 bytes. Body-side ctor (rowed instance factory 0x251705 news 0x108
@@ -14,13 +14,22 @@
 // +0x100 with the module data pointer at +0x04 (FreeLifeBody precedent).
 // Row supersedes the ctor pin.
 
+extern "C" const void *const vtbl_00C5BF00[];  // ??_7Rva004C1BAB@@6BRva004C1BAB_B3@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C5BF00=??_7Rva004C1BAB@@6BRva004C1BAB_B3@@@")
+extern "C" const void *const vtbl_00C5BF48[];  // ??_7Rva004C1BAB@@6BRva004C1BAB_B2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C5BF48=??_7Rva004C1BAB@@6BRva004C1BAB_B2@@@")
+extern "C" const void *const vtbl_00C5BFF8[];  // ??_7Rva004C1BAB@@6BMiBase1@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C5BFF8=??_7Rva004C1BAB@@6BMiBase1@@@")
+extern "C" const void *const vtbl_00C5C0B8[];  // ??_7Rva004C1BAB@@6BRva004BF951@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C5C0B8=??_7Rva004C1BAB@@6BRva004BF951@@@")
+
 class Thing;
 class ModuleData;
 
 struct DetachableRiderBodyModuleData
 {
 	unsigned char m_pad00[0x178];
-	bool m_178;
+	bool m_startsActive;
 };
 
 class UpgradeMux
@@ -38,10 +47,9 @@ class ActiveBody
 {
 public:
 	ActiveBody(Thing *thing, const ModuleData *moduleData);
-	~ActiveBody();
+	virtual ~ActiveBody(); // virtual, as rowed (0x004BF951)
 
 protected:
-	const void *m_vtable;
 	const ModuleData *m_moduleData;
 	unsigned char m_pad08[4];
 	const void *m_secondary0C;
@@ -49,7 +57,7 @@ protected:
 	unsigned char m_pad14[0x100 - 0x14];
 };
 
-class DetachableRiderBody : public ActiveBody
+class __declspec(novtable) DetachableRiderBody : public ActiveBody
 {
 public:
 	DetachableRiderBody(Thing *thing, const ModuleData *moduleData);
@@ -63,10 +71,10 @@ DetachableRiderBody::DetachableRiderBody(Thing *thing, const ModuleData *moduleD
 	: ActiveBody(thing, moduleData), m_100()
 {
 	const DetachableRiderBodyModuleData *data = (const DetachableRiderBodyModuleData *)m_moduleData;
-	m_vtable = (const void *)0x00C5C0B8;
-	m_secondary0C = (const void *)0x00C5BFF8;
-	m_secondary10 = (const void *)0x00C5BF48;
-	*(void **)&m_100 = (void *)0x00C5BF00;
-	if (data->m_178)
+	*(const void **)this = (const void *)((unsigned int)vtbl_00C5C0B8);
+	m_secondary0C = (const void *)((unsigned int)vtbl_00C5BFF8);
+	m_secondary10 = (const void *)((unsigned int)vtbl_00C5BF48);
+	*(void **)&m_100 = (void *)((unsigned int)vtbl_00C5BF00);
+	if (data->m_startsActive)
 		m_100.giveSelfUpgrade();
 }

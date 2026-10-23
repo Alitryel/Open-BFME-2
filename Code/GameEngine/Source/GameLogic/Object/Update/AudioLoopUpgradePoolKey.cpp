@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva004B7BBB@AudioLoopUpgrade@@SA?AW4NameKeyType@@XZ @0x004B7BBB
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@AudioLoopUpgrade@@UBE?AW4NameKeyType@@XZ @0x004B7BBB
 // (69B): cached pool-name key for AudioLoopUpgrade. The class
 // identity comes from the pool-name string the body pushes
 // ("AudioLoopUpgrade"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class AudioLoopUpgrade
 {
 public:
-	static NameKeyType rva004B7BBB();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva004B7BBB@AudioLoopUpgrade@@SA?AW4NameKeyType@@XZ
-NameKeyType AudioLoopUpgrade::rva004B7BBB()
+// ?getModuleNameKey@AudioLoopUpgrade@@UBE?AW4NameKeyType@@XZ
+NameKeyType AudioLoopUpgrade::getModuleNameKey() const
 {
 	static NameKeyType TheAudioLoopUpgradePoolKey =
 		TheNameKeyGenerator->nameToKey("AudioLoopUpgrade");

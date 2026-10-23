@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // W3DHordeModelDrawModuleData parse-unit.
 //
@@ -12,6 +12,7 @@
 class MultiIniFieldParse;
 struct FieldParse;
 
+extern const int s_hordeModelDrawFieldTable[];
 class MultiIniFieldParse
 {
 public:
@@ -33,6 +34,6 @@ public:
 // ?buildFieldParse@W3DHordeModelDrawModuleData@@SAXAAVMultiIniFieldParse@@@Z @0x000793E5
 void W3DHordeModelDrawModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
-	parse.add(reinterpret_cast<const FieldParse *>(0x00BC6B80), 0);
+	parse.add(reinterpret_cast<const FieldParse *>(s_hordeModelDrawFieldTable), 0);
 	W3DModelDrawModuleData::buildFieldParse(parse);
 }

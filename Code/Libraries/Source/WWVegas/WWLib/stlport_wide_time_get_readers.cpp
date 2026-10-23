@@ -25,7 +25,33 @@
  * modified is included with the above copyright notice.
  *
  */
+#include <stl/_alloc.h>
+// Public malloc release uses retail's unoptimized import entry; callers keep the header inline body.
+namespace _STL {
+#pragma optimize("", off)
+template <> __forceinline void __malloc_alloc<0>::deallocate(void *p, size_t) { free((char *)p); }
+#pragma optimize("", on)
+}
+
 #include <locale>
+#include <cstddef>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> basic_string<char,char_traits<char>,allocator<char> > * __match<istreambuf_iterator<unsigned short,char_traits<unsigned short> >,basic_string<char,char_traits<char>,allocator<char> > *,long>(istreambuf_iterator<unsigned short,char_traits<unsigned short> > &,istreambuf_iterator<unsigned short,char_traits<unsigned short> > &,basic_string<char,char_traits<char>,allocator<char> > *,basic_string<char,char_traits<char>,allocator<char> > *,long *); }
+// The format parser is retail's row in stlport_wide_get_formatted_time.cpp;
+// the four-argument __match forwarder is this unit's own row.
+namespace _STL { template <> const char * __get_formatted_time<istreambuf_iterator<wchar_t, char_traits<wchar_t> >, const char *>(istreambuf_iterator<wchar_t, char_traits<wchar_t> >, istreambuf_iterator<wchar_t, char_traits<wchar_t> >, const char *, const char *, const _Time_Info &, ios_base::iostate &, tm *); }
+namespace _STL { template string * __match<istreambuf_iterator<wchar_t, char_traits<wchar_t> >, string *>(istreambuf_iterator<wchar_t, char_traits<wchar_t> > &, istreambuf_iterator<wchar_t, char_traits<wchar_t> > &, string *, string *); }
+// bfme link decl-only begin
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(); }
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+namespace _STL { template <> unsigned short istreambuf_iterator<unsigned short, char_traits<unsigned short> >::operator*() const; }
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+// bfme link decl-only end
+// Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL {
+template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char*, size_t);
+}
 namespace _STL {
 template<> __declspec(noinline) void istreambuf_iterator<wchar_t,char_traits<wchar_t> >::_M_getc() const {
  if (_M_have_c) return;
@@ -41,7 +67,7 @@ typedef time_get<wchar_t,_TimeIn> _TimeFacet;
 typedef char _TimeInfoSize[(sizeof(_Time_Info)==540)?1:-1];
 typedef char _TimeFacetSize[(sizeof(_TimeFacet)==552)?1:-1];
 template <>
-_TimeIn
+inline _TimeIn
 time_get<wchar_t, _TimeIn>::do_get_date(_TimeIn __s, _TimeIn __end,
 				  ios_base& /* __str */, ios_base::iostate&  __err,
 				  tm* __t) const 
@@ -67,7 +93,7 @@ time_get<wchar_t, _TimeIn>::do_get_date(_TimeIn __s, _TimeIn __end,
 }
 
 template <>
-_TimeIn
+inline _TimeIn
 time_get<wchar_t, _TimeIn>::do_get_time(_TimeIn __s, _TimeIn __end,
 				  ios_base& /* __str */, ios_base::iostate&  __err,
 				  tm* __t) const 
@@ -87,5 +113,24 @@ time_get<wchar_t, _TimeIn>::do_get_time(_TimeIn __s, _TimeIn __end,
     __err |= ios_base::eofbit;
   return __s;
 }
+
+// do_get_date/do_get_time are header inlines in STLport (other units emit
+// select-any copies), so strong definitions here were duplicates in the linked
+// build. This anchor only makes this unit emit its copies for the ledger rows;
+// it is not retail code.
+struct bfmeWideTimeGetEmitter : time_get<wchar_t, _TimeIn>
+{
+	static void emit(const bfmeWideTimeGetEmitter *p, _TimeIn a, _TimeIn b, ios_base &s,
+		ios_base::iostate &e, tm *t);
+};
+#pragma inline_depth(0)
+// ?emit@bfmeWideTimeGetEmitter@_STL@@SAXPBU12@V?$istreambuf_iterator@GV?$char_traits@G@_STL@@@2@1AAVios_base@2@AAHPAUtm@@@Z present-unmatched
+void bfmeWideTimeGetEmitter::emit(const bfmeWideTimeGetEmitter *p, _TimeIn a, _TimeIn b, ios_base &s,
+	ios_base::iostate &e, tm *t)
+{
+	p->time_get<wchar_t, _TimeIn>::do_get_date(a, b, s, e, t);
+	p->time_get<wchar_t, _TimeIn>::do_get_time(a, b, s, e, t);
+}
+#pragma inline_depth()
 
 }

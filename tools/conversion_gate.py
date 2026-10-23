@@ -31,6 +31,7 @@ Rule C: Code/gen_asm/ is machine output and stays that way. C1 every added
         expressible in this directory.
 """
 
+from collections import Counter
 import csv
 import io
 import re
@@ -39,14 +40,15 @@ import sys
 from pathlib import Path
 
 from list_naked_candidates import NAKED_RE
-from progress import CPP_SUFFIXES, naked_cpp_rows
+from progress import CPP_SUFFIXES, naked_cpp_rows, source_kind
 
 LIFT_RE = re.compile(r"\b__?emit\b")
 LEDGER = "reverse/functions.csv"
 
 
 def run(*argv):
-    proc = subprocess.run(argv, capture_output=True, text=True)
+    # errors="replace": a diff of a Latin-1 source (debug_internal.cpp's (c) sign) must not crash the hook
+    proc = subprocess.run(argv, capture_output=True, text=True, encoding="utf-8", errors="replace")
     if proc.returncode != 0:
         raise SystemExit("conversion_gate: %s failed: %s" % (" ".join(argv), proc.stderr.strip()))
     return proc.stdout
@@ -82,17 +84,25 @@ GEN_ASM_LINE_RE = re.compile(
 
 
 def diff_lines(old, new, *paths):
+    if old is None:
+        return run("git", "diff-tree", "--root", "-p", "--unified=0", new,
+                   "--", *paths).splitlines()
     cmd = ["git", "diff", "--unified=0"]
     cmd += ["--cached", old] if new == ":" else [old, new]
     return run(*cmd, "--", *paths).splitlines()
 
 
-def gen_asm_offences(old, new):
-    """Rule C. Returns a list of human-readable offences, empty when clean."""
+def _gen_asm_diff_offences(old, new):
+    """Rule C for one commit or the staged index."""
     offences = []
     path = None
     dump_rows, other_code_edits = [], set()
+    removed_dump_rows = Counter()
     for line in diff_lines(old, new, "Code/", LEDGER):
+        if line.startswith("--- a/"):
+            # Deleted sources have +++ /dev/null, so retain their old path.
+            path = line[6:]
+            continue
         if line.startswith("+++ b/"):
             path = line[6:]
             continue
@@ -107,11 +117,12 @@ def gen_asm_offences(old, new):
                 offences.append("C1 %s: not generator output: %s"
                                 % (path, body.strip()[:80]))
         elif path == LEDGER:
-            if not added:
-                continue
             fields = next(csv.reader([body]), [])
             if len(fields) >= 5 and fields[4].startswith(GEN_ASM):
-                dump_rows.append(fields)
+                if added:
+                    dump_rows.append(fields)
+                else:
+                    removed_dump_rows[tuple(fields)] += 1
         elif path.startswith("Code/"):
             other_code_edits.add(path)
 
@@ -125,16 +136,49 @@ def gen_asm_offences(old, new):
         if not notes.lstrip().startswith("gen-dump"):
             offences.append("C2 %s: a Code/gen_asm/ row must carry gen-dump "
                             "notes, or is_scaffold_row cannot see it" % rva)
-    if dump_rows and other_code_edits:
+    # A ledger normalization can move unchanged dump rows. Git represents
+    # those moves as delete/add; they do not introduce a dump wave. Compare
+    # complete parsed rows with multiplicity, retaining C2 checks above and
+    # C3 for new, changed, or additionally duplicated rows.
+    added_dump_rows = Counter(map(tuple, dump_rows)) - removed_dump_rows
+    if added_dump_rows and other_code_edits:
         offences.append("C3 wave commit also edits %s — dumps-and-ledger only, "
                         "so a deleted C++ body cannot ride inside an unreadable "
                         "diff" % ", ".join(sorted(other_code_edits)))
     return offences
 
 
+def gen_asm_offences(old, new):
+    """Check wave atomicity per commit, including when verifying a push range.
+
+    A dump-only commit followed by a C++ recovery is a legal publication batch.
+    Its aggregate diff must still satisfy C1/C2, but it is not one wave commit.
+    Inspect every outgoing commit so a later edit or revert cannot hide an
+    invalid wave. Merge commits use their first-parent delta, while commits
+    brought in by the merge are also inspected individually.
+    """
+    if new == ":":
+        return _gen_asm_diff_offences(old, new)
+    offences = [offence for offence in _gen_asm_diff_offences(old, new)
+                if not offence.startswith("C3 ")]
+    commits = run("git", "rev-list", "--reverse", "--topo-order", "--parents",
+                  new, "^" + old).splitlines()
+    for entry in commits:
+        commit, *parents = entry.split()
+        for offence in _gen_asm_diff_offences(parents[0] if parents else None, commit):
+            if offence.startswith("C3 "):
+                offence += " (commit %s)" % commit
+            offences.append(offence)
+    return list(dict.fromkeys(offences))
+
+
 def show(rev, path):
     spec = (":%s" if rev == ":" else rev + ":%s") % path
-    proc = subprocess.run(["git", "show", spec], capture_output=True, text=True)
+    # Decode explicitly: with text=True alone Windows uses the locale code page
+    # (cp1252), whose undefined bytes (0x9D in a UTF-8 quote) crash the reader
+    # thread and leave stdout None.
+    proc = subprocess.run(["git", "show", spec], capture_output=True, text=True,
+                          encoding="utf-8", errors="replace")
     if proc.returncode != 0:
         raise SystemExit("conversion_gate: cannot read %s — a matched row's source "
                          "must exist at its revision (ledger corruption?)" % spec)
@@ -192,17 +236,45 @@ def clean_coverage_lost(old, new):
     if not changed:
         return []
 
-    def clean_sources(rva, rows_by_rva, naked):
+    import build
+    import pe_imports
+
+    imports = None
+
+    def retail_imports():
+        nonlocal imports
+        if imports is None:
+            imports = pe_imports.read_imports(build.EXE.read_bytes())
+        return imports
+
+    source_text = {}
+
+    def historical_source(rev, path):
+        key = rev, path
+        if key not in source_text:
+            source_text[key] = show(rev, path)
+        return source_text[key]
+
+    def clean_sources(rev, rva, rows_by_rva, naked):
+        # Share progress.py's classification: prebuilt archives and both
+        # assembly suffixes own no clean C++ coverage. This also prevents a
+        # live C++ row from retaining Rule B coverage by moving into a .lib.
+        # A generated, retail-proven FF25 import placeholder owns linker glue,
+        # not recovered C++. Its real ABI stub may be assembly. Neither a tag
+        # nor another generated C++ family grants this narrow exception.
         return sorted({r["source"] for r in rows_by_rva[rva]
-                       if not r["source"].endswith(".asm")
-                       and (r["name"], r["target_rva"]) not in naked})
+                       if source_kind(r["source"]) == "cpp"
+                       and (r["name"], r["target_rva"]) not in naked
+                       and not pe_imports.generated_import_scaffold(
+                           r, build.read_target_bytes, retail_imports,
+                           lambda path: historical_source(rev, path))})
 
     old_naked = naked_keys(old, old_rows, {r["source"] for rva in changed for r in old_rows[rva]})
     new_naked = naked_keys(new, new_rows, {r["source"] for rva in changed for r in new_rows[rva]})
     lost = []
     for rva in changed:
-        before = clean_sources(rva, old_rows, old_naked)
-        if before and not clean_sources(rva, new_rows, new_naked):
+        before = clean_sources(old, rva, old_rows, old_naked)
+        if before and not clean_sources(new, rva, new_rows, new_naked):
             lost.append((rva, old_rows[rva][0]["name"], ", ".join(before),
                          ", ".join(sorted({r["source"] for r in new_rows[rva]}))))
     return lost

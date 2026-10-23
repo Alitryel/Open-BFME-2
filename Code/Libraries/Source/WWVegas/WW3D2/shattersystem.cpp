@@ -1,7 +1,24 @@
-// cl: /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /FIbfme_wwstring_teardown.h /Ireference/shims/wwstring_teardown/zhmd /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+#define BFME_MESHMATDESC_COLOR_ARRAY_EXTERNAL
+// Bind the UV accessor to the separately matched native D1F40 owner.
+#define BFME_MESHMATDESC_UV_ARRAY_EXTERNAL
+// Link view first: Vector4(x,y,z,w) stays inline without emitting an SSE
+// copy that competes with retail's integer-move owner (0x006D8A30).
+#include "../../../../../reference/shims/bfme_matrix3d_sse_link/vector4.h"
 // Ported verbatim from the Generals Zero Hour reference
 // (Libraries/Source/WWVegas/WW3D2/shattersystem.cpp); this unit had no counterpart under Code/.
+
+// BFME 2 has no W3D memory pools (see Code/Libraries/Source/WWVegas/WWLib/always.h):
+// take always.h first and empty its W3DMPO_GLUE so glued classes use the
+// global operator new/delete, as every recovered BFME 2 body does.
+#include "always.h"
+#undef W3DMPO_GLUE
+#define W3DMPO_GLUE(ARGCLASS)
+// Reuse the verified BFME2 base layout so emitted MeshModelClass
+// helpers read CurMatDesc at +0x94, as their retail providers do.
+#include "../../../../../reference/shims/meshgeom/meshgeometry.h"
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
+#include "../../../../../reference/shims/meshmatdesclayout/meshmatdesc.h"	// BFME2 MeshMatDescClass layout wins the include guard (TextureArray +0xC8)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -52,7 +69,9 @@
 #include "vp.h"
 #include "meshmatdesc.h"
 #include <stdlib.h>
-
+// bfme link decl-only begin
+template <> bool SimpleVecClass<Vector3>::Resize(int);
+// bfme link decl-only end
 /*
 ** Debug logging for the shatter system
 */
@@ -250,6 +269,7 @@ static Vector3 * _get_temp_vertex_normal_array(int count)
 ** MeshMtlParamsClass Implementation
 **
 ***********************************************************************************************/
+// ?MeshMtlParamsClass::MeshMtlParamsClass present-unmatched
 MeshMtlParamsClass::MeshMtlParamsClass(MeshModelClass * model)
 {
 	PassCount = model->Get_Pass_Count();
@@ -265,6 +285,7 @@ MeshMtlParamsClass::MeshMtlParamsClass(MeshModelClass * model)
 	}
 }
 
+// ?MeshMtlParamsClass::~MeshMtlParamsClass present-unmatched
 MeshMtlParamsClass::~MeshMtlParamsClass(void)
 {
 }
@@ -275,6 +296,7 @@ MeshMtlParamsClass::~MeshMtlParamsClass(void)
 ** VertexClass Implementation
 **
 ***********************************************************************************************/
+// ?VertexClass::VertexClass present-unmatched
 VertexClass::VertexClass(void) :
 	Position(0,0,0),
 	Normal(0,0,1),
@@ -289,6 +311,7 @@ VertexClass::VertexClass(void) :
 	}
 }
 
+// ?VertexClass::VertexClass present-unmatched
 VertexClass::VertexClass(const VertexClass & that)
 {
 	Position = that.Position;
@@ -304,6 +327,7 @@ VertexClass::VertexClass(const VertexClass & that)
 	}
 }
 
+// ?VertexClass::operator= present-unmatched
 VertexClass & VertexClass::operator = (const VertexClass & that)
 {
 	if (this != &that) {
@@ -335,10 +359,15 @@ void VertexClass::Lerp
 	res->PassCount = v0.PassCount;
 
 	// interpolate position
-	Vector3::Lerp(v0.Position,v1.Position,lerp,&(res->Position));
+	// Keep the donor's component order without emitting another Lerp COMDAT.
+	res->Position.X = v0.Position.X + (v1.Position.X - v0.Position.X) * lerp;
+	res->Position.Y = v0.Position.Y + (v1.Position.Y - v0.Position.Y) * lerp;
+	res->Position.Z = v0.Position.Z + (v1.Position.Z - v0.Position.Z) * lerp;
 
 	// interpolate normal, renormalize
-	Vector3::Lerp(v0.Normal,v1.Normal,lerp,&(res->Normal));
+	res->Normal.X = v0.Normal.X + (v1.Normal.X - v0.Normal.X) * lerp;
+	res->Normal.Y = v0.Normal.Y + (v1.Normal.Y - v0.Normal.Y) * lerp;
+	res->Normal.Z = v0.Normal.Z + (v1.Normal.Z - v0.Normal.Z) * lerp;
 	res->Normal.Normalize();
 
 	// interpolate material properies
@@ -357,6 +386,7 @@ void VertexClass::Lerp
 	}
 }
 
+// ?VertexClass::Which_Side present-unmatched
 int VertexClass::Which_Side(const PlaneClass & plane) const
 {
 	float d = Vector3::Dot_Product(plane.N,Position);
@@ -393,11 +423,13 @@ void VertexClass::Intersect_Plane
 ** PolygonClass Implementation
 **
 ***********************************************************************************************/
+// ?PolygonClass::PolygonClass present-unmatched
 PolygonClass::PolygonClass(void) :
 	NumVerts(0)
 {
 }
 
+// ?PolygonClass::PolygonClass present-unmatched
 PolygonClass::PolygonClass(const PolygonClass & that)
 {
 	NumVerts = that.NumVerts;
@@ -406,6 +438,7 @@ PolygonClass::PolygonClass(const PolygonClass & that)
 	}
 }
 
+// ?PolygonClass::PolygonClass present-unmatched
 PolygonClass::PolygonClass(const VertexClass * points, int num)
 {
 	NumVerts = num;
@@ -414,6 +447,7 @@ PolygonClass::PolygonClass(const VertexClass * points, int num)
 	}
 }
 
+// ?PolygonClass::operator= present-unmatched
 PolygonClass & PolygonClass::operator = (const PolygonClass & that)
 {
 	if (this != &that) {
@@ -427,6 +461,7 @@ PolygonClass & PolygonClass::operator = (const PolygonClass & that)
 	return * this;
 }
 
+// ?PolygonClass::Compute_Plane present-unmatched
 void PolygonClass::Compute_Plane(void)
 {
 	double nx = 0;
@@ -462,6 +497,7 @@ void PolygonClass::Compute_Plane(void)
 	Plane.Set(Vector3(nx,ny,nz),Vector3(ax,ay,az));
 }
 
+// ?PolygonClass::Which_Side present-unmatched
 int PolygonClass::Which_Side(const PlaneClass & plane) const
 {
 	int side_mask = 0;
@@ -488,6 +524,7 @@ int PolygonClass::Which_Side(const PlaneClass & plane) const
 	return BPT_BOTH;
 }
 
+// ?PolygonClass::Split present-unmatched
 void PolygonClass::Split(const PlaneClass & plane,PolygonClass & front,PolygonClass & back) const
 {
 	front = *this;
@@ -619,6 +656,7 @@ void PolygonClass::Split(const PlaneClass & plane,PolygonClass & front,PolygonCl
 }
 
 
+// ?PolygonClass::Is_Degenerate present-unmatched
 bool PolygonClass::Is_Degenerate(void)
 {
 	int i,j;
@@ -656,6 +694,7 @@ bool PolygonClass::Is_Degenerate(void)
 	return false;
 }
 
+// ?PolygonClass::Salvage_Degenerate present-unmatched
 bool PolygonClass::Salvage_Degenerate(void)
 {
 	/*
@@ -689,6 +728,7 @@ bool PolygonClass::Salvage_Degenerate(void)
 **
 ***********************************************************************************************/
 
+// ?BSPClass::BSPClass present-unmatched
 BSPClass::BSPClass(HTreeClass * tree,int bone_index,int & leaf_index) :
 	Plane(0,0,1,0),
 	Front(NULL),
@@ -730,6 +770,7 @@ BSPClass::BSPClass(HTreeClass * tree,int bone_index,int & leaf_index) :
 	}
 }
 
+// ?BSPClass::~BSPClass present-unmatched
 BSPClass::~BSPClass(void)
 {
 	if (Front != NULL) {
@@ -741,11 +782,13 @@ BSPClass::~BSPClass(void)
 	Front = Back = NULL;
 }
 
+// ?BSPClass::Set_Plane_From_Transform present-unmatched
 void BSPClass::Set_Plane_From_Transform(const Matrix3D & tm)
 {
 	Plane.Set(tm.Get_Z_Vector(),tm.Get_Translation());
 }
 
+// ?BSPClass::Clip_Polygon present-unmatched
 void BSPClass::Clip_Polygon(const PolygonClass & polygon)
 {
 	PolygonClass front_poly,back_poly;
@@ -802,6 +845,7 @@ void BSPClass::Clip_Polygon(const PolygonClass & polygon)
 ** Vshatter = Mscale-to-unit * Mworld-shatterview * Mobj-world * Vobj
 **
 ***********************************************************************************************/
+// ?ShatterSystem::Init present-unmatched
 void ShatterSystem::Init(void)
 {
 	/*
@@ -839,6 +883,7 @@ void ShatterSystem::Init(void)
 	}
 }
 
+// ?ShatterSystem::Shutdown present-unmatched
 void ShatterSystem::Shutdown(void)
 {
 	/*
@@ -857,6 +902,7 @@ void ShatterSystem::Shutdown(void)
 }
 
 
+// ?ShatterSystem::Shatter_Mesh present-unmatched
 void ShatterSystem::Shatter_Mesh(MeshClass * mesh,const Vector3 & point,const Vector3 & direction)
 {
 	if (ShatterPatterns.Count() == 0) {
@@ -1048,11 +1094,13 @@ void ShatterSystem::Shatter_Mesh(MeshClass * mesh,const Vector3 & point,const Ve
 	REF_PTR_RELEASE(model);
 }
 
+// ?ShatterSystem::Get_Fragment_Count present-unmatched
 int ShatterSystem::Get_Fragment_Count(void)
 {
 	return MeshFragments.Count();
 }
 
+// ?ShatterSystem::Get_Fragment present-unmatched
 RenderObjClass * ShatterSystem::Get_Fragment(int fragment_index)
 {
 	if (MeshFragments[fragment_index] != NULL) {
@@ -1061,11 +1109,13 @@ RenderObjClass * ShatterSystem::Get_Fragment(int fragment_index)
 	return MeshFragments[fragment_index];
 }
 
+// ?ShatterSystem::Peek_Fragment present-unmatched
 RenderObjClass * ShatterSystem::Peek_Fragment(int fragment_index)
 {
 	return MeshFragments[fragment_index];
 }
 
+// ?ShatterSystem::Release_Fragments present-unmatched
 void ShatterSystem::Release_Fragments(void)
 {
 	// release any ref's to render objects
@@ -1077,6 +1127,7 @@ void ShatterSystem::Release_Fragments(void)
 	MeshFragments.Delete_All(false);					
 }
 
+// ?ShatterSystem::Reset_Clip_Pools present-unmatched
 void ShatterSystem::Reset_Clip_Pools(void)
 {
 	for (int i=0; i<MAX_MESH_FRAGMENTS; i++) {

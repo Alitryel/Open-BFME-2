@@ -115,24 +115,17 @@ extern void* allocateFromW3DMemPool(void* p, int allocationSize, const char* msg
 extern void freeFromW3DMemPool(void* pool, void* p);
 
 // ----------------------------------------------------------------------------
-// BFME kept the W3D memory pools (retail $E static-init counts include the
-// pool statics below) but built W3DMPO as an empty base: it contributes no
-// vptr (HLod/OBBox ctors store only the RenderObj+MultiList vtables) and
-// members of derived classes sit where strict EBO puts them. The GLUE macro
-// therefore keeps only the pool operator new/delete; the ZH glueEnforcer
-// virtual is gone (it would add a bogus primary-vtable slot).
-#define W3DMPO_GLUE(ARGCLASS) \
-private: \
-	static void* getClassMemoryPool() \
-	{ \
-		static void* The##ARGCLASS##Pool = createW3DMemPool(#ARGCLASS, sizeof(ARGCLASS)); \
-		return The##ARGCLASS##Pool; \
-	} \
-public: \
-	inline void* operator new(size_t s) { return allocateFromW3DMemPool(getClassMemoryPool(), s); } \
-	inline void operator delete(void *p) { freeFromW3DMemPool(getClassMemoryPool(), p); } \
-	inline void* operator new(size_t s, const char* msg, int unused) { return allocateFromW3DMemPool(getClassMemoryPool(), s, msg, unused); } \
-	inline void operator delete(void *p, const char* msg, int unused) { freeFromW3DMemPool(getClassMemoryPool(), p); } \
+// BFME 1 kept the W3D memory pools, but BFME 2 did not: none of the 51
+// classes that carry W3DMPO_GLUE in the reference sources has its
+// #ARGCLASS pool name anywhere in game.dat (the glue's getClassMemoryPool
+// would have put every one in .rdata), the engine allocates through
+// EA::Allocator's MemoryPool namespace instead of Zero Hour's GameMemory,
+// and every recovered body that frees or allocates a glued W3D class
+// (ProxyArrayClass, SortingIndexBufferClass, VertexMaterialClass copy,
+// MeshMatDesc, MeshGeometry) calls the global operator new/delete. So the
+// glue expands to nothing; createW3DMemPool and its partners stay declared
+// only for reference sources that name them directly.
+#define W3DMPO_GLUE(ARGCLASS)
 
 // ----------------------------------------------------------------------------
 class W3DMPO { };

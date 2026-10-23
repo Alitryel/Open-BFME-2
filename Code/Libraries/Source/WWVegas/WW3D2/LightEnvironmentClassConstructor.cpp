@@ -1,8 +1,19 @@
-// cl: /G7 /arch:SSE /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // Donor: BFME1 LightEnvironmentClassConstructor.cpp at 0x0094AAF0.
 // Target: 0x0013F410/523B; layout agrees with matched assignment 0x0014A230
 // and DX8Wrapper::Set_Light_Environment at 0x00122EA0. The donor helper
 // type names describe the observed initialization; /G7 /arch:SSE matches retail.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 
 struct LightEnvironmentVector3
 {

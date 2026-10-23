@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fast integrity check for reverse/functions.csv and reverse/symbols.csv (<1s).
+"""Fast integrity check for reverse/functions.csv, symbols.csv and data_rows.csv (<1s).
 
 Catches the corruption classes that break the full gate long after the fact:
 duplicate rows from union merges, two agents claiming overlapping bytes,
@@ -15,6 +15,7 @@ import io
 import re
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -25,6 +26,8 @@ FUNCTIONS = ROOT / "reverse" / "functions.csv"
 SYMBOLS = ROOT / "reverse" / "symbols.csv"
 DELETED = ROOT / "reverse" / "deleted_rows.csv"
 RE_ATTEMPTS = ROOT / "reverse" / "re_attempts.log"
+BODY_OWNERS = ROOT / "reverse" / "body_owners.csv"
+DATA_ROWS = ROOT / "reverse" / "data_rows.csv"
 
 # realcrc.cpp is linked twice in the retail exe, so these two symbols
 # legitimately appear at two addresses each. Any other duplicate name is a bug.
@@ -35,6 +38,23 @@ ALLOWED_DUP_NAMES = {
 
 FUNCTIONS_HEADER = "name,export_rva,target_rva,target_size,source,status,notes"
 SYMBOLS_HEADER = "name,address,notes"
+
+
+def placeholder_row(name, source, notes):
+    """Distinguish generated scaffolding from a byte-verified named ICF twin.
+
+    gen-alias is also the verifier's exact marker for relocation twins. A real
+    method emitting its own body can carry it; the marker alone does not make
+    that method a generated identity. Synthetic aliases still yield to owners.
+    Full-byte verification independently validates every claimed twin.
+    """
+    notes = notes.lstrip()
+    if not notes.startswith("gen-"):
+        return False
+    if notes.split(";", 1)[0].strip() != "gen-alias":
+        return True
+    return (source.replace("\\", "/").startswith(("Code/gen_asm/", "Code/gen_small/"))
+            or re.match(r"^(?:\??(?:dup_|d_[0-9a-fA-F]|Gen_)|\?\?[01]Gen_)", name) is not None)
 
 
 def check_lf_ledger(raw, label, problems, *, allow_empty=False):
@@ -68,6 +88,38 @@ def read_ledger(path, spec):
         raise SystemExit(f"check_csv: cannot read {spec}:{rel}: "
                          f"{out.stderr.decode().strip()}")
     return out.stdout
+
+
+def read_blobs(rels, spec):
+    """{rel: bytes} for many paths in one `git cat-file --batch` (read_ledger's
+    one `git show` per path cost ~4.5s over the attempt bank, every commit)."""
+    if spec is None:
+        return {rel: (ROOT / rel).read_bytes() for rel in rels}
+    names = "".join(f"{spec}:{rel}\n" for rel in rels).encode()
+    # Large requests and replies can block both sides writing to pipes on
+    # macOS. File-backed streams preserve the batch protocol without that cycle.
+    with tempfile.TemporaryFile() as request, tempfile.TemporaryFile() as output, \
+            tempfile.TemporaryFile() as errors:
+        request.write(names)
+        request.seek(0)
+        result = subprocess.run(["git", "-C", str(ROOT), "cat-file", "--batch"],
+                                stdin=request, stdout=output, stderr=errors)
+        output.seek(0)
+        errors.seek(0)
+        result = subprocess.CompletedProcess(result.args, result.returncode,
+                                             output.read(), errors.read())
+    result.check_returncode()
+    out = result.stdout
+    blobs, pos = {}, 0
+    for rel in rels:
+        end = out.index(b"\n", pos)
+        header = out[pos:end].split()
+        if header[-1] == b"missing":
+            raise SystemExit(f"check_csv: cannot read {spec}:{rel}")
+        size = int(header[2])
+        blobs[rel] = out[end + 1:end + 1 + size]
+        pos = end + 1 + size + 1
+    return blobs
 
 
 def known_sources(spec):
@@ -194,7 +246,7 @@ def check_functions(raw, problems, sources_ok, deleted_raw=None):
         seen_exact.add(key)
 
         rva = int(target_rva, 16)
-        gen_row = _notes.lstrip().startswith("gen-")
+        gen_row = placeholder_row(name, source, _notes)
         if rva in by_rva and by_rva[rva][0] != name:
             prev_name, prev_size, prev_gen = by_rva[rva]
             if prev_size != size:
@@ -214,10 +266,14 @@ def check_functions(raw, problems, sources_ok, deleted_raw=None):
             # folded to one address in retail; each byte-verifies independently.
         by_rva.setdefault(rva, (name, size, gen_row))
 
-        if name in by_name and by_name[name] != rva and name not in ALLOWED_DUP_NAMES:
-            problems.append(f"functions.csv: {name} claims two addresses: "
-                            f"0x{by_name[name]:08X} and 0x{rva:08X}. One is wrong.")
-        by_name.setdefault(name, rva)
+        identity = {"name": name, "source": source, "notes": _notes}
+        previous = by_name.setdefault(name, [])
+        for old_rva, old_identity in previous:
+            if old_rva != rva and name not in ALLOWED_DUP_NAMES \
+                    and ledger_io.same_function_name(identity, old_identity):
+                problems.append(f"functions.csv: {name} claims two addresses: "
+                                f"0x{old_rva:08X} and 0x{rva:08X}. One is wrong.")
+        previous.append((rva, identity))
 
         if status == "matched":
             matched_ranges.append((rva, rva + size, name))
@@ -313,6 +369,7 @@ def check_attempts(spec, problems):
         if len(row) == 7 and row[5] == "matched":
             matched.setdefault(row[2].lower(), []).append((row[0], row[4]))
 
+    blobs = read_blobs(paths, spec)
     for rel in paths:
         name = rel[len(ATTEMPTS_DIR):]
         if not ATTEMPT_NAME.match(name):
@@ -320,7 +377,7 @@ def check_attempts(spec, problems):
                 f"{rel}: name must be the lowercase rva it banks, e.g. "
                 f"0x000c8220.cpp — serving looks the stash up by address.")
             continue
-        blob = read_ledger(ROOT / rel, spec)
+        blob = blobs[rel]
         if len(blob) > ATTEMPT_LIMIT:
             problems.append(f"{rel}: {len(blob)} bytes, over {ATTEMPT_LIMIT}. "
                             f"That is not one function body; delete it.")
@@ -361,7 +418,25 @@ def check_attempts(spec, problems):
 ORPHAN_BASELINE = 6
 
 
-def check_orphans(spec, problems):
+def read_data_rows(spec):
+    """data_rows.csv at `spec` (b"" when that state has none)."""
+    if spec is None:
+        return DATA_ROWS.read_bytes() if DATA_ROWS.exists() else b""
+    rel = DATA_ROWS.relative_to(ROOT).as_posix()
+    out = subprocess.run(["git", "-C", str(ROOT), "show", f"{spec}:{rel}"], capture_output=True)
+    return out.stdout if out.returncode == 0 else b""
+
+
+def data_row_sources(raw):
+    """Sources owning a matched data row (tools/data_rows.py): a data-only TU."""
+    import data_rows
+    try:
+        return {row["source"] for _, row in data_rows.parse(raw) if row.get("status") == "matched"}
+    except ValueError:
+        return set()
+
+
+def check_orphans(spec, problems, *, data_raw=None):
     """Refuse a NEW Code/*.cpp that owns no matched row.
 
     A source with no row is presence pretending to be progress: nothing compiles
@@ -374,6 +449,8 @@ def check_orphans(spec, problems):
             read_ledger(FUNCTIONS, spec).decode("utf-8", errors="replace"))):
         if len(row) == 7 and row[5] == "matched":
             claimed.add(row[4])
+    # a data-only TU owns its globals in data_rows.csv (tools/data_rows.py)
+    claimed.update(data_row_sources(read_data_rows(spec) if data_raw is None else data_raw))
     orphans = sorted(
         path for path in known_sources(spec)
         if path.startswith("Code/") and path.endswith(".cpp")
@@ -389,6 +466,66 @@ def check_orphans(spec, problems):
     return len(orphans)
 
 
+def check_body_owners(raw, functions_raw, problems):
+    """Enforce the owner recorded by a completed same-address reconstruction audit.
+
+    This registry makes no assertion that unrelated equal-byte bodies are not
+    legitimate folds. A supported rename/rehome updates the owner with evidence.
+    """
+    if not raw:  # Historical revisions before the registry was introduced.
+        return
+    check_lf_ledger(raw, "body_owners.csv", problems)
+    reader = csv.DictReader(io.StringIO(raw.decode("utf-8")))
+    expected = ["target_rva", "name", "target_size", "source", "evidence"]
+    if reader.fieldnames != expected:
+        problems.append("body_owners.csv: invalid header")
+        return
+    owners = {}
+    for row in reader:
+        try:
+            address = int(row["target_rva"], 16)
+            size = int(row["target_size"])
+            if not (address > 0 and size > 0 and row["name"]
+                    and row["source"].startswith("Code/") and row["evidence"].strip()
+                    and None not in row):
+                raise ValueError("invalid ownership record")
+        except (ValueError, TypeError, AttributeError):
+            problems.append(f"body_owners.csv: invalid owner record {row!r}")
+            continue
+        if address in owners:
+            problems.append(f"body_owners.csv: duplicate owner at 0x{address:08X}")
+        owners[address] = row
+    actual = {address: [] for address in owners}
+    for row in csv.DictReader(io.StringIO(functions_raw.decode("utf-8"))):
+        try:
+            address = int(row["target_rva"], 16)
+        except (ValueError, TypeError):
+            continue  # check_functions reports malformed ledger rows.
+        if address in actual:
+            actual[address].append(row)
+    for address, owner in owners.items():
+        rows = actual[address]
+        if len(rows) != 1:
+            problems.append(f"body_owners.csv: audited body 0x{address:08X} must have "
+                            f"one owner, found {len(rows)} rows")
+            continue
+        row = rows[0]
+        if any(row.get(key) != owner[key] for key in ("name", "source", "target_size")) \
+                or row.get("status") != "matched":
+            problems.append(f"body_owners.csv: owner disagrees with functions.csv "
+                            f"at 0x{address:08X}; reconcile the audit evidence")
+
+
+def read_body_owners(spec):
+    """An absent registry is valid only for revisions predating its introduction."""
+    if spec is None:
+        return BODY_OWNERS.read_bytes() if BODY_OWNERS.exists() else b""
+    rel = BODY_OWNERS.relative_to(ROOT).as_posix()
+    exists = subprocess.run(["git", "-C", str(ROOT), "cat-file", "-e", f"{spec}:{rel}"],
+                            capture_output=True)
+    return read_ledger(BODY_OWNERS, spec) if exists.returncode == 0 else b""
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -402,14 +539,22 @@ def main():
     spec = "" if args.staged else args.ref  # None -> working tree
     problems = []
     deleted_raw = read_ledger(DELETED, spec)
-    n_funcs = check_functions(read_ledger(FUNCTIONS, spec), problems, known_sources(spec),
+    sources_ok = known_sources(spec)
+    n_funcs = check_functions(read_ledger(FUNCTIONS, spec), problems, sources_ok,
                               deleted_raw)
+    check_body_owners(read_body_owners(spec), read_ledger(FUNCTIONS, spec), problems)
     n_syms = check_symbols(read_ledger(SYMBOLS, spec), problems)
     check_lf_ledger(deleted_raw, "deleted_rows.csv", problems)
     check_lf_ledger(read_ledger(RE_ATTEMPTS, spec), "re_attempts.log", problems,
                     allow_empty=True)
     check_attempts(spec, problems)
-    n_orphans = check_orphans(spec, problems)
+    data_raw = read_data_rows(spec)
+    n_data = 0
+    if data_raw:
+        import data_rows
+        check_lf_ledger(data_raw, "data_rows.csv", problems)
+        n_data = data_rows.check(data_raw, problems, sources_ok)
+    n_orphans = check_orphans(spec, problems, data_raw=data_raw)
 
     if problems:
         print(f"check_csv: {len(problems)} problem(s):", file=sys.stderr)
@@ -417,6 +562,7 @@ def main():
             print(f"  - {p}", file=sys.stderr)
         raise SystemExit(1)
     print(f"check_csv: OK (functions.csv {n_funcs} rows, symbols.csv {n_syms} rows"
+          + (f", data_rows.csv {n_data} rows" if n_data else "")
           + (f", {n_orphans} known row-less source(s))" if n_orphans else ")"))
 
 

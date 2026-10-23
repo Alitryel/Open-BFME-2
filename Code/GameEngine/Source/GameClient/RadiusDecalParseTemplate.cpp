@@ -1,4 +1,4 @@
-// cl: /O1
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 // RadiusDecalTemplate::parseRadiusDecalTemplate (retail 0x00330D91, 19
 // bytes). Zero Hour donor served from RadiusDecal.cpp: delegates the store
 // to the retail decal sub-table at 0x00C0DC20 (Texture, Texture2, Style,
@@ -7,6 +7,7 @@
 
 struct FieldParse;
 
+extern const int s_radiusDecalFieldTable[];
 class INI
 {
 public:
@@ -22,5 +23,5 @@ public:
 // ?parseRadiusDecalTemplate@RadiusDecalTemplate@@SAXPAVINI@@PAX1PBX@Z
 void RadiusDecalTemplate::parseRadiusDecalTemplate(INI *ini, void * /*instance*/, void *store, const void * /*userData*/)
 {
-	ini->initFromINI(store, reinterpret_cast<const FieldParse *>(0x00C0DC20));
+	ini->initFromINI(store, reinterpret_cast<const FieldParse *>(s_radiusDecalFieldTable));
 }

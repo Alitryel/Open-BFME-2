@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva00250A4E@SpawnedModelConditionCreate@@SA?AW4NameKeyType@@XZ @0x250A4E
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@SpawnedModelConditionCreate@@UBE?AW4NameKeyType@@XZ @0x250A4E
 // (69B): cached pool-name key for SpawnedModelConditionCreate. The class
 // identity comes from the pool-name string the body pushes
 // ("SpawnedModelConditionCreate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class SpawnedModelConditionCreate
 {
 public:
-	static NameKeyType rva00250A4E();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00250A4E@SpawnedModelConditionCreate@@SA?AW4NameKeyType@@XZ
-NameKeyType SpawnedModelConditionCreate::rva00250A4E()
+// ?getModuleNameKey@SpawnedModelConditionCreate@@UBE?AW4NameKeyType@@XZ
+NameKeyType SpawnedModelConditionCreate::getModuleNameKey() const
 {
 	static NameKeyType TheSpawnedModelConditionCreatePoolKey =
 		TheNameKeyGenerator->nameToKey("SpawnedModelConditionCreate");

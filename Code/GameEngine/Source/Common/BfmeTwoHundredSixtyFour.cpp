@@ -1,7 +1,6 @@
 // cl: /Od
 
-void bfmeDoPA(void *one, void *two, void *three, void *four, unsigned char *five,
-	unsigned char *six, unsigned char seven);
+void *bfmeFwdV26(int one, int two, int three, int four, int five, int six, char seven);
 
 void bfmeGoPA(void *one, void *two, void *three, void *four, unsigned char five)
 {
@@ -9,5 +8,5 @@ void bfmeGoPA(void *one, void *two, void *three, void *four, unsigned char five)
 
 	unsigned char first;
 
-	bfmeDoPA(one, two, three, four, &second, &first, five);
+	(void)bfmeFwdV26((int)one, (int)two, (int)three, (int)four, (int)&second, (int)&first, (char)five);
 }

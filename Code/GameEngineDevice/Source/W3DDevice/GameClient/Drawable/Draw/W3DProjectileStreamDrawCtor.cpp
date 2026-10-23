@@ -1,14 +1,14 @@
-// cl: /O1 /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX
 //
 // ??0W3DProjectileStreamDraw@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x000D1370,
 // 145 bytes. Draw-side ctor completing the W3DProjectileStreamDraw file-unit
 // (ModuleData parse/ctor/factory, instance factory 0x650B0, pool key and name
 // getter all rowed; this ctor is the factory's sole raw caller, news 0x64).
 //
-// Shape: EH ctor over the rowed Rva000B19A1 intermediate base (DrawableModule
+// Shape: EH ctor over the rowed DrawModule base (DrawableModule
 // 0x306B19 family: m_drawable at +4, proven by that TU), vtable 0x00BCE010,
 // texture member at +0x0C loaded by filename through the pinned
-// BFME2LoadParticleTexture 0x132D89 into a full-expression temp (hidden out
+// TextureAsset::Get 0x132D89 into a full-expression temp (hidden out
 // reuses the dead ModuleData arg slot at [ebp+0xC]) copied via the rowed
 // RefCountPtr<TextureClass> op= 0x424D0 with the temp's inline release
 // (rowed Release_Ref 0x61ED10) after, then 0x14 dwords at +0x10 plus the
@@ -27,11 +27,11 @@ public:
 	const char *m_prefixedName08; // +8 (length-prefixed string; chars at +8)
 };
 
-class Rva000B19A1
+class DrawModule
 {
 public:
-	Rva000B19A1(Thing *thing, const ModuleData *moduleData);
-	virtual ~Rva000B19A1();
+	DrawModule(Thing *thing, const ModuleData *moduleData);
+	virtual ~DrawModule();
 
 protected:
 	Drawable *m_drawable; // +4
@@ -65,9 +65,13 @@ class BFME2ParticleTextureHandle : public RefCountPtr<TextureClass>
 {
 };
 
-BFME2ParticleTextureHandle __cdecl BFME2LoadParticleTexture(const char *filename, int a, int b);
+class TextureAsset
+{
+public:
+	static BFME2ParticleTextureHandle Get(const char *filename, int a, int b);
+};
 
-class W3DProjectileStreamDraw : public Rva000B19A1
+class W3DProjectileStreamDraw : public DrawModule
 {
 public:
 	W3DProjectileStreamDraw(Thing *thing, const ModuleData *moduleData);
@@ -81,12 +85,12 @@ private:
 
 // ??0W3DProjectileStreamDraw@@QAE@PAVThing@@PBVModuleData@@@Z @0x000D1370
 W3DProjectileStreamDraw::W3DProjectileStreamDraw(Thing *thing, const ModuleData *moduleData)
-	: Rva000B19A1(thing, moduleData)
+	: DrawModule(thing, moduleData)
 	, m_texture()
 {
 	const char *rawName = m_drawable->m_prefixedName08;
 	const char *texName = rawName != 0 ? rawName + 8 : "";
-	m_texture = BFME2LoadParticleTexture(texName, 0, 0);
+	m_texture = TextureAsset::Get(texName, 0, 0);
 	for (int i = 0; i < 0x14; ++i)
 		m_zeros10[i] = 0;
 	m_zero60 = 0;

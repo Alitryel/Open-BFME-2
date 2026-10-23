@@ -15,7 +15,11 @@
 **	You should have received a copy of the GNU General Public License
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-// cl: /O1 /EHsc
+// cl: /EHsc
+// October 2026 EH ownership: native parent bytes and every associative EH
+// code/data relocation verify for this whole unit. Cleanup entry identities
+// come from unwind-map references; interior return labels are excluded.
+// The naturally emitted state-bit cleanups replace manual MASM ownership.
 //
 // The narrow half of BFME 2's expression-template string concatenation, and
 // the AsciiString registry-path builder built on it. The wide half lives in
@@ -29,7 +33,7 @@
 // nodes are template-shared across the image, so their bodies sit far from
 // the registry code that first used them here.
 
-extern "C" void *__cdecl memcpy(void *dst, const void *src, unsigned int n);
+extern "C" void *__cdecl memcpy(void *dst, const void *src, unsigned int written);
 
 class AsciiString;
 
@@ -39,11 +43,12 @@ class StringBase
 	friend class AsciiString;
 	StringBase(const T *text);
 	StringBase(const StringBase &src);
+	void releaseBuffer();
 
 public:
 	StringBase() : m_data(0) {}
-	~StringBase();
 	T *getBufferForRead(int len);
+	void set(const StringBase &src);
 
 	struct Header
 	{
@@ -62,6 +67,7 @@ class UnicodeString;
 class AsciiString : public StringBase<char>
 {
 public:
+	~AsciiString() { releaseBuffer(); }
 	AsciiString() {}
 	AsciiString(const char *text) : StringBase<char>(text) {}
 	AsciiString(const AsciiString &src) : StringBase<char>(src) {}
@@ -82,7 +88,9 @@ class StringBase<unsigned short>
 
 public:
 	StringBase() : m_data(0) {}
+	StringBase(const StringBase<unsigned short> &source);
 	~StringBase() { releaseBuffer(); }
+	unsigned short *getBufferForRead(int length);
 
 private:
 	void *m_data;
@@ -119,16 +127,24 @@ struct AsciiStringRef
 struct AsciiStringRefWithChar : AsciiStringRef
 {
 	int write(char *dst);
+	operator AsciiString();
 
 	char m_char;
 };
 
 // "string + text"
+class Rva002DCD9A
+{
+public:
+	int copyToBuffer(unsigned short *dst);
+};
+
 struct AsciiStringPlusText : AsciiStringRef
 {
 	int length() const;
 	int write(char *dst);
 	operator AsciiString();
+	operator UnicodeString();
 
 	Rva000B3F84Pair m_right;
 };
@@ -167,19 +183,37 @@ struct AsciiStringPlusStringChar : AsciiStringPlusString
 struct AsciiStringPlusStringText : AsciiStringPlusString
 {
 	int write(char *dst);
+	operator AsciiString();
 
 	Rva000B3F84Pair m_text;
 };
 
+// ?rva005EF5CA@Rva005EF5CA@@QAEHPAD@Z @0x005EF5CA 37B.
+// Two part write via rowed registry path writer and AsciiStringRef writer;
+// caller 0x005EF607 uses this output in the next path operation.
+struct Rva005EF5CA : AsciiStringPlusStringText
+{
+	int write(char *dst);
+	int length() const;
+	operator AsciiString();
+	AsciiStringRef m_fourth;
+};
+
+int Rva005EF5CA::write(char *dst)
+{
+	int written = AsciiStringPlusStringText::write(dst);
+	return written + ((AsciiStringRef *)((char *)this + 0x10))->write(dst + written);
+}
+
 // ?write@Rva000B3F84Pair@@QAEHPAD@Z @0xB44F0
-int Rva000B3F84Pair::write(char *dst)
+inline __declspec(noinline) int Rva000B3F84Pair::write(char *dst)
 {
 	memcpy(dst, m_ptr, m_len);
 	return m_len;
 }
 
 // ?write@AsciiStringRef@@QAEHPAD@Z @0x2C5B1
-int AsciiStringRef::write(char *dst)
+inline __declspec(noinline) int AsciiStringRef::write(char *dst)
 {
 	int len = m_string->getLength();
 	memcpy(dst, m_string->str(), len);
@@ -187,11 +221,11 @@ int AsciiStringRef::write(char *dst)
 }
 
 // ?write@AsciiStringRefWithChar@@QAEHPAD@Z @0x2C7A7
-int AsciiStringRefWithChar::write(char *dst)
+inline __declspec(noinline) int AsciiStringRefWithChar::write(char *dst)
 {
-	int n = AsciiStringRef::write(dst);
-	dst[n] = m_char;
-	return n + 1;
+	int written = AsciiStringRef::write(dst);
+	dst[written] = m_char;
+	return written + 1;
 }
 
 // ?length@AsciiStringPlusText@@QBEHXZ @0x2DBF50
@@ -203,8 +237,8 @@ int AsciiStringPlusText::length() const
 // ?write@AsciiStringPlusText@@QAEHPAD@Z @0xBBD41
 int AsciiStringPlusText::write(char *dst)
 {
-	int n = AsciiStringRef::write(dst);
-	return n + m_right.write(dst + n);
+	int written = AsciiStringRef::write(dst);
+	return written + m_right.write(dst + written);
 }
 
 // ??BAsciiStringPlusText@@QAE?AVAsciiString@@XZ @0xBC4F7
@@ -212,6 +246,16 @@ AsciiStringPlusText::operator AsciiString()
 {
 	AsciiString tmp;
 	write(tmp.getBufferForRead(length()));
+	return tmp;
+}
+
+// ??BAsciiStringPlusText@@QAE?AVUnicodeString@@XZ @0x002DD111 (wide conversion;
+// GameState::saveGame 0x002DD38D assigns the result into a UnicodeString)
+AsciiStringPlusText::operator UnicodeString()
+{
+	UnicodeString tmp;
+	Rva002DCD9A *pair = (Rva002DCD9A *)this;
+	pair->copyToBuffer(tmp.getBufferForRead(length()));
 	return tmp;
 }
 
@@ -224,8 +268,8 @@ int AsciiStringCharPlusText::length() const
 // ?write@AsciiStringCharPlusText@@QAEHPAD@Z @0x2349D8
 int AsciiStringCharPlusText::write(char *dst)
 {
-	int n = AsciiStringRefWithChar::write(dst);
-	return n + m_right.write(dst + n);
+	int written = AsciiStringRefWithChar::write(dst);
+	return written + m_right.write(dst + written);
 }
 
 // ??BAsciiStringCharPlusText@@QAE?AVAsciiString@@XZ @0x234CA6
@@ -236,11 +280,17 @@ AsciiStringCharPlusText::operator AsciiString()
 	return tmp;
 }
 
-// ?write@AsciiStringPlusString@@QAEHPAD@Z @0xBBD1C
-int AsciiStringPlusString::write(char *dst)
+// ?length@AsciiStringPlusString@@QBEHXZ @0x2198C8 36B: both header lengths summed.
+inline __declspec(noinline) int AsciiStringPlusString::length() const
 {
-	int n = AsciiStringRef::write(dst);
-	return n + m_second.write(dst + n);
+	return m_string->getLength() + m_second.m_string->getLength();
+}
+
+// ?write@AsciiStringPlusString@@QAEHPAD@Z @0xBBD1C
+inline __declspec(noinline) int AsciiStringPlusString::write(char *dst)
+{
+	int written = AsciiStringRef::write(dst);
+	return written + m_second.write(dst + written);
 }
 
 // ??BAsciiStringPlusString@@QAE?AVAsciiString@@XZ @0xBC495
@@ -254,16 +304,131 @@ AsciiStringPlusString::operator AsciiString()
 // ?write@AsciiStringPlusStringChar@@QAEHPAD@Z @0x50EE58
 int AsciiStringPlusStringChar::write(char *dst)
 {
-	int n = AsciiStringPlusString::write(dst);
-	dst[n] = m_char;
-	return n + 1;
+	int written = AsciiStringPlusString::write(dst);
+	dst[written] = m_char;
+	return written + 1;
 }
 
 // ?write@AsciiStringPlusStringText@@QAEHPAD@Z @0x50F219
-int AsciiStringPlusStringText::write(char *dst)
+inline __declspec(noinline) int AsciiStringPlusStringText::write(char *dst)
 {
-	int n = AsciiStringPlusString::write(dst);
-	return n + m_text.write(dst + n);
+	int written = AsciiStringPlusString::write(dst);
+	return written + m_text.write(dst + written);
+}
+
+// ?write@Rva0050F23E@@QAEHPAD@Z @0x0050F23E 37B narrow concat node two-ref plus char plus trailing text: base PlusStringChar write 0x0050EE58 then Rva pair write 0x000B44F0; caller is materializer 0x0050F7B4.
+struct Rva0050F23E : AsciiStringPlusStringChar
+{
+	int write(char *dst);
+	operator AsciiString();
+
+	Rva000B3F84Pair m_text;
+};
+
+int Rva0050F23E::write(char *dst)
+{
+	int written = AsciiStringPlusStringChar::write(dst);
+	return written + m_text.write(dst + written);
+}
+
+// ?write@Rva005D32EC@@QAEHPAD@Z @0x005D32EC 37B narrow concat node two-ref plus trailing text: base PlusStringText write 0x0050F219 then Rva pair write 0x000B44F0; caller materializer 0x005D3311.
+struct Rva005D32EC : AsciiStringPlusStringText
+{
+	int write(char *dst);
+
+	Rva000B3F84Pair m_text2;
+};
+
+int Rva005D32EC::write(char *dst)
+{
+	int written = AsciiStringPlusStringText::write(dst);
+	return written + m_text2.write(dst + written);
+}
+
+// ?write@Rva005D3311@@QAEHPAD@Z @0x005D3311 37B narrow concat node: base Rva005D32EC write 0x005D32EC then Rva pair write 0x000B44F0 at +0x18; callers 0x005D3365 0x005F985C.
+struct Rva005D3311 : Rva005D32EC
+{
+	int length() const;
+	int write(char *dst);
+	operator AsciiString();
+
+	Rva000B3F84Pair m_text3;
+};
+
+// 0x005D32D9..0x005D32EC: length counterpart to the verified writer below.
+// The call is the existing two-string length at 0x002198C8; native additions
+// read the three text-span lengths at +0x1C, +0x14, and +0x0C in that order.
+int Rva005D3311::length() const
+{
+	return AsciiStringPlusString::length() + m_text3.m_len + m_text2.m_len + m_text.m_len;
+}
+
+int Rva005D3311::write(char *dst)
+{
+	int written = Rva005D32EC::write(dst);
+	return written + m_text3.write(dst + written);
+}
+
+// ??BRva005D3311@@QAE?AVAsciiString@@XZ 0x005D3336 98B narrow concat materializer: sized getBufferForRead then Rva005D3311 write; same shape as Rva005F9852 0x005F9D69.
+Rva005D3311::operator AsciiString()
+{
+	AsciiString tmp;
+	write(tmp.getBufferForRead(length()));
+	return tmp;
+}
+
+// ?write@Rva005F9852@@QAEHPAD@Z @0x005F9852 37B narrow concat node: base Rva005D3311 write 0x005D3311 then AsciiStringRef write 0x0002C5B1 at +0x20; caller 0x005F9D98.
+struct Rva005F9852 : Rva005D3311
+{
+	int length() const;
+	int write(char *dst);
+	operator AsciiString();
+
+	AsciiStringRef m_ref;
+};
+
+// 0x005F9791..0x005F97AC: the materializer at 0x005F9D69 calls this
+// before the verified writer. It reads the trailing string at +0x20 and
+// adds the three-span base length; no original template name is inferred.
+int Rva005F9852::length() const
+{
+	int written = m_ref.m_string->getLength();
+	return Rva005D3311::length() + written;
+}
+
+int Rva005F9852::write(char *dst)
+{
+	int written = Rva005D3311::write(dst);
+	return written + m_ref.write(dst + written);
+}
+
+// 0x005F9D69..0x005F9DCB: same owning-string materialization as the
+// other verified concat nodes, with this node's own length/write callees.
+// RET4 consumes only the hidden result pointer; the drift queue's proposed
+// GameState path getter would need an additional filename argument.
+Rva005F9852::operator AsciiString()
+{
+	AsciiString tmp;
+	write(tmp.getBufferForRead(length()));
+	return tmp;
+}
+
+// ??BRva0050F23E@@QAE?AVAsciiString@@XZ @0x0050F7B4 107B narrow concat to AsciiString: sized getBufferForRead then Rva0050F23E write; length is base PlusString fold plus text len plus 1 for char.
+Rva0050F23E::operator AsciiString()
+{
+	AsciiString tmp;
+	int extra = m_text.m_len;
+	write(tmp.getBufferForRead(extra + AsciiStringPlusString::length() + 1));
+	return tmp;
+}
+
+// ??BAsciiStringPlusStringText@@QAE?AVAsciiString@@XZ @0x0050F74B 105B narrow concat node to AsciiString: sized getBufferForRead then write; length is base PlusString fold 0x002198C8 plus trailing text len; callers include 0x00510443.
+inline __declspec(noinline) AsciiStringPlusStringText::operator AsciiString()
+{
+	AsciiString tmp;
+	int extra = m_text.m_len;
+	write(tmp.getBufferForRead(extra + AsciiStringPlusString::length()));
+	return tmp;
 }
 
 // ??H@YA?AUAsciiStringPlusText@@ABVAsciiString@@PBD@Z @0xB49C5
@@ -277,6 +442,50 @@ AsciiStringPlusText operator+(const AsciiString &left, const char *right)
 	return result;
 }
 
+// ??H@YA?AURva002226E5TextPlusString@@PBDABVAsciiString@@@Z, retail 0x002226E5, 52 bytes.
+// Char-text plus string node mirroring string-plus-text at 0xB49C5: pair from the left literal plus the right string ref. Builds "_nrm" plus extension in makeNrmTextureName 0x317D89 plus 24 other callers. No donor; honest address struct; shape mirrors the rowed sibling with swapped operands.
+struct Rva002226E5TextPlusString
+{
+	int length() const;
+	int write(char *dst);
+	operator AsciiString();
+	Rva000B3F84Pair m_left;
+	AsciiStringRef m_right;
+};
+
+Rva002226E5TextPlusString operator+(const char *left, const AsciiString &right)
+{
+	Rva000B3F84Pair text;
+	text.init(left);
+	Rva002226E5TextPlusString result;
+	result.m_left = text;
+	result.m_right.m_string = &right;
+	return result;
+}
+
+// ?length@Rva002226E5TextPlusString@@QBEHXZ @0x00513B94 23B: text-plus-string length (left len + right getLength); mirrors rowed string-plus-text length at 0x002DBF50 with swapped operands; callers 0x00513E03 0x005E366A 0x005F1B75 0x0022309D 0x0059B49E.
+int Rva002226E5TextPlusString::length() const
+{
+	int left = m_left.m_len;
+	return left + m_right.m_string->getLength();
+}
+
+int Rva002226E5TextPlusString::write(char *dst)
+{
+	int written = m_left.write(dst);
+	return written + m_right.write(dst + written);
+}
+
+// ??BRva002226E5TextPlusString@@QAE?AVAsciiString@@XZ @0x0022309D 98B
+// Narrow materializer for text-plus-string: sizes via length then fills
+// through write; callers at 0x00223933 0x002AD3F1 0x0051FAAB.
+Rva002226E5TextPlusString::operator AsciiString()
+{
+	AsciiString tmp;
+	write(tmp.getBufferForRead(length()));
+	return tmp;
+}
+
 // ??H@YA?AUAsciiStringCharPlusText@@ABUAsciiStringRefWithChar@@PBD@Z @0x109CFD
 AsciiStringCharPlusText operator+(const AsciiStringRefWithChar &left, const char *right)
 {
@@ -285,6 +494,17 @@ AsciiStringCharPlusText operator+(const AsciiStringRefWithChar &left, const char
 	AsciiStringCharPlusText result;
 	static_cast<AsciiStringRefWithChar &>(result) = left;
 	result.m_right = text;
+	return result;
+}
+
+// ??H@YA?AUAsciiStringPlusStringChar@@ABUAsciiStringPlusString@@D@Z @0x50EDD5
+// "string + string + char"; the StatusPage constructor 0x005103A3 builds
+// its "<level><name>_<query>" names with it.
+AsciiStringPlusStringChar operator+(const AsciiStringPlusString &left, char c)
+{
+	AsciiStringPlusStringChar result;
+	static_cast<AsciiStringPlusString &>(result) = left;
+	result.m_char = c;
 	return result;
 }
 
@@ -312,9 +532,11 @@ AsciiString buildGameRegistryPath(const char *subPath)
 {
 	AsciiString path;
 	if (subPath && *subPath && *subPath != '\\')
-		path = makeAsciiString(GetRegistryGameRegPath()) + '\\' + subPath;
+		((StringBase<char> *)&path)->set((const StringBase<char> &)(const AsciiString &)
+			(makeAsciiString(GetRegistryGameRegPath()) + '\\' + subPath));
 	else
-		path = makeAsciiString(GetRegistryGameRegPath()) + subPath;
+		((StringBase<char> *)&path)->set((const StringBase<char> &)(const AsciiString &)
+			(makeAsciiString(GetRegistryGameRegPath()) + subPath));
 	return path;
 }
 
@@ -439,4 +661,247 @@ unsigned int GetRegistryMapPackVersion()
 	unsigned int val = 0x10000;
 	GetUnsignedIntFromRegistry("", "MapPackVersion", val);
 	return val;
+}
+
+// ?write@Rva0002C9C2@@QAEHPAD@Z @0x0002C9C2 37B
+// Narrow concat node "string + char + string": an AsciiString operand
+// followed by one char, then a second AsciiString operand. Retail writes
+// the first part through AsciiStringRefWithChar 0x0002C7A7 then the second
+// through AsciiStringRef 0x0002C5B1, summing the lengths. Called from the
+// unclaimed operator at 0x0002CB02. Honest address name; true type unknown.
+struct Rva0002C9C2
+{
+	AsciiStringRefWithChar m_first;
+	AsciiStringRef m_second;
+	int write(char *dst);
+};
+
+int Rva0002C9C2::write(char *dst)
+{
+	int written = m_first.write(dst);
+	return written + m_second.write(dst + written);
+}
+
+// ?write@Rva0020F58E@@QAEHPAD@Z @0x0020F58E 37B narrow concat node PlusText plus Ref via rowed writes 0xBBD41 plus 0x2C5B1.
+// Evidence: unlock lane every callee rowed; callers 0x0020F741 0x00238C3E; same 37B shape as Rva0002C9C2.
+struct Rva0020F58E
+{
+	AsciiStringPlusText m_first;
+	AsciiStringRef m_second;
+	int length() const;
+	int write(char *dst);
+	operator AsciiString();
+};
+
+// ??BRva0020F58E@@QAE?AVAsciiString@@XZ @0x0020F712 98B narrow materializer via length plus write plus getBufferForRead.
+// Evidence: chain lane calls just-landed length 0x0020F0D3 plus write 0x0020F58E; same 98B shape as Rva002226E5TextPlusString materializer.
+int Rva0020F58E::length() const
+{
+	return m_first.length() + m_second.m_string->getLength();
+}
+
+int Rva0020F58E::write(char *dst)
+{
+	int written = m_first.write(dst);
+	return written + m_second.write(dst + written);
+}
+
+Rva0020F58E::operator AsciiString()
+{
+	AsciiString tmp;
+	write(tmp.getBufferForRead(length()));
+	return tmp;
+}
+
+// ??BWinMainTitlePair@@QAE?AVAsciiString@@XZ @0x0010BA9F 101B
+// Narrow materializer for the double-pair title segment rowed at 0x00109D3A:
+// sizes via both pair lengths then fills through that write; callers at
+// 0x0010BCC8 0x0057A11F 0x0057A190; chain from 0x00109D3A.
+struct WinMainTitlePair : Rva000B3F84Pair
+{
+	int write(char *dst);
+	int firstLength() const { return m_len; }
+	int length() const { return firstLength() + m_secondPair.m_len; }
+	operator AsciiString();
+	Rva000B3F84Pair m_secondPair;
+};
+
+WinMainTitlePair::operator AsciiString()
+{
+	AsciiString tmp;
+	write(tmp.getBufferForRead(length()));
+	return tmp;
+}
+
+// ?write@Rva00238C34@@QAEHPAD@Z @0x00238C34 37B narrow concat node: base Rva0020F58E write 0x0020F58E then Rva pair write 0x000B44F0 at +0x10; caller materializer 0x00238C59.
+struct Rva00238C34 : Rva0020F58E
+{
+	int write(char *dst);
+	operator AsciiString();
+
+	Rva000B3F84Pair m_text2;
+};
+
+int Rva00238C34::write(char *dst)
+{
+	int written = Rva0020F58E::write(dst);
+	return written + m_text2.write(dst + written);
+}
+
+// ??BRva00238C34@@QAE?AVAsciiString@@XZ @0x00238C59 105B narrow materializer: sized getBufferForRead via base length 0x0020F0D3 plus trailing text len then write 0x00238C34; caller 0x00238CC2.
+Rva00238C34::operator AsciiString()
+{
+	AsciiString tmp;
+	int extra = m_text2.m_len;
+	write(tmp.getBufferForRead(extra + Rva0020F58E::length()));
+	return tmp;
+}
+
+// Native 0x000BDC6D..0x000BDCD6 and 0x0059B2EC..0x0059B355 use the
+// same owning-string materialization as Rva00238C34 above. Their own
+// length/write callees are independently rowed; target loads establish
+// additional lengths at +0x18 and +0x10 respectively. The caller returns
+// through StringBase<char>'s copy constructor and direct releaseBuffer.
+// Address-derived receiver names retain the unknown template identity.
+class Rva000B65FD {
+public:
+	int rva000B65FD();
+};
+struct Rva000BD268 {
+	int write(char *dst);
+};
+class Rva000BDC6D {
+	char m_prefix[0x18];
+	int m_extra18;
+public:
+	AsciiString rva000BDC6D();
+};
+AsciiString Rva000BDC6D::rva000BDC6D()
+{
+	AsciiString tmp;
+	int extra = m_extra18;
+	((Rva000BD268 *)this)->write(tmp.getBufferForRead(extra + ((Rva000B65FD *)this)->rva000B65FD()));
+	return tmp;
+}
+
+class Rva0059B1A2 {
+public:
+	int copyToBuffer(char *dst);
+};
+// operator AsciiString(): the matched caller 0x0059B5A3 copy-initialises its
+// string from this node and only a conversion function reproduces retail's
+// kept temporary (its address re-derived for the copy constructor).
+class Rva0059B2EC {
+	char m_prefix[0x10];
+	int m_extra10;
+public:
+	operator AsciiString();
+};
+Rva0059B2EC::operator AsciiString()
+{
+	AsciiString tmp;
+	int extra = m_extra10;
+	((Rva0059B1A2 *)this)->copyToBuffer(tmp.getBufferForRead(extra + ((AsciiStringPlusText *)this)->length()));
+	return tmp;
+}
+
+// Complete native 0x5EF449..0x5EF46B and 0x5EF607..0x5EF669 bodies.
+// The existing writer proves two string refs, a text span, then the string
+// ref at +0x10; the length body reads span length +0x0C and string +0x10,
+// calls the matched two-string length at 0x2198C8, and adds both lengths.
+// Materialization calls that length and the existing writer 0x5EF5CA,
+// then returns an owning AsciiString through the established copy/release ABI.
+// Source guide: the other verified concatenation nodes in this unit.
+// The original expression-template name remains unknown.
+int Rva005EF5CA::length() const
+{
+ int text = m_text.m_len;
+ int fourth = m_fourth.m_string->getLength();
+ int base = AsciiStringPlusString::length();
+ return base + fourth + text;
+}
+Rva005EF5CA::operator AsciiString()
+{
+ AsciiString tmp;
+ write(tmp.getBufferForRead(length()));
+ return tmp;
+}
+
+// Native 005F9877..005F9904 RET0. Existing deleting wrapper005F9B32
+// and guarded-delete005FA146 identify a complete nonvirtual destructor.
+// Cleanup offsets establish the storage views below; original owner and
+// container element identities remain unknown. Existing row/pin spellings
+// name the nine measured destructor calls. The range destructor now has
+// a real definition here and the pointer members call the rowed clear.
+// No new callee pins are introduced.
+namespace _STL {
+template<class T> class allocator {};
+template<class T, class A = allocator<T> > class vector {
+public: ~vector();
+private: T *begin, *end, *limit;
+};
+}
+struct Rva005F9813Record;
+struct BfmeContainerRecord005FDEC7;
+void free(void *pointer);
+namespace _STL { template<class Pointer> void _Destroy(Pointer begin, Pointer end); }
+struct Gen_uwm_005f97d4Storage {
+ BfmeContainerRecord005FDEC7 *begin, *end, *limit;
+ // ?Gen_uwm_005f97d4Storage::~Gen_uwm_005f97d4Storage absent-from-retail
+ __forceinline ~Gen_uwm_005f97d4Storage() { if (begin) free(begin); }
+};
+class Gen_uwm_005f97d4 : private Gen_uwm_005f97d4Storage {
+public: ~Gen_uwm_005f97d4();
+};
+// Native005F97D4..005F9813: destroy the measured 12-byte-stride range
+// through the existing STLport _Destroy then release its buffer. The
+// storage destructor mirrors STLport _Vector_base ownership and EH cleanup.
+Gen_uwm_005f97d4::~Gen_uwm_005f97d4() { _STL::_Destroy(begin, end); }
+class Rva0052413E { public: ~Rva0052413E(); private: char bytes[12]; };
+class Rva000AD6F4 {
+public:
+ void clear();
+ ~Rva000AD6F4();
+private: void *pointer;
+};
+class Rva005F9877 {
+public: ~Rva005F9877();
+private:
+ char unknown00[8];
+ AsciiString string08;
+ Rva0052413E bindings0C;
+ char unknown18[4];
+ UnicodeString string1C;
+ Gen_uwm_005f97d4 records20;
+ Rva000AD6F4 owner2C;
+ Gen_uwm_005f97d4 records30;
+ Rva000AD6F4 owner3C;
+ _STL::vector<Rva005F9813Record> records40;
+ char unknown4C[4];
+ _STL::vector<Rva005F9813Record> records50;
+};
+Rva005F9877::~Rva005F9877() {}
+
+// Native005C7CC9..005C7D37 is a complete110B materializer, RET4 at5C7D34.
+// The inventory extent129B also contains a distinct19B timer-delegate
+// constructor at5C7D37..5C7D4A (RET8), so it is not this body's boundary.
+// Caller5C7F5B supplies a {string-ref, char} node and a hidden string result;
+// existing writer2C7A7 and copy/release workers prove the conversion ABI.
+// WB5E1760 independently sizes the left string plus one and returns a copy.
+// Semantic source: this unit's verified string-expression materializers.
+inline __declspec(noinline) AsciiStringRefWithChar::operator AsciiString()
+{
+ AsciiString tmp;
+ write(tmp.getBufferForRead(m_string->getLength() + 1));
+ return tmp;
+}
+
+// Native005EEFA9..005EEFD2 copies the complete16-byte concatenation node
+// and appends a borrowed AsciiString reference at+10. Constructor005EF669
+// supplies the prefix/name/event node and decimal icon index; WB16190D0.
+Rva005EF5CA operator+(const AsciiStringPlusStringText &left,const AsciiString &right) {
+ Rva005EF5CA out;
+ static_cast<AsciiStringPlusStringText &>(out)=left;
+ out.m_fourth.m_string=&right;
+ return out;
 }

@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /Oy- /MD /EHsc
 // ?getName@PlayerTemplate@@QBE?AVAsciiString@@XZ @0x23E95E (30B):
 // PlayerTemplate::getName, NameKey lookup of the key at +0x10 through the
 // pinned keyToName at 0x148C95 into the hidden return pointer via the rowed
@@ -9,12 +9,7 @@ enum NameKeyType
 	NAMEKEY_INVALID = -1
 };
 
-class AsciiString
-{
-public:
-	AsciiString(const AsciiString &other);
-	~AsciiString();
-};
+#include "ascii_string.h"
 
 class NameKeyGenerator
 {

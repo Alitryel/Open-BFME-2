@@ -1,7 +1,20 @@
-// cl: /Ireference/shims/modulefactory /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
+// cl: /Ireference/shims/modulefactory_tagctor /Ireference/shims/aiupdatelayout /FIzh_ascii.h /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /Ireference/shims/modulefactory /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/Common/Thing/ModuleFactory.cpp); this unit had no counterpart under Code/.
+// The emitted unsigned max copy must match retail RVA 0x00013740.
+// Define it for speed, then restore this unit's flags for its own bodies.
+#include <stl/_algobase.h>
+#pragma optimize("s", off)
+#pragma optimize("t", on)
+namespace _STL {
+template <> inline const unsigned int &max<unsigned int>(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+#pragma optimize("", on)
+
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -284,6 +297,55 @@
 #include "GameClient/Module/AnimatedParticleSysBoneClientUpdate.h"
 #include "GameClient/Module/SwayClientUpdate.h"
 #include "GameClient/Module/BeaconClientUpdate.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+namespace _STL { template <> void _STLP_alloc_proxy<char *, char, allocator<char> >::deallocate(char *, unsigned int); }
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@UAngleFXInfo@@@_STL@@QBEXPAUAngleFXInfo@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct AngleFXInfo;
+namespace _STL { template <> void allocator<AngleFXInfo>::deallocate(AngleFXInfo *,unsigned int) const; }
+// Suppress this TU's non-retail copy of ?erase@?$vector@UAngleFXInfo@@V?$allocator@UAngleFXInfo@@@_STL@@@_STL@@QAEPAUAngleFXInfo@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct AngleFXInfo;
+namespace _STL { template <> AngleFXInfo * vector<AngleFXInfo,allocator<AngleFXInfo> >::erase(AngleFXInfo *,AngleFXInfo *); }
+// Inline allocator cleanup without emitting an unused external copy.
+namespace _STL {
+template <> vector<AngleFXInfo, allocator<AngleFXInfo> >::~vector();
+template <> __declspec(dllimport) __forceinline
+void allocator<AngleFXInfo>::deallocate(AngleFXInfo *p, size_t count) const
+{ if (p != 0) __sgi_alloc::deallocate((void *)p, count * sizeof(value_type)); }
+// Clearing destroys the elements and retains the allocated storage.
+template <> __declspec(dllimport) __forceinline
+void vector<AngleFXInfo, allocator<AngleFXInfo> >::clear()
+{
+    _Destroy(this->_M_start, this->_M_finish);
+    this->_M_finish = this->_M_start;
+}
+}
+// Suppress this TU's non-retail copy of ??$max@I@_STL@@YAABIABI0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &); }
+
+// A declaration-only specialization stops this TU emitting its own
+// vector<AsciiString> COMDAT copies, so the calls bind the kept rowed copies.
+namespace _STL {
+template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
+template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);
+template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
+template <> AsciiString *vector<AsciiString, allocator<AsciiString> >::erase(AsciiString*, AsciiString*);
+template <> FXBoneInfo *vector<FXBoneInfo, allocator<FXBoneInfo> >::erase(FXBoneInfo *, FXBoneInfo *);
+}
+
+// The no-hint insertion is owned by stlport_modulefactory_map_insert_unique.cpp.
+struct ModuleFactoryInsertAccess : ModuleFactory {
+    typedef ModuleTemplate Value;
+};
+typedef _STL::pair<const NameKeyType, ModuleFactoryInsertAccess::Value> ModuleFactoryInsertValue;
+typedef _STL::_Rb_tree<NameKeyType, ModuleFactoryInsertValue, _STL::_Select1st<ModuleFactoryInsertValue>, _STL::less<NameKeyType>, _STL::allocator<ModuleFactoryInsertValue> > ModuleFactoryInsertTree;
+template <> _STL::pair<ModuleFactoryInsertTree::iterator, bool>
+ModuleFactoryInsertTree::insert_unique(const ModuleFactoryInsertValue &);
 
 // PUBLIC DATA ////////////////////////////////////////////////////////////////////////////////////
 ModuleFactory *TheModuleFactory = NULL;  ///< the module factory singleton
@@ -298,6 +360,7 @@ ModuleFactory *TheModuleFactory = NULL;  ///< the module factory singleton
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ?ModuleFactory::ModuleFactory present-unmatched
 ModuleFactory::ModuleFactory( void )
 {
 	m_moduleTemplateMap.clear();
@@ -307,6 +370,7 @@ ModuleFactory::ModuleFactory( void )
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ?ModuleFactory::~ModuleFactory present-unmatched
 ModuleFactory::~ModuleFactory( void )
 {
 	m_moduleTemplateMap.clear();
@@ -325,265 +389,65 @@ ModuleFactory::~ModuleFactory( void )
 	* to objects or drawables as modules needs to add a template
 	* for that class here */
 //-------------------------------------------------------------------------------------------------
-void ModuleFactory::init( void )
+// The retail initializer is in ModuleFactoryInit.cpp. These reference headers
+// also own matched inline bodies (factories, ModuleData constructors and
+// destructors, buildFieldParse) which disappear if no TU takes the factory
+// addresses. Take only the factories whose inline bodies reach this unit's
+// rows: taking every factory emitted Zero Hour inline copies proven not
+// retail's ahead of their owners in link order, which held those owners'
+// units out of the link. UpgradeModule's data factory is the one its
+// subclasses inherit. The CreateCrateDie, CrushDie and crate-collide data
+// factories also emitted this view's ModuleData constructors, proven not
+// retail's ahead of their owners; only the field parsers whose rows live here
+// are taken. CaveContain's data factory emitted its ModuleData constructor and
+// the Zero Hour OpenContainModuleData destructor, neither retail's, ahead of
+// their owners; its deleting dtor and dtor rows live in
+// ContainModuleDeletingDtors.cpp and CaveContainModuleDataFriendNew.cpp. The
+// SpawnBehavior and StructureBody data factories did the same (their ctor and
+// dtor copies, and StructureBody's ActiveBodyModuleData dtor); their deleting
+// dtors are emitted by FamilyDeletingDtors.cpp. UpgradeModule and
+// TransitionDamageFX contribute only their field parsers, and
+// StructureCollapseUpdate nothing: no row here needs its data factory, which
+// emitted a non-retail dtor copy. This compiler anchor is not a recovered
+// retail function.
+#define BFME_EMIT_MODULE_INSTANCE(cls) *instances++ = &cls::friend_newModuleInstance
+#define BFME_EMIT_MODULE_DATA(cls) *data++ = &cls::friend_newModuleData
+// ?bfmeEmitModuleFactoryInlines absent-from-retail
+void bfmeEmitModuleFactoryInlines(NewModuleProc *instances, NewModuleDataProc *data,
+	BuildMultiIniFieldProc *parsers)
 {
-
-	// behavior modules
-	addModule( AutoHealBehavior );
-	addModule( GrantStealthBehavior );
-	addModule( NeutronBlastBehavior );
-	addModule( BridgeBehavior );
-	addModule( BridgeScaffoldBehavior );
-	addModule( BridgeTowerBehavior );
-	addModule( CountermeasuresBehavior );
-	addModule( DumbProjectileBehavior );
-	addModule( PhysicsBehavior );
-	addModule( InstantDeathBehavior );
-	addModule( SlowDeathBehavior );
-	addModule( HelicopterSlowDeathBehavior );
-	addModule( NeutronMissileSlowDeathBehavior );
-	addModule( CaveContain );
-	addModule( OpenContain );
-	addModule( OverchargeBehavior );
-	addModule( HealContain );
-	addModule( GarrisonContain );
-	addModule( InternetHackContain );
-	addModule( TransportContain );
-	addModule( RiderChangeContain );
-	addModule( RailedTransportContain );
-	addModule( MobNexusContain );
-	addModule( TunnelContain );
-	addModule( OverlordContain );
-	addModule( HelixContain );
-	addModule( ParachuteContain );
-#ifdef ALLOW_SURRENDER
-	addModule( POWTruckBehavior );
-	addModule( PrisonBehavior );
-	addModule( PropagandaCenterBehavior );
-#endif
-	addModule( PropagandaTowerBehavior );
-	addModule( BunkerBusterBehavior );
-	addModule( FireWeaponWhenDamagedBehavior );
-	addModule( FireWeaponWhenDeadBehavior );
-	addModule( GenerateMinefieldBehavior );
-	addModule( ParkingPlaceBehavior );
-	addModule( FlightDeckBehavior );
-	addModule( PoisonedBehavior );
-	addModule( RebuildHoleBehavior );
-	addModule( SupplyWarehouseCripplingBehavior );
-	addModule( TechBuildingBehavior );
-	addModule( MinefieldBehavior );
-	addModule( BattleBusSlowDeathBehavior );
-	addModule( JetSlowDeathBehavior );
-	addModule( RailroadBehavior );
-	addModule( SpawnBehavior );
-
-	// die modules
-	addModule( DestroyDie );
-	addModule( FXListDie );
-	addModule( CrushDie );
-	addModule( DamDie );
-	addModule( CreateCrateDie );
-	addModule( CreateObjectDie );
-	addModule( EjectPilotDie );
-	addModule( SpecialPowerCompletionDie );
-	addModule( RebuildHoleExposeDie );
-	addModule( UpgradeDie );
-	addModule( KeepObjectDie );
-
-	// update modules
-	addModule( AssistedTargetingUpdate );
-	addModule( AutoFindHealingUpdate );
-	addModule( BaseRegenerateUpdate );
-	addModule( StealthDetectorUpdate );
-	addModule( StealthUpdate );
-	addModule( DeletionUpdate );
-	addModule( SmartBombTargetHomingUpdate );
-	addModule( DynamicShroudClearingRangeUpdate );
-	addModule( DeployStyleAIUpdate );
-	addModule( AssaultTransportAIUpdate );
-	addModule( HordeUpdate );
-	addModule( ToppleUpdate );
-	addModule( EnemyNearUpdate );
-	addModule( LifetimeUpdate );
-	addModule( RadiusDecalUpdate );
-	addModule( EMPUpdate );
-  addModule( LeafletDropBehavior );
-	addModule( AutoDepositUpdate );
-	addModule( WeaponBonusUpdate );
-	addModule( MissileAIUpdate );
-	addModule( NeutronMissileUpdate );
-	addModule( FireSpreadUpdate );
-	addModule( FireWeaponUpdate );
-	addModule( FlammableUpdate );
-	addModule( FloatUpdate );
-	addModule( TensileFormationUpdate );
-	addModule( HeightDieUpdate );
-	addModule( ChinookAIUpdate );
-	addModule( JetAIUpdate );
-	addModule( AIUpdateInterface );
-	addModule( SupplyTruckAIUpdate );
-	addModule( DeliverPayloadAIUpdate );
-	addModule( HackInternetAIUpdate );
-	addModule( DynamicGeometryInfoUpdate );
-	addModule( FirestormDynamicGeometryInfoUpdate );
-	addModule( LaserUpdate );
-	addModule( PointDefenseLaserUpdate );
-	addModule( CleanupHazardUpdate );
-	addModule( CommandButtonHuntUpdate );
-	addModule( PilotFindVehicleUpdate );
-	addModule( DemoTrapUpdate );
-	addModule( ParticleUplinkCannonUpdate );
-	addModule( SpectreGunshipUpdate );
-	addModule( SpectreGunshipDeploymentUpdate );
-	addModule( BaikonurLaunchPower );
-	addModule( BattlePlanUpdate );
-	addModule( ProjectileStreamUpdate );
-	addModule( QueueProductionExitUpdate );
-	addModule( RepairDockUpdate );
-#ifdef ALLOW_SURRENDER
-	addModule( PrisonDockUpdate );
-#endif
-	addModule( RailedTransportDockUpdate );
-	addModule( DefaultProductionExitUpdate );
-	addModule( SpawnPointProductionExitUpdate );
-	addModule( SpyVisionUpdate );
-	addModule( SlavedUpdate );
-	addModule( MobMemberSlavedUpdate );
-	addModule( OCLUpdate );
-	addModule( SpecialAbilityUpdate );
-	addModule( MissileLauncherBuildingUpdate );
-	addModule( SupplyCenterProductionExitUpdate );
-	addModule( SupplyCenterDockUpdate );
-	addModule( SupplyWarehouseDockUpdate );
-	addModule( DozerAIUpdate );
-#ifdef ALLOW_SURRENDER
-	addModule( POWTruckAIUpdate );
-#endif
-	addModule( RailedTransportAIUpdate );
-	addModule( ProductionUpdate );
-	addModule( ProneUpdate );
-	addModule( StickyBombUpdate );
-	addModule( FireOCLAfterWeaponCooldownUpdate );
-	addModule( HijackerUpdate );
-	addModule( StructureToppleUpdate );
-	addModule( StructureCollapseUpdate );
-	addModule( BoneFXUpdate );
-	addModule( RadarUpdate );
-	addModule( AnimationSteeringUpdate );
-	addModule( TransportAIUpdate );
-	addModule( WanderAIUpdate );
-	addModule( WaveGuideUpdate );
-	addModule( WorkerAIUpdate );
-	addModule( PowerPlantUpdate );
-	addModule( CheckpointUpdate );
-
-	// upgrade modules
-	addModule( CostModifierUpgrade );
-	addModule( ActiveShroudUpgrade );
-	addModule( ArmorUpgrade );
-	addModule( CommandSetUpgrade );
-	addModule( GrantScienceUpgrade );
-	addModule( PassengersFireUpgrade );
-	addModule( StatusBitsUpgrade );
-	addModule( SubObjectsUpgrade );
-	addModule( StealthUpgrade );
-	addModule( RadarUpgrade );
-	addModule( PowerPlantUpgrade );
-	addModule( LocomotorSetUpgrade );
-	addModule( ObjectCreationUpgrade );
-	addModule( ReplaceObjectUpgrade );
-	addModule( ModelConditionUpgrade );
-	addModule( UnpauseSpecialPowerUpgrade );
-	addModule( WeaponBonusUpgrade );
-	addModule( WeaponSetUpgrade );
-	addModule( WeaponBonusUpgrade );
-	addModule( ExperienceScalarUpgrade );
-	addModule( MaxHealthUpgrade );
-
-	// create modules
-	addModule( LockWeaponCreate );
-	addModule( PreorderCreate );
-	addModule( SupplyCenterCreate );
-	addModule( SupplyWarehouseCreate );
-	addModule( SpecialPowerCreate );
-	addModule( GrantUpgradeCreate );
-	addModule( VeterancyGainCreate );
-
-	// damage modules
-	addModule( BoneFXDamage );
-	addModule( TransitionDamageFX );
-
-	// collide modules
-	addModule( FireWeaponCollide );
-	addModule( SquishCollide );
-
-	addModule( HealCrateCollide );
-	addModule( MoneyCrateCollide );
-	addModule( ShroudCrateCollide );
-	addModule( UnitCrateCollide );
-	addModule( VeterancyCrateCollide );
-	addModule( ConvertToCarBombCrateCollide );
-	addModule( ConvertToHijackedVehicleCrateCollide );
-	addModule( SabotageCommandCenterCrateCollide );
-	addModule( SabotageFakeBuildingCrateCollide );
-	addModule( SabotageInternetCenterCrateCollide );
-	addModule( SabotageMilitaryFactoryCrateCollide );
-	addModule( SabotagePowerPlantCrateCollide );
-	addModule( SabotageSuperweaponCrateCollide );
-	addModule( SabotageSupplyCenterCrateCollide );
-	addModule( SabotageSupplyDropzoneCrateCollide );
-	addModule( SalvageCrateCollide );
-
-	// body modules
-	addModule( InactiveBody );
-	addModule( ActiveBody );
-	addModule( HighlanderBody );
-	addModule( ImmortalBody );
-	addModule( StructureBody );
-	addModule( HiveStructureBody );
-	addModule( UndeadBody );
-
-	// contain modules
-	// (none)
-
-	// special power modules
-	addModule( CashHackSpecialPower );
-	addModule( DefectorSpecialPower );
-#ifdef ALLOW_DEMORALIZE
-	addModule( DemoralizeSpecialPower );
-#endif
-	addModule( OCLSpecialPower );
-	addModule( FireWeaponPower );
-	addModule( SpecialAbility );
-	addModule( SpyVisionSpecialPower );
-	addModule( CashBountyPower );
-	addModule( CleanupAreaPower );
-
-	// destroy modules
-	// (none)
-
-	// client update modules
-	addModule( AnimatedParticleSysBoneClientUpdate );
-	addModule( SwayClientUpdate );
-	addModule( BeaconClientUpdate );
-
-}  // end init
-
-//-------------------------------------------------------------------------------------------------
-Int ModuleFactory::findModuleInterfaceMask(const AsciiString& name, ModuleType type)
-{
-	if (name.isEmpty())
-		return 0;
-
-	const ModuleTemplate* moduleTemplate = findModuleTemplate(name, type);
-	if (moduleTemplate)
-	{
-		return moduleTemplate->m_whichInterfaces;
-	}
-
-	return 0;
+	BFME_EMIT_MODULE_INSTANCE( BridgeTowerBehavior );
+	BFME_EMIT_MODULE_INSTANCE( InstantDeathBehavior );
+	BFME_EMIT_MODULE_INSTANCE( DestroyDie );
+	BFME_EMIT_MODULE_INSTANCE( CrushDie );
+	BFME_EMIT_MODULE_INSTANCE( CreateCrateDie );
+	*parsers++ = &CreateCrateDieModuleData::buildFieldParse;
+	BFME_EMIT_MODULE_INSTANCE( CreateObjectDie );
+	BFME_EMIT_MODULE_INSTANCE( SpecialPowerCompletionDie );
+	BFME_EMIT_MODULE_INSTANCE( RebuildHoleExposeDie );
+	BFME_EMIT_MODULE_INSTANCE( KeepObjectDie );
+	BFME_EMIT_MODULE_INSTANCE( StealthDetectorUpdate );
+	BFME_EMIT_MODULE_INSTANCE( LaserUpdate );
+	BFME_EMIT_MODULE_INSTANCE( OCLUpdate );
+	BFME_EMIT_MODULE_DATA( StructureToppleUpdate );
+	BFME_EMIT_MODULE_DATA( GrantScienceUpgrade );
+	BFME_EMIT_MODULE_INSTANCE( LockWeaponCreate );
+	BFME_EMIT_MODULE_INSTANCE( PreorderCreate );
+	BFME_EMIT_MODULE_INSTANCE( SupplyWarehouseCreate );
+	BFME_EMIT_MODULE_INSTANCE( SpecialPowerCreate );
+	BFME_EMIT_MODULE_INSTANCE( GrantUpgradeCreate );
+	*parsers++ = &TransitionDamageFXModuleData::buildFieldParse;
+	BFME_EMIT_MODULE_INSTANCE( FireWeaponCollide );
+	BFME_EMIT_MODULE_INSTANCE( SquishCollide );
+	*parsers++ = &UnitCrateCollideModuleData::buildFieldParse;
+	*parsers++ = &SalvageCrateCollideModuleData::buildFieldParse;
+	BFME_EMIT_MODULE_INSTANCE( InactiveBody );
+	BFME_EMIT_MODULE_INSTANCE( AnimatedParticleSysBoneClientUpdate );
+	BFME_EMIT_MODULE_INSTANCE( BeaconClientUpdate );
 }
+#undef BFME_EMIT_MODULE_INSTANCE
+#undef BFME_EMIT_MODULE_DATA
+
 
 //-------------------------------------------------------------------------------------------------
 ModuleData* ModuleFactory::newModuleDataFromINI(INI* ini, const AsciiString& name, ModuleType type,
@@ -696,6 +560,7 @@ Module *ModuleFactory::newModule( Thing *thing, const AsciiString& name, const M
 //-------------------------------------------------------------------------------------------------
 /** Add a module template to our list of templates */
 //-------------------------------------------------------------------------------------------------
+// ?ModuleFactory::addModuleInternal present-unmatched
 void ModuleFactory::addModuleInternal( NewModuleProc proc, NewModuleDataProc dataproc, ModuleType type, const AsciiString& name, Int whichIntf )
 {
 	NameKeyType namekey = makeDecoratedNameKey(name, type);
@@ -706,6 +571,7 @@ void ModuleFactory::addModuleInternal( NewModuleProc proc, NewModuleDataProc dat
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ModuleFactory::crc present-unmatched
 void ModuleFactory::crc( Xfer *xfer )
 {
 	for (ModuleDataList::iterator mdIt = m_moduleDataList.begin(); mdIt != m_moduleDataList.end(); ++mdIt)
@@ -715,6 +581,7 @@ void ModuleFactory::crc( Xfer *xfer )
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ModuleFactory::xfer present-unmatched
 void ModuleFactory::xfer( Xfer *xfer )
 {
 
@@ -730,6 +597,67 @@ void ModuleFactory::xfer( Xfer *xfer )
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ModuleFactory::loadPostProcess present-unmatched
 void ModuleFactory::loadPostProcess( void )
 {
+}
+
+// Retail's call sites in this unit's matched rows land on bodies rowed under
+// other spellings at the same addresses (same ABI). Bind the spellings used here.
+#pragma comment(linker, "/alternatename:_strcpy=?ji_00629176@@YAXXZ")
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?push_back@?$vector@UHordeBannerSlot@@V?$allocator@UHordeBannerSlot@@@_STL@@@_STL@@QAEXABUHordeBannerSlot@@@Z=?push_back@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@QAEXABQBVModuleData@@@Z")
+#pragma comment(linker, "/alternatename:?push_back@?$vector@PBVUpgradeTemplate@@V?$allocator@PBVUpgradeTemplate@@@_STL@@@_STL@@QAEXABQBVUpgradeTemplate@@@Z=?push_back@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@QAEXABQBVModuleData@@@Z")
+#pragma comment(linker, "/alternatename:?push_back@GateOpenBehaviorList@@QAEXABQAX@Z=?push_back@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@QAEXABQBVModuleData@@@Z")
+
+// Keep this unit's independently rowed FXBoneInfo assignment when the
+// vector erase is supplied by its retail owner instead of this header copy.
+template FXBoneInfo *_STL::__copy<FXBoneInfo *, FXBoneInfo *, int>(FXBoneInfo *, FXBoneInfo *, FXBoneInfo *, const _STL::random_access_iterator_tag &, int *);
+
+// This unit must keep the rowed ??_GAutoDepositUpdateModuleData (0x0025528B) and
+// ??_GStructureToppleUpdateModuleData (0x00257B5E) deleting destructors (and the
+// ??0?$list@UupgradePair / FXBoneInfo clear side rows) without emitting its own
+// non-retail ??0/??1 module-data COMDATs, which would win link order ahead of
+// retail's byte-owned copies (AutoDepositUpdateModuleDataCtor/Dtor.cpp,
+// StructureToppleUpdateModuleDataCtor/Dtor.cpp). The tag constructors below
+// emit the vftables and the deleting destructors; the default constructors and
+// destructors stay declared only (the pattern of
+// Code/GameEngine/Source/Common/FamilyDeletingDtors_muse-4f8a.cpp). The bodies
+// mirror the headers' inline default constructors so their side emissions stay.
+// ?<AutoDepositUpdateModuleData::AutoDepositUpdateModuleData> absent-from-retail
+AutoDepositUpdateModuleData::AutoDepositUpdateModuleData( EmitVtableTag * )
+{
+	m_depositFrame = 0;
+	m_depositAmount = 0;
+	m_initialCaptureBonus = 0;
+	m_isActualMoney = TRUE;
+	m_upgradeBoost.clear();
+}
+
+// ?<StructureToppleUpdateModuleData::StructureToppleUpdateModuleData> absent-from-retail
+StructureToppleUpdateModuleData::StructureToppleUpdateModuleData( EmitVtableTag * )
+{
+	m_minToppleDelay = 0;
+	m_maxToppleDelay = 0;
+	m_minToppleBurstDelay = 0;
+	m_maxToppleBurstDelay = 0;
+	m_structuralIntegrity = 0.1f;
+	m_structuralDecay = 0.0f;
+	m_damageFXTypes.clear();
+	m_damageFXTypes.flip();
+	m_toppleStartFXList = NULL;
+	m_toppleDelayFXList = NULL;
+	m_toppleDoneFXList = NULL;
+	m_toppleFXList = NULL;
+	m_crushingFXList = NULL;
+	m_crushingWeaponName.set("");
+	for (int i = 0; i < ST_PHASE_COUNT; ++i)
+	{
+		// init to one, so that if these are omitted, we choose exactly one of each.
+		m_oclCount[i] = 1;
+	}
+	fxbones.clear();
+	angleFX.clear();
 }

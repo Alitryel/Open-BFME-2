@@ -26,6 +26,7 @@ private:
 };
 
 // ?d_00943e10@@YAXXZ
+// ?Rva943E10CompressedAnim::free present-unmatched
 void Rva943E10CompressedAnim::free()
 {
     if (node_motion != 0) {

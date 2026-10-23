@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /MD /O2 /Ob2 /EHsc
+// cl: /DNDEBUG /MD /Ob2 /EHsc
 /*
 ** Copyright 2025 Electronic Arts Inc.
 ** SPDX-License-Identifier: GPL-3.0-or-later
@@ -10,6 +10,9 @@
 
 class RefCountClass;
 
+// Retail's RefCountClass inline copies (scalar deleting dtor 0x00072899) are
+// the size form: compile this class for size, as hlod.cpp does.
+#pragma optimize("s", on)
 class RefCountClass
 {
 public:
@@ -23,6 +26,7 @@ protected:
 private:
 	int m_refs;
 };
+#pragma optimize("", on)
 
 template <class T>
 class ShareBufferClass : public RefCountClass

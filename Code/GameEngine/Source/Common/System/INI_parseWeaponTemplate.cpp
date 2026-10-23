@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /GX /Oi-
+// cl: /Ireference/shims/bfme2_ascii /Oy- /DNDEBUG /MD /GX /Oi-
 //
 // ?parseWeaponTemplate@INI@@SAXPAV1@PAX1PBX@Z, retail 0x00339569, 82 bytes.
 // Dedicated TU (same INI parser family as INI_parseFXList.cpp).
@@ -8,24 +8,8 @@
 
 class WeaponTemplate;
 
-template <typename T>
-class StringBase
-{
-	friend class AsciiString;
+#include "ascii_string.h"
 
-public:
-	~StringBase();
-
-private:
-	StringBase(const T *s);
-	T *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString(const char *s) : StringBase<char>(s) {}
-};
 
 class WeaponStore
 {

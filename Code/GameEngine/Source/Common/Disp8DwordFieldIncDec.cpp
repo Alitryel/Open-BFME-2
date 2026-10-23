@@ -41,7 +41,22 @@
 		--m_counter; \
 	}
 
-BFME_DISP8_DWORD_INC(Rva002D76B7DwordCounter, 0x08)
+// WB1107620 RadarMarker::AddReference increments its +8 reference count.
+// Native smart-pointer assignment4C9B8F calls this four-byte body before
+// the adjacent RadarMarker::DeleteReference body2D76BB.
+class RadarMarker
+{
+public:
+	void AddReference();
+private:
+	char m_opaque00[8];
+	int m_refCount;
+};
+
+void RadarMarker::AddReference()
+{
+	++m_refCount;
+}
 BFME_DISP8_DWORD_INC(Rva0028A807DwordCounter, 0x24)
 BFME_DISP8_DWORD_INC(Rva0028A80BDwordCounter, 0x2C)
 BFME_DISP8_DWORD_INC(Rva0028A80FDwordCounter, 0x28)
@@ -55,3 +70,25 @@ BFME_DISP8_DWORD_INC(Rva005D1A79DwordCounter, 0x04)
 BFME_DISP8_DWORD_DEC(Rva00552C4EDwordCounter, 0x54)
 BFME_DISP8_DWORD_DEC(Rva004ECDA3DwordCounter, 0x1C)
 BFME_DISP8_DWORD_DEC(Rva00050D14DwordCounter, 0x14)
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?attach@NetCommandMsg@@QAEXXZ=?inc@Rva004D55B8DwordCounter@@QAEXXZ")
+
+// Native6272D0..6272D5 lies between INT3 padding and ends RET:
+// subtract24 from raw word4. Clean BF1 9cb Rva009F5B10VectorPushBack24.cpp
+// supplies the expression only; no vector identity or element type is claimed.
+// Unsigned storage preserves the native32-bit wrap semantics.
+
+// ?subtract24@Rva006272D0Fields@@QAEXXZ
+struct Rva006272D0Fields { char pad[4]; unsigned int word4; void subtract24(); };
+void Rva006272D0Fields::subtract24() { word4 -= 24u; }
+
+// Whole clean BF1 f989 Rva001A6BD0VectorDtor.cpp emits pop_back for
+// several opaque eight-byte element names under O2/SSE2/G7. This is a
+// source guide only: native539A13..539A18 follows a complete RET4 and
+// ends its own RET0 before a distinct stack-based body. It subtracts8
+// modulo32 from receiver word4; no vector, pointer, element or owner
+// identity is asserted. Unsigned storage preserves the witnessed bits.
+struct Rva00539A13Fields { char pad[4]; unsigned word4; void subtract8(); };
+void Rva00539A13Fields::subtract8() { word4 -= 8u; }

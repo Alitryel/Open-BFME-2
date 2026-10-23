@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /arch:SSE /GX
+// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /arch:SSE /GX
 //
 // ??0FXListAtBonePosFXNugget@@QAE@XZ 78B @0x1E0A57: no-arg ctor called by
 // FXListAtBonePosFXNugget::parse (0x001E1814) for the FXListAtBonePos FXList
@@ -17,15 +17,7 @@ protected:
 	unsigned char m_pad[0x148 - 8];
 };
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	void clear();
-	~AsciiString();
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class FXListAtBonePosFXNugget : public Rva001DFEAABase
 {
@@ -38,9 +30,20 @@ private:
 };
 
 // ??0FXListAtBonePosFXNugget@@QAE@XZ
-FXListAtBonePosFXNugget::FXListAtBonePosFXNugget()
+inline FXListAtBonePosFXNugget::FXListAtBonePosFXNugget()
 {
 	m_fxName = 0;
 	m_boneName.clear();
 	m_nuggetType = 10;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeFXListAtBonePosFXNuggetInlineAnchor@@YAXPAVFXListAtBonePosFXNugget@@@Z absent-from-retail
+void _bfmeFXListAtBonePosFXNuggetInlineAnchor(FXListAtBonePosFXNugget *fXListAtBonePosFXNugget)
+{
+    fXListAtBonePosFXNugget->FXListAtBonePosFXNugget::FXListAtBonePosFXNugget();
+}
+#pragma inline_depth()

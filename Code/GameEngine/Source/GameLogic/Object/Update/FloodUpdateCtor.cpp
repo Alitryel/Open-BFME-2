@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /DNDEBUG /MD /GX /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc  /D_CRTIMP=
 // Identity: ModuleFactory registers this behavior class under "FloodUpdate"
 // (addModule pairs the name with the instance factory at 0x24D142, the sole
 // raw caller of this ctor); poolkey rowed at 0x48E0FA, ModuleData proc rowed
@@ -16,6 +16,18 @@
 // rowed List_base spelling; AsciiString/UnicodeString twins fold identically).
 
 #include <list>
+
+// Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
+// rather than emitting its own.
+namespace _STL {
+template <> void _List_base<int, allocator<int> >::clear();
+}
+
+// Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
+// rather than emitting its own.
+namespace _STL {
+template <> _List_base<int, allocator<int> >::~_List_base();
+}
 
 class Thing;
 class ModuleData;
@@ -76,3 +88,8 @@ FloodUpdate::FloodUpdate(Thing *thing, const ModuleData *moduleData) :
 {
 	m_bfme24 = false;
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?behaviorModuleOtherAnchor@BehaviorModuleOther@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

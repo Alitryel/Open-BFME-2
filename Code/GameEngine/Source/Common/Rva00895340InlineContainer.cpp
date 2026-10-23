@@ -56,3 +56,7 @@ void Gen_uw_00893e70::Rva00895340()
 	Gen_uw_00893e70 empty;
 	Rva00895050(&empty);
 }
+
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
+#pragma comment(linker, "/alternatename:??1Rva00892640Item@@QAE@XZ=??1AptValueNameEntry@@QAE@XZ")

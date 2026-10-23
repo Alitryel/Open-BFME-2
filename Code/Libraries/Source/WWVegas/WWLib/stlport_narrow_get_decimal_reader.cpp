@@ -5,7 +5,7 @@
 // body from vendor/stlport/stl/_num_get.c: it hands a default-constructed
 // (empty) grouping string to the base-10 accumulator.
 
-void __cdecl free(void *);
+extern "C" void __cdecl free(void *block) throw(...);
 
 namespace _STL
 {
@@ -28,7 +28,7 @@ class basic_string
 {
 public:
     basic_string();
-    __declspec(dllimport) __forceinline ~basic_string()
+    __forceinline ~basic_string()
     {
         if (_M_start != 0)
             free(_M_start);
@@ -75,5 +75,10 @@ bool __cdecl __get_decimal_integer(
 
 template bool __cdecl __get_decimal_integer<narrow_iterator, long>(
         narrow_iterator &, narrow_iterator &, long &);
+
+// The int instantiation __get_formatted_time and do_get_year call: the same
+// code, which retail folds into this address.
+template bool __cdecl __get_decimal_integer<narrow_iterator, int>(
+        narrow_iterator &, narrow_iterator &, int &);
 
 }

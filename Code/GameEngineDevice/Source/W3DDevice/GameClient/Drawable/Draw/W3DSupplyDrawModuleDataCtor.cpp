@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG
+// cl: /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG
 //
 // ??0W3DSupplyDrawModuleData@@QAE@XZ, retail 0x000CAF17, 25 bytes.
 // W3DSupplyDraw ModuleData ctor: calls the W3DModelDrawModuleData base ctor
@@ -10,15 +10,9 @@
 // sole caller of this ctor. Same opaque-base + explicit-vtable recipe as
 // the landed W3DTruckDrawModuleData ctor.
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	~AsciiString();
+extern "C" const void *const __identifier("??_7W3DSupplyDrawModuleData@@6B@")[];
 
-private:
-	const char *m_data;
-};
+#include "ascii_string.h"
 
 class W3DModelDrawModuleData
 {
@@ -40,6 +34,6 @@ private:
 
 // ??0W3DSupplyDrawModuleData@@QAE@XZ @0xCAF17
 W3DSupplyDrawModuleData::W3DSupplyDrawModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00BCC0D0))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)__identifier("??_7W3DSupplyDrawModuleData@@6B@"))))
 {
 }

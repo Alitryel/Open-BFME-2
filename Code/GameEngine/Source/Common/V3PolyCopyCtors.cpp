@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // Retail RVA 0x003AE20D, 93 bytes.
 // Rva005EA0D0 copy constructor: vptr plus thirteen scalar dwords (0x38).
 // Ported from Open-BFME-1 V3PolyCopyCtors.cpp, which documents the family:
@@ -52,14 +52,26 @@ Rva005EA0D0::Rva005EA0D0(const Rva005EA0D0 &other)
 // ------------------------------------ vptr + one int (retail 0x003AE07D)
 // B2 body-address name: B1 holds two identical one-int classes, so no B1
 // name is justified for this body.
+// Its default constructor is retail 0x003A5773 (17 bytes): the same vtable
+// 0x00C1B568 and a 0.0f store to +4. The vtable's DoXfer (0x003A578A)
+// transfers +4 as a float, so the dword is a Real the copy moves raw.
 class Rva003AE07D
 {
 public:
+	Rva003AE07D();
 	Rva003AE07D(const Rva003AE07D &other);
 	virtual ~Rva003AE07D();
 
-	Int m_field04;
+	union
+	{
+		Int m_field04;
+		float m_real04;
+	};
 };
+
+Rva003AE07D::Rva003AE07D() : m_real04(0.0f)
+{
+}
 
 Rva003AE07D::Rva003AE07D(const Rva003AE07D &other)
 {
@@ -141,22 +153,15 @@ Rva004C9F61::Rva004C9F61(const Rva004C9F61 &other)
 	m_field04 = other.m_field04;
 }
 
-// -------------------- vptr + two ints + a byte (retail 0x0028C6D6)
+// -------------------- vptr + two scalar words + a byte (retail 0x0028C6D6)
 // B2 body-address name: same 33-byte shape as 0x003AE315 with a different
 // vtable so a different class. Retail caller 0x0028F6B0 is itself a ret-4
 // copy-ctor tail so this is the base-class copy.
-class Rva0028C6D6
-{
-public:
-	Rva0028C6D6(const Rva0028C6D6 &other);
-	virtual ~Rva0028C6D6();
+// The shared header also covers the default constructor at 0x00262093 and
+// the real virtual transfer slot at 0x004D70D5. These stores cannot throw.
+#include "../../Include/Common/Rva0028C6D6.h"
 
-	Int m_field04;
-	Int m_field08;
-	char m_field0C;
-};
-
-Rva0028C6D6::Rva0028C6D6(const Rva0028C6D6 &other)
+Rva0028C6D6::Rva0028C6D6(const Rva0028C6D6 &other) throw()
 {
 	m_field04 = other.m_field04;
 	m_field08 = other.m_field08;
@@ -178,22 +183,47 @@ public:
 	Int m_field0C;
 };
 
-Rva00318B5C::Rva00318B5C(const Rva00318B5C &other)
+// Select-any like the other TU's copy (this retail body comes first in link
+// order, so it is the copy the link keeps); the anchor keeps the body emitted.
+inline Rva00318B5C::Rva00318B5C(const Rva00318B5C &other)
 {
 	m_field04 = other.m_field04;
 	m_field08 = other.m_field08;
 	m_field0C = other.m_field0C;
 }
 
+// Retain the inline body's ledger emission without changing its callers.
+// ?bfmeEmitRva00318B5CCopy@@YAXPAVRva00318B5C@@ABV1@@@Z absent-from-retail
+void bfmeEmitRva00318B5CCopy(Rva00318B5C *p, const Rva00318B5C &o)
+{
+	p->Rva00318B5C::Rva00318B5C(o);
+}
+
+// Retail 0x00318D63 (18B): null-guarded copy-construct of one Rva00318B5C
+// (vptr + three ints, 0x10 bytes) via its rowed copy ctor. Callers are the
+// 0x10-stride loops at 0x00318D83 0x00318DAE 0x00319FAD 0x0031A13B.
+inline void *__cdecl operator new(unsigned int, void *p) { return p; }
+inline void __cdecl operator delete(void *, void *) {}
+void Rva00318D63Copy(Rva00318B5C *dest, const Rva00318B5C &src)
+{
+	if (dest)
+		new (dest) Rva00318B5C(src);
+}
+
 // -------------------- vptr + one int + two bytes (retail 0x003ADE98)
 // B2 body-address name: +0x08 and +0x09 are byte members (8A51/8850 and
 // 8A49/8848). Retail caller 0x003ADE78 installs adjacent-vtable parts
 // after the call so this is the subobject copy.
+// Its destructor is inline and empty: the deleting dtor 0x004A10FD in the
+// vtable 0x00C1D1F4 stored below calls 0x0049B47C, the shared one-store dtor
+// that only restores the Snapshot vtable 0x00BBB554, which is also all the
+// derived destructor 0x003ADFB2 does for this base. The Snapshot base itself is
+// not modelled in this view.
 class Rva003ADE98
 {
 public:
 	Rva003ADE98(const Rva003ADE98 &other);
-	virtual ~Rva003ADE98();
+	virtual ~Rva003ADE98() {}
 
 	Int m_field04;
 	char m_field08;
@@ -209,12 +239,14 @@ Rva003ADE98::Rva003ADE98(const Rva003ADE98 &other)
 
 // ------------------------------------------ vptr + ten ints (retail 0x003ADF61)
 // B2 body-address name: straight ten-dword run +0x04..+0x28. Four retail
-// E8 callers all sit in 0x003AE1xx copy tails.
+// E8 callers all sit in 0x003AE1xx copy tails. Its destructor is inline and
+// empty: the deleting dtor 0x004A10FD in its vtable 0x00C1D264 calls
+// 0x0049B47C, which only restores the Snapshot vtable 0x00BBB554.
 class Rva003ADF61
 {
 public:
 	Rva003ADF61(const Rva003ADF61 &other);
-	virtual ~Rva003ADF61();
+	virtual ~Rva003ADF61() {}
 
 	Int m_field04;
 	Int m_field08;
@@ -249,7 +281,7 @@ class Rva004F5FD8
 {
 public:
 	Rva004F5FD8(const Rva004F5FD8 &other);
-	virtual ~Rva004F5FD8();
+	virtual ~Rva004F5FD8() {}
 
 	Int m_field04;
 	Int m_field08;
@@ -307,18 +339,22 @@ Rva0020E449::Rva0020E449(const Rva0020E449 &other)
 // ------------------------- vptr + three words (retail 0x004EE1A9)
 // B2 body-address name: three word members at +0x04/+0x06/+0x08 with
 // 66-prefixed loads and stores. Five retail E8 callers.
-class Rva004EE1A9
+class LivingWorldScoreKeeper { public: class PerTurnStats; };
+class LivingWorldScoreKeeper::PerTurnStats
 {
 public:
-	Rva004EE1A9(const Rva004EE1A9 &other);
-	virtual ~Rva004EE1A9();
+	PerTurnStats(const PerTurnStats &other);
+	virtual ~PerTurnStats();
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(class Xfer *);
 
 	Short m_field04;
 	Short m_field06;
 	Short m_field08;
 };
 
-Rva004EE1A9::Rva004EE1A9(const Rva004EE1A9 &other)
+LivingWorldScoreKeeper::PerTurnStats::PerTurnStats(const LivingWorldScoreKeeper::PerTurnStats &other)
 {
 	m_field04 = other.m_field04;
 	m_field06 = other.m_field06;
@@ -332,7 +368,7 @@ class Rva005DBCD1
 {
 public:
 	Rva005DBCD1(const Rva005DBCD1 &other);
-	virtual ~Rva005DBCD1();
+	virtual ~Rva005DBCD1() {}
 
 	Short m_field04;
 	Short m_field06;
@@ -351,6 +387,7 @@ class Rva0039B893
 {
 public:
 	Rva0039B893(const Rva0039B893 &other);
+	Rva0039B893 &operator=(const Rva0039B893 &other);
 	virtual ~Rva0039B893();
 
 	Int m_field04;
@@ -367,6 +404,21 @@ Rva0039B893::Rva0039B893(const Rva0039B893 &other)
 	m_field0C = other.m_field0C;
 	m_field0E = other.m_field0E;
 	m_field10 = other.m_field10;
+}
+
+// --------------------- vptr-skip assign of same layout (retail 0x0039B900)
+// ??4Rva0039B893@@QAEAAV0@ABV0@@Z @0x0039B900 45B: same two ints plus three
+// words as the 0x0039B893 copy ctor above with no vptr store (6B smaller).
+// Evidence: three callers 0x0039B92D/0x0039BA68/0x0039BAA0 looping with 0x14
+// stride; class identity from the shared copy-ctor layout.
+Rva0039B893 &Rva0039B893::operator=(const Rva0039B893 &other)
+{
+	m_field04 = other.m_field04;
+	m_field08 = other.m_field08;
+	m_field0C = other.m_field0C;
+	m_field0E = other.m_field0E;
+	m_field10 = other.m_field10;
+	return *this;
 }
 
 // ---- vptr + two ints base plus derived vptr and third int (retail 0x0015E640)
@@ -391,6 +443,7 @@ class Rva0015E640 : public Rva0015E640Base
 {
 public:
 	Rva0015E640(const Rva0015E640 &other);
+	Rva0015E640 &operator=(const Rva0015E640 &other);
 	virtual ~Rva0015E640();
 
 	Int m_field0C;
@@ -400,6 +453,24 @@ Rva0015E640::Rva0015E640(const Rva0015E640 &other)
 	: Rva0015E640Base(other)
 {
 	m_field0C = other.m_field0C;
+}
+
+// Retail 0x0015E670 (27 bytes), the matching assignment: the three fields after the vptr.
+// Select-any like the copy in Rva001684D6Assign.cpp (this retail body comes first
+// in link order, so it is the copy the link keeps); the anchor keeps the body emitted.
+inline Rva0015E640 &Rva0015E640::operator=(const Rva0015E640 &other)
+{
+	m_field04 = other.m_field04;
+	m_field08 = other.m_field08;
+	m_field0C = other.m_field0C;
+	return *this;
+}
+
+// Retain the inline body's ledger emission without changing its callers.
+// ?bfmeEmitRva0015E640Assign@@YAXPAVRva0015E640@@ABV1@@@Z absent-from-retail
+void bfmeEmitRva0015E640Assign(Rva0015E640 *p, const Rva0015E640 &o)
+{
+	p->Rva0015E640::operator=(o);
 }
 
 // ---- vptr + two ints base plus derived vptr and third int (retail 0x00168040)
@@ -529,7 +600,7 @@ class Rva00575383
 {
 public:
 	Rva00575383(void *held);
-	virtual ~Rva00575383();
+	virtual ~Rva00575383() {}
 
 	void *m_field04;
 };
@@ -546,7 +617,7 @@ class Rva005D6FCC
 {
 public:
 	Rva005D6FCC(void *held);
-	virtual ~Rva005D6FCC();
+	virtual ~Rva005D6FCC() {}
 
 	void *m_field04;
 };
@@ -563,7 +634,8 @@ class Rva005DAA36
 {
 public:
 	Rva005DAA36(void *held);
-	virtual ~Rva005DAA36();
+	virtual void slot0() = 0;
+	virtual ~Rva005DAA36() {}
 
 	void *m_field04;
 };
@@ -571,6 +643,26 @@ public:
 Rva005DAA36::Rva005DAA36(void *held)
 {
 	m_field04 = held;
+}
+
+// Retail RVA 0x005DAA48 (18B). Address name: only the pointer-hold
+// constructor shape and its distinct vtable are established by the target.
+struct Rva005DAA48Base
+{
+	Rva005DAA48Base(void *held) { m_field04 = held; }
+	void *m_field04;
+};
+
+class Rva005DAA48 : public Rva005DAA48Base
+{
+public:
+	Rva005DAA48(void *held);
+	virtual ~Rva005DAA48();
+};
+
+Rva005DAA48::Rva005DAA48(void *held)
+	: Rva005DAA48Base(held)
+{
 }
 
 // ------------------------- vptr + held pointer (retail 0x005E67FE)
@@ -589,6 +681,10 @@ Rva005E67FE::Rva005E67FE(void *held)
 {
 	m_field04 = held;
 }
+
+// Native5E6810 resets only this holder base vptr. Canonical provider for
+// the owning wrapper cleanups; rehomes the old integer-setter row (zero gain).
+Rva005E67FE::~Rva005E67FE() {}
 
 // ----------------- vptr + converted int from +0x74 (retail 0x005DCC4B)
 // B2 body-address name: the single member takes arg+0x74, not arg+0x04, so
@@ -615,6 +711,14 @@ Rva005DCC4B::Rva005DCC4B(const Rva005DCC4BSource *source)
 	m_field04 = source->m_field74;
 }
 
+// Empty virtual destructor: restores this vtable (0x00C1C780, the one the
+// constructor installs) and returns; retail ICF-folds it into 0x005FED52 with
+// every other vptr-only destructor. AINavyUnitBattleShip's destructor
+// 0x005AD6EA tail-calls it.
+Rva005DCC4B::~Rva005DCC4B()
+{
+}
+
 // ---- vptr + two member subobject copies (retail 0x0028F68F)
 // B2 body-address name: member at +0x04 copies with the rowed 171B body and
 // member at +0x6C with the rowed 33B body. Both member copies are pure
@@ -634,5 +738,26 @@ public:
 Rva0028F68F::Rva0028F68F(const Rva0028F68F &other)
 	: m_member04(other.m_member04)
 	, m_member6C(other.m_member6C)
+{
+}
+
+// ------------------------- vptr + held pointer (retail 0x005DAA5A 18B)
+// B2 body-address name: same holder shape as 0x005DAA36 with a different
+// vtable (0x008765A0) so a different class. Caller 0x005971A9.
+struct Rva005DAA5A_Hold
+{
+	Rva005DAA5A_Hold(void *held) { m_field04 = held; }
+	void *m_field04;
+};
+
+class Rva005DAA5A : public Rva005DAA5A_Hold
+{
+public:
+	Rva005DAA5A(void *held);
+	virtual ~Rva005DAA5A();
+};
+
+Rva005DAA5A::Rva005DAA5A(void *held)
+	: Rva005DAA5A_Hold(held)
 {
 }

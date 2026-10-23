@@ -1,4 +1,7 @@
-// cl: /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
+// This donor Object view does not use native disabled-mask +0x1C8.
+// Keep its unrecovered callers separate from native Object::isDisabled.
+#define isDisabled specialPowerModuleDonorIsDisabled
 // stlport
 // Ported verbatim from the Generals Zero Hour reference (GameEngine/Source/GameLogic/Object/SpecialPower/SpecialPowerModule.cpp); this unit had no counterpart under Code/.
 /*
@@ -65,35 +68,6 @@
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ??0SpecialPowerModuleData@@QAE@XZ present-unmatched
-SpecialPowerModuleData::SpecialPowerModuleData()
-{
-
-	m_specialPowerTemplate = NULL;
-	m_updateModuleStartsAttack = false;
-	m_startsPaused = FALSE;
-	m_scriptedSpecialPowerOnly = FALSE;
-
-}  // end SpecialPowerModuleData
-
-//-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
-/* static */ void SpecialPowerModuleData::buildFieldParse(MultiIniFieldParse& p)
-{
-	BehaviorModuleData::buildFieldParse( p );
-
-	static const FieldParse dataFieldParse[] = 
-	{
-		{ "SpecialPowerTemplate",			INI::parseSpecialPowerTemplate, NULL, offsetof( SpecialPowerModuleData, m_specialPowerTemplate ) },
-		{ "UpdateModuleStartsAttack", INI::parseBool,									NULL, offsetof( SpecialPowerModuleData, m_updateModuleStartsAttack ) },
-		{ "StartsPaused",							INI::parseBool,									NULL, offsetof( SpecialPowerModuleData, m_startsPaused ) },
-		{ "InitiateSound",						INI::parseAudioEventRTS,				NULL, offsetof( SpecialPowerModuleData, m_initiateSound ) },
-		{ "ScriptedSpecialPowerOnly", INI::parseBool,									NULL, offsetof( SpecialPowerModuleData, m_scriptedSpecialPowerOnly ) },
-		{ 0, 0, 0, 0 }
-	};
-	p.add(dataFieldParse);
-
-}  // end buildFieldParse
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,54 +75,10 @@ SpecialPowerModuleData::SpecialPowerModuleData()
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ??0SpecialPowerModule@@QAE@PAVThing@@PBVModuleData@@@Z present-unmatched
-SpecialPowerModule::SpecialPowerModule( Thing *thing, const ModuleData *moduleData )
-									: BehaviorModule( thing, moduleData )
-{
-
-	m_availableOnFrame = 0;
-	m_pausedCount = 0;
-	m_pausedOnFrame = 0;
-	m_pausedPercent = 0.0f;
-
-	// we won't be able to use the power for X number of frames now
-
-	// if we're pre-built, start counting down
-	if( !getObject()->getStatusBits().test( OBJECT_STATUS_UNDER_CONSTRUCTION ) )
-	{
-		//A sharedNSync special only startPowerRecharges when first scienced or when executed,
-		//Since a new modue with same SPTemplates may construct at any time.
-		if ( getSpecialPowerTemplate()->isSharedNSync() == FALSE )
-			startPowerRecharge();
-	}
-	// WE USED TO DO THE POLL-EVERYBODY-AND-VOTE-ON-WHO-TO-SYNC-TO THING HERE,
-	// BUT NO MORE, NOW IT IS HANDLED IN PLAYER
-
-	// Some Special powers need to be activated by an Upgrade, so prevent the timer from going until then
-	const SpecialPowerModuleData *md = (const SpecialPowerModuleData *)moduleData;
-	if( md->m_startsPaused )
-		pauseCountdown( TRUE );
-	
-	resolveSpecialPower();
-
-	// Now, if we find that we have just come into being, 
-	// but there is already a science granted for our shared superweapon,
-	// lets make sure TheIngameUI knows about our public timer
-	// add this weapon to the UI if it has a public timer for all to see
-	if( m_pausedCount == 0 &&
-			getSpecialPowerTemplate()->isSharedNSync() == TRUE &&
-			getSpecialPowerTemplate()->hasPublicTimer() == TRUE &&
-			getObject()->getControllingPlayer() &&
-			getObject()->isKindOf( KINDOF_STRUCTURE ) )
-	{
-		TheInGameUI->addSuperweapon( getObject()->getControllingPlayer()->getPlayerIndex(), 
-																 getPowerName(), 
-																 getObject()->getID(), 
-																 getSpecialPowerModuleData()->m_specialPowerTemplate );
-	}
-
-
-}  // end SpecialPowerModule
+// The BFME2 constructor is defined and byte-verified in
+// SpecialPowerModuleCtor.cpp at RVA 0x00493C5A. The former Zero Hour
+// implementation here called resolveSpecialPower and omitted BFME2 fields;
+// its duplicate definition displaced the native provider at link time.
 
 //-------------------------------------------------------------------------------------------------
 // ?getInitiateSound@SpecialPowerModule@@UBEABVAudioEventRTS@@XZ present-unmatched
@@ -160,6 +90,7 @@ const AudioEventRTS& SpecialPowerModule::getInitiateSound() const
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 // Matched via Code/masm_dumps/SpecialPowerModule_destructor.asm @ 0x00268F30 (232B ICF)
+// ?SpecialPowerModule::~SpecialPowerModule present-unmatched
 SpecialPowerModule::~SpecialPowerModule()
 {
 
@@ -209,46 +140,10 @@ void SpecialPowerModule::resolveSpecialPower( void )
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/Common/SpecialPowerModule_onSpecialPowerCreationMethodThunk.cpp
-// ?onSpecialPowerCreation@SpecialPowerModule@@UAEXXZ present-unmatched
-void SpecialPowerModule::onSpecialPowerCreation( void )
-{
-	// THIS gets called by addScience(), that is, when the General has purchased a new special power, 
-	// and this module is thus activated.
-
-	// start a power recharge going
-	startPowerRecharge();
-
-	// Dustin wants these special powers to start ready to fire, 
-	// so here (and only here) we will expressly set them to ready-now.
-	if ( getSpecialPowerTemplate()->isSharedNSync())
-	{
-		Player *player = getObject()->getControllingPlayer();
-		if ( player )
-		{
-			player->expressSpecialPowerReadyFrame( getSpecialPowerTemplate(), TheGameLogic->getFrame() );
-			m_availableOnFrame = player->getOrStartSpecialPowerReadyFrame( getSpecialPowerTemplate() );
-		}
-	}
-
-	// Some Special powers need to be activated by an Upgrade, so prevent the timer from going until then
-	const SpecialPowerModuleData *md = getSpecialPowerModuleData();
-	if( md->m_startsPaused )
-		pauseCountdown( TRUE );
-
-	// add this weapon to the UI if it has a public timer for all to see
-	if( getSpecialPowerModuleData()->m_specialPowerTemplate->hasPublicTimer() == TRUE &&
-			getObject()->getControllingPlayer() &&
-			getObject()->isKindOf( KINDOF_STRUCTURE ) )
-	{
-		TheInGameUI->addSuperweapon( getObject()->getControllingPlayer()->getPlayerIndex(), 
-																 getPowerName(), 
-																 getObject()->getID(), 
-																 getSpecialPowerModuleData()->m_specialPowerTemplate );
-	}
-}
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ?SpecialPowerModule::getRequiredScience present-unmatched
 ScienceType SpecialPowerModule::getRequiredScience( void ) const
 {
 
@@ -257,6 +152,7 @@ ScienceType SpecialPowerModule::getRequiredScience( void ) const
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ?SpecialPowerModule::getSpecialPowerTemplate present-unmatched
 const SpecialPowerTemplate * SpecialPowerModule::getSpecialPowerTemplate( void ) const
 {
 
@@ -264,15 +160,6 @@ const SpecialPowerTemplate * SpecialPowerModule::getSpecialPowerTemplate( void )
 }  // end ~SpecialPowerModule
 
 //-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
-AsciiString SpecialPowerModule::getPowerName( void ) const
-{
-
-	return getSpecialPowerModuleData()->m_specialPowerTemplate->getName();
-}  // end ~SpecialPowerModule
-
-//-------------------------------------------------------------------------------------------------
-/** Is this module designed for the power identier template passed in? */
 //-------------------------------------------------------------------------------------------------
 // ?isModuleForPower@SpecialPowerModule@@UBE_NPBVSpecialPowerTemplate@@@Z present-unmatched
 Bool SpecialPowerModule::isModuleForPower( const SpecialPowerTemplate *specialPowerTemplate ) const
@@ -299,31 +186,7 @@ Bool SpecialPowerModule::isModuleForPower( const SpecialPowerTemplate *specialPo
 /** Is this special power ready to use */
 //-------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/SpecialPower/SpecialPowerModule_isReady_Thunk.cpp
-// ?isReady@SpecialPowerModule@@UBE_NXZ present-unmatched
-Bool SpecialPowerModule::isReady() const
-{
-#if defined(_DEBUG) || defined(_INTERNAL) || defined(_ALLOW_DEBUG_CHEATS_IN_RELEASE)
-	// this is a cheat ... remove this for release!
-	if( TheGlobalData->m_specialPowerUsesDelay == FALSE )
-		return TRUE;
-#endif
-
-	const Object* obj = getObject();
-	const SpecialPowerModuleData *modData = getSpecialPowerModuleData();
-
-	if ( obj && modData )
-	{
-		Player *player = getObject()->getControllingPlayer();
-		if ( player )
-		{
-			if ( modData->m_specialPowerTemplate->isSharedNSync())
-				return (TheGameLogic->getFrame() >= player->getOrStartSpecialPowerReadyFrame( modData->m_specialPowerTemplate ) );
-		}
-	}
-	
-	return (m_pausedCount == 0) && (TheGameLogic->getFrame() >= m_availableOnFrame);
-
-}  // end isReady
+// SpecialPowerModule::isReady is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/SpecialPower/SpecialPowerModuleIsReady.cpp (0x004934DE).
 
 //-------------------------------------------------------------------------------------------------
 /** Get the percentage ready a special power is to use
@@ -334,6 +197,7 @@ Bool SpecialPowerModule::isReady() const
 //-------------------------------------------------------------------------------------------------
 // Matched via Code/masm_dumps/SpecialPowerModule_getPercentReady.asm @ 0x00268A90 (210B)
 // Retail: early [this+0x14] flag returns 0.0; no ZH 0.99999 paused-at-ready path
+// ?SpecialPowerModule::getPercentReady present-unmatched
 Real SpecialPowerModule::getPercentReady() const
 {
 	if( m_pausedCount > 0 && m_pausedPercent == 1.0f )
@@ -452,9 +316,9 @@ Bool SpecialPowerModule::initiateIntentToDoSpecialPower( const Object *targetObj
 {
 	Bool valid = false;
 	// tell our update modules that we intend to do this special power.
-	for( BehaviorModule** u = getObject()->getBehaviorModules(); *u; ++u )
+	for( BehaviorModule** behaviorModule = getObject()->getBehaviorModules(); *behaviorModule; ++behaviorModule )
 	{
-		SpecialPowerUpdateInterface* spu = (*u)->getSpecialPowerUpdateInterface();
+		SpecialPowerUpdateInterface* spu = (*behaviorModule)->getSpecialPowerUpdateInterface();
 		if( spu )
 		{
 			//Validate that we are calling the correct module!
@@ -506,178 +370,24 @@ void SpecialPowerModule::triggerSpecialPower( const Coord3D *location )
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 // Matched via Code/masm_dumps/SpecialPowerModule_createViewObject.asm @ 0x00269130 (422B)
-void SpecialPowerModule::createViewObject( const Coord3D *location )
+// SpecialPowerModule::createViewObject is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/SpecialPower/SpecialPowerModuleCreateViewObject.cpp (0x00493845).
+
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+// SpecialPowerModule::markSpecialPowerTriggered (0x00494591) is rowed in SpecialPowerModuleDo.cpp; a second definition here would not link.
+
+
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+// SpecialPowerModule::aboutToDoSpecialPower is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/SpecialPower/SpecialPowerModuleTrigger.cpp (0x004939AB); a second definition here would not link.
+
+// The ZH body above was the only caller here of the header-inline
+// SpecialPowerTemplate::getSpecialPowerType, rowed at 0x002AAE3D from this
+// unit; this helper (no retail address) keeps cl emitting that copy.
+// ?SpecialPowerTemplateTypeEmissionAnchor absent-from-retail
+SpecialPowerType SpecialPowerTemplateTypeEmissionAnchor( const SpecialPowerTemplate *specialPowerTemplate )
 {
-	const SpecialPowerModuleData *modData = getSpecialPowerModuleData();
-	const SpecialPowerTemplate *powerTemplate = modData->m_specialPowerTemplate;
-
-	if( modData == NULL  ||  powerTemplate == NULL )
-		return;
-
-	Real visionRange = powerTemplate->getViewObjectRange();
-	UnsignedInt visionDuration = powerTemplate->getViewObjectDuration();
-
-	if( visionRange == 0 || visionDuration == 0 )
-		return; // We don't want a view object at all.
-
-	AsciiString objectName = TheGlobalData->m_specialPowerViewObjectName;
-	if( objectName.isEmpty() )
-		return;
-
-	const ThingTemplate *viewObjectTemplate = TheThingFactory->findTemplate( objectName );
-	if( viewObjectTemplate == NULL )
-		return;
-
-	Object *viewObject = TheThingFactory->newObject( viewObjectTemplate, getObject()->getControllingPlayer()->getDefaultTeam() );
-
-	if( viewObject == NULL )
-		return;
-
-	viewObject->setPosition( location );
-	viewObject->setShroudClearingRange( visionRange );
-
-	static NameKeyType key_DeletionUpdate = NAMEKEY("DeletionUpdate");
-	DeletionUpdate* dup = (DeletionUpdate*)viewObject->findUpdateModule(key_DeletionUpdate);
-	if( dup )
-	{
-		dup->setLifetimeRange( visionDuration, visionDuration );
-	}	
-}
-
-//-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
-// ?markSpecialPowerTriggered@SpecialPowerModule@@UAEXPBUCoord3D@@@Z present-unmatched
-void SpecialPowerModule::markSpecialPowerTriggered( const Coord3D *location )
-{
-	triggerSpecialPower( location );
-}
-
-
-//-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
-// ?aboutToDoSpecialPower@SpecialPowerModule@@IAEXPBUCoord3D@@@Z present-unmatched
-void SpecialPowerModule::aboutToDoSpecialPower( const Coord3D *location )
-{
-	// Tell the scripting engine!
-	TheScriptEngine->notifyOfTriggeredSpecialPower(
-		getObject()->getControllingPlayer()->getPlayerIndex(), 
-		getSpecialPowerModuleData()->m_specialPowerTemplate->getName(),
-		getObject()->getID());
-
-	// Let EVA do her thing
-	SpecialPowerType type = getSpecialPowerModuleData()->m_specialPowerTemplate->getSpecialPowerType();
-
-  Player *localPlayer = ThePlayerList->getLocalPlayer();
-
-  // Only play the EVA sounds if this is not the local player, and the local player doesn't consider the 
-	// person an enemy.
-	// Kris: Actually, all players need to hear these warnings.
-  // Ian: But now there are different Eva messages depending on who launched
-	//if (localPlayer != getObject()->getControllingPlayer() && localPlayer->getRelationship(getObject()->getTeam()) != ENEMIES) 
-  {
-		if( type == SPECIAL_PARTICLE_UPLINK_CANNON || type == SUPW_SPECIAL_PARTICLE_UPLINK_CANNON || type == LAZR_SPECIAL_PARTICLE_UPLINK_CANNON )
-    {
-      if ( localPlayer == getObject()->getControllingPlayer() )
-      {
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Own_ParticleCannon);
-      }
-      else if ( localPlayer->getRelationship(getObject()->getTeam()) != ENEMIES )
-      {
-        // Note: counting relationship NEUTRAL as ally. Not sure if this makes a difference???
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Ally_ParticleCannon);
-      }
-      else
-      {
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Enemy_ParticleCannon);
-      }
-    }
-    else if( type == SPECIAL_NEUTRON_MISSILE || type == NUKE_SPECIAL_NEUTRON_MISSILE || type == SUPW_SPECIAL_NEUTRON_MISSILE )
-    {
-      if ( localPlayer == getObject()->getControllingPlayer() )
-      {
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Own_Nuke);
-      }
-      else if ( localPlayer->getRelationship(getObject()->getTeam()) != ENEMIES )
-      {
-        // Note: counting relationship NEUTRAL as ally. Not sure if this makes a difference???
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Ally_Nuke);
-      }
-      else
-      {
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Enemy_Nuke);
-      }
-    }
-		else if (type == SPECIAL_SCUD_STORM)
-    {
-      if ( localPlayer == getObject()->getControllingPlayer() )
-      {
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Own_ScudStorm);
-      }
-      else if ( localPlayer->getRelationship(getObject()->getTeam()) != ENEMIES )
-      {
-        // Note: counting relationship NEUTRAL as ally. Not sure if this makes a difference???
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Ally_ScudStorm);
-      }
-      else
-      {
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Enemy_ScudStorm);
-      }
-    }
-		else if (type == SPECIAL_GPS_SCRAMBLER || type == SLTH_SPECIAL_GPS_SCRAMBLER )
-    {
-			// This is Ghetto.  Voices should be ini lines in the special power entry.  You shouldn't have to 
-			// add to an enum to get a new voice
-      if ( localPlayer == getObject()->getControllingPlayer() )
-      {
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Own_GPS_Scrambler);
-      }
-      else if ( localPlayer->getRelationship(getObject()->getTeam()) != ENEMIES )
-      {
-        // Note: counting relationship NEUTRAL as ally. Not sure if this makes a difference???
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Ally_GPS_Scrambler);
-      }
-      else
-      {
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Enemy_GPS_Scrambler);
-      }
-    }
-		else if (type == SPECIAL_SNEAK_ATTACK)
-    {
-      if ( localPlayer == getObject()->getControllingPlayer() )
-      {
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Own_Sneak_Attack);
-      }
-      else if ( localPlayer->getRelationship(getObject()->getTeam()) != ENEMIES )
-      {
-        // Note: counting relationship NEUTRAL as ally. Not sure if this makes a difference???
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Ally_Sneak_Attack);
-      }
-      else
-      {
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Enemy_Sneak_Attack);
-      }
-    }
-	}
-
-	// get module data
-	const SpecialPowerModuleData *modData = getSpecialPowerModuleData();
-
-	// play our initiate sound if we have one
-	AudioEventRTS audioEvent = *modData->m_specialPowerTemplate->getInitiateSound();
-	audioEvent.setObjectID(getObject()->getID());
-	TheAudio->addAudioEvent( &audioEvent );
-
-	// play sound at target location if specified
-	if( location )
-	{
-
-		AudioEventRTS soundAtLocation = *modData->m_specialPowerTemplate->getInitiateAtTargetSound();
-		soundAtLocation.setPosition( location );
-		soundAtLocation.setPlayerIndex(getObject()->getControllingPlayer()->getPlayerIndex());
-		TheAudio->addAudioEvent( &soundAtLocation );
-
-	}  // end if
-
+	return specialPowerTemplate->getSpecialPowerType();
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -686,49 +396,11 @@ void SpecialPowerModule::aboutToDoSpecialPower( const Coord3D *location )
 //then all we do is initiate the special power, and trust that the update module will 
 //do the rest.
 //-------------------------------------------------------------------------------------------------
-// ?doSpecialPower@SpecialPowerModule@@UAEXI@Z present-unmatched
-void SpecialPowerModule::doSpecialPower( UnsignedInt commandOptions )
-{
-	if (m_pausedCount > 0 || getObject()->isDisabled()) {
-		return;
-	}
-
-	//This tells the update module that we want to do our special power. The update modules
-	//will then start processing each frame.
-	initiateIntentToDoSpecialPower( NULL, NULL, NULL, commandOptions );
-
-	//Only trigger the special power immediately if the updatemodule doesn't start the attack.
-	//An example of a case that wouldn't trigger immediately is for a unit that needs to 
-	//close to range before firing the special attack. A case that would trigger immediately
-	//is the napalm strike. If we don't call this now, it's up to the update module to do so.
-	if( !getSpecialPowerModuleData()->m_updateModuleStartsAttack )
-	{
-		triggerSpecialPower( NULL );// Location-less trigger
-	}
-} 
+// SpecialPowerModule::doSpecialPower is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/SpecialPower/SpecialPowerModuleDo.cpp (0x0049490F).
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?doSpecialPowerAtObject@SpecialPowerModule@@UAEXPAVObject@@I@Z present-unmatched
-void SpecialPowerModule::doSpecialPowerAtObject( Object *obj, UnsignedInt commandOptions )
-{
-	if (m_pausedCount > 0 || getObject()->isDisabled()) {
-		return;
-	}
-
-	//This tells the update module that we want to do our special power. The update modules
-	//will then start processing each frame.
-	initiateIntentToDoSpecialPower( obj, NULL, NULL, commandOptions );
-
-	//Only trigger the special power immediately if the updatemodule doesn't start the attack.
-	//An example of a case that wouldn't trigger immediately is for a unit that needs to 
-	//close to range before firing the special attack. A case that would trigger immediately
-	//is the napalm strike. If we don't call this now, it's up to the update module to do so.
-	if( !getSpecialPowerModuleData()->m_updateModuleStartsAttack )
-	{
-		triggerSpecialPower( obj->getPosition() );
-	}
-}  
+// SpecialPowerModule::doSpecialPowerAtObject is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/SpecialPower/SpecialPowerModuleDo.cpp (0x0049495B).
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -778,31 +450,7 @@ void SpecialPowerModule::doSpecialPowerUsingWaypoints( const Waypoint *way, Unsi
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-void SpecialPowerModule::pauseCountdown( Bool pause )
-{
-	if (pause)// If pausing
-	{
-		if( m_pausedCount == 0 )
-		{
-			// Only record this with the first pausing, otherwise upon final unpausing you would get credited the time
-			// between pauses as time served.
-			m_pausedOnFrame = TheGameLogic->getFrame();
-			m_pausedPercent = getPercentReady();
-		}
-
-		++m_pausedCount;
-	}
-	else if( m_pausedCount > 0 )//Else if unpausing, but only if I am in fact paused, so multiple unpauses don't break.
-	{
-		--m_pausedCount;
-
-		// And only update the ready time if we are fully unpaused now.
-		if( m_pausedCount == 0 )	
-		{
-			m_availableOnFrame += (TheGameLogic->getFrame() - m_pausedOnFrame);
-		}
-	}
-}  // end pauseCountdown
+// SpecialPowerModule::pauseCountdown is rowed at 0x00492FC2 (Rva00492FC2.cpp).
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -878,35 +526,37 @@ void SpecialPowerModule::xfer( Xfer *xfer )
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/Common/SpecialPowerModule_loadPostProcessMethodThunk.cpp
-// ?loadPostProcess@SpecialPowerModule@@MAEXXZ present-unmatched
-void SpecialPowerModule::loadPostProcess( void )
+// SpecialPowerModule::loadPostProcess is rowed at 0x00493B1E (SpecialPowerModuleRva00493B1E.cpp).
+
+//-------------------------------------------------------------------------------------------------
+// Two more out-of-line final-override accessors in the shape of the
+// SpecialPowerTemplate getters above (call the rowed const
+// friend_getFinalOverride 0x00288609, then read the result): 0x0028F8CE
+// returns the address of the dword at +0x10 and 0x002AAE46 the dword at
+// +0x20. The BFME2 template fields there are not identified (ZH's m_id /
+// m_initiateSound positions do not fit both), so the owner is an
+// address-named Overridable view and the fields are named by offset.
+class Rva0028F8CEOverrideView : public Overridable
 {
+public:
+	const UnsignedInt *rva0028F8CE( void ) const;
+	UnsignedInt rva002AAE46( void ) const;
+private:
+	const Rva0028F8CEOverrideView *getFO( void ) const { return (const Rva0028F8CEOverrideView *)friend_getFinalOverride(); }
+	UnsignedInt m_0C;
+	UnsignedInt m_10;
+	UnsignedInt m_14;
+	UnsignedInt m_18;
+	UnsignedInt m_1C;
+	UnsignedInt m_20;
+};
 
-	// extend base class
-	BehaviorModule::loadPostProcess();
+const UnsignedInt *Rva0028F8CEOverrideView::rva0028F8CE( void ) const
+{
+	return &getFO()->m_10;
+}
 
-
-
-	// Now, if we find that we have just come into being, 
-	// but there is already a science granted for our shared superweapon,
-	// lets make sure TheIngameUI knows about our public timer
-	// add this weapon to the UI if it has a public timer for all to see
-	if( m_pausedCount == 0 &&
-			getSpecialPowerTemplate()->isSharedNSync() == TRUE &&
-			getSpecialPowerTemplate()->hasPublicTimer() == TRUE &&
-			getObject()->getControllingPlayer() &&
-			getObject()->isKindOf( KINDOF_STRUCTURE ) )
-	{
-		TheInGameUI->addSuperweapon( getObject()->getControllingPlayer()->getPlayerIndex(), 
-																 getPowerName(), 
-																 getObject()->getID(), 
-																 getSpecialPowerModuleData()->m_specialPowerTemplate );
-	}
-
-
-
-
-
-
-}  // end loadPostProcess
+UnsignedInt Rva0028F8CEOverrideView::rva002AAE46( void ) const
+{
+	return getFO()->m_20;
+}

@@ -21,7 +21,18 @@ private:
 };
 
 // ?friend_newModuleInstance@CostModifierUpgrade@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *CostModifierUpgrade::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *CostModifierUpgrade::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new CostModifierUpgrade(thing, moduleData));
 }
+
+// Select-any anchor: this unit owns the row above while other TUs emit it as
+// an inline copy. The anchor keeps this unit emitting its copy for the ledger;
+// it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitCostModifierUpgradeFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitCostModifierUpgradeFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	CostModifierUpgrade::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

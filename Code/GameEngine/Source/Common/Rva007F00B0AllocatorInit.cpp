@@ -5,6 +5,12 @@
 // embedded addresses are game-specific (BFME2 values measured from retail:
 // default acquire 0x00A5CEC0, table 0x00CE1DFC, default release 0x00A5CED0).
 
+void *__cdecl Rva0065CEC0Allocate(unsigned int, int);
+void __cdecl Rva0065CED0Release(void *, int);
+
+extern "C" const void *const vtbl_00CE1DFC[];  // ??_7Rva007F0080Owner@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00CE1DFC=??_7Rva007F0080Owner@@6B@")
+
 struct Rva007F00B0Allocator
 {
 	void *m_vtable;
@@ -14,7 +20,7 @@ struct Rva007F00B0Allocator
 
 typedef void *(__cdecl *Rva007F00B0Allocate)(unsigned int, int);
 
-extern Rva007F00B0Allocator *g_Rva0130A5B0;
+extern class GenAlloc *g_genAlloc;
 
 void *operator new(unsigned int size);
 
@@ -22,7 +28,7 @@ void Rva007F00B0(void *allocate, void *release)
 {
 	Rva007F00B0Allocator *p;
 
-	if (g_Rva0130A5B0)
+	if ((*(Rva007F00B0Allocator **)&g_genAlloc))
 		return;
 
 	if (allocate)
@@ -37,18 +43,32 @@ void Rva007F00B0(void *allocate, void *release)
 	{
 		p = (Rva007F00B0Allocator *)::operator new(12);
 		if (p)
-			p->m_allocate = (void *)0x00A5CEC0;
+			p->m_allocate = reinterpret_cast<void *>(&Rva0065CEC0Allocate);
 		else
 			goto clear;
 	}
 
-	p->m_vtable = (void *)0x00CE1DFC;
+	p->m_vtable = (void *)((unsigned int)vtbl_00CE1DFC);
 	if (!release)
-		release = (void *)0x00A5CED0;
+		release = reinterpret_cast<void *>(&Rva0065CED0Release);
 	p->m_release = release;
-	g_Rva0130A5B0 = p;
+	(*(Rva007F00B0Allocator **)&g_genAlloc) = p;
 	return;
 
 clear:
-	g_Rva0130A5B0 = 0;
+	(*(Rva007F00B0Allocator **)&g_genAlloc) = 0;
 }
+
+extern "C" void *__cdecl malloc(unsigned int);
+extern "C" void __cdecl free(void *);
+
+void *__cdecl Rva0065CEC0Allocate(unsigned int size, int)
+{
+	return malloc(size);
+}
+
+void __cdecl Rva0065CED0Release(void *pointer, int)
+{
+	free(pointer);
+}
+

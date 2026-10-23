@@ -73,3 +73,11 @@ void *__node_alloc<__threads, __inst>::_S_refill(unsigned int n)
 template void *__node_alloc<true, 0>::_S_refill(unsigned int);
 
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?_S_refill@__new_alloc@_STL@@CAPAU_Obj@12@I@Z=?_S_refill@?$__node_alloc@$00$0A@@_STL@@CAPAXI@Z")
+
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
+#pragma comment(linker, "/alternatename:?_S_free_list@?$__node_alloc@$00$0A@@_STL@@0RCRAU_Node_alloc_obj@2@C=_g_bfmeFreeList1150")

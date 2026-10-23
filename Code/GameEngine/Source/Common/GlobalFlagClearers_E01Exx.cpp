@@ -1,5 +1,7 @@
-// Ten B2-native flag-word clearers on eight scattered .data flag words
-// (0x0077CDAD-0x0077EBDC):
+// Nine B2-native flag-word clearers on seven scattered .data flag words
+// (0x0077CDC4-0x0077EBDC):
+// The former77CDAD is the proven compiler cleanup of AI helper3449C5;
+// that parent now owns the cleanup and its initialization guard.
 //
 //     mov eax,[<address>] / and al,<mask8> / mov [<address>],eax / ret
 //
@@ -9,19 +11,27 @@
 // following GlobalFlagClearers_08.cpp.
 // cl: /G7 /MD /EHsc /DNDEBUG
 
-extern unsigned int g_Va00E01DEC;
 extern unsigned int g_Va00E01DF4;
+// g_Va00E01DF4: matched references place it at VA 0xe01df4 (zero-filled .bss).
+unsigned int g_Va00E01DF4;
 extern unsigned int g_Va00E01DFC;
+// g_Va00E01DFC: matched references place it at VA 0xe01dfc (zero-filled .bss).
+unsigned int g_Va00E01DFC;
 extern unsigned int g_Va00E01E38;
+// g_Va00E01E38: matched references place it at VA 0xe01e38 (zero-filled .bss).
+unsigned int g_Va00E01E38;
 extern unsigned int g_Va00E01F00;
+// g_Va00E01F00: matched references place it at VA 0xe01f00 (zero-filled .bss).
+unsigned int g_Va00E01F00;
 extern unsigned int g_Va00E01F08;
+// g_Va00E01F08: matched references place it at VA 0xe01f08 (zero-filled .bss).
+unsigned int g_Va00E01F08;
 extern unsigned int g_Va00E02150;
+// g_Va00E02150: matched references place it at VA 0xe02150 (zero-filled .bss).
+unsigned int g_Va00E02150;
 extern unsigned int g_Va00E02280;
-
-unsigned int Rva0077CDADClearFlag(void)
-{
-	return g_Va00E01DEC &= 0xFFFFFFFEu;
-}
+// g_Va00E02280: matched references place it at VA 0xe02280 (zero-filled .bss).
+unsigned int g_Va00E02280;
 
 unsigned int Rva0077CDC4ClearFlag(void)
 {

@@ -15,6 +15,9 @@
 // SupplyTruckAIUpdateModuleData table verbatim at identical offsets). Sole raw
 // caller is the ModuleData factory 0x24EF11 which news 0x84.
 
+extern "C" const void *const vtbl_00C4B6C8[];  // folded, 3 classes; via ??_7AnimalAIUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4B6C8=??_7AnimalAIUpdateModuleData@@6B@")
+
 class TransportAIUpdateModuleData
 {
 public:
@@ -29,7 +32,6 @@ class SupplyTruckAIUpdateModuleData : public TransportAIUpdateModuleData
 {
 public:
 	SupplyTruckAIUpdateModuleData();
-	virtual ~SupplyTruckAIUpdateModuleData();
 
 private:
 	int m_maxBoxesData;			// +0x64
@@ -42,7 +44,7 @@ private:
 	int m_harvestActionTime;	// +0x80
 };
 
-SupplyTruckAIUpdateModuleData::SupplyTruckAIUpdateModuleData()
+inline SupplyTruckAIUpdateModuleData::SupplyTruckAIUpdateModuleData()
 {
 	m_maxBoxesData = 0;
 	m_centerDelay = 0;
@@ -51,5 +53,17 @@ SupplyTruckAIUpdateModuleData::SupplyTruckAIUpdateModuleData()
 	m_warehouseScanDistance = 100.0f;
 	m_harvestPreparationTime = 1;
 	m_harvestActionTime = 1;
+	*(unsigned int *)this = ((unsigned int)vtbl_00C4B6C8);
 	m_harvestActivationRange = 50.0f;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeSupplyTruckAIUpdateModuleDataInlineAnchor@@YAXPAVSupplyTruckAIUpdateModuleData@@@Z absent-from-retail
+void _bfmeSupplyTruckAIUpdateModuleDataInlineAnchor(SupplyTruckAIUpdateModuleData *supplyTruckAIUpdateModuleData)
+{
+    supplyTruckAIUpdateModuleData->SupplyTruckAIUpdateModuleData::SupplyTruckAIUpdateModuleData();
+}
+#pragma inline_depth()

@@ -1,4 +1,4 @@
-// cl: /O1 /GX /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /GX /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // LivingWorldRegionConnection destructor + deleting dtor.
@@ -15,32 +15,15 @@
 // bytes): compiler-emitted scalar deleting dtor wrapping the above plus
 // the rowed operator delete at 0x0002FD60.
 
+
 class Xfer;
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void LoadPostProcess();
-	virtual const char *GetSnapshotName();
-	virtual void DoXfer(Xfer &xfer);
-};
+#include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
 
-class AsciiString
-{
-public:
-	~AsciiString();
+#include "ascii_string.h"
 
-private:
-	void *m_data;
-};
-
-void free(void *block);
+extern "C" void free(void *block);
 
 struct DetourPoints
 {

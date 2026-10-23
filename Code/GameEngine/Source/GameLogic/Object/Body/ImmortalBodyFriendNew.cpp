@@ -21,7 +21,19 @@ private:
 };
 
 // ?friend_newModuleInstance@ImmortalBody@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *ImmortalBody::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *ImmortalBody::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new ImmortalBody(thing, moduleData));
 }
+
+// friend_newModuleInstance is a header inline in retail: other units emit
+// select-any copies, so a strong definition here was a duplicate in the linked
+// build. This anchor only makes this unit emit its copy for the ledger row;
+// it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitImmortalBodyFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitImmortalBodyFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	ImmortalBody::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

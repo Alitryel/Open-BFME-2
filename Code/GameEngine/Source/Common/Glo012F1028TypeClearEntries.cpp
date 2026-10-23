@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 //
 // ?j_00008c0b@Glo012F1028Type@@QAEXXZ, retail 0x002B7D50, 65 bytes.
 // Shard TU (home TU Glo012F1024ItemRun.cpp keeps the file-unit decls plus the
@@ -11,7 +11,7 @@
 // path as Radar::deleteListResources: virtual slot 0 takes a zero word and
 // whatever it returns goes to ??3, with a test-and-branch around the
 // virtual); the tail clears the range with the rowed vector<void*>::erase
-// (0x0031BD55) via an alias pin. The mixed access (loop limits through this,
+// (0x0031BD55). The mixed access (loop limits through this,
 // erase arguments through the ebx pointer) is load-bearing: reading the tail
 // through this emits push [edi+0xDC] instead of retail's push [ebx+4].
 
@@ -20,6 +20,18 @@ class Glo012F1028Entry
 public:
 	virtual void *deleteInstance(int flags);
 };
+
+namespace _STL
+{
+template <typename T> class allocator;
+template <typename T, typename Allocator> class vector
+{
+public:
+	T *erase(T *first, T *last);
+};
+}
+
+typedef _STL::vector<void *, _STL::allocator<void *> > Glo012F1028Vector;
 
 class Glo012F1028EntryList
 {
@@ -44,5 +56,6 @@ void Glo012F1028Type::j_00008c0b(void)
 	Glo012F1028EntryList *entries = &m_entries;
 	for (Glo012F1028Entry **entry = m_entries.m_begin; entry != m_entries.m_end; ++entry)
 		::operator delete(*entry ? (*entry)->deleteInstance(0) : 0);
-	entries->erase(entries->m_begin, entries->m_end);
+	((Glo012F1028Vector *)entries)->erase((void **)entries->m_begin,
+		(void **)entries->m_end);
 }

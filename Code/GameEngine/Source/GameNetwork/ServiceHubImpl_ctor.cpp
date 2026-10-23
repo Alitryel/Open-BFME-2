@@ -195,3 +195,12 @@ ServiceHubImpl::ServiceHubImpl(void *a, void *b, void *c, void *d, void *e, void
 	m_2AC = 0;
 	init();
 }
+
+// ?vftable_011296B0@@3HA: matched references place it at VA 0xce0f20; also referenced as ?g_bfmeVftTUA@@3PAPAXA.
+int vftable_011296B0 = 10892336;
+#pragma comment(linker, "/alternatename:?g_bfmeVftTUA@@3PAPAXA=?vftable_011296B0@@3HA")
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?v0@ServiceHubImpl@@UAEXXZ=??_GGen007EB140@@UAEPAXI@Z")

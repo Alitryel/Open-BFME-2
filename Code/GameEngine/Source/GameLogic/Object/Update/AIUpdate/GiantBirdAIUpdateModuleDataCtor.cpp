@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX- /arch:SSE
+// cl: /DNDEBUG /MD /GX-
 //
 // ??0GiantBirdAIUpdateModuleData@@QAE@XZ, retail 0x0036812E (84 bytes).
 // Frameless ModuleData ctor over the pinned TransportAIUpdateModuleData
@@ -10,6 +10,9 @@
 // __EH_prolog frame); /arch:SSE selects the retail movss/xorps float idiom.
 // Donor: BFME1 GiantBirdAIUpdate.cpp (BFME2 layout shifted past the 0x64
 // base with its own float/int tail).
+
+extern "C" const void *const vtbl_00C4B6C8[];  // folded, 3 classes; via ??_7AnimalAIUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4B6C8=??_7AnimalAIUpdateModuleData@@6B@")
 
 class __declspec(novtable) TransportAIUpdateModuleData
 {
@@ -39,7 +42,7 @@ private:
 
 GiantBirdAIUpdateModuleData::GiantBirdAIUpdateModuleData()
 {
-	*(unsigned int *)this = 0x00C4B6C8;
+	*(unsigned int *)this = ((unsigned int)vtbl_00C4B6C8);
 	m_int64 = 0;
 	m_int68 = 0;
 	m_float6C = 0.0f;

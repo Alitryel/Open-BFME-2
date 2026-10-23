@@ -2,13 +2,33 @@
 #include <stdio.h>
 #include <string.h>
 
+class Rva007E8AC0
+{
+public:
+	void run( void );
+};
+
+class BfmeThingCIB
+{
+public:
+	void bfmeGoCIB( void *key, void *value );
+};
+
+class BfmeThingCIC
+{
+public:
+	void bfmeGoCIC( void *key, void *value );
+};
+
+class Rva007E8980
+{
+public:
+	void go( int key, unsigned char value );
+};
+
 class Rva007E8810Message
 {
 public:
-	void reset( void );
-	void addString( const char *key, const char *value );
-	void addInt( const char *key, int value );
-	void addBool( const char *key, bool value );
 
 	char m_head[ 0x1C ];
 	unsigned int m_category;
@@ -16,7 +36,7 @@ public:
 	int m_depth;
 };
 
-class Rva007EFFC0Allocator
+class GenAlloc
 {
 public:
 	virtual void v0();
@@ -25,7 +45,15 @@ public:
 	virtual void release( void *block, int flags );
 };
 
-extern void *bfmeGo929C();
+extern GenAlloc *Gen007EFFC0();
+
+#define FESL_RESET(message) ((Rva007E8AC0 *)(message))->run()
+#define FESL_ADD_STRING(message, key, value) \
+	((BfmeThingCIC *)(message))->bfmeGoCIC((void *)(key), (void *)(value))
+#define FESL_ADD_INT(message, key, value) \
+	((BfmeThingCIB *)(message))->bfmeGoCIB((void *)(key), (void *)(value))
+#define FESL_ADD_BOOL(message, key, value) \
+	((Rva007E8980 *)(message))->go((int)(void *)(key), (unsigned char)(value))
 
 struct Rva007FC550Attribute
 {
@@ -48,32 +76,32 @@ void __stdcall Rva007FC550( Rva007E8810Message *msg, int rid, int lid,
 	const char *secret )
 {
 	unsigned int index;
-	msg->reset();
+	FESL_RESET( msg );
 	msg->m_category = 'CGAM';
 	msg->m_depth = 3;
-	msg->addInt( "RID", rid );
-	msg->addInt( "LID", lid );
-	msg->addBool( "RESERVE-HOST", reserveHost );
-	msg->addString( "NAME", name );
-	msg->addInt( "PORT", port );
-	msg->addInt( "MAX-PLAYERS", maxPlayers );
+	FESL_ADD_INT( msg, "RID", rid );
+	FESL_ADD_INT( msg, "LID", lid );
+	FESL_ADD_BOOL( msg, "RESERVE-HOST", reserveHost );
+	FESL_ADD_STRING( msg, "NAME", name );
+	FESL_ADD_INT( msg, "PORT", port );
+	FESL_ADD_INT( msg, "MAX-PLAYERS", maxPlayers );
 	if( password && strlen( password ) != 0 )
-		msg->addString( "PASSWORD", password );
+		FESL_ADD_STRING( msg, "PASSWORD", password );
 	if( userId )
 	{
-		msg->addString( "UGID", userId );
-		msg->addString( "SECRET", secret );
+		FESL_ADD_STRING( msg, "UGID", userId );
+		FESL_ADD_STRING( msg, "SECRET", secret );
 	}
 	for( index = 0; index < numAttributes; index++ )
 	{
 		char key[ 0x40 ] = "";
 
 		sprintf( key, "B-%s", attributes[ index ].m_key );
-		msg->addString( key, attributes[ index ].m_value );
+		FESL_ADD_STRING( msg, key, attributes[ index ].m_value );
 	}
 	if( reservations && numReservations )
 	{
-		char *ids = (char *)((Rva007EFFC0Allocator *)bfmeGo929C())->allocate(
+		char *ids = (char *)Gen007EFFC0()->allocate(
 			numReservations * 0x23, 0 );
 		char key[ 0x40 ];
 
@@ -95,8 +123,8 @@ void __stdcall Rva007FC550( Rva007E8810Message *msg, int rid, int lid,
 				reservation++;
 			} while( reservationIndex < numReservations );
 		}
-		msg->addString( "RESERVE-IDS", ids );
-		msg->addInt( "RESERVE-TIMEOUT", reserveTimeout );
-		((Rva007EFFC0Allocator *)bfmeGo929C())->release( ids, 0 );
+		FESL_ADD_STRING( msg, "RESERVE-IDS", ids );
+		FESL_ADD_INT( msg, "RESERVE-TIMEOUT", reserveTimeout );
+		Gen007EFFC0()->release( ids, 0 );
 	}
 }

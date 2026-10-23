@@ -7,6 +7,9 @@
 // fields; vtable is the folded 0x00C4ED70 stored explicitly; the mask is
 // set to all-bits by the single-use file helper pinned at 0x2535A5.
 
+extern "C" const void *const vtbl_00C4ED70[];  // folded, 9 classes; via ??_7BeaconClientUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4ED70=??_7BeaconClientUpdateModuleData@@6B@")
+
 class Rva0025342CMember
 {
 public:
@@ -72,8 +75,8 @@ private:
 };
 
 // ??0AutoHealBehaviorModuleData@@QAE@XZ @0x254DE7
-AutoHealBehaviorModuleData::AutoHealBehaviorModuleData()
-	: m_vtable(0x00C4ED70), m_08(), m_kindOf()
+inline AutoHealBehaviorModuleData::AutoHealBehaviorModuleData()
+	: m_vtable(((unsigned int)vtbl_00C4ED70)), m_08(), m_kindOf()
 {
 	m_healingDelay |= -1;
 	m_startsActive = false;
@@ -94,3 +97,14 @@ AutoHealBehaviorModuleData::AutoHealBehaviorModuleData()
 	m_respawnFXList = 0;
 	m_respawnMinimumDelay = 0;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeAutoHealBehaviorModuleDataInlineAnchor@@YAXPAVAutoHealBehaviorModuleData@@@Z absent-from-retail
+void _bfmeAutoHealBehaviorModuleDataInlineAnchor(AutoHealBehaviorModuleData *autoHealBehaviorModuleData)
+{
+    autoHealBehaviorModuleData->AutoHealBehaviorModuleData::AutoHealBehaviorModuleData();
+}
+#pragma inline_depth()

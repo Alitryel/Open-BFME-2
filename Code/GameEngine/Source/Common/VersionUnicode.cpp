@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc
+// cl: /EHsc
 
 // Version's Unicode build-label accessors.  The layout and source follow the
 // readable GeneralsMD version.cpp; the BFME2 retail bodies use the same seven
@@ -31,6 +31,10 @@ private:
     Header *m_data;
 
 public:
+    __declspec(dllimport) __forceinline char getCharAt(int index) const
+    {
+        return m_data ? m_data->data[index] : 0;
+    }
     const T *str() const
     {
         static const T TheNullChr = 0;
@@ -43,6 +47,7 @@ class AsciiString
 public:
     AsciiString(const AsciiString &that) : m_data(that.m_data) {}
     ~AsciiString() { m_data.releaseBuffer(); }
+    __declspec(dllimport) __forceinline char getCharAt(int index) const { return m_data.getCharAt(index); }
 private:
     StringBase<char> m_data;
 };
@@ -54,7 +59,7 @@ public:
     ~UnicodeString() { m_data.releaseBuffer(); }
     void translate(const AsciiString &that);
     void __cdecl format(const wchar_t *format, ...);
-    const wchar_t *str() const { return m_data.str(); }
+    __declspec(dllimport) __forceinline const wchar_t *str() const { return m_data.str(); }
 private:
     StringBase<wchar_t> m_data;
 };
@@ -89,6 +94,8 @@ extern GameTextInterface *TheGameText;
 class Version
 {
 public:
+    UnicodeString getUnicodeVersion();
+    UnicodeString getFullUnicodeVersion();
     UnicodeString getUnicodeBuildTime();
     UnicodeString getUnicodeBuildLocation();
     UnicodeString getUnicodeBuildUser();
@@ -107,6 +114,26 @@ private:
     AsciiString m_buildConfiguration;
     bool m_showFullVersion;
 };
+
+UnicodeString Version::getUnicodeVersion()
+{
+    UnicodeString version;
+    version.format(TheGameText->fetch("Version:Format2").str(), m_major, m_minor);
+    return version;
+}
+
+UnicodeString Version::getFullUnicodeVersion()
+{
+    UnicodeString version;
+
+    if (!m_localBuildNum)
+        version.format(TheGameText->fetch("Version:Format3").str(), m_major, m_minor, m_buildNum);
+    else
+        version.format(TheGameText->fetch("Version:Format4").str(), m_major, m_minor, m_buildNum, m_localBuildNum,
+            m_buildUser.getCharAt(0), m_buildUser.getCharAt(1));
+
+    return version;
+}
 
 UnicodeString Version::getUnicodeBuildTime()
 {

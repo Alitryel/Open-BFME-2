@@ -3,7 +3,7 @@
 // ends. Built without optimisation; the frame holds more than this body names.
 // The callee is pinned by address.
 
-void bfmeDoPQ(char *first, char *last, char *otherFirst, char *otherLast);
+int bfmeDoPW(char *first, char *last, char *otherFirst, char *otherLast);
 
 struct BfmeThingPQ
 {
@@ -17,5 +17,5 @@ void BfmeThingPQ::bfmeGoPQ(const BfmeThingPQ *other)
 {
 	unsigned char spare[0x10];
 
-	bfmeDoPQ(m_bfmeAt, m_bfmeEnd, other->m_bfmeAt, other->m_bfmeEnd);
+	bfmeDoPW(m_bfmeAt, m_bfmeEnd, other->m_bfmeAt, other->m_bfmeEnd);
 }

@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004999AC@OneRingPenaltyUpdate@@SA?AW4NameKeyType@@XZ @0x4999AC
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@OneRingPenaltyUpdate@@UBE?AW4NameKeyType@@XZ @0x4999AC
 // (69B): cached pool-name key for OneRingPenaltyUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("OneRingPenaltyUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class OneRingPenaltyUpdate
 {
 public:
-	static NameKeyType rva0004999AC();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004999AC@OneRingPenaltyUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType OneRingPenaltyUpdate::rva0004999AC()
+// ?getModuleNameKey@OneRingPenaltyUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType OneRingPenaltyUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheOneRingPenaltyUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("OneRingPenaltyUpdate");

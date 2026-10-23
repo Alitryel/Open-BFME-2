@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
 // stlport
 // ??0ProductionUpdate@@QAE@PAVThing@@PBVModuleData@@@Z @0x0049E03A 258B
 // ProductionUpdate behavior ctor over rowed UpdateModule base 0x253390 with two
@@ -17,15 +17,52 @@
 // BFME1 donor ProductionUpdate.cpp:197 (queue NULLs, uniqueID 1, doors loop,
 // clear/setFlags, flagsDirty FALSE).
 #include <list>
+
+// Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
+// rather than emitting its own.
+namespace _STL {
+template <> _List_base<int, allocator<int> >::_List_base(const allocator<int> &);
+}
+
+// Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
+// rather than emitting its own.
+namespace _STL {
+template <> void _List_base<int, allocator<int> >::clear();
+}
+
+// Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
+// rather than emitting its own.
+namespace _STL {
+template <> _List_base<int, allocator<int> >::~_List_base();
+}
 #include <vector>
 
-struct BfmeE16
-{
-	float x;
-	float y;
-	float z;
-	float w;
-};
+// list<int> destruction otherwise instantiates per-TU deallocate
+// COMDATs (one byte shape per TU flags); explicit dllimport+forceinline
+// specializations take those calls inline so this TU emits no external copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<_List_node<int> >::deallocate(_List_node<int>* __p, size_t __n) const {
+  _STLP_ASSERT( (__p == 0) == (__n == 0) )
+    if (__p != 0) __sgi_alloc::deallocate((void*)__p, __n * sizeof(value_type));
+}
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<_List_node<int> *, _List_node<int>, allocator<_List_node<int> > >::deallocate(_List_node<int> *__p, size_t __n) {
+  allocator<_List_node<int> >().deallocate(__p, __n);
+}
+}
+
+#include "../../../../../Libraries/Include/Lib/BfmeE16.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Vector_base<BfmeE16,_STL::allocator<BfmeE16> >::~_Vector_base(); }
+// bfme link decl-only end
+// bfme link decl-only BfmeE16
+namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
+// Suppress this TU's non-retail BfmeE16 proxy deallocate copy (family2-LK3 row 34):
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL {
+template <> void _STLP_alloc_proxy<BfmeE16*, BfmeE16, allocator<BfmeE16> >::deallocate(BfmeE16*, size_t);
+}
 
 class Thing;
 class ModuleData;
@@ -50,10 +87,17 @@ public:
 	BehaviorModule(Thing *thing, const ModuleData *moduleData);
 };
 
+// ProductionUpdate's UpdateModuleInterface table (0x00C514F4): update and the
+// getDisabledTypesToProcess override, then UpdateModule's 0x0044DF8D.
+enum UpdateSleepTime { UPDATE_SLEEP_NONE = 1 };
+template <int NUM_BITS> class BitFlags { unsigned int m_bits[(NUM_BITS + 31) / 32]; };
+typedef BitFlags<11> DisabledMaskType;
 class UpdateModuleInterface
 {
 public:
-	virtual void update() = 0;
+	virtual UpdateSleepTime update() = 0;
+	virtual DisabledMaskType getDisabledTypesToProcess() const = 0;
+	virtual void rva0044DF8D(UpdateSleepTime sleep) = 0;
 };
 
 class UpdateModule : public BehaviorModule, public UpdateModuleInterface
@@ -61,6 +105,7 @@ class UpdateModule : public BehaviorModule, public UpdateModuleInterface
 public:
 	UpdateModule(Thing *thing, const ModuleData *moduleData);
 	virtual ~UpdateModule();
+	virtual void rva0044DF8D(UpdateSleepTime sleep);
 private:
 	unsigned m_nextCallFrameAndPhase;
 	int m_indexInLogic;
@@ -70,9 +115,14 @@ private:
 class Rva0049E03AIface20
 {
 public:
-	Rva0049E03AIface20() {}
+	Rva0049E03AIface20();
 	virtual void rva0049E03ASlot20() = 0;
 };
+// ??0Rva0049E03AIface20@@QAE@XZ @0x0049CC0C 9B: the default constructor, storing the
+// class's own vtable (VA 0x00C513F0) and returning this.
+Rva0049E03AIface20::Rva0049E03AIface20()
+{
+}
 
 class Rva0049E03AIface24
 {
@@ -102,7 +152,10 @@ private:
 class ProductionUpdate : public UpdateModule, public Rva0049E03AIface20, public Rva0049E03AIface24
 {
 public:
+	~ProductionUpdate();	// rowed out of line; this view must not emit its own
 	ProductionUpdate(Thing *thing, const ModuleData *moduleData);
+	virtual UpdateSleepTime update();
+	virtual DisabledMaskType getDisabledTypesToProcess() const;
 
 private:
 	int m_28;
@@ -151,3 +204,8 @@ ProductionUpdate::ProductionUpdate(Thing *thing, const ModuleData *moduleData) :
 		m_doors[i].m_at0C = 0;
 	}
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?behaviorModuleOtherAnchor@BehaviorModuleOther@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

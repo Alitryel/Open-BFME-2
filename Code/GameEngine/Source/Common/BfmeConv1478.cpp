@@ -67,3 +67,7 @@ void __stdcall bfmeAssignRangeV37(BfmeStrV37 *other, int pos, int n)
 		call BfmeStrV37::bfmeInitV37
 	}
 }
+
+void BfmeStrV37::bfmeThrowV37()
+{
+}

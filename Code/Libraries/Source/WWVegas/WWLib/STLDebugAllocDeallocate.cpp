@@ -12,7 +12,7 @@
 
 #pragma intrinsic(memset)
 extern "C" void* __cdecl memset(void *, int, unsigned int);
-extern "C" void __cdecl bfme_debugAllocInnerDeallocate_82AD90(void *, unsigned int);
+namespace _STL { struct __new_alloc { static void __cdecl deallocate(void *, unsigned int); }; }
 
 struct __alloc_header {
   unsigned int __magic: 16;
@@ -41,5 +41,5 @@ bfme_DebugAllocDeallocate_82B780(void *__p, unsigned int __n)
 
   __real_p->__magic = __deleted_magic;
   memset((char*)__p, __shred_byte, __n);
-  bfme_debugAllocInnerDeallocate_82AD90(__real_p, __real_n);
+  _STL::__new_alloc::deallocate(__real_p, __real_n);
 }

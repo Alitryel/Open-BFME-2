@@ -1,7 +1,17 @@
-// cl: /O1 /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // BFME2's 64-byte BfmeVectorRecord000BDF17 vector allocation/copy helper at RVA 0xC24A0.
-class AsciiString { public: AsciiString(); AsciiString(const AsciiString &); __forceinline ~AsciiString() { releaseBuffer(); } protected: void releaseBuffer(); private: void *m_data; };
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 #include <vector>
 // Opaque 12B AsciiString-vector member: only the out-of-line range-destroy
 // call appears in the record dtor, pinned at 0x2CC70 (GenericObjectCreationNugget
@@ -23,8 +33,22 @@ struct BfmeVectorRecord000BDF17 {
     unsigned char flag3C;
     BfmeVectorRecord000BDF17();
     BfmeVectorRecord000BDF17(const BfmeVectorRecord000BDF17 &);
+    // Declared, never defined here: the assignment body lives under
+    // StringVectorRecordAssignBFME2.cpp (retail 0x000BDFAC). Declaring the
+    // implicit copy-assignment suppresses this TU's competing COMDAT so
+    // vector helpers call the kept copy; their bytes are unchanged.
+    BfmeVectorRecord000BDF17 &operator=(const BfmeVectorRecord000BDF17 &);
 };
 namespace _STL {
 template <> void _Construct<BfmeVectorRecord000BDF17, BfmeVectorRecord000BDF17>(BfmeVectorRecord000BDF17 *, const BfmeVectorRecord000BDF17 &);
+}
+// No row here needs the four members that build a T() (the element's
+// default ctor is unrowed): declare them specialized so the class-wide
+// instantiation does not emit them.
+namespace _STL {
+template <> vector<BfmeVectorRecord000BDF17, allocator<BfmeVectorRecord000BDF17> >::vector(size_t);
+template <> void vector<BfmeVectorRecord000BDF17, allocator<BfmeVectorRecord000BDF17> >::push_back();
+template <> BfmeVectorRecord000BDF17 *vector<BfmeVectorRecord000BDF17, allocator<BfmeVectorRecord000BDF17> >::insert(BfmeVectorRecord000BDF17 *);
+template <> void vector<BfmeVectorRecord000BDF17, allocator<BfmeVectorRecord000BDF17> >::resize(size_t);
 }
 template class _STL::vector<BfmeVectorRecord000BDF17, _STL::allocator<BfmeVectorRecord000BDF17> >;

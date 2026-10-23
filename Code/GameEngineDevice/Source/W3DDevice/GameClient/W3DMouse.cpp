@@ -1,7 +1,11 @@
-// cl: /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/mouselayout /Ireference/open-bfme-1/reference/shims/asciistring8 /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
+// cl: /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/bfme2_thread /Ireference/open-bfme-1/reference/shims/mouselayout /Ireference/open-bfme-1/reference/shims/asciistring8 /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
 // stlport
 #define Matrix4x4 Matrix4  // BFME renamed it
 #define __PLACEMENT_VEC_NEW_INLINE  // always.h/GameMemory.h define array placement-new themselves
+
+// This view reaches ThreadClass::Execute as a private member; the ledger's body
+// at 0x006104B0 is the same function under the public spelling.
+#pragma comment(linker, "/alternatename:?Execute@ThreadClass@@QAEXXZ=?Execute@ThreadClass@@UAEXXZ")
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -32,6 +36,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+// First, so BFME 2's ThreadClass (reference/shims/bfme2_thread) wins over
+// the Zero Hour thread.h that wwstring.h reaches through mutex.h.
+#include "thread.h"
 #include "Common/GameMemory.h"
 #include "WW3D2/DX8Wrapper.h"
 #include "WW3D2/RendObj.h"
@@ -49,7 +56,6 @@
 #include "GameClient/Image.h"
 #include "GameClient/InGameUI.h"
 #include "mutex.h"
-#include "thread.h"
 
 #ifdef _INTERNAL
 // for occasional debugging...
@@ -58,13 +64,21 @@
 #endif
 
 //Since there can't be more than 1 mouse, might as well keep these static.
+// W3DMouseCtor.cpp and W3DMouseInitW3DAssets.cpp, split out of this unit, name the
+// thread and the world-cursor tables, so those have C linkage here.
 static CriticalSectionClass mutex;
 static MutexClass threadMutex;
+// isThread stays file-static: retail W3DMouse::reset stores it after the redraw-mode
+// compare, which the compiler only schedules so for a static. W3DMouseInitW3DAssets.cpp
+// defines the C name its body reads.
 static Bool isThread;
 static TextureClass *cursorTextures[Mouse::NUM_MOUSE_CURSORS][MAX_2D_CURSOR_ANIM_FRAMES];	///<Textures for each cursor type
-static const Image *cursorImages[Mouse::NUM_MOUSE_CURSORS];			///<Images for use with the RM_POLYGON method.
-static RenderObjClass *cursorModels[Mouse::NUM_MOUSE_CURSORS];	///< W3D models for each cursor type
-static HAnimClass			*cursorAnims[Mouse::NUM_MOUSE_CURSORS];		///< W3D animations for each cursor type
+// Native image table spans DE4A50..DE4B30: 56 pointers, not the donor enum count.
+enum { RETAIL_WORLD_CURSOR_COUNT = 56 };
+extern "C" { const Image *cursorImages[RETAIL_WORLD_CURSOR_COUNT]; }			///<Images for use with the RM_POLYGON method.
+// Retail freeW3DAssets traverses 0xE0 bytes in each of these tables.
+extern "C" { RenderObjClass *cursorModels[RETAIL_WORLD_CURSOR_COUNT]; }	///< W3D models for each cursor type
+extern "C" { HAnimClass			*cursorAnims[RETAIL_WORLD_CURSOR_COUNT]; }		///< W3D animations for each cursor type
 
 ///Mouse polling/update thread function
 // Retail reaches Mouse::draw through [eax+0x30]; the reference Mouse header
@@ -79,16 +93,18 @@ public:
 	virtual void slot08(); virtual void slot09(); virtual void slot0A(); virtual void slot0B();
 	virtual void draw();
 };
-static class MouseThreadClass : public ThreadClass
+class __declspec(novtable) MouseThreadClass : public ThreadClass
 {
 
 public:
-// ??0MouseThreadClass@@ present-unmatched
-	MouseThreadClass::MouseThreadClass() : ThreadClass() {}
+	MouseThreadClass();
 
 	void Thread_Function();
 
-} thread;
+public:
+	virtual ~MouseThreadClass();	// rowed elsewhere; declared so this unit binds to it
+};
+extern "C" { MouseThreadClass thread; }
 
 void MouseThreadClass::Thread_Function()
 {
@@ -108,50 +124,27 @@ void MouseThreadClass::Thread_Function()
 }
 
 // ??0W3DMouse@@ present-unmatched
-W3DMouse::W3DMouse( void )
-{
-	// zero our event list
-	for (Int i=0; i<NUM_MOUSE_CURSORS; i++)
-	{
-		for (Int j=0; j<MAX_2D_CURSOR_ANIM_FRAMES; j++)
-			cursorTextures[i][j]=NULL;
-		cursorModels[i]=NULL;
-		cursorAnims[i]=NULL;
-	}
-
-	m_currentD3DCursor=NONE;
-	m_currentW3DCursor=NONE;
-	m_currentPolygonCursor=NONE;
-	m_currentAnimFrame = 0;
-	m_currentD3DFrame = 0;
-	m_currentFrames = 0;
-	m_currentFMS= 1.0f/1000.0f;
-
-	m_camera = NULL;
-	m_drawing = FALSE;
-
-}  // end Win32Mouse
-
 // ??1W3DMouse@@ present-unmatched
-W3DMouse::~W3DMouse( void )
+// Retail W3DMouse layout (proven by matched freeW3DAssets/initPolygonAssets
+// bodies): cursor records start at this+0x38 with a 0x54 stride and the
+// image name at record+0 (56 records: 0x38+56*0x54 = 0xF98); the live
+// cursors ride at +0x4FA4/+0x60A4 and the redraw mode at +0x12DC. The
+// shared view is shorter on all three, so this body goes through a
+// TU-local view that keeps member-access codegen with retail constants.
+struct BfmeInitPolygonCursorRec
 {
-	LPDIRECT3DDEVICE8 m_pDev=DX8Wrapper::_Get_D3D_Device8();
-
-	if (m_pDev)
-	{
-		m_pDev->ShowCursor(FALSE);	//kill DX8 cursor
-// ?setCursor@Win32Mouse@@ present-unmatched
-		Win32Mouse::setCursor(ARROW); //enable default windows cursor
-	}
-
-	freeD3DAssets();
-	freeW3DAssets();
-
-	thread.Stop();
-
-}  // end Win32Mouse
-
-// ?initPolygonAssets@W3DMouse@@AAEXXZ present-unmatched
+	AsciiString imageName;
+	char pad[0x54 - sizeof(AsciiString)];
+};
+struct BfmeInitPolygonMouseView
+{
+	char pad0[0x38];
+	BfmeInitPolygonCursorRec cursorInfo[56];
+	char pad1[0x4FA4 - (0x38 + 56*0x54)];
+	Mouse::MouseCursor currentCursor;
+	char pad2[0x60A4 - (0x4FA4 + 4)];
+	Mouse::MouseCursor currentPolygonCursor;
+};
 void W3DMouse::initPolygonAssets(void)
 {
 	CriticalSectionClass::LockClass m(mutex);
@@ -161,85 +154,23 @@ void W3DMouse::initPolygonAssets(void)
 	if (isThread)
 		return;
 
+	BfmeInitPolygonMouseView *v = reinterpret_cast<BfmeInitPolygonMouseView *>(this);
+
 	//Check if texture assets already loaded
-	if (m_currentRedrawMode == RM_POLYGON && cursorImages[1] == NULL)
+	if (*reinterpret_cast<RedrawMode *>(reinterpret_cast<char *>(this)+0x12DC) == RM_POLYGON && cursorImages[1] == NULL)
 	{
-		for (Int i=0; i<NUM_MOUSE_CURSORS; i++)
+		for (Int i=0; i<RETAIL_WORLD_CURSOR_COUNT; i++)
 		{
-			m_currentPolygonCursor = m_currentCursor;
-			if (!m_cursorInfo[i].imageName.isEmpty())
-				cursorImages[i]=TheMappedImageCollection->findImageByName(m_cursorInfo[i].imageName);
+			v->currentPolygonCursor = v->currentCursor;
+			if (!v->cursorInfo[i].imageName.isEmpty())
+				cursorImages[i]=TheMappedImageCollection->findImageByName(v->cursorInfo[i].imageName);
 		}
 	}
 }
 
-// ?freePolygonAssets@W3DMouse@@AAEXXZ present-unmatched
-void W3DMouse::freePolygonAssets(void)
-{
-
-	for (Int i=0; i<NUM_MOUSE_CURSORS; i++)
-	{
-		cursorImages[i]=NULL;
-	}
-}
-
-/**Release the textures required to display the selected cursor*/
-// ?releaseD3DCursorTextures@W3DMouse@@ present-unmatched
-Bool W3DMouse::releaseD3DCursorTextures(MouseCursor cursor)
-{
-	if (cursor == NONE || !cursorTextures[cursor][0])
-		return TRUE;	//no texture for this cursor or texture never loaded
-
-	for (Int i=0; i<MAX_2D_CURSOR_ANIM_FRAMES; i++)
-	{
-		REF_PTR_RELEASE(m_currentD3DSurface[i]);
-		REF_PTR_RELEASE(cursorTextures[cursor][i]);
-	}
-
-	return TRUE;
-}
 
 /**Load the textures required to display the selected cursor*/
 // byte-exact reconstruction: Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DMouseLoadD3DCursorTexturesThunk.cpp
-// ?loadD3DCursorTextures@W3DMouse@@ present-unmatched
-Bool W3DMouse::loadD3DCursorTextures(MouseCursor cursor)
-{
-	if (cursor == NONE || cursorTextures[cursor][0])
-		return TRUE;	//no texture for this cursor or texture already loaded
-
-	WW3DAssetManager *am=WW3DAssetManager::Get_Instance();
-	Int animFrames=m_cursorInfo[cursor].numFrames;
-
-	if (!animFrames)
-		return FALSE;	//no animation frames defined.
-	
-	const char *baseName=m_cursorInfo[cursor].textureName.str();
-	char FrameName[64];
-
-	//Clamp to reasonable number
-	if (animFrames > MAX_2D_CURSOR_ANIM_FRAMES)
-		animFrames = MAX_2D_CURSOR_ANIM_FRAMES;
-
-	m_currentFrames=0;
-
-	if (animFrames == 1)
-	{	//single animation frame without trailing numbers
-		sprintf(FrameName,"%s.tga",baseName);
-		cursorTextures[cursor][0]=	am->Get_Texture(FrameName);
-		m_currentD3DSurface[0]=cursorTextures[cursor][0]->Get_Surface_Level();
-		m_currentFrames = 1;
-	}
-	else
-	for (Int i=0; i<animFrames; i++)
-	{
-		sprintf(FrameName,"%s%04d.tga",baseName,i);
-		if ((cursorTextures[cursor][i]=am->Get_Texture(FrameName)) != NULL)
-		{	m_currentD3DSurface[m_currentFrames]=cursorTextures[cursor][i]->Get_Surface_Level();
-			m_currentFrames++;
-		}
-	}
-	return TRUE;
-}
 
 void W3DMouse::initD3DAssets(void)
 {
@@ -269,77 +200,7 @@ void W3DMouse::initD3DAssets(void)
 	}
 }
 
-// ?freeD3DAssets@W3DMouse@@ present-unmatched
-void W3DMouse::freeD3DAssets(void)
-{
-	//free pointers to texture surfaces.
-	for (Int i=0; i<MAX_2D_CURSOR_ANIM_FRAMES; i++)
-		REF_PTR_RELEASE(m_currentD3DSurface[i]);
-
-	//free textures.
-	for (i=0; i<NUM_MOUSE_CURSORS; i++)
-	{
-		for (Int j=0; j<MAX_2D_CURSOR_ANIM_FRAMES; j++)
-			REF_PTR_RELEASE(cursorTextures[i][j]);
-	}
-
-}
-
-// ?initW3DAssets@W3DMouse@@AAEXXZ present-unmatched
-void W3DMouse::initW3DAssets(void)
-{
-	CriticalSectionClass::LockClass m(mutex);
-
-	//don't allow the mouse thread to initialize
-	//wait for main app to do initialization.
-	if (isThread)
-		return;
-
-	//Check if model assets already loaded
-	if ((cursorModels[1] == NULL && W3DDisplay::m_assetManager))
-	{
-		for (Int i=1; i<NUM_MOUSE_CURSORS; i++)
-		{
-			if (!m_cursorInfo[i].W3DModelName.isEmpty())
-			{
-				if (m_orthoCamera)
-					cursorModels[i] = W3DDisplay::m_assetManager->Create_Render_Obj(m_cursorInfo[i].W3DModelName.str(), m_cursorInfo[i].W3DScale*m_orthoZoom, 0);
-				else
-					cursorModels[i] = W3DDisplay::m_assetManager->Create_Render_Obj(m_cursorInfo[i].W3DModelName.str(), m_cursorInfo[i].W3DScale, 0);
-				if (cursorModels[i])
-				{
-					cursorModels[i]->Set_Position(Vector3(0.0f, 0.0f, -1.0f));
-					//W3DDisplay::m_3DInterfaceScene->Add_Render_Object(cursorModels[i]);
-				}
-			}
-		}
-	}
-	if ((cursorAnims[1] == NULL && W3DDisplay::m_assetManager))
-	{
-		for (Int i=1; i<NUM_MOUSE_CURSORS; i++)
-		{
-			if (!m_cursorInfo[i].W3DAnimName.isEmpty())
-			{
-				DEBUG_ASSERTCRASH(cursorAnims[i] == NULL, ("hmm, leak festival"));
-				cursorAnims[i] = W3DDisplay::m_assetManager->Get_HAnim(m_cursorInfo[i].W3DAnimName.str());
-				if (cursorAnims[i] && cursorModels[i])
-				{
-					cursorModels[i]->Set_Animation(cursorAnims[i], 0, (m_cursorInfo[i].loop) ? RenderObjClass::ANIM_MODE_LOOP : RenderObjClass::ANIM_MODE_ONCE);
-				}
-			}
-		}
-	}
-
-	// create the camera
-	m_camera = NEW_REF( CameraClass, () );
-	m_camera->Set_Position( Vector3( 0, 1, 1 ) );
-	Vector2 min = Vector2( -1, -1 );
-	Vector2 max = Vector2( +1, +1 );
-	m_camera->Set_View_Plane( min, max );		
-	m_camera->Set_Clip_Planes( 0.995f, 20.0f );
-	if (m_orthoCamera)
-		m_camera->Set_Projection_Type( CameraClass::ORTHO );
-}
+// W3DMouse::initW3DAssets is defined with its retail-matched body in Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DMouseInitW3DAssets.cpp (0x00099B6F).
 
 // BFME reaches Remove_Render_Object at the interface scene's vtable +0x0c, one
 // slot ahead of where the ZH SceneClass declaration puts it.
@@ -404,11 +265,11 @@ public:
 	virtual void Set_Animation( HAnimClass *anim, float frame, int mode ) = 0;
 };
 
-// ?freeW3DAssets@W3DMouse@@AAEXXZ present-unmatched
 void W3DMouse::freeW3DAssets(void)
 {
-
-	for (Int i=0; i<NUM_MOUSE_CURSORS; i++)
+	// The retail model and animation tables span 56 entries (0xE0 bytes),
+	// independent of the shorter reference enum bound.
+	for (Int i=0; i<RETAIL_WORLD_CURSOR_COUNT; i++)
 	{
 		if (W3DDisplay::m_3DInterfaceScene && cursorModels[i])
 		{
@@ -420,7 +281,8 @@ void W3DMouse::freeW3DAssets(void)
 		if (cursorAnims[i]) { cursorAnims[i]->Release_Ref(); cursorAnims[i] = NULL; }
 	}
 
-	if (m_camera) { m_camera->Release_Ref(); m_camera = NULL; }
+	CameraClass *&retailCamera = *reinterpret_cast<CameraClass **>(reinterpret_cast<char *>(this) + 0x609C);
+	if (retailCamera) { retailCamera->Release_Ref(); retailCamera = NULL; }
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -545,13 +407,6 @@ struct BfmeMouseCameraDepth
 	Real depth;
 };
 
-// Keep the inline CameraClass accessor COMDAT available to the existing
-// same-TU alias row at 0x006E2440; draw itself uses the proven BFME +0xf4
-// field and must not call the shifted reference accessor.
-typedef Real (CameraClass::*BfmeMouseCameraDepthAccessor)( void ) const;
-static volatile BfmeMouseCameraDepthAccessor BfmeMouseCameraDepthMethod =
-	&CameraClass::Get_Depth;
-
 // The generated thunk is the proven direct route to Display::drawImage's
 // float-coordinate implementation.  Its placeholder declaration is void(),
 // so the call site supplies the recovered ABI through a typed cast.
@@ -562,424 +417,67 @@ extern void j_000350bc( void );
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
 
-// ?init@W3DMouse@@UAEXXZ present-unmatched
-void W3DMouse::init( void )
-{
-
-	//check if system already initialized and texture assets loaded.
-	Win32Mouse::init();
-	((BfmeVirtualMouseSetCursor *)this)->setCursor(ARROW);	//set default starting cursor image
-
-	WWASSERT(!thread.Is_Running());
-
-
-	isThread=FALSE;
-	if (m_currentRedrawMode == RM_DX8)
-		thread.Execute();
-	thread.Set_Priority(0);
-	
-}  // end int
+// W3DMouse::init is the retail-matched body below (0x000990CF, subsystem slot 1).
 
 //-------------------------------------------------------------------------------------------------
 /** Reset */
 //-------------------------------------------------------------------------------------------------
-// ?reset@W3DMouse@@ present-unmatched
-void W3DMouse::reset( void )
+// The reset body uses setCursor at vtable slot 0x4C, five slots after the
+// cursor-only facade above.  The retail redraw-mode field is at this+0x12DC;
+// the reference class view puts it at +0x10E0.
+class BfmeW3DMouseResetVtable
+{
+public:
+	virtual void slot00() = 0;
+	virtual void slot04() = 0;
+	virtual void slot08() = 0;
+	virtual void slot0C() = 0;
+	virtual void slot10() = 0;
+	virtual void slot14() = 0;
+	virtual void slot18() = 0;
+	virtual void slot1C() = 0;
+	virtual void slot20() = 0;
+	virtual void slot24() = 0;
+	virtual void slot28() = 0;
+	virtual void slot2C() = 0;
+	virtual void slot30() = 0;
+	virtual void slot34() = 0;
+	virtual void slot38() = 0;
+	virtual void slot3C() = 0;
+	virtual void slot40() = 0;
+	virtual void slot44() = 0;
+	virtual void slot48() = 0;
+	virtual void setCursor(Int cursor) = 0;
+};
+void W3DMouse::init( void )
 {
 
 	// extend
-	Win32Mouse::reset();
+	Win32Mouse::init();
+	((BfmeW3DMouseResetVtable *)this)->setCursor(ARROW);
 
-}  // end reset
+	isThread=FALSE;
+	if (*reinterpret_cast<RedrawMode *>(reinterpret_cast<char *>(this)+0x12DC) == RM_DX8)
+		thread.Execute();
+	thread.Set_Priority(0);
+
+}  // end init
 
 //-------------------------------------------------------------------------------------------------
 /** Super basic simplistic cursor */
 //-------------------------------------------------------------------------------------------------
-// ?setCursor@W3DMouse@@UAEXW4MouseCursor@Mouse@@@Z present-unmatched
-void W3DMouse::setCursor( MouseCursor cursor )
-{
-
-	CriticalSectionClass::LockClass m(mutex);
-
-	m_directionFrame=0;
-	if (m_currentRedrawMode == RM_WINDOWS)
-	{	//Windows default cursor needs to refreshed whenever we get a WM_SETCURSOR
-		m_currentD3DCursor=NONE;
-		m_currentW3DCursor=NONE;
-		m_currentPolygonCursor=NONE;
-		setCursorDirection(cursor);
-		if (m_drawing)	//only allow cursor to change when drawing the cursor (once per frame) to fix flickering.
-			Win32Mouse::setCursor(cursor);
-		if (m_currentCursor != cursor)
-			m_currentCursor = cursor;
-		return;
-	}
-
-	// extend 
-	Mouse::setCursor( cursor );
-
-	// if we're already on this cursor ignore the rest of code to stop cursor flickering.
-	if( m_currentCursor == cursor && m_currentD3DCursor == cursor)
-		return;
-
-	//make sure Windows didn't reset our cursor
-	if (m_currentRedrawMode == RM_DX8)
-	{
-		SetCursor(NULL);	//Kill Windows Cursor
-
-		LPDIRECT3DDEVICE8 m_pDev=DX8Wrapper::_Get_D3D_Device8();
-		Bool doImageChange=FALSE;
-
-		if (m_pDev != NULL)
-		{
-			m_pDev->ShowCursor(FALSE);	//disable DX8 cursor
-			if (cursor != m_currentD3DCursor)
-			{	if (!isThread)
-				{	releaseD3DCursorTextures(m_currentD3DCursor);
-					//Since this type of cursor is updated from a non-D3D thread, we need
-					//to preallocate all surfaces in main thread.
-					loadD3DCursorTextures(cursor);
-				}	
-			}
-			if (m_currentD3DSurface[0])
-				doImageChange=TRUE;
-		}
-		//For DX8 Cursors, we continually set the image on every call even when
-		//it didn't change.  This is needed to prevent the cursor from flickering.
-		if (doImageChange)
-		{
-			HRESULT res;
-			m_currentHotSpot = m_cursorInfo[cursor].hotSpotPosition;
-			m_currentFMS = m_cursorInfo[cursor].fps/1000.0f;
-			m_currentAnimFrame = 0;	//reset animation when cursor changes
-			IDirect3DSurface8 *surface = (IDirect3DSurface8 *)m_currentD3DSurface[(Int)m_currentAnimFrame];
-			res = m_pDev->SetCursorProperties(m_currentHotSpot.x,m_currentHotSpot.y,
-					surface);
-			m_pDev->ShowCursor(TRUE);	//Enable DX8 cursor
-			m_currentD3DFrame=(Int)m_currentAnimFrame;
-			m_currentD3DCursor = cursor;
-			m_lastAnimTime=timeGetTime();
-		}
-	}
-	else if (m_currentRedrawMode == RM_POLYGON)
-	{
-		SetCursor(NULL);	//Kill Windows Cursor
-		m_currentD3DCursor=NONE;
-		m_currentW3DCursor=NONE;
-		m_currentPolygonCursor = cursor;
-		m_currentHotSpot = m_cursorInfo[cursor].hotSpotPosition;
-	}
-	else if (m_currentRedrawMode == RM_W3D)
-	{
-		SetCursor(NULL);	//Kill Windows Cursor
-		m_currentD3DCursor=NONE;
-		m_currentPolygonCursor=NONE;
-		if (cursor != m_currentW3DCursor)
-		{
-			// set the new model visible
-			if (!cursorModels[1])
-				initW3DAssets();
-
-			if (cursorModels[1])
-			{
-				if (cursorModels[m_currentW3DCursor])
-				{
-					((BfmeInterfaceScene *)W3DDisplay::m_3DInterfaceScene)->Remove_Render_Object(cursorModels[m_currentW3DCursor]);
-				}
-
-				m_currentW3DCursor=cursor;
-
-				if (cursorModels[m_currentW3DCursor])
-				{
-					((BfmeInterfaceScene *)W3DDisplay::m_3DInterfaceScene)->Add_Render_Object(cursorModels[m_currentW3DCursor]);
-					if (m_cursorInfo[m_currentW3DCursor].loop == FALSE && cursorAnims[m_currentW3DCursor])
-					{
-						((BfmeCursorRenderObject *)cursorModels[m_currentW3DCursor])->Set_Animation(cursorAnims[m_currentW3DCursor], 0, RenderObjClass::ANIM_MODE_ONCE);
-					}
-				}
-			}
-		}
-		else
-		{
-			m_currentW3DCursor=cursor;
-		}
-	}
-
-	// save current cursor
-	m_currentCursor = cursor;
-
-}  // end setCursor
+// W3DMouse::setCursor is defined with its retail-matched body in Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DMouseInitW3DAssets.cpp (0x00099DCC).
 
 extern HWND ApplicationHWnd;
 
 // ?draw@W3DMouse@@UAEXXZ present-unmatched
-void W3DMouse::draw(void)
-{
-	CriticalSectionClass::LockClass m(mutex);
+// W3DMouse::setRedrawMode is defined with its retail-matched body in Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DMouseInitW3DAssets.cpp (0x0009A04A).
 
-	m_drawing = 1;
+// W3DMouse::setCursorDirection is defined in W3DMouseCursorDirection.cpp
+// with the target cursor layout and InGameUI virtual prefix.
 
-	//make sure the correct cursor image is selected
-	((BfmeVirtualMouseSetCursor *)this)->setCursor(m_currentCursor);
 
-	if (m_currentRedrawMode == RM_DX8 && m_currentD3DCursor != NONE)
-	{
-		//called from upate thread or rendering loop.  Tells D3D where
-		//to draw the mouse cursor.
-		LPDIRECT3DDEVICE8 m_pDev=DX8Wrapper::_Get_D3D_Device8();
-		if (m_pDev)
-		{	m_pDev->ShowCursor(1);	//Enable DX8 cursor
-
-			if (TheDisplay && !((BfmeMouseDisplayDraw *)TheDisplay)->getWindowed())
-			{	//if we're full-screen, need to manually move cursor image
-				POINT ptCursor;
-
-				GetCursorPos( &ptCursor );
-				ScreenToClient( ApplicationHWnd, &ptCursor );
-				m_pDev->SetCursorPosition( ptCursor.x, ptCursor.y, 1);
-			}
-			//Check if animated cursor and new frame
-			if (m_currentFrames > 1)
-			{
-				Int msTime=timeGetTime();
-				m_currentAnimFrame += (msTime-m_lastAnimTime) * m_currentFMS;
-				m_currentAnimFrame=fmod(m_currentAnimFrame,m_currentFrames);
-				m_lastAnimTime=msTime;
-
-				if ((Int)m_currentAnimFrame != m_currentD3DFrame)
-				{
-					m_currentD3DFrame=(Int)m_currentAnimFrame;
-					IDirect3DSurface8 *surface = (IDirect3DSurface8 *)m_currentD3DSurface[m_currentD3DFrame];
-					m_pDev->SetCursorProperties(m_currentHotSpot.x,m_currentHotSpot.y,surface);
-				}
-			}
-		}
-	}
-	else if (m_currentRedrawMode == RM_POLYGON)
-	{	
-		const Image *image=cursorImages[m_currentPolygonCursor];
-		if (image)
-		{
-			typedef void (Display::*BfmeDisplayDrawImage)(const Image *, Real, Real, Real, Real, Int, Int);
-			union
-			{
-				void (*function)(void);
-				BfmeDisplayDrawImage member;
-			} drawImageThunk;
-			drawImageThunk.function = j_0000a114;
-			(TheDisplay->*drawImageThunk.member)(
-				image,
-				((BfmeMouseDrawLayout *)this)->pos.first-m_currentHotSpot.x,
-				((BfmeMouseDrawLayout *)this)->pos.second-m_currentHotSpot.y,
-				((BfmeMouseDrawLayout *)this)->pos.first+image->getImageWidth()-m_currentHotSpot.x,
-				((BfmeMouseDrawLayout *)this)->pos.second+image->getImageHeight()-m_currentHotSpot.y, -1, 2);
-		}
-	}
-	else if (m_currentRedrawMode == RM_WINDOWS)
-	{
-	}
-	else if (m_currentRedrawMode == RM_W3D)
-	{
-		typedef bool (Win32Mouse::*BfmeCursorVisibility)(void);
-		union
-		{
-			void (*function)(void);
-			BfmeCursorVisibility member;
-		} cursorVisibilityThunk;
-		cursorVisibilityThunk.function = j_00023fa6;
-		if ( W3DDisplay::m_3DInterfaceScene && m_camera &&
-			(this->*cursorVisibilityThunk.member)())
-		{
-			if (cursorModels[m_currentW3DCursor])
-			{
-				Real xPercent = (1.0f - (((BfmeMouseDisplayDraw *)TheDisplay)->getWidth() - ((BfmeMouseDrawLayout *)this)->pos.first) / (Real)((BfmeMouseDisplayDraw *)TheDisplay)->getWidth());
-				Real yPercent = ((((BfmeMouseDisplayDraw *)TheDisplay)->getHeight() - ((BfmeMouseDrawLayout *)this)->pos.second) / (Real)((BfmeMouseDisplayDraw *)TheDisplay)->getHeight());
-
-				Real x, y, z = -1.0f;
-
-				if (m_orthoCamera)
-				{
-					x = xPercent*2 - 1;
-					y = yPercent*2;
-				}
-				else
-				{
-					//W3D Screen coordinates are -1 to 1, so we need to do some conversion:
-					Real logX, logY;
-					PixelScreenToW3DLogicalScreen(((BfmeMouseDrawLayout *)this)->pos.first - 0, ((BfmeMouseDrawLayout *)this)->pos.second - 0, &logX, &logY, ((BfmeMouseDisplayDraw *)TheDisplay)->getWidth(), ((BfmeMouseDisplayDraw *)TheDisplay)->getHeight());
-
-					Vector3 rayStart;
-					Vector3 rayEnd;
-					rayStart = m_camera->Get_Position();							//get camera location
-					m_camera->Un_Project(rayEnd,Vector2(logX,logY));	//get world space point
-					rayEnd -= rayStart;																//vector camera to world space point
-					rayEnd.Normalize();																//make unit vector
-					rayEnd *= ((BfmeMouseCameraDepth *)m_camera)->depth;									//adjust length to reach far clip plane
-					rayEnd += rayStart;																//get point on far clip plane along ray from camera.
-
-					x = Vector3::Find_X_At_Z(z, rayStart, rayEnd);
-					y = Vector3::Find_Y_At_Z(z, rayStart, rayEnd);
-				}
-
-				Matrix3D tm(1);
-				tm.Set_Translation(Vector3(x, y, z));
-				Coord2D offset = {0, 0};
-				if (TheInGameUI && TheInGameUI->isScrolling())
-				{
-					offset = TheInGameUI->getScrollAmount();
-					offset.normalize();
-					Real theta = atan2(-offset.y, offset.x);
-					theta -= (Real)M_PI/2;
-					tm.Rotate_Z(theta);
-				}
-				((BfmeMouseRenderTransform *)cursorModels[m_currentW3DCursor])->Set_Transform(tm);
-
-				WW3D::Render( W3DDisplay::m_3DInterfaceScene, m_camera );
-			}
-		}
-	}
-
-	//@todo: In DX8 mode the mouse is drawn in another thread which isn't allowed
-	//access to D3D so we can't do any drawing here.
-	// draw the cursor text through the existing BFME ILT.  The generated
-	// thunk is the actual route used by this body, not a new identity pin.
-	if (!isThread)
-	{
-		typedef void (Mouse::*BfmeDrawCursorText)(void);
-		union
-		{
-			void (*function)(void);
-			BfmeDrawCursorText member;
-		} drawCursorTextThunk;
-		drawCursorTextThunk.function = j_00032e39;
-		(reinterpret_cast<Mouse *>(this)->*drawCursorTextThunk.member)();
-	}
-
-	// BFME's tooltip gate uses the three GlobalData flags and the Win32
-	// visibility predicate before taking the existing tooltip ILT.
-	BfmeMouseTooltipGlobalData *tooltipData =
-		(BfmeMouseTooltipGlobalData *)TheWritableGlobalData;
-	typedef bool (Win32Mouse::*BfmeCursorVisibility)(void);
-	union
-	{
-		void (*function)(void);
-		BfmeCursorVisibility member;
-	} tooltipVisibilityThunk;
-	tooltipVisibilityThunk.function = j_00023fa6;
-	Bool tooltipFlagE54 = tooltipData->fieldE54;
-	if ((tooltipData->fieldA90 || tooltipData->fieldA88 || tooltipFlagE54) &&
-		(reinterpret_cast<Win32Mouse *>(this)->*tooltipVisibilityThunk.member)() && !isThread)
-	{
-		typedef void (Mouse::*BfmeDrawTooltip)(void);
-		union
-		{
-			void (*function)(void);
-			BfmeDrawTooltip member;
-		} drawTooltipThunk;
-		drawTooltipThunk.function = j_000350bc;
-		(reinterpret_cast<Mouse *>(this)->*drawTooltipThunk.member)();
-	}
-
-	m_drawing = FALSE;
-}
-
-// ?setRedrawMode@W3DMouse@@ present-unmatched
-void W3DMouse::setRedrawMode(RedrawMode mode)
-{
-	MouseCursor cursor = getMouseCursor();
-
-	//Turn off the previous cursor mode
-	setCursor(NONE);
-
-	m_currentRedrawMode=mode;
-
-	switch (mode)
-	{
-		case RM_WINDOWS:
-		{	//Windows mouse doesn't need an update thread.
-			if (thread.Is_Running())
-				thread.Stop();
-			freeD3DAssets();	//using Windows resources
-			freeW3DAssets();
-			freePolygonAssets();
-			m_currentD3DCursor = NONE;
-			m_currentW3DCursor = NONE;
-			m_currentPolygonCursor = NONE;
-		}
-		break;
-
-		case RM_W3D:
-		{	//Model mouse updated only at render time so doesn't
-			//require thread.
-			if (thread.Is_Running())
-				thread.Stop();
-			freeD3DAssets();	//using packed Image data, not textures.
-			freePolygonAssets();
-			m_currentD3DCursor = NONE;
-			m_currentPolygonCursor = NONE;
-			initW3DAssets();
-		}
-		break;
-
-		case RM_POLYGON:
-		{	//Polygon mouse updated only at render time so doesn't
-			//require thread.
-			if (thread.Is_Running())
-				thread.Stop();
-			freeD3DAssets();	//using packed Image data, not textures.
-			freeW3DAssets();
-			m_currentD3DCursor = NONE;
-			m_currentW3DCursor = NONE;
-			m_currentPolygonCursor = NONE;
-			initPolygonAssets();
-		}
-		break;
-
-		case RM_DX8:
-		{	//this cursor type is drawn by DX8 and can be refreshed
-			//independent of rendering rate.  Uses another thread to do
-			//position updates.
-			initD3DAssets();	//make sure textures loaded.
-			freeW3DAssets();
-			freePolygonAssets();
-			if (!thread.Is_Running())
-				thread.Execute();
-			m_currentW3DCursor = NONE;
-			m_currentPolygonCursor = NONE;
-			break;
-		}
-	}
-
-	setCursor(NONE);
-	setCursor(cursor);
-}
-
-// ?setCursorDirection@W3DMouse@@AAEXW4MouseCursor@Mouse@@@Z present-unmatched
-void W3DMouse::setCursorDirection(MouseCursor cursor)
-{
-	Coord2D offset = {0, 0};
-	//Check if we have a directional cursor that needs different images for each direction
-	if (m_cursorInfo[cursor].numDirections > 1 && TheInGameUI && TheInGameUI->isScrolling())
-	{
-		offset = TheInGameUI->getScrollAmount();
-		if (offset.x || offset.y)
-		{
-			offset.normalize();
-			Real theta = atan2(offset.y, offset.x);
-			theta = fmod(theta+M_PI*2,M_PI*2);
-			Int numDirections=m_cursorInfo[m_currentCursor].numDirections;
-			//Figure out which of our predrawn cursor orientations best matches the
-			//actual cursor direction.  Frame 0 is assumed to point right and continue
-			//clockwise.
-			m_directionFrame=(Int)(theta/(2.0f*M_PI/(Real)numDirections)+0.5f);
-			if (m_directionFrame >= numDirections)
-				m_directionFrame = 0;
-		}
-		else
-		{
-			m_directionFrame=0;
-		}
-	}
-	else
-		m_directionFrame = 0;
-}
+// Names this unit references that no unit defines under that spelling. Each is
+// bound to the row that owns the pinned retail address (same address, same
+// body); the pin keeps the name, the row supplies the definition.
+#pragma comment(linker, "/alternatename:?Execute@ThreadClass@@QAEXXZ=?Execute@ThreadClass@@UAEXXZ")

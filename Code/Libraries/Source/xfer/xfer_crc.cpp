@@ -1,5 +1,8 @@
-// cl: /DNDEBUG /MD /O1
+// cl: /DNDEBUG /MD
 // Clean C++ conversion of the byte-block state accumulator at retail RVA 0x009D6330.
+// The donor's base-update member shares the pinned address and thiscall ABI of
+// XferSave::XferEnum; preserve the call-site bytes while resolving its spelling.
+#pragma comment(linker, "/alternatename:?bfmeBaseUpdate@Gen009D6330@@QAEXPAXPBXI@Z=?XferEnum@XferSave@@UAEXPAXPBXI@Z")
 
 class Gen009D6330
 {

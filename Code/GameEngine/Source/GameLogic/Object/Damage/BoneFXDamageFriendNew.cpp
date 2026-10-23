@@ -21,7 +21,15 @@ private:
 };
 
 // ?friend_newModuleInstance@BoneFXDamage@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *BoneFXDamage::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *BoneFXDamage::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new BoneFXDamage(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitBoneFXDamageFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitBoneFXDamageFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	BoneFXDamage::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

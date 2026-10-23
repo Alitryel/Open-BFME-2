@@ -1,8 +1,8 @@
-// cl: /O1 /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /arch:SSE
+// cl: /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0ToggleMountedSpecialAbilityUpdateModuleData@@QAE@XZ, retail 0x004AE0AC, 67 bytes.
-// ModuleData ctor over the pinned Rva0044EB54 intermediate base (0x44EB54,
+// ModuleData ctor over the pinned SpecialAbilityUpdateModuleData intermediate base (0x44EB54,
 // 0xC8 bytes, opaque). The chained proc 0x24F66F (rowed, on the rowed base
 // proc 0x44ED95 plus table 0x00BEF770) plus the rowed ModuleData factory
 // 0x24F6C5 (news 0xE0, sole caller) prove the class; the table gives the
@@ -29,21 +29,21 @@
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 
-struct BfmeE16 { float x, y, z, w; };
+#include "../../../../../Libraries/Include/Lib/BfmeE16.h"
 
 static int s_vtableAnchor;
 
-class Rva0044EB54
+class SpecialAbilityUpdateModuleData
 {
 public:
-	Rva0044EB54();
-	virtual ~Rva0044EB54();
+	SpecialAbilityUpdateModuleData();
+	virtual ~SpecialAbilityUpdateModuleData();
 
 private:
 	unsigned char m_opaque[0xC8 - 4];
 };
 
-class ToggleMountedSpecialAbilityUpdateModuleData : public Rva0044EB54
+class ToggleMountedSpecialAbilityUpdateModuleData : public SpecialAbilityUpdateModuleData
 {
 public:
 	ToggleMountedSpecialAbilityUpdateModuleData();

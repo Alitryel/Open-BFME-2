@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims
+// cl: /Ireference/shims/aiupdatelayout /Ireference/shims/partitionfilterzh /Ireference/shims/zh_outofline /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims
 // stlport
 // Ported verbatim from the Generals Zero Hour reference (GameEngine/Source/GameLogic/Object/Update/AIUpdate/JetAIUpdate.cpp); this unit had no counterpart under Code/.
 #define Matrix4x4 Matrix4  // BFME renamed it
@@ -31,6 +31,15 @@
 // JetAIUpdate.cpp //////////
 
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include <list>
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 
 #define DEFINE_LOCOMOTORSET_NAMES
 
@@ -52,6 +61,23 @@
 #include "GameLogic/AIPathfind.h"
 #include "GameLogic/PartitionManager.h"
 #include "GameLogic/Weapon.h"
+#include "GameLogic/PartitionFilterZh.h"
+
+// BFME 2's Object keeps its behavior list at +0x244 (the matched
+// Object::findModule 0x0028B6D6 walks it there), its contain module at +0x250
+// and its body module at +0x254; this tree's Zero Hour Object.h has +0x18C,
+// +0x190 and +0x194. This unit reads them through these functions instead of
+// the header's inline getters, whose Zero Hour copies would otherwise come
+// early in link order and displace every BFME 2 unit's copy (retail has no
+// out-of-line Object getter: the 7-byte bodies at 0x00313E8C/93/9A are
+// GameWindow text-colour getters).
+static BehaviorModule **getRetailBehaviorModules( const Object *obj ) { return *(BehaviorModule ** const *)((const char *)obj + 0x244); }
+static ContainModuleInterface *getRetailContain( const Object *obj ) { return *(ContainModuleInterface * const *)((const char *)obj + 0x250); }
+static BodyModuleInterface *getRetailBodyModule( const Object *obj ) { return *(BodyModuleInterface * const *)((const char *)obj + 0x254); }
+
+// Reuse the complete byte-verified Coord3D push-back provider at2CE7DC.
+// Its declaration suppresses a second template body under this TU flags.
+namespace _STL { template<> void vector<Coord3D>::push_back(const Coord3D&); }
 
 const Real BIGNUM = 99999.0f;
 
@@ -146,7 +172,7 @@ static ParkingPlaceBehaviorInterface* getPP(ObjectID id, Object** airfieldPP = N
 		*airfieldPP = airfield;
 
 	ParkingPlaceBehaviorInterface* pp = NULL;
-	for (BehaviorModule** i = airfield->getBehaviorModules(); *i; ++i)
+	for (BehaviorModule** i = getRetailBehaviorModules(airfield); *i; ++i)
 	{
 		if ((pp = (*i)->getParkingPlaceBehaviorInterface()) != NULL)
 			break;
@@ -183,7 +209,7 @@ static Object* findSuitableAirfield(Object* jet)
 	PartitionFilterRejectByObjectStatus		filterStatusTwo( MAKE_OBJECT_STATUS_MASK( OBJECT_STATUS_SOLD ), OBJECT_STATUS_MASK_NONE ); // Independent to make it an OR
 	PartitionFilterRelationship						filterTeam(jet, PartitionFilterRelationship::ALLOW_ALLIES);
 	PartitionFilterAlive									filterAlive;
-	PartitionFilterSameMapStatus					filterMapStatus(jet);
+	PartitionFilterSameMapStatusZh					filterMapStatus(jet);
 	PartitionFilterHasParkingPlace				filterPP(jet->getID());
 
 	PartitionFilter *filters[16];
@@ -394,7 +420,7 @@ public:
 			// convert to damage/sec to damage/frame
 			damageRate *= SECONDS_PER_LOGICFRAME_REAL;
 			// since it's a percentage, multiply times the max health
-			damageRate *= jet->getBodyModule()->getMaxHealth();
+			damageRate *= getRetailBodyModule(jet)->getMaxHealth();
 
 			DamageInfo damageInfo;
 			damageInfo.in.m_damageType = DAMAGE_UNRESISTABLE;
@@ -743,7 +769,7 @@ public:
 		Locomotor* loco = jetAI->getCurLocomotor();
 		DEBUG_ASSERTCRASH(loco, ("no loco"));
 		loco->setMaxLift(BIGNUM);
-		BodyDamageType bdt = jet->getBodyModule()->getDamageState();
+		BodyDamageType bdt = getRetailBodyModule(jet)->getDamageState();
 		m_maxLift = loco->getMaxLift(bdt);
 		m_maxSpeed = loco->getMaxSpeedForCondition(bdt);
 		m_landingSoundPlayed = FALSE;
@@ -1467,13 +1493,13 @@ public:
 		m_reloadTime = 0;
 		for (Int i = 0; i < WEAPONSLOT_COUNT;	++i)
 		{
-			const Weapon* w = jet->getWeaponInWeaponSlot((WeaponSlotType)i);
-			if (w == NULL)
+			const Weapon* weapon = jet->getWeaponInWeaponSlot((WeaponSlotType)i);
+			if (weapon == NULL)
 				continue;
 			
-			Int remaining = w->getRemainingAmmo();
-			Int clipSize = w->getClipSize();
-			Int rt = w->getClipReloadTime(jet);
+			Int remaining = weapon->getRemainingAmmo();
+			Int clipSize = weapon->getClipSize();
+			Int rt = weapon->getClipReloadTime(jet);
 			if (clipSize > 0)
 			{
 				// bias by amount empty.
@@ -1497,16 +1523,16 @@ public:
 		Bool allDone = true;
 		for (Int i = 0; i < WEAPONSLOT_COUNT;	++i)
 		{
-			Weapon* w = jet->getWeaponInWeaponSlot((WeaponSlotType)i);
-			if (w == NULL)
+			Weapon* weapon = jet->getWeaponInWeaponSlot((WeaponSlotType)i);
+			if (weapon == NULL)
 				continue;
 			
 			if (now >= m_reloadDoneFrame)
-				w->setClipPercentFull(1.0f, false);
+				weapon->setClipPercentFull(1.0f, false);
 			else
-				w->setClipPercentFull((Real)(m_reloadTime - (m_reloadDoneFrame - now)) / m_reloadTime, false);
+				weapon->setClipPercentFull((Real)(m_reloadTime - (m_reloadDoneFrame - now)) / m_reloadTime, false);
 
-			if (w->getRemainingAmmo() != w->getClipSize())
+			if (weapon->getRemainingAmmo() != weapon->getClipSize())
 				allDone = false;
 		}
 
@@ -1685,9 +1711,9 @@ JetAIUpdateModuleData::JetAIUpdateModuleData()
 }
 
 //-------------------------------------------------------------------------------------------------
-/*static*/ void JetAIUpdateModuleData::buildFieldParse(MultiIniFieldParse& p) 
+/*static*/ void JetAIUpdateModuleData::buildFieldParse(MultiIniFieldParse& multiIniFieldParse) 
 {
-  AIUpdateModuleData::buildFieldParse(p);
+  AIUpdateModuleData::buildFieldParse(multiIniFieldParse);
 
 	static const FieldParse dataFieldParse[] = 
 	{
@@ -1712,7 +1738,7 @@ JetAIUpdateModuleData::JetAIUpdateModuleData()
 		{ "ReturnToBaseIdleTime",					INI::parseDurationUnsignedInt, NULL, offsetof( JetAIUpdateModuleData, m_returnToBaseIdleTime ) },
 		{ 0, 0, 0, 0 }
 	};
-  p.add(dataFieldParse);
+  multiIniFieldParse.add(dataFieldParse);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -1862,9 +1888,19 @@ void JetAIUpdate::getProducerLocation()
 
 //-------------------------------------------------------------------------------------------------
 // ?update@JetAIUpdate@@ present-unmatched
+// Retail's AIUpdateInterface::isWaitingForPath reads +0x1E9 (7B body
+// 8A81E9010000C3 measured in AIUpdate.cpp's object, which shares this unit's
+// copy); this unit's header copy differs from the 8-copy majority, and both
+// minority objects sort ahead of it in link order (L on 8 units). This read
+// goes straight at the member instead of odr-using the ZH inline, whose
+// COMDAT would otherwise displace the majority copy.
+static Bool bfmeJetWaitingForPath(const AIUpdateInterface *ai)
+{
+	return *(const Bool *)((const char *)ai + 0x1E9);
+}
 UpdateSleepTime JetAIUpdate::update()
 {
-	const JetAIUpdateModuleData* d = getJetAIUpdateModuleData();
+	const JetAIUpdateModuleData* jetAIUpdateModuleData = getJetAIUpdateModuleData();
 
 	getProducerLocation();
 
@@ -1887,7 +1923,7 @@ UpdateSleepTime JetAIUpdate::update()
 			if (!getFlag(ALLOW_AIR_LOCO) && 
 					!getFlag(HAS_PENDING_COMMAND) &&
 						jet->isKindOf(KINDOF_PRODUCED_AT_HELIPAD) &&
-						jet->getBodyModule()->getHealth() == jet->getBodyModule()->getMaxHealth())
+						getRetailBodyModule(jet)->getHealth() == getRetailBodyModule(jet)->getMaxHealth())
 			{
 				// we're completely healed, so take off again
 				pp->setHealee(jet, false);
@@ -1934,9 +1970,9 @@ UpdateSleepTime JetAIUpdate::update()
 			setLastCommandSource( CMD_FROM_AI );
 			getStateMachine()->setState(RETURNING_FOR_LANDING);
 		}
-		else if (m_returnToBaseFrame  == 0 && d->m_returnToBaseIdleTime > 0 && getFlag(ALLOW_AIR_LOCO))
+		else if (m_returnToBaseFrame  == 0 && jetAIUpdateModuleData->m_returnToBaseIdleTime > 0 && getFlag(ALLOW_AIR_LOCO))
 		{
-			m_returnToBaseFrame = now + d->m_returnToBaseIdleTime;
+			m_returnToBaseFrame = now + jetAIUpdateModuleData->m_returnToBaseIdleTime;
 		}
 	}
 	else
@@ -1998,8 +2034,8 @@ UpdateSleepTime JetAIUpdate::update()
 
 	if (jet->testStatus(OBJECT_STATUS_IS_ATTACKING))
 	{
-		m_attackLocoExpireFrame = now + d->m_attackLocoPersistTime;
-		m_attackersMissExpireFrame = now + d->m_attackersMissPersistTime;
+		m_attackLocoExpireFrame = now + jetAIUpdateModuleData->m_attackLocoPersistTime;
+		m_attackersMissExpireFrame = now + jetAIUpdateModuleData->m_attackersMissPersistTime;
 	}
 	else
 	{
@@ -2022,11 +2058,11 @@ UpdateSleepTime JetAIUpdate::update()
 	
 	if (m_attackLocoExpireFrame != 0)
 	{
-		chooseLocomotorSet(d->m_attackingLoco);
+		chooseLocomotorSet(jetAIUpdateModuleData->m_attackingLoco);
 	}
 	else if (getFlag(USE_SPECIAL_RETURN_LOCO))
 	{
-		chooseLocomotorSet(d->m_returningLoco);
+		chooseLocomotorSet(jetAIUpdateModuleData->m_returningLoco);
 	}
 
 	
@@ -2039,7 +2075,7 @@ UpdateSleepTime JetAIUpdate::update()
 					|| getFlag(LANDING_IN_PROGRESS) 
 					|| getObject()->isSignificantlyAboveTerrain() 
 					|| isMoving() 
-					|| isWaitingForPath() )
+					|| bfmeJetWaitingForPath(this) )
 			{
 				if( !m_enginesOn )
 				{
@@ -2068,18 +2104,18 @@ UpdateSleepTime JetAIUpdate::update()
 // ?chooseLocomotorSet@JetAIUpdate@@ present-unmatched
 Bool JetAIUpdate::chooseLocomotorSet(LocomotorSetType wst)
 {
-	const JetAIUpdateModuleData* d = getJetAIUpdateModuleData();
+	const JetAIUpdateModuleData* jetAIUpdateModuleData = getJetAIUpdateModuleData();
 	if (!getFlag(ALLOW_AIR_LOCO))
 	{
 		wst = LOCOMOTORSET_TAXIING;
 	}
 	else if (m_attackLocoExpireFrame != 0)
 	{
-		wst = d->m_attackingLoco;
+		wst = jetAIUpdateModuleData->m_attackingLoco;
 	}
 	else if (getFlag(USE_SPECIAL_RETURN_LOCO))
 	{
-		wst = d->m_returningLoco;
+		wst = jetAIUpdateModuleData->m_returningLoco;
 	}
 	return AIUpdateInterface::chooseLocomotorSet(wst);
 }
@@ -2112,11 +2148,11 @@ Bool JetAIUpdate::getSneakyTargetingOffset(Coord3D* offset) const
 	{
 		if (offset)
 		{
-			const JetAIUpdateModuleData* d = getJetAIUpdateModuleData();
+			const JetAIUpdateModuleData* jetAIUpdateModuleData = getJetAIUpdateModuleData();
 			const Object* jet = getObject();
 			const Coord3D* dir = jet->getUnitDirectionVector2D();
-			offset->x = dir->x * d->m_sneakyOffsetWhenAttacking;
-			offset->y = dir->y * d->m_sneakyOffsetWhenAttacking;
+			offset->x = dir->x * jetAIUpdateModuleData->m_sneakyOffsetWhenAttacking;
+			offset->y = dir->y * jetAIUpdateModuleData->m_sneakyOffsetWhenAttacking;
 			offset->z = 0.0f;
 		}
 		return true;
@@ -2161,16 +2197,16 @@ void JetAIUpdate::positionLockon()
 		return;
 	}
 
-	const JetAIUpdateModuleData* d = getJetAIUpdateModuleData();
+	const JetAIUpdateModuleData* jetAIUpdateModuleData = getJetAIUpdateModuleData();
 	UnsignedInt now = TheGameLogic->getFrame();
 	UnsignedInt remaining = m_untargetableExpireFrame - now;
-	UnsignedInt elapsed = d->m_lockonTime - remaining;
+	UnsignedInt elapsed = jetAIUpdateModuleData->m_lockonTime - remaining;
 
 	Coord3D pos = *getObject()->getPosition();
-	Real frac = (Real)remaining / (Real)d->m_lockonTime;
+	Real frac = (Real)remaining / (Real)jetAIUpdateModuleData->m_lockonTime;
 	Real finalDist = getObject()->getGeometryInfo().getBoundingCircleRadius();
-	Real dist = finalDist + (d->m_lockonInitialDist - finalDist) * frac;
-	Real angle = d->m_lockonAngleSpin * frac;
+	Real dist = finalDist + (jetAIUpdateModuleData->m_lockonInitialDist - finalDist) * frac;
+	Real angle = jetAIUpdateModuleData->m_lockonAngleSpin * frac;
 
 	pos.x += Cos(angle) * dist;
 	pos.y += Sin(angle) * dist;
@@ -2188,7 +2224,7 @@ void JetAIUpdate::positionLockon()
 	//
 	Real elapsedTimeSumPrev = 0.5f * (elapsed-1) * (elapsed);
 	Real elapsedTimeSumCurr = elapsedTimeSumPrev + elapsed;
-	Real factor = d->m_lockonFreq / d->m_lockonTime;
+	Real factor = jetAIUpdateModuleData->m_lockonFreq / jetAIUpdateModuleData->m_lockonTime;
 	Bool lastPhase = ((Int)(factor * elapsedTimeSumPrev) & 1) != 0;
 	Bool thisPhase = ((Int)(factor * elapsedTimeSumCurr) & 1) != 0;
 
@@ -2197,12 +2233,12 @@ void JetAIUpdate::positionLockon()
 		AudioEventRTS lockonSound = TheAudio->getMiscAudio()->m_lockonTickSound;
 		lockonSound.setObjectID(getObject()->getID());
 		TheAudio->addAudioEvent(&lockonSound);
-		if (d->m_lockonBlinky)
+		if (jetAIUpdateModuleData->m_lockonBlinky)
 			m_lockonDrawable->setDrawableHidden(false);
 	}
 	else
 	{
-		if (d->m_lockonBlinky)
+		if (jetAIUpdateModuleData->m_lockonBlinky)
 			m_lockonDrawable->setDrawableHidden(true);
 	}
 }
@@ -2214,10 +2250,10 @@ void JetAIUpdate::buildLockonDrawableIfNecessary()
 	if (m_untargetableExpireFrame == 0)
 		return;
 
-	const JetAIUpdateModuleData* d = getJetAIUpdateModuleData();
-	if (d->m_lockonCursor.isNotEmpty() && m_lockonDrawable == NULL)
+	const JetAIUpdateModuleData* jetAIUpdateModuleData = getJetAIUpdateModuleData();
+	if (jetAIUpdateModuleData->m_lockonCursor.isNotEmpty() && m_lockonDrawable == NULL)
 	{
-		const ThingTemplate* tt = TheThingFactory->findTemplate(d->m_lockonCursor);
+		const ThingTemplate* tt = TheThingFactory->findTemplate(jetAIUpdateModuleData->m_lockonCursor);
 		if (tt)
 		{
 			m_lockonDrawable = TheThingFactory->newDrawable(tt);
@@ -2230,8 +2266,8 @@ void JetAIUpdate::buildLockonDrawableIfNecessary()
 // ?addTargeter@JetAIUpdate@@ present-unmatched
 void JetAIUpdate::addTargeter(ObjectID id, Bool add)
 {
-	const JetAIUpdateModuleData* d = getJetAIUpdateModuleData();
-	UnsignedInt lockonTime = d->m_lockonTime;
+	const JetAIUpdateModuleData* jetAIUpdateModuleData = getJetAIUpdateModuleData();
+	UnsignedInt lockonTime = jetAIUpdateModuleData->m_lockonTime;
 	if (lockonTime != 0)
 	{
 		std::list<ObjectID>::iterator it = std::find(m_targetedBy.begin(), m_targetedBy.end(), id);
@@ -2350,7 +2386,7 @@ void JetAIUpdate::doLandingCommand(Object *airfield, CommandSourceType cmdSource
 			m_landingPosForHelipadStuff = tmp;
 	}
 
-	for (BehaviorModule** i = airfield->getBehaviorModules(); *i; ++i)
+	for (BehaviorModule** i = getRetailBehaviorModules(airfield); *i; ++i)
 	{
 		ParkingPlaceBehaviorInterface* pp = (*i)->getParkingPlaceBehaviorInterface();
 		if (pp == NULL)

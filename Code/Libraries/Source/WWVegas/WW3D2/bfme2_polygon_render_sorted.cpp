@@ -1,4 +1,4 @@
-// cl: /EHsc /MD /arch:SSE /G7
+// cl: /EHsc /MD
 /*
  * BFME2 DX8PolygonRendererClass::Render_Sorted.
  *
@@ -16,16 +16,25 @@
  */
 #include <string.h>
 
+// DX8Wrapper::render_state (VA 0x00DEE5D8, dx8wrapper.cpp): Zero Hour's
+// RenderStateStruct (bfmestages/dx8wrapper.h); index_base_offset, the 16-bit
+// cache at 0x00DEE864, is its last field (+0x28C).
+struct RenderStateStruct
+{
+	unsigned char m_pad00[0x28C];
+	unsigned short index_base_offset;
+};
+
 class DX8Wrapper {
 protected:
-	static unsigned short BFME2IndexBase;
+	static RenderStateStruct render_state;
 	static unsigned render_state_changed;
 
 public:
 	static void Set_Index_Buffer_Index_Offset(unsigned offset)
 	{
-		if (BFME2IndexBase == offset) return;
-		BFME2IndexBase = (unsigned short)offset;
+		if (render_state.index_base_offset == offset) return;
+		render_state.index_base_offset = (unsigned short)offset;
 		render_state_changed |= 1 << 17;
 	}
 };
@@ -46,6 +55,9 @@ public:
 };
 
 class SphereClass {};
+
+struct TargetCenter3 { float x, y, z; };
+class BfmeSortingDispatchAt0012FE00 { public: static void Insert(const TargetCenter3 &,unsigned,unsigned,unsigned,unsigned); };
 
 class SortingRendererClass {
 public:
@@ -71,7 +83,7 @@ public:
 	void Render_Sorted(int base_vertex_offset,const SphereClass &bounding_sphere);
 };
 
-void DX8PolygonRendererClass::Render_Sorted(
+inline void DX8PolygonRendererClass::Render_Sorted(
 	int base_vertex_offset,const SphereClass &bounding_sphere)
 {
 	char label[256];
@@ -84,7 +96,14 @@ void DX8PolygonRendererClass::Render_Sorted(
 	unsigned min_vertex=MinVertex;
 	unsigned polygon_count=IndexCount/3;
 	unsigned index_offset=IndexOffset;
-	SortingRendererClass::
-		Insert_Triangles(
-		bounding_sphere,index_offset,polygon_count,min_vertex,vertex_range);
+	BfmeSortingDispatchAt0012FE00::
+		Insert(
+		reinterpret_cast<const TargetCenter3 &>(bounding_sphere),index_offset,polygon_count,min_vertex,vertex_range);
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. Taking each one's
+// address keeps this unit's copy for its row; these pointers are not retail
+// data.
+void (DX8PolygonRendererClass::*_bfmeInlineAnchor_bfme2_polygon_render_sorted_0)(
+	int base_vertex_offset,const SphereClass &bounding_sphere) = &DX8PolygonRendererClass::Render_Sorted;

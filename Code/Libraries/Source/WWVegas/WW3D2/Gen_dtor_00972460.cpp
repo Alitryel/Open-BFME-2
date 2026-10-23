@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 void __cdecl operator delete(void *);
 
@@ -43,3 +43,24 @@ Gen_dtor_00972460::~Gen_dtor_00972460()
 	operator delete(m_ptr);
 	m_name.Free_String();
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?slot00@Rva009EB810TailBase@@UAEXXZ=?get@Rva002A79A1DwordField@@QBEHXZ")
+#pragma comment(linker, "/alternatename:?slot04@Rva009EB810TailBase@@UAEXXZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?slot0C@Rva009EB810TailBase@@UAEXXZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?slot14@Rva009EB810TailBase@@UAEXXZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?slot1C@Rva009EB810TailBase@@UAEXXZ=??1Coord2D@@QAE@XZ")
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?slot10@Rva009EB810TailBase@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?slot08@Rva009EB810TailBase@@UAEXXZ=?rva001808B0@Gen_dtor_00972460@@UAEXXZ")
+#pragma comment(linker, "/alternatename:?slot18@Rva009EB810TailBase@@UAEXXZ=?Rva00180782@Gen_dtor_00972460@@UAEXXZ")
+#pragma comment(linker, "/alternatename:?slot20@Rva009EB810TailBase@@UAEXXZ=?Delete@AssetFactoryBase@@UAEXXZ")

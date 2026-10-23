@@ -18,8 +18,10 @@ void DebugCopyToClipboard(const char *text);
 // Title and report text the dialog shows (set by the dialog driver).
 extern "C"
 {
-	extern const char *g_rva0088E000MessageText;
-	extern const char *g_rva0088E000WindowText;
+	// g_rva0088E000MessageText: matched references place it at VA 0xde08dc (retail .data initial value 0).
+	const char *g_rva0088E000MessageText = 0;
+	// g_rva0088E000WindowText: matched references place it at VA 0xde08e0 (retail .data initial value 0).
+	const char *g_rva0088E000WindowText = 0;
 }
 
 class Debug

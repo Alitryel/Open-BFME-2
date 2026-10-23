@@ -1,4 +1,4 @@
-// cl: /O1 /Oy /DNDEBUG /MD /GX- /Oi- /D_STLP_USE_STATIC_LIB
+// cl: /Oy /DNDEBUG /MD /GX- /Oi- /D_STLP_USE_STATIC_LIB
 //
 // The RankInfo field callback at table 0x00C45530 allocates 0x38 bytes and
 // calls this constructor. Its stores and member constructors establish the
@@ -10,10 +10,7 @@
 
 typedef unsigned char Bool;
 
-struct BfmeE16
-{
-	float words[4];
-};
+#include "../../../../../Libraries/Include/Lib/BfmeE16.h"
 
 namespace _STL
 {
@@ -37,7 +34,7 @@ protected:
 template <class T> class vector : public _Vector_base<T, allocator<T> >
 {
 public:
-	__forceinline vector() : _Vector_base<T, allocator<T> >(allocator<T>()) {}
+	__declspec(dllimport) __forceinline vector() : _Vector_base<T, allocator<T> >(allocator<T>()) {}
 };
 
 template <unsigned Bits> class bitset

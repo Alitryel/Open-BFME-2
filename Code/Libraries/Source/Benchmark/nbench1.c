@@ -65,10 +65,15 @@ extern "C" __declspec(dllimport) int __cdecl strncmp(const char *, const char *,
 #include "nbench1.h"
 #include "wordcat.h"
 
-extern const char g_Rva0107301CEmptyString[];
 
 extern void ji_008793a0();
 extern void ji_00879190();
+/* These two names are the addresses the placed body calls: the msvcr71 clock
+ * stub at 0x006B8C30 and the memmove stub at 0x006B8A30, which the ledger rows
+ * ?ji_006b8c30 and ?ji_006b8a30 define (reverse/symbols.csv pins both names to
+ * those addresses). Bind the names so the unit links; bytes are unchanged. */
+#pragma comment(linker, "/alternatename:?ji_008793a0@@YAXXZ=?ji_006b8c30@@YAXXZ")
+#pragma comment(linker, "/alternatename:?ji_00879190@@YAXXZ=?ji_006b8a30@@YAXXZ")
 extern int Rva008793B0(int);
 extern unsigned int rva008793c0(unsigned int);
 extern double bfmeScale(unsigned int);
@@ -117,7 +122,7 @@ numsortstruct=&global_numsortstruct;
 /*
 ** Set the error context string.
 */
-errorcontext=(char *)g_Rva0107301CEmptyString;
+errorcontext=(char *)"";
 
 /*
 ** See if we need to do self adjustment code.
@@ -395,7 +400,7 @@ strsortstruct=&global_strsortstruct;
 /*
 ** Set the error context
 */
-errorcontext=(char *)g_Rva0107301CEmptyString;
+errorcontext=(char *)"";
 
 /*
 ** See if we have to perform self-adjustment code
@@ -961,7 +966,7 @@ locbitopstruct=&global_bitopstruct;
 /*
 ** Set the error context.
 */
-errorcontext=(char *)g_Rva0107301CEmptyString;
+errorcontext=(char *)"";
 
 /*
 ** See if we need to run adjustment code.
@@ -1276,7 +1281,7 @@ locemfloatstruct=&global_emfloatstruct;
 /*
 ** Set the error context
 */
-errorcontext=(char *)g_Rva0107301CEmptyString;
+errorcontext=(char *)"";
 
 
 /*
@@ -1413,7 +1418,7 @@ locfourierstruct=&global_fourierstruct;
 /*
 ** Set error context string
 */
-errorcontext=(char *)g_Rva0107301CEmptyString;
+errorcontext=(char *)"";
 
 /*
 ** See if we need to do self-adjustment code.
@@ -2260,7 +2265,7 @@ locideastruct=&global_ideastruct;
 /*
 ** Set error context
 */
-errorcontext=(char *)g_Rva0107301CEmptyString;
+errorcontext=(char *)"";
 
 /*
 ** Re-init random-number generator.
@@ -2648,7 +2653,7 @@ lochuffstruct=&global_huffstruct;
 /*
 ** Set error context.
 */
-errorcontext="CPU:Huffman";
+errorcontext=(char *)"";
 
 /*
 ** Allocate memory for the plaintext and the compressed text.
@@ -2867,8 +2872,8 @@ static ulong DoHuffIteration(farchar *plaintext,
 	ulong nloops,
 	huff_node *hufftree)
 {
-int i;                          /* Index */
-long j;                         /* Bigger index */
+ulong i;                          /* Index */
+ulong j;                        /* Bigger index */
 int root;                       /* Pointer to huffman tree root */
 float lowfreq1, lowfreq2;       /* Low frequency counters */
 int lowidx1, lowidx2;           /* Indexes of low freq. elements */
@@ -3763,35 +3768,267 @@ return;
 **
 ** Returns -1 if any file error occurred, otherwise 0.
 **/
+/*
+** BFME local delta (EA): the game carries NNET.DAT inside the executable,
+** split across two string literals (each under MSVC's 2048-byte literal
+** limit), and read_data_file parses it from memory with sscanf instead of
+** fopen/fscanf.  BFME 2 retail 0x006B5940 (752 bytes); the two pointers are the
+** globals at 0x009DBFB8 and 0x009DBFBC, their text byte-identical to
+** BFME 1's (compared against retail).
+** Error paths return -1 without the diagnostic printf and without freeing
+** the buffer, as retail does.
+*/
+extern "C" void * __cdecl memcpy(void *, const void *, size_t);
+
+char *bfme_nnet_data_part1 =
+	"5  7  8\t\n"
+	" 26\t\n"
+	" 0  0  1  0  0\t\n"
+	" 0  1  0  1  0\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  1  1  1  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 0  1  0  0  0  0  0  1\t\n"
+	" 1  1  1  1  0\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1 \n"
+	" 1  1  1  1  0\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  1  1  1  0\t\n"
+	" 0  1  0  0  0  0  1  0\t\n"
+	" 0  1  1  1  0\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  0\t\n"
+	" 1  0  0  0  0\t\n"
+	" 1  0  0  0  0\t\n"
+	" 1  0  0  0  1\t\n"
+	" 0  1  1  1  0\t\n"
+	" 0  1  0  0  0  0  1  1\t\n"
+	" 1  1  1  1  0\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  1  1  1  0\t\n"
+	" 0  1  0  0  0  1  0  0\t\n"
+	" 1  1  1  1  1\t\n"
+	" 1  0  0  0  0\t\n"
+	" 1  0  0  0  0\t\n"
+	" 1  1  1  0  0 \n"
+	" 1  0  0  0  0\t\n"
+	" 1  0  0  0  0\t\n"
+	" 1  1  1  1  1\t\n"
+	" 0  1  0  0  0  1  0  1\t\n"
+	" 1  1  1  1  1\t\n"
+	" 1  0  0  0  0\t\n"
+	" 1  0  0  0  0\t\n"
+	" 1  1  1  0  0 \n"
+	" 1  0  0  0  0\t\n"
+	" 1  0  0  0  0\t\n"
+	" 1  0  0  0  0\t\n"
+	" 0  1  0  0  0  1  1  0\t\n"
+	" 0  1  1  1  0\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  0 \n"
+	" 1  0  0  0  0\t\n"
+	" 1  0  0  1  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 0  1  1  1  0\t\n"
+	" 0  1  0  0  0  1  1  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  1  1  1  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 0  1  0  0  1  0  0  0\t\n"
+	" 0  1  1  1  0\t\n"
+	" 0  0  1  0  0\t\n"
+	" 0  0  1  0  0\t\n"
+	" 0  0  1  0  0\t\n"
+	" 0  0  1  0  0\t\n"
+	" 0  0  1  0  0\t\n"
+	" 0  1  1  1  0\t\n"
+	" 0  1  0  0  1  0  0  1\t\n"
+	" 0  0  0  0  1\t\n"
+	" 0  0  0  0  1\t\n"
+	" 0  0  0  0  1\t\n"
+	" 0  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 0  1  1  1  0\t\n"
+	" 0  1  0  0  1  0  1  0\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  1  0\t\n"
+	" 1  0  1  0  0\t\n"
+	" 1  1  0  0  0\t\n"
+	" 1  0  1  0  0\t\n"
+	" 1  0  0  1  0\t\n"
+	" 1  0  0  0  1\t\n"
+	" 0  1  0  0  1  0  1  1\t\n"
+	" 1  0  0  0  0\t\n"
+	" 1  0  0  0  0\t\n"
+	" 1  0  0  0  0\t\n"
+	" 1  0  0  0  0\t\n"
+	" 1  0  0  0  0\t\n"
+	" 1  0  0  0  0\t\n"
+	" 1  1  1  1  1\t\n"
+	" 0  1  0  0  1  1  0  0\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  1  0  1  1 \n"
+	" 1  0  1  0  1\t\n"
+	" 1  0  1  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 0  1  0  0  1  1  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  1  0  0  1\t\n"
+	" 1  0  1  0  1\t\n"
+	" 1  0  1  0  1\t\n"
+	" 1  0  1  0  1\t\n"
+	" 1  0  0  1  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 0  1  0  0  1  1  1  0\t\n"
+	" 0  1  1  1  0\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 0  1  1  1  0\t\n";
+char *bfme_nnet_data_part2 =
+	"0  1  0  0  1  1  1  1\t\n"
+	" 1  1  1  1  0\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  1  1  1  0\t\n"
+	" 1  0  0  0  0\t\n"
+	" 1  0  0  0  0\t\n"
+	" 1  0  0  0  0\t\n"
+	" 0  1  0  1  0  0  0  0\t\n"
+	" 0  1  1  1  0\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  1  0  1\t\n"
+	" 1  0  0  1  1\t\n"
+	" 0  1  1  1  1\t\n"
+	" 0  1  0  1  0  0  0  1\t\n"
+	" 1  1  1  1  0\t\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  1  1  1  0\t\n"
+	" 1  0  1  0  0\t\n"
+	" 1  0  0  1  0\t\n"
+	" 1  0  0  0  1 \n"
+	" 0  1  0  1  0  0  1  0\t\n"
+	" 0  1  1  1  1\t\n"
+	" 1  0  0  0  0\t\n"
+	" 1  0  0  0  0\t\n"
+	" 0  1  1  1  0\t\n"
+	" 0  0  0  0  1\t\n"
+	" 0  0  0  0  1\t\n"
+	" 1  1  1  1  0\t\n"
+	" 0  1  0  1  0  0  1  1\t\n"
+	" 1  1  1  1  1\t\n"
+	" 0  0  1  0  0\t\n"
+	" 0  0  1  0  0\t\n"
+	" 0  0  1  0  0\t\n"
+	" 0  0  1  0  0\t\n"
+	" 0  0  1  0  0\t\n"
+	" 0  0  1  0  0\t\n"
+	" 0  1  0  1  0  1  0  0\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 0  1  1  1  0\t\n"
+	" 0  1  0  1  0  1  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 0  1  0  1  0\t\n"
+	" 0  1  0  1  0\t\n"
+	" 0  1  0  1  0\t\n"
+	" 0  1  0  1  0\t\n"
+	" 0  0  1  0  0\t\n"
+	" 0  1  0  1  0  1  1  0\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 1  0  1  0  1\t\n"
+	" 1  0  1  0  1\t\n"
+	" 1  0  1  0  1\t\n"
+	" 0  1  0  1  0\t\n"
+	" 0  1  0  1  0  1  1  1\t\n"
+	" 1  0  0  0  1\t\n"
+	" 0  1  0  1  0\t\n"
+	" 0  1  0  1  0\t\n"
+	" 0  0  1  0  0\t\n"
+	" 0  1  0  1  0\t\n"
+	" 0  1  0  1  0\t\n"
+	" 1  0  0  0  1\t\n"
+	" 0  1  0  1  1  0  0  0\t\n"
+	" 1  0  0  0  1\t\n"
+	" 0  1  0  1  0\t\n"
+	" 0  1  0  1  0\t\n"
+	" 0  0  1  0  0\t\n"
+	" 0  0  1  0  0\t\n"
+	" 0  0  1  0  0\t\n"
+	" 0  0  1  0  0\t\n"
+	" 0  1  0  1  1  0  0  1\t\n"
+	" 1  1  1  1  1\t\n"
+	" 0  0  0  1  0\t\n"
+	" 0  0  0  1  0\t\n"
+	" 0  0  1  0  0\t\n"
+	" 0  1  0  0  0\t\n"
+	" 0  1  0  0  0\t\n"
+	" 1  1  1  1  1\t\n"
+	" 0  1  0  1  1  0  1  0";
+
+/* Advance past the current line of the in-memory data file. */
+static char *bfme_skip_line(char *data)
+{
+while (*data != '\n' && *data)
+	data++;
+if (*data == '\n')
+	data++;
+return data;
+}
+
 static int read_data_file()
 {
-FILE *infile;
+char *buffer;
+char *data;
+int len1, len2;
 
 int xinsize,yinsize,youtsize;
 int patt, element, i, row;
 int vals_read;
 int val1,val2,val3,val4,val5,val6,val7,val8;
 
-/* printf("\n Opening and retrieving data from file."); */
+len1 = strlen(bfme_nnet_data_part1);
+len2 = strlen(bfme_nnet_data_part2);
+buffer = (char *)malloc(len1 + len2 + 1);
+memcpy(buffer, bfme_nnet_data_part1, len1);
+memcpy(buffer + len1, bfme_nnet_data_part2, len2);
+buffer[len1 + len2] = 0;
 
-infile = fopen(inpath, "r");
-if (infile == NULL)
-{
-	printf("\n CPU:NNET--error in opening file!");
-	return -1 ;
-}
-vals_read =fscanf(infile,"%d  %d  %d",&xinsize,&yinsize,&youtsize);
+vals_read = sscanf(buffer,"%d  %d  %d",&xinsize,&yinsize,&youtsize);
+data = bfme_skip_line(buffer);
 if (vals_read != 3)
-{
-	printf("\n CPU:NNET -- Should read 3 items in line one; did read %d",vals_read);
 	return -1;
-}
-vals_read=fscanf(infile,"%d",&numpats);
-if (vals_read !=1)
-{
-	printf("\n CPU:NNET -- Should read 1 item in line 2; did read %d",vals_read);
+vals_read = sscanf(data,"%d",&numpats);
+data = bfme_skip_line(data);
+if (vals_read != 1)
 	return -1;
-}
 if (numpats > MAXPATS)
 	numpats = MAXPATS;
 
@@ -3800,13 +4037,11 @@ for (patt=0; patt<numpats; patt++)
 	element = 0;
 	for (row = 0; row<yinsize; row++)
 	{
-		vals_read = fscanf(infile,"%d  %d  %d  %d  %d",
+		vals_read = sscanf(data,"%d  %d  %d  %d  %d",
 			&val1, &val2, &val3, &val4, &val5);
+		data = bfme_skip_line(data);
 		if (vals_read != 5)
-		{
-			printf ("\n CPU:NNET -- failure in reading input!");
 			return -1;
-		}
 		element=row*xinsize;
 
 		in_pats[patt][element] = (double) val1; element++;
@@ -3823,8 +4058,9 @@ for (patt=0; patt<numpats; patt++)
 			in_pats[patt][i] = 0.1;
 	}
 	element = 0;
-	vals_read = fscanf(infile,"%d  %d  %d  %d  %d  %d  %d  %d",
+	vals_read = sscanf(data,"%d  %d  %d  %d  %d  %d  %d  %d",
 		&val1, &val2, &val3, &val4, &val5, &val6, &val7, &val8);
+	data = bfme_skip_line(data);
 
 	out_pats[patt][element] = (double) val1; element++;
 	out_pats[patt][element] = (double) val2; element++;
@@ -3836,9 +4072,7 @@ for (patt=0; patt<numpats; patt++)
 	out_pats[patt][element] = (double) val8; element++;
 }
 
-/* printf("\n Closing the input file now. "); */
-
-fclose(infile);
+free(buffer);
 return(0);
 }
 

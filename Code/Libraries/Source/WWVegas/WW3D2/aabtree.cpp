@@ -1,6 +1,23 @@
 // cl: /Ireference/shims/bfmerendobj /G7 /arch:SSE2 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// Link view first: Vector3 Length/Normalize/ctor and the scalar operator* stay inline without emitting
+// /O2 copies that compete with retail's owners (0x000692B3, 0x0006924F, 0x006CD510, 0x00066382, 0x0007DFB3).
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+#include "../../../../../reference/shims/bfme_vector3_full_link/vector3_full_link.h"
 // readable body of ?Cull@AABoxCollisionTestClass@@: Code/Libraries/Source/WWVegas/WW3D2/coltest.cpp
 // readable body of ?Cull@OBBoxCollisionTestClass@@: Code/Libraries/Source/WWVegas/WW3D2/coltest.cpp
+
+// BFME 2 has no W3D memory pools (see Code/Libraries/Source/WWVegas/WWLib/always.h).
+// Bind the triangle test to its rowed 704-byte owner rather than emit a wrong O2 COMDAT.
+#include "../../../../../reference/shims/bfme_triangle_decl/tri.h"
+#include "always.h"
+#undef W3DMPO_GLUE
+#define W3DMPO_GLUE(ARGCLASS)
+// BFME 2's MeshGeometryClass layout, so the emitted accessors read retail's members.
+#include "../../../../../reference/shims/meshgeom/meshgeometry.h"
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -774,14 +791,8 @@ bool AABTreeClass::Cast_Ray_To_Polys(CullNodeStruct * node,RayCollisionTestClass
 		*/
 		TriClass tri;
 
-		// BFME2 MeshGeometryClass layout: retail RVA 0x19820E reads Vertex
-		// at +0x30 and Poly at +0x2C; RVA 0x1983A5 reads PolySurfaceType
-		// at +0x58. ShareBufferClass array storage remains at +0xC.
-		// Keep these TU-local layout reads until the shared header is recovered.
-		const Vector3 * loc =
-				(*(ShareBufferClass<Vector3> * const *)((const char *)Mesh + 0x30))->Get_Array();
-		const TriIndex * polyverts =
-				(*(ShareBufferClass<TriIndex> * const *)((const char *)Mesh + 0x2C))->Get_Array();
+		const Vector3 * loc = Mesh->Get_Vertex_Array();
+		const TriIndex * polyverts = Mesh->Get_Polygon_Array();
 #if (!OPTIMIZE_PLANEEQ_RAM)
 		const Vector4 * norms = Mesh->Get_Plane_Array();
 #endif
@@ -813,8 +824,7 @@ bool AABTreeClass::Cast_Ray_To_Polys(CullNodeStruct * node,RayCollisionTestClass
 			}
 		}
 		if (polyhit != -1) {
-			raytest.Result->SurfaceType =
-					(*(ShareBufferClass<uint8> * const *)((const char *)Mesh + 0x58))->Get_Array()[polyhit];
+			raytest.Result->SurfaceType = Mesh->Get_Poly_Surface_Type (polyhit);
 			return true;
 		}
 	}
@@ -1035,11 +1045,8 @@ bool AABTreeClass::Intersect_OBBox_With_Polys
 		*/	  
 		TriClass tri;
 
-		// BFME2 retail uses the same mesh layout as Cast_Ray_To_Polys.
-		const Vector3 * loc =
-				(*(ShareBufferClass<Vector3> * const *)((const char *)Mesh + 0x30))->Get_Array();
-		const TriIndex * polyverts =
-				(*(ShareBufferClass<TriIndex> * const *)((const char *)Mesh + 0x2C))->Get_Array();
+		const Vector3 * loc = Mesh->Get_Vertex_Array();
+		const TriIndex * polyverts = Mesh->Get_Polygon_Array();
 #if (!OPTIMIZE_PLANEEQ_RAM)
 		const Vector4 * norms = Mesh->Get_Plane_Array();
 #endif
@@ -1286,3 +1293,7 @@ void AABTreeClass::Read_Nodes(ChunkLoadClass & cload)
 		Nodes[i].BackOrPolyCount = w3dnode.BackOrPolyCount;
 	}
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?rva00144010@Rva00144010Opaque@@QAEHXZ=?Length@?$SimpleVecClass@K@@QBEHXZ")

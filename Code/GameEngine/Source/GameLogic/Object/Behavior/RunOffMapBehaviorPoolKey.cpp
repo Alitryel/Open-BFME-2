@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004621B2@RunOffMapBehavior@@SA?AW4NameKeyType@@XZ @0x4621b2
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@RunOffMapBehavior@@UBE?AW4NameKeyType@@XZ @0x4621b2
 // (69B): cached pool-name key for RunOffMapBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("RunOffMapBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class RunOffMapBehavior
 {
 public:
-	static NameKeyType rva0004621B2();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004621B2@RunOffMapBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType RunOffMapBehavior::rva0004621B2()
+// ?getModuleNameKey@RunOffMapBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType RunOffMapBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheRunOffMapBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("RunOffMapBehavior");

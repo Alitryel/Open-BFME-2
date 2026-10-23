@@ -1,4 +1,4 @@
-// cl: /O1 /Ob2 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /Ob2 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 /*
 ** Copyright 2025 Electronic Arts Inc.
@@ -10,26 +10,8 @@
 #define _BFME_RETAIL_TREE_INSERT_LAYOUT
 #include <map>
 
-template<class T>
-class StringBase
-{
-    void *m_data;
-    friend class UnicodeString;
-    StringBase(const StringBase &other);
-    __forceinline ~StringBase() { releaseBuffer(); }
-    void releaseBuffer();
-public:
-    int compareNoCase(const StringBase &other) const throw();
-};
+#include "unicode_string.h"
 
-class UnicodeString : private StringBase<unsigned short>
-{
-    friend struct UnicodeStringLessThan;
-public:
-    __forceinline UnicodeString(const UnicodeString &other)
-        : StringBase<unsigned short>(static_cast<const StringBase<unsigned short>&>(other)) {}
-    __forceinline ~UnicodeString() {}
-};
 
 struct UnicodeStringLessThan
 {
@@ -43,5 +25,19 @@ struct UnicodeStringLessThan
 typedef _STL::pair<const UnicodeString, bool> LanguageFilterValue;
 typedef _STL::map<UnicodeString, bool, UnicodeStringLessThan,
     _STL::allocator<LanguageFilterValue> > LanguageFilterMap;
+
+// The node allocator<...>::allocate and its proxy are referenced here only
+// out of line by each other; retail's allocate copy (0x00154A00) is
+// LanguageFilter.cpp's region shape, which this unit's flags do not give.
+// The same dllimport+__forceinline route as TerrainLogicCtor keeps both
+// inline-only so this unit emits neither COMDAT; bodies are the primary's.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_node<LanguageFilterValue> *allocator<_Rb_tree_node<LanguageFilterValue> >::allocate(size_t __n, const void *) const
+{ return __n != 0 ? reinterpret_cast<_Rb_tree_node<LanguageFilterValue> *>(allocator<char>::allocate(__n * sizeof(_Rb_tree_node<LanguageFilterValue>), 0)) : 0; }
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_node<LanguageFilterValue> *_STLP_alloc_proxy<_Rb_tree_node<LanguageFilterValue> *, _Rb_tree_node<LanguageFilterValue>, allocator<_Rb_tree_node<LanguageFilterValue> > >::allocate(size_t __n)
+{ return __stl_alloc_rebind(static_cast<allocator<_Rb_tree_node<LanguageFilterValue> > &>(*this), (_Rb_tree_node<LanguageFilterValue> *)0).allocate(__n, 0); }
+}
 
 template bool &LanguageFilterMap::operator[](const UnicodeString&);

@@ -825,3 +825,7 @@ int Rva00808660( Rva00807BA0Ping *ping, void *data, int *dataLen,
 
 	return elapsed;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeConvertUVB@@YAHPADPAPAX@Z=?Rva00807AB0@@YAHPADPBX@Z")

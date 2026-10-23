@@ -1,7 +1,7 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 //
 // BfmeDualVtableReleaseDtor::BfmeDualVtableReleaseDtor(int), retail
-// 0x0020429D (88 bytes). The FX particle-editor loader built in
+// 0x0020429D (120 bytes; exact Ghidra extent). The FX particle-editor loader built in
 // ScriptEngine::init: base-constructs the rowed DllHandle with
 // "FXParticleEditorI.dll", installs the loader vtable 0x00BE3994, then
 // resolves GetFXParticleEditor via GetProcAddress, builds the release
@@ -14,6 +14,10 @@
 // std::exception with an inline vtable-storing ctor (the rowed 18B ctor
 // over FunctorNotSet would emit a call instead of the pad). Shard: the
 // dtor TU carries /O1 without EH shaping, which would recolor this frame.
+
+extern "C" const void *const vtbl_00BE3994[];  // ??_7BfmeDualVtableReleaseDtor@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BE3994=??_7BfmeDualVtableReleaseDtor@@6B@")
+extern "C" const void *const __identifier("??_7FunctorNotSet@@6B@")[];
 
 typedef void *HMODULE;
 typedef int (__stdcall *FARPROC)();
@@ -62,7 +66,7 @@ class LoadFailure : public exception
 public:
 	LoadFailure()
 	{
-		*(unsigned int *)this = 0x00BD3B54;
+		*(const void **)this = __identifier("??_7FunctorNotSet@@6B@");
 	}
 };
 
@@ -72,7 +76,7 @@ typedef BfmeReleaseTarget *(__stdcall *BfmeReleaseFactory)(void);
 BfmeDualVtableReleaseDtor::BfmeDualVtableReleaseDtor(int /*unused*/)
 	: DllHandle("FXParticleEditorI.dll")
 {
-	*(unsigned int *)this = 0x00BE3994;
+	*(unsigned int *)this = ((unsigned int)vtbl_00BE3994);
 	HMODULE module = m_module;
 	FARPROC factory = GetProcAddress(module, "GetFXParticleEditor");
 	if (!factory || !(m_target = ((BfmeReleaseFactory)factory)()))

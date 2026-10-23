@@ -17,14 +17,22 @@ public:
 	virtual void bfmeSlot1082S_1(void);
 };
 
-extern BfmeS1082 *g_bfmeS1082_0;
-extern BfmeS1082 *g_bfmeS1082_1;
-extern BfmeS1082 *g_bfmeS1082_2;
-extern BfmeS1082 *g_bfmeS1082_3;
-extern BfmeS1082 *g_bfmeS1082_4;
-extern BfmeS1082 *g_bfmeS1082_5;
-extern BfmeS1082 *g_bfmeS1082_6;
-extern BfmeS1082 *g_bfmeS1082_7;
+// g_bfmeS1082_0: matched references place it at VA 0xe1821c (retail .data initial value 0).
+BfmeS1082 * g_bfmeS1082_0 = 0;
+// g_bfmeS1082_1: matched references place it at VA 0xe18220 (retail .data initial value 0).
+BfmeS1082 * g_bfmeS1082_1 = 0;
+// g_bfmeS1082_2: matched references place it at VA 0xe18224 (retail .data initial value 0).
+BfmeS1082 * g_bfmeS1082_2 = 0;
+// g_bfmeS1082_3: matched references place it at VA 0xe18228 (retail .data initial value 0).
+BfmeS1082 * g_bfmeS1082_3 = 0;
+// g_bfmeS1082_4: matched references place it at VA 0xe1822c (retail .data initial value 0).
+BfmeS1082 * g_bfmeS1082_4 = 0;
+// g_bfmeS1082_5: matched references place it at VA 0xe18230 (retail .data initial value 0).
+BfmeS1082 * g_bfmeS1082_5 = 0;
+// g_bfmeS1082_6: matched references place it at VA 0xe18234 (retail .data initial value 0).
+BfmeS1082 * g_bfmeS1082_6 = 0;
+// g_bfmeS1082_7: matched references place it at VA 0xe18238 (retail .data initial value 0).
+BfmeS1082 * g_bfmeS1082_7 = 0;
 
 void bfmeGo1082B(void)
 {

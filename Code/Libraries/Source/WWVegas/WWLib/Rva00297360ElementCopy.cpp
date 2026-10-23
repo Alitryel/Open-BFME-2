@@ -1,17 +1,11 @@
-// cl: /O1 /MD
+// cl: /Ireference/shims/bfme2_ascii /MD
 // Copy assignment (43B) of the stride-0x10 element destroyed by
 // ??$_Destroy@PAVRva00297360Element@@ in StlportVectorDtorChains.cpp: an int
 // key, an AsciiString at +4 (copied via the rowed operator= 0x366F0) and two
 // trailing ints. Body assignments reproduce the retail member order; the
 // inline-empty AsciiString default ctor keeps the implicit member init free
 // of stores. Application identity unknown, so an Rva owner name is used.
-class AsciiString {
-public:
-  AsciiString() {}
-  AsciiString &operator=(const AsciiString &other);
-private:
-  void *m_data;
-};
+#include "ascii_string.h"
 
 class Rva00297360Element {
 public:

@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /MD /O2 /Ob2 /EHsc
+// cl: /DNDEBUG /MD /Ob2 /EHsc
 //
 // ShareBufferClass<TextureClass*>::ShareBufferClass, retail 0x0015AE10
 // (284 bytes). BFME1 port with a BFME2 drift: the reference copy skeleton
@@ -18,10 +18,8 @@
 class TextureBaseClass
 {
 public:
-	void Add_Ref() { m_refCount += 1; }
 	void Release_Ref();
 
-private:
 	unsigned char m_pad[4];
 	unsigned short m_refCount;
 };
@@ -38,10 +36,11 @@ struct TextureSlot
 	TextureClass *m_ptr;
 };
 
+#pragma optimize("s", on)
 class RefCountClass
 {
 public:
-	RefCountClass() : m_refs(1) {}
+	__declspec(dllimport) __forceinline RefCountClass() : m_refs(1) {}
 	RefCountClass(const RefCountClass &) : m_refs(1) {}
 	virtual void Delete_This();
 
@@ -51,12 +50,23 @@ protected:
 private:
 	int m_refs;
 };
+#pragma optimize("", on)
+
+// The texture instantiation's destructor body is rowed as ~BfmeOwnVVE at
+// 0x0015CC90: vtable 0xBD3C94 (installed by the copy ctor below) holds the
+// deleting dtor 0x0015D020 that calls it.
+class BfmeOwnVVE
+{
+public:
+	~BfmeOwnVVE();
+};
 
 template <class T>
 class ShareBufferClass : public RefCountClass
 {
 public:
 	ShareBufferClass(const ShareBufferClass &that);
+	virtual ~ShareBufferClass() { ((BfmeOwnVVE *)this)->BfmeOwnVVE::~BfmeOwnVVE(); }
 
 protected:
 	T *m_rawBuffer; // +0x08
@@ -66,6 +76,7 @@ protected:
 };
 
 void *operator new[](unsigned int size);
+void operator delete[](void *block);
 
 template <class T>
 ShareBufferClass<T>::ShareBufferClass(const ShareBufferClass<T> &that) :
@@ -88,7 +99,7 @@ ShareBufferClass<T>::ShareBufferClass(const ShareBufferClass<T> &that) :
 		TextureClass **srcSlot = &that.m_array[index];
 		TextureClass **dstSlot = &m_array[index];
 		if (*srcSlot != 0)
-			(*srcSlot)->Add_Ref();
+			(*srcSlot)->m_refCount += 1;
 		if (*dstSlot != 0)
 			(*dstSlot)->Release_Ref();
 		*dstSlot = *srcSlot;

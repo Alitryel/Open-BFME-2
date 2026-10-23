@@ -1,6 +1,6 @@
-// cl: /EHsc /MD /arch:SSE /G7
+// cl: /EHsc /MD
 
-void bfmeRva0011F3C0(void);
+int bfmeRva0011F3C0(void);
 
 class BFME2ScopedRenderEvent
 {

@@ -1,10 +1,14 @@
-// cl: /O1 /GX /DNDEBUG /MD
+// cl: /GX /DNDEBUG /MD
 //
 // ?friend_newModuleInstance@ScaleWallSpecialAbilityUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z,
 // retail 0x0024DD8D, 59 bytes. Dedicated TU: retail news 0x88 (push-imm32)
 // and runs the (Thing*,ModuleData*) ctor at 0x494DCA. Class identity is the
 // "ScaleWallSpecialAbilityUpdate" literal ModuleFactory registers alongside this stub.
 // Recipe: RainOfFireUpdateFriendNew.cpp.
+
+// The matched ctor at 0x494DCA calls the SpecialAbilityUpdate base at 0x44EF5E;
+// the adjacent pool-key body at 0x494E83 independently names this module.
+#pragma comment(linker, "/alternatename:??0ScaleWallSpecialAbilityUpdate@@QAE@PAVThing@@PBVModuleData@@@Z=??0Rva00494DCA@@QAE@PAVThing@@PBVModuleData@@@Z")
 
 class Thing;
 class ModuleData;

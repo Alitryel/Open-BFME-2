@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // Retail 0x007AF4E0: W3DShadowTexture::~W3DShadowTexture.
 //
 // The BFME layout keeps the texture reference at +0x30 after the two
@@ -36,6 +36,7 @@ class W3DShadowTexture : public RefCountClass, public HashableClass
 {
 public:
 	~W3DShadowTexture(void);
+	virtual const char *Get_Key(void); // W3DShadowTextureCtor.cpp
 
 private:
 	char m_namebuf[32];

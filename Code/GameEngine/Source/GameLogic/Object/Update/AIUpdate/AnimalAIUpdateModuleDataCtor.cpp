@@ -1,4 +1,4 @@
-// cl: /O1 /MD /GX /DNDEBUG
+// cl: /MD /GX /DNDEBUG
 //
 // ??0AnimalAIUpdateModuleData@@QAE@XZ, retail 0x0024BE43 (55 bytes).
 // Frameless ctor over the pinned Transport base (0x26E5D7): three int
@@ -26,25 +26,25 @@ class AnimalAIUpdateModuleData : public TransportAIUpdateModuleData
 {
 public:
 	AnimalAIUpdateModuleData();
-	virtual ~AnimalAIUpdateModuleData();
+	// Implicit destructor: retail's folded vtable 0x0084B6C8 slot 0 0x00254418 calls 0x004905B0, a tail jump to the Transport base dtor.
 
 private:
 	int m_fleeRange; // +0x64
 	int m_fleeDistance; // +0x68
 	int m_wanderPercentage; // +0x6C
-	int m_unk70; // +0x70
-	int m_unk74; // +0x74
-	int m_unk78; // +0x78
-	bool m_unk7C; // +0x7C
+	int m_maxWanderDistance; // +0x70
+	int m_maxWanderRadius; // +0x74
+	int m_updateTimer; // +0x78
+	bool m_afraidOfCastles; // +0x7C
 };
 
 AnimalAIUpdateModuleData::AnimalAIUpdateModuleData()
 {
-	m_unk70 = 10;
-	m_unk74 = 10;
-	m_unk78 = 10;
+	m_maxWanderDistance = 10;
+	m_maxWanderRadius = 10;
+	m_updateTimer = 10;
 	m_fleeRange = 0x14;
 	m_fleeDistance = 0x64;
 	m_wanderPercentage = 0x32;
-	m_unk7C = true;
+	m_afraidOfCastles = true;
 }

@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc /O1
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /O1
 // stlport
 // ??1RampageBehaviorModuleData@@UAE@XZ, RVA 0x00458C9B, size 48.
 // Virtual dtor destroying RequiredUpgrade vector at +8 then restoring
@@ -8,14 +8,16 @@
 // 0x458C7F calls here, ctor 0x458C0F owns class and table 0xC40E78.
 #include <vector>
 
-class AsciiString
-{
-public:
-    AsciiString();
-    ~AsciiString();
-private:
-    void *m_data;
-};
+#include "ascii_string.h"
+
+// A declaration-only specialization stops this TU emitting its own
+// vector<AsciiString> dtor COMDAT, so the call binds the kept copy.
+namespace _STL {
+template <> vector<AsciiString, allocator<AsciiString> >::~vector();
+template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
+template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);
+template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
+}
 
 class ModuleDataBase
 {
@@ -37,7 +39,7 @@ RampageBehaviorModuleData::RampageBehaviorModuleData(int)
 {
 }
 
-void deleteRampageBehaviorModuleData(RampageBehaviorModuleData *p)
+void deleteRampageBehaviorModuleData(RampageBehaviorModuleData *rampageBehaviorModuleData)
 {
-    delete p;
+    delete rampageBehaviorModuleData;
 }

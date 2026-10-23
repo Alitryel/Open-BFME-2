@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 // ?Remap_Texture@MaterialRemapperClass@@QAE?AVBfmeHandleCX@@ABV2@@Z
 // retail 0x0016EC00, 196 bytes. Dedicated TU.
 //
@@ -13,14 +13,20 @@
 
 class VertexMaterialClass;
 
-class TextureClass
+class TextureBaseClass
 {
 public:
-	void Add_Ref(void)
-	{
-		++*reinterpret_cast<unsigned short *>(reinterpret_cast<char *>(this) + 4);
-	}
+	__declspec(dllimport) __forceinline void Add_Ref(void);
 	void Release_Ref(void);
+};
+
+__declspec(dllimport) __forceinline void TextureBaseClass::Add_Ref(void)
+{
+	++*reinterpret_cast<unsigned short *>(reinterpret_cast<char *>(this) + 4);
+}
+
+class TextureClass : public TextureBaseClass
+{
 };
 
 class MaterialInfoClass
@@ -115,4 +121,27 @@ BfmeHandleCX MaterialRemapperClass::Remap_Texture(const BfmeHandleCX &src)
 		}
 	}
 	return BfmeHandleCX();
+}
+
+// Retail 001494F0..00149506 is an independently padded 22-byte body:
+// thiscall, one borrowed four-byte source, returns the destination address.
+// It copies a pointer, then retains its nonnull pointee by incrementing the
+// WORD at +4. No direct code or data reference survives in retail, so neither
+// TextureClass nor the donor's BfmeHandleCX name is established here. The
+// address-derived class describes only this one-pointer copying operation.
+// Lead: clean BFME1 MaterialRemapTexture.cpp at cf0a80c22858 compiled using
+// this unit's flags. Its same-shaped BfmeHandleCX copy cannot use that name:
+// the existing BFME2 pin owns the distinct 21-byte body at 000424BB.
+class Rva001494F0RetainedPointer
+{
+public:
+    void *m_object;
+    Rva001494F0RetainedPointer(const Rva001494F0RetainedPointer &other);
+};
+
+Rva001494F0RetainedPointer::Rva001494F0RetainedPointer(
+    const Rva001494F0RetainedPointer &other) : m_object(other.m_object)
+{
+    if (m_object)
+        ++*reinterpret_cast<unsigned short *>(static_cast<char *>(m_object) + 4);
 }

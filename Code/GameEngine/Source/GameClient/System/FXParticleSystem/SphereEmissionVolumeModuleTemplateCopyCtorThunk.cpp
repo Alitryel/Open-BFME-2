@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /GX- /O1 /Ob2
+// cl: /DNDEBUG /MD /GX- /Ob2
 
 // Open-BFME5: SphereEmissionVolumeModuleTemplate copy ctor
 // Retail: base copy; null-preserving sub copy at +8; dual outer vtbl + sub vtbl.
@@ -6,22 +6,25 @@
 namespace FXParticleSystem
 {
 
-class SphereEmissionVolumeModuleTemplateBaseCopyShim
+template <int CATEGORY>
+class CategoryModuleTemplate
 {
 public:
-	void construct_from(const void *src);
+	CategoryModuleTemplate(const CategoryModuleTemplate &that);
 };
 
-class SphereEmissionVolumeModuleTemplateSubCopyShim
+class SphereEmissionVolumeInfo
 {
 public:
-	void construct_from(const void *src_sub_or_null);
+	SphereEmissionVolumeInfo(const SphereEmissionVolumeInfo &that);
 	virtual void dummy();
 };
 
-extern "C" char SphereEmissionVolumeModuleTemplate_cvtbl0;
+// SphereEmissionVolumeModuleTemplate_cvtbl0: matched references place it at VA 0xc1bb80 (retail .rdata value 13).
+extern "C" char SphereEmissionVolumeModuleTemplate_cvtbl0 = 13;
 extern "C" char SphereEmissionVolumeModuleTemplate_cvtbl4;
-extern "C" char SphereEmissionVolumeModuleTemplate_csub_vtbl;
+// SphereEmissionVolumeModuleTemplate_csub_vtbl: matched references place it at VA 0xc1bb70 (retail .rdata value 37).
+extern "C" char SphereEmissionVolumeModuleTemplate_csub_vtbl = 37;
 
 class SphereEmissionVolumeModuleTemplate
 {
@@ -39,14 +42,16 @@ SphereEmissionVolumeModuleTemplate::SphereEmissionVolumeModuleTemplate(
 	const SphereEmissionVolumeModuleTemplate &that)
 {
 	const void *src = &that;
-	((SphereEmissionVolumeModuleTemplateBaseCopyShim *)this)->construct_from(src);
+	((CategoryModuleTemplate<0> *)this)->CategoryModuleTemplate<0>::CategoryModuleTemplate(
+		*(const CategoryModuleTemplate<0> *)src);
 	const void *sub_src = src ? (const char *)src + 8 : 0;
-	SphereEmissionVolumeModuleTemplateSubCopyShim *sub =
-		(SphereEmissionVolumeModuleTemplateSubCopyShim *)((char *)this + 8);
-	sub->construct_from(sub_src);
+	SphereEmissionVolumeInfo *sub = (SphereEmissionVolumeInfo *)((char *)this + 8);
+	sub->SphereEmissionVolumeInfo::SphereEmissionVolumeInfo(*(const SphereEmissionVolumeInfo *)sub_src);
 	// Sub vtbl then outer dual vtbls (retail store order).
 	*(void **)sub = &SphereEmissionVolumeModuleTemplate_csub_vtbl;
 	m_v0 = &SphereEmissionVolumeModuleTemplate_cvtbl0;
 	m_v4 = &SphereEmissionVolumeModuleTemplate_cvtbl4;
 }
 }
+// _SphereEmissionVolumeModuleTemplate_cvtbl4: the global at VA 0xc1c780 is ?vftable_0112B89C@@3HA.
+#pragma comment(linker, "/alternatename:_SphereEmissionVolumeModuleTemplate_cvtbl4=?vftable_0112B89C@@3HA")

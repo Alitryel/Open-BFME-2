@@ -45,3 +45,7 @@ BFME_DISP32_DWORD_GETTER(Rva00466AC9DwordField, 0x27C)
 BFME_DISP32_DWORD_GETTER(Rva004DF1D1DwordField, 0x54C)
 BFME_DISP32_DWORD_GETTER(Rva0051C05CDwordField, 0x638)
 BFME_DISP32_DWORD_GETTER(Rva00552C39DwordField, 0x101C)
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?dlink_next_TeamMemberList@BfmeObjectDlinkBase@@QBEPAVObject@@XZ=?get@Rva002620F3DwordField@@QBEHXZ")

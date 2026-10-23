@@ -1,4 +1,4 @@
-// cl: /O1 /GX- /arch:SSE2
+// cl: /GX-
 
 // Rva003AEADD (45B) outer copy via rowed base Rva003AEB0A (91B).
 // Same 45B base-plus-4-vtables shape as Rva003AEA15; base is already rowed
@@ -10,10 +10,14 @@ public:
 	Rva003AEB0A(const Rva003AEB0A &other);
 };
 
-extern "C" char Rva003AEADD_v0;
-extern "C" char Rva003AEADD_v14;
-extern "C" char Rva003AEADD_v18;
-extern "C" char Rva003AEADD_v1c;
+// Rva003AEADD_v0: matched references place it at VA 0xc1cdf0 (retail .rdata value -9).
+extern "C" char Rva003AEADD_v0 = -9;
+// Rva003AEADD_v14: matched references place it at VA 0xc1c538 (retail .rdata value 62).
+extern "C" char Rva003AEADD_v14 = 62;
+// Rva003AEADD_v18: matched references place it at VA 0xc1c950 (retail .rdata value 99).
+extern "C" char Rva003AEADD_v18 = 99;
+// Rva003AEADD_v1c: matched references place it at VA 0xc1cde0 (retail .rdata value -4).
+extern "C" char Rva003AEADD_v1c = -4;
 
 class Rva003AEADD
 {

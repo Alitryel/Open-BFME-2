@@ -18,11 +18,11 @@
 //   parameters; a method returning a string by value whose temporary
 //   range ctor range-initialises directly into the hidden result.
 // - 0x00017A40 / 0x00017AA0 / 0x00019D30 (85B each): hidden-pointer shape
-//   over no parameters; methods returning a copy of a static empty narrow
-//   string. The copy constructor zeroes first and only then reads the
+//   over no parameters; methods returning a copy of a static narrow string.
+//   The copy constructor zeroes first and only then reads the
 //   static's start/finish, which is why the global loads sit below the
 //   zeroing (a temporary would evaluate its arguments first). Each static
-//   is 16 zero bytes in .data, pinned below.
+//   uses the existing initializer-owned storage named below.
 //
 // WHY THIS MODEL. The TU mirrors the Code/WWLib/stlport_narrow_string_cstr_ctor.cpp
 // precedent: minimal _STL replicas with an inline base (so the zeroing is
@@ -91,11 +91,12 @@ template NStr::basic_string(char *, char *, const allocator<char> &);
 
 }
 
-// Static empty narrow strings copied by the three no-parameter inits below.
-// Each is 16 zero bytes in .data; the copy reads start at +0 and finish at +4.
-extern const _STL::NStr g_00DDEF08StaticEmpty;
-extern const _STL::NStr g_00DDEEFCStaticEmpty;
-extern const _STL::NStr g_00DDEF38StaticEmpty;
+// Rva007AB8D0StringInits.cpp owns these native string storage addresses and
+// constructs "true", "false" and "", respectively. Use its existing names;
+// the copy reads the established narrow-string view at +0 and +4.
+extern unsigned g_Va00DDEF08;
+extern unsigned g_Va00DDEEFC;
+extern unsigned g_Va00DDEF38;
 
 class Rva00017890StringInit
 {
@@ -116,10 +117,10 @@ public:
 	_STL::NStr init();
 };
 
-// 0x00017A40: copy of the static empty at 0x00DDEF08.
+// 0x00017A40: copy of the static string at 0x00DDEF08.
 _STL::NStr Rva00017A40StringInit::init()
 {
-	return g_00DDEF08StaticEmpty;
+	return *reinterpret_cast<const _STL::NStr *>(&g_Va00DDEF08);
 }
 
 class Rva00017AA0StringInit
@@ -128,10 +129,10 @@ public:
 	_STL::NStr init();
 };
 
-// 0x00017AA0: copy of the static empty at 0x00DDEEFC.
+// 0x00017AA0: copy of the static string at 0x00DDEEFC.
 _STL::NStr Rva00017AA0StringInit::init()
 {
-	return g_00DDEEFCStaticEmpty;
+	return *reinterpret_cast<const _STL::NStr *>(&g_Va00DDEEFC);
 }
 
 class Rva00019D30StringInit
@@ -140,8 +141,8 @@ public:
 	_STL::NStr init();
 };
 
-// 0x00019D30: copy of the static empty at 0x00DDEF38.
+// 0x00019D30: copy of the static string at 0x00DDEF38.
 _STL::NStr Rva00019D30StringInit::init()
 {
-	return g_00DDEF38StaticEmpty;
+	return *reinterpret_cast<const _STL::NStr *>(&g_Va00DDEF38);
 }

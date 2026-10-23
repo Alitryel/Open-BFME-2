@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /MD /EHsc
 // ?getDisplayName@PlayerTemplate@@QBE?AVUnicodeString@@XZ @0x00449B8F (27B):
 // PlayerTemplate::getDisplayName, by-value forward of the display-name member
 // at +0x14. Retail calls the wide StringBase copy-ctor at 0x37050 directly
@@ -12,30 +12,8 @@ typedef unsigned short wchar_t;
 
 class UnicodeString;
 
-template <typename T>
-class StringBase
-{
-public:
-	StringBase(const StringBase<T> &that);
-	~StringBase();
+#include "unicode_string.h"
 
-private:
-	friend class UnicodeString;
-};
-
-class UnicodeString
-{
-public:
-	__forceinline UnicodeString(const UnicodeString &that)
-	{
-		((StringBase<wchar_t> *)this)->StringBase<wchar_t>::StringBase(
-			*(const StringBase<wchar_t> *)&that);
-	}
-	~UnicodeString();
-
-private:
-	wchar_t *m_text;
-};
 
 class PlayerTemplate
 {

@@ -1,4 +1,4 @@
-// cl: /O1 /GX- /DNDEBUG /MD
+// cl: /GX- /DNDEBUG /MD
 //
 // ?getAudioLODIndex@GameLODManager@@QAEHABVAsciiString@@@Z, retail 0x00202C76,
 // 124 bytes. Dedicated TU.
@@ -15,9 +15,8 @@
 // - The reporting tail logs through Debug virtuals plus the matched
 //   Debug/StringBase operator<< at 0x000028E8: slot60(), 3-arg slot6C,
 //   slot38 Invalid-name literal (whose return feeds operator<< with the name),
-//   slot38 "'", slot4C(2). The enabled check resolves via the new
-//   _bfme_debugReportingEnabled alias pin at 0x000387C0 (BFME1-attested name
-//   for the matched placeholder row); the record call reuses the established
+//   slot38 "'", slot4C(2). The enabled check reads the Debug singleton flag
+//   through the matched row at 0x000387C0; the record call reuses the established
 //   Debug::SkipNext pin at 0x00038790.
 // - TheBfmeAwakenDebug is TU-local DEFINED (COMMON merges; its DIR32 patches
 //   from retail like theDebug) and bfmeTabEYC is TU-local DEFINED (its base
@@ -95,11 +94,13 @@ public:
 	Int getAudioLODIndex(const AsciiString &name);
 };
 
-Debug *TheBfmeAwakenDebug;
+// The global at this VA is theDebug; this name aliases it rather than
+// defining a second variable the rest of the game never sees.
+extern class Debug *theDebug;
 
 const char *bfmeTabEYC[2] = { "Low", "High" };
 
-Bool _bfme_debugReportingEnabled(void);
+Bool bfmeRva000387C0(void);
 
 // ?getAudioLODIndex@GameLODManager@@QAEHABVAsciiString@@@Z
 Int GameLODManager::getAudioLODIndex(const AsciiString &name)
@@ -110,14 +111,14 @@ Int GameLODManager::getAudioLODIndex(const AsciiString &name)
 			return i;
 	}
 
-	if (_bfme_debugReportingEnabled())
+	if (bfmeRva000387C0())
 	{
 		Debug::SkipNext(true);
-		TheBfmeAwakenDebug->slot60();
+		theDebug->slot60();
 		// Nested (no named report temp): retail keeps the slot6C result in
 		// eax straight into the slot38 dispatch, and evaluates the
 		// operator<< name operand first (push [esp+8] before the lit push).
-		operator<<(TheBfmeAwakenDebug->slot6C(0, 0, 0)->slot38("GameLODManager::getAudioLODIndex - Invalid LOD name '"), name).slot38("'").slot4C(2);
+		operator<<(theDebug->slot6C(0, 0, 0)->slot38("GameLODManager::getAudioLODIndex - Invalid LOD name '"), name).slot38("'").slot4C(2);
 	}
 
 	return -1;

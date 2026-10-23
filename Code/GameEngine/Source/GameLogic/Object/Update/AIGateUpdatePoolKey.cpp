@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004B087C@AIGateUpdate@@SA?AW4NameKeyType@@XZ @0x4B087C
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@AIGateUpdate@@UBE?AW4NameKeyType@@XZ @0x4B087C
 // (69B): cached pool-name key for AIGateUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("AIGateUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class AIGateUpdate
 {
 public:
-	static NameKeyType rva0004B087C();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004B087C@AIGateUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType AIGateUpdate::rva0004B087C()
+// ?getModuleNameKey@AIGateUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType AIGateUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheAIGateUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("AIGateUpdate");

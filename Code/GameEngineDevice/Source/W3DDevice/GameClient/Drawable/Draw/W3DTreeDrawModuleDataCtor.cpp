@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG
+// cl: /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG
 //
 // W3DTreeDrawModuleData file-unit (retail 0x000CEBBF..0x000CED02): the empty
 // virtual base brackets the EH states with no emitted code (its vtable store
@@ -9,18 +9,11 @@
 // LogicFramesPerSecond*10 sink/morph times. Factory 0x64C0B news 0x64 with
 // the ctor as sole caller and pushes the rowed proc 0xCED03.
 
-#define LogicFramesPerSecond (*(const int *)0x00DBA4E4)
+extern int BfmeLogicFramesPerSecond;
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	~AsciiString();
-	void clear();
+#define LogicFramesPerSecond BfmeLogicFramesPerSecond
 
-private:
-	void *m_data;
-};
+#include "ascii_string.h"
 
 class W3DTreeDrawModuleDataBase
 {

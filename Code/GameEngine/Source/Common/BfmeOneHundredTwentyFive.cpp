@@ -1052,3 +1052,8 @@ int bfmeSkipVH(const unsigned char *text, int length)
 
 	return skip[text[0]] + (skip[text[length - 1]] + length);
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?Gen008A3EE0@@YAHPBDI@Z=?bfmeSkipVD@@YAHPBEH@Z")
+#pragma comment(linker, "/alternatename:?Gen008B5050@@YAHPBDI@Z=?bfmeSkipVG@@YAHPBEH@Z")

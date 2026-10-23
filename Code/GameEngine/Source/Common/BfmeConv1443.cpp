@@ -6,7 +6,7 @@ struct BfmeItVMV
 	int m;
 };
 
-BfmeItVMV bfmeImplVMV(BfmeItVMV a, BfmeItVMV b, char c, char *p);
+char **__cdecl bfmeRFindNotChV32(char **a, char *b, char *c, char d);
 BfmeItVMV bfmeFwdVMV(BfmeItVMV a, BfmeItVMV b, char c);
 
 BfmeItVMV bfmeFwdVMV(BfmeItVMV a, BfmeItVMV b, char c)
@@ -32,7 +32,7 @@ BfmeItVMV bfmeFwdVMV(BfmeItVMV a, BfmeItVMV b, char c)
 		mov dword ptr [ecx], edx
 		mov eax, dword ptr [ebp+8]
 		push eax
-		call bfmeImplVMV
+		call bfmeRFindNotChV32
 		add esp, 0x14
 		mov eax, dword ptr [ebp+8]
 	}

@@ -1,3 +1,6 @@
+#define _STLP_USE_MALLOC 1
+#define _STLP_NO_CSTD_FUNCTION_IMPORTS 1
+namespace _STL { void __cdecl free(void *); }
 // Recovered asset-manager bodies grouped by reciprocal WorldBuilder placement.
 // Retail RVA 0x009F0D40, 265 bytes; identity is address-derived.
 // The matched Rva009EBB20 forwarder in Q1GlobalGuardedForwarders.cpp proves
@@ -9,12 +12,45 @@
 // The copy constructor is 0x009EE8E0; the tree destructor is called through
 // ILT 0x00015D7A -> 0x00140950. Existing Gen_t names describe those ABI types.
 
-// cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
+// cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/sweep /D_CRTIMP=
 // stlport
 
 #define _BFME_RETAIL_TREE_INSERT_LAYOUT
 #include <set>
 #include <hash_map>
+
+// __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
+// COMDATs (one byte shape per TU malloc/free wiring); explicit
+// dllimport+forceinline specializations take those calls inline so this
+// TU emits no external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void *__malloc_alloc<0>::allocate(size_t __n)
+{ void *__r = malloc(__n); if (!__r) __r = _S_oom_malloc(__n); return __r; }
+template <> __declspec(dllimport) __forceinline
+void __malloc_alloc<0>::deallocate(void *__p, size_t)
+{ free((char *)__p); }
+}
+
+#include <cstddef>
+
+// vector<void*> begin/end otherwise instantiate per-TU COMDATs (one byte
+// shape per TU flags); explicit dllimport+forceinline specializations take
+// those calls inline so this TU emits no external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::begin()
+{ return _M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::end()
+{ return _M_finish; }
+template <> __declspec(dllimport) __forceinline
+size_t vector<void*>::size() const
+{ return size_t(this->_M_finish - this->_M_start); }
+template <> __declspec(dllimport) __forceinline
+void *&vector<void*>::operator[](size_t __n)
+{ return *(begin() + __n); }
+}
 
 struct Gen_t_009ee8e0_k4
 {
@@ -35,6 +71,82 @@ typedef _STL::set<Gen_t_009ee8e0_k4> Q1ReceiverSet;
 struct Rva001408C0Target;
 typedef Rva001408C0Target *Q1ReceiverKey;
 typedef _STL::set<Q1ReceiverKey> Q1ReceiverPtrSet;
+// Every empty() test on the pointer set is inlined; imported force-inline stock
+// bodies keep this unit from emitting its own first-in-link-order copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+bool _Rb_tree<Q1ReceiverKey, Q1ReceiverKey, _Identity<Q1ReceiverKey>, less<Q1ReceiverKey>, allocator<Q1ReceiverKey> >::empty() const
+{ return _M_node_count == 0; }
+template <> __declspec(dllimport) __forceinline
+bool set<Q1ReceiverKey, less<Q1ReceiverKey>, allocator<Q1ReceiverKey> >::empty() const
+{ return _M_t.empty(); }
+typedef _Rb_tree<Q1ReceiverKey, Q1ReceiverKey, _Identity<Q1ReceiverKey>, less<Q1ReceiverKey>, allocator<Q1ReceiverKey> > Q1ReceiverPtrTree;
+// This unit is first in link order for the pointer set's out-of-line insert
+// path, but retail's copies (0x004ABD36, 0x00422047, 0x00080691) are the
+// game's /O1 bodies. Template members take the optimize state of the TU end,
+// so the stock bodies are spelled as explicit specializations in a gsy region.
+#pragma optimize("gsy", on)
+template <> inline
+Q1ReceiverPtrTree::iterator _Rb_tree<Q1ReceiverKey, Q1ReceiverKey, _Identity<Q1ReceiverKey>, less<Q1ReceiverKey>, allocator<Q1ReceiverKey> >::_M_insert(_Rb_tree_node_base *__x_, _Rb_tree_node_base *__y_, const Q1ReceiverKey &__v,
+	_Rb_tree_node_base *__w_)
+{
+	_Link_type __w = (_Link_type) __w_;
+	_Link_type __x = (_Link_type) __x_;
+	_Link_type __y = (_Link_type) __y_;
+	_Link_type __z;
+
+	if (__y == this->_M_header._M_data ||
+	    (__w == 0 && (__x != 0 || _M_key_compare(_Identity<Q1ReceiverKey>()(__v), _S_key(__y))))) {
+		__z = _M_create_node(__v);
+		_S_left(__y) = __z;
+		if (__y == this->_M_header._M_data) {
+			_M_root() = __z;
+			_M_rightmost() = __z;
+		}
+		else if (__y == _M_leftmost())
+			_M_leftmost() = __z;
+	}
+	else {
+		__z = _M_create_node(__v);
+		_S_right(__y) = __z;
+		if (__y == _M_rightmost())
+			_M_rightmost() = __z;
+	}
+	_S_parent(__z) = __y;
+	_S_left(__z) = 0;
+	_S_right(__z) = 0;
+	_Rb_global_inst::_Rebalance(__z, this->_M_header._M_data->_M_parent);
+	++_M_node_count;
+	return iterator(__z);
+}
+template <> inline
+pair<Q1ReceiverPtrTree::iterator, bool> _Rb_tree<Q1ReceiverKey, Q1ReceiverKey, _Identity<Q1ReceiverKey>, less<Q1ReceiverKey>, allocator<Q1ReceiverKey> >::insert_unique(const Q1ReceiverKey &__v)
+{
+	_Link_type __y = this->_M_header._M_data;
+	_Link_type __x = _M_root();
+	bool __comp = true;
+	while (__x != 0) {
+		__y = __x;
+		__comp = _M_key_compare(_Identity<Q1ReceiverKey>()(__v), _S_key(__x));
+		__x = __comp ? _S_left(__x) : _S_right(__x);
+	}
+	iterator __j = iterator(__y);
+	if (__comp && __j == begin())
+		return pair<iterator, bool>(_M_insert(__y, __y, __v), true);
+	if (__comp)
+		--__j;
+	if (_M_key_compare(_S_key(__j._M_node), _Identity<Q1ReceiverKey>()(__v)))
+		return pair<iterator, bool>(_M_insert(__x, __y, __v), true);
+	return pair<iterator, bool>(__j, false);
+}
+template <> inline
+pair<Q1ReceiverPtrSet::iterator, bool> Q1ReceiverPtrSet::insert(const Q1ReceiverKey &__x)
+{
+	pair<Q1ReceiverPtrTree::iterator, bool> __p = _M_t.insert_unique(__x);
+	return pair<iterator, bool>(reinterpret_cast<const iterator &>(__p.first), __p.second);
+}
+#pragma optimize("", on)
+}
 
 void j_00015d7a();
 
@@ -75,6 +187,8 @@ struct Q1ReceiverHashPayload
 {
 	int m_unused;
 	int m_flags;
+	Q1ReceiverKey m_key;			// +0x08
+	Q1ReceiverKey *m_dependencies;	// +0x0C, null-terminated
 };
 
 // Hash payload as m009F0E50 sees it: the flag dword at +4 carries bit 26 as
@@ -100,7 +214,7 @@ struct Q1ReceiverSetGroup198
 	volatile bool m_active;
 };
 
-struct CRITICAL_SECTION;
+#include <windows.h>
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(
 	CRITICAL_SECTION *lock);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(
@@ -142,10 +256,10 @@ public:
 class Q1Receiver0134FAAC
 {
 public:
-	void m009EC970(int which);
-	void m009EC9A0(int which);
+	void Enable(int which);
+	void Disable(int which);
 	void m009ECA30(int value);
-	void m009F0D40(int value);
+	void AddStickyAssets(int value);
 	void m009F0E50(int value);
 	void m009F19E0(int source);
 	void m009F1A60(int source);
@@ -171,7 +285,7 @@ private:
 	bool m_flag2;
 };
 
-void Q1Receiver0134FAAC::m009EC970(int which)
+void Q1Receiver0134FAAC::Enable(int which)
 {
 	switch (which)
 	{
@@ -187,7 +301,7 @@ void Q1Receiver0134FAAC::m009EC970(int which)
 	}
 }
 
-void Q1Receiver0134FAAC::m009EC9A0(int which)
+void Q1Receiver0134FAAC::Disable(int which)
 {
 	switch (which)
 	{
@@ -216,7 +330,7 @@ void Q1Receiver0134FAAC::m009EC9A0(int which)
 // Q1Receiver0134FAAC::m009ECA30 (BFME1's clamped m_value setter) is not carried
 // over: its body occurs nowhere in this image at any nearby field offset.
 
-void Q1Receiver0134FAAC::m009F0D40(int value)
+void Q1Receiver0134FAAC::AddStickyAssets(int value)
 {
 	Q1ReceiverLocalSet set = { *(Q1ReceiverSet *)value, 0, true };
 	m009EFD40(&set);
@@ -238,7 +352,49 @@ void Q1Receiver0134FAAC::m009F0D40(int value)
 	}
 }
 
-// Sibling of m009F0D40: copy the argument set with 0x009EE8E0, hand the local
+// WB 0x01678D00 AssetManagerImpl::AddDependentAssets, retail 0x006217F0
+// (513 bytes, ret 4): grows the caller's key set to its dependency closure.
+// Each pass copies the frontier (0x009EE8E0), clears the frontier, and for
+// every non-null key of the copy looks its payload up in the +0x4C table
+// (the key read straight from the tree node, as AddStickyAssets does) and adds
+// every listed dependency not yet in the caller's set to both sets.
+void Q1Receiver0134FAAC::m009EFD40(Q1ReceiverLocalSet *source)
+{
+	Q1ReceiverLocalSet frontier = { source->m_set.get(), 0, true };
+	Q1ReceiverPtrSet &sourceKeys = (Q1ReceiverPtrSet &)source->m_set.get();
+	Q1ReceiverPtrSet &frontierKeys = (Q1ReceiverPtrSet &)frontier.m_set.get();
+	while (!frontierKeys.empty())
+	{
+		Q1ReceiverLocalSet previous = { frontier.m_set.get(), 0, true };
+		frontierKeys.clear();
+		frontier.m_one = true;
+		Q1ReceiverPtrSet &previousKeys = (Q1ReceiverPtrSet &)previous.m_set.get();
+		for (Q1ReceiverPtrSet::const_iterator it = previousKeys.begin();
+			it != previousKeys.end(); ++it)
+		{
+			Q1ReceiverSetNode *node = (Q1ReceiverSetNode *)it._M_node;
+			if (!node->m_key)
+				continue;
+			Q1ReceiverHashTable::const_iterator found = m_table.find(node->m_key);
+			if (found == m_table.end())
+				continue;
+			Q1ReceiverHashPayload *asset = found->second;
+			if (!asset->m_dependencies)
+				continue;
+			for (int n = 0; asset->m_dependencies[n]; ++n)
+			{
+				Q1ReceiverKey dependency = asset->m_dependencies[n];
+				if (sourceKeys.find(dependency) == sourceKeys.end())
+				{
+					frontierKeys.insert(dependency);
+					sourceKeys.insert(dependency);
+				}
+			}
+		}
+	}
+}
+
+// Sibling of AddStickyAssets: copy the argument set with 0x009EE8E0, hand the local
 // group to 0x009EFD40, then under the +0x68 and +0x34 locks walk the +0x4C
 // hash map and store, per payload, whether its key is in the copied set.
 // BFME1 donor Q1Receiver0134FAAC_m009F0E50.cpp with the TU's +8 layout repair.
@@ -360,4 +516,325 @@ unsigned char BfmeThingXS::bfmeMarkXS(int which) const
 			return m_bfmeThird;
 	}
 	return 0;
+}
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeAskEME@BfmeObjEME@@QAE_NPAX@Z=?bfmeMarkXS@BfmeThingXS@@QBEEH@Z")
+
+// Whole-file reference transfer: clean BFME1 BfmeConv1024.cpp
+// Clean BFME1 90fffa62857c131831171802121eef7e6604eb58 BfmeConv1024.cpp
+// UnloadAsset semantic donor. WB1679210 independently names UnloadAsset.
+// Preserve existing BfmeP1024 binding called by the already owned forwarder.
+// Native widened counter20/24 shifts lock68 and seven40-byte queues80.
+// TLS scope uses owned30980/309B0; DX8 recursive lock release/reacquire is
+// present in both native and WB. Complete native RET4 ends622169; switch
+// table62216C..622188 follows three bytes of padding: full extent1320.
+
+#include <deque>
+
+int bfmeRva0011F600();
+bool BFME_DX8_Thread_Assert();
+void BFME_DX8_Thread_Lock();
+
+class Rva000309B0 {
+    void *m_previous;
+public:
+    Rva000309B0 *rva00030980(void *value);
+    void rva000309B0();
+};
+class AssetHeapScope {
+    Rva000309B0 m_slot;
+public:
+    __forceinline AssetHeapScope(unsigned value) { m_slot.rva00030980((void *)value); }
+    __forceinline ~AssetHeapScope() { m_slot.rva000309B0(); }
+};
+
+class BfmeE1024 {
+public:
+    virtual void slot00();
+    virtual void slot04();
+    virtual void slot08();
+    virtual void slot0C();
+    virtual void slot10();
+    virtual void slot14();
+    virtual void slot18();
+    virtual void slot1C();
+    virtual void slot20();
+    virtual void slot24();
+    virtual void slot28();
+    virtual void slot2C();
+    virtual void slot30();
+    virtual void slot34();
+    virtual unsigned slot38();
+    union { unsigned m_bfmeFlags; volatile unsigned m_bfmeFlagsShared; };
+    void *m_bfmeEntry;
+};
+
+class BfmeP1024 {
+public:
+    void bfmeReg1024(BfmeE1024 *item);
+    char m_unmodelled_000[0x20];
+    __int64 m_bfmeCount;
+    char m_unmodelled_028[0x40];
+    CRITICAL_SECTION m_bfmeLock;
+    _STL::deque<int> m_bfmeQueues[7];
+};
+
+void BfmeP1024::bfmeReg1024(BfmeE1024 *item)
+{
+	if (!item->m_bfmeEntry || (item->m_bfmeFlagsShared & 0xff0000) == 0x70000)
+		return;
+
+	EnterCriticalSection(&m_bfmeLock);
+	while (((item->m_bfmeFlagsShared & 0xff0000) == 0x10000 ||
+		(item->m_bfmeFlagsShared & 0xff0000) == 0x50000) &&
+		m_bfmeQueues[(item->m_bfmeFlagsShared >> 16) & 0xff].front() == (int)item)
+	{
+		int held = 0;
+        if ((unsigned char)bfmeRva0011F600())
+            do { ++held; } while (!BFME_DX8_Thread_Assert());
+        LeaveCriticalSection(&m_bfmeLock);
+        Sleep(1);
+        EnterCriticalSection(&m_bfmeLock);
+        while (held) { BFME_DX8_Thread_Lock(); --held; }
+	}
+	while ((item->m_bfmeFlagsShared & 0xff0000) == 0x80000)
+	{
+		int held = 0;
+        if ((unsigned char)bfmeRva0011F600())
+            do { ++held; } while (!BFME_DX8_Thread_Assert());
+        LeaveCriticalSection(&m_bfmeLock);
+        Sleep(1);
+        EnterCriticalSection(&m_bfmeLock);
+        while (held) { BFME_DX8_Thread_Lock(); --held; }
+	}
+
+	unsigned int i = 0;
+	for (; i < m_bfmeQueues[(item->m_bfmeFlagsShared >> 16) & 0xff].size(); ++i)
+	{
+		if (m_bfmeQueues[(item->m_bfmeFlagsShared >> 16) & 0xff].begin()[i] == (int)item)
+			break;
+	}
+	m_bfmeQueues[(item->m_bfmeFlagsShared >> 16) & 0xff][i] = m_bfmeQueues[(item->m_bfmeFlagsShared >> 16) & 0xff][m_bfmeQueues[(item->m_bfmeFlagsShared >> 16) & 0xff].size() - 1];
+	m_bfmeQueues[(item->m_bfmeFlagsShared >> 16) & 0xff].pop_back();
+	LeaveCriticalSection(&m_bfmeLock);
+
+	item->m_bfmeFlags &= 0xfdffffff;
+    AssetHeapScope heap(0x61737374);
+	if ((item->m_bfmeFlagsShared & 0xff0000) == 0x30000)
+	{
+		m_bfmeCount -= item->slot38();
+		item->m_bfmeFlags = (item->m_bfmeFlagsShared & 0xff04ffff) | 0x40000;
+		if (m_bfmeCount < 0)
+			m_bfmeCount = 0;
+	}
+
+	switch ((item->m_bfmeFlagsShared >> 16) & 0xff)
+	{
+	case 0:
+		item->slot04();
+		item->m_bfmeFlags = (item->m_bfmeFlagsShared & 0xff01ffff) | 0x10000;
+	case 1:
+		item->slot08();
+		item->m_bfmeFlags = (item->m_bfmeFlagsShared & 0xff02ffff) | 0x20000;
+		m_bfmeCount += item->slot38();
+	case 2:
+		item->slot0C();
+		item->m_bfmeFlags = (item->m_bfmeFlagsShared & 0xff04ffff) | 0x40000;
+		m_bfmeCount -= item->slot38();
+		if (m_bfmeCount < 0)
+			m_bfmeCount = 0;
+	case 4:
+		item->slot14();
+		item->m_bfmeFlags = (item->m_bfmeFlagsShared & 0xff05ffff) | 0x50000;
+	case 5:
+		item->slot18();
+		item->m_bfmeFlags = (item->m_bfmeFlagsShared & 0xff06ffff) | 0x60000;
+	case 6:
+		item->slot1C();
+		item->m_bfmeFlags = (item->m_bfmeFlagsShared & 0xff07ffff) | 0x70000;
+	}
+}
+
+
+// BFME 2 complete bodies 0x0061F910..0x0061FA91 and 0x0061FAA0..0x0061FC21.
+// Native comparisons establish an unsigned four-byte key, 12-byte set at +0,
+// an untouched word at +0xC and changed flag +0x10. Source guide: BFME 1
+// game/GameEngine/Source/Common/Bfme/Rva009EC5B0Set.cpp and Rva009EC770Set.cpp
+// at committed donor 575ba2b04. The original wrapper/key names remain unknown.
+// Native vector overflow reaches 0x002DFCF6, iterator increment 0x00024250,
+// erase range 0x0061F7B0 and temporary-buffer release 0x00030830. Current
+// source now reuses full verified typed helper aliases and the existing free provider.
+
+#include <cstdlib>
+extern void __cdecl Rva00030830FreeAllocation(void *);
+#include <set>
+#include <vector>
+// Bind vector<unsigned int>::push_back to the kept retail copy (0x004DFCB0).
+namespace _STL { template <> void vector<unsigned int, allocator<unsigned int> >::push_back(const unsigned int &); }
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@U?$_Rb_tree_node@PAURva001408C0Target@@@_STL@@@_STL@@QBEPAU?$_Rb_tre:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva001408C0Target;
+
+namespace _STL { template <> _Rb_tree_node<Rva001408C0Target *> *allocator<_Rb_tree_node<Rva001408C0Target *> >::allocate(size_t, const void *) const; }
+// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@PAURva001408C0Target@@@_STL@@U12@V?$alloc:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva001408C0Target;
+namespace _STL { template <> _Rb_tree_node<Rva001408C0Target *> *_STLP_alloc_proxy<_Rb_tree_node<Rva001408C0Target *> *, _Rb_tree_node<Rva001408C0Target *>, allocator<_Rb_tree_node<Rva001408C0Target *> > >::allocate(size_t); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline _Vector_base<unsigned int,allocator<unsigned int> >::_Vector_base(allocator<unsigned int> const &a) : _M_start(0), _M_finish(0), _M_end_of_storage(a, 0) {} }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * const * vector<void *,allocator<void *> >::begin()const  { return this->_M_start; } }
+
+// Retail clears EH state before the opaque buffer release at 0x30830.
+// The allocator<unsigned> and proxy members are imported force-inline: every
+// use here is inlined, and without dllimport this unit also emitted its own
+// non-retail copies of them, the first ones in link order.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void allocator<unsigned int>::deallocate(unsigned int *p, size_t) const
+{
+	if (p != 0) Rva00030830FreeAllocation(p);
+}
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<unsigned int *, unsigned int, allocator<unsigned int> >::deallocate(unsigned int *__p, size_t __n)
+{ __stl_alloc_rebind(static_cast<allocator<unsigned int>&>(*this), (unsigned int *)0).deallocate(__p, __n); }
+template <> __declspec(dllimport) __forceinline
+unsigned int *_STLP_alloc_proxy<unsigned int *, unsigned int, allocator<unsigned int> >::allocate(size_t __n)
+{ return __stl_alloc_rebind(static_cast<allocator<unsigned int>&>(*this), (unsigned int *)0).allocate(__n, 0); }
+template <> __declspec(dllimport) __forceinline
+void vector<unsigned int, allocator<unsigned int> >::_M_clear()
+{
+	_Destroy(this->_M_start, this->_M_finish);
+	this->_M_end_of_storage.deallocate(this->_M_start, this->_M_end_of_storage._M_data - this->_M_start);
+}
+}
+
+// The rows inline STLport's push_back. Spelling it through this view keeps that
+// expansion without emitting vector<unsigned>::push_back, whose 50-byte copy here
+// came first in link order and is not retail's 49-byte 0x4DFCB0.
+struct Rva0061F910Found : _STL::vector<unsigned int>
+{
+	void append(const unsigned int &__x)
+	{
+		if (this->_M_finish != this->_M_end_of_storage._M_data) {
+			_STL::_Construct(this->_M_finish, __x);
+			++this->_M_finish;
+		}
+		else
+			_M_insert_overflow(this->_M_finish, __x, _IsPODType(), 1UL, true);
+	}
+};
+
+struct Rva0061F910Key
+{
+	unsigned int a;
+};
+
+inline bool operator<(const Rva0061F910Key &left,
+	const Rva0061F910Key &right)
+{
+	return left.a < right.a;
+}
+
+typedef _STL::set<Rva0061F910Key> Rva0061F910Tree;
+
+typedef _STL::_Rb_tree<Rva0061F910Key,Rva0061F910Key,_STL::_Identity<Rva0061F910Key>,_STL::less<Rva0061F910Key>,_STL::allocator<Rva0061F910Key> > NativeTree;
+namespace _STL {
+// Tree cleanup uses the separately verified providers. The vector body stays
+// visible so MSVC removes its unused empty-tag argument temporary; its strong
+// size-profile instantiation is verified in UnsignedSetHelpersBFME2.cpp.
+template <> void NativeTree::erase(NativeTree::iterator,NativeTree::iterator);
+template <> void NativeTree::_M_erase(_Rb_tree_node<Rva0061F910Key> *);
+}
+class Rva0061F910Set
+{
+public:
+	Rva0061F910Set &subtract(const Rva0061F910Set &other);
+	Rva0061F910Set &retain(const Rva0061F910Set &other);
+
+private:
+	Rva0061F910Tree m_set;
+	int dword_C;
+	bool m_changed;
+};
+
+// ?subtract@Rva0061F910Set@@QAEAAV1@ABV1@@Z
+Rva0061F910Set &Rva0061F910Set::subtract(const Rva0061F910Set &other)
+{
+	_STL::vector<unsigned int> found;
+	for (Rva0061F910Tree::iterator it = m_set.begin(); it != m_set.end(); ++it)
+	{
+		if (other.m_set.find(*it) != other.m_set.end())
+			static_cast<Rva0061F910Found &>(found).append(it->a);
+	}
+	if (!found.empty())
+	{
+		for (_STL::vector<unsigned int>::iterator v = found.begin();
+			v != found.end(); ++v)
+		{
+			m_set.erase(reinterpret_cast<const Rva0061F910Key &>(*v));
+		}
+		m_changed = true;
+	}
+	return *this;
+}
+
+// ?retain@Rva0061F910Set@@QAEAAV1@ABV1@@Z
+Rva0061F910Set &Rva0061F910Set::retain(const Rva0061F910Set &other)
+{
+	_STL::vector<unsigned int> found;
+	for (Rva0061F910Tree::iterator it = m_set.begin(); it != m_set.end(); ++it)
+	{
+		if (other.m_set.find(*it) == other.m_set.end())
+			static_cast<Rva0061F910Found &>(found).append(it->a);
+	}
+	if (!found.empty())
+	{
+		for (_STL::vector<unsigned int>::iterator v = found.begin();
+			v != found.end(); ++v)
+		{
+			m_set.erase(reinterpret_cast<const Rva0061F910Key &>(*v));
+		}
+		m_changed = true;
+	}
+	return *this;
+}
+
+// Keep STLport's inline operations without emitting competing external copies.
+namespace _STL {
+typedef Rva001408C0Target *Q1LinkKey;
+typedef _Rb_tree_node<Q1LinkKey> Q1LinkNode;
+typedef _Rb_tree<Q1LinkKey, Q1LinkKey, _Identity<Q1LinkKey>, less<Q1LinkKey>, allocator<Q1LinkKey> > Q1LinkTree;
+template <> __declspec(dllimport) __forceinline
+void allocator<Q1LinkNode>::deallocate(Q1LinkNode *__p, size_t __n) const
+{ if (__p != 0) __sgi_alloc::deallocate((void *)__p, __n * sizeof(Q1LinkNode)); }
+
+template <> template <> __declspec(dllimport) __forceinline
+_Rb_tree_node<Rva001408C0Target *> *Q1LinkTree::_M_find<Rva001408C0Target *>(Rva001408C0Target * const &__k) const
+{
+    _Link_type __y = this->_M_header._M_data;
+    _Link_type __x = _M_root();
+    while (__x != 0)
+        if (!_M_key_compare(_S_key(__x), __k))
+            __y = __x, __x = _S_left(__x);
+        else
+            __x = _S_right(__x);
+    if (__y == this->_M_header._M_data || _M_key_compare(__k, _S_key(__y)))
+        __y = this->_M_header._M_data;
+    return __y;
+}
+template <> template <> __declspec(dllimport) __forceinline
+Q1LinkTree::const_iterator Q1LinkTree::find<Rva001408C0Target *>(Rva001408C0Target * const &__x) const
+{ return const_iterator(_M_find(__x)); }
+}
+
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+unsigned int *fill_n<unsigned int *, unsigned int, unsigned int>(unsigned int *__first, unsigned int __n, const unsigned int &__val)
+{
+    for (; __n > 0; --__n, ++__first)
+        *__first = __val;
+    return __first;
+}
 }

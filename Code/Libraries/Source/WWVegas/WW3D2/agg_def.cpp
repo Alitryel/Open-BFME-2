@@ -1,7 +1,35 @@
-// cl: /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MT /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
-// Ported verbatim from the Generals Zero Hour reference
-// /MT preserves retail's direct free/strdup calls in the assignment operator.
+// cl: /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MT /EHsc /Ireference/shims/bfme2_aggdef /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// Ported from the Generals Zero Hour reference
 // (Libraries/Source/WWVegas/WW3D2/agg_def.cpp); this unit had no counterpart under Code/.
+// The class is BFME 1's shape (reference/shims/bfme2_aggdef/agg_def.h): bool
+// load/save family, 17 virtual slots.
+// /MT preserves retail's direct free/strdup calls in the assignment operator.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+
+// Retail treats array delete as nothrow: ~AggregateDefClass (0x001A3C90) has
+// no EH state store between its body and the member vector's teardown, which
+// the compiler drops only when delete[] cannot throw.
+void __cdecl operator delete[](void *) throw();
+
+// BFME 2 has no W3D memory pools (see Code/Libraries/Source/WWVegas/WWLib/always.h).
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+#include "always.h"
+#undef W3DMPO_GLUE
+#define W3DMPO_GLUE(ARGCLASS)
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -57,8 +85,8 @@
 //
 const char * const EMPTY_STRING			= "";
 
-// Rowed global factory at 0x00136175: BFME2 calls
-// it directly instead of the ZH member wrapper below.
+// Rowed global factory at 0x00136175: BFME2 calls it directly; its
+// AggregateDefClass has no ZH Create_Render_Object/Load_Assets virtuals.
 RenderObjClass * __cdecl Create_Render_Obj (const char *name);
 
 // BFME2 reads the sub-object-LOD flag as a direct bit extract instead of the
@@ -133,7 +161,6 @@ AggregateDefClass::AggregateDefClass (RenderObjClass &base_model)
 //
 //	~AggregateDefClass
 //
-// ?AggregateDefClass::~AggregateDefClass present-unmatched
 AggregateDefClass::~AggregateDefClass (void)
 {
 	// Free the name buffer if necessary
@@ -218,11 +245,11 @@ AggregateDefClass::Free_Subobject_List (void)
 //	Create
 //
 RenderObjClass *
-// ?AggregateDefClass::Create present-unmatched
 AggregateDefClass::Create (void)
 {
-	// Attempt to create an instance of the hierarchy
-	RenderObjClass *pmodel = Create_Render_Object (m_Info.BaseModelName);
+	// BFME2 builds the base model through the global factory (0x00136175),
+	// as Initialize does, not through a member wrapper.
+	RenderObjClass *pmodel = ::Create_Render_Obj (m_Info.BaseModelName);
 	if (pmodel != NULL) {
 		
 		// Perform the aggregation
@@ -246,154 +273,12 @@ AggregateDefClass::Create (void)
 //
 //	Find_Subobject
 //
-RenderObjClass *
-AggregateDefClass::Find_Subobject
-(
-	RenderObjClass &model,
-	const char mesh_path[MESH_PATH_ENTRIES][MESH_PATH_ENTRY_LEN],
-	const char bone_path[MESH_PATH_ENTRIES][MESH_PATH_ENTRY_LEN]
-)
-{
-	RenderObjClass *parent_model = &model;
-	parent_model->Add_Ref ();
-	
-	// Loop through all the models in our "path" until we've either failed
-	// or found the exact mesh we were looking for...
-	for (int index = 1;
-		  (mesh_path[index][0] != 0) && (parent_model != NULL);
-		  index ++) {
-
-		// Look one level deeper into the subobject chain...
-		RenderObjClass *sub_obj = NULL;
-		if (bone_path[index][0] == 0) {
-			sub_obj = parent_model->Get_Sub_Object_By_Name (mesh_path[index]);
-		} else {
-			
-			int bone_index = parent_model->Get_Bone_Index (bone_path[index]);
-			int subobj_count = parent_model->Get_Num_Sub_Objects_On_Bone (bone_index);
-			
-			// Loop through all the subobjects on this bone
-			for (int subobj_index = 0; (subobj_index < subobj_count) && (sub_obj == NULL); subobj_index ++) {				
-				
-				// Is this the subobject we were looking for?
-				RenderObjClass *ptemp_obj = parent_model->Get_Sub_Object_On_Bone (subobj_index, bone_index);
-				if (::lstrcmpi (ptemp_obj->Get_Name (), mesh_path[index]) == 0) {
-					sub_obj = ptemp_obj;
-				} else {
-					REF_PTR_RELEASE (ptemp_obj);
-				}
-			}
-		}
-
-		REF_PTR_RELEASE (parent_model);
-
-		// The parent for the next iteration is the subobject on this one.
-		parent_model = sub_obj;
-	}
-
-	// Return a pointer to the subobject
-	return parent_model;
-}
 
 
 ///////////////////////////////////////////////////////////////////////////////////
 //
 //	Attach_Subobjects
 //
-void
-// ?AggregateDefClass::Attach_Subobjects present-unmatched
-AggregateDefClass::Attach_Subobjects (RenderObjClass &base_model)
-{
-	// Now loop through all the subobjects and attach them to the appropriate bone
-	for (int index = 0; index < m_SubobjectList.Count (); index ++) {
-		W3dAggregateSubobjectStruct *psubobj_info = m_SubobjectList[index];
-		if (psubobj_info != NULL) {
-			
-			// Now create this subobject and attach it to its bone.
-			RenderObjClass *prender_obj = Create_Render_Object (psubobj_info->SubobjectName);
-			if (prender_obj != NULL) {
-
-				// Attach this object to the requested bone
-				if (base_model.Add_Sub_Object_To_Bone (prender_obj, psubobj_info->BoneName) == false) {
-					WWDEBUG_SAY (("Unable to attach %s to %s.\r\n", psubobj_info->SubobjectName, psubobj_info->BoneName));
-				}
-
-				// Release our hold on this pointer
-				prender_obj->Release_Ref ();
-			} else {
-				WWDEBUG_SAY (("Unable to load aggregate subobject %s.\r\n", psubobj_info->SubobjectName));
-			}
-		}
-	}
-	
-	return ;
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////
-//
-//	Create_Render_Object
-//
-RenderObjClass *
-// ?AggregateDefClass::Create_Render_Object present-unmatched
-AggregateDefClass::Create_Render_Object (const char *passet_name)
-{
-	// Assume failure
-	RenderObjClass *prender_obj = NULL;
-
-	// Attempt to get an instance of the render object from the asset manager
-	prender_obj = WW3DAssetManager::Get_Instance()->Create_Render_Obj (passet_name);
-	
-	// If we couldn't find the render object in the asset manager, then attempt to
-	// load it from file
-	if ((prender_obj == NULL) &&
-	    Load_Assets (passet_name)) {
-
-		// It should be in the asset manager now, so attempt to get it again.
-		prender_obj = WW3DAssetManager::Get_Instance()->Create_Render_Obj (passet_name);
-	}
-	
-	// Return a pointer to the render object
-	return prender_obj;
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////
-//
-//	Load_Assets
-//
-bool
-// ?AggregateDefClass::Load_Assets present-unmatched
-AggregateDefClass::Load_Assets (const char *passet_name)
-{
-	// Assume failure
-	bool retval = false;
-
-	// Param OK?
-	if (passet_name != NULL) {
-		
-		// Determine what the current working directory is
-		char path[MAX_PATH];
-		::GetCurrentDirectory (sizeof (path), path);
-
-		// Ensure the path is directory delimited
-		if (path[::lstrlen(path)-1] != '\\') {
-			::lstrcat (path, "\\");
-		}
-
-		// Assume the filename is simply the "asset name" + the w3d extension
-		::lstrcat (path, passet_name);
-		::lstrcat (path, ".w3d");
-
-		// If the file exists, then load it into the asset manager.
-		if (::GetFileAttributes (path) != 0xFFFFFFFF) {
-			retval = WW3DAssetManager::Get_Instance()->Load_3D_Assets (path);
-		}
-	}
-
-	// Return the true/false result code
-	return retval;
-}
 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -427,20 +312,7 @@ AggregateDefClass::Initialize (RenderObjClass &base_model)
 	RenderObjClass *pvanilla_model = ::Create_Render_Obj (orig_model_name);
 
 	// Build lists of changes from the delta between the original model and the provided one.
-	// BFME2's AggregateDefClass declares two virtuals fewer ahead of
-	// Build_Subobject_List (the ZH Load_Assets/Create_Render_Object slots are
-	// gone: retail vtable 0x00BD6C70 has Is_Object_In_List at 0x3C and Build
-	// at 0x40, where the ZH header puts Load_Assets/Create_Render_Object/
-	// Is_Object_In_List/Build at 0x3C/0x40/0x44/0x48). Route the raw slot
-	// through a pointer-to-member cast -- that keeps __thiscall without naming
-	// the nonstandard keyword, and without touching the ZH agg_def.h, which
-	// every other matched row in the TU compiles against.
-	struct AggDefBuildThunk { void Call (RenderObjClass &a, RenderObjClass &b); };
-	typedef void (AggDefBuildThunk::*AggDefBuildFn) (RenderObjClass &, RenderObjClass &);
-	void **up_vtbl = *reinterpret_cast<void ***> (this);
-	union { void *asVoid; AggDefBuildFn asMember; } up_fnCast;
-	up_fnCast.asVoid = up_vtbl[0x40 / 4];
-	(reinterpret_cast<AggDefBuildThunk *> (this)->*up_fnCast.asMember) (*pvanilla_model, base_model);
+	Build_Subobject_List (*pvanilla_model, base_model);
 
 	// Release the model if necessary
 	REF_PTR_RELEASE (pvanilla_model);	
@@ -453,86 +325,6 @@ AggregateDefClass::Initialize (RenderObjClass &base_model)
 //
 //	Build_Subobject_List
 //
-void
-AggregateDefClass::Build_Subobject_List
-(
-	RenderObjClass &original_model,
-	RenderObjClass &model
-)
-{
-	int index;
-
-	// Loop through all the bones in this render obj
-	int bone_count = model.Get_Num_Bones ();
-	for (int bone_index = 0; bone_index < bone_count; bone_index ++) {			
-		const char *pbone_name = model.Get_Bone_Name (bone_index);
-		
-		// Build a list of nodes that are contained in the vanilla model
-		DynamicVectorClass <RenderObjClass *> orig_node_list;
-		for (index = 0;
-			  index < original_model.Get_Num_Sub_Objects_On_Bone (bone_index);
-			  index ++) {
-			RenderObjClass *psubobj = original_model.Get_Sub_Object_On_Bone (index, bone_index);
-			if (psubobj != NULL) {
-				orig_node_list.Add (psubobj);
-			}
-		}
-
-		// Build a list of nodes that are contained in this bone
-		DynamicVectorClass <RenderObjClass *> node_list;
-		for (index = 0;
-			  index < model.Get_Num_Sub_Objects_On_Bone (bone_index);
-			  index ++) {
-			RenderObjClass *psubobj = model.Get_Sub_Object_On_Bone (index, bone_index);
-			if (psubobj != NULL) {
-				node_list.Add (psubobj);
-			}
-		}
-
-		int node_count = node_list.Count ();
-		if (node_count > 0) {
-			
-			// Loop through the subobjects and add each one to our internal list
-			W3dAggregateSubobjectStruct subobj_info = { 0 };
-			for (int node_index = 0; node_index < node_count; node_index ++) {
-				RenderObjClass *psubobject = node_list[node_index];
-				WWASSERT (psubobject != NULL);
-				
-				// Is this subobject new?  (i.e. not in a 'vanilla' instance?)
-				const char *prototype_name = psubobject->Get_Name ();
-				if (psubobject != NULL &&
-					 (Is_Object_In_List (prototype_name, orig_node_list) == false)) {
-					
-					// Add this subobject to our list
-					::lstrcpy (subobj_info.SubobjectName, prototype_name);
-					::lstrcpy (subobj_info.BoneName, pbone_name);
-					Add_Subobject (subobj_info);
-					m_Info.SubobjectCount ++;
-
-					// Attach this render object to the 'original' model (this is done
-					// so we can do texture compares later)
-					RenderObjClass *prender_obj = WW3DAssetManager::Get_Instance ()->Create_Render_Obj (prototype_name);
-					((RenderObjClass &)original_model).Add_Sub_Object_To_Bone (prender_obj, pbone_name);
-					REF_PTR_RELEASE (prender_obj);
-				}
-			}
-		}
-
-		// Free our hold on the render objs in the original node list
-		for (index = 0; index < orig_node_list.Count (); index ++) {
-			REF_PTR_RELEASE (orig_node_list[index]);
-		}
-		orig_node_list.Delete_All ();
-
-		// Free our hold on the render objs in the node list
-		for (index = 0; index < node_list.Count (); index ++) {
-			REF_PTR_RELEASE (node_list[index]);
-		}
-		node_list.Delete_All ();
-	}
-
-	return ;
-}
 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -568,143 +360,6 @@ AggregateDefClass::Is_Object_In_List
 
 ///////////////////////////////////////////////////////////////////////////////////
 //
-//	Load
-//
-WW3DErrorType
-// ?AggregateDefClass::Load_W3D present-unmatched
-AggregateDefClass::Load_W3D (ChunkLoadClass &chunk_load)
-{
-	W3dTextureReplacerHeaderStruct header = { 0 };
-
-	
-	while (chunk_load.Open_Chunk()) {
-
-		WW3DErrorType error = WW3D_ERROR_OK;
-
-		switch (chunk_load.Cur_Chunk_ID()) {
-
-			case W3D_CHUNK_AGGREGATE_HEADER:
-				error = Read_Header(chunk_load);
-				break;
-
-			case W3D_CHUNK_AGGREGATE_INFO:
-				error = Read_Info(chunk_load);
-				break;
-
-			case W3D_CHUNK_TEXTURE_REPLACER_INFO:
-				if (chunk_load.Read (&header, sizeof (header)) == sizeof (header)) {
-					if (header.ReplacedTexturesCount > 0) {
-						WWDEBUG_SAY(("Obsolete texture replacement chunk encountered in aggregate: %s\r\n",m_pName));
-					}
-				} 
-				break;
-
-			case W3D_CHUNK_AGGREGATE_CLASS_INFO:
-				error = Read_Class_Info(chunk_load);
-				break;
-
-			default:
-				
-				// Unknown chunk.
-				break;
-		}	
-		chunk_load.Close_Chunk();
-		if (error != WW3D_ERROR_OK) return (error);
-	}
-	
-	return WW3D_ERROR_OK;
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////
-//
-//	Read_Header
-//
-WW3DErrorType
-// ?AggregateDefClass::Read_Header present-unmatched
-AggregateDefClass::Read_Header (ChunkLoadClass &chunk_load)
-{
-	// Assume error
-	WW3DErrorType ret_val = WW3D_ERROR_LOAD_FAILED;
-
-	// Is this the header chunk?
-	W3dAggregateHeaderStruct header = { 0 };
-	if (chunk_load.Read (&header, sizeof (header)) == sizeof (header)) {
-
-		// Copy the name from the header structure
-		m_pName = ::_strdup (header.Name);
-		m_Version = header.Version;
-
-		// Success!
-		ret_val = WW3D_ERROR_OK;
-	}
-
-	// Return the WW3D_ERROR_TYPE return code
-	return ret_val;
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////
-//
-//	Read_Info
-//
-WW3DErrorType
-// ?AggregateDefClass::Read_Info present-unmatched
-AggregateDefClass::Read_Info (ChunkLoadClass &chunk_load)
-{
-	// Assume error
-	WW3DErrorType ret_val = WW3D_ERROR_LOAD_FAILED;
-
-	// Read the chunk straight into our member structure
-	::memset (&m_Info, 0, sizeof (m_Info));
-	if (chunk_load.Read (&m_Info, sizeof (m_Info)) == sizeof (m_Info)) {
-
-		// Success!
-		ret_val = WW3D_ERROR_OK;
-
-		// Read all the subobjects from the file
-		for (UINT isubobject = 0;
-			  (isubobject < m_Info.SubobjectCount) && (ret_val == WW3D_ERROR_OK);
-			  isubobject ++) {
-
-			// Read this subobject's definition from the file
-			ret_val = Read_Subobject (chunk_load);
-		}				
-	}
-
-	// Return the WW3D_ERROR_TYPE return code
-	return ret_val;
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////
-//
-//	Read_Subobject
-//
-WW3DErrorType
-AggregateDefClass::Read_Subobject (ChunkLoadClass &chunk_load)
-{
-	// Assume error
-	WW3DErrorType ret_val = WW3D_ERROR_LOAD_FAILED;
-
-	// Read the subobject information from the file
-	W3dAggregateSubobjectStruct subobj_info = { 0 };
-	if (chunk_load.Read (&subobj_info, sizeof (subobj_info)) == sizeof (subobj_info)) {
-
-		// Add this subobject to our list
-		Add_Subobject (subobj_info);
-
-		// Success!
-		ret_val = WW3D_ERROR_OK;
-	}
-
-	// Return the WW3D_ERROR_TYPE return code
-	return ret_val;
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////
-//
 //	Add_Subobject
 //
 void
@@ -725,126 +380,21 @@ AggregateDefClass::Add_Subobject (const W3dAggregateSubobjectStruct &subobj_info
 //
 //	Read_Class_Info
 //
-WW3DErrorType
-// ?AggregateDefClass::Read_Class_Info present-unmatched
+bool
 AggregateDefClass::Read_Class_Info (ChunkLoadClass &chunk_load)
 {
 	// Assume error
-	WW3DErrorType ret_val = WW3D_ERROR_LOAD_FAILED;
+	bool ret_val = false;
 
 	// Read the chunk straight into our header structure
 	::memset (&m_MiscInfo, 0, sizeof (m_MiscInfo));
 	if (chunk_load.Read (&m_MiscInfo, sizeof (m_MiscInfo)) == sizeof (m_MiscInfo)) {
 
 		// Success!
-		ret_val = WW3D_ERROR_OK;
+		ret_val = true;
 	}
 
-	// Return the WW3D_ERROR_TYPE return code
-	return ret_val;
-}
-
-
-//////////////////////////////////////////////////////////////////////////////////
-//
-//	Save
-//
-WW3DErrorType
-AggregateDefClass::Save_W3D (ChunkSaveClass &chunk_save)
-{
-	// Assume error
-	WW3DErrorType ret_val = WW3D_ERROR_SAVE_FAILED;
-
-	// Begin a chunk that identifies an aggregate
-	if (chunk_save.Begin_Chunk (W3D_CHUNK_AGGREGATE) == TRUE) {
-		
-		// Attempt to save the different sections of the aggregate definition
-		if ((Save_Header (chunk_save) == WW3D_ERROR_OK) &&
-			 (Save_Info (chunk_save) == WW3D_ERROR_OK) &&
-			 (Save_Class_Info (chunk_save) == WW3D_ERROR_OK)) {
-			
-			// Success!
-			ret_val = WW3D_ERROR_OK;
-		}
-
-		// Close the aggregate chunk
-		chunk_save.End_Chunk ();
-	}
-
-	// Return the WW3D_ERROR_TYPE return code
-	return ret_val;
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////
-//
-//	Save_Header
-//
-WW3DErrorType
-// ?AggregateDefClass::Save_Header present-unmatched
-AggregateDefClass::Save_Header (ChunkSaveClass &chunk_save)
-{
-	// Assume error
-	WW3DErrorType ret_val = WW3D_ERROR_SAVE_FAILED;
-
-	// Begin a chunk that identifies the aggregate
-	if (chunk_save.Begin_Chunk (W3D_CHUNK_AGGREGATE_HEADER) == TRUE) {
-		
-		// Fill the header structure
-		W3dAggregateHeaderStruct header = { 0 };
-		header.Version = W3D_CURRENT_AGGREGATE_VERSION;
-		::lstrcpyn (header.Name, m_pName, sizeof (header.Name));
-		header.Name[sizeof (header.Name) - 1] = 0;
-
-		// Write the header out to the chunk
-		if (chunk_save.Write (&header, sizeof (header)) == sizeof (header)) {
-			// Success!
-			ret_val = WW3D_ERROR_OK;			
-		}
-
-		// End the header chunk
-		chunk_save.End_Chunk ();
-	}
-
-	// Return the WW3D_ERROR_TYPE return code
-	return ret_val;
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////
-//
-//	Save_Info
-//
-WW3DErrorType
-// ?AggregateDefClass::Save_Info present-unmatched
-AggregateDefClass::Save_Info (ChunkSaveClass &chunk_save)
-{
-	// Assume error
-	WW3DErrorType ret_val = WW3D_ERROR_SAVE_FAILED;
-
-	// Begin a chunk that identifies the aggregate settings
-	if (chunk_save.Begin_Chunk (W3D_CHUNK_AGGREGATE_INFO) == TRUE) {
-		
-		// Write the settings structure out to the chunk
-		if (chunk_save.Write (&m_Info, sizeof (m_Info)) == sizeof (m_Info)) {
-			// Success!
-			ret_val = WW3D_ERROR_OK;
-
-			// Write all the subobjects to the file
-			for (int isubobject = 0;
-			     (isubobject < m_SubobjectList.Count ()) && (ret_val == WW3D_ERROR_OK);
-				  isubobject ++) {
-
-				// Write this object to the file
-				ret_val = Save_Subobject (chunk_save, m_SubobjectList[isubobject]);
-			}
-		}
-
-		// End the settings chunk
-		chunk_save.End_Chunk ();
-	}
-
-	// Return the WW3D_ERROR_TYPE return code
+	// Return the true/false result code
 	return ret_val;
 }
 
@@ -853,7 +403,7 @@ AggregateDefClass::Save_Info (ChunkSaveClass &chunk_save)
 //
 //	Save_Subobject
 //
-WW3DErrorType
+bool
 AggregateDefClass::Save_Subobject
 (
 	ChunkSaveClass &chunk_save,
@@ -861,46 +411,16 @@ AggregateDefClass::Save_Subobject
 )
 {
 	// Assume error
-	WW3DErrorType ret_val = WW3D_ERROR_SAVE_FAILED;
+	bool ret_val = false;
 
 	// Write the subobj structure out to the chunk
 	if (chunk_save.Write (psubobject, sizeof (W3dAggregateSubobjectStruct)) == sizeof (W3dAggregateSubobjectStruct)) {
 
 		// Success!
-		ret_val = WW3D_ERROR_OK;
+		ret_val = true;
 	}
 
-	// Return the WW3D_ERROR_TYPE return code
-	return ret_val;
-}
-
-
-/////////////////////////////////////////////////////////////////////////////////
-//
-//	Save_Class_Info
-//
-WW3DErrorType
-// ?AggregateDefClass::Save_Class_Info present-unmatched
-AggregateDefClass::Save_Class_Info (ChunkSaveClass &chunk_save)
-{
-	// Assume error
-	WW3DErrorType ret_val = WW3D_ERROR_SAVE_FAILED;
-
-	// Begin a chunk that identifies the texture replacer header
-	if (chunk_save.Begin_Chunk (W3D_CHUNK_AGGREGATE_CLASS_INFO) == TRUE) {
-		
-		// Write the class information structure out to the chunk
-		if (chunk_save.Write (&m_MiscInfo, sizeof (m_MiscInfo)) == sizeof (m_MiscInfo)) {
-			
-			// Success!
-			ret_val = WW3D_ERROR_OK;
-		}
-
-		// End the class info chunk
-		chunk_save.End_Chunk ();
-	}
-
-	// Return the WW3D_ERROR_TYPE return code
+	// Return the true/false result code
 	return ret_val;
 }
 
@@ -921,7 +441,7 @@ AggregateLoaderClass::Load_W3D (ChunkLoadClass &chunk_load)
 	if (pdefinition != NULL) {
 		
 		// Ask the definition object to load the aggregate data
-		if (pdefinition->Load_W3D (chunk_load) != WW3D_ERROR_OK) {
+		if (pdefinition->Load_W3D (chunk_load) != true) {
 			
 			// Error!  Free the definition
 			delete pdefinition;

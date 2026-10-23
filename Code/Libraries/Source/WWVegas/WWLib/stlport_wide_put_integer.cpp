@@ -54,7 +54,7 @@ public:
 		virtual ~facet();
 	};
 
-	__declspec(dllimport) __forceinline ~locale()
+	__forceinline ~locale()
 	{
 		_M_impl->_M_decr();
 	}

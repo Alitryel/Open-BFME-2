@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // W3DSmudgeManager::ReleaseResources, retail 0x00722190, 90 bytes.
 //
 // The lock and unlock at either end are a guard object, not two bare calls:
@@ -12,14 +12,14 @@
 
 typedef int Int;
 
-void W3DRadarResetLock(void);					// retail 0x00903090
-void W3DRadarResetUnlock(void);					// retail 0x00905B10
+void BFME_DX8_Thread_Lock(void);					// retail 0x00903090
+bool BFME_DX8_Thread_Assert(void);					// matched release half at 0x00120F50
 
 class BfmeRadarResetLock
 {
 public:
-	BfmeRadarResetLock() { W3DRadarResetLock(); }
-	~BfmeRadarResetLock() { W3DRadarResetUnlock(); }
+	BfmeRadarResetLock() { BFME_DX8_Thread_Lock(); }
+	~BfmeRadarResetLock() { BFME_DX8_Thread_Assert(); }
 };
 
 class IndexBufferRef

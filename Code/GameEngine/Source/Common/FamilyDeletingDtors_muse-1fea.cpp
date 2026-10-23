@@ -1,21 +1,13 @@
-// cl: /O1 /MD
+// cl: /MD
 // ??_GLevelGrantSpecialPowerModuleData@@UAEPAXI@Z @0x004C2C06 28B
 // Deleting dtor slot 0 of vtable 0x0085C828; calls rowed ??1 at 0x004C2C22 then rowed operator delete at 0x0002FD60.
-class LevelGrantSpecialPowerModuleData { public: __declspec(noinline) virtual ~LevelGrantSpecialPowerModuleData(); private: int m_famgen; };
-LevelGrantSpecialPowerModuleData::~LevelGrantSpecialPowerModuleData() { m_famgen = 0; }
-void famgenDelete(LevelGrantSpecialPowerModuleData *p) { delete p; }
-// ??_GScriptActions@@UAEPAXI@Z @0x003BE5AD 28B
-// Deleting dtor slot 0 of vtable 0x0081FE48; calls rowed ??1 at 0x003BD582 then rowed operator delete at 0x0002FD60.
-class ScriptActions { public: __declspec(noinline) virtual ~ScriptActions(); private: int m_famgen; };
-ScriptActions::~ScriptActions() { m_famgen = 0; }
-void famgenDelete(ScriptActions *p) { delete p; }
+struct EmitVtableTag;
+
+class LevelGrantSpecialPowerModuleData { public: LevelGrantSpecialPowerModuleData(EmitVtableTag *); virtual ~LevelGrantSpecialPowerModuleData(); };
+// ?<LevelGrantSpecialPowerModuleData::LevelGrantSpecialPowerModuleData> absent-from-retail
+LevelGrantSpecialPowerModuleData::LevelGrantSpecialPowerModuleData(EmitVtableTag *) {}
 // ??_GClearanceTestingSlowDeathBehaviorModuleData@@UAEPAXI@Z @0x00483EC5 28B
 // Deleting dtor slot 0 of vtable 0x00849E98; calls rowed ??1 at 0x00483EE1 then rowed operator delete at 0x0002FD60.
-class ClearanceTestingSlowDeathBehaviorModuleData { public: __declspec(noinline) virtual ~ClearanceTestingSlowDeathBehaviorModuleData(); private: int m_famgen; };
-ClearanceTestingSlowDeathBehaviorModuleData::~ClearanceTestingSlowDeathBehaviorModuleData() { m_famgen = 0; }
-void famgenDelete(ClearanceTestingSlowDeathBehaviorModuleData *p) { delete p; }
-// ??_GRadiusDecalUpdate@@UAEPAXI@Z @0x003914F9 28B
-// Deleting dtor slot 0 of vtable 0x0081A018; calls rowed ??1 at 0x003913E4 then rowed operator delete at 0x0002FD60.
-class RadiusDecalUpdate { public: __declspec(noinline) virtual ~RadiusDecalUpdate(); private: int m_famgen; };
-RadiusDecalUpdate::~RadiusDecalUpdate() { m_famgen = 0; }
-void famgenDelete(RadiusDecalUpdate *p) { delete p; }
+class ClearanceTestingSlowDeathBehaviorModuleData { public: ClearanceTestingSlowDeathBehaviorModuleData(EmitVtableTag *); virtual ~ClearanceTestingSlowDeathBehaviorModuleData(); };
+// ?<ClearanceTestingSlowDeathBehaviorModuleData::ClearanceTestingSlowDeathBehaviorModuleData> absent-from-retail
+ClearanceTestingSlowDeathBehaviorModuleData::ClearanceTestingSlowDeathBehaviorModuleData(EmitVtableTag *) {}

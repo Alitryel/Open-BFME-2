@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG
+// cl: /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG
 //
 // ??0W3DTankDrawModuleData@@QAE@XZ, retail 0x000CE6E6, 126 bytes.
 // W3DTankDraw ModuleData ctor: runs the pinned W3DModelDrawModuleData base
@@ -14,26 +14,8 @@
 // arm the two EH states with the derived vtable store mid-init; /arch:SSE
 // keeps the float stores as xorps plus movss.
 
-template <typename T>
-class StringBase
-{
-	friend class AsciiString;
+#include "ascii_string.h"
 
-protected:
-	~StringBase();
-
-	void *m_data;
-
-private:
-	StringBase(const char *str);
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString(const char *str) : StringBase<char>(str) {}
-	~AsciiString();
-};
 
 class W3DModelDrawModuleData
 {
@@ -67,6 +49,6 @@ W3DTankDrawModuleData::W3DTankDrawModuleData()
 	// Body assignments (not mem-inits) keep the global-float loads as
 	// movss pairs exactly as retail.
 	m_treadAnimationRate = 0.0f;
-	m_treadPivotSpeedFraction = *reinterpret_cast<volatile const float *>(0x00BC4DD0);
-	m_treadDriveSpeedFraction = *reinterpret_cast<volatile const float *>(0x00BCCB3C);
+	m_treadPivotSpeedFraction = 0.6f;
+	m_treadDriveSpeedFraction = 0.3f;
 }

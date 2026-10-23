@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva000391445@RadiusDecalUpdate@@SA?AW4NameKeyType@@XZ @0x391445
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@RadiusDecalUpdate@@UBE?AW4NameKeyType@@XZ @0x391445
 // (69B): cached pool-name key for RadiusDecalUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("RadiusDecalUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class RadiusDecalUpdate
 {
 public:
-	static NameKeyType rva000391445();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000391445@RadiusDecalUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType RadiusDecalUpdate::rva000391445()
+// ?getModuleNameKey@RadiusDecalUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType RadiusDecalUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheRadiusDecalUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("RadiusDecalUpdate");

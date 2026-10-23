@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 // stlport
 //
 // ?selectMatchingAcrossScreen@InGameUI@@UAEHXZ, retail 0x0029CEBB, 269 bytes.
@@ -17,80 +17,24 @@
 //   selectMatchingAcrossRegion at 0x190, buildRegion at 0x194.
 // - GameText fetch at 0x3C returning UnicodeString by value.
 
+class LivingWorldLogic;
+extern LivingWorldLogic *TheLivingWorldLogic;
 typedef int Int;
 typedef bool Bool;
 
-struct ICoord2D
-{
-	int x;
-	int y;
-};
+#include "../../../Libraries/Include/Lib/ICoord2D.h"
 
-struct IRegion2D
-{
-	ICoord2D lo;
-	ICoord2D hi;
-};
+#include "../../../Libraries/Include/Lib/IRegion2D.h"
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-};
+#include "../../../Libraries/Include/Lib/Coord3D.h"
 
 typedef unsigned short wchar_t;
 
 class UnicodeString;
 class AsciiString;
 
-template <typename T>
-class StringBase
-{
-	friend class AsciiString;
-	friend class UnicodeString;
-
-private:
-	StringBase() : m_data(0) {}
-	StringBase(const StringBase<T> &that);
-
-	struct Header
-	{
-		int ref_count;
-		unsigned short length;
-		unsigned short capacity;
-		T data[1];
-	};
-
-	void releaseBuffer();
-	Header *m_data;
-
-public:
-	const T *str() const
-	{
-		static const T TheNullChr = 0;
-		return m_data ? &m_data->data[0] : &TheNullChr;
-	}
-};
-
-class AsciiString
-{
-public:
-	AsciiString(const AsciiString &that) : m_data(that.m_data) {}
-	~AsciiString() { m_data.releaseBuffer(); }
-private:
-	StringBase<char> m_data;
-};
-
-class UnicodeString
-{
-public:
-	UnicodeString() {}
-	UnicodeString(const UnicodeString &that) : m_data(that.m_data) {}
-	~UnicodeString() { m_data.releaseBuffer(); }
-private:
-	StringBase<wchar_t> m_data;
-};
+#include "ascii_string.h"
+#include "unicode_string.h"
 
 class GameTextInterface
 {
@@ -140,7 +84,7 @@ public:
 	virtual void getOrigin(int *x, int *y);
 };
 
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 // BFME2 selection-state guard: two flag bytes at +0xB4/+0xB5, tested by the
 // outlined thiscall at 0x0042253A (returns true only if both non-zero).
@@ -155,7 +99,30 @@ private:
 	unsigned char m_second;
 };
 
-extern BfmeSelectionState *g_bfmeStateDO;
+// Borrowed prefix: native 29CBCA loads Drawable::m_object at +FC.
+class Object;
+class Drawable;
+struct SelectedDrawableView
+{
+	char pad[0xfc];
+	Object *m_object;
+};
+static __forceinline Object *selectedObject(Drawable *drawable)
+{
+	return reinterpret_cast<SelectedDrawableView *>(drawable)->m_object;
+}
+#include <list>
+typedef _STL::list<Drawable *> DrawableList;
+// Borrowed list/node prefix proved by 29CBC2/29CBC4/29CBCA/29CBF5.
+struct SelectedDrawableNode { SelectedDrawableNode *next, *prev; Drawable *value; };
+struct SelectedDrawableListView { SelectedDrawableNode *head; };
+class ActionManager
+{
+public:
+	bool canOverrideSpecialPowerDestination(Object *, const Coord3D *, int, int);
+};
+extern ActionManager *TheActionManager;
+enum SpecialPowerType { SPECIAL_INVALID = -1 };
 
 class InGameUI
 {
@@ -233,7 +200,7 @@ public:
 	virtual void slot70();
 	virtual void slot71();
 	virtual void slot72();
-	virtual void slot73();
+	virtual const DrawableList *getAllSelectedDrawables() const;
 	virtual void slot74();
 	virtual void slot75();
 	virtual void slot76();
@@ -263,6 +230,8 @@ public:
 	virtual int selectMatchingAcrossRegion(IRegion2D *region);
 	virtual void buildRegion(const ICoord2D *anchor, const ICoord2D *dest, IRegion2D *region);
 	virtual int selectMatchingAcrossScreen();
+	enum SelectionRules { SELECTION_ANY, SELECTION_ALL };
+	bool canSelectedObjectsOverrideSpecialPowerDestination(const Coord3D *, SelectionRules, SpecialPowerType) const;
 };
 
 extern InGameUI *TheInGameUI;
@@ -270,16 +239,16 @@ extern InGameUI *TheInGameUI;
 // ?selectMatchingAcrossScreen@InGameUI@@UAEHXZ
 int InGameUI::selectMatchingAcrossScreen()
 {
-	BfmeSelectionState *state = g_bfmeStateDO;
+	BfmeSelectionState *state = ((BfmeSelectionState *)TheLivingWorldLogic);
 	if (state != 0 && state->isSelectionLocked() != 0)
 		return 0;
 
 	ICoord2D origin;
 	ICoord2D size;
 	IRegion2D region;
-	TheTacticalView->getOrigin(&origin.x, &origin.y);
-	size.x = TheTacticalView->getWidth();
-	size.y = TheTacticalView->getHeight();
+	((TacticalView *)TheTacticalView)->getOrigin(&origin.x, &origin.y);
+	size.x = ((TacticalView *)TheTacticalView)->getWidth();
+	size.y = ((TacticalView *)TheTacticalView)->getHeight();
 	buildRegion(&origin, &size, &region);
 	Int numSelected = selectMatchingAcrossRegion(&region);
 	if (numSelected == -1)
@@ -293,4 +262,31 @@ int InGameUI::selectMatchingAcrossScreen()
 		TheInGameUI->message(message);
 	}
 	return numSelected;
+}
+
+
+// BFME1 ba7ddda7 InGameUI.cpp supplies the source algorithm. Independent
+// target corroboration: 29CBA6..29CC19 complete RET12 plus internal return
+// branch; UI singleton DFEDF0 slot124, Drawable +FC, rowed ActionManager
+// 41BB49 with position/type/player-source arguments, and ANY=0 / ALL=1.
+bool InGameUI::canSelectedObjectsOverrideSpecialPowerDestination(
+	const Coord3D *loc, SelectionRules rule, SpecialPowerType spType) const
+{
+	int count = 0;
+	int qualify = 0;
+	const SelectedDrawableListView *selected =
+		reinterpret_cast<const SelectedDrawableListView *>(TheInGameUI->getAllSelectedDrawables());
+	for (SelectedDrawableNode *it = selected->head->next;
+		it != selected->head; it = it->next) {
+		Drawable *other = it->value;
+		++count;
+		if (TheActionManager->canOverrideSpecialPowerDestination(selectedObject(other), loc, spType, 0)) {
+			if (rule == SELECTION_ANY)
+				return true;
+			++qualify;
+		}
+	}
+	if (rule == SELECTION_ALL && count > 0 && qualify == count)
+		return true;
+	return false;
 }

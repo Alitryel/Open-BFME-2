@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /D_CRTIMP=
+// cl: /EHsc /MD /D_CRTIMP=
 // STLport 4.5.3 vector resize with a 60-byte element passed by value.
 // BfmePod60 names the proven stride; the retail element type is not established.
 // Shape follows Open-BFME-1 vector_ICoord2D_resize.cpp. The retail call at
@@ -30,3 +30,8 @@ void vector<T,A>::resize(size_type newSize, T value) {
 }
 template void vector<BfmePod60,allocator<BfmePod60> >::resize(unsigned int,BfmePod60);
 }
+
+// The retail call in this body reads 0x00587DCD, an address the ledger already
+// carries as ?_M_fill_insert@?$vector@URva00587375@@V?$allocator@URva00587375@@@_STL@@@_STL@@QAEXPAURva00587375@@IABU3@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?_M_fill_insert@?$vector@UBfmePod60@@V?$allocator@UBfmePod60@@@_STL@@@_STL@@QAEXPAUBfmePod60@@IABU3@@Z=?_M_fill_insert@?$vector@URva00587375@@V?$allocator@URva00587375@@@_STL@@@_STL@@QAEXPAURva00587375@@IABU3@@Z")

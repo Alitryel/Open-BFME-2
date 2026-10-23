@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 // DefaultMessageFont cluster (retail 0x0022175F, 82 bytes) plus the FontDesc
 // helpers it uses: default ctor 27B @0x00376900 and copy assignment 29B
 // @0x002216DD. FontDesc layout (AsciiString +0x00, int size +0x04, bool bold
@@ -17,29 +17,8 @@
 
 template <typename T> struct BfmeStringData;
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	void releaseBuffer();
+#include "ascii_string.h"
 
-public:
-	StringBase() : m_data(0) {}
-	~StringBase();
-
-protected:
-	BfmeStringData<T> *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString() {}
-	AsciiString(const char *text) : StringBase<char>(text) {}
-	~AsciiString();
-	AsciiString &operator=(const AsciiString &other);
-};
 
 struct FontDesc
 {

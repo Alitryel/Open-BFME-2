@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // The named ModuleFactory entry reaches this constructor through its unique
 // 0x24-byte allocation, fixing the two bytes of derived state.
 
@@ -25,12 +25,12 @@ class BB_Iface2 { public: virtual void slot(); };
 class UpdateModule : public BB_DeepBase, public BB_Iface1, public BB_Iface2
 {
 public:
-    UpdateModule(Thing *thing, const ModuleData *moduleData)
-        : BB_DeepBase(thing, moduleData),
-          m_indexInLogic(-1), m_updateState(-1),
-          m_nextCallFrameAndPhase(0)
-    {
-    }
+    // Defined once, out of line, in UpdateModuleCtor.cpp (retail 0x00253390): derived
+    // ctors call it, and a copy here would offer the link a second, non-retail body.
+    UpdateModule(Thing *thing, const ModuleData *moduleData);
+    // Declared only: retail's ~UpdateModule (0x0024A797, pin) restores the three vtables and
+    // tail-jumps on; the implicit one here compiled to a 5-byte jmp the link could keep.
+    virtual ~UpdateModule();
 
 protected:
     void setWakeFrame(Object *, UpdateSleepTime);
@@ -60,3 +60,9 @@ BuildingBehavior::BuildingBehavior(Thing *thing, const ModuleData *moduleData)
     m_field21 = true;
     setWakeFrame(getObject(), UPDATE_SLEEP_NONE);
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?slot@BB_Iface1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+#pragma comment(linker, "/alternatename:?slot@BB_Iface2@@UAEXXZ=?update@BuildingBehavior@@UAE?AW4UpdateSleepTime@@XZ")

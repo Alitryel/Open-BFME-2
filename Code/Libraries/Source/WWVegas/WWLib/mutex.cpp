@@ -19,6 +19,7 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "always.h"
 #include "mutex.h"
 #include "wwdebug.h"
 #include <windows.h>
@@ -27,8 +28,8 @@
 // defines neither, so an inline forwarder folds away at the call site.  Retail's
 // displacement inside ??0CriticalSectionClass at 0x00613AE0 names
 // ??2@YAPAXI@Z (0x0002FDA0), not ??_U (0x0002FDE0).
-inline void * __cdecl operator new[](size_t s) { return ::operator new(s); }
-inline void __cdecl operator delete[](void * p) { ::operator delete(p); }
+static inline void * __cdecl operator new[](size_t s) { return ::operator new(s); }
+static inline void __cdecl operator delete[](void * p) { ::operator delete(p); }
 
 
 // ----------------------------------------------------------------------------
@@ -158,4 +159,3 @@ CriticalSectionClass::LockClass::~LockClass()
 {
 	CriticalSection.Unlock();
 }
-

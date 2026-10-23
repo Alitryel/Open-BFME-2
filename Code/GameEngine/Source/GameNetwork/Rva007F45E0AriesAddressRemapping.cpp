@@ -14,7 +14,7 @@ extern "C" void * __cdecl memset(void *, int, unsigned int);
 int Rva007EB410NetConnStatus(int selector, void *buffer, int bufferSize);
 extern "C" int Rva007EE930(const char *text, char *dest, int destSize,
 	const char *defaultText, int index, int separator);
-extern "C" unsigned int Rva007FFC10(const char *text);
+unsigned int __cdecl Rva007FFC10TextAddr(char const *text);
 
 struct Rva007F45E0Entry
 {
@@ -69,8 +69,8 @@ void Rva007F45E0Aries::setAddressRemapping(const char *source)
 		if (sscanf(value, "%s %s %s,",
 			network, mask, ignored) == 3)
 		{
-			m_entries[count].network = Rva007FFC10(network);
-			m_entries[count].mask = Rva007FFC10(mask);
+		m_entries[count].network = Rva007FFC10TextAddr(network);
+		m_entries[count].mask = Rva007FFC10TextAddr(mask);
 			m_entries[count].host = Rva007EB410NetConnStatus(0x686f7374, 0, 0);
 			++count;
 		}

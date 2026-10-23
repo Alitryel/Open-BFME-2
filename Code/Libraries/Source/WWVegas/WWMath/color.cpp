@@ -56,7 +56,7 @@ struct RGBAColorInt
     unsigned int alpha;
 };
 
-int RGBColor::getAsInt() const
+inline int RGBColor::getAsInt() const
 {
     return ((int)(red * 255.0) << 16) | ((int)(green * 255.0) << 8) | ((int)(blue * 255.0) << 0);
 }
@@ -75,12 +75,11 @@ RGBColor &RGBColor::operator=(const RGBColor &that)
     return *this;
 }
 
-void RGBColor::setFromInt(int color)
+inline void RGBColor::setFromInt(int color)
 {
-    static const float scale = 1.0f / 255.0f;
-    red = (float)((color >> 16) & 0xFF) * scale;
-    green = (float)((color >> 8) & 0xFF) * scale;
-    blue = (float)(color & 0xFF) * scale;
+    red = (float)((color >> 16) & 0xFF) * (1.0f / 255.0f);
+    green = (float)((color >> 8) & 0xFF) * (1.0f / 255.0f);
+    blue = (float)(color & 0xFF) * (1.0f / 255.0f);
 }
 
 bool operator==(const RGBColor &left, const RGBColor &right)
@@ -225,3 +224,12 @@ RandomAlphaKeyframe &RandomAlphaKeyframe::operator=(const RandomAlphaKeyframe &t
 }
 
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitcolor@@YAXPAURGBColor@@@Z present-unmatched
+void bfmeEmitcolor(RGBColor *rGBColor)
+{
+    rGBColor->getAsInt();
+    rGBColor->setFromInt(0);
+}
+#pragma inline_depth()

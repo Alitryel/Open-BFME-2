@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva000458B0A@RampageBehavior@@SA?AW4NameKeyType@@XZ @0x458b0a
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@RampageBehavior@@UBE?AW4NameKeyType@@XZ @0x458b0a
 // (69B): cached pool-name key for RampageBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("RampageBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class RampageBehavior
 {
 public:
-	static NameKeyType rva000458B0A();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000458B0A@RampageBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType RampageBehavior::rva000458B0A()
+// ?getModuleNameKey@RampageBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType RampageBehavior::getModuleNameKey() const
 {
 	static NameKeyType TheRampageBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("RampageBehavior");

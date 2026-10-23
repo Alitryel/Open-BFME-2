@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc
 //
 // ?parseWinClass@@YA_NPADPAVWinInstanceData@@0PAX@Z,
 // retail 0x0031639C, 76 bytes. Dedicated TU.
@@ -30,31 +30,8 @@ enum NameKeyType
 	NAMEKEY_INVALID = 0
 };
 
-template <typename T>
-class StringBase
-{
-	struct Header
-	{
-		int ref_count;
-		unsigned short length;
-		unsigned short capacity;
-		T data[1];
-	};
+#include "ascii_string.h"
 
-	Header *m_data;
-
-public:
-	void set(const char *s);
-};
-
-class AsciiString
-{
-public:
-	void set(const char *s) { m_data.set(s); }
-
-private:
-	StringBase<char> m_data;
-};
 
 class NameKeyGenerator
 {
@@ -72,16 +49,17 @@ public:
 	void *lookup56(int key, int index);
 };
 
-extern Rva00DFF024Registry *TheRva00DFF024Registry;
+class FunctionLexicon;
+extern FunctionLexicon *TheFunctionLexicon;
 extern AsciiString g_systemCallbackName;
-extern void *g_winClassCallback;
+#include "WindowScriptCreateRecord.h"
 
 class WinInstanceData;
 
 extern "C" __declspec(dllimport) char *__cdecl strtok(char *str, const char *delimiters);
 
 // ?parseWinClass@@YA_NPADPAVWinInstanceData@@0PAX@Z
-static Bool parseWinClass(char *token, WinInstanceData *instData, char *buffer, void *data)
+Bool parseWinClass(char *token, WinInstanceData *instData, char *buffer, void *data)
 {
 	char *c, *ptr;
 	char *stringSeps = "\"";
@@ -95,7 +73,7 @@ static Bool parseWinClass(char *token, WinInstanceData *instData, char *buffer, 
 	g_systemCallbackName.set(c);
 
 	NameKeyType key = TheNameKeyGenerator->nameToKey(g_systemCallbackName);
-	g_winClassCallback = TheRva00DFF024Registry->lookup56(key, -1);
+	g_windowScriptCreateRecord.winClass = ((Rva00DFF024Registry *)TheFunctionLexicon)->lookup56(key, -1);
 
 	return true;
 }

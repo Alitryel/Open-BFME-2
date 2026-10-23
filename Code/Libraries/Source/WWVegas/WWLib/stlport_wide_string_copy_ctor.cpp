@@ -43,10 +43,8 @@ public:
 	{
 	}
 
-	__declspec(dllimport) __forceinline ~_String_base()
-	{
-		_M_deallocate_block();
-	}
+	// Exceptional cleanup uses the rowed wide _String_base destructor.
+	~_String_base();
 
 	void _M_deallocate_block();
 
@@ -85,3 +83,7 @@ basic_string<CharT, Traits, Alloc>::basic_string(
 template class basic_string<wchar_t, char_traits<wchar_t>, allocator<wchar_t> >;
 
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeCallDQE@BfmeOtherDQE@@QAEXPAX@Z=??0?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@_STL@@QAE@ABV01@@Z")

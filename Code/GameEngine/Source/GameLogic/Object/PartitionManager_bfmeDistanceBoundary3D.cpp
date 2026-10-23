@@ -7,22 +7,21 @@
 extern "C" double __cdecl sqrt(double value);
 #pragma intrinsic(sqrt)
 
-extern const float BfmeZeroRange;
+// BfmeZeroRange is float 0.0 at 0x00BBAEAC (data_ledger literal); use 0.0f literal so the TU links.
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-};
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
 
 class BfmeBoundaryGeometry3D
 {
 public:
-	float bfmeZDeltaToCenter(void) const;
-
 	char m_prefix[0x14];
 	float m_radius;
+};
+
+class Rva0073A1C0FloatField
+{
+public:
+	float get(void) const;
 };
 
 class Object
@@ -48,14 +47,14 @@ float distCalcProc_BoundaryAndBoundary_3D(
 	delta.z -= position->z;
 
 	BfmeBoundaryGeometry3D *geometry = candidate->getGeometry();
-	delta.z += geometry->bfmeZDeltaToCenter();
+	delta.z += ((Rva0073A1C0FloatField *)geometry)->get();
 
 	BfmeBoundaryGeometry3D *geometry2 = candidate->getGeometry();
 	float distanceSquared = delta.y * delta.y + delta.x * delta.x;
 	distanceSquared += delta.z * delta.z;
 	float distance = static_cast<float>(sqrt(distanceSquared));
 	distance -= geometry2->m_radius;
-	if (distance < BfmeZeroRange)
+	if (distance < 0.0f)
 		return -distance * distance;
 	return distance * distance;
 }

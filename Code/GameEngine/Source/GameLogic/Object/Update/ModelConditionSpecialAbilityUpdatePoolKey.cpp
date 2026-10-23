@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva000490D96@ModelConditionSpecialAbilityUpdate@@SA?AW4NameKeyType@@XZ @0x490d96
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@ModelConditionSpecialAbilityUpdate@@UBE?AW4NameKeyType@@XZ @0x490d96
 // (69B): cached pool-name key for ModelConditionSpecialAbilityUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("ModelConditionSpecialAbilityUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ModelConditionSpecialAbilityUpdate
 {
 public:
-	static NameKeyType rva000490D96();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva000490D96@ModelConditionSpecialAbilityUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType ModelConditionSpecialAbilityUpdate::rva000490D96()
+// ?getModuleNameKey@ModelConditionSpecialAbilityUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType ModelConditionSpecialAbilityUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheModelConditionSpecialAbilityUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("ModelConditionSpecialAbilityUpdate");

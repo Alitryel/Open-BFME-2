@@ -4,10 +4,10 @@
 // mov-glob; je; jmp notify` -- the flag cmp schedules above the store while
 // the je still tests it (mov preserves flags).
 
-// cl: /O1 /MD
+// cl: /MD
 
 extern int g_Va00DEC40C;
-extern unsigned char g_Va00DEC3D4;
+extern unsigned char g_WW3D_IsInitted;
 
 void rva001171B0Notify();
 
@@ -15,7 +15,7 @@ void Rva00117BB0SetOption(int value)
 {
 	if (g_Va00DEC40C != value) {
 		g_Va00DEC40C = value;
-		if (g_Va00DEC3D4 != 0) {
+		if (g_WW3D_IsInitted != 0) {
 			rva001171B0Notify();
 		}
 	}

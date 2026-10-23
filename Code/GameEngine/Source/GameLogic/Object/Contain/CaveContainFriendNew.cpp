@@ -21,7 +21,14 @@ private:
 };
 
 // ?friend_newModuleInstance@CaveContain@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *CaveContain::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *CaveContain::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new CaveContain(thing, moduleData));
 }
+#pragma inline_depth(0)
+// ?bfmeEmitCaveContainFriendNew@@YAXPAVCaveContain@@@Z present-unmatched
+void bfmeEmitCaveContainFriendNew(CaveContain *caveContain)
+{
+	caveContain->friend_newModuleInstance(0, 0);
+}
+#pragma inline_depth()

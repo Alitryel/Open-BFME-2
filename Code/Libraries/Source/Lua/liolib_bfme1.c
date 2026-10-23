@@ -1,5 +1,5 @@
 // Open-BFME recovery lane: Lua I/O library sweep (caller-clean bodies)
-// cl: /MD /O2 /Ireference/open-bfme-1/Code/Libraries/Source/Lua
+// cl: /MD /Ireference/open-bfme-1/Code/Libraries/Source/Lua
 /* Lua 4.0.1 (TeCGraf, PUC-Rio), lua.org lua-4.0.1.tar.gz, flattened from
    src/, src/lib/, src/luac/ and include/.  Statically linked into
    lotrbfme.exe behind GameLogic/ScriptEngine/LuaScriptEngine.cpp.
@@ -31,14 +31,6 @@
 #include "lualib.h"
 
 
-/* BFME reconstruction: retail's Lua open paths use this custom file-open
-   import rather than the CRT fopen entry point. */
-__declspec(dllimport) void *bfmeFopenVIF (const char *name, const char *mode);
-
-/* BFME reconstruction: numeric output uses retail's file-format import. */
-struct bfmeFileSF;
-__declspec(dllimport) int bfmeLogSF (const struct bfmeFileSF *stream,
-                                     const char *format, ...);
 
 
 #ifndef OLD_ANSI
@@ -93,9 +85,10 @@ static __forceinline int pushresult (lua_State *L, int i) {
   }
   else {
     lua_pushnil(L);
-    lua_pushstring(L, strerror(errno));
-    lua_pushnumber(L, errno);
-    return 3;;
+    /* retail fakes strerror/errno as OLD_ANSI does (see pushresult_close at 0x0074A0D0) */
+    lua_pushstring(L, "generic I/O error");
+    lua_pushnumber(L, -1.0);
+    return 3;
   }
 }
 
@@ -207,9 +200,7 @@ static int io_open (lua_State *L) {
   IOCtrl *ctrl = (IOCtrl *)lua_touserdata(L, -1);
   FILE *f;
   lua_pop(L, 1);  /* remove upvalue */
-  /* BFME reconstruction: retail routes this binding through the custom
-     file-open import. */
-  f = (FILE *)bfmeFopenVIF(luaL_check_string(L, 1), luaL_check_string(L, 2));
+  f = fopen(luaL_check_string(L, 1), luaL_check_string(L, 2));
   if (f) {
     lua_pushusertag(L, f, ctrl->iotag);
     return 1;
@@ -233,10 +224,8 @@ static int io_fromto (lua_State *L, int inout, const char *mode) {
     current = (FILE *)lua_touserdata(L, 1);
   else {
     const char *s = luaL_check_string(L, 1);
-    /* BFME reconstruction: regular redirection uses the same custom-open
-       import as io_open. */
     current = (*s == '|') ? popen(s+1, mode) :
-              (FILE *)bfmeFopenVIF(s, mode);
+              fopen(s, mode);
   }
   return setreturn(L, ctrl, current, inout);
 }
@@ -256,9 +245,7 @@ static int io_appendto (lua_State *L) {
   IOCtrl *ctrl = (IOCtrl *)lua_touserdata(L, -1);
   FILE *current;
   lua_pop(L, 1);  /* remove upvalue */
-  /* BFME reconstruction: append mode uses the same custom file-open import
-     as io_open and regular io_fromto redirection. */
-  current = (FILE *)bfmeFopenVIF(luaL_check_string(L, 1), "a");
+  current = fopen(luaL_check_string(L, 1), "a");
   return setreturn(L, ctrl, current, OUTFILE);
 }
 
@@ -490,8 +477,7 @@ static int io_write (lua_State *L) {
   for (; arg <=  lastarg; arg++) {
     if (lua_type(L, arg) == LUA_TNUMBER) {  /* LUA_NUMBER */
       /* optimization: could be done exactly as for strings */
-      /* BFME reconstruction: retail formats numeric output through bfmeLogSF. */
-      status = status && bfmeLogSF((const struct bfmeFileSF *)f, "%.16g",
+      status = status && fprintf(f, "%.16g",
                                    lua_tonumber(L, arg)) > 0;
     }
     else {

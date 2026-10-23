@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // GameLogic::processProgress, retail 0x0023D740, 46 bytes.
 // Dedicated TU so ConnectionManager.cpp cannot see this body.
@@ -17,15 +17,28 @@ class GameLogic
 {
 	char pad[0x120];
 	LoadScreen *m_loadScreen;
+	char pad124[4];
+	unsigned char m_heardFlags[8];
 
 public:
 	void lastHeardFrom(int playerId);
 	void processProgress(int playerId, int percentage);
+	void processProgressComplete(int playerId);
 };
 
 void GameLogic::processProgress(int playerId, int percentage)
 {
 	if (m_loadScreen)
 		m_loadScreen->processProgress(playerId, percentage);
+	lastHeardFrom(playerId);
+}
+// ?processProgressComplete@GameLogic@@QAEXH@Z @0x0023D76E 37B: range-checks slot 0-7, tests byte at this+0x128, sets it and calls lastHeardFrom row 0x0023CF1C. Byte array sits just before timeout array at +0x130 proven by sibling lastHeardFrom TU. Callers at 0x004D0352 and 0x004D3095.
+void GameLogic::processProgressComplete(int playerId)
+{
+	if (playerId < 0 || playerId >= 8)
+		return;
+	if (m_heardFlags[playerId] == 1)
+		return;
+	m_heardFlags[playerId] = 1;
 	lastHeardFrom(playerId);
 }

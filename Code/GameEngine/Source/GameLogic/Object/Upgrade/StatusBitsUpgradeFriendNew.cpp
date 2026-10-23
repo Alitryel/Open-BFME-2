@@ -21,7 +21,14 @@ private:
 };
 
 // ?friend_newModuleInstance@StatusBitsUpgrade@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *StatusBitsUpgrade::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *StatusBitsUpgrade::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new StatusBitsUpgrade(thing, moduleData));
 }
+#pragma inline_depth(0)
+// ?bfmeEmitStatusBitsUpgradeFriendNew@@YAXPAVStatusBitsUpgrade@@@Z present-unmatched
+void bfmeEmitStatusBitsUpgradeFriendNew(StatusBitsUpgrade *statusBitsUpgrade)
+{
+	statusBitsUpgrade->friend_newModuleInstance(0, 0);
+}
+#pragma inline_depth()

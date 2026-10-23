@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /Oi
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /Oi
 //
 // ?parseAudioLODDefinition@INI@@SAXPAV1@@Z, retail 0x00202F8A,
 // 153 bytes. Dedicated TU.
@@ -42,29 +42,8 @@ template <typename T> struct BfmeStringData
 	T text[1];
 };
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-public:
-	void set(const char *text);
-protected:
-	StringBase() : m_data(0) {}
-private:
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	~StringBase() { releaseBuffer(); }
-	void releaseBuffer();
-	BfmeStringData<T> *m_data;
-};
+#include "ascii_string.h"
 
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString() {}
-	AsciiString(const AsciiString &other);
-	AsciiString &operator=(const char *text) { set(text); return *this; }
-	~AsciiString() {}
-};
 
 struct FieldParse
 {
@@ -85,21 +64,21 @@ public:
 	Int getAudioLODIndex(const AsciiString &name);
 };
 
-GameLODManager *TheGameLODManager;
+extern GameLODManager *TheGameLODManager;  // defined in GameLOD.cpp
 
 static const FieldParse audioLODFieldParseTable[4] = { { 0 }, { 0 }, { 0 }, { 0 } };
 
-struct INIException
+class INIException
 {
+public:
+	INIException(int argCount, const char *format, ...);
 	char *mFailureMessage;
 	int mErrorCode;
+	INIException(const INIException &that);
+	~INIException();
 };
 
-extern "C" void rva002f681_fill(void *dst, int code, const char *fmt, ...);
-__declspec(noreturn) void __stdcall _CxxThrowException(void *pExc, void *pInfo);
 
-struct AudioLODThrowInfoAnchor { int a; int b; int c; int d; };
-static const AudioLODThrowInfoAnchor audioLODThrowInfoAnchor = { 0, 0, 0, 0 };
 
 // ?parseAudioLODDefinition@INI@@SAXPAV1@@Z
 void INI::parseAudioLODDefinition(INI *ini)
@@ -113,9 +92,7 @@ void INI::parseAudioLODDefinition(INI *ini)
 		Int index = TheGameLODManager->getAudioLODIndex(name);
 		if (index == -1)
 		{
-			INIException e;
-			rva002f681_fill(&e, 8, "Unknown Audio LOD level '%s'", token);
-			_CxxThrowException(&e, (void *)&audioLODThrowInfoAnchor);
+			throw INIException(8, "Unknown Audio LOD level '%s'", token);
 		}
 		void *lodInfo = (char *)TheGameLODManager + index * 8 + 0x218;
 		ini->initFromINI(lodInfo, audioLODFieldParseTable);

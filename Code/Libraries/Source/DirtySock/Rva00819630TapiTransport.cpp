@@ -3,7 +3,7 @@
 // Rva00812DD0.  The address-derived entry keeps the raw cdecl ABI proved by
 // that caller; the object view is local because no shared layout is justified.
 
-struct Rva00819630Comm
+struct CommSerialRef
 {
 	void *m_ops[ 14 ];
 	char m_gap38[ 0x14 ];
@@ -38,9 +38,9 @@ struct Rva00819630Comm
 	char m_gap108[ 0x800 ];
 	int m_field908;
 	char m_gap90c[ 0x1000 ];
-	int m_field190c;
-	int m_field1910;
-	int m_field1914;
+	int m_streamCapacity;
+	int m_streamLength;
+	int m_streamSlot;
 	char m_gap1918[ 8 ];
 	char m_lock[ 0x18 ];
 	int m_depth;
@@ -51,7 +51,7 @@ struct Rva00819630Comm
 extern "C"
 {
 	void *memset( void *destination, int value, unsigned int count );
-	char *strcpy( char *destination, const char *source );
+	extern "C" char *_mbscpy( char *destination, const char *source );
 	int __cdecl strcmp( const char *left, const char *right );
 	unsigned int __cdecl strlen( const char *text );
 	__declspec( dllimport ) int __cdecl wsprintfA( char *output,
@@ -104,7 +104,7 @@ extern "C" int Rva0081AE20( void *comm, const char *name, char *output,
 {
 	int i;
 	void *handle;
-	const char *ports[ 5 ] = { "COM1", "COM2", "COM3", "COM4", 0 };
+	const char *list[ 5 ] = { "COM1", "COM2", "COM3", "COM4", 0 };
 	char *originalOutput;
 
 	originalOutput = output;
@@ -125,9 +125,9 @@ extern "C" int Rva0081AE20( void *comm, const char *name, char *output,
 		return 1;
 	}
 
-	for ( i = 0; ports[ i ] != 0; i++ )
+	for ( i = 0; list[ i ] != 0; i++ )
 	{
-		handle = CreateFileA( ports[ i ], 0xc0000000, 0, 0, 3,
+		handle = CreateFileA( list[ i ], 0xc0000000, 0, 0, 3,
 			0x40000080, 0 );
 
 		if ( handle == (void *)-1 )
@@ -138,7 +138,7 @@ extern "C" int Rva0081AE20( void *comm, const char *name, char *output,
 		if ( output != originalOutput )
 			*output++ = (char)separator;
 
-		output += wsprintfA( output, "%s", ports[ i ] );
+		output += wsprintfA( output, "%s", list[ i ] );
 	}
 
 	*output++ = 0;
@@ -146,18 +146,18 @@ extern "C" int Rva0081AE20( void *comm, const char *name, char *output,
 	return 1;
 }
 
-extern "C" void *Rva00819630( int first, int second, int third )
+extern "C" void *CommSerialConstruct( int first, int second, int third )
 {
 	unsigned long pid;
 	void *result;
-	Rva00819630Comm *comm;
+	CommSerialRef *comm;
 
-	comm = (Rva00819630Comm *)Rva007F0000Alloc( 0x1944 );
+	comm = (CommSerialRef *)Rva007F0000Alloc( 0x1944 );
 	if( comm == 0 )
 		return 0;
 
 	memset( comm, 0, 0x1944 );
-	comm->m_ops[ 0 ] = (void *)Rva00819630;
+	comm->m_ops[ 0 ] = (void *)CommSerialConstruct;
 	comm->m_ops[ 1 ] = (void *)Rva0081ACD0;
 	comm->m_ops[ 2 ] = (void *)(Rva0081AE20Proc)Rva0081AE20;
 	comm->m_ops[ 3 ] = (void *)Rva0081B000;
@@ -171,7 +171,7 @@ extern "C" void *Rva00819630( int first, int second, int third )
 	comm->m_ops[ 11 ] = (void *)Rva0081BA60;
 	comm->m_ops[ 12 ] = (void *)Rva0081BC80;
 	comm->m_ops[ 13 ] = (void *)Rva0081BD40;
-	strcpy( comm->m_name, "SERIAL" );
+	_mbscpy( comm->m_name, "SERIAL" );
 	InitializeCriticalSection( comm->m_lock );
 
 	comm->m_recvRecordSize = first + 0x10;
@@ -183,9 +183,9 @@ extern "C" void *Rva00819630( int first, int second, int third )
 	comm->m_sendBuffer = Rva007F0000Alloc(
 		comm->m_sendBufferSize );
 	comm->m_field908 = 0;
-	comm->m_field1914 = 0;
-	comm->m_field1910 = 0;
-	comm->m_field190c = 0x800;
+	comm->m_streamSlot = 0;
+	comm->m_streamLength = 0;
+	comm->m_streamCapacity = 0x800;
 	comm->m_state = 1;
 	comm->m_pendingValue = 0;
 	comm->m_threadId = GetCurrentThreadId();
@@ -200,4 +200,12 @@ extern "C" void *Rva00819630( int first, int second, int third )
 	SetThreadPriority( result, 2 );
 	CloseHandle( result );
 	return comm;
+}
+
+void Rva0081B000( void )
+{
+}
+
+void Rva0081AE10( void )
+{
 }

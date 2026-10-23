@@ -36,8 +36,13 @@ typedef basic_string<BfmeWChar, char_traits<BfmeWChar>, allocator<BfmeWChar> > B
 }
 
 #include <new>
+// bfme link decl-only begin
+namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::basic_string(basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> > const &); }
+// bfme link decl-only end
 
-extern unsigned char g_009DEEF0Static[];
+// g_009DEEF0Static: matched references place it at VA 0xddeef0; zero-filled at retail, sized to the
+// 0xc-byte gap before the next known global there.
+unsigned char g_009DEEF0Static[12];
 
 class Rva00017B00StringInit
 {
@@ -50,6 +55,46 @@ void *Rva00017B00StringInit::init(void *other)
 	volatile int tmp = 0;
 	_STL::BfmeWideString *slot = static_cast<_STL::BfmeWideString *>(other);
 	const _STL::BfmeWideString &empty = *reinterpret_cast<const _STL::BfmeWideString *>(g_009DEEF0Static);
+	slot->_STL::BfmeWideString::BfmeWideString(empty);
+	return other;
+}
+
+// Two more initializers with the same code as Rva00017B00StringInit::init,
+// each copying from its own static empty: 0x00017B30 reads VA 0xddef20 and
+// 0x00019D90 reads VA 0xddef2c. bfme1_sweep places the shared donor body at
+// all three addresses and the DIR32 operand separates them. Both statics are
+// zero-filled at retail and unreferenced elsewhere, and each is sized like
+// the first.
+unsigned char g_00DDEF20Static[12];	// VA 0x00ddef20
+
+class Rva00017B30StringInit
+{
+public:
+	void *init(void *other);
+};
+
+void *Rva00017B30StringInit::init(void *other)
+{
+	volatile int tmp = 0;
+	_STL::BfmeWideString *slot = static_cast<_STL::BfmeWideString *>(other);
+	const _STL::BfmeWideString &empty = *reinterpret_cast<const _STL::BfmeWideString *>(g_00DDEF20Static);
+	slot->_STL::BfmeWideString::BfmeWideString(empty);
+	return other;
+}
+
+unsigned char g_00DDEF2CStatic[12];	// VA 0x00ddef2c
+
+class Rva00019D90StringInit
+{
+public:
+	void *init(void *other);
+};
+
+void *Rva00019D90StringInit::init(void *other)
+{
+	volatile int tmp = 0;
+	_STL::BfmeWideString *slot = static_cast<_STL::BfmeWideString *>(other);
+	const _STL::BfmeWideString &empty = *reinterpret_cast<const _STL::BfmeWideString *>(g_00DDEF2CStatic);
 	slot->_STL::BfmeWideString::BfmeWideString(empty);
 	return other;
 }

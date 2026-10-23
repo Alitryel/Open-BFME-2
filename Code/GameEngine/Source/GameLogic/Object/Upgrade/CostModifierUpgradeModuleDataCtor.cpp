@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
 // stlport
 //
 // ??0CostModifierUpgradeModuleData@@QAE@XZ, retail 0x004B5BAC, 184 bytes.
@@ -13,7 +13,7 @@
 // Own table 0x00C582D8 proves every field; the ModuleData factory at
 // 0x00250316 news the 0x13C span and calls this ctor as sole caller.
 // Shape follows AutoPickUpUpdateModuleDataCtor (filter plus vector plus
-// temps) over SubObjectsUpgradeModuleDataCtor (rowed OpenContainModuleData
+// temps) over SubObjectsUpgradeModuleDataCtor (rowed Rva00253487Base
 // base). Levers: (1) the base is virtual-but-empty (rowed TU is novtable
 // with a virtual dtor), so it shares the derived vptr at +0 and the base
 // call stays this-direct while the pad covers +4..+0x117. (2) The derived
@@ -27,27 +27,23 @@
 // alias pin to 0x00211E58 (int/unsigned/AsciiString precedent).
 
 #include <vector>
+#include "ascii_string.h"
 
-template <typename T>
-class StringBase
-{
-public:
-	StringBase() : m_data(0) {}
-	void set(const T *text);
-	~StringBase();
+// A declaration-only specialization stops this TU emitting its own
+// vector destructors, so calls bind their verified kept copies. The float
+// destructor is emitted and verified by SpellRechargeModifierUpgradeModuleDataCtor.
+namespace _STL {
+template <> vector<float, allocator<float> >::~vector();
+template <> vector<AsciiString, allocator<AsciiString> >::~vector();
+template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
+template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);
+template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
+template <> _Vector_base<float, allocator<float> >::~_Vector_base();
+template <> void _STLP_alloc_proxy<float*, float, allocator<float> >::deallocate(float*, size_t);
+template <> void allocator<float>::deallocate(float*, size_t) const;
+}
 
-	void *m_data;
-};
-
-class AsciiString
-{
-public:
-	AsciiString();
-	~AsciiString();
-
-private:
-	char *m_data;
-};
+extern unsigned char g_00DFEFA4StoragePrototype[28];
 
 class BfmeFixedStorage0004543D
 {
@@ -69,17 +65,17 @@ private:
 	int m_x;
 };
 
-class __declspec(novtable) OpenContainModuleData
+class __declspec(novtable) Rva00253487Base
 {
 public:
-	OpenContainModuleData();
-	virtual ~OpenContainModuleData();
+	Rva00253487Base();
+	virtual ~Rva00253487Base();
 }; // Virtual (shares the derived vptr at +0, so the base call stays
 	// this-direct) but empty: the rowed folded 0x253487 body runs against
 	// this (its vtable store is overwritten by the derived install below
 	// and its +8 member setup lands in the pad).
 
-class CostModifierUpgradeModuleData : public OpenContainModuleData
+class CostModifierUpgradeModuleData : public Rva00253487Base
 {
 public:
 	CostModifierUpgradeModuleData();
@@ -93,7 +89,7 @@ private:
 	bool m_startsActive; // +0x129, StartsActive
 	bool m_slaughter; // +0x12A, Slaughter
 	unsigned char m_pad12B; // +0x12B
-	StringBase<char> m_labelForPalantirString; // +0x12C, LabelForPalantirString
+	AsciiString m_labelForPalantirString; // +0x12C, LabelForPalantirString
 	_STL::vector<AsciiString> m_applyToTheseUpgrades; // +0x130, ApplyToTheseUpgrades
 };
 
@@ -103,8 +99,8 @@ CostModifierUpgradeModuleData::CostModifierUpgradeModuleData()
 	, m_slaughter(false)
 {
 	m_objectFilter.initFromStorages(
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(0x00DFEFA4)),
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(0x00DFEFA4)));
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)),
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)));
 	m_labelForPalantirString.set(">UNSPECIFIED<");
 	m_startsActive = false;
 }

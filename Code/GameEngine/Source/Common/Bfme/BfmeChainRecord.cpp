@@ -1,5 +1,5 @@
 // ??0BfmeChainRecord@@QAE@PAX0PAPAV0@@Z
-// cl: /O2 /Ob0
+// cl: /Ob0
 
 class BfmeChainRecord
 {
@@ -27,3 +27,7 @@ BfmeChainRecord::BfmeChainRecord(void *first, void *second, BfmeChainRecord **ow
 		m_next->m_ownerLink = &m_next;
 	*ownerLink = this;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0BfmeRecEQR@@QAE@PAX0PAPAV0@@Z=??0BfmeChainRecord@@QAE@PAX0PAPAV0@@Z")

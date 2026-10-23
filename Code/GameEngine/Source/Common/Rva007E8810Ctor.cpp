@@ -1,4 +1,4 @@
-// cl: /O2 /Ob0
+// cl: /Ob0
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Snapshot.h
 // Retail runs the 16-byte base constructor at 0x007E86B0 here (vftable
@@ -10,7 +10,7 @@ class SnapshotDupReplica
 {
 public:
 	SnapshotDupReplica();
-	virtual void handle();
+	virtual void handle() {}
 };
 
 class Rva007E8810 : public SnapshotDupReplica
@@ -47,3 +47,11 @@ Rva007E8810::Rva007E8810()
 	m_30 = 0;
 	m_2C = 4;
 }
+
+// Callers elsewhere reach bodies in this unit through spellings pinned to the same
+// retail address (same cdecl/thiscall ABI); bind them here.
+#pragma comment(linker, "/alternatename:??0Rva007E8810Message@@QAE@XZ=??0Rva007E8810@@QAE@XZ")
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:??0BfmeMsgVJH@@QAE@XZ=??0Rva007E8810@@QAE@XZ")

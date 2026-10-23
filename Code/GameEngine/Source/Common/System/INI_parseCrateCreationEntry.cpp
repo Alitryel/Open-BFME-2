@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /arch:SSE /DNDEBUG /MD
+// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD
 // ?parseCrateCreationEntry@CrateTemplate@@SAXPAVINI@@PAX1PBX@Z, retail
 // 0x0035CD23, 188 bytes. Serves the CrateObject entry of the table at
 // 0x8162A0. Zero Hour CrateSystem.cpp proves the name and shape: read two
@@ -12,27 +12,16 @@
 // the entry name slot, inline PBD delegates to the rowed StringBase
 // ctor at 0x0037BA0, teardown/assign ride the pinned 0x36410/0x366F0).
 
-template <typename T> class StringBase
-{
-public:
-	StringBase() : m_data(0) {}
-	StringBase(const T *str);
-	~StringBase();
+#include "ascii_string.h"
 
-private:
-	void *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString() {}
-	AsciiString(const char *str) : StringBase<char>(str) {}
-	AsciiString &operator=(const AsciiString &other);
-};
 
 struct crateCreationEntry
 {
+	// LINK: the implicit default ctor's COMDAT loses to the first-in-order copy; the one
+	// local uses a TU-unique no-init ctor with the same member init. No flags touched.
+	struct BfmeNoInitCrate {};
+	crateCreationEntry(BfmeNoInitCrate) : crateName() {}
+	crateCreationEntry() {}
 	AsciiString crateName;
 	float crateChance;
 };
@@ -69,16 +58,11 @@ public:
 
 	char *mFailureMessage;
 	int m_argumentCount;
+	INIException(const INIException &that);
+	~INIException();
 };
 
-__declspec(noreturn) void __stdcall _CxxThrowException(void *pExc, void *pInfo);
 extern "C" __declspec(dllimport) int __cdecl sscanf(const char *buf, const char *fmt, ...);
-
-// Address anchor only: the throw site pushes this object's address as an
-// immediate (DIR32, filled from retail by the gate -- scanReal precedent).
-// Its content is never compared; the real chain lives in the retail image.
-struct ParseCrateThrowInfoAnchor { int a; int b; int c; int d; };
-static const ParseCrateThrowInfoAnchor parseCrateThrowInfoAnchor = { 0, 0, 0, 0 };
 
 // ?parseCrateCreationEntry@CrateTemplate@@SAXPAVINI@@PAX1PBX@Z
 void CrateTemplate::parseCrateCreationEntry(INI *ini, void *instance, void *, const void *)
@@ -91,11 +75,10 @@ void CrateTemplate::parseCrateCreationEntry(INI *ini, void *instance, void *, co
 	token = ini->getNextToken(0);
 	float crateValue;
 	if (sscanf(token, "%f", &crateValue) != 1) {
-		INIException e(3, "Floating point value expected instead of '%s'", token);
-		_CxxThrowException(&e, (void *)&parseCrateThrowInfoAnchor);
+		throw INIException(3, "Floating point value expected instead of '%s'", token);
 	}
 
-	crateCreationEntry newEntry;
+	crateCreationEntry newEntry((crateCreationEntry::BfmeNoInitCrate()));
 	newEntry.crateName = crateName;
 	newEntry.crateChance = crateValue;
 

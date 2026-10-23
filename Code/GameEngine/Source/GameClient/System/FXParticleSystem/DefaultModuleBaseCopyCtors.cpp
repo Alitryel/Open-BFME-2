@@ -2,13 +2,16 @@
 // Default module base copy constructors (retail 0x003AEEB3 cluster).
 // The shared three-vtable base: smart-pointer head (vptr 0x00C1B590,
 // 12-byte member copied through the rowed 0x0004CC19 body, int at +0x10)
-// plus two vtable-only bases sharing 0x00C1C780. The 71-byte body is the
+// plus two vtable-only bases sharing 0x00C1C780. The 73-byte body is the
 // 59-byte info-base shape (see ParticleModuleInfoCopyCtors.cpp) with one
 // more vtable-only base: compare 0x003AF50D.
 // Identity: eight per-module template copies (0x003AEA4C, 0x003AEB14,
 // 0x003AEBD3, 0x003AEC95, 0x003AED75, 0x003AEE2D, 0x003AEFA5, 0x003AF08D)
 // call this address at the same +0x10 displacement; all vftable dwords
 // are DIR32 sites the gate takes from the target.
+// ??0Rva003AEEB3@@QAE@ABVRvaSmartPtr12@@H@Z retail 0x0055BEE9 56B: same class
+// own vtable 0x00C1D5FC plus second/third 0x00C1C780 via rowed Head 0x003A57C5;
+// callers at 0x003A5861 0x0055B5CA 0x0055BF2C 0x0055F995 0x005641C6.
 
 class RvaSmartPtr12
 {
@@ -26,14 +29,16 @@ private:
 class DefaultModuleSecondBase
 {
 public:
-	virtual ~DefaultModuleSecondBase();
+// ??1DefaultModuleSecondBase@@UAE@XZ present-unmatched
+	virtual ~DefaultModuleSecondBase() {}
 };
 
 // Extra third base at +0x18: vptr 0x00C1C780 (ICF-folded with the second).
 class DefaultModuleThirdBase
 {
 public:
-	virtual ~DefaultModuleThirdBase();
+// ??1DefaultModuleThirdBase@@UAE@XZ present-unmatched
+	virtual ~DefaultModuleThirdBase() {}
 };
 
 // Head base: vptr 0x00C1B590, smart member at +0x04, int at +0x10.
@@ -46,13 +51,14 @@ public:
 		, m_int10(other.m_int10)
 	{
 	}
+	DefaultModuleHeadBase(const RvaSmartPtr12 &smart, int i);
 	virtual ~DefaultModuleHeadBase();
 
 	RvaSmartPtr12 m_smart; // +0x04
 	int m_int10; // +0x10
 };
 
-// Retail 0x003AEEB3, 71 bytes: the shared base copy constructor.
+// Retail 0x003AEEB3, 73 bytes: the shared base copy constructor.
 // noinline: the template copies below call it; inlining would absorb the
 // straight-line body into each caller.
 class Rva003AEEB3 : public DefaultModuleHeadBase, public DefaultModuleSecondBase,
@@ -60,10 +66,16 @@ class Rva003AEEB3 : public DefaultModuleHeadBase, public DefaultModuleSecondBase
 {
 public:
 	__declspec(noinline) Rva003AEEB3(const Rva003AEEB3 &other);
+	__declspec(noinline) Rva003AEEB3(const RvaSmartPtr12 &smart, int i);
 	virtual ~Rva003AEEB3();
 };
 
 Rva003AEEB3::Rva003AEEB3(const Rva003AEEB3 &other)
 	: DefaultModuleHeadBase(other)
+{
+}
+
+Rva003AEEB3::Rva003AEEB3(const RvaSmartPtr12 &smart, int i)
+	: DefaultModuleHeadBase(smart, i)
 {
 }

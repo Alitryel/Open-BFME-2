@@ -1,8 +1,10 @@
 // cl: /O2 /MD
-// EA FESL Base64 encoder, ported verbatim from BFME1
+// EA FESL Base64 encoder, adapted from BFME1
 // Rva007FF100Base64Encode.cpp. Retail 0x0066B5D0 (320B Ghidra, 327B BFME1).
 
-extern const unsigned char g_Base64ForwardTable[];
+// BFME2 VA 0x00CE3960; all 65 bytes, including the terminator, match retail.
+extern const unsigned char g_base64EncodingAlphabet[] =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 void rva007FF100Encode(unsigned int length, const char *source, void *destination)
 {
@@ -15,18 +17,18 @@ void rva007FF100Encode(unsigned int length, const char *source, void *destinatio
 		do
 		{
 			((unsigned char *)destination)[outputOffset] =
-				g_Base64ForwardTable[
+				g_base64EncodingAlphabet[
 					((const unsigned char *)source)[inputOffset] >> 2];
 			((unsigned char *)destination)[outputOffset + 1] =
-				g_Base64ForwardTable[
+				g_base64EncodingAlphabet[
 					(((const unsigned char *)source)[inputOffset + 1] >> 4) |
 					 (((source)[inputOffset] & 3) << 4)];
 			((unsigned char *)destination)[outputOffset + 2] =
-				g_Base64ForwardTable[
+				g_base64EncodingAlphabet[
 					(((source)[inputOffset + 1] & 0xf) << 2) |
 					 (((const unsigned char *)source)[inputOffset + 2] >> 6)];
 			((unsigned char *)destination)[outputOffset + 3] =
-				g_Base64ForwardTable[
+				g_base64EncodingAlphabet[
 					(source)[inputOffset + 2] & 0x3f];
 			outputOffset += 4;
 			inputOffset += 3;
@@ -39,14 +41,14 @@ void rva007FF100Encode(unsigned int length, const char *source, void *destinatio
 		if (--length == 0)
 		{
 			((unsigned char *)destination)[outputOffset] =
-				g_Base64ForwardTable[
+				g_base64EncodingAlphabet[
 					((const unsigned char *)source)[inputOffset] >> 2];
 			((unsigned char *)destination)[outputOffset + 1] =
-				g_Base64ForwardTable[
+				g_base64EncodingAlphabet[
 					((source[inputOffset] & 3) << 4) |
 						 (((const unsigned char *)source)[inputOffset + 1] >> 4)];
 			((unsigned char *)destination)[outputOffset + 2] =
-				g_Base64ForwardTable[(source[inputOffset + 1] & 0xf) << 2];
+				g_base64EncodingAlphabet[(source[inputOffset + 1] & 0xf) << 2];
 			((unsigned char *)destination)[outputOffset + 3] = '=';
 			outputOffset += 4;
 		}
@@ -54,10 +56,10 @@ void rva007FF100Encode(unsigned int length, const char *source, void *destinatio
 	else
 	{
 		((unsigned char *)destination)[outputOffset] =
-			g_Base64ForwardTable[
+			g_base64EncodingAlphabet[
 				((const unsigned char *)source)[inputOffset] >> 2];
 		((unsigned char *)destination)[outputOffset + 1] =
-			g_Base64ForwardTable[(source[inputOffset] & 3) << 4];
+			g_base64EncodingAlphabet[(source[inputOffset] & 3) << 4];
 		((unsigned char *)destination)[outputOffset + 2] = '=';
 		((unsigned char *)destination)[outputOffset + 3] = '=';
 		outputOffset += 4;

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 
 // ?FreeObject@Rva00065964ObjectPool@@QAEXPAX@Z, retail 0x00065964, 38 bytes.
 // Pooled-object free: locks the pool's critical section, pushes the object
@@ -7,13 +7,7 @@
 // lock at +0x10) but the lock flavor is BFMEPoolCriticalSection, so the
 // class keeps an address-derived name.
 
-class BFMEPoolCriticalSection
-{
-public:
-	void Lock();
-
-	volatile unsigned int m_locked;
-};
+#include "bfme_pool_critical_section.h"
 
 struct Rva00065964ObjectPool
 {

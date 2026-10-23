@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /GX- /O1 /Ob2
+// cl: /DNDEBUG /MD /GX- /Ob2
 
 // Open-BFME5: CylinderEmissionVolumeModuleTemplate copy ctor
 // Retail: base copy; null-preserving sub copy at +8; dual outer vtbl + sub vtbl.
@@ -6,22 +6,26 @@
 namespace FXParticleSystem
 {
 
-class CylinderEmissionVolumeModuleTemplateBaseCopyShim
+template <int CATEGORY>
+class CategoryModuleTemplate
 {
 public:
-	void construct_from(const void *src);
+	CategoryModuleTemplate(const CategoryModuleTemplate &that);
 };
 
-class CylinderEmissionVolumeModuleTemplateSubCopyShim
+// Retail's sub copy is the rowed LineEmissionVolumeInfo copy ctor at 0x003A653B.
+class LineEmissionVolumeInfo
 {
 public:
-	void construct_from(const void *src_sub_or_null);
+	LineEmissionVolumeInfo(const LineEmissionVolumeInfo &that);
 	virtual void dummy();
 };
 
-extern "C" char CylinderEmissionVolumeModuleTemplate_cvtbl0;
-extern "C" char CylinderEmissionVolumeModuleTemplate_cvtbl4;
-extern "C" char CylinderEmissionVolumeModuleTemplate_csub_vtbl;
+// The three vftables (VA 0xc1bb90, 0xc1c780, 0xc1bb10) are the class's own,
+// emitted by FXParticleSystem.cpp; __identifier spells those symbols exactly.
+extern "C" char __identifier("??_7CylinderEmissionVolumeModuleTemplate@FXParticleSystem@@6BModuleTemplate@1@@");
+extern "C" char __identifier("??_7CylinderEmissionVolumeModuleTemplate@FXParticleSystem@@6BSecondaryModuleBase@1@@");
+extern "C" char __identifier("??_7CylinderEmissionVolumeModuleTemplate@FXParticleSystem@@6BCylinderEmissionVolumeInfo@1@@");
 
 class CylinderEmissionVolumeModuleTemplate
 {
@@ -39,14 +43,14 @@ CylinderEmissionVolumeModuleTemplate::CylinderEmissionVolumeModuleTemplate(
 	const CylinderEmissionVolumeModuleTemplate &that)
 {
 	const void *src = &that;
-	((CylinderEmissionVolumeModuleTemplateBaseCopyShim *)this)->construct_from(src);
+	((CategoryModuleTemplate<0> *)this)->CategoryModuleTemplate<0>::CategoryModuleTemplate(
+		*(const CategoryModuleTemplate<0> *)src);
 	const void *sub_src = src ? (const char *)src + 8 : 0;
-	CylinderEmissionVolumeModuleTemplateSubCopyShim *sub =
-		(CylinderEmissionVolumeModuleTemplateSubCopyShim *)((char *)this + 8);
-	sub->construct_from(sub_src);
+	LineEmissionVolumeInfo *sub = (LineEmissionVolumeInfo *)((char *)this + 8);
+	sub->LineEmissionVolumeInfo::LineEmissionVolumeInfo(*(const LineEmissionVolumeInfo *)sub_src);
 	// Sub vtbl then outer dual vtbls (retail store order).
-	*(void **)sub = &CylinderEmissionVolumeModuleTemplate_csub_vtbl;
-	m_v0 = &CylinderEmissionVolumeModuleTemplate_cvtbl0;
-	m_v4 = &CylinderEmissionVolumeModuleTemplate_cvtbl4;
+	*(void **)sub = &__identifier("??_7CylinderEmissionVolumeModuleTemplate@FXParticleSystem@@6BCylinderEmissionVolumeInfo@1@@");
+	m_v0 = &__identifier("??_7CylinderEmissionVolumeModuleTemplate@FXParticleSystem@@6BModuleTemplate@1@@");
+	m_v4 = &__identifier("??_7CylinderEmissionVolumeModuleTemplate@FXParticleSystem@@6BSecondaryModuleBase@1@@");
 }
 }

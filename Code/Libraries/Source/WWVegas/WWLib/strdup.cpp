@@ -1,4 +1,4 @@
-// cl: /O2 /G6 /Oi /DNDEBUG /MD
+// cl: /Oi /DNDEBUG /MD
 //
 // strdup, retail 0x006C4C70, 57 bytes. Inlined strlen, two-argument
 // byte allocator (size, tag 0), then memcpy as rep movsd/movsb.
@@ -24,3 +24,7 @@ extern "C" char *strdup(const char *s)
 	memcpy(d, s, n);
 	return d;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:__strdup=_strdup")

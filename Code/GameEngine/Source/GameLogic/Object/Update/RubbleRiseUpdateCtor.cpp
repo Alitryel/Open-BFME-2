@@ -1,7 +1,7 @@
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE
+// cl: /DNDEBUG /MD /GX
 //
 // ??0RubbleRiseUpdate@@QAE@PAVThing@@PBVModuleData@@@Z retail 0x004A4CC7
-// 139 bytes. Behavior-side ctor completing the RubbleRiseUpdate file-unit
+// 141 bytes. Behavior-side ctor completing the RubbleRiseUpdate file-unit
 // (behavior instance factory rowed at 0x24EDCF news 0x48 with this 2-arg
 // ctor as its sole caller; poolkey rowed at 0x4A4C82; ModuleData proc
 // 0x4A5486 plus ModuleData factory 0x2566F6 plus ModuleData ctor 0x256653
@@ -23,9 +23,27 @@
 // (base ctor resolves via its row; setWakeFrame resolves via the existing
 // IAEX Object-uint pin at 0x44DF71). Row supersedes the ctor pin.
 
+extern "C" const void *const vtbl_00C49188[];  // folded, 8 classes; via ??_7PropagandaTowerBehavior@@6BPB_Iface1@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C49188=??_7PropagandaTowerBehavior@@6BPB_Iface1@@@")
+
+extern "C" const void *const vtbl_00C52858[];  // ??_7Rva004A4C19@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C52858=??_7Rva004A4C19@@6B@")
+extern "C" const void *const vtbl_00C5285C[];  // ??_7Rva004A4C19@@6BRva0024A797_B2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C5285C=??_7Rva004A4C19@@6BRva0024A797_B2@@@")
+extern "C" const void *const vtbl_00C52868[];  // ??_7Rva004A4C19@@6BRva0024A797_Root@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C52868=??_7Rva004A4C19@@6BRva0024A797_Root@@@")
+extern "C" const void *const vtbl_00C1C780[];  // folded, 49 classes; via ??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C1C780=??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@")
+
 class Thing;
 class ModuleData;
 class Object;
+
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1,
+	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
+};
 
 class UpdateModule
 {
@@ -34,7 +52,7 @@ public:
 	~UpdateModule();
 
 protected:
-	void setWakeFrame(Object *object, unsigned int frame);
+	void setWakeFrame(Object *object, UpdateSleepTime frame);
 
 	const void *m_vtable;
 	const ModuleData *m_moduleData;
@@ -70,14 +88,14 @@ RubbleRiseUpdate::RubbleRiseUpdate(Thing *thing, const ModuleData *moduleData)
 {
 	float fzero = 0.0f;
 	int *slot20 = (int *)&m_secondary20;
-	*slot20 = (int)0x00C1C780;
+	*slot20 = (int)((unsigned int)vtbl_00C1C780);
 	float *lingerSlot = &m_linger38;
 	Object **objSlot = &m_object;
 	int zero = 0;
-	m_vtable = (const void *)0x00C52868;
-	m_secondary0C = (const void *)0x00C49188;
-	m_secondary10 = (const void *)0x00C5285C;
-	m_secondary20 = (const void *)0x00C52858;
+	m_vtable = (const void *)((unsigned int)vtbl_00C52868);
+	m_secondary0C = (const void *)((unsigned int)vtbl_00C49188);
+	m_secondary10 = (const void *)((unsigned int)vtbl_00C5285C);
+	m_secondary20 = (const void *)((unsigned int)vtbl_00C52858);
 	m_phaseDelay24 = zero;
 	m_retryDelay2C = zero;
 	m_riseRate30 = fzero;
@@ -87,5 +105,5 @@ RubbleRiseUpdate::RubbleRiseUpdate(Thing *thing, const ModuleData *moduleData)
 	m_fade3C = fzero;
 	m_settle40 = fzero;
 	m_cooldown44 = fzero;
-	setWakeFrame(*objSlot, 0x3FFFFFFF);
+	setWakeFrame(*objSlot, UPDATE_SLEEP_FOREVER);
 }

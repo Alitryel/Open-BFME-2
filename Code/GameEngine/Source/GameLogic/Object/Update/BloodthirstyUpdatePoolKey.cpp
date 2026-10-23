@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva00044E054@BloodthirstyUpdate@@SA?AW4NameKeyType@@XZ @0x44e054
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@BloodthirstyUpdate@@UBE?AW4NameKeyType@@XZ @0x44e054
 // (69B): cached pool-name key for BloodthirstyUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("BloodthirstyUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class BloodthirstyUpdate
 {
 public:
-	static NameKeyType rva00044E054();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00044E054@BloodthirstyUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType BloodthirstyUpdate::rva00044E054()
+// ?getModuleNameKey@BloodthirstyUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType BloodthirstyUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheBloodthirstyUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("BloodthirstyUpdate");

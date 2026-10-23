@@ -1,14 +1,18 @@
-// cl: /O1
+// cl: /Ireference/shims/bfme2_ascii
 
 // A text-dumping Xfer, vtable 0x00C7B388 (constructor 0x0060DEB1, destructor
 // 0x0060DED5).  Every typed transfer prints its value with a labelled format --
 // "%i=0x%x [byte]", "version: %i", "'%s' [ascii]" -- through the variadic
 // helper at 0x0060D5F2, which either writes one indent unit per open block or
 // formats into a 1 KB buffer and hands the text to the stream at +8.  A flag at
-// +4 suppresses the indent once, after a label has been printed.  No string
-// names the class, so its name is derived from the vtable address; the method
-// names are the base Xfer's, mapped slot by slot (the operator== run is laid
-// out in reverse declaration order, as Xfer.cpp explains).
+// +4 suppresses the indent once, after a label has been printed.  Retail keeps
+// no string naming the class; the name XferSaveAsText (renamed from the
+// address-derived BfmeRva00C7B388) is target evidence from WorldBuilder's
+// debug xfer_debug.cpp, whose ~XferSaveAsText (asserting !m_file, the stream
+// at +8, then destroying the vector at +0x0C) aligns with the destructor at
+// 0x0060DED5 and whose XferSaveAsText::XferRawBytes aligns with 0x0060D66E.
+// The method names are the base Xfer's, mapped slot by slot (the operator==
+// run is laid out in reverse declaration order, as Xfer.cpp explains).
 //
 // The base class and the value types below are Xfer.cpp's model verbatim, so
 // the vtable lines up with the shipped one.
@@ -28,31 +32,13 @@ struct Coord3DBase
     float z;
 };
 
-struct ICoord3D
-{
-    int x;
-    int y;
-    int z;
-};
+#include "../../../../Libraries/Include/Lib/ICoord3D.h"
 
-class Coord2D
-{
-public:
-    float x;
-    float y;
-};
+#include "../../../../Libraries/Include/Lib/Coord2D.h"
 
-struct ICoord2D
-{
-    int x;
-    int y;
-};
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
 
-struct Region3D
-{
-    Coord3DBase lo;
-    Coord3DBase hi;
-};
+#include "../../../../Libraries/Include/Lib/Region3D.h"
 
 struct IRegion3D
 {
@@ -60,17 +46,9 @@ struct IRegion3D
     ICoord3D hi;
 };
 
-struct Region2D
-{
-    Coord2D lo;
-    Coord2D hi;
-};
+#include "../../../../Libraries/Include/Lib/Region2D.h"
 
-struct IRegion2D
-{
-    ICoord2D lo;
-    ICoord2D hi;
-};
+#include "../../../../Libraries/Include/Lib/IRegion2D.h"
 
 struct RealRange
 {
@@ -78,12 +56,7 @@ struct RealRange
     float hi;
 };
 
-struct RGBColor
-{
-    float red;
-    float green;
-    float blue;
-};
+#include "../../../../Libraries/Include/Lib/RGBColor.h"
 
 struct RGBAColorReal
 {
@@ -103,39 +76,17 @@ struct RGBAColorInt
 
 class Xfer;
 
-class Snapshot
-{
-public:
-    virtual ~Snapshot();
-    virtual void crc(Xfer *xfer) = 0;
-    virtual void loadPostProcess() = 0;
-    virtual void xfer(Xfer *xfer) = 0;
-};
+#include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 // The string types are reduced to what their transfers read: a pointer to a
 // data block whose text starts eight bytes in.  ASCII and Unicode fall back to
 // the shared empty literals when the pointer is null; the pooled string reads
 // through it unchecked.
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
-class AsciiString
-{
-    struct Data { int unexamined0; int unexamined4; };
-    Data *m_data;
-
-public:
-    const char *str() const { return m_data ? reinterpret_cast<const char *>(m_data + 1) : ""; }
-};
+#include "ascii_string.h"
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/UnicodeString.h
-class UnicodeString
-{
-    struct Data { int unexamined0; int unexamined4; };
-    Data *m_data;
-
-public:
-    // 16-bit characters: wchar_t is not a built-in type under this unit's flags.
-    const unsigned short *str() const { return m_data ? reinterpret_cast<const unsigned short *>(m_data + 1) : reinterpret_cast<const unsigned short *>(L""); }
-};
+#include "unicode_string.h"
 
 class PooledString
 {
@@ -148,23 +99,29 @@ public:
 struct XferUnknown11;
 
 // upstream layout: Code/GameEngine/Source/Common/System/Xfer.cpp (retail vtable 0x00BBB910)
+// cl builds the by-product ??_GXfer with the inline state in force where the
+// class definition ends; inline_depth(0) there makes it call ~Xfer, as the
+// ledger's ??_GXfer (0x0060C8B1) does, while bodies below still inline it.
+#pragma inline_depth(0)
 class Xfer
 {
 public:
     class Version;
 
-    Xfer();
-    virtual ~Xfer();
+    __declspec(dllimport) __forceinline Xfer() {}
+    virtual ~Xfer() {}
 
     void Version1();
 
-    virtual bool IsStoring() const;
+    // Slot 2 is IsStoring: XferSave (0x0087B010) and XferSaveAsText
+    // (0x0087B388) both put a return-true body there.
     virtual bool IsLoading() const;
+    virtual bool IsStoring() const;
     virtual bool IsCRC() const;
     virtual bool IsLightCRC() const;
 
     virtual void v5() = 0;
-    virtual void v6() = 0;
+    virtual void EndBlock() = 0;
     virtual void v7() = 0;
 
     virtual void SkipBadBlock(Snapshot &snapshot, unsigned int size);
@@ -202,6 +159,7 @@ public:
 protected:
     virtual void XferData(unsigned int type, void *data, unsigned int size) = 0;
 };
+#pragma inline_depth()
 
 class Xfer::Version
 {
@@ -223,10 +181,13 @@ struct BfmeRva00C7B388Stream
     virtual void Write(const char *text, int length);
 };
 
-class BfmeRva00C7B388 : public Xfer
+class XferSaveAsText : public Xfer
 {
 public:
-    static void __cdecl Print(BfmeRva00C7B388 *self, const char *format, ...);
+    static void __cdecl Print(XferSaveAsText *self, const char *format, ...);
+
+    XferSaveAsText();
+    virtual ~XferSaveAsText();
 
     virtual Xfer &operator==(bool &value);
     virtual Xfer &operator==(char &value);
@@ -252,7 +213,11 @@ public:
     virtual Xfer &operator==(RGBColor &value);
     virtual Xfer &operator==(RGBAColorReal &value);
     virtual Xfer &operator==(RGBAColorInt &value);
+    virtual Xfer &operator==(Xfer::Version &value);
+    virtual Xfer &XferRawBytes(void *data, unsigned int size);
     virtual Xfer &XferEnum(const char *name, void *data, unsigned int size);
+    virtual void EndBlock();
+    int rva0060DF27(const char *s);
 
 private:
     bool m_bfme04;				// +0x04: skip the indent once, after a label
@@ -264,7 +229,7 @@ private:
 
 // 0x0060D5F2: with no format, one indent unit per open block; otherwise the
 // formatted text, measured and handed to the stream.
-void __cdecl BfmeRva00C7B388::Print(BfmeRva00C7B388 *self, const char *format, ...)
+void __cdecl XferSaveAsText::Print(XferSaveAsText *self, const char *format, ...)
 {
     if (format == 0) {
         for (int depth = (self->m_bfme10 - self->m_bfme0C) / 12; depth != 0; --depth)
@@ -278,7 +243,7 @@ void __cdecl BfmeRva00C7B388::Print(BfmeRva00C7B388 *self, const char *format, .
     self->m_bfme08->Write(buffer, strlen(buffer));
 }
 
-Xfer &BfmeRva00C7B388::operator==(bool &value)
+Xfer &XferSaveAsText::operator==(bool &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -287,7 +252,16 @@ Xfer &BfmeRva00C7B388::operator==(bool &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(char &value)
+Xfer &XferSaveAsText::operator==(Xfer::Version &value)
+{
+    if (!m_bfme04)
+        Print(this, 0);
+    Print(this, "version: %i\n", value.m_minimum);
+    m_bfme04 = false;
+    return *this;
+}
+
+Xfer &XferSaveAsText::operator==(char &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -296,7 +270,7 @@ Xfer &BfmeRva00C7B388::operator==(char &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(unsigned char &value)
+Xfer &XferSaveAsText::operator==(unsigned char &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -305,7 +279,7 @@ Xfer &BfmeRva00C7B388::operator==(unsigned char &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(short &value)
+Xfer &XferSaveAsText::operator==(short &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -314,7 +288,7 @@ Xfer &BfmeRva00C7B388::operator==(short &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(unsigned short &value)
+Xfer &XferSaveAsText::operator==(unsigned short &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -323,7 +297,7 @@ Xfer &BfmeRva00C7B388::operator==(unsigned short &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(int &value)
+Xfer &XferSaveAsText::operator==(int &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -332,7 +306,7 @@ Xfer &BfmeRva00C7B388::operator==(int &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(unsigned int &value)
+Xfer &XferSaveAsText::operator==(unsigned int &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -341,7 +315,7 @@ Xfer &BfmeRva00C7B388::operator==(unsigned int &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(__int64 &value)
+Xfer &XferSaveAsText::operator==(__int64 &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -350,7 +324,7 @@ Xfer &BfmeRva00C7B388::operator==(__int64 &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(float &value)
+Xfer &XferSaveAsText::operator==(float &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -359,7 +333,7 @@ Xfer &BfmeRva00C7B388::operator==(float &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(AsciiString &value)
+Xfer &XferSaveAsText::operator==(AsciiString &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -368,7 +342,7 @@ Xfer &BfmeRva00C7B388::operator==(AsciiString &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(UnicodeString &value)
+Xfer &XferSaveAsText::operator==(UnicodeString &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -377,7 +351,7 @@ Xfer &BfmeRva00C7B388::operator==(UnicodeString &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(PooledString &value)
+Xfer &XferSaveAsText::operator==(PooledString &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -386,7 +360,7 @@ Xfer &BfmeRva00C7B388::operator==(PooledString &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(Coord3DBase &value)
+Xfer &XferSaveAsText::operator==(Coord3DBase &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -395,7 +369,7 @@ Xfer &BfmeRva00C7B388::operator==(Coord3DBase &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(ICoord3D &value)
+Xfer &XferSaveAsText::operator==(ICoord3D &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -404,7 +378,7 @@ Xfer &BfmeRva00C7B388::operator==(ICoord3D &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(Region3D &value)
+Xfer &XferSaveAsText::operator==(Region3D &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -414,7 +388,7 @@ Xfer &BfmeRva00C7B388::operator==(Region3D &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(IRegion3D &value)
+Xfer &XferSaveAsText::operator==(IRegion3D &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -424,7 +398,7 @@ Xfer &BfmeRva00C7B388::operator==(IRegion3D &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(Coord2D &value)
+Xfer &XferSaveAsText::operator==(Coord2D &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -433,7 +407,7 @@ Xfer &BfmeRva00C7B388::operator==(Coord2D &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(ICoord2D &value)
+Xfer &XferSaveAsText::operator==(ICoord2D &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -442,7 +416,7 @@ Xfer &BfmeRva00C7B388::operator==(ICoord2D &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(Region2D &value)
+Xfer &XferSaveAsText::operator==(Region2D &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -452,7 +426,7 @@ Xfer &BfmeRva00C7B388::operator==(Region2D &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(IRegion2D &value)
+Xfer &XferSaveAsText::operator==(IRegion2D &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -462,7 +436,7 @@ Xfer &BfmeRva00C7B388::operator==(IRegion2D &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(RealRange &value)
+Xfer &XferSaveAsText::operator==(RealRange &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -471,7 +445,7 @@ Xfer &BfmeRva00C7B388::operator==(RealRange &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(RGBColor &value)
+Xfer &XferSaveAsText::operator==(RGBColor &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -480,7 +454,7 @@ Xfer &BfmeRva00C7B388::operator==(RGBColor &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(RGBAColorReal &value)
+Xfer &XferSaveAsText::operator==(RGBAColorReal &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -490,7 +464,7 @@ Xfer &BfmeRva00C7B388::operator==(RGBAColorReal &value)
     return *this;
 }
 
-Xfer &BfmeRva00C7B388::operator==(RGBAColorInt &value)
+Xfer &XferSaveAsText::operator==(RGBAColorInt &value)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -502,7 +476,47 @@ Xfer &BfmeRva00C7B388::operator==(RGBAColorInt &value)
 // 0x0060DD1B 124B: vtable slot 37 (offset 0x94) of 0x00C7B388, the XferEnum
 // override. Base Xfer::XferEnum at 0x0060BBD5 is slot 37 of 0x00BBB910.
 // Prints the integer value selected by size, then " [name]", then newline.
-Xfer &BfmeRva00C7B388::XferEnum(const char *name, void *data, unsigned int size)
+Xfer &XferSaveAsText::XferRawBytes(void *data, unsigned int size)
+{
+    if (size != 0) {
+        if (data == 0)
+            return *this;
+    }
+    if (m_bfme04) {
+        Print(this, "\n");
+        m_bfme04 = false;
+    }
+    if (size == 0) {
+        Print(this, (const char *)0);
+        Print(this, "--- 0 raw bytes\n");
+        return *this;
+    }
+    unsigned int off;
+    for (off = 0; off < size; off += 0x10) {
+        unsigned int col = 0;
+        Print(this, (const char *)col);
+        Print(this, "%04x", off);
+        for (col = 0; col < 0x10; ++col) {
+            if ((col & 7) == 0)
+                Print(this, " ");
+            if (col + off < size)
+                Print(this, " %02x", ((unsigned char *)data)[col + off]);
+            else
+                Print(this, "   ");
+        }
+        Print(this, "  ");
+        for (col = 0; col < 0x10; ++col) {
+            if (col + off >= size)
+                break;
+            unsigned char c = ((unsigned char *)data)[col + off];
+            int ch = (c > 0x20) ? (int)c : '.';
+            Print(this, "%c", ch);
+        }
+        Print(this, "\n");
+    }
+    return *this;
+}
+Xfer &XferSaveAsText::XferEnum(const char *name, void *data, unsigned int size)
 {
     if (!m_bfme04)
         Print(this, 0);
@@ -524,4 +538,124 @@ Xfer &BfmeRva00C7B388::XferEnum(const char *name, void *data, unsigned int size)
     Print(this, "\n");
     m_bfme04 = false;
     return *this;
+}
+
+// 0x0060DED5 54B: dtor. Stores derived vtable 0x00C7B388, destroys the
+// narrow-string vector at +0x0C (rowed 0x000C0399), then stores base vtable
+// 0x00BBB910 with no base call (empty inline base). EH prolog arms state 0
+// around the vector call. Caller 0x0060DF0E.
+extern "C" void __cdecl free(void *block);
+namespace _STL
+{
+void free(void *block);
+template <class T> class allocator
+{
+public:
+	allocator() {}
+};
+template <class T> class char_traits
+{
+};
+template <class C, class Tr, class A> class basic_string
+{
+public:
+	basic_string(const C *s, const A &a = A());
+	basic_string(const basic_string &other);
+	__forceinline ~basic_string() { if (_M_start != 0) free(_M_start); }
+	char *_M_start;
+	char *_M_finish;
+	char *_M_end;
+};
+template <class T, class A> class vector
+{
+public:
+	~vector();
+	void push_back(const T &x);
+};
+}
+
+// 0x0060DEB1 (36B): no label pending, no stream, and the +0x0C block stack
+// built empty through the shared out-of-line vector-base constructor
+// 0x00211E58 (ICF-folded; called here under its int spelling). It cannot
+// throw (it only zeroes three words), which keeps retail's frame free of EH.
+namespace _STL
+{
+template <class T, class A> class _Vector_base
+{
+public:
+	_Vector_base(const A &a) throw();
+};
+}
+typedef _STL::_Vector_base<int, _STL::allocator<int> > BfmeRva00C7B388BlockBase;
+
+XferSaveAsText::XferSaveAsText() : m_bfme04(false), m_bfme08(0)
+{
+	BfmeRva00C7B388BlockBase &blocks = *(BfmeRva00C7B388BlockBase *)&m_bfme0C;
+	blocks.BfmeRva00C7B388BlockBase::_Vector_base(_STL::allocator<int>());
+}
+
+XferSaveAsText::~XferSaveAsText()
+{
+	typedef _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > NarrowString;
+	typedef _STL::vector<NarrowString, _STL::allocator<NarrowString> > NarrowStringVec;
+	((NarrowStringVec *)&m_bfme0C)->~NarrowStringVec();
+}
+
+// 0x0060DF27 142B: vslot 5 of 0x00C7B388. Open-block with a label: if the
+// pending-label flag is set print the newline, always print the indent,
+// print the label format with the name (empty string when null), then push a
+// copy of the name onto the narrow-string vector at +0x0C. Returns 0.
+int XferSaveAsText::rva0060DF27(const char *s)
+{
+	if (m_bfme04) {
+		Print(this, "\n");
+		m_bfme04 = false;
+	}
+	Print(this, (const char *)0);
+	const char *t = s != 0 ? s : "";
+	Print(this, "<%s>\n", t);
+	typedef _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > NarrowString;
+	typedef _STL::vector<NarrowString, _STL::allocator<NarrowString> > NarrowStringVec;
+	NarrowString tmp(t);
+	((NarrowStringVec *)&m_bfme0C)->push_back(tmp);
+	return 0;
+}
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:_bfmeAppend=?Print@XferSaveAsText@@SAXPAV1@PBDZZ")
+
+// A local view of the existing three-pointer label stack. Its element is the
+// same STLport narrow string used by the already-matched begin-block body.
+struct BfmeTextLabelStackView
+{
+    typedef _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > Label;
+    Label *begin;
+    Label *finish;
+    Label *capacity;
+    Label *end() const { return finish; }
+    Label &back() { return *(end() - 1); }
+    __forceinline void pop()
+    {
+        --finish;
+        finish->Label::~Label();
+    }
+};
+
+// Retail 0x0060DE23..0x0060DEB1; WB 0x0165F260 names EndBlock in xfer_debug.cpp.
+// Slot 6 of vtable RVA 0x0087B388 pops the 12-byte label and prints its closing tag.
+void XferSaveAsText::EndBlock()
+{
+    typedef _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > NarrowString;
+    BfmeTextLabelStackView &labels = *reinterpret_cast<BfmeTextLabelStackView *>(&m_bfme0C);
+    if (m_bfme0C == m_bfme10)
+        return;
+    NarrowString tmp(labels.back());
+    labels.pop();
+    if (m_bfme04) {
+        Print(this, "\n");
+        m_bfme04 = false;
+    }
+    Print(this, (const char *)0);
+    Print(this, "</%s>\n", tmp._M_start);
 }

@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 //
 // ?check@Rva003B489CHolder@@QBE_NPBX@Z,
 // retail 0x003B489C, 27 bytes. Dedicated TU.
@@ -19,13 +19,14 @@ struct Rva003B489CEntry
 {
 	Byte m_pad[0x0E];
 	Short m_word; // +0x0E
-	Byte m_tail[0x04]; // 0x10..0x13 (20B total)
+	Int m_val10; // +0x10
 };
 
 class Rva003B489CHolder
 {
 public:
 	Bool check(const void *arg) const;
+	Int rva003B4885(const void *arg) const;
 
 private:
 	Byte m_pad[0x38];
@@ -40,4 +41,11 @@ Bool Rva003B489CHolder::check(const void *arg) const
 	Int other = *(const Int *)(p + 8);
 	Short word = m_table[index].m_word;
 	return (word - other) == 0;
+}
+
+Int Rva003B489CHolder::rva003B4885(const void *arg) const
+{
+	const char *p = (const char *)arg;
+	Int index = *(const Int *)(p + 4);
+	return m_table[index].m_val10 + 4;
 }

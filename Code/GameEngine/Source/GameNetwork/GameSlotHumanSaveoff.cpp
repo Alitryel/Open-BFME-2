@@ -46,7 +46,7 @@ private:
 
 // ?isHuman@GameSlot@@QBE_NXZ
 // Retail 0x003FF0F1 (10B): the slot holds a human player.
-Bool GameSlot::isHuman() const
+inline Bool GameSlot::isHuman() const
 {
 	return m_state == SLOT_PLAYER;
 }
@@ -59,3 +59,14 @@ void GameSlot::saveOffOriginalInfo()
 	m_origStartPos = m_startPos;
 	m_origColor = m_color;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmeGameSlotInlineAnchorGameSlotHumanSaveoff@@YAXPAVGameSlot@@@Z absent-from-retail
+void _bfmeGameSlotInlineAnchorGameSlotHumanSaveoff(GameSlot *gameSlot)
+{
+    gameSlot->isHuman();
+}
+#pragma inline_depth()

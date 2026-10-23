@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /GX /Oi-
+// cl: /Ireference/shims/bfme2_ascii /Oy- /DNDEBUG /MD /GX /Oi-
 //
 // ?getNextAsciiString@INI@@QAE?AVAsciiString@@XZ,
 // retail 0x0002EA4F, 232 bytes. Dedicated TU.
@@ -19,32 +19,12 @@ typedef int Int;
 #define NULL 0
 
 extern "C" unsigned int strlen(const char *s);
-extern "C" char *strcpy(char *dst, const char *src);
-extern "C" char *strcat(char *dst, const char *src);
+extern "C" char *_mbscpy(char *dst, const char *src);
+// Retail calls MSVCR71 _mbscat here (thunk 0x0062988C), not strcat.
+extern "C" char *__cdecl _mbscat(char *dest, const char *source);
 
-template <typename T>
-class StringBase
-{
-	friend class AsciiString;
-	friend class INI;
+#include "ascii_string.h"
 
-public:
-	StringBase() : m_data(0) {}
-	void set(const T *text);
-
-private:
-	StringBase(const StringBase<T> &that);
-	T *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	__forceinline ~AsciiString() { releaseBuffer(); }
-
-protected:
-	void releaseBuffer();
-};
 
 class INI
 {
@@ -80,16 +60,16 @@ AsciiString INI::getNextAsciiString()
 			buff[0] = 0;
 			if (strlen(token) > 1)
 			{
-				strcpy(buff, &token[1]);
+				_mbscpy(buff, &token[1]);
 			}
 
 			token = getNextTokenOrNull(getSepsQuote());
 			if (token) {
 				if (strlen(token) > 1 && token[1] != '\t')
 				{
-					strcat(buff, " ");
+					_mbscat(buff, " ");
 				}
-				strcat(buff, token);
+				_mbscat(buff, token);
 				result.set(buff);
 			} else {
 				Int len = strlen(buff);
@@ -102,3 +82,7 @@ AsciiString INI::getNextAsciiString()
 	}
 	return result;
 }
+
+// Retail's call sites in this unit's matched rows land on bodies rowed under
+// other spellings at the same addresses (same ABI). Bind the spellings used here.
+#pragma comment(linker, "/alternatename:_strcat=?ji_0062988c@@YAXXZ")

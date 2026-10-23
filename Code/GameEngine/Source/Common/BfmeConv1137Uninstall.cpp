@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // Open-BFME5: BfmeB1137's virtual material-pass cleanup at retail 0x006E1EB0.
 // The constructor/destructor neighbors install vtable 0x00D1E23C; slot 3 is
 // this body.  Its witnessed fields are the guard byte at +0x54 and the byte
@@ -42,34 +42,45 @@ class StringClass
 	void Free_String(void);
 
 public:
+#pragma optimize("t", off)
+#pragma optimize("s", on)
+
 	StringClass(int length, bool temporary) : m_Buffer(m_EmptyString)
 	{
 		Get_String(length, temporary);
 		m_Buffer[0] = m_NullChar;
 	}
-	~StringClass(void)
-	{
-		Free_String();
-	}
+#pragma optimize("", on)
+
+	__forceinline ~StringClass(void) { Free_String(); }
 };
 
-struct Device;
+struct IDirect3DDevice8;
 struct DeviceVtable
 {
 	char m_pad[0x10c];
-	int (__stdcall *SetTextureStageState)(Device *, unsigned int,
+	int (__stdcall *SetTextureStageState)(IDirect3DDevice8 *, unsigned int,
 		unsigned long, unsigned int);
 };
-struct Device
+struct IDirect3DDevice8
 {
 	DeviceVtable *v;
 };
 
-extern Device *ScreenDevice;
-extern unsigned ScreenTextureStageStates[8][32];
+class DX8Wrapper;
+class WW3D
+{
+	friend class DX8Wrapper;
+	static bool SnapshotActivated;
+};
+
 extern bool ScreenSnapshot;
-extern unsigned ScreenNumberOfCalls;
+// ?ScreenSnapshot@@3_NA: the global at this VA is ?SnapshotActivated@WW3D@@0_NA; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?ScreenSnapshot@@3_NA=?SnapshotActivated@WW3D@@0_NA")
+extern unsigned number_of_DX8_calls;
 extern unsigned ScreenTextureStageStateChanges;
+// ?ScreenTextureStageStateChanges@@3IA: the global at this VA is ?texture_stage_state_changes@DX8Wrapper@@1IA; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?ScreenTextureStageStateChanges@@3IA=?texture_stage_state_changes@DX8Wrapper@@1IA")
 
 class DX8Wrapper
 {
@@ -77,26 +88,32 @@ public:
 	static void Get_DX8_Texture_Stage_State_Value_Name(StringClass &,
 		unsigned long, unsigned int);
 
+protected:
+	static IDirect3DDevice8 *D3DDevice;
+	static unsigned TextureStageStates[16][32];
+	static unsigned texture_stage_state_changes;
+
+public:
 	static __forceinline void Set_DX8_Texture_Stage_State(unsigned int stage,
 		unsigned long state, unsigned int value)
 	{
-		if (stage >= 8)
+		if (stage >= 16)
 		{
-			ScreenDevice->v->SetTextureStageState(ScreenDevice, stage, state, value);
-			++ScreenNumberOfCalls;
+			D3DDevice->v->SetTextureStageState(D3DDevice, stage, state, value);
+			++number_of_DX8_calls;
 			return;
 		}
-		if (ScreenTextureStageStates[stage][state] == value)
+		if (TextureStageStates[stage][state] == value)
 			return;
-		if (ScreenSnapshot)
+		if (WW3D::SnapshotActivated)
 		{
 			StringClass name(0, true);
 			Get_DX8_Texture_Stage_State_Value_Name(name, state, value);
 		}
-		ScreenTextureStageStates[stage][state] = value;
-		ScreenDevice->v->SetTextureStageState(ScreenDevice, stage, state, value);
-		++ScreenNumberOfCalls;
-		++ScreenTextureStageStateChanges;
+		TextureStageStates[stage][state] = value;
+		D3DDevice->v->SetTextureStageState(D3DDevice, stage, state, value);
+		++number_of_DX8_calls;
+		++texture_stage_state_changes;
 	}
 };
 
@@ -136,3 +153,9 @@ void BfmeB1137::UnInstall_Materials(void) const
 	DX8Wrapper::Set_DX8_Texture_Stage_State(1, 0x0b, 0);
 	DX8Wrapper::Set_DX8_Texture_Stage_State(1, 0x18, 0);
 }
+// ?ScreenDevice@@3PAUDevice@@A: the global at VA 0xdeda34 is ?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A.
+#pragma comment(linker, "/alternatename:?ScreenDevice@@3PAUDevice@@A=?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A")
+// ?ScreenTextureStageStates@@3PAY0CA@IA: the global at VA 0xdeca38 is ?TextureStageStates@DX8Wrapper@@1PAY0CA@IA.
+#pragma comment(linker, "/alternatename:?ScreenTextureStageStates@@3PAY0CA@IA=?TextureStageStates@DX8Wrapper@@1PAY0CA@IA")
+
+// Inline public teardown calls Free_String directly; the standalone destructor is 0x00065F5B.

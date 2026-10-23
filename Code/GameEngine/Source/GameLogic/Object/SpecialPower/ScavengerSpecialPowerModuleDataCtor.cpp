@@ -1,4 +1,4 @@
-// cl: /O1 /MD /GX /Oy- /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /Ireference/shims/bfme2_ascii /MD /GX /DNDEBUG /DWIN32 /D_WINDOWS
 // Identity: ModuleFactory registers this data class under "WeaponChangeSpecialPowerModule" (addModule
 // pairs the name with this factory); formerly misnamed ScavengerSpecialPowerModuleData.
 // stlport
@@ -9,7 +9,7 @@
 // +0x8C plus ToggleOffSleepFrames at +0x90 plus ToggleOnAttributeModifier at
 // +0x94 plus ToggleOffAttributeModifier at +0x98) sizes the class at 0x9C
 // bytes over the 0x7C-byte SpecialPower base built by the out-of-line
-// 0x004930A0 constructor (pinned as Rva004930A0). The Scavenger pool key at
+// 0x004930A0 constructor (pinned as SpecialPowerModuleData). The Scavenger pool key at
 // 0x4C4387 plus the name getter at 0x4C4381 sit in the same cluster and the
 // factory at 0x251D40 is rowed. The toggle words live in a TU-local member
 // type whose inline construction runs the rowed bitset<128>::reset at
@@ -31,25 +31,17 @@ namespace _STL {
 template<> bitset<128> &bitset<128>::reset();
 }
 
-class Rva004930A0
+class SpecialPowerModuleData
 {
 public:
-	Rva004930A0();
-	virtual ~Rva004930A0();
+	SpecialPowerModuleData();
+	virtual ~SpecialPowerModuleData();
 
 private:
 	unsigned char m_pad[0x7C - 4];
 };
 
-class AsciiString
-{
-public:
-	AsciiString() : m_text(0) {}
-	~AsciiString();
-	void clear();
-
-	char *m_text;
-};
+#include "ascii_string.h"
 
 struct ToggleFlags
 {
@@ -57,7 +49,7 @@ struct ToggleFlags
 	ToggleFlags() { ((_STL::bitset<128> *)m_words)->reset(); }
 };
 
-class WeaponChangeSpecialPowerModuleData : public Rva004930A0
+class WeaponChangeSpecialPowerModuleData : public SpecialPowerModuleData
 {
 public:
 	WeaponChangeSpecialPowerModuleData();

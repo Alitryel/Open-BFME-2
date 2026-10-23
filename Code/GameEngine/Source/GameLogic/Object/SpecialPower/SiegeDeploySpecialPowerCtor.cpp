@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /arch:SSE
+// cl: /DNDEBUG /MD
 //
 // ??0SiegeDeploySpecialPower@@QAE@PAVThing@@PBVModuleData@@@Z, retail
 // 0x004C56BA, 124 bytes. Behavior-side ctor (rowed instance factory
@@ -16,6 +16,18 @@
 // immediates and lift the zero bytes above the float runs, while the pointer
 // indirection pins each group in program order. The immediates are the retail
 // vtable slots. Row supersedes the ctor pin.
+
+extern "C" const void *const vtbl_00C4E998[];  // folded, 6 classes; via ??_7Rva00494A97@@6BRva00494A97_S1@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C4E998=??_7Rva00494A97@@6BRva00494A97_S1@@@")
+
+extern "C" const void *const vtbl_00C5DC68[];  // ??_7SiegeDeploySpecialPower@@6BSiegeDeploySpecialPower_S4@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C5DC68=??_7SiegeDeploySpecialPower@@6BSiegeDeploySpecialPower_S4@@@")
+extern "C" const void *const vtbl_00C5DCCC[];  // ??_7SiegeDeploySpecialPower@@6BSiegeDeploySpecialPower_S3@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C5DCCC=??_7SiegeDeploySpecialPower@@6BSiegeDeploySpecialPower_S3@@@")
+extern "C" const void *const vtbl_00C5DCF0[];  // ??_7SiegeDeploySpecialPower@@6BSiegeDeploySpecialPower_S2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C5DCF0=??_7SiegeDeploySpecialPower@@6BSiegeDeploySpecialPower_S2@@@")
+extern "C" const void *const vtbl_00C5DCFC[];  // ??_7SiegeDeploySpecialPower@@6BRva00589079@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C5DCFC=??_7SiegeDeploySpecialPower@@6BRva00589079@@@")
 
 class Thing;
 class ModuleData;
@@ -66,15 +78,15 @@ SiegeDeploySpecialPower::SiegeDeploySpecialPower(Thing *thing, const ModuleData 
 	: WeaponModeSpecialPowerUpdateBase(thing, moduleData)
 {
 	int *slot00 = (int *)&m_vtable;
-	*slot00 = (int)0x00C5DCFC;
+	*slot00 = (int)((unsigned int)vtbl_00C5DCFC);
 	int *slot0C = (int *)&m_secondary0C;
-	*slot0C = (int)0x00C4E998;
+	*slot0C = (int)((unsigned int)vtbl_00C4E998);
 	int *slot10 = (int *)&m_secondary10;
-	*slot10 = (int)0x00C5DCF0;
+	*slot10 = (int)((unsigned int)vtbl_00C5DCF0);
 	int *slot20 = (int *)&m_slot20;
-	*slot20 = (int)0x00C5DCCC;
+	*slot20 = (int)((unsigned int)vtbl_00C5DCCC);
 	int *slot24 = (int *)&m_slot24;
-	*slot24 = (int)0x00C5DC68;
+	*slot24 = (int)((unsigned int)vtbl_00C5DC68);
 	m_38 = 0;
 	m_3C = 0;
 	m_40 = 0;

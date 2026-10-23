@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva00048191A@PropagandaTowerBehavior@@SA?AW4NameKeyType@@XZ @0x48191a
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@PropagandaTowerBehavior@@UBE?AW4NameKeyType@@XZ @0x48191a
 // (69B): cached pool-name key for PropagandaTowerBehavior. The class
 // identity comes from the pool-name string the body pushes
 // ("PropagandaTowerBehavior"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class PropagandaTowerBehavior
 {
 public:
-	static NameKeyType rva00048191A();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00048191A@PropagandaTowerBehavior@@SA?AW4NameKeyType@@XZ
-NameKeyType PropagandaTowerBehavior::rva00048191A()
+// ?getModuleNameKey@PropagandaTowerBehavior@@UBE?AW4NameKeyType@@XZ
+NameKeyType PropagandaTowerBehavior::getModuleNameKey() const
 {
 	static NameKeyType ThePropagandaTowerBehaviorPoolKey =
 		TheNameKeyGenerator->nameToKey("PropagandaTowerBehavior");

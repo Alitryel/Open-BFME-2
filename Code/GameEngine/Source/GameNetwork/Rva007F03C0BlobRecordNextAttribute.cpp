@@ -5,11 +5,13 @@
 
 #include <stdio.h>
 
-class Rva007E8810Message
+class BfmeThingUPB
 {
 public:
-	bool getString( const char *key, char *dest, int destSize );
+	char bfmeGoUPB( void *key, char *dest, void *destSize );
 };
+
+class Rva007E8810Message;
 
 class Rva007F0CB0BlobRecord
 {
@@ -30,10 +32,10 @@ bool Rva007F0CB0BlobRecord::nextAttribute(
 	if( m_message == 0 )
 		goto failure;
 	sprintf( name, "attributes.%d.key", m_224 );
-	if( m_message->getString( name, key, keySize ) )
+	if( ((BfmeThingUPB *)m_message)->bfmeGoUPB( (void *)name, key, (void *)keySize ) )
 	{
 		sprintf( name, "attributes.%d.value", m_224 );
-		m_message->getString( name, value, valueSize );
+		((BfmeThingUPB *)m_message)->bfmeGoUPB( (void *)name, value, (void *)valueSize );
 		++m_224;
 		return true;
 	}

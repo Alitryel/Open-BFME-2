@@ -1,3 +1,4 @@
+// cl: /GF
 // Open-BFME5 conversions (trimmed to the placed EMC body; the other seven are
 // declared-only here).
 
@@ -14,7 +15,9 @@ public:
 	void bfmeCallEMC(void *x, void *b, void *c);
 };
 
-extern void *g_bfmeXEMC;
+// Native VA 00DD8284 points at the complete "localizedMessage" key
+// at 00CE3148. The rowed getString callee reads this exact key.
+void *g_bfmeXEMC = (void *)"localizedMessage";
 
 // ?bfmeGoEMC@@YGXPAVBfmeObjEMC@@PAX1@Z
 void __stdcall bfmeGoEMC(BfmeObjEMC *o, void *b, void *c)
@@ -29,12 +32,12 @@ public:
 	void *bfmeGetEME(void *item);
 };
 
-extern BfmeObjEME *g_bfmeObjEME;
+extern class Q1Receiver0134FAAC *TheQ1Receiver;
 
 // ?bfmeGoEMEa@@YA_NPAX@Z, retail 0x0061F170 (24B).
 bool bfmeGoEMEa(void *item)
 {
-	BfmeObjEME *registry = g_bfmeObjEME;
+	BfmeObjEME *registry = (*(BfmeObjEME **)&TheQ1Receiver);
 	if (!registry)
 		return false;
 	return registry->bfmeAskEME(item);
@@ -43,7 +46,7 @@ bool bfmeGoEMEa(void *item)
 // ?bfmeGoEMEb@@YAPAXPAX@Z, retail 0x0061F600 (24B).
 void *bfmeGoEMEb(void *item)
 {
-	BfmeObjEME *registry = g_bfmeObjEME;
+	BfmeObjEME *registry = (*(BfmeObjEME **)&TheQ1Receiver);
 	if (!registry)
 		return 0;
 	return registry->bfmeGetEME(item);

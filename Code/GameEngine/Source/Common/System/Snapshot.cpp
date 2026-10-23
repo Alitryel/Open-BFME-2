@@ -1,39 +1,29 @@
-// cl: /O1
+// cl: /O1 /Ireference/shims/moduledata
 
-class Xfer;
+#include "Common/Snapshot.h"
 
-// Snapshot carries no state of its own - both constructors do nothing but
-// install the vtable at 0x00BBB554, and the copy constructor ignores its
-// argument entirely.
-class Snapshot
-{
-public:
-    Snapshot();
-    Snapshot(const Snapshot &that);
-
-    virtual ~Snapshot();
-    virtual void crc(Xfer *xfer) = 0;
-    virtual void loadPostProcess() = 0;
-    // Slot 3: Xfer's transfer operator for a Snapshot calls [vtable+0x0C] with
-    // the Xfer as its only argument, which is what puts this one last.
-    virtual void xfer(Xfer *xfer) = 0;
-};
-
-Snapshot::Snapshot()
-{
-}
-
-Snapshot::Snapshot(const Snapshot &that)
-{
-}
-
-// One vtable store, and the linker folds it together with every FXParticleSystem
-// info destructor - which is what proves they all share Snapshot's table.
-Snapshot::~Snapshot()
-{
-}
+// Zero Hour's Snapshot.h, which many ported units still include, declares the
+// destructor nonvirtual and out of line (??1Snapshot@@QAE@XZ). Retail has one
+// Snapshot destructor, the exported virtual ??1Snapshot@@UAE@XZ at 0x0049B47C
+// (a store of vtable 0x00BBB554); its derived destructors call it or inline
+// that store. The QAE spelling is that header's view of the same function.
+#pragma comment(linker, "/alternatename:??1Snapshot@@QAE@XZ=??1Snapshot@@UAE@XZ")
 
 // The generated assignment: nothing to copy, not even the vtable.
 typedef Snapshot &(Snapshot::*SnapshotAssign)(const Snapshot &);
 
 SnapshotAssign g_snapshotAssign = &Snapshot::operator=;
+
+// Snapshot's constructors and destructor are header inlines: 145 other units
+// emit them as select-any copies, which plain definitions here collided
+// with. The anchor keeps this unit's copies for the rows; it is not retail
+// code.
+#pragma inline_depth(0)
+// ?_bfmeSnapshotInlineAnchor@@YAXPAVSnapshot@@@Z absent-from-retail
+void _bfmeSnapshotInlineAnchor(Snapshot *snapshot)
+{
+    snapshot->Snapshot::Snapshot();
+    snapshot->Snapshot::Snapshot(*snapshot);
+    snapshot->Snapshot::~Snapshot();
+}
+#pragma inline_depth()

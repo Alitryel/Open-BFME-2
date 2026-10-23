@@ -34,6 +34,8 @@ struct Rva007F2C10Msg
 
 extern "C" int __cdecl sprintf(char *buffer, const char *format, ...);
 extern void *g_bfme0130A6A8;
+// g_bfme0130A6A8: matched references place it at VA 0xe0a0c4 (zero-filled .bss).
+void * g_bfme0130A6A8;
 
 void __stdcall rva007F2C10Serialize(Rva007F2C10Msg *msg, int key, int ownerType,
 	int minRank, int maxRank, int periodId, int periodPast, int *keys, int count)

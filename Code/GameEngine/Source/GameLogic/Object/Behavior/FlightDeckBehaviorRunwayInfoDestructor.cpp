@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
+// cl: /O1 /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
 
 // Open-BFME5: FlightDeckBehavior::RunwayInfo's destructor, retail 0x002BC7A0,
 // 90 bytes. The body carried only a machine byte-dump row; the symbols.csv pin
@@ -18,14 +18,9 @@
 #include "ascii_string.h"
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include/Lib/BaseType.h
-class Coord3D
-{
-public:
-	~Coord3D();						// ILT 0x0001364C
-
-private:
-	float m_bfmeX, m_bfmeY, m_bfmeZ;
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_DTOR
+#include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/FlightDeckBehavior.h
 class FlightDeckBehavior
@@ -44,6 +39,17 @@ public:
 };
 
 // ??1RunwayInfo@FlightDeckBehavior@@QAE@XZ
-FlightDeckBehavior::RunwayInfo::~RunwayInfo(void)
+inline FlightDeckBehavior::RunwayInfo::~RunwayInfo(void)
 {
 }
+
+// Header inline that other units including the header emit as select-any
+// copies, which a plain definition here collided with. The anchor keeps this
+// unit's copy for the row; it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitFlightDeckBehaviorRunwayInfoDestructor@@YAXPAURunwayInfo@FlightDeckBehavior@@@Z present-unmatched
+void bfmeEmitFlightDeckBehaviorRunwayInfoDestructor(FlightDeckBehavior::RunwayInfo *p)
+{
+    p->FlightDeckBehavior::RunwayInfo::~RunwayInfo();
+}
+#pragma inline_depth()

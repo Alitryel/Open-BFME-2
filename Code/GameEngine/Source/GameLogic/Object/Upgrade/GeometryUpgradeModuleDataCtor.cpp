@@ -1,4 +1,4 @@
-// cl: /O1 /MD /GX /DNDEBUG /Oy- /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /MD /D_CRTIMP= /GX /DNDEBUG /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS
 // stlport
 //
 // ??0GeometryUpgradeModuleData@@QAE@XZ, retail 0x004B6EE2 (131 bytes).
@@ -14,36 +14,37 @@
 // UnitCrateCollideModuleDataCtor: the derived vtable store is
 // compiler-emitted through the ??_7 pin at the true vtable 0x008589F0 (slot0
 // is the scalar-deleting dtor at 0x4B6F65), which places it right after the
-// rowed OpenContainModuleData base call; the two vectors construct from the
+// rowed Rva00253487Base base call; the two vectors construct from the
 // one-byte stack allocator temporary, the three strings null through their
 // inline default ctors and clear through the rowed 0x36410 fold in the body
 // (BFME1 donor calls clear() the same way). /Oy- forces the ebp frame with
 // the __EH_prolog prologue.
 
 #include <vector>
+// vector<unsigned int>'s allocator constructor inlines at every use here;
+// imported force-inline so this unit emits no COMDAT copy of it (its copy
+// differs from retail's kept /Od body at 0x00025100). The vector base
+// constructor stays a declared nothrow call to its kept copy (0x00211E58).
+namespace _STL {
+template <> _Vector_base<unsigned int,allocator<unsigned int> >::_Vector_base(const allocator<unsigned int> &) throw();
+template <> __declspec(dllimport) __forceinline
+vector<unsigned int, allocator<unsigned int> >::vector(const allocator<unsigned int> &__a)
+	: _Vector_base<unsigned int, allocator<unsigned int> >(__a) {}
+}
 
-class OpenContainModuleData
+class Rva00253487Base
 {
 public:
-	OpenContainModuleData();
-	virtual ~OpenContainModuleData();
+	Rva00253487Base();
+	virtual ~Rva00253487Base();
 
 private:
 	unsigned char m_pad[0x118 - 4];
 };
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	void clear();
-	~AsciiString();
+#include "ascii_string.h"
 
-private:
-	void *m_data;
-};
-
-class GeometryUpgradeModuleData : public OpenContainModuleData
+class GeometryUpgradeModuleData : public Rva00253487Base
 {
 public:
 	GeometryUpgradeModuleData();

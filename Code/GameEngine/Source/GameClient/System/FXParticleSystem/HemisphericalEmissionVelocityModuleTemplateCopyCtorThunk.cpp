@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /GX- /O1 /Ob2
+// cl: /DNDEBUG /MD /GX- /Ob2
 
 // Open-BFME5: HemisphericalEmissionVelocityModuleTemplate copy ctor
 // Retail: reuses the Spherical copy at 0x3A734E, then installs its own
@@ -18,9 +18,11 @@ protected:
 	char m_sub[4];
 };
 
-extern "C" char HemisphericalEmissionVelocityModuleTemplate_cvtbl0;
+// HemisphericalEmissionVelocityModuleTemplate_cvtbl0: matched references place it at VA 0xc1bc60 (retail .rdata value 62).
+extern "C" char HemisphericalEmissionVelocityModuleTemplate_cvtbl0 = 62;
 extern "C" char HemisphericalEmissionVelocityModuleTemplate_cvtbl4;
-extern "C" char HemisphericalEmissionVelocityModuleTemplate_csub_vtbl;
+// HemisphericalEmissionVelocityModuleTemplate_csub_vtbl: matched references place it at VA 0xc1c00c (retail .rdata value 85).
+extern "C" char HemisphericalEmissionVelocityModuleTemplate_csub_vtbl = 85;
 
 class HemisphericalEmissionVelocityModuleTemplate : public SphericalEmissionVelocityModuleTemplate
 {
@@ -39,3 +41,5 @@ HemisphericalEmissionVelocityModuleTemplate::HemisphericalEmissionVelocityModule
 	self[2] = &HemisphericalEmissionVelocityModuleTemplate_csub_vtbl;
 }
 }
+// _HemisphericalEmissionVelocityModuleTemplate_cvtbl4: the global at VA 0xc1c780 is ?vftable_0112B89C@@3HA.
+#pragma comment(linker, "/alternatename:_HemisphericalEmissionVelocityModuleTemplate_cvtbl4=?vftable_0112B89C@@3HA")

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // BfmeResetTextureRef::Recreate_Device_Resources, retail 0x00132CD9, 54 bytes.
 // Dedicated TU so dx8wrapper.cpp Reset_Device cannot see this body (mirrors
@@ -56,3 +56,53 @@ void BfmeResetTextureRef::Recreate_Device_Resources()
 			pointer->backend->pool, pointer->backend->usage,
 			pointer->backend->createArg48);
 }
+
+class Rva00132D0FIface
+{
+public:
+	virtual void s00();
+	virtual void s01();
+	virtual void s02();
+	virtual void s03();
+	virtual void s04();
+	virtual void s05();
+	virtual void s06();
+	virtual void s07();
+	virtual void s08();
+	virtual void s09();
+	virtual void s10();
+	virtual void s11();
+	virtual void s12();
+	virtual void s13();
+	virtual void s14();
+	virtual void s15();
+	virtual void s16();
+	virtual bool slot17();
+};
+
+// The two getters are the rowed TextureBaseClass::rva0013275A/rva00132784 const
+// bodies (TextureRvaGetters.cpp), called on this holder.
+class TextureBaseClass
+{
+public:
+	int rva0013275A(void) const;
+	int rva00132784(void) const;
+};
+
+class Rva00132D0FHolder
+{
+public:
+	bool rva00132D0F(void);
+private:
+	Rva00132D0FIface *m_00; // +0x00
+};
+
+bool Rva00132D0FHolder::rva00132D0F(void)
+{
+	if (!m_00)
+		return true;
+	if (m_00->slot17())
+		return true;
+	return ((const TextureBaseClass *)this)->rva0013275A() == 1 && ((const TextureBaseClass *)this)->rva00132784() == 1;
+}
+

@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG
+// cl: /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG
 //
 // ??0W3DLightDrawModuleData@@QAE@XZ, retail 0x000CFB3E, 107 bytes.
 // Frameless SSE ModuleData ctor: installs the vtable 0x00BCD820, inlines the
@@ -19,6 +19,9 @@
 // the landed W3DSupplyDrawModuleDataCtor TU (vtable spelled as the first
 // member init, which is what puts its store ahead of the +0x44 init).
 
+extern "C" const void *const vtbl_00BCD820[];  // ??_7W3DLightDrawModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BCD820=??_7W3DLightDrawModuleData@@6B@")
+
 struct LightColorRGB
 {
 	float m_red; // +0x00
@@ -26,15 +29,7 @@ struct LightColorRGB
 	float m_blue; // +0x08
 };
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	~AsciiString();
-
-private:
-	const char *m_data;
-};
+#include "ascii_string.h"
 
 class W3DLightDrawModuleData
 {
@@ -58,7 +53,7 @@ private:
 
 // ??0W3DLightDrawModuleData@@QAE@XZ
 W3DLightDrawModuleData::W3DLightDrawModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00BCD820))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00BCD820)))
 	, m_attachToBone()
 {
 	m_ambientColor.m_red = m_ambientColor.m_green = m_ambientColor.m_blue = 0.0f;

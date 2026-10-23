@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc /O2 /Ob2
+// cl: /DNDEBUG /MD /EHsc /Ob2
 // ?initializeArray@BfmeThingCDE@@QAEXH@Z
 //
 // Array storage for the CDE node table: new[] of 0x10-byte slots through the
@@ -6,6 +6,9 @@
 // active node plus the owner back-pointer up to count. Split from
 // BfmeThingCDEDestructor.cpp: this body needs /EHsc for the array-new EH
 // frame where its siblings verify under /EHs-c-.
+
+void *__cdecl operator new[](unsigned int);
+void __cdecl operator delete[](void*);
 
 struct CDEArraySlot
 {
@@ -32,8 +35,6 @@ public:
 	void *m_array;
 	int m_count;
 };
-
-void *__cdecl operator new[](unsigned int);
 
 void BfmeThingCDE::initializeArray(int count)
 {

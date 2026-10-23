@@ -34,80 +34,12 @@
 #pragma warning ( pop )
 
 
-// ??0ThreadClass@@ present-unmatched
-ThreadClass::ThreadClass(const char *thread_name, ExceptionHandlerType exception_handler) : handle(0), running(false), thread_priority(0)
-{
-	if (thread_name) {
-		assert(strlen(thread_name) < sizeof(ThreadName) - 1);
-		strcpy(ThreadName, thread_name);
-	} else {
-		strcpy(ThreadName, "No name");;
-	}
+// ??0ThreadClass@@ defined in ThreadClassCtor.cpp (kept copy for link).
 
-	ExceptionHandler = exception_handler;
-}
-
-// ??1ThreadClass@@ present-unmatched
-ThreadClass::~ThreadClass()
-{
-	Stop();
-}
-
-// ?Internal_Thread_Function@ThreadClass@@ present-unmatched
-void __cdecl ThreadClass::Internal_Thread_Function(void* params)
-{
-	ThreadClass* tc=reinterpret_cast<ThreadClass*>(params);
-	tc->running=true;
-	tc->ThreadID = GetCurrentThreadId();
-
-#ifdef _WIN32
-	Register_Thread_ID(tc->ThreadID, tc->ThreadName);
-
-	if (tc->ExceptionHandler != NULL) {
-		__try {
-			tc->Thread_Function();
-		} __except(tc->ExceptionHandler(GetExceptionCode(), GetExceptionInformation())) {};
-	} else {
-		tc->Thread_Function();
-	}
-
-#else //_WIN32
-	tc->Thread_Function();
-#endif //_WIN32
-
-#ifdef _WIN32
-	Unregister_Thread_ID(tc->ThreadID, tc->ThreadName);
-#endif // _WIN32
-	tc->handle=0;
-	tc->ThreadID = 0;
-}
-
-// ?Execute@ThreadClass@@ present-unmatched
-void ThreadClass::Execute()
-{
-	WWASSERT(!handle);	// Only one thread at a time!
-	#ifdef _UNIX
-		// assert(0);
-		return;
-	#else
-		handle=_beginthread(&Internal_Thread_Function,0,this);
-		SetThreadPriority((HANDLE)handle,THREAD_PRIORITY_NORMAL+thread_priority);
-		WWDEBUG_SAY(("ThreadClass::Execute: Started thread %s, thread ID is %X\n", ThreadName, handle));
-	#endif
-}
+// ??1ThreadClass@@ defined in ThreadClassLifecycle.cpp (kept copy for link).
 
 // byte-exact reconstruction: Code/Libraries/Source/WWVegas/WWLib/ThreadClassLifecycle.cpp
-// ?Set_Priority@ThreadClass@@ present-unmatched
-void ThreadClass::Set_Priority(int priority)
-{
-	#ifdef _UNIX
-		// assert(0);
-		return;
-	#else
-		thread_priority=priority;
-		if (handle) SetThreadPriority((HANDLE)handle,THREAD_PRIORITY_NORMAL+thread_priority);
-	#endif
-}
+// ThreadClass::Set_Priority: defined in ThreadClassLifecycle.cpp (its row's unit).
 
 void ThreadClass::Stop(unsigned ms)
 {
@@ -143,20 +75,11 @@ void ThreadClass::Sleep_Ms(unsigned ms)
 HANDLE test_event = ::CreateEvent (NULL, FALSE, FALSE, "");
 #endif
 
-// ?Switch_Thread@ThreadClass@@ present-unmatched
-void ThreadClass::Switch_Thread()
-{
-	#ifdef _UNIX
-		return;
-	#else
-		//	::SwitchToThread ();
-		::WaitForSingleObject (test_event, 1);
-		//	Sleep(1);	// Note! Parameter can not be 0 (or the thread switch doesn't occur)
-	#endif
-}
+// ?Switch_Thread@ThreadClass@@SAXXZ: defined in BFMEPoolYield.cpp (its row's unit).
 
-// Return calling thread's unique thread id
-// ?_Get_Current_Thread_ID@ThreadClass@@ present-unmatched
+// Return calling thread's unique thread id. At 0x006105D0 it compiles to a
+// lone tail jump through the GetCurrentThreadId import, between Stop and
+// Is_Running as in ZH's thread.cpp order.
 unsigned ThreadClass::_Get_Current_Thread_ID()
 {
 	#ifdef _UNIX
@@ -167,8 +90,4 @@ unsigned ThreadClass::_Get_Current_Thread_ID()
 }
 
 // byte-exact reconstruction: Code/Libraries/Source/WWVegas/WWLib/ThreadClassLifecycle.cpp
-// ?Is_Running@ThreadClass@@ present-unmatched
-bool ThreadClass::Is_Running()
-{
-	return !!handle;
-}
+// ThreadClass::Is_Running: defined in ThreadClassLifecycle.cpp (its row's unit).

@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /Ireference/shims/bfmecamera /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
+// cl: /Ireference/shims/bfmecamera /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
 // Retail RVA 0x0093D050 is the five-argument BFME D3D9 UpdateSurface helper.
 // It copies one source RECT to one destination POINT per count, advancing the
 // source RECT array by 16 bytes and the destination POINT array by 8 bytes.
@@ -41,7 +41,24 @@ class D3DDeviceInterface
 	D3DDeviceVTable *m_vtable;
 };
 
-extern D3DDeviceInterface *g_w3dMouseD3DDevice;
+// The device at 0x00DEDA34 is DX8Wrapper's protected D3DDevice (defined in
+// dx8wrapper.cpp), read through its public inline accessor.
+struct IDirect3DDevice8;
+
+class DX8Wrapper
+{
+public:
+	static IDirect3DDevice8 *_Get_D3D_Device8() { return D3DDevice; }
+
+protected:
+	static IDirect3DDevice8 *D3DDevice;
+};
+
+// This unit's view of that device.
+static __forceinline D3DDeviceInterface *copyDevice()
+{
+	return (D3DDeviceInterface *)DX8Wrapper::_Get_D3D_Device8();
+}
 extern unsigned number_of_DX8_calls;
 
 extern "C" void __cdecl rva0093D050(
@@ -57,8 +74,8 @@ extern "C" void __cdecl rva0093D050(
 		{
 			do
 			{
-				g_w3dMouseD3DDevice->m_vtable->UpdateSurface(
-					g_w3dMouseD3DDevice, source_surface, source_rects,
+				copyDevice()->m_vtable->UpdateSurface(
+					copyDevice(), source_surface, source_rects,
 					destination_surface, destination_points);
 				++number_of_DX8_calls;
 				destination_points += 1;
@@ -69,7 +86,7 @@ extern "C" void __cdecl rva0093D050(
 		return;
 	}
 
-	g_w3dMouseD3DDevice->m_vtable->UpdateSurface(
-		g_w3dMouseD3DDevice, source_surface, 0, destination_surface, 0);
+	copyDevice()->m_vtable->UpdateSurface(
+		copyDevice(), source_surface, 0, destination_surface, 0);
 	++number_of_DX8_calls;
 }

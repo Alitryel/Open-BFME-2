@@ -16,49 +16,21 @@
 namespace _STL
 {
 
-__Named_exception::~__Named_exception() _STLP_NOTHROW_INHERENTLY
-{
-}
+// The shared base destructor (unoptimised, folded with std::bad_alloc at
+// 0x00023850) is defined in stlport_stdexcept_dtors.cpp with the rest.
 
 const char *__Named_exception::what() const _STLP_NOTHROW_INHERENTLY
 {
 	return _M_name;
 }
 
-logic_error::~logic_error() _STLP_NOTHROW_INHERENTLY
-{
-}
 
-runtime_error::~runtime_error() _STLP_NOTHROW_INHERENTLY
-{
-}
 
-domain_error::~domain_error() _STLP_NOTHROW_INHERENTLY
-{
-}
 
-invalid_argument::~invalid_argument() _STLP_NOTHROW_INHERENTLY
-{
-}
 
-length_error::~length_error() _STLP_NOTHROW_INHERENTLY
-{
-}
 
-out_of_range::~out_of_range() _STLP_NOTHROW_INHERENTLY
-{
-}
 
-range_error::~range_error() _STLP_NOTHROW_INHERENTLY
-{
-}
 
-overflow_error::~overflow_error() _STLP_NOTHROW_INHERENTLY
-{
-}
 
-underflow_error::~underflow_error() _STLP_NOTHROW_INHERENTLY
-{
-}
 
 }

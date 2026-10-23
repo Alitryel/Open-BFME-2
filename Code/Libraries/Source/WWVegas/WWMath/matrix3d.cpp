@@ -1,4 +1,15 @@
 // cl: /Ireference/shims/bfmerendobj /DNDEBUG /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -22,6 +33,13 @@
 // the binary are defined here; Multiply and Lerp are omitted because the retail
 // build's inlining/codegen for them drifted from this source (see report).
 
+// Preserve native inlined CRT adapters without competing external copies.
+#pragma push_macro("inline")
+#define inline __declspec(dllimport) __forceinline
+#include <math.h>
+#pragma pop_macro("inline")
+#include "../../../../../reference/shims/bfme_matrix3d_link/vector4.h"
+#include "../../../../../reference/shims/bfme_matrix3d_link/matrix3d.h"
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "matrix3d.h"
 
@@ -111,7 +129,7 @@ const Matrix3D	Matrix3D::RotateZ270
 );
 
 
-void Matrix3D::Set(const Matrix3 & rot,const Vector3 & pos)
+inline void Matrix3D::Set(const Matrix3 & rot,const Vector3 & pos)
 {
 	Row[0].Set( rot[0][0], rot[0][1], rot[0][2], pos[0]);
 	Row[1].Set( rot[1][0], rot[1][1], rot[1][2], pos[1]);
@@ -119,42 +137,19 @@ void Matrix3D::Set(const Matrix3 & rot,const Vector3 & pos)
 }
 
 
-void Matrix3D::Set(const Quaternion & rot,const Vector3 & pos)
+void Matrix3D::Set_Rotation(const Matrix3 & matrix3)
 {
-   Set_Rotation(rot);
-   Set_Translation(pos);
-}
+	Row[0][0] = matrix3[0][0];
+	Row[0][1] = matrix3[0][1];
+	Row[0][2] = matrix3[0][2];
 
+	Row[1][0] = matrix3[1][0];
+	Row[1][1] = matrix3[1][1];
+	Row[1][2] = matrix3[1][2];
 
-void Matrix3D::Set_Rotation(const Matrix3 & m)
-{
-	Row[0][0] = m[0][0];
-	Row[0][1] = m[0][1];
-	Row[0][2] = m[0][2];
-
-	Row[1][0] = m[1][0];
-	Row[1][1] = m[1][1];
-	Row[1][2] = m[1][2];
-
-	Row[2][0] = m[2][0];
-	Row[2][1] = m[2][1];
-	Row[2][2] = m[2][2];
-}
-
-
-void Matrix3D::Set_Rotation(const Quaternion & q)
-{
-	Row[0][0] = (float)(1.0 - 2.0 * (q[1] * q[1] + q[2] * q[2]));
-	Row[0][1] = (float)(2.0 * (q[0] * q[1] - q[2] * q[3]));
-	Row[0][2] = (float)(2.0 * (q[2] * q[0] + q[1] * q[3]));
-
-	Row[1][0] = (float)(2.0 * (q[0] * q[1] + q[2] * q[3]));
-	Row[1][1] = (float)(1.0 - 2.0f * (q[2] * q[2] + q[0] * q[0]));
-	Row[1][2] = (float)(2.0 * (q[1] * q[2] - q[0] * q[3]));
-
-	Row[2][0] = (float)(2.0 * (q[2] * q[0] - q[1] * q[3]));
-	Row[2][1] = (float)(2.0 * (q[1] * q[2] + q[0] * q[3]));
-	Row[2][2] =(float)(1.0 - 2.0 * (q[1] * q[1] + q[0] * q[0]));
+	Row[2][0] = matrix3[2][0];
+	Row[2][1] = matrix3[2][1];
+	Row[2][2] = matrix3[2][2];
 }
 
 
@@ -176,18 +171,9 @@ float Matrix3D::Get_Z_Rotation(void) const
 }
 
 
-// ?Rotate_Vector@Matrix3D@@ present-unmatched
-Vector3 Matrix3D::Rotate_Vector(const Vector3 &vect) const
-{
-	return Vector3(
-		(Row[0][0]*vect[0] + Row[0][1]*vect[1] + Row[0][2]*vect[2]),
-		(Row[1][0]*vect[0] + Row[1][1]*vect[1] + Row[1][2]*vect[2]),
-		(Row[2][0]*vect[0] + Row[2][1]*vect[1] + Row[2][2]*vect[2])
-	);
-}
 
 
-Vector3 Matrix3D::Inverse_Rotate_Vector(const Vector3 &vect) const
+inline Vector3 Matrix3D::Inverse_Rotate_Vector(const Vector3 &vect) const
 {
 	return Vector3(
 		(Row[0][0]*vect[0] + Row[1][0]*vect[1] + Row[2][0]*vect[2]),
@@ -196,316 +182,29 @@ Vector3 Matrix3D::Inverse_Rotate_Vector(const Vector3 &vect) const
 	);
 }
 
-// ?Look_At@Matrix3D@@ present-unmatched
-void Matrix3D::Look_At(const Vector3 &p,const Vector3 &t,float roll)
-{
-	float	dx,dy,dz;	//vector from p to t
-	float	len1,len2;
-	float	sinp,cosp;	//sine and cosine of the pitch ("up-down" tilt about x)
-	float	siny,cosy;	//sine and cosine of the yaw ("left-right"tilt about z)
-
-	dx = (t[0] - p[0]);
-	dy = (t[1] - p[1]);
-	dz = (t[2] - p[2]);
-
-	len1 = (float)WWMath::Sqrt(dx*dx + dy*dy + dz*dz);
-	len2 = (float)WWMath::Sqrt(dx*dx + dy*dy);
-
-	if (len1 != 0.0f) {
-		sinp = dz/len1;
-		cosp = len2/len1;
-	} else {
-		sinp = 0.0f;
-		cosp = 1.0f;
-	}
-
-	if (len2 != 0.0f) {
-		siny = dy/len2;
-		cosy = dx/len2;
-	} else {
-		siny = 0.0f;
-		cosy = 1.0f;
-	}
-
-	// init the matrix with position p and -z pointing down +x and +y up
-	Row[0].X = 0.0f;	Row[0].Y = 0.0f;	Row[0].Z = -1.0f;
-	Row[1].X = -1.0f;	Row[1].Y = 0.0f;	Row[1].Z = 0.0f;
-	Row[2].X = 0.0f;	Row[2].Y = 1.0f;	Row[2].Z = 0.0f;
-
-	Row[0].W = p.X;
-	Row[1].W = p.Y;
-	Row[2].W = p.Z;
-
-	// Yaw rotation to make the matrix look at the projection of the target
-	// into the x-y plane
-	Rotate_Y(siny,cosy);
-
-	// rotate about local x axis to pitch up to the targets position
-	Rotate_X(sinp,cosp);
-
-	// roll about the local z axis (negate since we look down -z)
-	Rotate_Z(-roll);
-}
 
 // Create a matrix given a position and a direction (x axis will point in direction)
 // Make sure you pass in UNITIZED direction!!!
-// ?buildTransformMatrix@Matrix3D@@ present-unmatched
-void Matrix3D::buildTransformMatrix( const Vector3 &pos, const Vector3 &dir )
+
+
+
+
+
+
+
+
+
+// Emission anchor (LINK-DUP): the 10 duplicate Matrix3D bodies above are now
+// inline, so the compiler discards them (nothing in this TU calls them) and with
+// them their only intra-TU users of four helpers this TU owns rows for
+// (Vector3::Dot_Product, Vector4(float,float,float,float),
+// Vector3::Length2). This anchor keeps those three emitting; its own bytes are unclaimed.
+// The Vector3(float,float,float) copy this TU used to emit lost to retail's,
+// so this TU no longer constructs one (retail's copy serves every caller).
+// ?Matrix3DHelperAnchor present-unmatched
+void Matrix3DHelperAnchor(Vector3 &a, Vector3 &b, Vector4 &vector4)
 {
-	float sinp, cosp;	// sine and cosine of the pitch ("up-down" tilt about y)
-	float siny, cosy;	// sine and cosine of the yaw ("left-right"tilt about z)
-
-	float len2 = (float)sqrt( (dir.X * dir.X) + (dir.Y * dir.Y) );
-
-	sinp = dir.Z;
-	cosp = len2;
-
-	if( len2 != 0.0f )
-	{
-		siny = dir.Y / len2;
-		cosy = dir.X / len2;
-	}
-	else
-	{
-		siny = 0.0f;
-		cosy = 1.0f;
-	}
-
-	Make_Identity();
-	Translate( pos );
-
-	// Yaw rotation to projection of target in x-y plane
-	Rotate_Z( siny, cosy );
-
-	// Pitch rotation
-	Rotate_Y( -sinp, cosp );
-}
-
-// ?Obj_Look_At@Matrix3D@@ present-unmatched
-void Matrix3D::Obj_Look_At(const Vector3 &p,const Vector3 &t,float roll)
-{
-	float	dx,dy,dz;	//vector from p to t
-	float	len1,len2;
-	float	sinp,cosp;	//sine and cosine of the pitch ("up-down" tilt about y)
-	float	siny,cosy;	//sine and cosine of the yaw ("left-right"tilt about z)
-
-	dx = (t[0] - p[0]);
-	dy = (t[1] - p[1]);
-	dz = (t[2] - p[2]);
-
-	len1 = (float)sqrt(dx*dx + dy*dy + dz*dz);
-	len2 = (float)sqrt(dx*dx + dy*dy);
-
-	if (len1 != 0.0f) {
-		sinp = dz/len1;
-		cosp = len2/len1;
-	} else {
-		sinp = 0.0f;
-		cosp = 1.0f;
-	}
-
-	if (len2 != 0.0f) {
-		siny = dy/len2;
-		cosy = dx/len2;
-	} else {
-		siny = 0.0f;
-		cosy = 1.0f;
-	}
-
-	Make_Identity();
-	Translate(p);
-
-	// Yaw rotation to projection of target in x-y plane
-	Rotate_Z(siny,cosy);
-
-	// Pitch rotation
-	Rotate_Y(-sinp,cosp);
-
-	// Roll rotation
-	Rotate_X(roll);
-}
-
-
-// ?Copy_3x3_Matrix@Matrix3D@@ present-unmatched
-void Matrix3D::Copy_3x3_Matrix(float matrix[3][3])
-{
-	Row[0][0] = matrix[0][0];
-	Row[0][1] = matrix[0][1];
-	Row[0][2] = matrix[0][2];
-	Row[0][3] = 0;
-	Row[1][0] = matrix[1][0];
-	Row[1][1] = matrix[1][1];
-	Row[1][2] = matrix[1][2];
-	Row[1][3] = 0;
-	Row[2][0] = matrix[2][0];
-	Row[2][1] = matrix[2][1];
-	Row[2][2] = matrix[2][2];
-	Row[2][3] = 0;
-}
-
-
-void Matrix3D::Transform_Min_Max_AABox
-(
-	const Vector3 &		min,
-	const Vector3 &		max,
-	Vector3 *				set_min,
-	Vector3 *				set_max
-) const
-{
-	WWASSERT(set_min != &min);
-	WWASSERT(set_max != &max);
-
-	float tmp0,tmp1;
-
-	// init the min and max to the translation of the transform
-	set_min->X = set_max->X = Row[0][3];
-	set_min->Y = set_max->Y = Row[1][3];
-	set_min->Z = set_max->Z = Row[2][3];
-
-	// now push them both out by the projections of the original intervals
-	for (int i=0; i<3; i++) {
-
-		for (int j=0; j<3; j++) {
-
-			tmp0 = Row[i][j] * min[j];
-			tmp1 = Row[i][j] * max[j];
-
-			if (tmp0 < tmp1) {
-
-				(*set_min)[i] += tmp0;
-				(*set_max)[i] += tmp1;
-
-			} else {
-
-				(*set_min)[i] += tmp1;
-				(*set_max)[i] += tmp0;
-
-			}
-		}
-	}
-}
-
-
-void Matrix3D::Transform_Center_Extent_AABox
-(
-	const Vector3 &		center,
-	const Vector3 &		extent,
-	Vector3 *				set_center,
-	Vector3 *				set_extent
-) const
-{
-	WWASSERT(set_center != &center);
-	WWASSERT(set_extent != &extent);
-
-	// push each extent out to the projections of the original extents
-	for (int i=0; i<3; i++) {
-
-		// start the center out at the translation portion of the matrix
-		// and the extent at zero
-		(*set_center)[i] = Row[i][3];
-		(*set_extent)[i] = 0.0f;
-
-		for (int j=0; j<3; j++) {
-
-			(*set_center)[i] += Row[i][j] * center[j];
-			(*set_extent)[i] += WWMath::Fabs(Row[i][j] * extent[j]);
-
-		}
-	}
-}
-
-
-// ?Is_Orthogonal@Matrix3D@@ present-unmatched
-int Matrix3D::Is_Orthogonal(void) const
-{
-	Vector3 x(Row[0].X,Row[0].Y,Row[0].Z);
-	Vector3 y(Row[1].X,Row[1].Y,Row[1].Z);
-	Vector3 z(Row[2].X,Row[2].Y,Row[2].Z);
-
-	if (Vector3::Dot_Product(x,y) > WWMATH_EPSILON) return 0;
-	if (Vector3::Dot_Product(y,z) > WWMATH_EPSILON) return 0;
-	if (Vector3::Dot_Product(z,x) > WWMATH_EPSILON) return 0;
-
-	if (WWMath::Fabs(x.Length2() - 1.0f) > WWMATH_EPSILON) return 0;
-	if (WWMath::Fabs(y.Length2() - 1.0f) > WWMATH_EPSILON) return 0;
-	if (WWMath::Fabs(z.Length2() - 1.0f) > WWMATH_EPSILON) return 0;
-
-	return 1;
-}
-
-// ?Re_Orthogonalize@Matrix3D@@ present-unmatched
-void Matrix3D::Re_Orthogonalize(void)
-{
-	Vector3 x(Row[0][0],Row[0][1],Row[0][2]);
-	Vector3 y(Row[1][0],Row[1][1],Row[1][2]);
-	Vector3 z;
-
-	(Vector3::Cross_Product(x,y,&z));
-	(Vector3::Cross_Product(z,x,&y));
-
-	float len = x.Length();
-	if (len < WWMATH_EPSILON) {
-		Make_Identity();
-		return;
-	} else {
-		x *= 1.0f/len;
-	}
-
-	len = y.Length();
-	if (len < WWMATH_EPSILON) {
-		Make_Identity();
-		return;
-	} else {
-		y *= 1.0f/len;
-	}
-
-	len = z.Length();
-	if (len < WWMATH_EPSILON) {
-		Make_Identity();
-		return;
-	} else {
-		z *= 1.0f/len;
-	}
-
-	Row[0][0] = x.X;
-	Row[0][1] = x.Y;
-	Row[0][2] = x.Z;
-
-	Row[1][0] = y.X;
-	Row[1][1] = y.Y;
-	Row[1][2] = y.Z;
-
-	Row[2][0] = z.X;
-	Row[2][1] = z.Y;
-	Row[2][2] = z.Z;
-}
-
-
-// ?Solve_Linear_System@Matrix3D@@ present-unmatched
-bool Matrix3D::Solve_Linear_System(Matrix3D & system)
-{
-	/*
-	** Gauss-Jordan Elimination
-	** We repeatedly replace rows in the matrix with a linear combination of itself and
-	** another row in the system in order to reduce the matrix to the identity matrix.
-	** TODO: optimize away all unnecessary math operations!
-	*/
-	if (system[0][0] == 0.0f) return false;
-	system[0] *= 1.0f / system[0][0];				// (0,0) now equals 1.0  (row,col)
-	system[1] -= system[1][0] * system[0];			// (1,0) now equals 0.0
-	system[2] -= system[2][0] * system[0];			// (2,0) now equals 0.0
-
-	if (system[1][1] == 0.0f) return false;
-	system[1] *= 1.0f / system[1][1];				// (1,1) now equals 1.0
-	system[2] -= system[2][1] * system[1];			// (2,1) now equals 0.0
-
-	if (system[2][2] == 0.0f) return false;
-	system[2] *= 1.0f / system[2][2];				// (2,2) now equals 1.0, and we already have one answer
-
-	system[1] -= system[1][2] * system[2];			// (1,2) now equals 0.0, and we have another answer
-	system[0] -= system[0][2] * system[2];			// (0,2) now equals 0.0
-
-	system[0] -= system[0][1] * system[1];			// (0,1) now equals 0.0, and we are done!
-
-	return true;
+	float d = Vector3::Dot_Product(a, b);
+	float l = a.Length2();
+	vector4 = Vector4(d, l, 0.0f, 1.0f);
 }

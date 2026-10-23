@@ -1,3 +1,4 @@
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 // Open-BFME: mode-gated virtual call reconstructed from retail RVA 0x007E3410.
 
 class Rva007E3410Target
@@ -28,4 +29,53 @@ void Rva007E3410Object::invokeForMode(void)
     {
         m_target->invoke(0, 0);
     }
+}
+
+// Whole one-body BFME1 Rva00971BA0GuardedHelper.cpp at revision
+// 1281192f682ce6f29b8f06b7daea4b5e8fdfbb24 supplies this control-flow
+// lead. Complete native Ghidra180AD6/35 independently proves receiver
+// virtual slots +28/+2C, a pointer at +14, and the null-zero/otherwise
+// tail call at 180AF4 to rowed1A3140/80. That provider independently
+// byte-verifies and links in agg_def.cpp. This narrow external
+// ABI view declares no new layout or original identity for its receiver.
+// The caller's owner, original names and full layout are unknown; unused
+// virtual declarations preserve slot spacing only, not original signatures.
+// The callee at 0x1A3140 is AggregateDefClass::Create (agg_def.cpp); only that
+// member is declared here.
+class RenderObjClass;
+class AggregateDefClass
+{
+public:
+    RenderObjClass *Create(void);
+};
+
+class Rva00180AD6HelperOwner
+{
+public:
+    virtual void slot00();
+    virtual void slot04();
+    virtual void slot08();
+    virtual void slot0C();
+    virtual void slot10();
+    virtual void slot14();
+    virtual void slot18();
+    virtual void slot1C();
+    virtual void slot20();
+    virtual void slot24();
+    virtual bool ready();
+    virtual void prepare();
+
+    int guardedHelper();
+private:
+    unsigned char reserved04[0x14 - 4];
+    AggregateDefClass *helper;
+};
+
+int Rva00180AD6HelperOwner::guardedHelper()
+{
+    if (!ready())
+        prepare();
+    if (!helper)
+        return 0;
+    return (int)helper->Create();
 }

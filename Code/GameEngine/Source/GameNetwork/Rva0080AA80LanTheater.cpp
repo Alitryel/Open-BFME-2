@@ -46,6 +46,7 @@ public:
 class BfmeC994 : public Rva007E86B0Base
 {
 public:
+	virtual ~BfmeC994();
 	BfmeC994( char *buffer, int capacity );
 	void addString( const char *key, const char *value );
 
@@ -113,4 +114,29 @@ void Rva00803620Sink::rva0080AA80( Rva00809500Entry *entry )
 		reply.addString( "NAME", m_name );
 		Rva007F93E0( &reply, "->L", m_field10 );
 	}
+}
+
+// Retail's call sites in this unit's matched rows land on bodies rowed under
+// other spellings at the same addresses (same ABI). Bind the spellings used here.
+#pragma comment(linker, "/alternatename:?bfmeCopyBZD@@YAXPADPBDI@Z=?ji_0062983e@@YAXXZ")
+
+// Existing thiscall teardown pin at RVA 0x655780 names the matched
+// seven-byte base-vptr reinstall worker; no receiver adjustment is needed.
+#pragma comment(linker, "/alternatename:??1BfmeC994@@UAE@XZ=??1BfmeMsg@@UAE@XZ")
+
+// ?rva0066F750@Rva0066F750@@QAEXPAURva00809500Entry@@@Z @0x0066F750 8B member
+// forwarder to rowed ?rva0080AA80@Rva00803620Sink@@QAEXPAURva00809500Entry@@@Z
+// (0x00676980; entry arg passes through the shared stack slot). No callers.
+// Honest address name.
+class Rva0066F750
+{
+public:
+	void rva0066F750(Rva00809500Entry *entry);
+private:
+	char m_pad[0x18];
+	Rva00803620Sink *m_member;
+};
+void Rva0066F750::rva0066F750(Rva00809500Entry *entry)
+{
+	return m_member->rva0080AA80(entry);
 }

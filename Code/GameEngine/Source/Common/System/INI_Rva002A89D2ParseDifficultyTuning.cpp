@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /GX-
+// cl: /Oy- /DNDEBUG /MD /GX-
 // Rva002A89D2_ParseDifficultyTuning (retail 0x002A89D2, 61 bytes). The temp
 // is 8 ints: the difficulty index (default 2) plus 7 tuning fields (all 1
 // except EconomyMaxFarms at +0x1C, -1), default-built through the pinned
@@ -12,7 +12,15 @@
 // BrutalDifficultyCheats). The class name stays address-derived; the owning
 // struct is BFME2-new (no BFME1 donor).
 
-struct FieldParse;
+class INI;
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(INI *ini, void *instance, void *store, const void *userData);
+	const void *userData;
+	int offset;
+};
+typedef void (*FieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
 
 class Rva002A8823Tuning
 {
@@ -33,12 +41,28 @@ class INI
 public:
 	void initFromINI(void *instance, const FieldParse *table);
 	static void Rva002A89D2_ParseDifficultyTuning(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva002A8845_ParseProbability(INI *ini, void *instance, void *store, const void *userData);
+	static void parseInt(INI *ini, void *instance, void *store, const void *userData);
+};
+
+void Rva0023899FParse(INI *ini, int, int *);
+
+// Retail's DifficultyTuning field table at VA 0x00BFD768 (.rdata, 80 bytes),
+// transcribed from retail's own bytes. Retail has no zero sentinel after the
+// fifth record: the token strings follow directly.
+extern const FieldParse DifficultyTuningFieldParse[] =
+{
+	{ "Difficulty",                           (FieldParseProc)&Rva0023899FParse,  0, 0x00 },
+	{ "EconomyUpgradeProbability",            &INI::Rva002A8845_ParseProbability, 0, 0x04 },
+	{ "EconomyMaxFarms",                      &INI::parseInt,                     0, 0x1C },
+	{ "SpecialPowerActivationProbability",    &INI::Rva002A8845_ParseProbability, 0, 0x0C },
+	{ "OffensiveTacticActivationProbability", &INI::Rva002A8845_ParseProbability, 0, 0x14 }
 };
 
 // ?Rva002A89D2_ParseDifficultyTuning@INI@@SAXPAV1@PAX1PBX@Z
 void INI::Rva002A89D2_ParseDifficultyTuning(INI *ini, void *instance, void *store, const void *userData)
 {
 	Rva002A8823Tuning tuning;
-	ini->initFromINI(&tuning, reinterpret_cast<const FieldParse *>(0x00BFD768));
+	ini->initFromINI(&tuning, DifficultyTuningFieldParse);
 	((Rva002A8823Tuning *)((char *)instance + 0x878))[tuning.difficulty] = tuning;
 }

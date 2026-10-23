@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // CashHackSpecialPowerModuleData::Upgrades copy helper, retail 0x003FA3AF,
 // 36 bytes, sole caller the _STL::_Construct at 0x003FA3D3. Upgrades is the
@@ -7,6 +7,9 @@
 // (Rva003B31ADMember convention, same as PassiveAreaEffectBehaviorModuleData
 // and AttributeModifierAuraUpdateModuleData) followed by |= of the source
 // word, which is why the copy calls out instead of plain movs.
+// The opaque member's 4-byte zeroing ctor aliases the matched BitFlags<11>
+// dword-zeroing body; the member's type identity remains unproven.
+#pragma comment(linker, "/alternatename:??0Rva003B31ADMember@@QAE@XZ=??0?$BitFlags@$0L@@@QAE@XZ")
 
 typedef unsigned int size_t;
 
@@ -33,8 +36,17 @@ public:
 		Rva003B31ADMember m_amount; // +4, money amount
 
 		Upgrades(const Upgrades &src);
+		Upgrades(int science, const int &amount);
 	};
 };
+
+// ??0Upgrades@CashHackSpecialPowerModuleData@@QAE@HABH@Z @0x003FA38C 35B ctor science plus amount ref via zeroing member and OR. Evidence caller 0x003FA69E forwards both args to temp then push_back.
+CashHackSpecialPowerModuleData::Upgrades::Upgrades(int science, const int &amount)
+	: m_science(science)
+	, m_amount()
+{
+	m_amount.m_value |= amount;
+}
 
 // ??0Upgrades@CashHackSpecialPowerModuleData@@QAE@ABU12@@Z @0x003FA3AF
 CashHackSpecialPowerModuleData::Upgrades::Upgrades(const Upgrades &src)

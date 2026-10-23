@@ -1,13 +1,8 @@
-// cl: /O1 /MD
-// ??_GCivilianSpawnUpdateModuleData@@UAEPAXI@Z @0x0047FAA3
-class CivilianSpawnUpdateModuleData { public: __declspec(noinline) virtual ~CivilianSpawnUpdateModuleData(); private: int m_famgen; };
-CivilianSpawnUpdateModuleData::~CivilianSpawnUpdateModuleData() { m_famgen = 0; }
-void famgenDelete(CivilianSpawnUpdateModuleData *p) { delete p; }
-// ??_GStrafeAreaUpdateModuleData@@UAEPAXI@Z @0x003A4F05
-class StrafeAreaUpdateModuleData { public: __declspec(noinline) virtual ~StrafeAreaUpdateModuleData(); private: int m_famgen; };
-StrafeAreaUpdateModuleData::~StrafeAreaUpdateModuleData() { m_famgen = 0; }
-void famgenDelete(StrafeAreaUpdateModuleData *p) { delete p; }
+// cl: /MD
 // ??_GTerrainResourceBehaviorModuleData@@UAEPAXI@Z @0x00482259
-class TerrainResourceBehaviorModuleData { public: __declspec(noinline) virtual ~TerrainResourceBehaviorModuleData(); private: int m_famgen; };
-TerrainResourceBehaviorModuleData::~TerrainResourceBehaviorModuleData() { m_famgen = 0; }
-void famgenDelete(TerrainResourceBehaviorModuleData *p) { delete p; }
+struct EmitVtableTag;
+
+class TerrainResourceBehaviorModuleData { public: TerrainResourceBehaviorModuleData(EmitVtableTag *); virtual ~TerrainResourceBehaviorModuleData(); };
+// ?<TerrainResourceBehaviorModuleData::TerrainResourceBehaviorModuleData> absent-from-retail
+TerrainResourceBehaviorModuleData::TerrainResourceBehaviorModuleData(EmitVtableTag *) {}
+

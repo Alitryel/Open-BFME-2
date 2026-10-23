@@ -62,6 +62,13 @@ public:
 	int m_fieldC;
 };
 
+void Rva00802290Owner::reset()
+{
+	m_field4 = 0;
+	m_fieldC = 0;
+	m_field8 = 0;
+}
+
 class Rva008022A0Owner
 {
 public:

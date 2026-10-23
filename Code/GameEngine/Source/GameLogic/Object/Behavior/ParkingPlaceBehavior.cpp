@@ -1,7 +1,32 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /Ireference/shims/zh_outofline /Ireference/shims/updatemodule_ctor /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// Link view first: Matrix3D(), Matrix3D(bool) and Matrix3D(const Matrix3D&) stay inline without
+// emitting /O2 copies that compete with retail's owners (0x000423C5, 0x0004C91A, 0x0006645C).
+#include "../../../../../../reference/shims/bfme_matrix3d_full_link/matrix3d_full_link.h"
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/GameLogic/Object/Behavior/ParkingPlaceBehavior.cpp); this unit had no counterpart under Code/.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+// Retail keeps one unsigned max, RVA 0x00013740 (the vendored STLport row). This unit's
+// flags (/G7 /arch:SSE) compile a different copy, and retail kept another unit's. This unit-local
+// overload keeps the inlined code and offers the link no second copy.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -33,6 +58,22 @@
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include <list>
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
+#include <vector>
+// Bind assignment to the complete rowed provider at 0x002CD098.
+namespace _STL {
+template <> vector<Coord3D, allocator<Coord3D> > &
+vector<Coord3D, allocator<Coord3D> >::operator=(const vector<Coord3D, allocator<Coord3D> > &);
+}
+
 #include "Common/CRCDebug.h"
 #include "Common/Xfer.h"
 #include "Common/ThingTemplate.h"
@@ -47,6 +88,34 @@
 #include "GameLogic/Object.h"
 #include "GameLogic/TerrainLogic.h"
 #include "Common/Team.h" 
+// bfme link decl-only begin
+namespace _STL { template <> unsigned long _Base_bitset<2>::_S_maskbit(unsigned int); }
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+namespace _STL { template <> unsigned int vector<Coord3D, allocator<Coord3D> >::capacity() const; }
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$_STLP_alloc_proxy@PAUCoord3D@@U1@V?$allocator@UCoord3D@@@_STL@@@_STL@@QAEXPA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Coord3D;
+namespace _STL { template <> void _STLP_alloc_proxy<Coord3D *,Coord3D,allocator<Coord3D> >::deallocate(Coord3D *,unsigned int); }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@UCoord3D@@@_STL@@QBEXPAUCoord3D@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Coord3D;
+namespace _STL { template <> void allocator<Coord3D>::deallocate(Coord3D *,unsigned int) const; }
+// Suppress this TU's non-retail copy of ?set@?$bitset@$0CN@@_STL@@QAEAAV12@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bitset<45> & bitset<45>::set(unsigned int); }
+// Suppress this TU's non-retail copy of ??0?$_Base_bitset@$01@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Base_bitset<2>::_Base_bitset(); }
+// Suppress this TU's non-retail copy of ?test@?$bitset@$0HE@@_STL@@QBE_NI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bool bitset<116>::test(unsigned int) const; }
+// Suppress this TU's non-retail copy of ?_Unchecked_test@?$bitset@$0HE@@_STL@@QBE_NI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bool bitset<116>::_Unchecked_test(unsigned int) const; }
+// Reuse the verified Coord3D push-back specialization at2CE7DC.
+namespace _STL { template<> void vector<Coord3D>::push_back(const Coord3D&); }
+
 
 #ifdef _INTERNAL
 // for occasional debugging...
@@ -57,6 +126,7 @@
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::ParkingPlaceBehavior present-unmatched
 ParkingPlaceBehavior::ParkingPlaceBehavior( Thing *thing, const ModuleData* moduleData ) : UpdateModule( thing, moduleData )
 {
 	m_gotInfo = false;
@@ -75,12 +145,14 @@ ParkingPlaceBehavior::ParkingPlaceBehavior( Thing *thing, const ModuleData* modu
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::~ParkingPlaceBehavior present-unmatched
 ParkingPlaceBehavior::~ParkingPlaceBehavior( void )
 {
 }
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::buildInfo present-unmatched
 void ParkingPlaceBehavior::buildInfo()
 {
 	if (m_gotInfo)
@@ -90,17 +162,17 @@ void ParkingPlaceBehavior::buildInfo()
 			getObject()->testStatus(OBJECT_STATUS_SOLD))
 		return;
 
-	const ParkingPlaceBehaviorModuleData* d = getParkingPlaceBehaviorModuleData();
+	const ParkingPlaceBehaviorModuleData* parkingPlaceBehaviorModuleData = getParkingPlaceBehaviorModuleData();
 	ProductionUpdateInterface* pu = getObject()->getProductionUpdateInterface();
 
-	m_spaces.reserve(d->m_numRows * d->m_numCols);
+	m_spaces.reserve(parkingPlaceBehaviorModuleData->m_numRows * parkingPlaceBehaviorModuleData->m_numCols);
 
 	Int door = 0;
 	{
 		ParkingPlaceInfo info;
-		for (Int row = 0; row < d->m_numRows; ++row)
+		for (Int row = 0; row < parkingPlaceBehaviorModuleData->m_numRows; ++row)
 		{
-			for (Int col = 0; col < d->m_numCols; ++col)
+			for (Int col = 0; col < parkingPlaceBehaviorModuleData->m_numCols; ++col)
 			{
 				AsciiString tmp;
 				Matrix3D mtx;
@@ -128,11 +200,11 @@ void ParkingPlaceBehavior::buildInfo()
 		}
 	}
 
-	if (d->m_hasRunways)
+	if (parkingPlaceBehaviorModuleData->m_hasRunways)
 	{
 		RunwayInfo info;
-		m_runways.reserve(d->m_numCols);
-		for (Int col = 0; col < d->m_numCols; ++col)
+		m_runways.reserve(parkingPlaceBehaviorModuleData->m_numCols);
+		for (Int col = 0; col < parkingPlaceBehaviorModuleData->m_numCols; ++col)
 		{
 			AsciiString tmp;
 
@@ -153,6 +225,7 @@ void ParkingPlaceBehavior::buildInfo()
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::purgeDead present-unmatched
 void ParkingPlaceBehavior::purgeDead()
 {
 	buildInfo();
@@ -223,6 +296,7 @@ void ParkingPlaceBehavior::purgeDead()
 
 //-------------------------------------------------------------------------------------------------
 // note: called from client, so MUST NOT modify self in any way, or desyncs will occur
+// ?ParkingPlaceBehavior::hasReservedSpace present-unmatched
 Bool ParkingPlaceBehavior::hasReservedSpace(ObjectID id) const
 {
 	if (!m_gotInfo)
@@ -240,6 +314,7 @@ Bool ParkingPlaceBehavior::hasReservedSpace(ObjectID id) const
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::getSpaceIndex present-unmatched
 Int ParkingPlaceBehavior::getSpaceIndex( ObjectID id ) const
 {
 	if( id == INVALID_ID )
@@ -259,6 +334,7 @@ Int ParkingPlaceBehavior::getSpaceIndex( ObjectID id ) const
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::findPPI present-unmatched
 ParkingPlaceBehavior::ParkingPlaceInfo* ParkingPlaceBehavior::findPPI(ObjectID id)
 {
 	DEBUG_ASSERTCRASH(id != INVALID_ID, ("call findEmptyPPI instead"));
@@ -276,6 +352,7 @@ ParkingPlaceBehavior::ParkingPlaceInfo* ParkingPlaceBehavior::findPPI(ObjectID i
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::findEmptyPPI present-unmatched
 ParkingPlaceBehavior::ParkingPlaceInfo* ParkingPlaceBehavior::findEmptyPPI()
 {
 	if (!m_gotInfo)
@@ -292,6 +369,7 @@ ParkingPlaceBehavior::ParkingPlaceInfo* ParkingPlaceBehavior::findEmptyPPI()
 
 //-------------------------------------------------------------------------------------------------
 // note: called from client, so MUST NOT modify self in any way, or desyncs will occur
+// ?ParkingPlaceBehavior::shouldReserveDoorWhenQueued present-unmatched
 Bool ParkingPlaceBehavior::shouldReserveDoorWhenQueued(const ThingTemplate* thing) const
 {
 	if (thing->isKindOf(KINDOF_PRODUCED_AT_HELIPAD))
@@ -302,6 +380,7 @@ Bool ParkingPlaceBehavior::shouldReserveDoorWhenQueued(const ThingTemplate* thin
 
 //-------------------------------------------------------------------------------------------------
 // note: called from client, so MUST NOT modify self in any way, or desyncs will occur
+// ?ParkingPlaceBehavior::hasAvailableSpaceFor present-unmatched
 Bool ParkingPlaceBehavior::hasAvailableSpaceFor(const ThingTemplate* thing) const
 {
 	if (!m_gotInfo)	// degenerate case, shouldn't happen, but just in case...
@@ -334,12 +413,13 @@ Bool ParkingPlaceBehavior::hasAvailableSpaceFor(const ThingTemplate* thing) cons
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::reserveSpace present-unmatched
 Bool ParkingPlaceBehavior::reserveSpace(ObjectID id, Real parkingOffset, ParkingPlaceBehaviorInterface::PPInfo* info)
 {
 	buildInfo();
 	purgeDead();
 
-	const ParkingPlaceBehaviorModuleData* d = getParkingPlaceBehaviorModuleData();
+	const ParkingPlaceBehaviorModuleData* parkingPlaceBehaviorModuleData = getParkingPlaceBehaviorModuleData();
 
 	ParkingPlaceInfo* ppi = findPPI(id);
 	if (ppi == NULL)
@@ -355,7 +435,7 @@ Bool ParkingPlaceBehavior::reserveSpace(ObjectID id, Real parkingOffset, Parking
 	ppi->m_objectInSpace = id;
 	ppi->m_reservedForExit = false;
 	
-	if( d->m_landingDeckHeightOffset )
+	if( parkingPlaceBehaviorModuleData->m_landingDeckHeightOffset )
 	{
 		Object *obj = TheGameLogic->findObjectByID( id );
 		if( obj )
@@ -382,6 +462,7 @@ Bool ParkingPlaceBehavior::reserveSpace(ObjectID id, Real parkingOffset, Parking
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::calcPPInfo present-unmatched
 void ParkingPlaceBehavior::calcPPInfo( ObjectID id, PPInfo *info )
 {
 
@@ -395,10 +476,10 @@ void ParkingPlaceBehavior::calcPPInfo( ObjectID id, PPInfo *info )
 
 	if( info )
 	{
-		const ParkingPlaceBehaviorModuleData* d = getParkingPlaceBehaviorModuleData();
-		info->parkingSpace = d->m_parkInHangars ? ppi->m_hangarStart : ppi->m_location;
+		const ParkingPlaceBehaviorModuleData* parkingPlaceBehaviorModuleData = getParkingPlaceBehaviorModuleData();
+		info->parkingSpace = parkingPlaceBehaviorModuleData->m_parkInHangars ? ppi->m_hangarStart : ppi->m_location;
 		info->runwayPrep = ppi->m_prep;
-		info->parkingOrientation = d->m_parkInHangars ? ppi->m_hangarStartOrient : ppi->m_orientation;
+		info->parkingOrientation = parkingPlaceBehaviorModuleData->m_parkInHangars ? ppi->m_hangarStartOrient : ppi->m_orientation;
 		info->runwayStart = rr.m_start;
 		info->runwayEnd = rr.m_end;
 		info->runwayApproach = rr.m_end;
@@ -406,7 +487,7 @@ void ParkingPlaceBehavior::calcPPInfo( ObjectID id, PPInfo *info )
 		const Real APPROACH_DIST = 0.75f;
 		info->runwayApproach.x += (rr.m_end.x - rr.m_start.x) * APPROACH_DIST;
 		info->runwayApproach.y += (rr.m_end.y - rr.m_start.y) * APPROACH_DIST;
-		info->runwayApproach.z = rr.m_end.z + d->m_approachHeight + d->m_landingDeckHeightOffset;
+		info->runwayApproach.z = rr.m_end.z + parkingPlaceBehaviorModuleData->m_approachHeight + parkingPlaceBehaviorModuleData->m_landingDeckHeightOffset;
 		info->runwayExit = info->runwayApproach;
 		info->hangarInternal = ppi->m_hangarStart;
 		info->hangarInternalOrient = ppi->m_hangarStartOrient;
@@ -427,6 +508,7 @@ void ParkingPlaceBehavior::calcPPInfo( ObjectID id, PPInfo *info )
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::releaseSpace present-unmatched
 void ParkingPlaceBehavior::releaseSpace(ObjectID id)
 {
 	buildInfo();
@@ -453,6 +535,7 @@ void ParkingPlaceBehavior::releaseSpace(ObjectID id)
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::getRunwayReservation present-unmatched
 ObjectID ParkingPlaceBehavior::getRunwayReservation( Int runway, RunwayReservationType type )
 {
 	//Note: We don't care about type because these runways share the runway for taking off and landing.
@@ -462,6 +545,7 @@ ObjectID ParkingPlaceBehavior::getRunwayReservation( Int runway, RunwayReservati
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::transferRunwayReservationToNextInLineForTakeoff present-unmatched
 void ParkingPlaceBehavior::transferRunwayReservationToNextInLineForTakeoff(ObjectID id)
 {
 	buildInfo();
@@ -478,6 +562,7 @@ void ParkingPlaceBehavior::transferRunwayReservationToNextInLineForTakeoff(Objec
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::reserveRunway present-unmatched
 Bool ParkingPlaceBehavior::reserveRunway(ObjectID id, Bool forLanding)
 {
 	buildInfo();
@@ -530,6 +615,7 @@ Bool ParkingPlaceBehavior::reserveRunway(ObjectID id, Bool forLanding)
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::releaseRunway present-unmatched
 void ParkingPlaceBehavior::releaseRunway(ObjectID id)
 {
 	buildInfo();
@@ -554,6 +640,7 @@ void ParkingPlaceBehavior::releaseRunway(ObjectID id)
 const Int HEAL_RATE_FRAMES = LOGICFRAMES_PER_SECOND / 5;
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::resetWakeFrame present-unmatched
 void ParkingPlaceBehavior::resetWakeFrame()
 {
 	if (m_healing.empty())
@@ -567,6 +654,7 @@ void ParkingPlaceBehavior::resetWakeFrame()
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::setHealee present-unmatched
 void ParkingPlaceBehavior::setHealee(Object* healee, Bool add)
 {
 	if (add)
@@ -600,6 +688,7 @@ void ParkingPlaceBehavior::setHealee(Object* healee, Bool add)
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::defectAllParkedUnits present-unmatched
 void ParkingPlaceBehavior::defectAllParkedUnits(Team* newTeam, UnsignedInt detectionTime)
 {
 	buildInfo();
@@ -639,6 +728,7 @@ void ParkingPlaceBehavior::defectAllParkedUnits(Team* newTeam, UnsignedInt detec
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::killAllParkedUnits present-unmatched
 void ParkingPlaceBehavior::killAllParkedUnits()
 {
 	buildInfo();
@@ -668,12 +758,14 @@ void ParkingPlaceBehavior::killAllParkedUnits()
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::onDie present-unmatched
 void ParkingPlaceBehavior::onDie( const DamageInfo *damageInfo )
 {
 	killAllParkedUnits();
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::update present-unmatched
 UpdateSleepTime ParkingPlaceBehavior::update()
 {
 	// alas, we need to keep the buildInfo and dead-purged stuff pretty much up to date, for
@@ -687,7 +779,7 @@ UpdateSleepTime ParkingPlaceBehavior::update()
 	if (now >= m_nextHealFrame)
 	{
 		m_nextHealFrame = now + HEAL_RATE_FRAMES;
-		const ParkingPlaceBehaviorModuleData* d = getParkingPlaceBehaviorModuleData();
+		const ParkingPlaceBehaviorModuleData* parkingPlaceBehaviorModuleData = getParkingPlaceBehaviorModuleData();
 		for (std::list<HealingInfo>::iterator it = m_healing.begin(); it != m_healing.end(); /*++it*/)
 		{
 			if (it->m_gettingHealedID != INVALID_ID)
@@ -703,7 +795,7 @@ UpdateSleepTime ParkingPlaceBehavior::update()
 					healInfo.in.m_damageType = DAMAGE_HEALING;
 					healInfo.in.m_deathType = DEATH_NONE;
 					healInfo.in.m_sourceID = getObject()->getID();
-  				healInfo.in.m_amount = HEAL_RATE_FRAMES * d->m_healAmount * SECONDS_PER_LOGICFRAME_REAL;
+  				healInfo.in.m_amount = HEAL_RATE_FRAMES * parkingPlaceBehaviorModuleData->m_healAmount * SECONDS_PER_LOGICFRAME_REAL;
 
 //          if ( objToHeal->isKindOf( KINDOF_PRODUCED_AT_HELIPAD ) )
 //            healInfo.in.m_amount += HEAL_RATE_FRAMES * d->m_extraHealAmount4Helicopters * SECONDS_PER_LOGICFRAME_REAL;
@@ -720,6 +812,7 @@ UpdateSleepTime ParkingPlaceBehavior::update()
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::reserveDoorForExit present-unmatched
 ExitDoorType ParkingPlaceBehavior::reserveDoorForExit( const ThingTemplate* objType, Object *specificObject )
 {
 	buildInfo();
@@ -744,6 +837,7 @@ ExitDoorType ParkingPlaceBehavior::reserveDoorForExit( const ThingTemplate* objT
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::exitObjectViaDoor present-unmatched
 void ParkingPlaceBehavior::exitObjectViaDoor( Object *newObj, ExitDoorType exitDoor ) ///< Here is the thing I want you to exit
 {
 	if (exitDoor != DOOR_NONE_NEEDED)
@@ -844,6 +938,7 @@ void ParkingPlaceBehavior::exitObjectViaDoor( Object *newObj, ExitDoorType exitD
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::unreserveDoorForExit present-unmatched
 void ParkingPlaceBehavior::unreserveDoorForExit( ExitDoorType exitDoor )
 {
 	if (exitDoor != DOOR_NONE_NEEDED)
@@ -864,6 +959,7 @@ void ParkingPlaceBehavior::unreserveDoorForExit( ExitDoorType exitDoor )
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::setRallyPoint present-unmatched
 void ParkingPlaceBehavior::setRallyPoint( const Coord3D *pos )
 {
 	m_heliRallyPointExists = TRUE;
@@ -872,6 +968,7 @@ void ParkingPlaceBehavior::setRallyPoint( const Coord3D *pos )
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::getRallyPoint present-unmatched
 const Coord3D* ParkingPlaceBehavior::getRallyPoint( void ) const
 {
 	if( m_heliRallyPointExists )
@@ -884,6 +981,7 @@ const Coord3D* ParkingPlaceBehavior::getRallyPoint( void ) const
 //-------------------------------------------------------------------------------------------------
 //We only use this for the helipad -- therefore the exit position is the helipad creation point.
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::getExitPosition present-unmatched
 Bool ParkingPlaceBehavior::getExitPosition( Coord3D& exitPosition ) const
 {
 	Matrix3D mtx;
@@ -891,6 +989,7 @@ Bool ParkingPlaceBehavior::getExitPosition( Coord3D& exitPosition ) const
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::getNaturalRallyPoint present-unmatched
 Bool ParkingPlaceBehavior::getNaturalRallyPoint( Coord3D& rallyPoint, Bool offset ) const
 {
 	Matrix3D mtx;
@@ -900,6 +999,7 @@ Bool ParkingPlaceBehavior::getNaturalRallyPoint( Coord3D& rallyPoint, Bool offse
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::crc present-unmatched
 void ParkingPlaceBehavior::crc( Xfer *xfer )
 {
 
@@ -913,6 +1013,7 @@ void ParkingPlaceBehavior::crc( Xfer *xfer )
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::xfer present-unmatched
 void ParkingPlaceBehavior::xfer( Xfer *xfer )
 {
 	Int i;
@@ -1092,6 +1193,7 @@ void ParkingPlaceBehavior::xfer( Xfer *xfer )
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
+// ?ParkingPlaceBehavior::loadPostProcess present-unmatched
 void ParkingPlaceBehavior::loadPostProcess( void )
 {
 

@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /DNDEBUG /MD
+// cl: /EHsc /DNDEBUG /MD
 //
 // ??1Rva004DC9EDEntry@@QAE@XZ, retail 0x004DC9ED, 71 bytes.
 // Opaque three-string record destructor: tears down AsciiStrings at +0x00,
@@ -9,14 +9,8 @@
 // name unrecovered, hence the address-derived vehicle. The ??_G at
 // 0x00426316 calls this body directly.
 
-class AsciiString
-{
-public:
-	~AsciiString();
+#include "../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
-private:
-	char m_pad[4];
-};
 
 class Rva004DC9EDEntry
 {

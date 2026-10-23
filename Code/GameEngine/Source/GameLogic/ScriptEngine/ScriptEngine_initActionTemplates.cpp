@@ -1,4 +1,4 @@
-// cl: /O1
+// cl: /Ireference/shims/bfme2_ascii
 //
 // ScriptEngine action template table, retail 0x003D46DB (62,675 bytes).
 // ScriptEngine::init calls it on its own `this` just before the condition
@@ -19,14 +19,7 @@
 // Target-only statements present here and absent from the donor were taken
 // from the retail stores, not from BFME1.
 
-class AsciiString
-{
-public:
-	AsciiString &operator=(const char *);
-
-private:
-	char *m_data;
-};
+#include "ascii_string.h"
 
 class Template
 {

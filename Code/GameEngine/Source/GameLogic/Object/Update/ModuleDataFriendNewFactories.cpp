@@ -1,4 +1,4 @@
-// cl: /O1 /GX /DNDEBUG /MD
+// cl: /GX /DNDEBUG /MD
 //
 // Same-shape siblings of ?friend_newModuleData@W3DLaserDraw (0x00064962,
 // 81 bytes; see W3DLaserDrawModuleDataFriendNew.cpp). Each factory news its
@@ -6,9 +6,9 @@
 // row), then feeds the new data plus its class parse proc (pushed immediate,
 // auto-filled by the gate, no pin) to INI::initFromINIMultiProc (rowed at
 // 0x2DEB5) when ini is non-null. Operator new and __EH_prolog resolve via
-// their rows. Owner classes are Rva-named: the real owners are unknown (the
-// factories are referenced only by address from the module registration
-// tables), so each claims a descriptive Rva owner rather than guessing.
+// their rows. Owner classes carry the data-class name that
+// ModuleFactory::init registers each factory under (each registration pushes
+// the module name string, then its instance and data factories).
 
 class ModuleData;
 class INI;
@@ -34,14 +34,14 @@ private:
 	unsigned char m_pad[0x0C - 4];
 };
 
-class Rva0024AF5C
+class SiegeDockingBehaviorModuleData
 {
 public:
 	static ModuleData *friend_newModuleData(INI *ini);
 };
 
-// ?friend_newModuleData@Rva0024AF5C@@SAPAVModuleData@@PAVINI@@@Z
-ModuleData *Rva0024AF5C::friend_newModuleData(INI *ini)
+// ?friend_newModuleData@SiegeDockingBehaviorModuleData@@SAPAVModuleData@@PAVINI@@@Z
+ModuleData *SiegeDockingBehaviorModuleData::friend_newModuleData(INI *ini)
 {
 	LockWeaponCreateModuleData *data = new LockWeaponCreateModuleData;
 	if (ini)
@@ -49,32 +49,27 @@ ModuleData *Rva0024AF5C::friend_newModuleData(INI *ini)
 	return reinterpret_cast<ModuleData *>(data);
 }
 
-// 0x0024CF56: news 0x10, ctor ??0Rva0048BC03Base (rowed 0x48BC03),
+// 0x0024CF56: news 0x10, ctor ??0FireWeaponUpdateModuleData (rowed 0x48BC03),
 // parse proc 0x88C0B4.
-void Rva0048BC03BaseParse_24CF56(MultiIniFieldParse &parse);
+void FireWeaponUpdateParse_24CF56(MultiIniFieldParse &parse);
 
-class Rva0048BC03Base
+class FireWeaponUpdateModuleData
 {
 public:
-	Rva0048BC03Base();
-	virtual ~Rva0048BC03Base();
+	FireWeaponUpdateModuleData();
+	virtual ~FireWeaponUpdateModuleData();
+	static ModuleData *friend_newModuleData(INI *ini);
 
 private:
 	unsigned char m_pad[0x10 - 4];
 };
 
-class Rva0024CF56
+// ?friend_newModuleData@FireWeaponUpdateModuleData@@SAPAVModuleData@@PAVINI@@@Z
+ModuleData *FireWeaponUpdateModuleData::friend_newModuleData(INI *ini)
 {
-public:
-	static ModuleData *friend_newModuleData(INI *ini);
-};
-
-// ?friend_newModuleData@Rva0024CF56@@SAPAVModuleData@@PAVINI@@@Z
-ModuleData *Rva0024CF56::friend_newModuleData(INI *ini)
-{
-	Rva0048BC03Base *data = new Rva0048BC03Base;
+	FireWeaponUpdateModuleData *data = new FireWeaponUpdateModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, Rva0048BC03BaseParse_24CF56);
+		ini->initFromINIMultiProc(data, FireWeaponUpdateParse_24CF56);
 	return reinterpret_cast<ModuleData *>(data);
 }
 
@@ -92,14 +87,14 @@ private:
 	unsigned char m_pad[0x0C - 4];
 };
 
-class Rva0024FC08
+class ThreatFinderUpdateModuleData
 {
 public:
 	static ModuleData *friend_newModuleData(INI *ini);
 };
 
-// ?friend_newModuleData@Rva0024FC08@@SAPAVModuleData@@PAVINI@@@Z
-ModuleData *Rva0024FC08::friend_newModuleData(INI *ini)
+// ?friend_newModuleData@ThreatFinderUpdateModuleData@@SAPAVModuleData@@PAVINI@@@Z
+ModuleData *ThreatFinderUpdateModuleData::friend_newModuleData(INI *ini)
 {
 	RadarUpdateModuleData *data = new RadarUpdateModuleData;
 	if (ini)
@@ -107,109 +102,124 @@ ModuleData *Rva0024FC08::friend_newModuleData(INI *ini)
 	return reinterpret_cast<ModuleData *>(data);
 }
 
-// 0x002524B2 / 0x002526DF / 0x00252768 / 0x0025287D: all news 0x7C with ctor
-// ??0DeliverPayloadAIUpdate (rowed 0x4C72D3); parse procs 0x8C7AEB,
-// 0x8C856F, 0x8C8699, 0x8C89CB.
-void DeliverPayloadAIUpdateParse_2524B2(MultiIniFieldParse &parse);
-void DeliverPayloadAIUpdateParse_2526DF(MultiIniFieldParse &parse);
-void DeliverPayloadAIUpdateParse_252768(MultiIniFieldParse &parse);
-void DeliverPayloadAIUpdateParse_25287D(MultiIniFieldParse &parse);
+// 0x002524B2 / 0x002526DF / 0x00252768 / 0x0025287D: all news 0x7C with the
+// one folded ctor ??0UntamedAllegianceSpecialPowerModuleData (rowed 0x4C72D3);
+// parse procs 0x8C7AEB, 0x8C856F, 0x8C8699, 0x8C89CB.
+void UntamedAllegianceSpecialPowerParse_2524B2(MultiIniFieldParse &parse);
+void ManTheWallsSpecialPowerParse_2526DF(MultiIniFieldParse &parse);
+void RepairSpecialPowerParse_252768(MultiIniFieldParse &parse);
+void HordeDispatchSpecialPowerParse_25287D(MultiIniFieldParse &parse);
 
-class DeliverPayloadAIUpdate
+class UntamedAllegianceSpecialPowerModuleData
 {
 public:
-	DeliverPayloadAIUpdate();
-	virtual ~DeliverPayloadAIUpdate();
+	UntamedAllegianceSpecialPowerModuleData();
+	virtual ~UntamedAllegianceSpecialPowerModuleData();
+	static ModuleData *friend_newModuleData(INI *ini);
 
 private:
 	unsigned char m_pad[0x7C - 4];
 };
 
-class Rva002524B2
+class ManTheWallsSpecialPowerModuleData
 {
 public:
 	static ModuleData *friend_newModuleData(INI *ini);
 };
 
-class Rva002526DF
+class RepairSpecialPowerModuleData
 {
 public:
 	static ModuleData *friend_newModuleData(INI *ini);
 };
 
-class Rva00252768
+class HordeDispatchSpecialPowerModuleData
 {
 public:
 	static ModuleData *friend_newModuleData(INI *ini);
 };
 
-class Rva0025287D
+// ?friend_newModuleData@UntamedAllegianceSpecialPowerModuleData@@SAPAVModuleData@@PAVINI@@@Z
+ModuleData *UntamedAllegianceSpecialPowerModuleData::friend_newModuleData(INI *ini)
 {
-public:
-	static ModuleData *friend_newModuleData(INI *ini);
-};
-
-// ?friend_newModuleData@Rva002524B2@@SAPAVModuleData@@PAVINI@@@Z
-ModuleData *Rva002524B2::friend_newModuleData(INI *ini)
-{
-	DeliverPayloadAIUpdate *data = new DeliverPayloadAIUpdate;
+	UntamedAllegianceSpecialPowerModuleData *data = new UntamedAllegianceSpecialPowerModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, DeliverPayloadAIUpdateParse_2524B2);
+		ini->initFromINIMultiProc(data, UntamedAllegianceSpecialPowerParse_2524B2);
 	return reinterpret_cast<ModuleData *>(data);
 }
 
-// ?friend_newModuleData@Rva002526DF@@SAPAVModuleData@@PAVINI@@@Z
-ModuleData *Rva002526DF::friend_newModuleData(INI *ini)
+// ?friend_newModuleData@ManTheWallsSpecialPowerModuleData@@SAPAVModuleData@@PAVINI@@@Z
+ModuleData *ManTheWallsSpecialPowerModuleData::friend_newModuleData(INI *ini)
 {
-	DeliverPayloadAIUpdate *data = new DeliverPayloadAIUpdate;
+	UntamedAllegianceSpecialPowerModuleData *data = new UntamedAllegianceSpecialPowerModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, DeliverPayloadAIUpdateParse_2526DF);
+		ini->initFromINIMultiProc(data, ManTheWallsSpecialPowerParse_2526DF);
 	return reinterpret_cast<ModuleData *>(data);
 }
 
-// ?friend_newModuleData@Rva00252768@@SAPAVModuleData@@PAVINI@@@Z
-ModuleData *Rva00252768::friend_newModuleData(INI *ini)
+// ?friend_newModuleData@RepairSpecialPowerModuleData@@SAPAVModuleData@@PAVINI@@@Z
+ModuleData *RepairSpecialPowerModuleData::friend_newModuleData(INI *ini)
 {
-	DeliverPayloadAIUpdate *data = new DeliverPayloadAIUpdate;
+	UntamedAllegianceSpecialPowerModuleData *data = new UntamedAllegianceSpecialPowerModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, DeliverPayloadAIUpdateParse_252768);
+		ini->initFromINIMultiProc(data, RepairSpecialPowerParse_252768);
 	return reinterpret_cast<ModuleData *>(data);
 }
 
-// ?friend_newModuleData@Rva0025287D@@SAPAVModuleData@@PAVINI@@@Z
-ModuleData *Rva0025287D::friend_newModuleData(INI *ini)
+// ?friend_newModuleData@HordeDispatchSpecialPowerModuleData@@SAPAVModuleData@@PAVINI@@@Z
+ModuleData *HordeDispatchSpecialPowerModuleData::friend_newModuleData(INI *ini)
 {
-	DeliverPayloadAIUpdate *data = new DeliverPayloadAIUpdate;
+	UntamedAllegianceSpecialPowerModuleData *data = new UntamedAllegianceSpecialPowerModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, DeliverPayloadAIUpdateParse_25287D);
+		ini->initFromINIMultiProc(data, HordeDispatchSpecialPowerParse_25287D);
 	return reinterpret_cast<ModuleData *>(data);
 }
 
-// 0x00252C13: news 0x14, ctor ??0BaikonurLaunchPower (rowed 0x4CAEE6),
+// 0x00252C13: news 0x14, ctor ??0ModelConditionSoundSelectorClientBehaviorModuleData (rowed 0x4CAEE6),
 // parse proc 0x8CB0F3.
-void BaikonurLaunchPowerParse_252C13(MultiIniFieldParse &parse);
+void ModelConditionSoundSelectorClientBehaviorParse_252C13(MultiIniFieldParse &parse);
 
-class BaikonurLaunchPower
+class ModelConditionSoundSelectorClientBehaviorModuleData
 {
 public:
-	BaikonurLaunchPower();
-	virtual ~BaikonurLaunchPower();
+	ModelConditionSoundSelectorClientBehaviorModuleData();
+	virtual ~ModelConditionSoundSelectorClientBehaviorModuleData();
+	static ModuleData *friend_newModuleData(INI *ini);
 
 private:
 	unsigned char m_pad[0x14 - 4];
 };
 
-class Rva00252C13
+// ?friend_newModuleData@ModelConditionSoundSelectorClientBehaviorModuleData@@SAPAVModuleData@@PAVINI@@@Z
+ModuleData *ModelConditionSoundSelectorClientBehaviorModuleData::friend_newModuleData(INI *ini)
+{
+	ModelConditionSoundSelectorClientBehaviorModuleData *data = new ModelConditionSoundSelectorClientBehaviorModuleData;
+	if (ini)
+		ini->initFromINIMultiProc(data, ModelConditionSoundSelectorClientBehaviorParse_252C13);
+	return reinterpret_cast<ModuleData *>(data);
+}
+
+// 0x0024DC8C: registered by both SpecialPowerModule (0x0025B615, with instance
+// factory 0x0024DC54) and SpecialPowerTimerRefreshSpecialPower (0x0025B79A);
+// news 0x7C, ctor ??0SpecialPowerModuleData (rowed 0x4930A0), parse proc
+// ?buildFieldParse@SpecialPowerModuleData (rowed 0x493207).
+class SpecialPowerModuleData
 {
 public:
+	SpecialPowerModuleData();
+	virtual ~SpecialPowerModuleData();
+	static void buildFieldParse(MultiIniFieldParse &parse);
 	static ModuleData *friend_newModuleData(INI *ini);
+
+private:
+	unsigned char m_pad[0x7C - 4];
 };
 
-// ?friend_newModuleData@Rva00252C13@@SAPAVModuleData@@PAVINI@@@Z
-ModuleData *Rva00252C13::friend_newModuleData(INI *ini)
+// ?friend_newModuleData@SpecialPowerModuleData@@SAPAVModuleData@@PAVINI@@@Z
+ModuleData *SpecialPowerModuleData::friend_newModuleData(INI *ini)
 {
-	BaikonurLaunchPower *data = new BaikonurLaunchPower;
+	SpecialPowerModuleData *data = new SpecialPowerModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, BaikonurLaunchPowerParse_252C13);
+		ini->initFromINIMultiProc(data, SpecialPowerModuleData::buildFieldParse);
 	return reinterpret_cast<ModuleData *>(data);
 }

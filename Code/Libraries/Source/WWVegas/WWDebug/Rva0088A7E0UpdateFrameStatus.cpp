@@ -1,8 +1,7 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Oy-
 
 // TU-scoped declarations (was a shared Code/.../_pch.h that shadowed the
 // sweep precompiled header for every other TU in this directory).
-#pragma optimize("y", off)
 
 extern "C" __declspec(dllimport) int __cdecl wsprintfA(char *, const char *, ...);
 #define wsprintf wsprintfA

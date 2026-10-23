@@ -1,18 +1,23 @@
 // Reconstructed pooled-string release; ordinary array delete forwards to scalar delete.
 // Pool membership uses the same aligned block and DIR32 addend as Get_String.
 // Complete111-byte retail extent includes both RET paths; all75 concrete bytes exact.
-// cl: /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath
 
+// The data word keeps its existing FastCriticalSectionClass spelling.
+// Retail acquires these string pools through the pool backend at 0x6577F;
+// use its shared guard rather than emit the event-backend constructor name.
+#include "mutex.h"
+#include "bfme_pool_critical_section.h"
 #include "always.h"
 #undef W3DNEWARRAY
 void* __cdecl operator new[](unsigned int,unsigned int);
-#define W3DNEWARRAY new(0x737472u)
+#define W3DNEWARRAY new('str')
 #include "wwstring.h"
 #include "win.h"
 #include "wwmemlog.h"
 
 
-inline void __cdecl operator delete[](void*p) {::operator delete(p);}
+static inline void __cdecl operator delete[](void*p) {::operator delete(p);}
 void
 StringClass::Free_String (void)
 {
@@ -28,7 +33,7 @@ StringClass::Free_String (void)
 			//	Make sure no one else is changing the reserved mask
 			// at the same time we are.
 			//
-			FastCriticalSectionClass::LockClass m(m_Mutex);
+			BFMEPoolCriticalSection::LockClass m(*reinterpret_cast<BFMEPoolCriticalSection *>(&m_Mutex));
 
 			unsigned index=(buffer_base/MAX_TEMP_BYTES)&(MAX_TEMP_STRING-1);
 			unsigned mask=1<<index;
@@ -50,4 +55,13 @@ StringClass::Free_String (void)
 	}
 
 	return ;
+}
+
+// Native1880D0..1880D5 directly reaches the owned StringClass release body.
+// The original enclosing type and virtual-destructor spelling are unproven;
+// this address-derived operation claims only witnessed ECX cleanup forwarding.
+struct Rva001880D0StringCleanupForward { void cleanup(); };
+void Rva001880D0StringCleanupForward::cleanup()
+{
+    reinterpret_cast<StringClass *>(this)->StringClass::~StringClass();
 }

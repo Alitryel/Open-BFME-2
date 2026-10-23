@@ -1,4 +1,4 @@
-// cl: /O2
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 // 0x007EA9C0: start NetConn if needed, then lazy-init the FESL service pair
 // at +0x250 the same way 0x007EAA70 does for +0x268.
 
@@ -82,3 +82,7 @@ void Rva007EA9C0Owner::init()
 		svc = 0;
 	((Rva007EAServiceList *)this)->add((Rva00803080 *)svc);
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?init@ServiceHubImpl@@QAEXXZ=?init@Rva007EA9C0Owner@@QAEXXZ")

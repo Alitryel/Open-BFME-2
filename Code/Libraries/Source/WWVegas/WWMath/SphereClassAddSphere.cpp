@@ -1,4 +1,4 @@
-// cl: /O2 /MD /arch:SSE
+// cl: /MD
 // Donor: reference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath/
 // sphere.h, vector3.h and wwmath.h. Matched target Init/ctor corroborate the
 // center/radius offsets; caller 0x19E2A3 (HLodClass::Update_Obj_Space_Bounding_Volumes)
@@ -34,15 +34,17 @@ class Vector3 {
 public:
     float X, Y, Z;
     __forceinline Vector3(void) {}
-    __forceinline Vector3(const Vector3& v) { X=v.X; Y=v.Y; Z=v.Z; }
+    __forceinline Vector3(const Vector3& vec) { X=vec.X; Y=vec.Y; Z=vec.Z; }
     __forceinline Vector3(float x, float y, float z) { X=x; Y=y; Z=z; }
-    __forceinline Vector3& operator=(const Vector3& v) { X=v.X; Y=v.Y; Z=v.Z; return *this; }
-    __forceinline float Length() const { return WWMath::Sqrt(Length2()); }
+    __forceinline Vector3& operator=(const Vector3& vec) { X=vec.X; Y=vec.Y; Z=vec.Z; return *this; }
+    __declspec(dllimport) __forceinline float Length() const { return WWMath::Sqrt(Length2()); }
     __forceinline float Length2() const { return X*X + Y*Y + Z*Z; }
     __forceinline friend Vector3 operator-(const Vector3& a, const Vector3& b) {
         return Vector3(a.X-b.X, a.Y-b.Y, a.Z-b.Z);
     }
-    __forceinline friend Vector3 operator*(const Vector3& a, float k) {
+    // Keep this helper inline without emitting a competing retail symbol,
+    // as for Length above. Add_Sphere contains the multiplication itself.
+    __declspec(dllimport) __forceinline friend Vector3 operator*(const Vector3& a, float k) {
         return Vector3(a.X*k, a.Y*k, a.Z*k);
     }
     __forceinline friend Vector3 operator+(const Vector3& a, const Vector3& b) {
@@ -59,18 +61,18 @@ public:
     }
     void Add_Sphere(const SphereClass& s);
 };
-void SphereClass::Add_Sphere(const SphereClass& s)
+inline void SphereClass::Add_Sphere(const SphereClass& sphere)
 {
-    if (s.Radius == 0.0f) return;
+    if (sphere.Radius == 0.0f) return;
 
-    Vector3 diff = s.Center - Center;
+    Vector3 diff = sphere.Center - Center;
     float dist = diff.Length();
     if (dist == 0.0f) {
-        Radius = (Radius > s.Radius) ? Radius : s.Radius;
+        Radius = (Radius > sphere.Radius) ? Radius : sphere.Radius;
         return;
     }
 
-    float rnew = (dist + Radius + s.Radius) / 2.0f;
+    float rnew = (dist + Radius + sphere.Radius) / 2.0f;
 
     // If rnew is smaller than either of the two sphere radii (it can't be
     // smaller than both of them), this means that the smaller sphere is
@@ -80,9 +82,9 @@ void SphereClass::Add_Sphere(const SphereClass& s)
     if (rnew < Radius) {
         // The existing sphere is the result - do nothing.
     } else {
-        if (rnew < s.Radius) {
+        if (rnew < sphere.Radius) {
             // The new sphere is the result:
-            Init(s.Center, s.Radius);
+            Init(sphere.Center, sphere.Radius);
         } else {
             // Neither sphere is completely inside the other, so rnew is the new
             // radius - calculate the new center
@@ -92,3 +94,9 @@ void SphereClass::Add_Sphere(const SphereClass& s)
         }
     }
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. Taking each one's
+// address keeps this unit's copy for its row; these pointers are not retail
+// data.
+void (SphereClass::*_bfmeInlineAnchor_SphereClassAddSphere_0)(const SphereClass& s) = &SphereClass::Add_Sphere;

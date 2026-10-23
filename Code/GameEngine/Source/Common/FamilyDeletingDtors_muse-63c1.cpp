@@ -1,16 +1,13 @@
-// cl: /O1 /MD
-// ??_GGeometryUpgrade@@UAEPAXI@Z @0x004B6C39 28B
-// Deleting dtor slot 0 of vtable 0x008589C0; calls rowed ??1GeometryUpgrade@@UAE@XZ at 0x004B6C55 then rowed operator delete at 0x0002FD60.
-class GeometryUpgrade { public: __declspec(noinline) virtual ~GeometryUpgrade(); private: int m_famgen; };
-GeometryUpgrade::~GeometryUpgrade() { m_famgen = 0; }
-void famgenDelete(GeometryUpgrade *p) { delete p; }
+// cl: /MD
 // ??_GSpellRechargeModifierUpgradeModuleData@@UAEPAXI@Z @0x004B606E 28B
 // Deleting dtor slot 0 of vtable 0x008583E0; calls rowed ??1SpellRechargeModifierUpgradeModuleData@@UAE@XZ at 0x004B608A then rowed operator delete at 0x0002FD60.
-class SpellRechargeModifierUpgradeModuleData { public: __declspec(noinline) virtual ~SpellRechargeModifierUpgradeModuleData(); private: int m_famgen; };
-SpellRechargeModifierUpgradeModuleData::~SpellRechargeModifierUpgradeModuleData() { m_famgen = 0; }
-void famgenDelete(SpellRechargeModifierUpgradeModuleData *p) { delete p; }
+struct EmitVtableTag;
+
+class SpellRechargeModifierUpgradeModuleData { public: SpellRechargeModifierUpgradeModuleData(EmitVtableTag *); virtual ~SpellRechargeModifierUpgradeModuleData(); };
+// ?<SpellRechargeModifierUpgradeModuleData::SpellRechargeModifierUpgradeModuleData> absent-from-retail
+SpellRechargeModifierUpgradeModuleData::SpellRechargeModifierUpgradeModuleData(EmitVtableTag *) {}
 // ??_GGeometryUpgradeModuleData@@UAEPAXI@Z @0x004B6F65 28B
 // Deleting dtor slot 0 of vtable 0x008589F0; calls rowed ??1GeometryUpgradeModuleData@@UAE@XZ at 0x004B6F81 then rowed operator delete at 0x0002FD60.
-class GeometryUpgradeModuleData { public: __declspec(noinline) virtual ~GeometryUpgradeModuleData(); private: int m_famgen; };
-GeometryUpgradeModuleData::~GeometryUpgradeModuleData() { m_famgen = 0; }
-void famgenDelete(GeometryUpgradeModuleData *p) { delete p; }
+class GeometryUpgradeModuleData { public: GeometryUpgradeModuleData(EmitVtableTag *); virtual ~GeometryUpgradeModuleData(); };
+// ?<GeometryUpgradeModuleData::GeometryUpgradeModuleData> absent-from-retail
+GeometryUpgradeModuleData::GeometryUpgradeModuleData(EmitVtableTag *) {}

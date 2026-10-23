@@ -20,19 +20,46 @@
 
 typedef __int64 FeslInt64;
 
+class Rva007E8AC0
+{
+public:
+	void run( void );
+};
+
+class BfmeThingCIB
+{
+public:
+	void bfmeGoCIB( void *key, void *value );
+};
+
+class BfmeThingCIC
+{
+public:
+	void bfmeGoCIC( void *key, void *value );
+};
+
+class Rva007E8980
+{
+public:
+	void go( int key, unsigned char value );
+};
+
 class Rva007E8810Message
 {
 public:
-	void reset( void );                                              // 0x007E8AC0
-	void addString( const char *key, const char *value );            // 0x007E8A10
-	void addInt( const char *key, int value );                       // 0x007E88D0
-	void addBool( const char *key, bool value );                     // 0x007E8980
-
 	char m_head[ 0x1C ];
 	unsigned int m_category;
 	char m_tail[ 0x0C ];
 	int m_depth;
 };
+
+#define FESL_RESET(message) ((Rva007E8AC0 *)(message))->run()
+#define FESL_ADD_STRING(message, key, value) \
+	((BfmeThingCIC *)(message))->bfmeGoCIC((void *)(key), (void *)(value))
+#define FESL_ADD_INT(message, key, value) \
+	((BfmeThingCIB *)(message))->bfmeGoCIB((void *)(key), (void *)(value))
+#define FESL_ADD_BOOL(message, key, value) \
+	((Rva007E8980 *)(message))->go((int)(void *)(key), (unsigned char)(value))
 
 struct Rva007FC3B0Filter
 {
@@ -48,28 +75,28 @@ void __stdcall Rva007FC3B0( Rva007E8810Message *msg, int lid, bool favOnly,
 {
 	unsigned int index;
 
-	msg->reset();
+	FESL_RESET( msg );
 	msg->m_category = 'GLST';
 	msg->m_depth = 3;
-	msg->addInt( "LID", lid );
-	msg->addBool( "FILTER-FAV-ONLY", favOnly );
-	msg->addBool( "FILTER-NOT-FULL", notFull );
-	msg->addBool( "FILTER-NOT-PRIVATE", notPrivate );
-	msg->addInt( "FILTER-MIN-SIZE", minSize );
+	FESL_ADD_INT( msg, "LID", lid );
+	FESL_ADD_BOOL( msg, "FILTER-FAV-ONLY", favOnly );
+	FESL_ADD_BOOL( msg, "FILTER-NOT-FULL", notFull );
+	FESL_ADD_BOOL( msg, "FILTER-NOT-PRIVATE", notPrivate );
+	FESL_ADD_INT( msg, "FILTER-MIN-SIZE", minSize );
 	for( index = 0; index < numAttributes; index++ )
 	{
 		char key[ 0x40 ] = "";
 
 		sprintf( key, "FILTER-ATTR-%s", attributes[ index ].m_key );
-		msg->addString( key, attributes[ index ].m_value );
+		FESL_ADD_STRING( msg, key, attributes[ index ].m_value );
 	}
-	msg->addString( "FAV-PLAYER", favPlayer );
-	msg->addString( "FAV-GAME", favGame );
+	FESL_ADD_STRING( msg, "FAV-PLAYER", favPlayer );
+	FESL_ADD_STRING( msg, "FAV-GAME", favGame );
 	if( gid )
-		msg->addInt( "GID", gid );
-	msg->addInt( "COUNT", count );
-	msg->addString( "FAV-PLAYER-UID", favPlayerUid );
-	msg->addString( "FAV-GAME-UID", favGameUid );
+		FESL_ADD_INT( msg, "GID", gid );
+	FESL_ADD_INT( msg, "COUNT", count );
+	FESL_ADD_STRING( msg, "FAV-PLAYER-UID", favPlayerUid );
+	FESL_ADD_STRING( msg, "FAV-GAME-UID", favGameUid );
 }
 
 void __stdcall Rva007FC290( Rva007E8810Message *msg, bool favOnly,
@@ -80,22 +107,22 @@ void __stdcall Rva007FC290( Rva007E8810Message *msg, bool favOnly,
 {
 	unsigned int index;
 
-	msg->reset();
+	FESL_RESET( msg );
 	msg->m_category = 'LLST';
 	msg->m_depth = 3;
-	msg->addBool( "FILTER-FAV-ONLY", favOnly );
-	msg->addBool( "FILTER-NOT-FULL", notFull );
-	msg->addBool( "FILTER-NOT-PRIVATE", notPrivate );
-	msg->addInt( "FILTER-MIN-SIZE", minSize );
+	FESL_ADD_BOOL( msg, "FILTER-FAV-ONLY", favOnly );
+	FESL_ADD_BOOL( msg, "FILTER-NOT-FULL", notFull );
+	FESL_ADD_BOOL( msg, "FILTER-NOT-PRIVATE", notPrivate );
+	FESL_ADD_INT( msg, "FILTER-MIN-SIZE", minSize );
 	for( index = 0; index < numAttributes; index++ )
 	{
 		char key[ 0x40 ] = "";
 
 		sprintf( key, "FILTER-ATTR-%s", attributes[ index ].m_key );
-		msg->addString( key, attributes[ index ].m_value );
+		FESL_ADD_STRING( msg, key, attributes[ index ].m_value );
 	}
-	msg->addString( "FAV-PLAYER", favPlayer );
-	msg->addString( "FAV-GAME", favGame );
-	msg->addString( "FAV-PLAYER-UID", favPlayerUid );
-	msg->addString( "FAV-GAME-UID", favGameUid );
+	FESL_ADD_STRING( msg, "FAV-PLAYER", favPlayer );
+	FESL_ADD_STRING( msg, "FAV-GAME", favGame );
+	FESL_ADD_STRING( msg, "FAV-PLAYER-UID", favPlayerUid );
+	FESL_ADD_STRING( msg, "FAV-GAME-UID", favGameUid );
 }

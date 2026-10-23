@@ -17,6 +17,12 @@ public:
 	int m_field04;
 };
 
+// This one-field polymorphic base shares BfmeMsg's layout; its 16B constructor
+// is the matched PrototypeClass/BfmeMsg body and its 7B destructor is BfmeMsg.
+#pragma comment(linker, "/alternatename:??0Rva007E86B0Base@@QAE@XZ=??0PrototypeClass@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva007E86B0Base@@UAE@XZ=??1BfmeMsg@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva00808CB0LanGameEntry@@UAE@XZ=??1BfmeMsg@@UAE@XZ")
+
 class Rva00808CB0LanGameEntry : public Rva007E86B0Base
 {
 public:
@@ -31,9 +37,11 @@ public:
 
 	int m_field08;
 	int m_field0c;
-	int m_sequence;
-	int m_field14;
-	char m_tail18[ 8 ];
+ 	int m_sequence;
+ 	int m_field14;
+ 	char m_tail18[ 8 ];
+
+ 	virtual ~Rva00808CB0LanGameEntry();
 };
 
 class Rva00803620Sink

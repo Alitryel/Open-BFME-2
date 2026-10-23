@@ -4,6 +4,10 @@ struct BfmeKeyAEA
 	void *m_bfmeId;
 };
 
+// The player browser passes its player record and transaction through this
+// lookup; the matched handler at 0x0066DAE0 consumes that same pair.
+#pragma comment(linker, "/alternatename:?bfmeHitAEA@BfmeEntryAEA@@QAE_NPAUBfmeKeyAEA@@PAX@Z=?bfmeHit1173@BfmeE1173@@QAE_NPAX0@Z")
+
 class BfmeEntryAEA
 {
 public:

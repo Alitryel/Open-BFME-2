@@ -1,4 +1,4 @@
-// cl: /O1
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 // ScriptEngine app-continuation gate at retail 0x00203B47 (106B).
 // Decoded from retail bytes (all verified):
 // - TheGameLogic->isGamePaused() row gate (matched 7B leaf at 0x23CD97).
@@ -8,20 +8,23 @@
 // - Latch at [0xDFE168]: set on proc success, cleared on next failure.
 // Human-readable names; opaque host (caller sets ecx, body ignores this).
 
+extern class GlobalData *TheWritableGlobalData;
+
 typedef int HMODULE;
+
+// g_00DFE158: VA 0x00dfe158 (.data/bss); retail zero-filled.
+extern int st_DebugDLL;
+// g_00DFE168: VA 0x00dfe168 (.data/bss); retail zero-filled.
+unsigned char g_00DFE168;
 
 extern "C" __declspec(dllimport) void *__stdcall GetProcAddress(HMODULE module, const char *name);
 
-class GameLogic
-{
-public:
-	unsigned char isGamePaused();
-};
+#include "../../Common/GameLogicObjectLookupView.h"
+extern GameLogic *TheGameLogic;
 
-#define TheGameLogic (*(GameLogic **)0x00DFE78C)
-#define TheGlobalData (*(unsigned char **)0x00DFE758)
-#define TheAppModule (*(HMODULE *)0x00DFE158)
-#define AppFastLatch (*(unsigned char *)0x00DFE168)
+#define TheGlobalData (*(unsigned char **)&TheWritableGlobalData)
+#define TheAppModule st_DebugDLL
+#define AppFastLatch g_00DFE168
 
 class Rva00203B47Host
 {
@@ -54,4 +57,19 @@ latchFail:
 	if (AppFastLatch)
 		AppFastLatch = 0;
 	return false;
+}
+
+extern HMODULE st_DebugDLL;
+// ?st_DebugDLL@@3HA (data_ledger RVA 0x9FE158, null .data, unowned): debug
+// DLL handle, LoadLibrary'd on demand; defined here, nothing else defines it.
+HMODULE st_DebugDLL = 0;
+
+void Rva00203BB1ForceAppContinue()
+{
+	if (!st_DebugDLL)
+		return;
+
+	void *proc = GetProcAddress(st_DebugDLL, "ForceAppContinue");
+	if (proc)
+		((void (__cdecl *)())proc)();
 }

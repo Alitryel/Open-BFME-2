@@ -32,7 +32,7 @@ typedef long HRESULT;
 typedef unsigned long DWORD;
 typedef unsigned long ULONG;
 
-struct IUnknown
+struct __declspec(uuid("00000000-0000-0000-c000-000000000046")) IUnknown
 {
 	virtual HRESULT __stdcall QueryInterface(const IID &requestedId, void **result) = 0;
 	virtual ULONG __stdcall AddRef() = 0;
@@ -47,8 +47,12 @@ extern "C" __declspec(dllimport) HRESULT __stdcall CoCreateInstance(const CLSID 
 	DWORD context, const IID &requestedId, void **result);
 extern "C" __declspec(dllimport) HRESULT __stdcall OleRun(IUnknown *unknown);
 
-extern GUID g_bfmeIidTSA;
-extern "C" const IID IID_IUnknown;
+// g_bfmeIidTSA: matched references place it at VA 0xbd4e3c (.rdata), the
+// IFEBrowserEngine2 IID {ee883b17-0778-4b18-a12b-e44c0d298412}; retail bytes.
+GUID g_bfmeIidTSA = { 0xee883b17, 0x0778, 0x4b18, { 0xa1, 0x2b, 0xe4, 0x4c, 0x0d, 0x29, 0x84, 0x12 } };
+// IID_IUnknown: uuid.lib's {00000000-0000-0000-C000-000000000046}, which retail
+// links at VA 0xbd4e4c (.rdata); this toolchain has no uuid.lib.
+extern "C" const IID IID_IUnknown = { 0x00000000, 0x0000, 0x0000, { 0xc0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46 } };
 
 struct __declspec(uuid("ee883b17-0778-4b18-a12b-e44c0d298412"))
 	IFEBrowserEngine2 : public IDispatch
@@ -76,7 +80,7 @@ public:
 
 	static const IID &GetIID() throw()
 	{
-		return g_bfmeIidTSA;
+		return ThisIIID::GetIID();
 	}
 
 	HRESULT CreateInstance(const CLSID &classId, IUnknown *outer, DWORD context) throw()
@@ -87,7 +91,7 @@ public:
 
 		if (context & (4 | 16)) {
 			IUnknown *unknownInstance;
-			createResult = CoCreateInstance(classId, outer, context, IID_IUnknown,
+			createResult = CoCreateInstance(classId, outer, context, __uuidof(IUnknown),
 				reinterpret_cast<void **>(&unknownInstance));
 
 			if (createResult >= 0) {

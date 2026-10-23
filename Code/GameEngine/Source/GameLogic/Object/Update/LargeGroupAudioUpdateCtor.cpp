@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 // stlport
 //
 // ??0LargeGroupAudioUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x004AB811,
@@ -14,6 +14,32 @@
 // literal) is the sole raw caller; poolkey rowed at 0x4AB897. Row supersedes
 // the ctor pin. Zero new pins (base plus both callees already rowed/pinned).
 
+extern "C" const void *const vtbl_00C6FFFC[];  // folded, 10 classes; via ??_7?$CategoryModuleClass@$00@FXParticleSystem@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C6FFFC=??_7?$CategoryModuleClass@$00@FXParticleSystem@@6B@")
+
+extern "C" const void *const vtbl_00BFB698[];  // ??_7LargeGroupAudioUpdate_B24@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BFB698=??_7LargeGroupAudioUpdate_B24@@6B@")
+extern "C" const void *const vtbl_00C548B8[];  // ??_7LargeGroupAudioUpdate@@6BLargeGroupAudioUpdate_B24@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C548B8=??_7LargeGroupAudioUpdate@@6BLargeGroupAudioUpdate_B24@@@")
+extern "C" const void *const vtbl_00C548E8[];  // ??_7LargeGroupAudioUpdate@@6BLargeGroupAudioUpdate_B20@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C548E8=??_7LargeGroupAudioUpdate@@6BLargeGroupAudioUpdate_B20@@@")
+// The retail table at RVA 0x008548F0: 3 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("?update@LargeGroupAudioUpdate@@UAE?AW4UpdateSleepTime@@XZ")();
+void __identifier("?getDisabledTypesToProcess@Rva004AB9D5@@QAE?AVBfmeFixedStorage002CF0F0@@XZ")();
+void __identifier("?rva0044DF8D@UpdateModule@@UAEXW4UpdateSleepTime@@@Z")();
+}
+extern "C" const void *const vtbl_00C548F0[3] = {
+	(const void *)&__identifier("?update@LargeGroupAudioUpdate@@UAE?AW4UpdateSleepTime@@XZ"), // slot 0 0x004ABB4B
+	(const void *)&__identifier("?getDisabledTypesToProcess@Rva004AB9D5@@QAE?AVBfmeFixedStorage002CF0F0@@XZ"), // slot 1 0x004AB9D5
+	(const void *)&__identifier("?rva0044DF8D@UpdateModule@@UAEXW4UpdateSleepTime@@@Z"), // slot 2 0x0044DF8D
+};
+extern "C" const void *const vtbl_00C54900[];  // ??_7LargeGroupAudioUpdate@@6BMiBase1@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C54900=??_7LargeGroupAudioUpdate@@6BMiBase1@@@")
+extern "C" const void *const vtbl_00C549BC[];  // ??_7LargeGroupAudioUpdate@@6BRva0049B47C@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C549BC=??_7LargeGroupAudioUpdate@@6BRva0049B47C@@@")
+
 #include <bitset>
 
 namespace _STL {
@@ -22,8 +48,15 @@ template<> bitset<128> &bitset<128>::reset();
 
 struct CondStore
 {
-	void init();
 	unsigned char m_data[0x4C];
+};
+
+// The +0x30 store is initialised by the rowed 0x00042526 zeroing
+// constructor (LargeGroupAudioAudioMap.cpp's Rva0042526Member).
+class Rva0042526Member
+{
+public:
+	Rva0042526Member();
 };
 
 class Thing;
@@ -69,23 +102,23 @@ LargeGroupAudioUpdate::LargeGroupAudioUpdate(Thing *thing, const ModuleData *mod
 {
 	float fzero = 0.0f;
 	int *slotInit20 = (int *)&m_secondary20;
-	*slotInit20 = (int)0x00C6FFFC;
+	*slotInit20 = (int)((unsigned int)vtbl_00C6FFFC);
 	int *slotInit24 = (int *)&m_secondary24;
-	*slotInit24 = (int)0x00BFB698;
+	*slotInit24 = (int)((unsigned int)vtbl_00BFB698);
 	int *vtab = (int *)&m_vtable;
-	*vtab = (int)0x00C549BC;
+	*vtab = (int)((unsigned int)vtbl_00C549BC);
 	int *sec0C = (int *)&m_secondary0C;
-	*sec0C = (int)0x00C54900;
+	*sec0C = (int)((unsigned int)vtbl_00C54900);
 	int *sec10 = (int *)&m_secondary10;
-	*sec10 = (int)0x00C548F0;
+	*sec10 = (int)((unsigned int)vtbl_00C548F0);
 	int *slot20 = (int *)&m_secondary20;
-	*slot20 = (int)0x00C548E8;
+	*slot20 = (int)((unsigned int)vtbl_00C548E8);
 	int *slot24 = (int *)&m_secondary24;
-	*slot24 = (int)0x00C548B8;
+	*slot24 = (int)((unsigned int)vtbl_00C548B8);
 	m_state28 = fzero;
 	m_state2C = fzero;
-	CondStore *cond30 = &m_condition30;
-	cond30->init();
+	CondStore *condStore = &m_condition30;
+	((Rva0042526Member *)condStore)->Rva0042526Member::Rva0042526Member();
 	((_STL::bitset<128> *)m_flags7C)->reset();
 	m_state90 |= -1;
 	m_flag8C = false;

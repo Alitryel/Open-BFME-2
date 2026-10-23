@@ -1,4 +1,4 @@
-// cl: /O1 /GX /DNDEBUG /MD
+// cl: /GX /DNDEBUG /MD /Ireference/shims/moduledata
 //
 // ??1AIUpdateModuleData@@UAE@XZ, retail 0x00494BE4, 52 bytes.
 // AIUpdate ModuleData dtor: releases the +0x10 holder through the rowed
@@ -9,24 +9,10 @@
 // 0x18 per WeaponModeSpecialPowerUpdateModuleDataCtor.cpp derived offsets
 // +0x18/+0x1C) and vtable 0x00870220 with slot 0 ??_G at 0x0058957E.
 // Shape follows AudioLoopUpgradeModuleDataDtor / BloodthirstyUpdateModuleDataDtor
-// (TU-local Snapshot with inline BBB554-restoring dtor, novtable suppresses
-// the derived vtable store retail lacks, empty derived body).
+// (shared Snapshot base with BBB554-restoring dtor; novtable suppresses the
+// derived vtable store retail lacks, leaving an empty derived body).
 
-class Xfer;
-
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc(Xfer *xfer);
-	virtual void loadPostProcess();
-	virtual void xfer(Xfer *xfer);
-};
-
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
-}
+#include "Common/Snapshot.h"
 
 class OpaqueRefCounted
 {

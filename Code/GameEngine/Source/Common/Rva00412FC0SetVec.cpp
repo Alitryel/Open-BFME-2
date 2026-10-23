@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /Ireference/shims/bfmecamera /O2 /Ireference/open-bfme-1/Code/GameEngine/Source/Common
+// cl: /Ireference/shims/bfmecamera /Ireference/open-bfme-1/Code/GameEngine/Source/Common
 
 class Vector3
 {
@@ -8,8 +8,8 @@ public:
 	float Z;
 
 	Vector3(void) {};
-	Vector3(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; }
-	Vector3 &operator = (const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; return *this; }
+	Vector3(const Vector3 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; }
+	Vector3 &operator = (const Vector3 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; return *this; }
 };
 
 class Rva00412FC0

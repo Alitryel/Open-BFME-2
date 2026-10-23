@@ -2,6 +2,14 @@
 
 void sendFeslMessage( void *message, const char *route, void *connection ) throw();
 
+// The pinned buffer/capacity ctor and +0x10/+0x14 buffer fields identify the
+// message layout; key/value types select the matched record add accessors.
+// Its derived destructor is chosen over the folded BfmeMsg base destructor.
+#pragma comment(linker, "/alternatename:??0FeslEchoMessage@@QAE@PADH@Z=??0BfmeMsgVJH@@QAE@PADH@Z")
+#pragma comment(linker, "/alternatename:??1FeslEchoMessage@@QAE@XZ=??1BfmeMsgVJH@@UAE@XZ")
+#pragma comment(linker, "/alternatename:?addInt@FeslEchoMessage@@QAEXPBDH@Z=?addInt@Rva007E8810Message@@QAEXPBDH@Z")
+#pragma comment(linker, "/alternatename:?addString@FeslEchoMessage@@QAEXPBD0@Z=?addString@Rva007E8810Message@@QAEXPBD0@Z")
+
 class FeslEchoMessage
 {
 public:
@@ -39,11 +47,6 @@ private:
 	int m_transactionId;
 };
 
-extern char g_feslTransactionIdKey[];
-extern char g_feslTypeKey[];
-extern char g_feslUserIdKey[];
-extern char g_feslSecretKey[];
-extern char g_feslDirectRoute[];
 
 // ?notifyEcho@FeslEchoNotifier@@QAEXXZ
 void FeslEchoNotifier::notifyEcho()
@@ -58,12 +61,12 @@ void FeslEchoNotifier::notifyEcho()
 	message.m_type = 'ECHO';
 	message.m_20 = 0;
 	message.m_ready = 1;
-	message.addInt( g_feslTransactionIdKey, m_transactionId );
-	message.addInt( g_feslTypeKey, 1 );
+	message.addInt( (char *)"TID", m_transactionId );
+	message.addInt( (char *)"TYPE", 1 );
 	if( m_userId[ 0 ] )
 	{
-		message.addString( g_feslUserIdKey, m_userId );
-		message.addString( g_feslSecretKey, m_secret );
+		message.addString( (char *)"UGID", m_userId );
+		message.addString( (char *)"SECRET", m_secret );
 	}
-	sendFeslMessage( &message, g_feslDirectRoute, m_connection );
+	sendFeslMessage( &message, (char *)"->D", m_connection );
 }

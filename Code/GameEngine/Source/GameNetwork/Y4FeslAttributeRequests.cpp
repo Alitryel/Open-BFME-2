@@ -39,35 +39,9 @@ struct Rva007FC810Attribute
 	const char *m_value;
 };
 
+// Rva007FC810: defined in Y4FeslAttributeRequest.cpp (its row's unit).
 void __stdcall Rva007FC810( Rva007E8810Message *msg, const char *name,
-	const Rva007FC810Attribute *attributes, int numAttributes, int join )
-{
-	int index;
-
-	msg->reset();
-	msg->m_category = 'UGAM';
-	msg->m_depth = 3;
-	msg->addString( "NAME", name );
-	for( index = 0; index < numAttributes; index++ )
-	{
-		char key[ 0x40 ] = "";
-
-		sprintf( key, "B-%s", attributes[ index ].m_key );
-		msg->addString( key, attributes[ index ].m_value );
-	}
-	switch( join )
-	{
-		case 0:
-			msg->addString( "JOIN", "O" );
-			break;
-		case 1:
-			msg->addString( "JOIN", "W" );
-			break;
-		case 2:
-			msg->addString( "JOIN", "C" );
-			break;
-	}
-}
+	const Rva007FC810Attribute *attributes, int numAttributes, int join );
 
 void __stdcall Rva007FC8F0( Rva007E8810Message *msg,
 	const Rva007FC810Attribute *attributes, int numAttributes )
@@ -86,41 +60,13 @@ void __stdcall Rva007FC8F0( Rva007E8810Message *msg,
 	}
 }
 
+// Rva007FC990: defined in Y4FeslAttributeRequestPid.cpp (its row's unit).
 void __stdcall Rva007FC990( Rva007E8810Message *msg, int pid,
-	const Rva007FC810Attribute *attributes, int numAttributes )
-{
-	int index;
+	const Rva007FC810Attribute *attributes, int numAttributes );
 
-	msg->reset();
-	msg->m_category = 'UPLA';
-	msg->m_depth = 3;
-	msg->addInt( "PID", pid );
-	for( index = 0; index < numAttributes; index++ )
-	{
-		char key[ 0x40 ] = "";
-
-		sprintf( key, "P-%s", attributes[ index ].m_key );
-		msg->addString( key, attributes[ index ].m_value );
-	}
-}
-
+// Rva007FCBA0: defined in Y4FeslAttributeRequestPid.cpp (its row's unit).
 void __stdcall Rva007FCBA0( Rva007E8810Message *msg, int pid,
-	const Rva007FC810Attribute *attributes, int numAttributes )
-{
-	int index;
-
-	msg->reset();
-	msg->m_category = 'PENT';
-	msg->m_depth = 3;
-	msg->addInt( "PID", pid );
-	for( index = 0; index < numAttributes; index++ )
-	{
-		char key[ 0x40 ] = "";
-
-		sprintf( key, "P-%s", attributes[ index ].m_key );
-		msg->addString( key, attributes[ index ].m_value );
-	}
-}
+	const Rva007FC810Attribute *attributes, int numAttributes );
 
 void __stdcall Rva007FCB10( Rva007E8810Message *msg, bool allowed, int pid,
 	int reason )

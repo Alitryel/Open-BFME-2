@@ -291,7 +291,9 @@ public:
 	RenderObjClass(void);
 	RenderObjClass(const RenderObjClass & src);
 	RenderObjClass & RenderObjClass::operator = (const RenderObjClass &);
-	virtual ~RenderObjClass(void)																					{ if (RenderHook) delete RenderHook; }
+	// BFME: retail's destructor (0x0013BE20, RenderObjCopy.cpp) does not delete
+	// RenderHook; its body only runs the base destructors.
+	virtual ~RenderObjClass(void)																					{ }
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -516,7 +518,11 @@ public:
 	virtual int		Get_LOD_Count(void) const																	{ return 1; }
 	virtual void	Set_LOD_Bias(float bias)																	{ }
 	virtual int	Calculate_Cost_Value_Arrays(float screen_area, float *values, float *costs) const;
+#if defined(BFME_RENDEROBJ_SIZE_LOD)
+	virtual RenderObjClass *	Get_Current_LOD(void);
+#else
 	virtual RenderObjClass *	Get_Current_LOD(void)														{ Add_Ref(); return this; }
+#endif
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -560,7 +566,15 @@ public:
    virtual int						Get_Sort_Level(void) const										{ return 0; /* SORT_LEVEL_NONE */ }
    virtual void					Set_Sort_Level(int level)										{ }
 
+// The bit setters below are emitted only by the units that hold their retail rows:
+// BFME_RO_DEFINE_VISIBILITY in RenderObjO1Inlines.cpp, BFME_RO_DEFINE_FLAGS in
+// HeightMap.cpp. Every other unit only declares them, so its vtables reference
+// the one retail copy instead of emitting a differently-compiled COMDAT.
+#ifdef BFME_RO_DEFINE_VISIBILITY
 	virtual int						Is_Really_Visible(void)														{ return ((Bits & IS_NOT_HIDDEN_AT_ALL) == IS_NOT_HIDDEN_AT_ALL) && Is_Visible(); }
+#else
+	virtual int						Is_Really_Visible(void);
+#endif
 	virtual int						Is_Not_Hidden_At_All(void)													{ return ((Bits & IS_NOT_HIDDEN_AT_ALL) == IS_NOT_HIDDEN_AT_ALL); }
 	virtual int						Is_Visible(void) const														{ return (Bits & IS_VISIBLE); }
 	// BFME: retail Set_Visible takes a second parameter (stored at member 0x90);
@@ -572,39 +586,74 @@ public:
 //	virtual void					Set_VisibleWithCheatSpy(int onoff)								{ if (onoff) { Bits |= IS_VISIBLE|0x80; } else { Bits &= ~IS_VISIBLE; } }
 
 	virtual int						Is_Hidden(void) const														{ return !(Bits & IS_NOT_HIDDEN); }
+#ifdef BFME_RO_DEFINE_VISIBILITY
 	virtual void					Set_Hidden(int onoff)														{ if (onoff) { Bits &= ~IS_NOT_HIDDEN; } else { Bits |= IS_NOT_HIDDEN; } }
+#else
+	virtual void					Set_Hidden(int onoff);
+#endif
 	virtual int						Is_Animation_Hidden(void) const											{ return !(Bits & IS_NOT_ANIMATION_HIDDEN); }
+#ifdef BFME_RO_DEFINE_VISIBILITY
 	virtual void					Set_Animation_Hidden(int onoff)											{ if (onoff) { Bits &= ~IS_NOT_ANIMATION_HIDDEN; } else { Bits |= IS_NOT_ANIMATION_HIDDEN; } }
+#else
+	virtual void					Set_Animation_Hidden(int onoff);
+#endif
 	virtual int						Is_Force_Visible(void) const												{ return Bits & IS_FORCE_VISIBLE; }
 	// BFME drift: out-of-line in retail (0x91F890) — callers emit a call instead
 	// of inlining the Bits update (ParticleBufferClass ctor at 0x9897A7).
 	virtual void					Set_Force_Visible(int onoff);
 
 	virtual int						Is_Translucent(void) const													{ return Bits & IS_TRANSLUCENT; }
+#ifdef BFME_RO_DEFINE_VISIBILITY
 	virtual void					Set_Translucent(int onoff)													{ if (onoff) { Bits |= IS_TRANSLUCENT; } else { Bits &= ~IS_TRANSLUCENT; } }
+#else
+	virtual void					Set_Translucent(int onoff);
+#endif
 	virtual int						Is_Alpha(void) const														{ return Bits & IS_ALPHA; }
+#ifdef BFME_RO_DEFINE_FLAGS
 	virtual void					Set_Alpha(int onoff)														{ if (onoff) { Bits |= IS_ALPHA; } else { Bits &= ~IS_ALPHA; } }
+#else
+	virtual void					Set_Alpha(int onoff);
+#endif
 	virtual int						Is_Additive(void) const													{ return Bits & IS_ADDITIVE; }
-	virtual void					Set_Additive(int onoff)														{ if (onoff) { Bits |= IS_ADDITIVE; } else { Bits &= ~IS_ADDITIVE; } }
+	virtual void					Set_Additive(int onoff);	// defined out of line in RenderObjAccessors.cpp (0x0006CF8C)
 	// BFME: four unidentified retail flag get/set pairs between Set_Additive
 	// and Get_Collision_Type (Bits masks 0x02000000, 0x04000000, 0x08000000,
 	// 0x01000000 in retail).
 	virtual int						_bfme_ro_flag109(void) const												{ return Bits & 0x02000000; }
+#ifdef BFME_RO_DEFINE_FLAGS
 	virtual void					_bfme_ro_flag110(int onoff)												{ if (onoff) { Bits |= 0x02000000; } else { Bits &= ~0x02000000; } }
+#else
+	virtual void					_bfme_ro_flag110(int onoff);
+#endif
 	virtual int						_bfme_ro_flag111(void) const												{ return Bits & 0x04000000; }
+#ifdef BFME_RO_DEFINE_FLAGS
 	virtual void					_bfme_ro_flag112(int onoff)												{ if (onoff) { Bits |= 0x04000000; } else { Bits &= ~0x04000000; } }
+#else
+	virtual void					_bfme_ro_flag112(int onoff);
+#endif
 	virtual int						_bfme_ro_flag113(void) const												{ return Bits & 0x08000000; }
+#ifdef BFME_RO_DEFINE_FLAGS
 	virtual void					_bfme_ro_flag114(int onoff)												{ if (onoff) { Bits |= 0x08000000; } else { Bits &= ~0x08000000; } }
+#else
+	virtual void					_bfme_ro_flag114(int onoff);
+#endif
 	virtual int						_bfme_ro_flag115(void) const												{ return Bits & 0x01000000; }
+#ifdef BFME_RO_DEFINE_FLAGS
 	virtual void					_bfme_ro_flag116(int onoff)												{ if (onoff) { Bits |= 0x01000000; } else { Bits &= ~0x01000000; } }
+#else
+	virtual void					_bfme_ro_flag116(int onoff);
+#endif
 	// BFME: retail Get_Collision_Type returns (Bits & 0xFFE) | 1; Set_Collision_Type
 	// is out-of-line with a second recursion parameter (retail @ 0x91FA10).
 	virtual int						Get_Collision_Type(void) const											{ return (Bits & 0xFFE) | 1; }
 	virtual void					Set_Collision_Type(int type, bool recurse = false);
    virtual bool					Is_Complete(void)																{ return false; }
 	virtual bool					Is_In_Scene(void)																{ return Scene != NULL; }
-	virtual float					Get_Native_Screen_Size(void) const										{ return NativeScreenSize; }
-	virtual void					Set_Native_Screen_Size(float screensize)								{ NativeScreenSize = screensize; }
+	// BFME: retail's RenderObjClass vtable has no native-screen-size slots
+	// (Is_In_Scene at slot 123 is followed by Create_Decal), as in the
+	// bfme2renderobj shim; non-virtual and declared only.
+	float								Get_Native_Screen_Size(void) const;
+	void								Set_Native_Screen_Size(float screensize);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Render Object Interface - Decals
@@ -693,31 +742,36 @@ protected:
 	unsigned long					_bfme_unk_14;
 	Matrix3D							Transform;
  	float						ObjectScale;					//user applied scaling factor inside Transform matrix.
-	unsigned int				ObjectColor;					//user applied coloring to the asset/prototype used to make this robj. - For Generals -MW
 	mutable SphereClass			CachedBoundingSphere;
 	mutable AABoxClass			CachedBoundingBox;
-	float								NativeScreenSize;		// The screen size at which the object was designed to be viewed (used in texture resizing).
+	// BFME offsets from retail RenderObjClass accessors (bfme2renderobj agrees):
+	// Get_Bounding_Sphere 0x0006D028 / Get_Bounding_Box 0x0006D03E return
+	// this+0x4C / +0x5C, Is_In_Scene 0x0006D01F tests Scene@0x78,
+	// Get/Set_User_Data 0x0030C8A7 / 0x0006CEB2 use User_Data@0x80, Set_Visible
+	// 0x0013B710 stores its token at 0x88. Retail has no ObjectColor before the
+	// sphere; NativeScreenSize@0x84 (retail slots 70/71 get/set a float there)
+	// and ObjectColor@0xA0 (in the former tail pad) are inferred placements.
 	mutable bool					IsTransformIdentity;
 
 	SceneClass *					Scene;
 	RenderObjClass *				Container;
 	void *							User_Data;
+	float								NativeScreenSize;		// The screen size at which the object was designed to be viewed (used in texture resizing).
+	unsigned long					_bfme_unk_88;			// scene token stored by retail Set_Visible (0x0013B710)
 
-	// BFME: retail has four members between User_Data@0x88 and RenderHook@0x9C —
-	// the 0x8C and 0x98 float-pair targets above, plus 0x90 (written by retail
-	// Set_Visible) and 0x94.  RenderHook@0x9C is pinned by the retail dtor.
+	// BFME: retail members between the Set_Visible token@0x88 and RenderHook@0x9C:
+	// the 0x8C and 0x98 float-pair targets above, plus 0x90 and 0x94.  RenderHook@0x9C is pinned by the retail dtor.
 	float								_bfme_unk_8c;
 	unsigned long					_bfme_unk_90;
 	unsigned long					_bfme_unk_94;
 	float								_bfme_unk_98;
 
 	RenderHookClass *				RenderHook;
+	unsigned int				ObjectColor;					//user applied coloring to the asset/prototype used to make this robj. - For Generals -MW
 
-	// sizeof(RenderObjClass) is 0xC4 in BFME, not 0xC8.  Every member this class
-	// itself owns is already right -- Bits@0x10, Transform@0x18, Scene@0x80,
-	// User_Data@0x88 are each pinned by a matched accessor -- so the four bytes
-	// are in the TAIL, and they move every derived class's members with them.
-	char								_bfme_base_pad[0x24];
+	// sizeof(RenderObjClass) is 0xC4 in BFME, not 0xC8 (Bits@0x10 and
+	// Transform@0x18 are pinned by matched accessors); the tail pad keeps it.
+	char								_bfme_base_pad[0x20];
 
 	friend class SceneClass;
 	friend class RenderObjProxyClass;
@@ -810,5 +864,15 @@ WWINLINE bool RenderObjClass::Is_Transform_Identity_No_Validity_Check() const
 {
 	return IsTransformIdentity;
 }
+
+
+#if defined(BFME_RENDEROBJ_SIZE_LOD)
+// Native Get_Current_LOD at 0x0007E4AF uses the six-byte inc-dword form.
+// An out-of-class definition lets MSVC apply size optimization just here.
+#pragma optimize("t", off)
+#pragma optimize("s", on)
+inline RenderObjClass *RenderObjClass::Get_Current_LOD(void) { Add_Ref(); return this; }
+#pragma optimize("", on)
+#endif
 
 #endif

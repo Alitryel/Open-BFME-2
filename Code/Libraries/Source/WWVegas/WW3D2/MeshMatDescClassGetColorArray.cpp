@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /MD /O1 /Ob2 /EHsc
+// cl: /DNDEBUG /MD /Ob2 /EHsc
 //
 // MeshMatDescClass::Get_Color_Array, retail 0x00D1FBD (105 bytes). BFME1
 // header-inline shape (reference/.../meshmatdesclayout/meshmatdesc.h in this
@@ -56,7 +56,7 @@ private:
 	ShareBufferClass<unsigned> *m_colorArray[2]; // +0x50
 };
 
-unsigned *MeshMatDescClass::Get_Color_Array(int index, bool create)
+inline unsigned *MeshMatDescClass::Get_Color_Array(int index, bool create)
 {
 	if (create && !m_colorArray[index]) {
 		m_colorArray[index] = new ShareBufferClass<unsigned>(m_vertexCount, "MeshMatDescClass::ColorArray");
@@ -66,3 +66,9 @@ unsigned *MeshMatDescClass::Get_Color_Array(int index, bool create)
 	}
 	return 0;
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. Taking each one's
+// address keeps this unit's copy for its row; these pointers are not retail
+// data.
+unsigned * (MeshMatDescClass::*_bfmeInlineAnchor_MeshMatDescClassGetColorArray_0)(int index, bool create) = &MeshMatDescClass::Get_Color_Array;

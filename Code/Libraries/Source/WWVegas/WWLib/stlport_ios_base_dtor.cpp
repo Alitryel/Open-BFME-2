@@ -21,7 +21,7 @@ extern "C" __declspec(dllimport) void __cdecl free(void *block);
 namespace _STL
 {
 
-void __cdecl free(void *block);
+extern "C" void __cdecl free(void *block) throw(...);
 
 
 template <class T>
@@ -128,16 +128,7 @@ ios_base::~ios_base()
 
 	::free(_M_callbacks);
 	::free(_M_iwords);
-	::free(_M_pwords);
-}
-
-ios_base::ios_base()
-	: _M_fmtflags(0), _M_iostate(0), _M_openmode(0), _M_seekdir(0),
-	  _M_exception_mask(0), _M_precision(0), _M_width(0), _M_locale(),
-	  _M_callbacks(0), _M_callback_capacity(0), _M_num_callbacks(0), _M_iwords(0),
-	  _M_num_iwords(0), _M_pwords(0), _M_num_pwords(0), _M_cached_ctype(0),
-	  _M_cached_numpunct(0), _M_cached_grouping()
-{
+ ::free(_M_pwords);
 }
 
 }

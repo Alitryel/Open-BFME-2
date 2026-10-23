@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE2
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
 // ?GetGameLogicRandomValue@@YAHHHPADH@Z @ 0x00233FF4 (86B) trial port
 // from Open-BFME-1 Code/GameEngine/Source/Common/System/random_value.cpp
 // (GetGameLogicRandomValue). Dedicated TU mirroring the landed Real twin;
@@ -35,3 +35,7 @@ Int GetGameLogicRandomValue(Int lo, Int hi, char *file, int line)
 
 	return rval;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?entEnragedInitialValue@@YAHHIPBXH@Z=?GetGameLogicRandomValue@@YAHHHPADH@Z")

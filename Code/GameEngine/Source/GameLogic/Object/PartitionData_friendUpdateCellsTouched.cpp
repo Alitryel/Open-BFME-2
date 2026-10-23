@@ -25,7 +25,7 @@ private:
 };
 
 // ?friend_updateCellsTouched@PartitionData@@QAEXXZ
-void PartitionData::friend_updateCellsTouched()
+inline void PartitionData::friend_updateCellsTouched()
 {
 	if (m_bfmeDirtyPrevLink != 0)
 	{
@@ -36,3 +36,14 @@ void PartitionData::friend_updateCellsTouched()
 	}
 	updateCellsTouched();
 }
+
+// Header inlines that the units including the header emit as select-any
+// copies, which plain definitions here collided with. The anchor keeps this
+// unit's copies for the rows; it is not retail code.
+#pragma inline_depth(0)
+// ?_bfmePartitionDataInlineAnchor@@YAXPAVPartitionData@@@Z absent-from-retail
+void _bfmePartitionDataInlineAnchor(PartitionData *partitionData)
+{
+    partitionData->friend_updateCellsTouched();
+}
+#pragma inline_depth()

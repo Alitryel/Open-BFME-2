@@ -2,21 +2,16 @@
 // WWLib HashTableClass, verbatim from the Generals Zero Hour reference
 // (GeneralsMD/.../WWVegas/WWLib/hash.cpp). /DNDEBUG makes WWASSERT a no-op; /MD
 // matches the retail CRT (_strcmpi). Hash() calls the already-matched CRC_Stringi.
-#include "rendobj.h"	// the bfmerendobj shim has to win the include guard
+// Current BF1 repair e04d5580a6207e1ca717241f283cc343d61220d9:
+// retail hash-table allocation calls scalar operator new/delete. Suppress
+// always.h's array-operator declarations, as its real hash.cpp build did.
+// Target ctor613C20 and dtor613B90 independently prove the same callees.
+#define _OPERATOR_NEW_DEFINED_
 #include "hash.h"
 #include "wwdebug.h"
 #include "realcrc.h"
 
 #include <string.h>
-
-// BFME's ARRAY operators forward to the scalar ones: always.h declares
-// operator new[]/delete[] and defines neither, so an inline forwarder is folded
-// away at the call site and array new/delete reach ??2@YAPAXI@Z (0x0002FDA0)
-// and ??3@YAXPAX@Z (0x0002FD60) rather than ??_U (0x0002FDE0) / ??_V
-// (0x0002FD80).  Kept here only because every row this unit already holds still
-// byte-verifies with it.
-inline void * __cdecl operator new[](size_t s) { return ::operator new(s); }
-inline void __cdecl operator delete[](void * p) { ::operator delete(p); }
 
 /*
 ** HashTableClass
@@ -32,14 +27,15 @@ HashTableClass::HashTableClass( int size ) :
 	Reset();
 }
 
-// ??1HashTableClass@@ present-unmatched
+// Retail 0x613B90..0x613B9B (11B): release the array pointer at +4
+// through scalar operator delete. The constructor at 0x613C20 and Reset at
+// 0x613BA0 prove size at +0 and table at +4, with no vtable prefix. Native
+// has no null branch or trailing pointer store; the reference's destructor
+// previously emitted 28B and was left unrowed. This replaces the virtual
+// Rva00613B90 owner with HashTableClass's established nonvirtual identity.
 HashTableClass::~HashTableClass( void )
 {
-	// If we need to, free the hash table
-	if ( HashTable != NULL) {
-		delete [] HashTable;
-		HashTable = NULL;
-	}
+    ::operator delete(HashTable);
 }
 
 void	HashTableClass::Reset( void )

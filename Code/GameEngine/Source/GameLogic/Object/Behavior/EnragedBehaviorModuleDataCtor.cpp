@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /arch:SSE
+// cl: /DNDEBUG /MD
 //
 // ??0EnragedBehaviorModuleData@@QAE@XZ, retail 0x00458F7C, 22 bytes.
 // Root ModuleData ctor (no base call): installs vtable 0x00C4ED70
@@ -8,8 +8,31 @@
 // data factory (news 0x0C, sole caller at 0x24ADE2). Row supersedes the
 // ctor pin.
 
+extern "C" const void *const vtbl_00C4ED70[];  // folded, 9 classes; via ??_7BeaconClientUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4ED70=??_7BeaconClientUpdateModuleData@@6B@")
+
 class MultiIniFieldParse;
-struct FieldParse;
+class INI;
+typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
+struct FieldParse
+{
+	const char *token;
+	INIFieldParseProc parse;
+	const void *userData;
+	int offset;
+};
+
+class INI
+{
+public:
+	static void parseReal(INI *ini, void *instance, void *store, const void *userData);
+};
+
+// Retail VA 0x00C40F90 (.rdata): 1 field records and a zero sentinel.
+extern const FieldParse g_00C40F90[] = {
+	{ "EnragedLifeTimer", &INI::parseReal, 0, 0x8 },
+	{ 0, 0, 0, 0 }
+};
 
 class MultiIniFieldParse
 {
@@ -36,12 +59,12 @@ private:
 EnragedBehaviorModuleData::EnragedBehaviorModuleData()
 {
 	float cap = 99999.0f;
-	*(unsigned int *)this = 0x00C4ED70;
+	*(unsigned int *)this = ((unsigned int)vtbl_00C4ED70);
 	m_cap = cap;
 }
 
 // ?buildFieldParse@EnragedBehaviorModuleData@@SAXAAVMultiIniFieldParse@@@Z @0x00458F92
 void EnragedBehaviorModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
-	parse.add(reinterpret_cast<const FieldParse *>(0x00C40F90), 0);
+	parse.add(g_00C40F90, 0);
 }

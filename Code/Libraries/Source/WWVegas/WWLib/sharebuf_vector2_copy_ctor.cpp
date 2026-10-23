@@ -1,4 +1,4 @@
-// cl: /G7 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 //
 // ShareBufferClass<Vector2> copy constructor at 0x0015CD00.
 //
@@ -13,23 +13,10 @@
 void *operator new[](unsigned int size);
 inline void *operator new(unsigned int, void *place) { return place; }
 
-class Vector2
-{
-public:
-	Vector2();
-	Vector2 &operator=(const Vector2 &that)
-	{
-		X = that.X;
-		Y = that.Y;
-		return *this;
-	}
-
-private:
-	float X;
-	float Y;
-};
+#include "../../../../../reference/shims/wwmath/Vector2.h"
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib/refcount.h
+#pragma optimize("s", on)
 class RefCountClass
 {
 public:
@@ -43,6 +30,7 @@ protected:
 private:
 	int NumRefs;
 };
+#pragma optimize("", on)
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib/sharebuf.h,
 // with BFME's RawBuffer/Alignment pair around Zero Hour's Array and Count.
@@ -51,6 +39,7 @@ class ShareBufferClass : public RefCountClass
 {
 public:
 	ShareBufferClass(const ShareBufferClass &);
+	virtual ~ShareBufferClass();
 
 protected:
 	Type *RawBuffer;

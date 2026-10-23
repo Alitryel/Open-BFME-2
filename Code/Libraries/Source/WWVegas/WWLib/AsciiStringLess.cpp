@@ -3,22 +3,12 @@
 // Free AsciiString::operator< at 0x0005598C (23B). Leaf over the matched
 // StringBase<char>::compare row at 0x69D6.
 
-typedef bool Bool;
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
-template <typename T> class StringBase
+#pragma inline_depth(0)
+// ?bfmeEmitAsciiStringLess@@YAXPBVAsciiString@@0@Z present-unmatched
+void bfmeEmitAsciiStringLess(const AsciiString *asciiString, const AsciiString *b)
 {
-public:
-    int compare(const StringBase<T> &that) const;
-
-private:
-    void *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-};
-
-Bool operator<(const AsciiString &left, const AsciiString &right)
-{
-    return (left.compare(right) < 0) || false;
+    operator<(*asciiString, *b);
 }
+#pragma inline_depth()

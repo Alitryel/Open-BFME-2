@@ -16,6 +16,7 @@ import struct
 import sys
 
 import build
+import claims
 import re_log
 import yield_model
 
@@ -91,7 +92,7 @@ def collect_rows():
 
 
 def matched_body_index(rows_by_source, max_bytes):
-    """Exact binary bytes of every matched row -> row. A naked body that
+    """Exact binary bytes of every recovered source row -> row. A naked body that
     byte-verifies is a literal copy of the binary, so an already-matched
     function is recognizable by its bytes even when the symbol comment is
     missing or the source mangles the name differently than the ledger."""
@@ -100,7 +101,7 @@ def matched_body_index(rows_by_source, max_bytes):
     index = {}
     for rows in rows_by_source.values():
         for row in rows:
-            if row["status"] != "matched":
+            if row["status"] != "matched" or build.is_scaffold_row(row):
                 continue
             size = int(row["target_size"])
             if not 0 < size <= max_bytes:
@@ -156,26 +157,75 @@ def block_bytes(lines, start):
 
 DB_RE = re.compile(r"^\s*db\s+(.*)$")
 PROC_RE = re.compile(r"^(\S+)\s+PROC\b")
+GHIDRA_RVA_RE = re.compile(r"; ghidra: \S+\s+retail @ 0x([0-9A-Fa-f]+) size \d+")
+_RVA_MAX = (1 << 32) - 1
+
+
+def matched_row_ranges(rows_by_source):
+    """Sorted (start, end) retail ranges backed by recovered source.
+
+    A dump PROC inside a recovered parent's range is done work, whatever its
+    symbol says. A gen-dump row proves only a boundary and stays open work.
+    """
+    ranges = []
+    for rows in rows_by_source.values():
+        for row in rows:
+            if row["status"] != "matched" or build.is_scaffold_row(row):
+                continue
+            start = int(row["target_rva"], 16)
+            ranges.append((start, start + int(row["target_size"])))
+    ranges.sort()
+    return ranges
+
+
+def asm_rva_contained(ranges, rva, length):
+    """True when a PROC's [rva, rva+length) sits fully inside one matched
+    row's retail range, as for an EH-prologue stub of a rowed parent."""
+    if rva is None:
+        return False
+    import bisect
+
+    pos = bisect.bisect_right(ranges, (rva, _RVA_MAX)) - 1
+    return pos >= 0 and rva + length <= ranges[pos][1]
+
+
+def asm_already_matched(own, symbol_rows, data, body_index):
+    """True when a gen-asm PROC is already covered by a matched row: by its
+    own row, by the symbol under another source, or by its exact EXE bytes.
+    A naked dump body that byte-verifies is a literal copy of the binary, so
+    serving it again lures agents into redoing landed work."""
+    for rows in (own, symbol_rows):
+        if any(row.get("status") == "matched" and not build.is_scaffold_row(row)
+               for row in rows):
+            return True
+    return data in body_index
 
 
 def asm_proc_blocks(lines):
-    """(symbol, body bytes, start index, end index) per PROC in a MASM dump.
+    """(symbol, body bytes, start line, end line, retail rva) per PROC.
 
     Code/gen_asm/ holds the scaled dump pass: 4.5 MB of machine bodies in `db`
     rows, which no __declspec(naked) scan can see. Without this reader the
     convert lane goes empty the moment dumping replaces the .cpp wave form.
+    The retail rva comes from the `; ghidra: FUN_xxx retail @ 0x...) size N`
+    comment above each PROC (None when the dump omits it).
     """
     blocks = []
-    start, symbol, data = None, None, []
+    start, symbol, data, rva = None, None, [], None
     for index, line in enumerate(lines):
         match = PROC_RE.match(line)
         if match:
-            start, symbol, data = index, match.group(1), []
+            start, symbol, data, rva = index, match.group(1), [], None
+            for back in range(index - 1, max(index - 5, -1), -1):
+                found = GHIDRA_RVA_RE.search(lines[back])
+                if found:
+                    rva = int(found.group(1), 16)
+                    break
             continue
         if start is None:
             continue
         if line.startswith(symbol) and " ENDP" in line:
-            blocks.append((symbol, bytes(data), start, index))
+            blocks.append((symbol, bytes(data), start, index, rva))
             start = None
             continue
         db = DB_RE.match(line)
@@ -274,6 +324,17 @@ def stash_for_item(item):
     return path.relative_to(build.ROOT).as_posix(), score
 
 
+def candidate_rva(item):
+    try:
+        return int(item["rva"], 16) if item.get("rva") else None
+    except ValueError:
+        return None
+
+
+def without_busy(candidates, busy):
+    return [item for item in candidates if candidate_rva(item) not in busy]
+
+
 def drop_logged(candidates):
     """Remove candidates whose BOUNDARY the fleet has already refuted.
 
@@ -361,6 +422,28 @@ def select_candidate(candidates):
     raise AssertionError("select_candidate fell through its cumulative walk")
 
 
+def claim_choice(candidates):
+    """Claim one tracked draw, retrying after a remote claim race."""
+    remaining = [item for item in candidates if candidate_rva(item) is not None]
+    while remaining:
+        selected, meta = select_candidate(remaining)
+        rva = candidate_rva(selected)
+        try:
+            acquired, refused = claims.claim([rva], note="naked conversion")
+        except claims.ClaimsUnavailable as error:
+            if rva in error.refused:    # origin showed a peer holding it
+                remaining = without_busy(remaining, {rva})
+                continue
+            # AGENTS.md: the picker warns and serves the body unclaimed
+            print(f"list_naked_candidates: {error}; serving 0x{rva:08X} without a shared claim",
+                  file=sys.stderr)
+            return selected, meta, list(error.claimed)
+        if rva not in refused:
+            return selected, meta, acquired
+        remaining = without_busy(remaining, {rva})
+    return None, {"pool": 0}, []
+
+
 def parse_shard(value):
     try:
         index_text, count_text = value.split("/", 1)
@@ -407,6 +490,8 @@ def main():
     parser.add_argument("--all", action="store_true", help="include untracked naked functions")
     parser.add_argument("--ranked", action="store_true",
                         help="show the complete ranking for humans/debugging")
+    parser.add_argument("--claim", action="store_true",
+                        help="claim the selected RVA on origin before serving it; retry a raced selection")
     parser.add_argument("--groups", action="store_true",
                         help="with --ranked, group repeated naked byte patterns")
     parser.add_argument("--limit", type=int, default=30,
@@ -424,11 +509,14 @@ def main():
     parser.add_argument("--json", action="store_true",
                         help="emit the filtered candidate queue as machine-readable JSON")
     args = parser.parse_args()
+    if args.claim and (args.ranked or args.json):
+        parser.error("--claim selects one candidate; omit --ranked and --json")
     if args.groups and not args.ranked:
         parser.error("--groups requires --ranked")
 
     row_by_source, rows_by_name = collect_rows()
     body_index = matched_body_index(row_by_source, args.max_bytes)
+    body_ranges = matched_row_ranges(row_by_source)
     files = []
     for raw in args.paths:
         path = build.ROOT / raw
@@ -451,18 +539,26 @@ def main():
             lines = text.splitlines()
             source_rows = row_by_source.get(rel, [])
             unmatched = sum(1 for row in source_rows if row["status"] != "matched")
-            for symbol, data, start, end in asm_proc_blocks(lines):
+            for symbol, data, start, end, rva in asm_proc_blocks(lines):
                 if not data or len(data) > args.max_bytes:
                     continue
                 own = [row for row in rows_by_name.get(symbol, [])
                        if row["source"] == rel]
                 if not own and not args.all:
                     continue
+                if asm_already_matched(own, rows_by_name.get(symbol, []),
+                                       data, body_index):
+                    already_matched += 1
+                    continue
+                if asm_rva_contained(body_ranges, rva, len(data)):
+                    already_matched += 1
+                    continue
                 score, reasons = score_candidate(data, "")
                 candidates.append({
                     "score": score, "path": rel, "line": start + 1,
                     "end": end + 1, "size": len(data),
-                    "rva": own[0]["target_rva"] if own else None,
+                    "rva": (own[0]["target_rva"] if own
+                            else (f"0x{rva:08X}" if rva is not None else None)),
                     "bytes": data, "symbol": symbol, "tracked": bool(own),
                     "status": own[0]["status"] if own else "untracked",
                     "signature": "", "reasons": reasons,
@@ -490,7 +586,7 @@ def main():
                 # matched — by name under another source, or (when the symbol
                 # comment is missing) by its exact bytes; listing it as
                 # "untracked" lures agents into redoing done work
-                if any(r["status"] == "matched" for r in symbol_rows) or data in body_index:
+                if asm_already_matched([], symbol_rows, data, body_index):
                     already_matched += 1
                     continue
             if not row and not args.all:
@@ -526,6 +622,7 @@ def main():
     retired_count = sum(candidate["symbol"] in retired for candidate in candidates)
     candidates = [candidate for candidate in candidates
                   if candidate["symbol"] not in retired]
+    candidates = without_busy(candidates, claims.busy_rvas())
     candidates = apply_shard(candidates, args.shard)
     rank_candidates(candidates)
     # Layer the boundary/status-aware index on top of the 3-field retirement
@@ -551,11 +648,18 @@ def main():
                           "excluded_logged": retired_count}, indent=2))
         return
     if not args.ranked:
-        selected, meta = select_candidate(candidates)
+        if args.claim:
+            claims.settle()    # release this checkout's landings origin/master now holds
+            selected, meta, acquired = claim_choice(candidates)
+        else:
+            selected, meta = select_candidate(candidates)
+            acquired = []
         if selected is None:
             print("No validated naked-asm candidates remain in the requested paths.")
             return
         print(f"== selected naked-asm conversion (drawn from {meta['pool']}) ==")
+        if acquired:
+            print(f"  claim: 0x{acquired[0]:08X} held on origin; release it if work is abandoned")
         print(f"  {selected['symbol'] or selected['signature'] or '(unnamed)'}")
         print(f"  {selected['size']} bytes  {selected['path']}:{selected['line']}")
         if meta.get("packet"):

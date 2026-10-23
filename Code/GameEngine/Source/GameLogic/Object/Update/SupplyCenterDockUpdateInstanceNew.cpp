@@ -21,7 +21,15 @@ private:
 };
 
 // ?friend_newModuleInstance@SupplyCenterDockUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *SupplyCenterDockUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *SupplyCenterDockUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new SupplyCenterDockUpdate(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitSupplyCenterDockUpdateInstanceNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitSupplyCenterDockUpdateInstanceNew(Thing *thing, const ModuleData *moduleData)
+{
+	SupplyCenterDockUpdate::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

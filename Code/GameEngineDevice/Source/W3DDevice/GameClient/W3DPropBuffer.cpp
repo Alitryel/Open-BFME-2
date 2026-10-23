@@ -1,7 +1,18 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /D__PLACEMENT_VEC_NEW_INLINE /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/stlp_nodealloc /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBuffer.cpp); this unit had no counterpart under Code/.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -58,7 +69,12 @@
 #include "Common/PerfTimer.h"
 #include "Common/Player.h"
 #include "Common/PlayerList.h"
+// CameraClass::Cull_Sphere (emitted for cull) is retail's speed-optimised body at
+// 0x00135960, which W3DScene.cpp also emits: define camera.h's inline members for speed.
+#pragma optimize("s", off)
+#pragma optimize("t", on)
 #include "WW3D2/Camera.h"
+#pragma optimize("", on)
 #include "WW3D2/RInfo.h"
 #include "WW3D2/Light.h"
 #include "WW3D2/DX8Wrapper.h"
@@ -87,6 +103,7 @@
 /** Culls the props, marking the visible flag.  If a prop becomes visible, it sets
 it's sortKey */
 //=============================================================================
+// ?cull@W3DPropBuffer@@ present-unmatched
 void W3DPropBuffer::cull(CameraClass * camera)
 {
 	Int curProp;
@@ -108,15 +125,6 @@ void W3DPropBuffer::cull(CameraClass * camera)
 //=============================================================================
 /** Destructor. Releases w3d assets. */
 //=============================================================================
-W3DPropBuffer::~W3DPropBuffer(void)
-{
-	Int i;
-	for (i=0; i<MAX_TYPES; i++) {
-		REF_PTR_RELEASE(m_propTypes[i].m_robj);
-	}
-	REF_PTR_RELEASE(m_light);
-	REF_PTR_RELEASE(m_propShroudMaterialPass);
-}
 
 //=============================================================================
 // W3DPropBuffer::W3DPropBuffer
@@ -124,15 +132,8 @@ W3DPropBuffer::~W3DPropBuffer(void)
 /** Constructor. Sets m_initialized to true if it finds the w3d models it needs
 for the props. */
 //=============================================================================
-W3DPropBuffer::W3DPropBuffer(void)
-{
-	memset(this, sizeof(W3DPropBuffer), 0);
-	m_initialized = false;
-	clearAllProps();
-	m_light = NEW_REF( LightClass, (LightClass::DIRECTIONAL) );
-	m_propShroudMaterialPass = NEW_REF(W3DShroudMaterialPassClass,());
-	m_initialized = true;
-}
+// W3DPropBuffer::W3DPropBuffer is defined with its retail-matched body in
+// W3DPropBufferCtor.cpp (0x000EF008).
 
 
 
@@ -143,6 +144,7 @@ W3DPropBuffer::W3DPropBuffer(void)
 //=============================================================================
 /** Removes all props. */
 //=============================================================================
+// ?clearAllProps@W3DPropBuffer@@ present-unmatched
 void W3DPropBuffer::clearAllProps(void)
 {
 	m_numProps=0;
@@ -159,25 +161,6 @@ void W3DPropBuffer::clearAllProps(void)
 //=============================================================================
 /** Adds a type of prop (model & texture). */
 //=============================================================================
-Int W3DPropBuffer::addPropType(const AsciiString &modelName)
-{
-	if (m_numPropTypes>=MAX_TYPES) {
-		DEBUG_CRASH(("Too many kinds of props in map.  Reduce kinds of props, or raise prop limit. jba.")); 
-		return 0;
-	}
-
-	m_propTypes[m_numPropTypes].m_robj = WW3DAssetManager::Get_Instance()->Create_Render_Obj(modelName.str());
-	if (m_propTypes[m_numPropTypes].m_robj==NULL) {
-		DEBUG_CRASH(("Unable to find model for prop %s\n", modelName.str()));
-		return -1;
-	}
-	m_propTypes[m_numPropTypes].m_robjName = modelName;
-	
-	SphereClass bounds = m_propTypes[m_numPropTypes].m_robj->Get_Bounding_Sphere();
-	m_propTypes[m_numPropTypes].m_bounds = bounds;
-	m_numPropTypes++;
-	return m_numPropTypes-1;
-}
 
 //=============================================================================
 // W3DPropBuffer::addProp
@@ -185,125 +168,26 @@ Int W3DPropBuffer::addPropType(const AsciiString &modelName)
 /** Adds a prop.  Name is the W3D model name, supported models are
 ALPINE, DECIDUOUS and SHRUB. */
 //=============================================================================
-void W3DPropBuffer::addProp(Int id, Coord3D location, Real angle,Real scale, const AsciiString &modelName)
-{
-	if (m_numProps >= MAX_PROPS) {
-		return;  
-	}
-	if (!m_initialized) {
-		return;  
-	}
-	Int propType = -1;
-	Int i;
-	for (i=0; i<m_numPropTypes; i++) {
-		if (m_propTypes[i].m_robjName.compareNoCase(modelName)==0) {
-			propType = i;
-			break;
-		}
-	}
-	if (propType<0) {
-		propType = addPropType(modelName);
-		if (propType<0) {
-			return;
-		}
-	}
-
-	Matrix3D mtx(true);
-	mtx.Rotate_Z(angle);
-	mtx.Scale(scale);
-	mtx.Set_Translation(Vector3(location.x, location.y, location.z));
-
-	m_props[m_numProps].location = location;
-	m_props[m_numProps].id = id;
-	m_props[m_numProps].ss = OBJECTSHROUD_INVALID;
-	m_props[m_numProps].m_robj = m_propTypes[propType].m_robj->Clone();
-	m_props[m_numProps].m_robj->Set_Transform(mtx);
-	m_props[m_numProps].m_robj->Set_ObjectScale(scale);
-	m_props[m_numProps].propType = propType;
-	// Translate the bounding sphere of the model.
-	m_props[m_numProps].bounds = m_propTypes[propType].m_bounds;
-	m_props[m_numProps].bounds.Center += Vector3(location.x, location.y, location.z);
-	// Initially set it invisible.  cull will update it's visiblity flag.
-	m_props[m_numProps].visible = false;
-
-	m_numProps++;
-}
 
 //=============================================================================
 // W3DPropBuffer::updatePropPosition
 //=============================================================================
-/** Updates a prop's position */
-//=============================================================================
-Bool W3DPropBuffer::updatePropPosition(Int id, const Coord3D &location, Real angle, Real scale)
-{
-	Int i;
-	for (i=0; i<m_numProps; i++) {
-		if (m_props[i].id == id) {
-			Matrix3D mtx(true);
-			mtx.Rotate_Z(angle);
-			mtx.Scale(scale);
-			mtx.Set_Translation(Vector3(location.x, location.y, location.z));
-			m_props[i].location = location;
-			m_props[i].m_robj->Set_Transform(mtx);
-			m_props[i].m_robj->Set_ObjectScale(scale);
-			// Translate the bounding sphere of the model.
-			m_props[i].bounds = m_propTypes[m_props[i].propType].m_bounds;
-			m_props[i].bounds.Center += Vector3(location.x, location.y, location.z);
-			m_anythingChanged = true;
-			return true;
-		}
-	}
-	return false;
-}
+// The position-update body lives under W3DPropBufferUpdatePropPosition.cpp
+// (retail row); this TU keeps only the class declaration so callers bind the
+// kept copy and this unit emits no competing COMDAT.
 
-//=============================================================================
 // W3DPropBuffer::removeProp
 //=============================================================================
 /** Removes a prop.  */
 //=============================================================================
-void W3DPropBuffer::removeProp(Int id)
-{
-	Int i;
-	for (i=0; i<m_numProps; i++) {
-		if (m_props[i].id == id) {
-			m_props[i].location.set(0,0,0);
-			m_props[i].propType = -1;
-			REF_PTR_RELEASE(m_props[i].m_robj);
-			// Translate the bounding sphere of the model.
-			m_props[i].bounds.Center = Vector3(0,0,0);
-			m_props[i].bounds.Radius = 1;
-			m_anythingChanged = true;
-		}
-	}
-}
+// W3DPropBuffer::removeProp is defined with its retail-matched body in Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferRemoveProp.cpp (0x000EDFCE).
 
 //=============================================================================
 // W3DPropBuffer::removePropsForConstruction
 //=============================================================================
 /** Removes any props that would be under a building.  */
 //=============================================================================
-void W3DPropBuffer::removePropsForConstruction(const Coord3D* pos, const GeometryInfo& geom, Real angle )
-{
-	// Just iterate all trees, as even non-collidable ones get removed. jba. [7/11/2003]
-	Int i;
-	for (i=0; i<m_numProps; i++) {				
-		if (m_props[i].m_robj == NULL) {
-			continue; // already deleted.
-		}
-		Real radius = m_props[i].bounds.Radius;
-		GeometryInfo info(GEOMETRY_CYLINDER, false, 5*radius, 2*radius, 2*radius);
-		if (ThePartitionManager->geomCollidesWithGeom( pos, geom, angle, &m_props[i].location, info, 0.0f)) {
-			// remove it [7/11/2003]
-			m_props[i].location.set(0,0,0);
-			m_props[i].propType = -1;
-			REF_PTR_RELEASE(m_props[i].m_robj);
-			// Translate the bounding sphere of the model.
-			m_props[i].bounds.Center = Vector3(0,0,0);
-			m_props[i].bounds.Radius = 1;
-			m_anythingChanged = true;
-		} 
-	}
-}
+// W3DPropBuffer::removePropsForConstruction is defined with its retail-matched body in Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferRemovePropsForConstruction.cpp (0x000EF154).
 
 
 
@@ -312,13 +196,20 @@ void W3DPropBuffer::removePropsForConstruction(const Coord3D* pos, const Geometr
 //=============================================================================
 /** Sets the shroud to status, so it is recomputed.  */
 //=============================================================================
+// Retail reads the manager slot at 0xDFE74C here. TerrainLogic's target body
+// calls TheShroudManager through that same slot; ThePartitionManager is at
+// 0xDFE748.
+extern PartitionManager *TheShroudManager;
+
+#pragma optimize("s", on)
 void W3DPropBuffer::notifyShroudChanged()
 {
 	Int i;
 	for (i=0; i<m_numProps; i++) {
-		m_props[i].ss = ThePartitionManager?OBJECTSHROUD_INVALID:OBJECTSHROUD_CLEAR;
+		m_props[i].ss = TheShroudManager?OBJECTSHROUD_INVALID:OBJECTSHROUD_CLEAR;
 	}
 }
+#pragma optimize("", on)
 
 
 DECLARE_PERF_TIMER(Prop_Render)
@@ -328,76 +219,19 @@ DECLARE_PERF_TIMER(Prop_Render)
 //=============================================================================
 /** Draws the props.  Uses camera to cull. */
 //=============================================================================
-void W3DPropBuffer::drawProps(RenderInfoClass &rinfo)
-{
-	USE_PERF_TIMER(Prop_Render)
-
-	Int i;
-	if (m_doCull) {
-		cull(&rinfo.Camera);
-	}
-	const GlobalData::TerrainLighting *objectLighting = TheGlobalData->m_terrainObjectsLighting[TheGlobalData->m_timeOfDay];
-
-	LightEnvironmentClass lightEnv;
-	Vector3 center(0,0,0); // arbitrary center point. [6/6/2003]
-	Vector3 ambient(objectLighting[0].ambient.red, objectLighting[0].ambient.green, objectLighting[0].ambient.blue);
-	lightEnv.Reset(center, ambient);
-
-	Matrix3D mtx;
-	const Vector3 zeroVector(0.0f, 0.0f, 0.0f);
-	const Vector3 xVector(1.0f, 0.0f, 0.0f);
-	const Vector3 yVector(0.0f, 1.0f, 0.0f);
-
-	for (i = 0; i < MAX_GLOBAL_LIGHTS; ++i)
-	{
-			m_light->Set_Ambient(zeroVector);
-			m_light->Set_Diffuse(Vector3(objectLighting[i].diffuse.red,
-																		 objectLighting[i].diffuse.green,
-																		 objectLighting[i].diffuse.blue));
-			m_light->Set_Specular(zeroVector);
-			mtx.Set(xVector, yVector, Vector3(objectLighting[i].lightPos.x, objectLighting[i].lightPos.y, objectLighting[i].lightPos.z), zeroVector);
-			m_light->Set_Transform(mtx);
-			lightEnv.Add_Light(*m_light);
-	}
-	
-	rinfo.light_environment = &lightEnv;
-	for	(i=0; i<m_numProps; i++) {
-		if (!m_props[i].visible) {
-			continue;
-		}
-		if (m_props[i].m_robj==NULL) {
-			continue;
-		}
-		if (!ThePlayerList || !ThePartitionManager) {
-			//  in Worldbuilder. No shroud either. jba. [6/9/2003]
-			m_props[i].ss = OBJECTSHROUD_CLEAR;
-		}
-		if (m_props[i].ss == OBJECTSHROUD_INVALID) {
-			Int localPlayerIndex = ThePlayerList ? ThePlayerList->getLocalPlayer()->getPlayerIndex() : 0;
-			m_props[i].ss = ThePartitionManager->getPropShroudStatusForPlayer(localPlayerIndex, &m_props[i].location);
-		}
-		if (m_props[i].ss >= OBJECTSHROUD_SHROUDED) {
-			continue;
-		}
-		if (m_props[i].ss <= OBJECTSHROUD_INVALID) {
-			continue;
-		}
-		if (TheTerrainRenderObject->getShroud() && m_props[i].ss != CELLSHROUD_CLEAR) {
-			rinfo.Push_Material_Pass(m_propShroudMaterialPass);
-			m_props[i].m_robj->Render(rinfo);
-			rinfo.Pop_Material_Pass();
-		} else {
-			m_props[i].m_robj->Render(rinfo);
-		}
-	}
-	rinfo.light_environment = NULL;
-
-}
+// W3DPropBuffer::drawProps is rowed in W3DPropBufferDrawProps.cpp; the Zero Hour copy
+// here was a non-retail second definition. It also emitted two inline rows of this
+// unit; these pointers are compile anchors for them, not retail data claims.
+extern void (Matrix3D::*const _bfmeInlineAnchorMatrix3DSet)(const Vector3 &, const Vector3 &, const Vector3 &, const Vector3 &) =
+	&Matrix3D::Set;
+extern void (Vector4::*const _bfmeInlineAnchorVector4Set)(float, float, float, float) =
+	&Vector4::Set;
 
 
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
+// ?crc@W3DPropBuffer@@ present-unmatched
 void W3DPropBuffer::crc( Xfer *xfer )
 {
 	// empty. jba [8/11/2003]	
@@ -408,22 +242,22 @@ void W3DPropBuffer::crc( Xfer *xfer )
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
-void W3DPropBuffer::xfer( Xfer *xfer )
-{
-
-	// version
-	XferVersion currentVersion = 1;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
-
-
-}  // end xfer
+// The xfer body lives under W3DPropBufferRva000EE901.cpp (retail row); this TU
+// keeps only the class declaration so callers bind the kept copy and this
+// unit emits no competing COMDAT.
 
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
+// ?loadPostProcess@W3DPropBuffer@@ present-unmatched
 void W3DPropBuffer::loadPostProcess( void )
 {
 	// empty. jba [8/11/2003]	
 }  // end loadPostProcess
 
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?crc@GeometryInfo@@MAEXPAVXfer@@@Z=??_GRva0050B2A@@UAEPAXI@Z")
+#pragma comment(linker, "/alternatename:?xfer@GeometryInfo@@MAEXPAVXfer@@@Z=??1Coord2D@@QAE@XZ")

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
+// cl: /Ireference/shims/diemodule_link /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
 // stlport
 #define Matrix4x4 Matrix4  // BFME renamed it
 #define __PLACEMENT_VEC_NEW_INLINE  // always.h/GameMemory.h define array placement-new themselves
@@ -34,6 +34,7 @@
 
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
 #define DEFINE_SLOWDEATHPHASE_NAMES
 
@@ -54,6 +55,51 @@
 #include "GameLogic/ObjectCreationList.h"
 #include "GameLogic/Weapon.h"
 #include "GameClient/Drawable.h"
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@PBVObjectCreationList@@V?$allocator@PBVObjectCreationList@@@_:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ObjectCreationList;
+namespace _STL { template <> void vector<ObjectCreationList const *,allocator<ObjectCreationList const *> >::_M_insert_overflow(ObjectCreationList const * *,ObjectCreationList const * const &,__true_type const &,unsigned int,bool); }
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@PBVWeaponTemplate@@V?$allocator@PBVWeaponTemplate@@@_STL@@@_STL@@IAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class WeaponTemplate;
+namespace _STL { template <> void vector<WeaponTemplate const *,allocator<WeaponTemplate const *> >::_M_clear(); }
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@PBVObjectCreationList@@V?$allocator@PBVObjectCreationList@@@_STL@@@_STL:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ObjectCreationList;
+namespace _STL { template <> void vector<ObjectCreationList const *,allocator<ObjectCreationList const *> >::_M_clear(); }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@PBVWeaponTemplate@@@_STL@@QBEXPAPBVWeaponTemplate@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class WeaponTemplate;
+namespace _STL { template <> void allocator<WeaponTemplate const *>::deallocate(WeaponTemplate const * *,unsigned int) const; }
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@PBVWeaponTemplate@@@_STL@@QBEPAPBVWeaponTemplate@@IPBX@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class WeaponTemplate;
+namespace _STL { template <> WeaponTemplate const * * allocator<WeaponTemplate const *>::allocate(unsigned int,void const *) const; }
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@PBVObjectCreationList@@@_STL@@QBEPAPBVObjectCreationList@@IPBX@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ObjectCreationList;
+namespace _STL { template <> ObjectCreationList const * * allocator<ObjectCreationList const *>::allocate(unsigned int,void const *) const; }
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@PBVFXList@@@_STL@@QBEPAPBVFXList@@IPBX@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class FXList;
+namespace _STL { template <> FXList const * * allocator<FXList const *>::allocate(unsigned int,void const *) const; }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@PBVObjectCreationList@@@_STL@@QBEXPAPBVObjectCreationList@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ObjectCreationList;
+namespace _STL { template <> void allocator<ObjectCreationList const *>::deallocate(ObjectCreationList const * *,unsigned int) const; }
+// The FXList vector's proxy deallocate is rowed elsewhere (retail copies in
+// the slow-death parsers); this unit's copy is not retail's.
+namespace _STL { template <> void _STLP_alloc_proxy<const FXList **, const FXList *, allocator<const FXList *> >::deallocate(const FXList **, size_t); }
+
+// codegen otherwise instantiates the max<unsigned> COMDAT (one byte shape
+// per TU flags); a file-static overload takes those calls instead so this
+// TU emits no external copy. TRANSITIVE anchor (no angle includes here).
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
 
 //-------------------------------------------------------------------------------------------------
 // ??0InstantDeathBehaviorModuleData@@ is implemented by the exact retail
@@ -95,9 +141,9 @@ static void parseWeapon( INI* ini, void *instance, void * /*store*/, const void*
 }
 
 //-------------------------------------------------------------------------------------------------
-/*static*/ void InstantDeathBehaviorModuleData::buildFieldParse(MultiIniFieldParse& p) 
+/*static*/ void InstantDeathBehaviorModuleData::buildFieldParse(MultiIniFieldParse& multiIniFieldParse) 
 {
-  DieModuleData::buildFieldParse(p);
+  DieModuleData::buildFieldParse(multiIniFieldParse);
 
 	static const FieldParse dataFieldParse[] = 
 	{
@@ -106,78 +152,13 @@ static void parseWeapon( INI* ini, void *instance, void * /*store*/, const void*
 		{ "Weapon",								parseWeapon,											NULL, 0 },
 		{ 0, 0, 0, 0 }
 	};
-  p.add(dataFieldParse);
+  multiIniFieldParse.add(dataFieldParse);
 }
 
-//-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Behavior/InstantDeathBehaviorCtorThunk.cpp
-// ??0InstantDeathBehavior@@ present-unmatched
-InstantDeathBehavior::InstantDeathBehavior( Thing *thing, const ModuleData* moduleData ) : DieModule( thing, moduleData )
-{
-}
-
-//-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 // ??1InstantDeathBehavior@@ present-unmatched
 InstantDeathBehavior::~InstantDeathBehavior( void )
 {
-}
-
-//-------------------------------------------------------------------------------------------------
-// ?onDie@InstantDeathBehavior@@ present-unmatched
-void InstantDeathBehavior::onDie( const DamageInfo *damageInfo )
-{
-	if (!isDieApplicable(damageInfo))
-		return;
-
-	AIUpdateInterface* ai = getObject()->getAIUpdateInterface();
-	if (ai)
-	{
-		// has another AI already handled us. (hopefully another InstantDeathBehavior)
-		if (ai->isAiInDeadState())
-			return;
-		ai->markAsDead();
-	}
-
-	const InstantDeathBehaviorModuleData* d = getInstantDeathBehaviorModuleData();
-
-	Int idx, listSize;
-
-	listSize = d->m_fx.size();
-	if (listSize > 0)
-	{
-		idx = GameLogicRandomValue(0, listSize-1);
-		const FXListVec& v = d->m_fx;
-		DEBUG_ASSERTCRASH(idx>=0&&idx<v.size(),("bad idx"));
-		const FXList* fxl = v[idx];
-		FXList::doFXObj(fxl, getObject(), NULL);
-	}
-
-	listSize = d->m_ocls.size();
-	if (listSize > 0)
-	{
-		idx = GameLogicRandomValue(0, listSize-1);
-		const OCLVec& v = d->m_ocls;
-		DEBUG_ASSERTCRASH(idx>=0&&idx<v.size(),("bad idx"));
-		const ObjectCreationList* ocl = v[idx];
-		ObjectCreationList::create(ocl, getObject(), NULL);
-	}
-
-	listSize = d->m_weapons.size();
-	if (listSize > 0)
-	{
-		idx = GameLogicRandomValue(0, listSize-1);
-		const WeaponTemplateVec& v = d->m_weapons;
-		DEBUG_ASSERTCRASH(idx>=0&&idx<v.size(),("bad idx"));
-		const WeaponTemplate* wt = v[idx];
-		if (wt)
-		{
-			TheWeaponStore->createAndFireTempWeapon(wt, getObject(), getObject()->getPosition());
-		}
-	}
-
-	TheGameLogic->destroyObject(getObject());
 }
 
 // ------------------------------------------------------------------------------------------------

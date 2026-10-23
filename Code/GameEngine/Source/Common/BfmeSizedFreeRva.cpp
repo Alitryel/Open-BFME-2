@@ -7,14 +7,28 @@
 // the PM sibling reaches its own PM pair. The true instance name is not
 // proven by these bytes, so this row rides under an Rva owner.
 
-void bfmeBigFreeVLX(void *at);
-void bfmeSmallFreeVLX(void *at, unsigned int bytes);
+void bfmeBigFreePM(void *at);
+void Rva00028DC0FreeSized(void *at, unsigned int bytes);
+
+namespace _STL
+{
+template <bool __threads, int __inst>
+class __node_alloc;
+
+template <>
+class __node_alloc<true, 0>
+{
+private:
+	static void _M_deallocate(void *p, unsigned int n);
+	friend void ::Rva00028DC0FreeSized(void *at, unsigned int bytes);
+};
+}
 
 // ?Rva00028DC0FreeSized@@YAXPAXI@Z
 void Rva00028DC0FreeSized(void *at, unsigned int bytes)
 {
 	if (bytes > 0x80)
-		bfmeBigFreeVLX(at);
+		bfmeBigFreePM(at);
 	else
-		bfmeSmallFreeVLX(at, bytes);
+		_STL::__node_alloc<true, 0>::_M_deallocate(at, bytes);
 }

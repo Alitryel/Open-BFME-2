@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 // Open-BFME5: clean-C++ RenderObjectUpdateModuleTemplate default constructor.
 
 namespace FXParticleSystem
@@ -17,7 +17,7 @@ class CategoryModuleInfo
 {
 public:
     CategoryModuleInfo() {}
-    virtual void unusedVirtual();
+    virtual void unusedVirtual() = 0;
 
 protected:
     ~CategoryModuleInfo() {}
@@ -28,16 +28,16 @@ class CategoryModuleTemplateBase : public ModuleTemplate,
     public CategoryModuleInfo<Category>
 {
 public:
-    CategoryModuleTemplateBase() {}
-    virtual ~CategoryModuleTemplateBase() {}
+    __declspec(dllimport) __forceinline CategoryModuleTemplateBase() {}
+    __declspec(dllimport) __forceinline virtual ~CategoryModuleTemplateBase() {}
 };
 
 template <int Category>
 class CategoryModuleTemplate : public CategoryModuleTemplateBase<Category>
 {
 public:
-    CategoryModuleTemplate() {}
-    virtual ~CategoryModuleTemplate() {}
+    __declspec(dllimport) __forceinline CategoryModuleTemplate() {}
+    virtual ~CategoryModuleTemplate();
 };
 
 class RenderObjectUpdateModuleInfo
@@ -52,6 +52,7 @@ class RenderObjectUpdateModuleTemplate : public CategoryModuleTemplate<1>,
 {
 public:
     RenderObjectUpdateModuleTemplate();
+    virtual ~RenderObjectUpdateModuleTemplate();
 };
 
 // ??0RenderObjectUpdateModuleTemplate@FXParticleSystem@@QAE@XZ

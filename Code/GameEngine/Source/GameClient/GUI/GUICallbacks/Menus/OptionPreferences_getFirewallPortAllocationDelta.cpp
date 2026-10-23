@@ -1,4 +1,4 @@
-// cl: /O1 /GX- /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /GX- /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // ?getFirewallPortAllocationDelta@OptionPreferences@@QAEFXZ, retail 0x002E4874,
@@ -25,27 +25,8 @@ template <typename T> struct BfmeStringData
 	T text[1];
 };
 
-template <typename T> class StringBase
-{
-	friend class AsciiString;
-private:
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	~StringBase() { releaseBuffer(); }
-	void releaseBuffer();
-	BfmeStringData<T> *m_data;
+#include "ascii_string.h"
 
-public:
-	const T *str() const { return m_data ? &m_data->text[0] : (const T *)""; }
-};
-
-class AsciiString : private StringBase<char>
-{
-public:
-	AsciiString(const char *text) : StringBase<char>(text) {}
-	AsciiString(const AsciiString &other) : StringBase<char>(other) {}
-	~AsciiString() {}
-};
 
 bool operator<(const AsciiString &left, const AsciiString &right);
 
@@ -69,7 +50,7 @@ public:
 	Short m_firewallPortAllocationDelta;
 };
 
-extern GlobalData *TheGlobalData;
+extern class GlobalData *TheWritableGlobalData;
 
 class OptionPreferences : public AsciiPreferenceMap
 {
@@ -83,7 +64,7 @@ Short OptionPreferences::getFirewallPortAllocationDelta()
 {
 	OptionPreferences::const_iterator it = find("FirewallPortAllocationDelta");
 	if (it == end()) {
-		return TheGlobalData->m_firewallPortAllocationDelta;
+		return TheWritableGlobalData->m_firewallPortAllocationDelta;
 	}
 
 	Short delta = atoi(it->second.str());

@@ -1,4 +1,7 @@
-// cl: /G7 /arch:SSE /Ireference/shims/bfmecamera /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
+// cl: /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/zhmd /O1 /G7 /arch:SSE /Ireference/shims/bfmecamera /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
+// Link view first: Vector4(x,y,z,w) stays inline without emitting an SSE
+// copy that competes with retail's integer-move owner (0x006D8A30).
+#include "../../../../../reference/shims/bfme_matrix3d_sse_link/vector4.h"
 // stlport
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
@@ -28,15 +31,23 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
-#include "streakrender.h"
+#include "../../../../../reference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/texture.h"
+#include "../../../../../reference/shims/bfmestreak/streakrender.h"
 #include "ww3d.h"
 #include "rinfo.h"
+#include "../../../../../reference/shims/bfme_seglinerender/seglinerender_dx8vertexbuffer.h"
+#define BFME_SORTING_DWORD_DRAW
 #include "dx8wrapper.h"
 #include "sortingrenderer.h"
+struct TargetCenter3 { float x,y,z; };
+class BfmeSortingDispatchAt0012FE00 { public: static void Insert(const TargetCenter3 &, unsigned, unsigned, unsigned, unsigned); };
 #include "vp.h"
 #include "vector3i.h"
 #include "random.h"
-#include "v3_rnd.h"
+// The retail deleting wrapper uses speed-mode ADD ESP rather than POP ECX.
+// Parse its base class under the same existing speed setting as Set_Texture.
+#pragma optimize("t", on)
+#include "../../../../../reference/shims/bfme_randomizer_dtor/v3_rnd.h"
 
 #ifdef _INTERNAL
 // for occasional debugging...
@@ -62,80 +73,16 @@
 
 
 
-// ??4StreakRendererClass@@QAEAAV0@ABV0@@Z present-unmatched
-StreakRendererClass & StreakRendererClass::operator = (const StreakRendererClass & that)
-{
-	if (this != &that) {
-		REF_PTR_SET(Texture,that.Texture);
-		Shader = that.Shader;
-		Width = that.Width;
-		Color = that.Color;
-		Opacity = that.Opacity;
-		SubdivisionLevel = that.SubdivisionLevel;
-		NoiseAmplitude = that.NoiseAmplitude;
-		MergeAbortFactor = that.MergeAbortFactor;
-		// TextureTileFactor = that.TextureTileFactor;
-		// LastUsedSyncTime = that.LastUsedSyncTime;
-		// CurrentUVOffset = that.CurrentUVOffset;
-		// UVOffsetDeltaPerMS = that.UVOffsetDeltaPerMS;
-		Bits = that.Bits;
-		// Don't modify m_vertexBufferSize and m_vertexBuffer.
-	}
-	return *this;
-}
-
-// ??1StreakRendererClass@@QAE@XZ present-unmatched
-StreakRendererClass::~StreakRendererClass(void)
-{
-	REF_PTR_RELEASE(Texture);
-	delete [] m_vertexBuffer;
-}
-
-// ?Init@StreakRendererClass@@QAEXABUW3dEmitterLinePropertiesStruct@@@Z present-unmatched
-void StreakRendererClass::Init(const W3dEmitterLinePropertiesStruct & props)
-{
-	// translate the flags
-	Set_Merge_Intersections(props.Flags & W3D_ELINE_MERGE_INTERSECTIONS);
-	Set_Freeze_Random(props.Flags & W3D_ELINE_FREEZE_RANDOM);
-	Set_Disable_Sorting(props.Flags & W3D_ELINE_DISABLE_SORTING);
-	Set_End_Caps(props.Flags & W3D_ELINE_END_CAPS);
-
-	int texture_mode = ((props.Flags & W3D_ELINE_TEXTURE_MAP_MODE_MASK) >> W3D_ELINE_TEXTURE_MAP_MODE_OFFSET);
-	switch (texture_mode) 
-	{
-	case W3D_ELINE_UNIFORM_WIDTH_TEXTURE_MAP:
-		Set_Texture_Mapping_Mode(UNIFORM_WIDTH_TEXTURE_MAP);
-		break;
-	case W3D_ELINE_UNIFORM_LENGTH_TEXTURE_MAP:
-		Set_Texture_Mapping_Mode(UNIFORM_LENGTH_TEXTURE_MAP);		
-		break;
-	case W3D_ELINE_TILED_TEXTURE_MAP:
-		Set_Texture_Mapping_Mode(TILED_TEXTURE_MAP);		
-		break;
-	};
-
-	// install all other settings
-	Set_Current_Subdivision_Level(props.SubdivisionLevel);
-	Set_Noise_Amplitude(props.NoiseAmplitude);
-	Set_Merge_Abort_Factor(props.MergeAbortFactor);
-	// Set_Texture_Tile_Factor(props.TextureTileFactor);
-	// Set_UV_Offset_Rate(Vector2(props.UPerSec,props.VPerSec));
-}
+// StreakRendererClass::Init is defined with its retail-matched body in Code/Libraries/Source/WWVegas/WW3D2/StreakRendererInit.cpp (0x00743190).
 
 
 void StreakRendererClass::Set_Texture(TextureClass *texture)
 { 
-	REF_PTR_SET(Texture,texture); 
+	// Use the owned pointer slot for the native reference transaction.
+	TextureClass *&texture_slot = reinterpret_cast<TextureClass *&>(Texture);
+	REF_PTR_SET(texture_slot,texture);
 }
-
-// ?Get_Texture@StreakRendererClass@@ present-unmatched
-TextureClass * StreakRendererClass::Get_Texture(void) const
-{
-	if (Texture != NULL) {
-		Texture->Add_Ref();
-	}
-	return Texture;
-}
+#pragma optimize("", on)
 
 // void StreakRendererClass::Set_Current_UV_Offset(const Vector2 & offset)
 // {
@@ -159,136 +106,9 @@ TextureClass * StreakRendererClass::Get_Texture(void) const
 	// CurrentUVOffset.Set(0.0f,0.0f);
 // }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
-void StreakRendererClass::Render
-(	
-	RenderInfoClass & rinfo,
-	const Matrix3D & transform,
-	unsigned int num_points,
-	Vector3 * points,
-	const SphereClass & obj_sphere
-)
-{
-	//NOTHING!
-	return;
-}
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-void StreakRendererClass::subdivision_util(unsigned int point_cnt, const Vector3 *xformed_pts,
-	const float *base_tex_v, unsigned int *p_sub_point_cnt, Vector3 *xformed_subdiv_pts,
-	float *subdiv_tex_v)
-{
-	// CAUTION: freezing the random offsets will make it more readily apparent that the offsets
-	// are in camera space rather than worldspace.
-	struct StreakRendererRetailLayout {
-		TextureClass *Texture;
-		ShaderClass Shader;
-		float Width;
-		Vector3 Color;
-		float Opacity;
-		unsigned int SubdivisionLevel;
-		float NoiseAmplitude;
-		float MergeAbortFactor;
-		float TextureTileFactor;
-		unsigned int LastUsedSyncTime;
-		Vector2 CurrentUVOffset;
-		Vector2 UVOffsetDeltaPerMS;
-		unsigned int Bits;
-	};
-	const StreakRendererRetailLayout *retail_this =
-		reinterpret_cast<const StreakRendererRetailLayout *>(this);
-	int freeze_random = retail_this->Bits & FREEZE_RANDOM;
-	Random3Class randomize;
-	const float oo_int_max = 1.0f / (float)INT_MAX;
-	Vector3SolidBoxRandomizer randomizer(Vector3(1,1,1));
-	Vector3 randvec(0,0,0);
-	unsigned int sub_pointIndex = 0;
-
-	struct StreakSubdivision {
-		Vector3			StartPos;
-		Vector3			EndPos;
-		float				StartTexV;	// V texture coordinate of start point
-		float				EndTexV;		// V texture coordinate of end point
-		float				Rand;
-		unsigned int	Level;		// Subdivision level
-	};
-
-	StreakSubdivision stack[2 * MAX_STREAK_SUBDIV_LEVELS];	// Maximum number needed
-	int tos = 0;
-
-	for (unsigned int pointIndex = 0; pointIndex < point_cnt - 1; pointIndex++) {
-
-		// Subdivide the (pointIndex, pointIndex + 1) segment. Produce pointIndex and all subdivided points up to
-		// (not including) pointIndex + 1.
-		tos = 0;
-		stack[0].StartPos = xformed_pts[pointIndex];
-		stack[0].EndPos = xformed_pts[pointIndex + 1];
-		stack[0].StartTexV = base_tex_v[pointIndex];
-		stack[0].EndTexV = base_tex_v[pointIndex + 1];
-		stack[0].Rand = NoiseAmplitude;
-		stack[0].Level = 0;
-
-		for (; tos >= 0;) {
-			if (stack[tos].Level == SubdivisionLevel) {
-				// Generate point location and texture V coordinate
-				xformed_subdiv_pts[sub_pointIndex] = stack[tos].StartPos;
-				subdiv_tex_v[sub_pointIndex++] = stack[tos].StartTexV;
-
-				// Pop
-				tos--;
-			} else {
-				// Recurse down: pop existing entry and push two subdivided ones.
-				if (freeze_random) {
-					randvec.Set(randomize * oo_int_max, randomize * oo_int_max, randomize * oo_int_max);
-				} else {
-					randomizer.Get_Vector(randvec);
-				}
-				stack[tos + 1].StartPos = stack[tos].StartPos;
-				stack[tos + 1].EndPos = (stack[tos].StartPos + stack[tos].EndPos) * 0.5f + randvec * stack[tos].Rand;
-				stack[tos + 1].StartTexV = stack[tos].StartTexV;
-				stack[tos + 1].EndTexV = (stack[tos].StartTexV + stack[tos].EndTexV) * 0.5f;
-				stack[tos + 1].Rand = stack[tos].Rand * 0.5f;
-				stack[tos + 1].Level = stack[tos].Level + 1;
-				stack[tos].StartPos = stack[tos + 1].EndPos;
-				// stack[tos].EndPos already has the right value
-				stack[tos].StartTexV = stack[tos + 1].EndTexV;
-				// stack[tos].EndTexV already has the right value
-				stack[tos].Rand = stack[tos + 1].Rand;
-				stack[tos].Level = stack[tos + 1].Level;
-				tos++;
-			}
-		}
-	}
-	// Last point
-	xformed_subdiv_pts[sub_pointIndex] = xformed_pts[point_cnt - 1];
-	subdiv_tex_v[sub_pointIndex++] = base_tex_v[point_cnt - 1];
-
-	// Output:
-	*p_sub_point_cnt = sub_pointIndex;
-}
-
-
-///////     ///////     ///////     ///////     ///////     ///////     ///////     ///////     
-///////     ///////     ///////     ///////     ///////     ///////     ///////     ///////     
-///////     ///////     ///////     ///////     ///////     ///////     ///////     ///////     
-///////     ///////     ///////     ///////     ///////     ///////     ///////     ///////     
-///////     ///////     ///////     ///////     ///////     ///////     ///////     ///////     
-///////     ///////     ///////     ///////     ///////     ///////     ///////     ///////     
-///////     ///////     ///////     ///////     ///////     ///////     ///////     ///////     
-///////     ///////     ///////     ///////     ///////     ///////     ///////     ///////     
-///////     ///////     ///////     ///////     ///////     ///////     ///////     ///////     
-
-
-
-void StreakRendererClass::RenderStreak
+// The native out-of-line renderer is owned by StreakRendererRenderStreak.cpp.
+inline void StreakRendererClass::RenderStreak
 (	
 	RenderInfoClass & rinfo,
 	const Matrix3D & transform,
@@ -483,6 +303,7 @@ void StreakRendererClass::RenderStreak
 
 		struct LineSegment 
 		{
+			__declspec(noinline) LineSegment() {}
 			Vector3	StartPlane;
 			Vector3	EdgePlane[NUM_EDGES];
 		};
@@ -1316,10 +1137,10 @@ void StreakRendererClass::RenderStreak
 		** Render
 		*/		
 		
-		DynamicVBAccessClass Verts((sorting?BUFFER_TYPE_DYNAMIC_SORTING:BUFFER_TYPE_DYNAMIC_DX8),dynamic_fvf_type,vnum);
+		DynamicVBAccessClass Verts((sorting?BUFFER_TYPE_DYNAMIC_SORTING:BUFFER_TYPE_DYNAMIC_DX8),5,vnum,0);
 		// Copy in the data to the  VB
 		{
-			DynamicVBAccessClass::WriteLockClass Lock(&Verts);
+			DynamicVBAccessClass::WriteLock Lock(&Verts);
 			unsigned int i;
 			unsigned char *vb=(unsigned char*)Lock.Get_Formatted_Vertex_Array();			
 			const FVFInfoClass& fvfinfo=Verts.FVF_Info();			
@@ -1373,12 +1194,12 @@ void StreakRendererClass::RenderStreak
 	
 		DX8Wrapper::Set_Index_Buffer(ib_access,0);
 		DX8Wrapper::Set_Vertex_Buffer(Verts);				
-		DX8Wrapper::Set_Texture(0,Texture);
+		DX8Wrapper::Set_Texture(0,Texture.Peek());
 		DX8Wrapper::Set_Shader(shader);
 
 		if (sorting) 
 		{	
-			SortingRendererClass::Insert_Triangles(obj_sphere,0,triangleIndex,0,vnum);
+			BfmeSortingDispatchAt0012FE00::Insert(reinterpret_cast<const TargetCenter3&>(obj_sphere),0,triangleIndex,0,vnum);
 		} 
 		else 
 		{
@@ -1396,28 +1217,26 @@ void StreakRendererClass::RenderStreak
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
-// BFME keeps the pair 0x18 higher than this tree does: m_vertexBufferSize at
-// StreakRendererClass+0x44 and m_vertexBuffer at +0x48, against +0x2c and
-// +0x30 here. Five sites in this body, all of them these two members.
-#define BFME_STREAK_VBSIZE(s) (*(unsigned int *)((char *)(s) + 0x44))
-#define BFME_STREAK_VB(s)     (*(VertexFormatXYZUV1 **)((char *)(s) + 0x48))
-VertexFormatXYZUV1 *StreakRendererClass::getVertexBuffer(unsigned int number)
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
+#pragma comment(linker, "/alternatename:?DeviceProjectionMatrix@DX8Wrapper@@1VMatrix4@@A=?g_mapperProjectionUpload_009EDBF0@@3VMatrix4@@A")
+
+// Keep Random3Class's rowed conversion emitted.
+// ?bfmeStreakRandomAnchor absent-from-retail
+int bfmeStreakRandomAnchor(Random3Class &random)
 {
-	// TODO: use a stl vector instead of our own array.
-	if (number > BFME_STREAK_VBSIZE(this))
-	{
-		unsigned int numberToAlloc = number + (number >> 1);
-	  delete [] BFME_STREAK_VB(this);
-		BFME_STREAK_VB(this) = W3DNEWARRAY VertexFormatXYZUV1[numberToAlloc];		
-		BFME_STREAK_VBSIZE(this) = numberToAlloc;
-	}
+    return random;
+}
 
-#ifdef _INTERNAL
-	for (unsigned i = 0; i < number; ++i)
-	{
-	  m_vertexBuffer[i].x = m_vertexBuffer[i].y = m_vertexBuffer[i].z = m_vertexBuffer[i].u1 = m_vertexBuffer[i].v1 = (float)0xdeadbeef;
-	}
-#endif
-
-	return BFME_STREAK_VB(this);
+// Keep the rowed matrix inlines emitted independently of RenderStreak.
+// ?bfmeStreakMatrixAnchor absent-from-retail
+void bfmeStreakMatrixAnchor(Matrix3D *rows, Matrix4 *identity, Matrix4 *transpose,
+    const Matrix4 &source, bool make_identity, const float *values)
+{
+    new (rows) Matrix3D(values[0], values[1], values[2], values[3],
+        values[4], values[5], values[6], values[7],
+        values[8], values[9], values[10], values[11]);
+    new (identity) Matrix4(make_identity);
+    new (transpose) Matrix4(source.Transpose());
+    DX8Wrapper::Set_Transform(D3DTS_WORLD, source);
 }

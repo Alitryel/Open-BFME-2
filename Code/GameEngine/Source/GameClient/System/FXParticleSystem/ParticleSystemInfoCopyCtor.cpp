@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc
+// cl: /Ireference/shims/bfme2_ascii /O1 /EHsc
 
 namespace FXParticleSystem
 {
@@ -11,57 +11,13 @@ class AsciiString;
 // object is not available as a usable public header.  The member widths and
 // offsets follow the BFME2 copy body and the corresponding GeneralsMD
 // ParticleSys.h layout.
-template <typename T>
-class StringBase
-{
-    friend class FXParticleSystem::ParticleSystemInfo;
-    friend class AsciiString;
-
-private:
-    StringBase(const StringBase<T> &that);
-
-    struct Header
-    {
-        int ref_count;
-        unsigned short length;
-        unsigned short capacity;
-        T data[1];
-    };
-
-    void releaseBuffer();
-    Header *m_data;
-
-public:
-    void set(const StringBase<T> &that);
-};
+#include "ascii_string.h"
 
 inline void *operator new(unsigned int, void *storage)
 {
     return storage;
 }
 
-class AsciiString
-{
-public:
-    AsciiString(const AsciiString &that)
-        : m_data(that.m_data)
-    {
-    }
-
-    AsciiString &operator=(const AsciiString &that)
-    {
-        m_data.set(that.m_data);
-        return *this;
-    }
-
-    ~AsciiString()
-    {
-        m_data.releaseBuffer();
-    }
-
-private:
-    StringBase<char> m_data;
-};
 
 struct ThreeDwords
 {
@@ -70,29 +26,10 @@ struct ThreeDwords
     unsigned int value2;
 };
 
-class Coord3D
-{
-public:
-    Coord3D(const Coord3D &that)
-        : x(that.x), y(that.y), z(that.z)
-    {
-    }
+// Coord3D: shared header/view; no private copy.
+#include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
-private:
-    float x;
-    float y;
-    float z;
-};
-
-struct Region2D
-{
-    __declspec(nothrow) Region2D(const Region2D &that);
-
-    float x_min;
-    float y_min;
-    float x_max;
-    float y_max;
-};
+#include "../../../../../Libraries/Include/Lib/Region2D.h"
 
 class Xfer;
 
@@ -186,3 +123,8 @@ __declspec(noinline) ParticleSystemInfo *forceParticleSystemInfoCopy(
 }
 
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?LoadPostProcess@ParticleSystemInfo@FXParticleSystem@@UAEXXZ=?GetSnapshotName@ParticleSystemInfo@FXParticleSystem@@UAEPBDXZ")

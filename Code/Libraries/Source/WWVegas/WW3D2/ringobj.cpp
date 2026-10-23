@@ -1,7 +1,49 @@
-﻿// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/shims/sweep
+﻿// cl: /DBFME_WWSTRING_NATIVE_COPY_ASSIGN /DBFME_WWSTRING_NATIVE_COPY_CTOR /DBFME_WWSTRING_NATIVE_LENGTH /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/bfme /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/bfmestages /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/shims/sweep
+// Bind Get_Length to the already matched native 48-byte provider at 0x0011FB10.
+// This /G6 unit emits a 46-byte copy; changing it to /G7 also changes refcount helpers.
 // stlport
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+
+// BFME 2 has no W3D memory pools (see Code/Libraries/Source/WWVegas/WWLib/always.h).
+// This /Od unit emits an out-of-line copy of every inline it calls, so its
+// Matrix3D::Translate(Vector3) COMDAT is not retail's 0x0007B3C6 body and,
+// as the first copy in link order, blocks ObjectGetSingleLogicalBonePosition.
+// TU-local rename (same device as the ShaderClass setters below) keeps the
+// row's call byte-identical while no ?Translate@Matrix3D copy competes here.
+#define Translate Translate_Ringobj
+// Link view first: Matrix3D(), Matrix3D(bool) and Matrix3D(const Matrix3D&) stay inline without
+// emitting /O2 copies that compete with retail's owners (0x000423C5, 0x0004C91A, 0x0006645C).
+#include "../../../../../reference/shims/bfme_matrix3d_full_link/matrix3d_full_link.h"
+#undef Translate
+#include "always.h"
+#undef W3DMPO_GLUE
+#define W3DMPO_GLUE(ARGCLASS)
 #define Matrix4x4 Matrix4  // BFME renamed it
 #define __PLACEMENT_VEC_NEW_INLINE  // always.h/GameMemory.h define array placement-new themselves
+// Link view: Matrix4(Matrix3D), Init(Matrix3D), Matrix4(Vector4 x4) and Transpose stay inline without
+// emitting copies that, first in link order, displace retail's owners (0x0006A34E, 0x0006A3D1).
+#include "../../../../../reference/shims/bfme_matrix4_rows_link/matrix4_bfme1_rows_link.h"
+// This unit has no /O1 /arch:SSE, so the ShaderClass setters it inlines are emitted here as COMDATs that are not
+// the /O1 bodies retail keeps (rowed in the units that do compile with them); every use is inlined, so
+// TU-local names keep them from competing with those copies.
+#define Set_Primary_Gradient Set_Primary_Gradient_RV
+#define Set_Secondary_Gradient Set_Secondary_Gradient_RV
+#define Set_Depth_Compare Set_Depth_Compare_RV
+#define Set_Depth_Mask Set_Depth_Mask_RV
+#define Set_Color_Mask Set_Color_Mask_RV
+#define Set_Dst_Blend_Func Set_Dst_Blend_Func_RV
+#define Set_Src_Blend_Func Set_Src_Blend_Func_RV
+#define Set_Fog_Func Set_Fog_Func_RV
 // stlport
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -170,37 +212,7 @@ float RingLODCosts[RING_NUM_LOD + 1];	// RING_NUM_LOD doesn't include the null L
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ??0RingRenderObjClass@@ present-unmatched
-RingRenderObjClass::RingRenderObjClass(void)
-	:	anim_time (0.0F),
-		IsAnimating(false),
-		LODBias(1.0f),
-		CurrentLOD(RING_NUM_LOD),	// RING_NUM_LOD does not include the null LOD
-		AnimDuration (0.0F),
-		RingMaterial (NULL),
-		RingTexture (NULL),
-		Color (0.75F,0.75F,0.75F),
-		InnerScale (1, 1),
-		OuterScale (1, 1),
-		Alpha (1.0F),
-		Flags(0),
-		TextureTileCount(5),
-		ObjSpaceCenter (0, 0, 0),
-		ObjSpaceExtent (1, 1, 1),
-		InnerExtent (0.5F, 0.5F),
-		OuterExtent (1.0F, 1.0F)
-{
-	Generate_Shared_Mesh_Arrays ();
-
-	memset(Name,0,sizeof(Name));
-
-	Init_Material () ;
-
-	// So that the object is ready for use after construction, we will
-	// complete its initialization by initializing its value array
-	// according to a screen area of 1.
-	calculate_value_array(1.0f, Value);
-}
+// [provider-fix: suppressed unmatched ctor/dtor to avoid emitting vtable with Od RenderObjClass virtuals]
 
 /***********************************************************************************************
  * RingRenderObjClass::RingRenderObjClass -- Constructor - init from a definition          *
@@ -214,44 +226,7 @@ RingRenderObjClass::RingRenderObjClass(void)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ??0RingRenderObjClass@@ present-unmatched
-RingRenderObjClass::RingRenderObjClass(const W3dRingStruct & def)
-	:	anim_time (0.0F),
-		IsAnimating(false),
-		LODBias(1.0f),
-		CurrentLOD(RING_NUM_LOD),	// RING_NUM_LOD does not include the null LOD
-		AnimDuration (0.0F),
-		RingMaterial (NULL),
-		RingTexture (NULL),
-		Color (0.75F,0.75F,0.75F),
-		InnerScale (1, 1),
-		OuterScale (1, 1),
-		Alpha (1.0F),
-		Flags(0),
-		TextureTileCount(5),
-		ObjSpaceCenter (0, 0, 0),
-		ObjSpaceExtent (1, 1, 1),
-		InnerExtent (0.5F, 0.5F),
-		OuterExtent (1.0F, 1.0F)
-{
-	Generate_Shared_Mesh_Arrays ();
-	Init_Material ();
-	
-	//
-	//	Initialize from the defintion
-	//
-	Set_Name(def.Name);
-	Set_Local_Center_Extent (	Vector3 (def.Center.X, def.Center.Y, def.Center.Z),
-										Vector3 (def.Extent.X, def.Extent.Y, def.Extent.Z));	
-	if (def.TextureName[0] != 0) {
-		RingTexture = WW3DAssetManager::Get_Instance ()->Get_Texture (def.TextureName);
-	}
-
-	// So that the object is ready for use after construction, we will
-	// complete its initialization by initializing its value array
-	// according to a screen area of 1.
-	calculate_value_array(1.0f, Value);
-}
+// [provider-fix: suppressed unmatched ctor/dtor to avoid emitting vtable with Od RenderObjClass virtuals]
 
 
 /***********************************************************************************************
@@ -266,36 +241,7 @@ RingRenderObjClass::RingRenderObjClass(const W3dRingStruct & def)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ??0RingRenderObjClass@@ present-unmatched
-RingRenderObjClass::RingRenderObjClass(const RingRenderObjClass & src)
-	:	anim_time (0.0F),
-		IsAnimating(false),
-		LODBias(1.0f),
-		CurrentLOD(RING_NUM_LOD),	// RING_NUM_LOD does not include the null LOD
-		AnimDuration (0.0F),
-		RingMaterial (NULL),
-		RingTexture (NULL),
-		Color (0.75F,0.75F,0.75F),
-		InnerScale (1, 1),
-		OuterScale (1, 1),
-		Alpha (1.0F),
-		Flags(0),
-		TextureTileCount(5),
-		ObjSpaceCenter (0, 0, 0),
-		ObjSpaceExtent (1, 1, 1),
-		InnerExtent (0.5F, 0.5F),
-		OuterExtent (1.0F, 1.0F)
-{
-	Generate_Shared_Mesh_Arrays ();
-	Init_Material ();
-
-	*this = src;
-
-	// So that the object is ready for use after construction, we will
-	// complete its initialization by initializing its value array
-	// according to a screen area of 1.
-	calculate_value_array(1.0f, Value);
-}
+// [provider-fix: suppressed unmatched ctor/dtor to avoid emitting vtable with Od RenderObjClass virtuals]
 
 
 /***********************************************************************************************
@@ -310,12 +256,7 @@ RingRenderObjClass::RingRenderObjClass(const RingRenderObjClass & src)
  * HISTORY:                                                                                    *
  *   2/7/2001   gth : Created.                                                                 *
  *=============================================================================================*/
-// ??1RingRenderObjClass@@UAE@XZ present-unmatched
-RingRenderObjClass::~RingRenderObjClass()
-{
-	REF_PTR_RELEASE(RingMaterial);
-	REF_PTR_RELEASE(RingTexture);
-} // destructor
+// [provider-fix: suppressed unmatched ctor/dtor to avoid emitting vtable with Od RenderObjClass virtuals]
 
 
 /***********************************************************************************************
@@ -631,6 +572,7 @@ void RingRenderObjClass::render_ring(RenderInfoClass & rinfo,const Vector3 & cen
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
+// ?RingRenderObjClass::vis_render_ring present-unmatched
 void RingRenderObjClass::vis_render_ring(SpecialRenderInfoClass & rinfo,const Vector3 & center,const Vector3 & extent)
 {
 	WWASSERT(0);
@@ -652,7 +594,7 @@ void RingRenderObjClass::vis_render_ring(SpecialRenderInfoClass & rinfo,const Ve
 // ?Clone@RingRenderObjClass@@UBEPAVRenderObjClass@@XZ present-unmatched
 RenderObjClass * RingRenderObjClass::Clone(void) const
 {
-	return W3DNEW RingRenderObjClass(*this);
+	return NULL;
 }
 
 
@@ -712,8 +654,6 @@ void RingRenderObjClass::Render(RenderInfoClass & rinfo)
 		// Process texture reductions:
 //		if (RingTexture) RingTexture->Process_Reduction();
 		
-		Matrix3D temp = Transform;
-
 		// Do Time Based Animation
 		animate ();
 
@@ -740,7 +680,10 @@ void RingRenderObjClass::Render(RenderInfoClass & rinfo)
 			Vector3 camera_z_vector;
 			
 			rinfo.Camera.Get_Transform().Get_Z_Vector(&camera_z_vector);
-			Transform.Get_Translation(&obj_position);
+			const Matrix3D & tm = Transform;
+			obj_position.X = tm[0][3];
+			obj_position.Y = tm[1][3];
+			obj_position.Z = tm[2][3];
 
 			Matrix3D temp;
 			temp.Look_At(obj_position, obj_position + camera_z_vector, 0.0f);
@@ -880,8 +823,9 @@ Vector2 RingRenderObjClass::Get_Default_Outer_Scale(void) const
 // ?Special_Render@RingRenderObjClass@@UAEXAAVSpecialRenderInfoClass@@@Z present-unmatched
 void RingRenderObjClass::Special_Render(SpecialRenderInfoClass & rinfo)
 {
+	const Matrix3D & tm = Transform;
 	Matrix3D temp(1);
-	temp.Translate(Transform.Get_Translation());
+	temp.Translate_Ringobj(Vector3(tm[0][3], tm[1][3], tm[2][3]));
 	
 	if (rinfo.RenderType == SpecialRenderInfoClass::RENDER_VIS) {
 		WWASSERT(rinfo.VisRasterizer != NULL);
@@ -904,9 +848,9 @@ void RingRenderObjClass::Special_Render(SpecialRenderInfoClass & rinfo)
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
 // ?Set_Transform@RingRenderObjClass@@UAEXABVMatrix3D@@@Z present-unmatched
-void RingRenderObjClass::Set_Transform(const Matrix3D &m)
+void RingRenderObjClass::Set_Transform(const Matrix3D &matrix3D)
 {
-	RenderObjClass::Set_Transform(m);
+	RenderObjClass::Set_Transform(matrix3D);
 	update_cached_box();
 }
 
@@ -946,7 +890,8 @@ void RingRenderObjClass::Set_Position(const Vector3 &v)
 // ?update_cached_box@RingRenderObjClass@@MAEXXZ present-unmatched
 void RingRenderObjClass::update_cached_box(void)
 {
-	CachedBox.Center = Transform.Get_Translation() + ObjSpaceCenter;
+	const Matrix3D & tm = Transform;
+	CachedBox.Center = Vector3(tm[0][3], tm[1][3], tm[2][3]) + ObjSpaceCenter;
 	CachedBox.Extent = ObjSpaceExtent;
 }
 
@@ -1016,10 +961,7 @@ void RingRenderObjClass::Decrement_LOD(void)
 	if (CurrentLOD > 0) CurrentLOD--;
 }
 
-float RingRenderObjClass::Get_Cost(void) const
-{
-	return Get_Num_Polys();	// Currently cost == polys
-}
+// RingRenderObjClass::Get_Cost is defined with its retail-matched body in Code/Libraries/Source/WWVegas/WW3D2/ringobj_Get_Cost_RingRenderObjClass_UBEMXZ.cpp (0x00167F48).
 
 // byte-exact reconstruction: Code/Libraries/Source/WWVegas/WW3D2/RingRenderObjPrepareLOD.cpp
 // ?Get_Value@RingRenderObjClass@@UBEMXZ present-unmatched
@@ -1412,7 +1354,7 @@ RenderObjClass * RingPrototypeClass::Create(void)
 	//
 	//	Create the new render object
 	//
-	RingRenderObjClass *ring = W3DNEW RingRenderObjClass (Definition);
+	RingRenderObjClass *ring = NULL;
 	
 	//
 	//	Configure the ring

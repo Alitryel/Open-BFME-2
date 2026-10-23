@@ -12,6 +12,21 @@
 
 #include <vector>
 
+// __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
+// COMDATs (one byte shape per TU malloc/free wiring); explicit
+// dllimport+forceinline specializations take those calls inline so this
+// TU emits no external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void *__malloc_alloc<0>::allocate(size_t __n)
+{ void *__r = malloc(__n); if (!__r) __r = _S_oom_malloc(__n); return __r; }
+template <> __declspec(dllimport) __forceinline
+void __malloc_alloc<0>::deallocate(void *__p, size_t)
+{ free((char *)__p); }
+}
+
+extern "C" float INV;
+
 typedef bool Bool;
 typedef float Real;
 
@@ -22,12 +37,7 @@ enum GeometryType
 	GEOMETRY_BOX
 };
 
-struct AsciiString
-{
-	~AsciiString();
-
-	char *m_data;
-};
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
 struct GeometryShape
 {
@@ -47,24 +57,30 @@ struct GeometryRecord
 	int m_second;
 	int m_third;
 	AsciiString m_name;
+public:
+	GeometryRecord &operator=(const GeometryRecord &);
 };
 
 class Xfer;
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void LoadPostProcess();
-	virtual const char *GetSnapshotName();
-	virtual void DoXfer(Xfer &xfer);
-};
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_REFERENCE_XFER
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
+// bfme link decl-only begin
+namespace _STL { template <> vector<GeometryRecord, allocator<GeometryRecord> >::~vector(); }
+namespace _STL { template <> vector<GeometryShape, allocator<GeometryShape> >::~vector(); }
+// bfme link decl-only end
 
-extern Real g_geometryHeightScale;
 
 class GeometryInfo : public Snapshot
 {
 public:
+	GeometryInfo();
+	virtual void LoadPostProcess();
+	virtual const char *GetSnapshotName();
+	virtual void DoXfer(Xfer &xfer);
 	GeometryInfo(GeometryType type, Bool isSmall, Real height,
 		Real majorRadius, Real minorRadius);
 	void set(GeometryType type, Bool isSmall, Real height,
@@ -89,16 +105,18 @@ private:
 	Real m_cached50;
 	Real m_cached54;
 	Real m_cached58;
+public:
+	virtual ~GeometryInfo();	// rowed elsewhere; declared so this unit binds to it
 };
 
-GeometryInfo::GeometryInfo(GeometryType type, Bool isSmall, Real height,
+inline GeometryInfo::GeometryInfo(GeometryType type, Bool isSmall, Real height,
 	Real majorRadius, Real minorRadius)
 {
 	m_scalar08 = 0;
 	m_scalar0c = 0;
 	std::vector<GeometryRecord> *records = &m_records;
 	set(type, isSmall, height, majorRadius, minorRadius);
-	Real scaledHeight = *(volatile Real *)&height * g_geometryHeightScale;
+	Real scaledHeight = *(volatile Real *)&height * 0.5f;
 	m_cached44 = 0;
 	m_cached48 = 0;
 	m_cached4c = scaledHeight;
@@ -107,3 +125,23 @@ GeometryInfo::GeometryInfo(GeometryType type, Bool isSmall, Real height,
 	m_cached58 = 0;
 	records->erase(records->begin(), records->end());
 }
+
+GeometryInfo::GeometryInfo()
+{
+	Real dim = *(volatile Real *)&INV;
+	m_scalar08 = 0;
+	m_scalar0c = 0;
+	set(GEOMETRY_SPHERE, true, dim, dim, dim);
+}
+// _INV: the global at VA 0xbc2424 is ?g_Va00BC2424@@3MA.
+#pragma comment(linker, "/alternatename:_INV=?g_Va00BC2424@@3MA")
+
+// LINK-OWNER anchor: this unit owns the 5-arg ctor row; other units emit it
+// inline, so the owner must also emit a select-any (inline) copy.
+#pragma inline_depth(0)
+// ?bfmeEmitGeometryInfoCtor@@YAXPAVGeometryInfo@@@Z present-unmatched
+void bfmeEmitGeometryInfoCtor(GeometryInfo *geometryInfo)
+{
+	geometryInfo->GeometryInfo::GeometryInfo(GEOMETRY_SPHERE, true, 0, 0, 0);
+}
+#pragma inline_depth()

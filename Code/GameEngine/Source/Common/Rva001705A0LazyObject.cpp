@@ -1,7 +1,29 @@
-// cl: /G7 /arch:SSE /Ireference/shims/bfmecamera /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/open-bfme-1/reference/shims/objectdlink /Ireference/open-bfme-1/Code/GameEngine/Source/Common
+// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfmecamera /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/open-bfme-1/reference/shims/objectdlink /Ireference/open-bfme-1/Code/GameEngine/Source/Common
 // stlport
+// Retail keeps one unsigned max, RVA 0x00013740 (the vendored STLport row). This unit's
+// flags (/G7 /arch:SSE) compile a different copy, and retail kept another unit's. This unit-local
+// overload keeps the inlined code and offers the link no second copy.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
 #include <vector>
 #include "ObjectDlinkPmf.h"
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@W4ObjectID@@V?$allocator@W4ObjectID@@@_STL@@@_STL@@IAEXPAW4Ob:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum ObjectID;
+namespace _STL { template <> void vector<ObjectID, allocator<ObjectID> >::_M_insert_overflow(ObjectID *, const ObjectID &, const __false_type &, size_t, bool); }
+// Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
+// and this TU's /O1 COMDAT copy differs from the copy the link keeps.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
+{ if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
+}
 
 // Address-derived reconstruction.  The retail body lazily allocates the
 // seven-dword object stored at +0x54 and forwards its argument with a true
@@ -31,14 +53,21 @@ enum ObjectID
 {
 	INVALID_OBJECT_ID = 0
 };
+// Bind allocator<ObjectID>::deallocate to the kept retail copy.
+namespace _STL { template <> void allocator<ObjectID>::deallocate(ObjectID *, size_t) const; }
 
+// Zero Hour's DLINK_ITERATOR (GameCommon.h). BFME2's Object carries a vbptr
+// at +0x68 (ObjectDlinkPmf.h), so the iterator's GetNextFunc is a
+// virtual-inheritance member pointer and advance() is the 32-byte body at
+// 0x00263526; retail calls it as DLINK_ITERATOR<Object>::advance from the
+// Team member walks (e.g. 0x0039E5B9, 0x003C9A80).
 template<class OBJCLASS>
-class Rva001705A0DlinkIterator
+class DLINK_ITERATOR
 {
 public:
 	typedef OBJCLASS *(OBJCLASS::*GetNextFunc)() const;
 
-	Rva001705A0DlinkIterator( OBJCLASS *cur, GetNextFunc getNextFunc )
+	DLINK_ITERATOR( OBJCLASS *cur, GetNextFunc getNextFunc )
 		: m_cur( cur ), m_getNextFunc( getNextFunc ) {}
 
 	void advance()
@@ -100,8 +129,8 @@ void Rva001705A0Inner::apply( int value, bool enabled )
 		((Rva001705A0IDVectorView *)((char *)this + 4))->m_ids.clear();
 
 	Rva001705A0Team *team = (Rva001705A0Team *)value;
-	for ( Rva001705A0DlinkIterator<Object> iter =
-			Rva001705A0DlinkIterator<Object>( team->m_head,
+	for ( DLINK_ITERATOR<Object> iter =
+			DLINK_ITERATOR<Object>( team->m_head,
 				Object::dlink_next_TeamMemberList );
 			!iter.done(); iter.advance() )
 	{

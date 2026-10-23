@@ -26,6 +26,8 @@ typedef __int64 FeslInt64;
 // Transaction tag for this request; retail keeps it in a global pointer
 // (mov ebx,[0x00E0A058] at 0x0065EA85) and passes it as the TXN value.
 extern const char *g_feslFeedbackTxnName;
+// g_feslFeedbackTxnName: matched references place it at VA 0xe0a058 (zero-filled .bss).
+const char * g_feslFeedbackTxnName;
 
 class Rva007E8810Message
 {

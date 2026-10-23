@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /GX /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /DNDEBUG /DWIN32 /D_WINDOWS
 // stlport
 //
 // ??0AutoPickUpUpdateModuleData@@QAE@XZ, retail 0x00496308, 151 bytes.
@@ -19,9 +19,18 @@
 // (fold-equivalent and byte-correct, BattlePlanUpdate precedent) and the
 // row carries the identity.
 
+// Vtable 0x00C4F108: the table whose slot 0 is ??_GAutoPickUpUpdateModuleData (vftable_map); bound to the ??_7 the ledger's deleting-dtor unit emits.
+extern "C" const void *__identifier("??_7AutoPickUpUpdateModuleData@@6B@")[];
+
+extern int BfmeLogicFramesPerSecond;
+
 #include <vector>
 
-struct BfmeE16 { float x, y, z, w; };
+#include "../../../../../Libraries/Include/Lib/BfmeE16.h"
+// bfme link decl-only BfmeE16
+namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
+
+extern unsigned char g_00DFEFA4StoragePrototype[28];
 
 class BfmeFixedStorage0004543D
 {
@@ -43,12 +52,12 @@ private:
 	int m_x;
 };
 
-#define LogicFramesPerSecond (*(const int *)0x00DBA4E4)
+#define LogicFramesPerSecond BfmeLogicFramesPerSecond
 
 class UpdateModuleData
 {
 public:
-	UpdateModuleData() {}
+	__declspec(dllimport) __forceinline UpdateModuleData() {}
 	~UpdateModuleData();
 
 private:
@@ -76,7 +85,7 @@ private:
 
 // ??0AutoPickUpUpdateModuleData@@QAE@XZ @0x496308
 AutoPickUpUpdateModuleData::AutoPickUpUpdateModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C4F108))
+	: m_vtable(reinterpret_cast<const void *>(__identifier("??_7AutoPickUpUpdateModuleData@@6B@")))
 	, m_scanDelayTime(LogicFramesPerSecond)
 	, m_scanDistance(300.0f)
 {
@@ -85,6 +94,6 @@ AutoPickUpUpdateModuleData::AutoPickUpUpdateModuleData()
 	m_runFromButton = 0;
 	m_canScanWhileAttackingOrMoving = 0;
 	m_pickUpFilter.initFromStorages(
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(0x00DFEFA4)),
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(0x00DFEFA4)));
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)),
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)));
 }

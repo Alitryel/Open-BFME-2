@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc
 
 // ReflectDamage's constructor, retail 0x002167A0.
 //
@@ -43,10 +43,7 @@ class DamageModule : public BehaviorModule,
 	public ModuleInterface
 {
 public:
-	DamageModule( Thing *thing, const ModuleData *moduleData )
-		: BehaviorModule( thing, moduleData )
-	{
-	}
+	DamageModule( Thing *thing, const ModuleData *moduleData );
 };
 
 class ReflectDamage : public DamageModule

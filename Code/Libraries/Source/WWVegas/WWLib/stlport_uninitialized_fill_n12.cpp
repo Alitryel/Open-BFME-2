@@ -1,4 +1,4 @@
-// cl: /O1 /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 //
 // Second STLport __uninitialized_fill_n<T> batch (37 bytes): stride-12
@@ -15,6 +15,9 @@
 #include <memory>
 #include <vector>
 #include <string>
+// bfme link decl-only begin
+namespace _STL { template <> vector<unsigned int, allocator<unsigned int> > * uninitialized_fill_n<vector<unsigned int, allocator<unsigned int> > *, unsigned int, vector<unsigned int, allocator<unsigned int> > >(vector<unsigned int, allocator<unsigned int> > *, unsigned int, vector<unsigned int, allocator<unsigned int> > const &); }
+// bfme link decl-only end
 
 class RvaSmartPtr12
 {
@@ -55,13 +58,7 @@ public:
 	unsigned int m_body[3];
 };
 
-struct BfmeStringRecord005F93E3
-{
-public:
-	BfmeStringRecord005F93E3();
-	BfmeStringRecord005F93E3(const BfmeStringRecord005F93E3 &other);
-	unsigned int m_body[3];
-};
+#include "../../../../GameEngine/Source/Common/BfmeStringRecord005F93E3.h"
 
 struct BfmePod88
 {

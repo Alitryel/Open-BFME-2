@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /DNDEBUG /MD /GX /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??1BoneFXUpdate@@MAE@XZ, retail 0x00487ABF, 161 bytes.
@@ -62,19 +62,42 @@ private:
 	int m_bfmeReserved;
 };
 
-struct Coord3D
-{
-	Coord3D();
-	~Coord3D();
-	float x;
-	float y;
-	float z;
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_DTOR
+#include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 enum ParticleSystemID
 {
 	INVALID_PARTICLE_SYSTEM_ID = 0
 };
+
+// Keep stateless allocator wrappers inline and provide the real POD-vector
+// teardown used by native exception cleanup. These bodies follow the local
+// allocator shim and STLport header; reusing the allocator subobject avoids
+// introducing a temporary lifetime into retail's five-state EH graph.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<ParticleSystemID>::deallocate(ParticleSystemID *__p, size_t __n) const
+{
+    _STLP_ASSERT((__p == 0) == (__n == 0))
+    if (__p != 0) ::free((void *)__p);
+}
+
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<ParticleSystemID *, ParticleSystemID, allocator<ParticleSystemID> >::deallocate(ParticleSystemID *__p, size_t __n)
+{
+    __stl_alloc_rebind(static_cast<allocator<ParticleSystemID> &>(*this),
+        (ParticleSystemID *)0).deallocate(__p, __n);
+}
+
+template <> __declspec(nothrow) __forceinline
+_Vector_base<ParticleSystemID, allocator<ParticleSystemID> >::~_Vector_base()
+{
+    if (_M_start != 0)
+        _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start);
+}
+
+}
 
 typedef _STL::vector<ParticleSystemID, _STL::allocator<ParticleSystemID> > ParticleSystemIDVec;
 
@@ -108,3 +131,8 @@ BoneFXUpdate::~BoneFXUpdate()
 {
 	killRunningParticleSystems();
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?behaviorModuleOtherAnchor@BehaviorModuleOther@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

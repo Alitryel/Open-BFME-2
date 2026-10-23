@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /Ireference/shims/bfmecamera /DNDEBUG /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
+// cl: /Ireference/shims/bfmecamera /DNDEBUG /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2
 // Open-BFME7: WW3D2 statistics.cpp texture recording cluster from dump
 // d_00930e00.asm: Debug_Statistics::Record_Texture (0x00937D60, 335 B) and the
 // two file-static helpers it is the only caller of, Find_Record_Texture
@@ -29,7 +29,7 @@
 class TextureBaseClass
 {
 public:
-	void Add_Ref();
+	__declspec(dllimport) __forceinline void Add_Ref();
 	void Release_Ref();
 };
 
@@ -37,7 +37,7 @@ class TextureClass : public TextureBaseClass
 {
 };
 
-inline void TextureBaseClass::Add_Ref()
+__forceinline void TextureBaseClass::Add_Ref()
 {
 	++*reinterpret_cast<unsigned short *>(reinterpret_cast<char *>(this) + 4);
 }
@@ -46,7 +46,10 @@ template<class T>
 class RefCountPtr
 {
 public:
-	RefCountPtr() : Referent(0) {}
+	// Out of line: latest_texture's initializer (0x007ACCC0) calls the
+	// ICF-folded default constructor 0x00326BE6; the statistics record
+	// initialises its handle through the pointer constructor instead.
+	RefCountPtr();
 	RefCountPtr(T *referent) : Referent(referent)
 	{
 		if (Referent != 0)
@@ -58,14 +61,17 @@ public:
 			other.Referent->Add_Ref();
 		Referent = other.Referent;
 	}
+	// Retail's latest_texture shutdown thunk (0x007B7040) calls the rowed
+	// RefCountPtr<TextureClass> destructor at 0x0017098D, which releases the
+	// referent without clearing it. TextureStatisticsVector.cpp agrees.
 	~RefCountPtr()
 	{
 		if (Referent != 0)
 		{
 			Referent->Release_Ref();
-			Referent = 0;
 		}
 	}
+	__declspec(dllimport) __forceinline
 	RefCountPtr const &operator=(RefCountPtr const &other)
 	{
 		if (other.Referent != 0)
@@ -114,6 +120,7 @@ private:
 // as the owning TU declares or defines it.
 struct TextureStatisticsStruct
 {
+	TextureStatisticsStruct() : tex(0) {}
 	RefCountPtr<TextureClass> tex;
 	int usage_count;
 	int change_count;

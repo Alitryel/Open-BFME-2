@@ -1,4 +1,4 @@
-// cl: /O1 /Ob2 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS
+// cl: /Ob2 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS
 // stlport
 /*
 ** Copyright 2025 Electronic Arts Inc.
@@ -9,26 +9,21 @@
 // String copies and cleanup use the independently matched StringBase helpers.
 #include <map>
 
-template<class T>
-class StringBase
-{
-    void *m_data;
-    friend class UnicodeString;
-    StringBase(const StringBase &other);
-    __forceinline ~StringBase() { releaseBuffer(); }
-    void releaseBuffer();
-public:
-    int compareNoCase(const StringBase &other) const throw();
-};
+// __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
+// COMDATs (one byte shape per TU malloc/free wiring); explicit
+// dllimport+forceinline specializations take those calls inline so this
+// TU emits no external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void *__malloc_alloc<0>::allocate(size_t __n)
+{ void *__r = malloc(__n); if (!__r) __r = _S_oom_malloc(__n); return __r; }
+template <> __declspec(dllimport) __forceinline
+void __malloc_alloc<0>::deallocate(void *__p, size_t)
+{ free((char *)__p); }
+}
 
-class UnicodeString : private StringBase<unsigned short>
-{
-    friend struct UnicodeStringLessThan;
-public:
-    __forceinline UnicodeString(const UnicodeString &other)
-        : StringBase<unsigned short>(static_cast<const StringBase<unsigned short>&>(other)) {}
-    __forceinline ~UnicodeString() {}
-};
+#include "../../../../reference/shims/bfme2_ascii/unicode_string.h"
+
 
 struct UnicodeStringLessThan
 {
@@ -52,3 +47,8 @@ LanguageFilterTree::_M_lower_bound(const UnicodeString&) const;
 
 template void LanguageFilterTree::_M_erase(_STL::_Rb_tree_node<LanguageFilterValue>*);
 template void LanguageFilterTree::clear();
+
+// BFME1 donor874e38488 UnicodeStringBoolTreeFind.cpp under BFME2 O1/G7
+// served this public const find. Native387F00..387F14 calls the existing
+// exact LanguageFilter _M_find387DD8 and returns its pointer as an iterator.
+template LanguageFilterTree::const_iterator LanguageFilterTree::find<UnicodeString>(const UnicodeString&) const;

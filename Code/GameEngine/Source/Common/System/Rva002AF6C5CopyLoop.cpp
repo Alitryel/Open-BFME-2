@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // Random-access __copy loop over the 0x24-byte element copied at retail
 // 0x002AF6C5 (50 bytes; count via idiv 0x24, per-element copy through the
@@ -19,3 +19,7 @@ struct Rva002AF6C5Element
 template Rva002AF6C5Element *_STL::__copy<Rva002AF6C5Element *,
 	Rva002AF6C5Element *, int>(Rva002AF6C5Element *, Rva002AF6C5Element *,
 	Rva002AF6C5Element *, const _STL::random_access_iterator_tag &, int *);
+
+// _Destroy for the same record (retail 0x002AF671, 9 bytes): tail jump to its
+// dtor 0x002AF1EC.
+template void _STL::_Destroy<Rva002AF6C5Element>(Rva002AF6C5Element *);

@@ -43,6 +43,8 @@ public:
 
 struct forward_iterator_tag {};
 
+struct __false_type {};
+
 __declspec(dllimport) __forceinline void *__copy_trivial(
 		const void *first, const void *last, void *result)
 {
@@ -57,6 +59,12 @@ __declspec(dllimport) __forceinline void *__copy_trivial(
 
 __declspec(dllimport) __forceinline char *uninitialized_copy(
 		char *first, char *last, char *result)
+{
+	return static_cast<char *>(__copy_trivial(first, last, result));
+}
+
+__declspec(dllimport) __forceinline char *uninitialized_copy(
+		const char *first, const char *last, char *result)
 {
 	return static_cast<char *>(__copy_trivial(first, last, result));
 }
@@ -82,6 +90,12 @@ public:
 	void _M_range_initialize(InputIter first, InputIter last);
 
 private:
+	template <class InputIter>
+	void _M_initialize_dispatch(InputIter first, InputIter last, const __false_type &)
+	{
+		_M_range_initialize(first, last);
+	}
+
 	__declspec(dllimport) __forceinline size_type max_size() const
 	{
 		return (size_type(-1) / sizeof(CharT)) - 1;
@@ -117,5 +131,15 @@ void basic_string<CharT, Traits, Alloc>::_M_range_initialize(InputIter first, In
 template void
 basic_string<char, char_traits<char>, allocator<char> >::_M_range_initialize<
 		char *>(char *, char *);
+
+// Native 177B0..177C2 (ret 0xC): the integral-dispatch step of the iterator
+// range constructor, forwarding to the two-argument _M_range_initialize
+// above (folded at 0x00008D00) without inlining it - an orphan .text hole
+// beside the char* dispatch at 0x000177D0, whose inlined form differs.
+// The const char * argument is inferred: char * already names 0x000177D0
+// and both range initialisers fold at 0x00008D00.
+template void
+basic_string<char, char_traits<char>, allocator<char> >::_M_initialize_dispatch<
+		const char *>(const char *, const char *, const __false_type &);
 
 }

@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0000CAE7B@W3DSupplyDraw@@SA?AW4NameKeyType@@XZ @0xCAE7B
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@W3DSupplyDraw@@UBE?AW4NameKeyType@@XZ @0xCAE7B
 // (69B): cached pool-name key for W3DSupplyDraw. The class
 // identity comes from the pool-name string the body pushes
 // ("W3DSupplyDraw"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class W3DSupplyDraw
 {
 public:
-	static NameKeyType rva0000CAE7B();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0000CAE7B@W3DSupplyDraw@@SA?AW4NameKeyType@@XZ
-NameKeyType W3DSupplyDraw::rva0000CAE7B()
+// ?getModuleNameKey@W3DSupplyDraw@@UBE?AW4NameKeyType@@XZ
+NameKeyType W3DSupplyDraw::getModuleNameKey() const
 {
 	static NameKeyType TheW3DSupplyDrawPoolKey =
 		TheNameKeyGenerator->nameToKey("W3DSupplyDraw");

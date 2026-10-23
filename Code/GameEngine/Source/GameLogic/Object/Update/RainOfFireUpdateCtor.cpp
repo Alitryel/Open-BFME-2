@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 //
 // ??0RainOfFireUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail
 // 0x004AC0A8, 135 bytes. Behavior-side ctor (rowed instance factory
@@ -20,6 +20,28 @@
 // groups in program order where plain assignments get clustered. Row
 // supersedes the ctor pin and the banked 0.9 partial.
 
+extern "C" const void *const vtbl_00C6FFFC[];  // folded, 10 classes; via ??_7?$CategoryModuleClass@$00@FXParticleSystem@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C6FFFC=??_7?$CategoryModuleClass@$00@FXParticleSystem@@6B@")
+
+extern "C" const void *const vtbl_00C54BA0[];  // ??_7RainOfFireUpdate@@6BSecondary20@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C54BA0=??_7RainOfFireUpdate@@6BSecondary20@@@")
+// The retail table at RVA 0x00854BA8: 3 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("?update@RainOfFireUpdate@@UAE?AW4UpdateSleepTime@@XZ")();
+void __identifier("?getDisabledTypesToProcess@UpdateModule@@UBE?AV?$BitFlags@$0L@@@XZ")();
+void __identifier("?rva0044DF8D@UpdateModule@@UAEXW4UpdateSleepTime@@@Z")();
+}
+extern "C" const void *const vtbl_00C54BA8[3] = {
+	(const void *)&__identifier("?update@RainOfFireUpdate@@UAE?AW4UpdateSleepTime@@XZ"), // slot 0 0x004AC2A8
+	(const void *)&__identifier("?getDisabledTypesToProcess@UpdateModule@@UBE?AV?$BitFlags@$0L@@@XZ"), // slot 1 0x00253376
+	(const void *)&__identifier("?rva0044DF8D@UpdateModule@@UAEXW4UpdateSleepTime@@@Z"), // slot 2 0x0044DF8D
+};
+extern "C" const void *const vtbl_00C54BB8[];  // ??_7RainOfFireUpdate@@6BBehaviorModuleOther@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C54BB8=??_7RainOfFireUpdate@@6BBehaviorModuleOther@@@")
+extern "C" const void *const vtbl_00C54C74[];  // ??_7RainOfFireUpdate@@6BBehaviorModuleBase@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C54C74=??_7RainOfFireUpdate@@6BBehaviorModuleBase@@@")
+
 class Thing;
 class ModuleData;
 
@@ -39,15 +61,7 @@ protected:
 	int m_bfmeReserved;
 };
 
-class GameLogic
-{
-public:
-	unsigned getFrame() const { return m_frame; }
-
-private:
-	unsigned char m_reserved[0x40];
-	unsigned m_frame;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -77,17 +91,17 @@ RainOfFireUpdate::RainOfFireUpdate(Thing *thing, const ModuleData *moduleData)
 	: UpdateModule(thing, moduleData)
 {
 	int *slotInit = (int *)&m_slot;
-	*slotInit = (int)0x00C6FFFC;
+	*slotInit = (int)((unsigned int)vtbl_00C6FFFC);
 	const RainOfFireUpdateModuleData *mod =
 		reinterpret_cast<const RainOfFireUpdateModuleData *>(m_moduleData);
 	int *vtab = (int *)&m_vtable;
-	*vtab = (int)0x00C54C74;
+	*vtab = (int)((unsigned int)vtbl_00C54C74);
 	int *sec0C = (int *)&m_secondary0C;
-	*sec0C = (int)0x00C54BB8;
+	*sec0C = (int)((unsigned int)vtbl_00C54BB8);
 	int *sec10 = (int *)&m_secondary10;
-	*sec10 = (int)0x00C54BA8;
+	*sec10 = (int)((unsigned int)vtbl_00C54BA8);
 	int *slot = (int *)&m_slot;
-	*slot = (int)0x00C54BA0;
+	*slot = (int)((unsigned int)vtbl_00C54BA0);
 	m_frame = 0x3FFFFFFF;
 	float *cell28 = &m_state28;
 	*cell28 = 0.0f;

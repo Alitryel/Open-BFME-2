@@ -1,4 +1,6 @@
-// cl: /O1 /DNDEBUG /MD
+char g_00C595E8;
+
+// cl: /DNDEBUG /MD
 //
 // ??0ExperienceLevelCreateModuleData@@QAE@XZ, retail 0x004B9220, 17 bytes.
 // Trivial frameless ctor: or -1 into +8 first, then the vtable literal,
@@ -22,6 +24,6 @@ private:
 ExperienceLevelCreateModuleData::ExperienceLevelCreateModuleData()
 {
 	m_levelToGrant |= -1;
-	m_vtable = reinterpret_cast<void *>(0x00C595E8);
+	m_vtable = reinterpret_cast<void *>((void *)&g_00C595E8);
 	m_mpOnly = 0;
 }

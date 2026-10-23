@@ -20,6 +20,7 @@ struct BfmeFixedBlock16
 	BfmeFixedBlock16();
 };
 
+// ?BfmeFixedBlock16::BfmeFixedBlock16 present-unmatched
 BfmeFixedBlock16::BfmeFixedBlock16()
 {
 }
@@ -31,6 +32,7 @@ struct BfmeFixedObject60
 	int m_int08;
 	BfmeFixedBlock16 m_blocks0C[3];
 	BfmeFixedObject60(const BfmeFixedObject60 &src);
+	BfmeFixedObject60 &operator=(const BfmeFixedObject60 &src);
 };
 
 BfmeFixedObject60::BfmeFixedObject60(const BfmeFixedObject60 &src)
@@ -49,4 +51,26 @@ BfmeFixedObject60::BfmeFixedObject60(const BfmeFixedObject60 &src)
 	dstBlocks[2].m_word04 = src.m_blocks0C[2].m_word04;
 	dstBlocks[2].m_word08 = src.m_blocks0C[2].m_word08;
 	dstBlocks[2].m_word0C = src.m_blocks0C[2].m_word0C;
+}
+
+// ??4BfmeFixedObject60@@QAEAAU0@ABU0@@Z, retail 0x000B4384 (97B): the memberwise
+// assignment the vector's __copy loop (0x000B6862) calls, all fifteen words in order.
+BfmeFixedObject60 &BfmeFixedObject60::operator=(const BfmeFixedObject60 &src)
+{
+	m_vtable = src.m_vtable;
+	m_int04 = src.m_int04;
+	m_int08 = src.m_int08;
+	m_blocks0C[0].m_word00 = src.m_blocks0C[0].m_word00;
+	m_blocks0C[0].m_word04 = src.m_blocks0C[0].m_word04;
+	m_blocks0C[0].m_word08 = src.m_blocks0C[0].m_word08;
+	m_blocks0C[0].m_word0C = src.m_blocks0C[0].m_word0C;
+	m_blocks0C[1].m_word00 = src.m_blocks0C[1].m_word00;
+	m_blocks0C[1].m_word04 = src.m_blocks0C[1].m_word04;
+	m_blocks0C[1].m_word08 = src.m_blocks0C[1].m_word08;
+	m_blocks0C[1].m_word0C = src.m_blocks0C[1].m_word0C;
+	m_blocks0C[2].m_word00 = src.m_blocks0C[2].m_word00;
+	m_blocks0C[2].m_word04 = src.m_blocks0C[2].m_word04;
+	m_blocks0C[2].m_word08 = src.m_blocks0C[2].m_word08;
+	m_blocks0C[2].m_word0C = src.m_blocks0C[2].m_word0C;
+	return *this;
 }

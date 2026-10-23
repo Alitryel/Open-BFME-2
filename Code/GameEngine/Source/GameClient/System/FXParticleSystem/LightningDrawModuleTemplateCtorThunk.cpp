@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 // Open-BFME5: clean-C++ LightningDrawModuleTemplate default constructor.
 
 namespace FXParticleSystem
@@ -17,7 +17,7 @@ class CategoryModuleInfo
 {
 public:
     CategoryModuleInfo() {}
-    virtual void unusedVirtual();
+    virtual void unusedVirtual() = 0;
 
 protected:
     ~CategoryModuleInfo() {}
@@ -28,16 +28,16 @@ class CategoryModuleTemplateBase : public ModuleTemplate,
     public CategoryModuleInfo<Category>
 {
 public:
-    CategoryModuleTemplateBase() {}
-    virtual ~CategoryModuleTemplateBase() {}
+    __declspec(dllimport) __forceinline CategoryModuleTemplateBase() {}
+    __declspec(dllimport) __forceinline virtual ~CategoryModuleTemplateBase() {}
 };
 
 template <int Category>
 class CategoryModuleTemplate : public CategoryModuleTemplateBase<Category>
 {
 public:
-    CategoryModuleTemplate() {}
-    virtual ~CategoryModuleTemplate() {}
+    __declspec(dllimport) __forceinline CategoryModuleTemplate() {}
+    virtual ~CategoryModuleTemplate();
 };
 
 class LightningDrawModuleInfo
@@ -55,6 +55,7 @@ class LightningDrawModuleTemplate : public CategoryModuleTemplate<6>,
 {
 public:
     LightningDrawModuleTemplate();
+    virtual ~LightningDrawModuleTemplate();
 };
 
 // ??0LightningDrawModuleTemplate@FXParticleSystem@@QAE@XZ

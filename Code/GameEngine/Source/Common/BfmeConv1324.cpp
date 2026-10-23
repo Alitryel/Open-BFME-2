@@ -47,6 +47,9 @@ extern void *g_bfmeVftTVA[];
 // calls its own release/free helpers.
 extern "C" __declspec(dllimport) int __stdcall CloseHandle(void *handle);
 
+// The rowed base cleanup restores the base vtable at retail 0x65D180.
+class Rva00CE1E14Base { public: virtual ~Rva00CE1E14Base(); };
+
 class BfmeThingTVA
 {
 public:
@@ -62,7 +65,7 @@ void *BfmeThingTVA::bfmeDelTVA(unsigned char flags)
 	m_bfmeVft = g_bfmeVftTVA;
 	if (h)
 		CloseHandle(h);
-	bfmeDtorTVA();
+	reinterpret_cast<Rva00CE1E14Base *>(this)->Rva00CE1E14Base::~Rva00CE1E14Base();
 	if (flags & 1)
 		operator delete(this);
 	return this;
@@ -124,3 +127,9 @@ void *BfmeThingTVC::bfmeDelTVC(unsigned char flags)
 		bfmeFreeTVC(this, 0xc);
 	return this;
 }
+// ?g_bfmeVftTUA@@3PAPAXA: the global at VA 0xce0f20 is ?vftable_011296B0@@3HA.
+#pragma comment(linker, "/alternatename:?g_bfmeVftTUA@@3PAPAXA=?vftable_011296B0@@3HA")
+
+// Retail's data references in this unit's matched rows land on globals defined
+// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
+#pragma comment(linker, "/alternatename:?g_bfmeVftTVA@@3PAPAXA=??_7Rva00CE12FCMutex@@6B@")

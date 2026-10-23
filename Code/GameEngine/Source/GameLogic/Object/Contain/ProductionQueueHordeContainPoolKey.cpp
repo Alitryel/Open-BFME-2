@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004812B9@ProductionQueueHordeContain@@SA?AW4NameKeyType@@XZ @0x4812b9
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@ProductionQueueHordeContain@@UBE?AW4NameKeyType@@XZ @0x4812b9
 // (69B): cached pool-name key for ProductionQueueHordeContain. The class
 // identity comes from the pool-name string the body pushes
 // ("ProductionQueueHordeContain"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ProductionQueueHordeContain
 {
 public:
-	static NameKeyType rva0004812B9();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004812B9@ProductionQueueHordeContain@@SA?AW4NameKeyType@@XZ
-NameKeyType ProductionQueueHordeContain::rva0004812B9()
+// ?getModuleNameKey@ProductionQueueHordeContain@@UBE?AW4NameKeyType@@XZ
+NameKeyType ProductionQueueHordeContain::getModuleNameKey() const
 {
 	static NameKeyType TheProductionQueueHordeContainPoolKey =
 		TheNameKeyGenerator->nameToKey("ProductionQueueHordeContain");

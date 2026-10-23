@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /MD /DNDEBUG
+// cl: /MD /DNDEBUG
 //
 // ??0AimWeaponBehaviorModuleData@@QAE@XZ, retail 0x0045B1DD, 55 bytes.
 // Frameless store-only ctor over the Aim table 0xC41948 (AimLowThreshold@8,
@@ -12,6 +12,9 @@
 // xorps plus movss. Vtable 0x00C4ED70 is ICF-folded
 // (DeletionUpdate/SlotToLock/ReflectDamage share). Defaults come from the
 // retail pool (-0.05/+0.05/FLT_MAX, float-ref verified).
+
+extern "C" const void *const vtbl_00C4ED70[];  // folded, 9 classes; via ??_7BeaconClientUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4ED70=??_7BeaconClientUpdateModuleData@@6B@")
 
 #include <cfloat>
 
@@ -35,6 +38,6 @@ AimWeaponBehaviorModuleData::AimWeaponBehaviorModuleData()
 	m_aimLowThreshold = -0.05f;
 	m_aimHighThreshold = 0.05f;
 	m_aimNearDistance = 0.0f;
-	m_vtable = reinterpret_cast<const void *>(0x00C4ED70);
+	m_vtable = reinterpret_cast<const void *>(((unsigned int)vtbl_00C4ED70));
 	m_aimFarDistance = FLT_MAX;
 }

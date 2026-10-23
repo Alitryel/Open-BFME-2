@@ -21,7 +21,15 @@ private:
 };
 
 // ?friend_newModuleInstance@ProjectileStreamUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *ProjectileStreamUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *ProjectileStreamUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new ProjectileStreamUpdate(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitProjectileStreamUpdateFriendNew@@YAXPAVProjectileStreamUpdate@@@Z present-unmatched
+void bfmeEmitProjectileStreamUpdateFriendNew(ProjectileStreamUpdate *projectileStreamUpdate)
+{
+	projectileStreamUpdate->friend_newModuleInstance(0, 0);
+}
+#pragma inline_depth()

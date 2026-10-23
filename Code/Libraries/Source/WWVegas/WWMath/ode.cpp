@@ -1,4 +1,15 @@
 // cl: /Ireference/shims/bfmerendobj /arch:SSE /G7 /DNDEBUG /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -43,6 +54,10 @@
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "ode.h"
 #include <assert.h>
+// bfme link decl-only begin
+template <> int VectorClass<float>::ID(float const *);
+template <> bool VectorClass<float>::Resize(int, float const *);
+// bfme link decl-only end
 
 static StateVectorClass		Y0;
 static StateVectorClass		Y1;
@@ -309,7 +324,7 @@ void IntegrationSystem::Runge_Kutta5_Integrate(ODESystemClass * odesys,float dt)
 	** make aliases to the work-vectors we need
 	*/
 	StateVectorClass & dydt	= _WorkVector0;
-	StateVectorClass & ak2	= _WorkVector1;
+	StateVectorClass & stateVector	= _WorkVector1;
 	StateVectorClass & ak3	= _WorkVector2;
 	StateVectorClass & ak4	= _WorkVector3;
 	StateVectorClass & ak5	= _WorkVector4;
@@ -318,7 +333,7 @@ void IntegrationSystem::Runge_Kutta5_Integrate(ODESystemClass * odesys,float dt)
 	StateVectorClass & yerr	= _WorkVector7;
 
 	dydt.Resize(veclen);
-	ak2.Resize(veclen);
+	stateVector.Resize(veclen);
 	ak3.Resize(veclen);
 	ak4.Resize(veclen);
 	ak5.Resize(veclen);
@@ -333,27 +348,27 @@ void IntegrationSystem::Runge_Kutta5_Integrate(ODESystemClass * odesys,float dt)
 	}
 
 	// Second step
-	odesys->Compute_Derivatives(a2*dt, &ytmp, &ak2);
+	odesys->Compute_Derivatives(a2*dt, &ytmp, &stateVector);
 	for (i=0; i<veclen; i++) {
-		ytmp[i] = Y0[i] + dt*(b31*dydt[i] + b32*ak2[i]);
+		ytmp[i] = Y0[i] + dt*(b31*dydt[i] + b32*stateVector[i]);
 	}
 	
 	// Third step
 	odesys->Compute_Derivatives(a3*dt, &ytmp, &ak3);
 	for (i=0; i<veclen; i++) {
-		ytmp[i] = Y0[i] + dt*(b41*dydt[i] + b42*ak2[i] + b43*ak3[i]);
+		ytmp[i] = Y0[i] + dt*(b41*dydt[i] + b42*stateVector[i] + b43*ak3[i]);
 	}
 	
 	// Fourth step
 	odesys->Compute_Derivatives(a4*dt, &ytmp, &ak4);
 	for (i=0; i<veclen; i++) {
-		ytmp[i] = Y0[i] + dt*(b51*dydt[i] + b52*ak2[i] + b53*ak3[i] + b54*ak4[i]);
+		ytmp[i] = Y0[i] + dt*(b51*dydt[i] + b52*stateVector[i] + b53*ak3[i] + b54*ak4[i]);
 	}
 
 	// Fifth step
 	odesys->Compute_Derivatives(a5*dt, &ytmp, &ak5);
 	for (i=0; i<veclen; i++) {
-		ytmp[i] = Y0[i] + dt*(b61*dydt[i] + b62*ak2[i] + b63*ak3[i] + b64*ak4[i] + b65*ak5[i]);
+		ytmp[i] = Y0[i] + dt*(b61*dydt[i] + b62*stateVector[i] + b63*ak3[i] + b64*ak4[i] + b65*ak5[i]);
 	}
 
 	// Sixth step

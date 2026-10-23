@@ -1,4 +1,4 @@
-// cl: /O2 /G7 /DNDEBUG /MD
+// cl: /DNDEBUG /MD
 // BFME2 MeshClass::Replace_Texture, complete 189B body at RVA 0x0014B800.
 // Reference source: EA BFME1 W3DAssetManager::replaceMeshTexture algorithm,
 // adapted into MeshClass with retail owning handles and no status return.
@@ -30,8 +30,8 @@ class RefCountClass {
 public:
     virtual void Delete_This();
     int RefCount;
-    void Add_Ref() { ++RefCount; }
-    void Release_Ref() { if(--RefCount==0) Delete_This(); }
+    __declspec(dllimport) __forceinline void Add_Ref() { ++RefCount; }
+    __declspec(dllimport) __forceinline void Release_Ref() { if(--RefCount==0) Delete_This(); }
 };
 class MeshModelClass : public RefCountClass {
 public: void Replace_Texture(const RefCountPtr<TextureClass>&, const RefCountPtr<TextureClass>&);
@@ -44,7 +44,7 @@ class MaterialInfoClass : public RefCountClass {
 public:
     int Texture_Count() const { return TextureCount; }
     RefCountPtr<TextureClass> Peek_Texture(int);
-    void Replace_Texture(int index,const RefCountPtr<TextureClass> &texture) { Textures[index]=texture; }
+    __declspec(dllimport) __forceinline void Replace_Texture(int index,const RefCountPtr<TextureClass> &texture) { Textures[index]=texture; }
 };
 class MeshClass {
 public:

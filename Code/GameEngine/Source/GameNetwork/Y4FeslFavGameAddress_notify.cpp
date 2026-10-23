@@ -1,4 +1,4 @@
-// cl: /O2 /GS
+// cl: /GS
 //
 // Retail 0x006768B0 (202B). FESL game-address notify path: builds a BfmeC994
 // message from the sink entry, formats the address text and dispatches it
@@ -96,8 +96,29 @@ void LanTheaterEmulator::notifyAddress( Rva00809500Entry *entry )
 	message.m_08 = sink->m_value08;
 	message.m_0c = sink->m_value0c;
 	reinterpret_cast< BfmeThingCIC * >( &message )->bfmeGoCIC(
-		(void *)0x00C71658,
+	(void *)"IP",
 		address );
-	Rva007F93E0( &message, (void *)0x00CE3F98, m_field10 );
+	Rva007F93E0( &message, (void *)"->L", m_field10 );
 	reinterpret_cast< Gen_007e86c0 * >( &message )->m();
+}
+
+// Retail's call sites in this unit's matched rows land on bodies rowed under
+// other spellings at the same addresses (same ABI). Bind the spellings used here.
+#pragma comment(linker, "/alternatename:?ji_009f70ba@@YAPADPADPBDI@Z=?ji_0062983e@@YAXXZ")
+
+// ?rva0066F740@Rva0066F740@@QAEXPAURva00809500Entry@@@Z @0x0066F740 8B member
+// forwarder to rowed ?notifyAddress@LanTheaterEmulator@@QAEXPAURva00809500Entry@@@Z
+// (0x006768B0; entry arg passes through the shared stack slot). No callers.
+// Honest address name.
+class Rva0066F740
+{
+public:
+	void rva0066F740(Rva00809500Entry *entry);
+private:
+	char m_pad[0x18];
+	LanTheaterEmulator *m_member;
+};
+void Rva0066F740::rva0066F740(Rva00809500Entry *entry)
+{
+	return m_member->notifyAddress(entry);
 }

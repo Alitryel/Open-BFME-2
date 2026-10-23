@@ -44,8 +44,14 @@ public:
 class Rva00802CD0Element
 {
 public:
-	void update( const Rva007F4F90LobbyCounts *counts, int txn );     // 0x00802CD0
 	char m_pad[ 0x40 ];
+};
+
+struct BfmeSrcBZC;
+class BfmeThingBZC
+{
+public:
+	void bfmeGoBZC( BfmeSrcBZC *src, int value );
 };
 
 class Rva007F7980Listener
@@ -104,7 +110,7 @@ void Rva007F66B0Browser::onLobbyCounts( Rva007E8810Message *msg )
 
 	Rva00802CD0Element *lobby = findLobby( lid );
 	if( lobby )
-		lobby->update( &counts, msg->m_txn );
+		((BfmeThingBZC *)lobby)->bfmeGoBZC( (BfmeSrcBZC *)&counts, msg->m_txn );
 	if( counts.m_numGames == 0 )
 		m_listener->onLobbyCounts( lid, 0 );
 }

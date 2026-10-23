@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib
 // stlport
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -38,30 +38,13 @@
 #include "GameLogic/Module/BridgeScaffoldBehavior.h"
 
 // ------------------------------------------------------------------------------------------------
-// ------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeScaffoldBehaviorCtorThunk.cpp
-// ??0BridgeScaffoldBehavior@@QAE@PAVThing@@PBVModuleData@@@Z present-unmatched
-BridgeScaffoldBehavior::BridgeScaffoldBehavior( Thing *thing, const ModuleData *moduleData )
-											: UpdateModule( thing, moduleData )
-{
-
-	m_targetMotion = STM_STILL;
-	m_createPos.zero();
-	m_riseToPos.zero();
-	m_buildPos.zero();
-	m_targetPos.zero();
-	m_lateralSpeed = 1.0f;
-	m_verticalSpeed = 1.0f;
-
-}  // end BridgeScaffoldBehavior
+// BridgeScaffoldBehavior ctor is defined in BridgeScaffoldBehaviorCtor.cpp (its row's unit).
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ??1BridgeScaffoldBehavior@@MAE@XZ present-unmatched
-BridgeScaffoldBehavior::~BridgeScaffoldBehavior( void )
-{
+// Unverified definition preserved in
+// reverse/attempt_support/update-virtual-link-20261021/BridgeScaffoldBehavior.cpp.txt.
 
-}  // end ~BridgeScaffoldBehavior
 
 // ------------------------------------------------------------------------------------------------
 /** Set all of the target positions that we're care about as a moving scaffold object */
@@ -153,82 +136,22 @@ void BridgeScaffoldBehavior::reverseMotion( void )
 /** STATIC MEMBER:
 	* Helper function to retrieve a bridge scaffold interface from an object if one is present */
 // ------------------------------------------------------------------------------------------------
-// ?getBridgeScaffoldBehaviorInterfaceFromObject@BridgeScaffoldBehavior@@SAPAVBridgeScaffoldBehaviorInterface@@PAVObject@@@Z present-unmatched
-BridgeScaffoldBehaviorInterface *BridgeScaffoldBehavior::getBridgeScaffoldBehaviorInterfaceFromObject( Object *obj )
-{
-
-	// santiy
-	if( obj == NULL )
-		return NULL;
-
-	// get the bridge tower behavior interface
-	BridgeScaffoldBehaviorInterface *bridgeScaffoldInterface = NULL;
-	BehaviorModule **bmi;
-	for( bmi = obj->getBehaviorModules(); *bmi; ++bmi )
-	{
-
-		bridgeScaffoldInterface = (*bmi)->getBridgeScaffoldBehaviorInterface();
-		if( bridgeScaffoldInterface )
-			return bridgeScaffoldInterface;
-
-	}  // end for bmi
-
-	// interface not found
-	return NULL;
-
-}  // end getBridgeScaffoldBehaviorInterfaceFromObject
+// BridgeScaffoldBehavior::getBridgeScaffoldBehaviorInterfaceFromObject is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Behavior/Rva004582F3Finish.cpp (0x004582F3).
 
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
-// ?crc@BridgeScaffoldBehavior@@MAEXPAVXfer@@@Z present-unmatched
-void BridgeScaffoldBehavior::crc( Xfer *xfer )
-{
+// Unverified definition preserved in
+// reverse/attempt_support/update-virtual-link-20261021/BridgeScaffoldBehavior.cpp.txt.
 
-	// extend base class
-	UpdateModule::crc( xfer );
-
-}  // end crc
 
 // ------------------------------------------------------------------------------------------------
 /** Xfer method
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
-// ?xfer@BridgeScaffoldBehavior@@MAEXPAVXfer@@@Z present-unmatched
-void BridgeScaffoldBehavior::xfer( Xfer *xfer )
-{
-
-	// version
-	XferVersion currentVersion = 1;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
-
-	// extend base class
-	UpdateModule::xfer( xfer );
-
-	// target motion
-	xfer->xferUser( &m_targetMotion, sizeof( ScaffoldTargetMotion ) );
-
-	// create pos
-	xfer->xferCoord3D( &m_createPos );
-
-	// rise to pos
-	xfer->xferCoord3D( &m_riseToPos );
-
-	// build pos
-	xfer->xferCoord3D( &m_buildPos );
-
-	// lateral speed
-	xfer->xferReal( &m_lateralSpeed );
-
-	// vertical speed
-	xfer->xferReal( &m_verticalSpeed );
-
-	// current target pos
-	xfer->xferCoord3D( &m_targetPos );
-
-}  // end xfer
+// BridgeScaffoldBehavior::xfer: defined in BridgeScaffoldBehaviorXfer.cpp (its row's unit).
+  // end xfer
 
 // ------------------------------------------------------------------------------------------------
 /** Load post process */

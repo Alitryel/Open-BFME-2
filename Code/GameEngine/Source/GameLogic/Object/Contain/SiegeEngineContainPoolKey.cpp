@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva00047C03A@SiegeEngineContain@@SA?AW4NameKeyType@@XZ @0x47C03A
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@SiegeEngineContain@@UBE?AW4NameKeyType@@XZ @0x47C03A
 // (69B): cached pool-name key for SiegeEngineContain. The class
 // identity comes from the pool-name string the body pushes
 // ("SiegeEngineContain"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class SiegeEngineContain
 {
 public:
-	static NameKeyType rva00047C03A();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00047C03A@SiegeEngineContain@@SA?AW4NameKeyType@@XZ
-NameKeyType SiegeEngineContain::rva00047C03A()
+// ?getModuleNameKey@SiegeEngineContain@@UBE?AW4NameKeyType@@XZ
+NameKeyType SiegeEngineContain::getModuleNameKey() const
 {
 	static NameKeyType TheSiegeEngineContainPoolKey =
 		TheNameKeyGenerator->nameToKey("SiegeEngineContain");

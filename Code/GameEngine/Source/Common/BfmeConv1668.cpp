@@ -15,3 +15,5 @@ BfmeNodeEQB * __stdcall bfmeLinkEQB(BfmeNodeEQB *node)
 	g_bfmeHeadEQB = node;
 	return node;
 }
+// _g_bfmeHeadEQB: the global at VA 0xe0abb0 is ?g_Va00E0ABB0@@3HA.
+#pragma comment(linker, "/alternatename:_g_bfmeHeadEQB=?g_Va00E0ABB0@@3HA")

@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva00049E15E@ProductionUpdate@@SA?AW4NameKeyType@@XZ @0x49e15e
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@ProductionUpdate@@UBE?AW4NameKeyType@@XZ @0x49e15e
 // (69B): cached pool-name key for ProductionUpdate. The class
 // identity comes from the pool-name string the body pushes
 // ("ProductionUpdate"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class ProductionUpdate
 {
 public:
-	static NameKeyType rva00049E15E();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00049E15E@ProductionUpdate@@SA?AW4NameKeyType@@XZ
-NameKeyType ProductionUpdate::rva00049E15E()
+// ?getModuleNameKey@ProductionUpdate@@UBE?AW4NameKeyType@@XZ
+NameKeyType ProductionUpdate::getModuleNameKey() const
 {
 	static NameKeyType TheProductionUpdatePoolKey =
 		TheNameKeyGenerator->nameToKey("ProductionUpdate");

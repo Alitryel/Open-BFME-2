@@ -19,7 +19,7 @@
 // declared one shifts every slot by 4.
 #include <vector>
 
-struct BfmeE16 { float x, y, z, w; };
+#include "../../../../../Libraries/Include/Lib/BfmeE16.h"
 
 class Thing;
 class ModuleData;
@@ -45,11 +45,6 @@ protected:
 	const void *m_p20;
 	unsigned char m_pad2[0x88 - 0x24];
 };
-
-// ??1Rva0044EF5E@@ present-unmatched
-Rva0044EF5E::~Rva0044EF5E()
-{
-}
 
 class StoreObjectsSpecialPower : public Rva0044EF5E
 {

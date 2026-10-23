@@ -23,7 +23,18 @@ private:
 };
 
 // ?friend_newModuleInstance@ShroudCrateCollide@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *ShroudCrateCollide::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *ShroudCrateCollide::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new ShroudCrateCollide(thing, moduleData));
 }
+
+// Select-any anchor: this unit owns the row above while other TUs emit it as
+// an inline copy. The anchor keeps this unit emitting its copy for the ledger;
+// it is not retail code.
+#pragma inline_depth(0)
+// ?bfmeEmitShroudCrateCollideFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
+void bfmeEmitShroudCrateCollideFriendNew(Thing *thing, const ModuleData *moduleData)
+{
+	ShroudCrateCollide::friend_newModuleInstance(thing, moduleData);
+}
+#pragma inline_depth()

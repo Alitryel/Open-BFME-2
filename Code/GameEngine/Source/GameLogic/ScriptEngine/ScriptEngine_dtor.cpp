@@ -1,4 +1,4 @@
-// cl: /O1 /EHs
+// cl: /Ireference/shims/bfme2_ascii /EHs /Ow
 //
 // ScriptEngine::~ScriptEngine, retail 0x0020A2B0 (726 bytes). Its scalar
 // deleting destructor (0x0020C0C7) is slot 0 of the vtable at 0x007E3D70.
@@ -30,22 +30,9 @@ extern "C" __declspec(dllimport) FARPROC __stdcall GetProcAddress(HMODULE module
 extern "C" __declspec(dllimport) int __stdcall FreeLibrary(HMODULE module);
 extern "C" void __cdecl free(void *block);
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
-private:
-	bool m_subsystemFlag;  // +0x04
-	int  m_subsystemValue; // +0x08
-};
-
-class Snapshot
-{
-public:
-	virtual ~Snapshot() {}
-	virtual void crc() = 0;
-};
+#include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 // STLport vector storage released with free(); element type trivially destroyed.
 class FreeVector
@@ -171,10 +158,10 @@ private:
 	void *m_node;
 };
 
-class Rva00205AF8Record
+class Rva00205AF8
 {
 public:
-	~Rva00205AF8Record();
+	~Rva00205AF8();
 
 private:
 	char m_body[12];
@@ -200,19 +187,8 @@ private:
 	char m_body[16];
 };
 
-template <typename T>
-class StringBase
-{
-public:
-	~StringBase();
+#include "ascii_string.h"
 
-private:
-	T *m_data;
-};
-
-class AsciiString : public StringBase<char>
-{
-};
 
 class Template
 {
@@ -233,11 +209,11 @@ private:
 };
 
 template <class T>
-inline void swapValues(T &a, T &b)
+inline void swapValues(T &lhs, T &rhs)
 {
-	T tmp = a;
-	a = b;
-	b = tmp;
+	T tmp = lhs;
+	lhs = rhs;
+	rhs = tmp;
 }
 
 class DllHandle
@@ -259,6 +235,8 @@ public:
 	BfmeDualVtableReleaseDtor() : m_target(0) {}
 	virtual ~BfmeDualVtableReleaseDtor(void);
 
+	BfmeReleaseTarget *target() const { return m_target; }
+
 	void swap(BfmeDualVtableReleaseDtor &that)
 	{
 		swapValues(m_module, that.m_module);
@@ -278,7 +256,7 @@ public:
 	virtual void holderSlot0();
 	void release();
 
-private:
+protected:
 	void *m_handle; // +0x04
 	bool m_active;  // +0x08
 };
@@ -286,11 +264,32 @@ private:
 class Rva0020453CHolder : public Rva0020453CHolderBase
 {
 public:
+	Rva0020453CHolder() { m_handle = 0; m_active = false; }
 	virtual void holderSlot0();
 };
 
 static Rva0020453CHolder *TheDebugWindowHolder;
-extern void *TheDebugWindowInterface;
+
+// Particle-editor host held at TheFXParticleEditor+8: slot 2 takes the
+// particle-system manager's +0x50 value, slot 3 the debug-window holder.
+class BfmeReleaseTarget
+{
+public:
+	virtual void hostSlot0();
+	virtual void hostSlot1();
+	virtual void hostSlot2(int value);
+	virtual void hostSlot3(Rva0020453CHolder *holder);
+	virtual void hostSlot4();
+};
+
+struct Rva009FDD04ManagerView
+{
+	char m_pad[0x50];
+	int m_value; // +0x50
+};
+extern class ParticleSystemManager *TheParticleSystemManager;
+class ScriptEngine;
+extern ScriptEngine *TheScriptEngine;
 
 static HMODULE st_DebugDLL;
 
@@ -300,6 +299,9 @@ public:
 	virtual ~ScriptEngine();
 	virtual void crc();
 	virtual void reset();
+
+protected:
+	void particleEditorUpdate();
 
 private:
 	FreeVector m_sequentialScripts;               // +0x10
@@ -320,7 +322,7 @@ private:
 	char m_pad1A110[0x10];                        // +0x1A110
 	Rva00207E26Vector m_vector1A120;              // +0x1A120
 	char m_pad1A12C[0x38];                        // +0x1A12C
-	Rva00205AF8Record m_playerRecords[20];        // +0x1A164
+	Rva00205AF8 m_playerRecords[20];        // +0x1A164
 	Rva004EC395List m_list1A254;                  // +0x1A254
 	Rva004EC395List m_list1A258;                  // +0x1A258
 	Rva004EC395List m_list1A25C;                  // +0x1A25C
@@ -339,7 +341,7 @@ private:
 
 ScriptEngine::~ScriptEngine()
 {
-	TheDebugWindowInterface = 0;
+	TheScriptEngine = 0;
 	BfmeDualVtableReleaseDtor().swap(TheFXParticleEditor);
 
 	delete TheDebugWindowHolder;
@@ -356,4 +358,18 @@ ScriptEngine::~ScriptEngine()
 	}
 
 	reset();
+}
+// ?TheDebugWindowInterface@@3PAXA: the global at VA 0xdfe16c is ?TheScriptEngine@@3PAVScriptEngine@@A.
+
+void ScriptEngine::particleEditorUpdate()
+{
+	if (!TheFXParticleEditor.target())
+		return;
+	if (!TheDebugWindowHolder) {
+		Rva0020453CHolder *holder = new Rva0020453CHolder;
+		TheDebugWindowHolder = holder;
+		TheFXParticleEditor.target()->hostSlot3(holder);
+	}
+	TheFXParticleEditor.target()->hostSlot2(((Rva009FDD04ManagerView *)TheParticleSystemManager)->m_value);
+	return TheFXParticleEditor.target()->hostSlot4();
 }

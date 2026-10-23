@@ -36,15 +36,10 @@
 		return (char *)this - BACK; \
 	}
 
-BFME_DISP8_NEG_LEA_GETTER(Rva00305927LeaField, 100)
-BFME_DISP8_NEG_LEA_GETTER(Rva0030592BLeaField, 116)
 BFME_DISP8_LEA_GETTER(Rva00314046LeaField, 0x30)
 BFME_DISP8_LEA_GETTER(Rva003EFDD7LeaField, 0x4C)
 BFME_DISP8_LEA_GETTER(Rva0049CB82LeaField, 0x28)
 BFME_DISP8_LEA_GETTER(Rva005C4AD1LeaField, 0x04)
-BFME_DISP8_LEA_GETTER(Rva001D96ECLeaField, 0x50)
-BFME_DISP8_LEA_GETTER(Rva001D96F0LeaField, 0x60)
-BFME_DISP8_LEA_GETTER(Rva001D96F4LeaField, 0x70)
 BFME_DISP8_NEG_LEA_GETTER(Rva00299C74LeaField, 108)
 BFME_DISP8_NEG_LEA_GETTER(Rva00299C78LeaField, 112)
 BFME_DISP8_LEA_GETTER(Rva00042287LeaField, 0x58)
@@ -78,3 +73,34 @@ BFME_DISP8_LEA_GETTER(Rva001DBA69LeaField, 0x0C)
 BFME_DISP8_LEA_GETTER(Rva0030BBA5LeaField, 0x68)
 BFME_DISP8_LEA_GETTER(Rva003F712FLeaField, 0x10)
 BFME_DISP8_NEG_LEA_GETTER(Rva004FA5F4LeaField, 12)
+BFME_DISP8_LEA_GETTER(Rva0065ECD0LeaField, 0x54)
+BFME_DISP8_LEA_GETTER(Rva00140C40LeaField, 0x18)
+BFME_DISP8_LEA_GETTER(Rva00661B00LeaField, 0x31)
+BFME_DISP8_LEA_GETTER(Rva0066D430LeaField, 0x26)
+BFME_DISP8_LEA_GETTER(Rva0066D4C0LeaField, 0x0C)
+BFME_DISP8_LEA_GETTER(Rva0066E450LeaField, 0x14)
+BFME_DISP8_LEA_GETTER(Rva006BD500LeaField, 0x44)
+BFME_DISP8_LEA_GETTER(Rva006C03B0LeaField, 0x24)
+BFME_DISP8_LEA_GETTER(Rva0071AE40LeaField, 0x58)
+BFME_DISP8_LEA_GETTER(Rva004F5FA3LeaGetter, 0x20)
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?get@Rva007EA650FieldAddress@@QAEPADXZ=?get@Rva0066D7D0LeaField@@QBEPAXXZ")
+#pragma comment(linker, "/alternatename:?get@Rva007EA6A0FieldAddress@@QAEPADXZ=?get@Rva00657640LeaField@@QBEPAXXZ")
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?get@Rva007EA690FieldAddress@@QAEPADXZ=?get@Rva00657630LeaField@@QBEPAXXZ")
+#pragma comment(linker, "/alternatename:?a_007ea650@@YAXXZ=?get@Rva0066D7D0LeaField@@QBEPAXXZ")
+
+// Clean BF1 9cbfb551fe Common/Rva00880960Accessors.cpp semantic guide.
+// Native 006C03C0..006C03CB is a complete independently bounded RET leaf.
+// Target behavior: receiver8 plus eight-byte element stride; RET4.
+// Original owner and full array bounds remain unknown; address-owned view only.
+struct Rva006C03C0Slot { unsigned char bytes[8]; };
+class Rva006C03C0Fields {
+public: void *at(int index);
+private: unsigned char unknown[8]; Rva006C03C0Slot entries[1];
+};
+void *Rva006C03C0Fields::at(int index) { return &entries[index]; }

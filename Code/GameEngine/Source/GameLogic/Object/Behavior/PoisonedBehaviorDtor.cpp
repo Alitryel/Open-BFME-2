@@ -1,4 +1,4 @@
-// cl: /O1 /MD
+// cl: /MD
 //
 // ??1PoisonedBehavior@@MAE@XZ, retail 0x00482ED9, 32 bytes. Behavior-side
 // destructor completing the PoisonedBehavior file-unit (ctor rowed at
@@ -14,10 +14,15 @@
 // but never defined here so the call resolves via the pin, and the vtable
 // values are DIR32 auto-patches.
 
+// The shared headers declare these members with the access/virtual spelling
+// retail's vftables reference; the ledger row keeps the spelling this TU
+// compiled to. Same function, same address: bind the header spelling here.
+#pragma comment(linker, "/alternatename:??1PoisonedBehavior@@UAE@XZ=??1PoisonedBehavior@@MAE@XZ")
 class Thing;
 class ModuleData;
 class Object;
 class DamageInfo;
+enum BodyDamageType;
 
 class BehaviorModuleBase
 {
@@ -58,11 +63,21 @@ protected:
 class DamageModuleInterface
 {
 public:
-	virtual void onDamage(DamageInfo *damageInfo);
+	virtual void onDamage(DamageInfo *damageInfo) = 0;
+	virtual void onHealing(DamageInfo *damageInfo) = 0;
+	virtual void onBodyDamageStateChange(
+		const DamageInfo *damageInfo, BodyDamageType oldState, BodyDamageType newState) = 0;
 };
 
 class PoisonedBehavior : public UpdateModule, public DamageModuleInterface
 {
+public:
+	// Rowed in PoisonedBehaviorUpdate.cpp (0x004830FB); retail's
+	// DamageModuleInterface table 0x00C497E8 holds it in slot 0.
+	virtual void onDamage(DamageInfo *damageInfo);
+	virtual void onHealing(DamageInfo *damageInfo);
+	virtual void onBodyDamageStateChange(
+		const DamageInfo *damageInfo, BodyDamageType oldState, BodyDamageType newState) {}
 protected:
 	virtual ~PoisonedBehavior();
 private:
@@ -76,3 +91,8 @@ private:
 PoisonedBehavior::~PoisonedBehavior()
 {
 }
+
+// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
+// each one has the same function in that slot (vftable addresses from matched vptr
+// stores). Bind them to the rows at those functions.
+#pragma comment(linker, "/alternatename:?behaviorModuleOtherAnchor@BehaviorModuleOther@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

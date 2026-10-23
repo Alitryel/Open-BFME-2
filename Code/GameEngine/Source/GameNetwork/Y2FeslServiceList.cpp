@@ -56,3 +56,8 @@ void Rva007EAServiceList::remove(Rva00803080 *owner)
 		"\\views\\feslbuild_main\\jabba\\fesl\\source\\servicehub.cpp",
 		694);
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?bfmeAddVMO@BfmeListVMO@@QAEXPAVBfmeSvcVMO@@@Z=?add@Rva007EAServiceList@@QAEXPAVRva00803080@@@Z")
+#pragma comment(linker, "/alternatename:?bfmeRemoveVMO@BfmeListVMO@@QAEXPAVBfmeSvcVMO@@@Z=?remove@Rva007EAServiceList@@QAEXPAVRva00803080@@@Z")

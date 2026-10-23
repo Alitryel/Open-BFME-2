@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva0004BB98A@SquishCollide@@SA?AW4NameKeyType@@XZ @0x4BB98A
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@SquishCollide@@UBE?AW4NameKeyType@@XZ @0x4BB98A
 // (69B): cached pool-name key for SquishCollide. The class
 // identity comes from the pool-name string the body pushes
 // ("SquishCollide"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class SquishCollide
 {
 public:
-	static NameKeyType rva0004BB98A();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva0004BB98A@SquishCollide@@SA?AW4NameKeyType@@XZ
-NameKeyType SquishCollide::rva0004BB98A()
+// ?getModuleNameKey@SquishCollide@@UBE?AW4NameKeyType@@XZ
+NameKeyType SquishCollide::getModuleNameKey() const
 {
 	static NameKeyType TheSquishCollidePoolKey =
 		TheNameKeyGenerator->nameToKey("SquishCollide");

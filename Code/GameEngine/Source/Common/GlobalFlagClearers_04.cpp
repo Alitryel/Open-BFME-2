@@ -9,49 +9,49 @@
 // eax (`return g &= MASK`). Identity is not recovered; every name is derived
 // from an address.
 
-extern unsigned int g_Va012F1BC0;
+extern unsigned int g_Va00DFEFA0;
 
 unsigned int Rva00C267F2ClearFlag(void)
 {
-	return g_Va012F1BC0 &= 0xFFFEFFFFu;
+	return g_Va00DFEFA0 &= 0xFFFEFFFFu;
 }
 
 unsigned int Rva00C26802ClearFlag(void)
 {
-	return g_Va012F1BC0 &= 0xFFFDFFFFu;
+	return g_Va00DFEFA0 &= 0xFFFDFFFFu;
 }
 
 unsigned int Rva00C26812ClearFlag(void)
 {
-	return g_Va012F1BC0 &= 0xFFFBFFFFu;
+	return g_Va00DFEFA0 &= 0xFFFBFFFFu;
 }
 
 unsigned int Rva00C26822ClearFlag(void)
 {
-	return g_Va012F1BC0 &= 0xFFF7FFFFu;
+	return g_Va00DFEFA0 &= 0xFFF7FFFFu;
 }
 
 unsigned int Rva00C26832ClearFlag(void)
 {
-	return g_Va012F1BC0 &= 0xFFEFFFFFu;
+	return g_Va00DFEFA0 &= 0xFFEFFFFFu;
 }
 
 unsigned int Rva00C26842ClearFlag(void)
 {
-	return g_Va012F1BC0 &= 0xFFDFFFFFu;
+	return g_Va00DFEFA0 &= 0xFFDFFFFFu;
 }
 
 unsigned int Rva00C26852ClearFlag(void)
 {
-	return g_Va012F1BC0 &= 0xFFBFFFFFu;
+	return g_Va00DFEFA0 &= 0xFFBFFFFFu;
 }
 
 unsigned int Rva00C26862ClearFlag(void)
 {
-	return g_Va012F1BC0 &= 0xDFFFFFFFu;
+	return g_Va00DFEFA0 &= 0xDFFFFFFFu;
 }
 
 unsigned int Rva00C26872ClearFlag(void)
 {
-	return g_Va012F1BC0 &= 0xBFFFFFFFu;
+	return g_Va00DFEFA0 &= 0xBFFFFFFFu;
 }

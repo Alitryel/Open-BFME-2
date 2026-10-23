@@ -21,7 +21,15 @@ private:
 };
 
 // ?friend_newModuleInstance@HeightDieUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-Module *HeightDieUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+inline Module *HeightDieUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new HeightDieUpdate(thing, moduleData));
 }
+
+#pragma inline_depth(0)
+// ?bfmeEmitHeightDieUpdateFriendNew@@YAXXZ present-unmatched
+void bfmeEmitHeightDieUpdateFriendNew()
+{
+	HeightDieUpdate::friend_newModuleInstance(0, 0);
+}
+#pragma inline_depth()

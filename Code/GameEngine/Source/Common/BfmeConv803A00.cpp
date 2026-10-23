@@ -20,26 +20,30 @@ public:
 	int getInt(const char *k, int d) throw();
 };
 
+// The ledger row at the send callee is Rva008038F0Sender::send.
+class BfmeC994;
+class Rva008038F0Sender
+{
+public:
+	void send(BfmeC994 *m) throw();
+};
+
 class BfmeOwner803A00
 {
 public:
 	void go(BfmeSrc803A00 *src);
-	void send(BfmeMsg803A00 *m) throw();
 };
 
-extern char g_bfmeName1052[];
-extern char g_bfmeKey803A00A[];
-extern char g_bfmeKey803A00B[];
 
 void BfmeOwner803A00::go(BfmeSrc803A00 *src)
 {
 	char buf[0x40];
 	BfmeMsg803A00 msg(buf, 0x40);
 	msg.m_category = 'CONN';
-	msg.addInt(g_bfmeKey803A00A, 2);
-	msg.addInt(g_bfmeKey803A00B, 0);
-	int tid = src->getInt(g_bfmeName1052, -1);
+	msg.addInt((char *)"PROT", 2);
+	msg.addInt((char *)"TIME", 0);
+	int tid = src->getInt((char *)"TID", -1);
 	if (tid != -1)
-		msg.addInt(g_bfmeName1052, tid);
-	send(&msg);
+		msg.addInt((char *)"TID", tid);
+	((Rva008038F0Sender *)this)->send((BfmeC994 *)&msg);
 }

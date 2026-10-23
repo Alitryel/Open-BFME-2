@@ -1,4 +1,4 @@
-// cl: /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/zh_outofline /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/GameLogic/Object/Weapon.cpp); this unit had no counterpart under Code/.
@@ -33,6 +33,40 @@
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+#include <list>
+
+// vector<int>/char destruction otherwise instantiates per-TU allocator
+// deallocate COMDATs (one byte shape per TU flags); explicit
+// dllimport+forceinline specializations take those calls inline so this
+// TU emits no external copies. Bodies are verbatim primary.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<int>::deallocate(int* __p, size_t __n) const {
+  _STLP_ASSERT( (__p == 0) == (__n == 0) )
+    if (__p != 0) __sgi_alloc::deallocate((void*)__p, __n * sizeof(value_type));
+}
+template <> void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int*, size_t);
+// Declaration-only: retail keeps one 14-byte copy of the vector<int> teardown
+// (0x0007FAB3); this TU's flags would emit a private 24-byte one.
+template <> vector<int, allocator<int> >::~vector();
+template <> _Vector_base<int, allocator<int> >::~_Vector_base();
+}
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 
 #define DEFINE_DEATH_NAMES
 #define DEFINE_WEAPONBONUSCONDITION_NAMES
@@ -101,63 +135,27 @@ const DistanceCalculationType DAMAGE_RANGE_CALC_TYPE = FROM_BOUNDINGSPHERE_3D;
 //-------------------------------------------------------------------------------------------------
 static void parsePerVetLevelAsciiString( INI* ini, void* /*instance*/, void * store, const void* /*userData*/ )
 {
-	AsciiString* s = (AsciiString*)store;
+	AsciiString* asciiString = (AsciiString*)store;
 	VeterancyLevel v = (VeterancyLevel)INI::scanIndexList(ini->getNextToken(), TheVeterancyNames);
-	s[v] = ini->getNextAsciiString();
+	asciiString[v] = ini->getNextAsciiString();
 }
 
 //-------------------------------------------------------------------------------------------------
 static void parseAllVetLevelsAsciiString( INI* ini, void* /*instance*/, void * store, const void* /*userData*/ )
 {
-	AsciiString* s = (AsciiString*)store;
+	AsciiString* asciiString = (AsciiString*)store;
 	AsciiString a = ini->getNextAsciiString();
 	for (Int i = LEVEL_FIRST; i <= LEVEL_LAST; ++i)
-		s[i] = a;
+		asciiString[i] = a;
 }
 
 //-------------------------------------------------------------------------------------------------
-static void parsePerVetLevelFXList( INI* ini, void* /*instance*/, void * store, const void* /*userData*/ )
-{
-	typedef const FXList* ConstFXListPtr;
-	ConstFXListPtr* s = (ConstFXListPtr*)store;
-	VeterancyLevel v = (VeterancyLevel)INI::scanIndexList(ini->getNextToken(), TheVeterancyNames);
-	const FXList* fx = NULL;
-	INI::parseFXList(ini, NULL, &fx, NULL);
-	s[v] = fx;
-}
-
-//-------------------------------------------------------------------------------------------------
-static void parseAllVetLevelsFXList( INI* ini, void* /*instance*/, void * store, const void* /*userData*/ )
-{
-	typedef const FXList* ConstFXListPtr;
-	ConstFXListPtr* s = (ConstFXListPtr*)store;
-	const FXList* fx = NULL;
-	INI::parseFXList(ini, NULL, &fx, NULL);
-	for (Int i = LEVEL_FIRST; i <= LEVEL_LAST; ++i)
-		s[i] = fx;
-}
-
-//-------------------------------------------------------------------------------------------------
-static void parsePerVetLevelPSys( INI* ini, void* /*instance*/, void * store, const void* /*userData*/ )
-{
-	typedef const ParticleSystemTemplate* ConstParticleSystemTemplatePtr;
-	ConstParticleSystemTemplatePtr* s = (ConstParticleSystemTemplatePtr*)store;
-	VeterancyLevel v = (VeterancyLevel)INI::scanIndexList(ini->getNextToken(), TheVeterancyNames);
-	ConstParticleSystemTemplatePtr pst = NULL;
-	INI::parseParticleSystemTemplate(ini, NULL, &pst, NULL);
-	s[v] = pst;
-}
-
-//-------------------------------------------------------------------------------------------------
-static void parseAllVetLevelsPSys( INI* ini, void* /*instance*/, void * store, const void* /*userData*/ )
-{
-	typedef const ParticleSystemTemplate* ConstParticleSystemTemplatePtr;
-	ConstParticleSystemTemplatePtr* s = (ConstParticleSystemTemplatePtr*)store;
-	ConstParticleSystemTemplatePtr pst = NULL;
-	INI::parseParticleSystemTemplate(ini, NULL, &pst, NULL);
-	for (Int i = LEVEL_FIRST; i <= LEVEL_LAST; ++i)
-		s[i] = pst;
-}
+// The FXList and PSys vet-level parsers live in WeaponParseVetLevels.cpp (member
+// scanIndexList form); declared here for the field table below.
+void parsePerVetLevelFXList( INI* ini, void* /*instance*/, void * store, const void* /*userData*/ );
+void parseAllVetLevelsFXList( INI* ini, void* /*instance*/, void * store, const void* /*userData*/ );
+void parsePerVetLevelPSys( INI* ini, void* /*instance*/, void * store, const void* /*userData*/ );
+void parseAllVetLevelsPSys( INI* ini, void* /*instance*/, void * store, const void* /*userData*/ );
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // PUBLIC DATA ////////////////////////////////////////////////////////////////////////////////////
@@ -256,84 +254,13 @@ const FieldParse WeaponTemplate::TheWeaponTemplateFieldParseTable[] =
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 //-------------------------------------------------------------------------------------------------
-WeaponTemplate::WeaponTemplate() : m_nextTemplate(NULL)
-{
-
-	m_name													= "NoNameWeapon";
-	m_nameKey												= NAMEKEY_INVALID;
-	m_primaryDamage									= 0.0f;
-	m_primaryDamageRadius						= 0.0f;
-	m_secondaryDamage								= 0.0f;
-	m_secondaryDamageRadius					= 0.0f;
-	m_attackRange										= 0.0f;
-	m_minimumAttackRange						= 0.0f;
-	m_requestAssistRange						= 0.0f;
-	m_aimDelta											= 0.0f;
-	m_scatterRadius									= 0.0f;
-	m_scatterTargetScalar						= 0.0f;
-	m_shockWaveAmount								= 0.0f;
-	m_shockWaveRadius								= 0.0f;
-	m_shockWaveTaperOff							= 0.0f;
-	m_damageType										= DAMAGE_EXPLOSION;
-	m_deathType											= DEATH_NORMAL;
-	m_weaponSpeed										= 999999.0f;	// effectively instant
-	m_minWeaponSpeed								= 999999.0f;	// effectively instant
-	m_isScaleWeaponSpeed						= FALSE;
-	m_weaponRecoil									= 0.0f;		// no recoil
-	m_minTargetPitch								= -PI;
-	m_maxTargetPitch								= PI;
-	m_radiusDamageAngle							= PI;	// PI each way, so full circle
-	m_projectileName.clear();					// no projectile
-	m_projectileTmpl								= NULL;
-	for (Int i = LEVEL_FIRST; i <= LEVEL_LAST; ++i)
-	{
-		m_fireOCLNames[i].clear();
-		m_projectileDetonationOCLNames[i].clear();
-		m_projectileExhausts[i]					= NULL;
-		m_fireOCLs[i]										= NULL;
-		m_projectileDetonationOCLs[i]		= NULL;
-		m_fireFXs[i]										= NULL;
-		m_projectileDetonateFXs[i]			= NULL;
-	}
-	m_damageDealtAtSelfPosition			= false;
-	m_affectsMask										= (WEAPON_AFFECTS_ALLIES | WEAPON_AFFECTS_ENEMIES | WEAPON_AFFECTS_NEUTRALS);
-	// most projectile weapons don't want to collide with nontargeted enemies/allies or trees...
-	m_collideMask										= (WEAPON_COLLIDE_STRUCTURES);
-	m_reloadType										= AUTO_RELOAD;
-	m_prefireType										= PREFIRE_PER_SHOT;
-	m_clipSize											= 0;
-	m_continuousFireOneShotsNeeded	= INT_MAX;
-	m_continuousFireTwoShotsNeeded	= INT_MAX;
-	m_continuousFireCoastFrames			= 0;
- 	m_autoReloadWhenIdleFrames			= 0;
-	m_clipReloadTime								= 0;
-	m_minDelayBetweenShots					= 0;
-	m_maxDelayBetweenShots					= 0;
-	m_fireSoundLoopTime							= 0;
-	m_extraBonus										= NULL;
-	m_shotsPerBarrel								= 1;
-	m_antiMask											= WEAPON_ANTI_GROUND;	// but not air or projectile.
-	m_projectileStreamName.clear();
-	m_laserName.clear();
-	m_laserBoneName.clear();
-	m_historicBonusTime							= 0;
-	m_historicBonusCount						= 0;
-	m_historicBonusRadius						= 0;
-	m_historicBonusWeapon						= NULL;
-	m_leechRangeWeapon							= FALSE;
-	m_capableOfFollowingWaypoint		= FALSE;
-	m_isShowsAmmoPips								= FALSE;
-	m_allowAttackGarrisonedBldgs		= FALSE;
-	m_playFXWhenStealthed						= FALSE;
-	m_preAttackDelay								= 0;
-	m_continueAttackRange						= 0.0f;
-	m_infantryInaccuracyDist				= 0.0f;
-	m_damageStatusType							= OBJECT_STATUS_NONE;
-	m_suspendFXDelay								= 0;
-	m_dieOnDetonate						= FALSE;
-}
+// ??0WeaponTemplate@@ present-unmatched
+// WeaponTemplate::WeaponTemplate(): dropped so this TU stops emitting the non-retail
+// ??0WeaponTemplate@@QAE@XZ copy that came first in link order ahead of retail's rowed
+// owner (0x002CD169, Rva002CD169Ctor.cpp), whose REL32 pin this TU's callers bind to.
 
 //-------------------------------------------------------------------------------------------------
+// ??1WeaponTemplate@@ present-unmatched
 WeaponTemplate::~WeaponTemplate()
 {
 	if (m_nextTemplate) {
@@ -346,6 +273,7 @@ WeaponTemplate::~WeaponTemplate()
 }
 
 // ------------------------------------------------------------------------------------------------
+// ?reset@WeaponTemplate@@ present-unmatched
 void WeaponTemplate::reset( void )
 {
 	m_historicDamage.clear();
@@ -363,57 +291,14 @@ void WeaponTemplate::reset( void )
 }
 
 //-------------------------------------------------------------------------------------------------
-/*static*/ void WeaponTemplate::parseScatterTarget( INI* ini, void *instance, void * /*store*/, const void* /*userData*/ )
-{
-	// Accept multiple listings of Coord2D's.
-	WeaponTemplate* self = (WeaponTemplate*)instance;
-
-	Coord2D target;
-	target.x = 0;
-	target.y = 0;
-	INI::parseCoord2D( ini, NULL, &target, NULL );
-
-	self->m_scatterTargets.push_back(target);
-}
+// WeaponTemplate::parseScatterTarget: defined in WeaponTemplateParseScatterTarget.cpp
+// (its row's unit, BFME 2 layout).
 
 //-------------------------------------------------------------------------------------------------
-/*static*/ void WeaponTemplate::parseShotDelay( INI* ini, void *instance, void * /*store*/, const void* /*userData*/ )
-{
-	// This smart parser allows both a single number for traditional delay, and a labeled pair of numbers for a delay range
-	WeaponTemplate* self = (WeaponTemplate*)instance;
-	static const char *MIN_LABEL = "Min";
-	static const char *MAX_LABEL = "Max";
-
-	const char* token = ini->getNextTokenOrNull(ini->getSepsColon());
-
-	if( stricmp(token, MIN_LABEL) == 0 )
-	{
-		// Two entry min/max
-		self->m_minDelayBetweenShots = INI::scanInt(ini->getNextToken(ini->getSepsColon()));
-		token = ini->getNextTokenOrNull(ini->getSepsColon());
-		if( stricmp(token, MAX_LABEL) != 0 )
-		{
-			// Messed up double entry
-			self->m_maxDelayBetweenShots = self->m_minDelayBetweenShots;
-		}
-		else
-			self->m_maxDelayBetweenShots = INI::scanInt(ini->getNextToken(ini->getSepsColon()));
-	}
-	else 
-	{
-		// single entry, as in no label so the first token is just a number
-		self->m_minDelayBetweenShots = INI::scanInt(token);
-		self->m_maxDelayBetweenShots = self->m_minDelayBetweenShots;
-	}
-
-	// No matter what we have now, we want to convert it to frames from msec. 
-	// ShotDelay used to use parseDurationUnsignedInt, and we are expanding on that.
-	self->m_minDelayBetweenShots = ceilf(ConvertDurationFromMsecsToFrames((Real)self->m_minDelayBetweenShots));
-	self->m_maxDelayBetweenShots = ceilf(ConvertDurationFromMsecsToFrames((Real)self->m_maxDelayBetweenShots));
-
-}
+// WeaponTemplate::parseShotDelay is defined in WeaponParseShotDelayClip.cpp.
 
 //-------------------------------------------------------------------------------------------------
+// ?postProcessLoad@WeaponTemplate@@ present-unmatched
 void WeaponTemplate::postProcessLoad()
 {
 	if (!TheThingFactory)
@@ -462,6 +347,7 @@ void WeaponTemplate::postProcessLoad()
 }  // end postProcessLoad
 
 //-------------------------------------------------------------------------------------------------
+// ?getAttackRange@WeaponTemplate@@ present-unmatched
 Real WeaponTemplate::getAttackRange(const WeaponBonus& bonus) const 
 {
 #ifdef RATIONALIZE_ATTACK_RANGE
@@ -479,27 +365,17 @@ Real WeaponTemplate::getAttackRange(const WeaponBonus& bonus) const
 }
 
 //-------------------------------------------------------------------------------------------------
-Real WeaponTemplate::getMinimumAttackRange() const 
-{ 
-#ifdef RATIONALIZE_ATTACK_RANGE
-	// Note - undersize by 1/4 of a pathfind cell, so that the goal is not teetering on the edge
-	// of firing range.  jba.
-	const Real UNDERSIZE = PATHFIND_CELL_SIZE_F*0.25f;
-	Real r = m_minimumAttackRange - UNDERSIZE; 
-	if (r < 0.0f) r = 0.0f;
-	return r;
-#else
-	return m_minimumAttackRange; 
-#endif
-}
+// WeaponTemplate::getMinimumAttackRange: defined in WeaponTemplateMinimumRange.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
+// ?getUnmodifiedAttackRange@WeaponTemplate@@ present-unmatched
 Real WeaponTemplate::getUnmodifiedAttackRange() const
 {
 	return m_attackRange;
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?getDelayBetweenShots@WeaponTemplate@@ present-unmatched
 Int WeaponTemplate::getDelayBetweenShots(const WeaponBonus& bonus) const 
 {
 	// yes, divide, not multiply; the larger the rate-of-fire bonus, the shorter
@@ -518,38 +394,38 @@ Int WeaponTemplate::getDelayBetweenShots(const WeaponBonus& bonus) const
 }
 
 //-------------------------------------------------------------------------------------------------
-Int WeaponTemplate::getClipReloadTime(const WeaponBonus& bonus) const 
-{
-	// yes, divide, not multiply; the larger the rate-of-fire bonus, the shorter
-	// we want the reload time to be.
-	return REAL_TO_INT_FLOOR(m_clipReloadTime / bonus.getField(WeaponBonus::RATE_OF_FIRE));	
-}
+// WeaponTemplate::getClipReloadTime: defined in WeaponTemplateClipReloadTime.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
+// ?getPreAttackDelay@WeaponTemplate@@ present-unmatched
 Int WeaponTemplate::getPreAttackDelay( const WeaponBonus& bonus ) const
 {
 	return m_preAttackDelay * bonus.getField( WeaponBonus::PRE_ATTACK ); 
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?getPrimaryDamage@WeaponTemplate@@ present-unmatched
 Real WeaponTemplate::getPrimaryDamage(const WeaponBonus& bonus) const 
 {
 	return m_primaryDamage * bonus.getField(WeaponBonus::DAMAGE); 
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?getPrimaryDamageRadius@WeaponTemplate@@ present-unmatched
 Real WeaponTemplate::getPrimaryDamageRadius(const WeaponBonus& bonus) const 
 {
 	return m_primaryDamageRadius * bonus.getField(WeaponBonus::RADIUS); 
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?getSecondaryDamage@WeaponTemplate@@ present-unmatched
 Real WeaponTemplate::getSecondaryDamage(const WeaponBonus& bonus) const 
 {
 	return m_secondaryDamage * bonus.getField(WeaponBonus::DAMAGE); 
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?getSecondaryDamageRadius@WeaponTemplate@@ present-unmatched
 Real WeaponTemplate::getSecondaryDamageRadius(const WeaponBonus& bonus) const 
 {
 	return m_secondaryDamageRadius * bonus.getField(WeaponBonus::RADIUS); 
@@ -558,19 +434,14 @@ Real WeaponTemplate::getSecondaryDamageRadius(const WeaponBonus& bonus) const
 //-------------------------------------------------------------------------------------------------
 Bool WeaponTemplate::isContactWeapon() const
 {
-#ifdef RATIONALIZE_ATTACK_RANGE
-	// Note - undersize by 1/4 of a pathfind cell, so that the goal is not teetering on the edge
-	// of firing range.  jba.
-	const Real UNDERSIZE = PATHFIND_CELL_SIZE_F*0.25f; 
-	return (m_attackRange - UNDERSIZE) < PATHFIND_CELL_SIZE_F;
-#else
-// fudge this a little to account for pathfinding roundoff & such
-	const Real ATTACK_RANGE_FUDGE = 1.05f;
-	return m_attackRange * ATTACK_RANGE_FUDGE < PATHFIND_CELL_SIZE_F; 
-#endif
+	// BFME 2 retail: the call from privateAttackPosition (0x0026DC3F) lands on the shared
+	// xor al,al / ret false-predicate stub at 0x0047A699 (rowed here as an ICF twin), so the Zero Hour
+	// attack-range test (PATHFIND_CELL_SIZE_F cutoff) is gone.
+	return false;
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?estimateWeaponTemplateDamage@WeaponTemplate@@ present-unmatched
 Real WeaponTemplate::estimateWeaponTemplateDamage(
 	const Object *sourceObj, 
 	const Object *victimObj, 
@@ -666,101 +537,10 @@ Real WeaponTemplate::estimateWeaponTemplateDamage(
 	}
 }
 
-//-------------------------------------------------------------------------------------------------
-Bool WeaponTemplate::shouldProjectileCollideWith(
-	const Object* projectileLauncher, 
-	const Object* projectile, 
-	const Object* thingWeCollidedWith,
-	ObjectID intendedVictimID	// could be INVALID_ID for a position-shot
-) const
-{
- 	if (!projectile || !thingWeCollidedWith)
- 		return false;
- 
-	// if it's our intended victim, we want to collide with it, regardless of any other considerations.
-	if (intendedVictimID == thingWeCollidedWith->getID())
-		return true;
+// The collide-with body lives under WeaponTemplateShouldProjectileCollideWith.cpp
+// (retail row); this TU keeps only the class declaration so callers bind the
+// kept copy and this unit emits no competing COMDAT.
 
- 	if (projectileLauncher != NULL)
- 	{
- 
- 		// Don't hit your own launcher, ever.
- 		if (projectileLauncher == thingWeCollidedWith)
- 			return false;
- 
- 		// If our launcher is inside something, and that something is 'thingWeCollidedWith' we won't collide
- 		const Object *launcherContainedBy = projectileLauncher->getContainedBy();
- 		if( launcherContainedBy == thingWeCollidedWith )
- 			return false;
- 
- 	}
-
-	// never bother burning already-burned things. (srj)
-	if (getDamageType() == DAMAGE_FLAME || getDamageType() == DAMAGE_PARTICLE_BEAM)
-	{
-		if (thingWeCollidedWith->testStatus(OBJECT_STATUS_BURNED))
-		{
-			return false;
-		}
-	}
-
-	// horrible special case for airplanes sitting on airfields: the projectile might
-	// "collide" with the airfield's (invisible) collision geometry when a resting plane
-	// is targeted. we don't want this. special case it:
-	if (thingWeCollidedWith->isKindOf(KINDOF_FS_AIRFIELD))
-	{
-		//
-		// ok, so if we are an airfield, and our intended victim has a reserved space 
-		// with us, it "belongs" to us and collisions intended for it should not detonate
-		// as a result of colliding with us.
-		//
-		// notes:
-		//	-- we have already established that "thingWeCollidedWith" is not the intended victim (above)
-		//	-- this does NOT verify that the plane is actually parked at the airfield; it might be elsewhere
-		//			(but if it is, it's highly unlikely that this sort of collision could occur)
-		//
-		for (BehaviorModule** i = thingWeCollidedWith->getBehaviorModules(); *i; ++i)
-		{
-			ParkingPlaceBehaviorInterface* pp = (*i)->getParkingPlaceBehaviorInterface();
-			if (pp != NULL && pp->hasReservedSpace(intendedVictimID))
-				return false;
-		}
-	}
-
-	// if something has a Sneaky Target offset, it is momentarily immune to being hit...
-	// normally this shouldn't happen, but occasionally can by accident. so avoid it. (srj)
-	const AIUpdateInterface* ai = thingWeCollidedWith->getAI();
-	if (ai != NULL && ai->getSneakyTargetingOffset(NULL))
-	{
-		return false;
-	}
-
-	Int requiredMask = 0;
-
-	Relationship r = projectile->getRelationship(thingWeCollidedWith);
-	if (r == ALLIES) requiredMask = WEAPON_COLLIDE_ALLIES;
-	else if (r == ENEMIES) requiredMask = WEAPON_COLLIDE_ENEMIES;
-
-	if (thingWeCollidedWith->isKindOf(KINDOF_STRUCTURE))
-	{
-		if (thingWeCollidedWith->getControllingPlayer() == projectile->getControllingPlayer())
-			requiredMask |= WEAPON_COLLIDE_CONTROLLED_STRUCTURES;
-		else
-			requiredMask |= WEAPON_COLLIDE_STRUCTURES;
-	}
-	if (thingWeCollidedWith->isKindOf(KINDOF_SHRUBBERY))					requiredMask |= WEAPON_COLLIDE_SHRUBBERY;
-	if (thingWeCollidedWith->isKindOf(KINDOF_PROJECTILE))					requiredMask |= WEAPON_COLLIDE_PROJECTILE;
-	if (thingWeCollidedWith->getTemplate()->getFenceWidth() > 0)	requiredMask |= WEAPON_COLLIDE_WALLS;
-	if (thingWeCollidedWith->isKindOf(KINDOF_SMALL_MISSILE))			requiredMask |= WEAPON_COLLIDE_SMALL_MISSILES;			//All missiles are also projectiles!
-	if (thingWeCollidedWith->isKindOf(KINDOF_BALLISTIC_MISSILE))	requiredMask |= WEAPON_COLLIDE_BALLISTIC_MISSILES;	//All missiles are also projectiles!
-		
-	// if any in requiredMask are present in collidemask, do the collision. (srj)
-	if ((getProjectileCollideMask() & requiredMask) != 0)
-		return true;
-
-	//DEBUG_LOG(("Rejecting projectile collision between %s and %s!\n",projectile->getTemplate()->getName().str(),thingWeCollidedWith->getTemplate()->getName().str()));
-	return false;
-}
 
 //-------------------------------------------------------------------------------------------------
 UnsignedInt WeaponTemplate::fireWeaponTemplate
@@ -1194,13 +974,14 @@ UnsignedInt WeaponTemplate::fireWeaponTemplate
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?trimOldHistoricDamage@WeaponTemplate@@ present-unmatched
 void WeaponTemplate::trimOldHistoricDamage() const
 {
 	UnsignedInt expirationDate = TheGameLogic->getFrame() - TheGlobalData->m_historicDamageLimit;
 	while (m_historicDamage.size() > 0)
 	{
-		HistoricWeaponDamageInfo& h = m_historicDamage.front();
-		if (h.frame <= expirationDate)
+		HistoricWeaponDamageInfo& historicWeaponDamageInfo = m_historicDamage.front();
+		if (historicWeaponDamageInfo.frame <= expirationDate)
 		{
 			m_historicDamage.pop_front();
 			continue;
@@ -1222,6 +1003,7 @@ static Bool is2DDistSquaredLessThan(const Coord3D& a, const Coord3D& b, Real dis
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?dealDamageInternal@WeaponTemplate@@ present-unmatched
 void WeaponTemplate::dealDamageInternal(ObjectID sourceID, ObjectID victimID, const Coord3D *pos, const WeaponBonus& bonus, Bool isProjectileDetonation) const
 {
 	if (sourceID == 0)	// must have a source
@@ -1484,9 +1266,9 @@ void WeaponTemplate::dealDamageInternal(ObjectID sourceID, ObjectID victimID, co
 			// this is much more useful for the AI...
 			if (source && source->isKindOf(KINDOF_PROJECTILE))
 			{
-				for (BehaviorModule** u = source->getBehaviorModules(); *u; ++u)
+				for (BehaviorModule** behaviorModule = source->getBehaviorModules(); *behaviorModule; ++behaviorModule)
 				{
-					ProjectileUpdateInterface* pui = (*u)->getProjectileUpdateInterface();
+					ProjectileUpdateInterface* pui = (*behaviorModule)->getProjectileUpdateInterface();
 					if (pui != NULL)
 					{
 						damageInfo.in.m_sourceID = pui->projectileGetLauncherID();
@@ -1510,11 +1292,13 @@ void WeaponTemplate::dealDamageInternal(ObjectID sourceID, ObjectID victimID, co
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-WeaponStore::WeaponStore()
-{
-} 
+// ??0WeaponStore@@ present-unmatched
+// WeaponStore::WeaponStore(): dropped so this TU stops emitting the non-retail
+// ??0WeaponStore@@QAE@XZ copy that came first in link order ahead of retail's rowed
+// owner (0x002CC20E, Rva002CC20ECtor.cpp), whose REL32 pin this TU's callers bind to.
 
 //-------------------------------------------------------------------------------------------------
+// ??1WeaponStore@@ present-unmatched
 WeaponStore::~WeaponStore()
 {
 	deleteAllDelayedDamage();
@@ -1529,24 +1313,9 @@ WeaponStore::~WeaponStore()
 }
 
 //-------------------------------------------------------------------------------------------------
-void WeaponStore::handleProjectileDetonation(const WeaponTemplate* wt, const Object *source, const Coord3D* pos, WeaponBonusConditionFlags extraBonusFlags, Bool inflictDamage )
-{
-	Weapon* w = TheWeaponStore->allocateNewWeapon(wt, PRIMARY_WEAPON);
-	w->loadAmmoNow(source);
-	w->fireProjectileDetonationWeapon( source, pos, extraBonusFlags, inflictDamage );
-	w->deleteInstance();
-}
 
 //-------------------------------------------------------------------------------------------------
-void WeaponStore::createAndFireTempWeapon(const WeaponTemplate* wt, const Object *source, const Coord3D* pos)
-{
-	if (wt == NULL)
-		return;
-	Weapon* w = TheWeaponStore->allocateNewWeapon(wt, PRIMARY_WEAPON);
-	w->loadAmmoNow(source);
-	w->fireWeapon(source, pos);
-	w->deleteInstance();
-}
+// Owned by WeaponStoreCreateAndFireTempWeapon.cpp.
 
 //-------------------------------------------------------------------------------------------------
 void WeaponStore::createAndFireTempWeapon(const WeaponTemplate* wt, const Object *source, Object *target)
@@ -1554,10 +1323,10 @@ void WeaponStore::createAndFireTempWeapon(const WeaponTemplate* wt, const Object
 	//CRCDEBUG_LOG(("WeaponStore::createAndFireTempWeapon() for %s\n", DescribeObject(source)));
 	if (wt == NULL)
 		return;
-	Weapon* w = TheWeaponStore->allocateNewWeapon(wt, PRIMARY_WEAPON);
-	w->loadAmmoNow(source);
-	w->fireWeapon(source, target);
-	w->deleteInstance();
+	Weapon* weapon = TheWeaponStore->allocateNewWeapon(wt, PRIMARY_WEAPON);
+	weapon->loadAmmoNow(source);
+	weapon->fireWeapon(source, target);
+	weapon->deleteInstance();
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -1571,49 +1340,15 @@ const WeaponTemplate *WeaponStore::findWeaponTemplate( AsciiString name ) const
 }
 
 //-------------------------------------------------------------------------------------------------
-WeaponTemplate *WeaponStore::findWeaponTemplatePrivate( NameKeyType key ) const
-{
-	// search weapon list for name
-	for (Int i = 0; i < m_weaponTemplateVector.size(); i++)
-		if( m_weaponTemplateVector[ i ]->getNameKey() == key )
-			return m_weaponTemplateVector[i];
-
-	return NULL;
-
-}
+// WeaponStore::findWeaponTemplatePrivate is defined with its verified retail body
+// in WeaponStoreNewOverride.cpp (0x002CADBE); keep one definition for the class.
 
 //-------------------------------------------------------------------------------------------------
-WeaponTemplate *WeaponStore::newWeaponTemplate(AsciiString name)
-{
-
-	// sanity
-	if(name.isEmpty())
-		return NULL;
-
-	// allocate a new weapon
-	WeaponTemplate *wt = newInstance(WeaponTemplate);
-	wt->m_name = name;
-	wt->m_nameKey = TheNameKeyGenerator->nameToKey( name );
-	m_weaponTemplateVector.push_back(wt);
-
-	return wt;
-} 
 
 //-------------------------------------------------------------------------------------------------
-WeaponTemplate *WeaponStore::newOverride(WeaponTemplate *weaponTemplate)
-{
-	if (!weaponTemplate)
-		return NULL;
-	
-	// allocate a new weapon
-	WeaponTemplate *wt = newInstance(WeaponTemplate);
-	(*wt) = (*weaponTemplate);
-	(wt)->friend_setNextTemplate(weaponTemplate);
-	
-	return wt;
-} 
 
 //-------------------------------------------------------------------------------------------------
+// ?update@WeaponStore@@ present-unmatched
 void WeaponStore::update()
 {
 	for (std::list<WeaponDelayedDamageInfo>::iterator ddi = m_weaponDDI.begin(); ddi != m_weaponDDI.end(); )
@@ -1634,43 +1369,20 @@ void WeaponStore::update()
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?deleteAllDelayedDamage@WeaponStore@@ present-unmatched
 void WeaponStore::deleteAllDelayedDamage()
 {
 	m_weaponDDI.clear();
 }
 
 // ------------------------------------------------------------------------------------------------
-void WeaponStore::resetWeaponTemplates( void )
-{
-
-	for (Int i = 0; i < m_weaponTemplateVector.size(); i++)
-	{
-		WeaponTemplate* wt = m_weaponTemplateVector[i];
-		wt->reset();
-	}
-
-}
+// WeaponStore::resetWeaponTemplates is rowed in its home unit; this copy was a duplicate definition.
 
 //-------------------------------------------------------------------------------------------------
-void WeaponStore::reset()
-{
-	// clean up any overriddes.
-	for (Int i = 0; i < m_weaponTemplateVector.size(); ++i)
-	{
-		WeaponTemplate *wt = m_weaponTemplateVector[i];
-		if (wt->isOverride()) 
-		{
-			WeaponTemplate *override = wt;
-			wt = wt->friend_clearNextTemplate();
-			override->deleteInstance();
-		}
-	}
-
-	deleteAllDelayedDamage();
-	resetWeaponTemplates();
-}
+// WeaponStore::reset is rowed in its home unit; this copy was a duplicate definition.
 
 //-------------------------------------------------------------------------------------------------
+// ?setDelayedDamage@WeaponStore@@ present-unmatched
 void WeaponStore::setDelayedDamage(const WeaponTemplate *weapon, const Coord3D* pos, UnsignedInt whichFrame, ObjectID sourceID, ObjectID victimID, const WeaponBonus& bonus)
 {
 	WeaponDelayedDamageInfo wi;
@@ -1684,91 +1396,19 @@ void WeaponStore::setDelayedDamage(const WeaponTemplate *weapon, const Coord3D* 
 }
 
 //-------------------------------------------------------------------------------------------------
-void WeaponStore::postProcessLoad()
-{
-	if (!TheThingFactory)
-	{
-		DEBUG_CRASH(("you must call this after TheThingFactory is inited"));
-		return;
-	}
-
-	for (Int i = 0; i < m_weaponTemplateVector.size(); i++)
-	{
-		WeaponTemplate* wt = m_weaponTemplateVector[i];
-		if (wt)
-			wt->postProcessLoad();
-	}
-
-}  // end postProcessLoad
+// WeaponStore::postProcessLoad is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/WeaponStorePostProcessLoad.cpp (0x002CADFA).
 
 //-------------------------------------------------------------------------------------------------
-/*static*/ void WeaponStore::parseWeaponTemplateDefinition(INI* ini)
-{
-	AsciiString name;
-
-	// read the weapon name
-	const char* c = ini->getNextToken();
-	name.set(c);	
-
-	// find existing item if present
-	WeaponTemplate *weapon = TheWeaponStore->findWeaponTemplatePrivate( TheNameKeyGenerator->nameToKey( name ) );
-	if (weapon)
-	{
-		if (ini->getLoadType() == INI_LOAD_CREATE_OVERRIDES)
-			weapon = TheWeaponStore->newOverride(weapon);
-		else 
-		{
-			DEBUG_CRASH(("Weapon '%s' already exists, but OVERRIDE not specified", c));
-			return;
-		}
-
-	}
-	else
-	{
-		// no item is present, create a new one
-		weapon = TheWeaponStore->newWeaponTemplate(name);
-	} 
-
-	// parse the ini weapon definition
-	ini->initFromINI(weapon, weapon->getFieldParse());
-
-	if (weapon->m_projectileName.isNone())
-		weapon->m_projectileName.clear();
-
-#if defined(_DEBUG) || defined(_INTERNAL)
-	if (!weapon->getFireSound().getEventName().isEmpty() && weapon->getFireSound().getEventName().compareNoCase("NoSound") != 0) 
-	{ 
-		DEBUG_ASSERTCRASH(TheAudio->isValidAudioEvent(&weapon->getFireSound()), ("Invalid FireSound %s in Weapon '%s'.", weapon->getFireSound().getEventName().str(), weapon->getName().str())); 
-	}
-#endif
-
-}
+// WeaponStore::parseWeaponTemplateDefinition has its BFME 2 retail body in
+// WeaponStoreNewOverride.cpp (0x002CE102).
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------
-Weapon::Weapon(const WeaponTemplate* tmpl, WeaponSlotType wslot)
-{
-	// Weapons start empty; you must reload before use.
-	// (however, there is no delay for reloading the first time.)
-	m_template = tmpl;
-	m_wslot = wslot;
-	m_status = OUT_OF_AMMO;
-	m_ammoInClip = 0;
-	m_whenWeCanFireAgain = 0;
-	m_whenPreAttackFinished = 0;
-	m_whenLastReloadStarted = 0;
-	m_projectileStreamID = INVALID_ID;
-	m_leechWeaponRangeActive = false;
-	m_pitchLimited = (m_template->getMinTargetPitch() > -PI || m_template->getMaxTargetPitch() < PI);
-	m_maxShotCount = NO_MAX_SHOTS_LIMIT;
-	m_curBarrel = 0;
-	m_numShotsForCurBarrel = 	m_template->getShotsPerBarrel();
-	m_lastFireFrame = 0;
-	m_suspendFXFrame = TheGameLogic->getFrame() + m_template->getSuspendFXDelay();
-}
+// Weapon::Weapon(const WeaponTemplate*, WeaponSlotType) lives in WeaponCtor.cpp
+// (its row's unit); this file merely declares it via the Weapon header.
 
 //-------------------------------------------------------------------------------------------------
 Weapon::Weapon(const Weapon& that)
@@ -1792,6 +1432,7 @@ Weapon::Weapon(const Weapon& that)
 }
 
 //-------------------------------------------------------------------------------------------------
+// ??4Weapon@@QAEAAV0@ABV0@@Z present-unmatched
 Weapon& Weapon::operator=(const Weapon& that)
 {
 	if (this != &that)
@@ -1817,149 +1458,28 @@ Weapon& Weapon::operator=(const Weapon& that)
 }
 
 //-------------------------------------------------------------------------------------------------
-Weapon::~Weapon()
-{
-}
+// Weapon::~Weapon: defined in WeaponDtor.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
-void Weapon::computeBonus(const Object *source, WeaponBonusConditionFlags extraBonusFlags, WeaponBonus& bonus) const
-{
-	bonus.clear();
-	WeaponBonusConditionFlags flags = source->getWeaponBonusCondition();
-	//CRCDEBUG_LOG(("Weapon::computeBonus() - flags are %X for %s\n", flags, DescribeObject(source).str()));
-	flags |= extraBonusFlags;
-	
-	if( source->getContainedBy() )
-	{
-		// We may be able to add in our container's flags
-		const ContainModuleInterface *theirContain = source->getContainedBy()->getContain();
-		if( theirContain && theirContain->isWeaponBonusPassedToPassengers() )
-			flags |= theirContain->getWeaponBonusPassedToPassengers();
-	}
-
-	if (TheGlobalData->m_weaponBonusSet)
-		TheGlobalData->m_weaponBonusSet->appendBonuses(flags, bonus);
-	const WeaponBonusSet* extra = m_template->getExtraBonus();
-	if (extra)
-		extra->appendBonuses(flags, bonus);
-}
+// Weapon::computeBonus: defined in WeaponComputeBonus.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
-void Weapon::loadAmmoNow(const Object *sourceObj)
-{
-	WeaponBonus bonus;
-	computeBonus(sourceObj, 0, bonus);
-	reloadWithBonus(sourceObj, bonus, true);
-}
+// Weapon::loadAmmoNow: defined in WeaponLoadAmmoNow.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
-void Weapon::reloadAmmo(const Object *sourceObj)
-{
-
-	WeaponBonus bonus;
-	computeBonus(sourceObj, 0, bonus);
-	reloadWithBonus(sourceObj, bonus, false);
-}
+// Weapon::reloadAmmo: defined in WeaponReloadAmmo.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
-Int Weapon::getClipReloadTime(const Object *source) const
-{
-	WeaponBonus bonus;
-	computeBonus(source, 0, bonus);
-	return m_template->getClipReloadTime(bonus);
-}
+// Weapon::rebuildScatterTargets: defined in WeaponRebuildScatterTargets.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
-void Weapon::setClipPercentFull(Real percent, Bool allowReduction)
-{
-	if (m_template->getClipSize() == 0)
-		return;
-
-	Int ammo = REAL_TO_INT_FLOOR(m_template->getClipSize() * percent);
-	if (ammo > m_ammoInClip || (allowReduction && ammo < m_ammoInClip))
-	{
-		m_ammoInClip = ammo;
-		m_status = m_ammoInClip ? OUT_OF_AMMO : READY_TO_FIRE;
-		//CRCDEBUG_LOG(("Weapon::setClipPercentFull() just set m_status to %d (ammo in clip is %d)\n", m_status, m_ammoInClip));
-		m_whenLastReloadStarted = TheGameLogic->getFrame();
-		m_whenWeCanFireAgain = m_whenLastReloadStarted;		
-		//CRCDEBUG_LOG(("Just set m_whenWeCanFireAgain to %d in Weapon::setClipPercentFull\n", m_whenWeCanFireAgain));
-		rebuildScatterTargets();
-	}
-}
+// Weapon::reloadWithBonus: defined in WeaponReloadWithBonus.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
-void Weapon::rebuildScatterTargets()
-{
-	m_scatterTargetsUnused.clear();
-	Int scatterTargetsCount = m_template->getScatterTargetsVector().size();
-	if (scatterTargetsCount)
-	{
-		// When I reload, I need to rebuild the list of ScatterTargets to shoot at.
-		for (Int targetIndex = 0; targetIndex < scatterTargetsCount; targetIndex++)
-			m_scatterTargetsUnused.push_back( targetIndex );
-	}
-}
+// clipToTerrainExtent: defined in WeaponComputeApproachTarget.cpp beside its one caller.
 
 //-------------------------------------------------------------------------------------------------
-void Weapon::reloadWithBonus(const Object *sourceObj, const WeaponBonus& bonus, Bool loadInstantly)
-{
-	if (m_template->getClipSize() > 0 
-			&& m_ammoInClip == m_template->getClipSize()
-			&& !sourceObj->isReloadTimeShared())
-		return;	// don't restart our reload delay.
-
-	m_ammoInClip = m_template->getClipSize();
-	if (m_ammoInClip <= 0)
-		m_ammoInClip = 0x7fffffff;	// 0 == unlimited (or effectively so)
-
-	m_status = RELOADING_CLIP;
-	Real reloadTime = loadInstantly ? 0 : m_template->getClipReloadTime(bonus);
-	m_whenLastReloadStarted = TheGameLogic->getFrame();
-	m_whenWeCanFireAgain = m_whenLastReloadStarted + reloadTime;			
-	//CRCDEBUG_LOG(("Just set m_whenWeCanFireAgain to %d in Weapon::reloadWithBonus 1\n", m_whenWeCanFireAgain));
-
-			// if we are sharing reload times
-			// go through other weapons in weapon set
-			// set their m_whenWeCanFireAgain to this guy's delay	
-			// set their m_status to this guy's status
-	if (sourceObj->isReloadTimeShared())
-	{	
-		for (Int wt = 0; wt<WEAPONSLOT_COUNT; wt++)
-		{
-			Weapon *weapon = sourceObj->getWeaponInWeaponSlot((WeaponSlotType)wt);
-			if (weapon)
-			{
-				weapon->setPossibleNextShotFrame(m_whenWeCanFireAgain);
-				//CRCDEBUG_LOG(("Just set m_whenWeCanFireAgain to %d in Weapon::reloadWithBonus 2\n", m_whenWeCanFireAgain));
-				weapon->setStatus(RELOADING_CLIP);
-			}
-		}
-	}
-
-	rebuildScatterTargets();
-}
-
-//-------------------------------------------------------------------------------------------------
-static void clipToTerrainExtent(Coord3D& approachTargetPos)
-{
-	Region3D bounds;
-	TheTerrainLogic->getExtent(&bounds);
-	if (approachTargetPos.x < bounds.lo.x+PATHFIND_CELL_SIZE_F) {	 
-		approachTargetPos.x = bounds.lo.x+PATHFIND_CELL_SIZE_F;
-	}
-	if (approachTargetPos.y < bounds.lo.y+PATHFIND_CELL_SIZE_F) {
-		approachTargetPos.y = bounds.lo.y+PATHFIND_CELL_SIZE_F;
-	}
-	if (approachTargetPos.x > bounds.hi.x-PATHFIND_CELL_SIZE_F) {
-		approachTargetPos.x = bounds.hi.x-PATHFIND_CELL_SIZE_F;
-	}
-	if (approachTargetPos.y > bounds.hi.y-PATHFIND_CELL_SIZE_F) {
-		approachTargetPos.y = bounds.hi.y-PATHFIND_CELL_SIZE_F;
-	}
-}
-
-//-------------------------------------------------------------------------------------------------
+// ?onWeaponBonusChange@Weapon@@ present-unmatched
 void Weapon::onWeaponBonusChange(const Object *source)
 {
 	// We are concerned with our reload times being off if our ROF just changed.
@@ -2002,270 +1522,28 @@ void Weapon::onWeaponBonusChange(const Object *source)
 }
 
 //-------------------------------------------------------------------------------------------------
-Bool Weapon::computeApproachTarget(const Object *source, const Object *target, const Coord3D *pos, Real angleOffset, Coord3D& approachTargetPos) const
-{
-	// compute unit direction vector from us to our victim
-	const Coord3D *targetPos;
-	Coord3D dir;
-	if (target) 
-	{
-		targetPos = target->getPosition();
-		ThePartitionManager->getVectorTo( target, source, ATTACK_RANGE_CALC_TYPE, dir );
-	}	
-	else if (pos) 
-	{
-		targetPos = pos;
-		ThePartitionManager->getVectorTo( source, pos, ATTACK_RANGE_CALC_TYPE, dir );
-		// Flip the vector to get from source to pos.
-		dir.x = -dir.x;
-		dir.y = -dir.y;
-		dir.z = -dir.z;
-	}
-	else
-	{
-		DEBUG_CRASH(("error"));
-		approachTargetPos.zero();
-		return false;
-	}
-
-	Real dist = dir.length();
-	Real minAttackRange = m_template->getMinimumAttackRange();
-	if (minAttackRange > PATHFIND_CELL_SIZE_F && dist < minAttackRange) 
-	{
-		// We aret too close, so move away from the target.
-		DEBUG_ASSERTCRASH((minAttackRange<0.9f*getAttackRange(source)), ("Min attack range is too near attack range.\n"));
-		// Recompute dir, cause if the bounding spheres touch, it will be 0.
-		Coord3D srcPos = *source->getPosition();
-		dir.x = srcPos.x-targetPos->x;
-		dir.y = srcPos.y-targetPos->y;
-#ifdef ATTACK_RANGE_IS_2D
-		dir.z = 0.0f;
-#else
-		dir.z = srcPos.z-targetPos->z;
-#endif
-		dir.normalize();
-
-		// if we're airborne and too close, just head for the opposite side.
-		if (source->isAboveTerrain())
-		{
-			// Don't do a 180 degree turn.
-			Real angle = atan2(-dir.y, -dir.x);
-			Real relAngle = source->getOrientation()- angle;
-			if (relAngle>2*PI) relAngle -= 2*PI;
-			if (relAngle<-2*PI) relAngle += 2*PI;
-			if (fabs(relAngle)<PI/2) {
-				dir.x = -dir.x;
-				dir.y = -dir.y;
-				dir.z = -dir.z;
-			}
-		}
-
-		if (angleOffset != 0.0f)
-		{
-			Real angle = atan2(dir.y, dir.x);
-			dir.x = (Real)Cos(angle + angleOffset);
-			dir.y = (Real)Sin(angle + angleOffset);
-		}
-
-		// select a spot along the line between us, halfway between the min & max range.
-		Real attackRange = (getAttackRange(source) + minAttackRange)/2.0f;
-#ifdef ATTACK_RANGE_IS_2D
-		if (target) 
-			attackRange += target->getGeometryInfo().getBoundingCircleRadius();
-		attackRange += source->getGeometryInfo().getBoundingCircleRadius();
-#else
-		if (target) 
-			attackRange += target->getGeometryInfo().getBoundingSphereRadius();
-		attackRange += source->getGeometryInfo().getBoundingSphereRadius();
-#endif
-		approachTargetPos.x = attackRange * dir.x + targetPos->x;
-		approachTargetPos.y = attackRange * dir.y + targetPos->y;
-		approachTargetPos.z = attackRange * dir.z + targetPos->z;
-		///@todo - make sure we can get to the approach position.
-		clipToTerrainExtent(approachTargetPos);
-		return false;
-	}
-
-	const Real FUDGE = 0.001f;
-	if (dist < FUDGE)
-	{
-		// we're close enough! 
-		approachTargetPos = *source->getPosition();
-		return true;
-	}
-	else
-	{
-		if (isContactWeapon()) 
-		{
-			// Weapon is basically a contact weapon, like a car bomb.  The approach target logic
-			// has been modified to let it approach the object, so just return the target position.	jba.
-			approachTargetPos = *targetPos;
-			return false;
-		}
-
-		dir.x /= dist;
-		dir.y /= dist;
-		dir.z /= dist;
-
-		if (angleOffset != 0.0f)
-		{
-			Real angle = atan2(dir.y, dir.x);
-			dir.x = (Real)Cos(angle + angleOffset);
-			dir.y = (Real)Sin(angle + angleOffset);
-		}
-
-		// select a spot along the line between us, in range of our weapon
-		const Real ATTACK_RANGE_APPROACH_FUDGE = 0.9f;
-		Real attackRange = getAttackRange(source) * ATTACK_RANGE_APPROACH_FUDGE;
-		approachTargetPos.x = attackRange * dir.x + targetPos->x;
-		approachTargetPos.y = attackRange * dir.y + targetPos->y;
-		approachTargetPos.z = attackRange * dir.z + targetPos->z;
-
-		if (source->getAI() && source->getAI()->isAircraftThatAdjustsDestination()) {
-			// Adjust the target so that we are not stacked atop another aircraft.
-			TheAI->pathfinder()->adjustTargetDestination(source, target, pos, this, &approachTargetPos);
-		}
-
-		return false;
-	}
-}
+// Weapon::computeApproachTarget: defined in WeaponComputeApproachTarget.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
 //Special case attack range calculate that fakes moving the object (to a garrisoned point) without
 //actually moving the object. This is used to help determine if a garrisoned unit not yet 
 //positioned can attack someone.
 //-------------------------------------------------------------------------------------------------
-Bool Weapon::isSourceObjectWithGoalPositionWithinAttackRange( const Object *source, const Coord3D *goalPos, const Object *target, const Coord3D *targetPos ) const
-{
-	
-	Real distSqr;
-	if( target )
-		distSqr = ThePartitionManager->getGoalDistanceSquared( source, goalPos, target, ATTACK_RANGE_CALC_TYPE );
-	else if( targetPos )
-		distSqr = ThePartitionManager->getGoalDistanceSquared( source, goalPos, targetPos, ATTACK_RANGE_CALC_TYPE );
-	else
-		return false;
+// BFME2 range test is owned by WeaponRva002CB2D1Range.cpp.
 
-	Real attackRangeSqr = sqr( getAttackRange( source ) );
-	Real minAttackRangeSqr = sqr(m_template->getMinimumAttackRange());
-#ifdef RATIONALIZE_ATTACK_RANGE
-	if (distSqr < minAttackRangeSqr)
-#else
-	if (distSqr < minAttackRangeSqr-0.5f)
-#endif
-	{
-		return false;
-	}
-	return (distSqr <= attackRangeSqr);
-}
 
 //-------------------------------------------------------------------------------------------------
-Bool Weapon::isWithinAttackRange(const Object *source, const Coord3D* pos) const
-{
-	Real distSqr = ThePartitionManager->getDistanceSquared( source, pos, ATTACK_RANGE_CALC_TYPE );
-	Real attackRangeSqr = sqr(getAttackRange(source));
-	Real minAttackRangeSqr = sqr(m_template->getMinimumAttackRange());
-#ifdef RATIONALIZE_ATTACK_RANGE
-	if (distSqr < minAttackRangeSqr)
-#else
-	if (distSqr < minAttackRangeSqr-0.5f)
-#endif
-	{
-		return false;
-	}
-	return (distSqr <= attackRangeSqr);
-}
 
 //-------------------------------------------------------------------------------------------------
-Bool Weapon::isWithinAttackRange(const Object *source, const Object *target) const
-{
-	Real distSqr;
-	Real attackRangeSqr = sqr(getAttackRange(source));
-
-	if( !target->isKindOf(KINDOF_BRIDGE) )
-	{
-		distSqr = ThePartitionManager->getDistanceSquared( source, target, ATTACK_RANGE_CALC_TYPE );
-	}	
-	else 
-	{
-		// Special case - bridges have two attackable points at either end.
-		TBridgeAttackInfo info;
-		TheTerrainLogic->getBridgeAttackPoints(target, &info);
-		distSqr = ThePartitionManager->getDistanceSquared( source, &info.attackPoint1, ATTACK_RANGE_CALC_TYPE );
-		if (distSqr>attackRangeSqr) 
-		{
-			// Try the other one.
-			distSqr = ThePartitionManager->getDistanceSquared( source, &info.attackPoint2, ATTACK_RANGE_CALC_TYPE );
-		}
-	}
-	
-	Real minAttackRangeSqr = sqr(m_template->getMinimumAttackRange());
-#ifdef RATIONALIZE_ATTACK_RANGE
-	if (distSqr < minAttackRangeSqr)
-#else
-	if (distSqr < minAttackRangeSqr-0.5f)
-#endif
-	{
-		// too close. can't attack.
-		return false;
-	}
-
-	if( distSqr <= attackRangeSqr )
-	{
-		// Note - only compare contact weapons with structures.  If you do the collision check
-		// against vehicles, the attacker may get close enough to the vehicle to get crushed
-		// before it fires its weapon.  jba.
-		if( isContactWeapon() && target->isKindOf(KINDOF_STRUCTURE))
-		{
-			//We're close enough to fire off ranged weapons -- but in the case of contact weapons
-			//we want to do a more detailed check to see if we're actually colliding with the target.
-			ObjectIterator *iter = ThePartitionManager->iteratePotentialCollisions( source->getPosition(), source->getGeometryInfo(), 0.0f );
-			MemoryPoolObjectHolder hold( iter );
-			for( Object *them = iter->first(); them; them = iter->next() )
-			{
-				if( target == them )
-				{
-					return true;
-				}
-			}  
-			return false;
-		}
-		return true;
-	}
-	return false;	
-}
 
 //-------------------------------------------------------------------------------------------------
-Bool Weapon::isTooClose(const Object *source, const Object *target) const
-{
-	Real minAttackRange = m_template->getMinimumAttackRange();
-	if (minAttackRange == 0.0f)
-		return false;
-
-	Real distSqr = ThePartitionManager->getDistanceSquared( source, target, ATTACK_RANGE_CALC_TYPE );
-	if (distSqr < sqr(minAttackRange))
-	{
-		return true;
-	}
-	return false;	
-}
+// Owned by Rva002C96D8Finish.cpp.
 
 //-------------------------------------------------------------------------------------------------
-Bool Weapon::isTooClose( const Object *source, const Coord3D *pos ) const
-{
-	Real minAttackRange = m_template->getMinimumAttackRange();
-	if (minAttackRange == 0.0f)
-		return false;
-
-	Real distSqr = ThePartitionManager->getDistanceSquared( source, pos, ATTACK_RANGE_CALC_TYPE );
-	if (distSqr < sqr(minAttackRange))
-	{
-		return true;
-	}
-	return false;	
-}
+// Owned by WeaponIsTooClose.cpp.
 
 //-------------------------------------------------------------------------------------------------
+// ?isGoalPosWithinAttackRange@Weapon@@ present-unmatched
 Bool Weapon::isGoalPosWithinAttackRange(const Object *source, const Coord3D* goalPos, const Object *target, const Coord3D* targetPos)	const
 {
 	Real distSqr;
@@ -2316,86 +1594,16 @@ Bool Weapon::isGoalPosWithinAttackRange(const Object *source, const Coord3D* goa
 }
 
 //-------------------------------------------------------------------------------------------------
-Real Weapon::getPercentReadyToFire() const
-{
-	switch (getStatus())
-	{
-		case OUT_OF_AMMO:
-		case PRE_ATTACK:
-			return 0.0f;
-
-		case READY_TO_FIRE:
-			return 1.0f;
-
-		case BETWEEN_FIRING_SHOTS:
-		case RELOADING_CLIP:
-		{
-			UnsignedInt now = TheGameLogic->getFrame();
-			UnsignedInt nextShot = getPossibleNextShotFrame();
-			DEBUG_ASSERTCRASH(now >= m_whenLastReloadStarted, ("now >= m_whenLastReloadStarted"));
-			if (now >= nextShot)
-				return 1.0f;
-
-			DEBUG_ASSERTCRASH(nextShot >= m_whenLastReloadStarted, ("nextShot >= m_whenLastReloadStarted"));
-			UnsignedInt totalTime = nextShot - m_whenLastReloadStarted;
-			if (totalTime == 0)
-			{
-				return 1.0f;
-			}
-
-			UnsignedInt timeLeft = nextShot - now;
-			DEBUG_ASSERTCRASH(timeLeft <= totalTime, ("timeLeft <= totalTime"));
-			UnsignedInt timeSoFar = totalTime - timeLeft;
-			if (timeSoFar >= totalTime)
-			{
-				return 1.0f;
-			}
-			else
-			{
-				return (Real)timeSoFar / (Real)totalTime;
-			}
-		}
-	}
-	DEBUG_CRASH(("should not get here"));
-	return 0.0f;
-}
+// Weapon::getPercentReadyToFire is defined with its retail-matched body in Code/GameEngine/Source/Common/Rva002CCE53Finish.cpp (0x002CCE53).
 
 //-------------------------------------------------------------------------------------------------
-Real Weapon::getAttackRange(const Object *source) const
-{ 
-	WeaponBonus bonus;
-	computeBonus(source, 0, bonus);
-	return m_template->getAttackRange(bonus); 
-
-	//Contained objects have longer ranges.
-	//const Object *container = source->getContainedBy();
-	//if( container )
-	//{
-	//	attackRange += container->getGeometryInfo().getBoundingCircleRadius();
-	//}
-	//return attackRange;
-}
+// Weapon::getAttackRange is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Weapon_Weapon_getAttackRange.cpp (0x002C9BF8).
 
 //-------------------------------------------------------------------------------------------------
-Real Weapon::getAttackDistance(const Object *source, const Object *victimObj, const Coord3D* victimPos) const
-{ 
-	Real range = getAttackRange(source);
-
-	if (victimObj != NULL)
-	{
-	#ifdef ATTACK_RANGE_IS_2D
-		range += source->getGeometryInfo().getBoundingCircleRadius();
-		range += victimObj->getGeometryInfo().getBoundingCircleRadius();
-	#else
-		range += source->getGeometryInfo().getBoundingSphereRadius();
-		range += victimObj->getGeometryInfo().getBoundingSphereRadius();
-	#endif
-	}
-
-	return range;
-}
+// Weapon::getAttackDistance is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/PartitionManager_Rva002C9C37.cpp (0x002C9C37).
 
 //-------------------------------------------------------------------------------------------------
+// ?estimateWeaponDamage@Weapon@@ present-unmatched
 Real Weapon::estimateWeaponDamage(const Object *sourceObj, const Object *victimObj, const Coord3D* victimPos)
 {
 	if (!m_template)
@@ -2413,6 +1621,7 @@ Real Weapon::estimateWeaponDamage(const Object *sourceObj, const Object *victimO
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?newProjectileFired@Weapon@@ present-unmatched
 void Weapon::newProjectileFired(const Object *sourceObj, const Object *projectile, const Object *victimObj, const Coord3D *victimPos )
 {
 	// If I have a stream, I need to tell it about this new guy
@@ -2443,6 +1652,7 @@ void Weapon::newProjectileFired(const Object *sourceObj, const Object *projectil
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?createLaser@Weapon@@ present-unmatched
 void Weapon::createLaser( const Object *sourceObj, const Object *victimObj, const Coord3D *victimPos )
 {
 	const ThingTemplate* pst = TheThingFactory->findTemplate(m_template->getLaserName());
@@ -2482,6 +1692,7 @@ void Weapon::createLaser( const Object *sourceObj, const Object *victimObj, cons
 //-------------------------------------------------------------------------------------------------
 // return true if we auto-reloaded our clip after firing.
 //DECLARE_PERF_TIMER(fireWeapon)
+// ?privateFireWeapon@Weapon@@ present-unmatched
 Bool Weapon::privateFireWeapon(
 	const Object *sourceObj, 
 	Object *victimObj, 
@@ -2702,19 +1913,6 @@ Bool Weapon::privateFireWeapon(
 
 
 //-------------------------------------------------------------------------------------------------
-void Weapon::preFireWeapon( const Object *source, const Object *victim )
-{
-	Int delay = getPreAttackDelay( source, victim );
-	if( delay > 0 )
-	{
-		setStatus( PRE_ATTACK );
-		setPreAttackFinishedFrame( TheGameLogic->getFrame() + delay );
-		if( m_template->isLeechRangeWeapon() )
-		{
-			setLeechRangeActive( TRUE );
-		}
-	}
-}
 
 //-------------------------------------------------------------------------------------------------
 Bool Weapon::fireWeapon(const Object *source, Object *target, ObjectID* projectileID)
@@ -2732,80 +1930,22 @@ Bool Weapon::fireWeapon(const Object *source, const Coord3D* pos, ObjectID* proj
 }
 
 //-------------------------------------------------------------------------------------------------
-void Weapon::fireProjectileDetonationWeapon(const Object *source, Object *target, WeaponBonusConditionFlags extraBonusFlags, Bool inflictDamage )
-{
-	//CRCDEBUG_LOG(("Weapon::fireProjectileDetonationWeapon() for %sat %s\n", DescribeObject(source).str(), DescribeObject(target).str()));
-	privateFireWeapon( source, target, NULL, true, false, extraBonusFlags, NULL, inflictDamage );
-}
 
 //-------------------------------------------------------------------------------------------------
-void Weapon::fireProjectileDetonationWeapon(const Object *source, const Coord3D* pos, WeaponBonusConditionFlags extraBonusFlags, Bool inflictDamage )
-{
-	//CRCDEBUG_LOG(("Weapon::fireProjectileDetonationWeapon() for %s\n", DescribeObject(source).str()));
-	privateFireWeapon( source, NULL, pos, true, false, extraBonusFlags, NULL, inflictDamage );
-}
 
 //-------------------------------------------------------------------------------------------------
 //Currently, this function was added to allow a script to force fire a weapon,
 //and immediately gain control of the weapon that was fired to give it special orders...
-Object* Weapon::forceFireWeapon( const Object *source, const Coord3D *pos)
-{
-	//CRCDEBUG_LOG(("Weapon::forceFireWeapon() for %s\n", DescribeObject(source).str()));
-	//Force the ammo to load instantly.
-	//loadAmmoNow( source );
-	//Fire the weapon at the position. Internally, it'll store the weapon projectile ID if so created.
-	ObjectID projectileID = INVALID_ID;
-	const Bool ignoreRange = true;
-	privateFireWeapon(source, NULL, pos, false, ignoreRange, NULL, &projectileID, TRUE );
-	return TheGameLogic->findObjectByID( projectileID );
-}
+// Weapon::forceFireWeapon: defined in WeaponPrivateFireWrappers_O1.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
-WeaponStatus Weapon::getStatus() const
-{
-	UnsignedInt now = TheGameLogic->getFrame();
-	if( now < m_whenPreAttackFinished )
-	{
-		return PRE_ATTACK;
-	}
-	if( now >= m_whenWeCanFireAgain )
-	{
-		if (m_ammoInClip > 0)
-			m_status = READY_TO_FIRE;
-		else
-			m_status = OUT_OF_AMMO;
-		//CRCDEBUG_LOG(("Weapon::getStatus() just set m_status to %d (ammo in clip is %d)\n", m_status, m_ammoInClip));
-	}
-	return m_status;
-}
+// Weapon::getStatus: defined in WeaponGetStatus.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
-Bool Weapon::isWithinTargetPitch(const Object *source, const Object *victim) const
-{
-	if (isContactWeapon() || !isPitchLimited())
-		return true;
-
-	const Coord3D* src = source->getPosition();
-	const Coord3D* dst = victim->getPosition();
-
-	const Real ACCCEPTABLE_DZ = 10.0f;
-	if (fabs(dst->z - src->z) < ACCCEPTABLE_DZ)
-		return true;	// always good enough if dz is small, regardless of pitch
-
-	Real minPitch, maxPitch;
-	source->getGeometryInfo().calcPitches(*src, victim->getGeometryInfo(), *dst, minPitch, maxPitch);
-
-	// if there's any intersection between the the two pitch ranges, we're good to go.
-	if ((minPitch >= m_template->getMinTargetPitch() && minPitch <= m_template->getMaxTargetPitch()) ||
-			(maxPitch >= m_template->getMinTargetPitch() && maxPitch <= m_template->getMaxTargetPitch()) ||
-			(minPitch <= m_template->getMinTargetPitch() && maxPitch >= m_template->getMaxTargetPitch()))
-		return true;
-
-	//DEBUG_LOG(("pitch %f-%f is out of range\n",rad2deg(minPitch),rad2deg(maxPitch),rad2deg(m_template->getMinTargetPitch()),rad2deg(m_template->getMaxTargetPitch())));
-	return false;
-}
+// Weapon::isWithinTargetPitch: defined in WeaponIsWithinTargetPitch.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
+// ?getPrimaryDamageRadius@Weapon@@ present-unmatched
 Real Weapon::getPrimaryDamageRadius(const Object *source) const
 {
 	WeaponBonus bonus;
@@ -2814,6 +1954,7 @@ Real Weapon::getPrimaryDamageRadius(const Object *source) const
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?isDamageWeapon@Weapon@@ present-unmatched
 Bool Weapon::isDamageWeapon() const
 {
 	//These damage types are special attacks that don't do damage directly, even
@@ -2845,26 +1986,6 @@ Bool Weapon::isDamageWeapon() const
 }
 
 //-------------------------------------------------------------------------------------------------
-Int Weapon::getPreAttackDelay( const Object *source, const Object *victim ) const
-{
-	// Look for a reason to return zero and have no delay.
-	WeaponPrefireType type = m_template->getPrefireType();
-	if( type == PREFIRE_PER_CLIP )
-	{
-		if( m_template->getClipSize() > 0  &&  m_ammoInClip < m_template->getClipSize() )
-			return 0;// I only delay once a clip, and this is not the first shot
-	}
-	else if( type == PREFIRE_PER_ATTACK )
-	{
-		if( source->getNumConsecutiveShotsFiredAtTarget( victim ) > 0 )
-			return 0;// I only delay once an attack, and I have already shot this guy
-	}
-	//else it is per shot, so it always applies
-
-	WeaponBonus bonus;
-	computeBonus(source, 0, bonus);
-	return m_template->getPreAttackDelay( bonus );
-}
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -2882,6 +2003,7 @@ public:
 };
 
 //-------------------------------------------------------------------------------------------------
+// ??0AssistanceRequestData@@ present-unmatched
 AssistanceRequestData::AssistanceRequestData()
 {
 	m_requestingObject = NULL;
@@ -2921,144 +2043,17 @@ static void makeAssistanceRequest( Object *requestOf, void *userData )
 }
 
 //-------------------------------------------------------------------------------------------------
-void Weapon::processRequestAssistance( const Object *requestingObject, Object *victimObject )
-{
-	// Iterate through our player's objects, and tell everyone like us within our assistance range 
-	// who is free to do so to assist us on this shot.
-	Player *ourPlayer = requestingObject->getControllingPlayer();
-	if( !ourPlayer )
-		return;
-
-	AssistanceRequestData requestData;
-	requestData.m_requestingObject = requestingObject;
-	requestData.m_victimObject = victimObject;
-	requestData.m_requestDistanceSquared = m_template->getRequestAssistRange() * m_template->getRequestAssistRange();
-
-	ourPlayer->iterateObjects( makeAssistanceRequest, &requestData );
-}
+// Weapon::processRequestAssistance (0x002C9DF5) is defined with its retail body in WeaponRva002C9DF5.cpp.
 
 //-------------------------------------------------------------------------------------------------
-/*static*/ void Weapon::calcProjectileLaunchPosition(
-	const Object* launcher, 
-	WeaponSlotType wslot, 
-	Int specificBarrelToUse,
-	Matrix3D& worldTransform,
-	Coord3D& worldPos
-)
-{
-	if( launcher->getContainedBy() )
-	{
-		// If we are in an enclosing container, our launch position is our actual position.  Yes, I am putting
-		// a minor case and an oft used function, but the major case is huge and full of math.
-		if(launcher->getContainedBy()->getContain()->isEnclosingContainerFor(launcher))
-		{
-			worldTransform = *launcher->getTransformMatrix();
-			Vector3 tmp = worldTransform.Get_Translation();
-			worldPos.x = tmp.X;
-			worldPos.y = tmp.Y;
-			worldPos.z = tmp.Z;
-			return;
-		}
-	}
-
-	Real turretAngle = 0.0f;
-	Real turretPitch = 0.0f;
-	const AIUpdateInterface* ai = launcher->getAIUpdateInterface();
-	WhichTurretType tur = ai ? ai->getWhichTurretForWeaponSlot(wslot, &turretAngle, &turretPitch) : TURRET_INVALID;
-	//CRCDEBUG_LOG(("calcProjectileLaunchPosition(): Turret %d, slot %d, barrel %d for %s\n", tur, wslot, specificBarrelToUse, DescribeObject(launcher).str()));
-
-	Matrix3D attachTransform(true);
-	Coord3D turretRotPos = {0.0f, 0.0f, 0.0f};
-	Coord3D turretPitchPos = {0.0f, 0.0f, 0.0f};
-	const Drawable* draw = launcher->getDrawable();
-	//CRCDEBUG_LOG(("Do we have a drawable? %d\n", (draw != NULL)));
-	if (!draw || !draw->getProjectileLaunchOffset(wslot, specificBarrelToUse, &attachTransform, tur, &turretRotPos, &turretPitchPos))
-	{
-		//CRCDEBUG_LOG(("ProjectileLaunchPos %d %d not found!\n",wslot, specificBarrelToUse));
-		DEBUG_CRASH(("ProjectileLaunchPos %d %d not found!\n",wslot, specificBarrelToUse));
-		attachTransform.Make_Identity();
-		turretRotPos.zero();
-		turretPitchPos.zero();
-	}
-	if (tur != TURRET_INVALID)
-	{
-		// The attach transform is the pristine front and center position of the fire point
-		// We can't read from the client, so we need to reproduce the actual point that
-		// takes turn and pitch into account.
-		Matrix3D turnAdjustment(1);
-		Matrix3D pitchAdjustment(1);
-
-		// To rotate about a point, move that point to 0,0, rotate, then move it back.
-		// Pre rotate will keep the first twist from screwing the angle of the second pitch
-		pitchAdjustment.Translate( turretPitchPos.x, turretPitchPos.y, turretPitchPos.z );
-		pitchAdjustment.In_Place_Pre_Rotate_Y(-turretPitch);
-		pitchAdjustment.Translate( -turretPitchPos.x, -turretPitchPos.y, -turretPitchPos.z );
-
-		turnAdjustment.Translate( turretRotPos.x, turretRotPos.y, turretRotPos.z );
-		turnAdjustment.In_Place_Pre_Rotate_Z(turretAngle);
-		turnAdjustment.Translate( -turretRotPos.x, -turretRotPos.y, -turretRotPos.z );
-
-#ifdef ALLOW_TEMPORARIES
-		attachTransform = turnAdjustment * pitchAdjustment * attachTransform;
-#else
-		Matrix3D tmp = attachTransform;
-		attachTransform.mul(turnAdjustment, pitchAdjustment);
-		attachTransform.postMul(tmp);
-#endif
-	}
-
-//#if defined(_DEBUG) || defined(_INTERNAL)
-//  Real muzzleHeight = attachTransform.Get_Z_Translation();
-//  DEBUG_ASSERTCRASH( muzzleHeight > 0.001f, ("YOUR TURRET HAS A VERY LOW PROJECTILE LAUNCH POSITION, BUT FOUND A VALID BONE. DID YOU PICK THE WRONG ONE? %s", launcher->getTemplate()->getName().str()));
-//#endif
-  
-  launcher->convertBonePosToWorldPos(NULL, &attachTransform, NULL, &worldTransform);
-
-	Vector3 tmp = worldTransform.Get_Translation();
-	worldPos.x = tmp.X;
-	worldPos.y = tmp.Y;
-	worldPos.z = tmp.Z;
-}
+// Weapon::calcProjectileLaunchPosition (0x002C9E48) is defined with its retail body in WeaponProjectileLaunch.cpp.
 
 //-------------------------------------------------------------------------------------------------
-/*static*/ void Weapon::positionProjectileForLaunch(
-	Object* projectile, 
-	const Object* launcher, 
-	WeaponSlotType wslot, 
-	Int specificBarrelToUse
-)
-{
-	//CRCDEBUG_LOG(("Weapon::positionProjectileForLaunch() for %s from %s\n",
-		//DescribeObject(projectile).str(), DescribeObject(launcher).str()));
-
-	// if our launch vehicle is gone, destroy ourselves
-	if (launcher == NULL)
-	{
-		TheGameLogic->destroyObject( projectile );
-		return;
-	}
-
-	Matrix3D worldTransform(true);
-	Coord3D worldPos;
-
-	Weapon::calcProjectileLaunchPosition(launcher, wslot, specificBarrelToUse, worldTransform, worldPos);
-
-	projectile->getDrawable()->setDrawableHidden(false);
-	projectile->setTransformMatrix(&worldTransform);
-	projectile->setPosition(&worldPos);
-	projectile->getExperienceTracker()->setExperienceSink( launcher->getID() );
-
-	const PhysicsBehavior* launcherPhys = launcher->getPhysics();
-	PhysicsBehavior* missilePhys = projectile->getPhysics();
-	if (launcherPhys && missilePhys)
-	{
-		launcherPhys->transferVelocityTo(missilePhys);
-		missilePhys->setIgnoreCollisionsWith(launcher);
-	}
-}
+// Weapon::positionProjectileForLaunch (0x002CA753) is defined with its retail body in Weapon_positionProjectileForLaunch_Rva002CA753.cpp.
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+#pragma auto_inline(off)
 void Weapon::getFiringLineOfSightOrigin(const Object* source, Coord3D& origin) const
 {
 	//GS 1-6-03
@@ -3088,6 +2083,7 @@ void Weapon::getFiringLineOfSightOrigin(const Object* source, Coord3D& origin) c
 	}
 */
 }
+#pragma auto_inline(on)
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -3108,6 +2104,27 @@ Bool Weapon::isClearFiringLineOfSightTerrain(const Object* source, const Object*
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// BFME 2's TerrainLogic declares two more virtuals ahead of isClearLineOfSight
+// than Zero Hour's header: retail calls it through slot 15 (0x3C) of
+// TheTerrainLogic, and slot 15 of the W3DTerrainLogic vftable 0x00BC5890 is the
+// rowed W3DTerrainLogic::isClearLineOfSight (0x00062C0F).
+class BfmeTerrainLogicLOSView
+{
+public:
+	virtual void s00(); virtual void s01(); virtual void s02(); virtual void s03();
+	virtual void s04(); virtual void s05(); virtual void s06(); virtual void s07();
+	virtual void s08(); virtual void s09(); virtual void s10(); virtual void s11();
+	virtual void s12(); virtual void s13(); virtual void s14();
+	virtual Bool isClearLineOfSight( const Coord3D& pos, const Coord3D& posOther ) const;
+};
+
+// BFME 2 dropped the victim-centre and NULL-object arguments: both Coord3D
+// variants below ask the terrain directly. Retail builds them for size (frame
+// pointer, rep-style copies, an out-of-line getFiringLineOfSightOrigin) inside
+// this otherwise /O2 unit, and the goal variant copies goalPos through SSE
+// registers, which is what /Op ("p") produces.
+#pragma optimize("t", off)
+#pragma optimize("s", on)
 Bool Weapon::isClearFiringLineOfSightTerrain(const Object* source, const Coord3D& victimPos) const
 {
 	Coord3D origin;
@@ -3115,8 +2132,9 @@ Bool Weapon::isClearFiringLineOfSightTerrain(const Object* source, const Coord3D
 	//CRCDEBUG_LOG(("Weapon::isClearFiringLineOfSightTerrain(Coord3D) for %s\n", DescribeObject(source).str()));
 	//DUMPCOORD3D(&origin);
 	getFiringLineOfSightOrigin(source, origin);
-	return ThePartitionManager->isClearLineOfSightTerrain(NULL, origin, NULL, victimPos);
+	return ((const BfmeTerrainLogicLOSView *)TheTerrainLogic)->isClearLineOfSight(origin, victimPos);
 }
+#pragma optimize("", on)
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -3135,23 +2153,30 @@ Bool Weapon::isClearGoalFiringLineOfSightTerrain(const Object* source, const Coo
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 /** Determine whether if source was at goalPos whether it would have clear line of sight. */
+#pragma optimize("t", off)
+#pragma optimize("sp", on)
 Bool Weapon::isClearGoalFiringLineOfSightTerrain(const Object* source, const Coord3D& goalPos, const Coord3D& victimPos) const
 {
-	Coord3D origin=goalPos;
+	Coord3D origin;
+	origin.x = goalPos.x;
+	origin.y = goalPos.y;
+	origin.z = goalPos.z;
 	//CRCDEBUG_LOG(("Weapon::isClearGoalFiringLineOfSightTerrain(Coord3D) for %s\n", DescribeObject(source).str()));
 	//DUMPCOORD3D(&origin);
 	getFiringLineOfSightOrigin(source, origin);
 	//CRCDEBUG_LOG(("Weapon::isClearFiringLineOfSightTerrain() - victimPos is (%g,%g,%g) (%X,%X,%X)\n",
 	//	victimPos.x, victimPos.y, victimPos.z,
 	//	AS_INT(victimPos.x),AS_INT(victimPos.y),AS_INT(victimPos.z)));
-	return ThePartitionManager->isClearLineOfSightTerrain(NULL, origin, NULL, victimPos);
+	return ((const BfmeTerrainLogicLOSView *)TheTerrainLogic)->isClearLineOfSight(origin, victimPos);
 }
+#pragma optimize("", on)
 
 //-------------------------------------------------------------------------------------------------
 //Kris: Patch 1.01 - November 10, 2003
 //This function was added to transfer key weapon stats for Jarmen Kell to and from the bike for
 //the sniper attack, so he can share the stats.
 //-------------------------------------------------------------------------------------------------
+// ?transferNextShotStatsFrom@Weapon@@ present-unmatched
 void Weapon::transferNextShotStatsFrom( const Weapon &weapon ) 
 { 
 	m_whenWeCanFireAgain = weapon.getPossibleNextShotFrame();
@@ -3162,6 +2187,7 @@ void Weapon::transferNextShotStatsFrom( const Weapon &weapon )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// ?crc@Weapon@@ present-unmatched
 void Weapon::crc( Xfer *xfer )
 {
 #ifdef DEBUG_CRC
@@ -3362,116 +2388,9 @@ void Weapon::crc( Xfer *xfer )
 }  // end crc
 
 // ------------------------------------------------------------------------------------------------
-/** Xfer
-	* Version Info:
-	* 1: Initial version */
-// ------------------------------------------------------------------------------------------------
-void Weapon::xfer( Xfer *xfer )
-{
-	// version
-	const XferVersion currentVersion = 3;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
-
-	if (version >= 2)
-	{
-		AsciiString tmplName = m_template->getName();
-		xfer->xferAsciiString(&tmplName);
-		if (xfer->getXferMode() == XFER_LOAD)
-		{
-			m_template = TheWeaponStore->findWeaponTemplate(tmplName);
-			if (m_template == NULL)
-				throw INI_INVALID_DATA;
-		}
-	}
-
-	// slot
-	xfer->xferUser( &m_wslot, sizeof( WeaponSlotType ) );
-
-	// status
-	xfer->xferUser( &m_status, sizeof( WeaponStatus ) );
-
-	// ammo
-	xfer->xferUnsignedInt( &m_ammoInClip );
-
-	// when can fire again
-	xfer->xferUnsignedInt( &m_whenWeCanFireAgain );
-
-	// wehn pre attack finished
-	xfer->xferUnsignedInt( &m_whenPreAttackFinished );
-
-	// when last reload started
-	xfer->xferUnsignedInt( &m_whenLastReloadStarted );
-
-	// last fire frame
-	xfer->xferUnsignedInt( &m_lastFireFrame );
-
-	// suspendFXFrame, this affects client only
-	if ( version >= 3 )
-		xfer->xferUnsignedInt( &m_suspendFXFrame );
-	else
-		m_suspendFXFrame = 0;
-
-	// projectile stream object
-	xfer->xferObjectID( &m_projectileStreamID );
-
-	// laser object
-	ObjectID laserIDUnused = INVALID_ID;
-	xfer->xferObjectID( &laserIDUnused );
-
-	// max shot count
-	xfer->xferInt( &m_maxShotCount );
-
-	// current barrel
-	xfer->xferInt( &m_curBarrel );
-
-	// num shots for current barrel
-	xfer->xferInt( &m_numShotsForCurBarrel );
-
-	// scatter targets unused
-	UnsignedShort scatterCount = m_scatterTargetsUnused.size();
-	xfer->xferUnsignedShort( &scatterCount );
-	Int intData;
-	if( xfer->getXferMode() == XFER_SAVE )	
-	{
-		std::vector< Int >::const_iterator it;
-
-		for( it = m_scatterTargetsUnused.begin(); it != m_scatterTargetsUnused.end(); ++it )
-		{
-
-			intData = *it;
-			xfer->xferInt( &intData );
-
-		}  // end for, it
-
-	}  // end if, save
-	else
-	{
-
-		// sanity, the scatter targets must be empty
-		m_scatterTargetsUnused.clear();
-
-		for( UnsignedShort i = 0; i < scatterCount; ++i )
-		{
-
-			xfer->xferInt( &intData );
-			m_scatterTargetsUnused.push_back( intData );
-
-		}  // end for, i
-
-	}  // end else, load
-
-	// pitch limited
-	xfer->xferBool( &m_pitchLimited );
-
-	// leech weapon range active
-	xfer->xferBool( &m_leechWeaponRangeActive );
-
-}  // end xfer
-
-// ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
+// ?loadPostProcess@Weapon@@ present-unmatched
 void Weapon::loadPostProcess( void )
 {
 	if( m_projectileStreamID != INVALID_ID )
@@ -3488,13 +2407,7 @@ void Weapon::loadPostProcess( void )
 //-------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------
-void WeaponBonus::appendBonuses(WeaponBonus& bonus) const
-{
-	for (int f = 0; f < WeaponBonus::FIELD_COUNT; ++f)
-	{
-		bonus.m_field[f] += this->m_field[f] - 1.0f;
-	}
-}
+// WeaponBonus::appendBonuses: defined in WeaponBonusAppend.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
 /*static*/ void WeaponBonusSet::parseWeaponBonusSet(INI* ini, void* /*instance*/, void* store, const void* /*userData*/)
@@ -3511,25 +2424,15 @@ void WeaponBonus::appendBonuses(WeaponBonus& bonus) const
 }
 
 //-------------------------------------------------------------------------------------------------
-void WeaponBonusSet::parseWeaponBonusSet(INI* ini)
-{
-	WeaponBonusConditionType wb = (WeaponBonusConditionType)INI::scanIndexList(ini->getNextToken(), TheWeaponBonusNames);
-	WeaponBonus::Field wf = (WeaponBonus::Field)INI::scanIndexList(ini->getNextToken(), TheWeaponBonusFieldNames);
-	m_bonus[wb].setField(wf, INI::scanPercentToReal(ini->getNextToken()));
-}
+// WeaponBonusSet::parseWeaponBonusSet(INI*): the retail body is the 90-byte rowed
+// 0x002C971E operation in WeaponBonusParse.cpp. This TU's inline select-any copy came
+// first in link order and is not retail's; declared only here, so the two static
+// wrappers above and WeaponTemplate::parseWeaponBonusSet above bind to retail's owner.
+//
+// That copy was also the only call site of the header inline WeaponBonus::setField,
+// whose 18-byte row (0x002C8E40) this TU owns. Taking its address keeps this unit's
+// select-any copy emitted; this pointer is not retail data.
+void (WeaponBonus::*_bfmeInlineAnchor_WeaponBonusSetSetField)(WeaponBonus::Field, Real) = &WeaponBonus::setField;
 
 //-------------------------------------------------------------------------------------------------
-void WeaponBonusSet::appendBonuses(WeaponBonusConditionFlags flags, WeaponBonus& bonus) const
-{
-	if (flags == 0)
-		return;	// my, that was easy
-
-	for (int i = 0; i < WEAPONBONUSCONDITION_COUNT; ++i)
-	{
-		if ((flags & (1 << i)) == 0)
-			continue;
-		
-		this->m_bonus[i].appendBonuses(bonus);
-	}
-}
-
+// WeaponBonusSet::appendBonuses: defined in WeaponBonusAppend.cpp (its row's unit).

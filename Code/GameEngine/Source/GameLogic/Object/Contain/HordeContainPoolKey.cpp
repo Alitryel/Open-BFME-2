@@ -1,5 +1,5 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-// ?rva00046F860@HordeContain@@SA?AW4NameKeyType@@XZ @0x46f860
+// cl: /DNDEBUG /MD /EHsc
+// ?getModuleNameKey@HordeContain@@UBE?AW4NameKeyType@@XZ @0x46f860
 // (69B): cached pool-name key for HordeContain. The class
 // identity comes from the pool-name string the body pushes
 // ("HordeContain"); the body guards a function-local static
@@ -25,11 +25,11 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class HordeContain
 {
 public:
-	static NameKeyType rva00046F860();
+	virtual NameKeyType getModuleNameKey() const;
 };
 
-// ?rva00046F860@HordeContain@@SA?AW4NameKeyType@@XZ
-NameKeyType HordeContain::rva00046F860()
+// ?getModuleNameKey@HordeContain@@UBE?AW4NameKeyType@@XZ
+NameKeyType HordeContain::getModuleNameKey() const
 {
 	static NameKeyType TheHordeContainPoolKey =
 		TheNameKeyGenerator->nameToKey("HordeContain");

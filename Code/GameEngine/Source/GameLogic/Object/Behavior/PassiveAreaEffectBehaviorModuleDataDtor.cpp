@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /GX /MD /D_CRTIMP= /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/moduledata
 // stlport
 //
 // ??1PassiveAreaEffectBehaviorModuleData@@UAE@XZ, retail 0x00484EA9,
@@ -8,8 +8,8 @@
 // 0x2CC70 then restoring the Snapshot base vtable 0xBBB554. Member order
 // vector plus filter plus string drives states 0 plus 1 plus 2 so teardown
 // reads 2 plus 1 plus 0 exactly as retail. Shape follows
-// LargeGroupBonusUpdateModuleDataDtor (TU-local Snapshot with inline
-// BBB554-restoring dtor, novtable suppressing the entry derived-vtable
+// LargeGroupBonusUpdateModuleDataDtor (shared Snapshot base dtor, novtable
+// suppressing the entry derived-vtable
 // store retail lacks). Identity is the ctor TU 0x484DF4 plus own vtable
 // 0x00C4A490 plus table 0x00C4A388 plus factory 0x24C724 which news 0x38
 // plus slot 0 deleting dtor 0x484E8D calling this body. BFME1 donor
@@ -17,31 +17,18 @@
 // public UAE spelling.
 
 #include <vector>
+#include "Common/Snapshot.h"
 
-class Xfer;
+#include "ascii_string.h"
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc(Xfer *xfer);
-	virtual void loadPostProcess();
-	virtual void xfer(Xfer *xfer);
-};
-
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(0x00BBB554);
+// A declaration-only specialization stops this TU emitting its own
+// vector<AsciiString> dtor COMDAT, so the call binds the kept copy.
+namespace _STL {
+template <> vector<AsciiString, allocator<AsciiString> >::~vector();
+template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
+template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);
+template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
 }
-
-class AsciiString
-{
-public:
-	~AsciiString();
-
-private:
-	void *m_data;
-};
 
 class Rva00360D26Member
 {

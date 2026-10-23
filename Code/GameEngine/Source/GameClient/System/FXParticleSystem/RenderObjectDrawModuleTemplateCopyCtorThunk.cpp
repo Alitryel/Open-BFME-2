@@ -1,28 +1,45 @@
-// cl: /DNDEBUG /MD /EHsc /O1 /Ob2
+// cl: /DNDEBUG /MD /EHsc /Ob2
 
 // Open-BFME5: RenderObjectDrawModuleTemplate copy constructor. Retail copies
 // the two-vtable category base, then the RenderObjectDrawModuleInfo subobject
 // at +8 with the usual null-preserving source adjustment.
 
-class RenderObjectDrawCategoryBaseA
+class __declspec(novtable) RenderObjectDrawCategoryBaseA
 {
 public:
-	virtual ~RenderObjectDrawCategoryBaseA();
+	virtual ~RenderObjectDrawCategoryBaseA() {}
 };
 
-class RenderObjectDrawCategoryBaseB
+class __declspec(novtable) RenderObjectDrawCategoryBaseB
 {
 public:
-	virtual ~RenderObjectDrawCategoryBaseB();
+	virtual ~RenderObjectDrawCategoryBaseB() {}
 };
 
-class RenderObjectDrawCategoryBase
+namespace FXParticleSystem
+{
+template <int Category>
+class CategoryModuleTemplate
+{
+public:
+	virtual ~CategoryModuleTemplate();
+};
+}
+
+// Retail's state-0 funclet 0x00781D3D unwinds this base through 0x00001F18,
+// the two-vtable category destructor rowed as
+// ??1?$CategoryModuleTemplate@$05@FXParticleSystem@@UAE@XZ (draw category,
+// FXParticleSystemFactories.cpp): forward to it.
+class __declspec(novtable) RenderObjectDrawCategoryBase
 	: public RenderObjectDrawCategoryBaseA,
 	  public RenderObjectDrawCategoryBaseB
 {
 public:
   RenderObjectDrawCategoryBase(const RenderObjectDrawCategoryBase &);
-	virtual ~RenderObjectDrawCategoryBase();
+	virtual ~RenderObjectDrawCategoryBase()
+	{
+		((FXParticleSystem::CategoryModuleTemplate<6> *)this)->FXParticleSystem::CategoryModuleTemplate<6>::~CategoryModuleTemplate();
+	}
 };
 
 namespace FXParticleSystem

@@ -1,4 +1,4 @@
-// cl: /O1 /MD
+// cl: /MD
 //
 // Opaque multiple-inheritance destructors tail-calling Rva000C79C9::~
 // Rva000C79C9 at 0x000C79C9 (pinned opaque MI base dtor: SEH; identity
@@ -56,3 +56,11 @@ public:
 Rva000CAEC6::~Rva000CAEC6()
 {
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??1Rva000C79C9@@UAE@XZ=??1W3DScriptedModelDraw@@UAE@XZ")
+#pragma comment(linker, "/alternatename:?f2@Rva000CA119_B2@@UAEXXZ=?rva000BFB76@Rva000BFB76Interface@@UAEXABVModelConditionFlags@@_NH@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva000CAEC6_B2@@UAEXXZ=?rva000BFB76@Rva000BFB76Interface@@UAEXABVModelConditionFlags@@_NH@Z")

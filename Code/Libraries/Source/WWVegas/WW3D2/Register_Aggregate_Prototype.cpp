@@ -1,9 +1,9 @@
-// cl: /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 
-class Rva00971CE0AggregatePrototype
+class Rva0014CE67_Prototype
 {
 public:
-	Rva00971CE0AggregatePrototype(const char *name, int first, int second);
+	Rva0014CE67_Prototype(const char *name, int first, int second);
 
 private:
 	unsigned char m_data[0x24];
@@ -15,6 +15,6 @@ void Add_Prototype(void *prototype);
 void Register_Aggregate_Prototype(const char *name, int first, int second)
 {
 	if (name && !Render_Obj_Exists(name)) {
-		Add_Prototype(new Rva00971CE0AggregatePrototype(name, first, second));
+		Add_Prototype(new Rva0014CE67_Prototype(name, first, second));
 	}
 }

@@ -1,14 +1,30 @@
-// cl: /O1 /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // BFME2's 12-byte BfmeStringRecord002CF5B1 vector allocation/copy helper at RVA 0x2CFAFC.
-class AsciiString { public: AsciiString(const AsciiString &); __forceinline ~AsciiString() { releaseBuffer(); } protected: void releaseBuffer(); private: void *m_data; };
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 struct BfmeStringRecord002CF5B1 {
     unsigned int word0, word1;
     AsciiString text;
     BfmeStringRecord002CF5B1();
-    BfmeStringRecord002CF5B1(const BfmeStringRecord002CF5B1 &o) : word0(o.word0), word1(o.word1), text(o.text) {}
+    BfmeStringRecord002CF5B1(const BfmeStringRecord002CF5B1 &other) : word0(other.word0), word1(other.word1), text(other.text) {}
 };
 #include <memory>
 template void _STL::_Construct<BfmeStringRecord002CF5B1,BfmeStringRecord002CF5B1>(BfmeStringRecord002CF5B1*,const BfmeStringRecord002CF5B1&);
 #include <vector>
-template class _STL::vector<BfmeStringRecord002CF5B1, _STL::allocator<BfmeStringRecord002CF5B1> >;
+namespace _STL { template<> vector<BfmeStringRecord002CF5B1> &vector<BfmeStringRecord002CF5B1>::operator=(const vector<BfmeStringRecord002CF5B1> &); }
+template BfmeStringRecord002CF5B1* _STL::vector<BfmeStringRecord002CF5B1,_STL::allocator<BfmeStringRecord002CF5B1> >::_M_allocate_and_copy<const BfmeStringRecord002CF5B1*>(unsigned int,const BfmeStringRecord002CF5B1*,const BfmeStringRecord002CF5B1*);
+// ?bfmeEmitstlport_vector_2cf5b1_uninitialized_fill_n@@YAXPAUBfmeStringRecord002CF5B1@@@Z present-unmatched
+void bfmeEmitstlport_vector_2cf5b1_uninitialized_fill_n(const BfmeStringRecord002CF5B1 *p)
+{
+	_STL::__uninitialized_fill_n((BfmeStringRecord002CF5B1 *)0, 0u, *p, _STL::__false_type());
+}

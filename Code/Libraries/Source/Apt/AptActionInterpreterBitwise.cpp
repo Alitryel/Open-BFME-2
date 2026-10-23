@@ -1,6 +1,6 @@
-// cl: /O2 /MD
+// cl: /MD
 // ActionScript bitwise opcode handlers 0x60-0x64. Each is named by its slot in
-// the {opcode, handler} dispatch table at 0x009DC960; names, parameters and
+// the {opcode, handler} dispatch table at 0x009DC980; names, parameters and
 // locals follow the Apt debug info of The Sims 2: Castaway (CC0). Stack layout
 // and the _AptBasePtrStack.h At() assertion (line 266) are read from retail.
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *, const char *, int);
@@ -21,13 +21,15 @@ public:
 	int toInteger() const;
 };
 
+class AptValue;
+
 class AptInteger
 {
 public:
-	static BfmeAptValue006DCD20 *Create(int nValue);
+	static AptValue *Create(int nValue);
 };
 
-extern BfmeAptValue006DCD20 *gpUndefinedValue;
+class AptValue; extern AptValue *gpUndefinedValue;
 int Rva006CD220Get();
 
 class AptBasePtrStack
@@ -38,7 +40,7 @@ public:
 		APT_BASE_PTR_STACK_ASSERT(m_nElements - nPos > 0);
 		return m_aElements[m_nElements - nPos - 1];
 	}
-	void PopAndPush(int nItems, BfmeAptValue006DCD20 *element);
+	void rva006FE880(int nItems, BfmeAptValue006DCD20 *element);
 
 	int m_nElements;
 	int m_nCapacity;
@@ -62,13 +64,13 @@ void AptActionInterpreter::_FunctionAptActionBitAnd(AptActionInterpreter *const 
 	BfmeAptValue006DCD20 *pB = pInterpreter->stack.At(1);
 	BfmeAptValue006DCD20 *pResult;
 	if (!(Rva006CD220Get() == 7 && (pA->isUndefined() || pB->isUndefined())
-		&& (pResult = gpUndefinedValue) != 0))
+		&& (pResult = (*(BfmeAptValue006DCD20 * *)&gpUndefinedValue)) != 0))
 	{
 		int nA = pA->toInteger();
 		int nB = pB->toInteger();
-		pResult = AptInteger::Create(nB & nA);
+		pResult = (BfmeAptValue006DCD20 *)AptInteger::Create(nB & nA);
 	}
-	pInterpreter->stack.PopAndPush(2, pResult);
+	pInterpreter->stack.rva006FE880(2, pResult);
 }
 
 void AptActionInterpreter::_FunctionAptActionBitOr(AptActionInterpreter *const pInterpreter)
@@ -77,13 +79,13 @@ void AptActionInterpreter::_FunctionAptActionBitOr(AptActionInterpreter *const p
 	BfmeAptValue006DCD20 *pB = pInterpreter->stack.At(1);
 	BfmeAptValue006DCD20 *pResult;
 	if (!(Rva006CD220Get() == 7 && (pA->isUndefined() || pB->isUndefined())
-		&& (pResult = gpUndefinedValue) != 0))
+		&& (pResult = (*(BfmeAptValue006DCD20 * *)&gpUndefinedValue)) != 0))
 	{
 		int nA = pA->toInteger();
 		int nB = pB->toInteger();
-		pResult = AptInteger::Create(nB | nA);
+		pResult = (BfmeAptValue006DCD20 *)AptInteger::Create(nB | nA);
 	}
-	pInterpreter->stack.PopAndPush(2, pResult);
+	pInterpreter->stack.rva006FE880(2, pResult);
 }
 
 void AptActionInterpreter::_FunctionAptActionBitXor(AptActionInterpreter *const pInterpreter)
@@ -92,13 +94,13 @@ void AptActionInterpreter::_FunctionAptActionBitXor(AptActionInterpreter *const 
 	BfmeAptValue006DCD20 *pB = pInterpreter->stack.At(1);
 	BfmeAptValue006DCD20 *pResult;
 	if (!(Rva006CD220Get() == 7 && (pA->isUndefined() || pB->isUndefined())
-		&& (pResult = gpUndefinedValue) != 0))
+		&& (pResult = (*(BfmeAptValue006DCD20 * *)&gpUndefinedValue)) != 0))
 	{
 		int nA = pA->toInteger();
 		int nB = pB->toInteger();
-		pResult = AptInteger::Create(nB ^ nA);
+		pResult = (BfmeAptValue006DCD20 *)AptInteger::Create(nB ^ nA);
 	}
-	pInterpreter->stack.PopAndPush(2, pResult);
+	pInterpreter->stack.rva006FE880(2, pResult);
 }
 
 void AptActionInterpreter::_FunctionAptActionBitLShift(AptActionInterpreter *const pInterpreter)
@@ -107,13 +109,13 @@ void AptActionInterpreter::_FunctionAptActionBitLShift(AptActionInterpreter *con
 	BfmeAptValue006DCD20 *pB = pInterpreter->stack.At(1);
 	BfmeAptValue006DCD20 *pResult;
 	if (!(Rva006CD220Get() == 7 && (pB->isUndefined() || pA->isUndefined())
-		&& (pResult = gpUndefinedValue) != 0))
+		&& (pResult = (*(BfmeAptValue006DCD20 * *)&gpUndefinedValue)) != 0))
 	{
 		int nA = pA->toInteger();
 		int nB = pB->toInteger();
-		pResult = AptInteger::Create(nB << nA);
+		pResult = (BfmeAptValue006DCD20 *)AptInteger::Create(nB << nA);
 	}
-	pInterpreter->stack.PopAndPush(2, pResult);
+	pInterpreter->stack.rva006FE880(2, pResult);
 }
 
 void AptActionInterpreter::_FunctionAptActionBitRShift(AptActionInterpreter *const pInterpreter)
@@ -122,11 +124,11 @@ void AptActionInterpreter::_FunctionAptActionBitRShift(AptActionInterpreter *con
 	BfmeAptValue006DCD20 *pB = pInterpreter->stack.At(1);
 	BfmeAptValue006DCD20 *pResult;
 	if (!(Rva006CD220Get() == 7 && (pB->isUndefined() || pA->isUndefined())
-		&& (pResult = gpUndefinedValue) != 0))
+		&& (pResult = (*(BfmeAptValue006DCD20 * *)&gpUndefinedValue)) != 0))
 	{
 		int nA = pA->toInteger();
 		int nB = pB->toInteger();
-		pResult = AptInteger::Create(nB >> nA);
+		pResult = (BfmeAptValue006DCD20 *)AptInteger::Create(nB >> nA);
 	}
-	pInterpreter->stack.PopAndPush(2, pResult);
+	pInterpreter->stack.rva006FE880(2, pResult);
 }

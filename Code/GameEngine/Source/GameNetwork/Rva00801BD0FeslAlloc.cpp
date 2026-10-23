@@ -39,3 +39,7 @@ void Rva00801600::allocate( int count )
 		new ( (char *)m_array + i * 0x38 ) Rva00802680Owner;
 	m_count = count;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?allocate@Rva00802040Arr@@QAEXH@Z=?allocate@Rva00801600@@QAEXH@Z")

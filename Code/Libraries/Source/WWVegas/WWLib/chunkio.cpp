@@ -6,7 +6,17 @@
 // member and reads through a two-way virtual dispatch), so none of its methods
 // match these verbatim bodies. The ChunkHeader/MicroChunkHeader inline accessors
 // still emit out-of-line copies that match.
-#include "rendobj.h"	// the bfmerendobj shim has to win the include guard
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #include "chunkio.h"
 #include <string.h>
 #include <assert.h>
@@ -112,39 +122,44 @@ uint32 ChunkLoadClass::Read(void *buffer, uint32 byte_count)
 }
 
 
-// Read's twin, skipping instead of copying. The bounds checks are the same; the
-// difference is how the skip is proven to have happened, since neither Seek
-// interface reports a byte count -- both branches take a position before and
-// after and require the delta to be exactly what was asked for.
+// BFME2 Seek accepts negative counts: each sign gets its own chunk bounds
+// check, and the micro-chunk check is chosen by a direction flag set in each
+// arm, which the compiler threads into per-sign blocks (retail 0x006150C0).
+// PositionStack is indexed inline rather than cached in a local; caching it
+// changes the register allocation.
 uint32 ChunkLoadClass::Seek(uint32 byte_count)
 {
 	BFMEChunkLoadLayout *layout = (BFMEChunkLoadLayout *)this;
-	if (layout->PositionStack[layout->StackIndex - 1] + byte_count >
-		(layout->HeaderStack[layout->StackIndex - 1].ChunkSize & 0x7FFFFFFF)) {
-		return 0;
+	int count = (int)byte_count;
+	bool forward;
+	if (count >= 0) {
+		forward = true;
+		if ((uint32)(layout->PositionStack[layout->StackIndex - 1] + count) > (layout->HeaderStack[layout->StackIndex - 1].ChunkSize & 0x7FFFFFFF))
+			return 0;
+	} else {
+		forward = false;
+		if (layout->PositionStack[layout->StackIndex - 1] + count < 0)
+			return 0;
 	}
-
-	if (layout->InMicroChunk && layout->MicroChunkPosition + byte_count > layout->MCHeader.ChunkSize) {
-		return 0;
+	if (forward) {
+		if (layout->InMicroChunk && layout->MicroChunkPosition + count > (int)layout->MCHeader.ChunkSize)
+			return 0;
+	} else {
+		if (layout->InMicroChunk && layout->MicroChunkPosition + count < 0)
+			return 0;
 	}
-
 	if (layout->File) {
 		int before = layout->File->Tell();
-		if (layout->File->Seek(byte_count, SEEK_CUR) - before != (int)byte_count) {
+		if (layout->File->Seek(byte_count, SEEK_CUR) - before != (int)byte_count)
 			return 0;
-		}
 	} else {
 		int before = layout->Input->Seek(0, SEEK_CUR);
-		if (layout->Input->Seek(byte_count, SEEK_CUR) - before != (int)byte_count) {
+		if (layout->Input->Seek(byte_count, SEEK_CUR) - before != (int)byte_count)
 			return 0;
-		}
 	}
-
 	layout->PositionStack[layout->StackIndex - 1] += byte_count;
-	if (layout->InMicroChunk) {
+	if (layout->InMicroChunk)
 		layout->MicroChunkPosition += byte_count;
-	}
-
 	return byte_count;
 }
 
@@ -163,6 +178,7 @@ uint32 ChunkLoadClass::Cur_Chunk_Length()
 }
 
 
+// ?ChunkLoadClass::Cur_Chunk_Depth present-unmatched
 int ChunkLoadClass::Cur_Chunk_Depth()
 {
 	return *(int *)((char *)this + 0x08);
@@ -365,25 +381,25 @@ uint32 ChunkSaveClass::Write(const void * buf, uint32 nbytes)
 }
 
 
-uint32 ChunkSaveClass::Write(const IOVector2Struct & v)
+uint32 ChunkSaveClass::Write(const IOVector2Struct & iOVector2)
 {
-	return Write(&v,sizeof(v));
+	return Write(&iOVector2,sizeof(iOVector2));
 }
 
 
-uint32 ChunkSaveClass::Write(const IOVector3Struct & v)
+uint32 ChunkSaveClass::Write(const IOVector3Struct & iOVector3)
 {
-	return Write(&v,sizeof(v));
+	return Write(&iOVector3,sizeof(iOVector3));
 }
 
 
-uint32 ChunkSaveClass::Write(const IOVector4Struct & v)
+uint32 ChunkSaveClass::Write(const IOVector4Struct & iOVector4)
 {
-	return Write(&v,sizeof(v));
+	return Write(&iOVector4,sizeof(iOVector4));
 }
 
 
-uint32 ChunkSaveClass::Write(const IOQuaternionStruct & q)
+uint32 ChunkSaveClass::Write(const IOQuaternionStruct & iOQuaternion)
 {
-	return Write(&q,sizeof(q));
+	return Write(&iOQuaternion,sizeof(iOQuaternion));
 }

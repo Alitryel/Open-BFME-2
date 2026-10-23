@@ -1,4 +1,4 @@
-// cl: /O2 /arch:SSE2 /DNDEBUG /MD /GX-
+// cl: /DNDEBUG /MD /GX-
 //
 // ?Parse_W3dVertexMaterialStruct@VertexMaterialClass@@QAEXABUW3dVertexMaterialStruct@@@Z,
 // retail 0x0013D030 (327 bytes).
@@ -122,7 +122,9 @@ private:
 // channel conversions; passing the expressions straight into the setter
 // evaluates them right-to-left and reverses retail's order.
 // ?Parse_W3dVertexMaterialStruct@VertexMaterialClass@@QAEXABUW3dVertexMaterialStruct@@@Z
-void VertexMaterialClass::Parse_W3dVertexMaterialStruct(const W3dVertexMaterialStruct &vmat)
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline void VertexMaterialClass::Parse_W3dVertexMaterialStruct(const W3dVertexMaterialStruct &vmat)
 {
 	float ar = (float)vmat.Ambient.R / 255.0f;
 	float ag = (float)vmat.Ambient.G / 255.0f;
@@ -151,4 +153,10 @@ void VertexMaterialClass::Parse_W3dVertexMaterialStruct(const W3dVertexMaterialS
 		Attributes |= 0x4;
 		MaterialDirty = true;
 	}
+}
+
+// ?bfmeAnchorVertexMaterialClassParse_W3dVertexMaterialStruct absent-from-retail
+void bfmeAnchorVertexMaterialClassParse_W3dVertexMaterialStruct(VertexMaterialClass *vertexMaterial, const W3dVertexMaterialStruct &vmat)
+{
+	vertexMaterial->Parse_W3dVertexMaterialStruct(vmat);
 }

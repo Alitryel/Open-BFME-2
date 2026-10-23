@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /MD /DNDEBUG
+// cl: /MD /DNDEBUG
 //
 // ??0SupplyWarehouseCripplingBehaviorModuleData@@QAE@XZ, retail 0x00483A61,
 // 25 bytes. Frameless store-only ctor over the SelfHeal table 0xC49B40
@@ -12,6 +12,9 @@
 // plain-data members; body assignments in retail order; /O1 emits integer
 // zero as AND, /arch:SSE emits float zero as xorps/movss. Vtable 0x00C4ED70
 // is ICF-folded (DeletionUpdate/SlotToLock/ReflectDamage share).
+
+extern "C" const void *const vtbl_00C4ED70[];  // folded, 9 classes; via ??_7BeaconClientUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4ED70=??_7BeaconClientUpdateModuleData@@6B@")
 
 class SupplyWarehouseCripplingBehaviorModuleData
 {
@@ -31,6 +34,6 @@ SupplyWarehouseCripplingBehaviorModuleData::SupplyWarehouseCripplingBehaviorModu
 {
 	m_selfHealSupression = 0;
 	m_selfHealDelay = 0;
-	m_vtable = reinterpret_cast<const void *>(0x00C4ED70);
+	m_vtable = reinterpret_cast<const void *>(((unsigned int)vtbl_00C4ED70));
 	m_selfHealAmount = 0.0f;
 }

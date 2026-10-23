@@ -23,3 +23,7 @@ bool bfmeRva000387C0()
 {
 	return theDebug->m_bfme9F57;
 }
+
+// Callers elsewhere reach bodies in this unit through other spellings; retail's
+// call sites in their matched rows land on these addresses (same ABI). Bind them.
+#pragma comment(linker, "/alternatename:?_bfme_debugReportingEnabled@@YA_NXZ=?bfmeRva000387C0@@YA_NXZ")

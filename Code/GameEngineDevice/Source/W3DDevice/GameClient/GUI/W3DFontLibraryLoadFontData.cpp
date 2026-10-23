@@ -10,7 +10,7 @@
 // (the request word at +0x1C, threaded through all three calls), the height
 // is a direct member read at handle +0x2C (no virtual call), and the callee
 // resolves through the pinned ?Rva0009017D cdecl spelling at 0x0009017D.
-// The empty-name literal reuses the pinned g_bfmeEmptyF9 spelling; the
+// The empty-name fallback is the "" literal at 0x00BBAC1C; the
 // language state and the Arial literal ride DIR32 masking like the donors.
 // SHAPE LAW (the wall this donor breaks): the size guard must stay an
 // if/else assignment (fontChar NULL vs worker call), not an early return;
@@ -19,7 +19,6 @@
 // retail jne top plus the shared far false epilogue. Early-return rewrites
 // of the same logic save at first use and desync the whole head.
 
-extern char g_bfmeEmptyF9[];
 
 struct GameFont
 {
@@ -68,7 +67,7 @@ bool W3DFontLibrary::loadFontData(GameFont *font)
 	if ((unsigned int)font->m_pointSize > 100)
 		fontChar = 0;
 	else
-		fontChar = (FontCharsHandle *)Rva0009017D(font->m_nameData ? font->m_nameData + 8 : g_bfmeEmptyF9,
+		fontChar = (FontCharsHandle *)Rva0009017D(font->m_nameData ? font->m_nameData + 8 : (char *)"",
 			font->m_pointSize, font->m_bold ? true : false, font->m_extra);
 
 	if (fontChar == 0)
@@ -80,7 +79,7 @@ bool W3DFontLibrary::loadFontData(GameFont *font)
 	FontCharsHandle *unicodeFontChar;
 	GlobalLanguageData *language = TheGlobalLanguageData;
 	if (language)
-		unicodeFontChar = (FontCharsHandle *)Rva0009017D(language->m_unicodeNameData ? language->m_unicodeNameData + 8 : g_bfmeEmptyF9,
+		unicodeFontChar = (FontCharsHandle *)Rva0009017D(language->m_unicodeNameData ? language->m_unicodeNameData + 8 : (char *)"",
 			font->m_pointSize, font->m_bold ? true : false, font->m_extra);
 	else
 		unicodeFontChar = (FontCharsHandle *)Rva0009017D("Arial Unicode MS",
@@ -91,3 +90,9 @@ bool W3DFontLibrary::loadFontData(GameFont *font)
 
 	return true;
 }
+
+// ?TheGlobalLanguageData@@3PAUGlobalLanguageData@@A: the global at this VA is ?TheGlobalLanguageData@@3PAVGlobalLanguage@@A; this name is an alias for it.
+#pragma comment(linker, "/alternatename:?TheGlobalLanguageData@@3PAUGlobalLanguageData@@A=?TheGlobalLanguageData@@3PAVGlobalLanguage@@A")
+#pragma comment(linker, "/alternatename:?TheGlobalLanguageData@@3PAUGlobalLanguage@@A=?TheGlobalLanguageData@@3PAVGlobalLanguage@@A")
+// ?TheGlobalLanguageData@@3PAUGlobalLanguageData@@A: the global at VA 0xdfdc84 is ?TheGlobalLanguageData@@3PAVGlobalLanguage@@A.
+#pragma comment(linker, "/alternatename:?TheGlobalLanguageData@@3PAUGlobalLanguageData@@A=?TheGlobalLanguageData@@3PAVGlobalLanguage@@A")
