@@ -82,3 +82,36 @@ passes its 2/2 byte gates. The failed change is recorded in re_attempts.log;
 retry needs a way to preserve compiler analysis context while selecting the
 native helpers. Existing full-class/vtable and ABI prerequisites in the prior
 link-seat handoffs remain unresolved and were not retried unchanged.
+
+## Follow-up sweep: +351 B legacy linked
+
+At the same BFME2 revision plus the first repair commit, two further current
+objects remain blocked solely by their opaque lifetime/assignment spellings:
+StlVectorRva002E26E1.cpp is 0/171 B (126-byte reserve plus 45-byte allocate/copy),
+and StlSweepR3Rva001DA05E.cpp is 0/180 B (vector assignment). After the bindings
+both report LINKS, 0 -> 351 B together. Both normal gates pass (2/2 and 1/1).
+Strict reusable receipts were prepared for both; closed-strict remains unmeasured.
+
+Retail 2E26E1 calls allocate/copy 2E1693 -> uninitialized_copy 2E163C -> cdecl
+placement copy 2E160F. Its clear 2E26C3 calls range wrapper 2AF4ED -> 2AE5CF.
+Both loops advance 0xD8. The repair binds the two-pointer construction and range
+cleanup spellings to these existing native operations, as in the first batch.
+
+Retail 1DA05E calls allocate/copy 1D9C9F -> 1D9B3C -> construction 1D9B0F.
+Its forward copy dispatcher 255CFA calls 254D65, whose loop invokes assignment
+1D9990 (rowed FXBoneInfo::operator=). Cleanup calls range 32C0CA, which invokes
+AsciiString destructor 48BA39 at element offset zero. All loops advance 8.
+Construction remains cdecl; assignment and destructor remain ECX-based, with
+one pointer stack argument / no stack argument respectively. These bindings
+establish operations on the opaque record view, not a new FXBoneInfo identity.
+
+Additional current previews of StlSweepW5Rva002CEFAA, StlSweepR3Rva00502645 and
+StlSweepW5Rva0032B4B2 remain 0/35, 0/34 and 0/59 B. Their unconstrained private
+record layouts or virtual-table ownership need separate reconciliation; they
+were not changed or claimed merely to fix an unused helper reference.
+
+The hooks accepted the first batch with all five byte gates, CSV/pin/flag,
+source declaration, EH and converged-data checks passing. Hatch accounting is
+currently shadow-only and reports ten added alternatename bindings; code
+identity reports eight unreferenced binding diagnostics. These were not hidden
+with baseline additions or gate changes. The second batch adds five bindings.
