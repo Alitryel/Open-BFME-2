@@ -39,5 +39,32 @@ provider/caller work must publish together; do not publish the interim deletion.
 The historical raw constructor pin remains only during that transition, then
 must be removed after its caller uses the typed provider.
 
-Final production verification and affected-callers evidence will be appended
-when admission is complete. No gate, baseline or alias exception is needed.
+## Completed production correction
+
+The corrected source owns the 96-byte parent and 10-byte handler under the
+existing string-record type. The typed 7-byte allocator getter and 60-byte base
+are admitted through `add_match.py --icf-owner`, with complete bytes and
+relocations verified against their existing owners. There are no new pins.
+ProductionPrerequisiteCopyCtor.cpp now declares the same typed first vector;
+its 77-byte constructor, 68-byte science-vector copy, handler and unwind body
+remain exact. The obsolete raw constructor pin is removed. Other raw-record
+users retain their distinct verified representation.
+
+Production `build.sh` checks all three provider/caller/helper files: **11/11
+rows exact**. Both parent exception graphs are **EXACT**. The caller's compiler
+label changed from $L6107 to $L6736, but the verifier independently binds it to
+the same 11-byte unwind at 0x00777283; no object-symbol alias was added or changed.
+Both changed files pass find_declared_unmatched, and check_csv/pin_consistency
+pass. place_bodies rescans both files and finds zero additional bodies or pins.
+See `typed-build.txt` and `typed-link.txt`.
+
+The link preview now reports all three files **LINKS**, 265 -> 437 attributed
+file bytes. The corrected constructor source changes 0 -> 172 attributed bytes,
+while the caller remains 145 and the existing helper provider remains 120.
+The 172 includes the two pre-existing ICF bodies (67 bytes), so it is not a
+172-byte unique recovery or a new census result. The substantive repair makes
+the existing constructor and handler link; unique exact C++ coverage is unchanged.
+
+The separate retraction commit's normal hook also verified all 440 affected
+dependent sources (5,831 functions), 711 exact EH graphs, and converged data
+identity. No gate, baseline or alias exception was needed.

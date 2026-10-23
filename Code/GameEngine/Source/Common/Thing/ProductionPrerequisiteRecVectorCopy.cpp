@@ -1,36 +1,23 @@
-// cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/bfmealloc
+// cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
 // stlport
-//
-// vector<PrereqUnitRec> copy ctor, retail 0x002CFE45.
-//
-// This is the +0x00 member copy of ProductionPrerequisite (retail copy ctor
-// at 0x002D08DA): the 12-byte PrereqUnitRec element forces the idiv-by-0x0C
-// count shape. Unlike the push_back TU, this unit compiles WITHOUT
-// _STLP_NO_EXCEPTIONS: retail carries the __EH_prolog frame here, and the
-// non-trivial element (user-declared dtor, like the Zero Hour header in
-// reference/open-bfme-1) selects the exception-guarded copy path with the
-// out-of-line _Vector_base and uninitialized_copy callees.
-
-// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
-// overload takes the call instead, so this TU emits no external max COMDAT.
-#include <stl/_algobase.h>
-namespace _STL {
-static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
-{
-    return a < b ? b : a;
-}
-}
-
+// Retail 0x002CFE45 copies 12-byte string-bearing records through
+// 0x004F5097 -> 0x002CF99D -> 0x002CF5B1. Use that existing typed provider;
+// the separate raw PrereqUnitRec push_back/overflow family is not this record.
+// Its application identity remains unknown. Evidence and the exact EH graph:
+// reverse/attempt_support/prereq-copy-provider-20261023-bce2/typed-reconciliation.md
 #include <vector>
-// Suppress this TU's non-retail copy of ??0?$vector@UPrereqUnitRec@@V?$allocator@UPrereqUnitRec@@@_STL@@@_STL@@QAE@I@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct PrereqUnitRec;
-namespace _STL { template <> vector<PrereqUnitRec,allocator<PrereqUnitRec> >::vector(unsigned int); }
+#include "ascii_string.h"
 
-struct PrereqUnitRec
+struct BfmeStringRecord002CF5B1
 {
-	unsigned int m_data[3];
-	~PrereqUnitRec() {}
+    unsigned int word0, word1;
+    AsciiString text;
+    BfmeStringRecord002CF5B1();
+    BfmeStringRecord002CF5B1(const BfmeStringRecord002CF5B1 &other)
+        : word0(other.word0), word1(other.word1), text(other.text) {}
 };
 
-template class _STL::vector<PrereqUnitRec>;
+// Retail has an EH frame here. The link keeps the independently verified
+// no-EH const-copy worker from stlport_vector_stringrecord_2cf5b1_allocate_copy.
+template _STL::vector<BfmeStringRecord002CF5B1>::vector(
+    const _STL::vector<BfmeStringRecord002CF5B1> &);
