@@ -58,8 +58,11 @@ Model: claude-opus-5-5.
   - the static guard is 4;
   - the inline aiDock `AICommandParms` is 5;
   - new-expressions are 6 and 7.
-  Retail's FuncInfo has no centre state (5 states), so the centre has no
-  dtor-bearing type in retail's build; WB's state 0 belongs to the parms object.
+  Retail's FuncInfo has five states and no surviving centre cleanup; an empty
+  destructor could have been optimized out. **Correction (2026-10-23):** WB
+  state 0 cleans the center at `[ebp-0x80]` through an empty destructor; the
+  parms object is state 5 at `[ebp-0x364]`. See the
+  [direct unwind-table evidence](../queue-supply-truck-20261023-resumed/wb-eh-correction.md).
 - **WB frame slots by scope:**
   - function scope: -0x10 loop-1 it, -0x14 totalHarvesters, -0x15 truckInQueue,
     -0x20 iter;

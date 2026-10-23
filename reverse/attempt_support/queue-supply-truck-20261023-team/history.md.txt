@@ -71,7 +71,7 @@ Useful matched BFME2 siblings with vft hoist: AIPlayer.cpp findSupplyCenter0x004
 
 Retail FuncInfo VA0xD457DC / RVA0x9457DC; handler RVA0x792E4C / VA0xB92E4C. Five states: map at-70, player at-3c, kind at-108; static guard atE044D0; teamName at-2c. Base funclets/actions match. No new-expression cleanup states, so WorkOrder/TeamInQueue declared throw(); in-TU definitions without throw() still identical. EH graph is not the wall.
 
-WB twin RVA0xCF6160 / VA0x10F6160,3853B/frame4F8. Do not confuse VA/RVA. WB state0 after center copy is a parms object's lifetime (latest handoff resolves earlier center-dtor speculation); retail has no center state. WB aiDock parms/vtable/dtor spelling already tried, inert. WB frame order within scopes does not prove source declaration order.
+WB twin RVA0xCF6160 / VA0x10F6160,3853B/frame4F8. Do not confuse VA/RVA. Correction 2026-10-23: WB state0 cleans the 12-byte center at EBP-80 through an empty destructor; the parms object is state5 at EBP-364. The older handoff's attribution to parms was incorrect; see ../queue-supply-truck-20261023-resumed/wb-eh-correction.md for direct unwind-table proof. Retail has no surviving center state. WB aiDock parms/vtable/dtor spelling already tried, inert. WB frame order within scopes does not prove source declaration order.
 
 ## Ruled-out families: avoid replay
 

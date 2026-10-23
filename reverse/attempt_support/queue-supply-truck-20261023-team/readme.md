@@ -6,6 +6,11 @@ history and tool research, followed by isolated experiments. The user explicitly
 authorized independent work alongside the external claim; its ownership was
 untouched.
 
+**Later correction:** `history.md.txt:74` repeats an incorrect older attribution
+of WorldBuilder state 0 to command parameters. It cleans the 12-byte center;
+command parameters are state 5. See the
+[direct unwind-table evidence](../queue-supply-truck-20261023-resumed/wb-eh-correction.md).
+
 ## Boundary and inputs
 
 `?queueSupplyTruck@AIPlayer@@IAEXXZ` is protected, nonvirtual, no-argument
