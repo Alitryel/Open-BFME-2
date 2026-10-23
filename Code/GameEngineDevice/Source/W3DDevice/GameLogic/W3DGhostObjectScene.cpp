@@ -1579,3 +1579,11 @@ void GhostObject::vslot0C(PartitionData *pd) { m_partitionData = pd; }
 
 // Native BC5970 slot 4 implementation; its vtordisp thunk is compiler-emitted.
 PartitionData *GhostObject::vslot10() const { return m_partitionData; }
+
+// Placeholder virtuals this unit's tables reference but no unit defines under these names.
+// W3DGhostObject's provider slots are named by byte offset: slot00 and slot04 are slots 0 and 1
+// of retail's table 0x00BC5984 (0x00063C33, 0x0006341B). GhostObjectManager's base table
+// (0x00C078F0) holds __purecall (0x0003B810) in slot 6, updateOrphanedObjects.
+#pragma comment(linker, "/alternatename:?slot00@W3DGhostObject@@UAEXXZ=?detach@Rva006BD6C0@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?slot04@W3DGhostObject@@UAEXXZ=?reset@Rva0006341B@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?updateOrphanedObjects@GhostObjectManager@@UAEXPAHH@Z=__purecall")
