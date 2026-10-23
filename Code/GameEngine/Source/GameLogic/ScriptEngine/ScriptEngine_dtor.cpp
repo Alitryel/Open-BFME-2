@@ -30,7 +30,8 @@ extern "C" __declspec(dllimport) FARPROC __stdcall GetProcAddress(HMODULE module
 extern "C" __declspec(dllimport) int __stdcall FreeLibrary(HMODULE module);
 extern "C" void __cdecl free(void *block);
 
-#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
+typedef bool Bool;
+#include "../../../../../reference/shims/subsystem_bfme2/subsystem_interface.h"
 
 #include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
@@ -49,40 +50,40 @@ private:
 	void **m_finish;
 	void **m_endOfStorage;
 };
-class Rva002075F3Map
+class Rva002075F3
 {
 public:
-	~Rva002075F3Map();
+	~Rva002075F3();
 
 private:
 	void *m_header;
 	int m_nodeCount;
 	int m_compare;
 };
-class Rva00207630Map
+class Rva00207630
 {
 public:
-	~Rva00207630Map();
+	~Rva00207630();
 
 private:
 	void *m_header;
 	int m_nodeCount;
 	int m_compare;
 };
-class Rva0020766DMap
+class Rva0020766D
 {
 public:
-	~Rva0020766DMap();
+	~Rva0020766D();
 
 private:
 	void *m_header;
 	int m_nodeCount;
 	int m_compare;
 };
-class Rva002076AAMap
+class Rva002076AA
 {
 public:
-	~Rva002076AAMap();
+	~Rva002076AA();
 
 private:
 	void *m_header;
@@ -99,20 +100,20 @@ private:
 	int m_nodeCount;
 	int m_compare;
 };
-class Rva00207724Map
+class Rva00207724
 {
 public:
-	~Rva00207724Map();
+	~Rva00207724();
 
 private:
 	void *m_header;
 	int m_nodeCount;
 	int m_compare;
 };
-class Rva00207761Map
+class Rva00207761
 {
 public:
-	~Rva00207761Map();
+	~Rva00207761();
 
 private:
 	void *m_header;
@@ -149,14 +150,12 @@ private:
 	void *m_finish;
 	void *m_endOfStorage;
 };
-class Rva004EC395List
-{
-public:
-	~Rva004EC395List();
-
-private:
-	void *m_node;
-};
+// stlport
+#include <list>
+namespace _STL {
+template <> _List_base<int, allocator<int> >::~_List_base();
+}
+typedef _STL::_List_base<int, _STL::allocator<int> > ScriptIntList;
 
 class Rva00205AF8
 {
@@ -297,7 +296,8 @@ class ScriptEngine : public SubsystemInterface, public Snapshot
 {
 public:
 	virtual ~ScriptEngine();
-	virtual void crc();
+	virtual void init();
+	virtual void update();
 	virtual void reset();
 
 protected:
@@ -308,13 +308,13 @@ private:
 	int m_pad1C;                                  // +0x1C
 	Template m_actionTemplates[599];              // +0x20
 	ConditionTemplate m_conditionTemplates[202];  // +0x12BA0
-	Rva002075F3Map m_map190A0;                 // +0x190A0
-	Rva00207630Map m_map190AC;                 // +0x190AC
-	Rva0020766DMap m_map190B8;                 // +0x190B8
-	Rva002076AAMap m_map190C4;                 // +0x190C4
+	Rva002075F3 m_map190A0;                 // +0x190A0
+	Rva00207630 m_map190AC;                 // +0x190AC
+	Rva0020766D m_map190B8;                 // +0x190B8
+	Rva002076AA m_map190C4;                 // +0x190C4
 	Rva002076E7Map m_map190D0;                 // +0x190D0
-	Rva00207724Map m_map190DC;                 // +0x190DC
-	Rva00207761Map m_map190E8;                 // +0x190E8
+	Rva00207724 m_map190DC;                 // +0x190DC
+	Rva00207761 m_map190E8;                 // +0x190E8
 	Rva0020779EMap m_map190F4;                 // +0x190F4
 	BfmeOwnedStringState m_ownedStrings[256];      // +0x19100
 	char m_pad1A100[0x0C];                        // +0x1A100
@@ -323,17 +323,17 @@ private:
 	Rva00207E26Vector m_vector1A120;              // +0x1A120
 	char m_pad1A12C[0x38];                        // +0x1A12C
 	Rva00205AF8 m_playerRecords[20];        // +0x1A164
-	Rva004EC395List m_list1A254;                  // +0x1A254
-	Rva004EC395List m_list1A258;                  // +0x1A258
-	Rva004EC395List m_list1A25C;                  // +0x1A25C
-	Rva004EC395List m_list1A260;                  // +0x1A260
-	Rva004EC395List m_list1A264;                  // +0x1A264
-	Rva004EC395List m_playerLists1A268[20];       // +0x1A268
-	Rva004EC395List m_playerLists1A2B8[20];       // +0x1A2B8
-	Rva004EC395List m_playerLists1A308[20];       // +0x1A308
-	Rva004EC395List m_playerLists1A358[20];       // +0x1A358
+	ScriptIntList m_list1A254;                  // +0x1A254
+	ScriptIntList m_list1A258;                  // +0x1A258
+	ScriptIntList m_list1A25C;                  // +0x1A25C
+	ScriptIntList m_list1A260;                  // +0x1A260
+	ScriptIntList m_list1A264;                  // +0x1A264
+	ScriptIntList m_playerLists1A268[20];       // +0x1A268
+	ScriptIntList m_playerLists1A2B8[20];       // +0x1A2B8
+	ScriptIntList m_playerLists1A308[20];       // +0x1A308
+	ScriptIntList m_playerLists1A358[20];       // +0x1A358
 	Rva0007FAB3Vector m_playerVectors[20];        // +0x1A3A8
-	Rva004EC395List m_list1A498;                  // +0x1A498
+	ScriptIntList m_list1A498;                  // +0x1A498
 	Rva00207E65Vector m_vector1A49C;              // +0x1A49C
 	char m_pad1A4A8[0x20];                        // +0x1A4A8
 	FreeVector m_allObjectTypeLists;              // +0x1A4C8

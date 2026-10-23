@@ -1,6 +1,5 @@
-// cl: /MD /EHsc /DNDEBUG
-// Split from Snow.cpp: these definitions reference a callee with no matched body yet,
-// so they are kept apart from the unit's bodies that already link.
+// cl: /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii
+// SnowManager lifetime uses the shared native subsystem slots.
 /*
 ** Copyright 2025 Electronic Arts Inc.
 ** SPDX-License-Identifier: GPL-3.0-or-later
@@ -8,7 +7,9 @@
 // Zero Hour/BFME1 Snow.cpp donor, adapted to target layout and initialization.
 // Donor field names are retained through visibility; later fields are offset views.
 // Unidentified virtual slots retain neutral names in this target ABI view.
-#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
+// stlport
+typedef bool Bool;
+#include "../../../../reference/shims/subsystem_bfme2/subsystem_interface.h"
 
 // Two adjacent floats that retail copies with one override lookup.
 struct SnowFloatPair {
@@ -21,25 +22,8 @@ public:
     SnowManager();
     virtual ~SnowManager();
     virtual void init();
-    virtual void targetSlot3();
-    virtual void targetSlot4();
-    virtual void targetSlot5();
-    virtual void targetSlot6();
-    virtual void targetSlot7();
-    virtual void targetSlot8();
     virtual void reset();
-    virtual void targetSlot10() = 0;
-    virtual void targetSlot11();
-    virtual void targetSlot12();
-    virtual void targetSlot13();
     virtual void updateIniSettings();
-    virtual void targetSlot15();
-    virtual void targetSlot16();
-    virtual void targetSlot17();
-    virtual void targetSlot18();
-    virtual void targetSlot19();
-    virtual void targetSlot20();
-    virtual void targetSlot21();
 private:
     float *m_startingHeights;
     float m_time;
@@ -195,12 +179,3 @@ SnowManager::~SnowManager()
         TheWeatherSetting = static_cast<const WeatherSetting *>(0);
     }
 }
-#pragma comment(linker, "/alternatename:?targetSlot3@SnowManager@@UAEXXZ=??1Coord2D@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?targetSlot4@SnowManager@@UAEXXZ=?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")
-#pragma comment(linker, "/alternatename:?targetSlot5@SnowManager@@UAEXXZ=?IsCRC@Xfer@@UBE_NXZ")
-#pragma comment(linker, "/alternatename:?targetSlot6@SnowManager@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
-#pragma comment(linker, "/alternatename:?targetSlot8@SnowManager@@UAEXXZ=??1Coord2D@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?targetSlot11@SnowManager@@UAEXXZ=?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")
-#pragma comment(linker, "/alternatename:?targetSlot12@SnowManager@@UAEXXZ=??1Coord2D@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?targetSlot7@SnowManager@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
-#pragma comment(linker, "/alternatename:?targetSlot13@SnowManager@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")

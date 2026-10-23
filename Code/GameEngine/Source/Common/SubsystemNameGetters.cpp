@@ -74,7 +74,8 @@ const char *FireLogicSystem::GetSnapshotName() const
 BFME_LITERAL_NAME_GETTER(Rva002AE621Named, "Command")
 BFME_LITERAL_NAME_GETTER(CarryoverUnit, "CarryoverUnit")
 BFME_LITERAL_NAME_GETTER(Rva00414307Named, "ScoredKillEvaAnnouncer")
-BFME_LITERAL_NAME_GETTER(Rva004E0777Named, "LivingWorldBuilding")
+class LivingWorldBuilding { public: virtual const char *GetSnapshotName(); };
+const char *LivingWorldBuilding::GetSnapshotName() { return "LivingWorldBuilding"; }
 BFME_LITERAL_NAME_GETTER(Rva001F37BENamed, "FXParticleInfo")
 BFME_LITERAL_NAME_GETTER(Rva001FC179Named, "FXParticle")
 class SequentialScript { public: virtual const char *GetSnapshotName(); };

@@ -2082,3 +2082,4 @@ __ehhandler$?rva00059EAE@MilesAudioManager@@QAE?AVRva00051ADA@@PBVAsciiString@@@
 ?apply@Rva00108B4DDwordImmSetter@@QAEXXZ,0x00108B4D,"Renamed to ??1Rva00108B4D@@UAE@XZ: Retail deleting destructor 0x000EFAD2 calls this complete vptr-restoring destructor"
 ?apply@Rva0010EFCDDwordImmSetter@@QAEXXZ,0x0010EFCD,"Renamed to ??1Rva0010EFCD@@UAE@XZ: Retail deleting destructor 0x0010EFD4 calls this complete vptr-restoring destructor"
 ?rva001E009E@Rva001E009E@@QAEXXZ,0x001E009E,"Renamed to ??1Rva001E009E@@UAE@XZ: Retail deleting destructor 0x001E0A3B calls this complete destructor forwarding to base 0x001DFA48"
+?name@Rva004E0777Named@@QBEPBDXZ,0x004E0777,"Renamed to ?GetSnapshotName@LivingWorldBuilding@@UAEPBDXZ: retail C61618 slot 2 targets this LivingWorldBuilding literal getter"

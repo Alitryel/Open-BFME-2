@@ -35,10 +35,10 @@ typedef _STL::map<NameKeyType,ModuleFactory::ModuleTemplate> MapHeaderA;
 typedef _STL::map<int,BfmePod8> MapHeaderB;
 typedef _STL::map<int,void*> MapHeaderC;
 namespace _STL {template<>MapHeaderA::map();template<>MapHeaderB::map();template<>MapHeaderC::map();}
-class Rva002075F3Map:public MapHeaderA {public:__forceinline Rva002075F3Map(){}~Rva002075F3Map();};
-class Rva00207630Map:public MapHeaderB {public:__forceinline Rva00207630Map(){}~Rva00207630Map();};
-class Rva0020766DMap:public MapHeaderB {public:__forceinline Rva0020766DMap(){}~Rva0020766DMap();};
-class Rva002076AAMap:public MapHeaderB {public:__forceinline Rva002076AAMap(){}~Rva002076AAMap();};
+class Rva002075F3:public MapHeaderA {public:__forceinline Rva002075F3(){}~Rva002075F3();};
+class Rva00207630:public MapHeaderB {public:__forceinline Rva00207630(){}~Rva00207630();};
+class Rva0020766D:public MapHeaderB {public:__forceinline Rva0020766D(){}~Rva0020766D();};
+class Rva002076AA:public MapHeaderB {public:__forceinline Rva002076AA(){}~Rva002076AA();};
 class Rva002076E7Map:public MapHeaderC {public:__forceinline Rva002076E7Map(){}~Rva002076E7Map();};
 // playerMaps[20] element: retail's eh vector constructor call (0x002084A1)
 // passes the shared 25-byte empty-tree constructor 0x0033C432 and the 5-byte
@@ -50,8 +50,8 @@ class Rva002076E7Map:public MapHeaderC {public:__forceinline Rva002076E7Map(){}~
 typedef _STL::pair<const int,void*> PlayerMapValue;
 typedef _STL::_Rb_tree<int,PlayerMapValue,_STL::_Select1st<PlayerMapValue>,_STL::less<int>,_STL::allocator<PlayerMapValue> > PlayerMapTree;
 struct Rva00205AF8 {PlayerMapTree tree;Rva00205AF8():tree(_STL::less<int>(),PlayerMapTree::allocator_type()){}~Rva00205AF8();};
-class Rva00207724Map:public MapHeaderB {public:__forceinline Rva00207724Map(){}~Rva00207724Map();};
-class Rva00207761Map:public MapHeaderB {public:__forceinline Rva00207761Map(){}~Rva00207761Map();};
+class Rva00207724:public MapHeaderB {public:__forceinline Rva00207724(){}~Rva00207724();};
+class Rva00207761:public MapHeaderB {public:__forceinline Rva00207761(){}~Rva00207761();};
 class Rva0020779EMap:public MapHeaderB {public:__forceinline Rva0020779EMap(){}~Rva0020779EMap();};
 struct RvaPair00207E26 {AsciiString text;int scalar;~RvaPair00207E26();};
 struct BfmeStringRecord00204A30 {int word0;AsciiString text0;int word1;AsciiString text1;int word2;~BfmeStringRecord00204A30();};
@@ -66,7 +66,7 @@ template<>_List_base<upgradePair,allocator<upgradePair> >::_List_base(const allo
 class ScriptEngine:public SubsystemInterface,public Snapshot {public:ScriptEngine();virtual~ScriptEngine();virtual void init();virtual void reset();virtual void update();virtual void loadPostProcess() = 0;virtual const char*GetSnapshotName()const = 0;virtual void xfer(Xfer*) = 0;
 private:
 _STL::vector<SequentialScript*> sequential;int unknown1C;Template action[599];ConditionTemplate condition[202];
-Rva002075F3Map map190A0;Rva00207630Map map190AC;Rva0020766DMap map190B8;Rva002076AAMap map190C4;Rva002076E7Map map190D0;Rva00207724Map map190DC;Rva00207761Map map190E8;Rva0020779EMap map190F4;
+Rva002075F3 map190A0;Rva00207630 map190AC;Rva0020766D map190B8;Rva002076AA map190C4;Rva002076E7Map map190D0;Rva00207724 map190DC;Rva00207761 map190E8;Rva0020779EMap map190F4;
 Rva0034C5E0 attack[256];
 int a100,a104,a108;AsciiString string1A10C;int a110,a114,a118,a11C;
 _STL::vector<RvaPair00207E26> records;
