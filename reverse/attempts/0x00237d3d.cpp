@@ -1,5 +1,5 @@
 // ?Rva00237D3DCheck@@YAHXZ
-// partial score=0.802326 date=2026-10-22
+// partial score=0.802326 date=2026-10-23
 // cl: /O1 /G6 /arch:SSE /DNDEBUG /MD /EHsc
 // ?Rva00237D3DCheck@@YAHXZ
 // Retail: RVA 0x237D3D, extent 226. This diagnostic emits 219 bytes.
