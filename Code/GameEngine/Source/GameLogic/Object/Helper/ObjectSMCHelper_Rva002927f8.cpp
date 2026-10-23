@@ -49,16 +49,28 @@ public:
 	virtual void updateModuleInterfaceAnchor();
 };
 
+// Retail's ObjectHelper base destructor is 0x004DF7C2 (the last call of the
+// matched ~ObjectSMCHelper 0x004DE767), rowed under this placeholder name.
+class Rva004DF7C2
+{
+public:
+	virtual ~Rva004DF7C2();
+};
+
 class ObjectHelper : public ModuleInterface,
 	public BehaviorModuleInterface,
 	public UpdateModuleInterface
 {
 public:
 	ObjectHelper(Thing *, const ModuleData *);
-	virtual ~ObjectHelper();
-	virtual void moduleInterfaceAnchor();
-	virtual void behaviorModuleInterfaceAnchor();
-	virtual void updateModuleInterfaceAnchor();
+	// Forwards to the rowed body, as ObjectRecoveryHelperCtor.cpp does.
+	virtual ~ObjectHelper() { ((Rva004DF7C2 *)this)->Rva004DF7C2::~Rva004DF7C2(); }
+	// Stand-in slots, pure as in ObjectSMCHelper below: this unit never
+	// instantiates ObjectHelper, so the vtable its inline destructor emits
+	// binds _purecall instead of undefined names.
+	virtual void moduleInterfaceAnchor() = 0;
+	virtual void behaviorModuleInterfaceAnchor() = 0;
+	virtual void updateModuleInterfaceAnchor() = 0;
 
 private:
 	unsigned char m_helperData[0xc];
