@@ -111,7 +111,6 @@ template <> void DamageFXTable::erase(DamageFXTable::const_iterator, DamageFXTab
 template <> void DamageFXTable::clear();
 }
 template DamageFXNode *DamageFXTable::_M_new_node(const DamageFXPair &);
-template void DamageFXMap::erase(DamageFXMap::iterator, DamageFXMap::iterator);
 template unsigned int DamageFXTable::_M_bkt_num_key(const NameKeyType &) const;
 template void DamageFXTable::_M_erase_bucket(unsigned int, DamageFXNode *, DamageFXNode *);
 template DamageFXPair::pair(const NameKeyType &, const DamageFX &);
