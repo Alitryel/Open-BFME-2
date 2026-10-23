@@ -2661,12 +2661,13 @@ def parameters(params):
             yield words[-1]
 
 
-def prototype_param_spans(code, scope, params, name, skip):
+def prototype_param_spans(code, scope, params, name, skip, new=None):
     """Spans of the parameter `name` in this file's in-class declarations of
     `scope` (Class::method): a declaration with the definition's arity whose
     parameter at the same position is spelled `name`. A parameter list with
     nested parentheses or template commas is left alone (positions would be
-    guesses); `skip` (start, end) is the definition itself."""
+    guesses); `skip` (start, end) is the definition itself; a declaration that already
+    spells `new` is refused."""
     parts = scope.split("#")[0].split("::")
     if len(parts) < 2 or "(" in params or "<" in params:
         return []
@@ -2692,6 +2693,8 @@ def prototype_param_spans(code, scope, params, name, skip):
                 continue
             words = name_metric.WORD.findall(theirs[index[0]].split("=")[0])
             if len(words) >= 2 and words[-1] == name:
+                if new and word_re(new).search(decl):
+                    raise Refusal(f"{new} is already a name in the in-class declaration of {scope}")
                 at = open_ + sum(len(t) + 1 for t in theirs[:index[0]])
                 spans.append((at, at + len(theirs[index[0]])))
     return spans
@@ -2711,6 +2714,163 @@ def other_declarations(code, word, cls=None):
         if word in set(name_metric.local_names(code[code.find("{", start):end])):
             found.append(f"a local of {scope}")
     return found
+
+
+def _define_formals(line):
+    """(macro name, formal parameters) of a function-like `#define` line, else None."""
+    match = re.match(r"[ \t]*#[ \t]*define[ \t]+([A-Za-z_]\w*)\(([^)]*)\)", line)
+    if not match:
+        return None
+    return match.group(1), [part.strip() for part in match.group(2).split(",")]
+
+
+def _segment_kind(segment):
+    """What a `{` after `segment` (text since the last `;`, `{` or `}`) opens:
+    'class:Name' ('class:*' when anonymous), 'enum', 'ns', 'fn' or 'other'.
+    A shape it does not know is 'other', which counts as a function body
+    only for names used elsewhere; callers treat a class as the dangerous
+    reading, so a class it fails to recognise is its blind spot (headers
+    with `__declspec` or attributes are stripped first)."""
+    text = re.sub(r"__declspec\s*\([^)]*\)|__attribute__\s*\(\([^)]*\)\)", " ", segment).strip()
+    if re.search(r"\benum\b[^;{()]*$", text):
+        return "enum"
+    if re.search(r"\bnamespace\b[^;{()]*$", text) or re.fullmatch(r"(?:extern\s*)?", text):
+        return "ns"
+    if re.search(r"\)\s*(?:(?:const|volatile)\s*)*(?:throw\s*\([^)]*\)\s*)?$", text):
+        return "fn"
+    if re.search(r"\b(?:class|struct|union)\b", text):
+        names = re.findall(r"\b(?:class|struct|union)\s+([A-Za-z_]\w*)\b", text)
+        return "class:" + (names[-1] if names else "*")
+    return "fn" if ")" in text else "other"
+
+
+def occurrence_kinds(code, word):
+    """One entry for each place stripped header or source `code` spells
+    `word`, by what the spelling can mean to a function elsewhere:
+
+      'macro'    a preprocessor line spells it, unless it is a formal
+                 parameter of a function-like `#define` (a formal binds
+                 only inside its own macro)
+      'ns'       namespace or file scope: a type, variable, function,
+                 typedef, enumerator, or a use there
+      'class:X'  directly in the body of class X (a member, or a member
+                 function defined in the class; 'class:*' when anonymous)
+      'param'    in the parameter list of a declaration at namespace or
+                 class scope
+      'fnbody'   inside a function body, or another braced initializer:
+                 a local, or a use whose declaration is elsewhere"""
+    pattern = word_re(word)
+    if not pattern.search(code):
+        return []
+    out = []
+
+    def blank(match):
+        line = match.group(0)
+        if pattern.search(line):
+            formals = _define_formals(line)
+            if not (formals and formals[0] != word and word in formals[1]):
+                out.append("macro")
+        return re.sub(r"[^\n]", " ", line)
+
+    code = name_metric.PREPROCESSOR.sub(blank, code)
+    stack, parens, segment = [], 0, 0          # stack of [kind, indexes into out of its anonymous members]
+    for match in re.finditer(r"[{}();]|\b%s\b" % re.escape(word), code):
+        token = match.group(0)
+        if token == "(":
+            parens += 1
+        elif token == ")":
+            parens = max(0, parens - 1)
+        elif token == "{":
+            if parens == 0:
+                stack.append([_segment_kind(code[segment:match.start()]), []])
+                segment = match.end()
+        elif token == "}":
+            if parens == 0 and stack:
+                kind, anonymous = stack.pop()
+                segment = match.end()
+                if kind == "class:*" and anonymous:
+                    # the members of an anonymous aggregate belong to the class it sits in, or
+                    # to the typedef name that follows its closing brace
+                    outer = stack[-1][0] if stack else "ns"
+                    named = re.match(r"\s*(?:const\s+)?\**\s*([A-Za-z_]\w*)", code[match.end():])
+                    owner = outer if outer.startswith("class:") else \
+                        ("class:" + named.group(1) if named else "class:*")
+                    for index in anonymous:
+                        out[index] = owner
+                    if owner == "class:*" and stack:
+                        stack[-1][1].extend(anonymous)
+        elif token == ";":
+            if parens == 0:
+                segment = match.end()
+        else:
+            top = stack[-1][0] if stack else "ns"
+            if parens and (top == "ns" or top.startswith("class:")):
+                out.append("param")
+            elif top in ("fn", "other"):
+                out.append("fnbody")
+            elif top == "enum":
+                inner = next((k for k, _ in reversed(stack[:-1]) if k.startswith("class:")), None)
+                out.append(inner or "ns")
+            else:
+                out.append(top)
+                if top == "class:*":
+                    stack[-1][1].append(len(out) - 1)
+    return out
+
+
+def class_ancestors(ctx, rel, cls):
+    """`cls` and every base class, read from `rel` and the headers it
+    includes (every same-named header variant counts); None when `cls` or a
+    base is not declared there, so a caller must assume any class."""
+    key = ("_ancestors", rel, cls)
+    if key in ctx._cache:
+        return ctx._cache[key]
+    bases = {}
+    for path in [rel] + sorted(header_closure(ctx, rel)):
+        code = name_metric.strip((ctx.read(path) or b"").decode("utf-8", "replace"))
+        for match in re.finditer(r"\b(?:class|struct)\s+([A-Za-z_]\w*)\s*(?::([^{;]*))?\{", code):
+            entry = bases.setdefault(match.group(1), set())
+            if match.group(2):
+                for part in match.group(2).split(","):
+                    names = [w for w in name_metric.WORD.findall(re.sub(r"<[^<>]*>", "", part))
+                             if w not in ("public", "protected", "private", "virtual")]
+                    if names:
+                        entry.add(names[-1])
+    seen, todo, known = set(), [cls], True
+    while todo:
+        name = todo.pop()
+        if name in seen:
+            continue
+        seen.add(name)
+        if name not in bases:
+            known = False
+            continue
+        todo.extend(bases[name])
+    ctx._cache[key] = seen if known else None
+    return ctx._cache[key]
+
+
+def meant_by_function(ctx, rel, code, word, cls, *, strict):
+    """Why a spelling of `word` in `code` (a header, or the unit itself with
+    the function blanked out) could be what the function means, or is
+    captured by what it declares; None when none can. A macro can always
+    bind, and so can a member of the function's class or of a base (an
+    initializer list names a member beside the parameter of that name). A
+    namespace-scope name or any class's member counts too when `strict`;
+    parameters and function bodies elsewhere never do."""
+    for kind in occurrence_kinds(code, word):
+        if kind == "macro":
+            return "a macro"
+        if kind == "ns" and strict:
+            return "a name at file scope"
+        if kind.startswith("class:"):
+            if strict or kind == "class:*":
+                return f"a member of {kind[6:]}" if kind != "class:*" else "a member of an anonymous type"
+            if cls is not None:
+                ancestors = class_ancestors(ctx, rel, cls)
+                if ancestors is None or kind[6:] in ancestors:
+                    return f"a member of {kind[6:]}"
+    return None
 
 
 def plan_member(ctx, cls, member, new, basis, evidence, *, max_files=25):
@@ -2945,16 +3105,37 @@ def plan_scoped(kind, ctx, source, name, new, basis, evidence, *, function=None,
     region = code[start:end]
     if re.search(r"(?:->|\.|::)\s*%s\b" % re.escape(name), region):
         raise Refusal(f"{scope} spells {name} after ->, . or ::; it also names a member there")
-    if code_mentions(text, new):
-        raise Refusal(f"{new} is already a name in {rel}")
+    # The new name may not be spelled in the function (a use would be captured)
+    # nor at file scope, as a member or in a macro: the same spelling as a
+    # parameter or local of ANOTHER function is no collision.
+    parts = scope.split("#")[0].split("::")
+    inside = [n for n, begin, finish, _outer in enclosing_types(code) if begin <= start < finish]
+    owner_class = parts[-2] if len(parts) > 1 else (inside[-1] if inside else None)
+    if word_re(new).search(region):
+        raise Refusal(f"{new} is already a name in {scope} ({rel})")
     outside = code[:start] + " " * (end - start) + code[end:]
+    clash = meant_by_function(ctx, rel, outside, new, owner_class, strict=True)
+    if clash:
+        raise Refusal(f"{new} is already a name in {rel} ({clash})")
     elsewhere = [d for d in other_declarations(outside, name) if not d.startswith(("a parameter", "a local"))]
     if elsewhere:
         raise Refusal(f"{name} is also {elsewhere[0]} in {rel}; the function may mean it")
+    if "macro" in occurrence_kinds(outside, name):
+        raise Refusal(f"{name} is also spelled in a macro in {rel}; the function may mean it")
+    # An included header spelling either name decides only through a macro or a
+    # member of the function's class or a base (an initializer list names a
+    # member beside the parameter of that name): a parameter or local of some
+    # other function there, or a file-scope name, is not what this function
+    # declares.
     for header in sorted(header_closure(ctx, rel)):
         data = ctx.read(header)
-        if data is not None and code_mentions(data.decode("utf-8", errors="replace"), name):
-            raise Refusal(f"{name} is also spelled in included header {header}; the function may mean it")
+        if data is None:
+            continue
+        header_code = name_metric.strip(data.decode("utf-8", errors="replace"))
+        for word, what in ((name, "the function may mean it"), (new, "it would capture or shadow it")):
+            clash = meant_by_function(ctx, rel, header_code, word, owner_class, strict=False)
+            if clash:
+                raise Refusal(f"{word} is also spelled in included header {header} ({clash}); {what}")
 
     new_text, counts, strings, _ = rewrite_tokens(text, word_re(name), new, span=(start, end))
     if strings:
@@ -2964,7 +3145,7 @@ def plan_scoped(kind, ctx, source, name, new, basis, evidence, *, function=None,
     if kind == "param":
         # the in-class prototype names the parameter too; leaving it on the
         # old word makes the declaration and the definition disagree
-        protos = prototype_param_spans(code, scope, params, name, (start, end))
+        protos = prototype_param_spans(code, scope, params, name, (start, end), new)
         new_text = text
         for span in sorted(protos + [(start, end)], reverse=True):
             new_text, part, _strings, _ = rewrite_tokens(new_text, word_re(name), new, span=span)

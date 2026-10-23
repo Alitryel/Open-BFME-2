@@ -158,6 +158,16 @@ It refuses, among other things, the following:
   class-reconciliation commit instead;
 - a blast radius over `--max-files` (25).
 
+A `param` or `local` rename is confined to one function's text, so it asks only
+what the new spelling could capture and what the old one could mean there. The
+function's own text must not spell the new name; the unit must not spell it at
+file scope, as a member or in a macro (a parameter or local of another function
+may). An included header counts only through a macro, or a member of the
+function's class or a base (an initializer list names a member beside the
+parameter of that name): a header's own parameters, locals, file-scope names
+and unrelated classes do not. A base the headers never declare means any
+class's member counts. A macro formal parameter binds only inside its macro.
+
 A global's consumers are invisible to the byte gate, because DIR32 is masked. For that reason
 `rename.py` refuses a global rename when it cannot find and rewrite every consumer. It reports
 `data_ledger.csv` as stale instead of editing it.

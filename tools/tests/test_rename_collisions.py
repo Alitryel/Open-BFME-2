@@ -162,3 +162,187 @@ def test_a_word_the_instantiation_row_spells_is_still_shared(tmp_path):
     tree = host_tree(tmp_path, inst=inst)
     with pytest.raises(Refusal, match="also spells"):
         plan_function(tree, 0x00401000, "countParts")
+
+
+# ------------------------------------ params and locals: what a spelling can mean
+
+MUTEX_H = """#pragma once
+class MutexClass;
+class LockClass {
+public:
+    LockClass(MutexClass &m, int flags);
+    ~LockClass();
+    void swap(Header *tmp);
+    int lock(int m) { return m + 1; }
+};
+inline int twice(int m) { int a = m; return a + m; }
+"""
+BASE_H = """#pragma once
+class Base { public: Base(int m); int m; };
+class Orphan : public Missing { public: int region; };
+"""
+MACRO_H = """#pragma once
+#define ROWCOL(a, b) ((a) * 4 + (b))
+"""
+FUNCS = """name,export_rva,target_rva,target_size,source,status,notes
+?rva00501000@@YAHHH@Z,,0x00501000,10,Code/Game/Lock.cpp,matched,address-derived
+?rva00502000@Derived@@QAEHH@Z,,0x00502000,10,Code/Game/Lock.cpp,matched,address-derived
+?rva00503000@@YAHH@Z,,0x00503000,10,Code/Game/Lock.cpp,matched,address-derived
+"""
+
+
+def lock_tree(tmp_path, cpp, **headers):
+    sources = {"Code/Game/Lock.cpp": cpp}
+    for name, text in headers.items():
+        sources[f"Code/Game/{name}.h"] = text
+    return tree_of(tmp_path, FUNCS.split("\n", 1)[1], **sources)
+
+
+LOCK_CPP = """// cl: /O2
+#include "Mutex.h"
+#include "Base.h"
+int rva00501000(int m, int count) { int tmp = m + count; return tmp; }
+int Derived::rva00502000(int m) { return m * 2; }
+int rva00503000(int x) { int region2 = x; return region2; }
+void other(int key) { int region = key; }
+"""
+
+
+def scoped(root, kind, function, name, new, source="Code/Game/Lock.cpp"):
+    ctx = rename.Context(root, object_scan=False)
+    return rename.plan_rename(kind, ctx=ctx, source=source, function=function, name=name, new=new,
+                              basis="inferred", evidence="agree:abc123")
+
+
+def test_header_spelling_as_parameters_and_bodies_is_not_a_clash(tmp_path):
+    # mutex.h's `LockClass(MutexClass &m, ...)`, `lock(int m)` and `twice(int m)` spell `m`
+    # as parameters and as a local; none of them is a thing a free function can mean
+    tree = lock_tree(tmp_path, LOCK_CPP, Mutex=MUTEX_H, Base="class Missing {};\n")
+    plan = scoped(tree, "param", "rva00501000", "m", "mutexValue")
+    text = plan.after["Code/Game/Lock.cpp"].decode()
+    assert "int rva00501000(int mutexValue, int count) { int tmp = mutexValue + count;" in text
+    assert plan.verify == ["Code/Game/Lock.cpp"]
+
+
+def test_header_local_and_macro_formal_are_not_a_clash(tmp_path):
+    tree = lock_tree(tmp_path, LOCK_CPP, Mutex=MUTEX_H, Base="class Missing {};\n", Macro=MACRO_H)
+    cpp = tree / "Code/Game/Lock.cpp"
+    cpp.write_text(cpp.read_text().replace('#include "Base.h"', '#include "Base.h"\n#include "Macro.h"')
+                   .replace("int rva00503000(int x) { int region2 = x; return region2; }",
+                            "int rva00503000(int a) { int b = a; return ROWCOL(a, b); }"))
+    subprocess.run(["git", "-C", str(tree), "add", "-A"], check=True, capture_output=True)
+    plan = scoped(tree, "param", "rva00503000", "a", "first")
+    assert "int rva00503000(int first) { int b = first; return ROWCOL(first, b); }" in \
+        plan.after["Code/Game/Lock.cpp"].decode()
+    # a macro formal of the same name does not make a LOCAL's name risky either
+    assert scoped(tree, "local", "rva00503000", "b", "second")
+
+
+def test_new_name_used_as_a_param_or_local_elsewhere_is_no_collision(tmp_path):
+    # `region` is a local of other() and `key` its parameter: both already live in this file
+    tree = lock_tree(tmp_path, LOCK_CPP, Mutex=MUTEX_H, Base="class Missing {};\n")
+    plan = scoped(tree, "param", "rva00503000", "x", "region")
+    assert "int rva00503000(int region)" in plan.after["Code/Game/Lock.cpp"].decode()
+    assert scoped(tree, "param", "rva00503000", "x", "key")
+
+
+@pytest.mark.parametrize("edit,match", [
+    # the new name is used in the function itself
+    (lambda t: t.replace("{ int region2 = x; return region2; }", "{ int region2 = x; return region2 + rows; }"),
+     "already a name in"),
+    # a file-scope name or a member of a class here
+    (lambda t: t + "int rows;\n", "already a name"),
+    (lambda t: t + "struct Holder { int rows; };\n", "already a name"),
+    # a macro in the file
+    (lambda t: t + "#define rows 4\n", "already a name"),
+    (lambda t: t + "#define GETROWS() rows\n", "already a name"),
+])
+def test_new_name_clashes_stay_refused(tmp_path, edit, match):
+    tree = lock_tree(tmp_path, edit(LOCK_CPP), Mutex=MUTEX_H, Base="class Missing {};\n")
+    with pytest.raises(Refusal, match=match):
+        scoped(tree, "param", "rva00503000", "x", "rows")
+
+
+def test_new_name_in_the_in_class_prototype_stays_refused(tmp_path):
+    cpp = ("// cl: /O2\nclass Box { public: int fit(int a, int rows); };\n"
+           "int Box::fit(int a, int rows2) { return a + rows2; }\n")
+    funcs = "?rva00504000@Box@@QAEHHH@Z,,0x00504000,10,Code/Game/Lock.cpp,matched,address-derived\n"
+    tree = tree_of(tmp_path, funcs, **{"Code/Game/Lock.cpp": cpp})
+    with pytest.raises(Refusal, match="in-class declaration"):
+        scoped(tree, "param", "Box::fit", "a", "rows")
+    assert scoped(tree, "param", "Box::fit", "a", "left")
+
+
+@pytest.mark.parametrize("header,files,match", [
+    # a macro named like the old name, object-like or with the name free in its body
+    ("#define m 3\n", {}, "macro"),
+    ("#define GETM() m\n", {}, "macro"),
+    # the class's base declares a member of that name: an initializer list names it
+    ("class Derived : public Base { public: Derived(int m); };\n", {"Base": BASE_H}, "member of Base"),
+    # a base the headers never declare: any class member counts
+    ("class Derived : public Gone { public: Derived(int x); };\n", {"Base": "class Gone2 { public: int m; };\n"},
+     "member of"),
+])
+def test_old_name_header_meanings_stay_refused(tmp_path, header, files, match):
+    cpp = '// cl: /O2\n#include "Head.h"\n#include "Base.h"\nint Derived::rva00502000(int m) { return m * 2; }\n'
+    funcs = "?rva00502000@Derived@@QAEHH@Z,,0x00502000,10,Code/Game/Lock.cpp,matched,address-derived\n"
+    sources = {"Code/Game/Lock.cpp": cpp, "Code/Game/Head.h": header}
+    sources["Code/Game/Base.h"] = files.get("Base", "class Base { };\n")
+    tree = tree_of(tmp_path, funcs, **sources)
+    with pytest.raises(Refusal, match=match):
+        scoped(tree, "param", "Derived::rva00502000", "m", "width")
+
+
+def test_old_name_member_of_an_unrelated_class_in_a_header_is_no_clash(tmp_path):
+    header = "class Derived : public Base2 { public: Derived(int x); };\nclass Base2 { };\n"
+    cpp = '// cl: /O2\n#include "Head.h"\n#include "Other.h"\nint Derived::rva00502000(int m) { return m * 2; }\n'
+    funcs = "?rva00502000@Derived@@QAEHH@Z,,0x00502000,10,Code/Game/Lock.cpp,matched,address-derived\n"
+    tree = tree_of(tmp_path, funcs, **{"Code/Game/Lock.cpp": cpp, "Code/Game/Head.h": header,
+                                       "Code/Game/Other.h": "struct Unrelated { int m; int region; };\n"})
+    assert scoped(tree, "param", "Derived::rva00502000", "m", "width")
+    # ... and it is a clash for the class the member belongs to
+    (tree / "Code/Game/Head.h").write_text("class Derived : public Unrelated { public: Derived(int x); };\n")
+    subprocess.run(["git", "-C", str(tree), "add", "-A"], check=True, capture_output=True)
+    with pytest.raises(Refusal, match="member of Unrelated"):
+        scoped(tree, "param", "Derived::rva00502000", "m", "width")
+
+
+def test_new_name_as_base_member_in_a_header_stays_refused(tmp_path):
+    header = "class Base { public: int width; };\nclass Derived : public Base { public: Derived(int x); };\n"
+    cpp = '// cl: /O2\n#include "Head.h"\nint Derived::rva00502000(int m) { return m * 2; }\n'
+    funcs = "?rva00502000@Derived@@QAEHH@Z,,0x00502000,10,Code/Game/Lock.cpp,matched,address-derived\n"
+    tree = tree_of(tmp_path, funcs, **{"Code/Game/Lock.cpp": cpp, "Code/Game/Head.h": header})
+    with pytest.raises(Refusal, match="member of Base"):
+        scoped(tree, "param", "Derived::rva00502000", "m", "width")
+    assert scoped(tree, "param", "Derived::rva00502000", "m", "height")
+
+
+def test_inline_method_in_a_class_body_sees_the_bases_members(tmp_path):
+    header = "class Base { public: int m; };\n"
+    cpp = ('// cl: /O2\n#include "Head.h"\nclass Derived : public Base {\npublic:\n'
+           "    Derived(int m) : m(m) {}\n};\n")
+    funcs = "?rva00505000@Derived@@QAE@H@Z,,0x00505000,10,Code/Game/Lock.cpp,matched,address-derived\n"
+    tree = tree_of(tmp_path, funcs, **{"Code/Game/Lock.cpp": cpp, "Code/Game/Head.h": header})
+    with pytest.raises(Refusal):
+        scoped(tree, "param", "Derived", "m", "width")
+
+
+# ------------------------------------------- occurrence classes, directly
+
+@pytest.mark.parametrize("code,word,kinds", [
+    ("int g(int m) { return m; }\nint m;\n", "m", ["param", "fnbody", "ns"]),
+    ("struct S { int m; void f(int m); int h() { return m; } };\n", "m", ["class:S", "param", "fnbody"]),
+    ("#define ROWCOL(a, b) ((a) * (b))\n", "a", []),
+    ("#define GET() a\n#define a 2\n", "a", ["macro", "macro"]),
+    ("#define a(x) x\n", "a", ["macro"]),
+    ("enum E { m };\nstruct S { enum { m2, m }; };\n", "m", ["ns", "class:S"]),
+    ("template<class T> class X : public Y<T> { int m; };\ntypedef struct { int m; } Anon;\n", "m",
+     ["class:X", "class:Anon"]),
+    # an anonymous aggregate's members belong to the class it sits in, or to its typedef name
+    ("typedef struct _M { union { struct { float a; }; float m[4][4]; }; } M, *PM;\n", "m", ["class:_M"]),
+    ("class A { union { int m; }; };\n", "m", ["class:A"]),
+    ("extern \"C\" { int m; }\n", "m", ["ns"]),
+    ("int a[] = { m };\n", "m", ["fnbody"]),
+])
+def test_occurrence_kinds(code, word, kinds):
+    assert rename.occurrence_kinds(rename.name_metric.strip(code), word) == kinds

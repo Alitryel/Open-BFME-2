@@ -391,9 +391,16 @@ def test_scoped_refuses_outer_meaning(tree):
     (tree / "Code/Game/Params.cpp").write_text(PARAMS.replace("int g_total;", "int iVar3;"))
     with pytest.raises(Refusal, match="global"):
         plan(tree, "local", source="Code/Game/Params.cpp", function="sum", name="iVar3", new="result")
+    # a member of an UNRELATED class that an included header declares is not what a free
+    # function's parameter of that name means (test_rename_collisions has the cases) ...
     (tree / "Code/Game/Params.cpp").write_text('#include "Owner.h"\n' + PARAMS.replace("param_2", "m_x2C"))
+    assert plan(tree, "param", source="Code/Game/Params.cpp", function="sum", name="m_x2C", new="rhs")
+    # ... but it is, to a method of that class or of a derived one
+    (tree / "Code/Game/Params.cpp").write_text(
+        '#include "Owner.h"\nint Rva00401000Owner::count(int m_x2C) { return m_x2C; }\n' + PARAMS)
     with pytest.raises(Refusal, match="included header"):
-        plan(tree, "param", source="Code/Game/Params.cpp", function="sum", name="m_x2C", new="rhs")
+        plan(tree, "param", source="Code/Game/Params.cpp", function="Rva00401000Owner::count",
+             name="m_x2C", new="rhs")
 
 
 # ---------------------------------------------------------------- CLI
