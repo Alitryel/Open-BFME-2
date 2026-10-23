@@ -204,7 +204,7 @@ class W3DScriptedModelDraw
 {
 public:
 	void rva000B710D(Matrix3D &mtx);
-};
+public: void rva000BD6C2(); };
 class Rva000BFDFE
 {
 public:
@@ -323,7 +323,7 @@ class W3DModelDraw : public DrawModulePrimary, public DrawModuleInterface
 public:
 	virtual void doDrawModule(const Matrix3D *transformMtx);
 	void rva000C6E1A();
-	void rva000BD6C2();
+	/* the rowed W3DScriptedModelDraw::rva000BD6C2 */ __declspec(dllimport) __forceinline void rva000BD6C2() { ((W3DScriptedModelDraw *)this)->rva000BD6C2(); }
 protected:
 	void handleClientTurretPositioning();
 	void handleClientRecoil();
