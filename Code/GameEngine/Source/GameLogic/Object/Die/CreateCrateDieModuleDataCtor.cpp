@@ -23,6 +23,7 @@
 // (pin 4079, superseded by this row).
 
 #include <list>
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 #include "ascii_string.h"
 
@@ -33,7 +34,7 @@ template <> _List_base<AsciiString, allocator<AsciiString> >::~_List_base();
 template <> void _List_base<AsciiString, allocator<AsciiString> >::clear();
 }
 
-class DestroyDieModuleData
+class DestroyDieModuleData : public Snapshot
 {
 public:
 	DestroyDieModuleData();

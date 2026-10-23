@@ -48,11 +48,28 @@ public:
 
 #include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
+class GameFont;
+
 class FontLibrary : public SubsystemInterface
 {
 public:
 	FontLibrary();
 	virtual ~FontLibrary();
+	virtual void slot04() = 0;
+	virtual void slot08() = 0;
+	virtual void slot0C() = 0;
+	virtual void slot10() = 0;
+	virtual void slot14() = 0;
+	virtual void slot18() = 0;
+	virtual void slot1C() = 0;
+	virtual void slot20() = 0;
+	virtual void reset();
+	virtual void slot28() = 0;
+	virtual void slot2C() = 0;
+	virtual void slot30() = 0;
+	virtual void slot34() = 0;
+	virtual void slot38() = 0;
+	virtual void releaseFontData(GameFont *font) = 0;
 
 private:
 	void *m_fontList;
