@@ -16,18 +16,7 @@
 extern "C" const void *const vtbl_00BBB554[];  // folded, 23 classes; via ??_7BfmeBaseVUQ@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00BBB554=??_7BfmeBaseVUQ@@6B@")
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc() = 0;
-	virtual void loadPostProcess() = 0;
-	virtual void xfer() = 0;
-};
-
-inline Snapshot::~Snapshot()
-{
-}
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 class AsciiStringMember
 {

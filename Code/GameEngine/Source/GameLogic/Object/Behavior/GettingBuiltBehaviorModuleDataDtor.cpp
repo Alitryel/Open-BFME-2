@@ -12,12 +12,7 @@
 
 #include "ascii_string.h"
 
-class Snapshot
-{
-public:
-	Snapshot() {}
-	virtual ~Snapshot() {}
-};
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 class OpaqueRefCounted
 {

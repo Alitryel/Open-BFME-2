@@ -11,16 +11,8 @@ private:
 	void *m_pad[3];
 };
 class Xfer;
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc(Xfer *xfer) = 0;
-	virtual void loadPostProcess() = 0;
-	virtual void xfer(Xfer *xfer) = 0;
-};
+#include "../../../../reference/shims/moduledata/Common/Snapshot.h"
 extern const void *const g_00BBB554[];
-inline Snapshot::~Snapshot() { }
 class __declspec(novtable) Rva0026E7EA : public Snapshot
 {
 public:

@@ -18,18 +18,7 @@ extern "C" const void *const vtbl_00BBB554[];  // folded, 23 classes; via ??_7Bf
 
 class Xfer;
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc(Xfer *xfer) = 0;
-	virtual void loadPostProcess() = 0;
-	virtual void xfer(Xfer *xfer) = 0;
-};
-
-inline Snapshot::~Snapshot()
-{
-}
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 #include "ascii_string.h"
 
