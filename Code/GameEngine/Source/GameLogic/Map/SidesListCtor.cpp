@@ -9,9 +9,18 @@
 #include <map>
 #include <list>
 #include "ascii_string.h"
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "Common/Snapshot.h"
 #include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 #include "../../../../Libraries/Include/Lib/BfmeE16.h"
+// Storage deallocation cannot throw; keep the STLport cleanup inline.
+namespace _STL {
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline _Vector_base<BfmeE16, allocator<BfmeE16> >::~_Vector_base()
+{ if (this->_M_start != 0) this->_M_end_of_storage.deallocate(this->_M_start, this->_M_end_of_storage._M_data - this->_M_start); }
+template <> __declspec(dllimport) __forceinline vector<BfmeE16, allocator<BfmeE16> >::~vector()
+{ _Destroy(this->_M_start, this->_M_finish); }
+}
 // Suppress this TU's non-retail copy of ??$_Destroy@PAUBfmePod128@@@_STL@@YAXPAUBfmePod128@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod128;
@@ -57,9 +66,9 @@ class SidesList : public SubsystemInterface, public Snapshot, public Rva00330757
 public:
     SidesList();
     virtual ~SidesList();
-    virtual void loadPostProcess();
-    virtual void crc(Xfer *);
-    virtual void xfer(Xfer *);
+    virtual void LoadPostProcess();
+    virtual const char *GetSnapshotName() const;
+    virtual void DoXfer(Xfer *);
     void clear();
 private:
     _STL::list<AsciiString> m_list;

@@ -20,6 +20,13 @@ namespace _STL {
  template<> inline void allocator<BfmeE12>::deallocate(BfmeE12 *p,size_type) const { if(p)Rva00030830FreeAllocation(p); }
  template<> inline void allocator<BfmeE16>::deallocate(BfmeE16 *p,size_type) const { if(p)Rva00030830FreeAllocation(p); }
 }
+// Storage deallocation cannot throw; keep the STLport cleanup inline.
+namespace _STL {
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline _Vector_base<BfmeE16, allocator<BfmeE16> >::~_Vector_base()
+{ if (this->_M_start != 0) this->_M_end_of_storage.deallocate(this->_M_start, this->_M_end_of_storage._M_data - this->_M_start); }
+template <> __declspec(dllimport) __forceinline vector<BfmeE16, allocator<BfmeE16> >::~vector()
+{ _Destroy(this->_M_start, this->_M_finish); }
+}
 struct BfmePod44 { int a[11]; };
 struct BfmeWordVec : _STL::vector<unsigned short, _STL::allocator<unsigned short> >
 {
