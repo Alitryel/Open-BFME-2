@@ -10,19 +10,6 @@
 // guard plus a pinned no-arg (0x524D6/0x524E2) or cdecl (int,float) 0x524EE
 // global. Layout mirrors MilesAudioManagerRva00053CE1 (+0x12C/0x1C4/0x9D4).
 // All names are address-derived; identities unproven.
-class MilesAudioManager
-{
-public:
-	class GlobalVolumeData;
-};
-
-class MilesAudioManager::GlobalVolumeData
-{
-public:
-	void rva000522DF(float volume);
-	static void setGlobalSystemVolume(int volumeType, float volume);
-};
-
 class Rva0005C892
 {
 public:
@@ -56,21 +43,29 @@ extern class GlobalData *TheWritableGlobalData;
 void rva000524D6();
 void rva000524E2();
 
-class Rva0005C8BB
+class MilesAudioManager
 {
 public:
-	void rva0005C8BB(float volume, int flags);
-	void rva0005CAE2();
-	void rva0005CB39();
-	void rva0005CB90(int a, float b);
+	class GlobalVolumeData;
+	virtual void rva0005C8BB(float volume, int flags);
+	virtual void rva0005CAE2();
+	virtual void rva0005CB39();
+	virtual void rva0005CB90(int a, float b);
 private:
-	char m_pad00[0x12C];
+	char m_pad00[0x128];
 	Rva0005C8BBElem m_arr[3];
 	char m_pad678[0x9D4 - 0x12C - 3 * 0x1C4];
 	int m_mutex9D4;
 };
 
-void Rva0005C8BB::rva0005C8BB(float volume, int flags)
+class MilesAudioManager::GlobalVolumeData
+{
+public:
+	void rva000522DF(float volume);
+	static void setGlobalSystemVolume(int volumeType, float volume);
+};
+
+void MilesAudioManager::rva0005C8BB(float volume, int flags)
 {
 	MilesMutexGuard guard(&m_mutex9D4, 0);
 	Rva0005C8BBElem *elem = m_arr;
@@ -82,7 +77,7 @@ void Rva0005C8BB::rva0005C8BB(float volume, int flags)
 	((Rva0005C892 *)this)->rva0005C892();
 }
 
-void Rva0005C8BB::rva0005CAE2()
+void MilesAudioManager::rva0005CAE2()
 {
 	MilesMutexGuard guard(&m_mutex9D4, 0);
 	if (TheWritableGlobalData->m_flag9C5)
@@ -92,7 +87,7 @@ void Rva0005C8BB::rva0005CAE2()
 	}
 }
 
-void Rva0005C8BB::rva0005CB39()
+void MilesAudioManager::rva0005CB39()
 {
 	MilesMutexGuard guard(&m_mutex9D4, 0);
 	if (TheWritableGlobalData->m_flag9C5)
@@ -102,7 +97,7 @@ void Rva0005C8BB::rva0005CB39()
 	}
 }
 
-void Rva0005C8BB::rva0005CB90(int a, float b)
+void MilesAudioManager::rva0005CB90(int a, float b)
 {
 	MilesMutexGuard guard(&m_mutex9D4, 0);
 	MilesAudioManager::GlobalVolumeData::setGlobalSystemVolume(a, b);

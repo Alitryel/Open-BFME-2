@@ -51,7 +51,7 @@ public:
 	virtual bool isOn(int which) const;
 
 	AsciiString getProviderName(unsigned int providerNum) const;
-	AsciiString rva00054243() const;
+	virtual AsciiString rva00054243() const;
 
 private:
 	char m_pad004[0x6cc - 4];

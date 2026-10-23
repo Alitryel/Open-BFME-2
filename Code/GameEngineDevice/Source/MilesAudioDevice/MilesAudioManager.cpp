@@ -569,6 +569,10 @@ struct Rva00050E1CEqualTo {
 
 typedef _STL::hash_set<Rva00051107AudioRequest *, Rva00051B89Hash, Rva00050E1CEqualTo>
     Rva00051107AudioRequestSet;
+typedef _STL::hashtable<Rva00051107AudioRequest *, Rva00051107AudioRequest *, Rva00051B89Hash,
+    _STL::_Identity<Rva00051107AudioRequest *>, Rva00050E1CEqualTo,
+    _STL::allocator<Rva00051107AudioRequest *> > MilesAudioRequestTable;
+namespace _STL { template <> void MilesAudioRequestTable::resize(unsigned int); }
 
 // File handle AudioFileCache::requestFile returns (WorldBuilder name and
 // MilesAudioCache.cpp asserts). The ledger rows its destructor (0x000A8A37)
@@ -1164,6 +1168,8 @@ class Rva0036CA00Str;
 struct Rva0010F149Handle;
 class Rva00052B3D;
 struct BfmeAudioEventPrefix136;
+struct Rva000527E2Event;
+struct BfmeEventPositionView;
 class MilesAudioManager : public AudioManager {
 public:
     MilesAudioManager();
@@ -1175,47 +1181,46 @@ public:
     virtual void reset();
     // Slot 10 (retail 0x00062690) is the per-frame update below.
     virtual void update(); virtual void rva00061C87(unsigned int viewMask);
-    virtual void stopAudio(enum AudioAffect affect); virtual void slot16(); virtual void slot17(); virtual void slot18(); virtual void slot19();
-    virtual void slot20(); virtual void slot21(); virtual void slot22(); virtual void slot23(); virtual void slot24();
-    virtual void slot25(); virtual void removePlayingAudio(const AsciiString &eventName, int viewType); virtual void slot27();
+    virtual void stopAudio(enum AudioAffect affect); virtual void rva000583BA(unsigned int affect, unsigned int viewMask, int arg); virtual void rva00058591(unsigned int affect, unsigned int viewMask, int keepMasks); virtual void rva0005CAE2(); virtual void rva0005CB39();
+    virtual void setViewFocus(int viewType); virtual void slot21(); virtual void slot22(); virtual void slot23(); virtual void rva0005DACF(const int &a);
+    virtual void rva0005DABB(int a); virtual void removePlayingAudio(const AsciiString &eventName, int viewType); virtual void rva00057787(unsigned int id);
     // Slot 28 (+0x70): kills the sound playing under a handle and reports
     // whether it did (playAudioEvent's handle-to-kill test; Zero Hour name).
-    virtual bool killAudioEventImmediately(unsigned int handle); virtual void slot29();
-    virtual void slot30(); virtual void slot31(); virtual void slot32(); virtual void slot33(); virtual void slot34();
-    virtual void slot35(); virtual void slot36(); virtual void slot37(); virtual void slot38(); virtual void slot39();
-    virtual void slot40(); virtual void slot41(); virtual void slot42(); virtual void slot43(); virtual void slot44();
-    virtual void slot45(); virtual void slot46(); virtual void slot47(); virtual void slot48(); virtual void slot49();
-    virtual void slot50(); virtual void slot51(); virtual void slot52(); virtual void slot53(); virtual void slot54();
-    virtual void slot55(); virtual bool slot56(unsigned int soundClass); virtual void slot57(); virtual void slot58(); virtual void slot59();
-    virtual void slot60(); virtual void slot61(); virtual void slot62(); virtual void slot63(); virtual void slot64();
-    virtual void slot65(); virtual void slot66(); virtual void rva000533CB(); virtual void slot68(); virtual void slot69();
-    virtual void slot70(); virtual void slot71(); virtual void slot72(); virtual void slot73(); virtual void slot74();
+    virtual bool killAudioEventImmediately(unsigned int handle); virtual void rva0005DAE6(int a, int b);
+    virtual void rva00057408(unsigned int key); virtual bool rva000527E2(const Rva000527E2Event *event); virtual bool rva00055E6C(const AsciiString &name, int streamArg, int viewType, int musicSystem); virtual int rva0005A7BE(AudioEventRTS *event, int arg1); virtual void rva00055A58(int viewType, int musicSystem, int arg, int flag);
+    virtual void rva00055B40(int viewType, int musicSystem, int arg); virtual void rva000568CE(int viewType, int musicSystem, int arg); virtual void rva000569A8(int viewType, int musicSystem, int arg, int flag); virtual void rva000567F4(int viewType, int musicSystem, int arg); virtual int rva000518A4(int index);
+    virtual int rva00052917(); virtual bool rva0005538C(void); virtual AsciiString rva00054714(void); virtual void rva0005BD20(); virtual void rva0005BD28();
+    virtual void slot45(); virtual void rva00059DF5(const AsciiString &a, int idx); virtual void rva00059E5C(int idx); virtual void slot48(); virtual void rva0005E377(const AsciiString &key, int viewType);
+    virtual void slot50(); virtual void rva0005A95B(unsigned int key, Rva0005A084Vector *output); virtual bool rva000572DC(unsigned int key); virtual void rva00057378(unsigned int key, const void *value); virtual bool rva00057492(unsigned int key, BfmeEventPositionView *output);
+    virtual void rva00057530(unsigned int key, float value, int mode); virtual bool slot56(unsigned int soundClass); virtual void rva0005168C(unsigned char val, unsigned char flags); virtual void rva0005CB90(int a, float b); virtual void rva00053CE1(float volume, int flags, int idx);
+    virtual void rva0005C8BB(float volume, int flags); virtual void rva000537F4(float a, float b, float c, float d, float e, int index); virtual void rva00059A25(const AsciiString &name, int idx); virtual void rva0005E168(const AsciiString &s, int idx); virtual void rva00059A7C(int idx);
+    virtual void slot65(); virtual void rva000515B3(int value); virtual void rva000533CB(); virtual void slot68(); virtual void rva000517F1();
+    virtual void rva0005181B(); virtual void rva00051840(); virtual void slot72(); virtual Rva0010F149Handle newOwnedAudioEventInfo(const AsciiString &name, int context); virtual void addUnownedAudioEventInfo(AudioEventInfo *eventInfo);
     virtual AudioEventInfoRef findAudioEventInfo(const AsciiString &name) const;
     // Slots 76..106 are not named here; slot 107 (+0x1AC, retail vftable
     // 0x007C55B0) is the rowed 0x000516EF.
-    virtual void slot76(); virtual void slot77(); virtual void slot78(); virtual void slot79(); virtual float getAudioLengthMS(const BfmeAudioEventPrefix136 *event);
-    virtual void slot81(); virtual void slot82(); virtual void slot83(); virtual void slot84(); virtual void slot85();
-    virtual void slot86(); virtual void slot87(); virtual void slot88(); virtual void slot89(); virtual void slot90();
-    virtual void slot91(); virtual const _STL::vector<const char *> &rva00058314();
+    virtual void friend_onAudioEventInfoDestruction(AudioEventInfo *info); virtual void slot77(); virtual void slot78(); virtual void slot79(); virtual float getAudioLengthMS(const BfmeAudioEventPrefix136 *event);
+    virtual int bfmeMilesPreferenceProduct(); virtual void rva0005185E(int *a, int *b, int *c); virtual void slot83(); virtual void slot84(); virtual void rva0005AE2B(int type, Rva0005A084Vector *output);
+    virtual void rva0005AEDD(int type, Rva0005A084Vector *output); virtual void slot87(); virtual void rva000596E9(Xfer *xfer, unsigned int *handle); virtual void rva0005522C(const AsciiString &name); virtual AsciiString rva00054243() const;
+    virtual void rva000530DF(); virtual const _STL::vector<const char *> &rva00058314();
     // Slots 93/94 (+0x174/+0x178, vftable entries 0x007C5724/0x007C5728):
     // set or (level 1.0) drop a trigger area's audio level.
     virtual void rva0005824D(PolygonTrigger *trigger, float level);
-    virtual void rva000551C2(PolygonTrigger *trigger);
-    virtual void slot95();
-    virtual void slot96(); virtual void slot97();
+    virtual void rva000551C2(int key);
+    virtual void rva0005710F();
+    virtual void rva000512BC(); virtual bool rva000619D1(bool enabled);
     // Slot 98 (+0x188, retail vftable entry 0x007C5738).
     virtual void onAudioLODChanged(void);
-    virtual void slot99(); virtual void slot100();
-    virtual void slot101(); virtual void slot102(); virtual void slot103(); virtual void slot104();
-    virtual void slot105(Coord3D *cameraPos);
+    virtual bool rva000531F6(); virtual void rva000514BB();
+    virtual void rva00053281(); virtual void rva0005329C(); virtual void friend_xferSubAudioEventRTS(Xfer *xfer, BfmePoolRef10 *eventRef); virtual void slot104();
+    virtual void rva000511C3(Coord3D *out);
     virtual void slot106(Rva0005276C *corners);
     virtual bool rva000516EF(const Coord3D *pos);
     // Slot 109 (+0x1B4) returns the frame's elapsed time the update keeps at +0x90.
-    virtual bool slot108(AudioEventRTS *); virtual float slot109();
+    virtual bool slot108(AudioEventRTS *); virtual float rva0005121F();
     // Slot 110 (+0x1B8), the first call init() makes.
     virtual void rva000541DB(void);
     bool rva00055FCA(int key, void **result, PlayingAudioRef *playingOut);
-    bool rva00055E6C(const AsciiString &name, int streamArg, int viewType, int musicSystem);
     bool rva0005623E(int key, void **result, int flags);
     void rva000563FE(Xfer *xfer, int handle);
     void rva0005634C(int handle, float volume, int mode);
@@ -1225,19 +1230,11 @@ public:
     float getGlobalReverbMultiplier(void);
     void rva00053AFA(void *pendingSlot);
     void rva000562CF(int key);
-    void friend_xferSubAudioEventRTS(Xfer *xfer, BfmePoolRef10 *eventRef);
     void rva000562A2(int key, const void *value);
     void rva0005A92A(int key, Rva0005A084Vector *output);
-    void rva0005AE2B(int type, Rva0005A084Vector *output);
-    void rva0005AEDD(int type, Rva0005A084Vector *output);
     void rva0005B137(void);
     void recalculateMicrophone(void);
-    bool rva0005538C(void);
     void rva0005BE59(void *slot, float value, void *index);
-    void rva0005E377(const AsciiString &key, int viewType);
-    void setViewFocus(int viewType);
-    int rva0005A7BE(AudioEventRTS *event, int arg1);
-    void friend_onAudioEventInfoDestruction(AudioEventInfo *info);
     AsciiString rva0005B19E(const AsciiString &key);
     AsciiString rva0005B1FA(const AsciiString &key);
     // These audio INI calls use the manager receiver and an explicit INI*.
@@ -1248,12 +1245,10 @@ public:
     unsigned char rva00054120(INI *ini);
     bool attemptReload(int unused);
     void rva0006179C(int skipRequestRefresh);
-    AsciiString rva00054714(void);
     PlayingAudioList::iterator rva000544CB(int viewType, int musicSystem, int filter);
     PlayingAudioList::iterator rva0005442A(int viewType, int musicSystem, int filter);
     void rva00057297(Rva00051107AudioRequest &request);
     bool rva000570C8(AudioEventRTS *event);
-    void addUnownedAudioEventInfo(AudioEventInfo *eventInfo);
     AudioEventRTS *findLowestPrioritySound(AudioEventRTS *event);
     bool killLowestPrioritySoundImmediately(AudioEventRTS *event);
     // First free 3D and 2D Miles sample (Zero Hour's getFirst3DSample and
@@ -1316,8 +1311,6 @@ public:
     void rva0005B708(void);    // 0x0005B708 (rowed in MilesAudioSubtitleDrain.cpp)
     void processAmbientStreams(PlayingAudioList::iterator *streams);
     void rva00060309(void);
-    void rva000583BA(unsigned int affect, unsigned int viewMask, int arg);
-    void rva00058591(unsigned int affect, unsigned int viewMask, int keepMasks);
     void rva0006047C(void);
     void rva000603ED(void);
     void rva000544EB(void);
@@ -1338,11 +1331,6 @@ public:
     BfmePoolRef10 rva0005286A(AudioEventRTS *event, int arg);
     void rva000592B8(AudioEventRTS *event);
     bool shouldPlayLocally(const AudioEventRTS *event);
-    void rva00055A58(int viewType, int musicSystem, int arg, int flag);
-    void rva00055B40(int viewType, int musicSystem, int arg);
-    void rva000567F4(int viewType, int musicSystem, int arg);
-    void rva000568CE(int viewType, int musicSystem, int arg);
-    void rva000569A8(int viewType, int musicSystem, int arg, int flag);
     Rva00051107AudioRequest *rva00051107(void);
     void processRequest(Rva00051107AudioRequest *req, bool *removeRequest);
     void processRequestList(void);
@@ -1410,7 +1398,6 @@ private:
     void unselectProvider(void);
     void selectProvider(bool accelerated);
 public:
-    Rva0010F149Handle newOwnedAudioEventInfo(const AsciiString &name, int context);
     unsigned int getProviderIndex(const AsciiString &providerName) const;
     void init3DSamplePools();
     void createListener();
@@ -2340,7 +2327,7 @@ void MilesAudioManager::rva00061C87(unsigned int viewMask)
     rva00060123(viewMask);
     removeAllAudioRequests(viewMask);
     if (viewMask & 1) {
-        slot91();
+        rva000530DF();
         m_triggerAreas.clear();
         m_retestAreasEveryCall = true;
         m_at94 = 0;
@@ -4008,7 +3995,7 @@ void MilesAudioManager::rva0005824D(PolygonTrigger *trigger, float level)
     if (!trigger)
         return;
     if (level == 1.0f) {
-        rva000551C2(trigger);
+        rva000551C2(reinterpret_cast<int>(trigger));
         return;
     }
     if (level > 1.0f)
@@ -5642,7 +5629,7 @@ void MilesAudioManager::update()
         }
     }
     ((Rva00056DA2 *)&atB78)->rva00056DA2();
-    m_at90 = slot109();
+    m_at90 = rva0005121F();
     if (m_retestAreasEveryCall || (!m_triggerAreas.empty() && TheGameEngine && TheGameEngine->rva00225D38()))
         m_areasNeedRetest = true;
     if (m_at6AB)
@@ -5974,7 +5961,7 @@ void MilesAudioManager::recalculateMicrophone(void)
     cameraPos.x = 0.0f;
     cameraPos.y = 0.0f;
     cameraPos.z = 0.0f;
-    slot105(&cameraPos);
+    rva000511C3(&cameraPos);
     Rva0005276C corners;
     slot106(&corners);
     if (m_cameraPos == cameraPos && ((Rva00051CF1 *)&m_corners)->rva00051CF1((Rva00051CF1 &)corners))

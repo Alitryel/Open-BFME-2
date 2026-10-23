@@ -26,25 +26,25 @@ struct Elem1C4
     char data[0x1C4];
 };
 
-class Rva00059A25
+class MilesAudioManager
 {
 public:
-    void rva00059A25(const AsciiString &name, int idx);
-    void rva00059A7C(int idx);
+    virtual void rva00059A25(const AsciiString &name, int idx);
+    virtual void rva00059A7C(int idx);
 private:
-    char m_pad[0x12C];
+    char m_pad[0x128];
     Elem1C4 m_arr[1];
     char m_padAfter[0x9D4 - 0x12C - 0x1C4];
     int m_9D4;
 };
 
-void Rva00059A25::rva00059A25(const AsciiString &name, int idx)
+void MilesAudioManager::rva00059A25(const AsciiString &name, int idx)
 {
     MilesMutexGuard guard(&m_9D4, 0);
     ((Rva000591A3 *)&m_arr[idx])->rva000591A3(name);
 }
 
-void Rva00059A25::rva00059A7C(int idx)
+void MilesAudioManager::rva00059A7C(int idx)
 {
     MilesMutexGuard guard(&m_9D4, 0);
     ((Rva000591A3 *)&m_arr[idx])->rva000591EF();

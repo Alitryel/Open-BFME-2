@@ -175,14 +175,14 @@ public:
 };
 class Rva002D3627Host;
 class LivingWorld; extern LivingWorld *TheLivingWorld;
-class Rva0005121F
+class MilesAudioManager
 {
 public:
-	float rva0005121F();
-	void rva000511C3(Coord3D *out);
-	bool rva000516EF(const Coord3D *pos);
+	virtual float rva0005121F();
+	virtual void rva000511C3(Coord3D *out);
+	virtual bool rva000516EF(const Coord3D *pos);
 private:
-	char m_pad000[0x94];
+	char m_pad000[0x90];
 	unsigned int m_lastFrame;	// +0x94
 	char m_pad098[0x678 - 0x98];
 	int m_678;			// +0x678
@@ -190,7 +190,7 @@ private:
 	bool m_6A5;			// +0x6A5
 };
 
-float Rva0005121F::rva0005121F()
+float MilesAudioManager::rva0005121F()
 {
 	if (m_678 == 0 && !m_6A5) {
 		if (TheRva00DFE77C) {
@@ -206,7 +206,7 @@ float Rva0005121F::rva0005121F()
 	return g_00DBA4FC;
 }
 
-void Rva0005121F::rva000511C3(Coord3D *out)
+void MilesAudioManager::rva000511C3(Coord3D *out)
 {
 	switch (m_678) {
 	case 0:
@@ -227,7 +227,7 @@ void Rva0005121F::rva000511C3(Coord3D *out)
 	out->z = 0.0f;
 }
 
-bool Rva0005121F::rva000516EF(const Coord3D *pos)
+bool MilesAudioManager::rva000516EF(const Coord3D *pos)
 {
 	ICoord2D screen;
 	switch (m_678) {

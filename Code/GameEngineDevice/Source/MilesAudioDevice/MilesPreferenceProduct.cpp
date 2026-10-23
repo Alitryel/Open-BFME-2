@@ -5,7 +5,9 @@
 extern "C" __declspec(dllimport) int __stdcall AIL_get_preference(
 	unsigned int preference);
 
-int bfmeMilesPreferenceProduct()
+class MilesAudioManager { public: virtual int bfmeMilesPreferenceProduct(); };
+
+int MilesAudioManager::bfmeMilesPreferenceProduct()
 {
 	return AIL_get_preference(0x2A) * AIL_get_preference(0x22);
 }

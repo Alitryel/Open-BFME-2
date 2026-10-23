@@ -23,10 +23,10 @@ public:
 class MilesAudioManager
 {
 public:
-    void rva000537F4(float a, float b, float c, float d, float e, int index);
+    virtual void rva000537F4(float a, float b, float c, float d, float e, int index);
 
 private:
-    char at00[0x9D4];
+    char at00[0x9D0];
     void *m_mutex;
 };
 

@@ -276,33 +276,28 @@ void Rva00044FB9::rva00044FB9(const Rva00SlotQuad *value)
 }
 
 // 0x000515B3: clears the flag at +0x6AC and stores its argument at +0x6B0.
-class Rva000515B3
+class MilesAudioManager
 {
 public:
-	void rva000515B3(int value);
+	virtual int rva000518A4(int index);
+	virtual void rva000515B3(int value);
 private:
-	char m_pad00[0x6AC];
+	char m_pad04[0x6AC - 4];
 	bool m_flag6AC;
 	int m_value6B0;
+	char m_pad6B4[0xB3C - 0x6B4];
+	int m_values[1];
 };
 
-void Rva000515B3::rva000515B3(int value)
+void MilesAudioManager::rva000515B3(int value)
 {
 	m_flag6AC = false;
 	m_value6B0 = value;
 }
 
 // 0x000518A4: indexes the word array at +0xB3C.
-class Rva000518A4
-{
-public:
-	int rva000518A4(int index);
-private:
-	char m_pad00[0xB3C];
-	int m_values[1];
-};
 
-int Rva000518A4::rva000518A4(int index)
+int MilesAudioManager::rva000518A4(int index)
 {
 	return m_values[index];
 }

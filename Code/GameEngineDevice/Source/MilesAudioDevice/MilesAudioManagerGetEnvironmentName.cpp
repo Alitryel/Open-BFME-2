@@ -108,7 +108,7 @@ class MilesAudioManager
 public:
 	virtual const _STL::vector<const char *> &rva00058314(void);
 	void internalSetReverbRoomType(int type);
-	void rva0005522C(const AsciiString &name);
+	virtual void rva0005522C(const AsciiString &name);
 private:
 	char at04[0x9D4 - 0x04];
 	void *m_mutex;

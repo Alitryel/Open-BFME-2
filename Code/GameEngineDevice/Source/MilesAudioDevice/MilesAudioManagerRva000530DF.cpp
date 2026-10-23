@@ -13,10 +13,10 @@ private:
 class MilesAudioManager
 {
 public:
-    void rva000530DF();
+    virtual void rva000530DF();
     void internalSetReverbRoomType(int roomType);
 private:
-    char m_pad0[0x9d4];
+    char m_pad0[0x9d0];
     int m_mutex9D4;
     char m_pad9D8[0xbe4 - 0x9d8];
     int m_0BE4;

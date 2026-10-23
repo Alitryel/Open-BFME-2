@@ -50,12 +50,11 @@ class MilesAudioManager
 public:
 	void rva000567C5(unsigned int value);
 	Rva00051107AudioRequest *rva00051107();
-	void rva00057787(unsigned int id);
+	virtual void rva00057787(unsigned int id);
 
 private:
 	typedef _STL::hash_multimap<unsigned int, int> RequestMap;
 
-	void *m_vtable;
 	char m_pad004[0x94];
 	_STL::list<int> m_availableRequests;
 	char m_pad09C[0x104 - 0x9C];

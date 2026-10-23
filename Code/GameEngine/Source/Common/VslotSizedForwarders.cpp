@@ -153,14 +153,14 @@ public:
 	virtual void slot132();
 };
 
-class Rva000512BCForwarder : public SizedForwarderSlots
+class MilesAudioManager : public SizedForwarderSlots
 {
 public:
-	void rva000512BC();
+	virtual void rva000512BC();
 };
 
 // vtable 0x00BC55B0#96: this->slot94()
-void Rva000512BCForwarder::rva000512BC()
+void MilesAudioManager::rva000512BC()
 {
 	slot94();
 }

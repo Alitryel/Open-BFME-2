@@ -60,19 +60,17 @@ Bool Rva002CEF14FlagTest::rva002CEF14()
 	}
 
 // The callees below are rowed; they are called by their row names.
-class MilesAudioManager { public: void rva0005BBE2(Int value); };	// 0x0005BBE2
+class MilesAudioManager { public: void rva0005BBE2(Int value); virtual void rva0005BD20(); virtual void rva0005BD28(); };	// 0x0005BBE2
 class W3DVolumetricShadow { public: void Update(Bool force); };	// 0x000F4017
 enum StateReturnType { STATE_CONTINUE = 0 };
 class AIAttackAimAtTargetState { public: StateReturnType updateInternal(Bool flag); };	// 0x003508C5
 
-class Rva0005BD20Host { public: void rva0005BD20(); };	// vtable 0x00BC55B0 slot 43
-class Rva0005BD28Host { public: void rva0005BD28(); };	// vtable 0x00BC55B0 slot 44
 class Rva000F42F7Host { public: void rva000F42F7(); };	// vtable 0x00BCEFC8 slot 1
 // AIAttackPositionAimAtTargetState::update is owned with updateInternal in AIStates.cpp.
 class Rva00351949Host { public: void rva00351949(); };	// vtable 0x00C11008 slot 6
 
-void Rva0005BD20Host::rva0005BD20() { ((MilesAudioManager *)this)->rva0005BBE2(0); }
-void Rva0005BD28Host::rva0005BD28() { ((MilesAudioManager *)this)->rva0005BBE2(1); }
+void MilesAudioManager::rva0005BD20() { ((MilesAudioManager *)this)->rva0005BBE2(0); }
+void MilesAudioManager::rva0005BD28() { ((MilesAudioManager *)this)->rva0005BBE2(1); }
 void Rva000F42F7Host::rva000F42F7() { ((W3DVolumetricShadow *)this)->Update(true); }
 void Rva00351949Host::rva00351949() { ((AIAttackAimAtTargetState *)this)->updateInternal(false); }
 

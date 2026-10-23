@@ -94,29 +94,29 @@ public:
 class MilesAudioManager
 {
 public:
-    void rva00057378(unsigned int key, const void *value);
+    virtual void rva00057378(unsigned int key, const void *value);
     void rva000562A2(int key, const void *value);
-    void rva00057408(unsigned int key);
+    virtual void rva00057408(unsigned int key);
     void rva000562CF(int key);
-    void rva00057530(unsigned int key, float value, int mode);
+    virtual void rva00057530(unsigned int key, float value, int mode);
     void rva0005634C(int key, float value, int mode);
-    void rva0005A95B(unsigned int key, Rva0005A084Vector *output);
+    virtual void rva0005A95B(unsigned int key, Rva0005A084Vector *output);
     void rva0005A92A(int key, Rva0005A084Vector *output);
     bool rva000613A9(unsigned int handle);
-    bool rva000615DA(unsigned int handle);
+    virtual bool killAudioEventImmediately(unsigned int handle);
     void unmapPhysicalHandle(unsigned int handle);
     bool rva000562FA(int key, BfmeEventPositionView *output);
-    bool rva00057492(unsigned int key, BfmeEventPositionView *output);
-    bool rva000572DC(unsigned int key);
+    virtual bool rva00057492(unsigned int key, BfmeEventPositionView *output);
+    virtual bool rva000572DC(unsigned int key);
     bool rva0005623E(int key, void **output, int flags);
-    void rva000596E9(Xfer *xfer, unsigned int *handle);
+    virtual void rva000596E9(Xfer *xfer, unsigned int *handle);
     void rva000563FE(Xfer *xfer, int handle);
     int rva000532B7(Xfer *xfer);
     void mapLogicalHandleToPhysicalHandle(unsigned int logical, unsigned int physical);
     // Zero Hour's inline AudioManager::allocateNewHandle.
     unsigned int allocateNewHandle(void) { return m_nextHandle++; }
 private:
-    char at00[0xD0];
+    char at00[0xCC];
     unsigned int m_nextHandle;   // +0xD0, next logical handle
     char atD4[0x104 - 0xD4];
     MilesKeyAliases aliases;
@@ -180,7 +180,7 @@ void MilesAudioManager::rva00057530(unsigned int key, float value, int mode)
 // 000613A9 helper (or the handle itself when it has no alias); the result is
 // true when any forward returned true. WorldBuilder's unnamed twin at 795370
 // logs "Processing kill immediately request"; the method name is unknown.
-bool MilesAudioManager::rva000615DA(unsigned int handle)
+bool MilesAudioManager::killAudioEventImmediately(unsigned int handle)
 {
     if (handle < 5)
         return false;

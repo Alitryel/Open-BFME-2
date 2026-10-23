@@ -27,10 +27,10 @@ private:
 };
 class MilesAudioManager {
 public:
-    bool rva000619D1(bool enabled);
+    virtual bool rva000619D1(bool enabled);
     void rva000606CE(bool accelerated);
 private:
-    char unknown00[0x6CC];
+    char unknown00[0x6C8];
     struct ProviderInfo { AsciiString name; void *id; int isValid; };
     ProviderInfo m_provider3D[64];
     unsigned int m_providerCount;

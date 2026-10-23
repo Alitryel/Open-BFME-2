@@ -17,9 +17,9 @@ private:
 class MilesAudioManager
 {
 public:
-    void rva0005168C(unsigned char val, unsigned char flags);
+    virtual void rva0005168C(unsigned char val, unsigned char flags);
 private:
-    char m_pad0[0x69e];
+    char m_pad0[0x69a];
     unsigned char m_69E;
     unsigned char m_69F;
     unsigned char m_6A0;

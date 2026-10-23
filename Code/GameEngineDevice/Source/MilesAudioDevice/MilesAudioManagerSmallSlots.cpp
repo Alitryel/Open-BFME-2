@@ -70,21 +70,21 @@ class MilesAudioManager
 public:
 	unsigned int addOrResumeAudioEvent(AudioEventRTS *a, Int b, Int c, Int d, Int e);
 
-	void rva000514BB();
-	void rva000517F1();
-	void rva0005181B();
-	void rva00051840();
-	void rva0005185E(Int *a, Int *b, Int *c);
+	virtual void rva000514BB();
+	virtual void rva000517F1();
+	virtual void rva0005181B();
+	virtual void rva00051840();
+	virtual void rva0005185E(Int *a, Int *b, Int *c);
 	unsigned char rva0005164F(unsigned char flags);
-	Bool rva000527E2(const Rva000527E2Event *event);
-	Bool rva000531F6();
-	void rva00053281();
-	void rva0005329C();
-	void rva0005DABB(Int a);
-	void rva0005DACF(const Int &a);
-	void rva0005DAE6(Int a, Int b);
+	virtual Bool rva000527E2(const Rva000527E2Event *event);
+	virtual Bool rva000531F6();
+	virtual void rva00053281();
+	virtual void rva0005329C();
+	virtual void rva0005DABB(Int a);
+	virtual void rva0005DACF(const Int &a);
+	virtual void rva0005DAE6(Int a, Int b);
 private:
-	char m_pad00[0x10];
+	char m_pad00[0x0C];
 	Rva000517F1Settings *m_10;
 	char m_pad14[0x69e - 0x14];
 	unsigned char m_69E;

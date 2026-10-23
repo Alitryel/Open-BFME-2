@@ -25,9 +25,9 @@ private:
 class MilesAudioManager
 {
 public:
-    void rva0005710F();
+    virtual void rva0005710F();
 private:
-    char m_pad0[0x6aa];
+    char m_pad0[0x6a6];
     bool m_flag6AA;
     char m_pad6AB[0x9D4 - 0x6AB];
     int m_mutex9D4;
