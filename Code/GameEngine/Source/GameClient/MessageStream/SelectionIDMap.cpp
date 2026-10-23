@@ -60,3 +60,14 @@ template bool &_STL::hash_map<int,bool>::operator[](const int &);
 
 // Constructor prerequisite: the same bucket count and zero-fill algorithm.
 template void SelectionIDTable::_M_initialize_buckets(unsigned int);
+
+// _M_insert at 0x002A9029 (StlSweepW4Rva002A9029.cpp) grows its int-keyed, one-byte-value
+// table through the same folded resize at 0x0053F1EC; the layout equals int/bool, so this
+// unit's flags emit retail's body for it too.
+struct Rva002A9029Element { char bytes[1]; };
+template unsigned int _STL::hashtable<_STL::pair<const int,Rva002A9029Element>,int,_STL::hash<int>,
+    _STL::_Select1st<_STL::pair<const int,Rva002A9029Element> >,_STL::equal_to<int>,
+    _STL::allocator<_STL::pair<const int,Rva002A9029Element> > >::_M_next_size(unsigned int) const;
+template void _STL::hashtable<_STL::pair<const int,Rva002A9029Element>,int,_STL::hash<int>,
+    _STL::_Select1st<_STL::pair<const int,Rva002A9029Element> >,_STL::equal_to<int>,
+    _STL::allocator<_STL::pair<const int,Rva002A9029Element> > >::resize(unsigned int);

@@ -31,6 +31,8 @@ template <> bool less<unsigned>::operator()(const unsigned &a, const unsigned &b
 
 struct Rva002A9029Element { char bytes[1]; bool operator<(const Rva002A9029Element&)const; bool operator==(const Rva002A9029Element&)const; };
 namespace _STL {template<> struct hash<Rva002A9029Element> { unsigned operator()(const Rva002A9029Element&) const; };}
+// resize is retail's shared 0x0053F1EC body (pinned); declare it so this TU binds that copy.
+namespace _STL { template <> void hashtable<pair<int const, Rva002A9029Element>, int, hash<int>, _Select1st<pair<int const, Rva002A9029Element> >, equal_to<int>, allocator<pair<int const, Rva002A9029Element> > >::resize(unsigned int); }
 
 // Instantiate the recovered operation and its required template dependencies.
 template _STL::pair<int const, Rva002A9029Element> & _STL::hashtable<_STL::pair<int const, Rva002A9029Element>, int, _STL::hash<int>, _STL::_Select1st<_STL::pair<int const, Rva002A9029Element> >, _STL::equal_to<int>, _STL::allocator<_STL::pair<int const, Rva002A9029Element> > >::_M_insert(_STL::pair<int const, Rva002A9029Element> const &);
