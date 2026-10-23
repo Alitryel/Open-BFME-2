@@ -21,9 +21,6 @@ struct QuantityModifier
 	int m_quantity;
 };
 
-namespace _STL {
-template <> void _Construct<QuantityModifier, QuantityModifier>(QuantityModifier *, const QuantityModifier &);
-}
 
 template void _STL::vector<QuantityModifier>::_M_insert_overflow(
 	QuantityModifier *,

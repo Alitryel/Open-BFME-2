@@ -22,6 +22,19 @@ void __malloc_alloc<0>::deallocate(void *__p, size_t)
 
 struct Rva0021C21BElement { char bytes[4]; };
 
+namespace _STL {
+// The native allocation/copy operation propagates failures without a cleanup handler.
+template <> template <> inline Rva0021C21BElement *
+vector<Rva0021C21BElement>::_M_allocate_and_copy<const Rva0021C21BElement *>(
+    size_type count, const Rva0021C21BElement *first, const Rva0021C21BElement *last)
+{
+    pointer result = _M_end_of_storage.allocate(count);
+    __uninitialized_copy(first, last, result, _IsPODType());
+    return result;
+}
+}
+
+
 // Instantiate the recovered operation and its required template dependencies.
 template _STL::vector<Rva0021C21BElement, _STL::allocator<Rva0021C21BElement> > & _STL::vector<Rva0021C21BElement, _STL::allocator<Rva0021C21BElement> >::operator=(_STL::vector<Rva0021C21BElement, _STL::allocator<Rva0021C21BElement> > const &);
 

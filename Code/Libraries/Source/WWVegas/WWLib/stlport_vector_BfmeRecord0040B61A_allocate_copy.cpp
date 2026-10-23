@@ -16,15 +16,13 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include "ascii_string.h"
 
+enum ScienceType { SCIENCE_NONE = 0 };
+
+// The element copy constructs its science vector before copying the trailing integer.
 struct BfmeRecord0040B61A
 {
-	BfmeRecord0040B61A();
-	BfmeRecord0040B61A(const BfmeRecord0040B61A &src);
-	BfmeRecord0040B61A &operator=(const BfmeRecord0040B61A &src);
-	AsciiString m_str;
-	int m_04;
-	int m_08;
-	int m_0C;
+    _STL::vector<ScienceType> m_sciences;
+    int m_0C;
 };
 
 // Only the rowed members and _M_clear, whose copy here is retail's and first

@@ -38,14 +38,14 @@ bool less<int>::operator()(const int &a, const int &b) const
 
 
 
-struct Rva00463E09Record { char word;
-// ?Rva00463E09Record::operator< present-unmatched
-bool operator<(const Rva00463E09Record&b)const{return word<b.word;}
-// ?Rva00463E09Record::operator== present-unmatched
-bool operator==(const Rva00463E09Record&b)const{return word==b.word;}
-};
-namespace _STL {template<>struct __type_traits<Rva00463E09Record>:__type_traits_aux<1>{};}
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
+// Erase destroys the mapped string through the pair subobject.
+struct Rva00463E09Record { AsciiString text; };
+
+namespace _STL {
+template <> __declspec(noinline) inline pair<const int, Rva00463E09Record>::~pair() {}
+}
 
 // Instantiate the recovered member; retain only its required template dependencies.
 template void _STL::_Rb_tree<int, _STL::pair<int const, Rva00463E09Record>, _STL::_Select1st<_STL::pair<int const, Rva00463E09Record> >, _STL::less<int>, _STL::allocator<_STL::pair<int const, Rva00463E09Record> > >::erase(_STL::_Rb_tree_iterator<_STL::pair<int const, Rva00463E09Record>, _STL::_Nonconst_traits<_STL::pair<int const, Rva00463E09Record> > >, _STL::_Rb_tree_iterator<_STL::pair<int const, Rva00463E09Record>, _STL::_Nonconst_traits<_STL::pair<int const, Rva00463E09Record> > >);
