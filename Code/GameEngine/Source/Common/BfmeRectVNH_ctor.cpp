@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/inputs/reference/shims/stringinline
+// cl: /O1 /Oy- /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/inputs/reference/shims/stringinline /Ireference/shims/moduledata
 //
 // Bodies ported from Open-BFME-1's
 // GameEngine/Source/Common/BfmeRectVNH_ctor.cpp (donor revision
@@ -14,11 +14,15 @@
 #include "../../../../reference/shims/bfme2_ascii/ascii_string.h"
 #include "../../../../reference/shims/bfme2_ascii/unicode_string.h"
 
-class BfmeBaseVNH
+#include "Common/Snapshot.h"
+
+// The native constructor cleanup at 7845EA calls the complete Snapshot
+// teardown at 49B47C on the same receiver; the inherited vptr is at zero.
+class BfmeBaseVNH : public Snapshot
 {
 public:
 	BfmeBaseVNH(unsigned w, char f);
-	virtual ~BfmeBaseVNH();
+	virtual ~BfmeBaseVNH() {}
 	virtual void handle() = 0;
 
 	unsigned m_bfme04;
