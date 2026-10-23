@@ -1,8 +1,7 @@
 // cl: /GX /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// These byte-matched vector destructors still need independent element-helper
-// ownership repairs. Keep those dependencies separate from the family whose
-// providers already resolve; no retail bodies or addresses have changed.
+// Byte-matched vector destructors with independently rowed range-worker owners.
+// The two remaining competing-copy dependencies live in DeferredOwners.cpp.
 #include <vector>
 #include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
@@ -31,11 +30,6 @@ struct BfmeAssignRecord172 { public: ~BfmeAssignRecord172(); };
 namespace _STL { template <> void _Destroy<BfmeAssignRecord172 *>(BfmeAssignRecord172 *, BfmeAssignRecord172 *); }
 template _STL::vector<BfmeAssignRecord172>::~vector();
 
-// ??1?$vector@UBfmeAssignRecord104@@V?$allocator@UBfmeAssignRecord104@@@_STL@@@_STL@@QAE@XZ @0x3b904b (_Destroy at 0x3b8e13)
-struct BfmeAssignRecord104 { public: ~BfmeAssignRecord104(); };
-// The size-only view must not provide the range helper.
-namespace _STL { template <> void _Destroy<BfmeAssignRecord104 *>(BfmeAssignRecord104 *, BfmeAssignRecord104 *); }
-template _STL::vector<BfmeAssignRecord104>::~vector();
 
 // ??1?$vector@UBfmeAssignRecord44@@V?$allocator@UBfmeAssignRecord44@@@_STL@@@_STL@@QAE@XZ @0x4146e2 (_Destroy at 0x4144f0)
 struct BfmeAssignRecord44 { public: ~BfmeAssignRecord44(); };
@@ -55,11 +49,6 @@ struct Rva002BBB96Element { public: ~Rva002BBB96Element(); };
 namespace _STL { template <> void _Destroy<Rva002BBB96Element *>(Rva002BBB96Element *, Rva002BBB96Element *); }
 template _STL::vector<Rva002BBB96Element>::~vector();
 
-// ??1?$vector@UGeometryShape@@V?$allocator@UGeometryShape@@@_STL@@@_STL@@QAE@XZ @0x005EB28A (_Destroy at 0x005EAA83)
-struct GeometryShape { public: ~GeometryShape(); };
-// The size-only view must not provide the range helper.
-namespace _STL { template <> void _Destroy<GeometryShape *>(GeometryShape *, GeometryShape *); }
-template _STL::vector<GeometryShape>::~vector();
 
 // ??1?$vector@URva005F8620Element@@V?$allocator@URva005F8620Element@@@_STL@@@_STL@@QAE@XZ @0x005F85E1 (_Destroy at 0x005F85C8)
 struct Rva005F8620Element { public: ~Rva005F8620Element(); };
@@ -72,3 +61,11 @@ struct Rva001DEF38Element { public: ~Rva001DEF38Element(); };
 // The size-only view must not provide the range helper.
 namespace _STL { template <> void _Destroy<Rva001DEF38Element *>(Rva001DEF38Element *, Rva001DEF38Element *); }
 template _STL::vector<Rva001DEF38Element>::~vector();
+
+// Native callers use first/last cdecl arguments and target these rowed workers.
+// Bind operations without equating the application element class views.
+// The complete 25B worker at 2BB6A5 reads only these two arguments, and native
+// caller 2BBB18 pushes and pops exactly two; the provider's unused tag is absent.
+#pragma comment(linker, "/alternatename:??$_Destroy@PAURvaPair00257544@@@_STL@@YAXPAURvaPair00257544@@0@Z=?Rva0032C0CADestroyPairs@@YAXPAURvaPair0032C0CA@@0@Z")
+#pragma comment(linker, "/alternatename:??$_Destroy@PAURva005F8620Element@@@_STL@@YAXPAURva005F8620Element@@0@Z=?Rva005F85C8Destroy@@YAXPAURva005F8447@@0@Z")
+#pragma comment(linker, "/alternatename:??$_Destroy@PAURva002BBB96Element@@@_STL@@YAXPAURva002BBB96Element@@0@Z=??$__destroy_aux@PAUBfmeAssignRecord52@@@_STL@@YAXPAUBfmeAssignRecord52@@0ABU__false_type@0@@Z")
