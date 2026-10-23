@@ -1,11 +1,15 @@
 // cl: /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
 // stlport
 
-// Deferred fill path moved unchanged from stlport_copy_camera_marker.cpp.
-// The existing outer bodies match, but their base-constructor pin B63B2
-// allocates 24-byte elements, not this provisional eight-byte view.
-// Keep that unresolved identity/layout separate from the copy/erase owners;
-// neither a new CameraMarker identity claim nor a linked-byte gain here.
+// Fill constructor of vector<LightSubPoint> (retail 0x0042545A) and its
+// uninitialized_fill_n wrapper (0x0042536A), moved unchanged from
+// stlport_copy_camera_marker.cpp. The element is LightSubPoint (24 bytes):
+// retail's LightPoint constructor 0x004257AD fills its member with this body
+// and its unwind funclet 0x00787199 destroys it with the rowed
+// vector<LightSubPoint> destructor 0x00425717; the base constructor 0x000B63B2
+// and the fill loop 0x00424D8C stride 0x18. The base is compiled without
+// exceptions and with the bfmealloc allocator (its 0x000B63B2 unit), so this
+// unit declares it only.
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
 #define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
@@ -32,13 +36,16 @@ void __malloc_alloc<0>::deallocate(void *__p, size_t)
 { free((char *)__p); }
 }
 
-struct CameraMarker
+struct LightSubPoint
 {
-	~CameraMarker();
-	CameraMarker &operator=(const CameraMarker &src);
+	~LightSubPoint();
+	LightSubPoint &operator=(const LightSubPoint &src);
 
-	CameraMarker *m_next;
-	void *m_name;
+	int m_words[6];
 };
 
-template _STL::vector<CameraMarker>::vector(unsigned int, const CameraMarker &, const _STL::allocator<CameraMarker> &);
+// bfme link decl-only begin
+namespace _STL { template <> _Vector_base<LightSubPoint, allocator<LightSubPoint> >::_Vector_base(size_t, const allocator<LightSubPoint> &); }
+// bfme link decl-only end
+
+template _STL::vector<LightSubPoint>::vector(unsigned int, const LightSubPoint &, const _STL::allocator<LightSubPoint> &);

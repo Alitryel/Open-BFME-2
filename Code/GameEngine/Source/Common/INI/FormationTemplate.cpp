@@ -1,9 +1,11 @@
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/ini
 // "FormationTemplate" INI block parser (retail 0x00425842, 818 B) and the
 // formation template object it builds (constructor retail 0x004257AD, 84 B).
-// Original class and member names are unknown: LightPoint/LightSubPoint/
-// CameraMarker are the ledger's existing spellings for this object and its row
-// element, and the STL views use the ledger's folded callee spellings.
+// Original class and member names are unknown: LightPoint/LightSubPoint are
+// the ledger's existing spellings for this object and its row element (its
+// unwind funclet 0x00787199 destroys the member with the rowed
+// vector<LightSubPoint> destructor 0x00425717), and the STL views use the
+// ledger's folded callee spellings.
 // Target evidence (parser): GapBodiesS3E's block table pairs "FormationTemplate"
 // with 0x00425842; the literals name the block and its "Rows" field (parsed by
 // the rowed 0x00425421 into the three-level deque the rowed 0x00425806 builds at
@@ -327,21 +329,18 @@ public:
 };
 
 typedef _STL::vector<const ModuleData *> UnitList;
-struct CameraMarker
-{
-	_STL::vector<UnitList> m_cells;
-	UnitList m_units;
-};
-struct LightSubPoint : CameraMarker
+struct LightSubPoint
 {
 	LightSubPoint(unsigned columns);
 	~LightSubPoint();
+	_STL::vector<UnitList> m_cells;
+	UnitList m_units;
 };
 class LightPoint
 {
 public:
 	LightPoint(int key, unsigned rows, unsigned columns);
-	_STL::vector<CameraMarker> m_points;
+	_STL::vector<LightSubPoint> m_points;
 	int m_key;
 };
 
@@ -377,7 +376,7 @@ void rva00425842(INI *ini, void *, void *, const void *)
 	int columns = data.m_rows.front().size();
 	LightPoint *formation = new LightPoint(data.m_key, rows, columns);
 	Rva00421CE9 seen;
-	_STL::vector<CameraMarker> &points = formation->m_points;
+	_STL::vector<LightSubPoint> &points = formation->m_points;
 	for (int row = rows - 1; row >= 0; --row)
 	{
 		for (int column = 0; column < columns; ++column)

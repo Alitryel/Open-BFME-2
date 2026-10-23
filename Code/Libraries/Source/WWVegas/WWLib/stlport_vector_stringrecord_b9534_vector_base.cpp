@@ -40,3 +40,14 @@ namespace _STL { template <> BfmeStringRecord000B9534 * vector<BfmeStringRecord0
 namespace _STL { template <> BfmeStringRecord000B9534 * vector<BfmeStringRecord000B9534,_STL::allocator<BfmeStringRecord000B9534> >::insert(BfmeStringRecord000B9534 *,BfmeStringRecord000B9534 const &); }
 // bfme link decl-only end
 template class _STL::vector<BfmeStringRecord000B9534, _STL::allocator<BfmeStringRecord000B9534> >;
+
+// /OPT:ICF folds vector<LightSubPoint>'s base constructor onto this body: the
+// element is 24 bytes too, and the fill constructor 0x0042545A calls 0x000B63B2.
+struct LightSubPoint
+{
+	LightSubPoint(const LightSubPoint &src);
+	~LightSubPoint();
+
+	int m_words[6];
+};
+template _STL::_Vector_base<LightSubPoint, _STL::allocator<LightSubPoint> >::_Vector_base(size_t, const _STL::allocator<LightSubPoint> &);
