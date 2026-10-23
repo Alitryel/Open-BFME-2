@@ -329,9 +329,9 @@ private:
 class SidesListSnapshotBase
 {
 public:
-	virtual void crc(Xfer *xfer);
+	virtual void LoadPostProcess();
+	virtual const char *GetSnapshotName() const;
 	virtual void DoXfer(Xfer *xfer) = 0;
-	virtual void loadPostProcess();
 };
 
 class SidesList : public SubsystemInterface, public SidesListSnapshotBase
@@ -341,6 +341,7 @@ public:
 	SidesList &operator=(const SidesList &that);
 	int addSide(const Dict *d);
 	SidesInfo *getSideInfo(int side);				// 0x002035BA
+	virtual void LoadPostProcess();
 	virtual void DoXfer(Xfer *xfer);
 	void removeSide(int index);
 	void duplicateScripts(const SidesList &other);
@@ -465,6 +466,11 @@ void SidesList::DoXfer(Xfer *xfer)
 	}
 
 	xfer->xferBool(&m_cleared);
+}
+
+// ?SidesList::LoadPostProcess present-unmatched
+void SidesList::LoadPostProcess()
+{
 }
 
 void SidesList::emptySides()

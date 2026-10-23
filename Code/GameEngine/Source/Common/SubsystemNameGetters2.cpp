@@ -28,7 +28,18 @@ BFME_LITERAL_NAME_GETTER(ObjectModule, "ObjectModule")
 BFME_LITERAL_NAME_GETTER(Rva0031860DNamed, "GlobalWeatherSystem")
 BFME_LITERAL_NAME_GETTER(Rva00318B7DNamed, "ArmyMoveCommand")
 BFME_LITERAL_NAME_GETTER(Rva00329EE3Named, "BuildListInfo")
-BFME_LITERAL_NAME_GETTER(SidesList, "SidesList")
+// The constructor installs Snapshot table VA 0x00C0DA88 at +0x0C.
+// Its name slot holds this getter.
+class SidesList
+{
+public:
+	virtual const char *GetSnapshotName() const;
+};
+
+const char *SidesList::GetSnapshotName() const
+{
+	return "SidesList";
+}
 BFME_LITERAL_NAME_GETTER(Rva00337AA2Named, "LuaScriptEngine")
 BFME_LITERAL_NAME_GETTER(Rva0033EE7ENamed, "ProjectileStreamUpdate")
 BFME_LITERAL_NAME_GETTER(Rva0033F2F7Named, "AIInternalMoveToState")

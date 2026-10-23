@@ -23,6 +23,8 @@
 
 #include <algorithm>
 #include <vector>
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "Common/Snapshot.h"
 #include <map>
 #include <list>
@@ -128,9 +130,9 @@ public:
 	virtual void reset();
 	virtual void update();
 	virtual void draw();
-	virtual void crc(Xfer *xfer);
-	virtual void xfer(Xfer *xfer);
-	virtual void loadPostProcess();
+	virtual void LoadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void DoXfer(Xfer *xfer);
 
 private:
 	_STL::list<AsciiString> m_list;				// +0x20
