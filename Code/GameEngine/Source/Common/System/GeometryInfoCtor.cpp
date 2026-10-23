@@ -63,9 +63,14 @@ public:
 
 class Xfer;
 
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_REFERENCE_XFER
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
 #include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
 // bfme link decl-only begin
 namespace _STL { template <> vector<GeometryRecord, allocator<GeometryRecord> >::~vector(); }
+namespace _STL { template <> vector<GeometryShape, allocator<GeometryShape> >::~vector(); }
 // bfme link decl-only end
 
 
@@ -73,6 +78,9 @@ class GeometryInfo : public Snapshot
 {
 public:
 	GeometryInfo();
+	virtual void LoadPostProcess();
+	virtual const char *GetSnapshotName();
+	virtual void DoXfer(Xfer &xfer);
 	GeometryInfo(GeometryType type, Bool isSmall, Real height,
 		Real majorRadius, Real minorRadius);
 	void set(GeometryType type, Bool isSmall, Real height,

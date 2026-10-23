@@ -16,4 +16,7 @@ struct Rva004F77E0Element
 	~Rva004F77E0Element();
 };
 
+// Rva004F60AAInit.cpp binds this helper to the rowed TreeHintRef range destroy.
+namespace _STL { template <> void _Destroy<Rva004F77E0Element *>(Rva004F77E0Element *, Rva004F77E0Element *); }
+
 template _STL::vector<Rva004F77E0Element>::~vector();

@@ -106,6 +106,7 @@ typedef _STL::hashtable<DamageFXPair, NameKeyType, rts::hash<NameKeyType>,
 typedef _STL::_Hashtable_node<DamageFXPair> DamageFXNode;
 typedef _STL::pair<DamageFXMap::iterator, bool> DamageFXInsertResult;
 namespace _STL {
+template <> DamageFXTable::~hashtable();
 template <> void DamageFXTable::erase(DamageFXTable::const_iterator, DamageFXTable::const_iterator);
 template <> void DamageFXTable::clear();
 }

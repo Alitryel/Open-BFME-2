@@ -49,6 +49,7 @@ struct Rva004F77E0Element {
  TargetRef00217D4C *ptr;
  ~Rva004F77E0Element() { if(ptr) ReleaseTreeHintRef00217D4C(ptr); }
 };
+namespace _STL { template <> vector<Rva004F77E0Element>::~vector(); }
 struct S4SortElem8B { void *first; const ThingTemplate *second; };
 struct BfmeE8 { int a, b; };
 class Rva005ECD8C { public: void rva005ECD8C(_STL::vector<S4SortElem8B> *,int); };
