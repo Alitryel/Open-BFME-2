@@ -6,7 +6,7 @@
 // eh vector destructor iterator with the rowed element cleanup 0x0004CDAF,
 // and then runs the rowed base destructor 0x001F9D98 (the particle system
 // manager's). The derived class and record identities are not established;
-// the element destructor is a placeholder view pinned to 0x0004CDAF.
+// the element is a neutral 12-byte vector-header view.
 
 class Rva001F9D98Primary
 {
@@ -42,6 +42,13 @@ struct Rva0004CDAFSlot
 	~Rva0004CDAFSlot();
 	unsigned char m_data[0x0C];
 };
+
+// Native array construction passes the default-vector closure at 256646;
+// native array cleanup passes the complete destroy/deallocate operation at
+// 4CDAF. Both take only ECX. Bind the existing operations without assigning
+// an application identity to the vector's element type.
+#pragma comment(linker, "/alternatename:??0Rva0004CDAFSlot@@QAE@XZ=??_F?$vector@PBVObjectCreationList@@V?$allocator@PBVObjectCreationList@@@_STL@@@_STL@@QAEXXZ")
+#pragma comment(linker, "/alternatename:??1Rva0004CDAFSlot@@QAE@XZ=?_M_clear@?$vector@VRvaSmartPtr12@@V?$allocator@VRvaSmartPtr12@@@_STL@@@_STL@@IAEXXZ")
 
 class Rva004CE36 : public Rva001F9D98
 {
