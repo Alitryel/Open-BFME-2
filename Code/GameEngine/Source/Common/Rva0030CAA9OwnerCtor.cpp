@@ -84,12 +84,12 @@ public:
 	virtual float slot4() const;
 	virtual float slot5() const;
 	virtual Rva0030B72CPoint slot6() const;
-	virtual void primary1();
-	virtual void primary2();
-	virtual void primary3();
-	virtual void primary4();
-	virtual void primary5();
-	virtual void primary6(int);
+	virtual void primary1() = 0;
+	virtual void primary2() = 0;
+	virtual void primary3() = 0;
+	virtual void primary4() = 0;
+	virtual void primary5() = 0;
+	virtual void primary6(int) = 0;
 private:
 	unsigned char m_pad08[0x38 - 8];
 };

@@ -34,7 +34,7 @@ class Rva003C2F40Base
 public:
 	Rva003C2F40Base();
 	virtual ~Rva003C2F40Base();
-	virtual void handle();
+	virtual void handle() = 0;
 
 	unsigned m_bfme04;
 	char m_bfme08;

@@ -65,7 +65,7 @@ class PolygonTrigger:public PolygonLink,public Rva00330C50,public Rva002E3EB8Bas
 public:
  PolygonTrigger(int);
  virtual ~PolygonTrigger();
- virtual void slot();
+ virtual void slot() = 0;
  void rva002E36B7(int);
 private:
  AsciiString name;

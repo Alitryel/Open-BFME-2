@@ -89,7 +89,7 @@ class Rva0073BAA0 : public Rva0073BAA0Base
 {
 public:
 	Rva0073BAA0(Gen_008F7CD0 *grid, unsigned int mask, int extra);
-	virtual char testFunc(int x, int y);
+	virtual char testFunc(int x, int y) = 0;
 private:
 	int m_extra;
 };
@@ -102,7 +102,7 @@ class Rva0073BB40 : public Rva0073BAA0Base
 {
 public:
 	Rva0073BB40(Gen_008F7CD0 *grid, unsigned int mask, int extra);
-	virtual char testFunc(int x, int y);
+	virtual char testFunc(int x, int y) = 0;
 private:
 	int m_extra;
 };

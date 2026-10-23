@@ -111,7 +111,7 @@ class Rva00574479 : public Rva00221635
 {
 public:
 	Rva00574479(int arg);
-	virtual void _pure();
+	virtual void _pure() = 0;
 private:
 	Rva00574479Slot m_08;
 	Rva00574479Slot m_0C;
@@ -294,7 +294,7 @@ class Rva005CBACC
 {
 public:
 	Rva005CBACC(const Rva005CBACCPair &pair);
-	virtual void slot0();
+	virtual void slot0() = 0;
 private:
 	int m_04;
 	int m_08;
@@ -493,7 +493,7 @@ class Rva0059E08F
 {
 public:
 	Rva0059E08F();
-	virtual void slot0();
+	virtual void slot0() = 0;
 };
 
 Rva0059E08F::Rva0059E08F()

@@ -661,19 +661,19 @@ class GameEngine : public SubsystemInterface
 {
 public:
 	VSLOTS4(s0) VSLOTS4(s1)
-	virtual void reset(); virtual void update(); virtual void s22(); virtual void s23();
-	virtual void s30();
+	virtual void reset(); virtual void update(); virtual void s22() = 0; virtual void s23() = 0;
+	virtual void s30() = 0;
 	virtual void init(Int argc, char *argv[]);					// slot 14
-	virtual void s31(); virtual Bool rva00225AD5(); virtual Bool rva00225AFF();
-	virtual void setFramesPerSecondLimit(Int fps);				// slot 18 (+0x48)
-	virtual void s34();
-	virtual void setQuitting(Bool quitting);					// slot 20 (+0x50)
-	virtual void s35(); virtual Bool isMultiplayerSession(); virtual void s37(); virtual void s38(); virtual void s39(); virtual void rva0023054C();
-	virtual FileSystem *createFileSystem();						// +0x6C
+	virtual void s31() = 0; virtual Bool rva00225AD5(); virtual Bool rva00225AFF();
+	virtual void setFramesPerSecondLimit(Int fps) = 0;				// slot 18 (+0x48)
+	virtual void s34() = 0;
+	virtual void setQuitting(Bool quitting) = 0;					// slot 20 (+0x50)
+	virtual void s35() = 0; virtual Bool isMultiplayerSession(); virtual void s37() = 0; virtual void s38() = 0; virtual void s39() = 0; virtual void rva0023054C();
+	virtual FileSystem *createFileSystem() = 0;						// +0x6C
 	virtual GameLogic *createGameLogic() = 0;						// +0x70
 	virtual GameClient *createGameClient() = 0;						// +0x74
 protected:
-	virtual MessageStream *createMessageStream();				// +0x78
+	virtual MessageStream *createMessageStream() = 0;				// +0x78
 public:
 	virtual ModuleFactory *createModuleFactory() = 0;				// +0x7C
 	virtual ThingFactory *createThingFactory() = 0;					// +0x80

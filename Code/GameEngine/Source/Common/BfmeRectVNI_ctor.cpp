@@ -18,7 +18,7 @@ class BfmeBaseVNI
 public:
 	BfmeBaseVNI(unsigned w, char f);
 	virtual ~BfmeBaseVNI();
-	virtual void handle();
+	virtual void handle() = 0;
 
 	unsigned m_bfme04;
 	char m_bfme08;

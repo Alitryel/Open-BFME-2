@@ -290,7 +290,7 @@ class Rva001F4B01 : public FXShaderParameterSourceNamespace
 {
 public:
 	virtual ~Rva001F4B01();
-	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
+	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry) = 0;
 
 private:
 	ParticleFXShaderParameterSourceNamespace::SourceNamespace_Draw m_04;

@@ -66,8 +66,8 @@ public:
 	virtual bool slot1() const;
 	virtual void rva0053805D();
 	virtual void rva0053806C();
-	virtual void rva0053807B();
-	virtual void rva0053808A();
+	virtual void rva0053807B() = 0;
+	virtual void rva0053808A() = 0;
 	virtual void primary6(int);
 private:
 	unsigned char m_pad1C[0x30 - 0x1C];
@@ -86,11 +86,11 @@ public:
 	virtual float slot4() const;
 	virtual float slot5() const;
 	virtual Rva0030B72CPoint slot6() const;
-	virtual void primary1();
-	virtual void primary2();
-	virtual void primary3();
-	virtual void primary4();
-	virtual void primary5();
+	virtual void primary1() = 0;
+	virtual void primary2() = 0;
+	virtual void primary3() = 0;
+	virtual void primary4() = 0;
+	virtual void primary5() = 0;
 	virtual void primary6(int);
 private:
 	unsigned char m_pad08[0x38 - 8];
@@ -103,7 +103,7 @@ class Rva0030902E : public Rva0053805DBase, public Rva00330C50, public Rva003307
 public:
 	Rva0030902E(int count);
 	virtual ~Rva0030902E();
-	virtual void primary6(int);
+	virtual void primary6(int) = 0;
 private:
 	AsciiString m_78[2];			// +0x78
 	AsciiString m_80;			// +0x80

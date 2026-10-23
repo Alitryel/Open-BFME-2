@@ -22,7 +22,7 @@ class Rva0052163E : public Rva0031455E
 public:
 	Rva0052163E(int count);
 	virtual ~Rva0052163E();
-	virtual int input(unsigned int msg, unsigned int data1, unsigned int data2);
+	virtual int input(unsigned int msg, unsigned int data1, unsigned int data2) = 0;
 private:
 	int m_count;
 };

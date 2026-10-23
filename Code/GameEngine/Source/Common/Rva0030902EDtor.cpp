@@ -88,7 +88,7 @@ class Rva0030902E : public Rva0053805DBase, public Rva00330C50, public Rva003089
 {
 public:
 	virtual ~Rva0030902E();
-	virtual void s0();
+	virtual void s0() = 0;
 private:
 	AsciiString m_78[2];			// +0x78
 	AsciiString m_80;			// +0x80

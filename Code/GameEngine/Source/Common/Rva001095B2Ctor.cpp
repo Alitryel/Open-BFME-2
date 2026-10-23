@@ -12,7 +12,7 @@ class Rva007B1380
 {
 public:
 	Rva007B1380();
-	virtual void handle();
+	virtual void handle() = 0;
 };
 
 class Rva001095B2 : public Rva007B1380
@@ -30,7 +30,7 @@ class Rva000F0F2B
 {
 public:
 	Rva000F0F2B();
-	virtual void handle();
+	virtual void handle() = 0;
 };
 
 class Rva00109610 : public Rva000F0F2B

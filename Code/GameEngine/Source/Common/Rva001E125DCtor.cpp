@@ -18,8 +18,8 @@ class Rva001E125D : public Rva001DFEAABase
 public:
 	~Rva001E125D();	// rowed out of line; this view must not emit its own
 	Rva001E125D();
-	virtual void dummy1();
-	virtual void dummy2();
+	virtual void dummy1() = 0;
+	virtual void dummy2() = 0;
 	virtual void rva001E0AA5(int a1, int a2);
 private:
 	AsciiString m_str148;
