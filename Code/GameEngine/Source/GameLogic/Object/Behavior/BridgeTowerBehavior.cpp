@@ -47,13 +47,8 @@
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
 
-BridgeTowerBehavior::BridgeTowerBehavior( Thing *thing, const ModuleData *moduleData )
-									 : BehaviorModule( thing, moduleData )
-{
-
-	m_bridgeID = INVALID_ID;
-
-}  // end BridgeTowerBehavior
+// The native constructor and scalar deleting destructor are provided by
+// BridgeTowerBehaviorCtor.cpp using this same virtual class declaration.
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
