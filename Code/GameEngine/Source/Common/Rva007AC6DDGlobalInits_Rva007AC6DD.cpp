@@ -39,10 +39,10 @@ public:
 	TerrainFXShaderParameterSourceNamespace();
 };
 
-class Rva000E6350
+class VegetationFXShaderParameterSourceNamespace
 {
 public:
-	Rva000E6350();
+	VegetationFXShaderParameterSourceNamespace();
 };
 
 class Rva000FA83B

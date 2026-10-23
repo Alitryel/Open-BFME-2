@@ -37,10 +37,10 @@ public:
 	TerrainFXShaderParameterSourceNamespace();
 };
 
-class Rva000E6350
+class VegetationFXShaderParameterSourceNamespace
 {
 public:
-	Rva000E6350();
+	VegetationFXShaderParameterSourceNamespace();
 };
 
 class Rva000FA83B
@@ -131,7 +131,7 @@ void __cdecl rva007B6E18();
 // ?rva007AC747@@YAXXZ @0x007AC747 22B: ctor 0x000E6350 on &g_Va00DEBC98, atexit(0x007B6E18).
 void rva007AC747()
 {
-	new (&g_Va00DEBC98) Rva000E6350;
+	new (&g_Va00DEBC98) VegetationFXShaderParameterSourceNamespace;
 	atexit(rva007B6E18);
 }
 

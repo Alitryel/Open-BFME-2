@@ -16,14 +16,14 @@ public:
     virtual void ResolveBindings(const char *, D3DXHANDLE, FXShaderParameterBinder *) = 0;
 };
 
-class Rva000E6350 : public FXShaderParameterSourceNamespace {
+class VegetationFXShaderParameterSourceNamespace : public FXShaderParameterSourceNamespace {
 public:
-    virtual ~Rva000E6350();
-    Rva000E6350();
+    virtual ~VegetationFXShaderParameterSourceNamespace();
+    VegetationFXShaderParameterSourceNamespace();
     virtual void ResolveBindings(const char *, D3DXHANDLE, FXShaderParameterBinder *);
 };
 
-Rva000E6350::Rva000E6350()
+VegetationFXShaderParameterSourceNamespace::VegetationFXShaderParameterSourceNamespace()
 {
     Rva00153565Register("Vegetation", this);
 }

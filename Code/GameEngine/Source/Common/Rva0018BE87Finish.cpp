@@ -9,24 +9,29 @@ extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 void __cdecl Rva001532E1Erase(const char *name);
 
-class Rva0018BEC7_Base {
+class FXShaderParameterBinder;
+class FXShaderParameterSourceNamespace {
 public:
-    virtual ~Rva0018BEC7_Base() {}
+    virtual ~FXShaderParameterSourceNamespace() {}
+    virtual void ResolveBindings(const char *, const char *, FXShaderParameterBinder *) = 0;
 };
 
-class Rva0018BEC7_Member : public Rva0018BEC7_Base {
+class Rva0018BEC7_Member : public FXShaderParameterSourceNamespace {
 public:
     ~Rva0018BEC7_Member() {}
+    virtual void ResolveBindings(const char *, const char *, FXShaderParameterBinder *);
 };
 
-class Rva0018BEC7 : public Rva0018BEC7_Base {
+class FXShaderParameterSourceNamespaceWW3D : public FXShaderParameterSourceNamespace {
 public:
-    virtual ~Rva0018BEC7();
-    Rva0018BEC7();
+    virtual ~FXShaderParameterSourceNamespaceWW3D();
+    FXShaderParameterSourceNamespaceWW3D();
+    virtual void ResolveBindings(const char *, const char *, FXShaderParameterBinder *);
     Rva0018BEC7_Member m_member;
+    float m_opacityOverride;
 };
 
-Rva0018BEC7::~Rva0018BEC7()
+FXShaderParameterSourceNamespaceWW3D::~FXShaderParameterSourceNamespaceWW3D()
 {
     Rva001532E1Erase("WW3D");
     _ReadWriteBarrier();

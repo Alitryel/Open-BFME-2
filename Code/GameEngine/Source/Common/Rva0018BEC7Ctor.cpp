@@ -31,15 +31,16 @@ Rva0018BEC7_Member::Rva0018BEC7_Member()
 {
 }
 
-class Rva0018BEC7 : public FXShaderParameterSourceNamespace {
+class FXShaderParameterSourceNamespaceWW3D : public FXShaderParameterSourceNamespace {
 public:
-    virtual ~Rva0018BEC7();
-    Rva0018BEC7();
+    virtual ~FXShaderParameterSourceNamespaceWW3D();
+    FXShaderParameterSourceNamespaceWW3D();
     virtual void ResolveBindings(const char *, D3DXHANDLE, FXShaderParameterBinder *);
     Rva0018BEC7_Member m_member;
+    float m_opacityOverride;
 };
 
-Rva0018BEC7::Rva0018BEC7()
+FXShaderParameterSourceNamespaceWW3D::FXShaderParameterSourceNamespaceWW3D()
 {
     Rva00153565Register("WW3D", this);
 }

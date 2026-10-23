@@ -39,7 +39,7 @@ struct Rva00174753Allocation : private _STL::_Vector_base<int,_STL::allocator<in
 Rva00174753Allocation::Rva00174753Allocation() throw() : _STL::_Vector_base<int,_STL::allocator<int> >(_STL::allocator<int>()) {}
 struct Rva00174753ReleaseView { virtual void *releaseInstance(unsigned)=0; };
 class FXShaderParameterSourceNamespaceSAS {public: FXShaderParameterSourceNamespaceSAS(); char opaque00[0xD8];};
-class Rva0018BEC7 {public: Rva0018BEC7();char opaque00[12];};
+class FXShaderParameterSourceNamespaceWW3D {public: FXShaderParameterSourceNamespaceWW3D();char opaque00[12];};
 extern FXShaderParameterSourceNamespaceSAS *g_00DF36B4;
 // Native 9FCEB8 starts at zero; preparation and cleanup share this provider.
 Rva00174753ReleaseView *g_gapFillerAuxiliarySource = 0;
@@ -74,4 +74,4 @@ Rva00DF6F94GapFillerContext::~Rva00DF6F94GapFillerContext(){
  g_gapFillerAuxiliarySource=0;
 }
 
-Rva00DF6F94GapFillerContext::Rva00DF6F94GapFillerContext(){g_00DF36B4=new FXShaderParameterSourceNamespaceSAS;g_gapFillerAuxiliarySource=reinterpret_cast<Rva00174753ReleaseView *>(new Rva0018BEC7);}
+Rva00DF6F94GapFillerContext::Rva00DF6F94GapFillerContext(){g_00DF36B4=new FXShaderParameterSourceNamespaceSAS;g_gapFillerAuxiliarySource=reinterpret_cast<Rva00174753ReleaseView *>(new FXShaderParameterSourceNamespaceWW3D);}
