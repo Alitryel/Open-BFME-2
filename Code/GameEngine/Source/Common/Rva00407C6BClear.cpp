@@ -6,6 +6,11 @@
 #include <map>
 // bfme link decl-only begin
 namespace _STL { template <> void _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::clear(); }
+// Retail calls the clear rowed at 0x0021A917 (StlSweepW5Rva0021A917.cpp), a
+// separate instantiation from the int-int clear at 0x0006AA1C, so the key is
+// that row's element type, not int.
+struct Rva0021A917Element { short words[1]; bool operator<(const Rva0021A917Element &b) const { return words[0] < b.words[0]; } };
+namespace _STL { template <> void _Rb_tree<Rva0021A917Element, pair<Rva0021A917Element const, int>, _Select1st<pair<Rva0021A917Element const, int> >, less<Rva0021A917Element>, allocator<pair<Rva0021A917Element const, int> > >::clear(); }
 // bfme link decl-only end
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
@@ -27,8 +32,8 @@ public:
 	void rva00407C6B();
 private:
 	char m_pad[0x14];
-	_STL::map<int, int> m_a;
-	_STL::map<int, int> m_b;
+	_STL::map<Rva0021A917Element, int> m_a;
+	_STL::map<Rva0021A917Element, int> m_b;
 };
 
 void CreateAHeroHero::rva00407C6B()
@@ -36,3 +41,6 @@ void CreateAHeroHero::rva00407C6B()
 	m_a.clear();
 	m_b.clear();
 }
+
+// The unit's rowed map<int,int>::clear forwarder (0x0023E995).
+template void _STL::map<int, int>::clear();

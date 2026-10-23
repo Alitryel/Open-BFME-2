@@ -5,18 +5,28 @@
 // retail 0x00460F45 38 bytes. STLport __uninitialized_copy for 12-byte
 // retail 0x00460F45 38 bytes. Stride-0xC sibling of the rowed AsciiString
 // copy at 0x0002C4B2 and E8/E16 38B rows. Calls the vector _Construct dupe
-// at 0x00460F18 (true name rowed at 0x00796E8). Declared-only _Construct
-// specialization keeps the call out-of-line; explicit instantiation of the
-// real __uninitialized_copy emits the 38B push-esi/edi loop.
+// at 0x00460F18 (rowed as Rva00460F18Construct; the _Construct name itself is
+// rowed at 0x000796E8), so the specialization below spells the STLport loop
+// against that row and emits the 38B push-esi/edi body.
 
 #include <vector>
 #include <memory>
 
 typedef _STL::vector<unsigned int, _STL::allocator<unsigned int> > VecUint;
 
+// Retail's loop calls the placement copy at 0x00460F18, rowed as
+// Rva00460F18Construct (stlport_construct_stl_types.cpp), not the _Construct
+// at 0x000796E8, so this instantiation is spelled out to call that row.
+void Rva00460F18Construct(void *dest, const void *source);
+
 namespace _STL
 {
-template <> void _Construct<VecUint, VecUint>(VecUint *, const VecUint &);
+template <>
+VecUint *__uninitialized_copy<const VecUint *, VecUint *>(const VecUint *__first, const VecUint *__last, VecUint *__result, const __false_type &)
+{
+	VecUint *__cur = __result;
+	for ( ; __first != __last; ++__first, ++__cur)
+		Rva00460F18Construct(&*__cur, &*__first);
+	return __cur;
 }
-
-template VecUint *_STL::__uninitialized_copy(const VecUint *, const VecUint *, VecUint *, const _STL::__false_type &);
+}
