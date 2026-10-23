@@ -681,3 +681,17 @@ tested together (13 banks, scratch compiles only). Do not retry these:
   its priority was unnecessary. Keep the return blocks' scopes and prove the
   changed arm unreachable before adapting it. This does not establish the
   original source spelling. See [the exact body and read-only compiler traces](../reverse/attempt_support/canmake-joins-20261023/readme.md).
+
+- **A member holder can change SSE memory-operand ownership.** At
+  PolygonTrigger::adjustCameraMovement (0x002E3AA8), ordinary scalar locals,
+  declaration permutations and equivalent Add/Scale spellings kept folding
+  candidate.x/y into memory ADDSS operands. A one-member `Coord3D` holder
+  with a reference to its value changed C2's addressable-field ownership:
+  the native separate candidate loads, registers and schedule all returned,
+  closing the complete 723-byte body without volatile reads or barriers.
+  A 5^4 factorial over four object homes isolated the candidate holder;
+  wrapping other objects could undo it. Read-only lowering traces and a
+  separate diagnostic operand reversal located the choice before register
+  allocation. Treat such a holder as a source adapter, not retail type
+  evidence; verify all bytes and relocations through the normal compiler.
+  See [the controlled family and recovery](../reverse/attempt_support/camera-field-owner-20261023/readme.md).
