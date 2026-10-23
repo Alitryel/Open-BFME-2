@@ -26,3 +26,7 @@ private:
 Rva0022C38BSubsystem::Rva0022C38BSubsystem()
 {
 }
+
+// The class's destructor: this unit's constructor row stores the vftable whose slot 0 is the
+// deleting destructor at 0x022DE4F, and its body calls 0x00413A24, where the destructor row lives.
+#pragma comment(linker, "/alternatename:??1Rva0022C38BSubsystem@@UAE@XZ=??1Rva00413A24@@UAE@XZ")

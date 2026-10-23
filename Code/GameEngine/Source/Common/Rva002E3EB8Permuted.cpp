@@ -77,3 +77,7 @@ private:
 };
 typedef char PolygonExtent[sizeof(PolygonTrigger)==100?1:-1];
 PolygonTrigger::PolygonTrigger(int n):id(s_currentID++) { rva002E36B7(n); }
+
+// The class's destructor: this unit's constructor row stores the vftable whose slot 0 is the
+// deleting destructor at 0x002E424F, and its body calls 0x002E4049, where the destructor row lives.
+#pragma comment(linker, "/alternatename:??1PolygonTrigger@@UAE@XZ=??1Rva002E4049@@UAE@XZ")

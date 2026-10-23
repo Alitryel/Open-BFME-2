@@ -75,3 +75,7 @@ FullFadeTransition::FullFadeTransition(void) : m_startFrame(0), m_endFrame(30)
 	m_drawState = -1;
 	m_isForward = TRUE;
 }
+
+// The class's destructor: this unit's constructor row stores the vftable whose slot 0 is the
+// deleting destructor at 0x0035F2F6, and its body calls 0x0035F1D0, where the destructor row lives.
+#pragma comment(linker, "/alternatename:??1FullFadeTransition@@UAE@XZ=??1Rva0035F1D0@@UAE@XZ")

@@ -30,3 +30,7 @@ ScriptConditions::ScriptConditions()
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?init@ScriptConditions@@UAEXXZ=?rva000D20D6@Rva000D20D6@@UAEXXZ")
+
+// The class's destructor: this unit's constructor row stores the vftable whose slot 0 is the
+// deleting destructor at 0x003E5DCD, and its body calls 0x003E5525, where the destructor row lives.
+#pragma comment(linker, "/alternatename:??1ScriptConditions@@UAE@XZ=??1CDManager@@UAE@XZ")
