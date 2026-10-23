@@ -49,7 +49,16 @@ BFME_LITERAL_NAME_GETTER(Rva00486C8FNamed, "KeepObjectDie")
 BFME_LITERAL_NAME_GETTER(Rva00487F5ANamed, "DefaultProductionExitUpdate")
 BFME_LITERAL_NAME_GETTER(Rva00488288Named, "DelayedWeaponSetUpgradeUpdate")
 BFME_LITERAL_NAME_GETTER(Rva00488351Named, "DeletionUpdate")
-BFME_LITERAL_NAME_GETTER(Rva00488900Named, "DozerActionState")
+class DozerActionState
+{
+public:
+	virtual const char *GetSnapshotName() const;
+};
+
+const char *DozerActionState::GetSnapshotName() const
+{
+	return "DozerActionState";
+}
 BFME_LITERAL_NAME_GETTER(Rva00488997Named, "DozerPrimaryStateMachine")
 BFME_LITERAL_NAME_GETTER(Rva0048B68ANamed, "FireSpreadUpdate")
 BFME_LITERAL_NAME_GETTER(Rva0048D75BNamed, "FloatUpdate")

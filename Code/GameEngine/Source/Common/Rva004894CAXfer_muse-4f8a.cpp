@@ -1,5 +1,5 @@
 // cl: /MD
-// ?xfer@Rva004894CA@@MAEXPAVXfer@@@Z @0x004894CA 43B
+// ?xfer@DozerActionState@@MAEXPAVXfer@@@Z @0x004894CA 43B
 // Honest State-area xfer: Version1 via rowed 0x000053EE then raw 4B at +0x20
 // via Xfer slot 0x24 (XferRawBytes) then Snapshot via slot 0x30
 // (operator==(Snapshot&) under MSVC71 reverse-overload layout: slot 12 is the
@@ -80,11 +80,11 @@ protected:
 	virtual void XferData(unsigned int type, void *data, unsigned int size) = 0;
 };
 
-class __declspec(novtable) Rva004894CA
+class __declspec(novtable) DozerActionState
 {
 public:
-	Rva004894CA();
-	virtual ~Rva004894CA();
+	DozerActionState();
+	virtual ~DozerActionState();
 
 protected:
 	virtual void xfer(Xfer *xfer);
@@ -95,7 +95,7 @@ private:
 	Snapshot *m_24;
 };
 
-void Rva004894CA::xfer(Xfer *xfer)
+void DozerActionState::xfer(Xfer *xfer)
 {
 	xfer->Version1();
 	xfer->XferRawBytes(&m_20, 4);

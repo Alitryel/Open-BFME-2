@@ -815,17 +815,7 @@ void DozerActionState::crc( Xfer *xfer )
 // ------------------------------------------------------------------------------------------------
 /** Xfer Method */
 // ------------------------------------------------------------------------------------------------
-// ?xfer@DozerActionState@@MAEXPAVXfer@@@Z present-unmatched
-void DozerActionState::xfer( Xfer *xfer )
-{
-  // version
-  XferVersion currentVersion = 1;
-  XferVersion version = currentVersion;
-  xfer->xferVersion( &version, currentVersion );
-
-	xfer->xferUser(&m_task, sizeof(m_task));
-	xfer->xferSnapshot(m_actionMachine);
-}  // end xfer
+// The retail transfer is defined in Rva004894CAXfer_muse-4f8a.cpp.
 
 // ------------------------------------------------------------------------------------------------
 /** Load post process */

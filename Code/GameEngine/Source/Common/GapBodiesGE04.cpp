@@ -260,16 +260,16 @@ struct Rva0048893COwner
 	Rva0048893CObject *m_14;
 };
 
-class Rva0048893C
+class DozerActionState
 {
 public:
-	void onExit(int unused);
+	virtual void onExit(int unused);
 private:
-	char m_pad[0x18];
+	char m_pad[0x18 - 4];
 	Rva0048893COwner *m_18;
 };
 
-void Rva0048893C::onExit(int)
+void DozerActionState::onExit(int)
 {
 	Rva0048893CSource *source = m_18->m_14->m_258;
 	if (source)

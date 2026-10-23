@@ -80,15 +80,15 @@ public:
 };
 
 // 0x004888F8: slot 4 of the +0x24 object.
-class Rva004888F8
+class DozerActionState
 {
 public:
-	void rva004888F8();
+	virtual void rva004888F8();
 private:
-	char m_pad00[0x24];
+	char m_pad00[0x24 - 4];
 	Rva004888F8Target<4> *m_24;
 };
-void Rva004888F8::rva004888F8()
+void DozerActionState::rva004888F8()
 {
 	m_24->target();
 }

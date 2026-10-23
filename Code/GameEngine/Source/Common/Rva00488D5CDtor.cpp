@@ -6,17 +6,13 @@
 // ??1OutwardEmissionVelocityInfo@FXParticleSystem@@UAE@XZ 0x0049B47C.
 // Names address-derived.
 
-class FXParticleSystem
+class Xfer;
+class State
 {
 public:
-	class OutwardEmissionVelocityInfo
-	{
-	public:
-		virtual ~OutwardEmissionVelocityInfo();
-
-	private:
-		unsigned char m_pad04[0x24 - 4];
-	};
+	virtual ~State();
+private:
+	unsigned char m_pad04[0x20 - 4];
 };
 
 class Rva00488D5COwned
@@ -25,16 +21,47 @@ public:
 	virtual ~Rva00488D5COwned();
 };
 
-class Rva00488D5C : public FXParticleSystem::OutwardEmissionVelocityInfo
+class DozerActionState : public State
 {
 public:
-	virtual ~Rva00488D5C();
+	virtual ~DozerActionState();
+
+	// ?DozerActionState::loadPostProcess present-unmatched
+	virtual void loadPostProcess() {}
+	virtual const char *GetSnapshotName() const;
+protected:
+	virtual void xfer(Xfer *);
+public:
+	virtual int rva00488906();
+	virtual void onExit(int);
+	virtual void rva004888F8();
+	// ?DozerActionState::slot07 present-unmatched
+	virtual void slot07() {}
+	// ?DozerActionState::slot08 present-unmatched
+	virtual bool slot08() const { return false; }
+	// ?DozerActionState::slot09 present-unmatched
+	virtual bool slot09() const { return false; }
+	// ?DozerActionState::slot10 present-unmatched
+	virtual bool slot10() const { return false; }
+	// ?DozerActionState::slot11 present-unmatched
+	virtual bool slot11() const { return false; }
+	// ?DozerActionState::slot12 present-unmatched
+	virtual bool slot12() const { return false; }
+	// ?DozerActionState::slot13 present-unmatched
+	virtual bool slot13() const { return false; }
+	// ?DozerActionState::slot14 present-unmatched
+	virtual bool slot14() const { return false; }
+	// ?DozerActionState::slot15 present-unmatched
+	virtual bool slot15() const { return false; }
+	// ?DozerActionState::slot16 present-unmatched
+	virtual void slot16() {}
 
 private:
+	int m_value;
 	Rva00488D5COwned *m_owned; // +0x24
 };
 
-Rva00488D5C::~Rva00488D5C()
+DozerActionState::~DozerActionState()
 {
 	::delete m_owned;
 	m_owned = 0;

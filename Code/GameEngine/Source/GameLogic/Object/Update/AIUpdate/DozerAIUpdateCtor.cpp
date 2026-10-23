@@ -307,10 +307,10 @@ private:
 };
 
 // ZH's DozerActionState (machine, task) (rowed ctor 0x00488883).
-class Rva00488D5C : public State
+class DozerActionState : public State
 {
 public:
-	Rva00488D5C(StateMachine *machine, Int task);
+	DozerActionState(StateMachine *machine, Int task);
 private:
 	unsigned char m_pad20[0x28 - 0x20];
 };
@@ -1106,9 +1106,9 @@ DozerPrimaryStateMachine::DozerPrimaryStateMachine(Object *owner) : StateMachine
 
 	// order matters: first state is the default state.
 	defineState(DOZER_PRIMARY_IDLE, new Rva004886C7(this), INVALID_STATE_ID, INVALID_STATE_ID, idleConditions);
-	defineState(DOZER_PRIMARY_BUILD, new Rva00488D5C(this, DOZER_TASK_BUILD), DOZER_PRIMARY_IDLE, DOZER_PRIMARY_IDLE);
-	defineState(DOZER_PRIMARY_REPAIR, new Rva00488D5C(this, DOZER_TASK_REPAIR), DOZER_PRIMARY_IDLE, DOZER_PRIMARY_IDLE);
-	defineState(DOZER_PRIMARY_FORTIFY, new Rva00488D5C(this, DOZER_TASK_FORTIFY), DOZER_PRIMARY_IDLE, DOZER_PRIMARY_IDLE);
+	defineState(DOZER_PRIMARY_BUILD, new DozerActionState(this, DOZER_TASK_BUILD), DOZER_PRIMARY_IDLE, DOZER_PRIMARY_IDLE);
+	defineState(DOZER_PRIMARY_REPAIR, new DozerActionState(this, DOZER_TASK_REPAIR), DOZER_PRIMARY_IDLE, DOZER_PRIMARY_IDLE);
+	defineState(DOZER_PRIMARY_FORTIFY, new DozerActionState(this, DOZER_TASK_FORTIFY), DOZER_PRIMARY_IDLE, DOZER_PRIMARY_IDLE);
 	defineState(DOZER_PRIMARY_GO_HOME, new Rva0048896B(this), DOZER_PRIMARY_IDLE, DOZER_PRIMARY_IDLE);
 }
 

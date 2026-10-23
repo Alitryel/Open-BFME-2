@@ -119,25 +119,52 @@ public:
 	int m_3C;
 };
 
+class Xfer;
 struct EmitVtableTag;
 
-class Rva00488D5C : public State
+class DozerActionState : public State
 {
 public:
-	Rva00488D5C(EmitVtableTag *);
-	Rva00488D5C(StateMachine *machine, int value);
+	DozerActionState(EmitVtableTag *);
+	DozerActionState(StateMachine *machine, int value);
 public:
-	virtual ~Rva00488D5C();
-	virtual void vslot01();
-	virtual void vslot02();
-	virtual void vslot03();
+	virtual ~DozerActionState();
+
+	// ?DozerActionState::loadPostProcess present-unmatched
+	virtual void loadPostProcess() {}
+	virtual const char *GetSnapshotName() const;
+protected:
+	virtual void xfer(Xfer *);
+public:
 	virtual int rva00488906();
+	virtual void onExit(int);
+	virtual void rva004888F8();
+	// ?DozerActionState::slot07 present-unmatched
+	virtual void slot07() {}
+	// ?DozerActionState::slot08 present-unmatched
+	virtual bool slot08() const { return false; }
+	// ?DozerActionState::slot09 present-unmatched
+	virtual bool slot09() const { return false; }
+	// ?DozerActionState::slot10 present-unmatched
+	virtual bool slot10() const { return false; }
+	// ?DozerActionState::slot11 present-unmatched
+	virtual bool slot11() const { return false; }
+	// ?DozerActionState::slot12 present-unmatched
+	virtual bool slot12() const { return false; }
+	// ?DozerActionState::slot13 present-unmatched
+	virtual bool slot13() const { return false; }
+	// ?DozerActionState::slot14 present-unmatched
+	virtual bool slot14() const { return false; }
+	// ?DozerActionState::slot15 present-unmatched
+	virtual bool slot15() const { return false; }
+	// ?DozerActionState::slot16 present-unmatched
+	virtual void slot16() {}
 	volatile int m_value;
 	Rva004885DE *volatile m_child;
 };
 
-// ?<Rva00488D5C::Rva00488D5C> absent-from-retail
-Rva00488D5C::Rva00488D5C(EmitVtableTag *) : State(0, 0)
+// ?<DozerActionState::DozerActionState> absent-from-retail
+DozerActionState::DozerActionState(EmitVtableTag *) : State(0, 0)
 {
 }
 
@@ -146,8 +173,8 @@ Rva00488D5C::Rva00488D5C(EmitVtableTag *) : State(0, 0)
 // the vptr value is its raw store. Its allocation at +0x20 and owner load
 // through StateMachine+0x14 match the child StateMachine ctor at 0x004885DE.
 // The call through vtable slot 7 follows the child constructor on both arms.
-// ?<Rva00488D5C::Rva00488D5C> present-unmatched
-Rva00488D5C::Rva00488D5C(StateMachine *machine, int value)
+// ?<DozerActionState::DozerActionState> present-unmatched
+DozerActionState::DozerActionState(StateMachine *machine, int value)
 	: State(machine, 0x473A607Fu)
 {
 	m_value = value;
@@ -156,12 +183,12 @@ Rva00488D5C::Rva00488D5C(StateMachine *machine, int value)
 	child->v07();
 }
 
-// ?rva00488906@Rva00488D5C@@UAEHXZ, retail 0x00488906 (54 bytes).
+// ?rva00488906@DozerActionState@@UAEHXZ, retail 0x00488906 (54 bytes).
 // Slot 4 of the vtable installed by this class's constructor; owner +0x258
 // supplies the slot-93 result interface, then the retained child handles the
 // final slot-6 call. Names for both interfaces remain address-derived.
-// ?<Rva00488D5C::rva00488906> present-unmatched
-int Rva00488D5C::rva00488906()
+// ?<DozerActionState::rva00488906> present-unmatched
+int DozerActionState::rva00488906()
 {
 	OpaqueOwnerInterface *object = m_machine->getOwner()->m_258;
 	if (!object)
