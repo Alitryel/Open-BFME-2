@@ -6,6 +6,14 @@
 
 struct Rva00460F6BElement {Rva00460F6BElement();Rva00460F6BElement(const Rva00460F6BElement&);Rva00460F6BElement&operator=(const Rva00460F6BElement&);~Rva00460F6BElement(){}char bytes[12]; bool operator==(const Rva00460F6BElement&)const;};
 
+// Retail's loop calls the rowed two-pointer cdecl placement-copy owner
+// Rva00460F18Construct 0x00460F18 (stlport_construct_stl_types.cpp).
+void __cdecl Rva00460F18Construct(void *, const void *);
+namespace _STL {
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Construct<Rva00460F6BElement, Rva00460F6BElement>(Rva00460F6BElement *__p, const Rva00460F6BElement &__val)
+{ Rva00460F18Construct(__p, &__val); }
+}
+
 // Instantiate the recovered operation and its required template dependencies.
 template Rva00460F6BElement * _STL::__uninitialized_fill_n<Rva00460F6BElement *, unsigned int, Rva00460F6BElement>(Rva00460F6BElement *, unsigned int, Rva00460F6BElement const &, _STL::__false_type const &);
 
