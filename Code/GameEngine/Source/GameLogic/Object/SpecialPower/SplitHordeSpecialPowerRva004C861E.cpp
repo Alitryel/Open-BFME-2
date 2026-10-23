@@ -8,10 +8,10 @@
 // Object is disabled (inline isDisabled over the matched BitFlags<11>::any on
 // its +0x1C8 mask); otherwise, when the contain interface returned by the
 // matched Object::rva0028C197 answers slot 125, have its slot 126 fill a local
-// STLport vector<BfmeE16> (matched _Vector_base ctor 0x00211E58, released
+// STLport vector<Object *> (its unwind funclet 0x007903F6 destroys it through
+// the rowed ~vector<Object *> 0x001F22A3; matched _Vector_base ctor 0x00211E58, released
 // through the bfmealloc free), the EH frame covering that local.
 #include <vector>
-#include "../../../../../Libraries/Include/Lib/BfmeE16.h"
 template <int N> class BitFlags
 {
 public:
@@ -27,13 +27,14 @@ public:
 template <> class Rva004C861ESlots<0>
 {
 };
+class Object;
 // The contain interface returned by the matched Object::rva0028C197: slot 125
-// is a bool query, slot 126 fills a vector<BfmeE16>.
+// is a bool query, slot 126 fills a vector<Object *>.
 class Rva004C861EContain : public Rva004C861ESlots<125>
 {
 public:
 	virtual bool rva004C861ESlot125() = 0;
-	virtual void rva004C861ESlot126(_STL::vector<BfmeE16> *out) = 0;
+	virtual void rva004C861ESlot126(_STL::vector<Object *> *out) = 0;
 };
 class Object
 {
@@ -89,6 +90,6 @@ void SplitHordeSpecialPower::doSpecialPower(unsigned int)
 		return;
 	if (!contain->rva004C861ESlot125())
 		return;
-	_STL::vector<BfmeE16> items;
+	_STL::vector<Object *> items;
 	contain->rva004C861ESlot126(&items);
 }
