@@ -24,3 +24,12 @@ failed because map needs its full typedef interface. Replacing that view with
 the actual tree destructor declaration resolves the failure. Scratch evidence:
 build/map-owner-link/{trial1,trial2,map-delete,after}.txt and verified-map.cpp.
 The row retraction is a prerequisite to the separately verified readmission.
+
+Acceptance: retraction leaves 116/116 bytes linkable; all 952 rows in the
+39 conservatively selected dependent units remain exact (113 string literals,
+20 empty references, 98 floating literals, 23 imports). After caches are
+current the name-dependent scan narrows to this unit alone. Separate map
+readmission restores 144/144 linked bytes, an additional 28 over the retraction.
+Final normal gate is 3/3 exact, with string/float/import checks; scoped
+prepare-current creates one self-strict reusable provider receipt for 3 rows.
+Legacy link preview is the measurement; no closed-strict closure gain asserted.
