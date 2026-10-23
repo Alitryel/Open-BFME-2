@@ -19,7 +19,9 @@ public:
 private:
     void *m_data;
 };
-class CharSourceNarrow00222C93 : public CharSource<char>
+// This view uses the external retail table throughout its lifetime; no
+// separate table for the partial method declarations belongs in the link.
+class __declspec(novtable) CharSourceNarrow00222C93 : public CharSource<char>
 {
 public:
     CharSourceNarrow00222C93(const char *s)
@@ -27,7 +29,7 @@ public:
         *(const void **)this = g_00BE6D5C;
         m_str = s;
     }
-    virtual ~CharSourceNarrow00222C93() {}
+    virtual ~CharSourceNarrow00222C93() { *(const void **)this = g_00BE6D5C; }
     int getLength() const;
     void _gap() const;
     int getChars(char *dest) const;

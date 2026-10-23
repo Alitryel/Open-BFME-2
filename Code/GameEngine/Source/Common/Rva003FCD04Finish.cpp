@@ -16,22 +16,24 @@ public:
 	virtual void v01(void *buffer, int offset, int length);
 };
 int __cdecl Rva003FC43ACompare(Rva003FC43A *a, Rva003FC43A *b, int unused);
-class WrapA
+// These views install the external retail tables explicitly. Their own
+// compiler-generated tables have no native owner and must not be emitted.
+class __declspec(novtable) WrapA
 {
 public:
 	virtual int v00();
 	virtual void v01(void *buffer, int offset, int length);
 	WrapA(void **pp) { *(const void **)this = g_007FDC60; m_pp = pp; }
-	~WrapA() {}
+	~WrapA() { *(const void **)this = g_007FDC60; }
 	void **m_pp;
 };
-class WrapB
+class __declspec(novtable) WrapB
 {
 public:
 	virtual int v00();
 	virtual void v01(void *buffer, int offset, int length);
 	WrapB(void *p) { *(const void **)this = g_00837C20; m_p = p; }
-	~WrapB() {}
+	~WrapB() { *(const void **)this = g_00837C20; }
 	void *m_p;
 };
 int __cdecl Rva003FCD04Compare(void *a, void *b, int c)

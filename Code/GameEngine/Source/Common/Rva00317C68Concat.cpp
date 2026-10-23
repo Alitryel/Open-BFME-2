@@ -17,7 +17,9 @@ public:
 private:
 	void *m_data;
 };
-class CharSourceSuffix : public CharSource<char>
+// This view uses the external retail table throughout its lifetime; no
+// separate table for the partial method declarations belongs in the link.
+class __declspec(novtable) CharSourceSuffix : public CharSource<char>
 {
 public:
 	CharSourceSuffix(const char *s)
@@ -25,7 +27,7 @@ public:
 		*(const void **)this = g_00BFDC6C;
 		m_arg = s;
 	}
-	virtual ~CharSourceSuffix() {}
+	virtual ~CharSourceSuffix() { *(const void **)this = g_00BFDC6C; }
 	int getLength() const;
 	void _gap() const;
 	int getChars(char *dest) const;
