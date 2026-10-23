@@ -2,12 +2,12 @@
 // partial score=0.9961423060437206 date=2026-10-23
 // ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
 // cl: /I. /O1 /G7 /arch:SSE /MD /DNDEBUG /EHsc
-// FXShaderGeometry::Init, 0x0018C84E..0x0018D16B, bank reverified 2026-10-22 (session through 2026-10-23).
+// FXShaderGeometry::Init, 0x0018C84E..0x0018D16B, bank reverified 2026-10-23.
 // Whole 2333-byte body; 9 differing bytes in 7 instructions at +0x707..+0x721.
 // EH EXACT; all calls resolve after the signed-short STL family repair.
 // Machine code unchanged from the 2026-10-20 bank. Score=0.9961423060.
 // Remaining: the two-bone remap block's EAX/ECX assignment and load order.
-// Read reverse/attempt_support/fxinit-index-20261023/readme.md before retrying.
+// Read reverse/attempt_support/fxinit-admit-20261023/readme.md before retrying.
 // WB A39110 supports the P/N copies INSIDE the two-bone arm, after weights;
 // A3A22C/A3A251 are tangent/binormal copies, not those P/N copies.
 // The old dead AsciiString EH scope is gone: the real inline MeshMatDescClass
