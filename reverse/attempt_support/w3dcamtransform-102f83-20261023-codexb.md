@@ -35,3 +35,28 @@ the owning seat. No success stamp or submodule pointer was changed here.
 byte-matched and linking deltas all +0. No byte gate was required because no
 production source, compiler input or ledger row changed. This is coordination
 evidence only, with no coverage or linking improvement claimed.
+
+## Ownership recheck at 03:12 UTC
+
+At `6afcf9b84b49a0d1d5dedf40e19fd54c9ead879a`, fresh claim commands
+again refused all three standing targets. The camera is still held by
+`yasinschroeder-codexb2` (3.4 h left), `0x001C2B80` by
+`yasinschroeder-claudec` (3.1 h), and `0x001C5E30` now by
+`yasinschroeder-codex7` (4.0 h, verified locally and awaiting publication).
+This seat acquired no claim. None of those leases was released here.
+
+The camera bank has advanced independently to **0.9741961628516264**,
+emitting exactly 4,299 bytes with 228 differing bytes and 57 resolved
+relocations. Its new continuation is
+`reverse/attempt_support/w3dcamtransform-102f83-seat23-20261023/readme.md`.
+That handoff and the target history were read through the permitted picker;
+the bank was preserved unchanged. No reconstruction hypothesis was tested
+or ruled out in this recheck. On resumption, obtain the claim before source
+work and use this newer bank and handoff rather than the earlier r66 input.
+
+The pull, ledger check, published-index fetch and
+`python3 tools/progress.py origin/master` passed; all coverage and linking
+deltas were +0. The BFME 1 freshness update remains assigned to the recent
+shared `codex4` lock, so no success stamp was written. No production source
+or byte-verification input changed. The standing assignment allows only the
+two fallback bodies above; unrelated queues were not opened.
