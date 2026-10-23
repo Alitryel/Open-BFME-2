@@ -58,4 +58,18 @@ typedef std::hash_map<
 	rts::hash<NameKeyType>,
 	std::equal_to<NameKeyType> > ArmorTemplateMap;
 
+// Retail table erase hashes inline; retain that visibility without an external bucket copy.
+namespace _STL {
+typedef pair<const NameKeyType, ArmorTemplate> ArmorValue;
+typedef hashtable<ArmorValue, NameKeyType, rts::hash<NameKeyType>,
+    _Select1st<ArmorValue>, equal_to<NameKeyType>, allocator<ArmorValue> > ArmorTable;
+// ?ArmorTable::_M_bkt_num_key absent-from-retail
+// The native erase inlines this calculation; this specialization emits no body.
+template <> __declspec(dllimport) __forceinline
+size_t ArmorTable::_M_bkt_num_key(const NameKeyType &key) const
+{
+    return _M_hash(key) % _M_buckets.size();
+}
+}
+
 template void ArmorTemplateMap::erase(ArmorTemplateMap::iterator);

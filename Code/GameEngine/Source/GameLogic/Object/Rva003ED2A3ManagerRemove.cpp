@@ -78,6 +78,18 @@ typedef std::hash_map<
 	rts::hash<NameKeyType>,
 	std::equal_to<NameKeyType> > ArmorTemplateMap;
 
+// The retail erase wrapper is owned by ArmorHashMapErase.cpp.
+namespace _STL {
+template <> void ArmorTemplateMap::erase(ArmorTemplateMap::iterator);
+typedef pair<const NameKeyType, ArmorTemplate> ThreatArmorValue;
+typedef hashtable<ThreatArmorValue, NameKeyType, rts::hash<NameKeyType>,
+    _Select1st<ThreatArmorValue>, equal_to<NameKeyType>,
+    allocator<ThreatArmorValue> > ThreatArmorTable;
+// Suppress the member-template body, retaining the standard find wrapper.
+template <> template <class Key> _Hashtable_node<ThreatArmorValue> *
+ThreatArmorTable::_M_find(const Key &) const;
+}
+
 class ThreatFinderManager : public SubsystemInterface
 {
 public:
