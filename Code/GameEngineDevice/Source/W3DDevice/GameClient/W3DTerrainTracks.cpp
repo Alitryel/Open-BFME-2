@@ -70,6 +70,8 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 //			  moves.
 //-----------------------------------------------------------------------------
 
+#include "../../../../../reference/shims/bfme2renderobj/rendobj.h"
+
 // The legacy Zero Hour edge element has a trivial three-byte constructor.
 // Keep its private spelling separate from the retail edgeInfo constructor
 // at 0x00083C8A, whose forty-byte body constructs both coordinate arrays.

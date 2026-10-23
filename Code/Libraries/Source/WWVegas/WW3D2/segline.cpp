@@ -54,7 +54,7 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-#include "../../../../../reference/shims/bfmesegline/rendobj.h" // scoped retail collision slots
+#include "../../../../../reference/shims/bfme2renderobj/rendobj.h"
 #include "segline.h"
 #include "ww3d.h"
 #include "rinfo.h"
