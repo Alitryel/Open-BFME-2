@@ -1703,6 +1703,85 @@ def enclosing_types(code):
     return out
 
 
+def _signature(params):
+    """`params` of a member declaration as a tuple of parameter types with the
+    names, defaults and spacing taken out, or None where that cannot be done
+    without guessing (templates, nested parentheses, a bare qualifier that
+    may be a type or a name)."""
+    params = params.strip()
+    if "<" in params or "(" in params or ">" in params:
+        return None
+    if params in ("", "void"):
+        return ()
+    out = []
+    for part in params.split(","):
+        part = re.sub(r"\s+", " ", part.split("=")[0].strip())
+        match = re.fullmatch(r"(.*?[\s*&])([A-Za-z_]\w*)(?: ?\[[^\]]*\])*", part)
+        if match and re.search(r"[A-Za-z_]", match.group(1).replace("const", "").replace("volatile", "")
+                               .replace("unsigned", "").replace("signed", "")) and \
+                match.group(2) not in name_metric.KEYWORDS:
+            part = match.group(1)
+        elif re.fullmatch(r"(?:(?:const|volatile|unsigned|signed) ?)*[A-Za-z_]\w*", part) and \
+                part.split()[0] in ("const", "volatile", "unsigned", "signed") and part.split()[-1] not in name_metric.KEYWORDS:
+            return None
+        out.append(re.sub(r"\s*([*&])\s*", r"\1", part.strip()))
+    return tuple(out)
+
+
+def _declaration(body, word):
+    """(virtual?, signature, const?) of the one member function `word` that
+    class `body` declares, or None when it declares none or several."""
+    found = []
+    for statement in flatten(body).split(";"):
+        match = re.search(r"(?<![\w~:.>])%s\s*\(([^()]*)\)\s*(const\b)?" % re.escape(word), statement)
+        if match and not re.search(r"\bfriend\b", statement):
+            found.append((bool(re.search(r"\bvirtual\b", statement[:match.start()])),
+                          _signature(match.group(1)), bool(match.group(2))))
+    return found[0] if len(found) == 1 and found[0][1] is not None else None
+
+
+def overrides_virtual(code, word, derived, base):
+    """True when, in this stripped `code` alone, class `derived` derives
+    (through classes declared here) from `base`, `base` declares `word`
+    virtual and `derived` declares it with the same parameter types and
+    constness: the one virtual function, and C++ gives an override the base's
+    name. Anything this text does not prove -- a class declared elsewhere, a
+    different signature, a non-virtual base declaration, an overload set --
+    is False."""
+    cls = derived
+    if not cls or not base or cls == base:
+        return False
+    bodies, bases = {}, {}
+    for match in re.finditer(r"\b(?:class|struct)\s+([A-Za-z_]\w*)\s*(?::([^{;]*))?\{", code):
+        if match.group(1) in bodies:
+            return False                       # two bodies of one name: no single reading
+        bodies[match.group(1)] = code[match.end():name_metric.close(code, match.end() - 1)]
+        bases[match.group(1)] = set()
+        for part in (match.group(2) or "").split(","):
+            names = [w for w in name_metric.WORD.findall(re.sub(r"<[^<>]*>", "", part))
+                     if w not in ("public", "protected", "private", "virtual")]
+            if names:
+                bases[match.group(1)].add(names[-1])
+    if cls not in bodies or base not in bodies:
+        return False
+    seen, todo = set(), [cls]
+    while todo:
+        for parent in bases.get(todo.pop(), ()):
+            if parent not in seen:
+                seen.add(parent)
+                todo.append(parent)
+    if base not in seen:
+        return False
+    mine, theirs = _declaration(bodies[cls], word), _declaration(bodies[base], word)
+    return bool(mine and theirs and theirs[0] and mine[1:] == theirs[1:])
+
+
+def same_virtual(code, word, cls, other):
+    """`cls::word` and `other::word` are one virtual function in this code:
+    either overrides the other (see overrides_virtual)."""
+    return overrides_virtual(code, word, cls, other) or overrides_virtual(code, word, other, cls)
+
+
 def foreign_declarations(code, word, cls, kind="function"):
     """How stripped `code` declares `word` as something other than the
     renamed entity: a type, typedef or enumerator, a data member, a method of
@@ -1724,7 +1803,8 @@ def foreign_declarations(code, word, cls, kind="function"):
         flat = flatten(code[start:end])
         if member_statements(code[start:end], word):
             found.append(f"a data member of {name}")
-        elif name != cls and re.search(r"(?<![\w:.>~])%s\s*\(" % pattern, flat):
+        elif name != cls and re.search(r"(?<![\w:.>~])%s\s*\(" % pattern, flat) and \
+                not (kind == "function" and same_virtual(code, word, cls, name)):
             found.append(f"a method of {name}")
     for scope, start, _end, _params in name_metric.functions_in(code):
         base = scope.split("#")[0]
@@ -1733,7 +1813,8 @@ def foreign_declarations(code, word, cls, kind="function"):
         inside = [n for n, s, e, _o in bodies if s <= start < e]
         owner = "::".join(base.split("::")[:-1]) or (inside[-1] if inside else None)
         if kind == "global" or (owner or None) != (cls or None) and \
-                (owner or "").split("::")[-1] != (cls or ""):
+                (owner or "").split("::")[-1] != (cls or "") and \
+                not (kind == "function" and owner and same_virtual(code, word, cls, owner.split("::")[-1])):
             found.append(f"a function of {owner or 'the global scope'}")
     if kind != "global" and word in set(name_metric.global_names(code)):
         found.append("a global")

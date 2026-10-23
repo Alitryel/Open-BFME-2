@@ -158,6 +158,16 @@ It refuses, among other things, the following:
   class-reconciliation commit instead;
 - a blast radius over `--max-files` (25).
 
+A function rename also respells a base class's declaration of the same virtual
+function, but only when the unit itself proves the pair: the renamed class
+derives from that base through classes the unit declares, the base declares the
+function `virtual`, and both declare it with the same parameter types and
+constness (an override takes the base's name in C++). The reverse holds for
+overrides of a renamed base declaration. A base declared elsewhere, another
+signature, an overload set, a non-virtual base declaration, or a unit that
+shows only one side stays refused: a word rewrite would name a method of
+another class.
+
 A `param` or `local` rename is confined to one function's text, so it asks only
 what the new spelling could capture and what the old one could mean there. The
 function's own text must not spell the new name; the unit must not spell it at

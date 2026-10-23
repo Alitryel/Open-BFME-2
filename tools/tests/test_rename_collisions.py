@@ -346,3 +346,73 @@ def test_inline_method_in_a_class_body_sees_the_bases_members(tmp_path):
 ])
 def test_occurrence_kinds(code, word, kinds):
     assert rename.occurrence_kinds(rename.name_metric.strip(code), word) == kinds
+
+
+# ------------------------------- one virtual function declared in a base and an override
+
+def virtual_tree(tmp_path, base_decl="virtual void rva00601000(int a);", derived_decl="virtual void rva00601000(int b);",
+                 extra="", other_views=None, rows=None):
+    cpp = ("// cl: /O2\nclass Base { public:\n    " + base_decl + "\n    virtual void other();\n};\n"
+           "class Derived : public Base { public:\n    " + derived_decl + "\n};\n" + extra +
+           "void Derived::rva00601000(int b) {}\n")
+    funcs = rows or "?rva00601000@Derived@@UAEXH@Z,,0x00601000,10,Code/Game/Cls.cpp,matched,address-derived\n"
+    sources = {"Code/Game/Cls.cpp": cpp}
+    sources.update(other_views or {})
+    return tree_of(tmp_path, funcs, **sources)
+
+
+def test_override_pair_in_one_unit_is_one_function(tmp_path):
+    tree = virtual_tree(tmp_path)
+    plan = plan_function(tree, 0x00601000, "load")
+    text = plan.after["Code/Game/Cls.cpp"].decode()
+    assert text.count("load(") == 3 and "rva00601000" not in text
+    assert plan.new == "?load@Derived@@UAEXH@Z"
+
+
+def test_the_base_side_of_a_pair_renames_with_its_override(tmp_path):
+    rows = "?rva00601000@Base@@UAEXH@Z,,0x00601000,10,Code/Game/Cls.cpp,matched,address-derived\n"
+    tree = virtual_tree(tmp_path, rows=rows, extra="void Base::rva00601000(int a) {}\n")
+    text = plan_function(tree, 0x00601000, "load").after["Code/Game/Cls.cpp"].decode()
+    assert "rva00601000" not in text and text.count("load(") == 4
+
+
+@pytest.mark.parametrize("kwargs,why", [
+    (dict(base_decl="void rva00601000(int a);"), "base declaration not virtual"),
+    (dict(base_decl="virtual void rva00601000(long a);"), "other parameter type"),
+    (dict(base_decl="virtual void rva00601000(int a, int c);"), "other arity"),
+    (dict(base_decl="virtual void rva00601000(int a) const;"), "other constness"),
+    (dict(base_decl="virtual void rva00601000(int a);\n    virtual void rva00601000(char a);"), "overload set"),
+    (dict(base_decl="virtual void rva00601000(const Foo);", derived_decl="virtual void rva00601000(const Bar);"),
+     "unnamed const parameters may differ in type"),
+    (dict(base_decl="virtual void rva00601000(Ns::A);", derived_decl="virtual void rva00601000(Ns::B);"),
+     "qualified types differ"),
+])
+def test_unproven_pairs_stay_refused(tmp_path, kwargs, why):
+    tree = virtual_tree(tmp_path, **kwargs)
+    with pytest.raises(Refusal, match="rva00601000 as a method of Base"):
+        plan_function(tree, 0x00601000, "load")
+
+
+def test_a_class_that_is_not_a_base_stays_foreign(tmp_path):
+    cpp = ("// cl: /O2\nclass Other { public: virtual void rva00601000(int a); };\n"
+           "class Derived { public: virtual void rva00601000(int b); };\nvoid Derived::rva00601000(int b) {}\n")
+    funcs = "?rva00601000@Derived@@UAEXH@Z,,0x00601000,10,Code/Game/Cls.cpp,matched,address-derived\n"
+    tree = tree_of(tmp_path, funcs, **{"Code/Game/Cls.cpp": cpp})
+    with pytest.raises(Refusal, match="method of Other"):
+        plan_function(tree, 0x00601000, "load")
+
+
+def test_a_view_that_lacks_the_derived_class_stays_foreign(tmp_path):
+    # another unit declares only the base's slot: that text proves no override
+    tree = virtual_tree(tmp_path, other_views={
+        "Code/Game/View.cpp": "class Base { public: virtual void rva00601000(int a); };\n"})
+    with pytest.raises(Refusal, match="View.cpp also declares rva00601000 as a method of Base"):
+        plan_function(tree, 0x00601000, "load")
+
+
+def test_a_row_naming_the_base_slot_elsewhere_still_shares_the_word(tmp_path):
+    rows = ("?rva00601000@Derived@@UAEXH@Z,,0x00601000,10,Code/Game/Cls.cpp,matched,address-derived\n"
+            "?rva00601000@Base@@UAEXH@Z,,0x00602000,10,Code/Game/Cls.cpp,matched,address-derived\n")
+    tree = virtual_tree(tmp_path, rows=rows, extra="void Base::rva00601000(int a) {}\n")
+    with pytest.raises(Refusal, match="also spells"):
+        plan_function(tree, 0x00601000, "load")
