@@ -517,6 +517,21 @@ the paren lever).
   MSVC 13.10.3077 `/O2`; removing each ingredient reproduces its own mismatch.
   This is one verified case, not a general need to wrap scalar arguments.
   See [the recovery, controls and compiler observations](../reverse/attempt_support/corealloc-32b00-20261022.md).
+- **Symbol-id chunk alignment (operand and SIB order only).** c2 hands out
+  symbol ids in 32-id chunks from one per-function counter, and commutative
+  operands and SIB base/index are sorted by keys built from those ids. When a
+  body is right except for such swaps, measure it instead of guessing:
+  under winedbg, consuming extra ids early (kind-3 arena 0x10760853, kind-15
+  hash vars 0x1076045d) showed DiagonalBlur (0x001C2B80) exact whenever
+  `first kind-15 id + burst kind-15 count = 1279`, wherever the extra ids
+  were taken. Then each source edit is read as two numbers. A split statement
+  or named local in a loop moves the first kind-15 id by whole chunks (one
+  per pass that has one, not one per local). Each separate loop counter adds
+  to the burst (column +58, row +5), and each `while (row--)` row loop adds
+  one more.
+  Spellings, operand order, types and declaration scope were inert. A
+  432-variant factorial over these levers gave 14 exact bodies.
+  See [the model, measurements and scripts](../reverse/attempt_support/diagonal-1c2b80-20261023c/readme.md).
 
 ## Linking
 
