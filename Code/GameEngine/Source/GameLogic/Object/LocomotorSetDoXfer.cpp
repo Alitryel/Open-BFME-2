@@ -57,54 +57,7 @@ class RGBColor;
 class RGBAColorReal;
 class RGBAColorInt;
 class Snapshot;
-class Xfer
-{
-public:
-	class Version;
-	Xfer();
-	virtual ~Xfer();
-	void Version1();
-	virtual bool IsLoading() const;
-	virtual bool IsStoring() const;
-	virtual bool IsCRC() const;
-	virtual bool IsLightCRC() const;
-	virtual void v5() = 0;
-	virtual void v6() = 0;
-	virtual void v7() = 0;
-	virtual void SkipBadBlock(Snapshot &, unsigned int);
-	virtual Xfer &XferRawBytes(void *, unsigned int);
-	virtual Xfer &operator==(bool &);
-	virtual Xfer &operator==(char &);
-	virtual Xfer &operator==(unsigned char &);
-	virtual Xfer &operator==(short &);
-	virtual Xfer &operator==(unsigned short &);
-	virtual Xfer &operator==(int &);
-	virtual Xfer &operator==(unsigned int &);
-	virtual Xfer &operator==(__int64 &);
-	virtual Xfer &operator==(float &);
-	virtual Xfer &operator==(AsciiString &);
-	virtual Xfer &operator==(UnicodeString &);
-	virtual Xfer &operator==(PooledString &);
-	virtual Xfer &operator==(Coord3DBase &);
-	virtual Xfer &operator==(ICoord3D &);
-	virtual Xfer &operator==(Region3D &);
-	virtual Xfer &operator==(IRegion3D &);
-	virtual Xfer &operator==(Coord2D &);
-	virtual Xfer &operator==(ICoord2D &);
-	virtual Xfer &operator==(Region2D &);
-	virtual Xfer &operator==(IRegion2D &);
-	virtual Xfer &operator==(RealRange &);
-	virtual Xfer &operator==(RGBColor &);
-	virtual Xfer &operator==(RGBAColorReal &);
-	virtual Xfer &operator==(RGBAColorInt &);
-	virtual Xfer &operator==(Snapshot &);
-	virtual Xfer &operator==(XferUnknown11 &) = 0;
-	virtual Xfer &operator==(Version &);
-	virtual Xfer &XferEnum(const char *, void *, unsigned int);
-
-protected:
-	virtual void XferData(unsigned int, void *, unsigned int) = 0;
-};
+#include "../../../Include/Common/BfmeXfer.h"
 
 class Xfer::Version
 {
