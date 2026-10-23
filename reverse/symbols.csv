@@ -2884,7 +2884,6 @@ name,address,notes
 ??1BfmeWideString000543F5@@QAE@XZ,0x00036E70,wide string member teardown at +0x04 of record 0x000543F5; folds with the pinned StringBase<wchar> releaseBuffer body
 ??1Bitmap@Gdiplus@@UAE@XZ,0x000012A3,ICF alias of Gdiplus::Image::~Image. MSVC 7.1 drops the dead derived vptr store from the implicit ~Bitmap and inlines the base body so the two COMDATs come out byte-identical; retail CImage::Load destroys its local Bitmap through this address
 ??1BridgeBehavior@@UAE@XZ,0x00457113,"dtor called by audited wrapper RVA 0x00457536; retail slot 4 -> RVA 0x004571A9 uses class-name string ""BridgeBehavior"""
-??1BridgeBehaviorListValue12@@QAE@XZ,0x00577998,Bridge list clear457441 calls this on12B payload; add ecx8 then jump existing AsciiString destructor36410; only shared string-tail cleanup; existing PrereqUnitRec row owns same8B body
 ??1BroadcastStealthUpdate@@UAE@XZ,0x004A3555,"dtor called by audited wrapper RVA 0x004A35AD; retail slot 4 -> RVA 0x004A34C6 uses class-name string ""BroadcastStealthUpdate"""
 ??1Bucket@@UAE@XZ,0x00148B19,BFME2 scalar Bucket destructor entry; retail deleting-destructor call independently resolves to this body, which restores the Bucket vtable and tail-jumps to AsciiString storage release
 ??1Buffer@@QAE@XZ,0x006157A0,address read from the REL32 displacement at a placed body; stlport 4.5.3
