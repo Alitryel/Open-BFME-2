@@ -3,7 +3,7 @@
 // Rva00812DD0.  The address-derived entry keeps the raw cdecl ABI proved by
 // that caller; the object view is local because no shared layout is justified.
 
-struct Rva00819630Comm
+struct CommSerialRef
 {
 	void *m_ops[ 14 ];
 	char m_gap38[ 0x14 ];
@@ -150,9 +150,9 @@ extern "C" void *CommSerialConstruct( int first, int second, int third )
 {
 	unsigned long pid;
 	void *result;
-	Rva00819630Comm *comm;
+	CommSerialRef *comm;
 
-	comm = (Rva00819630Comm *)Rva007F0000Alloc( 0x1944 );
+	comm = (CommSerialRef *)Rva007F0000Alloc( 0x1944 );
 	if( comm == 0 )
 		return 0;
 

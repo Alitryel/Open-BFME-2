@@ -178,3 +178,7 @@ member,Rva00819630Comm::m_field190c,Rva00819630Comm::m_streamCapacity,inferred,a
 member,Rva00819630Comm::m_field1910,Rva00819630Comm::m_streamLength,inferred,agree:nl-422db2a722cc,Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp,
 member,Rva00819630Comm::m_field1914,Rva00819630Comm::m_streamSlot,inferred,agree:nl-9197c1868be0,Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp,
 function,_Rva00819630,_CommSerialConstruct,inferred,agree:nl-ba3db1f9444d,Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp,0x00685530
+class,Rva00819630Comm,CommSerialRef,inferred,agree:nl-dfdee4516828,Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp,
+carry,Rva00819630Comm::m_streamCapacity,CommSerialRef::m_streamCapacity,inferred,scope renamed by Rename Rva00819630Comm to CommSerialRef (inferred),Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp,
+carry,Rva00819630Comm::m_streamLength,CommSerialRef::m_streamLength,inferred,scope renamed by Rename Rva00819630Comm to CommSerialRef (inferred),Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp,
+carry,Rva00819630Comm::m_streamSlot,CommSerialRef::m_streamSlot,inferred,scope renamed by Rename Rva00819630Comm to CommSerialRef (inferred),Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp,
