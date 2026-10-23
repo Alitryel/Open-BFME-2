@@ -39,8 +39,11 @@ template Rva00357C6ATree::~_Rb_tree();
 // unit emit that COMDAT, as an unwind action does.
 typedef _STL::map<unsigned, void *> Rva00357CD9Map;
 // ?Rva00357CD9EmitMapDtor absent-from-retail
-void Rva00357CD9EmitMapDtor()
+void Rva00357CD9EmitMapDtor(Rva00357CD9Map *owned)
 {
+	// Retail 0x00357E30 deletes the map through its out-of-line destructor
+	// at 0x00357CD9, rather than calling the tree destructor directly.
+	delete owned;
 	Rva00357CD9Map local;
 	throw 0;
 }

@@ -23,3 +23,16 @@ address and is exempt under retail-truth-2.
 Before retraction, current-object legacy preview: Rva0034C5E0Dtor.cpp 0/144 B;
 stlport_tree_dtor_00357C6A.cpp 71/71 B. This is a legacy preview against the
 published index, not a closed-strict link-cycle measurement.
+
+The retraction committed as 6ae33b7319. Its hook passed 2,093 bodies and
+293 exact EH records across 95 dependents. It frees the remaining 116 B of
+Rva0034C5E0Dtor.cpp without changing that source.
+
+Recovery: extend the existing unretained map-emitting helper with a map-pointer
+argument and `delete owned`. MSVC 7.1 emits the genuine map scalar deleting
+destructor, including the call to the five-byte map destructor. add_match
+verified all four provider rows, no pins or aliases added. Paired legacy preview
+is now owner 116/116 B plus provider 99/99 B: 215 B versus the original 71 B,
+or +144 B linked across the two separate identity/recovery commits. The recovery
+commit itself contributes +28 B linked; the earlier retraction contributed
++116 B. The false 28-byte claim is replaced, so authored coverage is unchanged.
