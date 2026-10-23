@@ -86,9 +86,9 @@ public:
 class Rva005890A6
 {
 public:
-	virtual void f0();
-	virtual void f1();
-	virtual float getPercentReady() const;
+	virtual void f0() = 0;
+	virtual void f1() = 0;
+	virtual float getPercentReady() const = 0;
 	void rva0058943A(float value);
 	void rva005890A6(bool pause);
 	unsigned int m_availableOnFrame;
