@@ -56,6 +56,11 @@ void _Construct<unsigned short, unsigned short>(unsigned short *p, const unsigne
 // this TU takes them inline only.
 namespace _STL {
 template <> __declspec(dllimport) __forceinline
+unsigned short *__uninitialized_copy<unsigned short *, unsigned short *>(unsigned short *first, unsigned short *last, unsigned short *result, const __true_type &)
+{
+    return __copy_aux(first, last, result, _BothPtrType<unsigned short *, unsigned short *>::_Ret());
+}
+template <> __declspec(dllimport) __forceinline
 unsigned short *__uninitialized_fill_n<unsigned short *, unsigned int, unsigned short>(unsigned short *__first, unsigned int __n, const unsigned short &__x, const __true_type &)
 { return fill_n(__first, __n, __x); }
 template <> __declspec(dllimport) __forceinline
@@ -72,7 +77,7 @@ struct BfmeWordVec : _STL::vector<unsigned short, _STL::allocator<unsigned short
 	// push from memory.
 	static unsigned short null_fill() { return 0; }
 };
-void BfmeWordVec::resize(unsigned n, unsigned short x)
+__declspec(noinline) inline void BfmeWordVec::resize(unsigned n, unsigned short x)
 {
 	if (n < size())
 		erase(begin() + n, end());
@@ -80,3 +85,9 @@ void BfmeWordVec::resize(unsigned n, unsigned short x)
 		_M_fill_insert(end(), n - size(), x);
 }
 template class _STL::vector<unsigned short, _STL::allocator<unsigned short> >;
+
+// ?_bfmeWordVecResizeAnchor@@YAXPAUBfmeWordVec@@IG@Z absent-from-retail
+void _bfmeWordVecResizeAnchor(BfmeWordVec *vector, unsigned n, unsigned short value)
+{
+    vector->resize(n, value);
+}

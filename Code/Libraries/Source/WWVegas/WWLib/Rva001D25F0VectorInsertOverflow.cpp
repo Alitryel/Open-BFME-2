@@ -1,19 +1,37 @@
 // cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 
-// STLport vector<T>::_M_insert_overflow for the 92-byte element family whose
-// exact push_back body is at 0x001D28F0.  The element payload is not recovered;
-// its width and nontrivial copy operation are fixed by the retail body.
+// STLport vector operations for the video-record element family.
+// The native copy loop and destructor establish the three string members
+// followed by the scalar fields and owned pointer.
 
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 #include <vector>
 
 struct Rva001D28F0Element
 {
-	char m_body[0x1c];
+	AsciiString m_first;
+	AsciiString m_second;
+	AsciiString m_third;
+	unsigned char m_flag0c;
+	int m_word10;
+	unsigned char m_flag14;
+	void *m_owned;
 	Rva001D28F0Element();
 	Rva001D28F0Element(const Rva001D28F0Element &other);
 	~Rva001D28F0Element();
-	Rva001D28F0Element &operator=(const Rva001D28F0Element &other);
+	__declspec(dllimport) __forceinline
+	Rva001D28F0Element &operator=(const Rva001D28F0Element &other)
+	{
+		m_first.setCopyInline(other.m_first);
+		m_second.setCopyInline(other.m_second);
+		m_third.setCopyInline(other.m_third);
+		m_flag0c = other.m_flag0c;
+		m_word10 = other.m_word10;
+		m_flag14 = other.m_flag14;
+		m_owned = other.m_owned;
+		return *this;
+	}
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> vector<Rva001D28F0Element,allocator<Rva001D28F0Element> >::~vector(); }
