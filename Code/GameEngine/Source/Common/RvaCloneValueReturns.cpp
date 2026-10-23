@@ -25,7 +25,9 @@ class Rva005CDB8F
 public:
 	__forceinline Rva005CDB8F(const Rva005CDB8F &rhs)
 		: m_ref(0), m_data(rhs.m_data) {}
-	virtual ~Rva005CDB8F();
+	// Inline: retail deleting dtor 0x005FAA31 is an ICF-shared vptr reset
+	// plus delete; no out-of-line ~Rva005CDB8F exists.
+	virtual ~Rva005CDB8F() {}
 	virtual RvaCloneResult<Rva005CDB8F> clone() const;
 	struct Payload { int v[5]; };
 	Rva005CDB8F(const Payload *src);
