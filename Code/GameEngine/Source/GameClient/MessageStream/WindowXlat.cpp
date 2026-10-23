@@ -324,6 +324,7 @@ class WindowTranslator : public GameMessageTranslator
 {
 public:
 	WindowTranslator();
+	virtual ~WindowTranslator();
 	virtual GameMessageDisposition translateGameMessage(const GameMessage *msg);
 private:
 	Int m_mode;	// +0x04

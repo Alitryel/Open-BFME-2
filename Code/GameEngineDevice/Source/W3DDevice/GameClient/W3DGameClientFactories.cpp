@@ -133,11 +133,16 @@ extern RayEffectSystem *TheRayEffects;
 // Slots 19 and 20 of 0x00BC4738 (0x00238F34, 0x00238F29) are Zero Hour's
 // GameClient ray-effect pass-throughs to TheRayEffects (VA 0x00DFEFF4),
 // lone tail jumps.
+class GameClient
+{
+public:
+	virtual void getRayEffectData(Drawable *draw, RayEffectData *effectData);
+};
+
 class Rva004C743
 {
 public:
 	virtual void removeFromRayEffects(Drawable *draw);
-	virtual void getRayEffectData(Drawable *draw, RayEffectData *effectData);
 	void *rva0004C45D();
 	void *rva0004C492();
 	void *rva0004C4C7();
@@ -202,7 +207,7 @@ void Rva004C743::removeFromRayEffects(Drawable *draw)
 	TheRayEffects->deleteRayEffect(draw);
 }
 
-void Rva004C743::getRayEffectData(Drawable *draw, RayEffectData *effectData)
+void GameClient::getRayEffectData(Drawable *draw, RayEffectData *effectData)
 {
 	TheRayEffects->getRayEffectData(draw, effectData);
 }

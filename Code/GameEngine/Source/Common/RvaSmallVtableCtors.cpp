@@ -525,18 +525,34 @@ Rva00217497::Rva00217497()
 {
 }
 
-// ??0Rva002390F8@@QAE@XZ @0x002390F8 13B, vtable VA 0xbed684
-class Rva002390F8 : public RvaSmallVtableZeroBase
+// The two-slot native table shares WindowTranslator's handler.
+class GameMessage;
+enum GameMessageDisposition { KEEP_MESSAGE, DESTROY_MESSAGE };
+class GameMessageTranslator
+{
+public:
+	virtual GameMessageDisposition translateGameMessage(const GameMessage *msg) = 0;
+	virtual ~GameMessageTranslator() {}
+};
+class WindowTranslator : public GameMessageTranslator
+{
+public:
+	__declspec(dllimport) __forceinline WindowTranslator() : m_mode(1) {}
+	virtual ~WindowTranslator();
+	virtual GameMessageDisposition translateGameMessage(const GameMessage *msg);
+protected:
+	int m_mode;
+};
+class Rva002390F8 : public WindowTranslator
 {
 public:
 	Rva002390F8();
-	virtual ~Rva002390F8() {}
+	virtual ~Rva002390F8();
 };
 
-// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
-// the anchor keeps the noinline body emitted.
 __declspec(noinline) inline Rva002390F8::Rva002390F8()
 {
+	m_mode = 0;
 }
 
 // ?bfmeAnchorRva002390F8 absent-from-retail

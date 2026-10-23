@@ -206,26 +206,21 @@ private:
 	unsigned char m_pad[0x14];
 };
 
-// Drawable lists whose nodes come from the pool freelist 0x009BA5E8:
-// 0x00239AF4 clears one and frees its sentinel, and never throws (retail
-// stores no unwind state around it). The ten at +0xF8 are destroyed through
-// the out-of-line copy of this destructor, 0x00239BAB.
-struct Rva00239AF4Node
-{
-	Rva00239AF4Node *m_next;
-	Rva00239AF4Node *m_prev;
-	void *m_data;                                                       // +0x08
-};
+// The drawable lists use the rowed pool-backed STLport base constructor
+// and destructor, with their sentinel at offset zero.
+namespace _STL {
+template<> _List_base<Drawable *, allocator<Drawable *> >::_List_base(const allocator<Drawable *> &a);
+template<> _List_base<Drawable *, allocator<Drawable *> >::~_List_base() throw();
+}
 
-class Rva00239AF4
+typedef _STL::_List_node<Drawable *> Rva00239AF4Node;
+class Rva00239AF4 : public _STL::_List_base<Drawable *, _STL::allocator<Drawable *> >
 {
 public:
-	explicit Rva00239AF4(const _STL::allocator<Drawable *> &a = _STL::allocator<Drawable *>()) { rva00239BB0(a); }
-	void rva00239BB0(const _STL::allocator<Drawable *> &a);
-	void rva00239AF4() throw();
-	~Rva00239AF4() { rva00239AF4(); }
-
-	Rva00239AF4Node *m_head;
+	explicit Rva00239AF4(const _STL::allocator<Drawable *> &a = _STL::allocator<Drawable *>())
+		: _STL::_List_base<Drawable *, _STL::allocator<Drawable *> >(a) {}
+	~Rva00239AF4() throw() {}
+	__declspec(dllimport) __forceinline Rva00239AF4Node *head() { return _M_node._M_data; }
 };
 
 class Rva00362862Item;
@@ -375,6 +370,7 @@ public:
 	PlaneClass Planes[6];                                                // +0x30
 };
 
+struct RayEffectData;
 class Rva0023ABDD { public: void rva0023ABDD(); };
 class GameClient : public SubsystemInterface, public Snapshot
 {
@@ -400,7 +396,7 @@ public:
 	virtual GameMessage::Type evaluateContextCommand(Drawable *draw, const Coord3D *pos,
 		CommandTranslator::CommandEvaluateType cmdType);                 // slot 18 (+0x48)
 	virtual void vf19();
-	virtual void vf20();
+	virtual void getRayEffectData(Drawable *draw, RayEffectData *effectData);
 	virtual void vf21() = 0;
 	virtual void vf22() = 0;
 	virtual bool loadMap(AsciiString mapName);
@@ -483,12 +479,12 @@ private:
 	Rva0023A039 m_owned13C;                                             // +0x13C
 };
 
-// Retail's clear is the shared fold at 0x00239D49 and the list teardown the
-// fold at 0x002FECBC; emit no copy of either here.
+// Instantiate the pinned STLport folds for the TOC's actual element type.
+// Keep their calls out of line as in the native parent bodies.
 namespace _STL
 {
-template<> void _List_base<GameClient::DrawableTOCEntry, Rva0023AC36Allocator<GameClient::DrawableTOCEntry> >::clear();
-template<> _List_base<GameClient::DrawableTOCEntry, Rva0023AC36Allocator<GameClient::DrawableTOCEntry> >::~_List_base();
+template __declspec(noinline) void _List_base<GameClient::DrawableTOCEntry, Rva0023AC36Allocator<GameClient::DrawableTOCEntry> >::clear();
+template __declspec(noinline) _List_base<GameClient::DrawableTOCEntry, Rva0023AC36Allocator<GameClient::DrawableTOCEntry> >::~_List_base();
 }
 
 static __declspec(noinline) bool shouldSaveDrawable(const Drawable *draw)
@@ -760,13 +756,25 @@ public:
 // TheTerrainVisual: ZH TerrainVisual (Snapshot, SubsystemInterface), the
 // subsystem side at +4.
 class G00DFF080Obj : public Snapshot, public SubsystemInterface { public: virtual ~G00DFF080Obj(); };
-// ZH Display's mode accessors, three slots later than ZH's.
-// GameClient::update redraws through slot 12 (+0x30) where ZH calls draw.
-class Display : public SubsystemInterface
+// Display's movie update is nonvirtual; its subsystem update stays in slot 10.
+// Native redraw and mode accessors retain their observed virtual positions.
+class Display
 {
 public:
 	virtual ~Display();
+	virtual void init();
+	virtual bool loadIniFilesFromLegend();
+	virtual void postProcessLoad();
+	virtual bool vslot04(int);
+	virtual bool vslot05();
+	virtual void draw();
+	virtual void vslot07(int);
+	virtual void vslot08();
+	virtual void reset();
+	virtual void updateSubsystem();
+	virtual bool vslot11(int);
 	virtual void vslot12();                                           // +0x30
+	virtual void vslot13(int);
 	virtual void setWidth(unsigned int width);                         // +0x38
 	virtual void setHeight(unsigned int height);                       // +0x3C
 	virtual unsigned int getWidth();                                    // +0x40
@@ -792,9 +800,11 @@ public:
 	virtual void vf68();
 	virtual bool isMoviePlaying();                                      // +0x114
 
+	void update();
 	void SetStaticImage(int image, int arg, float x0, float y0, float x1, float y1);
 	void rva0025C776(int image, float x0, float y0, float x1, float y1, int a, int b);
 
+	unsigned char m_base04[8];
 	unsigned char m_pad0C[0x114 - 0x0C];
 	bool m_byte114;                                                     // +0x114
 };
@@ -906,29 +916,21 @@ public:
 	virtual ~GameMessageTranslator() {}
 };
 
-// vftable 0x00BED684 (translate 0x0040FF12, 8 bytes): ZH's WindowTranslator
-// logic with a mode word at +4 (written to the window manager at +0x3C). Its
-// default ctor 0x002390F8 clears the mode. init builds one with mode 0 and one
-// with mode 1 and stores the vftable immediate both times, so the two were
-// distinct classes whose identical vftables the linker folded.
-class Rva002390F8 : public GameMessageTranslator
+// Both mode constructors install BED684 and use WindowTranslator's handler.
+// The derived default constructor selects mode zero.
+class WindowTranslator : public GameMessageTranslator
 {
 public:
-	Rva002390F8() : m_mode(0) {}
+	__declspec(dllimport) __forceinline WindowTranslator() : m_mode(1) {}
 	virtual GameMessageDisposition translateGameMessage(const GameMessage *msg);
-
-private:
+protected:
 	int m_mode;
 };
 
-class Rva002390F8Mode1 : public GameMessageTranslator
+class Rva002390F8 : public WindowTranslator
 {
 public:
-	Rva002390F8Mode1() : m_mode(1) {}
-	virtual GameMessageDisposition translateGameMessage(const GameMessage *msg);
-
-private:
-	int m_mode;
+	Rva002390F8() { m_mode = 0; }
 };
 
 class AptTranslator : public GameMessageTranslator
@@ -1181,7 +1183,6 @@ class Rva0022C22CSubsystem : public SubsystemInterface { public: virtual ~Rva002
 class Rva005D124D { public: int rva005D124D(); };
 class Rva00239105 { public: void rva00239105(); };
 class Rva00239300 { public: void rva00239300(int frame, int periodFrame); };
-class Rva0004378D { public: void first(); };
 
 // The matched one-int handle ctor 0x00211E75; update passes one by value,
 // built from a callback address, to the unrowed registration 0x003FE7E6,
@@ -1454,7 +1455,7 @@ void GameClient::init()
 	// register message translators
 	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new Rva002390F8, 4);
 	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new AptTranslator, 5);
-	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new Rva002390F8Mode1, 10);
+	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new WindowTranslator, 10);
 	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new MetaEventTranslator, 20);
 	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new HotKeyTranslator, 25);
 	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new Rva0042CBB6, 27);
@@ -1488,7 +1489,7 @@ void GameClient::init()
 	if (TheDisplay)
 	{
 		TheDisplay->init();
-		TheDisplay->setName(AsciiString("TheDisplay"));
+		((SubsystemInterface *)TheDisplay)->setName(AsciiString("TheDisplay"));
 	}
 
 	TheHeaderTemplateManager = new HeaderTemplateManager;
@@ -1726,7 +1727,7 @@ void GameClient::update()
 	if (TheWritableGlobalData->m_playIntro || TheWritableGlobalData->m_afterIntro)
 	{
 		TheDisplay->vslot12();
-		TheDisplay->update();
+		TheDisplay->updateSubsystem();
 		return;
 	}
 
@@ -1800,11 +1801,11 @@ void GameClient::update()
 	if (!TheGameLogic->getFlag125())
 	{
 		TheTerrainVisual->update();
-		TheDisplay->update();
+		TheDisplay->updateSubsystem();
 	}
 	else
 	{
-		((Rva0004378D *)TheDisplay)->first();
+		TheDisplay->update();
 	}
 
 	if (!freezeTime)
@@ -2010,9 +2011,9 @@ public:
 // clear it through 0x00239380.
 void GameClient::rva00239911(void)
 {
-	for (Rva00239AF4Node *node = m_drawableListE4.m_head->m_next;
-		node != m_drawableListE4.m_head; node = node->m_next)
-		::delete (Rva00239911Item *)node->m_data;
+	for (Rva00239AF4Node *node = (Rva00239AF4Node *)m_drawableListE4.head()->_M_next;
+		node != m_drawableListE4.head(); node = (Rva00239AF4Node *)node->_M_next)
+		::delete (Rva00239911Item *)node->_M_data;
 
 	((Rva00239380Holder *)&m_drawableListE4)->rva00239380();
 }
