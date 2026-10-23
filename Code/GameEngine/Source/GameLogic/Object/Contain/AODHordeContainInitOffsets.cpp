@@ -73,7 +73,7 @@ struct AODModuleDataView
 	float m_d;
 };
 
-struct Rva00474519Record
+struct MemberOffset
 {
 	float m_pad0;
 	float m_key;
@@ -100,7 +100,7 @@ private:
 	const AODModuleDataView *m_moduleData;
 	Object *m_object;
 	unsigned char m_pad0C[0x188 - 0xC];
-	_STL::vector<Rva00474519Record> m_records;
+	_STL::vector<MemberOffset> m_records;
 	unsigned char m_pad194[0x30C - 0x194];
 	_STL::vector<Rva0047B35EElement> m_jitter;
 	unsigned char m_pad318[0x6FC - 0x318];

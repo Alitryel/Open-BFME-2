@@ -168,3 +168,4 @@ function,?rva005F2767@Rva005F2767@@QBE_NXZ,?IsMouseOverBackButton@Rva005F2767@@Q
 class,Rva005E39A6Owner,ArmyDetailsPanelImpl,inferred,agree:nl-3a59c6311c9a,Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp,
 class,Rva005F2767Inner,ArmyDetailsMovieClipImpl,inferred,agree:nl-3fe0dd21358c,Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp,
 local,AODHordeContain::initOffsets::v,AODHordeContain::initOffsets::wave,inferred,agree:nl-2de8ff01c811,Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainInitOffsets.cpp,0x0047B690
+class,Rva00474519Record,MemberOffset,inferred,agree:nl-774451b7abf1,Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainInitOffsets.cpp,
