@@ -169,8 +169,8 @@ virtual void slot94(int)=0;
 };
 extern int g_Va00E03314;
 
-class Rva0043D1C9:public _bfme_AptGameWindow {
-public:virtual ~Rva0043D1C9();
+class AptSpellStore:public _bfme_AptGameWindow {
+public:virtual ~AptSpellStore();
 private:
  char unknown274[8];
  _STL::vector<Rva0043D1C9Entry*> entries27C;
@@ -179,7 +179,7 @@ private:
  int unknown2A4;
  struct Pair {int first;int second;} buttons2A8[20];
 };
-Rva0043D1C9::~Rva0043D1C9() {
+AptSpellStore::~AptSpellStore() {
  int zero=0;
  Rva0043D1C9UI*ui=reinterpret_cast<Rva0043D1C9UI*>(TheInGameUI);
  if(ui)ui->slot94(zero);

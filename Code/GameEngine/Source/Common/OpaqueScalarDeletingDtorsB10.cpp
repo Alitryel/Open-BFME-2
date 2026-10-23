@@ -297,16 +297,16 @@ Rva0043B660::~Rva0043B660()
 {
 }
 
-class Rva0043D1C9 : public _bfme_AptGameWindow
+class AptSpellStore : public _bfme_AptGameWindow
 {
 public:
-	Rva0043D1C9(EmitVtableTag *);
+	AptSpellStore(EmitVtableTag *);
 public:
-	virtual ~Rva0043D1C9();
+	virtual ~AptSpellStore();
 };
 
-// ?<Rva0043D1C9::Rva0043D1C9> absent-from-retail
-Rva0043D1C9::Rva0043D1C9(EmitVtableTag *) : _bfme_AptGameWindow(0)
+// ?<AptSpellStore::AptSpellStore> absent-from-retail
+AptSpellStore::AptSpellStore(EmitVtableTag *) : _bfme_AptGameWindow(0)
 {
 }
 
