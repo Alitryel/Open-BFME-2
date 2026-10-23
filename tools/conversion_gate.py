@@ -174,7 +174,11 @@ def gen_asm_offences(old, new):
 
 def show(rev, path):
     spec = (":%s" if rev == ":" else rev + ":%s") % path
-    proc = subprocess.run(["git", "show", spec], capture_output=True, text=True)
+    # Decode explicitly: with text=True alone Windows uses the locale code page
+    # (cp1252), whose undefined bytes (0x9D in a UTF-8 quote) crash the reader
+    # thread and leave stdout None.
+    proc = subprocess.run(["git", "show", spec], capture_output=True, text=True,
+                          encoding="utf-8", errors="replace")
     if proc.returncode != 0:
         raise SystemExit("conversion_gate: cannot read %s — a matched row's source "
                          "must exist at its revision (ledger corruption?)" % spec)

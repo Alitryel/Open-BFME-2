@@ -356,3 +356,13 @@ def test_changed_existing_dump_row_is_still_a_wave(repo):
     git("add", "Code/Old.cpp", "reverse/functions.csv")
     assert any(offence.startswith("C3 ")
                for offence in gate.gen_asm_offences(base, ":"))
+
+
+def test_show_reads_utf8_sources_regardless_of_locale(repo):
+    """A committed source holding a UTF-8 right quote (bytes e2 80 9d; 0x9D is
+    undefined in cp1252) must read back as text, not None."""
+    _git, write, commit, _base = repo
+    write("Code/Old.cpp", "// ”quoted”\nint old() { return 1; }\n")
+    commit()
+    text = gate.show("HEAD", "Code/Old.cpp")
+    assert text is not None and "quoted" in text
