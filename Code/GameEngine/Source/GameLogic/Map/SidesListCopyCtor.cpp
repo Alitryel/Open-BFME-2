@@ -100,6 +100,12 @@ struct Rva0032C0E3Element
 {
 	char m_body[0x80];
 };
+// POD cleanup stays inline, as in SidesListCopyCtors.cpp, so this unit does
+// not compete with the rowed nontrivial destroy worker at 0x32B580.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void _Destroy(
+    Rva0032C0E3Element *, Rva0032C0E3Element *) {}
+}
 
 class Rva0032C19D
 {
@@ -126,10 +132,6 @@ public:
 public:
 	SidesList(const SidesList &that);
 	virtual ~SidesList();
-	virtual void init();
-	virtual void reset();
-	virtual void update();
-	virtual void draw();
 	virtual void LoadPostProcess();
 	virtual const char *GetSnapshotName() const;
 	virtual void DoXfer(Xfer *xfer);
@@ -149,6 +151,11 @@ private:
 	FactionBuildLists m_extra[20];				// +0xF80
 };
 
+// Retail's copy<FactionBuildLists *> is the rowed range forwarder at 0x32DD66.
+struct Rva0032DD66Input;
+struct Rva0032DD66Output;
+Rva0032DD66Output *__cdecl Rva0032DD66RangeForward(Rva0032DD66Input *first, Rva0032DD66Input *last, Rva0032DD66Output *result);
+
 SidesList::SidesList(const SidesList &that)
 	: SubsystemInterface(that),
 	  SidesListNotifier(that),
@@ -163,5 +170,5 @@ SidesList::SidesList(const SidesList &that)
 {
 	std::copy(const_cast<SidesInfo *>(that.m_sides), const_cast<SidesInfo *>(that.m_sides) + that.m_numSides, m_sides);
 	std::copy(const_cast<SidesInfo *>(that.m_skirmishSides), const_cast<SidesInfo *>(that.m_skirmishSides) + that.m_numSkirmishSides, m_skirmishSides);
-	std::copy(const_cast<FactionBuildLists *>(that.m_extra), const_cast<FactionBuildLists *>(that.m_extra) + 20, m_extra);
+	Rva0032DD66RangeForward(reinterpret_cast<Rva0032DD66Input *>(const_cast<FactionBuildLists *>(that.m_extra)), reinterpret_cast<Rva0032DD66Input *>(const_cast<FactionBuildLists *>(that.m_extra) + 20), reinterpret_cast<Rva0032DD66Output *>(m_extra));
 }
