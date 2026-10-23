@@ -36,6 +36,7 @@ public:
 		((Gen_00800280 *)this)->m();
 	}
 	void append( const char *text );
+	void reset();
 
 	char *m_ptr;
 	int m_size;
@@ -47,6 +48,14 @@ public:
 	Rva007F6D60ZeroWord() : m_value( 0 ) {}
 
 	unsigned m_value;
+};
+
+// The rowed virtual base destructor at 0x00655780 (BfmeMsgCtor.cpp) is what
+// retail's child teardown runs on both records.
+class BfmeMsg
+{
+public:
+	virtual ~BfmeMsg();
 };
 
 class SnapshotDupReplica
@@ -65,7 +74,6 @@ public:
 		m_0c = 0;
 		m_04 = 0;
 	}
-	virtual void handle();
 
 	int m_04;
 	int m_08;
@@ -100,7 +108,15 @@ class Rva007F6D60Child : public Rva007F6D60ChildBase
 {
 public:
 	Rva007F6D60Child();
-	virtual ~Rva007F6D60Child();
+	// Retail 0x00661E10: clears +8, runs both records' base destructor and
+	// resets the +0x1c buffer before the base vptr store.
+	virtual ~Rva007F6D60Child()
+	{
+		m_08 = 0;
+		((BfmeMsg *)&m_chain3C)->BfmeMsg::~BfmeMsg();
+		((BfmeMsg *)&m_chain2C)->BfmeMsg::~BfmeMsg();
+		m_buffer1C.reset();
+	}
 
 	unsigned m_04;
 	unsigned m_08;

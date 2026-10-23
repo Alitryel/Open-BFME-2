@@ -126,7 +126,6 @@ public:
 class Rva007F6D60Member2C : public SnapshotDupReplica {
 public:
     Rva007F6D60Member2C() { field08 = 0; field0C = 0; field04 = 0; }
-    virtual void handle();
     int field04, field08, field0C;
 };
 class Rva007E8760Addr { public: void parse(const char *, int); };
