@@ -98,11 +98,13 @@ public:
 	virtual ~Rva002470AESnapshot();
 };
 
-class Rva002470AEBase : public Rva002470AEFirst, public Rva002470AESnapshot
+// The product's base is GameLogic: its constructor is the rowed 0x002470AE.
+// class-gate: allow GameLogic construction view: the shared header models no constructor and not the two-vptr 0x2A8-byte layout W3DGameLogic's inlined construction needs
+class GameLogic : public Rva002470AEFirst, public Rva002470AESnapshot
 {
 public:
-	Rva002470AEBase();
-	virtual ~Rva002470AEBase();
+	GameLogic();
+	virtual ~GameLogic();
 private:
 	char m_unmodelled_10[0x2A8 - 0x10];
 };
@@ -117,7 +119,7 @@ private:
 
 // Slot 14 of its vtable 0x00BC25E0 (0x00041FCF) is another factory of the
 // same shape: new 0x1924 bytes and the constructor 0x00062A7E (pinned).
-class W3DGameLogic : public Rva002470AEBase
+class W3DGameLogic : public GameLogic
 {
 public:
 	__forceinline W3DGameLogic() {}
