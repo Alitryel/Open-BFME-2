@@ -403,6 +403,8 @@ extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime(void);
 
 #define VSLOTS4(p) virtual void p##0(); virtual void p##1(); virtual void p##2(); virtual void p##3();
 #define VSLOTS16(p) VSLOTS4(p##0) VSLOTS4(p##1) VSLOTS4(p##2) VSLOTS4(p##3)
+// Pure stand-ins: slots this unit never defines bind __purecall, not an unresolved name.
+#define VSLOTS4_PURE(p) virtual void p##0() = 0; virtual void p##1() = 0; virtual void p##2() = 0; virtual void p##3() = 0;
 
 enum INILoadType { INI_LOAD_INVALID, INI_LOAD_OVERWRITE, INI_LOAD_CREATE_OVERRIDES, INI_LOAD_MULTIFILE };
 
@@ -685,7 +687,7 @@ enum ErrorCode { ERROR_INVALID_D3D = 0xDEAD0007 };
 class GameEngine : public SubsystemInterface
 {
 public:
-	VSLOTS4(s0) VSLOTS4(s1)
+	VSLOTS4_PURE(s0) VSLOTS4_PURE(s1)
 	virtual void reset(); virtual void update(); virtual void s22() = 0; virtual void s23() = 0;
 	virtual void s30() = 0;
 	virtual void init(Int argc, char *argv[]);					// slot 14
