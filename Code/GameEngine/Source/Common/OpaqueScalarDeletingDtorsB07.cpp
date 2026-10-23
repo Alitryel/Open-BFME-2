@@ -442,19 +442,6 @@ void ConnectionVec::clear()
 	rva003F35B0(m_start, m_finish);
 }
 
-class Rva003F6A91
-{
-public:
-	Rva003F6A91(EmitVtableTag *);
-public:
-	virtual ~Rva003F6A91();
-};
-
-// ?<Rva003F6A91::Rva003F6A91> absent-from-retail
-Rva003F6A91::Rva003F6A91(EmitVtableTag *)
-{
-}
-
 class Rva003F8728
 {
 public:

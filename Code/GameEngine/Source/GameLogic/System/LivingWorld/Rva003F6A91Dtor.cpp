@@ -1,10 +1,11 @@
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /Ireference/shims/moduledata /O1 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
 //
-// ??1Rva003F6A91@@UAE@XZ, retail 0x003F6A91..0x003F6B19 (136 bytes, EH).
+// ??1LivingWorldBattle@@UAE@XZ, retail 0x003F6A91..0x003F6B19 (136 bytes, EH).
 // LivingWorldBattle's destructor (LivingWorldBattleCtor.cpp has the full
-// class; this unit keeps a destructor-only view under the opaque pin name the
-// scalar deleting destructor 0x003F6CDD calls). Target facts: the bases are
+// class and the scalar deleting destructor 0x003F6CDD that calls this one;
+// this unit keeps a destructor-only view). Both constructors store vftables
+// 0x00C3709C/0x00C37088 and this body restores the same pair. Target facts: the bases are
 // declared Snapshot, the +8 listener list, the +4 listener interface (MSVC
 // lays the polymorphic interface out first yet constructs it last), then the
 // 28-byte-record vector at +0x18. The body runs rowed 0x003F498A with a
@@ -77,39 +78,37 @@ public:
 	~Rva003F498ACallback() {}
 };
 
-class Rva003F6A91;
-
-class LivingWorldBattle
-{
-public:
-	void rva003F498A(Rva003F498ACallback *cb);
-};
+class LivingWorldBattle;
 
 class __declspec(novtable) Rva003F424F : public Rva003F498ACallback
 {
 public:
-	explicit Rva003F424F(Rva003F6A91 *owner) : m_owner(owner) {}
+	explicit Rva003F424F(LivingWorldBattle *owner) : m_owner(owner) {}
 	virtual bool invoke(int);
 	virtual ~Rva003F424F() {}
 
 private:
-	Rva003F6A91 *m_owner;
+	LivingWorldBattle *m_owner;
 };
 
-class Rva003F6A91 : public Snapshot, public Rva00330757List, public LivingWorldBattleListener
+class LivingWorldBattle : public Snapshot, public Rva00330757List, public LivingWorldBattleListener
 {
 public:
-	virtual ~Rva003F6A91();
+	virtual ~LivingWorldBattle();
+	void rva003F498A(Rva003F498ACallback *cb);
+	// Same listener slot 0 as LivingWorldBattleCtor.cpp's view, so both
+	// units emit one ??_7LivingWorldBattle@@6BLivingWorldBattleListener@@@.
+	virtual void onArmyRemoved(void *army) = 0;
 
 private:
 	_STL::vector<BfmeStringRecord00111ACF> m_sides; // +0x18
 };
 
-Rva003F6A91::~Rva003F6A91()
+LivingWorldBattle::~LivingWorldBattle()
 {
 	{
 		Rva003F424F visitor(this);
-		((LivingWorldBattle *)this)->rva003F498A(&visitor);
+		rva003F498A(&visitor);
 	}
 	((Rva003F5206List *)static_cast<Rva00330757List *>(this))->forEach(&Rva003F5206Listener::notify, this);
 }

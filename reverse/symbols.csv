@@ -4453,7 +4453,7 @@ name,address,notes
 ??1Rva003F610FElement@@QAE@XZ,0x003F535B,target Destroy loop 0x3F592A calls this once for each 0x30-byte element; boundary 0x3F535B/60 performs element cleanup but the full application layout is not established
 ??1Rva003F61C6Record@@QAE@XZ,0x003F535B,Native258Bfill3F61C6 directcall or fullgenericdispatch provider; separatelyrowed fullbody; scoped48Bnontrivial vector element ABI no originalapplicationtypename claimed
 ??1Rva003F64B2Element@@QAE@XZ,0x003F535B,Native124B outerctor consumed scopedABI; fullprovider60B independentlyverified; caller196B3F6D35 proves record28 and temporaryownership; applicationnames unproved
-??1Rva003F6A91@@UAE@XZ,0x003F6A91,"destructor the scalar deleting destructor 0x003F6CDD calls (REL32 at 0x003F6CE0; vtable 0x00C3709C#0); opaque address name"
+??1LivingWorldBattle@@UAE@XZ,0x003F6A91,"LivingWorldBattle destructor: the scalar deleting destructor 0x003F6CDD calls it (REL32 at 0x003F6CE0; vtable 0x00C3709C#0, which both LivingWorldBattle ctors store); formerly ??1Rva003F6A91@@UAE@XZ"
 ??1Rva003F6D35Inner@@QAE@XZ,0x003F535B,Native196B nestedlookup scopedABI; consumed fullprovider60B independentlyverified; targettemporary28/48 and owner18vector; applicationnames unproved
 ??1Rva003F6D35Outer@@QAE@XZ,0x003F60C8,Native196B nestedlookup scopedABI; consumed fullprovider60B independentlyverified; targettemporary28/48 and owner18vector; applicationnames unproved
 ??1Rva003F6EA1Record@@QAE@XZ,0x003F60C8,native108 by-value cleanup; full60B destructor verified; opaque28B record and address-derived ABI view
