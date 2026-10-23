@@ -1686,3 +1686,4 @@ __ehhandler$??1Rva001DF057@@UAE@XZ,0x00769AA4,"Renamed to __ehhandler$??1Eva@@UA
 ?rva00200BD9@Rva00200BD9@@QAEXXZ,0x00200BD9,"Renamed to ?rva00200BD9@WaterTransparencySetting@@UAEXXZ: WaterTransparencySetting constructor installs the table containing this body"
 __ehhandler$??1Rva0020182B@@UAE@XZ,0x0076C508,"Renamed to __ehhandler$??1WeatherSetting@@UAE@XZ: follows the rename of its function"
 __ehhandler$??1Rva00200E95@@UAE@XZ,0x0076C470,"Renamed to __ehhandler$??1WaterTransparencySetting@@UAE@XZ: follows the rename of its function"
+?clearBannerRecord@@YAXAAUBfmePod28@@@Z,0x00215E26,"Retract interior-tail claim: native26B constructor starts215E21 with MOV EAX,ECX and OR[EAX],-1 before the claimed215E26 clearing tail; no separate entry established. Inline initializer stores into CreateBanner preserve its verified body. Full boundary and evidence: reverse/attempt_support/banner-215e21-astra-s3-20261023/readme.md"
