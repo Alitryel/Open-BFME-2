@@ -5334,3 +5334,4 @@ Code/GameEngine/Source/Common/OpenAudioFile_setFileReady.cpp|param|OpenAudioFile
 Code/GameEngine/Source/GameLogic/AI/Rva002EBC59.cpp|param|rva002EBC59|a1,1d26df7153ecc8e7cec22514,gpt-6-astra,codexb2-20261024-145840-7,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/ObjectRva0028EBDA.cpp|local|Object::rva0028EBDA|m,18ecef4afa4918b69cf6bd19,gpt-6-astra,codexb2-20261024-145840-7,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|local|Rva003C08CC::rva003C08CC|s,4a19d8beaf4ef359f0c1ab95,gpt-6.1-sol,codexb-20261024-145319-6,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/RvaTreeEraseRangeFamily_Rva00082BE1.cpp|function|0x00362C9A|rva00362C9A,51a950acd5e8b1407b097c5a,gpt-6.1-sol,codexb-20261024-145319-10,w-8e883e57d025,2026-10-24
