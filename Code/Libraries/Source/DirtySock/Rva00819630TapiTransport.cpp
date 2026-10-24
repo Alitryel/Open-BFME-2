@@ -88,7 +88,7 @@ extern "C"
 typedef int ( __cdecl *Rva0081AE20Proc )( void *comm, const char *name,
 	char *output, int outputSize, int flags );
 extern void Rva0081B000( void );
-extern void Rva0081AE10( void );
+extern void CommSerialCallback( void );
 extern void Rva0081BA40( void );
 extern "C" void Rva0081B9B0( void *comm );
 
@@ -165,7 +165,7 @@ extern "C" void *CommSerialConstruct( int first, int second, int third )
 	comm->m_ops[ 5 ] = (void *)Rva0081B830;
 	comm->m_ops[ 6 ] = (void *)Rva0081B910;
 	comm->m_ops[ 7 ] = (void *)Rva0081B9B0;
-	comm->m_ops[ 8 ] = (void *)Rva0081AE10;
+	comm->m_ops[ 8 ] = (void *)CommSerialCallback;
 	comm->m_ops[ 9 ] = (void *)Rva0081B9D0;
 	comm->m_ops[ 10 ] = (void *)Rva0081BA40;
 	comm->m_ops[ 11 ] = (void *)Rva0081BA60;
@@ -206,6 +206,6 @@ void Rva0081B000( void )
 {
 }
 
-void Rva0081AE10( void )
+void CommSerialCallback( void )
 {
 }

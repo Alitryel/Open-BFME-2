@@ -382,7 +382,7 @@ extern ImageCollection *TheMappedImageCollection;
 extern GlobalData *TheWritableGlobalData;
 #define TheGlobalData TheWritableGlobalData
 
-float Rva0009DE01Get(float value, float base);   // ZH logN
+float logN(float value, float base);   // ZH logN
 
 void W3DLeftHUDDraw(GameWindow *window, WinInstanceData *instData)
 {
@@ -527,7 +527,7 @@ void W3DPowerDraw(GameWindow *window, WinInstanceData *instData)
 		return;
 
 	Int range;
-	range = Rva0009DE01Get(production, TheGlobalData->m_powerBarBase) * (size.x / TheGlobalData->m_powerBarIntervals);
+	range = logN(production, TheGlobalData->m_powerBarBase) * (size.x / TheGlobalData->m_powerBarIntervals);
 	if (range >= size.x)
 		range = size.x;
 
@@ -567,7 +567,7 @@ void W3DPowerDraw(GameWindow *window, WinInstanceData *instData)
 	Int posXstart;
 	Int posXend;
 	Real consumptionForNeedle = (consumption == 1) ? 1.5f : INT_TO_REAL(consumption);   // log(1) == 0
-	range = Rva0009DE01Get(consumptionForNeedle, TheGlobalData->m_powerBarBase) * (size.x / TheGlobalData->m_powerBarIntervals);
+	range = logN(consumptionForNeedle, TheGlobalData->m_powerBarBase) * (size.x / TheGlobalData->m_powerBarIntervals);
 	if (centerWidth <= 0 && range <= 0)
 		return;
 	if (range >= size.x)
@@ -647,7 +647,7 @@ void W3DPowerDrawA( GameWindow *window, WinInstanceData *instData )
 		return;
 
 	Int range;
-	range = Rva0009DE01Get(production, TheGlobalData->m_powerBarBase) * (size.x / TheGlobalData->m_powerBarIntervals);
+	range = logN(production, TheGlobalData->m_powerBarBase) * (size.x / TheGlobalData->m_powerBarIntervals);
 	if(range >= size.x)
 		range = size.x;
 	if(range < endBar->getImageWidth() + beginBar->getImageWidth())
@@ -744,7 +744,7 @@ void W3DPowerDrawA( GameWindow *window, WinInstanceData *instData )
 	Int posXstart;
 	Int posXend;
 	Real consumptionForNeedle = (consumption == 1) ? 1.5f : INT_TO_REAL(consumption);//Log(1) == 0, but we need to show something for 1 power used.
-	range = Rva0009DE01Get(consumptionForNeedle, TheGlobalData->m_powerBarBase) * (size.x / TheGlobalData->m_powerBarIntervals);
+	range = logN(consumptionForNeedle, TheGlobalData->m_powerBarBase) * (size.x / TheGlobalData->m_powerBarIntervals);
 	if(range >= size.x)
 	{
 		posXstart = pos.x + size.x - slider->getImageWidth();

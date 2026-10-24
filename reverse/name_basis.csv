@@ -590,3 +590,5 @@ function,?rva002CFC7B@Rva002CFC7B@@QAEPAURva002CFA30Node@@PAU2@0@Z,?_M_copy@Rva0
 function,_Rva0084D8D0WideToByte,__Locale_wctob,inferred,agree:nl-16bec9f8416d,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodePointConversions.c,0x00020B90
 function,_Rva0084D890ByteToWide,__Locale_btowc,inferred,agree:nl-fa06fe55cb95,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodePointConversions.c,0x00020B50
 function,_Rva0084DB70,__Locale_strwxfrm,inferred,agree:nl-e5c6fbd0d1f5,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodePointConversions.c,0x00020E30
+function,?Rva0009DE01Get@@YAMMM@Z,?logN@@YAMMM@Z,inferred,agree:nl-c13e6cc07091,Code/GameEngine/Source/Common/Rva0009DE01Finish.cpp,0x0009DE01
+function,?Rva0081AE10@@YAXXZ,?CommSerialCallback@@YAXXZ,inferred,agree:nl-be497f294b06,Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp,0x00686D10
