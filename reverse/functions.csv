@@ -36527,7 +36527,7 @@ _$E6,,0x007B7200,35,Code/Libraries/Source/WWVegas/WW3D2/meshmdl_sidehash.cpp,mat
 ?doFXObj@FXList@@QBEXPBVObject@@0@Z,,0x001E2A18,188,Code/GameEngine/Source/GameClient/FXListDoFXPos.cpp,matched,FXList::doFXObj walking nuggets with alias and shroud checking
 ?doFxAtBones@FXListAtBonePosFXNugget@@IBEXPBVObject@@H@Z,,0x001E2DD6,283,Code/GameEngine/Source/GameClient/FXListAtBonePosFXNugget_doFxAtBones.cpp,matched,FXListAtBonePosFXNugget::doFxAtBones: bone effect applier iterating bone transforms
 ?rva005D4E63@Rva005D4E63@@QAEXXZ,,0x005D4E63,12,Code/GameEngine/Source/Common/Rva005D4E63Forward.cpp,matched,unlock null-guarded tail slot0 via plus0xC caller 0x005D4E86
-?rva005C3EA5@Rva005C3EA5@@QAEXXZ,,0x005C3EA5,59,Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp,matched,gap Show via rowed Fire plus empty fallback plus manager
+?Show@Rva005C3EA5@@QAEXXZ,,0x005C3EA5,59,Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp,matched,gap Show via rowed Fire plus empty fallback plus manager
 ?rva005C3EE0@Rva005C3EE0@@QAEXXZ,,0x005C3EE0,8,Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp,matched,forwarder via member +4 to rowed 0x005C3EA5 caller 0x005680C3
 ??0Rva0021572A@@QAE@PAVINI@@@Z,,0x0021572A,89,Code/Libraries/Source/WWVegas/WWLib/Rva0021572AMethod.cpp,matched,INI ctor with AsciiString at +0 and BfmeE16 vector at +4 via 0x00211E58 plus getNextToken and set and initFromINI with g_00BE574C
 ?PreCollectGameData@AptScoreScreen@@SAXPAURva0051C0E7@@@Z,,0x0051C241,161,Code/Libraries/Source/WWVegas/WWLib/Rva0051C0E7Ctor.cpp,matched,fill via ThePlayerList and g_00E031E8 vector size loop with rowed StringBase set and Rva004266A1 getters

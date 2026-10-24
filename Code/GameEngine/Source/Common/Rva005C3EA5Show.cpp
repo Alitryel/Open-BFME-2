@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii /MD
 #include "ascii_string.h"
 
-// ?rva005C3EA5@Rva005C3EA5@@QAEXXZ @ 0x005C3EA5 59B.
+// ?Show@Rva005C3EA5@@QAEXXZ @ 0x005C3EA5 59B.
 // Gap between 0x005C3E89 and 0x005C3EE8 in OpaqueScalarDeletingDtors.cpp.
 // Fires Show via rowed Fire 0x0052519D with target plus Show, empty fallback
 // g_Rva0107301CEmptyString, manager TheRva00222A8BTarget, sets +0x18 to 1,
@@ -20,7 +20,7 @@ public:
 class Rva005C3EA5
 {
 public:
-    void rva005C3EA5();
+    void Show();
 private:
     Inner005C3EA5 *m_obj00;
     void *m_p04;
@@ -31,7 +31,7 @@ private:
     int m_i1C;
 };
 
-void Rva005C3EA5::rva005C3EA5()
+void Rva005C3EA5::Show()
 {
     char *t = *(char **)(void *)&m_s08;
     const char *s = t ? t + 8 : "";
@@ -53,5 +53,5 @@ private:
 
 void Rva005C3EE0::rva005C3EE0()
 {
-    m_p04->rva005C3EA5();
+    m_p04->Show();
 }
