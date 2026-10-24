@@ -2154,3 +2154,4 @@ __ehhandler$?rva006CE660@Rva006CE660Vec@@QAEXH@Z,0x007A8248,"Renamed to __ehhand
 ?rva00581740@Rva00581777AsciiField@@QAEXVAsciiString@@@Z,0x00581740,"Renamed to ?setSerial@Rva00581777AsciiField@@QAEXVAsciiString@@@Z by tools/rename.py (inferred)"
 __ehhandler$?rva00581740@Rva00581777AsciiField@@QAEXVAsciiString@@@Z,0x0079C89C,"Renamed to __ehhandler$?setSerial@Rva00581777AsciiField@@QAEXVAsciiString@@@Z by tools/rename.py (inferred)"
 ?rva0029173E@Rva0029173EAsciiField@@QAEXVAsciiString@@@Z,0x0029173E,"Renamed to ?setName@Rva0029173EAsciiField@@QAEXVAsciiString@@@Z by tools/rename.py (inferred)"
+?rva002C752F@Rva002C752F@@QAEXXZ,0x002C752F,"Renamed to ?clear@Rva002C752F@@QAEXXZ by tools/rename.py (inferred)"

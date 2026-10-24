@@ -50,7 +50,7 @@ class Rva002C752F : public Rva002C752FBase
 {
 public:
 	Rva002C752F();
-	void rva002C752F();
+	void clear();
 
 private:
 	const void *m_tmpl[6];
@@ -67,5 +67,5 @@ private:
 
 Rva002C752F::Rva002C752F()
 {
-	rva002C752F();
+	clear();
 }

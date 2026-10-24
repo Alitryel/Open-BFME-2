@@ -1,6 +1,6 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
 //
-// ?rva002C752F@Rva002C752F@@QAEXXZ @0x002C752F, 134B.
+// ?clear@Rva002C752F@@QAEXXZ @0x002C752F, 134B.
 // Six-slot clear: zeroes bitset at +0x04 (0x10), tail bytes/dword at
 // +0x35C/+0x35D/+0x360/+0x364, then per slot sets dword at +0x2C to -1
 // and memsets 0x1C at +0x44, 0x1C at +0xEC, 0x4C at +0x194.
@@ -24,7 +24,7 @@ struct Rva002C752F_4C
 class Rva002C752F
 {
 public:
-	void rva002C752F();
+	void clear();
 
 private:
 	char m_pad0[4];
@@ -41,7 +41,7 @@ private:
 	unsigned char m_364;
 };
 
-void Rva002C752F::rva002C752F()
+void Rva002C752F::clear()
 {
 	m_35C = 0;
 	m_35D = 0;
