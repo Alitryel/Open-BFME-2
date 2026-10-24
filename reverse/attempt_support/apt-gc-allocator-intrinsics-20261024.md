@@ -15,9 +15,17 @@ Normal add_match retains each row's existing notes and queues its landing receip
 |---|---|---:|---|
 |0x6D2880|isAllocated|69|Bare breakpoint intrinsic; whole-file4/4 plusdata1/string14 exact.|
 |0x6D28D0|allocator bitfield setter|92|Bare intrinsic at 1 existing breakpoint site(s); whole-file4/4/data1/string14 exact.|
+|0x6D2930|allocator bitfield reader|171|Genuine memory barriers around its two existing traps; whole-file4/4/data1/string14 exact.|
 
 The helper is also inlined into the171B reader; that reader retains its own
 assembly until its separate conversion. Published-index link preview against
 7e43384268 remains LINKS for the whole unit; the existing census metric is
 reported in private build/gc-allocator/link69.log. No linked-byte gain is claimed.
 These bodies already count as C++ coverage, so classification delta is zero.
+
+Reader detail: bare breakpoint intrinsics allow an assertion continuation to
+merge and fail the native171B comparison. C-linked _ReadWriteBarrier intrinsics
+retain the old opaque trap boundary: a debugger/handler may change the object
+fields and native reads those fields after the trap before masking the result.
+Both compiler-only barriers emit no helper call or instruction; normal whole-file
+checks prove every instruction, relocation and field access remains native.

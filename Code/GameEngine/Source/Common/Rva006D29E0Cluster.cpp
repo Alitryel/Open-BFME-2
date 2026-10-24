@@ -1,3 +1,6 @@
+// Retain the opaque breakpoint memory boundary for debugger-visible state.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // cl: /DNDEBUG /MD
 // ?allocBlock@Rva006D2A60@@QAEPAXH@Z @ 0x006D29E0 (127B). Retail's class is the
 // AptValueGCAllocator (assert literals name AptValueGCAllocator.cpp/.h); the
@@ -73,7 +76,7 @@ int Rva006D2A60::rva006D2930(int nSizeOffset)
 		g_bfmeAptAssertAtE17734("!IsAllocated(nSizeOffset)", "..\\..\\include\\apt\\AptValueGCAllocator.h", 0x121);
 		if (g_bfmeAptBreakOnAssertAtDDC01C)
 		{
-			__asm int 3
+			_ReadWriteBarrier(); __debugbreak(); _ReadWriteBarrier();
 		}
 	}
 	if (nSizeOffset == 4)
@@ -87,7 +90,7 @@ int Rva006D2A60::rva006D2930(int nSizeOffset)
 	g_bfmeAptAssertAtE17734("false", "..\\..\\include\\apt\\AptValueGCAllocator.h", 0x137);
 	if (g_bfmeAptBreakOnAssertAtDDC01C)
 	{
-		__asm int 3
+		_ReadWriteBarrier(); __debugbreak(); _ReadWriteBarrier();
 	}
 	return 0;
 }

@@ -37878,7 +37878,6 @@ _rva006D9D70Comparator,,0x006D9D70,203,Code/Libraries/Source/Apt/AptValue/Rva006
 ?Rva003AD48DInit@@YAXXZ,,0x003AD48D,33,Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003AD48DInit.cpp,matched,guarded init calls rowed DefaultModuleTag3 getInstance and rowed atexit
 ?Rva002026B4Audio@@YAXXZ,,0x002026B4,19,Code/GameEngine/Source/Common/Rva002026B4Audio.cpp,matched,null-guarded TheAudio slot 0x188 via caller 0x00202790 plus view
 ?parseStance@@YAXPAVINI@@PAX@Z,,0x00425DDD,111,Code/GameEngine/Source/GameClient/GUI/FontLibraryInit.cpp,matched,placed by masked whole-.text search of the compiled body - single hit
-?rva006D2930@Rva006D2A60@@QAEHH@Z,,0x006D2930,171,Code/GameEngine/Source/Common/Rva006D29E0Cluster.cpp,matched,placed by masked whole-.text search of the compiled body - single hit
 ?rva003FBA0E@Rva003FBA0E@@QAEXHHHHHM@Z,,0x003FBA0E,74,Code/GameEngine/Source/Common/Rva003FBA0ERva003FBA0E.cpp,matched,banked partial closed by tools/permute.py; identity carried from the banked attempt
 ?parseDefaultFont@@YA_NPAVGameFont@@PAVFile@@PAD@Z,,0x00315B5E,69,Code/GameEngine/Source/GameClient/GUI/GameWindowManagerScript.cpp,matched,banked attempt exact; scanString through BFME 2's File slot view in the home unit
 ?rva000B65FD@Rva000B65FD@@QAEHXZ,,0x000B65FD,23,Code/Libraries/Source/STLport/Rva000B65FDFinish.cpp,matched,base+nullable word phi via cached pointer-to-pointer dereferenced twice keeps the pp live across the test so both arms materialise
@@ -98233,3 +98232,4 @@ _Rva007FDEE0,,0x0066A3B0,267,Code/Libraries/Source/DirtySock/Y4DirtySockSocketWr
 ?rva006E05B0@Rva006E05B0@@QAEXXZ,,0x006E05B0,81,Code/GameEngine/Source/Common/Rva006E05B0Cluster.cpp,matched,address-derived AptValue refcount release with member tail call
 ?isAllocated@Rva006D2A60@@QAE_NH@Z,,0x006D2880,69,Code/GameEngine/Source/Common/Rva006D29E0Cluster.cpp,matched,placed by masked whole-.text search of the compiled body - single hit
 ?rva006D28D0@Rva006D2A60@@QAEXH_N@Z,,0x006D28D0,92,Code/GameEngine/Source/Common/Rva006D29E0Cluster.cpp,matched,placed by masked whole-.text search of the compiled body - single hit
+?rva006D2930@Rva006D2A60@@QAEHH@Z,,0x006D2930,171,Code/GameEngine/Source/Common/Rva006D29E0Cluster.cpp,matched,placed by masked whole-.text search of the compiled body - single hit
