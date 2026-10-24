@@ -5702,3 +5702,6 @@ Code/GameEngine/Source/Common/StrategicHUD_FormatCPString.cpp|param|StrategicHUD
 Code/GameEngine/Source/Common/StrategicHUD_FormatCPString.cpp|param|StrategicHUD::FormatCPString|a,c065b654c2854b42800518e7,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p045b,w-ee84dbee7a75,2026-10-24
 Code/GameEngine/Source/Common/StrategicHUD_FormatCPString.cpp|param|StrategicHUD::FormatCPString|b,815f7a5ea6516f55eade00d9,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p045b,w-ee84dbee7a75,2026-10-24
 Code/GameEngine/Source/Common/StrategicHUD_FormatCPString.cpp|local|StrategicHUD::FormatCPString|tmp,e95ca8a74482ed214d911dcf,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p045b,w-ee84dbee7a75,2026-10-24
+Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp|param|fast_floor|f,ab0ecc30b3403017fd118cd9,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p052a,w-31b757530fc5,2026-10-24
+Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp|param|fast_ceil|f,674829a7260ba9ab87951271,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p052a,w-31b757530fc5,2026-10-24
+Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp|param|fast_round|f,8501c249e745e347da043c06,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p052a,w-31b757530fc5,2026-10-24

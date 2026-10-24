@@ -58,21 +58,21 @@ public:
 class Rva00739BE0
 {
 public:
-	void rva00739BE0(Pair00739BE0 *p, float radius, int mask);
+	void rva00739BE0(Pair00739BE0 *position, float radius, int mask);
 private:
 	char m_pad00[16];
 	ShroudManagerImpl *m_gen10;
 };
 
-void Rva00739BE0::rva00739BE0(Pair00739BE0 *p, float radius, int mask)
+void Rva00739BE0::rva00739BE0(Pair00739BE0 *position, float radius, int mask)
 {
 	int ic = fast_round(fast_ceil(radius * m_gen10->m_scale));
 	int arr[3];
 	arr[2] = ic;
 	arr[1] = ic;
 	arr[0] = ic;
-	int iy = fast_round(fast_floor((p->y - m_gen10->m_originY) * m_gen10->m_scale));
-	int ix = fast_round(fast_floor((p->x - m_gen10->m_originX) * m_gen10->m_scale));
+	int iy = fast_round(fast_floor((position->y - m_gen10->m_originY) * m_gen10->m_scale));
+	int ix = fast_round(fast_floor((position->x - m_gen10->m_originX) * m_gen10->m_scale));
 	m_gen10->UndoShroudReveal(ix, iy, arr, 0.0f, mask);
 }
 
