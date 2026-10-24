@@ -105,17 +105,17 @@ private:
 void Rva0010F5A8::rva0010F5A8()
 {
     RVA0010F28D_LOCK(g);
-    void *s = m_inner->m_stream;
-    if (s != 0) {
+    void *stream = m_inner->m_stream;
+    if (stream != 0) {
         int total = -1;
-        AIL_stream_ms_position(s, &total, 0);
+        AIL_stream_ms_position(stream, &total, 0);
         int ms = (int)(total * m_fraction0C);
         if (total - ms < m_marginMs10) {
             ms = total - m_marginMs10;
             if (ms < 0)
                 ms = 0;
         }
-        AIL_set_stream_ms_position(s, ms);
+        AIL_set_stream_ms_position(stream, ms);
         if (g.m_locked != 0)
             ((Rva0010F26E *)&g)->rva0010F26E();
     } else if (g.m_locked != 0)

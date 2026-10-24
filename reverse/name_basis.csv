@@ -574,5 +574,6 @@ member,Rva00464B96Object::ai258,Rva00464B96Object::m_ai,inferred,agree:nl-211fbb
 member,Rva0049D526Node::m_04,Rva0049D526Node::m_type,inferred,agree:nl-7e1894adad17,Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp,
 function,?rva006CE660@Rva006CE660Vec@@QAEXH@Z,?reserve@Rva006CE660Vec@@QAEXH@Z,inferred,agree:nl-1f9d2a678152,Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp,0x006CE660
 member,Rva00240D0FNode::m_00,Rva00240D0FNode::m_next,inferred,agree:nl-2241bbc7e27e,Code/Libraries/Source/WWVegas/WWLib/Rva00240D0FCreate.cpp,
+local,Rva0010F5A8::rva0010F5A8::s,Rva0010F5A8::rva0010F5A8::stream,inferred,agree:nl-ef2c85ffe690,Code/GameEngine/Source/Common/Rva0010F5A8Finish.cpp,0x0010F5A8
 function,?rva00581740@Rva00581777AsciiField@@QAEXVAsciiString@@@Z,?setSerial@Rva00581777AsciiField@@QAEXVAsciiString@@@Z,inferred,agree:nl-a29c76489966,Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp,0x00581740
 function,?rva0029173E@Rva0029173EAsciiField@@QAEXVAsciiString@@@Z,?setName@Rva0029173EAsciiField@@QAEXVAsciiString@@@Z,inferred,agree:nl-e2623d538366,Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp,0x0029173E
