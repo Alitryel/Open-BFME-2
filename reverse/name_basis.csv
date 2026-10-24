@@ -1764,3 +1764,4 @@ member,Rva00201DC4LODInfo::word2C,Rva00201DC4LODInfo::m_textureReduction,inferre
 function,?rva002CF2D5@Rva002CF2D5@@QAEXPAURva002CF2D5Node@@@Z,?_M_erase@Rva002CF2D5@@QAEXPAURva002CF2D5Node@@@Z,inferred,agree:nl-9d8e54df0bae,Code/Libraries/Source/WWVegas/WWLib/Rva002CF2D5Erase.cpp,0x002CF2D5
 carry,Rva002CF2D5::rva002CF2D5::node,Rva002CF2D5::_M_erase::node,inferred,scope renamed by Rename rva002CF2D5 to _M_erase (inferred),Code/Libraries/Source/WWVegas/WWLib/Rva002CF2D5Erase.cpp,0x002CF2D5
 local,Rva0052DB11::rva0052DB11::h,Rva0052DB11::rva0052DB11::head,inferred,agree:nl-93aa9740dfe6,Code/GameEngine/Source/Common/Rva0052DB11.cpp,0x0052DB11
+local,Rva004BDB37::rva004BDB37::f,Rva004BDB37::rva004BDB37::immediate,inferred,agree:nl-33898e3d320e,Code/GameEngine/Source/GameClient/Rva004BDB37Finish.cpp,0x004BDB37

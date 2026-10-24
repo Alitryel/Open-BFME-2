@@ -74,11 +74,11 @@ void Rva004BDB37::rva004BDB37()
 	if (!(*(Thing **)((char *)this - 8))->getDrawable())
 		return;
 	EdiObj *edi = (EdiObj *)((char *)this - 0x10);
-	bool f = false;
+	bool immediate = false;
 	for (int remainingIterations = 3; remainingIterations != 0; --remainingIterations) {
 		edi->v21(1);
 		((Object *)(*(Thing **)((char *)this - 8)))->rva0028FCD9((int)m_20, m_24);
-		(*(Thing **)((char *)this - 8))->getDrawable()->rva00274176(f);
+		(*(Thing **)((char *)this - 8))->getDrawable()->rva00274176(immediate);
 	}
 	v10();
 }
