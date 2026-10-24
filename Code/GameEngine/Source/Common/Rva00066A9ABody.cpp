@@ -50,9 +50,9 @@ public:
 void Rva00066A9AHost::rva00066A9A()
 {
 	W3DShaderManager::init();
-	Rva00066A9ASub *g = (Rva00066A9ASub *)W3DGCData00DE2000;
-	if (g)
-		g->headB();
+	Rva00066A9ASub *m_waterRenderObject = (Rva00066A9ASub *)W3DGCData00DE2000;
+	if (m_waterRenderObject)
+		m_waterRenderObject->headB();
 	if (m_3850)
 		m_3850->rva000EA1F3();
 	if (m_3854)

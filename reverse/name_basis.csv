@@ -700,3 +700,4 @@ local,Player::rva002AB8FB::g,Player::rva002AB8FB::gameLogic,inferred,agree:nl-ea
 local,Rva006C1F60::rva00033ED0::t,Rva006C1F60::rva00033ED0::topChunk,inferred,agree:nl-921d51218f4d,Code/GameEngine/Source/Common/Rva00034A60Calloc.cpp,0x00033ED0
 local,Rva006C1F60::rva00033ED0::p,Rva006C1F60::rva00033ED0::allocatedChunk,inferred,agree:nl-065dc47ee3ef,Code/GameEngine/Source/Common/Rva00034A60Calloc.cpp,0x00033ED0
 function,?rva00034A60@GeneralAllocator@Allocator@EA@@QAEPAXIIH@Z,?calloc@GeneralAllocator@Allocator@EA@@QAEPAXIIH@Z,inferred,agree:nl-621450650721,Code/GameEngine/Source/Common/Rva00034A60Calloc.cpp,0x00034A60
+local,Rva00066A9AHost::rva00066A9A::g,Rva00066A9AHost::rva00066A9A::m_waterRenderObject,inferred,agree:nl-dac2b9cff2ec,Code/GameEngine/Source/Common/Rva00066A9ABody.cpp,0x00066A9A
