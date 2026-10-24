@@ -15,15 +15,15 @@ public:
  char *m_end;   // +4
  __forceinline char *begin() const { return m_begin; }
  __forceinline char *end() const { return m_end; }
- int rva000276B0(const char *s, unsigned pos, unsigned n);
+ int rva000276B0(const char *s, unsigned pos, unsigned count);
 };
 
-int BfmeThingPF::rva000276B0(const char *s, unsigned pos, unsigned n)
+int BfmeThingPF::rva000276B0(const char *s, unsigned pos, unsigned count)
 {
  const char *found;
  Rva00026E40Tag tag;
  if (pos >= (unsigned)(m_end - m_begin))
   return -1;
- found = bfmeFindFirstOfVMD(begin() + pos, end(), s, s + n, tag);
+ found = bfmeFindFirstOfVMD(begin() + pos, end(), s, s + count, tag);
  return found != end() ? (int)(found - begin()) : -1;
 }

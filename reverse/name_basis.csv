@@ -1005,3 +1005,4 @@ local,BfmeRangedWeaponTemplate::rva002C98E2::v4,BfmeRangedWeaponTemplate::rva002
 local,BfmeRangedWeaponTemplate::rva002C98E2::v8,BfmeRangedWeaponTemplate::rva002C98E2::rangeBonus,inferred,agree:nl-3f0e70c7eb08,Code/GameEngine/Source/GameLogic/Object/Rva002C99C4AttackRange.cpp,0x002C98E2
 member,Rva007EA9C0Owner::m_08,Rva007EA9C0Owner::m_flags,inferred,agree:nl-54cc433bccfe,Code/GameEngine/Source/GameNetwork/Rva007EA9C0Init.cpp,
 local,Rva007EA9C0Owner::init::p,Rva007EA9C0Owner::init::service,inferred,agree:nl-07292b707a52,Code/GameEngine/Source/GameNetwork/Rva007EA9C0Init.cpp,0x00657960
+param,BfmeThingPF::rva000276B0::n,BfmeThingPF::rva000276B0::count,inferred,agree:nl-d4b063a90b7e,Code/GameEngine/Source/Common/BfmeConv1460.cpp,0x000276B0
