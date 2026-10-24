@@ -36633,7 +36633,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWMath/QuaternionRandomize.cpp	n
 present_unmatched	Code/Libraries/Source/WWVegas/WWMath/Rva000FE9E3PointBounds.cpp	add	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWMath/Rva000FE9E3PointBounds.cpp	scale	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWMath/Rva000FE9E3PointBounds.cpp	sub	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWMath/Vector3RandomizerDeletingDestructors.cpp	bfmeEmitVector3RandomizerDeletingDestructors@@YAXPAVVector3Randomizer@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWMath/aabtreecull.cpp	0AABTreeCullSystemClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWMath/aabtreecull.cpp	0AABTreeIterator@@QAE@PAVAABTreeCullSystemClass@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWMath/aabtreecull.cpp	0AABTreeNodeClass@@	1
