@@ -58,11 +58,6 @@ BodyModule::BodyModule(Thing *thing, const ModuleData *moduleData)
 // (0x004BD763, rowed in Rva0049B47CThreeVptrDerived.cpp) then operator delete.
 // Emitted here as this unit's vftable slot-0 COMDAT.
 
-// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
-// each one has the same function in that slot (vftable addresses from matched vptr
-// stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?behaviorIfaceAnchor@BehaviorIface@@UAEXXZ=?getDie@DieModule@@UAEPAVDieModuleInterface@@XZ")
-
 // Reference lead: Open-BFME-1 9cbfb551fe20dae985f91f2319d8997287b6a705,
 // BodyModule::applyDamageScalar in ZH BodyModule.h, emitted by the clean
 // game/GameEngine/Source/GameLogic/Object/Body/HiveStructureBody.cpp donor.

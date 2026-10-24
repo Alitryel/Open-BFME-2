@@ -27,7 +27,6 @@ public:
 	Rva000421C8 *m_next;
 };
 
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
 
 // vftable 0x00BF8FE4, allow 0x0026109D; the out-of-line ctor 0x00261058.
 class Rva00261058 : public Rva000421C8

@@ -50,10 +50,6 @@ private:
     bool m_0C;
 };
 
-// The terminal folded destructor's existing pin names this opaque base;
-// Snapshot supplies its already rowed seven-byte link definition.
-#pragma comment(linker, "/alternatename:??1Rva0049B47C@@UAE@XZ=??1Snapshot@@UAE@XZ")
-
 // Retail Ghidra 0x004CC5AA..0x004CC5FA (80B). Class identity is target-backed:
 // slot-zero wrapper 0x00252E56 and slot-four class-name body 0x00252E0B.
 // Cleanup is the same holder used by the matched slot-eighteen body below.

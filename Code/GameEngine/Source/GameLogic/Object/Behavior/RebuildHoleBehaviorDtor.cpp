@@ -130,7 +130,6 @@ void RebuildHoleBehavior::startRebuildProcess(const ThingTemplate *rebuild, Obje
 // Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?behaviorModuleOtherAnchor@BehaviorModuleOther@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
 #pragma comment(linker, "/alternatename:?getSpawnerID@RebuildHoleBehaviorInterface@@UAE?AW4ObjectID@@XZ=?getNext@?$CategoryModuleClass@$0A@@FXParticleSystem@@QBEPBV12@XZ")
 #pragma comment(linker, "/alternatename:?getReconstructedBuildingID@RebuildHoleBehaviorInterface@@UAE?AW4ObjectID@@XZ=?getName@?$CategoryModuleClass@$0A@@FXParticleSystem@@QBEPBDXZ")
 #pragma comment(linker, "/alternatename:?getRebuildTemplate@RebuildHoleBehaviorInterface@@UBEPBVThingTemplate@@XZ=?get@Rva002A79A1DwordField@@QBEHXZ")

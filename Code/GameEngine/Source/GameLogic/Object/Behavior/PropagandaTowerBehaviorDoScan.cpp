@@ -83,7 +83,6 @@ public:
 };
 extern unsigned char g_00DFEFA4StoragePrototype[28];
 
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
 
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 

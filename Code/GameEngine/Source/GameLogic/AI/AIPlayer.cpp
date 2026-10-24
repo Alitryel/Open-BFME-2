@@ -448,7 +448,6 @@ public:
 	Rva000421C8 *m_next;
 };
 
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
 
 // vftable 0x00BFAD1C, allow 0x002611DD: no members (ZH's
 // PartitionFilterOnMap).

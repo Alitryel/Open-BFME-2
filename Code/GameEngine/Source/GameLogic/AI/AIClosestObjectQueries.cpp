@@ -191,10 +191,6 @@ public:
 	int m_playerIndex;
 };
 
-// The base filter's slot 2 is the trivial virtual retail shares across many
-// vftable slots (0x0036CC7A); bind the declaration to that row.
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
-
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 
 class Player
