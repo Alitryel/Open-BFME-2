@@ -7168,7 +7168,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x0081FABC,56,.rdata,string,??_C@_0CI@MFFDGBEN@Reading?5too?5many?5script?5lists?4?5?5@,,literal,,0,1
 0x0081FAF4,16,.rdata,vtable,??_7Rva003B923B@@6BSnapshot@@@,,literal,,0,1
 0x0081FB04,56,.rdata,vtable,??_7Rva003B923B@@6BGameEngineDeletingBase@@@,,literal,,0,1
-0x0081FB3C,340,.rdata,string,??_C@_0BL@KPPOFPKO@LivingWorldCampaignManager?$AA@,,literal,,0,1
+0x0081FB3C,27,.rdata,string,??_C@_0BL@KPPOFPKO@LivingWorldCampaignManager?$AA@,,literal,,0,1
 0x0081FC90,24,.rdata,string,??_C@_0BB@IGLFFKCG@debug?4fulldump?5?$CL?$AA@,,literal,,0,1
 0x0081FCA8,76,.rdata,string,??_C@_0EJ@ODABFBAL@Do?5not?5specify?5both?5?9deepCRC?5and@,,literal,,0,2
 0x0081FCF4,32,.rdata,string,??_C@_0BO@JECIDGFB@debug?4add?5L?5?$CL?5NETWORK_CRCDUMP?$AA@,,literal,,0,1
@@ -17307,7 +17307,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x009BDD8C,16,.data,global,?TheKey_objectBasePhase@@3VStaticNameKey@@B,Code/GameEngineDevice/Source/W3DDevice/GameClient/WorldHeightMap.cpp,owned,,1,2
 0x009BDD9C,16,.data,global,?TheKey_objectStoppingDistance@@3VRva00148F5ECache@@A,,unowned,,0,1
 0x009BDDAC,8,.data,global,?TheKey_objectGrantUpgrade@@3VRva00148F5ECache@@A,,unowned,,0,1
-0x009BDDB4,88,.data,global,?TheKey_uniqueID@@3VStaticNameKey@@B,Code/GameEngineDevice/Source/W3DDevice/GameClient/WorldHeightMap_Rva0030e26f.cpp,provisional,,2,4
+0x009BDDB4,80,.data,global,?TheKey_uniqueID@@3VStaticNameKey@@B,Code/GameEngineDevice/Source/W3DDevice/GameClient/WorldHeightMap_Rva0030e26f.cpp,provisional,,2,4
 0x009BDE0C,8,.data,global,?TheKey_objectExperienceLevel@@3VRva00148F5ECache@@A,,unowned,,0,1
 0x009BDE14,8,.data,global,?g_00DBDE14@@3VRva00148F5ECache@@A,Code/GameEngine/Source/GameLogic/Object/ObjectRva00293E64.cpp,owned,,1,1
 0x009BDE1C,8,.data,global,?g_objectThreatFinderRadiusKey@@3VRva00148F5ECache@@A,,unowned,,0,1
@@ -19775,7 +19775,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x00A031F4,4,.data,global,?TheCaveSystem@@3PAVCaveSystem@@A,,unowned,?TheCaveSystem@@3PAVCaveSystem@@A;?g_00A031F4@@3PAVCaveSystem@@A,1,12
 0x00A031F8,4,.data,global,_Dstring,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/IMECandidate.cpp,owned,,1,15
 0x00A031FC,4,.data,global,_s_rva007B03C7,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
-0x00A03200,8,.data,global,_s_rva007B03F1,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
+0x00A03200,4,.data,global,_s_rva007B03F1,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
 0x00A03208,4,.data,global,_s_rva007B041B,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
 0x00A0320C,4,.data,global,_s_rva007B042B,Code/GameEngine/Source/Common/Rva007ABC6FFrameRateInits.cpp,owned,,1,1
 0x00A03210,4,.data,global,?g_00E03210@@3PAXA,,unowned,,0,3

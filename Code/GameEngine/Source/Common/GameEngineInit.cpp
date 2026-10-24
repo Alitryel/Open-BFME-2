@@ -1137,7 +1137,42 @@ struct CommandLineParam
 	const char *name;
 	int (__cdecl *func)(char **args, int remainingArgc);
 };
-extern const CommandLineParam g_commandLineParams[];
+int parseNoShellMap(char *args[], int remainingArgc);
+int parseMod(char *args[], int remainingArgc);
+int parseNoAudio(char *args[], int remainingArgc);
+int parseXRes(char *args[], int remainingArgc);
+int parseYRes(char *args[], int remainingArgc);
+int parseWin(char *args[], int remainingArgc);
+int parseScriptDebug2(char *args[], int remainingArgc);
+int parseScriptDebugLite(char *args[], int remainingArgc);
+int parseFullVersion(char *args[], int remainingArgc);
+int parsePreferLocalFiles(char *args[], int remainingArgc);
+int parseWatchdog(char *args[], int remainingArgc);
+int parseNoWatchdog(char *args[], int remainingArgc);
+int parseRif(char *args[], int remainingArgc);
+int parseFile(char *args[], int remainingArgc);
+int parseResumeGame(char *args[], int remainingArgc);
+int parseRandomSeed(char *args[], int remainingArgc);
+
+extern const CommandLineParam g_commandLineParams[16] =
+{
+	{ "-noshellmap", parseNoShellMap },
+	{ "-mod", parseMod },
+	{ "-noaudio", parseNoAudio },
+	{ "-xres", parseXRes },
+	{ "-yres", parseYRes },
+	{ "-win", parseWin },
+	{ "-scriptDebug2", parseScriptDebug2 },
+	{ "-scriptDebugLite", parseScriptDebugLite },
+	{ "-fullVersion", parseFullVersion },
+	{ "-preferLocalFiles", parsePreferLocalFiles },
+	{ "-Watchdog", parseWatchdog },
+	{ "-noWatchdog", parseNoWatchdog },
+	{ "-rif", parseRif },
+	{ "-file", parseFile },
+	{ "-resumeGame", parseResumeGame },
+	{ "-randomSeed", parseRandomSeed }
+};
 extern unsigned int BFME2CommandFlags;
 
 class ArchiveFile;

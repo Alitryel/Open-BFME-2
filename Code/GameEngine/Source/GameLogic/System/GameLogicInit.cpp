@@ -114,7 +114,7 @@ typedef _STL::list<ObjectTOCEntry, Rva00245F79Allocator<ObjectTOCEntry> > Object
 
 namespace _STL
 {
-template<> void _List_base<ObjectTOCEntry, Rva00245F79Allocator<ObjectTOCEntry> >::clear();
+template void _List_base<ObjectTOCEntry, Rva00245F79Allocator<ObjectTOCEntry> >::clear();
 }
 
 #include "../../../../Libraries/Include/Lib/Region3D.h"
@@ -360,7 +360,9 @@ class StatsCollector;
 class Rva0048BA39StatsCollector
 {
 public:
-	~Rva0048BA39StatsCollector(void);
+	~Rva0048BA39StatsCollector(void) {}
+private:
+	AsciiString m_name;
 };
 
 class Rva000427195
@@ -4434,7 +4436,7 @@ void GameLogic::ProcessCRC(unsigned int crc, int player, unsigned int frame, Gam
 // is Player+0x3BC and the quit frame is stored at Player+0x4AC.
 
 // Inside the 0x009FE7A8 data block: the last formatted player template name.
-extern char g_Va00DFE840[];
+char g_Va00DFE840[256] = { 0 };
 extern "C" __declspec(dllimport) __declspec(nothrow) int __cdecl sprintf(char *buffer, const char *format, ...);
 
 void GameLogic::rva0023F8DA(void)
@@ -4527,7 +4529,7 @@ bool Rva0060DFB5(File *input, File *output);
 
 extern "C" __declspec(dllimport) int __stdcall GetComputerNameA(char *buffer, unsigned long *size);
 
-extern bool g_fakeDesync;
+bool g_fakeDesync = false;
 extern bool TheBinaryDeepCRC;
 
 // --- body_r1.inc ---
@@ -5402,7 +5404,7 @@ private:
 };
 extern const StaticNameKey TheKey_objectName;
 extern Rva00148F5ECache TheKey_objectPrototypeScale;
-extern Rva00148F5ECache TheKey_alignToTerrain;
+StaticNameKey TheKey_alignToTerrain = { 0, "alignToTerrain" };
 extern const StaticNameKey TheKey_originalOwner;
 float normalizeAngle(float angle);
 void alignToTerrain(float angle, const Coord3D &pos, const Coord3D &normal, Matrix3D &mtx);
@@ -5471,7 +5473,7 @@ void GameLogic::loadAllObjects(_STL::vector<Rva0024622FEntry> *created, const Ki
 			float scale = props->getReal(TheKey_objectPrototypeScale.get(), &hasScale);
 			Matrix3D mtx(true);
 			bool align;
-			if (props->getBool(TheKey_alignToTerrain.get(), &align) && align) {
+			if (props->getBool(staticKey(TheKey_alignToTerrain), &align) && align) {
 				Coord3D normal;
 				TheTerrainLogic->getLayerHeight(pos.x, pos.y, LAYER_GROUND, &normal, true);
 				Coord3D zero;
@@ -5540,7 +5542,7 @@ void GameLogic::loadAllObjects(_STL::vector<Rva0024622FEntry> *created, const Ki
 						draw->setDrawableStatus(1);
 				}
 				bool align;
-				if (props->getBool(TheKey_alignToTerrain.get(), &align) && align) {
+				if (props->getBool(staticKey(TheKey_alignToTerrain), &align) && align) {
 					Coord3D zero;
 					zero.x = 0.0f;
 					zero.y = 0.0f;
