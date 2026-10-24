@@ -263,9 +263,6 @@ basic_string<char, char_traits<char>, allocator<char> >::append<char *>(char *__
 
 template class _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >;
 
-// substr formerly instantiated this independently rowed mutable-range family.
-template _STL::basic_string<char>::basic_string(
-        char *, char *, const _STL::allocator<char>&);
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.

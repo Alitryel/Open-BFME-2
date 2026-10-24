@@ -16,6 +16,7 @@ namespace _STL
 {
 
 struct forward_iterator_tag {};
+struct __false_type {};
 
 template <class T>
 class char_traits {};
@@ -60,6 +61,16 @@ public:
 	}
 	template <class InputIter>
 	__declspec(noinline) void _M_range_initialize(InputIter f, InputIter l, const forward_iterator_tag &);
+	template <class InputIter>
+	void _M_range_initialize(InputIter f, InputIter l)
+	{
+		_M_range_initialize(f, l, forward_iterator_tag());
+	}
+	template <class InputIter>
+	void _M_initialize_dispatch(InputIter f, InputIter l, const __false_type &)
+	{
+		_M_range_initialize(f, l);
+	}
 private:
 	void _M_allocate_block(unsigned int count);
 	__declspec(dllimport) __forceinline void _M_terminate_string() { *_M_finish = CharT(); }
@@ -128,3 +139,14 @@ collate<wchar_t>::string_type collate<wchar_t>::do_transform(
 }
 
 }
+
+// Unreferenced out-of-line wide range family at 0x17790/0x177D0/0x17830: all
+// three call or tail-jump to the 3-argument body at 0xBF90 (the wide one: it
+// halves the byte count and stores a 16-bit terminator), so they are the wide
+// instantiations, not the narrow ones (those inline into 0x8D00 and 0x177E0).
+template void _STL::basic_string<wchar_t, _STL::char_traits<wchar_t>, _STL::allocator<wchar_t> >::
+	_M_range_initialize<const wchar_t *>(const wchar_t *, const wchar_t *);
+template void _STL::basic_string<wchar_t, _STL::char_traits<wchar_t>, _STL::allocator<wchar_t> >::
+	_M_initialize_dispatch<const wchar_t *>(const wchar_t *, const wchar_t *, const _STL::__false_type &);
+template _STL::basic_string<wchar_t, _STL::char_traits<wchar_t>, _STL::allocator<wchar_t> >::
+	basic_string(const wchar_t *, const wchar_t *, const _STL::allocator<wchar_t> &);

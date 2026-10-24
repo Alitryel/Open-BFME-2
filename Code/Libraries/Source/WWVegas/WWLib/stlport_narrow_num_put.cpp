@@ -87,10 +87,6 @@ num_put<char, ostreambuf_iterator<char, char_traits<char> > >::do_put(
 }
 template class _STL::num_put<char, _STL::ostreambuf_iterator<char, _STL::char_traits<char> > >;
 
-// Keep the independently rowed range initializer even though the unused
-// copy constructor no longer instantiates it as a side effect.
-template void _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >::_M_range_initialize<char *>(char *, char *);
-
 // The float writers are declared above (their rowed copies live in
 // stlport_narrow_num_get_double.cpp); the rowed find<char*,char> they used to
 // pull in stays emitted through this anchor.
