@@ -61,7 +61,7 @@ inline bool operator==(const BfmeAssignRecord24 &x, const BfmeAssignRecord24 &y)
 // Native copy/fill callers reach the separately verified record assignments.
 // These size-only views supply algorithm strides, not assignment layouts;
 // declare the owners so implicit assignments cannot compete with them.
-struct BfmeAssignRecord28 { AsciiString s; int a[6]; BfmeAssignRecord28 &operator=(const BfmeAssignRecord28 &); ~BfmeAssignRecord28(); };
+struct BfmeAssignRecord28 { AsciiString s; int a[6]; BfmeAssignRecord28 &operator=(const BfmeAssignRecord28 &); };
 inline bool operator==(const BfmeAssignRecord28 &x, const BfmeAssignRecord28 &y) { return x.s == y.s; }
 // This shape view supplies assignment helpers; the independently verified
 // 71B destructor at0x0017330A owns destruction of the complete native record.
@@ -76,7 +76,7 @@ inline bool operator==(const BfmeAssignRecord52 &x, const BfmeAssignRecord52 &y)
 struct BfmePod8 { int a[2]; };
 struct BfmeAssignRecord84 { AsciiString s; int a[20]; BfmeAssignRecord84 &operator=(const BfmeAssignRecord84 &); };
 inline bool operator==(const BfmeAssignRecord84 &x, const BfmeAssignRecord84 &y) { return x.s == y.s; }
-struct BfmeStringHeadRecord148 { AsciiString s; int a[36]; BfmeStringHeadRecord148() {} BfmeStringHeadRecord148(const BfmeStringHeadRecord148 &); ~BfmeStringHeadRecord148(); };
+struct BfmeStringHeadRecord148 { AsciiString s; int a[36]; BfmeStringHeadRecord148() {} BfmeStringHeadRecord148(const BfmeStringHeadRecord148 &); };
 inline bool operator==(const BfmeStringHeadRecord148 &x, const BfmeStringHeadRecord148 &y) { return x.s == y.s; }
 struct BfmeStringHeadRecord160 { AsciiString s; int a[39]; };
 inline bool operator==(const BfmeStringHeadRecord160 &x, const BfmeStringHeadRecord160 &y) { return x.s == y.s; }
@@ -200,8 +200,6 @@ template class _STL::vector<BfmeStringTailRecord180, _STL::allocator<BfmeStringT
 #pragma comment(linker, "/alternatename:??$_Construct@UBfmeStringTailRecord156@@U1@@_STL@@YAXPAUBfmeStringTailRecord156@@ABU1@@Z=??$_Construct@VRva003AD160@@V1@@_STL@@YAXPAVRva003AD160@@ABV1@@Z")
 #pragma comment(linker, "/alternatename:??4BfmeAssignRecord104@@QAEAAU0@ABU0@@Z=??4ArmySummary@@QAEAAV0@ABV0@@Z")
 #pragma comment(linker, "/alternatename:??4BfmeAssignRecord24@@QAEAAU0@ABU0@@Z=??4ProductionPrerequisite@@QAEAAV0@ABV0@@Z")
-#pragma comment(linker, "/alternatename:??1BfmeAssignRecord28@@QAE@XZ=??1Rva00111B25Record@@QAE@XZ")
-#pragma comment(linker, "/alternatename:??1BfmeStringHeadRecord148@@QAE@XZ=??1Rva00360F55@@QAE@XZ")
 #pragma comment(linker, "/alternatename:??0BfmeStringHeadRecord148@@QAE@ABU0@@Z=??0Rva0036105B@@QAE@ABV0@@Z")
 #pragma comment(linker, "/alternatename:??4BfmeAssignRecord40@@QAEAAU0@ABU0@@Z=??0?$pair@$$CBHURva00540053Element@@@_STL@@QAE@ABU01@@Z")
 
