@@ -416,3 +416,54 @@ def test_a_row_naming_the_base_slot_elsewhere_still_shares_the_word(tmp_path):
     tree = virtual_tree(tmp_path, rows=rows, extra="void Base::rva00601000(int a) {}\n")
     with pytest.raises(Refusal, match="also spells"):
         plan_function(tree, 0x00601000, "load")
+
+
+# ------------------------- occurrence scan fails closed on unbalanced brackets
+
+UNBALANCED = [
+    # an #if/#else split signature leaves two openers for one closer
+    "#if defined(X)\nvoid set(int a, int b\n#else\nvoid set(int a\n#endif\n    , int m);\n",
+    # ... or two closers for one opener, so a count clamped at zero would resume as if nothing happened
+    "void set(int a, int m);\n#if X\n    ,\n#endif\nint z);\n",
+    # braces: the two class heads each open one body, the #endif closes one
+    "#if X\nclass A : public B {\n#else\nclass A {\n#endif\n    int m;\n};\n",
+    "struct S { int m; };\n}\n",
+]
+
+
+@pytest.mark.parametrize("code", UNBALANCED)
+def test_unbalanced_text_refuses_instead_of_classifying(code):
+    with pytest.raises(rename.UnbalancedScan, match="cannot balance .* of head.h .*spelling of m"):
+        rename.occurrence_kinds(rename.name_metric.strip(code), "m", "head.h")
+    assert issubclass(rename.UnbalancedScan, Refusal)
+
+
+def test_unbalanced_text_that_never_spells_the_word_hides_nothing():
+    code = rename.name_metric.strip(UNBALANCED[0])
+    assert rename.occurrence_kinds(code, "zzz", "head.h") == []
+
+
+def test_balanced_text_is_unchanged_by_the_check():
+    code = "#ifdef X\nextern \"C\" {\n#endif\nint m;\n#ifdef X\n}\n#endif\nvoid f(int (*cb)(int m), int m) { int z = m; }\n"
+    assert rename.occurrence_kinds(rename.name_metric.strip(code), "m") == ["ns", "param", "param", "fnbody"]
+
+
+@pytest.mark.parametrize("code", UNBALANCED[:3])
+def test_header_that_does_not_balance_refuses_the_param_rename(tmp_path, code):
+    # the unbalanced header ends before the class that declares `m` is read, so
+    # a fail-open scan would have found only 'param' spellings and renamed
+    header = code + "class Derived : public Base { public: Derived(int x); int m; };\n"
+    cpp = LOCK_CPP.replace('#include "Base.h"', '#include "Base.h"\n#include "Head.h"')
+    tree = lock_tree(tmp_path, cpp, Mutex=MUTEX_H, Base="class Missing {};\n", Head=header)
+    with pytest.raises(Refusal, match="cannot balance .* included header Code/Game/Head.h"):
+        scoped(tree, "param", "Derived::rva00502000", "m", "width")
+
+
+def test_unit_that_does_not_balance_refuses_the_new_name_check(tmp_path):
+    cpp = LOCK_CPP + "#if X\nint rva00509000(int a,\n#else\nint rva00509000(int a, int b,\n#endif\n    int tally);\n"
+    tree = lock_tree(tmp_path, cpp, Mutex=MUTEX_H, Base="class Missing {};\n")
+    with pytest.raises(Refusal, match="cannot balance .* of Code/Game/Lock.cpp"):
+        scoped(tree, "param", "rva00503000", "x", "tally")
+    # the balanced original still plans
+    tree2 = lock_tree(tmp_path / "ok", LOCK_CPP, Mutex=MUTEX_H, Base="class Missing {};\n")
+    assert scoped(tree2, "param", "rva00503000", "x", "tally")

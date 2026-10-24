@@ -177,6 +177,9 @@ function's class or a base (an initializer list names a member beside the
 parameter of that name): a header's own parameters, locals, file-scope names
 and unrelated classes do not. A base the headers never declare means any
 class's member counts. A macro formal parameter binds only inside its macro.
+A unit or header that spells either name and whose parentheses or braces do not
+balance (an `#if`/`#else` split signature, a stray closer) cannot be classified
+and refuses the rename, naming the file.
 
 A global's consumers are invisible to the byte gate, because DIR32 is masked. For that reason
 `rename.py` refuses a global rename when it cannot find and rewrite every consumer. It reports

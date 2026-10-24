@@ -2825,7 +2825,12 @@ def _segment_kind(segment):
     return "fn" if ")" in text else "other"
 
 
-def occurrence_kinds(code, word):
+class UnbalancedScan(Refusal):
+    """occurrence_kinds could not balance a text's parentheses and braces, so
+    it cannot say what any spelling in it means."""
+
+
+def occurrence_kinds(code, word, where="the scanned text"):
     """One entry for each place stripped header or source `code` spells
     `word`, by what the spelling can mean to a function elsewhere:
 
@@ -2839,7 +2844,14 @@ def occurrence_kinds(code, word):
       'param'    in the parameter list of a declaration at namespace or
                  class scope
       'fnbody'   inside a function body, or another braced initializer:
-                 a local, or a use whose declaration is elsewhere"""
+                 a local, or a use whose declaration is elsewhere
+
+    The scan fails closed: a text whose parentheses or braces do not balance
+    (an `#if`/`#else` split signature, which the blanked preprocessor lines
+    leave with two openers for one closer; a stray closer) would read every
+    later spelling as a parameter, or as the wrong scope, and hide class
+    members from a caller. It raises UnbalancedScan (a Refusal naming `where`)
+    instead of guessing, but only for a text that spells `word`."""
     pattern = word_re(word)
     if not pattern.search(code):
         return []
@@ -2855,17 +2867,22 @@ def occurrence_kinds(code, word):
 
     code = name_metric.PREPROCESSOR.sub(blank, code)
     stack, parens, segment = [], 0, 0          # stack of [kind, indexes into out of its anonymous members]
+    stray = None
     for match in re.finditer(r"[{}();]|\b%s\b" % re.escape(word), code):
         token = match.group(0)
         if token == "(":
             parens += 1
         elif token == ")":
+            if not parens:
+                stray = stray or "a ')' closes nothing"
             parens = max(0, parens - 1)
         elif token == "{":
             if parens == 0:
                 stack.append([_segment_kind(code[segment:match.start()]), []])
                 segment = match.end()
         elif token == "}":
+            if parens == 0 and not stack:
+                stray = stray or "a '}' closes nothing"
             if parens == 0 and stack:
                 kind, anonymous = stack.pop()
                 segment = match.end()
@@ -2896,6 +2913,13 @@ def occurrence_kinds(code, word):
                 out.append(top)
                 if top == "class:*":
                     stack[-1][1].append(len(out) - 1)
+    if parens:
+        stray = stray or f"{parens} '(' never closed"
+    if stack:
+        stray = stray or f"{len(stack)} '{{' never closed"
+    if stray:
+        raise UnbalancedScan(f"cannot balance the parentheses and braces of {where} ({stray}; an #if/#else "
+                             f"split declaration, perhaps), so a spelling of {word} there cannot be classified")
     return out
 
 
@@ -2931,15 +2955,16 @@ def class_ancestors(ctx, rel, cls):
     return ctx._cache[key]
 
 
-def meant_by_function(ctx, rel, code, word, cls, *, strict):
+def meant_by_function(ctx, rel, code, word, cls, *, strict, where="the scanned text"):
     """Why a spelling of `word` in `code` (a header, or the unit itself with
     the function blanked out) could be what the function means, or is
     captured by what it declares; None when none can. A macro can always
     bind, and so can a member of the function's class or of a base (an
     initializer list names a member beside the parameter of that name). A
     namespace-scope name or any class's member counts too when `strict`;
-    parameters and function bodies elsewhere never do."""
-    for kind in occurrence_kinds(code, word):
+    parameters and function bodies elsewhere never do. Raises UnbalancedScan
+    (a Refusal naming `where`) when the text's brackets do not balance."""
+    for kind in occurrence_kinds(code, word, where):
         if kind == "macro":
             return "a macro"
         if kind == "ns" and strict:
@@ -3195,13 +3220,13 @@ def plan_scoped(kind, ctx, source, name, new, basis, evidence, *, function=None,
     if word_re(new).search(region):
         raise Refusal(f"{new} is already a name in {scope} ({rel})")
     outside = code[:start] + " " * (end - start) + code[end:]
-    clash = meant_by_function(ctx, rel, outside, new, owner_class, strict=True)
+    clash = meant_by_function(ctx, rel, outside, new, owner_class, strict=True, where=rel)
     if clash:
         raise Refusal(f"{new} is already a name in {rel} ({clash})")
     elsewhere = [d for d in other_declarations(outside, name) if not d.startswith(("a parameter", "a local"))]
     if elsewhere:
         raise Refusal(f"{name} is also {elsewhere[0]} in {rel}; the function may mean it")
-    if "macro" in occurrence_kinds(outside, name):
+    if "macro" in occurrence_kinds(outside, name, rel):
         raise Refusal(f"{name} is also spelled in a macro in {rel}; the function may mean it")
     # An included header spelling either name decides only through a macro or a
     # member of the function's class or a base (an initializer list names a
@@ -3214,7 +3239,8 @@ def plan_scoped(kind, ctx, source, name, new, basis, evidence, *, function=None,
             continue
         header_code = name_metric.strip(data.decode("utf-8", errors="replace"))
         for word, what in ((name, "the function may mean it"), (new, "it would capture or shadow it")):
-            clash = meant_by_function(ctx, rel, header_code, word, owner_class, strict=False)
+            clash = meant_by_function(ctx, rel, header_code, word, owner_class, strict=False,
+                                      where=f"included header {header}")
             if clash:
                 raise Refusal(f"{word} is also spelled in included header {header} ({clash}); {what}")
 
