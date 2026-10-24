@@ -5149,3 +5149,9 @@ Code/GameEngine/Source/Common/FamilyDeletingDtors2.cpp|param|famgenDelete#8|p,4a
 Code/GameEngine/Source/Common/Rva005E51D3Wrap.cpp|member|Rva005E51D3Inner|m_4,3a3fa5f91d0cd1efe02ccb1a,gpt-6.1-sol,codexb-20261024-123547-5,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/System/LivingWorldRegionBuildingRestrictionParseINI.cpp|global||g_00C36EE0,f95092643dfedf9ddccf9c85,gpt-6.1-sol,codexb-20261024-123547-8,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva00285DC5Paint.cpp|local|FireLogicSystem::rva00285DC5|t,e7261911886ed727d3896094,gpt-6.1-sol,codexb-20261024-123547-8,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva005C436EDispatch.cpp|function|0x005C43AF|rva005C43AF,0bc16d90139fa7dceb55e06e,gpt-6-astra,codexb2-20261024-124859-9,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassLoadCharBitmap.cpp|local|FontCharsClass::loadCharBitmap|y,b105a80c8c134608209386b1,gpt-6-astra,codexb2-20261024-124859-9,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassLoadCharBitmap.cpp|local|FontCharsClass::loadCharBitmap|x,1224967f9993513db436964e,gpt-6-astra,codexb2-20261024-124859-9,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/DrawableFade.cpp|param|Drawable::rva00272D77|b,fc58f90d0ee1c928eef89dd7,gpt-6-astra,codexb2-20261024-124859-10,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/Rva005801F6Compare.cpp|function|0x005801F6|rva005801F6,dfb721d34f4cecacb0993ca1,gpt-6-astra,codexb2-20261024-124859-10,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva002B6C9F.cpp|local|Rva002B6C9F::rva002B6C9F|r,10fa952006b1cd52664b3821,gpt-6-astra,codexb2-20261024-124859-10,w-d0bdfd8b17e9,2026-10-24
