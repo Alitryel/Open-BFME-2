@@ -1,3 +1,7 @@
+// Preserve the old opaque breakpoint block's memory ordering: the debugger
+// must observe the dialog-answered store before INT3 and subsequent accesses after it.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // cl: /DNDEBUG /MD /EHsc /Oy-
 //
 // Debug::AssertDone, retail 0x0003A8A0 (948 bytes incl. its switch table,
@@ -233,7 +237,7 @@ bool Debug::AssertDone(int die)
 				{
 					case 2:
 						g_debugAssertDialogAnswered = true;
-						__asm int 3
+						_ReadWriteBarrier(); __debugbreak(); _ReadWriteBarrier();
 						break;
 					case 3:
 						curFrameEntry = 0;
