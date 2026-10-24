@@ -37,8 +37,8 @@ void Rva00082C98Host::rva00082C98(unsigned int newSize, int fillX, int fillY, in
 	unsigned int count = ((char *)m_end - (char *)m_begin) / 12;
 	if (newSize < count)
 	{
-		void *e = (char *)m_begin + newSize * 12;
-		((_STL::vector<Coord3D, _STL::allocator<Coord3D> > *)this)->erase((Coord3D *)e, (Coord3D *)m_end);
+		void *newEnd = (char *)m_begin + newSize * 12;
+		((_STL::vector<Coord3D, _STL::allocator<Coord3D> > *)this)->erase((Coord3D *)newEnd, (Coord3D *)m_end);
 	}
 	else
 	{

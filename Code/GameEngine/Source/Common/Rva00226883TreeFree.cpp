@@ -50,8 +50,8 @@ void Rva00226883::rva0022999F()
 {
 	if (m_04Flag == 0)
 		return;
-	Rva00226883Head *h = (Rva00226883Head *)m_00Head;
-	rva00226883(h->m_first);
+	Rva00226883Head *head = (Rva00226883Head *)m_00Head;
+	rva00226883(head->m_first);
 	((Rva00226883Head *)m_00Head)->m_next = (Rva00226883Head *)m_00Head;
 	((Rva00226883Head *)m_00Head)->m_first = 0;
 	((Rva00226883Head *)m_00Head)->m_child = (Rva00226883Head *)m_00Head;
@@ -78,8 +78,8 @@ void Rva00226829::rva0022994D()
 {
 	if (m_04Flag == 0)
 		return;
-	Rva00226883Head *h = (Rva00226883Head *)m_00Head;
-	rva00226829(h->m_first);
+	Rva00226883Head *head = (Rva00226883Head *)m_00Head;
+	rva00226829(head->m_first);
 	((Rva00226883Head *)m_00Head)->m_next = (Rva00226883Head *)m_00Head;
 	((Rva00226883Head *)m_00Head)->m_first = 0;
 	((Rva00226883Head *)m_00Head)->m_child = (Rva00226883Head *)m_00Head;
@@ -101,8 +101,8 @@ void Rva00226856::rva00229976()
 {
 	if (m_04Flag == 0)
 		return;
-	Rva00226883Head *h = (Rva00226883Head *)m_00Head;
-	rva00226856(h->m_first);
+	Rva00226883Head *head = (Rva00226883Head *)m_00Head;
+	rva00226856(head->m_first);
 	((Rva00226883Head *)m_00Head)->m_next = (Rva00226883Head *)m_00Head;
 	((Rva00226883Head *)m_00Head)->m_first = 0;
 	((Rva00226883Head *)m_00Head)->m_child = (Rva00226883Head *)m_00Head;
@@ -124,8 +124,8 @@ void Rva002268B0::rva002299C8()
 {
 	if (m_04Flag == 0)
 		return;
-	Rva00226883Head *h = (Rva00226883Head *)m_00Head;
-	rva002268B0(h->m_first);
+	Rva00226883Head *head = (Rva00226883Head *)m_00Head;
+	rva002268B0(head->m_first);
 	((Rva00226883Head *)m_00Head)->m_next = (Rva00226883Head *)m_00Head;
 	((Rva00226883Head *)m_00Head)->m_first = 0;
 	((Rva00226883Head *)m_00Head)->m_child = (Rva00226883Head *)m_00Head;

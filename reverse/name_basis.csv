@@ -601,3 +601,8 @@ function,?Rva00663690Handler@@YAXPAVRva007E8810Message@@PAVRva007F7980Browser@@@
 function,?Rva006636A0Handler@@YAXPAVRva007E8810Message@@PAVRva007F7980Browser@@@Z,?lobbyHandler@@YAXPAVRva007E8810Message@@PAVRva007F7980Browser@@@Z,inferred,agree:nl-bc8042dbce94,Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp,0x006636A0
 function,?Rva006636D0Handler@@YAXPAVRva007E8810Message@@PAVRva007F7980Browser@@@Z,?gameHandler@@YAXPAVRva007E8810Message@@PAVRva007F7980Browser@@@Z,inferred,agree:nl-9d9ec92dcea0,Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp,0x006636D0
 function,?Rva006636E0Handler@@YAXPAVRva007E8810Message@@PAVRva007F7980Browser@@@Z,?playerHandler@@YAXPAVRva007E8810Message@@PAVRva007F7980Browser@@@Z,inferred,agree:nl-c020f7d43701,Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp,0x006636E0
+local,Rva00226883::rva0022999F::h,Rva00226883::rva0022999F::head,inferred,agree:nl-6b9509928b0b,Code/GameEngine/Source/Common/Rva00226883TreeFree.cpp,0x0022999F
+local,Rva00226829::rva0022994D::h,Rva00226829::rva0022994D::head,inferred,agree:nl-f947b3ed527c,Code/GameEngine/Source/Common/Rva00226883TreeFree.cpp,0x0022994D
+local,Rva00226856::rva00229976::h,Rva00226856::rva00229976::head,inferred,agree:nl-ff4fdd32c3e1,Code/GameEngine/Source/Common/Rva00226883TreeFree.cpp,0x00229976
+local,Rva002268B0::rva002299C8::h,Rva002268B0::rva002299C8::head,inferred,agree:nl-86f52e0a1499,Code/GameEngine/Source/Common/Rva00226883TreeFree.cpp,0x002299C8
+local,Rva00082C98Host::rva00082C98::e,Rva00082C98Host::rva00082C98::newEnd,inferred,agree:nl-07bad8c86fd2,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/Rva00082C98Clamp.cpp,0x00082C98
