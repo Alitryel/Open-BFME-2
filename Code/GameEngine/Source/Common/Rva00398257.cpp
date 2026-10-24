@@ -14,8 +14,8 @@ struct Rva00397C94Head
 {
 	void *m_00;
 	Rva00397C94Node *m_04;
-	Rva00397C94Head *m_08;
-	Rva00397C94Head *m_0c;
+	Rva00397C94Head *m_left;
+	Rva00397C94Head *m_right;
 };
 
 class Rva00397C94
@@ -33,8 +33,8 @@ void Rva00397C94::rva00398257()
 	if (m_04 == 0)
 		return;
 	rva00397C94(m_head->m_04);
-	m_head->m_08 = m_head;
+	m_head->m_left = m_head;
 	m_head->m_04 = 0;
-	m_head->m_0c = m_head;
+	m_head->m_right = m_head;
 	m_04 = 0;
 }
