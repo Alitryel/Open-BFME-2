@@ -5580,3 +5580,8 @@ Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaignManager.c
 Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaignManager.cpp|param|LivingWorldCampaignManager::UseGenericSpawnArmyForPlayer|b,254be0ff19b0d01e83bb13c7,claude-opus-5-5,dioragon-11,w-2f5376c24d26,2026-10-24
 Code/GameEngine/Source/Common/Rva002B47B1Get.cpp|member|Rva002B47B1Elem|m_cash40,0878ee40e89a8b02d9a16907,claude-opus-5-5,dioragon-14,w-2f5376c24d26,2026-10-24
 Code/GameEngine/Source/Common/Rva002B47B1Get.cpp|function|0x002B47B1|rva002B47B1,383def15c94f6f870e4e27c0,claude-opus-5-5,dioragon-14,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITargetChooser/AITargetHeuristics/AITargetHeuristicRva00573117.cpp|function|0x0057322B|rva0057322B,7313bd2d5ebeafffc5d9601f,claude-opus-5-5,dioragon-15,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/Common/FamilyDeletingDtors3.cpp|param|famgenDelete#2|p,7c87bf74886866b49e22b4b6,claude-opus-5-5,dioragon-15,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/Common/FamilyDeletingDtors3.cpp|param|famgenDelete#3|p,110efbbc5fc2eb6f5db6de8d,claude-opus-5-5,dioragon-15,w-2f5376c24d26,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassLoadCharBitmap.cpp|local|FontCharsClass::loadCharBitmap|y,ba81f9f4d188eafdda167d3d,claude-opus-5-5,dioragon-17,w-2f5376c24d26,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassLoadCharBitmap.cpp|local|FontCharsClass::loadCharBitmap|x,4e5ee7c1eff7f280116ebbe5,claude-opus-5-5,dioragon-17,w-2f5376c24d26,2026-10-24
