@@ -112,20 +112,20 @@ extern ThingFactory *TheThingFactory;
 class Rva001E30F5
 {
 public:
-	void rva001E30F5(Int a, Int b);
+	void rva001E30F5(Int assets, Int b);
 private:
 	char m_pad00[0x14C];
 	bool m_14C;
 	char m_pad14D[0x07];
 	Int m_templateName;
 };
-void Rva001E30F5::rva001E30F5(Int a, Int b)
+void Rva001E30F5::rva001E30F5(Int assets, Int b)
 {
 	if (!m_14C)
 	{
 		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(*(const AsciiString *)&m_templateName);
 		if (thingTemplate)
-			const_cast<ThingTemplate *>(thingTemplate)->GetAssetList(a, b);
+			const_cast<ThingTemplate *>(thingTemplate)->GetAssetList(assets, b);
 	}
 }
 

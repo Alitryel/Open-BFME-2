@@ -5728,3 +5728,14 @@ Code/GameEngine/Source/Common/BfmeSubmitColors1283.cpp|param|BfmeSubmitter1283::
 Code/GameEngine/Source/Common/BfmeSubmitColors1283.cpp|param|BfmeSubmitter1283::bfmeSubmitColors1283|a9,a40f646a26c98c19c05ff961,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p000b,w-6397e51e6810,2026-10-24
 Code/GameEngine/Source/Common/BfmeSubmitColors1283.cpp|param|BfmeSubmitter1283::bfmeSubmitColors1283|a10,6d91f8389cd27f57d80b4e92,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p000b,w-6397e51e6810,2026-10-24
 Code/GameEngine/Source/Common/BfmeSubmitColors1283.cpp|param|BfmeSubmitter1283::bfmeSubmitColors1283|a11,4e96bc1c563bce9843d3ca82,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p000b,w-6397e51e6810,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp|class||Rva000FBA0F,9f525aec2062c91db7679ea9,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p003a,w-cb97379c3328,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp|member|Rva001E30F5|m_14C,5b55ca509ac2f8853f7746e0,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p003a,w-cb97379c3328,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp|class||Rva000FBA0F,9f525aec2062c91db7679ea9,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p003b,w-a4afa354188f,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp|class||Rva00105FE4,d8071c13a6d44d1c828c404d,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p003b,w-a4afa354188f,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp|member|Rva001E30F5|m_14C,5b55ca509ac2f8853f7746e0,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p003b,w-a4afa354188f,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp|member|Rva002616D1Arg|m_94,36ccc750959f42b654281d7b,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p003b,w-a4afa354188f,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp|member|Rva002616D1|m_08,af6c05e5b70f3c7d22c4ebb5,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p003b,w-a4afa354188f,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp|function|0x00105FE4|rva00105FE4,eef4c4771e60d7645489e18b,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p003b,w-a4afa354188f,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp|function|0x00106036|rva00106036,b19b89b67304e7e28d03cc96,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p003b,w-a4afa354188f,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp|param|Rva001E30F5::rva001E30F5|a,dcb5da5e0fccfba6ab36b7b6,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p003b,w-a4afa354188f,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp|param|Rva001E30F5::rva001E30F5|b,48f6f24846df71e437499d80,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p003b,w-a4afa354188f,2026-10-24
