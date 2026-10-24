@@ -4424,3 +4424,7 @@ Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|class||Rva007F27C0
 Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|member|Rva007F2350StatsRecord|m_30,4e2339b68c0a70339dfb6cf4,gpt-6.1-sol,codex5-20261024-082520-7,w-2d32e7a71cf1,2026-10-24
 Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|function|0x0065EF90|rva007F24A0,71bb1c6d9eb8c4c35247b735,gpt-6.1-sol,codex5-20261024-082520-7,w-2d32e7a71cf1,2026-10-24
 Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|function|0x0065ED20|rva007F2230,d75d8ed0e33f47a8c275e119,gpt-6.1-sol,codex5-20261024-082520-7,w-2d32e7a71cf1,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapVisibleCellQueries.cpp|param|BaseHeightMapRenderObjClass::rva0006C6A3|x,76fdbf7a44a40d7ac56d4a29,gpt-6.1-sol,codex5-20261024-082520-16,w-2d32e7a71cf1,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapVisibleCellQueries.cpp|param|BaseHeightMapRenderObjClass::rva0006C6A3|y,e5d82262f7fc555051a55f73,gpt-6.1-sol,codex5-20261024-082520-16,w-2d32e7a71cf1,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapVisibleCellQueries.cpp|param|BaseHeightMapRenderObjClass::rva0006C6E2|x,087c5ece58386aacd251af6c,gpt-6.1-sol,codex5-20261024-082520-16,w-2d32e7a71cf1,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapVisibleCellQueries.cpp|param|BaseHeightMapRenderObjClass::rva0006C6E2|y,0e4d9c986e6c7311e967d752,gpt-6.1-sol,codex5-20261024-082520-16,w-2d32e7a71cf1,2026-10-24
