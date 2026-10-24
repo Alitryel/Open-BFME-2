@@ -1239,3 +1239,4 @@ class,BfmeThingVJP,GameBrowser,inferred,agree:nl-4ac05705c337,Code/GameEngine/So
 carry,BfmeThingVJP::m_messageBuffer,GameBrowser::m_messageBuffer,inferred,scope renamed by Rename BfmeThingVJP to GameBrowser (inferred),Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp,
 param,Rva00594E07::rva00594E07::a,Rva00594E07::rva00594E07::packetID,inferred,agree:nl-0372786f3bf4,Code/GameEngine/Source/GameNetwork/Rva00594E07.cpp,0x00594E07
 local,Rva00594E07::rva00594E07::n,Rva00594E07::rva00594E07::remainingMessages,inferred,agree:nl-8206c68a3322,Code/GameEngine/Source/GameNetwork/Rva00594E07.cpp,0x00594E07
+class,Rva00809C60Game,LanGame,inferred,agree:nl-47fd6ab97b9c,Code/GameEngine/Source/GameNetwork/Rva00803730FeslAttrs.cpp,

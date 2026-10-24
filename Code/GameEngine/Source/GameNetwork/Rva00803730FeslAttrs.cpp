@@ -37,7 +37,7 @@ public:
 	void *m_field0c;
 	void *m_connection;
 	char m_pad14[ 0x44 ];
-	class Rva00809C60Game *m_game;
+	class LanGame *m_game;
 };
 
 class Rva00803730Host
@@ -105,7 +105,7 @@ struct Rva00809C60Player
 	char m_i[ 0x20 ];
 };
 
-class Rva00809C60Game
+class LanGame
 {
 public:
 	int m_state;
@@ -172,7 +172,7 @@ Rva007EB810Diag *Rva007EB810Get();
 void sendFeslMessage( void *message, const char *route, void *connection ) throw();
 
 static __forceinline Rva00809C60Player *Rva00809C60FindPlayer(
-	const Rva00809C60Game *game, int pid )
+	const LanGame *game, int pid )
 {
 	for( int index = 0; index < game->m_maxPlayers; ++index )
 	{
