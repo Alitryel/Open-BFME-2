@@ -21,10 +21,10 @@ private:
 };
 void __cdecl Rva002B2FE2Copy(Rva004F6093Holder *dst, const Rva004F6093Holder &src);
 
-Rva004F6093Holder *__cdecl Rva003F74F5Fill(Rva004F6093Holder *first, unsigned int n, const Rva004F6093Holder &x)
+Rva004F6093Holder *__cdecl Rva003F74F5Fill(Rva004F6093Holder *first, unsigned int count, const Rva004F6093Holder &x)
 {
 	Rva004F6093Holder *cur = first;
-	for (; n > 0; --n, ++cur)
+	for (; count > 0; --count, ++cur)
 		Rva002B2FE2Copy(cur, x);
 	return cur;
 }
