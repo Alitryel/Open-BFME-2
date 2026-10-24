@@ -3442,3 +3442,12 @@ Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainScatter.cpp|member|Rv
 Code/GameEngine/Source/GameClient/Rva0055D686Scale.cpp|function|0x0055D686|Rva0055D686Compute,056f61ba89cbcc12ccd3d944,gpt-6.1-sol,codex5-20261024-055455-8,w-2d32e7a71cf1,2026-10-24
 Code/GameEngine/Source/GameClient/Rva0055D686Scale.cpp|param|Rva0055D686Compute|z,2617ff72739da07dee7d1569,gpt-6.1-sol,codex5-20261024-055455-8,w-2d32e7a71cf1,2026-10-24
 Code/Libraries/Source/WWVegas/WWLib/Rva0040B0D0Contains.cpp|member|Rva0040B0D0Arg|m_04,8d90c35bda39f7234dea7567,gpt-6.1-sol,codex5-20261024-055455-9,w-2d32e7a71cf1,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva002A408BErase.cpp|class||Rva002A408BNode,b4afde547bc4fc9883411726,gpt-6.1-sol,codex5-20261024-055455-11,w-2d32e7a71cf1,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva002A408BErase.cpp|class||Rva002A408B,accdc3485d3a4b2ce2e4db7e,gpt-6.1-sol,codex5-20261024-055455-11,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/BfmeSubmitColors1283.cpp|param|BfmeSubmitter1283::bfmeSubmitColors1283|a1,6c3d6bda90ba022176c532d1,gpt-6.1-sol,codex5-20261024-055455-15,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva005FD8E5Apt.cpp|class||Rva005FD8E5Entry,683e31ba109dc1dd96253a75,gpt-6.1-sol,codex5-20261024-055455-16,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp|member|Rva0028CECFTemplate|m_f50C,6c0080dafc049450a8ec6336,gpt-6.1-sol,codex5-20261024-055455-17,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp|local|Object::rva0028CECF|f,dddb77ef7d5d97dc0e9a132b,gpt-6.1-sol,codex5-20261024-055455-17,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp|local|Object::rva0028CECF|f1,80de2ff892d528dd616b55d5,gpt-6.1-sol,codex5-20261024-055455-17,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp|local|Object::rva0028CECF|f2,3172a0945d2677e440a8a8a9,gpt-6.1-sol,codex5-20261024-055455-17,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva0057ACEBCtor.cpp|local|Rva0057ACEB::Rva0057ACEB|p,4b162284e7a77994c2302303,gpt-6.1-sol,codex5-20261024-055455-19,w-2d32e7a71cf1,2026-10-24
