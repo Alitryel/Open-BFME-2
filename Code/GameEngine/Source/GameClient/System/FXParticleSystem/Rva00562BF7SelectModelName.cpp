@@ -44,7 +44,7 @@ public:
     void *vtable;
     ParticleSystemZA *system;
     unsigned char padding08[0x1c];
-    bool field24;
+    bool m_randomizeModel;
     unsigned char padding25[3];
     Rva00562BF7Choice choices[3];
     int field58;
@@ -52,7 +52,7 @@ public:
 
 AsciiString Rva00562BF7Owner::rva00562BF7()
 {
-    if (field24) {
+    if (m_randomizeModel) {
         float chance = WWMath::Random_Float() * 100.0f;
         if (chance <= choices[0].threshold) {
             field58 = choices[0].field0C;

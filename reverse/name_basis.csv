@@ -1191,3 +1191,4 @@ param,Rva0031D5F8::GetPurchaseScienceCommandSet::arg,Rva0031D5F8::GetPurchaseSci
 local,Rva004BDB37::rva004BDB37::n,Rva004BDB37::rva004BDB37::remainingIterations,inferred,agree:nl-cf9cda788794,Code/GameEngine/Source/GameClient/Rva004BDB37Finish.cpp,0x004BDB37
 local,Rva0055D686Compute::tmp,Rva0055D686Compute::normalizedDirection,inferred,agree:nl-9d6cd058cc40,Code/GameEngine/Source/GameClient/Rva0055D686Scale.cpp,0x0055D686
 local,Rva0055D686Compute::p,Rva0055D686Compute::scaledDirection,inferred,agree:nl-312627141fa7,Code/GameEngine/Source/GameClient/Rva0055D686Scale.cpp,0x0055D686
+member,Rva00562BF7Owner::field24,Rva00562BF7Owner::m_randomizeModel,inferred,agree:nl-3c44095688cc,Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva00562BF7SelectModelName.cpp,
