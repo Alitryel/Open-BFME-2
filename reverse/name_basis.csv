@@ -770,3 +770,4 @@ local,Rva005C394D::rva005C394D::t,Rva005C394D::rva005C394D::stringData,inferred,
 function,?rva005C394D@Rva005C394D@@QAEXXZ,?go@Rva005C394D@@QAEXXZ,inferred,agree:nl-bf857d0b74dd,Code/GameEngine/Source/Common/Rva005C394DGo.cpp,0x005C394D
 carry,Rva005C394D::rva005C394D::stringData,Rva005C394D::go::stringData,inferred,scope renamed by Rename rva005C394D to go (inferred),Code/GameEngine/Source/Common/Rva005C394DGo.cpp,0x005C394D
 local,Rva005C436E::rva005C436E::p,Rva005C436E::rva005C436E::player,inferred,agree:nl-c9595911fdf1,Code/GameEngine/Source/Common/Rva005C436EDispatch.cpp,0x005C436E
+local,Rva005CD841Find::v,Rva005CD841Find::visitor,inferred,agree:nl-2348796dfae8,Code/GameEngine/Source/Common/Rva005CD841Visit.cpp,0x005CD841

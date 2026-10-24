@@ -35,8 +35,8 @@ Rva005CD841Visitor::Rva005CD841Visitor()
 }
 bool __cdecl Rva005CD841Find(void *p)
 {
-	Rva005CD841Visitor v;
-	v.m_found = false;
-	((Rva005CCD36 *)p)->rva005CCD36(&v);
-	return v.m_found;
+	Rva005CD841Visitor visitor;
+	visitor.m_found = false;
+	((Rva005CCD36 *)p)->rva005CCD36(&visitor);
+	return visitor.m_found;
 }
