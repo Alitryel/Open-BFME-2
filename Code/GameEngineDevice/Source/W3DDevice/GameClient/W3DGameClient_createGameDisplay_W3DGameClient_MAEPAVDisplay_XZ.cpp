@@ -173,7 +173,10 @@ private:
 #include "Common/RandomValue.h"
 #include "Common/GlobalData.h"
 #include "Common/GameLOD.h"
-#include "GameClient/GameClient.h"
+// This unit searches Open-BFME-1's sweep shims; take this repository's
+// GameClient.h shadow, which has no ZH inline findDrawableByID (retail's is
+// the out-of-line hash lookup in GameClientDrawableTOC.cpp).
+#include "../../../../../reference/shims/sweep/GameClient/GameClient.h"
 #define __GAMEFONT_H_
 class GameFont;
 #include "GameClient/ParticleSys.h"

@@ -43,7 +43,8 @@ public:
     void rva000519BD();
     void rva00053D26(BfmePoolHolder88 *p);
 };
-struct OpaqueRefElement4 { OpaqueRefCounted *referent; OpaqueRefElement4 &operator=(const OpaqueRefElement4 &); };
+struct OpaqueRefElement4 { OpaqueRefCounted *referent; OpaqueRefElement4 &operator=(const OpaqueRefElement4 &);
+    OpaqueRefElement4 &rva00239057(const OpaqueRefElement4 *other); };
 class Rva000A8C9B { public: void clear(); };
 struct BfmeEventPositionView {
     float x,y,z;
