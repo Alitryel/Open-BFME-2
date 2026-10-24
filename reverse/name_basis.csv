@@ -1018,3 +1018,4 @@ param,Rva0031F89E::rva0031F89E::d,Rva0031F89E::rva0031F89E::offsetY,inferred,agr
 local,Rva0044E7A8::rva0044E7A8::f0,Rva0044E7A8::rva0044E7A8::requiredKinds,inferred,agree:nl-56834218d88d,Code/GameEngine/Source/Common/Rva0044E7A8Check.cpp,0x0044E7A8
 local,Rva0044E7A8::rva0044E7A8::f1,Rva0044E7A8::rva0044E7A8::forbiddenKinds,inferred,agree:nl-f7cd1686035c,Code/GameEngine/Source/Common/Rva0044E7A8Check.cpp,0x0044E7A8
 local,SupplyWarehouseCreate::rva004B901D::t,SupplyWarehouseCreate::rva004B901D::objectFlags,inferred,agree:nl-75343598cbdc,Code/GameEngine/Source/GameLogic/Object/Create/SupplyWarehouseCreateRva004B901D.cpp,0x004B901D
+class,Rva006C2D20Location,SourceLocation,inferred,agree:nl-f2cba1126dad,Code/GameEngine/Source/Common/Rva006C2D20Describe.cpp,

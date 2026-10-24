@@ -57,7 +57,7 @@ public:
 
 unsigned int Rva006C50D0Describe(const unsigned long *stack, unsigned int count, char *buffer, unsigned int room);
 
-struct Rva006C2D20Location
+struct SourceLocation
 {
 	const char *file;
 	int line;
@@ -113,7 +113,7 @@ int Rva006C2D20Sink::rva006C2D20(const char *block, const char *buffer, unsigned
 		p += charsWritten;
 	}
 
-	Rva006C2D20Location loc;
+	SourceLocation loc;
 	if (((GeneralAllocatorDebug *)this)->rva006C25F0Run6(data, 6, (int)&loc, 8, 0, 2)) {
 		if ((unsigned int)(end - p) >= strlen(loc.file) + 0x16) {
 			unsigned int charsWritten = _snprintf(p, end - p, "loc: %s, %d%c", loc.file, loc.line, m_separator);
