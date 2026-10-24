@@ -45,5 +45,21 @@ namespace _STL {template<>struct __type_traits<Rva005472F8Record>:__type_traits_
 namespace _STL{template<>struct hash<Rva005472F8Record>{unsigned operator()(const Rva005472F8Record&x)const{return (unsigned)x.word;}};}
 
 
+// Native creation allocates 20 bytes and constructs the full value at +4.
+// Keep the member call ABI: retail callers pass the table in ECX.
+struct BfmeFloat4Record00469C61;
+namespace _STL {
+template <> void _Construct<BfmeFloat4Record00469C61, BfmeFloat4Record00469C61>(BfmeFloat4Record00469C61 *, const BfmeFloat4Record00469C61 &);
+template <> __declspec(noinline)
+_Hashtable_node<Rva005472F8Record> *
+hashtable<Rva005472F8Record, Rva005472F8Record, hash<Rva005472F8Record>, _Identity<Rva005472F8Record>, equal_to<Rva005472F8Record>, allocator<Rva005472F8Record> >::_M_new_node(const Rva005472F8Record &value)
+{
+    char *p = allocator<char>::allocate(20, 0);
+    *(int *)p = 0;
+    _Construct(reinterpret_cast<BfmeFloat4Record00469C61 *>(p + 4), reinterpret_cast<const BfmeFloat4Record00469C61 &>(value));
+    return reinterpret_cast<_Hashtable_node<Rva005472F8Record> *>(p);
+}
+}
+
 // Instantiate the recovered member; retain only its required template dependencies.
 template _STL::pair<_STL::_Ht_iterator<Rva005472F8Record, _STL::_Nonconst_traits<Rva005472F8Record>, Rva005472F8Record, _STL::hash<Rva005472F8Record>, _STL::_Identity<Rva005472F8Record>, _STL::equal_to<Rva005472F8Record>, _STL::allocator<Rva005472F8Record> >, bool> _STL::hashtable<Rva005472F8Record, Rva005472F8Record, _STL::hash<Rva005472F8Record>, _STL::_Identity<Rva005472F8Record>, _STL::equal_to<Rva005472F8Record>, _STL::allocator<Rva005472F8Record> >::insert_unique_noresize(Rva005472F8Record const &);
