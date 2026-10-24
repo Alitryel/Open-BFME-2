@@ -29,8 +29,8 @@ bool Rva002F57E6Query::rva002F57E6(unsigned int a,unsigned int b,unsigned char m
  if(mode && ((int)x<minX || y<minY || (int)x>maxX || y>maxY)) return false;
  if(!pathfinder->rva002E9EA7(object,(int)x,y,(PathfindLayerEnum)layer,radius,center,word)) return false;
  {
-  Coord3D tmp,adjust;
-  adjust=*(Coord3D *)rva002EBC59(&tmp,object,x,y,cell->getLayer());
+  Coord3D cellPosition,adjust;
+  adjust=*(Coord3D *)rva002EBC59(&cellPosition,object,x,y,cell->getLayer());
   if(!(object->type->kind109&0x10)) {
    if(originalZ>0.0f && fabs(adjust.z-originalZ)>50.0f) return false;
    bool adjustedPathExists=pathfinder->QuickDoesPathExist(object,&object->position,&adjust,0);
