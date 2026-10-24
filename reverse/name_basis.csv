@@ -1781,3 +1781,6 @@ local,Pathfinder::rva002ED313::r,Pathfinder::rva002ED313::reservedNode,inferred,
 local,BfmeRangedWeaponTemplate::getAttackRange::f,BfmeRangedWeaponTemplate::getAttackRange::range,inferred,agree:nl-d651670af8bf,Code/GameEngine/Source/GameLogic/Object/Rva002C99C4AttackRange.cpp,0x002C99C4
 local,Rva004C5DD0::Rva004C5DD0::a,Rva004C5DD0::Rva004C5DD0::firstRef,inferred,agree:nl-70403eacf7d3,Code/GameEngine/Source/Common/Rva004C5DD0Set.cpp,0x0044BD00
 local,Rva004C5DD0::Rva004C5DD0::b,Rva004C5DD0::Rva004C5DD0::secondRef,inferred,agree:nl-5eef8d95feb2,Code/GameEngine/Source/Common/Rva004C5DD0Set.cpp,0x0044BD00
+local,NAT::targetNotifyMeIWasProbed::o,NAT::targetNotifyMeIWasProbed::localPlayer,inferred,agree:nl-da486c55a3c3,Code/GameEngine/Source/Common/Rva005A8666Box.cpp,0x005A8666
+local,NAT::gotTargetMangledPort::o1,NAT::gotTargetMangledPort::targetPlayer,inferred,agree:nl-519cf81220ad,Code/GameEngine/Source/Common/Rva005A8666Box.cpp,0x005A86C0
+local,NAT::gotTargetMangledPort::o2,NAT::gotTargetMangledPort::localPlayer,inferred,agree:nl-6d11e637adf1,Code/GameEngine/Source/Common/Rva005A8666Box.cpp,0x005A86C0

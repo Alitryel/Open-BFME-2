@@ -52,15 +52,15 @@ void NAT::targetNotifyMeIWasProbed(int unused)
 {
 	if (m_94C == 5)
 		return;
-	Rva005A8666Obj *o = m_8[m_14];
-	if (o == 0) {
+	Rva005A8666Obj *localPlayer = m_8[m_14];
+	if (localPlayer == 0) {
 		rva005A6C90(5);
 		return;
 	}
 	if (m_942 != 0)
 		return;
 	m_942 = 1;
-	if ((o->m_40 & 8) == 0)
+	if ((localPlayer->m_40 & 8) == 0)
 		return;
 	if (m_8[m_18] == 0) {
 		rva005A6C90(5);
@@ -86,13 +86,13 @@ void NAT::gotTargetMangledPort(int a, unsigned short mangledPort, int c)
 {
 	if (m_94C == 4 && m_950 == 4)
 		return;
-	Rva005A8666Obj *o1 = m_8[m_18];
-	if (o1 == 0) {
+	Rva005A8666Obj *targetPlayer = m_8[m_18];
+	if (targetPlayer == 0) {
 		rva005A6C90(5);
 		return;
 	}
-	Rva005A8666Obj *o2 = m_8[m_14];
-	if (o2 == 0) {
+	Rva005A8666Obj *localPlayer = m_8[m_14];
+	if (localPlayer == 0) {
 		rva005A6C90(5);
 		return;
 	}
@@ -112,8 +112,8 @@ check24:
 	m_04->setDestAddrToSocket(m_18, m_90C[m_18]);
 	if (m_94C != 2)
 		return;
-	if ((o2->m_40 & 8) != 0) {
-		if (m_942 != 1 && (o1->m_40 & 8) == 0)
+	if ((localPlayer->m_40 & 8) != 0) {
+		if (m_942 != 1 && (targetPlayer->m_40 & 8) == 0)
 			return;
 	}
 	sendAProbeToTarget();
