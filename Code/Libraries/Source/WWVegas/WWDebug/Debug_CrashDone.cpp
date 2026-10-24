@@ -243,7 +243,7 @@ bool Debug::CrashDone(int mode)
 						break;
 					case 2:
 						g_debugAssertDialogAnswered = true;
-						__asm int 3
+						__debugbreak();
 						break;
 					case 3:
 						curFrameEntry = 0;
