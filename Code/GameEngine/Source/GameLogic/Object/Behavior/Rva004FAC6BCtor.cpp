@@ -11,29 +11,44 @@ public:
 class __declspec(novtable) Rva004FAC6BBase0
 {
 public:
-	virtual void base0();
+	virtual void slot00() = 0;
+	virtual void slot01() = 0;
+	virtual void slot02() = 0;
+	virtual void slot03() = 0;
+	virtual void slot04() = 0;
+	virtual void slot05() = 0;
+	virtual void slot06() = 0;
+	virtual void slot07() = 0;
+	virtual void slot08() = 0;
+	virtual void slot09() = 0;
+	virtual void slot10() = 0;
+	virtual void slot11() = 0;
+	virtual void slot12() = 0;
+	virtual void slot13() = 0;
+	virtual void slot14() = 0;
 };
 
 class Rva004FAC6B : public Rva004FAC6BBase0, public Rva00330757Member
 {
 public:
 	Rva004FAC6B();
-	virtual ~Rva004FAC6B();
+	~Rva004FAC6B();
 };
 
 Rva004FAC6B::Rva004FAC6B()
 {
 }
 
-// ??0Rva00578C2E@@QAE@XZ, retail 0x00578C2E, 21 bytes: the same constructor for a
-// sibling class over the same bases, differing from ??0Rva004FAC6B's bytes only
-// in the vftable it stores (VA 0xbe2b78). Its destructor is inline and empty so
-// the emitted vftable needs nothing new. Identity is not recovered.
-class Rva00578C2E : public Rva004FAC6BBase0, public Rva00330757Member
+// The sibling stores 0x00BE2B78, whose three slots are pure virtual.
+// Its nonvirtual destructor is owned by FreeMemberDeleters.cpp.
+class Rva00578C2E : public Rva00330757Member
 {
 public:
 	Rva00578C2E();
-	virtual ~Rva00578C2E() {}
+	virtual void slot0() = 0;
+	virtual void slot1() = 0;
+	virtual void slot2() = 0;
+	~Rva00578C2E();
 };
 
 // Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
@@ -45,10 +60,6 @@ __declspec(noinline) inline Rva00578C2E::Rva00578C2E()
 // ?bfmeAnchorRva00578C2ECtor absent-from-retail
 void *bfmeAnchorRva00578C2ECtor(void *where)
 {
-	return ::new (where) Rva00578C2E();
+	((Rva00578C2E *)where)->Rva00578C2E::Rva00578C2E();
+	return where;
 }
-
-// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
-// each one has the same function in that slot (vftable addresses from matched vptr
-// stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?base0@Rva004FAC6BBase0@@UAEXXZ=__purecall")

@@ -1,8 +1,10 @@
-// cl: -DNDEBUG -DWIN32 -D_WINDOWS -MD -EHsc -D_STLP_USE_STATIC_LIB -Ireference/open-bfme-1/game/GameEngine/Source/GameNetwork
+// cl: /Ireference/shims/bfmealloc -DNDEBUG -DWIN32 -D_WINDOWS -MD -EHsc -D_STLP_USE_STATIC_LIB -Ireference/open-bfme-1/game/GameEngine/Source/GameNetwork
 // stlport
 // Open-BFME5: erase one owned pointer payload from the map at +0x5c.
 
 #include <map>
+// The allocator binds to the engine's direct free provider.
+extern "C" void __cdecl free(void *);
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {
