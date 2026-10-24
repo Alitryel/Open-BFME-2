@@ -17,10 +17,4 @@ namespace _STL {
 template<> inline void _Construct<BfmePod196, BfmePod196>(BfmePod196 *dest, const BfmePod196 &source) throw() { new (dest) BfmePod196(source); }
 }
 
-#pragma inline_depth(0)
-// ?bfmeEmitPod196Construct@@YAXPAUBfmePod196@@ABU1@@Z present-unmatched
-void bfmeEmitPod196Construct(BfmePod196 *p, const BfmePod196 &q)
-{
-	_STL::_Construct<BfmePod196, BfmePod196>(p, q);
-}
-#pragma inline_depth()
+template void _STL::_Construct<BfmePod196, BfmePod196>(BfmePod196 *, const BfmePod196 &);

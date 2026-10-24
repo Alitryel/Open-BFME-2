@@ -68,10 +68,4 @@ inline vector<AsciiString, allocator<AsciiString> > &vector<AsciiString, allocat
 
 }
 
-#pragma inline_depth(0)
-// ?bfmeEmitStlportAsciiStringVectorAssign@@YAXPAV?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@ABV12@@Z present-unmatched
-void bfmeEmitStlportAsciiStringVectorAssign(_STL::vector<AsciiString, _STL::allocator<AsciiString> > *p, const _STL::vector<AsciiString, _STL::allocator<AsciiString> > &src)
-{
-	*p = src;
-}
-#pragma inline_depth()
+template _STL::vector<AsciiString, _STL::allocator<AsciiString> > &_STL::vector<AsciiString, _STL::allocator<AsciiString> >::operator=(const _STL::vector<AsciiString, _STL::allocator<AsciiString> > &);

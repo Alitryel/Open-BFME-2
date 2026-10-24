@@ -60,17 +60,7 @@ template void _STL::vector<Rva0007BB16Record>::_M_clear();
 template Rva0007BB16Record *_STL::uninitialized_fill_n<Rva0007BB16Record *, unsigned int, Rva0007BB16Record>(Rva0007BB16Record *, unsigned int, const Rva0007BB16Record &);
 template void _STL::_Construct<Rva0007BB16Record, Rva0007BB16Record>(Rva0007BB16Record *, const Rva0007BB16Record &);
 
-// ??$_Destroy over Rva0007BB16Record* is a header inline in STLport: other
-// units emit select-any copies of it, so a strong definition here was a
-// duplicate symbol in the linked build. This anchor only makes this unit emit
-// its copy for the ledger row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitstlport_vector_rva0007bb16_destroy@@YAXPAURva0007BB16Record@@@Z present-unmatched
-void bfmeEmitstlport_vector_rva0007bb16_destroy(Rva0007BB16Record *p)
-{
-	_STL::_Destroy(p, p + 1);
-}
-#pragma inline_depth()
+template void _STL::_Destroy<Rva0007BB16Record *>(Rva0007BB16Record *, Rva0007BB16Record *);
 
 class Rva0007C632Dtor
 {

@@ -36831,7 +36831,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005472F8.cpp	
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005472F8.cpp	Rva005472F8Record::operator==	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlWordAssignRva000BC20D.cpp	Rva000BC20DWords::operator=	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlWordAssignRva00540295.cpp	Rva00540295Words::operator=	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlportAsciiStringVectorAssign.cpp	bfmeEmitStlportAsciiStringVectorAssign@@YAXPAV?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@ABV12@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlportCopyRva000AB3E2.cpp	__uninitialized_copy@_STL@@YAPAURva000AB3E2Element@@PAU2@00ABU__false_type@0@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlportCopyRva000AB419.cpp	__uninitialized_copy@_STL@@YAPAURva000AB419Element@@PAU2@00ABU__false_type@0@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlportFixedObject60Copy.cpp	BfmeFixedBlock16::BfmeFixedBlock16	1
@@ -36892,10 +36891,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWLib/quoted_printable.cpp	bfmeE
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/registry.cpp	Set_Float@RegistryClass@@QAEXPBDM@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/rva002C5761_sort.cpp	$sort@PAHP6A_NHH@Z@_STL@@YAXPAH0P6A_NHH@Z@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/simplevec_vector3_dtor.cpp	bfmeEmitsimplevec_vector3_dtor@@YAXPAV?$SimpleDynVecClass@VVector3@@@@@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_bfmeassignrecord32_destroy.cpp	bfmeEmitStlportBfmeAssignRecord32Destroy@@YAXPAUBfmeAssignRecord32@@0@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_construct_pod172.cpp	bfmeEmitPod172Construct@@YAXPAUBfmePod172@@ABU1@@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_construct_pod196_wrapper.cpp	bfmeEmitPod196Construct@@YAXPAUBfmePod196@@ABU1@@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_construct_throw_spec.cpp	bfmeEmitstlport_construct_throw_spec@@YAXPAVRvaSmartPtr12@@PAVRva002390CB@@PAVRva0036CA00Str@@PAVRva00064640Record@@PAVAssetReference@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_copy_buildlistinfo.cpp	$_IsOKToMemCpy@VBuildListInfo@@V1@@_STL@@YA?AU?$_OKToMemCpy@VBuildListInfo@@V1@@0@PAVBuildListInfo@@0@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_copy_buildlistinfo.cpp	$__copy_aux@PAVBuildListInfo@@PAV1@@_STL@@YAPAVBuildListInfo@@PAV1@00U__true_type@0@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_copy_buildlistinfo.cpp	$__copy_ptrs@PAVBuildListInfo@@PAV1@@_STL@@YAPAVBuildListInfo@@PAV1@00U__false_type@0@@Z	1
@@ -36932,13 +36927,11 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_uninitialized_copy
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_bfmee8_allocate_copy.cpp	0Tag@@QAE@XZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_opaque_mclear.cpp	1OpaqueRefElement4@@QAE@XZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_record_2154f3_erase.cpp	$__copy_ptrs@PAUBfmeVectorRecord0002154F3@@PAU1@@_STL@@YAPAUBfmeVectorRecord0002154F3@@PAU1@00ABU__false_type@0@@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva0007bb16_destroy.cpp	bfmeEmitstlport_vector_rva0007bb16_destroy@@YAXPAURva0007BB16Record@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva000b435f_erase.cpp	$__copy_ptrs@PAURva000B435F@@PAU1@@_STL@@YAPAURva000B435F@@PAU1@00ABU__false_type@0@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva00b6cf1_destroy.cpp	bfmeEmitVectorRva00B6CF1Destroy@@YAXPAURva00B6CF1@@ABU1@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva00b6cf1_erase.cpp	$__copy_ptrs@PAURva00B6CF1@@PAU1@@_STL@@YAPAURva00B6CF1@@PAU1@00ABU__false_type@0@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_stringrecord_5ddd40_erase.cpp	$__copy_ptrs@PAUBfmeStringRecord005DDD40@@PAU1@@_STL@@YAPAUBfmeStringRecord005DDD40@@PAU1@00ABU__false_type@0@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_unicode_erase.cpp	$__copy_ptrs@PAVUnicodeString@@PAV1@@_STL@@YAPAVUnicodeString@@PAV1@00ABU__false_type@0@@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_wide_streambuf_pubimbue.cpp	bfmeEmitstlport_wide_streambuf_pubimbue@@YAXPAV?$basic_streambuf@GV?$char_traits@G@_STL@@@_STL@@ABVlocale@2@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/thread.cpp	Sleep_Ms@ThreadClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/thread.cpp	Switch_Thread@ThreadClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/vector.cpp	0BooleanVectorClass@@	2

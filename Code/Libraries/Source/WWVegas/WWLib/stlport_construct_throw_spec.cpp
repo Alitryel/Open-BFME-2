@@ -83,18 +83,8 @@ template<> void _Construct<Rva003AD160, Rva003AD160>(Rva003AD160 *dest, const Rv
 template<> void _Construct<Rva003A6F70, Rva003A6F70>(Rva003A6F70 *dest, const Rva003A6F70 &source) throw() { new (dest) Rva003A6F70(source); }
 }
 
-// The four _Construct specializations above marked inline are header inlines
-// elsewhere: other units emit select-any copies of them, so plain definitions
-// here collided in the linked build. This anchor only makes this unit emit its
-// copies for the ledger rows; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitstlport_construct_throw_spec@@YAXPAVRvaSmartPtr12@@PAVRva002390CB@@PAVRva0036CA00Str@@PAVRva00064640Record@@PAVAssetReference@@@Z present-unmatched
-void bfmeEmitstlport_construct_throw_spec(RvaSmartPtr12 *p1, Rva002390CB *p2, Rva0036CA00Str *p3, Rva00064640Record *p4, AssetReference *p5)
-{
-	_STL::_Construct(p1, *p1);
-	_STL::_Construct(p2, *p2);
-	_STL::_Construct(p3, *p3);
-	_STL::_Construct(p4, *p4);
-	_STL::_Construct(p5, *p5);
-}
-#pragma inline_depth()
+template void _STL::_Construct<RvaSmartPtr12, RvaSmartPtr12>(RvaSmartPtr12 *, const RvaSmartPtr12 &);
+template void _STL::_Construct<Rva002390CB, Rva002390CB>(Rva002390CB *, const Rva002390CB &);
+template void _STL::_Construct<Rva0036CA00Str, Rva0036CA00Str>(Rva0036CA00Str *, const Rva0036CA00Str &);
+template void _STL::_Construct<Rva00064640Record, Rva00064640Record>(Rva00064640Record *, const Rva00064640Record &);
+template void _STL::_Construct<AssetReference, AssetReference>(AssetReference *, const AssetReference &);

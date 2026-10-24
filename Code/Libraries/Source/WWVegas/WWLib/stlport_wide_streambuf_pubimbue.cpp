@@ -17,10 +17,4 @@ _STL::basic_streambuf<wchar_t, _STL::char_traits<wchar_t> >::pubimbue(const _STL
 	return previous;
 }
 
-#pragma inline_depth(0)
-// ?bfmeEmitstlport_wide_streambuf_pubimbue@@YAXPAV?$basic_streambuf@GV?$char_traits@G@_STL@@@_STL@@ABVlocale@2@@Z present-unmatched
-void bfmeEmitstlport_wide_streambuf_pubimbue(_STL::basic_streambuf<wchar_t, _STL::char_traits<wchar_t> > *p, const _STL::locale &loc)
-{
-	p->pubimbue(loc);
-}
-#pragma inline_depth()
+template _STL::locale _STL::basic_streambuf<wchar_t, _STL::char_traits<wchar_t> >::pubimbue(const _STL::locale &);

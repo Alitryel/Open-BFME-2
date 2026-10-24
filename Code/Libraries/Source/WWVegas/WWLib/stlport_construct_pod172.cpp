@@ -16,10 +16,4 @@ template <> inline void _Construct<BfmePod172, BfmePod172>(BfmePod172 *__p, cons
 }
 }
 
-#pragma inline_depth(0)
-// ?bfmeEmitPod172Construct@@YAXPAUBfmePod172@@ABU1@@Z present-unmatched
-void bfmeEmitPod172Construct(BfmePod172 *p, const BfmePod172 &q)
-{
-	_STL::_Construct<BfmePod172, BfmePod172>(p, q);
-}
-#pragma inline_depth()
+template void _STL::_Construct<BfmePod172, BfmePod172>(BfmePod172 *, const BfmePod172 &);
