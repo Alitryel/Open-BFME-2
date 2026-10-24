@@ -35,12 +35,12 @@ int __cdecl Rva002B2275Get(Rva002B2275Obj *xfer, void *type);
 class Rva002BB49CEvent : public Snapshot
 {
 public:
-	virtual void loadPostProcess();
-	virtual void crc(Xfer *xfer);
-	virtual void xfer(Xfer *xfer);
-	virtual Bool slot4();
-	virtual void slot5();
-	virtual Int getType();
+	__declspec(noinline) virtual void loadPostProcess() {}
+	__declspec(noinline) virtual void crc(Xfer *xfer) {}
+	__declspec(noinline) virtual void xfer(Xfer *xfer) {}
+	__declspec(noinline) virtual Bool slot4() { return 0; }
+	__declspec(noinline) virtual void slot5() {}
+	__declspec(noinline) virtual Int getType() { return 0; }
 };
 
 class OpaqueRefCounted;
@@ -54,6 +54,12 @@ class Rva003FD3EF : public Rva002BB49CEvent
 public:
 	__declspec(dllimport) __forceinline Rva003FD3EF() {}
 	virtual ~Rva003FD3EF();
+	__declspec(noinline) virtual void loadPostProcess() {}
+	__declspec(noinline) virtual void crc(Xfer *xfer) {}
+	__declspec(noinline) virtual void xfer(Xfer *xfer) {}
+	__declspec(noinline) virtual Bool slot4() { return 0; }
+	__declspec(noinline) virtual void slot5() {}
+	__declspec(noinline) virtual Int getType() { return 0; }
 	char m_pad04[8];
 	Rva000A8C9B m_0c;
 };
@@ -69,6 +75,12 @@ class Rva003FD4DA : public Rva002BB49CEvent
 public:
 	__declspec(dllimport) __forceinline Rva003FD4DA() {}
 	virtual ~Rva003FD4DA();
+	__declspec(noinline) virtual void loadPostProcess() {}
+	__declspec(noinline) virtual void crc(Xfer *xfer) {}
+	__declspec(noinline) virtual void xfer(Xfer *xfer) {}
+	__declspec(noinline) virtual Bool slot4() { return 0; }
+	__declspec(noinline) virtual void slot5() {}
+	__declspec(noinline) virtual Int getType() { return 0; }
 	char m_pad04[8];
 	StringBase<char> m_0c;
 };

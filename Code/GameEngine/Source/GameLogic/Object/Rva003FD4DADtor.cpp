@@ -29,6 +29,12 @@ class Rva003FD4DA : public Snapshot
 public:
 	Rva003FD4DA();
 	virtual ~Rva003FD4DA();
+	virtual void loadPostProcess();
+	virtual void crc(Xfer *xfer);
+	virtual void xfer(Xfer *xfer);
+	virtual bool slot4();
+	virtual void slot5();
+	virtual int getType();
 private:
 	char m_pad04[8];
 	StringBase<char> m_0c;

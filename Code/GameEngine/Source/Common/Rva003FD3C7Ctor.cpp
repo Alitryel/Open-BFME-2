@@ -13,12 +13,12 @@ public:
 	void *m_ref;
 };
 
+class Xfer;
 class BfmeBaseVNH
 {
 public:
 	BfmeBaseVNH(unsigned w, char f);
 	virtual ~BfmeBaseVNH();
-	virtual void handle() = 0;
 
 	unsigned m_bfme04;
 	char m_bfme08;
@@ -29,6 +29,12 @@ class Rva003FD3EF : public BfmeBaseVNH
 public:
 	Rva003FD3EF(unsigned width, const Rva0036CA00Str &text, char flags);
 	virtual ~Rva003FD3EF();
+	virtual void loadPostProcess();
+	virtual void crc(Xfer *xfer);
+	virtual void xfer(Xfer *xfer);
+	virtual bool slot4();
+	virtual void slot5();
+	virtual int getType();
 	Rva0036CA00Str m_0c;
 };
 
