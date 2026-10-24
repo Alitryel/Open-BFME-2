@@ -1418,3 +1418,5 @@ param,Rva004DF8D8Test::f2,Rva004DF8D8Test::lateralScale,inferred,agree:nl-a169bf
 param,Rva004DF8D8Test::f3,Rva004DF8D8Test::rearScale,inferred,agree:nl-5258537da448,Code/GameEngine/Source/Common/Rva004DF8D8Test.cpp,0x004DF8D8
 function,?Rva002E6E6CGet@@YAHH@Z,?isGroundOrBridgeLayer@@YAHH@Z,inferred,agree:nl-9220c442737b,Code/GameEngine/Source/Common/Rva002E6E6CGet.cpp,0x002E6E6C
 carry,Rva002E6E6CGet::layer,isGroundOrBridgeLayer::layer,inferred,scope renamed by Rename Rva002E6E6CGet to isGroundOrBridgeLayer (inferred),Code/GameEngine/Source/Common/Rva002E6E6CGet.cpp,0x002E6E6C
+member,Rva00034C90Block::m_size00,Rva00034C90Block::m_prevSize,inferred,agree:nl-f9ec927126bf,Code/GameEngine/Source/Common/Rva00034C90Finish.cpp,
+member,Rva00034C90Block::m_prev08,Rva00034C90Block::m_prev,inferred,agree:nl-38b8ab650c68,Code/GameEngine/Source/Common/Rva00034C90Finish.cpp,
