@@ -2265,3 +2265,11 @@ Code/GameEngine/Source/Common/WeaponGetStatus.cpp|local|Weapon::setClipPercentFu
 Code/Libraries/Source/WWVegas/WWLib/Rva002CF302Erase.cpp|function|0x002CF302|rva002CF302,10204d09dfc180182cafacd7,gpt-6.1-sol,codex5-20261024-004250-29,w-2d32e7a71cf1,2026-10-24
 Code/Libraries/Source/WWVegas/WWLib/Rva002CF302Erase.cpp|param|Rva002CF302::rva002CF302|x,d187cae27e861e60301630cd,gpt-6.1-sol,codex5-20261024-004250-29,w-2d32e7a71cf1,2026-10-24
 Code/Libraries/Source/WWVegas/WWLib/Rva002CF302Erase.cpp|local|Rva002CF302::rva002CF302|y,cae8ac22a2634747aaf4d9a9,gpt-6.1-sol,codex5-20261024-004250-29,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.cpp|member|ShadowChild|m_20,1b563284351149d694fadcf9,gpt-6.1-sol,codex5-20261024-005929-2,w-2d32e7a71cf1,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DHordeModelDrawModuleDataCtor.cpp|local|W3DHordeModelDrawModuleData::W3DHordeModelDrawModuleData|f15,37ebc22b233fb3f80bdf2117,gpt-6.1-sol,codex5-20261024-005929-5,w-2d32e7a71cf1,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DHordeModelDrawModuleDataCtor.cpp|local|W3DHordeModelDrawModuleData::W3DHordeModelDrawModuleData|f8,7502c9fdbef6234a7f41e072,gpt-6.1-sol,codex5-20261024-005929-5,w-2d32e7a71cf1,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DHordeModelDrawModuleDataCtor.cpp|local|W3DHordeModelDrawModuleData::W3DHordeModelDrawModuleData|f05,71195d82b3ceb70deb30a19e,gpt-6.1-sol,codex5-20261024-005929-5,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp|member|Rva002EBA88|m_10,bac37146941b9ff1848111b3,gpt-6.1-sol,codex5-20261024-005929-7,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva00531BA7.cpp|function|0x00531BA7|rva00531BA7,c4150ee28a7d4f6047768ccb,gpt-6.1-sol,codex5-20261024-005929-8,w-2d32e7a71cf1,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E7140.cpp|class||Rva000E7140Record,ad3c4f54d714387b2521c20f,gpt-6.1-sol,codex5-20261024-005929-10,w-2d32e7a71cf1,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E7140.cpp|function|0x000E7140|rva000E7140,ffdeafc63e8974acc77e3ca2,gpt-6.1-sol,codex5-20261024-005929-10,w-2d32e7a71cf1,2026-10-24
