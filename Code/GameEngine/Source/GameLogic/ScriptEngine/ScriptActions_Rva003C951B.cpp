@@ -27,10 +27,6 @@ public:
 	Rva000421C8 *m_next;
 };
 
-// The base filter's slot 2 is the trivial virtual retail shares across many
-// vftable slots (0x0036CC7A); bind the declaration to that row.
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
-
 class ThingTemplate;
 
 // vftable 0x00C1FDEC, allow 0x00261750: +0x08 a thing template, +0x0C

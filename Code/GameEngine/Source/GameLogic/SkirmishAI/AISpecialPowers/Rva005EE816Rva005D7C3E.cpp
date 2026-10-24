@@ -59,10 +59,6 @@ public:
 	virtual bool allow(Object *obj);
 };
 
-// The base filter's slot 2 is the trivial virtual retail shares across many
-// vftable slots (0x0036CC7A); bind the declaration to that row.
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
-
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
 // A KindOfMaskType view: 224 bits, zeroed then set bit by bit.
@@ -143,5 +139,3 @@ bool Rva005EE816::rva005D7C3E(Object *source)
 	}
 	return ((AISpellBookStructureBreaker *)this)->shouldActivate(source);
 }
-
-

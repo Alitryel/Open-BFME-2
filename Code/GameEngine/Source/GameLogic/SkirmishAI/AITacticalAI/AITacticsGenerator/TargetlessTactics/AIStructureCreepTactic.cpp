@@ -651,10 +651,6 @@ bool AIStructureCreepTactic::findBestInterestZone()
 	return false;
 }
 
-// The base filter's slot 2 is the trivial virtual retail shares across 68
-// vftable slots (0x0036CC7A); bind the declaration to that row.
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
-
 Rva005ABEA2Site *getMyZone(Player *owner, int id)
 {
 	Rva002C5FE8 *sites = TheSkirmishAIManager->rva002A8AB1(owner)->m_164;

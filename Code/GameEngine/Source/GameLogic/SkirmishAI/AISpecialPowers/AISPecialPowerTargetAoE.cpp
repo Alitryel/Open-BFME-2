@@ -252,10 +252,6 @@ bool Rva005EE816::checkTargetLocation(void *source, const Coord3D *pos)
 	return false;
 }
 
-// The base filter's slot 2 is the trivial virtual retail shares across 68
-// vftable slots (0x0036CC7A); bind the declaration to that row.
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
-
 // WB13B0750 and native5EE8DD..5EE9CE prove the stored target1C and
 // search flag19. WB13B0680 saves a member receiver for direction creation.
 // Scalar coordinate constructors preserve the native batch of three
@@ -298,4 +294,3 @@ void Rva005EE816::rva005EE317(Coord3D *out)
 	out->y = tmp.y;
 	out->z = tmp.z;
 }
-

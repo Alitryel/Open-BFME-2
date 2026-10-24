@@ -64,10 +64,6 @@ public:
 	int m_flags;
 };
 
-// The base filter's slot 2 is the trivial virtual retail shares across many
-// vftable slots (0x0036CC7A); bind the declaration to that row.
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
-
 struct Rva00045411BitSet
 {
 	Rva00045411BitSet(int unused, int bit);	// 0x00045411

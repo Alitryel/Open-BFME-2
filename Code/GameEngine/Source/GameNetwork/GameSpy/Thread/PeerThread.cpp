@@ -232,8 +232,6 @@ void ***copy_backward<void ***, void ***>(void ***first, void ***last, void ***r
 
 // Native callback uses the already recovered GameSpy C API entry.
 extern "C" void peerGetPlayerProfileIDA(PEER, const char *, void *, void *, PEERBool);
-#pragma comment(linker, "/alternatename:??0PeerResponse@@QAE@XZ=??0BfmeOpaqueOwnedRecord840@@QAE@XZ")
-#pragma comment(linker, "/alternatename:??1PeerResponse@@QAE@XZ=??1BfmeOpaqueOwnedRecord840@@QAE@XZ")
 
 #ifdef _INTERNAL
 // for occasional debugging...

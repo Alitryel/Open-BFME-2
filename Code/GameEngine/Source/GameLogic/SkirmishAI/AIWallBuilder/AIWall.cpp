@@ -69,7 +69,6 @@ public:
 	int m_flags;
 };
 
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
 
 float __cdecl GetGameLogicRandomValueReal(float, float, char *, int);
 // Native4EAFBD/213 and WB137E4D0/747 prove a hidden twelve-byte result,

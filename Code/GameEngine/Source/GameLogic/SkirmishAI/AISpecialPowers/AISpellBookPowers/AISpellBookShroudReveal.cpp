@@ -50,7 +50,6 @@ public:
 	virtual bool allow(Object *obj);
 };
 
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
 
 // Coord3D: shared header/view; no private copy.
 #include "../../../../../../Libraries/Include/Lib/Coord3DInline.h"
