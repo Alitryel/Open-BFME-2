@@ -126,9 +126,9 @@ void LivingWorldTutorial::SessionTask::ParseINI(INI *ini, Rva003F7C0C *outer)
 		INIException exc(3, "Invalid data in SessionTask::ParseINI");
 		_CxxThrowException(&exc, (const _s__ThrowInfo *)&rva003F2576ThrowInfoAnchor); __assume(0);
 	}
-	Rva003F8ED6 *p = new Rva003F8ED6((outer->m_04?outer->m_04:outer->m_04));
-	ini->initFromINI(p, g_00C373D8);
-	outer->rva003F7C0C(p);
+	Rva003F8ED6 *task = new Rva003F8ED6((outer->m_04?outer->m_04:outer->m_04));
+	ini->initFromINI(task, g_00C373D8);
+	outer->rva003F7C0C(task);
 }
 
 void LivingWorldTutorial::LogicTurn::ParseINI(INI *ini, Rva003F9004 *outer)
