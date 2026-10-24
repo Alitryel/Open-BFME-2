@@ -3463,3 +3463,11 @@ Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|loca
 Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|local|BFME2Encoding1MotionChannel::rva001B2450|fi0,a92b89ec941cddbaf0968771,gpt-6.1-sol,codex5-20261024-055455-26,w-2d32e7a71cf1,2026-10-24
 Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|local|BFME2Encoding1MotionChannel::rva001B2450|f,9ad63b506b3083c1f1537fed,gpt-6.1-sol,codex5-20261024-055455-26,w-2d32e7a71cf1,2026-10-24
 Code/Libraries/Source/WWVegas/WWLib/Rva0020F2A2Dispatch.cpp|local|LivingWorldRegionManager::GetRegionUiPopupPoint|r,23f36039158e59f89154183f,gpt-6.1-sol,codex5-20261024-055455-27,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/AutoResolveArmorParse.cpp|local|Rva00542BA1Parse|tmp,02c2ccba40d00c6ae12ef277,claude-opus-5-5,claudec6-20261024-060032-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/AutoResolveArmorParse.cpp|local|Rva00542B24Parse|tmp,855f48ba84c6dd68f36957bc,claude-opus-5-5,claudec6-20261024-060032-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva00803730FeslAttrs.cpp|local|Rva00803730Sink::apply|p,a978453d574ecf173057542e,claude-opus-5-5,claudec6-20261024-060032-2,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/System/FormationBuild.cpp|local|FormationAssistant::rva00424E77|y,b32cca62849b23dbb3362578,claude-opus-5-5,claudec6-20261024-060032-3,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/System/FormationBuild.cpp|local|FormationAssistant::rva00424E77|x,febb5ef1165b757f88c98e18,claude-opus-5-5,claudec6-20261024-060032-3,w-efe153480513,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|function|0x001B230A|rva001B230A,de6686b047756939eeacd3da,claude-opus-5-5,claudec6-20261024-060032-8,w-efe153480513,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/IosBaseRva0083F090Index.cpp|function|0x0001BF60|rva0083F090,18ad3daac335835527531dd8,claude-opus-5-5,claudec6-20261024-060032-10,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv1373.cpp|class||BfmeTagVIF,113d88d2f39166ed73a98418,claude-opus-5-5,claudec6-20261024-060032-11,w-efe153480513,2026-10-24
