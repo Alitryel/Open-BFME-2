@@ -77,30 +77,30 @@ int Rva005DBB7A::rva005DBB7A(unsigned short row, unsigned short column) const
 
 // --- 0x005DD7FB (39B): the +0x14 flag of the indexed 24-byte record, false
 // past the end.
-struct Rva005DD7FBRecord
+struct GameStatsRow
 {
 	int m_words[5];
 	bool m_14;
 };
 
-struct Rva005DD7FBVector
+struct GameStatsRowVector
 {
 	__forceinline unsigned size() const { return m_end - m_begin; }
-	__forceinline const Rva005DD7FBRecord &operator[](unsigned i) const { return m_begin[i]; }
-	Rva005DD7FBRecord *m_begin;
-	Rva005DD7FBRecord *m_end;
+	__forceinline const GameStatsRow &operator[](unsigned i) const { return m_begin[i]; }
+	GameStatsRow *m_begin;
+	GameStatsRow *m_end;
 };
 
-class Rva005DD7FB
+class GameStatsTable
 {
 public:
 	bool rva005DD7FB(unsigned index) const;
 private:
 	int m_00;
-	Rva005DD7FBVector m_records;
+	GameStatsRowVector m_records;
 };
 
-bool Rva005DD7FB::rva005DD7FB(unsigned index) const
+bool GameStatsTable::rva005DD7FB(unsigned index) const
 {
 	if (index >= m_records.size())
 		return false;

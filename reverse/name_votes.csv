@@ -4777,3 +4777,17 @@ Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp|member|Rva00202244Pr
 Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp|member|Rva00202244Preset|m_38,428676eac4b08ec8d040e508,seat-b,rn-1024b-1-b,w-01929870072b,2026-10-24
 Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp|member|Rva00202244Preset|m_40,66804b230d7a8456fc439522,seat-b,rn-1024b-1-b,w-01929870072b,2026-10-24
 Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp|local|Rva00DFE144Globals::rva00202244|p,c0e27ba51834a6a9ff5f13a6,seat-b,rn-1024b-1-b,w-01929870072b,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesGE38.cpp|class||Rva005DD7FBRecord,5f357aa015e474ea5352955d,seat-b,rn-1024b-0-b,w-f1bcded0bdd6,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesGE38.cpp|class||Rva005DD7FBVector,0988946ad3aeceefc8e1a870,seat-b,rn-1024b-0-b,w-f1bcded0bdd6,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesGE38.cpp|class||Rva005DD7FB,62b00c1b82175c416dabc645,seat-b,rn-1024b-0-b,w-f1bcded0bdd6,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesGE38.cpp|class||Rva005E18EAPlayer,34cdf399ea3630e2081a5ad2,seat-b,rn-1024b-0-b,w-f1bcded0bdd6,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesGE38.cpp|member|Rva005DD7FBRecord|m_14,daa4e26e10a0072ae23cee2c,seat-b,rn-1024b-0-b,w-f1bcded0bdd6,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesGE38.cpp|function|0x005D833E|Rva005D833E,4836cdf891a395acfd5d640f,seat-b,rn-1024b-0-b,w-f1bcded0bdd6,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesGE38.cpp|function|0x005D851D|Rva005D851D,38e0e169cf6b1f495cc2d885,seat-b,rn-1024b-0-b,w-f1bcded0bdd6,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesGE38.cpp|function|0x005DBB7A|rva005DBB7A,4610fddca47451d223269764,seat-b,rn-1024b-0-b,w-f1bcded0bdd6,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesGE38.cpp|function|0x005DD7FB|rva005DD7FB,fbdf5d21a9c24f0222159c27,seat-b,rn-1024b-0-b,w-f1bcded0bdd6,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesGE38.cpp|class||Rva005DD7FBRecord,5f357aa015e474ea5352955d,seat-a,rn-1024b-0-a,w-04c0991c16ee,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesGE38.cpp|class||Rva005DD7FBVector,0988946ad3aeceefc8e1a870,seat-a,rn-1024b-0-a,w-04c0991c16ee,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesGE38.cpp|class||Rva005DD7FB,62b00c1b82175c416dabc645,seat-a,rn-1024b-0-a,w-04c0991c16ee,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesGE38.cpp|function|0x005DBB7A|rva005DBB7A,5fa7f38ec25374afc2f4d90e,seat-a,rn-1024b-0-a,w-04c0991c16ee,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesGE38.cpp|function|0x005DD7FB|rva005DD7FB,dc104cb979dc6ccd34224520,seat-a,rn-1024b-0-a,w-04c0991c16ee,2026-10-24
