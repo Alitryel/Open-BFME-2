@@ -178,10 +178,10 @@ bool Rva002CA9CA::rva002CA9CA(int id, const void *arg)
 		{
 			if (obj->v1c())
 			{
-				void *p = obj->v28();
-				if (p != 0)
+				void *weaponTemplate = obj->v28();
+				if (weaponTemplate != 0)
 				{
-					if (((ChildId *)p)->m_id == id)
+					if (((ChildId *)weaponTemplate)->m_id == id)
 						return true;
 				}
 			}
@@ -254,9 +254,9 @@ float Rva002CA9CA::getProjectileNuggetRadiusIfAlliesAffected(const void *arg)
 					{
 						if (iobj->v1c())
 						{
-							void *p = iobj->v28();
-							if (p != 0)
-								return ((FloatHolder *)p)->m_130;
+							void *weaponTemplate = iobj->v28();
+							if (weaponTemplate != 0)
+								return ((FloatHolder *)weaponTemplate)->m_130;
 						}
 					}
 					inner = inner->m_next;
