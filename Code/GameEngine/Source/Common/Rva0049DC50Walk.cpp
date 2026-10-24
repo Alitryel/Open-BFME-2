@@ -51,7 +51,7 @@ public:
 	int m_productionID;
 	float m_percentComplete;
 	char m_gap18[0x10];
-	int m_28;
+	int m_cost;
 	char m_gap2c[0x1C];
 	Rva0049DC50Node *m_next;
 };
@@ -80,8 +80,8 @@ void Rva0049DC50::rva0049DC50(int id)
 			if (flag == 0)
 			{
 				((Rva003B0D7C *)((char *)player + 0x90))->rva003B0D7C(
-					node->m_28, (Rva0039B7AD *)((char *)player + 0x3bc), true);
-				((Rva0039BAD2 *)((char *)player + 0x3bc))->rva0039BAD2(node->m_objectToProduce, -node->m_28);
+					node->m_cost, (Rva0039B7AD *)((char *)player + 0x3bc), true);
+				((Rva0039BAD2 *)((char *)player + 0x3bc))->rva0039BAD2(node->m_objectToProduce, -node->m_cost);
 			}
 			if (node->m_type == 3)
 				((Rva0037E421 *)((char *)player + 0x738))->productionSystemCancelUnitCreate(node->m_productionID);
