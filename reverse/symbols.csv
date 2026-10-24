@@ -2631,7 +2631,6 @@ name,address,notes
 ??1?$DefaultModuleTemplate@$05@FXParticleSystem@@UAE@XZ,0x003A6201,BFME2 export; address read from the retail REL32 in ConcreteModuleTemplate<DefaultModuleTag<6>> scalar dtor at 0x003A9397; body folds with the StreakDrawModuleTemplate dtor row at this address
 ??1?$DefaultModuleTemplate@$06@FXParticleSystem@@UAE@XZ,0x003A6201,BFME2 export shares the 5-byte stub at 0x003A9397 with its concrete wrapper; calls to this destructor resolve to the 41-byte fold like its five siblings
 ??1?$DefaultModuleTemplate@$0A@@FXParticleSystem@@UAE@XZ,0x003A6201,BFME2 export; address read from the retail REL32 in ConcreteModuleTemplate<DefaultModuleTag<0>> scalar dtor at 0x003A9397; body folds with the StreakDrawModuleTemplate dtor row at this address
-??1?$DynamicVectorClass@H@@UAE@XZ,0x000023E3,"DynamicVectorClass<int>'s destructor adds nothing to VectorClass<int>'s, so retail folds it onto the rowed ~VectorClass<int>: the scalar deleting destructor 0x00156860 (slot 0 of 0x00BD3C00) calls 0x000023E3"
 ??1?$DynamicVectorClass@K@@UAE@XZ,0x0018A1D0,twin of dup row object-symbol proves real name for ??_G call
 ??1?$DynamicVectorClass@PAULegacyMaterialClass@MeshLoadContextClass@@@@UAE@XZ,0x0018A1A0,twin of dup row object-symbol proves real name for ??_G call
 ??1?$DynamicVectorClass@PAVHAnimComboDataClass@@@@UAE@XZ,0x00196B50,ICF twin of rowed VectorClass dtor at same address; called by DynamicVectorClass deleting dtor 0x197470
