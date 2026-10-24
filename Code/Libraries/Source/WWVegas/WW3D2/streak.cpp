@@ -65,7 +65,7 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-#include "streak.h"
+#include "../../../../../reference/shims/bfmestreak/streak.h"
 #include "ww3d.h"
 #include "rinfo.h"
 #include "predlod.h"
