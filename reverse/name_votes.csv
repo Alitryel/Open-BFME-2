@@ -3700,3 +3700,10 @@ Code/GameEngine/Source/Common/ThingTemplateBuildFacility.cpp|param|buildMin|a,08
 Code/GameEngine/Source/Common/ThingTemplateBuildFacility.cpp|param|buildMin|b,0764cfaffc19239021e7b3fa,gpt-6.1-sol,codex5-20261024-070139-13,w-2d32e7a71cf1,2026-10-24
 Code/GameEngine/Source/Common/System/LivingWorldRegionBuildingRestrictionParseINI.cpp|local|LivingWorldRegion::ModuleData::BuildingRestriction::ParseINI|p,cf03d23e843e87d501e79078,gpt-6.1-sol,codex5-20261024-070139-14,w-2d32e7a71cf1,2026-10-24
 Code/GameEngine/Source/Common/Rva002860CF.cpp|local|Rva002860CFHost::rva002860CF|s,dcc25c872d108a57bc9cf4e7,gpt-6.1-sol,codex5-20261024-070139-15,w-2d32e7a71cf1,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainVisualLoad.cpp|param|Set_Far_Attenuation_Range|a,af91ceb2ed365bfa42e269ed,gpt-6.1-sol,codex8-20261024-070923-2,w-de56e563a50b,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainVisualLoad.cpp|param|Set_Far_Attenuation_Range|b,14eef9adfe0db4d6eff4bbde,gpt-6.1-sol,codex8-20261024-070923-2,w-de56e563a50b,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainVisualLoad.cpp|local|W3DTerrainVisual::load|p,2df4c2ae22ebc8a5ee8b058e,gpt-6.1-sol,codex8-20261024-070923-2,w-de56e563a50b,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainVisualLoad.cpp|local|W3DTerrainVisual::load|c,b8766c1d6167f6644f505e7b,gpt-6.1-sol,codex8-20261024-070923-2,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameClient/MapUtilGetDefaultMap.cpp|param|Rva003000F6Get|a,b6a650ad36671ffa454a4391,gpt-6.1-sol,codex8-20261024-070923-4,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameClient/MapUtilGetDefaultMap.cpp|param|Rva003000F6Get|b,82f074dfb8f4dd89ef0f8af7,gpt-6.1-sol,codex8-20261024-070923-4,w-de56e563a50b,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferDoXfer.cpp|local|shrubPosition|r,6245790eb6845b99360bed5e,gpt-6.1-sol,codex8-20261024-070923-4,w-de56e563a50b,2026-10-24
