@@ -265,54 +265,23 @@ void GadgetTabControlComputeTabRegion( GameWindow *tabControl )///< Recalc the t
 
 void GadgetTabControlComputeSubPaneSize( GameWindow *tabControl, Int *width, Int *height, Int *x, Int *y )
 {
-	// MSVC 7.1 /O1 lays winWidth at [ebp-4] and winHeight at [ebp-8]. Reverse
-	// the output pointers so the later inline arithmetic sees height at -4 and width at -8.
+	// Preserve the native output-pointer order and the two local stack homes.
 	Int winHeight, winWidth;
 	tabControl->winGetSize( &winHeight, &winWidth );
 
 	TabControlData *tabData = (TabControlData *)tabControl->winGetUserData();
 
-	// MSVC 7.1 /O1 rewrites these equivalent scales to SHL/NEG+SHL;
-	// retail uses ADD and IMUL at 0x327209/0x32721A/0x327238/0x327249.
-	if( (tabData->tabEdge == TP_TOP_SIDE)  ||  (tabData->tabEdge == TP_BOTTOM_SIDE) ) {
-		__asm {
-			mov ecx, dword ptr [eax+0x3c]
-			mov edx, height
-			imul ecx, ecx, -2
-			sub ecx, dword ptr [eax+0x0c]
-			add ecx, winWidth
-			mov dword ptr [edx], ecx
-		}
-	} else {
-		__asm {
-			mov ecx, dword ptr [eax+0x3c]
-			mov edx, winWidth
-			add ecx, ecx
-			sub edx, ecx
-			mov ecx, height
-			mov dword ptr [ecx], edx
-		}
-	}
+	// Native IMUL/ADD/SUB operate modulo 32 bits; keep that full-domain
+	// arithmetic explicit rather than adding a signed-overflow assumption.
+	if( (tabData->tabEdge == TP_TOP_SIDE) || (tabData->tabEdge == TP_BOTTOM_SIDE) )
+		*height = (unsigned)winWidth + (-2u * (unsigned)tabData->paneBorder) - (unsigned)tabData->tabHeight;
+	else
+		*height = (unsigned)winWidth - ((unsigned)tabData->paneBorder + (unsigned)tabData->paneBorder);
 
-	if( (tabData->tabEdge == TP_LEFT_SIDE)  ||  (tabData->tabEdge == TP_RIGHT_SIDE) ) {
-		__asm {
-			mov ecx, dword ptr [eax+0x3c]
-			mov edx, width
-			imul ecx, ecx, -2
-			sub ecx, dword ptr [eax+0x08]
-			add ecx, winHeight
-			mov dword ptr [edx], ecx
-		}
-	} else {
-		__asm {
-			mov ecx, dword ptr [eax+0x3c]
-			mov edx, winHeight
-			add ecx, ecx
-			sub edx, ecx
-			mov ecx, width
-			mov dword ptr [ecx], edx
-		}
-	}
+	if( (tabData->tabEdge == TP_LEFT_SIDE) || (tabData->tabEdge == TP_RIGHT_SIDE) )
+		*width = (unsigned)winHeight + (-2u * (unsigned)tabData->paneBorder) - (unsigned)tabData->tabWidth;
+	else
+		*width = (unsigned)winHeight - ((unsigned)tabData->paneBorder + (unsigned)tabData->paneBorder);
 
 	if( tabData->tabEdge == TP_LEFT_SIDE )
 		*x = tabData->paneBorder + tabData->tabWidth;
