@@ -142,7 +142,7 @@ public:
 	virtual void vslot07(int);
 	virtual void vslot08();
 	virtual void reset(void);                                            // +0x24
-	virtual void update(void);                                           // +0x28
+	virtual void update(void) {}                                         // +0x28
 	void setName(AsciiString name);
 
 private:
@@ -742,7 +742,8 @@ public:
 	GameLogic(void);
 	virtual ~GameLogic(void);
 	virtual void init(void);
-	virtual void v11(void); virtual void v12(void);
+	virtual bool v11(int) { return false; }
+	virtual void v12(void) {}
 	virtual void update(int phase);                                      // +0x34
 	virtual TerrainLogic *createTerrainLogic(void) = 0;                      // +0x38
 	virtual GhostObjectManager *createGhostObjectManager(void) = 0;          // +0x3C
