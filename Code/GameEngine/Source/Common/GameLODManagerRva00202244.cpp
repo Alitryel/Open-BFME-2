@@ -17,21 +17,21 @@ public:
 
 struct Rva00202244Preset
 {
-	int m_00;
-	int m_04;
+	int m_modelLOD;
+	int m_effectsLOD;
 	unsigned char m_pad08[0x10 - 0x08];
-	int m_10;
+	int m_shadowLOD;
 	bool m_14;
 	bool m_15;
 	unsigned char m_pad16[0x18 - 0x16];
-	int m_18;
+	int m_waterLOD;
 	unsigned char m_pad1C[0x2C - 0x1C];
-	int m_2C;
+	int m_textureReduction;
 	unsigned char m_pad30[0x34 - 0x30];
-	int m_34;
+	int m_animationDetail;
 	int m_38;
 	unsigned char m_pad3C[0x40 - 0x3C];
-	int m_40;
+	int m_decalLOD;
 	unsigned char m_pad44[0x4C - 0x44];
 };
 
@@ -45,14 +45,14 @@ private:
 
 void Rva00DFE144Globals::rva00202244(int preset, OptionPreferences *prefs)
 {
-	const Rva00202244Preset &p = m_presets[preset];
-	prefs->setSetting(0, p.m_00);
-	prefs->setSetting(1, p.m_34);
-	prefs->setSetting(2, p.m_04);
-	prefs->setSetting(3, p.m_10);
-	prefs->setSetting(4, p.m_14 ? 2 : (p.m_15 != 0));
-	prefs->setSetting(5, p.m_18);
-	prefs->setSetting(6, p.m_2C == 2 ? 0 : (p.m_2C == 1 ? 1 : 2));
-	prefs->setSetting(7, p.m_38);
-	prefs->setSetting(8, p.m_40);
+	const Rva00202244Preset &lodInfo = m_presets[preset];
+	prefs->setSetting(0, lodInfo.m_modelLOD);
+	prefs->setSetting(1, lodInfo.m_animationDetail);
+	prefs->setSetting(2, lodInfo.m_effectsLOD);
+	prefs->setSetting(3, lodInfo.m_shadowLOD);
+	prefs->setSetting(4, lodInfo.m_14 ? 2 : (lodInfo.m_15 != 0));
+	prefs->setSetting(5, lodInfo.m_waterLOD);
+	prefs->setSetting(6, lodInfo.m_textureReduction == 2 ? 0 : (lodInfo.m_textureReduction == 1 ? 1 : 2));
+	prefs->setSetting(7, lodInfo.m_38);
+	prefs->setSetting(8, lodInfo.m_decalLOD);
 }

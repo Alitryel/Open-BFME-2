@@ -1080,3 +1080,11 @@ class,BfmeVtblECF,IFEBrowserEngine2Vtbl,inferred,agree:nl-a43e08bc7b41,Code/Game
 local,bfmeGo925A::o,bfmeGo925A::comboBoxData,inferred,agree:nl-cf5459f5965b,Code/GameEngine/Source/Common/BfmeConv925.cpp,0x002C0315
 local,bfmeGo925A::p,bfmeGo925A::listBox,inferred,agree:nl-5e90e446ad5c,Code/GameEngine/Source/Common/BfmeConv925.cpp,0x002C0315
 class,Rva004ED3A2Tag,FalseType,inferred,agree:nl-2b8df04974e1,Code/GameEngine/Source/Common/CursorCompaction.cpp,
+member,Rva00202244Preset::m_00,Rva00202244Preset::m_modelLOD,inferred,agree:nl-b085cb217aaa,Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp,
+member,Rva00202244Preset::m_04,Rva00202244Preset::m_effectsLOD,inferred,agree:nl-77a1b2a457f0,Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp,
+member,Rva00202244Preset::m_10,Rva00202244Preset::m_shadowLOD,inferred,agree:nl-cfe967a39ad3,Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp,
+member,Rva00202244Preset::m_18,Rva00202244Preset::m_waterLOD,inferred,agree:nl-436026422a3b,Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp,
+member,Rva00202244Preset::m_2C,Rva00202244Preset::m_textureReduction,inferred,agree:nl-d1e30bb73875,Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp,
+member,Rva00202244Preset::m_34,Rva00202244Preset::m_animationDetail,inferred,agree:nl-fb0c752331ca,Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp,
+member,Rva00202244Preset::m_40,Rva00202244Preset::m_decalLOD,inferred,agree:nl-1397b8e21d59,Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp,
+local,Rva00DFE144Globals::rva00202244::p,Rva00DFE144Globals::rva00202244::lodInfo,inferred,agree:nl-7db1ae8b1a92,Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp,0x00202244
