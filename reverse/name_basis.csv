@@ -845,3 +845,5 @@ carry,Rva0055CDEC::rva0055CDEC::fraction,FXPSEmitterLineVolumeModule::rva0055CDE
 param,FormationTranslator::WaitForSecondButtonDownStateHandler::Restart::p,FormationTranslator::WaitForSecondButtonDownStateHandler::Restart::message,inferred,agree:nl-cbad00ac9144,Code/GameEngine/Source/GameClient/FormationTranslatorRva00431C9D.cpp,0x00431C35
 local,FormationTranslator::WaitForSecondButtonDownStateHandler::Restart::v,FormationTranslator::WaitForSecondButtonDownStateHandler::Restart::prevMessage,inferred,agree:nl-be76ec89a0a1,Code/GameEngine/Source/GameClient/FormationTranslatorRva00431C9D.cpp,0x00431C35
 class,Rva00431C9DHelper,MouseDragStateHandler,inferred,agree:nl-28fd7837aa8e,Code/GameEngine/Source/GameClient/FormationTranslatorRva00431C9D.cpp,
+param,Rva003145B1::Rva003145B1Dispatch::a0,Rva003145B1::Rva003145B1Dispatch::message,inferred,agree:nl-d068fc0a7e65,Code/GameEngine/Source/GameClient/GUI/Rva003145B1Dispatch.cpp,0x003145B1
+param,Rva003145B1::rva00314596::a0,Rva003145B1::rva00314596::message,inferred,agree:nl-00caebb68f43,Code/GameEngine/Source/GameClient/GUI/Rva003145B1Dispatch.cpp,0x00314596

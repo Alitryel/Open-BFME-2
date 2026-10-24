@@ -24,20 +24,20 @@ public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
-    int Rva003145B1Dispatch(int a0, int a1, int a2);
-    int rva00314596(int a0, int a1, int a2);
+    int Rva003145B1Dispatch(int message, int a1, int a2);
+    int rva00314596(int message, int a1, int a2);
 private:
     TargetA *m_04;
     TargetB *m_08;
 };
-int Rva003145B1::Rva003145B1Dispatch(int a0, int a1, int a2)
+int Rva003145B1::Rva003145B1Dispatch(int message, int a1, int a2)
 {
     int result;
     if (m_04)
-        result = m_04->a4(a0, a1, a2);
+        result = m_04->a4(message, a1, a2);
     else
-        result = m_08->b2(a0, a1, a2);
-    if (a0 == 2)
+        result = m_08->b2(message, a1, a2);
+    if (message == 2)
         v2();
     return result;
 }
@@ -46,9 +46,9 @@ int Rva003145B1::Rva003145B1Dispatch(int a0, int a1, int a2)
 // GameWindow::winSendInputMsg (0x00314511) on this layout -- the +0x04 handler's
 // slot 3, else the +0x08 object's slot 1, both reached by tail jumps with the
 // caller's three arguments still on the stack; /Oy- keeps retail's frame.
-int Rva003145B1::rva00314596(int a0, int a1, int a2)
+int Rva003145B1::rva00314596(int message, int a1, int a2)
 {
     if (m_04)
-        return m_04->a3(a0, a1, a2);
-    return m_08->b1(a0, a1, a2);
+        return m_04->a3(message, a1, a2);
+    return m_08->b1(message, a1, a2);
 }
