@@ -1,5 +1,5 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// 0x007EA9C0: start NetConn if needed, then lazy-init the FESL service pair
+// 0x007EA9C0: start NetConn if needed, then lazy-init the FESL p pair
 // at +0x250 the same way 0x007EAA70 does for +0x268.
 
 class BfmeThingUNB
@@ -47,7 +47,7 @@ public:
 private:
 	char m_pad00[4];
 	void *m_04;
-	unsigned char m_08;
+	unsigned char m_flags;
 	char m_pad09[3];
 	void *m_0C;
 	char m_pad10[0x240];
@@ -57,7 +57,7 @@ private:
 
 void Rva007EA9C0Owner::init()
 {
-	if ((m_08 & 1) == 0)
+	if ((m_flags & 1) == 0)
 		Rva007EB380Startup(0);
 	m_0C = bfmeGoDGG(this);
 	m_250 = bfmeNewUNB();

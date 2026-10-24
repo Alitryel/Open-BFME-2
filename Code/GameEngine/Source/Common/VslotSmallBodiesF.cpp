@@ -18,7 +18,7 @@ extern GameLogic *TheGameLogic;
 struct Rva004C31ECArg
 {
 	char m_pad00[0x38];
-	char m_38[4];
+	char m_position[4];
 };
 class Rva004C31EC
 {
@@ -33,7 +33,7 @@ public:
 void Rva004C31EC::doSpecialPowerAtObject(Rva004C31ECArg *arg, Int value)
 {
 	if (arg)
-		vslot12(arg->m_38, value);
+		vslot12(arg->m_position, value);
 }
 
 // slots at VA 0x00BC662C and 0x00C0883C: stores both arguments at +0x04 and
@@ -61,7 +61,7 @@ public:
 	void rva0051BF2D();
 private:
 	char m_pad00[0x27C];
-	Int m_27C;
+	Int m_state;
 	char m_pad280[0x284 - 0x280];
 	Bool m_284;
 };
@@ -69,7 +69,7 @@ void Rva0051BF2D::rva0051BF2D()
 {
 	Bool *flag = &m_284;
 	if (*flag)
-		m_27C = 3;
+		m_state = 3;
 	else
 		*flag = true;
 }

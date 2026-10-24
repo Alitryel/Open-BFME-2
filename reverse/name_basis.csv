@@ -997,3 +997,6 @@ local,Rva0030C2CESave::nc_91,Rva0030C2CESave::atEnd,inferred,agree:nl-878adb6ce7
 function,?Rva0030C2CESave@@YAXPAVRva0030C2CECollection@@PAVDataChunkOutput@@@Z,?saveRiverAreas@@YAXPAVRva0030C2CECollection@@PAVDataChunkOutput@@@Z,inferred,agree:nl-6203f4b17fab,Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp,0x0030C2CE
 carry,Rva0030C2CESave::atEnd,saveRiverAreas::atEnd,inferred,scope renamed by Rename Rva0030C2CESave to saveRiverAreas (inferred),Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp,0x0030C2CE
 local,~Rva0057FE6B_Holder64::p,~Rva0057FE6B_Holder64::allocation,inferred,agree:nl-3bc4ab74a156,Code/GameEngine/Source/Common/Rva0057FE6BDtor.cpp,
+member,Rva004C31ECArg::m_38,Rva004C31ECArg::m_position,inferred,agree:nl-0e217f99973f,Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp,
+member,Rva0051BF2D::m_27C,Rva0051BF2D::m_state,inferred,agree:nl-44a09045a161,Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp,
+member,Rva007EA9C0Owner::m_08,Rva007EA9C0Owner::m_flags,inferred,agree:nl-54cc433bccfe,Code/GameEngine/Source/GameNetwork/Rva007EA9C0Init.cpp,
