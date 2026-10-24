@@ -46,16 +46,16 @@ struct Rva003A2FD4Proto;
 class TeamFactory
 {
 public:
-	Rva003A2FD4Proto *initTeamForTacticalAI(const AsciiString &a1, void *a2, int a3, unsigned int a4);
+	Rva003A2FD4Proto *initTeamForTacticalAI(const AsciiString &a1, void *ownerName, int targetID, unsigned int tacticID);
 
 private:
 	char m_pad00[0x10];
 	TeamPrototype *m_slots[0x28]; // +0x10
 };
 
-Rva003A2FD4Proto *TeamFactory::initTeamForTacticalAI(const AsciiString &asciiString, void *a2, int a3, unsigned int a4)
+Rva003A2FD4Proto *TeamFactory::initTeamForTacticalAI(const AsciiString &asciiString, void *ownerName, int targetID, unsigned int tacticID)
 {
-	NameKeyType key = TheNameKeyGenerator->nameToKey(*(const AsciiString *)a2);
+	NameKeyType key = TheNameKeyGenerator->nameToKey(*(const AsciiString *)ownerName);
 	Player *player = ThePlayerList->findPlayerWithNameKey(key);
 	for (unsigned int i = 0; i < 0x28; ++i)
 	{
@@ -63,8 +63,8 @@ Rva003A2FD4Proto *TeamFactory::initTeamForTacticalAI(const AsciiString &asciiStr
 		if (cur->m_31e == 0)
 		{
 			cur->rva003A2C0D(player, asciiString, false, 0);
-			cur->m_2c4 = a3;
-			cur->m_2d8 = (int)a4;
+			cur->m_2c4 = targetID;
+			cur->m_2d8 = (int)tacticID;
 			cur->m_31e = 1;
 			cur->m_31c = 1;
 			return (Rva003A2FD4Proto *)cur;
