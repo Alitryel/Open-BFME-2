@@ -22,7 +22,7 @@ struct Rva002CF7B5
 struct Rva002CFC7B
 {
 	Rva002CFA30Node *rva002CFA30(const Rva002CFA30Node *src);
-	Rva002CFA30Node *rva002CFC7B(Rva002CFA30Node *x, Rva002CFA30Node *p);
+	Rva002CFA30Node *_M_copy(Rva002CFA30Node *x, Rva002CFA30Node *p);
 };
 struct Rva002D0136Header
 {
@@ -50,7 +50,7 @@ Rva002D0136 &Rva002D0136::operator=(const Rva002D0136 &other)
 			m_header->m_right = (Rva002CFA30Node *)m_header;
 		} else {
 			Rva002D0136Header *h = m_header;
-			Rva002CFA30Node *top = ((Rva002CFC7B *)this)->rva002CFC7B(root, (Rva002CFA30Node *)h);
+			Rva002CFA30Node *top = ((Rva002CFC7B *)this)->_M_copy(root, (Rva002CFA30Node *)h);
 			h->m_parent = top;
 			Rva002CFA30Node *leftmost = m_header->m_parent;
 			while (leftmost->m_left != 0)

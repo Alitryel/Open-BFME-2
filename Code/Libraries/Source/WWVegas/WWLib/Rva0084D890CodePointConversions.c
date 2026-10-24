@@ -16,7 +16,7 @@ __declspec(dllimport) int __stdcall LCMapStringW(
     unsigned long, unsigned long, const unsigned short *, int,
     unsigned short *, int);
 
-unsigned short Rva0084D890ByteToWide(Rva0084D890CodePage *locale, int character)
+unsigned short _Locale_btowc(Rva0084D890CodePage *locale, int character)
 {
     unsigned short converted;
     if (character == -1)
@@ -25,7 +25,7 @@ unsigned short Rva0084D890ByteToWide(Rva0084D890CodePage *locale, int character)
     return converted;
 }
 
-int Rva0084D8D0WideToByte(Rva0084D890CodePage *locale, unsigned short character)
+int _Locale_wctob(Rva0084D890CodePage *locale, unsigned short character)
 {
     char converted;
     int result = WideCharToMultiByte(locale->codePage, 0x240,
@@ -49,7 +49,7 @@ unsigned short Rva00020AC0(Rva0084D890CodePage *owner, int character)
 
 /* BFME2 0x00020E30; Open-BFME-1 5cae4bdff Rva0084DB70 (BFME1 0x0084DB70), written
    against this file's code-page record: the LCID is its first dword. */
-int Rva0084DB70(Rva0084D890CodePage *owner, unsigned short *to, int count,
+int _Locale_strwxfrm(Rva0084D890CodePage *owner, unsigned short *to, int count,
     const unsigned short *from, int fromCount)
 {
     return LCMapStringW(owner->locale, 0x400, from, fromCount, to, count);

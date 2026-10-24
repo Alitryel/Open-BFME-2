@@ -586,3 +586,7 @@ member,Rva0049DC50Node::m_4,Rva0049DC50Node::m_type,inferred,agree:nl-372635bcde
 member,Rva0049DC50Node::m_8,Rva0049DC50Node::m_objectToProduce,inferred,agree:nl-57fc40ccf5a6,Code/GameEngine/Source/Common/Rva0049DC50Walk.cpp,
 member,Rva0049DC50Node::m_10,Rva0049DC50Node::m_productionID,inferred,agree:nl-388a492d0dc4,Code/GameEngine/Source/Common/Rva0049DC50Walk.cpp,
 member,Rva0049DC50Node::m_14,Rva0049DC50Node::m_percentComplete,inferred,agree:nl-20ebffb6b108,Code/GameEngine/Source/Common/Rva0049DC50Walk.cpp,
+function,?rva002CFC7B@Rva002CFC7B@@QAEPAURva002CFA30Node@@PAU2@0@Z,?_M_copy@Rva002CFC7B@@QAEPAURva002CFA30Node@@PAU2@0@Z,inferred,agree:nl-ddffa5ca89e1,Code/Libraries/Source/WWVegas/WWLib/Rva002CFC7BCopy.cpp,0x002CFC7B
+function,_Rva0084D8D0WideToByte,__Locale_wctob,inferred,agree:nl-16bec9f8416d,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodePointConversions.c,0x00020B90
+function,_Rva0084D890ByteToWide,__Locale_btowc,inferred,agree:nl-fa06fe55cb95,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodePointConversions.c,0x00020B50
+function,_Rva0084DB70,__Locale_strwxfrm,inferred,agree:nl-e5c6fbd0d1f5,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodePointConversions.c,0x00020E30
