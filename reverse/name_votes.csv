@@ -4226,3 +4226,6 @@ Code/GameEngine/Source/Common/Rva00418A8EOuter.cpp|function|0x00418985|Rva004189
 Code/GameEngine/Source/Common/Rva00418A8EOuter.cpp|function|0x00418AB2|rva00418AB2,9a768f65019c1184802a4889,gpt-6-astra,codexb2-20261024-083234-2,w-d0bdfd8b17e9,2026-10-24
 Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodePointConversions.c|function|0x00020AC0|Rva00020AC0,60fc58cf170263a2e314f4df,gpt-6-astra,codexb2-20261024-083234-3,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/Rva0057FE6BDtor.cpp|local|~Rva0057FE6B_Holder64|p,3bc4ab74a1564878e5b5d079,gpt-6-astra,codexb2-20261024-083234-3,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp|param|Rva006CDD50Iterator#2|p,3cbdffbf935817d26f161687,gpt-6-astra,codexb2-20261024-083234-4,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp|param|appendPlaybackItem|v,7da9b844ddf19cb488f5850d,gpt-6-astra,codexb2-20261024-083234-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Behavior/MineshaftPortalBehaviour.cpp|class||Rva00373B70Contain,6171a743e9c483052fb87561,gpt-6-astra,codexb2-20261024-083234-6,w-d0bdfd8b17e9,2026-10-24
