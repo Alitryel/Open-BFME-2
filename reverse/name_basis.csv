@@ -1202,3 +1202,6 @@ member,Rva00346B6DInfo::m_10,Rva00346B6DInfo::m_damageType,inferred,agree:nl-1ca
 member,Rva00346B6DInfo::m_1C,Rva00346B6DInfo::m_deathType,inferred,agree:nl-ab255cd43788,Code/GameEngine/Source/GameLogic/AI/Rva00346B6DSetup.cpp,
 member,Rva00346B6DInfo::m_20,Rva00346B6DInfo::m_amount,inferred,agree:nl-e19b0e11abd3,Code/GameEngine/Source/GameLogic/AI/Rva00346B6DSetup.cpp,
 member,Rva00346B6DInfo::m_24,Rva00346B6DInfo::m_kill,inferred,agree:nl-a4524981f2e4,Code/GameEngine/Source/GameLogic/AI/Rva00346B6DSetup.cpp,
+member,Rva00082EF5Base8View::m_28,Rva00082EF5Base8View::m_uvScrollPerSecond,inferred,agree:nl-e3779fd62707,Code/GameEngine/Source/GameLogic/Object/Behavior/RenderableRiverAreaShader.cpp,
+member,Rva00082EF5Base8View::m_2c,Rva00082EF5Base8View::m_isAdditiveBlended,inferred,agree:nl-b3747b3cc7dd,Code/GameEngine/Source/GameLogic/Object/Behavior/RenderableRiverAreaShader.cpp,
+local,RenderableRiverArea::rva000835D0::v,RenderableRiverArea::rva000835D0::parameterValues,inferred,agree:nl-9715ddc2ab0c,Code/GameEngine/Source/GameLogic/Object/Behavior/RenderableRiverAreaShader.cpp,0x000835D0

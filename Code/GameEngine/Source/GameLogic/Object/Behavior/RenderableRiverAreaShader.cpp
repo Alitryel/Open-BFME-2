@@ -89,8 +89,8 @@ class Rva00082EF5Base8View
 {
 public:
 	char m_pad00[0x28];
-	float m_28;
-	unsigned char m_2c;
+	float m_uvScrollPerSecond;
+	unsigned char m_isAdditiveBlended;
 };
 
 class RiverArea
@@ -134,21 +134,21 @@ void RenderableRiverArea::rva000835D0()
 	}
 	{
 		Rva0007BB16Record rec("Opacity", 5);
-		float *v = rec.values();
-		v[0] = v[1] = v[2] = 0.0f;
-		v[3] = m_owner->m_5c;
+		float *parameterValues = rec.values();
+		parameterValues[0] = parameterValues[1] = parameterValues[2] = 0.0f;
+		parameterValues[3] = m_owner->m_5c;
 		records.add(rec);
 	}
 	{
 		Rva0007BB16Record rec("UVScrollPerSecond", 3);
-		float *v = rec.values();
-		v[0] = m_fx->m_28;
-		v[1] = m_fx->m_28;
+		float *parameterValues = rec.values();
+		parameterValues[0] = m_fx->m_uvScrollPerSecond;
+		parameterValues[1] = m_fx->m_uvScrollPerSecond;
 		records.add(rec);
 	}
 	{
 		Rva0007BB16Record rec("IsAdditiveBlended", 7);
-		rec.m_record.m_tail[0] = m_fx->m_2c;
+		rec.m_record.m_tail[0] = m_fx->m_isAdditiveBlended;
 		records.add(rec);
 	}
 	if (m_54 != 0)
