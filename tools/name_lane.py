@@ -322,9 +322,35 @@ class Lane:
         zh = self.path(rename.BFME1) / rename.ZH_TREE
         if not zh.exists():
             return False
-        result = subprocess.run(["grep", "-rlwE", "--include=*.h", rf"(class|struct)[[:space:]]+{word}", str(zh)],
-                                capture_output=True, text=True)
-        return bool(result.stdout.strip())
+        return bool(self.reference_matches(rf"(class|struct)[[:space:]]+{word}",
+                                          [f"{rename.BFME1}/{rename.ZH_TREE}"], ("h",), whole_word=True))
+
+    def reference_matches(self, pattern, roots, extensions, *, ignore_case=False, whole_word=False):
+        """Read donor files through the Git dependency already used by the lane.
+
+        --no-index includes untracked donor fixtures and submodule contents;
+        explicit glob pathspecs keep extensions/roots identical on Windows and
+        Unix. A failed search is not evidence that a donor name is absent.
+        """
+        paths = [f":(glob){root}/**/*.{extension}" for root in roots if self.path(root).is_dir()
+                 for extension in extensions]
+        if not paths:
+            return ""
+        args = ["git", "-C", str(self.root), "grep", "--no-index", "--no-recurse-submodules",
+                "--no-exclude-standard", "--no-color", "--no-line-number", "--no-column",
+                "--no-heading", "--no-break", "-I", "-h", "-o", "-E"]
+        if ignore_case:
+            args.append("-i")
+        if whole_word:
+            args.append("-w")
+        try:
+            result = subprocess.run([*args, "-e", pattern, "--", *paths], capture_output=True, text=True,
+                                    encoding="utf-8", errors="replace")
+        except OSError as error:
+            fail(f"reference search could not run Git: {error}")
+        if result.returncode not in (0, 1):
+            fail(f"reference search failed (git grep exit {result.returncode}): {result.stderr.strip()}")
+        return result.stdout
 
     def donor_params(self, functions):
         """{function word: parameter words} as the donor trees (Open-BFME-1's
@@ -333,23 +359,23 @@ class Lane:
         const Vector3 &b) -- is the original programmer's, not a converter's
         invention, so the lane does not ask for a new one."""
         todo = sorted(w for w in set(functions) - set(self._donor) if re.fullmatch(r"[A-Za-z_]\w*", w))
-        roots = [str(self.path(rename.BFME1) / d) for d in ("game", rename.ZH_TREE)]
-        roots = [r for r in roots if Path(r).is_dir()]
-        for w in todo:
-            self._donor[w] = set()
-        for i in range(0, len(todo) if roots else 0, 200):
+        roots = [f"{rename.BFME1}/{d}" for d in ("game", rename.ZH_TREE)]
+        found = {w: set() for w in todo}
+        for i in range(0, len(todo), 200):
             chunk = todo[i:i + 200]
-            out = subprocess.run(["grep", "-rhoE", "--include=*.h", "--include=*.inl", "--include=*.cpp",
-                                  rf"\b({'|'.join(chunk)})[[:space:]]*\([^()]*\)", *roots],
-                                 capture_output=True, text=True, errors="replace").stdout
+            out = self.reference_matches(rf"\b({'|'.join(chunk)})[[:space:]]*\([^()]*\)",
+                                         roots, ("h", "inl", "cpp"))
             for line in out.splitlines():
                 m = re.match(r"(\w+)\s*\((.*)\)", line)
-                if not m or m.group(1) not in self._donor:
+                if not m or m.group(1) not in found:
                     continue
                 for piece in m.group(2).split(","):
                     words = re.findall(r"[A-Za-z_]\w*", piece.split("=")[0])
                     if len(words) >= 2:         # a type and a name: a declaration, not a call
-                        self._donor[m.group(1)].add(words[-1])
+                        found[m.group(1)].add(words[-1])
+        # Publish positive and negative cache entries only after every batch
+        # succeeded; a caught search error must not authorize a later rename.
+        self._donor.update(found)
         return {w: self._donor.get(w, set()) for w in functions}
 
     # ------------------------------------------------------------ what a file decides
@@ -714,9 +740,10 @@ def lane_spelling(lane, name, kind):
     if zh.exists():
         target = canon(name)
         pattern = "|".join(re.escape(w) for w in re.findall(r"[A-Za-z]{3,}", name)[:1]) or re.escape(name)
-        result = subprocess.run(["grep", "-rhoiwE", "--include=*.h", rf"[A-Za-z_]*({pattern})[A-Za-z_0-9]*", str(zh)],
-                                capture_output=True, text=True)
-        words |= {w for w in result.stdout.split() if canon(w) == target}
+        matches = lane.reference_matches(rf"[A-Za-z_]*({pattern})[A-Za-z_0-9]*",
+                                         [f"{rename.BFME1}/{rename.ZH_TREE}"], ("h",),
+                                         ignore_case=True, whole_word=True)
+        words |= {w for w in matches.split() if canon(w) == target}
     fits = {w for w in words if canon(w) == canon(name) and lane.problem(kind, "", w, set()) is None}
     return fits.pop() if len(fits) == 1 else name
 
