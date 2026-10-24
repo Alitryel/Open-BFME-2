@@ -74,3 +74,20 @@ functions need native identity/ABI work before further provider suppression.
   object prove the full parent graph and the local cleanup location.
 - `link_check.py` reports this vector provider LINKS (620 bytes before the
   three rows are rehomed). InGameUI's remaining failures are recorded above.
+
+## Completed verification
+
+The normal retraction commit hook verified 1,518/1,518 function rows and 21
+data rows across 61 source files, including every detected name-dependent
+unit. All 207 EH graphs in that scope were EXACT; converged-data checks passed.
+The parent (66 bytes), local cleanup (17 bytes) and handler (10 bytes) were
+then admitted with `add_match.py` and committed individually through the
+normal hooks. The final provider has 14/14 exact function rows and its parent
+EH graph is EXACT.
+
+Final `link_check.py` reports the record provider LINKS, including all three
+corrected rows. InGameUI retains its exact 30-byte preDraw and 25-byte deleting
+destructor, but remains blocked as described above: six unresolved calls, two
+COMDAT conflicts and two wrong selected providers. The pair-copy conflict is
+gone. `place_bodies.py` on both affected units reports zero bodies and zero
+pins after the repair. No nonmatching reconstruction is left in `Code/`.
