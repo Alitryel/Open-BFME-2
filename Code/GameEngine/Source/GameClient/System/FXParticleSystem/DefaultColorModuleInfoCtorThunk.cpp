@@ -6,12 +6,15 @@
 // default at 0x00001E67, then an inline-zeroed trailing random variable.
 // The element's declared (never defined) destructor carries the EH frame.
 
+class Rva0049B47C
+{
+public:
+	Rva0049B47C() {}
+	virtual ~Rva0049B47C();
+};
+
 namespace FXParticleSystem
 {
-
-class Xfer;
-
-#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 class RGBColorKeyframe
 {
@@ -39,11 +42,13 @@ private:
 	float m_high;
 };
 
-class DefaultColorModuleInfo : public Snapshot
+class DefaultColorModuleInfo : public ::Rva0049B47C
 {
 public:
 	DefaultColorModuleInfo();
 	virtual ~DefaultColorModuleInfo();
+	virtual void v1();
+	virtual const char *GetSnapshotName();
 
 private:
 	RGBColorKeyframe m_keys[8];

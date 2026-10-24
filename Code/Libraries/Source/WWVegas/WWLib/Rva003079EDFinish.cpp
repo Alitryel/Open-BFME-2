@@ -16,6 +16,14 @@
 
 struct BfmeE12 { float x, y, z; };
 
+namespace _STL {
+template <>
+__declspec(dllimport) __forceinline vector<BfmeE12, allocator<BfmeE12> >::~vector()
+{
+    _Destroy(this->_M_start, this->_M_finish);
+}
+}
+
 class Rva003079ED
 {
 public:

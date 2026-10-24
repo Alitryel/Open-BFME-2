@@ -6,12 +6,15 @@
 // default at 0x00001E7F. The element's declared (never defined) destructor
 // is what carries the EH frame.
 
+class Rva0049B47C
+{
+public:
+	Rva0049B47C() {}
+	virtual ~Rva0049B47C();
+};
+
 namespace FXParticleSystem
 {
-
-class Xfer;
-
-#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 class RandomAlphaKeyframe
 {
@@ -22,11 +25,13 @@ private:
 	char m_data[0x10];
 };
 
-class DefaultAlphaModuleInfo : public Snapshot
+class DefaultAlphaModuleInfo : public ::Rva0049B47C
 {
 public:
 	DefaultAlphaModuleInfo();
 	virtual ~DefaultAlphaModuleInfo();
+	virtual void v1();
+	virtual const char *GetSnapshotName();
 
 private:
 	RandomAlphaKeyframe m_keys[8];

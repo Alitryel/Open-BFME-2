@@ -15,22 +15,46 @@ public:
     virtual void *scalarDeletingDestructor(unsigned int flags);
 };
 
-class Rva0049B47C
+enum StateExitType
+{
+    EXIT_NORMAL = 0
+};
+enum StateReturnType
+{
+    STATE_CONTINUE = 0,
+    STATE_SUCCESS = -1,
+    STATE_FAILURE = -2
+};
+class Xfer;
+
+class State
 {
 public:
-    virtual ~Rva0049B47C();
-
-private:
-    char m_pad04[8];
+    virtual ~State();
+    virtual void slot01();
+    virtual void slot02();
+    virtual void xfer(Xfer *xfer);
+    virtual StateReturnType onEnter();
+    virtual void onExit(StateExitType status);
+    virtual StateReturnType update();
 };
 
-class Rva0033FF2B : public Rva0049B47C
+class AIInternalMoveToState : public State
+{
+public:
+    virtual void xfer(Xfer *xfer);
+    virtual StateReturnType onEnter();
+    virtual void onExit(StateExitType status);
+    virtual StateReturnType update();
+};
+
+class Rva0033FF2B : public AIInternalMoveToState
 {
 public:
     virtual ~Rva0033FF2B();
 
 private:
-    char m_pad0C[0x40 - 0x0C];
+    char m_pad04[0x40 - 0x04];
     unsigned int m_handle40;
 };
 

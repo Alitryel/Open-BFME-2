@@ -139,7 +139,8 @@ private:
 #include "Common/GameLOD.h"
 #include "GameClient/Drawable.h"
 #include "GameClient/GameClient.h"
-#include "GameClient/GameFont.h"
+#define __GAMEFONT_H_
+class GameFont;
 #include "GameClient/ParticleSys.h"
 #include "GameClient/RayEffect.h"
 #include "W3DDevice/GameClient/W3DAssetManager.h"
@@ -178,23 +179,22 @@ private:
 };
 
 #define __W3DGAMEFONT_H_
-class BFMERetailFontLibrary : public FontLibrary
+class FontLibrary
 {
 public:
-	BFMERetailFontLibrary();
-	virtual void anchor();
+	FontLibrary();
+	virtual ~FontLibrary();
 
 private:
-	char m_data[ 24 ];
+	char m_data[ 0x28 ];
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include/W3DDevice/GameClient/W3DGameFont.h
-class W3DFontLibrary : public BFMERetailFontLibrary
+class W3DFontLibrary : public FontLibrary
 {
-protected:
-	Bool loadFontData( GameFont *font );
 public:
-	~W3DFontLibrary();
+	W3DFontLibrary() {}
+	virtual ~W3DFontLibrary();
 };
 
 #define __KEYBOARD_H_
@@ -479,8 +479,3 @@ void W3DGameClient::notifyTerrainObjectMoved(Object *obj)
 // under other spellings at the same addresses (addend-corrected DIR32). Bind them.
 #pragma comment(linker, "/alternatename:?m_needUpdate@W3DStatusCircle@@1_NA=?g_trackDirty@@3EA")
 
-// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
-// each one has the same function in that slot (vftable addresses from matched vptr
-// stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?reset@FontLibrary@@UAEXXZ=??1Coord2D@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?anchor@BFMERetailFontLibrary@@UAEXXZ=??1Coord2D@@QAE@XZ")

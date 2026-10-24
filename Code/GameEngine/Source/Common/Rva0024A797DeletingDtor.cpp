@@ -32,10 +32,13 @@ public:
 	~PrimaryP24A797() {}
 };
 
+template <int N> class BitFlags;
+
 class Rva0024A797_B2
 {
 public:
-	virtual void f2();
+	virtual void update() = 0;
+	virtual BitFlags<13> getDisabledTypesToProcess() const = 0;
 
 private:
 	char m_pad08[12];
@@ -45,6 +48,7 @@ class UpdateModule : public PrimaryP24A797, public Rva0024A797_B2
 {
 public:
 	virtual ~UpdateModule();
+	virtual BitFlags<13> getDisabledTypesToProcess() const;
 };
 
 UpdateModule::~UpdateModule()
@@ -54,11 +58,16 @@ UpdateModule::~UpdateModule()
 void *operator new(unsigned int size);
 void operator delete(void *p);
 
-// Anchor: new/delete devirtualizes to a direct ??_G call, emitting the COMDAT.
+class __declspec(novtable) Rva0024A797_Concrete : public UpdateModule
+{
+public:
+	__forceinline Rva0024A797_Concrete() {}
+	virtual void update();
+};
+
 void Rva0024A797_Anchor()
 {
-	UpdateModule *updateModule = new UpdateModule;
-	delete updateModule;
+	new Rva0024A797_Concrete;
 }
 
 // UpdateModule::~UpdateModule is this body (symbols.csv pins ??1UpdateModule@@UAE@XZ here: the rowed

@@ -174,7 +174,8 @@ private:
 #include "Common/GlobalData.h"
 #include "Common/GameLOD.h"
 #include "GameClient/GameClient.h"
-#include "GameClient/GameFont.h"
+#define __GAMEFONT_H_
+class GameFont;
 #include "GameClient/ParticleSys.h"
 #include "GameClient/RayEffect.h"
 #include "W3DDevice/GameClient/W3DAssetManager.h"
@@ -219,23 +220,22 @@ private:
 };
 
 #define __W3DGAMEFONT_H_
-class BFMERetailFontLibrary : public FontLibrary
+class FontLibrary
 {
 public:
-	BFMERetailFontLibrary();
-	virtual void anchor();
+	FontLibrary();
+	virtual ~FontLibrary();
 
 private:
-	char m_data[ 24 ];
+	char m_data[ 0x28 ];
 };
 
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include/W3DDevice/GameClient/W3DGameFont.h
-class W3DFontLibrary : public BFMERetailFontLibrary
+class W3DFontLibrary : public FontLibrary
 {
-protected:
-	Bool loadFontData( GameFont *font );
 public:
-	~W3DFontLibrary();
+	W3DFontLibrary() {}
+	virtual ~W3DFontLibrary();
 };
 
 #define __KEYBOARD_H_
