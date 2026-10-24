@@ -158,9 +158,9 @@ void QuadStrip2D::rva005382F4(const BfmeE8 &delta)
 	}
 	if (m_20 != 0)
 		return;
-	float &ry0 = m_region.lo.y;
+	float &minY = m_region.lo.y;
 	(m_region.lo.x) += delta.x;
-	ry0 += delta.y;
+	minY += delta.y;
 	m_region.hi.x += delta.x;
 	m_region.hi.y += delta.y;
 }
