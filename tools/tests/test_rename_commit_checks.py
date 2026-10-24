@@ -424,15 +424,107 @@ def test_cancelling_kills_the_name_dependents_build(tree):
 HOOK = TOOLS.parent / ".githooks" / "pre-commit"
 
 
-def hook_invocations():
-    """{tool: [argument tokens of each `python3 tools/<tool>.py ...` in the hook,
-    shell variables left out]}."""
-    text = HOOK.read_text().replace("\\\n", " ")
+def strip_shell_comments(text):
+    """`text` without its shell comments (`#` at the start of a word, outside
+    quotes) and with backslash-newline continuations joined. A comment that
+    ends in a backslash does not continue onto the next line, so comments go first."""
+    out, quote, i = [], None, 0
+    while i < len(text):
+        c = text[i]
+        if quote == "'":
+            quote = None if c == "'" else quote
+        elif c == "\\":
+            out.append(text[i:i + 2])
+            i += 2
+            continue
+        elif quote == '"':
+            quote = None if c == '"' else quote
+        elif c in "'\"":
+            quote = c
+        elif c == "#" and (i == 0 or text[i - 1] in " \t\n;&|("):
+            while i < len(text) and text[i] != "\n":
+                i += 1
+            continue
+        out.append(c)
+        i += 1
+    assert quote is None, "unbalanced quote: the hook parser lost its place"
+    return "".join(out).replace("\\\n", " ")
+
+
+# An interpreter spelling: python3, python, python3.11, /usr/bin/python3, "$PYTHON3", py (with -3),
+# the hook's own sh .githooks/run-python3 wrapper; flags (-u, -I, -B) may follow it.
+_PY = r"(?:[\w./$\"{}-]*python[\w.]*\"?|py(?:\s+-\d(?:\.\d+)?)?|[\w./-]*run-python3)"
+_FLAGS = r"(?:\s+-[A-Za-z]\w*)*"
+_ARGS = r"((?:[^|&;<>)\n]|\|(?!\|))*)"
+_RUN_PATH = re.compile(_PY + _FLAGS + r"\s+(?:\./)?tools/(\w+)\.py" + _ARGS, re.I)
+_RUN_STDIN = re.compile(r"git\s+show\s+\S*:tools/(\w+)\.py\s*\|\s*" + _PY + _FLAGS + r"\s+-(?=\s|$)" + _ARGS, re.I)
+_MENTION = re.compile(r"(?<![\w])tools/(\w+)\.py|(?<![\w.])-m\s+tools\.(\w+)")
+
+
+# The first word after an interpreter that is not a flag (-c and -m stop the flag run: the code or module
+# follows; -X and -W take an argument of their own). Anything that runs a script must name it as
+# tools/<word>.py, so a variable, a glob, a hyphen, a subdirectory, a doubled slash, another case, a quote
+# split or a cd into tools/ is not hidden; a module named like a script of tools/ (`-m rename`, which runs
+# with PYTHONPATH=tools or after a cd) is refused, since `-m tools.<word>` is the one module spelling read.
+_RUN_ANY = re.compile(r"(?<![\w./$\"{}-])(?i:" + _PY + r")(?:\s+-[XW]\s+\S+|\s+-[A-Za-bd-ln-z]\w*)*\s+(-m\s+)?(\S+)")
+_SCRIPT = re.compile(r"(?:\./)?tools/\w+\.py")
+_MODULE = re.compile(r"tools\.\w+")
+
+
+def unreadable_runs(text):
+    """[(interpreter word, what follows)] for each run of an interpreter in stripped hook `text` that this
+    test cannot read as `tools/<word>.py` or `-m tools.<word>`. A word with no path, variable or dot in it
+    (`python syntax error` in an echo) is no script; `-c` code, `-` (stdin) and a module outside tools
+    (`-m pytest`) are not tools."""
+    out = []
+    for match in _RUN_ANY.finditer(text):
+        module, word = match.group(1), match.group(2)
+        if module:
+            if re.match(r"tools\b", word) and not _MODULE.fullmatch(word.strip("'\"")):
+                out.append((match.group(0).split()[0], "-m " + word))
+            elif re.fullmatch(r"\w+", word) and (TOOLS / f"{word}.py").is_file():
+                out.append((match.group(0).split()[0], "-m " + word))      # PYTHONPATH=tools or a cd into it
+        elif word.startswith("-") or not re.search(r"[/$\\.`]", word):
+            continue
+        elif not _SCRIPT.fullmatch(word.strip("'\"")):
+            out.append((match.group(0).split()[0], word))
+    return out
+
+
+def hook_mentions(text=None):
+    """Every tool the hook names outside a comment, however it is run: as
+    `python3 tools/X.py`, `python -u tools/X.py`, `py -3 tools/X.py`, through
+    run-python3, from `git show REF:tools/X.py | python3 -`, in a quoted command
+    line or as `-m tools.X`. A run of an interpreter whose script is not spelled
+    as exactly tools/<word>.py (a variable, a glob, a hyphen, a subdirectory, a
+    doubled slash, another case, a path split by quotes, a cd into tools/) cannot
+    be read here and fails, as does any `tools/` path built from a shell
+    expansion or a quote, so no run of a tool named that way is hidden. A tool
+    run by another interpreter spelling than the ones above is not seen; a bare `-m word` is refused only when
+    tools/word.py exists."""
+    text = strip_shell_comments(HOOK.read_text() if text is None else text)
+    dynamic = re.findall(r"tools/[^\s'\"]*[$`][^\s'\"]*|tools/['\"]\S*", text)
+    assert not dynamic, f"the hook builds a tools/ path from a shell expansion: {dynamic}"
+    odd = unreadable_runs(text)
+    assert not odd, f"the hook runs a script this test cannot read as tools/<word>.py: {odd}"
+    return sorted({a or b for a, b in _MENTION.findall(text)})
+
+
+def hook_invocations(text=None):
+    """{tool: [argument tokens of each run of `tools/<tool>.py` in the hook, shell
+    variables left out]}, for every spelling hook_mentions reads and that runs the
+    tool with arguments after it. A mention this cannot read as a run is missing
+    here and still judged by hook_mentions."""
+    text = strip_shell_comments(HOOK.read_text() if text is None else text)
     found = {}
     for line in text.splitlines():
-        for match in re.finditer(r"python3 tools/(\w+)\.py((?:[^|&;<>)]|\|(?!\|))*)", line):
-            tokens = shlex.split(match.group(2), comments=True)
-            found.setdefault(match.group(1), []).append([t for t in tokens if "$" not in t])
+        for pattern in (_RUN_PATH, _RUN_STDIN):
+            for match in pattern.finditer(line):
+                try:
+                    tokens = shlex.split(match.group(2), comments=True)
+                except ValueError:       # the run sits inside a quoted command line: its closing quote
+                    tokens = shlex.split(match.group(2).rstrip("'\" "), comments=True)
+                found.setdefault(match.group(1), []).append([t for t in tokens if "$" not in t])
     return found
 
 
@@ -474,19 +566,141 @@ HOOK_EXEMPT = {
     "flag_defaults": "flag overrides edited by hand; rename.py refuses a file keyed in flag_overrides.csv",
     "delta_sources": "chooses the sources the hook builds; the plan names the sources it builds itself",
     "link_check": "shadow mode (--shadow) against the link census",
+    "build": "run_build's byte verification; rename.py runs ./build.sh over the plan's units itself (_verify)",
+    "gate_baseline": "shrink-only assertion, piped in from HEAD (`git show HEAD:tools/gate_baseline.py | python3 -`); "
+                     "rename.py never edits reverse/gate_baseline.txt (FROZEN_KEYED refuses a name keyed there)",
+    "repair_queue": "verify-removed re-checks rows whose gate-debt line a commit deleted, piped in from HEAD; "
+                    "rename.py deletes no baseline line",
+    "data_rows": "named only in a python comment inside the hook's embedded script; the hook runs no check of that name",
 }
 
 
-def test_every_tool_the_hook_runs_is_mirrored_or_exempt(tree):
+def mirrored_tools(tree):
     ctx = ctx_of(tree)
     plan = rename.Plan("function", OLD, NEW, "inferred", "", UNIT, 0x00401000, verify=[UNIT])
     paths = sorted(set(rename.COMMIT_LEDGER_FILES) | set(rename.NAME_LEDGER_FILES) | {UNIT})
-    mirrored = {tool for tool, _args, _stdin in rename._hook_jobs(ctx, plan, paths).values()} | set(CSV_CHECKS)
-    hook = set(hook_invocations())
-    unjudged = sorted(hook - mirrored - set(HOOK_EXEMPT))
+    return {tool for tool, _args, _stdin in rename._hook_jobs(ctx, plan, paths).values()} | set(CSV_CHECKS)
+
+
+def unjudged_tools(text, mirrored):
+    return sorted(set(hook_mentions(text)) - mirrored - set(HOOK_EXEMPT))
+
+
+def test_every_tool_the_hook_runs_is_mirrored_or_exempt(tree):
+    mirrored = mirrored_tools(tree)
+    hook = set(hook_mentions())
+    unjudged = unjudged_tools(HOOK.read_text(), mirrored)
     assert not unjudged, (f".githooks/pre-commit runs {unjudged}, which rename.py neither mirrors in _hook_jobs "
                           "nor lists in HOOK_EXEMPT with the reason a rename cannot change what it judges")
     both = sorted(set(HOOK_EXEMPT) & mirrored)
     assert not both, f"{both} are exempt here yet mirrored: drop the exemption"
     stale = sorted((set(HOOK_EXEMPT) | set(CSV_CHECKS)) - hook)
     assert not stale, f"{stale} are listed here but the hook no longer runs them"
+
+
+# Every way the hook could spell a run of a tool. A new check in any of these spellings is read by
+# hook_mentions (so the test above judges it) and by hook_invocations (so the arguments are compared).
+SPELLINGS = [
+    "python3 tools/zz_new.py --staged",
+    "python tools/zz_new.py --staged",
+    "python3.11 tools/zz_new.py --staged",
+    "/usr/bin/python3 tools/zz_new.py --staged",
+    "python3 -u tools/zz_new.py --staged",
+    "python3 -I -B tools/zz_new.py --staged",
+    "py -3 tools/zz_new.py --staged",
+    "py -3.11 tools/zz_new.py --staged",
+    'shadow_cap python3 tools/zz_new.py --staged',
+    '"$PYTHON3" tools/zz_new.py --staged',
+    "sh .githooks/run-python3 tools/zz_new.py --staged",
+    "python3 ./tools/zz_new.py --staged",
+    "git show HEAD:tools/zz_new.py | python3 - --staged",
+    "git show HEAD:tools/zz_new.py | python - --staged",
+    "git show HEAD:tools/zz_new.py|python3 -u - --staged",
+    "git show :tools/zz_new.py | py -3 - --staged",
+    "python3 -m tools.zz_new --staged",
+    "bash -c 'python3 tools/zz_new.py --staged'",
+]
+HOOK_SNIPPET = "if [ -n \"$x\" ]; then\n    {run} || fail \"zz\"\nfi\n"
+
+
+@pytest.mark.parametrize("spelling", SPELLINGS)
+def test_a_new_hook_check_is_found_in_every_spelling(spelling, tree):
+    text = HOOK.read_text() + HOOK_SNIPPET.format(run=spelling)
+    assert "zz_new" in hook_mentions(text)
+    assert unjudged_tools(text, mirrored_tools(tree)) == ["zz_new"]
+    if "-m tools." not in spelling:
+        assert ["--staged"] in hook_invocations(text).get("zz_new", []), hook_invocations(text).get("zz_new")
+
+
+def test_a_continued_and_a_quoted_run_are_found():
+    text = 'python3 -u \\\n    tools/zz_new.py --a \\\n    --b || fail x\n'
+    assert hook_invocations(text) == {"zz_new": [["--a", "--b"]]}
+    assert hook_mentions("x='python tools/zz_new.py'\n") == ["zz_new"]
+
+
+def test_the_hooks_own_stdin_runs_are_read_with_their_arguments():
+    runs = hook_invocations()
+    assert runs["gate_baseline"] == [["--assert-shrink-only", "HEAD"]]
+    assert runs["repair_queue"] == [["verify-removed"]]
+    assert ["--staged", "--shadow"] in runs["tu_ownership"]
+
+
+@pytest.mark.parametrize("text, tools", [
+    ("# python3 tools/zz_new.py\n", []),
+    ("echo hi # python3 tools/zz_new.py\n", []),
+    ("echo \"a # b\" python3 tools/zz_new.py\n", ["zz_new"]),
+    ("echo 'a # b' python3 tools/zz_new.py\n", ["zz_new"]),
+    ("n=${#arr[@]}; python3 tools/zz_new.py\n", ["zz_new"]),
+    ("# comment ending in a backslash \\\npython3 tools/zz_new.py\n", ["zz_new"]),
+    ("git diff -- 'tools/*.py'\n", []),
+])
+def test_comments_hide_a_mention_and_quotes_do_not(text, tools):
+    assert hook_mentions(text) == tools
+
+
+def test_a_tool_path_built_from_a_variable_is_refused():
+    with pytest.raises(AssertionError, match="shell expansion"):
+        hook_mentions('python3 "tools/$name.py" --staged\n')
+
+
+def test_an_unbalanced_quote_is_refused_not_guessed_at():
+    with pytest.raises(AssertionError, match="unbalanced"):
+        hook_mentions("echo 'oops\npython3 tools/zz_new.py\n")
+
+
+@pytest.mark.parametrize("run", [
+    "python3 tools/zz-new.py",
+    'T=tools; python3 "$T/zz_new.py"',
+    'for f in tools/zz_*.py; do python3 "$f"; done',
+    "cd tools && python3 zz_new.py",
+    "python3 tools/sub/zz_new.py",
+    "python3 tools\\zz_new.py",
+    "python3 tools/zz_new.PY",
+    "python3 tools//zz_new.py",
+    'python3 tools/"$n".py',
+    "python3 tools/'zz'_new.py",
+    "python3 tools/`echo zz_new`.py",
+    "python3 -m tools.sub.zz_new",
+    "python3 -m tools.zz-new",
+    "PYTHONPATH=tools python3 -m rename --help",
+    "cd tools; python3 -m rename",
+    "python3 -X dev -m rename",
+    "python3 -W error -X utf8 -m name_metric",
+    "python3 -u ./tools/sub/zz_new.py --staged",
+    "git show HEAD:tools/zz_new.py | python3 $script",
+])
+def test_a_run_whose_script_is_not_exactly_a_tools_path_is_refused_not_hidden(run):
+    with pytest.raises(AssertionError, match="shell expansion|cannot read as tools"):
+        hook_mentions(run + "\n")
+
+
+@pytest.mark.parametrize("text, tools", [
+    ('fail "python syntax error in a staged tool (see above)"\n', []),
+    ("python3 -c 'import sys; print(1)'\n", []),
+    ("printf '' | python3 - --staged\n", []),
+    ("python3 -m pytest tools/tests -q\n", []),
+    ("cp a b 2>/dev/null; py -3 tools/zz_new.py\n", ["zz_new"]),
+    ("python3 'tools/zz_new.py' --staged\n", ["zz_new"]),
+])
+def test_a_run_that_names_no_script_or_a_plain_one_is_read_as_it_is(text, tools):
+    assert hook_mentions(text) == tools
