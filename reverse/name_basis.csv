@@ -552,3 +552,5 @@ param,add::r,add::other,inferred,agree:nl-24c48ef2c715,Code/GameEngine/Source/Co
 param,sub::r,sub::other,inferred,agree:nl-79bf37851c1d,Code/GameEngine/Source/Common/Rva0028E8D4Rva0028E8D4.cpp,
 param,divide::f,divide::divisor,inferred,agree:nl-60d76bbcd47f,Code/GameEngine/Source/Common/Rva0028E8D4Rva0028E8D4.cpp,
 local,Rva0028E8D4::rva0028E8D4::v,Rva0028E8D4::rva0028E8D4::translation,inferred,agree:nl-5f98dc6e8ff1,Code/GameEngine/Source/Common/Rva0028E8D4Rva0028E8D4.cpp,0x0028E8D4
+param,Rva003EE980::rva003EE980::a,Rva003EE980::rva003EE980::region,inferred,agree:nl-b58e24c6b5c5,Code/GameEngine/Source/Common/Rva003EE980Forward.cpp,0x003EE980
+local,Rva003EE980::rva003EE980::tmp,Rva003EE980::rva003EE980::color,inferred,agree:nl-9d50304cfa5d,Code/GameEngine/Source/Common/Rva003EE980Forward.cpp,0x003EE980

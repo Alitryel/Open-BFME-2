@@ -70,21 +70,21 @@ AsciiString g_Rva00E02E84("UnifiedEffect");
 class Rva003EE980
 {
 public:
-	void rva003EE980(Int a);
+	void rva003EE980(Int region);
 private:
 	char m_pad[8];
 	Rva004E35D5 m_owner;
 };
-void Rva003EE980::rva003EE980(Int a)
+void Rva003EE980::rva003EE980(Int region)
 {
-	char *p = (char *)a + 0x44;
+	char *p = (char *)region + 0x44;
 	float f = 0.95f;
-	float tmp[3];
-	tmp[0] = f;
-	tmp[1] = f;
-	tmp[2] = f;
+	float color[3];
+	color[0] = f;
+	color[1] = f;
+	color[2] = f;
 	m_owner.rva004E35D5(g_Rva00E02E84, (Int)p, 1);
-	((Rva004E35FF *)&m_owner)->rva004E35FF(g_Rva00E02E84, (Int)p, (Int)&tmp[0]);
+	((Rva004E35FF *)&m_owner)->rva004E35FF(g_Rva00E02E84, (Int)p, (Int)&color[0]);
 	((Rva004E35AF *)&m_owner)->rva004E35AF(g_Rva00E02E84, 1);
 }
 
