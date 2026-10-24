@@ -9,6 +9,8 @@
 // passed as a named local so MSVC 7.1 hands over the address of the dead `s`
 // parameter slot rather than zeroing a fresh temporary.
 
+extern "C" void __cdecl free(void *block) throw(...);
+
 namespace _STL
 {
 
@@ -91,5 +93,17 @@ basic_string<CharT, Traits, Alloc>::basic_string(const CharT *s,
 template basic_string<unsigned short, char_traits<unsigned short>,
 		allocator<unsigned short> >::basic_string(
 		const unsigned short *, const allocator<unsigned short> &);
+
+// Keep the cleanup opaque while compiling the constructor above. This unit
+// precedes money_put::do_put in retail link order, so its 14-byte base
+// destructor is kept ahead of that formatter's inline-cost carrier copy.
+template <class CharT, class Alloc>
+_String_base<CharT, Alloc>::~_String_base()
+{
+	if (_M_start != 0)
+		free(_M_start);
+}
+
+template _String_base<unsigned short, allocator<unsigned short> >::~_String_base();
 
 }
