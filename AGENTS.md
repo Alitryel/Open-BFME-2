@@ -228,8 +228,12 @@ candidates and resweep affected units once it is resolved.
 
 Use the `reference/open-bfme-1` submodule for building and donor discovery. On
 initialization, and before BFME 2 work when the last successful check is missing
-or over 24 hours old, fetch official `Open-BFME/Open-BFME-1` `master`, compare
+or over 72 hours old, fetch official `Open-BFME/Open-BFME-1` `master`, compare
 commit IDs, and preserve dirty or unpublished submodule work.
+
+Initialize cross-repository references without recursion. Do not initialize a
+nested reference back to BFME 1 or BFME 2. Initialize other required build
+dependencies explicitly.
 
 Complete the current layout migration once: reconcile the old `Code/` and
 `reference/` paths with upstream's `game/` and `inputs/reference/`, including
