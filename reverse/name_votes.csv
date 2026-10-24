@@ -5373,3 +5373,16 @@ Code/GameEngine/Source/Common/Rva005E4DAFTwins.cpp|local|Rva005E4DAF::Select|p,4
 Code/Libraries/Source/WWVegas/WWLib/Rva00569F0CAssign.cpp|param|Rva00569F0CVec::rva00569F0C|a,789abc49fafc54c258f25e18,gpt-6-astra,codexb2-20261024-152332-9,w-d0bdfd8b17e9,2026-10-24
 Code/Libraries/Source/WWVegas/WWLib/Rva00569F0CAssign.cpp|param|Rva00569F0CVec::rva00569F0C|b,e4727e768c7b8b704f81aaf0,gpt-6-astra,codexb2-20261024-152332-9,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C1E8C.cpp|function|0x002886C2|Rva002886C2,094eaef1e9eb6da506059fc9,gpt-6-astra,codexb2-20261024-152332-10,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|param|Rva005F4C8ERef|p,10701ed01f2031e90720a962,gpt-6-astra,codexb2-20261024-155314-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|param|Rva005F4C52::rva005F4C8E|a,e7bac8b74ab8c982dc6ec291,gpt-6-astra,codexb2-20261024-155314-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|param|Rva005F4C52::rva005F4C8E|b,2e3952da74c3e598c2dfe325,gpt-6-astra,codexb2-20261024-155314-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|param|Rva005FAAA1::rva005FAB34|a,1fdcfbc1d77ff0cedb4d676a,gpt-6-astra,codexb2-20261024-155314-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|param|Rva005FAAA1::rva005FAB34|b,f934d1ee91ba59439eceb033,gpt-6-astra,codexb2-20261024-155314-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|param|Rva005F4C52::rva005F4CF8|a,72e8416a89ff572df330aca5,gpt-6-astra,codexb2-20261024-155314-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|param|Rva005F4C52::rva005F4CF8|b,d9bbf6865599471578d1f5ae,gpt-6-astra,codexb2-20261024-155314-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|param|Rva005CDF6C::rva005CDF8B|a,bf7f84fa42cb5f48751cda30,gpt-6-astra,codexb2-20261024-155314-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|param|Rva005CDF6C::rva005CDF8B|b,1b1b5776da56c17aa128a863,gpt-6-astra,codexb2-20261024-155314-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|param|Rva005CDB8F::rva005CDBAE|a,2915e699c3641adb701aeae0,gpt-6-astra,codexb2-20261024-155314-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|param|Rva005CDB8F::rva005CDBAE|b,56d4560d6d43da21e5927856,gpt-6-astra,codexb2-20261024-155314-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva003802DF.cpp|local|Rva00380200::rva003802DF|r,fcb59bb33ce746edf4a94b6a,gpt-6-astra,codexb2-20261024-155314-2,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva00276223Leaf.cpp|local|Rva00276223::rva00276223|p,b50246635c21dbf25b78fbeb,gpt-6-astra,codexb2-20261024-155314-3,w-d0bdfd8b17e9,2026-10-24
