@@ -94,13 +94,17 @@ protected:
 	const ModuleData *getModuleData() const { return *(const ModuleData *const *)((const char *)this + 4); }
 };
 
-class TransportExtra { public: virtual void transportExtra(); };
+class Object;
+class ThingTemplate;
+class PayloadContainView;
+class TransportExtra { public: virtual Object *createPayloadMember(const ThingTemplate *, PayloadContainView *, Object *, const char *, int) = 0; };
 
 class TransportContain : public OpenContain, public TransportExtra
 {
 public:
 	TransportContain(Thing *thing, const ModuleData *moduleData);
 	virtual ~TransportContain();
+	virtual Object *createPayloadMember(const ThingTemplate *, PayloadContainView *, Object *, const char *, int);
 private:
 	unsigned char m_pad100[0x11C - 0x100];
 };
@@ -108,7 +112,7 @@ private:
 class HordeContainInterface
 {
 public:
-	virtual void slot0() = 0;
+	virtual void rva00472329(const Coord3D *, int) = 0;
 };
 
 // The +0x2C8 helper.
@@ -249,7 +253,7 @@ class HordeContain : public TransportContain, public HordeContainInterface
 public:
 	HordeContain(Thing *thing, const ModuleData *moduleData);
 	virtual ~HordeContain();
-	virtual void slot0();
+	virtual void rva00472329(const Coord3D *, int);
 private:
 	const HordeContainModuleData *getHordeContainModuleData() const { return (const HordeContainModuleData *)getModuleData(); }
 

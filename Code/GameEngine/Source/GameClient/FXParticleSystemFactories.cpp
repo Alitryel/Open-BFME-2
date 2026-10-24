@@ -145,9 +145,27 @@ struct FXKeyframe
 #define FX_VTABLE_ONLY_INFO(NAME)                                                                      class NAME                                                                                         {                                                                                                  public:                                                                                                virtual ~NAME();                                                                                   virtual void v1() = 0;                                                                         };
 
 FX_VTABLE_ONLY_INFO(DefaultDrawModuleInfo)
-FX_VTABLE_ONLY_INFO(QuadDrawModuleInfo)
-FX_VTABLE_ONLY_INFO(StreakDrawModuleInfo)
-FX_VTABLE_ONLY_INFO(ButterflyDrawModuleInfo)
+class QuadDrawModuleInfo
+{
+public:
+    virtual ~QuadDrawModuleInfo();
+    virtual void v1() = 0;
+    virtual const char *GetSnapshotName();
+};
+class StreakDrawModuleInfo
+{
+public:
+    virtual ~StreakDrawModuleInfo();
+    virtual void v1() = 0;
+    virtual const char *GetSnapshotName();
+};
+class ButterflyDrawModuleInfo
+{
+public:
+    virtual ~ButterflyDrawModuleInfo();
+    virtual void v1() = 0;
+    virtual const char *GetSnapshotName();
+};
 
 class RenderObjectDrawModuleInfo
 {
@@ -704,7 +722,50 @@ FX_DEFAULT_TEMPLATE(1, DefaultAlphaModuleInfo)
 FX_DEFAULT_TEMPLATE(2, DefaultUpdateModuleInfo)
 FX_DEFAULT_TEMPLATE(3, DefaultPhysicsModuleInfo)
 FX_DEFAULT_TEMPLATE(6, DefaultDrawModuleInfo)
-FX_DEFAULT_TEMPLATE(7, DefaultCategory7ModuleInfo)
+class WindModuleInfo
+{
+public:
+    virtual ~WindModuleInfo();
+    virtual void v1() = 0;
+
+    float m_unknown04;
+    float m_unknown08;
+    float m_unknown0C;
+    float m_unknown10;
+    float m_unknown14;
+    float m_unknown18;
+    float m_unknown1C;
+    float m_unknown20;
+    float m_unknown24;
+    float m_unknown28;
+    float m_unknown2C;
+    float m_unknown30;
+    float m_unknown34;
+    float m_unknown38;
+    bool m_unknown3C;
+    float m_unknown40;
+    float m_unknown44;
+};
+
+template <>
+class CategoryModuleTemplate<7> : public ModuleTemplate, public SecondaryModuleBase,
+                                  public WindModuleInfo
+{
+public:
+    CategoryModuleTemplate();
+    CategoryModuleTemplate(const CategoryModuleTemplate &that);
+    virtual ~CategoryModuleTemplate();
+};
+
+
+template <>
+class DefaultModuleTemplate<7> : public CategoryModuleTemplate<7>
+{
+public:
+    DefaultModuleTemplate();
+    DefaultModuleTemplate(const DefaultModuleTemplate<7> &that);
+    void parse(INI *ini);
+};
 
 template <int CATEGORY>
 struct DefaultModuleKey

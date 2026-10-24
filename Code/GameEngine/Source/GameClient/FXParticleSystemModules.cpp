@@ -141,9 +141,27 @@ FX_VTABLE_ONLY_INFO(TerrainCollisionModuleInfo)
 
 // The three draw modules whose template bodies live in FXParticleSystem.cpp:
 // this unit needs their infos only as complete types behind the class tags.
-FX_VTABLE_ONLY_INFO(StreakDrawModuleInfo)
-FX_VTABLE_ONLY_INFO(QuadDrawModuleInfo)
-FX_VTABLE_ONLY_INFO(ButterflyDrawModuleInfo)
+class StreakDrawModuleInfo
+{
+public:
+    virtual ~StreakDrawModuleInfo();
+    virtual void v1() = 0;
+    virtual const char *GetSnapshotName();
+};
+class QuadDrawModuleInfo
+{
+public:
+    virtual ~QuadDrawModuleInfo();
+    virtual void v1() = 0;
+    virtual const char *GetSnapshotName();
+};
+class ButterflyDrawModuleInfo
+{
+public:
+    virtual ~ButterflyDrawModuleInfo();
+    virtual void v1() = 0;
+    virtual const char *GetSnapshotName();
+};
 
 // The two category 8 templates put their info's vtable at 0x0C rather than
 // 0x08: their first base is CategoryModuleTemplate<8>, whose third base is the
