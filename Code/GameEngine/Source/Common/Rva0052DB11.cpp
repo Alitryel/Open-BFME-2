@@ -5,7 +5,7 @@
 struct Rva0052DB11Obj
 {
 	char _pad00[0x74];
-	int m_74;
+	int m_id;
 };
 
 struct Rva0052DB11Inner
@@ -46,7 +46,7 @@ bool Rva0052DB11::rva0052DB11(int excludedId)
 	for (Rva0052DB11Outer *o = head->m_20; o; o = o->m_next)
 	{
 		void *s = o->m_8;
-		if (((Rva0052DB11Obj *)s)->m_74 == excludedId)
+		if (((Rva0052DB11Obj *)s)->m_id == excludedId)
 			continue;
 		for (Rva0052DB11Inner *in = head->m_14; in; in = in->m_next)
 		{

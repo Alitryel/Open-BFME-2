@@ -1969,3 +1969,4 @@ carry,Rva0030B0A3::rva0030B0A3::cursor,Rva0030B0A3::print::cursor,inferred,scope
 carry,Rva0030B0A3::rva0030B0A3::character,Rva0030B0A3::print::character,inferred,scope renamed by Rename rva0030B0A3 to print (inferred),Code/GameEngine/Source/Common/GapBodiesS3B.cpp,0x0030B0A3
 function,?rva003ADE15@Rva003ADE32@@UAEPAV1@XZ,?clone@Rva003ADE32@@UAEPAV1@XZ,inferred,agree:nl-134217f5efdd,Code/GameEngine/Source/Common/GapBodiesS3B.cpp,0x003ADE15
 function,?rva002D2D63@Rva002D5188ResourceBar@@QAEXABVCoord2D@@0PAX1@Z,?renderFactionIcon@Rva002D5188ResourceBar@@QAEXABVCoord2D@@0PAX1@Z,inferred,agree:nl-67d6f1589382,Code/GameEngine/Source/GameClient/GUI/Palantir/PalantirResourceBar.cpp,0x002D2D63
+member,Rva0052DB11Obj::m_74,Rva0052DB11Obj::m_id,inferred,agree:nl-21643a3513b7,Code/GameEngine/Source/Common/Rva0052DB11.cpp,
