@@ -4892,3 +4892,8 @@ Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp|local|Rva002CA9C
 Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp|local|Rva002CA9CA::rva002CAC6E|n,8a472332a5b3f94869e570c4,gpt-6.1-sol,codexb-20261024-115110-4,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva005C4B56.cpp|param|Rva005C4B56::rva005C4BC8|a,b0667015146b11c8dcd16578,gpt-6.1-sol,codexb-20261024-115110-4,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva005C4B56.cpp|param|Rva005C4B56::rva005C4BC8|b,c2e40f86b7e8adef60059acc,gpt-6.1-sol,codexb-20261024-115110-4,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/System/INI_Rva00338E52ParseEnvelope.cpp|class||Rva00338E52Envelope,44a6a1b85aa7e6c9c01763cd,gpt-6.1-sol,codexb-20261024-115110-6,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva00599825ListAdd.cpp|local|AIDozerManager::DoXfer|tmp,3568079d384293667a847614,gpt-6.1-sol,codexb-20261024-115110-6,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva000D3A17.cpp|local|Rva000D3A17::rva000D3A17|p,253d5529c7a1694892552ca4,gpt-6.1-sol,codexb-20261024-115110-7,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp|class||Rva004C31EC,cddc72e5310592199772c8ba,gpt-6.1-sol,codexb-20261024-115110-8,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp|class||Rva00261C72Word,7f90b89e27854f58e0bc22ad,gpt-6.1-sol,codexb-20261024-115110-8,w-8e883e57d025,2026-10-24
