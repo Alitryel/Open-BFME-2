@@ -61,7 +61,7 @@ inline bool Rva006D2A60::isAllocated(int nSizeOffset)
 	g_bfmeAptAssertAtE17734("false", "..\\..\\include\\apt\\AptValueGCAllocator.h", 0xE2);
 	if (g_bfmeAptBreakOnAssertAtDDC01C)
 	{
-		__asm int 3
+		__debugbreak();
 	}
 	return false;
 }
