@@ -69,13 +69,13 @@ void Object::rva0028EBDA(bool flag)
 {
 	static NameKeyType key_EnragedBehavior =
 		TheNameKeyGenerator->nameToKey("EnragedBehavior");
-	Rva004590C5 *m = (Rva004590C5 *)findModule(key_EnragedBehavior);
-	if (m == 0)
+	Rva004590C5 *enragedBehavior = (Rva004590C5 *)findModule(key_EnragedBehavior);
+	if (enragedBehavior == 0)
 		return;
 	if (flag)
-		m->rva004590C5();
+		enragedBehavior->rva004590C5();
 	else
-		m->rva004590E6();
+		enragedBehavior->rva004590E6();
 }
 
 // Four forwards to the Object+0x24C emotion tracker (retail 0x0028EC48,

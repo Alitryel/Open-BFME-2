@@ -46,8 +46,8 @@ bool Rva002B280C::rva002B280C(Arg54 *a)
 {
 	if ((unsigned char)((Rva002B254F *)this)->rva002B254F() != 0)
 	{
-		void *p = ((LivingWorldCampaignManager *)TheCampaignManager)->rva003B8BAA();
-		if (!((LookupVirt14 *)p)->check(a))
+		void *campaign = ((LivingWorldCampaignManager *)TheCampaignManager)->rva003B8BAA();
+		if (!((LookupVirt14 *)campaign)->check(a))
 			return false;
 	}
 	return true;
