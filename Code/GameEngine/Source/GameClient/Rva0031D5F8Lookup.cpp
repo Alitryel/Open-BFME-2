@@ -40,7 +40,7 @@ class Rva0031D5F8
 {
 public:
 	void *rva0031D5F8(const AsciiString *key);
-	void *GetPurchaseScienceCommandSet(const void *arg);
+	void *GetPurchaseScienceCommandSet(const void *player);
 	char m_pad[0x30];
 	Rva00056F61 m_table;
 };
@@ -53,9 +53,9 @@ void *Rva0031D5F8::rva0031D5F8(const AsciiString *key)
 	return 0;
 }
 
-void *Rva0031D5F8::GetPurchaseScienceCommandSet(const void *arg)
+void *Rva0031D5F8::GetPurchaseScienceCommandSet(const void *player)
 {
-	char *base = *(char **)((const char *)arg + 0x34);
+	char *base = *(char **)((const char *)player + 0x34);
 	if (base == 0)
 		return 0;
 	AsciiString *name;
