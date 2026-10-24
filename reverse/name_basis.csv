@@ -684,3 +684,7 @@ param,Rva004ED3A2::rva004ED3A2::p,Rva004ED3A2::rva004ED3A2::position,inferred,ag
 param,Rva00541311::rva00541311::p,Rva00541311::rva00541311::position,inferred,agree:nl-248048c8a91b,Code/GameEngine/Source/Common/CursorCompaction.cpp,0x00541311
 function,?rva00541311@Rva00541311@@QAEPAXPAX@Z,?erase@Rva00541311@@QAEPAXPAX@Z,inferred,agree:nl-e84fbbba9475,Code/GameEngine/Source/Common/CursorCompaction.cpp,0x00541311
 carry,Rva00541311::rva00541311::position,Rva00541311::erase::position,inferred,scope renamed by Rename rva00541311 to erase (inferred),Code/GameEngine/Source/Common/CursorCompaction.cpp,0x00541311
+param,Rva0018C822::rva0018C822::a,Rva0018C822::rva0018C822::first,inferred,agree:nl-e29535114250,Code/GameEngine/Source/Common/EbpParamForwarders.cpp,0x0018C822
+param,Rva0018C822::rva0018C822::b,Rva0018C822::rva0018C822::last,inferred,agree:nl-5167b0f3cd60,Code/GameEngine/Source/Common/EbpParamForwarders.cpp,0x0018C822
+param,Rva0018C838::rva0018C838::a,Rva0018C838::rva0018C838::first,inferred,agree:nl-6fc55f8bf185,Code/GameEngine/Source/Common/EbpParamForwarders.cpp,0x0018C838
+param,Rva0018C838::rva0018C838::b,Rva0018C838::rva0018C838::last,inferred,agree:nl-72487b912302,Code/GameEngine/Source/Common/EbpParamForwarders.cpp,0x0018C838

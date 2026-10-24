@@ -32,23 +32,23 @@ public:
 class Rva0018C822
 {
 public:
-	void rva0018C822(int a, int b, int c);
+	void rva0018C822(int first, int last, int c);
 };
 
-void Rva0018C822::rva0018C822(int a, int b, int c)
+void Rva0018C822::rva0018C822(int first, int last, int c)
 {
-	((Rva0018C73C *)this)->rva0018C73C(a, b, (char *)&b + 3);
+	((Rva0018C73C *)this)->rva0018C73C(first, last, (char *)&last + 3);
 }
 
 class Rva0018C838
 {
 public:
-	void rva0018C838(int a, int b);
+	void rva0018C838(int first, int last);
 };
 
-void Rva0018C838::rva0018C838(int a, int b)
+void Rva0018C838::rva0018C838(int first, int last)
 {
-	((Rva0018C73C *)this)->rva0018C73C(a, b, (char *)&b + 3);
+	((Rva0018C73C *)this)->rva0018C73C(first, last, (char *)&last + 3);
 }
 
 class Rva001DA112
