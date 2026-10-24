@@ -7,12 +7,7 @@
 
 void bfmeFreeOneJT(void *block);                 // 0x001B6410 duck_free
 
-class Rva001B6400Allocation
-{
-public:
-	enum AllocationTag { Bucket_GLUE_NOT_IMPLEMENTED = 0 };
-	static void *__cdecl operator new(unsigned int bytes, AllocationTag tag); // 0x001B6400 duck_malloc
-};
+#include "DuckMem.h"
 
 struct TmpBuffersInstance
 {
@@ -66,7 +61,7 @@ extern "C" int __cdecl VP6_AllocateTmpBuffers(TmpBuffersInstance *pbi)
 {
 	VP6_DeleteTmpBuffers(pbi);
 
-	void *a = Rva001B6400Allocation::operator new(0xa0, Rva001B6400Allocation::Bucket_GLUE_NOT_IMPLEMENTED);
+	void *a = duck_malloc(0xa0, 0);
 	pbi->coefficientRaw = a;
 	if (a == 0)
 	{
@@ -75,7 +70,7 @@ extern "C" int __cdecl VP6_AllocateTmpBuffers(TmpBuffersInstance *pbi)
 	}
 	pbi->coefficientAligned = (void *)(((unsigned int)a + 0x1f) & 0xffffffe0);
 
-	void *b = Rva001B6400Allocation::operator new(0xa0, Rva001B6400Allocation::Bucket_GLUE_NOT_IMPLEMENTED);
+	void *b = duck_malloc(0xa0, 0);
 	pbi->dataRaw = b;
 	if (b == 0)
 	{
@@ -84,7 +79,7 @@ extern "C" int __cdecl VP6_AllocateTmpBuffers(TmpBuffersInstance *pbi)
 	}
 	pbi->dataAligned = (void *)(((unsigned int)b + 0x1f) & 0xffffffe0);
 
-	void *c = Rva001B6400Allocation::operator new(0x120, Rva001B6400Allocation::Bucket_GLUE_NOT_IMPLEMENTED);
+	void *c = duck_malloc(0x120, 0);
 	pbi->loopFilterRaw = c;
 	if (c == 0)
 	{
@@ -93,7 +88,7 @@ extern "C" int __cdecl VP6_AllocateTmpBuffers(TmpBuffersInstance *pbi)
 	}
 	pbi->loopFilterAligned = (void *)(((unsigned int)c + 0x1f) & 0xffffffe0);
 
-	void *d = Rva001B6400Allocation::operator new(0xa0, Rva001B6400Allocation::Bucket_GLUE_NOT_IMPLEMENTED);
+	void *d = duck_malloc(0xa0, 0);
 	pbi->reconRaw = d;
 	if (d == 0)
 	{

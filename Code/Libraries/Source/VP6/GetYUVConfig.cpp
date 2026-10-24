@@ -21,15 +21,7 @@ extern "C" void __cdecl vp6_showinfo(Rva009AAC80Context *instance);
 extern "C" void __cdecl vp6_showinfo2(Rva009AABB0Context *instance);
 extern "C" void __cdecl ScaleOrCenter(Rva009AA8F0Context *post, int source, Rva009AA8F0Block *config);
 
-class Rva001B6400Allocation
-{
-public:
-	enum AllocationTag
-	{
-		TAG_NONE = 0
-	};
-	static void *operator new(unsigned int size, AllocationTag tag);
-};
+#include "DuckMem.h"
 
 // The clamp routine is slot 19 of the codec dispatch table at VA 0x00E22F7C
 // (0x00E22FC8), installed by PostProcMachineSpecificConfig.
@@ -118,9 +110,9 @@ extern "C" void __cdecl VP6_GetYUVConfig(VP6Instance *instance, VP6YUVConfig *co
 	{
 		if (!instance->postBuffer)
 		{
-			instance->postBufferRaw = (unsigned char *)Rva001B6400Allocation::operator new(
+			instance->postBufferRaw = (unsigned char *)duck_malloc(
 				instance->reconYPlaneSize + 2 * instance->reconUVPlaneSize + 32 + instance->yStride,
-				Rva001B6400Allocation::TAG_NONE);
+				0);
 			instance->postBuffer = (unsigned char *)(((unsigned int)instance->postBufferRaw + 31) & ~31);
 			AllocatePostProcBuffers((Rva009A5C40Context *)instance->postProcessor);
 		}

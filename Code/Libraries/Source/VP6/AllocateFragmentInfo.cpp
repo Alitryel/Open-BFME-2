@@ -8,15 +8,7 @@
 // interlaced flags / prediction modes / motion vectors and the fragment
 // info. Each buffer is kept raw and rounded up to 32 bytes. Any null result
 // frees everything again through 0x001B9040 and returns 0.
-class Rva001B6400Allocation
-{
-public:
-	enum AllocationTag
-	{
-		TAG_NONE = 0
-	};
-	static void *operator new(unsigned int size, AllocationTag tag);
-};
+#include "DuckMem.h"
 extern "C" void __cdecl VP6_DeleteFragmentInfo(void *instance);
 struct Vp6FragmentInstance {
 	unsigned char *coeffRaw;
@@ -40,35 +32,35 @@ struct Vp6FragmentInstance {
 extern "C" int VP6_AllocateFragmentInfo(Vp6FragmentInstance *pbi)
 {
 	VP6_DeleteFragmentInfo(pbi);
-	pbi->coeffRaw = (unsigned char *)Rva001B6400Allocation::operator new(0x320, Rva001B6400Allocation::TAG_NONE);
+	pbi->coeffRaw = (unsigned char *)duck_malloc(0x320, 0);
 	if (!pbi->coeffRaw)
 		goto fail;
 	pbi->coeff = VP6_ALIGN32(pbi->coeffRaw);
-	pbi->aboveYRaw = (unsigned char *)Rva001B6400Allocation::operator new((pbi->hFragments + 10) * 16, Rva001B6400Allocation::TAG_NONE);
+	pbi->aboveYRaw = (unsigned char *)duck_malloc((pbi->hFragments + 10) * 16, 0);
 	if (!pbi->aboveYRaw)
 		goto fail;
 	pbi->aboveY = VP6_ALIGN32(pbi->aboveYRaw);
-	pbi->aboveURaw = (unsigned char *)Rva001B6400Allocation::operator new(((pbi->hFragments >> 1) + 10) * 16, Rva001B6400Allocation::TAG_NONE);
+	pbi->aboveURaw = (unsigned char *)duck_malloc(((pbi->hFragments >> 1) + 10) * 16, 0);
 	if (!pbi->aboveURaw)
 		goto fail;
 	pbi->aboveU = VP6_ALIGN32(pbi->aboveURaw);
-	pbi->aboveVRaw = (unsigned char *)Rva001B6400Allocation::operator new(((pbi->hFragments >> 1) + 10) * 16, Rva001B6400Allocation::TAG_NONE);
+	pbi->aboveVRaw = (unsigned char *)duck_malloc(((pbi->hFragments >> 1) + 10) * 16, 0);
 	if (!pbi->aboveVRaw)
 		goto fail;
 	pbi->aboveV = VP6_ALIGN32(pbi->aboveVRaw);
-	pbi->interlacedRaw = (unsigned char *)Rva001B6400Allocation::operator new(pbi->macroBlocks + 32, Rva001B6400Allocation::TAG_NONE);
+	pbi->interlacedRaw = (unsigned char *)duck_malloc(pbi->macroBlocks + 32, 0);
 	if (!pbi->interlacedRaw)
 		goto fail;
 	pbi->interlaced = VP6_ALIGN32(pbi->interlacedRaw);
-	pbi->predictionModeRaw = (unsigned char *)Rva001B6400Allocation::operator new(pbi->macroBlocks + 32, Rva001B6400Allocation::TAG_NONE);
+	pbi->predictionModeRaw = (unsigned char *)duck_malloc(pbi->macroBlocks + 32, 0);
 	if (!pbi->predictionModeRaw)
 		goto fail;
 	pbi->predictionMode = VP6_ALIGN32(pbi->predictionModeRaw);
-	pbi->motionVectorRaw = (unsigned char *)Rva001B6400Allocation::operator new(pbi->macroBlocks * 4 + 32, Rva001B6400Allocation::TAG_NONE);
+	pbi->motionVectorRaw = (unsigned char *)duck_malloc(pbi->macroBlocks * 4 + 32, 0);
 	if (!pbi->motionVectorRaw)
 		goto fail;
 	pbi->motionVector = VP6_ALIGN32(pbi->motionVectorRaw);
-	pbi->fragInfoRaw = (unsigned char *)Rva001B6400Allocation::operator new(pbi->unitFragments * 4 + 32, Rva001B6400Allocation::TAG_NONE);
+	pbi->fragInfoRaw = (unsigned char *)duck_malloc(pbi->unitFragments * 4 + 32, 0);
 	if (!pbi->fragInfoRaw)
 		goto fail;
 	pbi->fragInfo = VP6_ALIGN32(pbi->fragInfoRaw);

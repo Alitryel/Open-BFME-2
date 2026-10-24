@@ -1,9 +1,8 @@
 // cl: /O2 /G6 /DNDEBUG /MD
 // Clean room: reverse/vp6_cleanroom/specs/001b56f0.md plus retail only. No decoder source was consulted.
 // VP6_CreatePBInstance, retail RVA 0x001B56F0 (216 bytes).
-// Target 0x001B6400 forwards bytes to duck_malloc at 0x001B63C0.
-// Its allocator and native14B body differ from NameKeyGenerator::Bucket's
-// donor operator new. Address-derived identity; original class is unknown.
+// 0x001B6400 is the tagged duck_malloc overload (DuckMem.h); it forwards the
+// size to the core at 0x001B63C0.
 struct BfmeSubJX
 {
 	int m_bfmeGapJX[14];
@@ -50,13 +49,7 @@ int g_bfmeTableJX;
 extern "C" int __cdecl VP6_AllocateTmpBuffers(BfmeThingJT *q);
 void bfmeFreeOneJT(void *q);
 
-class Rva001B6400Allocation
-{
-public:
-	enum AllocationTag { BFME_ZERO_JX = 0 };
-
-	static void *operator new(unsigned int n, AllocationTag m);
-};
+#include "DuckMem.h"
 extern "C" void *__cdecl CreatePostProcInstance(void *q);
 extern "C" BfmeSubJX *__cdecl VP6_CreateQuantizer();
 extern "C" int __cdecl VP6_InitFrameDetails(CodecState *s);
@@ -89,7 +82,7 @@ extern "C" CodecState * __cdecl VP6_CreatePBInstance()
 	cfg[12] = 0;
 	cfg[13] = 0;
 
-	CodecState *p = (CodecState *)Rva001B6400Allocation::operator new(0x4954, Rva001B6400Allocation::BFME_ZERO_JX);
+	CodecState *p = (CodecState *)duck_malloc(0x4954, 0);
 
 	if (p == 0)
 		return 0;

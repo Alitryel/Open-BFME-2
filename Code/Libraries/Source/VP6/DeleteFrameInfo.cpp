@@ -6,12 +6,7 @@
 
 void bfmeFreeOneJT(void *block);                 // 0x001B6410 duck_free
 
-class Rva001B6400Allocation
-{
-public:
-	enum AllocationTag { Bucket_GLUE_NOT_IMPLEMENTED = 0 };
-	static void *__cdecl operator new(unsigned int bytes, AllocationTag tag); // 0x001B6400 duck_malloc
-};
+#include "DuckMem.h"
 
 struct FrameInfoInstance
 {
@@ -54,9 +49,9 @@ extern "C" int __cdecl VP6_AllocateFrameInfo(FrameInfoInstance *pbi, int frameSi
 {
 	VP6_DeleteFrameInfo(pbi);
 
-	void *first = Rva001B6400Allocation::operator new(
+	void *first = duck_malloc(
 		(unsigned int)frameSize + pbi->yStride + 0x20,
-		Rva001B6400Allocation::Bucket_GLUE_NOT_IMPLEMENTED);
+		0);
 	pbi->thisFrameRaw = first;
 	if (first == 0)
 	{
@@ -65,9 +60,9 @@ extern "C" int __cdecl VP6_AllocateFrameInfo(FrameInfoInstance *pbi, int frameSi
 	}
 	pbi->thisFrameAligned = (void *)(((unsigned int)first + 0x1F) & ~0x1F);
 
-	void *second = Rva001B6400Allocation::operator new(
+	void *second = duck_malloc(
 		(unsigned int)frameSize + pbi->yStride + 0x20,
-		Rva001B6400Allocation::Bucket_GLUE_NOT_IMPLEMENTED);
+		0);
 	pbi->goldenRaw = second;
 	if (second == 0)
 	{
@@ -76,9 +71,9 @@ extern "C" int __cdecl VP6_AllocateFrameInfo(FrameInfoInstance *pbi, int frameSi
 	}
 	pbi->goldenAligned = (void *)(((unsigned int)second + 0x1F) & ~0x1F);
 
-	void *third = Rva001B6400Allocation::operator new(
+	void *third = duck_malloc(
 		(unsigned int)frameSize + pbi->yStride + 0x20,
-		Rva001B6400Allocation::Bucket_GLUE_NOT_IMPLEMENTED);
+		0);
 	pbi->lastFrameRaw = third;
 	if (third == 0)
 	{

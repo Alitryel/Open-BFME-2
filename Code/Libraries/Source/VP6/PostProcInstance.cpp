@@ -31,12 +31,7 @@ extern "C" void __cdecl DeletePostProcBuffers(void *instance); // 0x001B65F0
 void __cdecl bfmeFreeOneJT(void *block);                // 0x001B6410 duck_free
 extern "C" void __cdecl ChangePostProcConfiguration(void *instance, void *config); // 0x001B67E0
 
-class Rva001B6400Allocation
-{
-public:
-	enum AllocationTag { Bucket_GLUE_NOT_IMPLEMENTED = 0 };
-	static void *__cdecl operator new(unsigned int bytes, AllocationTag tag); // 0x001B6400 duck_malloc
-};
+#include "DuckMem.h"
 
 struct Rva009AF490Context;
 struct Rva009ACBA0Context;
@@ -73,7 +68,7 @@ extern "C" void __cdecl DeletePostProcInstance(POSTPROC_INSTANCE **instance)
 // RVA 0x001B6890
 extern "C" POSTPROC_INSTANCE *__cdecl CreatePostProcInstance(void *config)
 {
-	POSTPROC_VERSIONED *instance = (POSTPROC_VERSIONED *)Rva001B6400Allocation::operator new(0xC8, Rva001B6400Allocation::Bucket_GLUE_NOT_IMPLEMENTED);
+	POSTPROC_VERSIONED *instance = (POSTPROC_VERSIONED *)duck_malloc(0xC8, 0);
 	POSTPROC_INSTANCE *result = 0;
 	if (instance)
 	{

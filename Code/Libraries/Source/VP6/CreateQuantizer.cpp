@@ -13,12 +13,7 @@
 
 void bfmeFreeOneJT(void *what); // 0x001B6410 duck_free
 
-class Rva001B6400Allocation // 0x001B6400 duck_malloc tagged wrapper
-{
-public:
-	enum AllocationTag { Zero = 0 };
-	static void *operator new(unsigned int size, AllocationTag tag);
-};
+#include "DuckMem.h"
 
 struct QUANTIZER
 {
@@ -51,7 +46,7 @@ static int AllocateQuantizerBuffers(QUANTIZER *pbi)
 {
 	DELETE_QUANTIZER_BUFFERS(pbi);
 
-	pbi->yDequantRaw = Rva001B6400Allocation::operator new(0xA0, Rva001B6400Allocation::Zero);
+	pbi->yDequantRaw = duck_malloc(0xA0, 0);
 	if (!pbi->yDequantRaw)
 	{
 		DELETE_QUANTIZER_BUFFERS(pbi);
@@ -59,7 +54,7 @@ static int AllocateQuantizerBuffers(QUANTIZER *pbi)
 	}
 	pbi->yDequant = (void *)(((unsigned int)pbi->yDequantRaw + 31) & ~31u);
 
-	pbi->uvDequantRaw = Rva001B6400Allocation::operator new(0xA0, Rva001B6400Allocation::Zero);
+	pbi->uvDequantRaw = duck_malloc(0xA0, 0);
 	if (!pbi->uvDequantRaw)
 	{
 		DeleteQuantizerBuffers(pbi);
@@ -75,7 +70,7 @@ extern "C" void __cdecl VP6_DeleteQuantizer(void **quantizer);
 // RVA 0x001B7990
 extern "C" QUANTIZER *__cdecl VP6_CreateQuantizer()
 {
-	QUANTIZER *result = (QUANTIZER *)Rva001B6400Allocation::operator new(sizeof(QUANTIZER), Rva001B6400Allocation::Zero);
+	QUANTIZER *result = (QUANTIZER *)duck_malloc(sizeof(QUANTIZER), 0);
 	QUANTIZER *pbi = result;
 	if (!result)
 		return 0;
