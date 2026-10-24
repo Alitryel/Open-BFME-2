@@ -8,7 +8,7 @@
 
 extern "C" const void *const __identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@")[];  // folded, 35 classes
 
-extern "C" const void *const __identifier("??_7BfmeBaseVUQ@@6B@")[];  // folded, 23 classes
+extern "C" const void *const __identifier("??_7Snapshot@@6B@")[];  // folded, 23 classes
 
 extern "C" const void *const __identifier("??_7ModuleTemplate@FXParticleSystem@@6B@")[];
 
@@ -30,7 +30,7 @@ public:
 inline DefaultModuleTemplate<1>::~DefaultModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7Snapshot@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
     *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
@@ -47,7 +47,7 @@ public:
 inline DefaultModuleTemplate<2>::~DefaultModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7Snapshot@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
     *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
@@ -64,7 +64,7 @@ public:
 inline DefaultModuleTemplate<3>::~DefaultModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7Snapshot@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
     *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
@@ -81,7 +81,7 @@ public:
 inline DefaultModuleTemplate<0>::~DefaultModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7Snapshot@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
     *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
@@ -98,7 +98,7 @@ public:
 inline DefaultModuleTemplate<6>::~DefaultModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7Snapshot@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
     *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
@@ -143,7 +143,7 @@ public:
 inline CylindricalEmissionVelocityModuleTemplate::~CylindricalEmissionVelocityModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7Snapshot@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
     *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
@@ -159,7 +159,7 @@ public:
 inline OrthoEmissionVelocityModuleTemplate::~OrthoEmissionVelocityModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7Snapshot@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
     *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
@@ -175,7 +175,7 @@ public:
 inline LightningDrawModuleTemplate::~LightningDrawModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7Snapshot@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
     *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
@@ -191,7 +191,7 @@ public:
 inline LightningEmissionModuleTemplate::~LightningEmissionModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7Snapshot@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
     *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
@@ -207,7 +207,7 @@ public:
 inline RenderObjectUpdateModuleTemplate::~RenderObjectUpdateModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7Snapshot@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
     *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
@@ -223,7 +223,7 @@ public:
 inline TerrainFireEmissionModuleTemplate::~TerrainFireEmissionModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7Snapshot@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
     *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
@@ -239,7 +239,7 @@ public:
 inline OutwardEmissionVelocityModuleTemplate::~OutwardEmissionVelocityModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7Snapshot@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
     *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));

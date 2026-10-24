@@ -5,7 +5,7 @@
 // at 0x003A983C. Evidence: retail mov/neg/lea/sbb/and plus BBB554 store
 // plus jmp, unlocks 0x003AE8D5, prev is landed 0x003AB9FF.
 // Precedent: ParticleModuleInfoDtor.cpp Rva003AF50D +0x14 store plus tail-jmp.
-extern "C" const void *const __identifier("??_7BfmeBaseVUQ@@6B@")[];  // folded, 23 classes
+extern "C" const void *const __identifier("??_7Snapshot@@6B@")[];  // folded, 23 classes
 
 class Rva003AF50D {
 public: virtual ~Rva003AF50D();
@@ -20,5 +20,5 @@ private: void *m_v18;
 Rva003ABA36::~Rva003ABA36()
 {
 	unsigned char *b18 = this ? (unsigned char *)this + 0x18 : 0;
-	*(volatile unsigned int *)b18 = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
+	*(volatile unsigned int *)b18 = ((unsigned int)__identifier("??_7Snapshot@@6B@"));
 }

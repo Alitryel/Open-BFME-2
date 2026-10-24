@@ -889,9 +889,13 @@ public:
 
 // vftable 0x00BFAD1C, allow 0x002611DD: no members (ZH's
 // PartitionFilterOnMap).
-class Rva002611DDFilter : public Rva000421C8
+namespace PartitionFilterTables {
+extern "C" const void *const __identifier("??_7Rva002611DDFilter@@6B@")[];
+}
+class __declspec(novtable) Rva002611DDFilter : public Rva000421C8
 {
 public:
+	Rva002611DDFilter() { *(const void **)this = PartitionFilterTables::__identifier("??_7Rva002611DDFilter@@6B@"); }
 	virtual bool allow(Object *obj);
 };
 
