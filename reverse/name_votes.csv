@@ -2437,3 +2437,13 @@ Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva
 Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b2,0a146c2c25903e0079cb781a,gpt-6.1-sol,codex4-20261024-040832-18,w-887869184137,2026-10-24
 Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b3,f53999235b3e6bcce0f8fce0,gpt-6.1-sol,codex4-20261024-040832-18,w-887869184137,2026-10-24
 Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b4,bc016a2a74407bd6cbe4a1f0,gpt-6.1-sol,codex4-20261024-040832-18,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva002B47B1Get.cpp|local|LivingWorldLogic::rva002B47B1|g,e46117604c86a4df1c5ec784,gpt-6.1-sol,codex4-20261024-040832-21,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva001F529D.cpp|local|Rva001F529D::rva001F529D|a,492d93683d50d9ffc3a01ef5,gpt-6.1-sol,codex4-20261024-040832-22,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva001F529D.cpp|local|Rva001F529D::rva001F529D|b,c5bbb1cd679a76555565ee1f,gpt-6.1-sol,codex4-20261024-040832-22,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva001F529D.cpp|local|Rva001F529D::rva001F529D|p,5549d0238026167f6e7ac627,gpt-6.1-sol,codex4-20261024-040832-22,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva0040B0D0Contains.cpp|function|0x0040B0D0|rva0040B0D0,d500cdff63525b1cce17eedb,gpt-6.1-sol,codex4-20261024-040832-23,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameClient/GameClientLogoGate.cpp|member|Rva00239539Flags|flagAF2,df18558bc367cbffa795ef72,gpt-6.1-sol,codex4-20261024-040832-24,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva00595C79Permuted.cpp|class||Rva00595C79Address,5960051d0e89638a53a4aac9,gpt-6.1-sol,codex4-20261024-040832-28,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva00595C79Permuted.cpp|function|0x00595C04|Rva00595C04FormatIPPort,2d6b555d700c601556f2ece2,gpt-6.1-sol,codex4-20261024-040832-28,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva00595C79Permuted.cpp|function|0x00595C9B|Rva00595C9BFormatIP,fd832d81ab87141338292147,gpt-6.1-sol,codex4-20261024-040832-28,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva00595C79Permuted.cpp|function|0x00595C79|Rva00595C79FormatAddress,c3afb141c0df4df787a45e9a,gpt-6.1-sol,codex4-20261024-040832-28,w-887869184137,2026-10-24
