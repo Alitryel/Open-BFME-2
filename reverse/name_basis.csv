@@ -1288,3 +1288,4 @@ param,Rva0007B890MatrixBasisCtor::Rva0007B890MatrixBasisCtor::y,Rva0007B890Matri
 param,Rva0007B890MatrixBasisCtor::Rva0007B890MatrixBasisCtor::z,Rva0007B890MatrixBasisCtor::Rva0007B890MatrixBasisCtor::zAxis,inferred,agree:nl-54b27a146deb,Code/Libraries/Source/WWVegas/WWMath/Matrix3DVectorRowsCtor.cpp,0x0007B890
 local,FXShaderParameterBinder::PushDynamicSetStack::r,FXShaderParameterBinder::PushDynamicSetStack::hResult,inferred,agree:nl-6a610e803e4c,Code/Libraries/Source/WWVegas/WW3D2/FXShaderParameterBinderPushDynamicSetStackName.cpp,0x001535FF
 local,LivingWorldRegionManager::GetRegionUiPopupPoint::p,LivingWorldRegionManager::GetRegionUiPopupPoint::region,inferred,agree:nl-01245be43e43,Code/Libraries/Source/WWVegas/WWLib/Rva0020F2A2Dispatch.cpp,0x0020F2A2
+global,?BfmeAnimationModeNames@@3PAPBDA,?animationModeNames@@3PAPBDA,inferred,agree:nl-356618a6d1f5,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp,0x009B4E44

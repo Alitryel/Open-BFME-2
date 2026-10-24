@@ -170,7 +170,7 @@ public:
 };
 
 class Rva000BFDFE { public: void rva000C0386(); };
-extern const char *BfmeAnimationModeNames[];
+extern const char *animationModeNames[];
 
 // The playing animation's slot views: name (2), frame count (5), total
 // seconds (7).
@@ -310,7 +310,7 @@ void W3DScriptedModelDraw::buildPlayingAnimationStringInfo(int index, AsciiStrin
 		int numFrames = m_playing[index].m_anim->getNumFrames();
 		int frame = (int)m_playing[index].m_frame;
 		int blendTime = (int)m_playing[index].m_blendTime;
-		AsciiString mode(BfmeAnimationModeNames[m_playing[index].m_mode]);
+		AsciiString mode(animationModeNames[m_playing[index].m_mode]);
 		animInfo->format("%s %d/%d frames(%.1fs), AnimMode:%s, BlendTime:%d", m_playing[index].m_anim->getName(),
 			frame + 1, numFrames, (double)totalTime, mode.str(), blendTime);
 	}
