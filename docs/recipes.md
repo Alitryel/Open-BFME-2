@@ -755,3 +755,15 @@ tested together (13 banks, scratch compiles only). Do not retry these:
   rows. Removing only the forwarding body changes the instruction shape without
   fixing its callee; verify resolved relocations as well as the EH graph.
   See [the allocation lookup controls and verification](../reverse/attempt_support/ini-scalar-unwind-20261023.md).
+
+- **Revisit earlier storage workarounds after changing compiler context.**
+  AIPlayer::queueSupplyTruck at 0x004F37B0 reached a six-byte near miss after
+  `/Ow`, explicit iterator cursors, an inline counting helper and narrowly
+  placed barriers restored its instruction/register schedule. All six remaining
+  differences exchanged two stack homes. A union that had helped the earlier
+  shape was now making C2 share the phase values with the wrong iterator;
+  removing it restored all 1,537 bytes and exact EH with ordinary locals.
+  Read-only compiler traces confirmed the near miss's stack grouping. Neither
+  `/Ow` nor the source adapters establish the original source or flags, and
+  `/Ow` must stay isolated from neighboring bodies it changes. See [the exact
+  recovery and controls](../reverse/attempt_support/queue-supply-truck-20261023-max/readme.md).
