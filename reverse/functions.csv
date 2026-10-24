@@ -7077,9 +7077,9 @@ _Rva008118C0,,0x0067D7C0,5,Code/Libraries/Source/DirtySock/Y5SmallHelpers.c,matc
 ??1BackAwayAndCowerStateMachine@@UAE@XZ,,0x003402D0,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,opaque derived dtor
 ??1Rva0034144B@@UAE@XZ,,0x0034144B,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,opaque derived dtor
 ??1AIAttackSwoopThenIdleStateMachine@@UAE@XZ,,0x003677B3,11,Code/GameEngine/Source/GameLogic/AI/AIAttackSwoopThenIdleStateMachine.cpp,matched,dtor of the 0x003676A2 machine: restores the vtable 0x008174E0 its constructor installs and tail-calls StateMachine 0x004D759C
-??1Rva0048898C@@UAE@XZ,,0x0048898C,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,opaque derived dtor
+??1DozerPrimaryStateMachine@@UAE@XZ,,0x0048898C,11,Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateCtor.cpp,matched,DozerPrimaryStateMachine dtor: stores the vtable 0x0084B668 its constructor 0x00488DAB installs (slot 0 deleting dtor 0x00488EE0; slot 2 getter 0x00488997) then tail-calls ~StateMachine
 ??1SupplyTruckStateMachine@@UAE@XZ,,0x004A6C59,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,derived dtor: stores vtable 0x008532A8 (installed by the rowed ctor 0x004A7010; slot 2 returns the name string SupplyTruckStateMachine) then tail-jmps to ~StateMachine
-??1Rva004A9964@@UAE@XZ,,0x004A9964,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,opaque derived dtor
+??1WorkerStateMachine@@UAE@XZ,,0x004A9964,11,Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/WorkerAIUpdateCtor.cpp,matched,WorkerStateMachine dtor: stores the vtable 0x00854058 its constructor 0x004A9D79 installs (slot 0 deleting dtor 0x004A9E22; slot 2 getter 0x004A996F) then tail-calls ~StateMachine
 ??1TurretStateMachine@@UAE@XZ,,0x004D7E61,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,derived dtor: stores vtable 0x008609C8 (installed by the rowed ctor 0x004D7CE6; slot 2 returns the name string TurretStateMachine) then tail-jmps to ~StateMachine
 ??1AIGuardMachine@@UAE@XZ,,0x00542C19,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,derived dtor: stores vtable 0x00869680 (installed by the rowed ctor 0x00543163; slot 2 returns the name string AIGuardMachine) then tail-jmps to ~StateMachine
 ??1AIDockMachine@@UAE@XZ,,0x005440BC,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,derived dtor: stores vtable 0x008699A0 (installed by the rowed ctor 0x005448A1; slot 2 returns the name string AIDockMachine) then tail-jmps to ~StateMachine
@@ -10838,7 +10838,7 @@ _math_mod,,0x007485A0,65,Code/Libraries/Source/Lua/lmathlib.c,matched,Lua math.m
 ??_GRva004C8A16@@UAEPAXI@Z,,0x004C8A79,28,Code/GameEngine/Source/Common/Rva00493DEFDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GAttackStateMachine@@UAEPAXI@Z,,0x0034314E,28,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GAttackMeleeStateMachine@@UAEPAXI@Z,,0x0034334B,28,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
-??_GRva004A9964@@UAEPAXI@Z,,0x004A9E22,28,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
+??_GWorkerStateMachine@@UAEPAXI@Z,,0x004A9E22,28,Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/WorkerAIUpdateCtor.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GTurretStateMachine@@UAEPAXI@Z,,0x004D8523,28,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,scalar deleting dtor: slot 0 of vtable 0x008609C8 (slot 2 returns the name string TurretStateMachine); calls the rowed ~TurretStateMachine; emitted via the TU vtable; byte-exact
 ??_GAIGuardMachine@@UAEPAXI@Z,,0x00542ED8,28,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,scalar deleting dtor: slot 0 of vtable 0x00869680 (slot 2 returns the name string AIGuardMachine); calls the rowed ~AIGuardMachine; emitted via the TU vtable; byte-exact
 ??_GAIDockMachine@@UAEPAXI@Z,,0x00544A72,28,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,scalar deleting dtor: slot 0 of vtable 0x008699A0 (slot 2 returns the name string AIDockMachine); calls the rowed ~AIDockMachine; emitted via the TU vtable; byte-exact
@@ -10914,7 +10914,7 @@ _math_rad,,0x00748740,38,Code/Libraries/Source/Lua/lmathlib.c,matched,Lua math.r
 ??_GAIAttackSwoopThenIdleStateMachine@@UAEPAXI@Z,,0x0036898C,28,Code/GameEngine/Source/GameLogic/AI/AIAttackSwoopThenIdleStateMachine.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GActionManager@@UAEPAXI@Z,,0x0041BBC8,28,Code/GameEngine/Source/Common/GameEngineDeletingBaseDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GRva00485983@@UAEPAXI@Z,,0x00485B80,28,Code/GameEngine/Source/Common/Rva0048593DDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
-??_GRva0048898C@@UAEPAXI@Z,,0x00488EE0,28,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
+??_GDozerPrimaryStateMachine@@UAEPAXI@Z,,0x00488EE0,28,Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateCtor.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GRva004B8C3E@@UAEPAXI@Z,,0x004B8CAD,28,Code/GameEngine/Source/Common/Rva004B8CDEDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GRva004B8DB1@@UAEPAXI@Z,,0x004B8E0F,28,Code/GameEngine/Source/Common/Rva004B8CDEDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GRva004B8EA8@@UAEPAXI@Z,,0x004B8F06,28,Code/GameEngine/Source/Common/Rva004B8CDEDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact

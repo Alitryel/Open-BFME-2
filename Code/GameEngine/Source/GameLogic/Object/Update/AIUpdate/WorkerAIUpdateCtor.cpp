@@ -58,7 +58,7 @@
 //
 // ??0WorkerStateMachine@@QAE@PAVObject@@@Z, retail 0x004A9D79, 169 bytes. As
 // in ZH: the StateMachine base (rowed 0x004D79E1; name key 0xF80D13C5, flag
-// false; vtable 0x00854058, the rowed Rva004A9964 dtor's), then ActAsDozer
+// false; vtable 0x00854058, the destructor 0x004A9964's), then ActAsDozer
 // (rowed ctor 0x004A992A) with asDozerConditions (retail .rdata 0x00854410)
 // and ActAsSupplyTruck (rowed ctor 0x004A9947) with asTruckConditions
 // (0x008543F8), plain operator new of 0x20 bytes each.
@@ -1059,6 +1059,13 @@ void WorkerAIUpdate::createMachines()
 
 		m_workerMachine->initDefaultState();
 	}
+}
+
+// Retail 0x004A9964: stores the vtable 0x00854058 this constructor installs
+// (slot 0 is the deleting destructor 0x004A9E22, slot 2 the class-name getter
+// 0x004A996F) and tail-calls ~StateMachine.
+WorkerStateMachine::~WorkerStateMachine()
+{
 }
 
 WorkerStateMachine::WorkerStateMachine(Object *owner) : StateMachine(owner, 0xF80D13C5, false)

@@ -25,8 +25,9 @@
 // "AIAttackMOveStateMachine"). The other owners stay address
 // named. Every class declares only its destructor, like the views in the
 // constructor units, so the vtable and deleting destructor copies agree.
-// AttackPositionStateMachine (0x0033FBA6) and AIAttackSwoopThenIdleStateMachine
-// (0x003677B3) define theirs in their constructor units.
+// AttackPositionStateMachine (0x0033FBA6), AIAttackSwoopThenIdleStateMachine
+// (0x003677B3), DozerPrimaryStateMachine (0x0048898C) and WorkerStateMachine
+// (0x004A9964) define theirs in their constructor units.
 
 class StateMachine
 {
@@ -124,20 +125,6 @@ Rva0034144B::~Rva0034144B()
 {
 }
 
-class Rva0048898C : public StateMachine
-{
-public:
-	virtual ~Rva0048898C();
-};
-
-Rva0048898C::~Rva0048898C()
-{
-}
-
-// Rva0048898C is DozerPrimaryStateMachine: its vtable 0x0084B668 holds
-// ?GetSnapshotName@DozerPrimaryStateMachine (0x00488997) in slot 2.
-#pragma comment(linker, "/alternatename:??1DozerPrimaryStateMachine@@UAE@XZ=??1Rva0048898C@@UAE@XZ")
-
 class SupplyTruckStateMachine : public StateMachine
 {
 public:
@@ -147,20 +134,6 @@ public:
 SupplyTruckStateMachine::~SupplyTruckStateMachine()
 {
 }
-
-class Rva004A9964 : public StateMachine
-{
-public:
-	virtual ~Rva004A9964();
-};
-
-Rva004A9964::~Rva004A9964()
-{
-}
-
-// Rva004A9964 is WorkerStateMachine: its vtable 0x00854058 holds
-// ?GetSnapshotName@WorkerStateMachine (0x004A996F) in slot 2.
-#pragma comment(linker, "/alternatename:??1WorkerStateMachine@@UAE@XZ=??1Rva004A9964@@UAE@XZ")
 
 class TurretStateMachine : public StateMachine
 {

@@ -1090,6 +1090,13 @@ DozerAIUpdate::DozerAIUpdate(Thing *thing, const ModuleData *moduleData)
 	createMachines();
 }
 
+// Retail 0x0048898C: stores the vtable 0x0084B668 this constructor installs
+// (slot 0 is the deleting destructor 0x00488EE0, slot 2 the class-name getter
+// 0x00488997) and tail-calls ~StateMachine.
+DozerPrimaryStateMachine::~DozerPrimaryStateMachine()
+{
+}
+
 DozerPrimaryStateMachine::DozerPrimaryStateMachine(Object *owner) : StateMachine(owner, 0x3EA7DE5F, false)
 {
 	static const StateConditionInfo idleConditions[] =
