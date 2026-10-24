@@ -916,3 +916,7 @@ local,W3DShrubBuffer::DoXfer::t,W3DShrubBuffer::DoXfer::shrubType,inferred,agree
 class,Rva000E8365TreeType,TreeType,inferred,agree:nl-d4f56a56d09b,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E8365.cpp,
 local,FXShaderParameterBinder::PushDynamicSetStack::s2,FXShaderParameterBinder::PushDynamicSetStack::currentStore,inferred,agree:nl-bfe39241715b,Code/Libraries/Source/WWVegas/WW3D2/FXShaderParameterBinderPushDynamicSetStackName.cpp,0x001535FF
 local,Rva0015FC20TransformPrefix::compose::p,Rva0015FC20TransformPrefix::compose::rotatedPosition,inferred,agree:nl-3851b295e3c1,Code/Libraries/Source/WWVegas/WW3D2/Rva0015FC20TransformCompose.cpp,0x0015FC20
+local,Rva004ED0E9Copy::r,Rva004ED0E9Copy::destination,inferred,agree:nl-eb2ee8eb4f34,Code/Libraries/Source/WWVegas/WW3D2/Rva004ED471Finish.cpp,
+local,Rva004ED0E9Copy::f,Rva004ED0E9Copy::source,inferred,agree:nl-172e654d8f13,Code/Libraries/Source/WWVegas/WW3D2/Rva004ED471Finish.cpp,
+local,Rva004ED10FFill::n,Rva004ED10FFill::remaining,inferred,agree:nl-e5067ece5b25,Code/Libraries/Source/WWVegas/WW3D2/Rva004ED471Finish.cpp,
+local,Rva004ED471::rva004ED471::p,Rva004ED471::rva004ED471::growthCount,inferred,agree:nl-302f6f64824c,Code/Libraries/Source/WWVegas/WW3D2/Rva004ED471Finish.cpp,0x004ED471

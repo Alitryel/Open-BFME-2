@@ -31,9 +31,9 @@ public:
 
 void __cdecl Rva004ED0D7Assign(HLodClass::ModelNodeClass *dst, const HLodClass::ModelNodeClass *src);
 HLodClass::ModelNodeClass * __cdecl Rva004ED0E9Copy(const HLodClass::ModelNodeClass *first, const HLodClass::ModelNodeClass *last, HLodClass::ModelNodeClass *result, const void *h)
-{ HLodClass::ModelNodeClass *r = result; const HLodClass::ModelNodeClass *f = first; while (f != last) { Rva004ED0D7Assign(r, f); ++f; ++r; } return r; }
+{ HLodClass::ModelNodeClass *destination = result; const HLodClass::ModelNodeClass *source = first; while (source != last) { Rva004ED0D7Assign(destination, source); ++source; ++destination; } return destination; }
 HLodClass::ModelNodeClass * __cdecl Rva004ED10FFill(HLodClass::ModelNodeClass *dst, unsigned int count, const HLodClass::ModelNodeClass *src, const void *h)
-{ HLodClass::ModelNodeClass *p = dst; unsigned int n = count; if (n <= 0) return p; do { Rva004ED0D7Assign(p, src); ++p; } while (--n != 0); return p; }
+{ HLodClass::ModelNodeClass *p = dst; unsigned int remaining = count; if (remaining <= 0) return p; do { Rva004ED0D7Assign(p, src); ++p; } while (--remaining != 0); return p; }
 extern "C" void __cdecl free(void *);
 
 struct BfmeStringRecord002CF4C6 {
@@ -74,12 +74,12 @@ public:
 void Rva004ED471::rva004ED471(HLodClass::ModelNodeClass *pos, const HLodClass::ModelNodeClass *value, const void *dummy, unsigned int count, bool atend)
 {
 	unsigned int oldSize = (unsigned int)(m_finish - m_start);
-	unsigned int *p = &count;
+	unsigned int *growthCount = &count;
 	unsigned int tmp = oldSize;
 	if (tmp >= count) {
-		p = &tmp;
+		growthCount = &tmp;
 	}
-	unsigned int len = *p + oldSize;
+	unsigned int len = *growthCount + oldSize;
 	_STL::allocator<BfmeStringRecord002CF4C6> *alloc = (_STL::allocator<BfmeStringRecord002CF4C6> *)&m_end;
 	HLodClass::ModelNodeClass *newStart = (HLodClass::ModelNodeClass *)alloc->allocate(len, 0);
 	(void)dummy;
