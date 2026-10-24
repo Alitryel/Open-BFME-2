@@ -484,7 +484,7 @@ extern int TheMixFileInfoPool;
 void Rva0052DBCDInit();
 MixFileInfoBuffer *Rva002E8B7AInit(MixFileInfoBuffer **,int,In002E6BA1 *);
 ICoord2D *Rva002E7875WorldToCell(ICoord2D *,bool,const Coord3D *);
-int Rva002E6E6CGet(int);
+int isGroundOrBridgeLayer(int);
 class Rva002E6AF3 { public: int get() const; };
 class Rva002E6B06 { public: int rva002E6B06(); };
 class Rva003F69C0Object { public: void set(int *,int); };
@@ -591,7 +591,7 @@ void Pathfinder::CheckChangeLayers(PathfindCell *parent,Object *object)
     if (connection) {
         int x=from->info->x;int y=from->info->y;coord.x=x;coord.y=y;
         PathfindCell *cell;
-        if (static_cast<unsigned char>(Rva002E6E6CGet(connection))) cell=getCell(PATHFIND_LAYER_GROUND,x,coord.y);
+        if (static_cast<unsigned char>(isGroundOrBridgeLayer(connection))) cell=getCell(PATHFIND_LAYER_GROUND,x,coord.y);
         else cell=getCell(static_cast<PathfindLayerEnum>(connection),x,coord.y);
         if (cell && !static_cast<unsigned char>(reinterpret_cast<const Rva002E6AF3 *>(cell)->get()) &&
             !static_cast<unsigned char>(reinterpret_cast<Rva002E6B06 *>(cell)->rva002E6B06())) {

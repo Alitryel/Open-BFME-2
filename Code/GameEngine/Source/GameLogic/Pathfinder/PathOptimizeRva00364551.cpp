@@ -25,7 +25,7 @@ class Pathfinder {public:
 };
 class AI {public:char pad00[0x10];Pathfinder *m_pathfinder;Pathfinder *pathfinder()const{return m_pathfinder;}};
 extern AI *TheAI;
-int Rva002E6E6CGet(int);
+int isGroundOrBridgeLayer(int);
 class Path {public:
  void rva00364551(Object *,int,bool,const float *);
  void *vtable;PathNode *first,*last;bool optimized;
@@ -49,7 +49,7 @@ const Coord3D *input=(const Coord3D *)facing;
      if(abs(dx)==abs(dy) && abs(dx)==distance)passable=true;
      if(!passable && (unsigned char)TheAI->pathfinder()->IsLinePassableForOptimize(obj,(void *)surfaces,(PathfindLayerEnum)layer,&anchor->pos,&node->pos,*(void *const *)&blocked))passable=true;
     }
-    if((unsigned char)Rva002E6E6CGet(curLayer)) {
+    if((unsigned char)isGroundOrBridgeLayer(curLayer)) {
      if(node->layer!=curLayer) {layer=node->layer;if(distance>30)passable=false;}
     } else if(node->previous && node->previous->layer!=curLayer) {
      if(distance>30)passable=false;
@@ -91,7 +91,7 @@ const Coord3D *input=(const Coord3D *)facing;
       if(!passable && (unsigned char)TheAI->pathfinder()->IsLinePassableForOptimize(obj,(void *)surfaces,(PathfindLayerEnum)layer,&anchor->pos,&node->pos,*(void *const *)&blocked))passable=true;
      }
     }
-    if((unsigned char)Rva002E6E6CGet(curLayer)) {
+    if((unsigned char)isGroundOrBridgeLayer(curLayer)) {
      if(node->layer!=curLayer) {layer=node->layer;if(distance>30)passable=false;}
      if(groundOnly && !passable) {
       int dx=node->pos.x-last->pos.x,dy=node->pos.y-last->pos.y;

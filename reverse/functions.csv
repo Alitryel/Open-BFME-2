@@ -28028,7 +28028,7 @@ uw_0076443a,,0x0076443A,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DD
 ?rva005490D2@Rva005490D2@@QBEHXZ,,0x005490D2,31,Code/GameEngine/Source/GameLogic/AI/AIGroupFormations.cpp,matched,summing loop over inline array with count at plus0 and field at 568
 ?resize@?$vector@PAVDrawable@@V?$allocator@PAVDrawable@@@_STL@@@_STL@@QAEXIPAVDrawable@@@Z,,0x000E6D39,63,Code/GameEngine/Source/Common/DrawableVectorResize.cpp,matched,unlock lane vector Drawable resize via Pod8 ObjectID 63B precedents erase 0x31BD55 fill 0x233A5A
 ?rva000E6594@Rva000E6594@@QAEXXZ,,0x000E6594,8,Code/GameEngine/Source/Common/Rva000E6594.cpp,matched,unlock lane add ecx 0x38 jmp FillLevelSurfaces 0x132989 callers 0x6B819
-?Rva002E6E6CGet@@YAHH@Z,,0x002E6E6C,19,Code/GameEngine/Source/Common/Rva002E6E6CGet.cpp,matched,free cdecl predicate 22 callers no donor flags O1 from Rva002E6ECA sibling
+?isGroundOrBridgeLayer@@YAHH@Z,,0x002E6E6C,19,Code/GameEngine/Source/Common/Rva002E6E6CGet.cpp,matched,free cdecl predicate 22 callers no donor flags O1 from Rva002E6ECA sibling
 ?rva0028C1CC@Object@@QBE_NXZ,,0x0028C1CC,67,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028C1CC.cpp,matched,Object owner via callers 0x493645 0x438152 plus rowed callees and globals 0xDBA4E4 0xDFE78C
 ?Rva0039D8FBLess@@YAHABURva0039D8FBKey@@0@Z,,0x0039D8FB,36,Code/GameEngine/Source/Common/RTS/TeamRva0039D8FB.cpp,matched,TeamFactory pair key comparator via RB-tree callers and twin 0x169F50 with O1 tail
 ?rva0039D8BA@Team@@QAEXPAVObject@@@Z,,0x0039D8BA,18,Code/GameEngine/Source/Common/RTS/TeamRva0039D8BA.cpp,matched,Team entered flag plus ScriptEngine frame cache via Object team callers

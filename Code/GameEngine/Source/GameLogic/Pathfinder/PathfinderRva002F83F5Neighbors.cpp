@@ -509,7 +509,7 @@ struct Rva002F5925Info;
 struct BurningCell {char pad[6];unsigned short count;char pad8[12];};
 struct BurningGrid {char pad[0x70];BurningCell **cells;char word74[4];Int width,height;};
 class Rva002872BA;extern Rva002872BA *TheTriggerManager;
-Int Rva002E6E6CGet(Int);
+Int isGroundOrBridgeLayer(Int);
 class Rva002F6F90Context { public: Bool rva002F6F90(unsigned int,Int); };
 class Rva002F70E5Context { public: Bool rva002F70E5(unsigned int,Int); };
 class Rva002E7440 { public: Bool rva002E7440(Int,Int); };
@@ -1131,7 +1131,7 @@ newCell->m_pathInfo->flags&=~1U;
 if(info.allyFixedCount){newCostSoFar+=14;if(!canPathThroughUnits)newCell->m_pathInfo->flags|=1;}
 Int remaining=0;
 if(goalCell){remaining=rva002F0A72(newCell,goalCell);if(attackMode && info.allyGoal)newCostSoFar+=30;}
-if((unsigned char)Rva002E6E6CGet(newCell->getLayer()) && !m_zoneManager.IsPassable(x,y) && !((unsigned char)(newCell->m_info>>21)&1))newCostSoFar+=1000;
+if((unsigned char)isGroundOrBridgeLayer(newCell->getLayer()) && !m_zoneManager.IsPassable(x,y) && !((unsigned char)(newCell->m_info>>21)&1))newCostSoFar+=1000;
 if(newCell->getType()==4){Int obstacle=newCell->m_pathInfo?newCell->m_pathInfo->obstacleID:0;if(obstacle!=m_ignoreObstacleID)newCostSoFar+=1000;}
 newCostSoFar+=info.blockedCells*10;
 if(m_isTunneling && !((Rva002E6DC4 *)this)->rva002E6DC4(&info.movement,newCell))newCostSoFar+=100;

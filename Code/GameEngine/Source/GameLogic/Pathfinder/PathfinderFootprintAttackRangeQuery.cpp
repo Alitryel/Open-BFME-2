@@ -49,7 +49,7 @@ enum CellType {CELL_IMPASSABLE=5};
 class PathfindCell {public:QueryCellInfo *info;char pad4[8];unsigned flags;int layer()const{return(flags>>4)&63;}unsigned char type()const{return(unsigned char)(flags&15);}};
 ICoord2D *Rva002EBC14Cell(ICoord2D*,void*,const Coord3D*);
 int Rva002E9B31Get(void*);
-int Rva002E6E6CGet(int);
+int isGroundOrBridgeLayer(int);
 int Rva002E6E8AGet(int);
 // The already matched callback family demonstrates the floor-to-FISTP
 // compiler blocker; this tiny inline x87 conversion preserves native rounding.
@@ -122,7 +122,7 @@ bool Pathfinder::rva002EC479(Object *attacker,const Coord3D *from,Object *target
  int radius=queryFloor(cellRange+0.1f);
  if(target->definition->kindOf(7)){
   int layers[2];layers[0]=attacker->rva0028B511();int count=1;
-  if(!(unsigned char)Rva002E6E6CGet(layers[0]) && TheTerrainLogic->querySurface(attacker,layers[0])){layers[1]=1;count=2;}
+  if(!(unsigned char)isGroundOrBridgeLayer(layers[0]) && TheTerrainLogic->querySurface(attacker,layers[0])){layers[1]=1;count=2;}
   bool foundWall=false;
   while(radius-->=0){
    for(int j=diameter;j>=0;--j){

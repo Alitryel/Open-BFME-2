@@ -2763,7 +2763,7 @@ Path *Pathfinder::GetAircraftPath(const Object *object,const Coord3D *to)
 // for output escape analysis. These three current BFME2 providers are exact
 // here; keeping calls out of line lets MSVC reuse dead radius/cell slots.
 class PathfinderOverlapTerrainView:public PathfinderNativeSlots<44> { public: virtual bool objectInteractsWithBridgeLayer(Object *,int); };
-int Rva002E6E6CGet(int);
+int isGroundOrBridgeLayer(int);
 extern int g_Va00DFECD0;
 ICoord2D *Rva002EBC14Cell(ICoord2D *,void *,const Coord3D *);
 void Rva002EBCD6Split(void *,int *,int *);
@@ -2776,7 +2776,7 @@ int Pathfinder::_GetOverlapUnits(Object *object,const Coord3D *position,int *out
  Rva002EBCD6Split(object,&below,&above);
  layers[0]=object->rva0028B511();
  int numLayers=1;
- if (!(unsigned char)Rva002E6E6CGet(layers[0]) && reinterpret_cast<PathfinderOverlapTerrainView *>(TheTerrainLogic)->objectInteractsWithBridgeLayer(object,layers[0])) {
+ if (!(unsigned char)isGroundOrBridgeLayer(layers[0]) && reinterpret_cast<PathfinderOverlapTerrainView *>(TheTerrainLogic)->objectInteractsWithBridgeLayer(object,layers[0])) {
   layers[1]=1; numLayers=2;
  }
  int count=0;
@@ -2863,7 +2863,7 @@ int Pathfinder::GetOverlapGoalUnits(Object *object,const Coord3D *position,int *
  Rva002EBCD6Split(object,&below,&above);
  layers[0]=object->rva0028B511();
  int numLayers=1;
- if (!(unsigned char)Rva002E6E6CGet(layers[0]) && reinterpret_cast<PathfinderOverlapTerrainView *>(TheTerrainLogic)->objectInteractsWithBridgeLayer(object,layers[0])) {
+ if (!(unsigned char)isGroundOrBridgeLayer(layers[0]) && reinterpret_cast<PathfinderOverlapTerrainView *>(TheTerrainLogic)->objectInteractsWithBridgeLayer(object,layers[0])) {
   layers[1]=1; numLayers=2;
  }
  int count=0;
@@ -2897,7 +2897,7 @@ int Pathfinder::CountOverlapHordeGoalUnits(Object *object,const Coord3D *positio
  Rva002EBCD6Split(object,&below,&above);
  layers[0]=object->rva0028B511();
  int numLayers=1;
- if (!(unsigned char)Rva002E6E6CGet(layers[0]) && reinterpret_cast<PathfinderOverlapTerrainView *>(TheTerrainLogic)->objectInteractsWithBridgeLayer(object,layers[0])) {
+ if (!(unsigned char)isGroundOrBridgeLayer(layers[0]) && reinterpret_cast<PathfinderOverlapTerrainView *>(TheTerrainLogic)->objectInteractsWithBridgeLayer(object,layers[0])) {
   layers[1]=1; numLayers=2;
  }
  int count=0;
@@ -2930,7 +2930,7 @@ int Pathfinder::_GetAdjacentUnits(Object *object,const Coord3D *position,int *ou
  Rva002EBCD6Split(object,&below,&above);
  layers[0]=object->rva0028B511();
  int numLayers=1;
- if (!(unsigned char)Rva002E6E6CGet(layers[0]) && reinterpret_cast<PathfinderOverlapTerrainView *>(TheTerrainLogic)->objectInteractsWithBridgeLayer(object,layers[0])) {
+ if (!(unsigned char)isGroundOrBridgeLayer(layers[0]) && reinterpret_cast<PathfinderOverlapTerrainView *>(TheTerrainLogic)->objectInteractsWithBridgeLayer(object,layers[0])) {
   layers[1]=1; numLayers=2;
  }
  int count=0;
@@ -3873,7 +3873,7 @@ newCell->m_pathInfo->flags&=~1U;
 if(info.allyFixedCount){newCostSoFar+=14;if(!canPathThroughUnits)newCell->m_pathInfo->flags|=1;}
 Int remaining=0;
 if(goalCell){remaining=rva002F0A72(newCell,goalCell);if(attackMode && info.allyGoal)newCostSoFar+=30;}
-if((unsigned char)Rva002E6E6CGet(newCell->getLayer()) && !m_zoneManager.IsPassable(x,y) && !((unsigned char)(newCell->m_info>>21)&1))newCostSoFar+=1000;
+if((unsigned char)isGroundOrBridgeLayer(newCell->getLayer()) && !m_zoneManager.IsPassable(x,y) && !((unsigned char)(newCell->m_info>>21)&1))newCostSoFar+=1000;
 if(newCell->getType()==4){Int obstacle=newCell->m_pathInfo?newCell->m_pathInfo->obstacleID:0;if(obstacle!=m_ignoreObstacleID)newCostSoFar+=1000;}
 newCostSoFar+=info.blockedCells*10;
 if(m_isTunneling && !((Rva002E6DC4 *)this)->rva002E6DC4(&info.movement,newCell))newCostSoFar+=100;
@@ -5666,7 +5666,7 @@ Bool Pathfinder::rva002F07F5(Object *obj,const Coord3D *dest)
  Int newCount=0;
  Int below; Int above;Rva002EBCD6Split(obj,&below,&above);
  Int layers[2];layers[0]=obj->rva0028B511();Int layerCount=1;
- if(!(unsigned char)Rva002E6E6CGet(layers[0]) && reinterpret_cast<PathfinderOverlapTerrainView *>(TheTerrainLogic)->objectInteractsWithBridgeLayer(obj,layers[0])) {
+ if(!(unsigned char)isGroundOrBridgeLayer(layers[0]) && reinterpret_cast<PathfinderOverlapTerrainView *>(TheTerrainLogic)->objectInteractsWithBridgeLayer(obj,layers[0])) {
   layers[1]=1;layerCount=2;
  }
  Int oldCount=0;
@@ -5969,7 +5969,7 @@ class MineshaftPortalNetworkManager { public: Bool hasUsableNetwork(void *); };
 void * g_Va00E01EDC;	// retail RVA 0x00A01EDC (.bss), defined here
 class HierarchyTerrain : public PathfinderNativeSlots<33> { public: virtual Waypoint *getFirstWaypoint(); };
 class Rva002E6ECA { public: Int get() const; };
-Int Rva002E6E6CGet(Int);
+Int isGroundOrBridgeLayer(Int);
 class Rva003F69C0Object { public: void set(Int *,Int); };
 struct Disp32IntPair { Int x,y; };
 class Rva005315B0IntPairField { public: void get(Disp32IntPair &); };
@@ -6092,13 +6092,13 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
  Int cellCount=0;
  unsigned short goalBlockZone;
  ICoord2D goalBlockNdx;
- if((unsigned char)Rva002E6E6CGet(goalCell->getLayer())) {
+ if((unsigned char)isGroundOrBridgeLayer(goalCell->getLayer())) {
   goalBlockZone=zones->rva00532041((Int)&options,goalCell->getXIndex(),goalCell->getYIndex(),(Rva00532041Record **)m_unknown10);
   goalBlockNdx.x=goalCell->getXIndex()/16;goalBlockNdx.y=goalCell->getYIndex()/16;
  } else {goalBlockZone=goalCell->quickZone();goalBlockNdx.x=-1;goalBlockNdx.y=-1;}
  AddToOpenList(parentCell);
  Int parentLayer=parentCell->getLayer();
- if(!(unsigned char)Rva002E6E6CGet(parentLayer)) {
+ if(!(unsigned char)isGroundOrBridgeLayer(parentLayer)) {
   ICoord2D ndx=((HierarchyLayerView *)&m_layers[parentLayer])->start,toNdx=((HierarchyLayerView *)&m_layers[parentLayer])->end;
   PathfindCell *end=getCell(PATHFIND_LAYER_GROUND,toNdx.x,toNdx.y);
   PathfindCell *start=getCell(PATHFIND_LAYER_GROUND,ndx.x,ndx.y);
@@ -6120,7 +6120,7 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
  while((parentCell=rva002F36E5())!=0) {
   parentCell->PutOnClosedList(&m_closedList);
   unsigned short parentZone;
-  if((unsigned char)Rva002E6E6CGet(parentCell->getLayer()))
+  if((unsigned char)isGroundOrBridgeLayer(parentCell->getLayer()))
    parentZone=zones->rva00532041((Int)&options,parentCell->getXIndex(),parentCell->getYIndex(),(Rva00532041Record **)m_unknown10);
   else parentZone=parentCell->quickZone();
   Bool reachedGoal=false;
@@ -6170,7 +6170,7 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
     ICoord2D ndx;Rva002E7875WorldToCell(&ndx,true,to);
     goalCell=getCell(dest,ndx.x,ndx.y);goalCell->allocateInfo((In002E6BA1 *)&ndx);
     zone2=zones->rva0053241F(&options,goalCell->quickZone());
-    if((unsigned char)Rva002E6E6CGet(goalCell->getLayer())) {
+    if((unsigned char)isGroundOrBridgeLayer(goalCell->getLayer())) {
      goalBlockZone=zones->rva00532041((Int)&options,goalCell->getXIndex(),goalCell->getYIndex(),(Rva00532041Record **)m_unknown10);
      goalBlockNdx.x=goalCell->getXIndex()/16;goalBlockNdx.y=goalCell->getYIndex()/16;
     } else {goalBlockZone=goalCell->quickZone();goalBlockNdx.x=-1;goalBlockNdx.y=-1;}

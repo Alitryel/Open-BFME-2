@@ -1110,7 +1110,7 @@ class PathfinderOverlapTerrainView:public PathfinderNativeSlots<44>
  
 }
 ;
-int Rva002E6E6CGet(int);
+int isGroundOrBridgeLayer(int);
 extern int g_Va00DFECD0;
 extern GameLogic *TheGameLogic;
 int Rva002E9B31Get(void *);
@@ -1195,7 +1195,7 @@ Object *Pathfinder::rva002F14F9(Object *obj,Object *target)
  int layers[2];
  layers[0]=obj->rva0028B511();
  int layerCount=1;
- if(!(unsigned char)Rva002E6E6CGet(layers[0]) && reinterpret_cast<PathfinderOverlapTerrainView *>(TheTerrainLogic)->objectInteractsWithBridgeLayer(obj,layers[0]))
+ if(!(unsigned char)isGroundOrBridgeLayer(layers[0]) && reinterpret_cast<PathfinderOverlapTerrainView *>(TheTerrainLogic)->objectInteractsWithBridgeLayer(obj,layers[0]))
  {
   layers[1]=1;
   layerCount=2;

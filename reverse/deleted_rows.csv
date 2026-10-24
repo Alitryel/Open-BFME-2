@@ -2432,3 +2432,4 @@ __ehhandler$?Rva006CDBF0Resize@@YAPAVAptValueNameEntry@@PAV1@HH@Z,0x007A8186,"Re
 ??0Rva00201E45LODInfo@@QAE@XZ,0x00201E45,"Renamed to ??0AudioLODInfo@@QAE@XZ by tools/rename.py (inferred)"
 ?rva00033930@Rva00034C90@@QAEXXZ,0x00033930,"Renamed to ?consolidate@Rva00034C90@@QAEXXZ by tools/rename.py (inferred)"
 ?Rva003743BB@@YAXPAVObject@@PAX@Z,0x003743BB,"Renamed to ?setStatusCallback@@YAXPAVObject@@PAX@Z by tools/rename.py (inferred)"
+?Rva002E6E6CGet@@YAHH@Z,0x002E6E6C,"Renamed to ?isGroundOrBridgeLayer@@YAHH@Z by tools/rename.py (inferred)"

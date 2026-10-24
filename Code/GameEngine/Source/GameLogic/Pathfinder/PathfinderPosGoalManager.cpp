@@ -276,7 +276,7 @@ class AI { public: char pad[16]; Pathfinder *map; }; extern AI *TheAI;
 class TerrainLogic : public NativeSlots<44> { public: virtual bool slot44(Object *,int)=0; PathfindLayerEnum getLayerForDestination(Object *,const Coord3D *); }; extern TerrainLogic *TheTerrainLogic;
 float __cdecl Rva004DD722Get(int);
 int __cdecl Rva002E9B31Get(void *);
-int __cdecl Rva002E6E6CGet(int);
+int __cdecl isGroundOrBridgeLayer(int);
 void PathfinderPosGoalManager::AddObjPtr(Rva004DD843Slot *slot)
 {
  ICoord2DBase diameter;
@@ -300,7 +300,7 @@ void PathfinderPosGoalManager::AddObjPtr(Rva004DD843Slot *slot)
  Rva004DD9E3 visitor;
  visitor.slot=slot; visitor.category=slot->m_listKind; visitor.object=callbackObject;
  visitor.secondary=0; visitor.layer=slot->m_pathLayer;
- if (!(unsigned char)Rva002E6E6CGet(slot->m_pathLayer) && TheTerrainLogic->slot44(callbackObject,slot->m_pathLayer)) visitor.secondary=1;
+ if (!(unsigned char)isGroundOrBridgeLayer(slot->m_pathLayer) && TheTerrainLogic->slot44(callbackObject,slot->m_pathLayer)) visitor.secondary=1;
  TheAI->map->IterateCellsInRectangle((ICoord2DBase *)slot,&diameter,Rva004DD722Get(slot->m_angle),slot->m_pathLayer,&visitor);
 }
 

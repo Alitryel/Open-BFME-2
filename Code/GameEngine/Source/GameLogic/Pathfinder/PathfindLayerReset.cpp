@@ -206,7 +206,7 @@ PathfindLayer::PathfindLayer()
 // cells4, dimensions8/C, destroyed30, zone flags10..15, and LocomotorSet10/15.
 // The scheduling fence preserves the native loop-index load before cell-base load.
 enum PathfindLayerEnum{LAYER_INVALID=-1,LAYER_GROUND=1,LAYER_FIRST_BRIDGE=16};
-int Rva002E6E6CGet(int);
+int isGroundOrBridgeLayer(int);
 class LocomotorSet{public:char pad0[0x10];int m_surfaces;char pad14;unsigned char m_15;int getValidSurfaces()const{return m_surfaces;}};
 struct PathfindMovementProfile{int m_surfaces;bool m_crusher,m_terrainOnly;char pad6[2];int m_layer;unsigned char m_C;PathfindMovementProfile(int s):m_surfaces(s),m_crusher(false),m_terrainOnly(false),m_layer(-1){} };
 class Rva002E99F9Sub460{public:unsigned short rva0053241F(void *,unsigned short);unsigned short rva00531FD4(void *,unsigned short);};
@@ -221,7 +221,7 @@ class AI{public:char pad0[0x10];Pathfinder *m_pathfinder;Pathfinder *pathfinder(
   for(int j=0;j<m_height;++j){
    PathfindCell *cell=&m_layerCells[i][j];
    int connectLayer=(cell->m_flags>>10)&0x3f;
-   _ReadWriteBarrier(); if((unsigned char)Rva002E6E6CGet(connectLayer)){
+   _ReadWriteBarrier(); if((unsigned char)isGroundOrBridgeLayer(connectLayer)){
     PathfindCell *groundCell=TheAI->m_pathfinder->getCell(LAYER_GROUND,i+m_xOrigin,j+m_yOrigin);
     if(groundCell){
      PathfindMovementProfile profile(locomotorSet.getValidSurfaces());profile.m_C=locomotorSet.m_15;

@@ -28,7 +28,7 @@ private:friend class Rva002E7388Owner;
 class Rva002E6DC4 {public:bool rva002E6DC4(void*,void*);};
 int Rva002E6E8AGet(int);
 bool Rva001E3679(int);
-int Rva002E6E6CGet(int);
+int isGroundOrBridgeLayer(int);
 class TerrainLogic {
 public:virtual void slot0();virtual void slot1();virtual void slot2();virtual void slot3();virtual void slot4();virtual void slot5();virtual void slot6();
  virtual float height(float,float,int,void*,bool);
@@ -65,7 +65,7 @@ bool Rva002E7388Owner::rva002E916A(int x,int y)
  }
  current.x=x;current.y=y;
  int requested=requestedLayer;
- if((unsigned char)Rva002E6E6CGet(requested)) {
+ if((unsigned char)isGroundOrBridgeLayer(requested)) {
   const ICoord2D *skip=&skipped;
   if(current!=*skip) {
    Rva002E8145Info info;info.opaque=(int)pathfinder;info.skipX=skip->x;info.skipY=skip->y;

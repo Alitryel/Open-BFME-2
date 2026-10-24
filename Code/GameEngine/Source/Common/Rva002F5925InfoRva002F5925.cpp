@@ -130,7 +130,7 @@ extern GlobalData *TheWritableGlobalData;
 // cleared by the search entry points and incremented against the limit at121C.
 // All users share this owner; its unsigned view preserves the native comparison.
 unsigned int PathfinderSearchCellsVisited;
-int Rva002E6E6CGet(int);
+int isGroundOrBridgeLayer(int);
 class PathfindZoneManager {public:unsigned char IsPassable(int,int);};
 class Rva002E6DC4 {public:bool rva002E6DC4(void*,void*);};
 struct Rva002EBC7FPair {int x,y;};
@@ -159,7 +159,7 @@ int Rva002F5925Info::cellCallback(PathfindCell *from,PathfindCell *to,int x,int 
  if(from){
   if(to->getOpen() || to->getClosed())return 1;
   if(!((Rva002E6DC4*)localPathfinder)->rva002E6DC4(data4,to))return 1;
-  if((unsigned char)Rva002E6E6CGet(to->getLayer()) && !localPathfinder->zones.IsPassable(x,y))return 1;
+  if((unsigned char)isGroundOrBridgeLayer(to->getLayer()) && !localPathfinder->zones.IsPassable(x,y))return 1;
   if(from->getLayer()!=to->getLayer())return 1;
   if(to->getPinched())return 1;
   if(to->getBit23()){

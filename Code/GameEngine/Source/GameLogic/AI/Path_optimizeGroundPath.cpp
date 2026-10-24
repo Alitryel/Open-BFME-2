@@ -77,7 +77,7 @@ private:
 	Bool m_isOptimized;
 };
 
-Int Rva002E6E6CGet(Int);
+Int isGroundOrBridgeLayer(Int);
 // ?optimizeGroundPath@Path@@QAEXH@Z
 void Path::optimizeGroundPath(Int pathDiameter)
 {
@@ -99,7 +99,7 @@ void Path::optimizeGroundPath(Int pathDiameter)
 		for (node = anchor->getNext(), next = node->getNext(); next; node = (next ? next : next), next = node->getNext())
 		{
 			count++;
-			if (static_cast<unsigned char>(Rva002E6E6CGet(curLayer)))
+			if (static_cast<unsigned char>(isGroundOrBridgeLayer(curLayer)))
 			{
 				if (node->getLayer() != curLayer)
 				{

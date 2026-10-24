@@ -59,7 +59,7 @@ public:
     int count, run;
 };
 struct Rva002F18D4Info;
-int Rva002E6E6CGet(int);
+int isGroundOrBridgeLayer(int);
 class Pathfinder {
 public:
     bool isAttackViewBlockedByObstacle(const Object *, const Coord3D &, const Object *, const Coord3D &);
@@ -109,7 +109,7 @@ bool Pathfinder::isAttackViewBlockedByObstacle(const Object *attacker, const Coo
             }
         }
         Rva002E73D4 info((int)attacker, (int)victim, (int)rva001E3647Pos(layer, &victimPos));
-        if (!(unsigned char)Rva002E6E6CGet(attacker->rva0028B511())) {
+        if (!(unsigned char)isGroundOrBridgeLayer(attacker->rva0028B511())) {
             info.skip = 3;
             if (layer == LAYER_GROUND)
                 layer = (PathfindLayerEnum)attacker->rva0028B511();
