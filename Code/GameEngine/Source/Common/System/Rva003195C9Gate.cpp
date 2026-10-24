@@ -39,15 +39,15 @@ private:
 
 void Rva003195C9Owner::rva003195C9()
 {
-	int a = ((Rva00318FA1MainOwner *)this)->rva00318FA1();
-	if (a != 0)
+	int destinationRegion = ((Rva00318FA1MainOwner *)this)->rva00318FA1();
+	if (destinationRegion != 0)
 	{
-		Rva00318C32Ret *b = ((Rva00318C79Owner *)this)->rva00318C32();
-		if (b != 0)
+		Rva00318C32Ret *currentRegion = ((Rva00318C79Owner *)this)->rva00318C32();
+		if (currentRegion != 0)
 		{
 			__int64 localStorage;
 			((Rva003190BBOwner *)this)->rva003190BB((int *)&localStorage);
-			m_90.rva00538F6B(&m_pad[0x44], (void *)b, (void *)&localStorage, (void *)a);
+			m_90.rva00538F6B(&m_pad[0x44], (void *)currentRegion, (void *)&localStorage, (void *)destinationRegion);
 		}
 	}
 }
@@ -62,8 +62,8 @@ class Rva00318F42 {public:Rva00318F42View *rva00318B83() const;};
 class Rva0020E89C;
 class Rva00538CEF {public:Rva0020E89C *rva00538CEF();};
 int Rva00318FA1MainOwner::rva00318FA1(){
- Rva00318F42View *v=((Rva00318F42*)this)->rva00318B83();
- if(v){int *span=(int*)v; if((unsigned)((span[1]-span[0])>>4)>0)
-  return (int)((Rva00538CEF*)v)->rva00538CEF();}
+ Rva00318F42View *path=((Rva00318F42*)this)->rva00318B83();
+ if(path){int *span=(int*)path; if((unsigned)((span[1]-span[0])>>4)>0)
+  return (int)((Rva00538CEF*)path)->rva00538CEF();}
  return 0;
 }

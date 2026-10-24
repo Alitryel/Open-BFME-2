@@ -821,3 +821,6 @@ param,Rva002F1BD5Info::cellCallback::a3,Rva002F1BD5Info::cellCallback::cellX,inf
 param,Rva002F1BD5Info::cellCallback::a4,Rva002F1BD5Info::cellCallback::cellY,inferred,agree:nl-ffb1b2d195aa,Code/GameEngine/Source/Common/System/Rva002F1BD5Finish.cpp,0x002F1BD5
 local,Rva002F1BD5Info::cellCallback::a2,Rva002F1BD5Info::cellCallback::cell,inferred,agree:nl-6e6ce39ad13b,Code/GameEngine/Source/Common/System/Rva002F1BD5Finish.cpp,0x002F1BD5
 local,Rva002F1BD5Info::cellCallback::p,Rva002F1BD5Info::cellCallback::cellData,inferred,agree:nl-dd5ab3f84f85,Code/GameEngine/Source/Common/System/Rva002F1BD5Finish.cpp,0x002F1BD5
+local,Rva003195C9Owner::rva003195C9::a,Rva003195C9Owner::rva003195C9::destinationRegion,inferred,agree:nl-7aefecf54a12,Code/GameEngine/Source/Common/System/Rva003195C9Gate.cpp,0x003195C9
+local,Rva003195C9Owner::rva003195C9::b,Rva003195C9Owner::rva003195C9::currentRegion,inferred,agree:nl-9bb0a26e3f41,Code/GameEngine/Source/Common/System/Rva003195C9Gate.cpp,0x003195C9
+local,Rva00318FA1MainOwner::rva00318FA1::v,Rva00318FA1MainOwner::rva00318FA1::path,inferred,agree:nl-e385f26afc16,Code/GameEngine/Source/Common/System/Rva003195C9Gate.cpp,0x00318FA1
