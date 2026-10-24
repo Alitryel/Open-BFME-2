@@ -93,13 +93,3 @@ void FontCharsClassGdiState_Anchor(FontCharsClassGdiState *fontCharsClassGdiStat
 {
 	delete fontCharsClassGdiState;
 }
-
-// Rowed dtor above is now a select-any inline copy (other TUs carry the same
-// in-class body); this anchor forces this unit to emit its copy for the row.
-#pragma inline_depth(0)
-// ?bfmeEmitFontCharsClassGdiStateDtor@@YAXPAVFontCharsClassGdiState@@@Z present-unmatched
-void bfmeEmitFontCharsClassGdiStateDtor(FontCharsClassGdiState *fontCharsClassGdiState)
-{
-	fontCharsClassGdiState->~FontCharsClassGdiState();
-}
-#pragma inline_depth()

@@ -32620,7 +32620,6 @@ present_unmatched	Code/GameEngine/Source/Common/Rva00111A05Finish.cpp	TileData::
 present_unmatched	Code/GameEngine/Source/Common/Rva0014F699Assign.cpp	_bfmeRva0014F699Anchor	1
 present_unmatched	Code/GameEngine/Source/Common/Rva00150558Dtor.cpp	1Rva00BC6F24Base@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/Common/Rva00154320Cluster.cpp	Rva001544F0::~Rva001544F0	1
-present_unmatched	Code/GameEngine/Source/Common/Rva00154320Cluster.cpp	bfmeEmitFontCharsClassGdiStateDtor@@YAXPAVFontCharsClassGdiState@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Rva001705A0LazyObject.cpp	0Rva001705A0Inner@@	1
 present_unmatched	Code/GameEngine/Source/Common/Rva001705A0LazyObject.cpp	apply@Rva001705A0Inner@@	1
 present_unmatched	Code/GameEngine/Source/Common/Rva001705A0LazyObject.cpp	setValue@Rva001705A0Owner@@	1
