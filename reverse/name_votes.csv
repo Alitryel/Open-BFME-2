@@ -4526,3 +4526,10 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapConstructor.cpp|m
 Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapConstructor.cpp|member|Rva00DFF488Setting|field1C,b000e7c75faf9337e9bcf3b1,gpt-6.1-sol,codexb-20261024-085812-4,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva0057FE6BDtor.cpp|local|~Rva0057FE6B_Holder64|p,3bc4ab74a1564878e5b5d079,gpt-6.1-sol,codexb-20261024-085812-4,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva002860CF.cpp|local|Rva002860CFHost::rva002860CF|s,dcc25c872d108a57bc9cf4e7,gpt-6.1-sol,codexb-20261024-085812-4,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodePointConversions.c|function|0x00020AC0|Rva00020AC0,d5b5856842459d66b750dcb0,gpt-6.1-sol,codexb-20261024-085812-5,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/AutoResolveArmorParse.cpp|local|Rva00542BA1Parse|tmp,65f2b10f5c4b0d534b33ef2c,gpt-6.1-sol,codexb-20261024-085812-6,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/AutoResolveArmorParse.cpp|local|Rva00542B24Parse|tmp,2382082ddbd833b6379639f1,gpt-6.1-sol,codexb-20261024-085812-6,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaignManager.cpp|param|LivingWorldCampaignManager::UseGenericSpawnArmyForPlayer|a,5a92e5be692896ea1f2b50d4,gpt-6.1-sol,codexb-20261024-085812-7,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028C20F.cpp|class||Rva0028C20FMid,9b47d5286b0bfe70a6c89ae8,gpt-6.1-sol,codexb-20261024-085812-8,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028C20F.cpp|class||Rva0028C20FModule,151d513e1d00080a94241b46,gpt-6.1-sol,codexb-20261024-085812-8,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028C20F.cpp|local|Object::rva0028C20F|m,fe597da0f6387f3f6b750fcf,gpt-6.1-sol,codexb-20261024-085812-8,w-8e883e57d025,2026-10-24
