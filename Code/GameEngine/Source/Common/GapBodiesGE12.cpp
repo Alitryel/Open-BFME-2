@@ -29,13 +29,13 @@ public:
 	virtual void s4(); virtual void s5(); virtual void s6(); virtual void s7();
 	virtual void s8(); virtual void s9();
 	virtual void s10();
-	void rva0030BE5D(const BfmeE8 *offset);
+	void translate(const BfmeE8 *offset);
 private:
 	char m_pad[0x68 - 4];
 	QuadStrip2D m_strip;									// +0x68
 };
 
-void Rva0030BE5D::rva0030BE5D(const BfmeE8 *offset)
+void Rva0030BE5D::translate(const BfmeE8 *offset)
 {
 	if (offset->x != 0.0f || offset->y != 0.0f)
 	{

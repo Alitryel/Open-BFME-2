@@ -689,3 +689,4 @@ param,Rva0018C822::rva0018C822::b,Rva0018C822::rva0018C822::last,inferred,agree:
 param,Rva0018C838::rva0018C838::a,Rva0018C838::rva0018C838::first,inferred,agree:nl-6fc55f8bf185,Code/GameEngine/Source/Common/EbpParamForwarders.cpp,0x0018C838
 param,Rva0018C838::rva0018C838::b,Rva0018C838::rva0018C838::last,inferred,agree:nl-72487b912302,Code/GameEngine/Source/Common/EbpParamForwarders.cpp,0x0018C838
 param,bfmeEmitRva0041FE0EDtor::p,bfmeEmitRva0041FE0EDtor::subsystem,inferred,agree:nl-09aa77355d24,Code/GameEngine/Source/Common/GameEngineDeletingBaseDerived.cpp,
+function,?rva0030BE5D@Rva0030BE5D@@QAEXPBUBfmeE8@@@Z,?translate@Rva0030BE5D@@QAEXPBUBfmeE8@@@Z,inferred,agree:nl-39ce7430ef3c,Code/GameEngine/Source/Common/GapBodiesGE12.cpp,0x0030BE5D
