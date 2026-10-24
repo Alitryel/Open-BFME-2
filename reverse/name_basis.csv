@@ -985,3 +985,4 @@ param,Rva00579E47::r,Rva00579E47::other,inferred,agree:nl-832eff4ede4d,Code/Game
 member,Rva004F05F0Flags::m_5D,Rva004F05F0Flags::m_active,inferred,agree:nl-eabccb042ad2,Code/GameEngine/Source/Common/TeamInQueue.cpp,
 member,Rva004F05F0Flags::m_5E,Rva004F05F0Flags::m_created,inferred,agree:nl-af11bca4f20c,Code/GameEngine/Source/Common/TeamInQueue.cpp,
 local,Rva00240D0FCreate::tmp,Rva00240D0FCreate::node,inferred,agree:nl-be2fc5eb46c2,Code/Libraries/Source/WWVegas/WWLib/Rva00240D0FCreate.cpp,0x00240D0F
+param,Rva006CDD50Iterator::p,Rva006CDD50Iterator::current,inferred,agree:nl-3cbdffbf9358,Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp,

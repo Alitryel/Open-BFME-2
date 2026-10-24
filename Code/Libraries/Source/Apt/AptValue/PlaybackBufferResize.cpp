@@ -15,7 +15,7 @@ inline void iteratorRangeCheck(bool,const char*){}
 struct Rva006CDD50Iterator {Rva006CDD50Item *position,*begin,*end;
  bool operator!=(const Rva006CDD50Iterator &other){iteratorRangeCheck(begin==other.begin && end==other.end,"Iterators are not in same range");return position!=other.position;}
  Rva006CDD50Iterator(){}
- Rva006CDD50Iterator(Rva006CDD50Item *p,Rva006CDD50Item *b,Rva006CDD50Item *e):position(p),begin(b),end(e){}
+ Rva006CDD50Iterator(Rva006CDD50Item *current,Rva006CDD50Item *b,Rva006CDD50Item *e):position(current),begin(b),end(e){}
  int operator-(const Rva006CDD50Iterator &other)const{iteratorRangeCheck(begin==other.begin && end==other.end,"Iterators are not in same range");return position-other.position;}
  Rva006CDD50Iterator operator+(int amount)const {return Rva006CDD50Iterator(position+amount,begin,end);}
  Rva006CDD50Iterator operator++(int){Rva006CDD50Iterator old=*this;++position;return old;}
