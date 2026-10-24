@@ -23,13 +23,13 @@ public:
 class Rva00174A8A
 {
 public:
-	void rva00174A8A(int n);
+	void rva00174A8A(int newSize);
 };
 
 // ?rva00174A8A@Rva00174A8A@@QAEXH@Z
-void Rva00174A8A::rva00174A8A(int n)
+void Rva00174A8A::rva00174A8A(int newSize)
 {
-	((Rva0017480C *)this)->rva0017480C(n, BfmeAssignRecord32());
+	((Rva0017480C *)this)->rva0017480C(newSize, BfmeAssignRecord32());
 }
 
 // The retail call in this body reads 0x0017480C, an address the ledger already

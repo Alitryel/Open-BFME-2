@@ -48,8 +48,8 @@ void Rva005B1A07::rva005B1A07(unsigned int index, BfmePod20 val)
 {
 	int beginAddress = (int)m_0;
 	int endAddress = (int)m_4;
-	int c = (endAddress - beginAddress) / 20;
-	if (index < (unsigned int)c) {
+	int size = (endAddress - beginAddress) / 20;
+	if (index < (unsigned int)size) {
 		int elem = beginAddress + (int)(index * 20);
 		((Rva005B129FVector *)this)->erase((Rva005B09D8Record *)elem, (Rva005B09D8Record *)endAddress);
 		return;
