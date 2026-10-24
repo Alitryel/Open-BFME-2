@@ -942,3 +942,6 @@ function,?rva000FDF3F@FeNode@@QAEHH@Z,?update@FeNode@@QAEHH@Z,inferred,agree:nl-
 param,logN::b,logN::base,inferred,agree:nl-426bc7d4bf28,Code/GameEngine/Source/Common/Rva0009DE01Finish.cpp,0x0009DE01
 param,ScriptActions::Rva003BAD15::f1,ScriptActions::Rva003BAD15::zoom,inferred,agree:nl-d51bc7c53329,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionsRva003BAD15.cpp,0x003BAD15
 param,ScriptActions::Rva003BAD15::f2,ScriptActions::Rva003BAD15::pitch,inferred,agree:nl-b7d5b77900dd,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionsRva003BAD15.cpp,0x003BAD15
+member,Rva00160CE0::m_08,Rva00160CE0::m_player,inferred,agree:nl-b6a985de1394,Code/GameEngine/Source/Common/Rva00160CE0Set.cpp,
+member,Rva00160CE0::m_0C,Rva00160CE0::m_match,inferred,agree:nl-76fa8a6cf00c,Code/GameEngine/Source/Common/Rva00160CE0Set.cpp,
+member,Rva00160CE0::m_10,Rva00160CE0::m_affiliation,inferred,agree:nl-627d2796ded8,Code/GameEngine/Source/Common/Rva00160CE0Set.cpp,

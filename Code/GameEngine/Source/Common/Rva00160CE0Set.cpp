@@ -4,9 +4,9 @@ class Rva00160CE0
 {
 	void *m_00;
 	int m_04;
-	int m_08;
-	char m_0C;
-	int m_10;
+	int m_player;
+	char m_match;
+	int m_affiliation;
 
 public:
 	Rva00160CE0 &set(int a, int b, char c);
@@ -18,10 +18,10 @@ extern "C" void *bfmeVftPartitionFilterPlayerAffiliation[];
 
 Rva00160CE0 &Rva00160CE0::set(int a, int b, char c)
 {
-	m_08 = a;
+	m_player = a;
 	m_04 = 0;
 	m_00 = bfmeVftPartitionFilterPlayerAffiliation;
-	m_0C = c;
-	m_10 = b;
+	m_match = c;
+	m_affiliation = b;
 	return *this;
 }
