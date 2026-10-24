@@ -3550,6 +3550,7 @@ name,address,notes
 ??1Gen_uw_003f60c8@@QAE@XZ,0x003F60C8,gen-uw-pin dtor target read from the retail funclet bytes
 ??1Gen_uwm_003f6936@@QAE@XZ,0x003F6936,gen-uw-pin dtor target read from the retail funclet bytes
 ??1Gen_uwm_003f7bc5@@QAE@XZ,0x003F7BC5,gen-uw-pin dtor target read from the retail funclet bytes
+??1Gen_uwm_003f7bc5@@UAE@XZ,0x003F7BC5,gen-uw-pin virtual base dtor the 0x003F8E20 unwind funclet calls (retail 0x00784306 jmp)
 ??1Gen_uwm_003fce38@@QAE@XZ,0x003FCE38,gen-uw-pin dtor target read from the retail funclet bytes
 ??1Gen_uwm_00400a7f@@QAE@XZ,0x00400A7F,gen-uw-pin dtor target read from the retail funclet bytes
 ??1Gen_uwm_00403960@@QAE@XZ,0x00403960,gen-uw-pin dtor target read from the retail funclet bytes
@@ -4199,6 +4200,7 @@ name,address,notes
 ??1Rva001ED41B@@UAE@XZ,0x001ED41B,"destructor the scalar deleting destructor 0x001ED52D calls (REL32 at 0x001ED530; vtable 0x00BDF260#0); opaque address name"
 ??1Rva001F0409@@UAE@XZ,0x001F0409,"destructor the scalar deleting destructor 0x001F03ED calls (REL32 at 0x001F03F0; vtable 0x00BE09E8#0); opaque address name"
 ??1Rva001F097A@@QAE@XZ,0x001F077D,non-virtual dtor called directly by scalar deleting dtor 0x001F097A; owning class unproven
+??1Rva001E7087Base@@UAE@XZ,0x0049B47C,Snapshot-shaped base dtor the 0x001E86D0 unwind funclet 0x0076A0C7 jumps to (ICF fold point)
 ??1Rva001F3574Vec@@UAE@XZ,0x0049B47C,"destructor the vector deleting destructor 0x001F3574 calls and hands to the eh vector destructor iterator (DIR32 at 0x001F3583); opaque address name"
 ??1Rva001F36C3Vec@@UAE@XZ,0x0049B47C,"destructor the vector deleting destructor 0x001F36C3 calls and hands to the eh vector destructor iterator (DIR32 at 0x001F36D2); opaque address name"
 ??1Rva001F4540Vec@@UAE@XZ,0x003A6201,"destructor the vector deleting destructor 0x001F4540 calls and hands to the eh vector destructor iterator (DIR32 at 0x001F454F); opaque address name"

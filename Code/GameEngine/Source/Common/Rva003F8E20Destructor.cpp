@@ -25,11 +25,12 @@ struct Rva0059E2DCBox
 
 bool __cdecl rva0059E2DC(FileClass **first, FileClass **last, Rva0059E2DCBox box);
 
+// Retail base 0x003F7BC5 (C37298 slot 0 is its deleting dtor): a virtual
+// dtor keeps the derived vtable the one ??_E slot of the ctor unit's copy.
 class Gen_uwm_003f7bc5
 {
 public:
-	virtual void slot00() = 0;
-	~Gen_uwm_003f7bc5() {}
+	virtual ~Gen_uwm_003f7bc5() {}
 };
 
 class Rva003F86B6Listener

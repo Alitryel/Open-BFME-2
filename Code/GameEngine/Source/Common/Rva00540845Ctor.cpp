@@ -14,7 +14,6 @@
 class Rva0053FADE
 {
 public:
-	virtual void v0();
 	virtual ~Rva0053FADE();
 	Rva0053FADE();
 private:
@@ -32,7 +31,6 @@ private:
 class Rva00540845 : public Rva0053FADE
 {
 public:
-	virtual void v0() = 0;
 	Rva00540845();
 private:
 	char m_sub24[0x20];

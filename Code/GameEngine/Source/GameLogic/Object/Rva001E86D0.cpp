@@ -16,13 +16,19 @@ template<> inline void allocator<void *>::deallocate(void **p, unsigned int) con
 }
 #pragma comment(linker, "/alternatename:?Rva00030830FreeAllocation@@YAXPAX@Z=_free")
 #include "ascii_string.h"
-#include "Common/Snapshot.h"
+// The Snapshot-shaped base (its dtor folds into 0x0049B47C, storing BBB554): only the
+// destructor slot, so the vtable is the ctor unit's one ??_E slot.
+class Rva001E7087Base
+{
+public:
+    virtual ~Rva001E7087Base() {}
+};
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline allocator<void *>::~allocator() {} }
 // bfme link decl-only begin
 namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
 // bfme link decl-only end
-class Rva001E7087 : public Snapshot {
+class Rva001E7087 : public Rva001E7087Base {
 public:
     Rva001E7087();
 protected:
