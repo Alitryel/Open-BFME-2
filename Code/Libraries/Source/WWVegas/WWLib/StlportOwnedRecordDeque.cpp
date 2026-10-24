@@ -155,20 +155,29 @@ typedef _STL::deque<BfmeOpaqueOwnedRecord1432,
 	_STL::allocator<BfmeOpaqueOwnedRecord1432> > BfmeDeque1432;
 typedef _STL::deque<BfmeOpaqueOwnedRecord2148,
 	_STL::allocator<BfmeOpaqueOwnedRecord2148> > BfmeDeque2148;
-template class _STL::deque<BfmeOpaqueOwnedRecord492,
-	_STL::allocator<BfmeOpaqueOwnedRecord492> >;
-template class _STL::deque<BfmeOpaqueOwnedRecord840,
-	_STL::allocator<BfmeOpaqueOwnedRecord840> >;
+// Instantiate the recovered queue operations and their storage dependencies.
+template void _STL::deque<BfmeOpaqueOwnedRecord492>::push_back(const BfmeOpaqueOwnedRecord492 &);
+template void _STL::deque<BfmeOpaqueOwnedRecord492>::pop_front();
+template _STL::deque<BfmeOpaqueOwnedRecord492>::~deque();
+template void _STL::deque<BfmeOpaqueOwnedRecord840>::push_back(const BfmeOpaqueOwnedRecord840 &);
+template void _STL::deque<BfmeOpaqueOwnedRecord840>::pop_front();
+template _STL::deque<BfmeOpaqueOwnedRecord840>::~deque();
+template _STL::deque<BfmeOpaqueOwnedRecord840>::deque(const _STL::allocator<BfmeOpaqueOwnedRecord840> &);
 template class _STL::deque<BfmeOpaqueOwnedRecord1408,
 	_STL::allocator<BfmeOpaqueOwnedRecord1408> >;
 template class _STL::deque<BfmeOpaqueOwnedRecord1432,
 	_STL::allocator<BfmeOpaqueOwnedRecord1432> >;
-template class _STL::deque<BfmeOpaqueOwnedRecord2148,
-	_STL::allocator<BfmeOpaqueOwnedRecord2148> >;
+template _STL::deque<BfmeOpaqueOwnedRecord2148>::deque(const _STL::allocator<BfmeOpaqueOwnedRecord2148> &);
+template void _STL::__destroy_aux<_STL::_Deque_iterator<BfmeOpaqueOwnedRecord2148, _STL::_Nonconst_traits<BfmeOpaqueOwnedRecord2148> > >(
+    _STL::_Deque_iterator<BfmeOpaqueOwnedRecord2148, _STL::_Nonconst_traits<BfmeOpaqueOwnedRecord2148> >,
+    _STL::_Deque_iterator<BfmeOpaqueOwnedRecord2148, _STL::_Nonconst_traits<BfmeOpaqueOwnedRecord2148> >,
+    const _STL::__false_type &);
 typedef _STL::queue<BfmeOpaqueOwnedRecord492> BfmeQueue492;
 typedef _STL::queue<BfmeOpaqueOwnedRecord840> BfmeQueue840;
-template class _STL::queue<BfmeOpaqueOwnedRecord492>;
-template class _STL::queue<BfmeOpaqueOwnedRecord840>;
+template _STL::queue<BfmeOpaqueOwnedRecord492>::queue();
+template void _STL::queue<BfmeOpaqueOwnedRecord492>::pop();
+template _STL::queue<BfmeOpaqueOwnedRecord840>::queue();
+template void _STL::queue<BfmeOpaqueOwnedRecord840>::pop();
 
 template _STL::_Deque_iterator<BfmeOpaqueOwnedRecord1432, _STL::_Nonconst_traits<BfmeOpaqueOwnedRecord1432> > &
 _STL::_Deque_iterator<BfmeOpaqueOwnedRecord1432, _STL::_Nonconst_traits<BfmeOpaqueOwnedRecord1432> >::operator++();

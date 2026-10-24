@@ -85,8 +85,8 @@ struct BfmeStringHeadRecord184 { unsigned char body[184]; ~BfmeStringHeadRecord1
 bool operator==(const BfmeStringHeadRecord184 &x, const BfmeStringHeadRecord184 &y);
 struct BfmeAssignRecord40 { int a[9]; AsciiString s; };
 inline bool operator==(const BfmeAssignRecord40 &x, const BfmeAssignRecord40 &y) { return x.s == y.s; }
-struct BfmeAssignRecord80 { int a[19]; AsciiString s; };
-inline bool operator==(const BfmeAssignRecord80 &x, const BfmeAssignRecord80 &y) { return x.s == y.s; }
+// Forward and backward copies use the same opaque element and assignment.
+struct Rva0051FC54Element { unsigned char bytes[80]; Rva0051FC54Element &operator=(const Rva0051FC54Element &); };
 struct BfmeAssignRecord104 { int a[25]; AsciiString s; };
 inline bool operator==(const BfmeAssignRecord104 &x, const BfmeAssignRecord104 &y) { return x.s == y.s; }
 struct BfmeAssignRecord172 { int a[42]; AsciiString s; BfmeAssignRecord172 &operator=(const BfmeAssignRecord172 &); };
@@ -156,7 +156,11 @@ template BfmeStringHeadRecord184 *__copy<BfmeStringHeadRecord184 *, BfmeStringHe
 template void vector<BfmeStringHeadRecord184, allocator<BfmeStringHeadRecord184> >::_M_clear();
 }
 template class _STL::vector<BfmeAssignRecord40, _STL::allocator<BfmeAssignRecord40> >;
-template class _STL::vector<BfmeAssignRecord80, _STL::allocator<BfmeAssignRecord80> >;
+namespace _STL {
+template Rva0051FC54Element *__copy_backward<Rva0051FC54Element *, Rva0051FC54Element *, int>(Rva0051FC54Element *, Rva0051FC54Element *, Rva0051FC54Element *, const random_access_iterator_tag &, int *);
+template void fill<Rva0051FC54Element *, Rva0051FC54Element>(Rva0051FC54Element *, Rva0051FC54Element *, const Rva0051FC54Element &);
+template Rva0051FC54Element *__copy_ptrs<Rva0051FC54Element *, Rva0051FC54Element *>(Rva0051FC54Element *, Rva0051FC54Element *, Rva0051FC54Element *, __false_type);
+}
 namespace _STL { template <> vector<BfmeAssignRecord104, allocator<BfmeAssignRecord104> >::~vector(); }
 template class _STL::vector<BfmeAssignRecord104, _STL::allocator<BfmeAssignRecord104> >;
 template class _STL::vector<BfmeAssignRecord172, _STL::allocator<BfmeAssignRecord172> >;
