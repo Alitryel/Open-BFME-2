@@ -208,8 +208,8 @@ unsigned short __cdecl Rva00072D5DShroudPixel(unsigned char level)
 // rewrites the first row only, as the donor does.
 void Rva00072B3A::rva00072E10(unsigned char level)
 {
-	int x;
-	int y;
+	int column;
+	int row;
 	unsigned short pixel;
 	unsigned short *shroud;
 	unsigned char *fog;
@@ -219,22 +219,22 @@ void Rva00072B3A::rva00072E10(unsigned char level)
 
 	pixel = Rva00072D5DShroudPixel(level);
 	shroud = m_shroudData;
-	for (y = 0; y < m_numCellsY; ++y)
+	for (row = 0; row < m_numCellsY; ++row)
 	{
-		for (x = 0; x < m_numCellsX; )
+		for (column = 0; column < m_numCellsX; )
 		{
 			*shroud = pixel;
-			++x;
+			++column;
 			++shroud;
 		}
 	}
 
 	fog = m_finalFogData;
-	for (y = 0; y < m_numCellsY; ++y)
+	for (row = 0; row < m_numCellsY; ++row)
 	{
-		for (x = 0; x < m_numCellsX; ++x)
+		for (column = 0; column < m_numCellsX; ++column)
 		{
-			fog[x] = level;
+			fog[column] = level;
 		}
 	}
 }
@@ -249,9 +249,9 @@ void Rva00072B3A::rva00072E84(unsigned char level, Rva00116680 *surface)
 	unsigned short pixel = Rva00072D5DShroudPixel(level);
 	int pitch;
 	unsigned short *ptr = (unsigned short *)surface->rva00116680(&pitch, false);
-	for (int y = 0; y < m_dstTextureHeight; y++) {
-		for (int x = 0; x < m_dstTextureWidth; x++)
-			ptr[x] = pixel;
+	for (int row = 0; row < m_dstTextureHeight; row++) {
+		for (int column = 0; column < m_dstTextureWidth; column++)
+			ptr[column] = pixel;
 		ptr = (unsigned short *)((char *)ptr + pitch);
 	}
 	reinterpret_cast<Member0C00739C70 *>(surface)->clear();

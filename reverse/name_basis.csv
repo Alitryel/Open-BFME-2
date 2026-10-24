@@ -1406,3 +1406,10 @@ local,baseRotate::x,baseRotate::productX,inferred,agree:nl-9dc52fd7d9c7,Code/Lib
 local,baseRotate::y,baseRotate::productY,inferred,agree:nl-45629717ef80,Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp,
 local,baseRotate::z,baseRotate::productZ,inferred,agree:nl-00709bcfe47a,Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp,
 local,baseRotate::w,baseRotate::productW,inferred,agree:nl-c39edd985939,Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp,
+local,Object::rva0028CECF::f2,Object::rva0028CECF::minCrushSpeed,inferred,agree:nl-a90fb9d7dd4a,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp,0x0028CECF
+local,Rva00072B3A::rva00072E10::x,Rva00072B3A::rva00072E10::column,inferred,agree:nl-9c0ccb8a3967,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp,0x00072E10
+local,Rva00072B3A::rva00072E10::y,Rva00072B3A::rva00072E10::row,inferred,agree:nl-b43c8bb9aece,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp,0x00072E10
+local,Rva00072B3A::rva00072E84::y,Rva00072B3A::rva00072E84::row,inferred,agree:nl-11f33c230466,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp,0x00072E84
+local,Rva00072B3A::rva00072E84::x,Rva00072B3A::rva00072E84::column,inferred,agree:nl-0c732318e26f,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp,0x00072E84
+local,MeshModelClass::get_deformed_vertices::tm0,MeshModelClass::get_deformed_vertices::transform0,inferred,agree:nl-db39365889d1,Code/Libraries/Source/WWVegas/WW3D2/Rva0016B680DeformedVertices.cpp,0x0016B680
+local,MeshModelClass::get_deformed_vertices::tm1,MeshModelClass::get_deformed_vertices::transform1,inferred,agree:nl-3f7422a5976a,Code/Libraries/Source/WWVegas/WW3D2/Rva0016B680DeformedVertices.cpp,0x0016B680

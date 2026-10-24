@@ -61,8 +61,8 @@ bool Object::rva0028CECF()
 	if (minCrushVelocityPercent <= 0.0f)
 		goto ret_true;
 	float currentSpeed = (obj?obj:obj)->rva0028AC7D();
-	float f2 = holder->rva002627E8() * minCrushVelocityPercent;
-	if (f2 > currentSpeed)
+	float minCrushSpeed = holder->rva002627E8() * minCrushVelocityPercent;
+	if (minCrushSpeed > currentSpeed)
 		goto ret_false;
 	goto ret_true;
 ret_false:
