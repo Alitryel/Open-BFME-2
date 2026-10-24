@@ -256,3 +256,20 @@ Rva00240C27::~Rva00240C27()
 {
 	((Rva004DFC20 *)this)->clear();
 }
+
+// ??1Rva003ED1BEMap@@QAE@XZ @0x003ED1BE 57B: the 0x001DBCDC-clear shape of
+// ~Rva0021231B (formerly the gen-alias dup_003ed1be) with its own EH handler,
+// folded with 0x007836C4. ~Rva003ED1FC (0x003ED1FC) calls it for its +0x0C
+// table and the five-byte forwarder ~Rva003ED1F7 (0x003ED1F7) tail-jumps to it.
+struct Rva003ED1BEMap
+{
+	~Rva003ED1BEMap();
+	void *m_unused00;
+	Rva000427195BucketHandle m_buckets;
+	unsigned int m_numElements;
+};
+
+Rva003ED1BEMap::~Rva003ED1BEMap()
+{
+	((Rva004DFC20 *)this)->clear();
+}

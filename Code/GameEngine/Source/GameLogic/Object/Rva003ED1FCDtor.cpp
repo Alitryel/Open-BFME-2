@@ -66,9 +66,18 @@ class Rva004DFC20 { public: void clear(); };
 // Keep its address-derived identity separate from the existing Armor map
 // spelling. The map implementation is inherited from this verified unit;
 // its original target payload type and source-level wrapper name are unknown.
+// The table is the distinct retail copy 0x003ED1BE (Rva000427195Dtor.cpp), not
+// the folded Armor hashtable destructor its bytes equal: the parent's normal
+// path calls it and the forwarder 0x003ED1F7 jumps to it.
+struct Rva003ED1BEMap
+{
+	~Rva003ED1BEMap();
+	unsigned char m_bytes[sizeof(ArmorTemplateMap)];
+};
+
 class Rva003ED1F7
 {
-	ArmorTemplateMap table;
+	Rva003ED1BEMap table;
 public:
 	void clear() { reinterpret_cast<Rva004DFC20 *>(&table)->clear(); }
 };
