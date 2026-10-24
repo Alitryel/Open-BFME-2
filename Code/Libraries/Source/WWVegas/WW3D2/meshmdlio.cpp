@@ -288,45 +288,8 @@ public:
  *=============================================================================================*/
 
 
-/***********************************************************************************************
- * MeshModelClass::read_texcoords -- read in the texture coordinates chunk                     *
- *                                                                                             *
- * INPUT:                                                                                      *
- *                                                                                             *
- * OUTPUT:                                                                                     *
- *                                                                                             *
- * WARNINGS:                                                                                   *
- *                                                                                             *
- * HISTORY:                                                                                    *
- *   3/6/98     GTH : Created.                                                                 *
- *   2/16/99    GTH : Moved into MeshModel                                                     *
- *=============================================================================================*/
-WW3DErrorType MeshModelClass::read_texcoords(ChunkLoadClass & cload,MeshLoadContextClass * context)
-{
-	W3dTexCoordStruct texcoord;
-	Vector2 * uvarray = 0;
-	int elementcount = cload.Cur_Chunk_Length() / sizeof (W3dTexCoordStruct);
-
-	uvarray = context->Get_Temporary_UV_Array(elementcount);
-
-	if (uvarray != NULL) {
-		/*
-		** Read the uv's into the first u-v pass array
-		** NOTE: this is an obsolete function.  Texture coordinates are now
-		** loaded in the pass chunks
-		*/
-		for (int i=0; i<VertexCount; i++) {
-			if (cload.Read(&(texcoord),sizeof(W3dTexCoordStruct)) != sizeof(W3dTexCoordStruct)) {
-				return WW3D_ERROR_LOAD_FAILED;
-			}
-			uvarray[i].Set(texcoord.U,1.0f - texcoord.V);
-		}
-	
-		DefMatDesc->Install_UV_Array(context->CurPass,context->CurTexStage,uvarray,elementcount);
-	}
-
-	return WW3D_ERROR_OK;	
-}
+// MeshModelClass::read_texcoords: BFME's bool-returning reader is the row in MeshModelReadTexcoords.cpp;
+// Zero Hour's WW3DErrorType copy is not retail's and was dropped (it called ZH-only APIs).
 
 /***********************************************************************************************
  * MeshModelClass::read_v3_materials -- Reads in version 3 materials.                          *
@@ -343,114 +306,12 @@ WW3DErrorType MeshModelClass::read_texcoords(ChunkLoadClass & cload,MeshLoadCont
  *=============================================================================================*/
 
 
-/***********************************************************************************************
- * MeshModelClass::read_per_tri_materials -- read the material indices for each triangle       *
- *                                                                                             *
- * INPUT:                                                                                      *
- *                                                                                             *
- * OUTPUT:                                                                                     *
- *                                                                                             *
- * WARNINGS:                                                                                   *
- *                                                                                             *
- * HISTORY:                                                                                    *
- *   4/7/98     GTH : Created.                                                                 *
- *=============================================================================================*/
-WW3DErrorType MeshModelClass::read_per_tri_materials(ChunkLoadClass & cload,MeshLoadContextClass * context)
-{
-	if (context->Header.NumMaterials == 1) return WW3D_ERROR_OK;
-
-	TriIndex * polys = get_polys();
-
-	bool multi_mtl = (context->Vertex_Material_Count() > 1);
-	bool multi_tex = (context->Texture_Count() > 1);
-	bool multi_shad = (context->Shader_Count() > 1);
-
-	if (!multi_mtl) {
-		Set_Single_Material(context->Peek_Legacy_Vertex_Material(0));
-	}
-	if (!multi_tex) {
-		Set_Single_Texture(context->Peek_Legacy_Texture(0));
-	}
-	if (!multi_shad) {
-		Set_Single_Shader(context->Peek_Legacy_Shader(0));
-	}
-
-	/*
-	** Read in each polygon's material id and assign pointer to the
-	** shader, texture, and vertex material as needed.
-	*/
-	for (int i=0; i<Get_Polygon_Count(); i++) {
-
-		// read in the mat id for this poly
-		uint16 matid;
-
-		if (cload.Read(&matid,sizeof(uint16)) != sizeof(uint16)) {
-			return WW3D_ERROR_LOAD_FAILED;
-		}
-
-		if (multi_shad) {
-			Set_Shader(i,context->Peek_Legacy_Shader(matid));
-		}
-		if (multi_tex) {
-			Set_Texture(i,context->Peek_Legacy_Texture(matid));
-		}
-		if (multi_mtl) {
-			Set_Material(polys[i].I,context->Peek_Legacy_Vertex_Material(matid));
-			Set_Material(polys[i].J,context->Peek_Legacy_Vertex_Material(matid));
-			Set_Material(polys[i].K,context->Peek_Legacy_Vertex_Material(matid));
-		}
-	}
-
-	return WW3D_ERROR_OK;
-}
+// MeshModelClass::read_per_tri_materials: BFME's bool-returning reader is the row in MeshModelLegacyMaterials.cpp;
+// Zero Hour's WW3DErrorType copy is not retail's and was dropped (it called ZH-only APIs).
 
 
-/*********************************************************************************************** 
- * MeshModelClass::read_vertex_colors -- read in the vertex colors chunk                       * 
- *                                                                                             * 
- * INPUT:                                                                                      * 
- *                                                                                             * 
- * OUTPUT:                                                                                     * 
- *                                                                                             * 
- * WARNINGS:                                                                                   * 
- *                                                                                             * 
- * HISTORY:                                                                                    * 
- *   10/28/1997 GH  : Created.                                                                 * 
- *   2/16/99    GTH : Moved into MeshModelClass                                                *
- *=============================================================================================*/
-// ?MeshModelClass::read_vertex_colors present-unmatched
-WW3DErrorType MeshModelClass::read_vertex_colors(ChunkLoadClass & cload,MeshLoadContextClass * context)
-{
-	/*
-	** The W3D file format supports arbitrary vertex color arrays for each pass; however since
-	** our conversion to hardware T&L, we only support two unique color arrays.  So here is 
-	** what is happening in this function:
-	**
-	** 1 - If this is the first diffuse color array we've encountered, load the values
-	** 2 - Always set the DCG source for this pass to the array (vertex materials will be fixed later)
-	**
-	** A side effect is that if two DCG chunks are encountered, only the first is used...
-	*/
-	if (CurMatDesc->Has_Color_Array(0) == NULL) {
-		W3dRGBStruct color;
-		unsigned * dcg = Get_Color_Array(0,true);
-		assert(dcg != NULL);
-
-		for (int i=0; i<Get_Vertex_Count(); i++) {
-
-			if (cload.Read(&color,sizeof(W3dRGBStruct)) != sizeof(W3dRGBStruct)) {
-				return WW3D_ERROR_LOAD_FAILED;
-			}
-
-			Vector4 col;
-			col.Set((float)color.R / 255.0f,(float)color.G / 255.0f,(float)color.B / 255.0f, 1.0f);
-			dcg[i]=DX8Wrapper::Convert_Color(col);
-		}	
-	}
-	CurMatDesc->Set_DCG_Source(context->CurPass,VertexMaterialClass::COLOR1);
-
-	return WW3D_ERROR_OK;	
-}
+// MeshModelClass::read_vertex_colors: BFME's bool-returning reader is the row in MeshModelReadVertexColors.cpp;
+// Zero Hour's WW3DErrorType copy is not retail's and was dropped (it called ZH-only APIs).
 
 
 /***********************************************************************************************
@@ -476,293 +337,28 @@ WW3DErrorType MeshModelClass::read_material_info(ChunkLoadClass & cload,MeshLoad
 }
 
 
-/***********************************************************************************************
- * MeshModelClass::read_shaders -- read the shaders chunk                                      *
- *                                                                                             *
- * INPUT:                                                                                      *
- *                                                                                             *
- * OUTPUT:                                                                                     *
- *                                                                                             *
- * WARNINGS:                                                                                   *
- *                                                                                             *
- * HISTORY:                                                                                    *
- *   2/16/99    GTH : Created.                                                                 *
- *=============================================================================================*/
-WW3DErrorType MeshModelClass::read_shaders(ChunkLoadClass & cload,MeshLoadContextClass * context)
-{
-	W3dShaderStruct shader;
-	for (unsigned int i=0; i<context->MatInfo.ShaderCount; i++) {
-		if (cload.Read(&shader,sizeof(shader)) != sizeof(shader)) {
-			return WW3D_ERROR_LOAD_FAILED;
-		}
-		ShaderClass newshader;
-		W3dUtilityClass::Convert_Shader(shader,&newshader);
-
-		int index = context->Add_Shader(newshader);
-		WWASSERT(index == (int)i);
-	}
-	return WW3D_ERROR_OK;
-}
+// MeshModelClass::read_shaders: BFME's bool-returning reader is the row in MeshModelReadShaders.cpp;
+// Zero Hour's WW3DErrorType copy is not retail's and was dropped (it called ZH-only APIs).
 
 
-/***********************************************************************************************
- * MeshModelClass::read_vertex_materials -- read the vertex materials chunk                    *
- *                                                                                             *
- * INPUT:                                                                                      *
- *                                                                                             *
- * OUTPUT:                                                                                     *
- *                                                                                             *
- * WARNINGS:                                                                                   *
- *                                                                                             *
- * HISTORY:                                                                                    *
- *   2/16/99    GTH : Created.                                                                 *
- *=============================================================================================*/
-WW3DErrorType MeshModelClass::read_vertex_materials(ChunkLoadClass & cload,MeshLoadContextClass * context)
-{
-	while (cload.Open_Chunk()) {
-		WWASSERT(cload.Cur_Chunk_ID() == W3D_CHUNK_VERTEX_MATERIAL);
-		VertexMaterialClass * vmat = NEW_REF(VertexMaterialClass,());
-		WW3DErrorType error = vmat->Load_W3D(cload);
-		if (error != WW3D_ERROR_OK) {
-			return error;
-		}
-		context->Add_Vertex_Material(vmat);
-		vmat->Release_Ref();
-
-		cload.Close_Chunk();
-	}
-	return WW3D_ERROR_OK;
-}
+// MeshModelClass::read_vertex_materials: BFME's bool-returning reader is the row in MeshModelReadVertexMaterials.cpp;
+// Zero Hour's WW3DErrorType copy is not retail's and was dropped (it called ZH-only APIs).
 
 
-/***********************************************************************************************
- * MeshModelClass::read_textures -- read the textures chunk                                    *
- *                                                                                             *
- * INPUT:                                                                                      *
- *                                                                                             *
- * OUTPUT:                                                                                     *
- *                                                                                             *
- * WARNINGS:                                                                                   *
- *                                                                                             *
- * HISTORY:                                                                                    *
- *   2/16/99    GTH : Created.                                                                 *
- *   3/05/99	 PDS : Broke the guts of this function into a util function in texture.cpp		  *
- *=============================================================================================*/
-WW3DErrorType MeshModelClass::read_textures(ChunkLoadClass & cload,MeshLoadContextClass * context)
-{	
-	// Keep reading textures until there are no more...
-	for (TextureClass *newtex = ::Load_Texture (cload);
-		  newtex != NULL;
-		  newtex = ::Load_Texture (cload)) {
-
-		// Add this texture to our contex and release our local hold on it
-		context->Add_Texture(newtex);
-		newtex->Release_Ref();
-	}
-
-	return WW3D_ERROR_OK;
-}
+// MeshModelClass::read_textures: BFME's bool-returning reader is the row in MeshModelReadTextures.cpp;
+// Zero Hour's WW3DErrorType copy is not retail's and was dropped (it called ZH-only APIs).
 
 
-/***********************************************************************************************
- * MeshModelClass::read_material_pass -- read a material pass chunk                            *
- *                                                                                             *
- * INPUT:                                                                                      *
- *                                                                                             *
- * OUTPUT:                                                                                     *
- *                                                                                             *
- * WARNINGS:                                                                                   *
- *                                                                                             *
- * HISTORY:                                                                                    *
- *   2/16/99    GTH : Created.                                                                 *
- *=============================================================================================*/
-WW3DErrorType MeshModelClass::read_material_pass(ChunkLoadClass & cload,MeshLoadContextClass * context)
-{
-	context->CurTexStage = 0;
-
-	while (cload.Open_Chunk()) {
-
-		WW3DErrorType error = WW3D_ERROR_OK;
-
-		switch (cload.Cur_Chunk_ID()) {
-			case W3D_CHUNK_VERTEX_MATERIAL_IDS:
-				error = read_vertex_material_ids(cload,context);
-				break;
-
-			case W3D_CHUNK_SHADER_IDS:
-				error = read_shader_ids(cload,context);
-				break;
-
-			case W3D_CHUNK_DCG:
-				error = read_dcg(cload,context);
-				break;
-
-			case W3D_CHUNK_DIG:
-				error = read_dig(cload,context);
-				break;
-
-			case W3D_CHUNK_SCG:
-				error = read_scg(cload,context);
-				break;
-
-			case W3D_CHUNK_TEXTURE_STAGE:
-				error = read_texture_stage(cload,context);
-				break;
-		};
-
-		if (error != WW3D_ERROR_OK) {
-			return error;
-		}
-		cload.Close_Chunk();
-	}
-
-	context->CurPass++;
-	return WW3D_ERROR_OK;
-}
+// MeshModelClass::read_material_pass: BFME's bool-returning reader is the row in MeshModelReadMaterialPass.cpp;
+// Zero Hour's WW3DErrorType copy is not retail's and was dropped (it called ZH-only APIs).
 
 
-/***********************************************************************************************
- * MeshModelClass::read_vertex_material_ids -- read the vmat ids for a pass                    *
- *                                                                                             *
- * INPUT:                                                                                      *
- *                                                                                             *
- * OUTPUT:                                                                                     *
- *                                                                                             *
- * WARNINGS:                                                                                   *
- *                                                                                             *
- * HISTORY:                                                                                    *
- *   2/16/99    GTH : Created.                                                                 *
- *   9/1/2000   gth : Added alternate material desc support                                    *
- *=============================================================================================*/
-WW3DErrorType MeshModelClass::read_vertex_material_ids(ChunkLoadClass & cload,MeshLoadContextClass * context)
-{
-	/*
-	** Determine whether this chunk should be read into the default or alternate material description
-	*/
-	MeshMatDescClass * matdesc = DefMatDesc;
-	if (DefMatDesc->Has_Material_Data(context->CurPass)) {
-		matdesc = &(context->AlternateMatDesc);
-	}
-
-	/*
-	** This chunk will either have a single index in it or an array of indices 
-	** with the length equal to the vertex count.
-	*/
-	uint32 vmat;
-#if (!MESH_SINGLE_MATERIAL_HACK)
-	if (cload.Cur_Chunk_Length() == 1*sizeof(uint32)) {
-		
-		cload.Read(&vmat,sizeof(uint32));
-		matdesc->Set_Single_Material(context->Peek_Vertex_Material(vmat),context->CurPass);
-	
-	} else {
-
-		for (int i=0; i<Get_Vertex_Count(); i++) {
-			cload.Read(&vmat,sizeof(uint32));
-			matdesc->Set_Material(i,context->Peek_Vertex_Material(vmat),context->CurPass);
-		}
-	}
-#else
-#pragma message ("(gth) Hacking to make Generals behave as if all meshes have 1 material")
-		cload.Read(&vmat,sizeof(uint32));
-		matdesc->Set_Single_Material(context->Peek_Vertex_Material(vmat),context->CurPass);
-#endif //0
-
-	return WW3D_ERROR_OK;
-}
+// MeshModelClass::read_vertex_material_ids: BFME's bool-returning reader is the row in MeshModelReadVertexMaterialIds.cpp;
+// Zero Hour's WW3DErrorType copy is not retail's and was dropped (it called ZH-only APIs).
 
 
-/***********************************************************************************************
- * MeshModelClass::read_shader_ids -- read the shader indexes for a pass                       *
- *                                                                                             *
- * INPUT:                                                                                      *
- *                                                                                             *
- * OUTPUT:                                                                                     *
- *                                                                                             *
- * WARNINGS:                                                                                   *
- *                                                                                             *
- * HISTORY:                                                                                    *
- *   2/16/99    GTH : Created.                                                                 *
- *   9/1/2000   gth : Added alternate material desc support                                    *
- *=============================================================================================*/
-WW3DErrorType MeshModelClass::read_shader_ids(ChunkLoadClass & cload,MeshLoadContextClass * context)
-{
-	/*
-	** Determine whether this chunk should be read into the default or alternate material description
-	*/
-	MeshMatDescClass * matdesc = DefMatDesc;
-	if (DefMatDesc->Has_Shader_Data(context->CurPass)) {
-		matdesc = &(context->AlternateMatDesc);
-	}
-
-	/*
-	** Read in the shader id's and plug in the appropriate shader
-	*/
-	uint32 shaderid;
-#if (!MESH_SINGLE_MATERIAL_HACK)
-	if (cload.Cur_Chunk_Length() == 1*sizeof(uint32)) {
-		
-		cload.Read(&shaderid,sizeof(shaderid));
-		ShaderClass shader = context->Peek_Shader(shaderid);
-		matdesc->Set_Single_Shader(shader,context->CurPass);
-
-		// turn on sorting of pass 0 has non-zero dest blend (unless alpha testing on)
-		if (	(context->CurPass == 0) && 
-				(shader.Get_Dst_Blend_Func() != ShaderClass::DSTBLEND_ZERO) &&
-				(shader.Get_Alpha_Test() == ShaderClass::ALPHATEST_DISABLE) &&
-				(SortLevel == SORT_LEVEL_NONE) )
-		{
-#if (MESH_FORCE_STATIC_SORT_HACK)
-			SortLevel = 1;
-#else
-			Set_Flag(SORT,true);
-#endif
-		}
-		
-	} else {
-		
-		for (int i=0; i<Get_Polygon_Count(); i++) {
-			cload.Read(&shaderid,sizeof(uint32));
-			ShaderClass shader = context->Peek_Shader(shaderid);
-			matdesc->Set_Shader(i,shader,context->CurPass);
-
-			// turn on sorting of pass 0 has non-zero dest blend (unless alpha testing on)
-			if (	(context->CurPass == 0) && 
-				(shader.Get_Dst_Blend_Func() != ShaderClass::DSTBLEND_ZERO) &&
-				(shader.Get_Alpha_Test() == ShaderClass::ALPHATEST_DISABLE) &&
-				(SortLevel == SORT_LEVEL_NONE) )
-			{
-#if (MESH_FORCE_STATIC_SORT_HACK)
-				SortLevel = 1;
-#else
-				Set_Flag(SORT,true);
-#endif
-			}
-		}
-	}
-#else
-#pragma message ("(gth) Hacking to make Generals behave as if all meshes have 1 material")
-
-		cload.Read(&shaderid,sizeof(shaderid));
-		ShaderClass shader = context->Peek_Shader(shaderid);
-		matdesc->Set_Single_Shader(shader,context->CurPass);
-
-		// turn on sorting of pass 0 has non-zero dest blend (unless alpha testing on)
-		if (	(context->CurPass == 0) && 
-				(shader.Get_Dst_Blend_Func() != ShaderClass::DSTBLEND_ZERO) &&
-				(shader.Get_Alpha_Test() == ShaderClass::ALPHATEST_DISABLE) &&
-				(SortLevel == SORT_LEVEL_NONE) )
-		{
-#if (MESH_FORCE_STATIC_SORT_HACK)
-			SortLevel = 1;
-#else
-			Set_Flag(SORT,true);
-#endif
-		}
-
-#endif //0
-	return WW3D_ERROR_OK;
-}
+// MeshModelClass::read_shader_ids: BFME's bool-returning reader is the row in MeshModelReadShaderIds.cpp;
+// Zero Hour's WW3DErrorType copy is not retail's and was dropped (it called ZH-only APIs).
 
 
 /***********************************************************************************************
@@ -833,66 +429,8 @@ WW3DErrorType MeshModelClass::read_dcg(ChunkLoadClass & cload,MeshLoadContextCla
 }
 
 
-/***********************************************************************************************
- * MeshModelClass::read_dig -- read the per-vertex diffuse illumination for a pass             *
- *                                                                                             *
- * INPUT:                                                                                      *
- *                                                                                             *
- * OUTPUT:                                                                                     *
- *                                                                                             *
- * WARNINGS:                                                                                   *
- *                                                                                             *
- * HISTORY:                                                                                    *
- *   2/16/99    GTH : Created.                                                                 *
- *   9/1/2000   gth : Added alternate material desc support                                    *
- *   2/9/2001   gth : converted to handle dx8 limitations                                      *
- *=============================================================================================*/
-WW3DErrorType MeshModelClass::read_dig(ChunkLoadClass & cload,MeshLoadContextClass * context)
-{
-	/*
-	** Determine whether this chunk should be read into the default or alternate material description
-	*/
-	MeshMatDescClass * matdesc = DefMatDesc;
-	if (context->Already_Loaded_DIG()) {
-		matdesc = &(context->AlternateMatDesc);
-	}
-	context->Notify_Loaded_DIG_Chunk(true);
-
-	/*
-	** It appears that there isn't wide support for having the emissive material color source
-	** be a vertex color array so when there is a pre-existing color array, I'm just multiplying 
-	** the DIG values into it.
-	*/
-	W3dRGBAStruct color;
-	if (matdesc->Has_Color_Array(0) == false) {
-		unsigned * dcg = matdesc->Get_Color_Array(0);
-		for (int i=0; i<Get_Vertex_Count(); i++) {
-			cload.Read(&color,sizeof(color));
-			Vector4 col;
-			col.X = float(color.R)/255.0f;
-			col.Y = float(color.G)/255.0f;
-			col.Z = float(color.B)/255.0f;
-			col.W = 1.0f;
-			dcg[i]=DX8Wrapper::Convert_Color(col);
-
-
-		}
-	} else {
-		unsigned * dcg = matdesc->Get_Color_Array(0);
-		for (int i=0; i<Get_Vertex_Count(); i++) {
-			cload.Read(&color,sizeof(color));
-			Vector4 col=DX8Wrapper::Convert_Color(dcg[i]);
-			col.X *= float(color.R)/255.0f;
-			col.Y *= float(color.G)/255.0f;
-			col.Z *= float(color.B)/255.0f;
-			dcg[i]=DX8Wrapper::Convert_Color(col);
-		}
-	}
-
-	matdesc->Set_DCG_Source(context->CurPass,VertexMaterialClass::COLOR1);
-
-	return WW3D_ERROR_OK;
-}
+// MeshModelClass::read_dig: BFME's bool-returning reader is the row in MeshModelReadDig.cpp;
+// Zero Hour's WW3DErrorType copy is not retail's and was dropped (it called ZH-only APIs).
 
 
 /***********************************************************************************************
@@ -916,261 +454,24 @@ WW3DErrorType MeshModelClass::read_scg(ChunkLoadClass & cload,MeshLoadContextCla
 }
 
 
-/***********************************************************************************************
- * MeshModelClass::read_texture_stage -- read texture stage chunks                             *
- *                                                                                             *
- * INPUT:                                                                                      *
- *                                                                                             *
- * OUTPUT:                                                                                     *
- *                                                                                             *
- * WARNINGS:                                                                                   *
- *                                                                                             *
- * HISTORY:                                                                                    *
- *   2/16/99    GTH : Created.                                                                 *
- *=============================================================================================*/
-WW3DErrorType MeshModelClass::read_texture_stage(ChunkLoadClass & cload,MeshLoadContextClass * context)
-{
-	while (cload.Open_Chunk()) {
-
-		WW3DErrorType error = WW3D_ERROR_OK;
-		
-		switch(cload.Cur_Chunk_ID()) {
-			case W3D_CHUNK_TEXTURE_IDS:
-				error = read_texture_ids(cload,context);
-				break;
-
-			case W3D_CHUNK_STAGE_TEXCOORDS:
-			case W3D_CHUNK_TEXCOORDS:
-				error = read_stage_texcoords(cload,context);
-				break;
-
-			case W3D_CHUNK_PER_FACE_TEXCOORD_IDS:
-				error = read_per_face_texcoord_ids (cload, context);
-				break;
-
-		}
-
-		if (error != WW3D_ERROR_OK) {
-			return error;
-		}
-
-		cload.Close_Chunk();
-	}
-
-	context->CurTexStage++;
-	return WW3D_ERROR_OK;
-}
+// MeshModelClass::read_texture_stage: BFME's bool-returning reader is the row in MeshModelReadTextureStage.cpp;
+// Zero Hour's WW3DErrorType copy is not retail's and was dropped (it called ZH-only APIs).
 
 
-/***********************************************************************************************
- * MeshModelClass::read_texture_ids -- read the texture ids for a pass,stage                   *
- *                                                                                             *
- * INPUT:                                                                                      *
- *                                                                                             *
- * OUTPUT:                                                                                     *
- *                                                                                             *
- * WARNINGS:                                                                                   *
- *                                                                                             *
- * HISTORY:                                                                                    *
- *   2/16/99    GTH : Created.                                                                 *
- *   9/1/2000   gth : Added alternate material desc support                                    *
- *=============================================================================================*/
-WW3DErrorType MeshModelClass::read_texture_ids(ChunkLoadClass & cload,MeshLoadContextClass * context)
-{
-	uint32 texid;
-	int pass = context->CurPass;
-	int stage = context->CurTexStage;
-
-	/*
-	** Determine whether this chunk should be read into the default or alternate material description
-	*/
-	MeshMatDescClass * matdesc = DefMatDesc;
-	if (DefMatDesc->Has_Texture_Data(pass,stage)) {
-		matdesc = &(context->AlternateMatDesc);
-	}
-
-	/*
-	** Read in the texture(s) array
-	*/
-#if (!MESH_SINGLE_MATERIAL_HACK)
-	if (cload.Cur_Chunk_Length() == 1*sizeof(uint32)) {
-		cload.Read(&texid,sizeof(texid));
-		matdesc->Set_Single_Texture(context->Peek_Texture(texid),pass,stage);
-
-	} else {
-
-		for (int i=0; i<Get_Polygon_Count(); i++) {
-			cload.Read(&texid,sizeof(uint32));
-			if (texid != 0xffffffff) {
-				matdesc->Set_Texture(i,context->Peek_Texture(texid),pass,stage);
-			} 
-		}
-	}
-#else
-#pragma message ("(gth) Hacking to make Generals behave as if all meshes have 1 material")
-
-		cload.Read(&texid,sizeof(texid));
-		matdesc->Set_Single_Texture(context->Peek_Texture(texid),pass,stage);
-
-#endif
-
-	return WW3D_ERROR_OK;
-}
+// MeshModelClass::read_texture_ids: BFME's bool-returning reader is the row in MeshModelReadTextureIds.cpp;
+// Zero Hour's WW3DErrorType copy is not retail's and was dropped (it called ZH-only APIs).
 
 
-/***********************************************************************************************
- * MeshModelClass::read_stage_texcoords -- read the texcoords for a pass,stage                 *
- *                                                                                             *
- * INPUT:                                                                                      *
- *                                                                                             *
- * OUTPUT:                                                                                     *
- *                                                                                             *
- * WARNINGS:                                                                                   *
- *                                                                                             *
- * HISTORY:                                                                                    *
- *   2/16/99    GTH : Created.                                                                 *
- *   7/14/99    IML : Lightmap support: calculate vertex count directly from chunk size.		  *
- *   9/1/2000   gth : Added alternate material desc support                                    *
- *=============================================================================================*/
-WW3DErrorType MeshModelClass::read_stage_texcoords(ChunkLoadClass & cload,MeshLoadContextClass * context)
-{
-	unsigned				elementcount;
-	Vector2			  *uvs;
-	W3dTexCoordStruct texcoord;
-	
-	/*
-	** Determine whether this chunk should be read into the default or alternate material description
-	*/
-	MeshMatDescClass * matdesc = DefMatDesc;
-	if (DefMatDesc->Has_UV(context->CurPass,context->CurTexStage)) {
-		matdesc = &(context->AlternateMatDesc);
-	}
-
-	/*
-	** Read in the texture coordiantes
-	*/
-	elementcount = cload.Cur_Chunk_Length() / sizeof (W3dTexCoordStruct);
-	uvs = context->Get_Temporary_UV_Array(elementcount);
-	
-	if (uvs != NULL) {
-		for (unsigned i = 0; i < elementcount; i++) {
-			cload.Read (&texcoord, sizeof (texcoord));
-			uvs[i].X = texcoord.U;
-			uvs[i].Y = 1.0f - texcoord.V;
-		}
-	}
-
-	matdesc->Install_UV_Array(context->CurPass,context->CurTexStage,uvs,elementcount);
-
-	return (WW3D_ERROR_OK);
-}
+// MeshModelClass::read_stage_texcoords: BFME's bool-returning reader is the row in MeshModelReadTexcoords.cpp;
+// Zero Hour's WW3DErrorType copy is not retail's and was dropped (it called ZH-only APIs).
 
 	
-/***********************************************************************************************
- * MeshModelClass::read_per_face_texcoord_ids -- read uv indices for given (pass,stage).		  *
- *                                                                                             *
- * INPUT:                                                                                      *
- *                                                                                             *
- * OUTPUT:                                                                                     *
- *                                                                                             *
- * WARNINGS:                                                                                   *
- *                                                                                             *
- * HISTORY:                                                                                    *
- *   02/02/99    IML : Created.                                                                *
- *   9/1/2000   gth : Added alternate material desc support                                    *
- *=============================================================================================*/
-WW3DErrorType MeshModelClass::read_per_face_texcoord_ids (ChunkLoadClass &cload, MeshLoadContextClass *context)
-{
-	unsigned size;
-	
-	/*
-	** Determine whether this chunk should be read into the default or alternate material description
-	*/
-//	MeshMatDescClass * matdesc = DefMatDesc;
-//	if (DefMatDesc->Has_UVIndex(context->CurPass)) {
-//		matdesc = &(context->AlternateMatDesc);
-//	}
-
-	/*
-	** Read in the texture coordiante indices
-	** There must be polygon count vectors in this chunk.
-	*/
-	size = sizeof (Vector3i) * Get_Polygon_Count();
-	if (cload.Cur_Chunk_Length() == size) {
-			
-//		Vector3i *uvindices;
-//	
-//		uvindices = matdesc->Get_UVIndex_Array (context->CurPass, true);
-//		WWASSERT (uvindices != NULL);
-
-//uvindices=W3DNEWARRAY Vector3i[Get_Polygon_Count()];
-//		cload.Read (uvindices, size);
-//delete[] uvindices;
-		cload.Seek(size);
-		return (WW3D_ERROR_OK);
-		
-	} else {
-		return (WW3D_ERROR_LOAD_FAILED);
-	}
-}
+// MeshModelClass::read_per_face_texcoord_ids: BFME's bool-returning reader is the row in MeshModelVertexColors.cpp;
+// Zero Hour's WW3DErrorType copy is not retail's and was dropped (it called ZH-only APIs).
 
 
-/***********************************************************************************************
- * MeshModelClass::read_prelit_material -- read prelit material chunks.								  *
- *                                                                                             *
- * INPUT:                                                                                      *
- *                                                                                             *
- * OUTPUT:                                                                                     *
- *                                                                                             *
- * WARNINGS:                                                                                   *
- *                                                                                             *
- * HISTORY:                                                                                    *
- *   02/02/99    IML : Created.                                                                *
- *=============================================================================================*/
-WW3DErrorType MeshModelClass::read_prelit_material (ChunkLoadClass &cload, MeshLoadContextClass *context)
-{
-	// If this chunk ID matches the selected prelit chunk ID then load it, otherwise skip it.
-	if (cload.Cur_Chunk_ID() == context->PrelitChunkID) {
-	
-		// While there are chunks in the prelit material chunk wrapper...
-		while (cload.Open_Chunk()) {
-
-			WW3DErrorType error = WW3D_ERROR_OK;
-
-			switch (cload.Cur_Chunk_ID()) {
-
-				case W3D_CHUNK_MATERIAL_INFO:
-					error = read_material_info (cload,context);
-					break;
-
-				case W3D_CHUNK_VERTEX_MATERIALS:
-					error = read_vertex_materials (cload,context);
-					break;
-
-				case W3D_CHUNK_SHADERS:
-					error = read_shaders (cload,context);
-					break;
-
-				case W3D_CHUNK_TEXTURES:
-					error = read_textures (cload,context);
-					break;
-
-				case W3D_CHUNK_MATERIAL_PASS:
-					error = read_material_pass (cload,context);
-					break;
-
-				default:
-					
-					// Unknown chunk.
-					break;
-			}	
-			cload.Close_Chunk();
-			if (error != WW3D_ERROR_OK) return (error);
-		}
-	}
-	
-	return (WW3D_ERROR_OK);
-}
+// MeshModelClass::read_prelit_material: BFME's bool-returning reader is the row in MeshModelReadPrelitMaterial.cpp;
+// Zero Hour's WW3DErrorType copy is not retail's and was dropped (it called ZH-only APIs).
 
 
 /***********************************************************************************************
