@@ -484,3 +484,81 @@ def test_a_macro_that_never_reaches_the_old_word_or_is_not_invoked_there_shares_
            "void Widget::rva00701000(int x) {}\n")
     text = plan(tmp_path, cpp, "lookup").after[SRC].decode()
     assert "this->lookup(arg)" in text and "Thing &lookup = *(Thing *)0;" in text
+
+
+# ------------------------- a class outside the files the rewrite reads is analysed, too
+# other_scope_spellings used to run only on a touched file that itself spells the new word. A
+# class that derives from the renamed class (or is joint with it) and declares the word in a
+# header the touched unit includes, or in a unit that includes the touched header, but never
+# spells the old word, was never read: the respelled method then hid or overrode its member.
+
+SUB_H = "Code/Game/Sub.h"
+OTHER_CPP = "Code/Game/Other.cpp"
+WIDGET_H = ("class Widget { public: virtual void rva00701000(int); virtual ~Widget(); };\n")
+OTHER_ROW = f"?other@Other@@QAEXXZ,,0x00702000,10,{OTHER_CPP},matched,address-derived\n"
+
+
+def plan_outside(tmp_path, files, *, rows=ROW, new="lookup", basis="canonical:wb"):
+    sources = {SRC: '// cl: /O2\n#include "Widget.h"\n#include "Sub.h"\nvoid Widget::rva00701000(int x) {}\n',
+               "Code/Game/Widget.h": WIDGET_H}
+    sources.update(files)
+    tree = tree_of(tmp_path, rows, **sources)
+    ctx = rename.Context(tree, object_scan=False)
+    return rename.plan_rename("function", ctx=ctx, rva=0x00701000, new=new, basis=basis,
+                              evidence="wb lead 0x00701000: x")
+
+
+@pytest.mark.parametrize("declaration", ["virtual void lookup(int);", "void lookup(int);"])
+def test_a_descendant_declaring_the_word_in_an_untouched_header_is_refused(tmp_path, declaration):
+    sub = f'#include "Widget.h"\nclass Sub : public Widget {{ public: {declaration} }};\n'
+    with pytest.raises(Refusal, match=r"outside the files this rename rewrites .*Sub derives from Widget; "
+                                      r"Code/Game/Sub.h spells lookup"):
+        plan_outside(tmp_path, {SUB_H: sub})
+
+
+def test_the_same_header_is_fine_for_an_unrelated_class(tmp_path):
+    sub = 'class Unrelated { public: virtual void lookup(int); };\n'
+    text = plan_outside(tmp_path, {SUB_H: sub}).after[SRC].decode()
+    assert "void Widget::lookup(int x)" in text
+
+
+def test_a_descendant_in_an_untouched_unit_that_includes_the_touched_header_is_refused(tmp_path):
+    other = ('#include "Widget.h"\nclass Sub : public Widget { public: void lookup(int); };\n'
+             'void Sub::lookup(int) {}\n')
+    with pytest.raises(Refusal, match=r"Sub derives from Widget; Code/Game/Other.cpp spells lookup"):
+        plan_outside(tmp_path, {OTHER_CPP: "// cl: /O2\n" + other, SUB_H: "// no classes\n"},
+                     rows=ROW + OTHER_ROW)
+
+
+def test_an_unrelated_class_in_an_untouched_unit_that_includes_the_touched_header_shares_the_word(tmp_path):
+    other = ('#include "Widget.h"\nclass Plain { public: void lookup(int); };\nvoid Plain::lookup(int) {}\n')
+    plan = plan_outside(tmp_path, {OTHER_CPP: "// cl: /O2\n" + other, SUB_H: "// no classes\n"},
+                        rows=ROW + OTHER_ROW)
+    assert "void Widget::lookup(int x)" in plan.after[SRC].decode()
+
+
+def test_a_class_joint_with_the_renamed_class_in_an_untouched_header_is_refused(tmp_path):
+    files = {SUB_H: "class Extra { public: virtual void lookup(int); };\n",
+             "Code/Game/Both.h": '#include "Widget.h"\n#include "Sub.h"\nclass Both : public Widget, public Extra {};\n',
+             SRC: '// cl: /O2\n#include "Widget.h"\n#include "Sub.h"\n#include "Both.h"\n'
+                  'void Widget::rva00701000(int x) {}\n'}
+    with pytest.raises(Refusal, match=r"Both derives from Widget and from Extra; Code/Game/Sub.h spells lookup"):
+        plan_outside(tmp_path, files)
+
+
+def test_a_qualified_spelling_through_a_descendant_in_an_untouched_header_is_refused(tmp_path):
+    files = {SUB_H: '#include "Widget.h"\nclass Sub : public Widget { public: void lookup(int); };\n'
+                    'inline void run(Sub *s) { s->Sub::lookup(1); }\n'}
+    with pytest.raises(Refusal, match=r"Sub derives from Widget"):
+        plan_outside(tmp_path, files)
+
+
+def test_a_header_with_a_class_of_undeclared_base_spelling_the_word_is_refused(tmp_path):
+    files = {SUB_H: "class Lost : public Missing { public: void lookup(int); };\n"}
+    with pytest.raises(Refusal, match=r"Lost is not a class declared with all its bases"):
+        plan_outside(tmp_path, files)
+
+
+def test_other_spellings_in_the_untouched_header_do_not_matter(tmp_path):
+    files = {SUB_H: "int lookup(int);\ninline void f(int lookup) { lookup += 1; }\n"}
+    assert "void Widget::lookup(int x)" in plan_outside(tmp_path, files).after[SRC].decode()

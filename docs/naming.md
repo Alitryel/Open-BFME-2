@@ -133,37 +133,35 @@ Each renamed name and every reference to it change together:
 
 The rename then runs one `./build.sh` over every touched ledger source, followed by `check_csv` and
 `find_declared_unmatched`, and the pre-commit hook's path-sensitive checks on what the commit will contain:
-`class_gate`, `ledger_guard`, `code_identity_gate`, `link_debt`, `check_case_collisions`, `hatch_counters` and
-`data_check --staged` always run. Which file a rename writes switches on three more, and the two file sets
-differ (`COMMIT_LEDGER_FILES` and `NAME_LEDGER_FILES` in `tools/rename.py`):
-`pin_admission` and `pin_consistency` (`--check`) run when the rename writes `reverse/functions.csv`,
-`reverse/symbols.csv`, `reverse/deleted_rows.csv` or `reverse/re_attempts.log`; `name_dependents` runs when it
-writes `reverse/functions.csv`, `reverse/symbols.csv` or `reverse/data_rows.csv`. So a rename that writes only
-`data_rows.csv` runs `name_dependents` but not the two pin checks, and one that writes only `deleted_rows.csv`
-runs the pin checks but not `name_dependents`. The first set is the hook's own `ledger_changed` condition
-(a test compares them); the hook runs `name_dependents` on every commit, and the second set is rename.py's
-choice: the three ledgers that tool reads for a name a rename takes away. `data_check --converged` and `eh_verify` run over the units the
-rename builds that own a matched row, and not at all when it builds none. All run with
-the hook's own arguments against a private copy of the index in which exactly the files the rename wrote are
-staged (the checks never write the real index; a file rename's `git mv` has already staged its move
-there, and a failed run undoes it). Any unit `name_dependents` lists that the rename does not already
-verify is built too. It stands only if all of them pass, and the refusal names the check
-(`[pin_admission]`). The hook's `conversion_gate`, `tu_ownership`, `invented_names`, `header_dependents`
-and baseline shrink-only assertions are not run: a rename cannot change what they judge, and they still run
-at commit. A check whose tool is missing from this repository is itself a refusal (a fixture tree is
-exempt). A signal cancels the checks, wherever the main thread is waiting (`check_csv` or the hook tools): the
-running tool and, in its own session, the `./build.sh` of a `name_dependents` unit are killed, so the restore does not wait for them.
-This costs about 13 s per apply
-(or batch) on a cold object cache, mostly `name_dependents`' and `code_identity_gate`'s scans, run beside `check_csv`. On any failure,
-exception or SIGTERM every file is restored byte for byte. A run that is killed outright leaves
-a journal in `build/rename-journal/`. Run `python3 tools/rename.py recover` to restore it; no other run
-starts while a journal is pending. On success the tool appends a
-`deleted_rows.csv` tombstone `Renamed to <new> by tools/rename.py (<basis>)`
-for every renamed `(name, rva)`, so a union merge cannot resurrect the old row.
-It also appends one `name_basis.csv` row. It claims every affected RVA plus
-`file:`/`class:` scopes, keeps those claims for the lander, and prints the
-paths to stage and a subject (`Rename <old> to <new> (<basis>)`). It never
-commits.
+`class_gate`, `ledger_guard`, `code_identity_gate`, `link_debt`, `check_case_collisions`, `hatch_counters`
+and `data_check --staged` always run. Which file a rename writes switches on three more, and the two file
+sets differ (`COMMIT_LEDGER_FILES` and `NAME_LEDGER_FILES` in `tools/rename.py`): `pin_admission` and
+`pin_consistency` (`--check`) run when the rename writes `reverse/functions.csv`, `reverse/symbols.csv`,
+`reverse/deleted_rows.csv` or `reverse/re_attempts.log`; `name_dependents` runs when it writes
+`reverse/functions.csv`, `reverse/symbols.csv` or `reverse/data_rows.csv`. So a rename that writes only
+`data_rows.csv` runs `name_dependents` but not the two pin checks, and one that writes only
+`deleted_rows.csv` runs the pin checks but not `name_dependents`. The first set is the hook's own
+`ledger_changed` condition (a test compares them); the hook runs `name_dependents` on every commit, and the
+second set is rename.py's choice: the three ledgers that tool reads for a name a rename takes away.
+`data_check --converged` and `eh_verify` run over the units the rename builds that own a matched row, and
+not at all when it builds none. All run with the hook's own arguments against a private copy of the index in
+which exactly the files the rename wrote are staged (the checks never write the real index; a file rename's
+`git mv` has already staged its move there, and a failed run undoes it). Any unit `name_dependents` lists
+that the rename does not already verify is built too. It stands only if all of them pass, and the refusal
+names the check (`[pin_admission]`). The hook's `conversion_gate`, `tu_ownership`, `invented_names`,
+`header_dependents` and baseline shrink-only assertions are not run: a rename cannot change what they judge,
+and they still run at commit. A check whose tool is missing from this repository is itself a refusal (a
+fixture tree is exempt). A signal cancels the checks, wherever the main thread is waiting (`check_csv` or
+the hook tools): the running tool and, in its own session, the `./build.sh` of a `name_dependents` unit are
+killed, so the restore does not wait for them. This costs about 13 s per apply (or batch) on a cold object
+cache, mostly `name_dependents`' and `code_identity_gate`'s scans, run beside `check_csv`. On any failure,
+exception or SIGTERM every file is restored byte for byte. A run that is killed outright leaves a journal in
+`build/rename-journal/`. Run `python3 tools/rename.py recover` to restore it; no other run starts while a
+journal is pending. On success the tool appends a `deleted_rows.csv` tombstone
+`Renamed to <new> by tools/rename.py (<basis>)` for every renamed `(name, rva)`, so a union merge cannot
+resurrect the old row. It also appends one `name_basis.csv` row. It claims every affected RVA plus
+`file:`/`class:` scopes, keeps those claims for the lander, and prints the paths to stage and a subject
+(`Rename <old> to <new> (<basis>)`). It never commits.
 
 It refuses, among other things, the following:
 
@@ -202,12 +200,33 @@ its body, read across the file and the headers it includes, since a unit often
 declares its classes in a header and defines them out of line: the rewrite
 respells those declarations with it, so a sibling that derives from the
 respelled base, or a second base of a respelled overrider, is refused wherever
-the classes are declared; an unqualified
-spelling of the old word inside `Other`'s body or methods is refused, since the
-rewrite would land in `Other`'s scope); a local or parameter of a function whose
-parameters, member-initializer list and body never spell the old word (a
-function that calls itself is refused) with every unqualified spelling inside a
-declaration's scope; or a prototype's parameter name (a parameter list that a
+the classes are declared; an unqualified spelling of the old word inside
+`Other`'s body or methods is refused, since the rewrite would land in `Other`'s
+scope). That holds for a file the rewrite never touches, too, because it does
+not spell the old word: every other file that spells the new word is read from
+each unit that sees the renamed class (a touched unit, or one that includes a
+touched header), over the unit's text and its headers, and a class there that
+declares or qualifies the word must be shown unrelated in the same way, else
+the rename is refused ("already a name outside the files this rename
+rewrites"). Three more spellings in those files are read: a preprocessor line
+that spells the word is refused (a macro can declare it inside any class, as in a
+touched file); an unqualified spelling inside a method of the renamed class, or
+of a class derived from it, is refused unless it is a parameter of the method or
+every use lies in the scope of a local of that name (after the rename it would
+bind to the renamed member); and an unrelated class's out-of-line methods are
+checked for the old word in the unit and in every header it includes. The scope
+is read from the class body around the spelling and from the class a qualified
+declarator names, so an out-of-line member of a class template, an operator, a
+constructor's member-initializer list, a default argument and a static member's
+initializer count as much as a plain method (a local never excuses a spelling in
+the declarator itself). A method of a class whose bases are not all declared is
+refused when it spells the word unqualified. Spellings through `.` or `->`, and a local or file-scope name in a
+free function or an unrelated class's method, are not read. A word an unreverted
+inferred landing holds is refused as soon as any other file spells it (see
+below). The other permitted spellings are a local or parameter of a
+function whose parameters, member-initializer list and body never spell the old
+word (a function that calls itself is refused) with every unqualified spelling
+inside a declaration's scope; or a prototype's parameter name (a parameter list that a
 `;` follows, never an inline definition). A base clause is read at top-level
 commas only and a template's arguments are not bases (`Pair<A, B>` and
 `Wrapper<Mid<A> >` derive from `Pair` and `Wrapper`, whose own definitions say
@@ -220,8 +239,12 @@ word, or an `Other` with a member of it, that invokes that macro is refused
 (object-like or function-like). A spelling at file scope, in a
 macro, in a `friend` or `using` declaration, after `.` or `->` (the object's
 type is not known), in a free function's rename, or beside an undeclared base
-stays refused. An inferred name keeps the plain refusal: `revert` and `check`
-match the word whole. For the same reason a canonical rename does not take a
+stays refused. An inferred name keeps the plain refusal for the files it
+rewrites: `revert` and `check` match the word whole. It reads no file outside
+that rewrite, a deliberate limit: a later `revert` would rewrite an unrelated
+class's spelling of the word too, and `foreign_declarations` refuses that, so the
+landing is left unrevertable rather than wrong, and refusing every outside
+spelling would turn away most inferred names. For the same reason a canonical rename does not take a
 word that an unreverted inferred landing in name_basis.csv (`agree:<id>`)
 holds: sharing it would make that landing's `revert` refuse for good, so
 restore the landing first.
