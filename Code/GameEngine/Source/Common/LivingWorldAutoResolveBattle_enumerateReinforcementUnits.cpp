@@ -26,22 +26,22 @@ public:
 class LivingWorldAutoResolveBattle
 {
 public:
-	void enumerateReinforcementUnits(int a1, int a2, Rva004F76EAPred *pred);
+	void enumerateReinforcementUnits(int side, int round, Rva004F76EAPred *pred);
 private:
 	_STL::map<int, int> m_maps[5];
 };
 
-void LivingWorldAutoResolveBattle::enumerateReinforcementUnits(int a1, int a2, Rva004F76EAPred *pred)
+void LivingWorldAutoResolveBattle::enumerateReinforcementUnits(int side, int round, Rva004F76EAPred *pred)
 {
-	_STL::map<int, int> *m = &m_maps[a1 + 3];
-	_STL::map<int, int>::iterator it = m->find(a2);
+	_STL::map<int, int> *m = &m_maps[side + 3];
+	_STL::map<int, int>::iterator it = m->find(round);
 	if (it == m->end())
 		return;
 	int *first = *(int **)((char *)it._M_node + 0x14);
 	int *last = *(int **)((char *)it._M_node + 0x18);
 	for (int *p = first; p != last; ++p) {
-		int v = *p;
-		if (!pred->check(v))
+		int unit = *p;
+		if (!pred->check(unit))
 			break;
 	}
 }
