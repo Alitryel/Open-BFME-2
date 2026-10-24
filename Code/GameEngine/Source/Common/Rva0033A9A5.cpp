@@ -41,9 +41,9 @@ const Rva00427157 *Rva0033A9A5::getCurrentLivingWorldAutoResolveArmor(const void
 {
 	Rva0033A9A5Entry *begin = m_begin;
 	Rva0033A9A5Entry *end = m_end;
-	for (Rva0033A9A5Entry *p = begin; p != end; p = (Rva0033A9A5Entry *)((char *)p + 0x104)) {
-		if (((const Rva0033A8D9 *)p)->rva0033A8D9(arg))
-			return p->armor;
+	for (Rva0033A9A5Entry *entry = begin; entry != end; entry = (Rva0033A9A5Entry *)((char *)entry + 0x104)) {
+		if (((const Rva0033A8D9 *)entry)->rva0033A8D9(arg))
+			return entry->armor;
 	}
 	return TheLivingWorldAutoResolveArmorStore->getDefault();
 }
