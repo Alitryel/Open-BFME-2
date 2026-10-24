@@ -157,7 +157,7 @@ class Rva00579E47 { public:
     FunctorHeader *ptr;
 };
 template<class T> class AptRef : public Rva00579E47 { public:
-    AptRef(DelegateDesc d):Rva00579E47(d) {}
+    AptRef(DelegateDesc desc):Rva00579E47(desc) {}
     ~AptRef() { if(ptr) ReleaseTreeHintRef00217D4C(reinterpret_cast<TargetRef00217D4C *>(ptr)); }
 };
 class AptCommandMap;
