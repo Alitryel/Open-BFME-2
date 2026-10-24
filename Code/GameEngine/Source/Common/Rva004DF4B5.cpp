@@ -23,7 +23,7 @@ private:
 struct Rva004DF4B5Arg
 {
 	char m_pad00[0x74];
-	ObjectID m_74;
+	ObjectID m_id;
 };
 
 class Rva004DF4B5
@@ -39,10 +39,10 @@ void Rva004DF4B5::rva004DF4B5(void *p)
 {
 	if (p == 0)
 		return;
-	ObjectID tmp = ((Rva004DF4B5Arg *)p)->m_74;
+	ObjectID objectId = ((Rva004DF4B5Arg *)p)->m_id;
 	// 0x002A1B6F is rowed as Rva002A1B6FNativeList::append (26B); the
 	// four-byte ObjectID element is passed through as the list's element
 	// word, so this resolves to the rowed body instead of the unrowed
 	// BridgeBehaviorObjectIDList::push_back spelling (sole U on this unit).
-	m_24.append((void *const &)tmp);
+	m_24.append((void *const &)objectId);
 }

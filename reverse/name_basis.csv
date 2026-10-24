@@ -554,3 +554,5 @@ param,divide::f,divide::divisor,inferred,agree:nl-60d76bbcd47f,Code/GameEngine/S
 local,Rva0028E8D4::rva0028E8D4::v,Rva0028E8D4::rva0028E8D4::translation,inferred,agree:nl-5f98dc6e8ff1,Code/GameEngine/Source/Common/Rva0028E8D4Rva0028E8D4.cpp,0x0028E8D4
 param,Rva003EE980::rva003EE980::a,Rva003EE980::rva003EE980::region,inferred,agree:nl-b58e24c6b5c5,Code/GameEngine/Source/Common/Rva003EE980Forward.cpp,0x003EE980
 local,Rva003EE980::rva003EE980::tmp,Rva003EE980::rva003EE980::color,inferred,agree:nl-9d50304cfa5d,Code/GameEngine/Source/Common/Rva003EE980Forward.cpp,0x003EE980
+member,Rva004DF4B5Arg::m_74,Rva004DF4B5Arg::m_id,inferred,agree:nl-d22e18fbae82,Code/GameEngine/Source/Common/Rva004DF4B5.cpp,
+local,Rva004DF4B5::rva004DF4B5::tmp,Rva004DF4B5::rva004DF4B5::objectId,inferred,agree:nl-8d5d8ea667d6,Code/GameEngine/Source/Common/Rva004DF4B5.cpp,0x004DF4B5
