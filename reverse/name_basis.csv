@@ -1792,3 +1792,7 @@ param,ShroudMax::b,ShroudMax::right,inferred,agree:nl-88b06cc81ea4,Code/GameEngi
 param,ShroudMin::a,ShroudMin::left,inferred,agree:nl-1312734f7b4f,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp,
 param,ShroudMin::b,ShroudMin::right,inferred,agree:nl-b2960346a2e0,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp,
 local,~RefCountPtr::p,~RefCountPtr::referencedObject,inferred,agree:nl-7aab663805f4,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp,
+param,Set_Far_Attenuation_Range::a,Set_Far_Attenuation_Range::start,inferred,agree:nl-af91ceb2ed36,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainVisualLoad.cpp,
+param,Set_Far_Attenuation_Range::b,Set_Far_Attenuation_Range::end,inferred,agree:nl-14eef9adfe0d,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainVisualLoad.cpp,
+local,W3DTerrainVisual::load::p,W3DTerrainVisual::load::location,inferred,agree:nl-2df4c2ae22eb,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainVisualLoad.cpp,0x0009213F
+local,W3DTerrainVisual::load::c,W3DTerrainVisual::load::color,inferred,agree:nl-b8766c1d6167,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainVisualLoad.cpp,0x0009213F

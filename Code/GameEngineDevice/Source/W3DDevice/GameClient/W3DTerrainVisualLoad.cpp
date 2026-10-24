@@ -145,10 +145,10 @@ class LightClass : public RenderObjClass
     {
         diffuse = vec;
     }
-    void Set_Far_Attenuation_Range(double a, double b)
+    void Set_Far_Attenuation_Range(double start, double end)
     {
-        farStart = a;
-        farEnd = b;
+        farStart = start;
+        farEnd = end;
     }
 };
 enum Scorches
@@ -477,22 +477,22 @@ bool W3DTerrainVisual::load(const AsciiString &filename, ChunkInputStream *strea
         Dict *dict = &node->props;
         if (node->isLight())
         {
-            const Coord3D *p = node->getLocation();
+            const Coord3D *location = node->getLocation();
             Coord3D loc;
-            loc.x = p->x;
-            loc.y = p->y;
-            loc.z = p->z;
+            loc.x = location->x;
+            loc.y = location->y;
+            loc.z = location->z;
             if (loc.z < 0)
             {
                 loc.z = terrain->getHeightMapHeight(loc.x, loc.y, 0);
                 loc.z += dict->getReal(TheKey_lightHeightAboveTerrain);
             }
             LightClass *light = new LightClass(LightClass::POINT);
-            RGBColor c;
-            c.setFromInt(dict->getInt(TheKey_lightAmbientColor));
-            light->Set_Ambient(*reinterpret_cast<const Vector3 *>(&c));
-            c.setFromInt(dict->getInt(TheKey_lightDiffuseColor));
-            light->Set_Diffuse(*reinterpret_cast<const Vector3 *>(&c));
+            RGBColor color;
+            color.setFromInt(dict->getInt(TheKey_lightAmbientColor));
+            light->Set_Ambient(*reinterpret_cast<const Vector3 *>(&color));
+            color.setFromInt(dict->getInt(TheKey_lightDiffuseColor));
+            light->Set_Diffuse(*reinterpret_cast<const Vector3 *>(&color));
             light->Set_Position(Vector3(loc.x, loc.y, loc.z));
             light->Set_Far_Attenuation_Range(dict->getReal(TheKey_lightInnerRadius),
                                              dict->getReal(TheKey_lightOuterRadius));
