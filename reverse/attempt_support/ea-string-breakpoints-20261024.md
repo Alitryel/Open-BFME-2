@@ -132,3 +132,16 @@ The normal whole-file gate passes all36 function rows and the data row,
 46 string literals and all4 EH records through the normal commit hook.
 Other bodies retain their native bytes; identity, ABI, flags and data owners
 are unchanged. Whole-unit published-index link preview passes.
+
+## EAStringC::rva006D3D10, RVA006D3D10,152 bytes
+
+Both assertion traps now use genuine __debugbreak. A real compiler memory
+barrier follows only the first trap, preserving the two distinct native
+assertion/return tails; symmetric barriers allow the optimizer to merge them.
+Both hashLower calls, old-hash validation, loads, stores and the public ABI
+remain unchanged. No volatile, artificial register constraint, input bound,
+new pin, helper call or compiler option is introduced. Independent private
+compiles compare all152 bytes and full extent with no unresolved reference
+or mask; the eight DIR32 operands remain subject to the ordinary whole-file
+data/literal checks. Normal add_match and whole-file gates pass all36
+functions plus the data row; normal commit hooks also verify all4 EH rows.

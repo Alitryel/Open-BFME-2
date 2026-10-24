@@ -584,7 +584,7 @@ unsigned short EAStringC::rva006D3D10() const
 		if (!(m_pData->m_uHash != 0)) {
 			g_bfmeAptAssertAtE17734("m_pData->m_uHash != 0", ".\\string\\EAString.inl", 0x59D);
 			if (g_bfmeAptBreakOnAssertAtDDC01C) {
-				__asm int 3
+				__debugbreak(); _ReadWriteBarrier();
 			}
 		}
 	} else {
@@ -592,7 +592,7 @@ unsigned short EAStringC::rva006D3D10() const
 		if (!(m_pData->m_uHash == oldHash)) {
 			g_bfmeAptAssertAtE17734("m_pData->m_uHash == uOldHash", ".\\string\\EAString.inl", 0x5A4);
 			if (g_bfmeAptBreakOnAssertAtDDC01C) {
-				__asm int 3
+				__debugbreak();
 			}
 		}
 	}
