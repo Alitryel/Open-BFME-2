@@ -55,10 +55,10 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class Thing;
 class ModuleData;
 
-class PB_DeepBase
+class ObjectModule
 {
 public:
-	virtual ~PB_DeepBase();
+	virtual ~ObjectModule();
 
 private:
 	const ModuleData *m_moduleData;
@@ -69,7 +69,7 @@ class PB_Iface1 { public: virtual void slot(); };
 class EvacuateDamageInterface { public: virtual void slot() = 0; };
 
 // The target's three-vptr base is only address-identified at 0x004B96CC.
-class Rva004B96CC : public PB_DeepBase,
+class Rva004B96CC : public ObjectModule,
                      public PB_Iface1,
                      public EvacuateDamageInterface
 {

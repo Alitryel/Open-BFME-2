@@ -47,7 +47,11 @@ public:
 	virtual void setRopeSpeed(float curSpeed, float maxSpeed, float accel) = 0;
 };
 
-class W3DRopeDraw : public DrawModule, public RopeDrawInterface
+class W3DRopeDrawPrimary : public DrawModule
+{
+};
+
+class W3DRopeDraw : public W3DRopeDrawPrimary, public RopeDrawInterface
 {
 public:
 	virtual ~W3DRopeDraw();

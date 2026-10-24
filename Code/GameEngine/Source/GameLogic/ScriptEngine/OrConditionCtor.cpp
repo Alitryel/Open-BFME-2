@@ -21,9 +21,13 @@ protected:
 	Condition *m_firstAnd;	// These are Anded.
 };
 
-OrCondition::OrCondition() : m_nextOr(0), m_firstAnd(0)
+__declspec(noinline) inline OrCondition::OrCondition() : m_nextOr(0), m_firstAnd(0)
 {
 }
+
+inline void *operator new(unsigned int, void *p) { return p; }
+static void anchorOrConditionCtor(void *p) { new (p) OrCondition(); }
+namespace { void (*kAnchorOrConditionCtor)(void *) = &anchorOrConditionCtor; }
 
 // vftable 0x00C1F3F4 slot 0 is the deleting dtor 0x003B331E, whose dtor call is the body at 0x003B262E.
 #pragma comment(linker, "/alternatename:??1OrCondition@@UAE@XZ=??1Rva003B262E@@MAE@XZ")
