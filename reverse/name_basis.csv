@@ -1933,3 +1933,4 @@ param,Rva005D19F8::Rva005D19F8::b,Rva005D19F8::Rva005D19F8::source,inferred,agre
 local,Rva0049D526::rva0049D57F::n,Rva0049D526::rva0049D57F::node,inferred,agree:nl-99efd1513eae,Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp,0x0049D57F
 local,initValueSizes::v,initValueSizes::valueSize,inferred,agree:nl-2b12aca6abee,Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp,0x006D2D90
 local,initValueSizes::c,initValueSizes::clampedMinSize,inferred,agree:nl-6d9bc7f02e8b,Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp,0x006D2D90
+local,saveRiverAreas::off2,saveRiverAreas::idOffset,inferred,agree:nl-ac3028b1d15e,Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp,0x0030C2CE

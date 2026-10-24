@@ -98,10 +98,10 @@ void __cdecl saveRiverAreas(Rva0030C2CECollection *coll, DataChunkOutput *out)
 			char *base = (char *)begin;
 			_ReadWriteBarrier();
 			int off = idx * 8;
-			int off2 = cur.m_index * 8;
+			int idOffset = cur.m_index * 8;
 			Rva0030C2CEArea *area = (Rva0030C2CEArea *)*(void **)(base + off + 4);
 			_ReadWriteBarrier();
-			out->writeInt(*(int *)(base + off2));
+			out->writeInt(*(int *)(base + idOffset));
 			((Rva00537EAD *)area)->rva00537EAD(out);
 			AsciiString *asciiString = area->m_textureNames;
 			for (int k = 4; k > 0; --k)

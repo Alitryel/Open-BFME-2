@@ -5988,3 +5988,15 @@ Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp|local|initValueSizes|v,49f81
 Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp|local|initValueSizes|c,6d08edafa4769b00ff8e25ea,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p095b,w-c0d4bc202546,2026-10-24
 Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp|global||g_00E177E2,b038f7b967ec6034f457218c,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p095b,w-c0d4bc202546,2026-10-24
 Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp|global||g_00E177E8,7b9db0b9ec308f6a53e26fa2,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p095b,w-c0d4bc202546,2026-10-24
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|class||Rva0030C2CEElem,c8b9c00e93d2095a19440fca,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p096a,w-7e4f7744f9fa,2026-10-24
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|class||Rva0030C2CECollection,dd1f517c346812f7ccaeb507,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p096a,w-7e4f7744f9fa,2026-10-24
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|member|Rva0030C2CEArea|m_float5C,16366f49bad14906916b2ce8,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p096a,w-7e4f7744f9fa,2026-10-24
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|member|Rva0030C2CEArea|m_int60,7b517a8a542ed1ef70ea2454,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p096a,w-7e4f7744f9fa,2026-10-24
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|local|saveRiverAreas|off2,511159b5bed8894305cfb9e5,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p096a,w-7e4f7744f9fa,2026-10-24
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|local|saveRiverAreas|tmp,552d97801b0e44357eeb2e01,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p096a,w-7e4f7744f9fa,2026-10-24
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|class||Rva0030C2CEElem,c8b9c00e93d2095a19440fca,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p096b,w-5da678f704e8,2026-10-24
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|class||Rva0030C2CECollection,a421f4f6d72a6567ce0522c7,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p096b,w-5da678f704e8,2026-10-24
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|class||Rva0030C2CECursor,a1a6dab593fb7daf129609e0,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p096b,w-5da678f704e8,2026-10-24
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|member|Rva0030C2CEArea|m_int60,825d3c649d18b845b3d25b13,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p096b,w-5da678f704e8,2026-10-24
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|local|saveRiverAreas|off2,511159b5bed8894305cfb9e5,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p096b,w-5da678f704e8,2026-10-24
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|local|saveRiverAreas|tmp,552d97801b0e44357eeb2e01,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p096b,w-5da678f704e8,2026-10-24
