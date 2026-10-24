@@ -294,13 +294,13 @@ int Drawable::rva0027434D(int x)
 	for (void **p = arr; *p != 0; ++p) {
 		ElemA274445 *elem = (ElemA274445 *)*p;
 		void *obj = elem->slot42();
-		int r;
+		int moduleResult;
 		if (obj != 0)
-			r = ((ElemB27434D *)obj)->slot23(x);
+			moduleResult = ((ElemB27434D *)obj)->slot23(x);
 		else
-			r = 0;
-		if (r != 0)
-			return r;
+			moduleResult = 0;
+		if (moduleResult != 0)
+			return moduleResult;
 	}
 	return 0;
 }
@@ -387,8 +387,8 @@ void Drawable::reactToTransformChange(const Matrix3D *oldMtx, const Coord3D *old
 	{
 		(*dm)->reactToTransformChange(oldMtx, oldPos, oldAngle);
 	}
-	for (Rva002742E5Listener **l = m_listeners154; l && *l; ++l)
+	for (Rva002742E5Listener **listener = m_listeners154; listener && *listener; ++listener)
 	{
-		(*l)->reactToTransformChange(oldMtx, oldPos, oldAngle);
+		(*listener)->reactToTransformChange(oldMtx, oldPos, oldAngle);
 	}
 }

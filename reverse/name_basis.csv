@@ -1165,3 +1165,5 @@ member,Rva0020EB07Info::m_2C,Rva0020EB07Info::m_regions,inferred,agree:nl-5176f7
 local,DiscreteCircle::generateEdgePairs::d,DiscreteCircle::generateEdgePairs::decision,inferred,agree:nl-1f69b17be853,Code/GameEngine/Source/Common/discrete_circle.cpp,0x002DF8CF
 param,Drawable::rva00272D77::a,Drawable::rva00272D77::frames,inferred,agree:nl-8117ce98dc5c,Code/GameEngine/Source/GameClient/DrawableFade.cpp,0x00272D77
 local,Drawable::rva00272C9E::v,Drawable::rva00272C9E::opacity,inferred,agree:nl-4791fc6dc679,Code/GameEngine/Source/GameClient/DrawableFade.cpp,0x00272C9E
+local,Drawable::reactToTransformChange::l,Drawable::reactToTransformChange::listener,inferred,agree:nl-2284cbbfabc3,Code/GameEngine/Source/GameClient/Drawable_rva00274176.cpp,0x002742E5
+local,Drawable::rva0027434D::r,Drawable::rva0027434D::moduleResult,inferred,agree:nl-a3725a08a136,Code/GameEngine/Source/GameClient/Drawable_rva00274176.cpp,0x0027434D
