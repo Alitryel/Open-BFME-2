@@ -176,6 +176,29 @@ def test_ledger_guard_refuses_a_ledger_edited_outside_the_plan(tree):
         apply(tree, plan)
 
 
+def test_a_later_plan_is_judged_with_the_files_an_earlier_one_of_the_run_wrote(tree):
+    """One Context applies two plans before anything is staged (rename_files does it
+    batch after batch): the first writes data_rows.csv, the second does not, and
+    ledger_guard must not call the first's leftover outside dirt. An edit no plan of
+    the run wrote is still refused."""
+    ctx = ctx_of(tree)
+    data = b"name,address,address_kind,size,section,source,status,evidence,model\nx,0x1,d,4,.data,s,matched,\n"
+    first = plan_of(tree)
+    first.edit(ctx, "reverse/data_rows.csv", data)
+    rename.apply_rename(first, ctx=ctx, verify=lambda c, s: True, checks=rename.ledger_checks)
+    second = plan_of(tree)
+    second.edit(ctx, "reverse/functions.csv", renamed_functions())
+    index = real_index(tree)
+    rename.apply_rename(second, ctx=ctx, verify=lambda c, s: True, checks=rename.ledger_checks)
+    assert real_index(tree) == index
+    assert ctx.kept == {"reverse/data_rows.csv", "reverse/functions.csv"}
+    (tree / "reverse/symbols.csv").write_bytes(b"name,address,notes\nz,0x2,pin\n")      # nobody's plan
+    third = plan_of(tree)
+    third.edit(ctx, "reverse/functions.csv", renamed_functions().replace(b"caller", b"calls"))
+    with pytest.raises(VerifyFailed, match=r"\[ledger_guard\]"):
+        rename.apply_rename(third, ctx=ctx, verify=lambda c, s: True, checks=rename.ledger_checks)
+
+
 def test_every_refusing_check_is_named(tree):
     plan = plan_of(tree)
     plan.edit(ctx_of(tree), "reverse/functions.csv", renamed_functions())

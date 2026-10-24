@@ -145,7 +145,7 @@ sets differ (`COMMIT_LEDGER_FILES` and `NAME_LEDGER_FILES` in `tools/rename.py`)
 second set is rename.py's choice: the three ledgers that tool reads for a name a rename takes away.
 `data_check --converged` and `eh_verify` run over the units the rename builds that own a matched row, and
 not at all when it builds none. All run with the hook's own arguments against a private copy of the index in
-which exactly the files the rename wrote are staged (the checks never write the real index; a file rename's
+which exactly the files the rename wrote, and those earlier renames of the same run (a `rename_files.py` batch run) left in the tree, are staged (the checks never write the real index; a file rename's
 `git mv` has already staged its move there, and a failed run undoes it). Any unit `name_dependents` lists
 that the rename does not already verify is built too. It stands only if all of them pass, and the refusal
 names the check (`[pin_admission]`). The hook's `conversion_gate`, `tu_ownership`, `invented_names`,

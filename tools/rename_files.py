@@ -389,6 +389,7 @@ def apply_batch(ctx, picks, basis, *, claim=True, verify=rename.build_verify, ch
         raise
     if journal is not None and journal.exists():
         journal.unlink()
+    ctx.kept |= combined.written()
     return plans, claimed
 
 

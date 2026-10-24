@@ -746,6 +746,9 @@ class Context:
         # where tools/name_evidence.py finds the zh/bfme1 sweep caches
         self.sweep_dirs = tuple(sweep_dirs)
         self._cache = {}
+        # files earlier plans of this run wrote and kept (a rename_files run applies
+        # batch after batch before anything is staged): the commit will contain them
+        self.kept = set()
 
     def path(self, rel):
         return self.root / rel
@@ -988,6 +991,11 @@ class Plan:
         if rel not in self.before:
             self.before[rel] = ctx.read(rel)
         self.after[rel] = data
+
+    def written(self):
+        """Every path this plan writes: the files it edits and where it moves
+        sources to (the old paths go with the move)."""
+        return set(self.after) | {new for _old, new in self.moves}
 
     def subject(self):
         if self.kind == "carry":
@@ -4365,7 +4373,8 @@ def _csv_checks(ctx, plan):
 # The pre-commit hook's other checks, run on what the commit will contain.
 # They read the git index (`--staged`, `--ref :`), and rename.py does not
 # stage, so each runs against a PRIVATE COPY of the index (GIT_INDEX_FILE) with
-# exactly the files the plan wrote added: the lander's `git add <those paths>`,
+# exactly the files the plan wrote added, and the ones earlier plans of the same run
+# left in the tree (ctx.kept): the lander's `git add <those paths>`,
 # by the same tools and arguments as .githooks/pre-commit, without touching the
 # real index. A plan that passed only check_csv and find_declared_unmatched
 # could still fail at commit -- e.g. a renamed alias pin giving one address a
@@ -4510,9 +4519,13 @@ def commit_checks(ctx, plan, verify=None, skip=(), cancel=None, missing_ok=None)
     simply lacks it. Units name_dependents lists that the plan does not already
     verify are built with `verify` (default ./build.sh). `cancel`, a
     threading.Event, kills the running tools and returns [] once set."""
-    paths = sorted(set(plan.after) | {new for _old, new in plan.moves})
-    if not paths:
+    own = plan.written()
+    if not own:
         return []
+    # the commit holds what earlier plans of this run left in the tree as well: an
+    # unstaged leftover of theirs is not dirt from outside (ledger_guard would
+    # refuse a ledger the private index lacked), while an edit nobody here wrote is
+    paths = sorted(own | {rel for rel in ctx.kept if ctx.path(rel).exists()})
     if missing_ok is None:
         missing_ok = ctx.root.resolve() != ROOT.resolve()
     problems, jobs = [], {}
@@ -4614,6 +4627,7 @@ def apply_rename(plan, *, ctx=None, verify=build_verify, checks=ledger_checks, c
         journal.unlink()
         raise
     journal.unlink()
+    ctx.kept |= plan.written()
     return plan
 
 

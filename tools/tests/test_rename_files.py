@@ -245,6 +245,59 @@ def test_apply_batch_renames_records_and_stages(tree):
     assert not list((tree / rename.JOURNAL_DIR).glob("*.json"))
 
 
+def _own_a_data_row(tree, source):
+    """Commit a data_rows.csv row owned by `source` and the hook's real ledger_guard
+    (standard library only), so the first unit renamed writes data_rows.csv and later
+    ones, which own no data row, do not."""
+    (tree / "reverse/data_rows.csv").write_text(
+        "name,address,address_kind,size,section,source,status,evidence,model\n"
+        f"g_gadgetCount,0x00D00000,data,4,.data,{source},matched,\n")
+    (tree / "tools").mkdir(exist_ok=True)
+    shutil.copy(TOOLS / "ledger_guard.py", tree / "tools/ledger_guard.py")
+    _git(tree, "add", "-A")
+    _git(tree, "-c", "user.email=t@t", "-c", "user.name=t", "commit", "-q", "-m", "data row")
+
+
+def test_a_batch_after_one_that_wrote_a_ledger_is_judged_with_that_ledger_staged(tree):
+    """1024b regression: batch 1 rewrote reverse/data_rows.csv (a unit owning a data
+    row); nothing is staged until the run ends, so the next batch, which owns no data
+    row and writes the file not at all, found it differing from the private index and
+    ledger_guard refused 47 of 60 files. The private index now stages every file the
+    run has written, not only the current batch's."""
+    pair = f"{D}/Rva00402000Pair.cpp"
+    _own_a_data_row(tree, pair)
+    picks = sorted(picks_of(tree), key=lambda p: p[0] != pair)       # the data-row unit first
+    ctx = ctx_of(tree)
+    plans, failed, _kept = rf.run_batches(ctx, picks, "mechanical", batch=1, claim=False, verify=ok,
+                                         checks=rename.ledger_checks, out=lambda *_: None)
+    assert not failed, failed
+    assert len(plans) == 4
+    assert f"{D}/Gadget.cpp" in (tree / "reverse/data_rows.csv").read_text()
+    assert "reverse/data_rows.csv" in ctx.kept and "reverse/functions.csv" in ctx.kept
+
+
+def test_a_ledger_edit_the_run_did_not_write_is_still_refused_after_earlier_batches(tree):
+    pair = f"{D}/Rva00402000Pair.cpp"
+    _own_a_data_row(tree, pair)
+    picks = sorted(picks_of(tree), key=lambda p: p[0] != pair)
+    ctx = ctx_of(tree)
+    plans, _claimed = rf.apply_batch(ctx, picks[:1], "mechanical", claim=False, verify=ok,
+                                     checks=rename.ledger_checks)
+    assert len(plans) == 1
+    (tree / "reverse/symbols.csv").write_text("name,address,notes\nx,0x1,pin\n")     # someone else's
+    before = snapshot(tree)
+    with pytest.raises(VerifyFailed, match=r"\[ledger_guard\].*symbols\.csv"):
+        rf.apply_batch(ctx, picks[1:2], "mechanical", claim=False, verify=ok, checks=rename.ledger_checks)
+    assert snapshot(tree) == before
+
+
+def test_a_refused_batch_keeps_nothing_for_the_next_one(tree):
+    ctx = ctx_of(tree)
+    with pytest.raises(VerifyFailed):
+        rf.apply_batch(ctx, picks_of(tree), "mechanical", claim=False, verify=lambda c, s: False, checks=None)
+    assert not ctx.kept
+
+
 def test_failed_batch_restores_then_isolates_the_bad_unit(tree):
     before = snapshot(tree)
     calls = []
