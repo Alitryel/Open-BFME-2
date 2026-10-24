@@ -927,3 +927,6 @@ local,Rva001F696EPut::p,Rva001F696EPut::text,inferred,agree:nl-b7ea302b988b,Code
 param,Rva002CF2D5::rva002CF2D5::x,Rva002CF2D5::rva002CF2D5::node,inferred,agree:nl-d32d822febfc,Code/Libraries/Source/WWVegas/WWLib/Rva002CF2D5Erase.cpp,0x002CF2D5
 param,Rva002CF302::rva002CF302::x,Rva002CF302::rva002CF302::node,inferred,agree:nl-d187cae27e86,Code/Libraries/Source/WWVegas/WWLib/Rva002CF302Erase.cpp,0x002CF302
 local,Rva002CF302::rva002CF302::y,Rva002CF302::rva002CF302::leftChild,inferred,agree:nl-d3a617bf71b7,Code/Libraries/Source/WWVegas/WWLib/Rva002CF302Erase.cpp,0x002CF302
+param,Rva00082BE1::rva00082BE1::x,Rva00082BE1::rva00082BE1::key,inferred,agree:nl-f1dd3c5241f9,Code/Libraries/Source/WWVegas/WWLib/RvaTreeEraseRangeFamily_Rva00082BE1.cpp,0x00082BE1
+param,Rva000D3C46::rva000D3C46::x,Rva000D3C46::rva000D3C46::key,inferred,agree:nl-37d6c292e68d,Code/Libraries/Source/WWVegas/WWLib/RvaTreeEraseRangeFamily_Rva00082BE1.cpp,0x000D3C46
+param,Rva00362C9A::rva00362C9A::x,Rva00362C9A::rva00362C9A::key,inferred,agree:nl-a7dd36b91576,Code/Libraries/Source/WWVegas/WWLib/RvaTreeEraseRangeFamily_Rva00082BE1.cpp,0x00362C9A
