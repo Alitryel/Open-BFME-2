@@ -6009,3 +6009,9 @@ Code/GameEngine/Source/GameClient/DrawablePhysicsXformHugeFourLegs.cpp|param|vec
 Code/GameEngine/Source/GameClient/DrawablePhysicsXformHugeFourLegs.cpp|local|Drawable::calcPhysicsXformHugeFourLegs|s,4202fc7687d307a142379b62,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p107a,w-ea8e78f6dd53,2026-10-24
 Code/GameEngine/Source/GameClient/DrawablePhysicsXformHugeFourLegs.cpp|param|vector|a,ca2eaeb5d4e20998cb4f94c9,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p107b,w-e53cdf305896,2026-10-24
 Code/GameEngine/Source/GameClient/DrawablePhysicsXformHugeFourLegs.cpp|local|Drawable::calcPhysicsXformHugeFourLegs|s,4202fc7687d307a142379b62,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p107b,w-e53cdf305896,2026-10-24
+Code/GameEngine/Source/Common/System/Rva002D36AE.cpp|class||Rva002D36AEMid,a5af4b4c232a2b282de08555,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p115a,w-a46ca58465f7,2026-10-24
+Code/GameEngine/Source/Common/System/Rva002D36AE.cpp|member|Rva002D36AEMid|m_c4,f6eaed9c3453a292bef60d1b,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p115a,w-a46ca58465f7,2026-10-24
+Code/GameEngine/Source/Common/System/Rva002D36AE.cpp|param|Rva002D36AEHost::rva002D36AE|b,625cbb7a8e7700c1f72824dc,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p115a,w-a46ca58465f7,2026-10-24
+Code/GameEngine/Source/Common/System/Rva002D36AE.cpp|class||Rva002D36AEMid,a5af4b4c232a2b282de08555,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p115b,w-e8239f482ba3,2026-10-24
+Code/GameEngine/Source/Common/System/Rva002D36AE.cpp|member|Rva002D36AEMid|m_c4,63f350e107ae9ff5c59e7b46,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p115b,w-e8239f482ba3,2026-10-24
+Code/GameEngine/Source/Common/System/Rva002D36AE.cpp|param|Rva002D36AEHost::rva002D36AE|b,625cbb7a8e7700c1f72824dc,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p115b,w-e8239f482ba3,2026-10-24

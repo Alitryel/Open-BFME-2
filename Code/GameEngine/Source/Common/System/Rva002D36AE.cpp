@@ -19,15 +19,15 @@ struct Rva002D36AEMid
 class Rva002D36AEHost
 {
 public:
-	void rva002D36AE(int a, int b);
+	void rva002D36AE(int name, int frames);
 private:
 	char m_pad[0x10];
 	Rva002D36AEMid *m_mid;
 };
 
-void Rva002D36AEHost::rva002D36AE(int a, int b)
+void Rva002D36AEHost::rva002D36AE(int name, int frames)
 {
 	Rva005260FC *inner = m_mid->m_c4;
 	if (inner != 0)
-		inner->rva005260FC((const AsciiString *)a, b);
+		inner->rva005260FC((const AsciiString *)name, frames);
 }

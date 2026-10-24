@@ -1939,3 +1939,5 @@ local,Drawable::calcPhysicsXformHugeFourLegs::s,Drawable::calcPhysicsXformHugeFo
 param,FormationRowList::a,FormationRowList::alloc,inferred,agree:nl-425ca8582251,Code/GameEngine/Source/Common/System/FormationBuild.cpp,
 param,FormationObjectList::a,FormationObjectList::alloc,inferred,agree:nl-a72a6cdaf425,Code/GameEngine/Source/Common/System/FormationBuild.cpp,
 param,Rva00421A16#2::p,Rva00421A16#2::other,inferred,agree:nl-bd95c12d93ed,Code/GameEngine/Source/Common/System/FormationBuild.cpp,
+param,Rva002D36AEHost::rva002D36AE::a,Rva002D36AEHost::rva002D36AE::name,inferred,agree:nl-0645d174d477,Code/GameEngine/Source/Common/System/Rva002D36AE.cpp,0x002D36AE
+param,Rva002D36AEHost::rva002D36AE::b,Rva002D36AEHost::rva002D36AE::frames,inferred,agree:nl-415265ceb92f,Code/GameEngine/Source/Common/System/Rva002D36AE.cpp,0x002D36AE
