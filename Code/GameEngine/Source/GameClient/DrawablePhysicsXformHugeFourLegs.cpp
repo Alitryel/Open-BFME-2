@@ -185,23 +185,23 @@ _ReadWriteBarrier();
 typedef void(_STL::vector<Coord3D>::*FillValue)(unsigned int,EmptyFootPoint);
 (points.*reinterpret_cast<FillValue>(&_STL::vector<Coord3D>::resize))(4,EmptyFootPoint());
 
-Real s=Sin(direction),c=Cos(direction);
+Real sinDirection=Sin(direction),c=Cos(direction);
 
-points[1].x=bounds.hi.x*c-bounds.hi.y*s;
-points[1].y=bounds.hi.y*c+bounds.hi.x*s;
+points[1].x=bounds.hi.x*c-bounds.hi.y*sinDirection;
+points[1].y=bounds.hi.y*c+bounds.hi.x*sinDirection;
 points[1].z=pos->z;
 
-points[0].x=bounds.lo.x*c-bounds.hi.y*s;
-points[0].y=bounds.hi.y*c+bounds.lo.x*s;
+points[0].x=bounds.lo.x*c-bounds.hi.y*sinDirection;
+points[0].y=bounds.hi.y*c+bounds.lo.x*sinDirection;
 points[0].z=pos->z;
 
-points[3].x=bounds.hi.x*c-bounds.lo.y*s;
+points[3].x=bounds.hi.x*c-bounds.lo.y*sinDirection;
 _ReadWriteBarrier();
-points[3].y=bounds.lo.y*c+bounds.hi.x*s;
+points[3].y=bounds.lo.y*c+bounds.hi.x*sinDirection;
 points[3].z=pos->z;
 
-points[2].x=bounds.lo.x*c-bounds.lo.y*s;
-points[2].y=bounds.lo.y*c+bounds.lo.x*s;
+points[2].x=bounds.lo.x*c-bounds.lo.y*sinDirection;
+points[2].y=bounds.lo.y*c+bounds.lo.x*sinDirection;
 points[2].z=pos->z;
 
 }
