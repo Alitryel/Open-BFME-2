@@ -22,7 +22,7 @@ public:
 
 struct Holder0042C936
 {
-	Holder0042C936(_STL::auto_ptr<Rva0042C993Pointee> &a) : p(reinterpret_cast<Rva0042C936Helper *>(a.release())) {}
+	Holder0042C936(_STL::auto_ptr<Rva0042C993Pointee> &autoPtr) : p(reinterpret_cast<Rva0042C936Helper *>(autoPtr.release())) {}
 	Rva0042C936Helper *p;
 	~Holder0042C936();
 	Rva0042C936Helper *release();
@@ -32,7 +32,7 @@ class Rva0042C936
 {
 public:
 	Rva0042C936Helper *m_ptr;
-	Rva0042C936 *rva0042C936(Holder0042C936 h);
+	Rva0042C936 *rva0042C936(Holder0042C936 holder);
 };
 
 // ??1Holder0042C936@@QAE@XZ present-unmatched
@@ -50,10 +50,10 @@ inline Rva0042C936Helper *Holder0042C936::release()
 	return t;
 }
 
-Rva0042C936 *Rva0042C936::rva0042C936(Holder0042C936 h)
+Rva0042C936 *Rva0042C936::rva0042C936(Holder0042C936 holder)
 {
 	Rva0042C936Helper *old = m_ptr;
-	m_ptr = h.release();
+	m_ptr = holder.release();
 	void *q = old ? old->virt0(0) : 0;
 	::operator delete(q);
 	return this;
