@@ -48,7 +48,7 @@ Rva0031DCF0::Rva0031DCF0(EmitVtableTag *)
 {
 }
 
-class Rva00328CF8Base0
+class __declspec(novtable) Rva00328CF8Base0
 {
 public:
 	virtual ~Rva00328CF8Base0();
@@ -58,7 +58,7 @@ private:
 
 // Secondary base at +0xC: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0xC) in its vtable is target evidence for it.
-class Rva00328CF8BaseC
+class __declspec(novtable) Rva00328CF8BaseC
 {
 public:
 	virtual ~Rva00328CF8BaseC();
@@ -89,7 +89,7 @@ Rva0032989F::Rva0032989F(EmitVtableTag *)
 {
 }
 
-class Rva00355BDABase0
+class __declspec(novtable) Rva00355BDABase0
 {
 public:
 	virtual ~Rva00355BDABase0();
@@ -99,7 +99,7 @@ private:
 
 // Secondary base at +0xC: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0xC) at 0x00355BB6 in its vtable is target evidence for it.
-class Rva00355BDABaseC
+class __declspec(novtable) Rva00355BDABaseC
 {
 public:
 	virtual ~Rva00355BDABaseC();
@@ -275,7 +275,8 @@ class Rva00222A8BTarget;
 int __cdecl Rva002D3409Invoke(Rva00222A8BTarget *, void *, const char *, const char *const &);
 class BfmeAptWindowManager;
 extern BfmeAptWindowManager *g_bfmeAptWindowManager;
-extern const char *const g_00C031AC[3];
+// The flash buttons' window names, retail .rdata 0x008031AC.
+extern const char *const g_00C031AC[3] = { "PlayerMagic", "Objectives", "PlanningMode" };
 struct Rva002D62ABFlashState { int timer; bool active; };
 class Rva002D62AB
 {
@@ -406,3 +407,12 @@ Rva002D3573::Rva002D3573()
     setUiCallbackOwner(reinterpret_cast<void *>(level));
     reinterpret_cast<Rva00575674Sub *>(&holder)->rva00575674(new Rva002D57B6(this, level));
 }
+
+// Complete destructors the deleting destructors above call, bound to the rows at their retail
+// addresses (the dtor column of the table at the top of this file).
+#pragma comment(linker, "/alternatename:??1Rva00328CF8@@UAE@XZ=??1Rva00328CF8@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003601C5@@UAE@XZ=?bfmeResetSF@BfmeThingSF@@QAEXXZ")
+// Callees bound to their rows at retail's call targets (0x002D57B6, 0x00575674, 0x002D56C3).
+#pragma comment(linker, "/alternatename:??0Rva002D57B6@@QAE@PAVRva002D3573@@H@Z=??0AptPalantir@@QAE@PAVRva002D3573@@H@Z")
+#pragma comment(linker, "/alternatename:?rva00575674@Rva00575674Sub@@QAEXPAX@Z=?rva00575674@Rva00575674@@QAEXPAVObject@@@Z")
+#pragma comment(linker, "/alternatename:?Rva002D56C3@@YA?AVAsciiString@@ABURva005D2F96Base24@@@Z=?Rva002D56C3Construct@@YA?AVAsciiString@@AAVRva002D4688@@@Z")

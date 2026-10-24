@@ -46,10 +46,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 struct EmitVtableTag;
 
-class Rva00243BA0Base0 { public: virtual ~Rva00243BA0Base0(); private: char m_unmodelled[0x8]; };
+class __declspec(novtable) Rva00243BA0Base0 { public: virtual ~Rva00243BA0Base0(); private: char m_unmodelled[0x8]; };
 // Secondary base at +0xC: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0xC) at 0x00243EDF in its vtable is target evidence for it.
-class Rva00243BA0BaseC { public: virtual ~Rva00243BA0BaseC(); };
+class __declspec(novtable) Rva00243BA0BaseC { public: virtual ~Rva00243BA0BaseC(); };
 class Rva00243BA0 : public Rva00243BA0Base0, public Rva00243BA0BaseC
 {
 public:
@@ -141,7 +141,7 @@ Rva0026F445::Rva0026F445(EmitVtableTag *)
 {
 }
 
-class Rva002793F0Base0
+class __declspec(novtable) Rva002793F0Base0
 {
 public:
 	virtual ~Rva002793F0Base0();
@@ -151,7 +151,7 @@ private:
 
 // Secondary base at +0x60: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0x60) at 0x0027966F in its vtable is target evidence for it.
-class Rva002793F0Base60
+class __declspec(novtable) Rva002793F0Base60
 {
 public:
 	virtual ~Rva002793F0Base60();
@@ -169,7 +169,7 @@ Rva002793F0::Rva002793F0(EmitVtableTag *)
 {
 }
 
-class Rva00285BECBase0
+class __declspec(novtable) Rva00285BECBase0
 {
 public:
 	virtual ~Rva00285BECBase0();
@@ -177,7 +177,7 @@ public:
 
 // Secondary base at +0x4: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0x4) at 0x00285BE4 in its vtable is target evidence for it.
-class Rva00285BECBase4
+class __declspec(novtable) Rva00285BECBase4
 {
 public:
 	virtual ~Rva00285BECBase4();
@@ -231,7 +231,7 @@ Rva002894A2::Rva002894A2(EmitVtableTag *)
 {
 }
 
-class Rva00299CE4Base0
+class __declspec(novtable) Rva00299CE4Base0
 {
 public:
 	virtual ~Rva00299CE4Base0();
@@ -241,7 +241,7 @@ private:
 
 // Secondary base at +0x60: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0x60) in its vtable is target evidence for it.
-class Rva00299CE4Base60
+class __declspec(novtable) Rva00299CE4Base60
 {
 public:
 	virtual ~Rva00299CE4Base60();
@@ -259,7 +259,7 @@ Rva00299CE4::Rva00299CE4(EmitVtableTag *)
 {
 }
 
-class Rva002A5B30Base0
+class __declspec(novtable) Rva002A5B30Base0
 {
 public:
 	virtual ~Rva002A5B30Base0();
@@ -269,7 +269,7 @@ private:
 
 // Secondary base at +0xC: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0xC) at 0x002A5EDE in its vtable is target evidence for it.
-class Rva002A5B30BaseC
+class __declspec(novtable) Rva002A5B30BaseC
 {
 public:
 	virtual ~Rva002A5B30BaseC();
@@ -287,7 +287,7 @@ Rva002A5B30::Rva002A5B30(EmitVtableTag *)
 {
 }
 
-class Rva002B964FBase0
+class __declspec(novtable) Rva002B964FBase0
 {
 public:
 	virtual ~Rva002B964FBase0();
@@ -297,7 +297,7 @@ private:
 
 // Secondary base at +0xC: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0xC) in its vtable is target evidence for it.
-class Rva002B964FBaseC
+class __declspec(novtable) Rva002B964FBaseC
 {
 public:
 	virtual ~Rva002B964FBaseC();
@@ -490,3 +490,15 @@ void Rva002C6354::DoXfer(Xfer *x)
   }
  }
 }
+
+// Complete destructors the deleting destructors above call, bound to the rows at their retail
+// addresses (the dtor column of the table at the top of this file).
+#pragma comment(linker, "/alternatename:??1Rva0026F445@@UAE@XZ=??1UpgradeCenter@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva002793F0@@UAE@XZ=??1Drawable@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva00299CE4@@UAE@XZ=??1Object@@MAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva002A5B30@@UAE@XZ=??1InGameUI@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva002BFB2D@@UAE@XZ=??1LivingWorld@@UAE@XZ")
+// Callees bound to their rows at retail's call targets: ~Rva002C6354 calls 0x002C61AF and
+// DoXfer constructs its slot with the constructor at 0x002C6234.
+#pragma comment(linker, "/alternatename:?rva002C61AF@Rva002C61AF@@QAEXXZ=?rva002C61AF@Rva002C60E4@@QAEXXZ")
+#pragma comment(linker, "/alternatename:??0Rva002C5EF0@@QAE@ABVCoord3DBase@@MI@Z=??0Rva002C5EF0@@QAE@ABUCoord3DBase@@MPAVPlayer@@@Z")

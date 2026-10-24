@@ -536,3 +536,13 @@ public:
 Rva00135E35::Rva00135E35(EmitVtableTag *)
 {
 }
+
+// Complete destructors the deleting destructors above call, bound to the rows at their retail
+// addresses (the dtor column of the table at the top of this file).
+#pragma comment(linker, "/alternatename:??1Rva00108650@@UAE@XZ=??1Rva000EFA0E@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva001A47D8@@UAE@XZ=??1BFME2Encoding1MotionChannel@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva001F0409@@UAE@XZ=??1ObjectCreationNugget@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003ABC21@@UAE@XZ=??1Rva005E2D20@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva00108B4D@@UAE@XZ=?apply@Rva00108B4DDwordImmSetter@@QAEXXZ")
+#pragma comment(linker, "/alternatename:??1Rva0010EFCD@@UAE@XZ=?apply@Rva0010EFCDDwordImmSetter@@QAEXXZ")
+#pragma comment(linker, "/alternatename:??1Rva001E009E@@UAE@XZ=?rva001E009E@Rva001E009E@@QAEXXZ")

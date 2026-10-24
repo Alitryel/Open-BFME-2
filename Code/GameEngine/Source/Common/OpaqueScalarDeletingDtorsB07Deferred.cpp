@@ -21,7 +21,7 @@ Rva0036B8E6::Rva0036B8E6(EmitVtableTag *)
 }
 
 
-class Rva0037381CBase0
+class __declspec(novtable) Rva0037381CBase0
 {
 public:
 	virtual ~Rva0037381CBase0();
@@ -31,7 +31,7 @@ private:
 
 // Secondary base at +0xC: the this-adjusting deleting-destructor thunk
 // (sub ecx, 0xC) in its vtable is target evidence for it.
-class Rva0037381CBaseC
+class __declspec(novtable) Rva0037381CBaseC
 {
 public:
 	virtual ~Rva0037381CBaseC();
@@ -106,3 +106,7 @@ Rva003EE1BE::Rva003EE1BE(EmitVtableTag *)
 {
 }
 
+// Complete destructors the deleting destructors above call, bound to the rows at their retail
+// addresses (the dtor column of the table at the top of OpaqueScalarDeletingDtorsB07.cpp).
+#pragma comment(linker, "/alternatename:??1Rva0036B8E6@@UAE@XZ=??1GiantBirdAIUpdate@@MAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003EE1BE@@UAE@XZ=??1LargeGroupAudioAudioMap@@UAE@XZ")
