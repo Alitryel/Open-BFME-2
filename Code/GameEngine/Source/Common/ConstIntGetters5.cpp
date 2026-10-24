@@ -631,3 +631,104 @@ int Rva0035C959Get(void)
 {
 	return reinterpret_cast<int>(CrateTemplate::TheCrateTemplateFieldParseTable);
 }
+
+// Field-parse tables the getters below return; each provider unit defines it.
+extern "C" const FieldParse __identifier("?m_gameWindowTransitionsFieldParseTable@GameWindowTransitionsHandler@@0QBUFieldParse@@B")[];
+extern const FieldParse FXNuggetFieldParse[];
+extern const FieldParse LocomotorTemplateFields[];
+extern const FieldParse Rva00210A14FieldParseTable[];
+extern const FieldParse SkirmishAIDataFields[];
+extern "C" const FieldParse __identifier("?s_anim2DFieldParseTable@Anim2DTemplate@@1QBUFieldParse@@B")[];
+extern const FieldParse g_00C1045C[];
+extern "C" const FieldParse __identifier("?m_specialPowerFieldParse@SpecialPowerTemplate@@0QBUFieldParse@@B")[];
+extern const FieldParse g_00C18D18[];
+extern const FieldParse g_00C3B050[];
+extern const FieldParse TheArmyDefinitionFields[];
+
+// ?Rva001DBA71Get@@YAHXZ @ 0x001dba71 (6B): returns 0x00bdbbcc.
+// Follows an al-returner tail. No direct callers. Opaque address-derived
+// name.
+int Rva001DBA71Get(void)
+{
+	return reinterpret_cast<int>(__identifier("?m_gameWindowTransitionsFieldParseTable@GameWindowTransitionsHandler@@0QBUFieldParse@@B"));
+}
+
+// ?Rva001DFAB9Get@@YAHXZ @ 0x001dfab9 (6B): returns 0x00bdca18.
+// Follows a setne-al returner tail. No direct callers. Opaque
+// address-derived name.
+int Rva001DFAB9Get(void)
+{
+	return reinterpret_cast<int>(FXNuggetFieldParse);
+}
+
+// ?Rva001E392EGet@@YAHXZ @ 0x001e392e (6B): returns 0x00bde2f8.
+// Follows a store plus pop plus ret tail. No direct callers. Opaque
+// address-derived name.
+int Rva001E392EGet(void)
+{
+	return reinterpret_cast<int>(LocomotorTemplateFields);
+}
+
+// ?Rva0020E2F2Get@@YAHXZ @ 0x0020e2f2 (6B): returns 0x00be4120.
+// Follows an al-returner tail. No direct callers. Opaque
+// address-derived name.
+int Rva0020E2F2Get(void)
+{
+	return reinterpret_cast<int>(Rva00210A14FieldParseTable);
+}
+
+// ?Rva002A8A0FGet@@YAHXZ @ 0x002a8a0f (6B): returns 0x00bfda50.
+// Follows the BrutalDifficultyCheats parser tail. No direct callers.
+// Opaque address-derived name. The constant is the table at 0x7fda50.
+int Rva002A8A0FGet(void)
+{
+	return reinterpret_cast<int>(SkirmishAIDataFields);
+}
+
+// ?Rva002D6AEFGet@@YAHXZ @ 0x002d6aef (6B): returns 0x00c031f0.
+// Follows a word-load plus ret tail. No direct callers. Opaque
+// address-derived name.
+int Rva002D6AEFGet(void)
+{
+	return reinterpret_cast<int>(__identifier("?s_anim2DFieldParseTable@Anim2DTemplate@@1QBUFieldParse@@B"));
+}
+
+// ?Rva0033A507Get@@YAHXZ @ 0x0033a507 (6B): returns 0x00c1045c.
+// Follows an or-store plus ret tail. No direct callers. Opaque
+// address-derived name.
+int Rva0033A507Get(void)
+{
+	return reinterpret_cast<int>(g_00C1045C);
+}
+
+// ?Rva003B0FA0Get@@YAHXZ @ 0x003b0fa0 (6B): returns 0x00dc0e78.
+// Follows a ret-4 (prev C2-04-00), no .rdata vtable slot, no direct callers,
+// no branch sources. Opaque address-derived name.
+int Rva003B0FA0Get(void)
+{
+	return reinterpret_cast<int>(__identifier("?m_specialPowerFieldParse@SpecialPowerTemplate@@0QBUFieldParse@@B"));
+}
+
+// ?Rva0040C344Get@@YAHXZ @ 0x0040c344 (6B): returns 0x00c18d18.
+// Follows a call plus ret tail. No direct callers. Opaque
+// address-derived name.
+int Rva0040C344Get(void)
+{
+	return reinterpret_cast<int>(g_00C18D18);
+}
+
+// ?Rva0041F310Get@@YAHXZ @ 0x0041f310 (6B): returns 0x00c3b050.
+// Follows a ret-4 (prev C2-04-00), no .rdata vtable slot, no direct callers,
+// no branch sources. Opaque address-derived name.
+int Rva0041F310Get(void)
+{
+	return reinterpret_cast<int>(g_00C3B050);
+}
+
+// ?Rva0041F71AGet@@YAHXZ @ 0x0041f71a (6B): returns 0x00c3b5e8.
+// Follows a leave plus ret tail. No direct callers. Opaque
+// address-derived name.
+int Rva0041F71AGet(void)
+{
+	return reinterpret_cast<int>(TheArmyDefinitionFields);
+}
