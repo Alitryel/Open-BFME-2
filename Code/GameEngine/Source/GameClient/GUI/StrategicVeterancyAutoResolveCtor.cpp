@@ -74,15 +74,15 @@ StrategicVeterancy::Data::AutoResolve::AutoResolve(void *a,void *b,void *c) {
  int player=((Rva002B2B66 *)a)->rva002B2B66();
  int index=0;
  Records52 *records=(Records52 *)c;
- for(Record52 *p=records->first;p!=records->last;++p) {
-  if(p->player30==player) { selected=p->selected2C;break; }
+ for(Record52 *record=records->first;record!=records->last;++record) {
+  if(record->player30==player) { selected=record->selected2C;break; }
   ++index;
  }
  _STL::vector<Rva004F77E0Element> units[2];
  ((Rva004F92E3 *)c)->rva004F92E3(units);
  _STL::vector<Rva004F77E0Element> &selectedUnits=units[selected];
- for(Rva004F77E0Element *p=selectedUnits.begin();p!=selectedUnits.end();++p) {
-  TreeHintRef00217D4C ref=*(TreeHintRef00217D4C *)p;
+ for(Rva004F77E0Element *e=selectedUnits.begin();e!=selectedUnits.end();++e) {
+  TreeHintRef00217D4C ref=*(TreeHintRef00217D4C *)e;
   if(ref.ptr->index30!=index) continue;
   void *army=ref.ptr->payload;
   const ThingTemplate *thing=TheThingFactory->findTemplate(*(AsciiString *)((char *)army+4));

@@ -1291,3 +1291,8 @@ local,LivingWorldRegionManager::GetRegionUiPopupPoint::p,LivingWorldRegionManage
 global,?BfmeAnimationModeNames@@3PAPBDA,?animationModeNames@@3PAPBDA,inferred,agree:nl-356618a6d1f5,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp,0x009B4E44
 local,Rva002CA9CA::rva002CA9CA::p,Rva002CA9CA::rva002CA9CA::weaponTemplate,inferred,agree:nl-8f371e06b6f5,Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp,0x002CA9CA
 local,Rva002CA9CA::getProjectileNuggetRadiusIfAlliesAffected::p,Rva002CA9CA::getProjectileNuggetRadiusIfAlliesAffected::weaponTemplate,inferred,agree:nl-ea418609f8fb,Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp,0x002CACD7
+param,Rva000B34D8::clientOnly_getRenderObjInfo::o0,Rva000B34D8::clientOnly_getRenderObjInfo::pos,inferred,agree:nl-8079ad97899a,Code/GameEngine/Source/Common/Rva000B34D8Fetch.cpp,0x000B34D8
+param,Rva000B34D8::clientOnly_getRenderObjInfo::o1,Rva000B34D8::clientOnly_getRenderObjInfo::boundingSphereRadius,inferred,agree:nl-ed5734a86ce9,Code/GameEngine/Source/Common/Rva000B34D8Fetch.cpp,0x000B34D8
+param,Rva000B34D8::clientOnly_getRenderObjInfo::o2,Rva000B34D8::clientOnly_getRenderObjInfo::transform,inferred,agree:nl-db6cfe6092b6,Code/GameEngine/Source/Common/Rva000B34D8Fetch.cpp,0x000B34D8
+param,NAT::gotTargetMangledPort::b,NAT::gotTargetMangledPort::mangledPort,inferred,agree:nl-55a7649a2be8,Code/GameEngine/Source/Common/Rva005A8666Box.cpp,0x005A86C0
+local,StrategicVeterancy::Data::AutoResolve::AutoResolve::p,StrategicVeterancy::Data::AutoResolve::AutoResolve::record,inferred,agree:nl-e5b7d1c8d905,Code/GameEngine/Source/GameClient/GUI/StrategicVeterancyAutoResolveCtor.cpp,0x005ECE81

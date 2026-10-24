@@ -45,7 +45,7 @@ struct NAT
 	void sendAProbeToTarget();
 	void rva005A6C90(int code);
 	void targetNotifyMeIWasProbed(int unused);
-	void gotTargetMangledPort(int a, unsigned short b, int c);
+	void gotTargetMangledPort(int a, unsigned short mangledPort, int c);
 };
 
 void NAT::targetNotifyMeIWasProbed(int unused)
@@ -82,7 +82,7 @@ void NAT::targetNotifyMeIWasProbed(int unused)
 // A present +0x24 leads through the +4 sub-object consumer and, unless
 // +0x94C reads 2 with both flags against a cleared +0x942, through the gate
 // to the setter with 3. Same class as targetNotifyMeIWasProbed (shared layout and pins).
-void NAT::gotTargetMangledPort(int a, unsigned short b, int c)
+void NAT::gotTargetMangledPort(int a, unsigned short mangledPort, int c)
 {
 	if (m_94C == 4 && m_950 == 4)
 		return;
@@ -103,7 +103,7 @@ void NAT::gotTargetMangledPort(int a, unsigned short b, int c)
 		goto check24;
 	}
 	m_25 = 1;
-	m_90C[m_18]->m_4 = b;
+	m_90C[m_18]->m_4 = mangledPort;
 	if (m_90C[m_14]->m_0 == m_90C[m_18]->m_0)
 		m_90C[m_18]->m_0 = c;
 check24:

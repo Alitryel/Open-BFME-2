@@ -85,25 +85,25 @@ public:
 };
 // A one-slot draw interface: W3DScriptedModelDraw's +0x0C base, whose vtable
 // slot 0 is this function (also inherited unchanged by W3DTankDraw/W3DTruckDraw).
-class Rva000B34D8 { public: virtual bool clientOnly_getRenderObjInfo(Vector3 *o0, float *o1, Rva000B34D8Out30 *o2); private: char m_pad04[0x44 - 4]; RenderObjClass *m_44; };
-bool Rva000B34D8::clientOnly_getRenderObjInfo(Vector3 *o0, float *o1, Rva000B34D8Out30 *o2) {
+class Rva000B34D8 { public: virtual bool clientOnly_getRenderObjInfo(Vector3 *pos, float *boundingSphereRadius, Rva000B34D8Out30 *transform); private: char m_pad04[0x44 - 4]; RenderObjClass *m_44; };
+bool Rva000B34D8::clientOnly_getRenderObjInfo(Vector3 *pos, float *boundingSphereRadius, Rva000B34D8Out30 *transform) {
 	if (!m_44) return false;
-	*o0 = m_44->Get_Position();
+	*pos = m_44->Get_Position();
 	RenderObjClass *renderObj = m_44;
 	renderObj->vslot020();
-	o2->f00 = renderObj->f18;
-	o2->m04 = renderObj->m1C;
-	o2->m08 = renderObj->m20;
-	o2->m0C = renderObj->m24;
-	o2->m10 = renderObj->m28;
-	o2->m14 = renderObj->m2C;
-	o2->m18 = renderObj->m30;
-	o2->m1C = renderObj->m34;
-	o2->m20 = renderObj->m38;
-	o2->m24 = renderObj->m3C;
-	o2->m28 = renderObj->m40;
-	o2->m2C = renderObj->m44;
+	transform->f00 = renderObj->f18;
+	transform->m04 = renderObj->m1C;
+	transform->m08 = renderObj->m20;
+	transform->m0C = renderObj->m24;
+	transform->m10 = renderObj->m28;
+	transform->m14 = renderObj->m2C;
+	transform->m18 = renderObj->m30;
+	transform->m1C = renderObj->m34;
+	transform->m20 = renderObj->m38;
+	transform->m24 = renderObj->m3C;
+	transform->m28 = renderObj->m40;
+	transform->m2C = renderObj->m44;
 	Rva000B34D8Ret65 *r = m_44->vslot065();
-	*o1 = r->f0C;
+	*boundingSphereRadius = r->f0C;
 	return true;
 }
