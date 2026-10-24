@@ -14,7 +14,7 @@ struct HeightMapDimensions {
 class BaseHeightMapRenderObjClass {
 public:
  bool showAsVisibleCliff(int xIndex,int yIndex) const;
- bool rva0006C6E2(int xIndex,int yIndex) const;
+ bool showAsVisibleImpassable(int xIndex,int yIndex) const;
 private:
  char pad0[0x37C0];HeightMapDimensions *map;
  char pad37C4[0x28];std::vector<bool> cliffBits;
@@ -25,7 +25,7 @@ bool BaseHeightMapRenderObjClass::showAsVisibleCliff(int xIndex,int yIndex) cons
  if(xIndex<0 || yIndex<0 || yIndex>=map->height || xIndex>=width)return false;
  return cliffBits[xIndex+yIndex*width];
 }
-bool BaseHeightMapRenderObjClass::rva0006C6E2(int xIndex,int yIndex) const {
+bool BaseHeightMapRenderObjClass::showAsVisibleImpassable(int xIndex,int yIndex) const {
  int width=map->width;
  if(xIndex<0 || yIndex<0 || yIndex>=map->height || xIndex>=width)return false;
  return impassableBits[xIndex+yIndex*width];

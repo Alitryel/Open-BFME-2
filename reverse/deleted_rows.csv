@@ -2481,3 +2481,4 @@ __ehhandler$??$_Construct@U?$pair@$$CBVAsciiString@@V?$list@PAVSuperweaponInfo@@
 ?rva000465CE@W3DDisplay@@QAEXPAVRva000465CEBuffer@@MMMMH@Z,0x000465CE,"Renamed to ?queueImage@W3DDisplay@@QAEXPAVRva000465CEBuffer@@MMMMH@Z by tools/rename.py (canonical:wb)"
 ?rva0025EBB9@Rva0025EB43@@QAEXPBVRva0025E9DE@@@Z,0x0025EBB9,"Renamed to ?screenToWorld@Rva0025EB43@@QAEXPBVRva0025E9DE@@@Z by tools/rename.py (canonical:wb)"
 ?rva0006C6A3@BaseHeightMapRenderObjClass@@QBE_NHH@Z,0x0006C6A3,"Renamed to ?showAsVisibleCliff@BaseHeightMapRenderObjClass@@QBE_NHH@Z by tools/rename.py (inferred)"
+?rva0006C6E2@BaseHeightMapRenderObjClass@@QBE_NHH@Z,0x0006C6E2,"Renamed to ?showAsVisibleImpassable@BaseHeightMapRenderObjClass@@QBE_NHH@Z by tools/rename.py (inferred)"
