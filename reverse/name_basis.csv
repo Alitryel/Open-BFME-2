@@ -1957,3 +1957,4 @@ global,?g_00C3C994@@3QBQBXB,?g_waitForSecondButtonDownStateHandlerVtable@@3QBQBX
 member,Rva002BEFE5::m_54,Rva002BEFE5::m_startPosition,inferred,agree:nl-0e2a2a07f341,Code/GameEngine/Source/Common/Rva002BEFE5.cpp,
 function,?Rva005D833E@@YAXXZ,?clearAssistBattleCooldowns@@YAXXZ,inferred,agree:nl-96fb625c6f1a,Code/GameEngine/Source/Common/GapBodiesGE38.cpp,0x005D833E
 function,?Rva005D851D@@YAXXZ,?clearArmyBreakerCooldowns@@YAXXZ,inferred,agree:nl-b96b36ba4243,Code/GameEngine/Source/Common/GapBodiesGE38.cpp,0x005D851D
+member,PlayerStats::m_1BC,PlayerStats::m_isEvil,inferred,agree:nl-1ff555d911dd,Code/GameEngine/Source/GameNetwork/Rva00318333.cpp,

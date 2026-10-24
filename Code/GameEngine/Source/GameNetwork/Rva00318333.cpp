@@ -61,7 +61,7 @@ class PlayerStats
 {
 public:
 	char m_pad[0x1BC];
-	unsigned char m_1BC;
+	unsigned char m_isEvil;
 };
 class Rva00318333
 {
@@ -100,7 +100,7 @@ void Rva00318333::rva00318333(Object *obj, bool flag)
 		if (player) {
 			player = obj->getControllingPlayer();
 			PlayerStats *st = player->m_34;
-			unsigned char isEvil = st ? st->m_1BC : 0;
+			unsigned char isEvil = st ? st->m_isEvil : 0;
 			if (!isEvil)
 				return;
 		}
@@ -110,7 +110,7 @@ void Rva00318333::rva00318333(Object *obj, bool flag)
 		if (player) {
 			player = obj->getControllingPlayer();
 			PlayerStats *st = player->m_34;
-			unsigned char isEvil = st ? st->m_1BC : 0;
+			unsigned char isEvil = st ? st->m_isEvil : 0;
 			if (isEvil)
 				return;
 		}
