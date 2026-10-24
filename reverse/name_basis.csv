@@ -1131,3 +1131,5 @@ local,Rva00404927::rva00404927::a,Rva00404927::rva00404927::crossProduct,inferre
 param,ActionManager::Rva0041B94AGet::b,ActionManager::Rva0041B94AGet::target,inferred,agree:nl-951e25bbb17c,Code/GameEngine/Source/Common/Rva0041B94APermuted.cpp,0x0041B94A
 member,Rva0054D222Prompt::m_previous14,Rva0054D222Prompt::m_previousState,inferred,agree:nl-246f69ff1ec9,Code/GameEngine/Source/Common/Rva00437EDCFinish.cpp,
 member,Rva0049DC50Node::m_28,Rva0049DC50Node::m_cost,inferred,agree:nl-e15c08868f2e,Code/GameEngine/Source/Common/Rva0049DC50Walk.cpp,
+param,Rva005346D9Construct::p,Rva005346D9Construct::destination,inferred,agree:nl-5e97fc898bdc,Code/GameEngine/Source/Common/Rva005344C0Copy.cpp,0x005346D9
+param,Rva005346D9Construct::v,Rva005346D9Construct::source,inferred,agree:nl-05b1c3fdc546,Code/GameEngine/Source/Common/Rva005344C0Copy.cpp,0x005346D9

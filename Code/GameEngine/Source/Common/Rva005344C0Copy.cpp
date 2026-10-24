@@ -50,7 +50,7 @@ Rva005344C0::Rva005344C0(const int *pFirst, const IntTree00534581 &second) : m_f
 // Evidence: chain from 0x00534676 which this session landed; same TU/flags.
 #include <new>
 
-void __cdecl Rva005346D9Construct(Rva005344C0 *p, const Rva005344C0 &v)
+void __cdecl Rva005346D9Construct(Rva005344C0 *destination, const Rva005344C0 &source)
 {
-	new (p) Rva005344C0(v);
+	new (destination) Rva005344C0(source);
 }
