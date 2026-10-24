@@ -145,8 +145,8 @@ struct MapperTransformAccess : DX8Wrapper {
             break;
         default:
             DX8_RECORD_MATRIX_CHANGE();
-            Matrix4x4 m2=matrix4x4.Transpose();
-            DX8CALL(SetTransform(transform,(D3DMATRIX*)&m2));
+            Matrix4x4 transposedMatrix=matrix4x4.Transpose();
+            DX8CALL(SetTransform(transform,(D3DMATRIX*)&transposedMatrix));
             break;
         }
     }
@@ -198,15 +198,15 @@ void BumpEnvTextureMapperClass::Apply(int uv_array_index)
 	CurrentAngle=fmodf(CurrentAngle,2*WWMATH_PI);
 
 	// Compute the sine and cosine for the bump matrix
-	float c,s;
-	c=ScaleFactor * WWMath::Fast_Cos(CurrentAngle);
+	float cosine,s;
+	cosine=ScaleFactor * WWMath::Fast_Cos(CurrentAngle);
 	s=ScaleFactor * WWMath::Fast_Sin(CurrentAngle);
 
 	// Set the Bump Environment Matrix
-	DX8Wrapper::Set_DX8_Texture_Stage_State(Stage,D3DTSS_BUMPENVMAT00, F2DW(c));
+	DX8Wrapper::Set_DX8_Texture_Stage_State(Stage,D3DTSS_BUMPENVMAT00, F2DW(cosine));
 	DX8Wrapper::Set_DX8_Texture_Stage_State(Stage,D3DTSS_BUMPENVMAT01, F2DW(-s));
 	DX8Wrapper::Set_DX8_Texture_Stage_State(Stage,D3DTSS_BUMPENVMAT10, F2DW(s));
-	DX8Wrapper::Set_DX8_Texture_Stage_State(Stage,D3DTSS_BUMPENVMAT11, F2DW(c));
+	DX8Wrapper::Set_DX8_Texture_Stage_State(Stage,D3DTSS_BUMPENVMAT11, F2DW(cosine));
 }
 
 void EdgeMapperClass::Apply(int uv_array_index)

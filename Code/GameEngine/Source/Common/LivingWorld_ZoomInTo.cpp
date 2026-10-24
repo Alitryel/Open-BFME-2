@@ -186,14 +186,14 @@ void LivingWorld::ZoomInTo(void *arg)
 	case 0:
 		{
 			Rva002BE7DBValue local14;
-			Rva002BE7DBValue tmp20;
+			Rva002BE7DBValue nodePosition;
 			v14(arg, &local14);
 			void *found = ((Rva002B38A3 *)TheLivingWorldLogic)->rva002B38A3(8);
 			if (found != 0)
 			{
 				void *node = ((Rva00504138 *)((char *)found + 0x0C))->rva00504138(0);
 				if (node != 0)
-					local14 = ((Rva002BE7DB *)node)->rva002BE7DB(tmp20);
+					local14 = ((Rva002BE7DB *)node)->rva002BE7DB(nodePosition);
 			}
 			v22(&local14);
 			v19(1, 0);
