@@ -12,6 +12,8 @@
 // 0x98B8B dtor and 0x98A6F closeKeyboard; W3DGameClient DirectInputKeyboard
 // shape (Keyboard plus 8 tail bytes, BFME2 +4 to 0xE28).
 
+#include "../../../../GameEngineDevice/Source/Win32Device/GameClient/DirectInputKeyboardFormat.h"
+
 extern void *ApplicationHInstance;
 extern void *ApplicationHWnd;
 // Matched DIR32 witness (w=1) in openKeyboard places this 16-byte GUID-sized
@@ -30,13 +32,11 @@ extern const unsigned char g_00CDF678[16] = {
 };
 // Matched DIR32 witness (w=1) in openKeyboard places the 24-byte DIDATAFORMAT
 // value at VA 0x00C7C9A4 (.rdata), with dwSize=0x18 bounding the initializer.
-// Its pointer bytes retain retail VA 0x00A29F20 (.text); no corresponding
-// tracked C++ object exists here, so those bytes reproduce the target pointer,
-// not a source-level object identity. Retail text follows at VA 0x00C7C9BC.
-extern const unsigned char g_00C7C9A4[24] = {
-	0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00,
-	0x02, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00,
-	0x01, 0x00, 0x00, 0x00, 0x20, 0x9F, 0xA2, 0x00,
+// The complete 256-object table has its own verified data owner, including
+// all GUID relocations. A real relocation keeps this descriptor connected
+// when that table is placed elsewhere by the linker.
+extern const DIDATAFORMAT g_00C7C9A4 = {
+	24, 16, 2, 256, 256, BFMEKeyboardObjectFormats
 };
 
 long __stdcall ji_0062af20(void *hinst, unsigned long ver, const void *riid, void **ppv, void *punk);
@@ -121,7 +121,7 @@ void DirectInputKeyboard::openKeyboard()
 		closeKeyboard();
 		return;
 	}
-	hr = m_pKeyboardDevice->m_table->setDataFormat(m_pKeyboardDevice, g_00C7C9A4);
+	hr = m_pKeyboardDevice->m_table->setDataFormat(m_pKeyboardDevice, &g_00C7C9A4);
 	if (hr < 0)
 	{
 		closeKeyboard();

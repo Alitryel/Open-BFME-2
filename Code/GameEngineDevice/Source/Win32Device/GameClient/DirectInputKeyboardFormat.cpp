@@ -5,20 +5,14 @@
 // source-level name is inferred, not an original symbol recovered from debug data.
 // See reverse/attempt_support/directinput-keyboard-format-20261023.md.
 
+#include "DirectInputKeyboardFormat.h"
+
 struct GUID
 {
     unsigned long Data1;
     unsigned short Data2;
     unsigned short Data3;
     unsigned char Data4[8];
-};
-
-struct DIOBJECTDATAFORMAT
-{
-    const GUID *pguid;
-    unsigned long dwOfs;
-    unsigned long dwType;
-    unsigned long dwFlags;
 };
 
 extern "C" const GUID GUID_Key = {
