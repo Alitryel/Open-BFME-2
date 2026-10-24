@@ -235,14 +235,14 @@ int FormationTranslator::WaitForSecondButtonDownStateHandler::rva00431C9D(GameMe
 		Restart(msg);
 		return 0;
 	}
-	ICoord2D tmp = m_0C;
+	ICoord2D pixel = m_0C;
 	Coord3D out;
 	bool phase3 = true;
 	bool phase2 = false;
 	bool b = TheInGameUI->m_8B8;
 	unsigned int mode = Rva0030F099(b);
 	b = TheInGameUI->m_8B8;
-	Drawable *draw = TheTacticalView->s09(&tmp, b, mode);
+	Drawable *draw = TheTacticalView->s09(&pixel, b, mode);
 	Slot48Ret *slot48Ret = TheInGameUI->slot48();
 	if (slot48Ret != 0 && slot48Ret->m_14 != 0 && slot48Ret->m_14 != 0xA)
 	{
@@ -265,7 +265,7 @@ int FormationTranslator::WaitForSecondButtonDownStateHandler::rva00431C9D(GameMe
 	{
 		if (TheInGameUI->slot70() > 0 && TheFormationAssistant->rva00422CF3HasOne(TheInGameUI->slot73()))
 		{
-			TheTacticalView->screenToTerrain(&tmp, &out, false);
+			TheTacticalView->screenToTerrain(&pixel, &out, false);
 			TheInGameUI->slot49(&out);
 		}
 		else
@@ -276,7 +276,7 @@ int FormationTranslator::WaitForSecondButtonDownStateHandler::rva00431C9D(GameMe
 	}
 	else if (phase2)
 	{
-		TheTacticalView->screenToTerrain(&tmp, &out, false);
+		TheTacticalView->screenToTerrain(&pixel, &out, false);
 		((Rva0029AA3F *)TheInGameUI)->rva0029A9FF(&out);
 	}
 	else
