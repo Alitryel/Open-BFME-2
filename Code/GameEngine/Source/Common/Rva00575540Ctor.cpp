@@ -8,7 +8,7 @@
 class Rva00575540
 {
 public:
-	Rva00575540(void *a, void *b, void *c);
+	Rva00575540(void *owner, void *b, void *c);
 
 private:
 	void *m_vtable;
@@ -20,10 +20,10 @@ private:
 
 extern void *g_00C6E614[];
 
-Rva00575540::Rva00575540(void *a, void *b, void *c)
+Rva00575540::Rva00575540(void *owner, void *b, void *c)
 {
 	m_0c = 0;
-	m_04 = a;
+	m_04 = owner;
 	m_08 = b;
 	m_vtable = (void *)g_00C6E614;
 	m_10 = (int)c;

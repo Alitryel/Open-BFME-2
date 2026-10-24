@@ -5849,3 +5849,6 @@ Code/GameEngine/Source/GameClient/Drawable_rva00274176.cpp|local|Drawable::rva00
 Code/GameEngine/Source/GameClient/Drawable_rva00274176.cpp|local|Drawable::rva00274176|p,a71254cf1addb4f8769926db,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p030b,w-1ae86fedb202,2026-10-24
 Code/GameEngine/Source/GameClient/Drawable_rva00274176.cpp|param|Drawable::rva0027434D|x,b397262c39906d3914fc852d,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p030b,w-1ae86fedb202,2026-10-24
 Code/GameEngine/Source/GameClient/Drawable_rva00274176.cpp|local|Drawable::rva0027434D|p,f7821d1c831b47a1a3f799ca,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p030b,w-1ae86fedb202,2026-10-24
+Code/GameEngine/Source/Common/Rva00575540Ctor.cpp|param|Rva00575540::Rva00575540|a,2593e354d77b6b8686f67c19,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p033a,w-8f94671f6c85,2026-10-24
+Code/GameEngine/Source/Common/Rva00575540Ctor.cpp|param|Rva00575540::Rva00575540|c,2e8db916feadbf740d54b8cb,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p033a,w-8f94671f6c85,2026-10-24
+Code/GameEngine/Source/Common/Rva00575540Ctor.cpp|param|Rva00575540::Rva00575540|a,2593e354d77b6b8686f67c19,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p033b,w-add2f514b711,2026-10-24
