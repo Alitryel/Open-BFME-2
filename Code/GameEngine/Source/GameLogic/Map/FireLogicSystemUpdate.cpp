@@ -31,25 +31,7 @@ class ThingTemplate;
 
 // A burning cell's key in m_cellsOnFire: the cell's world-centre
 // coordinates (constructed at 0x00285B91, destroyed at 0x00285BEC).
-class Rva00285BECBase
-{
-public:
-	virtual ~Rva00285BECBase();
-};
-class Rva00285BECSnapshotBase
-{
-public:
-	virtual ~Rva00285BECSnapshotBase();
-};
-class Rva00285BEC : public Rva00285BECBase, public Rva00285BECSnapshotBase
-{
-public:
-	Rva00285BEC(int a, int b);
-	virtual ~Rva00285BEC();
-	int m_08;
-	int m_0C;
-	int m_10;
-};
+#include "../../Common/Rva00285BEC.h"
 
 // m_cellsOnFire's tree find (0x00286214) and erase (0x002860CF).
 class Rva00285672;
@@ -137,7 +119,7 @@ public:
 	FireLogicSystem();
 	virtual ~FireLogicSystem();
 	virtual void loadPostProcess();
-	virtual void crc(Xfer *xfer);
+	virtual const char *GetSnapshotName() const;
 	virtual void xfer(Xfer *xfer);
 	void ChangeBurnRate(Int x0, Int x1, Int y, Int delta, bool onlyBurning);
 	void ChangeBurnRate(const Coord3D *origin, const Coord3D *dir, float threshold, Int x0, Int x1, Int y, Int delta, bool onlyBurning);

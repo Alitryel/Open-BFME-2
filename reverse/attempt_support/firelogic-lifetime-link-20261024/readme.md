@@ -24,6 +24,29 @@ for deleting destructors, reproduces the three whole tables exactly:
 48/48/16 bytes. No unresolved padding methods or manually built vtables.
 The Snapshot adapter is novtable; it has no independent native table.
 
+Production reconciliation adopts `Rva00285BEC.h` in all six consumers that
+define the value class. The seventh old view was an obsolete synthetic
+vtable carrier in OpaqueScalarDeletingDtorsB05: it owns no remaining
+BurningCell row and was removed. The root deleting destructor's existing
+29-byte row is rehomed from InlineDtorDeletingDtorsC01 to the real owner,
+removing that synthetic constructor too. Both absent-from-retail markers
+disappear with their definitions. The old seven-byte `Rva00285BECBase`
+destructor row is merged into the existing actual root `Rva00285635`, with
+its original address and a tombstone; no name_basis entry or new pin.
+
+`class_contract.decide` freezes the contract from the complete verified
+owner (expanded locally for its private-view discovery), rather than the
+old incomplete slot-0 destructor views. It reports root size4/twelve
+slots and value size20/destructor slot11. The generated contracts record
+this selection and the independent [whole-table proof](table-proof.json).
+`header_adopt_lane` gates and registers both existing headers.
+
+Class-cohort validation: 144/144 rows across nine sources pass the normal
+byte gate; all twelve rows with EH data are EXACT, with no baseline.
+The fourteen virtual-method rows include genuine folded bodies at existing
+addresses; restoring the three retired getter addresses adds no unique
+authored bytes. No census was run and no new linking gain is claimed here.
+
 ## Getter retraction prerequisite
 
 The old `Rva002856F7Get`, `Rva002856FDGet` and `Rva00285745Get` free-function

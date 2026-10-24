@@ -19,37 +19,7 @@ public:
 	void rva00285708();
 };
 
-class Rva00285BECBase
-{
-public:
-	virtual ~Rva00285BECBase() {}
-};
-
-class Rva00285BECSnapshotBase
-{
-public:
-	virtual ~Rva00285BECSnapshotBase() {}
-};
-
-class Rva00285BEC : public Rva00285BECBase, public Rva00285BECSnapshotBase
-{
-public:
-	struct Pair080C
-	{
-		int m_00;
-		int m_04;
-		Pair080C() {}
-		Pair080C(int a, int b) : m_00(a), m_04(b) {}
-		Pair080C(const Pair080C &src) : m_00(src.m_00), m_04(src.m_04) {}
-	};
-	Rva00285BEC(int a, int b);
-	Rva00285BEC(const Rva00285BEC &src);
-	virtual ~Rva00285BEC();
-
-private:
-	Pair080C m_08;
-	int m_10;
-};
+#include "Rva00285BEC.h"
 
 Rva00285BEC::Rva00285BEC(int a, int b) : m_08(a, b), m_10(-1)
 {
@@ -67,4 +37,74 @@ Rva00285BEC::Rva00285BEC(const Rva00285BEC &src)
 Rva00285BEC::~Rva00285BEC()
 {
 	((Rva0028572AHost *)this)->rva0028572A();
+}
+
+extern unsigned char g_00DFEA50[76];
+extern unsigned char g_00DFE794[16];
+class Rva002862C9 {public: LargeGroupAudioKeyMap *rva002862C9();};
+Rva00SlotFloat2FromInts Rva00285BEC::vslot00(){return Rva00SlotFloat2FromInts(m_08.m_00,m_08.m_04);}
+Rva00SlotFloat2FromInts Rva00285BEC::vslot01()const{return Rva00SlotFloat2FromInts(m_08.m_00,m_08.m_04);}
+unsigned char *Rva00285BEC::vslot02(){return g_00DFEA50;}
+unsigned char const *Rva00285BEC::vslot03()const{return g_00DFEA50;}
+unsigned char *Rva00285BEC::vslot04(){return g_00DFE794;}
+unsigned char const *Rva00285BEC::vslot05()const{return g_00DFE794;}
+short Rva00285BEC::vslot06()const{return 1;}
+LargeGroupAudioKeyMap *Rva00285BEC::vslot07()const{return ((Rva002862C9*)this)->rva002862C9();}
+bool Rva00285BEC::vslot08()const{return false;}
+bool Rva00285BEC::vslot09()const{return false;}
+int Rva00285BEC::vslot10()const{return m_10;}
+const char*Rva00285BECSnapshotBase::GetSnapshotName()const{return "FireLogicSystem::BurningCell";}
+
+class Rva00285CEDInterface
+{
+public:
+	virtual void slot00() = 0;
+	virtual void slot01() = 0;
+	virtual void slot02() = 0;
+	virtual void slot03() = 0;
+	virtual void slot04() = 0;
+	virtual void slot05() = 0;
+	virtual void slot06() = 0;
+	virtual void slot07() = 0;
+	virtual void slot08() = 0;
+	virtual void slot09() = 0;
+	virtual void rva00285CEDSlot10(void *out) = 0;
+	virtual void slot11() = 0;
+	virtual void slot12() = 0;
+	virtual void slot13() = 0;
+	virtual void slot14() = 0;
+	virtual void slot15() = 0;
+	virtual void slot16() = 0;
+	virtual void slot17() = 0;
+	virtual void slot18() = 0;
+	virtual void rva00285CEDSlot19(void *out) = 0;
+	virtual void slot20() = 0;
+	virtual void slot21() = 0;
+	virtual void slot22() = 0;
+	virtual void slot23() = 0;
+	virtual void slot24() = 0;
+	virtual void slot25() = 0;
+	virtual void slot26() = 0;
+	virtual void slot27() = 0;
+	virtual void slot28() = 0;
+	virtual void slot29() = 0;
+	virtual void slot30() = 0;
+	virtual void rva00285CEDSlot31(void *out) = 0;
+};
+
+
+struct Rva00285CEDFlags
+{
+	unsigned char first;
+	unsigned char second;
+};
+
+
+void Rva00285BECSnapshotBase::xfer(Xfer *interfaceObject)
+{
+	Rva00285CEDFlags flags = { 1, 1 };
+	Rva00285CEDInterface *input = (Rva00285CEDInterface *)interfaceObject;
+	input->rva00285CEDSlot10(&flags);
+	input->rva00285CEDSlot19((char *)this + 4);
+	input->rva00285CEDSlot31((char *)this + 0xC);
 }

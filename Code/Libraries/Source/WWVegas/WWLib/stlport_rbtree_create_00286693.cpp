@@ -17,11 +17,7 @@ struct TreeMapped00286693
 typedef _STL::pair<const TreeKey00286693, TreeMapped00286693> TreePair00286693;
 typedef _STL::_Rb_tree<TreeKey00286693, TreePair00286693, _STL::_Select1st<TreePair00286693>, _STL::less<TreeKey00286693>, _STL::allocator<TreePair00286693> > Tree00286693;
 
-class Rva00285BEC
-{
-public:
-	Rva00285BEC(const Rva00285BEC &other);
-};
+#include "../../../../GameEngine/Source/Common/Rva00285BEC.h"
 
 namespace _STL
 {

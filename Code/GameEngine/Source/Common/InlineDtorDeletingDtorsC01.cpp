@@ -26,7 +26,6 @@
 //   0x00203E76  0x00BE3990  Rva00203E76
 //   0x0020E20C  0x00BE4318  Rva0020E20C
 //   0x00215E42  0x00BE5838  Rva00215E42
-//   0x00285635  0x00BFB698  Rva00285635
 //   0x002BED74  0x00BFE4EC  Rva002BED74
 //   0x002C1283  0x00BFE5B4  Rva002C1283
 //   0x002D252B  0x00C02A5C  Rva002D252B
@@ -359,18 +358,6 @@ Rva00215E42::Rva00215E42(const Rva00215E42 &)
 // ??1Rva00215E42@@UAE@XZ @0x004059AC 7B: the empty dtor, restoring the vtable;
 // the deleting dtor still expands it inline.
 Rva00215E42::~Rva00215E42()
-{
-}
-
-class Rva00285635
-{
-public:
-	Rva00285635(EmitVtableTag *);
-	virtual ~Rva00285635() {}
-};
-
-// ?<Rva00285635::Rva00285635> absent-from-retail
-Rva00285635::Rva00285635(EmitVtableTag *)
 {
 }
 

@@ -30,7 +30,6 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 //   0x0026E81A  0x0026E7EA  0x00BFA3A4#0
 //   0x0026F597  0x0026F445  0x00BFABB8#0
 //   0x00279FFC  0x002793F0  0x00BFB0B4#7
-//   0x002862AD  0x00285BEC  0x00BFB700#11
 //   0x00287C05  0x00286F8F  0x00BFB7BC#0
 //   0x002896EA  0x002894A2  0x00BFB840#0
 //   0x0029A10F  0x00299CE4  0x00BFC300#7
@@ -166,32 +165,6 @@ public:
 
 // ?<Rva002793F0::Rva002793F0> absent-from-retail
 Rva002793F0::Rva002793F0(EmitVtableTag *)
-{
-}
-
-class __declspec(novtable) Rva00285BECBase0
-{
-public:
-	virtual ~Rva00285BECBase0();
-};
-
-// Secondary base at +0x4: the this-adjusting deleting-destructor thunk
-// (sub ecx, 0x4) at 0x00285BE4 in its vtable is target evidence for it.
-class __declspec(novtable) Rva00285BECBase4
-{
-public:
-	virtual ~Rva00285BECBase4();
-};
-class Rva00285BEC : public Rva00285BECBase0, public Rva00285BECBase4
-{
-public:
-	Rva00285BEC(EmitVtableTag *);
-public:
-	virtual ~Rva00285BEC();
-};
-
-// ?<Rva00285BEC::Rva00285BEC> absent-from-retail
-Rva00285BEC::Rva00285BEC(EmitVtableTag *)
 {
 }
 
