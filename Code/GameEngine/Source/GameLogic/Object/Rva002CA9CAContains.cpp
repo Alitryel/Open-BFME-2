@@ -112,9 +112,9 @@ class Rva002CA9CA
 {
 public:
 	bool rva002CA9CA(int id, const void *arg);
-	bool rva002CAA59(int a1, const void *a2);
+	bool rva002CAA59(int a1, const void *weapon);
 	void postProcessLoad();
-	void rva002CA970(int a1, int a2, const void *a3, int a4);
+	void rva002CA970(int a1, int a2, const void *weapon, int a4);
 	float getProjectileNuggetRadiusIfAlliesAffected(const void *arg);
 	bool rva002CAD8B();
 	void rva002CAC6E(int a, int b);
@@ -197,7 +197,7 @@ bool Rva002CA9CA::rva002CA9CA(int id, const void *arg)
 	return false;
 }
 
-bool Rva002CA9CA::rva002CAA59(int a1, const void *a2)
+bool Rva002CA9CA::rva002CAA59(int a1, const void *weapon)
 {
 	if (a1 == 0)
 		return false;
@@ -205,27 +205,27 @@ bool Rva002CA9CA::rva002CAA59(int a1, const void *a2)
 	while (cur != m_17c)
 	{
 		VirtNode *obj = (VirtNode *)cur->m_data;
-		if (obj->v04(a2, a1))
+		if (obj->v04(weapon, a1))
 			return true;
 		cur = cur->m_next;
 	}
 	return false;
 }
 
-void Rva002CA9CA::rva002CA970(int a1, int a2, const void *a3, int a4)
+void Rva002CA9CA::rva002CA970(int a1, int a2, const void *weapon, int a4)
 {
 	(void)a2;
 	(void)a4;
-	const Filter *flt = (const Filter *)a3;
+	const Filter *flt = (const Filter *)weapon;
 	ListNode *cur = m_17c->m_next;
 	while (cur != m_17c)
 	{
 		VirtNode2 *obj = (VirtNode2 *)cur->m_data;
 		if (flt != 0 && (flt->m_04->m_flag & 0x20) != 0)
 		{
-			if (obj->v04(a1, a3))
+			if (obj->v04(a1, weapon))
 			{
-				obj->v0c(a1, a3);
+				obj->v0c(a1, weapon);
 			}
 		}
 		cur = cur->m_next;

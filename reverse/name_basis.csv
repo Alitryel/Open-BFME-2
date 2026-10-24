@@ -1044,3 +1044,5 @@ local,Rva005C41C9::rva005C41C9::a,Rva005C41C9::rva005C41C9::oldState,inferred,ag
 function,?rva006894D0@VideoPlayer@@UAEPAVVideoStreamInterface@@VAsciiString@@I@Z,?open@VideoPlayer@@UAEPAVVideoStreamInterface@@VAsciiString@@I@Z,inferred,agree:nl-9a36b98460e2,Code/GameEngine/Source/GameClient/VideoPlayerGetVideo.cpp,0x006894D0
 member,Rva0030C2CEArea::m_strings40,Rva0030C2CEArea::m_textureNames,inferred,agree:nl-9eabb302165d,Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp,
 local,W3DProjectedShadowManager::rva0010BE72::value38,W3DProjectedShadowManager::rva0010BE72::fadeInStartFrame,inferred,agree:nl-55fce953e78b,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva0010C785TimedDecals.cpp,0x0010BE72
+param,Rva002CA9CA::rva002CAA59::a2,Rva002CA9CA::rva002CAA59::weapon,inferred,agree:nl-4e92a2b95493,Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp,0x002CAA59
+param,Rva002CA9CA::rva002CA970::a3,Rva002CA9CA::rva002CA970::weapon,inferred,agree:nl-ec77ccef0b38,Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp,0x002CA970
