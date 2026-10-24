@@ -280,6 +280,8 @@ class PeerResponse
 {
 public:
 	PeerResponse();
+	// Out of line in retail (0x00389C14, OwnedRecord840Copy.cpp).
+	PeerResponse(const PeerResponse &that);
 	~PeerResponse();
 	// Out of line in retail (0x0038B383, PeerResponseAssign.cpp).
 	PeerResponse &operator=(const PeerResponse &that);

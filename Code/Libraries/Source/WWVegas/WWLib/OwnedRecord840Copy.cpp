@@ -44,7 +44,8 @@ template <> __declspec(dllimport) __declspec(nothrow) __forceinline _String_base
 template <> __declspec(dllimport) __declspec(nothrow) __forceinline _String_base<wchar_t, allocator<wchar_t> >::~_String_base() { _M_deallocate_block(); }
 }
 
-struct PeerResponse {
+class PeerResponse {
+public:
     PeerResponse();
     ~PeerResponse();
     int unknown_00;

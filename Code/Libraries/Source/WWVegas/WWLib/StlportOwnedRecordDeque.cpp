@@ -29,14 +29,25 @@ struct BfmeOpaqueOwnedRecord492 {
 	~BfmeOpaqueOwnedRecord492();
 };
 
+// PeerResponse is the 840-byte record; OwnedRecord840Copy.cpp rows its copy
+// (0x00389C14) and teardown (0x0038A063).
+class PeerResponse
+{
+public:
+	PeerResponse(const PeerResponse &that);
+	~PeerResponse();
+};
 struct BfmeOpaqueOwnedRecord840 {
 	union {
 		unsigned int alignmentWitness;
 		unsigned char bytes[840];
 	};
 	BfmeOpaqueOwnedRecord840();
-	BfmeOpaqueOwnedRecord840(const BfmeOpaqueOwnedRecord840 &);
-	~BfmeOpaqueOwnedRecord840();
+	// The record is a PeerResponse: copy and teardown are its rowed members.
+	__forceinline BfmeOpaqueOwnedRecord840(const BfmeOpaqueOwnedRecord840 &that)
+	{ ((PeerResponse *)this)->PeerResponse::PeerResponse(*(const PeerResponse *)&that); }
+	__forceinline ~BfmeOpaqueOwnedRecord840()
+	{ ((PeerResponse *)this)->~PeerResponse(); }
 };
 
 // A separate deque node at RVA 0x0055315a advances by 0x580 bytes.
@@ -168,10 +179,6 @@ template class _STL::deque<BfmeOpaqueOwnedRecord1408,
 template class _STL::deque<BfmeOpaqueOwnedRecord1432,
 	_STL::allocator<BfmeOpaqueOwnedRecord1432> >;
 template _STL::deque<BfmeOpaqueOwnedRecord2148>::deque(const _STL::allocator<BfmeOpaqueOwnedRecord2148> &);
-template void _STL::__destroy_aux<_STL::_Deque_iterator<BfmeOpaqueOwnedRecord2148, _STL::_Nonconst_traits<BfmeOpaqueOwnedRecord2148> > >(
-    _STL::_Deque_iterator<BfmeOpaqueOwnedRecord2148, _STL::_Nonconst_traits<BfmeOpaqueOwnedRecord2148> >,
-    _STL::_Deque_iterator<BfmeOpaqueOwnedRecord2148, _STL::_Nonconst_traits<BfmeOpaqueOwnedRecord2148> >,
-    const _STL::__false_type &);
 typedef _STL::queue<BfmeOpaqueOwnedRecord492> BfmeQueue492;
 typedef _STL::queue<BfmeOpaqueOwnedRecord840> BfmeQueue840;
 template _STL::queue<BfmeOpaqueOwnedRecord492>::queue();

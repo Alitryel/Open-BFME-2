@@ -364,8 +364,11 @@ typedef _STL::deque<BfmeOpaqueOwnedRecord492,
 struct BfmeOpaqueOwnedRecord840 {
 	union { unsigned int alignmentWitness; unsigned char bytes[840]; };
 	BfmeOpaqueOwnedRecord840();
-	BfmeOpaqueOwnedRecord840(const BfmeOpaqueOwnedRecord840 &);
-	~BfmeOpaqueOwnedRecord840();
+	// The record is a PeerResponse: copy and teardown are its rowed members.
+	__forceinline BfmeOpaqueOwnedRecord840(const BfmeOpaqueOwnedRecord840 &that)
+	{ ((PeerResponse *)this)->PeerResponse::PeerResponse(*(const PeerResponse *)&that); }
+	__forceinline ~BfmeOpaqueOwnedRecord840()
+	{ ((PeerResponse *)this)->~PeerResponse(); }
 };
 typedef char BfmeOpaqueOwnedRecord840_size_check[
 	sizeof(BfmeOpaqueOwnedRecord840) == 840 ? 1 : -1];

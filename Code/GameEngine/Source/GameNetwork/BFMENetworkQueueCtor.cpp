@@ -9,7 +9,10 @@
 // same shape as the rowed queue constructor 0x0038D28E). The pin and its
 // callers name the class; native_network_BFMENetwork_Ctor.cpp keeps its own
 // inline field view for the copy BFMENetwork builds in place, so this
-// definition lives in its own unit. The record type is opaque here.
+// definition lives in its own unit. The record type is opaque here: 0x5532FF
+// initializes its map through 0x005530D7, whose nodes are 0x598 bytes, so the
+// records are the 1432-byte ones (PeerThread's 492-byte request queue reaches
+// its own base constructor at 0x00389152 instead).
 #include <deque>
 // Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
 // shape); this TU's flags would emit a private copy.
@@ -17,16 +20,16 @@ namespace _STL {
 template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
 }
 
-struct BfmeOpaqueOwnedRecord492
+struct BfmeOpaqueOwnedRecord1432
 {
-	BfmeOpaqueOwnedRecord492(const BfmeOpaqueOwnedRecord492 &that);
-	~BfmeOpaqueOwnedRecord492();
-	char m_body[0x1EC];	// 492 bytes, as PeerThread.cpp (rowed _Deque_base 0x5532FF) and StlportOwnedRecordDeque.cpp define it
+	BfmeOpaqueOwnedRecord1432(const BfmeOpaqueOwnedRecord1432 &that);
+	~BfmeOpaqueOwnedRecord1432();
+	char m_body[0x598];	// 1432 bytes, as StlportOwnedRecordDeque.cpp defines it
 };
 
 // The rowed deque base constructor owns map and node initialization.
 namespace _STL {
-template <> _Deque_base<BfmeOpaqueOwnedRecord492, allocator<BfmeOpaqueOwnedRecord492> >::_Deque_base(const allocator<BfmeOpaqueOwnedRecord492> &, size_t);
+template <> _Deque_base<BfmeOpaqueOwnedRecord1432, allocator<BfmeOpaqueOwnedRecord1432> >::_Deque_base(const allocator<BfmeOpaqueOwnedRecord1432> &, size_t);
 }
 
 class BFMENetworkQueue
@@ -35,7 +38,7 @@ public:
 	BFMENetworkQueue();
 
 private:
-	_STL::deque<BfmeOpaqueOwnedRecord492> m_records;
+	_STL::deque<BfmeOpaqueOwnedRecord1432> m_records;
 };
 
 BFMENetworkQueue::BFMENetworkQueue()
