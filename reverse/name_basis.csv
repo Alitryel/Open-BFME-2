@@ -1150,3 +1150,4 @@ local,GetStr005F2A52::t,GetStr005F2A52::stringData,inferred,agree:nl-f914fc9cad0
 local,StrategicHUD::ArmyDetailsMovieClip::Impl::ShowMemberRank::tmp,StrategicHUD::ArmyDetailsMovieClip::Impl::ShowMemberRank::rankText,inferred,agree:nl-e7a9cbb505a0,Code/GameEngine/Source/Common/Rva005F2FEFApt.cpp,0x005F2B76
 local,StrategicHUD::ArmyDetailsMovieClip::Impl::ShowCommandPoints::tmp,StrategicHUD::ArmyDetailsMovieClip::Impl::ShowCommandPoints::commandPointsText,inferred,agree:nl-0b13d2f541d1,Code/GameEngine/Source/Common/Rva005F2FEFApt.cpp,0x005F2D41
 function,?rva005F2A32@Rva005F2A32@@QAEXXZ,?HideMemberName@Rva005F2A32@@QAEXXZ,inferred,agree:nl-221e62dd3924,Code/GameEngine/Source/Common/Rva005F2FEFApt.cpp,0x005F2A32
+class,Rva005F2537AptMode,AptWindowManager,inferred,agree:nl-33cedaea7922,Code/GameEngine/Source/Common/Rva005F2FEFApt.cpp,

@@ -25,7 +25,7 @@ struct Rva005F2FEFTeam
 };
 
 // The Apt window manager's +0x318 mode (0: idle).
-struct Rva005F2537AptMode
+struct AptWindowManager
 {
 	unsigned char m_pad000[0x318];
 	int m_mode; // +0x318
@@ -285,7 +285,7 @@ void StrategicHUD::ArmyDetailsMovieClip::notifyIconListBackgroundClicked() {}
 // _OnBackButtonRollOut / _OnIconListBackgroundClicked" (retail strings).
 void StrategicHUD::ArmyDetailsMovieClip::Impl::OnBackButtonClicked(const char *path)
 {
-	if (((Rva005F2537AptMode *)TheRva00222A8BTarget)->m_mode == 0)
+	if (((AptWindowManager *)TheRva00222A8BTarget)->m_mode == 0)
 		m_owner->notifyBackButtonClicked();
 }
 
@@ -301,7 +301,7 @@ void StrategicHUD::ArmyDetailsMovieClip::Impl::OnBackButtonRollOut(const char *p
 
 void StrategicHUD::ArmyDetailsMovieClip::Impl::OnIconListBackgroundClicked(const char *path)
 {
-	if (((Rva005F2537AptMode *)TheRva00222A8BTarget)->m_mode == 0)
+	if (((AptWindowManager *)TheRva00222A8BTarget)->m_mode == 0)
 		m_owner->notifyIconListBackgroundClicked();
 }
 
