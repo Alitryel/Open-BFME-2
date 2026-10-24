@@ -32725,10 +32725,10 @@ present_unmatched	Code/GameEngine/Source/Common/Thing/Module.cpp	ObjectModule::~
 present_unmatched	Code/GameEngine/Source/Common/Thing/Module.cpp	UpgradeMuxData::isTriggeredBy	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/Module.cpp	UpgradeMuxData::muxDataProcessUpgradeRemoval	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/Module.cpp	UpgradeMuxData::performUpgradeFX	1
+present_unmatched	Code/GameEngine/Source/Common/Thing/ModuleFactory.cpp	DamageModule::~DamageModule	1	allow=068d7aa02f6658504c6105385d0b357ed288e82f
 present_unmatched	Code/GameEngine/Source/Common/Thing/ModuleFactory.cpp	ModuleFactory::ModuleFactory	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ModuleFactory.cpp	ModuleFactory::addModuleInternal	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ModuleFactory.cpp	ModuleFactory::crc	1
-present_unmatched	Code/GameEngine/Source/Common/Thing/ModuleFactory.cpp	ModuleFactory::findModuleInterfaceMask	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ModuleFactory.cpp	ModuleFactory::loadPostProcess	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ModuleFactory.cpp	ModuleFactory::xfer	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ModuleFactory.cpp	ModuleFactory::~ModuleFactory	1
