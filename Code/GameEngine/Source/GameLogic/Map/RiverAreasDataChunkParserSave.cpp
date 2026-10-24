@@ -76,7 +76,7 @@ extern "C" inline __declspec(noinline) bool __cdecl rva0007E394CursorEqual(const
 	return a.m_store == b.m_store && a.m_index == b.m_index;
 }
 
-void __cdecl Rva0030C2CESave(Rva0030C2CECollection *coll, DataChunkOutput *out)
+void __cdecl saveRiverAreas(Rva0030C2CECollection *coll, DataChunkOutput *out)
 {
 	out->openDataChunk("RiverAreas", 2);
 	int count = (int)(coll->m_end - coll->m_begin);
