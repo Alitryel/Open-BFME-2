@@ -10,20 +10,20 @@ extern "C" void __cdecl memset(void *, int, unsigned int);
 class Rva00531196
 {
 public:
-	void rva00531196(unsigned int *p);
+	void rva00531196(unsigned int *cell);
 	unsigned int m_val;
 };
-void Rva00531196::rva00531196(unsigned int *p)
+void Rva00531196::rva00531196(unsigned int *cell)
 {
 	memset((void *)this, 0, 4);
-	m_val = (m_val & ~7u) | (p[3] & 7u);
-	m_val = (m_val & ~0x1f8u) | ((p[3] >> 1) & 0x1f8u);
-	m_val = (m_val & ~0x7e00u) | ((p[3] >> 1) & 0x7e00u);
-	unsigned char c1 = (unsigned char)(p[3] >> 17);
+	m_val = (m_val & ~7u) | (cell[3] & 7u);
+	m_val = (m_val & ~0x1f8u) | ((cell[3] >> 1) & 0x1f8u);
+	m_val = (m_val & ~0x7e00u) | ((cell[3] >> 1) & 0x7e00u);
+	unsigned char c1 = (unsigned char)(cell[3] >> 17);
 	m_val = (m_val & ~0x8000u) | ((c1 << 15) & 0x8000u);
-	unsigned char c2 = (unsigned char)(p[3] >> 18);
+	unsigned char c2 = (unsigned char)(cell[3] >> 18);
 	m_val = (m_val & ~0x10000u) | ((c2 << 16) & 0x10000u);
-	m_val = (m_val & ~0x60000u) | ((p[3] >> 2) & 0x60000u);
-	unsigned char c3 = (unsigned char)(p[3] >> 22);
-	m_val = (m_val & ~0x80000u) | ((c3 << 19) & 0x80000u);
+	m_val = (m_val & ~0x60000u) | ((cell[3] >> 2) & 0x60000u);
+	unsigned char bridge = (unsigned char)(cell[3] >> 22);
+	m_val = (m_val & ~0x80000u) | ((bridge << 19) & 0x80000u);
 }
