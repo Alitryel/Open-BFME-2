@@ -256,3 +256,9 @@ public:
 Rva0023FD06::Rva0023FD06(EmitVtableTag *)
 {
 }
+
+// Complete destructors the deleting destructors above call, by retail target.
+#pragma comment(linker, "/alternatename:??1Rva00203EBA@@UAE@XZ=??1FunctorNotSet@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva0020D9EC@@UAE@XZ=??1Rva0020DXXX@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva00214405@@UAE@XZ=??1LivingWorldManager@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva00224A90@@UAE@XZ=??1AptPlayer@@UAE@XZ")

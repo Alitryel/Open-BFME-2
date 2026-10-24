@@ -257,7 +257,7 @@ Rva005C9659::Rva005C9659(EmitVtableTag *)
 // Rva005CC37CHolder at +0x8, whose slot 0 is a this-adjusting (sub ecx, 8)
 // deleting-destructor thunk -- target evidence for that base and offset.
 class Rva005CC37CBase { public: virtual ~Rva005CC37CBase() {} private: char m_unmodelled04[4]; };
-class Rva005CC37CHolder { public: virtual ~Rva005CC37CHolder(); };
+class __declspec(novtable) Rva005CC37CHolder { public: virtual ~Rva005CC37CHolder(); };
 class Rva005CC37C : public Rva005CC37CBase, public Rva005CC37CHolder
 {
 public:
@@ -283,3 +283,11 @@ public:
 Rva005CC656::Rva005CC656(EmitVtableTag *)
 {
 }
+
+// Complete destructors the deleting destructors above call, by retail target: 0x0059E5AE,
+// 0x005B3D94 (AptCreateAHero::Powers); slots 0 and 1 of the +0x6C table 0x00C713AC are both the
+// rowed 11-byte stub 0x0059EF57.
+#pragma comment(linker, "/alternatename:??1Rva0059E5AE@@UAE@XZ=??1Rva0059E6D3Data@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva005B3D94@@UAE@XZ=??1Powers@AptCreateAHero@@UAE@XZ")
+#pragma comment(linker, "/alternatename:?slot0@Rva005A0009Base6C@@UAEXXZ=?rva0059EF57@Rva0059EF57@@QAEXHHH@Z")
+#pragma comment(linker, "/alternatename:?slot1@Rva005A0009Base6C@@UAEXXZ=?rva0059EF57@Rva0059EF57@@QAEXHHH@Z")

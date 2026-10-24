@@ -103,7 +103,8 @@ const Image *__cdecl Rva005F01B8Get(int);
 class LivingWorldRegion { public: const Image *GetFortressPortrait(); UnicodeString GetFortressDisplayName(); UnicodeString GetFortressDisplayDescription(); };
 class Rva005E2896Vector { public: void reserve(unsigned int); };
 struct PageContext { void *region, *page, *owner; };
-extern int g_rva00E066A4StructuresClipArg;
+// The .data word 0x00E066A4 (zero-initialised; only this ctor reads it).
+int g_rva00E066A4StructuresClipArg;
 namespace StrategicInGameUI {
 struct TargetRef00217D4CIcon;
 class RegionDetailsStructuresPage { public: class Impl; };
@@ -257,3 +258,10 @@ void RegionDetailsStructuresPage::Impl::slot01()
  ((Rva001FF3A9 *)observer)->rva001FF3A9(*(const TreeHintRef00217D4C *)&current);
 }
 }
+
+// Page Impl vftable 0x00C77B2C: slot 0 is the scalar deleting dtor 0x005E2AF2, whose dtor call is
+// 0x005E29CD; slots 2-4 are the rowed bodies 0x005E21C2, 0x005E218F and 0x005E219D.
+#pragma comment(linker, "/alternatename:??1Impl@RegionDetailsStructuresPage@StrategicInGameUI@@UAE@XZ=??1Rva005E29CD@@UAE@XZ")
+#pragma comment(linker, "/alternatename:?slot02@Impl@RegionDetailsStructuresPage@StrategicInGameUI@@UAEXXZ=?rva005E21C2@Rva005E21C2@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?slot03@Impl@RegionDetailsStructuresPage@StrategicInGameUI@@UAEXXZ=?rva005E218F@Rva005E218F@@UAEXXZ")
+#pragma comment(linker, "/alternatename:?slot04@Impl@RegionDetailsStructuresPage@StrategicInGameUI@@UAEXXZ=?rva005E219D@Rva005E218F@@UAEXXZ")
