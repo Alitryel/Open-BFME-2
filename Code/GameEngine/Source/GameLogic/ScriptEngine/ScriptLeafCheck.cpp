@@ -26,7 +26,7 @@ class Rva003B489CHolder
 {
 public:
 	Bool check(const void *arg) const;
-	Int rva003B4885(const void *arg) const;
+	Int rva003B4885(const void *record) const;
 
 private:
 	Byte m_pad[0x38];
@@ -43,9 +43,9 @@ Bool Rva003B489CHolder::check(const void *arg) const
 	return (word - other) == 0;
 }
 
-Int Rva003B489CHolder::rva003B4885(const void *arg) const
+Int Rva003B489CHolder::rva003B4885(const void *record) const
 {
-	const char *p = (const char *)arg;
+	const char *p = (const char *)record;
 	Int index = *(const Int *)(p + 4);
 	return m_table[index].m_val10 + 4;
 }
