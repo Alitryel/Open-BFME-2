@@ -1805,3 +1805,4 @@ param,hcSub::c,hcSub::destination,inferred,agree:nl-e4ed6f33702e,Code/GameEngine
 param,hcSub::a,hcSub::source,inferred,agree:nl-791d230781e2,Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainRva00474842.cpp,
 param,hcLengthSqrd::c,hcLengthSqrd::vector,inferred,agree:nl-11f02554f114,Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainRva00474842.cpp,
 local,Rva0028D796::rva0028D796::f,Rva0028D796::rva0028D796::bountyValue,inferred,agree:nl-8f067571461f,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028D796.cpp,0x0028D796
+param,TargetCoord#3::p,TargetCoord#3::position,inferred,agree:nl-dcd360e0bc1c,Code/GameEngine/Source/GameLogic/Object/WeaponTemplateTargetPositions.cpp,

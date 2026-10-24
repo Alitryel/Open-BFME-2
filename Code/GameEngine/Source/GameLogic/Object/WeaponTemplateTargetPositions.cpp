@@ -78,7 +78,7 @@ struct TargetCoord
 	float x, y, z;
 	TargetCoord() {}
 	TargetCoord(float xCoord, float yCoord, float zCoord) : x(xCoord), y(yCoord), z(zCoord) {}
-	TargetCoord(const Coord3D &p) : x(p.x), y(p.y), z(p.z) {}
+	TargetCoord(const Coord3D &position) : x(position.x), y(position.y), z(position.z) {}
 };
 
 class WeaponTemplate
