@@ -23,7 +23,7 @@ private:
     Rva00565FC1Pair *start,*finish;
     Rva00565FC1Storage storage;
 };
-inline const unsigned int &Rva00565FC1Max(const unsigned int &a,const unsigned int &b) { return a<b?b:a; }
+inline const unsigned int &Rva00565FC1Max(const unsigned int &left,const unsigned int &right) { return left<right?right:left; }
 void Rva00565FC1::overflow(Rva00565FC1Pair *position,const Rva00565FC1Pair &value,const Rva00565FC1Tag &,unsigned int count,Rva00565FC1EndSlot at_end) {
     const unsigned int old_size=finish-start;
     const unsigned int length=old_size+Rva00565FC1Max(old_size,count);

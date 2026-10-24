@@ -1275,3 +1275,5 @@ carry,Rva002CF302::rva002CF302::node,Rva002CF302::eraseSubtree::node,inferred,sc
 carry,Rva002CF302::rva002CF302::leftChild,Rva002CF302::eraseSubtree::leftChild,inferred,scope renamed by Rename rva002CF302 to eraseSubtree (inferred),Code/Libraries/Source/WWVegas/WWLib/Rva002CF302Erase.cpp,0x002CF302
 member,Rva0040B0D0Arg::m_04,Rva0040B0D0Arg::m_template,inferred,agree:nl-f2779ead2655,Code/Libraries/Source/WWVegas/WWLib/Rva0040B0D0Contains.cpp,
 local,Rva0040B0D0::rva0040B0D0::p,Rva0040B0D0::rva0040B0D0::objectView,inferred,agree:nl-6c46db0b8c2e,Code/Libraries/Source/WWVegas/WWLib/Rva0040B0D0Contains.cpp,0x0040B0D0
+param,Rva00565FC1Max::a,Rva00565FC1Max::left,inferred,agree:nl-471fbe26d126,Code/Libraries/Source/WWVegas/WWLib/Rva00565FC1VectorOverflow.cpp,
+param,Rva00565FC1Max::b,Rva00565FC1Max::right,inferred,agree:nl-accd49867999,Code/Libraries/Source/WWVegas/WWLib/Rva00565FC1VectorOverflow.cpp,
