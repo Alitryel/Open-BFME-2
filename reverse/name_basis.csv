@@ -1429,3 +1429,6 @@ param,Rva002BEFE5::rva002BEFE5::a0,Rva002BEFE5::rva002BEFE5::position,inferred,a
 member,Rva00404901Coefficients::field10,Rva00404901Coefficients::m_threshold,inferred,agree:nl-1e30434d341b,Code/GameEngine/Source/Common/Rva00404927Method.cpp,
 function,?rva006D2D90@@YAXXZ,?initValueSizes@@YAXXZ,inferred,agree:nl-ddcc94bc3d7c,Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp,0x006D2D90
 param,BfmeSubmitter1283::bfmeSubmitColors1283::a1,BfmeSubmitter1283::bfmeSubmitColors1283::character,inferred,agree:nl-6c3d6bda90ba,Code/GameEngine/Source/Common/BfmeSubmitColors1283.cpp,0x006F8E10
+member,Rva00202244Preset::m_14,Rva00202244Preset::m_useTerrainNormalMap,inferred,agree:nl-83cff7dae979,Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp,
+member,Rva00202244Preset::m_15,Rva00202244Preset::m_useDistanceDependantTerrainTextures,inferred,agree:nl-86d6a95cc352,Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp,
+member,Rva00202244Preset::m_38,Rva00202244Preset::m_shaderLOD,inferred,agree:nl-36e7bbcf44e2,Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp,
