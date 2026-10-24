@@ -1832,3 +1832,9 @@ param,Pathfinder::FindBrokenBridge::a1,Pathfinder::FindBrokenBridge::locoSet,inf
 local,Rva000E1669::rva000E1669::x,Rva000E1669::rva000E1669::column,inferred,agree:nl-f0103f221cbd,Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMapVisibleBounds.cpp,0x000E1669
 local,Rva000E1669::rva000E1669::y,Rva000E1669::rva000E1669::row,inferred,agree:nl-d28ed7a12a85,Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMapVisibleBounds.cpp,0x000E1669
 param,appendPlaybackItem::v,appendPlaybackItem::buffer,inferred,agree:nl-7da9b844ddf1,Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp,
+local,Rva00337533Copy::f,Rva00337533Copy::copyFunction,inferred,agree:nl-d2fbf0969451,Code/GameEngine/Source/Common/Rva0033738BCopy.cpp,0x00337533
+local,Rva00337638Copy::f,Rva00337638Copy::copyFunction,inferred,agree:nl-71e40dca0170,Code/GameEngine/Source/Common/Rva0033738BCopy.cpp,0x00337638
+local,Rva003377A1Copy::f,Rva003377A1Copy::copyFunction,inferred,agree:nl-edd0884cc098,Code/GameEngine/Source/Common/Rva0033738BCopy.cpp,0x003377A1
+local,Rva00337533Copy::tmp,Rva00337533Copy::typeTag,inferred,agree:nl-d43b1d114cdc,Code/GameEngine/Source/Common/Rva0033738BCopy.cpp,0x00337533
+local,Rva00337638Copy::tmp,Rva00337638Copy::typeTag,inferred,agree:nl-98e2607a9720,Code/GameEngine/Source/Common/Rva0033738BCopy.cpp,0x00337638
+local,Rva003377A1Copy::tmp,Rva003377A1Copy::typeTag,inferred,agree:nl-2a18ca5757aa,Code/GameEngine/Source/Common/Rva0033738BCopy.cpp,0x003377A1

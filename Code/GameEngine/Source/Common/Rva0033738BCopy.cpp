@@ -28,9 +28,9 @@ Rva002E9E70 *uninitializedCopy(Rva002E9E70 *first, Rva002E9E70 *last, Rva002E9E7
 typedef Rva002E9E70 *(__cdecl *Rva002E9E70FiveArg)(Rva002E9E70 *, Rva002E9E70 *, Rva002E9E70 *, void *, int);
 Rva002E9E70 *Rva00337533Copy(Rva002E9E70 *first, Rva002E9E70 *last, Rva002E9E70 *result)
 {
-	Rva002E9E70FiveArg f = (Rva002E9E70FiveArg)uninitializedCopy;
-	char tmp;
-	return f(first, last, result, &tmp, 0);
+	Rva002E9E70FiveArg copyFunction = (Rva002E9E70FiveArg)uninitializedCopy;
+	char typeTag;
+	return copyFunction(first, last, result, &typeTag, 0);
 }
 Rva002E9E70 *uninitializedCopyBackward(Rva002E9E70 *first, Rva002E9E70 *last, Rva002E9E70 *result) throw()
 {
@@ -49,14 +49,14 @@ Rva002E9E70 *uninitializedCopyBackward(Rva002E9E70 *first, Rva002E9E70 *last, Rv
 }
 Rva002E9E70 *Rva00337638Copy(Rva002E9E70 *first, Rva002E9E70 *last, Rva002E9E70 *result)
 {
-	Rva002E9E70FiveArg f = (Rva002E9E70FiveArg)uninitializedCopyBackward;
-	char tmp;
-	return f(first, last, result, &tmp, 0);
+	Rva002E9E70FiveArg copyFunction = (Rva002E9E70FiveArg)uninitializedCopyBackward;
+	char typeTag;
+	return copyFunction(first, last, result, &typeTag, 0);
 }
 typedef Rva002E9E70 *(__cdecl *Rva002E9E70FourArg)(Rva002E9E70 *, Rva002E9E70 *, Rva002E9E70 *, void *);
 Rva002E9E70 *Rva003377A1Copy(Rva002E9E70 *first, Rva002E9E70 *last, Rva002E9E70 *result)
 {
-	Rva002E9E70FourArg f = (Rva002E9E70FourArg)Rva00337638Copy;
-	char tmp;
-	return f(first, last, result, &tmp);
+	Rva002E9E70FourArg copyFunction = (Rva002E9E70FourArg)Rva00337638Copy;
+	char typeTag;
+	return copyFunction(first, last, result, &typeTag);
 }
