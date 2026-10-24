@@ -13,3 +13,7 @@ The existing COFF writer gains optional named relocations for these generated st
 Regression checks cover COFF COMDAT and DIR32 encoding, native source-owned import compatibility, unowned stdcall import identity, oldnames CRT aliases, no forced duplicate linking, preservation of the first constructor-group address, unchanged original library hashes, and lazy exclusion of wscanf. All gate exploit regression tests remain enabled; the one empty optional fixture parameter is reported separately. Full actual credit remains pending the repaired immutable measurement.
 
 Tool implementation and scoped regression elapsed: 7.9 minutes; the complete measurement is separate verification time.
+
+## Final full verification
+
+The repaired immutable 5c98b266eefeb20ef18e4fee427d671c4c320ec8 cycle is authoritative, actual exit 0, zero missing/failed objects and final drift 0. Native placement is restored for all 62 transaction initializers and six teardown wrappers. Unique closed-and-placed credit rises by 233,839 bytes (1,435,102 -> 1,668,941), with 2,105 newly credited rows and none lost. Exactly one canonical object changes (the initializer's native section); all other 23,459 canonical objects and the three ledger receipt inputs agree. No byte, data, relocation, closure or shift admission rule was relaxed. The complete receipt, input reconstruction and controlled comparison live in ../txn-section-20261024/.
