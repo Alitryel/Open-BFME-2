@@ -46,8 +46,8 @@ extern "C" const void *const vtbl_00C409DC[13] = {
 extern "C" const void *const vtbl_00C40920[];  // ??_7BridgeBehavior@@6BMiBase1@@@
 #pragma comment(linker, "/alternatename:_vtbl_00C40920=??_7BridgeBehavior@@6BMiBase1@@@")
 
-extern "C" const void *const vtbl_00C40914[];  // ??_7BridgeBehavior@@6BUpdateModuleInterfaceData@@@
-#pragma comment(linker, "/alternatename:_vtbl_00C40914=??_7BridgeBehavior@@6BUpdateModuleInterfaceData@@@")
+extern "C" const void *const vtbl_00C40914[];  // ??_7BridgeBehavior@@6BUpdateModule@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C40914=??_7BridgeBehavior@@6BUpdateModule@@@")
 
 extern "C" const void *const vtbl_00C408FC[];  // ??_7BridgeBehavior@@6BBridgeBehaviorInterface@@@
 #pragma comment(linker, "/alternatename:_vtbl_00C408FC=??_7BridgeBehavior@@6BBridgeBehaviorInterface@@@")

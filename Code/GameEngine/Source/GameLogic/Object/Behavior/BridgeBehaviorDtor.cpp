@@ -17,10 +17,19 @@ enum BridgeTowerType { BRIDGE_TOWER_FROM_LEFT = 0, BRIDGE_MAX_TOWERS = 4 };
 
 extern GameLogic *TheGameLogic;
 
-class UpdateModule
+// UpdateModule carries its own three vptrs (+0x00/+0x0C/+0x10), as in
+// BroadcastStealthUpdateDtor.cpp, so the +0x10 UpdateModuleInterface table is
+// ??_7BridgeBehavior@@6BUpdateModule@@@ as in the kept BridgeBehavior.cpp:
+// retail's 0x00C40914 holds exactly update, getDisabledTypesToProcess and
+// rva0044DF8D (rows 0x00456E8D, 0x00253376, 0x0044DF8D).
+enum UpdateSleepTime { UPDATE_SLEEP_NONE = 1 };
+template <int NUMBITS> class BitFlags;
+typedef BitFlags<11> DisabledMaskType;
+
+class BehaviorModuleBase
 {
 public:
-	virtual ~UpdateModule();
+	virtual ~BehaviorModuleBase();
 private:
 	char m_pad04[8];
 };
@@ -31,10 +40,24 @@ public:
 	virtual void f1();
 };
 
-class UpdateModuleInterfaceData
+class BehaviorModule : public BehaviorModuleBase, public MiBase1
+{
+};
+
+class UpdateModuleInterface
 {
 public:
-	virtual void f2();
+	virtual UpdateSleepTime update() = 0;
+	virtual DisabledMaskType getDisabledTypesToProcess() const = 0;
+	virtual void rva0044DF8D(UpdateSleepTime) = 0;
+};
+
+class UpdateModule : public BehaviorModule, public UpdateModuleInterface
+{
+public:
+	virtual ~UpdateModule();
+	virtual DisabledMaskType getDisabledTypesToProcess() const;
+	virtual void rva0044DF8D(UpdateSleepTime);
 private:
 	int m_14;
 	int m_18;
@@ -83,11 +106,12 @@ private:
 	void *m_ptr;
 };
 
-class BridgeBehavior : public UpdateModule, public MiBase1, public UpdateModuleInterfaceData,
+class BridgeBehavior : public UpdateModule,
 	public BridgeBehaviorInterface, public DamageModuleInterface, public DieModuleInterface
 {
 public:
 	virtual ~BridgeBehavior();
+	virtual UpdateSleepTime update();
 	// Redeclared (never defined here) so each secondary-vtable slot references
 	// the BridgeBehavior:: body the kept BridgeBehavior.cpp defines.
 	virtual void setTower(BridgeTowerType towerType, Object *tower);
@@ -114,8 +138,3 @@ BridgeBehavior::~BridgeBehavior()
 			TheGameLogic->destroyObject(tower);
 	}
 }
-
-// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
-// each one has the same function in that slot (vftable addresses from matched vptr
-// stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?f2@UpdateModuleInterfaceData@@UAEXXZ=?update@BridgeBehavior@@UAE?AW4UpdateSleepTime@@XZ")
