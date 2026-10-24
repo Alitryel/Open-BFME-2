@@ -464,7 +464,7 @@ public:
 	#undef RVA25EB43_SLOT
 
 	void rva0025EB43(Rva0025E9DE *location);
-	void rva0025EBB9(const Rva0025E9DE *location);
+	void screenToWorld(const Rva0025E9DE *location);
 private:
 	char m_pad04[8];
 	Rva0025E9DECoord m_pos;
@@ -481,7 +481,7 @@ void Rva0025EB43::rva0025EB43(Rva0025E9DE *location)
 // to +0x0C, then hand each stored scalar to the setter beside the getter
 // that produced it (slots FC/104/10C/128 for 100/108/110/124) and redraw
 // (slot 50).
-void Rva0025EB43::rva0025EBB9(const Rva0025E9DE *location)
+void Rva0025EB43::screenToWorld(const Rva0025E9DE *location)
 {
 	if (location->flag00)
 	{
