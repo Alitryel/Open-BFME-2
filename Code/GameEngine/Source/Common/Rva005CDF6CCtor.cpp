@@ -3,12 +3,17 @@
 // Twin of 0x005CDB8F in Rva005CDB8FCtor.cpp: vtable 0x00875108 at +0; +4
 // zeroed; 5-dword rep movsd from src arg to +8; ret 4. Caller 0x005CE00E
 // news 0x1C and stores with refcount inc.
+template <class T> class RvaCloneResult;
+
 class Rva005CDF6C
 {
 public:
 	struct Payload { int v[5]; };
 	Rva005CDF6C(const Payload *src);
+	// Same vftable view as RvaCloneValueReturns.cpp (vftable 0x00C75108: slot 0
+	// deleting dtor 0x005FAA31, slot 1 clone 0x005CE027), so both emit one table.
 	virtual ~Rva005CDF6C();
+	virtual RvaCloneResult<Rva005CDF6C> clone() const;
 private:
 	int m_ref;
 	Payload m_data;
