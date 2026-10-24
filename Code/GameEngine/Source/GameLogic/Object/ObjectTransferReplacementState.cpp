@@ -50,7 +50,7 @@ struct TemporarilyDefectUpdateFields
 class Rva0029173EAsciiField
 {
 public:
-	void rva0029173E(AsciiString value);
+	void setName(AsciiString value);
 };
 
 class Object
@@ -69,7 +69,7 @@ void Object::bfmeTransferReplacementState(Object *replacement)
 {
 	if (replacement != 0)
 	{
-		((Rva0029173EAsciiField *)replacement)->rva0029173E(m_name);
+		((Rva0029173EAsciiField *)replacement)->setName(m_name);
 
 		static NameKeyType key_TemporarilyDefectUpdate =
 			TheNameKeyGenerator->nameToKey("TemporarilyDefectUpdate");

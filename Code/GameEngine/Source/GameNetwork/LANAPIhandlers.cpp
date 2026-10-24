@@ -278,7 +278,7 @@ class Rva00581777AsciiField
 {
 public:
 	AsciiString get( void ) const;
-	void rva00581740( AsciiString value );
+	void setSerial( AsciiString value );
 };
 
 // A saved game, as MpGameSetupSlots.cpp lays it out: eight slot copies at
@@ -1256,7 +1256,7 @@ void LANAPI::handleRequestJoin( LANMessage *msg, const BfmeNetAddress *sender )
 					newSlot.setState( SLOT_PLAYER, UnicodeString( msg->name ), NoConnectInfo().self() );
 					newSlot.setAddress( *sender );
 					newSlot.setLastHeard( timeGetTime() );
-					((Rva00581777AsciiField *)&newSlot)->rva00581740( AsciiString( msg->GameToJoin.serial ) );
+					((Rva00581777AsciiField *)&newSlot)->setSerial( AsciiString( msg->GameToJoin.serial ) );
 					if( m_currentGame->m_isLocked && m_currentGame->m_saved )
 					{
 						const GameSlot *saved = &m_currentGame->m_saved->m_slots[player];

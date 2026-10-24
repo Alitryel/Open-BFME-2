@@ -2151,3 +2151,6 @@ __ehhandler$??1Rva0041988B@@UAE@XZ,0x007867BE,"Renamed to __ehhandler$??1Rva0022
 ?clear@?$map@URva002A1B9DElement@@HU?$less@URva002A1B9DElement@@@_STL@@V?$allocator@U?$pair@$$CBURva002A1B9DElement@@H@_STL@@@3@@_STL@@QAEXXZ,0x002A3F56,"Renamed to ?clear@?$map@VAsciiString@@PAVNamedTimerInfo@@U?$less@VAsciiString@@@_STL@@V?$allocator@U?$pair@$$CBVAsciiString@@PAVNamedTimerInfo@@@_STL@@@4@@_STL@@QAEXXZ: tail jump calls the named timer tree clear 0x002A1B9D"
 ?rva006CE660@Rva006CE660Vec@@QAEXH@Z,0x006CE660,"Renamed to ?reserve@Rva006CE660Vec@@QAEXH@Z by tools/rename.py (inferred)"
 __ehhandler$?rva006CE660@Rva006CE660Vec@@QAEXH@Z,0x007A8248,"Renamed to __ehhandler$?reserve@Rva006CE660Vec@@QAEXH@Z by tools/rename.py (inferred)"
+?rva00581740@Rva00581777AsciiField@@QAEXVAsciiString@@@Z,0x00581740,"Renamed to ?setSerial@Rva00581777AsciiField@@QAEXVAsciiString@@@Z by tools/rename.py (inferred)"
+__ehhandler$?rva00581740@Rva00581777AsciiField@@QAEXVAsciiString@@@Z,0x0079C89C,"Renamed to __ehhandler$?setSerial@Rva00581777AsciiField@@QAEXVAsciiString@@@Z by tools/rename.py (inferred)"
+?rva0029173E@Rva0029173EAsciiField@@QAEXVAsciiString@@@Z,0x0029173E,"Renamed to ?setName@Rva0029173EAsciiField@@QAEXVAsciiString@@@Z by tools/rename.py (inferred)"
