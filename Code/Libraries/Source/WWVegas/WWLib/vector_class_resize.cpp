@@ -78,6 +78,14 @@ void VectorClass<T>::Clear()
 	VectorMax = 0;
 }
 
+class Vector3 {
+public:
+	float x, y, z;
+	bool operator==(const Vector3 &) const { return true; }
+	bool operator!=(const Vector3 &) const { return false; }
+};
+template void VectorClass<Vector3>::Clear();
+
 template <class T>
 bool VectorClass<T>::Resize(int newsize, T const *array)
 {

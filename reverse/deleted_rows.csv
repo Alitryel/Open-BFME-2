@@ -2525,3 +2525,4 @@ __ehhandler$?rva0042CA4B@Rva0042CA4B@@QAEXXZ,0x007877CD,"Renamed to __ehhandler$
 ?rva000B3F5B@Rva000B3F5B@@QAEPAURva000B3F5BRecord@@H@Z,0x000B3F5B,"Renamed to ?getRecord@Rva000B3F5B@@QAEPAURva000B3F5BRecord@@H@Z by tools/rename.py (inferred)"
 ?rva00332F81@Rva00332F5B@@QBE_NABV1@@Z,0x00332F81,"Renamed to ?equals@Rva00332F5B@@QBE_NABV1@@Z by tools/rename.py (inferred)"
 ?Rva00506BADDistSqr@@YAMPBURva00506BADCoord@@0@Z,0x00506BAD,"Renamed to ?distanceSquared@@YAMPBURva00506BADCoord@@0@Z by tools/rename.py (inferred)"
+?bfmeKillUD@BfmeThingUD@@QAEPAXH@Z,0x000F1CF7,"Renamed to ??_G?$VectorClass@VVector3@@@@UAEPAXI@Z: slot 0 of vftable 0x00BCEFAC, emitted by vector_class_vector3_ctor.cpp"
