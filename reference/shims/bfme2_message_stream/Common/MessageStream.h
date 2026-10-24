@@ -100,10 +100,37 @@ EMPTY_DTOR(GameMessageArgument)
  * of various data types.  The user of a message must know how many and what type of
  * arguments are valid for a given message type.
  */
-class GameMessage : public MemoryPoolObject
+// BFME2's GameMessage (retail vtable 0x00C09840) has a single slot: the public
+// deleting destructor ??_GGameMessage@@UAEPAXI@Z (0x0030F8E3), whose destructor
+// ??1GameMessage@@UAE@XZ (0x0030F4AF) is rowed in GameMessage.cpp. Zero Hour's
+// MemoryPoolObject base and MEMORY_POOL_GLUE add a pure getObjectMemoryPool slot
+// and a protected destructor, so this view keeps only the glue's allocation
+// path (newInstance) and deletes through the virtual destructor.
+class GameMessage
 {
 
-	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE(GameMessage, "GameMessage")
+public:
+	virtual ~GameMessage();
+	void deleteInstance() { if (this) delete this; }
+
+	enum GameMessageMagicEnum { GameMessage_GLUE_NOT_IMPLEMENTED = 0 };
+	inline void *operator new(size_t s, GameMessageMagicEnum e DECLARE_LITERALSTRING_ARG2)
+	{
+		DEBUG_ASSERTCRASH(s == sizeof(GameMessage), ("The wrong operator new is being called; ensure all objects in the hierarchy have MemoryPoolGlue set up correctly"));
+		return MP_GLUE_ALLOCATE(GameMessage);
+	}
+	inline void operator delete(void *p, GameMessageMagicEnum e DECLARE_LITERALSTRING_ARG2)
+	{
+		::operator delete(p);
+	}
+	inline void operator delete(void *p)
+	{
+		::operator delete(p);
+	}
+
+	GCMP_FIND(GameMessage, "GameMessage")
+
+public:
 
 public:
 

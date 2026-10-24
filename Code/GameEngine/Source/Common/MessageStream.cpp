@@ -102,22 +102,8 @@ GameMessage::GameMessage( GameMessage::Type type )
 /**
  * Destructor
  */
-// ??1GameMessage@@ present-unmatched
-GameMessage::~GameMessage( ) 
-{ 
-	// free all arguments
-	GameMessageArgument *gameMessageArgument, *nextArg;
-
-	for( gameMessageArgument = m_argList; gameMessageArgument; gameMessageArgument=nextArg )
-	{
-		nextArg = gameMessageArgument->m_next;
-		gameMessageArgument->deleteInstance();
-	}
-
-	// detach message from list
-	if (m_list)
-		m_list->removeMessage( this );
-}
+// The destructor is BFME2's public virtual ??1GameMessage@@UAE@XZ (0x0030F4AF,
+// rowed in GameMessage.cpp); Zero Hour's protected one is not defined here.
 
 /**
  * Return the given argument data type
