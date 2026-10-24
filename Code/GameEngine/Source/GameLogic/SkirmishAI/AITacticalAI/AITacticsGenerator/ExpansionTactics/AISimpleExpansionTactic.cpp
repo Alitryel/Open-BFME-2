@@ -121,7 +121,7 @@ public:
 struct Rva005AA860Record
 {
 	char m_pad00[0x0C];
-	Coord3D m_point0C;	// +0x0C
+	Coord3D m_position;	// +0x0C
 };
 
 struct Rva005AA860Unit
@@ -186,7 +186,7 @@ private:
 void AISimpleExpansionTactic::startCreateNewBase()
 {
 	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
-	record->m_layout.rva0050722A(&m_record->m_point0C);
+	record->m_layout.rva0050722A(&m_record->m_position);
 }
 
 void AISimpleExpansionTactic::cleanUp()
@@ -230,7 +230,7 @@ void AISimpleExpansionTactic::startConstruction()
 {
 	m_order = new Rva00573B23;
 	m_order->setName(AsciiString("MenFortress"));
-	((Rva00573A00 *)m_order)->rva00573A00(&m_record->m_point0C);
+	((Rva00573A00 *)m_order)->rva00573A00(&m_record->m_position);
 	m_order->m_radius = 3000.0f;
 	m_order->m_20 = false;
 	m_order->start(m_owner, 0);
