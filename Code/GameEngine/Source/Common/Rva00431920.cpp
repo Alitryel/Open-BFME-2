@@ -30,16 +30,16 @@ class Rva00431920
 	int m_14;
 	int m_18;
 public:
-	Rva00431920(void *a, int b, ICoord2D *c, int d, int e);
+	Rva00431920(void *translator, int b, ICoord2D *position, int d, int e);
 };
 
-Rva00431920::Rva00431920(void *a, int b, ICoord2D *c, int d, int e)
+Rva00431920::Rva00431920(void *translator, int b, ICoord2D *position, int d, int e)
 {
-	m_04 = a;
+	m_04 = translator;
 	m_08 = b;
 	m_00 = (void *)g_00C3C994;
-	m_0C = c->x;
-	m_10 = c->y;
+	m_0C = position->x;
+	m_10 = position->y;
 	m_14 = d;
 	m_18 = e;
 }
