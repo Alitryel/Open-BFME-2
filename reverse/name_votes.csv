@@ -5503,3 +5503,5 @@ Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp|member|Rva00201DC4LODIn
 Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp|member|Rva00201DC4LODInfo|flag30,e9b2e3cb3f68fbb202b064c2,gpt-6.1-sol,codexb-20261024-165015-2,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.cpp|member|ShadowChild|m_20,3bb143a5488051104f5c6606,gpt-6.1-sol,codexb-20261024-165015-6,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Made002CC841Parse.cpp|param|q4Notify002CC841|m,c0af5b1056c948525b9a0885,gpt-6.1-sol,codexb-20261024-165015-7,w-8e883e57d025,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DScriptedModelDrawTurretInfo.cpp|param|ModelSMConditionInfo::validateTurretInfo|arg,e86714c0659404e31f77aa52,gpt-6.1-sol,codexb-20261024-165015-10,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva002CF2D5Erase.cpp|function|0x002CF2D5|rva002CF2D5,43b9582838361889c531482f,gpt-6.1-sol,codexb-20261024-165015-9,w-8e883e57d025,2026-10-24
