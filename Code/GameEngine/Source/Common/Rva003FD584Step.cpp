@@ -105,7 +105,7 @@ public:
 
 private:
 	char m_pad000[0x0C];
-	Rva00064880Tree m_tree0C; // +0x0C
+	Rva00064880Tree m_controlPoints; // +0x0C
 	char m_pad014[0x18 - 0x14];
 	unsigned int m_index18;   // +0x18
 };
@@ -115,13 +115,13 @@ bool Rva003FD584::rva003FD584(bool advance)
 	if (advance)
 	{
 		++m_index18;
-		if (m_tree0C.atEnd(m_index18))
+		if (m_controlPoints.atEnd(m_index18))
 			return true;
 		if (TheKeyboard->isShift() && reinterpret_cast<Rva003FD584GlobalData *>(TheWritableGlobalData)->m_flag88)
 			m_index18 += 9;
 
 		Rva00064390 record;
-		reinterpret_cast<Rva005042F2 *>(&m_tree0C)->rva005042F2(m_index18, reinterpret_cast<Rva005042F2Key *>(&record));
+		reinterpret_cast<Rva005042F2 *>(&m_controlPoints)->rva005042F2(m_index18, reinterpret_cast<Rva005042F2Key *>(&record));
 		Rva002BE7DBValue position;
 		reinterpret_cast<Rva002BECCD *>(((Rva002D3627Host *)TheLivingWorld))->rva002BECCD(
 			reinterpret_cast<const RvaFloatPair &>(reinterpret_cast<const Rva002BE7DB *>(&record)->rva002BE7DB(position)),

@@ -733,3 +733,4 @@ function,?rva003F87FF@Rva0056AC26Owner@@QAEXPAVRva0056AC26@@@Z,?notifyTaskCreate
 param,Rva003FD3EF::Rva003FD3EF::w,Rva003FD3EF::Rva003FD3EF::width,inferred,agree:nl-f2a87688d750,Code/GameEngine/Source/Common/Rva003FD3C7Ctor.cpp,0x003FD3C7
 param,Rva003FD3EF::Rva003FD3EF::s,Rva003FD3EF::Rva003FD3EF::text,inferred,agree:nl-d0cdefa8e17b,Code/GameEngine/Source/Common/Rva003FD3C7Ctor.cpp,0x003FD3C7
 param,Rva003FD3EF::Rva003FD3EF::f,Rva003FD3EF::Rva003FD3EF::flags,inferred,agree:nl-2d0559dd12f7,Code/GameEngine/Source/Common/Rva003FD3C7Ctor.cpp,0x003FD3C7
+member,Rva003FD584::m_tree0C,Rva003FD584::m_controlPoints,inferred,agree:nl-4145f1182ac8,Code/GameEngine/Source/Common/Rva003FD584Step.cpp,
