@@ -46,6 +46,13 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
 
+// PrereqUnitRec is private in the reference header; open only that header so
+// the declaration-only vector assignment below can name it.
+#include "Common/Science.h"
+#define private public
+#include "Common/ProductionPrerequisite.h"
+#undef private
+
 #include "Common/ThingFactory.h"
 #include "Common/ThingTemplate.h"
 #include "Common/FileSystem.h"
@@ -71,6 +78,12 @@ namespace _STL {
 inline void _Destroy(AsciiString * __first, AsciiString * __last)
 { for (; __first != __last; ++__first) __first->~AsciiString(); }
 }
+
+// The PrereqUnitRec vector assignment roots this unit's whole PrereqUnitRec
+// helper cascade (_M_clear, _Destroy, _Construct, the copy constructor and
+// assignment); first in link order, its non-retail copies would be kept over
+// ProductionPrerequisiteCtor.cpp's and StlSweepW5Rva002D044B.cpp's retail ones.
+namespace _STL { template <> vector<ProductionPrerequisite::PrereqUnitRec, allocator<ProductionPrerequisite::PrereqUnitRec> > &vector<ProductionPrerequisite::PrereqUnitRec, allocator<ProductionPrerequisite::PrereqUnitRec> >::operator=(const vector<ProductionPrerequisite::PrereqUnitRec, allocator<ProductionPrerequisite::PrereqUnitRec> > &); }
 
 #ifdef _INTERNAL
 // for occasional debugging...
