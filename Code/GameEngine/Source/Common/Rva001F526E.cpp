@@ -46,10 +46,10 @@ void Rva001F526E::rva001F526E(Vec2001F526E *out)
 {
 	float a = 0.0f;
 	float b = 0.0f;
-	Provider001F526E *p = m_ptr;
-	if (p != 0)
+	Provider001F526E *provider = m_ptr;
+	if (provider != 0)
 	{
-		const Data001F526E *d = p->fetch();
+		const Data001F526E *d = provider->fetch();
 		a = d->x;
 		b = d->y;
 	}

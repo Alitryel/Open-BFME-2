@@ -1845,3 +1845,4 @@ local,Rva0030B0A3::rva0030B0A3::p,Rva0030B0A3::rva0030B0A3::cursor,inferred,agre
 local,Rva0030B0A3::rva0030B0A3::c,Rva0030B0A3::rva0030B0A3::character,inferred,agree:nl-88f308338cb1,Code/GameEngine/Source/Common/GapBodiesS3B.cpp,0x0030B0A3
 local,Rva000AE234::rva000AE234::c,Rva000AE234::rva000AE234::cells,inferred,agree:nl-f1ad8c7fdfa5,Code/GameEngine/Source/Common/Rva000AE234GridGet.cpp,0x000AE234
 local,Rva00506BADDistSqr::d,Rva00506BADDistSqr::delta,inferred,agree:nl-be07b0e2fa4e,Code/GameEngine/Source/Common/Rva00506BADDistSqr.cpp,0x00506BAD
+local,Rva001F526E::rva001F526E::p,Rva001F526E::rva001F526E::provider,inferred,agree:nl-16375ad19258,Code/GameEngine/Source/Common/Rva001F526E.cpp,0x001F526E
