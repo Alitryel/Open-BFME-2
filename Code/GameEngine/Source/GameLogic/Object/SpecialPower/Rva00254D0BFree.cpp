@@ -8,8 +8,8 @@ extern "C" void __cdecl free(void *block);
 struct Rva00254D0BNode
 {
 	char m_pad[8];
-	Rva00254D0BNode *m_next08;
-	void *m_child0C;
+	Rva00254D0BNode *m_next;
+	void *m_child;
 };
 class Rva00254D0B
 {
@@ -22,8 +22,8 @@ void Rva00254D0B::rva00254D0B(Rva00254D0BNode *head)
 	if (!cur)
 		return;
 	do {
-		rva00254D0B((Rva00254D0BNode *)cur->m_child0C);
-		Rva00254D0BNode *next = cur->m_next08;
+		rva00254D0B((Rva00254D0BNode *)cur->m_child);
+		Rva00254D0BNode *next = cur->m_next;
 		free(cur);
 		cur = next;
 	} while (cur);

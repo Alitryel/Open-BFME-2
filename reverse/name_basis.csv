@@ -1217,3 +1217,5 @@ member,Rva0028CECFTemplate::m_f50C,Rva0028CECFTemplate::m_minCrushVelocityPercen
 local,Object::rva0028CECF::tmpl,Object::rva0028CECF::containerTemplate,inferred,agree:nl-f5bdff34b7f9,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp,0x0028CECF
 local,Object::rva0028CECF::f,Object::rva0028CECF::minCrushVelocityPercent,inferred,agree:nl-bd6f00aaa72f,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp,0x0028CECF
 local,Object::rva0028CECF::f1,Object::rva0028CECF::currentSpeed,inferred,agree:nl-d148eab9b670,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp,0x0028CECF
+member,Rva00254D0BNode::m_next08,Rva00254D0BNode::m_next,inferred,agree:nl-05bcd09f78e5,Code/GameEngine/Source/GameLogic/Object/SpecialPower/Rva00254D0BFree.cpp,
+member,Rva00254D0BNode::m_child0C,Rva00254D0BNode::m_child,inferred,agree:nl-b009edb77621,Code/GameEngine/Source/GameLogic/Object/SpecialPower/Rva00254D0BFree.cpp,
