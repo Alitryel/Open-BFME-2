@@ -41,7 +41,7 @@ private:_STL::_Vector_base<AsciiString,_STL::allocator<AsciiString> > names;
 };
 class AptExternHandlerAdder {
 public:void AddExternHandler(const AsciiString&,int,AptRef<AptExternHandler>);
- __forceinline void bind(const AsciiString&name,DelegateDesc d){AddExternHandler(name,0,&d);}
+ __forceinline void bind(const AsciiString&name,DelegateDesc delegate){AddExternHandler(name,0,&delegate);}
 };
 class Rva005FA874 {
 public:__declspec(noinline) Rva005FA874();~Rva005FA874(){rva005FA874();}void rva005FA874();
