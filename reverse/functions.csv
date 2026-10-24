@@ -28664,12 +28664,12 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ??$__uninitialized_copy@PAV?$list@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@PAV12@@_STL@@YAPAV?$list@PAVObject@@V?$allocator@PAVObject@@@_STL@@@0@PAV10@00ABU__false_type@0@@Z,,0x004740DA,38,Code/Libraries/Source/WWVegas/WWLib/stlport_list_objectptr_copy.cpp,matched,STLport copy list ObjectPtr via rowed _Construct 0x4740AD
 ?rva0028B1D4@Object@@QBEXHH@Z,,0x0028B1D4,48,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028B265.cpp,matched,Object module scan slot 0x14 then slot 0 with two int args
 ?Rva00601772Fill@@YAPAVCoord3D@@PAV1@IABUCoord3DBase@@@Z,,0x00601772,37,Code/GameEngine/Source/Common/Coord3DCopy.cpp,matched,Coord3D fill via rowed 0x60173A with dst-first local order
-?Rva0033738BCopy@@YAPAVRva002E9E70@@PAV1@00@Z,,0x0033738B,50,Code/GameEngine/Source/Common/Rva0033738BCopy.cpp,matched,forward 20B copy loop via copy 0x3372EC shaped by 0x3319C9
+?uninitializedCopy@@YAPAVRva002E9E70@@PAV1@00@Z,,0x0033738B,50,Code/GameEngine/Source/Common/Rva0033738BCopy.cpp,matched,forward 20B copy loop via copy 0x3372EC shaped by 0x3319C9
 ?rva002D381D@Rva002D381D@@QAEXH@Z,,0x002D381D,17,Code/GameEngine/Source/Common/System/Rva002D381DCalls.cpp,matched,chain of 0x002D352C index 0 via outer plus 0x10
 ?rva002D382E@Rva002D382E@@QAEXH@Z,,0x002D382E,17,Code/GameEngine/Source/Common/System/Rva002D381DCalls.cpp,matched,chain of 0x002D352C index 1 via outer plus 0x10
 ?rva0039727A@Rva0039727A@@QAEHXZ,,0x0039727A,66,Code/GameEngine/Source/Common/Rva0039727ACount.cpp,matched,ObjectID range count via rowed findObjectByID and rva0028BCF4 slot3
 ?Rva00337533Copy@@YAPAVRva002E9E70@@PAV1@00@Z,,0x00337533,29,Code/GameEngine/Source/Common/Rva0033738BCopy.cpp,matched,forwarder to 0x33738B via tmp 0 shaped by 0x331B8F
-?Rva00337501Copy@@YAPAVRva002E9E70@@PAV1@00@Z,,0x00337501,50,Code/GameEngine/Source/Common/Rva0033738BCopy.cpp,matched,backward 20B copy loop via copy 0x3372EC shaped by 0x33177E
+?uninitializedCopyBackward@@YAPAVRva002E9E70@@PAV1@00@Z,,0x00337501,50,Code/GameEngine/Source/Common/Rva0033738BCopy.cpp,matched,backward 20B copy loop via copy 0x3372EC shaped by 0x33177E
 ?Rva0060174CCopy@@YAPAVCoord3D@@PBV1@0PAV1@@Z,,0x0060174C,38,Code/GameEngine/Source/Common/Coord3DCopy.cpp,matched,Coord3D range copy via rowed 0x60173A with dst-first local order
 ?rva006DC350@BfmeAptValue006DCD20@@QBEHXZ,,0x006DC350,78,Code/Libraries/Source/Apt/AptValue/AptValueTypePredicatesBFME2.cpp,matched,gap type20 line1686 same-O2-shape-as-siblings
 ?rva0028BD5D@Object@@QBEPAXH@Z,,0x0028BD5D,53,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028BD5D.cpp,matched,Object module scan slot 0x64 then bool slot 0x10 with unused int

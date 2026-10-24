@@ -975,3 +975,6 @@ function,?rva007B9A05@@YAXXZ,?destroyUpgradeUnitButton@@YAXXZ,inferred,agree:nl-
 function,?rva007B99FB@@YAXXZ,?destroyCancelArmyMemberMoveButton@@YAXXZ,inferred,agree:nl-153f639ce2d2,Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp,0x007B99FB
 function,?rva007B9A0F@@YAXXZ,?destroyDisbandArmyMemberButton@@YAXXZ,inferred,agree:nl-cf542f673c18,Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp,0x007B9A0F
 function,?rva007B998D@@YAXXZ,?destroyCancelArmyMoveButton@@YAXXZ,inferred,agree:nl-879fe0699865,Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp,0x007B998D
+param,Rva00249B0::f::o,Rva00249B0::f::other,inferred,agree:nl-0fd2c273f1cf,Code/GameEngine/Source/Common/BfmeConv1432.cpp,0x000249B0
+function,?Rva0033738BCopy@@YAPAVRva002E9E70@@PAV1@00@Z,?uninitializedCopy@@YAPAVRva002E9E70@@PAV1@00@Z,inferred,agree:nl-720a6059dd83,Code/GameEngine/Source/Common/Rva0033738BCopy.cpp,0x0033738B
+function,?Rva00337501Copy@@YAPAVRva002E9E70@@PAV1@00@Z,?uninitializedCopyBackward@@YAPAVRva002E9E70@@PAV1@00@Z,inferred,agree:nl-cc1f9b6f370a,Code/GameEngine/Source/Common/Rva0033738BCopy.cpp,0x00337501

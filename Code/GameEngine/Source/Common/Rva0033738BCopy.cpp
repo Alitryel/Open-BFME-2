@@ -1,5 +1,5 @@
 // cl: /MD
-// ?Rva0033738BCopy@@YAPAVRva002E9E70@@PAV1@00@Z @0x0033738B (50B): forward
+// ?uninitializedCopy@@YAPAVRva002E9E70@@PAV1@00@Z @0x0033738B (50B): forward
 // 20-byte copy loop via rowed copy ctor 0x003372EC; stride 0x14 from the
 // retail idiv. Shape matches the 50B forward loop at 0x003319C9 in
 // Rva002DFC30CopyLoop.cpp. Caller is 0x00337533.
@@ -10,7 +10,7 @@ class Rva002E9E70
 public:
 	Rva002E9E70(const Rva002E9E70 &other) throw();
 };
-Rva002E9E70 *Rva0033738BCopy(Rva002E9E70 *first, Rva002E9E70 *last, Rva002E9E70 *result) throw()
+Rva002E9E70 *uninitializedCopy(Rva002E9E70 *first, Rva002E9E70 *last, Rva002E9E70 *result) throw()
 {
 	int n = last - first;
 	if (n <= 0)
@@ -28,11 +28,11 @@ Rva002E9E70 *Rva0033738BCopy(Rva002E9E70 *first, Rva002E9E70 *last, Rva002E9E70 
 typedef Rva002E9E70 *(__cdecl *Rva002E9E70FiveArg)(Rva002E9E70 *, Rva002E9E70 *, Rva002E9E70 *, void *, int);
 Rva002E9E70 *Rva00337533Copy(Rva002E9E70 *first, Rva002E9E70 *last, Rva002E9E70 *result)
 {
-	Rva002E9E70FiveArg f = (Rva002E9E70FiveArg)Rva0033738BCopy;
+	Rva002E9E70FiveArg f = (Rva002E9E70FiveArg)uninitializedCopy;
 	char tmp;
 	return f(first, last, result, &tmp, 0);
 }
-Rva002E9E70 *Rva00337501Copy(Rva002E9E70 *first, Rva002E9E70 *last, Rva002E9E70 *result) throw()
+Rva002E9E70 *uninitializedCopyBackward(Rva002E9E70 *first, Rva002E9E70 *last, Rva002E9E70 *result) throw()
 {
 	int n = last - first;
 	if (n <= 0)
@@ -49,7 +49,7 @@ Rva002E9E70 *Rva00337501Copy(Rva002E9E70 *first, Rva002E9E70 *last, Rva002E9E70 
 }
 Rva002E9E70 *Rva00337638Copy(Rva002E9E70 *first, Rva002E9E70 *last, Rva002E9E70 *result)
 {
-	Rva002E9E70FiveArg f = (Rva002E9E70FiveArg)Rva00337501Copy;
+	Rva002E9E70FiveArg f = (Rva002E9E70FiveArg)uninitializedCopyBackward;
 	char tmp;
 	return f(first, last, result, &tmp, 0);
 }

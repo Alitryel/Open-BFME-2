@@ -19,12 +19,12 @@ bool BfmeStrVMQ::notEqual(const char *o) const
 class Rva00249B0
 {
 public:
-	bool f(const char *o) const;
+	bool f(const char *other) const;
 };
 
-bool Rva00249B0::f(const char *o) const
+bool Rva00249B0::f(const char *other) const
 {
-	return bfmeEqVMQ(*o, *(const char *)this);
+	return bfmeEqVMQ(*other, *(const char *)this);
 }
 
 // Target bytes at 0x000249A0: 5-byte framed empty function (push ebp; mov ebp, esp; pop ebp; ret).
