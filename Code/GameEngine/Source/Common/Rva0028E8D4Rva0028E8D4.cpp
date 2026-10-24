@@ -17,11 +17,11 @@ struct MotionCoord:Coord3D{
  __forceinline MotionCoord(){}
  __forceinline MotionCoord(const Coord3D&r){x=r.x;y=r.y;z=r.z;}
  __forceinline MotionCoord(const MotionCoord&motionCoord){x=motionCoord.x;y=motionCoord.y;z=motionCoord.z;}
- __forceinline void add(const Coord3D&r){x+=r.x;y+=r.y;z+=r.z;}
- __forceinline void sub(const Coord3D&r){x-=r.x;y-=r.y;z-=r.z;}
+ __forceinline void add(const Coord3D&other){x+=other.x;y+=other.y;z+=other.z;}
+ __forceinline void sub(const Coord3D&other){x-=other.x;y-=other.y;z-=other.z;}
  __forceinline void scale(float f){x*=f;y*=f;z*=f;}
  __forceinline MotionCoord& operator=(const MotionCoord&r){x=r.x;y=r.y;z=r.z;return *this;}
- __forceinline void divide(float f){float i=1.0f/f;x*=i;y*=i;z*=i;}
+ __forceinline void divide(float divisor){float i=1.0f/divisor;x*=i;y*=i;z*=i;}
 };
 class Object{public:
  char pad00[0x38];MotionCoord position;char pad44[0x188-0x44];unsigned frame;
@@ -49,10 +49,10 @@ void Rva0028E8D4::rva0028E8D4(float *out) const
 {
  const Rva0028E8D4Matrix *m =
   (const Rva0028E8D4Matrix *)((const Rva002722AA *)this)->get();
- Coord3D v = {m->m[3],m->m[7],m->m[11]};
- out[0]=v.x;
- out[1]=v.y;
- out[2]=v.z;
+ Coord3D translation = {m->m[3],m->m[7],m->m[11]};
+ out[0]=translation.x;
+ out[1]=translation.y;
+ out[2]=translation.z;
 }
 
 void Object::rva0028E8FD(Coord3D*out){

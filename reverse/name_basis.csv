@@ -548,3 +548,7 @@ param,ArmySummarySystem::ComputePlayerEarnedSpellPoints::a,ArmySummarySystem::Co
 param,Rva00739BE0::rva00739BE0::f,Rva00739BE0::rva00739BE0::radius,inferred,agree:nl-08575566d52a,Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp,0x00739BE0
 param,Rva00739A30::rva00739A30::f,Rva00739A30::rva00739A30::radius,inferred,agree:nl-f6265e8dfa6f,Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp,0x00739A30
 member,Rva000F0AB2Node::m_next68,Rva000F0AB2Node::m_next,inferred,agree:nl-7ec4c8ac620f,Code/GameEngine/Source/Common/Rva000F0AB2Cleanup.cpp,
+param,add::r,add::other,inferred,agree:nl-24c48ef2c715,Code/GameEngine/Source/Common/Rva0028E8D4Rva0028E8D4.cpp,
+param,sub::r,sub::other,inferred,agree:nl-79bf37851c1d,Code/GameEngine/Source/Common/Rva0028E8D4Rva0028E8D4.cpp,
+param,divide::f,divide::divisor,inferred,agree:nl-60d76bbcd47f,Code/GameEngine/Source/Common/Rva0028E8D4Rva0028E8D4.cpp,
+local,Rva0028E8D4::rva0028E8D4::v,Rva0028E8D4::rva0028E8D4::translation,inferred,agree:nl-5f98dc6e8ff1,Code/GameEngine/Source/Common/Rva0028E8D4Rva0028E8D4.cpp,0x0028E8D4
