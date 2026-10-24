@@ -2645,3 +2645,6 @@ Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineResolveName.cpp|functi
 Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineResolveName.cpp|function|0x0032AFD4|rva0032AFD4,28bbc68a36fb300e9a7b7b71,gpt-6.1-sol,codex8-20261024-043409-15,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineResolveName.cpp|param|Rva0032AAEE::rva0032AAEE|a,5b206b41d5ff1aeaee460f98,gpt-6.1-sol,codex8-20261024-043409-15,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineResolveName.cpp|param|Rva0032AAEE::rva0032AAEE|b,4e3aeb9d5e411399c2fc8455,gpt-6.1-sol,codex8-20261024-043409-15,w-de56e563a50b,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapConstructor.cpp|class||Rva00DFF488Setting,40d573d4a734e2de424a3d41,gpt-6.1-sol,codex5-20261024-043624-3,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva0010F5A8Finish.cpp|class||Rva0010F5A8,6d8067abf5078c6e7841f495,gpt-6.1-sol,codex5-20261024-043624-7,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva0010F5A8Finish.cpp|function|0x0010F5A8|rva0010F5A8,9fd212a491e7948184572aff,gpt-6.1-sol,codex5-20261024-043624-7,w-2d32e7a71cf1,2026-10-24
