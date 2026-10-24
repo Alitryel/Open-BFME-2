@@ -1395,3 +1395,5 @@ local,Pathfinder::FindBrokenBridge::q,Pathfinder::FindBrokenBridge::zoneParams,i
 param,famgenDelete#8::p,famgenDelete#8::palantir,inferred,agree:nl-4977e291438e,Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp,
 param,famgenDelete#9::p,famgenDelete#9::selectionDetails,inferred,agree:nl-7bdf818a6c4f,Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp,
 param,RvaFireColor::b,RvaFireColor::blueValue,inferred,agree:nl-cf07ec57b1bb,Code/GameEngine/Source/Common/INI/INIBfmeSettingsParsers.cpp,
+param,famgenDelete#3::p,famgenDelete#3::record,inferred,agree:nl-9b59098603d6,Code/GameEngine/Source/Common/FamilyDeletingDtors2.cpp,
+param,famgenDelete#8::p,famgenDelete#8::record,inferred,agree:nl-4a7354c1bd5d,Code/GameEngine/Source/Common/FamilyDeletingDtors2.cpp,

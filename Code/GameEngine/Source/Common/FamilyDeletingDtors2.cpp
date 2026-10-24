@@ -13,7 +13,7 @@ void famgenDelete(RadiusDecal *radiusDecal) { delete radiusDecal; }
 
 // ??_GBfmeStringTailRecord156@@QAEPAXI@Z @0x1d99cb
 class BfmeStringTailRecord156 { public: ~BfmeStringTailRecord156(); };
-void famgenDelete(BfmeStringTailRecord156 *p) { delete p; }
+void famgenDelete(BfmeStringTailRecord156 *record) { delete record; }
 
 // ??_GPath@@QAEPAXI@Z @0x262895
 class Path { public: ~Path(); };
@@ -37,7 +37,7 @@ void famgenDelete(BfmeNodeZ *p) { delete p; }
 
 // ??_GBfmeStringRecord00111ACF@@QAEPAXI@Z @0x3f63e5
 class BfmeStringRecord00111ACF { public: ~BfmeStringRecord00111ACF(); };
-void famgenDelete(BfmeStringRecord00111ACF *p) { delete p; }
+void famgenDelete(BfmeStringRecord00111ACF *record) { delete record; }
 
 // ??_GRva00360D26Member@@QAEPAXI@Z @0x421728
 class Rva00360D26Member { public: ~Rva00360D26Member(); };
