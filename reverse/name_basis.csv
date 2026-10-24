@@ -1979,3 +1979,4 @@ member,Rva00498DF3Mid::m_turret30,Rva00498DF3Mid::m_turretStateMachine,inferred,
 member,Rva00498DF3Arg::m_mid258,Rva00498DF3Arg::m_ai,inferred,agree:nl-e98ae0a91c55,Code/GameEngine/Source/GameLogic/Object/Behavior/Rva00498F46Cmd.cpp,
 function,?rva00452E00@Rva00452E00@@UAEHPAM@Z,?getValue@Rva00452E00@@UAEHPAM@Z,inferred,agree:nl-ce9573b61af9,Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp,0x00452E00
 class,Rva002D36AEMid,PalantirImpl,inferred,agree:nl-70d6f3a3333a,Code/GameEngine/Source/Common/System/Rva002D36AE.cpp,
+function,?rva005D9CE0@Rva005D9CD5@@UAE_NPAVObject@@@Z,?shouldActivate@Rva005D9CD5@@UAE_NPAVObject@@@Z,inferred,agree:nl-acdfb15415a6,Code/GameEngine/Source/Common/Rva005D9CE0.cpp,0x005D9CE0

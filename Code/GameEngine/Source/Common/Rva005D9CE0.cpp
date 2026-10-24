@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva005D9CE0@Rva005D9CD5@@UAE_NPAVObject@@@Z @0x005D9CE0 76B
+// ?shouldActivate@Rva005D9CD5@@UAE_NPAVObject@@@Z @0x005D9CE0 76B
 // Evidence: gap between Rva005D9CD5 dtor 0x005D9CD5 and deleting dtor 0x005D9D2C plus vslot 6 of 0x00876424.
 // Retail loads the float at RVA 0x00876420 (bits 0x3E99999A).
 // Use its exact literal so MSVC supplies the constant instead of an unowned global.
@@ -19,9 +19,9 @@ public:
 class Rva005EE30C { public: virtual ~Rva005EE30C(); };
 class Rva005D9CD5 : public Rva005EE30C {
 public:
-	virtual bool rva005D9CE0(Object *other);
+	virtual bool shouldActivate(Object *other);
 };
-bool Rva005D9CD5::rva005D9CE0(Object *other)
+bool Rva005D9CD5::shouldActivate(Object *other)
 {
 	Object *victim = other->getAI()->getCurrentVictim();
 	if (victim) {
