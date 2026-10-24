@@ -29951,7 +29951,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?NetworkBufferRead@@YAPADPADPAV?$StringBase@D@@0@Z,,0x00447FD5,88,Code/GameEngine/Source/Common/NetworkBufferRead.cpp,matched,unlock checked string append via set plus concat
 ?NetworkBufferAppend@@YAPADPADPBD0@Z,,0x004478A9,96,Code/GameEngine/Source/Common/Rva004478A9Copy.cpp,matched,unlock checked strncpy copy via strlen plus truncate
 ?rva006E34D0@Rva006E34D0@@QAEXH@Z,,0x006E34D0,88,Code/Libraries/Source/Apt/Rva006E34D0.cpp,matched,unlock lane Apt int append dedup plus data-pointer notify
-?rva00238E25@Rva00238E1B@@QAEXPAVRva002714E6@@@Z,,0x00238E25,39,Code/GameEngine/Source/Common/Rva00238E1BCounter.cpp,matched,chain via 0x00271058 plus 0x002714E6
+?registerDrawable@GameClient@@UAEXPAVDrawable@@@Z,,0x00238E25,39,Code/GameEngine/Source/Common/Rva00238E1BCounter.cpp,matched,chain via 0x00271058 plus 0x002714E6
 ??1Rva0054D8D8@@QAE@XZ,,0x0054D8D8,128,Code/GameEngine/Source/Common/Rva0054D8D8Dtor.cpp,matched,dtor 3 Unicode 2 lists 3 Ascii EH states 6 to 0 unblocks deleting dtor
 ?rva006E04A0@BfmeAptValue006DCD20@@QBEPAXXZ,,0x006E04A0,88,Code/Libraries/Source/Apt/AptValue/AptValueTypePredicatesBFME2.cpp,matched,type-19 guarded display accessor via rowed get plus isUndefined
 ?rva0054840A@Rva0054840A@@QAEXPAVXfer@@@Z,,0x0054840A,90,Code/GameEngine/Source/GameLogic/ScriptEngine/Rva0054840AXfer.cpp,matched,chain xfer version ObjectID uints list via rowed helpers caller news 0x14
@@ -40631,7 +40631,7 @@ _Rva14AA50VirtualDispatch,,0x0025EDD4,18,Code/GameEngine/Source/Common/Rva14AA50
 ?rva003ED1B6@Rva003ED1B6Forwarder@@QAEXXZ,,0x003ED1B6,8,Code/GameEngine/Source/Common/VslotMemberForwarders.cpp,matched,vtable 0x00C36100#9 slot forwarder (sub hop)
 ?rva003FCE30@Rva003FCE30Forwarder@@QAEXXZ,,0x003FCE30,8,Code/GameEngine/Source/Common/VslotMemberForwarders.cpp,matched,vtable 0x00C37C20#0 slot forwarder (ptr hop)
 ?rva003FD056@Rva003FD056Forwarder@@QAEXHHH@Z,,0x003FD056,8,Code/GameEngine/Source/Common/VslotMemberForwarders.cpp,matched,vtable 0x00C37C20#1 slot forwarder (ptr hop)
-?removeFromRayEffects@Rva004C743@@UAEXPAVDrawable@@@Z,,0x00238F34,11,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DGameClientFactories.cpp,matched,game client vtable 0x00BC4738 slot 19: ZH removeFromRayEffects (TheRayEffects->deleteRayEffect)
+?removeFromRayEffects@GameClient@@UAEXPAVDrawable@@@Z,,0x00238F34,11,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DGameClientFactories.cpp,matched,game client vtable 0x00BC4738 slot 19: ZH removeFromRayEffects (TheRayEffects->deleteRayEffect)
 ?getRayEffectData@GameClient@@UAEXPAVDrawable@@PAURayEffectData@@@Z,,0x00238F29,11,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DGameClientFactories.cpp,matched,game client vtable 0x00BC4738 slot 20: ZH getRayEffectData pass-through
 ??__EAIStructureCreep_IsRunning@@YAXXZ,,0x007B458D,27,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/TargetlessTactics/AIStructureCreepTactic.cpp,matched,object-symbol=_$E1;TU-local dynamic initializer constructing the AIStructureCreep_IsRunning AsciiString key at 0x00E06418 through AsciiString(const char *) 0x0000654A and registering the rowed atexit cleanup 0x007B9644
 ?rva000B31B9@Rva000B31B9NullForwarder@@QAEXH@Z,,0x000B31B9,18,Code/GameEngine/Source/Common/VslotNullCheckedForwarders.cpp,matched,vtable 0x00BCBC40#26 null-checked forwarder

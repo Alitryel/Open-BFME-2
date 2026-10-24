@@ -190,17 +190,6 @@ DrawableID GameClient::allocDrawableID( void )
 /** -----------------------------------------------------------------------------------------------
  * Given a drawable, register it with the GameClient and give it a unique ID.
  */
-// ?GameClient::registerDrawable present-unmatched
-void GameClient::registerDrawable( Drawable *draw ) 
-{
-
-	// assign this drawable a unique ID, this will add it to the fast lookup table too
-	draw->setID( allocDrawableID() );
-
-	// add the drawable to the master list
-	draw->prependToList( &m_drawableList );
-
-}  // end registerDrawable
 
 /** -----------------------------------------------------------------------------------------------
  * Redraw all views, update the GUI, play sound effects, etc.
@@ -237,19 +226,6 @@ void GameClient::addDrawableToLookupTable(Drawable *draw )
 // ------------------------------------------------------------------------------------------------
 /** Remove drawable from lookup table of fast id searching */
 // ------------------------------------------------------------------------------------------------
-// ?GameClient::removeDrawableFromLookupTable present-unmatched
-void GameClient::removeDrawableFromLookupTable( Drawable *draw )
-{
-
-	// sanity
-	if( draw == NULL )
-		return;
-
-	// remove from table
-//	m_drawableHash.erase( draw->getID() );
-	m_drawableVector[ draw->getID() ] = NULL;
-
-}  // end removeDrawableFromLookupTable
 
 //-------------------------------------------------------------------------------------------------
 /** Load a map into the game interface */
@@ -305,31 +281,11 @@ void GameClient::addTextBearingDrawable( Drawable *tbd )
 		m_textBearingDrawableList.push_back( tbd );
 }
 // ------------------------------------------------------------------------------------------------
-// ?GameClient::flushTextBearingDrawables present-unmatched
-void GameClient::flushTextBearingDrawables( void )
-{
-
-	/////////////////////////////
-	// WALK THIS LIST AND CALL EACH DRAWABLES TEXTY STUFF
-	/////////////////////////////
-
-	for( TextBearingDrawableListIterator it = m_textBearingDrawableList.begin(); it != m_textBearingDrawableList.end(); ++it )
-	  (*it)->drawUIText();
-
-	m_textBearingDrawableList.clear();
-}
 
 // ------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------
 /** remove the drawble from the ray effects sytem if present */
-// ?GameClient::removeFromRayEffects present-unmatched
-void GameClient::removeFromRayEffects( Drawable *draw )
-{
-
-	TheRayEffects->deleteRayEffect( draw );
-
-}  // end removeFromRayEffects
 
 /** frees all shadow resources used by this module - used by Options screen.*/
 

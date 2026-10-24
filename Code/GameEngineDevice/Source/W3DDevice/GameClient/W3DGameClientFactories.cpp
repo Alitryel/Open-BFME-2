@@ -136,13 +136,13 @@ extern RayEffectSystem *TheRayEffects;
 class GameClient
 {
 public:
+	virtual void removeFromRayEffects(Drawable *draw);
 	virtual void getRayEffectData(Drawable *draw, RayEffectData *effectData);
 };
 
 class Rva004C743
 {
 public:
-	virtual void removeFromRayEffects(Drawable *draw);
 	void *rva0004C45D();
 	void *rva0004C492();
 	void *rva0004C4C7();
@@ -202,7 +202,7 @@ void *Rva004C743::rva0004C8DD()
 	return new Rva0009D55BProduct;
 }
 
-void Rva004C743::removeFromRayEffects(Drawable *draw)
+void GameClient::removeFromRayEffects(Drawable *draw)
 {
 	TheRayEffects->deleteRayEffect(draw);
 }

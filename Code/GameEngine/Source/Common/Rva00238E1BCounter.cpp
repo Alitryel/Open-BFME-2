@@ -19,7 +19,6 @@ class Rva00238E1B
 {
 public:
 	int rva00238E1B();
-	void rva00238E25(Rva002714E6 *node);
 	void rva00238F91(int a, int b, int c);
 	void restorePriorDisplayMode();
 private:
@@ -45,12 +44,23 @@ int Rva00238E1B::rva00238E1B()
 	return t;
 }
 
-void Rva00238E1B::rva00238E25(Rva002714E6 *node)
+class GameClient
+{
+public:
+	virtual void registerDrawable(Drawable *draw);
+private:
+	int m_pad[4];
+	Rva002714E6 *m_head;
+	int m_pad2[5];
+	int m_counter;
+};
+
+void GameClient::registerDrawable(Drawable *draw)
 {
 	int old = m_counter;
 	m_counter = old + 1;
-	((Drawable *)node)->setID((void *)old);
-	node->rva002714E6(&m_head);
+	draw->setID((void *)old);
+	((Rva002714E6 *)draw)->rva002714E6(&m_head);
 }
 
 void Rva00238E1B::rva00238F91(int a, int b, int c)

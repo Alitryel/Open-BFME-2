@@ -390,12 +390,12 @@ public:
 	virtual void reset();
 	virtual void update();
 	virtual void vf14(unsigned int frame) { m_frame = frame; }
-	virtual void vf15();
+	virtual void registerDrawable(Drawable *draw);
 	virtual Drawable *findDrawableByID(const DrawableID id);            // slot 16 (+0x40)
 	virtual Drawable *firstDrawable(void);                              // slot 17 (+0x44)
 	virtual GameMessage::Type evaluateContextCommand(Drawable *draw, const Coord3D *pos,
 		CommandTranslator::CommandEvaluateType cmdType);                 // slot 18 (+0x48)
-	virtual void vf19();
+	virtual void removeFromRayEffects(Drawable *draw);
 	virtual void getRayEffectData(Drawable *draw, RayEffectData *effectData);
 	virtual void vf21() = 0;
 	virtual void vf22() = 0;
