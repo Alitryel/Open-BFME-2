@@ -100,7 +100,7 @@ public:
 	void rva005ED976(const UnicodeString &text);
 	void rva005ED849(int index, int color);
 	void rva005ED851(int index, int value);
-	void rva005ED859(int index, int value);
+	void SetUnitCount(int index, int value);
 	void rva005ED861(int row);
 	void rva005ED986(int index, const UnicodeString &name);
 	void SetRegionBonusText(int index, const UnicodeString &text);
@@ -165,7 +165,7 @@ void StrategicInGameUI::RegionAwardDialog::Impl::SetupMovieClipPlayers()
 
 		temps.currentView = m_rowView;
 		int units = CountOwnedUnits((Rva002E0D02Arg *)entry);
-		temps.currentView->rva005ED859(index, units);
+		temps.currentView->SetUnitCount(index, units);
 	}
 
 	m_rowView->rva005ED861(0);

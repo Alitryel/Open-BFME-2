@@ -1,5 +1,5 @@
 // cl: /O1 /arch:SSE /G7 /Ireference/shims/bfme2_ascii /EHsc /MD /DNDEBUG
-// ?rva005ED859@Rva005ED976@@QAEXHH@Z @ 0x005ED859, 8 bytes.
+// ?SetUnitCount@Rva005ED976@@QAEXHH@Z @ 0x005ED859, 8 bytes.
 // Target bytes load the delegate pointer at +4 and tail-jump to the rowed unit-count method.
 
 #include "unicode_string.h"
@@ -14,7 +14,7 @@ public:
 class Rva005ED976
 {
 public:
-	void rva005ED859(int index, int value);
+	void SetUnitCount(int index, int value);
 	void rva005ED861(int row);
 	void rva005ED986(int index, const UnicodeString &name);
 
@@ -31,7 +31,7 @@ public:
 	void SetPlayerName(int index, const UnicodeString &text);
 };
 
-void Rva005ED976::rva005ED859(int index, int value)
+void Rva005ED976::SetUnitCount(int index, int value)
 {
 	m_delegate->rva005ED76A(index, value);
 }
