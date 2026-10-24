@@ -9,7 +9,7 @@ class Rva005F2A32
 public:
 	void rva005F2F5C(int v);
 	void rva005F2A4A();
-	void rva005F2A32();
+	void HideMemberName();
 	void rva005F2A3A();
 	void rva005F2A42();
 };
@@ -45,7 +45,7 @@ void Rva005E39AE::rva005E3AAA(int v)
 {
 	if (v != m_28)
 		return;
-	m_18->rva005F2A32();
+	m_18->HideMemberName();
 	m_18->rva005F2A3A();
 	m_18->rva005F2A42();
 	m_28 = 0;

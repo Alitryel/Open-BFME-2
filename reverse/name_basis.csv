@@ -1146,3 +1146,7 @@ local,Rotate::tmp,Rotate::rotatedX,inferred,agree:nl-7dc1bfc57dda,Code/GameEngin
 param,Scale::d,Scale::scaleFactor,inferred,agree:nl-73e2d3f7782f,Code/GameEngine/Source/Common/Rva005C6CCC.cpp,
 local,Rva005C6D4D::rva005C674A::e,Rva005C6D4D::rva005C674A::elapsedTime,inferred,agree:nl-7df26f34cec5,Code/GameEngine/Source/Common/Rva005C6CCC.cpp,0x005C674A
 param,Rva005DCE72::rva005DCEB7::p,Rva005DCE72::rva005DCEB7::xfer,inferred,agree:nl-fcf1a20a5c2b,Code/GameEngine/Source/Common/Rva005DCE72.cpp,0x005DCEAD
+local,GetStr005F2A52::t,GetStr005F2A52::stringData,inferred,agree:nl-f914fc9cad0b,Code/GameEngine/Source/Common/Rva005F2FEFApt.cpp,
+local,StrategicHUD::ArmyDetailsMovieClip::Impl::ShowMemberRank::tmp,StrategicHUD::ArmyDetailsMovieClip::Impl::ShowMemberRank::rankText,inferred,agree:nl-e7a9cbb505a0,Code/GameEngine/Source/Common/Rva005F2FEFApt.cpp,0x005F2B76
+local,StrategicHUD::ArmyDetailsMovieClip::Impl::ShowCommandPoints::tmp,StrategicHUD::ArmyDetailsMovieClip::Impl::ShowCommandPoints::commandPointsText,inferred,agree:nl-0b13d2f541d1,Code/GameEngine/Source/Common/Rva005F2FEFApt.cpp,0x005F2D41
+function,?rva005F2A32@Rva005F2A32@@QAEXXZ,?HideMemberName@Rva005F2A32@@QAEXXZ,inferred,agree:nl-221e62dd3924,Code/GameEngine/Source/Common/Rva005F2FEFApt.cpp,0x005F2A32

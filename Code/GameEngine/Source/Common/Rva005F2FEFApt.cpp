@@ -164,7 +164,7 @@ void StrategicHUD::ArmyDetailsMovieClip::Impl::HideCommandPoints()
 class Rva005F2A32
 {
 public:
-	void rva005F2A32();
+	void HideMemberName();
 	void rva005F2A3A();
 	void rva005F2A42();
 	void rva005F2A4A();
@@ -177,7 +177,7 @@ private:
 	StrategicHUD::ArmyDetailsMovieClip::Impl *m_member04;
 };
 
-void Rva005F2A32::rva005F2A32()
+void Rva005F2A32::HideMemberName()
 {
 	m_member04->rva005F2897();
 }
@@ -222,8 +222,8 @@ AsciiString Rva002228E8Get(float val);
 
 __forceinline const char *GetStr005F2A52(const AsciiString &asciiString)
 {
-	char *t = *(char **)(void *)&asciiString;
-	return t ? t + 8 : "";
+	char *stringData = *(char **)(void *)&asciiString;
+	return stringData ? stringData + 8 : "";
 }
 
 int __cdecl Rva005F2A52AptCall(Rva00222A8BTarget *target, void *level, const char *prefix, const char *function, int *pInt, float *pF1, float *pF2)
@@ -234,16 +234,16 @@ int __cdecl Rva005F2A52AptCall(Rva00222A8BTarget *target, void *level, const cha
 void StrategicHUD::ArmyDetailsMovieClip::Impl::ShowMemberRank(int rank)
 {
 	if (rank != m_rank4C) {
-		UnicodeString tmp;
+		UnicodeString rankText;
 		if (rank >= 0) {
 			static AsciiString s_rankLabel("APT:RankLabel");
 			UnicodeString fetched = TheGameText->fetch(s_rankLabel, 0);
-			tmp.format(fetched.str(), rank);
+			rankText.format(fetched.str(), rank);
 		}
 		AsciiString key;
 		const char *team = m_team0C ? m_team0C->m_name : "";
 		key.format("APT:_level%u.%s_MemberRank", m_level08, team);
-		((BfmeAptWindowManager *)TheRva00222A8BTarget)->bfmeSetText(key, tmp, false);
+		((BfmeAptWindowManager *)TheRva00222A8BTarget)->bfmeSetText(key, rankText, false);
 		m_rank4C = rank;
 	}
 	if (!(m_flags58 & 2)) {
@@ -256,16 +256,16 @@ void StrategicHUD::ArmyDetailsMovieClip::Impl::ShowMemberRank(int rank)
 void StrategicHUD::ArmyDetailsMovieClip::Impl::ShowCommandPoints(int val)
 {
 	if (val != m_cmdPts54) {
-		UnicodeString tmp;
+		UnicodeString commandPointsText;
 		if (val >= 0) {
 			static AsciiString s_label("STRATEGICHUD:CommandPointsLabel");
 			UnicodeString fetched = TheGameText->fetch(s_label, 0);
-			tmp.format(fetched.str(), val);
+			commandPointsText.format(fetched.str(), val);
 		}
 		AsciiString key;
 		const char *team = m_team0C ? m_team0C->m_name : "";
 		key.format("APT:_level%u.%s_CommandPoints", m_level08, team);
-		((BfmeAptWindowManager *)TheRva00222A8BTarget)->bfmeSetText(key, tmp, false);
+		((BfmeAptWindowManager *)TheRva00222A8BTarget)->bfmeSetText(key, commandPointsText, false);
 		m_cmdPts54 = val;
 	}
 	if (!(m_flags58 & 8)) {
