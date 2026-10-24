@@ -130,10 +130,6 @@ wfilebuf* _Stl_create_wfilebuf(FILE* f, ios_base::openmode mode)
 }
 #endif
 
-// BFME1 reference alias: BFME2 loc-init release70E0 uses the same
-// DDEB18 classic-locale object and DDEB20 counter as the held destructor.
-void rva00832100Release(void);
-
 long ios_base::Init::_S_count = 0;
 
 void _STLP_CALL ios_base::_S_uninitialize()
@@ -179,7 +175,7 @@ void _STLP_CALL ios_base::_S_uninitialize()
   _Destroy(ptr_wclog);
 # endif
   if (_Loc_init::_S_count > 0)
-    rva00832100Release();
+    locale::_S_uninitialize();
   --Init::_S_count;
 }
 

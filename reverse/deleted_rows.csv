@@ -2371,3 +2371,5 @@ __ehhandler$?rva007B5299@@YAXXZ,0x007A5437,"Renamed to __ehhandler$?initCancelAr
 ?rva007B5343@@YAXXZ,0x007B5343,"Renamed to ?initDisbandArmyMemberButton@@YAXXZ by tools/rename.py (inferred)"
 __ehhandler$?rva007B5343@@YAXXZ,0x007A552F,"Renamed to __ehhandler$?initDisbandArmyMemberButton@@YAXXZ by tools/rename.py (inferred)"
 ?Rva009AC660ReadHeader@@YAHPAE@Z,0x001BD050,Renamed to ?LoadFrameHeader@@YAHPAUPbInstance@@@Z (VP6 clean-room spec reverse/vp6_cleanroom/specs/001bd050.md) owned by Code/Libraries/Source/VP6/LoadFrameHeader.cpp; the placeholder definition was removed so no object defines this name
+??1_Loc_init@ios_base@_STL@@QAE@XZ,0x000070E0,"Swapped with ?_S_uninitialize@locale@_STL@@SAXXZ: 0x000070E0 is only called directly from ios_base::_S_uninitialize (0x000157B1); the _Loc_init sentry atexit thunks tail-jump to 0x00007670"
+?_S_uninitialize@locale@_STL@@SAXXZ,0x00007670,"Swapped with ??1_Loc_init@ios_base@_STL@@QAE@XZ: the five atexit thunks load ecx with the one-byte _Loc_init sentries and tail-jump to 0x00007670"

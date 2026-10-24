@@ -7,10 +7,13 @@
 // in, two are the locale statics they stand in front of; both pairs test the
 // same counter, and only the comparison differs. That is what assigns them:
 // the counter is tested == 0 at 0x0000F740 and != 0 at 0x000070E0, <= 0 at
-// 0x0000BAC0 and > 0 at 0x00007670, so the four fall into two guard pairs,
-// and _locale.h declaring _S_initialize / _S_uninitialize as _STLP_CALL
-// statics puts the cdecl pair on the locale side and leaves the thiscall
-// pair for _Loc_init.
+// 0x0000BAC0 and > 0 at 0x00007670. The callers decide the destructor: the
+// only references to 0x00007670 are the five atexit thunks (0x007B685A,
+// 0x007B6A50, 0x007B6AD2, 0x007B7C72, 0x007B9806) that load ecx with the
+// one-byte _Loc_init sentries the startup code builds with the constructor at
+// 0x0000F740 (0x00DDE071, 0x00DDEF54, 0x00DE1CCD, 0x00E01E41, 0x00E06665) and
+// tail-jump, so it is ~_Loc_init. 0x000070E0 is reached only by a direct call
+// from ios_base::_S_uninitialize (0x00015440), so it is locale's static.
 //
 // The counter here is not vanilla 4.5.3. Upstream spells the destructor
 // `if (--_S_count == 0)`, decrementing unconditionally; all four of these
@@ -93,7 +96,7 @@ ios_base::_Loc_init::_Loc_init()
 
 ios_base::_Loc_init::~_Loc_init()
 {
-	if (_S_count != 0)
+	if (_S_count > 0)
 	{
 		_Stl_classic_locale_impl->_M_decr();
 		--_S_count;
@@ -112,7 +115,7 @@ void locale::_S_initialize()
 
 void locale::_S_uninitialize()
 {
-	if (ios_base::_Loc_init::_S_count > 0)
+	if (ios_base::_Loc_init::_S_count != 0)
 	{
 		_Stl_classic_locale_impl->_M_decr();
 		--ios_base::_Loc_init::_S_count;
@@ -121,9 +124,6 @@ void locale::_S_uninitialize()
 
 }
 
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?rva00832100Release@_STL@@YAXXZ=??1_Loc_init@ios_base@_STL@@QAE@XZ")
 
 // Stream-Init view: STLport4.5.3 _ios_base.h establishes the empty nested
 // class and its private long counter; no complete ios_base layout is modelled.

@@ -874,13 +874,12 @@ public:
 	virtual ~DynamicVectorClass();
 };
 
-extern unsigned g_00DEBE0C;
-// g_00DEBE0C: packet annotates VA 0x00DEBE0C (data RVA 0x009EBE0C), no name yet.
+extern unsigned g_Va00DEBE0C;	// data row 0x009EBE0C, defined in Rva007ABEF3ArgCtorInits.cpp
 
-// ?rva007B6E54@@YAXXZ @ 0x007B6E54 (10B). Global DynamicVectorClass dtor thunk: ecx=&g_00DEBE0C then tail-jmp to rowed ??1?$DynamicVectorClass@VKeyClass@Curve3DClass@@@@UAE@XZ (0x000F1D19). No callers. Between 0x007B6E4A and 0x007B6E68. Honest address name.
+// ?rva007B6E54@@YAXXZ @ 0x007B6E54 (10B). Global DynamicVectorClass dtor thunk: ecx=&g_Va00DEBE0C then tail-jmp to rowed ??1?$DynamicVectorClass@VKeyClass@Curve3DClass@@@@UAE@XZ (0x000F1D19). No callers. Between 0x007B6E4A and 0x007B6E68. Honest address name.
 void __cdecl rva007B6E54()
 {
-	DynamicVectorClass<Curve3DClass::KeyClass> *receiver = (DynamicVectorClass<Curve3DClass::KeyClass> *)&g_00DEBE0C;
+	DynamicVectorClass<Curve3DClass::KeyClass> *receiver = (DynamicVectorClass<Curve3DClass::KeyClass> *)&g_Va00DEBE0C;
 	return receiver->DynamicVectorClass<Curve3DClass::KeyClass>::~DynamicVectorClass();
 }
 
@@ -2057,8 +2056,9 @@ void __cdecl rva007B80AB()
 	receiver->rva001EAF7B();
 }
 
-extern void *g_00DB6200;
 extern "C" const void *const __identifier("??_7Rva0012D780@@6B@")[];
+// Retail .data holds the Rva0012D780 vftable here statically.
+void *g_00DB6200 = (void *)__identifier("??_7Rva0012D780@@6B@");
 // g_00DB6200: packet annotates VA 0x009B6200 (data), no name yet.
 // Retail stores the one-slot Rva0012D780 vtable at RVA 0x007D23B4.
 
@@ -2186,7 +2186,7 @@ void __cdecl rva007B7B8C()
 	return receiver->clear();
 }
 
-extern void *g_00DB620C;
+void *g_00DB620C = (void *)__identifier("??_7Rva0012D780@@6B@");	// retail .data value
 // g_00DB620C: packet annotates VA 0x009B620C (data), no name yet. Value is the Rva0012D780 vtable (RVA 0x007D23B4).
 
 // ?Rva007B70A0Set@@YAXXZ @ 0x007B70A0 (11B). Global pointer store: g_00DB620C = Rva0012D780 vtable (mov [0xDB620C],0xBD23B4; ret). No callers. Between 0x007B7090 and 0x007B70AB. Honest address name.
@@ -5815,23 +5815,7 @@ void __cdecl rva007B686F()
 	return receiver->Term();
 }
 
-// ?rva007B685A@@YAXXZ @ 0x007B685A (10B). Global locale uninitialize thunk: ecx=&g_00DDE071 then tail-jmp to pinned ?rva00007670@Rva00007670@@QAEXXZ (0x00007670 twin of rowed ?_S_uninitialize@locale@_STL@@SAXXZ). Evidence: callees 0x00007670; same 10B mov ecx jmp shape as neighbours 0x007B6850 0x007B686F. Honest address names.
-class Rva00007670
-{
-public:
-	void rva00007670();
-};
-
-extern unsigned g_00DDE071;
-unsigned int g_00DDE071;
-
-void __cdecl rva007B685A()
-{
-	Rva00007670 *receiver = (Rva00007670 *)&g_00DDE071;
-	return receiver->rva00007670();
-}
-
-// ?rva007B6864@@YAXXZ @ 0x007B6864 (10B). Global ios_base Init dtor thunk: ecx=&g_00DDE070 then tail-jmp to rowed ??1Init@ios_base@_STL@@QAE@XZ (0x00015E70). Evidence: callees 0x00015E70; same 10B mov ecx jmp shape as neighbours 0x007B685A 0x007B686F. Honest address names.
+// ?rva007B685A@@YAXXZ @ 0x007B685A (10B). Global ios_base _Loc_init dtor thunk: ecx=&g_00DDE071 then tail-jmp to rowed ??1_Loc_init@ios_base@_STL@@QAE@XZ (0x00007670). Evidence: callees 0x00007670; same 10B mov ecx jmp shape as neighbours 0x007B6850 0x007B686F. Honest address names.
 namespace _STL
 {
 class ios_base
@@ -5842,8 +5826,24 @@ public:
 	public:
 		~Init();
 	};
+	class _Loc_init
+	{
+	public:
+		~_Loc_init();
+	};
 };
 }
+
+extern unsigned g_00DDE071;
+unsigned int g_00DDE071;
+
+void __cdecl rva007B685A()
+{
+	_STL::ios_base::_Loc_init *receiver = (_STL::ios_base::_Loc_init *)&g_00DDE071;
+	return receiver->~_Loc_init();
+}
+
+// ?rva007B6864@@YAXXZ @ 0x007B6864 (10B). Global ios_base Init dtor thunk: ecx=&g_00DDE070 then tail-jmp to rowed ??1Init@ios_base@_STL@@QAE@XZ (0x00015E70). Evidence: callees 0x00015E70; same 10B mov ecx jmp shape as neighbours 0x007B685A 0x007B686F. Honest address names.
 
 extern unsigned g_00DDE070;
 unsigned int g_00DDE070;
@@ -5857,11 +5857,11 @@ void __cdecl rva007B6864()
 extern unsigned char g_00E06665;
 // g_00E06665: packet annotates VA 0x00E06665 (data RVA 0x00A06665), no name yet.
 
-// ?rva007B9806@@YAXXZ @ 0x007B9806 (10B). Global locale uninitialize thunk: ecx=&g_00E06665 then tail-jmp to pinned ?rva00007670@Rva00007670@@QAEXXZ (0x00007670 twin of rowed ?_S_uninitialize@locale@_STL@@SAXXZ). No callers. Between 0x007B97FC and 0x007B981B. Honest address name.
+// ?rva007B9806@@YAXXZ @ 0x007B9806 (10B). Global ios_base _Loc_init dtor thunk: ecx=&g_00E06665 then tail-jmp to rowed ??1_Loc_init@ios_base@_STL@@QAE@XZ (0x00007670). No callers. Between 0x007B97FC and 0x007B981B. Honest address name.
 void __cdecl rva007B9806()
 {
-	Rva00007670 *receiver = (Rva00007670 *)&g_00E06665;
-	return receiver->rva00007670();
+	_STL::ios_base::_Loc_init *receiver = (_STL::ios_base::_Loc_init *)&g_00E06665;
+	return receiver->~_Loc_init();
 }
 
 unsigned g_00E06664;	// retail RVA 0x00A06664 (.bss), defined here
@@ -5949,11 +5949,11 @@ void __cdecl rva007B70E0()
 unsigned g_00E01E41;	// retail RVA 0x00A01E41 (.bss), defined here
 // g_00E01E41: packet annotates VA 0x00E01E41 (data), no name yet.
 
-// ?rva007B7C72@@YAXXZ @ 0x007B7C72 (10B). Global locale uninitialize thunk: ecx=&g_00E01E41 then tail-jmp to pinned ?rva00007670@Rva00007670@@QAEXXZ (0x00007670 twin of rowed ?_S_uninitialize@locale@_STL@@SAXXZ). No callers. Between 0x007B7C68 and 0x007B7C7C. Honest address name.
+// ?rva007B7C72@@YAXXZ @ 0x007B7C72 (10B). Global ios_base _Loc_init dtor thunk: ecx=&g_00E01E41 then tail-jmp to rowed ??1_Loc_init@ios_base@_STL@@QAE@XZ (0x00007670). No callers. Between 0x007B7C68 and 0x007B7C7C. Honest address name.
 void __cdecl rva007B7C72()
 {
-	Rva00007670 *receiver = (Rva00007670 *)&g_00E01E41;
-	return receiver->rva00007670();
+	_STL::ios_base::_Loc_init *receiver = (_STL::ios_base::_Loc_init *)&g_00E01E41;
+	return receiver->~_Loc_init();
 }
 
 extern unsigned g_Va00E01E40;
@@ -5981,11 +5981,11 @@ void __cdecl rva007B6AC8()
 extern unsigned g_00DE1CCD;
 unsigned int g_00DE1CCD;
 
-// ?rva007B6AD2@@YAXXZ @ 0x007B6AD2 (10B). Global locale uninitialize thunk: ecx=&g_00DE1CCD then tail-jmp to pinned ?rva00007670@Rva00007670@@QAEXXZ (0x00007670 twin of rowed ?_S_uninitialize@locale@_STL@@SAXXZ). Between 0x007B6AC8 and 0x007B6ADC. Honest address name.
+// ?rva007B6AD2@@YAXXZ @ 0x007B6AD2 (10B). Global ios_base _Loc_init dtor thunk: ecx=&g_00DE1CCD then tail-jmp to rowed ??1_Loc_init@ios_base@_STL@@QAE@XZ (0x00007670). Between 0x007B6AC8 and 0x007B6ADC. Honest address name.
 void __cdecl rva007B6AD2()
 {
-	Rva00007670 *receiver = (Rva00007670 *)&g_00DE1CCD;
-	return receiver->rva00007670();
+	_STL::ios_base::_Loc_init *receiver = (_STL::ios_base::_Loc_init *)&g_00DE1CCD;
+	return receiver->~_Loc_init();
 }
 
 struct Rva001D28F0Element;
@@ -6485,15 +6485,10 @@ void __cdecl rva007B8247()
 	return receiver->~Rva00411453Tree();
 }
 
-// CategoryModuleClass dtor teardown view for the six thunks below. The
-// destructor is declared only; symbols.csv pins it to 0x0057C03B, where the
-// rowed CategoryModuleClass<$N> dtors (FXParticleSystem.cpp) are folded.
+// Module dtor teardown for the six thunks below: every module class dtor is
+// folded at 0x0057C03B, so they call it by the rowed generic
+// ConcreteModuleClass<DefaultModuleTag<0> > name, as rva007B916C does.
 // Which instantiation each global holds is unproven.
-class Rva0057C03BModule
-{
-public:
-	~Rva0057C03BModule();
-};
 
 extern unsigned g_Va00E06228;
 unsigned int g_Va00E06228;
@@ -6501,8 +6496,8 @@ unsigned int g_Va00E06228;
 // ?rva007B9400@@YAXXZ @ 0x007B9400 (10B). CategoryModuleClass dtor teardown: ecx=&g_Va00E06228 then tail-jmp to the folded family at 0x0057C03B. No callers. Honest address name.
 void __cdecl rva007B9400()
 {
-	Rva0057C03BModule *receiver = (Rva0057C03BModule *)&g_Va00E06228;
-	return receiver->~Rva0057C03BModule();
+	GenericConcreteModuleClass *receiver = (GenericConcreteModuleClass *)&g_Va00E06228;
+	return receiver->~ConcreteModuleClass();
 }
 
 extern unsigned g_Va00E06240;
@@ -6511,8 +6506,8 @@ unsigned int g_Va00E06240;
 // ?rva007B940A@@YAXXZ @ 0x007B940A (10B). CategoryModuleClass dtor teardown: ecx=&g_Va00E06240 then tail-jmp to the folded family at 0x0057C03B. No callers. Honest address name.
 void __cdecl rva007B940A()
 {
-	Rva0057C03BModule *receiver = (Rva0057C03BModule *)&g_Va00E06240;
-	return receiver->~Rva0057C03BModule();
+	GenericConcreteModuleClass *receiver = (GenericConcreteModuleClass *)&g_Va00E06240;
+	return receiver->~ConcreteModuleClass();
 }
 
 extern unsigned g_Va00E06258;
@@ -6521,8 +6516,8 @@ unsigned int g_Va00E06258;
 // ?rva007B9414@@YAXXZ @ 0x007B9414 (10B). CategoryModuleClass dtor teardown: ecx=&g_Va00E06258 then tail-jmp to the folded family at 0x0057C03B. No callers. Honest address name.
 void __cdecl rva007B9414()
 {
-	Rva0057C03BModule *receiver = (Rva0057C03BModule *)&g_Va00E06258;
-	return receiver->~Rva0057C03BModule();
+	GenericConcreteModuleClass *receiver = (GenericConcreteModuleClass *)&g_Va00E06258;
+	return receiver->~ConcreteModuleClass();
 }
 
 extern unsigned g_Va00E06270;
@@ -6531,8 +6526,8 @@ unsigned int g_Va00E06270;
 // ?rva007B941E@@YAXXZ @ 0x007B941E (10B). CategoryModuleClass dtor teardown: ecx=&g_Va00E06270 then tail-jmp to the folded family at 0x0057C03B. No callers. Honest address name.
 void __cdecl rva007B941E()
 {
-	Rva0057C03BModule *receiver = (Rva0057C03BModule *)&g_Va00E06270;
-	return receiver->~Rva0057C03BModule();
+	GenericConcreteModuleClass *receiver = (GenericConcreteModuleClass *)&g_Va00E06270;
+	return receiver->~ConcreteModuleClass();
 }
 
 extern unsigned g_Va00E06284;
@@ -6541,8 +6536,8 @@ unsigned int g_Va00E06284;
 // ?rva007B9428@@YAXXZ @ 0x007B9428 (10B). CategoryModuleClass dtor teardown: ecx=&g_Va00E06284 then tail-jmp to the folded family at 0x0057C03B. No callers. Honest address name.
 void __cdecl rva007B9428()
 {
-	Rva0057C03BModule *receiver = (Rva0057C03BModule *)&g_Va00E06284;
-	return receiver->~Rva0057C03BModule();
+	GenericConcreteModuleClass *receiver = (GenericConcreteModuleClass *)&g_Va00E06284;
+	return receiver->~ConcreteModuleClass();
 }
 
 extern unsigned g_Va00E06298;
@@ -6551,8 +6546,8 @@ unsigned int g_Va00E06298;
 // ?rva007B9432@@YAXXZ @ 0x007B9432 (10B). CategoryModuleClass dtor teardown: ecx=&g_Va00E06298 then tail-jmp to the folded family at 0x0057C03B. No callers. Honest address name.
 void __cdecl rva007B9432()
 {
-	Rva0057C03BModule *receiver = (Rva0057C03BModule *)&g_Va00E06298;
-	return receiver->~Rva0057C03BModule();
+	GenericConcreteModuleClass *receiver = (GenericConcreteModuleClass *)&g_Va00E06298;
+	return receiver->~ConcreteModuleClass();
 }
 
 // Minimal Rva005C47A3 view for the four thunks below. The destructor is
@@ -6899,30 +6894,41 @@ void __cdecl rva007B6E18()
 	return receiver->VegetationFXShaderParameterSourceNamespace::~VegetationFXShaderParameterSourceNamespace();
 }
 
-class Gen_uwm_00357cd9
+// g_Va00E02838 is the function-local static map of
+// ScoreKeeper::getObjectsDestroyedMap (0x0039C3AC builds it with the folded
+// map ctor 0x0033C432 and registers this thunk). Map dtors fold at
+// 0x00357CD9; call it by the rowed map<unsigned int, void *> name.
+namespace _STL
+{
+template <class T> struct less;
+template <class T1, class T2> struct pair;
+template <class K, class V, class C, class A>
+class map
 {
 public:
-	~Gen_uwm_00357cd9();
+	~map();
 };
+}
+typedef _STL::map<unsigned int, void *, _STL::less<unsigned int>, _STL::allocator<_STL::pair<const unsigned int, void *> > > Rva00357CD9Map;
 
 extern unsigned g_Va00E02838;
 unsigned int g_Va00E02838;
 
-// ?rva007B7E3F@@YAXXZ @ 0x007B7E3F (10B). Global Gen_uwm_00357cd9 dtor thunk: ecx=&g_Va00E02838 then tail-jmp to pinned ??1Gen_uwm_00357cd9@@QAE@XZ (0x00357CD9). No callers. Honest address name.
+// ?rva007B7E3F@@YAXXZ @ 0x007B7E3F (10B). Global map dtor thunk: ecx=&g_Va00E02838 then tail-jmp to rowed ??1?$map@IPAX...@_STL@@QAE@XZ (0x00357CD9). No callers. Honest address name.
 void __cdecl rva007B7E3F()
 {
-	Gen_uwm_00357cd9 *receiver = (Gen_uwm_00357cd9 *)&g_Va00E02838;
-	return receiver->~Gen_uwm_00357cd9();
+	Rva00357CD9Map *receiver = (Rva00357CD9Map *)&g_Va00E02838;
+	return receiver->~map();
 }
 
 extern unsigned g_Va00DDEF54;
 unsigned int g_Va00DDEF54;
 
-// ?rva007B6A50@@YAXXZ @ 0x007B6A50 (10B). Global locale uninitialize thunk: ecx=&g_Va00DDEF54 then tail-jmp to pinned ?rva00007670@Rva00007670@@QAEXXZ (0x00007670). No callers. Honest address name.
+// ?rva007B6A50@@YAXXZ @ 0x007B6A50 (10B). Global ios_base _Loc_init dtor thunk: ecx=&g_Va00DDEF54 then tail-jmp to rowed ??1_Loc_init@ios_base@_STL@@QAE@XZ (0x00007670). No callers. Honest address name.
 void __cdecl rva007B6A50()
 {
-	Rva00007670 *receiver = (Rva00007670 *)&g_Va00DDEF54;
-	return receiver->rva00007670();
+	_STL::ios_base::_Loc_init *receiver = (_STL::ios_base::_Loc_init *)&g_Va00DDEF54;
+	return receiver->~_Loc_init();
 }
 
 // The teardown at 0x00422CE9 is rowed as the plain member Rva00422CE9::rva00422CE9.
@@ -7423,20 +7429,19 @@ void __cdecl rva007B80F1()
 	return receiver->rva003ED94A();
 }
 
-class Rva003B55F9Dtor
-{
-public:
-	~Rva003B55F9Dtor();
-};
+// g_Va00E03174 is the formation template deque<void *>
+// (FormationTemplate.cpp); g_Va00E06E60 is a deque built by 0x003B6831 whose
+// element type is unproven. Deque dtors fold at 0x003B55F9.
+typedef _STL::deque<void *, _STL::allocator<void *> > Rva003B55F9Deque;
 
 extern unsigned g_Va00E03174;
 unsigned int g_Va00E03174;
 
-// ?rva007B82C9@@YAXXZ @ 0x007B82C9 (10B). Global dtor thunk: ecx=&g_Va00E03174 then tail-jmp to pinned ??1Rva003B55F9Dtor@@QAE@XZ (0x003B55F9). No callers. Honest address name.
+// ?rva007B82C9@@YAXXZ @ 0x007B82C9 (10B). Global dtor thunk: ecx=&g_Va00E03174 then tail-jmp to rowed ??1?$deque@PAXV?$allocator@PAX@_STL@@@_STL@@QAE@XZ (0x003B55F9). No callers. Honest address name.
 void __cdecl rva007B82C9()
 {
-	Rva003B55F9Dtor *receiver = (Rva003B55F9Dtor *)&g_Va00E03174;
-	return receiver->~Rva003B55F9Dtor();
+	Rva003B55F9Deque *receiver = (Rva003B55F9Deque *)&g_Va00E03174;
+	return receiver->~deque();
 }
 
 extern unsigned g_Va00E049D8;
@@ -7452,11 +7457,11 @@ void __cdecl rva007B92A2()
 extern unsigned g_Va00E06E60;
 unsigned int g_Va00E06E60;
 
-// ?rva007B9A37@@YAXXZ @ 0x007B9A37 (10B). Global dtor thunk: ecx=&g_Va00E06E60 then tail-jmp to pinned ??1Rva003B55F9Dtor@@QAE@XZ (0x003B55F9). No callers. Honest address name.
+// ?rva007B9A37@@YAXXZ @ 0x007B9A37 (10B). Global dtor thunk: ecx=&g_Va00E06E60 then tail-jmp to rowed ??1?$deque@PAXV?$allocator@PAX@_STL@@@_STL@@QAE@XZ (0x003B55F9). No callers. Honest address name.
 void __cdecl rva007B9A37()
 {
-	Rva003B55F9Dtor *receiver = (Rva003B55F9Dtor *)&g_Va00E06E60;
-	return receiver->~Rva003B55F9Dtor();
+	Rva003B55F9Deque *receiver = (Rva003B55F9Deque *)&g_Va00E06E60;
+	return receiver->~deque();
 }
 
 // Rva005C392A view for the thunk below. The method is declared only and
