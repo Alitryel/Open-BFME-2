@@ -4817,3 +4817,12 @@ Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|c
 Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|member|Rva0028E84ATemplatePrefix|kinds108,31efa8b49b1d020b4ba0987d,seat-b,rn-1024b-2-b,w-96d412cd30a0,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|member|Rva0028E868OtherPrefix|word74,67372aae68a747c132f44f0e,seat-b,rn-1024b-2-b,w-96d412cd30a0,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|member|Rva0028C0E3Receiver|word204,3fe8518df384b7710e79dbdc,seat-b,rn-1024b-2-b,w-96d412cd30a0,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp|member|Rva0028CECFTemplate|m_f50C,6c0080dafc049450a8ec6336,seat-a,rn-1024b-7-a,w-fca08c4a442a,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp|local|Object::rva0028CECF|f,dddb77ef7d5d97dc0e9a132b,seat-a,rn-1024b-7-a,w-fca08c4a442a,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp|local|Object::rva0028CECF|f1,80de2ff892d528dd616b55d5,seat-a,rn-1024b-7-a,w-fca08c4a442a,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp|local|Object::rva0028CECF|f2,ffffa9193fb11b5f3b883e46,seat-a,rn-1024b-7-a,w-fca08c4a442a,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp|member|Rva0028CECFTemplate|m_flag115,9665dd708108042f936bec27,seat-b,rn-1024b-7-b,w-d6670f2f6bb9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp|member|Rva0028CECFTemplate|m_f50C,6c0080dafc049450a8ec6336,seat-b,rn-1024b-7-b,w-d6670f2f6bb9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp|local|Object::rva0028CECF|f,dddb77ef7d5d97dc0e9a132b,seat-b,rn-1024b-7-b,w-d6670f2f6bb9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp|local|Object::rva0028CECF|f1,80de2ff892d528dd616b55d5,seat-b,rn-1024b-7-b,w-d6670f2f6bb9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp|local|Object::rva0028CECF|f2,ffffa9193fb11b5f3b883e46,seat-b,rn-1024b-7-b,w-d6670f2f6bb9,2026-10-24

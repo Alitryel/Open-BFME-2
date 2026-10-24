@@ -1213,3 +1213,7 @@ member,Rva0028C0E3Receiver::word204,Rva0028C0E3Receiver::m_containedBy,inferred,
 class,Rva0028E84AObjectPrefix,ObjectPrefix,inferred,agree:nl-044f230531d4,Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp,
 class,Rva0028E868OtherPrefix,OtherObjectPrefix,inferred,agree:nl-a73db5bb9ffe,Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp,
 carry,Rva0028E868OtherPrefix::m_id,OtherObjectPrefix::m_id,inferred,scope renamed by Rename Rva0028E868OtherPrefix to OtherObjectPrefix (inferred),Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp,
+member,Rva0028CECFTemplate::m_f50C,Rva0028CECFTemplate::m_minCrushVelocityPercent,inferred,agree:nl-1b27e97b9fb5,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp,
+local,Object::rva0028CECF::tmpl,Object::rva0028CECF::containerTemplate,inferred,agree:nl-f5bdff34b7f9,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp,0x0028CECF
+local,Object::rva0028CECF::f,Object::rva0028CECF::minCrushVelocityPercent,inferred,agree:nl-bd6f00aaa72f,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp,0x0028CECF
+local,Object::rva0028CECF::f1,Object::rva0028CECF::currentSpeed,inferred,agree:nl-d148eab9b670,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp,0x0028CECF

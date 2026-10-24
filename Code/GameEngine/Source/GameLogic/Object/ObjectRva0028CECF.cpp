@@ -20,7 +20,7 @@ struct Rva0028CECFTemplate
 	char m_pad00[0x115];
 	unsigned char m_flag115;
 	char m_pad116[0x50C - 0x116];
-	float m_f50C;
+	float m_minCrushVelocityPercent;
 };
 
 class Object
@@ -48,21 +48,21 @@ bool Object::rva0028CECF()
 		Object *cont = (obj?obj:obj)->m_contained274;
 		if (cont == 0)
 			break;
-		Rva0028CECFTemplate *tmpl = cont->m_template004;
+		Rva0028CECFTemplate *containerTemplate = cont->m_template004;
 		_ReadWriteBarrier();
-		if ((tmpl->m_flag115 & 0x20) == 0)
+		if ((containerTemplate->m_flag115 & 0x20) == 0)
 			break;
 		obj = cont;
 	}
 	Rva002627E8 *holder = (obj?obj:obj)->m_entry258;
 	if (holder == 0)
 		goto ret_false;
-	float f = (obj?obj:obj)->m_template004->m_f50C;
-	if (f <= 0.0f)
+	float minCrushVelocityPercent = (obj?obj:obj)->m_template004->m_minCrushVelocityPercent;
+	if (minCrushVelocityPercent <= 0.0f)
 		goto ret_true;
-	float f1 = (obj?obj:obj)->rva0028AC7D();
-	float f2 = holder->rva002627E8() * f;
-	if (f2 > f1)
+	float currentSpeed = (obj?obj:obj)->rva0028AC7D();
+	float f2 = holder->rva002627E8() * minCrushVelocityPercent;
+	if (f2 > currentSpeed)
 		goto ret_false;
 	goto ret_true;
 ret_false:
