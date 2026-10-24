@@ -11,30 +11,9 @@ class Rva0052BDE6;
 class Rva0052BE33;
 struct BfmePod32;
 class Rva004E32F2;
-class Rva0052CD81
-{
-public:
-	Rva0052CD81(const Rva0052CD81 &other);
-	~Rva0052CD81();
-private:
-	char m_pad[12];
-};
-class Rva0052C867
-{
-public:
-	Rva0052C867(const Rva0052C867 &other);
-	~Rva0052C867();
-private:
-	char m_pad[12];
-};
-class Rva0052C8AB
-{
-public:
-	Rva0052C8AB(const Rva0052C8AB &other);
-	~Rva0052C8AB();
-private:
-	char m_pad[12];
-};
+class Rva0052CD81;
+class Rva0052C867;
+class Rva0052C8AB;
 class Rva004E1A04;
 struct Rva005668E9Element;
 class Rva0052BEF0;
@@ -153,6 +132,52 @@ template <> __declspec(noinline) vector<Rva005668E9Element, allocator<Rva005668E
  Rva0052CEF6Clear(reinterpret_cast<Rva004E366E *>(m_start),
                        reinterpret_cast<Rva004E366E *>(m_finish));
 }
+}
+
+// The parent's other three member cleanups (native unwind funclets
+// 0x007972B2 at +0x6C, 0x007972BD at +0x78, 0x007972C8 at +0x84) jump to the
+// same 63B three-pointer owners: +0x6C to 0x0052CCC4 (range 0x0022C8E3, as for
+// m_38 above), +0x78 and +0x84 to 0x0052CDE1 (range _Destroy 0x00319784).
+// Their members are the vector-shaped records whose copy constructors are
+// rowed at 0x0052CD81, 0x0052C867 and 0x0052C8AB; these destructors give
+// those records' cleanup names the existing owner bodies.
+class Rva0052CD81 : public RvaCopyVectorStorage<Rva0052BF9BElem>
+{
+public:
+	Rva0052CD81(const Rva0052CD81 &other);
+	~Rva0052CD81();
+};
+__declspec(noinline) Rva0052CD81::~Rva0052CD81()
+{
+ Rva0022C8E3DestroyRange(m_start, m_finish);
+}
+
+struct Elem003AF9E0;
+namespace _STL {
+template <class _ForwardIterator> void _Destroy(_ForwardIterator, _ForwardIterator);
+template <> void _Destroy<Elem003AF9E0 *>(Elem003AF9E0 *, Elem003AF9E0 *);
+}
+
+class Rva0052C867 : public RvaCopyVectorStorage<Elem003AF9E0>
+{
+public:
+	Rva0052C867(const Rva0052C867 &other);
+	~Rva0052C867();
+};
+__declspec(noinline) Rva0052C867::~Rva0052C867()
+{
+ _STL::_Destroy(m_start, m_finish);
+}
+
+class Rva0052C8AB : public RvaCopyVectorStorage<Elem003AF9E0>
+{
+public:
+	Rva0052C8AB(const Rva0052C8AB &other);
+	~Rva0052C8AB();
+};
+__declspec(noinline) Rva0052C8AB::~Rva0052C8AB()
+{
+ _STL::_Destroy(m_start, m_finish);
 }
 
 // The copy parent and its EH rows live in Rva0056616BCopyDeferred.cpp.
