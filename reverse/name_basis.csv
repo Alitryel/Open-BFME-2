@@ -679,3 +679,4 @@ function,?bfmeOpenVIF@@YAHPAUBfmeLuaVHR@@@Z,?io_open@@YAHPAUBfmeLuaVHR@@@Z,infer
 function,?bfmeNeVMQ@BfmeStrVMQ@@QBE_NPBD@Z,?notEqual@BfmeStrVMQ@@QBE_NPBD@Z,inferred,agree:nl-cc682430c09a,Code/GameEngine/Source/Common/BfmeConv1432.cpp,0x000249D0
 member,BfmeSubDEC::m_bfmeColor,BfmeSubDEC::m_color,inferred,agree:nl-346d9953c4b7,Code/GameEngine/Source/Common/BfmeConv679GoDEC.cpp,
 local,bfmeGoDEC::s,bfmeGoDEC::thumb,inferred,agree:nl-7d5f660c8354,Code/GameEngine/Source/Common/BfmeConv679GoDEC.cpp,0x00323E02
+member,Rva00490350Base::m_bfmeNext,Rva00490350Base::m_next,inferred,agree:nl-f869117ba770,Code/GameEngine/Source/Common/BfmeTwoStringVX.cpp,

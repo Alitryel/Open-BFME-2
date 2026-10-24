@@ -67,7 +67,7 @@ class Rva00490350Base
 public:
 	__forceinline Rva00490350Base(void)
 	{
-		m_bfmeNext = g_bfmeListVX;
+		m_next = g_bfmeListVX;
 
 		g_bfmeListVX = this;
 
@@ -77,7 +77,7 @@ public:
 
 	virtual ~Rva00490350Base(void);
 
-	Rva00490350Base *m_bfmeNext;				// +0x04
+	Rva00490350Base *m_next;				// +0x04
 	int m_bfmeCount;					// +0x08
 	bool m_bfmeArmed;					// +0x0C
 };
