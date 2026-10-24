@@ -154,6 +154,48 @@ InGameUI *TheInGameUI = NULL;
 
 GameWindow *m_replayWindow = NULL;
 
+// The shared list lifetime providers are also used by InGameUISuperweapons.cpp.
+namespace _STL {
+template <> _List_base<SuperweaponInfo *,allocator<SuperweaponInfo *> >::~_List_base();
+template <> void _List_base<SuperweaponInfo *,allocator<SuperweaponInfo *> >::clear();
+}
+// These existing provider declarations also apply to release builds.
+// bfme link decl-only begin
+namespace _STL { template <> _List_base<Drawable *, allocator<Drawable *> >::_List_base(allocator<Drawable *> const &); }
+namespace _STL { template <> _List_base<SuperweaponInfo *, allocator<SuperweaponInfo *> >::_List_base(allocator<SuperweaponInfo *> const &); }
+namespace _STL { template <> list<Drawable *, allocator<Drawable *> >::list(allocator<Drawable *> const &); }
+namespace _STL { template <> list<SuperweaponInfo *, allocator<SuperweaponInfo *> >::list(list<SuperweaponInfo *, allocator<SuperweaponInfo *> > const &); }
+namespace _STL { template <> _List_base<Drawable *, allocator<Drawable *> >::~_List_base(); }
+namespace _STL { template <> _List_node<SuperweaponInfo *> * list<SuperweaponInfo *, allocator<SuperweaponInfo *> >::_M_create_node(SuperweaponInfo *const &); }
+namespace _STL { template <> void _Base_bitset<4>::_M_do_reset(); }
+namespace _STL { template <> void _List_base<Object *, allocator<Object *> >::clear(); }
+namespace _STL { template <> _List_iterator<Drawable *, _Nonconst_traits<Drawable *> > list<Drawable *, allocator<Drawable *> >::insert(_List_iterator<Drawable *, _Nonconst_traits<Drawable *> >, Drawable *const &); }
+namespace _STL { template <> _List_iterator<SuperweaponInfo *, _Nonconst_traits<SuperweaponInfo *> > list<SuperweaponInfo *, allocator<SuperweaponInfo *> >::insert(_List_iterator<SuperweaponInfo *, _Nonconst_traits<SuperweaponInfo *> >, SuperweaponInfo *const &); }
+namespace _STL { template <> void list<Drawable *, allocator<Drawable *> >::push_back(Drawable *const &); }
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ??0?$list@PAVDrawable@@V?$allocator@PAVDrawable@@@_STL@@@_STL@@QAE@ABV?$allocator@PAVDrawa:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Drawable;
+namespace _STL { template <> list<Drawable *,allocator<Drawable *> >::list(allocator<Drawable *> const &); }
+// Suppress this TU's non-retail copy of ?push_back@?$list@PAVDrawable@@V?$allocator@PAVDrawable@@@_STL@@@_STL@@QAEXABQAVDrawable@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Drawable;
+namespace _STL { template <> void list<Drawable *,allocator<Drawable *> >::push_back(Drawable * const &); }
+// Suppress this TU's non-retail copy of ??0?$_Base_bitset@$03@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Base_bitset<4>::_Base_bitset(); }
+// Suppress this TU's non-retail copy of ??0?$bitset@$0HE@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bitset<116>::bitset(); }
+// Suppress this TU's non-retail copy of ?_M_create_node@?$list@PAVDrawable@@V?$allocator@PAVDrawable@@@_STL@@@_STL@@IAEPAU?$_List_:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Drawable;
+namespace _STL { template <> _List_node<Drawable *> *list<Drawable *, allocator<Drawable *> >::_M_create_node(Drawable *const &); }
+// Suppress this TU's non-retail copy of ??0?$_List_base@PAVDrawable@@V?$allocator@PAVDrawable@@@_STL@@@_STL@@QAE@ABV?$allocator@PA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Drawable;
+namespace _STL { template <> _List_base<Drawable *, allocator<Drawable *> >::_List_base(const allocator<Drawable *> &); }
+
 // LINK: TU-local view of CommandButton::m_command at +0x14 (retail truth:
 // matched witnesses isReady 0x0035B069, evaluateSkirmish 0x003E73E7 and
 // rowed 0x003C10D8 all read +0x14). The two call sites below read through
@@ -911,41 +953,6 @@ void InGameUI::createForceAttackHint( const GameMessage *msg )
 #include "Common/StateMachine.h"
 #include "GameLogic/Module/AIUpdate.h"
 #include "GameLogic/AIPathfind.h"
-// bfme link decl-only begin
-namespace _STL { template <> _List_base<Drawable *, allocator<Drawable *> >::_List_base(allocator<Drawable *> const &); }
-namespace _STL { template <> _List_base<SuperweaponInfo *, allocator<SuperweaponInfo *> >::_List_base(allocator<SuperweaponInfo *> const &); }
-namespace _STL { template <> list<Drawable *, allocator<Drawable *> >::list(allocator<Drawable *> const &); }
-namespace _STL { template <> list<SuperweaponInfo *, allocator<SuperweaponInfo *> >::list(list<SuperweaponInfo *, allocator<SuperweaponInfo *> > const &); }
-namespace _STL { template <> _List_base<Drawable *, allocator<Drawable *> >::~_List_base(); }
-namespace _STL { template <> _List_node<SuperweaponInfo *> * list<SuperweaponInfo *, allocator<SuperweaponInfo *> >::_M_create_node(SuperweaponInfo *const &); }
-namespace _STL { template <> void _Base_bitset<4>::_M_do_reset(); }
-namespace _STL { template <> void _List_base<Object *, allocator<Object *> >::clear(); }
-namespace _STL { template <> _List_iterator<Drawable *, _Nonconst_traits<Drawable *> > list<Drawable *, allocator<Drawable *> >::insert(_List_iterator<Drawable *, _Nonconst_traits<Drawable *> >, Drawable *const &); }
-namespace _STL { template <> _List_iterator<SuperweaponInfo *, _Nonconst_traits<SuperweaponInfo *> > list<SuperweaponInfo *, allocator<SuperweaponInfo *> >::insert(_List_iterator<SuperweaponInfo *, _Nonconst_traits<SuperweaponInfo *> >, SuperweaponInfo *const &); }
-namespace _STL { template <> void list<Drawable *, allocator<Drawable *> >::push_back(Drawable *const &); }
-// bfme link decl-only end
-// Suppress this TU's non-retail copy of ??0?$list@PAVDrawable@@V?$allocator@PAVDrawable@@@_STL@@@_STL@@QAE@ABV?$allocator@PAVDrawa:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-class Drawable;
-namespace _STL { template <> list<Drawable *,allocator<Drawable *> >::list(allocator<Drawable *> const &); }
-// Suppress this TU's non-retail copy of ?push_back@?$list@PAVDrawable@@V?$allocator@PAVDrawable@@@_STL@@@_STL@@QAEXABQAVDrawable@@:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-class Drawable;
-namespace _STL { template <> void list<Drawable *,allocator<Drawable *> >::push_back(Drawable * const &); }
-// Suppress this TU's non-retail copy of ??0?$_Base_bitset@$03@_STL@@QAE@XZ:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> _Base_bitset<4>::_Base_bitset(); }
-// Suppress this TU's non-retail copy of ??0?$bitset@$0HE@@_STL@@QAE@XZ:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> bitset<116>::bitset(); }
-// Suppress this TU's non-retail copy of ?_M_create_node@?$list@PAVDrawable@@V?$allocator@PAVDrawable@@@_STL@@@_STL@@IAEPAU?$_List_:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-class Drawable;
-namespace _STL { template <> _List_node<Drawable *> *list<Drawable *, allocator<Drawable *> >::_M_create_node(Drawable *const &); }
-// Suppress this TU's non-retail copy of ??0?$_List_base@PAVDrawable@@V?$allocator@PAVDrawable@@@_STL@@@_STL@@QAE@ABV?$allocator@PA:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-class Drawable;
-namespace _STL { template <> _List_base<Drawable *, allocator<Drawable *> >::_List_base(const allocator<Drawable *> &); }
 #endif // AI_DEBUG_TOOLTIPS
 
 #endif // defined(_DEBUG) || defined(_INTERNAL)
@@ -1737,13 +1744,8 @@ void InGameUI::clearPopupMessageData( void )
 //-------------------------------------------------------------------------------------------------
 /** Floating Text Destructor */
 //-------------------------------------------------------------------------------------------------
-// ?FloatingTextData::~FloatingTextData present-unmatched
-FloatingTextData::~FloatingTextData(void)
-{
-	if(m_dString)
-		TheDisplayStringManager->freeDisplayString( m_dString );
-	m_dString = NULL;
-}
+// FloatingTextData::~FloatingTextData is owned by FloatingTextData.cpp
+// (native 0x0029D3B0); the ZH pool-base copy here emitted a competing table.
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
