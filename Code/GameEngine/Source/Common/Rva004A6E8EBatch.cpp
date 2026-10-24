@@ -5,7 +5,7 @@
 // Honest address names; class identity unproven.
 class BuildListInfo { public: int getDesiredGatherers(); };
 struct Rva002716Holder { void Rva0027164EBroadcast(int a, int b); };
-struct Rva004A6EAux { unsigned char m_pad[0x64]; int m_64; };
+struct Rva004A6EAux { unsigned char m_pad[0x64]; int m_maxBoxes; };
 struct Rva004A6EObj { Rva004A6EAux* m_00; BuildListInfo* m_04; };
 class Rva004A6EHolder {
 public:
@@ -23,18 +23,18 @@ bool Rva004A6EHolder::rva004A6E8E()
   --m_1c;
   Rva002716Holder* h = (Rva002716Holder*)info->getDesiredGatherers();
   if (!h) return true;
-  h->Rva0027164EBroadcast(obj->m_00->m_64, m_1c);
+  h->Rva0027164EBroadcast(obj->m_00->m_maxBoxes, m_1c);
   return true;
 }
 bool Rva004A6EHolder::rva004A6EC6(int unused)
 {
   (void)unused;
   Rva004A6EObj* obj = (Rva004A6EObj*)((char*)this - 0x3e0);
-  if (obj->m_00 && m_1c >= obj->m_00->m_64) return false;
+  if (obj->m_00 && m_1c >= obj->m_00->m_maxBoxes) return false;
   BuildListInfo* info6 = obj->m_04;
   ++m_1c;
   Rva002716Holder* h = (Rva002716Holder*)info6->getDesiredGatherers();
   if (!h) return true;
-  h->Rva0027164EBroadcast(obj->m_00->m_64, m_1c);
+  h->Rva0027164EBroadcast(obj->m_00->m_maxBoxes, m_1c);
   return true;
 }
