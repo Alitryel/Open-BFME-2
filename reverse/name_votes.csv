@@ -4594,3 +4594,8 @@ Code/GameEngine/Source/GameLogic/Object/Create/SupplyWarehouseCreateRva004B901D.
 Code/GameEngine/Source/GameLogic/Object/Create/SupplyWarehouseCreateRva004B901D.cpp|local|SupplyWarehouseCreate::rva004B901D|t,2cf5e36e8d009bc49751fdf3,gpt-6-astra,codexb2-20261024-101454-3,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/Rva006C2D20Describe.cpp|class||Rva006C2D20Location,1444a68c3dbde5a203da4748,gpt-6-astra,codexb2-20261024-101454-3,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/Rva006C2D20Describe.cpp|local|Rva006C2D20Sink::rva006C2D20|p,3c83b4af03c71c7b281e8e4f,gpt-6-astra,codexb2-20261024-101454-3,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#8|p,4977e291438e05eef2087a23,gpt-6-astra,codexb2-20261024-101454-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#9|p,e146e97d5bc92ce4b6210b8e,gpt-6-astra,codexb2-20261024-101454-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#14|p,ee07e313c217a69f811be4d7,gpt-6-astra,codexb2-20261024-101454-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/EbpParamForwarders.cpp|class||Rva002B2955,b5ca4f3b0bfbc59f28107f8f,gpt-6-astra,codexb2-20261024-101454-5,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/EbpParamForwarders.cpp|function|0x0018C838|rva0018C838,5ceafeb827293d220663a0f1,gpt-6-astra,codexb2-20261024-101454-5,w-d0bdfd8b17e9,2026-10-24
