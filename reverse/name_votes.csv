@@ -5422,3 +5422,8 @@ Code/GameEngine/Source/GameClient/GUI/Rva005801F6Compare.cpp|function|0x005801F6
 Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|class||Rva005E6ED6Counted,e816f21f6efce46e821a736e,gpt-6.1-sol,codexb-20261024-162350-4,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|class||Rva005F4C8ERef,d226314faf88041689102532,gpt-6.1-sol,codexb-20261024-162350-4,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|param|Rva005F4C8ERef|p,d2dd53c0f0419359b1692d41,gpt-6.1-sol,codexb-20261024-162350-4,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/OpenAudioFile_setFileReady.cpp|param|OpenAudioFile::setFileReady|a1,703709630ba2dcc5b2e8b957,gpt-6.1-sol,codexb-20261024-162350-5,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/Apt/Rva006FE400Chain.cpp|param|Rva006FE400::rva006FE400|a1,930258b227f191de158cd737,gpt-6.1-sol,codexb-20261024-162350-6,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/Apt/Rva006FE400Chain.cpp|param|Rva006FE400::rva006FE400|a2,d330985639e443bcb9829fe7,gpt-6.1-sol,codexb-20261024-162350-6,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/Apt/Rva006FE400Chain.cpp|local|Rva006FE400::rva006FE400|r,d0429d08fbc96246efea40fd,gpt-6.1-sol,codexb-20261024-162350-6,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/Rva002EBC59.cpp|param|rva002EBC59|a1,96ef5333ed6f25e0539a6abb,gpt-6.1-sol,codexb-20261024-162350-8,w-8e883e57d025,2026-10-24
