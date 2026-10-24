@@ -20,10 +20,10 @@ public:
 // only at the call, rather than introducing another datum with its class name.
 extern unsigned g_Va00E06620;
 class Rva005E16DA;
-extern Rva005E16DA g_rva00E0675C;
-extern Rva005E16DA g_rva00E068EC;
-extern Rva005E16DA g_rva00E06900;
-extern Rva005E16DA g_rva00E06918;
+extern Rva005E16DA g_cancelArmyMoveButton;
+extern Rva005E16DA g_cancelArmyMemberMoveButton;
+extern Rva005E16DA g_upgradeUnitButton;
+extern Rva005E16DA g_disbandArmyMemberButton;
 
 class Rva005CC37C
 {
@@ -62,20 +62,20 @@ Rva005E1753Result Rva005CC37C::rva005CC468()
 
 Rva005E1753Result Rva005E9295::rva005E9295()
 {
-	return ((Rva005E1753Class *)&g_rva00E0675C)->GetResult();
+	return ((Rva005E1753Class *)&g_cancelArmyMoveButton)->GetResult();
 }
 
 Rva005E1753Result Rva005F5694::rva005F5694()
 {
-	return ((Rva005E1753Class *)&g_rva00E068EC)->GetResult();
+	return ((Rva005E1753Class *)&g_cancelArmyMemberMoveButton)->GetResult();
 }
 
 Rva005E1753Result Rva005F594C::rva005F594C()
 {
-	return ((Rva005E1753Class *)&g_rva00E06900)->GetResult();
+	return ((Rva005E1753Class *)&g_upgradeUnitButton)->GetResult();
 }
 
 Rva005E1753Result Rva005F5D25::rva005F5D25()
 {
-	return ((Rva005E1753Class *)&g_rva00E06918)->GetResult();
+	return ((Rva005E1753Class *)&g_disbandArmyMemberButton)->GetResult();
 }

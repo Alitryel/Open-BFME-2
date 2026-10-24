@@ -18,11 +18,11 @@ private:
     unsigned int opaqueWords[4];
 };
 
-extern Rva005E16DA g_rva00E06900;
+extern Rva005E16DA g_upgradeUnitButton;
 
 void rva007B9A05()
 {
-    g_rva00E06900.~Rva005E16DA();
+    g_upgradeUnitButton.~Rva005E16DA();
 }
 
 void rva007B52E6()
@@ -31,17 +31,17 @@ void rva007B52E6()
         AsciiString label("UpgradeUnitButton");
         // MSVC's explicit constructor invocation also backs the shared
         // AsciiString adapter. This is static storage, with no allocation.
-        g_rva00E06900.Rva005E16DA::Rva005E16DA(reinterpret_cast<int>(&label));
+        g_upgradeUnitButton.Rva005E16DA::Rva005E16DA(reinterpret_cast<int>(&label));
     }
     atexit(rva007B9A05);
 }
 
-extern Rva005E16DA g_rva00E068EC;
+extern Rva005E16DA g_cancelArmyMemberMoveButton;
 // Exact callback address registered by startup7B5299; mov-this/tail-jump
 // spans7B99FB..7B9A04 and reaches the same rowed destructor5E16FD.
 void rva007B99FB()
 {
-    g_rva00E068EC.~Rva005E16DA();
+    g_cancelArmyMemberMoveButton.~Rva005E16DA();
 }
 
 // Complete startup body7B5299..7B52E5, followed by initializer7B52E6.
@@ -49,16 +49,16 @@ void rva007B5299()
 {
     {
         AsciiString label("CancelArmyMemberMoveButton");
-        g_rva00E068EC.Rva005E16DA::Rva005E16DA(reinterpret_cast<int>(&label));
+        g_cancelArmyMemberMoveButton.Rva005E16DA::Rva005E16DA(reinterpret_cast<int>(&label));
     }
     atexit(rva007B99FB);
 }
 
-extern Rva005E16DA g_rva00E06918;
+extern Rva005E16DA g_disbandArmyMemberButton;
 // Callback7B9A0F..7B9A18 registered by startup7B5343.
 void rva007B9A0F()
 {
-    g_rva00E06918.~Rva005E16DA();
+    g_disbandArmyMemberButton.~Rva005E16DA();
 }
 
 // Complete startup7B5343..7B538F followed by a different initializer7B5390.
@@ -66,16 +66,16 @@ void rva007B5343()
 {
     {
         AsciiString label("DisbandArmyMemberButton");
-        g_rva00E06918.Rva005E16DA::Rva005E16DA(reinterpret_cast<int>(&label));
+        g_disbandArmyMemberButton.Rva005E16DA::Rva005E16DA(reinterpret_cast<int>(&label));
     }
     atexit(rva007B9A0F);
 }
 
-extern Rva005E16DA g_rva00E0675C;
+extern Rva005E16DA g_cancelArmyMoveButton;
 // Callback7B998D..7B9996 registered by startup7B5134.
 void rva007B998D()
 {
-    g_rva00E0675C.~Rva005E16DA();
+    g_cancelArmyMoveButton.~Rva005E16DA();
 }
 
 // Ghidra77B startup7B5134..7B5180.
@@ -83,7 +83,7 @@ void rva007B5134()
 {
     {
         AsciiString label("CancelArmyMoveButton");
-        g_rva00E0675C.Rva005E16DA::Rva005E16DA(reinterpret_cast<int>(&label));
+        g_cancelArmyMoveButton.Rva005E16DA::Rva005E16DA(reinterpret_cast<int>(&label));
     }
     atexit(rva007B998D);
 }
@@ -93,7 +93,7 @@ void rva007B5134()
 // Use their existing decorated names for storage, without a second C++ dynamic
 // initializer. The typed extern declarations above describe their live view.
 struct GuiButtonStaticStorage { unsigned int words[5]; };
-extern "C" GuiButtonStaticStorage __identifier("?g_rva00E0675C@@3VRva005E16DA@@A") = {};
-extern "C" GuiButtonStaticStorage __identifier("?g_rva00E068EC@@3VRva005E16DA@@A") = {};
-extern "C" GuiButtonStaticStorage __identifier("?g_rva00E06900@@3VRva005E16DA@@A") = {};
-extern "C" GuiButtonStaticStorage __identifier("?g_rva00E06918@@3VRva005E16DA@@A") = {};
+extern "C" GuiButtonStaticStorage __identifier("?g_cancelArmyMoveButton@@3VRva005E16DA@@A") = {};
+extern "C" GuiButtonStaticStorage __identifier("?g_cancelArmyMemberMoveButton@@3VRva005E16DA@@A") = {};
+extern "C" GuiButtonStaticStorage __identifier("?g_upgradeUnitButton@@3VRva005E16DA@@A") = {};
+extern "C" GuiButtonStaticStorage __identifier("?g_disbandArmyMemberButton@@3VRva005E16DA@@A") = {};

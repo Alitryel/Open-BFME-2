@@ -91,7 +91,7 @@ struct Rva005F5C77In
 
 class Rva005E16DA;
 
-extern Rva005E16DA g_rva00E06900;
+extern Rva005E16DA g_upgradeUnitButton;
 
 class Rva005F5BF2 : public Rva00567960BaseMid, public Rva005E12D1, public Rva005E4AE2Listener
 {
@@ -110,7 +110,7 @@ Rva005F5BF2::Rva005F5BF2(void *a1, Rva005F5C77In *a2)
 {
 	m_20 = a2->m_04;
 	m_24 = a2->m_08;
-	const Image *img = ((Rva005E16B9 *)&g_rva00E06900)->GetImage();
+	const Image *img = ((Rva005E16B9 *)&g_upgradeUnitButton)->GetImage();
 	((Rva005E1158 *)this)->rva005E1158(img);
 	m_24->append((Rva002BA8F1Listener *)static_cast<Rva005E4AE2Listener *>(this));
 }

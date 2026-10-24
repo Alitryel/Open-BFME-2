@@ -91,7 +91,7 @@ struct Rva005F5F2BIn
 
 class Rva005E16DA;
 
-extern Rva005E16DA g_rva00E06918;
+extern Rva005E16DA g_disbandArmyMemberButton;
 
 class Rva005F5EA6 : public Rva00567960BaseMid, public Rva005E12D1, public Rva005E4AE2Listener
 {
@@ -110,7 +110,7 @@ Rva005F5EA6::Rva005F5EA6(void *a1, Rva005F5F2BIn *a2)
 {
 	m_20 = a2->m_04;
 	m_24 = a2->m_08;
-	const Image *img = ((Rva005E16B9 *)&g_rva00E06918)->GetImage();
+	const Image *img = ((Rva005E16B9 *)&g_disbandArmyMemberButton)->GetImage();
 	((Rva005E1158 *)this)->rva005E1158(img);
 	m_24->append((Rva002BA8F1Listener *)static_cast<Rva005E4AE2Listener *>(this));
 }

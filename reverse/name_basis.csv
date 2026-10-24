@@ -848,3 +848,7 @@ class,Rva00431C9DHelper,MouseDragStateHandler,inferred,agree:nl-28fd7837aa8e,Cod
 param,Rva003145B1::Rva003145B1Dispatch::a0,Rva003145B1::Rva003145B1Dispatch::message,inferred,agree:nl-d068fc0a7e65,Code/GameEngine/Source/GameClient/GUI/Rva003145B1Dispatch.cpp,0x003145B1
 param,Rva003145B1::rva00314596::a0,Rva003145B1::rva00314596::message,inferred,agree:nl-00caebb68f43,Code/GameEngine/Source/GameClient/GUI/Rva003145B1Dispatch.cpp,0x00314596
 function,?rva005ED859@Rva005ED976@@QAEXHH@Z,?SetUnitCount@Rva005ED976@@QAEXHH@Z,inferred,agree:nl-5e7c534c470d,Code/GameEngine/Source/GameClient/GUI/Rva005ED859.cpp,0x005ED859
+global,?g_rva00E0675C@@3VRva005E16DA@@A,?g_cancelArmyMoveButton@@3VRva005E16DA@@A,inferred,agree:nl-ddaa64ad8457,Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp,0x00A0675C
+global,?g_rva00E068EC@@3VRva005E16DA@@A,?g_cancelArmyMemberMoveButton@@3VRva005E16DA@@A,inferred,agree:nl-112cf32227cf,Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp,0x00A068EC
+global,?g_rva00E06900@@3VRva005E16DA@@A,?g_upgradeUnitButton@@3VRva005E16DA@@A,inferred,agree:nl-1501c7a9f32e,Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp,0x00A06900
+global,?g_rva00E06918@@3VRva005E16DA@@A,?g_disbandArmyMemberButton@@3VRva005E16DA@@A,inferred,agree:nl-bd187f643bf4,Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp,0x00A06918

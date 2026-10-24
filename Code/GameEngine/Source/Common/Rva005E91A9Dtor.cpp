@@ -20,7 +20,7 @@ public:
     const Image *GetImage();
 };
 class Rva005E16DA;
-extern Rva005E16DA g_rva00E0675C;
+extern Rva005E16DA g_cancelArmyMoveButton;
 class Rva005E91A9Base
 {
 public:
