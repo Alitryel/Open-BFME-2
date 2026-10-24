@@ -5634,3 +5634,13 @@ Code/GameEngine/Source/Common/Rva005C4B56.cpp|param|Rva005C4B56::rva005C4BC8|b,7
 Code/GameEngine/Source/Common/GapBodiesS3B.cpp|param|Rva001E0301::rva001E0301|a,f8d56c6c474776df8d6795a6,claude-opus-5-5,claudec5-20261024-213529-1,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/Common/GapBodiesS3B.cpp|param|Rva001E0301::rva001E0301|b,31668c40b094d1b0c5613b1e,claude-opus-5-5,claudec5-20261024-213529-1,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/Common/Rva0052192DInit.cpp|param|AptSkirmish::OpenScreen|a1,6c7d1d54898cb14454e1d65b,claude-opus-5-5,claudec5-20261024-213529-1,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp|class||Rva002E99F9Arg1,301a7da22aa56882ddb2f396,claude-opus-5-5,claudec6-20261024-210032-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp|member|Rva002E99F9Arg1|m_10,ebeff32e289df715cedab572,claude-opus-5-5,claudec6-20261024-210032-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp|param|Pathfinder::FindBrokenBridge|a1,57c7bd0b7daffc83115853b7,claude-opus-5-5,claudec6-20261024-210032-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp|local|Pathfinder::FindBrokenBridge|r1,fc1cb2c68d7c62a547eedee1,claude-opus-5-5,claudec6-20261024-210032-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp|local|Pathfinder::FindBrokenBridge|r2,a6af3b104573378ff66bef68,claude-opus-5-5,claudec6-20261024-210032-1,w-efe153480513,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTreeBufferAddTree.cpp|member|Rva000ECF79Tree|matrix90,0c3e51870f4f20d9a831d308,claude-opus-5-5,claudec6-20261024-210032-4,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp|class||Rva003598A5Obj,8084fb140f5a7f8d3a88bf60,claude-opus-5-5,claudec6-20261024-210032-5,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Made002CC8A4Rva00509E43.cpp|param|Made002CC8A4::rva00509E43|a,3c21e9d0aebb6de849541d65,claude-opus-5-5,claudec6-20261024-210032-6,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva0049DC50Walk.cpp|class||Rva0049DC50,68fae9fa1efea278c35b7968,claude-opus-5-5,claudec6-20261024-210032-10,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Behavior/Rva00498F46Cmd.cpp|member|Rva00498DF3Arg|m_mid258,70db27e553b2db157f93b7bb,claude-opus-5-5,claudec6-20261024-210032-20,w-efe153480513,2026-10-24
