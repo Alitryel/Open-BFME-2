@@ -560,8 +560,7 @@ class RenderObjectUpdateModule;
 class RenderObjectParticleUpdateModule;
 template <> RenderObjectUpdateModuleTemplate *ConcreteModuleTemplate<ModuleTag<2, RENDEROBJECT_UPDATE_MODULE_KEY, RENDEROBJECT_UPDATE_MODULE_NAME, RenderObjectUpdateModule, RenderObjectUpdateModuleTemplate, RenderObjectParticleUpdateModule > >::clone() const;
 
-template <> ConcreteModuleTemplate<ModuleTag<2, RENDEROBJECT_UPDATE_MODULE_KEY, RENDEROBJECT_UPDATE_MODULE_NAME, RenderObjectUpdateModule, RenderObjectUpdateModuleTemplate, DefaultParticleModule<2> > >::ConcreteModuleTemplate(
-    const ConcreteModuleTemplate<ModuleTag<2, RENDEROBJECT_UPDATE_MODULE_KEY, RENDEROBJECT_UPDATE_MODULE_NAME, RenderObjectUpdateModule, RenderObjectUpdateModuleTemplate, DefaultParticleModule<2> > > &that);
+template <> RenderObjectUpdateModuleTemplate *ConcreteModuleTemplate<ModuleTag<2, RENDEROBJECT_UPDATE_MODULE_KEY, RENDEROBJECT_UPDATE_MODULE_NAME, RenderObjectUpdateModule, RenderObjectUpdateModuleTemplate, DefaultParticleModule<2> > >::clone() const;
 
 // The module class that builds them. createTemplate is one operator new for the
 // wrapper's size and a tail jump into its default constructor.
@@ -971,5 +970,27 @@ extern LifeEventModuleNamedConcreteAssign g_lifeEventModuleNamedConcreteAssign;
 typedef TerrainCollisionModuleNamedConcrete &(TerrainCollisionModuleNamedConcrete::*TerrainCollisionModuleNamedConcreteAssign)(const TerrainCollisionModuleNamedConcrete &);
 
 extern TerrainCollisionModuleNamedConcreteAssign g_terrainCollisionModuleNamedConcreteAssign;
+
+
+// The alpha runtime module has four vptrs and an extent of 0xA0.
+// Its copy constructor installs the same tables as the createModule result.
+template <int CATEGORY>
+class __declspec(novtable) DefaultModule
+{
+public:
+    __declspec(noinline) DefaultModule(const DefaultModule &that);
+    virtual DefaultModule *clone() const;
+
+private:
+    char m_storage[0x9C];
+};
+
+template <int CATEGORY>
+DefaultModule<CATEGORY> *DefaultModule<CATEGORY>::clone() const
+{
+    return new DefaultModule<CATEGORY>(*this);
+}
+
+template class DefaultModule<1>;
 
 }

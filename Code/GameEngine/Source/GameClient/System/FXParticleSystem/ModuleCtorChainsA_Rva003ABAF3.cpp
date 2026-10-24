@@ -266,7 +266,7 @@ extern "C" const void *const __identifier("??_7?$ConcreteModuleTemplate@V?$Modul
 extern "C" {
 void __identifier("??_GRva003ACB6F@@UAEPAXI@Z")();
 void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
-void __identifier("?clone@?$ConcreteModuleTemplate@V?$ModuleTag@$01$E?RENDEROBJECT_UPDATE_MODULE_KEY@FXParticleSystem@@3QBDB$E?RENDEROBJECT_UPDATE_MODULE_NAME@2@3QBDBVRenderObjectUpdateModule@2@VRenderObjectUpdateModuleTemplate@2@V?$DefaultParticleModule@$01@2@@FXParticleSystem@@@FXParticleSystem@@UBEPAVRenderObjectUpdateModuleTemplate@2@XZ")();
+void __identifier("?clone@?$DefaultModule@$00@FXParticleSystem@@UBEPAV12@XZ")();
 void __identifier("?rva0055B30F@Rva0055B30F@@UAEXPAVXfer@@@Z")();
 void __identifier("?get@Rva004F5FA3LeaGetter@@QBEPAXXZ")();
 }
