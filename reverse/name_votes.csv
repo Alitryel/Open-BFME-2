@@ -4985,3 +4985,13 @@ Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00
 Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a6,3e32110dff250828e2c4199d,claude-opus-5-5,claudec6-20261024-114448-1,w-efe153480513,2026-10-24
 Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a7,5e251988caa1ffa64616ac6f,claude-opus-5-5,claudec6-20261024-114448-1,w-efe153480513,2026-10-24
 Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a8,d942f8ecca54b36be39befbd,claude-opus-5-5,claudec6-20261024-114448-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|param|W3DTerrainLogic::Rva0027D77D|a,5f1bfb7367486c035362812c,claude-opus-5-5,claudec6-20261024-122530-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|param|W3DTerrainLogic::Rva0027D77D|b,592ec8da378e7a4659edc21c,claude-opus-5-5,claudec6-20261024-122530-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|local|W3DTerrainLogic::Rva0027D960|c,9279e8ec3e61e3752fdddf53,claude-opus-5-5,claudec6-20261024-122530-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp|class||Rva00201DC4LODInfo,579b2727b4f9263ac9624c18,claude-opus-5-5,claudec6-20261024-122530-2,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp|class||Rva00201E2BLODInfo,b9ac50d91e7ed1e25c260894,claude-opus-5-5,claudec6-20261024-122530-2,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp|class||Rva00201E45LODInfo,031ba24a95acf8cd7e846f16,claude-opus-5-5,claudec6-20261024-122530-2,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp|class||Rva00201D48LODPreset,c5a333146126af9a83d1be9e,claude-opus-5-5,claudec6-20261024-122530-2,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp|class||Rva00201D79BenchProfile,de6684324281209142139baa,claude-opus-5-5,claudec6-20261024-122530-2,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva000B34D8Fetch.cpp|member|Rva000B34D8Ret65|f0C,86108e3c9a43b0b2578b305f,claude-opus-5-5,claudec6-20261024-122530-4,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp|local|Object::rva0028CECF|f2,fd227f5e0ad1fd8f11aeae6a,claude-opus-5-5,claudec6-20261024-122530-6,w-efe153480513,2026-10-24
