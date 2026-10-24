@@ -582,3 +582,7 @@ function,?rva002C752F@Rva002C752F@@QAEXXZ,?clear@Rva002C752F@@QAEXXZ,inferred,ag
 member,CreateObjectDieModuleDataView::m_ocl38,CreateObjectDieModuleDataView::m_ocl,inferred,agree:nl-406b5cbae888,Code/GameEngine/Source/GameLogic/Object/Die/Rva00485C86Finish.cpp,
 function,?rva0006ED55@Rva0006ED55@@UAEXXZ,?draw@Rva0006ED55@@UAEXXZ,inferred,agree:nl-d824266d0524,Code/GameEngine/Source/Common/Rva0006ED36Call.cpp,0x0006ED55
 local,AIEconomyStats::rva0059640C::h,AIEconomyStats::rva0059640C::xfer,inferred,agree:nl-f32feb89fe1a,Code/GameEngine/Source/Common/Rva0025BFE3Derived.cpp,0x0059640C
+member,Rva0049DC50Node::m_4,Rva0049DC50Node::m_type,inferred,agree:nl-372635bcdeb6,Code/GameEngine/Source/Common/Rva0049DC50Walk.cpp,
+member,Rva0049DC50Node::m_8,Rva0049DC50Node::m_objectToProduce,inferred,agree:nl-57fc40ccf5a6,Code/GameEngine/Source/Common/Rva0049DC50Walk.cpp,
+member,Rva0049DC50Node::m_10,Rva0049DC50Node::m_productionID,inferred,agree:nl-388a492d0dc4,Code/GameEngine/Source/Common/Rva0049DC50Walk.cpp,
+member,Rva0049DC50Node::m_14,Rva0049DC50Node::m_percentComplete,inferred,agree:nl-20ebffb6b108,Code/GameEngine/Source/Common/Rva0049DC50Walk.cpp,

@@ -45,11 +45,11 @@ class Rva0049DC50Node
 {
 public:
 	virtual void *slot0(int flag);
-	int m_4;
-	Rva0039BAD2Input *m_8;
+	int m_type;
+	Rva0039BAD2Input *m_objectToProduce;
 	char m_gap0c[4];
-	int m_10;
-	float m_14;
+	int m_productionID;
+	float m_percentComplete;
 	char m_gap18[0x10];
 	int m_28;
 	char m_gap2c[0x1C];
@@ -73,18 +73,18 @@ void Rva0049DC50::rva0049DC50(int id)
 	Rva0049DC50Node *node = m_list;
 	while (node != 0)
 	{
-		bool flag = node->m_14 >= 100.0f && m_100 != 0;
-		if (node->m_10 == id && (m_fd != 0 || flag == 0))
+		bool flag = node->m_percentComplete >= 100.0f && m_100 != 0;
+		if (node->m_productionID == id && (m_fd != 0 || flag == 0))
 		{
 			Player *player = (*(Object **)((char *)this - 0x18))->getControllingPlayer();
 			if (flag == 0)
 			{
 				((Rva003B0D7C *)((char *)player + 0x90))->rva003B0D7C(
 					node->m_28, (Rva0039B7AD *)((char *)player + 0x3bc), true);
-				((Rva0039BAD2 *)((char *)player + 0x3bc))->rva0039BAD2(node->m_8, -node->m_28);
+				((Rva0039BAD2 *)((char *)player + 0x3bc))->rva0039BAD2(node->m_objectToProduce, -node->m_28);
 			}
-			if (node->m_4 == 3)
-				((Rva0037E421 *)((char *)player + 0x738))->productionSystemCancelUnitCreate(node->m_10);
+			if (node->m_type == 3)
+				((Rva0037E421 *)((char *)player + 0x738))->productionSystemCancelUnitCreate(node->m_productionID);
 			((Rva0049D526 *)((char *)this - 0x20))->rva0049D57F(node);
 			::operator delete(node->slot0(0));
 			return;
