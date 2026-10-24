@@ -1864,3 +1864,14 @@ Code/Libraries/Source/WWVegas/WWLib/Rva00240D0FCreate.cpp|local|Rva00240D0FCreat
 Code/Libraries/Source/WWVegas/WWLib/Rva002CF302Erase.cpp|function|0x002CF302|rva002CF302,10204d09dfc180182cafacd7,gpt-6.1-sol,codex4-20261024-005743-8,w-887869184137,2026-10-24
 Code/GameEngine/Source/Common/Rva00108AD8Finish.cpp|local|Rva00108AD8::invalidateCachedLightPositions|e,b4bcfe4bddd502fd78db80b7,gpt-6.1-sol,codex4-20261024-005743-9,w-887869184137,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/ObjectRva0028C20F.cpp|local|Object::rva0028C20F|m,fe597da0f6387f3f6b750fcf,gpt-6.1-sol,codex4-20261024-005743-10,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/OpenAudioFile_setFileReady.cpp|param|OpenAudioFile::setFileReady|a2,2937690e5b7c1daefa124fa9,gpt-6.1-sol,codex4-20261024-005743-12,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva001F51DC.cpp|local|Rva001F51DC::rva001F51DC|a,720823d5e21e31a7c9ab7aff,gpt-6.1-sol,codex4-20261024-005743-13,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva001F51DC.cpp|local|Rva001F51DC::rva001F51DC|b,e29d7f1b6902f138d19e1de4,gpt-6.1-sol,codex4-20261024-005743-13,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva001F51DC.cpp|local|Rva001F51DC::rva001F51DC|d,b126b05cc4ef44a12607593c,gpt-6.1-sol,codex4-20261024-005743-13,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainScatter.cpp|member|Rva00464B96Object|position38,4ff1d0e7b5f85ce75bcd6a4b,gpt-6.1-sol,codex4-20261024-005743-14,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainScatter.cpp|member|Rva00464B96Object|orientation44,ef2ca9d98474ee5cb6c3c1ad,gpt-6.1-sol,codex4-20261024-005743-14,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainScatter.cpp|member|Rva00464B96Object|radiusB8,376c21ae3ba641eb9f967d28,gpt-6.1-sol,codex4-20261024-005743-14,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainScatter.cpp|member|Rva00464B96Object|ai258,b33d0cb77ae02d0489df9058,gpt-6.1-sol,codex4-20261024-005743-14,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/VectorFillInsertRva003F61C6.cpp|param|Rva003F61C6EmitAnchor|v,dc5fbc4396b41564c36eca61,gpt-6.1-sol,codex4-20261024-005743-17,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Bfme/Rva004B9B99Finish.cpp|member|BfmeRangeFDE|m_bfmeBegin,c434f4f562cb916c527bfaf5,gpt-6.1-sol,codex4-20261024-005743-18,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Bfme/Rva004B9B99Finish.cpp|member|BfmeRangeFDE|m_bfmeEnd,98088e2d189ef4bc69b24d77,gpt-6.1-sol,codex4-20261024-005743-18,w-887869184137,2026-10-24
