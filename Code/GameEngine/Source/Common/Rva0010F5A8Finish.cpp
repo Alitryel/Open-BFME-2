@@ -99,7 +99,7 @@ private:
     char m_pad0[8]; // +0..+7
     Rva0010F28DInner *m_inner; // +8
     float m_fraction0C; // +0x0C
-    int m_marginMs10; // +0x10
+    int m_endMarginMs; // +0x10
 };
 
 void Rva0010F5A8::rva0010F5A8()
@@ -110,8 +110,8 @@ void Rva0010F5A8::rva0010F5A8()
         int total = -1;
         AIL_stream_ms_position(stream, &total, 0);
         int ms = (int)(total * m_fraction0C);
-        if (total - ms < m_marginMs10) {
-            ms = total - m_marginMs10;
+        if (total - ms < m_endMarginMs) {
+            ms = total - m_endMarginMs;
             if (ms < 0)
                 ms = 0;
         }
