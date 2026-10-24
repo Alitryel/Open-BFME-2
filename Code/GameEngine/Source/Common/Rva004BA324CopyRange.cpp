@@ -5,10 +5,29 @@
 namespace _STL {
 struct random_access_iterator_tag {
 };
-template <class _InputIter, class _OutputIter, class _Distance>
-_OutputIter __copy(_InputIter __first, _InputIter __last, _OutputIter __result, const random_access_iterator_tag &__tag, _Distance *__dist);
+// STLport 4.5.3 random-access __copy (vendor/stlport/stl/_algobase.h). Retail
+// keeps it out of line: 0x004BA2E9 is the 50B assign loop (stride 0x2C) rowed as
+// Rva004BA2E9Copy, which this instantiation folds with.
+template <class _RandomAccessIter, class _OutputIter, class _Distance>
+__declspec(noinline) inline _OutputIter
+__copy(_RandomAccessIter __first, _RandomAccessIter __last,
+       _OutputIter __result, const random_access_iterator_tag &, _Distance*) {
+  for (_Distance __n = __last - __first; __n > 0; --__n) {
+    *__result = *__first;
+    ++__first;
+    ++__result;
+  }
+  return __result;
 }
-class Rva004BA1C8;
+}
+// The 0x2C record of Rva004BA1C8Record.cpp; only its rowed assignment
+// (0x004BA291) is used here.
+class Rva004BA1C8 {
+public:
+	Rva004BA1C8 &operator=(const Rva004BA1C8 &other);
+private:
+	unsigned char m_bytes[0x2C];
+};
 Rva004BA1C8 *Rva004BA324CopyRange(Rva004BA1C8 *first, Rva004BA1C8 *last, Rva004BA1C8 *result, int dummy)
 {
 	_STL::random_access_iterator_tag tag;
