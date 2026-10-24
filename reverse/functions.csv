@@ -11128,8 +11128,8 @@ _luaL_check_lstr,,0x007519A0,123,Code/Libraries/Source/Lua/lauxlib.c,matched,BFM
 _luaL_addvalue,,0x00751760,159,Code/Libraries/Source/Lua/lauxlib.c,matched,BFME1 byte-identical donor; vendored=lua-4.0.1
 _adjuststack,,0x007515A0,128,Code/Libraries/Source/Lua/lauxlib.c,matched,BFME1 byte-identical donor; vendored=lua-4.0.1; unclaimed_scan exact of TU-emitted body
 _type_error,,0x00751880,68,Code/Libraries/Source/Lua/lauxlib.c,matched,BFME1 byte-identical donor; vendored=lua-4.0.1; unclaimed_scan exact of TU-emitted body
-_luaX_invalidchar,,0x00756FD0,79,Code/Libraries/Source/Lua/llex.c,matched,gen-alias; object-symbol=_luaX_invalidchar; C++ alias; obj_sweep rel32 wave
-_inclinenumber,,0x007574E0,108,Code/Libraries/Source/Lua/llex.c,matched,gen-alias; object-symbol=_inclinenumber; C++ alias; obj_sweep rel32 wave
+_luaX_invalidchar,,0x00756FD0,79,Code/Libraries/Source/Lua/llex.c,matched,BFME1 lua-4.0.1 llex; vendored=lua-4.0.1; obj_sweep rel32 wave
+_inclinenumber,,0x007574E0,108,Code/Libraries/Source/Lua/llex.c,matched,BFME1 lua-4.0.1 llex; vendored=lua-4.0.1; obj_sweep rel32 wave
 ?update@AIPickUpCrateState@@UAE?AW4StateReturnType@@XZ,,0x0034DEDE,26,Code/GameEngine/Source/GameLogic/AI/AIPickUpCrateStateUpdate.cpp,matched,BFME1 AIStates.cpp donor (BFME1 matched same 26B at 0x00178E10); ZH AIPickUpCrateState::update verbatim; callees base onEnter@0x34C146 + base update@0x347460 pinned
 ??0GridWSEnvironmentMapperClass@@QAE@MIIIW4AxisType@GridWSEnvMapperClass@@I@Z,,0x00187470,88,Code/Libraries/Source/WWVegas/WW3D2/mapper.cpp,matched,BFME1 near-miss donor; derived 6-arg with same-TU inlined GridWSEnv base (vptrs 0xBD3198/0xBD57B4/derived 0xBD58B0 = Environment); Axis +0x34
 ?install_alternate_material_desc@MeshModelClass@@IAEXPAVMeshLoadContextClass@@@Z,,0x00188290,134,Code/Libraries/Source/WWVegas/WW3D2/MeshModelInstallAlternate.cpp,matched,ZH packet 95.1pct; dedicated TU with retail-anchored views; pins Is_Empty Init_Alternate
@@ -11152,9 +11152,9 @@ _luaG_ordererror,,0x0074D2E0,73,Code/Libraries/Source/Lua/ldebug.c,matched,BFME1
 ?name@Rva000E6B93Named@@QBEPBDXZ,,0x000E6B93,6,Code/GameEngine/Source/Common/W3DDrawNameGetters.cpp,matched,literal name getter returning W3DVegetationBufferBase; vtable ref; address-derived placeholder name
 ?name@Rva000E9C0FNamed@@QBEPBDXZ,,0x000E9C0F,6,Code/GameEngine/Source/Common/W3DDrawNameGetters.cpp,matched,literal name getter returning W3DShrubBuffer; vtable ref; address-derived placeholder name
 ?name@Rva000EDB39Named@@QBEPBDXZ,,0x000EDB39,6,Code/GameEngine/Source/Common/W3DDrawNameGetters.cpp,matched,literal name getter returning W3DTreeBuffer; vtable ref; address-derived placeholder name
-?dup_00757200@@YAXXZ,,0x00757200,669,Code/Libraries/Source/Lua/llex.c,matched,gen-alias;object-symbol=_read_number;C++ alias
-_read_long_string,,0x00757550,643,Code/Libraries/Source/Lua/llex.c,matched,gen-alias;object-symbol=_read_long_string;C++ alias
-_read_string,,0x007577E0,1185,Code/Libraries/Source/Lua/llex.c,matched,gen-alias;object-symbol=_read_string;C++ alias
+?dup_00757200@@YAXXZ,,0x00757200,669,Code/Libraries/Source/Lua/llex.c,matched,object-symbol=_read_number;second static read_number emitted into llex.obj (liolib has its own at 0x0074A6C0); BFME1 lua-4.0.1 llex static; vendored=lua-4.0.1
+_read_long_string,,0x00757550,643,Code/Libraries/Source/Lua/llex.c,matched,BFME1 lua-4.0.1 llex static; vendored=lua-4.0.1
+_read_string,,0x007577E0,1185,Code/Libraries/Source/Lua/llex.c,matched,BFME1 lua-4.0.1 llex static; vendored=lua-4.0.1
 ?name@Rva000CEB69Named@@QBEPBDXZ,,0x000CEB69,6,Code/GameEngine/Source/Common/W3DDrawNameGetters.cpp,matched,literal name getter returning W3DTreeDraw; vtable ref at 0x7CCD00; address-derived placeholder name
 ?name@W3DBuffDraw@@QBEPBDXZ,,0x000CEE01,6,Code/GameEngine/Source/Common/W3DDrawNameGetters.cpp,matched,literal name getter returning W3DBuffDraw; vtable ref at 0x7CD180; address-derived placeholder name
 ?GetSnapshotName@W3DPropDraw@@MBEPBDXZ,,0x000CEEE0,6,Code/GameEngine/Source/Common/W3DDrawNameGetters.cpp,matched,literal name getter returning W3DPropDraw; vtable ref at 0x7CD330; address-derived placeholder name
