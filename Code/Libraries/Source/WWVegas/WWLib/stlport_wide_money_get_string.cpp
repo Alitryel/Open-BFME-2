@@ -108,6 +108,32 @@ _STLP_alloc_proxy<unsigned short *, unsigned short, allocator<unsigned short> >:
 {
     return allocator<unsigned short>::allocate(count, 0);
 }
+template <> __declspec(dllimport) __forceinline
+void _String_base<wchar_t, allocator<wchar_t> >::_M_allocate_block(size_t count)
+{
+    if (count <= max_size() + 1 && count > 0) {
+        _M_start = _M_end_of_storage.allocate(count);
+        _M_finish = _M_start;
+        _M_end_of_storage._M_data = _M_start + count;
+    } else
+        _M_throw_length_error();
+}
+template <> template <> __declspec(dllimport) __forceinline
+void basic_string<wchar_t>::_M_range_initialize<wchar_t *>(wchar_t *first, wchar_t *last, const forward_iterator_tag &)
+{
+    difference_type count = distance(first, last);
+    this->_M_allocate_block(count + 1);
+    this->_M_finish = uninitialized_copy(first, last, this->_M_start);
+    _M_terminate_string();
+}
+template <> template <> __declspec(dllimport) __forceinline
+void basic_string<wchar_t>::_M_range_initialize<wchar_t *>(wchar_t *first, wchar_t *last)
+{
+    _M_range_initialize(first, last, random_access_iterator_tag());
+}
+// The const-source append is supplied by stlport_wide_string_append.cpp.
+template <> template <class InputIter> basic_string<wchar_t> &
+basic_string<wchar_t>::append(InputIter, InputIter, const forward_iterator_tag &);
 struct _MoneyLeak { ~_MoneyLeak() { if (_MONEY_LEAKS_CHECK) free(0); } };
 struct _MoneyPhantom { _MoneyLeak l; };
 template <> inline basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::~basic_string() {
@@ -132,7 +158,10 @@ basic_string<wchar_t, char_traits<wchar_t>, allocator<wchar_t> >::_M_assign_disp
     if (__f == __l)
       erase(__cur, end());
     else
-      append(__f, __l);
+    {
+      forward_iterator_tag tag;
+      append(static_cast<const wchar_t *>(__f), static_cast<const wchar_t *>(__l), tag);
+    }
     // The tag is "used", so the caller keeps retail's zero store for it.
     ((_MoneyPhantom *)&__t)->~_MoneyPhantom();
     return *this;
@@ -185,6 +214,26 @@ public:
 };
 inline locale::~locale() _STLP_NOTHROW { _M_impl->_M_decr(); }
 
+}
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+char *uninitialized_copy<char *, char *>(char *first, char *last, char *result)
+{
+    return __uninitialized_copy(first, last, result, __true_type());
+}
+template <> template <> __declspec(dllimport) __forceinline
+void basic_string<char>::_M_range_initialize<char *>(char *first, char *last, const forward_iterator_tag &)
+{
+    difference_type count = distance(first, last);
+    this->_M_allocate_block(count + 1);
+    this->_M_finish = uninitialized_copy(first, last, this->_M_start);
+    _M_terminate_string();
+}
+template <> template <> __declspec(dllimport) __forceinline
+void basic_string<char>::_M_range_initialize<char *>(char *first, char *last)
+{
+    _M_range_initialize(first, last, random_access_iterator_tag());
+}
 }
 // Keep the vendor _M_getc body visible for MSVC's side-effect analysis while
 // preserving retail's out-of-line calls. A declaration alone makes the compiler

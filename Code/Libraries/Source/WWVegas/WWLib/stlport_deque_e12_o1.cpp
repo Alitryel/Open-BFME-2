@@ -44,12 +44,16 @@ template <> deque<BfmeE12>::deque(const deque<BfmeE12> &);
 namespace _STL {
 typedef deque<BfmeE12>::iterator E12Iterator;
 typedef deque<BfmeE12>::const_iterator E12ConstIterator;
+// The no-exceptions unit supplies the rowed forward-range insertion bodies.
+template <> template <class ForwardIter> void deque<BfmeE12>::_M_insert_aux(E12Iterator, ForwardIter, ForwardIter, size_type);
+template <> template <class ForwardIter> void deque<BfmeE12>::insert(E12Iterator, ForwardIter, ForwardIter, const forward_iterator_tag &);
 template <> void deque<BfmeE12>::_M_new_elements_at_front(size_t);
 template <> void deque<BfmeE12>::_M_new_elements_at_back(size_t);
 template <> E12Iterator __uninitialized_copy_copy<E12ConstIterator, E12Iterator, E12Iterator>(E12ConstIterator, E12ConstIterator, E12Iterator, E12Iterator, E12Iterator, __false_type);
 template <> E12Iterator __uninitialized_copy_copy<E12Iterator, E12ConstIterator, E12Iterator>(E12Iterator, E12Iterator, E12ConstIterator, E12ConstIterator, E12Iterator, __false_type);
 }
 
+template _STL::E12Iterator _STL::uninitialized_copy<_STL::E12ConstIterator, _STL::E12Iterator>(_STL::E12ConstIterator, _STL::E12ConstIterator, _STL::E12Iterator);
 template class _STL::deque<BfmeE12, _STL::allocator<BfmeE12 > >;
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
