@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // ?Rva00381C82AddChatText@@YAXHABVUnicodeString@@H@Z, retail 0x00381C82, 107 bytes.
-// Chat helper: builds a BfmeStringRecord005DDD40 (text via StringBase set, word
+// Chat helper: builds a Rva00381B7BRecord (text via StringBase set, word
 // = color) inlines default ctor zeroing, pushes it into g_00E022F8[window]
 // (12-byte vectors, imul 12 needs /G7) then notifies g_00E02310 list via
 // forEach 0x0038188B with forwarder 0x001FF3A9. Evidence: callers at
@@ -23,18 +23,21 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include "unicode_string.h"
 #include <vector>
 
-struct BfmeStringRecord005DDD40 {
+// The chat history vectors' element: push_back 0x00381C4B reaches the overflow
+// 0x00381B7B and its own placement-copy helpers, not those of the
+// same-layout vector<BfmeStringRecord005DDD40> (see stlport_vector_record_381b7b.cpp).
+struct Rva00381B7BRecord {
 	UnicodeString text;
 	unsigned int word;
-	BfmeStringRecord005DDD40() : word(0) {}
+	Rva00381B7BRecord() : word(0) {}
 };
 
 extern unsigned int g_chatHistoryVectors[6];
 // Retail startup constructs two 12-byte vectors in this zero-filled storage.
-#define g_00E022F8 ((_STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> > *)g_chatHistoryVectors)
+#define g_00E022F8 ((_STL::vector<Rva00381B7BRecord, _STL::allocator<Rva00381B7BRecord> > *)g_chatHistoryVectors)
 
 // The separately rowed push_back owns its overflow call.
-namespace _STL { template <> void vector<BfmeStringRecord005DDD40>::push_back(const BfmeStringRecord005DDD40 &); }
+namespace _STL { template <> void vector<Rva00381B7BRecord>::push_back(const Rva00381B7BRecord &); }
 
 class Rva0038188BListener
 {
@@ -64,7 +67,7 @@ public:
 
 void Rva00381C82AddChatText(int window, const UnicodeString &text, int color)
 {
-	BfmeStringRecord005DDD40 rec;
+	Rva00381B7BRecord rec;
 	rec.text.set(text);
 	rec.word = (unsigned int)color;
 	g_00E022F8[window].push_back(rec);

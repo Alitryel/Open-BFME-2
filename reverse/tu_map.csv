@@ -26069,9 +26069,9 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00381B1F,51,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_stringrecord_5ddd40_erase.cpp
 0x00381B52,30,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_stringrecord_5ddd40_allocate_copy.cpp
 0x00381B70,11,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_stringrecord_5ddd40_allocate_copy.cpp
-0x00381B7B,178,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_stringrecord_5ddd40_allocate_copy.cpp
+0x00381B7B,178,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_record_381b7b.cpp
 0x00381C2D,30,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_stringrecord_5ddd40_clear.cpp
-0x00381C4B,55,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_stringrecord_5ddd40_allocate_copy.cpp
+0x00381C4B,55,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_record_381b7b.cpp
 0x00381C82,107,code,,,-,,Code/GameEngine/Source/Common/Rva00381C82AddChatText.cpp
 0x00381CED,21,code,,,-,,Code/GameEngine/Source/Common/Rva00381CEDMemcpy.cpp
 0x00381D02,24,code,,,-,,Code/GameEngine/Source/Common/Rva00381D02Memcpy.cpp

@@ -2186,3 +2186,5 @@ _Rva0084DB70,0x00020E30,"Renamed to __Locale_strwxfrm by tools/rename.py (inferr
 ?get@Rva00051896ByteField@@QBEEXZ,0x00051896,"Renamed to ?rva00051896@MilesAudioManager@@UBEEXZ: retail Miles primary vtable slot 84 targets this unique body"
 ?rva0005CA03@MilesAudioManager@@QAEXPAXMH@Z,0x0005CA03,"Renamed to ?rva0005CA03@MilesAudioManager@@UAEXPAXMH@Z: retail Miles primary vtable slot 48 targets this body"
 ?rva0005CA75@MilesAudioManager@@QAEXH@Z,0x0005CA75,"Renamed to ?rva0005CA75@MilesAudioManager@@UAEXH@Z: retail Miles primary vtable slot 50 targets this body"
+?_M_insert_overflow@?$vector@UBfmeStringRecord005DDD40@@V?$allocator@UBfmeStringRecord005DDD40@@@_STL@@@_STL@@IAEXPAUBfmeStringRecord005DDD40@@ABU3@ABU__false_type@2@I_N@Z,0x00381B7B,element of the chat-history vector split from vector<BfmeStringRecord005DDD40>: renamed to its Rva00381B7BRecord spelling
+?push_back@?$vector@UBfmeStringRecord005DDD40@@V?$allocator@UBfmeStringRecord005DDD40@@@_STL@@@_STL@@QAEXABUBfmeStringRecord005DDD40@@@Z,0x00381C4B,element of the chat-history vector split from vector<BfmeStringRecord005DDD40>: renamed to its Rva00381B7BRecord spelling

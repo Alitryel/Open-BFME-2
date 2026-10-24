@@ -18,7 +18,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 struct BfmeStringRecord005DDD40 {
     UnicodeString text;
     unsigned int word;
-    BfmeStringRecord005DDD40();
+    // Inline like the chat helper's record (Rva00381C82AddChatText.cpp): the
+    // explicit instantiation's resize/insert/push_back defaults construct one
+    // and no unit defines it out of line.
+    BfmeStringRecord005DDD40() : word(0) {}
     BfmeStringRecord005DDD40(const BfmeStringRecord005DDD40 &);
     BfmeStringRecord005DDD40 &operator=(const BfmeStringRecord005DDD40 &);
 public:
@@ -32,18 +35,7 @@ template <> BfmeStringRecord005DDD40 *vector<BfmeStringRecord005DDD40, allocator
 // The retail 260-byte fill-insert is emitted by its dedicated unit.
 template <> void vector<BfmeStringRecord005DDD40>::_M_fill_insert(BfmeStringRecord005DDD40 *, size_type, const BfmeStringRecord005DDD40 &);
 }
-// The chat-history copy uses the distinct native placement-copy entry at
-// 0x003814A6; the generic record helpers use the other copy at 0x005DDD78.
-void Rva003814A6Construct(BfmeStringRecord005DDD40 *, const BfmeStringRecord005DDD40 &);
-namespace _STL {
-template <> void vector<BfmeStringRecord005DDD40>::push_back(const BfmeStringRecord005DDD40 &value)
-{
-    if (this->_M_finish != this->_M_end_of_storage._M_data) {
-        Rva003814A6Construct(this->_M_finish, value);
-        ++this->_M_finish;
-    } else {
-        _M_insert_overflow(this->_M_finish, value, _IsPODType(), 1UL, true);
-    }
-}
-}
+// The chat-history vector (push_back 0x00381C4B, overflow 0x00381B7B) is a
+// distinct same-layout element: stlport_vector_record_381b7b.cpp. This
+// vector's overflow is the one at 0x005DE4BA, through 0x005DDD78/0x005DDDCA.
 template class _STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> >;
