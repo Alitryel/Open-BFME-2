@@ -79,9 +79,9 @@ private:
 	RenderObjClass *m_renderObject;		// +0x14
 };
 
-static __forceinline void translateWake(Matrix3D &mtx,float x,float y,float z){mtx[0][3]+=(mtx[0][0]*x)+((mtx[0][1]*y)+((*(const volatile float *)&(mtx[0][2]))*z));
-mtx[1][3]+=mtx[1][0]*x+mtx[1][1]*y+mtx[1][2]*z;
-mtx[2][3]+=mtx[2][0]*x+mtx[2][1]*y+mtx[2][2]*z;}
+static __forceinline void translateWake(Matrix3D &mtx,float m_offsetX,float offsetY,float m_offsetZ){mtx[0][3]+=(mtx[0][0]*m_offsetX)+((mtx[0][1]*offsetY)+((*(const volatile float *)&(mtx[0][2]))*m_offsetZ));
+mtx[1][3]+=mtx[1][0]*m_offsetX+mtx[1][1]*offsetY+mtx[1][2]*m_offsetZ;
+mtx[2][3]+=mtx[2][0]*m_offsetX+mtx[2][1]*offsetY+mtx[2][2]*m_offsetZ;}
 void W3DBoatWakeModelDraw::doDrawModule(const Matrix3D *transformMtx)
 {
 	Vector3 offset = m_moduleData->m_wakeOffset;
