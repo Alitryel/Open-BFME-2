@@ -24,4 +24,12 @@ template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(ch
 namespace _STL {
 template <> char *_STLP_alloc_proxy<char*, char, allocator<char> >::allocate(size_t);
 }
+// Keep uninitialized_copy<char*,char*> inline-only: no retail copy exists
+// (every caller inlines it), and this TU's tail-jump copy differs from the
+// memmove copy the link keeps.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+char *uninitialized_copy<char *, char *>(char *__first, char *__last, char *__result)
+{ return (char *)__copy_trivial(__first, __last, __result); }
+}
 template class _STL::basic_ostringstream<char, _STL::char_traits<char>, _STL::allocator<char> >;

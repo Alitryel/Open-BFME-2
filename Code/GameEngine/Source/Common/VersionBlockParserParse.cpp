@@ -57,9 +57,14 @@ namespace _STL { template <> BfmeNarrowRecord00427F75 * __uninitialized_fill_n<B
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct VersionBlockEntry; class VersionBlockKeyCompare;
 namespace _STL { template <> void __unguarded_insertion_sort_aux<VersionBlockEntry *,VersionBlockEntry,VersionBlockKeyCompare>(VersionBlockEntry *,VersionBlockEntry *,VersionBlockEntry *,VersionBlockKeyCompare); }
-// Suppress this TU's non-retail copy of ??$uninitialized_copy@PADPAD@_STL@@YAPADPAD00@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> char * uninitialized_copy<char *,char *>(char *,char *,char *); }
+// Keep uninitialized_copy<char*,char*> inline-only: no retail copy exists
+// (every caller inlines it), and this TU's tail-jump copy differs from the
+// memmove copy the link keeps.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+char *uninitialized_copy<char *, char *>(char *__first, char *__last, char *__result)
+{ return (char *)__copy_trivial(__first, __last, __result); }
+}
 // Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PADDV?$allocator@D@_STL@@@_STL@@QAEPADI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> char * _STL::_STLP_alloc_proxy<char *,char,_STL::allocator<char> >::allocate(unsigned int); }
