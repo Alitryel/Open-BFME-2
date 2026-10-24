@@ -4,16 +4,8 @@ void __cdecl operator delete[](void *) throw();
 #include "vector.h"
 #include "vector2i.h"
 
-// Native156860's deleting destructor calls the shared11B body23E3. Compile
-// these ordinary destructor definitions for size, while retaining the base
-// body for inlining in Allocate_New_Surface's native551B speed-built body.
-// Default deferred emission instead inlines Clear into a losing45B copy;
-// hiding Clear would shorten the matched parent by20B. Both full destructor
-// bodies and all owner relocations are exact; no byte emission or new pin.
-#pragma optimize("s", on)
-template<> __forceinline VectorClass<int>::~VectorClass() { Clear(); }
-template<> inline DynamicVectorClass<int>::~DynamicVectorClass() {}
-#pragma optimize("", on)
+#include "../WWLib/NativeIntVectorSlots.h"
+
 
 template <> __declspec(dllimport) __forceinline
 VectorClass<int>::VectorClass(int size, const int *array)

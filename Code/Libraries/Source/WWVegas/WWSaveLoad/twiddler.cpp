@@ -67,7 +67,8 @@ template <> int VectorClass<int>::ID(int const *);
 template <> bool VectorClass<int>::Resize(int, int const *);
 // bfme link decl-only end
 // Inline base teardown so the derived destructor installs the shared vector table.
-template <> __declspec(dllimport) __forceinline VectorClass<int>::~VectorClass() { VectorClass<int>::Clear(); }
+#include "../WWLib/NativeIntVectorSlots.h"
+
 
 
 DECLARE_FORCE_LINK( Twiddler )

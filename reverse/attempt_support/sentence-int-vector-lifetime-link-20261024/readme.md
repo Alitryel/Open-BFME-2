@@ -44,6 +44,12 @@ is started and no closed-strict result is claimed.
 
 ## Related glyph consumer: preserved prerequisite
 
+Resolved by the follow-up in
+`reverse/attempt_support/sentence-native-vector-table-link-20261024/`:
+the three missing table operations now have real whole-body template twins,
+all six native slots are proven, and the constructor/EH rows move to the glyph
+provider. The paragraphs below preserve the original diagnosis and trial bank.
+
 The same destructor block preserves the glyph parent's full 515 bytes and
 emits both exact 11-byte destructors. It still does not link: its separately
 emitted PendingSurfaceStruct constructor is not proven against the selected

@@ -3,6 +3,8 @@
 void __cdecl operator delete[](void *) throw();
 #include "vector.h"
 #include "vector2i.h"
+#include "../WWLib/NativeIntVectorSlots.h"
+
 // bfme link decl-only begin
 template <> bool VectorClass<int>::operator==(VectorClass<int> const &) const;
 template <> int VectorClass<int>::ID(int const &);

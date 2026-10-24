@@ -31611,8 +31611,6 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/RandomTextureMapperCalculate
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/RandomTextureMapperCalculate.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/RayCollisionCopyCtor.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/RayCollisionCopyCtor.cpp	"gsy",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/Render2DSentenceAllocateSurfaceBFME2.cpp	"",on	1	allow=37ca8520d960a3cd9087bad2ff0d8fe4eab2e54c
-pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/Render2DSentenceAllocateSurfaceBFME2.cpp	"s",on	1	allow=37ca8520d960a3cd9087bad2ff0d8fe4eab2e54c
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/RenderObjAddDependenciesToList.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/RenderObjAddDependenciesToList.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/RenderObjAssign.cpp	"",on	1
@@ -31865,6 +31863,8 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WWDebug/debug_io_flat.cpp	"y",off	
 pragma_optimize	Code/Libraries/Source/WWVegas/WWDebug/debug_io_flat.cpp	"y",on	2
 pragma_optimize	Code/Libraries/Source/WWVegas/WWDebug/debug_stack.cpp	"",off	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWDebug/debug_stack.cpp	"",on	1
+pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/NativeIntVectorSlots.h	"",on	1	allow=f2ab058af47c56ca1e97dca116cb8ab8db45e166
+pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/NativeIntVectorSlots.h	"s",on	1	allow=f2ab058af47c56ca1e97dca116cb8ab8db45e166
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/PAUTreeHintRef00217D4CRva004F9565.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/PAUTreeHintRef00217D4CRva004F9565.cpp	"t",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/Rva002B85ECFilter.cpp	"",on	1
@@ -35973,9 +35973,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/MeshModelReadDig.cpp	DX8Wr
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/MeshModelReadVertexColors.cpp	DX8Wrapper::Convert_Color	2
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/ParticleEmitterVisibilityWrappers.cpp	bfmeEmitParticleEmitterVisibilityWrappers@@YAXPAVParticleEmitterClass@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/PendingSurfaceStructAssignmentBFME.cpp	bfmeEmitPendingSurfaceStructAssignmentBFME@@YAXPAUPendingSurfaceStruct@Render2DSentenceClass@@@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/PendingSurfaceStructCtor.cpp	DynamicVectorDummy::DynamicVectorDummy	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/PendingSurfaceStructCtor.cpp	VectorClassDummy::VectorClassDummy	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/PendingSurfaceStructCtor.cpp	bfmeEmitPendingSurfaceStructCtor@@YAXPAUPendingSurfaceStruct@Render2DSentenceClass@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/PendingSurfaceStructResize.cpp	BfmeRendererVectorBase::BfmeRendererVectorBase	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/PendingSurfaceStructResize.cpp	DynamicVectorDummy::DynamicVectorDummy	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/PendingSurfaceStructResize.cpp	W3DRadarResetSurface::operator=	1
