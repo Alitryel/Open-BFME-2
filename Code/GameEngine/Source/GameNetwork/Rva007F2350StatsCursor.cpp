@@ -44,8 +44,8 @@ class Rva007F2350StatsCursor
 {
 public:
 	bool next( Rva007F2350StatsRecord *record );
-	bool rva007F2230( Rva007F2350StatsRecord *record );
-	bool rva007F24A0( Rva007F2350StatsRecord *record );
+	bool nextStat( Rva007F2350StatsRecord *record );
+	bool nextAdditionalStat( Rva007F2350StatsRecord *record );
 
 	Rva007E8810Message *m_msg;
 	int m_index;
@@ -94,7 +94,7 @@ bool Rva007F2350StatsCursor::next( Rva007F2350StatsRecord *record )
 // ret 4 at 0x007F2348, then five int3 bytes. The stats.* strings prove this
 // shares the cursor and output record layout with next; its +0x30 output is
 // the key string.
-bool Rva007F2350StatsCursor::rva007F2230(Rva007F2350StatsRecord *record)
+bool Rva007F2350StatsCursor::nextStat(Rva007F2350StatsRecord *record)
 {
  char name[0x40];
  char valueText[0x40];
@@ -122,7 +122,7 @@ bool Rva007F2350StatsCursor::rva007F2230(Rva007F2350StatsRecord *record)
 // Retail 0x007F24A0: the per-stat addStats reader.  It formats the keys with
 // the index the cursor has already stepped past (m_index - 1, read once) and
 // the addStats counter in m_state, which it advances instead of m_index.
-bool Rva007F2350StatsCursor::rva007F24A0(Rva007F2350StatsRecord *record)
+bool Rva007F2350StatsCursor::nextAdditionalStat(Rva007F2350StatsRecord *record)
 {
  char name[0x40];
  char valueText[0x40];

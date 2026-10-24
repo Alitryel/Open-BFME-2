@@ -1750,3 +1750,5 @@ local,Rva00542BA1Parse::tmp,Rva00542BA1Parse::armor,inferred,agree:nl-65f2b10f5c
 local,Rva00542B24Parse::tmp,Rva00542B24Parse::weapon,inferred,agree:nl-2382082ddbd8,Code/GameEngine/Source/Common/AutoResolveArmorParse.cpp,0x00542B24
 param,famgenDelete#4::p,famgenDelete#4::lock,inferred,agree:nl-19ec6fe38641,Code/GameEngine/Source/Common/FamilyDeletingDtors3.cpp,
 member,BfmeThingVJQ::m_bfmeBuf,BfmeThingVJQ::m_messageBuffer,inferred,agree:nl-50b22eaa26da,Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJQ.cpp,
+function,?rva007F24A0@Rva007F2350StatsCursor@@QAE_NPAVRva007F2350StatsRecord@@@Z,?nextAdditionalStat@Rva007F2350StatsCursor@@QAE_NPAVRva007F2350StatsRecord@@@Z,inferred,agree:nl-28789cf65fa5,Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp,0x0065EF90
+function,?rva007F2230@Rva007F2350StatsCursor@@QAE_NPAVRva007F2350StatsRecord@@@Z,?nextStat@Rva007F2350StatsCursor@@QAE_NPAVRva007F2350StatsRecord@@@Z,inferred,agree:nl-3f9d3714af41,Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp,0x0065ED20
