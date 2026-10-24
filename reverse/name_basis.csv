@@ -1401,3 +1401,8 @@ local,PathfindZoneManager::rva00531720::e,PathfindZoneManager::rva00531720::elem
 local,mallocMarked::p,mallocMarked::memory,inferred,agree:nl-a46468366fe0,Code/GameEngine/Source/Common/Rva006C3940RecordAlloc.cpp,
 local,Rva006C39F0Owner::rva006C3940Alloc::p,Rva006C39F0Owner::rva006C3940Alloc::record,inferred,agree:nl-d794fedd2e46,Code/GameEngine/Source/Common/Rva006C3940RecordAlloc.cpp,0x006C3940
 function,?Rva003743BB@@YAXPAVObject@@PAX@Z,?setStatusCallback@@YAXPAVObject@@PAX@Z,inferred,agree:nl-a2fd38dfae88,Code/GameEngine/Source/GameLogic/Object/Update/Rva003743CFBehavior.cpp,0x003743BB
+param,Pathfinder::rva002EADE1::b,Pathfinder::rva002EADE1::destinationPos,inferred,agree:nl-df11290a8470,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002EADE1.cpp,0x002EADE1
+local,baseRotate::x,baseRotate::productX,inferred,agree:nl-9dc52fd7d9c7,Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp,
+local,baseRotate::y,baseRotate::productY,inferred,agree:nl-45629717ef80,Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp,
+local,baseRotate::z,baseRotate::productZ,inferred,agree:nl-00709bcfe47a,Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp,
+local,baseRotate::w,baseRotate::productW,inferred,agree:nl-c39edd985939,Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp,

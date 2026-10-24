@@ -131,16 +131,16 @@ static __forceinline Matrix3D &S2PivotMatrix(const Quaternion &Q, const S2Compac
 
 static __forceinline void baseRotate(const Quaternion &rotation, const Vector3 &vector, Vector3 *out)
 {
-	float x = (rotation.Y * vector.Z - rotation.Z * vector.Y) + rotation.W * vector.X;
-	float y = -(rotation.X * vector.Z - rotation.Z * vector.X) + rotation.W * vector.Y;
-	float z = (rotation.X * vector.Y - rotation.Y * vector.X) + rotation.W * vector.Z;
-	float w = 0.0f - (rotation.X * vector.X + rotation.Y * vector.Y + rotation.Z * vector.Z);
-	float rx = rotation.Y * z - y * rotation.Z;
-	rx += rotation.W * x - rotation.X * w;
+	float productX = (rotation.Y * vector.Z - rotation.Z * vector.Y) + rotation.W * vector.X;
+	float productY = -(rotation.X * vector.Z - rotation.Z * vector.X) + rotation.W * vector.Y;
+	float productZ = (rotation.X * vector.Y - rotation.Y * vector.X) + rotation.W * vector.Z;
+	float productW = 0.0f - (rotation.X * vector.X + rotation.Y * vector.Y + rotation.Z * vector.Z);
+	float rx = rotation.Y * productZ - productY * rotation.Z;
+	rx += rotation.W * productX - rotation.X * productW;
 	out->X = rx;
-	out->Y = (rotation.W * y - rotation.Y * w) - (rotation.X * z - rotation.Z * x);
-	float rz = rotation.X * y - rotation.Y * x;
-	rz += rotation.W * z - rotation.Z * w;
+	out->Y = (rotation.W * productY - rotation.Y * productW) - (rotation.X * productZ - rotation.Z * productX);
+	float rz = rotation.X * productY - rotation.Y * productX;
+	rz += rotation.W * productZ - rotation.Z * productW;
 	out->Z = rz;
 }
 
