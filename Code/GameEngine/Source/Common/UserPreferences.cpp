@@ -486,20 +486,5 @@ void UserPreferences::rva003B2322(const AsciiString &val, Int num, Bool flag)
 		erase(key);
 }
 
-// ?getIgnores@IgnorePreferences@@QAE?AV?$map@HVAsciiString@@U?$less@H@_STL@@V?$allocator@U?$pair@$$CBHVAsciiString@@@_STL@@@3@@_STL@@XZ @0x3B224D
-IgnorePrefMap IgnorePreferences::getIgnores(void)
-{
-	IgnorePrefMap ignores;
-
-	IgnorePreferences::iterator it;
-	for (it = begin(); it != end(); ++it)
-	{
-		AsciiString profileStr = it->first;
-		AsciiString lastLoginStr = it->second;
-		Int profileID = atoi(profileStr.str());
-
-		ignores[profileID] = lastLoginStr;
-	}
-
-	return ignores;
-}
+// The int-keyed getIgnores definition and its template/EH rows live in
+// UserPreferencesDeferredIgnores.cpp while their provider identities are repaired.
