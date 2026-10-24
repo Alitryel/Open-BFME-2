@@ -5354,3 +5354,11 @@ Code/GameEngine/Source/Common/Rva000347A0Realloc.cpp|function|0x000347A0|rva0003
 Code/Libraries/Source/Apt/Rva006FE400Chain.cpp|param|Rva006FE400::rva006FE400|a1,15adf7e98f2d916c96d761ce,gpt-6-astra,codexb2-20261024-152332-6,w-d0bdfd8b17e9,2026-10-24
 Code/Libraries/Source/Apt/Rva006FE400Chain.cpp|param|Rva006FE400::rva006FE400|a2,d330985639e443bcb9829fe7,gpt-6-astra,codexb2-20261024-152332-6,w-d0bdfd8b17e9,2026-10-24
 Code/Libraries/Source/Apt/Rva006FE400Chain.cpp|local|Rva006FE400::rva006FE400|r,d0429d08fbc96246efea40fd,gpt-6-astra,codexb2-20261024-152332-6,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp|class||Rva002E99F9Arg1,301a7da22aa56882ddb2f396,gpt-6.1-sol,codexb-20261024-153504-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp|member|Rva002E99F9Arg1|m_10,5f0e5a60e5b68894037dc949,gpt-6.1-sol,codexb-20261024-153504-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp|param|Pathfinder::FindBrokenBridge|a1,57c7bd0b7daffc83115853b7,gpt-6.1-sol,codexb-20261024-153504-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/LargeGroupAudioUpdateSlots.cpp|function|0x004ABA71|rva004ABA71,e820e5bd59a35be11a7b1bec,gpt-6.1-sol,codexb-20261024-153504-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/LargeGroupAudioUpdateSlots.cpp|function|0x004ABA79|rva004ABA79,084cf51f71337855a2dc796e,gpt-6.1-sol,codexb-20261024-153504-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/LargeGroupAudioUpdateSlots.cpp|function|0x004ABA81|rva004ABA81,346080bbb5143fcacde25663,gpt-6.1-sol,codexb-20261024-153504-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameClient/Rva0055D686Scale.cpp|function|0x0055D686|Rva0055D686Compute,056f61ba89cbcc12ccd3d944,gpt-6.1-sol,codexb-20261024-153504-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva002E0D66Method.cpp|member|Rva002E0D66Node|m_8,892b40011aa767a1a2b77902,gpt-6.1-sol,codexb-20261024-153504-4,w-8e883e57d025,2026-10-24
