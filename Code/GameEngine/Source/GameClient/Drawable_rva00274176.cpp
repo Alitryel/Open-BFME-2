@@ -219,7 +219,7 @@ public:
 
 	void rva00274176(bool immediate);
 	void rva00274445(float f);
-	int rva0027434D(int x);
+	int rva0027434D(int wslot);
 	void setIndicatorColor(Color color);
 	void friend_bindToObject(Object *obj);
 	void changedTeam();
@@ -280,7 +280,7 @@ void Drawable::rva00274445(float f)
 #pragma optimize("", on)
 
 #pragma optimize("y", on)
-int Drawable::rva0027434D(int x)
+int Drawable::rva0027434D(int wslot)
 {
 	if (m_isModelDirty) {
 		m_conditionState.rva00271C8A(m_pendingClear.m_bits, m_pendingSet.m_bits);
@@ -296,7 +296,7 @@ int Drawable::rva0027434D(int x)
 		void *obj = elem->slot42();
 		int moduleResult;
 		if (obj != 0)
-			moduleResult = ((ElemB27434D *)obj)->slot23(x);
+			moduleResult = ((ElemB27434D *)obj)->slot23(wslot);
 		else
 			moduleResult = 0;
 		if (moduleResult != 0)
