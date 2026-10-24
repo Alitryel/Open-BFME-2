@@ -5431,3 +5431,9 @@ Code/Libraries/Source/WWVegas/WWLib/RvaTreeEraseRangeFamily_Rva00082BE1.cpp|func
 Code/GameEngine/Source/GameLogic/AI/PathfinderAdjustCandidate.cpp|param|Rva002F57E6Query::rva002F57E6|b,0d08dbafc8648b293e78254f,claude-opus-5-5,claudec5-20261024-160027-7,w-1ebb1ea4caee,2026-10-24
 Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|function|0x001B2450|rva001B2450,18f35cd16aea1bbbcceb1853,claude-opus-5-5,claudec5-20261024-160027-10,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/Common/Rva002E0D66Method.cpp|member|Rva002E0D66Node|m_8,b9be1bebbfaab00348c41837,claude-opus-5-5,claudec5-20261024-160027-11,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|class||Rva007F2350StatsRecord,a55495175b3db62ecbe6d60c,claude-opus-5-5,claudec5-20261024-161902-1,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|class||Rva007F2350StatsCursor,e1e4db06d9446c365c40c8ab,claude-opus-5-5,claudec5-20261024-161902-1,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|class||Rva007F27C0Stat,437b83b37e9b78aa80e79a77,claude-opus-5-5,claudec5-20261024-161902-1,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|function|0x0065EF90|rva007F24A0,361db664f2088bd09bad9ae2,claude-opus-5-5,claudec5-20261024-161902-1,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/SpecialPower/Rva00254D0BFree.cpp|function|0x00254D0B|rva00254D0B,3c66aa794a3e01ae0cfc8bb7,claude-opus-5-5,claudec5-20261024-161902-1,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva00276223Leaf.cpp|local|Rva00276223::rva00276223|p,20fb5dc263ecd5ad147e2238,claude-opus-5-5,claudec5-20261024-161902-5,w-1ebb1ea4caee,2026-10-24
