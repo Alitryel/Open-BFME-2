@@ -93,9 +93,9 @@ Rva006ED2A0::Rva006ED2A0()
 {
     m_28 = 1;
     m_2C = 1;
-    int v74 = m_74;
-    v74 &= ~7;
-    m_74 = v74;
+    int flags = m_74;
+    flags &= ~7;
+    m_74 = flags;
     m_20 = 0;
     m_40 = 0;
     m_44 = 0;
@@ -106,9 +106,9 @@ Rva006ED2A0::Rva006ED2A0()
     m_38 = 3;
     unsigned int b = g_00E1771C;
     b <<= 3;
-    unsigned int mixed = b ^ (unsigned int)v74;
+    unsigned int mixed = b ^ (unsigned int)flags;
     mixed &= 8;
-    mixed ^= (unsigned int)v74;
+    mixed ^= (unsigned int)flags;
     m_74 = (int)mixed;
     m_68 = 0;
 }
