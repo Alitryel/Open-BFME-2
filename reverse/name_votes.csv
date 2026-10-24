@@ -5667,3 +5667,11 @@ Code/GameEngine/Source/Common/Rva005388C2Assign.cpp|local|QuadStrip2D::rva005383
 Code/GameEngine/Source/Common/Rva005388C2Assign.cpp|local|QuadStrip2D::rva005382F4|p,eb7188d122bb6b69dea93a73,claude-opus-5-5,claudec5-20261024-221144-2,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdateSlot8.cpp|local|SpecialAbilityUpdate::rva0044EDA6|a,02c9b5eea8e2df6fa931fc4f,claude-opus-5-5,claudec5-20261024-221144-8,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdateSlot8.cpp|local|SpecialAbilityUpdate::rva0044EDA6|b,51ec51d2d4c92a9a6f56985b,claude-opus-5-5,claudec5-20261024-221144-8,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|param|Rva00579E47|r,7b78b232233f62af8f8ffb8a,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p013a,w-8f5860960878,2026-10-24
+Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|param|AptRef|d,6d1e54ec185d28a34fdf7955,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p013a,w-8f5860960878,2026-10-24
+Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|local|Rva005D25F2::rva005D2664|e,041fd142bf9353712230df7d,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p013a,w-8f5860960878,2026-10-24
+Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|local|Rva005D25F2::rva005D24E5|e,12adf21a0fbd18281490cca8,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p013a,w-8f5860960878,2026-10-24
+Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|param|Rva00579E47|r,7b78b232233f62af8f8ffb8a,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p013b,w-e1d9b57dc8f7,2026-10-24
+Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|param|AptRef|d,6d1e54ec185d28a34fdf7955,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p013b,w-e1d9b57dc8f7,2026-10-24
+Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|local|Rva005D25F2::rva005D2664|e,041fd142bf9353712230df7d,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p013b,w-e1d9b57dc8f7,2026-10-24
+Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|local|Rva005D25F2::rva005D24E5|e,12adf21a0fbd18281490cca8,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p013b,w-e1d9b57dc8f7,2026-10-24
