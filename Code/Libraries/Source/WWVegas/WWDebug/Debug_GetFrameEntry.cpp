@@ -61,11 +61,10 @@ private:
 		const char *fileOrGroup, int line);
 
 public:
-	static void bfmeEmitDebugGetFrameEntry(Debug *p);
 };
 
 // ?GetFrameEntry@Debug@@AAEPAUFrameHashEntry@1@IIPBDH@Z
-inline Debug::FrameHashEntry *Debug::GetFrameEntry(unsigned int addr, unsigned int type,
+Debug::FrameHashEntry *Debug::GetFrameEntry(unsigned int addr, unsigned int type,
 	const char *fileOrGroup, int line)
 {
 	FrameHashEntry *entry = LookupFrame(addr);
@@ -76,14 +75,3 @@ inline Debug::FrameHashEntry *Debug::GetFrameEntry(unsigned int addr, unsigned i
 	return entry;
 }
 
-// This file owns the row, but another file emits the same function as an
-// inline copy it cannot stop emitting, so a strong definition here was a
-// duplicate symbol in the linked build. The anchor below emits the select-any
-// copy for the ledger row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitDebugGetFrameEntry@Debug@@SAXPAV1@@Z present-unmatched
-void Debug::bfmeEmitDebugGetFrameEntry(Debug *debug)
-{
-	debug->GetFrameEntry(0, 0, 0, 0);
-}
-#pragma inline_depth()

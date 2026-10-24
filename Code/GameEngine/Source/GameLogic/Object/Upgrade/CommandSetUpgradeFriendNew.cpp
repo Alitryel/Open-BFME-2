@@ -21,14 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@CommandSetUpgrade@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *CommandSetUpgrade::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *CommandSetUpgrade::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new CommandSetUpgrade(thing, moduleData));
 }
-#pragma inline_depth(0)
-// ?bfmeEmitCommandSetUpgradeFriendNew@@YAXPAVCommandSetUpgrade@@@Z present-unmatched
-void bfmeEmitCommandSetUpgradeFriendNew(CommandSetUpgrade *commandSetUpgrade)
-{
-	commandSetUpgrade->friend_newModuleInstance(0, 0);
-}
-#pragma inline_depth()

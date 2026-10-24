@@ -21,14 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@SpawnPointProductionExitUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *SpawnPointProductionExitUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *SpawnPointProductionExitUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new SpawnPointProductionExitUpdate(thing, moduleData));
 }
-#pragma inline_depth(0)
-// ?bfmeEmitSpawnPointProductionExitUpdateInstanceNew@@YAXPAVSpawnPointProductionExitUpdate@@@Z present-unmatched
-void bfmeEmitSpawnPointProductionExitUpdateInstanceNew(SpawnPointProductionExitUpdate *spawnPointProductionExitUpdate)
-{
-	spawnPointProductionExitUpdate->friend_newModuleInstance(0, 0);
-}
-#pragma inline_depth()

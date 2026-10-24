@@ -21,14 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@FireWeaponWhenDeadBehavior@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *FireWeaponWhenDeadBehavior::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *FireWeaponWhenDeadBehavior::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new FireWeaponWhenDeadBehavior(thing, moduleData));
 }
-#pragma inline_depth(0)
-// ?bfmeEmitFireWeaponWhenDeadBehaviorFriendNew@@YAXPAVFireWeaponWhenDeadBehavior@@@Z present-unmatched
-void bfmeEmitFireWeaponWhenDeadBehaviorFriendNew(FireWeaponWhenDeadBehavior *fireWeaponWhenDeadBehavior)
-{
-	fireWeaponWhenDeadBehavior->friend_newModuleInstance(0, 0);
-}
-#pragma inline_depth()

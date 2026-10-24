@@ -21,14 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@ProductionUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *ProductionUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *ProductionUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new ProductionUpdate(thing, moduleData));
 }
-#pragma inline_depth(0)
-// ?bfmeEmitProductionUpdateFriendNew@@YAXPAVProductionUpdate@@@Z present-unmatched
-void bfmeEmitProductionUpdateFriendNew(ProductionUpdate *productionUpdate)
-{
-	productionUpdate->friend_newModuleInstance(0, 0);
-}
-#pragma inline_depth()
