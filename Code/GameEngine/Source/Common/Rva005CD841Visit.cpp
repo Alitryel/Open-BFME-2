@@ -24,7 +24,7 @@ class Rva005CD841Visitor : public Visitor005CCCD0
 public:
 	Rva005CD841Visitor();
 	virtual ~Rva005CD841Visitor() {}
-	virtual bool visit(TargetRef00217D4C *p) { m_found = true; return true; }
+	virtual bool visit(TargetRef00217D4C *target) { m_found = true; return true; }
 	bool m_found;
 };
 // ??0Rva005CD841Visitor@@QAE@XZ @0x005CD801 9B: the visitor's default
