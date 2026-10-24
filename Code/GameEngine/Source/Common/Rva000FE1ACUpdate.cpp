@@ -17,7 +17,7 @@ struct FeNode
 	FeNode *m_next;
 	FeNode *m_prev;
 
-	int rva000FDF3F(int elapsed);
+	int update(int elapsed);
 };
 
 class WaterTracksRenderSystem
@@ -71,7 +71,7 @@ void WaterTracksRenderSystem::rva000FE1AC()
 // bodies prove the same node's elapsed word at74, flag3C and linksB0/B4.
 // FeNode remains the established structural view; the original leaf name
 // and its declaration's precise source type are not asserted from the donor.
-int FeNode::rva000FDF3F(int elapsed)
+int FeNode::update(int elapsed)
 {
 	m_74 += elapsed;
 	return 1;

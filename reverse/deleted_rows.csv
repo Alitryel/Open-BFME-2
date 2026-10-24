@@ -2282,3 +2282,4 @@ __ehhandler$?rva005E5B20@Rva005E5A8B@@QAEHABUICoord2D@@H@Z,0x007A3A27,"Renamed t
 ?rva00238E25@Rva00238E1B@@QAEXPAVRva002714E6@@@Z,0x00238E25,"Renamed to ?registerDrawable@GameClient@@UAEXPAVDrawable@@@Z: Retail GameClient vtable slot 15 assigns the Drawable ID and prepends it at client+0x14"
 ?removeFromRayEffects@Rva004C743@@UAEXPAVDrawable@@@Z,0x00238F34,"Renamed to ?removeFromRayEffects@GameClient@@UAEXPAVDrawable@@@Z: Retail base and derived GameClient vtables share slot 19 forwarding to TheRayEffects"
 ?rva0083F090@@YAHXZ,0x0001BF60,"Renamed to ?xalloc@@YAHXZ by tools/rename.py (inferred)"
+?rva000FDF3F@FeNode@@QAEHH@Z,0x000FDF3F,"Renamed to ?update@FeNode@@QAEHH@Z by tools/rename.py (inferred)"
