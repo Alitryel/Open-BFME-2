@@ -4184,7 +4184,6 @@ name,address,notes
 ??1Rva0019EF70Dtor@@UAE@XZ,0x0019EF70,address-derived class dtor called by the 30B scalar deleting destructor at 0x0019F990; address read from that body REL32; class identity unproven so the model is named for the call target
 ??1Rva001A47D8@@UAE@XZ,0x001A47D8,"destructor the scalar deleting destructor 0x001A47BC calls (REL32 at 0x001A47BF; vtable 0x00BD6CD0#1); opaque address name"
 ??1Rva001D28F0Element@@QAE@XZ,0x00689500,retail REL32 destroy-loop thiscall in vector<Rva001D28F0Element>::_M_insert_overflow at 0x00689F52; element dtor SEH body
-??1Rva001D92C0@@UAE@XZ,0x001D92C0,"destructor the scalar deleting destructor 0x001D93B2 calls (REL32 at 0x001D93B5; vtable 0x00BD9CB0#0); opaque address name"
 ??1Rva001DBAA4@@UAE@XZ,0x001DBAC3,twin pin base dtor per Rva001DBAA4Ctor vtable comment and retail jmp from 0x003603D4
 ??1Rva001DBAC3@@UAE@XZ,0x001DBAC3,opaque leaf base dtor (7B mov-vptr plus ret); 2 derived 11B dtors tail-call it; identity unproven
 ??1Rva001DBAC3Base@@UAE@XZ,0x001DBAC3,base destructor tail-called by twelve derived dtors (0x35D47B..0x35FF76); rowed under a setter placeholder

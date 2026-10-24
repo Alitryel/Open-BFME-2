@@ -7,7 +7,7 @@
 // virtual interface.
 
 typedef bool Bool;
-#include "subsystem_interface.h"
+#include "spline_service.h"
 
 class Rva00221027 : public SubsystemInterface
 {
@@ -19,21 +19,11 @@ Rva00221027::~Rva00221027()
 {
 }
 
-class Rva00225ACA : public SubsystemInterface
-{
-public:
-	Rva00225ACA();
-	virtual ~Rva00225ACA();
-	virtual void init() {}
-	virtual void reset() {}
-	virtual void update() {}
-};
-
-Rva00225ACA::Rva00225ACA()
+Rva0022B3F6Subsystem::Rva0022B3F6Subsystem()
 {
 }
 
-Rva00225ACA::~Rva00225ACA()
+Rva0022B3F6Subsystem::~Rva0022B3F6Subsystem()
 {
 }
 

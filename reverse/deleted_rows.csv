@@ -2294,3 +2294,11 @@ __ehhandler$?rva005E5B20@Rva005E5A8B@@QAEHABUICoord2D@@H@Z,0x007A3A27,"Renamed t
 ?rva00267E46@Rva00267E46@@QAEXXZ,0x00267E46,Renamed to ?rva00267E46@AIUpdateInterface@@UAEXXZ: retail AIUpdateInterface table slot 145 reaches this body
 ?rva0026DDED@AIUpdateInterface@@QAEXHW4CommandSourceType@@@Z,0x0026DDED,Renamed to ?rva0026DDED@AIUpdateInterface@@UAEXHW4CommandSourceType@@@Z: retail AIUpdateInterface table slot 60 reaches this body
 ?doPathfind@AIUpdateInterface@@QAEXPAVPathfindServicesInterface@@@Z,0x00269902,Renamed to ?doPathfind@AIUpdateInterface@@UAEXPAVPathfindServicesInterface@@@Z: retail AIUpdateInterface table slot 140 reaches this body
+?rva001D8FAD@Rva001D92C0@@QAE_NH@Z,0x001D8FAD,"Renamed to ?vslot04@Rva001D9670Store@@UAE_NH@Z: native armor table 0x00BD9CB0 slot 4 targets this body"
+?rva001D93CE@Rva001D92C0@@QAE_NXZ,0x001D93CE,"Renamed to ?vslot05@Rva001D9670Store@@UAE_NXZ: native armor table 0x00BD9CB0 slot 5 targets this body"
+??1Rva001D92C0@@UAE@XZ,0x001D92C0,"Renamed to ??1Rva001D9670Store@@UAE@XZ: native armor table 0x00BD9CB0 slot 0 reaches this destructor"
+??_GRva001D92C0@@UAEPAXI@Z,0x001D93B2,"Renamed to ??_GRva001D9670Store@@UAEPAXI@Z: native armor table 0x00BD9CB0 slot 0 selects this deleting destructor"
+__ehhandler$??1Rva001D92C0@@UAE@XZ,0x007695E0,"Renamed to __ehhandler$??1Rva001D9670Store@@UAE@XZ: follows the rename of its function"
+??1Rva00225ACA@@UAE@XZ,0x00225ACA,"Renamed to ??1Rva0022B3F6Subsystem@@UAE@XZ: native spline table 0x00BE7150 identifies this body"
+??_GRva00225ACA@@UAEPAXI@Z,0x00225AAE,"Renamed to ??_GRva0022B3F6Subsystem@@UAEPAXI@Z: native spline table 0x00BE7150 identifies this body"
+??0Rva00225ACA@@QAE@XZ,0x00225A9C,"Renamed to ??0Rva0022B3F6Subsystem@@QAE@XZ: native spline table 0x00BE7150 identifies this body"

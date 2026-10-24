@@ -81,11 +81,12 @@ public:
 };
 typedef _STL::hash_map<NameKeyType, ArmorTemplate *, rts::hash<NameKeyType>, _STL::equal_to<NameKeyType> > ArmorTemplateMap;
 
-class Rva001D92C0 : public RifStore
+class Rva001D9670Store : public RifStore
 {
 public:
-	bool rva001D8FAD(int reason);
-	bool rva001D93CE();
+	virtual void vslot03();
+	virtual bool vslot04(int reason);
+	virtual bool vslot05();
 private:
 	int m_04;
 	int m_08;
@@ -94,7 +95,7 @@ private:
 	_STL::vector<ArmorTemplate *> m_pending;	// +0x2C
 };
 
-bool Rva001D92C0::rva001D8FAD(int reason)
+bool Rva001D9670Store::vslot04(int reason)
 {
 	if (rva001B5384Slot2())
 	{
@@ -110,7 +111,7 @@ bool Rva001D92C0::rva001D8FAD(int reason)
 // a template already under that key moves to the vector at +0x20 and leaves
 // the NameKeyType map at +0x0C, the pending one takes the key, the pending
 // vector is emptied, and the result is whether any template was applied.
-bool Rva001D92C0::rva001D93CE()
+bool Rva001D9670Store::vslot05()
 {
 	if (g_Va00DFDBC8) {
 		g_Va00DFDBC8 = false;

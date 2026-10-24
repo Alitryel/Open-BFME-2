@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /MD /EHsc /DNDEBUG /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
-// ??1Rva001D92C0@@UAE@XZ, retail 0x001D92C0..0x001D93B2 (242 bytes, EH):
+// ??1Rva001D9670Store@@UAE@XZ, retail 0x001D92C0..0x001D93B2 (242 bytes, EH):
 // the destructor of the armor template store whose scalar deleting
 // destructor is 0x001D93B2 (vtable 0x00BD9CB0; its slot 4 is the "RIF:
 // Armor reloaded" notice 0x001D8FAD). It deletes the ArmorTemplate_RV held by
@@ -98,17 +98,17 @@ struct Rva001D92BB
 
 #include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
-class Rva001D92C0 : public SubsystemInterface
+class Rva001D9670Store : public SubsystemInterface
 {
 public:
-	virtual ~Rva001D92C0();
+	virtual ~Rva001D9670Store();
 private:
 	Rva001D92BB m_templates;		// +0x0C
 	_STL::vector<void *> m_list;		// +0x20
 	_STL::vector<void *> m_2C;		// +0x2C
 };
 
-Rva001D92C0::~Rva001D92C0()
+Rva001D9670Store::~Rva001D9670Store()
 {
 	{
 		Rva00206DA4Table *table = reinterpret_cast<Rva00206DA4Table *>(&m_templates.m_table);

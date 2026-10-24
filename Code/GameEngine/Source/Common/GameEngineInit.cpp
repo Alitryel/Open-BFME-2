@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /G7 /arch:SSE /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB
+// cl: /O1 /DNDEBUG /MD /EHsc /G7 /arch:SSE /Ireference/shims/bfme2_ascii /Ireference/shims/subsystem_bfme2 /D_STLP_USE_STATIC_LIB
 // GameEngine::init, retail 0x0022E2E4..0x0023054C (8808 bytes).
 // Identity: GameEngine vtable VA 0x00BE7188 slot 14; Zero Hour GameEngine::init
 // provides the semantic structure. BFME2's subsystem names, allocation sizes,
@@ -116,7 +116,9 @@ typedef bool Bool;
 class Xfer;
 class GameMessage { public: void appendIntegerArgument(Int arg); };
 
-#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
+#define BFME2_SPLINE_INLINE_CTOR
+#include "spline_service.h"
+#undef BFME2_SPLINE_INLINE_CTOR
 
 template <class SUBSYSTEM> void initSubsystem(SUBSYSTEM *&sysref, AsciiString name, SUBSYSTEM *sys, Xfer *pXfer, const char *path1 = 0, const char *path2 = 0, const char *dirpath = 0);
 
@@ -193,6 +195,12 @@ class Rva001D9670Store : public SubsystemInterface
 {
 public:
 	Rva001D9670Store();
+	virtual ~Rva001D9670Store();
+	virtual void init() {}
+	virtual bool vslot04(int reason);
+	virtual bool vslot05();
+	virtual void reset() {}
+	virtual void update() {}
 
 private:
 	Rva001D9651Map m_mapStorage;
@@ -239,7 +247,7 @@ class Rva0022B28CSubsystem;
 class Rva001ED41B { public: Rva001ED41B(); char m_data[0x20]; };
 class AI { public: AI(); char m_data[0x24]; };
 class AerialPathfinder { public: AerialPathfinder(); char m_data[0x14]; };
-class Rva0022B3F6Subsystem : public SubsystemInterface { public: Rva0022B3F6Subsystem() {} virtual ~Rva0022B3F6Subsystem(); };
+
 class Rva0022B46BSubsystem;
 class Rva0022CA95 { public: Rva0022CA95(); char m_data[0x24]; };
 class Rva0022B4E0Subsystem;
@@ -687,9 +695,8 @@ enum ErrorCode { ERROR_INVALID_D3D = 0xDEAD0007 };
 class GameEngine : public SubsystemInterface
 {
 public:
-	VSLOTS4_PURE(s0) VSLOTS4_PURE(s1)
-	virtual void reset(); virtual void update(); virtual void s22() = 0; virtual void s23() = 0;
-	virtual void s30() = 0;
+	virtual void init() {}
+	virtual void reset(); virtual void update();
 	virtual void init(Int argc, char *argv[]);					// slot 14
 	virtual void s31() = 0; virtual Bool rva00225AD5(); virtual Bool rva00225AFF();
 	virtual void setFramesPerSecondLimit(Int fps) = 0;				// slot 18 (+0x48)

@@ -107,16 +107,16 @@ Rva0017FFCA::Rva0017FFCA(EmitVtableTag *)
 {
 }
 
-class Rva001D92C0
+class Rva001D9670Store
 {
 public:
-	Rva001D92C0(EmitVtableTag *);
+	Rva001D9670Store(EmitVtableTag *);
 public:
-	virtual ~Rva001D92C0();
+	virtual ~Rva001D9670Store();
 };
 
-// ?<Rva001D92C0::Rva001D92C0> absent-from-retail
-Rva001D92C0::Rva001D92C0(EmitVtableTag *)
+// ?<Rva001D9670Store::Rva001D9670Store> absent-from-retail
+Rva001D9670Store::Rva001D9670Store(EmitVtableTag *)
 {
 }
 
