@@ -84,6 +84,14 @@ namespace _STL { template <> BfmePod8 *allocator<BfmePod8>::allocate(size_t, con
 struct BfmePod12 { int a[3]; };
 struct BfmePod16 { int a[4]; };
 struct BfmePod40 { int a[10]; };
+// The 0x0054014D forwarder calls the rowed 40-byte nontrivial copy worker
+// at 0x00540082. Keep its record name instead of emitting a raw-int copy.
+struct Rva00540082Element;
+namespace _STL {
+template <> Rva00540082Element *__copy<Rva00540082Element *, Rva00540082Element *, int>(Rva00540082Element *, Rva00540082Element *, Rva00540082Element *, const random_access_iterator_tag &, int *);
+template <> __declspec(dllimport) __forceinline BfmePod40 *__copy<BfmePod40 *, BfmePod40 *, int>(BfmePod40 *first, BfmePod40 *last, BfmePod40 *result, const random_access_iterator_tag &tag, int *distance)
+{ return (BfmePod40 *)__copy((Rva00540082Element *)first, (Rva00540082Element *)last, (Rva00540082Element *)result, tag, distance); }
+}
 // bfme link decl-only BfmePod40
 namespace _STL { template <> vector<BfmePod40, allocator<BfmePod40> >::~vector(); }
 struct BfmePod44 { int a[11]; };
@@ -121,37 +129,28 @@ struct AudioTriggerAreaSave { int a[2]; };
 // Instantiate the matched members without unrelated container operations.
 template void _STL::vector<BfmePod44,_STL::allocator<BfmePod44> >::_M_fill_insert(BfmePod44 *,unsigned int,BfmePod44 const &);
 
-template void _STL::vector<BfmePod8,_STL::allocator<BfmePod8> >::_M_fill_insert(BfmePod8 *,unsigned int,BfmePod8 const &);
 
-template _STL::vector<BfmePod8,_STL::allocator<BfmePod8> > & _STL::vector<BfmePod8,_STL::allocator<BfmePod8> >::operator=(_STL::vector<BfmePod8,_STL::allocator<BfmePod8> > const &);
 
 template BfmePod12 * _STL::vector<BfmePod12,_STL::allocator<BfmePod12> >::erase(BfmePod12 *);
 
 template BfmePod16 * _STL::vector<BfmePod16,_STL::allocator<BfmePod16> >::erase(BfmePod16 *);
 
-template BfmePod40 * _STL::vector<BfmePod40,_STL::allocator<BfmePod40> >::erase(BfmePod40 *);
 
 template BfmePod68 * _STL::vector<BfmePod68,_STL::allocator<BfmePod68> >::erase(BfmePod68 *);
 
-template BfmePod8 * _STL::vector<BfmePod8,_STL::allocator<BfmePod8> >::erase(BfmePod8 *);
 
-template BfmePod8 * _STL::vector<BfmePod8,_STL::allocator<BfmePod8> >::erase(BfmePod8 *,BfmePod8 *);
 
 template BfmePod68 * _STL::__copy_ptrs<BfmePod68 *,BfmePod68 *>(BfmePod68 *,BfmePod68 *,BfmePod68 *,_STL::__false_type const &);
 
-template BfmePod40 * _STL::__copy_ptrs<BfmePod40 *,BfmePod40 *>(BfmePod40 *,BfmePod40 *,BfmePod40 *,_STL::__false_type const &);
 
 template BfmePod16 * _STL::vector<BfmePod16,_STL::allocator<BfmePod16> >::erase(BfmePod16 *,BfmePod16 *);
 
-template BfmePod40 * _STL::vector<BfmePod40,_STL::allocator<BfmePod40> >::erase(BfmePod40 *,BfmePod40 *);
 
 template BfmePod44 * _STL::vector<BfmePod44,_STL::allocator<BfmePod44> >::erase(BfmePod44 *,BfmePod44 *);
 
-template _STL::vector<BfmePod16,_STL::allocator<BfmePod16> > & _STL::vector<BfmePod16,_STL::allocator<BfmePod16> >::operator=(_STL::vector<BfmePod16,_STL::allocator<BfmePod16> > const &);
 
 template void _STL::vector<BfmePod16,_STL::allocator<BfmePod16> >::clear(void);
 
-template BfmePod8 * _STL::__copy_ptrs<BfmePod8 const *,BfmePod8 *>(BfmePod8 const *,BfmePod8 const *,BfmePod8 *,_STL::__false_type const &);
 
 template void _STL::vector<BfmePod12,_STL::allocator<BfmePod12> >::clear(void);
 
@@ -160,3 +159,11 @@ template void _STL::vector<BfmePod44,_STL::allocator<BfmePod44> >::insert(BfmePo
 template AudioTriggerArea *_STL::vector<AudioTriggerArea, _STL::allocator<AudioTriggerArea > >::erase(AudioTriggerArea *, AudioTriggerArea *);
 
 template AudioTriggerAreaSave *_STL::vector<AudioTriggerAreaSave, _STL::allocator<AudioTriggerAreaSave > >::erase(AudioTriggerAreaSave *, AudioTriggerAreaSave *);
+
+template BfmePod40 * _STL::vector<BfmePod40,_STL::allocator<BfmePod40> >::erase(BfmePod40 *);
+
+template BfmePod40 * _STL::__copy_ptrs<BfmePod40 *,BfmePod40 *>(BfmePod40 *,BfmePod40 *,BfmePod40 *,_STL::__false_type const &);
+
+template BfmePod40 * _STL::vector<BfmePod40,_STL::allocator<BfmePod40> >::erase(BfmePod40 *,BfmePod40 *);
+
+template BfmePod8 * _STL::__copy_ptrs<BfmePod8 const *,BfmePod8 *>(BfmePod8 const *,BfmePod8 const *,BfmePod8 *,_STL::__false_type const &);
