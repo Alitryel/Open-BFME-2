@@ -159,6 +159,20 @@ public:
 	Coord3DList m_techPositions;
 	AsciiString m_fileName;
 };
+// The map's value pair: its constructor and destructor are the rowed
+// out-of-line copies (retail 0x0022DDF4 for the destructor), not this TU's.
+namespace _STL {
+template <> struct pair<const AsciiString, MapMetaData>
+{
+	typedef const AsciiString first_type;
+	typedef MapMetaData second_type;
+	const AsciiString first;
+	MapMetaData second;
+	pair(const AsciiString &, const MapMetaData &);
+	pair(const pair &o) : first(o.first), second(o.second) {}
+	~pair();
+};
+}
 class MapCache : public std::map<AsciiString, MapMetaData>
 {
 public:
@@ -213,7 +227,6 @@ vector<ICoord2D, allocator<ICoord2D> >::erase(ICoord2D *__first, ICoord2D *__las
 }
 // bfme link decl-only begin
 namespace _STL { template <> list<Coord3D, allocator<Coord3D> >::list(allocator<Coord3D> const &); }
-namespace _STL { template <> pair<AsciiString const, MapMetaData>::pair(AsciiString const &, MapMetaData const &); }
 namespace _STL { template <> _List_node<Coord3D> * list<Coord3D, allocator<Coord3D> >::_M_create_node(Coord3D const &); }
 namespace _STL { template <> pair<_Rb_tree_iterator<UnicodeString, _Const_traits<UnicodeString> >, bool> set<UnicodeString, rts::less_than_nocase<UnicodeString>, allocator<UnicodeString> >::insert(UnicodeString const &); }
 namespace _STL { template <> _List_base<Coord3D, allocator<Coord3D> >::_List_base(allocator<Coord3D> const &); }
