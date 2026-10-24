@@ -21,7 +21,12 @@ WORD = re.compile(r"\b[A-Za-z_]\w*\b")
 DECL = re.compile(r"^[ \t]*(?:class|struct)[ \t]+([A-Za-z_]\w*)\b[^;{()]*\{", re.M)
 ENUM = re.compile(r"^[ \t]*enum[ \t]+([A-Za-z_]\w*)\b[^;{()]*\{", re.M)
 BRACE = re.compile(r"[{}]")
-PREPROCESSOR = re.compile(r"^[ \t]*#(?:[^\n]*\\\n)*[^\n]*", re.M)
+# A directive runs over its backslash-newline continuations; in a CRLF file the backslash is followed
+# by CR LF. A blank between the backslash and the line end is not read as a continuation here: a
+# scan that blanks directives would blank real code if cl did not continue over it (rename.py's
+# macro screen, which only widens what it refuses, does read it as one).
+LINE_CONTINUATION = r"\\\r?\n"
+PREPROCESSOR = re.compile(r"^[ \t]*#(?:[^\n]*" + LINE_CONTINUATION + r")*[^\n]*", re.M)
 LOCAL = re.compile(r"(?:^|[;{}(])\s*(?:(?:const|static|unsigned|signed|struct|class)\s+)*"
                    r"([A-Za-z_][\w:]*)[\s*&]+([A-Za-z_]\w*)\s*(?=[=;\[,)])")
 FUNC = re.compile(r"^[ \t]*(?:[A-Za-z_][\w:<>,*& \t]*?[\s*&])?((?:[A-Za-z_]\w*::)*)(~?[A-Za-z_]\w*)[ \t]*"

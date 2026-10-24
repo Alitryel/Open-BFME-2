@@ -562,3 +562,75 @@ def test_a_header_with_a_class_of_undeclared_base_spelling_the_word_is_refused(t
 def test_other_spellings_in_the_untouched_header_do_not_matter(tmp_path):
     files = {SUB_H: "int lookup(int);\ninline void f(int lookup) { lookup += 1; }\n"}
     assert "void Widget::lookup(int x)" in plan_outside(tmp_path, files).after[SRC].decode()
+
+
+# ------------------- a continued #define is joined in a CRLF file, and over a blank after the backslash
+# macros_spelling read a continuation only as backslash-LF: in a CRLF file a #define kept just
+# its first line, so a macro that spells the old word on a continuation line escaped the screen.
+
+def spelled(blank, crlf):
+    """A unit whose function declares the new word and invokes a continued macro that spells the old one:
+    `blank` follows the backslash, and every line ends in CR LF when `crlf`."""
+    cpp = (WIDGET + "struct Thing { void touch(); };\n#define CALL_RVA(arg) \\" + blank + "\n    this->rva00701000(arg)\n"
+           "void run(Widget *w) { Thing &lookup = *(Thing *)0; CALL_RVA(2); lookup.touch(); }\n"
+           "void Widget::rva00701000(int x) {}\n")
+    return cpp.replace("\n", "\r\n") if crlf else cpp
+
+
+@pytest.mark.parametrize("blank,crlf", [("", False), ("", True), (" ", False), ("\t ", True)])
+def test_a_continued_macro_that_spells_the_old_word_is_refused_in_every_line_ending(tmp_path, blank, crlf):
+    refused(tmp_path, spelled(blank, crlf), "lookup", "invokes the macro CALL_RVA")
+
+
+def test_a_crlf_file_without_the_macro_still_shares_the_word(tmp_path):
+    cpp = (WIDGET + "struct Thing { void touch(); };\n#define KEEP(arg) \\\n    ((arg) + 1)\n"
+           "void other(Widget *w) { Thing &lookup = *(Thing *)0; int n = KEEP(2); lookup.touch(); }\n"
+           "void Widget::rva00701000(int x) {}\n").replace("\n", "\r\n")
+    text = plan(tmp_path, cpp, "lookup").after[SRC].decode()
+    assert "void Widget::lookup(int x)" in text
+
+
+@pytest.mark.parametrize("eol", ["\\\n", "\\\r\n", "\\ \n", "\\ \t\r\n"])
+def test_macros_spelling_joins_the_continuation_lines(tmp_path, eol):
+    tree = tree_of(tmp_path, ROW, **{SRC: "// cl: /O2\n"})
+    ctx = rename.Context(tree, object_scan=False)
+    code = f"#define A(x) {eol}  x.word(1) {eol}  + 2\r\n#define B A(3)\n#define C 4\n"
+    assert rename.macros_spelling(ctx, SRC, code, "word") == {"A", "B"}
+
+
+def test_a_crlf_directive_is_one_preprocessor_line_for_the_scan():
+    code = "#define A(x) \\\r\n    x.countParts(1)\r\nint f(int x) { return x; }\r\n"
+    assert rename.occurrence_spots(code, "countParts") == [(0, "macro")]
+
+
+# ---------- a #define on the line after a blank-continued one is still a macro of its own
+# The blank form is joined for the screen (cl may or may not continue over it), but the define on the next
+# line must stay registered: the screen reads each define both ways and may only refuse more.
+
+def after_a_continued_define(blank, crlf):
+    """NOTE ends in a backslash and `blank`; CALL_RVA is defined on the next line and spells the old word."""
+    cpp = (WIDGET + "struct Thing { void touch(); };\n#define NOTE(x) x \\" + blank + "\n"
+           "#define CALL_RVA(arg) this->rva00701000(arg)\n"
+           "void run(Widget *w) { Thing &lookup = *(Thing *)0; CALL_RVA(2); lookup.touch(); }\n"
+           "void Widget::rva00701000(int x) {}\n")
+    return cpp.replace("\n", "\r\n") if crlf else cpp
+
+
+@pytest.mark.parametrize("blank,crlf", [(" ", False), ("\t ", False), (" ", True), ("\t ", True)])
+def test_a_define_after_a_blank_continued_define_is_still_screened(tmp_path, blank, crlf):
+    refused(tmp_path, after_a_continued_define(blank, crlf), "lookup", "invokes the macro CALL_RVA")
+
+
+@pytest.mark.parametrize("crlf", [False, True])
+def test_a_define_continued_over_a_plain_backslash_is_part_of_that_macro(tmp_path, crlf):
+    # cl does continue here, so CALL_RVA is not a macro of its own and NOTE's body is all the screen reads
+    text = plan(tmp_path, after_a_continued_define("", crlf), "lookup")
+    assert "void Widget::lookup(int x)" in text.after[SRC].decode()
+
+
+@pytest.mark.parametrize("blank,expected", [("", {"NOTE"}), (" ", {"NOTE", "CALL", "USE"})])
+def test_macros_spelling_registers_the_define_after_a_continued_one(tmp_path, blank, expected):
+    tree = tree_of(tmp_path, ROW, **{SRC: "// cl: /O2\n"})
+    ctx = rename.Context(tree, object_scan=False)
+    code = f"#define NOTE(x) x \\{blank}\n#define CALL(arg) arg.word(1)\n#define USE CALL(2)\n"
+    assert rename.macros_spelling(ctx, SRC, code, "word") == expected

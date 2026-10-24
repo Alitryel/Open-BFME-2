@@ -210,7 +210,8 @@ declares or qualifies the word must be shown unrelated in the same way, else
 the rename is refused ("already a name outside the files this rename
 rewrites"). Three more spellings in those files are read: a preprocessor line
 that spells the word is refused (a macro can declare it inside any class, as in a
-touched file); an unqualified spelling inside a method of the renamed class, or
+touched file; a define continued over a blank after the backslash is read both
+ways, as the macro screen reads it); an unqualified spelling inside a method of the renamed class, or
 of a class derived from it, is refused unless it is a parameter of the method or
 every use lies in the scope of a local of that name (after the rename it would
 bind to the renamed member); and an unrelated class's out-of-line methods are
@@ -236,7 +237,10 @@ the class counts as having an undeclared base. A macro whose body (in the file
 or a header it includes) spells the old word, directly or through another such
 macro, is respelled too, so a function with a local or parameter of the new
 word, or an `Other` with a member of it, that invokes that macro is refused
-(object-like or function-like). A spelling at file scope, in a
+(object-like or function-like; a continued `#define` is joined over backslash-LF
+and backslash-CR-LF, and, since cl may or may not continue over a blank between the
+backslash and the line end, a define is read both with and without that join, so a
+`#define` on the line after a blank-continued one stays a macro of its own). A spelling at file scope, in a
 macro, in a `friend` or `using` declaration, after `.` or `->` (the object's
 type is not known), in a free function's rename, or beside an undeclared base
 stays refused. An inferred name keeps the plain refusal for the files it

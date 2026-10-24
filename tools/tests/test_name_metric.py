@@ -102,3 +102,13 @@ def test_dimension_width_and_reserved_names_are_real(name):
 ])
 def test_offset_names_are_placeholders(name):
     assert names.placeholder(name)
+
+
+def test_global_names_blanks_a_continued_directive_in_a_crlf_file():
+    # the directive scan reads backslash-CR-LF as a continuation, so the continued line is no global declaration
+    # (before, it stayed in the code of a CRLF file and `int hidden;` below read as a second global there).
+    # The metric reads files with read_text, which makes the newlines LF; rename.py and name_lane.py decode
+    # raw bytes and hand this function the CR, which is the text pinned here
+    code = "#define DECLARE(x) \\\r\n    int hiddenGlobal;\r\nint realGlobal;\r\n"
+    assert list(names.global_names(code)) == ["realGlobal"]
+    assert list(names.global_names(code.replace("\r\n", "\n"))) == ["realGlobal"]

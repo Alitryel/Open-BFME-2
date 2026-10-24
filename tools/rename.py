@@ -1981,7 +1981,12 @@ def closure_type_bodies(ctx, rel, code):
     return out
 
 
-_DEFINE = re.compile(r"^[ \t]*#[ \t]*define[ \t]+([A-Za-z_]\w*)((?:[^\n]*\\\n)*[^\n]*)", re.M)
+# A continued #define: backslash-newline, also in a CRLF file. A blank between the backslash and the line
+# end may or may not continue the line for cl, so a define is read both ways: _DEFINE_BLANK joins over the
+# blank (the macro it reads is longer, which can only make the screen refuse more) and _DEFINE does not, so
+# a #define on the line after a blank-continued one stays registered as a macro of its own.
+_DEFINE = re.compile(r"^[ \t]*#[ \t]*define[ \t]+([A-Za-z_]\w*)((?:[^\n]*\\\r?\n)*[^\n]*)", re.M)
+_DEFINE_BLANK = re.compile(r"^[ \t]*#[ \t]*define[ \t]+([A-Za-z_]\w*)((?:[^\n]*\\[ \t]*\r?\n)*[^\n]*)", re.M)
 
 
 def macros_spelling(ctx, rel, code, word):
@@ -1995,8 +2000,9 @@ def macros_spelling(ctx, rel, code, word):
     bodies = {}
     for path in [None] + sorted(header_closure(ctx, rel)):
         text = code if path is None else name_metric.strip((ctx.read(path) or b"").decode("utf-8", "replace"))
-        for match in _DEFINE.finditer(text):
-            bodies.setdefault(match.group(1), []).append(match.group(2))
+        for pattern in (_DEFINE, _DEFINE_BLANK):
+            for match in pattern.finditer(text):
+                bodies.setdefault(match.group(1), []).append(match.group(2))
     spelling = {name for name, texts in bodies.items() if any(word_re(word).search(t) for t in texts)}
     grew = True
     while grew:
@@ -2007,6 +2013,22 @@ def macros_spelling(ctx, rel, code, word):
                 grew = True
     ctx._cache[key] = spelling
     return spelling
+
+
+def blank_continued_macro_spells(code, word):
+    """True when a `#define` in stripped `code` spells `word` over a backslash that a blank
+    follows. name_metric.PREPROCESSOR does not read that backslash as a continuation (it blanks what it
+    matches), so occurrence_spots reads the next line as code; cl may continue the line, and then the
+    macro spells the word. Read both ways, as macros_spelling does, the macro is the longer one, which can
+    only make a caller refuse more. A formal parameter named like the word is not a spelling."""
+    pattern = word_re(word)
+    for match in _DEFINE_BLANK.finditer(code):
+        line = match.group(0)
+        if pattern.search(line):
+            formals = _define_formals(line)
+            if not (formals and formals[0] != word and word in formals[1]):
+                return True
+    return False
 
 
 def invoked_macro(macros, code, begin=0, end=None):
@@ -2264,6 +2286,8 @@ def relatives_outside_the_rewrite(ctx, touched, old_word, new_word, cls, max_fil
         relations = None
         for path in paths:
             text = code_of(path)
+            if blank_continued_macro_spells(text, new_word):
+                return f"a preprocessor line in {path} spells {new_word}, seen from {unit}"
             for at, kind in occurrence_spots(text, new_word, path):
                 before = text[:at]
                 if kind == "macro":

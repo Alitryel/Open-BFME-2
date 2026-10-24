@@ -92,6 +92,23 @@ def test_a_macro_spelling_the_word_in_an_untouched_header_is_refused(tmp_path, l
         plan_outside(tmp_path, {SUB_H: line + "\n"})
 
 
+@pytest.mark.parametrize("backslash", ["\\", "\\ ", "\\\t"])
+@pytest.mark.parametrize("newline", ["\n", "\r\n"])
+def test_a_macro_that_spells_the_word_on_a_continuation_line_is_refused_whatever_follows_the_backslash(
+        tmp_path, backslash, newline):
+    # cl may or may not continue a line over a blank after the backslash; a touched file refuses the
+    # continuation line as a name at file scope, so an untouched one must refuse the macro
+    lines = ['#include "Widget.h"', "#define DECL " + backslash, "    void lookup(int);",
+             "class Sub : public Widget { public: DECL };"]
+    with pytest.raises(Refusal, match=r"a preprocessor line in Code/Game/Sub.h spells lookup"):
+        plan_outside(tmp_path, {SUB_H: newline.join(lines) + newline})
+
+
+def test_a_blank_continued_macro_that_does_not_spell_the_word_is_fine(tmp_path):
+    sub = '#define DECL \\ \n    void other(int);\n#define APPLY(lookup) \\ \n    ((lookup) + 1)\nclass Plain { public: DECL };\n'
+    assert renamed(plan_outside(tmp_path, {SUB_H: sub}))
+
+
 def test_a_descendant_that_declares_the_word_through_a_macro_is_refused(tmp_path):
     sub = '#include "Widget.h"\n#define DECL void lookup(int);\nclass Sub : public Widget { public: DECL };\n'
     with pytest.raises(Refusal, match=r"a preprocessor line in Code/Game/Sub.h spells lookup"):
