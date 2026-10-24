@@ -2552,3 +2552,14 @@ Code/GameEngine/Source/GameClient/MessageStream/GUICommandTranslatorTranslateGam
 Code/GameEngine/Source/GameLogic/ScriptEngine/Rva003BC22EDo.cpp|param|ScriptActions::doCameraSetDefault|a,902d14c9dce686448bda08dd,gpt-6.1-sol,codex6-20261024-013751-8,w-bcdd62231570,2026-10-24
 Code/GameEngine/Source/GameLogic/ScriptEngine/Rva003BC22EDo.cpp|param|ScriptActions::doCameraSetDefault|b,4172a4d7fb5b0459e56d69ea,gpt-6.1-sol,codex6-20261024-013751-8,w-bcdd62231570,2026-10-24
 Code/GameEngine/Source/GameLogic/ScriptEngine/Rva003BC22EDo.cpp|param|ScriptActions::doCameraSetDefault|c,417fbd70077bdd0f2a5ec5fc,gpt-6.1-sol,codex6-20261024-013751-8,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/Common/Rva0009DE01Finish.cpp|param|logN|b,426bc7d4bf281b71d11c3a4f,gpt-6.1-sol,codex5-20261024-041502-1,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/Rva003145B1Dispatch.cpp|param|Rva003145B1::Rva003145B1Dispatch|a1,6fd092cb68da81d869b7b93e,gpt-6.1-sol,codex5-20261024-041502-1,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/Rva003145B1Dispatch.cpp|param|Rva003145B1::Rva003145B1Dispatch|a2,047813e421a9b7d2934af864,gpt-6.1-sol,codex5-20261024-041502-1,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/Rva003145B1Dispatch.cpp|param|Rva003145B1::rva00314596|a1,84910a2ee0b6d16f2180c888,gpt-6.1-sol,codex5-20261024-041502-1,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/Rva003145B1Dispatch.cpp|param|Rva003145B1::rva00314596|a2,0cfa01c5a42acbcf9f33b333,gpt-6.1-sol,codex5-20261024-041502-1,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva00524B7AVslot10.cpp|member|Rva00524B7A|m_0C,3742c974261813a2a3307f30,gpt-6.1-sol,codex5-20261024-041502-2,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva00524B7AVslot10.cpp|member|Rva00524B7A|m_24,4a347ddb0e7df0d52d1bc378,gpt-6.1-sol,codex5-20261024-041502-2,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva00524B7AVslot10.cpp|local|Rva00524B7A::update|v,c13ae91af33f86368851c910,gpt-6.1-sol,codex5-20261024-041502-2,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C1E8C.cpp|function|0x002886C2|Rva002886C2,8f0522ea13425ca10a8607b2,gpt-6.1-sol,codex5-20261024-041502-3,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Die/DamageCreationListParse.cpp|class||Rva004BFD83Entry,150d3e2adca75c0563468904,gpt-6.1-sol,codex5-20261024-041502-3,w-2d32e7a71cf1,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawAttachableSubModels.cpp|local|W3DModelDraw::rva000B7C24|tmp,55feba8d252b129261393501,gpt-6.1-sol,codex5-20261024-041502-3,w-2d32e7a71cf1,2026-10-24
