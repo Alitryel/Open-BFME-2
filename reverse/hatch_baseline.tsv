@@ -32838,7 +32838,6 @@ present_unmatched	Code/GameEngine/Source/Common/System/Rva003EF14ADtor.cpp	slot0
 present_unmatched	Code/GameEngine/Source/Common/System/Rva003EF14ADtor.cpp	slot0@Rva003EF14ASecondary@@UAEXXZ	1
 present_unmatched	Code/GameEngine/Source/Common/System/Rva0087FDC0VectorFillInsert.cpp	_M_insert_overflow	1
 present_unmatched	Code/GameEngine/Source/Common/System/Rva0087FDC0VectorFillInsert.cpp	bfmeFillBE	1
-present_unmatched	Code/GameEngine/Source/Common/System/SaveGame/CreateAHeroElementCopy.cpp	bfmeEmitCreateAHeroElementCopy@@YAXPAUBfmeHeroElement005C39DE@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/System/SaveGame/FamilyDeletingDtors_Rva0022CDDA.cpp	@0x0022CDBE	1
 present_unmatched	Code/GameEngine/Source/Common/System/SaveGame/GameState.cpp	0GameState@@	1
 present_unmatched	Code/GameEngine/Source/Common/System/SaveGame/GameState.cpp	0SaveGameInfo@@	1
