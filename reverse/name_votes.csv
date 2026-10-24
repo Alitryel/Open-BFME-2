@@ -3045,3 +3045,14 @@ Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassRva001588A0.cpp|param|FontChar
 Code/GameEngine/Source/Common/Rva005CD841Visit.cpp|class||Rva005CD841Visitor,ab1a4026d21d5d18a3f020a7,gpt-6.1-sol,codex8-20261024-054232-20,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/Rva005CD841Visit.cpp|function|0x005CD841|Rva005CD841Find,ed043471c816611eed1aab56,gpt-6.1-sol,codex8-20261024-054232-20,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/Rva005CD841Visit.cpp|param|Rva005CD841Find|p,51667b139589d9eef4a734ed,gpt-6.1-sol,codex8-20261024-054232-20,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva001F51AD.cpp|local|Rva001F51AD::rva001F51AD|a,d14b2f7cd72c27e6474dcd2c,gpt-6.1-sol,codex8-20261024-054232-23,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva001F51AD.cpp|local|Rva001F51AD::rva001F51AD|b,ac479a32a7d827ea7b20989e,gpt-6.1-sol,codex8-20261024-054232-23,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva001F51AD.cpp|local|Rva001F51AD::rva001F51AD|d,719f46f82c3e9fe8c57d1b3a,gpt-6.1-sol,codex8-20261024-054232-23,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva001F529D.cpp|local|Rva001F529D::rva001F529D|a,d0276365ad64750ac7de9269,gpt-6.1-sol,codex8-20261024-054232-25,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva001F529D.cpp|local|Rva001F529D::rva001F529D|b,7da5ae322f3334d0f79c0f3d,gpt-6.1-sol,codex8-20261024-054232-25,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva001F529D.cpp|local|Rva001F529D::rva001F529D|d,a9728697964ea4ce7316f9dd,gpt-6.1-sol,codex8-20261024-054232-25,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/SpecialPower/Rva00254D0BFree.cpp|member|Rva00254D0BNode|m_next08,fac1387a2b4a02d35782301d,gpt-6.1-sol,codex8-20261024-054232-27,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/SpecialPower/Rva00254D0BFree.cpp|member|Rva00254D0BNode|m_child0C,17a9cb3c5fbddc79ce388b20,gpt-6.1-sol,codex8-20261024-054232-27,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/SpecialPower/Rva00254D0BFree.cpp|function|0x00254D0B|rva00254D0B,f47e8d0299e78d1442d8a531,gpt-6.1-sol,codex8-20261024-054232-27,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva005DCE72.cpp|class||Rva005DCEB7Arg,e7e3edaa8f524ddac43af203,gpt-6.1-sol,codex8-20261024-054232-31,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva005DCE72.cpp|param|Rva005DCE72::rva005DCEB7|p,fcf1a20a5c2bd41449360147,gpt-6.1-sol,codex8-20261024-054232-31,w-de56e563a50b,2026-10-24
