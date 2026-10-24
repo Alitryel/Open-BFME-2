@@ -10,12 +10,13 @@
 
 extern "C" void __cdecl free(void *);
 
+// Base view as in V3PolyCopyCtors.cpp / Rva005DA64BCtor.cpp (two virtuals),
+// so this unit's ??_7Rva005DAA36@@6B@ copy is the one the link keeps.
 class Rva005DAA36
 {
 public:
 	virtual void slot0() = 0;
 	virtual ~Rva005DAA36() {}
-	virtual void slot2() = 0;
 };
 
 class Rva005DA7F5 : public Rva005DAA36
