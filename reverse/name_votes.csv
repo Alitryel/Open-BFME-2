@@ -3281,3 +3281,5 @@ Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp|param|rva005FA98CSwap|b,ce4f7e
 Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp|param|rva005FA98CSwap|b,ce4f7e2e2053e97921c1417a,seat-a,rn-1024a-0-a,w-1983ca6b6e94,2026-10-24
 Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp|param|rva005FA98CSwap|c,004c4ce388baba001ae52af7,seat-b,rn-1024a-0-b,w-b9975b00287e,2026-10-24
 Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp|param|rva005FA98CSwap|c,004c4ce388baba001ae52af7,seat-a,rn-1024a-0-a,w-1983ca6b6e94,2026-10-24
+Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp|class||Rva005FA98CM04,092409773fd7115aea03992e,seat-b,rn-1024a-0-b,w-b9975b00287e,2026-10-24
+Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp|class||Rva005FA98CM04,092409773fd7115aea03992e,seat-a,rn-1024a-0-a,w-1983ca6b6e94,2026-10-24

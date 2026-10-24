@@ -795,3 +795,7 @@ carry,rva005FA98CSwap::secondEntry,swapEntries::secondEntry,inferred,scope renam
 carry,rva005FA98CSwap::sideIndex,swapEntries::sideIndex,inferred,scope renamed by Rename rva005FA98CSwap to swapEntries (inferred),Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp,0x005FA98C
 carry,rva005FA98CSwap::playerIndex,swapEntries::playerIndex,inferred,scope renamed by Rename rva005FA98CSwap to swapEntries (inferred),Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp,0x005FA98C
 function,?rva005FA8F5@Rva005FA8F5@@QAEPAURva005FA8F5Entry@@H@Z,?findEntry@Rva005FA8F5@@QAEPAURva005FA8F5Entry@@H@Z,inferred,agree:nl-0f0bfc2350b5,Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp,0x005FA8F5
+class,Rva005FA98CM04,BattlePromptLocalPlayerPage,inferred,agree:nl-773ddef1bf5d,Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp,
+carry,Rva005FA98CM04::m_movieClip,BattlePromptLocalPlayerPage::m_movieClip,inferred,scope renamed by Rename Rva005FA98CM04 to BattlePromptLocalPlayerPage (inferred),Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp,
+carry,Rva005FA98CM04::m_sideIndex,BattlePromptLocalPlayerPage::m_sideIndex,inferred,scope renamed by Rename Rva005FA98CM04 to BattlePromptLocalPlayerPage (inferred),Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp,
+carry,Rva005FA98CM04::m_playerIndex,BattlePromptLocalPlayerPage::m_playerIndex,inferred,scope renamed by Rename Rva005FA98CM04 to BattlePromptLocalPlayerPage (inferred),Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp,

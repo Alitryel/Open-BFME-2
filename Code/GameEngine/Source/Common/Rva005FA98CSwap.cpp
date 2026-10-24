@@ -34,7 +34,7 @@ struct Rva00A00062Sub
 };
 struct Rva00600062SwapForward { void forward(int a, int b); };
 
-struct Rva005FA98CM04
+struct BattlePromptLocalPlayerPage
 {
 	char m_pad[8];
 	Rva00A00062Sub m_movieClip;
@@ -46,7 +46,7 @@ class Rva005FA98C
 {
 public:
 	char m_pad[4];
-	Rva005FA98CM04 *m_04;
+	BattlePromptLocalPlayerPage *m_04;
 };
 
 Rva005FA8F5Entry *Rva005FA8F5::findEntry(int key)
@@ -62,7 +62,7 @@ void __fastcall swapEntries(Rva005FA98C *o, int fwd, int unused, int sideIndex, 
 {
 	if (firstKey == secondKey)
 		return;
-	Rva005FA98CM04 *m = o->m_04;
+	BattlePromptLocalPlayerPage *m = o->m_04;
 	if (sideIndex != m->m_sideIndex)
 		return;
 	if (playerIndex != m->m_playerIndex)
