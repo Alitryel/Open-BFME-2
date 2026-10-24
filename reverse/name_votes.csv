@@ -4504,3 +4504,13 @@ Code/GameEngine/Source/Common/BfmeConv679GoDEC.cpp|class||BfmeSubDEC,c3d6aa254c8
 Code/GameEngine/Source/Common/BfmeConv679GoDEC.cpp|function|0x00323E02|bfmeGoDEC,63bdfab6d042a6be4cc7c78f,gpt-6.1-sol,codexb-20261024-083906-4,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Die/DamageCreationListParse.cpp|global||g_00DCD7EC,3577f3c41c57b65d427758e3,gpt-6.1-sol,codexb-20261024-083906-4,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Die/DamageCreationListParse.cpp|global||g_00DCD7FC,2d63112e06c0afb44172f11f,gpt-6.1-sol,codexb-20261024-083906-4,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITargetChooser/AITargetHeuristics/AITargetHeuristicRva00573117.cpp|member|Rva002A8F24Data|m_874,1b94108f0d729d306a0f0b1f,gpt-6.1-sol,codexb-20261024-083906-5,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva005B1A07.cpp|local|Rva005B1A07::rva005B1A07|e2,eb449021420787f744967a06,gpt-6.1-sol,codexb-20261024-083906-6,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva005B1A07.cpp|local|Rva005B1A07::rva005B1A07|c2,edd7133e25d89a55f3b52867,gpt-6.1-sol,codexb-20261024-083906-6,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesS3C.cpp|function|0x004E55B9|rva004E55B9,cc5b9c6cf4445aafc4d13f21,gpt-6.1-sol,codexb-20261024-083906-6,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp|member|Rva002EBA88|m_10,91c9de757d527db9dfc759c9,gpt-6.1-sol,codexb-20261024-083906-6,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp|param|fast_floor|f,ec0aef5097763d24f596527e,gpt-6.1-sol,codexb-20261024-083906-9,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp|param|fast_ceil|f,3431a5f7814a2481281eb5bc,gpt-6.1-sol,codexb-20261024-083906-9,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp|param|fast_round|f,a79950f0eb0c7ad3034f38d3,gpt-6.1-sol,codexb-20261024-083906-9,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva00524B7AVslot10.cpp|local|Rva00524B7A::update|v,c13ae91af33f86368851c910,gpt-6.1-sol,codexb-20261024-083906-9,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva0010F42AFinish.cpp|member|Rva0010F42A|m_scale0C,dc5a23048564cf13e12ba288,gpt-6.1-sol,codexb-20261024-083906-10,w-8e883e57d025,2026-10-24
