@@ -467,3 +467,94 @@ def test_unit_that_does_not_balance_refuses_the_new_name_check(tmp_path):
     # the balanced original still plans
     tree2 = lock_tree(tmp_path / "ok", LOCK_CPP, Mutex=MUTEX_H, Base="class Missing {};\n")
     assert scoped(tree2, "param", "rva00503000", "x", "tally")
+
+
+# ----------------------- a local's scope: every spelling must sit inside a declaring block
+
+@pytest.mark.parametrize("body", [
+    # the simple shapes: the declaration and every use below it in its block
+    "{ int a = 1; return a + a; }",
+    "{ int a = 1; { a += 1; } return a; }",
+    # sibling blocks each declare their own
+    "{ if (x) { int a = 1; use(a); } else { int a = 2; use(a); } }",
+    # a nested redeclaration shadows consistently
+    "{ int a = 1; { int a = 2; use(a); } use(a); }",
+    # a for-init variable lives in the loop, braced or not
+    "{ for (int a = 0; a < n; ++a) { use(a); } }",
+    "{ for (int a = 0; a < n; ++a) use(a); }",
+    "{ while (int a = next()) { use(a); } }",
+    "{ try { f(); } catch (Err a) { use(a); } }",
+    # `@@` marks the first spelling no declaration reaches: after the block, the loop or the statement
+    "{ if (x) { int a = 1; use(a); } return @@a; }",
+    "{ { int a = 1; } use(@@a); }",
+    "{ for (int a = 0; a < n; ++a) { use(a); } return @@a; }",
+    "{ for (int a = 0; a < n; ++a) use(a); return @@a; }",
+    "{ if (int a = next()) use(a); else use(@@a); }",
+    "{ int a = 1; } @@a = 2;",
+    # a spelling in a sibling block that declares nothing
+    "{ if (x) { int a = 1; use(a); } else { use(@@a); } }",
+    # before the declaration
+    "{ use(@@a); int a = 1; }",
+    # `type name` is also how a product or a mask reads: none of these declares a
+    "{ if (c) { int a = 1; use(a); } return foo(w * @@a); }",
+    "{ if (c) { int a = 1; use(a); } return foo(w & @@a); }",
+    "{ if (c) { int a = 1; use(a); } return (w * @@a); }",
+    "{ if (c) { int a = 1; use(a); } if (w & @@a) { use(a); } }",
+    "{ if (w & @@a) { use(a); } }",
+    "{ while (w * @@a) { use(a); } }",
+    "{ int a = 1; use(a); } for (int i = 0; i < n; ++i) use(w * @@a);",
+    # a condition's declaration has an initializer; a loop's is its first clause; a handler's is its parameter
+    "{ if (Thing *a = next()) { use(a); } return @@a; }",
+    "{ for (Thing *a = 0; a; a = a->next) use(a); }",
+    "{ try { f(); } catch (Err &a) { use(a); } return @@a; }",
+])
+def test_local_scope_gaps(body):
+    expected = body.index("@@") if "@@" in body else None
+    assert rename.local_use_outside_scope(body.replace("@@", ""), "a") == expected
+
+
+OUTER_H = "extern int a;\nint use(int v);\n"
+SCOPE_CPP = """// cl: /O2
+#include "Outer.h"
+int rva00501000(int x) { if (x) { int a = 1; x += a; } return x + a; }
+int rva00503000(int x) { if (x) { int a = 1; x += a; } else { int a = 2; x -= a; } return x; }
+int rva00502000(int x) {
+    for (int a = 0; a < x; ++a) {
+        x += use(a);
+    }
+    return x;
+}
+"""
+
+
+def scope_tree(tmp_path, cpp=SCOPE_CPP):
+    funcs = "".join(f"?rva{r:08X}@@YAHH@Z,,0x{r:08X},10,Code/Game/Lock.cpp,matched,address-derived\n"
+                    for r in (0x501000, 0x502000, 0x503000))
+    return tree_of(tmp_path, funcs, **{"Code/Game/Lock.cpp": cpp, "Code/Game/Outer.h": OUTER_H})
+
+
+def test_local_in_a_nested_block_with_the_outer_name_used_after_it_stays_refused(tmp_path):
+    # `return x + a` after the block names the header's global a: renaming the
+    # block's local must not respell it
+    tree = scope_tree(tmp_path)
+    with pytest.raises(Refusal, match="a is used in rva00501000 at line 3, outside the block"):
+        scoped(tree, "local", "rva00501000", "a", "step")
+
+
+@pytest.mark.parametrize("tail", ["use(x * a)", "use(x & a)", "x * a"])
+def test_a_product_with_the_outer_name_after_the_block_stays_refused(tmp_path, tail):
+    # `use(x * a)` reads as the declaration `x *a` to a type-name scan: it is a use of the global
+    cpp = SCOPE_CPP.replace("return x + a; }", f"return {tail}; }}")
+    tree = scope_tree(tmp_path, cpp)
+    with pytest.raises(Refusal, match="a is used in rva00501000 at line 3, outside the block"):
+        scoped(tree, "local", "rva00501000", "a", "step")
+
+
+def test_locals_confined_to_their_blocks_still_rename(tmp_path):
+    tree = scope_tree(tmp_path)
+    plan = scoped(tree, "local", "rva00503000", "a", "step")
+    text = plan.after["Code/Game/Lock.cpp"].decode()
+    assert "{ int step = 1; x += step; } else { int step = 2; x -= step; }" in text
+    plan = scoped(tree, "local", "rva00502000", "a", "index")
+    assert "for (int index = 0; index < x; ++index)" in plan.after["Code/Game/Lock.cpp"].decode()
+    assert "x += use(index);" in plan.after["Code/Game/Lock.cpp"].decode()

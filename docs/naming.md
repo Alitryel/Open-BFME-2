@@ -180,6 +180,11 @@ class's member counts. A macro formal parameter binds only inside its macro.
 A unit or header that spells either name and whose parentheses or braces do not
 balance (an `#if`/`#else` split signature, a stray closer) cannot be classified
 and refuses the rename, naming the file.
+A local is renamed only where every spelling of its word lies inside the scope of
+one of its declarations (the declaring block, or a `for`/`while`/`if`/`switch`/`catch`
+statement for a declaration in its header). A spelling before the declaration, after
+its block closed or in a sibling block may mean a global or a header's declaration,
+so the rename is refused.
 
 A global's consumers are invisible to the byte gate, because DIR32 is masked. For that reason
 `rename.py` refuses a global rename when it cannot find and rewrite every consumer. It reports

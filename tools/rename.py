@@ -3145,6 +3145,81 @@ def pick_function(code, function):
     raise Refusal(f"{function} is ambiguous here: {', '.join(f[0] for f in loose)}")
 
 
+# What name_metric.local_names does not read as a declaration: `return x;` and kin.
+NOT_A_DECLARATION = frozenset({"return", "delete", "goto", "throw", "case", "new", "else", "do", "typedef",
+                               "using", "sizeof"})
+SCOPING_HEADS = re.compile(r"\b(?:for|while|if|switch|catch)\s*$")
+
+
+def _bracket_pairs(text, opener, closer):
+    """(open, close) offsets of every balanced pair; a pair never closed ends
+    at the end of the text."""
+    pairs, stack = [], []
+    for match in re.finditer(re.escape(opener) + "|" + re.escape(closer), text):
+        if match.group(0) == opener:
+            stack.append(match.start())
+        elif stack:
+            pairs.append((stack.pop(), match.start()))
+    pairs.extend((begin, len(text)) for begin in stack)
+    return pairs
+
+
+def local_scopes(body, name):
+    """(start, end) of the region each declaration of the local `name` in
+    function `body` (stripped text starting at its `{`) governs: from the
+    declared name to the end of the block that holds it. A declaration in the
+    header of a `for`/`while`/`if`/`switch`/`catch` governs that statement
+    only (its braced body, else up to the next `;`); one in any other
+    parenthesis is no declaration (`f(w * a)` reads as `type name`, and a
+    `type name` spelling in a call's argument list is never a declaration), nor
+    is `if (w & a)` (a condition declares only with an initializer) or a `for`'s
+    later clause. Narrow errors refuse more, wide ones would let a rename
+    through, so an unrecognised shape takes the narrower reading."""
+    braces = _bracket_pairs(body, "{", "}")
+    parens = _bracket_pairs(body, "(", ")")
+    scopes = []
+    for match in name_metric.LOCAL.finditer(body):
+        if match.group(2) != name or match.group(1) in NOT_A_DECLARATION or match.group(2) in name_metric.KEYWORDS:
+            continue
+        at = match.start(2)
+        block = max((p for p in braces if p[0] < at < p[1]), default=(0, len(body)))
+        paren = max((p for p in parens if p[0] < at < p[1]), default=None)
+        end = block[1]
+        if paren is not None and paren[0] > block[0]:
+            end = paren[1]
+            head = SCOPING_HEADS.search(body[:paren[0]])
+            # `f(w * a)` and `if (w & a)` read as `type name`; a declaration inside a
+            # parenthesis is only a statement's own: a condition's carries an initializer
+            # (`if (T *a = f())`), a loop's is its first clause, a handler's is its parameter
+            if not head or body[match.start()] != "(":
+                continue
+            word = head.group(0).split()[0]
+            tail = body[match.end(2):].lstrip()
+            if word in ("if", "while", "switch") and not re.match(r"=(?!=)", tail) or \
+                    word == "for" and tail.startswith(")"):
+                continue
+            after = re.compile(r"\s*").match(body, paren[1] + 1).end()
+            if body.startswith("{", after):
+                end = next(close for begin, close in braces if begin == after)
+            else:
+                stop = body.find(";", after)
+                end = len(body) if stop < 0 else stop
+        scopes.append((at, end))
+    return scopes
+
+
+def local_use_outside_scope(body, name):
+    """Offset in `body` of the first spelling of `name` that no declaration of
+    that local reaches (before its declaration, after its block closed, or in
+    a sibling block), where a global or a header's declaration may be what the
+    function means; None when each spelling is inside some declaration's scope."""
+    scopes = local_scopes(body, name)
+    for use in word_re(name).finditer(body):
+        if not any(begin <= use.start() <= end for begin, end in scopes):
+            return use.start()
+    return None
+
+
 def plan_scoped(kind, ctx, source, name, new, basis, evidence, *, function=None, rva=None, max_files=25):
     """Plan respelling one parameter or local inside one function body. Names
     of params and locals never reach bytes under optimisation; a local under
@@ -3202,6 +3277,10 @@ def plan_scoped(kind, ctx, source, name, new, basis, evidence, *, function=None,
                          default=None)
         if first_use and first_decl is not None and first_use.start() < first_decl:
             raise Refusal(f"{name} is used in {scope} before its declaration (it names something outer there)")
+        stray = local_use_outside_scope(body, name)
+        if stray is not None:
+            raise Refusal(f"{name} is used in {scope} at line {code.count(chr(10), 0, brace + stray) + 1}, outside "
+                          "the block that declares it (a global or an outer declaration may be what is meant)")
     old_q, new_q = f"{scope.split('#')[0]}::{name}", f"{scope.split('#')[0]}::{new}"
     reason = is_protected(ctx, kind, old_q, identifier=name)
     if reason:
