@@ -47,11 +47,11 @@ struct Rva003A39C0Owner
 // Native BFME2 RVA0x00313008.
 void Rva003A39C0Owner::insertAfterIndex(const Rva003A39C0Words &src)
 {
-	Rva003A35A0Element temp;
+	Rva003A35A0Element record;
 
-	temp.position = src;
+	record.position = src;
 
-	m_records.insert(m_records.begin() + (m_index20 + 2), temp);
+	m_records.insert(m_records.begin() + (m_index20 + 2), record);
 }
 
 
@@ -63,7 +63,7 @@ void Rva003A39C0Owner::insertAfterIndex(const Rva003A39C0Words &src)
 // donor names do not establish original application owner or input types.
 void Rva003A39C0Owner::insertAtBegin(const Rva003A39C0Words &src)
 {
-    Rva003A35A0Element temp;
-    temp.position=src;
-    m_records.insert(m_records.begin(),temp);
+    Rva003A35A0Element record;
+    record.position=src;
+    m_records.insert(m_records.begin(),record);
 }

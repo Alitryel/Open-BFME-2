@@ -1300,3 +1300,5 @@ local,Rva005243FA::tmp,Rva005243FA::tag,inferred,agree:nl-4d68f306ddf6,Code/Game
 param,TargetCoord::a,TargetCoord::xCoord,inferred,agree:nl-9f0d285dfd0c,Code/GameEngine/Source/GameLogic/Object/WeaponTemplateTargetPositions.cpp,
 param,TargetCoord::b,TargetCoord::yCoord,inferred,agree:nl-2e46a5e4713f,Code/GameEngine/Source/GameLogic/Object/WeaponTemplateTargetPositions.cpp,
 param,TargetCoord::c,TargetCoord::zCoord,inferred,agree:nl-d64bbfa21ede,Code/GameEngine/Source/GameLogic/Object/WeaponTemplateTargetPositions.cpp,
+local,Rva003A39C0Owner::insertAfterIndex::temp,Rva003A39C0Owner::insertAfterIndex::record,inferred,agree:nl-439e77acfd43,Code/GameEngine/Source/Common/Containers/Rva003A39C0RecordInsertion.cpp,0x00313008
+local,Rva003A39C0Owner::insertAtBegin::temp,Rva003A39C0Owner::insertAtBegin::record,inferred,agree:nl-0e75081a1270,Code/GameEngine/Source/Common/Containers/Rva003A39C0RecordInsertion.cpp,0x00313074
