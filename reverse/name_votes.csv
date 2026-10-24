@@ -2136,3 +2136,10 @@ Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp|function|0x006636
 Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp|function|0x006636D0|Rva006636D0Handler,eb13b7dcc194805c5a2adb42,claude-opus-5-5,claudec5-20261024-025712-8,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp|function|0x006636E0|Rva006636E0Handler,e84065ab4ce0ad33dead0956,claude-opus-5-5,claudec5-20261024-025712-8,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.cpp|member|ShadowChild|m_20,3bb143a5488051104f5c6606,claude-opus-5-5,claudec5-20261024-025712-8,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/PalantirTogglePlanningMode.cpp|local|Palantir::Impl::TogglePlanningMode|m2,53f5b475b5ab9ceb9ec1d143,gpt-6.1-sol,codex4-20261024-025917-1,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva00580776LinearInsert.cpp|function|0x00580776|Rva00580776Insert,e1d8e682b92d05344e72fadf,gpt-6.1-sol,codex4-20261024-025917-5,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva00580776LinearInsert.cpp|function|0x00580A54|Rva00580A54Sort,0e3901db58f88ec6550744e8,gpt-6.1-sol,codex4-20261024-025917-5,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva00580776LinearInsert.cpp|function|0x00580BBF|Rva00580BBFUnguardedSort,395ab9e6b539c42be62394e9,gpt-6.1-sol,codex4-20261024-025917-5,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva00580776LinearInsert.cpp|function|0x005809DB|Rva005809DBLinearInsert,58e6ba534cb728ee87811c1b,gpt-6.1-sol,codex4-20261024-025917-5,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva00580776LinearInsert.cpp|function|0x00580B5C|Rva00580B5CInsertionSort,deb3162df44a976db9cdce03,gpt-6.1-sol,codex4-20261024-025917-5,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva00580776LinearInsert.cpp|local|Rva00580B5CInsertionSort|p,a8f3525b513ae5cb44a00c97,gpt-6.1-sol,codex4-20261024-025917-5,w-887869184137,2026-10-24
