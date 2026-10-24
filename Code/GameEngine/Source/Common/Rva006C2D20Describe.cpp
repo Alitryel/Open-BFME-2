@@ -81,8 +81,8 @@ int Rva006C2D20Sink::rva006C2D20(const char *block, const char *buffer, unsigned
 	Rva00034C90Lock guard(m_lock);
 	void *data = (void *)(block + 8);
 	char *end = (char *)buffer + bufferLength;
-	unsigned int n0 = rva00031430(block, (char *)buffer, bufferLength);
-	char *p = (char *)buffer + n0;
+	unsigned int baseLength = rva00031430(block, (char *)buffer, bufferLength);
+	char *p = (char *)buffer + baseLength;
 	if (p > buffer && p[-1] == m_lineEnd)
 		*--p = 0;
 
@@ -109,15 +109,15 @@ int Rva006C2D20Sink::rva006C2D20(const char *block, const char *buffer, unsigned
 	char name[0x200];
 	if (((GeneralAllocatorDebug *)this)->rva006C25F0Run6(data, 5, (int)name, len, &len, 2) && len
 		&& (unsigned int)(end - p) >= len + 12) {
-		unsigned int n = _snprintf(p, end - p, "name: %s%c", name, m_separator);
-		p += n;
+		unsigned int charsWritten = _snprintf(p, end - p, "name: %s%c", name, m_separator);
+		p += charsWritten;
 	}
 
 	Rva006C2D20Location loc;
 	if (((GeneralAllocatorDebug *)this)->rva006C25F0Run6(data, 6, (int)&loc, 8, 0, 2)) {
 		if ((unsigned int)(end - p) >= strlen(loc.file) + 0x16) {
-			unsigned int n = _snprintf(p, end - p, "loc: %s, %d%c", loc.file, loc.line, m_separator);
-			p += n;
+			unsigned int charsWritten = _snprintf(p, end - p, "loc: %s, %d%c", loc.file, loc.line, m_separator);
+			p += charsWritten;
 		}
 	}
 

@@ -805,3 +805,5 @@ param,StrategicHUD::ArmyUnitSwapperMovieClip::Impl::SetCommandPoints::a,Strategi
 param,StrategicHUD::ArmyUnitSwapperMovieClip::Impl::SetCommandPoints::b,StrategicHUD::ArmyUnitSwapperMovieClip::Impl::SetCommandPoints::maxCommandPoints,inferred,agree:nl-52408705c77d,Code/GameEngine/Source/Common/Rva005FD8E5Apt.cpp,0x005FD8E5
 param,Rva005FD956::rva005FD956::a,Rva005FD956::rva005FD956::commandPoints,inferred,agree:nl-87370b1bf5a8,Code/GameEngine/Source/Common/Rva005FD8E5Apt.cpp,0x005FD956
 param,Rva005FD956::rva005FD956::b,Rva005FD956::rva005FD956::maxCommandPoints,inferred,agree:nl-d3a25bfb6e50,Code/GameEngine/Source/Common/Rva005FD8E5Apt.cpp,0x005FD956
+local,Rva006C2D20Sink::rva006C2D20::n0,Rva006C2D20Sink::rva006C2D20::baseLength,inferred,agree:nl-e3dd45f1ceb1,Code/GameEngine/Source/Common/Rva006C2D20Describe.cpp,0x006C2D20
+local,Rva006C2D20Sink::rva006C2D20::n,Rva006C2D20Sink::rva006C2D20::charsWritten,inferred,agree:nl-012dfff78981,Code/GameEngine/Source/Common/Rva006C2D20Describe.cpp,0x006C2D20
