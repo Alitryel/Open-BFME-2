@@ -310,17 +310,6 @@ public:
 };
 template void _STL::_Construct<Rva00568A20, Rva00568A20>(Rva00568A20 *, const Rva00568A20 &);
 
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma inline_depth(0)
-// ?bfmeEmitBfmeStringRecord00426A5BAssign@@YAXPAUBfmeStringRecord00426A5B@@ABU1@@Z present-unmatched
-void bfmeEmitBfmeStringRecord00426A5BAssign(BfmeStringRecord00426A5B *p, const BfmeStringRecord00426A5B &source)
-{
-	p->operator=(source);
-}
-#pragma inline_depth()
-
-
 // BFME 1 donor compiled with BFME 2 /O1 settings from revision 968ca36c3265b295297e6aed45a6bd89ffe59c40.
 // The retail insertion-sort caller at 0x00331BD7 names this specialization; donor_sweep placed its 75-byte body at 0x00331A46.
 struct S4Name
