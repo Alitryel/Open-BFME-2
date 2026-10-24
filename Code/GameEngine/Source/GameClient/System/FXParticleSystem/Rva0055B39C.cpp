@@ -80,9 +80,9 @@ void Rva0055B39C::computeAlphaRate()
 	float v = m_pairs[idx + 1].value;
 	unsigned int prev = m_pairs[idx + 1].frame;
 	unsigned int delta = next - prev;
-	float f = v - m_time;
-	float d = (float)delta;
-	m_result = f / d;
+	float alphaDelta = v - m_time;
+	float frameDelta = (float)delta;
+	m_result = alphaDelta / frameDelta;
 }
 
 // Native 0x0055B489..0x0055B52E: skip states 1/2, advance the alpha

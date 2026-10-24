@@ -1772,3 +1772,5 @@ param,Rva005C802B::Rva005C802B::b,Rva005C802B::Rva005C802B::name,inferred,agree:
 param,Rva005FF912::Rva005FF912::b,Rva005FF912::Rva005FF912::name,inferred,agree:nl-8db083a3c2f1,Code/GameEngine/Source/Common/Rva005C802BFactory.cpp,0x005FF912
 local,Rva005E4DAF::Deselect::q,Rva005E4DAF::Deselect::virtualBaseTable,inferred,agree:nl-2a7ceeed21a0,Code/GameEngine/Source/Common/Rva005E4DAFTwins.cpp,0x005E4DAF
 local,Rva005E4DAF::Select::q,Rva005E4DAF::Select::virtualBaseTable,inferred,agree:nl-54e1355d75f4,Code/GameEngine/Source/Common/Rva005E4DAFTwins.cpp,0x005E4DE5
+local,Rva0055B39C::computeAlphaRate::f,Rva0055B39C::computeAlphaRate::alphaDelta,inferred,agree:nl-833adce78adc,Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055B39C.cpp,0x0055B39C
+local,Rva0055B39C::computeAlphaRate::d,Rva0055B39C::computeAlphaRate::frameDelta,inferred,agree:nl-5531cae0ab62,Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055B39C.cpp,0x0055B39C
