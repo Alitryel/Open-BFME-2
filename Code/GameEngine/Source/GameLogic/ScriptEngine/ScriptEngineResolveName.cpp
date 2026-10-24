@@ -85,25 +85,25 @@ struct Rva0032AAEENode
 class Rva0032AAEE
 {
 public:
-	void rva0032AAEE(int a, int b);
+	void rva0032AAEE(int firstIndex, int secondIndex);
 
 private:
 	char unknown00[12];
 	Rva0032AAEENode *nodes;
 };
 
-void Rva0032AAEE::rva0032AAEE(int a, int b)
+void Rva0032AAEE::rva0032AAEE(int firstIndex, int secondIndex)
 {
-	if (a == b)
+	if (firstIndex == secondIndex)
 		return;
-	if (nodes[a].previous == b) {
-		int savedIndex = a;
-		a = b;
-		b = savedIndex;
+	if (nodes[firstIndex].previous == secondIndex) {
+		int savedIndex = firstIndex;
+		firstIndex = secondIndex;
+		secondIndex = savedIndex;
 	}
 
-	Rva0032AAEENode *first = &nodes[a];
-	Rva0032AAEENode *second = &nodes[b];
+	Rva0032AAEENode *first = &nodes[firstIndex];
+	Rva0032AAEENode *second = &nodes[secondIndex];
 	int beforeFirst = first->previous;
 	nodes[beforeFirst].next = first->next;
 	nodes[first->next].previous = (short)beforeFirst;
@@ -113,12 +113,12 @@ void Rva0032AAEE::rva0032AAEE(int a, int b)
 
 	first->next = nodes[beforeSecond].next;
 	first->previous = (short)beforeSecond;
-	nodes[beforeSecond].next = (short)a;
-	nodes[first->next].previous = (short)a;
+	nodes[beforeSecond].next = (short)firstIndex;
+	nodes[first->next].previous = (short)firstIndex;
 	second->next = nodes[beforeFirst].next;
 	second->previous = (short)beforeFirst;
-	nodes[beforeFirst].next = (short)b;
-	nodes[second->next].previous = (short)b;
+	nodes[beforeFirst].next = (short)secondIndex;
+	nodes[second->next].previous = (short)secondIndex;
 }
 
 // Native 0x0032AFD4..0x0032B067, RET 12. The receiver holds two string

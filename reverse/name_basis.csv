@@ -1784,3 +1784,5 @@ local,Rva004C5DD0::Rva004C5DD0::b,Rva004C5DD0::Rva004C5DD0::secondRef,inferred,a
 local,NAT::targetNotifyMeIWasProbed::o,NAT::targetNotifyMeIWasProbed::localPlayer,inferred,agree:nl-da486c55a3c3,Code/GameEngine/Source/Common/Rva005A8666Box.cpp,0x005A8666
 local,NAT::gotTargetMangledPort::o1,NAT::gotTargetMangledPort::targetPlayer,inferred,agree:nl-519cf81220ad,Code/GameEngine/Source/Common/Rva005A8666Box.cpp,0x005A86C0
 local,NAT::gotTargetMangledPort::o2,NAT::gotTargetMangledPort::localPlayer,inferred,agree:nl-6d11e637adf1,Code/GameEngine/Source/Common/Rva005A8666Box.cpp,0x005A86C0
+param,Rva0032AAEE::rva0032AAEE::a,Rva0032AAEE::rva0032AAEE::firstIndex,inferred,agree:nl-01e825797188,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineResolveName.cpp,0x0032AAEE
+param,Rva0032AAEE::rva0032AAEE::b,Rva0032AAEE::rva0032AAEE::secondIndex,inferred,agree:nl-007d26afa8ff,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineResolveName.cpp,0x0032AAEE
