@@ -86,7 +86,7 @@ class Pathfinder
 {
 public:
 	PathfindCell *rva002E8BF8(PathfindLayerEnum layer, const Coord3D *pos);
-	int FindBrokenBridge(Rva002E99F9Arg1 *a1, const Coord3D * volatile a2, const Coord3D *a3);
+	int FindBrokenBridge(Rva002E99F9Arg1 *a1, const Coord3D * volatile startPos, const Coord3D *endPos);
 private:
 	char m_pad0[0x460];
 	Rva002E99F9Sub460 m_sub460;
@@ -97,12 +97,12 @@ private:
 // qualifier keeps that store. Flags /O1 /MD /G7: /G7 lowers the ushort
 // cell-field loads as plain 16-bit mov (no movzx) like the rowed
 // Rva00531A44 find in the same family.
-int Pathfinder::FindBrokenBridge(Rva002E99F9Arg1 *a1, const Coord3D * volatile a2, const Coord3D *a3)
+int Pathfinder::FindBrokenBridge(Rva002E99F9Arg1 *a1, const Coord3D * volatile startPos, const Coord3D *endPos)
 {
-	PathfindLayerEnum layerA3 = TheTerrainLogic->getLayerForDestination(0, a3);
-	PathfindLayerEnum layerA2 = TheTerrainLogic->getLayerForDestination(0, a2);
-	PathfindCell *pathfindCell = rva002E8BF8(layerA2, a2);
-	PathfindCell *cellA3 = rva002E8BF8(layerA3, a3);
+	PathfindLayerEnum layerA3 = TheTerrainLogic->getLayerForDestination(0, endPos);
+	PathfindLayerEnum layerA2 = TheTerrainLogic->getLayerForDestination(0, startPos);
+	PathfindCell *pathfindCell = rva002E8BF8(layerA2, startPos);
+	PathfindCell *cellA3 = rva002E8BF8(layerA3, endPos);
 	Rva002E99F9Query q;
 	q.m_8 |= -1;
 	q.m_0 = a1->m_10;
@@ -118,7 +118,7 @@ int Pathfinder::FindBrokenBridge(Rva002E99F9Arg1 *a1, const Coord3D * volatile a
 	unsigned int r3 = m_sub460.rva00531FD4(&q, r1);
 	unsigned int r4 = m_sub460.rva00531FD4(&q, r2);
 	unsigned int r5 = m_sub460.rva0053241F(&q, r3);
-	a2 = (const Coord3D *)r5;
+	startPos = (const Coord3D *)r5;
 	m_sub460.rva0053241F(&q, r4);
 	return 0;
 }
