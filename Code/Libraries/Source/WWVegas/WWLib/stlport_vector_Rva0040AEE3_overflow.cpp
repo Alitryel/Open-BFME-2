@@ -5,6 +5,19 @@
 // Retail keeps one unsigned max, RVA 0x00013740 (the vendored STLport row). This unit's
 // flags (/G7 /arch:SSE) compile a different copy, and retail kept another unit's. This unit-local
 // overload keeps the inlined code and offers the link no second copy.
+// Preserve the visible STL loops and call the existing native placement-copy
+// provider for this same record view. The application identity remains unknown.
+class Rva0040AEE3;
+void Rva0040B14EConstruct(Rva0040AEE3 *, const Rva0040AEE3 &);
+namespace _STL {
+// ?_STL::_Construct absent-from-retail
+static __forceinline void _Construct(Rva0040AEE3 *destination,
+                                    const Rva0040AEE3 &source)
+{
+    Rva0040B14EConstruct(destination, source);
+}
+}
+
 #include <stl/_algobase.h>
 namespace _STL {
 static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
@@ -40,7 +53,7 @@ private:
 
 namespace _STL
 {
-template <> void _Construct<Rva0040AEE3, Rva0040AEE3>(Rva0040AEE3 *, const Rva0040AEE3 &);
+
 }
 
 template void _STL::vector<Rva0040AEE3>::_M_insert_overflow(

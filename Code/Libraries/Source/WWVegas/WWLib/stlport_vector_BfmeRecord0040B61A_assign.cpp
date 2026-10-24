@@ -11,6 +11,19 @@
 // type and the remaining fields are not established. The flags follow
 // GeometryRecordVector.cpp; /MD with the STLport static-lib defines adds a
 // distance argument retail does not pass.
+// Preserve the visible STL loops and call the existing native placement-copy
+// provider for this same record view. The application identity remains unknown.
+class Rva0040AEE3;
+void Rva0040B14EConstruct(Rva0040AEE3 *, const Rva0040AEE3 &);
+namespace _STL {
+// ?_STL::_Construct absent-from-retail
+static __forceinline void _Construct(Rva0040AEE3 *destination,
+                                    const Rva0040AEE3 &source)
+{
+    Rva0040B14EConstruct(destination, source);
+}
+}
+
 #include <vector>
 
 #include "ascii_string.h"
@@ -49,7 +62,7 @@ class Rva0040AEE3 { char data[16]; public: Rva0040AEE3(const Rva0040AEE3 &); };
 struct DestroyElem0040B52E;
 void Rva0040B52EDestroy(DestroyElem0040B52E *, DestroyElem0040B52E *);
 namespace _STL {
-template <> void _Construct<Rva0040AEE3, Rva0040AEE3>(Rva0040AEE3 *, const Rva0040AEE3 &);
+
 template <> BfmeRecord0040B61A *__uninitialized_copy<const BfmeRecord0040B61A *, BfmeRecord0040B61A *>(
     const BfmeRecord0040B61A *, const BfmeRecord0040B61A *, BfmeRecord0040B61A *, const __false_type &);
 template <> inline Rva0040AEE3 *__uninitialized_copy<Rva0040AEE3 *, Rva0040AEE3 *>(
