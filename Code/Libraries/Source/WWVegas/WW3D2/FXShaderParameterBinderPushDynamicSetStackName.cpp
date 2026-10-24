@@ -89,8 +89,8 @@ void FXShaderParameterBinder::PushDynamicSetStack(const char *name)
 		goto add;
 reload:
 	{
-		Rva0015354EStore *s2 = m_store10;
-		ScienceType *scienceType = *(ScienceType **)((char *)s2 + 8);
+		Rva0015354EStore *currentStore = m_store10;
+		ScienceType *scienceType = *(ScienceType **)((char *)currentStore + 8);
 		cur = *(scienceType - 1);
 	}
 add:
