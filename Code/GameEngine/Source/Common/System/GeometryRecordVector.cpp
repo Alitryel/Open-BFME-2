@@ -38,4 +38,7 @@ public:
 // Keep this unit from supplying the node-allocator implementation at that name.
 namespace _STL { template <> void allocator<GeometryRecord>::deallocate(GeometryRecord *, size_t) const; }
 
-template class _STL::vector<GeometryRecord>;
+template GeometryRecord *_STL::vector<GeometryRecord>::erase(GeometryRecord *, GeometryRecord *);
+template GeometryRecord *_STL::__copy<GeometryRecord *, GeometryRecord *, int>(
+    GeometryRecord *, GeometryRecord *, GeometryRecord *,
+    const _STL::random_access_iterator_tag &, int *);

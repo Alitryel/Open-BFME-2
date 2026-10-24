@@ -65,6 +65,10 @@ struct Rva00148B27Element { char bytes[8]; };
 struct Rva003609F7Element { char bytes[1]; };
 typedef _STL::hashtable<_STL::pair<const int,Rva00148B27Element>,int,_STL::hash<int>,_STL::_Select1st<_STL::pair<const int,Rva00148B27Element> >,_STL::equal_to<int>,_STL::allocator<_STL::pair<const int,Rva00148B27Element> > > FindTable;
 typedef _STL::hashtable<_STL::pair<const int,Rva003609F7Element>,int,_STL::hash<int>,_STL::_Select1st<_STL::pair<const int,Rva003609F7Element> >,_STL::equal_to<int>,_STL::allocator<_STL::pair<const int,Rva003609F7Element> > > InsertTable;
+namespace _STL {
+template <> pair<const int, Rva003609F7Element> &
+InsertTable::_M_insert(const pair<const int, Rva003609F7Element> &);
+}
 class Rva00360A92 { public: Rva003608C9 &rva00360A92(const int &key); };
 Rva003608C9 &Rva00360A92::rva00360A92(const int &key)
 {

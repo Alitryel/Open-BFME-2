@@ -38,5 +38,8 @@ struct crateCreationEntry
 bool operator==(const crateCreationEntry &a, const crateCreationEntry &b);
 bool operator<(const crateCreationEntry &a, const crateCreationEntry &b);
 
-template class _STL::list<crateCreationEntry, _STL::allocator<crateCreationEntry> >;
+template void _STL::_List_base<crateCreationEntry, _STL::allocator<crateCreationEntry> >::clear();
+template _STL::list<crateCreationEntry>::iterator _STL::list<crateCreationEntry>::erase(iterator);
+template _STL::list<crateCreationEntry>::iterator _STL::list<crateCreationEntry>::erase(iterator, iterator);
+template _STL::list<crateCreationEntry>::~list();
 template void _STL::list<crateCreationEntry, _STL::allocator<crateCreationEntry> >::swap(_STL::list<crateCreationEntry, _STL::allocator<crateCreationEntry> > &);

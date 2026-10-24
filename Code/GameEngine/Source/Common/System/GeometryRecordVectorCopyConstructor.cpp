@@ -6,6 +6,7 @@
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
 #define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
+#include "../../../../../reference/shims/bfmealloc/stl/_alloc.h"
 #include <stl/_algobase.h>
 namespace _STL {
 static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
@@ -42,4 +43,11 @@ namespace _STL { template <> void allocator<GeometryRecord>::deallocate(Geometry
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> vector<GeometryRecord,allocator<GeometryRecord> >::~vector(); }
 
-template class _STL::vector<GeometryRecord>;
+namespace _STL {
+template <> _Vector_base<GeometryRecord, allocator<GeometryRecord> >::~_Vector_base();
+}
+
+template _STL::vector<GeometryRecord>::vector(const _STL::vector<GeometryRecord> &);
+template GeometryRecord *_STL::__copy_ptrs<GeometryRecord *, GeometryRecord *>(
+    GeometryRecord *, GeometryRecord *, GeometryRecord *, const _STL::__false_type &);
+template void _STL::vector<GeometryRecord>::clear();

@@ -17,6 +17,19 @@ struct BfmeStringRecord002CF5B1
         : word0(other.word0), word1(other.word1), text(other.text) {}
 };
 
+namespace _STL {
+template <> __declspec(noinline) inline BfmeStringRecord002CF5B1 *
+__uninitialized_copy<const BfmeStringRecord002CF5B1 *, BfmeStringRecord002CF5B1 *>(
+    const BfmeStringRecord002CF5B1 *first, const BfmeStringRecord002CF5B1 *last,
+    BfmeStringRecord002CF5B1 *result, const __false_type &)
+{
+    BfmeStringRecord002CF5B1 *cur = result;
+    for (; first != last; ++first, ++cur)
+        _Construct(&*cur, *first);
+    return cur;
+}
+}
+
 // Retail has an EH frame here. The link keeps the independently verified
 // no-EH const-copy worker from stlport_vector_stringrecord_2cf5b1_allocate_copy.
 template _STL::vector<BfmeStringRecord002CF5B1>::vector(

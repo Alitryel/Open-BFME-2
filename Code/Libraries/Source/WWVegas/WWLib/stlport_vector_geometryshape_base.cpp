@@ -72,24 +72,20 @@ struct GeometryShape
 	char m_unmodelled21[0x03];
 
 	GeometryShape();
-	GeometryShape(const GeometryShape &other)
-		: m_type(other.m_type),
-		  m_height(other.m_height),
-		  m_majorRadius(other.m_majorRadius),
-		  m_minorRadius(other.m_minorRadius),
-		  m_centerOffset(other.m_centerOffset),
-		  m_name(other.m_name),
-		  m_enabled(other.m_enabled),
-		  m_unmodelled21()
-	{
-	}
+	GeometryShape(const GeometryShape &other);
 };
 
-template class _STL::vector<GeometryShape, _STL::allocator<GeometryShape> >;
-
-// Reference the count-taking _Vector_base so the object emits it: retail
-// 0x0010E5A2 is the (count, allocator) base ctor, which nothing above calls.
-void forceGeometryShapeVectorBase()
+GeometryShape::GeometryShape(const GeometryShape &other)
+	: m_type(other.m_type),
+	  m_height(other.m_height),
+	  m_majorRadius(other.m_majorRadius),
+	  m_minorRadius(other.m_minorRadius),
+	  m_centerOffset(other.m_centerOffset),
+	  m_name(other.m_name),
+	  m_enabled(other.m_enabled),
+	  m_unmodelled21()
 {
-	_STL::vector<GeometryShape, _STL::allocator<GeometryShape> > counted(3);
 }
+
+template _STL::_Vector_base<GeometryShape, _STL::allocator<GeometryShape> >::_Vector_base(
+    unsigned int, const _STL::allocator<GeometryShape> &);
