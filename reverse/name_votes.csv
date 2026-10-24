@@ -5025,3 +5025,11 @@ Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp|member|Rva00201DC4LODIn
 Code/GameEngine/Source/Common/Rva003418EAMethod.cpp|param|Rva00341796::onExit|arg,9af9d1755546601769116f50,claude-opus-5-5,claudec5-20261024-122920-3,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/Common/Rva00108AD8Finish.cpp|local|Rva00108AD8::invalidateCachedLightPositions|e,d8834d2dea3140035bfc1471,claude-opus-5-5,claudec5-20261024-122920-5,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/Common/Rva0052DB11.cpp|member|Rva0052DB11Obj|m_74,67f651fb897c4a5fbf231c41,claude-opus-5-5,claudec5-20261024-122920-15,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva0010F42AFinish.cpp|member|Rva0010F42A|m_scale0C,718368385ce2341fbef8fdbd,gpt-6-astra,codexb2-20261024-124859-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva0010F42AFinish.cpp|function|0x0010F42A|rva0010F42A,402b6f710182dc996f6436a6,gpt-6-astra,codexb2-20261024-124859-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/ToggleDeploySpecialAbilityUpdateSlot24.cpp|local|ToggleDeploySpecialAbilityUpdate::rva004AE6D7|p08,9cba08a0afaedba784f4c0db,gpt-6-astra,codexb2-20261024-124859-2,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva0041B94APermuted.cpp|local|ActionManager::Rva0041B94AGet|p,ef790b2a60f6af0cadf2afdd,gpt-6-astra,codexb2-20261024-124859-3,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva0041B94APermuted.cpp|local|BFMEActionManager::rva000C4080|p,ead47d8f205046e90e089d52,gpt-6-astra,codexb2-20261024-124859-3,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva003418EAMethod.cpp|member|ChaseB|m_258,3f7bd453af5dc9d444b32766,gpt-6-astra,codexb2-20261024-124859-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva003418EAMethod.cpp|param|Rva00341796::onExit|arg,2ed662c4b7eed27a35c23a53,gpt-6-astra,codexb2-20261024-124859-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv1361.cpp|local|bfmeCopyVHE|v,f8b3e15c268876ae5779987d,gpt-6-astra,codexb2-20261024-124859-4,w-d0bdfd8b17e9,2026-10-24
