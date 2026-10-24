@@ -558,3 +558,56 @@ def test_locals_confined_to_their_blocks_still_rename(tmp_path):
     plan = scoped(tree, "local", "rva00502000", "a", "index")
     assert "for (int index = 0; index < x; ++index)" in plan.after["Code/Game/Lock.cpp"].decode()
     assert "x += use(index);" in plan.after["Code/Game/Lock.cpp"].decode()
+
+
+# ------------- STLport rows: the row's own scope decides, not what its signature spells
+
+@pytest.mark.parametrize("mangled", [
+    STL_INST,                                                              # member of a class template instance
+    "??0?$vector@PAUArmy@@V?$allocator@PAUArmy@@@_STL@@@_STL@@QAE@XZ",   # constructor
+    "??1?$vector@PAUArmy@@V?$allocator@PAUArmy@@@_STL@@@_STL@@QAE@XZ",   # destructor
+    "??$__copy@PAPAUArmy@@PAPAU1@@_STL@@YAPAPAUArmy@@PAPAU1@00@Z",        # function template instance
+    "??$?9PBD@_STL@@YA_NABV?$reverse_iterator@PBD@0@0@Z",                # operator template instance
+    "?_M_fill@?$_Vector_base@PAUArmy@@V?$allocator@PAUArmy@@@_STL@@@_STL@@QAEXXZ",
+])
+def test_template_instances_in_stl_are_instantiations(mangled):
+    assert rename.is_stlport_instantiation(mangled)
+
+
+@pytest.mark.parametrize("mangled", [
+    # a plain upstream method that merely takes (and returns) a template instance
+    "?erase@list@_STL@@QAE?AV?$_List_iterator@PAUArmy@@@2@V32@@Z",
+    "?assign@Holder@_STL@@QAEXABV?$vector@PAUArmy@@V?$allocator@PAUArmy@@@_STL@@@2@@Z",
+    "?__write_float@_STL@@YAXAAV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@1@HHN@Z",
+    # a template instance outside _STL
+    "?push_back@?$vector@PAUArmy@@V?$allocator@PAUArmy@@@Other@@@Other@@QAEXXZ",
+    "?push_back@?$vector@H@Other@@QAEXXZ",
+    # not a symbol the parser reads
+    "_push_back", "??_7vector@_STL@@6B@", "?__x@?$v@Q",
+])
+def test_signature_spelling_a_template_is_not_an_instantiation(mangled):
+    assert not rename.is_stlport_instantiation(mangled)
+
+
+def test_back_referenced_stl_scope_is_read_from_the_fragment_table():
+    # the first `_STL` sits in the allocator's arguments; the scope's own is a digit
+    mangled = "?push_back@?$vector@PAUArmy@@V?$allocator@PAUArmy@@@_STL@@@_STL@@QAEXABQAUArmy@@@Z"
+    parts = rename.qualified_name_parts(mangled)
+    assert parts == [("push_back", False), ("vector", True), ("_STL", False)]
+    # as MSVC writes it: push_back=0 vector=1 Army=2 allocator=3 _STL=4, and the scope is a `4`
+    for backref in ("?push_back@?$vector@PAUArmy@@V?$allocator@PAU2@@_STL@@@4@@QAEXXZ",
+                    "?push_back@?$vector@PAUArmy@@V?$allocator@PAU2@@_STL@@@4@@QAEXABQAU2@@Z"):
+        assert rename.qualified_name_parts(backref) == parts
+        assert rename.is_stlport_instantiation(backref)
+
+
+def test_a_plain_stlport_method_taking_a_template_instance_keeps_its_unit_vendored(tmp_path):
+    plain = "?assign@Holder@_STL@@QAEXABV?$vector@PAUArmy@@V?$allocator@PAUArmy@@@_STL@@@2@@Z"
+    tree = host_tree(tmp_path, extra_rows=[(plain, "0x00404000", "vendored=stlport-4.5.3")])
+    ctx = rename.Context(tree, object_scan=False)
+    assert rename.is_vendored_path(ctx, "Code/Game/Widget.cpp")
+    with pytest.raises(Refusal, match="vendored"):
+        plan_function(tree, 0x00401000, "countParts")
+    # the same unit with only the instantiation stays a game unit
+    assert not rename.is_vendored_path(rename.Context(host_tree(tmp_path / "ok"), object_scan=False),
+                                       "Code/Game/Widget.cpp")

@@ -1035,6 +1035,71 @@ def is_vendored_path(ctx, rel):
     return rel in ctx._cache["_vendored_sources"]
 
 
+def qualified_name_parts(mangled):
+    """The function's own qualified name, innermost first, as (text,
+    is_template) pairs -- `?push_back@?$vector@PAUX@@V?$allocator@PAUX@@@_STL@@@_STL@@QAEX...`
+    reads push_back, vector (a template), _STL -- never what its signature
+    spells. A constructor, destructor or `??_G`-style row has no name part of
+    its own, only its scope. MSVC's name back-references (`_STL` seen first
+    inside the allocator's arguments is a digit in the scope) are resolved from
+    the fragment table the parser keeps. None for a symbol outside the subset
+    `fragments` reads, which a caller must treat as not an instantiation."""
+    if not mangled.startswith("?"):
+        return None
+    out = _Out()
+    parts = []
+    try:
+        if mangled.startswith("??$?"):                      # an operator template instance
+            parts.append((mangled[3:5], True))               # (operators take no fragment-table slot)
+            i = _parse_template_args(mangled, 5 + (mangled[4] == "_"), out)
+        elif mangled.startswith("??$"):                     # a function template instance
+            end = mangled.index("@", 3)
+            out.append((3, end))
+            parts.append((mangled[3:end], True))
+            i = _parse_template_args(mangled, end + 1, out)
+        elif mangled.startswith("??") and mangled[2] != "?":   # ctor, dtor, ??_G: scope only
+            if mangled.startswith("??__"):
+                return None
+            i = 4 if mangled[2] == "_" else 3
+        else:
+            i = 1
+        while mangled[i] != "@":
+            c = mangled[i]
+            if c.isdigit():
+                begin, end = out[int(c)]
+                parts.append((mangled[begin:end], mangled[begin - 2:begin] == "?$"))
+                i += 1
+            elif mangled.startswith("?$", i) and mangled[i + 2] != "?":
+                end = mangled.index("@", i + 2)
+                out.append((i + 2, end))
+                parts.append((mangled[i + 2:end], True))
+                i = _parse_template_args(mangled, end + 1, out)
+            elif c.isalpha() or c == "_":
+                end = mangled.index("@", i)
+                if not IDENT.fullmatch(mangled[i:end]):
+                    return None
+                out.append((i, end))
+                parts.append((mangled[i:end], False))
+                i = end + 1
+            else:
+                return None
+    except (IndexError, ValueError):
+        return None
+    return parts
+
+
+def is_stlport_instantiation(mangled):
+    """True when the row's own qualified name is a template instance in the
+    `_STL` namespace: a function template (`??$__copy@...@_STL@@`), or a
+    member of a class template instance (`?push_back@?$vector@...@_STL@@`,
+    its constructors and destructors included). Only the name counts: a plain
+    upstream method that takes a template instance as an argument
+    (`?erase@list@_STL@@QAEXV?$_List_iterator@H@1@@Z`) is not one."""
+    parts = qualified_name_parts(mangled)
+    return bool(parts) and any(template for _text, template in parts) and \
+        any(text == "_STL" and not template for text, template in parts)
+
+
 def hosts_instantiations_only(source, rows):
     """True for a game unit whose only vendored rows are STLport template
     instantiations over its own types (`push_back@?$vector@PAULivingWorldArmy`):
@@ -1042,8 +1107,10 @@ def hosts_instantiations_only(source, rows):
     headers, and a row it merely instantiates is no upstream code in the
     file. It needs a row of its own besides the instantiations (a file made
     only of vendored rows is upstream's), must not be an STLport unit by
-    name, and every vendored row must be a template of `_STL` (a plain
-    upstream function or another library's row keeps the file vendored).
+    name, and every vendored row's own qualified name must be a template
+    instance in `_STL` (is_stlport_instantiation: a signature that merely
+    spells one does not count; a plain upstream function or another
+    library's row keeps the file vendored).
     The names those rows spell stay protected: `shared_identifier` refuses a
     word they spell."""
     if source.lower().endswith(".lib") or source.startswith(VENDORED_DIRS) or \
@@ -1052,7 +1119,7 @@ def hosts_instantiations_only(source, rows):
     vendored = [r for r in rows if "vendored=" in r.get("notes", "")]
     if not vendored or len(vendored) == len(rows):
         return False
-    return all(re.search(r"vendored=stlport-", r.get("notes", "")) and "?$" in r["name"] and "@_STL@" in r["name"]
+    return all(re.search(r"vendored=stlport-", r.get("notes", "")) and is_stlport_instantiation(r["name"])
                for r in vendored)
 
 
