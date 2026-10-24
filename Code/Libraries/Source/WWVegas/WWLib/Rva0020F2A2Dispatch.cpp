@@ -39,9 +39,9 @@ bool LivingWorldRegionManager::GetRegionUiPopupPoint(int idx, void *outRaw)
 	if (((EAF6Elem *)p)->m_AB != 0)
 	{
 		Out0020E493 tmp;
-		Out0020E493 *r = ((Rva0020E493 *)p)->rva0020E493(&tmp);
-		((int *)out)[0] = ((int *)r)[0];
-		((int *)out)[1] = ((int *)r)[1];
+		Out0020E493 *popupPoint = ((Rva0020E493 *)p)->rva0020E493(&tmp);
+		((int *)out)[0] = ((int *)popupPoint)[0];
+		((int *)out)[1] = ((int *)popupPoint)[1];
 		return true;
 	}
 	return ((Rva0020F27EHost *)this)->rva0020F27E(idx, (int)out);

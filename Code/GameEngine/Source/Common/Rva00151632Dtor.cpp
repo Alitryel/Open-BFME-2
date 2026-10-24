@@ -35,8 +35,8 @@ private:
 
 inline Rva00151632::~Rva00151632()
 {
-	void *tmp = m_link ? m_link->get(0) : 0;
-	delete tmp;
+	void *allocation = m_link ? m_link->get(0) : 0;
+	delete allocation;
 }
 
 // ??1Rva00151632 is a header inline elsewhere: another unit emits a
