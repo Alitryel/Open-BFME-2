@@ -53,6 +53,7 @@ template <> inline const unsigned int &max<unsigned int>(const unsigned int &a, 
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "ModuleFactoryDamageModule.h"
 
 #include "Common/Module.h"
 #include "Common/ModuleFactory.h"

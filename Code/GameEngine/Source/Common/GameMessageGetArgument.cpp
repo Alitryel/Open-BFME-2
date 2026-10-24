@@ -1,14 +1,18 @@
 // cl: /DNDEBUG /MD
 //
 // ?getArgument@GameMessage@@QBEPBTGameMessageArgumentType@@H@Z retail 0x0030F4EA 34 bytes.
-// GameMessage::getArgument from ZH MessageStream.cpp donor verbatim: walks
+// GameMessage::getArgument from ZH MessageStream.cpp: walks
 // m_argList at +0x1C via m_next at +4 counting edx; on edx==index returns
-// &a->m_data at +8; else returns static junk at 0x0086BB18.
+// &a->m_data at +8; else returns the zero object at retail RVA 0x0086BB18.
 // Layout matches GameMessageAllocArg.cpp (m_argCount byte at +0x18 m_argList
 // at +0x1C) and GameMessageIntWideArgs.cpp (m_data at +0x08 m_type at +0x18
 // total 0x1C). DEBUG_CRASH compiles out under DNDEBUG leaving the 34B loop.
 // Evidence: donor MessageStream.cpp getArgument; 40+ callers passing indices;
 // junk global 0x0086BB18; prev/next both MessageStreamListCtors.cpp.
+// Retail folds that 16-byte zero object with the empty parser table at
+// VA 0x00C6BB18. Use its existing owner so the link retains one datum.
+
+extern const int g_emptyFieldParseTable[4];
 
 typedef unsigned char UnsignedByte;
 
@@ -51,12 +55,10 @@ private:
 
 const GameMessageArgumentType *GameMessage::getArgument(int argIndex) const
 {
-	static const GameMessageArgumentType junk = { 0 };
-
 	int i = 0;
 	for (GameMessageArgument *gameMessageArgument = m_argList; gameMessageArgument; gameMessageArgument = gameMessageArgument->m_next, i++)
 		if (i == argIndex)
 			return &gameMessageArgument->m_data;
 
-	return &junk;
+	return reinterpret_cast<const GameMessageArgumentType *>(g_emptyFieldParseTable);
 }

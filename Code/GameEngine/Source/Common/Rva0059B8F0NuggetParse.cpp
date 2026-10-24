@@ -9,6 +9,9 @@
 // Class identity of the nugget itself is not recovered -- address-derived
 // naming per IDENTITY POLICY.
 
+// Native parse passes the shared empty table at VA 0x00C6BB18.
+extern const int g_emptyFieldParseTable[4];
+
 class INI;
 typedef void (*INIFieldParseProc)(INI *, void *, void *, const void *);
 
@@ -26,8 +29,6 @@ class INI
 {
 public:
 	void initFromINI(void *, const FieldParse *);
-	static void parseInt(INI *, void *, void *, const void *);
-	static void parseReal(INI *, void *, void *, const void *);
 };
 
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/ObjectCreationList.h
@@ -92,14 +93,7 @@ private:
 // ?parse@Rva0059B8F0Nugget@@SAXPAVINI@@PAX1PBX@Z
 void Rva0059B8F0Nugget::parse(INI *ini, void *instance, void *store, const void *userData)
 {
-	static const FieldParse myFieldParse[] =
-	{
-		{ "NumberOfShots", INI::parseInt, 0, 0x38 },
-		{ "Radius", INI::parseReal, 0, 0x34 },
-		{ 0, 0, 0, 0 }
-	};
-
 	Rva0035D74A *nugget = new Rva0035D74A;
-	ini->initFromINI(nugget, myFieldParse);
+	ini->initFromINI(nugget, reinterpret_cast<const FieldParse *>(g_emptyFieldParseTable));
 	((Gen_00489270 *)instance)->m((int)nugget);
 }

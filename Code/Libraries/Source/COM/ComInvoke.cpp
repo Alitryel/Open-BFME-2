@@ -8,8 +8,8 @@
 #include <stdarg.h>
 #include <malloc.h>
 #include <string.h>
-// IDispatch::Invoke requires the all-zero riid; __uuidof emits those SDK GUID bytes.
-struct __declspec(uuid("00000000-0000-0000-0000-000000000000")) NullDispatchIID;
+// Retail IDispatch::Invoke uses the shared 16-byte zero object at VA 0x00C6BB18.
+extern const int g_emptyFieldParseTable[4];
 long __stdcall _com_handle_excepinfo(EXCEPINFO&,IErrorInfo**);
 long __cdecl _com_invoke_helper(IDispatch *dispatch,long id,unsigned short flags,unsigned short retType,void *result,const unsigned short *types,char *args,IErrorInfo **out) {
  if(!dispatch)return E_POINTER;
@@ -75,7 +75,7 @@ long __cdecl _com_invoke_helper(IDispatch *dispatch,long id,unsigned short flags
  }
  VARIANT value;VariantInit(&value);
  EXCEPINFO ex;memset(&ex,0,sizeof(ex));unsigned argerr=-1;
- long hr=dispatch->Invoke(id,__uuidof(NullDispatchIID),0,flags,&dp,retType?&value:0,&ex,&argerr);
+ long hr=dispatch->Invoke(id,*reinterpret_cast<const GUID *>(g_emptyFieldParseTable),0,flags,&dp,retType?&value:0,&ex,&argerr);
  if(hr<0) {
   VariantClear(&value);
   if(hr==DISP_E_EXCEPTION)return _com_handle_excepinfo(ex,out);
