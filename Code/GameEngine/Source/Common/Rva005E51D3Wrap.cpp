@@ -6,7 +6,7 @@ class Rva005E51D3Inner
 {
 public:
 	int m_pad0;
-	int m_4;
+	int m_virtualBaseOffset;
 };
 
 class Rva000B3FD0Empty
@@ -32,7 +32,7 @@ void Rva005E51D3::rva005E51D3()
 	unsigned char *th = (unsigned char *)this;
 	Rva005E51D3Inner **ppOuter = (Rva005E51D3Inner **)(th - 0x14);
 	Rva005E51D3Inner *pOuter = *ppOuter;
-	int inner4 = pOuter->m_4;
+	int inner4 = pOuter->m_virtualBaseOffset;
 	Rva000B3FD0Empty *pFirst = (Rva000B3FD0Empty *)(inner4 + (int)th - 0x14);
 	pFirst->rva000B3FD0Empty();
 	int arg = *(int *)(th - 0x0C);
