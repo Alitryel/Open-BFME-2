@@ -4038,3 +4038,13 @@ Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdateSlot8.cpp|loc
 Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdateSlot8.cpp|local|SpecialAbilityUpdate::rva0044EDA6|b,51ec51d2d4c92a9a6f56985b,gpt-6.1-sol,codex5-20261024-070139-19,w-2d32e7a71cf1,2026-10-24
 Code/GameEngine/Source/GameClient/VideoPlayerGetVideo.cpp|function|0x006894D0|rva006894D0,9a36b98460e2299cabdc9fd4,gpt-6.1-sol,codex5-20261024-070139-21,w-2d32e7a71cf1,2026-10-24
 Code/GameEngine/Source/Common/Rva00539281.cpp|local|Rva00539281::rva00539281|p,e777c04b26a13c0d53ca2c70,gpt-6.1-sol,codex5-20261024-070139-22,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|param|W3DTerrainLogic::Rva0027D815|x,389e773b3e1f8e4b4138eaa7,gpt-6.1-sol,codex5-20261024-072854-3,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|param|W3DTerrainLogic::Rva0027D815|y,1ef091b8ef6237157acd54a9,gpt-6.1-sol,codex5-20261024-072854-3,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|param|W3DTerrainLogic::Rva0027D77D|x,586d11826ad0a196b7873e79,gpt-6.1-sol,codex5-20261024-072854-3,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|param|W3DTerrainLogic::Rva0027D77D|y,cd30487bfee2d5e7893305a4,gpt-6.1-sol,codex5-20261024-072854-3,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|param|W3DTerrainLogic::Rva0027D77D|a,7b3eeaf455d5cbffb8355276,gpt-6.1-sol,codex5-20261024-072854-3,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|param|W3DTerrainLogic::Rva0027D77D|b,865fe7f668d2a6caf1dfa129,gpt-6.1-sol,codex5-20261024-072854-3,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|local|W3DTerrainLogic::Rva0027D960|w,65d025533fda68dcf747d49a,gpt-6.1-sol,codex5-20261024-072854-3,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|local|W3DTerrainLogic::Rva0027D960|w2,c4c9cebf4322deef18c70ada,gpt-6.1-sol,codex5-20261024-072854-3,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|local|W3DTerrainLogic::Rva0027D960|w3,fa1c9543e4160b6e185ffeb2,gpt-6.1-sol,codex5-20261024-072854-3,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva005E51D3Wrap.cpp|member|Rva005E51D3Inner|m_4,a33451b9466128be2538638a,gpt-6.1-sol,codex5-20261024-072854-6,w-2d32e7a71cf1,2026-10-24
