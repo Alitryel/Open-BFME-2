@@ -24,11 +24,11 @@ public:
 	void bfmeGo1037H(void);
 
 	char m_bfmePad[4];
-	void *m_bfmeHandle;
+	void *m_handle;
 };
 
 void BfmeH1037::bfmeGo1037H(void)
 {
-	if (WaitForSingleObject(m_bfmeHandle, (unsigned long)-1) != 0)
+	if (WaitForSingleObject(m_handle, (unsigned long)-1) != 0)
 		bfmeGetLog1037()->bfmeSay1037((char *)"Error entering critical section\n");
 }
