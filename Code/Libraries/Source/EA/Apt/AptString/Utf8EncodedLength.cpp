@@ -11,13 +11,15 @@
 // the /O2 /DNDEBUG /MD flags.
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *, const char *, int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
+void __debugbreak();
+#pragma intrinsic(__debugbreak)
 
 int utf8EncodedLength(int c)
 {
 	if (!(c <= 0x10FFFF)) {
 		g_bfmeAptAssertAtE17734("UTF8_IsValid(iCharacter)", ".\\string\\EAString.inl", 0x604);
 		if (g_bfmeAptBreakOnAssertAtDDC01C) {
-			__asm int 3
+			__debugbreak();
 		}
 	}
 	if (c < 0x80)
@@ -28,7 +30,7 @@ int utf8EncodedLength(int c)
 		return 3;
 	g_bfmeAptAssertAtE17734("iCharacter < 00200000", ".\\string\\EAString.inl", 0x613);
 	if (g_bfmeAptBreakOnAssertAtDDC01C) {
-		__asm int 3
+		__debugbreak();
 	}
 	return 4;
 }
