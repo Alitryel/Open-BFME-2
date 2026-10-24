@@ -43,14 +43,14 @@ void Rva000C838FParse(INI*ini,void*instance,void*store,const void*userData){
 }
 
 class ModelConditionInfo{public:static void parseRealRange(INI*,void*,void*,const void*);};
-extern const char BfmeAnimationMode0[]="MANUAL";
-extern const char BfmeAnimationMode1[]="LOOP";
-extern const char BfmeAnimationMode2[]="ONCE";
-extern const char BfmeAnimationMode3[]="LOOP_PINGPONG";
-extern const char BfmeAnimationMode4[]="PLAY_TO_FRAME";
-extern const char BfmeAnimationMode5[]="LOOP_BACKWARDS";
-extern const char BfmeAnimationMode6[]="ONCE_BACKWARDS";
-const char*BfmeAnimationModeNames[]={BfmeAnimationMode0,BfmeAnimationMode1,BfmeAnimationMode2,BfmeAnimationMode3,BfmeAnimationMode4,BfmeAnimationMode5,BfmeAnimationMode6,0};
+extern const char g_animationModeManual[]="MANUAL";
+extern const char g_animationModeLoop[]="LOOP";
+extern const char g_animationModeOnce[]="ONCE";
+extern const char g_animationModeLoopPingPong[]="LOOP_PINGPONG";
+extern const char g_animationModePlayToFrame[]="PLAY_TO_FRAME";
+extern const char g_animationModeLoopBackwards[]="LOOP_BACKWARDS";
+extern const char g_animationModeOnceBackwards[]="ONCE_BACKWARDS";
+const char*BfmeAnimationModeNames[]={g_animationModeManual,g_animationModeLoop,g_animationModeOnce,g_animationModeLoopPingPong,g_animationModePlayToFrame,g_animationModeLoopBackwards,g_animationModeOnceBackwards,0};
 extern const char BfmeAnimationField0[]="AnimationName";
 extern const char BfmeAnimationField1[]="AnimationMode";
 extern const char BfmeAnimationField2[]="Distance";

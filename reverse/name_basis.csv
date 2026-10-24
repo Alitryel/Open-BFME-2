@@ -1031,6 +1031,13 @@ local,Rva0053FE64Get::p2,Rva0053FE64Get::frame2,inferred,agree:nl-8356a203e1fa,C
 local,Rva0053FE64Get::p3,Rva0053FE64Get::frame3,inferred,agree:nl-e93e2dd6e0d3,Code/GameEngine/Source/Common/Rva0053FE64.cpp,0x0053FE64
 global,?g_Va00DB52E8@@3MA,?g_wakeSpeedRatioStep@@3MA,inferred,agree:nl-347f6fc31b35,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DBoatWakeModelDrawDoDrawModule.cpp,0x009B52E8
 local,Rva00151632::~Rva00151632::tmp,Rva00151632::~Rva00151632::allocation,inferred,agree:nl-d01f4161fa5a,Code/GameEngine/Source/Common/Rva00151632Dtor.cpp,0x00151632
+global,?BfmeAnimationMode0@@3QBDB,?g_animationModeManual@@3QBDB,inferred,agree:nl-ea5374641027,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp,0x007C9B70
+global,?BfmeAnimationMode1@@3QBDB,?g_animationModeLoop@@3QBDB,inferred,agree:nl-95581fd037bf,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp,0x007C9B68
+global,?BfmeAnimationMode2@@3QBDB,?g_animationModeOnce@@3QBDB,inferred,agree:nl-7a14fb169e4f,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp,0x007C9B60
+global,?BfmeAnimationMode3@@3QBDB,?g_animationModeLoopPingPong@@3QBDB,inferred,agree:nl-1a77d1ffa53f,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp,0x007C9B50
+global,?BfmeAnimationMode4@@3QBDB,?g_animationModePlayToFrame@@3QBDB,inferred,agree:nl-b9953092d4c4,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp,0x007C9B40
+global,?BfmeAnimationMode5@@3QBDB,?g_animationModeLoopBackwards@@3QBDB,inferred,agree:nl-209cb88b6b95,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp,0x007C9B30
+global,?BfmeAnimationMode6@@3QBDB,?g_animationModeOnceBackwards@@3QBDB,inferred,agree:nl-1e558a09229c,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp,0x007C9B20
 local,LivingWorldRegionManager::GetRegionUiPopupPoint::r,LivingWorldRegionManager::GetRegionUiPopupPoint::popupPoint,inferred,agree:nl-bb48c581793c,Code/Libraries/Source/WWVegas/WWLib/Rva0020F2A2Dispatch.cpp,0x0020F2A2
 function,?rva00880D10@@YA_NPAURva00880D10Subject@@PAURva00880D10Info@@@Z,?circleIntersectsBox@@YA_NPAURva00880D10Subject@@PAURva00880D10Info@@@Z,inferred,agree:nl-5f51cd3c85fe,Code/GameEngine/Source/Common/Rva00880D10CircleBoxTest.cpp,0x006C0710
 local,Rva005C41C9::rva005C41C9::a,Rva005C41C9::rva005C41C9::oldState,inferred,agree:nl-33260c9d25e0,Code/GameEngine/Source/Common/Rva005C41C9Refresh.cpp,0x005C41C9
