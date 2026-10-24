@@ -104,11 +104,11 @@ private:
 void Rva0010F42A::rva0010F42A()
 {
     RVA0010F28D_LOCK(g);
-    void *s = m_inner->m_stream;
-    if (s != 0) {
+    void *stream = m_inner->m_stream;
+    if (stream != 0) {
         int rate;
-        AIL_stream_info(s, &rate, 0, 0, 0);
-        AIL_set_stream_playback_rate(s, (int)(rate * m_scale0C));
+        AIL_stream_info(stream, &rate, 0, 0, 0);
+        AIL_set_stream_playback_rate(stream, (int)(rate * m_scale0C));
         if (g.m_locked != 0)
             ((Rva0010F26E *)&g)->rva0010F26E();
     } else if (g.m_locked != 0)

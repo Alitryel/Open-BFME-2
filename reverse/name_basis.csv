@@ -949,3 +949,4 @@ param,Rva00174A8A::rva00174A8A::n,Rva00174A8A::rva00174A8A::newSize,inferred,agr
 local,Rva005B1A07::rva005B1A07::c,Rva005B1A07::rva005B1A07::size,inferred,agree:nl-d007a2272cad,Code/GameEngine/Source/Common/Rva005B1A07.cpp,0x005B1A07
 function,?rva0047CEBB@Rva0047CEBB@@QAEXP6AXPAVObject@@PAX@Z1H@Z,?iterateContained@Rva0047CEBB@@QAEXP6AXPAVObject@@PAX@Z1H@Z,inferred,agree:nl-451f26a86df2,Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineContainIterateRiders.cpp,0x0047CEBB
 local,FormationTranslator::WaitForSecondButtonDownStateHandler::rva00431C9D::tmp,FormationTranslator::WaitForSecondButtonDownStateHandler::rva00431C9D::pixel,inferred,agree:nl-a5c5d8109cf9,Code/GameEngine/Source/GameClient/FormationTranslatorRva00431C9D.cpp,0x00431C9D
+local,Rva0010F42A::rva0010F42A::s,Rva0010F42A::rva0010F42A::stream,inferred,agree:nl-7315427f593c,Code/GameEngine/Source/Common/Rva0010F42AFinish.cpp,0x0010F42A
