@@ -5957,3 +5957,13 @@ Code/GameEngine/Source/Common/Rva00332F5BCtor.cpp|param|Rva00332F5B::Rva00332F5B
 Code/GameEngine/Source/Common/Rva00332F5BCtor.cpp|param|bfmeAnchorRva00332F81|p,26c8b41dcacaaf205fc2af72,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p081a,w-ae0b790ee5c4,2026-10-24
 Code/GameEngine/Source/Common/Rva00332F5BCtor.cpp|param|Rva00332F5B::Rva00332F5B|b,92a24067c341aad9c0f8c7d9,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p081b,w-b95eb113656b,2026-10-24
 Code/GameEngine/Source/Common/Rva00332F5BCtor.cpp|param|bfmeAnchorRva00332F81|p,26c8b41dcacaaf205fc2af72,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p081b,w-b95eb113656b,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesS3D.cpp|class||Rva0035A97E,3db655aa315e509cf214ca9a,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p087a,w-24c233a79a1b,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesS3D.cpp|class||Rva004E81DE,28bcaabcc30b3bb6a2e6e08a,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p087a,w-24c233a79a1b,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesS3D.cpp|function|0x0035A97E|rva0035A97E,7a2596b185ec6f1cce351505,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p087a,w-24c233a79a1b,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesS3D.cpp|function|0x004E81DE|rva004E81DE,584a5d4df8b3ca495afe58d4,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p087a,w-24c233a79a1b,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesS3D.cpp|function|0x005AF117|rva005AF117,80e416e9162480da0b57b476,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p087a,w-24c233a79a1b,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesS3D.cpp|class||Rva0035A97E,a6fbd228c5121a99323448c7,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p087b,w-5725fc507ed3,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesS3D.cpp|class||Rva004E81DE,a5d0f3b17a988d37c7adb645,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p087b,w-5725fc507ed3,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesS3D.cpp|function|0x0035A97E|rva0035A97E,8ce4ca7e38cecb404258f2e4,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p087b,w-5725fc507ed3,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesS3D.cpp|function|0x004E81DE|rva004E81DE,abef132244a0baf05093c4af,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p087b,w-5725fc507ed3,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesS3D.cpp|function|0x005AF117|rva005AF117,4baea5d5e613d89289ff3691,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p087b,w-5725fc507ed3,2026-10-24

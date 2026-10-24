@@ -51,16 +51,16 @@ public:
 class Rva004E81DE
 {
 public:
-	virtual void rva004E81DE(void *a, float value, bool on);
+	virtual void rva004E81DE(void *claimantId, float value, bool on);
 private:
 	TerrainResourceClaimFeedback::Impl *m_target;			// +0x04
 	void *m_08;												// +0x08
 };
 
-void Rva004E81DE::rva004E81DE(void *a, float value, bool on)
+void Rva004E81DE::rva004E81DE(void *claimantId, float value, bool on)
 {
 	if (on)
-		m_target->updateClaimedDecalForClaimant((_STL::list<ClaimedDecal, _STL::allocator<ClaimedDecal> > *)m_08, (ObjectID)(int)a, value);
+		m_target->updateClaimedDecalForClaimant((_STL::list<ClaimedDecal, _STL::allocator<ClaimedDecal> > *)m_08, (ObjectID)(int)claimantId, value);
 }
 
 // --- 0x005AF117 (24B): dispatch on the 0x00E046BC mode word: 0 runs the
