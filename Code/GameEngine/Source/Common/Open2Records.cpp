@@ -312,13 +312,5 @@ Rva001D28F0Element::Rva001D28F0Element( const Rva001D28F0Element &other )
 {
 }
 
-// PlayerInfo's copy constructor is a header inline elsewhere: other units emit
-// select-any copies, so a strong definition here was a duplicate in the linked build. This
-// anchor only makes this unit emit its copy for the ledger row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitOpen2Records@@YAXPAVPlayerInfo@@ABV1@@Z present-unmatched
-void bfmeEmitOpen2Records(PlayerInfo *playerInfo, const PlayerInfo &q)
-{
-	playerInfo->PlayerInfo::PlayerInfo(q);
-}
-#pragma inline_depth()
+// The existing PlayerInfo copy and its EH-handler rows live in
+// Open2RecChain146.cpp, whose genuine by-value caller emits them naturally.

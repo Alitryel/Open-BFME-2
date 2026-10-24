@@ -32444,7 +32444,6 @@ present_unmatched	Code/GameEngine/Source/Common/Open2Records.cpp	0Open2Rec582090
 present_unmatched	Code/GameEngine/Source/Common/Open2Records.cpp	0Open2Rec5822D0@@QAE@ABV0@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Open2Records.cpp	0Open2Rec6270C0@@QAE@ABV0@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Open2Records.cpp	0Open2Rec767F60@@QAE@ABV0@@Z	1
-present_unmatched	Code/GameEngine/Source/Common/Open2Records.cpp	bfmeEmitOpen2Records@@YAXPAVOpen2Rec4F1120@@ABV1@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/PartitionSolver.cpp	getSolution@PartitionSolver@@	1
 present_unmatched	Code/GameEngine/Source/Common/PartitionSolver.cpp	solve@PartitionSolver@@	1
 present_unmatched	Code/GameEngine/Source/Common/RTS/Gen_guarded_list_push_back.cpp	Rva003320C7Iterator::Rva003320C7Iterator	2
