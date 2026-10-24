@@ -29,11 +29,11 @@ char Rva000AE234::rva000AE234(int xIndex, int yIndex)
 	if (xIndex < 0 || yIndex < 0 || yIndex >= m_height || xIndex >= m_width)
 		return 0;
 	unsigned int i = yIndex * m_width + xIndex;
-	Rva000AE234Bytes &c = m_cells;
-	if (i < c.size())
+	Rva000AE234Bytes &cells = m_cells;
+	if (i < cells.size())
 	{
 		_ReadWriteBarrier();
-		return c.m_begin[i];
+		return cells.m_begin[i];
 	}
 	return 0;
 }
