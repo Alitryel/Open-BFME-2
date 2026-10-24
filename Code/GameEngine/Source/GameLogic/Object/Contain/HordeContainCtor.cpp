@@ -155,16 +155,18 @@ private:
 };
 
 // The ObjectID set (set ctor 0x000D3A71).
+typedef _STL::_Rb_tree<ObjectID, ObjectID, _STL::_Identity<ObjectID>,
+    _STL::less<ObjectID>, _STL::allocator<ObjectID> > Rva002EE9B7Tree;
 class Rva002EE9B7
 {
 public:
-	Rva002EE9B7();
+	__declspec(noinline) Rva002EE9B7();
 	~Rva002EE9B7();
 private:
-	void *m_header;
-	Int m_count;
-	Int m_compare;
+	Rva002EE9B7Tree m_tree;
 };
+inline Rva002EE9B7::Rva002EE9B7()
+    : m_tree(_STL::less<ObjectID>(), Rva002EE9B7Tree::allocator_type()) {}
 
 // A +0x188 record: the key the module data's +0x1B8 map is searched for.
 struct Rva00472329Record
@@ -173,17 +175,30 @@ struct Rva00472329Record
 	unsigned char m_pad04[0x1C - 0x04];
 };
 
+// Construction views, not recovered payload identities: the BFME1 donor's
+// int-keyed maps carry 4/16-byte values. Native header allocation independently
+// confirms 24/36-byte nodes (1F0534/33B758). Only construction uses these views;
+// the existing owner destructors retain their native cleanup identities.
+struct Rva0046A915Mapped { unsigned int words[1]; };
+struct Rva0046AB7DMapped { unsigned int words[4]; };
+typedef _STL::_Rb_tree<int, _STL::pair<const int, Rva0046A915Mapped>,
+    _STL::_Select1st<_STL::pair<const int, Rva0046A915Mapped> >, _STL::less<int>,
+    _STL::allocator<_STL::pair<const int, Rva0046A915Mapped> > > Rva0046A915Tree;
+typedef _STL::_Rb_tree<int, _STL::pair<const int, Rva0046AB7DMapped>,
+    _STL::_Select1st<_STL::pair<const int, Rva0046AB7DMapped> >, _STL::less<int>,
+    _STL::allocator<_STL::pair<const int, Rva0046AB7DMapped> > > Rva0046AB7DTree;
+
 // The +0x1A0 tree (map ctor 0x00242F01).
 class Rva0046AB7D
 {
 public:
-	Rva0046AB7D();
+	__declspec(noinline) Rva0046AB7D();
 	~Rva0046AB7D();
 private:
-	void *m_header;
-	Int m_count;
-	Int m_compare;
+	Rva0046AB7DTree m_tree;
 };
+inline Rva0046AB7D::Rva0046AB7D()
+    : m_tree(_STL::less<int>(), Rva0046AB7DTree::allocator_type()) {}
 
 // The 0xA0-byte record at +0x1AC (rowed ctor 0x00469187).
 class Rva00469187
@@ -198,13 +213,13 @@ private:
 class Rva0046A915
 {
 public:
-	Rva0046A915();
+	__declspec(noinline) Rva0046A915();
 	~Rva0046A915();
 private:
-	void *m_header;
-	Int m_count;
-	Int m_compare;
+	Rva0046A915Tree m_tree;
 };
+inline Rva0046A915::Rva0046A915()
+    : m_tree(_STL::less<int>(), Rva0046A915Tree::allocator_type()) {}
 
 struct Rva0046F543BannerIndexEntry;
 struct Rva0046F543Element2CC;
