@@ -18,14 +18,14 @@ public:
 
 void Rva002E0D66::rva002E0D66(void *head)
 {
-	Rva002E0D66Node *p = (Rva002E0D66Node *)head;
-	if (p == 0)
+	Rva002E0D66Node *node = (Rva002E0D66Node *)head;
+	if (node == 0)
 		return;
 	do
 	{
-		rva002E0D66(p->m_c);
-		Rva002E0D66Node *next = p->m_8;
-		free(p);
-		p = next;
-	} while (p != 0);
+		rva002E0D66(node->m_c);
+		Rva002E0D66Node *next = node->m_8;
+		free(node);
+		node = next;
+	} while (node != 0);
 }

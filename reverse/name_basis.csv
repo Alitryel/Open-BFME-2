@@ -723,3 +723,4 @@ param,RayEffectSystem::addRayEffect::p3,RayEffectSystem::addRayEffect::endLoc,in
 function,?rva002CED59@Rva002CEE1B@@QAEPAUElem002CED84@@PAX@Z,?findEntry@Rva002CEE1B@@QAEPAUElem002CED84@@PAX@Z,inferred,agree:nl-71148a32b1a1,Code/GameEngine/Source/Common/Rva002CEE1BAdd.cpp,0x002CED59
 param,Rva002D317C::rva002D317C::a,Rva002D317C::rva002D317C::position,inferred,agree:nl-0d5431cb9166,Code/GameEngine/Source/Common/Rva002D317CCalls.cpp,0x002D317C
 param,Rva002D317C::rva002D317C::b,Rva002D317C::rva002D317C::size,inferred,agree:nl-8202412e13de,Code/GameEngine/Source/Common/Rva002D317CCalls.cpp,0x002D317C
+local,Rva002E0D66::rva002E0D66::p,Rva002E0D66::rva002E0D66::node,inferred,agree:nl-3a914a9b3b38,Code/GameEngine/Source/Common/Rva002E0D66Method.cpp,0x002E0D66
