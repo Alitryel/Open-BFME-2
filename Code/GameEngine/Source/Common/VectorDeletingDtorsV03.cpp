@@ -12,50 +12,19 @@
 // carried a ledger name.
 //
 //   ??_E        dtor        size  vtable#slot
-//   0x003A64F0  0x003A6201  0x10  0x00C1BAF0#0
 //   0x003A66B2  0x0049B47C  0x14  0x00C1BB30#0
-//   0x003A679D  0x003A6201  0x1C  0x00C1BB50#0
 //   0x003A6833  0x0049B47C  0x0C  0x00C1BB60#0
-//   0x003A690D  0x003A6201  0x14  0x00C1BB80#0
-//   0x003A69B4  0x0049B47C  0x20  0x00C1BB00#0
 //   0x003A70D1  0x0049B47C  0x28  0x00C1BC00#0
-//   0x003A71D4  0x003A6201  0x30  0x00C1BC10#0
 //   0x003A72AC  0x0049B47C  0x10  0x00C1BC30#0
-//   0x003A73AD  0x003A6201  0x18  0x00C1BC40#0
 //   0x003A7532  0x0049B47C  0x1C  0x00C1BC90#0
-//   0x003A77A7  0x0049B47C  0x24  0x00C1BCB0#0
-//   0x003A7853  0x003A6201  0x2C  0x00C1BCC0#0
 //   0x003A795A  0x0049B47C  0x68  0x00C1BCE0#0
-//   0x003A7A06  0x003A6201  0x70  0x00C1BCF0#0
-//   0x003A7B9F  0x003A6201  0x0C  0x00C1BD60#0
 
 // Declared so the array path frees through operator delete[] (0x0002FD80)
 // as retail does; left undeclared, cl falls back to scalar operator delete.
 void operator delete[](void *p);
 
-class __declspec(novtable) Rva003A64F0VecBase0
-{
-public:
-	virtual ~Rva003A64F0VecBase0();
-private:
-	char m_unmodelled_04[0x8 - 0x04];
-};
-
-// Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
-// 0x8) to this class's vector deleting destructor in its vtable.
-class __declspec(novtable) Rva003A64F0VecBase8
-{
-public:
-	virtual ~Rva003A64F0VecBase8();
-private:
-	char m_unmodelled_04[0x8 - 0x04];
-};
-
-class Rva003A64F0Vec : public Rva003A64F0VecBase0, public Rva003A64F0VecBase8
-{
-public:
-	virtual ~Rva003A64F0Vec();
-};
+// Complete-destructor providers exist for this collector; unresolved owners
+// remain byte-verified in the corresponding _Unresolved unit.
 
 namespace FXParticleSystem
 {
@@ -69,30 +38,6 @@ private:
 };
 }
 
-class __declspec(novtable) Rva003A679DVecBase0
-{
-public:
-	virtual ~Rva003A679DVecBase0();
-private:
-	char m_unmodelled_04[0x8 - 0x04];
-};
-
-// Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
-// 0x8) to this class's vector deleting destructor in its vtable.
-class __declspec(novtable) Rva003A679DVecBase8
-{
-public:
-	virtual ~Rva003A679DVecBase8();
-private:
-	char m_unmodelled_04[0x14 - 0x04];
-};
-
-class Rva003A679DVec : public Rva003A679DVecBase0, public Rva003A679DVecBase8
-{
-public:
-	virtual ~Rva003A679DVec();
-};
-
 namespace FXParticleSystem
 {
 class SphereEmissionVolumeInfo
@@ -104,38 +49,6 @@ private:
 	char m_unmodelled_04[0xC - 0x04];
 };
 }
-
-class __declspec(novtable) Rva003A690DVecBase0
-{
-public:
-	virtual ~Rva003A690DVecBase0();
-private:
-	char m_unmodelled_04[0x8 - 0x04];
-};
-
-// Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
-// 0x8) to this class's vector deleting destructor in its vtable.
-class __declspec(novtable) Rva003A690DVecBase8
-{
-public:
-	virtual ~Rva003A690DVecBase8();
-private:
-	char m_unmodelled_04[0xC - 0x04];
-};
-
-class Rva003A690DVec : public Rva003A690DVecBase0, public Rva003A690DVecBase8
-{
-public:
-	virtual ~Rva003A690DVec();
-};
-
-class Rva003A69B4Vec
-{
-public:
-	virtual ~Rva003A69B4Vec();
-private:
-	char m_unmodelled_04[0x20 - 0x04];
-};
 
 namespace FXParticleSystem
 {
@@ -149,30 +62,6 @@ private:
 };
 }
 
-class __declspec(novtable) Rva003A71D4VecBase0
-{
-public:
-	virtual ~Rva003A71D4VecBase0();
-private:
-	char m_unmodelled_04[0x8 - 0x04];
-};
-
-// Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
-// 0x8) to this class's vector deleting destructor in its vtable.
-class __declspec(novtable) Rva003A71D4VecBase8
-{
-public:
-	virtual ~Rva003A71D4VecBase8();
-private:
-	char m_unmodelled_04[0x28 - 0x04];
-};
-
-class Rva003A71D4Vec : public Rva003A71D4VecBase0, public Rva003A71D4VecBase8
-{
-public:
-	virtual ~Rva003A71D4Vec();
-};
-
 namespace FXParticleSystem
 {
 class SphericalEmissionVelocityInfo
@@ -184,30 +73,6 @@ private:
 	char m_unmodelled_04[0x10 - 0x04];
 };
 }
-
-class __declspec(novtable) Rva003A73ADVecBase0
-{
-public:
-	virtual ~Rva003A73ADVecBase0();
-private:
-	char m_unmodelled_04[0x8 - 0x04];
-};
-
-// Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
-// 0x8) to this class's vector deleting destructor in its vtable.
-class __declspec(novtable) Rva003A73ADVecBase8
-{
-public:
-	virtual ~Rva003A73ADVecBase8();
-private:
-	char m_unmodelled_04[0x10 - 0x04];
-};
-
-class Rva003A73ADVec : public Rva003A73ADVecBase0, public Rva003A73ADVecBase8
-{
-public:
-	virtual ~Rva003A73ADVec();
-};
 
 namespace FXParticleSystem
 {
@@ -221,38 +86,6 @@ private:
 };
 }
 
-class Rva003A77A7Vec
-{
-public:
-	virtual ~Rva003A77A7Vec();
-private:
-	char m_unmodelled_04[0x24 - 0x04];
-};
-
-class __declspec(novtable) Rva003A7853VecBase0
-{
-public:
-	virtual ~Rva003A7853VecBase0();
-private:
-	char m_unmodelled_04[0x8 - 0x04];
-};
-
-// Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
-// 0x8) to this class's vector deleting destructor in its vtable.
-class __declspec(novtable) Rva003A7853VecBase8
-{
-public:
-	virtual ~Rva003A7853VecBase8();
-private:
-	char m_unmodelled_04[0x24 - 0x04];
-};
-
-class Rva003A7853Vec : public Rva003A7853VecBase0, public Rva003A7853VecBase8
-{
-public:
-	virtual ~Rva003A7853Vec();
-};
-
 namespace FXParticleSystem
 {
 class DefaultUpdateModuleInfo
@@ -265,69 +98,13 @@ private:
 };
 }
 
-class __declspec(novtable) Rva003A7A06VecBase0
-{
-public:
-	virtual ~Rva003A7A06VecBase0();
-private:
-	char m_unmodelled_04[0x8 - 0x04];
-};
-
-// Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
-// 0x8) to this class's vector deleting destructor in its vtable.
-class __declspec(novtable) Rva003A7A06VecBase8
-{
-public:
-	virtual ~Rva003A7A06VecBase8();
-private:
-	char m_unmodelled_04[0x68 - 0x04];
-};
-
-class Rva003A7A06Vec : public Rva003A7A06VecBase0, public Rva003A7A06VecBase8
-{
-public:
-	virtual ~Rva003A7A06Vec();
-};
-
-class __declspec(novtable) Rva003A7B9FVecBase0
-{
-public:
-	virtual ~Rva003A7B9FVecBase0();
-private:
-	char m_unmodelled_04[0x8 - 0x04];
-};
-
-// Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
-// 0x8) to this class's vector deleting destructor in its vtable.
-class __declspec(novtable) Rva003A7B9FVecBase8
-{
-public:
-	virtual ~Rva003A7B9FVecBase8();
-};
-
-class Rva003A7B9FVec : public Rva003A7B9FVecBase0, public Rva003A7B9FVecBase8
-{
-public:
-	virtual ~Rva003A7B9FVec();
-};
-
 // ?<bfmeVectorDeleteAnchorV03> absent-from-retail
 void bfmeVectorDeleteAnchorV03()
 {
-	new Rva003A64F0Vec[2];
 	new FXParticleSystem::BoxEmissionVolumeInfo[2];
-	new Rva003A679DVec[2];
 	new FXParticleSystem::SphereEmissionVolumeInfo[2];
-	new Rva003A690DVec[2];
-	new Rva003A69B4Vec[2];
 	new FXParticleSystem::OrthoEmissionVelocityInfo[2];
-	new Rva003A71D4Vec[2];
 	new FXParticleSystem::SphericalEmissionVelocityInfo[2];
-	new Rva003A73ADVec[2];
 	new FXParticleSystem::CylindricalEmissionVelocityInfo[2];
-	new Rva003A77A7Vec[2];
-	new Rva003A7853Vec[2];
 	new FXParticleSystem::DefaultUpdateModuleInfo[2];
-	new Rva003A7A06Vec[2];
-	new Rva003A7B9FVec[2];
 }

@@ -13,9 +13,6 @@
 //
 //   ??_E        dtor        size  vtable#slot
 //   0x003A7ABD  0x0049B47C  0x04  0x00BE1584#0
-//   0x003A85CC  0x003A9397  0x0C  0x00C1BE20#0
-//   0x003A743E  0x003A9397  0x18  0x00C1C020#0
-//   0x003A6AAA  0x003A6201  0x28  0x00C1BB20#0
 
 // Declared so the array path frees through operator delete[] (0x0002FD80)
 // as retail does; left undeclared, cl falls back to scalar operator delete.
@@ -27,82 +24,8 @@ public:
 	virtual ~Rva0049B47C();
 };
 
-// These base views describe subobjects and do not own standalone vtables.
-class __declspec(novtable) Rva003A9397Base0
-{
-public:
-	virtual ~Rva003A9397Base0();
-private:
-	char m_unmodelled_04[0x8 - 0x04];
-};
-
-// Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
-// 0x8) to this class's vector deleting destructor in its vtable.
-class __declspec(novtable) Rva003A9397Base8
-{
-public:
-	virtual ~Rva003A9397Base8();
-};
-
-class Rva003A9397 : public Rva003A9397Base0, public Rva003A9397Base8
-{
-public:
-	virtual ~Rva003A9397();
-};
-
-class __declspec(novtable) Rva003A743EVecBase0
-{
-public:
-	virtual ~Rva003A743EVecBase0();
-private:
-	char m_unmodelled_04[0x8 - 0x04];
-};
-
-// Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
-// 0x8) to this class's vector deleting destructor in its vtable.
-class __declspec(novtable) Rva003A743EVecBase8
-{
-public:
-	virtual ~Rva003A743EVecBase8();
-private:
-	char m_unmodelled_04[0x10 - 0x04];
-};
-
-class Rva003A743EVec : public Rva003A743EVecBase0, public Rva003A743EVecBase8
-{
-public:
-	virtual ~Rva003A743EVec();
-};
-
-class __declspec(novtable) Rva003A6201Base0
-{
-public:
-	virtual ~Rva003A6201Base0();
-private:
-	char m_unmodelled_04[0x8 - 0x04];
-};
-
-// Secondary base at +0x8, proven by the this-adjusting thunk (sub ecx,
-// 0x8) to this class's vector deleting destructor in its vtable.
-class __declspec(novtable) Rva003A6201Base8
-{
-public:
-	virtual ~Rva003A6201Base8();
-private:
-	char m_unmodelled_04[0x20 - 0x04];
-};
-
-class Rva003A6201 : public Rva003A6201Base0, public Rva003A6201Base8
-{
-public:
-	virtual ~Rva003A6201();
-};
-
 // ?<bfmeVectorDeleteAnchorV01> absent-from-retail
 void bfmeVectorDeleteAnchorV01()
 {
 	new Rva0049B47C[2];
-	new Rva003A9397[2];
-	new Rva003A743EVec[2];
-	new Rva003A6201[2];
 }
