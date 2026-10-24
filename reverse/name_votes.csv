@@ -5349,3 +5349,8 @@ Code/GameEngine/Source/Common/BfmeConv2048.cpp|member|BfmeHostFN|m_bfmeCountFN,a
 Code/GameEngine/Source/Common/BfmeConv2048.cpp|local|BfmeHostFN::bfmeAddFN|b,59cda789914d00d1f2e1a8bc,gpt-6-astra,codexb2-20261024-152332-2,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/Rva001F526E.cpp|local|Rva001F526E::rva001F526E|a,84aa86840ee1c4959caba40c,gpt-6-astra,codexb2-20261024-152332-3,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/Rva001F526E.cpp|local|Rva001F526E::rva001F526E|b,a261e5ab83bd1a7f67083bd8,gpt-6-astra,codexb2-20261024-152332-3,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/Map/Rva0027F4F8Find.cpp|function|0x0027F4F8|rva0027F4F8,4ee4d65e369b5df052c4476f,gpt-6-astra,codexb2-20261024-152332-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva000347A0Realloc.cpp|function|0x000347A0|rva000347A0,97938eaed92629e0f8995581,gpt-6-astra,codexb2-20261024-152332-4,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/Apt/Rva006FE400Chain.cpp|param|Rva006FE400::rva006FE400|a1,15adf7e98f2d916c96d761ce,gpt-6-astra,codexb2-20261024-152332-6,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/Apt/Rva006FE400Chain.cpp|param|Rva006FE400::rva006FE400|a2,d330985639e443bcb9829fe7,gpt-6-astra,codexb2-20261024-152332-6,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/Apt/Rva006FE400Chain.cpp|local|Rva006FE400::rva006FE400|r,d0429d08fbc96246efea40fd,gpt-6-astra,codexb2-20261024-152332-6,w-d0bdfd8b17e9,2026-10-24
