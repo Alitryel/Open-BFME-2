@@ -1428,3 +1428,4 @@ local,Rva006FF500::y,Rva006FF500::pointY,inferred,agree:nl-fcd8bdada131,Code/Lib
 param,Rva002BEFE5::rva002BEFE5::a0,Rva002BEFE5::rva002BEFE5::position,inferred,agree:nl-74bd78ebe43c,Code/GameEngine/Source/Common/Rva002BEFE5.cpp,0x002BEFE5
 member,Rva00404901Coefficients::field10,Rva00404901Coefficients::m_threshold,inferred,agree:nl-1e30434d341b,Code/GameEngine/Source/Common/Rva00404927Method.cpp,
 function,?rva006D2D90@@YAXXZ,?initValueSizes@@YAXXZ,inferred,agree:nl-ddcc94bc3d7c,Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp,0x006D2D90
+param,BfmeSubmitter1283::bfmeSubmitColors1283::a1,BfmeSubmitter1283::bfmeSubmitColors1283::character,inferred,agree:nl-6c3d6bda90ba,Code/GameEngine/Source/Common/BfmeSubmitColors1283.cpp,0x006F8E10
