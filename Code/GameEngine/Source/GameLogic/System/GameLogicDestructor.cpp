@@ -150,13 +150,21 @@ struct Rva001EB940
 	unsigned char m_data[0x5C];
 };
 
-struct Gen_uwm_001f22a3
+class Object;
+// The +0x164 Object pointer vector: the body inlines its free, and the unwind
+// funclet calls the out-of-line vector<Object *> destructor (ILT stub
+// 0x001F22A3, folded with _Vector_base's rowed 0x001F1609).
+namespace _STL {
+template <> __forceinline _Vector_base<Object *, allocator<Object *> >::~_Vector_base()
 {
-	~Gen_uwm_001f22a3() { if (m_begin) Rva00030830GameFree(m_begin); }
-	void *m_begin;
-	void *m_end;
-	void *m_capacity;
-};
+	if (_M_start != 0)
+		Rva00030830GameFree(_M_start);
+}
+template <> __forceinline vector<Object *, allocator<Object *> >::~vector()
+{
+	_Destroy(this->_M_start, this->_M_finish);
+}
+}
 
 class Rva0040DB52
 {
@@ -219,7 +227,7 @@ private:
 	Gen_uw_0007fab3 m_F8;
 	int m_104;
 	Rva001EB940 m_108;
-	Gen_uwm_001f22a3 m_164;
+	_STL::vector<Object *> m_164;
 	Rva00243BA0Owned *m_170;
 	Rva00243BA0Owned *m_174;
 	Rva00243BA0Owned *m_178;
