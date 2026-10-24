@@ -118,17 +118,17 @@ extern Debug *theDebug;
 bool bfmeRva000387C0();
 void _bfme_debugRecordCallsite(int kind);
 
-struct AttachableSubModelChoice00769720
+struct AttachableSubModelChoice
 {
 	AsciiString m_modelName;
 	UnsignedInt m_percent;
 };
 
-struct AttachableSubModel00769720
+struct AttachableSubModel
 {
 	AsciiString m_boneName;
 	Vector3 m_offset;
-	_STL::vector<AttachableSubModelChoice00769720> m_models;
+	_STL::vector<AttachableSubModelChoice> m_models;
 	ModelConditionFlags m_conditionMask;
 	mutable ModelConditionFlags m_conditionValue;
 };
@@ -144,7 +144,7 @@ class W3DModelDrawModuleData
 {
 public:
 	unsigned char m_pad00[0x08];
-	_STL::vector<AttachableSubModel00769720> m_attachableSubModels;
+	_STL::vector<AttachableSubModel> m_attachableSubModels;
 };
 
 class W3DModelDraw
@@ -171,7 +171,7 @@ void W3DModelDraw::rva000B7C24()
 
 	const Drawable *draw = m_drawable;
 	const W3DModelDrawModuleData *w3DModelDrawModuleData = m_moduleData;
-	for (_STL::vector<AttachableSubModel00769720>::const_iterator it = w3DModelDrawModuleData->m_attachableSubModels.begin();
+	for (_STL::vector<AttachableSubModel>::const_iterator it = w3DModelDrawModuleData->m_attachableSubModels.begin();
 		it != w3DModelDrawModuleData->m_attachableSubModels.end(); ++it)
 	{
 		ModelConditionFlags tmp = m_conditionFlags17c;
@@ -203,7 +203,7 @@ void W3DModelDraw::rva000B7C24()
 		seed = seed * 0x41c64e6d + 0x3039;
 		UnsignedInt roll = (seed >> 10) % 100;
 
-		_STL::vector<AttachableSubModelChoice00769720>::const_iterator choice = it->m_models.begin();
+		_STL::vector<AttachableSubModelChoice>::const_iterator choice = it->m_models.begin();
 		for (; choice != it->m_models.end(); ++choice)
 		{
 			if (roll < choice->m_percent)

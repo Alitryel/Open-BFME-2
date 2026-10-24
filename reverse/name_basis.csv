@@ -896,3 +896,5 @@ class,Rva00809330Attributes,GameAttributeList,inferred,agree:nl-c2b67f1c38b4,Cod
 param,translateWake::x,translateWake::m_offsetX,inferred,agree:nl-49bf11b44eaa,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DBoatWakeModelDrawDoDrawModule.cpp,
 param,translateWake::y,translateWake::offsetY,inferred,agree:nl-655385d370c9,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DBoatWakeModelDrawDoDrawModule.cpp,
 param,translateWake::z,translateWake::m_offsetZ,inferred,agree:nl-86568e7e693c,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DBoatWakeModelDrawDoDrawModule.cpp,
+class,AttachableSubModelChoice00769720,AttachableSubModelChoice,inferred,agree:nl-4095ec877f4a,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawAttachableSubModels.cpp,
+class,AttachableSubModel00769720,AttachableSubModel,inferred,agree:nl-ae0487c18e6b,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawAttachableSubModels.cpp,
