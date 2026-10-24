@@ -4878,3 +4878,5 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Co
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp|local|W3DVolumetricShadowV2::W3DVolumetricShadowV2|y,7c460aa1b6663b197093b97d,gpt-6.1-sol,codexb-20261024-113542-1,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Made002CCBCASlots.cpp|class||Rva0050B745Template,bb06216f38addf523e9e4a0b,gpt-6.1-sol,codexb-20261024-113542-3,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Made002CCBCASlots.cpp|member|Rva0050B7D2Arg|m_08,f5adc578b02c2b1b5c486c93,gpt-6.1-sol,codexb-20261024-113542-3,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#14|p,27fbb01268b400b852ebf198,gpt-6.1-sol,codexb-20261024-113542-9,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv793.cpp|local|bfmeGoDXE|r,b93787a5be290b3cfeecf0c7,gpt-6.1-sol,codexb-20261024-113542-10,w-8e883e57d025,2026-10-24
