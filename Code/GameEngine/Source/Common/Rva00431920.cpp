@@ -11,7 +11,7 @@ void __identifier("?rva00432038@WaitForSecondButtonDownStateHandler@FormationTra
 void __identifier("?rva00431E5A@Rva00431E5A@@QAEXXZ")();
 void __identifier("?rva004320B1@Rva004320B1@@QAEHPAVGameMessage@@@Z")();
 }
-extern const void *const g_00C3C994[6] = {
+extern const void *const g_waitForSecondButtonDownStateHandlerVtable[6] = {
 	(const void *)&__identifier("??_GRva004318D8@@QAEPAXI@Z"), // slot 0 0x00431A64
 	(const void *)&__identifier("?Update@WaitForSecondButtonDownStateHandler@FormationTranslator@@QAEXXZ"), // slot 1 0x00431B76
 	(const void *)&__identifier("?rva00432038@WaitForSecondButtonDownStateHandler@FormationTranslator@@QAEHPAVGameMessage@@@Z"), // slot 2 0x00432038
@@ -37,7 +37,7 @@ Rva00431920::Rva00431920(void *translator, int msgType, ICoord2D *position, int 
 {
 	m_04 = translator;
 	m_08 = msgType;
-	m_00 = (void *)g_00C3C994;
+	m_00 = (void *)g_waitForSecondButtonDownStateHandlerVtable;
 	m_0C = position->x;
 	m_10 = position->y;
 	m_14 = modifiers;
