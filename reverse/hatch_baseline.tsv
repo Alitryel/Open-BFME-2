@@ -3853,7 +3853,6 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/Update/RubbleRiseUpdateCto
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/RubbleRiseUpdateCtor.cpp	_vtbl_00C52858	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/RubbleRiseUpdateCtor.cpp	_vtbl_00C5285C	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/RubbleRiseUpdateCtor.cpp	_vtbl_00C52868	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Update/RubbleRiseUpdateModuleDataDtor.cpp	_vtbl_00BBB554	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/Rva00253510Ctor.cpp	_vtbl_00C4ED70	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/Rva0025460FCtor.cpp	_vtbl_00BF2558	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/Rva002553F6Ctor.cpp	_kF7C	1
@@ -3892,7 +3891,6 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/Update/StructureCollapseUp
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/StructureCollapseUpdateCtor.cpp	_vtbl_00C52638	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/StructureCollapseUpdateCtor.cpp	_vtbl_00C5263C	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/StructureCollapseUpdateCtor.cpp	_vtbl_00C52648	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Update/StructureCollapseUpdateModuleDataDtor.cpp	_vtbl_00BBB554	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/SupplyCenterProductionExitUpdateBehaviorCtor.cpp	_vtbl_00C430B4	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/SupplyCenterProductionExitUpdateBehaviorCtor.cpp	_vtbl_00C4B1E0	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/SupplyCenterProductionExitUpdateBehaviorCtor.cpp	_vtbl_00C4B1F0	1
