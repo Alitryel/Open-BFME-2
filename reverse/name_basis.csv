@@ -1225,3 +1225,5 @@ carry,Rva00496292Destroy::current,destroyRange::current,inferred,scope renamed b
 param,ScriptActions::doCameraSetDefault::a,ScriptActions::doCameraSetDefault::pitch,inferred,agree:nl-902d14c9dce6,Code/GameEngine/Source/GameLogic/ScriptEngine/Rva003BC22EDo.cpp,0x003BC22E
 param,ScriptActions::doCameraSetDefault::b,ScriptActions::doCameraSetDefault::angle,inferred,agree:nl-4172a4d7fb5b,Code/GameEngine/Source/GameLogic/ScriptEngine/Rva003BC22EDo.cpp,0x003BC22E
 param,ScriptActions::doCameraSetDefault::c,ScriptActions::doCameraSetDefault::maxHeight,inferred,agree:nl-a72c7ca38dc9,Code/GameEngine/Source/GameLogic/ScriptEngine/Rva003BC22EDo.cpp,0x003BC22E
+param,ScriptActions::Rva003BAD15::n3,ScriptActions::Rva003BAD15::lookAtWaypointName,inferred,agree:nl-c32b56202f5f,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionsRva003BAD15.cpp,0x003BAD15
+local,ScriptActions::Rva003BAD15::b,ScriptActions::Rva003BAD15::lookAtWaypoint,inferred,agree:nl-45933f2a818c,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionsRva003BAD15.cpp,0x003BAD15
