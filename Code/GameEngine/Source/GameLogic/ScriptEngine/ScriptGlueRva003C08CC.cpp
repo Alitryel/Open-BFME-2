@@ -30,7 +30,7 @@ public:
 struct Rva003C08CC258
 {
 	char m_pad[0x3BE];
-	unsigned char m_3BE;
+	unsigned char m_isRecruitable;
 };
 
 class Object
@@ -74,7 +74,7 @@ public:
 struct Rva003C08CCP2EC
 {
 	char m_pad[0x30];
-	void *m_p30;
+	void *m_proto;
 };
 
 class Player
@@ -103,19 +103,19 @@ void Rva003C08CC::rva003C08CC(const AsciiString *teamName, bool extra)
 	if (extra == 0)
 		return;
 	Player *player = team->getControllingPlayer();
-	Rva003C08CCP2EC *e = player->m_p2EC;
+	Rva003C08CCP2EC *playerDefaultTeam = player->m_p2EC;
 	DLINK_ITERATOR<Object> iter = team->iterate_TeamMemberList();
 	while (!iter.done()) {
-		Object *o = iter.cur();
-		Rva003C08CC258 *p = o->m_p258;
-		if (p != 0)
-			p->m_3BE = 1;
+		Object *teamMember = iter.cur();
+		Rva003C08CC258 *ai = teamMember->m_p258;
+		if (ai != 0)
+			ai->m_isRecruitable = 1;
 		iter.advance();
 	}
 	const AsciiString *s;
-	if (e->m_p30 == 0)
+	if (playerDefaultTeam->m_proto == 0)
 		s = &AsciiString::TheEmptyString;
 	else
-		s = (const AsciiString *)((const char *)e->m_p30 + 0x14);
+		s = (const AsciiString *)((const char *)playerDefaultTeam->m_proto + 0x14);
 	doMergeTeamIntoTeam(*teamName, *s);
 }

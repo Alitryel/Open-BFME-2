@@ -4826,3 +4826,17 @@ Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp|member|Rva0028CECF
 Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp|local|Object::rva0028CECF|f,dddb77ef7d5d97dc0e9a132b,seat-b,rn-1024b-7-b,w-d6670f2f6bb9,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp|local|Object::rva0028CECF|f1,80de2ff892d528dd616b55d5,seat-b,rn-1024b-7-b,w-d6670f2f6bb9,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/ObjectRva0028CECF.cpp|local|Object::rva0028CECF|f2,ffffa9193fb11b5f3b883e46,seat-b,rn-1024b-7-b,w-d6670f2f6bb9,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|class||Rva003C08CC258,8f8e3569d243f35c7ae3275b,seat-a,rn-1024b-5-a,w-085103ccb750,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|class||Rva003C08CCP2EC,91972aca33a32420dd6a46b5,seat-a,rn-1024b-5-a,w-085103ccb750,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|member|Rva003C08CC258|m_3BE,c54f493ea9590f435cdafc2d,seat-a,rn-1024b-5-a,w-085103ccb750,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|member|Rva003C08CCP2EC|m_p30,139e8a477a5a296eabf92d1c,seat-a,rn-1024b-5-a,w-085103ccb750,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|local|Rva003C08CC::rva003C08CC|e,f0e8208d01d91a1067dc26ba,seat-a,rn-1024b-5-a,w-085103ccb750,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|local|Rva003C08CC::rva003C08CC|o,d78192a030706e8484fbb711,seat-a,rn-1024b-5-a,w-085103ccb750,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|local|Rva003C08CC::rva003C08CC|p,990b0534d214e48c141518d3,seat-a,rn-1024b-5-a,w-085103ccb750,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|local|Rva003C08CC::rva003C08CC|s,4a19d8beaf4ef359f0c1ab95,seat-a,rn-1024b-5-a,w-085103ccb750,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|class||Rva003C08CC258,8f8e3569d243f35c7ae3275b,seat-b,rn-1024b-5-b,w-397dc0d575db,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|member|Rva003C08CC258|m_3BE,c54f493ea9590f435cdafc2d,seat-b,rn-1024b-5-b,w-397dc0d575db,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|member|Rva003C08CCP2EC|m_p30,139e8a477a5a296eabf92d1c,seat-b,rn-1024b-5-b,w-397dc0d575db,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|local|Rva003C08CC::rva003C08CC|e,f0e8208d01d91a1067dc26ba,seat-b,rn-1024b-5-b,w-397dc0d575db,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|local|Rva003C08CC::rva003C08CC|p,990b0534d214e48c141518d3,seat-b,rn-1024b-5-b,w-397dc0d575db,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|local|Rva003C08CC::rva003C08CC|s,4a19d8beaf4ef359f0c1ab95,seat-b,rn-1024b-5-b,w-397dc0d575db,2026-10-24
