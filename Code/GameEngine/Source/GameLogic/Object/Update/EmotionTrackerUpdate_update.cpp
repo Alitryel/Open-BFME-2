@@ -89,16 +89,17 @@ class Emotion : public EmotionNugget { public: bool rva004DCEC4(); };
 class Rva004DCC84 { public: void rva004DCC84(Object *,int); };
 
 class EmotionTrackerUpdate;
-class PartitionFilter {
+// And's canonical owner is a call view. The native polymorphic prefix below
+// uses the existing partition-filter providers (table BC26E0, +4 next link).
+class PartitionFilter { public: PartitionFilter &And(PartitionFilter &); };
+class Rva000421C8 {
 public:
-    PartitionFilter():next(0) {}
-    virtual ~PartitionFilter() {}
-    virtual bool Allow(Object *) = 0;
+    Rva000421C8():next(0) {}
+    virtual ~Rva000421C8() {}
+    virtual bool allow(Object *) = 0;
     virtual int getPlayerMask();
-    PartitionFilter &And(PartitionFilter &);
-    PartitionFilter *next;
+    Rva000421C8 *next;
 };
-class Rva000421C8;
 
 class EmotionModuleBase {
 public:
@@ -130,10 +131,12 @@ public:
     unsigned int nextFrame;
     bool foundLatch;
 };
-class EmotionTrackerUpdate::TauntPointFilter:public PartitionFilter {
+// The out-of-line constructor owns table C56520. This unit only needs its
+// three-slot ABI and base cleanup; do not emit a second local table.
+class __declspec(novtable) EmotionTrackerUpdate::TauntPointFilter:public Rva000421C8 {
 public:
     TauntPointFilter(EmotionTrackerUpdate *);
-    virtual bool Allow(Object *);
+    virtual bool allow(Object *);
     virtual int getPlayerMask();
     EmotionTrackerUpdate *module;
     Object *object;
@@ -143,18 +146,20 @@ public:
     bool tested;
     bool wasTested() const { return tested; }
 };
-class RvaDistanceFilter:public PartitionFilter {
+// Native update stores C0719C and BF8FE4 for these two filters. Their slot-1
+// providers and +8/+C/+10 fields are already recovered under these names.
+class Rva00261513Filter:public Rva000421C8 {
 public:
-    RvaDistanceFilter(Object *o,float r):object(o),flag(true),range(r) {}
-    virtual bool Allow(Object *);
+    Rva00261513Filter(Object *o,float r):object(o),flag(true),range(r) {}
+    virtual bool allow(Object *);
     Object *object;
     bool flag;
     float range;
 };
-class RvaPlayerFilter:public PartitionFilter {
+class Rva00261058:public Rva000421C8 {
 public:
-    RvaPlayerFilter(Player *p):player(p),flag(false) {}
-    virtual bool Allow(Object *);
+    Rva00261058(Player *p):player(p),flag(false) {}
+    virtual bool allow(Object *);
     Player *player;
     bool flag;
 };
@@ -227,10 +232,10 @@ UpdateSleepTime EmotionTrackerUpdate::update()
     if(countdown<=0 && data->interval && forcedFrames==0) {
         countdown=data->interval;
         TauntPointFilter filter(this);
-        RvaDistanceFilter distance(obj,data->range);
-        RvaPlayerFilter player(obj->getControllingPlayer());
-        filter.And(distance);
-        filter.And(player);
+        Rva00261513Filter distance(obj,data->range);
+        Rva00261058 player(obj->getControllingPlayer());
+        ((PartitionFilter *)&filter)->And(*(PartitionFilter *)&distance);
+        ((PartitionFilter *)&filter)->And(*(PartitionFilter *)&player);
         if(!obj->testStatus((ObjectStatusTypes)0x44))
             closest=ThePartitionManager->getClosestObject(obj->getPosition(),data->range,0,(Rva000421C8 *)&filter);
         if(!closest) {
