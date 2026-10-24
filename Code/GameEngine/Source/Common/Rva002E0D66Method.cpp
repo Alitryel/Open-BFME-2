@@ -6,7 +6,7 @@ extern "C" void __cdecl free(void *);
 struct Rva002E0D66Node
 {
 	char m_pad[8];
-	Rva002E0D66Node *m_8;
+	Rva002E0D66Node *m_left;
 	Rva002E0D66Node *m_c;
 };
 
@@ -24,7 +24,7 @@ void Rva002E0D66::rva002E0D66(void *head)
 	do
 	{
 		rva002E0D66(node->m_c);
-		Rva002E0D66Node *next = node->m_8;
+		Rva002E0D66Node *next = node->m_left;
 		free(node);
 		node = next;
 	} while (node != 0);

@@ -1741,3 +1741,4 @@ file,Code/Libraries/Source/WWVegas/WWLib/Rva0020F2A2Dispatch.cpp,Code/Libraries/
 file,Code/Libraries/Source/WWVegas/WWLib/Rva00240D0FCreate.cpp,Code/Libraries/Source/WWVegas/WWLib/createNode.cpp,inferred,mechanical:?createNode@@YGPAURva00240D0FNode@@ABURva00240D0FValue@@@Z,Code/Libraries/Source/WWVegas/WWLib/createNode.cpp,
 file,Code/Libraries/Source/WWVegas/WWLib/stlport_destroy_aux_0032A3A9.cpp,Code/Libraries/Source/WWVegas/WWLib/_STL___destroy_aux.cpp,inferred,mechanical:?__destroy_aux@_STL@@YAXPAVRva0032A3A9Element@@0ABU__false_type@1@@Z,Code/Libraries/Source/WWVegas/WWLib/_STL___destroy_aux.cpp,
 param,Rva006FE400::rva006FE400::a2,Rva006FE400::rva006FE400::memberName,inferred,agree:nl-9cab7fbf21c3,Code/Libraries/Source/Apt/Rva006FE400Chain.cpp,0x006FE400
+member,Rva002E0D66Node::m_8,Rva002E0D66Node::m_left,inferred,agree:nl-c318d4ad92ee,Code/GameEngine/Source/Common/Rva002E0D66Method.cpp,
