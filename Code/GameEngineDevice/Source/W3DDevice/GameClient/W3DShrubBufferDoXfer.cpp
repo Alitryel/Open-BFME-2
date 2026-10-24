@@ -181,21 +181,21 @@ void W3DShrubBuffer::DoXfer(Xfer *xfer)
  if(version.current>=2){
   xfer->Int(&numTypes);
   for(i=0;i<numTypes;++i){
-   Rva000E91CEType &t=types[i];
-   Rva0030612AXfer(xfer,reinterpret_cast<float *>(&t.offset));
-   Rva0030612AXfer(xfer,reinterpret_cast<float *>(&t.bounds));
-   xfer->Real(&t.bounds.Radius);
-   xfer->RawPair(t.gap24);xfer->RawPair(t.gap24+8);xfer->RawPair(t.gap24+16);xfer->RawPair(t.gap24+24);
-   xfer->Bool(&t.shadowKind);
-   xfer->String(&t.textureName);xfer->String(&t.modelName);xfer->String(&t.nameC);xfer->Int(&t.field58);xfer->String(&t.templateName);
+   Rva000E91CEType &shrubType=types[i];
+   Rva0030612AXfer(xfer,reinterpret_cast<float *>(&shrubType.offset));
+   Rva0030612AXfer(xfer,reinterpret_cast<float *>(&shrubType.bounds));
+   xfer->Real(&shrubType.bounds.Radius);
+   xfer->RawPair(shrubType.gap24);xfer->RawPair(shrubType.gap24+8);xfer->RawPair(shrubType.gap24+16);xfer->RawPair(shrubType.gap24+24);
+   xfer->Bool(&shrubType.shadowKind);
+   xfer->String(&shrubType.textureName);xfer->String(&shrubType.modelName);xfer->String(&shrubType.nameC);xfer->Int(&shrubType.field58);xfer->String(&shrubType.templateName);
    if(xfer->IsLoading()){
-    t.data=0;
+    shrubType.data=0;
 
-    if(const ThingTemplate *tt=TheThingFactory->findTemplate(t.templateName)){ModuleInfo *mi=reinterpret_cast<ModuleInfo *>(const_cast<char *>(reinterpret_cast<const char *>(tt))+0x2F0);const ModuleData *module=mi->getNthData(0);if(module)t.data=module->TreeDrawData();}
-    if(!t.data)throw XferException(4,0);
-    if(t.mesh){reinterpret_cast<RenderObjClass *>(t.mesh)->Release_Ref();t.mesh=0;}
-    RenderObjClass *render=Create_Render_Obj(t.modelName.str());
-    if(render){if(render->Class_ID()==0)t.mesh=render->MeshView();else render->Release_Ref();}
+    if(const ThingTemplate *tt=TheThingFactory->findTemplate(shrubType.templateName)){ModuleInfo *mi=reinterpret_cast<ModuleInfo *>(const_cast<char *>(reinterpret_cast<const char *>(tt))+0x2F0);const ModuleData *module=mi->getNthData(0);if(module)shrubType.data=module->TreeDrawData();}
+    if(!shrubType.data)throw XferException(4,0);
+    if(shrubType.mesh){reinterpret_cast<RenderObjClass *>(shrubType.mesh)->Release_Ref();shrubType.mesh=0;}
+    RenderObjClass *render=Create_Render_Obj(shrubType.modelName.str());
+    if(render){if(render->Class_ID()==0)shrubType.mesh=render->MeshView();else render->Release_Ref();}
    }
   }
  }
