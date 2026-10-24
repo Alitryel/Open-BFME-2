@@ -30,10 +30,10 @@ unsigned char PathfindZoneManager::rva00531720(unsigned int a, unsigned int idx)
 	unsigned char m[2];
 	m[0] = (unsigned char)((t >> 1) & 1);
 	m[1] = (unsigned char)((t >> 2) & 1);
-	const unsigned char *e = &m_elems[idx].b0;
-	if (m[0] && (e[1] & 0x80))
+	const unsigned char *element = &m_elems[idx].b0;
+	if (m[0] && (element[1] & 0x80))
 		return 0;
-	if (m[1] && (e[2] & 1))
+	if (m[1] && (element[2] & 1))
 		return 0;
 	return 1;
 }

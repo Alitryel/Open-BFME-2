@@ -52,13 +52,13 @@ private:
 		unsigned request = size;
 		if (flags & 0x80000000)
 			request = size + 2;
-		void *p = ((Rva006C1F60 *)this)->rva00033ED0(request, flags);
-		if (p != 0) {
-			unsigned chunkSize = ((unsigned *)p)[-1];
+		void *memory = ((Rva006C1F60 *)this)->rva00033ED0(request, flags);
+		if (memory != 0) {
+			unsigned chunkSize = ((unsigned *)memory)[-1];
 			unsigned usable = !(chunkSize & 2) ? (chunkSize & 0x7ffffff8) + 4 : (chunkSize & 0x7ffffff8);
-			*(unsigned short *)((char *)p + usable - 10) = 0;
+			*(unsigned short *)((char *)memory + usable - 10) = 0;
 		}
-		return p;
+		return memory;
 	}
 	unsigned char m_pad0[0x478];
 	unsigned m_478;
@@ -73,11 +73,11 @@ void *Rva006C39F0Owner::rva006C3940Alloc(unsigned size)
 	if (m_recordAllocator == (EA::Allocator::GeneralAllocator *)this) {
 		unsigned saved = m_478;
 		m_478 = 0;
-		void *p;
+		void *record;
 		for (;;) {
-			p = mallocMarked(size, 0x80000000);
-			if (p != 0) {
-				((unsigned *)p)[-1] |= 4;
+			record = mallocMarked(size, 0x80000000);
+			if (record != 0) {
+				((unsigned *)record)[-1] |= 4;
 				break;
 			}
 			if (m_delayed.prev == &m_delayed)
@@ -85,7 +85,7 @@ void *Rva006C39F0Owner::rva006C3940Alloc(unsigned size)
 			((Rva006C1F60 *)this)->rva006C33D0(0, 0);
 		}
 		m_478 = saved;
-		return p;
+		return record;
 	}
 	return m_recordAllocator->rva00035080(size, 0);
 }
