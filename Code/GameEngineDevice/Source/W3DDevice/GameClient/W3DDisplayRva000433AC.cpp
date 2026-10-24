@@ -89,7 +89,7 @@ class W3DDisplay : public Display
 public:
 	virtual void setWidth(unsigned int width);
 	virtual void setHeight(unsigned int height);
-	void rva000465CE(Rva000465CEBuffer *buffer, float x0, float y0, float x1, float y1, int color);
+	void queueImage(Rva000465CEBuffer *buffer, float x0, float y0, float x1, float y1, int color);
 private:
 	char m_pad14[0x164];
 	Render2DClass *m_render2D;
@@ -116,12 +116,12 @@ void W3DDisplay::setHeight(unsigned int height)
 	m_render2D->Set_Coordinate_Range(rc);
 }
 
-// ?rva000465CE@W3DDisplay@@QAEXPAVRva000465CEBuffer@@MMMMH@Z, retail 0x000465CE,
+// ?queueImage@W3DDisplay@@QAEXPAVRva000465CEBuffer@@MMMMH@Z, retail 0x000465CE,
 // 235 bytes (vtable 0x00BC3C80 slot 29). Video-buffer quad draw: computes a
 // half-texel UV inset from buffer +0x18, enables texturing on +0x168 Render2D,
 // binds the buffer's texture via 0x000456C9, queries maxU/maxV via 0x000425CB /
 // 0x00042605, scales the input alpha byte by buffer +0x20, and submits Add_Quad.
-void W3DDisplay::rva000465CE(Rva000465CEBuffer *buffer, float x0, float y0, float x1, float y1, int color)
+void W3DDisplay::queueImage(Rva000465CEBuffer *buffer, float x0, float y0, float x1, float y1, int color)
 {
 	float inset = (1.0f / (float)buffer->m_textureHeight18) * 0.5f;
 	m_render2D->m_texturing48 = true;

@@ -1871,3 +1871,4 @@ param,Rva00739BE0::rva00739BE0::p,Rva00739BE0::rva00739BE0::position,inferred,ag
 param,Rva00739A30::rva00739A30::p,Rva00739A30::rva00739A30::position,inferred,agree:nl-484156249d60,Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp,0x00739A30
 local,Rva002EDE5B::tmp18,Rva002EDE5B::worldPos,inferred,agree:nl-0c983dfb41ff,Code/GameEngine/Source/Common/Rva002E8C23.cpp,0x002EDE5B
 local,EA::Allocator::GeneralAllocator::realloc::s,EA::Allocator::GeneralAllocator::realloc::src,inferred,agree:nl-b8c308b3b050,Code/GameEngine/Source/Common/Rva000347A0Realloc.cpp,0x000347A0
+function,?rva000465CE@W3DDisplay@@QAEXPAVRva000465CEBuffer@@MMMMH@Z,?queueImage@W3DDisplay@@QAEXPAVRva000465CEBuffer@@MMMMH@Z,canonical:wb,wb lead 0x000465CE: WB 0x9738A0 asserts W3DDisplay::queueImage; score=7; via=vtable,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayRva000433AC.cpp,0x000465CE
