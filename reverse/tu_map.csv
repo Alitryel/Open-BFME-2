@@ -2072,7 +2072,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0003B5D0,109,code,Code/Libraries/Source/debug/debug_debug.cpp,proposed,S,S=Code/Libraries/Source/debug/debug_debug.cpp N=Code/Libraries/Source/WWVegas/WWDebug/Debug.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWDebug/Debug_IsLogEnabled.cpp
 0x0003B640,47,code,Code/Libraries/Source/debug/debug_debug.cpp,proposed,Z,Z=Code/Libraries/Source/debug/debug_debug.cpp S=Code/Libraries/Source/debug/debug_debug.cpp N=Code/Libraries/Source/WWVegas/WWDebug/Debug.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWDebug/Debug_Command.cpp
 0x0003B670,134,code,Code/Libraries/Source/debug/debug_debug.cpp,proposed,S,S=Code/Libraries/Source/debug/debug_debug.cpp N=Code/Libraries/Source/debug/Debug.cpp noncontiguous,Code/Libraries/Source/debug/Debug_FrameCommands.cpp
-0x0003B700,228,code,Code/Libraries/Source/debug/debug_debug.cpp,proposed,Z,Z=Code/Libraries/Source/debug/debug_debug.cpp S=Code/Libraries/Source/debug/debug_debug.cpp N=Code/Libraries/Source/WWVegas/WWDebug/Debug.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWDebug/Debug_Update_0088C3F0.cpp
+0x0003B700,228,code,Code/Libraries/Source/debug/debug_debug.cpp,proposed,Z,Z=Code/Libraries/Source/debug/debug_debug.cpp S=Code/Libraries/Source/debug/debug_debug.cpp N=Code/Libraries/Source/WWVegas/WWDebug/Debug.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWDebug/Debug_Update.cpp
 0x0003B7F0,31,code,,,-,,Code/GameEngine/Source/Common/Rva0088C4E0PostStaticInitLookup.cpp
 0x0003B810,62,code,,,-,,Code/Libraries/Source/debug/debug_purecall.cpp
 0x0003B850,329,code,,,-,,Code/Libraries/Source/WWVegas/WWDebug/debug_stack.cpp
@@ -2120,9 +2120,9 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0003F320,7,code,Code/Libraries/Source/WWVegas/WWDebug/DebugIOInterface.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWDebug/DebugIOInterface.cpp,Code/Libraries/Source/WWVegas/WWDebug/debug_io_flat.cpp
 0x0003F340,31,code,Code/Libraries/Source/WWVegas/WWDebug/DebugIOInterface.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWDebug/DebugIOInterface.cpp,Code/Libraries/Source/WWVegas/WWDebug/Rva0088FAA0DebugIOInterfaceDestructor.cpp
 0x0003F360,27,code,Code/Libraries/Source/debug/debug_io_ods.cpp,proposed,Z,Z=Code/Libraries/Source/debug/debug_io_ods.cpp S=Code/Libraries/Source/debug/debug_io_ods.cpp N=Code/Libraries/Source/debug/DebugIOOds.cpp noncontiguous,Code/Libraries/Source/debug/debug_io_ods.cpp
-0x0003F380,70,code,Code/Libraries/Source/debug/debug_io_ods.cpp,proposed,S,S=Code/Libraries/Source/debug/debug_io_ods.cpp N=Code/Libraries/Source/WWVegas/WWDebug/DebugIOOds.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWDebug/Rva0088FAA0DebugIOOdsDestructor.cpp
+0x0003F380,70,code,Code/Libraries/Source/debug/debug_io_ods.cpp,proposed,S,S=Code/Libraries/Source/debug/debug_io_ods.cpp N=Code/Libraries/Source/WWVegas/WWDebug/DebugIOOds.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWDebug/DebugIOOds.cpp
 0x0003F3D0,96,code,Code/Libraries/Source/debug/debug_io_ods.cpp,proposed,Z,Z=Code/Libraries/Source/debug/debug_io_ods.cpp S=Code/Libraries/Source/debug/debug_io_ods.cpp N=Code/Libraries/Source/WWVegas/WWDebug/DebugIOOds.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWDebug/DebugIOOds_Create.cpp
-0x0003F430,33,code,,displaced,-,N=Code/Libraries/Source/WWVegas/WWDebug/DebugIOOds.cpp,Code/Libraries/Source/WWVegas/WWDebug/Rva0088FAA0DebugIOOdsDestructor.cpp
+0x0003F430,33,code,,displaced,-,N=Code/Libraries/Source/WWVegas/WWDebug/DebugIOOds.cpp,Code/Libraries/Source/WWVegas/WWDebug/DebugIOOds.cpp
 0x0003F460,55,code,Code/Libraries/Source/debug/debug_io_ods.cpp,proposed,S,S=Code/Libraries/Source/debug/debug_io_ods.cpp N=Code/Libraries/Source/WWVegas/WWDebug/DebugIOOds.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWDebug/DebugIOOdsCtor.cpp
 0x0003F4A0,70,code,Code/Libraries/Source/debug/debug_io_net.cpp,approved,Z,Z=Code/Libraries/Source/debug/debug_io_net.cpp S=Code/Libraries/Source/debug/debug_io_net.cpp N=Code/Libraries/Source/WWVegas/WWDebug/DebugIONet.cpp,Code/Libraries/Source/WWVegas/WWDebug/DebugIONetConstructorThunk.cpp
 0x0003F4F0,87,code,Code/Libraries/Source/debug/debug_io_net.cpp,approved,C,C=0x0003F4A0..0x0003F550,Code/Libraries/Source/WWVegas/WWDebug/DebugIONetPipeDestructorThunk.cpp
@@ -2155,7 +2155,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00040B50,239,code,Code/Libraries/Source/debug/debug_io_con.cpp,approved,Z,Z=Code/Libraries/Source/debug/debug_io_con.cpp S=Code/Libraries/Source/debug/debug_io_con.cpp N=Code/Libraries/Source/debug/DebugIOCon.cpp,Code/Libraries/Source/debug/debug_io_con.cpp
 0x00040C40,466,code,Code/Libraries/Source/debug/debug_io_con.cpp,approved,Z,Z=Code/Libraries/Source/debug/debug_io_con.cpp S=Code/Libraries/Source/debug/debug_io_con.cpp N=Code/Libraries/Source/debug/DebugIOCon.cpp,Code/Libraries/Source/debug/DebugIOConConstructor.cpp
 0x00040E20,33,code,,displaced,-,N=Code/Libraries/Source/debug/DebugIOCon.cpp,Code/Libraries/Source/debug/DebugIOConDestructorThunk.cpp
-0x00040E50,89,code,,,-,,Code/Libraries/Source/WWVegas/WWDebug/Rva00891540DebugIOConCreate.cpp
+0x00040E50,89,code,,,-,,Code/Libraries/Source/WWVegas/WWDebug/DebugIOCon_Create.cpp
 0x00040EA9,37,code,,,-,,Code/GameEngine/Source/GameLogic/System/GameLogicSetFPMode.cpp
 0x00040ECE,13,code,,,-,,Code/GameEngine/Source/Common/RvaSmallVtableCtors.cpp
 0x00040EDB,29,code,Code/GameEngine/Source/Common/MilesMutexGuard.cpp,proposed,K,K=Rva0040EDB,Code/GameEngine/Source/Common/Rva00041004Lock.cpp
@@ -8697,7 +8697,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00146950,589,code,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp S=Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp N=Code/Libraries/Source/WWVegas/WW3D2/DX8FVFCategoryContainer.cpp,Code/Libraries/Source/WWVegas/WW3D2/DX8InsertTextureCategory.cpp
 0x00146BA0,788,code,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp S=Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp N=Code/Libraries/Source/WWVegas/WW3D2/DX8FVFCategoryContainer.cpp,Code/Libraries/Source/WWVegas/WW3D2/DX8GenerateTextureCategoriesBFME2.cpp
 0x00146EC0,30,code,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,approved,C,C=0x00146BA0..0x00146EE0,Code/GameEngine/Source/Common/Rva00145000Derived.cpp
-0x00146EE0,101,code,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp S=Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp N=Code/Libraries/Source/WWVegas/WWLib/DX8SkinFVFCategoryContainer.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva00146EE0Cluster.cpp
+0x00146EE0,101,code,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp S=Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp N=Code/Libraries/Source/WWVegas/WWLib/DX8SkinFVFCategoryContainer.cpp,Code/Libraries/Source/WWVegas/WWLib/DX8SkinFVFCategoryContainer_Add_Mesh.cpp
 0x00146F50,4095,code-unledgered,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,approved,C,C=0x00146EE0..0x00147F60,
 0x00147F60,172,code,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp S=Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp N=Code/Libraries/Source/WWVegas/WW3D2/DX8MeshRendererClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/DX8MeshRendererClassDtor.cpp
 0x00148010,18,code,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp S=Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp N=Code/Libraries/Source/WWVegas/WW3D2/DX8MeshRendererClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/DX8MeshRendererClearPendingDeleteLists.cpp
@@ -12543,7 +12543,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x001F49C1,76,code,Code/GameEngine/Source/GameClient/System/ParticleSys.cpp,approved,C,C=0x001F4696..0x001F4A12,Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_ostream_put_num.cpp
 0x001F4A12,8,code,Code/GameEngine/Source/GameClient/System/ParticleSys.cpp,approved,C,C=0x001F4696..0x001F4A22,Code/GameEngine/Source/Common/VectorDeletingDtorsV02.cpp
 0x001F4A22,21,code,Code/GameEngine/Source/GameClient/System/ParticleSys.cpp,approved,C,C=0x001F4696..0x001F4A90,Code/GameEngine/Source/GameClient/System/ParticleSystemRva001F4A22.cpp
-0x001F4A90,113,code,Code/GameEngine/Source/GameClient/System/ParticleSys.cpp,approved,C,C=0x001F4696..0x001F4B01,Code/Libraries/Source/WWVegas/WWLib/Rva001F4A90Select.cpp
+0x001F4A90,113,code,Code/GameEngine/Source/GameClient/System/ParticleSys.cpp,approved,C,C=0x001F4696..0x001F4B01,Code/Libraries/Source/WWVegas/WWLib/ParticleFXShaderParameterSourceNamespace_ResolveBindings.cpp
 0x001F4B01,70,code,Code/GameEngine/Source/GameClient/System/ParticleSys.cpp,approved,C,C=0x001F4696..0x001F4B47,Code/GameEngine/Source/Common/Rva001F73D5ParticlePhysicsUpdateBinder.cpp
 0x001F4B47,28,code,Code/GameEngine/Source/GameClient/System/ParticleSys.cpp,approved,C,C=0x001F4696..0x001F4B63,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtorsB03.cpp
 0x001F4B63,260,code,Code/GameEngine/Source/GameClient/System/ParticleSys.cpp,approved,C,C=0x001F4696..0x001F4C67,Code/GameEngine/Source/GameClient/System/ParticleBaseConstructor.cpp
@@ -13416,7 +13416,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00207BF8,5,code,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngine.cpp,proposed,C,C=0x002064D0..0x00207BFD noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva00207BDAMapDtors.cpp
 0x00207BFD,5,code,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngine.cpp,proposed,C,C=0x002064D0..0x00207C02 noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva00207BDAMapDtors.cpp
 0x00207C02,498,code-unledgered,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngine.cpp,proposed,C,C=0x002064D0..0x00207DF4 noncontiguous,
-0x00207DF4,50,code,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngine.cpp,proposed,C,C=0x002064D0..0x00207E26 noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva00207DF4Method.cpp
+0x00207DF4,50,code,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngine.cpp,proposed,C,C=0x002064D0..0x00207E26 noncontiguous,Code/Libraries/Source/WWVegas/WWLib/ScriptEngine_setObjectCount.cpp
 0x00207E26,63,code,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngine.cpp,proposed,C,C=0x002064D0..0x00207E65 noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva00207E26VectorDtor.cpp
 0x00207E65,63,code,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngine.cpp,proposed,C,C=0x002064D0..0x00207EE0 noncontiguous,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_stringrecord_00204a30_allocate_copy.cpp
 0x00207EE0,20,code,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngine.cpp,proposed,C,C=0x002064D0..0x00207F08 noncontiguous,Code/GameEngine/Source/GameLogic/Map/Rva0019B850TeamRecUpdate_Rva0019BE80TeamRec_updateTeam.cpp
@@ -13568,7 +13568,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0020E779,27,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x0020E6C0..0x0020E794 noncontiguous,Code/GameEngine/Source/Common/VslotSmallBodiesAB.cpp
 0x0020E794,41,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,U,N=Code/Libraries/Source/WWVegas/WWLib/LivingWorldRegionManager.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva0020E794Loop.cpp
 0x0020E7BD,43,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,N,N=Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp noncontiguous,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp
-0x0020E7E8,43,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,U,N=Code/Libraries/Source/WWVegas/WWLib/LivingWorldRegionManager.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva0020E7E8Loop.cpp
+0x0020E7E8,43,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,U,N=Code/Libraries/Source/WWVegas/WWLib/LivingWorldRegionManager.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/LivingWorldRegionManager_EnumerateCompletedBattles.cpp
 0x0020E873,27,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x0020E7E8..0x0020E89C noncontiguous,Code/Libraries/Source/WWVegas/WWLib/stlport_hero_registry_find.cpp
 0x0020E89C,63,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x0020E7E8..0x0020E8DB noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva0020E89CFetch.cpp
 0x0020E8DB,52,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x0020E7E8..0x0020E90F noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva0020E8DBFetch.cpp
@@ -13589,8 +13589,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0020EDD5,84,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x0020E7E8..0x0020EE29 noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva0020EDD5Fetch.cpp
 0x0020EE29,51,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x0020E7E8..0x0020EE5C noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva0020EE29Clear.cpp
 0x0020EE5C,51,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x0020E7E8..0x0020EE8F noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva0020EE5CClear.cpp
-0x0020EE8F,57,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,U,N=Code/Libraries/Source/WWVegas/WWLib/LivingWorldRegionManager.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva0020EE8FGet.cpp
-0x0020EEC8,44,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,U,N=Code/Libraries/Source/WWVegas/WWLib/LivingWorldRegionManager.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva0020EEC8Lookup.cpp
+0x0020EE8F,57,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,U,N=Code/Libraries/Source/WWVegas/WWLib/LivingWorldRegionManager.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/LivingWorldRegionManager_GetDefaultArmyPlacementPos.cpp
+0x0020EEC8,44,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,U,N=Code/Libraries/Source/WWVegas/WWLib/LivingWorldRegionManager.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/LivingWorldRegionManager_SetRegionReinforcements.cpp
 0x0020EEF4,74,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x0020EEC8..0x0020EF3E noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva0020EEF4Search.cpp
 0x0020EF3E,98,code-unledgered,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x0020EEC8..0x0020EFA0 noncontiguous,
 0x0020EFA0,280,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,N,N=Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp noncontiguous,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManagerXfer.cpp
@@ -13635,7 +13635,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00210347,68,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x00210202..0x0021038B noncontiguous,Code/GameEngine/Source/Common/RTS/Rva00210347Insert.cpp
 0x0021038B,5,code-unledgered,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x00210202..0x00210390 noncontiguous,
 0x00210390,38,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x00210202..0x002103B6 noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva0020EE29Clear.cpp
-0x002103B6,119,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,U,N=Code/Libraries/Source/WWVegas/WWLib/LivingWorldRegionBonusRule.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva002103B6Resolve.cpp
+0x002103B6,119,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,U,N=Code/Libraries/Source/WWVegas/WWLib/LivingWorldRegionBonusRule.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/LivingWorldRegionBonusRule_CacheRegionIDs.cpp
 0x0021042D,131,code-unledgered,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x002103B6..0x002104B0 noncontiguous,
 0x002104B0,6,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x002103B6..0x002104B6 noncontiguous,Code/GameEngine/Source/Common/SubsystemNameGetters2.cpp
 0x002104B6,17,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x002103B6..0x002104C7 noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva0020EE29Clear.cpp
@@ -18475,7 +18475,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00290496,70,code-unledgered,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,C,C=0x002903EF..0x002904DC noncontiguous,
 0x002904DC,636,code-unledgered,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,C,C=0x002903EF..0x00290758 noncontiguous,
 0x00290758,73,code,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,S,S=Code/GameEngine/Source/GameLogic/Object/Object.cpp N=Code/GameEngine/Source/GameLogic/Object/Object.cpp noncontiguous,Code/GameEngine/Source/GameLogic/Object/ObjectConditionAndPassengerWeaponSet.cpp
-0x002907A1,107,code,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,S,S=Code/GameEngine/Source/GameLogic/Object/Object.cpp N=Code/Libraries/Source/WWVegas/WWLib/Object.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva002907A1Finish.cpp
+0x002907A1,107,code,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,S,S=Code/GameEngine/Source/GameLogic/Object/Object.cpp N=Code/Libraries/Source/WWVegas/WWLib/Object.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Object_isMobile.cpp
 0x0029080C,274,code,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,Z,Z=Code/GameEngine/Source/GameLogic/Object/Object.cpp S=Code/GameEngine/Source/GameLogic/Object/Object.cpp N=Code/GameEngine/Source/GameLogic/Object/Object.cpp noncontiguous,Code/GameEngine/Source/GameLogic/Object/ObjectFriendBindToDrawable.cpp
 0x0029091E,69,code,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,S,S=Code/GameEngine/Source/GameLogic/Object/Object.cpp N=Code/GameEngine/Source/GameLogic/Object/Object.cpp noncontiguous,Code/GameEngine/Source/GameLogic/Object/ObjectRva0029091E.cpp
 0x00290963,173,code,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,Z,Z=Code/GameEngine/Source/GameLogic/Object/Object.cpp S=Code/GameEngine/Source/GameLogic/Object/Object.cpp N=Code/GameEngine/Source/GameLogic/Object/Object.cpp noncontiguous,Code/GameEngine/Source/GameLogic/Object/ObjectWeaponSetFlags.cpp
@@ -18556,7 +18556,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00293249,44,code,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,C,C=0x002931F5..0x00293275 noncontiguous,Code/GameEngine/Source/GameLogic/Object/ObjectRva00293249.cpp
 0x00293275,187,code,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,S,S=Code/GameEngine/Source/GameLogic/Object/Object.cpp N=Code/GameEngine/Source/GameLogic/Object/Object.cpp noncontiguous,Code/GameEngine/Source/GameLogic/Object/ObjectRva00293275.cpp
 0x00293330,63,code,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,C,C=0x00293275..0x0029336F noncontiguous,Code/GameEngine/Source/GameLogic/Object/ObjectRva00293330.cpp
-0x0029336F,94,code,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,S,S=Code/GameEngine/Source/GameLogic/Object/Object.cpp N=Code/Libraries/Source/WWVegas/WWLib/Object.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/ObjectSetCommandSetStringOverrideRva0029336F.cpp
+0x0029336F,94,code,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,S,S=Code/GameEngine/Source/GameLogic/Object/Object.cpp N=Code/Libraries/Source/WWVegas/WWLib/Object.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Object_setCommandSetStringOverride.cpp
 0x002933CD,59,code,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,S,S=Code/GameEngine/Source/GameLogic/Object/Object.cpp N=Code/GameEngine/Source/GameLogic/Object/Object.cpp noncontiguous,Code/GameEngine/Source/GameLogic/Object/ObjectRva002931F5.cpp
 0x00293408,89,code,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,S,S=Code/GameEngine/Source/GameLogic/Object/Object.cpp N=Code/GameEngine/Source/GameLogic/Object/Object.cpp noncontiguous,Code/GameEngine/Source/GameLogic/Object/ObjectRva002931F5.cpp
 0x00293461,37,code,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,C,C=0x00293408..0x00293486 noncontiguous,Code/Libraries/Source/WWVegas/WWLib/StlportListInsertFootprints.cpp
@@ -18620,7 +18620,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00297379,563,code-unledgered,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,C,C=0x002972DE..0x002975AC noncontiguous,
 0x002975AC,102,code,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,S,S=Code/GameEngine/Source/GameLogic/Object/Object.cpp N=Code/GameEngine/Source/GameLogic/Object/Object.cpp noncontiguous,Code/GameEngine/Source/GameLogic/Object/ObjectRva00297612.cpp
 0x00297612,89,code,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,S,S=Code/GameEngine/Source/GameLogic/Object/Object.cpp N=Code/GameEngine/Source/GameLogic/Object/Object.cpp noncontiguous,Code/GameEngine/Source/GameLogic/Object/ObjectRva00297612.cpp
-0x0029766B,25,code,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,S,S=Code/GameEngine/Source/GameLogic/Object/Object.cpp N=Code/Libraries/Source/WWVegas/WWLib/Object.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva0029766BTeleport.cpp
+0x0029766B,25,code,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,S,S=Code/GameEngine/Source/GameLogic/Object/Object.cpp N=Code/Libraries/Source/WWVegas/WWLib/Object.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Object_restoreObjectToWorld.cpp
 0x00297684,3414,code,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,Z,Z=Code/GameEngine/Source/GameLogic/Object/Object.cpp S=Code/GameEngine/Source/GameLogic/Object/Object.cpp N=Code/GameEngine/Source/GameLogic/Object/Object.cpp noncontiguous,Code/GameEngine/Source/GameLogic/Object/ObjectDoXfer.cpp
 0x002983DA,51,code,Code/GameEngine/Source/GameLogic/Object/Object.cpp,proposed,C,C=0x00297684..0x00298480 noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva002983DAEraseRange.cpp
 0x0029840D,115,code,,displaced,-,S=Code/GameEngine/Source/Common/System/Geometry.cpp N=Code/GameEngine/Source/Common/System/GeometryInfo.cpp,Code/GameEngine/Source/Common/System/GeometryInfoCtor.cpp
@@ -30680,7 +30680,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0040E7B2,108,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_sort_rva0040cb11entry.cpp
 0x0040E81E,28,code,,,-,,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtorsB10.cpp
 0x0040E83A,81,code,Code/Libraries/Source/WWVegas/WWLib/ArmySummary.cpp,proposed,K,K=Rva0040D701ArmySummary,Code/GameEngine/Source/Common/ArmySummaryObjectTypeQuery.cpp
-0x0040E88B,70,code,Code/Libraries/Source/WWVegas/WWLib/ArmySummary.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/ArmySummary.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva0040E88BCopy.cpp
+0x0040E88B,70,code,Code/Libraries/Source/WWVegas/WWLib/ArmySummary.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/ArmySummary.cpp,Code/Libraries/Source/WWVegas/WWLib/ArmySummary_GetEntries.cpp
 0x0040E8D1,55,code,Code/Libraries/Source/WWVegas/WWLib/ArmySummary.cpp,proposed,C,C=0x0040E88B..0x0040E908,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_Rva0040CB11_allocate_copy.cpp
 0x0040E908,74,code,Code/Libraries/Source/WWVegas/WWLib/ArmySummary.cpp,proposed,C,C=0x0040E88B..0x0040E952,Code/Libraries/Source/WWVegas/WWLib/stlport_sort_rva0040cb11entry.cpp
 0x0040E952,27,code,Code/Libraries/Source/WWVegas/WWLib/ArmySummary.cpp,proposed,C,C=0x0040E88B..0x0040E96D,Code/Libraries/Source/WWVegas/WWLib/stlport_sort_rva0040cb11entry.cpp
@@ -30937,7 +30937,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00415218,163,code-unledgered,,,-,,
 0x004152BC,42,code,,,-,,Code/GameEngine/Source/Common/Rva002F1C5FSelfLink.cpp
 0x004152E6,37,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/Rva004152E6NewNode.cpp
-0x0041530B,64,code,Code/Libraries/Source/WWVegas/WWLib/CrowdResponseTemplate.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/CrowdResponseTemplate.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva0041530BLookup.cpp
+0x0041530B,64,code,Code/Libraries/Source/WWVegas/WWLib/CrowdResponseTemplate.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/CrowdResponseTemplate.cpp,Code/Libraries/Source/WWVegas/WWLib/CrowdResponseTemplate_getCrowdResponseDataForThreshold.cpp
 0x0041534B,27,code,,,-,,Code/GameEngine/Source/GameClient/Rva00056F61IterFind.cpp
 0x00415366,57,code,,,-,,Code/GameEngine/Source/GameClient/Rva00415366Dtor.cpp
 0x0041539F,124,code,,,-,,Code/GameEngine/Source/GameClient/Rva0041539FInsert.cpp
@@ -31048,7 +31048,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0041848D,115,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_map_int_int_copy_0041848D.cpp
 0x00418500,115,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/Rva00418500Finish.cpp
 0x00418573,55,code,Code/Libraries/Source/WWVegas/WWLib/LivingWorldAutoResolveBodyTemplate.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/LivingWorldAutoResolveBodyTemplate.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva00418573Lookup.cpp
-0x004185AA,58,code,Code/Libraries/Source/WWVegas/WWLib/LivingWorldAutoResolveBodyTemplate.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/LivingWorldAutoResolveBodyTemplate.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva004185AALookup.cpp
+0x004185AA,58,code,Code/Libraries/Source/WWVegas/WWLib/LivingWorldAutoResolveBodyTemplate.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/LivingWorldAutoResolveBodyTemplate.cpp,Code/Libraries/Source/WWVegas/WWLib/LivingWorldAutoResolveBodyTemplate_getRegenRateForLevel.cpp
 0x004185E4,123,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/Rva004185E4HitpointsAtLevel.cpp
 0x0041865F,123,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/Rva0041865FRegenerateAtLevel.cpp
 0x004186DA,6,code,,,-,,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp
@@ -56124,7 +56124,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0075CE60,17,code,,,-,,Code/Libraries/Source/WWVegas/WWDebug/debug_io_flat.cpp
 0x0075CE80,8,code,,,-,,Code/Libraries/Source/debug/DebugIOConDestructorThunk.cpp
 0x0075CEA0,8,code,,,-,,Code/Libraries/Source/debug/DebugIOConConstructor.cpp
-0x0075CEC0,17,code,,,-,,Code/Libraries/Source/WWVegas/WWDebug/Rva00891540DebugIOConCreate.cpp
+0x0075CEC0,17,code,,,-,,Code/Libraries/Source/WWVegas/WWDebug/DebugIOCon_Create.cpp
 0x0075CEDB,11,code,,,-,,Code/gen_small/uw_gen_008.cpp
 0x0075CEE6,11,code,,,-,,Code/gen_small/uw_gen_008.cpp
 0x0075CEF1,11,code,,,-,,Code/gen_small/uw_gen_008.cpp
@@ -58872,7 +58872,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0076641C,11,code,,,-,,Code/gen_small/uw_gen_000.cpp
 0x00766427,22,code-unledgered,,,-,,
 0x0076643D,11,code,,,-,,Code/gen_small/uw_gen_001.cpp
-0x00766460,8,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/Rva00146EE0Cluster.cpp
+0x00766460,8,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/DX8SkinFVFCategoryContainer_Add_Mesh.cpp
 0x00766480,11,code,,,-,,Code/gen_small/uw_gen_001.cpp
 0x0076648B,11,code-unledgered,,,-,,
 0x00766496,11,code-unledgered,,,-,,
