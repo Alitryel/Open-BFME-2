@@ -40,7 +40,7 @@ namespace EA { namespace Allocator {
 class GeneralAllocator
 {
 public:
-    void *rva00034A60(unsigned int count, unsigned int size, int flags);
+    void *calloc(unsigned int count, unsigned int size, int flags);
     void *rva00032DF0(unsigned int size);
     Rva00031010Node *rva000334A0(unsigned int size);
 };
@@ -324,10 +324,10 @@ void *Rva006C1F60::rva00033ED0(unsigned int bytes, int flags)
                 remainder = chunk_at_offset(victim, nb);
                 set_head(remainder, remainder_size | 1);
                 top = remainder;
-                mchunkptr t = top;
-                set_head(t, remainder_size | 1);
-                t->bk = t->fd = t;
-                set_foot(t, remainder_size);
+                mchunkptr topChunk = top;
+                set_head(topChunk, remainder_size | 1);
+                topChunk->bk = topChunk->fd = topChunk;
+                set_foot(topChunk, remainder_size);
                 return chunk2mem(victim);
             }
             if (!have_fastchunks(this))
@@ -344,11 +344,11 @@ void *Rva006C1F60::rva00033ED0(unsigned int bytes, int flags)
         }
         if (m_46d)
         {
-            mchunkptr p = (mchunkptr)((EA::Allocator::GeneralAllocator *)this)->rva000334A0(nb);
-            if (p)
+            mchunkptr allocatedChunk = (mchunkptr)((EA::Allocator::GeneralAllocator *)this)->rva000334A0(nb);
+            if (allocatedChunk)
             {
-                set_inuse_bit_at_offset(p, chunksize(p));
-                result = chunk2mem(p);
+                set_inuse_bit_at_offset(allocatedChunk, chunksize(allocatedChunk));
+                result = chunk2mem(allocatedChunk);
             }
         }
         if (result || !m_grow || ++attempts >= m_4b4)
@@ -381,7 +381,7 @@ struct Rva00034A60Chunk
 };
 
 
-void *EA::Allocator::GeneralAllocator::rva00034A60(unsigned int count, unsigned int size, int flags)
+void *EA::Allocator::GeneralAllocator::calloc(unsigned int count, unsigned int size, int flags)
 {
 	void *block = ((Rva006C1F60 *)this)->rva00033ED0(count * size, flags);
 	if (block != 0)

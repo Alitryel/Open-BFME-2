@@ -72,7 +72,7 @@ class GeneralAllocator
 {
 public:
 	void *rva000347A0(void *block, unsigned int size, int flags);
-	void *rva00034A60(unsigned int count, unsigned int size, int flags);
+	void *calloc(unsigned int count, unsigned int size, int flags);
 	void *rva00035190(void *block, unsigned int size, int flags);
 	void *rva00035210(unsigned int count, unsigned int size, int flags);
 
@@ -90,7 +90,7 @@ void *GeneralAllocator::rva00035190(void *block, unsigned int size, int flags)
 void *GeneralAllocator::rva00035210(unsigned int count, unsigned int size, int flags)
 {
 	Rva00035080Lock lock(m_pLock);
-	return rva00034A60(count, size, flags);
+	return calloc(count, size, flags);
 }
 
 }

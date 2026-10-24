@@ -62,7 +62,7 @@ class GeneralAllocator
 public:
 	void rva00033150(const void *block);
 	void *rva000344A0(unsigned size, unsigned alignment, unsigned alignmentOffset, int flags);
-	void *rva00034A60(unsigned count, unsigned size, int flags);
+	void *calloc(unsigned count, unsigned size, int flags);
 };
 } }
 
@@ -229,7 +229,7 @@ void *Rva006C4530::rva006C4530(void *a, void *b, void *c)
 		Rva00030DF0Release(m_lock);
 
 	Rva00034C90Lock guard(m_lock);
-	void *p = ((EA::Allocator::GeneralAllocator *)this)->rva00034A60(1, total, flags);
+	void *p = ((EA::Allocator::GeneralAllocator *)this)->calloc(1, total, flags);
 	for (;;) {
 		if (p != 0) {
 			if (((GeneralAllocatorDebug *)this)->rva006C3D30(&record, p, false))
@@ -243,7 +243,7 @@ void *Rva006C4530::rva006C4530(void *a, void *b, void *c)
 		if (m_delayed.prev == &m_delayed)
 			break;
 		((Rva006C1F60 *)this)->rva006C33D0(0, 0);
-		p = ((EA::Allocator::GeneralAllocator *)this)->rva00034A60(1, total, flags);
+		p = ((EA::Allocator::GeneralAllocator *)this)->calloc(1, total, flags);
 	}
 	return p;
 }
