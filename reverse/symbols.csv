@@ -10842,7 +10842,6 @@ name,address,notes
 ?setEffectivelyDead@Object@@QAEX_N@Z,0x0028D2FB,called on getObject() with true by the InactiveBody ctor 0x004BD8BD as in the ZH InactiveBody.cpp body; tests and sets the private-status bit at Object+0x438 by its Bool argument; 13 callers
 ?setEngineInputEnabled@InGameUI@@QAEX_N@Z,0x0029AB22,GameEngine slot 39 input-lock transition call target; wrapper forwards the enabled flag to the in-game UI state
 ?setError@Rva007E8810Message@@QAEXH@Z,0x0065D7E0
-?setExperienceSink@ExperienceTracker@@QAEXW4ObjectID@@@Z,0x003B23AF,callee of Weapon::positionProjectileForLaunch 0x002CA753 on the projectile's +0x264 tracker with the launcher ID (Zero Hour's setExperienceSink call) read from its REL32 displacement; ICF-folded 10B store body rowed as ?setLastCommandSource@AIUpdateInterface@@IAEXW4CommandSourceType@@@Z
 ?setFileID@NetFileProgressCommandMsg@@QAEXG@Z,0x004D59AC,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?setFrameCommandCount@FrameData@@QAEXI@Z,0x0009070B,BFME2 local frame-ring expected-count initializer
 ?setFullyObscuredByShroud@W3DModelDraw@@UAEX_N@Z,0x000B6FFE,address read from the REL32 displacement at a placed body

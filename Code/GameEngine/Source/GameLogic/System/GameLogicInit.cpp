@@ -6107,6 +6107,8 @@ public:
 private:
 	char m_pad00[0x24];
 	int m_level;                                                         // +0x24
+	char m_pad28[0x38 - 0x28];
+	ObjectID m_38;                                                       // +0x38
 };
 
 class RevivalExperienceView
@@ -6348,4 +6350,14 @@ bool GameLogic::rva0024877A(void)
 	return destroyed;
 	}
 	return false;
+}
+
+// ?setExperienceSink@ExperienceTracker@@QAEXW4ObjectID@@@Z @0x003B23AF 10B:
+// store the argument at +0x38 and return. Retail folds this body with
+// AIUpdateInterface::setLastCommandSource (rowed in AIUpdate.cpp); the name was
+// only pinned, so nothing defined it for this unit's two calls above, which
+// retail makes out of line.
+__declspec(noinline) void ExperienceTracker::setExperienceSink(ObjectID sink)
+{
+	m_38 = sink;
 }
