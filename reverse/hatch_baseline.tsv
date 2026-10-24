@@ -35351,7 +35351,6 @@ present_unmatched	Code/Libraries/Source/Apt/AptObject/AptFactoryConstructors.cpp
 present_unmatched	Code/Libraries/Source/Apt/AptObject/AptFactoryConstructors.cpp	AptValueGC::AptValueGC	1
 present_unmatched	Code/Libraries/Source/Apt/AptObject/AptFactoryConstructors.cpp	AptValueWithHash::AptValueWithHash	1
 present_unmatched	Code/Libraries/Source/Apt/AptObject/AptScriptFunctionBodies.cpp	AptObject::AptObject	1
-present_unmatched	Code/Libraries/Source/Apt/AptValue/AptValueVector.cpp	bfmeEmitAptValueVector@@YAXPAVAptValueNameEntry@@@Z	1
 present_unmatched	Code/Libraries/Source/Apt/AptValue/Rva006DA4D0Finish.cpp	Rva006DA4D0::Rva006DA4D0	1
 present_unmatched	Code/Libraries/Source/Compression/LZHCompress/CompLibSource/Huff.cpp	1HuffStat@@QAE@XZ	1
 present_unmatched	Code/Libraries/Source/DirtySock/Rva006560E0Deleter.cpp	0Rva006560E0@@QAE@XZ	1

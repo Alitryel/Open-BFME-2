@@ -143,17 +143,8 @@ AptValue *AptValueVector::operator[](int iPos) const
 	return m_data[iPos];
 }
 
-// ??0AptValueNameEntry@@QAE@XZ is a header inline in retail: other units emit
-// select-any copies of it, so a strong definition here was a duplicate symbol
-// in the linked build. This anchor only makes this unit emit its copy for the
-// ledger row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitAptValueVector@@YAXPAVAptValueNameEntry@@@Z present-unmatched
-void bfmeEmitAptValueVector(AptValueNameEntry *aptValueNameEntry)
-{
-	aptValueNameEntry->AptValueNameEntry::AptValueNameEntry();
-}
-#pragma inline_depth()
+// Rva00895050InlineContainerSwap.cpp constructs real temporary entries and
+// already emits this complete retail default constructor; its row lives there.
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
