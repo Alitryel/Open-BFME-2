@@ -25,11 +25,22 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
     return a < b ? b : a;
 }
 }
-#include <vector>
-// Suppress this TU's non-retail copy of ??$_Destroy@PAURva00414258Element@@@_STL@@YAXPAURva00414258Element@@0@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
+// The native overflow's clear path destroys the same 24-byte bonus records
+// as the parser's stack local, through the existing typed range provider.
 struct Rva00414258Element;
-namespace _STL { template <> void _Destroy<Rva00414258Element *>(Rva00414258Element *,Rva00414258Element *); }
+struct Rva0022CD2A;
+void Rva0022D941Destroy(Rva0022CD2A *, Rva0022CD2A *);
+namespace _STL {
+// ?_STL::_Destroy absent-from-retail
+static __forceinline void _Destroy(Rva00414258Element *first,
+                                  Rva00414258Element *last)
+{
+    Rva0022D941Destroy(reinterpret_cast<Rva0022CD2A *>(first),
+                      reinterpret_cast<Rva0022CD2A *>(last));
+}
+}
+
+#include <vector>
 
 class INI
 {
