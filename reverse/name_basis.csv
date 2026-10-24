@@ -947,3 +947,4 @@ member,Rva00160CE0::m_0C,Rva00160CE0::m_match,inferred,agree:nl-76fa8a6cf00c,Cod
 member,Rva00160CE0::m_10,Rva00160CE0::m_affiliation,inferred,agree:nl-627d2796ded8,Code/GameEngine/Source/Common/Rva00160CE0Set.cpp,
 param,Rva00174A8A::rva00174A8A::n,Rva00174A8A::rva00174A8A::newSize,inferred,agree:nl-a09c1ada205b,Code/GameEngine/Source/Common/Rva00174A8AAdapter.cpp,0x00174A8A
 local,Rva005B1A07::rva005B1A07::c,Rva005B1A07::rva005B1A07::size,inferred,agree:nl-d007a2272cad,Code/GameEngine/Source/Common/Rva005B1A07.cpp,0x005B1A07
+function,?rva0047CEBB@Rva0047CEBB@@QAEXP6AXPAVObject@@PAX@Z1H@Z,?iterateContained@Rva0047CEBB@@QAEXP6AXPAVObject@@PAX@Z1H@Z,inferred,agree:nl-451f26a86df2,Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineContainIterateRiders.cpp,0x0047CEBB

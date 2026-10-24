@@ -32,7 +32,7 @@ public:
 };
 class Rva0047CEBB {
 public:
-    void rva0047CEBB(ContainIterateFunc, void *, int);
+    void iterateContained(ContainIterateFunc, void *, int);
     char unknown00[0x108];
     Rva0047BE4CNode *riders;
 };
@@ -64,7 +64,7 @@ void Rva0047BE4C::iterateContained(ContainIterateFunc func, void *userData, vola
         }
     }
 }
-void Rva0047CEBB::rva0047CEBB(ContainIterateFunc func, void *userData, volatile int flags)
+void Rva0047CEBB::iterateContained(ContainIterateFunc func, void *userData, volatile int flags)
 {
     // Native saves the original mask then writes it back into its argument
     // slot before the memory AND. Volatile preserves those observed writes.

@@ -2283,3 +2283,4 @@ __ehhandler$?rva005E5B20@Rva005E5A8B@@QAEHABUICoord2D@@H@Z,0x007A3A27,"Renamed t
 ?removeFromRayEffects@Rva004C743@@UAEXPAVDrawable@@@Z,0x00238F34,"Renamed to ?removeFromRayEffects@GameClient@@UAEXPAVDrawable@@@Z: Retail base and derived GameClient vtables share slot 19 forwarding to TheRayEffects"
 ?rva0083F090@@YAHXZ,0x0001BF60,"Renamed to ?xalloc@@YAHXZ by tools/rename.py (inferred)"
 ?rva000FDF3F@FeNode@@QAEHH@Z,0x000FDF3F,"Renamed to ?update@FeNode@@QAEHH@Z by tools/rename.py (inferred)"
+?rva0047CEBB@Rva0047CEBB@@QAEXP6AXPAVObject@@PAX@Z1H@Z,0x0047CEBB,"Renamed to ?iterateContained@Rva0047CEBB@@QAEXP6AXPAVObject@@PAX@Z1H@Z by tools/rename.py (inferred)"
