@@ -12,17 +12,17 @@ public:
 
 void Rva00437EC4Set(float val)
 {
-	Rva0054C88A *p = (Rva0054C88A *)g_Va00E032FC;
-	if (p != 0)
-		p->rva0054C877(val);
+	Rva0054C88A *messageBox = (Rva0054C88A *)g_Va00E032FC;
+	if (messageBox != 0)
+		messageBox->rva0054C877(val);
 }
 
 bool Rva00437EDCGet()
 {
-	Rva0054C88A *p = (Rva0054C88A *)g_Va00E032FC;
-	if (p == 0)
+	Rva0054C88A *messageBox = (Rva0054C88A *)g_Va00E032FC;
+	if (messageBox == 0)
 		return false;
-	return p->rva0054C88A();
+	return messageBox->rva0054C88A();
 }
 // Native APT prompt state and forwarding family. Original class and method
 // names are unknown; address names preserve that uncertainty.
