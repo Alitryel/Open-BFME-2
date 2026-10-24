@@ -74,4 +74,7 @@ private:
 	PlayingAudio *m_ptr;
 };
 
-template class _STL::deque<PlayingAudioRef, _STL::allocator<PlayingAudioRef> >;
+// Instantiate only the rowed begin(): a whole-class instantiation also emitted
+// _M_pop_back_aux<PlayingAudioRef>, whose retail body (pinned 0x00054D5A) is
+// rowed under another element name, and the link kept this unit's copy.
+template _STL::deque<PlayingAudioRef, _STL::allocator<PlayingAudioRef> >::iterator _STL::deque<PlayingAudioRef, _STL::allocator<PlayingAudioRef> >::begin();
