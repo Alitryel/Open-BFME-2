@@ -4577,3 +4577,6 @@ Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp|member|Rva005C3EA5|m_s08,932c4
 Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp|member|Rva005C3EA5|m_flag18,370bb612df4548ae6917ab41,gpt-6.1-sol,codexb-20261024-094724-9,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp|local|Rva005C3EA5::Show|t,3a649eb5a1b77fb496594c89,gpt-6.1-sol,codexb-20261024-094724-9,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp|local|Rva005C3EA5::Show|s,9e71aabf815caa6c733a8703,gpt-6.1-sol,codexb-20261024-094724-9,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|class||Rva003C08CC258,8f8e3569d243f35c7ae3275b,gpt-6-astra,codexb2-20261024-094036-9,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|local|Rva003C08CC::rva003C08CC|p,990b0534d214e48c141518d3,gpt-6-astra,codexb2-20261024-094036-9,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|local|Rva003C08CC::rva003C08CC|s,36fce7ecc96506a876691ff7,gpt-6-astra,codexb2-20261024-094036-9,w-d0bdfd8b17e9,2026-10-24
