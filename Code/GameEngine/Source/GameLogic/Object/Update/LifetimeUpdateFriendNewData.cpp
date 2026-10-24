@@ -42,7 +42,7 @@ public:
 };
 
 // ?friend_newModuleData@LifetimeUpdate@@SAPAVModuleData@@PAVINI@@@Z
-inline ModuleData *LifetimeUpdate::friend_newModuleData(INI *ini)
+ModuleData *LifetimeUpdate::friend_newModuleData(INI *ini)
 {
 	LifetimeUpdateModuleData *data = new LifetimeUpdateModuleData;
 	if (ini) {
@@ -50,13 +50,3 @@ inline ModuleData *LifetimeUpdate::friend_newModuleData(INI *ini)
 	}
 	return reinterpret_cast<ModuleData *>(data);
 }
-
-// LINK-OWNER anchor: this unit owns LifetimeUpdate::friend_newModuleData; other
-// units emit it inline, so the owner must also emit a select-any (inline) copy.
-#pragma inline_depth(0)
-// ?bfmeEmitLifetimeUpdateFriendNewData@@YAXXZ present-unmatched
-void bfmeEmitLifetimeUpdateFriendNewData()
-{
-	LifetimeUpdate::friend_newModuleData(0);
-}
-#pragma inline_depth()

@@ -34684,7 +34684,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/LaserUpdate.cpp
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/LaserUpdate.cpp	RvaLaserAnchor	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/LaserUpdateCtor.cpp	bfmeEmitLaserUpdateCtor@@YAXPAVLaserUpdate@@PAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/LifetimeUpdateFriendNewData.cpp	?	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/LifetimeUpdateFriendNewData.cpp	bfmeEmitLifetimeUpdateFriendNewData@@YAXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/MissileLauncherBuildingUpdateCtor.cpp	1StoreObjectsSpecialPower@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/MobMemberSlavedUpdate.cpp	0MobMemberSlavedUpdate@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/MobMemberSlavedUpdate.cpp	1MobMemberSlavedUpdate@@	1
