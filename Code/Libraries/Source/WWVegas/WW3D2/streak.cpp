@@ -87,6 +87,8 @@ template <> SimpleVecClass<Vector3>::~SimpleVecClass();
 template <> bool SimpleDynVecClass<Vector3>::Add(Vector3 const &, int);
 template <> bool SimpleDynVecClass<Vector3>::Resize(int);
 template <> bool SimpleVecClass<float>::Resize(int);
+template <> bool SimpleVecClass<float>::Uninitialised_Grow(int);
+template <> bool SimpleDynVecClass<float>::Resize(int);
 template <> bool SimpleVecClass<Vector3>::Uninitialised_Grow(int);
 // bfme link decl-only end
 // Float constructors inline here; their standalone bodies are owned by WWLib.
