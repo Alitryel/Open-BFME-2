@@ -4195,3 +4195,16 @@ Code/Libraries/Source/WWVegas/WW3D2/FXShaderParameterBinderPushDynamicSetStackNa
 Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|param|W3DTerrainLogic::Rva0027D77D|a,5f1bfb7367486c035362812c,gpt-6.1-sol,codexb-20261024-080617-11,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|param|W3DTerrainLogic::Rva0027D77D|b,592ec8da378e7a4659edc21c,gpt-6.1-sol,codexb-20261024-080617-11,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva005E51D3Wrap.cpp|member|Rva005E51D3Inner|m_4,a33451b9466128be2538638a,gpt-6.1-sol,codex8-20261024-074401-3,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp|member|Rva005C3EA5|m_flag18,370bb612df4548ae6917ab41,gpt-6.1-sol,codex8-20261024-075239-1,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp|function|0x005C3EE0|rva005C3EE0,50502e0b78eebacdc1aabc15,gpt-6.1-sol,codex8-20261024-075239-1,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp|local|Rva005C3EA5::Show|t,20fc354ac710c333e87fc9bb,gpt-6.1-sol,codex8-20261024-075239-1,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp|local|Rva005C3EA5::Show|s,d1a16a5385301573a4ddedde,gpt-6.1-sol,codex8-20261024-075239-1,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055B39C.cpp|function|0x0055B489|rva0055B489,b74371f71a0fd60b2b5a63ef,gpt-6.1-sol,codex8-20261024-075239-1,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055B39C.cpp|local|Rva0055B39C::computeAlphaRate|v,cc92cca94427cbe8f96319c9,gpt-6.1-sol,codex8-20261024-075239-1,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055B39C.cpp|local|Rva0055B39C::computeAlphaRate|f,ba45b0b7fb0c0031df48b6c9,gpt-6.1-sol,codex8-20261024-075239-1,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055B39C.cpp|local|Rva0055B39C::computeAlphaRate|d,fdadf3baab5a05dfa702bd88,gpt-6.1-sol,codex8-20261024-075239-1,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva000AE234GridGet.cpp|function|0x000AE234|rva000AE234,4fc0e68a323e6a7cc0c9aca0,gpt-6.1-sol,codex8-20261024-075239-1,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva000AE234GridGet.cpp|param|Rva000AE234::rva000AE234|x,032226d001723c070dafd90e,gpt-6.1-sol,codex8-20261024-075239-1,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva000AE234GridGet.cpp|param|Rva000AE234::rva000AE234|y,9cded59fffae4eb5e60c9c53,gpt-6.1-sol,codex8-20261024-075239-1,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva000AE234GridGet.cpp|local|Rva000AE234::rva000AE234|c,a5efd4aceecee25df5def69a,gpt-6.1-sol,codex8-20261024-075239-1,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva0014D887Init.cpp|function|0x0014D887|rva0014D887,64c6dd21746ce1c1e1d16625,gpt-6.1-sol,codex8-20261024-075239-3,w-de56e563a50b,2026-10-24
