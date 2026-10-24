@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /Ireference/shims/bfme2_ascii
+// cl: /DNDEBUG /MD /Ireference/shims/bfme2_ascii /Ireference/shims/subsystem_bfme2
 //
 // GameEngine::~GameEngine, retail 0x00225B9B, 11 bytes.
 // Dedicated TU so GameEngineDestructor.cpp's scalar deleting wrapper cannot

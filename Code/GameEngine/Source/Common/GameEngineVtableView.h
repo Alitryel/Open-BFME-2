@@ -1,10 +1,11 @@
-// GameEngine class view shared by the destructor units (GameEngineDestructor.cpp,
-// GameEngineCompleteDestructor.cpp). It repeats GameEngineInit.cpp's declaration
-// (canonical 12-byte SubsystemInterface base, slots 1-13 declared on GameEngine,
-// init at slot 14, the create* factories at +0x6C..+0x94) token for token, so
-// every unit that emits ??_7GameEngine@@6B@ emits the same 38-entry vtable and
-// the link keeps one definition. Retail's table (VA 0x00BE7188) has 40 slots;
-// the view does not model the last two. Keep this in step with GameEngineInit.cpp.
+// The one GameEngine class declaration for every unit that emits its vtable
+// (??_7GameEngine@@6B@): GameEngineInit.cpp, GameEngineDestructor.cpp and
+// GameEngineCompleteDestructor.cpp all include it, so they emit the same table and
+// the link keeps one definition. Base: the retail 14-slot SubsystemInterface of
+// table 0x00BD77A0 (reference/shims/subsystem_bfme2/spline_service.h; units need
+// /Ireference/shims/subsystem_bfme2). GameEngine overrides init/reset/update and
+// adds init(argc, argv) at slot 14 and the create* factories at +0x6C..+0x94.
+// Retail's table (VA 0x00BE7188) has 40 slots; the last two are not modelled.
 #ifndef GAMEENGINE_VTABLE_VIEW_H
 #define GAMEENGINE_VTABLE_VIEW_H
 
@@ -12,7 +13,7 @@ typedef int Int;
 typedef unsigned int UnsignedInt;
 typedef bool Bool;
 
-#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
+#include "spline_service.h"
 
 class FileSystem;
 class GameLogic;
@@ -26,14 +27,11 @@ class ParticleSystemManager;
 class AudioManager;
 class Rva0022AF59Subsystem;
 
-#define GAMEENGINE_VSLOTS4(p) virtual void p##0() = 0; virtual void p##1() = 0; virtual void p##2() = 0; virtual void p##3() = 0;
-
 class GameEngine : public SubsystemInterface
 {
 public:
-	GAMEENGINE_VSLOTS4(s0) GAMEENGINE_VSLOTS4(s1)
-	virtual void reset(); virtual void update(); virtual void s22() = 0; virtual void s23() = 0;
-	virtual void s30() = 0;
+	virtual void init() {}
+	virtual void reset(); virtual void update();
 	virtual void init(Int argc, char *argv[]);					// slot 14
 	virtual void s31() = 0; virtual Bool rva00225AD5(); virtual Bool rva00225AFF();
 	virtual void setFramesPerSecondLimit(Int fps) = 0;				// slot 18 (+0x48)
@@ -53,6 +51,9 @@ public:
 	virtual ParticleSystemManager *createParticleSystemManager() = 0;	// +0x8C
 	virtual AudioManager *createAudioManager() = 0;					// +0x90
 	virtual Rva0022AF59Subsystem *createAptPlayer() = 0;			// +0x94
+
+	void initTiming();
+	void initSubsystems(Int argc, char *argv[]);
 
 	GameEngine();
 #ifdef GAMEENGINE_VIEW_EMIT_VTABLE
@@ -79,7 +80,5 @@ public:
 	float m_58;					// +0x58
 	Int m_5C;					// +0x5C
 };
-
-#undef GAMEENGINE_VSLOTS4
 
 #endif // GAMEENGINE_VTABLE_VIEW_H
