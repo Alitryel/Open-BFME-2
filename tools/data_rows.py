@@ -709,6 +709,46 @@ def verify_row(row, img, resolve, compile=True, sizer=compiled_size):
     return True, f"{size} B at 0x{va:08X} equal to retail, {len(relocs)} relocation(s) on target ({why})"
 
 
+def _compiled_source_groups(rows, object_path):
+    """Serialize every provider/probe writer that can share an output path.
+
+    Canonical source aliases and provider-object names can collide. Probe names
+    use a CRC32 and Wine treats their paths case-insensitively, so even distinct
+    providers must share a scheduling group when any probe stem collides.
+    """
+    import zlib
+
+    parents, owners, providers = {}, {}, []
+
+    def find(key):
+        while parents[key] != key:
+            parents[key] = parents[parents[key]]
+            key = parents[key]
+        return key
+
+    objects = {}
+    for index, row in enumerate(rows):
+        source = ROOT / row["source"]
+        provider = str(source.resolve()).casefold()
+        parents.setdefault(provider, provider)
+        providers.append(provider)
+        if source not in objects:
+            objects[source] = str(object_path(source).resolve()).casefold()
+        stem = f"{source.stem}_{zlib.crc32((str(source) + row['name']).encode()):08x}"
+        resources = [("object", objects[source])] + [
+            ("probe", (stem + suffix + ".obj").casefold())
+            for suffix in ("", "_array", "_kind")]
+        for resource in resources:
+            previous = owners.setdefault(resource, provider)
+            left, right = find(previous), find(provider)
+            if left != right:
+                parents[right] = left
+    groups = {}
+    for index, row in enumerate(rows):
+        groups.setdefault(find(providers[index]), []).append((index, row))
+    return list(groups.values())
+
+
 def verify(rows=None, sources=None, compile=True, log=print):
     """Verify data rows (all, or those of `sources`); SystemExit(1) on any failure."""
     build, rl = _tools()
@@ -722,12 +762,16 @@ def verify(rows=None, sources=None, compile=True, log=print):
     img, resolve = rl.Image(), Resolver(every)
     # Probe paths are keyed by source and symbol. Keep every source's rows
     # sequential so repeated symbols cannot overwrite each other's probes.
-    # Only the census's read-only-provider path fans out; ordinary callers
-    # retain their existing compilation and cache semantics.
+    # Independent providers may compile concurrently. A scheduling group owns
+    # every possibly shared provider/probe output, including CRC32 collisions.
     groups = {}
     for index, row in enumerate(rows):
         groups.setdefault(row["source"], []).append((index, row))
-    workers = min(build._pool_size(), len(groups)) if not compile else 1
+    workers = min(build._pool_size(), len(groups))
+    if compile and workers > 1:
+        compiled_groups = _compiled_source_groups(rows, build.obj_path)
+        groups = dict(enumerate(compiled_groups))
+        workers = min(workers, len(groups))
     if workers > 1:
         from concurrent.futures import ThreadPoolExecutor
 

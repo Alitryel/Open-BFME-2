@@ -48,7 +48,7 @@ def test_sources_overlap_but_rows_and_diagnostics_keep_order(monkeypatch):
         'Data rows: FAIL 4 of 4']
 
 
-@pytest.mark.parametrize('compile,workers', [(True, 24), (False, 1)])
+@pytest.mark.parametrize('compile,workers', [(True, 1), (False, 1)])
 def test_serial_mode_keeps_call_order_and_compile_flag(monkeypatch, compile, workers):
     rows = [{'source': 'a.cpp', 'name': 'a'}, {'source': 'b.cpp', 'name': 'b'}]
     setup_rows(monkeypatch, rows, workers)
