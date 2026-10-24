@@ -4533,3 +4533,8 @@ Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaignManager.c
 Code/GameEngine/Source/GameLogic/Object/ObjectRva0028C20F.cpp|class||Rva0028C20FMid,9b47d5286b0bfe70a6c89ae8,gpt-6.1-sol,codexb-20261024-085812-8,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/ObjectRva0028C20F.cpp|class||Rva0028C20FModule,151d513e1d00080a94241b46,gpt-6.1-sol,codexb-20261024-085812-8,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/ObjectRva0028C20F.cpp|local|Object::rva0028C20F|m,fe597da0f6387f3f6b750fcf,gpt-6.1-sol,codexb-20261024-085812-8,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/RadiusDecal.cpp|member|RadiusDecalTemplateView|at28,2f7845b1b24af9d5566f9e46,gpt-6.1-sol,codexb-20261024-085812-9,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/BfmeThreeHundredFiftyOne.cpp|member|StdioStreambufBase|m_bfmeVft,6927cd8269859a4c3e8d08a0,gpt-6.1-sol,codexb-20261024-085812-9,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055B39C.cpp|local|Rva0055B39C::computeAlphaRate|v,be10623ccd443fac61eaea7d,gpt-6.1-sol,codexb-20261024-085812-10,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055B39C.cpp|local|Rva0055B39C::computeAlphaRate|f,ba45b0b7fb0c0031df48b6c9,gpt-6.1-sol,codexb-20261024-085812-10,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055B39C.cpp|local|Rva0055B39C::computeAlphaRate|d,fdadf3baab5a05dfa702bd88,gpt-6.1-sol,codexb-20261024-085812-10,w-8e883e57d025,2026-10-24
