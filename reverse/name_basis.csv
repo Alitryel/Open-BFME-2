@@ -1266,3 +1266,4 @@ function,?rva00141CB0@Rva00141CB0@@QAEPAXIPBX@Z,?allocate@Rva00141CB0@@QAEPAXIPB
 function,?rva00141DC0@Rva00141DC0@@QAEPAXPAX@Z,?pushFront@Rva00141DC0@@QAEPAXPAX@Z,inferred,agree:nl-aca1b49b7738,Code/Libraries/Source/WWVegas/WW3D2/Rva00141DC0CreateNode.cpp,0x00141DC0
 function,?rva00141D60@Rva00141D60@@QAEPAXPAX@Z,?createNode@Rva00141D60@@QAEPAXPAX@Z,inferred,agree:nl-65f1c63c4fed,Code/Libraries/Source/WWVegas/WW3D2/Rva00141DC0CreateNode.cpp,0x00141D60
 param,Get_Matrix3D::m,Get_Matrix3D::matrix,inferred,agree:nl-2e483e9e6fec,Code/Libraries/Source/WWVegas/WW3D2/Rva0016B680DeformedVertices.cpp,
+local,Rva004ED10FFill::p,Rva004ED10FFill::current,inferred,agree:nl-d54edcde4f43,Code/Libraries/Source/WWVegas/WW3D2/Rva004ED471Finish.cpp,

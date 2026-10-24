@@ -33,7 +33,7 @@ void __cdecl Rva004ED0D7Assign(HLodClass::ModelNodeClass *dst, const HLodClass::
 HLodClass::ModelNodeClass * __cdecl Rva004ED0E9Copy(const HLodClass::ModelNodeClass *first, const HLodClass::ModelNodeClass *last, HLodClass::ModelNodeClass *result, const void *h)
 { HLodClass::ModelNodeClass *destination = result; const HLodClass::ModelNodeClass *source = first; while (source != last) { Rva004ED0D7Assign(destination, source); ++source; ++destination; } return destination; }
 HLodClass::ModelNodeClass * __cdecl Rva004ED10FFill(HLodClass::ModelNodeClass *dst, unsigned int count, const HLodClass::ModelNodeClass *src, const void *h)
-{ HLodClass::ModelNodeClass *p = dst; unsigned int remaining = count; if (remaining <= 0) return p; do { Rva004ED0D7Assign(p, src); ++p; } while (--remaining != 0); return p; }
+{ HLodClass::ModelNodeClass *current = dst; unsigned int remaining = count; if (remaining <= 0) return current; do { Rva004ED0D7Assign(current, src); ++current; } while (--remaining != 0); return current; }
 extern "C" void __cdecl free(void *);
 
 struct BfmeStringRecord002CF4C6 {
