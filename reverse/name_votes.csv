@@ -4145,3 +4145,16 @@ Code/GameEngine/Source/Common/Rva005CD841Visit.cpp|function|0x005CD841|Rva005CD8
 Code/GameEngine/Source/Common/Rva005CD841Visit.cpp|param|visit|p,b3911b3d5487c292f0ee912b,gpt-6-astra,codexb2-20261024-073809-4,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/Rva005CD841Visit.cpp|param|Rva005CD841Find|p,4ab378a5f79fd96fe74cd655,gpt-6-astra,codexb2-20261024-073809-4,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp|function|0x004CFB8B|rva004CFB8B,1dfc589156b53b0c200c11f0,gpt-6-astra,codexb2-20261024-073809-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/PathfinderAdjustCandidate.cpp|param|Rva002F57E6Query::rva002F57E6|a,ba7a491337a500422b9053d3,gpt-6-astra,codexb2-20261024-073809-5,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|function|0x001B230A|rva001B230A,de6686b047756939eeacd3da,gpt-6-astra,codexb2-20261024-073809-6,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|local|BFME2Encoding1MotionChannel::rva001B230A|fi0,977794cfffdc5ebc1dd24482,gpt-6-astra,codexb2-20261024-073809-6,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|local|BFME2Encoding1MotionChannel::rva001B230A|p,b4c49b53d835bfc6eaa9df7a,gpt-6-astra,codexb2-20261024-073809-6,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|local|BFME2Encoding1MotionChannel::rva001B230A|f,73570f3ca2a1a4488dcfefc7,gpt-6-astra,codexb2-20261024-073809-6,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|local|BFME2Encoding1MotionChannel::rva001B2450|fi0,68a6353142eaad012f1a7d09,gpt-6-astra,codexb2-20261024-073809-6,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|local|BFME2Encoding1MotionChannel::rva001B2450|p,ef31a1898fdb865fa81f5e9c,gpt-6-astra,codexb2-20261024-073809-6,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|local|BFME2Encoding1MotionChannel::rva001B2450|f,9ad63b506b3083c1f1537fed,gpt-6-astra,codexb2-20261024-073809-6,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBarList003200A2.cpp|class||Rva003200BCEntry,c3f8678fac454b97592c3db9,gpt-6-astra,codexb2-20261024-073809-7,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBarList003200A2.cpp|function|0x003200A2|rva003200A2,f6928750efa30b323e9a180c,gpt-6-astra,codexb2-20261024-073809-7,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBarList003200A2.cpp|function|0x003200BC|rva003200BC,1af999c38a1edd068905f4b3,gpt-6-astra,codexb2-20261024-073809-7,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DQuadrupedDrawGetFootLocations.cpp|class||Rva000CA352DrawInterface,3ec76e08c407d0fb5bdcc217,gpt-6-astra,codexb2-20261024-073809-7,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/FXShaderParameterBinderPushDynamicSetStackName.cpp|local|FXShaderParameterBinder::PushDynamicSetStack|c6c,c5c5bee4ab063fb5b11916e4,gpt-6-astra,codexb2-20261024-073809-8,w-d0bdfd8b17e9,2026-10-24
