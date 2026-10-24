@@ -40,7 +40,7 @@ extern class GameLogic *TheGameLogic;
 struct Rva002F1BD5Data
 {
 	char m_pad[0x28];
-	int m_28;
+	int m_objectID;
 };
 
 struct Rva002F1BD5Arg
@@ -71,16 +71,16 @@ class Rva002F1BD5Info
 	int m_04;
 
 public:
-	int cellCallback(PathfindCell *previous, PathfindCell *current, int a3, int a4);
+	int cellCallback(PathfindCell *previous, PathfindCell *current, int cellX, int cellY);
 };
 
-int Rva002F1BD5Info::cellCallback(PathfindCell *previous, PathfindCell *current, int a3, int a4)
+int Rva002F1BD5Info::cellCallback(PathfindCell *previous, PathfindCell *current, int cellX, int cellY)
 {
-	Rva002F1BD5Arg *a2 = (Rva002F1BD5Arg *)current;
-	if ((a2->m_0C & 15) != 4)
+	Rva002F1BD5Arg *cell = (Rva002F1BD5Arg *)current;
+	if ((cell->m_0C & 15) != 4)
 		return 0;
-	Rva002F1BD5Data *p = a2->m_00;
-	int id = p ? p->m_28 : 0;
+	Rva002F1BD5Data *cellData = cell->m_00;
+	int id = cellData ? cellData->m_objectID : 0;
 	Object *obj = TheGameLogic->findObjectByID((ObjectID)id);
 	if (obj == 0)
 		return 0;

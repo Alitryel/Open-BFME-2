@@ -816,3 +816,8 @@ global,?BfmeStanceNameHoldGround@@3QBDB,?stanceNameHoldGround@@3QBDB,inferred,ag
 global,?BfmeStanceNamePorcupine@@3QBDB,?stanceNamePorcupine@@3QBDB,inferred,agree:nl-d1d61f710cba,Code/GameEngine/Source/Common/Stances/StanceNames.cpp,0x0083C240
 global,?BfmeStanceNameHoldGroundMoving@@3QBDB,?stanceNameHoldGroundMoving@@3QBDB,inferred,agree:nl-c1d238801ce5,Code/GameEngine/Source/Common/Stances/StanceNames.cpp,0x0083C22C
 function,?Rva00425DC2StanceName@@YAPBDH@Z,?getStanceName@@YAPBDH@Z,inferred,agree:nl-cbf54de89f15,Code/GameEngine/Source/Common/Stances/StanceNames.cpp,0x00425DC2
+member,Rva002F1BD5Data::m_28,Rva002F1BD5Data::m_objectID,inferred,agree:nl-c391895fdfe0,Code/GameEngine/Source/Common/System/Rva002F1BD5Finish.cpp,
+param,Rva002F1BD5Info::cellCallback::a3,Rva002F1BD5Info::cellCallback::cellX,inferred,agree:nl-2d491496a05c,Code/GameEngine/Source/Common/System/Rva002F1BD5Finish.cpp,0x002F1BD5
+param,Rva002F1BD5Info::cellCallback::a4,Rva002F1BD5Info::cellCallback::cellY,inferred,agree:nl-ffb1b2d195aa,Code/GameEngine/Source/Common/System/Rva002F1BD5Finish.cpp,0x002F1BD5
+local,Rva002F1BD5Info::cellCallback::a2,Rva002F1BD5Info::cellCallback::cell,inferred,agree:nl-6e6ce39ad13b,Code/GameEngine/Source/Common/System/Rva002F1BD5Finish.cpp,0x002F1BD5
+local,Rva002F1BD5Info::cellCallback::p,Rva002F1BD5Info::cellCallback::cellData,inferred,agree:nl-dd5ab3f84f85,Code/GameEngine/Source/Common/System/Rva002F1BD5Finish.cpp,0x002F1BD5
