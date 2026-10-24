@@ -2052,3 +2052,11 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva00107E76Update.cpp|m
 Code/GameEngine/Source/Common/Rva0010F5A8Finish.cpp|member|Rva0010F5A8|m_fraction0C,104cbe44c24625a4ab2543ad,gpt-6.1-sol,codex4-20261024-012048-29,w-887869184137,2026-10-24
 Code/GameEngine/Source/Common/Rva0010F5A8Finish.cpp|member|Rva0010F5A8|m_marginMs10,3dc1468340d2940e603e48d9,gpt-6.1-sol,codex4-20261024-012048-29,w-887869184137,2026-10-24
 Code/GameEngine/Source/Common/Rva0010F5A8Finish.cpp|local|Rva0010F5A8::rva0010F5A8|s,ef2c85ffe690d50e6ca19fc5,gpt-6.1-sol,codex4-20261024-012048-29,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/PathfinderRva002EADE1.cpp|param|Pathfinder::rva002EADE1|a,ea9c22e6f9eac9c89da02dae,gpt-6.1-sol,codex4-20261024-015153-3,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/PathfinderRva002EADE1.cpp|param|Pathfinder::rva002EADE1|b,ff9919e697b29b79ec0864fa,gpt-6.1-sol,codex4-20261024-015153-3,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/PathfinderRva002EADE1.cpp|local|Pathfinder::rva002EADE1|tmp1,97d81d66e0538335be24f4a3,gpt-6.1-sol,codex4-20261024-015153-3,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/PathfinderRva002EADE1.cpp|local|Pathfinder::rva002EADE1|tmp2,2c985fdea81cb9cc18c18a17,gpt-6.1-sol,codex4-20261024-015153-3,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv1882.cpp|local|BfmeOwnerZP::bfmeFindZP|p,28c7dfde0c547b382381f3bb,gpt-6.1-sol,codex4-20261024-015153-4,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/RTS/TeamRva0039DDC2.cpp|param|Team::rva0039DDC2|f1,4baf9a8f75d35561336a1c4e,gpt-6.1-sol,codex4-20261024-015153-5,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/RTS/TeamRva0039DDC2.cpp|local|Team::rva0039DDC2|s,75186d5d9167e959b13d1096,gpt-6.1-sol,codex4-20261024-015153-5,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/W3DModelDrawModuleDataDtorRva000C8BE0.cpp|local|W3DModelDrawModuleData::W3DModelDrawModuleData|temp,fdf6be95f5c3646fe1b50164,gpt-6.1-sol,codex4-20261024-015153-7,w-887869184137,2026-10-24
