@@ -78,11 +78,11 @@ public:
 
 void *__cdecl operator new(unsigned int size);
 
-void FormationTranslator::WaitForSecondButtonDownStateHandler::Restart(void *p)
+void FormationTranslator::WaitForSecondButtonDownStateHandler::Restart(void *message)
 {
-	Rva00431C35Param *par = (Rva00431C35Param *)p;
-	int v = par->m_08;
-	GameMessage *msg = TheMessageStream->v19(m_08, v);
+	Rva00431C35Param *par = (Rva00431C35Param *)message;
+	int prevMessage = par->m_08;
+	GameMessage *msg = TheMessageStream->v19(m_08, prevMessage);
 	msg->appendPixelArgument(m_0C);
 	msg->appendIntegerArgument(m_14);
 	msg->appendIntegerArgument(m_18);
