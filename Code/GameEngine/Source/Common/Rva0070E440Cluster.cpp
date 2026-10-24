@@ -34,7 +34,7 @@ void Rva0070E440::rva0070E440(Rva0070E440Box *out)
 	if (!out) {
 		g_bfmeAptAssertAtE17734("pMatrix", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptRenderingContext.cpp", 0x49);
 		if (g_bfmeAptBreakOnAssertAtDDC01C)
-			__asm int 3
+			__debugbreak();
 	}
 
 	if (m_count > 0)
