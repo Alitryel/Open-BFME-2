@@ -1413,3 +1413,6 @@ local,Rva00072B3A::rva00072E84::y,Rva00072B3A::rva00072E84::row,inferred,agree:n
 local,Rva00072B3A::rva00072E84::x,Rva00072B3A::rva00072E84::column,inferred,agree:nl-0c732318e26f,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp,0x00072E84
 local,MeshModelClass::get_deformed_vertices::tm0,MeshModelClass::get_deformed_vertices::transform0,inferred,agree:nl-db39365889d1,Code/Libraries/Source/WWVegas/WW3D2/Rva0016B680DeformedVertices.cpp,0x0016B680
 local,MeshModelClass::get_deformed_vertices::tm1,MeshModelClass::get_deformed_vertices::transform1,inferred,agree:nl-3f7422a5976a,Code/Libraries/Source/WWVegas/WW3D2/Rva0016B680DeformedVertices.cpp,0x0016B680
+param,Rva002E6E6CGet::v,Rva002E6E6CGet::layer,inferred,agree:nl-80f267c8cb8b,Code/GameEngine/Source/Common/Rva002E6E6CGet.cpp,0x002E6E6C
+param,Rva004DF8D8Test::f2,Rva004DF8D8Test::lateralScale,inferred,agree:nl-a169bff5251f,Code/GameEngine/Source/Common/Rva004DF8D8Test.cpp,0x004DF8D8
+param,Rva004DF8D8Test::f3,Rva004DF8D8Test::rearScale,inferred,agree:nl-5258537da448,Code/GameEngine/Source/Common/Rva004DF8D8Test.cpp,0x004DF8D8

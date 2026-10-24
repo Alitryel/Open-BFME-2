@@ -9,9 +9,9 @@
 
 int Rva002E6E6CGet(int v);
 
-int Rva002E6E6CGet(int v)
+int Rva002E6E6CGet(int layer)
 {
-	return v == 1 || v >= 16;
+	return layer == 1 || layer >= 16;
 }
 
 // Clean BF1 9cbfb551fe20dae985f91f2319d8997287b6a705
