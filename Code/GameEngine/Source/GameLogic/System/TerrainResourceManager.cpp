@@ -54,31 +54,31 @@ private:
     float cell3C;
     ResourceCell *cells40;
 };
-void TerrainResourceManager::rva003598A5(int low,int high,int y,void *visitor)
+void TerrainResourceManager::rva003598A5(int low,int high,int cellY,void *visitor)
 {
-    Rva003598A5Obj *o=static_cast<Rva003598A5Obj *>(visitor);
-    for(int x=low;x<=high;++x) o->f(x,y);
+    Rva003598A5Obj *cellVisitor=static_cast<Rva003598A5Obj *>(visitor);
+    for(int cellX=low;cellX<=high;++cellX) cellVisitor->f(cellX,cellY);
 }
 
 // Native35997F..359A0C and WB E60FF0: midpoint-circle span traversal.
 // WB names the surrounding TerrainResourceManager methods; original name unknown.
 void TerrainResourceManager::rva0035997F(int centerX,int centerY,int radius,void *visitor)
 {
-    int x=0;
-    int y=radius;
+    int xOffset=0;
+    int yOffset=radius;
     int error=2*(1-radius);
     for(;;) {
-        if(error+y>0) {
-            if(y==0 && radius==1) ++x;
-            rva003598A5(centerX-x,centerX+x,centerY+y,visitor);
-            if(y==0) break;
-            rva003598A5(centerX-x,centerX+x,centerY-y,visitor);
-            --y;
-            error-=2*y-1;
+        if(error+yOffset>0) {
+            if(yOffset==0 && radius==1) ++xOffset;
+            rva003598A5(centerX-xOffset,centerX+xOffset,centerY+yOffset,visitor);
+            if(yOffset==0) break;
+            rva003598A5(centerX-xOffset,centerX+xOffset,centerY-yOffset,visitor);
+            --yOffset;
+            error-=2*yOffset-1;
         }
-        if(x>error) {
-            ++x;
-            error+=2*x+1;
+        if(xOffset>error) {
+            ++xOffset;
+            error+=2*xOffset+1;
         }
     }
 }
@@ -86,12 +86,12 @@ void TerrainResourceManager::rva0035997F(int centerX,int centerY,int radius,void
 // Native359A0C..359AEC RET20; WB E60670 converts world-space coordinates
 // to cells, visits the enclosing grid circle, and returns successes/attempts.
 // Origin1C/20 and cell3C are target accesses; the original method name is unknown.
-float TerrainResourceManager::rva00359A0C(float x,float y,float radius,bool flag,int player)
+float TerrainResourceManager::rva00359A0C(float worldX,float worldY,float radius,bool flag,int player)
 {
- x-=originX1C;
- y-=originY20;
- int cellX=cellInteger((float)floor((x/cell3C)+0.5f));
- int cellY=cellInteger((float)floor((y/cell3C)+0.5f));
+ worldX-=originX1C;
+ worldY-=originY20;
+ int cellX=cellInteger((float)floor((worldX/cell3C)+0.5f));
+ int cellY=cellInteger((float)floor((worldY/cell3C)+0.5f));
  int cellRadius=cellInteger((float)ceil(radius/cell3C));
  Rva0035986C visitor((int)this,flag,player,false);
  rva0035997F(cellX,cellY,cellRadius,&visitor);
@@ -101,10 +101,10 @@ float TerrainResourceManager::rva00359A0C(float x,float y,float radius,bool flag
 // Native359902..35997F: range/initialized guards and state2 player search,
 // state3 first claimant with empty-cell reset. WB E608E0 names getCellClaimant
 // and has the same cell states and record roles. Return representation is inferred.
-unsigned int TerrainResourceManager::getCellClaimant(int x,int y,int player)
+unsigned int TerrainResourceManager::getCellClaimant(int cellX,int cellY,int player)
 {
- if(x<0 || x>=width34 || y<0 || y>=height38 || !cells40) return 0;
- ResourceCell& cell=cells40[y*width34+x];
+ if(cellX<0 || cellX>=width34 || cellY<0 || cellY>=height38 || !cells40) return 0;
+ ResourceCell& cell=cells40[cellY*width34+cellX];
  switch(cell.state) {
  case 0: case 1: return 0;
  case 2:

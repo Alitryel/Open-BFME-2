@@ -1808,3 +1808,12 @@ local,Rva0028D796::rva0028D796::f,Rva0028D796::rva0028D796::bountyValue,inferred
 param,TargetCoord#3::p,TargetCoord#3::position,inferred,agree:nl-dcd360e0bc1c,Code/GameEngine/Source/GameLogic/Object/WeaponTemplateTargetPositions.cpp,
 param,DelegateDesc::f,DelegateDesc::functorMethod,inferred,agree:nl-bd79a2cded66,Code/GameEngine/Source/Common/Rva005D4913Dtor.cpp,
 param,MakeBinding::f,MakeBinding::functorMethod,inferred,agree:nl-4160a37de428,Code/GameEngine/Source/Common/Rva005D4913Dtor.cpp,
+param,TerrainResourceManager::rva003598A5::y,TerrainResourceManager::rva003598A5::cellY,inferred,agree:nl-b96e2bf91158,Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,0x003598A5
+local,TerrainResourceManager::rva003598A5::o,TerrainResourceManager::rva003598A5::cellVisitor,inferred,agree:nl-c825c34306d0,Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,0x003598A5
+local,TerrainResourceManager::rva003598A5::x,TerrainResourceManager::rva003598A5::cellX,inferred,agree:nl-72f48da2bd3c,Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,0x003598A5
+param,TerrainResourceManager::rva00359A0C::x,TerrainResourceManager::rva00359A0C::worldX,inferred,agree:nl-a344d38dda5f,Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,0x00359A0C
+param,TerrainResourceManager::rva00359A0C::y,TerrainResourceManager::rva00359A0C::worldY,inferred,agree:nl-17ce7dcf6d41,Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,0x00359A0C
+param,TerrainResourceManager::getCellClaimant::x,TerrainResourceManager::getCellClaimant::cellX,inferred,agree:nl-089da14b6509,Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,0x00359902
+param,TerrainResourceManager::getCellClaimant::y,TerrainResourceManager::getCellClaimant::cellY,inferred,agree:nl-f54f9282a73a,Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,0x00359902
+local,TerrainResourceManager::rva0035997F::x,TerrainResourceManager::rva0035997F::xOffset,inferred,agree:nl-cfc65a1b34b5,Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,0x0035997F
+local,TerrainResourceManager::rva0035997F::y,TerrainResourceManager::rva0035997F::yOffset,inferred,agree:nl-c63f8498d4ae,Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,0x0035997F

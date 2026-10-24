@@ -43,3 +43,23 @@ preserved privately under /mnt/titan_nv3/open-bfme2-agent-fleet/deepinfra-202610
 and will be mirrored into the existing research archive. No credentials belong
 in that export. Research model: DeepSeek V4.1 Flash 1017 (DeepInfra); integration
 and semantic review: gpt-6.1-sol.
+
+## Semantic-review pass
+
+Two further independent DeepSeek low-effort reviews received the complete
+TerrainResourceManager source inline and the already-agreed proposal records.
+This was semantic review, not new voting; original proposal authorship and vote
+proofs are unchanged. Both accepted all eleven proposals. Nine passed the
+unmodified rename engine and its complete checks: span cell coordinates and
+visitor, world coordinates, claimant cell coordinates, and circle offsets.
+The unit remains 6/6 byte-matched, with four float literals and three imports
+verified. The two updateMapConstantCells locals remain blocked because x/y
+also occur as Coord3D member accesses; the token rewriter must not rename those.
+
+A long JSON source-string format was clipped by OpenCode's file reader during
+an earlier review attempt; those workers were stopped and their logs retained.
+The successful bounded reviews received the entire source directly, without
+that file-reading limitation. Two reviews of four buildMin/buildMax operand
+names disagreed on their usefulness, so none were applied. FormationBuild was
+claimed by another worker; its review was stopped with no edits. These outcomes
+are preserved in the private run artifacts, including failed and cancelled work.
