@@ -79,19 +79,15 @@ template <typename T> struct hash
 // Coord3D: shared header/view; no private copy.
 #define COORD3D_VIEW_DTOR
 #include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
-// bfme link decl-only begin
-namespace _STL { template <> void swap<_STL::_STLP_alloc_proxy<void * *,void *,_STL::allocator<void *> > >(_STL::_STLP_alloc_proxy<void * *,void *,_STL::allocator<void *> > &,_STL::_STLP_alloc_proxy<void * *,void *,_STL::allocator<void *> > &); }
-namespace _STL { template <> _Vector_base<void *,_STL::allocator<void *> >::_Vector_base(unsigned int,_STL::allocator<void *> const &); }
-namespace _STL { template <> vector<void *,_STL::allocator<void *> >::vector(unsigned int,void * const &,_STL::allocator<void *> const &); }
-namespace _STL { template <> _STLP_alloc_proxy<void * *,void *,_STL::allocator<void *> >::~_STLP_alloc_proxy(); }
-namespace _STL { template <> _Vector_base<void *,_STL::allocator<void *> >::~_Vector_base(); }
-namespace _STL { template <> allocator<void *>::~allocator(); }
-namespace _STL { template <> vector<void *,_STL::allocator<void *> >::~vector(); }
-namespace _STL { template <> void * * _STLP_alloc_proxy<void * *,void *,_STL::allocator<void *> >::allocate(unsigned int); }
-namespace _STL { template <> void * * allocator<void *>::allocate(unsigned int,void const *) const; }
-namespace _STL { template <> _STL::allocator<void *> vector<void *,_STL::allocator<void *> >::get_allocator() const; }
-namespace _STL { template <> void vector<void *,_STL::allocator<void *> >::swap(_STL::vector<void *,_STL::allocator<void *> > &); }
-// bfme link decl-only end
+// Keep bucket construction and allocator behavior visible, as in FXListStoreParse.
+namespace _STL {
+template <> _STLP_alloc_proxy<void **,void *,allocator<void *> >::~_STLP_alloc_proxy();
+template <> __declspec(dllimport) __forceinline void swap<void **>(void **&a, void **&b) { void **tmp=a; a=b; b=tmp; }
+template <> inline void swap(_STLP_alloc_proxy<void **,void *,allocator<void *> > &a,_STLP_alloc_proxy<void **,void *,allocator<void *> > &b) { swap(a._M_data,b._M_data); }
+template <> __declspec(dllimport) __forceinline _Vector_base<void *,allocator<void *> >::~_Vector_base() { if(_M_start) _M_end_of_storage.deallocate(_M_start,_M_end_of_storage._M_data-_M_start); }
+template <> __forceinline vector<void *,allocator<void *> >::~vector() { _Destroy(this->_M_start,this->_M_finish); }
+template <> allocator<void *> vector<void *,allocator<void *> >::get_allocator()const;
+}
 
 typedef std::hash_map<
 	ObjectID,

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /DBFME_ASCII_DTOR_DECL /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfme_windowvideo /Ireference/open-bfme-1/Code/GameEngine/Source/Common/System /Ireference/open-bfme-1/Code/GameEngine/Source/GameClient /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
+// cl: /Ireference/shims/bfmealloc /D_CRTIMP= /D_STLP_NO_EXCEPTIONS /O1 /DNDEBUG /MD /EHsc /DBFME_ASCII_DTOR_DECL /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfme_windowvideo /Ireference/open-bfme-1/Code/GameEngine/Source/Common/System /Ireference/open-bfme-1/Code/GameEngine/Source/GameClient /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
 // stlport
 // Use the native 17-byte specialization at RVA 0x00013740 rather than
 // emitting a separately optimized copy from this unit.
@@ -21,10 +21,10 @@ template <> bool less<unsigned>::operator()(const unsigned &a, const unsigned &b
 }
 
 #include <cstddef>
-// Suppress this TU's non-retail const-begin copy (row 47 family2-LK3): the
-// /Od retail copy in stlport_vector_voidptr.cpp serves the link instead.
+// Keep const bucket access visible so _M_find caches the key across the
+// bucket lookup, as the47-byte retail body at2888D4 does.
 namespace _STL {
-template <> vector<void *>::const_iterator _STL::vector<void *>::begin() const;
+template <> __declspec(dllimport) __forceinline vector<void *>::const_iterator _STL::vector<void *>::begin() const { return this->_M_start; }
 }
 
 // vector<void*> begin/end otherwise instantiate per-TU COMDATs (one byte
@@ -121,23 +121,23 @@ void *&vector<void*>::operator[](size_t __n)
 // view; spell that declaration aside and bind the one global, ?TheDisplay@@3PAVDisplay@@A.
 #define TheDisplay TheDisplay_displayInterfaceView
 #include "display.h"
+// Keep allocator and bucket construction visible: opaque declarations here
+// make VC7 reload the temporary bucket storage and change native resize53F1EC.
+// Its stateless swap and cleanup follow the established FXListStoreParse view.
 // bfme link decl-only begin
-namespace _STL { template <> void swap<_STLP_alloc_proxy<void **, void *, allocator<void *> > >(_STLP_alloc_proxy<void **, void *, allocator<void *> > &, _STLP_alloc_proxy<void **, void *, allocator<void *> > &); }
-namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(unsigned int, allocator<void *> const &); }
-namespace _STL { template <> vector<void *, allocator<void *> >::vector(unsigned int, void *const &, allocator<void *> const &); }
+namespace _STL { template <> __declspec(dllimport) __forceinline void swap<void **>(void **&a, void **&b) { void **tmp=a; a=b; b=tmp; }
+template <> inline void swap(_STLP_alloc_proxy<void **, void *, allocator<void *> > &a, _STLP_alloc_proxy<void **, void *, allocator<void *> > &b) { swap(a._M_data,b._M_data); } }
 namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
-namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
-namespace _STL { template <> vector<void *, allocator<void *> >::~vector(); }
+namespace _STL { template <> __declspec(dllimport) __forceinline _Vector_base<void *, allocator<void *> >::~_Vector_base() { if (_M_start) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); } }
+namespace _STL { template <> __forceinline vector<void *, allocator<void *> >::~vector() { _Destroy(this->_M_start, this->_M_finish); } }
 namespace _STL { template <> void vector<void *, allocator<void *> >::_M_clear(); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::_M_fill_insert(void **, unsigned int, void *const &); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::_M_insert_overflow(void **, void *const &, __true_type const &, unsigned int, bool); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::_M_set(void **, void **, void **); }
-namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, void const *) const; }
 namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::capacity() const; }
 namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
 namespace _STL { template <> void vector<void *, allocator<void *> >::insert(void **, unsigned int, void *const &); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
-namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
 // bfme link decl-only end
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Hashtable_node@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
@@ -150,9 +150,8 @@ template <> __declspec(dllimport) __forceinline
 void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
 { if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
 }
-// Suppress this TU's non-retail copy of ??A?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBEABQAXI@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> void *const &vector<void *>::operator[](size_t) const; }
+// Inline-only const bucket access; the native lookup has no accessor call.
+namespace _STL { template <> __declspec(dllimport) __forceinline void *const &vector<void *>::operator[](size_t n) const { return *(this->_M_start+n); } }
 #undef TheDisplay
 class Display;
 extern Display *TheDisplay;
