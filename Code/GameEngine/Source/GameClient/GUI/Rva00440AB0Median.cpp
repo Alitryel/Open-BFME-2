@@ -14,22 +14,22 @@ private:
 	int m_sort1;
 };
 
-void **Rva00440AB0Median(void **a, void **b, void **c, Rva0043FE9A comp)
+void **Rva00440AB0Median(void **first, void **second, void **third, Rva0043FE9A comp)
 {
-	if (comp.rva0043FE9A((MapMetaData *)*a, (MapMetaData *)*b)) {
-		if (comp.rva0043FE9A((MapMetaData *)*b, (MapMetaData *)*c))
-			return b;
-		else if (comp.rva0043FE9A((MapMetaData *)*a, (MapMetaData *)*c))
-			return c;
+	if (comp.rva0043FE9A((MapMetaData *)*first, (MapMetaData *)*second)) {
+		if (comp.rva0043FE9A((MapMetaData *)*second, (MapMetaData *)*third))
+			return second;
+		else if (comp.rva0043FE9A((MapMetaData *)*first, (MapMetaData *)*third))
+			return third;
 		else
-			return a;
+			return first;
 	} else {
-		if (comp.rva0043FE9A((MapMetaData *)*a, (MapMetaData *)*c))
-			return a;
-		else if (comp.rva0043FE9A((MapMetaData *)*b, (MapMetaData *)*c))
-			return c;
+		if (comp.rva0043FE9A((MapMetaData *)*first, (MapMetaData *)*third))
+			return first;
+		else if (comp.rva0043FE9A((MapMetaData *)*second, (MapMetaData *)*third))
+			return third;
 		else
-			return b;
+			return second;
 	}
 }
 
@@ -44,21 +44,21 @@ private:
 	int m_key0;
 	int m_key1;
 };
-void **Rva005B6270Median(void **a, void **b, void **c, Rva005B61B3 comp)
+void **Rva005B6270Median(void **first, void **second, void **third, Rva005B61B3 comp)
 {
-	if (comp.rva005B61B3(*a, *b)) {
-		if (comp.rva005B61B3(*b, *c))
-			return b;
-		else if (comp.rva005B61B3(*a, *c))
-			return c;
+	if (comp.rva005B61B3(*first, *second)) {
+		if (comp.rva005B61B3(*second, *third))
+			return second;
+		else if (comp.rva005B61B3(*first, *third))
+			return third;
 		else
-			return a;
+			return first;
 	} else {
-		if (comp.rva005B61B3(*a, *c))
-			return a;
-		else if (comp.rva005B61B3(*b, *c))
-			return c;
+		if (comp.rva005B61B3(*first, *third))
+			return first;
+		else if (comp.rva005B61B3(*second, *third))
+			return third;
 		else
-			return b;
+			return second;
 	}
 }
