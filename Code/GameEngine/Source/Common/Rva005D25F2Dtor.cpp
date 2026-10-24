@@ -194,12 +194,12 @@ void Rva005D25F2::rva005D269B()
 }
 void Rva005D25F2::rva005D2664(int i)
 {
-    Rva005D2575 *e=&m_1C[i];
-    reinterpret_cast<Rva002BED91 *>(&e->help10)->clear();
-    reinterpret_cast<Rva002BED91 *>(&e->reference0C)->clear();
-    if(!e->subMenu04.ptr) return;
-    if(!reinterpret_cast<Rva0057C22FByteChaseField *>(e->subMenu04.ptr)->get()) return;
-    reinterpret_cast<Rva005C3E79 *>(e->subMenu04.ptr)->rva005C3E79();
+    Rva005D2575 *slot=&m_1C[i];
+    reinterpret_cast<Rva002BED91 *>(&slot->help10)->clear();
+    reinterpret_cast<Rva002BED91 *>(&slot->reference0C)->clear();
+    if(!slot->subMenu04.ptr) return;
+    if(!reinterpret_cast<Rva0057C22FByteChaseField *>(slot->subMenu04.ptr)->get()) return;
+    reinterpret_cast<Rva005C3E79 *>(slot->subMenu04.ptr)->rva005C3E79();
 }
 
 int Rva005D25F2::rva005D24E5(int i) { Rva005D2575 *e=reinterpret_cast<Rva005D2575 *>(reinterpret_cast<char *>(this)+(i+1)*0x1C); return e->help10.ptr || e->reference0C.ptr; }
