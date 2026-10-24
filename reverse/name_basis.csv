@@ -869,3 +869,4 @@ local,Rva0027F4F8::rva0027F4F8::p,Rva0027F4F8::rva0027F4F8::entry,inferred,agree
 local,GateOpenAndCloseBehavior::rva00498F46::o2,GateOpenAndCloseBehavior::rva00498F46::gateObject,inferred,agree:nl-71b67145a241,Code/GameEngine/Source/GameLogic/Object/Behavior/Rva00498F46Cmd.cpp,0x00498F46
 param,GateOpenAndCloseBehavior::rva00498DF3::arg,GateOpenAndCloseBehavior::rva00498DF3::unit,inferred,agree:nl-db69c111ece2,Code/GameEngine/Source/GameLogic/Object/Behavior/Rva00498F46Cmd.cpp,0x00498DF3
 param,GateOpenAndCloseBehavior::rva00498F46::arg,GateOpenAndCloseBehavior::rva00498F46::unit,inferred,agree:nl-df0d60b2ebfc,Code/GameEngine/Source/GameLogic/Object/Behavior/Rva00498F46Cmd.cpp,0x00498F46
+function,?rva0047BE4C@Rva0047BE4C@@QAEXP6AXPAVObject@@PAX@Z1H@Z,?iterateContained@Rva0047BE4C@@QAEXP6AXPAVObject@@PAX@Z1H@Z,inferred,agree:nl-abce3c50b045,Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineContainIterateRiders.cpp,0x0047BE4C

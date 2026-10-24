@@ -26,7 +26,7 @@ struct Rva0047BE4CNode {
 };
 class Rva0047BE4C {
 public:
-    void rva0047BE4C(ContainIterateFunc, void *, int);
+    void iterateContained(ContainIterateFunc, void *, int);
     char unknown00[0xFC];
     Rva0047BE4CNode *riders;
 };
@@ -36,7 +36,7 @@ public:
     char unknown00[0x108];
     Rva0047BE4CNode *riders;
 };
-void Rva0047BE4C::rva0047BE4C(ContainIterateFunc func, void *userData, volatile int flags)
+void Rva0047BE4C::iterateContained(ContainIterateFunc func, void *userData, volatile int flags)
 {
     // Native saves the original mask then writes it back into its argument
     // slot before the memory AND. Volatile preserves those observed writes.
