@@ -3676,3 +3676,9 @@ Code/GameEngine/Source/Common/Rva000FE1ACUpdate.cpp|function|0x000FDF3F|rva000FD
 Code/GameEngine/Source/Common/Rva000FE1ACUpdate.cpp|global||g_00DEC220,f6f82a32ca246a737f54cb1c,gpt-6.1-sol,codex5-20261024-063329-26,w-2d32e7a71cf1,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DQuadrupedDrawGetFootLocations.cpp|class||Rva000CA352DrawBase,96ef9819c4aff05acd9d483d,gpt-6.1-sol,codex5-20261024-063329-27,w-2d32e7a71cf1,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DQuadrupedDrawGetFootLocations.cpp|class||Rva000CA352DrawInterface,3ec76e08c407d0fb5bdcc217,gpt-6.1-sol,codex5-20261024-063329-27,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva00803730FeslAttrs.cpp|class||Rva00803730Getter,45d07678df4d46408eef59aa,gpt-6.1-sol,codex5-20261024-070139-3,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva0052A22CForwarders.cpp|member|Obj0052A22C|m_74,454e60009f958884baabc58f,gpt-6.1-sol,codex5-20261024-070139-3,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva0052A22CForwarders.cpp|param|Rva005243FA|c,dc4c726f596105c3511f27f7,gpt-6.1-sol,codex5-20261024-070139-3,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva0052A22CForwarders.cpp|local|Rva005243FA|tmp,221cd0b4cca9afa80623ab62,gpt-6.1-sol,codex5-20261024-070139-3,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/AutoResolveArmorParse.cpp|local|Rva00542BA1Parse|tmp,65f2b10f5c4b0d534b33ef2c,gpt-6.1-sol,codex5-20261024-070139-3,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/AutoResolveArmorParse.cpp|local|Rva00542B24Parse|tmp,2382082ddbd833b6379639f1,gpt-6.1-sol,codex5-20261024-070139-3,w-2d32e7a71cf1,2026-10-24
