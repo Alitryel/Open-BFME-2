@@ -152,16 +152,16 @@ void Rva00318333::rva00318719()
 	m_24 = 0;
 	m_2C = 0;
 }
-void Rva00318333::rva00318807(int m18, int *m1Csrc, void *shiftSrc, const StringBase<char> *m20src, int *m58src, int m2C)
+void Rva00318333::rva00318807(int mode, int *m1Csrc, void *shiftSrc, const StringBase<char> *m20src, int *m58src, int duration)
 {
 	rva00318719();
-	m_18 = m18;
+	m_18 = mode;
 	m_1C.m_00 = *m1Csrc;
 	m_20.set(*m20src);
 	m_58.m_words[0] = (unsigned int)*m58src;
 	int sh = *(int *)((char *)shiftSrc + 0x54);
 	m_24 = 1 << sh;
-	m_2C = m2C;
+	m_2C = duration;
 	Object *obj = TheGameLogic->getFirstObject();
 	while (obj) {
 		rva00318333(obj, false);
@@ -171,10 +171,10 @@ void Rva00318333::rva00318807(int m18, int *m1Csrc, void *shiftSrc, const String
 void Rva00318333::rva00318768()
 {
 	int o1 = m_2C;
-	int c1 = o1 - 1;
-	m_2C = c1;
+	int remainingDuration = o1 - 1;
+	m_2C = remainingDuration;
 	if (!o1) {
-	} else if (c1) {
+	} else if (remainingDuration) {
 	} else {
 		rva00318719();
 	}

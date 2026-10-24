@@ -886,3 +886,6 @@ class,Rva002EBD99List,ContainedObjectList,inferred,agree:nl-e8a8439d5c04,Code/Ga
 local,ScriptActions::doTeamFollowWaypointsExact::n,ScriptActions::doTeamFollowWaypointsExact::memberCount,inferred,agree:nl-11c813d0be64,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions_rva003BF5FE.cpp,0x003BF5FE
 param,TerrainResourceManager::tryToClaimCell::x,TerrainResourceManager::tryToClaimCell::cellX,inferred,agree:nl-ec2d3d06a783,Code/GameEngine/Source/GameLogic/System/TerrainResourceManagerRva0035AA43.cpp,0x0035AA43
 param,TerrainResourceManager::tryToClaimCell::y,TerrainResourceManager::tryToClaimCell::cellY,inferred,agree:nl-3fe4ba1c4d9a,Code/GameEngine/Source/GameLogic/System/TerrainResourceManagerRva0035AA43.cpp,0x0035AA43
+param,Rva00318333::rva00318807::m18,Rva00318333::rva00318807::mode,inferred,agree:nl-208076049996,Code/GameEngine/Source/GameNetwork/Rva00318333.cpp,0x00318807
+param,Rva00318333::rva00318807::m2C,Rva00318333::rva00318807::duration,inferred,agree:nl-04a67c15da8a,Code/GameEngine/Source/GameNetwork/Rva00318333.cpp,0x00318807
+local,Rva00318333::rva00318768::c1,Rva00318333::rva00318768::remainingDuration,inferred,agree:nl-546d1c85de5e,Code/GameEngine/Source/GameNetwork/Rva00318333.cpp,0x00318768
