@@ -507,7 +507,7 @@ public:
 	Rva000309B0(UnsignedInt tag);
 	~Rva000309B0();
 private:
-	UnsignedInt m_tag;
+	void *m_previous;
 };
 
 class GlobalDataView

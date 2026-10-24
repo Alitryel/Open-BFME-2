@@ -540,14 +540,14 @@ void BFME_DX8_Thread_Lock();
 class Rva000309B0 {
     void *m_previous;
 public:
-    Rva000309B0 *rva00030980(void *value);
-    void rva000309B0();
+    Rva000309B0(unsigned tag);
+    ~Rva000309B0();
 };
 class AssetHeapScope {
     Rva000309B0 m_slot;
 public:
-    __forceinline AssetHeapScope(unsigned value) { m_slot.rva00030980((void *)value); }
-    __forceinline ~AssetHeapScope() { m_slot.rva000309B0(); }
+    __forceinline AssetHeapScope(unsigned value) : m_slot(value) {}
+    __forceinline ~AssetHeapScope() {}
 };
 
 class BfmeE1024 {

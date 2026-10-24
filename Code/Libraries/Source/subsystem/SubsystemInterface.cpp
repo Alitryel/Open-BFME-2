@@ -183,12 +183,10 @@ template void initSubsystem<PlayerAITypeSet>(PlayerAITypeSet *&, AsciiString, Pl
 template void initSubsystem<EmotionSystem>(EmotionSystem *&, AsciiString, EmotionSystem *, Xfer *, const char *, const char *, const char *);
 template void initSubsystem<LightPointSystem>(LightPointSystem *&, AsciiString, LightPointSystem *, Xfer *, const char *, const char *, const char *);
 template void initSubsystem<ExperienceLevelSystem>(ExperienceLevelSystem *&, AsciiString, ExperienceLevelSystem *, Xfer *, const char *, const char *, const char *);
-// Opaque target identity for 0x0022C38B: the retail caller and the matched
-// SubsystemInterfaceList::initSubsystem callee establish this generic
-// registration helper, but not its concrete template parameter. This explicit
-// AptPlayer instantiation is only the C++ emission type for the pointer-level
-// sequence; it is not a BFME2 AptPlayer name claim.
-template void initSubsystem<AptPlayer>(AptPlayer *&, AsciiString, AptPlayer *, Xfer *, const char *, const char *, const char *);
+// Native 0x0022FD49 registers the object constructed at 0x0022DE2E with
+// the schedule-store global; its original class name remains unknown.
+class Rva0022C38BSubsystem : public SubsystemInterface {};
+template void initSubsystem<Rva0022C38BSubsystem>(Rva0022C38BSubsystem *&, AsciiString, Rva0022C38BSubsystem *, Xfer *, const char *, const char *, const char *);
 template void initSubsystem<LivingWorldManager>(LivingWorldManager *&, AsciiString, LivingWorldManager *, Xfer *, const char *, const char *, const char *);
 template void initSubsystem<AerialPathfinder>(AerialPathfinder *&, AsciiString, AerialPathfinder *, Xfer *, const char *, const char *, const char *);
 template void initSubsystem<LivingWorldLogic>(LivingWorldLogic *&, AsciiString, LivingWorldLogic *, Xfer *, const char *, const char *, const char *);

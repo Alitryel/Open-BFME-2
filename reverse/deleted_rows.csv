@@ -2266,3 +2266,6 @@ __ehhandler$?rva005E5B20@Rva005E5A8B@@QAEHABUICoord2D@@H@Z,0x007A3A27,"Renamed t
 ?rva000B901D@Rva000B901D@@QAEXHPBURva000B901DNames@@@Z,0x000B901D,"Renamed to ?RecolorHouseColor@Rva000B901D@@QAEXHPBURva000B901DNames@@@Z by tools/rename.py (inferred)"
 ?bfmeGoECF@@YAXXZ,0x007B7270,"Renamed to ?releaseBrowser@@YAXXZ by tools/rename.py (inferred)"
 ??$__copy@PBUBfmeAsciiScalarValue8@@PAU1@H@_STL@@YAPAUBfmeAsciiScalarValue8@@PBU1@0PAU1@ABUrandom_access_iterator_tag@0@PAH@Z,0x0031BA18,Retired false duplicate: scalar-first reference assignment 0x002C99FB contradicts AsciiString-first element layout; complete 47B native worker remains owned by Rva0031BA18Copy.cpp. Evidence: reverse/attempt_support/scalar-copy-link-20261024/evidence.md
+?rva000309B0@Rva000309B0@@QAEXXZ,0x000309B0,"Renamed to ??1Rva000309B0@@QAE@XZ: native init scope and EH cleanup call the same TLS lifetime bodies"
+?rva00030980@Rva000309B0@@QAEPAV1@PAX@Z,0x00030980,"Renamed to ??0Rva000309B0@@QAE@I@Z: native init scope and EH cleanup call the same TLS lifetime bodies"
+?dup_0022c38b@@YAXXZ,0x0022C38B,"Renamed to ??$initSubsystem@VRva0022C38BSubsystem@@@@YAXAAPAVRva0022C38BSubsystem@@VAsciiString@@PAV0@PAVXfer@@PBD44@Z: native registration passes the schedule-store object constructed at 0x0022DE2E"

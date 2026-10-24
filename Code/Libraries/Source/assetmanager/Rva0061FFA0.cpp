@@ -170,16 +170,16 @@ void setFPMode();
 class Rva000309B0 {
     void *m_previous;
 public:
-    Rva000309B0 *rva00030980(void *value);
-    void rva000309B0();
+    Rva000309B0(unsigned tag);
+    ~Rva000309B0();
 };
 class AssetWorkerHeapScope {
     Rva000309B0 m_scope;
 public:
     // ?AssetWorkerHeapScope::AssetWorkerHeapScope absent-from-retail
-    __forceinline AssetWorkerHeapScope(unsigned tag) { m_scope.rva00030980((void *)tag); }
+    __forceinline AssetWorkerHeapScope(unsigned tag) : m_scope(tag) {}
     // ?AssetWorkerHeapScope::~AssetWorkerHeapScope absent-from-retail
-    __forceinline ~AssetWorkerHeapScope() { m_scope.rva000309B0(); }
+    __forceinline ~AssetWorkerHeapScope() {}
 };
 
 struct Rva001408C0Target;

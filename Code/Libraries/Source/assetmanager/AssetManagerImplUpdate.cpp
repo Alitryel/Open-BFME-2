@@ -234,16 +234,16 @@ bool g_assetUpdateLowQueueBusy = false;
 class Rva000309B0 {
     void *m_previous;
 public:
-    Rva000309B0 *rva00030980(void *value);
-    void rva000309B0();
+    Rva000309B0(unsigned tag);
+    ~Rva000309B0();
 };
 class AssetWorkerHeapScope {
     Rva000309B0 m_scope;
 public:
     // ?AssetWorkerHeapScope::AssetWorkerHeapScope absent-from-retail
-    __forceinline AssetWorkerHeapScope(unsigned tag) { m_scope.rva00030980((void *)tag); }
+    __forceinline AssetWorkerHeapScope(unsigned tag) : m_scope(tag) {}
     // ?AssetWorkerHeapScope::~AssetWorkerHeapScope absent-from-retail
-    __forceinline ~AssetWorkerHeapScope() { m_scope.rva000309B0(); }
+    __forceinline ~AssetWorkerHeapScope() {}
 };
 
 
@@ -336,7 +336,8 @@ void Rva00624130::rva00624130()
 	if (changed)
 		refresh();
 	EnterCriticalSection(&m_lock60);
-	unsigned int total = queues[0].size() + queues[1].size() + queues[2].size();
+	const Q1Queue009F1510 &queue0 = queues[0];
+	unsigned int total = queue0.size() + queues[1].size() + queues[2].size();
 	LeaveCriticalSection(&m_lock60);
 	if (total <= m_field1e4)
 		SetThreadPriority(reinterpret_cast<HANDLE>(m_thread), THREAD_PRIORITY_BELOW_NORMAL);
