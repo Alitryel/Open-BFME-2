@@ -1930,3 +1930,4 @@ param,Rva00332F5B::Rva00332F5B::b,Rva00332F5B::Rva00332F5B::excluded,inferred,ag
 param,Rva004E81DE::rva004E81DE::a,Rva004E81DE::rva004E81DE::claimantId,inferred,agree:nl-bb4a18e66470,Code/GameEngine/Source/Common/GapBodiesS3D.cpp,0x004E81DE
 local,Team::rva0039DE46::s,Team::rva0039DE46::status,inferred,agree:nl-067dbec55dee,Code/GameEngine/Source/Common/RTS/TeamRva0039DE46.cpp,0x0039DE46
 param,Rva005D19F8::Rva005D19F8::b,Rva005D19F8::Rva005D19F8::source,inferred,agree:nl-074686082ebe,Code/GameEngine/Source/Common/Rva005C802BFactory.cpp,0x005D19F8
+local,Rva0049D526::rva0049D57F::n,Rva0049D526::rva0049D57F::node,inferred,agree:nl-99efd1513eae,Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp,0x0049D57F

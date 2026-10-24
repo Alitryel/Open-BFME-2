@@ -100,22 +100,22 @@ void Rva0049D526::rva0049D526(void *entry)
 
 void Rva0049D526::rva0049D57F(void *entry)
 {
-	Rva0049D526Node *n = (Rva0049D526Node *)entry;
-	if (n->m_type == 1 && n->m_2C != -1)
+	Rva0049D526Node *node = (Rva0049D526Node *)entry;
+	if (node->m_type == 1 && node->m_2C != -1)
 	{
 		Object *obj = (Object *)m_08;
 		ExitInterface *ei = obj->getObjectExitInterface();
 		if (ei != 0)
-			ei->s04(n->m_2C);
+			ei->s04(node->m_2C);
 	}
-	if (n->m_prev != 0)
-		((Rva0049D526Node *)n->m_prev)->m_next = n->m_next;
+	if (node->m_prev != 0)
+		((Rva0049D526Node *)node->m_prev)->m_next = node->m_next;
 	else
-		m_28 = n->m_next;
-	if (n->m_next != 0)
-		((Rva0049D526Node *)n->m_next)->m_prev = n->m_prev;
+		m_28 = node->m_next;
+	if (node->m_next != 0)
+		((Rva0049D526Node *)node->m_next)->m_prev = node->m_prev;
 	else
-		m_2C = n->m_prev;
+		m_2C = node->m_prev;
 	Rva0049D526Src *src = (Rva0049D526Src *)m_08;
 	--m_34;
 	WeaponTemplateSetHead tmp(src->m_head);
