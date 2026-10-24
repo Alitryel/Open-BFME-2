@@ -3028,3 +3028,7 @@ Code/GameEngine/Source/Common/Rva001F52CC.cpp|local|Rva001F52CC::rva001F52CC|p,c
 Code/GameEngine/Source/GameClient/GameClientLogoGate.cpp|member|Rva00239539Flags|flagAF2,df18558bc367cbffa795ef72,gpt-6.1-sol,codex8-20261024-051904-24,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/Rva003418EAMethod.cpp|param|Rva00341796::onExit|arg,6b0823473cf47123223e0a85,gpt-6.1-sol,codex8-20261024-051904-26,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/Rva003418EAMethod.cpp|local|Rva00341796::onExit|p,104d937f79e281b740647e2a,gpt-6.1-sol,codex8-20261024-051904-26,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp|local|Rva004958AE::update|m_command14,e720e78ecb9b96ae66fb5319,gpt-6.1-sol,codex8-20261024-054232-1,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028D796.cpp|local|Rva0028D796::rva0028D796|f,486ed26b38e234db52ea80ce,gpt-6.1-sol,codex8-20261024-054232-12,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/System/LivingWorldRegionBuildingRestrictionParseINI.cpp|local|LivingWorldRegion::ModuleData::BuildingRestriction::ParseINI|p,cf03d23e843e87d501e79078,gpt-6.1-sol,codex8-20261024-054232-13,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/System/LivingWorldRegionBuildingRestrictionParseINI.cpp|global||g_00C36EE0,f95092643dfedf9ddccf9c85,gpt-6.1-sol,codex8-20261024-054232-13,w-de56e563a50b,2026-10-24
