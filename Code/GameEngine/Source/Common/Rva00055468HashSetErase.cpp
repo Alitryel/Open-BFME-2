@@ -50,7 +50,9 @@ typedef std::hashtable<
 	std::equal_to<Rva00051B89Keyed *>,
 	std::allocator<Rva00051B89Keyed *> > Rva00051B89Table;
 
-template void Rva00051B89Table::erase(const Rva00051B89Table::const_iterator &);
+namespace _STL {
+template <> void Rva00051B89Table::erase(const Rva00051B89Table::const_iterator &);
+}
 
 // BFME1 f989 Rva006B9AA0RequestDrain.cpp supplies the STLport wrapper
 // shape. Target 00055468..00055475 receives the existing pointer-keyed

@@ -50,30 +50,20 @@ Rva004E2382::Rva004E2382()
 {
 }
 
-// Private copy views preserve the 12-byte field widths while leaving their
-// target type names address-derived. The tree wrapper tests call scheduling:
-// its member call may keep ECX live before the source pointer is pushed.
-class Rva004E1FE4TreeCopyView
-{
-public:
-    // ?Rva004E1FE4TreeCopyView::Rva004E1FE4TreeCopyView absent-from-retail
-    __forceinline Rva004E1FE4TreeCopyView(const Rva004E1FE4TreeCopyView &that)
-    {
-        copyFrom(that);
-    }
-    void copyFrom(const Rva004E1FE4TreeCopyView &that);
-    ~Rva004E1FE4TreeCopyView();
-private:
-    unsigned char m_prefix[12];
-};
+struct Rva004E1FE4Element { char bytes[8]; };
+struct Rva004E1D4EElement { char bytes[12]; };
+typedef _STL::_Rb_tree<Rva004E1FE4Element, Rva004E1FE4Element,
+    _STL::_Identity<Rva004E1FE4Element>, _STL::less<Rva004E1FE4Element>,
+    _STL::allocator<Rva004E1FE4Element> > Rva004E1FE4Tree;
+typedef _STL::set<Rva004E1FE4Element> Rva004E1FE4TreeCopyView;
+typedef _STL::vector<Rva004E1D4EElement> Rva004E1D4EVectorCopyView;
 
-class Rva004E1D4EVectorCopyView
-{
-public:
-    Rva004E1D4EVectorCopyView(const Rva004E1D4EVectorCopyView &that);
-private:
-    unsigned char m_prefix[12];
-};
+namespace _STL {
+template <> Rva004E1FE4Tree::_Rb_tree(const Rva004E1FE4Tree &);
+template <> Rva004E1FE4Tree::~_Rb_tree();
+template <> Rva004E1D4EVectorCopyView::vector(const Rva004E1D4EVectorCopyView &);
+template <> Rva004E1D4EVectorCopyView::~vector();
+}
 
 class Rva004E2C66
 {

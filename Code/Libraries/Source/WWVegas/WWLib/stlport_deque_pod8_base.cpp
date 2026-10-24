@@ -21,7 +21,5 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <deque>
-#include <queue>
 struct BfmePod8 { int a[2]; };
 template _STL::_Deque_base<BfmePod8, _STL::allocator<BfmePod8> >::_Deque_base(const _STL::allocator<BfmePod8> &, size_t);
-template _STL::queue<BfmePod8, _STL::deque<BfmePod8, _STL::allocator<BfmePod8> > >::queue();

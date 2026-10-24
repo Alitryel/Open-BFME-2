@@ -39,4 +39,14 @@ typedef std::hashtable<
 	std::equal_to<Rva00051B89Keyed *>,
 	std::allocator<Rva00051B89Keyed *> > Rva00051B89Table;
 
+namespace _STL {
+template <> unsigned int Rva00051B89Table::_M_bkt_num_key(Rva00051B89Keyed *const &) const;
+template <> __declspec(dllimport) __forceinline
+void allocator<_Hashtable_node<Rva00051B89Keyed *> >::deallocate(
+    _Hashtable_node<Rva00051B89Keyed *> *p, unsigned int count) const
+{
+    if (p != 0) __sgi_alloc::deallocate(p, count * sizeof(value_type));
+}
+}
+
 template void Rva00051B89Table::erase(const Rva00051B89Table::const_iterator &);
