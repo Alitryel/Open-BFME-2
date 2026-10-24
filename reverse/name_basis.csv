@@ -1163,3 +1163,5 @@ local,release::p,release::m_refCount,inferred,agree:nl-18c9466f34d8,Code/GameEng
 local,ModuleTagString::swap::temporary,ModuleTagString::swap::inlineBuffer,inferred,agree:nl-2ccd0f157b1b,Code/GameEngine/Source/Common/Thing/ModuleTagStringSwap.cpp,0x006D0F50
 member,Rva0020EB07Info::m_2C,Rva0020EB07Info::m_regions,inferred,agree:nl-5176f7dee7ad,Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp,
 local,DiscreteCircle::generateEdgePairs::d,DiscreteCircle::generateEdgePairs::decision,inferred,agree:nl-1f69b17be853,Code/GameEngine/Source/Common/discrete_circle.cpp,0x002DF8CF
+param,Drawable::rva00272D77::a,Drawable::rva00272D77::frames,inferred,agree:nl-8117ce98dc5c,Code/GameEngine/Source/GameClient/DrawableFade.cpp,0x00272D77
+local,Drawable::rva00272C9E::v,Drawable::rva00272C9E::opacity,inferred,agree:nl-4791fc6dc679,Code/GameEngine/Source/GameClient/DrawableFade.cpp,0x00272C9E

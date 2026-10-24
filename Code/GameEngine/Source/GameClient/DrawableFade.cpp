@@ -58,7 +58,7 @@ class Drawable
 public:
 	void fadeIn(unsigned int frames);
 	void fadeOut(unsigned int frames);
-	void rva00272D77(unsigned int a, unsigned int b);
+	void rva00272D77(unsigned int frames, unsigned int b);
 	void setDrawableHidden(bool hidden);
 	float rva00272C9E(int key);
 
@@ -110,11 +110,11 @@ void Drawable::fadeOut(unsigned int frames)
 }
 // @0x00272D77 (68B): third fade mode 5 setter; holder call with 1 then elapsed 0
 // toFade a plus field +0x134 b plus start frame via holder slot1F. Caller 0x0045BEA0.
-void Drawable::rva00272D77(unsigned int a, unsigned int b)
+void Drawable::rva00272D77(unsigned int frames, unsigned int b)
 {
 	setDrawableHidden(true);
 	m_timeElapsedFade = 0;
-	m_timeToFade = a;
+	m_timeToFade = frames;
 	m_fadeMode = 5;
 	m_134 = b;
 	m_fadeStartFrame = TheRva00DFE77C->slot1F();
@@ -124,7 +124,7 @@ void Drawable::rva00272D77(unsigned int a, unsigned int b)
 // 0x00070xxx 0x000D0091 0x000E459F 0x000E5406.
 float Drawable::rva00272C9E(int key)
 {
-	float v = m_opacityB4;
+	float opacity = m_opacityB4;
 	if (key != 0)
 	{
 		for (DrawModule **drawModule = m_drawModules; *drawModule; ++drawModule)
@@ -132,10 +132,10 @@ float Drawable::rva00272C9E(int key)
 			if ((*drawModule)->slotC4() == key)
 			{
 				if (!(*drawModule)->slotF0())
-					v = 1.0f;
+					opacity = 1.0f;
 				break;
 			}
 		}
 	}
-	return v * m_explicitOpacity;
+	return opacity * m_explicitOpacity;
 }
