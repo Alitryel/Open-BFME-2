@@ -4749,9 +4749,9 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_moneypunct_dtors.cpp	?
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_moneypunct_dtors.cpp	?do_positive_sign@?$moneypunct@D$0A@@_STL@@MBE?AV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@2@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_moneypunct_dtors.cpp	?do_positive_sign@?$moneypunct@G$00@_STL@@MBE?AV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_moneypunct_dtors.cpp	?do_positive_sign@?$moneypunct@G$0A@@_STL@@MBE?AV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@XZ	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_mutex_acquire.cpp	?_M_acquire_lock@NodeAllocMutex@_STL@@QAEXXZ	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_mutex_acquire.cpp	?bfmeInitVLY@BfmeRegVLY@@QAEXXZ	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_mutex_acquire.cpp	?bfmeInitVLZ@BfmeRegVLZ@@QAEXXZ	1
+alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_locale_global.cpp	?_M_acquire_lock@NodeAllocMutex@_STL@@QAEXXZ	1
+alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_locale_global.cpp	?bfmeInitVLY@BfmeRegVLY@@QAEXXZ	1
+alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_locale_global.cpp	?bfmeInitVLZ@BfmeRegVLZ@@QAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_filebuf.cpp	??0Rva008947A0Elem@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_filebuf.cpp	?_M_release_lock@NodeAllocMutex@_STL@@QAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_fstream.cpp	?bfmeCopyChV24@@YAXPAD0@Z	1
@@ -36561,7 +36561,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_map_int_int_copy_0
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_map_int_int_copy_os.cpp	_M_copy@?$_Rb_tree@HU?$pair@$$CBHH@_STL@@U?$_Select1st@U?$pair@$$CBHH@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHH@_STL@@@2@@_STL@@AAEPAU?$_Rb_tree_node@U?$pair@$$CBHH@_STL@@@2@PAU32@0@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_messages_dtors.cpp	1_Messages@_STL@@UAE@XZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_modulefactory_map_copy.cpp	_M_create_node@?$_Rb_tree@EU?$pair@$$CBEH@_STL@@U?$_Select1st@U?$pair@$$CBEH@_STL@@@2@U?$less@E@2@V?$allocator@U?$pair@$$CBEH@_STL@@@2@@_STL@@IAEPAU?$_Rb_tree_node@U?$pair@$$CBEH@_STL@@@2@ABU?$pair@$$CBEH@2@@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_mutex_acquire.cpp	bfmeEmitMutexAcquireLock@@YAXPAV_STLP_mutex_base@_STL@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_from_wide_push.cpp	_STL::_String_reserve_t	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_string_substr.cpp	basic_string::_M_range_initialize	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_string_substring_ctor.cpp	basic_string::_M_range_initialize	1

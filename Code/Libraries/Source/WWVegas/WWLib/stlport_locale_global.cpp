@@ -198,3 +198,9 @@ locale __cdecl locale::global(const locale &L)
 }
 
 }
+
+// Preserve the existing alternate spellings from stlport_mutex_acquire.cpp.
+// The real locale lock above already emits the complete retail acquire body.
+#pragma comment(linker, "/alternatename:?_M_acquire_lock@NodeAllocMutex@_STL@@QAEXXZ=?_M_acquire_lock@_STLP_mutex_base@_STL@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?bfmeInitVLY@BfmeRegVLY@@QAEXXZ=?_M_acquire_lock@_STLP_mutex_base@_STL@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?bfmeInitVLZ@BfmeRegVLZ@@QAEXXZ=?_M_acquire_lock@_STLP_mutex_base@_STL@@QAEXXZ")
