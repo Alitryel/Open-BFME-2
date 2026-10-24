@@ -2415,3 +2415,5 @@ __ehhandler$?Rva006CDBF0Resize@@YAPAVAptValueNameEntry@@PAV1@HH@Z,0x007A8186,"Re
 ?rva00141CB0@Rva00141CB0@@QAEPAXIPBX@Z,0x00141CB0,"Renamed to ?allocate@Rva00141CB0@@QAEPAXIPBX@Z by tools/rename.py (inferred)"
 ?rva00141DC0@Rva00141DC0@@QAEPAXPAX@Z,0x00141DC0,"Renamed to ?pushFront@Rva00141DC0@@QAEPAXPAX@Z by tools/rename.py (inferred)"
 ?rva00141D60@Rva00141D60@@QAEPAXPAX@Z,0x00141D60,"Renamed to ?createNode@Rva00141D60@@QAEPAXPAX@Z by tools/rename.py (inferred)"
+?nextIndexRva0083F090@@3HA,0x009DEF44,"Renamed to ?nextIndex@@3HA by tools/rename.py (inferred)"
+?indexLockRva0083F090@@3JC,0x009DEF48,"Renamed to ?indexLock@@3JC by tools/rename.py (inferred)"

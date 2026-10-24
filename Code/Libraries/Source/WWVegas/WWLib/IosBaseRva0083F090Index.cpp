@@ -13,15 +13,15 @@ template<int N> struct _STLP_mutex_spin
 
 // Target lock word at VA 0x00DDEF48 in zero-filled .data, immediately after
 // the matched nextIndexRva0083F090 global at VA 0x00DDEF44.
-volatile long indexLockRva0083F090;
-extern int nextIndexRva0083F090;
+volatile long indexLock;
+extern int nextIndex;
 // nextIndexRva0083F090: matched references place it at VA 0xddef44 (zero-filled .bss).
-int nextIndexRva0083F090;
+int nextIndex;
 
 int __cdecl xalloc()
 {
-	_STL::_STLP_mutex_spin<0>::_M_do_lock(&indexLockRva0083F090);
-	int next = nextIndexRva0083F090++;
-	indexLockRva0083F090 = 0;
+	_STL::_STLP_mutex_spin<0>::_M_do_lock(&indexLock);
+	int next = nextIndex++;
+	indexLock = 0;
 	return next;
 }
