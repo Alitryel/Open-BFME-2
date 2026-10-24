@@ -71,19 +71,22 @@ public:
 
 // Reference-counted hotkey action (vtable 0x00867E60: shared scalar deleting
 // destructor, two shared predicates, the select-all execute at 0x00526342).
-class HotKeyAction
+// Its destructor is the rowed ??1Rva00567A69 (0x00567A69), which the shared
+// deleting destructor 0x0053DAE6 calls; slots 1 and 2 are the shared constant
+// predicates 0x005CB9FF (false) and 0x005CB9FA (true).
+class __declspec(novtable) Rva00567A69
 {
 public:
-	HotKeyAction() : m_references(0) {}
-	virtual ~HotKeyAction();
-	virtual bool slot04(int);
-	virtual bool slot08(int);
+	Rva00567A69() : m_references(0) {}
+	virtual ~Rva00567A69();
+	virtual bool slot04(int) { return false; }
+	virtual bool slot08(int) { return true; }
 	virtual bool execute(int) = 0;
 
 	int m_references;
 };
 
-class SelectAllHeroesHotKeyAction : public HotKeyAction
+class SelectAllHeroesHotKeyAction : public Rva00567A69
 {
 public:
 	SelectAllHeroesHotKeyAction(InGameHeroSelectInterface::Impl *owner) : m_owner(owner) {}
@@ -96,6 +99,7 @@ class InGameHeroSelectInterface::Impl
 {
 public:
 	void ShowSelectAllHeroesBttn();
+	void SelectAllHeroes();
 
 private:
 	void *m_00;
@@ -109,6 +113,13 @@ private:
 	unsigned char m_pad1D0[0x1D8 - 0x1D0];
 	bool m_selectAllHotKeyAdded;			// +0x1D8
 };
+
+// Slot 3, retail 0x00526342.
+inline bool SelectAllHeroesHotKeyAction::execute(int)
+{
+	m_owner->SelectAllHeroes();
+	return true;
+}
 
 void InGameHeroSelectInterface::Impl::ShowSelectAllHeroesBttn()
 {
