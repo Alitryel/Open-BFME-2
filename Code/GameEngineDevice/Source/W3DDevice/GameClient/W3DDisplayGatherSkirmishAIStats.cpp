@@ -312,9 +312,9 @@ void W3DDisplay::gatherSkirmishAIStats()
 				Int heroUnits = 0;
 				Int idleUnits = 0;
 				UnsignedInt unitCount = ((IntMap *)units)->bucket_count();
-				for (UnsignedInt u = 0; u < unitCount; u++)
+				for (UnsignedInt unitIndex = 0; unitIndex < unitCount; unitIndex++)
 				{
-					Object *unit = units->rva0025BFF8(u);
+					Object *unit = units->rva0025BFF8(unitIndex);
 					if (unit->m_team == player->m_defaultTeam)
 						idleUnits++;
 					if (unit->getTemplate()->m_kindOf113 & 4)
