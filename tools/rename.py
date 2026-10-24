@@ -55,7 +55,13 @@ canonical still gets a clean readable identifier, and the ledger -- not the
 identifier -- says it is `inferred`. An inferred name may replace only a
 placeholder or weak name (tools/name_metric.py's definition, shared rather
 than copied); a canonical name may replace a placeholder or an inferred name;
-nothing replaces a canonical name. Both bases are checked, never asserted:
+nothing replaces a canonical name. A canonical function name may also take a
+word another scope already spells, where every such spelling is provably a
+scope the rewrite cannot reach (a member of an unrelated class, a local or
+parameter of a function that never spells the old word, a prototype's
+parameter): an inferred name is reverted by whole-word match and never shares,
+nor does a canonical one share the word of an unreverted inferred landing.
+Both bases are checked, never asserted:
 
   inferred   --evidence agree:<id> names a row of reverse/name_agreed.csv
              for this very rename, and the agreement is recomputed from the
@@ -1846,11 +1852,9 @@ def overrides_virtual(code, word, derived, base):
             return False                       # two bodies of one name: no single reading
         bodies[match.group(1)] = code[match.end():name_metric.close(code, match.end() - 1)]
         bases[match.group(1)] = set()
-        for part in (match.group(2) or "").split(","):
-            names = [w for w in name_metric.WORD.findall(re.sub(r"<[^<>]*>", "", part))
-                     if w not in ("public", "protected", "private", "virtual")]
-            if names:
-                bases[match.group(1)].add(names[-1])
+        if match.group(2):
+            names = base_clause_names(match.group(2))
+            bases[match.group(1)].update([UNPARSED_BASE] if names is None else names)
     if cls not in bodies or base not in bodies:
         return False
     seen, todo = set(), [cls]
@@ -1915,6 +1919,255 @@ def foreign_declarations(code, word, cls, kind="function"):
     return found
 
 
+def _enclosing_function(code, at):
+    """(scope, header start, body start, end, params) of the function definition
+    around offset `at` of stripped `code` (the outermost, so a call the scan
+    mistakes for a definition inside a body is not it), or None."""
+    found = [f for f in name_metric.functions_in(code) if f[1] <= at < f[2]]
+    if not found:
+        return None
+    scope, start, end, params = min(found, key=lambda f: f[1])
+    return scope, start, code.find("{", start), end, params
+
+
+def _declaration_ends(code, paren):
+    """True when the parenthesis at `paren` of stripped `code` closes and a `;`
+    comes before any `{`: a declaration, not a definition this scan failed to
+    recognise (an inline method that does not start its line)."""
+    depth = 0
+    for at in range(paren, len(code)):
+        if code[at] == "(":
+            depth += 1
+        elif code[at] == ")":
+            depth -= 1
+            if depth == 0:
+                rest = code[at + 1:]
+                stops = [i for i in (rest.find(";"), rest.find("{")) if i >= 0]
+                return bool(stops) and rest[min(stops)] == ";"
+    return False
+
+
+def unreverted_landings(ctx, word):
+    """The `agree:` records of inferred landings (name_basis.csv) that landed
+    `word` and have not been restored: `rename.py revert` puts the placeholder
+    back by whole-word match, which another scope's rename of `word` would
+    make inexact."""
+    rows = name_basis_rows(ctx)
+    found = []
+    for at, row in enumerate(rows):
+        match = re.fullmatch(r"agree:(\S+)", (row.get("evidence") or "").strip())
+        if row.get("basis") != "inferred" or not match or not row.get("new"):
+            continue
+        if word_of(row.get("kind", ""), row["new"]) != word:
+            continue
+        if not any(r.get("basis") == RESTORED and revert_id(r.get("evidence")) == match.group(1)
+                   for r in rows[at + 1:]):
+            found.append(match.group(1))
+    return found
+
+
+def closure_type_bodies(ctx, rel, code):
+    """{class name: [body text, ...]} of every class/struct/union declared in
+    stripped `code` (the text of `rel`) and in the headers `rel` includes
+    (every same-named header variant counts): the class relations of a unit
+    whose classes are declared in a header and defined out of line."""
+    out = {}
+    for path in [None] + sorted(header_closure(ctx, rel)):
+        text = code if path is None else name_metric.strip((ctx.read(path) or b"").decode("utf-8", "replace"))
+        for name, start, end in type_bodies(text):
+            out.setdefault(name, []).append(text[start:end])
+    return out
+
+
+_DEFINE = re.compile(r"^[ \t]*#[ \t]*define[ \t]+([A-Za-z_]\w*)((?:[^\n]*\\\n)*[^\n]*)", re.M)
+
+
+def macros_spelling(ctx, rel, code, word):
+    """Names of the macros, defined in stripped `code` (the text of `rel`) or in
+    a header it includes, whose expansion can spell `word`: the macro's own
+    line does, or it invokes another such macro. The word rewrite respells a
+    macro body, so a scope that invokes one of these meets the new spelling."""
+    key = ("_macros", rel, word)
+    if key in ctx._cache:
+        return ctx._cache[key]
+    bodies = {}
+    for path in [None] + sorted(header_closure(ctx, rel)):
+        text = code if path is None else name_metric.strip((ctx.read(path) or b"").decode("utf-8", "replace"))
+        for match in _DEFINE.finditer(text):
+            bodies.setdefault(match.group(1), []).append(match.group(2))
+    spelling = {name for name, texts in bodies.items() if any(word_re(word).search(t) for t in texts)}
+    grew = True
+    while grew:
+        grew = False
+        for name, texts in bodies.items():
+            if name not in spelling and any(word_re(inner).search(t) for inner in spelling for t in texts):
+                spelling.add(name)
+                grew = True
+    ctx._cache[key] = spelling
+    return spelling
+
+
+def invoked_macro(macros, code, begin=0, end=None):
+    """The first of `macros` that stripped `code[begin:end]` spells, or None."""
+    for name in sorted(macros):
+        if word_re(name).search(code, begin, len(code) if end is None else end):
+            return name
+    return None
+
+
+def other_scope_spellings(ctx, rel, code, old_word, new_word, cls):
+    """None when every spelling of `new_word` in stripped `code` (a unit or
+    header) provably names something that respelling `cls`'s `old_word` as
+    `new_word` can neither capture nor make ambiguous; else why one cannot be
+    shown. A spelling counts only as one of:
+
+      * a member of, or `Other::word` through, a class Other that is not a
+        renamed class (`cls`, or a base or descendant of it that spells
+        `old_word` in its body, found across the file and its header closure:
+        the word rewrite respells those declarations too) or a base of one, is
+        not derived from one, and has no class deriving from both it and one,
+        while no unqualified, non-member-access spelling of
+        `old_word` sits in Other's body or in one of its methods (the rewrite
+        would land in Other's scope) and none of them invokes a macro whose
+        expansion spells `old_word` (macros_spelling);
+      * a local or parameter of one function that spells `old_word` nowhere in
+        its parameters or body and invokes no macro whose expansion spells it
+        (so no rewritten site is in the scope), every
+        unqualified spelling of the word in it lying inside a declaration's
+        scope (local_scopes);
+      * a parameter name in a function prototype.
+
+    Everything else is refused: a spelling at file scope, in a macro, in a
+    `friend` or `using` declaration, through `.` or `->` (the object's type is
+    not known), in an anonymous class, and any class whose bases are not all
+    declared in the unit or its headers. A free function (`cls` None) is not
+    analysed. The byte build still decides."""
+    if not cls:
+        return "the renamed function has no class, so no scope separates the spellings"
+    spots = occurrence_spots(code, new_word, rel)
+    if not spots:
+        return None
+    bases = class_base_map(ctx, rel)
+    # The word rewrite respells every declaration of `old_word` in the file, and
+    # foreign_declarations lets through only the classes that declare the one
+    # virtual function `cls` does (its bases and overriders): those are renamed
+    # too, so each of them is a scope the new word must not collide with.
+    # The classes are read across the header closure: a base or overrider declared in a
+    # header is a renamed scope as much as one in this file. A class counts when it is a base
+    # or a descendant of `cls` and spells the old word in its body, a superset of the
+    # same-signature virtual pairs (foreign_declarations refuses any other such declaration
+    # in the file that holds it).
+    old = word_re(old_word)
+    declared = closure_type_bodies(ctx, rel, code)
+    chain, _known = class_chain(bases, cls)
+    renamed = {cls} | {name for name, texts in declared.items()
+                       if name != cls and any(old.search(t) for t in texts)
+                       and (name in chain or cls in class_chain(bases, name)[0])}
+    chains = {}
+    for member in sorted(renamed):
+        chains[member], known = class_chain(bases, member)
+        if not known:
+            return f"a base of {member} is not declared in {rel} or its headers"
+    macros = macros_spelling(ctx, rel, code, old_word)
+    scopes = set()
+
+    def unrelated(other):
+        if other == cls:
+            return f"{cls} itself declares or qualifies {new_word}"
+        for member in sorted(renamed):
+            if other in chains[member]:
+                return f"{other} is a base of {member}"
+        chain, complete = class_chain(bases, other)
+        if other not in bases or not complete:
+            return f"{other} is not a class declared with all its bases in {rel} or its headers"
+        for member in sorted(renamed):
+            if member in chain:
+                return f"{other} derives from {member}"
+        for derived in sorted(bases):
+            if derived in renamed or derived == other:
+                continue
+            below, whole = class_chain(bases, derived)
+            for member in sorted(renamed):
+                if member in below and (not whole or other in below):
+                    return f"{derived} derives from {member} and from {other}"
+        scopes.add(other)
+        return None
+
+    masked = {}              # function start -> its body with the word's qualified spellings blanked
+    for at, kind in spots:
+        before = code[:at]
+        statement = before[max(before.rfind(c) for c in ";{}") + 1:]
+        if kind == "macro":
+            return f"a preprocessor line spells {new_word}"
+        if re.search(r"\b(?:friend|using)\b", statement):
+            return f"a friend or using declaration spells {new_word}"
+        if re.search(r"::\s*$", before):
+            qualifier = re.search(r"([A-Za-z_]\w*)\s*(?:<[^<>]*>\s*)?::\s*$", before)
+            if not qualifier:
+                return f"a global-scope ::{new_word}"
+            why = unrelated(qualifier.group(1))
+            if why:
+                return why
+            continue
+        if re.search(r"(?:->|\.)\s*$", before):
+            return f"{new_word} is reached through an object whose type this scan cannot see"
+        if kind.startswith("class:"):
+            if kind == "class:*":
+                return f"{new_word} is a member of an anonymous type"
+            why = unrelated(kind[6:])
+            if why:
+                return why
+        elif kind in ("fnbody", "param"):
+            func = _enclosing_function(code, at)
+            if func is None:
+                # a prototype's parameter name binds nowhere; a macro call's argument may
+                paren = before.rfind("(")
+                callee = re.search(r"([A-Za-z_]\w*)\s*$", before[:paren]) if paren >= 0 else None
+                part = before[max(paren, before.rfind(",")) + 1:] + new_word
+                if kind == "param" and callee and not re.fullmatch(r"[A-Z][A-Z0-9_]*", callee.group(1)) \
+                        and len(name_metric.WORD.findall(part)) >= 2 and not re.search(r"[=()]", part) \
+                        and _declaration_ends(code, paren):
+                    continue
+                return f"{new_word} is spelled where this scan finds no function and no prototype"
+            scope, start, body_start, end, params = func
+            body = code[body_start:end]
+            header = code[start:body_start]            # the parameters and any initializer list
+            if old.search(header[header.find("("):]) or old.search(body):
+                return f"{scope} spells {old_word} itself, so its {new_word} could capture the rewrite"
+            macro = invoked_macro(macros, code, start, end)
+            if macro:
+                return (f"{scope} invokes the macro {macro}, whose expansion spells {old_word}, "
+                        f"so its {new_word} could capture the rewrite")
+            if kind == "param" and new_word not in set(parameters(params)):
+                return f"{new_word} is spelled in {scope}'s header but is no parameter of it"
+            if new_word in set(parameters(params)):
+                continue
+            if start not in masked:
+                masked[start] = re.sub(r"(?<=::)(\s*)%s\b" % re.escape(new_word),
+                                       lambda m: " " * len(m.group(0)), body)
+            if local_use_outside_scope(masked[start], new_word) is not None:
+                return f"{new_word} in {scope} is not confined to the scope of a local of that name"
+        else:
+            return f"{new_word} is a name at file scope"
+    for other in sorted(scopes):
+        for text in declared.get(other, ()):
+            macro = invoked_macro(macros, text)
+            if macro:
+                return f"{other} invokes the macro {macro}, whose expansion spells {old_word}, where {new_word} would capture it"
+        ranges = [(s, e) for name, s, e in type_bodies(code) if name == other] + \
+            [(s, e) for scope, s, e, _p in name_metric.functions_in(code)
+             if "::" in scope.split("#")[0] and scope.split("#")[0].rsplit("::", 1)[0].split("::")[-1] == other]
+        for begin, finish in ranges:
+            macro = invoked_macro(macros, code, begin, finish)
+            if macro:
+                return f"{other} invokes the macro {macro}, whose expansion spells {old_word}, where {new_word} would capture it"
+        for begin, finish in ranges:
+            for hit in old.finditer(code, begin, finish):
+                if not re.search(r"(?:->|\.|::)\s*$", code[:hit.start()]):
+                    return f"{old_word} is spelled unqualified inside {other}, where {new_word} would capture it"
+    return None
+
+
 def rewrite_units(ctx, plan, old_word, new_word, old_name, new_name, owner_source, max_files, *,
                   cls=None, kind="function", aliases=None):
     """Rewrite `old_word` in the owner, every file that spells it and every
@@ -1940,7 +2193,19 @@ def rewrite_units(ctx, plan, old_word, new_word, old_name, new_name, owner_sourc
             raise Refusal(f"{rel} is listed but missing")
         text = data.decode("utf-8", errors="surrogateescape")
         if code_mentions(text, new_word):
-            raise Refusal(f"{new_word} is already a name in {rel}")
+            # A canonical function name is never reverted, so it may share its word
+            # with another scope the rewrite cannot reach; an inferred name is
+            # reverted by whole-word match, which must stay exact.
+            why = "an inferred or global rename shares no word with another scope"
+            if kind == "function" and basis_kind(plan.basis) == "canonical":
+                why = other_scope_spellings(ctx, rel, name_metric.strip(text), old_word, new_word, cls)
+                landings = unreverted_landings(ctx, new_word)
+                if why is None and landings:
+                    why = (f"agree:{landings[0]} landed {new_word} as an inferred name, and reverting it is "
+                           "a whole-word rewrite this rename would make ambiguous")
+            if why is not None:
+                raise Refusal(f"{new_word} is already a name in {rel}" +
+                              (f" ({why})" if kind == "function" and basis_kind(plan.basis) == "canonical" else ""))
         foreign = foreign_declarations(name_metric.strip(text), old_word, cls, kind)
         if foreign:
             raise Refusal(f"{rel} also declares {old_word} as {foreign[0]}; a word rewrite would rename "
@@ -2920,8 +3185,14 @@ class UnbalancedScan(Refusal):
 
 
 def occurrence_kinds(code, word, where="the scanned text"):
-    """One entry for each place stripped header or source `code` spells
-    `word`, by what the spelling can mean to a function elsewhere:
+    """The kind of each place stripped header or source `code` spells `word`
+    (occurrence_spots without the offsets)."""
+    return [kind for _at, kind in occurrence_spots(code, word, where)]
+
+
+def occurrence_spots(code, word, where="the scanned text"):
+    """One (offset, kind) entry for each place stripped header or source `code`
+    spells `word`, by what the spelling can mean to a function elsewhere:
 
       'macro'    a preprocessor line spells it, unless it is a formal
                  parameter of a function-like `#define` (a formal binds
@@ -2951,7 +3222,7 @@ def occurrence_kinds(code, word, where="the scanned text"):
         if pattern.search(line):
             formals = _define_formals(line)
             if not (formals and formals[0] != word and word in formals[1]):
-                out.append("macro")
+                out.append([match.start(), "macro"])
         return re.sub(r"[^\n]", " ", line)
 
     code = name_metric.PREPROCESSOR.sub(blank, code)
@@ -2983,7 +3254,7 @@ def occurrence_kinds(code, word, where="the scanned text"):
                     owner = outer if outer.startswith("class:") else \
                         ("class:" + named.group(1) if named else "class:*")
                     for index in anonymous:
-                        out[index] = owner
+                        out[index][1] = owner
                     if owner == "class:*" and stack:
                         stack[-1][1].extend(anonymous)
         elif token == ";":
@@ -2991,15 +3262,16 @@ def occurrence_kinds(code, word, where="the scanned text"):
                 segment = match.end()
         else:
             top = stack[-1][0] if stack else "ns"
+            at = match.start()
             if parens and (top == "ns" or top.startswith("class:")):
-                out.append("param")
+                out.append([at, "param"])
             elif top in ("fn", "other"):
-                out.append("fnbody")
+                out.append([at, "fnbody"])
             elif top == "enum":
                 inner = next((k for k, _ in reversed(stack[:-1]) if k.startswith("class:")), None)
-                out.append(inner or "ns")
+                out.append([at, inner or "ns"])
             else:
-                out.append(top)
+                out.append([at, top])
                 if top == "class:*":
                     stack[-1][1].append(len(out) - 1)
     if parens:
@@ -3009,27 +3281,78 @@ def occurrence_kinds(code, word, where="the scanned text"):
     if stray:
         raise UnbalancedScan(f"cannot balance the parentheses and braces of {where} ({stray}; an #if/#else "
                              f"split declaration, perhaps), so a spelling of {word} there cannot be classified")
-    return out
+    return [(at, kind) for at, kind in out]
 
 
-def class_ancestors(ctx, rel, cls):
-    """`cls` and every base class, read from `rel` and the headers it
-    includes (every same-named header variant counts); None when `cls` or a
-    base is not declared there, so a caller must assume any class."""
-    key = ("_ancestors", rel, cls)
+UNPARSED_BASE = "<an unparsed base>"      # never a declared class, so a chain through it is not known
+
+_BASE_PART = re.compile(r"\s*(?:(?:public|protected|private|virtual)\s+)*"
+                        r"(?:::\s*)?((?:[A-Za-z_]\w*\s*::\s*)*[A-Za-z_]\w*)\s*(<.*>)?\s*", re.S)
+
+
+def base_clause_names(clause):
+    """The class names a base clause (the text after `:` of a class head)
+    derives from, or None when it cannot be read with certainty. It splits on
+    top-level commas only and takes each base's name before its `<`; the
+    template arguments are balanced but never read, since a template's own
+    bases are those of its definition. A dependent base (`typename T::X`,
+    `Pair<A>::Inner`), a pack expansion or any bracket that does not balance
+    is None, so a caller treats the chain as not known."""
+    parts, depth, begin = [], 0, 0
+    for at, char in enumerate(clause):
+        if char in "<(":
+            depth += 1
+        elif char in ">)":
+            depth -= 1
+            if depth < 0:
+                return None
+        elif char == "," and depth == 0:
+            parts.append(clause[begin:at])
+            begin = at + 1
+    if depth:
+        return None
+    parts.append(clause[begin:])
+    names = []
+    for part in parts:
+        match = _BASE_PART.fullmatch(part)
+        if not match or match.group(1) in ("public", "protected", "private", "virtual", "typename"):
+            return None
+        if match.group(2):
+            inner, level = match.group(2), 0
+            for at, char in enumerate(inner):
+                level += (char in "<(") - (char in ">)")
+                if level == 0 and at < len(inner) - 1:
+                    return None             # `<A>::Inner` or a split the group swallowed
+            if level:
+                return None
+        names.append(re.split(r"\s*::\s*", match.group(1))[-1])
+    return names
+
+
+def class_base_map(ctx, rel):
+    """{class name: base class names} read from `rel` and the headers it
+    includes (every same-named header variant counts). A template
+    specialization's head (`class X<0> : public Y`) and every other body of the
+    same name add their bases to the one entry, so a chain that runs through a
+    specialization is not cut."""
+    key = ("_bases", rel)
     if key in ctx._cache:
         return ctx._cache[key]
     bases = {}
     for path in [rel] + sorted(header_closure(ctx, rel)):
         code = name_metric.strip((ctx.read(path) or b"").decode("utf-8", "replace"))
-        for match in re.finditer(r"\b(?:class|struct)\s+([A-Za-z_]\w*)\s*(?::([^{;]*))?\{", code):
+        for match in re.finditer(r"\b(?:class|struct)\s+([A-Za-z_]\w*)\s*(?:<[^{};]*?>\s*)?(?::([^{;]*))?\{", code):
             entry = bases.setdefault(match.group(1), set())
             if match.group(2):
-                for part in match.group(2).split(","):
-                    names = [w for w in name_metric.WORD.findall(re.sub(r"<[^<>]*>", "", part))
-                             if w not in ("public", "protected", "private", "virtual")]
-                    if names:
-                        entry.add(names[-1])
+                names = base_clause_names(match.group(2))
+                entry.update([UNPARSED_BASE] if names is None else names)
+    ctx._cache[key] = bases
+    return bases
+
+
+def class_chain(bases, cls):
+    """(`cls` and every base class named in `bases`, whether every one of them
+    has a body in `bases`)."""
     seen, todo, known = set(), [cls], True
     while todo:
         name = todo.pop()
@@ -3040,6 +3363,17 @@ def class_ancestors(ctx, rel, cls):
             known = False
             continue
         todo.extend(bases[name])
+    return seen, known
+
+
+def class_ancestors(ctx, rel, cls):
+    """`cls` and every base class, read from `rel` and the headers it
+    includes (every same-named header variant counts); None when `cls` or a
+    base is not declared there, so a caller must assume any class."""
+    key = ("_ancestors", rel, cls)
+    if key in ctx._cache:
+        return ctx._cache[key]
+    seen, known = class_chain(class_base_map(ctx, rel), cls)
     ctx._cache[key] = seen if known else None
     return ctx._cache[key]
 

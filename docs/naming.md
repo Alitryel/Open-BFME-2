@@ -190,6 +190,42 @@ signature, an overload set, a non-virtual base declaration, or a unit that
 shows only one side stays refused: a word rewrite would name a method of
 another class.
 
+A canonical function rename (never reverted, so the revert's whole-word match
+has nothing to keep exact) may take a word that the touched text already
+spells, but only where every such spelling is provably another scope that the
+rewrite can neither capture nor make ambiguous: a member of, or `Other::word`
+through, a class `Other` that the unit declares with all its bases, that is not
+a renamed class or a base of one, is not derived from one, and has no
+descendant that is also derived from a renamed class (the renamed classes are
+the row's class and every base or descendant of it that spells the old word in
+its body, read across the file and the headers it includes, since a unit often
+declares its classes in a header and defines them out of line: the rewrite
+respells those declarations with it, so a sibling that derives from the
+respelled base, or a second base of a respelled overrider, is refused wherever
+the classes are declared; an unqualified
+spelling of the old word inside `Other`'s body or methods is refused, since the
+rewrite would land in `Other`'s scope); a local or parameter of a function whose
+parameters, member-initializer list and body never spell the old word (a
+function that calls itself is refused) with every unqualified spelling inside a
+declaration's scope; or a prototype's parameter name (a parameter list that a
+`;` follows, never an inline definition). A base clause is read at top-level
+commas only and a template's arguments are not bases (`Pair<A, B>` and
+`Wrapper<Mid<A> >` derive from `Pair` and `Wrapper`, whose own definitions say
+the rest); a dependent base (`typename T::X`, a bare template parameter, a
+nested `Outer<T>::Inner`) or unbalanced brackets leave the chain unknown, so
+the class counts as having an undeclared base. A macro whose body (in the file
+or a header it includes) spells the old word, directly or through another such
+macro, is respelled too, so a function with a local or parameter of the new
+word, or an `Other` with a member of it, that invokes that macro is refused
+(object-like or function-like). A spelling at file scope, in a
+macro, in a `friend` or `using` declaration, after `.` or `->` (the object's
+type is not known), in a free function's rename, or beside an undeclared base
+stays refused. An inferred name keeps the plain refusal: `revert` and `check`
+match the word whole. For the same reason a canonical rename does not take a
+word that an unreverted inferred landing in name_basis.csv (`agree:<id>`)
+holds: sharing it would make that landing's `revert` refuse for good, so
+restore the landing first.
+
 A `param` or `local` rename is confined to one function's text, so it asks only
 what the new spelling could capture and what the old one could mean there. The
 function's own text must not spell the new name; the unit must not spell it at
