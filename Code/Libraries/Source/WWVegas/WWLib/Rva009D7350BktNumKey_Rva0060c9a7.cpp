@@ -13,6 +13,9 @@
 
 #include <hash_map>
 
+// The bucket lookup naturally emits STLport's complete retail string-hash
+// inline (0x0002BA61). Its row lives here with this real caller.
+
 // The rowed /Od size provider owns the standalone body. Keep this
 // consumer's pointer-span calculation inline without a competing copy.
 namespace _STL {

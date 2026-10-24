@@ -697,7 +697,6 @@ Code/Libraries/Source/WWVegas/WWLib/stlport_deque_ptr_od.cpp,-Od,2,2,region defa
 Code/Libraries/Source/WWVegas/WWLib/stlport_deque_sighting_initmap.cpp,-O2,2,1,region default loses rows
 Code/Libraries/Source/WWVegas/WWLib/stlport_hash_map_int.cpp,-O2,30,10,region default loses rows
 Code/Libraries/Source/WWVegas/WWLib/stlport_hash_map_int_resize.cpp,-O2,1,1,region default loses rows
-Code/Libraries/Source/WWVegas/WWLib/stlport_hash_string.cpp,-O1 -G7,1,1,region default loses rows
 Code/Libraries/Source/WWVegas/WWLib/stlport_heap_s4sortelem24.cpp,,2,2,region default loses rows
 Code/Libraries/Source/WWVegas/WWLib/stlport_introsort_loop_s4sortelem8.cpp,,1,1,region default loses rows
 Code/Libraries/Source/WWVegas/WWLib/stlport_introsort_loop_s4sortelem8_desc.cpp,,1,1,region default loses rows
