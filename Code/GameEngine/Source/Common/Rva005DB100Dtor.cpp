@@ -30,6 +30,11 @@ Rva005DB100::~Rva005DB100()
 		ReleaseTreeHintRef00217D4C(&m_38->m_hint);
 }
 
+// Rva005DB100 is ExperienceTrackerAutoResolve: vtable 0x008766A4 holds this
+// class's deleting dtor 0x005DB1E8 in slot 0 and
+// ?xfer@ExperienceTrackerAutoResolve (0x005DB074) in slot 3.
+#pragma comment(linker, "/alternatename:??1ExperienceTrackerAutoResolve@@UAE@XZ=??1Rva005DB100@@UAE@XZ")
+
 // Native5DB145..5DB1E8,163B: inherited input update with local128B bitset.
 // Input pointer range4C/50 and each nonnull entry id38 are native accesses;
 // writes are committed to holder38+10 and countFC>1 sets byte20.

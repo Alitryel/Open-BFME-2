@@ -93,12 +93,12 @@ struct TextureStatisticsStructWide
 class EnumParameterClass
 {
 public:
-	// Renderer element. The 0x0113CE24 vector vtable names
-	// VectorClass<ENUM_VALUE>, and retail destroys the 8-byte elements
-	// through ILT 0x000470F5 (the pinned ??1_ENUM_VALUE dtor).
-	struct ENUM_VALUE
+	// Renderer element. The vector vtable 0x007D3BC8 carries the rowed
+	// VectorClass<_ENUM_VALUE>::Resize (0x00155690), and retail destroys the
+	// 8-byte elements through 0x00001E13 (add ecx,4: the surface at +4).
+	struct _ENUM_VALUE
 	{
-		~ENUM_VALUE();						// retail ILT 0x000470F5
+		~_ENUM_VALUE();						// retail 0x00001E13
 
 		void *m_name;
 		int m_value;
@@ -231,7 +231,7 @@ public:
 
 	DynamicVectorClassWide<TextureStatisticsStructWide> m_sentenceData;
 	DynamicVectorClass<PendingSurfaceStruct> m_pendingSurfaces;
-	DynamicVectorClass<EnumParameterClass::ENUM_VALUE> m_renderers;
+	DynamicVectorClass<EnumParameterClass::_ENUM_VALUE> m_renderers;
 	FontCharsClass *m_font;						// +0x4C
 	float m_baseLocation[2];					// +0x50
 	float m_location[2];						// +0x58
@@ -261,6 +261,7 @@ template <> int VectorClassWide<TextureStatisticsStructWide>::ID(const TextureSt
 template <> bool VectorClass<Render2DSentenceClass::PendingSurfaceStruct>::operator==(const VectorClass &) const;
 template <> bool VectorClass<Render2DSentenceClass::PendingSurfaceStruct>::Resize(int, const Render2DSentenceClass::PendingSurfaceStruct *);
 template <> int VectorClass<Render2DSentenceClass::PendingSurfaceStruct>::ID(const Render2DSentenceClass::PendingSurfaceStruct &);
+template <> bool VectorClass<EnumParameterClass::_ENUM_VALUE>::Resize(int, const EnumParameterClass::_ENUM_VALUE *);
 
 // ??1Render2DSentenceClass@@QAE@XZ
 Render2DSentenceClass::~Render2DSentenceClass()

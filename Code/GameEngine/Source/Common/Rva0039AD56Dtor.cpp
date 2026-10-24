@@ -37,10 +37,18 @@ struct Rva0039AD56Holder
 	}
 };
 
+class Overridable;
+
+// Rva0039AD56 is ExperienceTracker: its constructor ??0ExperienceTracker
+// (0x0039AEBC) stores vtable 0x0081AD20, whose slot 0 is this class's
+// deleting dtor 0x0039AF5A. Slot 4 of that table is __purecall.
 class Rva0039AD56 : public Snapshot
 {
 public:
 	virtual ~Rva0039AD56();
+
+protected:
+	virtual void rvaSlot4( const Overridable *level, bool notify ) = 0;	// slot 4 (+0x10)
 
 private:
 	int m_pad04; // +4
@@ -53,6 +61,9 @@ Rva0039AD56::~Rva0039AD56()
 {
 }
 
+// ExperienceTracker's units name this dtor by its class name.
+#pragma comment(linker, "/alternatename:??1ExperienceTracker@@UAE@XZ=??1Rva0039AD56@@UAE@XZ")
+
 // ??1Rva0039ADF3@@UAE@XZ @0x0039ADF3 11B
 // Derived dtor: stores vtable 0x0081AD34 then tail-jmps to rowed base
 // ??1Rva0039AD56@@UAE@XZ at 0x0039AD56; caller is 0x0039B0F1.
@@ -60,6 +71,8 @@ class Rva0039ADF3 : public Rva0039AD56
 {
 public:
 	virtual ~Rva0039ADF3();
+protected:
+	virtual void xfer( Xfer *xfer );	// slot 3, rowed 0x0039B10D
 };
 
 // Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);

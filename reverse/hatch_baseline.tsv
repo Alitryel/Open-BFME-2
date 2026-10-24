@@ -2609,6 +2609,7 @@ alternatename	Code/GameEngine/Source/Common/Rva003896E7Permuted.cpp	?TheGameSpyB
 alternatename	Code/GameEngine/Source/Common/Rva003908A7Memset.cpp	?ji_006291ae@@YAPAXPAXHI@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva0039597COpAssign.cpp	?Rva00395D45CopyAux@@YAPAVRva0039597C@@PAV1@00PADH@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva00395F57CanUnpack.cpp	_theLogicRandomLogFile	1
+alternatename	Code/GameEngine/Source/Common/Rva0039AD56Dtor.cpp	??1ExperienceTracker@@UAE@XZ	1	allow=708bc42b48b8757cdedfc1dd05d4d9604360b634
 alternatename	Code/GameEngine/Source/Common/Rva003ADEBFUIntCtor.cpp	_Rva003ADEBF_v0	1
 alternatename	Code/GameEngine/Source/Common/Rva003ADFDBCopyCtor.cpp	_Rva003ADEBF_v0	1
 alternatename	Code/GameEngine/Source/Common/Rva003ADFDBCopyCtor.cpp	_Rva003ADEBF_v8	1
@@ -2757,6 +2758,7 @@ alternatename	Code/GameEngine/Source/Common/Rva005DAC85Dtor.cpp	?slot0@Rva0055B0
 alternatename	Code/GameEngine/Source/Common/Rva005DAC85Dtor.cpp	?slot11@Rva0055B0CC@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/Common/Rva005DAC85Dtor.cpp	?slot4@Rva0055B0CC@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/Common/Rva005DAC85Dtor.cpp	?slot7@Rva0055B0CC@@UAEXXZ	1
+alternatename	Code/GameEngine/Source/Common/Rva005DB100Dtor.cpp	??1ExperienceTrackerAutoResolve@@UAE@XZ	1	allow=ba1da922b5227523bc186b1a98da72ef13255465
 alternatename	Code/GameEngine/Source/Common/Rva005F0647Deleting.cpp	?Rva005F0C39Destroy@@YAXPAURva005F0647@@0PA_N@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva005F8920.cpp	?g_009FE720@@3PAVRva0025CEEFHost@@A	1
 alternatename	Code/GameEngine/Source/Common/Rva005F8E37.cpp	_vtbl_00C79CF8	1
