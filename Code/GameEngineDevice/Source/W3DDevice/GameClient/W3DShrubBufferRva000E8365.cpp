@@ -87,7 +87,7 @@ struct Rva000E8365Data
 	float m_maxOutwardMovement;
 };
 
-struct Rva000E8365TreeType
+struct TreeType
 {
 	MeshClass *m_mesh;
 	Vector3 m_offset;
@@ -142,7 +142,7 @@ private:
 	unsigned char m_unreconstructed_4fb5e[0x4fb6c - 0x4fb5e];
 	bool m_initialized;
 	unsigned char m_unreconstructed_4fb6d[3];
-	Rva000E8365TreeType m_treeTypes[64];
+	TreeType m_treeTypes[64];
 	unsigned char m_unreconstructed_51270[8];
 	int m_treeIndexStep;
 };

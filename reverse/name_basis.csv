@@ -913,3 +913,4 @@ local,W3DDisplay::rva00043BF9::w,W3DDisplay::rva00043BF9::width,inferred,agree:n
 local,W3DDisplay::rva00043BF9::h,W3DDisplay::rva00043BF9::height,inferred,agree:nl-e6cf3c9df3f1,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayRva00043BF9.cpp,0x00043BF9
 local,W3DShroud::rva00073628::y,W3DShroud::rva00073628::rowsRemaining,inferred,agree:nl-4ce235eac5c5,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroud.cpp,0x00073628
 local,W3DShrubBuffer::DoXfer::t,W3DShrubBuffer::DoXfer::shrubType,inferred,agree:nl-8e7dbb0179c4,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferDoXfer.cpp,0x000E96B4
+class,Rva000E8365TreeType,TreeType,inferred,agree:nl-d4f56a56d09b,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E8365.cpp,
