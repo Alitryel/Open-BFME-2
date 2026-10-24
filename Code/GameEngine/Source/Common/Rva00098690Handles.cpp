@@ -168,7 +168,7 @@ struct Coord3D;
 class W3DFireTerrainView { public: virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03(); virtual void v04(); virtual void v05(); virtual float getGroundHeight(float x, float y, Coord3D *normal = 0) const; };
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
-struct W3DFireGlobalView { char gap[0x138]; int m_138; };
+struct W3DFireGlobalView { char gap[0x138]; int m_weather; };
 float GetGameClientRandomValueReal(float lo, float hi, char *file, int line);
 #define W3DFIRE_FILE "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\W3DFire.cpp"
 namespace _STL
@@ -211,7 +211,7 @@ void Rva00098690::update()
 				GetGameClientRandomValueReal(-10.0f, 10.0f, W3DFIRE_FILE, 167) + cell->m_cellY,
 				((W3DFireTerrainView *)TheTerrainLogic)->getGroundHeight((float)cell->m_cellX, (float)cell->m_cellY) + 1.0f);
 			Scorches type = SCORCH_7;
-			if (((W3DFireGlobalView *)TheWritableGlobalData)->m_138 == 1)
+			if (((W3DFireGlobalView *)TheWritableGlobalData)->m_weather == 1)
 				type = SCORCH_8;
 			TheTerrainRenderObject->addScorch(Vector3(pos.x, pos.y, pos.z), m_scorchRadius.getValue(), type);
 		}
