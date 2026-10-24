@@ -48,3 +48,4 @@ template <> __declspec(noinline) inline void _Construct<Rva00058BBDElement, Rva0
 
 // Instantiate the recovered operation and its required template dependencies.
 template void _STL::vector<Rva00058BBDElement, _STL::allocator<Rva00058BBDElement> >::_M_insert_overflow(Rva00058BBDElement *, Rva00058BBDElement const &, _STL::__false_type const &, unsigned int, bool);
+template void _STL::vector<Rva00058BBDElement>::push_back(const Rva00058BBDElement &);

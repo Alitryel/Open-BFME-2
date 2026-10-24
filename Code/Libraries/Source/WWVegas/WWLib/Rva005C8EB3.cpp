@@ -1,6 +1,6 @@
 // cl: /ICode/Libraries/Include /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// ??0Rva005C8EB3@@QAE@PAX@Z @0x005C8EB3 100B
+// ??0Rva005C847BRecord@@QAE@PAM@Z @0x005C8EB3 100B
 // __thiscall ctor: copies 8 bytes from src at +0/+4, zeros +8, default-builds
 // map<int,void*> at +0x2c via rowed 0x0033C432 and vector<BfmeE16> at +0x38
 // via rowed Vector_base 0x00211E58 with explicit allocator temp at [ebp+0xb],
@@ -38,10 +38,12 @@ namespace _STL {
 template <> _Rb_tree<int, pair<const int, void *>, _Select1st<pair<const int, void *> >, less<int>, allocator<pair<const int, void *> > >::~_Rb_tree();
 }
 
-class Rva005C8EB3 : public Base0C
+// The 72-byte cell that ~Rva005C847BRecord (0x005C8FBD) destroys; caller
+// 0x005C865B passes a float coordinate pair.
+class Rva005C847BRecord : public Base0C
 {
 public:
-	Rva005C8EB3(void *src);
+	Rva005C847BRecord(float *src);
 private:
 	BfmePoolRef10 m_ref;
 	int m_buf[8];
@@ -52,7 +54,7 @@ private:
 	signed char m_47;
 };
 
-Rva005C8EB3::Rva005C8EB3(void *src)
+Rva005C847BRecord::Rva005C847BRecord(float *src)
 	: Base0C(src)
 	, m_vec(_STL::allocator<BfmeE16>())
 	, m_44(0)

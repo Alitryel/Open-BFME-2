@@ -825,7 +825,13 @@ extern float g_00DBA4FC;
 
 struct Rva0005A084Element { int m_value; };
 // Use the complete retail push_back at 0x0005A084 from StlportVectorPushBackFamily.
-namespace _STL { template<> void vector<Rva0005A084Element>::push_back(const Rva0005A084Element &); }
+// push_back on this element is rowed in its overflow owner as vector<Rva00058BBDElement>.
+struct Rva00058BBDElement { int a[1]; };
+namespace _STL {
+template <> void vector<Rva00058BBDElement>::push_back(const Rva00058BBDElement &);
+template <> __declspec(dllimport) __forceinline void vector<Rva0005A084Element>::push_back(const Rva0005A084Element &x)
+{ ((vector<Rva00058BBDElement> *)this)->push_back(*(const Rva00058BBDElement *)&x); }
+}
 typedef _STL::vector<Rva0005A084Element> Rva0005A084Vector;
 
 extern "C" __declspec(dllimport) void __stdcall AIL_lock_mutex();

@@ -37,6 +37,7 @@ struct Rva0005A084Element
 {
 	int a[1];
 };
+struct Rva00058BBDElement;
 
 // One ref-counted pointer filled by the token parser, released on exit.
 class Rva0033A167SoundRef
@@ -59,10 +60,19 @@ template <class T> class allocator
 {
 };
 template <class T, class A> class vector;
+template <> class vector<Rva00058BBDElement, allocator<Rva00058BBDElement> >
+{
+public:
+	void push_back(const Rva00058BBDElement &x);
+};
 template <> class vector<Rva0005A084Element, allocator<Rva0005A084Element> >
 {
 public:
-	void push_back(const Rva0005A084Element &x);
+	// Rowed in its overflow owner as vector<Rva00058BBDElement>::push_back.
+	__declspec(dllimport) __forceinline void push_back(const Rva0005A084Element &x)
+	{
+		((vector<Rva00058BBDElement, allocator<Rva00058BBDElement> > *)this)->push_back(*(const Rva00058BBDElement *)&x);
+	}
 private:
 	Rva0005A084Element *m_start;
 	Rva0005A084Element *m_finish;

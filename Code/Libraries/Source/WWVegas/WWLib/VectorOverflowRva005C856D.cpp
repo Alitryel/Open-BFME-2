@@ -40,3 +40,4 @@ template<> __declspec(dllimport) __forceinline void _Construct<Rva005C856DRecord
 { _Construct(reinterpret_cast<Rva005C8624Element*>(p),reinterpret_cast<const Rva005C8624Element&>(v)); }
 }
 template void _STL::vector<Rva005C856DRecord>::_M_insert_overflow(Rva005C856DRecord*,const Rva005C856DRecord&,const _STL::__false_type&,unsigned int,bool);
+template void _STL::vector<Rva005C856DRecord>::push_back(const Rva005C856DRecord&);

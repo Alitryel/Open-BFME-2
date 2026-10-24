@@ -49,3 +49,4 @@ template <> void _Construct<Rva002111C8, Rva002111C8>(
 template void _STL::vector<Rva002111C8>::_M_insert_overflow(
 	Rva002111C8 *, const Rva002111C8 &,
 	const _STL::__false_type &, unsigned int, bool);
+template void _STL::vector<Rva002111C8>::push_back(const Rva002111C8 &);

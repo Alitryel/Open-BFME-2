@@ -76,7 +76,13 @@ public:
 };
 extern ParticleSystemManager *TheParticleSystemManager;
 struct Rva00214243Element { int a[4]; };
-namespace _STL { template <> void vector<Rva00214243Element>::push_back(const Rva00214243Element &); }
+// push_back on this element is rowed in its overflow owner as vector<Rva002111C8>.
+struct Rva002111C8 { int a[4]; };
+namespace _STL {
+template <> void vector<Rva002111C8>::push_back(const Rva002111C8 &);
+template <> __declspec(dllimport) __forceinline void vector<Rva00214243Element>::push_back(const Rva00214243Element &x)
+{ ((vector<Rva002111C8> *)this)->push_back(*(const Rva002111C8 *)&x); }
+}
 struct LivingWorldParticleRecord {
     BfmeParticleSystemHandle handle;
     int id;

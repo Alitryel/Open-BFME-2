@@ -587,7 +587,7 @@ unsigned char Rva00578646::rva00578646()
 	return m_4C->getPercentage();
 }
 
-// 0x005666BA: the rowed vector push_back 0x00566575 on the +0x90 member.
+// 0x005666BA: the vector push_back 0x00566575 on the +0x90 member.
 struct Rva00566575Element;
 namespace _STL
 {
@@ -608,9 +608,11 @@ private:
 	char m_pad00[0x90];
 	_STL::vector<Rva00566575Element, _STL::allocator<Rva00566575Element> > m_90;
 };
+// The push_back is rowed in its overflow owner as vector<Rva0056644EElement>.
+struct Rva0056644EElement;
 void Rva005666BA::rva005666BA(const Rva00566575Element &e)
 {
-	m_90.push_back(e);
+	((_STL::vector<Rva0056644EElement, _STL::allocator<Rva0056644EElement> > *)&m_90)->push_back((const Rva0056644EElement &)e);
 }
 
 // Forwarders through a member pointer to a member of the pointee: the rowed

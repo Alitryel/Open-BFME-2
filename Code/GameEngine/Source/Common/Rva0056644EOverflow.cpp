@@ -38,3 +38,4 @@ template <> void _Construct<Rva0056644EElement, Rva0056644EElement>(
 template void _STL::vector<Rva0056644EElement>::_M_insert_overflow(
 	Rva0056644EElement *, const Rva0056644EElement &,
 	const _STL::__false_type &, unsigned int, bool);
+template void _STL::vector<Rva0056644EElement>::push_back(const Rva0056644EElement &);

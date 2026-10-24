@@ -10,24 +10,26 @@
 // plain type name, that name is reused; otherwise the element is named after
 // the push_back address and both callees are pinned at the addresses the
 // retail REL32s prove.  No element layout beyond its size is claimed.
+// A push_back whose growth body only its owner unit can express is rowed
+// there, beside that _M_insert_overflow.
 //
 //   push_back   stride  _Construct  _M_insert_overflow  element
 //   0x0004CF63   12     0x0004CC70  0x0004CE90          RvaSmartPtr12 (rowed _Construct type)
-//   0x0005A084    4     0x002393AA  0x00058BBD          Rva0005A084Element
+//   0x0005A084    4     0x002393AA  0x00058BBD          (rowed in StlSweepW5Rva00058BBD.cpp)
 //   0x00082BE6    4     0x00087A5C  0x0008257F          Rva00082BE6Element
 //   0x00082C1D    4     0x00087A5C  0x00082631          Rva00082C1DElement
 //   0x0008B689    4     0x00087A5C  0x0008B503          Rva0008B689Element
 //   0x0008DE1C   24     0x0008A173  0x0008B6C0          Rva0008DE1CElement
 //   0x000AB3E2   24     0x000A9DF8  0x000AAF09          Rva000AB3E2Element
 //   0x000AB419   16     0x000A9E0A  0x000AAFC6          Rva000AB419Element
-//   0x000C3411    8     0x000BBA1A  0x000C1D98          Rva000C3411Element
+//   0x000C3411    8     0x000BBA1A  0x000C1D98          (rowed in StlportVectorAsciiScalarOverflow.cpp)
 //   0x000CF83C    8     0x000CF4D6  0x000CF76E          Rva000CF83CElement
 //   0x00153A27    8     0x004F6B7B  0x001538C9          Rva00153A27Element
 //   0x001741EB   48     0x00173351  0x00173EF9          Rva001741EBElement
 //   0x001DAAF2    8     0x001D9B0F  0x001DA68C          Rva001DAAF2Element
 //   0x001DF3F1   48     0x001DEDA7  0x001DF21C          Rva001DF3F1Element
 //   0x0020A227    8     0x0020596A  0x002098A0          Rva0020A227Element
-//   0x00214243   16     0x00211DFB  0x00213E3B          Rva00214243Element
+//   0x00214243   16     0x00211DFB  0x00213E3B          (rowed in Rva00213E3BOverflow.cpp)
 //   0x002201D5   32     0x0021FA1A  0x00220105          CreateAHeroClass (rowed _Construct type)
 //   0x00260B88    8     0x0026061A  0x00260AD6          Rva00260B88Element
 //   0x00287F76    8     0x002861B0  0x00287B4D          Rva00287F76Element
@@ -62,11 +64,11 @@
 //   0x00501E3F   20     0x00500873  0x00501A7C          Rva00501E3FElement
 //   0x005334A4    4     0x0053229D  0x00532ED9          Rva005334A4Element
 //   0x00566303   20     0x0052C392  0x00565CEB          Rva0052BE33 (rowed _Construct type)
-//   0x00566575   16     0x0052C404  0x0056644E          Rva00566575Element
+//   0x00566575   16     0x0052C404  0x0056644E          (rowed in Rva0056644EOverflow.cpp)
 //   0x005668E9   12     0x0052D355  0x005665AC          Rva005668E9Element
 //   0x0056A32B   12     0x00568C83  0x0056A1E4          Rva00568A20 (rowed _Construct type)
 //   0x00578425    4     0x00087A5C  0x0057833B          Rva00578425Element
-//   0x005C8624   72     0x005C83CD  0x005C856D          Rva005C8624Element
+//   0x005C8624   72     0x005C83CD  0x005C856D          (rowed in VectorOverflowRva005C856D.cpp)
 //   0x005E1E9B    4     0x00087A5C  0x005E1D5D          Rva005E1E9BElement
 //   0x005E825C    4     0x005E71C6  0x005E818E          Rva005E71C6Ref (pinned _Construct type)
 //   0x005E2B0E    4     0x00087A5C  0x005E2A40          Rva005E2B0EElement
@@ -75,7 +77,7 @@
 //   0x005F13E6    4     0x005F09FF  0x005F131A          Rva005F13E6Element
 //   0x005FA197    4     0x00087A5C  0x005F9C05          Rva005FA197Element
 //   0x005FA1CE    4     0x00087A5C  0x005F9CB7          Rva005FA1CEElement
-//   0x00601A3A   12     0x0060173A  0x0060197D          Rva00601A3AElement
+//   0x00601A3A   12     0x0060173A  0x0060197D          (rowed in StlportVectorRva00601A3A.cpp)
 
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
@@ -89,8 +91,6 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 // Typed placement-copy declarations use their existing retail owners.
-class Rva002111C8;
-void __cdecl Rva00211DFBConstruct(Rva002111C8 *, const Rva002111C8 *);
 struct TreeKey00242F5E;
 void __cdecl Rva002889E4Construct(TreeKey00242F5E *, const TreeKey00242F5E &);
 class Rva004733E0;
@@ -110,24 +110,20 @@ void __cdecl Rva001D9B0FConstruct(void *, const void *);
 void __cdecl Rva00317CA0Construct(void *, const void *);
 void __cdecl Rva0032ACFCConstruct(void *, const void *);
 void __cdecl Rva004C3A9FConstruct(void *, const void *);
-void __cdecl Rva0052C404Construct(void *, const void *);
 
 class RvaSmartPtr12 { public: int a[3]; };
-struct Rva0005A084Element { int a[1]; };
 struct Rva00082BE6Element { int a[1]; };
 struct Rva00082C1DElement { int a[1]; };
 struct Rva0008B689Element { int a[1]; };
 struct Rva0008DE1CElement { int a[6]; };
 struct Rva000AB3E2Element { int a[6]; };
 struct Rva000AB419Element { int a[4]; };
-struct Rva000C3411Element { int a[2]; };
 struct Rva000CF83CElement { int a[2]; };
 struct Rva00153A27Element { int a[2]; };
 struct Rva001741EBElement { int a[12]; };
 struct Rva001DAAF2Element { int a[2]; };
 struct Rva001DF3F1Element { int a[12]; };
 struct Rva0020A227Element { int a[2]; };
-struct Rva00214243Element { int a[4]; };
 class CreateAHeroManager { public: class CreateAHeroClass; };
 typedef CreateAHeroManager::CreateAHeroClass CreateAHeroClass;
 
@@ -178,7 +174,6 @@ struct Rva004F93B0Element { int a[2]; };
 struct Rva00501E3FElement { int a[5]; };
 struct Rva005334A4Element { int a[1]; };
 class Rva0052BE33 { public: int a[5]; };
-struct Rva00566575Element { int a[4]; };
 struct Rva005668E9Element { int a[3]; };
 class Rva00568A20 { public: int a[3]; };
 struct Rva00578425Element { int a[1]; };
@@ -191,7 +186,6 @@ struct GeometryShape { int a[9]; };
 struct Rva005F13E6Element { int a[1]; };
 struct Rva005FA197Element { int a[1]; };
 struct Rva005FA1CEElement { int a[1]; };
-struct Rva00601A3AElement { int a[3]; };
 
 // The overflow/growth/destroy helpers the held vector<...> units own are
 // emitted here too, and this TU's private-POD copies of them sort first in
@@ -223,9 +217,30 @@ template <> void vector<Rva00082BE6Element, allocator<Rva00082BE6Element> >::_M_
 template <> void vector<Rva00082C1DElement, allocator<Rva00082C1DElement> >::_M_clear();
 template <> void vector<Rva004E3E5AElement, allocator<Rva004E3E5AElement> >::_M_clear();
 template <> void vector<Rva005C8624Element, allocator<Rva005C8624Element> >::_M_clear();
-template <> Rva0005A084Element *__uninitialized_copy<Rva0005A084Element *, Rva0005A084Element *>(Rva0005A084Element *, Rva0005A084Element *, Rva0005A084Element *, const __false_type &);
-template <> Rva0005A084Element *__uninitialized_fill_n<Rva0005A084Element *, unsigned int, Rva0005A084Element>(Rva0005A084Element *, unsigned int, const Rva0005A084Element &, const __false_type &);
 }
+
+// Placement-copy and growth owners rowed under other names: push_back reaches
+// the retail row through the inline forwarders below.
+class Rva003AD160;
+struct BfmeStringRecord005DDD40;
+struct BfmeE8;
+enum ScienceType { SCIENCE_INVALID = -1 };
+class Rva004F6093Holder;
+class Object;
+void __cdecl Rva0026061AConstruct(BfmeStringRecord005DDD40 *, const BfmeStringRecord005DDD40 &);
+void __cdecl Rva002B2FE2Copy(Rva004F6093Holder *, const Rva004F6093Holder &);
+struct Rva005C856DRecord { int a[18]; };
+namespace _STL
+{
+template <class _Tp, class _Alloc> class list;
+template <> void _Construct<Rva003AD160, Rva003AD160>(Rva003AD160 *, const Rva003AD160 &) throw();
+template <> void _Construct<vector<BfmeE8>, vector<BfmeE8> >(vector<BfmeE8> *, const vector<BfmeE8> &) throw();
+template <> void _Construct<vector<ScienceType>, vector<ScienceType> >(vector<ScienceType> *, const vector<ScienceType> &) throw();
+template <> void _Construct<list<Object *, allocator<Object *> >, list<Object *, allocator<Object *> > >(list<Object *, allocator<Object *> > *, const list<Object *, allocator<Object *> > &) throw();
+}
+// The clear worker of this vector is rowed as Rva002B61DD::rva002B61DD.
+struct Rva002B61DD { void rva002B61DD(); };
+namespace _STL { template <> __declspec(dllimport) __forceinline void vector<Rva003F7B22Element, allocator<Rva003F7B22Element> >::_M_clear() { ((Rva002B61DD *)this)->rva002B61DD(); } }
 
 // The six-byte placement copy is rowed at 0x002861B0.
 __declspec(nothrow) void __cdecl Rva002861B0Copy(void *, const void *);
@@ -233,14 +248,12 @@ __declspec(nothrow) void __cdecl Rva002861B0Copy(void *, const void *);
 namespace _STL
 {
 template <> __declspec(nothrow) void _Construct<RvaSmartPtr12, RvaSmartPtr12>(RvaSmartPtr12 *__p, const RvaSmartPtr12 &__val);
-template <> __declspec(nothrow) void _Construct<Rva0005A084Element, Rva0005A084Element>(Rva0005A084Element *__p, const Rva0005A084Element &__val);
 template <> __declspec(nothrow) void _Construct<Rva00082BE6Element, Rva00082BE6Element>(Rva00082BE6Element *__p, const Rva00082BE6Element &__val);
 template <> __declspec(nothrow) void _Construct<Rva00082C1DElement, Rva00082C1DElement>(Rva00082C1DElement *__p, const Rva00082C1DElement &__val);
 template <> __declspec(nothrow) void _Construct<Rva0008B689Element, Rva0008B689Element>(Rva0008B689Element *__p, const Rva0008B689Element &__val);
 template <> __declspec(nothrow) void _Construct<Rva0008DE1CElement, Rva0008DE1CElement>(Rva0008DE1CElement *__p, const Rva0008DE1CElement &__val);
 template <> __declspec(nothrow) void _Construct<Rva000AB3E2Element, Rva000AB3E2Element>(Rva000AB3E2Element *__p, const Rva000AB3E2Element &__val);
 template <> __declspec(nothrow) void _Construct<Rva000AB419Element, Rva000AB419Element>(Rva000AB419Element *__p, const Rva000AB419Element &__val);
-template <> __declspec(nothrow) void _Construct<Rva000C3411Element, Rva000C3411Element>(Rva000C3411Element *__p, const Rva000C3411Element &__val);
 template <> __declspec(nothrow) void _Construct<Rva000CF83CElement, Rva000CF83CElement>(Rva000CF83CElement *__p, const Rva000CF83CElement &__val);
 template <> __declspec(nothrow) void _Construct<Rva00153A27Element, Rva00153A27Element>(Rva00153A27Element *__p, const Rva00153A27Element &__val);
 template <> __declspec(nothrow) void _Construct<Rva001741EBElement, Rva001741EBElement>(Rva001741EBElement *__p, const Rva001741EBElement &__val);
@@ -248,10 +261,9 @@ template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Constr
 { Rva001D9B0FConstruct(__p, &__val); }
 template <> __declspec(nothrow) void _Construct<Rva001DF3F1Element, Rva001DF3F1Element>(Rva001DF3F1Element *__p, const Rva001DF3F1Element &__val);
 template <> __declspec(nothrow) void _Construct<Rva0020A227Element, Rva0020A227Element>(Rva0020A227Element *__p, const Rva0020A227Element &__val);
-template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Construct<Rva00214243Element, Rva00214243Element>(Rva00214243Element *__p, const Rva00214243Element &__val)
-{ Rva00211DFBConstruct(reinterpret_cast<Rva002111C8 *>(__p), reinterpret_cast<const Rva002111C8 *>(&__val)); }
 template <> __declspec(nothrow) void _Construct<CreateAHeroClass, CreateAHeroClass>(CreateAHeroClass *__p, const CreateAHeroClass &__val);
-template <> __declspec(nothrow) void _Construct<Rva00260B88Element, Rva00260B88Element>(Rva00260B88Element *__p, const Rva00260B88Element &__val);
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Construct<Rva00260B88Element, Rva00260B88Element>(Rva00260B88Element *__p, const Rva00260B88Element &__val)
+{ Rva0026061AConstruct(reinterpret_cast<BfmeStringRecord005DDD40 *>(__p), *reinterpret_cast<const BfmeStringRecord005DDD40 *>(&__val)); }
 template <> __declspec(dllimport) __declspec(nothrow) __forceinline void
 _Construct<Rva00287F76Element, Rva00287F76Element>(Rva00287F76Element *__p, const Rva00287F76Element &__val)
 { Rva002861B0Copy(__p, &__val); }
@@ -265,29 +277,34 @@ template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Constr
 { Rva00317CA0Construct(__p, &__val); }
 template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Construct<Rva0032DC80Element, Rva0032DC80Element>(Rva0032DC80Element *__p, const Rva0032DC80Element &__val)
 { Rva0032ACFCConstruct(__p, &__val); }
-template <> __declspec(nothrow) void _Construct<Rva0032EA3FElement, Rva0032EA3FElement>(Rva0032EA3FElement *__p, const Rva0032EA3FElement &__val);
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Construct<Rva0032EA3FElement, Rva0032EA3FElement>(Rva0032EA3FElement *__p, const Rva0032EA3FElement &__val)
+{ _Construct(reinterpret_cast<vector<BfmeE8> *>(__p), *reinterpret_cast<const vector<BfmeE8> *>(&__val)); }
 template <> __declspec(nothrow) void _Construct<Rva003328B6Element, Rva003328B6Element>(Rva003328B6Element *__p, const Rva003328B6Element &__val);
 template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Construct<Rva00336AECElement, Rva00336AECElement>(Rva00336AECElement *__p, const Rva00336AECElement &__val)
 { Rva00333295Construct(reinterpret_cast<Rva00332EC8 *>(__p), *reinterpret_cast<const Rva00332EC8 *>(&__val)); }
-template <> __declspec(nothrow) void _Construct<Rva0033A23AElement, Rva0033A23AElement>(Rva0033A23AElement *__p, const Rva0033A23AElement &__val);
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Construct<Rva0033A23AElement, Rva0033A23AElement>(Rva0033A23AElement *__p, const Rva0033A23AElement &__val)
+{ _Construct(reinterpret_cast<vector<ScienceType> *>(__p), *reinterpret_cast<const vector<ScienceType> *>(&__val)); }
 template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Construct<Rva0037FFDDElement, Rva0037FFDDElement>(Rva0037FFDDElement *__p, const Rva0037FFDDElement &__val)
 { Rva0037F71FCopy(reinterpret_cast<Rva0037F551 *>(__p), *reinterpret_cast<const Rva0037F551 *>(&__val)); }
 template <> __declspec(nothrow) void _Construct<Rva0039A48EElement, Rva0039A48EElement>(Rva0039A48EElement *__p, const Rva0039A48EElement &__val);
 template <> __declspec(nothrow) void _Construct<BfmeStringRecord00395E75, BfmeStringRecord00395E75>(BfmeStringRecord00395E75 *__p, const BfmeStringRecord00395E75 &__val);
 template <> __declspec(nothrow) void _Construct<LivingWorldRegionConnection, LivingWorldRegionConnection>(LivingWorldRegionConnection *__p, const LivingWorldRegionConnection &__val);
-template <> __declspec(nothrow) void _Construct<Rva003F7B22Element, Rva003F7B22Element>(Rva003F7B22Element *__p, const Rva003F7B22Element &__val);
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Construct<Rva003F7B22Element, Rva003F7B22Element>(Rva003F7B22Element *__p, const Rva003F7B22Element &__val)
+{ Rva002B2FE2Copy(reinterpret_cast<Rva004F6093Holder *>(__p), *reinterpret_cast<const Rva004F6093Holder *>(&__val)); }
 template <> __declspec(nothrow) void _Construct<Rva00403927, Rva00403927>(Rva00403927 *__p, const Rva00403927 &__val);
 template <> __declspec(nothrow) void _Construct<Rva0040C0C7Element, Rva0040C0C7Element>(Rva0040C0C7Element *__p, const Rva0040C0C7Element &__val);
 template <> __declspec(nothrow) void _Construct<Rva00413B16Element, Rva00413B16Element>(Rva00413B16Element *__p, const Rva00413B16Element &__val);
 template <> __declspec(nothrow) void _Construct<Rva00414258Element, Rva00414258Element>(Rva00414258Element *__p, const Rva00414258Element &__val);
 template <> __declspec(nothrow) void _Construct<Rva00414BA4Element, Rva00414BA4Element>(Rva00414BA4Element *__p, const Rva00414BA4Element &__val);
 template <> __declspec(nothrow) void _Construct<BfmeStringRecord00466E64, BfmeStringRecord00466E64>(BfmeStringRecord00466E64 *__p, const BfmeStringRecord00466E64 &__val);
-template <> __declspec(nothrow) void _Construct<Rva00475F2AElement, Rva00475F2AElement>(Rva00475F2AElement *__p, const Rva00475F2AElement &__val);
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Construct<Rva00475F2AElement, Rva00475F2AElement>(Rva00475F2AElement *__p, const Rva00475F2AElement &__val)
+{ _Construct(reinterpret_cast<list<Object *, allocator<Object *> > *>(__p), *reinterpret_cast<const list<Object *, allocator<Object *> > *>(&__val)); }
 template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Construct<Rva004C3F09Element, Rva004C3F09Element>(Rva004C3F09Element *__p, const Rva004C3F09Element &__val)
 { Rva004C3A9FConstruct(__p, &__val); }
 template <> __declspec(nothrow) void _Construct<Rva004E3E5AElement, Rva004E3E5AElement>(Rva004E3E5AElement *__p, const Rva004E3E5AElement &__val);
 template <> __declspec(nothrow) void _Construct<Rva004F87BCElement, Rva004F87BCElement>(Rva004F87BCElement *__p, const Rva004F87BCElement &__val);
-template <> __declspec(nothrow) void _Construct<Rva004F8D92Element, Rva004F8D92Element>(Rva004F8D92Element *__p, const Rva004F8D92Element &__val);
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Construct<Rva004F8D92Element, Rva004F8D92Element>(Rva004F8D92Element *__p, const Rva004F8D92Element &__val)
+{ _Construct(reinterpret_cast<Rva004F87BCElement *>(__p), *reinterpret_cast<const Rva004F87BCElement *>(&__val)); }
 template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Construct<Rva004F9018Element, Rva004F9018Element>(Rva004F9018Element *__p, const Rva004F9018Element &__val)
 { Rva004F6B69Construct(reinterpret_cast<Rva004F6966 *>(__p), reinterpret_cast<const Rva004F6966 *>(&__val)); }
 template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Construct<Rva004F93B0Element, Rva004F93B0Element>(Rva004F93B0Element *__p, const Rva004F93B0Element &__val)
@@ -295,8 +312,6 @@ template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Constr
 template <> __declspec(nothrow) void _Construct<Rva00501E3FElement, Rva00501E3FElement>(Rva00501E3FElement *__p, const Rva00501E3FElement &__val);
 template <> __declspec(nothrow) void _Construct<Rva005334A4Element, Rva005334A4Element>(Rva005334A4Element *__p, const Rva005334A4Element &__val);
 template <> __declspec(nothrow) void _Construct<Rva0052BE33, Rva0052BE33>(Rva0052BE33 *__p, const Rva0052BE33 &__val);
-template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Construct<Rva00566575Element, Rva00566575Element>(Rva00566575Element *__p, const Rva00566575Element &__val)
-{ Rva0052C404Construct(__p, &__val); }
 template <> __declspec(nothrow) void _Construct<Rva005668E9Element, Rva005668E9Element>(Rva005668E9Element *__p, const Rva005668E9Element &__val);
 template <> __declspec(nothrow) void _Construct<Rva00568A20, Rva00568A20>(Rva00568A20 *__p, const Rva00568A20 &__val);
 template <> __declspec(nothrow) void _Construct<Rva00578425Element, Rva00578425Element>(Rva00578425Element *__p, const Rva00578425Element &__val);
@@ -309,25 +324,22 @@ template <> __declspec(nothrow) void _Construct<Rva005EFD53Element, Rva005EFD53E
 template <> __declspec(nothrow) void _Construct<Rva005F13E6Element, Rva005F13E6Element>(Rva005F13E6Element *__p, const Rva005F13E6Element &__val);
 template <> __declspec(nothrow) void _Construct<Rva005FA197Element, Rva005FA197Element>(Rva005FA197Element *__p, const Rva005FA197Element &__val);
 template <> __declspec(nothrow) void _Construct<Rva005FA1CEElement, Rva005FA1CEElement>(Rva005FA1CEElement *__p, const Rva005FA1CEElement &__val);
-template <> __declspec(nothrow) void _Construct<Rva00601A3AElement, Rva00601A3AElement>(Rva00601A3AElement *__p, const Rva00601A3AElement &__val);
 }
 
+
 template void _STL::vector<RvaSmartPtr12>::push_back(const RvaSmartPtr12 &);
-template void _STL::vector<Rva0005A084Element>::push_back(const Rva0005A084Element &);
 template void _STL::vector<Rva00082BE6Element>::push_back(const Rva00082BE6Element &);
 template void _STL::vector<Rva00082C1DElement>::push_back(const Rva00082C1DElement &);
 template void _STL::vector<Rva0008B689Element>::push_back(const Rva0008B689Element &);
 template void _STL::vector<Rva0008DE1CElement>::push_back(const Rva0008DE1CElement &);
 template void _STL::vector<Rva000AB3E2Element>::push_back(const Rva000AB3E2Element &);
 template void _STL::vector<Rva000AB419Element>::push_back(const Rva000AB419Element &);
-template void _STL::vector<Rva000C3411Element>::push_back(const Rva000C3411Element &);
 template void _STL::vector<Rva000CF83CElement>::push_back(const Rva000CF83CElement &);
 template void _STL::vector<Rva00153A27Element>::push_back(const Rva00153A27Element &);
 template void _STL::vector<Rva001741EBElement>::push_back(const Rva001741EBElement &);
 template void _STL::vector<Rva001DAAF2Element>::push_back(const Rva001DAAF2Element &);
 template void _STL::vector<Rva001DF3F1Element>::push_back(const Rva001DF3F1Element &);
 template void _STL::vector<Rva0020A227Element>::push_back(const Rva0020A227Element &);
-template void _STL::vector<Rva00214243Element>::push_back(const Rva00214243Element &);
 template void _STL::vector<CreateAHeroClass>::push_back(const CreateAHeroClass &);
 template void _STL::vector<Rva00260B88Element>::push_back(const Rva00260B88Element &);
 template void _STL::vector<Rva00287F76Element>::push_back(const Rva00287F76Element &);
@@ -365,11 +377,9 @@ template void _STL::vector<Rva004F93B0Element>::push_back(const Rva004F93B0Eleme
 template void _STL::vector<Rva00501E3FElement>::push_back(const Rva00501E3FElement &);
 template void _STL::vector<Rva005334A4Element>::push_back(const Rva005334A4Element &);
 template void _STL::vector<Rva0052BE33>::push_back(const Rva0052BE33 &);
-template void _STL::vector<Rva00566575Element>::push_back(const Rva00566575Element &);
 template void _STL::vector<Rva005668E9Element>::push_back(const Rva005668E9Element &);
 template void _STL::vector<Rva00568A20>::push_back(const Rva00568A20 &);
 template void _STL::vector<Rva00578425Element>::push_back(const Rva00578425Element &);
-template void _STL::vector<Rva005C8624Element>::push_back(const Rva005C8624Element &);
 template void _STL::vector<Rva005E1E9BElement>::push_back(const Rva005E1E9BElement &);
 template void _STL::vector<Rva005E71C6Ref>::push_back(const Rva005E71C6Ref &);
 template void _STL::vector<Rva005E2B0EElement>::push_back(const Rva005E2B0EElement &);
@@ -378,7 +388,6 @@ template void _STL::vector<Rva005EFD53Element>::push_back(const Rva005EFD53Eleme
 template void _STL::vector<Rva005F13E6Element>::push_back(const Rva005F13E6Element &);
 template void _STL::vector<Rva005FA197Element>::push_back(const Rva005FA197Element &);
 template void _STL::vector<Rva005FA1CEElement>::push_back(const Rva005FA1CEElement &);
-template void _STL::vector<Rva00601A3AElement>::push_back(const Rva00601A3AElement &);
 
 // Target 005C865B..005C8774: grid construction at two coordinates, with
 // vector header +8, owner +14 and column count +18. The caller/helper chain
@@ -391,6 +400,7 @@ struct Rva005C847BRecord
     unsigned char bytes[72];
 };
 struct Rva005C84F1Record;
+namespace _STL { template <> void vector<Rva005C856DRecord, allocator<Rva005C856DRecord> >::push_back(const Rva005C856DRecord &); }
 #include "../../../Include/Lib/BfmeE16.h"
 namespace _STL {
 // Use the kept destructor provider; this unit does not instantiate another copy.
@@ -427,8 +437,8 @@ public:
     }
     __forceinline void push_back(const Rva005C847BRecord &cell)
     {
-        ((_STL::vector<Rva005C8624Element> *)this)->push_back(
-            (const Rva005C8624Element &)cell);
+        ((_STL::vector<Rva005C856DRecord> *)this)->push_back(
+            (const Rva005C856DRecord &)cell);
     }
 private:
     unsigned int words[3];

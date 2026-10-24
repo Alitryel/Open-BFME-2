@@ -26,3 +26,4 @@ template void _STL::vector<Rva00601A3AElement>::_M_insert_overflow(Rva00601A3AEl
 template Rva00601A3AElement *_STL::__uninitialized_copy<Rva00601A3AElement*,Rva00601A3AElement*>(Rva00601A3AElement*,Rva00601A3AElement*,Rva00601A3AElement*,const _STL::__false_type&);
 template Rva00601A3AElement *_STL::__uninitialized_fill_n<Rva00601A3AElement*,unsigned int,Rva00601A3AElement>(Rva00601A3AElement*,unsigned int,const Rva00601A3AElement&,const _STL::__false_type&);
 template Rva00601A3AElement *_STL::allocator<Rva00601A3AElement>::allocate(unsigned int,const void*) const;
+template void _STL::vector<Rva00601A3AElement>::push_back(const Rva00601A3AElement&);
