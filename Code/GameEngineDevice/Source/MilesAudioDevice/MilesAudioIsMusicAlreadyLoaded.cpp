@@ -1,4 +1,4 @@
-// AudioManager::isMusicAlreadyLoaded, 288B. Visible noinline copies of
+// MilesAudioManager::isMusicAlreadyLoaded, 288B. Visible noinline copies of
 // AudioEventInfoRef's ctor (0x00051914) and OpaqueRefElement4::operator=
 // (0x00239099), both byte-exact, make cl keep the counted info in ESI and
 // release it from there, as retail. Retail jumps into a top test
@@ -50,8 +50,8 @@ class Rva000427195 { public: void *first(Rva000411084*); };
 struct AudioEventNode { void *next; AsciiString key; const AudioEventInfo* info; };
 class AudioEventRTS { public: void rva002D9ADC(); AsciiString getFilename(); };
 class FileSystem { public: bool doesFileExist(const char*)const; };extern FileSystem*TheFileSystem;
-class AudioManager { public: virtual bool isMusicAlreadyLoaded()const; private: char prefix[0xb8]; mutable Rva000427195 table; };
-bool AudioManager::isMusicAlreadyLoaded()const {
+class MilesAudioManager { public: virtual bool isMusicAlreadyLoaded()const; private: char prefix[0xb8]; mutable Rva000427195 table; };
+bool MilesAudioManager::isMusicAlreadyLoaded()const {
  ScopedMusicRef music;
  Rva000411084 it;
  { Rva000411084 first; table.first(&first); it=first; }

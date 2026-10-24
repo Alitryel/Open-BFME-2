@@ -1204,13 +1204,13 @@ public:
     virtual void rva00057530(unsigned int key, float value, int mode); virtual unsigned char rva0005164F(unsigned char soundClass); virtual void rva0005168C(unsigned char val, unsigned char flags); virtual void rva0005CB90(int a, float b); virtual void rva00053CE1(float volume, int flags, int idx);
     virtual void rva0005C8BB(float volume, int flags); virtual void rva000537F4(float a, float b, float c, float d, float e, int index); virtual void rva00059A25(const AsciiString &name, int idx); virtual void rva0005E168(const AsciiString &s, int idx); virtual void rva00059A7C(int idx);
     virtual void rva000515AB(); virtual void rva000515B3(int value); virtual void rva000533CB(); virtual unsigned char rva000515A4() const; virtual void rva000517F1();
-    virtual void rva0005181B(); virtual void rva00051840(); virtual void slot72(); virtual Rva0010F149Handle newOwnedAudioEventInfo(const AsciiString &name, int context); virtual void addUnownedAudioEventInfo(AudioEventInfo *eventInfo);
+    virtual void rva0005181B(); virtual void rva00051840(); virtual const MilesCtorCoord3D &slot72() const { return m_micPos; } virtual Rva0010F149Handle newOwnedAudioEventInfo(const AsciiString &name, int context); virtual void addUnownedAudioEventInfo(AudioEventInfo *eventInfo);
     virtual Rva00051ADA findAudioEventInfo(const AsciiString &name) const;
     // Slots 76..106 are not named here; slot 107 (+0x1AC, retail vftable
     // 0x007C55B0) is the rowed 0x000516EF.
-    virtual void friend_onAudioEventInfoDestruction(AudioEventInfo *info); virtual void slot77(); virtual void slot78(); virtual void slot79(); virtual float getAudioLengthMS(const BfmeAudioEventPrefix136 *event);
-    virtual int bfmeMilesPreferenceProduct(); virtual void rva0005185E(int *a, int *b, int *c); virtual void slot83(); virtual unsigned char rva00051896() const; virtual void rva0005AE2B(int type, Rva0005A084Vector *output);
-    virtual void rva0005AEDD(int type, Rva0005A084Vector *output); virtual void slot87(); virtual void rva000596E9(Xfer *xfer, unsigned int *handle); virtual void rva0005522C(const AsciiString &name); virtual AsciiString rva00054243() const;
+    virtual void friend_onAudioEventInfoDestruction(AudioEventInfo *info); virtual AudioSettings *slot77() const { return m_audioSettings; } virtual Rva001ED70C *slot78() const { return m_at14; } virtual Rva001ED70C *slot79() const { return m_at14; } virtual float getAudioLengthMS(const BfmeAudioEventPrefix136 *event);
+    virtual int bfmeMilesPreferenceProduct(); virtual void rva0005185E(int *a, int *b, int *c); virtual bool isMusicAlreadyLoaded() const; virtual unsigned char rva00051896() const; virtual void rva0005AE2B(int type, Rva0005A084Vector *output);
+    virtual void rva0005AEDD(int type, Rva0005A084Vector *output); virtual void *rva0055D96F() const; virtual void rva000596E9(Xfer *xfer, unsigned int *handle); virtual void rva0005522C(const AsciiString &name); virtual AsciiString rva00054243() const;
     virtual void rva000530DF(); virtual const _STL::vector<const char *> &rva00058314();
     // Slots 93/94 (+0x174/+0x178, vftable entries 0x007C5724/0x007C5728):
     // set or (level 1.0) drop a trigger area's audio level.
@@ -1221,7 +1221,7 @@ public:
     // Slot 98 (+0x188, retail vftable entry 0x007C5738).
     virtual void onAudioLODChanged(void);
     virtual bool rva000531F6(); virtual void rva000514BB();
-    virtual void rva00053281(); virtual void rva0005329C(); virtual void friend_xferSubAudioEventRTS(Xfer *xfer, BfmePoolRef10 *eventRef); virtual void slot104();
+    virtual void rva00053281(); virtual void rva0005329C(); virtual void friend_xferSubAudioEventRTS(Xfer *xfer, BfmePoolRef10 *eventRef); virtual void slot104() {}
     virtual void rva000511C3(Coord3D *out);
     virtual void getScreenToTerrainPositions(ScreenToTerrainSet *corners);
     virtual bool rva000516EF(const Coord3D *pos);
