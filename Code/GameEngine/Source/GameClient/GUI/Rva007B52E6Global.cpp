@@ -45,7 +45,7 @@ void destroyCancelArmyMemberMoveButton()
 }
 
 // Complete startup body7B5299..7B52E5, followed by initializer7B52E6.
-void rva007B5299()
+void initCancelArmyMemberMoveButton()
 {
     {
         AsciiString label("CancelArmyMemberMoveButton");
@@ -62,7 +62,7 @@ void destroyDisbandArmyMemberButton()
 }
 
 // Complete startup7B5343..7B538F followed by a different initializer7B5390.
-void rva007B5343()
+void initDisbandArmyMemberButton()
 {
     {
         AsciiString label("DisbandArmyMemberButton");

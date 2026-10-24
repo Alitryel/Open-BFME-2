@@ -1007,3 +1007,5 @@ member,Rva007EA9C0Owner::m_08,Rva007EA9C0Owner::m_flags,inferred,agree:nl-54cc43
 local,Rva007EA9C0Owner::init::p,Rva007EA9C0Owner::init::service,inferred,agree:nl-07292b707a52,Code/GameEngine/Source/GameNetwork/Rva007EA9C0Init.cpp,0x00657960
 param,BfmeThingPF::rva000276B0::n,BfmeThingPF::rva000276B0::count,inferred,agree:nl-d4b063a90b7e,Code/GameEngine/Source/Common/BfmeConv1460.cpp,0x000276B0
 class,Rva00800A40Input,InternetAddress,inferred,agree:nl-1a161f2aa6d3,Code/GameEngine/Source/Common/Rva00800A40Owner.cpp,
+function,?rva007B5299@@YAXXZ,?initCancelArmyMemberMoveButton@@YAXXZ,inferred,agree:nl-cb9a94ba3f58,Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp,0x007B5299
+function,?rva007B5343@@YAXXZ,?initDisbandArmyMemberButton@@YAXXZ,inferred,agree:nl-e8d4615656c3,Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp,0x007B5343
