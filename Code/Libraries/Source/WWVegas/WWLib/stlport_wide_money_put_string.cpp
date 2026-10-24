@@ -122,6 +122,7 @@ template <> inline basic_string<unsigned short, char_traits<unsigned short>, all
   if (this == 0) exit(1);
   if (this == 0) exit(1);
   if (this == 0) exit(1);
+  if (this == 0) exit(1);
   _Destroy(this->_M_start, this->_M_finish + 1);
 }
 }
