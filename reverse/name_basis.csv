@@ -862,3 +862,6 @@ local,Rva0055CFF0::rva0055CFF0::b1,Rva0055CFF0::rva0055CFF0::top,inferred,agree:
 local,Rva0055CFF0::rva0055CFF0::b2,Rva0055CFF0::rva0055CFF0::bottom,inferred,agree:nl-6f73a67a3062,Code/GameEngine/Source/GameClient/Rva0055CFF0Draw.cpp,0x0055CFF0
 local,Rva001F63C9List::erase::p,Rva001F63C9List::erase::node,inferred,agree:nl-1d53f3e4f7d3,Code/GameEngine/Source/GameClient/System/ParticleSystemManagerRemove.cpp,0x001F63C9
 function,?rva001F8109@Rva001F8109@@QAEXABVRvaSmartPtr12@@@Z,?friend_removeParticleSystem@Rva001F8109@@QAEXABVRvaSmartPtr12@@@Z,inferred,agree:nl-8488107edbdc,Code/GameEngine/Source/GameClient/System/ParticleSystemManagerRemove.cpp,0x001F8109
+param,rva002EBC59::a3,rva002EBC59::cellX,inferred,agree:nl-8780f30a2bc7,Code/GameEngine/Source/GameLogic/AI/Rva002EBC59.cpp,0x002EBC59
+param,rva002EBC59::a4,rva002EBC59::cellY,inferred,agree:nl-35b79a9aa16d,Code/GameEngine/Source/GameLogic/AI/Rva002EBC59.cpp,0x002EBC59
+param,rva002EBC59::a5,rva002EBC59::layer,inferred,agree:nl-59707c41ac50,Code/GameEngine/Source/GameLogic/AI/Rva002EBC59.cpp,0x002EBC59
