@@ -24,8 +24,8 @@ private:
 void Rva004FDA42Owner::rva004FDA42()
 {
 	((GameInfo *)this)->init();
-	void *p = m_101C;
-	if (p)
-		FreeGame(p);
+	void *allocation = m_101C;
+	if (allocation)
+		FreeGame(allocation);
 	m_101C = 0;
 }

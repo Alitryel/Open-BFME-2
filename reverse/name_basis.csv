@@ -741,3 +741,4 @@ member,Rva0054D222Prompt::m_state18,Rva0054D222Prompt::m_state,inferred,agree:nl
 member,Elem004E93E8::m_5c,Elem004E93E8::m_playerType,inferred,agree:nl-0a780da08e8f,Code/GameEngine/Source/Common/Rva004E93E8Find.cpp,
 local,AIGameTeam::getMasterPlayer::e,AIGameTeam::getMasterPlayer::playersEnd,inferred,agree:nl-5776dfe3ef2e,Code/GameEngine/Source/Common/Rva004E93E8Find.cpp,0x004E93E8
 local,Rva004F6BB3Fill::p,Rva004F6BB3Fill::current,inferred,agree:nl-ae37869d0fa7,Code/GameEngine/Source/Common/Rva004F6BB3Fill.cpp,0x004F6BB3
+local,Rva004FDA42Owner::rva004FDA42::p,Rva004FDA42Owner::rva004FDA42::allocation,inferred,agree:nl-7b1629d12499,Code/GameEngine/Source/Common/Rva004FDA42Clear.cpp,0x004FDA42
