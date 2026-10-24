@@ -172,6 +172,9 @@ struct Rva007B55E0TxnInits
 	static void rva007B5DC0();
 };
 
+// Retail places these transaction initializers in the constructor segment.
+#pragma code_seg(".text$yc")
+
 // ?rva007B55E0@Rva007B55E0TxnInits@@SAXXZ @ 0x007B55E0 (22B): acct/Login
 void Rva007B55E0TxnInits::rva007B55E0()
 {
@@ -605,3 +608,5 @@ void Rva007B55E0TxnInits::rva007B5DC0()
 	const char *type = g_Va00DD816C;
 	g_Va00E0A1B0.Rva007B55E0TxnName::Rva007B55E0TxnName( type, "Suicide" );
 }
+
+#pragma code_seg()
