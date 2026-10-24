@@ -89,6 +89,12 @@ inline bool operator==(const BfmeAssignRecord40 &x, const BfmeAssignRecord40 &y)
 struct Rva0051FC54Element { unsigned char bytes[80]; Rva0051FC54Element &operator=(const Rva0051FC54Element &); };
 struct BfmeAssignRecord104 { int a[25]; AsciiString s; };
 inline bool operator==(const BfmeAssignRecord104 &x, const BfmeAssignRecord104 &y) { return x.s == y.s; }
+// Retail's range destroy for this record (0x003B8E13) passes a tag to the
+// stride-0x68 loop 0x003B8B61, rowed as Rva003B8B61Destroy; forwarding the
+// loop there makes this TU's _Destroy copy retail's body.
+struct Rva003B8B61Elem;
+void __cdecl Rva003B8B61Destroy(Rva003B8B61Elem *first, Rva003B8B61Elem *last, int unused);
+namespace _STL { template <> __declspec(dllimport) __forceinline void __destroy_aux<BfmeAssignRecord104 *>(BfmeAssignRecord104 *first, BfmeAssignRecord104 *last, const __false_type &) { __false_type tag; ((void (__cdecl *)(BfmeAssignRecord104 *, BfmeAssignRecord104 *, const __false_type &))(void (__cdecl *)(Rva003B8B61Elem *, Rva003B8B61Elem *, int))&Rva003B8B61Destroy)(first, last, tag); } }
 struct BfmeAssignRecord172 { int a[42]; AsciiString s; BfmeAssignRecord172 &operator=(const BfmeAssignRecord172 &); };
 inline bool operator==(const BfmeAssignRecord172 &x, const BfmeAssignRecord172 &y) { return x.s == y.s; }
 // Only the native0x90 stride is used by these algorithm instantiations.
