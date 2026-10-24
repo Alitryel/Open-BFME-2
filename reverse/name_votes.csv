@@ -5278,3 +5278,10 @@ Code/GameEngine/Source/GameNetwork/V2FeslResultCursors.cpp|class||Rva007F35D0Cur
 Code/Libraries/Source/Apt/AptMathCallbacksBFME2.cpp|local|Rva006FF500|x,b82c183c1e88f40d0f0773a7,gpt-6.1-sol,codexb-20261024-143241-2,w-8e883e57d025,2026-10-24
 Code/Libraries/Source/Apt/AptMathCallbacksBFME2.cpp|local|Rva006FF500|y,9a84ae7dc9f0f5242405a766,gpt-6.1-sol,codexb-20261024-143241-2,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva002B6C9F.cpp|local|Rva002B6C9F::rva002B6C9F|r,10fa952006b1cd52664b3821,gpt-6.1-sol,codexb-20261024-143241-3,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva005DCE72.cpp|function|0x005DCE72|rva005DCE72,e317d5a82e3e18689e80831a,gpt-6-astra,codexb2-20261024-143317-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdateSlot8.cpp|class||Rva0044EDA6Virt,2d8c12dc9d1960980e58c7b2,gpt-6-astra,codexb2-20261024-143317-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv802.cpp|class||BfmeNodeEBD,4513c6b121fdcf9eddbb7ce3,gpt-6-astra,codexb2-20261024-143317-2,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv802.cpp|class||BfmeHeaderEBD,f3fef80a9d0e017666152db1,gpt-6-astra,codexb2-20261024-143317-2,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/Rva0055D686Scale.cpp|function|0x0055D686|Rva0055D686Compute,f28f4815161f17fae4f1b093,gpt-6-astra,codexb2-20261024-143317-3,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva0033A9A5.cpp|class||Rva0033A9A5Entry,d6ba1e92025d2e7046e5ce2a,gpt-6-astra,codexb2-20261024-143317-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesS3D.cpp|class||Rva004E81DE,a87321038030a8597fc2d5e3,gpt-6-astra,codexb2-20261024-143317-4,w-d0bdfd8b17e9,2026-10-24
