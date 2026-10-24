@@ -1319,3 +1319,7 @@ function,?rva00813CF0@@YAXXZ,?CommTAPIUnresolve@@YAXXZ,inferred,agree:nl-7c6b8a4
 class,Rva00201E45LODInfo,AudioLODInfo,inferred,agree:nl-af24bd6443ca,Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp,
 param,W3DTerrainLogic::Rva0027D77D::a,W3DTerrainLogic::Rva0027D77D::waterZ,inferred,agree:nl-ae7ac1efe938,Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp,0x0027D77D
 param,W3DTerrainLogic::Rva0027D77D::b,W3DTerrainLogic::Rva0027D77D::terrainZ,inferred,agree:nl-530e7796abcd,Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp,0x0027D77D
+local,bfmeCopyVHE::v,bfmeCopyVHE::transactionId,inferred,agree:nl-fcde5fa34fe1,Code/GameEngine/Source/Common/BfmeConv1361.cpp,0x00675680
+local,ActionManager::Rva0041B94AGet::p,ActionManager::Rva0041B94AGet::contain,inferred,agree:nl-ef790b2a60f6,Code/GameEngine/Source/Common/Rva0041B94APermuted.cpp,0x0041B94A
+local,BFMEActionManager::rva000C4080::p,BFMEActionManager::rva000C4080::contain,inferred,agree:nl-ead47d8f2050,Code/GameEngine/Source/Common/Rva0041B94APermuted.cpp,0x0041B94A
+local,ToggleDeploySpecialAbilityUpdate::rva004AE6D7::p08,ToggleDeploySpecialAbilityUpdate::rva004AE6D7::moduleData,inferred,agree:nl-ae0d06a6f7eb,Code/GameEngine/Source/GameLogic/Object/Update/ToggleDeploySpecialAbilityUpdateSlot24.cpp,0x004AE6D7

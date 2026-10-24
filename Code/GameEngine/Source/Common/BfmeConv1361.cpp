@@ -21,9 +21,9 @@ public:
 void __stdcall bfmeCopyVHE(BfmeMsgVHE *dst, BfmeMsgVHE *src)
 {
 	dst->m_bfme1c = src->m_bfme1c;
-	int v = src->bfmeGetVHE((int *)"TID", -1);
-	if (v != -1)
-		dst->bfmeSetVHE((int *)"TID", v);
+	int transactionId = src->bfmeGetVHE((int *)"TID", -1);
+	if (transactionId != -1)
+		dst->bfmeSetVHE((int *)"TID", transactionId);
 	dst->m_bfme04 = src->m_bfme04;
 	dst->m_bfme08 = src->m_bfme08;
 	dst->m_bfme0c = src->m_bfme0c;

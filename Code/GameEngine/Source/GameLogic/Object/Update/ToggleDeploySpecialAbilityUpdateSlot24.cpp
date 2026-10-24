@@ -229,8 +229,8 @@ void ToggleDeploySpecialAbilityUpdate::rva004AE6D7(void *argVoid)
 		((AICommandInterface *)((char *)ds + 0x20))->aiIdle(kCommandSourceAI);
 	}
 	BfmeAudioEventPrefix136 tmp(*(OpaqueRefElement4 *)((char *)m_owner + 0xC8), 0);
-	Rva004AE5B8Data08 *p08 = m_p08;
-	((Rva002D9531 *)&tmp)->rva002D9531(p08->m_74);
+	Rva004AE5B8Data08 *moduleData = m_p08;
+	((Rva002D9531 *)&tmp)->rva002D9531(moduleData->m_74);
 	TheAudio->v25(&tmp);
 	ds->rva0048E6AB();
 }

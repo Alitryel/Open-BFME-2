@@ -39,10 +39,10 @@ bool ActionManager::Rva0041B94AGet(Object *object, Object *target, int)
 		return false;
 	if (!(aObj != 0 && bObj == 0))
 	{
-		const void *p = bObj->rva0028C197();
-		if (p == 0)
+		const void *contain = bObj->rva0028C197();
+		if (contain == 0)
 			return false;
-		if (((Provider28 *)p)->slot28(object))
+		if (((Provider28 *)contain)->slot28(object))
 		{
 			return true;
 			_WriteBarrier();
@@ -52,10 +52,10 @@ bool ActionManager::Rva0041B94AGet(Object *object, Object *target, int)
 	}
 	else
 	{
-		void *p = aObj->rva0028C197();
-		if (p == 0)
+		void *contain = aObj->rva0028C197();
+		if (contain == 0)
 			return false;
-		if (((Provider28 *)p)->slot28(target))
+		if (((Provider28 *)contain)->slot28(target))
 		{
 			return true;
 			_WriteBarrier();
@@ -88,10 +88,10 @@ bool BFMEActionManager::rva000C4080(const Object *obj, const Object *target, Com
 		return false;
 	if (!(aObj != 0 && bObj == 0))
 	{
-		const void *p = bObj->rva0028C197();
-		if (p == 0)
+		const void *contain = bObj->rva0028C197();
+		if (contain == 0)
 			return false;
-		if (((Provider28 *)p)->slot28(const_cast<Object *>(obj)))
+		if (((Provider28 *)contain)->slot28(const_cast<Object *>(obj)))
 		{
 			return true;
 			_WriteBarrier();
@@ -101,10 +101,10 @@ bool BFMEActionManager::rva000C4080(const Object *obj, const Object *target, Com
 	}
 	else
 	{
-		void *p = const_cast<Object *>(aObj)->rva0028C197();
-		if (p == 0)
+		void *contain = const_cast<Object *>(aObj)->rva0028C197();
+		if (contain == 0)
 			return false;
-		if (((Provider28 *)p)->slot28(const_cast<Object *>(target)))
+		if (((Provider28 *)contain)->slot28(const_cast<Object *>(target)))
 		{
 			return true;
 			_WriteBarrier();
