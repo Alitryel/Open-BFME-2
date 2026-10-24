@@ -52,21 +52,21 @@ Rva00201E2BLODInfo::Rva00201E2BLODInfo()
 // Native manager callback VA0x00601E45 constructs count2, stride8 at +0x218.
 // Independent [0x00201E45..0x00201E56) decoding proves one word and two flags;
 // the audio-related field names are carried from the clean BFME 1 donor.
-struct Rva00201E45LODInfo
+struct AudioLODInfo
 {
-    Rva00201E45LODInfo();
+    AudioLODInfo();
     int maximumAmbientStreams;
     bool allowDolby, allowReverb;
 };
 
-Rva00201E45LODInfo::Rva00201E45LODInfo()
+AudioLODInfo::AudioLODInfo()
 {
     maximumAmbientStreams=2; allowDolby=true; allowReverb=true;
 }
 
 typedef char Rva00201DC4StrideCheck[sizeof(Rva00201DC4LODInfo)==0x4C ? 1 : -1];
 typedef char Rva00201E2BStrideCheck[sizeof(Rva00201E2BLODInfo)==0x10 ? 1 : -1];
-typedef char Rva00201E45StrideCheck[sizeof(Rva00201E45LODInfo)==8 ? 1 : -1];
+typedef char Rva00201E45StrideCheck[sizeof(AudioLODInfo)==8 ? 1 : -1];
 
 // Native manager passes VA0x00601D48 for count0xA0, stride0x20 at +0x228.
 // Target leaf [0x00201D48..0x00201D79) and each scalar position are independently
@@ -114,7 +114,7 @@ struct GameLODManager
     GameLODManager();
     Rva00201DC4LODInfo staticInfo[6];
     Rva00201E2BLODInfo dynamicInfo[5];
-    Rva00201E45LODInfo audioInfo[2];
+    AudioLODInfo audioInfo[2];
     Rva00201D48LODPreset presets[5][32];
     Rva00201D79BenchProfile benchmarks[16];
     int word1768, word176C, word1770, word1774, word1778, word177C;

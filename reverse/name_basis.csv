@@ -1316,3 +1316,4 @@ param,Rva00330A37::rva00330A37::a3,Rva00330A37::rva00330A37::opacityStart,inferr
 param,Rva00330A37::rva00330A37::a5,Rva00330A37::rva00330A37::opacityPeak,inferred,agree:nl-edc2acd75403,Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp,0x00330A37
 param,Rva00330A37::rva00330A37::a8,Rva00330A37::rva00330A37::opacityEnd,inferred,agree:nl-818e33c35deb,Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp,0x00330A37
 function,?rva00813CF0@@YAXXZ,?CommTAPIUnresolve@@YAXXZ,inferred,agree:nl-7c6b8a48387c,Code/Libraries/Source/DirtySock/Y4CommTapi.cpp,0x0067FBF0
+class,Rva00201E45LODInfo,AudioLODInfo,inferred,agree:nl-af24bd6443ca,Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp,
