@@ -7,6 +7,24 @@
 // StringVectorRecordCopyBFME2.cpp).
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
+// Both views describe the native AsciiString plus vector<AsciiString> record.
+// The rowed placement-copy provider owns the constructor and its EH graph.
+struct BfmeVectorRecord0002154F3;
+struct BfmeVectorRecord002154F3;
+namespace _STL {
+template <class Destination, class Source> void _Construct(Destination *, const Source &);
+template <> void _Construct<BfmeVectorRecord002154F3, BfmeVectorRecord002154F3>(
+    BfmeVectorRecord002154F3 *, const BfmeVectorRecord002154F3 &);
+// ?_STL::_Construct absent-from-retail
+static __forceinline void _Construct(BfmeVectorRecord0002154F3 *destination,
+                                    const BfmeVectorRecord0002154F3 &source)
+{
+    _Construct<BfmeVectorRecord002154F3, BfmeVectorRecord002154F3>(
+        reinterpret_cast<BfmeVectorRecord002154F3 *>(destination),
+        *reinterpret_cast<const BfmeVectorRecord002154F3 *>(&source));
+}
+}
+
 #include <stl/_algobase.h>
 namespace _STL {
 static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
@@ -26,9 +44,6 @@ struct BfmeVectorRecord0002154F3 {
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> BfmeVectorRecord0002154F3 * vector<BfmeVectorRecord0002154F3,allocator<BfmeVectorRecord0002154F3> >::erase(BfmeVectorRecord0002154F3 *,BfmeVectorRecord0002154F3 *); }
-namespace _STL {
-template <> void _Construct<BfmeVectorRecord0002154F3, BfmeVectorRecord0002154F3>(BfmeVectorRecord0002154F3 *, const BfmeVectorRecord0002154F3 &);
-}
 typedef BfmeVectorRecord0002154F3 Record;
 typedef _STL::vector<Record, _STL::allocator<Record> > RecordVector;
 template RecordVector::~vector();
