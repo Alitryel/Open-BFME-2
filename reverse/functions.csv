@@ -29521,7 +29521,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?rva005F06EF@Rva005F06EF@@QAEXXZ,,0x005F06EF,57,Code/GameEngine/Source/Common/Rva005F0647Deleting.cpp,matched,unlock lane tooltip via TheGameText fetch and Mouse tooltip
 ?rva005F09BC@Rva005F09BC@@QAEXXZ,,0x005F09BC,27,Code/GameEngine/Source/Common/Rva005F0647Deleting.cpp,matched,chain lane array loop over Rva005F06EF
 ??4Rva002CF5D4@@QAEAAU0@ABU0@@Z,,0x002CF5D4,43,Code/GameEngine/Source/GameLogic/Object/Rva002CF5D4Assign.cpp,matched,56-element assign via 0x002C99FB; 43B exact; caller 0x002D128C
-?rva002CF2D5@Rva002CF2D5@@QAEXPAURva002CF2D5Node@@@Z,,0x002CF2D5,45,Code/Libraries/Source/WWVegas/WWLib/Rva002CF2D5Erase.cpp,matched,tree erase via right plusC left plus8 free 0x30830; 45B exact; caller 0x002CF7C3
+?_M_erase@Rva002CF2D5@@QAEXPAURva002CF2D5Node@@@Z,,0x002CF2D5,45,Code/Libraries/Source/WWVegas/WWLib/Rva002CF2D5Erase.cpp,matched,tree erase via right plusC left plus8 free 0x30830; 45B exact; caller 0x002CF7C3
 ?Rva003BB654@ScriptActions@@QAEXXZ,,0x003BB654,19,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionsRva003BAAD6.cpp,matched,null-guarded forwarder to vslot 0x17C via global 0xDFE6E8 caller 0x003CE477; member ABI repaired: retail dispatcher3CA4BE passes ScriptActions this in ECX; original verb remains unknown
 ??1GameTextTable@@QAE@XZ,,0x002E6158,44,Code/GameEngine/Source/GameClient/GameTextTable.cpp,matched,chain from 0x002E5E5A vector arrays
 ?rva002CF7B5@Rva002CF7B5@@QAEXXZ,,0x002CF7B5,41,Code/Libraries/Source/WWVegas/WWLib/Rva002CF7B5Clear.cpp,matched,tree clear via 0x002CF2D5; 41B exact; callers 0x002D0142 0x0033BD65

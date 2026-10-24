@@ -13,7 +13,7 @@ struct Rva002CF2D5Node
 
 struct Rva002CF2D5
 {
-	void rva002CF2D5(Rva002CF2D5Node *x);
+	void _M_erase(Rva002CF2D5Node *x);
 };
 
 struct Rva002CF7B5Header
@@ -34,7 +34,7 @@ struct Rva002CF7B5
 void Rva002CF7B5::rva002CF7B5()
 {
 	if (m_size != 0) {
-		((Rva002CF2D5 *)this)->rva002CF2D5(m_header->m_root);
+		((Rva002CF2D5 *)this)->_M_erase(m_header->m_root);
 		m_header->m_left = m_header;
 		m_header->m_root = 0;
 		m_header->m_right = m_header;

@@ -1761,3 +1761,5 @@ param,Rva00431920::Rva00431920::a,Rva00431920::Rva00431920::translator,inferred,
 param,Rva00431920::Rva00431920::c,Rva00431920::Rva00431920::position,inferred,agree:nl-c84b067ef9cc,Code/GameEngine/Source/Common/Rva00431920.cpp,0x00431920
 member,Rva00201DC4LODInfo::flag1C,Rva00201DC4LODInfo::m_showSoftWaterEdge,inferred,agree:nl-87bb840ac67e,Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp,
 member,Rva00201DC4LODInfo::word2C,Rva00201DC4LODInfo::m_textureReduction,inferred,agree:nl-d1c53a5f41a3,Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp,
+function,?rva002CF2D5@Rva002CF2D5@@QAEXPAURva002CF2D5Node@@@Z,?_M_erase@Rva002CF2D5@@QAEXPAURva002CF2D5Node@@@Z,inferred,agree:nl-9d8e54df0bae,Code/Libraries/Source/WWVegas/WWLib/Rva002CF2D5Erase.cpp,0x002CF2D5
+carry,Rva002CF2D5::rva002CF2D5::node,Rva002CF2D5::_M_erase::node,inferred,scope renamed by Rename rva002CF2D5 to _M_erase (inferred),Code/Libraries/Source/WWVegas/WWLib/Rva002CF2D5Erase.cpp,0x002CF2D5
