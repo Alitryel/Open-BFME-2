@@ -1345,3 +1345,17 @@ Code/GameEngine/Source/GameNetwork/Rva00594E07.cpp|local|Rva00594E07::rva00594E0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DHordeModelDrawModuleDataCtor.cpp|local|W3DHordeModelDrawModuleData::W3DHordeModelDrawModuleData|f15,37ebc22b233fb3f80bdf2117,gpt-6.1-sol,codex8-20261023-235444-29,w-de56e563a50b,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DHordeModelDrawModuleDataCtor.cpp|local|W3DHordeModelDrawModuleData::W3DHordeModelDrawModuleData|f8,7502c9fdbef6234a7f41e072,gpt-6.1-sol,codex8-20261023-235444-29,w-de56e563a50b,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DHordeModelDrawModuleDataCtor.cpp|local|W3DHordeModelDrawModuleData::W3DHordeModelDrawModuleData|f05,71195d82b3ceb70deb30a19e,gpt-6.1-sol,codex8-20261023-235444-29,w-de56e563a50b,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroud.cpp|param|setMagFilter|v,dc2ac168ea1531e9a8faca96,gpt-6.1-sol,codex8-20261024-000513-5,w-de56e563a50b,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroud.cpp|param|setMinFilter|v,e9d145385e1e3e2080e9a7e9,gpt-6.1-sol,codex8-20261024-000513-5,w-de56e563a50b,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroud.cpp|local|W3DShroud::rva00073628|y,678733a937914d3884a94183,gpt-6.1-sol,codex8-20261024-000513-5,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva003C3F9EApply.cpp|param|ScriptActions::doNamedAddSpecialPowerCountdown|arg3,95c6e37eebafcbe8d3b95e9c,gpt-6.1-sol,codex8-20261024-000513-6,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva003C3F9EApply.cpp|local|ScriptActions::doNamedAddSpecialPowerCountdown|t,ee4c77d1bd7a5088f7416107,gpt-6.1-sol,codex8-20261024-000513-6,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva005C394DGo.cpp|function|0x005C394D|rva005C394D,bf857d0b74dd12bebe081492,gpt-6.1-sol,codex8-20261024-000513-7,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva005C394DGo.cpp|local|Rva005C394D::rva005C394D|t,2f36ce770af2f68f1f253685,gpt-6.1-sol,codex8-20261024-000513-7,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva005C394DGo.cpp|local|Rva005C394D::rva005C394D|s,5c55adfc8456256ceed3c75f,gpt-6.1-sol,codex8-20261024-000513-7,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/ArmySummarySystem_ComputePlayerEarnedSpellPoints.cpp|member|_Rva0040CA61Arg|m_1C,1b1fdeb5ee30cdc608a44605,gpt-6.1-sol,codex8-20261024-000513-8,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/ArmySummarySystem_ComputePlayerEarnedSpellPoints.cpp|param|ArmySummarySystem::ComputePlayerEarnedSpellPoints|a,cb33d3079d551829c7a62c14,gpt-6.1-sol,codex8-20261024-000513-8,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/ArmySummarySystem_ComputePlayerEarnedSpellPoints.cpp|local|ArmySummarySystem::ComputePlayerEarnedSpellPoints|n,ffcd1a11c7cf3b0ef5f09ff2,gpt-6.1-sol,codex8-20261024-000513-8,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/RTS/PlayerRva002AB8FB.cpp|local|Player::rva002AB8FB|tmp,c63136a2bf096b74bb8c4a0d,gpt-6.1-sol,codex8-20261024-000513-9,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/RTS/PlayerRva002AB8FB.cpp|local|Player::rva002AB8FB|g,8b3bfee91bee93beb1fdfd08,gpt-6.1-sol,codex8-20261024-000513-9,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/RTS/PlayerRva002AB8FB.cpp|local|Player::rva002AB8FB|s,bd979a8223ed6337e3a0a96e,gpt-6.1-sol,codex8-20261024-000513-9,w-de56e563a50b,2026-10-24
