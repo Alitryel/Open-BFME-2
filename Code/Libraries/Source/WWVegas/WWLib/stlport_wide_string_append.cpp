@@ -164,4 +164,12 @@ basic_string<unsigned short, char_traits<unsigned short>,
 		allocator<unsigned short> >::append<const unsigned short *>(
 		const unsigned short *, const unsigned short *);
 
+// Retail folds the wchar_t* instantiation into the same body (pinned at
+// 0x00013160); the STLport consumers declare it and bind to this copy.
+template basic_string<unsigned short, char_traits<unsigned short>,
+		allocator<unsigned short> > &
+basic_string<unsigned short, char_traits<unsigned short>,
+		allocator<unsigned short> >::append<unsigned short *>(
+		unsigned short *, unsigned short *, const forward_iterator_tag &);
+
 }
