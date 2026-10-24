@@ -4974,3 +4974,5 @@ Code/GameEngine/Source/Common/Rva005344C0Copy.cpp|function|0x005346D9|Rva005346D
 Code/GameEngine/Source/GameLogic/AI/PathfinderRva002EADE1.cpp|param|Pathfinder::rva002EADE1|b,3cdfe481a1e895f0b2ce195c,gpt-6-astra,codexb2-20261024-120809-7,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/GameLogic/AI/PathfinderRva002EADE1.cpp|local|Pathfinder::rva002EADE1|tmp1,92682125263cdea1975de477,gpt-6-astra,codexb2-20261024-120809-7,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/System/Rva002F1BD5Finish.cpp|class||Rva002F1BD5Mid,476af1fc8ac04dd3a851f9ae,gpt-6-astra,codexb2-20261024-120809-8,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/Rva0055CFF0Draw.cpp|function|0x0055CFF0|rva0055CFF0,d29fb9f9c6d8fb1ad4972b14,gpt-6-astra,codexb2-20261024-120809-9,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv1432.cpp|param|BfmeStrVMQ::notEqual|o,b41e166b73afe941e8cac17d,gpt-6-astra,codexb2-20261024-120809-10,w-d0bdfd8b17e9,2026-10-24
