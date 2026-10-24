@@ -22,8 +22,8 @@ private:
 int Rva00404927::rva00404927(Rva00404781 *p, int idx)
 {
 	float a = p->m_a[idx] * m_08 - p->m_b[idx] * m_04;
-	float b = m_10 * m_0C;
-	if (a > b)
+	float threshold = m_10 * m_0C;
+	if (a > threshold)
 		return 1;
 	return 0;
 }
