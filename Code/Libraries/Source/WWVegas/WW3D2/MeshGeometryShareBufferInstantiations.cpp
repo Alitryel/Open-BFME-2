@@ -113,21 +113,9 @@ void MeshGeometryShareBufferInstantiations( int count )
 	vertex->Clear();
 }
 
-#pragma inline_depth(0)
-// ?bfmeEmitMeshGeometryShareBufferInstantiations@@YAXPAV?$ShareBufferClass@D@@PAV?$ShareBufferClass@E@@PAV?$ShareBufferClass@G@@PAV?$ShareBufferClass@K@@PAV?$ShareBufferClass@VVector3@@@@PAV?$ShareBufferClass@VVector4@@@@@Z present-unmatched
-void bfmeEmitMeshGeometryShareBufferInstantiations(
-	ShareBufferClass<char> *p0,
-	ShareBufferClass<unsigned char> *p1,
-	ShareBufferClass<unsigned short> *p2,
-	ShareBufferClass<unsigned long> *p3,
-	ShareBufferClass<Vector3> *p4,
-	ShareBufferClass<Vector4> *p5)
-{
-	p0->ShareBufferClass<char>::~ShareBufferClass();
-	p1->ShareBufferClass<unsigned char>::~ShareBufferClass();
-	p2->ShareBufferClass<unsigned short>::~ShareBufferClass();
-	p3->ShareBufferClass<unsigned long>::~ShareBufferClass();
-	p4->ShareBufferClass<Vector3>::~ShareBufferClass();
-	p5->ShareBufferClass<Vector4>::~ShareBufferClass();
-}
-#pragma inline_depth()
+template ShareBufferClass<char>::~ShareBufferClass();
+template ShareBufferClass<unsigned char>::~ShareBufferClass();
+template ShareBufferClass<unsigned short>::~ShareBufferClass();
+template ShareBufferClass<unsigned long>::~ShareBufferClass();
+template ShareBufferClass<Vector3>::~ShareBufferClass();
+template ShareBufferClass<Vector4>::~ShareBufferClass();

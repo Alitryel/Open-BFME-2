@@ -30,10 +30,4 @@ inline void _Destroy<Rva002DFC30 *>(Rva002DFC30 *__first, Rva002DFC30 *__last)
 
 }
 
-#pragma inline_depth(0)
-// ?bfmeEmitRva002DFC30Destroy@@YAXPAVRva002DFC30@@0@Z present-unmatched
-void bfmeEmitRva002DFC30Destroy(Rva002DFC30 *__first, Rva002DFC30 *__last)
-{
-	_STL::_Destroy(__first, __last);
-}
-#pragma inline_depth()
+template void _STL::_Destroy<Rva002DFC30 *>(Rva002DFC30 *, Rva002DFC30 *);
