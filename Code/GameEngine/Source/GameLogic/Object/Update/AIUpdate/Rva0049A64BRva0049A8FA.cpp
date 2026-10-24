@@ -84,7 +84,7 @@ struct B24 { virtual void f24(); unsigned char m_pad[0x3E4 - 0x28]; };
 class Iface3E4
 {
 public:
-	virtual bool rva0049A880(int a) = 0;
+	virtual bool isClearToApproach(int a) = 0;
 	virtual bool rva0049A8A1(int a, Coord3D *pos, int *out) = 0;
 	virtual void s02();
 	virtual void s03();
@@ -94,7 +94,7 @@ public:
 class Rva0049A64B : public B00, public B0C, public B10, public B20, public B24, public Iface3E4
 {
 public:
-	virtual bool rva0049A880(int a);
+	virtual bool isClearToApproach(int a);
 	virtual bool rva0049A8A1(int a, Coord3D *pos, int *out);
 	virtual void rva0049A8FA(int a, Coord3D *out);
 };
@@ -130,7 +130,7 @@ bool Rva0049A64B::rva0049A8A1(int a, Coord3D *pos, int *out)
 // Retail table C50868 slot 0 uses the same +3E4 interface receiver as
 // slots 1 and 5. Its whole 33B span ends at the following slot-1 body.
 // The Object member at +8 is therefore [secondary-this - 3DC].
-bool Rva0049A64B::rva0049A880(int a)
+bool Rva0049A64B::isClearToApproach(int a)
 {
  Rva0049A8FAProvider *provider = m_object->m_250->rva7C();
  if (!provider) return false;
@@ -142,7 +142,7 @@ bool Rva0049A64B::rva0049A880(int a)
 // code owner; folded constant/no-op bodies retain that owner's name without
 // inferring an interface-method identity from the fold. Native C50868..C508B8.
 extern "C" {
-void __identifier("?rva0049A880@Rva0049A64B@@UAE_NH@Z")();
+void __identifier("?isClearToApproach@Rva0049A64B@@UAE_NH@Z")();
 void __identifier("?rva0049A8A1@Rva0049A64B@@UAE_NHPAUCoord3D@@PAH@Z")();
 void __identifier("?rva0049A6D7@Rva0049A6D7@@QAE_NHHH@Z")();
 void __identifier("?_bfme_ro_v50@RenderObjClass@@UAE_NH@Z")();
@@ -156,7 +156,7 @@ void __identifier("?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")();
 void __identifier("?IsCRC@Xfer@@UBE_NXZ")();
 }
 extern const void *const g_00C50868[20] = {
- (const void *)&__identifier("?rva0049A880@Rva0049A64B@@UAE_NH@Z"),
+ (const void *)&__identifier("?isClearToApproach@Rva0049A64B@@UAE_NH@Z"),
  (const void *)&__identifier("?rva0049A8A1@Rva0049A64B@@UAE_NHPAUCoord3D@@PAH@Z"),
  (const void *)&__identifier("?rva0049A6D7@Rva0049A6D7@@QAE_NHHH@Z"),
  (const void *)&__identifier("?_bfme_ro_v50@RenderObjClass@@UAE_NH@Z"),

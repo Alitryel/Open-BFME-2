@@ -2485,3 +2485,4 @@ __ehhandler$??$_Construct@U?$pair@$$CBVAsciiString@@V?$list@PAVSuperweaponInfo@@
 ?g_00C3C994@@3QBQBXB,0x0083C994,"Renamed to ?g_waitForSecondButtonDownStateHandlerVtable@@3QBQBXB by tools/rename.py (inferred)"
 ?Rva005D833E@@YAXXZ,0x005D833E,"Renamed to ?clearAssistBattleCooldowns@@YAXXZ by tools/rename.py (inferred)"
 ?Rva005D851D@@YAXXZ,0x005D851D,"Renamed to ?clearArmyBreakerCooldowns@@YAXXZ by tools/rename.py (inferred)"
+?rva0049A880@Rva0049A64B@@UAE_NH@Z,0x0049A880,"Renamed to ?isClearToApproach@Rva0049A64B@@UAE_NH@Z by tools/rename.py (inferred)"

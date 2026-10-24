@@ -1958,3 +1958,5 @@ member,Rva002BEFE5::m_54,Rva002BEFE5::m_startPosition,inferred,agree:nl-0e2a2a07
 function,?Rva005D833E@@YAXXZ,?clearAssistBattleCooldowns@@YAXXZ,inferred,agree:nl-96fb625c6f1a,Code/GameEngine/Source/Common/GapBodiesGE38.cpp,0x005D833E
 function,?Rva005D851D@@YAXXZ,?clearArmyBreakerCooldowns@@YAXXZ,inferred,agree:nl-b96b36ba4243,Code/GameEngine/Source/Common/GapBodiesGE38.cpp,0x005D851D
 member,PlayerStats::m_1BC,PlayerStats::m_isEvil,inferred,agree:nl-1ff555d911dd,Code/GameEngine/Source/GameNetwork/Rva00318333.cpp,
+function,?rva0049A880@Rva0049A64B@@UAE_NH@Z,?isClearToApproach@Rva0049A64B@@UAE_NH@Z,inferred,agree:nl-2a80070d0388,Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/Rva0049A64BRva0049A8FA.cpp,0x0049A880
+carry,Rva0049A64B::rva0049A880::provider,Rva0049A64B::isClearToApproach::provider,inferred,scope renamed by Rename rva0049A880 to isClearToApproach (inferred),Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/Rva0049A64BRva0049A8FA.cpp,0x0049A880
