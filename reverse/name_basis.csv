@@ -559,3 +559,7 @@ local,Rva004DF4B5::rva004DF4B5::tmp,Rva004DF4B5::rva004DF4B5::objectId,inferred,
 param,Drawable::rva0027656F::a2,Drawable::rva0027656F::boneName,inferred,agree:nl-2c7e5d668583,Code/GameEngine/Source/GameClient/Drawable_rva0027656F.cpp,0x0027656F
 member,Rva004958AEObject::m_ai258,Rva004958AEObject::m_ai,inferred,agree:nl-1f5672783ca0,Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp,
 member,Rva004958AE::m_name10,Rva004958AE::m_commandButtonName,inferred,agree:nl-e998914857e0,Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp,
+param,Rva00082C98Host::rva00082C98::a0,Rva00082C98Host::rva00082C98::newSize,inferred,agree:nl-bb881f1a1427,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/Rva00082C98Clamp.cpp,0x00082C98
+param,Rva00082C98Host::rva00082C98::a1,Rva00082C98Host::rva00082C98::fillX,inferred,agree:nl-45a5fafda39c,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/Rva00082C98Clamp.cpp,0x00082C98
+param,Rva00082C98Host::rva00082C98::a2,Rva00082C98Host::rva00082C98::fillY,inferred,agree:nl-46f0067e4d82,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/Rva00082C98Clamp.cpp,0x00082C98
+param,Rva00082C98Host::rva00082C98::a3,Rva00082C98Host::rva00082C98::fillZ,inferred,agree:nl-b3757d3c7c1e,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/Rva00082C98Clamp.cpp,0x00082C98

@@ -24,24 +24,24 @@ class Rva00082719Vector { public: void fillInsert(Coord3D*,unsigned int,const Co
 class Rva00082C98Host
 {
 public:
-	void rva00082C98(unsigned int a0, int a1, int a2, int a3);
+	void rva00082C98(unsigned int newSize, int fillX, int fillY, int fillZ);
 
 	void *m_begin;
 	void *m_end;
 };
 
-void Rva00082C98Host::rva00082C98(unsigned int a0, int a1, int a2, int a3)
+void Rva00082C98Host::rva00082C98(unsigned int newSize, int fillX, int fillY, int fillZ)
 {
-	(void)a2;
-	(void)a3;
+	(void)fillY;
+	(void)fillZ;
 	unsigned int count = ((char *)m_end - (char *)m_begin) / 12;
-	if (a0 < count)
+	if (newSize < count)
 	{
-		void *e = (char *)m_begin + a0 * 12;
+		void *e = (char *)m_begin + newSize * 12;
 		((_STL::vector<Coord3D, _STL::allocator<Coord3D> > *)this)->erase((Coord3D *)e, (Coord3D *)m_end);
 	}
 	else
 	{
-		((Rva00082719Vector *)this)->fillInsert((Coord3D *)m_end, a0 - ((char *)m_end - (char *)m_begin) / 12, *(const Coord3D *)&a1);
+		((Rva00082719Vector *)this)->fillInsert((Coord3D *)m_end, newSize - ((char *)m_end - (char *)m_begin) / 12, *(const Coord3D *)&fillX);
 	}
 }

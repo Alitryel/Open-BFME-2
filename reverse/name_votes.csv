@@ -1622,3 +1622,12 @@ Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp|class||Rva0
 Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp|member|Rva004958AEObject|m_ai258,55d8f4ef29b7eead47baaea5,seat-b,rn-1023b-1-b,w-5cfbc43ec05e,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp|member|Rva004958AECommand|m_type14,e388d06664e47895130d9811,seat-b,rn-1023b-1-b,w-5cfbc43ec05e,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp|member|Rva004958AE|m_name10,a4bb37d8c6f2f6f261f0884e,seat-b,rn-1023b-1-b,w-5cfbc43ec05e,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/Rva00082C98Clamp.cpp|param|Rva00082C98Host::rva00082C98|a0,a993168d8c919ed3c5092bfd,seat-a,rn-1023b-11-a,w-a9eb34310b9e,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/Rva00082C98Clamp.cpp|param|Rva00082C98Host::rva00082C98|a1,ad263d85e3df8b10f9f84f48,seat-a,rn-1023b-11-a,w-a9eb34310b9e,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/Rva00082C98Clamp.cpp|param|Rva00082C98Host::rva00082C98|a2,824ec5f9f1c809a04da9a376,seat-a,rn-1023b-11-a,w-a9eb34310b9e,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/Rva00082C98Clamp.cpp|param|Rva00082C98Host::rva00082C98|a3,6e5baff6e2104c7d6c023982,seat-a,rn-1023b-11-a,w-a9eb34310b9e,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/Rva00082C98Clamp.cpp|local|Rva00082C98Host::rva00082C98|e,5fbeac37a33fefa25ad010f9,seat-a,rn-1023b-11-a,w-a9eb34310b9e,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/Rva00082C98Clamp.cpp|param|Rva00082C98Host::rva00082C98|a1,ad263d85e3df8b10f9f84f48,seat-b,rn-1023b-11-b,w-4be36a6e8140,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/Rva00082C98Clamp.cpp|param|Rva00082C98Host::rva00082C98|a2,824ec5f9f1c809a04da9a376,seat-b,rn-1023b-11-b,w-4be36a6e8140,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/Rva00082C98Clamp.cpp|param|Rva00082C98Host::rva00082C98|a3,6e5baff6e2104c7d6c023982,seat-b,rn-1023b-11-b,w-4be36a6e8140,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/Rva00082C98Clamp.cpp|local|Rva00082C98Host::rva00082C98|e,143927f9c8af76871a6d182e,seat-b,rn-1023b-11-b,w-4be36a6e8140,2026-10-24
