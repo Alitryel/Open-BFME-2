@@ -2406,3 +2406,4 @@ __ehhandler$?Rva00595C04FormatIPPort@@YA?AVAsciiString@@IG@Z,0x0079D229,"Renamed
 ?Rva00595C79FormatAddress@@YA?AVAsciiString@@PBURva00595C79Address@@@Z,0x00595C79,"Renamed to ?formatAddress@@YA?AVAsciiString@@PBURva00595C79Address@@@Z by tools/rename.py (inferred)"
 ?rva005F2A32@Rva005F2A32@@QAEXXZ,0x005F2A32,"Renamed to ?HideMemberName@Rva005F2A32@@QAEXXZ by tools/rename.py (inferred)"
 ?g_bfmeVideoTableStorage@@3UBfmeVideoTableStorage@@A,0x00A0ABB4,"Renamed to ?g_videoTable@@3UBfmeVideoTableStorage@@A by tools/rename.py (inferred)"
+?Rva00496292Destroy@@YAXPAX0@Z,0x00496292,"Renamed to ?destroyRange@@YAXPAX0@Z by tools/rename.py (inferred)"

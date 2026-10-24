@@ -42817,7 +42817,7 @@ _HorizontalLine_4_5_Scale_C,,0x001B9C10,247,Code/Libraries/Source/VP6/Horizontal
 ?rva005D4F7D@Rva005D4F7D@@QAEXXZ,,0x005D4F7D,7,Code/GameEngine/Source/Common/Rva005D4F0EClear.cpp,matched,forwarder via ptr at 0 tail to 0x005D4F0E
 ?winGetText@GameWindow@@QAE?AVUnicodeString@@XZ,,0x00314942,26,Code/GameEngine/Source/GameClient/GUI/GameWindowWinSetInstanceData_Rva0031495c.cpp,matched,donor winGetText via m_instData at +0x30 pin getText at 0x003148F1
 ?rva000554A9@Rva000554A9@@QAEPAXPAX@Z,,0x000554A9,61,Code/Libraries/Source/WWVegas/WWLib/Rva000554A9.cpp,matched,copy dispatch with 144B tail record via 0x00054E23 and dtor pin
-?Rva00496292Destroy@@YAXPAX0@Z,,0x00496292,25,Code/GameEngine/Source/GameLogic/Object/Update/Rva00496292.cpp,matched,destroy range stride 12 via dtor pin at 0x00495C43
+?destroyRange@@YAXPAX0@Z,,0x00496292,25,Code/GameEngine/Source/GameLogic/Object/Update/Rva00496292.cpp,matched,destroy range stride 12 via dtor pin at 0x00495C43
 ??1Rva004962EA@@QAE@XZ,,0x004962EA,30,Code/GameEngine/Source/GameLogic/Object/Update/Rva004962EA.cpp,matched,vector teardown via destroy 0x00496292 and free
 ?rva00493313@Rva00493313@@QBE?AVAsciiString@@XZ,,0x00493313,32,Code/GameEngine/Source/Common/Rva00493313.cpp,matched,final override name at 0x5c via friend_getFinalOverride StringBase copy
 ??1Rva005B7FA4@@UAE@XZ,,0x005B7FA4,86,Code/GameEngine/Source/Common/Rva005B7FA4Dtor.cpp,matched,MI dtor via middle Rva0056DC6B inline plus bases rowed singleton g_00E06478

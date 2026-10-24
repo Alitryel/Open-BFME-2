@@ -20,7 +20,7 @@
 
 extern "C" void __cdecl free(void *);
 
-void Rva00496292Destroy(void *first, void *last);
+void destroyRange(void *first, void *last);
 
 class Rva00360D26Member
 {
@@ -54,7 +54,7 @@ public:
 
 Rva004962ABVector::~Rva004962ABVector()
 {
-	Rva00496292Destroy(m_start, m_finish);
+	destroyRange(m_start, m_finish);
 }
 
 class __declspec(novtable) AutoPickUpUpdateModuleData : public Snapshot

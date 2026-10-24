@@ -9,7 +9,7 @@ struct BfmeStringRecord00426A5B {
 	char m_pad[12];
 };
 
-void Rva00496292Destroy(void *first, void *last);
+void destroyRange(void *first, void *last);
 
 class Rva004962EA {
 public:
@@ -20,7 +20,7 @@ public:
 
 Rva004962EA::~Rva004962EA()
 {
-	Rva00496292Destroy(m_first, m_last);
+	destroyRange(m_first, m_last);
 	void *block = m_first;
 	if (block) {
 		free(block);
