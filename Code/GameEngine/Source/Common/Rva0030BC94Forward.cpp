@@ -24,14 +24,14 @@ public:
 	virtual void v08(); virtual void v09();
 	virtual void changed();	// slot 10
 
-	void rva0030BC94(const Rva0053841CArg *arg);
+	void transform(const Rva0053841CArg *arg);
 
 private:
 	char m_pad04[0x68 - 0x04];
 	char m_member68[4];	// +0x68
 };
 
-void Rva0030BC94::rva0030BC94(const Rva0053841CArg *arg)
+void Rva0030BC94::transform(const Rva0053841CArg *arg)
 {
 	((QuadStrip2D *)m_member68)->rva0053841C(*(const Matrix3D *)arg);
 	changed();

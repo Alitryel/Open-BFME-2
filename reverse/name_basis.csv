@@ -724,3 +724,4 @@ function,?rva002CED59@Rva002CEE1B@@QAEPAUElem002CED84@@PAX@Z,?findEntry@Rva002CE
 param,Rva002D317C::rva002D317C::a,Rva002D317C::rva002D317C::position,inferred,agree:nl-0d5431cb9166,Code/GameEngine/Source/Common/Rva002D317CCalls.cpp,0x002D317C
 param,Rva002D317C::rva002D317C::b,Rva002D317C::rva002D317C::size,inferred,agree:nl-8202412e13de,Code/GameEngine/Source/Common/Rva002D317CCalls.cpp,0x002D317C
 local,Rva002E0D66::rva002E0D66::p,Rva002E0D66::rva002E0D66::node,inferred,agree:nl-3a914a9b3b38,Code/GameEngine/Source/Common/Rva002E0D66Method.cpp,0x002E0D66
+function,?rva0030BC94@Rva0030BC94@@QAEXPBURva0053841CArg@@@Z,?transform@Rva0030BC94@@QAEXPBURva0053841CArg@@@Z,inferred,agree:nl-dbae8d885d25,Code/GameEngine/Source/Common/Rva0030BC94Forward.cpp,0x0030BC94
