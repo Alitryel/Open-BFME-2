@@ -5411,3 +5411,7 @@ Code/GameEngine/Source/Common/Rva002B55F2ListenerWalks.cpp|param|Rva002B616FList
 Code/GameEngine/Source/Common/Rva002B55F2ListenerWalks.cpp|param|Rva002B6126List::forEach|arg,dd49e0948bfae980d0b06023,gpt-6-astra,codexb2-20261024-163243-2,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/Rva002E3766Setter.cpp|function|0x002E3777|Rva002E3777Invoke,2bf0d67ac9c145bde95d4a0f,gpt-6-astra,codexb2-20261024-163243-4,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/Rva002E3766Setter.cpp|function|0x002E3794|Rva002E3794Invoke,b95f0f49ab5f124fb01becbb,gpt-6-astra,codexb2-20261024-163243-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/Rva004BDB37Finish.cpp|local|Rva004BDB37::rva004BDB37|f,33898e3d320ec94fd53ceb75,gpt-6-astra,codexb2-20261024-163243-6,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005E51D3Wrap.cpp|member|Rva005E51D3Inner|m_4,a33451b9466128be2538638a,gpt-6-astra,codexb2-20261024-163243-7,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva003F74F5Fill.cpp|param|Rva003F74F5Fill|x,dec281cf40e87def43b2c4f8,gpt-6-astra,codexb2-20261024-163243-9,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/Drawable_rva00274176.cpp|local|Drawable::rva00274176|p,0b0d44cb50e3a513132bf276,gpt-6-astra,codexb2-20261024-163243-10,w-d0bdfd8b17e9,2026-10-24
