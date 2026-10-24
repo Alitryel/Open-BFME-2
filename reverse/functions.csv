@@ -9221,7 +9221,7 @@ _vp6_showinfo,,0x001BB6C0,156,Code/Libraries/Source/VP6/ShowInfo.cpp,matched,Cle
 ?bfmeUseSA@BfmeSinkSA@@QAEXHH@Z,,0x00675000,191,Code/GameEngine/Source/GameNetwork/Y4FeslPlayerEnter.cpp,matched,BFME1 byte-identical donor; b1 0x00809100; 2 DIR32 string literals agree
 ?bfmeGoVJC@BfmeThingVJC@@QAEXPAVBfmeMsgVJC@@HHHHPAX1@Z,,0x0065E2E0,154,Code/GameEngine/Source/Common/BfmeConv1382.cpp,matched,BFME1 byte-identical donor; b1 0x007F1760; 5 DIR32 string literal(s) agree
 ?bfmeGoVJD@BfmeThingVJD@@QAEXPAVBfmeMsgVJC@@HHHHHPAX@Z,,0x0065E610,171,Code/GameEngine/Source/Common/BfmeConv1382.cpp,matched,BFME1 byte-identical donor; b1 0x007F1A90; ICF-folded in BFME1 so the name is this sweep pick among its twins; 6 DIR32 string literal(s) agree
-?bfmeGoVJP@BfmeThingVJP@@QAEXHHHHHHH_NHHHHH@Z,,0x00662320,168,Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp,matched,BFME1 byte-identical donor; b1 0x007F5B80
+?bfmeGoVJP@GameBrowser@@QAEXHHHHHHH_NHHHHH@Z,,0x00662320,168,Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp,matched,BFME1 byte-identical donor; b1 0x007F5B80
 ?bfmeGoVJN@BfmeThingVJN@@QAEXHHHHH@Z,,0x00662780,104,Code/GameEngine/Source/Common/BfmeConv1391.cpp,matched,BFME1 byte-identical donor; b1 0x007F5FE0
 ?bfmeGoVJL@BfmeThingVJL@@QAEXH@Z,,0x00661230,87,Code/GameEngine/Source/Common/BfmeConv1389.cpp,matched,BFME1 byte-identical donor; b1 0x007F4780
 ?bfmeReplaceV55@@YGXIIPAD@Z,,0x0002B850,277,Code/GameEngine/Source/Common/BfmeConv1499.cpp,matched,BFME1 byte-identical donor; b1 0x00831CE0

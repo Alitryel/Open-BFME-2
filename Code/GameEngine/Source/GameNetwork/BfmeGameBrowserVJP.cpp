@@ -38,7 +38,7 @@ public:
 		void *owner, int value) throw();
 };
 
-class BfmeThingVJP
+class GameBrowser
 {
 public:
 	void bfmeGoVJP(int a1, int a2, int a3, int a4, int a5, int a6, int a7,
@@ -59,7 +59,7 @@ public:
 	int m_bfme6dc;
 };
 
-void BfmeThingVJP::bfmeGoVJP(int a1, int a2, int a3, int a4, int a5,
+void GameBrowser::bfmeGoVJP(int a1, int a2, int a3, int a4, int a5,
 	int a6, int a7, bool flag, int a9, int a10, int a11, int a12, int a13) throw()
 {
 	m_bfme36 = flag;

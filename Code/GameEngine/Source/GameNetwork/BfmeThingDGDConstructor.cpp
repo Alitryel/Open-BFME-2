@@ -55,7 +55,7 @@ void __identifier("?bfmeFind@Gen_007F7180@@QBEPAVBfmeSlotEH@@PAX@Z")();
 void __identifier("?rva006638A0@BfmeThingDGD@@QAEXHH@Z")();
 void __identifier("?requestEntry@BfmeThingZI@@QAEXHH@Z")();
 void __identifier("?get@Rva0066F540DwordField@@QBEHXZ")();
-void __identifier("?bfmeGoVJP@BfmeThingVJP@@QAEXHHHHHHH_NHHHHH@Z")();
+void __identifier("?bfmeGoVJP@GameBrowser@@QAEXHHHHHHH_NHHHHH@Z")();
 void __identifier("?bfmeGoVJU@BfmeThingVJU@@QAEXXZ")();
 void __identifier("?request@Rva007F8650Owner@@QAEXXZ")();
 void __identifier("?bfmeGoVJS@BfmeThingVJS@@QAEXHHH@Z")();
@@ -93,7 +93,7 @@ extern const void *const g_00CE3018[36] = {
 	(const void *)&__identifier("?rva006638A0@BfmeThingDGD@@QAEXHH@Z"), // slot 22 0x006638A0
 	(const void *)&__identifier("?requestEntry@BfmeThingZI@@QAEXHH@Z"), // slot 23 0x00663A50
 	(const void *)&__identifier("?get@Rva0066F540DwordField@@QBEHXZ"), // slot 24 0x0066F540
-	(const void *)&__identifier("?bfmeGoVJP@BfmeThingVJP@@QAEXHHHHHHH_NHHHHH@Z"), // slot 25 0x00662320
+	(const void *)&__identifier("?bfmeGoVJP@GameBrowser@@QAEXHHHHHHH_NHHHHH@Z"), // slot 25 0x00662320
 	(const void *)&__identifier("?bfmeGoVJU@BfmeThingVJU@@QAEXXZ"), // slot 26 0x00663AB0
 	(const void *)&__identifier("?request@Rva007F8650Owner@@QAEXXZ"), // slot 27 0x00664CD0
 	(const void *)&__identifier("?bfmeGoVJS@BfmeThingVJS@@QAEXHHH@Z"), // slot 28 0x006623D0
