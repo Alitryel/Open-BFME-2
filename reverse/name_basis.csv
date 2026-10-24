@@ -1001,4 +1001,7 @@ param,Rva005FF912::Rva005FF912::a,Rva005FF912::Rva005FF912::level,inferred,agree
 member,Rva004C31ECArg::m_38,Rva004C31ECArg::m_position,inferred,agree:nl-0e217f99973f,Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp,
 member,Rva0051BF2D::m_27C,Rva0051BF2D::m_state,inferred,agree:nl-44a09045a161,Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp,
 param,Rva004C31EC::doSpecialPowerAtObject::arg,Rva004C31EC::doSpecialPowerAtObject::target,inferred,agree:nl-5969aff1eda7,Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp,0x004C31EC
+local,BfmeRangedWeaponTemplate::rva002C98E2::v4,BfmeRangedWeaponTemplate::rva002C98E2::rangeMultiplier,inferred,agree:nl-83ed7b9263ec,Code/GameEngine/Source/GameLogic/Object/Rva002C99C4AttackRange.cpp,0x002C98E2
+local,BfmeRangedWeaponTemplate::rva002C98E2::v8,BfmeRangedWeaponTemplate::rva002C98E2::rangeBonus,inferred,agree:nl-3f0e70c7eb08,Code/GameEngine/Source/GameLogic/Object/Rva002C99C4AttackRange.cpp,0x002C98E2
 member,Rva007EA9C0Owner::m_08,Rva007EA9C0Owner::m_flags,inferred,agree:nl-54cc433bccfe,Code/GameEngine/Source/GameNetwork/Rva007EA9C0Init.cpp,
+local,Rva007EA9C0Owner::init::p,Rva007EA9C0Owner::init::service,inferred,agree:nl-07292b707a52,Code/GameEngine/Source/GameNetwork/Rva007EA9C0Init.cpp,0x00657960

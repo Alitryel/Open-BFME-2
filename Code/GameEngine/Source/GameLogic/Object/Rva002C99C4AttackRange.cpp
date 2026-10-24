@@ -104,16 +104,16 @@ float BfmeRangedWeaponTemplate::rva002C98E2(void *object)
 
 {
     Object *obj=static_cast<Object *>(object);
-	float v4 = 1.0f;
-	float v8 = 1.0f;
-	if (obj->rva0028C149(7, &v8, 0)) {
-		v4 = v8 + 1.0f;
+	float rangeMultiplier = 1.0f;
+	float rangeBonus = 1.0f;
+	if (obj->rva0028C149(7, &rangeBonus, 0)) {
+		rangeMultiplier = rangeBonus + 1.0f;
 	}
 	float *mult = (float *)((char *)TheWritableGlobalData + 0x1224);
 	if (*mult >= 0.0f) {
 		if (obj->testStatus(ObjectStatusType58)) {
-			v4 = *(volatile float *)&v4 * *mult;
+			rangeMultiplier = *(volatile float *)&rangeMultiplier * *mult;
 		}
 	}
-	return v4;
+	return rangeMultiplier;
 }
