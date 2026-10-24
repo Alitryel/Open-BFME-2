@@ -29533,7 +29533,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?Rva003BB654@ScriptActions@@QAEXXZ,,0x003BB654,19,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionsRva003BAAD6.cpp,matched,null-guarded forwarder to vslot 0x17C via global 0xDFE6E8 caller 0x003CE477; member ABI repaired: retail dispatcher3CA4BE passes ScriptActions this in ECX; original verb remains unknown
 ??1GameTextTable@@QAE@XZ,,0x002E6158,44,Code/GameEngine/Source/GameClient/GameTextTable.cpp,matched,chain from 0x002E5E5A vector arrays
 ?rva002CF7B5@Rva002CF7B5@@QAEXXZ,,0x002CF7B5,41,Code/Libraries/Source/WWVegas/WWLib/Rva002CF7B5Clear.cpp,matched,tree clear via 0x002CF2D5; 41B exact; callers 0x002D0142 0x0033BD65
-?rva002CF302@Rva002CF302@@QAEXPAURva002CF302Node@@@Z,,0x002CF302,45,Code/Libraries/Source/WWVegas/WWLib/Rva002CF302Erase.cpp,matched,tree erase via right plusC left plus8 free 0x30830; 45B exact; caller 0x002CF7EC
+?eraseSubtree@Rva002CF302@@QAEXPAURva002CF302Node@@@Z,,0x002CF302,45,Code/Libraries/Source/WWVegas/WWLib/Rva002CF302Erase.cpp,matched,tree erase via right plusC left plus8 free 0x30830; 45B exact; caller 0x002CF7EC
 ??0Rva004393D6@@QAE@ABU0@@Z,,0x004393D6,39,Code/Libraries/Source/WWVegas/WWLib/Rva004393D6Copy.cpp,matched,unlock list Pod196 copy plus ints
 ?rva0059B3C1@Rva0059B3C1@@QAEHPAD@Z,,0x0059B3C1,40,Code/GameEngine/Source/Common/Rva0059B3C1Write.cpp,matched,two-part write via rowed Rva0059B3E9 and AsciiStringRef returns total
 ?Rva00441E2BPop@@YAXPAPAX00VRva0043FE9A@@@Z,,0x00441E2B,34,Code/GameEngine/Source/GameClient/GUI/Rva00441E2BPop.cpp,matched,mirrors Rva005B6521Pop via rowed Pop and caller 0x004428A4

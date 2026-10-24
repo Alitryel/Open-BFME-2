@@ -13,7 +13,7 @@ struct Rva002CF302Node
 
 struct Rva002CF302
 {
-	void rva002CF302(Rva002CF302Node *x);
+	void eraseSubtree(Rva002CF302Node *x);
 };
 
 struct Rva002CF7DEHeader
@@ -34,7 +34,7 @@ struct Rva002CF7DE
 void Rva002CF7DE::rva002CF7DE()
 {
 	if (m_size != 0) {
-		((Rva002CF302 *)this)->rva002CF302(m_header->m_root);
+		((Rva002CF302 *)this)->eraseSubtree(m_header->m_root);
 		m_header->m_left = m_header;
 		m_header->m_root = 0;
 		m_header->m_right = m_header;
