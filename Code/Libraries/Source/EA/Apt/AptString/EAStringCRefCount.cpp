@@ -407,7 +407,7 @@ bool EAStringC::rva006D3490(const char *text) const
 {
 	if (!(text != 0)) {
 		g_bfmeAptAssertAtE17734("pStrText != NULL", ".\\string\\EAString.inl", 0x3A6);
-		if (g_bfmeAptBreakOnAssertAtDDC01C) {__asm int 3}
+		if (g_bfmeAptBreakOnAssertAtDDC01C) {__debugbreak();}
 	}
 	const char *a = (const char *)m_pData + 8;
 	return strcmp(a, text) == 0;
