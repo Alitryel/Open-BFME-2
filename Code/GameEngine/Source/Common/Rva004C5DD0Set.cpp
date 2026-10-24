@@ -23,14 +23,14 @@ public:
 
 Rva004C5DD0::Rva004C5DD0(const Rva004C5DD0 &other)
 {
-	Rva004C5DD0Ref *a = other.m_00;
-	m_00 = a;
-	if (a)
-		a->m_refs++;
-	Rva004C5DD0Ref *b = other.m_04;
-	m_04 = b;
-	if (b)
-		b->m_refs++;
+	Rva004C5DD0Ref *firstRef = other.m_00;
+	m_00 = firstRef;
+	if (firstRef)
+		firstRef->m_refs++;
+	Rva004C5DD0Ref *secondRef = other.m_04;
+	m_04 = secondRef;
+	if (secondRef)
+		secondRef->m_refs++;
 }
 
 void __cdecl Rva004F6A52Assign(Rva004C5DD0 *dest, const Rva004C5DD0Pair *src)

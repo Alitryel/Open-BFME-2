@@ -1779,3 +1779,5 @@ param,Rva00261246Filter::b,Rva00261246Filter::allowInsignificant,inferred,agree:
 local,Rva005C81D8::rva005C81D8::p,Rva005C81D8::rva005C81D8::position,inferred,agree:nl-396b0c727aa4,Code/GameEngine/Source/GameLogic/LargeGroupAudio/Rva005C81D8GridLinks.cpp,0x005C81D8
 local,Pathfinder::rva002ED313::r,Pathfinder::rva002ED313::reservedNode,inferred,agree:nl-8b7d0330a452,Code/GameEngine/Source/GameLogic/Pathfinder/PathfinderSelectBridgeLayer.cpp,0x002ED313
 local,BfmeRangedWeaponTemplate::getAttackRange::f,BfmeRangedWeaponTemplate::getAttackRange::range,inferred,agree:nl-d651670af8bf,Code/GameEngine/Source/GameLogic/Object/Rva002C99C4AttackRange.cpp,0x002C99C4
+local,Rva004C5DD0::Rva004C5DD0::a,Rva004C5DD0::Rva004C5DD0::firstRef,inferred,agree:nl-70403eacf7d3,Code/GameEngine/Source/Common/Rva004C5DD0Set.cpp,0x0044BD00
+local,Rva004C5DD0::Rva004C5DD0::b,Rva004C5DD0::Rva004C5DD0::secondRef,inferred,agree:nl-5eef8d95feb2,Code/GameEngine/Source/Common/Rva004C5DD0Set.cpp,0x0044BD00
