@@ -4699,3 +4699,5 @@ Code/GameEngine/Source/Common/Rva005C6CCC.cpp|local|Rva005C6D4D::rva005C6D9C|t,3
 Code/GameEngine/Source/Common/Rva005C6CCC.cpp|local|Rotate|s,44901a9f80f3cbbb713c4898,gpt-6.1-sol,codexb-20261024-104106-8,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva005C6CCC.cpp|local|Rotate|c,4c0fa99856d319a07ebe11b3,gpt-6.1-sol,codexb-20261024-104106-8,w-8e883e57d025,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E7140.cpp|function|0x000E7140|rva000E7140,488ced873c3ae443bf78120f,gpt-6.1-sol,codexb-20261024-104106-9,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva0031F89E.cpp|function|0x0031F89E|rva0031F89E,0e70364cb4638db8ab75c093,gpt-6.1-sol,codexb-20261024-110218-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva0031F89E.cpp|local|Rva0031F89E::rva0031F89E|n,bffc127fe815eaedbb51c688,gpt-6.1-sol,codexb-20261024-110218-1,w-8e883e57d025,2026-10-24
