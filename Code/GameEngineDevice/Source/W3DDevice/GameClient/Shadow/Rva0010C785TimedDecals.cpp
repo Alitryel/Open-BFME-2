@@ -123,24 +123,24 @@ void W3DProjectedShadowManager::rva0010BE72(void)
 				{
 					UnsignedInt fadeInStartFrame = shadow->m_value38;
 					UnsignedInt value40 = shadow->m_value40;
-					UnsignedInt value44 = shadow->m_value44;
-					UnsignedInt value48 = shadow->m_value48;
-					UnsignedInt value4C = shadow->m_value4C;
-					UnsignedInt value50 = shadow->m_value50;
+					UnsignedInt fadeInEndFrame = shadow->m_value44;
+					UnsignedInt peakOpacity = shadow->m_value48;
+					UnsignedInt fadeOutStartFrame = shadow->m_value4C;
+					UnsignedInt fadeOutEndFrame = shadow->m_value50;
 					UnsignedInt value54 = shadow->m_value54;
 					if (frame < fadeInStartFrame)
 						shadow->setOpacity(0);
-					else if (frame < value44)
+					else if (frame < fadeInEndFrame)
 					{
 						double from = value40;
-						shadow->setOpacity(fast_float2long_round(ceil((float)(from + (Real)(frame - fadeInStartFrame) / (Real)(value44 - fadeInStartFrame) * (value48 - from)))));
+						shadow->setOpacity(fast_float2long_round(ceil((float)(from + (Real)(frame - fadeInStartFrame) / (Real)(fadeInEndFrame - fadeInStartFrame) * (peakOpacity - from)))));
 					}
-					else if (frame < value4C)
-						shadow->setOpacity(value48);
-					else if (frame < value50)
+					else if (frame < fadeOutStartFrame)
+						shadow->setOpacity(peakOpacity);
+					else if (frame < fadeOutEndFrame)
 					{
-						double from = value48;
-						shadow->setOpacity(fast_float2long_round(ceil((float)(from + (Real)(frame - value4C) / (Real)(value50 - value4C) * (value54 - from)))));
+						double from = peakOpacity;
+						shadow->setOpacity(fast_float2long_round(ceil((float)(from + (Real)(frame - fadeOutStartFrame) / (Real)(fadeOutEndFrame - fadeOutStartFrame) * (value54 - from)))));
 					}
 					else
 						shadow->setOpacity(value54);

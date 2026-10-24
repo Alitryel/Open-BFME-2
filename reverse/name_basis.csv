@@ -1242,3 +1242,7 @@ local,Rva00594E07::rva00594E07::n,Rva00594E07::rva00594E07::remainingMessages,in
 class,Rva00809C60Game,LanGame,inferred,agree:nl-47fd6ab97b9c,Code/GameEngine/Source/GameNetwork/Rva00803730FeslAttrs.cpp,
 param,opacityCoordCopy::d,opacityCoordCopy::destination,inferred,agree:nl-a6598f42aaea,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp,
 param,opacityCoordCopy::p,opacityCoordCopy::source,inferred,agree:nl-ad9a9dc05a05,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp,
+local,W3DProjectedShadowManager::rva0010BE72::value44,W3DProjectedShadowManager::rva0010BE72::fadeInEndFrame,inferred,agree:nl-e0dd8594b472,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva0010C785TimedDecals.cpp,0x0010BE72
+local,W3DProjectedShadowManager::rva0010BE72::value48,W3DProjectedShadowManager::rva0010BE72::peakOpacity,inferred,agree:nl-0ecee46278de,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva0010C785TimedDecals.cpp,0x0010BE72
+local,W3DProjectedShadowManager::rva0010BE72::value4C,W3DProjectedShadowManager::rva0010BE72::fadeOutStartFrame,inferred,agree:nl-677e16b0ea9b,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva0010C785TimedDecals.cpp,0x0010BE72
+local,W3DProjectedShadowManager::rva0010BE72::value50,W3DProjectedShadowManager::rva0010BE72::fadeOutEndFrame,inferred,agree:nl-f1ce76e1e076,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva0010C785TimedDecals.cpp,0x0010BE72
