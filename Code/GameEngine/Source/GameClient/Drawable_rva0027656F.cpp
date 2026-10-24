@@ -64,17 +64,17 @@ public:
 class Drawable
 {
 public:
-	void rva0027656F(int a1, AsciiString a2);
+	void rva0027656F(int a1, AsciiString boneName);
 };
 
-void Drawable::rva0027656F(int a1, AsciiString a2)
+void Drawable::rva0027656F(int a1, AsciiString boneName)
 {
 	BfmeDrawModuleFor27656F **modules =
 		*reinterpret_cast<BfmeDrawModuleFor27656F ***>((unsigned char *)this + 0x14C);
 	for (BfmeDrawModuleFor27656F **dm = modules; *dm; ++dm) {
 		BfmeObjectDrawFor27656F *di = (*dm)->getObjectDrawInterface();
 		if (di) {
-			di->rva27656FTarget(a1, a2);
+			di->rva27656FTarget(a1, boneName);
 		}
 	}
 }

@@ -1604,3 +1604,9 @@ Code/GameEngine/Source/Common/Rva004DF4B5.cpp|local|Rva004DF4B5::rva004DF4B5|tmp
 Code/GameEngine/Source/Common/Rva004DF4B5.cpp|member|Rva004DF4B5Arg|m_74,5f9a6d61b612b07506acb173,seat-b,rn-1023b-6-b,w-c10ac0f07f7a,2026-10-24
 Code/GameEngine/Source/Common/Rva004DF4B5.cpp|param|Rva004DF4B5::rva004DF4B5|p,e9a4a43c9cf1cdacac614bec,seat-b,rn-1023b-6-b,w-c10ac0f07f7a,2026-10-24
 Code/GameEngine/Source/Common/Rva004DF4B5.cpp|local|Rva004DF4B5::rva004DF4B5|tmp,e5ddaf7fb6c9dd0a96559303,seat-b,rn-1023b-6-b,w-c10ac0f07f7a,2026-10-24
+Code/GameEngine/Source/GameClient/Drawable_rva0027656F.cpp|class||BfmeObjectDrawFor27656F,ed1c2014d26f6c3f91d4456d,seat-a,rn-1023b-10-a,w-1316fdc05052,2026-10-24
+Code/GameEngine/Source/GameClient/Drawable_rva0027656F.cpp|class||BfmeDrawModuleFor27656F,36f5186de61ea09c731be780,seat-a,rn-1023b-10-a,w-1316fdc05052,2026-10-24
+Code/GameEngine/Source/GameClient/Drawable_rva0027656F.cpp|param|Drawable::rva0027656F|a1,ff6d3bbc798b214c106b3681,seat-a,rn-1023b-10-a,w-1316fdc05052,2026-10-24
+Code/GameEngine/Source/GameClient/Drawable_rva0027656F.cpp|param|Drawable::rva0027656F|a2,f0a65dcb29069013466f7f42,seat-a,rn-1023b-10-a,w-1316fdc05052,2026-10-24
+Code/GameEngine/Source/GameClient/Drawable_rva0027656F.cpp|param|Drawable::rva0027656F|a1,17966f17ce66d17d23485c7b,seat-b,rn-1023b-10-b,w-b0bc95d4ecf6,2026-10-24
+Code/GameEngine/Source/GameClient/Drawable_rva0027656F.cpp|param|Drawable::rva0027656F|a2,f0a65dcb29069013466f7f42,seat-b,rn-1023b-10-b,w-b0bc95d4ecf6,2026-10-24
