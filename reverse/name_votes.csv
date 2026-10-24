@@ -5427,3 +5427,7 @@ Code/Libraries/Source/Apt/Rva006FE400Chain.cpp|param|Rva006FE400::rva006FE400|a1
 Code/Libraries/Source/Apt/Rva006FE400Chain.cpp|param|Rva006FE400::rva006FE400|a2,d330985639e443bcb9829fe7,gpt-6.1-sol,codexb-20261024-162350-6,w-8e883e57d025,2026-10-24
 Code/Libraries/Source/Apt/Rva006FE400Chain.cpp|local|Rva006FE400::rva006FE400|r,d0429d08fbc96246efea40fd,gpt-6.1-sol,codexb-20261024-162350-6,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/GameLogic/AI/Rva002EBC59.cpp|param|rva002EBC59|a1,96ef5333ed6f25e0539a6abb,gpt-6.1-sol,codexb-20261024-162350-8,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/RvaTreeEraseRangeFamily_Rva00082BE1.cpp|function|0x00362C9A|rva00362C9A,51a950acd5e8b1407b097c5a,claude-opus-5-5,claudec5-20261024-160027-2,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/PathfinderAdjustCandidate.cpp|param|Rva002F57E6Query::rva002F57E6|b,0d08dbafc8648b293e78254f,claude-opus-5-5,claudec5-20261024-160027-7,w-1ebb1ea4caee,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|function|0x001B2450|rva001B2450,18f35cd16aea1bbbcceb1853,claude-opus-5-5,claudec5-20261024-160027-10,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva002E0D66Method.cpp|member|Rva002E0D66Node|m_8,b9be1bebbfaab00348c41837,claude-opus-5-5,claudec5-20261024-160027-11,w-1ebb1ea4caee,2026-10-24
