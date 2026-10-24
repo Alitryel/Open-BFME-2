@@ -32,3 +32,11 @@ The whole reference-counting unit verifies36/36 function rows, its one data
 row,46 string literals and the parent-EH-based funclet mapping; no references
 are skipped. The existing named-identity and data relationships are retained.
 The published index predicts LINKS3023->3023 bytes for the complete unit.
+
+## ??0EAStringC@@QAE@ABV0@@Z, RVA0x006D2FC0, 70 bytes
+
+This body now uses the genuine breakpoint intrinsic.
+The normal whole-file gate passes all36 function rows and the data row,
+46 string literals and all4 EH records through the normal commit hook.
+Other bodies retain their native bytes; identity, ABI, flags and data owners
+are unchanged. Whole-unit published-index link preview passes.

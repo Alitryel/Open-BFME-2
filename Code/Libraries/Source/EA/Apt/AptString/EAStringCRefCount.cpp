@@ -150,7 +150,7 @@ __declspec(noinline) inline EAStringC::EAStringC(const EAStringC &other)
 	if (otherData != &g_eaEmptyStringData) {
 		if (!(otherData->m_uRefCount <= 0xFFFE)) {
 			g_bfmeAptAssertAtE17734("m_pData->m_uRefCount <= 0xfffe", ".\\string\\EAString.inl", 0xE1);
-			if (g_bfmeAptBreakOnAssertAtDDC01C) {__asm int 3}
+			if (g_bfmeAptBreakOnAssertAtDDC01C) {__debugbreak();}
 		}
 	}
 	m_pData->m_uRefCount++;
