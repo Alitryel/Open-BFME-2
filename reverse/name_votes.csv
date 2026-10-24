@@ -2874,3 +2874,10 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMapVisibleBounds.cpp
 Code/GameEngine/Source/Common/Rva0028ECDB.cpp|member|Rva002DFF0F8|m_10,f422e8c86655727f22b082b5,gpt-6.1-sol,codex6-20261024-044703-10,w-bcdd62231570,2026-10-24
 Code/GameEngine/Source/Common/Rva0028ECDB.cpp|param|Rva0028ECDBHost::rva0028ECDB|a,c1378d3e6c117fe796449299,gpt-6.1-sol,codex6-20261024-044703-10,w-bcdd62231570,2026-10-24
 Code/GameEngine/Source/GameClient/VideoPlayerGetVideo.cpp|global||g_bfmeVideoTableStorage,732fe367657416fcb0fc42b0,gpt-6.1-sol,codex6-20261024-044703-10,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv1355.cpp|function|0x006CDB10|bfmeAssignVGO,caf779d6c46dc75ff1b70169,gpt-6.1-sol,codex4-20261024-043139-7,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv1355.cpp|param|bfmeAnchorBfmeRefVGOAssign|p,3b93a3854afe3d218d6d6999,gpt-6.1-sol,codex4-20261024-043139-7,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionsRva003BAD15.cpp|param|ScriptActions::Rva003BAD15|n3,023f0cec5a6dd4758556714c,gpt-6.1-sol,codex4-20261024-043139-8,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionsRva003BAD15.cpp|local|ScriptActions::Rva003BAD15|b,68d9067b6e1a0726eaab187a,gpt-6.1-sol,codex4-20261024-043139-8,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameLogic/LivingWorld/Rva002B2DAD.cpp|function|0x0020E6AD|rva0020E6AD,1ee49aa46478cf12acb00ac1,gpt-6.1-sol,codex4-20261024-043139-9,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/IosBaseRva0083F090Index.cpp|global||nextIndexRva0083F090,7fe0729ebbeffd1ea6798e71,gpt-6.1-sol,codex4-20261024-043139-10,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/IosBaseRva0083F090Index.cpp|global||indexLockRva0083F090,49f72474c3c8371ca81d00d2,gpt-6.1-sol,codex4-20261024-043139-10,w-887869184137,2026-10-24
