@@ -318,27 +318,6 @@ void bfmeAnchorBfmeStringRecord0021A940Dtor(BfmeStringRecord0021A940 *p)
 
 template void _STL::_Construct<BfmeStringRecord0021A940,BfmeStringRecord0021A940>(BfmeStringRecord0021A940*,const BfmeStringRecord0021A940&);
 
-#pragma inline_depth(0)
-// ?bfmeEmitStringRecordInlineCopyBFME2@@YAXPAUBfmeStringRecord002CF550@@PBU1@PAUBfmeStringRecord005ED5F3@@PBU2@@Z present-unmatched
-void bfmeEmitStringRecordInlineCopyBFME2(BfmeStringRecord002CF550 *p0, const BfmeStringRecord002CF550 *q0, BfmeStringRecord005ED5F3 *p1, const BfmeStringRecord005ED5F3 *q1)
-{
-	p0->BfmeStringRecord002CF550::BfmeStringRecord002CF550(*q0);
-	p1->BfmeStringRecord005ED5F3::operator=(*q1);
-}
-#pragma inline_depth()
-
-// BfmeStringRecord005DDD40 copy is a header inline elsewhere: other units emit
-// select-any copies, so a strong definition here was a duplicate in the linked
-// build. This anchor only makes this unit emit its copy for the ledger row; it
-// is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitStringRecord005DDD40Copy@@YAXPAUBfmeStringRecord005DDD40@@PBU1@@Z present-unmatched
-void bfmeEmitStringRecord005DDD40Copy(BfmeStringRecord005DDD40 *p, const BfmeStringRecord005DDD40 *q)
-{
-	p->BfmeStringRecord005DDD40::BfmeStringRecord005DDD40(*q);
-}
-#pragma inline_depth()
-
 // Target strings/xrefs at 0x007E5E28 and 0x007E5E60 name AwardSystemManager
 // validation; data xrefs identify its manager at 0x00A02F74. The exact method
 // names are not established, so retain address-derived callback names.
