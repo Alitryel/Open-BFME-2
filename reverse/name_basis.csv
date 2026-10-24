@@ -1246,3 +1246,4 @@ local,W3DProjectedShadowManager::rva0010BE72::value44,W3DProjectedShadowManager:
 local,W3DProjectedShadowManager::rva0010BE72::value48,W3DProjectedShadowManager::rva0010BE72::peakOpacity,inferred,agree:nl-0ecee46278de,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva0010C785TimedDecals.cpp,0x0010BE72
 local,W3DProjectedShadowManager::rva0010BE72::value4C,W3DProjectedShadowManager::rva0010BE72::fadeOutStartFrame,inferred,agree:nl-677e16b0ea9b,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva0010C785TimedDecals.cpp,0x0010BE72
 local,W3DProjectedShadowManager::rva0010BE72::value50,W3DProjectedShadowManager::rva0010BE72::fadeOutEndFrame,inferred,agree:nl-f1ce76e1e076,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva0010C785TimedDecals.cpp,0x0010BE72
+class,Rva006FF500Rect,AptRect,inferred,agree:nl-4c2be8eecb43,Code/Libraries/Source/Apt/AptMathCallbacksBFME2.cpp,
