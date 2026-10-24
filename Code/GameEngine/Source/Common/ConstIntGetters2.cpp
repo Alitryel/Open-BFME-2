@@ -235,12 +235,6 @@ int Rva000A52A8Get(void)
 	return reinterpret_cast<int>(&Rva0008F78FCreate);
 }
 
-// ?Rva00285745Get@@YAHXZ @ 0x00285745: verified existing getter.
-int Rva00285745Get(void)
-{
-	return (int)"FireLogicSystem::BurningCell";
-}
-
 // ?Rva0039B81DGet@@YAHXZ @ 0x0039B81D: verified existing getter.
 int Rva0039B81DGet(void)
 {

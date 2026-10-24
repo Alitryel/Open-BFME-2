@@ -274,22 +274,6 @@ extern const int s_rva0033A8FCFieldTableB[];
 class Rva003818B0List;
 extern Rva003818B0List g_00E02310;
 
-// ?Rva002856F7Get@@YAHXZ @ 0x002856F7 (6B): returns 0x00DFEA50. Opens a
-// contiguous pair (F7 then FD) after a ret. Carried at 0x7FB708 and
-// 0x7FB70C, no direct callers, no branch sources. Opaque name.
-int Rva002856F7Get(void)
-{
-	return (int)&g_00DFEA50;
-}
-
-// ?Rva002856FDGet@@YAHXZ @ 0x002856FD (6B): returns 0x00DFE794. Closes
-// the pair (a movzx-style function follows). Carried at 0x7FB710 and
-// 0x7FB714, no direct callers, no branch sources. Opaque name.
-int Rva002856FDGet(void)
-{
-	return (int)&g_00DFE794;
-}
-
 // ?Rva00201095Get@WeatherSetting@@UAEHXZ @ 0x00201095 (6B): returns 0x00BE2C10.
 // Follows a tail-jmp/ret (0x20108F-94) with a frame-style function
 // after. Carried at 0x7E306C, no direct callers, no branch sources.
