@@ -2484,3 +2484,4 @@ __ehhandler$??$_Construct@U?$pair@$$CBVAsciiString@@V?$list@PAVSuperweaponInfo@@
 ?rva0006C6E2@BaseHeightMapRenderObjClass@@QBE_NHH@Z,0x0006C6E2,"Renamed to ?showAsVisibleImpassable@BaseHeightMapRenderObjClass@@QBE_NHH@Z by tools/rename.py (inferred)"
 ?g_00C3C994@@3QBQBXB,0x0083C994,"Renamed to ?g_waitForSecondButtonDownStateHandlerVtable@@3QBQBXB by tools/rename.py (inferred)"
 ?Rva005D833E@@YAXXZ,0x005D833E,"Renamed to ?clearAssistBattleCooldowns@@YAXXZ by tools/rename.py (inferred)"
+?Rva005D851D@@YAXXZ,0x005D851D,"Renamed to ?clearArmyBreakerCooldowns@@YAXXZ by tools/rename.py (inferred)"

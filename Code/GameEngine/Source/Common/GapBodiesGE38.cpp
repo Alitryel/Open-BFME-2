@@ -50,7 +50,7 @@ void clearAssistBattleCooldowns()
 		records.erase(records.m_start, records.m_finish);
 }
 
-void Rva005D851D()
+void clearArmyBreakerCooldowns()
 {
 	Rva005D833EVector &records = *(Rva005D833EVector *)&g_Va00E06670;
 	if (records.m_start != records.m_finish)
