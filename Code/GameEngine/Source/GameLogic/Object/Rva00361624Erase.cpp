@@ -23,6 +23,20 @@ void _Destroy(_Tp first, _Tp last);
 
 }
 
+// Link: nothing defines _Destroy<Rva0036105B *>. Retail's 0x003615CD is the
+// rowed _Destroy<Rva003615E5Record *> (Rva003615E5VectorDtor.cpp, the same
+// 148-byte element); an inline forwarder reaches it with the same pushes.
+struct Rva003615E5Record;
+
+namespace _STL
+{
+
+template <> void _Destroy<Rva003615E5Record *>(Rva003615E5Record *first, Rva003615E5Record *last);
+template <> __declspec(dllimport) __forceinline void _Destroy<Rva0036105B *>(Rva0036105B *first, Rva0036105B *last)
+{ _Destroy((Rva003615E5Record *)first, (Rva003615E5Record *)last); }
+
+}
+
 struct Rva00361624
 {
 	Rva0036105B *rva00361624(Rva0036105B *first, Rva0036105B *last);
