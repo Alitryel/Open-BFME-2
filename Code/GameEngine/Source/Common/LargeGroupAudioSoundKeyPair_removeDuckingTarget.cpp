@@ -51,7 +51,7 @@ struct Rva0056913DKeyRef
 	AsciiString m_key; // +0x18
 };
 
-struct Rva0056913DElem
+struct DuckingTarget
 {
 	AsciiString m_a;	// +0x0
 	AsciiString m_b;	// +0x4
@@ -67,8 +67,8 @@ public:
 	void removeDuckingTarget(BitRange *host, void *tag);
 private:
 	char m_pad[0x14];
-	Rva0056913DElem *m_begin;	// +0x14
-	Rva0056913DElem *m_end;	// +0x18
+	DuckingTarget *m_begin;	// +0x14
+	DuckingTarget *m_end;	// +0x18
 	char m_pad2[0x10];
 	Rva005C834A *m_slots[4];	// +0x2C
 };
@@ -83,7 +83,7 @@ void LargeGroupAudioSoundKeyPair::removeDuckingTarget(BitRange *host, void *tag)
 		++slot;
 	} while (--left != 0);
 	((Rva00568F04 *)host)->rva00568F04(this);
-	for (Rva0056913DElem *e = m_begin; e != m_end; ++e) {
+	for (DuckingTarget *e = m_begin; e != m_end; ++e) {
 		Rva0056913DKeyRef *keyRef = (Rva0056913DKeyRef *)*(void **)((char *)host + 0x3C);
 		bool hit;
 		if (asBase(e->m_a).compare(asBase(keyRef->m_key)) == 0 && asBase(e->m_b).compare(asBase(host->rva00568BE2())) == 0)
