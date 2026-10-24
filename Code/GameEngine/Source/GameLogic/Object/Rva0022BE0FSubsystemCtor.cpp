@@ -75,6 +75,8 @@ private:
 	int m_value08;
 };
 
+namespace _STL { template <> hash_map<int, Rva003ED321Element>::hash_map(); }
+
 class Rva0022BE0FSubsystem : public BFME2NativeNetworkBase
 {
 public:

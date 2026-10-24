@@ -57,6 +57,11 @@ struct Rva00224C76Element
 
 #include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
+namespace _STL {
+template <> hash_map<int, Rva0022D95AElement>::hash_map();
+template <> hash_map<int, Rva00224C76Element>::hash_map();
+}
+
 class Rva0022C0CDSubsystem : public SubsystemInterface
 {
 public:

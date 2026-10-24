@@ -1,6 +1,6 @@
 // cl: /O1 /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii /Ireference/shims/subsystem_bfme2 /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
-// ??1Rva003EF36E@@UAE@XZ, retail 0x003EF36E (137B, EH): destructor of a
+// ??1Rva0022B0B8Subsystem@@UAE@XZ, retail 0x003EF36E (137B, EH): destructor of a
 // SubsystemInterface-derived owner (vftable 0x00C363D8) whose +0x0C member is
 // the ASCII-keyed hash table rowed as Rva003EF22B (dtor 0x003EF22B). It walks
 // the table with the rowed begin 0x00427195 / next 0x00411084 cursor, deletes
@@ -88,11 +88,11 @@ void Rva00030830GameFree(void*);
 struct S3RegionBucketStorage {~S3RegionBucketStorage(){if(begin)Rva00030830GameFree(begin);}void**begin;void**end;void**capacity;};
 struct Rva003EF22B {void*unused;S3RegionBucketStorage buckets;unsigned count;~Rva003EF22B();};
 // ~Rva003EF22B is rowed in Rva003EF22BTableDtor.cpp (0x003EF22B).
-class Rva003EF36E :public SubsystemInterface {
-public:virtual ~Rva003EF36E();virtual void init(){}virtual void reset(){}virtual void update(){}
+class Rva0022B0B8Subsystem :public SubsystemInterface {
+public:virtual ~Rva0022B0B8Subsystem();virtual void init(){}virtual void reset(){}virtual void update(){}
 private:Rva003EF22B table;
 };
-Rva003EF36E::~Rva003EF36E()
+Rva0022B0B8Subsystem::~Rva0022B0B8Subsystem()
 {
 	AudioCacheCursor it = ((Rva000427195 *)&table)->rva00427195();
 	void *node;

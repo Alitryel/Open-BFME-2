@@ -81,6 +81,15 @@ private:
 // calls rowed baseConstruct 0x001B4E63 then two rowed hash_map ctors 0x0041EFE0
 // at +0x0C and +0x20; vtable 0x0083AF78 auto; neighbours 0x0041EFE0 0x0041F25E.
 // Precedent Rva00222061Ctor Shell-pattern novtable base for EH after baseConstruct.
+namespace _STL {
+template <> hash_map<int, Rva0041EFE0Element>::hash_map();
+typedef pair<const int, Rva0041EFE0Element> SubsystemTableValue;
+typedef hashtable<SubsystemTableValue, int, hash<int>,
+    _Select1st<SubsystemTableValue>, equal_to<int>,
+    allocator<SubsystemTableValue> > SubsystemTable;
+template <> void SubsystemTable::clear();
+}
+
 class Rva0022BD9ASubsystem : public BFME2NativeNetworkBase
 {
 public:
