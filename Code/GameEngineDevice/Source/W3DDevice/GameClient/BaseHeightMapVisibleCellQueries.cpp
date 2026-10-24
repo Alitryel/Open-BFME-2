@@ -13,17 +13,17 @@ struct HeightMapDimensions {
 };
 class BaseHeightMapRenderObjClass {
 public:
- bool rva0006C6A3(int x,int y) const;
+ bool rva0006C6A3(int xIndex,int yIndex) const;
  bool rva0006C6E2(int x,int y) const;
 private:
  char pad0[0x37C0];HeightMapDimensions *map;
  char pad37C4[0x28];std::vector<bool> cliffBits;
  std::vector<bool> impassableBits;
 };
-bool BaseHeightMapRenderObjClass::rva0006C6A3(int x,int y) const {
+bool BaseHeightMapRenderObjClass::rva0006C6A3(int xIndex,int yIndex) const {
  int width=map->width;
- if(x<0 || y<0 || y>=map->height || x>=width)return false;
- return cliffBits[x+y*width];
+ if(xIndex<0 || yIndex<0 || yIndex>=map->height || xIndex>=width)return false;
+ return cliffBits[xIndex+yIndex*width];
 }
 bool BaseHeightMapRenderObjClass::rva0006C6E2(int x,int y) const {
  int width=map->width;

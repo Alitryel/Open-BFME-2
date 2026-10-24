@@ -1858,3 +1858,5 @@ local,Rva005D25F2::rva005D24E5::e,Rva005D25F2::rva005D24E5::slot,inferred,agree:
 param,BfmeGridWM::rva000AE18D::x,BfmeGridWM::rva000AE18D::xIndex,inferred,agree:nl-8763199bd03e,Code/GameEngine/Source/Common/BfmeGrokGrid.cpp,0x000AE18D
 param,BfmeGridWM::rva000AE18D::y,BfmeGridWM::rva000AE18D::yIndex,inferred,agree:nl-32cc80f9b630,Code/GameEngine/Source/Common/BfmeGrokGrid.cpp,0x000AE18D
 local,BfmeGridWM::walk::y,BfmeGridWM::walk::yIndex,inferred,agree:nl-d2970842dcd2,Code/GameEngine/Source/Common/BfmeGrokGrid.cpp,0x000AEBC7
+param,BaseHeightMapRenderObjClass::rva0006C6A3::x,BaseHeightMapRenderObjClass::rva0006C6A3::xIndex,inferred,agree:nl-374c05790607,Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapVisibleCellQueries.cpp,0x0006C6A3
+param,BaseHeightMapRenderObjClass::rva0006C6A3::y,BaseHeightMapRenderObjClass::rva0006C6A3::yIndex,inferred,agree:nl-fa111d8ac97b,Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapVisibleCellQueries.cpp,0x0006C6A3
