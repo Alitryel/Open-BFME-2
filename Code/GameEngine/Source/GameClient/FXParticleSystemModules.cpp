@@ -1,6 +1,12 @@
 // cl: /O1 /GX- /arch:SSE2 /Ireference/shims/fxparticle_link
 #include "ModuleTemplate.h"
 
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#define BFME_SNAPSHOT_REFERENCE_XFER
+#include "../../../../reference/shims/moduledata/Common/Snapshot.h"
+
 // The module wrappers, kept apart from the module templates themselves.
 //
 // Retail puts the two in different translation units - the templates around
@@ -34,11 +40,13 @@ struct FXCoord3D
     float z;
 };
 
-class EmissionVolumeInfo
+class EmissionVolumeInfo : public ::Snapshot
 {
 public:
     virtual ~EmissionVolumeInfo();
-    virtual void v1() = 0;
+    virtual void LoadPostProcess();
+    virtual const char *GetSnapshotName();
+    virtual void DoXfer(Xfer &xfer);
 
     bool m_flag;
 };
@@ -134,8 +142,23 @@ struct FXKeyframe
 #define FX_VTABLE_ONLY_INFO(NAME)                                                                      class NAME                                                                                         {                                                                                                  public:                                                                                                virtual ~NAME();                                                                                   virtual void v1() = 0;                                                                         };
 
 FX_VTABLE_ONLY_INFO(DefaultDrawModuleInfo)
-FX_VTABLE_ONLY_INFO(RenderObjectDrawModuleInfo)
-FX_VTABLE_ONLY_INFO(GpuDrawModuleInfo)
+class RenderObjectDrawModuleInfo
+{
+public:
+    virtual ~RenderObjectDrawModuleInfo();
+    virtual void v1() = 0;
+
+    unsigned int m_unknown04[15];
+};
+
+class GpuDrawModuleInfo
+{
+public:
+    virtual ~GpuDrawModuleInfo();
+    virtual void v1() = 0;
+
+    unsigned int m_unknown04[4];
+};
 FX_VTABLE_ONLY_INFO(LifeEventModuleInfo)
 FX_VTABLE_ONLY_INFO(TerrainCollisionModuleInfo)
 
@@ -184,6 +207,14 @@ public:
 
 template <int CATEGORY>
 class CategoryModuleTemplate;
+
+template <>
+class CategoryModuleTemplate<6> : public ModuleTemplate, public SecondaryModuleBase
+{
+public:
+    CategoryModuleTemplate();
+    CategoryModuleTemplate(const CategoryModuleTemplate<6> &that);
+};
 
 template <>
 class CategoryModuleTemplate<8> : public ModuleTemplate, public SecondaryModuleBase,
@@ -383,8 +414,18 @@ FX_MODULE_TEMPLATE(LightningDrawModuleTemplate, LightningDrawModuleInfo)
 FX_MODULE_TEMPLATE(TerrainFireEmissionModuleTemplate, TerrainFireEmissionInfo)
 FX_MODULE_TEMPLATE(LightningEmissionModuleTemplate, LightningEmissionInfo)
 FX_MODULE_TEMPLATE(RenderObjectUpdateModuleTemplate, RenderObjectUpdateModuleInfo)
-FX_MODULE_TEMPLATE(RenderObjectDrawModuleTemplate, RenderObjectDrawModuleInfo)
-FX_MODULE_TEMPLATE(GpuDrawModuleTemplate, GpuDrawModuleInfo)
+#define FX_DRAW_MODULE_TEMPLATE(NAME, INFO) \
+    class NAME : public CategoryModuleTemplate<6>, public INFO \
+    { \
+    public: \
+        NAME(); \
+        NAME(const NAME &that); \
+        virtual ~NAME(); \
+        NAME &operator=(const NAME &that); \
+    };
+
+FX_DRAW_MODULE_TEMPLATE(RenderObjectDrawModuleTemplate, RenderObjectDrawModuleInfo)
+FX_DRAW_MODULE_TEMPLATE(GpuDrawModuleTemplate, GpuDrawModuleInfo)
 
 // Complete declarations only, exactly as in FXParticleSystem.cpp (no
 // assignment: this unit never assigns a template, it only news them). The
@@ -584,6 +625,7 @@ typename TAG::TemplateType *ConcreteModuleClass<TAG>::createTemplate() const
     typedef ConcreteModuleTemplate<MOD##Tag> MOD##Concrete;                                       \
     typedef ConcreteModuleClass<MOD##Tag> MOD##ClassConcrete;                                     \
                                                                                                   \
+    template <> __declspec(noinline) MOD##Concrete::~ConcreteModuleTemplate();                 \
     MOD##Concrete g_##MOD##Concrete;                                                              \
     template class ConcreteModuleClass<MOD##Tag>;                                                                                                                                                       MOD##Tag &(MOD##Tag::*g_##MOD##TagAssign)(const MOD##Tag &) = &MOD##Tag::operator=;
 
@@ -655,6 +697,8 @@ const char *const &OrthoEmissionVelocityModuleTag::s_key = ORTHO_EMISSION_VELOCI
 const char *const &OrthoEmissionVelocityModuleTag::s_name = ORTHO_EMISSION_VELOCITY_MODULE_NAME;
 
 typedef ConcreteModuleTemplate<OrthoEmissionVelocityModuleTag> OrthoEmissionVelocityModuleConcrete;
+
+template <> __declspec(noinline) OrthoEmissionVelocityModuleConcrete::~ConcreteModuleTemplate();
 typedef ConcreteModuleClass<OrthoEmissionVelocityModuleTag>
     OrthoEmissionVelocityModuleClassConcrete;
 
@@ -723,7 +767,7 @@ const char *const &DefaultModuleTag<CATEGORY>::s_key = DefaultModuleKey<CATEGORY
 template <int CATEGORY>
 const char *const &DefaultModuleTag<CATEGORY>::s_name = DefaultModuleName<CATEGORY>::VALUE;
 
-#define FX_DEFAULT_WRAPPER(CATEGORY)                                                                   typedef ConcreteModuleTemplate<DefaultModuleTag<CATEGORY> > DefaultConcrete##CATEGORY;                                                                                                                DefaultConcrete##CATEGORY g_defaultConcrete##CATEGORY;                                                                                                                                                              template class ConcreteModuleClass<DefaultModuleTag<CATEGORY> >;
+#define FX_DEFAULT_WRAPPER(CATEGORY)                                                                   typedef ConcreteModuleTemplate<DefaultModuleTag<CATEGORY> > DefaultConcrete##CATEGORY;                                                                                                                template <> __declspec(noinline) DefaultConcrete##CATEGORY::~ConcreteModuleTemplate(); DefaultConcrete##CATEGORY g_defaultConcrete##CATEGORY;                                                                                                                                                              template class ConcreteModuleClass<DefaultModuleTag<CATEGORY> >;
 
 FX_DEFAULT_WRAPPER(0)
 FX_DEFAULT_WRAPPER(1)
@@ -735,6 +779,12 @@ FX_DEFAULT_WRAPPER(7)
 FX_WRAPPER(6, LIGHTNING_DRAW, LightningDrawModule, LightningDrawModuleTemplate)
 FX_WRAPPER(5, TERRAIN_FIRE_EMISSION, TerrainFireEmissionModule, TerrainFireEmissionModuleTemplate)
 FX_WRAPPER(5, LIGHTNING_EMISSION, LightningEmissionModule, LightningEmissionModuleTemplate)
+extern const char *const RENDEROBJECT_UPDATE_MODULE_KEY;
+extern const char *const RENDEROBJECT_UPDATE_MODULE_NAME;
+class RenderObjectUpdateModule;
+
+template <> RenderObjectUpdateModuleTemplate *ConcreteModuleClass<ModuleTag<2, RENDEROBJECT_UPDATE_MODULE_KEY, RENDEROBJECT_UPDATE_MODULE_NAME, RenderObjectUpdateModule, RenderObjectUpdateModuleTemplate, DefaultParticleModule<2> > >::createTemplate() const;
+
 FX_WRAPPER(2, RENDEROBJECT_UPDATE, RenderObjectUpdateModule, RenderObjectUpdateModuleTemplate)
 
 // Five tags whose sixth argument is a plain class rather than a
@@ -759,6 +809,7 @@ FX_WRAPPER(6, GPU_DRAW, GpuDrawModule, GpuDrawModuleTemplate)
     extern const char *const KEY##_MODULE_NAME;                                                 \
     typedef ModuleTag<CATEGORY, KEY##_MODULE_KEY, KEY##_MODULE_NAME, MOD, TMPL, DFLT >            \
         MOD##ClassTag;                                                                          \
+    template <> __declspec(noinline) ConcreteModuleTemplate<MOD##ClassTag>::~ConcreteModuleTemplate(); \
     template class ConcreteModuleClass<MOD##ClassTag>;
 
 FX_CLASS_WRAPPER(6, STREAK_DRAW, StreakDrawModule, StreakDrawModuleTemplate, DefaultParticleModule<6>)

@@ -204,10 +204,9 @@ public:
 template <int CATEGORY>
 inline CategoryModuleTemplate<CATEGORY>::CategoryModuleTemplate() {}
 
-// Keep the native24B implicit base destructor out of its deleting helper.
-// The derived cleanup is supplied by the existing exact factory provider.
+// The category destructor inlines the two base vptr restores.
 template <>
-__declspec(noinline) CategoryModuleTemplateBase<6>::~CategoryModuleTemplateBase();
+CategoryModuleTemplateBase<6>::~CategoryModuleTemplateBase();
 template <>
 CategoryModuleTemplate<6>::~CategoryModuleTemplate();
 

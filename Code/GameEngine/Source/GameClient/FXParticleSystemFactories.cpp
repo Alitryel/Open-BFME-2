@@ -2,6 +2,12 @@
 #include "ModuleTemplate.h"
 #include <memory>
 
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#define BFME_SNAPSHOT_REFERENCE_XFER
+#include "../../../../reference/shims/moduledata/Common/Snapshot.h"
+
 // The module factories, split out of FXParticleSystemModules.cpp for one flag.
 // createTemplate allocates, so its body sits inside an unwind region and opens
 // with __EH_prolog; the clone bodies in the other unit are compiled without
@@ -45,11 +51,13 @@ struct FXCoord3D
     float z;
 };
 
-class EmissionVolumeInfo
+class EmissionVolumeInfo : public ::Snapshot
 {
 public:
     virtual ~EmissionVolumeInfo();
-    virtual void v1() = 0;
+    virtual void LoadPostProcess();
+    virtual const char *GetSnapshotName();
+    virtual void DoXfer(Xfer &xfer);
 
     bool m_flag;
 };
@@ -829,7 +837,9 @@ FX_NAMED_WRAPPER(8, TERRAIN_COLLISION, TerrainCollisionModule, TerrainCollisionM
 // LINK-DUP: RenderObjectUpdate NamedConcrete global is extern (owned elsewhere),
 // but this unit owns its ??_G (0x003AA1EA). Explicitly instantiate its wrapper
 // so the deleting dtor still emits without defining the global.
+template <> RenderObjectUpdateModuleNamedConcrete::ConcreteModuleTemplate();
 template class ConcreteModuleTemplate<RenderObjectUpdateModuleNamedTag>;
+template class ConcreteModuleClass<RenderObjectUpdateModuleNamedTag>;
 
 FX_WRAPPER(6, RENDEROBJECT_DRAW, RenderObjectDrawModule, RenderObjectDrawModuleTemplate)
 FX_WRAPPER(6, GPU_DRAW, GpuDrawModule, GpuDrawModuleTemplate)
