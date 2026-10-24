@@ -73,7 +73,7 @@ inline void vector<Rva003F61C6Record, allocator<Rva003F61C6Record> >::_M_fill_in
 
 #pragma inline_depth(0)
 // ?Rva003F61C6EmitAnchor absent-from-retail
-void Rva003F61C6EmitAnchor(_STL::vector<Rva003F61C6Record> *v,Rva003F61C6Record*p,unsigned n,const Rva003F61C6Record& x){v->_M_fill_insert(p,n,x);}
+void Rva003F61C6EmitAnchor(_STL::vector<Rva003F61C6Record> *v,Rva003F61C6Record*position,unsigned count,const Rva003F61C6Record& fillValue){v->_M_fill_insert(position,count,fillValue);}
 #pragma inline_depth()
 
 #pragma comment(linker, "/alternatename:??0Rva003F61C6Record@@QAE@ABU0@@Z=??0Rva003F610FElement@@QAE@ABU0@@Z")

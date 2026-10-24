@@ -930,3 +930,6 @@ local,Rva002CF302::rva002CF302::y,Rva002CF302::rva002CF302::leftChild,inferred,a
 param,Rva00082BE1::rva00082BE1::x,Rva00082BE1::rva00082BE1::key,inferred,agree:nl-f1dd3c5241f9,Code/Libraries/Source/WWVegas/WWLib/RvaTreeEraseRangeFamily_Rva00082BE1.cpp,0x00082BE1
 param,Rva000D3C46::rva000D3C46::x,Rva000D3C46::rva000D3C46::key,inferred,agree:nl-37d6c292e68d,Code/Libraries/Source/WWVegas/WWLib/RvaTreeEraseRangeFamily_Rva00082BE1.cpp,0x000D3C46
 param,Rva00362C9A::rva00362C9A::x,Rva00362C9A::rva00362C9A::key,inferred,agree:nl-a7dd36b91576,Code/Libraries/Source/WWVegas/WWLib/RvaTreeEraseRangeFamily_Rva00082BE1.cpp,0x00362C9A
+param,Rva003F61C6EmitAnchor::p,Rva003F61C6EmitAnchor::position,inferred,agree:nl-21531a6f6d73,Code/Libraries/Source/WWVegas/WWLib/VectorFillInsertRva003F61C6.cpp,
+param,Rva003F61C6EmitAnchor::n,Rva003F61C6EmitAnchor::count,inferred,agree:nl-cb065a5b5c47,Code/Libraries/Source/WWVegas/WWLib/VectorFillInsertRva003F61C6.cpp,
+param,Rva003F61C6EmitAnchor::x,Rva003F61C6EmitAnchor::fillValue,inferred,agree:nl-72342a209452,Code/Libraries/Source/WWVegas/WWLib/VectorFillInsertRva003F61C6.cpp,
