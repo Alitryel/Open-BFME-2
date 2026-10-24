@@ -6,7 +6,7 @@
 // 0xCE3A90="\\views\\feslbuild_main\\jabba\\fesl\\source\\gamebrowser\\gamebrowserdemangler.cpp",
 // 0xBBC410="false"). All logic, layout, and // cl: preserved verbatim.
 
-struct Rva00800A40Input
+struct InternetAddress
 {
 	int m_00;
 	int m_04;
@@ -70,7 +70,7 @@ int Rva00800920Owner::rva00800a40(
 		return 0;
 	}
 
-	Rva00800A40Input &record = *(Rva00800A40Input *)input;
+	InternetAddress &record = *(InternetAddress *)input;
 	if (record.m_04 != 0)
 		reinterpret_cast<Rva00800A40Diag *>(Rva007EB810Get())->fail(
 			"addr->GetType() == AddressInternet", "\\views\\feslbuild_main\\jabba\\fesl\\source\\gamebrowser\\gamebrowserdemangler.cpp", 0x4d);
