@@ -1774,3 +1774,5 @@ local,Rva005E4DAF::Deselect::q,Rva005E4DAF::Deselect::virtualBaseTable,inferred,
 local,Rva005E4DAF::Select::q,Rva005E4DAF::Select::virtualBaseTable,inferred,agree:nl-54e1355d75f4,Code/GameEngine/Source/Common/Rva005E4DAFTwins.cpp,0x005E4DE5
 local,Rva0055B39C::computeAlphaRate::f,Rva0055B39C::computeAlphaRate::alphaDelta,inferred,agree:nl-833adce78adc,Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055B39C.cpp,0x0055B39C
 local,Rva0055B39C::computeAlphaRate::d,Rva0055B39C::computeAlphaRate::frameDelta,inferred,agree:nl-5531cae0ab62,Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055B39C.cpp,0x0055B39C
+param,Rva00261246Filter::a,Rva00261246Filter::allowNonBuildings,inferred,agree:nl-a40ffb7bd5c8,Code/GameEngine/Source/GameLogic/AI/AIPlayerIsLocationSafe.cpp,
+param,Rva00261246Filter::b,Rva00261246Filter::allowInsignificant,inferred,agree:nl-b679adeb9b2f,Code/GameEngine/Source/GameLogic/AI/AIPlayerIsLocationSafe.cpp,

@@ -184,7 +184,7 @@ extern unsigned char g_00DFEFA4StoragePrototype[28];
 class Rva00261246Filter : public Rva000421C8
 {
 public:
-	Rva00261246Filter(bool a, bool b) : m_a(a), m_b(b) {}
+	Rva00261246Filter(bool allowNonBuildings, bool allowInsignificant) : m_a(allowNonBuildings), m_b(allowInsignificant) {}
 	virtual bool allow(Object *obj);
 	unsigned char m_a;
 	unsigned char m_b;
