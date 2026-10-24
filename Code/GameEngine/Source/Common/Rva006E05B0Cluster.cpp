@@ -6,7 +6,7 @@
 // otherwise tail-calls its own rva006DCB20 method (pinned at 0x006DCB20). The
 // tail callee is a member of the same object, which is what keeps ecx live for
 // the jump. Identity is not recovered; the class and method names are
-// address-derived. The __asm int 3 is the established AptValue assert shape (it
+// address-derived. The __debugbreak(); is the established AptValue assert shape (it
 // keeps a single shared return under /O2).
 
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *, const char *, int);
@@ -37,7 +37,7 @@ void Rva006E05B0::rva006E05B0()
 	{
 		g_bfmeAptAssertAtE17734("nRefCount > 0", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptCIH.cpp", 0x277);
 		if (g_bfmeAptBreakOnAssertAtDDC01C)
-			__asm int 3
+			__debugbreak();
 	}
 
 	if ((m_field5c & 0xc0000) == 0x40000 && refCount == 1)
