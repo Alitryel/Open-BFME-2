@@ -3886,3 +3886,15 @@ Code/GameEngine/Source/Common/Rva002E3766Setter.cpp|function|0x002E3777|Rva002E3
 Code/GameEngine/Source/Common/Rva002E3766Setter.cpp|function|0x002E3794|Rva002E3794Invoke,9678de37b9ab2c7cb6f4474e,gpt-6.1-sol,codexb-20261024-073714-7,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/System/FormationBuild.cpp|param|Rva00421A16#2|p,bd95c12d93ed37aa2fb4a1e8,gpt-6.1-sol,codexb-20261024-073714-7,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineContainIterateRiders.cpp|class||Rva0047BE4CNode,424cb8538f784276d090eda1,gpt-6.1-sol,codexb-20261024-073714-7,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C1E8C.cpp|function|0x002886C2|Rva002886C2,094eaef1e9eb6da506059fc9,gpt-6.1-sol,codexb-20261024-073714-8,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva004ED471Finish.cpp|local|Rva004ED471::rva004ED471|tmp,7e38ba3cfebfe1dcdc483c43,gpt-6.1-sol,codexb-20261024-073714-8,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva002CFC7BCopy.cpp|local|Rva002CFC7B::_M_copy|y,21f44a54661346e5491152cb,gpt-6.1-sol,codexb-20261024-073714-8,w-8e883e57d025,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferDoXfer.cpp|local|shrubPosition|r,6245790eb6845b99360bed5e,gpt-6.1-sol,codexb-20261024-073714-9,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp|class||Rva0049D526Node,b8003141e4c627b9bdec9029,gpt-6.1-sol,codexb-20261024-073714-9,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp|local|Rva0049D526::rva0049D526|v,27b65bbf05aa3e08db56619e,gpt-6.1-sol,codexb-20261024-073714-9,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp|local|Rva0049D526::rva0049D57F|v,4d73ef92e54e13f371264527,gpt-6.1-sol,codexb-20261024-073714-9,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/LivingWorld_ZoomInTo.cpp|local|LivingWorld::ZoomInTo|tmp20,25e74d627743ac1a3587eac4,gpt-6.1-sol,codexb-20261024-073714-10,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp|local|SetTransform|m2,7d3743eb18eef0a27e05f39e,gpt-6.1-sol,codexb-20261024-073714-10,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp|local|BumpEnvTextureMapperClass::Apply|c,b0ed3942234d345ea41f7e3a,gpt-6.1-sol,codexb-20261024-073714-10,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp|local|swapEntries|m,23621d6609c7d09df61a82e4,gpt-6.1-sol,codexb-20261024-073714-11,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp|local|swapEntries|t,2a9358c6171d8239e9a56d85,gpt-6.1-sol,codexb-20261024-073714-11,w-8e883e57d025,2026-10-24
