@@ -5569,3 +5569,7 @@ Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva
 Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b2,75eb8cc8498bfd2a2739ec81,claude-opus-5-5,dioragon-6,w-2f5376c24d26,2026-10-24
 Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b3,2c6b9354695772733dbe7b1e,claude-opus-5-5,dioragon-6,w-2f5376c24d26,2026-10-24
 Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b4,db293a0ef00a666389316c8a,claude-opus-5-5,dioragon-6,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Behavior/MineshaftPortalBehaviour.cpp|member|Rva00373B70Template|kindOf114,70202f5f0df5304ce9f06a96,claude-opus-5-5,dioragon-7,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/Common/Rva000347A0Realloc.cpp|local|EA::Allocator::GeneralAllocator::realloc|d,cc382008af0601c864edbb15,claude-opus-5-5,dioragon-8,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/Common/Rva000347A0Realloc.cpp|local|EA::Allocator::GeneralAllocator::realloc|s,b8c308b3b050c1c627d41048,claude-opus-5-5,dioragon-8,w-2f5376c24d26,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|function|0x001B2450|rva001B2450,18f35cd16aea1bbbcceb1853,claude-opus-5-5,dioragon-8,w-2f5376c24d26,2026-10-24
