@@ -12,9 +12,6 @@
 // and table 0xC51CE4. Caller is the slot-0 ??_G at 0x004A1552 (vtable 0x851DA8).
 // Donor: BFME1 MonsterDockUpdateModuleDataCtorThunk.cpp virtual dtor.
 
-extern "C" const void *const vtbl_00BBB554[];  // folded, 23 classes; via ??_7BfmeBaseVUQ@@6B@
-#pragma comment(linker, "/alternatename:_vtbl_00BBB554=??_7BfmeBaseVUQ@@6B@")
-
 class Xfer;
 
 #include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"

@@ -4,8 +4,6 @@
 
 class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
-extern "C" const void *const vtbl_00BBB554[];  // folded, 23 classes; via ??_7BfmeBaseVUQ@@6B@
-#pragma comment(linker, "/alternatename:_vtbl_00BBB554=??_7BfmeBaseVUQ@@6B@")
 
 class Rva002E2903Player;
 class Rva002BA8F1Logic

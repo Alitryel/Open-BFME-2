@@ -22,7 +22,6 @@
 #include "ascii_string.h"
 
 extern "C" const void *const vtbl_00BBB554[];  // ??_7BfmeSnapshotBase@@6B@
-#pragma comment(linker, "/alternatename:_vtbl_00BBB554=??_7BfmeSnapshotBase@@6B@")
 
 class Snapshot {
 public:

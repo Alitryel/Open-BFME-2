@@ -13,9 +13,6 @@
 // (HoleName plus HoleMaxHealth table 0x00C4AE00). Caller is the slot-0 ??_G
 // at 0x4869B0 (vtable 0xC4AD40).
 
-extern "C" const void *const vtbl_00BBB554[];  // folded, 23 classes; via ??_7BfmeBaseVUQ@@6B@
-#pragma comment(linker, "/alternatename:_vtbl_00BBB554=??_7BfmeBaseVUQ@@6B@")
-
 #include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 class AsciiStringMember

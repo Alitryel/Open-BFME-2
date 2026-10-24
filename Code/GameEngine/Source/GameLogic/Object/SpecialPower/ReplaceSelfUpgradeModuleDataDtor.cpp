@@ -11,8 +11,6 @@
 // CreateObjectDieModuleDataDtor/CivilianSpawnUpdateModuleDataDtor (TU-local
 // Snapshot with inline BBB554-restoring dtor plus novtable derived suppressing
 // the entry store retail lacks plus single vector member).
-extern "C" const void *const vtbl_00BBB554[];  // folded, 23 classes; via ??_7BfmeBaseVUQ@@6B@
-#pragma comment(linker, "/alternatename:_vtbl_00BBB554=??_7BfmeBaseVUQ@@6B@")
 
 #include <vector>
 
