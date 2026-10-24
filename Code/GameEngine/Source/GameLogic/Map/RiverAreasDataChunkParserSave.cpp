@@ -87,8 +87,8 @@ void __cdecl Rva0030C2CESave(Rva0030C2CECollection *coll, DataChunkOutput *out)
 	endCur.m_index = (int)(coll->m_end - coll->m_begin);
 	cur.m_store = coll;
 	cur.m_index = 0;
-	unsigned char nc_91 = rva0007E394CursorEqual(cur, endCur);
-	if (nc_91 == false)
+	unsigned char atEnd = rva0007E394CursorEqual(cur, endCur);
+	if (atEnd == false)
 	{
 		do
 		{

@@ -22,9 +22,9 @@ void Rva0023D229::Set(int index)
 		return;
 	if (index >= 8)
 		return;
-	Rva0023D229Global *g = (*(Rva0023D229Global **)&TheGameLogic);
+	Rva0023D229Global *gameLogic = (*(Rva0023D229Global **)&TheGameLogic);
 	int off = index * 28;
-	void *p = g->m_frame;
+	void *p = gameLogic->m_frame;
 	*(void **)((char *)this + 460 + off) = p;
 }
 void Rva0023D229::rva0023D24C(int index)
@@ -33,8 +33,8 @@ void Rva0023D229::rva0023D24C(int index)
 		return;
 	if (index >= 8)
 		return;
-	Rva0023D229Global *g = (*(Rva0023D229Global **)&TheGameLogic);
+	Rva0023D229Global *gameLogic = (*(Rva0023D229Global **)&TheGameLogic);
 	int off = index * 28;
-	void *p = g->m_frame;
+	void *p = gameLogic->m_frame;
 	*(void **)((char *)this + 464 + off) = p;
 }
