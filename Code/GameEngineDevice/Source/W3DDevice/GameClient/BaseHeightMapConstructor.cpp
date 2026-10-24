@@ -28,6 +28,7 @@ void __malloc_alloc<0>::deallocate(void *__p, size_t)
 { free((char *)__p); }
 }
 namespace _STL {template<>_Bvector_base<allocator<bool> >::_Bvector_base(const allocator<bool>&) throw();}
+#define BFME_RO_DTOR_DECL_ONLY
 #include "rendobj.h"
 #include "Snapshot.h"
 class DX8_CleanupHook {public:DX8_CleanupHook(){}virtual void ReleaseResources()=0;virtual void ReAcquireResources()=0;};
@@ -37,6 +38,7 @@ class TerrainRef {public:TerrainRef():data(0){}~TerrainRef();void *data;};
 // Suppress this TU's non-retail copy of ??1?$_Bvector_base@V?$allocator@_N@_STL@@@_STL@@QAE@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> _Bvector_base<allocator<bool> >::~_Bvector_base(); }
+namespace _STL { template <> vector<bool, allocator<bool> >::~vector(); }
 class W3DTreeBuffer {public:W3DTreeBuffer();char data[285800];};
 class W3DShrubBuffer {public:W3DShrubBuffer();char data[332416];};
 class W3DPropBuffer {public:W3DPropBuffer();char data[194344];};
@@ -54,8 +56,8 @@ struct TerrainGlobalView {char data[0xC6A];bool useTaint;};
 class Rva001E35DFView {public:const Rva001E35DFView*getFinalOverride()const{if(next)return next->getFinalOverride();return this;}void*unknown00;Rva001E35DFView*next;bool isOverride;};
 class Rva00DFF488Setting:public Rva001E35DFView {public:char unknown0C[12];int field18,field1C;};
 template<class T>class OVERRIDE {public:__forceinline operator const T*()const{if(!pointer)return 0;return(const T*)pointer->getFinalOverride();}__forceinline const T*operator->()const{if(!pointer)return 0;return(const T*)pointer->getFinalOverride();}const T*pointer;};
-class WaterTransparency;
-extern OVERRIDE<WaterTransparency>TheWaterTransparency;
+class WaterTransparencySetting;
+extern OVERRIDE<WaterTransparencySetting>TheWaterTransparency;
 class BaseHeightMapRenderObjClass;extern BaseHeightMapRenderObjClass*TheTerrainRenderObject;class DX8Wrapper {public:static void SetCleanupHook(DX8_CleanupHook*h){m_pCleanupHook=h;}protected:static DX8_CleanupHook*m_pCleanupHook;};
 double Rva006C5BE0(double,int);
 class BaseHeightMapRenderObjClass:public RenderObjClass,public DX8_CleanupHook,public Snapshot {public:
