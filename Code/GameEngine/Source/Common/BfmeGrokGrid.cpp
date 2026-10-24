@@ -9,7 +9,7 @@ class BfmeGridWM
 {
 public:
 	void walk();
-	unsigned char rva000AE18D(int x, int y);
+	unsigned char rva000AE18D(int xIndex, int yIndex);
 
 private:
 	int m_pad0;
@@ -30,14 +30,14 @@ void BfmeGridWM::walk()
 			((Rva000AD9AB *)this)->rva000ADCE3(x, y);
 }
 
-unsigned char BfmeGridWM::rva000AE18D(int x, int y)
+unsigned char BfmeGridWM::rva000AE18D(int xIndex, int yIndex)
 {
-	if (x < 0 || y < 0 || y >= m_h || x >= m_w)
+	if (xIndex < 0 || yIndex < 0 || yIndex >= m_h || xIndex >= m_w)
 		return 0;
-	int byteIdx = m_34 * y + (x >> 3);
+	int byteIdx = m_34 * yIndex + (xIndex >> 3);
 	if ((unsigned int)byteIdx >= (unsigned int)(m_dataEnd - m_data))
 		return 0;
 	_ReadWriteBarrier();
-	unsigned int mask = 1u << (x & 7);
+	unsigned int mask = 1u << (xIndex & 7);
 	return (m_data[byteIdx] & mask) != 0;
 }

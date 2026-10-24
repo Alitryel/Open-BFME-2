@@ -5675,3 +5675,11 @@ Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|param|Rva00579E47|r,7b78b23223
 Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|param|AptRef|d,6d1e54ec185d28a34fdf7955,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p013b,w-e1d9b57dc8f7,2026-10-24
 Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|local|Rva005D25F2::rva005D2664|e,041fd142bf9353712230df7d,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p013b,w-e1d9b57dc8f7,2026-10-24
 Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|local|Rva005D25F2::rva005D24E5|e,12adf21a0fbd18281490cca8,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p013b,w-e1d9b57dc8f7,2026-10-24
+Code/GameEngine/Source/Common/BfmeGrokGrid.cpp|local|BfmeGridWM::walk|x,ea99d01ed8ad619f99fd3103,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p017a,w-df53d80bcbd0,2026-10-24
+Code/GameEngine/Source/Common/BfmeGrokGrid.cpp|local|BfmeGridWM::walk|y,5d350c44b12e2c09d26a0bbd,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p017a,w-df53d80bcbd0,2026-10-24
+Code/GameEngine/Source/Common/BfmeGrokGrid.cpp|param|BfmeGridWM::rva000AE18D|x,ad920897e1bcc1db54bc6a13,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p017a,w-df53d80bcbd0,2026-10-24
+Code/GameEngine/Source/Common/BfmeGrokGrid.cpp|param|BfmeGridWM::rva000AE18D|y,9fe1ad539f3a8dcd89af9ef3,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p017a,w-df53d80bcbd0,2026-10-24
+Code/GameEngine/Source/Common/BfmeGrokGrid.cpp|local|BfmeGridWM::walk|x,ea99d01ed8ad619f99fd3103,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p017b,w-3c61b3878a4c,2026-10-24
+Code/GameEngine/Source/Common/BfmeGrokGrid.cpp|local|BfmeGridWM::walk|y,5d350c44b12e2c09d26a0bbd,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p017b,w-3c61b3878a4c,2026-10-24
+Code/GameEngine/Source/Common/BfmeGrokGrid.cpp|param|BfmeGridWM::rva000AE18D|x,ad920897e1bcc1db54bc6a13,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p017b,w-3c61b3878a4c,2026-10-24
+Code/GameEngine/Source/Common/BfmeGrokGrid.cpp|param|BfmeGridWM::rva000AE18D|y,9fe1ad539f3a8dcd89af9ef3,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p017b,w-3c61b3878a4c,2026-10-24
