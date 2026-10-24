@@ -2578,3 +2578,4 @@ Code/GameEngine/Source/GameClient/Drawable_rva00274176.cpp|local|Drawable::rva00
 Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/PalantirTogglePlanningMode.cpp|local|Palantir::Impl::TogglePlanningMode|m2,53f5b475b5ab9ceb9ec1d143,gpt-6.1-sol,codex5-20261024-041502-12,w-2d32e7a71cf1,2026-10-24
 Code/GameEngine/Source/Common/Rva0025BFE3Derived.cpp|local|AIEconomyStats::rva0059640C|t,760a2f06f3a55d452d11d19f,gpt-6.1-sol,codex5-20261024-041502-14,w-2d32e7a71cf1,2026-10-24
 Code/GameEngine/Source/GameClient/Rva002236F2Insert.cpp|function|0x002236F2|rva002236F2,a6e51f8c5a7edf050d9e28f9,gpt-6.1-sol,codex5-20261024-041502-15,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/RTS/TeamRva0039DDC2.cpp|param|Team::rva0039DDC2|f1,9b6f140b06c3de00b40d80c9,gpt-6.1-sol,codex5-20261024-041502-17,w-2d32e7a71cf1,2026-10-24
