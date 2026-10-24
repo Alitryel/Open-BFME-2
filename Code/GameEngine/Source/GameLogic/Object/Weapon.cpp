@@ -2,6 +2,9 @@
 // stlport
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/GameLogic/Object/Weapon.cpp); this unit had no counterpart under Code/.
+// Retail imports only _strcmpi (stub 0x00629A2A calls msvcr71's); BFME2's
+// stricmp spelling resolves there, not to the _stricmp alias.
+#define stricmp _strcmpi
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.

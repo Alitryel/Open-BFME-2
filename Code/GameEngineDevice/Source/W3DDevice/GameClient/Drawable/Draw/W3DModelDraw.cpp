@@ -7,6 +7,9 @@
 // optimization state of the first function that needs it; retail links the
 // /O1 body at 0x00001423. Instantiate it first in an unemitted anchor (the
 // lookuptable.cpp pattern) so this unit's copy is that body.
+// Retail imports only _strcmpi (stub 0x00629A2A calls msvcr71's); BFME2's
+// stricmp spelling resolves there, not to the _stricmp alias.
+#define stricmp _strcmpi
 struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
 #pragma optimize("gsy", on)
 static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }

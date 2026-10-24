@@ -4,6 +4,9 @@
 // (GameEngine/Source/Common/Thing/ThingTemplate.cpp); this unit had no counterpart under Code/.
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
+// Retail imports only _strcmpi (stub 0x00629A2A calls msvcr71's); BFME2's
+// stricmp spelling resolves there, not to the _stricmp alias.
+#define stricmp _strcmpi
 #define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <stl/_algobase.h>
 namespace _STL {
