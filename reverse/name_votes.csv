@@ -5967,3 +5967,5 @@ Code/GameEngine/Source/Common/GapBodiesS3D.cpp|class||Rva004E81DE,a5d0f3b17a988d
 Code/GameEngine/Source/Common/GapBodiesS3D.cpp|function|0x0035A97E|rva0035A97E,8ce4ca7e38cecb404258f2e4,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p087b,w-5725fc507ed3,2026-10-24
 Code/GameEngine/Source/Common/GapBodiesS3D.cpp|function|0x004E81DE|rva004E81DE,abef132244a0baf05093c4af,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p087b,w-5725fc507ed3,2026-10-24
 Code/GameEngine/Source/Common/GapBodiesS3D.cpp|function|0x005AF117|rva005AF117,4baea5d5e613d89289ff3691,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p087b,w-5725fc507ed3,2026-10-24
+Code/GameEngine/Source/Common/RTS/TeamRva0039DE46.cpp|local|Team::rva0039DE46|b3,db60a43e42adda7d0238cf9e,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p090a,w-5ff005b3e61b,2026-10-24
+Code/GameEngine/Source/Common/RTS/TeamRva0039DE46.cpp|local|Team::rva0039DE46|b4,1dcde280c36b34df10fa61cd,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p090a,w-5ff005b3e61b,2026-10-24
