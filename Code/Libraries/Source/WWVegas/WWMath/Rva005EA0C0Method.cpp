@@ -36,9 +36,9 @@ struct Rva005EA0C0Link
 {
   const void *m_vptr;
   void *m_sys;
-  Rva005EA0C0Link(void *s, const void *vt)
+  Rva005EA0C0Link(void *system, const void *vt)
   {
-    m_sys = s;
+    m_sys = system;
     m_vptr = vt;
   }
 };
