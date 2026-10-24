@@ -442,7 +442,7 @@ void EAStringC::rva006D3C60()
 	if (m_pData != 0) {
 		g_bfmeAptAssertAtE17734("IsValid() == false", ".\\string\\EAString.inl", 0x52E);
 		if (g_bfmeAptBreakOnAssertAtDDC01C) {
-			__asm int 3
+			_ReadWriteBarrier(); __debugbreak(); _ReadWriteBarrier();
 		}
 	}
 	m_pData = &g_eaEmptyStringData;
