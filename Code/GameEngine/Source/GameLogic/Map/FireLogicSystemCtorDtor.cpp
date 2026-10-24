@@ -1,13 +1,11 @@
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /GX /ICode/Libraries/Include /Ireference/shims/bfme2_ascii /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 //
-// FireLogicSystem's constructor (0x00286EC8) and destructor (0x00286F8F),
-// split from FireLogicSystemObjects.cpp so that unit links: these two are
-// the only bodies that construct and tear down m_cellsOnFire (the map ctor
-// 0x00242F01 and tree dtor 0x0028681A, pinned rather than defined) and touch
-// the use-counted block-parse registration at VA 0x00DBB750, which no unit
-// defines yet. Both need /GX for their unwind states; the class view is
-// FireLogicSystemObjects.cpp's.
+// FireLogicSystem lifetime: native typed BurningCell tree construction,
+// teardown and the sole use-counted registration object at VA DBB750.
+// The wrapper destructor28691C is distinct from tree destructor28681A.
+// Byte, vtable and initialized-data evidence is recorded under
+// reverse/attempt_support/firelogic-lifetime-link-20261024/.
 // Thing+0x04 under a template flag test.
 #define COORD3D_VIEW_DTOR
 #include "Lib/Coord3DCtorView.h"
@@ -215,18 +213,42 @@ struct Rva00286297
 };
 
 // The FireLogicSystem block-parse registration (VA 0x00DBB750: vtable
-// 0x00BFB730, a use count at +4, the field table theFireLogicSystemBlockParse
-// at +8). The first live system registers it through 0x0020DFFB and the last
+// 0x00BFB730 and a use count at +4). The first live system registers it
+// through 0x0020DFFB and the last
 // one out removes it through 0x0020DAE0; only these two bodies touch it.
 class ModuleData;
 void __cdecl Rva0020DFFBRegister(const ModuleData *);
 void __cdecl Rva0020DAE0(void *);
-struct FireLogicSystemParseRegistration
+#include "FireLogicSystemParseRegistration.h"
+
+
+// Keep the existing by-value descriptor identity; its twelve-byte view
+// and copy operation come from the rowed getter at286356 and copy3ED658.
+class Rva003ED658
 {
-	void *m_vtable;
-	unsigned int m_useCount;
+public:
+    Rva003ED658(Rva003ED658 const &);
+    ~Rva003ED658();
+private:
+    char m_storage[12];
 };
-extern FireLogicSystemParseRegistration theFireLogicSystemParseRegistration;
+class Rva002862C9
+{
+public:
+    LargeGroupAudioKeyMap *rva002862C9();
+};
+Rva00285D27::Rva00285D27()
+{
+}
+Rva003ED658 Rva00285D27::rva00286356()
+{
+    return *reinterpret_cast<const Rva003ED658 *>(
+        ((Rva002862C9 *)this)->rva002862C9());
+}
+
+// MSVC folds this visible constructor into initialized storage: native
+// vfptr plus zero count, without a CRT startup function or a hand table.
+FireLogicSystemParseRegistration theFireLogicSystemParseRegistration;
 
 class FireLogicSystem : public SubsystemInterface, public Snapshot
 {
@@ -299,15 +321,15 @@ FireLogicSystem::FireLogicSystem()
 	: m_cells(0), m_storage(0), m_numRows(0), m_numCols(0), m_80(0),
 	  m_90(0x7FFFFFFF), m_94(1), m_98(0), m_9C(0)
 {
-	if (theFireLogicSystemParseRegistration.m_useCount == 0)
+	if (theFireLogicSystemParseRegistration.m_registration.m_useCount == 0)
 		Rva0020DFFBRegister((const ModuleData *)&theFireLogicSystemParseRegistration);
-	++theFireLogicSystemParseRegistration.m_useCount;
+	++theFireLogicSystemParseRegistration.m_registration.m_useCount;
 }
 
 // ??1FireLogicSystem@@UAE@XZ @0x00286F8F
 FireLogicSystem::~FireLogicSystem()
 {
 	rva00286CC4();
-	if (--theFireLogicSystemParseRegistration.m_useCount == 0)
+	if (--theFireLogicSystemParseRegistration.m_registration.m_useCount == 0)
 		Rva0020DAE0(&theFireLogicSystemParseRegistration);
 }

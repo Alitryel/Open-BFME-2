@@ -147,18 +147,14 @@ struct Rva00286297
 };
 
 // The FireLogicSystem block-parse registration (VA 0x00DBB750: vtable
-// 0x00BFB730, a use count at +4, the field table theFireLogicSystemBlockParse
-// at +8). The first live system registers it through 0x0020DFFB and the last
+// 0x00BFB730 and a use count at +4). The first live system registers it
+// through 0x0020DFFB and the last
 // one out removes it through 0x0020DAE0; only these two bodies touch it.
 class ModuleData;
 void __cdecl Rva0020DFFBRegister(const ModuleData *);
 void __cdecl Rva0020DAE0(void *);
-struct FireLogicSystemParseRegistration
-{
-	void *m_vtable;
-	unsigned int m_useCount;
-};
-extern FireLogicSystemParseRegistration theFireLogicSystemParseRegistration;
+#include "../Map/FireLogicSystemParseRegistration.h"
+
 
 class FireLogicSystem : public SubsystemInterface, public Snapshot
 {

@@ -1006,18 +1006,6 @@ Rva002035D5::Rva002035D5()
 {
 }
 
-// ??0Rva00285D27@@QAE@XZ @0x00285D27 13B, vtable VA 0x00bfb730
-class Rva00285D27 : public RvaSmallVtableZeroBase
-{
-public:
-	Rva00285D27();
-	virtual ~Rva00285D27() {}
-};
-
-Rva00285D27::Rva00285D27()
-{
-}
-
 // ??0Rva002D3347@@QAE@XZ @0x002D3347 13B, vtable VA 0x00c02a84
 class Rva002D3347 : public RvaSmallVtableZeroBase
 {

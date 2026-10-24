@@ -139,3 +139,4 @@ SubsystemInterface,Code/Libraries/Source/subsystem/SubsystemInterface.h,generate
 Xfer,Code/GameEngine/Include/Common/BfmeXfer.h,majority private view (354 identical units) made shared; slots 4-38 undecided in class_contracts/Xfer.json; 450/660 units adopt (59 with forward declarations of undeclared operand types)
 Rva00285635,Code/GameEngine/Source/Common/Rva00285635.h,existing header; contract class_contracts/Rva00285635.json; 1/1 sampled units adopt
 Rva00285BEC,Code/GameEngine/Source/Common/Rva00285BEC.h,existing header; contract class_contracts/Rva00285BEC.json; 6/7 sampled units adopt
+Rva00285D27,Code/GameEngine/Source/GameLogic/Map/FireLogicSystemParseRegistration.h,existing header; contract class_contracts/Rva00285D27.json; 1/1 sampled units adopt

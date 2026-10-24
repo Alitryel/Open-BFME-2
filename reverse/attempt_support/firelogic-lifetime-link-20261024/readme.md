@@ -84,3 +84,35 @@ owners retain all133 unique bytes. This eliminates the divergent legacy
 Snapshot adapter constructor and the sweep's optimization pragmas. The
 retirement hook verifies295 rows in twelve dependent sources and22 EH
 records exactly.
+
+## Registration provider and linking result
+
+The constructor's existing address-derived class Rva00285D27 is retained.
+Native13-byte285D27 zeros the count at+4 and writes BFB730. That table has
+one virtual member, getter286356/29B, and no virtual destructor. The getter
+copies the existing12-byte Rva003ED658 descriptor using the already rowed
+2862C9 singleton accessor and3ED658 copy constructor. Its broader semantic
+type remains the prior opaque view; this repair makes no new donor-name claim.
+
+The original global spelling/type is preserved by composing the actual
+polymorphic member in FireLogicSystemParseRegistration. The compiler emits
+exactly8 initialized bytes: BFB730 followed by zero, with no startup function
+or manual table. Native constructor, callback, table and whole-global closure
+are independently checked in [registration-proof.json](registration-proof.json),
+including compiler sizeof8 and strict REL32 resolution without alias masking.
+This is ordinary data in the rowed owner TU, not a new data_rows claim or a
+new trusted address list.
+
+The13-byte constructor row moves from RvaSmallVtableCtors to this owner;
+its obsolete destructor-slot class and constructor definition are removed.
+The real getter is admitted as a byte-and-relocation twin of its existing
+owner. The shared registration header is adopted across all three existing
+global views; the class-contract/header lane verifies its size8 and sole
+getter slot. No pin is added.
+
+Final registration-cohort checks:235/235 byte rows across four sources,
+all six EH records EXACT. Scoped linking preview against the08:06 ee4c0517ff
+index reports all four units linking,8544 ->8886 source-owned bytes: a
+net342-byte gain. The lifetime TU gains355 while its old constructor provider
+loses13; the transfer is explicitly subtracted. No unique matched bytes are
+claimed for aliases or transfers, and no census status is rewritten.
