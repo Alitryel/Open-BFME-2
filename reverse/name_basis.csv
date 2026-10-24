@@ -909,3 +909,5 @@ local,W3DVolumetricShadowV2::UpdateAndRenderZfail::x3,W3DVolumetricShadowV2::Upd
 local,W3DVolumetricShadowV2::UpdateAndRenderZfail::x4,W3DVolumetricShadowV2::UpdateAndRenderZfail::vertices,inferred,agree:nl-2e47000b2f6e,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva00107E76Update.cpp,0x00107E76
 local,W3DAptRenderer::rva00110CFE::z,W3DAptRenderer::rva00110CFE::depth,inferred,agree:nl-121b62f3b26b,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DAptRendererBeginTriangleList.cpp,0x00110CFE
 local,W3DDisplay::gatherSkirmishAIStats::u,W3DDisplay::gatherSkirmishAIStats::unitIndex,inferred,agree:nl-9beef9d6da56,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayGatherSkirmishAIStats.cpp,0x0004AA4A
+local,W3DDisplay::rva00043BF9::w,W3DDisplay::rva00043BF9::width,inferred,agree:nl-92942a10f0f7,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayRva00043BF9.cpp,0x00043BF9
+local,W3DDisplay::rva00043BF9::h,W3DDisplay::rva00043BF9::height,inferred,agree:nl-e6cf3c9df3f1,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayRva00043BF9.cpp,0x00043BF9

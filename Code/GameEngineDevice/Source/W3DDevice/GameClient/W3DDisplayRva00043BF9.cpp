@@ -96,9 +96,9 @@ void W3DDisplay::rva00043BF9(void)
 		}
 		m_lines25[i]->color006e(color, 0xFF000000);
 		m_lines25[i]->place006e(3, acc, 1, 1);
-		int w;
-		int h;
-		m_lines25[i]->size006e(&w, &h);
-		acc += h;
+		int width;
+		int height;
+		m_lines25[i]->size006e(&width, &height);
+		acc += height;
 	}
 }
