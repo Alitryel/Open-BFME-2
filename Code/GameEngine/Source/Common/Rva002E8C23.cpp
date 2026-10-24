@@ -44,8 +44,8 @@ int __cdecl Rva002EDE5B(void *a, Coord3D *pos)
 {
 	unsigned char flag = Rva002EBBFBIsOdd(a);
 	ICoord2D tmpC;
-	Coord3D tmp18;
-	int cell = Rva002E8C4DCall((int)&tmp18, flag, (Rva002E8C23Pair *)Rva002E7875WorldToCell(&tmpC, *(bool *)&flag, pos), TheTerrainLogic->getLayerForDestination((Object *)a, pos));
+	Coord3D worldPos;
+	int cell = Rva002E8C4DCall((int)&worldPos, flag, (Rva002E8C23Pair *)Rva002E7875WorldToCell(&tmpC, *(bool *)&flag, pos), TheTerrainLogic->getLayerForDestination((Object *)a, pos));
 	Coord3D *src = (Coord3D *)cell;
 	*pos = *src;
 	return cell;
