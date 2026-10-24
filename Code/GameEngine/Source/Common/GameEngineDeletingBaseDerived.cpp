@@ -187,8 +187,8 @@ Rva0044954D::~Rva0044954D()
 // row; it is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitRva0041FE0EDtor@@YAXPAVRva0041FE0E@@@Z present-unmatched
-void bfmeEmitRva0041FE0EDtor(Rva0041FE0E *p)
+void bfmeEmitRva0041FE0EDtor(Rva0041FE0E *subsystem)
 {
-	p->Rva0041FE0E::~Rva0041FE0E();
+	subsystem->Rva0041FE0E::~Rva0041FE0E();
 }
 #pragma inline_depth()
