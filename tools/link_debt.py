@@ -64,23 +64,30 @@ def watched(path):
 
 
 def git(*args):
-    return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True,
-                          encoding="utf-8", errors="replace")
+    result = subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True,
+                            encoding="utf-8", errors="replace")
+    result.check_returncode()
+    return result
 
 
 def blob(ref, path):
-    result = git("show", f"{ref}:{path}")
-    return result.stdout if result.returncode == 0 else None
+    return git("show", f"{ref}:{path}").stdout
 
 
 def staged(base="HEAD"):
     changes = git("diff", "--cached", "--name-status", "-z", "--no-renames").stdout.split("\0")
+    # Diff statuses describe HEAD, not an alternate baseline such as MERGE_HEAD.
+    # A successful tree listing proves which old blobs really are absent there;
+    # a failed show must never silently count as an empty source.
+    base_paths = (None if base == "HEAD" else
+                  set(git("ls-tree", "-r", "--name-only", "-z", base, "--", "Code").stdout.split("\0")))
     before = after = 0
     grew = []
     for status, path in zip(changes[0::2], changes[1::2]):
         if not path or not watched(path):
             continue
-        old = len(literals(blob(base, path)))
+        has_old = not status.startswith("A") if base_paths is None else path in base_paths
+        old = len(literals(blob(base, path))) if has_old else 0
         new = [] if status.startswith("D") else literals(blob("", path))
         before += old
         after += len(new)
@@ -129,7 +136,15 @@ def main(argv=None):
     ap.add_argument("--base", default="HEAD",
                     help="--staged: compare against this commit (MERGE_HEAD during a merge)")
     args = ap.parse_args(argv)
-    return staged(args.base) if args.staged else report()
+    try:
+        return staged(args.base) if args.staged else report()
+    except subprocess.CalledProcessError as error:
+        print(f"link_debt: {' '.join(error.cmd)} failed ({error.returncode}): "
+              f"{(error.stderr or '').strip()}", file=sys.stderr)
+        return 1
+    except OSError as error:
+        print(f"link_debt: cannot run git: {error}", file=sys.stderr)
+        return 1
 
 
 if __name__ == "__main__":

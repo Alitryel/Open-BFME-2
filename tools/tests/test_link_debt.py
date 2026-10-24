@@ -61,6 +61,128 @@ def test_generated_roots_are_not_watched(repo):
     assert L.staged() == 0
 
 
+def test_failed_staged_listing_refuses_instead_of_treating_it_as_empty(repo, monkeypatch, capsys):
+    put(repo, "Code/A.cpp", NAMED)
+    git(repo, "commit", "-qm", "base")
+    put(repo, "Code/A.cpp", LITERAL)
+    broken_index = repo / "broken-index"
+    broken_index.write_bytes(b"not a git index\n")
+    monkeypatch.setenv("GIT_INDEX_FILE", str(broken_index))
+    assert L.main(["--staged"]) == 1
+    error = capsys.readouterr().err
+    assert "git diff" in error and "index" in error
+
+
+def test_failed_report_listing_refuses_instead_of_reporting_no_debt(repo, monkeypatch, capsys):
+    broken_index = repo / "broken-index"
+    broken_index.write_bytes(b"not a git index\n")
+    monkeypatch.setenv("GIT_INDEX_FILE", str(broken_index))
+    assert L.main(["--report"]) == 1
+    output = capsys.readouterr()
+    assert "git ls-files" in output.err and "index" in output.err
+    assert "0 hard-coded image addresses" not in output.out
+
+
+def test_git_cannot_start_refuses_with_a_diagnostic(repo, monkeypatch, capsys):
+    def unavailable(*args, **kwargs):
+        raise FileNotFoundError("fixture: git is unavailable")
+
+    monkeypatch.setattr(L.subprocess, "run", unavailable)
+    assert L.main(["--staged"]) == 1
+    error = capsys.readouterr().err
+    assert "cannot run git" in error and "git is unavailable" in error
+
+
+@pytest.mark.parametrize("ref", ["HEAD", ""])
+def test_failed_source_read_refuses_instead_of_treating_it_as_empty(repo, monkeypatch, capsys, ref):
+    source = "Code/source with spaces.cpp"
+    put(repo, source, NAMED)
+    git(repo, "commit", "-qm", "base")
+    put(repo, source, NAMED + "// changed\n")
+    run = subprocess.run
+
+    def fail_one_read(command, *args, **kwargs):
+        if command == ["git", "show", f"{ref}:{source}"]:
+            return subprocess.CompletedProcess(command, 128, "", "fixture: cannot read object")
+        return run(command, *args, **kwargs)
+
+    monkeypatch.setattr(L.subprocess, "run", fail_one_read)
+    assert L.main(["--staged"]) == 1
+    error = capsys.readouterr().err
+    assert "git show" in error and source in error and "cannot read object" in error
+
+
+def test_first_commit_needs_no_head_blob(repo):
+    put(repo, "Code/A.cpp", NAMED)
+    assert L.main(["--staged"]) == 0
+    put(repo, "Code/A.cpp", LITERAL)
+    assert L.main(["--staged"]) == 1
+
+
+def test_deleting_source_needs_no_index_blob(repo):
+    put(repo, "Code/A.cpp", LITERAL)
+    git(repo, "commit", "-qm", "base")
+    git(repo, "rm", "Code/A.cpp")
+    assert L.main(["--staged"]) == 0
+
+
+def test_moving_source_with_spaces_and_unicode_keeps_its_count(repo):
+    put(repo, "Code/old name.cpp", LITERAL)
+    git(repo, "commit", "-qm", "base")
+    git(repo, "mv", "Code/old name.cpp", "Code/Größe name.cpp")
+    assert L.main(["--staged"]) == 0
+
+
+def test_aggregate_debt_can_move_between_staged_sources(repo):
+    put(repo, "Code/A.cpp", LITERAL)
+    put(repo, "Code/B.cpp", NAMED)
+    git(repo, "commit", "-qm", "base")
+    put(repo, "Code/A.cpp", NAMED)
+    put(repo, "Code/B.cpp", LITERAL)
+    assert L.main(["--staged"]) == 0
+
+
+def test_explicit_base_counts_the_requested_version(repo):
+    put(repo, "Code/A.cpp", NAMED)
+    git(repo, "commit", "-qm", "baseline")
+    git(repo, "branch", "baseline")
+    put(repo, "Code/A.cpp", LITERAL)
+    git(repo, "commit", "-qm", "existing debt")
+    put(repo, "Code/A.cpp", LITERAL + "// changed\n")
+    assert L.main(["--staged"]) == 0
+    assert L.main(["--staged", "--base", "baseline"]) == 1
+
+
+def test_explicit_base_may_lack_a_source_that_exists_in_head(repo):
+    git(repo, "commit", "--allow-empty", "-qm", "baseline")
+    git(repo, "branch", "baseline")
+    put(repo, "Code/A.cpp", LITERAL)
+    git(repo, "commit", "-qm", "existing debt")
+    put(repo, "Code/A.cpp", LITERAL + "// changed\n")
+    assert L.main(["--staged"]) == 0
+    assert L.main(["--staged", "--base", "baseline"]) == 1
+
+
+def test_merge_base_may_own_a_staged_addition_absent_from_head(repo):
+    git(repo, "commit", "--allow-empty", "-qm", "baseline")
+    git(repo, "branch", "baseline")
+    put(repo, "Code/source with spaces.cpp", LITERAL)
+    git(repo, "commit", "-qm", "other parent")
+    git(repo, "branch", "other-parent")
+    git(repo, "checkout", "--detach", "baseline")
+    git(repo, "merge", "--no-ff", "--no-commit", "other-parent")
+    assert L.main(["--staged"]) == 1
+    assert L.main(["--staged", "--base", "MERGE_HEAD"]) == 0
+
+
+def test_invalid_explicit_base_refuses_even_when_no_literal_is_added(repo, capsys):
+    put(repo, "Code/A.cpp", NAMED)
+    git(repo, "commit", "-qm", "base")
+    put(repo, "Code/A.cpp", NAMED + "// changed\n")
+    assert L.main(["--staged", "--base", "missing-base"]) == 1
+    assert "missing-base" in capsys.readouterr().err
+
+
 def test_masks_and_comments_are_not_addresses():
     assert L.literals("if (x & 0x80000000) {}  // *(int *)0x00C2D5C8\n") == []
 
