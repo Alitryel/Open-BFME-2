@@ -94,7 +94,7 @@ BFME_LITERAL_NAME_GETTER(MilesAudioManager, "MilesAudioManager")
 BFME_LITERAL_NAME_GETTER(Rva0008BC8BNamed, "View")
 class DrawModule
 {
-public:
+protected:
     virtual const char *GetSnapshotName() const;
 };
 

@@ -2209,3 +2209,6 @@ _Rva0084DB70,0x00020E30,"Renamed to __Locale_strwxfrm by tools/rename.py (inferr
 ?name@Rva000B19BDNamed@@QBEPBDXZ,0x000B19BD,"Renamed to ?GetSnapshotName@DrawModule@@UBEPBDXZ: retail DrawModule table 0x007C9690 slot 2 selects its class-name getter"
 ??0Rva003F5F89@@QAE@ABV0@@Z,0x003F5F89,"Renamed to ??0EvaMessageInfo@@QAE@ABU0@@Z: retail element construction at 0x003F62C8 calls this copy constructor"
 ?rva004E06B8@Rva004E06B8@@UAEXHH@Z,0x004E06B8,"Renamed to ?BeginTurn@LivingWorldBuilding@@UAEXHH@Z: retail C61610 slot 0 is the LivingWorldBuilding observer callback"
+?name@Rva002533CDNamed@@QBEPBDXZ,0x002533CD,"Renamed to ?GetSnapshotName@UpdateModule@@MBEPBDXZ: retail UpdateModule table 0x007F004C slot 2 selects its class-name getter"
+?Rva004B9735Get@@YAHXZ,0x004B9735,"Renamed to ?GetSnapshotName@DamageModule@@MBEPBDXZ: retail DamageModule table 0x008598E4 slot 2 selects its class-name getter"
+?GetSnapshotName@DrawModule@@UBEPBDXZ,0x000B19BD,"Renamed to ?GetSnapshotName@DrawModule@@MBEPBDXZ: module bases declare the Snapshot getter protected, as MAKE_STANDARD_MODULE_MACRO_ABC and their consumers spell it"

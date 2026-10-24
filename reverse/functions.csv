@@ -10970,7 +10970,7 @@ _str_len,,0x00748AA0,64,Code/Libraries/Source/Lua/lstrlib.c,matched,Lua string l
 _str_sub,,0x00748AF0,173,Code/Libraries/Source/Lua/lstrlib.c,matched,Lua string sub via donor; callees pinned
 _str_rep,,0x00748CE0,114,Code/Libraries/Source/Lua/lstrlib.c,matched,Lua string rep via donor; callees pinned
 ?name@Rva0008BC8BNamed@@QBEPBDXZ,,0x0008BC8D,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning View; 2 vtable refs (0x7C7570/0x7F6180) with 0x4B3FD0 family slot pattern; address-derived placeholder name
-?GetSnapshotName@DrawModule@@UBEPBDXZ,,0x000B19BD,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning DrawModule; vtable ref at 0x7C9698 with 0x4B3FD0 family slot pattern; address-derived placeholder name
+?GetSnapshotName@DrawModule@@MBEPBDXZ,,0x000B19BD,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning DrawModule; vtable ref at 0x7C9698 with 0x4B3FD0 family slot pattern; address-derived placeholder name
 ?name@Rva00226309Named@@QBEPBDXZ,,0x00226309,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning SaveMapPreview; vtable ref in .rdata; address-derived placeholder name
 ?name@Rva002296E6Named@@QBEPBDXZ,,0x002296E6,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning GameSlot; 3 vtable refs in .rdata; address-derived placeholder name
 ?name@Rva00229902Named@@QBEPBDXZ,,0x00229902,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning LobbyGameInfo; vtable ref in .rdata; address-derived placeholder name
@@ -10984,7 +10984,7 @@ _str_rep,,0x00748CE0,114,Code/Libraries/Source/Lua/lstrlib.c,matched,Lua string 
 ?name@UpgradeSoundSelectorClientBehavior@@QBEPBDXZ,,0x00252D24,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning UpgradeSoundSelectorClientBehavior; vtable ref in .rdata; address-derived placeholder name
 ?name@TerrainResourceClientBehavior@@QBEPBDXZ,,0x00252E50,6,Code/GameEngine/Source/Common/SubsystemNameGetters2.cpp,matched,literal name getter returning TerrainResourceClientBehavior; vtable ref in .rdata; address-derived placeholder name (second getter unit to avoid shared-file contention)
 ?name@Rva0028C9D7Named@@QBEPBDXZ,,0x0028C9D7,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning ObjectDefectionHelper; vtable ref in .rdata; address-derived placeholder name
-?name@Rva002533CDNamed@@QBEPBDXZ,,0x002533CD,6,Code/GameEngine/Source/Common/SubsystemNameGetters2.cpp,matched,literal name getter returning UpdateModule; vtable ref in .rdata; address-derived placeholder name
+?GetSnapshotName@UpdateModule@@MBEPBDXZ,,0x002533CD,6,Code/GameEngine/Source/Common/SubsystemNameGetters2.cpp,matched,literal name getter returning UpdateModule; vtable ref in .rdata; address-derived placeholder name
 ?name@Rva00268CD6Named@@QBEPBDXZ,,0x00268CD6,6,Code/GameEngine/Source/Common/SubsystemNameGetters2.cpp,matched,literal name getter returning Squad; vtable ref in .rdata; address-derived placeholder name
 ?set@Rva00078941DwordSlot@@QAEXH@Z,,0x00078941,13,Code/GameEngine/Source/Common/DispDwordFieldSetters.cpp,matched,Disp32 dword setter
 _read_word,,0x0074A700,184,Code/Libraries/Source/Lua/liolib_bfme1.c,matched,gen-alias;object-symbol=_read_word;C++ alias
@@ -11839,7 +11839,7 @@ _luaX_lex,,0x00757C90,1324,Code/Libraries/Source/Lua/llex.c,matched,BFME1 byte-i
 ?Rva004B9281Get@@YAHXZ,,0x004B9281,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret bf4a94; prev C2-08-00 with 1 vtable ref and no callers; opaque name
 ?Rva004B936FGet@@YAHXZ,,0x004B936F,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret bf4a54; prev C2-08-00 with 1 vtable ref and no callers; opaque name
 ?Rva004B9452Get@@YAHXZ,,0x004B9452,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret bf4a10; prev C2-08-00 with 1 vtable ref and no callers; opaque name
-?Rva004B9735Get@@YAHXZ,,0x004B9735,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret c59914; prev C2-08-00 with 1 vtable ref and no callers; opaque name
+?GetSnapshotName@DamageModule@@MBEPBDXZ,,0x004B9735,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret c59914; prev C2-08-00 with 1 vtable ref and no callers; opaque name
 ?Rva004BA431Get@@YAHXZ,,0x004BA431,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret bf49ec; prev C2-08-00 with 1 vtable ref and no callers; opaque name
 ?Rva004BAE7DGet@@YAHXZ,,0x004BAE7D,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret bf49cc; prev C2-08-00 with 1 vtable ref and no callers; opaque name
 ?Rva004BB46AGet@@YAHXZ,,0x004BB46A,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret bf499c; prev C2-08-00 with 1 vtable ref and no callers; opaque name

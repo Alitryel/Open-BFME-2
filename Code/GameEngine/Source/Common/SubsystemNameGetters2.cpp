@@ -27,7 +27,16 @@
 	}
 
 BFME_LITERAL_NAME_GETTER(TerrainResourceClientBehavior, "TerrainResourceClientBehavior")
-BFME_LITERAL_NAME_GETTER(Rva002533CDNamed, "UpdateModule")
+class UpdateModule
+{
+protected:
+	virtual const char *GetSnapshotName() const;
+};
+
+const char *UpdateModule::GetSnapshotName() const
+{
+	return "UpdateModule";
+}
 BFME_LITERAL_NAME_GETTER(Rva00268CD6Named, "Squad")
 BFME_LITERAL_NAME_GETTER(Rva0026E7E4Named, "LuaSpyData")
 BFME_LITERAL_NAME_GETTER(AIUpdateInterface, "AIUpdateInterface")

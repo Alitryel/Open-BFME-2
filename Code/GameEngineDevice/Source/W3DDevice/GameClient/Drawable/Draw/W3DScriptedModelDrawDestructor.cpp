@@ -489,7 +489,6 @@ class DrawModule:public DrawableModule
 protected:
  virtual void loadPostProcess();
  virtual void xfer(Xfer*);
-public:
  virtual const char *GetSnapshotName() const;
  
 }
