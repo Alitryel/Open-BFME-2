@@ -795,6 +795,15 @@ FX_WRAPPER(2, RENDEROBJECT_UPDATE, RenderObjectUpdateModule, RenderObjectUpdateM
 FX_NAMED_WRAPPER(2, RENDEROBJECT_UPDATE, RenderObjectUpdateModule,
     RenderObjectUpdateModuleTemplate, RenderObjectParticleUpdateModule)
 FX_NAMED_WRAPPER(8, LIFE_EVENT, LifeEventModule, LifeEventModuleTemplate, ParticleLifeEventModule)
+extern const char *const TERRAIN_COLLISION_MODULE_KEY;
+extern const char *const TERRAIN_COLLISION_MODULE_NAME;
+class TerrainCollisionModule;
+class ParticleTerrainCollisionModule;
+typedef ModuleTag<8, TERRAIN_COLLISION_MODULE_KEY, TERRAIN_COLLISION_MODULE_NAME,
+    TerrainCollisionModule, TerrainCollisionModuleTemplate, ParticleTerrainCollisionModule>
+    TerrainCollisionModuleNamedTag;
+template <> TerrainCollisionModuleTemplate *ConcreteModuleTemplate<TerrainCollisionModuleNamedTag>::clone() const;
+template <> __declspec(dllimport) __forceinline ConcreteModuleTemplate<TerrainCollisionModuleNamedTag>::~ConcreteModuleTemplate();
 FX_NAMED_WRAPPER(8, TERRAIN_COLLISION, TerrainCollisionModule, TerrainCollisionModuleTemplate,
     ParticleTerrainCollisionModule)
 
@@ -820,6 +829,7 @@ FX_CLASS_WRAPPER(6, BUTTERFLY_DRAW, ButterflyDrawModule, ButterflyDrawModuleTemp
 // The named-tag classes: same treatment, over the tags FX_NAMED_WRAPPER made.
 template class ConcreteModuleClass<RenderObjectUpdateModuleNamedTag>;
 template class ConcreteModuleClass<LifeEventModuleNamedTag>;
+template ConcreteModuleTemplate<TerrainCollisionModuleNamedTag>::ConcreteModuleTemplate(const ConcreteModuleTemplate<TerrainCollisionModuleNamedTag> &that);
 template class ConcreteModuleClass<TerrainCollisionModuleNamedTag>;
 
 // The wrappers' generated assignments. They forward to the module template's own
