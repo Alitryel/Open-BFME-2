@@ -16,8 +16,4 @@ class __declspec(novtable) DelayedLuaEventList : public Snapshot {
 public: virtual ~DelayedLuaEventList();
 private: EventParameter m_elements04[3];
 };
-inline DelayedLuaEventList::~DelayedLuaEventList() {}
-#pragma inline_depth(0)
-// ?emitRva00B6DD2 present-unmatched
-void emitRva00B6DD2(DelayedLuaEventList *delayedLuaEventList) { delayedLuaEventList->DelayedLuaEventList::~DelayedLuaEventList(); }
-#pragma inline_depth()
+DelayedLuaEventList::~DelayedLuaEventList() {}
