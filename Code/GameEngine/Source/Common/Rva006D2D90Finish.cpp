@@ -24,7 +24,7 @@
 // 2. The clamp is computed ONCE into a 32-bit local and stored once. Retail's
 //    tail narrows a 32-bit register into an 8-bit store on both branches --
 //    `mov eax,0xc / mov [E1],al / ret` against `mov [E1],dl / ret` -- which is
-//    what `unsigned int c = minVal < 12 ? 12u : minVal; g_00E177E1 =
+//    what `unsigned int c = minVal < 12 ? 12u : minVal; g_minValueSize =
 //    (unsigned char)c;` lowers to. The bank's early-return spelling instead
 //    hoists a direct `mov BYTE [E1],0xc` above the branch and keeps only the
 //    `dl` narrowing; same 8-bit stores, wrong constant placement. Writing the
