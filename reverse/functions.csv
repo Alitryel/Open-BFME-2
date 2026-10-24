@@ -36334,7 +36334,6 @@ _Rva006FD040,,0x006FD040,26,Code/Libraries/Source/WWVegas/WWLib/Rva006FD040Sibli
 ??$_Destroy@PAUBfmePod252@@@_STL@@YAXPAUBfmePod252@@0@Z,,0x000C6A35,24,Code/Libraries/Source/WWVegas/WWLib/StlportVectorGrowthFootprints.cpp,matched,
 ??$_Destroy@PAUBfmeStringRecord005ED5F3@@@_STL@@YAXPAUBfmeStringRecord005ED5F3@@0@Z,,0x005EDA14,25,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_stringrecord_5ed5f3_allocate_copy.cpp,matched,body the row supersedes the pin of; element dtor target 0x005B804E
 ??$_Destroy@PAVRva003371B1@@@_STL@@YAXPAVRva003371B1@@0@Z,,0x003376D1,25,Code/Libraries/Source/WWVegas/WWLib/StlportVectorPushBackSiblings.cpp,matched,body the pin exposed; element dtor pinned at 0x003372B7
-??$__copy@PBUBfmeAsciiScalarValue8@@PAU1@H@_STL@@YAPAUBfmeAsciiScalarValue8@@PBU1@0PAU1@ABUrandom_access_iterator_tag@0@PAH@Z,,0x0031BA18,47,Code/GameEngine/Source/Common/StringScalarVectorCopyBFME2.cpp,matched,body the pin exposed; element assign pinned at 0x002C99FB
 ??$__destroy_aux@PAVCreateAHeroSubClass@CreateAHeroManager@@@_STL@@YAXPAVCreateAHeroSubClass@CreateAHeroManager@@0ABU__false_type@0@@Z,,0x0021F17F,28,Code/Libraries/Source/WWVegas/WWLib/StlportVectorGrowthFootprints.cpp,matched,
 ??$__destroy_aux@PAUBfmePod248@@@_STL@@YAXPAUBfmePod248@@0ABU__false_type@0@@Z,,0x000C872C,28,Code/Libraries/Source/WWVegas/WWLib/StlportVectorGrowthFootprints.cpp,matched,
 ??$__destroy_aux@PAUBfmePod252@@@_STL@@YAXPAUBfmePod252@@0ABU__false_type@0@@Z,,0x000C4E07,28,Code/Libraries/Source/WWVegas/WWLib/StlportVectorGrowthFootprints.cpp,matched,

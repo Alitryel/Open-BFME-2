@@ -450,7 +450,6 @@ name,address,notes
 ??$__copy@PAVRva00566695@@PAV1@H@_STL@@YAPAVRva00566695@@PAV1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x0056693D,ICF twin of rowed Rva0056693DCopy 50B loop via assign; call site 0x00566A9A passes tag plus null
 ??$__copy@PAVRvaSmartPtr12@@PAV1@H@_STL@@YAPAVRvaSmartPtr12@@PAV1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x0004CCCD,STLport __copy for this element view: REL32 read at 0x0004CD33 in the byte-verified __copy_ptrs forwarder 0x0004CD20 (range erase 0x0004CD7C); ledger spelling there: ?Rva0004CCCDCopyRange@@YAPAVRvaSmartPtr12@@PAV1@00@Z
 ??$__copy@PAVSidesInfo@@PAV1@H@_STL@@YAPAVSidesInfo@@PAV1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x0032DD81,callee read from retail REL32 in __copy_ptrs 0x0032E51B; template-name alias of the rowed Rva0032DD81Copy loop
-??$__copy@PBUBfmeAsciiScalarValue8@@PAU1@H@_STL@@YAPAUBfmeAsciiScalarValue8@@PBU1@0PAU1@ABUrandom_access_iterator_tag@0@PAH@Z,0x0031BA18,__copy worker for __copy_ptrs<BfmeAsciiScalarValue8*> at 0x0031BDA4: retail REL32 at +0x14 targets this address; ghidra boundary
 ??$__copy@PBUBfmeFixedObject260@@PAU1@H@_STL@@YAPAUBfmeFixedObject260@@PBU1@0PAU1@ABUrandom_access_iterator_tag@0@PAH@Z,0x002CF088,Qualified260-byte record alias; full COFF extent and complete helper chain exact; allocator and assignment owners retained; mutable/const uninitialized-copy aliases share the verified structured construction chain
 ??$__copy@PBUBfmeFixedObject60@@PAU1@H@_STL@@YAPAUBfmeFixedObject60@@PBU1@0PAU1@ABUrandom_access_iterator_tag@0@PAH@Z,0x000B6862,Qualified structured60-byte vector helper alias; complete body and transitive callees independently exact; existing body owner retained
 ??$__copy@PBUBfmeObject872@@PAU1@H@_STL@@YAPAUBfmeObject872@@PBU1@0PAU1@ABUrandom_access_iterator_tag@0@PAH@Z,0x0033A82D,Qualified 872-byte object alias; complete body and callee chain exact; target copy2CF380 uses fixed-storage members while assignment33A82D copies218 DWORDS; existing ledger body retains address
@@ -5043,7 +5042,6 @@ name,address,notes
 ??4AsciiString@@QAEAAV0@PBD@Z,0x000366F0,AsciiString const-char assignment folding with the ABV0 op at this address per the DynamicPortalBehaviourModuleData WallBoundsMesh single-push call site
 ??4AudioEventRTS@@QAEAAV0@ABV0@@Z,0x000366F0,address read from the REL32 displacement at a placed body; stlport 4.5.3
 ??4BFMERetailAsciiString@@QAEAAV0@ABV0@@Z,0x000366F0,retail 6BF800 call graph; emitted worker independently matches existing body; application record identity unknown
-??4BfmeAsciiScalarValue8@@QAEAAU0@ABU0@@Z,0x002C99FB,element assignment called by __copy<BfmeAsciiScalarValue8> at 0x0031BA18: retail REL32 at +0x19 targets this address; matched 29B row
 ??4BfmeAssignRecord104@@QAEAAU0@ABU0@@Z,0x0040EAED,address read from the REL32 displacement at a placed body
 ??4BfmeAssignRecord172@@QAEAAU0@ABU0@@Z,0x001EB20E,address read from the REL32 displacement at a placed body
 ??4BfmeAssignRecord24@@QAEAAU0@ABU0@@Z,0x0042816E,address read from the REL32 displacement at a placed body; the body there is held under another instantiation name and the two folded

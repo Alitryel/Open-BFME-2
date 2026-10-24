@@ -47,4 +47,6 @@ namespace _STL {template<> vector<BfmeAsciiScalarValue8>& vector<BfmeAsciiScalar
 template _STL::vector<BfmeAsciiScalarValue8>::vector(const _STL::vector<BfmeAsciiScalarValue8>&);
 template BfmeAsciiScalarValue8* _STL::__uninitialized_fill_n<BfmeAsciiScalarValue8*,unsigned int,BfmeAsciiScalarValue8>(BfmeAsciiScalarValue8*,unsigned int,const BfmeAsciiScalarValue8&,const _STL::__false_type&);
 
-template BfmeAsciiScalarValue8* _STL::__copy<const BfmeAsciiScalarValue8*,BfmeAsciiScalarValue8*,int>(const BfmeAsciiScalarValue8*,const BfmeAsciiScalarValue8*,BfmeAsciiScalarValue8*,const _STL::random_access_iterator_tag&,int*);
+// The worker at 0x0031BA18 assigns a scalar followed by a reference member,
+// unlike this record's AsciiString-first layout. Its native owner is
+// Rva0031BA18Copy.cpp; do not instantiate this record's assignment there.
