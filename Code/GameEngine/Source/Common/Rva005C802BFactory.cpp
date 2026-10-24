@@ -77,7 +77,7 @@ Rva005D19F8::Rva005D19F8(int a, int b)
 
 #include "BattlePromptArmyPanelClipImplView.h"
 
-Rva005FF912::Rva005FF912(int a, int b)
+Rva005FF912::Rva005FF912(int level, int b)
 {
-	m_04 = new StrategicHUD::BattlePromptArmyPanelMovieClip::Impl(this, a, *(const AsciiString *)b);
+	m_04 = new StrategicHUD::BattlePromptArmyPanelMovieClip::Impl(this, level, *(const AsciiString *)b);
 }

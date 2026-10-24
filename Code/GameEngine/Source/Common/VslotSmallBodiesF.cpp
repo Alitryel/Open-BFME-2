@@ -28,12 +28,12 @@ public:
 	virtual void vslot06(); virtual void vslot07(); virtual void vslot08();
 	virtual void vslot09(); virtual void vslot10(); virtual void vslot11();
 	virtual void vslot12(void *block, Int value);
-	void doSpecialPowerAtObject(Rva004C31ECArg *arg, Int value);
+	void doSpecialPowerAtObject(Rva004C31ECArg *target, Int value);
 };
-void Rva004C31EC::doSpecialPowerAtObject(Rva004C31ECArg *arg, Int value)
+void Rva004C31EC::doSpecialPowerAtObject(Rva004C31ECArg *target, Int value)
 {
-	if (arg)
-		vslot12(arg->m_position, value);
+	if (target)
+		vslot12(target->m_position, value);
 }
 
 // slots at VA 0x00BC662C and 0x00C0883C: stores both arguments at +0x04 and
