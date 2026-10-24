@@ -74,11 +74,11 @@ struct BFME2TextureRef {
 void BFME2Set_Texture(unsigned,const BFME2TextureRef&);
 class StringClass {
 public:
-    __declspec(dllimport) __forceinline StringClass(int length,bool isTemp) {m_Buffer=m_EmptyString;Get_String(length,isTemp);m_Buffer[0]=m_LeadByte;}
+    __declspec(dllimport) __forceinline StringClass(int length,bool isTemp) {m_Buffer=m_EmptyString;Get_String(length,isTemp);m_Buffer[0]=m_NullChar;}
     ~StringClass() {Free_String();}
     private:
     char *m_Buffer;
-    static char*m_EmptyString;static char m_LeadByte;
+    static char*m_EmptyString;static char m_NullChar;
     void Get_String(int,bool);void Free_String();
 };
 extern int BfmeRenderWidth,BfmeRenderHeight;
