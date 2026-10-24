@@ -37,8 +37,11 @@ Usage:
   python3 tools/link_rank.py --stale-views     units by layout-like V copies
   python3 tools/link_rank.py --owner-gaps --near 3   unresolved names with recovered address candidates
 
-Run tools/link_census.py --history first; this reads the blockers it
-recorded (build/link_census/link_index.pkl) and never links anything itself.
+Fetch the published index with tools/link_check.py --fetch-index. This reads
+the blockers the last measured census recorded, not current link results;
+refreshing the provider index does not refresh its recorded blockers. Units
+absent from that census have unknown link state. Check a candidate's current
+providers and consumers with tools/link_check.py before starting a repair.
 """
 import argparse
 import collections
@@ -51,13 +54,13 @@ sys.path.insert(0, str(ROOT / "tools"))
 import link_census as lc  # noqa: E402
 
 
-def blockers():
+def blockers(index=None):
     """({source: {(kind, name)}}, {source: matched bytes}), the blockers the
     last census itself counted (link_check.census_blockers: its index), so a
     unit this calls linked is one the census counts as linked."""
     import link_check
     rows = lc.ledger()
-    census = link_check.census_blockers()
+    census = link_check.census_blockers() if index is None else index["blockers"]
     sizes, seen = collections.Counter(), set()
     for row in rows:
         source = row["source"]
@@ -79,11 +82,21 @@ def blockers():
     return out, sizes
 
 
-def stale_views():
+def stale_views(index=None):
     """{source: [unreferenced_differs entry]} from the last census's index."""
     import link_check
+    census = link_check.census_blockers() if index is None else index["blockers"]
     return {source: entry.get("unreferenced_differs", [])
-            for source, entry in link_check.census_blockers().items() if entry.get("unreferenced_differs")}
+            for source, entry in census.items() if entry.get("unreferenced_differs")}
+
+
+def report_snapshot(meta):
+    date = meta.get("census_date", meta.get("date", "unknown"))
+    commit = meta.get("census_commit", meta.get("commit", "unknown"))
+    print(f"Census blockers: {date} at {commit}; current objects have not been checked.")
+    if (date, commit) != (meta.get("date"), meta.get("commit")):
+        print(f"Provider index updated {meta.get('date', 'unknown')} at "
+              f"{meta.get('commit', 'unknown')}; recorded blockers unchanged.")
 
 
 def generated(source):
@@ -128,10 +141,10 @@ def owner_gaps(found, sizes, rows, symbols):
     return sorted(out, key=lambda item: (-item["shared_bytes"], -item["affected_bytes"], item["name"]))
 
 
-def report_owner_gaps(args, found, sizes):
+def report_owner_gaps(args, found, sizes, index=None):
     import build
     import link_check
-    meta = link_check.load_index()["meta"]
+    meta = (link_check.load_index() if index is None else index)["meta"]
     if args.file:
         found = {args.file: found.get(args.file, set())}
     else:
@@ -140,7 +153,6 @@ def report_owner_gaps(args, found, sizes):
     if args.json:
         Path(args.json).write_text(json.dumps(dict(census=meta, leads=leads), indent=2), encoding="utf-8")
     print(f"{len(leads):,} unresolved names have matched retail-address candidates")
-    print(f"Census {meta['date']} at {meta['commit']}; current objects have not been checked.")
     print("Discovery only: additive pins are hypotheses, not identity or ABI proof.")
     print("provider-refresh: owner already exists; check current provider and consumer together.")
     print("identity-gap: inspect native calls, ABI and ownership before changing declarations.")
@@ -175,11 +187,18 @@ def main(argv=None):
     args = parser.parse_args(argv)
     if args.owner_gaps and (args.stale_views or args.all_kinds or args.kind):
         parser.error("--owner-gaps cannot combine with --stale-views, --all-kinds or --kind")
-    found, sizes = blockers()
+    import link_check
+    index = link_check.load_index()
+    found, sizes = blockers(index)
+    report_snapshot(index.get("meta", {}))
+    if args.file and args.file not in found:
+        print(f"{args.file}: not in census; current link state unknown.")
+        print("Check current providers with tools/link_check.py --refresh --current-ledger.")
+        return 2
     if args.owner_gaps:
-        return report_owner_gaps(args, found, sizes)
+        return report_owner_gaps(args, found, sizes, index)
     if args.stale_views:
-        views = stale_views()
+        views = stale_views(index)
         names = collections.Counter()
         listed = []
         for source, entries in views.items():
@@ -204,17 +223,20 @@ def main(argv=None):
     if args.file:
         names = sorted(found.get(args.file, ()))
         print(f"{args.file}: {sizes[args.file]} matched bytes, "
-              f"{'links' if not names else f'{len(names)} blocker(s)'}")
+              f"{'linked in census' if not names else f'{len(names)} blocker(s)'}")
         for kind, name in names:
             print(f"  {kind} {name}")
-        for entry in stale_views().get(args.file, ()):
+        for entry in stale_views(index).get(args.file, ()):
             import link_check
             print(f"  V {entry['name']}  ({link_check.describe_differ(entry)}; not a blocker)")
         return 0
     authored = {s: b for s, b in found.items() if not generated(s)}
     linked = [s for s, b in authored.items() if not b]
-    print(f"{len(linked):,} of {len(authored):,} authored units link "
+    print(f"{len(linked):,} of {len(authored):,} authored units linked in census "
           f"({sum(sizes[s] for s in linked):,} of {sum(sizes[s] for s in authored):,} matched bytes)")
+    absent = sum(not generated(s) and s not in found for s in sizes)
+    if absent:
+        print(f"{absent:,} current matched unit(s) absent from the census; link state unknown.")
 
     def wanted(item):
         return args.kind is None or item[0] == args.kind
@@ -233,7 +255,7 @@ def main(argv=None):
     def label(item):
         return f"{item[0]} {item[1] or '(source has a hard-coded image address)'}"
 
-    print(f"\nsole blockers (fix one, these units link):")
+    print("\nsole blockers in census (recheck current providers before repair):")
     for item, value in [(i, v) for i, v in sole.most_common() if wanted(i)][:args.top]:
         print(f"  {value:8,} {sole_units[item]:4} units  {label(item)[:150]}")
     print(f"\nblocking names by shared bytes:")

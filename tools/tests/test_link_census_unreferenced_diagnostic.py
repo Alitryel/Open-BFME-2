@@ -180,7 +180,8 @@ def test_link_rank_stale_views_lists_layout_units_and_no_blockers(monkeypatch, c
                 "y.cpp": {"unresolved": ["?u"], "duplicates": [], "losers": [], "addresses": 0,
                           "unreferenced_differs": [{"name": "?big", "kind": "codegen", "bytes_differ": None,
                                                     "size": 9, "majority_size": 7}]}}
-    monkeypatch.setattr(C, "census_blockers", lambda: blockers)
+    monkeypatch.setattr(C, "load_index", lambda: {
+        "meta": {"date": "2026-10-01 00:00", "commit": "test"}, "blockers": blockers})
     monkeypatch.setattr(R.lc, "ledger", lambda: [])
     found, _ = R.blockers()
     assert found == {"x.cpp": set(), "y.cpp": {("U", "?u")}}  # V is never a blocker
@@ -188,4 +189,4 @@ def test_link_rank_stale_views_lists_layout_units_and_no_blockers(monkeypatch, c
     out = capsys.readouterr().out
     assert "1 units hold 1 layout-like" in out and "x.cpp" in out and "y.cpp" not in out
     assert R.main(["--file", "x.cpp"]) == 0
-    assert "links" in capsys.readouterr().out
+    assert "linked in census" in capsys.readouterr().out
