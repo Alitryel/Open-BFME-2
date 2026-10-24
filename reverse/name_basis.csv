@@ -1107,3 +1107,4 @@ function,?rva0022994D@Rva00226829@@QAEXXZ,?clear@Rva00226829@@QAEXXZ,inferred,ag
 carry,Rva00226829::rva0022994D::head,Rva00226829::clear::head,inferred,scope renamed by Rename rva0022994D to clear (inferred),Code/GameEngine/Source/Common/Rva00226883TreeFree.cpp,0x0022994D
 param,AIEconomyStats::AIEconomyStats::arg,AIEconomyStats::AIEconomyStats::player,inferred,agree:nl-99ae2bbe3688,Code/GameEngine/Source/Common/Rva0025BFE3Derived.cpp,0x00596366
 member,Rva002DFF0F8::m_10,Rva002DFF0F8::m_pathfinder,inferred,agree:nl-e96d4ec3187a,Code/GameEngine/Source/Common/Rva0028ECDB.cpp,
+local,LivingWorldLogic::rva002B47B1::g,LivingWorldLogic::rva002B47B1::campaignManager,inferred,agree:nl-c6fb6bf7a773,Code/GameEngine/Source/Common/Rva002B47B1Get.cpp,0x002B47B1

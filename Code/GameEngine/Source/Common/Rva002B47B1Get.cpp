@@ -24,6 +24,6 @@ class LivingWorldLogic { public: int rva002B47B1(); };
 
 int LivingWorldLogic::rva002B47B1()
 {
-	LivingWorldCampaignManager *g = ((LivingWorldCampaignManager *)TheCampaignManager);
-	return g->m_array14[g->m_index10]->m_cash40;
+	LivingWorldCampaignManager *campaignManager = ((LivingWorldCampaignManager *)TheCampaignManager);
+	return campaignManager->m_array14[campaignManager->m_index10]->m_cash40;
 }
