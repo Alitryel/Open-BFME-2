@@ -5251,3 +5251,17 @@ Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp|member|Rva00201DC4LODIn
 Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp|member|Rva00201DC4LODInfo|word40,c7773baf6df933f648be8969,gpt-6-astra,codexb2-20261024-141230-8,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp|member|Rva00201DC4LODInfo|word44,c44250bac576c6ad8ecb9073,gpt-6-astra,codexb2-20261024-141230-8,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp|member|Rva00201DC4LODInfo|word48,d78080b9df65ce5ae493cc0f,gpt-6-astra,codexb2-20261024-141230-8,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/Rva0055CFF0Draw.cpp|function|0x0055CFF0|rva0055CFF0,01e0403ad4588a76062f9bba,gpt-6.1-sol,codexb-20261024-140839-2,w-8e883e57d025,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva0010C785TimedDecals.cpp|local|W3DProjectedShadowManager::rva0010BE72|value40,c594f3eed901ef4dfeb1c31c,gpt-6.1-sol,codexb-20261024-140839-2,w-8e883e57d025,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva0010C785TimedDecals.cpp|local|W3DProjectedShadowManager::rva0010BE72|value54,7a7c7ea245a58dc32124bb3b,gpt-6.1-sol,codexb-20261024-140839-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva0052DB11.cpp|local|Rva0052DB11::rva0052DB11|h,93aa9740dfe67eb6a3ef5791,gpt-6.1-sol,codexb-20261024-140839-3,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva0052DB11.cpp|local|Rva0052DB11::rva0052DB11|o,3d0306c479322a92da10a8e7,gpt-6.1-sol,codexb-20261024-140839-3,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva0052DB11.cpp|local|Rva0052DB11::rva0052DB11|s,e298548bfe5f5f3414036d51,gpt-6.1-sol,codexb-20261024-140839-3,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WWMath/Matrix3DVectorRowsCtor.cpp|param|store_row|a,b5e44daa4e76c65bbb07c5f5,gpt-6.1-sol,codexb-20261024-140839-3,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WWMath/Matrix3DVectorRowsCtor.cpp|param|store_row|b,65531ca7874d95c2de96ce12,gpt-6.1-sol,codexb-20261024-140839-3,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WWMath/Matrix3DVectorRowsCtor.cpp|param|store_row|c,37bd833ea0830a05093e4617,gpt-6.1-sol,codexb-20261024-140839-3,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WWMath/Matrix3DVectorRowsCtor.cpp|param|store_row|d,b323c03a835777749ce2e589,gpt-6.1-sol,codexb-20261024-140839-3,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|param|ThingFactory::newDrawable|a1,fbc6e0e834ef02821557d72a,gpt-6.1-sol,codexb-20261024-140839-3,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva00034C90Finish.cpp|member|Rva00034C90Block|m_size00,77b75f4249be40bbad57a10e,gpt-6.1-sol,codexb-20261024-140839-4,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva00034C90Finish.cpp|member|Rva00034C90Block|m_prev08,d1a81262f242bfe09dc37f91,gpt-6.1-sol,codexb-20261024-140839-4,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva00034C90Finish.cpp|member|Rva00034C90Block|m_next0C,12470cd1ef773514d63319ff,gpt-6.1-sol,codexb-20261024-140839-4,w-8e883e57d025,2026-10-24
