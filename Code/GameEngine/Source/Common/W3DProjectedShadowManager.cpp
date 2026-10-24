@@ -1,10 +1,14 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc /arch:SSE /G7
 // Native unwind action76457B calls the existing base destructor10846E.
+class W3DProjectedShadow;
+class RenderObjClass;
+struct Rva0010C065Info;
+class Shadow { public: struct ShadowTypeInfo; };
 class Rva00108475 {
 public:
  virtual ~Rva00108475();
- virtual void rva0010BE72()=0; virtual void *rva0010C065(void *)=0;
- virtual void *rva0010C145(void *,void *,bool,bool)=0; virtual void forward(unsigned,unsigned,unsigned)=0;
+ virtual void rva0010BE72()=0; virtual W3DProjectedShadow *rva0010C065(Rva0010C065Info *)=0;
+ virtual W3DProjectedShadow *rva0010C145(RenderObjClass *,Shadow::ShadowTypeInfo *,bool,bool)=0; virtual void forward(unsigned,unsigned,unsigned)=0;
  virtual unsigned forwardIf(unsigned,void *,unsigned,unsigned)=0;
 };
 class LightEnvironmentClass {
@@ -17,10 +21,10 @@ class W3DProjectedShadowManager : public Rva00108475 {
 public:
  W3DProjectedShadowManager();
  __declspec(noinline) virtual ~W3DProjectedShadowManager();
- virtual void rva0010BE72(); virtual void *rva0010C065(void *) = 0;
- virtual void *rva0010C145(void *,void *,bool,bool) = 0; virtual void forward(unsigned,unsigned,unsigned) = 0;
- virtual unsigned forwardIf(unsigned,void *,unsigned,unsigned) = 0;
- virtual unsigned dispatch(unsigned,void *,unsigned,unsigned) = 0;
+ virtual void rva0010BE72(); virtual W3DProjectedShadow *rva0010C065(Rva0010C065Info *);
+ virtual W3DProjectedShadow *rva0010C145(RenderObjClass *,Shadow::ShadowTypeInfo *,bool,bool); virtual void forward(unsigned,unsigned,unsigned);
+ virtual unsigned forwardIf(unsigned,void *,unsigned,unsigned);
+ virtual W3DProjectedShadow *rva0010C2D5(int,RenderObjClass *,Shadow::ShadowTypeInfo *,Shadow::ShadowTypeInfo *);
 private:
  unsigned m_04,m_08,m_0c,m_10,m_14,m_18,m_1c,m_20;
  LightEnvironmentClass m_light;

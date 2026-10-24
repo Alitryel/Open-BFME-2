@@ -1,5 +1,5 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
-// ?rva0010C145@W3DProjectedShadowManager@@QAEPAVW3DProjectedShadow@@PAVRenderObjClass@@PAUShadowTypeInfo@Shadow@@_N2@Z
+// ?rva0010C145@W3DProjectedShadowManager@@UAEPAVW3DProjectedShadow@@PAVRenderObjClass@@PAUShadowTypeInfo@Shadow@@_N2@Z
 // retail 0x0010C145..0x0010C2D5 (400 bytes, ret 0x10).
 // Decal-style sibling of the rowed W3DProjectedShadowManager::addShadow
 // (0x0010C578, W3DProjectedShadow.cpp) in the same manager vtable (slot 5 at
@@ -210,13 +210,19 @@ public:
 		void *list, unsigned char a, int b, unsigned char c);
 };
 
+struct Rva0010C065Info;
 class W3DProjectedShadowManager
 {
 public:
-	W3DProjectedShadow *rva0010C145(RenderObjClass *object, Shadow::ShadowTypeInfo *raw, Bool first, Bool second);
+ virtual ~W3DProjectedShadowManager();
+ virtual void rva0010BE72();
+ virtual W3DProjectedShadow *rva0010C065(Rva0010C065Info *);
+ virtual W3DProjectedShadow *rva0010C145(RenderObjClass *,Shadow::ShadowTypeInfo *,bool,bool);
+ virtual void forward(unsigned,unsigned,unsigned);
+ virtual unsigned forwardIf(unsigned,void *,unsigned,unsigned);
+ virtual W3DProjectedShadow *rva0010C2D5(int,RenderObjClass *,Shadow::ShadowTypeInfo *,Shadow::ShadowTypeInfo *);
 
 private:
-	void *m_vtable00;
 	int m_04;
 	char m_list08[4];
 	char m_list0C[0x10];

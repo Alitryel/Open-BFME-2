@@ -1,35 +1,36 @@
 // cl: -DNDEBUG -DWIN32 -D_WINDOWS -MD -EHsc -Ireference/open-bfme-1/game/GameEngine/Source/Common
+// Retail manager table 0x00BCF9C4 places these forwards at slots 4 and 5;
+// both dispatch through its seventh slot.
 
 typedef unsigned int UnsignedInt;
 
-class Rva007AE9C0Dispatcher
+class W3DProjectedShadow;
+class RenderObjClass;
+struct Rva0010C065Info;
+class Shadow { public: struct ShadowTypeInfo; };
+class W3DProjectedShadowManager
 {
 public:
-	virtual void v0();
-	virtual void v1();
-	virtual void v2();
-	virtual void v3();
-	virtual void v4();
-	virtual void v5();
-	virtual UnsignedInt dispatch( UnsignedInt first, void *mode,
-		UnsignedInt second, UnsignedInt third );
-
-	void forward( UnsignedInt first, UnsignedInt second, UnsignedInt third );
-	UnsignedInt forwardIf( UnsignedInt first, void *second,
-		UnsignedInt third, UnsignedInt fourth );
+ virtual ~W3DProjectedShadowManager();
+ virtual void rva0010BE72();
+ virtual W3DProjectedShadow *rva0010C065(Rva0010C065Info *);
+ virtual W3DProjectedShadow *rva0010C145(RenderObjClass *,Shadow::ShadowTypeInfo *,bool,bool);
+ virtual void forward(unsigned,unsigned,unsigned);
+ virtual unsigned forwardIf(unsigned,void *,unsigned,unsigned);
+ virtual W3DProjectedShadow *rva0010C2D5(int,RenderObjClass *,Shadow::ShadowTypeInfo *,Shadow::ShadowTypeInfo *);
 };
 
-void Rva007AE9C0Dispatcher::forward( UnsignedInt first, UnsignedInt second,
+void W3DProjectedShadowManager::forward( UnsignedInt first, UnsignedInt second,
 	UnsignedInt third )
 {
-	dispatch( first, 0, second, third );
+	rva0010C2D5(first, 0, (Shadow::ShadowTypeInfo *)second, (Shadow::ShadowTypeInfo *)third);
 }
 
-UnsignedInt Rva007AE9C0Dispatcher::forwardIf( UnsignedInt first,
+UnsignedInt W3DProjectedShadowManager::forwardIf( UnsignedInt first,
 	void *second, UnsignedInt third, UnsignedInt fourth )
 {
 	if ( second == 0 ) {
 		return 0;
 	}
-	return dispatch( first, second, third, fourth );
+	return (UnsignedInt)rva0010C2D5(first, (RenderObjClass *)second, (Shadow::ShadowTypeInfo *)third, (Shadow::ShadowTypeInfo *)fourth);
 }

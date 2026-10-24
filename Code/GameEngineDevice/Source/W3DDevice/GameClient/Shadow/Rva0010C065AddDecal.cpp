@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /GX- /MD
-// ?rva0010C065@Rva0010C065@@UAEPAVW3DProjectedShadow@@PAURva0010C065Info@@@Z,
+// ?rva0010C065@W3DProjectedShadowManager@@UAEPAVW3DProjectedShadow@@PAURva0010C065Info@@@Z,
 // retail 0x0010C065..0x0010C145 (224B): a Ghidra-unlisted table slot of the
 // projected-shadow manager (Zero Hour's W3DProjectedShadowManager::addDecal
 // role). It looks up the info's texture by name through the pinned
@@ -12,6 +12,7 @@
 class W3DShadowTexture;
 class RenderObjClass;
 class W3DProjectedShadow;
+class Shadow { public: struct ShadowTypeInfo; };
 
 class Rva0010BC90ShadowManager
 {
@@ -40,10 +41,16 @@ struct Rva0010C065Info
 	unsigned char m_flag;									// +0x26
 };
 
-class Rva0010C065
+class W3DProjectedShadowManager
 {
 public:
-	virtual W3DProjectedShadow *rva0010C065(Rva0010C065Info *info);
+ virtual ~W3DProjectedShadowManager();
+ virtual void rva0010BE72();
+ virtual W3DProjectedShadow *rva0010C065(Rva0010C065Info *);
+ virtual W3DProjectedShadow *rva0010C145(RenderObjClass *,Shadow::ShadowTypeInfo *,bool,bool);
+ virtual void forward(unsigned,unsigned,unsigned);
+ virtual unsigned forwardIf(unsigned,void *,unsigned,unsigned);
+ virtual W3DProjectedShadow *rva0010C2D5(int,RenderObjClass *,Shadow::ShadowTypeInfo *,Shadow::ShadowTypeInfo *);
 private:
 	Rva0010BC90ShadowManager *textures() { return (Rva0010BC90ShadowManager *)this; }
 	Rva0010BB11ShadowFactory *factory() { return (Rva0010BB11ShadowFactory *)this; }
@@ -52,7 +59,7 @@ private:
 	char m_list1C[4];										// +0x1C
 };
 
-W3DProjectedShadow *Rva0010C065::rva0010C065(Rva0010C065Info *info)
+W3DProjectedShadow *W3DProjectedShadowManager::rva0010C065(Rva0010C065Info *info)
 {
 	if (info == 0)
 		return 0;

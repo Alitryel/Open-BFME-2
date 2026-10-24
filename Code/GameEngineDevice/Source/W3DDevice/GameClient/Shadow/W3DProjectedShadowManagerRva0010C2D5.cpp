@@ -1,5 +1,5 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
-// ?rva0010C2D5@W3DProjectedShadowManager@@QAEPAVW3DProjectedShadow@@HPAVRenderObjClass@@PAUShadowTypeInfo@Shadow@@1@Z
+// ?rva0010C2D5@W3DProjectedShadowManager@@UAEPAVW3DProjectedShadow@@HPAVRenderObjClass@@PAUShadowTypeInfo@Shadow@@1@Z
 // retail 0x0010C2D5..0x0010C578 (675 bytes, ret 0x10, EH frame).
 // Two-texture decal sibling of the rowed 0x0010C145 in the same manager: takes
 // an id word, the render object and TWO shadow infos (each: texture name +0x00,
@@ -138,14 +138,19 @@ public:
 	W3DShadowTexture *getTexture(const char *name);
 };
 
+struct Rva0010C065Info;
 class W3DProjectedShadowManager
 {
 public:
-	W3DProjectedShadow *rva0010C2D5(int id, RenderObjClass *object, Shadow::ShadowTypeInfo *first,
-		Shadow::ShadowTypeInfo *second);
+ virtual ~W3DProjectedShadowManager();
+ virtual void rva0010BE72();
+ virtual W3DProjectedShadow *rva0010C065(Rva0010C065Info *);
+ virtual W3DProjectedShadow *rva0010C145(RenderObjClass *,Shadow::ShadowTypeInfo *,bool,bool);
+ virtual void forward(unsigned,unsigned,unsigned);
+ virtual unsigned forwardIf(unsigned,void *,unsigned,unsigned);
+ virtual W3DProjectedShadow *rva0010C2D5(int,RenderObjClass *,Shadow::ShadowTypeInfo *,Shadow::ShadowTypeInfo *);
 
 private:
-	void *m_vtable00;
 	int m_04;
 	char m_pad08[0xC];
 	W3DProjectedShadow *m_decalList; // +0x14

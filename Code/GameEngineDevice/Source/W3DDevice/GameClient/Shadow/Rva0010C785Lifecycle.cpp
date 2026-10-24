@@ -11,11 +11,15 @@
 // Native ctor13F410 at member24 plus paired dtor69E440 and228 extent establish
 // LightEnvironmentClass. Native dtor109BEB owns the two-pointer texture table,
 // not the old bank's virtual destructor. Full bodies and EH graphs verified.
+class W3DProjectedShadow;
+class RenderObjClass;
+struct Rva0010C065Info;
+class Shadow { public: struct ShadowTypeInfo; };
 class Rva00108475 {
 public:
  virtual ~Rva00108475() {}
- virtual void rva0010BE72()=0; virtual void *rva0010C065(void *)=0;
- virtual void *rva0010C145(void *,void *,bool,bool)=0; virtual void forward(unsigned,unsigned,unsigned)=0;
+ virtual void rva0010BE72()=0; virtual W3DProjectedShadow *rva0010C065(Rva0010C065Info *)=0;
+ virtual W3DProjectedShadow *rva0010C145(RenderObjClass *,Shadow::ShadowTypeInfo *,bool,bool)=0; virtual void forward(unsigned,unsigned,unsigned)=0;
  virtual unsigned forwardIf(unsigned,void *,unsigned,unsigned)=0;
 };
 class LightEnvironmentClass {
@@ -31,10 +35,10 @@ public:
  
  W3DProjectedShadowManager();
  __declspec(noinline) virtual ~W3DProjectedShadowManager();
- virtual void rva0010BE72(); virtual void *rva0010C065(void *);
- virtual void *rva0010C145(void *,void *,bool,bool); virtual void forward(unsigned,unsigned,unsigned);
+ virtual void rva0010BE72(); virtual W3DProjectedShadow *rva0010C065(Rva0010C065Info *);
+ virtual W3DProjectedShadow *rva0010C145(RenderObjClass *,Shadow::ShadowTypeInfo *,bool,bool); virtual void forward(unsigned,unsigned,unsigned);
  virtual unsigned forwardIf(unsigned,void *,unsigned,unsigned);
- virtual unsigned dispatch(unsigned,void *,unsigned,unsigned);
+ virtual W3DProjectedShadow *rva0010C2D5(int,RenderObjClass *,Shadow::ShadowTypeInfo *,Shadow::ShadowTypeInfo *);
 private:
  unsigned m_04,m_08,m_0c,m_10,m_14,m_18,m_1c; Rva0010C785Ref *m_20;
  LightEnvironmentClass m_light;
