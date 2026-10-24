@@ -126,3 +126,8 @@ Rva006D0D7::~Rva006D0D7()
 	destroyMember(m_3878);
 	destroyMember(m_387c);
 }
+
+// This is BaseHeightMapRenderObjClass's destructor: the derived constructor
+// 0x000E3BFE calls base constructor 0x0006C9CF, and its unwind funclet
+// 0x0076328E destroys that base by jumping here.
+#pragma comment(linker, "/alternatename:??1BaseHeightMapRenderObjClass@@UAE@XZ=??1Rva006D0D7@@UAE@XZ")

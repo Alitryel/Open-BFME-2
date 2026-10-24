@@ -55,6 +55,10 @@ Rva002E0427::~Rva002E0427()
 	TheLivingWorldBuildingTemplateStore = 0;
 }
 
+// GameEngine::init's Rva0022C0CDSubsystem (ctor 0x0022DA03) stores the same
+// vtable 0x00BE7628, whose slot 0 0x0022DA4A calls this destructor.
+#pragma comment(linker, "/alternatename:??1Rva0022C0CDSubsystem@@UAE@XZ=??1Rva002E0427@@UAE@XZ")
+
 // Native778668: complete11B member+10 destructor unwind. Whole81B parent
 // and native EH graph prove ownership. Actual5B callee22D101 forwards to
 // owned57B hash cleanup22CF13; original wrapper identity remains uncertain.

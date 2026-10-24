@@ -1344,6 +1344,11 @@ Rva000665B0::Rva000665B0()
 {
 }
 
+// BaseHeightMapRenderObjClass's constructor 0x0006C9CF builds its 500 TScorch
+// entries with the eh vector constructor iterator, passing this constructor
+// 0x000665B0 and the destructor 0x0049B47C.
+#pragma comment(linker, "/alternatename:??0TScorch@@QAE@XZ=??0Rva000665B0@@QAE@XZ")
+
 // ??0Rva0007829C@@QAE@XZ @0x0007829C 9B, vtable VA 0x00bc6730
 class Rva0007829C
 {

@@ -80,6 +80,10 @@ __declspec(noinline) inline Rva00751EF::~Rva00751EF()
 	g_00DE1ED0 = 0;
 }
 
+// Rva0007517F (ctor 0x0007517F) installs the same vtable 0x00BC6620, whose
+// slot 0 0x00075279 calls this destructor.
+#pragma comment(linker, "/alternatename:??1Rva0007517F@@UAE@XZ=??1Rva00751EF@@UAE@XZ")
+
 // ?bfmeAnchorRva00751EFDtor absent-from-retail
 void bfmeAnchorRva00751EFDtor(Rva00751EF *p)
 {

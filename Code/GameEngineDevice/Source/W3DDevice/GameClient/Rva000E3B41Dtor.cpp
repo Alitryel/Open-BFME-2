@@ -104,4 +104,8 @@ Rva000E3B41::~Rva000E3B41()
     g_bfmeTaintModeView = 0;
 }
 
+// Constructor 0x000E3BFE (Rva000E3BFEConstructor.cpp) installs the same vtable
+// 0x00BCE788, whose slot 1 0x000E3CC5 calls this destructor.
+#pragma comment(linker, "/alternatename:??1Rva000E3BFE@@UAE@XZ=??1Rva000E3B41@@UAE@XZ")
+
 void Rva000E3B41_Delete(Rva000E3B41 *p) { delete p; }

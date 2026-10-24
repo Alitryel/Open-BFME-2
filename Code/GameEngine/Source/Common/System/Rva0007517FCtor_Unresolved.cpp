@@ -1,4 +1,5 @@
-// cl: /Ireference/shims/bfme2_ascii /EHsc /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /Ireference/shims/bfme2_ascii /EHsc /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// stlport
 // Split from Rva0007517FCtor.cpp: these definitions reference a callee with no matched body yet,
 // so they are kept apart from the unit's bodies that already link.
 // ??0Rva0007517F@@QAE@XZ, retail 0x0007517F, 112 bytes.
@@ -48,15 +49,13 @@ private:
 	int m_d;
 };
 
-class RubbleFXVec
-{
-public:
-	RubbleFXVec();
-	~RubbleFXVec();
+#include <vector>
 
-private:
-	unsigned char m_data[0x0C];
-};
+// The ehvec iterator receives the STLport pointer vector's folded default
+// constructor closure 0x00256646 and destructor 0x0007FAB3, as in
+// RubbleRiseUpdateModuleDataCtor.cpp.
+class FXList;
+typedef _STL::vector<const FXList *> RubbleFXVec;
 
 extern void *g_00DE1ED0;
 extern float g_Va00BBB8D8;

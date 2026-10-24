@@ -152,3 +152,7 @@ Rva0041F94A::~Rva0041F94A()
     }
     reinterpret_cast<Rva004DFC20 *>(&m_table)->clear();
 }
+
+// GameEngine::init's Rva0022BD25Subsystem (ctor 0x0041F913) stores the same
+// vtable 0x00C3B8C8, whose slot 0 0x0041F9D2 calls this destructor.
+#pragma comment(linker, "/alternatename:??1Rva0022BD25Subsystem@@UAE@XZ=??1Rva0041F94A@@UAE@XZ")

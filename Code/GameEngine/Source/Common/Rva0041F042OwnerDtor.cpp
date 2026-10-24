@@ -54,3 +54,7 @@ Rva0041F042::~Rva0041F042()
 {
 	rva0041EC10();
 }
+
+// GameEngine::init's Rva0022BD9ASubsystem (ctor 0x0041EFFF) stores the same
+// vtable 0x00C3AF78, whose slot 0 0x0041F25E calls this destructor.
+#pragma comment(linker, "/alternatename:??1Rva0022BD9ASubsystem@@UAE@XZ=??1Rva0041F042@@UAE@XZ")

@@ -2585,6 +2585,7 @@ alternatename	Code/GameEngine/Source/Common/Rva002DB311Ctor.cpp	??1?$StringBase@
 alternatename	Code/GameEngine/Source/Common/Rva002DB311Dtor.cpp	??1?$StringBase@D@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/Common/Rva002DB4DAFinish.cpp	??1?$StringBase@D@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/Common/Rva002DCDBFFind.cpp	??1?$StringBase@D@@QAE@XZ	1
+alternatename	Code/GameEngine/Source/Common/Rva002E0427Dtor.cpp	??1Rva0022C0CDSubsystem@@UAE@XZ	1	allow=ccaf8849799cebc44abbbbd950ff696197679461
 alternatename	Code/GameEngine/Source/Common/Rva002E0EF7Ctor.cpp	?anchor@Rva002E0EF7@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/Common/Rva002E0F1EDtor.cpp	??1?$StringBase@D@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/Common/Rva002E15E6Method.cpp	?Rva002E17A0Copy@@YAPAVRva002E0D93@@PAV1@00PADH@Z	1
@@ -2635,9 +2636,11 @@ alternatename	Code/GameEngine/Source/Common/Rva0040C351Ctor.cpp	_vtbl_00BC6F20	1
 alternatename	Code/GameEngine/Source/Common/Rva0040D564Copy.cpp	??$__copy_ptrs@PAURva004F69C3@@PAU1@@_STL@@YAPAURva004F69C3@@PAU1@00ABU__false_type@0@@Z	2
 alternatename	Code/GameEngine/Source/Common/Rva0041580ECleanup.cpp	?rva00415843CallView@Rva0041580E@@QAEPADABVRva0041579E@@@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva0041580ECleanup.cpp	?rva004158AFReturnView@Rva0041580E@@QAE?AURva004158AFSlot@@PAURva0041580ENode@@0ABVRva0041579E@@0@Z	1
+alternatename	Code/GameEngine/Source/Common/Rva00415CABDtor.cpp	??1Rva0022BD25Subsystem@@UAE@XZ	1	allow=8aada9ae4d48a8f269ba23ab00eb5c14e5a0dabf
 alternatename	Code/GameEngine/Source/Common/Rva004161F1Notify.cpp	?g_Va00E04904@@3HA	1
 alternatename	Code/GameEngine/Source/Common/Rva00418BFBSearch.cpp	??RRva00418BFBComp@@QBE_NPBX0@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva0041B8C7Ctor.cpp	?g_00C3AE60@@3QBQBXB	1
+alternatename	Code/GameEngine/Source/Common/Rva0041F042OwnerDtor.cpp	??1Rva0022BD9ASubsystem@@UAE@XZ	1	allow=3a8e303c082668b3d541166b731d1e801be87529
 alternatename	Code/GameEngine/Source/Common/Rva0041FE0ECtor.cpp	_vtbl_00C3B988	1
 alternatename	Code/GameEngine/Source/Common/Rva00420110Method.cpp	?TheRva00222A8BTarget@@3PAVRva00222A8BTarget@@A	1
 alternatename	Code/GameEngine/Source/Common/Rva0042CBB6Ctor.cpp	?ji_006291ae@@YAPAXPAXHI@Z	1
@@ -2782,6 +2785,7 @@ alternatename	Code/GameEngine/Source/Common/Rva006FBE60Cluster.cpp	?g_rva00A1835
 alternatename	Code/GameEngine/Source/Common/Rva006FBED0Cluster.cpp	?g_rva00A1835C@@3PAVRva006FBED0Root@@A	1
 alternatename	Code/GameEngine/Source/Common/Rva0073F708Ctor.cpp	?v1@Rva0073F778@@UAE_NXZ	1
 alternatename	Code/GameEngine/Source/Common/Rva007401F6Dtor.cpp	_vtbl_00C3962C	1
+alternatename	Code/GameEngine/Source/Common/Rva00751EFDtor.cpp	??1Rva0007517F@@UAE@XZ	1	allow=7c30d31d70da56dc2cf9e202f84e002ccd597ebe
 alternatename	Code/GameEngine/Source/Common/Rva00785140HandleCtor.cpp	?g_00BC940C@@3QBQBXB	1
 alternatename	Code/GameEngine/Source/Common/Rva00789900Init.cpp	?g_Rva00789900Table@@3PAPAXA	1
 alternatename	Code/GameEngine/Source/Common/Rva007B67C0ArrayInit.cpp	??0Rva007B67C0Element@@QAE@XZ	1
@@ -2818,6 +2822,7 @@ alternatename	Code/GameEngine/Source/Common/Rva009F68C6PointerArray.cpp	?bfmeCal
 alternatename	Code/GameEngine/Source/Common/Rva00CE12FCMutex.cpp	?release@Rva00CE12FCMutex@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/Common/Rva00CE12FCMutex.cpp	?ticks@Rva00CE12FCMutex@@UAEKXZ	1
 alternatename	Code/GameEngine/Source/Common/Rva00CE12FCMutex.cpp	?wait@Rva00CE12FCMutex@@UAEXXZ	1
+alternatename	Code/GameEngine/Source/Common/RvaSmallVtableCtors.cpp	??0TScorch@@QAE@XZ	1	allow=2d8ab2da5abb2f668d3cb90de51ff4a57111db52
 alternatename	Code/GameEngine/Source/Common/RvaTreeDtorFamily.cpp	??1Rva002076E7Map@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/Common/RvaTreeDtorFamily.cpp	??1Rva0020779EMap@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/Common/RvaTreeDtorFamily.cpp	??1Rva00256461Member@@QAE@XZ	1
@@ -4281,6 +4286,8 @@ alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Find_Asset.cpp	?
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DFontLibraryLoadFontData.cpp	?TheGlobalLanguageData@@3PAUGlobalLanguage@@A	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DFontLibraryLoadFontData.cpp	?TheGlobalLanguageData@@3PAUGlobalLanguageData@@A	2
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Render_Obj_Exists_Impl.cpp	?bfmeSay1025@BfmeP1025@@QAEDPAD@Z	1
+alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva0006D0D7Dtor.cpp	??1BaseHeightMapRenderObjClass@@UAE@XZ	1	allow=373dffded16300e18ef58ddc8b0a1ce558abbe6a
+alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva000E3B41Dtor.cpp	??1Rva000E3BFE@@UAE@XZ	1	allow=1bc8b18b6d3cc496014ac25feaeac9dfeb76d0ae
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva009EBDC0.cpp	?Rva00F4FAACRegistry@@3PAVRva009EEC60Registry@@A	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva009EBDC0.cpp	?bfmeNextResource@@YA?AUBfmeResetAnyRef@@XZ	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/ScreenFilterRva007D85C0Set.cpp	?ScreenCurrentShader@@3IA	2
