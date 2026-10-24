@@ -58,15 +58,15 @@ public:
 class Rva00739BE0
 {
 public:
-	void rva00739BE0(Pair00739BE0 *p, float f, int mask);
+	void rva00739BE0(Pair00739BE0 *p, float radius, int mask);
 private:
 	char m_pad00[16];
 	ShroudManagerImpl *m_gen10;
 };
 
-void Rva00739BE0::rva00739BE0(Pair00739BE0 *p, float f, int mask)
+void Rva00739BE0::rva00739BE0(Pair00739BE0 *p, float radius, int mask)
 {
-	int ic = fast_round(fast_ceil(f * m_gen10->m_scale));
+	int ic = fast_round(fast_ceil(radius * m_gen10->m_scale));
 	int arr[3];
 	arr[2] = ic;
 	arr[1] = ic;
@@ -91,14 +91,14 @@ void Rva00739BE0::rva00739BE0(Pair00739BE0 *p, float f, int mask)
 class Rva00739A30
 {
 public:
- void rva00739A30(Pair00739BE0 *p, float f, int mask);
+ void rva00739A30(Pair00739BE0 *p, float radius, int mask);
 private:
  char m_pad00[16];
  ShroudManagerImpl *m_gen10;
 };
-void Rva00739A30::rva00739A30(Pair00739BE0 *p, float f, int mask)
+void Rva00739A30::rva00739A30(Pair00739BE0 *p, float radius, int mask)
 {
-	int ic = fast_round(fast_ceil(f * m_gen10->m_scale));
+	int ic = fast_round(fast_ceil(radius * m_gen10->m_scale));
 	int arr[3];
 	arr[2] = ic;
 	arr[1] = ic;

@@ -1569,3 +1569,12 @@ Code/GameEngine/Source/Common/ArmySummarySystem_ComputePlayerEarnedSpellPoints.c
 Code/GameEngine/Source/Common/ArmySummarySystem_ComputePlayerEarnedSpellPoints.cpp|member|_Rva0040CA61Arg|m_1C,e9977275b8385c1884e7b1e2,seat-b,rn-1023b-9-b,w-2ef66a165eeb,2026-10-24
 Code/GameEngine/Source/Common/ArmySummarySystem_ComputePlayerEarnedSpellPoints.cpp|param|ArmySummarySystem::ComputePlayerEarnedSpellPoints|a,123122fe8894f045d4bdd5d3,seat-b,rn-1023b-9-b,w-2ef66a165eeb,2026-10-24
 Code/GameEngine/Source/Common/ArmySummarySystem_ComputePlayerEarnedSpellPoints.cpp|local|ArmySummarySystem::ComputePlayerEarnedSpellPoints|n,9caddef49a11e3a83fd450bc,seat-b,rn-1023b-9-b,w-2ef66a165eeb,2026-10-24
+Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp|param|fast_floor|f,b4506b65d478d8e204b8afb2,seat-a,rn-1023b-4-a,w-59f8ba20cd3d,2026-10-24
+Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp|param|fast_ceil|f,f06764dae8df9d90c64d1665,seat-a,rn-1023b-4-a,w-59f8ba20cd3d,2026-10-24
+Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp|param|fast_round|f,ef10d83d6ea723e26f395762,seat-a,rn-1023b-4-a,w-59f8ba20cd3d,2026-10-24
+Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp|param|Rva00739BE0::rva00739BE0|p,6a3fb1fca53c00af43c6d7db,seat-a,rn-1023b-4-a,w-59f8ba20cd3d,2026-10-24
+Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp|param|Rva00739BE0::rva00739BE0|f,14e9aac72ed98199ee316194,seat-a,rn-1023b-4-a,w-59f8ba20cd3d,2026-10-24
+Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp|param|Rva00739A30::rva00739A30|p,04ec22cfa44eab115d28735c,seat-a,rn-1023b-4-a,w-59f8ba20cd3d,2026-10-24
+Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp|param|Rva00739A30::rva00739A30|f,19923eb9df7d18e0c09dd431,seat-a,rn-1023b-4-a,w-59f8ba20cd3d,2026-10-24
+Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp|param|Rva00739BE0::rva00739BE0|p,6a3fb1fca53c00af43c6d7db,seat-b,rn-1023b-4-b,w-8098f74d21e0,2026-10-24
+Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp|param|Rva00739A30::rva00739A30|p,04ec22cfa44eab115d28735c,seat-b,rn-1023b-4-b,w-8098f74d21e0,2026-10-24
