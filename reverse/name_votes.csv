@@ -4563,3 +4563,11 @@ Code/GameEngine/Source/GameLogic/Object/Made002CCBCASlots.cpp|class||Rva0050B745
 Code/GameEngine/Source/GameLogic/Object/Made002CCBCASlots.cpp|class||Rva0050B745Contain,c33d88d3dae22068a0868abd,gpt-6-astra,codexb2-20261024-094036-8,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Made002CCBCASlots.cpp|member|Rva0050B7D2Arg|m_08,f5adc578b02c2b1b5c486c93,gpt-6-astra,codexb2-20261024-094036-8,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/Rva003EE746ColorProvider.cpp|local|Rva003EE746ColorProvider::color|c,5cffd0e6e60341ec95c5e279,gpt-6-astra,codexb2-20261024-094036-8,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/PalantirTogglePlanningMode.cpp|local|Palantir::Impl::TogglePlanningMode|m2,ee32ac6aad949ef36da01cf5,gpt-6.1-sol,codexb-20261024-094724-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Behavior/MineshaftPortalBehaviour.cpp|class||Rva00373B70ContainExit,42f0c16a4331beaaad0ea7d5,gpt-6.1-sol,codexb-20261024-094724-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Behavior/MineshaftPortalBehaviour.cpp|class||Rva00373B70Contain,6171a743e9c483052fb87561,gpt-6.1-sol,codexb-20261024-094724-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv1460.cpp|param|BfmeThingPF::rva000276B0|s,275e38dd8a833d1cda27e5af,gpt-6.1-sol,codexb-20261024-094724-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv1460.cpp|param|BfmeThingPF::rva000276B0|n,d4b063a90b7e451bb400046d,gpt-6.1-sol,codexb-20261024-094724-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp|function|0x007B5299|rva007B5299,c9b5fc0b845b5904a80f7480,gpt-6.1-sol,codexb-20261024-094724-3,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp|function|0x007B5343|rva007B5343,416682bd3c3c1486e64e42cc,gpt-6.1-sol,codexb-20261024-094724-3,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|class||Rva00800A40Input,b54cd4f735a8c7b956b71c1b,gpt-6.1-sol,codexb-20261024-094724-4,w-8e883e57d025,2026-10-24
