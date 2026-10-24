@@ -3289,11 +3289,6 @@ alternatename	Code/GameEngine/Source/GameLogic/AI/Rva003435FBStates.cpp	?g_00C11
 alternatename	Code/GameEngine/Source/GameLogic/AI/Rva0034B952Ctor.cpp	?g_00C122A0@@3QBQBXB	1
 alternatename	Code/GameEngine/Source/GameLogic/AI/Rva0035149F.cpp	??$__copy_ptrs@PBUBfmeE12@@PAU1@@_STL@@YAPAUBfmeE12@@PBU1@0PAU1@ABU__false_type@0@@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/AI/Rva004389AENearbyCheck.cpp	?getPlayerMask@Rva000421C8@@UAEHXZ	1
-alternatename	Code/GameEngine/Source/GameLogic/AI/StateMachineGoal.cpp	?clear@StateMachine@@UAEXXZ	1
-alternatename	Code/GameEngine/Source/GameLogic/AI/StateMachineGoal.cpp	?halt@StateMachine@@UAEXXZ	1
-alternatename	Code/GameEngine/Source/GameLogic/AI/StateMachineGoal.cpp	?initDefaultState@StateMachine@@UAE?AW4StateReturnType@@XZ	1
-alternatename	Code/GameEngine/Source/GameLogic/AI/StateMachineGoal.cpp	?resetToDefaultState@StateMachine@@UAE?AW4StateReturnType@@XZ	1
-alternatename	Code/GameEngine/Source/GameLogic/AI/StateMachineGoal.cpp	?updateStateMachine@StateMachine@@UAE?AW4StateReturnType@@XZ	1
 alternatename	Code/GameEngine/Source/GameLogic/AI/ai_Rva002FD791.cpp	_Gen0002857EFreeListNode	1
 alternatename	Code/GameEngine/Source/GameLogic/LivingWorld/Rva004E16D9RecordCtor.cpp	?anchor@Rva004E16D9Record@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/LivingWorld/Rva004E16D9RecordDtor.cpp	?anchor@Rva004E16D9Record@@UAEXXZ	1
@@ -4395,7 +4390,6 @@ alternatename	Code/GameEngine/Source/GameNetwork/Rva007F5D10GameBrowser.cpp	?res
 alternatename	Code/GameEngine/Source/GameNetwork/Rva007F61E0HostedGameRequest.cpp	?BfmeGameBrowserVJPCallback@@YGXXZ	1
 alternatename	Code/GameEngine/Source/GameNetwork/Rva007F65E0GameReply.cpp	?bfmeDoBDB@BfmeSubBDB@@QAEXPAXH@Z	1
 alternatename	Code/GameEngine/Source/GameNetwork/Rva007F76F0FeslKeyIndex.cpp	?bfmeFindFN@BfmeOwnerFN@@QAEHPAVBfmeVecFN@@PBD@Z	1
-alternatename	Code/GameEngine/Source/GameNetwork/Rva007F8790Demangler.cpp	?rva007F8790@BfmeThingTWA@@UAEXPBDH0E@Z	1
 alternatename	Code/GameEngine/Source/GameNetwork/Rva007F99B0Busy.cpp	?onBusy@Rva007FA2C0@@QAEXPAX@Z	1
 alternatename	Code/GameEngine/Source/GameNetwork/Rva007F9B80Ctor.cpp	_vtbl_00C1C780	1
 alternatename	Code/GameEngine/Source/GameNetwork/Rva007F9B80Ctor.cpp	_vtbl_00C4EF80	1

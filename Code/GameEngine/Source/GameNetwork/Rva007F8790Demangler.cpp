@@ -2,10 +2,6 @@
 // Matcheddeletingdtor7F8970 andctor7F8730 writeprimaryvtable112B8A4 atthis0;
 // its slot1 directlycontainsVA00BF8790. Secondarytable112B8A0 isatthis4.
 // Demangler source/assertstrings establishsubsystem; originalmethodnameunknown.
-// The shared headers declare these members with the access/virtual spelling
-// retail's vftables reference; the ledger row keeps the spelling this TU
-// compiled to. Same function, same address: bind the header spelling here.
-#pragma comment(linker, "/alternatename:?rva007F8790@BfmeThingTWA@@UAEXPBDH0E@Z=?rva007F8790@BfmeThingTWA@@UAEXPBDH0E@Z")
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
