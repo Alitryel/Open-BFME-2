@@ -53,9 +53,9 @@ private:
 	{
 		if (m_count)
 		{
-			unsigned int *p = m_count;
-			--*p;
-			if (*p == 0)
+			unsigned int *m_refCount = m_count;
+			--*m_refCount;
+			if (*m_refCount == 0)
 			{
 				Rva006D0280 *owner = (Rva006D0280 *)m_count;
 				owner->Rva006D0280::~Rva006D0280();
@@ -108,9 +108,9 @@ void ModuleTagString::swap(ModuleTagString &other)
 		other.m_data = data;
 	if (!otherInline && !thisInline)
 		return;
-	Rva004A9DF3Element temporary[2];
-	*(Rva006D0F50Handle *)&temporary[1] = Rva006D0F50Handle();
-	Rva006D0460Copy((BfmeRefVGO *)m_inline, (BfmeRefVGO *)(m_inline + 2), (BfmeRefVGO *)temporary);
+	Rva004A9DF3Element inlineBuffer[2];
+	*(Rva006D0F50Handle *)&inlineBuffer[1] = Rva006D0F50Handle();
+	Rva006D0460Copy((BfmeRefVGO *)m_inline, (BfmeRefVGO *)(m_inline + 2), (BfmeRefVGO *)inlineBuffer);
 	Rva006D0460Copy((BfmeRefVGO *)other.m_inline, (BfmeRefVGO *)(other.m_inline + 2), (BfmeRefVGO *)m_inline);
-	Rva006D0460Copy((BfmeRefVGO *)temporary, (BfmeRefVGO *)(temporary + 2), (BfmeRefVGO *)other.m_inline);
+	Rva006D0460Copy((BfmeRefVGO *)inlineBuffer, (BfmeRefVGO *)(inlineBuffer + 2), (BfmeRefVGO *)other.m_inline);
 }
