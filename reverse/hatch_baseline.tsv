@@ -36617,7 +36617,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWLib/xsurface.cpp	Fill_Rect@XSu
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/xsurface.cpp	Get_Pixel@XSurface@@UBEHABV?$TPoint2D@H@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/xsurface.cpp	Prep_For_Blit@XSurface@@	2
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/xsurface.cpp	Put_Pixel@XSurface@@UAE_NABV?$TPoint2D@H@@H@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWMath/LineSegVectorCtor.cpp	bfmeEmitLineSegVectorCtor@@YAXPAVLineSegClass@@ABVVector3@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWMath/QuaternionRandomize.cpp	normalizeForRandomize@Quaternion@@QAEXXZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWMath/Rva000FE9E3PointBounds.cpp	add	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWMath/Rva000FE9E3PointBounds.cpp	scale	1
