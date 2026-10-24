@@ -30,7 +30,6 @@ void __cdecl rva007B7340();
 void __cdecl rva007B7380();
 void __cdecl rva007B76E6();
 void __cdecl rva007B770E();
-void __cdecl rva007B796E();
 void __cdecl rva007B7979();
 void __cdecl rva007B7DB3();
 void __cdecl rva007B7E49();
@@ -75,7 +74,6 @@ struct Rva007AB85CAtexitInits
 	static void rva007ACEF0();
 	static void rva007ADB11();
 	static void rva007ADB61();
-	static void rva007AE390();
 	static void rva007AE3AC();
 	static void rva007AF0F1();
 	static void rva007AF334();
@@ -125,11 +123,6 @@ void Rva007AB85CAtexitInits::rva007ACE80()
 
 
 
-// ?rva007AE390@Rva007AB85CAtexitInits@@SAXXZ @ 0x007AE390 (12B): atexit(0x007B796E)
-void Rva007AB85CAtexitInits::rva007AE390()
-{
-	atexit( rva007B796E );
-}
 
 #pragma inline_depth( 0 )
 

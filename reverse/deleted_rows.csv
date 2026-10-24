@@ -2460,3 +2460,5 @@ __ehhandler$??0Rva000E3BFE@@QAE@_N@Z,0x007632B2,"Renamed to __ehhandler$??0Rva00
 ?rva00028bc0@Rva00028B90Thing@@QAEXPAX0@Z,0x00028BC0,Renamed to ?find@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QBEIPBDI@Z: STLport 4.5.3 find(const char*;size_type) const compiles to the 42 B body under plain /Od
 ?setGoalObject@StateMachine@@QAEXPAVObject@@@Z,0x004D7435,"Renamed to ?internalSetGoalObject@StateMachine@@QAEXPBVObject@@@Z: Zero Hour's worker; the lock-gated virtual setGoalObject at 0x004D750F tail-jumps to it"
 ?rva004D750F@StateMachine@@QAEXPAVObject@@@Z,0x004D750F,"Renamed to ?setGoalObject@StateMachine@@UAEXPBVObject@@@Z: slot 14 of StateMachine's vtable 0x00860740 and 24 other tables; Zero Hour's locked guard then internalSetGoalObject"
+?rva007AE390@Rva007AB85CAtexitInits@@SAXXZ,0x007AE390,"Placeholder for SmudgeSet::m_freeSmudgeList's dynamic initializer; rowed as ??__Em_freeSmudgeList@SmudgeSet@@YAXXZ (_$E1) in SmudgeRemoveSmudgeFromSet.cpp"
+??__Em_freeSmudgeList@SmudgeSet@@YAXXZ,0x007B796E,"Renamed to ??__Fm_freeSmudgeList@SmudgeSet@@YAXXZ: the body at 0x007B796E is the atexit destructor (_$E2), the initializer is 0x007AE390"
