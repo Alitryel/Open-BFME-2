@@ -898,7 +898,7 @@ public:
 // __ehvec_ctor arguments, the ICF-folded 0x0047A6A9 and 0x000B3FD0).
 struct BfmeWorkerDockPoint
 {
-	BfmeWorkerDockPoint();
+	BfmeWorkerDockPoint() {}
 	~BfmeWorkerDockPoint();
 	Bool valid;
 	Coord3D location;

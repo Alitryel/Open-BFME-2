@@ -1005,8 +1005,8 @@ inline void zeroCoord(Coord3D &c)
 // __ehvec_ctor arguments, the ICF-folded 0x0047A6A9 and 0x000B3FD0).
 struct Rva004894F5DockPoint
 {
-	Rva004894F5DockPoint();
-	~Rva004894F5DockPoint();
+	Rva004894F5DockPoint() {}
+	~Rva004894F5DockPoint() {}
 	Bool valid;
 	Coord3D location;
 };
