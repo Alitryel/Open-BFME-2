@@ -19,10 +19,30 @@ struct InputChunk
 };
 
 class ChunkInputStream;
+class Mapping;
+
+class DataChunkTableOfContents
+{
+public:
+	DataChunkTableOfContents();
+	~DataChunkTableOfContents();
+
+	void read( ChunkInputStream &s);
+	unsigned int allocateID( const AsciiString& name );
+
+	Mapping *m_list;			// +0x00
+	int m_listLength;			// +0x04
+	unsigned int m_nextID;		// +0x08
+	bool m_headerOpened;		// +0x0C
+
+private:
+	Mapping *findMapping( const AsciiString& name );
+};
 
 class DataChunkInput
 {
 public:
+	DataChunkInput(ChunkInputStream *stream);
 	unsigned short getChunkVersion();
 	unsigned int getChunkDataSizeLeft();
 	bool atEndOfFile();
@@ -30,8 +50,12 @@ public:
 
 private:
 	ChunkInputStream *m_file;
-	unsigned char m_pre[0x18];
+	DataChunkTableOfContents m_contents;	// +0x04
+	int m_fileposOfFirstChunk;	// +0x14
+	void *m_parserList;			// +0x18
 	InputChunk *m_chunkStack;	// +0x1C
+	void *m_currentObject;		// +0x20
+	void *m_userData;			// +0x24
 };
 
 // ?getChunkVersion@DataChunkInput@@QAEGXZ
@@ -87,24 +111,6 @@ public:
 template <class T> inline T const & max(T const & lhs, T const & rhs) { return (lhs > rhs) ? lhs : rhs; }
 
 void operator delete(void *ptr);
-
-class DataChunkTableOfContents
-{
-public:
-	DataChunkTableOfContents();
-	~DataChunkTableOfContents();
-
-	void read( ChunkInputStream &s);
-	unsigned int allocateID( const AsciiString& name );
-
-	Mapping *m_list;			// +0x00
-	int m_listLength;			// +0x04
-	unsigned int m_nextID;		// +0x08
-	bool m_headerOpened;		// +0x0C
-
-private:
-	Mapping *findMapping( const AsciiString& name );
-};
 
 // ??0DataChunkTableOfContents@@QAE@XZ
 inline DataChunkTableOfContents::DataChunkTableOfContents() :
@@ -194,13 +200,20 @@ unsigned int DataChunkTableOfContents::allocateID(const AsciiString& name )
 	}
 }
 
-#pragma inline_depth(0)
-// ?bfmeEmitDataChunkTableOfContentsCtor@@YAXPAVDataChunkTableOfContents@@@Z present-unmatched
-void bfmeEmitDataChunkTableOfContentsCtor(DataChunkTableOfContents *dataChunkTableOfContents)
+// The existing 91-byte retail constructor naturally emits the table-of-contents
+// constructor above. Both bodies belong to DataChunk.cpp in the approved TU map;
+// their original clean donor is Open-BFME-1 DataChunkInputCtorThunk.cpp at
+// 6d9434269164392c5ba62aaa7c15a86b5b020d76. No synthetic emission caller is needed.
+DataChunkInput::DataChunkInput(ChunkInputStream *stream) :
+	m_file(stream)
 {
-	dataChunkTableOfContents->DataChunkTableOfContents::DataChunkTableOfContents();
+	m_chunkStack = 0;
+	m_currentObject = 0;
+	m_userData = 0;
+	m_parserList = 0;
+	m_contents.read(*m_file);
+	m_fileposOfFirstChunk = m_file->tell();
 }
-#pragma inline_depth()
 
 // Clean BF1 f98983a7 System/DataChunk.cpp supplies the size-left getter.
 // Native306E22..306E2E is the whole leaf between matched size/end getters:

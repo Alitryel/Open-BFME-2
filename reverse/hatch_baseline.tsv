@@ -32806,7 +32806,6 @@ present_unmatched	Code/GameEngine/Source/Common/System/CDManager.cpp	refreshInfo
 present_unmatched	Code/GameEngine/Source/Common/System/CDManager.cpp	reset@CDManager@@UAEXXZ	1
 present_unmatched	Code/GameEngine/Source/Common/System/CDManager.cpp	setPath@CDDrive@@QAEXPBD@Z	1
 present_unmatched	Code/GameEngine/Source/Common/System/CDManager.cpp	update@CDManager@@UAEXXZ	1
-present_unmatched	Code/GameEngine/Source/Common/System/DataChunk.cpp	bfmeEmitDataChunkTableOfContentsCtor@@YAXPAVDataChunkTableOfContents@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/System/DataChunkTableOfContentsRead.cpp	1Mapping@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/Common/System/DataChunk_ID_DataChunkTableOfContents_QAEIABVAsciiString_Z.cpp	0Mapping@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/Common/System/DataChunk_ID_DataChunkTableOfContents_QAEIABVAsciiString_Z.cpp	0OutputChunk@@QAE@XZ	1
