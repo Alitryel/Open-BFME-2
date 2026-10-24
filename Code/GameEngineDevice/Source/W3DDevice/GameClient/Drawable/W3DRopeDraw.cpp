@@ -54,20 +54,21 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "Common/Xfer.h"
 #include "GameClient/ClientRandomValue.h"
 #include "GameClient/Color.h"
-#include "GameClient/Drawable.h"
-#include "GameClient/GameClient.h"
+// Retail doDrawModule calls the out-of-line Drawable::getPosition 0x002763E6
+// (BFMERopeDrawableGetPosition.cpp), not ZH's inline Thing accessor.
+#define _DRAWABLE_H_
+class Drawable
+{
+public:
+	const Coord3D *getPosition() const;
+};
+// GameClient.h needs ZH's full Drawable; nothing here uses it.
 #include "GameLogic/GameLogic.h"
 #include "W3DDevice/GameClient/W3DDisplay.h"
 #include "W3DDevice/GameClient/Module/W3DRopeDraw.h"
 #include "WW3D2/Line3D.h"
 #include "W3DDevice/GameClient/W3DScene.h"
 #include "Common/GameState.h"
-
-class BFMERopeDrawable
-{
-public:
-	const Coord3D *getPosition() const;
-};
 
 #ifdef _INTERNAL
 // for occasional debugging...
@@ -113,11 +114,8 @@ void W3DRopeDraw::setRopeSpeed(Real curSpeed, Real maxSpeed, Real accel)
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ??1W3DRopeDraw@@MAE@XZ present-unmatched
-W3DRopeDraw::~W3DRopeDraw()
-{
-	tossSegments();
-}
+// W3DRopeDraw's destructor: retail's public virtual body is defined in
+// W3DRopeDrawDtor.cpp (its row's unit).
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -138,7 +136,7 @@ void W3DRopeDraw::doDrawModule(const Matrix3D* transformMtx)
 	if (!m_segments.empty())
 	{
 		Real deflection = Sin(m_curWobblePhase) * m_wobbleAmp;
-		const Coord3D* pos = ((const BFMERopeDrawable *)getDrawable())->getPosition();
+		const Coord3D* pos = getDrawable()->getPosition();
 		Vector3 start(pos->x, pos->y, pos->z + m_curZOffset);
 		Real eachLen = m_curLen / m_segments.size();
 		for (std::vector<SegInfo>::iterator it = m_segments.begin(); it != m_segments.end(); ++it)
