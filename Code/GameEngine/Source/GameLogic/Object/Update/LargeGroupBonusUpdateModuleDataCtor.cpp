@@ -44,7 +44,8 @@ private:
 class __declspec(novtable) UpdateModuleData
 {
 public:
-	UpdateModuleData() {}
+	// Retail expands the empty base constructor; emit no competing COMDAT.
+	__declspec(dllimport) __forceinline UpdateModuleData() {}
 	virtual ~UpdateModuleData();
 };
 extern int g_00E03994;	// owned by Rva007ABC6FFrameRateInits.cpp (frame-rate inits)

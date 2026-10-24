@@ -30,7 +30,8 @@ namespace _STL { template <> void _List_base<Coord3D, allocator<Coord3D> >::clea
 class UpdateModuleData
 {
 public:
-	UpdateModuleData()
+	// Retail expands the empty base constructor; emit no competing COMDAT.
+	__declspec(dllimport) __forceinline UpdateModuleData()
 	{
 	}
 	~UpdateModuleData();
