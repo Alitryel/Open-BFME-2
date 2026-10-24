@@ -1372,3 +1372,16 @@ Code/GameEngine/Source/Common/Stances/StanceNames.cpp|function|0x00425DC2|Rva004
 Code/GameEngine/Source/GameLogic/Object/Update/Rva00496292.cpp|function|0x00496292|Rva00496292Destroy,451afbf00057d2c11c787e9c,gpt-6.1-sol,codex8-20261024-000513-19,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Update/Rva00496292.cpp|local|Rva00496292Destroy|p,54aa99979a4081c7b613919e,gpt-6.1-sol,codex8-20261024-000513-19,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/Rva001F51DC.cpp|local|Rva001F51DC::rva001F51DC|p,4ec50b805544d3f467079af9,gpt-6.1-sol,codex8-20261024-000513-20,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva005396E6Dtor.cpp|function|0x005398B3|rva005398B3,f049367e0d95506d44d30f91,gpt-6.1-sol,codex8-20261024-000513-21,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva005396E6Dtor.cpp|local|Rva005398B3::rva005398B3|p,4814f5655a602902e53f6159,gpt-6.1-sol,codex8-20261024-000513-21,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/BfmeOneHundredEightySix_bfmeGoDD_BfmeThingDD_QAEXHHHH_Z.cpp|function|0x00380A98|bfmeGoDD,3e4e56507b828b7cc8d099cc,gpt-6.1-sol,codex8-20261024-000513-23,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv804.cpp|member|BfmeObjECF|m_bfmeVtbl,474a1286e62854896514c0ea,gpt-6.1-sol,codex8-20261024-000513-24,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv804.cpp|function|0x007B7270|bfmeGoECF,fc14396bce37b867f1959c89,gpt-6.1-sol,codex8-20261024-000513-24,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva005E5A8BMouse.cpp|function|0x005E5A8B|rva005E5A8B,68c9b15dd6aa34545599c894,gpt-6.1-sol,codex8-20261024-000513-25,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva005E5A8BMouse.cpp|function|0x005E5B20|rva005E5B20,da7491c37f810ace1f2839ae,gpt-6.1-sol,codex8-20261024-000513-25,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldManagerSound.cpp|function|0x00210FC6|rva00210FC6,bc91c187f7f5c74adfeb68ce,gpt-6.1-sol,codex8-20261024-000513-27,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva002BFF5A.cpp|function|0x002BFF9F|rva002BFF9F,d353d0dfb8c95980b913be5c,gpt-6.1-sol,codex8-20261024-000513-28,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/AptInvokeWrappers511C3A.cpp|param|Rva00511C3AFlag|b,26e2bdb64f4bf31f672c9154,gpt-6.1-sol,codex8-20261024-000513-29,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/AptInvokeWrappers511C3A.cpp|param|Rva00511C3AInvoke|a,ad9d0af5210e87455756424f,gpt-6.1-sol,codex8-20261024-000513-29,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/AptInvokeWrappers511C3A.cpp|param|Rva00511C3AInvoke|b,c3090d1181bcb6ef4705b352,gpt-6.1-sol,codex8-20261024-000513-29,w-de56e563a50b,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DBoatWakeModelDrawDoDrawModule.cpp|global||g_Va00DB52E8,460a49bc70d81d6c8990ef31,gpt-6.1-sol,codex8-20261024-000513-30,w-de56e563a50b,2026-10-24
