@@ -14,59 +14,27 @@
 // call-free like retail. Table layout (buckets.start+4/finish+8) and the
 // div/modulo bucket selection fall out of the STLport 4.5.3 hashtable.
 
-// Retail keeps one unsigned max, RVA 0x00013740 (the vendored STLport row). This unit's
-// flags (/G7) compile a different copy, and retail kept another unit's. This unit-local
-// overload keeps the inlined code and offers the link no second copy.
-#define _STLP_BFME_LOWER_BOUND_EXTERN  // call retail's one __lower_bound<const size_t*> (vendor/stlport/stl/_hashtable.c)
-#include <stl/_algobase.h>
-namespace _STL {
-static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
-{
-    return a < b ? b : a;
-}
-}
-
+// Match the malloc-backed bucket-vector operations used by DamageFX_hashtableResize.cpp.
+#define _STLP_NO_EXCEPTIONS 1
 #include <vector>
-// vector<void*> members kept from this unit's link copies, moved beside <vector> so
-// they precede every use. Import-inline: these members are inlined at every use here,
-// and this unit's out-of-line copies (referenced from .debug$F alone) are not the ones
-// the link keeps.
-namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<void *,allocator<void *> >::size()const  { return (unsigned int)(this->_M_finish - this->_M_start); } }
-namespace _STL { template <> __declspec(dllimport) __forceinline void * const * vector<void *,allocator<void *> >::begin()const  { return this->_M_start; } }
-namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::begin() { return this->_M_start; } }
-namespace _STL { template <> void swap<_STLP_alloc_proxy<void **, void *, allocator<void *> > >(_STLP_alloc_proxy<void **, void *, allocator<void *> > &, _STLP_alloc_proxy<void **, void *, allocator<void *> > &); }
-namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(allocator<void *> const &); }
-namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(unsigned int, allocator<void *> const &); }
-namespace _STL { template <> vector<void *, allocator<void *> >::vector(unsigned int, void *const &, allocator<void *> const &); }
-namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
-namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
-namespace _STL { template <> void vector<void *, allocator<void *> >::_M_clear(); }
-namespace _STL { template <> void vector<void *, allocator<void *> >::_M_fill_insert(void **, unsigned int, void *const &); }
-namespace _STL { template <> void vector<void *, allocator<void *> >::_M_insert_overflow(void **, void *const &, __true_type const &, unsigned int, bool); }
-namespace _STL { template <> void ** vector<void *, allocator<void *> >::end(); }
-namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
-namespace _STL { template <> allocator<void *>::~allocator(); }
 namespace _STL {
-template <> __declspec(dllimport) __forceinline vector<void *, allocator<void *> >::vector(const allocator<void *> &__a) : _Vector_base<void *, allocator<void *> >(__a) {}
+template <> __declspec(dllimport) __forceinline unsigned int vector<void *>::size() const
+{ return (unsigned int)(_M_finish - _M_start); }
+template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy();
+template <> __declspec(dllimport) __forceinline _Vector_base<void *, allocator<void *> >::~_Vector_base()
+{ if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); }
 }
 #include <hash_map>
-// Bind to the kept retail copy instead of emitting this unit's own.
-// Bind to the kept retail copy instead of emitting this unit's own.
-// Bind to the kept retail copy instead of emitting this unit's own.
-// Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> __declspec(dllimport) __forceinline void * & vector<void *,allocator<void *> >::operator[](unsigned int n) { return *(this->_M_start + n); } }
-// bfme link decl-only begin
-namespace _STL { template <> vector<void *, allocator<void *> >::~vector(); }
-namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, void const *) const; }
-namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::capacity() const; }
-namespace _STL { template <> void ** vector<void *, allocator<void *> >::erase(void **, void **); }
-namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
-namespace _STL { template <> void vector<void *, allocator<void *> >::insert(void **, unsigned int, void *const &); }
-namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
-// bfme link decl-only end
-// Suppress this TU's non-retail copy of ?clear@?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QAEXXZ:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> void vector<void *, allocator<void *> >::clear(); }
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void __malloc_alloc<0>::deallocate(void *p, size_t)
+{ free((char *)p); }
+template <> __declspec(dllimport) __forceinline void *&vector<void *>::operator[](unsigned int n)
+{ return *(_M_start + n); }
+template <> allocator<void *> vector<void *>::get_allocator() const;
+template <> void advance<unsigned int const *, int>(unsigned int const *&, int);
+template <> void __advance<unsigned int const *, int>(unsigned int const *&, int, random_access_iterator_tag const &);
+template <> void *__malloc_alloc<0>::allocate(size_t);
+}
 
 class ThingTemplate;
 
@@ -126,10 +94,6 @@ struct equal_to<AsciiString>
 
 }
 
-template class _STL::hashtable<
-	_STL::pair<const AsciiString, ThingTemplate *>,
-	AsciiString,
-	rts::hash<AsciiString>,
-	_STL::_Select1st<_STL::pair<const AsciiString, ThingTemplate *> >,
-	rts::equal_to<AsciiString>,
-	_STL::allocator<_STL::pair<const AsciiString, ThingTemplate *> > >;
+typedef _STL::hashtable<_STL::pair<const AsciiString, ThingTemplate *>, AsciiString, rts::hash<AsciiString>, _STL::_Select1st<_STL::pair<const AsciiString, ThingTemplate *> >, rts::equal_to<AsciiString>, _STL::allocator<_STL::pair<const AsciiString, ThingTemplate *> > > ThingTemplateTable;
+template _STL::_Hashtable_node<_STL::pair<const AsciiString, ThingTemplate *> > *ThingTemplateTable::_M_find<AsciiString>(const AsciiString &) const;
+template _STL::pair<const AsciiString, ThingTemplate *> &ThingTemplateTable::_M_insert(const _STL::pair<const AsciiString, ThingTemplate *> &);

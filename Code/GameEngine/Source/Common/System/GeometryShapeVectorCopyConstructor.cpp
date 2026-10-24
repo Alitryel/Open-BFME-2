@@ -22,6 +22,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
+
+// The rowed vector destructor supplies the shared out-of-line body.
+struct GeometryShape;
+namespace _STL { template <> vector<GeometryShape, allocator<GeometryShape> >::~vector(); }
 #include "ascii_string.h"
 
 typedef bool Bool;

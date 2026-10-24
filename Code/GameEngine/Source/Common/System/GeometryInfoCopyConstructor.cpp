@@ -15,6 +15,10 @@
 // releaseBuffer at 0x00887940.
 
 #include <vector>
+
+// The rowed vector destructor supplies the shared out-of-line body.
+struct GeometryShape;
+namespace _STL { template <> vector<GeometryShape, allocator<GeometryShape> >::~vector(); }
 // Suppress this TU's non-retail copy of ??0?$_Vector_base@UGeometryShape@@V?$allocator@UGeometryShape@@@_STL@@@_STL@@QAE@IABV?$all:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct GeometryShape;
