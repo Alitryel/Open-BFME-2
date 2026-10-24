@@ -1096,3 +1096,4 @@ function,?Rva00212118@@YGXVAsciiString@@@Z,?setCloudEffectState@@YGXVAsciiString
 member,Rva002AD661LogicView::m_frame40,Rva002AD661LogicView::m_frame,inferred,agree:nl-8d87e1978852,Code/GameEngine/Source/Common/RTS/PlayerAddScience.cpp,
 local,Team::rva0039DDC2::s,Team::rva0039DDC2::status,inferred,agree:nl-22423db72fec,Code/GameEngine/Source/Common/RTS/TeamRva0039DDC2.cpp,0x0039DDC2
 member,Rva0010F5A8::m_marginMs10,Rva0010F5A8::m_endMarginMs,inferred,agree:nl-f6c278e78f81,Code/GameEngine/Source/Common/Rva0010F5A8Finish.cpp,
+member,Rva00160CE0::m_00,Rva00160CE0::m_vtable,inferred,agree:nl-62792135cd56,Code/GameEngine/Source/Common/Rva00160CE0Set.cpp,
