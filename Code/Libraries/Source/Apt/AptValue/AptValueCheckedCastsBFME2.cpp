@@ -167,8 +167,11 @@ BfmeAptValue006DCD20 *BfmeAptValue006DCD20::rva006DD1E0()
 {
     if (!static_cast<unsigned char>(isMovieClip())) {
         g_bfmeAptAssertAtE17734("isMovieClip()", "c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptValue/AptValue.inl", 0x47C);
-        if (g_bfmeAptBreakOnAssertAtDDC01C)
-            __asm int 3
+        if (g_bfmeAptBreakOnAssertAtDDC01C) {
+            _ReadWriteBarrier();
+            __debugbreak();
+            _ReadWriteBarrier();
+        }
     }
     return this;
 }
