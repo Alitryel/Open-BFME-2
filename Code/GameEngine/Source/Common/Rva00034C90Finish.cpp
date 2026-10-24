@@ -54,7 +54,7 @@ public:
 class Rva00034C90
 {
 public:
-	void rva00033930();
+	void consolidate();
 	void wrapper();
 private:
 	char m_pad00[4];
@@ -70,14 +70,14 @@ private:
 void Rva00034C90::wrapper()
 {
 	Rva00034C90Lock lock(m_pLock);
-	rva00033930();
+	consolidate();
 }
 
-// ?rva00033930@Rva00034C90@@QAEXXZ @0x00033930 325B true extent (ret 0x33A74)
+// ?consolidate@Rva00034C90@@QAEXXZ @0x00033930 325B true extent (ret 0x33A74)
 // address-derived thiscall no-arg member of Rva00034C90 reached from wrapper
 // 0x00034C90; coalesce pass over buckets +0x08.. anchored list +0x30 with
 // cur +0x440; far-tail inits via rowed Rva00033B90Allocator::rva00033700.
-void Rva00034C90::rva00033930()
+void Rva00034C90::consolidate()
 {
 	if (m_count04 != 0)
 	{

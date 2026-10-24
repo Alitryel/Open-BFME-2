@@ -1467,7 +1467,7 @@ struct Rva00030DD0Lock;
 Rva00030DD0Lock *Rva00030D90Init(Rva00030DD0Lock *storage);
 int Rva00030DD0AddRef(Rva00030DD0Lock *lock);
 int Rva00030DF0Release(Rva00030DD0Lock *lock);
-class Rva00034C90 { public: void rva00033930(); };	// pinned callee 0x00033930
+class Rva00034C90 { public: void consolidate(); };	// pinned callee 0x00033930
 extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void *section);
 
 inline unsigned int rva000317F0Align(unsigned int size, unsigned int alignment)
@@ -1537,7 +1537,7 @@ void GeneralAllocator::rva000317F0(int option, unsigned int value)
 	case 6:
 	{
 		Rva00031790 guard(m_4E4);
-		((Rva00034C90 *)this)->rva00033930();
+		((Rva00034C90 *)this)->consolidate();
 		((Rva00030D10 *)this)->rva00030D10(value);
 		break;
 	}

@@ -54,7 +54,7 @@ public:
 class Rva00034C90
 {
 public:
-	void rva00033930();
+	void consolidate();
 };
 
 class Rva0066D7D0LeaField
@@ -105,7 +105,7 @@ bool GeneralAllocator::rva00033D50()
 	{
 		m_active = false;
 		if (((Rva00030CB0MaskedDwordField *)this)->get())
-			((Rva00034C90 *)this)->rva00033930();
+			((Rva00034C90 *)this)->consolidate();
 		while (m_4A8 != m_49C)
 		{
 			int chunk = Rva00030AE0Sub((int *)m_4A8);

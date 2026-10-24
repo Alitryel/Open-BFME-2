@@ -1323,3 +1323,4 @@ local,bfmeCopyVHE::v,bfmeCopyVHE::transactionId,inferred,agree:nl-fcde5fa34fe1,C
 local,ActionManager::Rva0041B94AGet::p,ActionManager::Rva0041B94AGet::contain,inferred,agree:nl-ef790b2a60f6,Code/GameEngine/Source/Common/Rva0041B94APermuted.cpp,0x0041B94A
 local,BFMEActionManager::rva000C4080::p,BFMEActionManager::rva000C4080::contain,inferred,agree:nl-ead47d8f2050,Code/GameEngine/Source/Common/Rva0041B94APermuted.cpp,0x0041B94A
 local,ToggleDeploySpecialAbilityUpdate::rva004AE6D7::p08,ToggleDeploySpecialAbilityUpdate::rva004AE6D7::moduleData,inferred,agree:nl-ae0d06a6f7eb,Code/GameEngine/Source/GameLogic/Object/Update/ToggleDeploySpecialAbilityUpdateSlot24.cpp,0x004AE6D7
+function,?rva00033930@Rva00034C90@@QAEXXZ,?consolidate@Rva00034C90@@QAEXXZ,inferred,agree:nl-081d1c521ad8,Code/GameEngine/Source/Common/Rva00034C90Finish.cpp,0x00033930

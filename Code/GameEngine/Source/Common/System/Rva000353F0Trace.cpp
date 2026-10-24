@@ -45,7 +45,7 @@ public:
 class Rva00034C90
 {
 public:
-	void rva00033930();
+	void consolidate();
 };
 
 namespace EA
@@ -116,7 +116,7 @@ void GeneralAllocator::rva000353F0(TraceFunction function, void *functionContext
 {
 	Rva000353F0Lock lock(m_pLock);
 	if (m_flags04 & 1)
-		((::Rva00034C90 *)this)->rva00033930();
+		((::Rva00034C90 *)this)->consolidate();
 	if (!function)
 		function = m_traceFunction;
 	if (!functionContext)

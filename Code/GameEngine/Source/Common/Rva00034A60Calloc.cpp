@@ -32,7 +32,7 @@ typedef malloc_chunk *mfastbinptr;
 class Rva00034C90
 {
 public:
-    void rva00033930();
+    void consolidate();
 };
 
 struct Rva00031010Node;
@@ -162,7 +162,7 @@ void *Rva006C1F60::rva00033ED0(unsigned int bytes, int flags)
         {
             idx = largebin_index(nb);
             if (have_fastchunks(this))
-                ((Rva00034C90 *)this)->rva00033930();
+                ((Rva00034C90 *)this)->consolidate();
         }
 
         unsorted = unsorted_chunks(this);
@@ -332,7 +332,7 @@ void *Rva006C1F60::rva00033ED0(unsigned int bytes, int flags)
             }
             if (!have_fastchunks(this))
                 break;
-            ((Rva00034C90 *)this)->rva00033930();
+            ((Rva00034C90 *)this)->consolidate();
             idx = smallbin_index(nb);
         }
 

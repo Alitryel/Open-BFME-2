@@ -42,7 +42,7 @@ public:
 class Rva00034C90
 {
 public:
-	void rva00033930();
+	void consolidate();
 };
 
 class Rva006C1F60
@@ -143,7 +143,7 @@ void *EA::Allocator::GeneralAllocator::rva00034D10(int blockTypes, bool copy, vo
 	if (copy)
 	{
 		if (m_flags & 1)
-			reinterpret_cast<Rva00034C90 *>(this)->rva00033930();
+			reinterpret_cast<Rva00034C90 *>(this)->consolidate();
 		unsigned int count = 0;
 		for (unsigned int pass = 0; pass < 2; pass++)
 		{

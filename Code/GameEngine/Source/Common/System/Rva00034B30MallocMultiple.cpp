@@ -25,7 +25,7 @@ public:
 class Rva00034C90
 {
 public:
-	void rva00033930();
+	void consolidate();
 };
 
 static inline unsigned int Rva00034B30RequestSize(unsigned int request)
@@ -67,7 +67,7 @@ void **Rva00034B30::rva00034B30(unsigned int count, unsigned int sizeCount, cons
 		contentsSize += Rva00034B30RequestSize(sizes[i]);
 	unsigned int size = contentsSize + arraySize - 7;
 	if (m_flags & 1)
-		((Rva00034C90 *)this)->rva00033930();
+		((Rva00034C90 *)this)->consolidate();
 	int mmx = m_mmapMax;
 	m_mmapMax = 0;
 	void *mem = ((Rva006C1F60 *)this)->rva00033ED0(size, flags);

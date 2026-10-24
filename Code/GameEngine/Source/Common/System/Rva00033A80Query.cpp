@@ -7,7 +7,7 @@
 // 0xB5CC48), same as the rowed 0x35080/0x35190/0x35210 wrappers. Returns 0
 // when the +0x440 member is null; with a true argument it first calls the
 // pinned (not rowed) body 0x00033930 via the existing
-// ?rva00033930@Rva00034C90@@QAEXXZ pin, which this call reuses and does not
+// ?consolidate@Rva00034C90@@QAEXXZ pin, which this call reuses and does not
 // extend. Best starts at [[+0x440]+4] masked with 0x7FFFFFF8, then takes the
 // max over three bin walks: 127 eight-byte slots down from +0x428 (valid
 // entries are not self-linked at +0xC), the +0x3C list against the +0x30
@@ -42,7 +42,7 @@ public:
 class Rva00034C90
 {
 public:
-	void rva00033930();
+	void consolidate();
 };
 
 namespace EA
@@ -83,7 +83,7 @@ unsigned int GeneralAllocator::rva00033A80(bool full)
 	if (m_440 != 0)
 	{
 		if (full)
-			((::Rva00034C90 *)this)->rva00033930();
+			((::Rva00034C90 *)this)->consolidate();
 		best = *(const unsigned int *)((const char *)m_440 + 4) & 0x7FFFFFF8;
 		unsigned int count = 0xFE;
 		void **slot = (void **)((char *)this + 0x428);
