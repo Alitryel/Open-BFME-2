@@ -14,8 +14,8 @@ private: char m_pad00[20];
 };
 void *Rva0027F4F8::rva0027F4F8(int key)
 {
-	for (Rva0027F4F8Entry *p = m_begin; p != m_end; ++p)
-		if (p->key == key)
-			return p->value;
+	for (Rva0027F4F8Entry *entry = m_begin; entry != m_end; ++entry)
+		if (entry->key == key)
+			return entry->value;
 	return 0;
 }

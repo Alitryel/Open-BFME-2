@@ -865,3 +865,4 @@ function,?rva001F8109@Rva001F8109@@QAEXABVRvaSmartPtr12@@@Z,?friend_removePartic
 param,rva002EBC59::a3,rva002EBC59::cellX,inferred,agree:nl-8780f30a2bc7,Code/GameEngine/Source/GameLogic/AI/Rva002EBC59.cpp,0x002EBC59
 param,rva002EBC59::a4,rva002EBC59::cellY,inferred,agree:nl-35b79a9aa16d,Code/GameEngine/Source/GameLogic/AI/Rva002EBC59.cpp,0x002EBC59
 param,rva002EBC59::a5,rva002EBC59::layer,inferred,agree:nl-59707c41ac50,Code/GameEngine/Source/GameLogic/AI/Rva002EBC59.cpp,0x002EBC59
+local,Rva0027F4F8::rva0027F4F8::p,Rva0027F4F8::rva0027F4F8::entry,inferred,agree:nl-4eeace71b743,Code/GameEngine/Source/GameLogic/Map/Rva0027F4F8Find.cpp,0x0027F4F8
