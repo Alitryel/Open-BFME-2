@@ -69,7 +69,7 @@ void Rva005C793A::rva005C793A(Rva005C793APair *out)
 struct Rva005EA1E7Arg
 {
 	char m_pad00[0x0C];
-	Real m_0C;
+	Real m_health;
 	char m_pad10[0x20];
 	Int m_30;
 };
@@ -86,8 +86,8 @@ private:
 };
 bool UnitHealthCollector::visit(const void *unit)
 {
-	const Rva005EA1E7Arg *arg = static_cast<const Rva005EA1E7Arg *>(unit);
-	m_04->m_values[arg->m_30] += arg->m_0C;
+	const Rva005EA1E7Arg *unitData = static_cast<const Rva005EA1E7Arg *>(unit);
+	m_04->m_values[unitData->m_30] += unitData->m_health;
 	return true;
 }
 
@@ -140,16 +140,16 @@ struct Rva005D9D81Delta
 class Rva005D9D81
 {
 public:
-	bool rva005D9D81(const Rva005D9D81Pos *a, const Rva005D9D81Pos *b);
+	bool rva005D9D81(const Rva005D9D81Pos *firstObject, const Rva005D9D81Pos *secondObject);
 };
-bool Rva005D9D81::rva005D9D81(const Rva005D9D81Pos *a, const Rva005D9D81Pos *b)
+bool Rva005D9D81::rva005D9D81(const Rva005D9D81Pos *firstObject, const Rva005D9D81Pos *secondObject)
 {
-	Rva005D9D81Delta d;
-	d.x = b->x;
-	d.y = b->y;
-	d.x -= a->x;
-	d.y -= a->y;
-	if (d.x * d.x + d.y * d.y > 10000.0f)
+	Rva005D9D81Delta delta;
+	delta.x = secondObject->x;
+	delta.y = secondObject->y;
+	delta.x -= firstObject->x;
+	delta.y -= firstObject->y;
+	if (delta.x * delta.x + delta.y * delta.y > 10000.0f)
 		return true;
 	return false;
 }
@@ -224,7 +224,7 @@ struct Rva0055F4CEDrift
 class Rva0055F4CE
 {
 public:
-	void rva0055F4CE();
+	void update();
 private:
 	char m_pad00[0x10];
 	Rva0055F4CEDrift m_10;
@@ -232,7 +232,7 @@ private:
 	Int m_28;
 	Rva0055F4CEDrift m_2C;
 };
-void Rva0055F4CE::rva0055F4CE()
+void Rva0055F4CE::update()
 {
 	m_10.value = m_10.value + m_10.rate;
 	m_10.rate = m_10.damping * m_10.rate;

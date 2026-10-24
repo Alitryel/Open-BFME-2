@@ -830,3 +830,9 @@ local,xferUpgradeMask::tmp,xferUpgradeMask::upgradeName,inferred,agree:nl-ebad92
 member,T2OwnerB::m_20,T2OwnerB::m_elements,inferred,agree:nl-a115f57dd3f7,Code/GameEngine/Source/Common/T2IndexedArrayAccessors.cpp,
 param,bfmeEmitRva002D0EDCVectorAssign::p,bfmeEmitRva002D0EDCVectorAssign::destination,inferred,agree:nl-1fef21cac1d4,Code/GameEngine/Source/Common/Thing/Rva002D0F65VectorAssign.cpp,
 param,bfmeEmitRva002D0EDCVectorAssign::x,bfmeEmitRva002D0EDCVectorAssign::source,inferred,agree:nl-a4c11647d592,Code/GameEngine/Source/Common/Thing/Rva002D0F65VectorAssign.cpp,
+member,Rva005EA1E7Arg::m_0C,Rva005EA1E7Arg::m_health,inferred,agree:nl-4921f427e65a,Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp,
+local,UnitHealthCollector::visit::arg,UnitHealthCollector::visit::unitData,inferred,agree:nl-723be2b35fbc,Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp,0x005EA1E7
+param,Rva005D9D81::rva005D9D81::a,Rva005D9D81::rva005D9D81::firstObject,inferred,agree:nl-40af40b52ddd,Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp,0x005D9D81
+param,Rva005D9D81::rva005D9D81::b,Rva005D9D81::rva005D9D81::secondObject,inferred,agree:nl-ae1a8f0daa0e,Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp,0x005D9D81
+local,Rva005D9D81::rva005D9D81::d,Rva005D9D81::rva005D9D81::delta,inferred,agree:nl-1f6d30cdc147,Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp,0x005D9D81
+function,?rva0055F4CE@Rva0055F4CE@@QAEXXZ,?update@Rva0055F4CE@@QAEXXZ,inferred,agree:nl-7eee9dd7deed,Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp,0x0055F4CE
