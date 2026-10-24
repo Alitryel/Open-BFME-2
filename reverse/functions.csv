@@ -9477,7 +9477,7 @@ _DeblockFrameInterlaced,,0x001BFD10,368,Code/Libraries/Source/VP6/DeblockFrameIn
 ?initFromMessage@Rva0080A940Owner@@QAEXPAVRva007E8810Message@@@Z,,0x00676840,103,Code/GameEngine/Source/GameNetwork/Y4FeslFavGameInit.cpp,matched,BFME1 byte-identical donor; b1 favgame init; finish pin only
 ??0Rva00803890Owner@@QAE@EPAUBfmeOwnerUNC@@@Z,,0x0066F860,104,Code/GameEngine/Source/GameNetwork/FeslBrowserFactory_ctor.cpp,matched,BFME1 byte-identical donor; b1 0x00803820; vtable-literal repair to sacrificial anchors
 ?LogRegisters@DebugExceptionhandler@@CAXAAVDebug@@PAU_EXCEPTION_POINTERS@@@Z,,0x0003DA20,678,Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionhandler_LogRegisters.cpp,matched,BFME1 donor; b1 0x0088E340; windows-shim plus literal repairs
-?bfmeOpenVIF@@YAHPAUBfmeLuaVHR@@@Z,,0x0074A490,133,Code/GameEngine/Source/Common/BfmeConv1373.cpp,matched,BFME1 byte-identical donor; b1 0x00993330; 1 DIR32 string literal(s) agree
+?io_open@@YAHPAUBfmeLuaVHR@@@Z,,0x0074A490,133,Code/GameEngine/Source/Common/BfmeConv1373.cpp,matched,BFME1 byte-identical donor; b1 0x00993330; 1 DIR32 string literal(s) agree
 ?bfmeGoBFG@BfmeThingBFG@@QAEXXZ,,0x0025F00D,19,Code/GameEngine/Source/Common/BfmeConv455.cpp,matched,BFME1 byte-identical donor; b1 0x0045C470
 ?bfmeGoBEC@BfmeThingBEC@@QAEXXZ,,0x00483BBB,18,Code/GameEngine/Source/Common/BfmeConv448.cpp,matched,BFME1 byte-identical donor; b1 0x0020D850
 ?bfmeGoBHF@@YAHPAVBfmeSubBHF@@@Z,,0x00324968,21,Code/GameEngine/Source/Common/BfmeConv465.cpp,matched,BFME1 byte-identical donor; b1 0x004B7AC0

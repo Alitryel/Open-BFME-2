@@ -18,7 +18,7 @@ extern "C" void lua_settop(BfmeLuaVHR *L, int n);
 
 extern "C" __declspec(dllimport) void *__cdecl fopen(const char *name, const char *mode);
 
-int __cdecl bfmeOpenVIF(BfmeLuaVHR *L)
+int __cdecl io_open(BfmeLuaVHR *L)
 {
 	BfmeTagVIF *tag = (BfmeTagVIF *)lua_touserdata(L, -1);
 	lua_settop(L, -2);

@@ -2216,3 +2216,4 @@ _Rva0084DB70,0x00020E30,"Renamed to __Locale_strwxfrm by tools/rename.py (inferr
 ?get@Rva0055D96FLeaGetter@@QBEPAXXZ,0x0055D96F,"Renamed to ?rva0055D96F@MilesAudioManager@@UBEPAXXZ: retail Miles primary vtable slot 87 is the sole table reference"
 ?isMusicAlreadyLoaded@AudioManager@@UBE_NXZ,0x0005B017,"Renamed to ?isMusicAlreadyLoaded@MilesAudioManager@@UBE_NXZ: retail Miles slot 83 targets this body and the AudioManager base slot is purecall"
 __ehhandler$?isMusicAlreadyLoaded@AudioManager@@UBE_NXZ,0x0075DC21,"Renamed to __ehhandler$?isMusicAlreadyLoaded@MilesAudioManager@@UBE_NXZ: follows the rename of its function"
+?bfmeOpenVIF@@YAHPAUBfmeLuaVHR@@@Z,0x0074A490,"Renamed to ?io_open@@YAHPAUBfmeLuaVHR@@@Z by tools/rename.py (inferred)"
