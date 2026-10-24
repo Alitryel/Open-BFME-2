@@ -7,8 +7,11 @@
 // Each asserts "this" then "getVtblIndex() < AptVFT_NumVFTs" with AptValue.inl
 // path, then returns (flags.type == N) via sub/neg/sbb/inc.
 // Named by corresponding checked-cast assertions at 0x006DD220/0x006DD260/
-// 0x006DD2A0/0x006DD2E0 which call them. __asm int 3 keeps retail
+// 0x006DD2A0/0x006DD2E0 which call them. __debugbreak(); keeps retail
 // mov-eax-then-test shape under /O2.
+extern "C" void __cdecl __debugbreak(void);
+#pragma intrinsic(__debugbreak)
+
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *, const char *, int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
 class BfmeAptValue006DCD20 {
@@ -27,12 +30,12 @@ int BfmeAptValue006DCD20::isXmlNode() const
     if (!this) {
         g_bfmeAptAssertAtE17734("this", "c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptValue/AptValue.inl", 0x515);
         if (g_bfmeAptBreakOnAssertAtDDC01C)
-            __asm int 3
+            __debugbreak();
     }
     if (!(flags.type < 47)) {
         g_bfmeAptAssertAtE17734("getVtblIndex() < AptVFT_NumVFTs", "c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptValue/AptValue.inl", 0x516);
         if (g_bfmeAptBreakOnAssertAtDDC01C)
-            __asm int 3
+            __debugbreak();
     }
     return flags.type == 32;
 }
