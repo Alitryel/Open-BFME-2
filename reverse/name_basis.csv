@@ -880,3 +880,4 @@ param,Rva003743CF::rva003743CF::p,Rva003743CF::rva003743CF::statusType,inferred,
 param,Rva003743CF::rva003743CF::b,Rva003743CF::rva003743CF::set,inferred,agree:nl-487efa1b6dad,Code/GameEngine/Source/GameLogic/Object/Update/Rva003743CFBehavior.cpp,0x003743CF
 member,Rva0049D526Node::m_48,Rva0049D526Node::m_next,inferred,agree:nl-8aecec2f0f68,Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp,
 member,Rva0049D526Node::m_4C,Rva0049D526Node::m_prev,inferred,agree:nl-a5e7ad35a669,Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp,
+member,Rva0044EDA6Outer::m_over38,Rva0044EDA6Outer::m_specialPowerTemplate,inferred,agree:nl-cc67f2f226f2,Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdateSlot8.cpp,

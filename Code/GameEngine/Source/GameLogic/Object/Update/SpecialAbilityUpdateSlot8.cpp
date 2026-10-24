@@ -74,7 +74,7 @@ public:
 struct Rva0044EDA6Outer
 {
 	char m_pad00[0x38];
-	Overridable *m_over38; // +0x38
+	Overridable *m_specialPowerTemplate; // +0x38
 };
 
 
@@ -85,7 +85,7 @@ Bool SpecialAbilityUpdate::rva0044EDA6(int arg)
 if ((m_moduleData != 0 || m_moduleData == 0)) {
  const Rva0044EDA6Outer *data=(const Rva0044EDA6Outer *)m_moduleData;
  if (!data || !((Rva0044E7A8 *)this)->rva0044E7A8(arg)) return false;
- const Overridable *fin=data->m_over38->friend_getFinalOverride();
+ const Overridable *fin=data->m_specialPowerTemplate->friend_getFinalOverride();
  int value=fin->m_val1C;
  if(value!=0x28 && value!=0x27) {_ReadWriteBarrier(); return true;}
  Rva0044EDA6Virt *virt=*(Rva0044EDA6Virt **)((char *)m_object+0x250);
