@@ -262,11 +262,11 @@ int Rva00304744Populate(GameWindow *listbox, unsigned flags, const AsciiString &
 // Native23B flag helper, moved from Rva003000F6Get.cpp so the genuine
 // callee remains visible to the34B bool-argument map-list wrapper below.
 // WB C5E9B0/C5EA40 and both native call displacements establish this pair.
-int Rva003000F6Get(bool a,bool b)
+int Rva003000F6Get(bool systemMaps,bool multiplayer)
 {
- int v=(a==0);
+ int v=(systemMaps==0);
  ++v;
- if(b) v|=8; else v|=4;
+ if(multiplayer) v|=8; else v|=4;
  return v;
 }
 // Native 304BA9..304BCD (36B, cdecl): the same bool-argument map-list wrapper

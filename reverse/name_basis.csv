@@ -1020,3 +1020,5 @@ local,Rva0044E7A8::rva0044E7A8::f1,Rva0044E7A8::rva0044E7A8::forbiddenKinds,infe
 local,SupplyWarehouseCreate::rva004B901D::t,SupplyWarehouseCreate::rva004B901D::objectFlags,inferred,agree:nl-75343598cbdc,Code/GameEngine/Source/GameLogic/Object/Create/SupplyWarehouseCreateRva004B901D.cpp,0x004B901D
 class,Rva006C2D20Location,SourceLocation,inferred,agree:nl-f2cba1126dad,Code/GameEngine/Source/Common/Rva006C2D20Describe.cpp,
 member,BfmeThingQR::m_bfmeName,BfmeThingQR::m_prefix,inferred,agree:nl-37951e3729c0,Code/GameEngine/Source/Common/BfmeThreeHundredOne.cpp,
+param,Rva003000F6Get::a,Rva003000F6Get::systemMaps,inferred,agree:nl-cd46e04f23c7,Code/GameEngine/Source/GameClient/MapUtilGetDefaultMap.cpp,0x003000F6
+param,Rva003000F6Get::b,Rva003000F6Get::multiplayer,inferred,agree:nl-82f074dfb8f4,Code/GameEngine/Source/GameClient/MapUtilGetDefaultMap.cpp,0x003000F6
