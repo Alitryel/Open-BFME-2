@@ -2850,6 +2850,11 @@ void PeerThreadClass::connectCallback( PEER peer, PEERBool success )
 	peerListGroupRooms( peer, "\\roomType", Rva0038B91FList, this, PEERTrue );
 }
 
+// Suppress this TU's non-retail copy of ?find@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QBEIPBDI@Z:
+// retail's plain /Od copy (0x00028BC0) is instantiated in Rva00028BC0Cluster.cpp. Declared here, after
+// Thread_Function, because an earlier declaration flips that body's commutative register order.
+namespace _STL { template <> unsigned int basic_string<char,char_traits<char>,allocator<char> >::find(char const *,unsigned int) const; }
+
 // Nickname retry callback is recovered in PeerThreadNickError.cpp.
 
 void disconnectedCallback(PEER peer, const char * reason, void * param)

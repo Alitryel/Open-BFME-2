@@ -1444,7 +1444,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00026C10,28,code,Code/GameEngine/Source/Common/BfmeThingVLY.cpp,proposed,N,N=Code/GameEngine/Source/Common/BfmeThingVLY.cpp,Code/GameEngine/Source/Common/BfmeConv1424.cpp
 0x00026C30,33,code,Code/GameEngine/Source/Common/BfmeThingVLZ.cpp,proposed,N,N=Code/GameEngine/Source/Common/BfmeThingVLZ.cpp,Code/GameEngine/Source/Common/BfmeConv1424.cpp
 0x00026C60,34,code,,,-,,Code/GameEngine/Source/Common/BfmeTwoHundredFiftySeven_FindByte.cpp
-0x00026C90,365,code,,,-,,Code/GameEngine/Source/Common/BfmeSearch26C90.cpp
+0x00026C90,365,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_reverse_string_search.cpp
 0x00026E00,57,code,,,-,,Code/GameEngine/Source/Common/BfmeConv1441.cpp
 0x00026E40,90,code,,,-,,Code/GameEngine/Source/Common/BfmeConv1426.cpp
 0x00026EA0,147,code,,,-,,Code/GameEngine/Source/Common/BfmeConv1430.cpp
@@ -1462,7 +1462,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00027450,46,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_uint.cpp
 0x00027480,78,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_voidptr_alloc.cpp
 0x000274D0,107,code,Code/GameEngine/Source/Common/BfmeThingSUA.cpp,proposed,N,N=Code/GameEngine/Source/Common/BfmeThingSUA.cpp,Code/GameEngine/Source/Common/BfmeConv1301.cpp
-0x00027540,117,code,,,-,,Code/GameEngine/Source/Common/Rva00027540Finish.cpp
+0x00027540,117,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_reverse_string_search.cpp
 0x000275C0,235,code,,,-,,Code/GameEngine/Source/Common/BfmeConv1481.cpp
 0x000276B0,136,code,Code/GameEngine/Source/Common/BfmeThingPF.cpp,proposed,N,N=Code/GameEngine/Source/Common/BfmeThingPF.cpp,Code/GameEngine/Source/Common/BfmeConv1460.cpp
 0x00027740,240,code,Code/GameEngine/Source/Common/BfmeThingPF.cpp,proposed,C,C=0x000276B0..0x00027830,Code/GameEngine/Source/Common/BfmeConv1483.cpp

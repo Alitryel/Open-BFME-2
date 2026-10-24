@@ -121,7 +121,6 @@ Code/GameEngine/Source/Common/BfmeOwnerCDECount.cpp,,5,1,region default loses ro
 Code/GameEngine/Source/Common/BfmePackedColors1280.cpp,,1,1,region default loses rows
 Code/GameEngine/Source/Common/BfmePicker1284.cpp,-O2,1,1,region default loses rows
 Code/GameEngine/Source/Common/BfmeResultSourceA.cpp,-O2,3,1,region default loses rows
-Code/GameEngine/Source/Common/BfmeSearch26C90.cpp,-Od,1,1,region default loses rows
 Code/GameEngine/Source/Common/BfmeSlotPool.cpp,,1,1,region default loses rows
 Code/GameEngine/Source/Common/BfmeSubBZCSet.cpp,,1,1,region default loses rows
 Code/GameEngine/Source/Common/BfmeThingCDEDestructor.cpp,-O2,5,1,region default loses rows
@@ -191,7 +190,6 @@ Code/GameEngine/Source/Common/Rva000239D0Cluster.cpp,-Od,4,4,region default lose
 Code/GameEngine/Source/Common/Rva00024610Cluster.cpp,-Od,8,8,region default loses rows
 Code/GameEngine/Source/Common/Rva00024AA0Identity.cpp,-Od -G7 -arch:SSE,1,1,region default loses rows
 Code/GameEngine/Source/Common/Rva00027080Cluster.cpp,-Od,1,1,region default loses rows
-Code/GameEngine/Source/Common/Rva00027540Finish.cpp,-Od,1,1,region default loses rows
 Code/GameEngine/Source/Common/Rva00028B90Siblings.cpp,-Od,3,3,region default loses rows
 Code/GameEngine/Source/Common/Rva00028BC0Cluster.cpp,-Od,2,2,region default loses rows
 Code/GameEngine/Source/Common/Rva00028C70Forward.cpp,-Od,1,1,region default loses rows
@@ -721,7 +719,7 @@ Code/Libraries/Source/WWVegas/WWLib/stlport_partial_sort_s4sortelem8_desc.cpp,,1
 Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_increment.cpp,-Od,2,2,region default loses rows
 Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_rebalance.cpp,-Od,1,1,region default loses rows
 Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_rebalance_erase.cpp,-Od,4,4,region default loses rows
-Code/Libraries/Source/WWVegas/WWLib/stlport_reverse_string_search.cpp,-Od,3,3,region default loses rows
+Code/Libraries/Source/WWVegas/WWLib/stlport_reverse_string_search.cpp,-Od,5,5,region default loses rows
 Code/Libraries/Source/WWVegas/WWLib/stlport_set_int_tree_copy_ctor.cpp,-O2,2,1,region default loses rows
 Code/Libraries/Source/WWVegas/WWLib/stlport_sort_s4sortelem8.cpp,,1,1,region default loses rows
 Code/Libraries/Source/WWVegas/WWLib/stlport_sort_s4sortelem8_desc.cpp,,1,1,region default loses rows

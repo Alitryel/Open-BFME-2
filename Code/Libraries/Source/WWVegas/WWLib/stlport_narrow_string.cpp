@@ -170,6 +170,10 @@ namespace _STL { template <> basic_string<char, char_traits<char>, allocator<cha
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > &basic_string<char, char_traits<char>, allocator<char> >::append(const char *); }
 namespace _STL { template <> size_t basic_string<char, char_traits<char>, allocator<char> >::find(const char *, size_t) const; }
 namespace _STL { template <> size_t basic_string<char, char_traits<char>, allocator<char> >::find_last_not_of(const char *, size_t, size_t) const; }
+// Retail's three-argument find (0x00027540) and its search core (0x00026C90) are
+// emitted by stlport_reverse_string_search.cpp under retail's /Od /Ob2.
+namespace _STL { template <> size_t basic_string<char, char_traits<char>, allocator<char> >::find(const char *, size_t, size_t) const; }
+namespace _STL { template <> const char *search(const char *, const char *, const char *, const char *, _Eq_traits<char_traits<char> >); }
 // Retail's insert(iterator, n, c) at 0x00029530 is emitted by
 // stlport_string_insert_fill.cpp; this unit's copy precedes it in link order.
 namespace _STL { template <> void basic_string<char, char_traits<char>, allocator<char> >::insert(char *, size_t, char); }

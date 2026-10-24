@@ -64,3 +64,11 @@ template<> unsigned int string::find_last_not_of(const char* __s, unsigned int _
 }
 
 }
+
+// Native 0x00027540/117B is the three-argument find: (pos + n) bound against
+// size(), the needle searched in [begin + pos, end) and npos on a miss. The
+// search it calls is native 0x00026C90/365B, the forward _Eq_traits search
+// core; both reproduce exactly under this TU's /Od /Ob2 settings.
+namespace _STL {
+template string::size_type string::find(const char *, string::size_type, string::size_type) const;
+}
