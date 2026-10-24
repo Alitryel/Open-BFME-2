@@ -266,11 +266,19 @@ def test_record_reproves_currency_even_after_a_fresh_build(tmp_path, monkeypatch
         census.record(dict(CENSUS), [])
 
 
+def _replace_same_bytes(obj):
+    before = obj.stat()
+    obj.write_bytes(obj.read_bytes())
+    # Windows may coalesce timestamps for writes in the same clock tick.
+    # Model a replacement deterministically while retaining identical content.
+    os.utime(obj, ns=(before.st_atime_ns, before.st_mtime_ns + 1_000_000_000))
+
+
 def test_object_replaced_during_selection_link_records_nothing(tmp_path, monkeypatch):
     obj, source = tmp_path / "f.obj", tmp_path / "f.cpp"
     obj.write_bytes(b"object")
     accepted = _record_harness(tmp_path, monkeypatch, obj, source,
-                               on_selection=lambda: obj.write_bytes(b"object"))
+                               on_selection=lambda: _replace_same_bytes(obj))
     with pytest.raises(SystemExit, match="during the selection link"):
         census.record(linked(obj), [])
     assert not accepted and not census.HISTORY.exists()
@@ -280,7 +288,7 @@ def test_object_replaced_while_facts_are_read_records_nothing(tmp_path, monkeypa
     obj, source = tmp_path / "f.obj", tmp_path / "f.cpp"
     obj.write_bytes(b"object")
     accepted = _record_harness(tmp_path, monkeypatch, obj, source,
-                               on_status=lambda: obj.write_bytes(b"object"))
+                               on_status=lambda: _replace_same_bytes(obj))
     with pytest.raises(SystemExit, match="during judgment"):
         census.record(linked(obj), [])
     assert not accepted and not census.HISTORY.exists()
@@ -303,7 +311,7 @@ def test_a_still_run_records_status_then_history(tmp_path, monkeypatch):
     assert accepted == [True]
     rows = census.HISTORY.read_text().splitlines()
     assert rows[0].split(",") == census.HISTORY_FIELDS
-    assert rows[-1].endswith(f",{census.RULES},{census.RULES_NO_WRONG_SELECTED}")
+    assert dict(zip(census.HISTORY_FIELDS, rows[-1].split(',')))['prev_rules'] == census.RULES_NO_WRONG_SELECTED
 
 
 def test_census_of_another_head_publishes_nothing(tmp_path, monkeypatch):
@@ -347,7 +355,7 @@ def test_rebaseline_game_code_mismatch_publishes_nothing(tmp_path, monkeypatch):
     assert not accepted and not census.HISTORY.exists()
     figure = census.record(linked(obj), [], rebaseline={**old, "game_code": 10})
     assert accepted == [True] and figure["prev_rules"] == census.LEGACY_RULES
-    assert census.HISTORY.read_text().splitlines()[-1].endswith(f",{census.RULES},{census.LEGACY_RULES}")
+    assert dict(zip(census.HISTORY_FIELDS, census.HISTORY.read_text().splitlines()[-1].split(',')))['prev_rules'] == census.LEGACY_RULES
 
 
 def test_census_build_names_every_unprovable_tu_then_refuses(tmp_path, monkeypatch):

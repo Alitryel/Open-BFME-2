@@ -9,10 +9,10 @@ attached prebuilt libraries, reviewed assembly and verified data in .text; dumps
 all non-padding .text bytes. Embedded data has its own lane, never authored
 function-code credit. GAME CODE C++* includes authored and generated C++ plus
 intentionally retained reviewed assembly over executable game code (excluding
-libraries and embedded data). LINKING remains authored C++ in clean files,
-over the census tree's game code, both measured and stored by the last
-tools/link_census.py run (reverse/link_census_history.csv: linked_authored,
-game_code).
+libraries and embedded data). LINKING counts executable game code in clean
+files, including generated C++ and assessed reviewed assembly, over the census
+tree's executable game code. Both sides use the same snapshot. Historical
+authored-only totals remain available when inclusive evidence is unavailable.
 LINKED, under them, is all our own source in clean files over all code (the
 chart's linked dots). Every figure counts 0xCC padding out, the way the
 denominator does, so the breakdown under them adds up to them. Total exact, at
@@ -740,6 +740,98 @@ def game_represented(split):
     return split["authored"] + split["generated"] + split.get("assembly", 0)
 
 
+LINK_COVERAGE_RULES = "executable-game-coverage-1"
+
+
+def linked_game_coverage(matched, notes, naked, clean, text_start, text_size, data=()):
+    """Intersect clean providers with a fixed global provenance partition."""
+    lanes = {lane: [] for lane in SOURCE_LANES}
+    clean_ranges = []
+    for key, (size, source) in matched.items():
+        a, b = max(text_start, int(key[1], 16)), min(text_start + text_size, int(key[1], 16) + size)
+        if a >= b:
+            continue
+        lane = source_lane(source, notes[key], key in naked)
+        lanes[lane].append((a, b))
+        if source in clean and lane != "dump":
+            clean_ranges.append((a, b))
+    lanes['data'] = [(max(text_start, a), min(text_start + text_size, b))
+                     for a, b, _ in data if max(text_start, a) < min(text_start + text_size, b)]
+    clean_ranges = merge_intervals(clean_ranges)
+    image_start, image = _text_image()
+
+    def linked_real(ranges):
+        total, j = 0, 0
+        for a, b in merge_intervals(ranges):
+            while j < len(clean_ranges) and clean_ranges[j][1] <= a:
+                j += 1
+            k = j
+            while k < len(clean_ranges) and clean_ranges[k][0] < b:
+                lo, hi = max(a, clean_ranges[k][0]), min(b, clean_ranges[k][1])
+                if lo < hi:
+                    total += hi - lo - image[lo-image_start:hi-image_start].count(0xCC)
+                k += 1
+        return total
+
+    claimed, linked, previous = [], 0, 0
+    for lane in SOURCE_LANES:
+        claimed = merge_intervals(claimed + lanes[lane])
+        current = linked_real(claimed)
+        if lane in ('authored', 'generated', 'assembly'):
+            linked += current - previous
+        previous = current
+    full = real_split(matched, notes, text_start, text_size, naked, text_data=data)
+    _, denominator = real_code_denominator(text_start, text_size)
+    return {'linked_game_executable': linked,
+            'game_executable': game_executable(full, denominator),
+            'link_coverage_rules': LINK_COVERAGE_RULES}
+
+
+@lru_cache(maxsize=None)
+def linking_coverage_at(ref):
+    """New census fields, or a checked recalculation of its committed status.
+
+    Never mix today's ledger with an older census. Old history is left intact.
+    Missing or inconsistent historical evidence leaves the old display available.
+    """
+    census = census_at(ref)
+    if not census:
+        return None
+    fields = ('linked_game_executable', 'game_executable', 'link_coverage_rules')
+    if all(census.get(k) not in (None, '') for k in fields):
+        return {k: int(census[k]) if k != 'link_coverage_rules' else census[k] for k in fields}
+    if not census.get('commit') or not census.get('linked_authored'):
+        return None
+    state = ref or 'HEAD'
+    report = subprocess.run(['git', 'log', '-1', '--format=%H', state, '--', LINK_STATUS],
+                            cwd=ROOT, capture_output=True, text=True)
+    report_ref = report.stdout.strip()
+    if report.returncode or not report_ref:
+        return None
+    recorded = census_at(report_ref)
+    if not recorded or any(recorded.get(k) != census.get(k) for k in ('commit', 'date', 'rules')):
+        return None
+    raw = _text_at(report_ref, LINK_STATUS)
+    if not raw:
+        return None
+    clean = {r['source'] for r in csv.DictReader(raw.splitlines()) if r['linked'] == 'yes'}
+    tree = census['commit']
+    try:
+        matched, notes = matched_at(tree), notes_at(tree)
+        naked = naked_cpp_rows_at(matched, tree)
+        start, size = retail_text()
+        split = real_split(matched, notes, start, size, naked, keep=lambda key, source: source in clean)
+        full = real_split(matched, notes, start, size, naked)
+        _, total = real_code_denominator(start, size)
+        if (split['authored'] != int(census['linked_authored'])
+                or decompiled(split) != int(census['linked_bytes'])
+                or game_code(full, total) != int(census['game_code'])):
+            return None
+        return linked_game_coverage(matched, notes, naked, clean, start, size, text_data_at(tree))
+    except (SystemExit, ValueError, KeyError):
+        return None
+
+
 def _line(label, value, denominator, delta, note):
     return (f"{label:<14} {value:>12,.0f} bytes ({percent(value, denominator):6.2f}%)  {delta}  <- {note}")
 
@@ -776,8 +868,10 @@ def print_headline(padding, denominator, old_split, new_split, old_census, new_c
             delta = f"delta n/a (no {label} figure stored at the start of the range)"
         else:
             # A change of census rules is not progress: compare within rules.
-            change = census_change(old_census, new_census, field, over_field, list(census_rows) or
-                                   [old_census, new_census], denominator)
+            change = (None if field == 'linked_game_executable' and
+                      census_rules(old_census) != census_rules(new_census) else
+                      census_change(old_census, new_census, field, over_field, list(census_rows) or
+                                    [old_census, new_census], denominator))
             if change is None:
                 delta = (f"delta n/a (census rules changed: {census_rules(old_census)} -> "
                          f"{census_rules(new_census)}, no like-for-like figure)")
@@ -788,8 +882,12 @@ def print_headline(padding, denominator, old_split, new_split, old_census, new_c
                               f"{at_before:.2f}% -> {at_after:.2f}% on the same objects, not progress)")
         print(_line(label, now[0], now[1], delta, f"{note}, census {new_census['date']} at {new_census['commit']}"
                     f" ({census_rules(new_census)})"))
-    census_line("LINKING", "linked_authored", "game_code",
-                "that C++ in files that link cleanly, over the census tree's game code")
+    if new_census and new_census.get('link_coverage_rules'):
+        census_line('LINKING', 'linked_game_executable', 'game_executable',
+                    'verified executable game code in link-clean units, including generated C++ and reviewed assembly')
+    else:
+        census_line("LINKING", "linked_authored", "game_code",
+                    "legacy authored-only accounting (inclusive census evidence unavailable)")
     print("               (the three figures on the README card and in the daily Discord post)")
     census_line("LINKED", "linked_bytes", None, "all our own source in files that link cleanly (the chart)")
 
@@ -909,8 +1007,13 @@ def main():
 
     padding, denominator = real_code_denominator(text_start, text_size)
     old_notes, new_notes = notes_at(ref1), notes_at(ref2)
+    old_census, new_census = census_at(ref1), census_at(ref2)
+    if old_census:
+        old_census = dict(old_census, **(linking_coverage_at(ref1) or {}))
+    if new_census:
+        new_census = dict(new_census, **(linking_coverage_at(ref2) or {}))
     print_headline(padding, denominator, real_split(old, old_notes, text_start, text_size, old_naked, text_data=old_data),
-                   real_split(new, new_notes, text_start, text_size, new_naked, text_data=new_data), census_at(ref1), census_at(ref2),
+                   real_split(new, new_notes, text_start, text_size, new_naked, text_data=new_data), old_census, new_census,
                    census_rows_at(ref2))
     print_scorecard(ref1, label2, old_stats, new_stats)
     if args.details:

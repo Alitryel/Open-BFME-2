@@ -10,11 +10,10 @@ Each measure has its own stated denominator:
   GAME CODE IN C++*    authored and generated C++ plus intentionally retained
                        reviewed assembly, over executable game code (libraries
                        and verified embedded data excluded).
-  LINKING              authored C++ in files that link cleanly, over
-                       the game's own code on the census tree. The link census
-                       (tools/link_census.py) stores both (linked_authored,
-                       game_code); they are never recomputed here, so Linking
-                       is one snapshot and holds still between censuses.
+  LINKING              executable game code in files that link cleanly,
+                       including generated C++ and assessed reviewed assembly.
+                       Libraries and embedded data are excluded. Both figures
+                       use one census snapshot and hold still between censuses.
 
 The card and the post draw the same numbers. The change shown beside a number
 is the change in that bar's percentage since the last post, measured from the
@@ -50,6 +49,7 @@ import json
 import os
 import re
 import sys
+import textwrap
 from datetime import datetime, timezone
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
@@ -88,7 +88,12 @@ def measures(current):
     census; (None, None) when the last census stored neither."""
     total, game = current["total"], game_code(current)
     matched, cpp = progress.rebuildable(current), progress.game_represented(current)
-    linked, linked_game = current.get("linked_authored"), current.get("linked_game_code")
+    inclusive = any(k in current for k in ('linked_game_executable', 'game_executable', 'link_coverage_rules'))
+    if inclusive and any(current.get(k) in (None, '') for k in
+                         ('linked_game_executable', 'game_executable', 'link_coverage_rules')):
+        raise ValueError('Incomplete linking coverage snapshot')
+    linked, linked_game = ((current['linked_game_executable'], current['game_executable']) if inclusive
+                          else (current.get("linked_authored"), current.get("linked_game_code")))
     if (linked is None) != (linked_game is None):
         raise ValueError("A census stored linked_authored without game_code, or the reverse")
     if not 0 <= cpp <= game <= total or not 0 <= matched <= total or (
@@ -178,6 +183,10 @@ def measured(current):
 
 
 def detail(current, key, value, denominator, what):
+    if key == 'linked' and current.get('link_coverage_rules'):
+        what = 'of executable game code in link-clean units (libraries and embedded data excluded)'
+    elif key == 'linked':
+        what = 'of game code linked (legacy authored-only accounting)'
     text = f"{value:,} / {denominator:,} {'' if key == 'names' else 'bytes '}{what}"
     return f"{text} ({measured(current)})" if key == "linked" else text
 
@@ -185,6 +194,9 @@ def detail(current, key, value, denominator, what):
 def rules_changed(previous, current):
     """(previous rules, current rules) when the census behind the Linking bar
     was measured under other rules at the last post, else None."""
+    if previous and previous.get('link_coverage_rules') != current.get('link_coverage_rules'):
+        return (previous.get('link_coverage_rules') or 'authored-only',
+                current.get('link_coverage_rules') or 'authored-only')
     if not previous or not previous.get("census") or not current.get("census"):
         return None
     before, after = progress.census_rules(previous["census"]), progress.census_rules(current["census"])
@@ -229,11 +241,11 @@ def arrow(delta):
 def render(current, previous=None):
     rows = measures(current)
     strict = strict_lines(current)
-    height = 88 + 74 * len(ROWS) + (22 + 18 * (len(strict) - 1) if strict else 0)
+    offset = 0
     body = []
     for index, (key, label, what) in enumerate(ROWS):
         value, denominator = rows[key]
-        y = 64 + 74 * index + (18 if index > 1 else 0)
+        y = 64 + 74 * index + offset
         moved = ""
         if value is None:
             number, width, text = "not measured", 0, "not measured yet"
@@ -253,16 +265,22 @@ def render(current, previous=None):
             elif delta is not None:
                 moved = (f'<tspan class="{"up" if delta > 0 else "down" if delta < 0 else "muted"}" dx="10" font-size="13" '
                          f'font-weight="600">{arrow(delta)}</tspan>')
+        detail_lines = textwrap.wrap(text, width=110, break_long_words=False, break_on_hyphens=False) or ['']
         body.append(f'''    <text x="28" y="{y}" class="strong" font-size="15" font-weight="600">{label}{moved}</text>
     <text x="852" y="{y}" class="strong" font-size="20" font-weight="700" text-anchor="end">{number}</text>
     <rect class="track" x="28" y="{y + 10}" width="824" height="14" rx="7"/>
     <rect x="28" y="{y + 10}" width="{width:.2f}" height="14" rx="7" fill="{CARD_FILL[key]}"/>
-    <text x="28" y="{y + 44}" class="muted" font-size="12.5">{text}</text>
+    <text x="28" y="{y + 44}" class="muted" font-size="12.5">{detail_lines[0]}</text>
 ''')
+        for n, line in enumerate(detail_lines[1:], 1):
+            body.append(f'    <text x="28" y="{y + 44 + 17*n}" class="muted" font-size="12.5">{line}</text>\n')
+        offset += 17 * (len(detail_lines) - 1)
         if key == "cpp":
-            body.append(f'    <text x="28" y="{y + 61}" class="muted" font-size="12.5">* {progress.GAME_CPP_ANNOTATION}</text>\n')
+            body.append(f'    <text x="28" y="{y + 61 + 17*(len(detail_lines)-1)}" class="muted" font-size="12.5">* {progress.GAME_CPP_ANNOTATION}</text>\n')
+            offset += 18
+    height = 70 + 74 * len(ROWS) + offset + (22 + 18 * (len(strict) - 1) if strict else 0)
     for n, line in enumerate(strict):
-        body.append(f'''    <text x="28" y="{64 + 74 * len(ROWS) + 14 + 18 * n}" class="muted" font-size="12.5">{line}</text>
+        body.append(f'''    <text x="28" y="{64 + 74 * len(ROWS) + offset - 4 + 18 * n}" class="muted" font-size="12.5">{line}</text>
 ''')
     (matched, total), (cpp, game), (linked, linked_game) = rows["matched"], rows["cpp"], rows["linked"]
     linking = f"{progress.percent(linked, linked_game):.2f}% linking" if linked is not None else "linking not measured"
@@ -288,6 +306,8 @@ def render(current, previous=None):
 def rule_note(previous, changed):
     """`; census rules changed: 16.10% under majority-0` (the last post's figure)."""
     before, after = changed
+    if before == 'authored-only' and after == progress.LINK_COVERAGE_RULES:
+        return '; generated linked code now counted'
     try:
         was, was_over = measures(previous)["linked"]
     except (KeyError, ValueError):
@@ -384,6 +404,8 @@ def main():
                "linked_game_code": int(census["game_code"]) if census and census.get("game_code") else None,
                "strict": strict_link(),
                **{lane: split.get(lane, 0) for lane in ("authored", "vendored", "generated", "library", "data", "assembly")}}
+    if census:
+        current.update(progress.linking_coverage_at(None) or {})
     output = progress.ROOT / "docs" / "progress.svg"
     output.write_text(render(current, previous_state()), encoding="utf-8", newline="\n")
     rows = measures(current)

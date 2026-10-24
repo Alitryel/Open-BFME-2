@@ -42,6 +42,7 @@ def history(tmp_path, monkeypatch):
     return path
 
 
+@pytest.mark.skipif(not hasattr(time, 'tzset'), reason='requires POSIX tzset to change the process timezone')
 def test_census_dates_are_utc(monkeypatch):
     monkeypatch.setenv("TZ", "America/New_York")
     time.tzset()
@@ -66,8 +67,8 @@ def test_legacy_history_reads_and_upgrades_without_touching_old_values(history):
     census.write_history(rows)
     lines = history.read_text().splitlines()
     assert lines[0].split(",") == census.HISTORY_FIELDS
-    assert lines[1] == original + ",,,,,"  # the old row: same values, new columns empty
-    assert lines[-1].endswith(f",{census.RULES},{census.LEGACY_RULES}")
+    assert lines[1] == original + ',' * (len(census.HISTORY_FIELDS) - len(LEGACY_HEADER))
+    assert dict(zip(census.HISTORY_FIELDS, lines[-1].split(',')))['prev_rules'] == census.LEGACY_RULES
 
 
 @pytest.mark.parametrize("header", [LEGACY_HEADER + ["mystery"], ["commit", "date"] + LEGACY_HEADER[2:],

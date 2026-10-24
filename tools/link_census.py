@@ -2344,9 +2344,14 @@ def write_status(log, rows, present, meta, kept, publish=True, previous_rules=No
     # it adds no LINKED bytes, only the definitions other files resolve to.
     for row, object_of in [(row, build.row_object) for row in rows] + [(row, data_object) for row in data_ledger()]:
         source = row["source"]
-        if source in out or Path(source).suffix.lower() not in (".c", ".cpp"):
+        import progress
+        reviewed_asm = (Path(source).suffix.lower() == '.asm'
+                        and progress.source_lane(source, row.get('notes', ''), False) == 'assembly')
+        if source in out or (Path(source).suffix.lower() not in (".c", ".cpp") and not reviewed_asm):
             continue
         obj = object_of(row).name
+        if reviewed_asm and obj not in {p.name for p in present}:
+            continue  # no assessment or credit without a current linked object
         try:
             text = (ROOT / source).read_text(encoding="utf-8", errors="replace")
         except OSError:
@@ -2411,11 +2416,11 @@ def linked_split(clean):
 
 
 def linked_figures(clean):
-    """The stored LINKED figures: linked_bytes (authored + vendored, over all
-    code: the chart's LINKED) and linked_authored over game_code (the game's
-    own code on this tree: all code minus vendored source and prebuilt
-    libraries), the README card's and daily post's Linking bar. Storing the
-    denominator keeps Linking one snapshot."""
+    """Preserve legacy figures and store inclusive executable-game coverage.
+
+    New numerator/denominator fields include generated code and assessed
+    reviewed assembly, exclude libraries/data, and share this census tree.
+    """
     import progress
     split = linked_split(clean)
     start, size = progress.retail_text()
@@ -2423,7 +2428,10 @@ def linked_figures(clean):
     matched, notes = progress.matched_at(None), progress.notes_at(None)
     full = progress.real_split(matched, notes, start, size, progress.naked_cpp_rows_at(matched, None))
     return {"linked_bytes": progress.decompiled(split), "linked_authored": split["authored"],
-            "game_code": progress.game_code(full, total)}
+            "game_code": progress.game_code(full, total),
+            **progress.linked_game_coverage(matched, notes,
+                progress.naked_cpp_rows_at(matched, None), clean, start, size,
+                progress.text_data_at(None))}
 
 
 def head():
@@ -2723,7 +2731,8 @@ HISTORY_FIELDS = ["date", "commit", "objects", "unresolved", "alias", "pinned_el
                   "scaffold_aliases", "scaffold_unresolved", "scaffold_crashed",
                   "files", "files_linked", "blocking_names", "addresses", "linked_bytes",
                   "linked_authored", "game_code", "files_linked_prev_rule", "linked_bytes_prev_rule",
-                  "linked_authored_prev_rule", "rules", "prev_rules"]
+                  "linked_authored_prev_rule", "rules", "prev_rules",
+                  "linked_game_executable", "game_executable", "link_coverage_rules"]
 # The pre-port header: HISTORY_FIELDS' first 23 columns. A header this tool
 # reads must be a prefix of HISTORY_FIELDS at least that long.
 _LEGACY_FIELD_COUNT = 23
@@ -2764,6 +2773,13 @@ def read_history():
         if row_rules(row) not in KNOWN_RULES or (row.get("prev_rules") or LEGACY_RULES) not in KNOWN_RULES:
             raise HistoryError(f"link_census: {HISTORY.name} line {number} was measured under rules this tool "
                                f"does not know ({row.get('rules')!r}); update the tools (git pull) before recording")
+        coverage = ('linked_game_executable', 'game_executable', 'link_coverage_rules')
+        if any(row.get(k) for k in coverage):
+            import progress
+            if (row.get('link_coverage_rules') != progress.LINK_COVERAGE_RULES
+                    or not all(str(row.get(k, '')).isdigit() for k in coverage[:2])
+                    or not 0 <= int(row['linked_game_executable']) <= int(row['game_executable']) <= int(row['game_code'])):
+                raise HistoryError(f'link_census: invalid inclusive coverage at line {number}')
         rows.append(row)
     return rows
 

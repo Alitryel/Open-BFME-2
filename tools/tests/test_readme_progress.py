@@ -99,7 +99,7 @@ def test_discord_posts_four_measures_and_links_the_readme():
         "",
         "**Linking: 10.00%**",
         f"{L * 1}{R * 9}",
-        "9 / 90 bytes of the game's own code linked (not measured yet)",
+        "9 / 90 bytes of game code linked (legacy authored-only accounting) (not measured yet)",
         "",
         f"**Readable names: 71.00%**  {UP} 1.00",
         f"{N * 7}{R * 3}",
@@ -160,7 +160,7 @@ def test_linking_is_one_census_snapshot():
     # The census tree's game code (80) is the denominator, not today's (90).
     current = sample(linked_authored=8, linked_game_code=80)
     assert daily.measures(current)["linked"] == (8, 80)
-    assert "8 / 80 bytes of the game's own code linked" in daily.announcement(current, None)["embeds"][0]["description"]
+    assert "8 / 80 bytes of game code linked (legacy authored-only accounting)" in daily.announcement(current, None)["embeds"][0]["description"]
     with pytest.raises(ValueError):
         daily.measures(sample(linked_game_code=None))  # bytes without their denominator
     with pytest.raises(ValueError):

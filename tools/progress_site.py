@@ -300,6 +300,8 @@ def render(out, svg_dir=None):
     history = read_history()
     census_rows = [r for r in csv.DictReader((progress._text_at(None, progress.LINK_HISTORY) or "").splitlines())
                    if r.get("linked_authored") and r.get("game_code")]
+    if census_rows:
+        census_rows[-1] = dict(census_rows[-1], **(progress.linking_coverage_at(None) or {}))
     chart = _chart(history, census_rows)
 
     data = json.dumps({t["key"]: t for t in tabs})
@@ -438,18 +440,24 @@ def _chart(history, census_rows):
     xn, _ = px(days[-1], 0)
     area = f"{x0:.1f},{y0:.1f} {line} {xn:.1f},{y0:.1f}"
     def linking(r):
+        if r.get('link_coverage_rules'):
+            return progress.percent(int(r['linked_game_executable']), int(r['game_executable']))
         return 100 * int(r["linked_authored"]) / int(r["game_code"])
+    def series_rules(r):
+        return progress.census_rules(r) + ('/' + r['link_coverage_rules'] if r.get('link_coverage_rules') else '')
     points = [(px(date.fromisoformat(r["date"][:10]), linking(r)), r) for r in census_rows]
     # A census under other rules measures something else: the line breaks at
     # each rule change (a re-baseline row), which is marked, and joins the old
     # rules' figure for the same objects (its *_prev_rule) to the old line.
     segments = []
     for index, ((x, y), r) in enumerate(points):
-        rules = progress.census_rules(r)
-        if not segments or progress.census_rules(census_rows[index - 1]) != rules:
+        rules = series_rules(r)
+        if not segments or series_rules(census_rows[index - 1]) != rules:
             prev, prev_rules = progress.census_prev_figure(r, "linked_authored")
             tail = (x, T + (H - T - B) * (1 - 100 * prev / int(r["game_code"]) / 100)) if (
-                segments and prev is not None and prev_rules == progress.census_rules(census_rows[index - 1])) else None
+                segments and prev is not None and not r.get('link_coverage_rules')
+                and not census_rows[index - 1].get('link_coverage_rules')
+                and prev_rules == progress.census_rules(census_rows[index - 1])) else None
             if tail:
                 segments[-1][1].append(tail)
             segments.append((rules, [(x, y)], r, tail))
@@ -470,7 +478,7 @@ def _chart(history, census_rows):
             marks += (f'<line x1="{x:.1f}" x2="{x:.1f}" y1="{T}" y2="{H - B}" class="grid" stroke-dasharray="4 4">'
                       f'<title>{opener["date"][:10]}: census rules changed {before} -> {rules} '
                       f'({linking(opener):.2f}% under {rules}{was}, same objects): not progress</title></line>'
-                      f'<text x="{x + 4:.1f}" y="{T + 12}" class="axis">rules changed</text>')
+                      f'<text x="{x + 4:.1f}" y="{T + 12}" class="axis">accounting changed</text>')
             if tail:
                 marks += (f'<circle cx="{tail[0]:.1f}" cy="{tail[1]:.1f}" r="4" fill="none" stroke="{LINKED}">'
                           f'<title>{opener["date"][:10]}: linking under {before}{was}</title></circle>')

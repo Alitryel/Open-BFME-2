@@ -1,5 +1,6 @@
 """Reviewed assembly counts as rebuilt, while dumps and C++ stay distinct."""
 import sys
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -38,7 +39,8 @@ def test_accounting_change_is_not_reported_as_new_recovery():
     assert readme_progress.delta_since(old, 'matched', 70, 100, new) is None
     svg = readme_progress.render(new, old)
     post = readme_progress.announcement(new, old)['embeds'][0]['description']
-    assert 'accounting changed' in svg and 'not new recovery' in svg
+    rendered_text = ' '.join(' '.join(ET.fromstring(svg).itertext()).split())
+    assert 'accounting changed' in svg and 'not new recovery' in rendered_text
     assert 'accounting changed' in post and 'not new recovery' in post
     assert readme_progress.delta_since(new, 'matched', 71, 100, dict(new, assembly=11)) > 0
 

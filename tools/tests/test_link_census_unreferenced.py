@@ -261,7 +261,7 @@ def test_in_process_rebaseline_records_previous_rules_from_the_same_judgment(tmp
     assert (figure["rules"], figure["prev_rules"]) == (L.RULES, L.PREVIOUS_RULES)
     assert (figure["files_linked"], figure["files_linked_prev_rule"]) == (2, 1)
     assert (figure["linked_bytes"], figure["linked_bytes_prev_rule"]) == (20, 10)
-    assert L.HISTORY.read_text().splitlines()[-1].endswith(f",{L.RULES},{L.PREVIOUS_RULES}")
+    assert dict(zip(L.HISTORY_FIELDS, L.HISTORY.read_text().splitlines()[-1].split(',')))['prev_rules'] == L.PREVIOUS_RULES
     # once recorded, an ordinary census continues it and a second re-baseline refuses
     monkeypatch.setattr(L, "read_history", lambda: [{"date": "2026-10-02 00:00", "commit": "abc", "rules": L.RULES}])
     with pytest.raises(SystemExit, match="already records"):
