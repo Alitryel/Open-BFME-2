@@ -59,17 +59,17 @@ public:
 	float m_7C;
 	float m_80;
 	float m_84;
-	void rva002BEFE5(const Rva002BEFE5Vec *position, float a1, float a2, unsigned int a3);
+	void rva002BEFE5(const Rva002BEFE5Vec *position, float a1, float a2, unsigned int duration);
 };
 
-void Rva002BEFE5::rva002BEFE5(const Rva002BEFE5Vec *position, float a1, float a2, unsigned int a3)
+void Rva002BEFE5::rva002BEFE5(const Rva002BEFE5Vec *position, float a1, float a2, unsigned int duration)
 {
 	TheMouse->rva001EEA6D(UnicodeString(UnicodeString::TheEmptyString), 0, 0, 1.0f);
 	v29(m_54);
 	m_80 = v30();
 	m_78 = 1;
 	m_74 = 0.0f;
-	m_7C = 1.0f / (float)a3;
+	m_7C = 1.0f / (float)duration;
 	*(Rva002BEFE5Vec *)&m_60 = *position;
 	m_68 = 0.0f;
 	m_84 = a1;
