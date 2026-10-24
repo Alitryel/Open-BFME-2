@@ -1,13 +1,13 @@
 // cl: /DNDEBUG /MD /EHsc
 // Rva006F1E70 derived constructor, retail 0x006F1E70 (182 bytes), ret 4.
 //
-// Calls the pinned Rva008B2EF0 two-argument base constructor 0x006F1310 with
+// Calls the rowed Rva006F1360 two-argument base constructor 0x006F1310 with
 // (0x21, 0), installs its own vtable 0x00CECD4C (DIR32 auto-patch), asserts the
 // AptXml global gpAptXmlImpl 0x00E17720 is set ("gpAptXmlImpl", AptXml.cpp line
 // 0x7B), then asks the value argument isString() (0x006DC0D0) and, through the
 // opaque 0x006DCE50 accessor and the EAStringC data accessor 0x00620090, feeds
 // either the string or a null to gpAptXmlImpl's virtual slot 0, storing a
-// non-null result into the base field at +0x20 (Rva008B2EF0::m_value20 per the
+// non-null result into the base field at +0x20 (Rva006F1360::m_value20 per the
 // near-file layout). Near-file base family is Rva008B2EF0Constructors.cpp; the
 // class name itself is not established, so the body keeps an address name.
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *, const char *, int);
@@ -58,22 +58,25 @@ private:
 	char m_pad[0x20 - 8];
 };
 
-class Rva008B2EF0 : public Rva00899F00Base
+// The base is the rowed Rva006F1360 (ctor 0x6F1310, dtor 0x6F1360,
+// Rva006F1360Dtor.cpp); BFME 1 named it Rva008B2EF0.
+class Rva006F1360 : public Rva00899F00Base
 {
 public:
-	Rva008B2EF0(unsigned int argument0, unsigned int argument1);
+	Rva006F1360(int argument0, void *argument1);
+	virtual ~Rva006F1360();
 	unsigned int m_value20;
 	unsigned int m_value24;
 };
 
-class Rva006F1E70 : public Rva008B2EF0
+class Rva006F1E70 : public Rva006F1360
 {
 public:
 	Rva006F1E70(BfmeAptValue006DCD20 *argument0);
 };
 
 Rva006F1E70::Rva006F1E70(BfmeAptValue006DCD20 *argument0)
-	: Rva008B2EF0(0x21, 0)
+	: Rva006F1360(0x21, 0)
 {
 	if (gpAptXmlImpl == 0) {
 		g_bfmeAptAssertAtE17734("gpAptXmlImpl",

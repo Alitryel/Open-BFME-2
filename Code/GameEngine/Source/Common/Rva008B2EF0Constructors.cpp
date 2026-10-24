@@ -35,19 +35,22 @@ private:
 	unsigned int m_bits;
 };
 
-class Rva008B2EF0 : public Rva00899F00Base {
+// The base is the rowed Rva006F1360 (ctor 0x6F1310, dtor 0x6F1360,
+// Rva006F1360Dtor.cpp); BFME 1 named it Rva008B2EF0.
+class Rva006F1360 : public Rva00899F00Base {
 public:
-	__declspec(noinline) Rva008B2EF0(unsigned int argument0, unsigned int argument1);
+	__declspec(noinline) Rva006F1360(int argument0, void *argument1);
+	virtual ~Rva006F1360();
 private:
 	unsigned int m_value20;
 	unsigned int m_value24;
 };
 
-class Rva008B38D0 : public Rva008B2EF0 {
+class Rva008B38D0 : public Rva006F1360 {
 public:
 	Rva008B38D0(unsigned int argument0);
 };
 
 // ??0Rva008B38D0@@QAE@I@Z, retail 0x006F1E50 (27B).
 Rva008B38D0::Rva008B38D0(unsigned int argument0)
-	: Rva008B2EF0(0x21, argument0) {}
+	: Rva006F1360(0x21, (void *)argument0) {}
