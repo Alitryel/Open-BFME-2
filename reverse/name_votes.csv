@@ -3529,3 +3529,13 @@ Code/GameEngine/Source/GameNetwork/Rva00803730FeslAttrs.cpp|local|Rva00803730Sin
 Code/GameEngine/Source/Common/System/FormationBuild.cpp|param|Rva00421A16#2|p,26895ea2380ed04b56785a08,gpt-6.1-sol,codex8-20261024-060646-18,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/System/FormationBuild.cpp|local|FormationAssistant::rva00424E77|y,b32cca62849b23dbb3362578,gpt-6.1-sol,codex8-20261024-060646-18,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/System/FormationBuild.cpp|local|FormationAssistant::rva00424E77|x,febb5ef1165b757f88c98e18,gpt-6.1-sol,codex8-20261024-060646-18,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/ExpansionTactics/AISimpleExpansionTactic.cpp|member|Rva005AA860Record|m_point0C,6df9461c7d3f3bc4daf902d8,gpt-6.1-sol,codex8-20261024-060646-21,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva0028ECDB.cpp|member|Rva002DFF0F8|m_10,f422e8c86655727f22b082b5,gpt-6.1-sol,codex8-20261024-060646-24,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva0010F42AFinish.cpp|member|Rva0010F42A|m_scale0C,1bfcdb1abc42473b228a51b9,gpt-6.1-sol,codex8-20261024-060646-25,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva0010F42AFinish.cpp|local|Rva0010F42A::rva0010F42A|s,7315427f593c8fc77416152a,gpt-6.1-sol,codex8-20261024-060646-25,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva005C6CCC.cpp|local|Rva005C6D4D::rva005C6D9C|t,323a4d8477b4b857b1297cae,gpt-6.1-sol,codex8-20261024-060646-28,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva005C6CCC.cpp|local|Rva005C6D4D::rva005C6D9C|s,7c274820a8a399dcff72c2d3,gpt-6.1-sol,codex8-20261024-060646-28,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva005C6CCC.cpp|local|Rotate|s,29dede16cb1616a940ff1b44,gpt-6.1-sol,codex8-20261024-060646-28,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva005C6CCC.cpp|local|Rotate|c,10c73337f085aa53d4b4e455,gpt-6.1-sol,codex8-20261024-060646-28,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva005C6CCC.cpp|local|Rva005C6D4D::rva005C674A|x,59d03bed3889d32ec90907ab,gpt-6.1-sol,codex8-20261024-060646-28,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva005C6CCC.cpp|local|Rva005C6D4D::rva005C674A|y,69ad14aa0c6a8af0814594ab,gpt-6.1-sol,codex8-20261024-060646-28,w-de56e563a50b,2026-10-24
