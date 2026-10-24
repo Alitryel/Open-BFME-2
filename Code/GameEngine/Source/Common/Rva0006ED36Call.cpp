@@ -19,7 +19,7 @@ public:
 	virtual void v09();
 	virtual void v10();
 	virtual void v11();
-	virtual void rva0006ED55();
+	virtual void draw();
 };
 
 // RTS3DScene::doRender (0x0006ED36) and RTS2DScene::doRender (0x0006EE27):
@@ -55,7 +55,7 @@ private:
 void RTS3DScene::doRender(CameraClass *cam)
 {
 	m_camera = cam;
-	m_subsystem.rva0006ED55();
+	m_subsystem.draw();
 	m_camera = 0;
 }
 
@@ -63,11 +63,11 @@ void RTS3DScene::doRender(CameraClass *cam)
 void RTS2DScene::doRender(CameraClass *cam)
 {
 	m_camera = cam;
-	m_subsystem.rva0006ED55();
+	m_subsystem.draw();
 	m_camera = 0;
 }
 
-// ?rva0006ED55@Rva0006ED55@@UAEXXZ @0x0006ED55 (26B): that slot 12 itself,
+// ?draw@Rva0006ED55@@UAEXXZ @0x0006ED55 (26B): that slot 12 itself,
 // compiled against the +0x108 subobject. When the +0x814 pointer the
 // callers above set is non-null, it hands the whole object and that pointer
 // to the rowed 0x00118660 render call. Same object as above, viewed through
@@ -85,13 +85,13 @@ private:
 class Rva0006ED55 : public Rva0006ED55Primary, public Rva0006ED36Sub
 {
 public:
-	virtual void rva0006ED55();
+	virtual void draw();
 private:
 	char m_pad10C[0x814 - 0x10C];
 	void *m_slot814;
 };
 
-void Rva0006ED55::rva0006ED55()
+void Rva0006ED55::draw()
 {
 	if (m_slot814)
 		Rva00118660Call(this, m_slot814);
