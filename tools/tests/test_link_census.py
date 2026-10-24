@@ -298,6 +298,88 @@ def test_no_retail_address_is_none():
     assert t.verdict(symbol("inline_only"), b"\xc3", [], "g", 1) is None
 
 
+@pytest.mark.parametrize("retail_first", [False, True])
+@pytest.mark.parametrize("entry_point", ["definition", "verdict"])
+@pytest.mark.parametrize("tagged", [False, True])
+@pytest.mark.parametrize("bad_leaf", [b"\x90", None])
+def test_recursive_proof_cache_keeps_transitive_object_definitions_separate(
+        retail_first, entry_point, tagged, bad_leaf):
+    from test_gate_exploits import coff
+
+    # The ctor, vtable and deleting thunk have identical bytes, relocation
+    # names and COMDAT digests in both objects. Only a transitively reached,
+    # unrowed leaf differs (or is undefined). A cached vtable verdict must
+    # neither poison the retail object nor certify the other object.
+    image = bytearray(0x60)
+    image[:5] = b"\xb8" + struct.pack("<I", L.BASE + 0x1020)
+    image[0x20:0x24] = struct.pack("<I", L.BASE + 0x1030)
+    image[0x30:0x35] = jmp(0x1030, 0x1050)
+    image[0x50] = 0xC3
+    t = truth(image, {"ctor": {TEXT}})
+
+    def copies(leaf):
+        sections = [
+            (".text", 0x60501020, b"\xb8\0\0\0\0", [(1, 1, L.RetailTruth.DIR32)]),
+            (".rdata", 0x40301040, b"\0" * 4, [(0, 2, L.RetailTruth.DIR32)]),
+            (".text", 0x60501020, b"\xe9\0\0\0\0", [(1, 3, L.RetailTruth.REL32)]),
+        ]
+        if leaf is not None:
+            sections.append((".text", 0x60501020, leaf, []))
+        symbols = [(name, 0, section, 0, L.EXTERNAL, 0) for name, section in
+                   [("ctor", 1), ("table", 2), ("deleting", 3), ("leaf", 4 if leaf is not None else 0)]]
+        found = {entry[0]["name"]: entry for entry in L._comdat_sections(coff(sections, symbols))}
+        if not tagged:
+            # Standalone callers may supply hand-built definitions without
+            # a complete originating-object context. Those need fresh proof.
+            for entry in found.values():
+                entry[0].pop("proof_context", None)
+        return found
+
+    good, bad = copies(b"\xc3"), copies(bad_leaf)
+    for name in ("ctor", "table", "deleting"):
+        assert good[name][3] == bad[name][3]
+    for entries, expected in ([(good, True), (bad, False)] if retail_first else
+                              [(bad, False), (good, True)]):
+        if entry_point == "definition":
+            assert t._defined_at(entries["table"], 0x1020) is expected
+        else:
+            assert t.verdict(*entries["ctor"]) == ("retail" if expected else "unknown")
+
+
+@pytest.mark.parametrize("unknown_tail", [False, True])
+def test_recursive_definition_cycle_still_checks_its_other_edges(unknown_tail):
+    # A dtor/vtable cycle is a valid coinductive proof, but must not hide an
+    # additional unresolved edge in that same destructor.
+    image = bytearray(0x60)
+    image[0x20:0x24] = struct.pack("<I", L.BASE + 0x1030)
+    image[0x30:0x35] = b"\xb8" + struct.pack("<I", L.BASE + 0x1020)
+    image[0x35:0x3A] = jmp(0x1035, 0x1050)
+    table_ref, dtor_ref = referent("table"), referent("dtor")
+    dtor_body = b"\xb8\0\0\0\0" + (b"\xe9\0\0\0\0" if unknown_tail else b"")
+    dtor_relocs = [(1, L.RetailTruth.DIR32, table_ref)]
+    if unknown_tail:
+        dtor_relocs.append((6, L.RetailTruth.REL32, referent("unknown")))
+    dtor = (symbol("dtor", section=3), dtor_body, dtor_relocs, "cycle-dtor", len(dtor_body))
+    table = (symbol("table", section=2), b"\0" * 4,
+             [(0, L.RetailTruth.DIR32, dtor_ref)], "cycle-table", 4)
+    table_ref["definition"], dtor_ref["definition"] = table, dtor
+    assert truth(image)._defined_at(table, 0x1020) is (not unknown_tail)
+
+
+def test_recursive_definition_depth_limit_is_not_an_assumed_cycle():
+    count = L.RetailTruth.DEFINITION_DEPTH + 1
+    image = bytearray(count * 0x10 + 1)
+    image[count * 0x10] = 0xC3
+    child = (symbol("leaf", section=count + 1), b"\xc3", [], "depth-leaf", 1)
+    for number in reversed(range(count)):
+        here, there = TEXT + number * 0x10, TEXT + (number + 1) * 0x10
+        image[number * 0x10:number * 0x10 + 5] = jmp(here, there)
+        target = {**referent(f"child{number}"), "definition": child}
+        child = (symbol(f"node{number}", section=number + 1), b"\xe9\0\0\0\0",
+                 [(1, L.RetailTruth.REL32, target)], f"depth-{number}", 5)
+    assert not truth(image)._defined_at(child, TEXT)
+
+
 def test_keep_rule_retail_truth_ignores_link_order():
     copies = [("a.obj", "owner", "wrong"), ("b.obj", "right", "retail"), ("c.obj", "owner", "wrong")]
     loses, rule = L.keep_rule(copies, retail_kept=False)  # retail-truth-2

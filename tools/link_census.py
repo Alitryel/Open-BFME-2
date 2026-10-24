@@ -600,6 +600,10 @@ def _comdat_sections(data):
     optional = struct.unpack_from("<H", data, 16)[0]
     symbols = _coff_symbols(data)
     by_index = {symbol["index"]: symbol for symbol in symbols}
+    # A COMDAT digest does not include its referents' definitions. Equal
+    # vtables/thunks in different objects can therefore require different
+    # recursive proofs. Bind those proofs to the complete immutable object.
+    proof_context = hashlib.sha256(data).digest()
     entries = []
     sections = []
     for index in range(count):
@@ -630,6 +634,7 @@ def _comdat_sections(data):
             label = (_normal(referent["name"]) if referent["storage"] in (EXTERNAL, WEAK_EXTERNAL) else "local")
             digest.update(b"%d:%d:" % (where, kind) + label.encode("latin-1") + b";")
             found.append((where, kind, referent))
+        symbol["proof_context"] = proof_context
         entries.append((symbol, body, found, digest.hexdigest()[:12], size))
     # An external referent this object defines in a COMDAT of its own (a
     # vftable, its ??_E) carries that definition, so RetailTruth can judge it
@@ -836,9 +841,10 @@ class RetailTruth:
         ``local`` so equivalent private labels do not manufacture conflicts.
         That digest is therefore too coarse for the verdict cache: a label in
         the COMDAT's own section is checked at its section-relative value, and
-        two copies can have the same digest while those values differ.  Keep
-        section numbering out of this key (it is TU-dependent); only whether
-        the referent is in the symbol's own section affects _judge.
+        two copies can have the same digest while those values differ. Keep
+        section numbering out of the per-relocation description: only whether
+        the referent is in the symbol's own section affects _judge. The object
+        context separately binds any recursive proof to all its definitions.
         """
         found = []
         for where, kind, referent in relocs:
@@ -857,7 +863,7 @@ class RetailTruth:
                         referent["name"].startswith(RetailTruth.FUNCTION_STATICS) else
                         ("local",))
             found.append((where, kind, identity))
-        return symbol["value"], tuple(found)
+        return symbol.get("proof_context"), symbol["value"], tuple(found)
 
     def verdict(self, symbol, body, relocs, digest, size):
         home = self.ledger.get(_normal(symbol["name"])) or self.pinned.get(_normal(symbol["name"]))
@@ -865,12 +871,19 @@ class RetailTruth:
             return None
         home = set(home) | {self._stub(address) for address in home} - {None}  # a row on an ILT stub
         key = (symbol["name"], digest, self._verdict_fingerprint(symbol, relocs))
-        if key not in self._cache:
-            results = [self._judge(address - symbol["value"], symbol, body, relocs, size) for address in sorted(home)]
-            if all(address in self.shared for address in home):
-                results = ["unknown" if result == "wrong" else result for result in results]
-            self._cache[key] = ("retail" if "retail" in results else "unknown" if "unknown" in results else "wrong")
-        return self._cache[key]
+        # Hand-built definitions have no immutable object context. Their
+        # transitive referents cannot be identified by a COMDAT digest alone.
+        cacheable = (symbol.get("proof_context") is not None or
+                     not any(referent.get("definition") is not None for _, _, referent in relocs))
+        if cacheable and key in self._cache:
+            return self._cache[key]
+        results = [self._judge(address - symbol["value"], symbol, body, relocs, size) for address in sorted(home)]
+        if all(address in self.shared for address in home):
+            results = ["unknown" if result == "wrong" else result for result in results]
+        result = "retail" if "retail" in results else "unknown" if "unknown" in results else "wrong"
+        if cacheable:
+            self._cache[key] = result
+        return result
 
     DEFINITION_DEPTH = 6
 
@@ -883,13 +896,17 @@ class RetailTruth:
         back to a definition already being judged at the same address holds
         (a dtor storing the vptr of the vftable whose ??_E calls it)."""
         symbol, body, relocs, digest, size = definition
-        key = (symbol["name"], digest, target)
+        context = symbol.get("proof_context")
+        # Symbol indices identify definitions only inside their originating
+        # object. Untagged definitions use identity for this active traversal,
+        # whose stack keeps them alive, and never enter the persistent cache.
+        key = (context, symbol["index"], target) if context is not None else (id(definition), target)
         if key in self._defining:
             return True
         if len(self._defining) >= self.DEFINITION_DEPTH:
             return False
         cache = self.__dict__.setdefault("_definition_cache", {})
-        if key in cache:
+        if context is not None and key in cache:
             return cache[key]
         outermost = not self._defining  # an inner result may rest on a cycle's assumption: not cached
         self._defining.add(key)
@@ -897,7 +914,7 @@ class RetailTruth:
             proven = self._judge(target - symbol["value"], symbol, body, relocs, size) == "retail"
         finally:
             self._defining.discard(key)
-        if outermost:
+        if outermost and context is not None:
             cache[key] = proven
         return proven
 
