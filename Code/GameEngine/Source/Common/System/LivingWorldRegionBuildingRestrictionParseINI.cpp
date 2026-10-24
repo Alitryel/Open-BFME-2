@@ -83,7 +83,7 @@ void LivingWorldRegion::ModuleData::BuildingRestriction::ParseINI(INI *ini, void
 		_CxxThrowException(&exc, (const _s__ThrowInfo *)&rva003F2576ThrowInfoAnchor); __assume(0);
 	}
 	Rva003F255C *holder = &reinterpret_cast<Rva003F2576Outer *>(outer)->m_holder;
-	Rva003F1FB6 *p = new Rva003F1FB6;
-	ini->initFromINI(p, g_00C36EE0);
-	holder->rva003F255C((const ::ModuleData *)p);
+	Rva003F1FB6 *restriction = new Rva003F1FB6;
+	ini->initFromINI(restriction, g_00C36EE0);
+	holder->rva003F255C((const ::ModuleData *)restriction);
 }
