@@ -12,14 +12,14 @@ struct XY
 
 void __stdcall Rva0055D686Compute(Coord3D *out, Coord2D *dir, float scale, float z)
 {
-    XY tmp;
-    tmp.x = dir->x;
-    tmp.y = dir->y;
-    ((Coord2D *)&tmp)->normalize();
-    XY p;
-    p.x = tmp.x * scale;
-    p.y = tmp.y * scale;
-    out->x = p.x;
-    out->y = p.y;
+    XY normalizedDirection;
+    normalizedDirection.x = dir->x;
+    normalizedDirection.y = dir->y;
+    ((Coord2D *)&normalizedDirection)->normalize();
+    XY scaledDirection;
+    scaledDirection.x = normalizedDirection.x * scale;
+    scaledDirection.y = normalizedDirection.y * scale;
+    out->x = scaledDirection.x;
+    out->y = scaledDirection.y;
     out->z = z;
 }
