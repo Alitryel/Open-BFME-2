@@ -836,3 +836,5 @@ param,Rva005D9D81::rva005D9D81::a,Rva005D9D81::rva005D9D81::firstObject,inferred
 param,Rva005D9D81::rva005D9D81::b,Rva005D9D81::rva005D9D81::secondObject,inferred,agree:nl-ae1a8f0daa0e,Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp,0x005D9D81
 local,Rva005D9D81::rva005D9D81::d,Rva005D9D81::rva005D9D81::delta,inferred,agree:nl-1f6d30cdc147,Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp,0x005D9D81
 function,?rva0055F4CE@Rva0055F4CE@@QAEXXZ,?update@Rva0055F4CE@@QAEXXZ,inferred,agree:nl-7eee9dd7deed,Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp,0x0055F4CE
+member,RecolorFactoryDecal::m_3C,RecolorFactoryDecal::m_textureName,inferred,agree:nl-8f7439735a45,Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp,
+member,Rva001E30F5::m_154,Rva001E30F5::m_templateName,inferred,agree:nl-207c4ad66849,Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp,

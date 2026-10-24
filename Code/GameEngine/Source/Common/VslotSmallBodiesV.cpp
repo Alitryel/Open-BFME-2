@@ -69,7 +69,7 @@ public:
 		char m_pad00[0x14];
 		Rva0013107A *m_impl;
 		char m_pad18[0x24];
-		const char *m_3C;
+		const char *m_textureName;
 	};
 };
 class Rva0013107A : public TextureAsset::Impl
@@ -91,7 +91,7 @@ void TextureAsset::MissingFactory::PreLoad()
 void TextureAsset::RecolorFactoryDecal::PreLoad()
 {
 	m_impl = new Rva0013107A;
-	m_impl->PreLoad(m_3C);
+	m_impl->PreLoad(m_textureName);
 }
 
 // 0x001E30F5: unless +0x14C is set, looks up the +0x154 name with the rowed
@@ -117,13 +117,13 @@ private:
 	char m_pad00[0x14C];
 	bool m_14C;
 	char m_pad14D[0x07];
-	Int m_154;
+	Int m_templateName;
 };
 void Rva001E30F5::rva001E30F5(Int a, Int b)
 {
 	if (!m_14C)
 	{
-		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(*(const AsciiString *)&m_154);
+		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(*(const AsciiString *)&m_templateName);
 		if (thingTemplate)
 			const_cast<ThingTemplate *>(thingTemplate)->GetAssetList(a, b);
 	}
