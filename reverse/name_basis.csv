@@ -809,3 +809,4 @@ local,Rva006C2D20Sink::rva006C2D20::n0,Rva006C2D20Sink::rva006C2D20::baseLength,
 local,Rva006C2D20Sink::rva006C2D20::n,Rva006C2D20Sink::rva006C2D20::charsWritten,inferred,agree:nl-012dfff78981,Code/GameEngine/Source/Common/Rva006C2D20Describe.cpp,0x006C2D20
 global,?g_00E177E1@@3EA,?g_minValueSize@@3EA,inferred,agree:nl-fdd01ba7395d,Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp,0x00A177E1
 global,?g_00E177E4@@3HA,?g_maxValueSize@@3HA,inferred,agree:nl-61ca2a48e135,Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp,0x00A177E4
+param,RvaF1Handle::RvaF1Handle::p,RvaF1Handle::RvaF1Handle::pointer,inferred,agree:nl-d6a31e4b8183,Code/GameEngine/Source/Common/RvaFamily1Clones.cpp,

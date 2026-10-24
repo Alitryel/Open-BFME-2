@@ -20,15 +20,15 @@ struct RvaF1Pay
 struct RvaF1Handle
 {
 	void *m_p;
-	RvaF1Handle(void *p);
+	RvaF1Handle(void *pointer);
 	~RvaF1Handle();
 };
 
 // ?RvaF1HandleCtor present-unmatched
-__forceinline RvaF1Handle::RvaF1Handle(void *p) : m_p(p)
+__forceinline RvaF1Handle::RvaF1Handle(void *pointer) : m_p(pointer)
 {
-	if (p)
-		++((int *)p)[1];
+	if (pointer)
+		++((int *)pointer)[1];
 }
 
 // Each clone installs its own vtable (0x00875130, 0x008751DC, 0x00877D6C,
