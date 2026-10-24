@@ -48,8 +48,5 @@ void bfmeEmitstlport_vector_2cf4c6_copy_backward_ptrs(BfmeStringRecord002CF4C6 *
 {
 	_STL::__copy_backward_ptrs(p, p, p, _STL::__false_type());
 }
-// ?bfmeEmitstlport_vector_2cf4c6_uninitialized_fill_n@@YAXPAUBfmeStringRecord002CF4C6@@@Z present-unmatched
-void bfmeEmitstlport_vector_2cf4c6_uninitialized_fill_n(const BfmeStringRecord002CF4C6 *p)
-{
-	_STL::__uninitialized_fill_n((BfmeStringRecord002CF4C6 *)0, 0u, *p, _STL::__false_type());
-}
+// The real vector overflow in StlportVectorGrowthFootprints.cpp already emits
+// the complete retail __uninitialized_fill_n body; its row lives there.
