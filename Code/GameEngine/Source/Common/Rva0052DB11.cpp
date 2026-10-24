@@ -40,15 +40,15 @@ private:
 
 bool Rva0052DB11::rva0052DB11(int arg)
 {
-	Rva0052DB11Head *h = m_0;
-	if (!h)
+	Rva0052DB11Head *head = m_0;
+	if (!head)
 		return false;
-	for (Rva0052DB11Outer *o = h->m_20; o; o = o->m_next)
+	for (Rva0052DB11Outer *o = head->m_20; o; o = o->m_next)
 	{
 		void *s = o->m_8;
 		if (((Rva0052DB11Obj *)s)->m_74 == arg)
 			continue;
-		for (Rva0052DB11Inner *in = h->m_14; in; in = in->m_next)
+		for (Rva0052DB11Inner *in = head->m_14; in; in = in->m_next)
 		{
 			if (in->m_8 == s)
 				return true;
