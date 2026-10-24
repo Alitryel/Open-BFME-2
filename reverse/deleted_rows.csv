@@ -2236,3 +2236,8 @@ __ehhandler$?rva0009873C@Rva00098690@@QAE_NXZ,0x00760441,"Renamed to __ehhandler
 ?rva005C394D@Rva005C394D@@QAEXXZ,0x005C394D,"Renamed to ?go@Rva005C394D@@QAEXXZ by tools/rename.py (inferred)"
 ?rva005D2EF1@Rva005D2EA8@@QAEXPBD@Z,0x005D2EF1,"Renamed to ?onRollOut@Rva005D2EA8@@QAEXPBD@Z by tools/rename.py (inferred)"
 ?rva005D2F07@Rva005D2EA8@@QAEXPBD@Z,0x005D2F07,"Renamed to ?OnRollOver@Rva005D2EA8@@QAEXPBD@Z by tools/rename.py (inferred)"
+?rva005E5A8B@Rva005E5A8B@@QAEHABUIRegion2D@@H@Z,0x005E5A8B,"Renamed to ?OnMouseLeftClick@Rva005E5A8B@@QAEHABUIRegion2D@@H@Z by tools/rename.py (inferred)"
+__ehhandler$?rva005E5A8B@Rva005E5A8B@@QAEHABUIRegion2D@@H@Z,0x007A3A15,"Renamed to __ehhandler$?OnMouseLeftClick@Rva005E5A8B@@QAEHABUIRegion2D@@H@Z by tools/rename.py (inferred)"
+?rva005E5B20@Rva005E5A8B@@QAEHABUICoord2D@@H@Z,0x005E5B20,"Renamed to ?OnMouseMove@Rva005E5A8B@@QAEHABUICoord2D@@H@Z by tools/rename.py (inferred)"
+__ehhandler$?rva005E5B20@Rva005E5A8B@@QAEHABUICoord2D@@H@Z,0x007A3A27,"Renamed to __ehhandler$?OnMouseMove@Rva005E5A8B@@QAEHABUICoord2D@@H@Z by tools/rename.py (inferred)"
+?rva005E5B82@Rva005E5A8B@@QAEHPAVGameMessage@@@Z,0x005E5B82,"Renamed to ?handleMessage@Rva005E5A8B@@QAEHPAVGameMessage@@@Z by tools/rename.py (inferred)"

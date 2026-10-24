@@ -19,10 +19,10 @@ class Rva005CBB4A { public:void rva005CBB4A(void*,int,int); }; // rowed 0x005CBB
 class Callback { public:virtual void s00();virtual void s01();virtual void s02();virtual void s03();virtual void s04(); };
 struct Context { char pad[0x1c];int value; };
 class Rva000AD6F4 { public:void clear(); };
-class Rva005E5A8B { public:int rva005E5A8B(const IRegion2D&,int);int rva005E5B20(const ICoord2D&,int);int rva005E5B82(GameMessage*); private:
+class Rva005E5A8B { public:int OnMouseLeftClick(const IRegion2D&,int);int OnMouseMove(const ICoord2D&,int);int handleMessage(GameMessage*); private:
  char pad[8];int viewer;Context*context;char pad10[0x20];void*enabled;char pad34[4];Callback*callback;bool dirty;char pad3d[3];int blocked;
 };
-int Rva005E5A8B::rva005E5A8B(const IRegion2D&region2D,int modifiers){
+int Rva005E5A8B::OnMouseLeftClick(const IRegion2D&region2D,int modifiers){
  if(region2D.hi.x-region2D.lo.x<=0 && region2D.hi.y-region2D.lo.y<=0 && enabled){
  Rva005E5A38 selector((int)this);
  ICoord2D point;point.x=region2D.lo.x;point.y=region2D.lo.y;
@@ -31,17 +31,17 @@ int Rva005E5A8B::rva005E5A8B(const IRegion2D&region2D,int modifiers){
  if(picked){picked->s04();return 1;}
  }return 0;
 }
-int Rva005E5A8B::rva005E5B20(const ICoord2D&point,int modifiers){
+int Rva005E5A8B::OnMouseMove(const ICoord2D&point,int modifiers){
  dirty=true;
  if(enabled){Rva005E5A38 selector((int)this);((Rva005CBB4A*)&selector)->rva005CBB4A((void*)viewer,(int)&point,context->value);}
  else ((Rva000AD6F4*)&callback)->clear();
  return 0;
 }
-int Rva005E5A8B::rva005E5B82(GameMessage*msg){
+int Rva005E5A8B::handleMessage(GameMessage*msg){
  if(blocked)return 0;
  switch(msg->type){
- case 3:{ICoord2D point=msg->getArgument(0)->point;return rva005E5B20(point,msg->getArgument(1)->integer);}
- case 0x1b:return rva005E5A8B(msg->getArgument(0)->region,msg->getArgument(1)->integer);
+ case 3:{ICoord2D point=msg->getArgument(0)->point;return OnMouseMove(point,msg->getArgument(1)->integer);}
+ case 0x1b:return OnMouseLeftClick(msg->getArgument(0)->region,msg->getArgument(1)->integer);
  default:return 0;
  }
 }

@@ -775,3 +775,6 @@ param,Rva005CF872::p,Rva005CF872::context,inferred,agree:nl-2cb58314b13e,Code/Ga
 param,Rva005CFEDF::Rva005CFEDF::p,Rva005CFEDF::Rva005CFEDF::context,inferred,agree:nl-a3a946fd920a,Code/GameEngine/Source/Common/Rva005CFAE6Ctor.cpp,0x005CFAE6
 function,?rva005D2EF1@Rva005D2EA8@@QAEXPBD@Z,?onRollOut@Rva005D2EA8@@QAEXPBD@Z,inferred,agree:nl-4c9dfe6bb320,Code/GameEngine/Source/Common/Rva005D2EA8Dtor.cpp,0x005D2EF1
 function,?rva005D2F07@Rva005D2EA8@@QAEXPBD@Z,?OnRollOver@Rva005D2EA8@@QAEXPBD@Z,inferred,agree:nl-5245422319a2,Code/GameEngine/Source/Common/Rva005D2EA8Dtor.cpp,0x005D2F07
+function,?rva005E5A8B@Rva005E5A8B@@QAEHABUIRegion2D@@H@Z,?OnMouseLeftClick@Rva005E5A8B@@QAEHABUIRegion2D@@H@Z,inferred,agree:nl-d7aef4d9cf3e,Code/GameEngine/Source/Common/Rva005E5A8BMouse.cpp,0x005E5A8B
+function,?rva005E5B20@Rva005E5A8B@@QAEHABUICoord2D@@H@Z,?OnMouseMove@Rva005E5A8B@@QAEHABUICoord2D@@H@Z,inferred,agree:nl-35040e3ca2bd,Code/GameEngine/Source/Common/Rva005E5A8BMouse.cpp,0x005E5B20
+function,?rva005E5B82@Rva005E5A8B@@QAEHPAVGameMessage@@@Z,?handleMessage@Rva005E5A8B@@QAEHPAVGameMessage@@@Z,inferred,agree:nl-6f31d7985012,Code/GameEngine/Source/Common/Rva005E5A8BMouse.cpp,0x005E5B82
