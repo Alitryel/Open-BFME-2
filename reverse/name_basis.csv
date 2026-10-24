@@ -706,3 +706,8 @@ function,?rva0009873C@Rva00098690@@QAE_NXZ,?createParticleSystems@Rva00098690@@Q
 function,?rva00098894@Rva00098690@@QAEXXZ,?update@Rva00098690@@QAEXXZ,inferred,agree:nl-15877d21ca2c,Code/GameEngine/Source/Common/Rva00098690Handles.cpp,0x00098894
 local,Rva00108AD8::invalidateCachedLightPositions::p,Rva00108AD8::invalidateCachedLightPositions::position,inferred,agree:nl-84fb8af85d04,Code/GameEngine/Source/Common/Rva00108AD8Finish.cpp,0x00108AD8
 class,Rva0010F155Header,RefCountedBase,inferred,agree:nl-47609fd45976,Code/GameEngine/Source/Common/Rva0010F760Factory.cpp,
+member,Rva0014D887Center::m_c00,Rva0014D887Center::m_x,inferred,agree:nl-4e68333af3d9,Code/GameEngine/Source/Common/Rva0014D887Init.cpp,
+member,Rva0014D887Center::m_c04,Rva0014D887Center::m_y,inferred,agree:nl-36733f754c90,Code/GameEngine/Source/Common/Rva0014D887Init.cpp,
+member,Rva0014D887Center::m_c08,Rva0014D887Center::m_z,inferred,agree:nl-c63ccf2d3ab1,Code/GameEngine/Source/Common/Rva0014D887Init.cpp,
+param,Rva0014D887This::rva0014D887::o,Rva0014D887This::rva0014D887::effect,inferred,agree:nl-761201449011,Code/GameEngine/Source/Common/Rva0014D887Init.cpp,0x0014D887
+param,Rva0014D887This::rva0014D887::b,Rva0014D887This::rva0014D887::parameter,inferred,agree:nl-b9304950ba5e,Code/GameEngine/Source/Common/Rva0014D887Init.cpp,0x0014D887

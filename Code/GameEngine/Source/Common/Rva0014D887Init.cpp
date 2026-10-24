@@ -15,9 +15,9 @@ public:
 	int findPoint(int index) const;
 };
 struct Rva0014D887Center {
-	float m_c00;
-	float m_c04;
-	float m_c08;
+	float m_x;
+	float m_y;
+	float m_z;
 	char m_pad0C[0x54 - 0x0C];
 };
 class Rva0014D887Inner {
@@ -33,9 +33,9 @@ class Rva0014D887This {
 public:
 	char m_pad00[4];
 	volatile int m_04;
-	void rva0014D887(Rva0014D887Outer *o, void *b);
+	void rva0014D887(Rva0014D887Outer *effect, void *parameter);
 };
-void Rva0014D887This::rva0014D887(Rva0014D887Outer *o, void *b) {
+void Rva0014D887This::rva0014D887(Rva0014D887Outer *effect, void *parameter) {
 	float buf[4];
 	Rva0013F6F0LightEnv *le = (Rva0013F6F0LightEnv *)DX8Wrapper::Light_Environment;
 	if (le == 0)
@@ -53,9 +53,9 @@ void Rva0014D887This::rva0014D887(Rva0014D887Outer *o, void *b) {
 			int idx = le->findPoint(thisIdx);
 			Rva0014D887Center *centers = (Rva0014D887Center *)((char *)le + 0x3c);
 			Rva0014D887Center *light = &centers[idx];
-			buf[0] = light->m_c00;
-			buf[1] = light->m_c04;
-			buf[2] = light->m_c08;
+			buf[0] = light->m_x;
+			buf[1] = light->m_y;
+			buf[2] = light->m_z;
 			goto done;
 		}
 	}
@@ -65,6 +65,6 @@ zero:
 	buf[2] = 0.0f;
 done:
 	buf[3] = 0.0f;
-	Rva0014D887Inner *inner = o->m_body00;
-	inner->m_fn88(o, b, buf);
+	Rva0014D887Inner *inner = effect->m_body00;
+	inner->m_fn88(effect, parameter, buf);
 }
