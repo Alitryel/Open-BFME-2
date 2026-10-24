@@ -4928,66 +4928,11 @@ void PartitionManager::restoreFoggedCells(const ShroudStatusStoreRestore &inPart
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// ??0PartitionFilterRejectBuildings@@ present-unmatched
-PartitionFilterRejectBuildings::PartitionFilterRejectBuildings(const Object *object) : 
-	m_self(object),
-	m_acquireEnemies(false)
-{ 
-	// if I am a computer-controlled opponent, auto-aquire enemy buildings
-	if (m_self->getControllingPlayer()->getPlayerType() == PLAYER_COMPUTER)
-	{
-		m_acquireEnemies = true;
-	}
-}
+// Native reject-buildings constructor/destructor and predicate are provided by
+// Common/Rva002611F2Ctor.cpp and Common/PartitionFilterRejectBuildings_allow.cpp.
+// The older const-Object donor definitions used a different base layout and
+// emitted an incompatible one-slot vtable.
 
-//-----------------------------------------------------------------------------
-// ?allow@PartitionFilterRejectBuildings@@ present-unmatched
-Bool PartitionFilterRejectBuildings::allow( Object *other )
-{
-	// this filter allows all non-buildings
-	// um, no, it clearly doesn't any more.
-	// didn't the person adding the code below read the comment?
-	if (!other->isKindOf( KINDOF_STRUCTURE ))
-		return true;
-
-	const Player* myPlayer = m_self->getControllingPlayer();
-	if (!myPlayer)
-		return false;
-
-	// Get the controlling team of other.
-	ContainModuleInterface* contain = getRetailContain(other);
-	const Player* otherPlayer = contain ? contain->getApparentControllingPlayer(myPlayer) : NULL;
-
-	if (!otherPlayer)
-		otherPlayer = other->getControllingPlayer();
-
-	if (!otherPlayer)
-		return false;
-
-	Relationship relationship = myPlayer->getRelationship(otherPlayer->getDefaultTeam());
-	if (relationship != ENEMIES)
-		return false;
-
-	// if I am a computer-controlled opponent, auto-aquire enemy buildings (if we can see them!)
-	if (m_acquireEnemies)
-		return true;
-
-	if (other->isKindOf( KINDOF_FS_BASE_DEFENSE))
-	{
-		// Don't reject base defenses.
-		return true;
-	}
-
-	if (getRetailContain(other) != NULL && other->isAbleToAttack())
-	{
-		// Don't reject garrisoned buildings that can attack
-		return true;
-  }
-
-	return false;
-}
-
-//-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 // ?allow@PartitionFilterFreeOfFog@@ present-unmatched
 Bool PartitionFilterFreeOfFog::allow( Object *other )
