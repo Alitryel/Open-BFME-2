@@ -48,17 +48,17 @@ public:
 	virtual void w08(int arg);
 };
 
-void ScriptActions::doNamedAddSpecialPowerCountdown(Parameter *parameter, const AsciiString &name, int arg3)
+void ScriptActions::doNamedAddSpecialPowerCountdown(Parameter *parameter, const AsciiString &name, int seconds)
 {
 	Object *obj = TheScriptEngine->getUnitNamed(parameter);
 	const SpecialPowerTemplate *found = TheSpecialPowerStore->findSpecialPowerTemplate(name);
 	if (obj != 0 && found != 0)
 	{
-		Rva003C3F9ETarget *t = (Rva003C3F9ETarget *)obj->getSpecialPowerModule(found);
-		if (t != 0)
+		Rva003C3F9ETarget *m_specialPowerModule = (Rva003C3F9ETarget *)obj->getSpecialPowerModule(found);
+		if (m_specialPowerModule != 0)
 		{
-			int scaled = BfmeLogicFramesPerSecond * arg3;
-			t->w08(t->w04() + scaled);
+			int scaled = BfmeLogicFramesPerSecond * seconds;
+			m_specialPowerModule->w08(m_specialPowerModule->w04() + scaled);
 		}
 	}
 }

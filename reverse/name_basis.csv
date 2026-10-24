@@ -726,3 +726,5 @@ param,Rva002D317C::rva002D317C::b,Rva002D317C::rva002D317C::size,inferred,agree:
 local,Rva002E0D66::rva002E0D66::p,Rva002E0D66::rva002E0D66::node,inferred,agree:nl-3a914a9b3b38,Code/GameEngine/Source/Common/Rva002E0D66Method.cpp,0x002E0D66
 function,?rva0030BC94@Rva0030BC94@@QAEXPBURva0053841CArg@@@Z,?transform@Rva0030BC94@@QAEXPBURva0053841CArg@@@Z,inferred,agree:nl-dbae8d885d25,Code/GameEngine/Source/Common/Rva0030BC94Forward.cpp,0x0030BC94
 local,Rva0033A9A5::getCurrentLivingWorldAutoResolveArmor::p,Rva0033A9A5::getCurrentLivingWorldAutoResolveArmor::entry,inferred,agree:nl-77b33992bbf9,Code/GameEngine/Source/Common/Rva0033A9A5.cpp,0x0033A9A5
+param,ScriptActions::doNamedAddSpecialPowerCountdown::arg3,ScriptActions::doNamedAddSpecialPowerCountdown::seconds,inferred,agree:nl-a181c10af2c8,Code/GameEngine/Source/Common/Rva003C3F9EApply.cpp,0x003C3F9E
+local,ScriptActions::doNamedAddSpecialPowerCountdown::t,ScriptActions::doNamedAddSpecialPowerCountdown::m_specialPowerModule,inferred,agree:nl-27ebbad73e23,Code/GameEngine/Source/Common/Rva003C3F9EApply.cpp,0x003C3F9E
