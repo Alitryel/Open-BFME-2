@@ -1,7 +1,7 @@
-// ?rva006D2D90@@YAXXZ
+// ?initValueSizes@@YAXXZ
 // recovered 0x006D2D90 89B
 // cl: /O2 /MD
-// ?rva006D2D90@@YAXXZ @0x006D2D90 89B evidence byte table g_00CE8B70 plus globals
+// ?initValueSizes@@YAXXZ @0x006D2D90 89B evidence byte table g_00CE8B70 plus globals
 // E177E0-E177E8 plus caller 0x006CC380.
 //
 // Scans the 47-byte Apt eType table at 0x00CE8B70 (indices 1..46) for min/max,
@@ -40,7 +40,7 @@ unsigned char g_00E177E8;	// retail RVA 0x00A177E8 (.bss), defined here
 extern unsigned char g_00CE8B70[];
 
 // ?Rva006D2D90Init@@YAXXZ present-unmatched
-void __cdecl rva006D2D90()
+void __cdecl initValueSizes()
 {
 	g_00E177E2 = 0;
 	g_00E177E0 = 4;

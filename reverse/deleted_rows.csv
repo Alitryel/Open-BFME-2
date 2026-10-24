@@ -2433,3 +2433,4 @@ __ehhandler$?Rva006CDBF0Resize@@YAPAVAptValueNameEntry@@PAV1@HH@Z,0x007A8186,"Re
 ?rva00033930@Rva00034C90@@QAEXXZ,0x00033930,"Renamed to ?consolidate@Rva00034C90@@QAEXXZ by tools/rename.py (inferred)"
 ?Rva003743BB@@YAXPAVObject@@PAX@Z,0x003743BB,"Renamed to ?setStatusCallback@@YAXPAVObject@@PAX@Z by tools/rename.py (inferred)"
 ?Rva002E6E6CGet@@YAHH@Z,0x002E6E6C,"Renamed to ?isGroundOrBridgeLayer@@YAHH@Z by tools/rename.py (inferred)"
+?rva006D2D90@@YAXXZ,0x006D2D90,"Renamed to ?initValueSizes@@YAXXZ by tools/rename.py (inferred)"

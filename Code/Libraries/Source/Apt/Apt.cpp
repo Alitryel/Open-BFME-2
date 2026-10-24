@@ -90,7 +90,7 @@ extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char*,const char*,int);
 extern int g_bfmeAptInitAtE17700,g_bfmeAptBreakOnAssertAtDDC01C;
 extern unsigned char g_00E177E0,g_minValueSize,g_00E177E2,g_00E177E8;
 extern int g_maxValueSize;
-void rva006D2D90();
+void initValueSizes();
 void *Rva006CBC40Allocate(unsigned);
 void rva006CBC50(void *,unsigned);
 void __debugbreak();
@@ -124,7 +124,7 @@ void Rva006CC380Initialize(unsigned valueSize,int valueCount,unsigned chainSize,
   g_bfmeAptAssertAtE17734("bInitialized == 0 && \"Apt Allocator must be initialized before Apt Core!\"","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\Apt.cpp",0x273);
   if(g_bfmeAptBreakOnAssertAtDDC01C)__debugbreak();
  }
- rva006D2D90();
+ initValueSizes();
  g_pChainBlockAllocator=(Rva006DB270 *)new Rva006DAEB0(chainSize,chainCount,4,0x100,0,0,0,0,0);
  g_pChainBlockAllocatorF4=(Rva006D2A60 *)new Rva006CC380ValuePool(valueSize,valueCount);
 }

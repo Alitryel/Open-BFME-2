@@ -71,7 +71,7 @@ extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char*,const char*,int);
 extern int g_bfmeAptInitAtE17700,g_bfmeAptBreakOnAssertAtDDC01C;
 extern unsigned char g_00E177E0,g_minValueSize,g_00E177E2,g_00E177E8;
 extern int g_maxValueSize;
-void rva006D2D90();
+void initValueSizes();
 void *Rva006CBC40Allocate(unsigned);
 void rva006CBC50(void *,unsigned);
 void __debugbreak();
