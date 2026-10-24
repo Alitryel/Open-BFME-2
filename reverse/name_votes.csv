@@ -5644,3 +5644,5 @@ Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp|class||Rva003
 Code/GameEngine/Source/GameLogic/Object/Made002CC8A4Rva00509E43.cpp|param|Made002CC8A4::rva00509E43|a,3c21e9d0aebb6de849541d65,claude-opus-5-5,claudec6-20261024-210032-6,w-efe153480513,2026-10-24
 Code/GameEngine/Source/Common/Rva0049DC50Walk.cpp|class||Rva0049DC50,68fae9fa1efea278c35b7968,claude-opus-5-5,claudec6-20261024-210032-10,w-efe153480513,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Behavior/Rva00498F46Cmd.cpp|member|Rva00498DF3Arg|m_mid258,70db27e553b2db157f93b7bb,claude-opus-5-5,claudec6-20261024-210032-20,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva005C4B56.cpp|param|Rva005C4B56::rva005C4BC8|a,2e29cf03a58c51f748d0564a,claude-opus-5-5,claudec6-20261024-212305-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva005C4B56.cpp|param|Rva005C4B56::rva005C4BC8|b,7d2e1e311f1b72872161bd7e,claude-opus-5-5,claudec6-20261024-212305-1,w-efe153480513,2026-10-24
