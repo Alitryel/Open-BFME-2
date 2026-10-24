@@ -13,6 +13,7 @@ the index, exit 1 to refuse, name_dependents lists units on stdout), which is
 what shows the checks see the private index and never the real one.
 test_hook_drift.. reads .githooks/pre-commit itself, so a hook change that
 this module's jobs do not follow fails here."""
+import hashlib
 import os
 import re
 import shlex
@@ -323,6 +324,33 @@ def test_cancelling_kills_the_running_tool_at_once(tree):
     started = time.time()
     assert rename.commit_checks(ctx_of(tree), renamed_plan(tree), cancel=cancel) == []
     assert time.time() - started < 10
+
+
+def test_a_large_input_reaches_a_child_that_reads_it_late():
+    # far over the pipe buffer, and the child sleeps before reading: the call must neither hang nor drop input
+    data = bytes(range(256)) * 8192                      # 2 MiB
+    child = ("import sys, time, hashlib\ntime.sleep(1)\n"
+             "data = sys.stdin.buffer.read()\nprint(len(data), hashlib.sha256(data).hexdigest())\n")
+    done = []
+    worker = threading.Thread(daemon=True, target=lambda: done.append(
+        rename._run_cancellable([sys.executable, "-c", child], threading.Event(), input=data)))
+    worker.start()
+    worker.join(30)
+    assert done, "_run_cancellable never returned for a 2 MiB input"
+    assert done[0].returncode == 0 and done[0].stdout.split() == [str(len(data)), hashlib.sha256(data).hexdigest()]
+
+
+def test_a_large_input_does_not_stop_a_cancel():
+    # the child never reads its stdin: cancelling still kills it and returns None
+    cancel = threading.Event()
+    threading.Timer(0.5, cancel.set).start()
+    done = []
+    worker = threading.Thread(daemon=True, target=lambda: done.append(
+        rename._run_cancellable([sys.executable, "-c", "import time; time.sleep(60)"], cancel,
+                                input=b"x" * (2 << 20))))
+    worker.start()
+    worker.join(15)
+    assert done == [None]
 
 
 def test_a_signal_in_the_main_thread_does_not_wait_for_the_tools(tree, monkeypatch):

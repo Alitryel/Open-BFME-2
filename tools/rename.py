@@ -3820,30 +3820,38 @@ def _hook_jobs(ctx, plan, paths):
 def _run_cancellable(argv, cancel, **kwargs):
     """subprocess.run that polls `cancel` (a threading.Event) and kills the
     process (its whole session, where there is one) when it is set; returns
-    None then."""
+    None then. `input` (bytes) is any size: it goes to the child through an
+    unnamed temporary file, not a pipe, so a child that reads it late or never
+    cannot block this call (communicate(input, timeout=...) writes only what the
+    pipe takes and, once it has timed out, never sends the rest)."""
     stdin = kwargs.pop("input", None)
     posix = sys.platform != "win32"
-    process = subprocess.Popen(argv, stdin=subprocess.PIPE if stdin is not None else None,
-                               stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                               start_new_session=posix, **kwargs)
-    pending = stdin
-    while True:
-        if cancel is not None and cancel.is_set():
+    with contextlib.ExitStack() as stack:
+        feed = None
+        if stdin is not None:
+            feed = stack.enter_context(tempfile.TemporaryFile())
+            feed.write(stdin)
+            feed.flush()
+            feed.seek(0)
+        process = subprocess.Popen(argv, stdin=feed, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                   start_new_session=posix, **kwargs)
+        while True:
+            if cancel is not None and cancel.is_set():
+                try:
+                    if posix:
+                        os.killpg(process.pid, signal.SIGKILL)       # the tool's own children too (./build.sh)
+                    else:
+                        process.kill()
+                except OSError:
+                    pass
+                process.communicate()
+                return None
             try:
-                if posix:
-                    os.killpg(process.pid, signal.SIGKILL)       # the tool's own children too (./build.sh)
-                else:
-                    process.kill()
-            except OSError:
+                out, err = process.communicate(timeout=0.2)
+                return subprocess.CompletedProcess(argv, process.returncode, out.decode("utf-8", "replace"),
+                                                   err.decode("utf-8", "replace"))
+            except subprocess.TimeoutExpired:
                 pass
-            process.communicate()
-            return None
-        try:
-            out, err = process.communicate(pending, timeout=0.2)
-            return subprocess.CompletedProcess(argv, process.returncode, out.decode("utf-8", "replace"),
-                                               err.decode("utf-8", "replace"))
-        except subprocess.TimeoutExpired:
-            pending = None
 
 
 def commit_checks(ctx, plan, verify=None, skip=(), cancel=None, missing_ok=None):
