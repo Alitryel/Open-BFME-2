@@ -15156,14 +15156,14 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0022DD19,73,code,,,-,,Code/GameEngine/Source/Common/Rva0022DD19Clear.cpp
 0x0022DD62,73,code,,,-,,Code/GameEngine/Source/Common/Rva0022DD62Clear.cpp
 0x0022DDAB,73,code,,,-,,Code/GameEngine/Source/Common/Rva0022DDABClear.cpp
-0x0022DDF4,53,code,,,-,,Code/GameEngine/Source/GameClient/Rva0022DDF4Dtor.cpp
+0x0022DDF4,53,code,,,-,,Code/GameEngine/Source/GameClient/MapCacheClearUnseenMaps_Rva0030469e.cpp
 0x0022DE4F,28,code,,,-,,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtorsB04.cpp
 0x0022DE6B,33,code,,,-,,Code/GameEngine/Source/GameClient/Rva0022DE6BCtor.cpp
 0x0022DE8C,28,code,,,-,,Code/GameEngine/Source/GameClient/Rva0022DE6BCtor.cpp
 0x0022DEA8,57,code,,,-,,Code/GameEngine/Source/GameClient/Rva0022DD19Dtor.cpp
 0x0022DEE1,57,code,,,-,,Code/GameEngine/Source/GameClient/Rva0022DD62Dtor.cpp
 0x0022DF1A,57,code,,,-,,Code/GameEngine/Source/GameClient/Rva0022DDABDtor.cpp
-0x0022DF53,28,code,,,-,,Code/GameEngine/Source/GameClient/Rva0022DDF4Dtor.cpp
+0x0022DF53,28,code,,,-,,Code/GameEngine/Source/GameClient/MapCacheClearUnseenMaps_Rva0030469e.cpp
 0x0022DF79,55,code,,,-,,Code/GameEngine/Source/GameClient/Rva0022DF79SubsystemCtor.cpp
 0x0022DFB0,28,code,,,-,,Code/GameEngine/Source/GameClient/Rva00418298Dtor.cpp
 0x0022DFD1,18,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_pod_list_bodies.cpp

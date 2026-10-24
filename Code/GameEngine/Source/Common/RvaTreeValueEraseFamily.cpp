@@ -416,10 +416,10 @@ void Rva0022115A::rva00221234()
 	m_04Flag = 0;
 }
 
-class Rva0022DDF4 { public: ~Rva0022DDF4(); };
+class MapMetaData;
 
-// owner Rva0022E121: erase 0x0022E121 (value ??1Rva0022DDF4@@QAE@XZ), clear 0x0022E177
-typedef Rva0022DDF4 Rva0022E121Value;
+// owner Rva0022E121: erase 0x0022E121 (value: the map<AsciiString, MapMetaData> pair dtor 0x0022DDF4), clear 0x0022E177
+typedef _STL::pair<const AsciiString, MapMetaData> Rva0022E121Value;
 class Rva0022E121
 {
 public:

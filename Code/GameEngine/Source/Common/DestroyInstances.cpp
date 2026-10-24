@@ -33,11 +33,6 @@ class Rva0022CFE6
 public:
 	~Rva0022CFE6();
 };
-class Rva0022DDF4
-{
-public:
-	~Rva0022DDF4();
-};
 class Rva00329D0E
 {
 public:
@@ -293,7 +288,6 @@ template void _STL::_Destroy<Rva000C2980>(Rva000C2980 *);
 template void _STL::_Destroy<Rva00216108>(Rva00216108 *);
 template void _STL::_Destroy<Rva0022304A>(Rva0022304A *);
 template void _STL::_Destroy<Rva0022CFE6>(Rva0022CFE6 *);
-template void _STL::_Destroy<Rva0022DDF4>(Rva0022DDF4 *);
 template void _STL::_Destroy<Rva00329D0E>(Rva00329D0E *);
 template void _STL::_Destroy<Rva00382B3F>(Rva00382B3F *);
 template void _STL::_Destroy<Rva004104C9>(Rva004104C9 *);

@@ -2,7 +2,7 @@
 // stlport
 // ?rva00303DA4@Rva00303DA4@@QAEXPAURva00303DA4Node@@@Z @0x00303DA4 59B: Rb erase-one.
 // Evidence: calls rowed 0x00025620 _Rebalance_for_erase plus rowed 0x0022DDF4
-// ??1Rva0022DDF4@@QAE@XZ value dtor at +16 plus _free 0x00030830; dec count at
+// map<AsciiString, MapMetaData> pair dtor ??1?$pair@$$CBVAsciiString@@VMapMetaData@@@_STL@@QAE@XZ at +16 plus _free 0x00030830; dec count at
 // +4 ret 4; same 59B shape as Rva002A408B 0x002A408B Rva00358DC2 0x00358DC2
 // Rva00439325 0x00439325; neighbours pair ctors 0x00303D6B 0x00303DDF map
 // AsciiString->MapMetaData; caller 0x003042DD; unblocks 0x003042DD.
@@ -29,11 +29,10 @@ public:
 };
 }
 
-class Rva0022DDF4
-{
-public:
-	~Rva0022DDF4();
-};
+class AsciiString;
+class MapMetaData;
+namespace _STL { template <class T1, class T2> struct pair { ~pair(); }; }
+typedef _STL::pair<const AsciiString, MapMetaData> Rva00303DA4Value;
 
 struct Rva00303DA4Node : public _STL::_Rb_tree_node_base
 {
@@ -51,7 +50,7 @@ void Rva00303DA4::rva00303DA4(Rva00303DA4Node *pos)
 {
 	_STL::_Rb_tree_node_base *toDelete = _STL::_Rb_global<bool>::_Rebalance_for_erase(
 		pos, m_header->_M_parent, m_header->_M_left, m_header->_M_right);
-	((Rva0022DDF4 *)(toDelete + 1))->~Rva0022DDF4();
+	((Rva00303DA4Value *)(toDelete + 1))->~Rva00303DA4Value();
 	if (toDelete)
 		free(toDelete);
 	--m_count;

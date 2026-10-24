@@ -25,8 +25,8 @@ Rva00304DC7Record& Rva00304DC7Map::operator[](const AsciiString&key) {
 // address keeps one definition and the unit links.
 //   0x0022DBC6 reads ??1MapMetaData@@QAE@XZ
 #pragma comment(linker, "/alternatename:??1Rva00304DC7Record@@QAE@XZ=??1MapMetaData@@QAE@XZ")
-//   0x0022DDF4 reads ??1Rva0022DDF4@@QAE@XZ
-#pragma comment(linker, "/alternatename:??1Rva00304DC7Entry@@QAE@XZ=??1Rva0022DDF4@@QAE@XZ")
+//   0x0022DDF4 reads ??1?$pair@$$CBVAsciiString@@VMapMetaData@@@_STL@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva00304DC7Entry@@QAE@XZ=??1?$pair@$$CBVAsciiString@@VMapMetaData@@@_STL@@QAE@XZ")
 //   0x00304DAA reads ?insert@?$map@VAsciiString@@UTreeHintOpaque00304573@@U?$less@VAsciiString@@@_STL@@V?$allocator@U?$pair@$$CBVAsciiString@@UTreeHintOpaque00304573@@@_STL@@@4@@_STL@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBVAsciiString@@UTreeHintOpaque00304573@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBVAsciiString@@UTreeHintOpaque00304573@@@_STL@@@2@@2@U32@ABU?$pair@$$CBVAsciiString@@UTreeHintOpaque00304573@@@2@@Z
 #pragma comment(linker, "/alternatename:?insert@Rva00304DC7Map@@AAE?AU?$_Rb_tree_iterator@URva00304DC7Entry@@U?$_Nonconst_traits@URva00304DC7Entry@@@_STL@@@_STL@@U23@ABURva00304DC7Entry@@@Z=?insert@?$map@VAsciiString@@UTreeHintOpaque00304573@@U?$less@VAsciiString@@@_STL@@V?$allocator@U?$pair@$$CBVAsciiString@@UTreeHintOpaque00304573@@@_STL@@@4@@_STL@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBVAsciiString@@UTreeHintOpaque00304573@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBVAsciiString@@UTreeHintOpaque00304573@@@_STL@@@2@@2@U32@ABU?$pair@$$CBVAsciiString@@UTreeHintOpaque00304573@@@2@@Z")
 //   0x00303D6B reads ??0?$pair@$$CBVAsciiString@@VMapMetaData@@@_STL@@QAE@ABVAsciiString@@ABVMapMetaData@@@Z
