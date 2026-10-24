@@ -179,7 +179,7 @@ struct Rva002AD661LogicView
 	unsigned char m_pad00[0x40];
 	unsigned int m_frame40; // +0x40
 	unsigned char m_pad44[0x114 - 0x44];
-	int m_word114; // +0x114
+	int m_gameMode; // +0x114
 };
 
 class ScriptEngine
@@ -240,7 +240,7 @@ bool Player::addScience(ScienceType science)
 							if (!sciences.empty() && _STL::find(sciences.begin(), sciences.end(), science) != sciences.end())
 							{
 								ai->grantScienceToObject();
-								if (((const Rva002AD661LogicView *)TheGameLogic)->m_word114 != 3)
+								if (((const Rva002AD661LogicView *)TheGameLogic)->m_gameMode != 3)
 									ai->setFloatSink(1.0f);
 								else
 								{
