@@ -5505,3 +5505,11 @@ Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.c
 Code/GameEngine/Source/GameLogic/Object/Made002CC841Parse.cpp|param|q4Notify002CC841|m,c0af5b1056c948525b9a0885,gpt-6.1-sol,codexb-20261024-165015-7,w-8e883e57d025,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DScriptedModelDrawTurretInfo.cpp|param|ModelSMConditionInfo::validateTurretInfo|arg,e86714c0659404e31f77aa52,gpt-6.1-sol,codexb-20261024-165015-10,w-8e883e57d025,2026-10-24
 Code/Libraries/Source/WWVegas/WWLib/Rva002CF2D5Erase.cpp|function|0x002CF2D5|rva002CF2D5,43b9582838361889c531482f,gpt-6.1-sol,codexb-20261024-165015-9,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva0052DB11.cpp|local|Rva0052DB11::rva0052DB11|h,93aa9740dfe67eb6a3ef5791,gpt-6-astra,codexb2-20261024-171803-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva0052DB11.cpp|local|Rva0052DB11::rva0052DB11|o,719b48f8458c2ec7dd18a84f,gpt-6-astra,codexb2-20261024-171803-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Die/DamageCreationListParse.cpp|global||g_00DCD7EC,51e71bd47af2e7f2375e3d99,gpt-6-astra,codexb2-20261024-171803-2,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Die/DamageCreationListParse.cpp|global||g_00DCD7FC,479102d400ca1375d4db95af,gpt-6-astra,codexb2-20261024-171803-2,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0015FC20TransformCompose.cpp|class||Rva0015FC20TransformPrefix,4a840abdb5e07aa1e8ba0885,gpt-6-astra,codexb2-20261024-171803-3,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005C394DGo.cpp|local|Rva005C394D::go|s,aa8bfe23460c57174faf4f56,gpt-6-astra,codexb2-20261024-171803-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005D3CA6Setters.cpp|param|Rva005D3CA6::rva005D3CA6|v,a316cc4a9c110feb0ed05fce,gpt-6-astra,codexb2-20261024-171803-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005D3CA6Setters.cpp|param|Rva005D3CA6::rva005D3DD5|v,0789f1e012cdcc63f558c0bc,gpt-6-astra,codexb2-20261024-171803-4,w-d0bdfd8b17e9,2026-10-24
