@@ -41,12 +41,12 @@ private:
 };
 
 class AptValueNameEntry;
-AptValueNameEntry *__cdecl Rva006CDBF0Resize(AptValueNameEntry *, int, int);
+AptValueNameEntry *__cdecl resizeArray(AptValueNameEntry *, int, int);
 
 Gen_uw_00893e70::~Gen_uw_00893e70()
 {
 	if (m_data != m_inline)
-		Rva006CDBF0Resize((AptValueNameEntry *)m_data, 0, 0);
+		resizeArray((AptValueNameEntry *)m_data, 0, 0);
 }
 
 // Retail's data references in this unit's matched rows land on globals defined

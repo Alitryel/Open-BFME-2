@@ -2408,3 +2408,5 @@ __ehhandler$?Rva00595C04FormatIPPort@@YA?AVAsciiString@@IG@Z,0x0079D229,"Renamed
 ?g_bfmeVideoTableStorage@@3UBfmeVideoTableStorage@@A,0x00A0ABB4,"Renamed to ?g_videoTable@@3UBfmeVideoTableStorage@@A by tools/rename.py (inferred)"
 ?Rva00496292Destroy@@YAXPAX0@Z,0x00496292,"Renamed to ?destroyRange@@YAXPAX0@Z by tools/rename.py (inferred)"
 ?bfmeGoVJP@BfmeThingVJP@@QAEXHHHHHHH_NHHHHH@Z,0x00662320,"Renamed to ?bfmeGoVJP@GameBrowser@@QAEXHHHHHHH_NHHHHH@Z by tools/rename.py (inferred)"
+?Rva006CDBF0Resize@@YAPAVAptValueNameEntry@@PAV1@HH@Z,0x006CDBF0,"Renamed to ?resizeArray@@YAPAVAptValueNameEntry@@PAV1@HH@Z by tools/rename.py (inferred)"
+__ehhandler$?Rva006CDBF0Resize@@YAPAVAptValueNameEntry@@PAV1@HH@Z,0x007A8186,"Renamed to __ehhandler$?resizeArray@@YAPAVAptValueNameEntry@@PAV1@HH@Z by tools/rename.py (inferred)"

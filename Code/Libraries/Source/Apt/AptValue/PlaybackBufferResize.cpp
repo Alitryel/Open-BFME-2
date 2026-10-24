@@ -15,7 +15,7 @@ inline void iteratorRangeCheck(bool,const char*){}
 struct Rva006CDD50Iterator {Rva006CDD50Item *position,*begin,*end;
  bool operator!=(const Rva006CDD50Iterator &other){iteratorRangeCheck(begin==other.begin && end==other.end,"Iterators are not in same range");return position!=other.position;}
  Rva006CDD50Iterator(){}
- Rva006CDD50Iterator(Rva006CDD50Item *current,Rva006CDD50Item *b,Rva006CDD50Item *e):position(current),begin(b),end(e){}
+ Rva006CDD50Iterator(Rva006CDD50Item *current,Rva006CDD50Item *rangeBegin,Rva006CDD50Item *rangeEnd):position(current),begin(rangeBegin),end(rangeEnd){}
  int operator-(const Rva006CDD50Iterator &other)const{iteratorRangeCheck(begin==other.begin && end==other.end,"Iterators are not in same range");return position-other.position;}
  Rva006CDD50Iterator operator+(int amount)const {return Rva006CDD50Iterator(position+amount,begin,end);}
  Rva006CDD50Iterator operator++(int){Rva006CDD50Iterator old=*this;++position;return old;}
@@ -27,17 +27,17 @@ Rva006CDD50Item *__cdecl Rva006CDE00Copy(Rva006CDD50Iterator,Rva006CDD50Iterator
 // Native6CE660 and allocation6CF956 establish count/capacity/data
 // and two8B entries at+0C. Original container name is unresolved.
 class AptValueNameEntry {public:EAStringC name;int value;AptValueNameEntry(const EAStringC&n,int v):name(n),value(v){} __forceinline AptValueNameEntry(){value=0;}};
-AptValueNameEntry *__cdecl Rva006CDBF0Resize(AptValueNameEntry *,int,int);
+AptValueNameEntry *__cdecl resizeArray(AptValueNameEntry *,int,int);
 class Rva006CE660Vec {public:void rva006CEB10(const EAStringC &);void rva006D0930(const EAStringC *,int,int,int);void rva006D0A10(const EAStringC *);void reserve(int); void insert(AptValueNameEntry *const &,AptValueNameEntry *const &,const Rva006CDD50Iterator &);void append(AptValueNameEntry *);int count,capacity;AptValueNameEntry *data;AptValueNameEntry inlineItems[2];
  Rva006CDD50Iterator begin(){Rva006CDD50Item *p=reinterpret_cast<Rva006CDD50Item *>(data);return Rva006CDD50Iterator(p,p,p+count);}
  Rva006CDD50Iterator end(){return Rva006CDD50Iterator(reinterpret_cast<Rva006CDD50Item *>(data+count),reinterpret_cast<Rva006CDD50Item *>(data),reinterpret_cast<Rva006CDD50Item *>(data+count));}};
 void Rva006CE660Vec::reserve(int want){
  if(want<=capacity)return;if(want<=1){capacity=want;return;}
- AptValueNameEntry *newData=Rva006CDBF0Resize(0,0,want+1);
+ AptValueNameEntry *newData=resizeArray(0,0,want+1);
  Rva006CDD50Item *begin=reinterpret_cast<Rva006CDD50Item *>(data),*end=begin+count;
  Rva006CDD50Iterator first(begin,begin,end),last(end,begin,end);
  Rva006CDE00Copy(first,last,reinterpret_cast<Rva006CDD50Item *>(newData));
- capacity=want;if(data!=inlineItems)Rva006CDBF0Resize(data,0,0);
+ capacity=want;if(data!=inlineItems)resizeArray(data,0,0);
  data=newData;data[count]=AptValueNameEntry();
 }
 
@@ -72,7 +72,7 @@ void Rva006CE660Vec::insert(AptValueNameEntry *const &first,AptValueNameEntry *c
  }
 }
 
-AptValueNameEntry *__cdecl Rva006CDBF0Resize(AptValueNameEntry *old,int oldCount,int want) {
+AptValueNameEntry *__cdecl resizeArray(AptValueNameEntry *old,int oldCount,int want) {
  AptValueNameEntry *result=0;
  if(!old)return new AptValueNameEntry[want];
  if(want){
