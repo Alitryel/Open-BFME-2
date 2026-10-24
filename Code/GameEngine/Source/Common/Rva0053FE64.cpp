@@ -70,7 +70,7 @@ struct Rva0053FE64Quat
 	float q[4];
 };
 
-Rva0053FDE6 Rva0053FE64Get(float t, Rva0053FDE6 *key0, int t0, Rva0053FDE6 *key1, int t1,
+Rva0053FDE6 Rva0053FE64Get(float time, Rva0053FDE6 *key0, int t0, Rva0053FDE6 *key1, int t1,
 	Rva0053FDE6 *key2, int t2, Rva0053FDE6 *key3, int t3)
 {
 	Rva0053FE64Frame *p0 = (Rva0053FE64Frame *)key0;
@@ -80,13 +80,13 @@ Rva0053FDE6 Rva0053FE64Get(float t, Rva0053FDE6 *key0, int t0, Rva0053FDE6 *key1
 	Rva0053FE64Quat orientation;
 	Rva0053FE64Vec position;
 	return Rva0053FDE6(
-		(S12 *)((Rva005C71ADView *)p1)->rva005C71AD(&position, t,
+		(S12 *)((Rva005C71ADView *)p1)->rva005C71AD(&position, time,
 			p0->m_position, (void *)t0, p1->m_position, (void *)t1,
 			p2->m_position, (void *)t2, p3->m_position, (void *)t3),
-		(S16 *)((Rva005C7098 *)p1)->doInterpolate((Quaternion *)&orientation, t,
+		(S16 *)((Rva005C7098 *)p1)->doInterpolate((Quaternion *)&orientation, time,
 			(int)p0->m_orientation, t0, (const Quaternion *)p1->m_orientation, t1,
 			(const Quaternion *)p2->m_orientation, t2, (int)p3->m_orientation, t3),
-		((CameraAnimationFrameData *)p1)->doInterpolate(t, &p0->m_value, t0,
+		((CameraAnimationFrameData *)p1)->doInterpolate(time, &p0->m_value, t0,
 			&p1->m_value, t1, &p2->m_value, t2, &p3->m_value, t3),
 		p1->m_type);
 }
