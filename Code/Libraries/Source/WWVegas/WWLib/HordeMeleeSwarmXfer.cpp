@@ -112,10 +112,10 @@ void HordeMeleeSwarm::rva00584A9B(Xfer *xfer)
 	*xfer == actual;
 	if (((const StringBase<char> &)actual).compare((const StringBase<char> &)expected) != 0)
 	{
-		char *t1 = *(char **)(void *)&expected;
-		const char *s1 = t1 ? t1 + 8 : g_Rva0107301CEmptyString;
-		char *t2 = *(char **)(void *)&actual;
-		const char *s2 = t2 ? t2 + 8 : g_Rva0107301CEmptyString;
+		char *expectedBuffer = *(char **)(void *)&expected;
+		const char *s1 = expectedBuffer ? expectedBuffer + 8 : g_Rva0107301CEmptyString;
+		char *actualBuffer = *(char **)(void *)&actual;
+		const char *s2 = actualBuffer ? actualBuffer + 8 : g_Rva0107301CEmptyString;
 		BfmeFormattedText tmp;
 		bfmeFormatText(&tmp, 4, "Xfer data saved by %s is now being loaded by %s", s2, s1);
 		_CxxThrowException(&tmp, &g_guardTargetTypeThrowInfo);
