@@ -21,15 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@AutoFindHealingUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *AutoFindHealingUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *AutoFindHealingUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new AutoFindHealingUpdate(thing, moduleData));
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitAutoFindHealingUpdateFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitAutoFindHealingUpdateFriendNew(Thing *thing, const ModuleData *moduleData)
-{
-	AutoFindHealingUpdate::friend_newModuleInstance(thing, moduleData);
-}
-#pragma inline_depth()

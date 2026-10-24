@@ -21,15 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@FireWeaponUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *FireWeaponUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *FireWeaponUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new FireWeaponUpdate(thing, moduleData));
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitFireWeaponUpdateFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitFireWeaponUpdateFriendNew(Thing *thing, const ModuleData *moduleData)
-{
-	FireWeaponUpdate::friend_newModuleInstance(thing, moduleData);
-}
-#pragma inline_depth()

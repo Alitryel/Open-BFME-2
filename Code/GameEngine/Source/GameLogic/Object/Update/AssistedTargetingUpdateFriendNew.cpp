@@ -21,15 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@AssistedTargetingUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *AssistedTargetingUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *AssistedTargetingUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new AssistedTargetingUpdate(thing, moduleData));
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitAssistedTargetingUpdateFriendNew@@YAXXZ present-unmatched
-void bfmeEmitAssistedTargetingUpdateFriendNew()
-{
-	AssistedTargetingUpdate::friend_newModuleInstance(0, 0);
-}
-#pragma inline_depth()

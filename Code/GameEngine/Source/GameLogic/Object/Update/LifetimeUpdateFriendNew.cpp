@@ -21,18 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@LifetimeUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *LifetimeUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *LifetimeUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new LifetimeUpdate(thing, moduleData));
 }
-
-// Select-any anchor: this unit owns the row above while other TUs emit it as
-// an inline copy. The anchor keeps this unit emitting its copy for the ledger;
-// it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitLifetimeUpdateFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitLifetimeUpdateFriendNew(Thing *thing, const ModuleData *moduleData)
-{
-	LifetimeUpdate::friend_newModuleInstance(thing, moduleData);
-}
-#pragma inline_depth()

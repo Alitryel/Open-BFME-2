@@ -21,15 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@CommandButtonHuntUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *CommandButtonHuntUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *CommandButtonHuntUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new CommandButtonHuntUpdate(thing, moduleData));
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitCommandButtonHuntUpdateFriendNew@@YAXXZ present-unmatched
-void bfmeEmitCommandButtonHuntUpdateFriendNew()
-{
-	CommandButtonHuntUpdate::friend_newModuleInstance(0, 0);
-}
-#pragma inline_depth()

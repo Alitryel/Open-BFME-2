@@ -21,15 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@FloatUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *FloatUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *FloatUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new FloatUpdate(thing, moduleData));
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitFloatUpdateFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitFloatUpdateFriendNew(Thing *thing, const ModuleData *moduleData)
-{
-	FloatUpdate::friend_newModuleInstance(thing, moduleData);
-}
-#pragma inline_depth()

@@ -20,15 +20,7 @@ private:
 };
 
 // ?friend_newModuleInstance@BattlePlanUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *BattlePlanUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *BattlePlanUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new BattlePlanUpdate(thing, moduleData));
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitBattlePlanUpdateInstanceFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitBattlePlanUpdateInstanceFriendNew(Thing *thing, const ModuleData *moduleData)
-{
-	BattlePlanUpdate::friend_newModuleInstance(thing, moduleData);
-}
-#pragma inline_depth()

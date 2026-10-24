@@ -26,19 +26,7 @@ private:
 };
 
 // ?friend_newModuleInstance@AssaultTransportAIUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *AssaultTransportAIUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *AssaultTransportAIUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new AssaultTransportAIUpdate(thing, moduleData));
 }
-
-// friend_newModuleInstance is a header inline in retail: other units emit
-// select-any copies, so a strong definition here was a duplicate in the linked
-// build. This anchor only makes this unit emit its copy for the ledger row;
-// it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitAssaultTransportAIUpdateFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitAssaultTransportAIUpdateFriendNew(Thing *thing, const ModuleData *moduleData)
-{
-	AssaultTransportAIUpdate::friend_newModuleInstance(thing, moduleData);
-}
-#pragma inline_depth()

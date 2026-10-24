@@ -21,15 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@FlammableUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *FlammableUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *FlammableUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new FlammableUpdate(thing, moduleData));
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitFlammableUpdateFriendNew@@YAXXZ present-unmatched
-void bfmeEmitFlammableUpdateFriendNew()
-{
-	FlammableUpdate::friend_newModuleInstance(0, 0);
-}
-#pragma inline_depth()
