@@ -26,8 +26,8 @@ private:
 void BfmeGridWM::walk()
 {
 	for (int x = 0; x < m_w - 1; ++x)
-		for (int y = 0; y < m_h - 1; ++y)
-			((Rva000AD9AB *)this)->rva000ADCE3(x, y);
+		for (int yIndex = 0; yIndex < m_h - 1; ++yIndex)
+			((Rva000AD9AB *)this)->rva000ADCE3(x, yIndex);
 }
 
 unsigned char BfmeGridWM::rva000AE18D(int xIndex, int yIndex)
