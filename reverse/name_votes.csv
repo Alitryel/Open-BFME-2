@@ -1207,3 +1207,13 @@ Code/GameEngine/Source/Common/Rva003C3F9EApply.cpp|param|ScriptActions::doNamedA
 Code/GameEngine/Source/Common/Rva003C3F9EApply.cpp|local|ScriptActions::doNamedAddSpecialPowerCountdown|t,ee4c77d1bd7a5088f7416107,gpt-6.1-sol,codex6-20261024-001110-17,w-bcdd62231570,2026-10-24
 Code/GameEngine/Source/Common/GapBodiesGE38.cpp|function|0x005E18EA|Rva005E18EA,cdf28c5cb1356c1a437f5f37,gpt-6.1-sol,codex6-20261024-001110-18,w-bcdd62231570,2026-10-24
 Code/GameEngine/Source/Common/GapBodiesGE38.cpp|function|0x005E21AB|rva005E21AB,4757922d1217d3b6ab27d284,gpt-6.1-sol,codex6-20261024-001110-18,w-bcdd62231570,2026-10-24
+Code/Libraries/Source/WWVegas/WWMath/Rva005EA0C0Method.cpp|param|Rva005EA0C0Link|s,e302707195a64d691ec9877d,gpt-6.1-sol,codex6-20261024-001110-19,w-bcdd62231570,2026-10-24
+Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioSubtitleConsumer.cpp|member|SubtitleSettings|m_at9C,e1e0ddd5613bb7f8318552ab,gpt-6.1-sol,codex6-20261024-001110-21,w-bcdd62231570,2026-10-24
+Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioSubtitleConsumer.cpp|member|SubtitleSettings|m_atA4,c6bb0688e3dbbe57dd6eda17,gpt-6.1-sol,codex6-20261024-001110-21,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/Common/Rva0033A9A5.cpp|param|Rva0033A9A5::getCurrentLivingWorldAutoResolveArmor|arg,e90c1acdfe79979bdbe69278,gpt-6.1-sol,codex6-20261024-001110-22,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/Common/Rva0033A9A5.cpp|local|Rva0033A9A5::getCurrentLivingWorldAutoResolveArmor|p,77b33992bbf9e79714778d14,gpt-6.1-sol,codex6-20261024-001110-22,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/Common/Rva002E0D66Method.cpp|local|Rva002E0D66::rva002E0D66|p,3a914a9b3b389a1f4c7387d6,gpt-6.1-sol,codex6-20261024-001110-26,w-bcdd62231570,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0015FC20TransformCompose.cpp|class||Rva0015FC20Vector,0bfc0dd8cdc285f3bc7b7041,gpt-6.1-sol,codex6-20261024-001110-27,w-bcdd62231570,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0015FC20TransformCompose.cpp|class||Rva0015FC20Rotation,ea4ba8be707be102e5750cf4,gpt-6.1-sol,codex6-20261024-001110-27,w-bcdd62231570,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0015FC20TransformCompose.cpp|local|Rva0015FC20TransformPrefix::compose|p,c2a97bf5864c3e2bf1719466,gpt-6.1-sol,codex6-20261024-001110-27,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/Common/T2IndexedArrayAccessors.cpp|member|T2OwnerB|m_20,a9e58631a2bd88f05bcc23dd,gpt-6.1-sol,codex6-20261024-001110-28,w-bcdd62231570,2026-10-24
