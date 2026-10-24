@@ -5319,3 +5319,7 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapCastRay.cpp|local
 Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapCastRay.cpp|local|rva0006653B|d,5c346ca15a602bf94202a67c,gpt-6.1-sol,codexb-20261024-143241-7,w-8e883e57d025,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapCastRay.cpp|local|rva0006653B|t,58e50261cd21c04294aa7ff5,gpt-6.1-sol,codexb-20261024-143241-7,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/RTS/PlayerAddScience.cpp|class||Rva002AD661LogicView,f2ca85211aecf5e1f56e5e1c,gpt-6.1-sol,codexb-20261024-143241-8,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp|function|0x006D2D90|rva006D2D90,8c8b4ddb752028c15268b08f,gpt-6.1-sol,codexb-20261024-145319-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp|function|0x006CBC50|rva006CBC50,b2ce91be52814f3d632c3459,gpt-6.1-sol,codexb-20261024-145319-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp|local|rva006D2D90|v,453b771ddd14a16aeb13595d,gpt-6.1-sol,codexb-20261024-145319-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp|local|rva006D2D90|c,dd72eef3f198590c93442740,gpt-6.1-sol,codexb-20261024-145319-2,w-8e883e57d025,2026-10-24
