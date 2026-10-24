@@ -2007,3 +2007,15 @@ Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainScatter.cpp|member|Rv
 Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainScatter.cpp|member|Rva00464B96Object|orientation44,35de3804352e166f8eca10dc,claude-opus-5-5,claudec6-20261024-011517-7,w-efe153480513,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainScatter.cpp|member|Rva00464B96Object|ai258,ee9eaee06906825af2f34962,claude-opus-5-5,claudec6-20261024-011517-7,w-efe153480513,2026-10-24
 Code/GameEngine/Source/Common/Rva00524B7AVslot10.cpp|member|Rva00524B7A|m_24,4a347ddb0e7df0d52d1bc378,claude-opus-5-5,claudec6-20261024-011517-8,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/WeaponSetRva002C752F.cpp|function|0x002C752F|rva002C752F,3e7eb0020eaa95463a71290a,claude-opus-5-5,claudec6-20261024-012934-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva002CEE1BAdd.cpp|class||GameEngineDeletingBase002CED84,bde73b437d338ad4a4381f68,claude-opus-5-5,claudec6-20261024-012934-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp|class||Rva0049D526Node,b8003141e4c627b9bdec9029,claude-opus-5-5,claudec6-20261024-012934-3,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp|member|Rva0049D526Node|m_04,53e748ad2712de759938c2d9,claude-opus-5-5,claudec6-20261024-012934-3,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva002E3766Setter.cpp|function|0x002E3777|Rva002E3777Invoke,5e1459c028fd5fccd4ffac85,claude-opus-5-5,claudec6-20261024-012934-6,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva002E3766Setter.cpp|function|0x002E3794|Rva002E3794Invoke,97940104dff2a2d35f7baa2b,claude-opus-5-5,claudec6-20261024-012934-6,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva00085553Init.cpp|function|0x00085553|Rva00085553Get,045f2326d5e3e8bc41554a82,claude-opus-5-5,claudec6-20261024-012934-7,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva00085553Init.cpp|param|Rva00085553Get|a,02ea8eae044c9f722aed77e5,claude-opus-5-5,claudec6-20261024-012934-7,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva00085553Init.cpp|param|Rva00085553Get|b,940bb8c34b77c525a079a86b,claude-opus-5-5,claudec6-20261024-012934-7,w-efe153480513,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapConstructor.cpp|class||Rva00DFF488Setting,40d573d4a734e2de424a3d41,claude-opus-5-5,claudec6-20261024-012934-13,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028C20F.cpp|class||Rva0028C20FMid,9b47d5286b0bfe70a6c89ae8,claude-opus-5-5,claudec6-20261024-012934-13,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028C20F.cpp|class||Rva0028C20FModule,151d513e1d00080a94241b46,claude-opus-5-5,claudec6-20261024-012934-13,w-efe153480513,2026-10-24
