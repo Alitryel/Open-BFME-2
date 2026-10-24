@@ -68,10 +68,10 @@ void Rva00108AD8::invalidateCachedLightPositions()
 	while (!it.Is_Done())
 	{
 		Rva00108AD8Entry *e = static_cast<Rva00108AD8Entry *>(it.Get_Current());
-		float *p = &e->m_x;
-		p[0] = 0.0f;
-		p[1] = 0.0f;
-		p[2] = 0.0f;
+		float *position = &e->m_x;
+		position[0] = 0.0f;
+		position[1] = 0.0f;
+		position[2] = 0.0f;
 		it.Next();
 	}
 }

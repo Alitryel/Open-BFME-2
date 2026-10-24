@@ -704,3 +704,4 @@ local,Rva00066A9AHost::rva00066A9A::g,Rva00066A9AHost::rva00066A9A::m_waterRende
 function,?rva00098690@Rva00098690@@QAEXXZ,?destroyParticleSystems@Rva00098690@@QAEXXZ,inferred,agree:nl-1e99af03c506,Code/GameEngine/Source/Common/Rva00098690Handles.cpp,0x00098690
 function,?rva0009873C@Rva00098690@@QAE_NXZ,?createParticleSystems@Rva00098690@@QAE_NXZ,inferred,agree:nl-8a1028852f95,Code/GameEngine/Source/Common/Rva00098690Handles.cpp,0x0009873C
 function,?rva00098894@Rva00098690@@QAEXXZ,?update@Rva00098690@@QAEXXZ,inferred,agree:nl-15877d21ca2c,Code/GameEngine/Source/Common/Rva00098690Handles.cpp,0x00098894
+local,Rva00108AD8::invalidateCachedLightPositions::p,Rva00108AD8::invalidateCachedLightPositions::position,inferred,agree:nl-84fb8af85d04,Code/GameEngine/Source/Common/Rva00108AD8Finish.cpp,0x00108AD8
