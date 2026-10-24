@@ -1796,3 +1796,17 @@ Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions_rva003C0425.cpp|func
 Code/GameEngine/Source/GameClient/Rva002BF77BDispatch.cpp|param|Rva002BF7AC::Rva002BF7AC|a,393b2503425865586b6945be,gpt-6.1-sol,codex6-20261024-004425-28,w-bcdd62231570,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferDoXfer.cpp|param|shrubPosition|p,33d96f618922c55f0664ad1a,gpt-6.1-sol,codex6-20261024-004425-29,w-bcdd62231570,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferDoXfer.cpp|local|W3DShrubBuffer::DoXfer|t,223385bb0675ec3879be3d0e,gpt-6.1-sol,codex6-20261024-004425-29,w-bcdd62231570,2026-10-24
+Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp|function|0x006CE660|rva006CE660,1f9d2a67815299736ecdee06,gpt-6.1-sol,codex6-20261024-010425-3,w-bcdd62231570,2026-10-24
+Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp|param|Rva006CDD50Iterator#2|p,f61a427e45d1ee9760df770a,gpt-6.1-sol,codex6-20261024-010425-3,w-bcdd62231570,2026-10-24
+Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp|param|Rva006CDD50Iterator#2|b,9b3bc9a0ce059afc9f9d29ff,gpt-6.1-sol,codex6-20261024-010425-3,w-bcdd62231570,2026-10-24
+Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp|param|Rva006CDD50Iterator#2|e,cfcd731a24deb42741b8e4fd,gpt-6.1-sol,codex6-20261024-010425-3,w-bcdd62231570,2026-10-24
+Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp|param|appendPlaybackItem|v,7da9b844ddf19cb488f5850d,gpt-6.1-sol,codex6-20261024-010425-3,w-bcdd62231570,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E8365.cpp|class||Rva000E8365Data,681b2e18a6ee63e1ae6801ca,gpt-6.1-sol,codex6-20261024-010425-4,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITargetChooser/AITargetHeuristics/AITargetHeuristicRva00573117.cpp|class||Rva0057327EInfo,b8a463f6644acbf6db9a90f8,gpt-6.1-sol,codex6-20261024-010425-5,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITargetChooser/AITargetHeuristics/AITargetHeuristicRva00573117.cpp|class||Rva002A8F24Data,3e24f96cd6b05de6aedf5938,gpt-6.1-sol,codex6-20261024-010425-5,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/Common/EbpParamForwarders.cpp|param|Rva0018C822::rva0018C822|a,e295351142509b97a89637e8,gpt-6.1-sol,codex6-20261024-010425-6,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/Common/EbpParamForwarders.cpp|param|Rva0018C822::rva0018C822|b,5167b0f3cd6016454922c180,gpt-6.1-sol,codex6-20261024-010425-6,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/Common/EbpParamForwarders.cpp|param|Rva0018C838::rva0018C838|a,6fc55f8bf18532235ef45774,gpt-6.1-sol,codex6-20261024-010425-6,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/Common/EbpParamForwarders.cpp|param|Rva0018C838::rva0018C838|b,72487b912302701615a6f93e,gpt-6.1-sol,codex6-20261024-010425-6,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/GameClient/DrawableFade.cpp|param|Drawable::rva00272D77|a,c73b0368bd99b4b3eb578721,gpt-6.1-sol,codex6-20261024-010425-9,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/GameClient/DrawableFade.cpp|local|Drawable::rva00272C9E|v,4791fc6dc679ae5187cce52a,gpt-6.1-sol,codex6-20261024-010425-9,w-bcdd62231570,2026-10-24
