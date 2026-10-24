@@ -5621,3 +5621,5 @@ Code/GameEngine/Source/Common/discrete_circle.cpp|local|DiscreteCircle::generate
 Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/Rva0049A64BRva0049A8FA.cpp|param|Rva0049A64B::rva0049A8FA|a,507bb8f68d20abc382303df3,deepseek-v4.1-flash-1017-deepinfra-pilot,di1017-r1-p3-b,w-25eff2617eb7,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/Rva0049A64BRva0049A8FA.cpp|param|Rva0049A64B::rva0049A8A1|a,c9220a548eeff147372bba27,deepseek-v4.1-flash-1017-deepinfra-pilot,di1017-r1-p3-b,w-25eff2617eb7,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/Rva0049A64BRva0049A8FA.cpp|param|Rva0049A64B::rva0049A880|a,c2431ff8e25bf24ec298beca,deepseek-v4.1-flash-1017-deepinfra-pilot,di1017-r1-p3-b,w-25eff2617eb7,2026-10-24
+Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp|local|begin|p,a8b16a7c59d4ea23a9dc6427,claude-opus-5-5,m3,w-5e5be1a304b3,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp|member|Rva002EBA88|m_10,91c9de757d527db9dfc759c9,claude-opus-5-5,m4,w-5e5be1a304b3,2026-10-24
