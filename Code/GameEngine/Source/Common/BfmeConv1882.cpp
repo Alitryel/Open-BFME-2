@@ -27,18 +27,18 @@ public:
 
 void BfmeOwnerZP::bfmeFindZP(BfmeKeyZP *key)
 {
-	BfmeSlotZP *p = m_bfmeSlotsZP;
+	BfmeSlotZP *slot = m_bfmeSlotsZP;
 	BfmeSlotZP *end = m_bfmeSlotsZP + m_bfmeCountZP;
 	int want = key->m_bfmeIdZP;
 
-	while (p < end)
+	while (slot < end)
 	{
-		if (p->m_bfmeIdZP == want)
+		if (slot->m_bfmeIdZP == want)
 		{
-			p->bfmeHitZP(key);
+			slot->bfmeHitZP(key);
 			return;
 		}
 
-		p++;
+		slot++;
 	}
 }
