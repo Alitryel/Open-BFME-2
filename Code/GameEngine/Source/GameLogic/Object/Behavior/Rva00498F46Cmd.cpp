@@ -54,13 +54,13 @@ struct Rva00498DF3Mid
 {
 	char m_pad[0x20];
 	char m_cmd20[0x10];
-	TurretStateMachine *m_turret30;
+	TurretStateMachine *m_turretStateMachine;
 };
 
 struct Rva00498DF3Arg
 {
 	char m_pad[0x258];
-	Rva00498DF3Mid *m_mid258;
+	Rva00498DF3Mid *m_ai;
 };
 
 class GateOpenAndCloseBehavior
@@ -83,7 +83,7 @@ void GateOpenAndCloseBehavior::rva00498DF3(Rva00498DF3Arg *unit, float flt)
 		return;
 	if (!unit)
 		return;
-	Rva00498DF3Mid *mid = unit->m_mid258;
+	Rva00498DF3Mid *mid = unit->m_ai;
 	if (!mid)
 		return;
 	if (((AIUpdateInterface *)mid)->rva00262DD3(obj))
@@ -99,11 +99,11 @@ void GateOpenAndCloseBehavior::rva00498F46(Rva00498DF3Arg *unit, int u1, int u2)
 		return;
 	if (!Rva00498B8BGet((Object *)unit))
 		return;
-	Rva00498DF3Mid *mid = unit->m_mid258;
+	Rva00498DF3Mid *mid = unit->m_ai;
 	if (mid != 0)
 	{
 		Object *object = m_objC;
-		if (mid->m_turret30->getGoalObject() == object)
+		if (mid->m_turretStateMachine->getGoalObject() == object)
 			return;
 		Object *gateObject = m_objC;
 		if (((AIUpdateInterface *)mid)->getCurrentVictim() == gateObject)
