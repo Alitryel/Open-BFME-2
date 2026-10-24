@@ -2435,3 +2435,7 @@ __ehhandler$?Rva006CDBF0Resize@@YAPAVAptValueNameEntry@@PAV1@HH@Z,0x007A8186,"Re
 ?Rva002E6E6CGet@@YAHH@Z,0x002E6E6C,"Renamed to ?isGroundOrBridgeLayer@@YAHH@Z by tools/rename.py (inferred)"
 ?rva006D2D90@@YAXXZ,0x006D2D90,"Renamed to ?initValueSizes@@YAXXZ by tools/rename.py (inferred)"
 ?rva000347A0@GeneralAllocator@Allocator@EA@@QAEPAXPAXIH@Z,0x000347A0,"Renamed to ?realloc@GeneralAllocator@Allocator@EA@@QAEPAXPAXIH@Z by tools/rename.py (inferred)"
+??_GRva00243BA0@@UAEPAXI@Z,0x00246213,"Renamed to ??_GGameLogic@@UAEPAXI@Z: its tables 0x00BEE130/0x00BEE120 are the ones GameLogic's constructor 0x002470AE installs and its scalar deleting destructor is slot 0 of 0x00BEE130"
+??_ERva00243BA0@@WM@AEPAXI@Z,0x00243EDF,"Renamed to ??_EGameLogic@@WM@AEPAXI@Z: its tables 0x00BEE130/0x00BEE120 are the ones GameLogic's constructor 0x002470AE installs and its scalar deleting destructor is slot 0 of 0x00BEE130"
+??1Rva00243BA0@@UAE@XZ,0x00243BA0,"Renamed to ??1GameLogic@@UAE@XZ: its tables 0x00BEE130/0x00BEE120 are the ones GameLogic's constructor 0x002470AE installs and its scalar deleting destructor is slot 0 of 0x00BEE130"
+__ehhandler$??1Rva00243BA0@@UAE@XZ,0x00771562,"Renamed to __ehhandler$??1GameLogic@@UAE@XZ: its tables 0x00BEE130/0x00BEE120 are the ones GameLogic's constructor 0x002470AE installs and its scalar deleting destructor is slot 0 of 0x00BEE130"

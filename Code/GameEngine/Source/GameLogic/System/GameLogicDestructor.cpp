@@ -1,10 +1,12 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
-// class-gate: allow GameLogic minimal view of the two rowed methods this destructor calls (destroyAllObjectsImmediate 0x00243B52 and rva00376D49 0x00376D49) so the shared view header stays untouched
-// ??1Rva00243BA0@@UAE@XZ, retail 0x00243BA0..0x00243EDF (831 bytes, EH):
-// by shape BFME2's GameLogic::~GameLogic (address-derived name kept to agree
-// with the pin its scalar deleting destructor 0x00246213 calls; tables
-// 0x00BEE130 and Snapshot's 0x00BEE120 at +0xC). Under a TheGameLogic
+// class-gate: allow GameLogic the destructor needs the full two-base class whose vtables 0x00BEE130/0x00BEE120 it stores; the shared view header is a non-virtual lookup view
+// class-gate: allow SubsystemInterface GameLogicInit.cpp's 14-slot view, so this unit emits the same ??_7GameLogic COMDAT as the constructor's unit (the shared header declares only the destructor)
+// ??1GameLogic@@UAE@XZ, retail 0x00243BA0..0x00243EDF (831 bytes, EH):
+// GameLogic::~GameLogic: it stores the tables 0x00BEE130 (+0) and Snapshot's
+// 0x00BEE120 (+0xC) that GameLogic's constructor 0x002470AE installs, its
+// scalar deleting destructor 0x00246213 is slot 0 of 0x00BEE130, and
+// ~W3DGameLogic 0x0004208C tail-jumps to it as its base destructor. Under a TheGameLogic
 // guard (rowed constructor 0x0004224C; its inline destructor folds away once
 // TheGameLogic is cleared, the unwind copy is 0x00042262) it clears the
 // +0x1C0 name list, destroys every object (rowed destroyAllObjectsImmediate
@@ -38,12 +40,7 @@ template<> vector<AsciiString, allocator<AsciiString> >::~vector();
 }
 
 
-class GameLogic
-{
-public:
-	void destroyAllObjectsImmediate();
-	void rva00376D49();
-};
+class GameLogic;
 
 struct Rva0004224CLogic
 {
@@ -91,7 +88,28 @@ public:
 	void rva0023E7D9();
 };
 
-#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
+// GameLogicInit.cpp's view of the retail 0x00BEE130 slots, so this unit's copy
+// of the GameLogic vtable is the one the constructor's unit emits.
+class SubsystemInterface
+{
+public:
+	SubsystemInterface(void);
+	virtual ~SubsystemInterface(void);
+	virtual void init(void) = 0;
+	virtual bool loadIniFilesFromLegend();
+	virtual void postProcessLoad();
+	virtual bool vslot04(int);
+	virtual bool vslot05();
+	virtual int vslot06();
+	virtual void vslot07(int);
+	virtual void vslot08();
+	virtual void reset(void);
+	virtual void update(void) {}
+
+private:
+	int m_04;
+	AsciiString m_name;
+};
 
 
 class Rva00242E71 { public: ~Rva00242E71(); private: unsigned char m_data[0x14]; };
@@ -160,10 +178,20 @@ struct Rva0023DC86StringField
 	unsigned char m_data[0x1C];
 };
 
-class Rva00243BA0 : public SubsystemInterface, public Snapshot
+class GameLogic : public SubsystemInterface, public Snapshot
 {
 public:
-	virtual ~Rva00243BA0();
+	virtual ~GameLogic(void);
+	virtual void init(void);
+	virtual bool v11(int) { return false; }
+	virtual void v12(void) {}
+	virtual void update(int phase);
+	virtual TerrainLogic *createTerrainLogic(void) = 0;
+	virtual GhostObjectManager *createGhostObjectManager(void) = 0;
+	virtual BuffLogic *createBuffLogic(void) = 0;
+	virtual void reset(void);
+	void destroyAllObjectsImmediate();
+	void rva00376D49();
 protected:
 	virtual void crc(Xfer *xfer) = 0;
 	virtual void xfer(Xfer *xfer) = 0;
@@ -202,11 +230,11 @@ private:
 	Rva0023DC86StringField m_1C4[8];
 };
 
-Rva00243BA0::~Rva00243BA0()
+GameLogic::~GameLogic()
 {
 	Rva0004224C guard;
 	m_1C0.m_list.clear();
-	((GameLogic *)this)->destroyAllObjectsImmediate();
+	destroyAllObjectsImmediate();
 
 	::delete (Rva00243BA0Owned *)TheTerrainLogic;
 	TheTerrainLogic = 0;
@@ -236,6 +264,6 @@ Rva00243BA0::~Rva00243BA0()
 	TheBuffLogic = 0;
 
 	((Rva0023E7D9 *)this)->rva0023E7D9();
-	((GameLogic *)this)->rva00376D49();
+	rva00376D49();
 	TheGameLogic = 0;
 }

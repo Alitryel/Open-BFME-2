@@ -22,7 +22,6 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 // beyond the secondary-base offsets their adjustor thunks prove.
 //
 //   wrapper     dtor        vtable#slot
-//   0x00246213  0x00243BA0  0x00BEE130#0
 //   0x0025361E  0x0047A724  0x00C465F8#0
 //   0x00254418  0x004905B0  0x00C4B6C8#0
 //   0x002563B2  0x002563CE  0x00BF3AC0#0
@@ -44,23 +43,6 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 //   0x002D579A  0x002D5333  0x00C02C1C#0
 
 struct EmitVtableTag;
-
-class __declspec(novtable) Rva00243BA0Base0 { public: virtual ~Rva00243BA0Base0(); private: char m_unmodelled[0x8]; };
-// Secondary base at +0xC: the this-adjusting deleting-destructor thunk
-// (sub ecx, 0xC) at 0x00243EDF in its vtable is target evidence for it.
-class __declspec(novtable) Rva00243BA0BaseC { public: virtual ~Rva00243BA0BaseC(); };
-class Rva00243BA0 : public Rva00243BA0Base0, public Rva00243BA0BaseC
-{
-public:
-	Rva00243BA0(EmitVtableTag *);
-public:
-	virtual ~Rva00243BA0();
-};
-
-// ?<Rva00243BA0::Rva00243BA0> absent-from-retail
-Rva00243BA0::Rva00243BA0(EmitVtableTag *)
-{
-}
 
 class Rva0047A724
 {

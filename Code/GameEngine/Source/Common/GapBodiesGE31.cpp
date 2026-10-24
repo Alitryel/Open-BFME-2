@@ -851,13 +851,13 @@ const LocomotorTemplate *Rva0006F313::rva0006F313() const
 // 0x0004208C / 0x00042100 (5B each): ~W3DGameLogic and ~W3DModuleFactory,
 // the Win32GameEngine createGameLogic / slot-31 products' destructors (their
 // scalar deleting destructors 0x00042070 / 0x000420E4 call them), each a lone
-// tail jump into its base's rowed destructor ??1Rva00243BA0 (0x00243BA0,
-// GameLogic) and ??1Rva00256E96 (0x00256E96, ModuleFactory). novtable keeps
+// tail jump into its base's rowed destructor ??1GameLogic (0x00243BA0) and ??1Rva00256E96 (0x00256E96, ModuleFactory). novtable keeps
 // the dead vptr store out, as retail has none.
-class Rva00243BA0
+// class-gate: allow GameLogic base view that declares only the virtual destructor ~W3DGameLogic chains to
+class GameLogic
 {
 public:
-	virtual ~Rva00243BA0();
+	virtual ~GameLogic();
 };
 
 class Rva00256E96
@@ -866,7 +866,7 @@ public:
 	virtual ~Rva00256E96();
 };
 
-class __declspec(novtable) W3DGameLogic : public Rva00243BA0
+class __declspec(novtable) W3DGameLogic : public GameLogic
 {
 public:
 	virtual ~W3DGameLogic();
