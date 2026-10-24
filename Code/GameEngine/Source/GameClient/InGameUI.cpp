@@ -425,9 +425,8 @@ void InGameUI::crc( Xfer *xfer )
   * 3: Added m_evaReadyPlayed boolean to transfer
 */
 // ------------------------------------------------------------------------------------------------
-// InGameUI::xfer: defined in InGameUIXfer.cpp (its row's unit). The superweapon map
-// node construction its load reached (0x006896F0) keeps this unit's flags and row.
-template void _STL::_Construct( SuperweaponMap::value_type *, const SuperweaponMap::value_type & );
+// InGameUI::xfer is defined in InGameUIXfer.cpp. The former forced
+// superweapon-pair construction at 0x006896F0 was a refuted identity.
 
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
