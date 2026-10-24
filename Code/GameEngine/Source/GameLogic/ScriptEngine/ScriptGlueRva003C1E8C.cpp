@@ -39,18 +39,18 @@ public:
 struct Rva002886C2Object
 {
 	char m_pad[0x264];
-	ExperienceTracker *m_264;
+	ExperienceTracker *m_experienceTracker;
 };
 
 int __cdecl Rva002886C2(Object *obj, void *userData)
 {
-	((Rva002886C2Object *)obj)->m_264->rva0039B315((float)(int)userData, true, true, true, false);
+	((Rva002886C2Object *)obj)->m_experienceTracker->rva0039B315((float)(int)userData, true, true, true, false);
 	return 1;
 }
 
-void ScriptActions::Rva003C1E8CSet(const AsciiString &team, int v)
+void ScriptActions::Rva003C1E8CSet(const AsciiString &team, int experience)
 {
 	Team *t = TheScriptEngine->getTeamNamed(team, false);
 	if (t != 0)
-		t->rva0039DD12(Rva002886C2, (void *)v);
+		t->rva0039DD12(Rva002886C2, (void *)experience);
 }

@@ -590,5 +590,10 @@ function,?rva002CFC7B@Rva002CFC7B@@QAEPAURva002CFA30Node@@PAU2@0@Z,?_M_copy@Rva0
 function,_Rva0084D8D0WideToByte,__Locale_wctob,inferred,agree:nl-16bec9f8416d,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodePointConversions.c,0x00020B90
 function,_Rva0084D890ByteToWide,__Locale_btowc,inferred,agree:nl-fa06fe55cb95,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodePointConversions.c,0x00020B50
 function,_Rva0084DB70,__Locale_strwxfrm,inferred,agree:nl-e5c6fbd0d1f5,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodePointConversions.c,0x00020E30
+param,OpenAudioFile::setFileReady::a2,OpenAudioFile::setFileReady::m_soundInfo,inferred,agree:nl-749ce57dc679,Code/GameEngine/Source/Common/OpenAudioFile_setFileReady.cpp,0x0010EC4D
 function,?Rva0009DE01Get@@YAMMM@Z,?logN@@YAMMM@Z,inferred,agree:nl-c13e6cc07091,Code/GameEngine/Source/Common/Rva0009DE01Finish.cpp,0x0009DE01
+param,Rva0041534BIter::n,Rva0041534BIter::node,inferred,agree:nl-aa1e16a1a004,Code/GameEngine/Source/GameClient/Rva0031D5F8Lookup.cpp,
+param,Rva0041534BIter::t,Rva0041534BIter::table,inferred,agree:nl-2e0ec2bb32b8,Code/GameEngine/Source/GameClient/Rva0031D5F8Lookup.cpp,
+member,Rva002886C2Object::m_264,Rva002886C2Object::m_experienceTracker,inferred,agree:nl-aa9cee8eec37,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C1E8C.cpp,
+param,ScriptActions::Rva003C1E8CSet::v,ScriptActions::Rva003C1E8CSet::experience,inferred,agree:nl-f6f5e414b40e,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C1E8C.cpp,0x003C1E8C
 function,?Rva0081AE10@@YAXXZ,?CommSerialCallback@@YAXXZ,inferred,agree:nl-be497f294b06,Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp,0x00686D10

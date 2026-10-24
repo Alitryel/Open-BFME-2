@@ -31,7 +31,7 @@ struct Rva0010EC4DHolder
 class OpenAudioFile
 {
 public:
-    void setFileReady(int a1, int *a2, int a3, bool a4);
+    void setFileReady(int a1, int *m_soundInfo, int a3, bool a4);
 private:
     void *m_unk00; // +0
     Rva0010EC4DHolder *m_holder; // +4
@@ -49,12 +49,12 @@ struct NineDwords
     int v[9];
 };
 
-void OpenAudioFile::setFileReady(int a1, int *a2, int a3, bool a4)
+void OpenAudioFile::setFileReady(int a1, int *m_soundInfo, int a3, bool a4)
 {
     void *mtx = m_holder->m_mutex;
     MilesMutexGuard guard(mtx, 0);
     m_a = a1;
-    *(NineDwords *)m_data = *(NineDwords *)a2;
+    *(NineDwords *)m_data = *(NineDwords *)m_soundInfo;
     m_b = a3;
     m_c = a4;
     m_evt.set();
