@@ -21,15 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@ModelConditionUpgrade@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *ModelConditionUpgrade::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *ModelConditionUpgrade::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new ModelConditionUpgrade(thing, moduleData));
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitModelConditionUpgradeFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitModelConditionUpgradeFriendNew(Thing *thing, const ModuleData *moduleData)
-{
-	ModelConditionUpgrade::friend_newModuleInstance(thing, moduleData);
-}
-#pragma inline_depth()

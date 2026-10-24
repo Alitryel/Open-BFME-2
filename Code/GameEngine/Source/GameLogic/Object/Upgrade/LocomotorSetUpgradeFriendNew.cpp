@@ -21,15 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@LocomotorSetUpgrade@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *LocomotorSetUpgrade::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *LocomotorSetUpgrade::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new LocomotorSetUpgrade(thing, moduleData));
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitLocomotorSetUpgradeFriendNew@@YAXXZ present-unmatched
-void bfmeEmitLocomotorSetUpgradeFriendNew()
-{
-	LocomotorSetUpgrade::friend_newModuleInstance(0, 0);
-}
-#pragma inline_depth()
