@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
+// cl: /Ireference/shims/bfme2_statemachine /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
 //
 // Zero Hour's DozerAIUpdate (GeneralsMD GameLogic/Object/Update/AIUpdate/
@@ -253,31 +253,7 @@ struct StateConditionInfo
 	void *userData;
 };
 
-class StateMachine
-{
-public:
-	StateMachine(Object *owner, UnsignedInt nameKey, Bool flag);
-	virtual ~StateMachine();
-	virtual void slot01(); virtual void slot02(); virtual void slot03();
-	virtual void slot04(); virtual void slot05();
-	virtual void resetToDefaultState(); // vslot 6
-	virtual StateReturnType initDefaultState();
-	virtual void slot08(); virtual void slot09(); virtual void slot10();
-	virtual void slot11(); virtual void slot12(); virtual void rva004D7395();
-	virtual void setGoalObject(const Object *obj); // vslot 14
-	void defineState(StateID id, struct State *state, StateID successID, StateID failureID, const StateConditionInfo *conditions = 0);
-	Object *getOwner() const { return m_owner; }
-	Object *getGoalObject();
-	// This local +0x24 view must not emit the shared +0x28 getter.
-	const Coord3D *locomotorGoalPosition() const { return &m_goalPosition; }
-	void setGoalPosition(const Coord3D *pos, Real range);
-protected:
-	unsigned char m_pad04[0x14 - 0x04];
-	Object *m_owner; // +0x14
-	unsigned char m_pad18[0x24 - 0x18];
-	Coord3D m_goalPosition; // +0x24
-	unsigned char m_pad30[0x3C - 0x30]; // operator new size 0x3C
-};
+#include "StateMachineView.h"
 
 // BFME 2's StateMachine constructor (owner, name key, flag), rowed by
 // address as ??0StateMachine@@QAE@PAVObject@@I_N@Z. Every
@@ -353,6 +329,10 @@ class DozerPrimaryStateMachine : public StateMachine
 public:
 	DozerPrimaryStateMachine(Object *owner);
 	virtual ~DozerPrimaryStateMachine();
+protected:
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *xfer);
+public:
 
 	static Bool isBuildMostImportant(State *thisState, void *userData);
 	static Bool isRepairMostImportant(State *thisState, void *userData);
@@ -1721,6 +1701,9 @@ class Rva004885DE : public StateMachine
 {
 public:
 	Rva004885DE(Object *owner, Int task);
+protected:
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *xfer);
 protected:
 	Int m_task; // +0x3C
 };

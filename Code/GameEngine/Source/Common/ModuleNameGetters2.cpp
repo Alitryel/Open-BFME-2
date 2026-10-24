@@ -12,6 +12,17 @@
 // No // cl: line (defaults match the frameless 6-byte shape, same as the
 // ModuleNameGetters.cpp precedent).
 
+#include "../../../Libraries/Include/Lib/Coord3D.h"
+
+enum StateReturnType
+{
+	STATE_CONTINUE = 0,
+	STATE_SUCCESS = -1,
+	STATE_FAILURE = -2
+};
+
+#include "../../../../reference/shims/bfme2_statemachine/StateMachineView.h"
+
 #define BFME_LITERAL_NAME_GETTER(NAME, TEXT) \
 	class NAME \
 	{ \
@@ -31,7 +42,10 @@ BFME_LITERAL_NAME_GETTER(AttackPositionStateMachine, "AttackPositionStateMachine
 BFME_LITERAL_NAME_GETTER(Rva0033FC15Named, "MoveOntoWallStateMachine")
 BFME_LITERAL_NAME_GETTER(Rva00340057Named, "AIAttackMOveStateMachine")
 BFME_LITERAL_NAME_GETTER(BackAwayAndCowerStateMachine, "BackAwayAndCowerStateMachine")
-BFME_LITERAL_NAME_GETTER(Rva00341456Named, "StateMachine")
+const char *StateMachine::GetSnapshotName() const
+{
+	return "StateMachine";
+}
 BFME_LITERAL_NAME_GETTER(Rva003A49EANamed, "LifetimeUpdate")
 BFME_LITERAL_NAME_GETTER(Rva003A4CC7Named, "StrafeAreaUpdate")
 BFME_LITERAL_NAME_GETTER(Rva003B040CNamed, "TerrainFireSystemStorageModule")

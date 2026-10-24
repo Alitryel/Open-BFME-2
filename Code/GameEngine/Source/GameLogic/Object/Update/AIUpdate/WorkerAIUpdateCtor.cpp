@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX /ICode/GameEngine/Include
+// cl: /Ireference/shims/bfme2_statemachine /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX /ICode/GameEngine/Include
 //
 // Zero Hour's WorkerAIUpdate (GeneralsMD GameLogic/Object/Update/AIUpdate/
 // WorkerAIUpdate.cpp) as BFME 2 kept it.
@@ -212,25 +212,9 @@ struct StateConditionInfo
 	void *userData;
 };
 
-class StateMachine
-{
-public:
-	StateMachine(Object *owner, UnsignedInt nameKey, Bool flag);
-	virtual ~StateMachine();
-	virtual void slot01(); virtual void slot02(); virtual void slot03();
-	virtual void slot04(); virtual void slot05();
-	virtual void resetToDefaultState(); // vslot 6
-	virtual StateReturnType initDefaultState();
-	virtual StateReturnType setState(StateID newStateID); // vslot 8
-	void defineState(StateID id, struct State *state, StateID successID, StateID failureID, const StateConditionInfo *conditions = 0);
-	__declspec(dllimport) __forceinline StateID getCurrentStateID() const { return m_currentState ? m_currentState->m_ID : INVALID_STATE_ID; }
-	Object *getOwner() const { return m_owner; }
-protected:
-	State *m_currentState; // +0x04
-	unsigned char m_pad08[0x14 - 0x08];
-	Object *m_owner; // +0x14
-	unsigned char m_pad18[0x3C - 0x18]; // operator new size 0x3C
-};
+#include "StateMachineView.h"
+
+__declspec(dllimport) __forceinline unsigned int StateMachine::getCurrentStateID() const { return m_currentState ? m_currentState->m_ID : INVALID_STATE_ID; }
 
 // BFME 2's StateMachine constructor (owner, name key, flag), rowed by
 // address as ??0StateMachine@@QAE@PAVObject@@I_N@Z; the key is
@@ -261,6 +245,10 @@ class WorkerStateMachine : public StateMachine
 public:
 	WorkerStateMachine(Object *owner);
 	virtual ~WorkerStateMachine();
+protected:
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *xfer);
+public:
 
 	static Bool supplyTruckSubMachineWantsToEnter(State *thisState, void *userData);
 	static Bool supplyTruckSubMachineReadyToLeave(State *thisState, void *userData);

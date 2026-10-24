@@ -47,7 +47,7 @@ class StateMachine
 {
 public:
 	virtual ~StateMachine();
-	void halt();
+	virtual void halt();
 
 private:
 	char m_pad04[ 8 ];

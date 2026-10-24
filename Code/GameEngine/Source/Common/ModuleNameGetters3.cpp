@@ -70,7 +70,7 @@ const char *DozerActionState::GetSnapshotName() const
 {
 	return "DozerActionState";
 }
-BFME_LITERAL_NAME_GETTER(Rva00488997Named, "DozerPrimaryStateMachine")
+BFME_SNAPSHOT_NAME_GETTER(DozerPrimaryStateMachine, "DozerPrimaryStateMachine")
 BFME_SNAPSHOT_NAME_GETTER(FireSpreadUpdate, "FireSpreadUpdate")
 BFME_SNAPSHOT_NAME_GETTER(FloatUpdate, "FloatUpdate")
 BFME_LITERAL_NAME_GETTER(Rva0048FBD3Named, "HeightDieUpdate")
@@ -101,7 +101,7 @@ BFME_LITERAL_NAME_GETTER(Rva004A655DNamed, "SupplyCenterProductionExitUpdate")
 BFME_LITERAL_NAME_GETTER(SupplyTruckStateMachine, "SupplyTruckStateMachine")
 BFME_LITERAL_NAME_GETTER(Rva004A7D75Named, "SupplyWarehouseDockUpdate")
 BFME_LITERAL_NAME_GETTER(Rva004A80B1Named, "ToppleUpdate")
-BFME_LITERAL_NAME_GETTER(Rva004A996FNamed, "WorkerStateMachine")
+BFME_SNAPSHOT_NAME_GETTER(WorkerStateMachine, "WorkerStateMachine")
 BFME_LITERAL_NAME_GETTER(Rva004AB26DNamed, "WallUpgradeUpdate")
 BFME_LITERAL_NAME_GETTER(RousingSpeechUpdate, "RousingSpeechUpdate")
 BFME_LITERAL_NAME_GETTER(GloriousChargeUpdate, "GloriousChargeUpdate")

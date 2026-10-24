@@ -102,8 +102,8 @@ class StateMachine
 {
 public:
 	virtual ~StateMachine();
-	StateReturnType updateStateMachine();
-	void clear();
+	virtual StateReturnType updateStateMachine();
+	virtual void clear();
 	void rva004D750F(Object *obj); // goal object setter
 	void setGoalPosition(const Coord3D *pos);
 	Object *getOwner() const { return m_owner; }

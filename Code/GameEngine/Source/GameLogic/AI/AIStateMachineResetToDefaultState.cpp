@@ -60,8 +60,8 @@ class StateMachine
 {
 public:
 	virtual ~StateMachine();
-	StateReturnType resetToDefaultState();
-	StateReturnType setState(StateID newStateID);
+	virtual StateReturnType resetToDefaultState();
+	virtual StateReturnType setState(StateID newStateID);
 	Object *getOwner() const { return m_owner; }
 	StateID getCurrentStateID() const { return m_currentState ? m_currentState->getID() : INVALID_STATE_ID; }
 private:

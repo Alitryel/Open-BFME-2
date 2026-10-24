@@ -9,7 +9,7 @@
 // retail 0x004D745C, 26 bytes, plus
 // ?setGoalPosition@StateMachine@@QAEXPBUCoord3D@@@Z,
 // retail 0x00262224, 22 bytes, plus
-// ?halt@StateMachine@@QAEXXZ,
+// ?halt@StateMachine@@UAEXXZ,
 // retail 0x004D73A4, 9 bytes, plus
 // ?internalGetState@StateMachine@@QAEPAUState@@H@Z,
 // retail 0x004D764C, 31 bytes, plus
@@ -37,14 +37,6 @@
 // reads are direct (m_id at +0x74, m_position at +0x38) instead of virtual,
 // and the lookup returns null on a miss instead of recovering.
 
-// The shared headers declare these members with the access/virtual spelling
-// retail's vftables reference; the ledger row keeps the spelling this TU
-// compiled to. Same function, same address: bind the header spelling here.
-#pragma comment(linker, "/alternatename:?initDefaultState@StateMachine@@UAE?AW4StateReturnType@@XZ=?initDefaultState@StateMachine@@UAE?AW4StateReturnType@@XZ")
-#pragma comment(linker, "/alternatename:?halt@StateMachine@@UAEXXZ=?halt@StateMachine@@QAEXXZ")
-#pragma comment(linker, "/alternatename:?updateStateMachine@StateMachine@@UAE?AW4StateReturnType@@XZ=?updateStateMachine@StateMachine@@QAE?AW4StateReturnType@@XZ")
-#pragma comment(linker, "/alternatename:?resetToDefaultState@StateMachine@@UAE?AW4StateReturnType@@XZ=?resetToDefaultState@StateMachine@@QAE?AW4StateReturnType@@XZ")
-#pragma comment(linker, "/alternatename:?clear@StateMachine@@UAEXXZ=?clear@StateMachine@@QAEXXZ")
 #include <cfloat>
 #include <map>
 
@@ -150,16 +142,16 @@ public:
 	void setGoalPosition(const Coord3D *pos);
 	void internalSetGoalPosition(const Coord3D *pos, float goalRange);
 	void setGoalObject(Object *obj);
-	void halt();
+	virtual void halt();
 	State *internalGetState(StateID id);
 	Bool hasState(StateID id);
  	StateReturnType internalSetState(StateID newStateID);
- 	virtual StateReturnType initDefaultState();
- 	StateReturnType resetToDefaultState();
- 	StateReturnType setState(StateID newStateID);
+	virtual StateReturnType initDefaultState();
+	virtual StateReturnType resetToDefaultState();
+	virtual StateReturnType setState(StateID newStateID);
  	void rva004D7627(StateID id);
- 	void clear();
-	StateReturnType updateStateMachine();
+	virtual void clear();
+	virtual StateReturnType updateStateMachine();
 	Bool isInBusyState() const;
 	Bool isInAttackState() const;
 	Bool isInGuardIdleState() const;
@@ -210,7 +202,7 @@ void StateMachine::setGoalPosition(const Coord3D *pos)
 	StateMachine::setGoalPosition(pos, FLT_MAX);
 }
 
-// ?halt@StateMachine@@QAEXXZ
+// ?halt@StateMachine@@UAEXXZ
 void StateMachine::halt()
 {
 	m_locked = true;
@@ -346,7 +338,7 @@ void StateMachine::rva004D7627(StateID id)
 	m_defaultStateID = (m_stateMap.find(id) != m_stateMap.end()) ? id : 0;
 }
 
-// ?setState@StateMachine@@QAE?AW4StateReturnType@@H@Z @0x004D7ACD 16B
+// ?setState@StateMachine@@UAE?AW4StateReturnType@@H@Z @0x004D7ACD 16B
 // Retail lock-gated setter tail-jmps to internalSetState when unlocked.
 // Donor BFME1 StateMachine.cpp setState verbatim minus debug.
 // Vtable slot 8 of 19 Rva004D759C-derived classes; callers at 0x350403 and 0x4D8593.
@@ -360,7 +352,7 @@ StateReturnType StateMachine::setState(StateID newStateID)
 	return internalSetState(newStateID);
 }
 
-// ?resetToDefaultState@StateMachine@@QAE?AW4StateReturnType@@XZ @0x004D7A75 88B
+// ?resetToDefaultState@StateMachine@@UAE?AW4StateReturnType@@XZ @0x004D7A75 88B
 // Retail vtable slot 6 (offset 0x18) of 19 Rva004D759C-derived vtables; donor BFME1
 // StateMachine.cpp resetToDefaultState (locked check plus inited check plus onExit RESET
 // plus internalClear plus internalSetState of default). BFME2 deltas: goalRange FLT_MAX
@@ -390,7 +382,7 @@ StateReturnType StateMachine::resetToDefaultState()
 	return internalSetState(m_defaultStateID);
 }
 
-// ?clear@StateMachine@@QAEXXZ @0x004D72C5 68B
+// ?clear@StateMachine@@UAEXXZ @0x004D72C5 68B
 // Retail vtable slot 5 (offset 0x14) of 19 Rva004D759C-derived vtables; donor BFME1
 // StateMachine.cpp clear (locked gate plus onExit RESET plus internalClear inlined).
 // BFME2 deltas same as reset: goalRange FLT_MAX plus unk34 zeroed; no callees.
@@ -413,7 +405,7 @@ void StateMachine::clear()
 	m_goalRange = FLT_MAX;
 }
 
-// ?updateStateMachine@StateMachine@@QAE?AW4StateReturnType@@XZ @0x004D7321 98B
+// ?updateStateMachine@StateMachine@@UAE?AW4StateReturnType@@XZ @0x004D7321 98B
 // Retail vtable slot 4 (offset 0x10) of 19 Rva004D759C-derived vtables; donor BFME1
 // StateMachine.cpp updateStateMachine verbatim minus debug (sleep gate plus update
 // plus transition friends). BFME2 layout deltas: sleepTill +0x18 current +0x04.

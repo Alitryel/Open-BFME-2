@@ -48,9 +48,9 @@ public:
 class StateMachine
 {
 public:
-	StateReturnType setState(StateID newStateID);
-	StateReturnType resetToDefaultState();
-	void clear();
+	virtual StateReturnType setState(StateID newStateID);
+	virtual StateReturnType resetToDefaultState();
+	virtual void clear();
 	// The machine's vptr (only the derived turret machine's own slots are
 	// declared below; the base's are not modelled here).
 	virtual ~StateMachine();

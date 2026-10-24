@@ -22733,7 +22733,7 @@ _VP60D_GetVersionNumber,,0x001B5830,6,Code/Libraries/Source/VP6/PbAccessors.cpp,
 ?setGoalObject@StateMachine@@QAEXPAVObject@@@Z,,0x004D7435,39,Code/GameEngine/Source/GameLogic/AI/StateMachineGoal.cpp,matched,BFME1 donor StateMachine; id plus position direct reads plus stored range forward; null clears id
 ?setGoalPosition@StateMachine@@QAEXPBUCoord3D@@M@Z,,0x004D745C,26,Code/GameEngine/Source/GameLogic/AI/StateMachineGoal.cpp,matched,BFME1 donor StateMachine lock gate; forwards pos plus range to internal worker
 ?setGoalPosition@StateMachine@@QAEXPBUCoord3D@@@Z,,0x00262224,22,Code/GameEngine/Source/GameLogic/AI/StateMachineGoal.cpp,matched,TurretAI wrapper supplying FLT_MAX default range to StateMachine worker; sole caller setTurretTargetPosition; renamed from TurretStateMachine to the StateMachine overload 10 matched callers pin
-?halt@StateMachine@@QAEXXZ,,0x004D73A4,9,Code/GameEngine/Source/GameLogic/AI/StateMachineGoal.cpp,matched,BFME1 donor StateMachine halt; locks machine plus clears current state
+?halt@StateMachine@@UAEXXZ,,0x004D73A4,9,Code/GameEngine/Source/GameLogic/AI/StateMachineGoal.cpp,matched,BFME1 donor StateMachine halt; locks machine plus clears current state
 ?Rva006F2890RegisterVideoBuffer@Display@@QAEXPAVVideoBuffer@@@Z,,0x0004B180,19,Code/GameEngineDevice/Source/W3DDevice/GameClient/DisplayRegisterVideoBuffer.cpp,matched,VideoBuffer registry push into list at plus 0x2A4 via rowed push_back fold; sole caller 0x0007270C per BFME1 donor; row supersedes pin
 ?internalGetState@StateMachine@@QAEPAUState@@H@Z,,0x004D764C,31,Code/GameEngine/Source/GameLogic/AI/StateMachineGoal.cpp,matched,BFME1 donor StateMachine; map find plus null on miss; unlocks internalSetState
 ?internalSetState@StateMachine@@QAE?AW4StateReturnType@@H@Z,,0x004D766B,135,Code/GameEngine/Source/GameLogic/AI/StateMachineGoal.cpp,matched,BFME1 StateMachine donor plus BFME2 sleep and default members plus TheGameLogic frame plus onExit slot5 plus onEnter slot4 plus friend transition pins
@@ -24885,7 +24885,7 @@ _piChannelKickedA,,0x006AADF0,100,Code/GameEngine/Source/GameNetwork/GameSpy/pee
 ?name@Rva0033FC15Named@@QBEPBDXZ,,0x0033FC15,6,Code/GameEngine/Source/Common/ModuleNameGetters2.cpp,matched,B8-6 const string returner MoveOntoWallStateMachine
 ?name@Rva00340057Named@@QBEPBDXZ,,0x00340057,6,Code/GameEngine/Source/Common/ModuleNameGetters2.cpp,matched,B8-6 const string returner AIAttackMOveStateMachine
 ?name@BackAwayAndCowerStateMachine@@QBEPBDXZ,,0x003402DB,6,Code/GameEngine/Source/Common/ModuleNameGetters2.cpp,matched,B8-6 const string returner BackAwayAndCowerStateMachine
-?name@Rva00341456Named@@QBEPBDXZ,,0x00341456,6,Code/GameEngine/Source/Common/ModuleNameGetters2.cpp,matched,B8-6 const string returner StateMachine
+?GetSnapshotName@StateMachine@@MBEPBDXZ,,0x00341456,6,Code/GameEngine/Source/Common/ModuleNameGetters2.cpp,matched,B8-6 const string returner StateMachine
 ?name@Rva003A49EANamed@@QBEPBDXZ,,0x003A49EA,6,Code/GameEngine/Source/Common/ModuleNameGetters2.cpp,matched,B8-6 const string returner LifetimeUpdate
 ?name@Rva003A4CC7Named@@QBEPBDXZ,,0x003A4CC7,6,Code/GameEngine/Source/Common/ModuleNameGetters2.cpp,matched,B8-6 const string returner StrafeAreaUpdate
 ?name@Rva003B040CNamed@@QBEPBDXZ,,0x003B040C,6,Code/GameEngine/Source/Common/ModuleNameGetters2.cpp,matched,B8-6 const string returner TerrainFireSystemStorageModule
@@ -24937,7 +24937,7 @@ _piChannelKickedA,,0x006AADF0,100,Code/GameEngine/Source/GameNetwork/GameSpy/pee
 ?name@Rva00488288Named@@QBEPBDXZ,,0x00488288,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner DelayedWeaponSetUpgradeUpdate
 ?GetSnapshotName@DeletionUpdate@@MBEPBDXZ,,0x00488351,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner DeletionUpdate
 ?GetSnapshotName@DozerActionState@@UBEPBDXZ,,0x00488900,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner DozerActionState
-?name@Rva00488997Named@@QBEPBDXZ,,0x00488997,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner DozerPrimaryStateMachine
+?GetSnapshotName@DozerPrimaryStateMachine@@MBEPBDXZ,,0x00488997,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner DozerPrimaryStateMachine
 ?GetSnapshotName@FireSpreadUpdate@@MBEPBDXZ,,0x0048B68A,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner FireSpreadUpdate
 ?GetSnapshotName@FloatUpdate@@MBEPBDXZ,,0x0048D75B,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner FloatUpdate
 ?name@Rva0048FBD3Named@@QBEPBDXZ,,0x0048FBD3,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner HeightDieUpdate
@@ -24970,7 +24970,7 @@ _piChannelKickedA,,0x006AADF0,100,Code/GameEngine/Source/GameNetwork/GameSpy/pee
 ?name@SupplyTruckStateMachine@@QBEPBDXZ,,0x004A6C64,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner SupplyTruckStateMachine
 ?name@Rva004A7D75Named@@QBEPBDXZ,,0x004A7D75,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner SupplyWarehouseDockUpdate
 ?name@Rva004A80B1Named@@QBEPBDXZ,,0x004A80B1,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner ToppleUpdate
-?name@Rva004A996FNamed@@QBEPBDXZ,,0x004A996F,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner WorkerStateMachine
+?GetSnapshotName@WorkerStateMachine@@MBEPBDXZ,,0x004A996F,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner WorkerStateMachine
 ?name@Rva004AB26DNamed@@QBEPBDXZ,,0x004AB26D,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner WallUpgradeUpdate
 ?name@RousingSpeechUpdate@@QBEPBDXZ,,0x004ACED2,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner RousingSpeechUpdate
 ?name@GloriousChargeUpdate@@QBEPBDXZ,,0x004AD5C8,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner GloriousChargeUpdate
@@ -25837,7 +25837,7 @@ _VP6_UpdateContext,,0x001BC390,51,Code/Libraries/Source/VP6/FilterMath.cpp,match
 ?xfer@WallHubBehavior@@MAEXPAVXfer@@@Z,,0x00452F25,44,Code/GameEngine/Source/GameLogic/Object/Behavior/WallHubBehaviorXfer.cpp,matched,slot 3 of vtable 0x0083FDBC via name WallHubBehavior plus base 0x0044DF9F plus Version 1 1
 ?XferParticleSystemID@@YAXPAVXfer@@PAH@Z,,0x0030600A,24,Code/GameEngine/Source/Common/System/XferEnumHelpers.cpp,matched,labelled-enum helper ParticleSystemID string via XferEnum
 ?xfer@W3DTerrainVisualBase@@MAEXPAVXfer@@@Z,,0x00758CF0,27,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainVisualBase_xfer.cpp,matched,BFME1 byte-identical donor; b1 0x00602C40; ICF-folded in BFME1 so the name is this sweep pick among its twins
-?setState@StateMachine@@QAE?AW4StateReturnType@@H@Z,,0x004D7ACD,16,Code/GameEngine/Source/GameLogic/AI/StateMachineGoal.cpp,matched,donor BFME1 StateMachine setState verbatim; vtable slot 8; tail-jmp internalSetState
+?setState@StateMachine@@UAE?AW4StateReturnType@@H@Z,,0x004D7ACD,16,Code/GameEngine/Source/GameLogic/AI/StateMachineGoal.cpp,matched,donor BFME1 StateMachine setState verbatim; vtable slot 8; tail-jmp internalSetState
 ??1?$vector@URvaPair004C3D4C@@V?$allocator@URvaPair004C3D4C@@@_STL@@@_STL@@QAE@XZ,,0x004C3D4C,63,Code/Libraries/Source/WWVegas/WWLib/StlportVectorDtorFamily.cpp,matched,STLport vector dtor family; range destroy via pinned 0x32C0CA fold plus game free 0x30830; serves ElvenWood member plus0x7C
 ?xfer@BeaconClientUpdate@@MAEXPAVXfer@@@Z,,0x004C95C9,62,Code/GameEngine/Source/GameLogic/Object/Update/BeaconClientUpdateXfer.cpp,matched,slot 3 of vtable 0x0085EB30 via ctor 0x004C9598 plus base 0x00560AE1 plus Version1 plus helper 0x0030600A
 ?writeStatInfo@StatsCollector@@AAEXXZ,,0x00437921,556,Code/GameEngine/Source/Common/StatsCollector.cpp,matched,pinned name same TU donor BFME1 StatsCollector.cpp:419 caller writeFileEnd
@@ -26297,16 +26297,16 @@ _VP6_UpdateContext,,0x001BC390,51,Code/Libraries/Source/VP6/FilterMath.cpp,match
 ?set@Rva001F3C20Slot@@QAEXPBVRva0055A88BDwordField@@@Z,,0x001F3C20,35,Code/GameEngine/Source/Common/Rva001F3C20Slots.cpp,matched,consecutive nullable setter plus0xb0 via rowed getter 0x0055A88B
 ?set@Rva001F3C43Slot@@QAEXPBURva001F3C43Arg@@@Z,,0x001F3C43,29,Code/GameEngine/Source/Common/Rva001F3C20Slots.cpp,matched,consecutive nullable setter plus0xb4 from arg plus0x74 unblocks W3DTruckDraw
 ?set@Rva001F3C60Slot@@QAEXABVAsciiString@@@Z,,0x001F3C60,11,Code/GameEngine/Source/Common/Rva001F3C20Slots.cpp,matched,consecutive string setter plus0xb8 tail-jumps void StringBase<char>::set(copy) 366F0; prior reference return was an unsupported inference
-?resetToDefaultState@StateMachine@@QAE?AW4StateReturnType@@XZ,,0x004D7A75,88,Code/GameEngine/Source/GameLogic/AI/StateMachineGoal.cpp,matched,vtable slot6 plus BFME1 donor reset plus rowed internalSetState
+?resetToDefaultState@StateMachine@@UAE?AW4StateReturnType@@XZ,,0x004D7A75,88,Code/GameEngine/Source/GameLogic/AI/StateMachineGoal.cpp,matched,vtable slot6 plus BFME1 donor reset plus rowed internalSetState
 ?IsSelected@Rva005E3B1A@@QBE_NH@Z,,0x005E3B1A,11,Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp,matched,Ptr-chase tail-jmp into rowed 0x005F2278 honest address name
 ?resetToDefaultState@TurretStateMachine@@UAE?AW4StateReturnType@@XZ,,0x004D855B,29,Code/GameEngine/Source/Common/TurretStateMachineSetState.cpp,matched,vtable slot6 plus BFME1 donor reset plus rowed base reset; spelled virtual: slot 6 of vftable 0x00C609C8 that the class's own constructor install at +0; retail never calls it directly; the view takes the vptr at +0
 ?set@Rva001F3899Slot@@QAEXABURva001F3899Arg@@@Z,,0x001F3899,40,Code/GameEngine/Source/Common/Rva001F3899Set.cpp,matched,struct copy plus0xc8 plus0xd8 plus0xe8 clear plus0x1a0 24 callers
 ??1PartTheHeavensUpdateModuleData@@UAE@XZ,,0x004ACCCD,105,Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateModuleDataDtor.cpp,matched,Snapshot base BBB554 plus 44B members plus AsciiString via CritterEmitter shape
-?clear@StateMachine@@QAEXXZ,,0x004D72C5,68,Code/GameEngine/Source/GameLogic/AI/StateMachineGoal.cpp,matched,vtable slot5 plus BFME1 donor clear plus FLT_MAX unk34
+?clear@StateMachine@@UAEXXZ,,0x004D72C5,68,Code/GameEngine/Source/GameLogic/AI/StateMachineGoal.cpp,matched,vtable slot5 plus BFME1 donor clear plus FLT_MAX unk34
 ?set@Rva001F3D03Slot@@QAEXMM@Z,,0x001F3D03,30,Code/GameEngine/Source/Common/Rva001F3D03Set.cpp,matched,forward two floats to plus0x14 var via rowed setRange UNIFORM
 ?clear@TurretStateMachine@@UAEXXZ,,0x004D853F,28,Code/GameEngine/Source/Common/TurretStateMachineSetState.cpp,matched,vtable slot5 plus BFME1 donor clear plus rowed base clear; spelled virtual: slot 5 of vftable 0x00C609C8 that the class's own constructor install at +0; retail never calls it directly; the view takes the vptr at +0
 ?IsMouseOverBackButton@Rva005F2767@@QBE_NXZ,,0x005F2767,12,Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp,matched,Bit-4 getter via bitfield honest address name
-?updateStateMachine@StateMachine@@QAE?AW4StateReturnType@@XZ,,0x004D7321,98,Code/GameEngine/Source/GameLogic/AI/StateMachineGoal.cpp,matched,vtable slot4 plus BFME1 donor update plus friend pins
+?updateStateMachine@StateMachine@@UAE?AW4StateReturnType@@XZ,,0x004D7321,98,Code/GameEngine/Source/GameLogic/AI/StateMachineGoal.cpp,matched,vtable slot4 plus BFME1 donor update plus friend pins
 ?rva0045A421@AutoAbilityBehavior@@QAEXPAX@Z,,0x0045A421,38,Code/GameEngine/Source/GameLogic/Object/Behavior/AutoAbilityBehaviorRva0045A421.cpp,matched,AutoAbility copy plus wake via pinned assign plus rowed wake
 ??1AutoAbilityBehaviorModuleData@@UAE@XZ,,0x0045A517,73,Code/GameEngine/Source/GameLogic/Object/Behavior/AutoAbilityBehaviorModuleDataDtor.cpp,matched,AutoAbility ModuleData dtor via array plus string plus Snapshot base
 ?set@Rva001F3FD0Slot@@QAEXABVAsciiString@@@Z,,0x001F3FD0,26,Code/GameEngine/Source/Common/Rva001F3FD0Set.cpp,matched,AsciiString plus0x68 via pinned assign plus zero plus0xa0
