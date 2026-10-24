@@ -22,7 +22,7 @@ template<> int StringBase<unsigned short>::compare(const StringBase<unsigned sho
 class Rva00406F12 {public:bool rva00406F12(int);};
 class Rva00406F27 {public:bool rva00406F27(int);};
 class Rva00406F3C {public:bool rva00406F3C(int);};
-class AppearanceHeroView {public:virtual void slot00();virtual void slot04();virtual void slot08();virtual void slot0C();virtual void refresh(bool);virtual void refresh14();char unknown04[0x2C-4];unsigned hair2C,skin30,paint34;};
+class AppearanceHeroView {public:virtual void slot00();virtual void slot04();virtual void slot08();virtual void slot0C();virtual void refresh(bool);virtual void refresh14();char unknown04[0x2C-4];unsigned m_hairColor,m_skinColor,m_paintColor;};
 class AptMyHero {public:void AdjustBling(int,int,int);void rva005B0FCD(int);void rva005B0923(int);void rva005B097F(int);};
 class CreateAHeroHero {public:bool SetDefaultColors();};
 class Rva005B4BDB {public:void rva005B4C3C();void rva005B4BDB();void rva005B4AD9(int);};
@@ -241,8 +241,8 @@ void AptCreateAHero::Appearance::ExternFunc(int property,char*buffer,bool writin
  switch(property){
  case 1:if(!writing){result=false;if(m_window08){UnicodeString name=GadgetTextEntryGetText(static_cast<GameWindow*>(m_window08));TheLanguageFilter->filterLine(name);name.trim();if(name.compare(GadgetTextEntryGetText(static_cast<GameWindow*>(m_window08)))!=0)GadgetTextEntrySetText(static_cast<GameWindow*>(m_window08),name);if(!name.isEmpty()){result=true;Rva0040A3F9*list=TheCreateAHeroManager->rva0021F797();int count=list->size();for(int i=0;i<=count;++i){CreateAHeroData*item=list->rva0040A32F(i);if(item&&name.compareNoCase(reinterpret_cast<AppearanceHeroNameView*>(item)->name)==0){result=false;break;}}}}strcpy(buffer,result?"1":"0");}break;
  case 0:if(!writing){result=m_window08&&GadgetTextEntryGetText(static_cast<GameWindow*>(m_window08)).compare(UnicodeString::TheEmptyString)==0&&m_window08!=reinterpret_cast<Rva005B4F20WindowManagerView*>(TheWindowManager)->focusedWindow();strcpy(buffer,result?"1":"0");}break;
- case 2:if(!writing)sprintf(buffer,"%u",hero->hair2C);break;
- case 3:if(!writing)sprintf(buffer,"%u",hero->skin30);break;
- case 4:if(!writing)sprintf(buffer,"%u",hero->paint34);break;
+ case 2:if(!writing)sprintf(buffer,"%u",hero->m_hairColor);break;
+ case 3:if(!writing)sprintf(buffer,"%u",hero->m_skinColor);break;
+ case 4:if(!writing)sprintf(buffer,"%u",hero->m_paintColor);break;
  }
 }

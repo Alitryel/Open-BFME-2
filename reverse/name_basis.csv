@@ -1139,3 +1139,6 @@ param,Rva0057ACEB::Rva0057ACEB::d,Rva0057ACEB::Rva0057ACEB::initialData,inferred
 function,?Rva00595C04FormatIPPort@@YA?AVAsciiString@@IG@Z,?formatIPPort@@YA?AVAsciiString@@IG@Z,inferred,agree:nl-01bfb9d06dda,Code/GameEngine/Source/Common/Rva00595C79Permuted.cpp,0x00595C04
 function,?Rva00595C9BFormatIP@@YA?AVAsciiString@@I@Z,?formatIP@@YA?AVAsciiString@@I@Z,inferred,agree:nl-47c18d71f6f1,Code/GameEngine/Source/Common/Rva00595C79Permuted.cpp,0x00595C9B
 function,?Rva00595C79FormatAddress@@YA?AVAsciiString@@PBURva00595C79Address@@@Z,?formatAddress@@YA?AVAsciiString@@PBURva00595C79Address@@@Z,inferred,agree:nl-ea3dbe9d4d0b,Code/GameEngine/Source/Common/Rva00595C79Permuted.cpp,0x00595C79
+member,AppearanceHeroView::hair2C,AppearanceHeroView::m_hairColor,inferred,agree:nl-b29c3ad516ce,Code/GameEngine/Source/Common/Rva005B4A46Dtor.cpp,
+member,AppearanceHeroView::skin30,AppearanceHeroView::m_skinColor,inferred,agree:nl-98e4500126fe,Code/GameEngine/Source/Common/Rva005B4A46Dtor.cpp,
+member,AppearanceHeroView::paint34,AppearanceHeroView::m_paintColor,inferred,agree:nl-74238fab2f84,Code/GameEngine/Source/Common/Rva005B4A46Dtor.cpp,
