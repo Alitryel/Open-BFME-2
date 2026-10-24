@@ -32,6 +32,9 @@ namespace _STL { template <> void _Construct<GeometryRecord,GeometryRecord>(Geom
 namespace _STL { template <> void _Construct<GeometryShape,GeometryShape>(GeometryShape *,GeometryShape const &) throw(); }
 // The record vector copy is supplied by GeometryRecordVectorCopyConstructor.cpp.
 namespace _STL { template <> vector<GeometryRecord>::vector(const vector<GeometryRecord> &); }
+// The shape vector copy is supplied by GeometryShapeVectorCopyConstructor.cpp
+// (retail 0x0009292B); this unit's implicit-copy view must not emit its own.
+namespace _STL { template <> vector<GeometryShape>::vector(const vector<GeometryShape> &); }
 namespace _STL { template <> _Vector_base<GeometryRecord,allocator<GeometryRecord> >::~_Vector_base(); }
 // Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAUGeometryShape@@U1@V?$allocator@UGeometryShape@@@_STL@@@_S:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
@@ -160,6 +163,12 @@ GeometryInfo::GeometryInfo(const GeometryInfo &other)
 	  m_cached58(other.m_cached58)
 {
 }
+
+// The mutable-source shape range copy (retail 0x005EA9BB, the callee of
+// _M_insert_overflow 0x005EB379) is rowed here; the vector copy, supplied
+// elsewhere, calls the const-source instantiation at 0x00064289 instead.
+template GeometryShape *_STL::__uninitialized_copy<GeometryShape *, GeometryShape *>(
+	GeometryShape *, GeometryShape *, GeometryShape *, const _STL::__false_type &);
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
