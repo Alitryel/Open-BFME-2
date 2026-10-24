@@ -31,13 +31,13 @@ struct Node
 class Rva0031F89E
 {
 public:
-	void rva0031F89E(float a, float b, int c, int d);
+	void rva0031F89E(float scaleX, float scaleY, int m_offsetX, int offsetY);
 private:
 	char m_pad[0x158];
 	Node *m_lists[3];
 };
 
-void Rva0031F89E::rva0031F89E(float a, float b, int c, int d)
+void Rva0031F89E::rva0031F89E(float scaleX, float scaleY, int m_offsetX, int offsetY)
 {
 	Node **node = &m_lists[2];
 	int n = 3;
@@ -49,10 +49,10 @@ void Rva0031F89E::rva0031F89E(float a, float b, int c, int d)
 			Entry *entry = cur->m_data;
 			if (entry && entry->m_14)
 				((W3DDisplay *)TheDisplay)->rva0004D6B3(entry->m_14,
-					(float)entry->m_4 * a + (float)c,
-					(float)entry->m_8 * b + (float)d,
-					(float)(entry->m_c + entry->m_4) * a + (float)c,
-					(float)(entry->m_10 + entry->m_8) * b + (float)d, -1, 2);
+					(float)entry->m_4 * scaleX + (float)m_offsetX,
+					(float)entry->m_8 * scaleY + (float)offsetY,
+					(float)(entry->m_c + entry->m_4) * scaleX + (float)m_offsetX,
+					(float)(entry->m_10 + entry->m_8) * scaleY + (float)offsetY, -1, 2);
 			cur = cur->m_next;
 		}
 		--node;

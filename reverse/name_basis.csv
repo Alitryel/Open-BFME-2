@@ -1011,3 +1011,7 @@ function,?rva007B5299@@YAXXZ,?initCancelArmyMemberMoveButton@@YAXXZ,inferred,agr
 function,?rva007B5343@@YAXXZ,?initDisbandArmyMemberButton@@YAXXZ,inferred,agree:nl-e8d4615656c3,Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp,0x007B5343
 member,Rva0028E868OtherPrefix::word74,Rva0028E868OtherPrefix::m_id,inferred,agree:nl-fa161b94ef66,Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp,
 param,Rva000B5C41::rva000B5A72::a,Rva000B5C41::rva000B5A72::moduleData,inferred,agree:nl-5738704984f7,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp,0x000B5A72
+param,Rva0031F89E::rva0031F89E::a,Rva0031F89E::rva0031F89E::scaleX,inferred,agree:nl-2705f91715c6,Code/GameEngine/Source/Common/Rva0031F89E.cpp,0x0031F89E
+param,Rva0031F89E::rva0031F89E::b,Rva0031F89E::rva0031F89E::scaleY,inferred,agree:nl-d22607a60806,Code/GameEngine/Source/Common/Rva0031F89E.cpp,0x0031F89E
+param,Rva0031F89E::rva0031F89E::c,Rva0031F89E::rva0031F89E::m_offsetX,inferred,agree:nl-299c4e866900,Code/GameEngine/Source/Common/Rva0031F89E.cpp,0x0031F89E
+param,Rva0031F89E::rva0031F89E::d,Rva0031F89E::rva0031F89E::offsetY,inferred,agree:nl-49ba0874d0b8,Code/GameEngine/Source/Common/Rva0031F89E.cpp,0x0031F89E
