@@ -70,7 +70,7 @@ struct S12
 
 struct RvaFireColor : RGBColor
 {
-	RvaFireColor(float redValue, float greenValue, float b) { red = redValue; green = greenValue; blue = b; }
+	RvaFireColor(float redValue, float greenValue, float blueValue) { red = redValue; green = greenValue; blue = blueValue; }
 };
 
 // The client random variable (rowed setRange 0x002341E7); its inline

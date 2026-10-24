@@ -1392,3 +1392,6 @@ local,Pathfinder::FindBrokenBridge::layerA3,Pathfinder::FindBrokenBridge::endLay
 local,Pathfinder::FindBrokenBridge::layerA2,Pathfinder::FindBrokenBridge::startLayer,inferred,agree:nl-9b556eb7c859,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp,0x002E99F9
 local,Pathfinder::FindBrokenBridge::cellA3,Pathfinder::FindBrokenBridge::m_endCell,inferred,agree:nl-a871dfa69371,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp,0x002E99F9
 local,Pathfinder::FindBrokenBridge::q,Pathfinder::FindBrokenBridge::zoneParams,inferred,agree:nl-e267ce438860,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp,0x002E99F9
+param,famgenDelete#8::p,famgenDelete#8::palantir,inferred,agree:nl-4977e291438e,Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp,
+param,famgenDelete#9::p,famgenDelete#9::selectionDetails,inferred,agree:nl-7bdf818a6c4f,Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp,
+param,RvaFireColor::b,RvaFireColor::blueValue,inferred,agree:nl-cf07ec57b1bb,Code/GameEngine/Source/Common/INI/INIBfmeSettingsParsers.cpp,

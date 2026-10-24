@@ -38,11 +38,11 @@ void famgenDelete(Rva0057417E *p) { delete p; }
 
 // ??_GRva00578C43@@QAEPAXI@Z @0x0042D4CF 28B: calls pinned ~Rva00578C43 0x00578C43
 class Rva00578C43 { public: ~Rva00578C43(); };
-void famgenDelete(Rva00578C43 *p) { delete p; }
+void famgenDelete(Rva00578C43 *palantir) { delete palantir; }
 
 // ??_GRva0057BD01@@QAEPAXI@Z @0x0042D53F 28B: calls pinned ~Rva0057BD01 0x0057BD01
 class Rva0057BD01 { public: ~Rva0057BD01(); };
-void famgenDelete(Rva0057BD01 *p) { delete p; }
+void famgenDelete(Rva0057BD01 *selectionDetails) { delete selectionDetails; }
 
 // ??_GRva004E6935@@QAEPAXI@Z @0x004E6A01 28B: calls pinned ~Rva004E6935 0x004E6935
 class Rva004E6935 { public: ~Rva004E6935(); };
