@@ -54,8 +54,8 @@ public:
     }
     ~RefCountPtr()
     {
-        T *p = (T *)m_native.m_object;
-        if (p) p->Release_Ref();
+        T *referencedObject = (T *)m_native.m_object;
+        if (referencedObject) referencedObject->Release_Ref();
     }
     const RefCountPtr<T> &operator=(const RefCountPtr<T> &rhs);
 };
@@ -178,8 +178,8 @@ extern GlobalData *TheWritableGlobalData;
 
 // Reference-returning clamps; retail's min tests a < b (not STLport's
 // b < a), as its select order shows.
-template <class T> inline const T &ShroudMax(const T &a, const T &b) { return a < b ? b : a; }
-template <class T> inline const T &ShroudMin(const T &a, const T &b) { return a < b ? a : b; }
+template <class T> inline const T &ShroudMax(const T &left, const T &right) { return left < right ? right : left; }
+template <class T> inline const T &ShroudMin(const T &left, const T &right) { return left < right ? left : right; }
 
 // Native 00072D5D..00072E10, cdecl. Converts a shroud level to the shroud
 // texture's 4444 pixel: each colour channel is the level scaled by the

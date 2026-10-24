@@ -1787,3 +1787,8 @@ local,NAT::gotTargetMangledPort::o2,NAT::gotTargetMangledPort::localPlayer,infer
 param,Rva0032AAEE::rva0032AAEE::a,Rva0032AAEE::rva0032AAEE::firstIndex,inferred,agree:nl-01e825797188,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineResolveName.cpp,0x0032AAEE
 param,Rva0032AAEE::rva0032AAEE::b,Rva0032AAEE::rva0032AAEE::secondIndex,inferred,agree:nl-007d26afa8ff,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineResolveName.cpp,0x0032AAEE
 local,BaseHeightMapRenderObjClass::Cast_Ray::p,BaseHeightMapRenderObjClass::Cast_Ray::clipPass,inferred,agree:nl-4a519290c1de,Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapCastRay.cpp,0x0006BF62
+param,ShroudMax::a,ShroudMax::left,inferred,agree:nl-9df8c3db5d96,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp,
+param,ShroudMax::b,ShroudMax::right,inferred,agree:nl-88b06cc81ea4,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp,
+param,ShroudMin::a,ShroudMin::left,inferred,agree:nl-1312734f7b4f,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp,
+param,ShroudMin::b,ShroudMin::right,inferred,agree:nl-b2960346a2e0,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp,
+local,~RefCountPtr::p,~RefCountPtr::referencedObject,inferred,agree:nl-7aab663805f4,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp,
