@@ -45,12 +45,12 @@ void Rva0045D7E0Notify(void *obj, int a, int b)
 			if (*objectCreationList)
 				(*objectCreationList)->rva001F0410((void *)a, (void *)b);
 		}
-		for (Rva001E11F8 **p2 = host->m_a[i].m_begin; p2 != host->m_a[i].m_end; ++p2) {
-			if (*p2)
-				(*p2)->rva001E11F8(a, b);
+		for (Rva001E11F8 **fxList = host->m_a[i].m_begin; fxList != host->m_a[i].m_end; ++fxList) {
+			if (*fxList)
+				(*fxList)->rva001E11F8(a, b);
 		}
-		for (Rva002CA9CA **p3 = host->m_c[i].m_begin; p3 != host->m_c[i].m_end; ++p3) {
-			if (*p3)
-				(*p3)->rva002CAC6E(a, b);
+		for (Rva002CA9CA **weaponTemplate = host->m_c[i].m_begin; weaponTemplate != host->m_c[i].m_end; ++weaponTemplate) {
+			if (*weaponTemplate)
+				(*weaponTemplate)->rva002CAC6E(a, b);
 		}	}
 }
