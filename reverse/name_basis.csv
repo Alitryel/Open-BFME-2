@@ -717,3 +717,7 @@ param,Rva00276223::rva00276223::b,Rva00276223::rva00276223::expireTimer,inferred
 local,Rva00276223::rva00276223::r,Rva00276223::rva00276223::drawInterface,inferred,agree:nl-4210452d11bd,Code/GameEngine/Source/Common/Rva00276223Leaf.cpp,0x00276223
 param,Rva0028B749Host::rva0028B749::b,Rva0028B749Host::rva0028B749::damage,inferred,agree:nl-3ff80a85f6ef,Code/GameEngine/Source/Common/Rva0028B749.cpp,0x0028B749
 local,Rva002C021A::rva002BEBE3::v,Rva002C021A::rva002BEBE3::interpolatedValue,inferred,agree:nl-53eb86fa1d15,Code/GameEngine/Source/Common/Rva002BEBE3Step.cpp,0x002BEBE3
+param,RayEffectSystem::addRayEffect::p1,RayEffectSystem::addRayEffect::draw,inferred,agree:nl-470f8e126516,Code/GameEngine/Source/Common/Rva002CEE1BAdd.cpp,0x002CED84
+param,RayEffectSystem::addRayEffect::p2,RayEffectSystem::addRayEffect::startLoc,inferred,agree:nl-44f448a2c9b7,Code/GameEngine/Source/Common/Rva002CEE1BAdd.cpp,0x002CED84
+param,RayEffectSystem::addRayEffect::p3,RayEffectSystem::addRayEffect::endLoc,inferred,agree:nl-8f81ec09b140,Code/GameEngine/Source/Common/Rva002CEE1BAdd.cpp,0x002CED84
+function,?rva002CED59@Rva002CEE1B@@QAEPAUElem002CED84@@PAX@Z,?findEntry@Rva002CEE1B@@QAEPAUElem002CED84@@PAX@Z,inferred,agree:nl-71148a32b1a1,Code/GameEngine/Source/Common/Rva002CEE1BAdd.cpp,0x002CED59

@@ -27,7 +27,7 @@ public:
 class Rva002CEE1B : public GameEngineDeletingBase002CED84
 {
 public:
-	Elem002CED84 *rva002CED59(void *key);
+	Elem002CED84 *findEntry(void *key);
 
 public:
 	char m_pad04[0x0C - 4];
@@ -40,14 +40,14 @@ public:
 	void addRayEffect(const Drawable *, const Coord3D *, const Coord3D *);
 };
 
-void RayEffectSystem::addRayEffect(const Drawable *p1, const Coord3D *p2, const Coord3D *p3)
+void RayEffectSystem::addRayEffect(const Drawable *draw, const Coord3D *startLoc, const Coord3D *endLoc)
 {
 	Rva002CEE1B *self = (Rva002CEE1B *)this;
-	if (p1 == 0)
+	if (draw == 0)
 		return;
-	if (p2 == 0)
+	if (startLoc == 0)
 		return;
-	if (p3 == 0)
+	if (endLoc == 0)
 		return;
 	int i = 0;
 check:
@@ -61,9 +61,9 @@ fill:
 	Elem002CED84 *slot = &self->m_arr0C[i];
 	if (slot == 0)
 		return;
-	slot->ptr = (void *)p1;
-	slot->second = *(Twelve002CED84 *)p2;
-	slot->third = *(Twelve002CED84 *)p3;
+	slot->ptr = (void *)draw;
+	slot->second = *(Twelve002CED84 *)startLoc;
+	slot->third = *(Twelve002CED84 *)endLoc;
 }
 
 // 0x002CED59 43B: find-by-key twin of the empty-slot search inlined in
@@ -71,7 +71,7 @@ fill:
 // entry whose ptr equals key, returning its address, or NULL. Called twice
 // from inside rva002CED84 past the row end, which with the identical base
 // and constants proves the Rva002CEE1B thiscall class.
-Elem002CED84 *Rva002CEE1B::rva002CED59(void *key)
+Elem002CED84 *Rva002CEE1B::findEntry(void *key)
 {
 	Elem002CED84 *result = 0;
 	int i = 0;

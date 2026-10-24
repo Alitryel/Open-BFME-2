@@ -41,7 +41,7 @@ struct Elem002CED84;
 class Rva002CEE1B
 {
 public:
-	Elem002CED84 *rva002CED59( void *draw );
+	Elem002CED84 *findEntry( void *draw );
 };
 
 // PUBLIC DATA ////////////////////////////////////////////////////////////////////////////////////
@@ -63,7 +63,7 @@ void RayEffectSystem::deleteRayEffect( const Drawable *draw )
 		return;
 
 	// find the effect entry
-	effectData = (RayEffectData *)((Rva002CEE1B *)this)->rva002CED59( (void *)draw );
+	effectData = (RayEffectData *)((Rva002CEE1B *)this)->findEntry( (void *)draw );
 	if( effectData )
 	{
 
@@ -88,7 +88,7 @@ void RayEffectSystem::getRayEffectData( const Drawable *draw,
 		return;
 
 	// find the effect data entry
-	entry = (RayEffectData *)((Rva002CEE1B *)this)->rva002CED59( (void *)draw );
+	entry = (RayEffectData *)((Rva002CEE1B *)this)->findEntry( (void *)draw );
 	if( entry )
 	{
 
