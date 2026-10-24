@@ -4191,3 +4191,6 @@ Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainInitOffsets.cpp|l
 Code/GameEngine/Source/Common/Rva004079D5.cpp|local|Rva004079D5::rva004079D5|v,b4b8f45a1ac3a7f554f46387,gpt-6.1-sol,codexb-20261024-080617-6,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|member|ArmyDetailsPanelImpl|m_map14,e8f250067fc5f16105927be9,gpt-6.1-sol,codexb-20261024-080617-7,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|function|0x005E39A6|rva005E39A6,5abdbafc9f6884f9c76ad818,gpt-6.1-sol,codexb-20261024-080617-7,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/FXShaderParameterBinderPushDynamicSetStackName.cpp|local|FXShaderParameterBinder::PushDynamicSetStack|c6c,c5c5bee4ab063fb5b11916e4,gpt-6.1-sol,codexb-20261024-080617-9,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|param|W3DTerrainLogic::Rva0027D77D|a,5f1bfb7367486c035362812c,gpt-6.1-sol,codexb-20261024-080617-11,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|param|W3DTerrainLogic::Rva0027D77D|b,592ec8da378e7a4659edc21c,gpt-6.1-sol,codexb-20261024-080617-11,w-8e883e57d025,2026-10-24
