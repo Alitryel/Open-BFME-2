@@ -12,9 +12,7 @@
 // dtor 0x0007FAB3 plus ??_M 0x00629110, ret 4, callers at 0x0035A21F.
 // `BasicStringCharDtor_dup` is the row at 0x0007FAB3 whose object symbol is
 // the narrow basic_string destructor. This element is that string at +0 with
-// an inert int at +0x0C, so its destructor is the same function; bind the
-// address-derived wrapper dtor to the row's actual COFF symbol.
-#pragma comment(linker, "/alternatename:??1Rva0035A18D@@QAE@XZ=??1?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ")
+// an inert int at +0x0C, so its destructor is the same function.
 #include <string>
 
 void operator delete[](void *p);

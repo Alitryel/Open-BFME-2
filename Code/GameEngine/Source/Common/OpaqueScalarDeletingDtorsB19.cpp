@@ -27,7 +27,6 @@ public: Rva005248D0(); virtual ~Rva005248D0();
 private: unsigned char opaque[0x54];
 };
 template<class T> class StringBase {public: ~StringBase();private: void* data;};
-#pragma comment(linker, "/alternatename:??1?$StringBase@D@@QAE@XZ=?releaseBuffer@?$StringBase@D@@AAEXXZ")
 class Rva0074104C : public Rva0074104CBase, public Rva005248D0 {
 public: Rva0074104C(); Rva0074104C(EmitVtableTag*); virtual ~Rva0074104C();
 private:

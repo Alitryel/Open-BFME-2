@@ -70,9 +70,8 @@ private:
 	T *m_data;
 };
 
-// Narrow teardown routed onto the verified releaseBuffer worker at 0x00036410.
+// The narrow teardown is rowed at 0x00036410 (StringBaseWideReleaseBuffer.cpp).
 template <> StringBase<char>::~StringBase();
-#pragma comment(linker, "/alternatename:??1?$StringBase@D@@QAE@XZ=?releaseBuffer@?$StringBase@D@@AAEXXZ")
 
 class Rva004703E0
 {

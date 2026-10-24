@@ -52,7 +52,6 @@ public:
 	BfmeThingCDE *m_head;
 };
 
-#pragma comment(linker, "/alternatename:??0BfmeThingCDE@@QAE@PAX00@Z=?d_008f78b0@@YAXXZ")
 
 void BfmeOwnerCDE::RegisterObject(void *what)
 {

@@ -14,10 +14,8 @@ private:
 	T *m_data;
 };
 
-// Existing public narrow teardown spelling resolves to the verified
-// 133-byte releaseBuffer worker at RVA 0x36410. Wide teardown is unchanged.
+// The narrow teardown is rowed at 0x00036410 (StringBaseWideReleaseBuffer.cpp).
 template <> StringBase<char>::~StringBase();
-#pragma comment(linker, "/alternatename:??1?$StringBase@D@@QAE@XZ=?releaseBuffer@?$StringBase@D@@AAEXXZ")
 
 
 class Rva0055A88BDwordField;

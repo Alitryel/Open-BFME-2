@@ -20,7 +20,3 @@ void Rva005E71C6Assign(void **dest, void **source)
 		return;
 	++static_cast<Rva005E71C6Object *>(object)->m_references;
 }
-
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:??$_Construct@URva005E71C6Ref@@U1@@_STL@@YAXPAURva005E71C6Ref@@ABU1@@Z=?Rva005E71C6Assign@@YAXPAPAX0@Z")

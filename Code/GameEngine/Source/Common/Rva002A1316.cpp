@@ -41,7 +41,6 @@ private:
     Rva002A1316Iterator end() { return Rva002A1316Iterator(head); }
     void *head;
 };
-#pragma comment(linker, "/alternatename:?insert@Rva002A1B6FNativeList@@AAE?AURva002A1316Iterator@@U2@ABQAX@Z=?Rva002A1316Store@@YGPAXPAPAXPAX0@Z")
 
 void Rva002A1B6FNativeList::append(void *const &value)
 {
