@@ -34,12 +34,5 @@ double __cdecl Rva000422BBCeil(float x)
 	return ceil(x);
 }
 
-// LINK-OWNER anchor: this unit owns atan2(float, float); other units emit it inline, so the
-// owner must also emit a select-any (inline) copy.
-#pragma inline_depth(0)
-// ?bfmeEmitRva000422A0@@YAXXZ present-unmatched
-void bfmeEmitRva000422A0()
-{
-	atan2(0.0f, 0.0f);
-}
-#pragma inline_depth()
+// W3DMouseCursorDirection.cpp already emits the complete retail float overload
+// through setCursorDirection's real atan2 call; its row lives with that caller.
