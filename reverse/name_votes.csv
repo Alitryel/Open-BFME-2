@@ -4599,3 +4599,16 @@ Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#9|p,e1
 Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#14|p,ee07e313c217a69f811be4d7,gpt-6-astra,codexb2-20261024-101454-4,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/EbpParamForwarders.cpp|class||Rva002B2955,b5ca4f3b0bfbc59f28107f8f,gpt-6-astra,codexb2-20261024-101454-5,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/EbpParamForwarders.cpp|function|0x0018C838|rva0018C838,5ceafeb827293d220663a0f1,gpt-6-astra,codexb2-20261024-101454-5,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva003EE980Forward.cpp|local|Rva003EE980::rva003EE980|f,cd3755c31123aff03c1a2a72,gpt-6.1-sol,codexb-20261024-101137-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameClient/MapUtilGetDefaultMap.cpp|param|Rva003000F6Get|a,b6a650ad36671ffa454a4391,gpt-6.1-sol,codexb-20261024-101137-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameClient/MapUtilGetDefaultMap.cpp|param|Rva003000F6Get|b,82f074dfb8f4dd89ef0f8af7,gpt-6.1-sol,codexb-20261024-101137-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva003418EAMethod.cpp|local|Rva00341796::onExit|p,104d937f79e281b740647e2a,gpt-6.1-sol,codexb-20261024-101137-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva003EE746ColorProvider.cpp|class||Rva003EE746ColorProvider,1ff2303bdb9414c3c67b485e,gpt-6.1-sol,codexb-20261024-101137-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva003EE746ColorProvider.cpp|function|0x007AF9D6|Rva007AF9D6InitializeRegionEffectFields,ca32a1cf1beebdaa53f6546d,gpt-6.1-sol,codexb-20261024-101137-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva003EE746ColorProvider.cpp|local|Rva003EE746ColorProvider::color|c,7a5cf81b91c43f93e65aa671,gpt-6.1-sol,codexb-20261024-101137-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Rva002C99C4AttackRange.cpp|local|BfmeRangedWeaponTemplate::getAttackRange|f,d651670af8bf2e381fa5fe57,gpt-6.1-sol,codexb-20261024-101137-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/BfmeThreeHundredOne.cpp|member|BfmeThingQR|m_bfmeName,66eae0cd01f6a40232172a8a,gpt-6.1-sol,codexb-20261024-101137-3,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva0033738BCopy.cpp|function|0x00337533|Rva00337533Copy,85ce59e460115b3e0a81b10c,gpt-6.1-sol,codexb-20261024-101137-3,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva0033738BCopy.cpp|local|Rva00337533Copy|tmp,9ad3cf27ffbcaaef718ee399,gpt-6.1-sol,codexb-20261024-101137-3,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva0033738BCopy.cpp|local|Rva00337638Copy|tmp,248ece2d2796aa8a2789e53b,gpt-6.1-sol,codexb-20261024-101137-3,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva0033738BCopy.cpp|local|Rva003377A1Copy|tmp,b9bd6475603e2010666b44fe,gpt-6.1-sol,codexb-20261024-101137-3,w-8e883e57d025,2026-10-24
