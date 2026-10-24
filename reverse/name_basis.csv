@@ -1046,3 +1046,4 @@ member,Rva0030C2CEArea::m_strings40,Rva0030C2CEArea::m_textureNames,inferred,agr
 local,W3DProjectedShadowManager::rva0010BE72::value38,W3DProjectedShadowManager::rva0010BE72::fadeInStartFrame,inferred,agree:nl-55fce953e78b,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva0010C785TimedDecals.cpp,0x0010BE72
 param,Rva002CA9CA::rva002CAA59::a2,Rva002CA9CA::rva002CAA59::weapon,inferred,agree:nl-4e92a2b95493,Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp,0x002CAA59
 param,Rva002CA9CA::rva002CA970::a3,Rva002CA9CA::rva002CA970::weapon,inferred,agree:nl-ec77ccef0b38,Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp,0x002CA970
+local,Rva000D3A17::rva000D3A17::n,Rva000D3A17::rva000D3A17::remaining,inferred,agree:nl-889a0a23ebcf,Code/GameEngine/Source/Common/Rva000D3A17.cpp,0x000D3A17

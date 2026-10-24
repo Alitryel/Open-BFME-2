@@ -57,11 +57,11 @@ void Rva000D3A17::rva000D3A17()
 {
 	{
 		Rva000D3A17SetSlot *slot = m_sets;
-		int n = 10;
+		int remaining = 10;
 		do {
 			slot->m_tree.rva000D2294();
 			++slot;
-		} while (--n != 0);
+		} while (--remaining != 0);
 	}
 	m_0c = 0;
 	m_08 = 0;
@@ -69,7 +69,7 @@ void Rva000D3A17::rva000D3A17()
 	m_10 = 0x7530;
 	{
 		Rva000D3A17RefSlot *rslot = m_refs;
-		int n = 10;
+		int remaining = 10;
 		do {
 			Rva000D3A17Ref *p = rslot->m_ptr;
 			if (p) {
@@ -78,7 +78,7 @@ void Rva000D3A17::rva000D3A17()
 				rslot->m_ptr = 0;
 			}
 			++rslot;
-		} while (--n != 0);
+		} while (--remaining != 0);
 	}
 	m_90 = 0;
 }
