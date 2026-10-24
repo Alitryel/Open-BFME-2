@@ -102,9 +102,9 @@ class Rva006D07E0Key {public: unsigned *m_object; __declspec(dllimport) __forcei
 class Rva006D0A30List {public:Rva006D07E0Key findSpecial(const EAStringC *);};
 class Rva00893030Manager;
 extern Rva00893030Manager *g_rva00893030Manager;
-__forceinline void appendPlaybackItem(Rva006CE660Vec &v,const AptValueNameEntry &value,Rva006CDD50Iterator &position) {
+__forceinline void appendPlaybackItem(Rva006CE660Vec &buffer,const AptValueNameEntry &value,Rva006CDD50Iterator &position) {
  AptValueNameEntry *last=const_cast<AptValueNameEntry *>(&value)+1,*first=last-1;
- position=v.end();v.insert(first,last,position);
+ position=buffer.end();buffer.insert(first,last,position);
 }
 void Rva006CE660Vec::rva006CEB10(const EAStringC &name) {
  for(Rva006CDD50Iterator it=begin();it!=end();it++){

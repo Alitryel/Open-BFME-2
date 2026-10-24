@@ -86,7 +86,7 @@ class Pathfinder
 {
 public:
 	PathfindCell *rva002E8BF8(PathfindLayerEnum layer, const Coord3D *pos);
-	int FindBrokenBridge(Rva002E99F9Arg1 *a1, const Coord3D * volatile startPos, const Coord3D *endPos);
+	int FindBrokenBridge(Rva002E99F9Arg1 *locoSet, const Coord3D * volatile startPos, const Coord3D *endPos);
 private:
 	char m_pad0[0x460];
 	Rva002E99F9Sub460 m_sub460;
@@ -97,7 +97,7 @@ private:
 // qualifier keeps that store. Flags /O1 /MD /G7: /G7 lowers the ushort
 // cell-field loads as plain 16-bit mov (no movzx) like the rowed
 // Rva00531A44 find in the same family.
-int Pathfinder::FindBrokenBridge(Rva002E99F9Arg1 *a1, const Coord3D * volatile startPos, const Coord3D *endPos)
+int Pathfinder::FindBrokenBridge(Rva002E99F9Arg1 *locoSet, const Coord3D * volatile startPos, const Coord3D *endPos)
 {
 	PathfindLayerEnum endLayer = TheTerrainLogic->getLayerForDestination(0, endPos);
 	PathfindLayerEnum startLayer = TheTerrainLogic->getLayerForDestination(0, startPos);
@@ -105,8 +105,8 @@ int Pathfinder::FindBrokenBridge(Rva002E99F9Arg1 *a1, const Coord3D * volatile s
 	PathfindCell *m_endCell = rva002E8BF8(endLayer, endPos);
 	Rva002E99F9Query zoneParams;
 	zoneParams.m_8 |= -1;
-	zoneParams.m_0 = a1->m_10;
-	zoneParams.m_C = a1->m_15;
+	zoneParams.m_0 = locoSet->m_10;
+	zoneParams.m_C = locoSet->m_15;
 	zoneParams.m_4 = 0;
 	zoneParams.m_5 = 0;
 	unsigned short wB;

@@ -1828,3 +1828,7 @@ param,Rva005C4B56::rva005C4BC8::a,Rva005C4B56::rva005C4BC8::oldState,inferred,ag
 param,Rva005C4B56::rva005C4BC8::b,Rva005C4B56::rva005C4BC8::newState,inferred,agree:nl-0ddbac4b86bf,Code/GameEngine/Source/Common/Rva005C4B56.cpp,0x005C4BC8
 param,q4Notify002CC841::m,q4Notify002CC841::instance,inferred,agree:nl-c0af5b1056c9,Code/GameEngine/Source/GameLogic/Object/Made002CC841Parse.cpp,0x00509780
 local,Rva003C08CC::rva003C08CC::s,Rva003C08CC::rva003C08CC::defaultTeamName,inferred,agree:nl-758d44519c17,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp,0x003C08CC
+param,Pathfinder::FindBrokenBridge::a1,Pathfinder::FindBrokenBridge::locoSet,inferred,agree:nl-5976e8bb62ed,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp,0x002E99F9
+local,Rva000E1669::rva000E1669::x,Rva000E1669::rva000E1669::column,inferred,agree:nl-f0103f221cbd,Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMapVisibleBounds.cpp,0x000E1669
+local,Rva000E1669::rva000E1669::y,Rva000E1669::rva000E1669::row,inferred,agree:nl-d28ed7a12a85,Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMapVisibleBounds.cpp,0x000E1669
+param,appendPlaybackItem::v,appendPlaybackItem::buffer,inferred,agree:nl-7da9b844ddf1,Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp,

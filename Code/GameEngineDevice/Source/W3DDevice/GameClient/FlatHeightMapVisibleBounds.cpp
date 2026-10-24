@@ -300,9 +300,9 @@ void Rva000E1669::rva000E1669(const BoundsFilterView*filter,AABoxClass*out){
  if(!grid){zeroBounds(out);}
  else {
  MinMaxAABoxClass bounds;bounds.Init_Empty();
- for(int x=0;x<width;++x) {
-  for(int y=0;y<height;++y) {
-   const AABoxClass &box=grid[y*width+x].box;
+ for(int column=0;column<width;++column) {
+  for(int row=0;row<height;++row) {
+   const AABoxClass &box=grid[row*width+column].box;
    if(filter->exclude(box))continue;
    if(box.Extent.X==0 && box.Extent.Y==0 && box.Extent.Z==0)continue;
    Vector3 low=box.Center-box.Extent;
