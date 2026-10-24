@@ -41,19 +41,14 @@ typedef pair<const AsciiString, TreeHintRef00221D6B> HintValue;
 typedef _Rb_tree<AsciiString, HintValue, _Select1st<HintValue>,
     less<AsciiString>, allocator<HintValue> > HintTree;
 
-template<> inline HintTree::~_Rb_tree() {
+template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>
+_Rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::~_Rb_tree() {
     clear();
 }
 }
 
-// ??1?$_Rb_tree@VAsciiString@@U?$pair@$$CBVAsciiString@@UTreeHintRef00221D6B@@@_STL@@U?$_Select1st@U?$pair@$$CBVAsciiString@@UTreeHintRef00221D6B@@@_STL@@@3@U?$less@VAsciiString@@@3@V?$allocator@U?$pair@$$CBVAsciiString@@UTreeHintRef00221D6B@@@_STL@@@3@@_STL@@QAE@XZ is a header inline in STLport: another unit emits a select-any copy of it, so a strong definition here was a duplicate symbol in the linked build. This anchor only makes this unit emit its copy for the ledger row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitstlport_rb_tree_hint_00221e02_dtor@@YAXPAV?$_Rb_tree@VAsciiString@@U?$pair@$$CBVAsciiString@@UTreeHintRef00221D6B@@@_STL@@U?$_Select1st@U?$pair@$$CBVAsciiString@@UTreeHintRef00221D6B@@@_STL@@@3@U?$less@VAsciiString@@@3@V?$allocator@U?$pair@$$CBVAsciiString@@UTreeHintRef00221D6B@@@_STL@@@3@@_STL@@@Z present-unmatched
-void bfmeEmitstlport_rb_tree_hint_00221e02_dtor(_STL::HintTree *p)
-{
-    p->~_Rb_tree();
-}
-#pragma inline_depth()
+template _STL::_Rb_tree<AsciiString, _STL::HintValue, _STL::_Select1st<_STL::HintValue>,
+    _STL::less<AsciiString>, _STL::allocator<_STL::HintValue> >::~_Rb_tree();
 
 // Native221FF5 tail JMP221E02: unchanged ECX and no stack arguments.
 // Existing tree type is reused; original wrapper identity is unknown.
