@@ -65,7 +65,7 @@ class BfmeCountedGL
 public:
 	virtual void bfmeDoGL(int how) = 0;
 
-	int m_bfmeCount;			// 0x4
+	int m_refCount;			// 0x4
 };
 
 class BfmeThingGL
@@ -85,7 +85,7 @@ void BfmeThingGL::bfmeReleaseGL(void)
 	if (held == 0)
 		return;
 
-	int left = --held->m_bfmeCount;
+	int left = --held->m_refCount;
 
 	if (left <= 0)
 		held->bfmeDoGL(1);

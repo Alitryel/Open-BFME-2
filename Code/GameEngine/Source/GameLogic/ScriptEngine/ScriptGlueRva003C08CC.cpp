@@ -112,10 +112,10 @@ void Rva003C08CC::rva003C08CC(const AsciiString *teamName, bool extra)
 			ai->m_isRecruitable = 1;
 		iter.advance();
 	}
-	const AsciiString *s;
+	const AsciiString *defaultTeamName;
 	if (playerDefaultTeam->m_proto == 0)
-		s = &AsciiString::TheEmptyString;
+		defaultTeamName = &AsciiString::TheEmptyString;
 	else
-		s = (const AsciiString *)((const char *)playerDefaultTeam->m_proto + 0x14);
-	doMergeTeamIntoTeam(*teamName, *s);
+		defaultTeamName = (const AsciiString *)((const char *)playerDefaultTeam->m_proto + 0x14);
+	doMergeTeamIntoTeam(*teamName, *defaultTeamName);
 }

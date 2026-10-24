@@ -60,7 +60,7 @@ public:
 	void rva005C4B56(int setBits, int clearBits, int val);
 	void rva005C4CC1();
 	void rva005C4CD4();
-	void rva005C4BC8(bool a, bool b, int c);
+	void rva005C4BC8(bool oldState, bool newState, int c);
 private:
 	char m_pad2C[0x2C - 4];
 	int m_2c; // +0x2C
@@ -96,22 +96,22 @@ void Rva005C4B56::rva005C4CD4()
 // early-out when == +0x2C; cases call s11/s12 (slots 0x2C/0x30) and rowed
 // Rva003FBA0E/Rva003FB9C8/Rva003FB9EB helpers via +0xAC sub (+0x44/+0x48/+0x4C).
 // ?rva005C4BC8@Rva005C4B56@@QAEX_N_NH@Z present-unmatched
-void Rva005C4B56::rva005C4BC8(bool a, bool b, int c)
+void Rva005C4B56::rva005C4BC8(bool oldState, bool newState, int c)
 {
 	bool flag = false;
 	if (c == m_2c)
 		goto final;
 	switch (c) {
 	case 1:
-		if (a)
+		if (oldState)
 			goto final;
-		if (!b)
+		if (!newState)
 			return;
 		((Rva003FB9C8 *)this)->rva003FB9EB(m_subAC->m_val44, 0);
 		goto final;
 	case 2:
 		((Rva003FB9C8 *)this)->rva003FB9C8(m_subAC->m_val48, 0);
-		if (a != true)
+		if (oldState != true)
 			goto final;
 		flag = true;
 		goto final;
@@ -120,21 +120,21 @@ void Rva005C4B56::rva005C4BC8(bool a, bool b, int c)
 		int v48 = m_subAC->m_val48;
 		float vf = m_subAC->m_val4C;
 		((Rva003FBA0E *)this)->rva003FBA0E(0, v44, v44, v48 + v44, 0, vf);
-		if (a != true)
+		if (oldState != true)
 			goto final;
 		flag = true;
 		goto final;
 	}
 	case 4:
-		s11(b);
+		s11(newState);
 		goto final;
 	default:
 		goto final;
 	}
 final:
-	if (a == b)
+	if (oldState == newState)
 		return;
 	if (flag)
 		return;
-	s12(b);
+	s12(newState);
 }

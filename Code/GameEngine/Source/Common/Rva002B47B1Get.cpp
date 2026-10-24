@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva002B47B1@LivingWorldLogic@@QAEHXZ @0x002B47B1 18B.
+// ?getStartingMoney@LivingWorldLogic@@QAEHXZ @0x002B47B1 18B.
 // Unlock chase through global 0x00E02D6C LivingWorldCampaignManager index/array plus +0x40
 // field. Caller 0x002B075A supplies TheLivingWorldLogic in ECX;
 // the return is deposited as an int into Player money. Receiver is unused
@@ -20,9 +20,9 @@ public:
 // TheCampaignManager (0x00E02D6C): matched references place it at VA 0xe02d6c (retail .data initial value 0).
 class Rva00E02D6C;
 Rva00E02D6C *TheCampaignManager = 0;
-class LivingWorldLogic { public: int rva002B47B1(); };
+class LivingWorldLogic { public: int getStartingMoney(); };
 
-int LivingWorldLogic::rva002B47B1()
+int LivingWorldLogic::getStartingMoney()
 {
 	LivingWorldCampaignManager *campaignManager = ((LivingWorldCampaignManager *)TheCampaignManager);
 	return campaignManager->m_array14[campaignManager->m_index10]->m_cash40;

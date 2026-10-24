@@ -11,7 +11,7 @@
 struct Rva0014A0B0Target
 {
 	unsigned char m_pad00[0x19];
-	unsigned char m_19;
+	unsigned char m_flags;
 };
 
 class Rva0014A0B0
@@ -26,5 +26,5 @@ private:
 
 int Rva0014A0B0::rva0014A0B0() const
 {
-	return m_c4 && (m_c4->m_19 & 4);
+	return m_c4 && (m_c4->m_flags & 4);
 }

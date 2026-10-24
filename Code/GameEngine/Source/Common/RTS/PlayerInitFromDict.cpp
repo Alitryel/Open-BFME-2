@@ -237,7 +237,7 @@ class LivingWorldBattle{public:char pad[0x24];class LivingWorldRegion*region;voi
 class RegionOwner{public:char pad[0x14];int index;};class CreateAHeroData;
 class LivingWorldRegion{public:char pad[0x11c];bool flag;int rva003F0614(CreateAHeroData*)const;};
 struct CampaignView{char pad[0xb0];Rva0020E6B7RegionManager*regions;bool active;};
-class LivingWorldLogic{public:int rva002B47B1();int rva002B479F();};
+class LivingWorldLogic{public:int getStartingMoney();int rva002B479F();};
 inline __declspec(noinline) SidesInfo*SidesList::getSkirmishSideInfo(int i){return i>=0 && i<skirmishCount?&skirmishSides[i]:0;}
 struct CharCompare {char m_unused;};
 int compareRange(const char*,int,const char*,int,CharCompare);
@@ -308,6 +308,6 @@ void Player::initFromDict(const Dict*dict){
  text74C=dict->getAsciiString(const_cast<StaticNameKey&>(TheKey_playerFactionIcon).get(),&exists);int ri=dict->getInt(const_cast<StaticNameKey&>(TheKey_livingWorldPlayerID).get(),&exists);if(exists)unknown3AC=ri;
  if(((LogicModeView*)TheGameLogic)->mode!=3 && ((CampaignView*)TheLivingWorldLogic)->active){
   LivingWorldBattle*cur=((CampaignView*)TheLivingWorldLogic)->regions->rva0020E6B7();
-  if(cur){RegionOwner*owner=(RegionOwner*)cur->rva003F4DA9();LivingWorldRegion*livingWorldRegion;if(owner && unknown3AC==*(volatile int*)&owner->index && ((livingWorldRegion=cur->region)->rva003F0614((CreateAHeroData*)1)>=1 || livingWorldRegion->flag))money.rva003B0D7C(TheLivingWorldLogic->rva002B47B1(),(Rva0039B7AD*)&score,false);else money.rva003B0D7C(TheLivingWorldLogic->rva002B479F(),(Rva0039B7AD*)&score,false);}
+  if(cur){RegionOwner*owner=(RegionOwner*)cur->rva003F4DA9();LivingWorldRegion*livingWorldRegion;if(owner && unknown3AC==*(volatile int*)&owner->index && ((livingWorldRegion=cur->region)->rva003F0614((CreateAHeroData*)1)>=1 || livingWorldRegion->flag))money.rva003B0D7C(TheLivingWorldLogic->getStartingMoney(),(Rva0039B7AD*)&score,false);else money.rva003B0D7C(TheLivingWorldLogic->rva002B479F(),(Rva0039B7AD*)&score,false);}
  }
 }

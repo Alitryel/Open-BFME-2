@@ -1820,3 +1820,11 @@ local,TerrainResourceManager::rva0035997F::y,TerrainResourceManager::rva0035997F
 class,Rva00226883Node,RbTreeNode,inferred,agree:nl-cbbfdefd7582,Code/GameEngine/Source/Common/Rva00226883TreeFree.cpp,
 class,Rva00226883Head,RbTreeHeader,inferred,agree:nl-85368e95dd03,Code/GameEngine/Source/Common/Rva00226883TreeFree.cpp,
 local,Rva00108AD8::invalidateCachedLightPositions::e,Rva00108AD8::invalidateCachedLightPositions::entry,inferred,agree:nl-d8834d2dea31,Code/GameEngine/Source/Common/Rva00108AD8Finish.cpp,0x00108AD8
+member,BfmeCountedGL::m_bfmeCount,BfmeCountedGL::m_refCount,inferred,agree:nl-284ef64e5f49,Code/GameEngine/Source/Common/BfmeTwoHundredOne.cpp,
+member,Rva0014A0B0Target::m_19,Rva0014A0B0Target::m_flags,inferred,agree:nl-abfc79605e88,Code/GameEngine/Source/Common/Rva0014A0B0Flag.cpp,
+function,?rva002B47B1@LivingWorldLogic@@QAEHXZ,?getStartingMoney@LivingWorldLogic@@QAEHXZ,inferred,agree:nl-8857c53e07ad,Code/GameEngine/Source/Common/Rva002B47B1Get.cpp,0x002B47B1
+carry,LivingWorldLogic::rva002B47B1::campaignManager,LivingWorldLogic::getStartingMoney::campaignManager,inferred,scope renamed by Rename rva002B47B1 to getStartingMoney (inferred),Code/GameEngine/Source/Common/Rva002B47B1Get.cpp,0x002B47B1
+param,Rva005C4B56::rva005C4BC8::a,Rva005C4B56::rva005C4BC8::oldState,inferred,agree:nl-fdb25886916a,Code/GameEngine/Source/Common/Rva005C4B56.cpp,0x005C4BC8
+param,Rva005C4B56::rva005C4BC8::b,Rva005C4B56::rva005C4BC8::newState,inferred,agree:nl-0ddbac4b86bf,Code/GameEngine/Source/Common/Rva005C4B56.cpp,0x005C4BC8
+param,q4Notify002CC841::m,q4Notify002CC841::instance,inferred,agree:nl-c0af5b1056c9,Code/GameEngine/Source/GameLogic/Object/Made002CC841Parse.cpp,0x00509780
+local,Rva003C08CC::rva003C08CC::s,Rva003C08CC::rva003C08CC::defaultTeamName,inferred,agree:nl-758d44519c17,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp,0x003C08CC
