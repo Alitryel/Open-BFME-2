@@ -289,7 +289,9 @@ class DrawModule
 {
 public:
 	DrawModule(Thing *thing, const ModuleData *moduleData);
+protected:
 	virtual ~DrawModule();
+public:
 	const ModuleData *getModuleData() const { return m_moduleData; }
 	Drawable *getDrawable() const { return m_drawable; }
 private:

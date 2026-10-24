@@ -31,7 +31,9 @@ class DrawModule
 {
 public:
 	DrawModule(Thing *thing, const ModuleData *moduleData);
+protected:
 	virtual ~DrawModule();
+public:
 
 protected:
 	Drawable *m_drawable; // +4

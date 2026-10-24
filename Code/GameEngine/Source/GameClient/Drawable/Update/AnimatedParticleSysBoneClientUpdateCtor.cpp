@@ -63,7 +63,9 @@ class DrawModule
 {
 public:
 	DrawModule(Thing *thing, const ModuleData *moduleData);
+protected:
 	virtual ~DrawModule();
+public:
 
 protected:
 	unsigned char m_pad04[4];

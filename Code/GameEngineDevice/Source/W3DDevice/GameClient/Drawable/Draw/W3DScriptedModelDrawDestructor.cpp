@@ -461,7 +461,7 @@ struct W3DScriptedModelDrawModuleDataView
  
 }
 ;
-class DrawableModule:public Snapshot 
+class DrawableModule
 {
  protected:virtual ~DrawableModule();
  const ModuleData*m_moduleData;
@@ -472,7 +472,7 @@ class DrawableModule:public Snapshot
 class DrawModule:public DrawableModule 
 {
  public:DrawModule(Thing*,const ModuleData*);
- virtual ~DrawModule()
+ protected:virtual ~DrawModule()
  {
   
  }
@@ -486,11 +486,6 @@ class DrawModule:public DrawableModule
   return m_drawable;
   
  }
-protected:
- virtual void loadPostProcess();
- virtual void xfer(Xfer*);
- virtual const char *GetSnapshotName() const;
- 
 }
 ;
 class Vector3;
