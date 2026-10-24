@@ -93,7 +93,6 @@ UnsignedInt NetWrapperCommandMsg::getTotalDataLength()
 	return m_totalDataLength;
 }
 
-// ?setTotalDataLength@NetWrapperCommandMsg@@QAEXI@Z present-unmatched
 void NetWrapperCommandMsg::setTotalDataLength(UnsignedInt totalDataLength)
 {
 	m_totalDataLength = totalDataLength;
