@@ -27,6 +27,9 @@ namespace _STL { template <> _Vector_base<GeometryShape,allocator<GeometryShape>
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct GeometryRecord;
 namespace _STL { template <> void _Construct<GeometryRecord,GeometryRecord>(GeometryRecord *,GeometryRecord const &); }
+// The shape placement copy is rowed in GeometryShapeConstruct005EA9A9.cpp;
+// throw() keeps the range copy free of the EH frame retail does not have.
+namespace _STL { template <> void _Construct<GeometryShape,GeometryShape>(GeometryShape *,GeometryShape const &) throw(); }
 // The record vector copy is supplied by GeometryRecordVectorCopyConstructor.cpp.
 namespace _STL { template <> vector<GeometryRecord>::vector(const vector<GeometryRecord> &); }
 namespace _STL { template <> _Vector_base<GeometryRecord,allocator<GeometryRecord> >::~_Vector_base(); }

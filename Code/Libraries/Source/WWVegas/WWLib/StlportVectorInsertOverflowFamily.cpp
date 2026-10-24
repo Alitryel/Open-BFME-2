@@ -165,6 +165,16 @@ struct Rva005E2B0EElement { char m_pad[4]; public: Rva005E2B0EElement(const Rva0
 struct GeometryShape { char m_pad[36]; public: GeometryShape(const GeometryShape &); ~GeometryShape(); };
 // 4-byte element; push_back 0x005EFD53.
 #include "../../../../GameEngine/Source/Common/RegionIconSlotReferenceView.h"
+// Retail's range destroy 0x005EAA83 for this 36-byte vector calls the
+// null-checked release dtor 0x005EA85F, not GeometryShape's 0x00255D17.
+struct BfmeVectorRecord002AF478 { ~BfmeVectorRecord002AF478(); };
+namespace _STL {
+template <> __declspec(noinline) inline void _Destroy<GeometryShape *>(GeometryShape *first, GeometryShape *last)
+{
+	for (; first != last; ++first)
+		((BfmeVectorRecord002AF478 *)first)->~BfmeVectorRecord002AF478();
+}
+}
 // bfme link decl-only begin
 namespace _STL { template <> void _Construct<GeometryShape, GeometryShape>(GeometryShape *, GeometryShape const &); }
 namespace _STL { template <> void _Destroy<RvaSmartPtr12 *>(RvaSmartPtr12 *, RvaSmartPtr12 *); }
@@ -202,6 +212,24 @@ template <> void _Destroy<Rva005E71C6Ref *>(Rva005E71C6Ref *, Rva005E71C6Ref *);
 struct Rva004F93B0Element { char m_pad[8]; public: Rva004F93B0Element(const Rva004F93B0Element &); ~Rva004F93B0Element(); };
 // 156-byte element; push_back 0x004CC337 (stlport_asciistring_record_bodies.cpp).
 struct BfmeStringTailRecord156 { char m_pad[156]; public: BfmeStringTailRecord156(const BfmeStringTailRecord156 &); ~BfmeStringTailRecord156(); };
+// Placement-copy owners of the elements below: each push_back growth path
+// reaches the retail row through the inline forwarder.
+class Rva003AD160;
+struct BfmeStringRecord005DDD40 { char m_pad[8]; };
+struct BfmeE8;
+enum ScienceType { SCIENCE_INVALID = -1 };
+class Rva004F6093Holder;
+class Object;
+void __cdecl Rva0026061AConstruct(BfmeStringRecord005DDD40 *, const BfmeStringRecord005DDD40 &);
+void __cdecl Rva002B2FE2Copy(Rva004F6093Holder *, const Rva004F6093Holder &);
+namespace _STL
+{
+template <class _Tp, class _Alloc> class list;
+template <> void _Construct<Rva003AD160, Rva003AD160>(Rva003AD160 *, const Rva003AD160 &);
+template <> void _Construct<vector<BfmeE8>, vector<BfmeE8> >(vector<BfmeE8> *, const vector<BfmeE8> &);
+template <> void _Construct<vector<ScienceType>, vector<ScienceType> >(vector<ScienceType> *, const vector<ScienceType> &);
+template <> void _Construct<list<Object *, allocator<Object *> >, list<Object *, allocator<Object *> > >(list<Object *, allocator<Object *> > *, const list<Object *, allocator<Object *> > &);
+}
 namespace _STL
 {
 template <> void _Construct<RvaSmartPtr12, RvaSmartPtr12>(RvaSmartPtr12 *, const RvaSmartPtr12 &);
@@ -212,7 +240,8 @@ template <> __declspec(dllimport) __forceinline void _Construct<Rva001DAAF2Eleme
 template <> void _Construct<Rva001DF3F1Element, Rva001DF3F1Element>(Rva001DF3F1Element *, const Rva001DF3F1Element &);
 template <> void _Construct<Rva0020A227Element, Rva0020A227Element>(Rva0020A227Element *, const Rva0020A227Element &);
 template <> void _Construct<CreateAHeroClass, CreateAHeroClass>(CreateAHeroClass *, const CreateAHeroClass &);
-template <> void _Construct<Rva00260B88Element, Rva00260B88Element>(Rva00260B88Element *, const Rva00260B88Element &);
+template <> __declspec(dllimport) __forceinline void _Construct<Rva00260B88Element, Rva00260B88Element>(Rva00260B88Element *__p, const Rva00260B88Element &__val)
+{ Rva0026061AConstruct(reinterpret_cast<BfmeStringRecord005DDD40 *>(__p), *reinterpret_cast<const BfmeStringRecord005DDD40 *>(&__val)); }
 template <> __declspec(dllimport) __forceinline void _Construct<Rva00308E2CElement, Rva00308E2CElement>(Rva00308E2CElement *__p, const Rva00308E2CElement &__val)
 { Rva0030CA53Set(reinterpret_cast<Rva004733E0 *>(__p), reinterpret_cast<const Rva004733E0 *>(&__val)); }
 template <> __declspec(dllimport) __forceinline void _Construct<Rva002898ACElement, Rva002898ACElement>(Rva002898ACElement *__p, const Rva002898ACElement &__val)
@@ -223,23 +252,28 @@ template <> __declspec(dllimport) __forceinline void _Construct<Rva00318203Eleme
 { Rva00317CA0Construct(__p, &__val); }
 template <> __declspec(dllimport) __forceinline void _Construct<Rva0032DC80Element, Rva0032DC80Element>(Rva0032DC80Element *__p, const Rva0032DC80Element &__val)
 { Rva0032ACFCConstruct(__p, &__val); }
-template <> void _Construct<Rva0032EA3FElement, Rva0032EA3FElement>(Rva0032EA3FElement *, const Rva0032EA3FElement &);
+template <> __declspec(dllimport) __forceinline void _Construct<Rva0032EA3FElement, Rva0032EA3FElement>(Rva0032EA3FElement *__p, const Rva0032EA3FElement &__val)
+{ _Construct(reinterpret_cast<vector<BfmeE8> *>(__p), *reinterpret_cast<const vector<BfmeE8> *>(&__val)); }
 template <> void _Construct<Rva003328B6Element, Rva003328B6Element>(Rva003328B6Element *, const Rva003328B6Element &);
-template <> void _Construct<Rva0033A23AElement, Rva0033A23AElement>(Rva0033A23AElement *, const Rva0033A23AElement &);
+template <> __declspec(dllimport) __forceinline void _Construct<Rva0033A23AElement, Rva0033A23AElement>(Rva0033A23AElement *__p, const Rva0033A23AElement &__val)
+{ _Construct(reinterpret_cast<vector<ScienceType> *>(__p), *reinterpret_cast<const vector<ScienceType> *>(&__val)); }
 template <> void _Construct<Rva0039A48EElement, Rva0039A48EElement>(Rva0039A48EElement *, const Rva0039A48EElement &);
 template <> void _Construct<BfmeStringRecord00395E75, BfmeStringRecord00395E75>(BfmeStringRecord00395E75 *, const BfmeStringRecord00395E75 &);
 template <> void _Construct<LivingWorldRegionConnection, LivingWorldRegionConnection>(LivingWorldRegionConnection *, const LivingWorldRegionConnection &);
-template <> void _Construct<Rva003F7B22Element, Rva003F7B22Element>(Rva003F7B22Element *, const Rva003F7B22Element &);
+template <> __declspec(dllimport) __forceinline void _Construct<Rva003F7B22Element, Rva003F7B22Element>(Rva003F7B22Element *__p, const Rva003F7B22Element &__val)
+{ Rva002B2FE2Copy(reinterpret_cast<Rva004F6093Holder *>(__p), *reinterpret_cast<const Rva004F6093Holder *>(&__val)); }
 template <> void _Construct<Rva00403927, Rva00403927>(Rva00403927 *, const Rva00403927 &);
 template <> void _Construct<Rva00413B16Element, Rva00413B16Element>(Rva00413B16Element *, const Rva00413B16Element &);
 template <> void _Construct<Rva00414258Element, Rva00414258Element>(Rva00414258Element *, const Rva00414258Element &);
 template <> void _Construct<Rva00414BA4Element, Rva00414BA4Element>(Rva00414BA4Element *, const Rva00414BA4Element &);
 template <> void _Construct<BfmeStringRecord00466E64, BfmeStringRecord00466E64>(BfmeStringRecord00466E64 *, const BfmeStringRecord00466E64 &);
-template <> void _Construct<Rva00475F2AElement, Rva00475F2AElement>(Rva00475F2AElement *, const Rva00475F2AElement &);
+template <> __declspec(dllimport) __forceinline void _Construct<Rva00475F2AElement, Rva00475F2AElement>(Rva00475F2AElement *__p, const Rva00475F2AElement &__val)
+{ _Construct(reinterpret_cast<list<Object *, allocator<Object *> > *>(__p), *reinterpret_cast<const list<Object *, allocator<Object *> > *>(&__val)); }
 template <> __declspec(dllimport) __forceinline void _Construct<Rva004C3F09Element, Rva004C3F09Element>(Rva004C3F09Element *__p, const Rva004C3F09Element &__val)
 { Rva004C3A9FConstruct(__p, &__val); }
 template <> void _Construct<Rva004F87BCElement, Rva004F87BCElement>(Rva004F87BCElement *, const Rva004F87BCElement &);
-template <> void _Construct<Rva004F8D92Element, Rva004F8D92Element>(Rva004F8D92Element *, const Rva004F8D92Element &);
+template <> __declspec(dllimport) __forceinline void _Construct<Rva004F8D92Element, Rva004F8D92Element>(Rva004F8D92Element *__p, const Rva004F8D92Element &__val)
+{ _Construct(reinterpret_cast<Rva004F87BCElement *>(__p), *reinterpret_cast<const Rva004F87BCElement *>(&__val)); }
 template <> __declspec(dllimport) __forceinline void _Construct<Rva004F9018Element, Rva004F9018Element>(Rva004F9018Element *__p, const Rva004F9018Element &__val)
 { Rva004F6B69Construct(reinterpret_cast<Rva004F6966 *>(__p), reinterpret_cast<const Rva004F6966 *>(&__val)); }
 template <> void _Construct<Rva00501E3FElement, Rva00501E3FElement>(Rva00501E3FElement *, const Rva00501E3FElement &);
@@ -262,7 +296,55 @@ template <> void _Construct<BfmeThingUBB, BfmeThingUBB>(BfmeThingUBB *, const Bf
 template <> void _Construct<Rva005E71C6Ref, Rva005E71C6Ref>(Rva005E71C6Ref *, const Rva005E71C6Ref &);
 template <> __declspec(dllimport) __forceinline void _Construct<Rva004F93B0Element, Rva004F93B0Element>(Rva004F93B0Element *__p, const Rva004F93B0Element &__val)
 { Rva004F6A52Assign(reinterpret_cast<Rva004C5DD0 *>(__p), reinterpret_cast<const Rva004C5DD0Pair *>(&__val)); }
-template <> void _Construct<BfmeStringTailRecord156, BfmeStringTailRecord156>(BfmeStringTailRecord156 *, const BfmeStringTailRecord156 &);
+template <> __declspec(dllimport) __forceinline void _Construct<BfmeStringTailRecord156, BfmeStringTailRecord156>(BfmeStringTailRecord156 *__p, const BfmeStringTailRecord156 &__val)
+{ _Construct(reinterpret_cast<Rva003AD160 *>(__p), *reinterpret_cast<const Rva003AD160 *>(&__val)); }
+}
+
+// _M_clear of these vectors is retail's shared clear worker of another vector
+// (ICF): the growth path calls that row through an inline forwarder, so this
+// unit emits no unrowed _M_clear copy (and no element destructor reference).
+struct Rva0046800B { void rva0046800B(); };
+struct ConnectionVec { void Rva00565A24_ScrapStorage(); };
+class Rva001DEF6B { public: ~Rva001DEF6B(); };
+class Rva00308C13 { public: ~Rva00308C13(); };
+struct Rva0032E7E2 { void rva0032E7E2(); };
+struct Rva00414148 { void rva00414148(); };
+struct Rva004F89DB { void rva004F89DB(); };
+struct Rva00565A42 { void rva00565A42(); };
+struct Rva0056614DVec { void rva0056614D(); };
+struct Rva002B61DD { void rva002B61DD(); };
+struct BfmeStringRecord00426A5B { char m_pad[8]; };
+struct BfmeAssignRecord44 { char m_pad[44]; };
+// The complete clear worker of Rva002B9062Element is owned by StlportVectorClearRva00577EF1.cpp.
+template <> void _STL::vector<Rva002B9062Element>::_M_clear();
+// Likewise owned by stlport_vector_stringrecord_5ddd40_allocate_copy.cpp,
+// stlport_vector_stringrecord_426a5b_allocate_copy.cpp and stlport_asciistring_record_bodies.cpp.
+template <> void _STL::vector<BfmeStringRecord005DDD40>::_M_clear();
+template <> void _STL::vector<BfmeStringRecord00426A5B>::_M_clear();
+template <> void _STL::vector<BfmeAssignRecord44>::_M_clear();
+template <class _Tp> struct ClearOwner : _STL::vector<_Tp> { public: using _STL::vector<_Tp>::_M_clear; };
+namespace _STL
+{
+#define BFME_CLEAR_FORWARD(T, CALL) \
+    template <> __declspec(dllimport) __forceinline void vector<T, allocator<T> >::_M_clear() { CALL; }
+BFME_CLEAR_FORWARD(BfmeStringRecord00466E64, ((Rva0046800B *)this)->rva0046800B())
+BFME_CLEAR_FORWARD(LivingWorldRegionConnection, ((ConnectionVec *)this)->Rva00565A24_ScrapStorage())
+BFME_CLEAR_FORWARD(Rva001DF3F1Element, ((Rva001DEF6B *)this)->Rva001DEF6B::~Rva001DEF6B())
+BFME_CLEAR_FORWARD(Rva00260B88Element, ((ClearOwner<BfmeStringRecord005DDD40> *)this)->_M_clear())
+BFME_CLEAR_FORWARD(Rva00308E2CElement, ((Rva00308C13 *)this)->Rva00308C13::~Rva00308C13())
+BFME_CLEAR_FORWARD(Rva0032DC80Element, ((ClearOwner<BfmeStringRecord00426A5B> *)this)->_M_clear())
+BFME_CLEAR_FORWARD(Rva0032EA3FElement, ((Rva0032E7E2 *)this)->rva0032E7E2())
+BFME_CLEAR_FORWARD(Rva0033A23AElement, ((Rva0032E7E2 *)this)->rva0032E7E2())
+BFME_CLEAR_FORWARD(Rva003F7B22Element, ((Rva002B61DD *)this)->rva002B61DD())
+BFME_CLEAR_FORWARD(Rva00414258Element, ((Rva00414148 *)this)->rva00414148())
+BFME_CLEAR_FORWARD(Rva00414BA4Element, ((ClearOwner<BfmeAssignRecord44> *)this)->_M_clear())
+BFME_CLEAR_FORWARD(Rva004F8D92Element, ((ClearOwner<Rva002B9062Element> *)this)->_M_clear())
+BFME_CLEAR_FORWARD(Rva005FA197Element, ((ClearOwner<Rva002B9062Element> *)this)->_M_clear())
+BFME_CLEAR_FORWARD(Rva005FA1CEElement, ((ClearOwner<Rva002B9062Element> *)this)->_M_clear())
+BFME_CLEAR_FORWARD(Rva004F93B0Element, ((Rva004F89DB *)this)->rva004F89DB())
+BFME_CLEAR_FORWARD(Rva0052BE33, ((Rva00565A42 *)this)->rva00565A42())
+BFME_CLEAR_FORWARD(Rva005668E9Element, ((Rva0056614DVec *)this)->rva0056614D())
+#undef BFME_CLEAR_FORWARD
 }
 
 // Retail 0x0004CE90.
@@ -296,8 +378,6 @@ template void _STL::vector<Rva00308E2CElement>::_M_insert_overflow(
 template void _STL::vector<Rva002898ACElement>::_M_insert_overflow(
     Rva002898ACElement *, const Rva002898ACElement &, const _STL::__false_type &, unsigned int, bool);
 // Retail 0x002B8174.
-// The complete clear worker is owned by StlportVectorClearRva00577EF1.cpp.
-template <> void _STL::vector<Rva002B9062Element>::_M_clear();
 
 template void _STL::vector<Rva002B9062Element>::_M_insert_overflow(
     Rva002B9062Element *, const Rva002B9062Element &, const _STL::__false_type &, unsigned int, bool);
