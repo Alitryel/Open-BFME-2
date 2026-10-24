@@ -178,7 +178,7 @@ virtual void v00();
 struct Rva000B8F5AOuter:public Rva000BF9FCHeader,public Rva000BF9FCModelInterface,public Rva000BFB76Interface
 {
  bool rva000BF9FC(void *entry,bool force,int options);
- void rva000BEE25(void*,float,bool,bool,bool);
+ void adjustAnimation(void*,float,bool,bool,bool);
  void rva000BFB51(float);
 
 };
@@ -290,7 +290,7 @@ void Rva000B8F5AOuter::rva000BFB51(float value)
 	if (entry != 0)
 	{
 		m_flag28C = false;
-		rva000BEE25(entry, value, 0, 1, 1);
+		adjustAnimation(entry, value, 0, 1, 1);
 	}
 }
 
@@ -533,7 +533,7 @@ bool Rva000B8F5AOuter::rva000BF9FC(void*entry,bool force,int options){
  AnimationStateBF9FC*previous=m_18;
  float fraction=((Rva000B2EB5*)this)->rva000B2EB5();
  m_18=next;
- rva000BEE25(previous,fraction,0,0,(bool&)options);
+ adjustAnimation(previous,fraction,0,0,(bool&)options);
  if(previous!=m_18){
   if(previous)((Rva000B9A0E*)previous)->rva000B9A0E(drawable->object,2,0);
   if(m_18)((Rva000B9A0E*)m_18)->rva000B9A0E(drawable->object,1,0);

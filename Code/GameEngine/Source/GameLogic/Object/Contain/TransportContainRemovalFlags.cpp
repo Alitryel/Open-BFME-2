@@ -19,7 +19,7 @@ public:
 class Rva00467AB8
 {
 public:
-    void rva00467AB8(Object *object);
+    void onRemoving(Object *object);
 };
 
 class Rva0047BB3BOwner
@@ -37,6 +37,6 @@ void Rva0047BB3BOwner::rva0047BB3B(Object *object)
             object->m_modelConditionFlags[6] &= ~(1U << 17);
             object->rva0028AE6D();
         }
-        reinterpret_cast<Rva00467AB8 *>(this)->rva00467AB8(object);
+        reinterpret_cast<Rva00467AB8 *>(this)->onRemoving(object);
     }
 }

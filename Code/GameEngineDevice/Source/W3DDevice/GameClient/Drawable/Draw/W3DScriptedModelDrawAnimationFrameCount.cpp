@@ -771,7 +771,7 @@ class Rva000B7074{public:void rva000B7074();};
 struct ModelStateView{int pad;ModelConditionFlags flags;char rest[0x5c-0x50];unsigned stateFlags;};
 struct ModelDataView{char pad[0x6b];bool requirePower;};
 __forceinline unsigned char Flag(unsigned value){return (value>>5)&1;}
-class Rva000B8F5AOuter{public:bool rva000BF9FC(void*,bool,int);void rva000BEE25(void*,float,bool,bool,bool);};
+class Rva000B8F5AOuter{public:bool rva000BF9FC(void*,bool,int);void adjustAnimation(void*,float,bool,bool,bool);};
 class HAnimClass;
 // Field view of the draw module for processAnimations (offsets from retail).
 class ScriptedDrawView{public:__forceinline Rva0027532F*GetDrawable(){return drawable;}
@@ -828,10 +828,10 @@ void W3DScriptedModelDraw::processAnimations(){
  if(!((Rva000B3A68*)this)->rva000B3A68() && Rva000B2E4CComplete(scriptedDrawView->render,&scriptedDrawView->slots[0],scriptedDrawView->transition) && scriptedDrawView->render && scriptedDrawView->state && scriptedDrawView->whichAnimation!=-1){
   if(scriptedDrawView->transition){void*next=((Rva000B4BED*)module)->rva000B4BED(scriptedDrawView->signature);if(next){scriptedDrawView->nextState=0;scriptedDrawView->pending=false;((Rva000B8F5AOuter*)this)->rva000BF9FC(next,0,0);if(!scriptedDrawView->nextState)scriptedDrawView->transition=false;return;}else{scriptedDrawView->transition=false;scriptedDrawView->nextState=0;}}
   ModelStateView*cur=scriptedDrawView->state;
-  if(!cur->flags.rva000B3EB3())((Rva000B8F5AOuter*)this)->rva000BEE25(cur,-1.0f,false,false,false);
-  else if(Flag(cur->stateFlags)){((Rva000B8F5AOuter*)this)->rva000BEE25(cur,-1.0f,false,false,false);scriptedDrawView->changed=true;}
+  if(!cur->flags.rva000B3EB3())((Rva000B8F5AOuter*)this)->adjustAnimation(cur,-1.0f,false,false,false);
+  else if(Flag(cur->stateFlags)){((Rva000B8F5AOuter*)this)->adjustAnimation(cur,-1.0f,false,false,false);scriptedDrawView->changed=true;}
  }
- if(scriptedDrawView->reselect){scriptedDrawView->reselect=false;((Rva000B8F5AOuter*)this)->rva000BEE25(0,-1.0f,false,false,false);}
+ if(scriptedDrawView->reselect){scriptedDrawView->reselect=false;((Rva000B8F5AOuter*)this)->adjustAnimation(0,-1.0f,false,false,false);}
  ((Rva000B5C41*)this)->rva000B5C41();((Rva000B7074*)this)->rva000B7074();
 }
 
@@ -889,7 +889,7 @@ class HAnimClass;
 static __forceinline unsigned char AdjustBit0(unsigned f){return f&1;}
 static __forceinline unsigned char AdjustBit1(unsigned f){return (f>>1)&1;}
 static __forceinline unsigned char AdjustBit2(unsigned f){return (f>>2)&1;}
-void Rva000B8F5AOuter::rva000BEE25(void *old,float fraction,bool preserve,bool force,bool reset){
+void Rva000B8F5AOuter::adjustAnimation(void *old,float fraction,bool preserve,bool force,bool reset){
  AdjustView*adjustView=(AdjustView*)this;
  if(!adjustView->state||!adjustView->model)return;
  Object*object=adjustView->getDrawable()->getObject();AdjustData*data=adjustView->data;

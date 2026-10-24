@@ -1,5 +1,5 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmelist /Ireference/shims/bfmealloc /ICode/GameEngine/Source/Common /ICode/Libraries/Include
-// ?rva00467AB8@Rva00467AB8@@QAEXPAVObject@@@Z, retail 0x00467AB8..0x00467D8E (726 B),
+// ?onRemoving@Rva00467AB8@@QAEXPAVObject@@@Z, retail 0x00467AB8..0x00467D8E (726 B),
 // TransportContain::onRemoving by the WB twin 0x01159EA0, with its EH handler.
 // Module data fields are real members (the loop fadeIn reads m_fadeTime directly,
 // g*fadeTime as the WB twin), the scatter test is the plain owner-dead && !rider-dead
@@ -212,7 +212,7 @@ class Rva00467AB8:public Rva00467AB8After61<8>
 {
  public:
  virtual int count(int) const;
- void rva00467AB8(Object *);
+ void onRemoving(Object *);
  Rva00467AB8Data *data() const 
  {
   return *reinterpret_cast<Rva00467AB8Data *const *>(reinterpret_cast<const char *>(this)-0x1C);
@@ -230,7 +230,7 @@ class Rva00467AB8:public Rva00467AB8After61<8>
  
 }
 ;
-void Rva00467AB8::rva00467AB8(Object *rider)
+void Rva00467AB8::onRemoving(Object *rider)
 
 {
  reinterpret_cast<OpenContain *>(this)->OpenContain::onRemoving(rider);

@@ -104,7 +104,7 @@ public:
 class Rva00467AB8
 {
 public:
-    void rva00467AB8(Object *object);
+    void onRemoving(Object *object);
 };
 
 class Rva00270260
@@ -132,7 +132,7 @@ void Rva00477432Outer::rva00477365(Object *object)
     Rva00463509 *base = reinterpret_cast<Rva00463509 *>(
         reinterpret_cast<char *>(this) + 0x20);
     base->rva00463509(object, false);
-    reinterpret_cast<Rva00467AB8 *>(base)->rva00467AB8(object);
+    reinterpret_cast<Rva00467AB8 *>(base)->onRemoving(object);
     object->clearWeaponSetFlag((WeaponSetType)20);
 
     TransportRemovalObjectFlags *flags = reinterpret_cast<TransportRemovalObjectFlags *>(object);

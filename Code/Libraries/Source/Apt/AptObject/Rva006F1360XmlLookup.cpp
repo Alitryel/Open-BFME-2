@@ -103,7 +103,7 @@ public:
   XmlNode *node;
   void *owner;
   Rva006F1360(int, void *);
-  AptValue *rva006F1600(AptValue *, const EAStringC *) const;
+  AptValue *objectMemberLookup(AptValue *, const EAStringC *) const;
   POOL_ALLOC
 };
 class Rva006D6500 : public BfmeAptValue006DCD20 {
@@ -172,7 +172,7 @@ extern Rva008A48D0Item *g_rva008A48D0_0, *g_rva008A48D0_1, *g_rva008A48D0_2,
       xmlCache##N->AddRef();                                                   \
     }                                                                          \
     return (AptValue *)xmlCache##N;
-AptValue *Rva006F1360::rva006F1600(AptValue *context,
+AptValue *Rva006F1360::objectMemberLookup(AptValue *context,
                                    const EAStringC *name) const {
   const R4Word *word =
       context ? Rva008D5DC0(name->rva00620090(), name->rva006D3750()) : 0;

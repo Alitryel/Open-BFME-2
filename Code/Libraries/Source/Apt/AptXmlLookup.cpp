@@ -93,7 +93,7 @@ AptValue *AptXml::sMethod_parseXml(AptValue *self,int count)
  return gpUndefinedValue;
 }
 
-class Rva006F1360 {public:AptValue *rva006F1600(AptValue *,const EAStringC *)const;};
+class Rva006F1360 {public:AptValue *objectMemberLookup(AptValue *,const EAStringC *)const;};
 class AptString {public:static AptString *Create();};
 class AptInteger {public:static AptValue *Create(int);};
 class AptBoolean {public:static AptValue *Create(bool);};
@@ -110,7 +110,7 @@ void rva006F1F90(BfmeAptValue006DCD20 *);
 AptValue *AptXml::objectMemberLookup(AptValue *const context,const EAStringC *const name)const
 {
  reinterpret_cast<BfmeAptValue006DCD20 *>(context)->setTypeAt006DBBC0(32);
- AptValue *inherited=reinterpret_cast<const Rva006F1360 *>(this)->rva006F1600(context,name);
+ AptValue *inherited=reinterpret_cast<const Rva006F1360 *>(this)->objectMemberLookup(context,name);
  reinterpret_cast<BfmeAptValue006DCD20 *>(context)->setTypeAt006DBBC0(33);
  if(inherited && inherited->getIsDefined())return inherited;
  const R4Word *prop=context?Rva008D5DC0(name->rva00620090(),name->rva006D3750()):0;
