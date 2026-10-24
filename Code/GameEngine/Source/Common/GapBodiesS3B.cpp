@@ -191,7 +191,7 @@ public:
 	virtual void s22();
 	virtual void s23();
 	virtual void s24(int x, int y, const char *text);
-	virtual void rva0030B0A3(const char *text);
+	virtual void print(const char *text);
 private:
 	int m_col;												// +0x04
 	int m_line;												// +0x08
@@ -200,7 +200,7 @@ private:
 	int m_margin;											// +0x14
 };
 
-void Rva0030B0A3::rva0030B0A3(const char *text)
+void Rva0030B0A3::print(const char *text)
 {
 	s24(m_margin + m_col, m_line, text);
 	const char *cursor = text;
