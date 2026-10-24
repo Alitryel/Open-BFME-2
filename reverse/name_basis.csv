@@ -1256,3 +1256,9 @@ param,FontCharsClass::rva001588A0::y,FontCharsClass::rva001588A0::destY,inferred
 function,?rva001588A0@FontCharsClass@@QAEXGPAGHHH@Z,?Blit_Char_Thai@FontCharsClass@@QAEXGPAGHHH@Z,inferred,agree:nl-2d139e76ab63,Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassRva001588A0.cpp,0x001588A0
 carry,FontCharsClass::rva001588A0::destX,FontCharsClass::Blit_Char_Thai::destX,inferred,scope renamed by Rename rva001588A0 to Blit_Char_Thai (inferred),Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassRva001588A0.cpp,0x001588A0
 carry,FontCharsClass::rva001588A0::destY,FontCharsClass::Blit_Char_Thai::destY,inferred,scope renamed by Rename rva001588A0 to Blit_Char_Thai (inferred),Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassRva001588A0.cpp,0x001588A0
+param,S2PivotMatrix::q,S2PivotMatrix::transform,inferred,agree:nl-82e48929bbe2,Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp,
+param,S2PivotMatrix::m,S2PivotMatrix::matrix,inferred,agree:nl-319831f4b30c,Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp,
+param,baseRotate::q,baseRotate::rotation,inferred,agree:nl-d123bac17248,Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp,
+param,baseRotate::v,baseRotate::vector,inferred,agree:nl-0791d84a3dae,Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp,
+local,baseCompose::r,baseCompose::rotatedPosition,inferred,agree:nl-39f3569c0b95,Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp,
+local,HTreeClass::Simple_Evaluate_Pivot::p,HTreeClass::Simple_Evaluate_Pivot::pivot,inferred,agree:nl-48e83025078d,Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp,0x001606E0

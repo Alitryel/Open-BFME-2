@@ -109,46 +109,46 @@ int HTreeClass::Get_Parent_Index(int bone_indx) const
 	}
 }
 
-static __forceinline Matrix3D &S2PivotMatrix(const Quaternion &Q, const S2CompactTransform &q, Matrix3D &m)
+static __forceinline Matrix3D &S2PivotMatrix(const Quaternion &Q, const S2CompactTransform &transform, Matrix3D &matrix)
 {
 	const float xx = Q.X * Q.X * 2.0f, xy = 2.0f * (Q.X * Q.Y), xz = Q.Z * Q.X * 2.0f, wx = Q.W * Q.X * 2.0f;
 	const float yy = Q.Y * Q.Y * 2.0f, yz = Q.Z * Q.Y * 2.0f, wy = Q.W * Q.Y * 2.0f;
 	const float zz = Q.Z * Q.Z * 2.0f, wz = Q.W * Q.Z * 2.0f;
-	m[0][0] = 1.0f - yy - zz;
-	m[0][1] = xy - wz;
-	m[0][2] = xz + wy;
-	m[1][0] = xy + wz;
-	m[1][1] = 1.0f - zz - xx;
-	m[1][2] = yz - wx;
-	m[2][0] = xz - wy;
-	m[2][1] = yz + wx;
-	m[2][2] = 1.0f - yy - xx;
-	m[0][3] = q.Position.X;
-	m[1][3] = q.Position.Y;
-	m[2][3] = q.Position.Z;
-	return m;
+	matrix[0][0] = 1.0f - yy - zz;
+	matrix[0][1] = xy - wz;
+	matrix[0][2] = xz + wy;
+	matrix[1][0] = xy + wz;
+	matrix[1][1] = 1.0f - zz - xx;
+	matrix[1][2] = yz - wx;
+	matrix[2][0] = xz - wy;
+	matrix[2][1] = yz + wx;
+	matrix[2][2] = 1.0f - yy - xx;
+	matrix[0][3] = transform.Position.X;
+	matrix[1][3] = transform.Position.Y;
+	matrix[2][3] = transform.Position.Z;
+	return matrix;
 }
 
-static __forceinline void baseRotate(const Quaternion &q, const Vector3 &v, Vector3 *out)
+static __forceinline void baseRotate(const Quaternion &rotation, const Vector3 &vector, Vector3 *out)
 {
-	float x = (q.Y * v.Z - q.Z * v.Y) + q.W * v.X;
-	float y = -(q.X * v.Z - q.Z * v.X) + q.W * v.Y;
-	float z = (q.X * v.Y - q.Y * v.X) + q.W * v.Z;
-	float w = 0.0f - (q.X * v.X + q.Y * v.Y + q.Z * v.Z);
-	float rx = q.Y * z - y * q.Z;
-	rx += q.W * x - q.X * w;
+	float x = (rotation.Y * vector.Z - rotation.Z * vector.Y) + rotation.W * vector.X;
+	float y = -(rotation.X * vector.Z - rotation.Z * vector.X) + rotation.W * vector.Y;
+	float z = (rotation.X * vector.Y - rotation.Y * vector.X) + rotation.W * vector.Z;
+	float w = 0.0f - (rotation.X * vector.X + rotation.Y * vector.Y + rotation.Z * vector.Z);
+	float rx = rotation.Y * z - y * rotation.Z;
+	rx += rotation.W * x - rotation.X * w;
 	out->X = rx;
-	out->Y = (q.W * y - q.Y * w) - (q.X * z - q.Z * x);
-	float rz = q.X * y - q.Y * x;
-	rz += q.W * z - q.Z * w;
+	out->Y = (rotation.W * y - rotation.Y * w) - (rotation.X * z - rotation.Z * x);
+	float rz = rotation.X * y - rotation.Y * x;
+	rz += rotation.W * z - rotation.Z * w;
 	out->Z = rz;
 }
 
 static __forceinline void baseCompose(const S2CompactTransform &a, const S2CompactTransform &b, S2CompactTransform &result)
 {
-	Vector3 r;
-	baseRotate(a.Q, b.Position, &r);
-	result.Position = r + a.Position;
+	Vector3 rotatedPosition;
+	baseRotate(a.Q, b.Position, &rotatedPosition);
+	result.Position = rotatedPosition + a.Position;
 	result.Q = a.Q * b.Q;
 }
 
@@ -178,11 +178,11 @@ bool HTreeClass::Simple_Evaluate_Pivot(int pivot_index, const Matrix3D &obj_tm, 
 	//	Loop over the hierarchy of pivots that this pivot is
 	// attached to and transform each.
 	//
-	for (PivotClass *p = &Pivot[pivot_index]; p != NULL && p->Parent != NULL; p = p->Parent) {
+	for (PivotClass *pivot = &Pivot[pivot_index]; pivot != NULL && pivot->Parent != NULL; pivot = pivot->Parent) {
 		//
 		//	Transform the return value by this transform
 		//
-		baseCompose(p->Base, total, total);
+		baseCompose(pivot->Base, total, total);
 	}
 	S2PivotMatrix(total.Q, total, *end_tm);
 	//
