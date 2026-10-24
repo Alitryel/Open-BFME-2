@@ -19,7 +19,7 @@ void famgenDelete(IndexBufferClass::WriteLockClass *p) { delete p; }
 
 // ??_GLockClass@CriticalSectionClass@@QAEPAXI@Z @0x55077c
 struct CriticalSectionClass { struct LockClass { ~LockClass(); }; };
-void famgenDelete(CriticalSectionClass::LockClass *p) { delete p; }
+void famgenDelete(CriticalSectionClass::LockClass *lock) { delete lock; }
 
 // ??_GPrereqUnitRec@ProductionPrerequisite@@QAEPAXI@Z @0x3b3fb1
 struct ProductionPrerequisite { struct PrereqUnitRec { ~PrereqUnitRec(); }; };
