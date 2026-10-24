@@ -924,3 +924,4 @@ local,HordeMeleeSwarm::rva00584A9B::t1,HordeMeleeSwarm::rva00584A9B::expectedBuf
 local,HordeMeleeSwarm::rva00584A9B::t2,HordeMeleeSwarm::rva00584A9B::actualBuffer,inferred,agree:nl-bcab6a30f6f3,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarmXfer.cpp,0x00584A9B
 local,Rva001F696EPut::t,Rva001F696EPut::stringData,inferred,agree:nl-f4acf4358e80,Code/Libraries/Source/WWVegas/WWLib/Rva001F696EPut.cpp,0x001F696E
 local,Rva001F696EPut::p,Rva001F696EPut::text,inferred,agree:nl-b7ea302b988b,Code/Libraries/Source/WWVegas/WWLib/Rva001F696EPut.cpp,0x001F696E
+param,Rva002CF2D5::rva002CF2D5::x,Rva002CF2D5::rva002CF2D5::node,inferred,agree:nl-d32d822febfc,Code/Libraries/Source/WWVegas/WWLib/Rva002CF2D5Erase.cpp,0x002CF2D5
