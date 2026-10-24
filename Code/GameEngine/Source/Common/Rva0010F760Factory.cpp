@@ -8,8 +8,8 @@
 class OpaqueRefCounted {public:void Release_Ref();};
 class Rva0036CA00Str {public:__declspec(nothrow) Rva0036CA00Str(const Rva0036CA00Str&);~Rva0036CA00Str(){if(item)((OpaqueRefCounted*)item)->Release_Ref();}void*item;};
 void*__cdecl operator new(unsigned) throw();
-struct Rva0010F155Header {volatile long count;__forceinline Rva0010F155Header():count(0){} virtual ~Rva0010F155Header(){}};
-class Rva0010F7EE:public Rva0010F155Header {public:Rva0010F7EE(Rva0036CA00Str h);virtual ~Rva0010F7EE();virtual int rva005D124D();Rva0036CA00Str handle;};
+struct RefCountedBase {volatile long count;__forceinline RefCountedBase():count(0){} virtual ~RefCountedBase(){}};
+class Rva0010F7EE:public RefCountedBase {public:Rva0010F7EE(Rva0036CA00Str h);virtual ~Rva0010F7EE();virtual int rva005D124D();Rva0036CA00Str handle;};
 Rva0010F7EE::Rva0010F7EE(Rva0036CA00Str h):handle(h){}
 class AudioEventInfo;
 class AudioEventInfoRef {public:__declspec(nothrow) AudioEventInfoRef(const AudioEventInfo*);~AudioEventInfoRef(){if(item)((OpaqueRefCounted*)item)->Release_Ref();}void*item;};

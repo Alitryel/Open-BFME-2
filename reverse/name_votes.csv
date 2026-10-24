@@ -3267,3 +3267,5 @@ Code/GameEngine/Source/Common/Rva000FE1ACUpdate.cpp|global||g_00DEC220,d75ce4616
 Code/GameEngine/Source/Common/BfmeConv679GoDEC.cpp|local|bfmeGoDEC|s,7d5f660c8354dd2c643d886a,seat-a,rn-1024a-5-a,w-824019b2c1af,2026-10-24
 Code/GameEngine/Source/Common/Rva00066A9ABody.cpp|local|Rva00066A9AHost::rva00066A9A|g,1e4227f40ccf0202297dab77,seat-a,rn-1024a-6-a,w-c9a401d0a9c0,2026-10-24
 Code/GameEngine/Source/Common/Rva00066A9ABody.cpp|local|Rva00066A9AHost::rva00066A9A|g,1e4227f40ccf0202297dab77,seat-b,rn-1024a-6-b,w-eaf0459d7676,2026-10-24
+Code/GameEngine/Source/Common/Rva0010F760Factory.cpp|class||Rva0010F155Header,8ffc5903e4c39ec931055094,seat-a,rn-1024a-7-a,w-4d82a409d830,2026-10-24
+Code/GameEngine/Source/Common/Rva0010F760Factory.cpp|class||Rva0010F155Header,8ffc5903e4c39ec931055094,seat-b,rn-1024a-7-b,w-6d7b3d37af1b,2026-10-24
