@@ -6046,3 +6046,11 @@ Code/GameEngine/Source/Common/GapBodiesS3B.cpp|param|Rva001E0301::rva001E0301|a,
 Code/GameEngine/Source/Common/GapBodiesS3B.cpp|function|0x001E0301|rva001E0301,5ab303be53a8300cac4829a7,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p063b,w-fcd091c69f29,2026-10-24
 Code/GameEngine/Source/Common/GapBodiesS3B.cpp|param|Rva001E0301::rva001E0301|a,cc6ba950fc681cbae36c318b,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p063b,w-fcd091c69f29,2026-10-24
 Code/GameEngine/Source/Common/GapBodiesS3B.cpp|param|Rva001E0301::rva001E0301|b,d41427b9d5bb5f5a3ecd5eed,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p063b,w-fcd091c69f29,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/Palantir/PalantirResourceBar.cpp|function|0x002D2D63|rva002D2D63,6107043acfb1941aa57dab7e,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p064a,w-4a0752283930,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/Palantir/PalantirResourceBar.cpp|param|AptRef#3|d,e4f2312b3baa3e63138359e8,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p064a,w-4a0752283930,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/Palantir/PalantirResourceBar.cpp|param|AptRef#4|d,e69b932e91454a1389b7dfb5,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p064a,w-4a0752283930,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/Palantir/PalantirResourceBar.cpp|param|AptRef#5|d,a07d16cf409466c025e9f001,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p064a,w-4a0752283930,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/Palantir/PalantirResourceBar.cpp|function|0x002D2D63|rva002D2D63,6107043acfb1941aa57dab7e,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p064b,w-d2e6b9a13a3d,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/Palantir/PalantirResourceBar.cpp|param|AptRef#3|d,e4f2312b3baa3e63138359e8,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p064b,w-d2e6b9a13a3d,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/Palantir/PalantirResourceBar.cpp|param|AptRef#4|d,e69b932e91454a1389b7dfb5,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p064b,w-d2e6b9a13a3d,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/Palantir/PalantirResourceBar.cpp|param|AptRef#5|d,a07d16cf409466c025e9f001,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p064b,w-d2e6b9a13a3d,2026-10-24

@@ -109,12 +109,12 @@ public:
  Rva002D5188ResourceBar();
  ~Rva002D5188ResourceBar();
  void update();
- void rva002D2D63(const Coord2D &,const Coord2D &,void *,void *);
+ void renderFactionIcon(const Coord2D &,const Coord2D &,void *,void *);
 private:
  int unknown00,unknown04;bool flag08;int resources,commandPoints,unknown14;
  float multiplier;Image *image;ResourceOwned20 owned20;ResourceOwned24 owned24;
 };
-void Rva002D5188ResourceBar::rva002D2D63(const Coord2D &position,const Coord2D &size,void *,void *) {
+void Rva002D5188ResourceBar::renderFactionIcon(const Coord2D &position,const Coord2D &size,void *,void *) {
  // Complete79B RET16 leaf; constructor binds the receiver and method under
  // RenderFactionIcon. WB F409A0 confirms two point references; the unused
  // trailing argument types remain opaque. Neither coordinate is rounded.
@@ -124,7 +124,7 @@ Rva002D5188ResourceBar::Rva002D5188ResourceBar():unknown00(0),unknown04(0),flag0
  reinterpret_cast<Rva00222A8BTarget*>(g_bfmeAptWindowManager)->rva002239FA(AsciiString("ResourceBar/ResourceIcon"),AsciiString("Resource_Icon"));
  {
   AsciiString name("RenderFactionIcon");
-  AddResourceRender(name,DelegateDesc(reinterpret_cast<ResourceDrawMethod>(&Rva002D5188ResourceBar::rva002D2D63),this));
+  AddResourceRender(name,DelegateDesc(reinterpret_cast<ResourceDrawMethod>(&Rva002D5188ResourceBar::renderFactionIcon),this));
  }
  {
   AsciiString name("Palantir/ResourceBar/Resources/");
