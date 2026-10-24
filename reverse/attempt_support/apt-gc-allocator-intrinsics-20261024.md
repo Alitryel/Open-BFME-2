@@ -14,6 +14,7 @@ Normal add_match retains each row's existing notes and queues its landing receip
 | RVA | Method | Complete bytes | Result |
 |---|---|---:|---|
 |0x6D2880|isAllocated|69|Bare breakpoint intrinsic; whole-file4/4 plusdata1/string14 exact.|
+|0x6D28D0|allocator bitfield setter|92|Bare intrinsic at 1 existing breakpoint site(s); whole-file4/4/data1/string14 exact.|
 
 The helper is also inlined into the171B reader; that reader retains its own
 assembly until its separate conversion. Published-index link preview against

@@ -107,7 +107,7 @@ void Rva006D2A60::rva006D28D0(int mode, bool value)
 	g_bfmeAptAssertAtE17734("false", "..\\..\\include\\apt\\AptValueGCAllocator.h", 0x107);
 	if (g_bfmeAptBreakOnAssertAtDDC01C)
 	{
-		__asm int 3
+		__debugbreak();
 	}
 }
 
