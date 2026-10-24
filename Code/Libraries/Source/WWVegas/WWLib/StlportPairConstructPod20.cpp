@@ -12,9 +12,14 @@
 struct BfmePod20 { int a[5]; BfmePod20(const BfmePod20 &); };
 typedef _STL::pair<const int, BfmePod20> IntPod20Pair;
 
-// Do not instantiate a trivial copy for the native string-bearing payload.
-template <> _STL::pair<const int, BfmePod20>::pair(const IntPod20Pair &);
-template void _STL::_Construct<IntPod20Pair, IntPod20Pair>(IntPod20Pair *, const IntPod20Pair &);
+// Retail's placement copy calls 0x0041922E, rowed as Rva0041922E's copy
+// constructor (Rva0041922ECopy.cpp), not a trivial pair copy: construct
+// through that name.
+struct Rva0041922E { Rva0041922E(const Rva0041922E &); };
+template <> void _STL::_Construct<IntPod20Pair, IntPod20Pair>(IntPod20Pair *p, const IntPod20Pair &value)
+{
+	new (p) Rva0041922E(*(const Rva0041922E *)&value);
+}
 
 // Native 0x0078671B: complete 14-byte placement-new failure cleanup.
 // The exact parent and EH graph bind this action to the existing no-op

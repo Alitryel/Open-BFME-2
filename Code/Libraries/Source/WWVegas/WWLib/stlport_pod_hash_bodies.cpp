@@ -65,6 +65,13 @@ namespace _STL {
 template <> pair<const int, BfmePod72>::pair(const pair<const int, BfmePod72> &);
 template <> void _Construct<pair<const int, BfmePod72>, pair<const int, BfmePod72> >(pair<const int, BfmePod72> *, const pair<const int, BfmePod72> &);
 }
+// Retail's pair<const int,BfmePod20> placement copy (0x004192A4,
+// StlportPairConstructPod20.cpp) constructs through the rowed Rva0041922E copy
+// ctor; this unit's trivial copies of it are not retail's.
+namespace _STL {
+template <> pair<const int, BfmePod20>::pair(const pair<const int, BfmePod20> &);
+template <> void _Construct<pair<const int, BfmePod20>, pair<const int, BfmePod20> >(pair<const int, BfmePod20> *, const pair<const int, BfmePod20> &);
+}
 namespace _STL { template <> void swap<_STLP_alloc_proxy<void **, void *, allocator<void *> > >(_STLP_alloc_proxy<void **, void *, allocator<void *> > &, _STLP_alloc_proxy<void **, void *, allocator<void *> > &); }
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(allocator<void *> const &); }
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(unsigned int, allocator<void *> const &); }
