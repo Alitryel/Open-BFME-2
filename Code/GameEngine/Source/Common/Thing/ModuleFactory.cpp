@@ -611,7 +611,6 @@ void ModuleFactory::loadPostProcess( void )
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
 #pragma comment(linker, "/alternatename:?push_back@?$vector@UHordeBannerSlot@@V?$allocator@UHordeBannerSlot@@@_STL@@@_STL@@QAEXABUHordeBannerSlot@@@Z=?push_back@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@QAEXABQBVModuleData@@@Z")
-#pragma comment(linker, "/alternatename:?push_back@?$vector@PBVUpgradeTemplate@@V?$allocator@PBVUpgradeTemplate@@@_STL@@@_STL@@QAEXABQBVUpgradeTemplate@@@Z=?push_back@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@QAEXABQBVModuleData@@@Z")
 #pragma comment(linker, "/alternatename:?push_back@GateOpenBehaviorList@@QAEXABQAX@Z=?push_back@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@QAEXABQBVModuleData@@@Z")
 
 // Keep this unit's independently rowed FXBoneInfo assignment when the

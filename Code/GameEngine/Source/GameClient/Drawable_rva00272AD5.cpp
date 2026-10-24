@@ -54,10 +54,6 @@ public:
 	BfmeFixedStorage0004543D m_08;
 };
 
-// The base filter's slot 2 is the trivial virtual retail shares across many
-// vftable slots (0x0036CC7A); bind the declaration to that row.
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
-
 // A KindOfMaskType with two kinds set (0x0006EE7A).
 struct Rva0006EE7A
 {

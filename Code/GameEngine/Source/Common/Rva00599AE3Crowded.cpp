@@ -151,5 +151,3 @@ bool AIDozerManager::rva00599AE3(Object *obj)
 		++count;
 	return count <= 2;
 }
-
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")

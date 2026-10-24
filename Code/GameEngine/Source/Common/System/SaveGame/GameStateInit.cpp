@@ -28,7 +28,6 @@ private: void addSnapshotBlock(AsciiString, Snapshot *, SnapshotType); char opaq
 };
 void *Rva0043CCC2GetRoute(); void *Rva004E4312GetRoute();
 #pragma comment(linker, "/alternatename:?Rva0043CCC2GetRoute@@YAPAXXZ=?Rva0043C9B3Get@@YAPAXXZ")
-#pragma comment(linker, "/alternatename:?Rva004E4312GetRoute@@YAPAXXZ=?Rva004E4179Get@@YAPAXXZ")
 class Rva002BA8F1Logic; 
 class AudioManager; extern AudioManager *TheAudio;
 class GameState; extern GameState *TheGameState;

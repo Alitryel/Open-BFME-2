@@ -35,7 +35,6 @@ public:
 	Rva000421C8 *link(Rva000421C8 *next);
 	Rva000421C8 *m_next;
 };
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
 
 struct BfmeWideResult
 {

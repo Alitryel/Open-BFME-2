@@ -2112,9 +2112,6 @@ void Rva001F42BA::call(int a)
         (*moduleTemplate)->m3(a);
 }
 
-// Callers spell the ICF-folded module-info destructor at 0x0049B47C by address; bind that spelling here.
-#pragma comment(linker, "/alternatename:??1Rva0049B47C@@UAE@XZ=??1WindModuleInfo@FXParticleSystem@@UAE@XZ")
-
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
 #pragma comment(linker, "/alternatename:??1Rva0002B8C8TailBase@@UAE@XZ=??1BoxEmissionVolumeInfo@FXParticleSystem@@UAE@XZ")

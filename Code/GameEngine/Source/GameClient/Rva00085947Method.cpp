@@ -402,7 +402,6 @@ static Vector3 g_00DE2068;
 static int g_00DE2074;
 extern "C" void rva00BB6C15Cleanup();
 extern "C" int __cdecl atexit(void (__cdecl *)());
-#pragma comment(linker, "/alternatename:_atexit=__atexit")
 Vector3 *Rva00085947::rva00087D42()
 {
 	Vector3 pos = m_p104->Get_Position();

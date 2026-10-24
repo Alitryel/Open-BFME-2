@@ -113,13 +113,6 @@ Rva00500BF5Tree::Iterator Rva00500BF5Tree::insertEqual(const Rva00500500 &value)
     return insertWorker(x, y, value, 0);
 }
 
-// Iterator return and explicit output-reference spellings have the same
-// hidden-result ABI. The declaration keeps MSVC from inspecting the worker
-// when it compiles callers in this unit.
-#pragma comment(linker, "/alternatename:?insertWorker@Rva00500BF5Tree@@QAE?AU?$_Rb_tree_iterator@VRva00500500@@U?$_Nonconst_traits@VRva00500500@@@_STL@@@_STL@@PAURva00500BF5Node@@0ABVRva00500500@@0@Z=?insert@Rva00500BF5Tree@@QAEXAAPAURva00500BF5Node@@PAU2@1ABVRva00500500@@1@Z")
-
-#pragma comment(linker, "/alternatename:?insertEqualWorker@Rva00500BF5Tree@@QAE?AU?$_Rb_tree_iterator@VRva00500500@@U?$_Nonconst_traits@VRva00500500@@@_STL@@@_STL@@ABVRva00500500@@@Z=?insertEqual@Rva00500BF5Tree@@QAE?AU?$_Rb_tree_iterator@VRva00500500@@U?$_Nonconst_traits@VRva00500500@@@_STL@@@_STL@@ABVRva00500500@@@Z")
-
 // Target 0x00500F6E/250B. STLport 4.5.3 insert_equal(hint, value),
 // with the unsigned first-word ordering independently established above.
 // Select-any like LivingWorldAIBuildingTypes.cpp's identical copy (an
