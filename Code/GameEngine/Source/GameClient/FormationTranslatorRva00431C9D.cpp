@@ -222,7 +222,7 @@ unsigned int __cdecl Rva0030F099(bool v);
 class Rva0022AD10Subsystem { public: bool rva00422CF3HasOne(void *p); };
 extern Rva0022AD10Subsystem *TheFormationAssistant;
 
-struct Rva00431C9DHelper
+struct MouseDragStateHandler
 {
 	void *m_vptr;
 	void *m_parent;
@@ -285,10 +285,10 @@ int FormationTranslator::WaitForSecondButtonDownStateHandler::rva00431C9D(GameMe
 		return 0;
 	}
 	void *mem = operator new(8);
-	Rva00431C9DHelper *h;
+	MouseDragStateHandler *h;
 	if (mem != 0)
 	{
-		h = (Rva00431C9DHelper *)mem;
+		h = (MouseDragStateHandler *)mem;
 		h->m_parent = m_04;
 		h->m_vptr = (void *)__identifier("??_7Rva004319C2@@6B@");
 	}
