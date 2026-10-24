@@ -173,7 +173,7 @@ class Rva004958AEObject
 {
 public:
 	char m_pad[0x258];
-	Rva004958AEAI *m_ai258;
+	Rva004958AEAI *m_ai;
 };
 
 struct Rva004958AECommand
@@ -188,20 +188,20 @@ public:
 	int update();
 private:
 	char m_pad[0x10];
-	StringBase<char> m_name10;
+	StringBase<char> m_commandButtonName;
 	Rva004958AECommand *m_command14;
 };
 
 int Rva004958AE::update()
 {
 	Rva004958AEObject *object = *(Rva004958AEObject **)((char *)this - 8);
-	Rva004958AEAI *ai = object->m_ai258;
+	Rva004958AEAI *ai = object->m_ai;
 	if (ai && m_command14)
 	{
 		if (ai->state() != 2)
 		{
 			m_command14 = 0;
-			m_name10.releaseBuffer();
+			m_commandButtonName.releaseBuffer();
 		}
 		else
 		{

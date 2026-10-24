@@ -1610,3 +1610,15 @@ Code/GameEngine/Source/GameClient/Drawable_rva0027656F.cpp|param|Drawable::rva00
 Code/GameEngine/Source/GameClient/Drawable_rva0027656F.cpp|param|Drawable::rva0027656F|a2,f0a65dcb29069013466f7f42,seat-a,rn-1023b-10-a,w-1316fdc05052,2026-10-24
 Code/GameEngine/Source/GameClient/Drawable_rva0027656F.cpp|param|Drawable::rva0027656F|a1,17966f17ce66d17d23485c7b,seat-b,rn-1023b-10-b,w-b0bc95d4ecf6,2026-10-24
 Code/GameEngine/Source/GameClient/Drawable_rva0027656F.cpp|param|Drawable::rva0027656F|a2,f0a65dcb29069013466f7f42,seat-b,rn-1023b-10-b,w-b0bc95d4ecf6,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp|class||Rva004958AEAI,83f30745d544bea65b855d34,seat-a,rn-1023b-1-a,w-2d4deffade61,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp|class||Rva004958AECommand,2070914b737beb92bcf052ec,seat-a,rn-1023b-1-a,w-2d4deffade61,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp|class||Rva004958AE,ac5b3f08f8abe4432bd6f88c,seat-a,rn-1023b-1-a,w-2d4deffade61,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp|member|Rva004958AEObject|m_ai258,55d8f4ef29b7eead47baaea5,seat-a,rn-1023b-1-a,w-2d4deffade61,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp|member|Rva004958AECommand|m_type14,e388d06664e47895130d9811,seat-a,rn-1023b-1-a,w-2d4deffade61,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp|member|Rva004958AE|m_name10,a4bb37d8c6f2f6f261f0884e,seat-a,rn-1023b-1-a,w-2d4deffade61,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp|class||Rva004958AEAI,83f30745d544bea65b855d34,seat-b,rn-1023b-1-b,w-5cfbc43ec05e,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp|class||Rva004958AECommand,2070914b737beb92bcf052ec,seat-b,rn-1023b-1-b,w-5cfbc43ec05e,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp|class||Rva004958AE,ac5b3f08f8abe4432bd6f88c,seat-b,rn-1023b-1-b,w-5cfbc43ec05e,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp|member|Rva004958AEObject|m_ai258,55d8f4ef29b7eead47baaea5,seat-b,rn-1023b-1-b,w-5cfbc43ec05e,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp|member|Rva004958AECommand|m_type14,e388d06664e47895130d9811,seat-b,rn-1023b-1-b,w-5cfbc43ec05e,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp|member|Rva004958AE|m_name10,a4bb37d8c6f2f6f261f0884e,seat-b,rn-1023b-1-b,w-5cfbc43ec05e,2026-10-24
