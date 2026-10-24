@@ -736,3 +736,5 @@ param,Rva003FD3EF::Rva003FD3EF::f,Rva003FD3EF::Rva003FD3EF::flags,inferred,agree
 member,Rva003FD584::m_tree0C,Rva003FD584::m_controlPoints,inferred,agree:nl-4145f1182ac8,Code/GameEngine/Source/Common/Rva003FD584Step.cpp,
 local,Rva00404927::rva00404927::b,Rva00404927::rva00404927::threshold,inferred,agree:nl-28b7284cd4b8,Code/GameEngine/Source/Common/Rva00404927Method.cpp,0x00404927
 param,Rva004079D5::rva004079D5::tmp,Rva004079D5::rva004079D5::key,inferred,agree:nl-60961a5db4a2,Code/GameEngine/Source/Common/Rva004079D5.cpp,0x004079D5
+member,Rva0054D222Prompt::m_level00,Rva0054D222Prompt::m_level,inferred,agree:nl-e62383e54389,Code/GameEngine/Source/Common/Rva00437EDCFinish.cpp,
+member,Rva0054D222Prompt::m_state18,Rva0054D222Prompt::m_state,inferred,agree:nl-f8caa3598383,Code/GameEngine/Source/Common/Rva00437EDCFinish.cpp,

@@ -73,7 +73,7 @@ public: bool prompt(int,const UnicodeString &,const UnicodeString &,TreeHintRef0
 private: bool configure(int,const UnicodeString &,const UnicodeString &);
  friend class Rva0054D3E1Prompt;
  friend class Rva0054D438Prompt;
- unsigned m_level00; AsciiString m_movie04; char m_pad08[0xc]; int m_previous14; int m_state18; TreeHintRef00217D4C m_callback;
+ unsigned m_level; AsciiString m_movie04; char m_pad08[0xc]; int m_previous14; int m_state; TreeHintRef00217D4C m_callback;
  TreeHintRef00217D4C m_callback20;
 };
 // The two-callback prompt the child04 forwarder 0x0054D4CD calls (pinned
@@ -89,12 +89,12 @@ private: unsigned char m_pad00[4]; Rva0054D222Prompt *m_child04;
 bool Rva0054D222Prompt::configure(int kind, const UnicodeString &title,
  const UnicodeString &message)
 {
- if (m_state18 == 5)
+ if (m_state == 5)
   return false;
  m_previous14 = 4;
- m_state18 = kind;
+ m_state = kind;
  AsciiString prefix;
- prefix.format("APT:_level%u.%s_", m_level00, m_movie04.str());
+ prefix.format("APT:_level%u.%s_", m_level, m_movie04.str());
  g_bfmeAptWindowManager->bfmeSetText(prefix + "Title", title, true);
  g_bfmeAptWindowManager->bfmeSetText(prefix + "Text", message, true);
  return true;
