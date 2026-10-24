@@ -5523,3 +5523,8 @@ Code/GameEngine/Source/Common/Rva0014A0B0Flag.cpp|member|Rva0014A0B0Target|m_19,
 Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp|class||Rva003598A5Obj,4ba3477a3b186e067a984e00,gpt-6-astra,codexb2-20261024-171803-9,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp|local|TerrainResourceManager::rva0035997F|x,dd3fd1166e2082ff61439e83,gpt-6-astra,codexb2-20261024-171803-9,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp|local|TerrainResourceManager::rva0035997F|y,dae759f64c083e11ca7267a3,gpt-6-astra,codexb2-20261024-171803-9,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva00569F0CAssign.cpp|param|Rva00569F0CVec::rva00569F0C|a,7f392f354c0988e320d28bd2,claude-opus-5-5,claudec6-20261024-172202-1,w-efe153480513,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva00569F0CAssign.cpp|param|Rva00569F0CVec::rva00569F0C|b,693c23c4910d08739fa57413,claude-opus-5-5,claudec6-20261024-172202-1,w-efe153480513,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMapVisibleBounds.cpp|class||Rva000E1669,05e37eb9581f7d374759bc0e,claude-opus-5-5,claudec6-20261024-172202-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp|param|Rva002CA9CA::rva002CAA59|a1,8e29e3edd43b8923f42d4412,claude-opus-5-5,claudec6-20261024-172202-2,w-efe153480513,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva002CF2D5Erase.cpp|function|0x002CF2D5|rva002CF2D5,43b9582838361889c531482f,claude-opus-5-5,claudec6-20261024-172202-6,w-efe153480513,2026-10-24
