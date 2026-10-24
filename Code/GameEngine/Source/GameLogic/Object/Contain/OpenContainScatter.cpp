@@ -45,7 +45,7 @@ struct Rva00464B96Object {
     char unknownBC[0x258 - 0xBC];
     AIUpdateInterface *m_ai;
 };
-struct Rva00464B96Logic { char unknown00[0x40]; void *word40; };
+struct Rva00464B96Logic { char unknown00[0x40]; void *m_frame; };
 class Rva00464B96 {
 public:
     void rva00464B96(Object *);
@@ -76,7 +76,7 @@ void Rva00464B96::rva00464B96(Object *rider)
     if (ai) {
         if (status20.status(0).test(61)) {
             rider->setPosition(position);
-            rider->rva0023D3AF(reinterpret_cast<Rva00464B96Logic *>(TheGameLogic)->word40);
+            rider->rva0023D3AF(reinterpret_cast<Rva00464B96Logic *>(TheGameLogic)->m_frame);
             rider->setPosition(position);
         }
         ai->ignoreObstacle(container);

@@ -1206,3 +1206,4 @@ member,Rva00082EF5Base8View::m_28,Rva00082EF5Base8View::m_uvScrollPerSecond,infe
 member,Rva00082EF5Base8View::m_2c,Rva00082EF5Base8View::m_isAdditiveBlended,inferred,agree:nl-b3747b3cc7dd,Code/GameEngine/Source/GameLogic/Object/Behavior/RenderableRiverAreaShader.cpp,
 local,RenderableRiverArea::rva000835D0::v,RenderableRiverArea::rva000835D0::parameterValues,inferred,agree:nl-9715ddc2ab0c,Code/GameEngine/Source/GameLogic/Object/Behavior/RenderableRiverAreaShader.cpp,0x000835D0
 class,Rva004626CALandPoint,LandPoint,inferred,agree:nl-c9eef330495e,Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainRva004626CA.cpp,
+member,Rva00464B96Logic::word40,Rva00464B96Logic::m_frame,inferred,agree:nl-cc04bfd67c82,Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainScatter.cpp,
