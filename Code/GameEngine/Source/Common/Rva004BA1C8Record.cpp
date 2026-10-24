@@ -73,15 +73,10 @@ void Rva004BA3CC::clear()
 		free(m_first);
 }
 
-Rva004BA1C8 *Rva004BA2E9Copy(Rva004BA1C8 *first, Rva004BA1C8 *last, Rva004BA1C8 *out)
-{
-	int n = last - first;
-	if (n <= 0)
-		return out;
-	for (int i = n; i != 0; --i) {
-		*out = *first;
-		++first;
-		++out;
-	}
-	return out;
-}
+// Retail 0x004BA2E9 (50B): STLport __copy<Rva004BA1C8*, Rva004BA1C8*, int>,
+// the random-access counted copy through the assign above. The forwarder
+// 0x004BA324 calls it with a tag temporary and a null distance pointer, and
+// symbols.csv pins the library name here; the generic body reproduces it.
+template Rva004BA1C8 *_STL::__copy<Rva004BA1C8 *, Rva004BA1C8 *, int>(
+	Rva004BA1C8 *, Rva004BA1C8 *, Rva004BA1C8 *,
+	const _STL::random_access_iterator_tag &, int *);
