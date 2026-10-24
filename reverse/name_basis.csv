@@ -1865,3 +1865,5 @@ param,BaseHeightMapRenderObjClass::rva0006C6E2::y,BaseHeightMapRenderObjClass::r
 param,TeamFactory::initTeamForTacticalAI::a2,TeamFactory::initTeamForTacticalAI::ownerName,inferred,agree:nl-d1684894ce28,Code/GameEngine/Source/Common/RTS/TeamFactory_initTeamForTacticalAI.cpp,0x003A2FD4
 param,TeamFactory::initTeamForTacticalAI::a3,TeamFactory::initTeamForTacticalAI::targetID,inferred,agree:nl-bdb9f9f8b1e3,Code/GameEngine/Source/Common/RTS/TeamFactory_initTeamForTacticalAI.cpp,0x003A2FD4
 param,TeamFactory::initTeamForTacticalAI::a4,TeamFactory::initTeamForTacticalAI::tacticID,inferred,agree:nl-1699832f9a7a,Code/GameEngine/Source/Common/RTS/TeamFactory_initTeamForTacticalAI.cpp,0x003A2FD4
+param,StrategicHUD::FormatCPString::a,StrategicHUD::FormatCPString::commandPoints,inferred,agree:nl-efdaa4dd4f81,Code/GameEngine/Source/Common/StrategicHUD_FormatCPString.cpp,0x005FD53E
+param,StrategicHUD::FormatCPString::b,StrategicHUD::FormatCPString::maxCommandPoints,inferred,agree:nl-a3a189cbf256,Code/GameEngine/Source/Common/StrategicHUD_FormatCPString.cpp,0x005FD53E

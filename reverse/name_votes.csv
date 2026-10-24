@@ -5697,3 +5697,8 @@ Code/GameEngine/Source/Common/RTS/TeamFactory_initTeamForTacticalAI.cpp|param|Te
 Code/GameEngine/Source/Common/RTS/TeamFactory_initTeamForTacticalAI.cpp|param|TeamFactory::initTeamForTacticalAI|a2,5d9b7ceea0cc61d0d9daa912,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p044b,w-575509073bee,2026-10-24
 Code/GameEngine/Source/Common/RTS/TeamFactory_initTeamForTacticalAI.cpp|param|TeamFactory::initTeamForTacticalAI|a3,6eb22cce102bf309dfeecff4,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p044b,w-575509073bee,2026-10-24
 Code/GameEngine/Source/Common/RTS/TeamFactory_initTeamForTacticalAI.cpp|param|TeamFactory::initTeamForTacticalAI|a4,e168682460b47d4cbf3f9ff5,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p044b,w-575509073bee,2026-10-24
+Code/GameEngine/Source/Common/StrategicHUD_FormatCPString.cpp|param|StrategicHUD::FormatCPString|a,c065b654c2854b42800518e7,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p045a,w-7bd021650a53,2026-10-24
+Code/GameEngine/Source/Common/StrategicHUD_FormatCPString.cpp|param|StrategicHUD::FormatCPString|b,815f7a5ea6516f55eade00d9,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p045a,w-7bd021650a53,2026-10-24
+Code/GameEngine/Source/Common/StrategicHUD_FormatCPString.cpp|param|StrategicHUD::FormatCPString|a,c065b654c2854b42800518e7,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p045b,w-ee84dbee7a75,2026-10-24
+Code/GameEngine/Source/Common/StrategicHUD_FormatCPString.cpp|param|StrategicHUD::FormatCPString|b,815f7a5ea6516f55eade00d9,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p045b,w-ee84dbee7a75,2026-10-24
+Code/GameEngine/Source/Common/StrategicHUD_FormatCPString.cpp|local|StrategicHUD::FormatCPString|tmp,e95ca8a74482ed214d911dcf,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p045b,w-ee84dbee7a75,2026-10-24
