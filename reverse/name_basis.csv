@@ -1923,3 +1923,4 @@ param,Rva0052DB11::rva0052DB11::arg,Rva0052DB11::rva0052DB11::excludedId,inferre
 param,Rva002B37B4::rva002B37B4::a1,Rva002B37B4::rva002B37B4::region,inferred,agree:nl-2e3047193598,Code/GameEngine/Source/Common/Rva002B37B4.cpp,0x002B37B4
 param,Rva002B37B4::rva002B37B4::a2,Rva002B37B4::rva002B37B4::player,inferred,agree:nl-42f8d835f4db,Code/GameEngine/Source/Common/Rva002B37B4.cpp,0x002B37B4
 param,visit::p,visit::target,inferred,agree:nl-23decac1966d,Code/GameEngine/Source/Common/Rva005CD841Visit.cpp,
+local,Rva005C3EA5::Show::t,Rva005C3EA5::Show::stringData,inferred,agree:nl-ca492997e7bf,Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp,0x005C3EA5

@@ -5939,3 +5939,10 @@ Code/GameEngine/Source/Common/Rva005CD841Visit.cpp|param|Rva005CD841Find|p,fcbfa
 Code/GameEngine/Source/Common/Rva005CD841Visit.cpp|class||Rva005CD841Visitor,c1a63c6523a6428aa6392dcd,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p074b,w-a59c00f0c3a5,2026-10-24
 Code/GameEngine/Source/Common/Rva005CD841Visit.cpp|function|0x005CD841|Rva005CD841Find,3b26b01b71f40e28b3aeda17,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p074b,w-a59c00f0c3a5,2026-10-24
 Code/GameEngine/Source/Common/Rva005CD841Visit.cpp|param|Rva005CD841Find|p,fcbfa50b33c4a7d8fc414f42,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p074b,w-a59c00f0c3a5,2026-10-24
+Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp|member|Rva005C3EA5|m_obj00,ee12ac5a9a8a1420aeb24882,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p078a,w-2cc6e2d1011c,2026-10-24
+Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp|member|Rva005C3EA5|m_i1C,1eebf946feb3e63c8042bb1f,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p078a,w-2cc6e2d1011c,2026-10-24
+Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp|function|0x005C3EE0|rva005C3EE0,b18ff680cee15185919e9ef5,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p078a,w-2cc6e2d1011c,2026-10-24
+Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp|local|Rva005C3EA5::Show|t,20fc354ac710c333e87fc9bb,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p078a,w-2cc6e2d1011c,2026-10-24
+Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp|local|Rva005C3EA5::Show|s,8ff69bb39dffdb07c5de7f29,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p078a,w-2cc6e2d1011c,2026-10-24
+Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp|local|Rva005C3EA5::Show|t,274575b5ad4d8ce1943e75ec,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p078b,w-7da391d26ac2,2026-10-24
+Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp|local|Rva005C3EA5::Show|s,d1a16a5385301573a4ddedde,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p078b,w-7da391d26ac2,2026-10-24
