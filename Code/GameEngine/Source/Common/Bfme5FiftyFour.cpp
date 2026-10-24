@@ -34,8 +34,8 @@ public:
 	const char *m_bfmeText;					// +0x10
 };
 
-// ?bfmeTooLong@@YGHPBVBfmeThingDX@@@Z
-int __stdcall bfmeTooLong(const BfmeThingDX *thing)
+// ?isTextTooLong@@YGHPBVBfmeThingDX@@@Z
+int __stdcall isTextTooLong(const BfmeThingDX *thing)
 {
 	return strlen(thing->m_bfmeText) > 0x800;
 }

@@ -2424,3 +2424,4 @@ __ehhandler$?Rva006CDBF0Resize@@YAPAVAptValueNameEntry@@PAV1@HH@Z,0x007A8186,"Re
 ?Rva00580BBFUnguardedSort@@YAXPAPAX0VRva000795C1Record@@@Z,0x00580BBF,"Renamed to ?unguardedInsertionSort@@YAXPAPAX0VRva000795C1Record@@@Z by tools/rename.py (inferred)"
 ?Rva00580B5CInsertionSort@@YAXPAPAX0VRva000795C1Record@@@Z,0x00580B5C,"Renamed to ?insertionSort@@YAXPAPAX0VRva000795C1Record@@@Z by tools/rename.py (inferred)"
 ?BfmeAnimationModeNames@@3PAPBDA,0x009B4E44,"Renamed to ?animationModeNames@@3PAPBDA by tools/rename.py (inferred)"
+?bfmeTooLong@@YGHPBVBfmeThingDX@@@Z,0x00665580,"Renamed to ?isTextTooLong@@YGHPBVBfmeThingDX@@@Z by tools/rename.py (inferred)"

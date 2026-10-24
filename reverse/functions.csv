@@ -9951,7 +9951,7 @@ _luaK_jump,,0x00752690,166,Code/Libraries/Source/Lua/lcode.c,matched,BFME1 byte-
 ?bfmeIndexOf@Gen_008A06C0@@QBEHPAX@Z,,0x006E3460,39,Code/GameEngine/Source/Common/Bfme5FiftyThree.cpp,matched,BFME1 byte-identical donor; b1 0x008A06C0
 ?refresh@Rva006629A0@@QAEXXZ,,0x004CEF33,17,Code/GameEngine/Source/Common/S1IndirectSlotCalls.cpp,matched,BFME1 byte-identical donor; b1 0x006629A0
 ??0Rva00694BC0@@QAE@XZ,,0x00050E52,16,Code/GameEngine/Source/Common/S1IndirectSlotCalls.cpp,matched,BFME1 byte-identical donor; b1 0x00694BC0
-?bfmeTooLong@@YGHPBVBfmeThingDX@@@Z,,0x00665580,39,Code/GameEngine/Source/Common/Bfme5FiftyFour.cpp,matched,BFME1 byte-identical donor; b1 0x007F8F10
+?isTextTooLong@@YGHPBVBfmeThingDX@@@Z,,0x00665580,39,Code/GameEngine/Source/Common/Bfme5FiftyFour.cpp,matched,BFME1 byte-identical donor; b1 0x007F8F10
 ?str@Rva003879F0Str@@QAEPBDXZ,,0x0023E984,17,Code/GameEngine/Source/Common/Rva007BBDB0Str.cpp,matched,BFME1 byte-identical donor; b1 0x003879F0
 ?str@Rva007BBDD0Str@@QAEPBDXZ,,0x000F1ED3,17,Code/GameEngine/Source/Common/Rva007BBDB0Str.cpp,matched,BFME1 byte-identical donor; b1 0x007BBDD0
 ?bfmeTakeEC@BfmeThingEC@@QAEHPAH@Z,,0x006021A4,38,Code/GameEngine/Source/Common/BfmeOneHundredNinety.cpp,matched,BFME1 byte-identical donor; b1 0x009CB1F0
