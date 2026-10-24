@@ -1035,3 +1035,4 @@ local,LivingWorldRegionManager::GetRegionUiPopupPoint::r,LivingWorldRegionManage
 function,?rva00880D10@@YA_NPAURva00880D10Subject@@PAURva00880D10Info@@@Z,?circleIntersectsBox@@YA_NPAURva00880D10Subject@@PAURva00880D10Info@@@Z,inferred,agree:nl-5f51cd3c85fe,Code/GameEngine/Source/Common/Rva00880D10CircleBoxTest.cpp,0x006C0710
 local,Rva005C41C9::rva005C41C9::a,Rva005C41C9::rva005C41C9::oldState,inferred,agree:nl-33260c9d25e0,Code/GameEngine/Source/Common/Rva005C41C9Refresh.cpp,0x005C41C9
 function,?rva006894D0@VideoPlayer@@UAEPAVVideoStreamInterface@@VAsciiString@@I@Z,?open@VideoPlayer@@UAEPAVVideoStreamInterface@@VAsciiString@@I@Z,inferred,agree:nl-9a36b98460e2,Code/GameEngine/Source/GameClient/VideoPlayerGetVideo.cpp,0x006894D0
+member,Rva0030C2CEArea::m_strings40,Rva0030C2CEArea::m_textureNames,inferred,agree:nl-9eabb302165d,Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp,

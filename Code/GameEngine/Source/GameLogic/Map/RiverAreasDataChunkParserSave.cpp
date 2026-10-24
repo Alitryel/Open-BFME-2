@@ -45,7 +45,7 @@ struct Rva0030C2CEElem
 struct Rva0030C2CEArea
 {
 	char m_pad00[0x40];
-	AsciiString m_strings40[4];
+	AsciiString m_textureNames[4];
 	RGBColor m_color;
 	float m_float5C;
 	int m_int60;
@@ -103,7 +103,7 @@ void __cdecl saveRiverAreas(Rva0030C2CECollection *coll, DataChunkOutput *out)
 			_ReadWriteBarrier();
 			out->writeInt(*(int *)(base + off2));
 			((Rva00537EAD *)area)->rva00537EAD(out);
-			AsciiString *asciiString = area->m_strings40;
+			AsciiString *asciiString = area->m_textureNames;
 			for (int k = 4; k > 0; --k)
 			{
 				out->writeAsciiString(*asciiString);
