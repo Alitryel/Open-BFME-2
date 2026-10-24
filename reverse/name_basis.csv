@@ -939,3 +939,6 @@ function,?bfmeGoECF@@YAXXZ,?releaseBrowser@@YAXXZ,inferred,agree:nl-d8d496c5f83e
 local,Rva00803730Sink::apply::p,Rva00803730Sink::apply::port,inferred,agree:nl-a978453d574e,Code/GameEngine/Source/GameNetwork/Rva00803730FeslAttrs.cpp,0x00675B60
 function,?rva0083F090@@YAHXZ,?xalloc@@YAHXZ,inferred,agree:nl-18ad3daac335,Code/Libraries/Source/WWVegas/WWLib/IosBaseRva0083F090Index.cpp,0x0001BF60
 function,?rva000FDF3F@FeNode@@QAEHH@Z,?update@FeNode@@QAEHH@Z,inferred,agree:nl-67c4b1fea8e2,Code/GameEngine/Source/Common/Rva000FE1ACUpdate.cpp,0x000FDF3F
+param,logN::b,logN::base,inferred,agree:nl-426bc7d4bf28,Code/GameEngine/Source/Common/Rva0009DE01Finish.cpp,0x0009DE01
+param,ScriptActions::Rva003BAD15::f1,ScriptActions::Rva003BAD15::zoom,inferred,agree:nl-d51bc7c53329,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionsRva003BAD15.cpp,0x003BAD15
+param,ScriptActions::Rva003BAD15::f2,ScriptActions::Rva003BAD15::pitch,inferred,agree:nl-b7d5b77900dd,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionsRva003BAD15.cpp,0x003BAD15

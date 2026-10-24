@@ -7,9 +7,9 @@
 extern void ji_0062997c();
 typedef double (__cdecl *Log10Fn)(double);
 
-float logN(float a, float b)
+float logN(float a, float base)
 {
-	float lb = (float)((Log10Fn)ji_0062997c)((double)b);
+	float lb = (float)((Log10Fn)ji_0062997c)((double)base);
 	float la = (float)((Log10Fn)ji_0062997c)((double)a);
 	return la / lb;
 }
