@@ -749,3 +749,6 @@ member,Rva00524B7A::m_30,Rva00524B7A::m_fadeStartTime,inferred,agree:nl-abe66f2e
 member,Rva00524B7A::m_34,Rva00524B7A::m_completionCallback,inferred,agree:nl-b939e25d3ed4,Code/GameEngine/Source/Common/Rva00524B7AVslot10.cpp,
 member,Rva00524B7A::m_38,Rva00524B7A::m_completionCallbackArg,inferred,agree:nl-4ba3af63df7b,Code/GameEngine/Source/Common/Rva00524B7AVslot10.cpp,
 local,Rva00524B7A::update::b,Rva00524B7A::update::alphaByte,inferred,agree:nl-b46f3f1edb0c,Code/GameEngine/Source/Common/Rva00524B7AVslot10.cpp,0x00524AE7
+local,Rva005398B3::rva005398B3::p,Rva005398B3::rva005398B3::entry,inferred,agree:nl-4814f5655a60,Code/GameEngine/Source/Common/Rva005396E6Dtor.cpp,0x005398B3
+function,?rva005398B3@Rva005398B3@@QAEXXZ,?reset@Rva005398B3@@QAEXXZ,inferred,agree:nl-f049367e0d95,Code/GameEngine/Source/Common/Rva005396E6Dtor.cpp,0x005398B3
+carry,Rva005398B3::rva005398B3::entry,Rva005398B3::reset::entry,inferred,scope renamed by Rename rva005398B3 to reset (inferred),Code/GameEngine/Source/Common/Rva005396E6Dtor.cpp,0x005398B3

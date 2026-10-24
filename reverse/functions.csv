@@ -31439,7 +31439,7 @@ _piChannelMessageA,,0x006AACB0,305,Code/GameEngine/Source/GameNetwork/GameSpy/pe
 ??_GRva005CCC69@@UAEPAXI@Z,,0x005CCC98,28,Code/GameEngine/Source/Common/Rva005CCC69Dtor.cpp,matched,chain deleting dtor calls rowed 0x005CCC69; rehomed from FamilyDeletingDtors_muse-04a.cpp: Rva005CCC69Dtor.cpp owns ~Rva005CCC69 and emits this deleting dtor itself (the family placeholder dtor was a duplicate definition)
 ??4Rva00126350@@QAEAAV0@ABV0@@Z,,0x00126350,73,Code/Libraries/Source/WWVegas/WW3D2/Rva00126350Assign.cpp,matched,callee 0x000424D0 row RefCountPtr Texture caller 0x00126409
 ??1Rva005396E6@@QAE@XZ,,0x005396E6,89,Code/GameEngine/Source/Common/Rva005396E6Dtor.cpp,matched,dtor frees ptrs via DisplayManager slot3C then wide strings
-?rva005398B3@Rva005398B3@@QAEXXZ,,0x005398B3,26,Code/GameEngine/Source/Common/Rva005396E6Dtor.cpp,matched,chain frees owned Rva005396E6 via delete
+?reset@Rva005398B3@@QAEXXZ,,0x005398B3,26,Code/GameEngine/Source/Common/Rva005396E6Dtor.cpp,matched,chain frees owned Rva005396E6 via delete
 ?rva00057151@Rva00057151@@QAEXHHH@Z,,0x00057151,127,Code/Libraries/Source/WWVegas/WWLib/OpaqueRefDequePop57151.cpp,matched,deque back alias 0x3B5603 and assignment 0x239099 and pop_back 0x5555F via OpaqueRef group
 ?ShroudMapForPlayer@ShroudManager@@QAEXH@Z,,0x0073D860,74,Code/GameEngine/Source/Common/RTS/ShroudManagerImpl008FBA40.cpp,matched,sweep with 008FC450 like undo twin with 008FC3B0
 ?rva007397C0@Rva007397C0@@QAEXH@Z,,0x007397C0,8,Code/GameEngine/Source/GameLogic/Object/PartitionManagerShroudThunks.cpp,matched,thunk to rowed 0073D860 like 00739780
