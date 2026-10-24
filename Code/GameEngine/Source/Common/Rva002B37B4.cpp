@@ -9,15 +9,15 @@ public:
 struct Rva002B37B4P1
 {
 	unsigned char m_pad00[0x12C];
-	void *m_12C;
+	void *m_regionID;
 	unsigned char m_pad130[0xC];
-	void *m_13C;
+	void *m_ownerPlayerID;
 };
 
 struct Rva002B37B4P2
 {
 	unsigned char m_pad00[0x14];
-	void *m_14;
+	void *m_playerID;
 	unsigned char m_pad18[0x3AC];
 	unsigned char m_3C4;
 };
@@ -44,9 +44,9 @@ void Rva002B37B4::rva002B37B4(Rva002B37B4P1 *region, Rva002B37B4P2 *player)
 {
 	if (player->m_3C4 != 0)
 		return;
-	if (region->m_13C == player->m_14)
+	if (region->m_ownerPlayerID == player->m_playerID)
 		return;
-	m_B8 = (int)region->m_12C;
+	m_B8 = (int)region->m_regionID;
 	m_b0->rva0020F2F1(region, player);
 	((Rva002B36BE *)this)->rva002B36BE(region, player, true);
 }

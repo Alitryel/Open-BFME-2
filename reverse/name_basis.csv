@@ -1970,3 +1970,6 @@ carry,Rva0030B0A3::rva0030B0A3::character,Rva0030B0A3::print::character,inferred
 function,?rva003ADE15@Rva003ADE32@@UAEPAV1@XZ,?clone@Rva003ADE32@@UAEPAV1@XZ,inferred,agree:nl-134217f5efdd,Code/GameEngine/Source/Common/GapBodiesS3B.cpp,0x003ADE15
 function,?rva002D2D63@Rva002D5188ResourceBar@@QAEXABVCoord2D@@0PAX1@Z,?renderFactionIcon@Rva002D5188ResourceBar@@QAEXABVCoord2D@@0PAX1@Z,inferred,agree:nl-67d6f1589382,Code/GameEngine/Source/GameClient/GUI/Palantir/PalantirResourceBar.cpp,0x002D2D63
 member,Rva0052DB11Obj::m_74,Rva0052DB11Obj::m_id,inferred,agree:nl-21643a3513b7,Code/GameEngine/Source/Common/Rva0052DB11.cpp,
+member,Rva002B37B4P1::m_12C,Rva002B37B4P1::m_regionID,inferred,agree:nl-3e70e39b823d,Code/GameEngine/Source/Common/Rva002B37B4.cpp,
+member,Rva002B37B4P1::m_13C,Rva002B37B4P1::m_ownerPlayerID,inferred,agree:nl-2f14f91a3173,Code/GameEngine/Source/Common/Rva002B37B4.cpp,
+member,Rva002B37B4P2::m_14,Rva002B37B4P2::m_playerID,inferred,agree:nl-73886ca408da,Code/GameEngine/Source/Common/Rva002B37B4.cpp,
