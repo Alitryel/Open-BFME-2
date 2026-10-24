@@ -55,4 +55,3 @@ CollisionManager::CollisionManager()
 // dtor at 0x758310, rowed as ??1Open2Store9A2680. The derived vtable's reset
 // slot (0xCF33A8[3]) is the inherited empty 0x00B3FD0, rowed as ??1Coord2D.
 #pragma comment(linker, "/alternatename:??1CollisionManager@@UAE@XZ=??1Open2Store9A2680@@UAE@XZ")
-#pragma comment(linker, "/alternatename:?reset@CollisionManager@@UAEXXZ=??1Coord2D@@QAE@XZ")

@@ -30,7 +30,6 @@ unsigned char bfmeAskCW(void *, void *, BfmeTargetCW *);
 // a linker compatibility key, not an original target identity claim.
 extern "C" unsigned char __identifier("??_7BfmeParserBindingBaseVE@@6B@");
 #pragma comment(linker, "/alternatename:?bfmeDropVE@BfmeSubVE@@QAEXPAX@Z=?handle@Q1Forwardee0000871A@@QAEXH@Z")
-#pragma comment(linker, "/alternatename:?bfmeFreeVE@@YAXPAX@Z=??3@YAXPAX@Z")
 // Native AD930 calls306D7B atAD93F and scalar delete2FD60 atAD94C.
 // The unlink argument is one native dword; the existing pointer/int spellings
 // preserve that thiscall ABI. The operator delete signature is unchanged.

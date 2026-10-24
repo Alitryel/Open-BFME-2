@@ -152,7 +152,6 @@ public:
 };
 
 extern "C" void Gen0002857EFreeListNode(void *, unsigned int);
-#pragma comment(linker, "/alternatename:_Gen0002857EFreeListNode=?_M_deallocate@?$__node_alloc@$00$0A@@_STL@@CAXPAXI@Z")
 
 struct BfmeAIResetGroupNode
 {

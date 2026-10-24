@@ -119,7 +119,3 @@ void bfmeEmitGeometryInfoDtor(GeometryInfo *pi, GeometryRecord *pr, GeometryReco
 	_STL::_Destroy(first, last);
 }
 #pragma inline_depth()
-
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:??1ClearanceTestingSlowDeathBehaviorModuleDataMember@@QAE@XZ=??1GeometryInfo@@UAE@XZ")

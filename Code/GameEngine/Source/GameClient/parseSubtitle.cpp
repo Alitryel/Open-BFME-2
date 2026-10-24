@@ -101,4 +101,3 @@ void parseSubtitle( INI *ini, void *, void *, const void * )
 
 // ?TheVideoPlayer@@3PAVVideoPlayerInterface@@A: matched references place it at VA 0xe0aba8; also referenced as ?TheVideoPlayer@@3PAVVideoPlayer@@A.
 VideoPlayerInterface * TheVideoPlayer = 0;
-#pragma comment(linker, "/alternatename:?TheVideoPlayer@@3PAVVideoPlayer@@A=?TheVideoPlayer@@3PAVVideoPlayerInterface@@A")

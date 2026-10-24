@@ -1087,12 +1087,6 @@ ModuleData* ModuleInfo::friend_getNthData(Int i)
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
 #pragma comment(linker, "/alternatename:?bfmeCallJA@BfmeHookJA@@QAEPAUBfmeSlotJA@@XZ=?getFinalOverride@Rva001E35DFView@@QBEPBV1@XZ")
 
-// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
-// each one has the same function in that slot (vftable addresses from matched vptr
-// stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?crc@GeometryInfo@@MAEXPAVXfer@@@Z=??_GRva0050B2A@@UAEPAXI@Z")
-#pragma comment(linker, "/alternatename:?xfer@GeometryInfo@@MAEXPAVXfer@@@Z=??1Coord2D@@QAE@XZ")
-
 // Native boundary 0x00331578..0x0033162B (179B), RET 4. The target compares
 // scalar words at +8/+18/+28, seven floats at +C/+10/+14/+24/+20/+2C/+30,
 // and the two string subobjects at +0/+4 through rowed compare 0x69D6.

@@ -14,10 +14,6 @@
 // but never defined here so the call resolves via the pin, and the vtable
 // values are DIR32 auto-patches.
 
-// The shared headers declare these members with the access/virtual spelling
-// retail's vftables reference; the ledger row keeps the spelling this TU
-// compiled to. Same function, same address: bind the header spelling here.
-#pragma comment(linker, "/alternatename:??1PoisonedBehavior@@UAE@XZ=??1PoisonedBehavior@@MAE@XZ")
 class Thing;
 class ModuleData;
 class Object;

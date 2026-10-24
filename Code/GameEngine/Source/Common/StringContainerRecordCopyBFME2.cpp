@@ -148,8 +148,3 @@ BfmeContainerRecord00048139 *copyRecordRangeWithScratch(const char *first, const
 	char scratch;
 	return copyRecordRange(first, last, dest, &scratch, 0);
 }
-
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:??$_Construct@URva000C828CElement@@U1@@_STL@@YAXPAURva000C828CElement@@ABU1@@Z=??$_Construct@UBfmeContainerRecord000C0B85@@U1@@_STL@@YAXPAUBfmeContainerRecord000C0B85@@ABU1@@Z")
-#pragma comment(linker, "/alternatename:??$_Construct@URva0004B22EElement@@U1@@_STL@@YAXPAURva0004B22EElement@@ABU1@@Z=??$_Construct@UBfmeContainerRecord00048139@@U1@@_STL@@YAXPAUBfmeContainerRecord00048139@@ABU1@@Z")

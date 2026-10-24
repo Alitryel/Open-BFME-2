@@ -787,4 +787,3 @@ int StreamingArchiveFile::read( void *buffer, int bytes )
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?wideOpenStub@LocalFile@@UAE_NPBGH@Z=?open@LocalFile@@UAE_NPBDH@Z")
-#pragma comment(linker, "/alternatename:?convertToRAMFile@File@@UAEPAV1@XZ=??0Coord2D@@QAE@XZ")

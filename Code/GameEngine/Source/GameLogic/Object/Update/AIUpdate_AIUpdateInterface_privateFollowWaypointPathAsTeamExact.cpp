@@ -947,8 +947,6 @@ public:
 // and ??_7PartitionFilter@@6B@; the alternate names define no table.
 extern "C" void *bfmeVftRva0026FA60FunctorValueWrapper[];
 extern "C" void *bfmeVftPartitionFilter[];
-#pragma comment(linker, "/alternatename:_bfmeVftRva0026FA60FunctorValueWrapper=??_7Rva0026FA60FunctorValueWrapper@@6B@")
-#pragma comment(linker, "/alternatename:_bfmeVftPartitionFilter=??_7PartitionFilter@@6B@")
 
 class Rva00279A50FunctorFilter
 {

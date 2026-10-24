@@ -201,9 +201,6 @@ ActiveBody::ActiveBody(Thing *thing, const ModuleData *moduleData)
 
 // ?g_Va00DE0878@@3IA: the global at this VA is ?TheEmptyString@AsciiString@@2V1@B; this name is an alias for it.
 #pragma comment(linker, "/alternatename:?g_Va00DE0878@@3IA=?TheEmptyString@AsciiString@@2V1@B")
-#pragma comment(linker, "/alternatename:?TheDefaultArmorTemplateName@@3VAsciiString@@A=?TheEmptyString@AsciiString@@2V1@B")
-#pragma comment(linker, "/alternatename:?g_bfmeNullAdjustDE0878@@3UBfmeNullAdjustDefault@@A=?TheEmptyString@AsciiString@@2V1@B")
 #pragma comment(linker, "/alternatename:?g_str009E0878@@3V?$StringBase@D@@A=?TheEmptyString@AsciiString@@2V1@B")
-#pragma comment(linker, "/alternatename:?g_emptyModuleName@@3VBFMERetailAsciiString@@A=?TheEmptyString@AsciiString@@2V1@B")
 // ?g_Va00DE0878@@3IA: the global at VA 0xde0878 is ?TheEmptyString@AsciiString@@2V1@B.
 #pragma comment(linker, "/alternatename:?g_Va00DE0878@@3IA=?TheEmptyString@AsciiString@@2V1@B")

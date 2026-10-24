@@ -312,7 +312,6 @@ template void _STL::_Construct<Rva00568A20, Rva00568A20>(Rva00568A20 *, const Rv
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:??$_Construct@VRva00297360Element@@V1@@_STL@@YAXPAVRva00297360Element@@ABV1@@Z=??$_Construct@UBfmeStringRecord0040360E@@U1@@_STL@@YAXPAUBfmeStringRecord0040360E@@ABU1@@Z")
 #pragma inline_depth(0)
 // ?bfmeEmitBfmeStringRecord00426A5BAssign@@YAXPAUBfmeStringRecord00426A5B@@ABU1@@Z present-unmatched
 void bfmeEmitBfmeStringRecord00426A5BAssign(BfmeStringRecord00426A5B *p, const BfmeStringRecord00426A5B &source)

@@ -96,10 +96,6 @@ BfmeVectorRecord002AF478::BfmeVectorRecord002AF478(const BfmeVectorRecord002AF47
       names14(other.names14), word20(other.word20) {}
 template void _STL::_Construct<BfmeVectorRecord002AF478,BfmeVectorRecord002AF478>(BfmeVectorRecord002AF478*,const BfmeVectorRecord002AF478&);
 
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:??$_Construct@UBfmeVectorRecord0002154F3@@U1@@_STL@@YAXPAUBfmeVectorRecord0002154F3@@ABU1@@Z=??$_Construct@UBfmeVectorRecord002154F3@@U1@@_STL@@YAXPAUBfmeVectorRecord002154F3@@ABU1@@Z")
-
 // Native1B49C4..1B4A39, called by IniLoad3397D8 through TheSubsystemLegend.
 // The record prefix is its name and first file vector; the complete record
 // copy earlier in this unit is already recovered as BfmeVectorRecord001B4A39.

@@ -6,7 +6,6 @@
 // 0x000B6569, tail via rowed __uninitialized_copy<Coord3D> 0x00346C2D.
 // Callers 0x00351606 0x003530B0 0x00353198 0x0036EE46. BfmeE12 is the tree's
 // 12-byte stand-in; Coord3D casts select the rowed uninit_copy name.
-#pragma comment(linker, "/alternatename:??$__copy_ptrs@PBUBfmeE12@@PAU1@@_STL@@YAPAUBfmeE12@@PBU1@0PAU1@ABU__false_type@0@@Z=??$__copy_ptrs@PBUBfmeE12@@PAU1@@_STL@@YAPAUBfmeE12@@PBU1@0PAU1@U__false_type@0@@Z")
 struct BfmeE12
 {
 	float x, y, z;

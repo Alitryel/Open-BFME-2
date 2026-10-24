@@ -562,5 +562,3 @@ void GadgetRadioSetSelection( GameWindow *gameWindow, Bool sendMsg )
 	((Bfme2RadioWindowManager *)TheWindowManager)->winSendSystemMsg( gameWindow, GBM_SET_SELECTION, (WindowMsgData)&sendMsg, 0 );
 
 }  // end GadgetRadioSetText
-
-#pragma comment(linker, "/alternatename:?InputLockSubsystem@@3PAVClientSubsystem@@A=?TheKeyboard@@3PAVKeyboard@@A")

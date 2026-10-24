@@ -34,4 +34,3 @@ ScienceType INI::scanScience(const char *token)
 
 // ?TheScienceStore@@3PAVScienceStore@@A: matched references place it at VA 0xdfe0e0; also referenced as ?g_scienceStoreLoaded@@3HA.
 ScienceStore * TheScienceStore = 0;
-#pragma comment(linker, "/alternatename:?g_scienceStoreLoaded@@3HA=?TheScienceStore@@3PAVScienceStore@@A")

@@ -24,7 +24,3 @@ void __cdecl Rva0040B14EConstruct(Rva0040AEE3 *p, const Rva0040AEE3 &src)
 {
 	new (p) Rva0040AEE3(src);
 }
-
-// Callers elsewhere reach this body through a spelling pinned to the same retail
-// address with the same calling convention; bind it here.
-#pragma comment(linker, "/alternatename:??$_Construct@VRva0040AEE3@@V1@@_STL@@YAXPAVRva0040AEE3@@ABV1@@Z=?Rva0040B14EConstruct@@YAXPAVRva0040AEE3@@ABV1@@Z")

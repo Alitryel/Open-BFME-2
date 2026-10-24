@@ -75,10 +75,6 @@ inline _STL::vector<AsciiString, _STL::allocator<AsciiString> >::erase(
 // The genuine erase-all caller below emits this header-inline erase and
 // its copy-dispatch helper naturally; no synthetic emission caller is needed.
 
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?erase@SidesInfoStringVector@@QAEPAVAsciiString@@PAV2@0@Z=?erase@?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAEPAVAsciiString@@PAV3@0@Z")
-
 // Clean BFME1 f98983a7d3 Module.cpp supplies the erase-all pattern. Retail
 // proves pointer slots0/4 and the string-owning erase provider; original owner
 // and complete object size are unknown. The existing vector is an ABI exemplar.
