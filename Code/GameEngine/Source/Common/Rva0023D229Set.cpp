@@ -5,7 +5,7 @@
 struct Rva0023D229Global
 {
 	char m_00[64];
-	void *m_40;
+	void *m_frame;
 };
 extern class GameLogic *TheGameLogic;
 class Rva0023D229
@@ -24,7 +24,7 @@ void Rva0023D229::Set(int index)
 		return;
 	Rva0023D229Global *g = (*(Rva0023D229Global **)&TheGameLogic);
 	int off = index * 28;
-	void *p = g->m_40;
+	void *p = g->m_frame;
 	*(void **)((char *)this + 460 + off) = p;
 }
 void Rva0023D229::rva0023D24C(int index)
@@ -35,6 +35,6 @@ void Rva0023D229::rva0023D24C(int index)
 		return;
 	Rva0023D229Global *g = (*(Rva0023D229Global **)&TheGameLogic);
 	int off = index * 28;
-	void *p = g->m_40;
+	void *p = g->m_frame;
 	*(void **)((char *)this + 464 + off) = p;
 }

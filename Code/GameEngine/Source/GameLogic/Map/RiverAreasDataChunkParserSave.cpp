@@ -46,19 +46,19 @@ struct Rva0030C2CEArea
 {
 	char m_pad00[0x40];
 	AsciiString m_strings40[4];
-	RGBColor m_color50;
+	RGBColor m_color;
 	float m_float5C;
 	int m_int60;
 	int m_int64;
-	Rva0053850B m_save68;
+	Rva0053850B m_quadStrip;
 };
 
 class Rva0030C2CECollection
 {
 public:
 	char m_pad00[0x14];
-	Rva0030C2CEElem *m_begin14;
-	Rva0030C2CEElem *m_end18;
+	Rva0030C2CEElem *m_begin;
+	Rva0030C2CEElem *m_end;
 };
 
 struct Rva0030C2CECursor
@@ -79,12 +79,12 @@ extern "C" inline __declspec(noinline) bool __cdecl rva0007E394CursorEqual(const
 void __cdecl Rva0030C2CESave(Rva0030C2CECollection *coll, DataChunkOutput *out)
 {
 	out->openDataChunk("RiverAreas", 2);
-	int count = (int)(coll->m_end18 - coll->m_begin14);
+	int count = (int)(coll->m_end - coll->m_begin);
 	out->writeInt(count);
 	Rva0030C2CECursor endCur;
 	Rva0030C2CECursor cur;
 	endCur.m_store = coll;
-	endCur.m_index = (int)(coll->m_end18 - coll->m_begin14);
+	endCur.m_index = (int)(coll->m_end - coll->m_begin);
 	cur.m_store = coll;
 	cur.m_index = 0;
 	unsigned char nc_91 = rva0007E394CursorEqual(cur, endCur);
@@ -92,7 +92,7 @@ void __cdecl Rva0030C2CESave(Rva0030C2CECollection *coll, DataChunkOutput *out)
 	{
 		do
 		{
-			Rva0030C2CEElem *begin = cur.m_store->m_begin14;
+			Rva0030C2CEElem *begin = cur.m_store->m_begin;
 			int idx = cur.m_index;
 			{
 			char *base = (char *)begin;
@@ -109,14 +109,14 @@ void __cdecl Rva0030C2CESave(Rva0030C2CECollection *coll, DataChunkOutput *out)
 				out->writeAsciiString(*asciiString);
 				++asciiString;
 			}
-			out->writeInt(area->m_color50.getAsInt());
+			out->writeInt(area->m_color.getAsInt());
 			out->writeReal(area->m_float5C);
 			out->writeInt(area->m_int64);
 			AsciiString tmp;
 			if (area->m_int60 >= 0 && area->m_int60 < 4)
 				((StringBase<char> &)tmp).set(g_00DB9650[area->m_int60]);
 			out->writeAsciiString(tmp);
-			area->m_save68.rva0053850B(out);
+			area->m_quadStrip.rva0053850B(out);
 			}
 			++cur.m_index;
 		} while (rva0007E394CursorEqual(cur, endCur) == false);

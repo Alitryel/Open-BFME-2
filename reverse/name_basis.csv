@@ -986,3 +986,8 @@ member,Rva004F05F0Flags::m_5D,Rva004F05F0Flags::m_active,inferred,agree:nl-eabcc
 member,Rva004F05F0Flags::m_5E,Rva004F05F0Flags::m_created,inferred,agree:nl-af11bca4f20c,Code/GameEngine/Source/Common/TeamInQueue.cpp,
 local,Rva00240D0FCreate::tmp,Rva00240D0FCreate::node,inferred,agree:nl-be2fc5eb46c2,Code/Libraries/Source/WWVegas/WWLib/Rva00240D0FCreate.cpp,0x00240D0F
 param,Rva006CDD50Iterator::p,Rva006CDD50Iterator::current,inferred,agree:nl-3cbdffbf9358,Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp,
+member,Rva0023D229Global::m_40,Rva0023D229Global::m_frame,inferred,agree:nl-8beb94923ec9,Code/GameEngine/Source/Common/Rva0023D229Set.cpp,
+member,Rva0030C2CEArea::m_color50,Rva0030C2CEArea::m_color,inferred,agree:nl-75ef8b335910,Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp,
+member,Rva0030C2CEArea::m_save68,Rva0030C2CEArea::m_quadStrip,inferred,agree:nl-72828b0dbf5a,Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp,
+member,Rva0030C2CECollection::m_begin14,Rva0030C2CECollection::m_begin,inferred,agree:nl-909b5b6361db,Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp,
+member,Rva0030C2CECollection::m_end18,Rva0030C2CECollection::m_end,inferred,agree:nl-b18c12c19f1a,Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp,
