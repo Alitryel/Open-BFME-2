@@ -2307,3 +2307,6 @@ Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/Rva005CC698Ctor.cpp|param
 Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/Rva005CC698Ctor.cpp|param|Rva005CC698::Rva005CC698|b,bcda917db5b0d13ac54e5b9f,gpt-6.1-sol,codex8-20261024-011045-27,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/Rva005CC698Ctor.cpp|param|Rva005CC698::Rva005CC698|c,a04a852af6a615b280a9c7d0,gpt-6.1-sol,codex8-20261024-011045-27,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/Rva0056574BFill.cpp|param|Rva0056574BFill|n,a940d8192b5644c668f6a854,gpt-6.1-sol,codex8-20261024-011045-28,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva00531720Finish.cpp|local|PathfindZoneManager::rva00531720|t,2b790960e88568c84eb3c421,gpt-6.1-sol,codex8-20261024-014128-1,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva00531720Finish.cpp|local|PathfindZoneManager::rva00531720|e,a30bda300138d8a7c181421f,gpt-6.1-sol,codex8-20261024-014128-1,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva0028E8D4Rva0028E8D4.cpp|param|MotionCoord#2|r,cec22f91d92f047ed490b07f,gpt-6.1-sol,codex8-20261024-014128-2,w-de56e563a50b,2026-10-24
