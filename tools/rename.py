@@ -3750,6 +3750,9 @@ def _csv_checks(ctx, plan):
 # header_dependents and the scoped build (the plan's own ./build.sh covers the
 # units it names), and the baseline shrink-only assertions (rename.py never
 # edits a baseline). They still run at commit.
+# COMMIT_LEDGER_FILES switches on pin_admission and pin_consistency and is the hook's own
+# `ledger_changed` list (a test compares them). NAME_LEDGER_FILES switches on name_dependents
+# alone: the hook runs that on every commit, and these are the ledgers it reads names from.
 COMMIT_LEDGER_FILES = ("reverse/functions.csv", "reverse/symbols.csv", "reverse/deleted_rows.csv",
                        "reverse/re_attempts.log")
 NAME_LEDGER_FILES = ("reverse/functions.csv", "reverse/symbols.csv", "reverse/data_rows.csv")

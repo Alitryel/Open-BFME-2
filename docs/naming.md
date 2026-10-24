@@ -133,9 +133,17 @@ Each renamed name and every reference to it change together:
 
 The rename then runs one `./build.sh` over every touched ledger source, followed by `check_csv` and
 `find_declared_unmatched`, and the pre-commit hook's path-sensitive checks on what the commit will contain:
-`class_gate`, `ledger_guard`, `code_identity_gate`, `link_debt`, `check_case_collisions`, `hatch_counters`,
-`data_check` (`--staged`, and `--converged` over the built units) and `eh_verify` always run, and
-`pin_admission`, `pin_consistency` (`--check`) and `name_dependents` run when a ledger file is written, with
+`class_gate`, `ledger_guard`, `code_identity_gate`, `link_debt`, `check_case_collisions`, `hatch_counters` and
+`data_check --staged` always run. Which file a rename writes switches on three more, and the two file sets
+differ (`COMMIT_LEDGER_FILES` and `NAME_LEDGER_FILES` in `tools/rename.py`):
+`pin_admission` and `pin_consistency` (`--check`) run when the rename writes `reverse/functions.csv`,
+`reverse/symbols.csv`, `reverse/deleted_rows.csv` or `reverse/re_attempts.log`; `name_dependents` runs when it
+writes `reverse/functions.csv`, `reverse/symbols.csv` or `reverse/data_rows.csv`. So a rename that writes only
+`data_rows.csv` runs `name_dependents` but not the two pin checks, and one that writes only `deleted_rows.csv`
+runs the pin checks but not `name_dependents`. The first set is the hook's own `ledger_changed` condition
+(a test compares them); the hook runs `name_dependents` on every commit, and the second set is rename.py's
+choice: the three ledgers that tool reads for a name a rename takes away. `data_check --converged` and `eh_verify` run over the units the
+rename builds that own a matched row, and not at all when it builds none. All run with
 the hook's own arguments against a private copy of the index in which exactly the files the rename wrote are
 staged (the checks never write the real index; a file rename's `git mv` has already staged its move
 there, and a failed run undoes it). Any unit `name_dependents` lists that the rename does not already
