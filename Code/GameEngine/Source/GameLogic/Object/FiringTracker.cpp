@@ -54,14 +54,9 @@
 #endif
 
 //-------------------------------------------------------------------------------------------------
-// ?FiringTracker::FiringTracker present-unmatched
+// FiringTracker::~FiringTracker is defined with its retail-matched body in
+// FiringTrackerDtor.cpp (0x004DEA0C).
 //-------------------------------------------------------------------------------------------------
-FiringTracker::~FiringTracker()
-{
-	// no need to protect this.
-	TheAudio->removeAudioEvent( m_audioHandle );
-	m_audioHandle = AHSV_NoSound;
-}
 
 //-------------------------------------------------------------------------------------------------
 // ?FiringTracker::getNumConsecutiveShotsAtVictim present-unmatched

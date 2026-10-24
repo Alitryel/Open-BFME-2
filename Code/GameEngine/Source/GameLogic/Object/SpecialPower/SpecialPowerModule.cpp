@@ -89,19 +89,8 @@ const AudioEventRTS& SpecialPowerModule::getInitiateSound() const
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// Matched via Code/masm_dumps/SpecialPowerModule_destructor.asm @ 0x00268F30 (232B ICF)
-// ?SpecialPowerModule::~SpecialPowerModule present-unmatched
-SpecialPowerModule::~SpecialPowerModule()
-{
-
- 	if( getSpecialPowerModuleData()->m_specialPowerTemplate->hasPublicTimer() == TRUE &&
-			getObject()->getControllingPlayer() )
- 		TheInGameUI->removeSuperweapon( getObject()->getControllingPlayer()->getPlayerIndex(), 
-																		getPowerName(), 
-																		getObject()->getID(), 
-																		getSpecialPowerModuleData()->m_specialPowerTemplate );
-
-}  // end ~SpecialPowerModule
+// SpecialPowerModule::~SpecialPowerModule is defined with its retail-matched body in
+// SpecialPowerModuleDtor_Unresolved.cpp (0x00493DEF).
 
 //-------------------------------------------------------------------------------------------------
 // ?setReadyFrame@SpecialPowerModule@@UAEXI@Z present-unmatched
