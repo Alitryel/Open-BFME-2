@@ -1098,3 +1098,5 @@ local,Team::rva0039DDC2::s,Team::rva0039DDC2::status,inferred,agree:nl-22423db72
 member,Rva0010F5A8::m_marginMs10,Rva0010F5A8::m_endMarginMs,inferred,agree:nl-f6c278e78f81,Code/GameEngine/Source/Common/Rva0010F5A8Finish.cpp,
 member,Rva00160CE0::m_00,Rva00160CE0::m_vtable,inferred,agree:nl-62792135cd56,Code/GameEngine/Source/Common/Rva00160CE0Set.cpp,
 local,Rva001F51AD::rva001F51AD::p,Rva001F51AD::rva001F51AD::provider,inferred,agree:nl-05f2b1bd462a,Code/GameEngine/Source/Common/Rva001F51AD.cpp,0x001F51AD
+local,Rva001F529D::rva001F529D::p,Rva001F529D::rva001F529D::provider,inferred,agree:nl-5549d0238026,Code/GameEngine/Source/Common/Rva001F529D.cpp,0x001F529D
+local,Rva001F529D::rva001F529D::d,Rva001F529D::rva001F529D::coordinates,inferred,agree:nl-6e6b95e4e600,Code/GameEngine/Source/Common/Rva001F529D.cpp,0x001F529D
