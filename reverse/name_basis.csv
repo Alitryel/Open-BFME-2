@@ -730,3 +730,6 @@ param,ScriptActions::doNamedAddSpecialPowerCountdown::arg3,ScriptActions::doName
 local,ScriptActions::doNamedAddSpecialPowerCountdown::t,ScriptActions::doNamedAddSpecialPowerCountdown::m_specialPowerModule,inferred,agree:nl-27ebbad73e23,Code/GameEngine/Source/Common/Rva003C3F9EApply.cpp,0x003C3F9E
 param,Rva003F74F5Fill::n,Rva003F74F5Fill::count,inferred,agree:nl-47212fa8fa7b,Code/GameEngine/Source/Common/Rva003F74F5Fill.cpp,0x003F74F5
 function,?rva003F87FF@Rva0056AC26Owner@@QAEXPAVRva0056AC26@@@Z,?notifyTaskCreated@Rva0056AC26Owner@@QAEXPAVRva0056AC26@@@Z,inferred,agree:nl-aee863c3abe0,Code/GameEngine/Source/Common/Rva003F87FFNotifiers.cpp,0x003F87FF
+param,Rva003FD3EF::Rva003FD3EF::w,Rva003FD3EF::Rva003FD3EF::width,inferred,agree:nl-f2a87688d750,Code/GameEngine/Source/Common/Rva003FD3C7Ctor.cpp,0x003FD3C7
+param,Rva003FD3EF::Rva003FD3EF::s,Rva003FD3EF::Rva003FD3EF::text,inferred,agree:nl-d0cdefa8e17b,Code/GameEngine/Source/Common/Rva003FD3C7Ctor.cpp,0x003FD3C7
+param,Rva003FD3EF::Rva003FD3EF::f,Rva003FD3EF::Rva003FD3EF::flags,inferred,agree:nl-2d0559dd12f7,Code/GameEngine/Source/Common/Rva003FD3C7Ctor.cpp,0x003FD3C7

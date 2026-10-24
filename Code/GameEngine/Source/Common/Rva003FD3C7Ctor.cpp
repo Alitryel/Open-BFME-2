@@ -27,13 +27,13 @@ public:
 class Rva003FD3EF : public BfmeBaseVNH
 {
 public:
-	Rva003FD3EF(unsigned w, const Rva0036CA00Str &s, char f);
+	Rva003FD3EF(unsigned width, const Rva0036CA00Str &text, char flags);
 	virtual ~Rva003FD3EF();
 	Rva0036CA00Str m_0c;
 };
 
-Rva003FD3EF::Rva003FD3EF(unsigned w, const Rva0036CA00Str &s, char f)
-	: BfmeBaseVNH(w, f)
-	, m_0c(s)
+Rva003FD3EF::Rva003FD3EF(unsigned width, const Rva0036CA00Str &text, char flags)
+	: BfmeBaseVNH(width, flags)
+	, m_0c(text)
 {
 }
