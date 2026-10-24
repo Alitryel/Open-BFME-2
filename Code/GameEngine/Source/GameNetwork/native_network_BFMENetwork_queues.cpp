@@ -347,7 +347,6 @@ public:
 };
 
 extern "C" const void *bfmeVftBFMENetworkInterfaceBase[];
-#pragma comment(linker, "/alternatename:_bfmeVftBFMENetworkInterfaceBase=??_7Rva00651690Deleting@@6B@")
 
 class BFMENetworkInterfaceBase
 {

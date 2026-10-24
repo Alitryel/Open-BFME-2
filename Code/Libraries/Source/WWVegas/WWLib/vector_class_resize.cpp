@@ -152,10 +152,6 @@ bool VectorClass<T>::operator==(VectorClass<T> const &that) const
 
 template class VectorClass<int>;
 
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?bfmeDtorUD@BfmeThingUD@@QAEXXZ=?Clear@?$VectorClass@H@@UAEXXZ")
-
 // Donor: Open-BFME-1 1281192f682ce6f29b8f06b7daea4b5e8fdfbb24
 // game/Libraries/Source/WWVegas/WW3D2/Rva00941700TextSurfaceMethod.cpp.
 // Native PendingSurfaceStruct Resize157780 constructs/destroys arrays with

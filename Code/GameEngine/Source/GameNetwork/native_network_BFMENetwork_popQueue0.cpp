@@ -342,7 +342,6 @@ public:
 };
 
 extern "C" const void *bfmeVftBFMENetworkInterfaceBase[];
-#pragma comment(linker, "/alternatename:_bfmeVftBFMENetworkInterfaceBase=??_7Rva00651690Deleting@@6B@")
 
 class BFMENetworkInterfaceBase
 {
@@ -415,4 +414,3 @@ Bool BFMENetwork::popQueue0(BFMENetworkQueueItem *item)
 	reinterpret_cast<BFMENetworkRecordDeque *>(queue)->pop_front();
 	return true;
 }
-

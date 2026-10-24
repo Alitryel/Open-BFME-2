@@ -70,7 +70,3 @@ template <> E12Iterator __uninitialized_copy_copy<E12Iterator, E12ConstIterator,
 
 template _STL::E12Iterator _STL::uninitialized_copy<_STL::E12ConstIterator, _STL::E12Iterator>(_STL::E12ConstIterator, _STL::E12ConstIterator, _STL::E12Iterator);
 template class _STL::deque<BfmeE12, _STL::allocator<BfmeE12 > >;
-
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?allocate@?$allocator@W4ScienceType@@@_STL@@QAEPAW4ScienceType@@IPBX@Z=?allocate@?$allocator@PAUBfmeE12@@@_STL@@QBEPAPAUBfmeE12@@IPBX@Z")

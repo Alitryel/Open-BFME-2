@@ -2233,7 +2233,6 @@ void AptActionInterpreter::_FunctionAptActionInstanceOf(AptActionInterpreter *co
 
 
 #pragma comment(linker, "/alternatename:?c_cih@AptValue@@QBEPAVAptCIH@@_N@Z=?rva006DCF60@BfmeAptValue006DCD20@@QAEPAV1@_N@Z")
-#pragma comment(linker, "/alternatename:?getName@AptActionInterpreter@@SAXPAVAptCIH@@AAVEAStringC@@@Z=?rva006ffce0@@YAXPAVAptValue@@AAVEAStringC@@@Z")
 
 // CallFunction: original dispatch slot and native 707910..707B77 (615 bytes).
 // Same-TU parser definitions above prove its output pointers do not escape,

@@ -62,6 +62,3 @@ void __cdecl Rva001207B0Init(void *device)
 	DX8Wrapper::CurrentCaps = new DX8Caps(DX8Wrapper::D3DInterface,
 		DX8Wrapper::D3DDevice, (WW3DFormat)(int)device, DX8Wrapper::CurrentAdapterIdentifier);
 }
-
-// ConstGlobalGetters.cpp reads 0x00DEDA30 under this spelling.
-#pragma comment(linker, "/alternatename:?G009EDA30@@3HA=?D3DInterface@DX8Wrapper@@1PAUIDirect3D8@@A")

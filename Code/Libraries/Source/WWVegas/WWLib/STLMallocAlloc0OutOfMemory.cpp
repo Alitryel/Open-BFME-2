@@ -1,11 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc /Od
 // STLport's unoptimized allocation helpers retain stack locals in retail.
 
-// The vendored header declares _S_oom_malloc public (SAPAXI); this unit's row
-// keeps the private spelling (CAPAXI) it compiled to. Same function, same
-// address: bind the header spelling to the row.
-#pragma comment(linker, "/alternatename:?_S_oom_malloc@?$__malloc_alloc@$0A@@_STL@@SAPAXI@Z=?_S_oom_malloc@?$__malloc_alloc@$0A@@_STL@@CAPAXI@Z")
-
 extern "C" __declspec(dllimport) void *__cdecl malloc(unsigned int);
 extern "C" __declspec(dllimport) int __cdecl puts(const char *);
 extern "C" __declspec(dllimport) __declspec(noreturn) void __cdecl exit(int);

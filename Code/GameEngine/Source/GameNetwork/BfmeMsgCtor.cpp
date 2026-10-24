@@ -56,7 +56,6 @@ void deleteBfmeMsg(BfmeMsg *p)
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
 #pragma comment(linker, "/alternatename:?clear@BfmeC994@@QAEXXZ=??1BfmeMsg@@UAE@XZ")
 #pragma comment(linker, "/alternatename:??1Gen00808FB0@@UAE@XZ=??1BfmeMsg@@UAE@XZ")
-#pragma comment(linker, "/alternatename:??1BfmeMsg1052@@QAE@XZ=??1BfmeMsg@@UAE@XZ")
 #pragma comment(linker, "/alternatename:??1Rva00800780Addr@@QAE@XZ=??1BfmeMsg@@UAE@XZ")
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's

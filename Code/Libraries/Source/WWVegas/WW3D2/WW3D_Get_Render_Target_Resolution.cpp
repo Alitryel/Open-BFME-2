@@ -93,6 +93,3 @@ void DX8Wrapper::Get_Render_Target_Resolution(Int &width, Int &height, Int &bitD
 		windowed = IsWindowed;
 	}
 }
-
-// GlobalByteGetters.cpp still reads 0x00DEDA06 through this alias.
-#pragma comment(linker, "/alternatename:?g_Va00DEDA06@@3EA=?IsWindowed@DX8Wrapper@@1_NA")

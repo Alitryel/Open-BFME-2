@@ -18,7 +18,3 @@ struct Rva00666BA0
 __declspec(noinline) Rva00666BA0::~Rva00666BA0()
 {
 }
-
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?bfmeBase969D@BfmeD969@@QAEXXZ=??1Rva00666BA0@@UAE@XZ")

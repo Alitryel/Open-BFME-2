@@ -3847,18 +3847,12 @@ void DX8Wrapper::Draw_Sorting_IB_VB(unsigned primitive_type,unsigned start_index
 
 // ?BfmeResetDebugInstance@@3PAVBfmeResetDebug@@A: the global at this VA is ?theDebug@@3PAVDebug@@A; this name is an alias for it.
 #pragma comment(linker, "/alternatename:?BfmeResetDebugInstance@@3PAVBfmeResetDebug@@A=?theDebug@@3PAVDebug@@A")
-#pragma comment(linker, "/alternatename:?g_BFMEIndexBufferDebug@@3PAVBFMEIndexBufferDebugClass@@A=?theDebug@@3PAVDebug@@A")
-#pragma comment(linker, "/alternatename:?TheGen001336E5C@@3PAVGen001336E5C@@A=?theDebug@@3PAVDebug@@A")
-#pragma comment(linker, "/alternatename:?theDebug@@3RAVDebug@@A=?theDebug@@3PAVDebug@@A")
 // ?bfmeSkipFixedFunctionState@@3_NA: matched references place it at VA 0xdeda20.
 bool bfmeSkipFixedFunctionState;
 // ?BfmeResetMeshRendererInstance@@3PAUBfmeResetMeshRenderer@@A: the global at this VA is ?TheDX8MeshRenderer@@3PAVDX8MeshRendererClass@@A; this name is an alias for it.
 #pragma comment(linker, "/alternatename:?BfmeResetMeshRendererInstance@@3PAUBfmeResetMeshRenderer@@A=?TheDX8MeshRenderer@@3PAVDX8MeshRendererClass@@A")
-#pragma comment(linker, "/alternatename:?RendererPtr00DF363C@@3PAURendererFVFDeleteListView@@A=?TheDX8MeshRenderer@@3PAVDX8MeshRendererClass@@A")
 // ?bfmeProjectionBias@@3MA: matched references place it at VA 0xdeda74; also referenced as ?g_Va00DEDA74@@3MA.
 float bfmeProjectionBias;
-// ?g_Va00DEDA14@@3HA: the global at VA 0xdeda14 is ?Light_Environment@DX8Wrapper@@1PAVLightEnvironmentClass@@A.
-#pragma comment(linker, "/alternatename:?g_Va00DEDA14@@3HA=?Light_Environment@DX8Wrapper@@1PAVLightEnvironmentClass@@A")
 // ?BfmeResetMeshRendererInstance@@3PAUBfmeResetMeshRenderer@@A: the global at VA 0xdf363c is ?TheDX8MeshRenderer@@3PAVDX8MeshRendererClass@@A.
 #pragma comment(linker, "/alternatename:?BfmeResetMeshRendererInstance@@3PAUBfmeResetMeshRenderer@@A=?TheDX8MeshRenderer@@3PAVDX8MeshRendererClass@@A")
 // ?BfmeResetDebugInstance@@3PAVBfmeResetDebug@@A: the global at VA 0xde0880 is ?theDebug@@3PAVDebug@@A.
@@ -3870,7 +3864,6 @@ float bfmeProjectionBias;
 // other spellings at the same addresses (same ABI). Bind the spellings used here.
 #pragma comment(linker, "/alternatename:?Device_Reset_Hook@BfmeResetMeshRenderer@@QAEXXZ=?DX8_Assert@@YAXXZ")
 #pragma comment(linker, "/alternatename:_bfmeDirectXErrorName@4=_DXGetErrorString9A@4")
-#pragma comment(linker, "/alternatename:??1ShroudManagerImpl008FBA40Element@@QAE@XZ=?DX8_Assert@@YAXXZ")
 #pragma comment(linker, "/alternatename:??1BfmeCellFC@@QAE@XZ=?DX8_Assert@@YAXXZ")
 #pragma comment(linker, "/alternatename:?Rva009A7030@@YAXXZ=?DX8_Assert@@YAXXZ")
 #pragma comment(linker, "/alternatename:?bfmeReset@Gen_008812D0@@QAEXXZ=?DX8_Assert@@YAXXZ")

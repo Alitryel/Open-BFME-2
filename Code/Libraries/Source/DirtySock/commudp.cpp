@@ -608,7 +608,6 @@ int CommUDPSend(void *ref, const void *buffer, int length, int flags)
 
 // ?g_Rva0130AD08Count@@3HA: matched references place it at VA 0xe0a720; also referenced as _g_commUdpPacket.
 int g_Rva0130AD08Count;
-#pragma comment(linker, "/alternatename:_g_Rva0130AD08Count=?g_Rva0130AD08Count@@3HA")
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.

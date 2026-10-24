@@ -67,9 +67,7 @@ typedef char ErrorSize[sizeof(AptError)==40?1:-1];
 // existing exact providers. Opaque provider names retain their prior provenance.
 #pragma comment(linker, "/alternatename:??1AptSound@@MAE@XZ=??1Rva006F3990@@UAE@XZ")
 #pragma comment(linker, "/alternatename:??1AptStringObject@@UAE@XZ=??1Rva006FE460@@UAE@XZ")
-#pragma comment(linker, "/alternatename:??1AptError@@MAE@XZ=??1S4Dtor00587B30@@UAE@XZ")
 #pragma comment(linker, "/alternatename:?objectMemberLookup@AptStringObject@@UBEPAVAptValue@@QAV2@QBVEAStringC@@@Z=?rva006FE400@Rva006FE400@@QAEHPAXPAURva008A4570Owner@@@Z")
-#pragma comment(linker, "/alternatename:?objectMemberSet@AptError@@UAE_NQAVAptValue@@QBVEAStringC@@0@Z=?rva006E9580@Rva006E9580@@QAE_NHPAVEAStringC@@PAVBfmeAptValue006DCD20@@@Z")
 
 // Original PDB ScriptColour is36B with pSprite+20; MAP supplies const-pointer
 // parameter. Donor f1e86798adbb054c supplies semantics. Native6F24E0..6F25C5
@@ -158,10 +156,7 @@ extern const char g_00CEC838[],g_00BBFDDC[],g_00CEC710[];
 
 // Existing provider identities retained; native call operands establish ABI.
 #pragma comment(linker, "/alternatename:??0AptNativeFunction@@QAE@P6APAVAptValue@@PAV1@H@Z@Z=??0Rva006D6500@@QAE@H@Z")
-#pragma comment(linker, "/alternatename:?factoryCreateString@@YAPAVAptValue@@XZ=?Create@AptString@@SAPAV1@XZ")
-#pragma comment(linker, "/alternatename:?factorySetString@BfmeAptValue006DCD20@@QAEXPBD@Z=?SetString@AptValue@@QAEXPBD@Z")
 #pragma comment(linker, "/alternatename:?callback006F3670@@YAPAVAptValue@@PAV1@H@Z=?Rva006F3670@@YAPAVBfmeAptValue006DCD20@@PAV1@@Z")
-#pragma comment(linker, "/alternatename:?callback006E9730@@YAPAVAptValue@@PAV1@H@Z=?rva006e9730@@YAPAVAptValue@@PAV1@@Z")
 #pragma comment(linker, "/alternatename:?rva006D36C0@EAStringC@@QBEHPBV1@@Z=?compare008B4260@Rva008B4260StringRef@@QBEHABU1@@Z")
 typedef char FactoryNativeFunctionSize[sizeof(AptNativeFunction)==36?1:-1];
 

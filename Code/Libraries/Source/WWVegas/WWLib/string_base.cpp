@@ -323,7 +323,6 @@ template const wchar_t *StringBase<wchar_t>::str() const;
 // in matched rows land there). No unit defines the AsciiString names any more; bind them.
 #pragma comment(linker, "/alternatename:?clear@AsciiString@@QAEXXZ=?releaseBuffer@?$StringBase@D@@AAEXXZ")
 #pragma comment(linker, "/alternatename:?set@AsciiString@@QAEXPBD@Z=?set@?$StringBase@D@@QAEXPBD@Z")
-#pragma comment(linker, "/alternatename:?concat@AsciiString@@QAEXPBD@Z=?concat@?$StringBase@D@@QAEXPBD@Z")
 
 // Native 0x0002C5E6..0x0002C621, cdecl two-pointer bool predicate.
 // A nullable descriptor holds contiguous 4-byte StringBase<char> objects

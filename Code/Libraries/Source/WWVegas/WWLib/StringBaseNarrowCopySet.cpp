@@ -97,7 +97,6 @@ void StringBase<char>::set(const StringBase<char> &that)
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
 #pragma comment(linker, "/alternatename:??0BfmeSubA@@QAE@ABV0@@Z=?set@?$StringBase@D@@QAEXABV1@@Z")
-#pragma comment(linker, "/alternatename:?set@BfmeQuickMatchSlot@@QAEXABV1@@Z=?set@?$StringBase@D@@QAEXABV1@@Z")
 #pragma comment(linker, "/alternatename:??0AsciiStringWI@@QAE@ABV0@@Z=??0?$StringBase@D@@AAE@ABV0@@Z")
 #pragma comment(linker, "/alternatename:?copyFrom@BfmeTail50@@QAEXPBU1@@Z=??0?$StringBase@D@@AAE@ABV0@@Z")
 #pragma comment(linker, "/alternatename:?copyFrom@BfmeTailF5@@QAEXPBU1@@Z=??0?$StringBase@D@@AAE@ABV0@@Z")

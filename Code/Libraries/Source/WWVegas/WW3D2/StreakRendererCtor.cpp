@@ -77,7 +77,3 @@ void StreakRendererClass::Set_UV_Offset_Rate(const Vector2 &rate)
 {
 	UVOffsetDeltaPerMS = rate * 0.001f;
 }
-
-// Retail's data references in this unit's matched rows land on globals defined
-// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
-#pragma comment(linker, "/alternatename:?SyncTime@WW3D@@2IA=?SyncTime@WW3D@@0IA")

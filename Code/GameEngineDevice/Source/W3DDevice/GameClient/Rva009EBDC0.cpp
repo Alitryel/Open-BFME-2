@@ -45,8 +45,6 @@ AssetReference Rva009EBDC0()
 		: AssetReference();
 }
 
-#pragma comment(linker, "/alternatename:?Rva00F4FAACRegistry@@3PAVRva009EEC60Registry@@A=?TheQ1Receiver@@3PAVQ1Receiver0134FAAC@@A")
-
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
 #pragma comment(linker, "/alternatename:?bfmeNextResource@@YA?AUBfmeResetAnyRef@@XZ=?Rva009EBDC0@@YA?AVAssetReference@@XZ")

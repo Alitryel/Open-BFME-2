@@ -81,10 +81,8 @@ int Rva007D85C0::set(FilterModes mode) {
 
 // ?ScreenCurrentShader@@3IA: the global at this VA is ?render_state@DX8Wrapper@@1URenderStateStruct@@A; this name is an alias for it.
 #pragma comment(linker, "/alternatename:?ScreenCurrentShader@@3IA=?render_state@DX8Wrapper@@1URenderStateStruct@@A")
-#pragma comment(linker, "/alternatename:?bfmeApplyRenderState@@3UBfmeApplyRenderState@@A=?render_state@DX8Wrapper@@1URenderStateStruct@@A")
 // ?ScreenShaderDirty@@3_NA: the global at this VA is ?ShaderDirty@ShaderClass@@1_NA; this name is an alias for it.
 #pragma comment(linker, "/alternatename:?ScreenShaderDirty@@3_NA=?ShaderDirty@ShaderClass@@1_NA")
-#pragma comment(linker, "/alternatename:?g_bfmeDoneTDB@@3DA=?ShaderDirty@ShaderClass@@1_NA")
 // ?ScreenShaderDirty@@3_NA: the global at VA 0xdb621c is ?ShaderDirty@ShaderClass@@1_NA.
 #pragma comment(linker, "/alternatename:?ScreenShaderDirty@@3_NA=?ShaderDirty@ShaderClass@@1_NA")
 // ?ScreenCurrentShader@@3IA: the global at VA 0xdee5d8 is ?render_state@DX8Wrapper@@1URenderStateStruct@@A.

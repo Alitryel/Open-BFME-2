@@ -370,7 +370,6 @@ __declspec(noinline) inline VertexFormatXYZUV1 *StreakRendererClass::getVertexBu
 #pragma comment(linker, "/alternatename:??1MaterialPassStage@@QAE@XZ=??1?$RefCountPtr@VTextureClass@@@@QAE@XZ")
 #pragma comment(linker, "/alternatename:??1TextureClassPtr@@QAE@XZ=??1?$RefCountPtr@VTextureClass@@@@QAE@XZ")
 #pragma comment(linker, "/alternatename:??1BfmeElemVVE@@QAE@XZ=??1?$RefCountPtr@VTextureClass@@@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?rva00906340CellDtor@@YAXPAX@Z=??1?$RefCountPtr@VTextureClass@@@@QAE@XZ")
 #pragma comment(linker, "/alternatename:??1BfmeElementA@@QAE@XZ=??1?$RefCountPtr@VTextureClass@@@@QAE@XZ")
 #pragma comment(linker, "/alternatename:?bfmeElem936B@@YGXPAX@Z=??1?$RefCountPtr@VTextureClass@@@@QAE@XZ")
 

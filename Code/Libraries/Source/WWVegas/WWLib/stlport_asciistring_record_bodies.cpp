@@ -181,10 +181,6 @@ template void vector<BfmeStringTailRecord156, allocator<BfmeStringTailRecord156>
 }
 template class _STL::vector<BfmeStringTailRecord180, _STL::allocator<BfmeStringTailRecord180> >;
 
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:??$_Destroy@PAVRva0036105B@@@_STL@@YAXPAVRva0036105B@@0@Z=??$_Destroy@PAUBfmeStringHeadRecord148@@@_STL@@YAXPAUBfmeStringHeadRecord148@@0@Z")
-
 // Both assignment spellings designate the existing45B native body51C3F.
 #pragma comment(linker, "/alternatename:??4BfmeStringTailRecord144@@QAEAAU0@ABU0@@Z=??4Rva00051C3F@@QAEAAV0@ABV0@@Z")
 

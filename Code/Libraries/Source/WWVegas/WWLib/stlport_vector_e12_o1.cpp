@@ -22,9 +22,6 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 struct BfmeE12 { float x, y, z; };
 namespace _STL { template<> vector<BfmeE12> &vector<BfmeE12>::operator=(const vector<BfmeE12> &); }
 
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?swap@SidesInfoStringVector@@QAEXAAV1@@Z=?swap@?$vector@UBfmeE12@@V?$allocator@UBfmeE12@@@_STL@@@_STL@@QAEXAAV12@@Z")
 // Explicitly instantiate the retail helpers; no synthetic callers are needed.
 namespace _STL {
 template BfmeE12 *__copy<const BfmeE12 *, BfmeE12 *, int>(const BfmeE12 *, const BfmeE12 *, BfmeE12 *, const random_access_iterator_tag &, int *);

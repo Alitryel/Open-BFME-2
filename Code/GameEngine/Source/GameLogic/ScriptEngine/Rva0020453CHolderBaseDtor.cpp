@@ -31,10 +31,6 @@ void _bfmeRva0020453CHolderBaseInlineAnchor(Rva0020453CHolderBase *p)
 }
 #pragma inline_depth()
 
-// Retail's data references in this unit's matched rows land on globals defined
-// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
-#pragma comment(linker, "/alternatename:?g_00BE39F4@@3QBQBXB=??_7Rva0020453CHolderBase@@6B@")
-
 // Placeholder virtuals this unit's vftables hold.  In retail each such slot
 // holds a rowed function; the vftable's address is proven by the vptr stores in
 // the matched destructors, so bind the placeholder to that row's name.
