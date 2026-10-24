@@ -3500,3 +3500,13 @@ Code/GameEngine/Source/GameLogic/AI/Rva004F0681Predicate.cpp|local|TeamInQueue::
 Code/GameEngine/Source/GameLogic/Object/Update/RadiusDecal.cpp|param|setRadius|r,04bf0479c98e24ab53c7797d,claude-opus-5-5,claudec5-20261024-060039-7,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Update/RadiusDecal.cpp|param|setAngle|a,8ae95bd532350474e2f6a1f8,claude-opus-5-5,claudec5-20261024-060039-7,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/GameClient/FXParticleSystemLineSample.cpp|function|0x0055CDEC|rva0055CDEC,9cd9eded0d2246bc4026aecd,claude-opus-5-5,claudec5-20261024-060039-8,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva00160CE0Set.cpp|member|Rva00160CE0|m_08,e10ad79a4b338db8f9b85be3,claude-opus-5-5,claudec5-20261024-062107-1,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva00160CE0Set.cpp|member|Rva00160CE0|m_0C,549018e84c37879fd986e06b,claude-opus-5-5,claudec5-20261024-062107-1,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva00160CE0Set.cpp|member|Rva00160CE0|m_10,a85fefd7077721baa6a5cd2e,claude-opus-5-5,claudec5-20261024-062107-1,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|param|W3DTerrainLogic::Rva0027D77D|a,5f1bfb7367486c035362812c,claude-opus-5-5,claudec5-20261024-062107-4,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|param|W3DTerrainLogic::Rva0027D77D|b,592ec8da378e7a4659edc21c,claude-opus-5-5,claudec5-20261024-062107-4,w-1ebb1ea4caee,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferDoXfer.cpp|local|shrubPosition|r,6245790eb6845b99360bed5e,claude-opus-5-5,claudec5-20261024-062107-6,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva00174A8AAdapter.cpp|function|0x00174A8A|rva00174A8A,e739d71690606190c8cc4300,claude-opus-5-5,claudec5-20261024-062107-6,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva00174A8AAdapter.cpp|param|Rva00174A8A::rva00174A8A|n,ad343656b7822ee5e5a14eba,claude-opus-5-5,claudec5-20261024-062107-6,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva005B1A07.cpp|local|Rva005B1A07::rva005B1A07|c,d007a2272cad7037a4c4c317,claude-opus-5-5,claudec5-20261024-062107-7,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineContainIterateRiders.cpp|function|0x0047CEBB|rva0047CEBB,e3b6ce357a38346afb6b28cb,claude-opus-5-5,claudec5-20261024-062107-10,w-1ebb1ea4caee,2026-10-24
