@@ -11,8 +11,10 @@
 // The exact target-owned flags at +24/+44 are retained without enum-name claims.
 // TU-local layout views; unnamed fields and address-qualified types are intentional.
 // The bytecode proves offsets/operations, not original EA type names or full layouts.
-// cl: /DNDEBUG /DWIN32 /MD /EHsc
+// cl: /DNDEBUG /DWIN32 /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
+// Match the game allocator profile of stlport_moduledatavector_push.cpp;
+// the CRT allocator profile emitted a different player-vector growth body.
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
 #define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
@@ -26,18 +28,6 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 #include "../../../../../../reference/shims/bfme2_ascii/ascii_string.h"
-// Suppress this TU's non-retail copy of ?_M_clear@?$vector@PAVRva002E2903Player@@V?$allocator@PAVRva002E2903Player@@@_STL@@@_STL@@:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-class Rva002E2903Player;
-namespace _STL { template <> void vector<Rva002E2903Player *,allocator<Rva002E2903Player *> >::_M_clear(); }
-// Suppress this TU's non-retail copy of ?deallocate@?$allocator@PAVRva002E2903Player@@@_STL@@QBEXPAPAVRva002E2903Player@@I@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-class Rva002E2903Player;
-namespace _STL { template <> void allocator<Rva002E2903Player *>::deallocate(Rva002E2903Player * *,unsigned int) const; }
-// Suppress this TU's non-retail copy of ?allocate@?$allocator@PAVRva002E2903Player@@@_STL@@QBEPAPAVRva002E2903Player@@IPBX@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-class Rva002E2903Player;
-namespace _STL { template <> Rva002E2903Player * * allocator<Rva002E2903Player *>::allocate(unsigned int,void const *) const; }
 struct Rva002BA8F1Input {
     char at00[8]; AsciiString at08, at0C, at10;
     int at14, at18; char at1C[8]; bool at24;
@@ -58,15 +48,25 @@ struct Rva002BA8F1Listener { char opaque[4]; };
 class Rva005A0B4CList { public: void append(Rva002BA8F1Listener *); char opaque[12]; };
 class Rva002E2903Player {
 public:
-    Rva002E2903Player(Rva002BA8F1Input *, void *);
     void setAt1C4(int);
-    void setColor(int);
     void state0(); void state1(); void state2();
-    void attach(void *);
-    void initialize();
     char at00[4]; Rva005A0B4CList listeners; char at10[4]; int at14;
     char at18[8]; AsciiString name; char remaining[0x3c8-0x24];
 };
+// Existing physical owner from LivingWorldPlayerDtor.cpp: native constructor
+// 0x002E2903 initializes the native 0x3C8 allocation. This exposes only
+// allocation size; field accesses retain the target-derived view above.
+class Rva002E2AAE {
+public:
+    Rva002E2AAE(Rva002BA8F1Input *, void *);
+    char storage[0x3c8];
+};
+class LivingWorldPlayer {
+public:
+    void SetColorIndex(int);       // native 0x002E0F91
+    void InitBuildableHeroes();    // native 0x002E3518
+};
+class Rva002E0648Owner { public: void rva002E0648(void *); };
 typedef _STL::vector<Rva002E2903Player *> Rva002BA8F1PlayerList;
 struct Rva002BA8F1Primary { char opaque[0x18]; };
 class Rva002BA8F1Logic : public Rva002BA8F1Primary, public Rva002BA8F1Listener {
@@ -91,18 +91,18 @@ void LivingWorldLogic::AddPlayer(Rva002BA8F1Input *input, bool local, int kind, 
         second = TheLivingWorldAITemplateStore->find(input->at10);
         if (!second) return;
     }
-    Rva002E2903Player *player = new Rva002E2903Player(input, first);
+    Rva002E2903Player *player = (Rva002E2903Player *)new Rva002E2AAE(input, first);
     if (slot) slot->at4C = player->at14;
     Rva002000D7Config *config = (*(Rva002000D7Store **)&TheRankInfoStore)->get(1);
     if (config) player->setAt1C4(config->at34);
-    player->setColor(input->at18);
+    ((LivingWorldPlayer *)player)->SetColorIndex(input->at18);
     players.push_back(player);
     if (local) setLocal(player);
     if (input->at24) player->state2();
     else if (kind == 0) player->state0();
     else player->state1();
-    if (second) player->attach(second);
-    if (((Va00DFE78CState *)TheGameLogic)->at114 != 3) player->initialize();
+    if (second) ((Rva002E0648Owner *)player)->rva002E0648(second);
+    if (((Va00DFE78CState *)TheGameLogic)->at114 != 3) ((LivingWorldPlayer *)player)->InitBuildableHeroes();
     player->listeners.append(this);
 }
 
