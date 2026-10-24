@@ -4415,3 +4415,12 @@ Code/GameEngine/Source/Common/BfmeTwoHundredOne.cpp|member|BfmeCountedGL|m_bfmeC
 Code/GameEngine/Source/Common/BfmeTwoHundredOne.cpp|member|BfmeThingGL|m_bfmeHeld,8ee7adeb10ae64c3fd7386e8,gpt-6.1-sol,codex6-20261024-082742-26,w-bcdd62231570,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/ObjectRva0028EBDA.cpp|local|Object::rva0028EBDA|m,18ecef4afa4918b69cf6bd19,gpt-6.1-sol,codex6-20261024-082742-27,w-bcdd62231570,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Update/ToggleDeploySpecialAbilityUpdateSlot24.cpp|local|ToggleDeploySpecialAbilityUpdate::rva004AE6D7|p08,9cba08a0afaedba784f4c0db,gpt-6.1-sol,codex6-20261024-082742-28,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|class||Rva007F2350StatsRecord,a55495175b3db62ecbe6d60c,gpt-6.1-sol,codex5-20261024-082520-7,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|class||Rva007F2350StatsCursor,e1e4db06d9446c365c40c8ab,gpt-6.1-sol,codex5-20261024-082520-7,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|class||Rva007F27C0Stat,8499f717b55b942eb2985933,gpt-6.1-sol,codex5-20261024-082520-7,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|class||Rva007F27C0UserHeader,9b40b33c43633f670016c7a4,gpt-6.1-sol,codex5-20261024-082520-7,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|class||Rva007F27C0UserData,5c49e5fb52fc0f4829c2e7a8,gpt-6.1-sol,codex5-20261024-082520-7,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|class||Rva007F27C0User,d4a5c961e2b08a50982c4429,gpt-6.1-sol,codex5-20261024-082520-7,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|member|Rva007F2350StatsRecord|m_30,4e2339b68c0a70339dfb6cf4,gpt-6.1-sol,codex5-20261024-082520-7,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|function|0x0065EF90|rva007F24A0,71bb1c6d9eb8c4c35247b735,gpt-6.1-sol,codex5-20261024-082520-7,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|function|0x0065ED20|rva007F2230,d75d8ed0e33f47a8c275e119,gpt-6.1-sol,codex5-20261024-082520-7,w-2d32e7a71cf1,2026-10-24
