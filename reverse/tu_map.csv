@@ -13600,7 +13600,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0020F143,176,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,U,N=Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionBonusRule.cpp noncontiguous,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp
 0x0020F1F3,139,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,U,N=Code/GameEngine/Source/Common/LivingWorldRegionManager.cpp noncontiguous,Code/GameEngine/Source/Common/LivingWorldRegionManager_SelectCampaign.cpp
 0x0020F27E,36,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x0020F1F3..0x0020F2A2 noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva0020F27EPair.cpp
-0x0020F2A2,79,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,U,N=Code/Libraries/Source/WWVegas/WWLib/LivingWorldRegionManager.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva0020F2A2Dispatch.cpp
+0x0020F2A2,79,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,U,N=Code/Libraries/Source/WWVegas/WWLib/LivingWorldRegionManager.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/LivingWorldRegionManager_GetRegionUiPopupPoint.cpp
 0x0020F2F1,24,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x0020F2A2..0x0020F309 noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva0020F2F1Forwarders.cpp
 0x0020F309,24,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x0020F2A2..0x0020F321 noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva0020F2F1Forwarders.cpp
 0x0020F321,45,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionManager.cpp,proposed,C,C=0x0020F2A2..0x0020F34E noncontiguous,Code/Libraries/Source/WWVegas/WWLib/stlport_construct_stl_types.cpp
@@ -15680,7 +15680,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00240C89,34,code,Code/GameEngine/Source/GameLogic/System/GameLogic.cpp,proposed,C,C=0x00240144..0x00240CAB noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva00240C89Create.cpp
 0x00240CAB,53,code,Code/GameEngine/Source/GameLogic/System/GameLogic.cpp,proposed,C,C=0x00240144..0x00240CE0 noncontiguous,Code/GameEngine/Source/Common/RvaTreeValueEraseFamily.cpp
 0x00240CE0,47,code,Code/GameEngine/Source/GameLogic/System/GameLogic.cpp,proposed,C,C=0x00240144..0x00240D0F noncontiguous,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_00242f5e.cpp
-0x00240D0F,37,code,Code/GameEngine/Source/GameLogic/System/GameLogic.cpp,proposed,C,C=0x00240144..0x00240D34 noncontiguous,Code/Libraries/Source/WWVegas/WWLib/Rva00240D0FCreate.cpp
+0x00240D0F,37,code,Code/GameEngine/Source/GameLogic/System/GameLogic.cpp,proposed,C,C=0x00240144..0x00240D34 noncontiguous,Code/Libraries/Source/WWVegas/WWLib/createNode.cpp
 0x00240D34,88,code,Code/GameEngine/Source/GameLogic/System/GameLogic.cpp,proposed,C,C=0x00240144..0x00240D8C noncontiguous,Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva00240D34.cpp
 0x00240D8C,73,code,Code/GameEngine/Source/GameLogic/System/GameLogic.cpp,proposed,C,C=0x00240144..0x00240DF1 noncontiguous,Code/GameEngine/Source/GameLogic/System/Rva002419AB.cpp
 0x00240DD5,28,code,,displaced,-,N=Code/GameEngine/Source/Common/Thing/WorkerAIUpdate.cpp,Code/GameEngine/Source/Common/Thing/ModuleFactory.cpp
@@ -23286,7 +23286,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0032A304,58,code,Code/GameEngine/Source/GameLogic/Map/SidesList.cpp,approved,C,C=0x0032A1FE..0x0032A33E,Code/GameEngine/Source/Common/Rva00193660Set.cpp
 0x0032A33E,60,code,Code/GameEngine/Source/GameLogic/Map/SidesList.cpp,approved,C,C=0x0032A1FE..0x0032A37A,Code/Libraries/Source/WWVegas/WWLib/stlport_pod_vector_bodies.cpp
 0x0032A37A,47,code,Code/GameEngine/Source/GameLogic/Map/SidesList.cpp,approved,C,C=0x0032A1FE..0x0032A3C6,Code/Libraries/Source/WWVegas/WWLib/stlport_pod_vector_bodies.cpp
-0x0032A3A9,29,code,,displaced,-,N=Code/Libraries/Source/WWVegas/WWLib/_STL.cpp,Code/Libraries/Source/WWVegas/WWLib/stlport_destroy_aux_0032A3A9.cpp
+0x0032A3A9,29,code,,displaced,-,N=Code/Libraries/Source/WWVegas/WWLib/_STL.cpp,Code/Libraries/Source/WWVegas/WWLib/_STL___destroy_aux.cpp
 0x0032A3C6,18,code,Code/GameEngine/Source/GameLogic/Map/SidesList.cpp,approved,C,C=0x0032A1FE..0x0032A3E1,Code/GameEngine/Source/Common/RvaSmallVtableCtors.cpp
 0x0032A3E1,45,code,Code/GameEngine/Source/GameLogic/Map/SidesList.cpp,approved,C,C=0x0032A1FE..0x0032A40E,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_pod128_allocate_copy.cpp
 0x0032A40E,29,code,Code/GameEngine/Source/GameLogic/Map/SidesList.cpp,approved,C,C=0x0032A1FE..0x0032A438,Code/Libraries/Source/WWVegas/WWLib/stlport_copy_buildlistinfo.cpp
