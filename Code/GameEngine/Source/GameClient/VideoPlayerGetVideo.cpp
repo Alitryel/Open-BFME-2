@@ -53,7 +53,7 @@ class VideoPlayer
 {
 public:
 	virtual const Video *getVideo(AsciiString movieTitle);
-    virtual VideoStreamInterface *rva006894D0(AsciiString title, unsigned int argument);
+    virtual VideoStreamInterface *open(AsciiString title, unsigned int argument);
     virtual SubtitleManager *getSubTitleMgrForVideo(const AsciiString &title);
 };
 
@@ -183,7 +183,7 @@ SubtitleManager *VideoPlayer::getSubTitleMgrForVideo(const AsciiString &title)
 // Native releases the by-value narrow string at stack+4 through36410 and
 // returns zero with RET8. The remaining raw32bit argument is unused and
 // its original meaning/type and original method name remain unknown.
-VideoStreamInterface *VideoPlayer::rva006894D0(AsciiString title, unsigned int argument)
+VideoStreamInterface *VideoPlayer::open(AsciiString title, unsigned int argument)
 {
     return 0;
 }
