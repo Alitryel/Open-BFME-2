@@ -72,18 +72,18 @@ public:
 	char m_pad10[0x2C - 0x10];
 	int m_field2C;
 public:
-	void rva00498DF3(Rva00498DF3Arg *arg, float flt);
-	void rva00498F46(Rva00498DF3Arg *arg, int u1, int u2);
+	void rva00498DF3(Rva00498DF3Arg *unit, float flt);
+	void rva00498F46(Rva00498DF3Arg *unit, int u1, int u2);
 };
 
-void GateOpenAndCloseBehavior::rva00498DF3(Rva00498DF3Arg *arg, float flt)
+void GateOpenAndCloseBehavior::rva00498DF3(Rva00498DF3Arg *unit, float flt)
 {
 	Object *obj = m_objC;
 	if (!obj)
 		return;
-	if (!arg)
+	if (!unit)
 		return;
-	Rva00498DF3Mid *mid = arg->m_mid258;
+	Rva00498DF3Mid *mid = unit->m_mid258;
 	if (!mid)
 		return;
 	if (((AIUpdateInterface *)mid)->rva00262DD3(obj))
@@ -91,23 +91,23 @@ void GateOpenAndCloseBehavior::rva00498DF3(Rva00498DF3Arg *arg, float flt)
 	((AICommandInterface *)((char *)mid + 0x20))->aiMoveAwayFromUnit(obj, &obj->m_pos38, CMD_FROM_AI);
 }
 
-void GateOpenAndCloseBehavior::rva00498F46(Rva00498DF3Arg *arg, int u1, int u2)
+void GateOpenAndCloseBehavior::rva00498F46(Rva00498DF3Arg *unit, int u1, int u2)
 {
 	if (m_ptr08->m_flag18 == 0)
 		return;
 	if (m_field2C != 1)
 		return;
-	if (!Rva00498B8BGet((Object *)arg))
+	if (!Rva00498B8BGet((Object *)unit))
 		return;
-	Rva00498DF3Mid *mid = arg->m_mid258;
+	Rva00498DF3Mid *mid = unit->m_mid258;
 	if (mid != 0)
 	{
 		Object *object = m_objC;
 		if (mid->m_turret30->getGoalObject() == object)
 			return;
-		Object *o2 = m_objC;
-		if (((AIUpdateInterface *)mid)->getCurrentVictim() == o2)
+		Object *gateObject = m_objC;
+		if (((AIUpdateInterface *)mid)->getCurrentVictim() == gateObject)
 			return;
 	}
-	rva00498DF3(arg, g_00C50244);
+	rva00498DF3(unit, g_00C50244);
 }
