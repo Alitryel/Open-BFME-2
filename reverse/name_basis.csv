@@ -1860,3 +1860,5 @@ param,BfmeGridWM::rva000AE18D::y,BfmeGridWM::rva000AE18D::yIndex,inferred,agree:
 local,BfmeGridWM::walk::y,BfmeGridWM::walk::yIndex,inferred,agree:nl-d2970842dcd2,Code/GameEngine/Source/Common/BfmeGrokGrid.cpp,0x000AEBC7
 param,BaseHeightMapRenderObjClass::rva0006C6A3::x,BaseHeightMapRenderObjClass::rva0006C6A3::xIndex,inferred,agree:nl-374c05790607,Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapVisibleCellQueries.cpp,0x0006C6A3
 param,BaseHeightMapRenderObjClass::rva0006C6A3::y,BaseHeightMapRenderObjClass::rva0006C6A3::yIndex,inferred,agree:nl-fa111d8ac97b,Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapVisibleCellQueries.cpp,0x0006C6A3
+param,BaseHeightMapRenderObjClass::rva0006C6E2::x,BaseHeightMapRenderObjClass::rva0006C6E2::xIndex,inferred,agree:nl-5d331fd0ce4b,Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapVisibleCellQueries.cpp,0x0006C6E2
+param,BaseHeightMapRenderObjClass::rva0006C6E2::y,BaseHeightMapRenderObjClass::rva0006C6E2::yIndex,inferred,agree:nl-bd2cc7e4a039,Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapVisibleCellQueries.cpp,0x0006C6E2
