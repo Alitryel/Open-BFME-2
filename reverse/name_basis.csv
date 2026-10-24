@@ -1009,3 +1009,4 @@ param,BfmeThingPF::rva000276B0::n,BfmeThingPF::rva000276B0::count,inferred,agree
 class,Rva00800A40Input,InternetAddress,inferred,agree:nl-1a161f2aa6d3,Code/GameEngine/Source/Common/Rva00800A40Owner.cpp,
 function,?rva007B5299@@YAXXZ,?initCancelArmyMemberMoveButton@@YAXXZ,inferred,agree:nl-cb9a94ba3f58,Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp,0x007B5299
 function,?rva007B5343@@YAXXZ,?initDisbandArmyMemberButton@@YAXXZ,inferred,agree:nl-e8d4615656c3,Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp,0x007B5343
+member,Rva0028E868OtherPrefix::word74,Rva0028E868OtherPrefix::m_id,inferred,agree:nl-fa161b94ef66,Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp,

@@ -18,7 +18,7 @@ struct Rva0028E84AObjectPrefix {
  unsigned word00; const Rva0028E84ATemplatePrefix *objectTemplate;
 };
 struct Rva0028E868OtherPrefix {
- char pad00[0x74]; unsigned word74;
+ char pad00[0x74]; unsigned m_id;
  char pad78[0x484-0x78]; unsigned word484;
 };
 struct Rva0028E868Collide {
@@ -70,7 +70,7 @@ unsigned Rva0028C0E3Receiver::rva0028E84A() const {
 // Field meanings, full allocation and original slot spelling remain unasserted.
 void Rva0028C0E3Receiver::collisionDispatch(Object *other,const Coord3D *loc,const Coord3D *normal) {
  Rva0028E868OtherPrefix *otherFields=(Rva0028E868OtherPrefix *)other;
- if(word414==otherFields->word74)return;
+ if(word414==otherFields->m_id)return;
  if(otherFields->word484!=0 && word04!=0)return;
  for(void **module=behaviors;*module;++module) {
   Rva0028E868Collide *collide=((Rva0028E868BehaviorInterface *)((char *)*module+0xc))->getCollide();
