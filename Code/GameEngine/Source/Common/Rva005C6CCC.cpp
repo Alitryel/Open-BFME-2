@@ -70,6 +70,14 @@ bool less<int>::operator()(const int &a, const int &b) const
 
 typedef _STL::pair<const int, TreeHintRef00217D4C> TreeHintPair;
 typedef _STL::map<int, TreeHintRef00217D4C> TreeHintMap;
+typedef _STL::_Rb_tree<int, TreeHintPair, _STL::_Select1st<TreeHintPair>, _STL::less<int>, _STL::allocator<TreeHintPair> > TreeHintTree;
+
+// The node creator 0x005C6728 allocates through the byte allocator and copies
+// the pair out of line; its row is the specialization in
+// stlport_rb_tree_rva0027EA49_create_node.cpp, so _M_insert calls it here.
+namespace _STL {
+template <> TreeHintTree::_Link_type TreeHintTree::_M_create_node(const TreeHintPair &);
+}
 
 template TreeHintRef00217D4C &TreeHintMap::operator[](const int &);
 
@@ -88,22 +96,18 @@ struct TreeHintRef003596AD {
  }
 };
 typedef _STL::map<int, TreeHintRef003596AD> TreeHintMap003596AD;
-typedef _STL::map<int, float> TreeHintInsert003596AD;
-namespace _STL {
-template<> TreeHintInsert003596AD::iterator TreeHintInsert003596AD::insert(TreeHintInsert003596AD::iterator, const TreeHintInsert003596AD::value_type &);
-}
-// The target's insertion forwarder is independently rowed at 0x0035926E
-// with a float spelling. It forwards the iterator and eight-byte pair to
-// its tree unchanged; use that proven ABI without making its inferred
-// mapped type a target identity or spending another address pin.
+// Retail's subscript calls the shared insertion forwarder 0x0035926E, rowed
+// here as map<int, TreeHintRef00217D4C>::insert. It forwards the iterator and
+// eight-byte pair to its tree unchanged; call it through that map's view
+// without spending another address pin on this view's mapped type.
 template<> TreeHintRef003596AD &TreeHintMap003596AD::operator[](const int &key)
 {
  iterator it = lower_bound(key);
  if (it == end() || key_comp()(key, (*it).first)) {
   it = iterator(reinterpret_cast<iterator::_Link_type>(
-   reinterpret_cast<TreeHintInsert003596AD *>(this)->insert(
-    TreeHintInsert003596AD::iterator(reinterpret_cast<TreeHintInsert003596AD::iterator::_Link_type>(it._M_node)),
-    reinterpret_cast<const TreeHintInsert003596AD::value_type &>(value_type(key, TreeHintRef003596AD())))._M_node));
+   reinterpret_cast<TreeHintMap *>(this)->insert(
+    TreeHintMap::iterator(reinterpret_cast<TreeHintMap::iterator::_Link_type>(it._M_node)),
+    reinterpret_cast<const TreeHintMap::value_type &>(value_type(key, TreeHintRef003596AD())))._M_node));
  }
  return (*it).second;
 }
@@ -130,9 +134,9 @@ template<> TreeHintRef00218787 &TreeHintMap00218787::operator[](const int &key)
  iterator it = lower_bound(key);
  if (it == end() || key_comp()(key, (*it).first)) {
   it = iterator(reinterpret_cast<iterator::_Link_type>(
-   reinterpret_cast<TreeHintInsert003596AD *>(this)->insert(
-    TreeHintInsert003596AD::iterator(reinterpret_cast<TreeHintInsert003596AD::iterator::_Link_type>(it._M_node)),
-    reinterpret_cast<const TreeHintInsert003596AD::value_type &>(value_type(key, TreeHintRef00218787())))._M_node));
+   reinterpret_cast<TreeHintMap *>(this)->insert(
+    TreeHintMap::iterator(reinterpret_cast<TreeHintMap::iterator::_Link_type>(it._M_node)),
+    reinterpret_cast<const TreeHintMap::value_type &>(value_type(key, TreeHintRef00218787())))._M_node));
  }
  return (*it).second;
 }
