@@ -48,15 +48,15 @@ void __cdecl initValueSizes()
 	int maxVal = 0;
 	unsigned int minVal = 1000000;
 	for (int i = 1; i < 0x2f; ++i) {
-		unsigned int v = ((volatile unsigned char *)g_00CE8B70)[i];
-		if (v > (unsigned int)maxVal)
-			maxVal = (int)v;
-		if (v < minVal)
-			minVal = v;
+		unsigned int valueSize = ((volatile unsigned char *)g_00CE8B70)[i];
+		if (valueSize > (unsigned int)maxVal)
+			maxVal = (int)valueSize;
+		if (valueSize < minVal)
+			minVal = valueSize;
 	}
 	g_maxValueSize = maxVal;
-	unsigned int c = minVal < 12 ? 12u : minVal;
-	g_minValueSize = (unsigned char)c;
+	unsigned int clampedMinSize = minVal < 12 ? 12u : minVal;
+	g_minValueSize = (unsigned char)clampedMinSize;
 }
 // Native6CBC50 sized-free callback, independently exact6B.
 // The startup6CC380 allocations and sized EH cleanup7A8050/5F establish roles.

@@ -1931,3 +1931,5 @@ param,Rva004E81DE::rva004E81DE::a,Rva004E81DE::rva004E81DE::claimantId,inferred,
 local,Team::rva0039DE46::s,Team::rva0039DE46::status,inferred,agree:nl-067dbec55dee,Code/GameEngine/Source/Common/RTS/TeamRva0039DE46.cpp,0x0039DE46
 param,Rva005D19F8::Rva005D19F8::b,Rva005D19F8::Rva005D19F8::source,inferred,agree:nl-074686082ebe,Code/GameEngine/Source/Common/Rva005C802BFactory.cpp,0x005D19F8
 local,Rva0049D526::rva0049D57F::n,Rva0049D526::rva0049D57F::node,inferred,agree:nl-99efd1513eae,Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp,0x0049D57F
+local,initValueSizes::v,initValueSizes::valueSize,inferred,agree:nl-2b12aca6abee,Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp,0x006D2D90
+local,initValueSizes::c,initValueSizes::clampedMinSize,inferred,agree:nl-6d9bc7f02e8b,Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp,0x006D2D90
