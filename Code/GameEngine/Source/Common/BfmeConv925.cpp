@@ -37,11 +37,11 @@ public:
 
 void *bfmeGo925A(BfmeKeyLC *k)
 {
-	BfmeNodeLC *o = (BfmeNodeLC *)((GameWindow *)k)->winGetUserData();
-	if (o) {
-		void *p = o->m_bfmeQ;
-		if (p)
-			return p;
+	BfmeNodeLC *comboBoxData = (BfmeNodeLC *)((GameWindow *)k)->winGetUserData();
+	if (comboBoxData) {
+		void *listBox = comboBoxData->m_bfmeQ;
+		if (listBox)
+			return listBox;
 	}
 	return 0;
 }
