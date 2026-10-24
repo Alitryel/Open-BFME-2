@@ -3437,3 +3437,8 @@ Code/GameEngine/Source/Common/Rva001F51AD.cpp|local|Rva001F51AD::rva001F51AD|b,6
 Code/GameEngine/Source/Common/Rva001F51AD.cpp|local|Rva001F51AD::rva001F51AD|d,e2baafd3aa8f7d6b8539ef29,gpt-6.1-sol,codex5-20261024-053222-22,w-2d32e7a71cf1,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainRva004626CA.cpp|class||Rva004626CALandPoint,701ad4a60b8f3af263f54e59,gpt-6.1-sol,codex5-20261024-053222-23,w-2d32e7a71cf1,2026-10-24
 Code/GameEngine/Source/Common/Rva00160CE0Set.cpp|member|Rva00160CE0|m_00,0d50c5a381abaf923319a544,gpt-6.1-sol,codex5-20261024-053222-24,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainScatter.cpp|class||Rva00464B96Status,b32b850068d6e41f2f7055f6,gpt-6.1-sol,codex5-20261024-055455-2,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainScatter.cpp|member|Rva00464B96Logic|word40,363a7cc9a7fbab0465c87996,gpt-6.1-sol,codex5-20261024-055455-2,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameClient/Rva0055D686Scale.cpp|function|0x0055D686|Rva0055D686Compute,056f61ba89cbcc12ccd3d944,gpt-6.1-sol,codex5-20261024-055455-8,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameClient/Rva0055D686Scale.cpp|param|Rva0055D686Compute|z,2617ff72739da07dee7d1569,gpt-6.1-sol,codex5-20261024-055455-8,w-2d32e7a71cf1,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva0040B0D0Contains.cpp|member|Rva0040B0D0Arg|m_04,8d90c35bda39f7234dea7567,gpt-6.1-sol,codex5-20261024-055455-9,w-2d32e7a71cf1,2026-10-24
