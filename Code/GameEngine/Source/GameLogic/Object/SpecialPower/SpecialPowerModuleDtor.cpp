@@ -220,8 +220,3 @@ void SpecialPowerModule::onSpecialPowerCreation()
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
 #pragma comment(linker, "/alternatename:??1Rva00493DEF@@UAE@XZ=??1SpecialPowerModule@@UAE@XZ")
-
-// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
-// each one has the same function in that slot (vftable addresses from matched vptr
-// stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?behaviorAnchor@BehaviorModuleInterface@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

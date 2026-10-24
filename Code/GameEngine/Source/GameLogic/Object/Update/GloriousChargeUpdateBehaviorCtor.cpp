@@ -14,7 +14,6 @@
 extern "C" const void *const vtbl_00C4D640[];  // folded, 11 classes; via ??_7LevelGrantSpecialPower@@6BSpecialPowerModuleInterface@@@
 #pragma comment(linker, "/alternatename:_vtbl_00C4D640=??_7LevelGrantSpecialPower@@6BSpecialPowerModuleInterface@@@")
 extern "C" const void *const vtbl_00C552A4[];  // folded, 6 classes; via ??_7GiveOrRestoreUpgradeSpecialPower@@6BDamageModuleInterface@@@
-#pragma comment(linker, "/alternatename:_vtbl_00C552A4=??_7GiveOrRestoreUpgradeSpecialPower@@6BDamageModuleInterface@@@")
 
 extern char g_00C55108;
 extern char g_00C55118;

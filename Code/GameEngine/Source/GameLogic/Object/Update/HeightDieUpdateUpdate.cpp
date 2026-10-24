@@ -160,7 +160,6 @@ public:
 	BfmeFixedStorage0004543D m_24;
 };
 
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
 
 struct BfmeWideResult
 {

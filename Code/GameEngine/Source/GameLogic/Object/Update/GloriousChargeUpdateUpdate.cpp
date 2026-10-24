@@ -177,7 +177,6 @@ public:
 	virtual bool allow(Object *obj);
 	const Object *m_obj;
 };
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
 struct BfmeWideResult
 {
 	Object *next() throw();	// 0x00045623

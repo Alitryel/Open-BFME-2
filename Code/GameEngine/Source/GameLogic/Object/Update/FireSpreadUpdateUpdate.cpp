@@ -108,7 +108,6 @@ public:
 	Rva000421C8 *m_next;
 };
 
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
 
 // vftable 0x0084BF78 (allow 0x0048B6D5, rowed in FireSpreadUpdate.cpp).
 class PartitionFilterFlammable : public Rva000421C8

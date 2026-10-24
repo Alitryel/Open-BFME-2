@@ -318,13 +318,6 @@ void bfmeEmitDockUpdateCtor(ObjectIDVector *objectIDVector)
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?unused@BehaviorModuleOther@@EAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
-#pragma comment(linker, "/alternatename:?objectModuleAnchor@DockUpdate@@UAEXXZ=?name@DockUpdate@@QBEPBDXZ")
-#pragma comment(linker, "/alternatename:?behaviorAnchor@DockUpdate@@UAEXXZ=?xfer@DockUpdate@@MAEXPAVXfer@@@Z")
-
-// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
-// each one has the same function in that slot (vftable addresses from matched vptr
-// stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?dockAnchor@DockUpdate@@UAEXXZ=?isClearToApproach@DockUpdate@@UBE_NPBVObject@@@Z")
 
 // _M_fill_insert binds to the kept retail copy (declared above), so its two
 // rowed callees are no longer pulled in by it; emit them explicitly.
