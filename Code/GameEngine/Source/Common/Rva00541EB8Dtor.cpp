@@ -7,7 +7,13 @@
 // Explicit four-byte gap preserves native +0x44 without a private32-byte class.
 // Same chain shape as rowed ??1Rva0054080A@@UAE@XZ via inner plus base.
 // Evidence: vtable store plus two twin calls plus base call plus caller 0x0054218E.
-#include "BfmeNarrowRecord0041A5D2.h"
+// The members are the record whose retail destructor is the separate twin
+// 0x00541E77 (NarrowStringRecord0041A5D2Dtor.cpp), not the 0x0041A200 copy.
+struct Rva00541E77Record
+{
+	~Rva00541E77Record();
+	unsigned char m_bytes[0x1C];
+};
 
 class Rva0053FB33
 {
@@ -22,9 +28,9 @@ class Rva00541EB8 : public Rva0053FB33
 public:
 	virtual ~Rva00541EB8();
 private:
-	BfmeNarrowRecord0041A5D2 m_24;
+	Rva00541E77Record m_24;
 	unsigned char m_gap40[4];
-	BfmeNarrowRecord0041A5D2 m_44;
+	Rva00541E77Record m_44;
 };
 
 Rva00541EB8::~Rva00541EB8()

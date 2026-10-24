@@ -37,3 +37,17 @@ void __malloc_alloc<0>::deallocate(void *__p, size_t)
 { free((char *)__p); }
 }
 BfmeNarrowRecord0041A5D2::~BfmeNarrowRecord0041A5D2() {}
+
+// ??1Rva00541E77Record@@QAE@XZ @0x00541E77 65B: byte-identical to the record
+// destructor above except for its own EH handler (folded with 0x00797DE5), so
+// ICF kept it apart (formerly the gen-alias dup_00541e77). Only ~Rva00541EB8
+// (0x00541EB8) reaches it: its two member destroys and its state-1 funclet.
+struct Rva00541E77Record
+{
+	_STL::basic_string<char> text0;
+	unsigned short short0;
+	_STL::basic_string<char> text1;
+	~Rva00541E77Record();
+};
+
+Rva00541E77Record::~Rva00541E77Record() {}
