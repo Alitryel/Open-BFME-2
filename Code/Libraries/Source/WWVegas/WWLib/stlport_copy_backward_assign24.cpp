@@ -5,5 +5,7 @@
 // Uses STOCK vendor headers (no bfmealloc shim): the shim inlines to a 29B __copy_backward call; stock keeps the 27B ptrs call.
 #include <vector>
 #include "ascii_string.h"
-struct BfmeAssignRecord24 { AsciiString s; int a[5]; };
+struct BfmeAssignRecord24 { AsciiString s; int a[5]; BfmeAssignRecord24 &operator=(const BfmeAssignRecord24 &); };
 template BfmeAssignRecord24 *_STL::copy_backward<BfmeAssignRecord24 *, BfmeAssignRecord24 *>(BfmeAssignRecord24 *, BfmeAssignRecord24 *, BfmeAssignRecord24 *);
+// The rowed 33B assignment at 0x0042816E is the pinned operator= for this view.
+#pragma comment(linker, "/alternatename:??4BfmeAssignRecord24@@QAEAAU0@ABU0@@Z=??4ProductionPrerequisite@@QAEAAV0@ABV0@@Z")
