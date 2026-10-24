@@ -1,0 +1,12 @@
+{
+  "storage": 3,
+  "comdat": true,
+  "debug_references": [
+    [
+      ".debug$F",
+      0,
+      7
+    ]
+  ],
+  "code_or_data_references": 0
+}

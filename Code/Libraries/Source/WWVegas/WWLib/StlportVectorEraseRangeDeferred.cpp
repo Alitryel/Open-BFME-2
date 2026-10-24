@@ -82,6 +82,20 @@
 // This does not establish an original element or class name.
 struct Rva0040DC56Element;
 class Rva002B2F97;
+// Native 4286AF destroys its opaque 24-byte records through 2385E6.
+// The generic narrow-record copy instead binds destructor22CCEF and is not
+// a relocation twin of this range. Keep this call on its actual provider.
+struct BfmeNarrowRecord00427F75;
+void __cdecl destroyVersionRecords(void *, void *);
+namespace _STL {
+// ?_STL::_Destroy absent-from-retail
+static __forceinline void _Destroy(BfmeNarrowRecord00427F75 *first,
+    BfmeNarrowRecord00427F75 *last)
+{
+    destroyVersionRecords(first, last);
+}
+}
+
 namespace _STL { struct random_access_iterator_tag; }
 Rva002B2F97 * __cdecl Rva002B442DCopy(Rva002B2F97 *, Rva002B2F97 *,
     Rva002B2F97 *, const _STL::random_access_iterator_tag &, int *);
