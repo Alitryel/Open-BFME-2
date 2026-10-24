@@ -18,15 +18,15 @@ struct Rva002E7ED6Info
 class Pathfinder
 {
 public:
-	int rva002EADE1(const Coord3D *a, const Coord3D *b, PathfindLayerEnum layer, Rva002E7ED6Info *info);
+	int rva002EADE1(const Coord3D *startPos, const Coord3D *b, PathfindLayerEnum layer, Rva002E7ED6Info *info);
 private:
 	int rva002E8251(const ICoord2D *startCell, const ICoord2D *destinationCell, PathfindLayerEnum layer, Rva002E7ED6Info *callbackInfo);
 };
 ICoord2D *__cdecl Rva002E7875WorldToCell(ICoord2D *out, bool center, const Coord3D *pos);
 // ?rva002EADE1@Pathfinder@@QAEHPBUCoord3D@@0W4PathfindLayerEnum@@PAURva002E7ED6Info@@@Z @0x002EADE1 63B.
-int Pathfinder::rva002EADE1(const Coord3D *a, const Coord3D *b, PathfindLayerEnum layer, Rva002E7ED6Info *info)
+int Pathfinder::rva002EADE1(const Coord3D *startPos, const Coord3D *b, PathfindLayerEnum layer, Rva002E7ED6Info *info)
 {
 	ICoord2D tmp1;
-	ICoord2D tmp2;
-	return rva002E8251(Rva002E7875WorldToCell(&tmp2, true, a), Rva002E7875WorldToCell(&tmp1, true, b), layer, info);
+	ICoord2D m_startCell;
+	return rva002E8251(Rva002E7875WorldToCell(&m_startCell, true, startPos), Rva002E7875WorldToCell(&tmp1, true, b), layer, info);
 }

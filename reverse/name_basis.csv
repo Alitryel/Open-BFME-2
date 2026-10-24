@@ -1195,3 +1195,5 @@ member,Rva00562BF7Owner::field24,Rva00562BF7Owner::m_randomizeModel,inferred,agr
 class,Rva00562BF7Choice,ModelChoice,inferred,agree:nl-3007d0ed12c9,Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva00562BF7SelectModelName.cpp,
 global,?g_bfmeVideoTableStorage@@3UBfmeVideoTableStorage@@A,?g_videoTable@@3UBfmeVideoTableStorage@@A,inferred,agree:nl-1a6ec1882e69,Code/GameEngine/Source/GameClient/VideoPlayerGetVideo.cpp,0x00A0ABB4
 local,Rva002F57E6Query::rva002F57E6::tmp,Rva002F57E6Query::rva002F57E6::cellPosition,inferred,agree:nl-5cfa0b24d05b,Code/GameEngine/Source/GameLogic/AI/PathfinderAdjustCandidate.cpp,0x002F57E6
+param,Pathfinder::rva002EADE1::a,Pathfinder::rva002EADE1::startPos,inferred,agree:nl-710b340c37ab,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002EADE1.cpp,0x002EADE1
+local,Pathfinder::rva002EADE1::tmp2,Pathfinder::rva002EADE1::m_startCell,inferred,agree:nl-f4f5abd096f9,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002EADE1.cpp,0x002EADE1
