@@ -5631,3 +5631,6 @@ Code/Libraries/Source/WWVegas/WWLib/Rva00569F0CAssign.cpp|param|Rva00569F0CVec::
 Code/Libraries/Source/WWVegas/WWLib/Rva00569F0CAssign.cpp|param|Rva00569F0CVec::rva00569F0C|b,693c23c4910d08739fa57413,claude-opus-5-5,claudec5-20261024-210034-2,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/Common/Rva005C4B56.cpp|param|Rva005C4B56::rva005C4BC8|a,2e29cf03a58c51f748d0564a,claude-opus-5-5,claudec5-20261024-210034-7,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/Common/Rva005C4B56.cpp|param|Rva005C4B56::rva005C4BC8|b,7d2e1e311f1b72872161bd7e,claude-opus-5-5,claudec5-20261024-210034-7,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesS3B.cpp|param|Rva001E0301::rva001E0301|a,f8d56c6c474776df8d6795a6,claude-opus-5-5,claudec5-20261024-213529-1,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesS3B.cpp|param|Rva001E0301::rva001E0301|b,31668c40b094d1b0c5613b1e,claude-opus-5-5,claudec5-20261024-213529-1,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva0052192DInit.cpp|param|AptSkirmish::OpenScreen|a1,6c7d1d54898cb14454e1d65b,claude-opus-5-5,claudec5-20261024-213529-1,w-1ebb1ea4caee,2026-10-24
