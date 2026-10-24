@@ -35120,7 +35120,6 @@ present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DPr
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DProjectedShadowUpdate.cpp	reset@W3DProjectedShadowManager@@QAEXXZ	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DProjectedShadowUpdate.cpp	updateProjectionParameters@W3DProjectedShadow@@QAEXABVMatrix3D@@@Z	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DProjectedShadowUpdate.cpp	updateRenderTargetTextures@W3DProjectedShadowManager@@QAEXXZ	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DShadowGeometryDtor.cpp	bfmeEmitW3DShadowGeometryDtor@@YAXPAVW3DShadowGeometry@@@Z	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/TileDataReplaceCompanionRef.cpp	Rva0011178BRetained::release	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/TileDataReplaceCompanionRef.cpp	Rva0011178BRetained::retain	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/TileDataReplaceCompanionRef.cpp	TileData::rva0011178B	1
