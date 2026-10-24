@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="880" height="406" viewBox="0 0 880 406" role="img" aria-labelledby="title desc">
-  <title id="title">BFME 2: 100.00% rebuilt from source, 100.00% game code in C++*, 92.46% linking</title>
+  <title id="title">BFME 2: 100.00% rebuilt from source, 100.00% game code in C++*, 92.98% linking</title>
   <desc id="desc">7,978,500 of 7,978,500 code bytes rebuild to the original's exact bytes; 7,515,967 of 7,515,967 executable game-code bytes are represented. Includes generated C++ and intentionally retained assembly.</desc>
   <style>
     .card { fill: #0d1117; stroke: #30363d; } .track { fill: #21262d; }
@@ -23,16 +23,16 @@
     <rect x="28" y="148" width="824.00" height="14" rx="7" fill="#388bfd"/>
     <text x="28" y="182" class="muted" font-size="12.5">7,515,967 / 7,515,967 bytes of executable game code (libraries and embedded data excluded)</text>
     <text x="28" y="199" class="muted" font-size="12.5">* Includes generated C++ and intentionally retained assembly.</text>
-    <text x="28" y="230" class="strong" font-size="15" font-weight="600">Linking</text>
-    <text x="852" y="230" class="strong" font-size="20" font-weight="700" text-anchor="end">92.46%</text>
+    <text x="28" y="230" class="strong" font-size="15" font-weight="600">Linking<tspan class="up" dx="10" font-size="13" font-weight="600">▲ 0.52</tspan></text>
+    <text x="852" y="230" class="strong" font-size="20" font-weight="700" text-anchor="end">92.98%</text>
     <rect class="track" x="28" y="240" width="824" height="14" rx="7"/>
-    <rect x="28" y="240" width="761.87" height="14" rx="7" fill="#d29922"/>
-    <text x="28" y="274" class="muted" font-size="12.5">6,952,958 / 7,519,996 bytes of the game's own code linked (measured 2026-10-24, retail-truth-4 rules)</text>
-    <text x="28" y="304" class="strong" font-size="15" font-weight="600">Readable names<tspan class="muted" dx="10" font-size="13" font-weight="600">· 0.00</tspan></text>
-    <text x="852" y="304" class="strong" font-size="20" font-weight="700" text-anchor="end">68.38%</text>
+    <rect x="28" y="240" width="766.16" height="14" rx="7" fill="#d29922"/>
+    <text x="28" y="274" class="muted" font-size="12.5">6,992,095 / 7,519,996 bytes of the game's own code linked (measured 2026-10-24, retail-truth-4 rules)</text>
+    <text x="28" y="304" class="strong" font-size="15" font-weight="600">Readable names<tspan class="up" dx="10" font-size="13" font-weight="600">▲ 0.13</tspan></text>
+    <text x="852" y="304" class="strong" font-size="20" font-weight="700" text-anchor="end">68.51%</text>
     <rect class="track" x="28" y="314" width="824" height="14" rx="7"/>
-    <rect x="28" y="314" width="563.43" height="14" rx="7" fill="#a371f7"/>
-    <text x="28" y="348" class="muted" font-size="12.5">381,804 / 558,379 declared names (files, types, functions, members, globals, parameters, locals) that are not placeholders</text>
+    <rect x="28" y="314" width="564.55" height="14" rx="7" fill="#a371f7"/>
+    <text x="28" y="348" class="muted" font-size="12.5">382,063 / 557,644 declared names (files, types, functions, members, globals, parameters, locals) that are not placeholders</text>
     <text x="28" y="374" class="muted" font-size="12.5">Historical strict link check (2026-10-10 at d093315a52, no longer updated): 28.91% self-strict, 13.95% fully linked, of all retail .text</text>
   </g>
 </svg>
