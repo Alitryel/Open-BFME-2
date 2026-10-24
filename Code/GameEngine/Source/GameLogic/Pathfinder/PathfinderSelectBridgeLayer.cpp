@@ -128,8 +128,8 @@ bool Pathfinder::rva002ED313(Object *obj)
      if(info)for(RectNode *rectNode=info->actual;rectNode;rectNode=rectNode->next) {
       Object *other=rectNode->object;
       if(other->id!=id) {
-       for(RectNode *r=info->reserved;r;r=r->next)
-        if(r->object==other){if(r->object->templ->flag122&0x10)return false;break;}
+       for(RectNode *reservedNode=info->reserved;reservedNode;reservedNode=reservedNode->next)
+        if(reservedNode->object==other){if(reservedNode->object->templ->flag122&0x10)return false;break;}
       }
      }
     } else if(((Rva0052DB11 *)pathfindCell)->rva0052DB11(id))return false;
