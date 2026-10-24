@@ -45,8 +45,8 @@ struct BfmeEntry
 
 struct BfmeRangeFDE
 {
-	BfmeEntry *m_bfmeBegin;
-	BfmeEntry *m_bfmeEnd;
+	BfmeEntry *m_begin;
+	BfmeEntry *m_end;
 	void *m_bfmeUnused;
 };
 
@@ -86,8 +86,8 @@ void TransitionDamageFX::bfmeUseFDE(void *r)
 		if (sink != 0)
 		{
 			BfmeTableFDE *table = m_bfmeTable;
-			BfmeApplyRangeFDE(sink, table->m_bfmeFirst[idx].m_bfmeBegin, &table->m_bfmeFirst[idx].m_bfmeEnd, 0);
-			BfmeApplyRangeFDE(sink, table->m_bfmeSecond[idx].m_bfmeBegin, &table->m_bfmeSecond[idx].m_bfmeEnd, 1);
+			BfmeApplyRangeFDE(sink, table->m_bfmeFirst[idx].m_begin, &table->m_bfmeFirst[idx].m_end, 0);
+			BfmeApplyRangeFDE(sink, table->m_bfmeSecond[idx].m_begin, &table->m_bfmeSecond[idx].m_end, 1);
 		}
 	}
 }
