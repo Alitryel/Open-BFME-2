@@ -62,7 +62,7 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 // Preserve the established BFME vector view before mutex dependencies see it.
 #include "vector.h"
 #include "bfme_wwstring_teardown.h"
-#include "render2dsentence.h"
+#include "Render2DSentenceDonorView.h"
 #include "surfaceclass.h"
 #include "texture.h"
 #include "wwprofile.h"
@@ -1052,7 +1052,18 @@ FontCharsClass::Grow_Unicode_Array (WCHAR ch)
 // constructor used to instantiate; the native sentence constructor lives in
 // Render2DSentenceConstructorBFME2.cpp. Explicit instantiation preserves the
 // header's private nested-type identity without altering its declarations.
+// Use the complete native record/vector providers. Instantiating the donor
+// helpers here would select a different record construction and assignment.
+template<> bool VectorClass<Render2DSentenceClass::PendingSurfaceStruct>::Resize(int,const Render2DSentenceClass::PendingSurfaceStruct *);
+template<> bool DynamicVectorClass<Render2DSentenceClass::PendingSurfaceStruct>::Add(const Render2DSentenceClass::PendingSurfaceStruct &);
 template class VectorClass<Render2DSentenceClass::PendingSurfaceStruct>;
 template class DynamicVectorClass<Render2DSentenceClass::PendingSurfaceStruct>;
 template class VectorClass<Render2DSentenceClass::RendererDataStruct>;
 template class VectorClass<Render2DSentenceClass::SentenceDataStruct>;
+
+// Preserve the existing native renderer-vector rows after removing their
+// accidental implicit-record instantiation path. Constructor instantiation
+// supplies its vtable and ordinary virtual destructor; no synthetic anchor.
+template VectorClass<Render2DClass *> &VectorClass<Render2DClass *>::operator=(const VectorClass<Render2DClass *> &);
+template DynamicVectorClass<Render2DClass *> &DynamicVectorClass<Render2DClass *>::operator=(const DynamicVectorClass<Render2DClass *> &);
+template DynamicVectorClass<Render2DClass *>::DynamicVectorClass(unsigned,Render2DClass *const *);
