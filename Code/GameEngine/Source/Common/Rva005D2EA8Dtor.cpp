@@ -167,16 +167,16 @@ public:
  virtual Rva005D2EA8Listener *getListener() const {return m_listener;}
  virtual void setListener(Rva005D2EA8Listener *listener) {m_listener=listener;}
  virtual bool getRollOver() const {return m_rollOver;}
- void rva005D2EF1(const char *);
- void rva005D2F07(const char *);
+ void onRollOut(const char *);
+ void OnRollOver(const char *);
 private: Rva005D2EA8Listener *m_listener; bool m_rollOver; AptCommandMapAdder m_0C;
 };
 Rva005D2EA8::Rva005D2EA8(int level,const AsciiString &name,const char *stat):m_listener(0),m_rollOver(false)
 {
  AsciiString prefix; prefix.format("_level%u.",level);
- m_0C.AddCommandMapDelegate(prefix+name+"_On"+stat+"RollOver",DelegateDesc(this,&Rva005D2EA8::rva005D2F07));
- m_0C.AddCommandMapDelegate(prefix+name+"_On"+stat+"RollOut",DelegateDesc(this,&Rva005D2EA8::rva005D2EF1));
+ m_0C.AddCommandMapDelegate(prefix+name+"_On"+stat+"RollOver",DelegateDesc(this,&Rva005D2EA8::OnRollOver));
+ m_0C.AddCommandMapDelegate(prefix+name+"_On"+stat+"RollOut",DelegateDesc(this,&Rva005D2EA8::onRollOut));
 }
 Rva005D2EA8::~Rva005D2EA8() {if(m_listener) m_listener->notify(this);}
-void Rva005D2EA8::rva005D2EF1(const char *) {m_rollOver=false;if(m_listener) m_listener->rollOut(this);}
-void Rva005D2EA8::rva005D2F07(const char *) {m_rollOver=true;if(m_listener) m_listener->rollOver(this);}
+void Rva005D2EA8::onRollOut(const char *) {m_rollOver=false;if(m_listener) m_listener->rollOut(this);}
+void Rva005D2EA8::OnRollOver(const char *) {m_rollOver=true;if(m_listener) m_listener->rollOver(this);}

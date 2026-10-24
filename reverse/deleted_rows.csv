@@ -2234,3 +2234,5 @@ __ehhandler$?rva0009873C@Rva00098690@@QAE_NXZ,0x00760441,"Renamed to __ehhandler
 ?rva005398B3@Rva005398B3@@QAEXXZ,0x005398B3,"Renamed to ?reset@Rva005398B3@@QAEXXZ by tools/rename.py (inferred)"
 ?g_rva005A6CA5Limit@@3HA,0x009D35C8,"Renamed to ?g_pingTimeout@@3HA by tools/rename.py (inferred)"
 ?rva005C394D@Rva005C394D@@QAEXXZ,0x005C394D,"Renamed to ?go@Rva005C394D@@QAEXXZ by tools/rename.py (inferred)"
+?rva005D2EF1@Rva005D2EA8@@QAEXPBD@Z,0x005D2EF1,"Renamed to ?onRollOut@Rva005D2EA8@@QAEXPBD@Z by tools/rename.py (inferred)"
+?rva005D2F07@Rva005D2EA8@@QAEXPBD@Z,0x005D2F07,"Renamed to ?OnRollOver@Rva005D2EA8@@QAEXPBD@Z by tools/rename.py (inferred)"

@@ -773,3 +773,5 @@ local,Rva005C436E::rva005C436E::p,Rva005C436E::rva005C436E::player,inferred,agre
 local,Rva005CD841Find::v,Rva005CD841Find::visitor,inferred,agree:nl-2348796dfae8,Code/GameEngine/Source/Common/Rva005CD841Visit.cpp,0x005CD841
 param,Rva005CF872::p,Rva005CF872::context,inferred,agree:nl-2cb58314b13e,Code/GameEngine/Source/Common/Rva005CFAE6Ctor.cpp,
 param,Rva005CFEDF::Rva005CFEDF::p,Rva005CFEDF::Rva005CFEDF::context,inferred,agree:nl-a3a946fd920a,Code/GameEngine/Source/Common/Rva005CFAE6Ctor.cpp,0x005CFAE6
+function,?rva005D2EF1@Rva005D2EA8@@QAEXPBD@Z,?onRollOut@Rva005D2EA8@@QAEXPBD@Z,inferred,agree:nl-4c9dfe6bb320,Code/GameEngine/Source/Common/Rva005D2EA8Dtor.cpp,0x005D2EF1
+function,?rva005D2F07@Rva005D2EA8@@QAEXPBD@Z,?OnRollOver@Rva005D2EA8@@QAEXPBD@Z,inferred,agree:nl-5245422319a2,Code/GameEngine/Source/Common/Rva005D2EA8Dtor.cpp,0x005D2F07
