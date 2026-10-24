@@ -46,16 +46,16 @@ private:
 
 void Rva005B1A07::rva005B1A07(unsigned int index, BfmePod20 val)
 {
-	int b = (int)m_0;
-	int e = (int)m_4;
-	int c = (e - b) / 20;
+	int beginAddress = (int)m_0;
+	int endAddress = (int)m_4;
+	int c = (endAddress - beginAddress) / 20;
 	if (index < (unsigned int)c) {
-		int elem = b + (int)(index * 20);
-		((Rva005B129FVector *)this)->erase((Rva005B09D8Record *)elem, (Rva005B09D8Record *)e);
+		int elem = beginAddress + (int)(index * 20);
+		((Rva005B129FVector *)this)->erase((Rva005B09D8Record *)elem, (Rva005B09D8Record *)endAddress);
 		return;
 	}
 	int e2 = *(volatile int *)&m_4;
-	int c2 = (e2 - b) / 20;
+	int c2 = (e2 - beginAddress) / 20;
 	unsigned int need = index - (unsigned int)c2;
 	((_STL::vector<BfmePod20> *)this)->_M_fill_insert((BfmePod20 *)e2, need, val);
 }
