@@ -26,13 +26,13 @@ class Rva006FE400 {
     char m_pad[0x20];
     Slot7Obj *m_p20;
 public:
-    int rva006FE400(void *a1, Rva008A4570Owner *a2);
+    int rva006FE400(void *a1, Rva008A4570Owner *memberName);
 };
 
-int Rva006FE400::rva006FE400(void *a1, Rva008A4570Owner *a2)
+int Rva006FE400::rva006FE400(void *a1, Rva008A4570Owner *memberName)
 {
-    int r = m_p20->slot7(a1, a2);
+    int r = m_p20->slot7(a1, memberName);
     if (r)
         return r;
-    return (int)((AptObject *)this)->AptObject::objectMemberLookup((AptValue *)a1, (const EAStringC *)a2);
+    return (int)((AptObject *)this)->AptObject::objectMemberLookup((AptValue *)a1, (const EAStringC *)memberName);
 }
