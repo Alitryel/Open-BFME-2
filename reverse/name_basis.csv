@@ -1849,3 +1849,4 @@ local,Rva001F526E::rva001F526E::p,Rva001F526E::rva001F526E::provider,inferred,ag
 local,Rva002860CFHost::rva002860CF::s,Rva002860CFHost::rva002860CF::node,inferred,agree:nl-dcc25c872d10,Code/GameEngine/Source/Common/Rva002860CF.cpp,0x002860CF
 param,Rva002B4BC9::rva002B4BC9::arg,Rva002B4BC9::rva002B4BC9::heroData,inferred,agree:nl-924ddb90516f,Code/GameEngine/Source/Common/Rva002B4BC9.cpp,0x002B4BC9
 param,Rva002BEFE5::rva002BEFE5::a3,Rva002BEFE5::rva002BEFE5::duration,inferred,agree:nl-a4bd537df8b9,Code/GameEngine/Source/Common/Rva002BEFE5.cpp,0x002BEFE5
+local,Rva00341796::onExit::p,Rva00341796::onExit::memory,inferred,agree:nl-104d937f79e2,Code/GameEngine/Source/Common/Rva003418EAMethod.cpp,0x003418EA

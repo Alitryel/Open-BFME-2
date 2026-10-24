@@ -61,12 +61,12 @@ void Rva00341796::onExit(int arg)
 	(void)arg;
 	if (m_20) {
 		m_20->v15();
-		void *p;
+		void *memory;
 		if (m_20)
-			p = m_20->v0(0);
+			memory = m_20->v0(0);
 		else
-			p = 0;
-		::operator delete(p);
+			memory = 0;
+		::operator delete(memory);
 		m_20 = 0;
 	}
 	ChaseC *chaseC = m_machine->m_14->m_258;
