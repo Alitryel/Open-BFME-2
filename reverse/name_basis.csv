@@ -1234,3 +1234,4 @@ local,Rva003C08CC::rva003C08CC::e,Rva003C08CC::rva003C08CC::playerDefaultTeam,in
 local,Rva003C08CC::rva003C08CC::p,Rva003C08CC::rva003C08CC::ai,inferred,agree:nl-990b0534d214,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp,0x003C08CC
 param,Rva003B489CHolder::rva003B4885::arg,Rva003B489CHolder::rva003B4885::record,inferred,agree:nl-da56dc760384,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptLeafCheck.cpp,0x003B4885
 member,Rva005AA860Record::m_point0C,Rva005AA860Record::m_position,inferred,agree:nl-a195994bcf9c,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/ExpansionTactics/AISimpleExpansionTactic.cpp,
+member,BfmeThingVJP::m_bfmeBuf,BfmeThingVJP::m_messageBuffer,inferred,agree:nl-1853a46a0ea0,Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp,

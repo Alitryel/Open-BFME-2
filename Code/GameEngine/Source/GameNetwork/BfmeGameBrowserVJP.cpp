@@ -55,7 +55,7 @@ public:
 	char m_bfme35;
 	bool m_bfme36;
 	char m_pad37[0x2a5];
-	char m_bfmeBuf[0x400];
+	char m_messageBuffer[0x400];
 	int m_bfme6dc;
 };
 
@@ -63,7 +63,7 @@ void BfmeThingVJP::bfmeGoVJP(int a1, int a2, int a3, int a4, int a5,
 	int a6, int a7, bool flag, int a9, int a10, int a11, int a12, int a13) throw()
 {
 	m_bfme36 = flag;
-	BfmeMsgVJH msg(m_bfmeBuf, 0x400);
+	BfmeMsgVJH msg(m_messageBuffer, 0x400);
 	int selected = m_bfme2c;
 	if (selected == 0)
 		selected = m_bfme28;

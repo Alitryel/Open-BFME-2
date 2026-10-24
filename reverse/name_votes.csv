@@ -4840,3 +4840,14 @@ Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|member|R
 Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|local|Rva003C08CC::rva003C08CC|e,f0e8208d01d91a1067dc26ba,seat-b,rn-1024b-5-b,w-397dc0d575db,2026-10-24
 Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|local|Rva003C08CC::rva003C08CC|p,990b0534d214e48c141518d3,seat-b,rn-1024b-5-b,w-397dc0d575db,2026-10-24
 Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|local|Rva003C08CC::rva003C08CC|s,4a19d8beaf4ef359f0c1ab95,seat-b,rn-1024b-5-b,w-397dc0d575db,2026-10-24
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|class||BfmeAVJP,2c788d696f227edc6931c353,seat-a,rn-1024b-3-a,w-b7d36202b28e,2026-10-24
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|class||BfmeBVJP,3c4e20dbfa0cc6c964e90519,seat-a,rn-1024b-3-a,w-b7d36202b28e,2026-10-24
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|class||BfmeThingVJP,699c0ea2f6a6d1d40e27cb57,seat-a,rn-1024b-3-a,w-b7d36202b28e,2026-10-24
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|member|BfmeThingVJP|m_bfme6dc,496782201009a0d503bc054a,seat-a,rn-1024b-3-a,w-b7d36202b28e,2026-10-24
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|class||BfmeAVJP,0dd836aac12f244790aed9db,seat-b,rn-1024b-3-b,w-877bb6e1be3c,2026-10-24
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|class||BfmeBVJP,3c4e20dbfa0cc6c964e90519,seat-b,rn-1024b-3-b,w-877bb6e1be3c,2026-10-24
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|class||BfmeThingVJP,699c0ea2f6a6d1d40e27cb57,seat-b,rn-1024b-3-b,w-877bb6e1be3c,2026-10-24
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|member|BfmeThingVJP|m_bfme28,5e441ce6c47565c4c307f9f2,seat-b,rn-1024b-3-b,w-877bb6e1be3c,2026-10-24
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|member|BfmeThingVJP|m_bfme2c,a91cfa96bbb2c1ab6b7a89e2,seat-b,rn-1024b-3-b,w-877bb6e1be3c,2026-10-24
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|member|BfmeThingVJP|m_bfme36,dcd9ceabccd34beadf3f8e3a,seat-b,rn-1024b-3-b,w-877bb6e1be3c,2026-10-24
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|member|BfmeThingVJP|m_bfme6dc,bdfd506dcb7ef1a8b4109e96,seat-b,rn-1024b-3-b,w-877bb6e1be3c,2026-10-24
