@@ -1868,3 +1868,4 @@ param,TeamFactory::initTeamForTacticalAI::a4,TeamFactory::initTeamForTacticalAI:
 param,StrategicHUD::FormatCPString::a,StrategicHUD::FormatCPString::commandPoints,inferred,agree:nl-efdaa4dd4f81,Code/GameEngine/Source/Common/StrategicHUD_FormatCPString.cpp,0x005FD53E
 param,StrategicHUD::FormatCPString::b,StrategicHUD::FormatCPString::maxCommandPoints,inferred,agree:nl-a3a189cbf256,Code/GameEngine/Source/Common/StrategicHUD_FormatCPString.cpp,0x005FD53E
 param,Rva00739BE0::rva00739BE0::p,Rva00739BE0::rva00739BE0::position,inferred,agree:nl-355f559eca72,Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp,0x00739BE0
+param,Rva00739A30::rva00739A30::p,Rva00739A30::rva00739A30::position,inferred,agree:nl-484156249d60,Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp,0x00739A30
