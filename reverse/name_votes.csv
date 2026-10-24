@@ -5174,3 +5174,16 @@ Code/Libraries/Source/Apt/AptMathCallbacksBFME2.cpp|local|Rva006FF500|x,b82c183c
 Code/Libraries/Source/Apt/AptMathCallbacksBFME2.cpp|local|Rva006FF500|y,9a84ae7dc9f0f5242405a766,gpt-6-astra,codexb2-20261024-134705-3,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/Rva006C3940RecordAlloc.cpp|local|mallocMarked|p,a46468366fe022a611e0c64e,gpt-6-astra,codexb2-20261024-134705-4,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/Rva006C3940RecordAlloc.cpp|local|Rva006C39F0Owner::rva006C3940Alloc|p,d794fedd2e46fa87092fac87,gpt-6-astra,codexb2-20261024-134705-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions_rva003BF5FE.cpp|local|ScriptActions::doTeamFollowWaypointsExact|x,da4314ac0349d0a69c8de52d,gpt-6-astra,codexb2-20261024-134705-5,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions_rva003BF5FE.cpp|local|ScriptActions::doTeamFollowWaypointsExact|y,1f46f8a5ff969cdaf4af814c,gpt-6-astra,codexb2-20261024-134705-5,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions_rva003BF5FE.cpp|local|ScriptActions::doTeamFollowWaypointsExact|z,1a478dbac8d1ac8e9da1c02b,gpt-6-astra,codexb2-20261024-134705-5,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva004DF8D8Test.cpp|param|Rva004DF8D8Test|f2,f552bb47190281c293993221,gpt-6-astra,codexb2-20261024-134705-6,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva004DF8D8Test.cpp|param|Rva004DF8D8Test|f3,396410b32fd0efc4ef91dde8,gpt-6-astra,codexb2-20261024-134705-6,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/StrategicVeterancyAutoResolveCtor.cpp|member|Record52|selected2C,9d977bbc24b9866ee426e13a,gpt-6-astra,codexb2-20261024-134705-7,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/StrategicVeterancyAutoResolveCtor.cpp|member|Record52|player30,a45c79d4b388569d1aea9980,gpt-6-astra,codexb2-20261024-134705-7,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/StrategicVeterancyAutoResolveCtor.cpp|local|StrategicVeterancy::Data::AutoResolve::AutoResolve|e,bab30baea8c2eda370b43b54,gpt-6-astra,codexb2-20261024-134705-7,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva002E6E6CGet.cpp|function|0x002E6E6C|Rva002E6E6CGet,024d53e44735f5b4db2e283e,gpt-6-astra,codexb2-20261024-134705-7,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva002E6E6CGet.cpp|param|Rva002E6E6CGet|v,80f267c8cb8b84fa8493618c,gpt-6-astra,codexb2-20261024-134705-7,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/LargeGroupAudioUpdateSlots.cpp|class||Rva004ABABCIface,0a81e2aff76e0f6da82585f2,gpt-6-astra,codexb2-20261024-134705-8,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva004ED471Finish.cpp|local|Rva004ED471::rva004ED471|tmp,7e38ba3cfebfe1dcdc483c43,gpt-6-astra,codexb2-20261024-134705-9,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/Apt/Rva006ED580AttachMovie.cpp|class||Rva006ED580Inst,0648e9604f33ed2b6c8093e0,gpt-6-astra,codexb2-20261024-134705-10,w-d0bdfd8b17e9,2026-10-24
