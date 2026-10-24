@@ -89,6 +89,17 @@ template <> bool SimpleDynVecClass<Vector3>::Resize(int);
 template <> bool SimpleVecClass<float>::Resize(int);
 template <> bool SimpleVecClass<Vector3>::Uninitialised_Grow(int);
 // bfme link decl-only end
+// Float constructors inline here; their standalone bodies are owned by WWLib.
+template <> __declspec(dllimport) __forceinline SimpleVecClass<float>::SimpleVecClass(int size) :
+    Vector(NULL), VectorMax(0)
+{
+    if (size > 0) Resize(size);
+}
+template <> __declspec(dllimport) __forceinline SimpleDynVecClass<float>::SimpleDynVecClass(int size) :
+    SimpleVecClass<float>(size), ActiveCount(0)
+{
+}
+
 // This unit inlines SimpleDynVecClass<float>::Add and <Vector3>::Shrink at every
 // use but still emitted unreferenced /O2 copies of both; retail's bodies are
 // 0x001683C3 and the /O1 0x00100210. Inline them under the stock bodies without
