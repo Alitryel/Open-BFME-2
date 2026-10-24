@@ -32807,7 +32807,6 @@ present_unmatched	Code/GameEngine/Source/Common/GameLOD.cpp	refreshCustomStaticL
 present_unmatched	Code/GameEngine/Source/Common/GameLOD.cpp	setDynamicLODLevel@GameLODManager@@QAE_NW4DynamicGameLODLevel@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/GameLOD.cpp	setStaticLODLevel@GameLODManager@@QAE_NW4StaticGameLODLevel@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/INI/INI_initFromINIMulti.cpp	findFieldParse	1
-present_unmatched	Code/GameEngine/Source/Common/LadderPrefCopy.cpp	bfmeEmitLadderPrefCopy@@YAXPAVLadderPref@@ABV1@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/MemberBaseDtorsB01.cpp	Rva00574910::rva00574910	1
 present_unmatched	Code/GameEngine/Source/Common/MemberBaseDtorsB01.cpp	Rva005772BF::rva005771F4	1
 present_unmatched	Code/GameEngine/Source/Common/MessageStream.cpp	0GameMessage@@	1
@@ -33052,9 +33051,7 @@ present_unmatched	Code/GameEngine/Source/Common/Rva003598D3Ctor.cpp	1Rva003598D3
 present_unmatched	Code/GameEngine/Source/Common/Rva00359D42.cpp	TheGameLogic@@3PAVGameLogic@@A	1
 present_unmatched	Code/GameEngine/Source/Common/Rva0035A18DVectorDeletingDtor.cpp	Rva0035A18DDeleteArray@@YAXPAVRva0035A18D@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Rva00381F04Assign.cpp	1Rva00381F04@@UAE@XZ	1
-present_unmatched	Code/GameEngine/Source/Common/Rva0039225EDtor.cpp	bfmeEmitRva0039225EDtor@@YAXPAVRva0039225E@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Rva003A6F70Ctor.cpp	dummy@Rva003A6F70@@UAEXXZ	1
-present_unmatched	Code/GameEngine/Source/Common/Rva003B1101Dtor.cpp	bfmeEmitRva003B1101Dtor@@YAXPAVRva003B1101@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Rva003F8509.cpp	rva003F8509@Rva003F8090@@QAEPAXXZ	1
 present_unmatched	Code/GameEngine/Source/Common/Rva004075E0.cpp	0Rva004075E0Iter@@QAE@PAURva004075E0Node@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Rva004075E0.cpp	0Rva004075E0Pair@@QAE@PAURva004075E0Node@@_N@Z	1
@@ -33207,7 +33204,6 @@ present_unmatched	Code/GameEngine/Source/Common/System/ArchiveFile.cpp	ArchiveFi
 present_unmatched	Code/GameEngine/Source/Common/System/ArchiveFile.cpp	ArchiveFile::getArchivedFileInfo	1
 present_unmatched	Code/GameEngine/Source/Common/System/ArchiveFile.cpp	ArchiveFile::getFileListInDirectory	2
 present_unmatched	Code/GameEngine/Source/Common/System/ArchiveFile.cpp	ArchiveFile::~ArchiveFile	1
-present_unmatched	Code/GameEngine/Source/Common/System/BitFlags117CountInverseIntersection.cpp	bfmeEmitBitFlags117CountInverseIntersection@@YAXPAV?$BitFlags@$0HF@@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/System/CDManager.cpp	0CDDrive@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/Common/System/CDManager.cpp	0CDManager@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/Common/System/CDManager.cpp	1CDDrive@@	1
@@ -33247,7 +33243,6 @@ present_unmatched	Code/GameEngine/Source/Common/System/INI_mixerFieldEdit.cpp	fi
 present_unmatched	Code/GameEngine/Source/Common/System/MemoryPoolInit.cpp	MemoryPoolAllocatorAssertion	1
 present_unmatched	Code/GameEngine/Source/Common/System/RAMFileRead.cpp	RAMFile::convertToRAMFile	1
 present_unmatched	Code/GameEngine/Source/Common/System/RadarWindowOverrideRva002D3772.cpp	0Rva002D3772Pair@@QAE@HM@Z	1
-present_unmatched	Code/GameEngine/Source/Common/System/RtsAsciiStringHash.cpp	bfmeEmitRtsAsciiStringHash@@YAXPBU?$hash@VAsciiString@@@rts@@PBVAsciiString@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/System/Rva0021887CDestroyFree.cpp	@0x0021887C	1
 present_unmatched	Code/GameEngine/Source/Common/System/Rva003EF14ADtor.cpp	Rva003EE9F1Ref::dropReference	1
 present_unmatched	Code/GameEngine/Source/Common/System/Rva003EF14ADtor.cpp	Rva003EF14ABase::~Rva003EF14ABase	1
@@ -33333,7 +33328,6 @@ present_unmatched	Code/GameEngine/Source/Common/Thing/ModuleFactory.cpp	ModuleFa
 present_unmatched	Code/GameEngine/Source/Common/Thing/ModuleFactory.cpp	ModuleFactory::xfer	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ModuleFactory.cpp	ModuleFactory::~ModuleFactory	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ModuleInfoNuggetAssign.cpp	bfmeEmitModuleInfoNuggetAssign@@YAXPAUNugget@ModuleInfo@@ABU12@@Z	1
-present_unmatched	Code/GameEngine/Source/Common/Thing/ProductionPrerequisiteCopyCtor.cpp	bfmeEmitProductionPrerequisiteCopyCtor@@YAXPAVProductionPrerequisite@@ABV1@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ProductionPrerequisiteCtor.cpp	bfmeEmitProductionPrerequisiteInlines@@YAXPAUPrereqUnitRec@ProductionPrerequisite@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/Rva001F9C73CopyChain.cpp	1Rva001F41AF@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/Rva002D0F65VectorAssign.cpp	bfmeEmitRva002D0EDCVectorAssign@@YAXPAV?$vector@URva002D0EDCElement@@V?$allocator@URva002D0EDCElement@@@_STL@@@_STL@@ABV12@@Z	1
@@ -33700,7 +33694,6 @@ present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0
 present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003AEDE9CopyCtor.cpp	@0x003AEDE9	1
 present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003AEE16CopyCtor.cpp	1Rva003AEE16@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003AEE16CopyCtor.cpp	1Rva003AF076@@UAE@XZ	1
-present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/SphericalEmissionVelocityModuleTemplateCtorThunk.cpp	bfmeEmitSphericalEmissionVelocityModuleTemplateCtorThunk@@YAXPAVSphericalEmissionVelocityModuleTemplate@FXParticleSystem@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/TerrainCollisionModuleOpAssign.cpp	bfmeEmitTerrainCollisionModuleOpAssign@@YAXPAVTerrainCollisionModuleTemplate@FXParticleSystem@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameClient/System/ImageCollectionCtor.cpp	_GImageCollection@@UAEPAXI@Z	1
 present_unmatched	Code/GameEngine/Source/GameClient/System/ImageCollectionDeletingDtor.cpp	1ImageCollection@@UAE@XZ	1
@@ -33916,7 +33909,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/SpawnBehavior
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/SpawnBehavior.cpp	revealSlaves@SpawnBehavior@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/SpawnBehavior.cpp	startSpawning@SpawnBehavior@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/SpawnBehavior.cpp	stopSpawning@SpawnBehavior@@	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/SpawnBehaviorDtor.cpp	bfmeEmitSpawnBehaviorDtor@@YAXPAVSpawnBehavior@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/SpawnBehaviorFriendNew.cpp	bfmeEmitSpawnBehaviorFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/StancesBehaviorNameKey.cpp	0Rva00148F5ECache@@QAE@PBD@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/SupplyWarehouseCripplingBehaviorFriendNew.cpp	bfmeEmitSupplyWarehouseCripplingBehaviorFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
@@ -33925,7 +33917,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/TransitionDam
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/ActiveBodyFriendNew.cpp	bfmeEmitActiveBodyFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/BodyModuleDeletingDtors.cpp	1?$StringBase@D@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/BodyModuleDeletingDtors.cpp	1FreePtr@@QAE@XZ	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/BodyModuleDeletingDtors.cpp	bfmeEmitBodyModuleDeletingDtors@@YAXPAVActiveBody@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/HighlanderBodyFriendNew.cpp	bfmeEmitHighlanderBodyFriendNew@@YAXPAVHighlanderBody@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/ImmortalBodyConstructor.cpp	1ImmortalBody@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/ImmortalBodyFriendNew.cpp	bfmeEmitImmortalBodyFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
@@ -34064,7 +34055,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineCon
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineContainCtor.cpp	f20@SiegeEngineContain@@UAEXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineContainCtor.cpp	f30@SiegeEngineContain@@UAEXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineContainCtor.cpp	f34@SiegeEngineContain@@UAEXXZ	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainDtor.cpp	bfmeEmitTransportContainDtor@@YAXPAVTransportContain@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainFriendNew.cpp	bfmeEmitTransportContainFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/TunnelContainFriendNew.cpp	bfmeEmitTunnelContainFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/TunnelContainModuleDataParse.cpp	bfmeEmitTunnelContainModuleDataParse@@YAXAAVMultiIniFieldParse@@@Z	1
@@ -35131,7 +35121,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/ToppleUpdateFri
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/TransportAIUpdateFriendNew.cpp	bfmeEmitTransportAIUpdateFriendNew@@YAXPAVTransportAIUpdate@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/TurretAI_setTurretTargetObject.cpp	TurretStateMachine::getCurrentStateID	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/UntamedAllegianceSpecialPowerModuleDataCtor.cpp	1UntamedAllegianceSpecialPowerModuleData@@UAE@XZ	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/UpdateModuleCtor.cpp	bfmeEmitUpdateModuleCtor@@YAXPAVUpdateModule@@PAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/WanderAIUpdateFriendNew.cpp	bfmeEmitWanderAIUpdateFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/WorkerAIUpdateFriendNew.cpp	bfmeEmitWorkerAIUpdateFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Upgrade/ArmorUpgradeFriendNew.cpp	bfmeEmitArmorUpgradeFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
@@ -35921,7 +35910,6 @@ present_unmatched	Code/Libraries/Source/EA/Apt/AptString/EAStringCRefCount.cpp	E
 present_unmatched	Code/Libraries/Source/EA/Apt/AptString/EAStringCRefCount.cpp	bfmeEmitEAStringCRefCount@@YAXPAVEAStringC@@@Z	1
 present_unmatched	Code/Libraries/Source/GdiPlus/gdiplusbitmap.cpp	Image::SetNativeImage	1
 present_unmatched	Code/Libraries/Source/GdiPlus/gdiplusbitmap.cpp	bfmeEmitgdiplusbitmap@@YAXPAVImage@Gdiplus@@@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/DX8TextureCategoryDtor.cpp	bfmeEmitDX8TextureCategoryDtor@@YAXPAVDX8TextureCategoryClass@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/DX8WrapperConvertColorClamp.cpp	Convert_Color@DX8Wrapper@@CAIABVVector3@@M@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/DX8WrapperSetDX8States.cpp	bfmeEmitDX8WrapperSetDX8States@@YAXXZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassBlitChar.cpp	30	1
@@ -36944,7 +36932,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWDebug/debug_stack.cpp	1DebugSt
 present_unmatched	Code/Libraries/Source/WWVegas/WWDebug/debug_stack.cpp	GetSymbol@Signature@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/AsciiStringLess.cpp	bfmeEmitAsciiStringLess@@YAXPBVAsciiString@@0@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/BadAllocDestructor.cpp	bfmeEmitBadAllocDestructor@@YAXPAVbad_alloc@std@@@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/INIClassShutdown.cpp	bfmeEmitINIClassShutdown@INIClass@@SAXPAV1@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/INIClassShutdown.cpp	verbatim	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/LightPointDtor.cpp	anchorDeleteLightPoint@@YAXPAVLightPoint@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/LocaleComposeName.c	_Locale_extract_collate_name	1
@@ -36962,7 +36949,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva0007300FErase.cpp	end@R
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva00090034SimpleVecDtors.cpp	bfmeEmitRva00090034SimpleVecDtors@@YAXPAVRva0090034@@PAVRva0090088@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva000D20A9TreeDtor.cpp	Rva000D3945Head::~Rva000D3945Head	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva00136642HintInsert.cpp	0Rva001364F7Iter@@QAE@PAURvaNode1364F7@@@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva00136794Dtor.cpp	bfmeEmitRva00136794Dtor@@YAXPAVRva00136794@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva00150C97IndexedVector.cpp	Rva00150C97Entry::Rva00150C97Entry	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva00150C97IndexedVector.cpp	Rva00BC6F24Base::Rva00BC6F24Base	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva00150C97IndexedVector.cpp	Rva00BC6F24Base::~Rva00BC6F24Base	1
@@ -37046,7 +37032,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlportUcharMaps005538CE.c
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlportUcharMaps005538CE.cpp	BfmeByteWordNodeTree::_M_copy	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlportUcharMaps005538CE.cpp	BfmeByteWordNodeTree::_M_insert	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlportVector104Assignment.cpp	Rva003F5254Vector104::operator=	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlportVectorRva0040CB11EntryReserve.cpp	bfmeEmitStlportVectorRva0040CB11EntryReserve@@YAXPAV?$vector@VRva0040CB11Entry@@V?$allocator@VRva0040CB11Entry@@@_STL@@@_STL@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StringBaseNarrowCopySet.cpp	0NarrowLock@@QAE@PAVRva00041004@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StringBaseNarrowCopySet.cpp	1NarrowLock@@QAE@XZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StringBaseNarrowStrLenSet.cpp	1NarrowStrLenSource@@QAE@XZ	1
@@ -37139,9 +37124,7 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_rva004f6352_sort.c
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_rva004f6352_sort_entry.cpp	1TreeHintRef00217D4C@@QAE@XZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_stdexcept_dtors.cpp	__Named_exception::~__Named_exception	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_stringtailrecord144_dtor.cpp	BfmeEventPositionView::zero	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_time_info_dtor.cpp	bfmeEmitTimeInfoDtor@@YAXPAV_Time_Info@_STL@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_uninitialized_copy_rva0054000b.cpp	get_allocator@?$vector@VRva0054000B@@V?$allocator@VRva0054000B@@@_STL@@@_STL@@QBE?AV?$allocator@VRva0054000B@@@2@XZ	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_asciistring_reserve.cpp	bfmeEmitStlportVectorAsciistringReserve@@YAXPAV?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_bfmee8_allocate_copy.cpp	0Tag@@QAE@XZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_opaque_mclear.cpp	1OpaqueRefElement4@@QAE@XZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_record_2154f3_erase.cpp	$__copy_ptrs@PAUBfmeVectorRecord0002154F3@@PAU1@@_STL@@YAPAUBfmeVectorRecord0002154F3@@PAU1@00ABU__false_type@0@@Z	1
@@ -37158,8 +37141,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_wide_num_get_long_
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_wide_num_put_voidptr.cpp	emit@bfmeNumPutVoidPtrEmitter@_STL@@SAXPBU12@V?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@2@AAVios_base@2@GPBX@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_wide_streambuf_pubimbue.cpp	bfmeEmitstlport_wide_streambuf_pubimbue@@YAXPAV?$basic_streambuf@GV?$char_traits@G@_STL@@@_STL@@ABVlocale@2@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_wide_time_get_readers.cpp	emit@bfmeWideTimeGetEmitter@_STL@@SAXPBU12@V?$istreambuf_iterator@GV?$char_traits@G@_STL@@@2@1AAVios_base@2@AAHPAUtm@@@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/string_base.cpp	bfmeEmitstring_base@@YAXPAV?$StringBase@D@@ABV1@@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/string_base_starts_with_nocase.cpp	bfmeEmitStringBaseStartsWithNoCase@@YAXPAV?$StringBase@D@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/thread.cpp	Sleep_Ms@ThreadClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/thread.cpp	Switch_Thread@ThreadClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/vector.cpp	0BooleanVectorClass@@	2

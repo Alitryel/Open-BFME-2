@@ -58,18 +58,7 @@ private:
 	Rva0039205C m_obj10;
 };
 
-inline BuildAssistant::~BuildAssistant()
+BuildAssistant::~BuildAssistant()
 {
 	m_obj10.~Rva0039205C();
 }
-
-// Header inline that other units including the header emit as select-any
-// copies, which the plain definition here collided with. The anchor keeps this
-// unit's copy for the row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitRva0039225EDtor@@YAXPAVBuildAssistant@@@Z present-unmatched
-void bfmeEmitRva0039225EDtor(BuildAssistant *p)
-{
-	p->BuildAssistant::~BuildAssistant();
-}
-#pragma inline_depth()

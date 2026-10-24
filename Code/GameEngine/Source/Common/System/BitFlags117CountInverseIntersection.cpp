@@ -19,7 +19,7 @@ private:
 };
 
 template <>
-inline int BitFlags<117>::countInverseIntersection(const BitFlags &that) const
+int BitFlags<117>::countInverseIntersection(const BitFlags &that) const
 {
 	int total = 0;
 	const unsigned *mine = m_words;
@@ -55,10 +55,3 @@ int BitFlags<117>::countIntersection(const BitFlags &that) const
     return total;
 }
 
-#pragma inline_depth(0)
-// ?bfmeEmitBitFlags117CountInverseIntersection@@YAXPAV?$BitFlags@$0HF@@@@Z present-unmatched
-void bfmeEmitBitFlags117CountInverseIntersection(BitFlags<117> *p)
-{
-	p->countInverseIntersection(*(BitFlags<117> *)0);
-}
-#pragma inline_depth()

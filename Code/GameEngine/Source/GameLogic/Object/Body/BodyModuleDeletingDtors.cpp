@@ -84,23 +84,11 @@ private:
 	StringBase<char> m_strF8;
 };
 
-inline ActiveBody::~ActiveBody()
+ActiveBody::~ActiveBody()
 {
 }
 
 void ActiveBody_Delete(ActiveBody *activeBody) { delete activeBody; }
-
-// ??1ActiveBody is a header inline elsewhere: other units emit select-any
-// copies, so a strong definition here was a duplicate in the linked build.
-// This anchor only makes this unit emit its copy for the ledger row; it is
-// not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitBodyModuleDeletingDtors@@YAXPAVActiveBody@@@Z present-unmatched
-void bfmeEmitBodyModuleDeletingDtors(ActiveBody *activeBody)
-{
-	activeBody->ActiveBody::~ActiveBody();
-}
-#pragma inline_depth()
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.

@@ -20,7 +20,7 @@ template <> void _Destroy<AsciiString *>(AsciiString *, AsciiString *);
 }
 
 template <>
-inline void _STL::vector<AsciiString, _STL::allocator<AsciiString> >::reserve(size_type __n)
+void _STL::vector<AsciiString, _STL::allocator<AsciiString> >::reserve(size_type __n)
 {
   if (capacity() < __n) {
     const size_type __old_size = size();
@@ -34,15 +34,3 @@ inline void _STL::vector<AsciiString, _STL::allocator<AsciiString> >::reserve(si
     _M_set(__tmp, __tmp + __old_size, __tmp + __n);
   }
 }
-
-// vector<AsciiString>::reserve is a header inline elsewhere: other units emit
-// select-any copies, so a strong definition here was a duplicate in the linked
-// build. This anchor only makes this unit emit its copy for the ledger row; it
-// is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitStlportVectorAsciistringReserve@@YAXPAV?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@@Z present-unmatched
-void bfmeEmitStlportVectorAsciistringReserve(_STL::vector<AsciiString, _STL::allocator<AsciiString> > *vec)
-{
-	vec->reserve(0);
-}
-#pragma inline_depth()

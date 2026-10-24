@@ -40,7 +40,7 @@ namespace rts
 	};
 }
 
-inline unsigned int rts::hash<AsciiString>::operator()(const AsciiString &key) const
+unsigned int rts::hash<AsciiString>::operator()(const AsciiString &key) const
 {
 	AsciiString tmp(key);
 	((StringBase<char> &)tmp).toLower();
@@ -48,12 +48,3 @@ inline unsigned int rts::hash<AsciiString>::operator()(const AsciiString &key) c
 	return _STL::__stl_hash_string(s);
 }
 
-// LINK-OWNER anchor: this unit owns rts::hash<AsciiString>::operator(); other
-// units emit it inline, so the owner must also emit a select-any (inline) copy.
-#pragma inline_depth(0)
-// ?bfmeEmitRtsAsciiStringHash@@YAXPBU?$hash@VAsciiString@@@rts@@PBVAsciiString@@@Z present-unmatched
-void bfmeEmitRtsAsciiStringHash(const rts::hash<AsciiString> *p, const AsciiString *key)
-{
-	p->operator()(*key);
-}
-#pragma inline_depth()

@@ -33,7 +33,7 @@ template<> void _Destroy<Rva0040CB11Entry *>(Rva0040CB11Entry *, Rva0040CB11Entr
 namespace _STL { template <> void _Construct<Rva0040CB11Entry, Rva0040CB11Entry>(Rva0040CB11Entry *, Rva0040CB11Entry const &); }
 // bfme link decl-only end
 template <>
-inline void _STL::vector<Rva0040CB11Entry, _STL::allocator<Rva0040CB11Entry> >::reserve(size_type __n)
+void _STL::vector<Rva0040CB11Entry, _STL::allocator<Rva0040CB11Entry> >::reserve(size_type __n)
 {
   if (capacity() < __n) {
     const size_type __old_size = size();
@@ -47,14 +47,3 @@ inline void _STL::vector<Rva0040CB11Entry, _STL::allocator<Rva0040CB11Entry> >::
     _M_set(__tmp, __tmp + __old_size, __tmp + __n);
   }
 }
-
-// vector<Rva0040CB11Entry>::reserve is a header inline elsewhere: other units emit
-// select-any copies, so a strong definition here was a duplicate in the linked build. This
-// anchor only makes this unit emit its copy for the ledger row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitStlportVectorRva0040CB11EntryReserve@@YAXPAV?$vector@VRva0040CB11Entry@@V?$allocator@VRva0040CB11Entry@@@_STL@@@_STL@@@Z present-unmatched
-void bfmeEmitStlportVectorRva0040CB11EntryReserve(_STL::vector<Rva0040CB11Entry, _STL::allocator<Rva0040CB11Entry> > *p)
-{
-	p->reserve(0);
-}
-#pragma inline_depth()

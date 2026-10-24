@@ -26,7 +26,6 @@ struct IndexEntry
 class INIClass
 {
 public:
-	static void bfmeEmitINIClassShutdown(INIClass *p);
 private:
 	void Shutdown();
 	unsigned char m_pad00[4];
@@ -35,7 +34,7 @@ private:
 	void *m_filename;
 };
 void __cdecl operator delete(void *);
-inline void INIClass::Shutdown()
+void INIClass::Shutdown()
 {
 	SectionListNode *list = m_sectionList;
 	::operator delete(list ? list->deleteInstance(0) : 0);
@@ -53,15 +52,4 @@ inline void INIClass::Shutdown()
 	delete m_filename;
 }
 
-// This file owns the row, but other files emit the same function as an inline
-// copy they cannot stop emitting, so a strong definition here was a duplicate
-// symbol in the linked build. The anchor below emits the select-any copy for
-// the ledger row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitINIClassShutdown@INIClass@@SAXPAV1@@Z present-unmatched
-void INIClass::bfmeEmitINIClassShutdown(INIClass *iNI)
-{
-	iNI->Shutdown();
-}
-#pragma inline_depth()
 

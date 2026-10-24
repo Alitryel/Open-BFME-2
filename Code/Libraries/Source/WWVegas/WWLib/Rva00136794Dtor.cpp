@@ -111,7 +111,7 @@ private:
     struct RefM54 *m_54;
 };
 
-inline Rva00136794::~Rva00136794()
+Rva00136794::~Rva00136794()
 {
     RefM54 *p = m_54;
     if (p) {
@@ -126,10 +126,3 @@ inline Rva00136794::~Rva00136794()
     _STL::vector<AsciiString, _STL::allocator<AsciiString> > &v3 = m_v3;
     v3.erase(v3.begin(), v3.end());
 }
-#pragma inline_depth(0)
-// ?bfmeEmitRva00136794Dtor@@YAXPAVRva00136794@@@Z present-unmatched
-void bfmeEmitRva00136794Dtor(Rva00136794 *p)
-{
-    p->Rva00136794::~Rva00136794();
-}
-#pragma inline_depth()

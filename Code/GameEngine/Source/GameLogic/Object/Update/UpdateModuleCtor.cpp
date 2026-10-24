@@ -47,23 +47,13 @@ public:
 	virtual BitFlags<13> getDisabledTypesToProcess() const;
 };
 
-inline UpdateModule::UpdateModule(Thing *thing, const ModuleData *moduleData)
+UpdateModule::UpdateModule(Thing *thing, const ModuleData *moduleData)
 	: BehaviorModule(thing, moduleData),
 	  m_nextCallFrameAndPhase(0),
 	  m_indexInLogic(-1),
 	  m_bfmeReserved(-1)
 {
 }
-
-// LINK-OWNER anchor: this unit owns ??0UpdateModule; other units emit
-// it inline, so the owner must also emit a select-any (inline) copy.
-#pragma inline_depth(0)
-// ?bfmeEmitUpdateModuleCtor@@YAXPAVUpdateModule@@PAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitUpdateModuleCtor(UpdateModule *updateModule, Thing *thing, const ModuleData *moduleData)
-{
-	updateModule->UpdateModule::UpdateModule(thing, moduleData);
-}
-#pragma inline_depth()
 
 // Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
 // each one has the same function in that slot (vftable addresses from matched vptr

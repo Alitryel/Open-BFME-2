@@ -61,18 +61,6 @@ private:
 	char m_pad64[0x14];
 	Rva00360D26Member m_78;
 };
-inline Rva003B1101::~Rva003B1101()
+Rva003B1101::~Rva003B1101()
 {
 }
-
-// ??1Rva003B1101 is a header inline elsewhere: another unit emits a
-// select-any copy, so a strong definition here was a duplicate symbol in the
-// linked build. This anchor only makes this unit emit its copy for the ledger
-// row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitRva003B1101Dtor@@YAXPAVRva003B1101@@@Z present-unmatched
-void bfmeEmitRva003B1101Dtor(Rva003B1101 *p)
-{
-	p->Rva003B1101::~Rva003B1101();
-}
-#pragma inline_depth()
