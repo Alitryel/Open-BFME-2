@@ -32,6 +32,21 @@ namespace _STL { template <> _Deque_iterator<BfmeE12,_Nonconst_traits<BfmeE12> >
 struct BfmeE12;
 namespace _STL { template <> _Deque_iterator<BfmeE12,_Nonconst_traits<BfmeE12> > __uninitialized_copy_copy<_Deque_iterator<BfmeE12,_Const_traits<BfmeE12> >,_Deque_iterator<BfmeE12,_Nonconst_traits<BfmeE12> >,_Deque_iterator<BfmeE12,_Nonconst_traits<BfmeE12> > >(_Deque_iterator<BfmeE12,_Const_traits<BfmeE12> >,_Deque_iterator<BfmeE12,_Const_traits<BfmeE12> >,_Deque_iterator<BfmeE12,_Nonconst_traits<BfmeE12> >,_Deque_iterator<BfmeE12,_Nonconst_traits<BfmeE12> >,_Deque_iterator<BfmeE12,_Nonconst_traits<BfmeE12> >,__false_type); }
 struct BfmeE12 { float x, y, z; };
+#include "DequeE12Copy.h"
+
+// Native2CA82C: null-checked, field-wise placement construction of12 bytes.
+// Keep the native out-of-line operation instead of this TU's POD copy helper.
+__declspec(noinline) void rva002CA82C(BfmeE12 *out, const BfmeE12 &in) throw()
+{
+    if (out)
+    {
+        ::new ((void *)out) BfmeE12;
+        out->x = in.x;
+        out->y = in.y;
+        out->z = in.z;
+    }
+}
+
 // Construction is provided by the matched no-exceptions unit.  The /EHsc
 // copies here carry a different frame and must not compete at link time.
 namespace _STL {

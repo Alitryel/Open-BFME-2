@@ -44,3 +44,31 @@ gain remain pending.
 
 Baseline: o1 unit1455 bytes, no-exceptions new-elements unit1477, and old
 40-byte owner358; all three fail to link in the current903a1d4281 preview.
+
+## Final implementation and validation
+
+Both units include the same actual reference-loop specializations, with
+the existing POD view unchanged. The real29-byte construction operation
+is `rva002CA82C`; both73-byte loop bodies call it and the existing twelve-byte
+increment. Its visible `throw()` contract is required: without that truthful
+nonthrowing declaration, the no-exceptions unit's107-byte deque copy
+constructor acquires an EH frame. The contract restores that native body
+without changing flags or weakening EH verification.
+
+The old40-byte owner is retired separately. The new mutable callback is
+the primary73-byte owner; its const-input twin and the29-byte construction
+operation are fully verified ICF aliases. Both old callback pins disappear,
+and no pin is added. No shared tool, baseline, or unrelated class view changes.
+
+Normal byte gate:35/35 rows across the three cohort sources. EH: neither
+repaired unit emits EH data for its rowed functions. Code identity:37
+references,31 owner and6 fold, zero wrong bindings. The complete source and
+consumer bodies are additionally compared with strict resolution and no
+alias masking in [copy-proof.json](copy-proof.json): five bodies, including
+both actual callback copies emitted by the consumer.
+
+Paired current-object preview against903a1d4281: o1 gains1526 existing
+nonpadding bytes and new-elements1477, for a net3003 bytes newly linking.
+The remaining40-byte iterator unit still fails on its older increment and
+destruction identities; its287 remaining bytes are excluded. The counts
+do not claim new unique coverage, nor a census/closed-strict measurement.

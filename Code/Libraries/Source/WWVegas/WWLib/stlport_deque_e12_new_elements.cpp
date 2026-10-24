@@ -25,6 +25,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 struct BfmeE12;
 namespace _STL { template <> _Deque_iterator<BfmeE12,_Nonconst_traits<BfmeE12> > copy<_Deque_iterator<BfmeE12,_Nonconst_traits<BfmeE12> >,_Deque_iterator<BfmeE12,_Nonconst_traits<BfmeE12> > >(_Deque_iterator<BfmeE12,_Nonconst_traits<BfmeE12> >,_Deque_iterator<BfmeE12,_Nonconst_traits<BfmeE12> >,_Deque_iterator<BfmeE12,_Nonconst_traits<BfmeE12> >); }
 struct BfmeE12 { float x, y, z; };
+#include "DequeE12Copy.h"
 // Reuse the complete stock-header copy-backward provider at 0x00585A18.
 typedef _STL::_Deque_iterator<BfmeE12, _STL::_Nonconst_traits<BfmeE12> > BfmeE12CopyIterator;
 namespace _STL {
