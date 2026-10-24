@@ -3612,3 +3612,17 @@ Code/GameEngine/Source/Common/Rva0033A77FForward.cpp|param|Rva0033A77F::rva0033A
 Code/GameEngine/Source/Common/Rva0033A77FForward.cpp|param|Rva0033A77F::rva0033A77F|c,233096d819412c10b4002d02,gpt-6.1-sol,codex6-20261024-062639-28,w-bcdd62231570,2026-10-24
 Code/GameEngine/Source/Common/Rva005D4913Dtor.cpp|param|Rva00579E47|r,832eff4ede4da34d01a4ec50,gpt-6.1-sol,codex6-20261024-062639-29,w-bcdd62231570,2026-10-24
 Code/GameEngine/Source/Common/Rva005D4913Dtor.cpp|param|AptRef|d,214563b397dff6e0377c7129,gpt-6.1-sol,codex6-20261024-062639-29,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/SpecialPower/ActivateModuleSpecialPowerModuleDataRva00254CCF.cpp|local|ActivateModuleSpecialPowerModuleData::Rva00254CCF|p,f64b16407de1fd2c36f43393,gpt-6.1-sol,codex6-20261024-070109-6,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainRva00474842.cpp|param|rva474842Min|a,793615b153b7f6170259baab,gpt-6.1-sol,codex6-20261024-070109-8,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainRva00474842.cpp|param|rva474842Min|b,144285359819363a9c31b057,gpt-6.1-sol,codex6-20261024-070109-8,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainRva00474842.cpp|param|hcCopy|c,3b47b72576d6623f81fb20a2,gpt-6.1-sol,codex6-20261024-070109-8,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainRva00474842.cpp|param|hcCopy|a,1c41c296d6bad056c2ee2426,gpt-6.1-sol,codex6-20261024-070109-8,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainRva00474842.cpp|param|hcSub|c,e4ed6f33702e434425b18b2e,gpt-6.1-sol,codex6-20261024-070109-8,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainRva00474842.cpp|param|hcSub|a,791d230781e286ddf79c0ec0,gpt-6.1-sol,codex6-20261024-070109-8,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainRva00474842.cpp|param|hcLengthSqrd|c,11f02554f1146ed731c8cafa,gpt-6.1-sol,codex6-20261024-070109-8,w-bcdd62231570,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassLoadCharBitmap.cpp|local|FontCharsClass::loadCharBitmap|y,b105a80c8c134608209386b1,gpt-6.1-sol,codex6-20261024-070109-10,w-bcdd62231570,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassLoadCharBitmap.cpp|local|FontCharsClass::loadCharBitmap|y0,b47644463b32ed880d5fa1e4,gpt-6.1-sol,codex6-20261024-070109-10,w-bcdd62231570,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassLoadCharBitmap.cpp|local|FontCharsClass::loadCharBitmap|y1,1fae6b2d7a7d2bef07cbf6bb,gpt-6.1-sol,codex6-20261024-070109-10,w-bcdd62231570,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassLoadCharBitmap.cpp|local|FontCharsClass::loadCharBitmap|x,1224967f9993513db436964e,gpt-6.1-sol,codex6-20261024-070109-10,w-bcdd62231570,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassLoadCharBitmap.cpp|local|FontCharsClass::loadCharBitmap|x0,d06bdfebab287712dd87a283,gpt-6.1-sol,codex6-20261024-070109-10,w-bcdd62231570,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassLoadCharBitmap.cpp|local|FontCharsClass::loadCharBitmap|x1,6902e43247b897ebbf61c565,gpt-6.1-sol,codex6-20261024-070109-10,w-bcdd62231570,2026-10-24
