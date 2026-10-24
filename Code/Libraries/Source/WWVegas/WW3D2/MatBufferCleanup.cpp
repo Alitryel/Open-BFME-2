@@ -54,8 +54,8 @@ protected:
 // Only the established RefCountClass prefix is used here.
 class VertexMaterialClass : public RefCountClass {};
 
-template <> inline
-ShareBufferClass<VertexMaterialClass *>::~ShareBufferClass()
+template <class T>
+ShareBufferClass<T>::~ShareBufferClass()
 {
     ::operator delete[](RawBuffer);
 }
@@ -77,10 +77,4 @@ MatBufferClass::~MatBufferClass()
 // ?ForceDelete_MatBuffer@@YAXPAVMatBufferClass@@@Z absent-from-retail
 void ForceDelete_MatBuffer(MatBufferClass *matBuffer) { delete matBuffer; }
 
-#pragma inline_depth(0)
-// ?bfmeEmitMatBufferCleanup@@YAXPAV?$ShareBufferClass@PAVVertexMaterialClass@@@@@Z present-unmatched
-void bfmeEmitMatBufferCleanup(ShareBufferClass<VertexMaterialClass *> *p)
-{
-	p->ShareBufferClass<VertexMaterialClass *>::~ShareBufferClass();
-}
-#pragma inline_depth()
+template ShareBufferClass<VertexMaterialClass *>::~ShareBufferClass();

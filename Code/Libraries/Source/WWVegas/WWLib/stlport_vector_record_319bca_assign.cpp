@@ -61,7 +61,8 @@ void _Destroy(ForwardIter first, ForwardIter last);
 Rva00318B5C *Rva0031968ACopy(const Rva00318B5C *first, const Rva00318B5C *last, Rva00318B5C *result);
 Rva00318B5C *Rva00318D75Copy(Rva00318B5C *first, Rva00318B5C *last, Rva00318B5C *result, const _STL::__false_type &tag);
 typedef Rva00318B5C *(__cdecl *RvaCopyTagFn)(const Rva00318B5C *, const Rva00318B5C *, Rva00318B5C *, const _STL::__false_type &);
-inline _STL::vector<BfmeVectorRecord00319C84, _STL::allocator<BfmeVectorRecord00319C84> > &_STL::vector<BfmeVectorRecord00319C84, _STL::allocator<BfmeVectorRecord00319C84> >::operator=(const vector &x)
+template <class Type, class Allocator>
+_STL::vector<Type, Allocator> &_STL::vector<Type, Allocator>::operator=(const vector &x)
 {
 	if (&x != this)
 	{
@@ -91,10 +92,4 @@ inline _STL::vector<BfmeVectorRecord00319C84, _STL::allocator<BfmeVectorRecord00
 // operator= is a header inline in STLport: other units emit select-any copies,
 // so a strong definition here was a duplicate in the linked build. This anchor
 // keeps this unit emitting its copy for the ledger row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitstlport_vector_record_319bca_assign@@YAXPAV?$vector@UBfmeVectorRecord00319C84@@V?$allocator@UBfmeVectorRecord00319C84@@@_STL@@@_STL@@ABV12@@Z present-unmatched
-void bfmeEmitstlport_vector_record_319bca_assign(_STL::vector<BfmeVectorRecord00319C84, _STL::allocator<BfmeVectorRecord00319C84> > *p, const _STL::vector<BfmeVectorRecord00319C84, _STL::allocator<BfmeVectorRecord00319C84> > &x)
-{
-	p->operator=(x);
-}
-#pragma inline_depth()
+template _STL::vector<BfmeVectorRecord00319C84, _STL::allocator<BfmeVectorRecord00319C84> > &_STL::vector<BfmeVectorRecord00319C84, _STL::allocator<BfmeVectorRecord00319C84> >::operator=(const _STL::vector<BfmeVectorRecord00319C84, _STL::allocator<BfmeVectorRecord00319C84> > &);

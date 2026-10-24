@@ -53,15 +53,9 @@ protected:
 
 // ??1?$ShareBufferClass@M@@UAE@XZ, retail 0x001A7F90 (29 bytes).
 // Owns a raw float array (particle sizes); the destructor frees it.
-template <>
-inline ShareBufferClass<float>::~ShareBufferClass()
+template <class Type>
+ShareBufferClass<Type>::~ShareBufferClass()
 {
 	::operator delete[](RawBuffer);
 }
-#pragma inline_depth(0)
-// ?bfmeEmitsharebuf_float_dtor@@YAXPAV?$ShareBufferClass@M@@@Z present-unmatched
-void bfmeEmitsharebuf_float_dtor(ShareBufferClass<float> *p)
-{
-	p->ShareBufferClass<float>::~ShareBufferClass();
-}
-#pragma inline_depth()
+template ShareBufferClass<float>::~ShareBufferClass();

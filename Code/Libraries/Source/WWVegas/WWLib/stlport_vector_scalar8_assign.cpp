@@ -72,7 +72,8 @@ OutputIter __copy_ptrs(InputIter first, InputIter last, OutputIter result, const
 template <class InputIter, class OutputIter>
 OutputIter __uninitialized_copy(InputIter first, InputIter last, OutputIter result, const __false_type &tag);
 }
-inline _STL::vector<BfmeAsciiScalarValue8, _STL::allocator<BfmeAsciiScalarValue8> > &_STL::vector<BfmeAsciiScalarValue8, _STL::allocator<BfmeAsciiScalarValue8> >::operator=(const vector &x)
+template <class Type, class Allocator>
+_STL::vector<Type, Allocator> &_STL::vector<Type, Allocator>::operator=(const vector &x)
 {
 	if (&x != this)
 	{
@@ -103,13 +104,7 @@ inline _STL::vector<BfmeAsciiScalarValue8, _STL::allocator<BfmeAsciiScalarValue8
 // other unit emits a select-any copy of it, so a strong definition here was a
 // duplicate symbol in the linked build. This anchor only makes this unit emit
 // its copy for the ledger row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitstlport_vector_scalar8_assign@@YAXPAV?$vector@UBfmeAsciiScalarValue8@@V?$allocator@UBfmeAsciiScalarValue8@@@_STL@@@_STL@@ABV12@@Z present-unmatched
-void bfmeEmitstlport_vector_scalar8_assign(_STL::vector<BfmeAsciiScalarValue8, _STL::allocator<BfmeAsciiScalarValue8> > *p, const _STL::vector<BfmeAsciiScalarValue8, _STL::allocator<BfmeAsciiScalarValue8> > &x)
-{
-  p->operator=(x);
-}
-#pragma inline_depth()
+template _STL::vector<BfmeAsciiScalarValue8, _STL::allocator<BfmeAsciiScalarValue8> > &_STL::vector<BfmeAsciiScalarValue8, _STL::allocator<BfmeAsciiScalarValue8> >::operator=(const _STL::vector<BfmeAsciiScalarValue8, _STL::allocator<BfmeAsciiScalarValue8> > &);
 
 // The retail call in this body reads 0x0031BD77, an address the ledger already
 // carries as ??$_M_allocate_and_copy@PBVRva002390CB@@@?$vector@VRva002390CB@@V?$allocator@VRva002390CB@@@_STL@@@_STL@@IAEPAVRva002390CB@@IPBV2@0@Z. Bind the donor spelling to that rowed owner so one
