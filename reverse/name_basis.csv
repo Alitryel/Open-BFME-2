@@ -738,3 +738,5 @@ local,Rva00404927::rva00404927::b,Rva00404927::rva00404927::threshold,inferred,a
 param,Rva004079D5::rva004079D5::tmp,Rva004079D5::rva004079D5::key,inferred,agree:nl-60961a5db4a2,Code/GameEngine/Source/Common/Rva004079D5.cpp,0x004079D5
 member,Rva0054D222Prompt::m_level00,Rva0054D222Prompt::m_level,inferred,agree:nl-e62383e54389,Code/GameEngine/Source/Common/Rva00437EDCFinish.cpp,
 member,Rva0054D222Prompt::m_state18,Rva0054D222Prompt::m_state,inferred,agree:nl-f8caa3598383,Code/GameEngine/Source/Common/Rva00437EDCFinish.cpp,
+member,Elem004E93E8::m_5c,Elem004E93E8::m_playerType,inferred,agree:nl-0a780da08e8f,Code/GameEngine/Source/Common/Rva004E93E8Find.cpp,
+local,AIGameTeam::getMasterPlayer::e,AIGameTeam::getMasterPlayer::playersEnd,inferred,agree:nl-5776dfe3ef2e,Code/GameEngine/Source/Common/Rva004E93E8Find.cpp,0x004E93E8
