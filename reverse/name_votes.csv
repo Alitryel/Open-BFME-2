@@ -5537,3 +5537,9 @@ Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00
 Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a4,026af9cc92ab4a0a71418609,claude-opus-5-5,claudec5-20261024-165643-8,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a6,3e32110dff250828e2c4199d,claude-opus-5-5,claudec5-20261024-165643-8,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a7,5e251988caa1ffa64616ac6f,claude-opus-5-5,claudec5-20261024-165643-8,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/System/Rva002F1BD5Finish.cpp|class||Rva002F1BD5Data,e9553baa8f8ce590a3984c41,claude-opus-5-5,claudec5-20261024-171440-1,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva00285DC5Paint.cpp|param|FireLogicSystem::rva00285DC5|f12,ff7927603665f73735de4762,claude-opus-5-5,claudec5-20261024-171440-2,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva00285DC5Paint.cpp|param|FireLogicSystem::rva00285DC5|f10,27b9d5a88d029ad0af36885d,claude-opus-5-5,claudec5-20261024-171440-2,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva00285DC5Paint.cpp|param|FireLogicSystem::rva00285DC5|f8,3743368aa7a25ad2e6c93c30,claude-opus-5-5,claudec5-20261024-171440-2,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva00285DC5Paint.cpp|local|FireLogicSystem::rva00285DC5|t,7d35f38044d6b97885db2943,claude-opus-5-5,claudec5-20261024-171440-2,w-1ebb1ea4caee,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva002CF2D5Erase.cpp|function|0x002CF2D5|rva002CF2D5,43b9582838361889c531482f,claude-opus-5-5,claudec5-20261024-171440-3,w-1ebb1ea4caee,2026-10-24
