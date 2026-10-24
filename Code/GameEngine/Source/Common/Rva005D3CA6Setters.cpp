@@ -24,7 +24,7 @@ public:
 class Rva005D3CA6
 {
 public:
-	void rva005D3CA6(void *v);
+	void rva005D3CA6(void *selection);
 	void rva005D3DD5(const TreeHintRef00217D4C &v);
 private:
 	char m_00[0x18];
@@ -36,12 +36,12 @@ private:
 	char m_31;
 	bool m_32;
 };
-void Rva005D3CA6::rva005D3CA6(void *v)
+void Rva005D3CA6::rva005D3CA6(void *selection)
 {
-	if (v == m_18)
+	if (selection == m_18)
 		return;
 	((Rva005D3AF2 *)this)->rva005D3AF2();
-	m_18 = v;
+	m_18 = selection;
 	if (m_32)
 		reinterpret_cast<Rva005D3A91 *>(this)->rva005D3A91();
 }
