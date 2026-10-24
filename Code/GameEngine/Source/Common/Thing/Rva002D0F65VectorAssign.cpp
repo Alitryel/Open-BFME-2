@@ -96,8 +96,8 @@ inline _STL::vector<Rva002D0EDCElement, _STL::allocator<Rva002D0EDCElement> > &_
 // not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitRva002D0EDCVectorAssign@@YAXPAV?$vector@URva002D0EDCElement@@V?$allocator@URva002D0EDCElement@@@_STL@@@_STL@@ABV12@@Z present-unmatched
-void bfmeEmitRva002D0EDCVectorAssign(_STL::vector<Rva002D0EDCElement, _STL::allocator<Rva002D0EDCElement> > *p, const _STL::vector<Rva002D0EDCElement, _STL::allocator<Rva002D0EDCElement> > &x)
+void bfmeEmitRva002D0EDCVectorAssign(_STL::vector<Rva002D0EDCElement, _STL::allocator<Rva002D0EDCElement> > *destination, const _STL::vector<Rva002D0EDCElement, _STL::allocator<Rva002D0EDCElement> > &source)
 {
-	*p = x;
+	*destination = source;
 }
 #pragma inline_depth()
