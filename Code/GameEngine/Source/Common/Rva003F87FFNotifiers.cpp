@@ -89,7 +89,7 @@ private:
 class Rva0056AC26Owner
 {
 public:
-	void rva003F87FF(Rva0056AC26 *entry);
+	void notifyTaskCreated(Rva0056AC26 *entry);
 	void rva003F8814(Rva0056AC26 *entry);
 	void rva003F8829(Rva0056AC26 *entry);
 	void rva003F883E(Rva0056AC26 *entry);
@@ -104,7 +104,7 @@ private:
 	Rva003F86D4List m_listeners;		// +0x04
 };
 
-void Rva0056AC26Owner::rva003F87FF(Rva0056AC26 *entry)
+void Rva0056AC26Owner::notifyTaskCreated(Rva0056AC26 *entry)
 {
 	m_listeners.forEach(&Rva003F87FFListener::notify04, this, entry);
 }

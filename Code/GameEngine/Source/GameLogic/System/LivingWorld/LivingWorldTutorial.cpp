@@ -51,7 +51,7 @@ class Rva0056AC26Owner
 
 public:
 
- void rva003F87FF(Rva0056AC26 *);
+ void notifyTaskCreated(Rva0056AC26 *);
 
  void rva003F8814(Rva0056AC26 *);
 
@@ -448,6 +448,6 @@ void LivingWorldTutorial::SessionTask::create()
 	}
 	if(task){
 		m_task.set((TargetRef00217D4C *)task);
-		m_owner->rva003F87FF(task);
+		m_owner->notifyTaskCreated(task);
 	}
 }

@@ -2230,3 +2230,4 @@ __ehhandler$?rva0009873C@Rva00098690@@QAE_NXZ,0x00760441,"Renamed to __ehhandler
 ?rva00098894@Rva00098690@@QAEXXZ,0x00098894,"Renamed to ?update@Rva00098690@@QAEXXZ by tools/rename.py (inferred)"
 ?rva002CED59@Rva002CEE1B@@QAEPAUElem002CED84@@PAX@Z,0x002CED59,"Renamed to ?findEntry@Rva002CEE1B@@QAEPAUElem002CED84@@PAX@Z by tools/rename.py (inferred)"
 ?rva0030BC94@Rva0030BC94@@QAEXPBURva0053841CArg@@@Z,0x0030BC94,"Renamed to ?transform@Rva0030BC94@@QAEXPBURva0053841CArg@@@Z by tools/rename.py (inferred)"
+?rva003F87FF@Rva0056AC26Owner@@QAEXPAVRva0056AC26@@@Z,0x003F87FF,"Renamed to ?notifyTaskCreated@Rva0056AC26Owner@@QAEXPAVRva0056AC26@@@Z by tools/rename.py (inferred)"

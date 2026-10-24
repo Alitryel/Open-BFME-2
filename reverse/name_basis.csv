@@ -729,3 +729,4 @@ local,Rva0033A9A5::getCurrentLivingWorldAutoResolveArmor::p,Rva0033A9A5::getCurr
 param,ScriptActions::doNamedAddSpecialPowerCountdown::arg3,ScriptActions::doNamedAddSpecialPowerCountdown::seconds,inferred,agree:nl-a181c10af2c8,Code/GameEngine/Source/Common/Rva003C3F9EApply.cpp,0x003C3F9E
 local,ScriptActions::doNamedAddSpecialPowerCountdown::t,ScriptActions::doNamedAddSpecialPowerCountdown::m_specialPowerModule,inferred,agree:nl-27ebbad73e23,Code/GameEngine/Source/Common/Rva003C3F9EApply.cpp,0x003C3F9E
 param,Rva003F74F5Fill::n,Rva003F74F5Fill::count,inferred,agree:nl-47212fa8fa7b,Code/GameEngine/Source/Common/Rva003F74F5Fill.cpp,0x003F74F5
+function,?rva003F87FF@Rva0056AC26Owner@@QAEXPAVRva0056AC26@@@Z,?notifyTaskCreated@Rva0056AC26Owner@@QAEXPAVRva0056AC26@@@Z,inferred,agree:nl-aee863c3abe0,Code/GameEngine/Source/Common/Rva003F87FFNotifiers.cpp,0x003F87FF
