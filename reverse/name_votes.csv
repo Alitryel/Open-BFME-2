@@ -3926,3 +3926,13 @@ Code/GameEngine/Source/Common/Rva0053FE64.cpp|local|Rva0053FE64Get|p0,2f3fd249e1
 Code/GameEngine/Source/Common/Rva0053FE64.cpp|local|Rva0053FE64Get|p1,d92a1500f14887d2c608eed0,gpt-6.1-sol,codex6-20261024-070109-30,w-bcdd62231570,2026-10-24
 Code/GameEngine/Source/Common/Rva0053FE64.cpp|local|Rva0053FE64Get|p2,38d36dd1aa102d4ca1184e6c,gpt-6.1-sol,codex6-20261024-070109-30,w-bcdd62231570,2026-10-24
 Code/GameEngine/Source/Common/Rva0053FE64.cpp|local|Rva0053FE64Get|p3,85641202293f295b4f2c8c85,gpt-6.1-sol,codex6-20261024-070109-30,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/Common/Rva00488906Chain.cpp|class||Rva00488906Leaf,f13d1975adf498b88f0f9e09,gpt-6.1-sol,codex6-20261024-072919-6,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/Common/System/Rva002D36AE.cpp|param|Rva002D36AEHost::rva002D36AE|a,0645d174d477ef8ebb70d8e0,gpt-6.1-sol,codex6-20261024-072919-7,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/Common/Rva003F8F2BParse.cpp|local|LivingWorldTutorial::SessionTask::ParseINI|p,4cc3d8a91e50d2cfc21b62fa,gpt-6.1-sol,codex6-20261024-072919-9,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/Common/Rva003F8F2BParse.cpp|local|LivingWorldTutorial::LogicTurn::ParseINI|p,bd7b466c8df20cc38d5a04d7,gpt-6.1-sol,codex6-20261024-072919-9,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/Common/Rva003F8F2BParse.cpp|global||g_00C37468,69abda4a485a6a7dfa9cd48b,gpt-6.1-sol,codex6-20261024-072919-9,w-bcdd62231570,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp|function|0x002F0DD6|rva002F0DD6,35fe68319b7c12329ebe0255,gpt-6.1-sol,codex6-20261024-072919-10,w-bcdd62231570,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp|param|Rva002F1DDCIter|p,f09973c7c23f904dbf969b8c,gpt-6.1-sol,codex6-20261024-072919-10,w-bcdd62231570,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp|param|Rva002F1DDCTree::rva002F0DD6|x,5ed4956c505b9926cdb86254,gpt-6.1-sol,codex6-20261024-072919-10,w-bcdd62231570,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp|param|Rva002F1DDCTree::rva002F0DD6|y,2e886e00aa6b856463482b89,gpt-6.1-sol,codex6-20261024-072919-10,w-bcdd62231570,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp|local|Rva002F1DDCTree::rva002F0DD6|z,1056b931f5e4d1b8209445bf,gpt-6.1-sol,codex6-20261024-072919-10,w-bcdd62231570,2026-10-24
