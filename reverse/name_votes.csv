@@ -4691,3 +4691,11 @@ Code/GameEngine/Source/Common/Rva000FE1ACUpdate.cpp|global||g_00DEC224,56f577fa6
 Code/Libraries/Source/WWVegas/WWLib/Rva0020F2A2Dispatch.cpp|local|LivingWorldRegionManager::GetRegionUiPopupPoint|r,23f36039158e59f89154183f,gpt-6-astra,codexb2-20261024-105043-9,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp|local|W3DVolumetricShadowV2::W3DVolumetricShadowV2|x,9c41159699c330dc9a15c262,gpt-6-astra,codexb2-20261024-105043-10,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp|local|W3DVolumetricShadowV2::W3DVolumetricShadowV2|y,c09020b2e300d9dc9da0b7ae,gpt-6-astra,codexb2-20261024-105043-10,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva006C2D20Describe.cpp|local|Rva006C2D20Sink::rva006C2D20|p,3c83b4af03c71c7b281e8e4f,gpt-6.1-sol,codexb-20261024-104106-5,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva00880D10CircleBoxTest.cpp|class||BfmePointF0,f5a9f8017ef179f15afcdef2,gpt-6.1-sol,codexb-20261024-104106-6,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva00880D10CircleBoxTest.cpp|function|0x006C0710|rva00880D10,9cf5d7f6f115c5a1abe37215,gpt-6.1-sol,codexb-20261024-104106-6,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Create/SupplyWarehouseCreateRva004B901D.cpp|local|SupplyWarehouseCreate::rva004B901D|f,d0af08d28ff374bdfed47360,gpt-6.1-sol,codexb-20261024-104106-7,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva005C6CCC.cpp|local|Rva005C6D4D::rva005C6D9C|t,30f533014ae8c0413b8101b0,gpt-6.1-sol,codexb-20261024-104106-8,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva005C6CCC.cpp|local|Rotate|s,44901a9f80f3cbbb713c4898,gpt-6.1-sol,codexb-20261024-104106-8,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva005C6CCC.cpp|local|Rotate|c,4c0fa99856d319a07ebe11b3,gpt-6.1-sol,codexb-20261024-104106-8,w-8e883e57d025,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E7140.cpp|function|0x000E7140|rva000E7140,488ced873c3ae443bf78120f,gpt-6.1-sol,codexb-20261024-104106-9,w-8e883e57d025,2026-10-24
