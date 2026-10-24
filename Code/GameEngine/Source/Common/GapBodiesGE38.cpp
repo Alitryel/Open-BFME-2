@@ -43,7 +43,7 @@ extern unsigned g_Va00E06670;
 
 typedef _STL::vector<BfmePod8> Rva005D833EVector;
 
-void Rva005D833E()
+void clearAssistBattleCooldowns()
 {
 	Rva005D833EVector &records = *(Rva005D833EVector *)&g_Va00E06654;
 	if (records.m_start != records.m_finish)

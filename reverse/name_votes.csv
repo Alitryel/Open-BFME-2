@@ -6023,3 +6023,8 @@ Code/GameEngine/Source/Common/Rva0028B749.cpp|param|Rva0028B749Host::rva0028B749
 Code/GameEngine/Source/Common/Rva0028B749.cpp|param|Rva0028B749Host::rva0028B749|a,e8f3695f9a53ba9e15491d35,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p117b,w-662fb4bc1fa1,2026-10-24
 Code/GameEngine/Source/Common/Rva000B6498Free.cpp|param|Rva000B6498::rva000B6498|n,58a64cfc598340afbf10b011,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p126a,w-98a33af716bd,2026-10-24
 Code/GameEngine/Source/Common/Rva000B6498Free.cpp|param|Rva000B6498::rva000B6498|n,58a64cfc598340afbf10b011,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p126b,w-26eb67dd1bfd,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesGE38.cpp|member|GameStatsRow|m_14,01a688acfc1faf663a220762,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p056b,w-566540eb8e10,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesGE38.cpp|function|0x005D833E|Rva005D833E,4836cdf891a395acfd5d640f,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p056b,w-566540eb8e10,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesGE38.cpp|function|0x005D851D|Rva005D851D,38e0e169cf6b1f495cc2d885,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p056b,w-566540eb8e10,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesGE38.cpp|function|0x005DBB7A|rva005DBB7A,7d8dab7b75381fd199641936,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p056b,w-566540eb8e10,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesGE38.cpp|function|0x005DD7FB|rva005DD7FB,fbdf5d21a9c24f0222159c27,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p056b,w-566540eb8e10,2026-10-24
