@@ -3694,3 +3694,14 @@ void DualIndexedDispatchThunk::dispatch(PEER peer)
         reinterpret_cast<int *>(&PeerThreadClass::s_keys[7]),
         reinterpret_cast<int *>(&PeerThreadClass::s_values[7]));
 }
+
+// Bind these helpers to the existing MapUtil and container definitions.
+namespace _STL {
+template <> void deque<void *, allocator<void *> >::_M_reallocate_map(size_t, bool);
+template <> AsciiString __default_constructed<AsciiString>(AsciiString *);
+template <> AsciiString __default_constructed_aux<AsciiString>(
+    AsciiString *, const __false_type &);
+template <> _Rb_tree_node<pair<const AsciiString, AsciiString> > *
+allocator<_Rb_tree_node<pair<const AsciiString, AsciiString> > >::allocate(
+    size_t, const void *) const;
+}
