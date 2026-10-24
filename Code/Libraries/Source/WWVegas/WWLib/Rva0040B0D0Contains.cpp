@@ -26,7 +26,7 @@ public:
 struct Rva0040B0D0Arg
 {
 	int m_00;
-	void *m_04;
+	void *m_template;
 };
 
 class Rva0040B0D0
@@ -41,10 +41,10 @@ private:
 
 bool Rva0040B0D0::rva0040B0D0(const void *arg)
 {
-	const Rva0040B0D0Arg *p = (const Rva0040B0D0Arg *)arg;
-	if (p == 0)
+	const Rva0040B0D0Arg *objectView = (const Rva0040B0D0Arg *)arg;
+	if (objectView == 0)
 		return false;
-	void *esi = p->m_04;
+	void *esi = objectView->m_template;
 	if (esi == 0)
 		return false;
 	if (m_38.any()) {
