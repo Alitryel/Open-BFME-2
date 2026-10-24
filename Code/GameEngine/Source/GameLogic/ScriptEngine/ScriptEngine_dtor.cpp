@@ -260,11 +260,13 @@ protected:
 	bool m_active;  // +0x08
 };
 
+// Retail's particleEditorUpdate stores the base vtable 0x00BE39F4, so the
+// holder overrides nothing; the derived view only keeps ~ScriptEngine's
+// delete inline (a base-typed delete calls ??_G instead).
 class Rva0020453CHolder : public Rva0020453CHolderBase
 {
 public:
 	Rva0020453CHolder() { m_handle = 0; m_active = false; }
-	virtual void holderSlot0();
 };
 
 static Rva0020453CHolder *TheDebugWindowHolder;
