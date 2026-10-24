@@ -83604,3 +83604,4 @@ _AverageBlock_MMX	0x1D76E0	84	attempted	vp6-spec001d76e0 whole-file first genuin
 ?isAllocated@Rva006D2A60@@QAE_NH@Z	0x006D2880	69	landed	add_match verified Code/GameEngine/Source/Common/Rva006D29E0Cluster.cpp 69B; placed by masked whole-.text search of the compiled body - single hit
 ?rva006D28D0@Rva006D2A60@@QAEXH_N@Z	0x006D28D0	92	landed	add_match verified Code/GameEngine/Source/Common/Rva006D29E0Cluster.cpp 92B; placed by masked whole-.text search of the compiled body - single hit
 ?rva006D2930@Rva006D2A60@@QAEHH@Z	0x006D2930	171	landed	add_match verified Code/GameEngine/Source/Common/Rva006D29E0Cluster.cpp 171B; placed by masked whole-.text search of the compiled body - single hit
+?allocBlock@Rva006D2A60@@QAEPAXH@Z	0x006D29E0	127	landed	add_match verified Code/GameEngine/Source/Common/Rva006D29E0Cluster.cpp 127B; AptValueGCAllocator value alloc; base 0x6DB160 allocBlock then mbIsAllocated false/true with asserts from AptValueGCAllocator.cpp

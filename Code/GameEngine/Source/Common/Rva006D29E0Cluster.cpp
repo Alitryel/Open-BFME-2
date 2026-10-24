@@ -121,13 +121,13 @@ void *Rva006D2A60::allocBlock(int nBytes)
 	if (!(p->mValueBitfield.mbIsAllocated == false)) {
 		g_bfmeAptAssertAtE17734("pValue->mValueBitfield.mbIsAllocated == false",
 			"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptValueGCAllocator.cpp", 0x6F);
-		if (g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
+		if (g_bfmeAptBreakOnAssertAtDDC01C) { _ReadWriteBarrier(); __debugbreak(); _ReadWriteBarrier(); }
 	}
 	p->rva006D28D0(g_00E177E0, true);
 	if (!(p->mValueBitfield.mbIsAllocated == true)) {
 		g_bfmeAptAssertAtE17734("pValue->mValueBitfield.mbIsAllocated == true",
 			"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptValueGCAllocator.cpp", 0x73);
-		if (g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
+		if (g_bfmeAptBreakOnAssertAtDDC01C) { _ReadWriteBarrier(); __debugbreak(); _ReadWriteBarrier(); }
 	}
 	return p;
 }
