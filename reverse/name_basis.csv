@@ -1188,3 +1188,4 @@ member,GUICommandTranslator::m_38,GUICommandTranslator::m_rightMouseUpTime,infer
 local,GUICommandTranslator::translateGameMessage::p,GUICommandTranslator::translateGameMessage::mousePosition,inferred,agree:nl-82e306e35a4b,Code/GameEngine/Source/GameClient/MessageStream/GUICommandTranslatorTranslateGameMessage.cpp,0x004314B1
 local,GUICommandTranslator::translateGameMessage::b,GUICommandTranslator::translateGameMessage::rightClick,inferred,agree:nl-534345cbf1c7,Code/GameEngine/Source/GameClient/MessageStream/GUICommandTranslatorTranslateGameMessage.cpp,0x004314B1
 param,Rva0031D5F8::GetPurchaseScienceCommandSet::arg,Rva0031D5F8::GetPurchaseScienceCommandSet::player,inferred,agree:nl-682dc00a6a76,Code/GameEngine/Source/GameClient/Rva0031D5F8Lookup.cpp,0x0031DF89
+local,Rva004BDB37::rva004BDB37::n,Rva004BDB37::rva004BDB37::remainingIterations,inferred,agree:nl-cf9cda788794,Code/GameEngine/Source/GameClient/Rva004BDB37Finish.cpp,0x004BDB37
