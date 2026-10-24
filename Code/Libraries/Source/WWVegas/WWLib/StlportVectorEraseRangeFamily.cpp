@@ -21,6 +21,10 @@
 // select-any COMDATs; _Destroy is defined only for the types whose retail
 // forwarder this unit lands.
 //
+// Members with unresolved or wrong helper providers are preserved in
+// StlportVectorEraseRangeDeferred.cpp. The native evidence table below
+// describes the original family across both units.
+//
 // Element types are code-generation views: incomplete, named after an
 // existing ledger/pin spelling of the same vector's helpers where that
 // spelling is unique to this erase, otherwise after the erase address.  No
@@ -169,6 +173,7 @@ public:
 
 }
 
+struct Rva000B690BRecord;
 class RvaSmartPtr12;
 struct BfmeStringTailRecord144;
 struct Rva00079EA1Element;
@@ -242,64 +247,16 @@ inline __declspec(noinline) void _STL::_Destroy<Rva0040DC56Element *>(Rva0040DC5
 	_STL::__destroy_aux(__first, __last, __trivial);
 }
 
-template RvaSmartPtr12 *_STL::vector<RvaSmartPtr12 >::erase(RvaSmartPtr12 *, RvaSmartPtr12 *);
 template BfmeStringTailRecord144 *_STL::vector<BfmeStringTailRecord144 >::erase(BfmeStringTailRecord144 *, BfmeStringTailRecord144 *);
-template Rva00079EA1Element *_STL::vector<Rva00079EA1Element >::erase(Rva00079EA1Element *, Rva00079EA1Element *);
 template _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > *_STL::vector<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > >::erase(_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > *, _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > *);
 template TreeHintRef00217D4C *_STL::vector<TreeHintRef00217D4C >::erase(TreeHintRef00217D4C *, TreeHintRef00217D4C *);
-template Rva000C1CAEElement *_STL::vector<Rva000C1CAEElement >::erase(Rva000C1CAEElement *, Rva000C1CAEElement *);
-template Rva00079554Record *_STL::vector<Rva00079554Record >::erase(Rva00079554Record *, Rva00079554Record *);
-template Rva000BEDF0Record *_STL::vector<Rva000BEDF0Record >::erase(Rva000BEDF0Record *, Rva000BEDF0Record *);
-template Rva00150659Element *_STL::vector<Rva00150659Element >::erase(Rva00150659Element *, Rva00150659Element *);
-template Rva00151DAB *_STL::vector<Rva00151DAB >::erase(Rva00151DAB *, Rva00151DAB *);
-template Rva00153729 *_STL::vector<Rva00153729 >::erase(Rva00153729 *, Rva00153729 *);
-template BfmeStringTailRecord156 *_STL::vector<BfmeStringTailRecord156 >::erase(BfmeStringTailRecord156 *, BfmeStringTailRecord156 *);
-template Rva001DEF38Element *_STL::vector<Rva001DEF38Element >::erase(Rva001DEF38Element *, Rva001DEF38Element *);
-template Rva00213949Element *_STL::vector<Rva00213949Element >::erase(Rva00213949Element *, Rva00213949Element *);
 template OpaqueRefElement4 *_STL::vector<OpaqueRefElement4 >::erase(OpaqueRefElement4 *, OpaqueRefElement4 *);
-template BfmePod12 *_STL::vector<BfmePod12 >::erase(BfmePod12 *, BfmePod12 *);
-template Rva002BBB96Element *_STL::vector<Rva002BBB96Element >::erase(Rva002BBB96Element *, Rva002BBB96Element *);
-template Rva002DCFEEElement *_STL::vector<Rva002DCFEEElement >::erase(Rva002DCFEEElement *, Rva002DCFEEElement *);
-template Rva002E2690Element *_STL::vector<Rva002E2690Element >::erase(Rva002E2690Element *, Rva002E2690Element *);
 template Elem003AF9E0 *_STL::vector<Elem003AF9E0 >::erase(Elem003AF9E0 *, Elem003AF9E0 *);
-template Rva0032A3A9Element *_STL::vector<Rva0032A3A9Element >::erase(Rva0032A3A9Element *, Rva0032A3A9Element *);
-template Rva003371B1 *_STL::vector<Rva003371B1 >::erase(Rva003371B1 *, Rva003371B1 *);
-template BfmeAssignRecord104 *_STL::vector<BfmeAssignRecord104 >::erase(BfmeAssignRecord104 *, BfmeAssignRecord104 *);
 template BfmeStringRecord00111ACF *_STL::vector<BfmeStringRecord00111ACF >::erase(BfmeStringRecord00111ACF *, BfmeStringRecord00111ACF *);
-template Rva004043AEElement *_STL::vector<Rva004043AEElement >::erase(Rva004043AEElement *, Rva004043AEElement *);
-template Rva0040538FElement *_STL::vector<Rva0040538FElement >::erase(Rva0040538FElement *, Rva0040538FElement *);
-template Rva0040DC56Element *_STL::vector<Rva0040DC56Element >::erase(Rva0040DC56Element *, Rva0040DC56Element *);
 template BfmeAssignRecord44 *_STL::vector<BfmeAssignRecord44 >::erase(BfmeAssignRecord44 *, BfmeAssignRecord44 *);
 template BfmeStringRecord00426A5B *_STL::vector<BfmeStringRecord00426A5B >::erase(BfmeStringRecord00426A5B *, BfmeStringRecord00426A5B *);
-template BfmeNarrowRecord00427F75 *_STL::vector<BfmeNarrowRecord00427F75 >::erase(BfmeNarrowRecord00427F75 *, BfmeNarrowRecord00427F75 *);
-template Rva004758F4Element *_STL::vector<Rva004758F4Element >::erase(Rva004758F4Element *, Rva004758F4Element *);
-template Rva00520211Element *_STL::vector<Rva00520211Element >::erase(Rva00520211Element *, Rva00520211Element *);
-template Rva00565865Element *_STL::vector<Rva00565865Element >::erase(Rva00565865Element *, Rva00565865Element *);
-template Rva005658CBElement *_STL::vector<Rva005658CBElement >::erase(Rva005658CBElement *, Rva005658CBElement *);
-template Rva005658FEElement *_STL::vector<Rva005658FEElement >::erase(Rva005658FEElement *, Rva005658FEElement *);
-template Rva00565931Element *_STL::vector<Rva00565931Element >::erase(Rva00565931Element *, Rva00565931Element *);
-template Rva00565964Element *_STL::vector<Rva00565964Element >::erase(Rva00565964Element *, Rva00565964Element *);
-template Rva00565997Element *_STL::vector<Rva00565997Element >::erase(Rva00565997Element *, Rva00565997Element *);
-// vector<T>::clear() (STLport: erase(begin(), end())), 11 bytes each, emitted
-// out of line right after the same element types' range erases above:
-// 0x00565A94 (0x005658CB), 0x00565A9F (0x005658FE), 0x00565AAA (0x00565931),
-// 0x00565AB5 (0x00565964), 0x00565AC0 (0x00565997).  The retail REL32 of each
-// names its erase; the clear identity is a structural inference from that.
-template void _STL::vector<Rva005658CBElement >::clear();
-template void _STL::vector<Rva005658FEElement >::clear();
-template void _STL::vector<Rva00565931Element >::clear();
-template void _STL::vector<Rva00565964Element >::clear();
-template void _STL::vector<Rva00565997Element >::clear();
-template Rva00566A42Element *_STL::vector<Rva00566A42Element >::erase(Rva00566A42Element *, Rva00566A42Element *);
-template Rva00586E86Element *_STL::vector<Rva00586E86Element >::erase(Rva00586E86Element *, Rva00586E86Element *);
-template Rva005DC408Element *_STL::vector<Rva005DC408Element >::erase(Rva005DC408Element *, Rva005DC408Element *);
-template Rva005EF8FAElement *_STL::vector<Rva005EF8FAElement >::erase(Rva005EF8FAElement *, Rva005EF8FAElement *);
-template Rva005F8620Element *_STL::vector<Rva005F8620Element >::erase(Rva005F8620Element *, Rva005F8620Element *);
-template Rva003F610FElement *_STL::vector<Rva003F610FElement >::erase(Rva003F610FElement *, Rva003F610FElement *);
 template BfmeStringHeadRecord184 *_STL::vector<BfmeStringHeadRecord184 >::erase(BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *);
-struct Rva000B690BRecord;
 template Rva000B690BRecord *_STL::__copy_ptrs<Rva000B690BRecord *, Rva000B690BRecord *>(Rva000B690BRecord *, Rva000B690BRecord *, Rva000B690BRecord *, const _STL::__false_type &);
-
 
 // Target slot 6 in vtable VA 0x00BC68F0 is 0x0007A7DD; slots 2 and 3 are
 // the independently named W3DHordeModelDraw name getter and xfer method. The
