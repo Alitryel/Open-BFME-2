@@ -1066,3 +1066,6 @@ local,Rva00542997Parse::e,Rva00542997Parse::exception,inferred,agree:nl-a7513c5a
 param,Rva00542B61Parse::a2,Rva00542B61Parse::formal,inferred,agree:nl-e05bb3e8dd19,Code/GameEngine/Source/Common/AutoResolveArmorParse.cpp,0x00542B61
 param,Rva00542BA1Parse::a2,Rva00542BA1Parse::formal,inferred,agree:nl-befb9a1e02cd,Code/GameEngine/Source/Common/AutoResolveArmorParse.cpp,0x00542BA1
 param,Rva00542997Parse::a2,Rva00542997Parse::formal,inferred,agree:nl-d1767fc90421,Code/GameEngine/Source/Common/AutoResolveArmorParse.cpp,0x00542997
+param,Rva00542B24Parse::a2,Rva00542B24Parse::formal,inferred,agree:nl-db30be86f1bf,Code/GameEngine/Source/Common/AutoResolveArmorParse.cpp,0x00542B24
+global,?g_00C695B0@@3QBUFieldParse@@B,?g_autoResolveWeaponFieldParse@@3QBUFieldParse@@B,inferred,agree:nl-03951b408fd3,Code/GameEngine/Source/Common/AutoResolveArmorParse.cpp,0x008695B0
+global,?g_00C69638@@3QBUFieldParse@@B,?g_autoResolveArmorFieldParse@@3QBUFieldParse@@B,inferred,agree:nl-dcb61bd3e5d5,Code/GameEngine/Source/Common/AutoResolveArmorParse.cpp,0x00869638

@@ -20,7 +20,7 @@ void __identifier("?Rva00427294Parse@@YAXPAVINI@@PAX11@Z")();
 void __identifier("?Rva0026F28BParse@@YAXPAVINI@@PAXPAI@Z")();
 }
 // The retail table at 0x00869638: 3 entries and the null terminator; every parser is a rowed code owner.
-extern const FieldParse g_00C69638[4] = {
+extern const FieldParse g_autoResolveArmorFieldParse[4] = {
 	{ "Armor", (FieldParseProc)&__identifier("?Rva00427294Parse@@YAXPAVINI@@PAX11@Z"), 0, 0x0 },
 	{ "RequiredUpgrades", (FieldParseProc)&__identifier("?Rva0026F28BParse@@YAXPAVINI@@PAXPAI@Z"), 0, 0x4 },
 	{ "ExcludedUpgrades", (FieldParseProc)&__identifier("?Rva0026F28BParse@@YAXPAVINI@@PAXPAI@Z"), 0, 0x84 },
@@ -31,7 +31,7 @@ void __identifier("?Rva00419726Parse@@YAXPAVINI@@PAX1PBX@Z")();
 void __identifier("?Rva0026F28BParse@@YAXPAVINI@@PAXPAI@Z")();
 }
 // The retail table at 0x008695B0: 3 entries and the null terminator; every parser is a rowed code owner.
-extern const FieldParse g_00C695B0[4] = {
+extern const FieldParse g_autoResolveWeaponFieldParse[4] = {
 	{ "Weapon", (FieldParseProc)&__identifier("?Rva00419726Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x0 },
 	{ "RequiredUpgrades", (FieldParseProc)&__identifier("?Rva0026F28BParse@@YAXPAVINI@@PAXPAI@Z"), 0, 0x4 },
 	{ "ExcludedUpgrades", (FieldParseProc)&__identifier("?Rva0026F28BParse@@YAXPAVINI@@PAXPAI@Z"), 0, 0x84 },
@@ -76,7 +76,7 @@ public:
 void __cdecl Rva00542B61Parse(INI *ini, void *formal, void *instance, void *a4)
 {
 	INIException exception;
-	ini->initFromINI(instance, g_00C69638);
+	ini->initFromINI(instance, g_autoResolveArmorFieldParse);
 	if (*(void **)instance == 0)
 	{
 		rva002f681_fill(&exception, 8, "AutoResolveArmor entry in Object block: Armor name MUST be specified");
@@ -104,7 +104,7 @@ void __cdecl Rva00542BA1Parse(INI *ini, void *formal, void *vecPtr, void *a4)
 void __cdecl Rva00542997Parse(INI *ini, void *formal, void *instance, void *a4)
 {
 	INIException exception;
-	ini->initFromINI(instance, g_00C695B0);
+	ini->initFromINI(instance, g_autoResolveWeaponFieldParse);
 	if (*(void **)instance == 0)
 	{
 		rva002f681_fill(&exception, 8, "AutoResolveWeapon entry in Object block: Weapon name MUST be specified");
@@ -116,9 +116,9 @@ void __cdecl Rva00542997Parse(INI *ini, void *formal, void *instance, void *a4)
 // record via rowed 0x005429D7, push_back rowed 0x00542AEA into vector at a3,
 // then parse the new tail element (finish-0x104) via rowed 0x00542997.
 // Evidence: chain packet (calls landed 0x00542997), callees all rowed.
-void __cdecl Rva00542B24Parse(INI *ini, void *a2, void *vecPtr, void *a4)
+void __cdecl Rva00542B24Parse(INI *ini, void *formal, void *vecPtr, void *a4)
 {
 	Rva005429D7 tmp;
 	((_STL::vector<BfmeFixedObject260, _STL::allocator<BfmeFixedObject260> > *)vecPtr)->push_back(*(const BfmeFixedObject260 *)(const void *)tmp.rva005429D7());
-	Rva00542997Parse(ini, a2, (char *)*(void **)((char *)vecPtr + 4) - 0x104, a4);
+	Rva00542997Parse(ini, formal, (char *)*(void **)((char *)vecPtr + 4) - 0x104, a4);
 }
