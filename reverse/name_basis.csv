@@ -1297,3 +1297,6 @@ param,Rva000B34D8::clientOnly_getRenderObjInfo::o2,Rva000B34D8::clientOnly_getRe
 param,NAT::gotTargetMangledPort::b,NAT::gotTargetMangledPort::mangledPort,inferred,agree:nl-55a7649a2be8,Code/GameEngine/Source/Common/Rva005A8666Box.cpp,0x005A86C0
 local,StrategicVeterancy::Data::AutoResolve::AutoResolve::p,StrategicVeterancy::Data::AutoResolve::AutoResolve::record,inferred,agree:nl-e5b7d1c8d905,Code/GameEngine/Source/GameClient/GUI/StrategicVeterancyAutoResolveCtor.cpp,0x005ECE81
 local,Rva005243FA::tmp,Rva005243FA::tag,inferred,agree:nl-4d68f306ddf6,Code/GameEngine/Source/Common/Rva0052A22CForwarders.cpp,0x005243FA
+param,TargetCoord::a,TargetCoord::xCoord,inferred,agree:nl-9f0d285dfd0c,Code/GameEngine/Source/GameLogic/Object/WeaponTemplateTargetPositions.cpp,
+param,TargetCoord::b,TargetCoord::yCoord,inferred,agree:nl-2e46a5e4713f,Code/GameEngine/Source/GameLogic/Object/WeaponTemplateTargetPositions.cpp,
+param,TargetCoord::c,TargetCoord::zCoord,inferred,agree:nl-d64bbfa21ede,Code/GameEngine/Source/GameLogic/Object/WeaponTemplateTargetPositions.cpp,

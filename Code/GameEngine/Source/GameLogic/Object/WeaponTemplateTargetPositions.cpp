@@ -77,7 +77,7 @@ struct TargetCoord
 {
 	float x, y, z;
 	TargetCoord() {}
-	TargetCoord(float a, float b, float c) : x(a), y(b), z(c) {}
+	TargetCoord(float xCoord, float yCoord, float zCoord) : x(xCoord), y(yCoord), z(zCoord) {}
 	TargetCoord(const Coord3D &p) : x(p.x), y(p.y), z(p.z) {}
 };
 
