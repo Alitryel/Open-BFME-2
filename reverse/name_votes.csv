@@ -5657,3 +5657,5 @@ Code/GameEngine/Source/Common/System/Rva002F1BD5Finish.cpp|class||Rva002F1BD5Dat
 Code/GameEngine/Source/Common/Rva005A8666Box.cpp|param|NAT::gotTargetMangledPort|a,207a86c2692eae7e85ec4415,claude-opus-5-5,claudec6-20261024-220626-8,w-efe153480513,2026-10-24
 Code/GameEngine/Source/Common/Rva005A8666Box.cpp|param|NAT::gotTargetMangledPort|c,144353886ffb8b8799540697,claude-opus-5-5,claudec6-20261024-220626-8,w-efe153480513,2026-10-24
 Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp|function|0x004CFBC2|rva004CFBC2,eac4e52dc32df5ba680e8c70,claude-opus-5-5,claudec6-20261024-220626-9,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva003F8F2BParse.cpp|local|LivingWorldTutorial::SessionTask::ParseINI|p,03be99e817cf2f6c34de5418,claude-opus-5-5,claudec5-20261024-215416-12,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva003F8F2BParse.cpp|global||g_00C37468,6c95e8a0a98ca943c6bddf72,claude-opus-5-5,claudec5-20261024-215416-12,w-1ebb1ea4caee,2026-10-24
