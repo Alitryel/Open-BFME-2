@@ -1092,3 +1092,4 @@ function,?rva00431FF2@Rva00431FF2@@QAEHPAURva00431FF2Message@@@Z,?translateGameM
 class,Rva005DD7FBRecord,GameStatsRow,inferred,agree:nl-0aeea11bc712,Code/GameEngine/Source/Common/GapBodiesGE38.cpp,
 class,Rva005DD7FBVector,GameStatsRowVector,inferred,agree:nl-9a9896c8ea02,Code/GameEngine/Source/Common/GapBodiesGE38.cpp,
 class,Rva005DD7FB,GameStatsTable,inferred,agree:nl-13a8b724d10a,Code/GameEngine/Source/Common/GapBodiesGE38.cpp,
+function,?Rva00212118@@YGXVAsciiString@@@Z,?setCloudEffectState@@YGXVAsciiString@@@Z,inferred,agree:nl-0f2fcaaee22b,Code/GameEngine/Source/Common/INI/INIBfmeSettingsParsers.cpp,0x00212118

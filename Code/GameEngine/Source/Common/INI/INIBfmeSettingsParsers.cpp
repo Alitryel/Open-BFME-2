@@ -290,7 +290,7 @@ void Rva009519B::rva002150BE()
 // StringBase<char>::compare 0x000069B1, sets the manager's +0x20 flag, and
 // calls slot 16 when +0xB8 is clear. BFME 2 shifts BFME 1's +0x1C/+0xA8 to
 // +0x20/+0xB8 and slots 9/11 to 14/16.
-void __stdcall Rva00212118(AsciiString text)
+void __stdcall setCloudEffectState(AsciiString text)
 {
 	if (TheCloudEffectManager != 0)
 	{

@@ -2396,3 +2396,5 @@ __ehhandler$?rva006F1600@Rva006F1360@@QBEPAVAptValue@@PAV2@PBVEAStringC@@@Z,0x00
 ?g_bfmeArgDXE@@3PAEA,0x009D7F18,"Renamed to ?vtMissing@@3PAEA by tools/rename.py (inferred)"
 ?rva00431FF2@Rva00431FF2@@QAEHPAURva00431FF2Message@@@Z,0x00431FF2,"Renamed to ?translateGameMessage@Rva00431FF2@@QAEHPAURva00431FF2Message@@@Z by tools/rename.py (inferred)"
 ?rva005DD7FB@Rva005DD7FB@@QBE_NI@Z,0x005DD7FB,"Renamed to ?rva005DD7FB@GameStatsTable@@QBE_NI@Z by tools/rename.py (inferred)"
+?Rva00212118@@YGXVAsciiString@@@Z,0x00212118,"Renamed to ?setCloudEffectState@@YGXVAsciiString@@@Z by tools/rename.py (inferred)"
+__ehhandler$?Rva00212118@@YGXVAsciiString@@@Z,0x0076DA1A,"Renamed to __ehhandler$?setCloudEffectState@@YGXVAsciiString@@@Z by tools/rename.py (inferred)"
