@@ -249,8 +249,11 @@ BfmeAptValue006DCD20 *BfmeAptValue006DCD20::rva006DCF60(bool bUndefOK)
 {
     if (!static_cast<unsigned char>(isCIH(bUndefOK))) {
         g_bfmeAptAssertAtE17734("isCIH(bUndefOK)", "c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptValue/AptValue.inl", 0x348);
-        if (g_bfmeAptBreakOnAssertAtDDC01C)
-            __asm int 3
+        if (g_bfmeAptBreakOnAssertAtDDC01C) {
+            _ReadWriteBarrier();
+            __debugbreak();
+            _ReadWriteBarrier();
+        }
     }
     return this;
 }
