@@ -690,3 +690,7 @@ param,Rva0018C838::rva0018C838::a,Rva0018C838::rva0018C838::first,inferred,agree
 param,Rva0018C838::rva0018C838::b,Rva0018C838::rva0018C838::last,inferred,agree:nl-72487b912302,Code/GameEngine/Source/Common/EbpParamForwarders.cpp,0x0018C838
 param,bfmeEmitRva0041FE0EDtor::p,bfmeEmitRva0041FE0EDtor::subsystem,inferred,agree:nl-09aa77355d24,Code/GameEngine/Source/Common/GameEngineDeletingBaseDerived.cpp,
 function,?rva0030BE5D@Rva0030BE5D@@QAEXPBUBfmeE8@@@Z,?translate@Rva0030BE5D@@QAEXPBUBfmeE8@@@Z,inferred,agree:nl-39ce7430ef3c,Code/GameEngine/Source/Common/GapBodiesGE12.cpp,0x0030BE5D
+member,Rva005E3EE2::m_10,Rva005E3EE2::m_handle,inferred,agree:nl-1ca3c78e2c21,Code/GameEngine/Source/Common/GapBodiesGE38.cpp,
+function,?Rva005E18EA@@YAHXZ,?getPlayerColor@@YAHXZ,inferred,agree:nl-bc9bf1c6c2aa,Code/GameEngine/Source/Common/GapBodiesGE38.cpp,0x005E18EA
+function,?rva005E21AB@Rva005E21AB@@QAEPBVImage@@XZ,?getButtonImage@Rva005E21AB@@QAEPBVImage@@XZ,inferred,agree:nl-a9a29e75e8ba,Code/GameEngine/Source/Common/GapBodiesGE38.cpp,0x005E21AB
+function,?rva005E3EE2@Rva005E3EE2@@QBE?AURva005E3EE2Handle@@XZ,?getHandle@Rva005E3EE2@@QBE?AURva005E3EE2Handle@@XZ,inferred,agree:nl-9fa5538a4336,Code/GameEngine/Source/Common/GapBodiesGE38.cpp,0x005E3EE2

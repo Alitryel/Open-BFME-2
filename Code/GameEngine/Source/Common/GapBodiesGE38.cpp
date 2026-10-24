@@ -124,7 +124,7 @@ struct Rva005E18EALogic
 	Rva005E18EAPlayer *m_player;
 };
 
-int Rva005E18EA()
+int getPlayerColor()
 {
 	return ((Rva005E18EALogic *)TheLivingWorldLogic)->m_player->m_color.getAsInt() | 0xFF000000;
 }
@@ -142,13 +142,13 @@ const Image *Rva005F0318Get(void *owner);					// 0x005F0318
 class Rva005E21AB
 {
 public:
-	const Image *rva005E21AB();
+	const Image *getButtonImage();
 private:
 	char m_pad[0x20];
 	void *m_record;
 };
 
-const Image *Rva005E21AB::rva005E21AB()
+const Image *Rva005E21AB::getButtonImage()
 {
 	if (m_record)
 		return StrategicInGameUI::GetButtonImage(m_record);
@@ -165,13 +165,13 @@ struct Rva005E3EE2Handle
 class Rva005E3EE2
 {
 public:
-	Rva005E3EE2Handle rva005E3EE2() const;
+	Rva005E3EE2Handle getHandle() const;
 private:
 	char m_pad[0x10];
-	int m_10;
+	int m_handle;
 };
 
-Rva005E3EE2Handle Rva005E3EE2::rva005E3EE2() const
+Rva005E3EE2Handle Rva005E3EE2::getHandle() const
 {
-	return Rva005E3EE2Handle(m_10);
+	return Rva005E3EE2Handle(m_handle);
 }

@@ -2220,3 +2220,6 @@ __ehhandler$?isMusicAlreadyLoaded@AudioManager@@UBE_NXZ,0x0075DC21,"Renamed to _
 ?bfmeNeVMQ@BfmeStrVMQ@@QBE_NPBD@Z,0x000249D0,"Renamed to ?notEqual@BfmeStrVMQ@@QBE_NPBD@Z by tools/rename.py (inferred)"
 ?rva00541311@Rva00541311@@QAEPAXPAX@Z,0x00541311,"Renamed to ?erase@Rva00541311@@QAEPAXPAX@Z by tools/rename.py (inferred)"
 ?rva0030BE5D@Rva0030BE5D@@QAEXPBUBfmeE8@@@Z,0x0030BE5D,"Renamed to ?translate@Rva0030BE5D@@QAEXPBUBfmeE8@@@Z by tools/rename.py (inferred)"
+?Rva005E18EA@@YAHXZ,0x005E18EA,"Renamed to ?getPlayerColor@@YAHXZ by tools/rename.py (inferred)"
+?rva005E21AB@Rva005E21AB@@QAEPBVImage@@XZ,0x005E21AB,"Renamed to ?getButtonImage@Rva005E21AB@@QAEPBVImage@@XZ by tools/rename.py (inferred)"
+?rva005E3EE2@Rva005E3EE2@@QBE?AURva005E3EE2Handle@@XZ,0x005E3EE2,"Renamed to ?getHandle@Rva005E3EE2@@QBE?AURva005E3EE2Handle@@XZ by tools/rename.py (inferred)"
