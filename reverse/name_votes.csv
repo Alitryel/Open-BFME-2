@@ -5340,3 +5340,12 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTreeBufferAddTree.cpp|class
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTreeBufferAddTree.cpp|class||Rva000ECF79Tree,9bf76d06f7d87a05b40be5cb,gpt-6.1-sol,codexb-20261024-151742-2,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva0056574BFill.cpp|param|Rva0056574BFill|x,1163a59032ea161640c56d05,gpt-6.1-sol,codexb-20261024-151742-3,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainRva00474842.cpp|param|sqr|v,3a64684739751c3e1a8cce74,gpt-6.1-sol,codexb-20261024-151742-5,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineResolveName.cpp|local|Rva0032AAEE::rva0032AAEE|tmp,70b4fb49235619af1e61adc5,gpt-6-astra,codexb2-20261024-152332-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Made002CC841Parse.cpp|param|q4Notify002CC841|m,8c2d6d4c6a9dfa06accde97a,gpt-6-astra,codexb2-20261024-152332-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Made002CC841Parse.cpp|local|q4Notify002CC841|tmp,fe41473df3dc2434bcffaee3,gpt-6-astra,codexb2-20261024-152332-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv2048.cpp|member|BfmeHostFN|m_bfmeOwnerFN,6b4603290f339b1824c4d000,gpt-6-astra,codexb2-20261024-152332-2,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv2048.cpp|member|BfmeHostFN|m_bfmeBufsFN,31921f9b4943de81f5e622e4,gpt-6-astra,codexb2-20261024-152332-2,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv2048.cpp|member|BfmeHostFN|m_bfmeCountFN,a7076a469c7fc0ebbe7433b7,gpt-6-astra,codexb2-20261024-152332-2,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv2048.cpp|local|BfmeHostFN::bfmeAddFN|b,59cda789914d00d1f2e1a8bc,gpt-6-astra,codexb2-20261024-152332-2,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva001F526E.cpp|local|Rva001F526E::rva001F526E|a,84aa86840ee1c4959caba40c,gpt-6-astra,codexb2-20261024-152332-3,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva001F526E.cpp|local|Rva001F526E::rva001F526E|b,a261e5ab83bd1a7f67083bd8,gpt-6-astra,codexb2-20261024-152332-3,w-d0bdfd8b17e9,2026-10-24
