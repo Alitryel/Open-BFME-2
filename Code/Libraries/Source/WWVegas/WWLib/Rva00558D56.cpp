@@ -13,6 +13,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <deque>
 #include "../../../Include/Lib/BfmeE16.h"
+// The base ctor is rowed at 0x0055334A (stlport_deque_e16_o1.cpp): call it
+// rather than instantiate it here, which also emitted a non-retail
+// _M_initialize_map<BfmeE16> copy (retail 0x0055315A is rowed elsewhere).
+namespace _STL { template <> _Deque_base<BfmeE16, allocator<BfmeE16> >::_Deque_base(const allocator<BfmeE16> &, size_t); }
 class BFMENetworkQueue1
 {
 	_STL::_Deque_base<BfmeE16, _STL::allocator<BfmeE16> > m_base;
