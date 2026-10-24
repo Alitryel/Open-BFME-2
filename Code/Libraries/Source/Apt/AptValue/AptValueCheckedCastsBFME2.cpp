@@ -237,8 +237,11 @@ BfmeAptValue006DCD20 *BfmeAptValue006DCD20::rva006DD2E0()
 {
     if (!static_cast<unsigned char>(isLoadVars())) {
         g_bfmeAptAssertAtE17734("isLoadVars()", "c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptValue/AptValue.inl", 0x4E1);
-        if (g_bfmeAptBreakOnAssertAtDDC01C)
-            __asm int 3
+        if (g_bfmeAptBreakOnAssertAtDDC01C) {
+            _ReadWriteBarrier();
+            __debugbreak();
+            _ReadWriteBarrier();
+        }
     }
     return this;
 }
