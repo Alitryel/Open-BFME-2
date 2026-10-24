@@ -1,5 +1,5 @@
 // cl: /MD /O1 /arch:SSE /G7
-// ?rva0055B39C@Rva0055B39C@@QAEXXZ @0x0055B39C 61B
+// ?computeAlphaRate@Rva0055B39C@@QAEXXZ @0x0055B39C 61B
 // FX interpolation between keyframes at +4 with result at +0x54.
 // Evidence: thiscall 0 args ret void; xorps/movss zero path plus fld/fsub/fild/fadd/fdivp;
 // caller 0x0055B489 passes ecx=esi and compares index at +0x58 against 8;
@@ -48,7 +48,7 @@ struct Rva0055B39CPair
 class Rva0055B39C
 {
 public:
-	void rva0055B39C();
+	void computeAlphaRate();
 	void rva0055B489();
 private:
 	char m_pad0[4];
@@ -68,7 +68,7 @@ private:
 	};
 };
 
-void Rva0055B39C::rva0055B39C()
+void Rva0055B39C::computeAlphaRate()
 {
 	unsigned int idx = m_index;
 	unsigned int next = m_pairs[idx + 2].frame;
@@ -99,7 +99,7 @@ void Rva0055B39C::rva0055B489()
         {
             m_time = m_pairs[m_index + 1].value;
             ++m_index;
-            rva0055B39C();
+            computeAlphaRate();
         }
     }
     else

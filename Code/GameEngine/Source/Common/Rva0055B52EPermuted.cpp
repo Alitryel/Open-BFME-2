@@ -3,7 +3,7 @@
 // ??0Rva0055B52E@@QAE@IPBURva0055B52ESrc@@@Z, retail 0x0055b52e, 145 bytes. Banked partial (score 0.93) closed by tools/permute.py;
 // the body is the banked one up to statement/operand order and local types.
 // Ctor via rowed base 0x0055BCD2 plus member 0x0055B32B plus 8x getValue fill plus rowed 0x0055B39C.
-// Evidence: thiscall 2 args ret 8; calls rowed ??0Rva0055BCD2@@QAE@I@Z 0x0055BCD2 and ??0Rva0055B32B@@QAE@XZ 0x0055B32B and ?getValue@GameClientRandomVariable@@QBEMXZ 0x002341A1 and ?rva0055B39C@Rva0055B39C@@QAEXXZ 0x0055B39C; vtable VA 0x00C1D11C plus member VA 0x0081D10C plus s_slot3E4first; caller 0x003AC905; neighbours 0x0055B44D 0x0055B5BF same FXParticleSystem.
+// Evidence: thiscall 2 args ret 8; calls rowed ??0Rva0055BCD2@@QAE@I@Z 0x0055BCD2 and ??0Rva0055B32B@@QAE@XZ 0x0055B32B and ?getValue@GameClientRandomVariable@@QBEMXZ 0x002341A1 and ?computeAlphaRate@Rva0055B39C@@QAEXXZ 0x0055B39C; vtable VA 0x00C1D11C plus member VA 0x0081D10C plus s_slot3E4first; caller 0x003AC905; neighbours 0x0055B44D 0x0055B5BF same FXParticleSystem.
 class Rva0055BCD2
 {
 public:
@@ -40,7 +40,7 @@ public:
 class Rva0055B39C
 {
 public:
-	void rva0055B39C();
+	void computeAlphaRate();
 };
 
 // The retail table at RVA 0x0081D11C: 6 slots, each a rowed code owner (the next
@@ -104,7 +104,7 @@ Rva0055B52E::Rva0055B52E(unsigned int a, const Rva0055B52ESrc *src)
 	} while (--n != 0);
 	m_time = m_member.m_keys[0].m_value;
 	m_index = 1;
-	((Rva0055B39C *)this)->rva0055B39C();
+	((Rva0055B39C *)this)->computeAlphaRate();
 }
 
 // Placeholder names this unit's own object settles.  In retail each one holds
