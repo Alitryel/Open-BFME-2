@@ -4623,3 +4623,4 @@ Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp|function|0x004FDC
 Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp|function|0x004FDD36|rva004FDD36,4a4a8b96a7010e4c34324cec,gpt-6.1-sol,codexb-20261024-104106-4,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp|function|0x004CFBC2|rva004CFBC2,698d5504ed067fa71bbaebf6,gpt-6.1-sol,codexb-20261024-104106-4,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp|function|0x004CFB8B|rva004CFB8B,e369679386a9d24e1dae8b83,gpt-6.1-sol,codexb-20261024-104106-4,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/BfmeFreeOneJT.cpp|function|0x001B6410|bfmeFreeOneJT,53a69e64614e5af8b81a8caa,claude-opus-5-5,pensive1,w-6ab859af5514,2026-10-24
