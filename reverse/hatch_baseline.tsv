@@ -36610,7 +36610,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWLib/wwfont.cpp	WWFontClass::Se
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/wwfont.cpp	WWFontClass::Set_YSpacing	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/wwfont.cpp	WWFontClass::String_Pixel_Width	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/wwfont.cpp	WWFontClass::WWFontClass	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/wwstring_ctor_int_bool.cpp	bfmeEmitwwstring_ctor_int_bool@@YAXPAVStringClass@@H_N@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/xsurface.cpp	Blit_From@XSurface@@	3
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/xsurface.cpp	Blit_Plain@XSurface@@SA_NAAVSurface@@ABV?$TRect@H@@ABV2@1@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/xsurface.cpp	Blit_Trans@XSurface@@SA_NAAVSurface@@ABV?$TRect@H@@ABV2@1@Z	1
