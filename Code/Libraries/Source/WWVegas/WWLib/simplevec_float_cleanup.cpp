@@ -88,6 +88,16 @@ inline bool SimpleDynVecClass<T>::Add(T const & object, int new_size_hint)
 	return true;
 }
 
+// Add calls Grow and nothing else defines Grow<float>: retail's call lands on
+// the one folded copy at 0x001001D5, simplevec.h's body for every element type.
+template<class T>
+inline bool SimpleDynVecClass<T>::Grow(int new_size_hint)
+{
+	int new_size = MAX(Length() + Length()/4, Length() + 4);
+	new_size = MAX(new_size, new_size_hint);
+	return Resize(new_size);
+}
+
 // LINK-COMDAT 2026-10-02: this TU owns only the two dtors, the two deleting
 // dtors and Add. A whole-class instantiation emitted its own /O1 copies of 8
 // inline members (both ctors, Delete_All, Grow, both Resizes, Shrink,
@@ -98,3 +108,4 @@ inline bool SimpleDynVecClass<T>::Add(T const & object, int new_size_hint)
 template SimpleVecClass<float>::~SimpleVecClass();
 template SimpleDynVecClass<float>::~SimpleDynVecClass();
 template bool SimpleDynVecClass<float>::Add(float const &, int);
+template bool SimpleDynVecClass<float>::Grow(int);
