@@ -4194,3 +4194,4 @@ Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|function|0x005E39A6|rva
 Code/Libraries/Source/WWVegas/WW3D2/FXShaderParameterBinderPushDynamicSetStackName.cpp|local|FXShaderParameterBinder::PushDynamicSetStack|c6c,c5c5bee4ab063fb5b11916e4,gpt-6.1-sol,codexb-20261024-080617-9,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|param|W3DTerrainLogic::Rva0027D77D|a,5f1bfb7367486c035362812c,gpt-6.1-sol,codexb-20261024-080617-11,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|param|W3DTerrainLogic::Rva0027D77D|b,592ec8da378e7a4659edc21c,gpt-6.1-sol,codexb-20261024-080617-11,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva005E51D3Wrap.cpp|member|Rva005E51D3Inner|m_4,a33451b9466128be2538638a,gpt-6.1-sol,codex8-20261024-074401-3,w-de56e563a50b,2026-10-24
