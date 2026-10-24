@@ -80,3 +80,11 @@ The normal whole-file gate passes all36 function rows and the data row,
 46 string literals and all4 EH records through the normal commit hook.
 Other bodies retain their native bytes; identity, ABI, flags and data owners
 are unchanged. Whole-unit published-index link preview passes.
+
+## ?rva006D59F0@EAStringC@@QAEAAV1@PBD@Z, RVA0x006D59F0, 348 bytes
+
+This body now uses the genuine breakpoint intrinsic.
+The normal whole-file gate passes all36 function rows and the data row,
+46 string literals and all4 EH records through the normal commit hook.
+Other bodies retain their native bytes; identity, ABI, flags and data owners
+are unchanged. Whole-unit published-index link preview passes.
