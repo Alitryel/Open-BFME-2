@@ -12,7 +12,7 @@ struct Coord3D;
 enum ObjectStatusTypes;
 class Object { public: bool rva0028B35B(const Object *) const; bool testStatus(ObjectStatusTypes) const; };
 struct Rva0028E84ATemplatePrefix {
- char pad00[0x108]; unsigned char kinds108;
+ char pad00[0x108]; unsigned char m_kindOf;
 };
 struct Rva0028E84AObjectPrefix {
  unsigned word00; const Rva0028E84ATemplatePrefix *objectTemplate;
@@ -36,7 +36,7 @@ public:
 private:
  char pad00[4]; unsigned word04;
  char pad08[0x1d4-8]; void **behaviors;
- char pad1d8[0x204-0x1d8]; unsigned word204;
+ char pad1d8[0x204-0x1d8]; unsigned m_containedBy;
  char pad208[0x414-0x208]; unsigned word414;
 };
 bool Rva0028C0E3Receiver::geometryTest(const Object *other,unsigned,unsigned) const {
@@ -54,8 +54,8 @@ bool Rva0028C0E3Receiver::geometryTest(const Object *other,unsigned,unsigned) co
 unsigned Rva0028C0E3Receiver::rva0028E84A() const {
  const Rva0028E84ATemplatePrefix *data=
   ((const Rva0028E84AObjectPrefix *)((const char *)this-0x70))->objectTemplate;
- if(data->kinds108 & 4)return 1;
- if(word204)return word204;
+ if(data->m_kindOf & 4)return 1;
+ if(m_containedBy)return m_containedBy;
  return reinterpret_cast<unsigned>(this)-0x70;
 }
 

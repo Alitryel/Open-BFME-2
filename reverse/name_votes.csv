@@ -4804,3 +4804,16 @@ Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|local|ThingFactory::newDrawable
 Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|local|ThingFactory::newDrawable|p,275e6117ada32078f3949d9e,seat-b,rn-1024b-4-b,w-3fe36ed48814,2026-10-24
 Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|local|ThingFactory::newDrawable|o,71da7d3d4e9f51da3993126f,seat-b,rn-1024b-4-b,w-3fe36ed48814,2026-10-24
 Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|global||g_00DFF004,7842c4afd60be0deea88b14c,seat-b,rn-1024b-4-b,w-3fe36ed48814,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|class||Rva0028E84AObjectPrefix,dd005211dffdec0379b7e6de,seat-a,rn-1024b-2-a,w-3691b18763bf,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|class||Rva0028E868OtherPrefix,cc193bc5d4f231e06542d2b3,seat-a,rn-1024b-2-a,w-3691b18763bf,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|class||Rva0028C0E3Receiver,c9f478a00f5ba8d242f8204d,seat-a,rn-1024b-2-a,w-3691b18763bf,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|member|Rva0028E84ATemplatePrefix|kinds108,31efa8b49b1d020b4ba0987d,seat-a,rn-1024b-2-a,w-3691b18763bf,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|member|Rva0028E868OtherPrefix|word74,67372aae68a747c132f44f0e,seat-a,rn-1024b-2-a,w-3691b18763bf,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|member|Rva0028C0E3Receiver|word04,10de728e6cd2f60b2eb64b63,seat-a,rn-1024b-2-a,w-3691b18763bf,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|member|Rva0028C0E3Receiver|word204,3fe8518df384b7710e79dbdc,seat-a,rn-1024b-2-a,w-3691b18763bf,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|class||Rva0028E84AObjectPrefix,dd005211dffdec0379b7e6de,seat-b,rn-1024b-2-b,w-96d412cd30a0,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|class||Rva0028E868OtherPrefix,cc193bc5d4f231e06542d2b3,seat-b,rn-1024b-2-b,w-96d412cd30a0,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|class||Rva0028C0E3Receiver,c9f478a00f5ba8d242f8204d,seat-b,rn-1024b-2-b,w-96d412cd30a0,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|member|Rva0028E84ATemplatePrefix|kinds108,31efa8b49b1d020b4ba0987d,seat-b,rn-1024b-2-b,w-96d412cd30a0,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|member|Rva0028E868OtherPrefix|word74,67372aae68a747c132f44f0e,seat-b,rn-1024b-2-b,w-96d412cd30a0,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|member|Rva0028C0E3Receiver|word204,3fe8518df384b7710e79dbdc,seat-b,rn-1024b-2-b,w-96d412cd30a0,2026-10-24
