@@ -51,14 +51,14 @@ private:
 // ?rva002860CF@Rva002860CFHost@@QAEXURva002860CFIterator@@@Z
 void Rva002860CFHost::rva002860CF(Rva002860CFIterator it)
 {
-	_STL::_Rb_tree_node_base *s = _STL::_Rb_global<bool>::_Rebalance_for_erase(
+	_STL::_Rb_tree_node_base *node = _STL::_Rb_global<bool>::_Rebalance_for_erase(
 		it.m_node,
 		*(_STL::_Rb_tree_node_base **)((char *)m_ptr + 4),
 		*(_STL::_Rb_tree_node_base **)((char *)m_ptr + 8),
 		*(_STL::_Rb_tree_node_base **)((char *)m_ptr + 12));
-	Rva002860CFVirt *pm = &((Rva002860CFS *)s)->m_10;
+	Rva002860CFVirt *pm = &((Rva002860CFS *)node)->m_10;
 	pm->v2C(0);
-	if (s != 0)
-		Rva00030830GameFree(s);
+	if (node != 0)
+		Rva00030830GameFree(node);
 	m_4--;
 }
