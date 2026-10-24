@@ -115,7 +115,8 @@ def no_checks(ctx, plan):
 
 
 def apply(root, **kw):
-    args = SimpleNamespace(retry_blocked=kw.get("retry_blocked", False), lead=2, min_models=1, claim=False)
+    args = SimpleNamespace(retry_blocked=kw.get("retry_blocked", False), lead=2, min_models=1, claim=False,
+                           only_labels=kw.get("only_labels"))
     return name_lane.cmd_apply(lane_of(root), args, verify=kw.get("verify", ok_verify), checks=no_checks)
 
 
@@ -290,6 +291,137 @@ def test_apply_lands_through_rename(tree, tmp_path):
     assert {b["evidence"] for b in basis} == {f"agree:{states[k]['id']}" for k in (FN_KEY, MEMBER_KEY, PARAM_KEY)}
     assert any(r["name"] == "?sumBox@@YAHPAURva00401000Box@@H@Z" for r in rows(tree, "reverse/functions.csv"))
     assert any(r["name"] == FN for r in rows(tree, "reverse/deleted_rows.csv"))
+
+
+# ---------------------------------------------------------------- apply --only-labels
+
+MEMBER_ANSWER = {"Rva00401000Box::m_x2C": "m_width"}
+FN_ANSWER = {"rva00401000": "sumBox"}
+
+
+def voters(tree, tmp_path, key_answer, labels, tag="v"):
+    """One seat per label votes the same answers (a worker per label and tag)."""
+    for i, label in enumerate(labels):
+        vote(tree, tmp_path, f"{tag}{i}", key_answer, label)
+
+
+def agreed_keys(tree):
+    return {r["key"] for r in rows(tree, name_lane.AGREED)}
+
+
+def test_only_labels_applies_all_own_voters(tree, tmp_path, capsys):
+    voters(tree, tmp_path, MEMBER_ANSWER, ["seat-a", "seat-b"])
+    assert apply(tree, only_labels="seat-a,seat-b") == 0
+    assert "int m_width;" in (tree / SOURCE).read_text()
+    assert name_lane.Lane(tree).state()[MEMBER_KEY]["status"] == "landed"
+    assert "0 key(s) with a voter outside" in capsys.readouterr().out
+
+
+def test_only_labels_skips_mixed_and_foreign_voters_untouched(tree, tmp_path, capsys):
+    voters(tree, tmp_path, MEMBER_ANSWER, ["seat-a", "other-x"])       # one outside voter
+    voters(tree, tmp_path, FN_ANSWER, ["other-x", "other-y"], tag="w")  # nobody of ours
+    assert agreed_keys(tree) == {MEMBER_KEY, FN_KEY}
+    before_text, before_agreed = (tree / SOURCE).read_bytes(), (tree / name_lane.AGREED).read_bytes()
+    assert apply(tree, only_labels="seat-a, seat-b") == 0
+    assert (tree / SOURCE).read_bytes() == before_text
+    assert (tree / name_lane.AGREED).read_bytes() == before_agreed      # nothing written: no blocked, no stale
+    assert {k: r["status"] for k, r in name_lane.Lane(tree).state().items()} == {MEMBER_KEY: "agreed",
+                                                                                  FN_KEY: "agreed"}
+    assert "2 key(s) with a voter outside" in capsys.readouterr().out
+    assert not rows(tree, "reverse/name_basis.csv")
+    # whoever applies without the filter still lands them
+    apply(tree)
+    assert {r["status"] for r in name_lane.Lane(tree).state().values()} == {"landed"}
+
+
+def test_only_labels_lands_own_key_and_leaves_the_other(tree, tmp_path):
+    voters(tree, tmp_path, MEMBER_ANSWER, ["seat-a", "seat-b"])
+    voters(tree, tmp_path, FN_ANSWER, ["seat-a", "other-x"], tag="w")
+    apply(tree, only_labels="seat-a,seat-b")
+    state = name_lane.Lane(tree).state()
+    assert state[MEMBER_KEY]["status"] == "landed" and state[FN_KEY]["status"] == "agreed"
+    assert "int sumBox(" not in (tree / SOURCE).read_text()
+
+
+def test_only_labels_skips_a_lead_that_rests_on_an_outside_voter(tree, tmp_path):
+    # one seat of ours and two outside voters agree against a rival seat of ours: 3 vs 1 wins only with them
+    voters(tree, tmp_path, FN_ANSWER, ["seat-a"], tag="a")
+    vote(tree, tmp_path, "r0", {"rva00401000": "addBoxWidth"}, "seat-b")
+    voters(tree, tmp_path, FN_ANSWER, ["other-x", "other-y"], tag="o")   # 3 vs 1: wins at lead 2
+    assert agreed_keys(tree) == {FN_KEY}
+    apply(tree, only_labels="seat-a,seat-b")
+    assert name_lane.Lane(tree).state()[FN_KEY]["status"] == "agreed"
+    assert "sumBox" not in (tree / SOURCE).read_text()
+
+
+def test_only_labels_outside_rival_still_counts_against_lead(tree, tmp_path, capsys):
+    vote(tree, tmp_path, "r0", {"rva00401000": "addBoxWidth"}, "other-x")
+    voters(tree, tmp_path, FN_ANSWER, ["seat-a", "seat-b"], tag="a")
+    assert not rows(tree, name_lane.AGREED)                                     # 2 vs 1 is not a win at lead 2
+    voters(tree, tmp_path, FN_ANSWER, ["seat-a"], tag="c")                      # a third own worker: 3 vs 1
+    assert agreed_keys(tree) == {FN_KEY}
+    # a late outside voter for the rival makes the lead 3 vs 2: the own-only agreement no longer wins
+    lane_of(tree).append(name_lane.VOTES, name_lane.VOTE_COLUMNS, [
+        {"key": FN_KEY, "hash": name_lane.digest(FN_KEY, "addBoxWidth"), "model": "other-y", "session": "late",
+         "worker": "w-0123456789ab", "date": "2026-10-24"}])
+    apply(tree, only_labels="seat-a,seat-b")
+    assert "votes no longer agree" in capsys.readouterr().out
+    assert name_lane.Lane(tree).state()[FN_KEY]["status"] == "agreed"
+
+
+def test_only_labels_with_retry_blocked(tree, tmp_path):
+    voters(tree, tmp_path, MEMBER_ANSWER, ["seat-a", "seat-b"])
+    voters(tree, tmp_path, FN_ANSWER, ["seat-a", "other-x"], tag="w")
+    apply(tree, verify=lambda ctx, sources: False)                              # both blocked
+    assert {r["status"] for r in name_lane.Lane(tree).state().values()} == {"blocked"}
+    count = len(rows(tree, name_lane.AGREED))
+    apply(tree, only_labels="seat-a,seat-b")                                    # no retry: nothing waiting
+    assert len(rows(tree, name_lane.AGREED)) == count
+    apply(tree, retry_blocked=True, only_labels="seat-a,seat-b")
+    state = name_lane.Lane(tree).state()
+    assert state[MEMBER_KEY]["status"] == "landed" and state[FN_KEY]["status"] == "blocked"
+    assert len(rows(tree, name_lane.AGREED)) == count + 1                       # the outside key got no row
+
+
+def test_only_labels_needs_labels(tree, tmp_path):
+    voters(tree, tmp_path, MEMBER_ANSWER, ["seat-a", "seat-b"])
+    with pytest.raises(SystemExit):
+        apply(tree, only_labels=" , ")
+
+
+def test_status_counts_waiting_keys_the_filter_selects(tree, tmp_path, capsys):
+    voters(tree, tmp_path, MEMBER_ANSWER, ["seat-a", "seat-b"])
+    voters(tree, tmp_path, FN_ANSWER, ["seat-a", "other-x"], tag="w")
+    args = SimpleNamespace(metric=False, only_labels="seat-a,seat-b", lead=2, min_models=1)
+    assert name_lane.cmd_status(lane_of(tree), args) == 0
+    out = capsys.readouterr().out
+    assert "waiting 2" in out and "would select 1 of 2 waiting" in out
+    args.only_labels = None
+    name_lane.cmd_status(lane_of(tree), args)
+    assert "would select" not in capsys.readouterr().out
+
+
+def test_default_apply_still_lands_other_contributors_agreements(tree, tmp_path):
+    voters(tree, tmp_path, MEMBER_ANSWER, ["other-x", "other-y"])
+    apply(tree)
+    assert name_lane.Lane(tree).state()[MEMBER_KEY]["status"] == "landed"
+
+
+def test_cli_parses_only_labels():
+    import argparse
+    seen = {}
+    lane = SimpleNamespace()
+    orig_apply, orig_status = name_lane.cmd_apply, name_lane.cmd_status
+    try:
+        name_lane.cmd_apply = lambda l, a: seen.setdefault("apply", a) and 0
+        name_lane.cmd_status = lambda l, a: seen.setdefault("status", a) and 0
+        name_lane.main(["apply", "--only-labels", "seat-a,seat-b", "--retry-blocked"], lane=lane)
+        name_lane.main(["status", "--only-labels", "seat-a"], lane=lane)
+        name_lane.main(["apply"], lane=lane)
+    finally:
+        name_lane.cmd_apply, name_lane.cmd_status = orig_apply, orig_status
+    assert seen["apply"].only_labels == "seat-a,seat-b" and seen["apply"].retry_blocked
+    assert seen["status"].only_labels == "seat-a" and seen["status"].lead == 2 and seen["status"].min_models == 1
 
 
 def test_apply_blocked_restores(tree, tmp_path):

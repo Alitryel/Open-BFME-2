@@ -377,9 +377,9 @@ the `zh_sweep`/`bfme1_sweep` caches that already exist.
 
     python3 tools/name_lane.py next --session S --model M [--count N] [--file F] [--list-only]
     python3 tools/name_lane.py submit ANSWER.json --session S --model M
-    python3 tools/name_lane.py apply [--retry-blocked] [--lead 2] [--min-models 1]
+    python3 tools/name_lane.py apply [--retry-blocked] [--lead 2] [--min-models 1] [--only-labels L,L]
     python3 tools/name_lane.py dispute KEY... --reason TEXT
-    python3 tools/name_lane.py status [--metric]
+    python3 tools/name_lane.py status [--metric] [--only-labels L,L]
 
 `next` serves one matched, non-generated source with the placeholders that
 this file alone decides. That covers the functions it owns rows for, the classes only it defines and their
@@ -392,6 +392,19 @@ wrong name misleads. If a stand-in type *is* a class that a game or Zero Hour
 header declares, answer that class's name. `apply` lands each agreed key
 through `rename.py` with `--basis inferred --evidence agree:<id>`, and appends
 `landed`, `blocked` or `stale` to `reverse/name_agreed.csv`.
+
+`apply` lands every agreed key, including agreements that only other
+contributors' voters reached. A pass that should land only its own seats'
+agreements runs `apply --only-labels seat-a,seat-b` (the `--model` labels the seats
+voted under). A key is then applied only when every worker that voted its winning
+spelling carries one of those labels. A key whose winning spelling has any other
+voter, or whose lead over a rival rests on one, is left untouched. It stays
+`waiting` for whoever applies it, is neither blocked nor stale, and gets no row in
+`name_agreed.csv`. Rivals count against the lead whoever cast them, and
+`--retry-blocked` works with the filter. `status --only-labels seat-a,seat-b` prints how many
+waiting keys the filter would select (pass the same `--lead` and `--min-models`;
+it does not read the source, so `apply` may still find a selected key stale).
+Without the option `apply` behaves as before.
 
 ## The two-agent rule
 

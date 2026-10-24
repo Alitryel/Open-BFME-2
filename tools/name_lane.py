@@ -15,9 +15,9 @@ and never misleading.
 
     python3 tools/name_lane.py next --session S --model M [--count N] [--file F] [--list-only]
     python3 tools/name_lane.py submit ANSWER.json --session S --model M
-    python3 tools/name_lane.py apply [--retry-blocked] [--lead 2] [--min-models 1]
+    python3 tools/name_lane.py apply [--retry-blocked] [--lead 2] [--min-models 1] [--only-labels L,L]
     python3 tools/name_lane.py dispute KEY... --reason TEXT
-    python3 tools/name_lane.py status
+    python3 tools/name_lane.py status [--only-labels L,L] [--lead 2] [--min-models 1]
 
 `next` serves one matched, non-generated Code/ source with the identifiers
 that file alone decides -- functions it owns rows for, classes only it
@@ -60,6 +60,21 @@ puts landed names back through rename.py's own reversal entry point
 (rename.revert: the exact inverse of the recorded inferred rename, recorded
 append-only as basis `restored`), records the reason, and refuses that
 spelling for the key from then on.
+
+`apply` lands every waiting key whose votes win, including agreements that
+only other contributors' voters reached. `apply --only-labels seat-a,seat-b`
+restricts a pass to agreements reached by its own seats: a key is applied only
+when EVERY worker that voted the winning spelling voted under one of the listed
+`--model` labels (the vote's label is its `model` column; labels are matched
+after the same normalisation `--model` gets). A key whose winning spelling has
+any voter outside the list -- including one whose lead over a rival rests on
+such a voter -- is left untouched: it stays `waiting` for whoever applies it,
+is not marked blocked or stale, and nothing is written for it in
+name_agreed.csv. Rival spellings count against the lead whoever voted them, as
+without the filter. `--retry-blocked` composes with the filter. `status
+--only-labels ...` reports how many waiting keys the filter would select (under
+the same `--lead`/`--min-models`; it does not look at the source, so a key that
+`apply` would find stale is still counted). Without the option nothing changes.
 
 name_agreed.csv columns: id,kind,old,new,rva,agents,key,status,detail -- the
 first six are rename.py's agreement record, `new` is the agreed name, `key`
@@ -114,6 +129,19 @@ def fail(message):
 canon = name_agreement.canon
 digest = name_agreement.digest
 wins = name_agreement.wins
+
+
+def label_list(text):
+    """--only-labels: a comma-separated list of voter labels, normalised like --model."""
+    labels = {model_id(part) for part in (text or "").split(",") if part.strip()}
+    if not labels:
+        fail(f"--only-labels {text!r}: pass the labels your seats vote under, e.g. seat-a,seat-b")
+    return labels
+
+
+def own_voters(mine, labels):
+    """True when `mine` ({worker: label}) has voters and every one carries a listed label."""
+    return bool(mine) and all(label in labels for label in mine.values())
 
 
 def refuted(key, canons):
@@ -711,6 +739,7 @@ def rename_kwargs(kind, scope, old, new, rva, rel):
 
 def cmd_apply(lane, args, *, verify=rename.build_verify, checks=rename.ledger_checks):
     state, tally, refused = lane.state(), lane.tally(), lane.disputed()
+    only = label_list(args.only_labels) if getattr(args, "only_labels", None) else None
     todo = collections.defaultdict(list)
     for key, row in state.items():
         if row["status"] == "agreed" or (args.retry_blocked and row["status"] == "blocked"):
@@ -718,7 +747,7 @@ def cmd_apply(lane, args, *, verify=rename.build_verify, checks=rename.ledger_ch
     if not todo:
         print("name_lane: nothing agreed is waiting to land.")
         return 0
-    landed = blocked = stale = 0
+    landed = blocked = stale = outside = 0
     for rel, rows in sorted(todo.items()):
         live = {key_of(rel, k, s, i) for k, s, i, _ in lane.owned(rel)} if lane.text(rel) is not None \
             and lane.servable(rel) else set()
@@ -728,6 +757,9 @@ def cmd_apply(lane, args, *, verify=rename.build_verify, checks=rename.ledger_ch
             mine = tally[key].get(digest(key, row["new"]), {})
             gone = refuted(key, refused.get(key, ()))
             rivals = [v for h, v in tally[key].items() if h != digest(key, row["new"]) and h not in gone]
+            if only and not own_voters(mine, only):
+                outside += 1             # not this pass's agreement: no row, no message per key
+                continue
             outcome = dict(row, detail="")
             if key not in live:
                 outcome.update(status="stale", agents="", detail="the file changed or the placeholder is gone")
@@ -750,6 +782,9 @@ def cmd_apply(lane, args, *, verify=rename.build_verify, checks=rename.ledger_ch
             lane.append(AGREED, AGREED_COLUMNS, [outcome])
     print(f"name_lane: landed {landed}, blocked {blocked}, stale {stale}. Stage the files rename.py listed "
           f"and {AGREED}; the lander commits.")
+    if only:
+        print(f"name_lane: --only-labels {','.join(sorted(only))}: {outside} key(s) with a voter outside those "
+              "labels left untouched.")
     return 0
 
 
@@ -794,6 +829,19 @@ def cmd_status(lane, args):
     print(f"keys voted: {len({v['key'] for v in votes}):,}; agreed: {len(state)} (landed {count['landed']}, "
           f"waiting {count['agreed']}, blocked {count['blocked']}, stale {count['stale']}, "
           f"disputed {count['disputed']})")
+    if getattr(args, "only_labels", None):
+        only, tally, refused = label_list(args.only_labels), lane.tally(), lane.disputed()
+        picked = 0
+        for key, row in state.items():
+            if row["status"] != "agreed":
+                continue
+            h = digest(key, row["new"])
+            gone = refuted(key, refused.get(key, ()))
+            rivals = [v for h2, v in tally[key].items() if h2 != h and h2 not in gone]
+            mine = tally[key].get(h, {})
+            picked += wins(mine, rivals, lead=args.lead, min_models=args.min_models) and own_voters(mine, only)
+        print(f"--only-labels {','.join(sorted(only))}: apply would select {picked} of {count['agreed']} "
+              f"waiting key(s) (--lead {args.lead} --min-models {args.min_models})")
     if args.metric:
         names, bad = name_metric.readable()
         print(f"Readable names: {100 * (1 - bad / names):.2f}% ({names - bad:,} of {names:,}); placeholders {bad:,}")
@@ -821,6 +869,8 @@ def main(argv=None, lane=None):
     a.add_argument("--retry-blocked", action="store_true", help="try blocked names again, e.g. after a fix")
     a.add_argument("--lead", type=int, default=2)
     a.add_argument("--min-models", type=int, default=1)
+    a.add_argument("--only-labels", metavar="L,L",
+                   help="land only keys whose winning spelling was voted entirely under these --model labels")
     a.add_argument("--no-claim", dest="claim", action="store_false", help="do not take tools/claims.py claims")
     d = sub.add_parser("dispute", help="put landed names back and refuse them for their keys")
     d.add_argument("keys", nargs="+", help="as name_agreed.csv spells them (source|kind|scope|placeholder)")
@@ -828,6 +878,9 @@ def main(argv=None, lane=None):
     d.add_argument("--no-claim", dest="claim", action="store_false")
     st = sub.add_parser("status", help="votes and agreement counts")
     st.add_argument("--metric", action="store_true", help="also the tree-wide readable-name metric (slow)")
+    st.add_argument("--only-labels", metavar="L,L", help="count the waiting keys apply --only-labels would select")
+    st.add_argument("--lead", type=int, default=2, help="with --only-labels: the lead apply would use")
+    st.add_argument("--min-models", type=int, default=1, help="with --only-labels: the min-models apply would use")
     args = ap.parse_args(argv)
     lane = lane or Lane()
     if args.cmd == "next":
