@@ -1391,10 +1391,10 @@ void Rva001F0778::rva001F0778()
 class Rva00211FA3
 {
 public:
-	void rva00211FA3();
+	~Rva00211FA3();
 };
 
-void Rva00211FA3::rva00211FA3()
+Rva00211FA3::~Rva00211FA3()
 {
 	((Rva0021119B *)this)->~Rva0021119B();
 }

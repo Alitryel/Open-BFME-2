@@ -52,7 +52,18 @@ void Rva00225A79StringField::set(const UnicodeString &unicodeString)
 	((StringBase<unsigned short> *)&m_str)->set((const StringBase<unsigned short> &)unicodeString);
 }
 
-BFME_ASCII_FIELD_CLEAR(Rva0023DC86StringField, 0x18)
+class Rva0023DC86StringField
+{
+public:
+	~Rva0023DC86StringField();
+private:
+	char m_pad[0x18];
+	AsciiString m_str;
+};
+
+Rva0023DC86StringField::~Rva0023DC86StringField()
+{
+}
 BFME_ASCII_FIELD_CLEAR(Rva004B79D3StringField, 0x348)
 BFME_ASCII_FIELD_CLEAR(Rva004B79DEStringField, 0x34C)
 BFME_ASCII_FIELD_CLEAR(Rva0053BB0EStringField, 0x7C)

@@ -240,12 +240,12 @@ struct PtrVector
 class Rva0021397C
 {
 public:
-	void rva0021397C();
+	~Rva0021397C();
 };
 
 struct Vector2A8
 {
-	~Vector2A8() { reinterpret_cast<Rva0021397C *>(this)->rva0021397C(); }
+	~Vector2A8() { reinterpret_cast<Rva0021397C *>(this)->~Rva0021397C(); }
 	void *m_start;
 	void *m_finish;
 	void *m_end;

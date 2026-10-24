@@ -2175,3 +2175,6 @@ _Rva0084DB70,0x00020E30,"Renamed to __Locale_strwxfrm by tools/rename.py (inferr
 ?Rva00792E37ClearFlag@@YAIXZ,0x00792E37,AIPlayer::queueSupplyTruck 0x004F37B0 is matched with an EXACT EH graph (eh_verify). Its natural local-static guard rollback $L8584 maps to native 0x00792E37 and clears guard 0x00A044D0 (VA 0xE044D0) that the parent tests and sets at 0x004F39A9/0x004F39B2. The standalone clearer and separate g_Va00E044D0 duplicate the compiler-owned cleanup and guard; the cleanup is rowed under its parent instead. Precedent Rva00778DA9ClearFlag.
 ??0Rva00073320Method@@QAE@PAVW3DShroud@@@Z,0x00072B55,"Renamed to ??0Rva00072FE1@@QAE@PAVW3DShroud@@@Z: native BC6568 table selects the Rva00072FE1 deleting destructor"
 ??0Rva0026F419@@QAE@XZ,0x0026F419,"Renamed to ??0UpgradeCenter@@QAE@XZ: installs the table shared by the named UpgradeCenter destructor"
+?rva0021397C@Rva0021397C@@QAEXXZ,0x0021397C,"Renamed to ??1Rva0021397C@@QAE@XZ: constructor unwind at 0x0076DF08 destroys the vector member at +0x2A8"
+?rva00211FA3@Rva00211FA3@@QAEXXZ,0x00211FA3,"Renamed to ??1Rva00211FA3@@QAE@XZ: constructor unwind at 0x0076DF16 destroys the map member at +0x2B4"
+?clear@Rva0023DC86StringField@@QAEXXZ,0x0023DC86,"Renamed to ??1Rva0023DC86StringField@@QAE@XZ: GameLogic destructor destroys eight 0x1C-byte records through this callback"
