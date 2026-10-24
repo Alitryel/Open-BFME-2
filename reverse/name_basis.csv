@@ -1167,3 +1167,6 @@ param,Drawable::rva00272D77::a,Drawable::rva00272D77::frames,inferred,agree:nl-8
 local,Drawable::rva00272C9E::v,Drawable::rva00272C9E::opacity,inferred,agree:nl-4791fc6dc679,Code/GameEngine/Source/GameClient/DrawableFade.cpp,0x00272C9E
 local,Drawable::reactToTransformChange::l,Drawable::reactToTransformChange::listener,inferred,agree:nl-2284cbbfabc3,Code/GameEngine/Source/GameClient/Drawable_rva00274176.cpp,0x002742E5
 local,Drawable::rva0027434D::r,Drawable::rva0027434D::moduleResult,inferred,agree:nl-a3725a08a136,Code/GameEngine/Source/GameClient/Drawable_rva00274176.cpp,0x0027434D
+param,Rva005CC698::Rva005CC698::a,Rva005CC698::Rva005CC698::level,inferred,agree:nl-dc478428849f,Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/Rva005CC698Ctor.cpp,0x005CC698
+param,Rva005CC698::Rva005CC698::b,Rva005CC698::Rva005CC698::name,inferred,agree:nl-bcda917db5b0,Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/Rva005CC698Ctor.cpp,0x005CC698
+param,Rva005CC698::Rva005CC698::c,Rva005CC698::Rva005CC698::context,inferred,agree:nl-a04a852af6a6,Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/Rva005CC698Ctor.cpp,0x005CC698

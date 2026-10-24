@@ -95,22 +95,22 @@ private:
 	Rva00575674 m_panel;		// +0x08
 };
 
-Rva005CC698::Rva005CC698(void *a, void *b, Rva005CE93EContext *c)
+Rva005CC698::Rva005CC698(void *level, void *name, Rva005CE93EContext *context)
 {
-	int *mode = c->mode();
-	if (c->m_record.m_04)
+	int *mode = context->mode();
+	if (context->m_record.m_04)
 		*mode = 1;
 	else
 	{
-		if (c->m_record.m_08)
+		if (context->m_record.m_08)
 			*mode = 2;
 		if (*mode == 2)
 		{
-			int regionOwner = c->m_record.m_region->m_ownerPlayer;
+			int regionOwner = context->m_record.m_region->m_ownerPlayer;
 			if (regionOwner != ((Rva002B2B66 *)TheLivingWorldLogic)->rva002B2B66())
 				*mode = 0;
 		}
 	}
-	m_panel.rva00575674((Object *)new Rva005CC5C8((int)this, (int)a, *(const AsciiString *)b,
-		c->mode(), (const Rva005CC5C8Context *)c));
+	m_panel.rva00575674((Object *)new Rva005CC5C8((int)this, (int)level, *(const AsciiString *)name,
+		context->mode(), (const Rva005CC5C8Context *)context));
 }
