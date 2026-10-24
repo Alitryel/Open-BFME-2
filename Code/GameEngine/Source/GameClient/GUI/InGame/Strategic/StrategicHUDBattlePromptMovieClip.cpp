@@ -51,6 +51,19 @@ template<> __declspec(noinline) inline void _Destroy<Rva005FA1CEElement *>(Rva00
 template<> inline void allocator<BfmeStringRecord005F93E3>::deallocate(BfmeStringRecord005F93E3 *p,size_t) const {if(p)::free(p);}
 template<> void vector<BfmeStringRecord005F93E3>::push_back(const BfmeStringRecord005F93E3 &);
 }
+// Retail's 4-byte vectors share one clear worker (0x00577EF1, rowed as
+// vector<Rva002B9062Element>::_M_clear in StlportVectorClearRva00577EF1.cpp);
+// the page vectors' _M_insert_overflow copies call it through this view.
+struct Rva002B9062Element;
+namespace _STL { template <> void vector<Rva002B9062Element, allocator<Rva002B9062Element> >::_M_clear(); }
+struct Rva002B9062ClearAccess : _STL::vector<Rva002B9062Element>
+{
+	__forceinline void clearWorker() { _M_clear(); }
+};
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void vector<Rva005FA197Element, allocator<Rva005FA197Element> >::_M_clear() { ((Rva002B9062ClearAccess *)this)->clearWorker(); }
+template <> __declspec(dllimport) __forceinline void vector<Rva005FA1CEElement, allocator<Rva005FA1CEElement> >::_M_clear() { ((Rva002B9062ClearAccess *)this)->clearWorker(); }
+}
 namespace AptUtils { const char *__cdecl SkipLevelN(const char *); }
 namespace AptUtils { int __cdecl LevelIndexFromTarget(const char *); }
 class Object;
