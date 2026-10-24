@@ -34,25 +34,25 @@ class FontCharsClass
 {
 	const FontCharsClassCharDataStruct *Get_Char_Data(unsigned short ch);
 public:
-	void rva001588A0(unsigned short ch, unsigned short *dest_ptr, int dest_stride, int x, int y);
+	void Blit_Char_Thai(unsigned short ch, unsigned short *dest_ptr, int dest_stride, int destX, int destY);
 private:
 	char m_pad00[0x2C];
 	int CharHeight;
 };
 
-// ?rva001588A0@FontCharsClass@@QAEXGPAGHHH@Z
-void FontCharsClass::rva001588A0(unsigned short ch, unsigned short *dest_ptr, int dest_stride, int x, int y)
+// ?Blit_Char_Thai@FontCharsClass@@QAEXGPAGHHH@Z
+void FontCharsClass::Blit_Char_Thai(unsigned short ch, unsigned short *dest_ptr, int dest_stride, int destX, int destY)
 {
 	unsigned int *dest = reinterpret_cast<unsigned int *>(dest_ptr);
 	FontCharsClassCharDataStruct const *data = Get_Char_Data(ch);
 	if (data != 0 && data->Width != 0) {
-		x += data->ExtraSpacing;
-		if (x < 0) {
-			x = 0;
+		destX += data->ExtraSpacing;
+		if (destX < 0) {
+			destX = 0;
 		}
 		int dest_inc = dest_stride >> 2;
 		unsigned short *src_ptr = data->Buffer;
-		dest += (dest_inc * y) + x;
+		dest += (dest_inc * destY) + destX;
 
 		for (int row = 0; row < CharHeight; row++) {
 			for (int col = 0; col < data->Width; col++) {

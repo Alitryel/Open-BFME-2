@@ -104,7 +104,7 @@ public:
 	}
     __forceinline int Get_Extra_Overlap(){return pixel_overlap;}
     void Blit_Char(unsigned short,unsigned short *,int,int,int);
-    void rva001588A0(unsigned short,unsigned short *,int,int,int);
+    void Blit_Char_Thai(unsigned short,unsigned short *,int,int,int);
     __forceinline FontCharsClass *AlternateFont(){return *(FontCharsClass **)((char *)this+8);}
     __forceinline int Get_Left_Adjust(unsigned short ch,Vector2 &cursor) {
         const FontCharsClassCharDataStruct *data=Get_Char_Data(ch);
@@ -373,7 +373,7 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
                 }
             }
             // Blit the character to the surface
-            if (!justCalcExtents && !dontBlit) active->rva001588A0(glyphCh,locked,stride,TextureOffset.I,TextureOffset.J);
+            if (!justCalcExtents && !dontBlit) active->Blit_Char_Thai(glyphCh,locked,stride,TextureOffset.I,TextureOffset.J);
             TextureOffset.I+=char_spacing;
         }
         if (locked) reinterpret_cast<Member0C00739C70 *>(&CurSurface)->clear();

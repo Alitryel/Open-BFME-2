@@ -1251,3 +1251,8 @@ param,Rva006CDD50Iterator::b,Rva006CDD50Iterator::rangeBegin,inferred,agree:nl-4
 param,Rva006CDD50Iterator::e,Rva006CDD50Iterator::rangeEnd,inferred,agree:nl-59e7b2aa32d0,Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp,
 function,?Rva006CDBF0Resize@@YAPAVAptValueNameEntry@@PAV1@HH@Z,?resizeArray@@YAPAVAptValueNameEntry@@PAV1@HH@Z,inferred,agree:nl-328a1858e1bd,Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp,0x006CDBF0
 function,?Rva0081B000@@YAXXZ,?CommSerialUnresolve@@YAXXZ,inferred,agree:nl-a1af6784cf38,Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp,0x00686F00
+param,FontCharsClass::rva001588A0::x,FontCharsClass::rva001588A0::destX,inferred,agree:nl-52fa48671cc0,Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassRva001588A0.cpp,0x001588A0
+param,FontCharsClass::rva001588A0::y,FontCharsClass::rva001588A0::destY,inferred,agree:nl-f5956a18d9d4,Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassRva001588A0.cpp,0x001588A0
+function,?rva001588A0@FontCharsClass@@QAEXGPAGHHH@Z,?Blit_Char_Thai@FontCharsClass@@QAEXGPAGHHH@Z,inferred,agree:nl-2d139e76ab63,Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassRva001588A0.cpp,0x001588A0
+carry,FontCharsClass::rva001588A0::destX,FontCharsClass::Blit_Char_Thai::destX,inferred,scope renamed by Rename rva001588A0 to Blit_Char_Thai (inferred),Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassRva001588A0.cpp,0x001588A0
+carry,FontCharsClass::rva001588A0::destY,FontCharsClass::Blit_Char_Thai::destY,inferred,scope renamed by Rename rva001588A0 to Blit_Char_Thai (inferred),Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassRva001588A0.cpp,0x001588A0

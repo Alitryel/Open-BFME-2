@@ -2411,3 +2411,4 @@ __ehhandler$?Rva00595C04FormatIPPort@@YA?AVAsciiString@@IG@Z,0x0079D229,"Renamed
 ?Rva006CDBF0Resize@@YAPAVAptValueNameEntry@@PAV1@HH@Z,0x006CDBF0,"Renamed to ?resizeArray@@YAPAVAptValueNameEntry@@PAV1@HH@Z by tools/rename.py (inferred)"
 __ehhandler$?Rva006CDBF0Resize@@YAPAVAptValueNameEntry@@PAV1@HH@Z,0x007A8186,"Renamed to __ehhandler$?resizeArray@@YAPAVAptValueNameEntry@@PAV1@HH@Z by tools/rename.py (inferred)"
 ?Rva0081B000@@YAXXZ,0x00686F00,"Renamed to ?CommSerialUnresolve@@YAXXZ by tools/rename.py (inferred)"
+?rva001588A0@FontCharsClass@@QAEXGPAGHHH@Z,0x001588A0,"Renamed to ?Blit_Char_Thai@FontCharsClass@@QAEXGPAGHHH@Z by tools/rename.py (inferred)"

@@ -8684,7 +8684,7 @@ _GetProcessorFlags,,0x001C4390,169,Code/Libraries/Source/VP6/GetProcessorFlags.c
 ?get@Rva000788FFFloatField@@QBEMXZ,,0x000788FF,7,Code/GameEngine/Source/Common/DispFloatFieldGetters.cpp,matched,BFME1 DispFloatFieldGetters port; 7B fld getter at disp 0x4EC; second of 6-contiguous cluster
 ?get@Rva00078906FloatField@@QBEMXZ,,0x00078906,7,Code/GameEngine/Source/Common/DispFloatFieldGetters.cpp,matched,BFME1 DispFloatFieldGetters port; 7B fld getter at disp 0x4F0; third of 6-contiguous cluster
 ?get@Rva0007890DFloatField@@QBEMXZ,,0x0007890D,7,Code/GameEngine/Source/Common/DispFloatFieldGetters.cpp,matched,BFME1 DispFloatFieldGetters port; 7B fld getter at disp 0x4F4; fourth of 6-contiguous cluster
-?rva001588A0@FontCharsClass@@QAEXGPAGHHH@Z,,0x001588A0,225,Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassRva001588A0.cpp,matched,Opaque nibble-blit twin of Blit_Char with x-bias clamp and unconditional OR; caller in unidentified 0x158E90
+?Blit_Char_Thai@FontCharsClass@@QAEXGPAGHHH@Z,,0x001588A0,225,Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassRva001588A0.cpp,matched,Opaque nibble-blit twin of Blit_Char with x-bias clamp and unconditional OR; caller in unidentified 0x158E90
 ?clear@Rva003B4071@@QAEXXZ,,0x003B4071,48,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtors.cpp,matched,opaque double guarded-delete (second-then-first via member pointers); locals pin regs
 ??1Rva003B4100@@UAE@XZ,,0x003B4100,14,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtors.cpp,matched,opaque dtor explicit clear call on member at +4; helper row 0x3B4071
 ?get@Rva00078914FloatField@@QBEMXZ,,0x00078914,7,Code/GameEngine/Source/Common/DispFloatFieldGetters.cpp,matched,BFME1 DispFloatFieldGetters port; 7B fld getter at disp 0x500; fifth of 6-contiguous cluster
