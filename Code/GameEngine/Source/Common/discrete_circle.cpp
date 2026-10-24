@@ -120,7 +120,7 @@ void DiscreteCircle::generateEdgePairs(Int xCenter, Int yCenter, Int radius)
 	// Uses Bresenham to generate points.
 	Int x = 0;
 	Int y = radius;
-	Int d = (1 - radius) << 1;
+	Int decision = (1 - radius) << 1;
 
 	while (y >= 0) {
 		HorzLine hl;
@@ -129,14 +129,14 @@ void DiscreteCircle::generateEdgePairs(Int xCenter, Int yCenter, Int radius)
 		hl.yPos		= yCenter + y;
 		m_edges.push_back(hl);
 		
-		if (d + y > 0) {
+		if (decision + y > 0) {
 			--y;
-			d -= ((y << 1) - 1);
+			decision -= ((y << 1) - 1);
 		} 
 
-		if (x > d) {
+		if (x > decision) {
 			++x;
-			d += ((x << 1) + 1);
+			decision += ((x << 1) + 1);
 		}
 	}
 }
