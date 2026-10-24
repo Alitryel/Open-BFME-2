@@ -59,7 +59,7 @@ class TerrainResourceManager
 {
 public:
 	bool isCellClaimable(int, int, int, int, bool, int);
-	void tryToClaimCell(int x, int y, int a, ObjectID id, bool exclusive, int *attempts, int *successes);
+	void tryToClaimCell(int cellX, int cellY, int a, ObjectID id, bool exclusive, int *attempts, int *successes);
 
 private:
 	void *m_vtable00;
@@ -70,12 +70,12 @@ private:
 	Rva0035A18D *m_cells; // +0x40
 };
 
-void TerrainResourceManager::tryToClaimCell(int x, int y, int a, ObjectID id, bool exclusive, int *attempts, int *successes)
+void TerrainResourceManager::tryToClaimCell(int cellX, int cellY, int a, ObjectID id, bool exclusive, int *attempts, int *successes)
 {
 	if (m_cells == 0)
 		return;
 	++*attempts;
-	if (!isCellClaimable(x, y, a, id, exclusive, -1))
+	if (!isCellClaimable(cellX, cellY, a, id, exclusive, -1))
 		return;
 	Object *obj = TheGameLogic->findObjectByID(id);
 	if (obj == 0)
@@ -84,7 +84,7 @@ void TerrainResourceManager::tryToClaimCell(int x, int y, int a, ObjectID id, bo
 	if (player == 0)
 		return;
 	int claimerPlayerID = player->m_playerIndex;
-	Rva0035A18D *cell = &m_cells[y * m_width + x];
+	Rva0035A18D *cell = &m_cells[cellY * m_width + cellX];
 	_STL::vector<BfmeE8> *claimants = (_STL::vector<BfmeE8> *)&cell->values;
 	switch (cell->state)
 	{
