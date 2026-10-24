@@ -115,13 +115,13 @@ public:
 	void rva001E30F5(Int assets, Int b);
 private:
 	char m_pad00[0x14C];
-	bool m_14C;
+	bool m_isComplexBuff;
 	char m_pad14D[0x07];
 	Int m_templateName;
 };
 void Rva001E30F5::rva001E30F5(Int assets, Int b)
 {
-	if (!m_14C)
+	if (!m_isComplexBuff)
 	{
 		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(*(const AsciiString *)&m_templateName);
 		if (thingTemplate)
