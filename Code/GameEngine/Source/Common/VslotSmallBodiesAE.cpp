@@ -523,17 +523,17 @@ public:
 class Rva004E06B8Iface
 {
 public:
-	virtual void rva004E06B8(Int a, Int b) = 0;
+	virtual void BeginTurn(Int a, Int b) = 0;
 };
-class Rva004E06B8 : public Rva004E06A7, public Rva004E06B8Iface
+class LivingWorldBuilding : public Rva004E06A7, public Rva004E06B8Iface
 {
 public:
-	void rva004E06B8(Int a, Int b);
+	void BeginTurn(Int a, Int b);
 private:
 	char m_pad08[0x24];
 	Rva005392C2 *m_2C;
 };
-void Rva004E06B8::rva004E06B8(Int a, Int b)
+void LivingWorldBuilding::BeginTurn(Int a, Int b)
 {
 	if (!a)
 	{

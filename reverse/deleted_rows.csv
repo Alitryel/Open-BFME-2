@@ -2208,3 +2208,4 @@ _Rva0084DB70,0x00020E30,"Renamed to __Locale_strwxfrm by tools/rename.py (inferr
 ?Rva00083CD7Clear@@YGXPAVRva00083CB2@@@Z,0x00083CD7,"Renamed to ?rva00083CD7@Rva00083CD7Owner@@QAEXPAVRva00083CB2@@@Z: retail caller 0x000C7A2C loads the track-system receiver in ECX"
 ?name@Rva000B19BDNamed@@QBEPBDXZ,0x000B19BD,"Renamed to ?GetSnapshotName@DrawModule@@UBEPBDXZ: retail DrawModule table 0x007C9690 slot 2 selects its class-name getter"
 ??0Rva003F5F89@@QAE@ABV0@@Z,0x003F5F89,"Renamed to ??0EvaMessageInfo@@QAE@ABU0@@Z: retail element construction at 0x003F62C8 calls this copy constructor"
+?rva004E06B8@Rva004E06B8@@UAEXHH@Z,0x004E06B8,"Renamed to ?BeginTurn@LivingWorldBuilding@@UAEXHH@Z: retail C61610 slot 0 is the LivingWorldBuilding observer callback"

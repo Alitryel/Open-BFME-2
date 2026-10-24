@@ -7,6 +7,8 @@
 // class layout copied from Rva0037BBEDDtor.cpp so sizeof is 0xE7C.
 #include "ascii_string.h"
 #include "unicode_string.h"
+#include "GameLogicObjectLookupView.h"
+template <> int StringBase<unsigned short>::compare(const StringBase<unsigned short> &) const throw();
 
 class Rva0037BB53
 {
@@ -99,8 +101,6 @@ extern GameLogic *TheGameLogic;
 class Rva00241529CRCView
 {
 public:
-    void rva00241529(unsigned int crc, int player, unsigned int frame,
-        void *message, bool forced, void *stream);
     char opaque00[0x71];
     bool crcProcessing71;
 };
@@ -122,7 +122,7 @@ void Rva0037BBED::rva0037D0A7(unsigned int crc, int player, bool fromPlayback, u
     {
         Rva00241529CRCView *logic = reinterpret_cast<Rva00241529CRCView *>(TheGameLogic);
         if (!logic->crcProcessing71)
-            logic->rva00241529(crc, player, frame, 0, false, 0);
+            TheGameLogic->ProcessCRC(crc, player, frame, 0, false, 0);
     }
 }
 
@@ -145,15 +145,6 @@ public:
     unsigned int iniCRC4C;
     char opaque50[8];
     UnicodeString string58;
-};
-// Target's 42B StringBase<unsigned short>::compare wrapper is nonthrowing:
-// it forwards a string buffer/length to the native comparator at 0x000067B1.
-// This opaque ABI view preserves the donor's throw() contract without changing
-// the shared string header or asserting another real name on the folded RVA.
-class Rva00006A7A
-{
-public:
-    int rva00006A7A(const UnicodeString &that) const throw();
 };
 class Version
 {
@@ -181,8 +172,8 @@ bool Rva0037BBED::rva0037D0EF(UnicodeString filename)
     bool success = rva0037CBB6(header);
     if (!success)
         return false;
-    bool versionStringDiff = reinterpret_cast<const Rva00006A7A *>(&header.version44)->rva00006A7A(TheVersion->getFullUnicodeVersion()) != 0;
-    bool versionTimeStringDiff = reinterpret_cast<const Rva00006A7A *>(&header.versionTime48)->rva00006A7A(TheVersion->getUnicodeBuildTime()) != 0;
+    bool versionStringDiff = header.version44.compare(TheVersion->getFullUnicodeVersion()) != 0;
+    bool versionTimeStringDiff = header.versionTime48.compare(TheVersion->getUnicodeBuildTime()) != 0;
     bool exeDifferent = versionStringDiff || versionTimeStringDiff;
     bool iniDifferent = header.iniCRC4C != reinterpret_cast<const RecorderCRCGlobalView *>(TheWritableGlobalData)->iniCRCB04;
     if (exeDifferent || iniDifferent)
