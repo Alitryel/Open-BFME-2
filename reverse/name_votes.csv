@@ -3032,3 +3032,16 @@ Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp|local|Rva00
 Code/GameEngine/Source/GameLogic/Object/ObjectRva0028D796.cpp|local|Rva0028D796::rva0028D796|f,486ed26b38e234db52ea80ce,gpt-6.1-sol,codex8-20261024-054232-12,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/System/LivingWorldRegionBuildingRestrictionParseINI.cpp|local|LivingWorldRegion::ModuleData::BuildingRestriction::ParseINI|p,cf03d23e843e87d501e79078,gpt-6.1-sol,codex8-20261024-054232-13,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/System/LivingWorldRegionBuildingRestrictionParseINI.cpp|global||g_00C36EE0,f95092643dfedf9ddccf9c85,gpt-6.1-sol,codex8-20261024-054232-13,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva003802DF.cpp|local|Rva00380200::rva003802DF|a,de2b19b84dbfbd7db6020741,gpt-6.1-sol,codex8-20261024-054232-14,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva003802DF.cpp|local|Rva00380200::rva003802DF|b,bfb7a2f809dd40f8439a46db,gpt-6.1-sol,codex8-20261024-054232-14,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva003802DF.cpp|local|Rva00380200::rva003802DF|r,05d11e898d224ef1fe3bb405,gpt-6.1-sol,codex8-20261024-054232-14,w-de56e563a50b,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp|local|baseRotate|x,cb8fab977dcf42630fb392a5,gpt-6.1-sol,codex8-20261024-054232-17,w-de56e563a50b,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp|local|baseRotate|y,98b854ced576e0a87dd2b4a8,gpt-6.1-sol,codex8-20261024-054232-17,w-de56e563a50b,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp|local|baseRotate|z,f1e86335bd197c488b3995b5,gpt-6.1-sol,codex8-20261024-054232-17,w-de56e563a50b,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp|local|baseRotate|w,ca9c35cdbc975cfddc8f030c,gpt-6.1-sol,codex8-20261024-054232-17,w-de56e563a50b,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp|param|baseCompose|b,0a107a83bdefb6f7da19bb6f,gpt-6.1-sol,codex8-20261024-054232-17,w-de56e563a50b,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassRva001588A0.cpp|param|FontCharsClass::rva001588A0|x,7381f86edbeabc56f6e44eee,gpt-6.1-sol,codex8-20261024-054232-18,w-de56e563a50b,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassRva001588A0.cpp|param|FontCharsClass::rva001588A0|y,6694b9d33dc75ce1c0f1863b,gpt-6.1-sol,codex8-20261024-054232-18,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva005CD841Visit.cpp|class||Rva005CD841Visitor,ab1a4026d21d5d18a3f020a7,gpt-6.1-sol,codex8-20261024-054232-20,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva005CD841Visit.cpp|function|0x005CD841|Rva005CD841Find,ed043471c816611eed1aab56,gpt-6.1-sol,codex8-20261024-054232-20,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva005CD841Visit.cpp|param|Rva005CD841Find|p,51667b139589d9eef4a734ed,gpt-6.1-sol,codex8-20261024-054232-20,w-de56e563a50b,2026-10-24
