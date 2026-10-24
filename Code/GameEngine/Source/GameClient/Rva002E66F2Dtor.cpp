@@ -32,10 +32,10 @@ public:
 	virtual ~Rva002E66F2Mid() { *(const void **)this = __identifier("??_7Rva002E55D8@@6B@"); }
 };
 
-class Rva002E6551
+class GameTextManager
 {
 public:
-	void rva002E6551();
+	virtual void deinit();
 };
 
 class Rva002E674B
@@ -69,7 +69,7 @@ private:
 
 Rva002E66F2::~Rva002E66F2()
 {
-	((Rva002E6551 *)this)->rva002E6551();
+	((GameTextManager *)this)->GameTextManager::deinit();
 }
 
 // ?rva002E67EA@Rva002E66F2@@QAEAAV?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@ABVAsciiString@@@Z @0x002E67EA 60B

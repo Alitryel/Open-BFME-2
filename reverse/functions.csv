@@ -29581,7 +29581,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?rva005E36A0@Rva005E36A0@@QAEHPAD@Z,,0x005E36A0,37,Code/GameEngine/Source/Common/Rva005E36A0Write.cpp,matched,two-part write via rowed Rva0059B3E9 and AsciiStringRef returns total
 ?copyToBuffer@Rva005E36C5@@QAEHPAD@Z,,0x005E36C5,37,Code/GameEngine/Source/Common/Rva005E36A0Write.cpp,matched,two-part write via rowed Rva005E36A0 and Pair returns total
 ?Rva00441E4DFaction@@YA_NPAXABVAsciiString@@@Z,,0x00441E4D,129,Code/GameEngine/Source/GameClient/GUI/Rva00441E4DFaction.cpp,matched,Faction prefix check via rowed find and caller 0x004426D1
-?rva002E6551@Rva002E6551@@QAEXXZ,,0x002E6551,96,Code/GameEngine/Source/GameClient/Rva002E6551Clear.cpp,matched,chain clears 2c 30 plus 24 list
+?deinit@GameTextManager@@UAEXXZ,,0x002E6551,96,Code/GameEngine/Source/GameClient/Rva002E6551Clear.cpp,matched,chain clears 2c 30 plus 24 list
 ?rva0026F0F0@Rva0026F0F0@@QAEPAXPBX@Z,,0x0026F0F0,42,Code/GameEngine/Source/Common/System/Rva0026F0F0Find.cpp,matched,unlock bitmask list find 8 callers
 ??1Rva0048C200Owner@@QAE@XZ,,0x002019E1,54,Code/GameEngine/Source/Common/Rva0048C200StringOwnerDtor.cpp,matched,dtor abuts ctor E1998 plus two releaseBuffer EH
 ??_GRva0048C200Owner@@QAEPAXI@Z,,0x00201A17,28,Code/GameEngine/Source/Common/FamilyDeletingDtors_muse-02-201A17.cpp,matched,deleting dtor chain from E19E1 QAE
@@ -40596,7 +40596,7 @@ _Rva14AA50VirtualDispatch,,0x0025EDD4,18,Code/GameEngine/Source/Common/Rva14AA50
 ?set@Rva00210CD3ByteSlot@@QAEXE@Z,,0x00210CD3,10,Code/GameEngine/Source/Common/DispArgFieldSettersVslots.cpp,matched,vtable-slot argument setter (unsigned char at +0x20)
 ?set@Rva002B22A5DwordSlot@@QAEXH@Z,,0x002B22A5,10,Code/GameEngine/Source/Common/DispArgFieldSettersVslots.cpp,matched,vtable-slot argument setter (int at +0x14)
 ?set@Rva002E067DDwordSlot@@QAEXH@Z,,0x002E067D,10,Code/GameEngine/Source/Common/DispArgFieldSettersVslots.cpp,matched,vtable-slot argument setter (int at +0x54)
-?set@Rva002E640BDwordSlot@@QAEXH@Z,,0x002E640B,10,Code/GameEngine/Source/Common/DispArgFieldSettersVslots.cpp,matched,vtable-slot argument setter (int at +0x40)
+?setTranslateMode@GameTextManager@@UAEXH@Z,,0x002E640B,10,Code/GameEngine/Source/Common/DispArgFieldSettersVslots.cpp,matched,vtable-slot argument setter (int at +0x40)
 ?rva004B2A60@ReplaceObjectUpdate@@QAEXPAVObject@@@Z,,0x004B2A60,61,Code/GameEngine/Source/GameLogic/Object/Update/ReplaceObjectUpdate.cpp,matched,kill helper of 0x004B2C00: DamageInfo (0x00263895) with source ID +0x08 and flag +0x24; attemptDamage then TheGameLogic->destroyObject
 ?rva000B318D@Rva000B318DForwarder@@QAEXH@Z,,0x000B318D,11,Code/GameEngine/Source/Common/VslotMemberForwarders.cpp,matched,vtable 0x00BCBC40#24 slot forwarder (sub hop)
 ?rva000B3266@Rva000B3266Forwarder@@QAEXXZ,,0x000B3266,11,Code/GameEngine/Source/Common/VslotMemberForwarders.cpp,matched,vtable 0x00BCBC40#28 slot forwarder (sub hop)
@@ -46249,7 +46249,7 @@ _io_debug,,0x00333E42,25,Code/Libraries/Source/Lua/luaB_debug.cpp,matched,placed
 ?eraseRange@Rva00601A3AVectorView@@QAEPAURva00601A3AElement@@PAU2@0@Z,,0x0060194C,38,Code/Libraries/Source/WWVegas/WWLib/StlportVectorRva00601A3AErase.cpp,matched,Native38B range erase for12B record storage; fully verified dispatcher60186F and countedcopy601797; unused tag ABI preserved; payload unknown
 ?allow@Rva00271B3CFilter@@UAE_NPAVObject@@@Z,,0x00271B3C,32,Code/GameEngine/Source/GameLogic/Object/PartitionFilterAllowSlots.cpp,matched,Rva00271B3CFilter::allow (vftable 0x00BFAF88 slot 1; class declared by ctor copy 0x00271B26 in PartitionFilterCtorCopies.cpp; was Rva00271B3C::rva00271B3C in VslotSmallBodiesD.cpp); vtable slot at VA 0x00BFAF8C; arg +0x04 object's +0x580 equals this +0x08; no Ghidra entry
 ?rva0029B1EA@Rva0029B1EA@@QAEHXZ,,0x0029B1EA,38,Code/GameEngine/Source/Common/VslotSmallBodiesD.cpp,matched,vtable slots at VA 0x00BFD00C/0x00BFD024; function-local static id from the counter at 0x00DFEE18; no Ghidra entry
-?rva002E5770@Rva002E5770@@QAEXABURva002E5770Str@@H@Z,,0x002E5770,33,Code/GameEngine/Source/Common/VslotSmallBodiesD.cpp,matched,vtable slot at VA 0x00C04FE8; string text (+8 or empty 0x00BBAC1C) and second arg to own vslot 17; no Ghidra entry
+?fetchPtr@GameTextManager@@UAEPAVUnicodeString@@ABVAsciiString@@PA_N@Z,,0x002E5770,33,Code/GameEngine/Source/Common/VslotSmallBodiesD.cpp,matched,vtable slot at VA 0x00C04FE8; string text (+8 or empty 0x00BBAC1C) and second arg to own vslot 17; no Ghidra entry
 ?rva0035D133@Rva0035D133@@QAEXH@Z,,0x0035D133,23,Code/GameEngine/Source/Common/VslotSmallBodiesD.cpp,matched,vtable slot at VA 0x00C163DC; bytes +8/+9/+0x24 reset then own vslot 2 with +0x10; no Ghidra entry
 ?rva003FE568@Rva003FE568@@QAEX_NH@Z,,0x003FE568,21,Code/GameEngine/Source/Common/VslotSmallBodiesD.cpp,matched,vtable slots at VA 0x00C37E6C/0x00C68604/0x00C6924C/0x00C70FAC; own vslot 8 with the negated flag; no Ghidra entry
 ?rva0041513D@Rva0041513D@@QAE_NXZ,,0x0041513D,16,Code/GameEngine/Source/Common/VslotSmallBodiesD.cpp,matched,vtable slot at VA 0x00C3A29C; consume the +0x20 flag; no Ghidra entry

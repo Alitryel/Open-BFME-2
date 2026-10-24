@@ -1,7 +1,7 @@
 // cl: /MD
 // ?xfer@Rva003AF9A9@@MAEXPAVXfer@@@Z retail 0x0055E5F6 64 bytes.
 // Virtual slot 3 (offset 0x0C) of vtable 0x0081C81C (??_7Rva003AF9A9@@6B
-// ModuleInfoHeadBase@@@, class of rowed copy ctor ??0Rva003AF9A9@@QAE@ABV0@@Z;
+// DefaultModuleHeadBase@@@, class of rowed copy ctor ??0Rva003AF9A9@@QAE@ABV0@@Z;
 // ICF-shared with slot 3 of 0x0081CC10 and 0x0081D0F8): Version1, three
 // GameClientRandomVariable members at +0x24/+0x30/+0x3C through the rowed
 // xferRandomVariable 0x00306183, then the Real at +0x48 through Xfer slot 28
@@ -53,7 +53,7 @@ public:
 
 Xfer &xferRandomVariable(Xfer &xfer, GameClientRandomVariable &var);
 
-// The two tables (data ledger): ModuleInfoHeadBase at +0 and the
+// The two tables (data ledger): DefaultModuleHeadBase at +0 and the
 // TerrainFireEmissionInfo table at +0x1C, both with xfer in slot 3; slot 3 of
 // the second is the this-adjusting (sub ecx, 0x1C) thunk 0x003AC178.
 class Rva003AF9A9HeadView

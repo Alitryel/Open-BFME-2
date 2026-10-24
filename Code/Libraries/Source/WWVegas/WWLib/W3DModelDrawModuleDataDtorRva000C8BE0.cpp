@@ -129,14 +129,14 @@ struct Rva000C7720Vec : Rva00211E58VectorBase
 	~Rva000C7720Vec();
 };
 
-struct W3DModelDrawArrayElement
+struct AssetList
 {
 	unsigned char m_pad[0x14];
-	W3DModelDrawArrayElement();
-	~W3DModelDrawArrayElement();
+	AssetList();
+	~AssetList();
 };
 
-// Measurement note: Rva000C7720Vec and W3DModelDrawArrayElement dtors are
+// Measurement note: Rva000C7720Vec and AssetList dtors are
 // intentionally left undefined here so the containing dtor emits calls +
 // EH states for +0x08/+0x160 without intra-TU folding; each resolves
 // through its genuine provider in the final version (C7720 via
@@ -224,7 +224,7 @@ private:
 	bool m_multiPlayerOnly; // +0x15D
 	bool m_affectedByStealth; // +0x15E
 	bool m_highDetailOnly; // +0x15F
-	W3DModelDrawArrayElement m_160[2]; // +0x160 array[2] 0x14 (ehvec 0x629110)
+	AssetList m_160[2]; // +0x160 array[2] 0x14 (ehvec 0x629110)
 };
 
 // ??1W3DModelDrawModuleData@@UAE@XZ @0xC8BE0

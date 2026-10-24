@@ -1,6 +1,6 @@
 // cl: /MD /ICode/Libraries/Include/Lib
 // Two Rva003AF7FE slots (vtable 0x0081C7EC, ??_7Rva003AF7FE@@6B
-// ModuleInfoHeadBase@@@; rowed copy ctor ??0Rva003AF7FE@@QAE@ABV0@@Z with its
+// DefaultModuleHeadBase@@@; rowed copy ctor ??0Rva003AF7FE@@QAE@ABV0@@Z with its
 // line-volume info base). Both are shared with the same slots of 0x0081CBE4
 // and of the derived Rva003AF7D1 (0x0081D094). Method names stay address-
 // derived; the Xfer slot names follow the BFME 2 views already rowed
@@ -52,7 +52,7 @@ public:
 	void Version1();
 };
 
-// The two tables (data ledger): ModuleInfoHeadBase at +0 and the
+// The two tables (data ledger): DefaultModuleHeadBase at +0 and the
 // LineEmissionVolumeInfo table at +0x1C, both with xfer in slot 3; slot 3 of
 // the second is the this-adjusting (sub ecx, 0x1C) thunk 0x003AC125. Slot 2
 // of the head table is __purecall. The +0x1C table's slots 1 and 2 are the

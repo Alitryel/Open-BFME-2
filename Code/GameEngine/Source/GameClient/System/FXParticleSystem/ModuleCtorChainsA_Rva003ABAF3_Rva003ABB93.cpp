@@ -151,13 +151,13 @@ extern "C" const void *const __identifier("??_7?$ConcreteModuleTemplate@V?$Defau
 extern "C" const void *const __identifier("??_7Rva003AF47D@@6BEmissionVolumeInfo4AA@FXParticleSystem@@@")[];
 extern "C" const void *const __identifier("??_7Rva003AF57F@@6BLineEmissionVolumeInfo@FXParticleSystem@@@")[];
 extern "C" const void *const __identifier("??_7?$ConcreteModuleTemplate@V?$ModuleTag@$05$E?STREAK_DRAW_MODULE_KEY@FXParticleSystem@@3QBDB$E?STREAK_DRAW_MODULE_NAME@2@3QBDBVStreakDrawModule@2@VStreakDrawModuleTemplate@2@V?$DefaultParticleModule@$05@2@@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@")[];
-extern "C" const void *const __identifier("??_7Rva003AE4E5@@6BModuleInfoHeadBase@@@")[];
+extern "C" const void *const __identifier("??_7Rva003AE4E5@@6BDefaultModuleHeadBase@@@")[];
 extern "C" const void *const __identifier("??_7Rva003AE56F@@6B@")[];
 extern "C" const void *const __identifier("??_7?$ConcreteModuleTemplate@V?$ModuleTag@$05$E?QUAD_DRAW_MODULE_KEY@FXParticleSystem@@3QBDB$E?QUAD_DRAW_MODULE_NAME@2@3QBDBVQuadDrawModule@2@VQuadDrawModuleTemplate@2@V?$DefaultParticleModule@$05@2@@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@")[];
-extern "C" const void *const __identifier("??_7Rva003AE56F@@6BModuleInfoHeadBase@@@")[];
+extern "C" const void *const __identifier("??_7Rva003AE56F@@6BDefaultModuleHeadBase@@@")[];
 extern "C" const void *const __identifier("??_7Rva003AE5F9@@6B@")[];
 extern "C" const void *const __identifier("??_7?$ConcreteModuleTemplate@V?$ModuleTag@$05$E?BUTTERFLY_DRAW_MODULE_KEY@FXParticleSystem@@3QBDB$E?BUTTERFLY_DRAW_MODULE_NAME@2@3QBDBVButterflyDrawModule@2@VButterflyDrawModuleTemplate@2@V?$DefaultParticleModule@$05@2@@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@")[];
-extern "C" const void *const __identifier("??_7Rva003AE5F9@@6BModuleInfoHeadBase@@@")[];
+extern "C" const void *const __identifier("??_7Rva003AE5F9@@6BDefaultModuleHeadBase@@@")[];
 
 // The retail table at RVA 0x0081CDF0: 7 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
@@ -208,8 +208,8 @@ extern const void *const g_00C1CE98[12];
 extern "C" const void *const __identifier("??_7Rva003AECE6@@6BRva003AECE6Slot3@@@")[];
 extern "C" const void *const __identifier("??_7Rva003AEDE9@@6B@")[];
 extern "C" const void *const __identifier("??_7Rva003AECE6@@6BRva003AECE6Slot0@@@")[];
-extern "C" const void *const __identifier("??_7Rva003AF47D@@6BModuleInfoHeadBase@@@")[];
-extern "C" const void *const __identifier("??_7Rva003AF57F@@6BModuleInfoHeadBase@@@")[];
+extern "C" const void *const __identifier("??_7Rva003AF47D@@6BDefaultModuleHeadBase@@@")[];
+extern "C" const void *const __identifier("??_7Rva003AF57F@@6BDefaultModuleHeadBase@@@")[];
 extern "C" const void *const __identifier("??_7Rva003AF89A@@6BRva003AF8C7B00@@@")[];
 extern "C" const void *const __identifier("??_7Rva003AF89A@@6BRva003AF8C7B18@@@")[];
 // The retail table at RVA 0x0081C444: 11 slots, each a rowed code owner (the next

@@ -40,15 +40,15 @@ public:
 
 // Head base: vptr 0x00C1B590, smart member at +0x04, int at +0x10.
 // Explicit forceinline copy (see header note).
-class ModuleInfoHeadBase
+class DefaultModuleHeadBase
 {
 public:
-	__forceinline ModuleInfoHeadBase(const ModuleInfoHeadBase &other)
+	__forceinline DefaultModuleHeadBase(const DefaultModuleHeadBase &other)
 		: m_smart(other.m_smart)
 		, m_int10(other.m_int10)
 	{
 	}
-	virtual ~ModuleInfoHeadBase();
+	virtual ~DefaultModuleHeadBase();
 
 	RvaSmartPtr12 m_smart; // +0x04
 	int m_int10; // +0x10
@@ -70,7 +70,7 @@ MODULE_INFO_THIRD_BASE(ModuleInfoThirdBD50)
 // noinline: the derived bodies below call it; inlining would absorb the
 // straight-line body into each caller (the BFME1 donor marks its shared
 // node copy the same way).
-class Rva003AF50D : public ModuleInfoHeadBase, public ModuleInfoSecondBase
+class Rva003AF50D : public DefaultModuleHeadBase, public ModuleInfoSecondBase
 {
 public:
 	__declspec(noinline) Rva003AF50D(const Rva003AF50D &other);
@@ -78,7 +78,7 @@ public:
 };
 
 Rva003AF50D::Rva003AF50D(const Rva003AF50D &other)
-	: ModuleInfoHeadBase(other)
+	: DefaultModuleHeadBase(other)
 {
 }
 

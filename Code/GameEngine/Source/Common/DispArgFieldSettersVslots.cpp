@@ -40,4 +40,15 @@ BFME_ARG_FIELD_SETTER(Rva0009AA01ByteSlot, unsigned char, 0x19)
 BFME_ARG_FIELD_SETTER(Rva00210CD3ByteSlot, unsigned char, 0x20)
 BFME_ARG_FIELD_SETTER(Rva002B22A5DwordSlot, int, 0x14)
 BFME_ARG_FIELD_SETTER(Rva002E067DDwordSlot, int, 0x54)
-BFME_ARG_FIELD_SETTER(Rva002E640BDwordSlot, int, 0x40)
+class GameTextManager
+{
+public:
+	virtual void setTranslateMode(int value);
+	char m_pad04[0x40 - 4];
+	int m_value;
+};
+
+void GameTextManager::setTranslateMode(int value)
+{
+	m_value = value;
+}

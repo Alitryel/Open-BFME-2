@@ -1,10 +1,12 @@
-// cl: /DNDEBUG /MD
+// cl: /DNDEBUG /MD /Ireference/shims/bfme2_ascii
 //
 // Small vtable-slot bodies with no ledger owner and no Ghidra entry (sized
 // from their bytes), batch D. As in VslotSmallBodiesA-C, each class and method
 // is address-derived and models only what its body touches; the comment above
 // each gives the .rdata slot address(es) that reference it. Meanings are not
 // recovered.
+
+#include "ascii_string.h"
 
 typedef int Int;
 typedef bool Bool;
@@ -30,18 +32,7 @@ Int Rva0029B1EA::rva0029B1EA()
 // slot at VA 0x00C04FE8: forwards (the argument string's text, the second
 // argument) to this object's vslot 17. The string keeps its text 8 bytes into
 // its buffer and falls back to the shared empty string at VA 0x00BBAC1C.
-struct Rva002E5770Str
-{
-	struct Buffer
-	{
-		Int m_refCount;
-		Int m_length;
-		char m_text[1];
-	};
-	const char *str() const { return m_data ? m_data->m_text : ""; }
-	Buffer *m_data;
-};
-class Rva002E5770
+class GameTextManager
 {
 public:
 	virtual void vslot00(); virtual void vslot01(); virtual void vslot02();
@@ -50,12 +41,12 @@ public:
 	virtual void vslot09(); virtual void vslot10(); virtual void vslot11();
 	virtual void vslot12(); virtual void vslot13(); virtual void vslot14();
 	virtual void vslot15(); virtual void vslot16();
-	virtual void vslot17(const char *text, Int value);
-	void rva002E5770(const Rva002E5770Str &text, Int value);
+	virtual UnicodeString *vslot17(const char *text, Bool *exists);
+	virtual UnicodeString *fetchPtr(const AsciiString &text, Bool *exists);
 };
-void Rva002E5770::rva002E5770(const Rva002E5770Str &text, Int value)
+UnicodeString *GameTextManager::fetchPtr(const AsciiString &text, Bool *exists)
 {
-	vslot17(text.str(), value);
+	return vslot17(text.str(), exists);
 }
 
 // slot at VA 0x00C163DC: resets the bytes +0x08/+0x09/+0x24 (0, 1, 0) and
