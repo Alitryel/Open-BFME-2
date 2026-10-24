@@ -5573,3 +5573,10 @@ Code/GameEngine/Source/GameLogic/Object/Behavior/MineshaftPortalBehaviour.cpp|me
 Code/GameEngine/Source/Common/Rva000347A0Realloc.cpp|local|EA::Allocator::GeneralAllocator::realloc|d,cc382008af0601c864edbb15,claude-opus-5-5,dioragon-8,w-2f5376c24d26,2026-10-24
 Code/GameEngine/Source/Common/Rva000347A0Realloc.cpp|local|EA::Allocator::GeneralAllocator::realloc|s,b8c308b3b050c1c627d41048,claude-opus-5-5,dioragon-8,w-2f5376c24d26,2026-10-24
 Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|function|0x001B2450|rva001B2450,18f35cd16aea1bbbcceb1853,claude-opus-5-5,dioragon-8,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Made002CC841Parse.cpp|param|q4Notify002CC841|m,c0af5b1056c948525b9a0885,claude-opus-5-5,dioragon-11,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Made002CC841Parse.cpp|param|q4Notify002CC841|c,df658b0feb3052320705911c,claude-opus-5-5,dioragon-11,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Made002CC841Parse.cpp|param|q4Notify002CC841|d,74c4b96119f1851f6f7a68fd,claude-opus-5-5,dioragon-11,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaignManager.cpp|param|LivingWorldCampaignManager::UseGenericSpawnArmyForPlayer|a,6ed15372cab517570a4c754d,claude-opus-5-5,dioragon-11,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaignManager.cpp|param|LivingWorldCampaignManager::UseGenericSpawnArmyForPlayer|b,254be0ff19b0d01e83bb13c7,claude-opus-5-5,dioragon-11,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/Common/Rva002B47B1Get.cpp|member|Rva002B47B1Elem|m_cash40,0878ee40e89a8b02d9a16907,claude-opus-5-5,dioragon-14,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/Common/Rva002B47B1Get.cpp|function|0x002B47B1|rva002B47B1,383def15c94f6f870e4e27c0,claude-opus-5-5,dioragon-14,w-2f5376c24d26,2026-10-24
