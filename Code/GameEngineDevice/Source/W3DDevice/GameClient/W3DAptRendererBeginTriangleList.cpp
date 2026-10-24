@@ -121,12 +121,12 @@ void W3DAptRenderer::rva00110CFE() {
    }
    shader.Set_Alpha_Test(ShaderClass::ALPHATEST_DISABLE);
   } else {
-   float z=.5f;
+   float depth=.5f;
    if(mode==0) shader.Set_Alpha_Test(ShaderClass::ALPHATEST_DISABLE);
    else if(mode==2) {
-    shader.Set_Alpha_Test(ShaderClass::ALPHATEST_ENABLE); shader.Set_Depth_Compare(ShaderClass::PASS_ALWAYS); shader.Set_Depth_Mask(ShaderClass::DEPTH_WRITE_ENABLE); z=.9f;
+    shader.Set_Alpha_Test(ShaderClass::ALPHATEST_ENABLE); shader.Set_Depth_Compare(ShaderClass::PASS_ALWAYS); shader.Set_Depth_Mask(ShaderClass::DEPTH_WRITE_ENABLE); depth=.9f;
    } else if(mode==1) { shader.Set_Alpha_Test(ShaderClass::ALPHATEST_DISABLE); shader.Set_Depth_Compare(ShaderClass::PASS_LEQUAL); shader.Set_Depth_Mask(ShaderClass::DEPTH_WRITE_DISABLE); }
-   matrix[2][3]=z;
+   matrix[2][3]=depth;
    _ReadWriteBarrier();
    shader.Set_Alpha_Test(ShaderClass::ALPHATEST_DISABLE);
    DX8Wrapper::render_state.world=matrix.Transpose();
