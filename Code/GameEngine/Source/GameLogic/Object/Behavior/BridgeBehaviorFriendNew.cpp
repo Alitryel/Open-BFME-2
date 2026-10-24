@@ -21,15 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@BridgeBehavior@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *BridgeBehavior::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *BridgeBehavior::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new BridgeBehavior(thing, moduleData));
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitBridgeBehaviorFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitBridgeBehaviorFriendNew(Thing *thing, const ModuleData *moduleData)
-{
-	BridgeBehavior::friend_newModuleInstance(thing, moduleData);
-}
-#pragma inline_depth()

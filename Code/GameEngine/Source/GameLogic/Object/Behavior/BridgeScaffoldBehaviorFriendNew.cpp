@@ -21,18 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@BridgeScaffoldBehavior@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *BridgeScaffoldBehavior::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *BridgeScaffoldBehavior::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new BridgeScaffoldBehavior(thing, moduleData));
 }
-
-// Select-any anchor: this unit owns the row above while other TUs emit it as
-// an inline copy. The anchor keeps this unit emitting its copy for the ledger;
-// it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitBridgeScaffoldBehaviorFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitBridgeScaffoldBehaviorFriendNew(Thing *thing, const ModuleData *moduleData)
-{
-	BridgeScaffoldBehavior::friend_newModuleInstance(thing, moduleData);
-}
-#pragma inline_depth()

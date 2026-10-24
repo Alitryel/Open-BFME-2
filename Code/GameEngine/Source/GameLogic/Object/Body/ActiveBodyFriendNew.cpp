@@ -21,15 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@ActiveBody@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *ActiveBody::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *ActiveBody::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new ActiveBody(thing, moduleData));
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitActiveBodyFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitActiveBodyFriendNew(Thing *thing, const ModuleData *moduleData)
-{
-	ActiveBody::friend_newModuleInstance(thing, moduleData);
-}
-#pragma inline_depth()

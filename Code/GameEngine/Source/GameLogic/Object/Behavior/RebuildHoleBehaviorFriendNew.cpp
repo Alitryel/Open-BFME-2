@@ -21,18 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@RebuildHoleBehavior@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *RebuildHoleBehavior::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *RebuildHoleBehavior::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new RebuildHoleBehavior(thing, moduleData));
 }
-
-// Select-any anchor: this unit owns the row above while other TUs emit it as
-// an inline copy. The anchor keeps this unit emitting its copy for the ledger;
-// it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitRebuildHoleBehaviorFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitRebuildHoleBehaviorFriendNew(Thing *thing, const ModuleData *moduleData)
-{
-	RebuildHoleBehavior::friend_newModuleInstance(thing, moduleData);
-}
-#pragma inline_depth()

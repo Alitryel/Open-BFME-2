@@ -23,15 +23,7 @@ private:
 };
 
 // ?friend_newModuleInstance@MoneyCrateCollide@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *MoneyCrateCollide::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *MoneyCrateCollide::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new MoneyCrateCollide(thing, moduleData));
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitMoneyCrateCollideFriendNew@@YAXXZ present-unmatched
-void bfmeEmitMoneyCrateCollideFriendNew()
-{
-	MoneyCrateCollide::friend_newModuleInstance(0, 0);
-}
-#pragma inline_depth()
