@@ -77,7 +77,7 @@ class Rva002B4349 {
 public:
  Rva004E6935 *m_ptr;
  Rva002B4349(Rva004E6935 *p=0):m_ptr(p) {}
- Rva002B4349(Rva002B4349 &v) { Rva004E6935 *p=v.m_ptr; v.m_ptr=0; m_ptr=p; }
+ Rva002B4349(Rva002B4349 &other) { Rva004E6935 *p=other.m_ptr; other.m_ptr=0; m_ptr=p; }
  ~Rva002B4349();
 };
 class Rva002B54BB {
