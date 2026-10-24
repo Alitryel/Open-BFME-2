@@ -23,3 +23,7 @@ void StateMachine::rva004D750F(Object *obj)
 		return;
 	setGoalObject(obj);
 }
+
+// Slot 14 of StateMachine's vtable 0x00860740 is this body; units with Zero
+// Hour's StateMachine view name it virtual setGoalObject(const Object *).
+#pragma comment(linker, "/alternatename:?setGoalObject@StateMachine@@UAEXPBVObject@@@Z=?rva004D750F@StateMachine@@QAEXPAVObject@@@Z")

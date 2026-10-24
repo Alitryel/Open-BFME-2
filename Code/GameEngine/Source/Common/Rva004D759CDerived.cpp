@@ -134,6 +134,10 @@ Rva0048898C::~Rva0048898C()
 {
 }
 
+// Rva0048898C is DozerPrimaryStateMachine: its vtable 0x0084B668 holds
+// ?GetSnapshotName@DozerPrimaryStateMachine (0x00488997) in slot 2.
+#pragma comment(linker, "/alternatename:??1DozerPrimaryStateMachine@@UAE@XZ=??1Rva0048898C@@UAE@XZ")
+
 class SupplyTruckStateMachine : public StateMachine
 {
 public:
@@ -153,6 +157,10 @@ public:
 Rva004A9964::~Rva004A9964()
 {
 }
+
+// Rva004A9964 is WorkerStateMachine: its vtable 0x00854058 holds
+// ?GetSnapshotName@WorkerStateMachine (0x004A996F) in slot 2.
+#pragma comment(linker, "/alternatename:??1WorkerStateMachine@@UAE@XZ=??1Rva004A9964@@UAE@XZ")
 
 class TurretStateMachine : public StateMachine
 {

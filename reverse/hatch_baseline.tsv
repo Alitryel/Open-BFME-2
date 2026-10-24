@@ -2686,6 +2686,8 @@ alternatename	Code/GameEngine/Source/Common/Rva004C0D4F.cpp	?bfmeAskCFC@BfmeOute
 alternatename	Code/GameEngine/Source/Common/Rva004C0D4F.cpp	?bfmeAskDHA@BfmeOuterDHA@@QAE_NXZ	1
 alternatename	Code/GameEngine/Source/Common/Rva004C0D4F.cpp	?bfmeAskDHB@BfmeOuterDHB@@QAE_NXZ	1
 alternatename	Code/GameEngine/Source/Common/Rva004C0D4F.cpp	?bfmeAskDHC@BfmeOuterDHC@@QAE_NXZ	1
+alternatename	Code/GameEngine/Source/Common/Rva004D759CDerived.cpp	??1DozerPrimaryStateMachine@@UAE@XZ	1	allow=3dce3c0d0b4454508538433c8e509e38d6d620d1
+alternatename	Code/GameEngine/Source/Common/Rva004D759CDerived.cpp	??1WorkerStateMachine@@UAE@XZ	1	allow=3dce3c0d0b4454508538433c8e509e38d6d620d1
 alternatename	Code/GameEngine/Source/Common/Rva004DF418Finish.cpp	?g_00C61588@@3QBQBXB	1
 alternatename	Code/GameEngine/Source/Common/Rva004E0A96Flush.cpp	?ji_006291ae@@YAPAXPAXHI@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva004E179ADtor.cpp	??1?$StringBase@D@@QAE@XZ	1
@@ -3202,6 +3204,7 @@ alternatename	Code/GameEngine/Source/GameLogic/AI/Rva002EDEAB.cpp	?g_00E02EEC@@3
 alternatename	Code/GameEngine/Source/GameLogic/AI/Rva003435FBStates.cpp	?g_00C11B70@@3QBQBXB	1
 alternatename	Code/GameEngine/Source/GameLogic/AI/Rva0034B952Ctor.cpp	?g_00C122A0@@3QBQBXB	1
 alternatename	Code/GameEngine/Source/GameLogic/AI/Rva0035149F.cpp	??$__copy_ptrs@PBUBfmeE12@@PAU1@@_STL@@YAPAUBfmeE12@@PBU1@0PAU1@ABU__false_type@0@@Z	1
+alternatename	Code/GameEngine/Source/GameLogic/AI/StateMachineRva004D750F.cpp	?setGoalObject@StateMachine@@UAEXPBVObject@@@Z	1	allow=38a76b8dedf5d1281fc39ab95e05a7172b73907e
 alternatename	Code/GameEngine/Source/GameLogic/AI/ai_Rva002FD791.cpp	_Gen0002857EFreeListNode	1
 alternatename	Code/GameEngine/Source/GameLogic/LivingWorld/Rva004E16D9RecordCtor.cpp	?anchor@Rva004E16D9Record@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/LivingWorld/Rva004E16D9RecordDtor.cpp	?anchor@Rva004E16D9Record@@UAEXXZ	1

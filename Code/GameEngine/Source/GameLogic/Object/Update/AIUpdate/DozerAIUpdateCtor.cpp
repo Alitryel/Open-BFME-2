@@ -600,8 +600,8 @@ public:
 	virtual void v89() {}
 	virtual Bool v90() const { return false; }
 	virtual Bool isBusy() const;
-	virtual void v92();
 	virtual DozerAIInterface *getDozerAIInterface(); // vslot 93 (+0x174)
+	virtual const DozerAIInterface *getDozerAIInterface() const { return 0; } // vslot 92 (+0x170): MSVC orders overloads in reverse
 	virtual void *v94() { return 0; }
 	virtual void *v95() { return 0; }
 	virtual void *v96() { return 0; }
