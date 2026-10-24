@@ -2607,3 +2607,6 @@ Code/GameEngine/Source/Common/Rva00524B7AVslot10.cpp|local|Rva00524B7A::update|v
 Code/GameEngine/Source/Common/OpenAudioFile_setFileReady.cpp|class||Rva0010EC4DHolder,b5de4ca560e495a0e00c2477,gpt-6.1-sol,codex8-20261024-041245-7,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/OpenAudioFile_setFileReady.cpp|param|OpenAudioFile::setFileReady|a3,0c02800efd4d44334a7e3e4c,gpt-6.1-sol,codex8-20261024-041245-7,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/Rva00034A60Calloc.cpp|function|0x00033ED0|rva00033ED0,74343e52d04665f424abfc35,gpt-6.1-sol,codex8-20261024-041245-8,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva0009DE01Finish.cpp|param|logN|b,426bc7d4bf281b71d11c3a4f,gpt-6.1-sol,codex8-20261024-043409-1,w-de56e563a50b,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva002CFC7BCopy.cpp|local|Rva002CFC7B::_M_copy|y,e60926a862ca3f83c10063d2,gpt-6.1-sol,codex8-20261024-043409-2,w-de56e563a50b,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawAttachableSubModels.cpp|local|W3DModelDraw::rva000B7C24|tmp,c7f0c9ef745b7a5a516defa2,gpt-6.1-sol,codex8-20261024-043409-2,w-de56e563a50b,2026-10-24
