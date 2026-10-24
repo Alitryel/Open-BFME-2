@@ -164,3 +164,80 @@ def test_packet_lane_still_refuses_an_invalid_ledger(monkeypatch, options):
     with pytest.raises(SystemExit) as error:
         next_work.main()
     assert error.value.code == 2
+
+
+@pytest.mark.parametrize("tier", [(), ("--tier", "packet")])
+def test_packet_shards_are_disjoint_and_complete(packet_environment, monkeypatch, capsys, tier):
+    # Alternative source leads describe the same retail body: the whole
+    # Markdown packet must stay one item, assigned to one worker only.
+    path = packet_environment / "0x0F000100.md"
+    path.write_text(path.read_text(encoding="utf-8").replace(
+        "## Callee pins", "- `Alternative`\n  in `GeneralsMD/Alternative.cpp`\n\n## Callee pins"),
+        encoding="utf-8")
+    full = json.loads(run_queue(monkeypatch, capsys, *tier, "--ranked", "--json"))
+    shards = [json.loads(run_queue(monkeypatch, capsys, *tier, "--ranked", "--json",
+                                   "--shard", f"{index}/3")) for index in range(3)]
+    assert [[item["target_rva"] for item in data["packets"]] for data in shards] == [
+        [], ["0x0F000100"], ["0x0F000200"]]
+    assert [item for data in shards for item in data["packets"]] == full["packets"]
+    assert len(full["packets"]) == 2
+    for index, data in enumerate(shards):
+        assert data["shard"] == {"index": index, "count": 3}
+        assert data["suppressed_logged"] == full["suppressed_logged"] == 1
+
+
+@pytest.mark.parametrize("ranked", [False, True])
+def test_one_packet_shard_preserves_the_unsharded_queue(
+        packet_environment, monkeypatch, capsys, ranked):
+    args = ["--tier", "packet", "--json", *(["--ranked"] if ranked else [])]
+    expected = json.loads(run_queue(monkeypatch, capsys, *args))
+    actual = json.loads(run_queue(monkeypatch, capsys, *args, "--shard", "0/1"))
+    metadata = actual if ranked else actual["selection_meta"]
+    assert metadata["shard"] == {"index": 0, "count": 1}
+    metadata["shard"] = None
+    assert actual == expected
+
+
+@pytest.mark.parametrize("shard, name", [("0/3", None), ("1/3", "Ready"), ("2/3", "Unproven")])
+def test_packet_selection_uses_its_shard_before_choosing_a_band(
+        packet_environment, monkeypatch, capsys, shard, name):
+    output = json.loads(run_queue(monkeypatch, capsys, "--tier", "packet", "--json",
+                                  "--shard", shard))
+    selected = output["selection"]
+    assert (selected["function"] if selected else None) == name
+    assert output["selection_meta"]["pool"] == (0 if name is None else 1)
+    assert output["selection_meta"]["packets_set_aside"] == 0
+
+
+def test_default_pick_still_withholds_an_unproven_only_shard(
+        packet_environment, monkeypatch, capsys):
+    output = json.loads(run_queue(monkeypatch, capsys, "--json", "--shard", "2/3"))
+    assert output["selection"] is None
+    assert output["selection_meta"]["packets_withheld"] == 1
+
+
+def test_ranked_packet_text_respects_the_shard(packet_environment, monkeypatch, capsys):
+    output = run_queue(monkeypatch, capsys, "--tier", "packet", "--ranked", "--shard", "2/3")
+    assert "Zero Hour work packets (1)" in output
+    assert "Unproven" in output and "Ready" not in output
+
+
+@pytest.mark.parametrize("shard, expected", [("0/3", []), ("2/3", [0x0F000200])])
+def test_packet_claims_never_escape_the_requested_shard(
+        packet_environment, monkeypatch, capsys, shard, expected):
+    claimed = []
+
+    def claim(rvas, note=""):
+        claimed.extend(rvas)
+        return list(rvas), []
+
+    monkeypatch.setattr(next_work.claims, "claim", claim)
+    monkeypatch.setattr(next_work.claims, "settle", lambda: None)
+    output = json.loads(run_queue(monkeypatch, capsys, "--tier", "packet", "--claim",
+                                  "--json", "--shard", shard))
+    assert claimed == expected
+    assert output["selection_meta"]["claimed"] == bool(expected)
+    if expected:
+        assert int(output["selection"]["target_rva"], 16) == expected[0]
+    else:
+        assert output["selection"] is None

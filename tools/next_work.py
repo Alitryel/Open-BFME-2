@@ -1740,6 +1740,7 @@ def main():
     if not args.include_logged:
         packets, dropped_packets = drop_logged(packets)
         suppressed += dropped_packets
+    packets = apply_shard(packets, args.shard)
 
     if args.ranked and args.json:
         print(json.dumps({
