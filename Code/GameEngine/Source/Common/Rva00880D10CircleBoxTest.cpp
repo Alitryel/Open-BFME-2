@@ -83,7 +83,7 @@ bool BfmeBoxF0::contains(const BfmePointF0 *point, Real radius) const
 	return true;
 }
 
-bool rva00880D10(Rva00880D10Subject *subject, Rva00880D10Info *info)
+bool circleIntersectsBox(Rva00880D10Subject *subject, Rva00880D10Info *info)
 {
 	Real extentY = info->m_extentY;
 	Real extentX = info->m_extentX;

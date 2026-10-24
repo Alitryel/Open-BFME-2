@@ -88,7 +88,7 @@ Rva0087E900Coord *Rva0087E900(Rva0087E900Coord *out,
 struct Rva00880D10Subject;
 struct Rva00880D10Info;
 struct BfmeCollisionShape;
-bool rva00880D10(Rva00880D10Subject *,Rva00880D10Info *);
+bool circleIntersectsBox(Rva00880D10Subject *,Rva00880D10Info *);
 bool rva006C0630(Rva00880D10Info *,Rva00880D10Info *);
 bool bfmeSphereOverlap(const BfmeCollisionShape *,const BfmeCollisionShape *);
 struct Rva006BEB80Point:Rva0087E900Coord{Rva006BEB80Point(){} Rva006BEB80Point(const Rva0087E900Coord&r){x=r.x;y=r.y;z=r.z;} };
@@ -120,11 +120,11 @@ static inline float topExtent(const GeometryShape &geometryShape) {
 static __forceinline bool overlap(GeometryContact &geometryContact,GeometryContact &b,bool cur) {
  switch(geometryContact.shape.type) {
  case 0: case 1:
-  if(b.shape.type==2) return rva00880D10((Rva00880D10Subject *)&geometryContact,(Rva00880D10Info *)&b);
+  if(b.shape.type==2) return circleIntersectsBox((Rva00880D10Subject *)&geometryContact,(Rva00880D10Info *)&b);
   return bfmeSphereOverlap((const BfmeCollisionShape *)&geometryContact,(const BfmeCollisionShape *)&b);
  case 2:
   if(b.shape.type==2) return rva006C0630((Rva00880D10Info *)&geometryContact,(Rva00880D10Info *)&b);
-  return rva00880D10((Rva00880D10Subject *)&b,(Rva00880D10Info *)&geometryContact);
+  return circleIntersectsBox((Rva00880D10Subject *)&b,(Rva00880D10Info *)&geometryContact);
  }
  return cur;
 }

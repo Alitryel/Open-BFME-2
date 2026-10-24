@@ -9328,7 +9328,7 @@ _SetupDeblocker,,0x001BD630,64,Code/Libraries/Source/VP6/PostProcInstance.cpp,ma
 ?d_00889c90@Rva00889C90Class@@QAEXPAX0@Z,,0x00038D60,129,Code/GameEngine/Source/Common/Bfme/Rva00889C90.cpp,matched,BFME1 donor; realloc callee is matched DebugReAllocMemory (no pin); b1 0x00889C90
 ?rva007F7640@BfmeThingZI@@QAEXPAVRva007E8810Message@@@Z,,0x00663D30,144,Code/GameEngine/Source/GameNetwork/Rva007F7640GameBrowserEntry.cpp,matched,BFME1 byte-identical donor; b1 0x007F7640; 4 DIR32 string literal(s) agree
 ?bfmeResizeV17@BfmeVecV17@@QAEXIH@Z,,0x0002A300,126,Code/GameEngine/Source/Common/BfmeConv1457.cpp,matched,BFME1 byte-identical donor; b1 0x0082FA70
-?rva00880D10@@YA_NPAURva00880D10Subject@@PAURva00880D10Info@@@Z,,0x006C0710,127,Code/GameEngine/Source/Common/Rva00880D10CircleBoxTest.cpp,matched,BFME1 byte-identical donor; b1 0x00880D10
+?circleIntersectsBox@@YA_NPAURva00880D10Subject@@PAURva00880D10Info@@@Z,,0x006C0710,127,Code/GameEngine/Source/Common/Rva00880D10CircleBoxTest.cpp,matched,BFME1 byte-identical donor; b1 0x00880D10
 _ScaleOrCenter,,0x001BB330,126,Code/Libraries/Source/VP6/ScaleOrCenter.cpp,matched,Clean-room spec 001bb330; ScaleOrCenter: applies the border update when the level is set then centres via the any-ratio scaler (modes 0 and 1) or CenterImage (mode 2); same retail extent as the replaced placeholder; implemented from reverse/vp6_cleanroom/specs/001bb330.md and retail only
 ?bfmeCtorVLY@BfmeThingVLY@@QAEPAV1@XZ,,0x00026C10,28,Code/GameEngine/Source/Common/BfmeConv1424.cpp,matched,BFME1 byte-identical donor; b1 0x0082DDE0
 ?bfmeCtorVLZ@BfmeThingVLZ@@QAEPAV1@XZ,,0x00026C30,33,Code/GameEngine/Source/Common/BfmeConv1424.cpp,matched,BFME1 byte-identical donor; b1 0x0082DE00
