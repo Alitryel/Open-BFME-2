@@ -41,7 +41,7 @@ private:
 class Rva00098690 : public Rva00985E4
 {
 public:
-	void rva00098690();
+	void destroyParticleSystems();
 	virtual ~Rva00098690();
 private:
 	RvaSmartPtr12 m_first; // +0x4C
@@ -50,5 +50,5 @@ private:
 
 Rva00098690::~Rva00098690()
 {
-	rva00098690();
+	destroyParticleSystems();
 }

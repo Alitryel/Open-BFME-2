@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /MD /EHsc
-// ?rva00098690@Rva00098690@@QAEXXZ, retail 0x00098690, 87 bytes.
+// ?destroyParticleSystems@Rva00098690@@QAEXXZ, retail 0x00098690, 87 bytes.
 // Two contiguous BfmeParticleSystemHandles at +0x4C/+0x58: if m_system then
 // get()->destroy() (null-or-Make fallback via pinned Make001FCBD7 then rowed
 // destroy 0x001F462C), then if still set dtor via rowed 0x0004CBC0 and clear.
@@ -60,9 +60,9 @@ private:
 class Rva00098690
 {
 public:
-	void rva00098690();
-    bool rva0009873C();
-	void rva00098894();
+	void destroyParticleSystems();
+    bool createParticleSystems();
+	void update();
 	__forceinline bool isScorchDue() const { return ((W3DFireClientView *)TheGameClient)->getFrame() > m_nextScorchFrame; }
 private:
 	unsigned char m_pad[0x2C];
@@ -75,7 +75,7 @@ private:
 	unsigned int m_nextScorchFrame; // +0x64
 };
 
-void Rva00098690::rva00098690()
+void Rva00098690::destroyParticleSystems()
 {
 	if (m_first.m_system)
 	{
@@ -114,9 +114,9 @@ class Rva001F384AByteZeroSetter { public: void disable(); };
 // Native 9873C..98894 RET0: same complete receiver as the 87-byte cleanup
 // above. The original product name is unknown; two names at0C/10 and two
 // handles at4C/58 are independently witnessed by the called provider bodies.
-bool Rva00098690::rva0009873C()
+bool Rva00098690::createParticleSystems()
 {
-    rva00098690();
+    destroyParticleSystems();
     if (TheParticleSystemManager)
     {
         AsciiString name = reinterpret_cast<Rva00564E0D *>(this)->rva00564E0D();
@@ -182,10 +182,10 @@ class Rva002872BA;
 extern Rva002872BA *TheTriggerManager;
 struct W3DFireLogicView { char gap[0x84]; W3DFireCellSet m_cells; };
 
-void Rva00098690::rva00098894()
+void Rva00098690::update()
 {
 	if (!m_first.m_system)
-		rva0009873C();
+		createParticleSystems();
 	if (!m_active || !TheGameLODManager)
 		return;
 	int lodLevel = TheGameLODManager->level;

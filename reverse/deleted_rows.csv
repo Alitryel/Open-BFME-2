@@ -2224,3 +2224,7 @@ __ehhandler$?isMusicAlreadyLoaded@AudioManager@@UBE_NXZ,0x0075DC21,"Renamed to _
 ?rva005E21AB@Rva005E21AB@@QAEPBVImage@@XZ,0x005E21AB,"Renamed to ?getButtonImage@Rva005E21AB@@QAEPBVImage@@XZ by tools/rename.py (inferred)"
 ?rva005E3EE2@Rva005E3EE2@@QBE?AURva005E3EE2Handle@@XZ,0x005E3EE2,"Renamed to ?getHandle@Rva005E3EE2@@QBE?AURva005E3EE2Handle@@XZ by tools/rename.py (inferred)"
 ?rva00034A60@GeneralAllocator@Allocator@EA@@QAEPAXIIH@Z,0x00034A60,"Renamed to ?calloc@GeneralAllocator@Allocator@EA@@QAEPAXIIH@Z by tools/rename.py (inferred)"
+?rva00098690@Rva00098690@@QAEXXZ,0x00098690,"Renamed to ?destroyParticleSystems@Rva00098690@@QAEXXZ by tools/rename.py (inferred)"
+?rva0009873C@Rva00098690@@QAE_NXZ,0x0009873C,"Renamed to ?createParticleSystems@Rva00098690@@QAE_NXZ by tools/rename.py (inferred)"
+__ehhandler$?rva0009873C@Rva00098690@@QAE_NXZ,0x00760441,"Renamed to __ehhandler$?createParticleSystems@Rva00098690@@QAE_NXZ by tools/rename.py (inferred)"
+?rva00098894@Rva00098690@@QAEXXZ,0x00098894,"Renamed to ?update@Rva00098690@@QAEXXZ by tools/rename.py (inferred)"
