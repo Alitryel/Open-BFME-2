@@ -145,3 +145,7 @@ Rva00386374::~Rva00386374()
 	TheGameSpyGame = 0;
 	((GameSpyInfo *)this)->GameSpyInfo::reset();
 }
+
+// GameSpyInfo's constructor 0x00385FE1 installs the same vtable 0x00C19500,
+// whose slot 0 0x0038745D calls this destructor.
+#pragma comment(linker, "/alternatename:??1GameSpyInfo@@UAE@XZ=??1Rva00386374@@UAE@XZ")

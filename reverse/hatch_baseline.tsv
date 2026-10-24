@@ -4080,6 +4080,7 @@ alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/LoadSavedIgnoreListRva0
 alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/LoadSavedIgnoreListRva00385B78.cpp	?rva003B224D@IgnorePreferences@@QAE?AVRva00385B78SavedMap@@XZ	1
 alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/PeerDefsGroupRoomMapOperator.cpp	??0GameSpyGroupRoom@@QAE@ABV0@@Z	1
 alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/PeerOperationsComplete.cpp	_piIsOperationFinished	1
+alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/Rva00386374Dtor.cpp	??1GameSpyInfo@@UAE@XZ	1	allow=c2bdf1fdaa70bf23a67f10ab7b8148b610542d10
 alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PeerThread.cpp	??0PeerRequest@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PeerThread.cpp	??1PeerRequest@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PeerThread.cpp	__imp__htonl	1
