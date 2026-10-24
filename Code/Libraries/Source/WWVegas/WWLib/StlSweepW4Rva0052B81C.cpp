@@ -15,9 +15,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <cstddef>
 // bfme link decl-only begin
 namespace _STL { template <> void swap<_STLP_alloc_proxy<void **, void *, allocator<void *> > >(_STLP_alloc_proxy<void **, void *, allocator<void *> > &, _STLP_alloc_proxy<void **, void *, allocator<void *> > &); }
-namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(allocator<void *> const &); }
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(unsigned int, allocator<void *> const &); }
-namespace _STL { template <> vector<void *, allocator<void *> >::vector(allocator<void *> const &); }
 namespace _STL { template <> vector<void *, allocator<void *> >::vector(unsigned int, void *const &, allocator<void *> const &); }
 namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
@@ -32,7 +30,6 @@ namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> 
 namespace _STL { template <> void vector<void *, allocator<void *> >::insert(void **, unsigned int, void *const &); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
-namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Hashtable_node@U?$pair@$$CBHURva0052B81CElement@@@_STL@@@_STL@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
@@ -69,4 +66,6 @@ template <> void **vector<void*>::end();
 
 struct Rva0052B81CElement { char bytes[1]; bool operator<(const Rva0052B81CElement&)const; bool operator==(const Rva0052B81CElement&)const; };
 namespace _STL {template<> struct hash<Rva0052B81CElement> { unsigned operator()(const Rva0052B81CElement&) const; };}
-template class _STL::hash_map<int,Rva0052B81CElement>;
+// Instantiate only the rowed constructor: a whole-class instantiation also
+// emitted members needing the element's undefined operations.
+template _STL::hash_map<int, Rva0052B81CElement>::hash_map();
