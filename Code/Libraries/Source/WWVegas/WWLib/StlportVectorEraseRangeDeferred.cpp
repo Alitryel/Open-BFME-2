@@ -77,6 +77,27 @@
 //   0x005F8620  0x005F85AB*  0x005F85C8   Rva005F8620Element
 //   (* = landed from this unit as well)
 
+// Native copy dispatcher passes all five cdecl arguments (2B4410 -> 2B442D).
+// The range's opaque four-byte elements use the existing holder-copy provider.
+// This does not establish an original element or class name.
+struct Rva0040DC56Element;
+class Rva002B2F97;
+namespace _STL { struct random_access_iterator_tag; }
+Rva002B2F97 * __cdecl Rva002B442DCopy(Rva002B2F97 *, Rva002B2F97 *,
+    Rva002B2F97 *, const _STL::random_access_iterator_tag &, int *);
+namespace _STL {
+// ?_STL::__copy absent-from-retail
+static __forceinline Rva0040DC56Element *__copy(Rva0040DC56Element *first,
+    Rva0040DC56Element *last, Rva0040DC56Element *dest,
+    const random_access_iterator_tag &category, int *distance)
+{
+    return reinterpret_cast<Rva0040DC56Element *>(Rva002B442DCopy(
+        reinterpret_cast<Rva002B2F97 *>(first),
+        reinterpret_cast<Rva002B2F97 *>(last),
+        reinterpret_cast<Rva002B2F97 *>(dest), category, distance));
+}
+}
+
 namespace _STL
 {
 

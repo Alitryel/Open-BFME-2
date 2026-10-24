@@ -1,7 +1,9 @@
 // cl: /MD
-// ?Rva002B442DCopy@@YAPAVRva002B2F97@@PAV1@00@Z, retail 0x002B442D, 47 bytes.
+// ?Rva002B442DCopy@@YAPAVRva002B2F97@@PAV1@00ABUrandom_access_iterator_tag@_STL@@PAH@Z, retail 0x002B442D, 47 bytes.
 // Forward copy for Rva002B2F97 holders using rowed assignment 0x002B2F97.
-// Same shape as Rva005EF4C0Copy for Rva005EEFD2. Caller at 0x002B4423.
+// Native caller 0x002B4410 pushes the category reference and distance pointer
+// as well as the three holder pointers. The last two arguments are unused
+// by this worker, but remain part of its actual cdecl interface.
 
 struct TargetRef00217D4C
 {
@@ -24,7 +26,9 @@ private:
 	Rva002B2F97Target *m_ptr;
 };
 
-Rva002B2F97 * __cdecl Rva002B442DCopy(Rva002B2F97 *first, Rva002B2F97 *last, Rva002B2F97 *dest)
+namespace _STL { struct random_access_iterator_tag {}; }
+
+Rva002B2F97 * __cdecl Rva002B442DCopy(Rva002B2F97 *first, Rva002B2F97 *last, Rva002B2F97 *dest, const _STL::random_access_iterator_tag &, int *)
 {
 	int n = last - first;
 	if (n <= 0)
