@@ -121,19 +121,19 @@ void W3DProjectedShadowManager::rva0010BE72(void)
 					expired.push_back(shadow);
 				else
 				{
-					UnsignedInt value38 = shadow->m_value38;
+					UnsignedInt fadeInStartFrame = shadow->m_value38;
 					UnsignedInt value40 = shadow->m_value40;
 					UnsignedInt value44 = shadow->m_value44;
 					UnsignedInt value48 = shadow->m_value48;
 					UnsignedInt value4C = shadow->m_value4C;
 					UnsignedInt value50 = shadow->m_value50;
 					UnsignedInt value54 = shadow->m_value54;
-					if (frame < value38)
+					if (frame < fadeInStartFrame)
 						shadow->setOpacity(0);
 					else if (frame < value44)
 					{
 						double from = value40;
-						shadow->setOpacity(fast_float2long_round(ceil((float)(from + (Real)(frame - value38) / (Real)(value44 - value38) * (value48 - from)))));
+						shadow->setOpacity(fast_float2long_round(ceil((float)(from + (Real)(frame - fadeInStartFrame) / (Real)(value44 - fadeInStartFrame) * (value48 - from)))));
 					}
 					else if (frame < value4C)
 						shadow->setOpacity(value48);
