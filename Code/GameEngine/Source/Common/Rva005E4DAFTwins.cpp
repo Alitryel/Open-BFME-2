@@ -45,10 +45,10 @@ void Rva005E4DAF::Deselect(int v)
 {
 	if (m_2C) {
 		void *ret = &(*reinterpret_cast<Rva005E4BB7ServerMap *>(&m_1C))[v];
-		void *p = *(void **)ret;
-		void *q = *(void **)p;
+		void *server = *(void **)ret;
+		void *q = *(void **)server;
 		int r = *(int *)((char *)q + 4);
-		((Rva005F3F41Outer *)(r + (int)p))->set(0);
+		((Rva005F3F41Outer *)(r + (int)server))->set(0);
 	}
 	((Rva005F22D2 *)m_14)->rva005F2295(v);
 }
@@ -56,10 +56,10 @@ void Rva005E4DAF::Select(int v)
 {
 	if (m_2C) {
 		void *ret = &(*reinterpret_cast<Rva005E4BB7ServerMap *>(&m_1C))[v];
-		void *p = *(void **)ret;
-		void *q = *(void **)p;
+		void *server = *(void **)ret;
+		void *q = *(void **)server;
 		int r = *(int *)((char *)q + 4);
-		((Rva005F3F41Outer *)(r + (int)p))->set(1);
+		((Rva005F3F41Outer *)(r + (int)server))->set(1);
 	}
 	((Rva005F2406 *)m_14)->rva005F2406(v);
 }
