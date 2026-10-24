@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
 
-// ?rva00141DC0@Rva00141DC0@@QAEPAXPAX@Z, retail 0x00141DC0, 44 bytes.
+// ?pushFront@Rva00141DC0@@QAEPAXPAX@Z, retail 0x00141DC0, 44 bytes.
 // List push_front via global 8-byte pool at 0x009B424C (VA 0x00DB424C):
 // pops a node through landed Rva0006EFC8::rva00141800, stores *(void**)arg
 // into node+4 when the derived value pointer is non-null (dead lea-test-je
@@ -21,13 +21,13 @@ extern Rva0006EFC8 g_BfmeSceneNodePool;
 class Rva00141DC0
 {
 public:
-	void *rva00141DC0(void *arg);
+	void *pushFront(void *arg);
 
 private:
 	void *m_head;
 };
 
-void *Rva00141DC0::rva00141DC0(void *arg)
+void *Rva00141DC0::pushFront(void *arg)
 {
 	void *node = g_BfmeSceneNodePool.rva00141800();
 	void **valuePtr = (void **)((char *)node + 4);
@@ -44,10 +44,10 @@ void *Rva00141DC0::rva00141DC0(void *arg)
 class Rva00141D60
 {
 public:
-	void *rva00141D60(void *arg);
+	void *createNode(void *arg);
 };
 
-void *Rva00141D60::rva00141D60(void *arg)
+void *Rva00141D60::createNode(void *arg)
 {
 	void *node = g_BfmeSceneNodePool.rva00141800();
 	void **valuePtr = (void **)((char *)node + 4);
@@ -62,10 +62,10 @@ void *Rva00141D60::rva00141D60(void *arg)
 class Rva00141CB0
 {
 public:
-	void *rva00141CB0(unsigned int count, const void *hint);
+	void *allocate(unsigned int count, const void *hint);
 };
 
-void *Rva00141CB0::rva00141CB0(unsigned int count, const void *hint)
+void *Rva00141CB0::allocate(unsigned int count, const void *hint)
 {
 	if (count > 1)
 		return 0;
