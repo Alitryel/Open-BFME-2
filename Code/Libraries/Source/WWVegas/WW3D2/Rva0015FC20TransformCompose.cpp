@@ -47,8 +47,8 @@ struct Rva0015FC20TransformPrefix
 
 void Rva0015FC20TransformPrefix::compose(const Rva0015FC20TransformPrefix &other)
 {
-	Rva0015FC20Vector p;
-	Rotation.Rotate_Vector(other.Position, &p);
-	Position += p;
+	Rva0015FC20Vector rotatedPosition;
+	Rotation.Rotate_Vector(other.Position, &rotatedPosition);
+	Position += rotatedPosition;
 	Rotation.multiply(other.Rotation);
 }
