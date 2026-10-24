@@ -6,7 +6,7 @@ struct Rva000F0AB2Node
 {
 	virtual void *rva000F0AB2virt(int arg);
 	char m_pad04[0x68 - 4];
-	Rva000F0AB2Node *m_next68;
+	Rva000F0AB2Node *m_next;
 };
 
 class Rva000F0AB2
@@ -24,7 +24,7 @@ void Rva000F0AB2::rva000F0AB2()
 	Rva000F0AB2Node *node = head;
 	while (head)
 	{
-		Rva000F0AB2Node **slot = &node->m_next68;
+		Rva000F0AB2Node **slot = &node->m_next;
 		head = *slot;
 		*slot = 0;
 		void *p = node->rva000F0AB2virt(0);

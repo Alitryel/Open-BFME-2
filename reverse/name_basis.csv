@@ -547,3 +547,4 @@ function,?rva00180274@Gen_dtor_00970f60@@UAEXXZ,?Load@Gen_dtor_00970f60@@UAEXXZ,
 param,ArmySummarySystem::ComputePlayerEarnedSpellPoints::a,ArmySummarySystem::ComputePlayerEarnedSpellPoints::player,inferred,agree:nl-123122fe8894,Code/GameEngine/Source/Common/ArmySummarySystem_ComputePlayerEarnedSpellPoints.cpp,0x0040CA61
 param,Rva00739BE0::rva00739BE0::f,Rva00739BE0::rva00739BE0::radius,inferred,agree:nl-08575566d52a,Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp,0x00739BE0
 param,Rva00739A30::rva00739A30::f,Rva00739A30::rva00739A30::radius,inferred,agree:nl-f6265e8dfa6f,Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp,0x00739A30
+member,Rva000F0AB2Node::m_next68,Rva000F0AB2Node::m_next,inferred,agree:nl-7ec4c8ac620f,Code/GameEngine/Source/Common/Rva000F0AB2Cleanup.cpp,

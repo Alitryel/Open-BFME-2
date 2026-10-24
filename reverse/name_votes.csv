@@ -1578,3 +1578,10 @@ Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp|param|Rva00739A30::rva00739A30
 Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp|param|Rva00739A30::rva00739A30|f,19923eb9df7d18e0c09dd431,seat-a,rn-1023b-4-a,w-59f8ba20cd3d,2026-10-24
 Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp|param|Rva00739BE0::rva00739BE0|p,6a3fb1fca53c00af43c6d7db,seat-b,rn-1023b-4-b,w-8098f74d21e0,2026-10-24
 Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp|param|Rva00739A30::rva00739A30|p,04ec22cfa44eab115d28735c,seat-b,rn-1023b-4-b,w-8098f74d21e0,2026-10-24
+Code/GameEngine/Source/Common/Rva000F0AB2Cleanup.cpp|class||Rva000F0AB2Node,7d62c87b1a371f10b5a5891f,seat-a,rn-1023b-8-a,w-850b6c1fbbb9,2026-10-24
+Code/GameEngine/Source/Common/Rva000F0AB2Cleanup.cpp|member|Rva000F0AB2Node|m_next68,cb21e7e58e5422ef8771d582,seat-a,rn-1023b-8-a,w-850b6c1fbbb9,2026-10-24
+Code/GameEngine/Source/Common/Rva000F0AB2Cleanup.cpp|function|0x000F0AB2|rva000F0AB2,a6bbbeba59edf2f0e045f29e,seat-a,rn-1023b-8-a,w-850b6c1fbbb9,2026-10-24
+Code/GameEngine/Source/Common/Rva000F0AB2Cleanup.cpp|local|Rva000F0AB2::rva000F0AB2|p,57afbc91005d1aa0e3c22cd7,seat-a,rn-1023b-8-a,w-850b6c1fbbb9,2026-10-24
+Code/GameEngine/Source/Common/Rva000F0AB2Cleanup.cpp|class||Rva000F0AB2Node,7d62c87b1a371f10b5a5891f,seat-b,rn-1023b-8-b,w-e8df34fc6c20,2026-10-24
+Code/GameEngine/Source/Common/Rva000F0AB2Cleanup.cpp|function|0x000F0AB2|rva000F0AB2,a6bbbeba59edf2f0e045f29e,seat-b,rn-1023b-8-b,w-e8df34fc6c20,2026-10-24
+Code/GameEngine/Source/Common/Rva000F0AB2Cleanup.cpp|local|Rva000F0AB2::rva000F0AB2|p,fa4b36d19173d7c27a9fe8e8,seat-b,rn-1023b-8-b,w-e8df34fc6c20,2026-10-24
