@@ -523,34 +523,91 @@ namespace _STL { template <> void vector<Rva0020A227Element,allocator<Rva0020A22
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva0020A227Element;
 namespace _STL { template <> void _Destroy<Rva0020A227Element *>(Rva0020A227Element *,Rva0020A227Element *); }
-// Suppress this TU's non-retail copy of ?_M_clear@?$vector@URva005FA1CEElement@@V?$allocator@URva005FA1CEElement@@@_STL@@@_STL@@IA:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
+// Retail's 4-byte vectors share one clear worker (0x00577EF1, rowed as
+// vector<Rva002B9062Element>::_M_clear); this view reaches the protected member.
+struct Rva002B9062ClearAccess : _STL::vector<Rva002B9062Element>
+{
+	__forceinline void clearWorker() { _M_clear(); }
+};
 struct Rva005FA1CEElement;
-namespace _STL { template <> void vector<Rva005FA1CEElement,allocator<Rva005FA1CEElement> >::_M_clear(); }
-// Suppress this TU's non-retail copy of ?_M_clear@?$vector@URva005FA197Element@@V?$allocator@URva005FA197Element@@@_STL@@@_STL@@IA:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva005FA197Element;
-namespace _STL { template <> void vector<Rva005FA197Element,allocator<Rva005FA197Element> >::_M_clear(); }
-// Suppress this TU's non-retail copy of ??$_Destroy@PAURva004F93B0Element@@@_STL@@YAXPAURva004F93B0Element@@0@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> __declspec(dllimport) __forceinline void vector<Rva005FA1CEElement,allocator<Rva005FA1CEElement> >::_M_clear() { ((Rva002B9062ClearAccess *)this)->clearWorker(); } }
+// Retail calls each of these helpers out of line at an address the ledger
+// already rows under another spelling; each forwarder reaches that row with
+// the call shape of the helper it replaces (generated from the retail REL32s).
+class LivingWorldRegionConnection;
+class Rva004E366E;
+class Rva0052BE33;
+struct BfmeAssignRecord44;
+struct BfmeStringRecord00466E64;
+struct BfmeStringRecord005DDD40;
+struct DynamicPortalLink;
+struct Elem00467DCD;
+struct Rva001DF3F1Element;
+struct Rva0022CD2A;
+struct Rva00260B88Element;
+struct Rva0027EA49;
+struct Rva00308E2CElement;
+struct Rva0032DC80Element;
+struct Rva0032EA3FElement;
+struct Rva0033A23AElement;
+struct Rva00414258Element;
+struct Rva00414BA4Element;
+struct Rva00414BDBElement;
+struct Rva004F6986;
+struct Rva004F8D92Element;
 struct Rva004F93B0Element;
-namespace _STL { template <> void _Destroy<Rva004F93B0Element *>(Rva004F93B0Element *,Rva004F93B0Element *); }
+struct Rva0052BF9BElem;
+struct Rva005668E9Element;
+struct RvaPair0032C0CA;
+struct TreeHintRef00217D4C;
+void __cdecl Rva00467DCDDestroy(Elem00467DCD *,Elem00467DCD *);
+namespace _STL { template <> void __destroy_aux<struct Rva00414BDBElement *>(Rva00414BDBElement *,Rva00414BDBElement *,_STL::__false_type const &); }
+namespace _STL { template <> void _Destroy<struct BfmeStringRecord005DDD40 *>(BfmeStringRecord005DDD40 *,BfmeStringRecord005DDD40 *); }
+namespace _STL { template <> void _Destroy<struct Rva0027EA49 *>(Rva0027EA49 *,Rva0027EA49 *); }
+void __cdecl Rva0032C0CADestroyPairs(RvaPair0032C0CA *,RvaPair0032C0CA *);
+namespace _STL { template <> void _Destroy<struct DynamicPortalLink *>(DynamicPortalLink *,DynamicPortalLink *); }
+void __cdecl Rva0022D941Destroy(Rva0022CD2A *,Rva0022CD2A *);
+namespace _STL { template <> void _Destroy<struct BfmeAssignRecord44 *>(BfmeAssignRecord44 *,BfmeAssignRecord44 *); }
+namespace _STL { template <> void _Destroy<struct TreeHintRef00217D4C *>(TreeHintRef00217D4C *,TreeHintRef00217D4C *); }
+void __cdecl Rva004F8373Destroy(Rva004F6986 *,Rva004F6986 *);
+void __cdecl Rva0052CEF6Clear(Rva004E366E *,Rva004E366E *);
+void __cdecl Rva003F0CA1_DestroyRange(LivingWorldRegionConnection *,LivingWorldRegionConnection *);
+void __cdecl Rva0022C8E3DestroyRange(Rva0052BF9BElem *,Rva0052BF9BElem *);
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct BfmeStringRecord00466E64 *>(BfmeStringRecord00466E64 * a0, BfmeStringRecord00466E64 * a1)
+{ ((void (__cdecl *)(BfmeStringRecord00466E64 *,BfmeStringRecord00466E64 *))(void (__cdecl *)(Elem00467DCD *,Elem00467DCD *))&Rva00467DCDDestroy)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva001DF3F1Element *>(Rva001DF3F1Element * a0, Rva001DF3F1Element * a1)
+{ ((void (__cdecl *)(Rva001DF3F1Element *,Rva001DF3F1Element *))(void (__cdecl *)(Rva00414BDBElement *,Rva00414BDBElement *,_STL::__false_type const &))&_STL::__destroy_aux<Rva00414BDBElement *>)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva00260B88Element *>(Rva00260B88Element * a0, Rva00260B88Element * a1)
+{ ((void (__cdecl *)(Rva00260B88Element *,Rva00260B88Element *))(void (__cdecl *)(BfmeStringRecord005DDD40 *,BfmeStringRecord005DDD40 *))&_STL::_Destroy<BfmeStringRecord005DDD40 *>)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva00308E2CElement *>(Rva00308E2CElement * a0, Rva00308E2CElement * a1)
+{ ((void (__cdecl *)(Rva00308E2CElement *,Rva00308E2CElement *))(void (__cdecl *)(Rva0027EA49 *,Rva0027EA49 *))&_STL::_Destroy<Rva0027EA49 *>)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva0032DC80Element *>(Rva0032DC80Element * a0, Rva0032DC80Element * a1)
+{ ((void (__cdecl *)(Rva0032DC80Element *,Rva0032DC80Element *))(void (__cdecl *)(RvaPair0032C0CA *,RvaPair0032C0CA *))&Rva0032C0CADestroyPairs)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva0032EA3FElement *>(Rva0032EA3FElement * a0, Rva0032EA3FElement * a1)
+{ ((void (__cdecl *)(Rva0032EA3FElement *,Rva0032EA3FElement *))(void (__cdecl *)(DynamicPortalLink *,DynamicPortalLink *))&_STL::_Destroy<DynamicPortalLink *>)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva0033A23AElement *>(Rva0033A23AElement * a0, Rva0033A23AElement * a1)
+{ ((void (__cdecl *)(Rva0033A23AElement *,Rva0033A23AElement *))(void (__cdecl *)(DynamicPortalLink *,DynamicPortalLink *))&_STL::_Destroy<DynamicPortalLink *>)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva00414258Element *>(Rva00414258Element * a0, Rva00414258Element * a1)
+{ ((void (__cdecl *)(Rva00414258Element *,Rva00414258Element *))(void (__cdecl *)(Rva0022CD2A *,Rva0022CD2A *))&Rva0022D941Destroy)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva00414BA4Element *>(Rva00414BA4Element * a0, Rva00414BA4Element * a1)
+{ ((void (__cdecl *)(Rva00414BA4Element *,Rva00414BA4Element *))(void (__cdecl *)(BfmeAssignRecord44 *,BfmeAssignRecord44 *))&_STL::_Destroy<BfmeAssignRecord44 *>)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva004F8D92Element *>(Rva004F8D92Element * a0, Rva004F8D92Element * a1)
+{ ((void (__cdecl *)(Rva004F8D92Element *,Rva004F8D92Element *))(void (__cdecl *)(TreeHintRef00217D4C *,TreeHintRef00217D4C *))&_STL::_Destroy<TreeHintRef00217D4C *>)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva004F93B0Element *>(Rva004F93B0Element * a0, Rva004F93B0Element * a1)
+{ ((void (__cdecl *)(Rva004F93B0Element *,Rva004F93B0Element *))(void (__cdecl *)(Rva004F6986 *,Rva004F6986 *))&Rva004F8373Destroy)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva005668E9Element *>(Rva005668E9Element * a0, Rva005668E9Element * a1)
+{ ((void (__cdecl *)(Rva005668E9Element *,Rva005668E9Element *))(void (__cdecl *)(Rva004E366E *,Rva004E366E *))&Rva0052CEF6Clear)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<class LivingWorldRegionConnection *>(LivingWorldRegionConnection * a0, LivingWorldRegionConnection * a1)
+{ ((void (__cdecl *)(LivingWorldRegionConnection *,LivingWorldRegionConnection *))(void (__cdecl *)(LivingWorldRegionConnection *,LivingWorldRegionConnection *))&Rva003F0CA1_DestroyRange)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<class Rva0052BE33 *>(Rva0052BE33 * a0, Rva0052BE33 * a1)
+{ ((void (__cdecl *)(Rva0052BE33 *,Rva0052BE33 *))(void (__cdecl *)(Rva0052BF9BElem *,Rva0052BF9BElem *))&Rva0022C8E3DestroyRange)(a0, a1); } }
+
+struct Rva005FA197Element;
+namespace _STL { template <> __declspec(dllimport) __forceinline void vector<Rva005FA197Element,allocator<Rva005FA197Element> >::_M_clear() { ((Rva002B9062ClearAccess *)this)->clearWorker(); } }
 // Suppress this TU's non-retail copy of ??$_Destroy@PAURva004C3F09Element@@@_STL@@YAXPAURva004C3F09Element@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva004C3F09Element;
 namespace _STL { template <> void _Destroy<Rva004C3F09Element *>(Rva004C3F09Element *,Rva004C3F09Element *); }
-// Suppress this TU's non-retail copy of ??$_Destroy@PAUBfmeStringRecord00466E64@@@_STL@@YAXPAUBfmeStringRecord00466E64@@0@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct BfmeStringRecord00466E64;
-namespace _STL { template <> void _Destroy<BfmeStringRecord00466E64 *>(BfmeStringRecord00466E64 *,BfmeStringRecord00466E64 *); }
-// Suppress this TU's non-retail copy of ??$_Destroy@PAURva00414BA4Element@@@_STL@@YAXPAURva00414BA4Element@@0@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva00414BA4Element;
-namespace _STL { template <> void _Destroy<Rva00414BA4Element *>(Rva00414BA4Element *,Rva00414BA4Element *); }
-// Suppress this TU's non-retail copy of ??$_Destroy@PAVLivingWorldRegionConnection@@@_STL@@YAXPAVLivingWorldRegionConnection@@0@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-class LivingWorldRegionConnection;
-namespace _STL { template <> void _Destroy<LivingWorldRegionConnection *>(LivingWorldRegionConnection *,LivingWorldRegionConnection *); }
 // Suppress this TU's non-retail copy of ??$_Destroy@PAUBfmeStringRecord00395E75@@@_STL@@YAXPAUBfmeStringRecord00395E75@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeStringRecord00395E75;
@@ -559,22 +616,10 @@ namespace _STL { template <> void _Destroy<BfmeStringRecord00395E75 *>(BfmeStrin
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva0039A48EElement;
 namespace _STL { template <> void _Destroy<Rva0039A48EElement *>(Rva0039A48EElement *,Rva0039A48EElement *); }
-// Suppress this TU's non-retail copy of ??$_Destroy@PAURva0033A23AElement@@@_STL@@YAXPAURva0033A23AElement@@0@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva0033A23AElement;
-namespace _STL { template <> void _Destroy<Rva0033A23AElement *>(Rva0033A23AElement *,Rva0033A23AElement *); }
 // Suppress this TU's non-retail copy of ??$_Destroy@PAURva003328B6Element@@@_STL@@YAXPAURva003328B6Element@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva003328B6Element;
 namespace _STL { template <> void _Destroy<Rva003328B6Element *>(Rva003328B6Element *,Rva003328B6Element *); }
-// Suppress this TU's non-retail copy of ??$_Destroy@PAURva0032EA3FElement@@@_STL@@YAXPAURva0032EA3FElement@@0@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva0032EA3FElement;
-namespace _STL { template <> void _Destroy<Rva0032EA3FElement *>(Rva0032EA3FElement *,Rva0032EA3FElement *); }
-// Suppress this TU's non-retail copy of ??$_Destroy@PAURva0032DC80Element@@@_STL@@YAXPAURva0032DC80Element@@0@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva0032DC80Element;
-namespace _STL { template <> void _Destroy<Rva0032DC80Element *>(Rva0032DC80Element *,Rva0032DC80Element *); }
 // Suppress this TU's non-retail copy of ??$_Destroy@PAURva005E1E9BElement@@@_STL@@YAXPAURva005E1E9BElement@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva005E1E9BElement;
@@ -587,14 +632,6 @@ namespace _STL { template <> void __destroy<Rva005E1E9BElement *,Rva005E1E9BElem
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva00318203Element;
 namespace _STL { template <> void _Destroy<Rva00318203Element *>(Rva00318203Element *,Rva00318203Element *); }
-// Suppress this TU's non-retail copy of ??$_Destroy@PAURva00308E2CElement@@@_STL@@YAXPAURva00308E2CElement@@0@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva00308E2CElement;
-namespace _STL { template <> void _Destroy<Rva00308E2CElement *>(Rva00308E2CElement *,Rva00308E2CElement *); }
-// Suppress this TU's non-retail copy of ??$_Destroy@PAURva001DF3F1Element@@@_STL@@YAXPAURva001DF3F1Element@@0@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva001DF3F1Element;
-namespace _STL { template <> void _Destroy<Rva001DF3F1Element *>(Rva001DF3F1Element *,Rva001DF3F1Element *); }
 // Suppress this TU's non-retail copy of ??$_Destroy@PAURva001DAAF2Element@@@_STL@@YAXPAURva001DAAF2Element@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva001DAAF2Element;
@@ -615,26 +652,10 @@ namespace _STL { template <> void __destroy<Rva005FA1CEElement *,Rva005FA1CEElem
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva005FA197Element;
 namespace _STL { template <> void __destroy<Rva005FA197Element *,Rva005FA197Element>(Rva005FA197Element *,Rva005FA197Element *,Rva005FA197Element *); }
-// Suppress this TU's non-retail copy of ??$_Destroy@PAURva00260B88Element@@@_STL@@YAXPAURva00260B88Element@@0@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva00260B88Element;
-namespace _STL { template <> void _Destroy<Rva00260B88Element *>(Rva00260B88Element *,Rva00260B88Element *); }
-// Suppress this TU's non-retail copy of ??$_Destroy@PAURva005668E9Element@@@_STL@@YAXPAURva005668E9Element@@0@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva005668E9Element;
-namespace _STL { template <> void _Destroy<Rva005668E9Element *>(Rva005668E9Element *,Rva005668E9Element *); }
-// Suppress this TU's non-retail copy of ??$_Destroy@PAVRva0052BE33@@@_STL@@YAXPAVRva0052BE33@@0@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-class Rva0052BE33;
-namespace _STL { template <> void _Destroy<Rva0052BE33 *>(Rva0052BE33 *,Rva0052BE33 *); }
 // Suppress this TU's non-retail copy of ??$_Destroy@PAURva002B72C9@@@_STL@@YAXPAURva002B72C9@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva002B72C9;
 namespace _STL { template <> void _Destroy<Rva002B72C9 *>(Rva002B72C9 *,Rva002B72C9 *); }
-// Suppress this TU's non-retail copy of ??$_Destroy@PAURva00414258Element@@@_STL@@YAXPAURva00414258Element@@0@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva00414258Element;
-namespace _STL { template <> void _Destroy<Rva00414258Element *>(Rva00414258Element *,Rva00414258Element *); }
 // Suppress this TU's non-retail copy of ??$_Destroy@PAURva002898ACElement@@@_STL@@YAXPAURva002898ACElement@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva002898ACElement;
@@ -671,10 +692,6 @@ namespace _STL { template <> void _Destroy<Rva00578425Element *>(Rva00578425Elem
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva00578425Element;
 namespace _STL { template <> void __destroy_aux<Rva00578425Element *>(Rva00578425Element *,Rva00578425Element *,__false_type const &); }
-// Suppress this TU's non-retail copy of ??$_Destroy@PAURva004F8D92Element@@@_STL@@YAXPAURva004F8D92Element@@0@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva004F8D92Element;
-namespace _STL { template <> void _Destroy<Rva004F8D92Element *>(Rva004F8D92Element *,Rva004F8D92Element *); }
 
 class Rva0030E8DF { public: void rva0030E8DF(); };
 class SmoothCameraHeightField
