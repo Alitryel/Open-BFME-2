@@ -4618,3 +4618,8 @@ Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioSubtitleConsumer.cpp|mem
 Code/GameEngine/Source/Common/Rva0049355ERatio.cpp|class||Rva0049355EHolder,095256b7019a51f7ec4bc644,gpt-6.1-sol,codexb-20261024-101137-8,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva0049355ERatio.cpp|class||Rva0049355E,aaa027db8765ac2022634445,gpt-6.1-sol,codexb-20261024-101137-8,w-8e883e57d025,2026-10-24
 Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp|param|appendPlaybackItem|v,7da9b844ddf19cb488f5850d,gpt-6.1-sol,codexb-20261024-101137-9,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva00276223Leaf.cpp|local|Rva00276223::rva00276223|p,2dd3dbce5c864c615cef36a0,gpt-6.1-sol,codexb-20261024-104106-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp|function|0x004FDCFF|rva004FDCFF,16c61de23763c766064d6750,gpt-6.1-sol,codexb-20261024-104106-4,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp|function|0x004FDD36|rva004FDD36,4a4a8b96a7010e4c34324cec,gpt-6.1-sol,codexb-20261024-104106-4,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp|function|0x004CFBC2|rva004CFBC2,698d5504ed067fa71bbaebf6,gpt-6.1-sol,codexb-20261024-104106-4,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp|function|0x004CFB8B|rva004CFB8B,e369679386a9d24e1dae8b83,gpt-6.1-sol,codexb-20261024-104106-4,w-8e883e57d025,2026-10-24
