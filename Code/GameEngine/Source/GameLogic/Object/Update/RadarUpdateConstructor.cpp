@@ -75,10 +75,3 @@ RadarUpdate::RadarUpdate( Thing *thing, const ModuleData *moduleData )
 	m_value20 = 0;
 	m_flag24 = false;
 }
-
-// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
-// each one has the same function in that slot (vftable addresses from matched vptr
-// stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?updateAnchor@RadarUpdate@@UAEXXZ=?update@RadarUpdate@@UAE?AW4UpdateSleepTime@@XZ")
-#pragma comment(linker, "/alternatename:?behaviorAnchor@RadarUpdate@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
-#pragma comment(linker, "/alternatename:?objectModuleAnchor@RadarUpdate@@UAEXXZ=??_GRva004A0C0E@@UAEPAXI@Z")

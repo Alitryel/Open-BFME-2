@@ -150,7 +150,6 @@ public:
 	Rva000421C8 *m_next;
 };
 
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
 
 // vftable 0x00C4D040, allow 0x00260F9E: the member filter at +0x08 and
 // whether a counted hit allows.

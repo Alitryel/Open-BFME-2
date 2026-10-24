@@ -90,15 +90,3 @@ GeometryUpgrade::GeometryUpgrade(Thing *thing, const ModuleData *moduleData) :
 {
 	m_upgradeName.clear();
 }
-
-// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
-// each one has the same function in that slot (vftable addresses from matched vptr
-// stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?upgradeMuxAnchor@UpgradeMuxBase@@UAEXXZ=?Is_Valid@RegistryClass@@QAE_NXZ")
-#pragma comment(linker, "/alternatename:?upgradeIfaceBAnchor@UpgradeIfaceB@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
-#pragma comment(linker, "/alternatename:?upgradeIfaceAAnchor@UpgradeIfaceA@@UAEXXZ=??_GGeometryUpgrade@@UAEPAXI@Z")
-
-// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
-// each one has the same function in that slot (vftable addresses from matched vptr
-// stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?upgradeTailAnchor@UpgradeTailBase@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")

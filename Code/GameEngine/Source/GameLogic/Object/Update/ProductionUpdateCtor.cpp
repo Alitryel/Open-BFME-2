@@ -204,8 +204,3 @@ ProductionUpdate::ProductionUpdate(Thing *thing, const ModuleData *moduleData) :
 		m_doors[i].m_at0C = 0;
 	}
 }
-
-// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
-// each one has the same function in that slot (vftable addresses from matched vptr
-// stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?behaviorModuleOtherAnchor@BehaviorModuleOther@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

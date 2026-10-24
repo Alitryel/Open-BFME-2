@@ -130,7 +130,6 @@ public:
 };
 extern PartitionManager *ThePartitionManager;
 
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
 
 Object *bfmeQueryRallyOverride(Object *obj, const Coord3D *pos)
 {

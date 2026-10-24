@@ -193,7 +193,6 @@ bool Rva004ACDACFilter::allow(Object *obj)
     return false;
 }
 
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
 struct BfmeWideResult
 {
 	Object *next() throw();	// 0x00045623
@@ -337,4 +336,3 @@ void rva004ACD8E(Object *obj)
 	if (obj && obj->m_experienceTracker264)
 		obj->m_experienceTracker264->rva0039B4EC(1, true, false);
 }
-

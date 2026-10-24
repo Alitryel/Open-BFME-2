@@ -61,7 +61,6 @@ private:
 // getTailEAN (0x0030F2C7, rowed by LuaScriptEngineProcessEventList.cpp) and
 // the EventList handler ProcessEventList (0x00337EAA) are called directly.
 
-#pragma comment(linker, "/alternatename:?finish@XmlNameSlotList@@QAEHXZ=?j_00049ae4@@YAXXZ")
 
 // ?ProcessSageElement@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z
 void LuaScriptEngine::ProcessSageElement(BfmeLexEAN *parser)
