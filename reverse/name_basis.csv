@@ -1079,3 +1079,4 @@ global,?g_bfmeArgDXE@@3PAEA,?vtMissing@@3PAEA,inferred,agree:nl-dc6f740ad518,Cod
 class,BfmeVtblECF,IFEBrowserEngine2Vtbl,inferred,agree:nl-a43e08bc7b41,Code/GameEngine/Source/Common/BfmeConv804.cpp,
 local,bfmeGo925A::o,bfmeGo925A::comboBoxData,inferred,agree:nl-cf5459f5965b,Code/GameEngine/Source/Common/BfmeConv925.cpp,0x002C0315
 local,bfmeGo925A::p,bfmeGo925A::listBox,inferred,agree:nl-5e90e446ad5c,Code/GameEngine/Source/Common/BfmeConv925.cpp,0x002C0315
+class,Rva004ED3A2Tag,FalseType,inferred,agree:nl-2b8df04974e1,Code/GameEngine/Source/Common/CursorCompaction.cpp,

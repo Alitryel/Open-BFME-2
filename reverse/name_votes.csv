@@ -4751,3 +4751,5 @@ Code/GameEngine/Source/Common/Containers/Rva003A39C0RecordInsertion.cpp|local|Rv
 Code/GameEngine/Source/Common/Containers/Rva003A39C0RecordInsertion.cpp|local|Rva003A39C0Owner::insertAtBegin|temp,0e75081a127059840b3547f5,gpt-6-astra,codexb2-20261024-113011-10,w-d0bdfd8b17e9,2026-10-24
 Code/Libraries/Source/WWVegas/WW3D2/Rva00141DC0CreateNode.cpp|param|Rva00141DC0::rva00141DC0|arg,675d9a548afe1d9d53860eae,gpt-6-astra,codexb2-20261024-113011-10,w-d0bdfd8b17e9,2026-10-24
 Code/Libraries/Source/WWVegas/WW3D2/Rva00141DC0CreateNode.cpp|param|Rva00141D60::rva00141D60|arg,3a6158a8d2585926d79de6fb,gpt-6-astra,codexb2-20261024-113011-10,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/CursorCompaction.cpp|class||Rva004ED3A2Tag,5745aa76dc4fe391d744f461,seat-a,rn-1024b-9-a,w-32cb96fe90bc,2026-10-24
+Code/GameEngine/Source/Common/CursorCompaction.cpp|class||Rva004ED3A2Tag,5745aa76dc4fe391d744f461,seat-b,rn-1024b-9-b,w-99786ec69c2e,2026-10-24
