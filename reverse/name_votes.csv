@@ -5552,3 +5552,10 @@ Code/GameEngine/Source/Common/Rva002BFF5A.cpp|function|0x002BFF5A|rva002BFF5A,5c
 Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp|param|appendPlaybackItem|v,7da9b844ddf19cb488f5850d,claude-opus-5-5,dioragon-3,w-2f5376c24d26,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMapVisibleBounds.cpp|local|Rva000E1669::rva000E1669|x,f0103f221cbd0890e01bf850,claude-opus-5-5,dioragon-3,w-2f5376c24d26,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMapVisibleBounds.cpp|local|Rva000E1669::rva000E1669|y,d28ed7a12a85aecf58f7e994,claude-opus-5-5,dioragon-3,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Create/SupplyWarehouseCreateRva004B901D.cpp|function|0x004B901D|rva004B901D,966fe1b12e93412aef6ca60e,claude-opus-5-5,dioragon-4,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Create/SupplyWarehouseCreateRva004B901D.cpp|local|SupplyWarehouseCreate::rva004B901D|f,8106327086140309dd7a2a94,claude-opus-5-5,dioragon-4,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C08CC.cpp|local|Rva003C08CC::rva003C08CC|s,4a19d8beaf4ef359f0c1ab95,claude-opus-5-5,dioragon-4,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesS3B.cpp|class||Rva0030B0A3,a54d945ab105a2ad60ebe956,claude-opus-5-5,dioragon-5,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Made002CCBCASlots.cpp|param|Made002CCBCA::rva0050B7D2|arg,a1adb4392174b8b5aed5a2eb,claude-opus-5-5,dioragon-5,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Made002CCBCASlots.cpp|param|Made002CCBCA::rva0050B843|arg,3b70ab3934eea720641b23ba,claude-opus-5-5,dioragon-5,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Made002CCBCASlots.cpp|param|Made002CCBCA::rva0050B745|arg,77a00e46e4ce3a3488fd0b2a,claude-opus-5-5,dioragon-5,w-2f5376c24d26,2026-10-24
