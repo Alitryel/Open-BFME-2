@@ -70,7 +70,7 @@ public:
 	virtual void slot16();
 	virtual void slot17();
 	virtual PathfindLayerEnum Rva002811DD(float angle, const Coord3D &pos, bool stickToGround, Matrix3D &mtx);
-	virtual bool Rva0027D77D(float x, float y, float *a, float *b, bool *c);
+	virtual bool Rva0027D77D(float x, float y, float *waterZ, float *terrainZ, bool *c);
 	virtual void slot20();
 	virtual void slot21();
 	virtual void slot22();
@@ -205,17 +205,17 @@ struct Rva0027D77DWaterView
 	virtual void slot00();
 	virtual bool slot01();
 };
-bool W3DTerrainLogic::Rva0027D77D(float x, float y, float *a, float *b, bool *c)
+bool W3DTerrainLogic::Rva0027D77D(float x, float y, float *waterZ, float *terrainZ, bool *c)
 {
 	float ground = slot06(x, y, 0);
 	void *water = slot26(x, y, ground);
 	if (water == 0)
 		return false;
 	float h = getWaterHeight(water);
-	if (a != 0)
-		*a = h;
-	if (b != 0)
-		*b = ground;
+	if (waterZ != 0)
+		*waterZ = h;
+	if (terrainZ != 0)
+		*terrainZ = ground;
 	if (c != 0)
 		*c = ((Rva0027D77DWaterView *)water)->slot01();
 	return h > ground;
