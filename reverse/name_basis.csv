@@ -1029,3 +1029,4 @@ local,Rva0053FE64Get::p0,Rva0053FE64Get::frame0,inferred,agree:nl-bd92f58e1571,C
 local,Rva0053FE64Get::p1,Rva0053FE64Get::frame1,inferred,agree:nl-4e4f5df598bf,Code/GameEngine/Source/Common/Rva0053FE64.cpp,0x0053FE64
 local,Rva0053FE64Get::p2,Rva0053FE64Get::frame2,inferred,agree:nl-8356a203e1fa,Code/GameEngine/Source/Common/Rva0053FE64.cpp,0x0053FE64
 local,Rva0053FE64Get::p3,Rva0053FE64Get::frame3,inferred,agree:nl-e93e2dd6e0d3,Code/GameEngine/Source/Common/Rva0053FE64.cpp,0x0053FE64
+global,?g_Va00DB52E8@@3MA,?g_wakeSpeedRatioStep@@3MA,inferred,agree:nl-347f6fc31b35,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DBoatWakeModelDrawDoDrawModule.cpp,0x009B52E8

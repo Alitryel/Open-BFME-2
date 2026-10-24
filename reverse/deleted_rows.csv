@@ -2374,3 +2374,4 @@ __ehhandler$?rva007B5343@@YAXXZ,0x007A552F,"Renamed to __ehhandler$?initDisbandA
 ??1_Loc_init@ios_base@_STL@@QAE@XZ,0x000070E0,"Swapped with ?_S_uninitialize@locale@_STL@@SAXXZ: 0x000070E0 is only called directly from ios_base::_S_uninitialize (0x000157B1); the _Loc_init sentry atexit thunks tail-jump to 0x00007670"
 ?_S_uninitialize@locale@_STL@@SAXXZ,0x00007670,"Swapped with ??1_Loc_init@ios_base@_STL@@QAE@XZ: the five atexit thunks load ecx with the one-byte _Loc_init sentries and tail-jump to 0x00007670"
 ??2Rva001B6400Allocation@@SAPAXIW4AllocationTag@0@@Z,0x001B6400,Renamed to ?duck_malloc@@YAPAXIH@Z (VP6 clean-room spec reverse/vp6_cleanroom/specs/001b6400.md) owned by Code/Libraries/Source/VP6/DuckMemAlloc.cpp; the placeholder definition was removed so no object defines this name
+?g_Va00DB52E8@@3MA,0x009B52E8,"Renamed to ?g_wakeSpeedRatioStep@@3MA by tools/rename.py (inferred)"

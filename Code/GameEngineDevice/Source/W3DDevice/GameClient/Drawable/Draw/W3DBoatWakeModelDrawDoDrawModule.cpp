@@ -25,7 +25,7 @@
 typedef float Real;
 
 // Native writable speed-ratio step; retail RVA 0x009B52E8 is 0A D7 A3 3B.
-Real g_Va00DB52E8 = 0.005f;
+Real g_wakeSpeedRatioStep = 0.005f;
 
 class Object;
 struct Rva0028AC4EEntry;
@@ -89,12 +89,12 @@ void W3DBoatWakeModelDraw::doDrawModule(const Matrix3D *transformMtx)
 	const Rva0028AC4EEntry *locomotor = obj->rva0028AC4E();
 	Real speedRatio = ((const Rva0008BB38FloatField *)locomotor)->get()
 		/ ((const Locomotor *)locomotor)->getMaxSpeed(obj);
-	if (fabsf(speedRatio - m_speedRatio) > g_Va00DB52E8)
+	if (fabsf(speedRatio - m_speedRatio) > g_wakeSpeedRatioStep)
 	{
 		if (speedRatio > m_speedRatio)
-			speedRatio = m_speedRatio + g_Va00DB52E8;
+			speedRatio = m_speedRatio + g_wakeSpeedRatioStep;
 		else
-			speedRatio = m_speedRatio - g_Va00DB52E8;
+			speedRatio = m_speedRatio - g_wakeSpeedRatioStep;
 	}
 	Matrix3D mtx(true);
 	mtx.Translate(transformMtx->Get_Translation());
