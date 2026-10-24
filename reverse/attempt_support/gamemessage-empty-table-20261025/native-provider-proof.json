@@ -28,7 +28,7 @@
       "source": "Code/GameEngine/Source/Common/Thing/ModuleFactory.cpp",
       "rva": "0x2549c1",
       "size": 33,
-      "object_sha256": "b47692fd628b831feeda85bd4ee81c0db9a4a2bca7bbf411cdfbf653999e910e",
+      "object_sha256": "2f307dad26d3969bac1ebf7fbd3f5b3c4fb6d77b6a8e280022f184516be3fdf8",
       "retail_operand_offsets": [
         7
       ],
@@ -46,7 +46,6 @@
       ],
       "removed_private_definitions": true,
       "selected_damage_headers": [
-        "Code/GameEngine/Source/Common/Thing/ModuleFactoryDamageModule.h",
         "reference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/DamageModule.h"
       ]
     },
@@ -72,7 +71,7 @@
       "source": "Code/Libraries/Source/COM/ComInvoke.cpp",
       "rva": "0x654dc0",
       "size": 1571,
-      "object_sha256": "f18f7e579c6b580e4374b78be658f1380d9ff9b3df2ab033a07f6a779665d25d",
+      "object_sha256": "362210cc30b71fcae11a2c9c2b2d63178e0529c93ba10c8c7e97adfce42bf54f",
       "retail_operand_offsets": [
         776
       ],

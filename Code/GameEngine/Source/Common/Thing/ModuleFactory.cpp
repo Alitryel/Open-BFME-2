@@ -53,7 +53,94 @@ template <> inline const unsigned int &max<unsigned int>(const unsigned int &a, 
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
-#include "ModuleFactoryDamageModule.h"
+// Local copy of the consumed ZH DamageModule view, Open-BFME-1
+// 0bf534ea7ccde110c456edb9cd2dd5dae823c953 inputs/reference/GeneralsMD.
+// Preserve its classes and layout; use the existing 16-byte zero-object owner.
+// The original include guard prevents later module headers redefining this view.
+#ifndef __DamageModule_H_
+#define __DamageModule_H_
+
+#include "Common/Module.h"
+#include "GameLogic/Damage.h"
+#include "GameLogic/Module/BehaviorModule.h"
+
+extern const int g_emptyFieldParseTable[4];
+
+enum BodyDamageType;
+
+//-------------------------------------------------------------------------------------------------
+/** OBJECT DAMAGE MODULE base class */
+//-------------------------------------------------------------------------------------------------
+
+//-------------------------------------------------------------------------------------------------
+class DamageModuleInterface
+{
+
+public:
+
+	virtual void onDamage( DamageInfo *damageInfo ) = 0;	///< damage callback
+	virtual void onHealing( DamageInfo *damageInfo ) = 0;	///< healing callback
+	virtual void onBodyDamageStateChange( const DamageInfo* damageInfo,
+																				BodyDamageType oldState,
+																				BodyDamageType newState) = 0;  ///< state change callback
+
+};
+
+//-------------------------------------------------------------------------------------------------
+class DamageModuleData : public BehaviorModuleData
+{
+public:
+//	DamageTypeFlags m_damageTypes;
+
+	DamageModuleData()
+//		: m_damageTypes(DAMAGE_TYPE_FLAGS_ALL)
+	{
+	}
+
+	static void buildFieldParse(MultiIniFieldParse& p)
+	{
+    BehaviorModuleData::buildFieldParse(p);
+
+    p.add(reinterpret_cast<const FieldParse *>(g_emptyFieldParseTable));
+	}
+};
+
+//-------------------------------------------------------------------------------------------------
+class DamageModule : public BehaviorModule, public DamageModuleInterface
+{
+
+	MEMORY_POOL_GLUE_ABC( DamageModule )
+	MAKE_STANDARD_MODULE_MACRO_ABC( DamageModule )
+	MAKE_STANDARD_MODULE_DATA_MACRO_ABC( DamageModule, DamageModuleData )
+
+public:
+
+	DamageModule( Thing *thing, const ModuleData* moduleData );
+	// virtual destructor prototype defined by MemoryPoolObject
+
+	// module methods
+	static Int getInterfaceMask() { return MODULEINTERFACE_DAMAGE; }
+
+	// BehaviorModule
+	virtual DamageModuleInterface* getDamage() { return this; }
+
+	// damage module callbacks
+	virtual void onDamage( DamageInfo *damageInfo ) = 0;	///< damage callback
+	virtual void onHealing( DamageInfo *damageInfo ) = 0;	///< healing callback
+	virtual void onBodyDamageStateChange( const DamageInfo* damageInfo,
+																				BodyDamageType oldState,
+																				BodyDamageType newState) = 0;  ///< state change callback
+
+protected:
+
+};
+inline DamageModule::DamageModule( Thing *thing, const ModuleData* moduleData ) : BehaviorModule( thing, moduleData ) { }
+// ?DamageModule::~DamageModule present-unmatched
+inline DamageModule::~DamageModule() { }
+//-------------------------------------------------------------------------------------------------
+
+#endif
+
 
 #include "Common/Module.h"
 #include "Common/ModuleFactory.h"
