@@ -674,3 +674,4 @@ param,Rva00511C3AInvoke::b,Rva00511C3AInvoke::boolValue,inferred,agree:nl-75312f
 member,BfmeRangeFDE::m_bfmeBegin,BfmeRangeFDE::m_begin,inferred,agree:nl-14c520883b88,Code/GameEngine/Source/Common/Bfme/Rva004B9B99Finish.cpp,
 member,BfmeRangeFDE::m_bfmeEnd,BfmeRangeFDE::m_end,inferred,agree:nl-3b574cd6a061,Code/GameEngine/Source/Common/Bfme/Rva004B9B99Finish.cpp,
 member,BfmeH1037::m_bfmeHandle,BfmeH1037::m_handle,inferred,agree:nl-865997ce3deb,Code/GameEngine/Source/Common/BfmeConv1037.cpp,
+member,BfmeThingTYA::m_bfmeVft,BfmeThingTYA::m_vtable,inferred,agree:nl-6ae340e04b1b,Code/GameEngine/Source/Common/BfmeConv1327.cpp,

@@ -32,7 +32,7 @@ class BfmeThingTYA
 public:
 	void *bfmeDelTYA(unsigned char flags);
 	void rva008020D0();
-	void *m_bfmeVft;
+	void *m_vtable;
 	int m_bfme04;
 	char m_bfmePad[8];
 	BfmeSlotTYA m_bfmeC;
@@ -47,7 +47,7 @@ public:
 
 void *BfmeThingTYA::bfmeDelTYA(unsigned char flags)
 {
-	m_bfmeVft = g_bfmeVftATYA;
+	m_vtable = g_bfmeVftATYA;
 	m_bfme04 = 0;
 	m_bfme28 = 0;
 	m_bfme30 = 0;
@@ -56,7 +56,7 @@ void *BfmeThingTYA::bfmeDelTYA(unsigned char flags)
 	m_bfmeA.bfmeDtorATYA();
 	m_bfmeB.bfmeDtorBTYA();
 	m_bfmeC.bfmeDtorBTYA();
-	m_bfmeVft = g_bfmeVftBTYA;
+	m_vtable = g_bfmeVftBTYA;
 	if (flags & 1)
 		bfmeFreeTYA(this, 0xd8);
 	return this;
@@ -68,7 +68,7 @@ void *BfmeThingTYA::bfmeDelTYA(unsigned char flags)
 // from the same donor, byte-identical; its name keeps the BFME 1 address token.
 void BfmeThingTYA::rva008020D0()
 {
-	m_bfmeVft = g_bfmeVftATYA;
+	m_vtable = g_bfmeVftATYA;
 	m_bfme04 = 0;
 	m_bfme28 = 0;
 	m_bfme30 = 0;
@@ -77,7 +77,7 @@ void BfmeThingTYA::rva008020D0()
 	m_bfmeA.bfmeDtorATYA();
 	m_bfmeB.bfmeDtorBTYA();
 	m_bfmeC.bfmeDtorBTYA();
-	m_bfmeVft = g_bfmeVftBTYA;
+	m_vtable = g_bfmeVftBTYA;
 }
 
 // Retail's data references in this unit's matched rows land on globals defined
