@@ -5,7 +5,7 @@ extern void __stdcall _com_issue_errorex(long, IUnknown *, const _GUID &);
 
 struct BfmeObjECF;
 
-struct BfmeVtblECF
+struct IFEBrowserEngine2Vtbl
 {
 	void (__stdcall *m_bfmeF0)(BfmeObjECF *obj);
 	void (__stdcall *m_bfmeF1)(BfmeObjECF *obj);
@@ -17,7 +17,7 @@ struct BfmeVtblECF
 
 struct BfmeObjECF
 {
-	BfmeVtblECF *m_vtable;
+	IFEBrowserEngine2Vtbl *m_vtable;
     void shutdown()
     {
         long result = m_vtable->shutdown(this);
