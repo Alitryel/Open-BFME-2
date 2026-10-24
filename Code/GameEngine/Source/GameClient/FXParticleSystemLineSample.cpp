@@ -31,10 +31,10 @@ Coord3D0055CDEC Rva0055CDEC::rva0055CDEC(unsigned int a, unsigned int b, unsigne
 	delta.x = end.x - start.x;
 	delta.y = end.y - start.y;
 	delta.z = end.z - start.z;
-	float t = GetGameClientRandomValueReal(0.0f, 1.0f, (char *)"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameClient\\System\\FXParticleSystem\\fxpsemitterlinevolumemodule.cpp", 0x72);
+	float fraction = GetGameClientRandomValueReal(0.0f, 1.0f, (char *)"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameClient\\System\\FXParticleSystem\\fxpsemitterlinevolumemodule.cpp", 0x72);
 	Coord3D0055CDEC newPos;
-	newPos.x = start.x + t * delta.x;
-	newPos.y = start.y + t * delta.y;
-	newPos.z = start.z + t * delta.z;
+	newPos.x = start.x + fraction * delta.x;
+	newPos.y = start.y + fraction * delta.y;
+	newPos.z = start.z + fraction * delta.z;
 	return newPos;
 }
