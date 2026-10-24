@@ -423,7 +423,7 @@ void EAStringC::rva006D3C20()
 	if (m_pData == 0) {
 		g_bfmeAptAssertAtE17734("IsValid()", ".\\string\\EAString.inl", 0x517);
 		if (g_bfmeAptBreakOnAssertAtDDC01C) {
-			__asm int 3
+			__debugbreak();
 		}
 	}
 	FreeData(m_pData);

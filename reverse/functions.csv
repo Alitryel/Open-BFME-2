@@ -26288,7 +26288,6 @@ _VP6_UpdateContext,,0x001BC390,51,Code/Libraries/Source/VP6/FilterMath.cpp,match
 ?rva0028AFBB@Object@@QBE_NXZ,,0x0028AFBB,23,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028AFBBGetter.cpp,matched,Wraps rowed getControllingPlayer tests Player+0x5C zero 40 callers
 ?rva0026316B@AIUpdateInterface@@MAEXPAXH@Z,,0x0026316B,59,Code/GameEngine/Source/GameLogic/Object/Update/AIUpdateInterface_rva0026316B.cpp,matched,vslot86 turret goal store 0x48 setState 0x46
 ?rva002631A6@AIUpdateInterface@@MAEXMH@Z,,0x002631A6,103,Code/GameEngine/Source/GameLogic/Object/Update/AIUpdateInterface_rva002631A6.cpp,matched,vslot87 float check clear goal store 0x48 setState 0x48
-?rva006D3C20@EAStringC@@QAEXXZ,,0x006D3C20,61,Code/Libraries/Source/EA/Apt/AptString/EAStringCRefCount.cpp,matched,EAStringC release-to-null plus IsValid assert plus FreeData
 ?rva006D3C60@EAStringC@@QAEXXZ,,0x006D3C60,57,Code/Libraries/Source/EA/Apt/AptString/EAStringCRefCount.cpp,matched,EAStringC null-expecting re-root plus IsValid assert plus empty
 ?Rva004ABEAE@Rva00E03CE0@@QAEXPAURva001408C0Target@@@Z,,0x004ABEAE,42,Code/Libraries/Source/WWVegas/WWLib/Rva00E03CE0RegistryInsert.cpp,matched,registry 0x00E03CE0 set insert via rowed 0x0020DFFB and 0x00080691 with 2 callers 0x004ABED8 and 0x004ABF47
 ?isLocallyControlled@Object@@QBE_NXZ,,0x0028B07A,23,Code/GameEngine/Source/GameLogic/Object/ObjectIsNeutralControlled.cpp,matched,BFME1 donor Object.cpp local twin of neutral 40 callers
@@ -98233,3 +98232,4 @@ _Rva007FDEE0,,0x0066A3B0,267,Code/Libraries/Source/DirtySock/Y4DirtySockSocketWr
 ?Reserve@EAStringC@@QAEXH@Z,,0x006D3760,127,Code/Libraries/Source/EA/Apt/AptString/EAStringCRefCount.cpp,matched,EA refcounted-string buffer allocator; unsigned bound checks and fresh pool block; pure C++ breakpoint-intrinsic repair; whole-file verified
 ?Assign@EAStringC@@QAEXPBD@Z,,0x006D4BF0,144,Code/Libraries/Source/EA/Apt/AptString/EAStringCRefCount.cpp,matched,C string assignment via intrinsic strlen Reserve SetSize and copying memcpy; pure C++ breakpoint-intrinsic repair; whole-file verified
 ?rva006D3490@EAStringC@@QBE_NPBD@Z,,0x006D3490,125,Code/Libraries/Source/EA/Apt/AptString/EAStringCRefCount.cpp,matched,EAStringC C-string equality via strcmp plus null assert plus 8 callers; pure C++ breakpoint-intrinsic repair; whole-file verified
+?rva006D3C20@EAStringC@@QAEXXZ,,0x006D3C20,61,Code/Libraries/Source/EA/Apt/AptString/EAStringCRefCount.cpp,matched,EAStringC release-to-null plus IsValid assert plus FreeData; pure C++ breakpoint-intrinsic repair; whole-file verified
