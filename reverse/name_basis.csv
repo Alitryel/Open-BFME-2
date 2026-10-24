@@ -1770,3 +1770,5 @@ local,Rva005C6D4D::rva005C6D9C::s,Rva005C6D4D::rva005C6D9C::initialScale,inferre
 param,Rva005C802B::Rva005C802B::a,Rva005C802B::Rva005C802B::frame,inferred,agree:nl-e15e1cb68325,Code/GameEngine/Source/Common/Rva005C802BFactory.cpp,0x005C802B
 param,Rva005C802B::Rva005C802B::b,Rva005C802B::Rva005C802B::name,inferred,agree:nl-823822a34315,Code/GameEngine/Source/Common/Rva005C802BFactory.cpp,0x005C802B
 param,Rva005FF912::Rva005FF912::b,Rva005FF912::Rva005FF912::name,inferred,agree:nl-8db083a3c2f1,Code/GameEngine/Source/Common/Rva005C802BFactory.cpp,0x005FF912
+local,Rva005E4DAF::Deselect::q,Rva005E4DAF::Deselect::virtualBaseTable,inferred,agree:nl-2a7ceeed21a0,Code/GameEngine/Source/Common/Rva005E4DAFTwins.cpp,0x005E4DAF
+local,Rva005E4DAF::Select::q,Rva005E4DAF::Select::virtualBaseTable,inferred,agree:nl-54e1355d75f4,Code/GameEngine/Source/Common/Rva005E4DAFTwins.cpp,0x005E4DE5
