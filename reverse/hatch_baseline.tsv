@@ -36676,7 +36676,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWMath/aabtreecull.cpp	validate@
 present_unmatched	Code/Libraries/Source/WWVegas/WWMath/color.cpp	bfmeEmitcolor@@YAXPAURGBColor@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWMath/cullsys.cpp	CullSystemClass::Peek_First_Collected_Object_Internal	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWMath/cullsys.cpp	CullSystemClass::Peek_Next_Collected_Object_Internal	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWMath/icoord.cpp	bfmeEmitICoord2DCtor@@YAXPAUICoord2D@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWMath/lookuptable.cpp	LookupTableClass::Init	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWMath/lookuptable.cpp	LookupTableClass::LookupTableClass	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWMath/lookuptable.cpp	LookupTableClass::~LookupTableClass	1

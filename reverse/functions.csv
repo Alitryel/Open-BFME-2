@@ -1421,8 +1421,6 @@ _free,,0x00030830,17,Code/GameEngine/Source/Common/System/GameMemoryFree.cpp,mat
 ?Add@Coord3D@@QAEAAV1@ABUCoord3DBase@@@Z,0x00003CD1,0x00003CD1,51,Code/Libraries/Source/WWVegas/WWMath/coord3d.cpp,matched,
 ?IsExactlyEqualTo@Coord3D@@QBE_NABV1@@Z,0x00003702,0x00003702,57,Code/Libraries/Source/WWVegas/WWMath/coord3d.cpp,matched,
 ??4Coord3D@@QAEAAV0@ABVCoord2D@@@Z,0x00003AB3,0x00003AB3,27,Code/Libraries/Source/WWVegas/WWMath/coord3d.cpp,matched,
-??0ICoord2D@@QAE@XZ,0x0047A6A9,0x0047A6A9,3,Code/Libraries/Source/WWVegas/WWMath/icoord.cpp,matched,
-??0ICoord3D@@QAE@XZ,0x0047A6A9,0x0047A6A9,3,Code/Libraries/Source/WWVegas/WWMath/icoord.cpp,matched,
 ??0ICoord2D@@QAE@ABUICoord2DBase@@@Z,0x005CFBC2,0x005CFBC2,19,Code/Libraries/Source/WWVegas/WWMath/icoord.cpp,matched,
 ??4ICoord2D@@QAEAAU0@ABU0@@Z,0x005CFBC2,0x005CFBC2,19,Code/Libraries/Source/WWVegas/WWMath/icoord.cpp,matched,
 ??4ICoord2D@@QAEAAU0@ABUICoord2DBase@@@Z,0x005CFBC2,0x005CFBC2,19,Code/Libraries/Source/WWVegas/WWMath/icoord.cpp,matched,
@@ -98232,3 +98230,5 @@ Unwind@00b63af0,,0x00763AF0,11,Code/GameEngineDevice/Source/W3DDevice/GameClient
 ??0PlayerInfo@@QAE@ABV0@@Z,,0x001EF485,137,Code/GameEngine/Source/Common/Open2RecChain146.cpp,matched,Existing 137B PlayerInfo copy constructor rehomed from Open2Records.cpp; genuine rowed146B by-value caller1EF90E copies the map value and has its constructor REL32 at function-relative offset88; existing implicit C++ copy emits identical complete body and all relocations; original retail TU not newly claimed; no new identity or coverage
 __ehhandler$??0PlayerInfo@@QAE@ABV0@@Z,,0x0076AD93,10,Code/GameEngine/Source/Common/Open2RecChain146.cpp,matched,Compiler-emitted C++ EH handler of existing rowed PlayerInfo copy parent0x001EF485; rehomed with that parent from Open2Records.cpp; retail parent installs handler0x0076AD93 and existing caller object emits the same complete10B FuncInfo plus __CxxFrameHandler stub; full body and relocations exact; no new pin or unique bytes
 ?atan2@@YAMMM@Z,,0x000422CD,25,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DMouseCursorDirection.cpp,matched,math.h float overload already emitted by real retail cursor direction caller; complete bytes and relocations exact; retired artificial emitter
+??0ICoord3D@@QAE@XZ,0x0047A6A9,0x0047A6A9,3,Code/GameEngine/Source/Common/Rva00261723.cpp,matched,Existing empty coordinate ctor folded at retail 47A6A9; complete body already emitted by real trigger filter local; retire artificial emitter
+??0ICoord2D@@QAE@XZ,0x0047A6A9,0x0047A6A9,3,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/Gadget/W3DPushButtonImageDrawVertical.cpp,matched,Existing empty coordinate ctor folded at retail 47A6A9; complete body already emitted by real push button coordinate locals; retire artificial emitter

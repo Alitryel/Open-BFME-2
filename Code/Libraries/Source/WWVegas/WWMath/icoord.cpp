@@ -222,27 +222,8 @@ ICoord2D &ICoord2D::operator=(const ICoord2DBase &that)
     return *this;
 }
 
-// ICoord2D default ctor is a header inline elsewhere: other units emit
-// select-any copies, so a strong definition here was a duplicate in the
-// linked build. This anchor only makes this unit emit its copy for the ledger
-// row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitICoord2DCtor@@YAXPAUICoord2D@@@Z present-unmatched
-void bfmeEmitICoord2DCtor(ICoord2D *p)
-{
-    p->ICoord2D::ICoord2D();
-}
-#pragma inline_depth()
-// ICoord3D default ctor is a header inline elsewhere (Lib/ICoord3D.h): other units emit
-// select-any copies, so a strong definition here duplicates them in the linked build.
-// Same anchor as ICoord2D above; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitICoord3DCtor@@YAXPAUICoord3D@@@Z present-unmatched
-void bfmeEmitICoord3DCtor(ICoord3D *p)
-{
-    p->ICoord3D::ICoord3D();
-}
-#pragma inline_depth()
+// The empty constructors' existing folded rows live with real coordinate
+// callers: the vertical push-button image draw and Rva00261723 trigger filter.
 // ICoord3D component ctor anchor, same recipe as the default constructors above;
 // it is not retail code.
 #pragma inline_depth(0)
