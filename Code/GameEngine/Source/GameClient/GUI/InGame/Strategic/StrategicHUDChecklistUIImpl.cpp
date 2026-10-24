@@ -48,7 +48,7 @@ class Rva005D1A6C
 {
 public:
 	Rva005D1A6C();
-	virtual ~Rva005D1A6C();
+	virtual ~Rva005D1A6C() {}
 
 private:
 	int m_04;
@@ -77,12 +77,29 @@ public:
 	void rva0057A382();
 };
 
+struct ItemObserver
+{
+	virtual void s0();
+	virtual void s1();
+	virtual void s2();
+	virtual void s3();
+	virtual void s4();
+	virtual void s5();
+	virtual void onItemDestroyed(void *item);
+};
+
 class StrategicHUD::ChecklistUIImpl::Item : public Rva005D1A6C, public Rva005D40A6
 {
 public:
 	Item(ChecklistUIImpl *owner, ChecklistIteratorView position, int value, void *level,
 		const AsciiString &path);
-	virtual ~Item();
+	// Retail 0x0057A2B0 (rowed under the Rva0057A2B0 view): its vptr stores
+	// are this constructor's 0x00C6EF0C/0x00C6EEF8.
+	virtual ~Item()
+	{
+		if (m_observer != 0)
+			static_cast<ItemObserver *>(m_observer)->onItemDestroyed(this);
+	}
 
 private:
 	ChecklistUIImpl *m_owner; // +0x48

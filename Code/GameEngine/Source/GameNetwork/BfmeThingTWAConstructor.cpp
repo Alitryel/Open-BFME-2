@@ -26,16 +26,19 @@ public:
 class Rva007EAServiceList {
 public: void add(Rva00803080*);
 };
+// The deleting destructor 0x00664FF0 inlines this destructor: the cleanup
+// 0x00664FC0, then the +0x10 member and the primary base.
+class BfmeE1036 { public: void bfmeGo1036E(); };
 class DemanglerPrimary {
 public:
- virtual ~DemanglerPrimary();
+ virtual ~DemanglerPrimary() {}
  virtual void rva007F8790(const char*,int,const char*,unsigned char) = 0;
  virtual void set(int,int) = 0;
 };
 class BfmeThingTWA : public DemanglerPrimary, public Rva00803080 {
 public:
  BfmeThingTWA(Rva007EAServiceList*);
- virtual ~BfmeThingTWA();
+ virtual ~BfmeThingTWA() { reinterpret_cast<BfmeE1036*>(this)->bfmeGo1036E(); }
  virtual void slot0(unsigned int) = 0;
  virtual void rva007F8790(const char*,int,const char*,unsigned char);
  virtual void set(int,int);

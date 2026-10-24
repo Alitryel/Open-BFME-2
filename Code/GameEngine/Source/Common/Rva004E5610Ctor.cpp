@@ -24,7 +24,9 @@ class Rva004E5610Base
 {
 public:
 	Rva004E5610Base() {}
-	virtual ~Rva004E5610Base();
+	// Not virtual: the base vftable 0x00C1C780 holds only the pure slot. The
+	// constructor's unwind runs it as retail's folded vptr store 0x005FED52.
+	~Rva004E5610Base() {}
 	virtual void sb() = 0;
 };
 
@@ -32,7 +34,6 @@ class Rva004E5610 : public Rva004E5610Base
 {
 public:
 	Rva004E5610();
-	virtual ~Rva004E5610();
 	virtual void rva004E55B9(int objectID, float value, bool flag) = 0;
 
 private:
