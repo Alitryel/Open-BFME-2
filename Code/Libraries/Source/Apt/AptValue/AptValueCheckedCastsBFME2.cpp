@@ -319,8 +319,11 @@ BfmeAptValue006DCD20 *BfmeAptValue006DCD20::rva006DCFE0()
 {
     if (!static_cast<unsigned char>(isSound())) {
         g_bfmeAptAssertAtE17734("isSound()", "c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptValue/AptValue.inl", 0x37B);
-        if (g_bfmeAptBreakOnAssertAtDDC01C)
-            __asm int 3
+        if (g_bfmeAptBreakOnAssertAtDDC01C) {
+            _ReadWriteBarrier();
+            __debugbreak();
+            _ReadWriteBarrier();
+        }
     }
     return this;
 }

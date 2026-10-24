@@ -39,3 +39,4 @@ Verified native bodies, each banked separately:
 - `rva006DCEE0` at `0x006DCEE0`: complete50B, compiler intrinsic trap with genuine paired memory barriers.
 - `rva006DCF20` at `0x006DCF20`: complete50B, compiler intrinsic trap with genuine paired memory barriers.
 - `rva006DCFA0` at `0x006DCFA0`: complete50B, compiler intrinsic trap with genuine paired memory barriers.
+- `rva006DCFE0` at `0x006DCFE0`: complete50B, compiler intrinsic trap with genuine paired memory barriers.
