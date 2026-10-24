@@ -1974,3 +1974,4 @@ member,Rva002B37B4P1::m_12C,Rva002B37B4P1::m_regionID,inferred,agree:nl-3e70e39b
 member,Rva002B37B4P1::m_13C,Rva002B37B4P1::m_ownerPlayerID,inferred,agree:nl-2f14f91a3173,Code/GameEngine/Source/Common/Rva002B37B4.cpp,
 member,Rva002B37B4P2::m_14,Rva002B37B4P2::m_playerID,inferred,agree:nl-73886ca408da,Code/GameEngine/Source/Common/Rva002B37B4.cpp,
 member,Rva004A6EAux::m_64,Rva004A6EAux::m_maxBoxes,inferred,agree:nl-07ea14a6ce21,Code/GameEngine/Source/Common/Rva004A6E8EBatch.cpp,
+member,Rva004A6EObj::m_00,Rva004A6EObj::m_moduleData,inferred,agree:nl-fe6a0232ab98,Code/GameEngine/Source/Common/Rva004A6E8EBatch.cpp,
