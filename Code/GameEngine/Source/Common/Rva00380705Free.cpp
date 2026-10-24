@@ -11,8 +11,8 @@ public:
 void __cdecl Rva00380705Free()
 {
     void *p = *(void **)&g_Va00E032FC;
-    void *r = 0;
+    void *memory = 0;
     if (p)
-        r = ((Rva00380705Iface *)p)->virt0((int)r);
-    ::operator delete(r);
+        memory = ((Rva00380705Iface *)p)->virt0((int)memory);
+    ::operator delete(memory);
 }
