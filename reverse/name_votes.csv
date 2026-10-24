@@ -5415,3 +5415,10 @@ Code/GameEngine/Source/GameClient/Rva004BDB37Finish.cpp|local|Rva004BDB37::rva00
 Code/GameEngine/Source/Common/Rva005E51D3Wrap.cpp|member|Rva005E51D3Inner|m_4,a33451b9466128be2538638a,gpt-6-astra,codexb2-20261024-163243-7,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/Rva003F74F5Fill.cpp|param|Rva003F74F5Fill|x,dec281cf40e87def43b2c4f8,gpt-6-astra,codexb2-20261024-163243-9,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/GameClient/Drawable_rva00274176.cpp|local|Drawable::rva00274176|p,0b0d44cb50e3a513132bf276,gpt-6-astra,codexb2-20261024-163243-10,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva00569F0CAssign.cpp|param|Rva00569F0CVec::rva00569F0C|a,7f392f354c0988e320d28bd2,gpt-6.1-sol,codexb-20261024-162350-1,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva00569F0CAssign.cpp|param|Rva00569F0CVec::rva00569F0C|b,693c23c4910d08739fa57413,gpt-6.1-sol,codexb-20261024-162350-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva0028ECDB.cpp|param|Rva0028ECDBHost::rva0028ECDB|a,4704a164d040405afe3aaee6,gpt-6.1-sol,codexb-20261024-162350-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/Rva005801F6Compare.cpp|function|0x005801F6|rva005801F6,fddc3e69a291d2f73512ae79,gpt-6.1-sol,codexb-20261024-162350-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|class||Rva005E6ED6Counted,e816f21f6efce46e821a736e,gpt-6.1-sol,codexb-20261024-162350-4,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|class||Rva005F4C8ERef,d226314faf88041689102532,gpt-6.1-sol,codexb-20261024-162350-4,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|param|Rva005F4C8ERef|p,d2dd53c0f0419359b1692d41,gpt-6.1-sol,codexb-20261024-162350-4,w-8e883e57d025,2026-10-24
