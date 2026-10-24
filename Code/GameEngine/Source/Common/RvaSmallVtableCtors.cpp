@@ -318,11 +318,15 @@ Rva005C1860::Rva005C1860(void *payload) : m_04(payload)
 }
 
 // ??0Rva005CD9AE@@QAE@PAX@Z @0x005CD9AE 18B, vtable VA 0xc75014
+template <class T> class RvaCloneResult;
+class Rva005CDB8F;
+struct RvaPayloadInput16;
+
 class Rva005CD9AE
 {
 public:
 	Rva005CD9AE(void *payload);
-	virtual ~Rva005CD9AE() {}
+	virtual RvaCloneResult<Rva005CDB8F> create(const RvaPayloadInput16 &input);
 private:
 	void *m_04;
 };

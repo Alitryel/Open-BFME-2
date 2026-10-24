@@ -20,11 +20,11 @@ void __cdecl rva007B6C9B();
 void __cdecl rva007B6F5C();
 void __cdecl rva007B6F98();
 void __cdecl rva007B7024();
-void __cdecl rva007B7090();
-void __cdecl rva007B70A0();
+void __cdecl Rva007B7090Set();
+void __cdecl Rva007B70A0Set();
 void __cdecl rva007B71D0();
 void __cdecl rva007B7200();
-void __cdecl rva007B7270();
+void __cdecl bfmeGoECF();
 void __cdecl rva007B7300();
 void __cdecl rva007B7340();
 void __cdecl rva007B7380();
@@ -41,7 +41,7 @@ void __cdecl rva007B8FA9();
 void __cdecl rva007B95A4();
 void __cdecl rva007B9680();
 void __cdecl rva007B968A();
-void __cdecl rva007B9B40();
+void __cdecl bfmeGoDXE();
 
 // Storage is owned by Rva007AB85CAtexitInits.cpp and its data rows.
 // This split initializer unit only refers to the same objects.
@@ -103,13 +103,13 @@ struct Rva007AB85CAtexitInits
 // ?rva007ACD90@Rva007AB85CAtexitInits@@SAXXZ @ 0x007ACD90 (12B): atexit(0x007B7090)
 void Rva007AB85CAtexitInits::rva007ACD90()
 {
-	atexit( rva007B7090 );
+	atexit( Rva007B7090Set );
 }
 
 // ?rva007ACDA0@Rva007AB85CAtexitInits@@SAXXZ @ 0x007ACDA0 (12B): atexit(0x007B70A0)
 void Rva007AB85CAtexitInits::rva007ACDA0()
 {
-	atexit( rva007B70A0 );
+	atexit( Rva007B70A0Set );
 }
 
 
@@ -117,7 +117,7 @@ void Rva007AB85CAtexitInits::rva007ACDA0()
 // ?rva007ACE80@Rva007AB85CAtexitInits@@SAXXZ @ 0x007ACE80 (12B): atexit(0x007B7270)
 void Rva007AB85CAtexitInits::rva007ACE80()
 {
-	atexit( rva007B7270 );
+	atexit( bfmeGoECF );
 }
 
 
@@ -174,5 +174,5 @@ void Rva007AB85CAtexitInits::rva007AE390()
 // ?rva007B55D0@Rva007AB85CAtexitInits@@SAXXZ @ 0x007B55D0 (12B): atexit(0x007B9B40)
 void Rva007AB85CAtexitInits::rva007B55D0()
 {
-	atexit( rva007B9B40 );
+	atexit( bfmeGoDXE );
 }

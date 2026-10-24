@@ -5,11 +5,11 @@
 // 6d9434269164392c5ba62aaa7c15a86b5b020d76, donor flags plus /O1). Compiled
 // that way each body below places uniquely on unclaimed game.dat .text by
 // masked whole-.text search, and ./build.sh reproduces it byte for byte:
-// Rva005EA2B0::clone 0x003ADC32 (29B), Rva005EAF10::clone 0x003AE092 (29B).
+// Rva003ADC4F::clone 0x003ADC32 (29B), Rva003AE0AF::clone 0x003AE092 (29B).
 // Callee addresses are read off retail's call sites (reverse/symbols.csv).
 // Only the placed bodies are carried; the donor's other definitions are
 // omitted.
-// Fourteen 31-byte __thiscall const members that heap-allocate a copy of the
+// Two __thiscall const members that heap-allocate a copy of the
 // receiver and return the pointer:
 //
 //   push esi / push <SIZE> / mov esi,ecx
@@ -30,8 +30,8 @@
 // __thiscall stack argument make the constructor a COPY constructor taking the
 // receiver by reference; there is no other argument.
 //
-// THE CONSTRUCTOR EACH ROW CALLS SITS AT ITS OWN ADDRESS PLUS 0x30, for all
-// fourteen rows without exception.  That is what ties each clone to one class:
+// Each clone calls the copy constructor immediately after its native body.
+// That is what ties each clone to the existing constructor owner:
 // the pairing is read off the REL32, not assumed.
 //
 // TWO AXES: the pushed size (sizeof(T), which is all these bodies say about
@@ -47,7 +47,7 @@
 // The TU is built with exception handling OFF, which retail's bytes require:
 // with /EHs the same source gets a 93-byte body wrapped in an unwind frame.
 //
-// IDENTITY IS NOT RECOVERED.  Every name is derived from an address.
+// Original identities remain unknown; class owners follow native copy calls.
 
 #define Q2_HEAP_COPY_CLONE( NAME, SIZE )                                  \
 	class NAME                                                            \
@@ -63,17 +63,5 @@
 		return new NAME( *this );                                         \
 	}
 
-Q2_HEAP_COPY_CLONE( Rva005E92E0, 0x4C )
-Q2_HEAP_COPY_CLONE( Rva005E9750, 0x10 )
-Q2_HEAP_COPY_CLONE( Rva005E9970, 0x28 )
-Q2_HEAP_COPY_CLONE( Rva005E9BC0, 0x10 )
-Q2_HEAP_COPY_CLONE( Rva005E9DE0, 0x18 )
-Q2_HEAP_COPY_CLONE( Rva005EA020, 0x40 )
-Q2_HEAP_COPY_CLONE( Rva005EA190, 0x1C )
-Q2_HEAP_COPY_CLONE( Rva005EA2B0, 0x5C )
-Q2_HEAP_COPY_CLONE( Rva005EA7F0, 0x14 )
-Q2_HEAP_COPY_CLONE( Rva005EAA50, 0x2C )
-Q2_HEAP_COPY_CLONE( Rva005EACB0, 0x14 )
-Q2_HEAP_COPY_CLONE( Rva005EAF10, 0x20 )
-Q2_HEAP_COPY_CLONE( Rva005EB190, 0x44 )
-Q2_HEAP_COPY_CLONE( Rva005EB2C0, 0x24 )
+Q2_HEAP_COPY_CLONE( Rva003ADC4F, 0x5C )
+Q2_HEAP_COPY_CLONE( Rva003AE0AF, 0x20 )

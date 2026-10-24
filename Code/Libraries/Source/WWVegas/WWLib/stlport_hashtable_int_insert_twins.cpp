@@ -1,17 +1,13 @@
 // cl: /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 //
-// Five more instantiations of STLport's hashtable::_M_insert, landed as
-// relocation-blind twins of
+// The matched hash and bucket-index members use the STLport reference
+// hashtable view from
 // reference/open-bfme-1's
 // Code/Libraries/Source/WWVegas/WWLib/stlport_hashtable_int_int_insert.cpp
-// (0x000D3430), which has no counterpart in this repo.  Each differs from the model in exactly two slots: its own
-// `resize` and its own out-of-line `_Construct`.  The declarations below are
-// the model's, unchanged.
+// (0x000D3430). The member declarations retain that reference interface.
 //
-// The mapped type is spelled as a distinct one-int struct per instantiation
-// rather than `Int`, purely so the five sets of template symbols do not
-// collide.  Nothing in these bytes says what the mapped type actually is --
-// it is copied through an out-of-line _Construct and never inspected.
+// The mapped type stays an opaque one-int record; the matched bucket
+// index reads only the key and bucket count.
 
 // cl: /DNDEBUG /MD /EHsc
 
@@ -153,44 +149,8 @@ struct Open2MappedA { Int m_value; };
 
 typedef pair<const Int, Open2MappedA> Open2PairA;
 
-template Open2PairA &hashtable<Open2PairA, Int, hash<Int>,
-	_Select1st<Open2PairA>, equal_to<Int>,
-	allocator<Open2PairA> >::_M_insert(const Open2PairA &);
-
-
-struct Open2MappedB { Int m_value; };
-
-typedef pair<const Int, Open2MappedB> Open2PairB;
-
-template Open2PairB &hashtable<Open2PairB, Int, hash<Int>,
-	_Select1st<Open2PairB>, equal_to<Int>,
-	allocator<Open2PairB> >::_M_insert(const Open2PairB &);
-
-
-struct Open2MappedC { Int m_value; };
-
-typedef pair<const Int, Open2MappedC> Open2PairC;
-
-template Open2PairC &hashtable<Open2PairC, Int, hash<Int>,
-	_Select1st<Open2PairC>, equal_to<Int>,
-	allocator<Open2PairC> >::_M_insert(const Open2PairC &);
-
-
-struct Open2MappedD { Int m_value; };
-
-typedef pair<const Int, Open2MappedD> Open2PairD;
-
-template Open2PairD &hashtable<Open2PairD, Int, hash<Int>,
-	_Select1st<Open2PairD>, equal_to<Int>,
-	allocator<Open2PairD> >::_M_insert(const Open2PairD &);
-
-
-struct Open2MappedE { Int m_value; };
-
-typedef pair<const Int, Open2MappedE> Open2PairE;
-
-template Open2PairE &hashtable<Open2PairE, Int, hash<Int>,
-	_Select1st<Open2PairE>, equal_to<Int>,
-	allocator<Open2PairE> >::_M_insert(const Open2PairE &);
+template unsigned int hashtable<Open2PairA, Int, hash<Int>,
+    _Select1st<Open2PairA>, equal_to<Int>,
+    allocator<Open2PairA> >::_M_bkt_num_key(const Int &) const;
 
 }

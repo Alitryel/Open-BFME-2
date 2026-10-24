@@ -98,6 +98,14 @@ template<> Bool equal_to<NameKeyType>::operator()(const NameKeyType &a, const Na
 }
 #pragma optimize("", on)
 
-typedef std::hash_map< NameKeyType, FXList, rts::hash<NameKeyType>, rts::equal_to<NameKeyType> > BfmeFXListMapEmit;
-extern FXList &(BfmeFXListMapEmit::*const g_bfmeFXListMapIndex)(const NameKeyType &);
-FXList &(BfmeFXListMapEmit::*const g_bfmeFXListMapIndex)(const NameKeyType &) = &BfmeFXListMapEmit::operator[];
+typedef _STL::pair<const NameKeyType, FXList> BfmeFXListMapValue;
+template _STL::_Hashtable_node<BfmeFXListMapValue> *
+_STL::hashtable<BfmeFXListMapValue, NameKeyType, rts::hash<NameKeyType>,
+    _STL::_Select1st<BfmeFXListMapValue>, rts::equal_to<NameKeyType>,
+    _STL::allocator<BfmeFXListMapValue> >::_M_new_node(const BfmeFXListMapValue &);
+template BfmeFXListMapValue &
+_STL::hashtable<BfmeFXListMapValue, NameKeyType, rts::hash<NameKeyType>,
+    _STL::_Select1st<BfmeFXListMapValue>, rts::equal_to<NameKeyType>,
+    _STL::allocator<BfmeFXListMapValue> >::_M_insert(const BfmeFXListMapValue &);
+template _STL::_List_base<FXNugget *, _STL::allocator<FXNugget *> >::_List_base(
+    const _STL::allocator<FXNugget *> &);

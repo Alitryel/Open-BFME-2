@@ -221,18 +221,17 @@ RvaCloneResult<Rva005E982C> Rva005E9961Create(const Rva005E982C::Payload *src)
 // Hidden nontrivial result plus one four-word input reference. Each body
 // copies the input's 16 bytes, appends the receiver word at +4, and passes
 // this 20-byte payload to its independently matched value factory above.
-// Constructor/factory owners are already verified; receiver ownership and
-// the original operation names remain unknown. The receiver views expose
-// only the consumed prefix and are not allocated.
-class Rva005CDC8FReceiver {
-public: char unknown00[4];int value;
- RvaCloneResult<Rva005CDB8F> create(const RvaPayloadInput16 &input);
+// Retail vtable 0x00875014 binds the first receiver to Rva005CD9AE.
+// The second receiver owner and the original operation names remain unknown.
+class Rva005CD9AE {
+public: int value;
+ virtual RvaCloneResult<Rva005CDB8F> create(const RvaPayloadInput16 &input);
 };
 class Rva005CE06CReceiver {
 public: char unknown00[4];int value;
  RvaCloneResult<Rva005CDF6C> create(const RvaPayloadInput16 &input);
 };
-RvaCloneResult<Rva005CDB8F> Rva005CDC8FReceiver::create(const RvaPayloadInput16 &input)
+RvaCloneResult<Rva005CDB8F> Rva005CD9AE::create(const RvaPayloadInput16 &input)
 {
  Rva005CDB8F::Payload payload;
  payload.first=input;

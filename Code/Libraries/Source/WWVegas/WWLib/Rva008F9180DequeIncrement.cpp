@@ -12,5 +12,4 @@ void * _STLP_CALL __node_alloc<true, 0>::allocate(size_t __n)
 { return (__n > (size_t)_MAX_BYTES) ? __stl_new(__n) : _M_allocate(__n); }
 }
 struct Rva008F9180Elem { int m_0; int m_4; };
-template class _STL::deque<Rva008F9180Elem>;
-template class _STL::_Deque_iterator_base<Rva008F9180Elem>;
+template void _STL::_Deque_iterator_base<Rva008F9180Elem>::_M_increment();
