@@ -14,11 +14,11 @@ void Rva00129510Inc();
 class SkinMatrix3D : public Matrix3D {
 public:
  using Matrix3D::Row;
- __forceinline void Blend(const Vector3 *in0,const SkinMatrix3D &tm1,const Vector3 *in1,Vector3 *out,int count) const {
+ __forceinline void Blend(const Vector3 *in0,const SkinMatrix3D &transform1,const Vector3 *in1,Vector3 *out,int count) const {
   while(count--) {
-   out->X=Row[0].X*in0->X+Row[0].Y*in0->Y+Row[0].Z*in0->Z+Row[0].W+tm1.Row[0].X*in1->X+tm1.Row[0].Y*in1->Y+tm1.Row[0].Z*in1->Z+tm1.Row[0].W;
-   out->Y=Row[1].X*in0->X+Row[1].Y*in0->Y+Row[1].Z*in0->Z+Row[1].W+tm1.Row[1].X*in1->X+tm1.Row[1].Y*in1->Y+tm1.Row[1].Z*in1->Z+tm1.Row[1].W;
-   out->Z=Row[2].X*in0->X+Row[2].Y*in0->Y+Row[2].Z*in0->Z+Row[2].W+tm1.Row[2].X*in1->X+tm1.Row[2].Y*in1->Y+tm1.Row[2].Z*in1->Z+tm1.Row[2].W;
+   out->X=Row[0].X*in0->X+Row[0].Y*in0->Y+Row[0].Z*in0->Z+Row[0].W+transform1.Row[0].X*in1->X+transform1.Row[0].Y*in1->Y+transform1.Row[0].Z*in1->Z+transform1.Row[0].W;
+   out->Y=Row[1].X*in0->X+Row[1].Y*in0->Y+Row[1].Z*in0->Z+Row[1].W+transform1.Row[1].X*in1->X+transform1.Row[1].Y*in1->Y+transform1.Row[1].Z*in1->Z+transform1.Row[1].W;
+   out->Z=Row[2].X*in0->X+Row[2].Y*in0->Y+Row[2].Z*in0->Z+Row[2].W+transform1.Row[2].X*in1->X+transform1.Row[2].Y*in1->Y+transform1.Row[2].Z*in1->Z+transform1.Row[2].W;
    in0++;in1++;out++;
   }
  }
