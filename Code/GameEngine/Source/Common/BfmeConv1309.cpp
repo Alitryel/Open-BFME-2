@@ -17,14 +17,14 @@ class BfmeThingTDA
 {
 public:
 	void bfmeGoTDA();
-	void *m_bfmeVft;
+	void *m_vtable;
 	char m_bfmePad[8];
 	void *m_bfmeItem;
 };
 
 void BfmeThingTDA::bfmeGoTDA()
 {
-	m_bfmeVft = g_bfmeVftTDA;
+	m_vtable = g_bfmeVftTDA;
 	bfmeGetTDA()->bfmeDropTDA(m_bfmeItem, 0);
 }
 
