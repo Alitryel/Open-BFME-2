@@ -4747,7 +4747,6 @@ alternatename	Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionFilter.cpp	?g_
 alternatename	Code/Libraries/Source/WWVegas/WWDebug/DebugSimpleMatch.cpp	?SimpleMatch@Profile@@SA_NPBD0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWDebug/Debug_IsLogEnabled.cpp	?UpdateFrameStatus@Debug@@AAEXAAUFrameHashEntry@1@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWDebug/debug_stack.cpp	?StackWalk@DebugStackwalk@@SAHAAUSignature@1@PAU_CONTEXT@@_N@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP	?RecvReply@Cftp@@QAEJPBDHPAH@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/BFMEPoolCriticalSectionLock.cpp	?spin@LockClass@FastCriticalSectionClass@@CIXPAI@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/NestedRecordLookupRva003F6D35.cpp	??0Rva003F6D35Inner@@QAE@H@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/NestedRecordLookupRva003F6D35.cpp	??0Rva003F6D35Outer@@QAE@PAX@Z	1

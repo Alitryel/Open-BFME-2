@@ -99,8 +99,6 @@ public:
 	void d_00885960(void);
 };
 
-#pragma comment(linker, "/alternatename:?RecvReply@Cftp@@QAEJPBDHPAH@Z=?d_00885570@@YAXXZ")
-
 class Cftp
 {
 public:
