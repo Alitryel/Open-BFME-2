@@ -46,7 +46,7 @@ class SpecialPowerModule : public BehaviorModule,
 public:
 	SpecialPowerModule( Thing *thing, const ModuleData *moduleData );
 
-protected:
+	// Public: the rowed dtor at 0x00493DEF is ??1SpecialPowerModule@@UAE@XZ.
 	virtual ~SpecialPowerModule();
 };
 
