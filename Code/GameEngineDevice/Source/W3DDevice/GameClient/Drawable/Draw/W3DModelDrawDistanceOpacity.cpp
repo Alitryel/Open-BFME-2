@@ -164,16 +164,16 @@ class Rva000B5C41
 	unsigned char m28D;
 public:
 	void rva000B5C41();
-	void rva000B5A72(Arg000B5A72 *a);
+	void rva000B5A72(Arg000B5A72 *moduleData);
 };
 
 
-void Rva000B5C41::rva000B5A72(Arg000B5A72 *a)
+void Rva000B5C41::rva000B5A72(Arg000B5A72 *moduleData)
 {
 	m50->mBC = 0;
 	if (m28D == 0)
 		return;
-	if (!(1.0f > a->m14C))
+	if (!(1.0f > moduleData->m14C))
 		return;
 	const Coord3D *p1 = ((TacticalView*)TheTacticalView)->t71();
 	RangeSample sample;Coord3D &pos=sample.point;opacityCoordCopy(&pos,p1);
@@ -181,30 +181,30 @@ void Rva000B5C41::rva000B5A72(Arg000B5A72 *a)
 	pos.x-=p2->x;pos.y-=p2->y;pos.z-=p2->z;
 	float dist2 = pos.y*pos.y+pos.x*pos.x;
 	
-	if (dist2 >= a->m144 * a->m144) {
+	if (dist2 >= moduleData->m144 * moduleData->m144) {
 		m08->rva002707FA(1);
 		m50->s101(0);
 		m50->s23(1, 1.0f);
-		if (a->m158 < 0)
+		if (moduleData->m158 < 0)
 			return;
 		m50->m98 = 0;
 		return;
 	}
 	
-	float innerSqr = a->m148 * a->m148;
+	float innerSqr = moduleData->m148 * moduleData->m148;
 	float res;
- if(dist2<=innerSqr)res=a->m14C;
+ if(dist2<=innerSqr)res=moduleData->m14C;
  else {
   sample.distance=sqrtf(dist2);_ReadWriteBarrier();
-  float d2=sample.distance-a->m148;
-  float d1=a->m144-a->m148;
-  res=((d1-d2)*a->m14C+d2)/d1;
+  float d2=sample.distance-moduleData->m148;
+  float d1=moduleData->m144-moduleData->m148;
+  res=((d1-d2)*moduleData->m14C+d2)/d1;
  }
 	GameLODManager *lm = TheGameLODManager;
 	if (lm != 0 && lm->m1778 <= 1) {
 		m08->rva002707FA(0);
 		m50->s101(1);
-		if (a->m158 < 0)
+		if (moduleData->m158 < 0)
 			return;
 		m50->m98 = 0;
 		return;
@@ -218,7 +218,7 @@ void Rva000B5C41::rva000B5A72(Arg000B5A72 *a)
 	}
 	m50->s23(1, res);
 	m50->mBC = 1;
-	int v158 = a->m158;
+	int v158 = moduleData->m158;
 	if (v158 < 0)
 		return;
 	m50->m98 = v158;

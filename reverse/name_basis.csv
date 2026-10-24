@@ -1010,3 +1010,4 @@ class,Rva00800A40Input,InternetAddress,inferred,agree:nl-1a161f2aa6d3,Code/GameE
 function,?rva007B5299@@YAXXZ,?initCancelArmyMemberMoveButton@@YAXXZ,inferred,agree:nl-cb9a94ba3f58,Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp,0x007B5299
 function,?rva007B5343@@YAXXZ,?initDisbandArmyMemberButton@@YAXXZ,inferred,agree:nl-e8d4615656c3,Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp,0x007B5343
 member,Rva0028E868OtherPrefix::word74,Rva0028E868OtherPrefix::m_id,inferred,agree:nl-fa161b94ef66,Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp,
+param,Rva000B5C41::rva000B5A72::a,Rva000B5C41::rva000B5A72::moduleData,inferred,agree:nl-5738704984f7,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp,0x000B5A72
