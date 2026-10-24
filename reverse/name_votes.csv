@@ -3975,3 +3975,11 @@ Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|local|Rva
 Code/GameEngine/Source/Common/Rva0006AB98Finish.cpp|function|0x0006AB98|rva0006AB98,9be454a67e6ed74b4acb97c7,gpt-6.1-sol,codex6-20261024-072919-19,w-bcdd62231570,2026-10-24
 Code/GameEngine/Source/Common/Rva0006AB98Finish.cpp|param|Rva0006AB98::rva0006AB98|a,3e4901b0f1741622e7ffe6c7,gpt-6.1-sol,codex6-20261024-072919-19,w-bcdd62231570,2026-10-24
 Code/GameEngine/Source/Common/Rva0006AB98Finish.cpp|param|Rva0006AB98::rva0006AB98|b,8279489bed59c9f7782ff9da,gpt-6.1-sol,codex6-20261024-072919-19,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007EA9C0Init.cpp|member|Rva007EA9C0Owner|m_08,70b92698007fea16d0cd8665,gpt-6.1-sol,codex6-20261024-072919-22,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007EA9C0Init.cpp|local|Rva007EA9C0Owner::init|p,07292b707a521e7080448201,gpt-6.1-sol,codex6-20261024-072919-22,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/Common/FamilyDeletingDtors3.cpp|param|famgenDelete|p,20a33c02c313a662797398c7,gpt-6.1-sol,codex6-20261024-072919-29,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/Common/FamilyDeletingDtors3.cpp|param|famgenDelete#2|p,ff6e510a2e720da6f6b8f058,gpt-6.1-sol,codex6-20261024-072919-29,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/Common/FamilyDeletingDtors3.cpp|param|famgenDelete#3|p,dcf439f9b67682cb34e6bac3,gpt-6.1-sol,codex6-20261024-072919-29,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/Common/FamilyDeletingDtors3.cpp|param|famgenDelete#4|p,19ec6fe38641762fec47d1bc,gpt-6.1-sol,codex6-20261024-072919-29,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/Common/FamilyDeletingDtors3.cpp|param|famgenDelete#5|p,3b70506db6b6720e4a4ee705,gpt-6.1-sol,codex6-20261024-072919-29,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/WeaponTemplateTargetPositions.cpp|param|TargetCoord#3|p,dcd360e0bc1c72f3e049de0b,gpt-6.1-sol,codex6-20261024-072919-30,w-bcdd62231570,2026-10-24
