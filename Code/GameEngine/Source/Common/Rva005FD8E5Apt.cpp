@@ -30,8 +30,8 @@ extern const char *g_Va0087A290[];
 struct Rva005FD8E5Entry
 {
 	char m_pad[16];
-	int m_a16;
-	int m_b20;
+	int m_commandPoints;
+	int m_maxCommandPoints;
 };
 namespace StrategicHUD {
 class ArmyUnitSwapperMovieClip
@@ -52,24 +52,24 @@ public:
 	void SetSlotString(int index, const char *suffix, const UnicodeString &text);
 	void SetCommandPoints(int index, int a, int b);
 };
-void StrategicHUD::ArmyUnitSwapperMovieClip::Impl::SetCommandPoints(int index, int a, int b)
+void StrategicHUD::ArmyUnitSwapperMovieClip::Impl::SetCommandPoints(int index, int commandPoints, int maxCommandPoints)
 {
 	Rva005FD8E5Entry *entry = &m_entries[index];
-	if (a == entry->m_a16 && b == entry->m_b20)
+	if (commandPoints == entry->m_commandPoints && maxCommandPoints == entry->m_maxCommandPoints)
 		return;
-	SetSlotString(index, "CP", StrategicHUD::FormatCPString(a, b));
-	entry->m_a16 = a;
-	entry->m_b20 = b;
+	SetSlotString(index, "CP", StrategicHUD::FormatCPString(commandPoints, maxCommandPoints));
+	entry->m_commandPoints = commandPoints;
+	entry->m_maxCommandPoints = maxCommandPoints;
 }
 
 struct Rva005FD956
 {
 	char m_pad0[4];
 	StrategicHUD::ArmyUnitSwapperMovieClip::Impl *m_p4;
-	void rva005FD956(int index, int a, int b);
+	void rva005FD956(int index, int commandPoints, int maxCommandPoints);
 };
 
-void Rva005FD956::rva005FD956(int index, int a, int b)
+void Rva005FD956::rva005FD956(int index, int commandPoints, int maxCommandPoints)
 {
-	m_p4->SetCommandPoints(index, a, b);
+	m_p4->SetCommandPoints(index, commandPoints, maxCommandPoints);
 }

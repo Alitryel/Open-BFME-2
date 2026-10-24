@@ -799,3 +799,9 @@ class,Rva005FA98CM04,BattlePromptLocalPlayerPage,inferred,agree:nl-773ddef1bf5d,
 carry,Rva005FA98CM04::m_movieClip,BattlePromptLocalPlayerPage::m_movieClip,inferred,scope renamed by Rename Rva005FA98CM04 to BattlePromptLocalPlayerPage (inferred),Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp,
 carry,Rva005FA98CM04::m_sideIndex,BattlePromptLocalPlayerPage::m_sideIndex,inferred,scope renamed by Rename Rva005FA98CM04 to BattlePromptLocalPlayerPage (inferred),Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp,
 carry,Rva005FA98CM04::m_playerIndex,BattlePromptLocalPlayerPage::m_playerIndex,inferred,scope renamed by Rename Rva005FA98CM04 to BattlePromptLocalPlayerPage (inferred),Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp,
+member,Rva005FD8E5Entry::m_a16,Rva005FD8E5Entry::m_commandPoints,inferred,agree:nl-0bb1dac14e25,Code/GameEngine/Source/Common/Rva005FD8E5Apt.cpp,
+member,Rva005FD8E5Entry::m_b20,Rva005FD8E5Entry::m_maxCommandPoints,inferred,agree:nl-c316fd8ba857,Code/GameEngine/Source/Common/Rva005FD8E5Apt.cpp,
+param,StrategicHUD::ArmyUnitSwapperMovieClip::Impl::SetCommandPoints::a,StrategicHUD::ArmyUnitSwapperMovieClip::Impl::SetCommandPoints::commandPoints,inferred,agree:nl-7eec3d295bb0,Code/GameEngine/Source/Common/Rva005FD8E5Apt.cpp,0x005FD8E5
+param,StrategicHUD::ArmyUnitSwapperMovieClip::Impl::SetCommandPoints::b,StrategicHUD::ArmyUnitSwapperMovieClip::Impl::SetCommandPoints::maxCommandPoints,inferred,agree:nl-52408705c77d,Code/GameEngine/Source/Common/Rva005FD8E5Apt.cpp,0x005FD8E5
+param,Rva005FD956::rva005FD956::a,Rva005FD956::rva005FD956::commandPoints,inferred,agree:nl-87370b1bf5a8,Code/GameEngine/Source/Common/Rva005FD8E5Apt.cpp,0x005FD956
+param,Rva005FD956::rva005FD956::b,Rva005FD956::rva005FD956::maxCommandPoints,inferred,agree:nl-d3a25bfb6e50,Code/GameEngine/Source/Common/Rva005FD8E5Apt.cpp,0x005FD956
