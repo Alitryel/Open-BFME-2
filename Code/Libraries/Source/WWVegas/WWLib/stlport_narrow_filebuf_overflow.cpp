@@ -79,13 +79,10 @@ protected:
 };
 
 template <class CharT, class Traits>
-class basic_filebuf {};
-
-template <>
-class basic_filebuf<char, char_traits<char> > : public basic_streambuf {
+class basic_filebuf : public basic_streambuf {
 public:
-	typedef char_traits<char> traits_type;
-	typedef traits_type::int_type int_type;
+	typedef Traits traits_type;
+	typedef typename Traits::int_type int_type;
 
 protected:
 	virtual int_type overflow(int_type c);
@@ -124,8 +121,9 @@ private:
 
 };
 
-inline basic_filebuf<char, char_traits<char> >::int_type
-basic_filebuf<char, char_traits<char> >::overflow(int_type c)
+template <class CharT, class Traits>
+typename basic_filebuf<CharT, Traits>::int_type
+basic_filebuf<CharT, Traits>::overflow(int_type c)
 {
 	if (!_M_in_output_mode)
 		if (!_M_switch_to_output_mode())
@@ -164,20 +162,7 @@ basic_filebuf<char, char_traits<char> >::overflow(int_type c)
 	return traits_type::not_eof(c);
 }
 
-// overflow is a header inline in STLport: another unit emits a select-any copy
-// of it, so a strong definition here was a duplicate symbol in the linked
-// build. This anchor only makes this unit emit its copy for the ledger row;
-// it is not retail code.
-struct bfmeFilebufEmitter : basic_filebuf<char, char_traits<char> >
-{
-	static void emit(bfmeFilebufEmitter *p);
-};
-#pragma inline_depth(0)
-// ?emit@bfmeFilebufEmitter@_STL@@SAXPAU12@@Z present-unmatched
-void bfmeFilebufEmitter::emit(bfmeFilebufEmitter *p)
-{
-	p->basic_filebuf<char, char_traits<char> >::overflow(0);
-}
-#pragma inline_depth()
+template basic_filebuf<char, char_traits<char> >::int_type
+basic_filebuf<char, char_traits<char> >::overflow(int_type);
 
 } // namespace _STL

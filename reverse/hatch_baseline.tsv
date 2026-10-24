@@ -36906,7 +36906,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_map_int_int_copy_o
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_messages_dtors.cpp	1_Messages@_STL@@UAE@XZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_modulefactory_map_copy.cpp	_M_create_node@?$_Rb_tree@EU?$pair@$$CBEH@_STL@@U?$_Select1st@U?$pair@$$CBEH@_STL@@@2@U?$less@E@2@V?$allocator@U?$pair@$$CBEH@_STL@@@2@@_STL@@IAEPAU?$_Rb_tree_node@U?$pair@$$CBEH@_STL@@@2@ABU?$pair@$$CBEH@2@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_mutex_acquire.cpp	bfmeEmitMutexAcquireLock@@YAXPAV_STLP_mutex_base@_STL@@@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_filebuf_overflow.cpp	emit@bfmeFilebufEmitter@_STL@@SAXPAU12@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_from_wide_push.cpp	_STL::_String_reserve_t	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_string_substr.cpp	basic_string::_M_range_initialize	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_string_substring_ctor.cpp	basic_string::_M_range_initialize	1
