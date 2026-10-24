@@ -28,10 +28,10 @@ Rva006CDD50Item *__cdecl Rva006CDE00Copy(Rva006CDD50Iterator,Rva006CDD50Iterator
 // and two8B entries at+0C. Original container name is unresolved.
 class AptValueNameEntry {public:EAStringC name;int value;AptValueNameEntry(const EAStringC&n,int v):name(n),value(v){} __forceinline AptValueNameEntry(){value=0;}};
 AptValueNameEntry *__cdecl Rva006CDBF0Resize(AptValueNameEntry *,int,int);
-class Rva006CE660Vec {public:void rva006CEB10(const EAStringC &);void rva006D0930(const EAStringC *,int,int,int);void rva006D0A10(const EAStringC *);void rva006CE660(int); void insert(AptValueNameEntry *const &,AptValueNameEntry *const &,const Rva006CDD50Iterator &);void append(AptValueNameEntry *);int count,capacity;AptValueNameEntry *data;AptValueNameEntry inlineItems[2];
+class Rva006CE660Vec {public:void rva006CEB10(const EAStringC &);void rva006D0930(const EAStringC *,int,int,int);void rva006D0A10(const EAStringC *);void reserve(int); void insert(AptValueNameEntry *const &,AptValueNameEntry *const &,const Rva006CDD50Iterator &);void append(AptValueNameEntry *);int count,capacity;AptValueNameEntry *data;AptValueNameEntry inlineItems[2];
  Rva006CDD50Iterator begin(){Rva006CDD50Item *p=reinterpret_cast<Rva006CDD50Item *>(data);return Rva006CDD50Iterator(p,p,p+count);}
  Rva006CDD50Iterator end(){return Rva006CDD50Iterator(reinterpret_cast<Rva006CDD50Item *>(data+count),reinterpret_cast<Rva006CDD50Item *>(data),reinterpret_cast<Rva006CDD50Item *>(data+count));}};
-void Rva006CE660Vec::rva006CE660(int want){
+void Rva006CE660Vec::reserve(int want){
  if(want<=capacity)return;if(want<=1){capacity=want;return;}
  AptValueNameEntry *newData=Rva006CDBF0Resize(0,0,want+1);
  Rva006CDD50Item *begin=reinterpret_cast<Rva006CDD50Item *>(data),*end=begin+count;
@@ -65,7 +65,7 @@ void Rva006CE660Vec::insert(AptValueNameEntry *const &first,AptValueNameEntry *c
   int next=(int)(2.0*capacity);
   if(next<want)next=want;
   int offset=position-begin();
-  rva006CE660(next);
+  reserve(next);
   Rva006CDD50Item *begin=reinterpret_cast<Rva006CDD50Item *>(data);
   Rva006CDD50Iterator at=this->begin()+offset;
   insert(first,last,at);

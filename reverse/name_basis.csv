@@ -569,3 +569,4 @@ local,EdgeMapperClass::Apply::m,EdgeMapperClass::Apply::textureMatrix,inferred,a
 local,GridWSClassicEnvironmentMapperClass::Apply::m,GridWSClassicEnvironmentMapperClass::Apply::textureMatrix,inferred,agree:nl-e3db0c535805,Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp,0x00184AD0
 local,GridWSEnvironmentMapperClass::Apply::m,GridWSEnvironmentMapperClass::Apply::textureMatrix,inferred,agree:nl-7b88c5863be0,Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp,0x00185980
 local,ScreenMapperClass::Apply::m,ScreenMapperClass::Apply::textureMatrix,inferred,agree:nl-95534d66ebc1,Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp,0x00185E80
+function,?rva006CE660@Rva006CE660Vec@@QAEXH@Z,?reserve@Rva006CE660Vec@@QAEXH@Z,inferred,agree:nl-1f9d2a678152,Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp,0x006CE660
