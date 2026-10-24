@@ -6,8 +6,8 @@
 // Keep the existing evidenced flag view until Team has a shared layout.
 struct Rva004F05F0Flags {
     unsigned char pad[0x5D];
-    unsigned char m_5D;
-    unsigned char m_5E;
+    unsigned char m_active;
+    unsigned char m_created;
 };
 TeamInQueue::~TeamInQueue()
 {
@@ -18,9 +18,9 @@ TeamInQueue::~TeamInQueue()
         cur=next;
     }
     Rva004F05F0Flags *flag=(Rva004F05F0Flags *)m_team;
-    if(flag!=0 && flag->m_5D==0) {
-        flag->m_5E=1;
-        flag->m_5D=1;
+    if(flag!=0 && flag->m_active==0) {
+        flag->m_created=1;
+        flag->m_active=1;
     }
     m_workOrders=0;
 }

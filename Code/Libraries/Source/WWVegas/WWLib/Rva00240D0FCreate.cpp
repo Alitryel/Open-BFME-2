@@ -24,8 +24,8 @@ struct Rva00240D0FNode
 struct Rva00240D0FNode * __stdcall Rva00240D0FCreate(const struct Rva00240D0FValue &x);
 struct Rva00240D0FNode * __stdcall Rva00240D0FCreate(const struct Rva00240D0FValue &x)
 {
-	struct Rva00240D0FNode *tmp = (struct Rva00240D0FNode *)_STL::allocator<char>::allocate(0xC, (const void *)0);
-	tmp->m_next = 0;
-	Rva0023FC6BConstruct((struct Rva00240D0FValue *)((char *)tmp + 4), &x);
-	return tmp;
+	struct Rva00240D0FNode *node = (struct Rva00240D0FNode *)_STL::allocator<char>::allocate(0xC, (const void *)0);
+	node->m_next = 0;
+	Rva0023FC6BConstruct((struct Rva00240D0FValue *)((char *)node + 4), &x);
+	return node;
 }

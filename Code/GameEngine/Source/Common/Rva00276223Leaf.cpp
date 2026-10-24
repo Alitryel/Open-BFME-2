@@ -96,14 +96,14 @@ public:
 class Rva00276223
 {
 public:
-	void rva00276223(AsciiString s, bool randomlyRotate, int expireTimer);
+	void rva00276223(AsciiString modelName, bool randomlyRotate, int expireTimer);
 
 private:
 	char m_pad[0x14C];
 	Rva00276223Element **m_items;
 };
 
-void Rva00276223::rva00276223(AsciiString s, bool randomlyRotate, int expireTimer)
+void Rva00276223::rva00276223(AsciiString modelName, bool randomlyRotate, int expireTimer)
 {
 	Rva00276223Element **arr = m_items;
 	for (Rva00276223Element **p = arr; *p != 0; ++p) {
@@ -111,6 +111,6 @@ void Rva00276223::rva00276223(AsciiString s, bool randomlyRotate, int expireTime
 		Rva00276223Result *drawInterface = e->v42();
 		if (drawInterface == 0)
 			continue;
-		drawInterface->v35(s, randomlyRotate, expireTimer);
+		drawInterface->v35(modelName, randomlyRotate, expireTimer);
 	}
 }

@@ -21,7 +21,7 @@ extern TerrainLogic *TheTerrainLogic;
 class FireLogicSystem
 {
 public:
-	void rva00285DC5(int r0, int r1, int col, int add, int f12, int f10, int f8, bool flag);
+	void rva00285DC5(int startRow, int endRow, int col, int add, int f12, int f10, int f8, bool flag);
 private:
 	struct Cell
 	{
@@ -38,33 +38,33 @@ private:
 	int m_numCols;
 };
 
-void FireLogicSystem::rva00285DC5(int r0, int r1, int col, int add, int f12, int f10, int f8, bool flag)
+void FireLogicSystem::rva00285DC5(int startRow, int endRow, int col, int add, int f12, int f10, int f8, bool flag)
 {
 	if (col < 0)
 		return;
 	if (col >= m_numCols)
 		return;
-	if (r0 >= m_numRows)
+	if (startRow >= m_numRows)
 		return;
-	if (r1 < 0)
+	if (endRow < 0)
 		return;
-	if (r0 < 0)
-		r0 = 0;
-	if (r1 >= m_numRows)
-		r1 = m_numRows - 1;
+	if (startRow < 0)
+		startRow = 0;
+	if (endRow >= m_numRows)
+		endRow = m_numRows - 1;
 	if (f12 > 0xfff)
 		f12 = 0xfff;
 	if (f10 > 0x3ff)
 		f10 = 0x3ff;
 	if (f8 < 0)
 		f8 = 0;
-	if (r0 > r1)
+	if (startRow > endRow)
 		return;
 	float colF = (float)(((double)col + 0.5) * 10.0);
-	for (; r0 <= r1; r0++) {
-		if (TheTerrainLogic->IsBlocked((float)(((double)r0 + 0.5) * 10.0), colF, 0, 0, 0))
+	for (; startRow <= endRow; startRow++) {
+		if (TheTerrainLogic->IsBlocked((float)(((double)startRow + 0.5) * 10.0), colF, 0, 0, 0))
 			continue;
-		Cell *cell = (Cell *)((char *)m_cells[r0] + col * 20);
+		Cell *cell = (Cell *)((char *)m_cells[startRow] + col * 20);
 		if (flag != false && cell->m_check < 1)
 			continue;
 		int t = (int)cell->m_add + add;
