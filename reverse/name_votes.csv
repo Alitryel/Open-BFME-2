@@ -4514,3 +4514,15 @@ Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp|param|fast_ceil|f,3431a5f7814a
 Code/GameEngine/Source/Common/RTS/Rva00739BE0.cpp|param|fast_round|f,a79950f0eb0c7ad3034f38d3,gpt-6.1-sol,codexb-20261024-083906-9,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva00524B7AVslot10.cpp|local|Rva00524B7A::update|v,c13ae91af33f86368851c910,gpt-6.1-sol,codexb-20261024-083906-9,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva0010F42AFinish.cpp|member|Rva0010F42A|m_scale0C,dc5a23048564cf13e12ba288,gpt-6.1-sol,codexb-20261024-083906-10,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva0030BC94Forward.cpp|param|Rva0030BC94::transform|arg,7c06481424de3d0291b361d4,gpt-6.1-sol,codexb-20261024-085812-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva005388C2Assign.cpp|local|QuadStrip2D::rva00538383|p,9b9e34c0ae35a8064d3af941,gpt-6.1-sol,codexb-20261024-085812-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva005388C2Assign.cpp|local|QuadStrip2D::rva005382F4|p,d5658e07070b1484f16482ef,gpt-6.1-sol,codexb-20261024-085812-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva00085553Init.cpp|param|Rva00085553Get|a,df27f0e9c826579afcbd759d,gpt-6.1-sol,codexb-20261024-085812-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp|class||Rva0020EB07Vector,e2e0344794abbe542fc0285b,gpt-6.1-sol,codexb-20261024-085812-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp|member|Rva002616D1|m_08,6d8c1152a5525620b65ee5fc,gpt-6.1-sol,codexb-20261024-085812-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv1373.cpp|param|io_open|L,d79618b9d9d039e9eee91005,gpt-6.1-sol,codexb-20261024-085812-3,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva005CD841Visit.cpp|param|visit|p,23decac1966d3970ff003b1b,gpt-6.1-sol,codexb-20261024-085812-3,w-8e883e57d025,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapConstructor.cpp|member|Rva00DFF488Setting|field18,8d4730798f820518f28584cb,gpt-6.1-sol,codexb-20261024-085812-4,w-8e883e57d025,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapConstructor.cpp|member|Rva00DFF488Setting|field1C,b000e7c75faf9337e9bcf3b1,gpt-6.1-sol,codexb-20261024-085812-4,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva0057FE6BDtor.cpp|local|~Rva0057FE6B_Holder64|p,3bc4ab74a1564878e5b5d079,gpt-6.1-sol,codexb-20261024-085812-4,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva002860CF.cpp|local|Rva002860CFHost::rva002860CF|s,dcc25c872d108a57bc9cf4e7,gpt-6.1-sol,codexb-20261024-085812-4,w-8e883e57d025,2026-10-24
