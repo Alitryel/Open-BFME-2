@@ -5155,3 +5155,6 @@ Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassLoadCharBitmap.cpp|local|FontC
 Code/GameEngine/Source/GameClient/DrawableFade.cpp|param|Drawable::rva00272D77|b,fc58f90d0ee1c928eef89dd7,gpt-6-astra,codexb2-20261024-124859-10,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/GameClient/GUI/Rva005801F6Compare.cpp|function|0x005801F6|rva005801F6,dfb721d34f4cecacb0993ca1,gpt-6-astra,codexb2-20261024-124859-10,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/Rva002B6C9F.cpp|local|Rva002B6C9F::rva002B6C9F|r,10fa952006b1cd52664b3821,gpt-6-astra,codexb2-20261024-124859-10,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/FormationTranslatorRva00431C9D.cpp|local|FormationTranslator::WaitForSecondButtonDownStateHandler::Restart|h,009891e41f268342610263f3,gpt-6-astra,codexb2-20261024-131704-2,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/FormationTranslatorRva00431C9D.cpp|local|FormationTranslator::WaitForSecondButtonDownStateHandler::rva00431C9D|h,2050d1ab298753e60be9559e,gpt-6-astra,codexb2-20261024-131704-2,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva0056574BFill.cpp|param|Rva0056574BFill|x,3ea81d1e2f02c428aa551eb0,gpt-6-astra,codexb2-20261024-131704-4,w-d0bdfd8b17e9,2026-10-24
