@@ -5459,3 +5459,6 @@ Code/GameEngine/Source/GameLogic/Object/Made002CC841Parse.cpp|param|q4Notify002C
 Code/GameEngine/Source/Common/Rva00599825ListAdd.cpp|local|AIDozerManager::DoXfer|tmp,3568079d384293667a847614,claude-opus-5-5,claudec6-20261024-162238-3,w-efe153480513,2026-10-24
 Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|local|ThingFactory::newDrawable|o,d1f9be8fac4786f2523dddb5,claude-opus-5-5,claudec6-20261024-162238-5,w-efe153480513,2026-10-24
 Code/Libraries/Source/Apt/Rva006FE400Chain.cpp|param|Rva006FE400::rva006FE400|a2,f38848360e95025f68394d26,claude-opus-5-5,claudec6-20261024-162238-6,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007EA9C0Init.cpp|member|Rva007EA9C0Owner|m_0C,665e059150c865a2b924e985,claude-opus-5-5,claudec6-20261024-164109-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007EA9C0Init.cpp|member|Rva007EA9C0Owner|m_250,7ac56efe6d8c13c8abc3f135,claude-opus-5-5,claudec6-20261024-164109-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007EA9C0Init.cpp|member|Rva007EA9C0Owner|m_254,6f518d23ad0f1257511227fc,claude-opus-5-5,claudec6-20261024-164109-1,w-efe153480513,2026-10-24
