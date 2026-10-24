@@ -268,8 +268,8 @@ void Drawable::rva00274176(bool immediate)
 void Drawable::rva00274445(float f)
 {
 	void **arr = *(void ***)((char *)this + 0x14c);
-	for (void **p = arr; *p != 0; ++p) {
-		ElemA274445 *elem = (ElemA274445 *)*p;
+	for (void **drawModule = arr; *drawModule != 0; ++drawModule) {
+		ElemA274445 *elem = (ElemA274445 *)*drawModule;
 		void *obj = elem->slot42();
 		if (obj != 0)
 			((ElemB274445 *)obj)->slot20(f);
