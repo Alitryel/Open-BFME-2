@@ -2343,3 +2343,4 @@ __ehhandler$??0Rva0021F804@@QAE@ABVAsciiString@@0000@Z,0x0076EB1F,Renamed to __e
 __ehhandler$??0Rva0021F876@@QAE@ABV0@@Z,0x0076EB5D,Renamed to __ehhandler$??0CreateAHeroClass@CreateAHeroManager@@QAE@ABV01@@Z: follows the rename of its function
 ?rva0022020C@CreateAHeroManager@@QAEPAVRva0021F876@@AAV2@@Z,0x0022020C,Renamed to ?rva0022020C@CreateAHeroManager@@QAEPAVCreateAHeroClass@1@AAV21@@Z: class parser2202BF constructs and destroys the same32B record passed to manager22020C
 ??_GRva0021F876@@QAEPAXI@Z,0x0021FA92,Renamed to ??_GCreateAHeroClass@CreateAHeroManager@@QAEPAXI@Z: class parser2202BF constructs and destroys the same32B record passed to manager22020C
+?rva003B8D06@LivingWorldCampaignManager@@QAE?AVAsciiString@@XZ,0x003B8D06,"Renamed to ?GetCurrentActName@LivingWorldCampaignManager@@QAE?AVAsciiString@@XZ by tools/rename.py (inferred)"

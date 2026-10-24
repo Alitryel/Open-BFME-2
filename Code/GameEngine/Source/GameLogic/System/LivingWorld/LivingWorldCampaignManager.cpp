@@ -146,7 +146,7 @@ class LivingWorldCampaignManager
 public:
 	bool rva003B8CAC();
 	Rva00564DF2NameView *rva003B8D4D(const AsciiString &name);
-	AsciiString rva003B8D06();
+	AsciiString GetCurrentActName();
 	void StartNewCampaign(const AsciiString &campaignName);
 	void CallActSubroutine(const AsciiString &name);
 	void StartNewCampaign(Int campaignIndex);			// 0x003B8C06
@@ -296,7 +296,7 @@ void *Rva003B8E89::rva003B8E89(void *key)
 // at 0x003B8D28 and 0x003B8D32 prove the no-argument entry lookup and AsciiString
 // return ABI; invalid indices return the named AsciiString::TheEmptyString.
 // Separate entry and return expressions preserve the native call ordering.
-AsciiString LivingWorldCampaignManager::rva003B8D06()
+AsciiString LivingWorldCampaignManager::GetCurrentActName()
 {
     if (m_campaignIndex >= 0 && (UnsignedInt)m_campaignIndex < m_campaignVector.size())
         {
