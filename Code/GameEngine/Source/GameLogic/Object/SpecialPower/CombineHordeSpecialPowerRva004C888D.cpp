@@ -73,7 +73,6 @@ public:
 	BfmeFixedStorage0004543D m_08;
 };
 
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
 
 // A KindOfMaskType view: 224 bits, zeroed then set bit by bit.
 struct Rva004C888DMask

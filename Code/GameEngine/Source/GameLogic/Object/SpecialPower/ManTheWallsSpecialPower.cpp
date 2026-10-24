@@ -269,11 +269,6 @@ ManTheWallsSpecialPower::ManTheWallsSpecialPower( Thing *thing, const ModuleData
 {
 }
 
-// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
-// each one has the same function in that slot (vftable addresses from matched vptr
-// stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?specialPowerModuleInterfaceAnchor@SpecialPowerModuleInterface@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
-
 // Native 4C70AD..4C70CF, RET8. The ManTheWalls helper 4C7167 restores
 // its receiver into ECX before this call; WB 1268D00 does the same, and
 // WB 1268D90 saves ECX as this. Thus the earlier free __stdcall claim

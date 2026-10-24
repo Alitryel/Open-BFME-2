@@ -82,7 +82,6 @@ public:
 	BfmeObject872Header m_18;
 };
 
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
 
 enum ObjectStatusTypes
 {

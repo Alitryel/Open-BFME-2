@@ -50,7 +50,6 @@ public:
 	const Object *m_obj;
 };
 
-#pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
 
 #include "../../../../../../Libraries/Include/Lib/Coord3D.h"
 
