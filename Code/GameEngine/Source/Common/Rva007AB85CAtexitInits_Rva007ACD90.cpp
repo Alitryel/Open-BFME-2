@@ -24,7 +24,7 @@ void __cdecl Rva007B7090Set();
 void __cdecl Rva007B70A0Set();
 void __cdecl rva007B71D0();
 void __cdecl rva007B7200();
-void __cdecl bfmeGoECF();
+void __cdecl releaseBrowser();
 void __cdecl rva007B7300();
 void __cdecl rva007B7340();
 void __cdecl rva007B7380();
@@ -117,7 +117,7 @@ void Rva007AB85CAtexitInits::rva007ACDA0()
 // ?rva007ACE80@Rva007AB85CAtexitInits@@SAXXZ @ 0x007ACE80 (12B): atexit(0x007B7270)
 void Rva007AB85CAtexitInits::rva007ACE80()
 {
-	atexit( bfmeGoECF );
+	atexit( releaseBrowser );
 }
 
 

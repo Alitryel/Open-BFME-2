@@ -17,10 +17,10 @@ struct BfmeVtblECF
 
 struct BfmeObjECF
 {
-	BfmeVtblECF *m_bfmeVtbl;
+	BfmeVtblECF *m_vtable;
     void shutdown()
     {
-        long result = m_bfmeVtbl->shutdown(this);
+        long result = m_vtable->shutdown(this);
         if (result < 0)
             _com_issue_errorex(result, (IUnknown *)this, g_bfmeIidTSA);
     }
@@ -28,12 +28,12 @@ struct BfmeObjECF
 
 extern BfmeObjECF *g_bfmeObjECF;
 
-// ?bfmeGoECF@@YAXXZ
-void bfmeGoECF(void)
+// ?releaseBrowser@@YAXXZ
+void releaseBrowser(void)
 {
 	BfmeObjECF *obj = g_bfmeObjECF;
 	if (obj)
-		obj->m_bfmeVtbl->m_bfmeF2(obj);
+		obj->m_vtable->m_bfmeF2(obj);
 }
 
 class BfmeObjECI
@@ -145,7 +145,7 @@ void DX8WebBrowser::Shutdown()
         {
             BfmeObjECF *browser = g_bfmeObjECF;
             g_bfmeObjECF = 0;
-            browser->m_bfmeVtbl->m_bfmeF2(browser);
+            browser->m_vtable->m_bfmeF2(browser);
         }
         hWnd = 0;
         CoUninitialize();

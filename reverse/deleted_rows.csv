@@ -2264,3 +2264,4 @@ __ehhandler$?rva005E5B20@Rva005E5A8B@@QAEHABUICoord2D@@H@Z,0x007A3A27,"Renamed t
 ?rva004ABABC@LargeGroupAudioUpdate@@UAEGXZ,0x004ABABC,"Renamed to ?getUnitWeight@LargeGroupAudioUpdate@@UAEGXZ by tools/rename.py (inferred)"
 ?rva004ABA93@LargeGroupAudioUpdate@@UBE?AURva004ABA81Pair@@XZ,0x004ABA93,"Renamed to ?getPosition@LargeGroupAudioUpdate@@UBE?AURva004ABA81Pair@@XZ by tools/rename.py (inferred)"
 ?rva000B901D@Rva000B901D@@QAEXHPBURva000B901DNames@@@Z,0x000B901D,"Renamed to ?RecolorHouseColor@Rva000B901D@@QAEXHPBURva000B901DNames@@@Z by tools/rename.py (inferred)"
+?bfmeGoECF@@YAXXZ,0x007B7270,"Renamed to ?releaseBrowser@@YAXXZ by tools/rename.py (inferred)"
