@@ -3539,3 +3539,6 @@ Code/GameEngine/Source/Common/Rva005C6CCC.cpp|local|Rotate|s,29dede16cb1616a940f
 Code/GameEngine/Source/Common/Rva005C6CCC.cpp|local|Rotate|c,10c73337f085aa53d4b4e455,gpt-6.1-sol,codex8-20261024-060646-28,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/Rva005C6CCC.cpp|local|Rva005C6D4D::rva005C674A|x,59d03bed3889d32ec90907ab,gpt-6.1-sol,codex8-20261024-060646-28,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/Rva005C6CCC.cpp|local|Rva005C6D4D::rva005C674A|y,69ad14aa0c6a8af0814594ab,gpt-6.1-sol,codex8-20261024-060646-28,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameClient/FormationTranslatorRva00431C9D.cpp|local|FormationTranslator::WaitForSecondButtonDownStateHandler::Restart|h,009891e41f268342610263f3,gpt-6.1-sol,codex8-20261024-064231-2,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameClient/FormationTranslatorRva00431C9D.cpp|local|FormationTranslator::WaitForSecondButtonDownStateHandler::rva00431C9D|tmp,a5c5d8109cf9084c39f178ed,gpt-6.1-sol,codex8-20261024-064231-2,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameClient/FormationTranslatorRva00431C9D.cpp|local|FormationTranslator::WaitForSecondButtonDownStateHandler::rva00431C9D|h,2050d1ab298753e60be9559e,gpt-6.1-sol,codex8-20261024-064231-2,w-de56e563a50b,2026-10-24
