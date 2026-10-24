@@ -183,3 +183,76 @@ Rva0021231B::~Rva0021231B()
 {
 	((Rva004DFC20 *)this)->clear();
 }
+
+// ??1Rva0030A083Map@@QAE@XZ @0x0030A083 57B: byte-identical to ~Rva000427195 above
+// (formerly the alias dup_0030a083); retail folds its EH handler with 0x0030A0BC's.
+// Reached only through the five-byte forwarder 0x0030A0FC below.
+struct Rva0030A083Map
+{
+	~Rva0030A083Map();
+	void *m_unused00;
+	Rva000427195BucketHandle m_buckets;
+	unsigned int m_numElements;
+};
+
+Rva0030A083Map::~Rva0030A083Map()
+{
+	((Rva000427195 *)this)->rva003A2A41();
+}
+
+// ??1Rva0030A0FCDtor@@QAE@XZ @0x0030A0FC 5B: bare tail jump to ~Rva0030A083Map;
+// the atexit cleanup 0x007B7AE1 of the global table at 0x00DFF494 calls it.
+struct Rva0030A0FCDtor
+{
+	~Rva0030A0FCDtor();
+};
+
+Rva0030A0FCDtor::~Rva0030A0FCDtor()
+{
+	((Rva0030A083Map *)this)->~Rva0030A083Map();
+}
+
+// The 0x001DBCDC-clear shape of ~Rva0021231B above (formerly the aliases
+// dup_00524c88 and dup_00240c27); each folds its EH handler
+// with another table's.
+// ??1Rva00524C88Map@@QAE@XZ @0x00524C88 57B: reached only through the
+// five-byte forwarder 0x00524CC1 below.
+struct Rva00524C88Map
+{
+	~Rva00524C88Map();
+	void *m_unused00;
+	Rva000427195BucketHandle m_buckets;
+	unsigned int m_numElements;
+};
+
+Rva00524C88Map::~Rva00524C88Map()
+{
+	((Rva004DFC20 *)this)->clear();
+}
+
+// ??1Rva00524CC1Dtor@@QAE@XZ @0x00524CC1 5B: bare tail jump to ~Rva00524C88Map;
+// the atexit cleanup 0x007B91F8 of the global table at 0x00E04938 calls it.
+struct Rva00524CC1Dtor
+{
+	~Rva00524CC1Dtor();
+};
+
+Rva00524CC1Dtor::~Rva00524CC1Dtor()
+{
+	((Rva00524C88Map *)this)->~Rva00524C88Map();
+}
+
+// ??1Rva00240C27@@QAE@XZ @0x00240C27 57B: the +0xB4 table destructor of
+// 0x00243BA0 (REL32 at 0x00243E0A); GameLogicDestructor.cpp calls it by this name.
+struct Rva00240C27
+{
+	~Rva00240C27();
+	void *m_unused00;
+	Rva000427195BucketHandle m_buckets;
+	unsigned int m_numElements;
+};
+
+Rva00240C27::~Rva00240C27()
+{
+	((Rva004DFC20 *)this)->clear();
+}
