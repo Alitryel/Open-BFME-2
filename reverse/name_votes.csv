@@ -2149,3 +2149,13 @@ Code/GameEngine/Source/Common/Rva005C4B56.cpp|param|Rva005C4B56::rva005C4BC8|a,2
 Code/GameEngine/Source/Common/Rva005C4B56.cpp|param|Rva005C4B56::rva005C4BC8|b,7d2e1e311f1b72872161bd7e,gpt-6.1-sol,codex4-20261024-025917-12,w-887869184137,2026-10-24
 Code/GameEngine/Source/Common/Rva005C4B56.cpp|param|Rva005C4B56::rva005C4BC8|c,7e96b1e2ad56ddd9f046e30f,gpt-6.1-sol,codex4-20261024-025917-12,w-887869184137,2026-10-24
 Code/GameEngine/Source/Common/BfmeConv793.cpp|global||g_bfmeArgDXE,46eec725d689d026dd3c286a,gpt-6.1-sol,codex4-20261024-025917-17,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassRva001588A0.cpp|function|0x001588A0|rva001588A0,fc57eee64361d047caada83f,gpt-6.1-sol,codex4-20261024-025917-20,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameClient/Rva00223124NewNode.cpp|function|0x00223124|rva00223124,281837362e592509a6817691,gpt-6.1-sol,codex4-20261024-025917-25,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameClient/Rva00223124NewNode.cpp|local|Rva00223124::rva00223124|n,3ccbb3a0bbd74f1ec526633d,gpt-6.1-sol,codex4-20261024-025917-25,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|function|0x001B230A|rva001B230A,de6686b047756939eeacd3da,gpt-6.1-sol,codex4-20261024-025917-26,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|local|BFME2Encoding1MotionChannel::rva001B230A|fi0,977794cfffdc5ebc1dd24482,gpt-6.1-sol,codex4-20261024-025917-26,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|local|BFME2Encoding1MotionChannel::rva001B230A|p,b242b1a7ac9e57bfd09f469e,gpt-6.1-sol,codex4-20261024-025917-26,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|local|BFME2Encoding1MotionChannel::rva001B230A|f,bbc98477030b9b01777a0394,gpt-6.1-sol,codex4-20261024-025917-26,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|local|BFME2Encoding1MotionChannel::rva001B2450|fi0,68a6353142eaad012f1a7d09,gpt-6.1-sol,codex4-20261024-025917-26,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|local|BFME2Encoding1MotionChannel::rva001B2450|p,af83fb94902b76f23b80847c,gpt-6.1-sol,codex4-20261024-025917-26,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|local|BFME2Encoding1MotionChannel::rva001B2450|f,b51585f0e31c2e4a60119c14,gpt-6.1-sol,codex4-20261024-025917-26,w-887869184137,2026-10-24
