@@ -50,6 +50,8 @@ public:
  Payload005FAB9E m_data;
 };
 
+// Factories do not emit the payload vtables. Clone bodies with unresolved
+// destructor providers are retained in RvaPayloadValueReturnsUnresolved.cpp.
 RvaCloneResult<Rva005FAAA1> Rva005FAC2BCreate(const Rva005FAAA1::Payload *src)
 {
  return RvaCloneResult<Rva005FAAA1>(new Rva005FAAA1(src));
@@ -63,19 +65,4 @@ RvaCloneResult<Rva005FAB16> Rva005FAC5DCreate(const Payload005FAB16 &src)
 RvaCloneResult<Rva005FAB9E> Rva005FAC8FCreate(const Payload005FAB9E &src)
 {
  return RvaCloneResult<Rva005FAB9E>(new Rva005FAB9E(src));
-}
-
-RvaCloneResult<Rva005FAAA1> Rva005FAAA1::clone() const
-{
- return RvaCloneResult<Rva005FAAA1>(new Rva005FAAA1(*this));
-}
-
-RvaCloneResult<Rva005FAB16> Rva005FAB16::clone() const
-{
- return RvaCloneResult<Rva005FAB16>(new Rva005FAB16(*this));
-}
-
-RvaCloneResult<Rva005FAB9E> Rva005FAB9E::clone() const
-{
- return RvaCloneResult<Rva005FAB9E>(new Rva005FAB9E(*this));
 }
