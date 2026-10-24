@@ -996,3 +996,4 @@ member,Rva0030C2CECollection::m_end18,Rva0030C2CECollection::m_end,inferred,agre
 local,Rva0030C2CESave::nc_91,Rva0030C2CESave::atEnd,inferred,agree:nl-878adb6ce70d,Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp,0x0030C2CE
 function,?Rva0030C2CESave@@YAXPAVRva0030C2CECollection@@PAVDataChunkOutput@@@Z,?saveRiverAreas@@YAXPAVRva0030C2CECollection@@PAVDataChunkOutput@@@Z,inferred,agree:nl-6203f4b17fab,Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp,0x0030C2CE
 carry,Rva0030C2CESave::atEnd,saveRiverAreas::atEnd,inferred,scope renamed by Rename Rva0030C2CESave to saveRiverAreas (inferred),Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp,0x0030C2CE
+local,~Rva0057FE6B_Holder64::p,~Rva0057FE6B_Holder64::allocation,inferred,agree:nl-3bc4ab74a156,Code/GameEngine/Source/Common/Rva0057FE6BDtor.cpp,

@@ -30,13 +30,13 @@ struct Rva0057FE6B_Holder64
 	Rva0057FE6B_P64 *m_ptr;
 	__forceinline ~Rva0057FE6B_Holder64()
 	{
-		void *p;
+		void *allocation;
 		if (m_ptr != 0) {
-			p = m_ptr->f2(0);
+			allocation = m_ptr->f2(0);
 		} else {
-			p = 0;
+			allocation = 0;
 		}
-		::operator delete(p);
+		::operator delete(allocation);
 		m_ptr = 0;
 	}
 };
