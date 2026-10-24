@@ -145,10 +145,10 @@ void AIEconomyStats::rva0059640C(void *holder)
 	TwoBytes t;
 	t.a = 1;
 	t.b = 1;
-	Holder *h = (Holder *)holder;
-	h->v10(&t);
-	h->v30(&m_zero14);
-	h->v31(&m_minusOne18);
+	Holder *xfer = (Holder *)holder;
+	xfer->v10(&t);
+	xfer->v30(&m_zero14);
+	xfer->v31(&m_minusOne18);
 }
 
 // ?withdrawSavedAmount@AIEconomyStats@@QAEXH@Z @0x005963C8 40B

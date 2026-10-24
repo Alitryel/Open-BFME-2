@@ -581,3 +581,4 @@ param,Rva00594E07::rva00594E07::b,Rva00594E07::rva00594E07::time,inferred,agree:
 function,?rva002C752F@Rva002C752F@@QAEXXZ,?clear@Rva002C752F@@QAEXXZ,inferred,agree:nl-3e7eb0020eaa,Code/GameEngine/Source/GameLogic/Object/WeaponSetRva002C752F.cpp,0x002C752F
 member,CreateObjectDieModuleDataView::m_ocl38,CreateObjectDieModuleDataView::m_ocl,inferred,agree:nl-406b5cbae888,Code/GameEngine/Source/GameLogic/Object/Die/Rva00485C86Finish.cpp,
 function,?rva0006ED55@Rva0006ED55@@UAEXXZ,?draw@Rva0006ED55@@UAEXXZ,inferred,agree:nl-d824266d0524,Code/GameEngine/Source/Common/Rva0006ED36Call.cpp,0x0006ED55
+local,AIEconomyStats::rva0059640C::h,AIEconomyStats::rva0059640C::xfer,inferred,agree:nl-f32feb89fe1a,Code/GameEngine/Source/Common/Rva0025BFE3Derived.cpp,0x0059640C
