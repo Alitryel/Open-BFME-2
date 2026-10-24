@@ -4251,7 +4251,6 @@ alternatename	Code/GameEngine/Source/Main/Win32GameEngineCtor.cpp	?setIsActive@G
 alternatename	Code/GameEngine/Source/Main/WinMain.cpp	?theBfmeDfe6e8@@3PAVBfmeDfe6e8@@A	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/BFMERopeDrawableGetPosition.cpp	_D3DXVec3CatmullRom@24	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DBoatWakeModelDrawCtor.cpp	_vtbl_00BCDD70	1
-alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DBuffDrawConstructor.cpp	?drawModuleAnchor@DrawModule@@UAEXXZ	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DBuffDrawModuleDataCtor.cpp	_vtbl_00BCD270	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DDebrisDrawCtor.cpp	_vtbl_00BC97A0	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DDebrisDrawCtor.cpp	_vtbl_00BC97A8	1
@@ -4308,7 +4307,6 @@ alternatename	Code/Libraries/Source/ATL/atlimage.cpp	??1Bitmap@Gdiplus@@UAE@XZ	1
 alternatename	Code/Libraries/Source/ATL/atlimage.cpp	?GdiplusShutdown@Gdiplus@@YGXK@Z	1
 alternatename	Code/Libraries/Source/ATL/atlimage.cpp	?GdiplusStartup@Gdiplus@@YG?AW4Status@1@PAKPBUGdiplusStartupInput@1@PAUGdiplusStartupOutput@1@@Z	1
 alternatename	Code/Libraries/Source/Apt/AptActionInterpreterConstantHandlers.cpp	??0AptPrototype@@QAE@XZ	1
-alternatename	Code/Libraries/Source/Apt/AptActionInterpreterConstantHandlers.cpp	??3AptPrototype@@SAXPAXI@Z	1
 alternatename	Code/Libraries/Source/Apt/AptActionInterpreterConstantHandlers.cpp	?Append@EAStringC@@QAEAAV1@QBDI@Z	1
 alternatename	Code/Libraries/Source/Apt/AptActionInterpreterConstantHandlers.cpp	?AptPushStaticData@@YAPAXXZ	1
 alternatename	Code/Libraries/Source/Apt/AptActionInterpreterConstantHandlers.cpp	?GetInt@AptInteger@@QBEHXZ	1
@@ -4331,7 +4329,6 @@ alternatename	Code/Libraries/Source/Apt/AptActionInterpreterConstantHandlers.cpp
 alternatename	Code/Libraries/Source/Apt/AptActionInterpreterConstantHandlers.cpp	?c_register@AptValue@@QBEPAVAptRegister@@XZ	1
 alternatename	Code/Libraries/Source/Apt/AptActionInterpreterConstantHandlers.cpp	?c_string@AptValue@@QBEPAVAptString@@XZ	1
 alternatename	Code/Libraries/Source/Apt/AptActionInterpreterConstantHandlers.cpp	?getContext@AptActionInterpreter@@CA_NPAVAptValue@@0PBVEAStringC@@PAPAV2@AAV3@@Z	1
-alternatename	Code/Libraries/Source/Apt/AptActionInterpreterConstantHandlers.cpp	?getIsDefined@AptValue@@QBE_NXZ	1
 alternatename	Code/Libraries/Source/Apt/AptActionInterpreterConstantHandlers.cpp	?getName@AptActionInterpreter@@SAXPAVAptCIH@@AAVEAStringC@@@Z	1
 alternatename	Code/Libraries/Source/Apt/AptActionInterpreterConstantHandlers.cpp	?getVtblIndex@AptValue@@QBE?AW4AptVirtualFunctionTable_Indices@@XZ	1
 alternatename	Code/Libraries/Source/Apt/AptActionInterpreterConstantHandlers.cpp	?gpGlobalGlobalObject@@3PAVAptValue@@A	1
@@ -4441,9 +4438,7 @@ alternatename	Code/Libraries/Source/Apt/AptObject/AptObjectDoesImplement.cpp	?Lo
 alternatename	Code/Libraries/Source/Apt/AptObject/AptObjectDoesImplement.cpp	?c_array@AptValue@@QBEPAVAptArray@@XZ	1
 alternatename	Code/Libraries/Source/Apt/AptObject/AptScriptFunctionBodies.cpp	??0AptPrototype@@QAE@XZ	1
 alternatename	Code/Libraries/Source/Apt/AptObject/AptScriptFunctionBodies.cpp	??1AptObject@@MAE@XZ	1
-alternatename	Code/Libraries/Source/Apt/AptObject/AptScriptFunctionBodies.cpp	??3AptPrototype@@SAXPAXI@Z	1
 alternatename	Code/Libraries/Source/Apt/AptObject/AptScriptFunctionBodies.cpp	?GetRootAnimation@AptCIH@@QAEPAV1@XZ	1
-alternatename	Code/Libraries/Source/Apt/AptObject/AptScriptFunctionBodies.cpp	?getIsDefined@AptValue@@QBE_NXZ	1
 alternatename	Code/Libraries/Source/Apt/AptObject/AptScriptFunctionBodies.cpp	?gpGlobalGlobalObject@@3PAVAptValue@@A	1
 alternatename	Code/Libraries/Source/Apt/AptObject/AptScriptFunctionBodies.cpp	?isCIH@AptValue@@QBE_N_N@Z	1
 alternatename	Code/Libraries/Source/Apt/AptObject/AptScriptFunctionConstructors.cpp	?GetByteCodeBase@AptScriptFunction1@@UAEPBEXZ	1
@@ -4555,7 +4550,6 @@ alternatename	Code/Libraries/Source/STLport/Rva008314E0StringReplace.cpp	?bfmeIn
 alternatename	Code/Libraries/Source/STLport/Rva008314E0StringReplace.cpp	?bfmeInsertV55@BfmeStrV55@@QAEXPAD0000@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/BfmeDX8ThreadLock.cpp	?BFME_DX8_Thread_Assert@@YAXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/BfmeDX8ThreadLock.cpp	?W3DRadarResetLock@@YAXXZ	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/BfmeResetTextureCreateHelper.cpp	_D3DXCreateTexture@32	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/BfmeResetTextureRefClear.cpp	?clear@HAnimPrototypeOwner@@QAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/BfmeResetTextureRefClear.cpp	?clear@HTreePrototypeOwner@@QAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/BfmeResetTextureRefClear.cpp	?clear@Rva00180023@@QAEXXZ	1
@@ -4613,7 +4607,6 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/Rva001263B7Finish.cpp	?g_007BB
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/Rva0012C99DRun.cpp	?ji_006291ae@@YAPAXPAXHI@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/Rva00144690Dtor.cpp	??1DX8PolygonRendererList@@UAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/Rva001514B2ForwardAndApply.cpp	?get@Rva001514B2@@QAEPAXXZ	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/Rva003F7EC7Dtor.cpp	??1?$StringBase@D@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/Rva0061F090Siblings.cpp	_g_bfme00E09C0C	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/Rva00958200BfmeThingTXACtor.cpp	?bfmeReleaseATXA@@YGXPAX@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/Rva00958200BfmeThingTXACtor.cpp	?bfmeReleaseBTXA@@YGXPAX@Z	1
@@ -4622,13 +4615,11 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/SceneOwnership.cpp	?second@Gen
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/SceneOwnership.cpp	?unlink@Gen_00943CF0@@AAEXPAX@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/SimpleSceneClass_dtor.cpp	??1BfmeSceneVectorElement@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/SimpleSceneClass_dtor.cpp	??_VBfmeSceneVectorElement@@SAXPAX@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/SimpleSceneClass_dtor.cpp	?slot_1@SimpleSceneClass@@UAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/SortingRendererBFME1.cpp	?BfmeCurrentCaps@@3PAEA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/SortingRendererBFME1.cpp	?TheBoxTextureDirtyMask@@3IA	2
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/SortingRendererBFME1.cpp	?g_00DEDA4C@@3IA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/SortingRendererBFME1.cpp	?g_bfmeCountTDB@@3HA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/StreakRendererCtor.cpp	?SyncTime@WW3D@@2IA	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/StreakRendererSetTextureBFME1.cpp	?DeviceProjectionMatrix@DX8Wrapper@@1VMatrix4@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/TextureBaseReleaseRefThunk.cpp	?Release_Ref@BFME2TextureResource@@QAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/TextureBaseReleaseRefThunk.cpp	?Release_Ref@BfmeResetResource@@QAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/TextureBaseReleaseRefThunk.cpp	?Release_Ref@CountedAsset@@QAEXXZ	1
@@ -4641,18 +4632,13 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/TextureStatisticsVector.cpp	?I
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/TextureStatisticsVector.cpp	?ID@?$VectorClass@UTextureStatisticsStruct@@@@UAEHPBUTextureStatisticsStruct@@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/TextureStatisticsVectorID.cpp	?ID@?$DynamicVectorClass@UTextureStatisticsStruct@@@@UAEHPBUTextureStatisticsStruct@@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/TextureStatisticsVectorID.cpp	?ID@?$VectorClass@UTextureStatisticsStruct@@@@UAEHPBUTextureStatisticsStruct@@@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/TextureStatisticsVectorWide.cpp	??8?$VectorClassWide@UTextureStatisticsStructWide@@@@UBE_NABV0@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/TextureStatisticsVectorWide.cpp	?ID@?$DynamicVectorClassWide@UTextureStatisticsStructWide@@@@UAEHABUTextureStatisticsStructWide@@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/TextureStatisticsVectorWide.cpp	?ID@?$DynamicVectorClassWide@UTextureStatisticsStructWide@@@@UAEHPBUTextureStatisticsStructWide@@@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/TextureStatisticsVectorWide.cpp	?ID@?$VectorClassWide@UTextureStatisticsStructWide@@@@UAEHPBUTextureStatisticsStructWide@@@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/TextureStatisticsVectorWideExtras.cpp	??8?$VectorClassWide@UTextureStatisticsStructWide@@@@UBE_NABV0@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/TextureStatisticsVectorWideExtras.cpp	?ID@?$DynamicVectorClassWide@UTextureStatisticsStructWide@@@@UAEHABUTextureStatisticsStructWide@@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/TextureStatisticsVectorWideExtras.cpp	?ID@?$DynamicVectorClassWide@UTextureStatisticsStructWide@@@@UAEHPBUTextureStatisticsStructWide@@@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/TextureStatisticsVectorWideExtras.cpp	?ID@?$VectorClassWide@UTextureStatisticsStructWide@@@@UAEHPBUTextureStatisticsStructWide@@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/TextureVectorBaseCtor.cpp	_vtbl_00BD4640	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/Textures_Material_And_Shader_Booking_Struct.cpp	?rva00906340VecCtor@@YGXPAXIHP6AX0@Z1@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/VertexBufferLockClasses.cpp	??1AppendLockClass@VertexBufferClass@@QAE@XZ	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/VertexMaterialApply.cpp	?DeviceProjectionMatrix@DX8Wrapper@@1VMatrix4@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/VertexSplitTableConstructorBFME.cpp	?BfmeCurrentCaps@@3PAVBfmeCaps@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/VertexSplitTablePeekTexture.cpp	?Peek_Texture@MeshModelClass@@QBE?AV?$RefCountPtr@VTextureClass@@@@HHH@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/WW3D_Get_Render_Target_Resolution.cpp	?g_Va00DEDA06@@3EA	1
@@ -4675,11 +4661,9 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?b
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?g_Va00DEDA34@@3HA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?g_Va00DEDA7C@@3HA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?g_bfmeObjTDB@@3PAUBfmeObjTDB@@A	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/camera_projection.cpp	?DeviceProjectionMatrix@DX8Wrapper@@1VMatrix4@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/camera_projection.cpp	?ProjectionDepthBias@DX8Wrapper@@1MA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/coltest.cpp	??4BfmeFixedObject60@@QAEAAU0@ABU0@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8caps.cpp	?Is_Valid_Display_Format@BfmeEnumerationCaps@@QAE_NHHW4_D3DFORMAT@@@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8fvf.cpp	_D3DXGetFVFVertexSize@4	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8indexbuffer.cpp	??0BfmeSortingIBAccess@@QAE@GG@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8indexbuffer.cpp	??1BfmeSortingIBAccess@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8indexbuffer.cpp	?g_BFMEIndexBufferDebug@@3PAVBFMEIndexBufferDebugClass@@A	1
@@ -4716,7 +4700,6 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	?g_BFMEIndexBuf
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	?g_Va00DEDA14@@3HA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	?rva001216E7ShutdownPhase@@YAXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	?theDebug@@3RAVDebug@@A	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	_D3DXCreateTexture@32	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	_bfmeDirectXErrorName@4	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	_bfmeDtorCbDMC	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/htree.cpp	_strcpy	1
@@ -4771,7 +4754,6 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/OuterRecordCtorRva003F64B2.cpp
 alternatename	Code/Libraries/Source/WWVegas/WWLib/OuterRecordCtorRva003F64B2.cpp	?reserve@?$vector@URva003F64B2Element@@V?$allocator@URva003F64B2Element@@@_STL@@@_STL@@QAEXI@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/OwnedBucketChainClearO1.cpp	?freeNode@Rva00216AF6@@AAEXPAURva00216787Node@@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/OwnedBucketChainClearO1.cpp	?freeNode@Rva002A1D02@@AAEXPAX@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/Rva0002C4FDCtor.cpp	??1?$StringBase@D@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/Rva00038780Siblings.cpp	_g_bfme00DE0880	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/Rva00056da2Finish.cpp	?Rva00055864Free@Rva00056DA2@@AAEXPAURva00055864Node@@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/Rva00058C6FInsert.cpp	?rva00056E53@Rva000427195@@QAEPAUHashNode00056E53@@ABU?$pair@$$CBVAsciiString@@UTreeHintPayload0005808E@@@_STL@@@Z	1
@@ -4782,7 +4764,6 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/Rva000C24CDRangeForward.cpp	?R
 alternatename	Code/Libraries/Source/WWVegas/WWLib/Rva000C24EAVectorErase.cpp	??1Rva000C24EA@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/Rva000C24EAVectorErase.cpp	?Rva000BDCEFDestroy32@@YAXPAVRva000C24EA@@0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/Rva000C24EAVectorErase.cpp	?Rva000C4795Copy4@@YAPAVRva000C24EA@@PBV1@0PAV1@PBX@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/Rva00136794Dtor.cpp	??1?$StringBase@D@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/Rva00151248Reset.cpp	??1Rva00151248String@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/Rva00151248Reset.cpp	?assign@Rva00151248String@@QAEXPBD@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/Rva00151248Reset.cpp	?clear@Rva00151248String@@QAEXXZ	1
@@ -4891,7 +4872,6 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/StringBaseWideReleaseBuffer.cp
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StringBaseWideReleaseBuffer.cpp	?releaseBuffer@UnicodeString@@IAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/ThreadClassLifecycle.cpp	?stop@Rva006105F0@@QAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/UnicodeStringEmptyCleanup.cpp	?destroy@UnicodeStringCleanup@@QAEXXZ	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/UnicodeStringEmptyCleanup.cpp	_atexit	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/VectorCopyDispatchRva003F5B3E.cpp	?backwardDeep@@YAPAURva003F5B3ERecord@@PAU1@00ABURva003F5B3ETag@@PAH@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/VectorCopyDispatchRva003F5B3E.cpp	?copyDeep@@YAPAURva003F5B3ERecord@@PAU1@00ABURva003F5B3ETag@@PAH@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/VectorFillInsertRva003F61C6.cpp	??$_Construct@URva003F61C6Record@@U1@@_STL@@YAXPAURva003F61C6Record@@ABU1@@Z	1
@@ -4928,7 +4908,6 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_classic_locale.cpp	?do
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_classic_locale.cpp	?do_toupper@?$ctype@G@_STL@@MBEPBGPAGPBG@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_classic_locale.cpp	?do_transform@?$collate@D@_STL@@MBE?AV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@2@PBD0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_classic_locale.cpp	?do_widen@?$ctype@G@_STL@@MBEPBDPBD0PAG@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_construct_pod80_rva.cpp	??$_Construct@URva00520211Element@@U1@@_STL@@YAXPAURva00520211Element@@ABU1@@Z	2
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_construct_stl_types2.cpp	??$_Construct@URva0056644EElement@@U1@@_STL@@YAXPAURva0056644EElement@@ABU1@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_create_filebuf.cpp	??1stdio_istreambuf@_SgI@@UAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_create_filebuf.cpp	??1stdio_ostreambuf@_SgI@@UAE@XZ	1
@@ -4939,12 +4918,10 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_deque_e8_pushback_aux.
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_deque_int.cpp	?bfmeAllocPV@@YAPAXHI@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_deque_int.cpp	?bfmeAllocQB@@YAPAXHI@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_deque_int.cpp	?bfmeAllocQG@@YAPAXHI@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_deque_int.cpp	?setup@FreelistProxyHead@@QAEXPBXPAX@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_hash_map_int.cpp	??$_Construct@UGen_t_008fb570_p8pod@@U1@@_STL@@YAXPAUGen_t_008fb570_p8pod@@ABU1@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_hash_map_int.cpp	??$_Construct@Uvalue_type@KeyToBucketMap@NameKeyGenerator@@@_STL@@YAXPAUvalue_type@KeyToBucketMap@NameKeyGenerator@@ABU123@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_hash_map_int.cpp	?Rva00142E20@@YAXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_hashtable_stringrecord_00054F57.cpp	?rva00056E8C@Rva00058D4A@@QAEPAUHashNode00056E8C@@ABUBfmeStringRecord00054F57@@@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_hero_registry_find.cpp	??$find@PAW4ScienceType@@W41@@_STL@@YAPAW4ScienceType@@PAW41@0ABW41@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_int_ascii_tree_dtor.cpp	??1RvaVec002B80CE@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_list_asciistring_insert.cpp	?compare@AsciiString@@QBEHABV1@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_list_int_o1.cpp	??0?$_List_base@MV?$allocator@M@_STL@@@_STL@@QAE@ABV?$allocator@M@1@@Z	1
@@ -4952,8 +4929,6 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_list_int_o1.cpp	??0?$_
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_list_int_o1.cpp	??1Rva0023DAA5List@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_list_int_o1.cpp	??1Rva004EC395Member@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_list_int_o1.cpp	?clear@Rva0023DAA5List@@QAEXXZ	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_loc_init.cpp	?rva00832100Release@_STL@@YAXXZ	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_loc_init.cpp	_atexit	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_locale.cpp	?bfmeLocaleCtor@BfmeLocaleShim@@SAXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_locale_facet_dtor.cpp	?m@Gen_00832090@@QAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_locale_facet_subclass_dtors.cpp	?do_in@?$codecvt@DDH@_STL@@MBE?AW4result@codecvt_base@2@AAHPBD1AAPBDPAD3AAPAD@Z	1
@@ -5045,7 +5020,6 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_sort_s4sortelem8.cpp	?
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_sort_s4sortelem8_desc.cpp	?bfmeSortAVJX@@YAXPAUBfmeElemVJX@@0UBfmeCmpVJX@@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_string_pair_cleanup.cpp	?erase@?$_Rb_tree@HU?$pair@$$CBHUGen_t_00196d30_p8cd@@@_STL@@U?$_Select1st@U?$pair@$$CBHUGen_t_00196d30_p8cd@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHUGen_t_00196d30_p8cd@@@_STL@@@2@@_STL@@QAEXU?$_Rb_tree_iterator@U?$pair@$$CBHUGen_t_00196d30_p8cd@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHUGen_t_00196d30_p8cd@@@_STL@@@2@@2@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_strstreambuf_dtor.cpp	?setbuf@strstreambuf@_STL@@MAEPAV?$basic_streambuf@DV?$char_traits@D@_STL@@@2@PADH@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_unguarded_partition_rva00568721.cpp	??RRva00568721Cmp@@QBE_NPBX0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_uninitialized_copy_rva0054000b.cpp	??0?$_Vector_base@VRva0054000B@@V?$allocator@VRva0054000B@@@_STL@@@_STL@@QAE@IABV?$allocator@VRva0054000B@@@1@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_bool.cpp	??0Gen_dtor_007f6d20@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_bool.cpp	?m@Gen_00800280@@QAEPAXXZ	1
@@ -5083,7 +5057,6 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_wide_string_reserve.cp
 alternatename	Code/Libraries/Source/WWVegas/WWLib/strdup.cpp	__strdup	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/string_base.cpp	?bfmeTry1033@BfmeSub1033@@QAEHPAVBfmeF1033@@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/string_base.cpp	?clear@AsciiString@@QAEXXZ	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/string_base.cpp	?concat@AsciiString@@QAEXABV1@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/string_base.cpp	?concat@AsciiString@@QAEXPBD@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/string_base.cpp	?set@AsciiString@@QAEXPBD@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/string_base_compare_range.cpp	?compareRange@@YAHPBGH0HUCharCompare@@@Z	1

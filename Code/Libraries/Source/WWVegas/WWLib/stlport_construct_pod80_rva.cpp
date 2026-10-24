@@ -25,11 +25,3 @@ void _bfmeStlportConstructPod80InlineAnchor()
 		static_cast<BfmePod80 *>(0), *static_cast<const BfmePod80 *>(0));
 }
 #pragma inline_depth()
-
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:??$_Construct@URva00520211Element@@U1@@_STL@@YAXPAURva00520211Element@@ABU1@@Z=??$_Construct@UBfmePod80@@U1@@_STL@@YAXPAUBfmePod80@@ABU1@@Z")
-
-// Other units call this body (pinned at its address) under the spelling(s)
-// below, with the same calling convention and stack arguments; bind them.
-#pragma comment(linker, "/alternatename:??$_Construct@URva00520211Element@@U1@@_STL@@YAXPAURva00520211Element@@ABU1@@Z=??$_Construct@UBfmePod80@@U1@@_STL@@YAXPAUBfmePod80@@ABU1@@Z")

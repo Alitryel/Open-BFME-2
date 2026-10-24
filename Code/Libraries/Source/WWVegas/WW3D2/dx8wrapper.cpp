@@ -3868,7 +3868,6 @@ float bfmeProjectionBias;
 
 // Retail's call sites in this unit's matched rows land on bodies rowed under
 // other spellings at the same addresses (same ABI). Bind the spellings used here.
-#pragma comment(linker, "/alternatename:_D3DXCreateTexture@32=?ji_0062af74@@YAXXZ")
 #pragma comment(linker, "/alternatename:?Device_Reset_Hook@BfmeResetMeshRenderer@@QAEXXZ=?DX8_Assert@@YAXXZ")
 #pragma comment(linker, "/alternatename:_bfmeDirectXErrorName@4=_DXGetErrorString9A@4")
 #pragma comment(linker, "/alternatename:??1ShroudManagerImpl008FBA40Element@@QAE@XZ=?DX8_Assert@@YAXXZ")

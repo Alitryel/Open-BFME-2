@@ -94,7 +94,6 @@ void AptScriptFunction2::SetupBeforeExecution(_AptScriptFunctionState *pState, A
 }
 
 // Existing providers own the predicate and the zero-initialized global storage.
-#pragma comment(linker, "/alternatename:?getIsDefined@AptValue@@QBE_NXZ=?get@Rva006DBB60ShrNAndField@@QBE_NXZ")
 #pragma comment(linker, "/alternatename:?gpGlobalGlobalObject@@3PAVAptValue@@A=?g_00E18650@@3VEAStringC@@A")
 
 #define CHECK_AT(c,s,f,l) if(!(c)) { g_bfmeAptAssertAtE17734(s,f,l); if(g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak(); }
@@ -138,4 +137,3 @@ inline void AptNativeHash::Set__Proto__(AptValue *aptValue) { if(aptValue) aptVa
 #pragma comment(linker, "/alternatename:?isCIH@AptValue@@QBE_N_N@Z=?isCIH@BfmeAptValue006DCD20@@QBE_N_N@Z")
 #pragma comment(linker, "/alternatename:?GetRootAnimation@AptCIH@@QAEPAV1@XZ=?rva006E0CB0@AptCIH@@QBEPBV1@XZ")
 #pragma comment(linker, "/alternatename:??1AptObject@@MAE@XZ=??1Rva006D6470Owner@@UAE@XZ")
-#pragma comment(linker, "/alternatename:??3AptPrototype@@SAXPAXI@Z=?Rva006F12F0Free@@YAXPAXH@Z")

@@ -1501,8 +1501,6 @@ void AptActionInterpreter::_FunctionAptActionTypeOf(AptActionInterpreter *const 
 }
 
 
-#pragma comment(linker, "/alternatename:?getIsDefined@AptValue@@QBE_NXZ=?get@Rva006DBB60ShrNAndField@@QBE_NXZ")
-
 #pragma comment(linker, "/alternatename:?isNone@AptValue@@QBE_NXZ=?rva006DBFA0@BfmeAptValue006DCD20@@QBEHXZ")
 
 #pragma comment(linker, "/alternatename:?isBoolean@AptValue@@QBE_NXZ=?isBoolean@BfmeAptValue006DCD20@@QBEHXZ")
@@ -1907,7 +1905,6 @@ void AptActionInterpreter::_FunctionAptActionExtends(AptActionInterpreter *const
 }
 
 #pragma comment(linker, "/alternatename:??0AptPrototype@@QAE@XZ=??0Rva006DE1A0@@QAE@XZ")
-#pragma comment(linker, "/alternatename:??3AptPrototype@@SAXPAXI@Z=?Rva006F12F0Free@@YAXPAXH@Z")
 #pragma comment(linker, "/alternatename:?isPrototype@AptValue@@QBE_NXZ=?isPrototype@BfmeAptValue006DCD20@@QBEHXZ")
 #pragma comment(linker, "/alternatename:?c_prototype@AptValue@@QBEPAVAptPrototype@@XZ=?rva006DD120@BfmeAptValue006DCD20@@QAEPAV1@XZ")
 

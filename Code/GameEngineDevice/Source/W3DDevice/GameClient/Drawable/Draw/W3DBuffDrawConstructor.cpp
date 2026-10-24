@@ -35,8 +35,3 @@ W3DBuffDraw::W3DBuffDraw( Thing *thing, const ModuleData *moduleData )
 	: DrawModule( thing, moduleData ), m_unmodelled_0C( false )
 {
 }
-
-// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
-// each one has the same function in that slot (vftable addresses from matched vptr
-// stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?drawModuleAnchor@DrawModule@@UAEXXZ=??_GRva000CEB6F@@UAEPAXI@Z")

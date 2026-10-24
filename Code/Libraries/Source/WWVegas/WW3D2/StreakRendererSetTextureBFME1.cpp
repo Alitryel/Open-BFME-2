@@ -1217,10 +1217,6 @@ inline void StreakRendererClass::RenderStreak
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
-// Retail's data references in this unit's matched rows land on globals defined
-// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
-#pragma comment(linker, "/alternatename:?DeviceProjectionMatrix@DX8Wrapper@@1VMatrix4@@A=?g_mapperProjectionUpload_009EDBF0@@3VMatrix4@@A")
-
 // Keep Random3Class's rowed conversion emitted.
 // ?bfmeStreakRandomAnchor absent-from-retail
 int bfmeStreakRandomAnchor(Random3Class &random)

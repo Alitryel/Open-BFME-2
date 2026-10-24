@@ -23,7 +23,6 @@ template class _STL::deque<int, _STL::allocator<int> >;
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?setup@FreelistProxyHead@@QAEXPBXPAX@Z=??0?$_STLP_alloc_proxy@IHV?$allocator@H@_STL@@@_STL@@QAE@ABV?$allocator@H@1@I@Z")
 #pragma comment(linker, "/alternatename:?bfmeAllocQG@@YAPAXHI@Z=??2@YAPAXIPAX@Z")
 #pragma comment(linker, "/alternatename:?bfmeAllocQB@@YAPAXHI@Z=??2@YAPAXIPAX@Z")
 #pragma comment(linker, "/alternatename:?bfmeAllocPV@@YAPAXHI@Z=??2@YAPAXIPAX@Z")

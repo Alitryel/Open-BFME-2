@@ -51,7 +51,3 @@ void *Rva00120720CreateTexture(
 		Log_DX8_ErrorCode(result);
 	return texture;
 }
-
-// Retail's call sites in this unit's matched rows land on bodies rowed under
-// other spellings at the same addresses (same ABI). Bind the spellings used here.
-#pragma comment(linker, "/alternatename:_D3DXCreateTexture@32=?ji_0062af74@@YAXXZ")

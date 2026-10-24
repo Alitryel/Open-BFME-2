@@ -248,7 +248,5 @@ void Record_Texture_Wide_Begin()
 // Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:??8?$VectorClassWide@UTextureStatisticsStructWide@@@@UBE_NABV0@@Z=??8?$VectorClass@U_ArcInfoStruct@VehicleCurveClass@@@@UBE_NABV0@@Z")
-#pragma comment(linker, "/alternatename:?ID@?$VectorClassWide@UTextureStatisticsStructWide@@@@UAEHPBUTextureStatisticsStructWide@@@Z=?ID@?$VectorClass@VProxyRecordClass@@@@UAEHPBVProxyRecordClass@@@Z")
 #pragma comment(linker, "/alternatename:?ID@?$DynamicVectorClassWide@UTextureStatisticsStructWide@@@@UAEHABUTextureStatisticsStructWide@@@Z=?pbackfail@?$basic_streambuf@DV?$char_traits@D@_STL@@@_STL@@MAEHH@Z")
 #pragma comment(linker, "/alternatename:?ID@?$DynamicVectorClassWide@UTextureStatisticsStructWide@@@@UAEHPBUTextureStatisticsStructWide@@@Z=?ID@?$VectorClass@VProxyRecordClass@@@@UAEHPBVProxyRecordClass@@@Z")

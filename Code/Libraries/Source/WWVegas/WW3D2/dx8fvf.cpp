@@ -195,7 +195,3 @@ BfmeFVFDescriptor::BfmeFVFDescriptor(unsigned format,unsigned vertex_size,bool b
 {
  Initialize(format,vertex_size,basis,count);
 }
-
-// Retail's call sites in this unit's matched rows land on bodies rowed under
-// other spellings at the same addresses (same ABI). Bind the spellings used here.
-#pragma comment(linker, "/alternatename:_D3DXGetFVFVertexSize@4=?ji_0062afbc@@YAXXZ")

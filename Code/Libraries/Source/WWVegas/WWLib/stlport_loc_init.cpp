@@ -165,7 +165,6 @@ void dup_007b68a0()
 }
 
 extern "C" int __cdecl atexit(void (__cdecl *callback)());
-#pragma comment(linker, "/alternatename:_atexit=__atexit")
 
 // Whole BFME1 Rva00C6D830Init.cpp at 6583b3c1ff21db4a561285717028fdafc780b7db
 // supplies the two-call startup lead. Native 007AB870/40 is INT3 delimited
