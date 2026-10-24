@@ -852,3 +852,6 @@ global,?g_rva00E0675C@@3VRva005E16DA@@A,?g_cancelArmyMoveButton@@3VRva005E16DA@@
 global,?g_rva00E068EC@@3VRva005E16DA@@A,?g_cancelArmyMemberMoveButton@@3VRva005E16DA@@A,inferred,agree:nl-112cf32227cf,Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp,0x00A068EC
 global,?g_rva00E06900@@3VRva005E16DA@@A,?g_upgradeUnitButton@@3VRva005E16DA@@A,inferred,agree:nl-1501c7a9f32e,Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp,0x00A06900
 global,?g_rva00E06918@@3VRva005E16DA@@A,?g_disbandArmyMemberButton@@3VRva005E16DA@@A,inferred,agree:nl-bd187f643bf4,Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp,0x00A06918
+local,Rva0002C025IsNewer::r,Rva0002C025IsNewer::isNewer,inferred,agree:nl-c42b4d172044,Code/GameEngine/Source/GameClient/Rva0002C025.cpp,0x0002C025
+function,?Rva0002C025IsNewer@@YA_NABVAsciiString@@PBUSYSTEMTIME@@@Z,?isFileNewer@@YA_NABVAsciiString@@PBUSYSTEMTIME@@@Z,inferred,agree:nl-dd6952c530d0,Code/GameEngine/Source/GameClient/Rva0002C025.cpp,0x0002C025
+carry,Rva0002C025IsNewer::isNewer,isFileNewer::isNewer,inferred,scope renamed by Rename Rva0002C025IsNewer to isFileNewer (inferred),Code/GameEngine/Source/GameClient/Rva0002C025.cpp,0x0002C025

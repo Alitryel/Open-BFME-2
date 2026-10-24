@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 //
-// ?Rva0002C025IsNewer@@YA_NABVAsciiString@@PBUSYSTEMTIME@@@Z @ 0x0002C025 (155B)
+// ?isFileNewer@@YA_NABVAsciiString@@PBUSYSTEMTIME@@@Z @ 0x0002C025 (155B)
 // Free file-time check: empty name false; else _stat path and localtime of st_mtime,
 // compare tm (year+1900 mon+1 mday hour min sec) against SYSTEMTIME words.
 // Evidence: isEmpty row 0x1E2F; _stat/localtime IAT; g_Rva0107301CEmptyString for empty;
@@ -43,7 +43,7 @@ struct _statbuf
 	int st_ctime;
 };
 
-bool Rva0002C025IsNewer(const AsciiString &filename, const SYSTEMTIME *st)
+bool isFileNewer(const AsciiString &filename, const SYSTEMTIME *st)
 {
 	if (filename.isEmpty())
 		return false;
@@ -75,7 +75,7 @@ bool Rva0002C025IsNewer(const AsciiString &filename, const SYSTEMTIME *st)
 			return true;
 		if (st->wMinute > t->tm_min)
 			return false;
-		unsigned char r = (st->wSecond <= t->tm_sec);
-		return r;
+		unsigned char isNewer = (st->wSecond <= t->tm_sec);
+		return isNewer;
 	}
 }

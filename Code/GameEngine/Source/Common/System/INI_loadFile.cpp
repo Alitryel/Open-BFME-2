@@ -117,7 +117,7 @@ struct SaveDate
 };
 extern SaveDate BfmeINIReadTimestamp;
 
-bool Rva0002C025IsNewer(const AsciiString &filename, const SYSTEMTIME *date);
+bool isFileNewer(const AsciiString &filename, const SYSTEMTIME *date);
 
 class Rva0002CB98
 {
@@ -249,7 +249,7 @@ bool INI::prepFile(const AsciiString &filename, INILoadType loadType)
 	{
 		if (BfmeINISavedMacroGeneration == BfmeINIMacroGeneration)
 		{
-			if (!Rva0002C025IsNewer(filename, (const SYSTEMTIME *)&BfmeINIReadTimestamp))
+			if (!isFileNewer(filename, (const SYSTEMTIME *)&BfmeINIReadTimestamp))
 				return false;
 		}
 		else if (((Rva0002CB98 *)&BfmeINIMacroTableStorage)->rva0002CB98(filename) == false)
