@@ -2241,3 +2241,5 @@ __ehhandler$?rva005E5A8B@Rva005E5A8B@@QAEHABUIRegion2D@@H@Z,0x007A3A15,"Renamed 
 ?rva005E5B20@Rva005E5A8B@@QAEHABUICoord2D@@H@Z,0x005E5B20,"Renamed to ?OnMouseMove@Rva005E5A8B@@QAEHABUICoord2D@@H@Z by tools/rename.py (inferred)"
 __ehhandler$?rva005E5B20@Rva005E5A8B@@QAEHABUICoord2D@@H@Z,0x007A3A27,"Renamed to __ehhandler$?OnMouseMove@Rva005E5A8B@@QAEHABUICoord2D@@H@Z by tools/rename.py (inferred)"
 ?rva005E5B82@Rva005E5A8B@@QAEHPAVGameMessage@@@Z,0x005E5B82,"Renamed to ?handleMessage@Rva005E5A8B@@QAEHPAVGameMessage@@@Z by tools/rename.py (inferred)"
+?rva005FA98CSwap@@YIXPAVRva005FA98C@@HHHHHH@Z,0x005FA98C,"Renamed to ?swapEntries@@YIXPAVRva005FA98C@@HHHHHH@Z by tools/rename.py (inferred)"
+?rva005FA8F5@Rva005FA8F5@@QAEPAURva005FA8F5Entry@@H@Z,0x005FA8F5,"Renamed to ?findEntry@Rva005FA8F5@@QAEPAURva005FA8F5Entry@@H@Z by tools/rename.py (inferred)"

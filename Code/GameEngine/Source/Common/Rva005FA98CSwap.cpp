@@ -1,6 +1,6 @@
 // cl: /O1 /EHa /DNDEBUG /MD /Gy
 //
-// ?rva005FA98CSwap@@YIXPAVRva005FA98C@@HHHHHH@Z @0x005FA98C 84B: fastcall
+// ?swapEntries@@YIXPAVRva005FA98C@@HHHHHH@Z @0x005FA98C 84B: fastcall
 // guarded swap (this in ecx, edx unused, then five stack words) with an ebp
 // frame: d==e returns; b/c are checked against o->m_04->m_18/m_1C, else
 // return; the rowed thiscall 0x005FA8F5 (Rva005FA8F5Find.cpp) finds the
@@ -25,7 +25,7 @@ struct Rva005FA8F5 {
 	char m_pad[0x34];
 	Rva005FA8F5Entry m_entries[3];
 	int m_count;
-	Rva005FA8F5Entry *rva005FA8F5(int key);
+	Rva005FA8F5Entry *findEntry(int key);
 };
 
 struct Rva00A00062Sub
@@ -37,9 +37,9 @@ struct Rva00600062SwapForward { void forward(int a, int b); };
 struct Rva005FA98CM04
 {
 	char m_pad[8];
-	Rva00A00062Sub m_sub08;
-	int m_18;
-	int m_1C;
+	Rva00A00062Sub m_movieClip;
+	int m_sideIndex;
+	int m_playerIndex;
 };
 
 class Rva005FA98C
@@ -49,7 +49,7 @@ public:
 	Rva005FA98CM04 *m_04;
 };
 
-Rva005FA8F5Entry *Rva005FA8F5::rva005FA8F5(int key)
+Rva005FA8F5Entry *Rva005FA8F5::findEntry(int key)
 {
 	int i = 0;
 	for (; i < m_count; ++i) {
@@ -58,19 +58,19 @@ Rva005FA8F5Entry *Rva005FA8F5::rva005FA8F5(int key)
 	}
 	return m_entries + i;
 }
-void __fastcall rva005FA98CSwap(Rva005FA98C *o, int fwd, int unused, int b, int c, int d, int e)
+void __fastcall swapEntries(Rva005FA98C *o, int fwd, int unused, int sideIndex, int playerIndex, int firstKey, int secondKey)
 {
-	if (d == e)
+	if (firstKey == secondKey)
 		return;
 	Rva005FA98CM04 *m = o->m_04;
-	if (b != m->m_18)
+	if (sideIndex != m->m_sideIndex)
 		return;
-	if (c != m->m_1C)
+	if (playerIndex != m->m_playerIndex)
 		return;
-	Rva005FA8F5Entry *r1 = ((Rva005FA8F5 *)o)->rva005FA8F5(d);
-	Rva005FA8F5Entry *r2 = ((Rva005FA8F5 *)o)->rva005FA8F5(e);
-	((Rva00600062SwapForward *)&m->m_sub08)->forward(r1->m_04, r2->m_04);
-	int t = r1->m_04;
-	r1->m_04 = r2->m_04;
-	r2->m_04 = t;
+	Rva005FA8F5Entry *firstEntry = ((Rva005FA8F5 *)o)->findEntry(firstKey);
+	Rva005FA8F5Entry *secondEntry = ((Rva005FA8F5 *)o)->findEntry(secondKey);
+	((Rva00600062SwapForward *)&m->m_movieClip)->forward(firstEntry->m_04, secondEntry->m_04);
+	int t = firstEntry->m_04;
+	firstEntry->m_04 = secondEntry->m_04;
+	secondEntry->m_04 = t;
 }
