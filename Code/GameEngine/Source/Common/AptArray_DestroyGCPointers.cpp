@@ -7,6 +7,9 @@
 // vtable slot 1 release, hands the backing store to the pool 0x00E176E8
 // (freeBlock 0x006DB270 with mnCapacity*4 bytes) and clears all three fields.
 
+extern "C" void __cdecl __debugbreak(void);
+#pragma intrinsic(__debugbreak)
+
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *, const char *, int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
 
@@ -52,13 +55,13 @@ void AptArray::DestroyGCPointers()
 	if (!(m_data != 0 || mnLength == 0)) {
 		g_bfmeAptAssertAtE17734("mpValues != NULL || mnLength == 0", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptArray.cpp", 0x82);
 		if (g_bfmeAptBreakOnAssertAtDDC01C)
-			__asm int 3
+			__debugbreak();
 	}
 
 	if (!(mnLength <= mnCapacity)) {
 		g_bfmeAptAssertAtE17734("mnLength <= mnCapacity", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptArray.cpp", 0x83);
 		if (g_bfmeAptBreakOnAssertAtDDC01C)
-			__asm int 3
+			__debugbreak();
 	}
 
 	for (int i = 0; i < mnLength; ++i) {
