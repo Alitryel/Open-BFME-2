@@ -13,4 +13,7 @@ void * _STLP_CALL __node_alloc<true, 0>::allocate(size_t __n)
 { return (__n > (size_t)_MAX_BYTES) ? __stl_new(__n) : _M_allocate(__n); }
 }
 struct Rva002E4F50Elem { int m_v[7]; };
-template class _STL::vector<Rva002E4F50Elem>;
+// Instantiate only the rowed member: a whole-class instantiation also emitted
+// this view's copy-ctor helpers (__uninitialized_copy, _Vector_base ctor)
+// under names retail binds to other rowed bodies, and the link kept them.
+template _STL::vector<Rva002E4F50Elem>::size_type _STL::vector<Rva002E4F50Elem>::size() const;
