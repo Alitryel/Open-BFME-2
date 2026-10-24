@@ -27,7 +27,10 @@
 // constructor units, so the vtable and deleting destructor copies agree.
 // AttackPositionStateMachine (0x0033FBA6), AIAttackSwoopThenIdleStateMachine
 // (0x003677B3), DozerPrimaryStateMachine (0x0048898C) and WorkerStateMachine
-// (0x004A9964) define theirs in their constructor units.
+// (0x004A9964) define theirs in their constructor units, and so does
+// BackAwayAndCowerStateMachine (Rva003444CEStates.cpp), whose constructor
+// calls the virtual StateMachine::setGoalObject and so carries a longer
+// view of the vtable.
 
 class StateMachine
 {
@@ -102,16 +105,6 @@ public:
 };
 
 AIAttackMoveStateMachine::~AIAttackMoveStateMachine()
-{
-}
-
-class BackAwayAndCowerStateMachine : public StateMachine
-{
-public:
-	virtual ~BackAwayAndCowerStateMachine();
-};
-
-BackAwayAndCowerStateMachine::~BackAwayAndCowerStateMachine()
 {
 }
 

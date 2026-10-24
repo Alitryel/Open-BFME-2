@@ -52,6 +52,16 @@ public:
 	virtual ~BackAwayAndCowerStateMachine();
 };
 
+// ??1BackAwayAndCowerStateMachine@@UAE@XZ @0x003402D0 11B: stores vtable
+// 0x00811FE8 and tail-calls ~StateMachine 0x004D759C; its deleting
+// destructor 0x0034457C (slot 0) is emitted with this unit's vtable. Defined
+// beside the constructor so the unit's one vtable copy (slot 1 the virtual
+// setGoalObject) is the only copy; the dtor-only family view in
+// Rva004D759CDerived.cpp would lay out a shorter one.
+BackAwayAndCowerStateMachine::~BackAwayAndCowerStateMachine()
+{
+}
+
 BackAwayAndCowerStateMachine::BackAwayAndCowerStateMachine(Object *owner, Object *goal, unsigned int nameKey)
 	: StateMachine(owner, nameKey, false)
 {
