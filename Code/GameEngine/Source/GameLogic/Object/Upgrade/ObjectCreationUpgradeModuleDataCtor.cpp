@@ -22,7 +22,7 @@ private:
 extern "C" {
 void __identifier("??_GObjectCreationUpgradeModuleData@@UAEPAXI@Z")();
 void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
-void __identifier("?name@Rva00065212Named@@QBEPBDXZ")();
+void __identifier("?GetSnapshotName@ModuleData@@UBEPBDXZ")();
 void __identifier("?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")();
 void __identifier("?IsCRC@Xfer@@UBE_NXZ")();
 void __identifier("?rva000B69A1@Rva000B69A1@@QAE?AVAsciiString@@H@Z")();
@@ -32,7 +32,7 @@ void __identifier("?rva0050B5C6@Rva0050B5C6@@QAE_NXZ")();
 extern const void *const g_00C577C8[31] = {
 	(const void *)&__identifier("??_GObjectCreationUpgradeModuleData@@UAEPAXI@Z"), // slot 0 0x004B45CC
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
-	(const void *)&__identifier("?name@Rva00065212Named@@QBEPBDXZ"), // slot 2 0x00065212
+	(const void *)&__identifier("?GetSnapshotName@ModuleData@@UBEPBDXZ"), // slot 2 0x00065212
 	(const void *)&__identifier("?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z"), // slot 3 0x0047A69C
 	(const void *)&__identifier("?IsCRC@Xfer@@UBE_NXZ"), // slot 4 0x0047A699
 	(const void *)&__identifier("?IsCRC@Xfer@@UBE_NXZ"), // slot 5 0x0047A699

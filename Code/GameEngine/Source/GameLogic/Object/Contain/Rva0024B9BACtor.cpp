@@ -62,7 +62,7 @@ public:
 
 #pragma comment(linker, "/alternatename:?slot00@Rva0024B9BA@@UAEXXZ=??_GRva0047A724@@UAEPAXI@Z")
 #pragma comment(linker, "/alternatename:?slot01@Rva0024B9BA@@UAEXXZ=??1Coord2D@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?slot02@Rva0024B9BA@@UAEXXZ=?name@Rva00065212Named@@QBEPBDXZ")
+#pragma comment(linker, "/alternatename:?slot02@Rva0024B9BA@@UAEXXZ=?GetSnapshotName@ModuleData@@UBEPBDXZ")
 #pragma comment(linker, "/alternatename:?slot03@Rva0024B9BA@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
 #pragma comment(linker, "/alternatename:?slot04@Rva0024B9BA@@UAEXXZ=?IsCRC@Xfer@@UBE_NXZ")
 #pragma comment(linker, "/alternatename:?slot05@Rva0024B9BA@@UAEXXZ=?IsCRC@Xfer@@UBE_NXZ")

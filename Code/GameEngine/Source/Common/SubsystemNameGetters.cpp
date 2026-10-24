@@ -25,7 +25,16 @@
 	}
 
 BFME_LITERAL_NAME_GETTER(Rva006254A0Named, "PartitionManager")
-BFME_LITERAL_NAME_GETTER(Rva00065212Named, "ModuleData")
+class ModuleData
+{
+public:
+	virtual const char *GetSnapshotName() const;
+};
+
+const char *ModuleData::GetSnapshotName() const
+{
+	return "ModuleData";
+}
 BFME_LITERAL_NAME_GETTER(Rva00041FC9Named, "GameLogic")
 BFME_LITERAL_NAME_GETTER(Rva000420D6Named, "ModuleFactory")
 BFME_LITERAL_NAME_GETTER(Rva0004C457Named, "GameClient")
@@ -50,7 +59,16 @@ const char *Eva::GetSnapshotName() const
 }
 BFME_LITERAL_NAME_GETTER(Rva002AA3AFNamed, "Energy")
 BFME_LITERAL_NAME_GETTER(Rva00091AACNamed, "W3DTerrainVisual")
-BFME_LITERAL_NAME_GETTER(W3DDebrisDraw, "W3DDebrisDraw")
+class W3DDebrisDraw
+{
+protected:
+	virtual const char *GetSnapshotName() const;
+};
+
+const char *W3DDebrisDraw::GetSnapshotName() const
+{
+	return "W3DDebrisDraw";
+}
 BFME_LITERAL_NAME_GETTER(EventParameter, "EventParameter")
 BFME_LITERAL_NAME_GETTER(Rva000B6DCCNamed, "LuaEventParameters")
 BFME_LITERAL_NAME_GETTER(Rva001042C1Named, "Palantir")
@@ -107,7 +125,16 @@ BFME_LITERAL_NAME_GETTER(Rva002296E6Named, "GameSlot")
 BFME_LITERAL_NAME_GETTER(Rva00229902Named, "LobbyGameInfo")
 BFME_LITERAL_NAME_GETTER(Rva0022CEF1Named, "SaveGameInfo")
 BFME_LITERAL_NAME_GETTER(Rva002431A9Named, "InvisibilityManager")
-BFME_LITERAL_NAME_GETTER(Rva0024A791Named, "BehaviorModule")
+class BehaviorModule
+{
+protected:
+	virtual const char *GetSnapshotName() const;
+};
+
+const char *BehaviorModule::GetSnapshotName() const
+{
+	return "BehaviorModule";
+}
 BFME_LITERAL_NAME_GETTER(GateProxyBehavior, "GateProxyBehavior")
 BFME_LITERAL_NAME_GETTER(SpawnedModelConditionCreate, "SpawnedModelConditionCreate")
 BFME_LITERAL_NAME_GETTER(Rva00251C76Named, "SpecialPowerTimerRefreshSpecialPower")

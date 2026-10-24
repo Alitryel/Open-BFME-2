@@ -53,7 +53,16 @@ BFME_LITERAL_NAME_GETTER(Rva00455070Named, "FoundationAIUpdate")
 BFME_LITERAL_NAME_GETTER(HitReactionBehavior, "HitReactionBehavior")
 BFME_LITERAL_NAME_GETTER(Rva00459573Named, "ClickReactionBehavior")
 BFME_LITERAL_NAME_GETTER(DualWeaponBehavior, "DualWeaponBehavior")
-BFME_LITERAL_NAME_GETTER(Rva0045D3C5Named, "SlowDeathBehavior")
+class SlowDeathBehavior
+{
+protected:
+	virtual const char *GetSnapshotName() const;
+};
+
+const char *SlowDeathBehavior::GetSnapshotName() const
+{
+	return "SlowDeathBehavior";
+}
 BFME_LITERAL_NAME_GETTER(Rva0047EBA9Named, "AnimalAIUpdate")
 BFME_LITERAL_NAME_GETTER(Rva0047F946Named, "CivilianSpawnUpdate")
 BFME_LITERAL_NAME_GETTER(Rva0047FE45Named, "ShareExperienceBehavior")

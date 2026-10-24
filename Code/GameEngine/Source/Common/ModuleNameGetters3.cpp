@@ -136,7 +136,16 @@ BFME_LITERAL_NAME_GETTER(RemoveUpgradeUpgrade, "RemoveUpgradeUpgrade")
 BFME_LITERAL_NAME_GETTER(Rva004B82C5Named, "BuildableHeroListUpgrade")
 BFME_LITERAL_NAME_GETTER(Rva004B850ANamed, "AllowBannerSpawnUpgrade")
 BFME_LITERAL_NAME_GETTER(Rva004B85F4Named, "CommandPointsUpgrade")
-BFME_LITERAL_NAME_GETTER(Rva004B96FENamed, "BoneFXDamage")
+class BoneFXDamage
+{
+protected:
+	virtual const char *GetSnapshotName() const;
+};
+
+const char *BoneFXDamage::GetSnapshotName() const
+{
+	return "BoneFXDamage";
+}
 BFME_LITERAL_NAME_GETTER(Rva004BAB4FNamed, "ReflectDamage")
 BFME_LITERAL_NAME_GETTER(Rva004BB0E5Named, "HordeTransportContainDamage")
 BFME_LITERAL_NAME_GETTER(Rva004BB962Named, "SquishCollide")

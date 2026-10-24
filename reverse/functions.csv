@@ -10623,7 +10623,7 @@ _luaO_str2d,,0x0074E160,112,Code/Libraries/Source/Lua/lobject.c,matched,BFME1 by
 ?apply@Rva00028562EDwordImmSetter@@QAEXXZ,,0x0028562E,7,Code/GameEngine/Source/Common/Disp0DwordImmSetters.cpp,matched,Disp0 dword imm-setter; Ghidra-standalone 7B; retail C7-01-98B6BF00-C3
 ?apply@Rva000225A55DwordImmSetter@@QAEXXZ,,0x00225A55,7,Code/GameEngine/Source/Common/Disp0DwordImmSetters.cpp,matched,Disp0 dword imm-setter; Ghidra-standalone 7B; retail C7-01-4C71BE00-C3
 ??0Rva007F9B80@@QAE@PAX@Z,,0x006660D0,208,Code/GameEngine/Source/GameNetwork/Rva007F9B80Ctor.cpp,matched,BFME1 byte-identical donor; b1 0x007F9B80
-?name@Rva00065212Named@@QBEPBDXZ,,0x00065212,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning ModuleData; shared base-virtual slot reused by 187 vtables with 004B3FD0 ahead; address-derived placeholder name
+?GetSnapshotName@ModuleData@@UBEPBDXZ,,0x00065212,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning ModuleData; shared base-virtual slot reused by 187 vtables with 004B3FD0 ahead; address-derived placeholder name
 ?name@Rva00041FC9Named@@QBEPBDXZ,,0x00041FC9,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning GameLogic; vtable refs at 0x7C25D8 and 0x7EE128 in descriptor tails closed by 5B5384; address-derived placeholder name
 ?close@File@@UAEXXZ,,0x0060259A,52,Code/GameEngine/Source/Common/System/File.cpp,matched,BFME1 File.cpp port (one-arg setName drift); /O1 for bl-zero form; ::delete-this via slot0 + ??3
 ?name@Rva000420D6Named@@QBEPBDXZ,,0x000420D6,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning ModuleFactory; vtable refs at 0x7C2638 and 0x7F3FE4; address-derived placeholder name
@@ -10671,7 +10671,7 @@ _luaH_getnum,,0x007504C0,70,Code/Libraries/Source/Lua/ltable.c,matched,exact via
 ?name@Rva00091AACNamed@@QBEPBDXZ,,0x00091AAC,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning W3DTerrainVisual; vtable ref in .rdata; address-derived placeholder name
 _luaD_lineHook,,0x0074D790,99,Code/Libraries/Source/Lua/ldo.c,matched,BFME1 byte-identical donor b1 ldo.c; exact via unclaimed_scan; pin upgrade; vendored=lua-4.0.1
 ?inc@Rva002AA0BFDwordCounter@@QAEXXZ,,0x002AA0BF,7,Code/GameEngine/Source/Common/Disp32DwordFieldIncDec.cpp,matched,disp32 dword inc family pair; opaque holder
-?name@W3DDebrisDraw@@QBEPBDXZ,,0x000B1CDC,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning W3DDebrisDraw; vtable ref in .rdata; address-derived placeholder name
+?GetSnapshotName@W3DDebrisDraw@@MBEPBDXZ,,0x000B1CDC,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning W3DDebrisDraw; vtable ref in .rdata; address-derived placeholder name
 ?dec@Rva002AA0C6DwordCounter@@QAEXXZ,,0x002AA0C6,7,Code/GameEngine/Source/Common/Disp32DwordFieldIncDec.cpp,matched,disp32 dword dec family pair; opaque holder
 ?inc@Rva00050CE1DwordCounter@@QAEXXZ,,0x00050CE1,7,Code/GameEngine/Source/Common/Disp32DwordFieldIncDec.cpp,matched,disp32 dword inc family pair; opaque holder
 ?dec@Rva00050CE8DwordCounter@@QAEXXZ,,0x00050CE8,7,Code/GameEngine/Source/Common/Disp32DwordFieldIncDec.cpp,matched,disp32 dword dec family pair; opaque holder
@@ -10976,7 +10976,7 @@ _str_rep,,0x00748CE0,114,Code/Libraries/Source/Lua/lstrlib.c,matched,Lua string 
 ?name@Rva00229902Named@@QBEPBDXZ,,0x00229902,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning LobbyGameInfo; vtable ref in .rdata; address-derived placeholder name
 ?name@Rva0022CEF1Named@@QBEPBDXZ,,0x0022CEF1,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning SaveGameInfo; vtable ref in .rdata; address-derived placeholder name
 ?name@Rva002431A9Named@@QBEPBDXZ,,0x002431A9,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning InvisibilityManager; vtable ref in .rdata; address-derived placeholder name
-?name@Rva0024A791Named@@QBEPBDXZ,,0x0024A791,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning BehaviorModule; vtable ref in .rdata; address-derived placeholder name
+?GetSnapshotName@BehaviorModule@@MBEPBDXZ,,0x0024A791,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning BehaviorModule; vtable ref in .rdata; address-derived placeholder name
 ?name@GateProxyBehavior@@QBEPBDXZ,,0x0024E353,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning GateProxyBehavior; vtable ref in .rdata; address-derived placeholder name
 ?name@SpawnedModelConditionCreate@@QBEPBDXZ,,0x00250A93,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning SpawnedModelConditionCreate; vtable ref in .rdata; address-derived placeholder name
 ?name@Rva00251C76Named@@QBEPBDXZ,,0x00251C76,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning SpecialPowerTimerRefreshSpecialPower; vtable ref in .rdata; address-derived placeholder name
@@ -11150,7 +11150,7 @@ _inclinenumber,,0x007574E0,108,Code/Libraries/Source/Lua/llex.c,matched,gen-alia
 ?apply@Rva0057851BDwordImmSetter@@QAEXXZ,,0x0057851B,7,Code/GameEngine/Source/Common/Disp0DwordImmSettersAddr.cpp,matched,Disp0 dword imm-setter
 _luaG_binerror,,0x0074D2B0,35,Code/Libraries/Source/Lua/ldebug.c,matched,BFME1 byte-identical donor; b1 ldebug.c luaG_binerror; vendored=lua-4.0.1
 _luaG_ordererror,,0x0074D2E0,73,Code/Libraries/Source/Lua/ldebug.c,matched,BFME1 byte-identical donor; b1 ldebug.c luaG_ordererror; vendored=lua-4.0.1
-?name@W3DRopeDraw@@QBEPBDXZ,,0x000CA83B,6,Code/GameEngine/Source/Common/W3DDrawNameGetters.cpp,matched,literal name getter returning W3DRopeDraw; vtable ref at 0x7CBD68; address-derived placeholder name
+?GetSnapshotName@W3DRopeDraw@@MBEPBDXZ,,0x000CA83B,6,Code/GameEngine/Source/Common/W3DDrawNameGetters.cpp,matched,literal name getter returning W3DRopeDraw; vtable ref at 0x7CBD68; address-derived placeholder name
 ?name@Rva000CAEC0Named@@QBEPBDXZ,,0x000CAEC0,6,Code/GameEngine/Source/Common/W3DDrawNameGetters.cpp,matched,literal name getter returning W3DSupplyDraw; vtable ref at 0x7CBFC8; address-derived placeholder name
 ?name@W3DTruckDraw@@QBEPBDXZ,,0x000CB5BD,6,Code/GameEngine/Source/Common/W3DDrawNameGetters.cpp,matched,literal name getter returning W3DTruckDraw; vtable ref at 0x7CC658; address-derived placeholder name
 ?do_insert@KeyToBucketMap@NameKeyGenerator@@AAE?AUinsert_result@12@ABUvalue_type@12@@Z,,0x0005574B,112,Code/GameEngine/Source/Common/NameKeyGeneratorMapInsert.cpp,matched,KeyToBucketMap hashtable insert_unique_noresize half; STLport accessor phrasing (tableSize/tableAt) reproduces retail ecx-key/esi-this allocation; allocateNode pin 0x3ED191
@@ -11166,7 +11166,7 @@ _read_long_string,,0x00757550,643,Code/Libraries/Source/Lua/llex.c,matched,gen-a
 _read_string,,0x007577E0,1185,Code/Libraries/Source/Lua/llex.c,matched,gen-alias;object-symbol=_read_string;C++ alias
 ?name@Rva000CEB69Named@@QBEPBDXZ,,0x000CEB69,6,Code/GameEngine/Source/Common/W3DDrawNameGetters.cpp,matched,literal name getter returning W3DTreeDraw; vtable ref at 0x7CCD00; address-derived placeholder name
 ?name@W3DBuffDraw@@QBEPBDXZ,,0x000CEE01,6,Code/GameEngine/Source/Common/W3DDrawNameGetters.cpp,matched,literal name getter returning W3DBuffDraw; vtable ref at 0x7CD180; address-derived placeholder name
-?name@W3DPropDraw@@QBEPBDXZ,,0x000CEEE0,6,Code/GameEngine/Source/Common/W3DDrawNameGetters.cpp,matched,literal name getter returning W3DPropDraw; vtable ref at 0x7CD330; address-derived placeholder name
+?GetSnapshotName@W3DPropDraw@@MBEPBDXZ,,0x000CEEE0,6,Code/GameEngine/Source/Common/W3DDrawNameGetters.cpp,matched,literal name getter returning W3DPropDraw; vtable ref at 0x7CD330; address-derived placeholder name
 ?name@W3DFloorDraw@@QBEPBDXZ,,0x000CF14F,6,Code/GameEngine/Source/Common/W3DDrawNameGetters.cpp,matched,literal name getter returning W3DFloorDraw; vtable ref at 0x7CD4E8; address-derived placeholder name
 ?name@W3DLightDraw@@QBEPBDXZ,,0x000CFA3C,6,Code/GameEngine/Source/Common/W3DDrawNameGetters.cpp,matched,literal name getter returning W3DLightDraw; vtable ref at 0x7CD730; address-derived placeholder name
 ?name@Rva000D0B63Named@@QBEPBDXZ,,0x000D0B63,6,Code/GameEngine/Source/Common/W3DDrawNameGetters.cpp,matched,literal name getter returning W3DBoatWakeModelDraw; vtable ref at 0x7CDD78; address-derived placeholder name
@@ -11763,7 +11763,7 @@ _luaX_lex,,0x00757C90,1324,Code/Libraries/Source/Lua/llex.c,matched,BFME1 byte-i
 ?Rva004886EFGet@@YAHXZ,,0x004886EF,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret c4b5ac; prev C2-04-00 with 1 vtable ref and no callers; opaque name
 ?Rva0048B164Get@@YAHXZ,,0x0048B164,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret bf5614; prev C2-08-00 with 1 vtable ref and no callers; opaque name
 ?Rva0048C258Get@@YAHXZ,,0x0048C258,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret bf54cc; prev C2-08-00 with 1 vtable ref and no callers; opaque name
-?Rva0048C6D9Get@@YAHXZ,,0x0048C6D9,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret bf5490; prev C2-08-00 with 1 vtable ref and no callers; opaque name
+?GetSnapshotName@FlammableUpdate@@MBEPBDXZ,,0x0048C6D9,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret bf5490; prev C2-08-00 with 1 vtable ref and no callers; opaque name
 ?Rva0048E0F4Get@@YAHXZ,,0x0048E0F4,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret bf5484; prev C2-08-00 with 1 vtable ref and no callers; opaque name
 ?Rva0049053EGet@@YAHXZ,,0x0049053E,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret bf5464; prev C2-08-00 with 1 vtable ref and no callers; opaque name
 ?Rva00490D70Get@@YAHXZ,,0x00490D70,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret bf52f4; prev C2-08-00 with 1 vtable ref and no callers; opaque name
@@ -24891,7 +24891,7 @@ _piChannelKickedA,,0x006AADF0,100,Code/GameEngine/Source/GameNetwork/GameSpy/pee
 ?name@HitReactionBehavior@@QBEPBDXZ,,0x0045916D,6,Code/GameEngine/Source/Common/ModuleNameGetters2.cpp,matched,B8-6 const string returner HitReactionBehavior
 ?name@Rva00459573Named@@QBEPBDXZ,,0x00459573,6,Code/GameEngine/Source/Common/ModuleNameGetters2.cpp,matched,B8-6 const string returner ClickReactionBehavior
 ?name@DualWeaponBehavior@@QBEPBDXZ,,0x0045ADDA,6,Code/GameEngine/Source/Common/ModuleNameGetters2.cpp,matched,B8-6 const string returner DualWeaponBehavior
-?name@Rva0045D3C5Named@@QBEPBDXZ,,0x0045D3C5,6,Code/GameEngine/Source/Common/ModuleNameGetters2.cpp,matched,B8-6 const string returner SlowDeathBehavior
+?GetSnapshotName@SlowDeathBehavior@@MBEPBDXZ,,0x0045D3C5,6,Code/GameEngine/Source/Common/ModuleNameGetters2.cpp,matched,B8-6 const string returner SlowDeathBehavior
 ?name@Rva0047EBA9Named@@QBEPBDXZ,,0x0047EBA9,6,Code/GameEngine/Source/Common/ModuleNameGetters2.cpp,matched,B8-6 const string returner AnimalAIUpdate
 ?name@Rva0047F946Named@@QBEPBDXZ,,0x0047F946,6,Code/GameEngine/Source/Common/ModuleNameGetters2.cpp,matched,B8-6 const string returner CivilianSpawnUpdate
 ?name@Rva0047FE45Named@@QBEPBDXZ,,0x0047FE45,6,Code/GameEngine/Source/Common/ModuleNameGetters2.cpp,matched,B8-6 const string returner ShareExperienceBehavior
@@ -25003,7 +25003,7 @@ _piChannelKickedA,,0x006AADF0,100,Code/GameEngine/Source/GameNetwork/GameSpy/pee
 ?name@Rva004B82C5Named@@QBEPBDXZ,,0x004B82C5,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner BuildableHeroListUpgrade
 ?name@Rva004B850ANamed@@QBEPBDXZ,,0x004B850A,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner AllowBannerSpawnUpgrade
 ?name@Rva004B85F4Named@@QBEPBDXZ,,0x004B85F4,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner CommandPointsUpgrade
-?name@Rva004B96FENamed@@QBEPBDXZ,,0x004B96FE,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner BoneFXDamage
+?GetSnapshotName@BoneFXDamage@@MBEPBDXZ,,0x004B96FE,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner BoneFXDamage
 ?name@Rva004BAB4FNamed@@QBEPBDXZ,,0x004BAB4F,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner ReflectDamage
 ?name@Rva004BB0E5Named@@QBEPBDXZ,,0x004BB0E5,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner HordeTransportContainDamage
 ?name@Rva004BB962Named@@QBEPBDXZ,,0x004BB962,6,Code/GameEngine/Source/Common/ModuleNameGetters3.cpp,matched,B8-6 const string returner SquishCollide

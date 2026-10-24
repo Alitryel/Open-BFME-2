@@ -23,7 +23,7 @@ extern "C" void vfn_0047A699();
 extern "C" void vfn_0047A69C();
 extern "C" void vfn_004CD2CC();
 extern "C" void vfn_0050B5C6();
-#pragma comment(linker, "/alternatename:_vfn_00065212=?name@Rva00065212Named@@QBEPBDXZ")
+#pragma comment(linker, "/alternatename:_vfn_00065212=?GetSnapshotName@ModuleData@@UBEPBDXZ")
 #pragma comment(linker, "/alternatename:_vfn_000B3FD0=??1Coord2D@@QAE@XZ")
 #pragma comment(linker, "/alternatename:_vfn_000B69A1=?rva000B69A1@Rva000B69A1@@QAE?AVAsciiString@@H@Z")
 #pragma comment(linker, "/alternatename:_vfn_000D43D0=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")

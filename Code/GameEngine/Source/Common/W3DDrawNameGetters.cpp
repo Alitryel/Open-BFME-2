@@ -23,7 +23,16 @@ BFME_LITERAL_NAME_GETTER(W3DDefaultDraw, "W3DDefaultDraw")
 BFME_LITERAL_NAME_GETTER(Rva000C1246Named, "W3DScriptedModelDraw")
 BFME_LITERAL_NAME_GETTER(Rva000C9C11Named, "W3DLaserDraw")
 BFME_LITERAL_NAME_GETTER(Rva000CA113Named, "W3DQuadrupedDraw")
-BFME_LITERAL_NAME_GETTER(W3DRopeDraw, "W3DRopeDraw")
+class W3DRopeDraw
+{
+protected:
+	virtual const char *GetSnapshotName() const;
+};
+
+const char *W3DRopeDraw::GetSnapshotName() const
+{
+	return "W3DRopeDraw";
+}
 BFME_LITERAL_NAME_GETTER(Rva000CAEC0Named, "W3DSupplyDraw")
 BFME_LITERAL_NAME_GETTER(W3DTruckDraw, "W3DTruckDraw")
 BFME_LITERAL_NAME_GETTER(Rva000CEA33Named, "W3DTankDraw")
@@ -47,7 +56,16 @@ const char *W3DPropBuffer::GetSnapshotName() const
 }
 BFME_LITERAL_NAME_GETTER(Rva000CEB69Named, "W3DTreeDraw")
 BFME_LITERAL_NAME_GETTER(W3DBuffDraw, "W3DBuffDraw")
-BFME_LITERAL_NAME_GETTER(W3DPropDraw, "W3DPropDraw")
+class W3DPropDraw
+{
+protected:
+	virtual const char *GetSnapshotName() const;
+};
+
+const char *W3DPropDraw::GetSnapshotName() const
+{
+	return "W3DPropDraw";
+}
 BFME_LITERAL_NAME_GETTER(W3DFloorDraw, "W3DFloorDraw")
 BFME_LITERAL_NAME_GETTER(W3DLightDraw, "W3DLightDraw")
 BFME_LITERAL_NAME_GETTER(Rva000D0B63Named, "W3DBoatWakeModelDraw")

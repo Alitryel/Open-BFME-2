@@ -59,7 +59,7 @@ extern "C" void bfmeVTableSlot_00C594E0_0(void);
 extern "C" void bfmeVTableSlot_00C594E0_1(void);
 #pragma comment(linker, "/alternatename:_bfmeVTableSlot_00C594E0_1=??1Coord2D@@QAE@XZ")
 extern "C" void bfmeVTableSlot_00C594E0_2(void);
-#pragma comment(linker, "/alternatename:_bfmeVTableSlot_00C594E0_2=?name@Rva00065212Named@@QBEPBDXZ")
+#pragma comment(linker, "/alternatename:_bfmeVTableSlot_00C594E0_2=?GetSnapshotName@ModuleData@@UBEPBDXZ")
 extern "C" void bfmeVTableSlot_00C594E0_3(void);
 #pragma comment(linker, "/alternatename:_bfmeVTableSlot_00C594E0_3=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
 extern "C" void bfmeVTableSlot_00C594E0_4(void);

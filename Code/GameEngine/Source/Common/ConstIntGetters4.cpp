@@ -948,12 +948,16 @@ int Rva0048C258Get(void)
 	return (int)"OilSpillUpdate";
 }
 
-// ?Rva0048C6D9Get@@YAHXZ @ 0x0048c6d9 (6B): returns 0x00bf5490.
-// Follows a ret-8 (prev C2-08-00), carried by 1 .rdata vtable slot,
-// no direct callers, no branch sources. Opaque address-derived name.
-int Rva0048C6D9Get(void)
+// Retail table C4C3D4 selects this Snapshot name getter in slot 2.
+class FlammableUpdate
 {
-	return (int)"FlammableUpdate";
+protected:
+	virtual const char *GetSnapshotName() const;
+};
+
+const char *FlammableUpdate::GetSnapshotName() const
+{
+	return "FlammableUpdate";
 }
 
 // ?Rva0048E0F4Get@@YAHXZ @ 0x0048e0f4 (6B): returns 0x00bf5484.

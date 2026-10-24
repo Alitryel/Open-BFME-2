@@ -20,7 +20,7 @@ extern "C" void __cdecl c5bc48Slot0(void);
 extern "C" void __cdecl c5bc48Slot1(void);
 #pragma comment(linker, "/alternatename:_c5bc48Slot1=??1Coord2D@@QAE@XZ")
 extern "C" void __cdecl c5bc48Slot2(void);
-#pragma comment(linker, "/alternatename:_c5bc48Slot2=?name@Rva00065212Named@@QBEPBDXZ")
+#pragma comment(linker, "/alternatename:_c5bc48Slot2=?GetSnapshotName@ModuleData@@UBEPBDXZ")
 extern "C" void __cdecl c5bc48Slot3(void);
 #pragma comment(linker, "/alternatename:_c5bc48Slot3=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
 extern "C" void __cdecl c5bc48Slot4(void);
