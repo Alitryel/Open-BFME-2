@@ -202,9 +202,9 @@ def parse_coff(data):
     return secs, syms
 
 
-def write_coff(path, sections, symbols):
+def write_coff(path, sections, symbols, relocations=None):
     """sections [(name, flags, body, comdat_sel)], symbols [(name, secno, value, cls)];
-    secno -1 = absolute."""
+    secno -1 = absolute. Optional relocations: {secno: [(offset, symbol, type)]}."""
     strings = bytearray(4)
 
     def field(n):
@@ -218,15 +218,21 @@ def write_coff(path, sections, symbols):
     for k, (name, flags, body, sel) in enumerate(sections, 1):
         if sel:
             symtab += field(name) + struct.pack("<IhHBB", 0, k, 0, STATIC, 1)
-            symtab += struct.pack("<IHHIHBBH", len(body), 0, 0, 0, 0, sel, 0, 0)
+            symtab += struct.pack("<IHHIHBBH", len(body), len((relocations or {}).get(k, ())), 0, 0, 0, sel, 0, 0)
+    indices = {}
     for name, sec, val, cls in symbols:
+        indices[name] = len(symtab) // 18
         symtab += field(name) + struct.pack("<IhHBB", val, sec, 0x20 if sec > 0 else 0, cls, 0)
     hdr_end = 20 + 40 * len(sections)
     shdr, bodies = bytearray(), bytearray()
-    for name, flags, body, sel in sections:
+    for k, (name, flags, body, sel) in enumerate(sections, 1):
         ptr = hdr_end + len(bodies) if body else 0
-        shdr += name.encode().ljust(8, b"\0") + struct.pack("<IIIIIIHHI", 0, 0, len(body), ptr, 0, 0, 0, 0, flags)
+        rels = (relocations or {}).get(k, ())
+        rptr = hdr_end + len(bodies) + len(body) if rels else 0
+        shdr += name.encode().ljust(8, b"\0") + struct.pack("<IIIIIIHHI", 0, 0, len(body), ptr, rptr, 0, len(rels), 0, flags)
         bodies += body
+        for off, name, ty in rels:
+            bodies += struct.pack("<IIH", off, indices[name], ty)
     strings[0:4] = struct.pack("<I", len(strings))
     path.write_bytes(struct.pack("<HHIIIHH", 0x14C, len(sections), 0, hdr_end + len(bodies), len(symtab) // 18, 0, 0)
                      + shdr + bodies + symtab + strings)
@@ -541,6 +547,77 @@ def make_import_libs(entries, outdir, defined=()):
         undecorate_stdcall_imports(lib)
         libs.append(lib)
     return libs
+
+
+
+def link_libraries(entries, outdir, defined=()):
+    """Keep lazy import thunks after retail's groups, including /MD imports.
+
+    A short CODE import makes link.exe append a six-byte .text thunk outside
+    /ORDER. Even perfect ordered units then drift in every later group. Keep
+    its IAT import, emit the same FF25/DIR32 thunk in .text$zz, and archive each
+    thunk separately so an unused runtime import stays unused. Source-owned
+    thunks keep their real definitions. Original runtime libraries are read-only.
+    """
+    defined = set(defined)
+    libraries = make_import_libs(entries, outdir, defined) + runtime_libraries()
+    directory = outdir / "import_thunks"
+    directory.mkdir(exist_ok=True)
+    root = build.vc71_root()
+
+    def librarian(target, inputs):
+        rsp = directory / "members.rsp"
+        rsp.write_text("\n".join('"' + os.path.relpath(p, directory) + '"' for p in inputs) + "\n",
+                       encoding="latin-1")
+        cmd = [str(root / "Vc7/bin/lib.exe"), "/NOLOGO", "/MACHINE:X86",
+               "/OUT:" + target.name, "@" + rsp.name]
+        if sys.platform != "win32":
+            cmd.insert(0, "wine")
+        target.unlink(missing_ok=True)
+        result = subprocess.run(cmd, cwd=directory, capture_output=True, text=True, errors="replace",
+                                env=build.compiler_environment(root))
+        if result.returncode or not target.exists():
+            raise SystemExit("link_cycle: import archive failed:\n" + result.stdout + result.stderr)
+
+    names, result = set(), []
+    for i, library in enumerate(libraries):
+        data = bytearray(library.read_bytes())
+        if data[:8] != b"!<arch>\n":
+            raise SystemExit(f"link_cycle: invalid import archive {library}")
+        at, changed = 8, False
+        while at + 60 <= len(data):
+            size = int(data[at + 48:at + 58].decode("ascii").strip())
+            start = at + 60
+            if start + size > len(data) or data[at + 58:at + 60] != b"`\n":
+                raise SystemExit(f"link_cycle: truncated import archive {library}")
+            if size >= 20 and data[start:start + 4] == b"\0\0\xff\xff":
+                kind = struct.unpack_from("<H", data, start + 18)[0]
+                if kind & 3 == 0:                         # CODE -> DATA; keep DLL/name mode/hint
+                    end = data.index(0, start + 20, start + size)
+                    names.add(bytes(data[start + 20:end]).decode("latin-1"))
+                    struct.pack_into("<H", data, start + 18, kind | 1)
+                    changed = True
+            at = start + size + (size & 1)
+        if changed:
+            raw = directory / f"iat{i:02d}.raw.lib"
+            raw.write_bytes(data)
+            target = directory / f"iat{i:02d}.lib"
+            librarian(target, [raw])                       # rebuild indexes after changing providers
+            result.append(target)
+        else:
+            result.append(library)
+    objects = []
+    for i, name in enumerate(sorted(names - defined)):
+        obj = directory / f"t{i:04d}.obj"
+        write_coff(obj, [(".text$zz", 0x60101020, b"\xff\x25" + bytes(4), 2)],
+                   [(name, 1, 0, EXTERNAL), ("__imp_" + name, 0, 0, EXTERNAL)],
+                   {1: [(2, "__imp_" + name, DIR32)]})
+        objects.append(obj)
+    if objects:
+        target = directory / "thunks.lib"
+        librarian(target, objects)
+        result.insert(0, target)                           # resolve callable names before IAT-only archives
+    return result
 
 
 def zz_objects(objs, placed, ordered_names, zzdir):
@@ -2235,7 +2312,7 @@ def cycle(args):
     cuts = [a for a in ghidra + list(byaddr) if text0 <= a < text0 + textsz]
     retail_imports = census.retail_imports()
     entries, imp_missing = import_def_entries(undefined_imports(objs), retail_imports)
-    libs = make_import_libs(entries, out, defined_externals(objs)) + runtime_libraries()
+    libs = link_libraries(entries, out, defined_externals(objs))
     absobj = write_coff(out / "absolute.obj", [], [(n, -1, v, EXTERNAL) for n, v in ABSOLUTE.items()])
     times["analyze"] = round(time.time() - t)
     print(f"link_cycle: {len(rows):,} rows, {len(units):,} units, {len(present):,} objects "

@@ -1443,8 +1443,8 @@ def test_native_import_thunk_and_crt_statics_link_without_force(tmp_path):
     after = tmp_path / "after"
     after.mkdir()
     objects = lc.Objects([obj])
-    libs = lc.make_import_libs({"kernel32.dll": ["Sleep@4"]}, after,
-                              lc.defined_externals(objects)) + lc.runtime_libraries()
+    libs = lc.link_libraries({"kernel32.dll": ["Sleep@4"]}, after,
+                             lc.defined_externals(objects))
     result, target = link(libs, "after")
     assert result.returncode == 0, result.stdout + result.stderr
     assert "LNK2005" not in result.stdout
@@ -1475,3 +1475,56 @@ def test_stdcall_import_rewrite_preserves_archive_offsets_and_data_type(tmp_path
     assert struct.unpack_from("<H", changed, 8 + 60 + 18)[0] == (3 << 2) | 1
     lc.undecorate_stdcall_imports(path)
     assert path.read_bytes() == changed
+
+
+def test_coff_writer_emits_named_dir32_import_relocation(tmp_path):
+    path = lc.write_coff(tmp_path / "thunk.obj",
+                         [(".text$zz", TEXT | lc.COMDAT, b"\xff\x25" + bytes(4), 2)],
+                         [("_Foo@4", 1, 0, lc.EXTERNAL), ("__imp__Foo@4", 0, 0, lc.EXTERNAL)],
+                         {1: [(2, "__imp__Foo@4", lc.DIR32)]})
+    sections, symbols = lc.parse_coff(path.read_bytes())
+    assert sections[0].name == ".text$zz" and sections[0].size == 6
+    assert sections[0].sel == 2
+    off, index, kind = sections[0].relocs[0]
+    assert (off, symbols[index].name, kind) == (2, "__imp__Foo@4", lc.DIR32)
+
+
+def test_native_lazy_import_thunks_do_not_shift_later_code_groups(tmp_path):
+    import hashlib
+    import shutil
+    if sys.platform != "win32" and not shutil.which("wine"):
+        pytest.skip("requires the committed MSVC/Wine toolchain")
+    import pefile
+    root = lc.build.vc71_root()
+    original = {p: hashlib.sha256(p.read_bytes()).digest() for p in lc.runtime_libraries()}
+    obj = tmp_path / "groups.obj"
+    obj.write_bytes(emit(
+        [{"name": ".text$yc", "flags": TEXT, "body": b"\xc3"},
+         {"name": ".data", "flags": 0xC0300040, "body": bytes(12),
+          "relocs": [(0, "_Sleep@4", 6), (4, "_stricmp", 6), (8, "___security_cookie", 6)]}],
+        [{"name": "_ctor", "sec": 0}, {"name": "_Sleep@4"}, {"name": "_stricmp"},
+         {"name": "___security_cookie"}]))
+    libs = lc.link_libraries({"kernel32.dll": ["Sleep@4"]}, tmp_path)
+    target = tmp_path / "groups.dll"
+    cmd = [str(root / "Vc7/bin/link.exe"), "/NOLOGO", "/DLL", "/NOENTRY", "/NODEFAULTLIB",
+           "/MACHINE:X86", "/OPT:NOREF", "/OUT:" + target.name, "/MAP:groups.map", obj.name]
+    cmd += [os.path.relpath(p, tmp_path) for p in libs]
+    if sys.platform != "win32":
+        cmd.insert(0, "wine")
+    result = subprocess.run(cmd, cwd=tmp_path, env=lc.build.compiler_environment(root),
+                            capture_output=True, text=True, errors="replace")
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "LNK4006" not in result.stdout and "LNK2005" not in result.stdout
+    image = pefile.PE(str(target))
+    mapped = image.get_memory_mapped_image()
+    publics = lc.read_map((tmp_path / "groups.map").read_text(), image.OPTIONAL_HEADER.ImageBase)[0]
+    assert publics["_ctor"] == 0x1000                 # no import .text ahead of .text$yc
+    for name in ("_Sleep@4", "_stricmp"):
+        at = publics[name]
+        assert at > publics["_ctor"]
+        assert mapped[at:at + 2] == b"\xff\x25"
+    imports = {(d.dll.lower(), i.name) for d in image.DIRECTORY_ENTRY_IMPORT for i in d.imports}
+    assert (b"kernel32.dll", b"Sleep") in imports
+    assert (b"msvcr71.dll", b"_stricmp") in imports
+    assert not any(n == b"wscanf" for _, n in imports)  # unused archive member stayed lazy
+    assert {p: hashlib.sha256(p.read_bytes()).digest() for p in original} == original
