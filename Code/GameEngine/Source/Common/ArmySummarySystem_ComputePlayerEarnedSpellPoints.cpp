@@ -29,14 +29,14 @@ struct _Rva0040CA61Arg
 class ArmySummarySystem
 {
 public:
-	int ComputePlayerEarnedSpellPoints(_Rva0040CA61Arg *a);
+	int ComputePlayerEarnedSpellPoints(_Rva0040CA61Arg *player);
 };
 
-int ArmySummarySystem::ComputePlayerEarnedSpellPoints(_Rva0040CA61Arg *a)
+int ArmySummarySystem::ComputePlayerEarnedSpellPoints(_Rva0040CA61Arg *player)
 {
-	if (!a)
+	if (!player)
 		return 0;
-	int n = a->m_1C;
+	int n = player->m_1C;
 	int total = 0;
 	for (int i = 1; i <= n; ++i) {
 		Rva002000D7Config *cfg = ((Rva002000D7Store *)TheRankInfoStore)->get(i);

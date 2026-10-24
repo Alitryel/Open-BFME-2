@@ -1561,3 +1561,11 @@ Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp|member|Rva002EBA88|m_10,91c9
 Code/GameEngine/Source/Common/RTS/PlayerRva002AB8FB.cpp|local|Player::rva002AB8FB|tmp,c63136a2bf096b74bb8c4a0d,gpt-6.1-sol,codex4-20261024-003941-26,w-887869184137,2026-10-24
 Code/GameEngine/Source/Common/RTS/PlayerRva002AB8FB.cpp|local|Player::rva002AB8FB|g,8b3bfee91bee93beb1fdfd08,gpt-6.1-sol,codex4-20261024-003941-26,w-887869184137,2026-10-24
 Code/GameEngine/Source/Common/RTS/PlayerRva002AB8FB.cpp|local|Player::rva002AB8FB|s,5c52818a2cefbf3cd220d88f,gpt-6.1-sol,codex4-20261024-003941-26,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/ArmySummarySystem_ComputePlayerEarnedSpellPoints.cpp|class||_Rva0040CA61Arg,37c32ffaf59c414258421f9b,seat-a,rn-1023b-9-a,w-90dd72c49f80,2026-10-24
+Code/GameEngine/Source/Common/ArmySummarySystem_ComputePlayerEarnedSpellPoints.cpp|member|_Rva0040CA61Arg|m_1C,e9977275b8385c1884e7b1e2,seat-a,rn-1023b-9-a,w-90dd72c49f80,2026-10-24
+Code/GameEngine/Source/Common/ArmySummarySystem_ComputePlayerEarnedSpellPoints.cpp|param|ArmySummarySystem::ComputePlayerEarnedSpellPoints|a,123122fe8894f045d4bdd5d3,seat-a,rn-1023b-9-a,w-90dd72c49f80,2026-10-24
+Code/GameEngine/Source/Common/ArmySummarySystem_ComputePlayerEarnedSpellPoints.cpp|local|ArmySummarySystem::ComputePlayerEarnedSpellPoints|n,9caddef49a11e3a83fd450bc,seat-a,rn-1023b-9-a,w-90dd72c49f80,2026-10-24
+Code/GameEngine/Source/Common/ArmySummarySystem_ComputePlayerEarnedSpellPoints.cpp|class||_Rva0040CA61Arg,37c32ffaf59c414258421f9b,seat-b,rn-1023b-9-b,w-2ef66a165eeb,2026-10-24
+Code/GameEngine/Source/Common/ArmySummarySystem_ComputePlayerEarnedSpellPoints.cpp|member|_Rva0040CA61Arg|m_1C,e9977275b8385c1884e7b1e2,seat-b,rn-1023b-9-b,w-2ef66a165eeb,2026-10-24
+Code/GameEngine/Source/Common/ArmySummarySystem_ComputePlayerEarnedSpellPoints.cpp|param|ArmySummarySystem::ComputePlayerEarnedSpellPoints|a,123122fe8894f045d4bdd5d3,seat-b,rn-1023b-9-b,w-2ef66a165eeb,2026-10-24
+Code/GameEngine/Source/Common/ArmySummarySystem_ComputePlayerEarnedSpellPoints.cpp|local|ArmySummarySystem::ComputePlayerEarnedSpellPoints|n,9caddef49a11e3a83fd450bc,seat-b,rn-1023b-9-b,w-2ef66a165eeb,2026-10-24
