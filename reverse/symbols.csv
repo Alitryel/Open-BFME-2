@@ -1855,7 +1855,6 @@ name,address,notes
 ??0DevastateSpecialPower@@QAE@PAVThing@@PBVModuleData@@@Z,0x004C81E3,(Thing*;ModuleData*) ctor called by DevastateSpecialPower::friend_newModuleInstance (0x0025261B); class from the ModuleFactory registration literal
 ??0DevastateSpecialPowerModuleData@@QAE@XZ,0x004C84BD,Devastate ModuleData ctor for 0x90 factory; table offsets fit; vtable 0xC5E518; partial banked 0x004c84bd
 ??0DieMuxData@@QAE@XZ,0x004CE534
-??0DistLODClass@@QAE@ABV0@@Z,0x003AEADD,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0DockUpdateModuleData@@QAE@XZ,0x005896B0,address read from the REL32 displacement at a placed body
 ??0DominateEnemySpecialPower@@QAE@PAVThing@@PBVModuleData@@@Z,0x004CC988,(Thing*;ModuleData*) ctor called by DominateEnemySpecialPower::friend_newModuleInstance (0x00252EAA); class from the ModuleFactory registration literal
 ??0DominateEnemySpecialPowerModuleData@@QAE@XZ,0x004CCA24,sole raw E8 caller image-wide is factory 0x252F09 plus poolkey 0x4CC9DF ends where body begins plus table extent equals factory news

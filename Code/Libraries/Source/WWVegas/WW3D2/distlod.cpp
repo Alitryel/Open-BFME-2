@@ -108,7 +108,15 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #define _bfme_ro_flag112(onoff) _bfme_ro_flag112(onoff); void Bfme1_Inline_flag112(onoff)
 #define _bfme_ro_flag114(onoff) _bfme_ro_flag114(onoff); void Bfme1_Inline_flag114(onoff)
 #define _bfme_ro_flag116(onoff) _bfme_ro_flag116(onoff); void Bfme1_Inline_flag116(onoff)
+// The native-screen-size accessors likewise: BFME 1's inlines use +0x78, but
+// BFME 2's RenderObjClass keeps NativeScreenSize at +0x7C (retail setter
+// 0x000EFB4C, the SSE body rowed in collect.cpp; the getter copies collect.cpp
+// and dynamesh.cpp emit); this unit's vtables bind to those copies.
+#define Set_Native_Screen_Size(screensize) Set_Native_Screen_Size(screensize); void Bfme1_Inline_Set_Native_Screen_Size(screensize)
+#define Get_Native_Screen_Size(v) Get_Native_Screen_Size(v) const; float Bfme1_Inline_Get_Native_Screen_Size(v)
 #include "distlod.h"
+#undef Get_Native_Screen_Size
+#undef Set_Native_Screen_Size
 #undef _bfme_ro_flag116
 #undef _bfme_ro_flag114
 #undef _bfme_ro_flag112
