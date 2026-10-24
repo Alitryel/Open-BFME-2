@@ -54,8 +54,8 @@ private:
 			request = size + 2;
 		void *p = ((Rva006C1F60 *)this)->rva00033ED0(request, flags);
 		if (p != 0) {
-			unsigned n = ((unsigned *)p)[-1];
-			unsigned usable = !(n & 2) ? (n & 0x7ffffff8) + 4 : (n & 0x7ffffff8);
+			unsigned chunkSize = ((unsigned *)p)[-1];
+			unsigned usable = !(chunkSize & 2) ? (chunkSize & 0x7ffffff8) + 4 : (chunkSize & 0x7ffffff8);
 			*(unsigned short *)((char *)p + usable - 10) = 0;
 		}
 		return p;
