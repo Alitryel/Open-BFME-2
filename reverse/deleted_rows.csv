@@ -2392,3 +2392,4 @@ __ehhandler$?rva00467AB8@Rva00467AB8@@QAEXPAVObject@@@Z,0x0078AD8D,"Renamed to _
 __ehhandler$?rva006F1600@Rva006F1360@@QBEPAVAptValue@@PAV2@PBVEAStringC@@@Z,0x007A9BDA,"Renamed to __ehhandler$?objectMemberLookup@Rva006F1360@@QBEPAVAptValue@@PAV2@PBVEAStringC@@@Z by tools/rename.py (canonical:wb)"
 ?g_00C695B0@@3QBUFieldParse@@B,0x008695B0,"Renamed to ?g_autoResolveWeaponFieldParse@@3QBUFieldParse@@B by tools/rename.py (inferred)"
 ?g_00C69638@@3QBUFieldParse@@B,0x00869638,"Renamed to ?g_autoResolveArmorFieldParse@@3QBUFieldParse@@B by tools/rename.py (inferred)"
+?bfmeGo1039C@BfmeD1039@@QAEPAVBfmeC1039@@XZ,0x00187630,"Renamed to ?Clone@BfmeD1039@@QAEPAVBfmeC1039@@XZ by tools/rename.py (inferred)"

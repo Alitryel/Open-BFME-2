@@ -11,7 +11,7 @@ class BfmeC1039
 public:
 	void bfmeInit1039(BfmeD1039 *o);
 
-	void *m_bfmeVfptr;
+	void *m_vtable;
 };
 
 void *__cdecl operator new(unsigned int size);
@@ -19,17 +19,17 @@ void *__cdecl operator new(unsigned int size);
 class BfmeD1039
 {
 public:
-	BfmeC1039 *bfmeGo1039C(void);
+	BfmeC1039 *Clone(void);
 };
 
-BfmeC1039 *BfmeD1039::bfmeGo1039C(void)
+BfmeC1039 *BfmeD1039::Clone(void)
 {
-	BfmeC1039 *p = (BfmeC1039 *)::operator new(0x38);
+	BfmeC1039 *mapper = (BfmeC1039 *)::operator new(0x38);
 
-	if (p != 0) {
-		p->bfmeInit1039(this);
-		p->m_bfmeVfptr = bfmeVft1039C;
-		return p;
+	if (mapper != 0) {
+		mapper->bfmeInit1039(this);
+		mapper->m_vtable = bfmeVft1039C;
+		return mapper;
 	}
 
 	return 0;

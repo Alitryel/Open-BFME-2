@@ -1069,3 +1069,7 @@ param,Rva00542997Parse::a2,Rva00542997Parse::formal,inferred,agree:nl-d1767fc904
 param,Rva00542B24Parse::a2,Rva00542B24Parse::formal,inferred,agree:nl-db30be86f1bf,Code/GameEngine/Source/Common/AutoResolveArmorParse.cpp,0x00542B24
 global,?g_00C695B0@@3QBUFieldParse@@B,?g_autoResolveWeaponFieldParse@@3QBUFieldParse@@B,inferred,agree:nl-03951b408fd3,Code/GameEngine/Source/Common/AutoResolveArmorParse.cpp,0x008695B0
 global,?g_00C69638@@3QBUFieldParse@@B,?g_autoResolveArmorFieldParse@@3QBUFieldParse@@B,inferred,agree:nl-dcb61bd3e5d5,Code/GameEngine/Source/Common/AutoResolveArmorParse.cpp,0x00869638
+member,BfmeC1039::m_bfmeVfptr,BfmeC1039::m_vtable,inferred,agree:nl-3e3b05a9a527,Code/GameEngine/Source/Common/BfmeConv1039.cpp,
+local,BfmeD1039::bfmeGo1039C::p,BfmeD1039::bfmeGo1039C::mapper,inferred,agree:nl-92befe0d06f8,Code/GameEngine/Source/Common/BfmeConv1039.cpp,0x00187630
+function,?bfmeGo1039C@BfmeD1039@@QAEPAVBfmeC1039@@XZ,?Clone@BfmeD1039@@QAEPAVBfmeC1039@@XZ,inferred,agree:nl-776f282aa0ab,Code/GameEngine/Source/Common/BfmeConv1039.cpp,0x00187630
+carry,BfmeD1039::bfmeGo1039C::mapper,BfmeD1039::Clone::mapper,inferred,scope renamed by Rename bfmeGo1039C to Clone (inferred),Code/GameEngine/Source/Common/BfmeConv1039.cpp,0x00187630
