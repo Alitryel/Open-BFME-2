@@ -62,12 +62,12 @@ int BfmeAptValue006DCD20::isXmlAttributes() const
     if (!this) {
         g_bfmeAptAssertAtE17734("this", "c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptValue/AptValue.inl", 0x549);
         if (g_bfmeAptBreakOnAssertAtDDC01C)
-            __asm int 3
+            __debugbreak();
     }
     if (!(flags.type < 47)) {
         g_bfmeAptAssertAtE17734("getVtblIndex() < AptVFT_NumVFTs", "c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptValue/AptValue.inl", 0x54A);
         if (g_bfmeAptBreakOnAssertAtDDC01C)
-            __asm int 3
+            __debugbreak();
     }
     return flags.type == 34;
 }
