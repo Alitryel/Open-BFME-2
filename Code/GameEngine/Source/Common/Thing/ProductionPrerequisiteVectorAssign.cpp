@@ -58,7 +58,8 @@ private:
 typedef void (__cdecl *PrereqDestroyFn)(ProductionPrerequisite *, ProductionPrerequisite *);
 typedef ProductionPrerequisite *(__cdecl *PrereqUninitFn)(ProductionPrerequisite *, ProductionPrerequisite *, ProductionPrerequisite *, const _STL::__false_type &);
 
-inline _STL::vector<ProductionPrerequisite, _STL::allocator<ProductionPrerequisite> > &_STL::vector<ProductionPrerequisite, _STL::allocator<ProductionPrerequisite> >::operator=(const vector &x)
+template <class Type, class Allocator>
+_STL::vector<Type, Allocator> &_STL::vector<Type, Allocator>::operator=(const vector &x)
 {
 	if (&x != this)
 	{
@@ -90,10 +91,4 @@ inline _STL::vector<ProductionPrerequisite, _STL::allocator<ProductionPrerequisi
 // copy), so a strong definition here was a duplicate in the linked build.
 // This anchor only makes this unit emit its copy for the ledger row; it is
 // not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitProductionPrerequisiteVectorAssign@@YAXPAV?$vector@VProductionPrerequisite@@V?$allocator@VProductionPrerequisite@@@_STL@@@_STL@@ABV12@@Z present-unmatched
-void bfmeEmitProductionPrerequisiteVectorAssign(_STL::vector<ProductionPrerequisite, _STL::allocator<ProductionPrerequisite> > *p, const _STL::vector<ProductionPrerequisite, _STL::allocator<ProductionPrerequisite> > &x)
-{
-	*p = x;
-}
-#pragma inline_depth()
+template _STL::vector<ProductionPrerequisite, _STL::allocator<ProductionPrerequisite> > &_STL::vector<ProductionPrerequisite, _STL::allocator<ProductionPrerequisite> >::operator=(const _STL::vector<ProductionPrerequisite, _STL::allocator<ProductionPrerequisite> > &);

@@ -78,7 +78,8 @@ OutputIter __uninitialized_copy(InputIter first, InputIter last, OutputIter resu
 template <class ForwardIter>
 void _Destroy(ForwardIter first, ForwardIter last);
 }
-inline _STL::vector<BfmeContainerRecord002CF46E, _STL::allocator<BfmeContainerRecord002CF46E> > &_STL::vector<BfmeContainerRecord002CF46E, _STL::allocator<BfmeContainerRecord002CF46E> >::operator=(const vector &x)
+template <class Type, class Allocator>
+_STL::vector<Type, Allocator> &_STL::vector<Type, Allocator>::operator=(const vector &x)
 {
 	if (&x != this)
 	{
@@ -109,10 +110,4 @@ inline _STL::vector<BfmeContainerRecord002CF46E, _STL::allocator<BfmeContainerRe
 // copy), so a strong definition here was a duplicate in the linked build.
 // This anchor only makes this unit emit its copy for the ledger row; it is
 // not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitstlport_vector_container_record_2cf46e_assign@@YAXPAV?$vector@UBfmeContainerRecord002CF46E@@V?$allocator@UBfmeContainerRecord002CF46E@@@_STL@@@_STL@@ABV12@@Z present-unmatched
-void bfmeEmitstlport_vector_container_record_2cf46e_assign(_STL::vector<BfmeContainerRecord002CF46E, _STL::allocator<BfmeContainerRecord002CF46E> > *p, const _STL::vector<BfmeContainerRecord002CF46E, _STL::allocator<BfmeContainerRecord002CF46E> > &x)
-{
-	*p = x;
-}
-#pragma inline_depth()
+template _STL::vector<BfmeContainerRecord002CF46E, _STL::allocator<BfmeContainerRecord002CF46E> > &_STL::vector<BfmeContainerRecord002CF46E, _STL::allocator<BfmeContainerRecord002CF46E> >::operator=(const _STL::vector<BfmeContainerRecord002CF46E, _STL::allocator<BfmeContainerRecord002CF46E> > &);

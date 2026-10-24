@@ -63,7 +63,8 @@ OutputIter __copy_ptrs(InputIter first, InputIter last, OutputIter result, const
 template <class InputIter, class OutputIter>
 OutputIter __uninitialized_copy(InputIter first, InputIter last, OutputIter result, const __false_type &tag);
 }
-inline _STL::vector<SaveMapPreview, _STL::allocator<SaveMapPreview> > &_STL::vector<SaveMapPreview, _STL::allocator<SaveMapPreview> >::operator=(const vector &x)
+template <class Type, class Allocator>
+_STL::vector<Type, Allocator> &_STL::vector<Type, Allocator>::operator=(const vector &x)
 {
     if (&x != this) {
         size_type xsize = x.size();
@@ -88,10 +89,4 @@ inline _STL::vector<SaveMapPreview, _STL::allocator<SaveMapPreview> > &_STL::vec
 // so a strong definition here was a duplicate symbol in the linked build.
 // This anchor only makes this unit emit its copy for the ledger row; it is
 // not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitSaveMapPreviewAssign@@YAXPAV?$vector@VSaveMapPreview@@V?$allocator@VSaveMapPreview@@@_STL@@@_STL@@ABV12@@Z present-unmatched
-void bfmeEmitSaveMapPreviewAssign(_STL::vector<SaveMapPreview, _STL::allocator<SaveMapPreview> > *p, const _STL::vector<SaveMapPreview, _STL::allocator<SaveMapPreview> > &that)
-{
-    *p = that;
-}
-#pragma inline_depth()
+template _STL::vector<SaveMapPreview, _STL::allocator<SaveMapPreview> > &_STL::vector<SaveMapPreview, _STL::allocator<SaveMapPreview> >::operator=(const _STL::vector<SaveMapPreview, _STL::allocator<SaveMapPreview> > &);

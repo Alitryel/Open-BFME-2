@@ -29,7 +29,8 @@ template <class InputIter, class OutputIter> OutputIter __copy_ptrs(InputIter fi
 template <class InputIter, class OutputIter> OutputIter __uninitialized_copy(InputIter first, InputIter last, OutputIter result, const __false_type &tag);
 }
 extern "C" void __cdecl free(void *);
-inline _STL::vector<BfmeE12, _STL::allocator<BfmeE12> > &_STL::vector<BfmeE12, _STL::allocator<BfmeE12> >::operator=(const vector &x)
+template <class Type, class Allocator>
+_STL::vector<Type, Allocator> &_STL::vector<Type, Allocator>::operator=(const vector &x)
 {
 	if (&x != this) {
 		size_type xsize = x.size();
@@ -49,10 +50,4 @@ inline _STL::vector<BfmeE12, _STL::allocator<BfmeE12> > &_STL::vector<BfmeE12, _
 	}
 	return *this;
 }
-#pragma inline_depth(0)
-// ?bfmeEmitstlport_vector_e12_assign@@YAXPAV?$vector@UBfmeE12@@V?$allocator@UBfmeE12@@@_STL@@@_STL@@ABV12@@Z present-unmatched
-void bfmeEmitstlport_vector_e12_assign(_STL::vector<BfmeE12, _STL::allocator<BfmeE12> > *p, const _STL::vector<BfmeE12, _STL::allocator<BfmeE12> > &x)
-{
-	*p = x;
-}
-#pragma inline_depth()
+template _STL::vector<BfmeE12, _STL::allocator<BfmeE12> > &_STL::vector<BfmeE12, _STL::allocator<BfmeE12> >::operator=(const _STL::vector<BfmeE12, _STL::allocator<BfmeE12> > &);

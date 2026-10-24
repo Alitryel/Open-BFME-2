@@ -62,7 +62,8 @@ OutputIter __uninitialized_copy(InputIter first, InputIter last, OutputIter resu
 template <class ForwardIter>
 void _Destroy(ForwardIter first, ForwardIter last);
 }
-inline _STL::vector<Rva0007BB16Record, _STL::allocator<Rva0007BB16Record> > &_STL::vector<Rva0007BB16Record, _STL::allocator<Rva0007BB16Record> >::operator=(const vector &x)
+template <class Type, class Allocator>
+_STL::vector<Type, Allocator> &_STL::vector<Type, Allocator>::operator=(const vector &x)
 {
 	if (&x != this)
 	{
@@ -93,10 +94,4 @@ inline _STL::vector<Rva0007BB16Record, _STL::allocator<Rva0007BB16Record> > &_ST
 // so a strong definition here was a duplicate symbol in the linked build.
 // This anchor only makes this unit emit its copy for the ledger row; it is
 // not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitVectorRva0007BB16Assign@@YAXPAV?$vector@URva0007BB16Record@@V?$allocator@URva0007BB16Record@@@_STL@@@_STL@@ABV12@@Z present-unmatched
-void bfmeEmitVectorRva0007BB16Assign(_STL::vector<Rva0007BB16Record, _STL::allocator<Rva0007BB16Record> > *p, const _STL::vector<Rva0007BB16Record, _STL::allocator<Rva0007BB16Record> > &that)
-{
-	*p = that;
-}
-#pragma inline_depth()
+template _STL::vector<Rva0007BB16Record, _STL::allocator<Rva0007BB16Record> > &_STL::vector<Rva0007BB16Record, _STL::allocator<Rva0007BB16Record> >::operator=(const _STL::vector<Rva0007BB16Record, _STL::allocator<Rva0007BB16Record> > &);
