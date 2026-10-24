@@ -2129,3 +2129,10 @@ Code/GameEngine/Source/Common/Rva0049DC50Walk.cpp|member|Rva0049DC50Node|m_10,7c
 Code/GameEngine/Source/Common/Rva0049DC50Walk.cpp|member|Rva0049DC50Node|m_14,11023b6fae14ca451255fb20,claude-opus-5-5,claudec5-20261024-015207-18,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C1E8C.cpp|member|Rva002886C2Object|m_264,6eff41970fc5c48eee4430be,claude-opus-5-5,claudec5-20261024-015207-20,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C1E8C.cpp|local|ScriptActions::Rva003C1E8CSet|t,5b1d22795c9a93cf5b1b86cd,claude-opus-5-5,claudec5-20261024-015207-20,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva003743CFBehavior.cpp|function|0x003743BB|Rva003743BB,bd9fd8a20e7c9a5b69707643,claude-opus-5-5,claudec5-20261024-025712-1,w-1ebb1ea4caee,2026-10-24
+Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp|function|0x00686F00|Rva0081B000,0f8394f723557db6f961cd54,claude-opus-5-5,claudec5-20261024-025712-2,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp|function|0x00663690|Rva00663690Handler,88dc8d1124b6a56999e4e07e,claude-opus-5-5,claudec5-20261024-025712-8,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp|function|0x006636A0|Rva006636A0Handler,b12dbf512f13b4c2268be242,claude-opus-5-5,claudec5-20261024-025712-8,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp|function|0x006636D0|Rva006636D0Handler,eb13b7dcc194805c5a2adb42,claude-opus-5-5,claudec5-20261024-025712-8,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp|function|0x006636E0|Rva006636E0Handler,e84065ab4ce0ad33dead0956,claude-opus-5-5,claudec5-20261024-025712-8,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.cpp|member|ShadowChild|m_20,3bb143a5488051104f5c6606,claude-opus-5-5,claudec5-20261024-025712-8,w-1ebb1ea4caee,2026-10-24
