@@ -27,5 +27,4 @@ template BfmeDeque40ConstIterator &BfmeDeque40ConstIterator::operator+=(int);
 template int BfmeDeque40Iterator::operator-(const BfmeDeque40Iterator &) const;
 template BfmeOpaque40 &_STL::deque<BfmeOpaque40, _STL::allocator<BfmeOpaque40> >::operator[](unsigned int);
 template void _STL::_Destroy(BfmeDeque40Iterator, BfmeDeque40Iterator);
-template BfmeDeque40Iterator _STL::__uninitialized_copy(BfmeDeque40Iterator, BfmeDeque40Iterator, BfmeDeque40Iterator, const _STL::__false_type &);
 template BfmeOpaque40 **_STL::copy(BfmeOpaque40 **, BfmeOpaque40 **, BfmeOpaque40 **);
