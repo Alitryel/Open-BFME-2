@@ -1885,3 +1885,6 @@ local,W3DTerrainLogic::Rva0027D960::tmp,W3DTerrainLogic::Rva0027D960::mapBounds,
 param,Rva004E6A37#2::v,Rva004E6A37#2::other,inferred,agree:nl-d188e618f6af,Code/GameEngine/Source/GameClient/GUI/InGame/InGameNotificationBoxMovieClip.cpp,
 param,Rva004E6A37#3::r,Rva004E6A37#3::ref,inferred,agree:nl-71525a8c2c3c,Code/GameEngine/Source/GameClient/GUI/InGame/InGameNotificationBoxMovieClip.cpp,
 param,Rva002B4349#2::v,Rva002B4349#2::other,inferred,agree:nl-6e82653e8a94,Code/GameEngine/Source/GameClient/GUI/InGame/InGameNotificationBoxMovieClip.cpp,
+param,Rva002EBA88::rva002EBA88::a6,Rva002EBA88::rva002EBA88::context,inferred,agree:nl-8a162ede24f8,Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp,0x002EBA88
+param,Rva002EBA88::rva002EBA88::a2,Rva002EBA88::rva002EBA88::arena,inferred,agree:nl-3dfc2a6a7754,Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp,0x002EBA88
+param,Rva002EBA88::rva002EBA88::a3,Rva002EBA88::rva002EBA88::size,inferred,agree:nl-d73d8e33a0df,Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp,0x002EBA88
