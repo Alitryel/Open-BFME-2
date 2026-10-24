@@ -3008,3 +3008,6 @@ Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|local|W3DTerrainLogic::R
 Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|local|W3DTerrainLogic::Rva0027D960|tmp,b44c1f26b0444ef6025aa1c9,gpt-6.1-sol,codex8-20261024-045810-26,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|local|W3DTerrainLogic::Rva0027D960|n,bd1056577103f0eefcca6ab7,gpt-6.1-sol,codex8-20261024-045810-26,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|local|W3DTerrainLogic::Rva0027D960|f,053d87f924698413a3167a0d,gpt-6.1-sol,codex8-20261024-045810-26,w-de56e563a50b,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawRva000B901D.cpp|class||Rva000B901D,a00d2906d2c8ced53f14362c,gpt-6.1-sol,codex8-20261024-051904-5,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/PathfinderRva002EADE1.cpp|param|Pathfinder::rva002EADE1|b,502fd7984fd5c5463e2ec1f7,gpt-6.1-sol,codex8-20261024-051904-8,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/PathfinderRva002EADE1.cpp|local|Pathfinder::rva002EADE1|tmp1,92682125263cdea1975de477,gpt-6.1-sol,codex8-20261024-051904-8,w-de56e563a50b,2026-10-24
