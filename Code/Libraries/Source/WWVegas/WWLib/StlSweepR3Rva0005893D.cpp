@@ -70,5 +70,9 @@ template <> void **vector<void*>::end();
 
 
 
-struct Rva0005893DRecord {Rva0005893DRecord();Rva0005893DRecord(const Rva0005893DRecord&);~Rva0005893DRecord();Rva0005893DRecord&operator=(const Rva0005893DRecord&);char bytes[1];bool operator<(const Rva0005893DRecord&)const;bool operator==(const Rva0005893DRecord&)const;};
-namespace _STL {template class hashtable<pair<const int,Rva0005893DRecord>,int,hash<int>,_Select1st<pair<const int,Rva0005893DRecord> >,equal_to<int>,allocator<pair<const int,Rva0005893DRecord> > >;}
+typedef _STL::hashtable<int, int, _STL::hash<int>, _STL::_Identity<int>,
+    _STL::equal_to<int>, _STL::allocator<int> > IntHashTable;
+namespace _STL {
+template <> void IntHashTable::_M_copy_from(const IntHashTable &);
+}
+template IntHashTable::hashtable(const IntHashTable &);

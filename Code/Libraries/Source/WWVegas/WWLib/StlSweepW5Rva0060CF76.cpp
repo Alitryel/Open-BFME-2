@@ -61,4 +61,4 @@ template <> void **vector<void*>::end();
 }
 
 struct Rva0060CF76Element {Rva0060CF76Element();Rva0060CF76Element(const Rva0060CF76Element&);Rva0060CF76Element&operator=(const Rva0060CF76Element&);~Rva0060CF76Element(){}char bytes[8]; bool operator==(const Rva0060CF76Element&)const;};
-template class _STL::hash_map<int,Rva0060CF76Element>;
+template _STL::hashtable<_STL::pair<const int, Rva0060CF76Element>, int, _STL::hash<int>, _STL::_Select1st<_STL::pair<const int, Rva0060CF76Element> >, _STL::equal_to<int>, _STL::allocator<_STL::pair<const int, Rva0060CF76Element> > >::hashtable(unsigned int, const _STL::hash<int> &, const _STL::equal_to<int> &, const _STL::allocator<_STL::pair<const int, Rva0060CF76Element> > &);

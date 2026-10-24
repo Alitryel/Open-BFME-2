@@ -32,7 +32,11 @@ static inline bool operator!=(const _Rb_tree_iterator<_RbVal, _RbLeft> &a,
 
 struct Rva00301621Record { Rva00301621Record(); Rva00301621Record(const Rva00301621Record&); ~Rva00301621Record(); Rva00301621Record&operator=(const Rva00301621Record&); char bytes[4]; bool operator==(const Rva00301621Record&) const; bool operator<(const Rva00301621Record&) const; };
 namespace _STL {template<> void _Construct<Rva00301621Record,Rva00301621Record>(Rva00301621Record*,const Rva00301621Record&);}
-template class _STL::map<Rva00301621Record,Rva00301621Record>;
+typedef _STL::pair<const Rva00301621Record, Rva00301621Record> RecordPair;
+typedef _STL::_Rb_tree<Rva00301621Record, RecordPair,
+    _STL::_Select1st<RecordPair>, _STL::less<Rva00301621Record>,
+    _STL::allocator<RecordPair> > RecordTree;
+template RecordTree::~_Rb_tree();
 
 // This caller's native REL32 already names the kept provider at 0x004EC395.
 // Compatible calling convention and argument/return ABI; binding is address-proven.

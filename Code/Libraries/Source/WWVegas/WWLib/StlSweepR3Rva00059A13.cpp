@@ -18,9 +18,9 @@ namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::si
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
 
-struct Rva0005893DRecord {Rva0005893DRecord();Rva0005893DRecord(const Rva0005893DRecord&); Rva0005893DRecord&operator=(const Rva0005893DRecord&);char bytes[1];bool operator<(const Rva0005893DRecord&)const;bool operator==(const Rva0005893DRecord&)const;};
 
-typedef _STL::hashtable<_STL::pair<const int,Rva0005893DRecord>,int,_STL::hash<int>,_STL::_Select1st<_STL::pair<const int,Rva0005893DRecord> >,_STL::equal_to<int>,_STL::allocator<_STL::pair<const int,Rva0005893DRecord> > > Rva0005893DTable;
+typedef _STL::hashtable<int, int, _STL::hash<int>, _STL::_Identity<int>,
+    _STL::equal_to<int>, _STL::allocator<int> > Rva0005893DTable;
 
 namespace _STL {
 template <> Rva0005893DTable::hashtable(const Rva0005893DTable &);
