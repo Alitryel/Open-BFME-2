@@ -59,14 +59,14 @@ private:
 	int m_14;
 	int m_18;
 	int m_1C;
-	int m_20;
+	int m_playbackFlags;
 	unsigned char m_flags;
 	char m_pad25[3];
-	int m_28;
-	int m_2C;
-	volatile int m_30;
-	Rva0057CC15Ref m_34;
-	int m_38;
+	int m_color;
+	int m_fadeDuration;
+	volatile int m_fadeStartTime;
+	Rva0057CC15Ref m_completionCallback;
+	int m_completionCallbackArg;
 };
 
 void Rva00524B7A::update()
@@ -75,11 +75,11 @@ void Rva00524B7A::update()
 		return;
 	if ((m_flags & 4) != 0)
 	{
-		int *pTotal = &m_2C;
+		int *pTotal = &m_fadeDuration;
 		unsigned long now = timeGetTime();
 		unsigned int total = (unsigned int)*pTotal;
 		_ReadWriteBarrier();
-		int remain = (int)(total + (unsigned int)m_30);
+		int remain = (int)(total + (unsigned int)m_fadeStartTime);
 		remain = remain - (int)now;
 		unsigned int v;
 		if (remain > 0)
@@ -89,23 +89,23 @@ void Rva00524B7A::update()
 		_ReadWriteBarrier();
 		v = v > total ? total : v;
 		unsigned int alpha = (v * 255u) / total;
-		unsigned char b = (unsigned char)alpha;
-		m_28 = (int)(((unsigned int)b << 24) | 0xFFFFFF);
+		unsigned char alphaByte = (unsigned char)alpha;
+		m_color = (int)(((unsigned int)alphaByte << 24) | 0xFFFFFF);
 	}
 	if ((m_flags & 2) == 0)
 		goto check0c;
-	if ((m_20 & 0x80) != 0)
+	if ((m_playbackFlags & 0x80) != 0)
 		return;
 check0c:
-	unsigned char r = m_0C->check(m_20);
+	unsigned char r = m_0C->check(m_playbackFlags);
 	if ((r & 2) == 0)
 		return;
 	if ((m_flags & 2) != 0)
 		return;
 	m_flags |= 2;
-	if (*(void **)&m_34 != 0)
-		m_34.invoke(m_38);
-	if ((m_20 & 0x84) != 0)
+	if (*(void **)&m_completionCallback != 0)
+		m_completionCallback.invoke(m_completionCallbackArg);
+	if ((m_playbackFlags & 0x84) != 0)
 		return;
 	return tail();
 }
