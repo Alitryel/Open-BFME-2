@@ -36920,8 +36920,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_from_wide_p
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_money_get_string.cpp	emit@bfmeMoneyGetStringEmitter@_STL@@SAXPBU12@V?$istreambuf_iterator@DV?$char_traits@D@_STL@@@2@1_NAAVios_base@2@AAHAAV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@2@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_money_put_string.cpp	emit@bfmeNarrowMoneyPutEmitter@_STL@@SAXPBU12@V?$ostreambuf_iterator@DV?$char_traits@D@_STL@@@2@_NAAVios_base@2@DABV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@2@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_num_get_bool.cpp	emit@bfmeNumGetBoolEmitter@_STL@@SAXPBU12@V?$istreambuf_iterator@DV?$char_traits@D@_STL@@@2@1AAVios_base@2@AAHAA_N@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_num_get_double.cpp	emit@bfmeNumGetEmitter@_STL@@SAXPBU12@V?$istreambuf_iterator@DV?$char_traits@D@_STL@@@2@1AAVios_base@2@AAHAANAAM@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_num_get_long_double.cpp	emit@bfmeNumGetEmitter@_STL@@SAXPBU12@V?$istreambuf_iterator@DV?$char_traits@D@_STL@@@2@1AAVios_base@2@AAHAAO@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_num_put_voidptr.cpp	emit@bfmeNumPutVoidPtrEmitter@_STL@@SAXPBU12@V?$ostreambuf_iterator@DV?$char_traits@D@_STL@@@2@AAVios_base@2@DPBX@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_string_substr.cpp	basic_string::_M_range_initialize	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_string_substring_ctor.cpp	basic_string::_M_range_initialize	1
@@ -36946,9 +36944,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva00b6cf1_
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_stringrecord_5ddd40_erase.cpp	$__copy_ptrs@PAUBfmeStringRecord005DDD40@@PAU1@@_STL@@YAPAUBfmeStringRecord005DDD40@@PAU1@00ABU__false_type@0@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_unicode_erase.cpp	$__copy_ptrs@PAVUnicodeString@@PAV1@@_STL@@YAPAVUnicodeString@@PAV1@00ABU__false_type@0@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_wide_num_get_bool.cpp	emit@bfmeWideNumGetBoolEmitter@_STL@@SAXPBU12@V?$istreambuf_iterator@GV?$char_traits@G@_STL@@@2@1AAVios_base@2@AAHAA_N@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_wide_num_get_double.cpp	emit@bfmeWideNumGetEmitter@_STL@@SAXPBU12@V?$istreambuf_iterator@GV?$char_traits@G@_STL@@@2@1AAVios_base@2@AAHAAN@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_wide_num_get_float.cpp	emit@bfmeWideNumGetFloatEmitter@_STL@@SAXPBU12@V?$istreambuf_iterator@GV?$char_traits@G@_STL@@@2@1AAVios_base@2@AAHAAM@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_wide_num_get_long_double.cpp	emit@bfmeWideNumGetLongDoubleEmitter@_STL@@SAXPBU12@V?$istreambuf_iterator@GV?$char_traits@G@_STL@@@2@1AAVios_base@2@AAHAAO@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_wide_num_put_voidptr.cpp	emit@bfmeNumPutVoidPtrEmitter@_STL@@SAXPBU12@V?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@2@AAVios_base@2@GPBX@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_wide_streambuf_pubimbue.cpp	bfmeEmitstlport_wide_streambuf_pubimbue@@YAXPAV?$basic_streambuf@GV?$char_traits@G@_STL@@@_STL@@ABVlocale@2@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_wide_time_get_readers.cpp	emit@bfmeWideTimeGetEmitter@_STL@@SAXPBU12@V?$istreambuf_iterator@GV?$char_traits@G@_STL@@@2@1AAVios_base@2@AAHPAUtm@@@Z	1
