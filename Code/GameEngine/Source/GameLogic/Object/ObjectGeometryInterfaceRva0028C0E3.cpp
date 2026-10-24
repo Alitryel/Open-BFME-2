@@ -14,10 +14,10 @@ class Object { public: bool rva0028B35B(const Object *) const; bool testStatus(O
 struct Rva0028E84ATemplatePrefix {
  char pad00[0x108]; unsigned char m_kindOf;
 };
-struct Rva0028E84AObjectPrefix {
+struct ObjectPrefix {
  unsigned word00; const Rva0028E84ATemplatePrefix *objectTemplate;
 };
-struct Rva0028E868OtherPrefix {
+struct OtherObjectPrefix {
  char pad00[0x74]; unsigned m_id;
  char pad78[0x484-0x78]; unsigned word484;
 };
@@ -53,7 +53,7 @@ bool Rva0028C0E3Receiver::geometryTest(const Object *other,unsigned,unsigned) co
 // address-derived method, not a claimed original collision identifier name.
 unsigned Rva0028C0E3Receiver::rva0028E84A() const {
  const Rva0028E84ATemplatePrefix *data=
-  ((const Rva0028E84AObjectPrefix *)((const char *)this-0x70))->objectTemplate;
+  ((const ObjectPrefix *)((const char *)this-0x70))->objectTemplate;
  if(data->m_kindOf & 4)return 1;
  if(m_containedBy)return m_containedBy;
  return reinterpret_cast<unsigned>(this)-0x70;
@@ -69,7 +69,7 @@ unsigned Rva0028C0E3Receiver::rva0028E84A() const {
 // both early filters and rowed Object::testStatus(4) after adjusting by -70.
 // Field meanings, full allocation and original slot spelling remain unasserted.
 void Rva0028C0E3Receiver::collisionDispatch(Object *other,const Coord3D *loc,const Coord3D *normal) {
- Rva0028E868OtherPrefix *otherFields=(Rva0028E868OtherPrefix *)other;
+ OtherObjectPrefix *otherFields=(OtherObjectPrefix *)other;
  if(word414==otherFields->m_id)return;
  if(otherFields->word484!=0 && word04!=0)return;
  for(void **module=behaviors;*module;++module) {
