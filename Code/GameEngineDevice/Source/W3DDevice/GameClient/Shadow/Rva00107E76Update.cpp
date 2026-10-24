@@ -22,8 +22,8 @@ class Rva00107E76Sub
 {
 public:
 	char m_pad00[0x24];
-	int m_24;
-	int m_28;
+	int m_polyCount;
+	int m_vertexCount;
 };
 
 class Rva00107E76Obj
@@ -133,7 +133,7 @@ public:
 
 public:
 	char m_pad04[0xC4 - 4];
-	Rva00107E76Sub *m_c4;
+	Rva00107E76Sub *m_model;
 };
 
 class Rva00107E76Elem
@@ -249,7 +249,7 @@ void W3DVolumetricShadowV2::UpdateAndRenderZfail()
 		elem->rva00107961();
 		elem->rva00107A50((void *)m_90);
 		reinterpret_cast<Rva00106CF0 *>(elem)->UpdateSilhouetteLines();
-		int edi = elem->m_obj->m_c4->m_24;
+		int edi = elem->m_obj->m_model->m_polyCount;
 		int eax = (edi + elem->m_10 * 2) * 3;
 		if (eax > limit)
 			continue;
@@ -260,11 +260,11 @@ void W3DVolumetricShadowV2::UpdateAndRenderZfail()
 		}
 		if (TheW3DProjectedShadowManager->m_0C == 0)
 			TheW3DProjectedShadowManager->rva001072C9();
-		int x2 = (int)TheW3DProjectedShadowManager->m_10->m_04 + (limit - TheW3DProjectedShadowManager->m_18) * 2;
-		short x3 = (short)(limit - TheW3DProjectedShadowManager->m_14);
-		int x4 = (limit - TheW3DProjectedShadowManager->m_14) * 0xc + (int)TheW3DProjectedShadowManager->m_0C->m_04;
-		elem->rva00107B41((Vector3*)x4, x3, (unsigned short*)x2, *(const Vector3*)m_90);
-		TheW3DProjectedShadowManager->m_14 += elem->m_obj->m_c4->m_28 * -2;
+		int indices = (int)TheW3DProjectedShadowManager->m_10->m_04 + (limit - TheW3DProjectedShadowManager->m_18) * 2;
+		short baseVertex = (short)(limit - TheW3DProjectedShadowManager->m_14);
+		int vertices = (limit - TheW3DProjectedShadowManager->m_14) * 0xc + (int)TheW3DProjectedShadowManager->m_0C->m_04;
+		elem->rva00107B41((Vector3*)vertices, baseVertex, (unsigned short*)indices, *(const Vector3*)m_90);
+		TheW3DProjectedShadowManager->m_14 += elem->m_obj->m_model->m_vertexCount * -2;
 		int ecx2 = elem->m_10 * 2;
 		edi = -edi - ecx2;
 		edi *= 3;
