@@ -1425,3 +1425,4 @@ param,Rva0006AB98::rva0006AB98::b,Rva0006AB98::rva0006AB98::yIndex,inferred,agre
 local,Rva002B6C9F::rva002B6C9F::r,Rva002B6C9F::rva002B6C9F::hasRoom,inferred,agree:nl-a2916b34034b,Code/GameEngine/Source/Common/Rva002B6C9F.cpp,0x002B6C9F
 local,Rva006FF500::x,Rva006FF500::pointX,inferred,agree:nl-53b744c79eec,Code/Libraries/Source/Apt/AptMathCallbacksBFME2.cpp,0x006FF500
 local,Rva006FF500::y,Rva006FF500::pointY,inferred,agree:nl-fcd8bdada131,Code/Libraries/Source/Apt/AptMathCallbacksBFME2.cpp,0x006FF500
+param,Rva002BEFE5::rva002BEFE5::a0,Rva002BEFE5::rva002BEFE5::position,inferred,agree:nl-74bd78ebe43c,Code/GameEngine/Source/Common/Rva002BEFE5.cpp,0x002BEFE5
