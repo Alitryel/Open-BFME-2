@@ -90,14 +90,14 @@ public:
 class Rva0055BCF1 : public Rva0055BCD2, public Rva0055BC8B
 {
 public:
-	Rva0055BCF1(unsigned int a, const Rva0055BCF1Src *src);
+	Rva0055BCF1(unsigned int system, const Rva0055BCF1Src *src);
 	RGBColor m_color; // +0x94
 	RGBColor m_colorRate; // +0xA0
 	int m_colorTargetKey; // +0xAC
 };
 
-Rva0055BCF1::Rva0055BCF1(unsigned int a, const Rva0055BCF1Src *src)
-	: Rva0055BCD2(a)
+Rva0055BCF1::Rva0055BCF1(unsigned int system, const Rva0055BCF1Src *src)
+	: Rva0055BCD2(system)
 {
 	for (int i = 0; i < 8; ++i)
 	{
