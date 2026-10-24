@@ -94,7 +94,7 @@ public:
 };
 
 // ??4LifeEventModuleTemplate@FXParticleSystem@@QAEAAV01@ABV01@@Z @0x3A7A7F
-inline LifeEventModuleTemplate &LifeEventModuleTemplate::operator=(const LifeEventModuleTemplate &that)
+LifeEventModuleTemplate &LifeEventModuleTemplate::operator=(const LifeEventModuleTemplate &that)
 {
 	const void *source = &that;
 	const void *word_source = source ? (const unsigned char *)source + 8 : 0;
@@ -104,13 +104,3 @@ inline LifeEventModuleTemplate &LifeEventModuleTemplate::operator=(const LifeEve
 }
 
 }
-
-// LINK-OWNER anchor: this unit owns ??4LifeEventModuleTemplate; other units emit
-// it inline, so the owner must also emit a select-any (inline) copy.
-#pragma inline_depth(0)
-// ?bfmeEmitLifeEventModuleOpAssign@@YAXPAVLifeEventModuleTemplate@FXParticleSystem@@PBV12@@Z present-unmatched
-void bfmeEmitLifeEventModuleOpAssign(FXParticleSystem::LifeEventModuleTemplate *p, const FXParticleSystem::LifeEventModuleTemplate *q)
-{
-	p->operator=(*q);
-}
-#pragma inline_depth()

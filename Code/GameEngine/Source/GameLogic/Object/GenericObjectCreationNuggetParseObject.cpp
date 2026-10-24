@@ -99,7 +99,7 @@ static const FieldParse s_objectFieldParse[] =
 };
 
 // ?parseObject@GenericObjectCreationNugget@@SAXPAVINI@@PAX1PBX@Z
-inline void GenericObjectCreationNugget::parseObject(INI *ini, void *instance,
+void GenericObjectCreationNugget::parseObject(INI *ini, void *instance,
 	void *, const void *)
 {
 	MultiIniFieldParse fields;
@@ -122,7 +122,7 @@ static const FieldParse s_debrisFieldParse[] =
 // ?parseDebris@GenericObjectCreationNugget@@SAXPAVINI@@PAX1PBX@Z
 // retail 0x001F340A (148 bytes): parseObject's twin with the debris table and
 // m_nameAreObjects cleared.
-inline void GenericObjectCreationNugget::parseDebris(INI *ini, void *instance,
+void GenericObjectCreationNugget::parseDebris(INI *ini, void *instance,
 	void *, const void *)
 {
 	MultiIniFieldParse fields;
@@ -135,16 +135,3 @@ inline void GenericObjectCreationNugget::parseDebris(INI *ini, void *instance,
 	ini->initFromINIMulti(nugget, fields);
 	((ObjectCreationList *)instance)->addObjectCreationNugget(nugget);
 }
-
-// parseObject/parseDebris are header inlines elsewhere: other units emit
-// select-any copies, so strong definitions here were duplicate symbols in
-// the linked build. This anchor only makes this unit emit its copies for
-// the ledger rows; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitGenericObjectCreationNuggetParseObject@@YAXXZ present-unmatched
-void bfmeEmitGenericObjectCreationNuggetParseObject()
-{
-	GenericObjectCreationNugget::parseObject(0, 0, 0, 0);
-	GenericObjectCreationNugget::parseDebris(0, 0, 0, 0);
-}
-#pragma inline_depth()

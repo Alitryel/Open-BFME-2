@@ -55,7 +55,7 @@ public:
 // HarvestPreparationTime at +0x7C plus HarvestActionTime at +0x80). All eight
 // fields match BFME1's SupplyTruckAIUpdateModuleData table verbatim at identical
 // offsets. The owning factory at 0x0024EF11 pushes this proc's VA.
-inline void SupplyTruckAIUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
+void SupplyTruckAIUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	TransportAIUpdateModuleData::buildFieldParse(parse);
 	parse.add(reinterpret_cast<const FieldParse *>(s_supplyTruckAiFieldTable), 0);
@@ -77,7 +77,7 @@ public:
 // offsets (votes 5/3); BFME2 appends MustDeployToAttack plus
 // DeployedAttributeModifier. The owning factory at 0x0025517E pushes this
 // proc's VA (unique image-wide).
-inline void DeployStyleAIUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
+void DeployStyleAIUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	TransportAIUpdateModuleData::buildFieldParse(parse);
 	parse.add(reinterpret_cast<const FieldParse *>(s_deployStyleFieldTable), 0);
@@ -97,7 +97,7 @@ public:
 // offsets (votes 2/2). The owning factory at 0x0024D29E pushes this proc's
 // VA (unique image-wide); the behavior side (AssaultTransportAIUpdate pool
 // key plus name getter) is rowed in its own file-unit.
-inline void AssaultTransportAIUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
+void AssaultTransportAIUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	TransportAIUpdateModuleData::buildFieldParse(parse);
 	parse.add(reinterpret_cast<const FieldParse *>(s_assaultTransportFieldTable), 0);
@@ -138,13 +138,3 @@ void WanderAIUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
 	TransportAIUpdateModuleData::buildFieldParse(parse);
 	parse.add(reinterpret_cast<const FieldParse *>(s_wanderAiFieldTable), 0);
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitTransportAIUpdateModuleDataBuildFieldParse@@YAXAAVMultiIniFieldParse@@@Z present-unmatched
-void bfmeEmitTransportAIUpdateModuleDataBuildFieldParse(MultiIniFieldParse &parse)
-{
-	SupplyTruckAIUpdateModuleData::buildFieldParse(parse);
-	DeployStyleAIUpdateModuleData::buildFieldParse(parse);
-	AssaultTransportAIUpdateModuleData::buildFieldParse(parse);
-}
-#pragma inline_depth()

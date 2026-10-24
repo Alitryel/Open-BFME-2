@@ -50,7 +50,7 @@ template _STL::vector<Rva00B6CF1>::~vector();
 // destroy above (fold-proof pins in reverse/symbols.csv).
 template _STL::vector<BfmeStringRecord000B94D2>::~vector();
 
-inline Rva00B6CF1 &Rva00B6CF1::operator=(const Rva00B6CF1 &other)
+Rva00B6CF1 &Rva00B6CF1::operator=(const Rva00B6CF1 &other)
 {
 	m_s0 = other.m_s0;
 	m_s1 = other.m_s1;
@@ -61,15 +61,4 @@ inline Rva00B6CF1 &Rva00B6CF1::operator=(const Rva00B6CF1 &other)
 // Forward __copy stride 8 via rowed ??4Rva00B6CF1 at 0xB433E; wrapper at 0xB67BC pushes tag plus distance.
 template Rva00B6CF1 *_STL::__copy<Rva00B6CF1 *, Rva00B6CF1 *, int>(Rva00B6CF1 *, Rva00B6CF1 *, Rva00B6CF1 *, const _STL::random_access_iterator_tag &, int *);
 
-// _Destroy and Rva00B6CF1::operator= are header inlines: other units emit
-// select-any copies of them, so strong definitions here were duplicates in the
-// linked build. This anchor only makes this unit emit its copies for the ledger
-// rows; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitVectorRva00B6CF1Destroy@@YAXPAURva00B6CF1@@ABU1@@Z present-unmatched
-void bfmeEmitVectorRva00B6CF1Destroy(Rva00B6CF1 *p, const Rva00B6CF1 &other)
-{
-	_STL::_Destroy(p, p + 1);
-	*p = other;
-}
-#pragma inline_depth()
+template void _STL::_Destroy<Rva00B6CF1 *>(Rva00B6CF1 *, Rva00B6CF1 *);

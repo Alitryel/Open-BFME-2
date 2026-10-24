@@ -32,16 +32,8 @@ public:
 };
 
 // ?buildFieldParse@WorkerAIUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z @0x0024F299
-inline void WorkerAIUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
+void WorkerAIUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	TransportAIUpdateModuleData::buildFieldParse(parse);
 	parse.add(reinterpret_cast<const FieldParse *>(s_workerAiFieldTable), 0);
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitWorkerAIUpdateModuleDataParse@@YAXAAVMultiIniFieldParse@@@Z present-unmatched
-void bfmeEmitWorkerAIUpdateModuleDataParse(MultiIniFieldParse &parse)
-{
-	WorkerAIUpdateModuleData::buildFieldParse(parse);
-}
-#pragma inline_depth()

@@ -41,7 +41,7 @@ private:
 };
 
 // ?parse@FireWeaponNugget@@SAXPAVINI@@PAX1PBX@Z
-inline void FireWeaponNugget::parse(INI *ini, void *instance, void *, const void *)
+void FireWeaponNugget::parse(INI *ini, void *instance, void *, const void *)
 {
 	FireWeaponNugget *nugget = new FireWeaponNugget;
 	ini->initFromINI(nugget, s_fieldParse);
@@ -61,7 +61,7 @@ private:
 };
 
 // ?parse@AttackNugget@@SAXPAVINI@@PAX1PBX@Z
-inline void AttackNugget::parse(INI *ini, void *instance, void *, const void *)
+void AttackNugget::parse(INI *ini, void *instance, void *, const void *)
 {
 	AttackNugget *nugget = new AttackNugget;
 	ini->initFromINI(nugget, s_fieldParse);
@@ -84,23 +84,9 @@ private:
 };
 
 // ?parse@ApplyRandomForceNugget@@SAXPAVINI@@PAX1PBX@Z
-inline void ApplyRandomForceNugget::parse(INI *ini, void *instance, void *, const void *)
+void ApplyRandomForceNugget::parse(INI *ini, void *instance, void *, const void *)
 {
 	ApplyRandomForceNugget *nugget = new ApplyRandomForceNugget;
 	ini->initFromINI(nugget, s_fieldParse);
 	((ObjectCreationList *)instance)->addObjectCreationNugget(nugget);
 }
-
-// The three parse callbacks above are header-inline-style bodies other units
-// also emit; marking them inline here makes this unit's copies select-any so
-// the linked build keeps one. This anchor only makes this unit emit its
-// copies for the ledger rows; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitObjectCreationNuggetParse@@YAXXZ present-unmatched
-void bfmeEmitObjectCreationNuggetParse()
-{
-	FireWeaponNugget::parse(0, 0, 0, 0);
-	AttackNugget::parse(0, 0, 0, 0);
-	ApplyRandomForceNugget::parse(0, 0, 0, 0);
-}
-#pragma inline_depth()

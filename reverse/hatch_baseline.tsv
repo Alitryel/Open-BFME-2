@@ -33505,7 +33505,6 @@ present_unmatched	Code/GameEngine/Source/GameClient/System/Anim2D.cpp	setStatus@
 present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/DefaultModuleBaseCopyCtors.cpp	1DefaultModuleSecondBase@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/DefaultModuleBaseCopyCtors.cpp	1DefaultModuleThirdBase@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/EmissionInfoDefaultCtors.cpp	bfmeEmitEmissionInfoDefaultCtors@@YAXPAVSphericalEmissionVelocityInfo@FXParticleSystem@@@Z	1
-present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/LifeEventModuleOpAssign.cpp	bfmeEmitLifeEventModuleOpAssign@@YAXPAVLifeEventModuleTemplate@FXParticleSystem@@PBV12@@Z	1
 present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/ParticleModuleInfoCopyCtors.cpp	@0x003AE43F	1
 present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/ParticleModuleInfoCopyCtors.cpp	@0x003AE465	1
 present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/ParticleModuleInfoCopyCtors.cpp	@0x003AE4E5	1
@@ -33522,7 +33521,6 @@ present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0
 present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003AEDE9CopyCtor.cpp	@0x003AEDE9	1
 present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003AEE16CopyCtor.cpp	1Rva003AEE16@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003AEE16CopyCtor.cpp	1Rva003AF076@@UAE@XZ	1
-present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/TerrainCollisionModuleOpAssign.cpp	bfmeEmitTerrainCollisionModuleOpAssign@@YAXPAVTerrainCollisionModuleTemplate@FXParticleSystem@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameClient/System/ImageCollectionCtor.cpp	_GImageCollection@@UAEPAXI@Z	1
 present_unmatched	Code/GameEngine/Source/GameClient/System/ImageCollectionDeletingDtor.cpp	1ImageCollection@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameClient/System/RayEffectSystemInit.cpp	0RayEffectData@@QAE@XZ	1
@@ -33732,7 +33730,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/BodyModuleDeletin
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/BodyModuleDeletingDtors.cpp	1FreePtr@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/ImmortalBodyConstructor.cpp	1ImmortalBody@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/RespawnBodyCtorThunk.cpp	1RespawnBody@@UAE@XZ	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Collide/CollideModuleDataBuildFieldParse.cpp	bfmeEmitCollideModuleDataBuildFieldParse@@YAXAAVMultiIniFieldParse@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainCtor.cpp	0Element16@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainCtor.cpp	1Element16@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainCtor.cpp	1Rva0047A702@@QAE@XZ	1
@@ -33854,7 +33851,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineCon
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineContainCtor.cpp	f20@SiegeEngineContain@@UAEXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineContainCtor.cpp	f30@SiegeEngineContain@@UAEXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineContainCtor.cpp	f34@SiegeEngineContain@@UAEXXZ	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/TunnelContainModuleDataParse.cpp	bfmeEmitTunnelContainModuleDataParse@@YAXAAVMultiIniFieldParse@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Create/CreateModule.cpp	CreateModule::crc	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Create/CreateModule.cpp	CreateModule::loadPostProcess	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Create/CreateModule.cpp	CreateModule::~CreateModule	1
@@ -33896,7 +33892,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/FXListDie.cpp	crc@
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/FXListDie.cpp	loadPostProcess@FXListDie@@MAEXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/FXListDie.cpp	onDie@FXListDie@@UAEXPBVDamageInfo@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/FXListDie.cpp	xfer@FXListDie@@MAEXPAVXfer@@@Z	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/FXListDieModuleDataBuildFieldParse.cpp	bfmeEmitRva0050B107BuildFieldParse@@YAXAAVMultiIniFieldParse@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/KeepObjectDieModuleDataCtor.cpp	1KeepObjectDieModuleData@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/SpecialPowerCompletionDie.cpp	1SpecialPowerCompletionDie@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/SpecialPowerCompletionDie.cpp	crc@SpecialPowerCompletionDie@@	1
@@ -33909,7 +33904,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/FiringTracker.cpp	Firi
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/FiringTracker.cpp	FiringTracker::shotFired	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/FiringTracker.cpp	FiringTracker::update	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/GenericObjectCreationNuggetAnimSetCopy.cpp	bfmeEmitGenericObjectCreationNuggetAnimSetCopy@@YAXPAUAnimSet@GenericObjectCreationNugget@@PBU12@@Z	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/GenericObjectCreationNuggetParseObject.cpp	bfmeEmitGenericObjectCreationNuggetParseObject@@YAXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Locomotor.cpp	Locomotor::Locomotor	2
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Locomotor.cpp	Locomotor::calcLiftToUseAtPt	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Locomotor.cpp	Locomotor::calcMinTurnRadius	1
@@ -33960,7 +33954,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/ObjectCreationList.cpp
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/ObjectCreationList.cpp	clear@ObjectCreationList@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/ObjectCreationList.cpp	create@ObjectCreationNugget@@	2
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/ObjectCreationList.cpp	createInternal@ObjectCreationList@@	3
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/ObjectCreationNuggetParse.cpp	bfmeEmitObjectCreationNuggetParse@@YAXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/ObjectNuggetDeletingDtors.cpp	1AttackNugget@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/ObjectNuggetDeletingDtors.cpp	bfmeEmitObjectNuggetDeletingDtors@@YAXPAVAttackNugget@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/ObjectRva0028B238.cpp	Object::rva0028B238	1
@@ -34517,7 +34510,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/Supply
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/SupplyTruckAIUpdate.cpp	update@SupplyTruckAIUpdate@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/SupplyTruckAIUpdate.cpp	update@SupplyTruckWantsToPickUpOrDeliverBoxesState@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/SupplyTruckAIUpdate.cpp	xfer@SupplyTruckStateMachine@@	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/TransportAIUpdateModuleDataBuildFieldParse.cpp	bfmeEmitTransportAIUpdateModuleDataBuildFieldParse@@YAXAAVMultiIniFieldParse@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/WorkerAIUpdate.cpp	0WorkerAIUpdate@@QAE@PAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/WorkerAIUpdate.cpp	1WorkerAIUpdate@@MAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/WorkerAIUpdate.cpp	1WorkerStateMachine@@MAE@XZ	1
@@ -34562,7 +34554,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/Worker
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/WorkerAIUpdate.cpp	update@ActAsSupplyTruckState@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/WorkerAIUpdate.cpp	update@WorkerAIUpdate@@UAE?AW4UpdateSleepTime@@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/WorkerAIUpdate.cpp	xfer@WorkerStateMachine@@MAEXPAVXfer@@@Z	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/WorkerAIUpdateModuleDataParse.cpp	bfmeEmitWorkerAIUpdateModuleDataParse@@YAXAAVMultiIniFieldParse@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdateInterfaceCtor.cpp	1CombineHordeSpecialPowerModuleData@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdateInterfaceRva00263FA7.cpp	friend_getRadarData@Object@@QAEPAVRadarObject@@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdateInterfaceRva00263FA7.cpp	rva001E48E8@Rva001E48E8@@QAEPAXI@Z	1
@@ -34941,7 +34932,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions_rv
 present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions_rva003C1F0A.cpp	getTeamAsAIGroup@Team@@QAEXPAVAIGroup@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions_rva003C1F0A.cpp	getTeamNamed@ScriptEngine@@QAEPAVTeam@@VAsciiString@@_N@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions_rva003C1F0A.cpp	rva0036E1C3@AIGroup@@QAEXABV?$StringBase@D@@H@Z	1
-present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngine_DllHandleExceptionCopies.cpp	bfmeEmitScriptEngineDllHandleExceptionCopies@@YAXPAVException@DllHandle@@PBV12@PAVLoadFailure@2@PBV32@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptWriteDataChunk.cpp	equalTag_Rva003B31C7@@YA_NPBX0H@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/Scripts.cpp	0Condition@@IAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/Scripts.cpp	0Script@@QAE@XZ	1
@@ -36725,7 +36715,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva0054F434Dtor.cpp	1Rva00
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva0054F434Vslot1.cpp	1Rva0054F434Base@@UAE@XZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva005842F7Finish.cpp	$__copy_ptrs@PAUBfmePod28@@PAU1@@_STL@@YAPAUBfmePod28@@PAU1@00ABU__false_type@0@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva005FE750.cpp	_bfmeRva005FE750DestroyAnchor@@YAXPAUBfmeContainerRecord005FDEC7@@@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/STL_new_alloc_allocateThunk.cpp	bfmeEmitSTL_new_alloc_allocateThunk@@YAXPAV__new_alloc@_STL@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva000556AB.cpp	Rva000556ABRecord::operator<	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva000556AB.cpp	Rva000556ABRecord::operator==	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva001DDBC6.cpp	Rva001DDBC6Record::operator<	1
@@ -36842,7 +36831,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_bfmee8_allo
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_opaque_mclear.cpp	1OpaqueRefElement4@@QAE@XZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_record_2154f3_erase.cpp	$__copy_ptrs@PAUBfmeVectorRecord0002154F3@@PAU1@@_STL@@YAPAUBfmeVectorRecord0002154F3@@PAU1@00ABU__false_type@0@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva000b435f_erase.cpp	$__copy_ptrs@PAURva000B435F@@PAU1@@_STL@@YAPAURva000B435F@@PAU1@00ABU__false_type@0@@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva00b6cf1_destroy.cpp	bfmeEmitVectorRva00B6CF1Destroy@@YAXPAURva00B6CF1@@ABU1@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva00b6cf1_erase.cpp	$__copy_ptrs@PAURva00B6CF1@@PAU1@@_STL@@YAPAURva00B6CF1@@PAU1@00ABU__false_type@0@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_stringrecord_5ddd40_erase.cpp	$__copy_ptrs@PAUBfmeStringRecord005DDD40@@PAU1@@_STL@@YAPAUBfmeStringRecord005DDD40@@PAU1@00ABU__false_type@0@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_unicode_erase.cpp	$__copy_ptrs@PAVUnicodeString@@PAV1@@_STL@@YAPAVUnicodeString@@PAV1@00ABU__false_type@0@@Z	1

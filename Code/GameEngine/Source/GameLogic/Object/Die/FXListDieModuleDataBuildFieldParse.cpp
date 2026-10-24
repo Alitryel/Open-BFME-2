@@ -36,17 +36,9 @@ public:
 };
 
 // ?buildFieldParse@Rva0050B107@@SAXAAVMultiIniFieldParse@@@Z @0x0050B107
-inline void Rva0050B107::buildFieldParse(MultiIniFieldParse &parse)
+void Rva0050B107::buildFieldParse(MultiIniFieldParse &parse)
 {
 	parse.add((const FieldParse *)Rva00507552::opaqueCall(), 0);
 	parse.add((const FieldParse *)Rva005088C8::opaqueCall(), 0);
 	parse.add(&s_extraFieldTable, 0);
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitRva0050B107BuildFieldParse@@YAXAAVMultiIniFieldParse@@@Z present-unmatched
-void bfmeEmitRva0050B107BuildFieldParse(MultiIniFieldParse &parse)
-{
-	Rva0050B107::buildFieldParse(parse);
-}
-#pragma inline_depth()

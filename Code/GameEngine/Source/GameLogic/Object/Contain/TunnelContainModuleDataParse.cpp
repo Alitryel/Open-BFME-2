@@ -56,16 +56,8 @@ public:
 };
 
 // ?buildFieldParse@TunnelContainModuleData@@SAXAAVMultiIniFieldParse@@@Z @0x0024BCD2
-inline void TunnelContainModuleData::buildFieldParse(MultiIniFieldParse &parse)
+void TunnelContainModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	HordeGarrisonContainModuleData::buildFieldParse(parse);
 	parse.add(TunnelContainModuleDataFieldParse, 0);
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitTunnelContainModuleDataParse@@YAXAAVMultiIniFieldParse@@@Z present-unmatched
-void bfmeEmitTunnelContainModuleDataParse(MultiIniFieldParse &parse)
-{
-	TunnelContainModuleData::buildFieldParse(parse);
-}
-#pragma inline_depth()

@@ -96,7 +96,7 @@ public:
 };
 
 // ??4TerrainCollisionModuleTemplate@FXParticleSystem@@QAEAAV01@ABV01@@Z @0x3A81E2
-inline TerrainCollisionModuleTemplate &TerrainCollisionModuleTemplate::operator=(const TerrainCollisionModuleTemplate &that)
+TerrainCollisionModuleTemplate &TerrainCollisionModuleTemplate::operator=(const TerrainCollisionModuleTemplate &that)
 {
 	const void *source = &that;
 	const void *word_source = source ? (const unsigned char *)source + 8 : 0;
@@ -106,10 +106,3 @@ inline TerrainCollisionModuleTemplate &TerrainCollisionModuleTemplate::operator=
 }
 
 }
-#pragma inline_depth(0)
-// ?bfmeEmitTerrainCollisionModuleOpAssign@@YAXPAVTerrainCollisionModuleTemplate@FXParticleSystem@@@Z present-unmatched
-void bfmeEmitTerrainCollisionModuleOpAssign(FXParticleSystem::TerrainCollisionModuleTemplate *p)
-{
-	*p = *(FXParticleSystem::TerrainCollisionModuleTemplate *)0;
-}
-#pragma inline_depth()
