@@ -936,4 +936,5 @@ param,Rva003F61C6EmitAnchor::x,Rva003F61C6EmitAnchor::fillValue,inferred,agree:n
 param,Rva005EA0C0Link::s,Rva005EA0C0Link::system,inferred,agree:nl-e302707195a6,Code/Libraries/Source/WWVegas/WWMath/Rva005EA0C0Method.cpp,
 member,BfmeObjECF::m_bfmeVtbl,BfmeObjECF::m_vtable,inferred,agree:nl-aad270539dd4,Code/GameEngine/Source/Common/BfmeConv804.cpp,
 function,?bfmeGoECF@@YAXXZ,?releaseBrowser@@YAXXZ,inferred,agree:nl-d8d496c5f83e,Code/GameEngine/Source/Common/BfmeConv804.cpp,0x007B7270
+local,Rva00803730Sink::apply::p,Rva00803730Sink::apply::port,inferred,agree:nl-a978453d574e,Code/GameEngine/Source/GameNetwork/Rva00803730FeslAttrs.cpp,0x00675B60
 function,?rva0083F090@@YAHXZ,?xalloc@@YAHXZ,inferred,agree:nl-18ad3daac335,Code/Libraries/Source/WWVegas/WWLib/IosBaseRva0083F090Index.cpp,0x0001BF60

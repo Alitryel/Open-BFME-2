@@ -208,8 +208,8 @@ void Rva00803730Sink::apply( void *tid, bool allowed, void *pid, void *reason )
 		message.addInt( "PID", player->m_pid );
 		message.addString( "TICKET", "ticket" );
 		message.addString( "I", player->m_i );
-		int p = m_identity->m_p2c != 0 ? m_identity->m_p2c : m_identity->m_p28;
-		message.addInt( "P", p );
+		int port = m_identity->m_p2c != 0 ? m_identity->m_p2c : m_identity->m_p28;
+		message.addInt( "P", port );
 		message.addString( "PL", "IP-LAN" );
 		message.addString( "UGID", m_identity->getValue()->getValue() );
 	}
