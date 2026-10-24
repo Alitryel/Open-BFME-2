@@ -2218,3 +2218,4 @@ _Rva0084DB70,0x00020E30,"Renamed to __Locale_strwxfrm by tools/rename.py (inferr
 __ehhandler$?isMusicAlreadyLoaded@AudioManager@@UBE_NXZ,0x0075DC21,"Renamed to __ehhandler$?isMusicAlreadyLoaded@MilesAudioManager@@UBE_NXZ: follows the rename of its function"
 ?bfmeOpenVIF@@YAHPAUBfmeLuaVHR@@@Z,0x0074A490,"Renamed to ?io_open@@YAHPAUBfmeLuaVHR@@@Z by tools/rename.py (inferred)"
 ?bfmeNeVMQ@BfmeStrVMQ@@QBE_NPBD@Z,0x000249D0,"Renamed to ?notEqual@BfmeStrVMQ@@QBE_NPBD@Z by tools/rename.py (inferred)"
+?rva00541311@Rva00541311@@QAEPAXPAX@Z,0x00541311,"Renamed to ?erase@Rva00541311@@QAEPAXPAX@Z by tools/rename.py (inferred)"

@@ -44,7 +44,7 @@ private:
 class Rva00541311
 {
 public:
-	void *rva00541311(void *p);
+	void *erase(void *p);
 };
 
 class Rva005418CB
@@ -69,6 +69,6 @@ void Rva005418CB::rva005418CB(int key)
 	m_list00.forEach(&Rva005414E5Listener::notify20, this, key);
 	int off = m_hint1C * 0x14;
 	Rva0054103E *elem = (Rva0054103E *)((char *)m_begin10 + off);
-	((Rva00541311 *)&m_begin10)->rva00541311(elem);
+	((Rva00541311 *)&m_begin10)->erase(elem);
 	m_list00.forEach(&Rva005414E5Listener::notify18, this, key);
 }

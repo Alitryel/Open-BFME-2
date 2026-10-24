@@ -15,22 +15,22 @@ void rva005B09D8(char *dst, char *cur, void *p, const Rva004ED3A2Tag &tag);
 class Rva004ED3A2
 {
 public:
-	void *rva004ED3A2(void *p);
+	void *rva004ED3A2(void *position);
 private:
 	char m_00[4];
 	char *m_cursor;
 };
 
-void *Rva004ED3A2::rva004ED3A2(void *p)
+void *Rva004ED3A2::rva004ED3A2(void *position)
 {
-	char *base = (char *)p;
+	char *base = (char *)position;
 	char *last = m_cursor;
 	if ((void *)(base + 0x14) != (void *)last) {
 		Rva004ED3A2Tag tag;
-		rva005B09D8(base + 0x14, last, p, tag);
+		rva005B09D8(base + 0x14, last, position, tag);
 	}
 	m_cursor -= 0x14;
-	return p;
+	return position;
 }
 
 struct Rva005412E2Tag {};
@@ -52,22 +52,22 @@ void rva00541231(char *dst, char *cur, void *p, const Rva00541311Tag &tag);
 class Rva00541311
 {
 public:
-	void *rva00541311(void *p);
+	void *erase(void *position);
 private:
 	char m_00[4];
 	char *m_cursor;
 };
 
-void *Rva00541311::rva00541311(void *p)
+void *Rva00541311::erase(void *position)
 {
-	char *base = (char *)p;
+	char *base = (char *)position;
 	char *last = m_cursor;
 	if ((void *)(base + 0x14) != (void *)last) {
 		Rva00541311Tag tag;
-		rva00541231(base + 0x14, last, p, tag);
+		rva00541231(base + 0x14, last, position, tag);
 	}
 	m_cursor -= 0x14;
-	return p;
+	return position;
 }
 
 // Each retail call in this body reads an address the ledger already carries
