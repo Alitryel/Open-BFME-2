@@ -254,12 +254,12 @@ float Rva001338A0::rva001338B0() const
 // screen-filter run ahead of ScreenHilightFilter::init 0x000FA935.
 extern bool g_bfmeDirtyCU;
 
-void Rva000FA927ClearDirty()
+void clearDirty()
 {
 	g_bfmeDirtyCU = false;
 }
 
-bool Rva000FA92FIsDirty()
+bool isDirty()
 {
 	return g_bfmeDirtyCU;
 }
