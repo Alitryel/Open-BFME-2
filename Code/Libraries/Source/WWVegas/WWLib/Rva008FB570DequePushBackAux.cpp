@@ -15,6 +15,20 @@ void *vectorSmallAllocate(unsigned int bytes, unsigned int alignment);
 template <class Destination, class Source>
 void _Construct(Destination *, const Source &);
 
+// Link: nothing defines _Construct<Gen_t_008fb570_p8pod>. Retail's 0x0060C9D9
+// is the rowed two-word copy _Construct<pair<const int, int> >
+// (Rva002EF239CreateNode.cpp); an inline forwarder reaches it with the same
+// pushes.
+template <class First, class Second>
+struct pair;
+template <> void _Construct<pair<const int, int>, pair<const int, int> >(
+	pair<const int, int> *, const pair<const int, int> &);
+template <> __declspec(dllimport) __forceinline void _Construct<Gen_t_008fb570_p8pod, Gen_t_008fb570_p8pod>(
+	Gen_t_008fb570_p8pod *destination, const Gen_t_008fb570_p8pod &source)
+{
+	_Construct((pair<const int, int> *)destination, *(const pair<const int, int> *)&source);
+}
+
 template <class Type>
 class allocator
 {
