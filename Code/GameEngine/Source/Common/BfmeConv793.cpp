@@ -41,7 +41,7 @@ void BfmeThingDXB::bfmeGoDXB()
 extern "C" __declspec(dllimport) int __stdcall VariantClear(void *what);
 // The 16-byte x86 VARIANTARG passed to VariantClear: VT_ERROR (0x000A) with
 // error value 0x80020004, matching retail .data at VA 0x00DD7F18.
-unsigned char g_bfmeArgDXE[16] = {
+unsigned char vtMissing[16] = {
 	0x0A, 0, 0, 0, 0, 0, 0, 0,
 	0x04, 0, 0x02, 0x80, 0, 0, 0, 0,
 };
@@ -50,7 +50,7 @@ void __stdcall bfmeFailDXE(int code);
 // ?bfmeGoDXE@@YAXXZ, retail 0x007B9B40 (22B).
 void bfmeGoDXE()
 {
-	int r = VariantClear(g_bfmeArgDXE);
+	int r = VariantClear(vtMissing);
 	if (r < 0)
 		bfmeFailDXE(r);
 }

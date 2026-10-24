@@ -1075,3 +1075,4 @@ function,?bfmeGo1039C@BfmeD1039@@QAEPAVBfmeC1039@@XZ,?Clone@BfmeD1039@@QAEPAVBfm
 carry,BfmeD1039::bfmeGo1039C::mapper,BfmeD1039::Clone::mapper,inferred,scope renamed by Rename bfmeGo1039C to Clone (inferred),Code/GameEngine/Source/Common/BfmeConv1039.cpp,0x00187630
 member,BfmeThingTDA::m_bfmeVft,BfmeThingTDA::m_vtable,inferred,agree:nl-ae8af0ed69c0,Code/GameEngine/Source/Common/BfmeConv1309.cpp,
 local,BfmeOwnerZP::bfmeFindZP::p,BfmeOwnerZP::bfmeFindZP::slot,inferred,agree:nl-28c7dfde0c54,Code/GameEngine/Source/Common/BfmeConv1882.cpp,0x0066EC60
+global,?g_bfmeArgDXE@@3PAEA,?vtMissing@@3PAEA,inferred,agree:nl-dc6f740ad518,Code/GameEngine/Source/Common/BfmeConv793.cpp,0x009D7F18
