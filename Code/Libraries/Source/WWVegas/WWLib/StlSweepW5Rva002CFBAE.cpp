@@ -14,7 +14,10 @@ namespace _STL {
 template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char*, size_t);
 }
 
-struct Rva002CFBAEElement { _STL::vector<char> values[3]; bool operator==(const Rva002CFBAEElement&) const; };
+struct Rva002CFBAEElement { ~Rva002CFBAEElement(); // declared only: retail's destructor is the rowed body at its pinned address
+ _STL::vector<char> values[3]; bool operator==(const Rva002CFBAEElement&) const; };
 
 // Instantiate the recovered operation and its required template dependencies.
 template void _STL::__destroy_aux<Rva002CFBAEElement *>(Rva002CFBAEElement *, Rva002CFBAEElement *, _STL::__false_type const &);
+// The declared destructor binds to that row (tools/allowed_symbols.py --alternatenames).
+#pragma comment(linker, "/alternatename:??1Rva002CFBAEElement@@QAE@XZ=??1ProductionPrerequisite@@QAE@XZ")

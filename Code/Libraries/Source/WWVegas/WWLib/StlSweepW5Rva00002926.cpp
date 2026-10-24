@@ -10,7 +10,8 @@ template <> void _List_base<short, allocator<short> >::clear();
 template <> _List_base<short, allocator<short> >::~_List_base();
 }
 
-struct Rva00002926Element {
+struct Rva00002926Element { ~Rva00002926Element(); // declared only: retail's destructor is the rowed body at its pinned address
+
     _STL::list<short> values[1];
 };
 
@@ -18,3 +19,5 @@ struct Rva00002926Element {
 void trigger(Rva00002926Element *p) {
     delete p;
 }
+// The declared destructor binds to that row (tools/allowed_symbols.py --alternatenames).
+#pragma comment(linker, "/alternatename:??1Rva00002926Element@@QAE@XZ=??1CImage@ATL@@UAE@XZ")

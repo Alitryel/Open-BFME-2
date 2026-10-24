@@ -8,7 +8,10 @@
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> basic_string<unsigned short,char_traits<unsigned short>,allocator<unsigned short> >::~basic_string(); }
 
-struct Rva000AFF52Element { unsigned prefix[2];_STL::basic_string<wchar_t> strings[1];unsigned suffix[2]; bool operator<(const Rva000AFF52Element&)const; bool operator==(const Rva000AFF52Element&)const; };
+struct Rva000AFF52Element { ~Rva000AFF52Element(); // declared only: retail's destructor is the rowed body at its pinned address
+ unsigned prefix[2];_STL::basic_string<wchar_t> strings[1];unsigned suffix[2]; bool operator<(const Rva000AFF52Element&)const; bool operator==(const Rva000AFF52Element&)const; };
 
 // Instantiate the recovered operation and its required template dependencies.
 template void _STL::__destroy_aux<Rva000AFF52Element *>(Rva000AFF52Element *, Rva000AFF52Element *, _STL::__false_type const &);
+// The declared destructor binds to that row (tools/allowed_symbols.py --alternatenames).
+#pragma comment(linker, "/alternatename:??1Rva000AFF52Element@@QAE@XZ=??1Rva00111B25Record@@QAE@XZ")
