@@ -1714,3 +1714,9 @@ Code/GameEngine/Source/Common/Rva00276223Leaf.cpp|param|Rva00276223::rva00276223
 Code/GameEngine/Source/Common/Rva00276223Leaf.cpp|local|Rva00276223::rva00276223|p,adb53f4874a92d020efa6fef,gpt-6.1-sol,codex8-20261024-005051-27,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/Rva00276223Leaf.cpp|local|Rva00276223::rva00276223|e,43673028260626220c389f16,gpt-6.1-sol,codex8-20261024-005051-27,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/Rva00276223Leaf.cpp|local|Rva00276223::rva00276223|r,839b8dd3bb76ad576a9cc23c,gpt-6.1-sol,codex8-20261024-005051-27,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/LivingWorld_ZoomInTo.cpp|local|LivingWorld::ZoomInTo|tmp20,351c62b7a0bbb6d2e80a26a2,gpt-6.1-sol,codex8-20261024-011045-4,w-de56e563a50b,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva004ED471Finish.cpp|local|Rva004ED10FFill|p,d54edcde4f4373951f5dd993,gpt-6.1-sol,codex8-20261024-011045-5,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva004079D5.cpp|param|Rva004079D5::rva004079D5|tmp,60961a5db4a26edd4cabad31,gpt-6.1-sol,codex8-20261024-011045-6,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva004079D5.cpp|local|Rva004079D5::rva004079D5|v,88dbe4a36fc1529e339839d0,gpt-6.1-sol,codex8-20261024-011045-6,w-de56e563a50b,2026-10-24
+Code/Libraries/Source/Apt/Rva006FE400Chain.cpp|param|Rva006FE400::rva006FE400|a2,d330985639e443bcb9829fe7,gpt-6.1-sol,codex8-20261024-011045-8,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva003743CFBehavior.cpp|function|0x003743BB|Rva003743BB,5a816dc0e5c5219412f3160f,gpt-6.1-sol,codex8-20261024-011045-9,w-de56e563a50b,2026-10-24
