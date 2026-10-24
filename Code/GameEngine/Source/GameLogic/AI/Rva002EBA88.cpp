@@ -17,20 +17,20 @@ public:
 private:
 	int m_0;
 	int m_4;
-	int m_8;
+	int m_freeList;
 	int m_C;
 	int m_10;
-	int m_14;
+	int m_context;
 };
 // ?rva002EBA88@Rva002EBA88@@QAEPAV1@HHHHHH@Z @0x002EBA88 67B.
 Rva002EBA88 *Rva002EBA88::rva002EBA88(int a1, int arena, int size, int a4, int a5, int context)
 {
 	m_0 = 0x80;
 	m_4 = 0;
-	m_8 = 0;
+	m_freeList = 0;
 	m_C = (int)&Rva0002FFC0Alloc;
 	m_10 = (int)&Rva0002FFE0Free;
-	m_14 = 0;
+	m_context = 0;
 	((Rva001FF36A *)this)->rva001FF36A(a1, arena, size, a4, a5, context);
 	return this;
 }
