@@ -4874,3 +4874,7 @@ Code/GameEngine/Source/Common/System/LivingWorldRegionBuildingRestrictionParseIN
 Code/GameEngine/Source/Common/System/LivingWorldRegionBuildingRestrictionParseINI.cpp|global||g_00C36EE0,f95092643dfedf9ddccf9c85,seat-a,rn-1024b-11-a,w-3b9dc6ecca79,2026-10-24
 Code/GameEngine/Source/Common/System/LivingWorldRegionBuildingRestrictionParseINI.cpp|local|LivingWorldRegion::ModuleData::BuildingRestriction::ParseINI|p,cf03d23e843e87d501e79078,seat-b,rn-1024b-11-b,w-138b62dd5b08,2026-10-24
 Code/GameEngine/Source/Common/System/LivingWorldRegionBuildingRestrictionParseINI.cpp|global||g_00C36EE0,00e11d19c2539588d8589a8b,seat-b,rn-1024b-11-b,w-138b62dd5b08,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp|local|W3DVolumetricShadowV2::W3DVolumetricShadowV2|x,8046908fb097131172486f9b,gpt-6.1-sol,codexb-20261024-113542-1,w-8e883e57d025,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp|local|W3DVolumetricShadowV2::W3DVolumetricShadowV2|y,7c460aa1b6663b197093b97d,gpt-6.1-sol,codexb-20261024-113542-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Made002CCBCASlots.cpp|class||Rva0050B745Template,bb06216f38addf523e9e4a0b,gpt-6.1-sol,codexb-20261024-113542-3,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Made002CCBCASlots.cpp|member|Rva0050B7D2Arg|m_08,f5adc578b02c2b1b5c486c93,gpt-6.1-sol,codexb-20261024-113542-3,w-8e883e57d025,2026-10-24
