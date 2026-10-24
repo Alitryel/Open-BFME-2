@@ -3678,7 +3678,7 @@ def refuse_pending_journal(ctx):
 
 # ---------------------------------------------------------------- apply
 
-def ledger_checks(ctx, plan):
+def ledger_checks(ctx, plan, csv_checks=None, skip=()):
     """What the commit hooks will say about the result: check_csv over the
     ledgers, find_declared_unmatched over the touched units, and the hook's
     other checks on a private index (commit_checks). [] when all pass (or when
@@ -3686,12 +3686,15 @@ def ledger_checks(ctx, plan):
     other two: its longest tool is the one that sets the time. A signal or an
     error in the main thread cancels it (its running tool is killed) and
     propagates at once (in whichever of the two waits it lands: check_csv or the
-    hook tools), so the restore does not wait for the tools."""
+    hook tools), so the restore does not wait for the tools.
+    `csv_checks(ctx, plan)` replaces the main-thread half (rename_files' tolerant
+    lane judges check_csv against a baseline) and `skip` names hook checks to
+    leave out; both keep this cancellation."""
     cancel = threading.Event()
     pool = concurrent.futures.ThreadPoolExecutor(max_workers=1)
-    gates = pool.submit(commit_checks, ctx, plan, cancel=cancel)
+    gates = pool.submit(commit_checks, ctx, plan, skip=skip, cancel=cancel)
     try:
-        problems = _csv_checks(ctx, plan)
+        problems = (csv_checks or _csv_checks)(ctx, plan)
         found = gates.result()           # most of the time is spent here: a signal must cancel it too
     except BaseException:
         cancel.set()

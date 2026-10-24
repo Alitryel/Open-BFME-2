@@ -4,9 +4,13 @@ injected, so the proposals, every refusal, batching, rollback and the
 journal run without the real ledger or a compiler. A real-tree plan smoke
 closes the file."""
 import json
+import os
 import shutil
+import signal
 import subprocess
 import sys
+import threading
+import time
 from pathlib import Path
 
 import pytest
@@ -424,6 +428,46 @@ def test_tolerant_checks_still_run_the_hook_gates_but_not_ledger_guard(tree):
     with pytest.raises(VerifyFailed, match=r"\[ledger_guard\]"):      # the strict lane names that dirt
         rf.apply_batch(ctx, picks_of(tree)[:1], "mechanical", claim=False, verify=ok,
                        checks=rename.ledger_checks)
+
+
+SLEEPING_GATE = """import os, time
+open(os.environ['PIDFILE'], 'w').write(str(os.getpid()))
+time.sleep(60)
+"""
+
+
+def test_tolerant_checks_are_cancelled_by_a_signal_in_the_main_thread(tree, monkeypatch, tmp_path_factory):
+    # a SIGTERM/SIGINT while the hook tools run must kill them at once, as in rename.ledger_checks,
+    # not leave the executor waiting for them to finish
+    (tree / "tools").mkdir(exist_ok=True)
+    (tree / "tools/class_gate.py").write_text(SLEEPING_GATE)
+    pidfile = tmp_path_factory.mktemp("pid") / "gate.pid"      # outside the tree the snapshot compares
+    monkeypatch.setenv("PIDFILE", str(pidfile))
+    picks = picks_of(tree)[:1]
+    ctx = ctx_of(tree)
+    before = snapshot(tree)
+
+    def interrupt():
+        deadline = time.time() + 30
+        while not pidfile.exists() and time.time() < deadline:
+            time.sleep(0.05)
+        signal.pthread_kill(threading.main_thread().ident, signal.SIGINT)
+    threading.Thread(target=interrupt, daemon=True).start()
+    started = time.time()
+    with pytest.raises(KeyboardInterrupt):
+        rf.apply_batch(ctx, picks, "mechanical", claim=False, verify=ok, checks=rf.tolerant_checks(ctx))
+    assert time.time() - started < 20
+    pid = int(pidfile.read_text())
+    deadline = time.time() + 5
+    while time.time() < deadline:
+        try:
+            os.kill(pid, 0)
+        except ProcessLookupError:
+            break
+        time.sleep(0.1)
+    else:
+        pytest.fail("the hook tool outlived the interrupted tolerant checks")
+    assert snapshot(tree) == before
 
 
 def test_cli_check_reports_rename_py_verdicts(tree, capsys):

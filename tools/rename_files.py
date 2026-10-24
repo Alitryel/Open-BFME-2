@@ -293,7 +293,7 @@ def tolerant_checks(ctx):
     the lander still runs the full hooks before a commit."""
     before = check_lines(ctx)
 
-    def checks(ctx, plan):
+    def csv_checks(ctx, plan):
         problems = [f"check_csv: {line}" for line in sorted(check_lines(ctx) - before)]
         units = sorted({rel for rel in plan.after if rel.startswith("Code/") and rel.endswith(rename.SOURCE_SUFFIXES)} |
                        {new for _old, new in plan.moves})
@@ -303,8 +303,12 @@ def tolerant_checks(ctx):
             if result.returncode:
                 problems.append("find_declared_unmatched: " +
                                 " | ".join((result.stdout + result.stderr).strip().splitlines()[-5:]))
+        return problems
+
+    def checks(ctx, plan):
+        # the hook's checks run beside these, and a signal cancels them as in rename.ledger_checks;
         # an unstaged ledger edit another worker left is the dirt this lane tolerates
-        return problems + rename.commit_checks(ctx, plan, skip=("ledger_guard",))
+        return rename.ledger_checks(ctx, plan, csv_checks=csv_checks, skip=("ledger_guard",))
     return checks
 
 
