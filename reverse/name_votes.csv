@@ -5368,3 +5368,8 @@ Code/GameEngine/Source/Common/Rva0033A9A5.cpp|class||Rva0033A9A5Entry,8dc57d7db4
 Code/GameEngine/Source/Common/BfmeConv1361.cpp|function|0x00675680|bfmeCopyVHE,373a737e8766f61e18e9e775,gpt-6.1-sol,codexb-20261024-153504-9,w-8e883e57d025,2026-10-24
 Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassLoadCharBitmap.cpp|local|FontCharsClass::loadCharBitmap|y,d645f70c687f0b87f610c5d9,gpt-6.1-sol,codexb-20261024-153504-10,w-8e883e57d025,2026-10-24
 Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassLoadCharBitmap.cpp|local|FontCharsClass::loadCharBitmap|x,fe52ff128676de8afcf6e29c,gpt-6.1-sol,codexb-20261024-153504-10,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva005E4DAFTwins.cpp|local|Rva005E4DAF::Deselect|p,0d3a5386bd705ee1400b1775,gpt-6-astra,codexb2-20261024-152332-7,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005E4DAFTwins.cpp|local|Rva005E4DAF::Select|p,4b2d53f56e76743a3e3476b2,gpt-6-astra,codexb2-20261024-152332-7,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva00569F0CAssign.cpp|param|Rva00569F0CVec::rva00569F0C|a,789abc49fafc54c258f25e18,gpt-6-astra,codexb2-20261024-152332-9,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva00569F0CAssign.cpp|param|Rva00569F0CVec::rva00569F0C|b,e4727e768c7b8b704f81aaf0,gpt-6-astra,codexb2-20261024-152332-9,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C1E8C.cpp|function|0x002886C2|Rva002886C2,094eaef1e9eb6da506059fc9,gpt-6-astra,codexb2-20261024-152332-10,w-d0bdfd8b17e9,2026-10-24
