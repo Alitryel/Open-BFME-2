@@ -840,3 +840,5 @@ member,RecolorFactoryDecal::m_3C,RecolorFactoryDecal::m_textureName,inferred,agr
 member,Rva001E30F5::m_154,Rva001E30F5::m_templateName,inferred,agree:nl-207c4ad66849,Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp,
 local,Weapon::setClipPercentFull::n,Weapon::setClipPercentFull::m_clipSize,inferred,agree:nl-7b5cb2b53a5a,Code/GameEngine/Source/Common/WeaponGetStatus.cpp,0x002CE280
 local,Rva0055CDEC::rva0055CDEC::t,Rva0055CDEC::rva0055CDEC::fraction,inferred,agree:nl-a6cf52b5bbf7,Code/GameEngine/Source/GameClient/FXParticleSystemLineSample.cpp,0x0055CDEC
+class,Rva0055CDEC,FXPSEmitterLineVolumeModule,inferred,agree:nl-cb8896984ab3,Code/GameEngine/Source/GameClient/FXParticleSystemLineSample.cpp,
+carry,Rva0055CDEC::rva0055CDEC::fraction,FXPSEmitterLineVolumeModule::rva0055CDEC::fraction,inferred,scope renamed by Rename Rva0055CDEC to FXPSEmitterLineVolumeModule (inferred),Code/GameEngine/Source/GameClient/FXParticleSystemLineSample.cpp,0x0055CDEC

@@ -13,7 +13,7 @@ void __identifier("?rva0055CD38@Rva0055CD38@@UAEXPAVXfer@@@Z")();
 void __identifier("?rva0055CD70@Rva0055CD70@@QAEXMMM@Z")();
 void __identifier("?rva0050B5C6@Rva0050B5C6@@QAE_NXZ")();
 void __identifier("?rva003ABEFD@Rva003ABEFD@@QAEMXZ")();
-void __identifier("?rva0055CDEC@Rva0055CDEC@@QAE?AUCoord3D0055CDEC@@IIII@Z")();
+void __identifier("?rva0055CDEC@FXPSEmitterLineVolumeModule@@QAE?AUCoord3D0055CDEC@@IIII@Z")();
 }
 extern const void *const g_00C1CB64[8] = {
 	(const void *)&__identifier("??_GRva003AD2AE@@UAEPAXI@Z"), // slot 0 0x003AD42F
@@ -23,7 +23,7 @@ extern const void *const g_00C1CB64[8] = {
 	(const void *)&__identifier("?rva0055CD70@Rva0055CD70@@QAEXMMM@Z"), // slot 4 0x0055CD70
 	(const void *)&__identifier("?rva0050B5C6@Rva0050B5C6@@QAE_NXZ"), // slot 5 0x0050B5C6
 	(const void *)&__identifier("?rva003ABEFD@Rva003ABEFD@@QAEMXZ"), // slot 6 0x003ABEFD
-	(const void *)&__identifier("?rva0055CDEC@Rva0055CDEC@@QAE?AUCoord3D0055CDEC@@IIII@Z"), // slot 7 0x0055CDEC
+	(const void *)&__identifier("?rva0055CDEC@FXPSEmitterLineVolumeModule@@QAE?AUCoord3D0055CDEC@@IIII@Z"), // slot 7 0x0055CDEC
 };
 extern "C" void *s_slot3E4first;
 extern "C" const void *const __identifier("??_7Rva003AF89A@@6BRva003AF8C7B18@@@")[];
