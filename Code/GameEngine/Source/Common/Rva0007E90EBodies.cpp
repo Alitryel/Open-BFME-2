@@ -20,7 +20,7 @@ public:
 class Rva0007E90EHost
 {
 public:
-	void rva0007E90E(int a);
+	void rva0007E90E(int name);
 	unsigned char m_pad[0x100];
 	Rva0007E90ECallee *m_100;
 	int m_104;
@@ -28,10 +28,10 @@ public:
 	Rva0007E90EElem **m_end;
 };
 
-void Rva0007E90EHost::rva0007E90E(int a)
+void Rva0007E90EHost::rva0007E90E(int name)
 {
 	if (m_100 != 0)
-		m_100->rva000FF5E6(a);
+		m_100->rva000FF5E6(name);
 	Rva0007E90EElem **pp = m_start;
 	while (pp != m_end) {
 		Rva0007E90EElem *element = *pp;
