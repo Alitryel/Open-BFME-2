@@ -18,14 +18,14 @@ struct Rva00240D0FValue
 };
 struct Rva00240D0FNode
 {
-	int m_00;
+	int m_next;
 	Rva00240D0FValue m_04;
 };
 struct Rva00240D0FNode * __stdcall Rva00240D0FCreate(const struct Rva00240D0FValue &x);
 struct Rva00240D0FNode * __stdcall Rva00240D0FCreate(const struct Rva00240D0FValue &x)
 {
 	struct Rva00240D0FNode *tmp = (struct Rva00240D0FNode *)_STL::allocator<char>::allocate(0xC, (const void *)0);
-	tmp->m_00 = 0;
+	tmp->m_next = 0;
 	Rva0023FC6BConstruct((struct Rva00240D0FValue *)((char *)tmp + 4), &x);
 	return tmp;
 }

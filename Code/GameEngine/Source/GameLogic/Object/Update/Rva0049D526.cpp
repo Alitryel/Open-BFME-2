@@ -45,7 +45,7 @@ public:
 struct Rva0049D526Node
 {
 	char _pad0[0x04];
-	int m_04;
+	int m_type;
 	char _pad08[0x24];
 	int m_2C;
 	char _pad30[0x18];
@@ -101,7 +101,7 @@ void Rva0049D526::rva0049D526(void *entry)
 void Rva0049D526::rva0049D57F(void *entry)
 {
 	Rva0049D526Node *n = (Rva0049D526Node *)entry;
-	if (n->m_04 == 1 && n->m_2C != -1)
+	if (n->m_type == 1 && n->m_2C != -1)
 	{
 		Object *obj = (Object *)m_08;
 		ExitInterface *ei = obj->getObjectExitInterface();

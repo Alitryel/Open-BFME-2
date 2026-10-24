@@ -41,9 +41,9 @@ struct Rva00464B96Object {
     Coord3D position38;
     float orientation44;
     char unknown48[0xB8 - 0x48];
-    float radiusB8;
+    float m_boundingCircleRadius;
     char unknownBC[0x258 - 0xBC];
-    AIUpdateInterface *ai258;
+    AIUpdateInterface *m_ai;
 };
 struct Rva00464B96Logic { char unknown00[0x40]; void *word40; };
 class Rva00464B96 {
@@ -65,14 +65,14 @@ void Rva00464B96::rva00464B96(Object *rider)
         float orientation = containerView->orientation44;
         angle = orientation + container->GetRelativeAngle(&reinterpret_cast<Rva00464B96Object *>(rider)->position38);
     }
-    float radius = containerView->radiusB8;
+    float radius = containerView->m_boundingCircleRadius;
     const Coord3D *position = &containerView->position38;
     float distance = GetGameLogicRandomValueReal(radius, radius * 1.5f, file, 1006);
     Coord3D target;
     target.x = distance * Cos(angle) + position->x;
     target.y = distance * Sin(angle) + position->y;
     target.z = TheTerrainLogic->height(target.x, target.y, container->rva0028B511(), 0, 1);
-    AIUpdateInterface *ai = reinterpret_cast<Rva00464B96Object *>(rider)->ai258;
+    AIUpdateInterface *ai = reinterpret_cast<Rva00464B96Object *>(rider)->m_ai;
     if (ai) {
         if (status20.status(0).test(61)) {
             rider->setPosition(position);

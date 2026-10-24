@@ -569,4 +569,8 @@ local,EdgeMapperClass::Apply::m,EdgeMapperClass::Apply::textureMatrix,inferred,a
 local,GridWSClassicEnvironmentMapperClass::Apply::m,GridWSClassicEnvironmentMapperClass::Apply::textureMatrix,inferred,agree:nl-e3db0c535805,Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp,0x00184AD0
 local,GridWSEnvironmentMapperClass::Apply::m,GridWSEnvironmentMapperClass::Apply::textureMatrix,inferred,agree:nl-7b88c5863be0,Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp,0x00185980
 local,ScreenMapperClass::Apply::m,ScreenMapperClass::Apply::textureMatrix,inferred,agree:nl-95534d66ebc1,Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp,0x00185E80
+member,Rva00464B96Object::radiusB8,Rva00464B96Object::m_boundingCircleRadius,inferred,agree:nl-22a09b5599c6,Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainScatter.cpp,
+member,Rva00464B96Object::ai258,Rva00464B96Object::m_ai,inferred,agree:nl-211fbbd05270,Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainScatter.cpp,
+member,Rva0049D526Node::m_04,Rva0049D526Node::m_type,inferred,agree:nl-7e1894adad17,Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp,
 function,?rva006CE660@Rva006CE660Vec@@QAEXH@Z,?reserve@Rva006CE660Vec@@QAEXH@Z,inferred,agree:nl-1f9d2a678152,Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp,0x006CE660
+member,Rva00240D0FNode::m_00,Rva00240D0FNode::m_next,inferred,agree:nl-2241bbc7e27e,Code/Libraries/Source/WWVegas/WWLib/Rva00240D0FCreate.cpp,
