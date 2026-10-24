@@ -58,6 +58,7 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 
 #include <hash_map>
 #include <hash_set>
+#define _BFME_RETAIL_TREE_INSERT_LAYOUT
 #include <set>
 #include <map>
 #include <vector>
