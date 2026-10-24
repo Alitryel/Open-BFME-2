@@ -48,12 +48,12 @@ public:
 	{                                                                     \
 	}
 
-// @??0Rva001129B0@@QAE@XZ 0x001129B0
-BFME_DUAL_VPTR_CTOR( Rva001129B0 )
+// @??0AudioManager@@QAE@XZ 0x0005107D
+BFME_DUAL_VPTR_CTOR( AudioManager )
 // @??0Rva00694E00@@QAE@XZ 0x00694E00
 BFME_DUAL_VPTR_CTOR( Rva00694E00 )
 
 // Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?keepOwn@Rva001129B0@@UAEXXZ=__purecall")
+#pragma comment(linker, "/alternatename:?keepOwn@AudioManager@@UAEXXZ=__purecall")

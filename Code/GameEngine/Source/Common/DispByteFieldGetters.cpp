@@ -32,8 +32,18 @@ BFME_DISP_BYTE_GETTER(Rva0002BAF1ByteField, 0x430)
 BFME_DISP_BYTE_GETTER(Rva00038CB0ByteField, 0x9F64)
 BFME_DISP_BYTE_GETTER(Rva000421F6ByteField, 0x9B)
 BFME_DISP_BYTE_GETTER(Rva00044235ByteField, 0xD8)
-BFME_DISP_BYTE_GETTER(Rva000515A4ByteField, 0x6A6)
-BFME_DISP_BYTE_GETTER(Rva00051896ByteField, 0x6A3)
+class MilesAudioManager
+{
+public:
+    virtual unsigned char rva000515A4() const;
+    virtual unsigned char rva00051896() const;
+    char m_lead[0x6A3 - sizeof(void *)];
+    unsigned char m_6A3;
+    char m_pad6A4[2];
+    unsigned char m_6A6;
+};
+unsigned char MilesAudioManager::rva000515A4() const { return m_6A6; }
+unsigned char MilesAudioManager::rva00051896() const { return m_6A3; }
 BFME_DISP_BYTE_GETTER(Rva0006520BByteField, 0x15E)
 BFME_DISP_BYTE_GETTER(Rva00066509ByteField, 0x45C5C)
 BFME_DISP_BYTE_GETTER(Rva0006E002ByteField, 0x1914)

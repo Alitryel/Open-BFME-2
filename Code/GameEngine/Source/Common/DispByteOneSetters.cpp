@@ -136,33 +136,18 @@ void Rva0004CB16ByteOneSetter::enable()
 	m_enabled = 1;
 }
 
-class Rva0005116BByteOneSetter
+class MilesAudioManager
 {
 public:
-	void enable();
-
-	char m_lead[0x6AB];
-	unsigned char m_enabled;
+    virtual void rva0005116B();
+    virtual void rva000515AB();
+    char m_lead[0x6AB - sizeof(void *)];
+    unsigned char m_6AB;
+    unsigned char m_6AC;
 };
 
-void Rva0005116BByteOneSetter::enable()
-{
-	m_enabled = 1;
-}
-
-class Rva000515ABByteOneSetter
-{
-public:
-	void enable();
-
-	char m_lead[0x6AC];
-	unsigned char m_enabled;
-};
-
-void Rva000515ABByteOneSetter::enable()
-{
-	m_enabled = 1;
-}
+void MilesAudioManager::rva0005116B() { m_6AB = 1; }
+void MilesAudioManager::rva000515AB() { m_6AC = 1; }
 
 class Rva00066517ByteOneSetter
 {

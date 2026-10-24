@@ -8075,8 +8075,8 @@ _GetProcessorFlags,,0x001C4390,169,Code/Libraries/Source/VP6/GetProcessorFlags.c
 ?get@Rva00038CB0ByteField@@QBEEXZ,,0x00038CB0,7,Code/GameEngine/Source/Common/DispByteFieldGetters.cpp,matched,Disp32 byte getter
 ?get@Rva000421F6ByteField@@QBEEXZ,,0x000421F6,7,Code/GameEngine/Source/Common/DispByteFieldGetters.cpp,matched,Disp32 byte getter
 ?get@Rva00044235ByteField@@QBEEXZ,,0x00044235,7,Code/GameEngine/Source/Common/DispByteFieldGetters.cpp,matched,Disp32 byte getter
-?get@Rva000515A4ByteField@@QBEEXZ,,0x000515A4,7,Code/GameEngine/Source/Common/DispByteFieldGetters.cpp,matched,Disp32 byte getter
-?get@Rva00051896ByteField@@QBEEXZ,,0x00051896,7,Code/GameEngine/Source/Common/DispByteFieldGetters.cpp,matched,Disp32 byte getter
+?rva000515A4@MilesAudioManager@@UBEEXZ,,0x000515A4,7,Code/GameEngine/Source/Common/DispByteFieldGetters.cpp,matched,Disp32 byte getter
+?rva00051896@MilesAudioManager@@UBEEXZ,,0x00051896,7,Code/GameEngine/Source/Common/DispByteFieldGetters.cpp,matched,Disp32 byte getter
 ?get@Rva0006520BByteField@@QBEEXZ,,0x0006520B,7,Code/GameEngine/Source/Common/DispByteFieldGetters.cpp,matched,Disp32 byte getter
 ?get@Rva0006E002ByteField@@QBEEXZ,,0x0006E002,7,Code/GameEngine/Source/Common/DispByteFieldGetters.cpp,matched,Disp32 byte getter
 ?get@Rva0006E024ByteField@@QBEEXZ,,0x0006E024,7,Code/GameEngine/Source/Common/DispByteFieldGetters.cpp,matched,Disp32 byte getter
@@ -8234,7 +8234,7 @@ _GetProcessorFlags,,0x001C4390,169,Code/Libraries/Source/VP6/GetProcessorFlags.c
 ?get@Rva00042FA6DwordField@@QBEHXZ,,0x00042FA6,7,Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp,matched,Disp32 dword getter
 ?get@Rva00050E99DwordField@@QBEHXZ,,0x00050E99,7,Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp,matched,Disp32 dword getter
 ?get@Rva0005155EDwordField@@QBEHXZ,,0x0005155E,7,Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp,matched,Disp32 dword getter
-?get@Rva0005189DDwordField@@QBEHXZ,,0x0005189D,7,Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp,matched,Disp32 dword getter
+?rva0005189D@MilesAudioManager@@UBEHXZ,,0x0005189D,7,Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp,matched,Disp32 dword getter
 ?get@Rva00066510DwordField@@QBEHXZ,,0x00066510,7,Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp,matched,Disp32 dword getter
 ?get@Rva0006651FDwordField@@QBEHXZ,,0x0006651F,7,Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp,matched,Disp32 dword getter
 ?get@Rva00066526DwordField@@QBEHXZ,,0x00066526,7,Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp,matched,Disp32 dword getter
@@ -8733,8 +8733,8 @@ _GetProcessorFlags,,0x001C4390,169,Code/Libraries/Source/VP6/GetProcessorFlags.c
 ?set@Rva00599F58ByteSlot@@QAEXE@Z,,0x00599F58,13,Code/GameEngine/Source/Common/DispByteFieldSetters.cpp,matched,Disp32 byte setter
 ?set@Rva0074014AByteSlot@@QAEXE@Z,,0x0074014A,13,Code/GameEngine/Source/Common/DispByteFieldSetters.cpp,matched,Disp32 byte setter
 ?enable@Rva0004CB16ByteOneSetter@@QAEXXZ,,0x0004CB16,8,Code/GameEngine/Source/Common/DispByteOneSetters.cpp,matched,Disp32 byte one-setter
-?enable@Rva0005116BByteOneSetter@@QAEXXZ,,0x0005116B,8,Code/GameEngine/Source/Common/DispByteOneSetters.cpp,matched,Disp32 byte one-setter
-?enable@Rva000515ABByteOneSetter@@QAEXXZ,,0x000515AB,8,Code/GameEngine/Source/Common/DispByteOneSetters.cpp,matched,Disp32 byte one-setter
+?rva0005116B@MilesAudioManager@@UAEXXZ,,0x0005116B,8,Code/GameEngine/Source/Common/DispByteOneSetters.cpp,matched,Disp32 byte one-setter
+?rva000515AB@MilesAudioManager@@UAEXXZ,,0x000515AB,8,Code/GameEngine/Source/Common/DispByteOneSetters.cpp,matched,Disp32 byte one-setter
 ?enable@Rva00066517ByteOneSetter@@QAEXXZ,,0x00066517,8,Code/GameEngine/Source/Common/DispByteOneSetters.cpp,matched,Disp32 byte one-setter
 ?enable@Rva0007DEAFByteOneSetter@@QAEXXZ,,0x0007DEAF,8,Code/GameEngine/Source/Common/DispByteOneSetters.cpp,matched,Disp32 byte one-setter
 ?enable@Rva0008BC93ByteOneSetter@@QAEXXZ,,0x0008BC93,8,Code/GameEngine/Source/Common/DispByteOneSetters.cpp,matched,Disp32 byte one-setter
@@ -15613,7 +15613,7 @@ _rva0060E7F0,,0x00211245,100,Code/GameEngine/Source/GameLogic/Rva0060E7F0BattleM
 ?findPreviousCondition@OrCondition@@QAEPAVCondition@@PAV2@@Z,,0x003B26C0,31,Code/GameEngine/Source/GameLogic/ScriptEngine/Scripts.cpp,matched,placed by masked byte search in its BFME1 donor unit
 ??0LogicalDecalClass@MultiFixedPoolDecalSystemClass@@QAE@XZ,,0x00143D40,39,Code/Libraries/Source/WWVegas/WW3D2/decalsys.cpp,matched,BSim pair of the BFME1 function this unit defines; byte-verified with callees pinned
 _bfmeFormatText,,0x0060C36E,85,Code/GameEngine/Source/Common/Gen009D6220.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
-??0Rva001129B0@@QAE@XZ,,0x0005107D,32,Code/GameEngine/Source/Common/S2DualVptrDerivedCtors.cpp,matched,BSim pair of the BFME1 dual-vptr ctor; BFME2 first base is 0xC bytes
+??0AudioManager@@QAE@XZ,,0x0005107D,32,Code/GameEngine/Source/Common/S2DualVptrDerivedCtors.cpp,matched,BSim pair of the BFME1 dual-vptr ctor; BFME2 first base is 0xC bytes
 ??0CivilianSpawnUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,,0x0047F9D4,101,Code/GameEngine/Source/GameLogic/Object/Update/CivilianSpawnUpdateCtorThunk.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls; build-path string literals set to retail
 ??$grow_array@J@_STL@@YAPAU?$GrowPair@J@0@PAU10@PAJII@Z,,0x0001BE30,144,Code/Libraries/Source/WWVegas/WWLib/stlport_ios_base_word_array_grow.cpp,matched,BFME1 donor (donor flags); callees pinned from the retail calls; imports renamed to the retail IAT names
 ?parseDynamicGameLODLevel@INI@@SAXPAV1@PAX1PBX@Z,,0x002025AC,89,Code/GameEngine/Source/Common/GameLOD.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls; imports renamed to the retail IAT names
@@ -50759,8 +50759,8 @@ _rva005DE059,,0x005DE059,47,Code/GameEngine/Source/Common/Rva005DE059Loop.cpp,ma
 ??1Rva0023FD06@@UAE@XZ,,0x0023FD06,48,Code/GameEngine/Source/Common/Rva0023FD06Dtor.cpp,matched,implicit virtual dtor destroys AsciiString +0x08 then base vtable 0x7C6F20
 ?rva001022F5@Rva001022F5@@QAEEABVAsciiString@@@Z,,0x001022F5,42,Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva001022F5PostEffect.cpp,matched,Target identity and address from Ghidra 42B start plus caller 0x000B0774; sequence clears via 0x0010223B then calls matched factory 0x00101FD8 and rowed 0x00116482 before returning m_00 non-null. Field view carried from bank. Member-style 0x00101FD8 call pin is call-site ABI shape only; factory ignores ECX.
 ??0Rva004C743@@QAE@XZ,,0x0004C43E,25,Code/GameEngine/Source/Common/OpaqueSingleInheritanceDtors.cpp,matched,
-?rva0005CA03@MilesAudioManager@@QAEXPAXMH@Z,,0x0005CA03,114,Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManagerRva0005CA03.cpp,matched,owner voice plus pinned 5BE59 setup; address name
-?rva0005CA75@MilesAudioManager@@QAEXH@Z,,0x0005CA75,109,Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManagerRva0005CA03.cpp,matched,sub poke plus pinned 5BE59 with g_ floats; address name
+?rva0005CA03@MilesAudioManager@@UAEXPAXMH@Z,,0x0005CA03,114,Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManagerRva0005CA03.cpp,matched,owner voice plus pinned 5BE59 setup; address name
+?rva0005CA75@MilesAudioManager@@UAEXH@Z,,0x0005CA75,109,Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManagerRva0005CA03.cpp,matched,sub poke plus pinned 5BE59 with g_ floats; address name
 ??1Rva008B77D@@UAE@XZ,,0x0008B77D,54,Code/GameEngine/Source/Common/Rva0008B77DDtor.cpp,matched,dtor destroys vector at +0x2C via rowed 0x8B64A then base vtable 0x7C745C
 ?rva00383784@Rva00386374@@UAEXVGameSpyStagingRoom@@@Z,,0x00383784,79,Code/GameEngine/Source/GameNetwork/GameSpy/Rva00386374Slot44.cpp,matched,vslot44 0xB0 of 0x00C19500 forwards by-value StagingRoom to slot 0xAC
 ?Rva003063A9XferThingTemplate@@YAXPAVXfer@@PAPBVThingTemplate@@@Z,,0x003063A9,112,Code/GameEngine/Source/GameLogic/AI/Rva003063A9XferThingTemplate.cpp,matched,callers WorkOrder xfer 0x4F073B and 0x468FC5; TheEmptyString and g_009FF000; LINK BONUS 2 files

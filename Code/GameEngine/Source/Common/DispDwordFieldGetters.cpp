@@ -37,7 +37,14 @@ BFME_DISP_DWORD_GETTER(Rva00042F9FDwordField, 0x387C)
 BFME_DISP_DWORD_GETTER(Rva00042FA6DwordField, 0x37C0)
 BFME_DISP_DWORD_GETTER(Rva00050E99DwordField, 0x1770)
 BFME_DISP_DWORD_GETTER(Rva0005155EDwordField, 0x9D0)
-BFME_DISP_DWORD_GETTER(Rva0005189DDwordField, 0x678)
+class MilesAudioManager
+{
+public:
+    virtual int rva0005189D() const;
+    char m_lead[0x678 - sizeof(void *)];
+    int m_value;
+};
+int MilesAudioManager::rva0005189D() const { return m_value; }
 BFME_DISP_DWORD_GETTER(Rva00066510DwordField, 0x44540)
 BFME_DISP_DWORD_GETTER(Rva0006651FDwordField, 0x120E0)
 BFME_DISP_DWORD_GETTER(Rva00066526DwordField, 0x120E4)

@@ -42,11 +42,11 @@ class MilesAudioManager
 {
 public:
 	class GlobalVolumeData;
-	void rva0005CA03(void *a, float b, int idx);
-	void rva0005CA75(int a);
+	virtual void rva0005CA03(void *a, float b, int idx);
+	virtual void rva0005CA75(int a);
 	void rva0005BE59(void *a, float b, void *c);
 private:
-	char m_pad00[0x12C];
+	char m_pad00[0x12C - sizeof(void *)];
 	Rva0005CAElem m_arr12C[1];
 	char m_padAfter[0x9D4 - 0x12C - 0x1C4];
 	int m_mutex9D4;

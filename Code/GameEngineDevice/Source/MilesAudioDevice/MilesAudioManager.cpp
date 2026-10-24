@@ -1191,7 +1191,7 @@ public:
     // Slot 10 (retail 0x00062690) is the per-frame update below.
     virtual void update(); virtual void rva00061C87(unsigned int viewMask);
     virtual void stopAudio(enum AudioAffect affect); virtual void rva000583BA(unsigned int affect, unsigned int viewMask, int arg); virtual void rva00058591(unsigned int affect, unsigned int viewMask, int keepMasks); virtual void rva0005CAE2(); virtual void rva0005CB39();
-    virtual void setViewFocus(int viewType); virtual void slot21(); virtual void slot22(); virtual void slot23(); virtual void rva0005DACF(const int &a);
+    virtual void setViewFocus(int viewType); virtual int rva0005189D() const; virtual void rva0005116B(); virtual void slot23(); virtual void rva0005DACF(const int &a);
     virtual void rva0005DABB(int a); virtual void removePlayingAudio(const AsciiString &eventName, int viewType); virtual void rva00057787(unsigned int id);
     // Slot 28 (+0x70): kills the sound playing under a handle and reports
     // whether it did (playAudioEvent's handle-to-kill test; Zero Hour name).
@@ -1199,17 +1199,17 @@ public:
     virtual void rva00057408(unsigned int key); virtual bool rva000527E2(const Rva000527E2Event *event); virtual bool rva00055E6C(const AsciiString &name, int streamArg, int viewType, int musicSystem); virtual int rva0005A7BE(AudioEventRTS *event, int arg1); virtual void rva00055A58(int viewType, int musicSystem, int arg, int flag);
     virtual void rva00055B40(int viewType, int musicSystem, int arg); virtual void rva000568CE(int viewType, int musicSystem, int arg); virtual void rva000569A8(int viewType, int musicSystem, int arg, int flag); virtual void rva000567F4(int viewType, int musicSystem, int arg); virtual int rva000518A4(int index);
     virtual int rva00052917(); virtual bool rva0005538C(void); virtual AsciiString rva00054714(void); virtual void rva0005BD20(); virtual void rva0005BD28();
-    virtual void rva0005E322(const AsciiString *key, int idx); virtual void rva00059DF5(const AsciiString &a, int idx); virtual void rva00059E5C(int idx); virtual void slot48(); virtual void rva0005E377(const AsciiString &key, int viewType);
-    virtual void slot50(); virtual void rva0005A95B(unsigned int key, Rva0005A084Vector *output); virtual bool rva000572DC(unsigned int key); virtual void rva00057378(unsigned int key, const void *value); virtual bool rva00057492(unsigned int key, BfmeEventPositionView *output);
+    virtual void rva0005E322(const AsciiString *key, int idx); virtual void rva00059DF5(const AsciiString &a, int idx); virtual void rva00059E5C(int idx); virtual void rva0005CA03(void *a, float b, int idx); virtual void rva0005E377(const AsciiString &key, int viewType);
+    virtual void rva0005CA75(int a); virtual void rva0005A95B(unsigned int key, Rva0005A084Vector *output); virtual bool rva000572DC(unsigned int key); virtual void rva00057378(unsigned int key, const void *value); virtual bool rva00057492(unsigned int key, BfmeEventPositionView *output);
     virtual void rva00057530(unsigned int key, float value, int mode); virtual unsigned char rva0005164F(unsigned char soundClass); virtual void rva0005168C(unsigned char val, unsigned char flags); virtual void rva0005CB90(int a, float b); virtual void rva00053CE1(float volume, int flags, int idx);
     virtual void rva0005C8BB(float volume, int flags); virtual void rva000537F4(float a, float b, float c, float d, float e, int index); virtual void rva00059A25(const AsciiString &name, int idx); virtual void rva0005E168(const AsciiString &s, int idx); virtual void rva00059A7C(int idx);
-    virtual void slot65(); virtual void rva000515B3(int value); virtual void rva000533CB(); virtual void slot68(); virtual void rva000517F1();
+    virtual void rva000515AB(); virtual void rva000515B3(int value); virtual void rva000533CB(); virtual unsigned char rva000515A4() const; virtual void rva000517F1();
     virtual void rva0005181B(); virtual void rva00051840(); virtual void slot72(); virtual Rva0010F149Handle newOwnedAudioEventInfo(const AsciiString &name, int context); virtual void addUnownedAudioEventInfo(AudioEventInfo *eventInfo);
     virtual Rva00051ADA findAudioEventInfo(const AsciiString &name) const;
     // Slots 76..106 are not named here; slot 107 (+0x1AC, retail vftable
     // 0x007C55B0) is the rowed 0x000516EF.
     virtual void friend_onAudioEventInfoDestruction(AudioEventInfo *info); virtual void slot77(); virtual void slot78(); virtual void slot79(); virtual float getAudioLengthMS(const BfmeAudioEventPrefix136 *event);
-    virtual int bfmeMilesPreferenceProduct(); virtual void rva0005185E(int *a, int *b, int *c); virtual void slot83(); virtual void slot84(); virtual void rva0005AE2B(int type, Rva0005A084Vector *output);
+    virtual int bfmeMilesPreferenceProduct(); virtual void rva0005185E(int *a, int *b, int *c); virtual void slot83(); virtual unsigned char rva00051896() const; virtual void rva0005AE2B(int type, Rva0005A084Vector *output);
     virtual void rva0005AEDD(int type, Rva0005A084Vector *output); virtual void slot87(); virtual void rva000596E9(Xfer *xfer, unsigned int *handle); virtual void rva0005522C(const AsciiString &name); virtual AsciiString rva00054243() const;
     virtual void rva000530DF(); virtual const _STL::vector<const char *> &rva00058314();
     // Slots 93/94 (+0x174/+0x178, vftable entries 0x007C5724/0x007C5728):
