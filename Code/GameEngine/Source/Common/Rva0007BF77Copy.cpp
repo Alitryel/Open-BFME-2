@@ -6,15 +6,15 @@
 namespace _STL { struct __false_type {}; }
 struct Region2D * Rva0007BF77Copy(struct Region2D *first, struct Region2D *last, struct Region2D *result, const _STL::__false_type &tag1, int tag2)
 {
-    int n = (int)(last - first);
-    if (n <= 0)
+    int count = (int)(last - first);
+    if (count <= 0)
         return result;
-    int c = n;
+    int remaining = count;
     do {
         result->Region2D::Region2D(*first);
         ++first;
         ++result;
-        --c;
-    } while (c != 0);
+        --remaining;
+    } while (remaining != 0);
     return result;
 }
