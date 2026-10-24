@@ -18,7 +18,7 @@ extern int nextIndexRva0083F090;
 // nextIndexRva0083F090: matched references place it at VA 0xddef44 (zero-filled .bss).
 int nextIndexRva0083F090;
 
-int __cdecl rva0083F090()
+int __cdecl xalloc()
 {
 	_STL::_STLP_mutex_spin<0>::_M_do_lock(&indexLockRva0083F090);
 	int next = nextIndexRva0083F090++;
