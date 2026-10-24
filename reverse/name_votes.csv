@@ -5528,3 +5528,12 @@ Code/Libraries/Source/WWVegas/WWLib/Rva00569F0CAssign.cpp|param|Rva00569F0CVec::
 Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMapVisibleBounds.cpp|class||Rva000E1669,05e37eb9581f7d374759bc0e,claude-opus-5-5,claudec6-20261024-172202-1,w-efe153480513,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp|param|Rva002CA9CA::rva002CAA59|a1,8e29e3edd43b8923f42d4412,claude-opus-5-5,claudec6-20261024-172202-2,w-efe153480513,2026-10-24
 Code/Libraries/Source/WWVegas/WWLib/Rva002CF2D5Erase.cpp|function|0x002CF2D5|rva002CF2D5,43b9582838361889c531482f,claude-opus-5-5,claudec6-20261024-172202-6,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva005C6CCC.cpp|local|Rva005C6D4D::rva005C6D9C|t,8454765f6e9e2033f5121da8,claude-opus-5-5,claudec5-20261024-165643-6,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva005C6CCC.cpp|local|Rva005C6D4D::rva005C6D9C|p,afe8cb1cdfeff8e49b9d8ddb,claude-opus-5-5,claudec5-20261024-165643-6,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Rva002C99C4AttackRange.cpp|local|BfmeRangedWeaponTemplate::getAttackRange|f,d651670af8bf2e381fa5fe57,claude-opus-5-5,claudec5-20261024-165643-6,w-1ebb1ea4caee,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp|local|W3DVolumetricShadowV2::W3DVolumetricShadowV2|x,d3298d732d9cda46fd9a8131,claude-opus-5-5,claudec5-20261024-165643-7,w-1ebb1ea4caee,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp|local|W3DVolumetricShadowV2::W3DVolumetricShadowV2|y,090fb8053d62c88001d026cd,claude-opus-5-5,claudec5-20261024-165643-7,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a1,e593119ffc0785d2c7a6e90f,claude-opus-5-5,claudec5-20261024-165643-8,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a4,026af9cc92ab4a0a71418609,claude-opus-5-5,claudec5-20261024-165643-8,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a6,3e32110dff250828e2c4199d,claude-opus-5-5,claudec5-20261024-165643-8,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a7,5e251988caa1ffa64616ac6f,claude-opus-5-5,claudec5-20261024-165643-8,w-1ebb1ea4caee,2026-10-24
