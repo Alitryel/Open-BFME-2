@@ -11,11 +11,3 @@ template _STL::vector<Rva000BC20DWords>& _STL::vector<Rva000BC20DWords>::operato
 // Reference STLport4.5.3; native extent and pointer arithmetic establish
 // record width24. Explicit scalar assignment form is target-supported
 // for this helper shape; no application record identity or field names inferred.
-
-#pragma comment(linker, "/alternatename:??$_M_allocate_and_copy@PBURva000BC20DWords@@@?$vector@URva000BC20DWords@@V?$allocator@URva000BC20DWords@@@_STL@@@_STL@@IAEPAURva000BC20DWords@@IPBU2@0@Z=??$_M_allocate_and_copy@PBUBfmePod24@@@?$vector@UBfmePod24@@V?$allocator@UBfmePod24@@@_STL@@@_STL@@IAEPAUBfmePod24@@IPBU2@0@Z")
-
-#pragma comment(linker, "/alternatename:??$__copy_ptrs@PBURva000BC20DWords@@PAU1@@_STL@@YAPAURva000BC20DWords@@PBU1@0PAU1@ABU__false_type@0@@Z=??$copy@PAUBfmeStringRecord000B9534@@PAU1@@_STL@@YAPAUBfmeStringRecord000B9534@@PAU1@00@Z")
-
-#pragma comment(linker, "/alternatename:??$__copy_ptrs@PBURva000BC20DWords@@PAU1@@_STL@@YAPAURva000BC20DWords@@PBU1@0PAU1@ABU__false_type@0@@Z=??$copy@PAUBfmeStringRecord000B9534@@PAU1@@_STL@@YAPAUBfmeStringRecord000B9534@@PAU1@00@Z")
-
-#pragma comment(linker, "/alternatename:??$__uninitialized_copy@PBURva000BC20DWords@@PAU1@@_STL@@YAPAURva000BC20DWords@@PBU1@0PAU1@ABU__false_type@0@@Z=??$__uninitialized_copy@PBUBfmePod24@@PAU1@@_STL@@YAPAUBfmePod24@@PBU1@0PAU1@ABU__false_type@0@@Z")
