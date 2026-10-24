@@ -118,9 +118,8 @@ namespace _STL { void __cdecl free(void *block); }
 #define peerUTMRoom                     peerUTMRoomA
 #define qr2_buffer_add                  qr2_buffer_addA
 #define qr2_register_key                qr2_register_keyA
-// These two keep the C++ spellings their addresses already carry:
-// peerParseQuery is rowed so in PeerParseQueryThunk.cpp, and peerGetLocalIP's
-// body is owned by the folded GadgetListBoxGetEnabledSelectedItemColor row.
+// These APIs use their rowed C++ spellings in PeerParseQueryThunk.cpp
+// and W3DListBox.cpp.
 #define peerGetLocalIP  peerGetLocalIP_sdkC
 #define peerParseQuery  peerParseQuery_sdkC
 extern "C" {

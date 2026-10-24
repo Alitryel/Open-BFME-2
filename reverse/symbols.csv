@@ -9518,7 +9518,6 @@ name,address,notes
 ?parseStance@@YAXPAVINI@@PAX@Z,0x00425DDD,Stance parser function at 0x00425DDD
 ?parseUnsignedInt@INI@@SAXPAV1@PAX1PBX@Z,0x0002EF72,address read from the REL32 displacement at a placed body; the body there is held under another instantiation name and the two folded
 ?parseUnsignedIntMathExpression@INI@@QAEIPBDP81@AEI0@Z@Z,0x0002E299,INI thiscall #ADD(/#SUBTRACT( unsigned math evaluator (sole caller scanUnsignedInt 0x2ED5B: this+text+self-callback, mirrors parseIntMathExpression@0x2E0C9 pin); name follows the int-twin convention
-?peerGetLocalIP@@YAIPAX@Z,0x00698A20,GameSpy SDK C export peerGetLocalIP at this address; PeerThread.cpp declares the SDK through the sweep Peer.h with C++ linkage, and doQuickMatch at 0x0038E684 calls this body where the Zero Hour source calls peerGetLocalIP
 ?peerGetPlayerInfoNoWait@@YAHPAXPBDPAIPAH@Z,0x00699090,GameSpy peerGetPlayerInfoNoWait called by getPlayerInfo at 0x38C4B4
 ?performUpgradeFX@UpgradeMuxData@@QBEXPAVObject@@@Z,0x0047A69C,address read from the REL32 displacement at a byte-verified placed body (0x452487)
 ?placeObject@AptDisplayList@@QAEPAVAptCIH@@PAUAptControlPlaceObject2@@PAV2@@Z,0x006F8EC0,Native full801B explicitly preserves returned CIH across name destruction; donor same PlaceObject2 signature; replaces earlier conservative void caller view

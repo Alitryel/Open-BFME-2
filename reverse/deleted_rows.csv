@@ -2212,3 +2212,4 @@ _Rva0084DB70,0x00020E30,"Renamed to __Locale_strwxfrm by tools/rename.py (inferr
 ?name@Rva002533CDNamed@@QBEPBDXZ,0x002533CD,"Renamed to ?GetSnapshotName@UpdateModule@@MBEPBDXZ: retail UpdateModule table 0x007F004C slot 2 selects its class-name getter"
 ?Rva004B9735Get@@YAHXZ,0x004B9735,"Renamed to ?GetSnapshotName@DamageModule@@MBEPBDXZ: retail DamageModule table 0x008598E4 slot 2 selects its class-name getter"
 ?GetSnapshotName@DrawModule@@UBEPBDXZ,0x000B19BD,"Renamed to ?GetSnapshotName@DrawModule@@MBEPBDXZ: module bases declare the Snapshot getter protected, as MAKE_STANDARD_MODULE_MACRO_ABC and their consumers spell it"
+?GadgetListBoxGetEnabledSelectedItemColor@@YAHPAVGameWindow@@@Z,0x00698A20,"Renamed to ?peerGetLocalIP@@YAIPAX@Z: retail peer callbacks pass PEER to the public-IP load at +0x54"

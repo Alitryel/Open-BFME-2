@@ -50,8 +50,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 // SYSTEM INCLUDES ////////////////////////////////////////////////////////////
-#define GadgetListBoxGetEnabledSelectedItemColor \
-	bfmeZhGadgetListBoxGetEnabledSelectedItemColor
 #include <stdlib.h>
 
 #include "../../../../../../../reference/shims/w3ddisplaystring/GameClient/DisplayString.h"
@@ -80,14 +78,10 @@ public:
 extern Display *TheDisplay;
 
 
-#undef GadgetListBoxGetEnabledSelectedItemColor
-
-// The donor inline reads enabledDrawData[1].color at +0x58. Retail's body at
-// 0x00698A20 reads [window+0x54], so keep its target-proven access separate
-// from the donor layout while retaining the donor identity as provenance.
-Color GadgetListBoxGetEnabledSelectedItemColor(GameWindow *window)
+// GameSpy callers pass the peer connection; its public IP is at +0x54.
+unsigned int peerGetLocalIP(void *peer) throw()
 {
-	return *(const Color *)((const char *)window + 0x54);
+	return *(const unsigned int *)((const char *)peer + 0x54);
 }
 
 // DEFINES ////////////////////////////////////////////////////////////////////
