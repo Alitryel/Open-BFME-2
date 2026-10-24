@@ -1,6 +1,6 @@
 """A change of census rules is reported as a rule change, never as lost
 progress: progress.py compares like for like through the re-baseline row,
-the README card and Discord post show "rules changed" instead of an arrow,
+the README card and Discord post show "accounting changed" instead of an arrow,
 and the chart breaks its Linking line at the re-baseline."""
 import sys
 from pathlib import Path
@@ -79,18 +79,18 @@ def test_card_and_post_mark_the_rule_change_instead_of_an_arrow():
     before = {**current(LEGACY_B, 160), "message_id": "1", "run_id": "old"}
     now = current(REBASE, 90)
     svg = daily.render(now, before)
-    assert "rules changed" in svg
+    assert "accounting changed" in svg
     assert daily.DOWN not in svg  # no "lost 7 points" arrow on Linking
     assert "16.00% under majority-0" in svg
     post = daily.announcement(now, before)["embeds"][0]["description"]
-    assert "**Linking: 9.00%**  (rules changed)" in post
+    assert "**Linking: 9.00%**  (accounting changed)" in post
     assert daily.DOWN not in post
 
 
 def test_card_keeps_arrows_within_one_rule():
     before = {**current(REBASE, 90), "message_id": "1", "run_id": "old"}
     svg = daily.render(current(STRICT, 95), before)
-    assert "rules changed" not in svg and daily.UP in svg
+    assert "accounting changed" not in svg and daily.UP in svg
 
 
 def test_chart_breaks_the_linking_line_at_the_rule_change():

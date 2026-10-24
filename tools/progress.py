@@ -7,9 +7,9 @@ the same way. BYTE-MATCHED ("rebuilt from source") is everything that rebuilds
 to game.dat's exact bytes (authored and generated C++, vendored source,
 attached prebuilt libraries, reviewed assembly and verified data in .text; dumps excluded), over
 all non-padding .text bytes. Embedded data has its own lane, never authored
-function-code credit. GAME CODE C++ is
-the C++ we wrote over the game's own code (all code minus vendored source and
-prebuilt libraries); LINKING is the part of it whose files also link cleanly,
+function-code credit. GAME CODE C++* includes authored and generated C++ plus
+intentionally retained reviewed assembly over executable game code (excluding
+libraries and embedded data). LINKING remains authored C++ in clean files,
 over the census tree's game code, both measured and stored by the last
 tools/link_census.py run (reverse/link_census_history.csv: linked_authored,
 game_code).
@@ -97,7 +97,7 @@ GEN_NOTE_RE = re.compile(r"(?:^|;)\s*gen-[a-z]|identity=generated\b")
 # Explicitly reviewed, reconstructed assembly; never admit entire dump directories or
 # all .asm files by extension. Admission needs documented machine-ABI/codegen
 # evidence plus complete byte/relocation verification. This is metric credit only,
-# not C++ credit, permission to lift code, or a verification exemption.
+# not authored-C++ credit, permission to lift code, or a verification exemption.
 REBUILT_ASM_SOURCES = frozenset({
     "Code/Libraries/Source/VP6/MmxIDct.asm",  # five clean-room MMX bodies
     "Code/masm_dumps/SecurityCookieCheck.asm",  # documented CRT assembly entry
@@ -726,6 +726,20 @@ def game_code(split, denominator):
     return denominator - split["vendored"] - split["library"]
 
 
+GAME_CPP_RULES = "executable-cpp-and-reviewed-assembly-1"
+GAME_CPP_ANNOTATION = "Includes generated C++ and intentionally retained assembly."
+
+
+def game_executable(split, denominator):
+    """Executable game code, excluding libraries and verified embedded data."""
+    return game_code(split, denominator) - split.get("data", 0)
+
+
+def game_represented(split):
+    """Blue-bar coverage; provenance lanes still distinguish C++ from assembly."""
+    return split["authored"] + split["generated"] + split.get("assembly", 0)
+
+
 def _line(label, value, denominator, delta, note):
     return (f"{label:<14} {value:>12,.0f} bytes ({percent(value, denominator):6.2f}%)  {delta}  <- {note}")
 
@@ -735,13 +749,14 @@ def print_headline(padding, denominator, old_split, new_split, old_census, new_c
     the same way, then what they are made of. Every figure counts 0xCC out,
     so the lines below add up to the lines above."""
     matched, before = rebuildable(new_split), rebuildable(old_split)
-    game, game_before = game_code(new_split, denominator), game_code(old_split, denominator)
+    game, game_before = game_executable(new_split, denominator), game_executable(old_split, denominator)
     print(_line("BYTE-MATCHED", matched, denominator, f"delta {format_delta(matched, before, denominator)}",
                 "rebuilt from source: rebuilds to game.dat's exact bytes"))
-    print(_line("GAME CODE C++", new_split["authored"], game,
-                f"delta {format_delta(new_split['authored'], old_split['authored'], game)}"
+    print(_line("GAME CODE C++*", game_represented(new_split), game,
+                f"delta {format_delta(game_represented(new_split), game_represented(old_split), game)}"
                 if game == game_before else "delta n/a (the game's own code changed size)",
-                f"C++ we wrote, over the game's own code ({game:,} bytes: no library source or .lib)"))
+                f"executable game code ({game:,} bytes: libraries and embedded data excluded)"))
+    print(f"               * {GAME_CPP_ANNOTATION}")
 
     def census_line(label, field, over_field, note):
         """One census figure over its denominator: `over_field` names the

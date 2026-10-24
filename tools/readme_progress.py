@@ -7,10 +7,10 @@ Each measure has its own stated denominator:
                        (our C++, library source, generated C++, attached
                        prebuilt libraries, reviewed assembly and verified .text data: progress.py's REBUILDS, counted
                        without 0xCC), over all code.
-  GAME CODE IN C++     our own C++ (progress.py's authored lane), over the
-                       game's own code: all code minus vendored library source
-                       and prebuilt libraries.
-  LINKING              the part of that C++ in files that link cleanly, over
+  GAME CODE IN C++*    authored and generated C++ plus intentionally retained
+                       reviewed assembly, over executable game code (libraries
+                       and verified embedded data excluded).
+  LINKING              authored C++ in files that link cleanly, over
                        the game's own code on the census tree. The link census
                        (tools/link_census.py) stores both (linked_authored,
                        game_code); they are never recomputed here, so Linking
@@ -24,7 +24,7 @@ breakdown.
 
 When the census measuring Linking changed its rules since the last post (the
 history row's `rules`), the two percentages measure different things: the
-Linking bar then shows "rules changed" and the previous figure with its rules,
+Linking bar then shows "accounting changed" and the previous figure with its rules,
 never an arrow.
 
 Under the bars, a line gives the strict link check from the committed
@@ -65,7 +65,7 @@ README = "https://github.com/Open-BFME/Open-BFME-2#readme"
 
 # (key, label, what the bytes are); the denominator is stated beside each value.
 ROWS = (("matched", "Rebuilt from source", f"rebuilt without copying {EXE}"),
-        ("cpp", "Game code in C++", "of the game's own code, now C++ (libraries not counted)"),
+        ("cpp", "Game code in C++*", "of executable game code (libraries and embedded data excluded)"),
         ("linked", "Linking", "of the game's own code linked"),
         ("names", "Readable names", "declared names (files, types, functions, members, globals, parameters, locals) "
                                     "that are not placeholders"))
@@ -78,8 +78,8 @@ UP, DOWN, DOT = "▲", "▼", "·"
 
 
 def game_code(current):
-    """The game's own code: all code minus vendored library source and prebuilt libraries."""
-    return progress.game_code(current, current["total"])
+    """The blue bar's executable game code, excluding libraries and data."""
+    return progress.game_executable(current, current["total"])
 
 
 def measures(current):
@@ -87,7 +87,7 @@ def measures(current):
     and its denominator (the census tree's game code) both come from the
     census; (None, None) when the last census stored neither."""
     total, game = current["total"], game_code(current)
-    matched, cpp = progress.rebuildable(current), current["authored"]
+    matched, cpp = progress.rebuildable(current), progress.game_represented(current)
     linked, linked_game = current.get("linked_authored"), current.get("linked_game_code")
     if (linked is None) != (linked_game is None):
         raise ValueError("A census stored linked_authored without game_code, or the reverse")
@@ -191,6 +191,11 @@ def rules_changed(previous, current):
     return (before, after) if before != after else None
 
 
+def cpp_accounting_changed(previous, current):
+    return bool(previous and current.get("cpp_rules")
+                and previous.get("cpp_rules") != current["cpp_rules"])
+
+
 def delta_since(previous, key, value, denominator, current=None):
     """The change in the bar's percentage since the last post, in points,
     measured from the figures that post saved; None when that post has no
@@ -200,6 +205,8 @@ def delta_since(previous, key, value, denominator, current=None):
             and "assembly" not in previous and "assembly" in current):
         return None  # accounting change, not newly reconstructed bytes
     if key == "linked" and current is not None and rules_changed(previous, current):
+        return None
+    if key == "cpp" and current is not None and cpp_accounting_changed(previous, current):
         return None
     try:
         was, was_over = measures(previous)[key] if previous else (None, None)
@@ -222,11 +229,11 @@ def arrow(delta):
 def render(current, previous=None):
     rows = measures(current)
     strict = strict_lines(current)
-    height = 70 + 74 * len(ROWS) + (22 + 18 * (len(strict) - 1) if strict else 0)
+    height = 88 + 74 * len(ROWS) + (22 + 18 * (len(strict) - 1) if strict else 0)
     body = []
     for index, (key, label, what) in enumerate(ROWS):
         value, denominator = rows[key]
-        y = 64 + 74 * index
+        y = 64 + 74 * index + (18 if index > 1 else 0)
         moved = ""
         if value is None:
             number, width, text = "not measured", 0, "not measured yet"
@@ -236,10 +243,12 @@ def render(current, previous=None):
             delta = delta_since(previous, key, value, denominator, current)
             changed = rules_changed(previous, current) if key == "linked" else None
             if changed:
-                moved = '<tspan class="muted" dx="10" font-size="13" font-weight="600">rules changed</tspan>'
+                moved = '<tspan class="muted" dx="10" font-size="13" font-weight="600">accounting changed</tspan>'
                 text += rule_note(previous, changed)
+            elif key == "cpp" and cpp_accounting_changed(previous, current):
+                moved = '<tspan class="muted" dx="10" font-size="13">accounting changed</tspan>'
             elif key == "matched" and previous and "assembly" not in previous and "assembly" in current:
-                moved = '<tspan class="muted" dx="10" font-size="13">rules changed</tspan>'
+                moved = '<tspan class="muted" dx="10" font-size="13">accounting changed</tspan>'
                 text += "; reviewed assembly now counted, not new recovery"
             elif delta is not None:
                 moved = (f'<tspan class="{"up" if delta > 0 else "down" if delta < 0 else "muted"}" dx="10" font-size="13" '
@@ -250,14 +259,16 @@ def render(current, previous=None):
     <rect x="28" y="{y + 10}" width="{width:.2f}" height="14" rx="7" fill="{CARD_FILL[key]}"/>
     <text x="28" y="{y + 44}" class="muted" font-size="12.5">{text}</text>
 ''')
+        if key == "cpp":
+            body.append(f'    <text x="28" y="{y + 61}" class="muted" font-size="12.5">* {progress.GAME_CPP_ANNOTATION}</text>\n')
     for n, line in enumerate(strict):
-        body.append(f'''    <text x="28" y="{64 + 74 * len(ROWS) - 4 + 18 * n}" class="muted" font-size="12.5">{line}</text>
+        body.append(f'''    <text x="28" y="{64 + 74 * len(ROWS) + 14 + 18 * n}" class="muted" font-size="12.5">{line}</text>
 ''')
     (matched, total), (cpp, game), (linked, linked_game) = rows["matched"], rows["cpp"], rows["linked"]
     linking = f"{progress.percent(linked, linked_game):.2f}% linking" if linked is not None else "linking not measured"
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="880" height="{height}" viewBox="0 0 880 {height}" role="img" aria-labelledby="title desc">
-  <title id="title">{TITLE}: {progress.percent(matched, total):.2f}% rebuilt from source, {progress.percent(cpp, game):.2f}% game code in C++, {linking}</title>
-  <desc id="desc">{matched:,} of {total:,} code bytes rebuild to the original's exact bytes; {cpp:,} of the game's own {game:,} bytes are C++.</desc>
+  <title id="title">{TITLE}: {progress.percent(matched, total):.2f}% rebuilt from source, {progress.percent(cpp, game):.2f}% game code in C++*, {linking}</title>
+  <desc id="desc">{matched:,} of {total:,} code bytes rebuild to the original's exact bytes; {cpp:,} of {game:,} executable game-code bytes are represented. {progress.GAME_CPP_ANNOTATION}</desc>
   <style>
     .card {{ fill: #0d1117; stroke: #30363d; }} .track {{ fill: #21262d; }}
     .strong {{ fill: #f0f6fc; }} .muted {{ fill: #8b949e; }} .up {{ fill: #3fb950; }} .down {{ fill: #f85149; }}
@@ -282,12 +293,12 @@ def rule_note(previous, changed):
     except (KeyError, ValueError):
         was = None
     shown = f"{progress.percent(was, was_over):.2f}% under {before}" if was is not None else f"was {before}"
-    return f"; census rules changed to {after} ({shown}), not a change in progress"
+    return f"; census accounting changed to {after} ({shown}), not a change in progress"
 
 
 def blocks(value, total, block, width=WIDTH):
     """`width` square emoji: the value's share in `block`, the rest dark."""
-    count = round(width * value / total)
+    count = round(width * value / total) if total else 0
     return block * count + REST_BLOCK * (width - count)
 
 
@@ -305,11 +316,14 @@ def announcement(current, previous):
         delta = delta_since(previous, key, value, denominator, current)
         changed = rules_changed(previous, current) if key == "linked" else None
         assembly_change = key == "matched" and previous and "assembly" not in previous and "assembly" in current
+        cpp_change = key == "cpp" and cpp_accounting_changed(previous, current)
         lines += [f"**{label}: {progress.percent(value, denominator):.2f}%**"
-                  + ("  (rules changed)" if changed or assembly_change else f"  {arrow(delta)}" if delta is not None else ""),
+                  + ("  (accounting changed)" if cpp_change or changed or assembly_change else f"  {arrow(delta)}" if delta is not None else ""),
                   blocks(value, denominator, BLOCK[key]),
                   detail(current, key, value, denominator, what) + (rule_note(previous, changed) if changed else "")
                   + ("; reviewed assembly now counted, not new recovery" if assembly_change else "")]
+        if key == "cpp":
+            lines.append(f"* {progress.GAME_CPP_ANNOTATION}")
     strict = strict_lines(current)
     if strict:
         lines += ["", *strict]
@@ -363,7 +377,8 @@ def main():
     census = progress.census_at(None)
     _, total = progress.real_code_denominator(start, size)
     names, placeholders = name_metric.readable()
-    current = {"total": total, "census": census, "declared_names": names, "readable_names": names - placeholders,
+    current = {"total": total, "cpp_rules": progress.GAME_CPP_RULES,
+               "census": census, "declared_names": names, "readable_names": names - placeholders,
                "linked": int(census["linked_bytes"]) if census else None,
                "linked_authored": int(census["linked_authored"]) if census and census.get("linked_authored") else None,
                "linked_game_code": int(census["game_code"]) if census and census.get("game_code") else None,

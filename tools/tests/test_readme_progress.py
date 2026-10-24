@@ -15,9 +15,11 @@ UP = "▲"
 
 def sample(authored=40, linked_authored=9, linked_game_code=90):
     # rebuilt 60 of 100; game's own code = 100 - 5 vendored - 5 library = 90;
-    # our C++ 40; the census measured 9 of it linked, over its tree's 90.
+    # represented game code 50 (40 authored + 10 generated); the census's
+    # independent authored-only Linking figure remains 9/90.
     return {"total": 100, "linked": 12, "linked_authored": linked_authored, "linked_game_code": linked_game_code,
-            "authored": authored, "vendored": 5, "generated": 50 - authored, "library": 5, "census": None}
+            "authored": authored, "vendored": 5, "generated": 10, "library": 5, "census": None,
+            "cpp_rules": daily.progress.GAME_CPP_RULES}
 
 
 def previous(**changes):
@@ -81,18 +83,19 @@ def test_failed_post_does_not_advance_state_or_leak_url(tmp_path, monkeypatch):
 
 def test_discord_posts_four_measures_and_links_the_readme():
     names = {"declared_names": 200, "readable_names": 142}
-    embed = daily.announcement({**sample(), **names}, previous(authored=36, generated=14, declared_names=200,
+    embed = daily.announcement({**sample(), **names}, previous(authored=36, generated=10, declared_names=200,
                                                               readable_names=140))["embeds"][0]
     M, C, L, N = (daily.BLOCK[key] for key in ("matched", "cpp", "linked", "names"))
     R = daily.REST_BLOCK
     assert embed["description"].split("\n") == [
-        "**Rebuilt from source: 60.00%**",
+        f"**Rebuilt from source: 60.00%**  {UP} 4.00",
         f"{M * 6}{R * 4}",
         f"60 / 100 bytes rebuilt without copying {daily.EXE}",
         "",
-        f"**Game code in C++: 44.44%**  {UP} 4.44",
-        f"{C * 4}{R * 6}",
-        "40 / 90 bytes of the game's own code, now C++ (libraries not counted)",
+        f"**Game code in C++*: 55.56%**  {UP} 4.44",
+        f"{C * 6}{R * 4}",
+        "50 / 90 bytes of executable game code (libraries and embedded data excluded)",
+        "* Includes generated C++ and intentionally retained assembly.",
         "",
         "**Linking: 10.00%**",
         f"{L * 1}{R * 9}",
@@ -108,12 +111,49 @@ def test_discord_posts_four_measures_and_links_the_readme():
 
 
 def test_card_shows_the_same_three_measures():
-    svg = daily.render(sample(), previous(authored=36, generated=14))
-    for text in (">Rebuilt from source<", ">60.00%<", ">Game code in C++<", ">44.44%<", ">Linking<", ">10.00%<",
+    svg = daily.render(sample(), previous(authored=36, generated=10))
+    for text in (">Rebuilt from source<", ">60.00%<", ">Game code in C++*<", ">55.56%<", ">Linking<", ">10.00%<",
                  f"60 / 100 bytes rebuilt without copying {daily.EXE}", f">{UP} 4.44<",
-                 "60.00% rebuilt from source, 44.44% game code in C++, 10.00% linking"):
+                 "60.00% rebuilt from source, 55.56% game code in C++*, 10.00% linking",
+                 "* Includes generated C++ and intentionally retained assembly."):
         assert text in svg
     assert "prefers-color-scheme: light" in svg and "Whole game" not in svg
+
+
+def test_completed_game_code_includes_reviewed_assembly_and_excludes_data():
+    current = dict(sample(), total=7_978_500, authored=7_240_277,
+                   generated=267_704, assembly=7_986, vendored=457_607,
+                   library=822, data=4_104)
+    assert daily.measures(current)['cpp'] == (7_515_967, 7_515_967)
+    text = daily.announcement(current, None)['embeds'][0]['description']
+    assert '**Game code in C++*: 100.00%**' in text
+    assert daily.progress.GAME_CPP_ANNOTATION in text
+    # Replacing a generated body with its parent's recovered code is useful
+    # ownership work, but creates no newly represented executable bytes.
+    reconciled = dict(current, authored=current['authored'] + 100,
+                      generated=current['generated'] - 100)
+    assert daily.measures(reconciled)['cpp'] == daily.measures(current)['cpp']
+    assert daily.delta_since(current, 'cpp', *daily.measures(reconciled)['cpp'], reconciled) is None
+    assert daily.measures(current)['linked'] == (9, 90)
+
+
+def test_missing_coverage_cannot_be_rounded_or_clamped_to_complete():
+    current = dict(sample(), assembly=5, data=5)
+    assert daily.measures(current)['cpp'] == (55, 85)
+    text = daily.announcement(current, None)['embeds'][0]['description']
+    assert '**Game code in C++*: 64.71%**' in text
+
+
+def test_blue_accounting_correction_does_not_claim_new_progress():
+    current = sample()
+    old = previous()
+    del old['cpp_rules']
+    assert daily.delta_since(old, 'cpp', *daily.measures(current)['cpp'], current) is None
+    text = daily.announcement(current, old)['embeds'][0]['description']
+    assert '**Game code in C++*: 55.56%**  (accounting changed)' in text
+    assert 'accounting changed' in daily.render(current, old)
+    assert 'rules changed' not in text and 'rules changed' not in daily.render(current, old)
+    assert daily.UP not in text and daily.DOWN not in text
 
 
 def test_linking_is_one_census_snapshot():
@@ -150,9 +190,9 @@ def test_old_state_without_figures_gives_no_arrow():
     old = {"total": 100, "matched_total": 55, "message_id": "1", "run_id": "old"}  # before these figures existed
     assert UP not in daily.announcement(sample(), old)["embeds"][0]["description"]
     # A state from before the census stored Linking: the other bars still compare.
-    text = daily.announcement(sample(), previous(authored=36, generated=14, linked_authored=None,
+    text = daily.announcement(sample(), previous(authored=36, generated=10, linked_authored=None,
                                                  linked_game_code=None))["embeds"][0]["description"]
-    assert f"44.44%**  {UP} 4.44" in text and "**Linking: 10.00%**\n" in text
+    assert f"55.56%**  {UP} 4.44" in text and "**Linking: 10.00%**\n" in text
 
 
 def test_nothing_claims_the_game_is_100_percent_done():
@@ -258,15 +298,15 @@ def test_strict_line_sits_beside_linking_never_instead(tmp_path, monkeypatch):
     assert daily.PUBLISHED is False
     assert "**Linking: 10.00%**" in lines and lines[-3:] == [line, "", readme]
     svg = daily.render(current)
-    assert line in svg and daily.CURRENT_LINE not in svg and ">10.00%<" in svg and 'height="388"' in svg
+    assert line in svg and daily.CURRENT_LINE not in svg and ">10.00%<" in svg and 'height="406"' in svg
     # from the first published bundle a second line says where the current measurement is
     monkeypatch.setattr(daily, "PUBLISHED", True)
     lines = daily.announcement(current, None)["embeds"][0]["description"].split("\n")
     assert lines[-4:] == [line, daily.CURRENT_LINE, "", readme]
     assert "published link-cycle bundle" in daily.CURRENT_LINE and "cycle_artifacts.py fetch --latest" in daily.CURRENT_LINE
     svg = daily.render(current)
-    assert line in svg and daily.CURRENT_LINE in svg and ">10.00%<" in svg and 'height="406"' in svg
-    assert 'height="366"' in daily.render(sample())
+    assert line in svg and daily.CURRENT_LINE in svg and ">10.00%<" in svg and 'height="424"' in svg
+    assert 'height="384"' in daily.render(sample())
 
 
 def test_strict_line_flags_a_receipt_that_is_not_authoritative(tmp_path):

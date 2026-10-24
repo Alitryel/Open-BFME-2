@@ -22,7 +22,7 @@ def test_reviewed_assembly_union_padding_and_cpp_precedence(monkeypatch):
     assert (split['authored'], split['assembly'], split['dump']) == (4, 11, 16)
     assert progress.rebuildable(split) == 15
     assert progress.decompiled(split) == 4
-    assert readme_progress.measures(dict(split, total=31))['cpp'] == (4, 31)
+    assert readme_progress.measures(dict(split, total=31))['cpp'] == (15, 31)
     assert readme_progress.measures(dict(split, total=31))['matched'] == (15, 31)
     owners = progress_site.per_source(matched, notes, 0x1000, 32, ())
     for lane in progress.SOURCE_LANES:
@@ -38,8 +38,8 @@ def test_accounting_change_is_not_reported_as_new_recovery():
     assert readme_progress.delta_since(old, 'matched', 70, 100, new) is None
     svg = readme_progress.render(new, old)
     post = readme_progress.announcement(new, old)['embeds'][0]['description']
-    assert 'rules changed' in svg and 'not new recovery' in svg
-    assert 'rules changed' in post and 'not new recovery' in post
+    assert 'accounting changed' in svg and 'not new recovery' in svg
+    assert 'accounting changed' in post and 'not new recovery' in post
     assert readme_progress.delta_since(new, 'matched', 71, 100, dict(new, assembly=11)) > 0
 
 
