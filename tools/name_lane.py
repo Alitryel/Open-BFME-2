@@ -167,6 +167,32 @@ def session_id(text):
     return text
 
 
+def record_typedef_names(text):
+    """Bare by-value aliases of explicitly declared struct/class types.
+
+    This narrow reader does not infer primitive aliases, pointers, arrays,
+    functions, alias chains or macros. A header spelling is type-admission
+    evidence only, never a target layout or a canonical naming basis.
+    """
+    # MSVC may continue a define over a blank after its backslash. Remove
+    # that longer interpretation too before using text as positive evidence.
+    code = rename._DEFINE_BLANK.sub("", name_metric.strip(text))
+    code = name_metric.PREPROCESSOR.sub("", code)
+    ident = r"[A-Za-z_]\w*"
+    aliases = rf"(?P<names>{ident}(?:\s*,\s*{ident})*)\s*;"
+    names = set()
+    for match in re.finditer(rf"\btypedef\s+(?:struct|class)(?:\s+{ident})?\s*\{{", code):
+        end = name_metric.close(code, match.end() - 1)
+        if end == len(code):
+            continue
+        tail = re.match(rf"\s*{aliases}", code[end + 1:])
+        if tail:
+            names.update(re.findall(ident, tail.group("names")))
+    for match in re.finditer(rf"\btypedef\s+(?:struct|class)\s+{ident}\s+{aliases}", code):
+        names.update(re.findall(ident, match.group("names")))
+    return names
+
+
 # ---------------------------------------------------------------- the lane
 
 class Lane:
@@ -319,16 +345,26 @@ class Lane:
         """Some header (game or Zero Hour) declares `word`: a real class a stand-in may take."""
         if any(f.endswith(rename.HEADER_SUFFIXES) for f in self.type_definers(word)):
             return True
+        headers = self.reference_matches(re.escape(word), rename.SEARCH_ROOTS,
+                                         tuple(s.lstrip(".") for s in rename.HEADER_SUFFIXES),
+                                         whole_word=True, filenames=True, tracked=True)
+        if any(word in record_typedef_names(self.text(path) or "") for path in headers.split("\0") if path):
+            return True
         zh = self.path(rename.BFME1) / rename.ZH_TREE
         if not zh.exists():
             return False
-        return bool(self.reference_matches(rf"(class|struct)[[:space:]]+{word}",
-                                          [f"{rename.BFME1}/{rename.ZH_TREE}"], ("h",), whole_word=True))
+        roots = [f"{rename.BFME1}/{rename.ZH_TREE}"]
+        if self.reference_matches(rf"(class|struct)[[:space:]]+{word}", roots, ("h",), whole_word=True):
+            return True
+        headers = self.reference_matches(re.escape(word), roots, ("h",), whole_word=True, filenames=True)
+        return any(word in record_typedef_names(self.text(path) or "") for path in headers.split("\0") if path)
 
-    def reference_matches(self, pattern, roots, extensions, *, ignore_case=False, whole_word=False):
+    def reference_matches(self, pattern, roots, extensions, *, ignore_case=False, whole_word=False,
+                          filenames=False, tracked=False):
         """Read donor files through the Git dependency already used by the lane.
 
         --no-index includes untracked donor fixtures and submodule contents;
+        tracked=True restricts local-header evidence to tracked files.
         explicit glob pathspecs keep extensions/roots identical on Windows and
         Unix. A failed search is not evidence that a donor name is absent.
         """
@@ -336,9 +372,11 @@ class Lane:
                  for extension in extensions]
         if not paths:
             return ""
-        args = ["git", "-C", str(self.root), "grep", "--no-index", "--no-recurse-submodules",
-                "--no-exclude-standard", "--no-color", "--no-line-number", "--no-column",
-                "--no-heading", "--no-break", "-I", "-h", "-o", "-E"]
+        args = ["git", "-C", str(self.root), "grep", "--no-recurse-submodules",
+                "--no-color", "--no-line-number", "--no-column", "--no-heading", "--no-break", "-I", "-E"]
+        if not tracked:
+            args += ["--no-index", "--no-exclude-standard"]
+        args += ["-l", "-z"] if filenames else ["-h", "-o"]
         if ignore_case:
             args.append("-i")
         if whole_word:
