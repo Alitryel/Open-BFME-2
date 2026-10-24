@@ -6175,7 +6175,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x000C8914,623,code-unledgered,,,-,,
 0x000C8B83,63,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/StlportVectorGrowthFootprints.cpp
 0x000C8BC2,30,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/StlportVectorGrowthFootprints.cpp
-0x000C8BE0,292,code,,displaced,-,Z=Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp N=Code/Libraries/Source/WWVegas/WWLib/W3DModelDraw.cpp,Code/Libraries/Source/WWVegas/WWLib/W3DModelDrawModuleDataDtorRva000C8BE0.cpp
+0x000C8BE0,292,code,,displaced,-,Z=Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp N=Code/Libraries/Source/WWVegas/WWLib/W3DModelDraw.cpp,Code/Libraries/Source/WWVegas/WWLib/W3DModelDrawModuleData.cpp
 0x000C8D04,191,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/StlportVectorGrowthFootprints.cpp
 0x000C8DC3,28,code,,displaced,-,N=Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DDrawModuleDeletingDtors.cpp
 0x000C8DDF,58,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_pod_vector_bodies.cpp
@@ -15084,7 +15084,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0022C9F6,59,code,,,-,,Code/GameEngine/Source/Common/System/SaveGame/Rva0022C9F6Dtor.cpp
 0x0022CA31,5,code,,,-,,Code/GameEngine/Source/Common/Rva0046A93EDtor.cpp
 0x0022CA3B,5,code-unledgered,,,-,,
-0x0022CA45,47,code,,,-,,Code/Libraries/Source/subsystem/Rva0022CA45Ctor.cpp
+0x0022CA45,47,code,,,-,,Code/Libraries/Source/subsystem/ScienceStore.cpp
 0x0022CA74,33,code,Code/GameEngine/Source/GameLogic/System/RankInfo.cpp,proposed,K,K=Rva0022CA74 noncontiguous,Code/GameEngine/Source/Common/RankInfoStore.cpp
 0x0022CA95,47,code,Code/GameEngine/Source/Common/AttributeModifierStore.cpp,proposed,K,K=Rva0022CA95 noncontiguous,Code/GameEngine/Source/Common/Rva0022CA95Ctor.cpp
 0x0022CAC4,63,code,,,-,,Code/GameEngine/Source/Common/RvaVectorDtorFamily.cpp
@@ -29957,7 +29957,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x003FC3E4,68,code,Code/Libraries/Source/WWVegas/WWMath/matrix3.cpp,approved,C,C=0x003FBFF3..0x003FC428,Code/GameEngine/Source/Common/Rva003FC3E4Reset.cpp
 0x003FC428,18,code,Code/Libraries/Source/WWVegas/WWMath/matrix3.cpp,approved,C,C=0x003FBFF3..0x003FC43A,Code/GameEngine/Source/Common/RvaSmallVtableCtors.cpp
 0x003FC43A,136,code,Code/Libraries/Source/WWVegas/WWMath/matrix3.cpp,approved,C,C=0x003FBFF3..0x003FC4C2,Code/GameEngine/Source/Common/Rva003FC43ACompare.cpp
-0x003FC4C2,202,code,Code/Libraries/Source/WWVegas/WWMath/matrix3.cpp,approved,S,S=Code/Libraries/Source/WWVegas/WWMath/matrix3.cpp N=Code/Libraries/Source/WWVegas/WWMath/Matrix3x3.cpp,Code/Libraries/Source/WWVegas/WWMath/Matrix3x3Rva003FC4C2.cpp
+0x003FC4C2,202,code,Code/Libraries/Source/WWVegas/WWMath/matrix3.cpp,approved,S,S=Code/Libraries/Source/WWVegas/WWMath/matrix3.cpp N=Code/Libraries/Source/WWVegas/WWMath/Matrix3x3.cpp,Code/Libraries/Source/WWVegas/WWMath/Matrix3x3_Rotate_Z.cpp
 0x003FC58C,311,code,Code/Libraries/Source/WWVegas/WWMath/matrix3.cpp,approved,C,C=0x003FC4C2..0x003FC6C3,Code/GameEngine/Source/Common/System/ParticleControlCtorFamily.cpp
 0x003FC6C3,135,code,Code/Libraries/Source/WWVegas/WWMath/matrix3.cpp,approved,U,N=Code/GameEngine/Source/GameClient/LivingWorld/LivingWorldVisual.cpp,Code/GameEngine/Source/GameClient/LivingWorld/LivingWorldVisual.cpp
 0x003FC74A,54,code,Code/Libraries/Source/WWVegas/WWMath/matrix3.cpp,approved,U,N=Code/GameEngine/Source/Common/LivingWorldVisual.cpp,Code/GameEngine/Source/Common/LivingWorldVisual_createPickboxObject.cpp
@@ -31521,7 +31521,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00423A4A,30,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_pE12_holder_00423A4A.cpp
 0x00423A68,13,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_moduledatavector_push.cpp
 0x00423A75,119,code,Code/Libraries/Source/WWVegas/WWLib/FormationAssistant.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/FormationAssistant.cpp,Code/Libraries/Source/WWVegas/WWLib/stlport_moduledatavector_push.cpp
-0x00423AEC,147,code,Code/Libraries/Source/WWVegas/WWLib/FormationAssistant.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/FormationAssistant.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva00423AEC.cpp
+0x00423AEC,147,code,Code/Libraries/Source/WWVegas/WWLib/FormationAssistant.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/FormationAssistant.cpp,Code/Libraries/Source/WWVegas/WWLib/FormationAssistant_getValidSelectedObjectsForPlayer.cpp
 0x00423B7F,89,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_pod_map_bodies.cpp
 0x00423BD8,37,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva00423BD8.cpp
 0x00423BFD,41,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_deque_e12_o1.cpp
@@ -40352,7 +40352,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0051C0A4,67,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreen.cpp,proposed,C,C=0x0051BFF4..0x0051C0E7,Code/Libraries/Source/WWVegas/WWLib/stlport_e12key_ptr_sort.cpp
 0x0051C0E7,82,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreen.cpp,proposed,C,C=0x0051BFF4..0x0051C139,Code/Libraries/Source/WWVegas/WWLib/Rva0051C0E7Ctor.cpp
 0x0051C139,69,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreen.cpp,proposed,C,C=0x0051BFF4..0x0051C17E,Code/Libraries/Source/WWVegas/WWLib/Rva0051C139Method.cpp
-0x0051C17E,195,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreen.cpp,proposed,U,N=Code/Libraries/Source/WWVegas/WWLib/AptScoreScreen.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva0051C17EMethod.cpp
+0x0051C17E,195,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreen.cpp,proposed,U,N=Code/Libraries/Source/WWVegas/WWLib/AptScoreScreen.cpp,Code/Libraries/Source/WWVegas/WWLib/AptScoreScreen_OnButtonRenameAccept.cpp
 0x0051C241,161,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreen.cpp,proposed,C,C=0x0051C17E..0x0051C2E2,Code/Libraries/Source/WWVegas/WWLib/Rva0051C0E7Ctor.cpp
 0x0051C2E2,201,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreen.cpp,proposed,C,C=0x0051C17E..0x0051C3B0,Code/GameEngine/Source/Common/AptHeroPowerText.cpp
 0x0051C3B0,45,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreen.cpp,proposed,C,C=0x0051C17E..0x0051C3DD,Code/Libraries/Source/WWVegas/WWLib/stlport_e12key_ptr_sort.cpp
@@ -42367,9 +42367,9 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00554816,69,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PersistentStorageThread.cpp,proposed,C,C=0x0055405A..0x0055485B noncontiguous,Code/Libraries/Source/WWVegas/WWLib/StlportUcharMaps005538CE.cpp
 0x0055485B,73,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PersistentStorageThread.cpp,proposed,C,C=0x0055405A..0x005548A4 noncontiguous,Code/Libraries/Source/WWVegas/WWLib/StlportUcharMaps005538CE.cpp
 0x005548A4,69,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PersistentStorageThread.cpp,proposed,C,C=0x0055405A..0x005548E9 noncontiguous,Code/Libraries/Source/WWVegas/WWLib/StlportUcharMaps005538CE.cpp
-0x005548E9,177,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PersistentStorageThread.cpp,proposed,S,S=Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PersistentStorageThread.cpp N=Code/Libraries/Source/WWVegas/WWLib/PSPlayerStats.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/StlportUcharMapXfer005548E9.cpp
-0x0055499A,176,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PersistentStorageThread.cpp,proposed,S,S=Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PersistentStorageThread.cpp N=Code/Libraries/Source/WWVegas/WWLib/PSPlayerStats.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/StlportUcharMapXfer005548E9.cpp
-0x00554A4A,168,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PersistentStorageThread.cpp,proposed,S,S=Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PersistentStorageThread.cpp N=Code/Libraries/Source/WWVegas/WWLib/PSPlayerStats.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/StlportUcharMapXfer005548E9.cpp
+0x005548E9,177,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PersistentStorageThread.cpp,proposed,S,S=Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PersistentStorageThread.cpp N=Code/Libraries/Source/WWVegas/WWLib/PSPlayerStats.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/PSPlayerStats.cpp
+0x0055499A,176,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PersistentStorageThread.cpp,proposed,S,S=Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PersistentStorageThread.cpp N=Code/Libraries/Source/WWVegas/WWLib/PSPlayerStats.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/PSPlayerStats.cpp
+0x00554A4A,168,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PersistentStorageThread.cpp,proposed,S,S=Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PersistentStorageThread.cpp N=Code/Libraries/Source/WWVegas/WWLib/PSPlayerStats.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWLib/PSPlayerStats.cpp
 0x00554AF2,1150,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PersistentStorageThread.cpp,proposed,K,K=Rva00553E47StatsCore noncontiguous,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PersistentStorageThread.cpp
 0x00554F70,304,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PersistentStorageThread.cpp,proposed,K,K=Rva00553E47StatsCore noncontiguous,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PersistentStorageThread.cpp
 0x005550A0,105,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PersistentStorageThread.cpp,proposed,K,K=Rva00553E47StatsCore noncontiguous,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PersistentStorageThread.cpp
@@ -44024,16 +44024,16 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00583B37,29,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_stringrecord_111acf_allocate_copy.cpp
 0x00583B54,27,code,,,-,,Code/GameEngine/Source/Common/Rva00583B54FillN.cpp
 0x00583B6F,119,code,,,-,,Code/GameEngine/Source/Common/Rva00583B6F.cpp
-0x00583BE6,52,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva005843DACtor.cpp
-0x00583C1A,52,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva005843DACtor.cpp
-0x00583C4E,58,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva005843DACtor.cpp
-0x00583C88,44,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva00583C88Finish.cpp
-0x00583CB4,44,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva00583CB4Finish.cpp
-0x00583CE0,42,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva005843DACtor.cpp
+0x00583BE6,52,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp
+0x00583C1A,52,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp
+0x00583C4E,58,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp
+0x00583C88,44,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm_setUnitRotating.cpp
+0x00583CB4,44,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm_setUnitArrived.cpp
+0x00583CE0,42,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp
 0x00583D54,1443,code-unledgered,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,proposed,C,C=0x00583CE0..0x005842F7,
 0x005842F7,38,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,proposed,C,C=0x00583CE0..0x0058431D,Code/Libraries/Source/WWVegas/WWLib/Rva005842F7Finish.cpp
 0x0058431D,189,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,proposed,C,C=0x00583CE0..0x005843DA,Code/Libraries/Source/WWVegas/WWLib/Rva0058431DInsert.cpp
-0x005843DA,43,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva005843DACtor.cpp
+0x005843DA,43,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp
 0x00584405,225,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,proposed,C,C=0x005843DA..0x005844E6,Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva00584405.cpp
 0x005844E6,28,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,Code/Libraries/Source/WWVegas/WWLib/FamilyDeletingDtors_Rva005843DA.cpp
 0x00584502,59,code-unledgered,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarm.cpp,proposed,C,C=0x005844E6..0x0058453D,
@@ -44058,7 +44058,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00584E85,69,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva00584E85.cpp
 0x00584F03,52,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva00586D8EVSlots.cpp
 0x00584F37,52,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva00586D8EVSlots.cpp
-0x00584F6B,84,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva00586D8EVSlot9.cpp
+0x00584F6B,84,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation_canUnitRotate.cpp
 0x00584FBF,44,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva00586D8EVSlots.cpp
 0x00584FEB,44,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva00586D8EVSlots.cpp
 0x00585063,44,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,proposed,C,C=0x00584FEB..0x0058508F,Code/Libraries/Source/WWVegas/WWLib/stlport_deque_e12_o1.cpp
@@ -44107,7 +44107,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00586D0D,29,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,proposed,C,C=0x0058619F..0x00586D2A,Code/Libraries/Source/WWVegas/WWLib/stlport_asciistring_record_bodies.cpp
 0x00586D2A,50,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,proposed,C,C=0x0058619F..0x00586D5C,Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva00586D2A.cpp
 0x00586D5C,50,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,proposed,C,C=0x0058619F..0x00586D8E,Code/Libraries/Source/WWVegas/WWLib/stlport_asciistring_record_bodies.cpp
-0x00586D8E,49,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva00586D8ECtor.cpp
+0x00586D8E,49,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp
 0x00586DBF,29,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,proposed,C,C=0x00586D8E..0x00586DDC,Code/Libraries/Source/WWVegas/WWLib/stlport_asciistring_record_bodies.cpp
 0x00586DDC,29,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,proposed,C,C=0x00586D8E..0x00586DF9,Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva00586DDC.cpp
 0x00586DF9,60,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeFormation.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva00586DF9Clone.cpp
@@ -44138,7 +44138,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00587490,42,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_sort_rva00588195.cpp
 0x005874BA,70,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_sort_rva00588195.cpp
 0x00587500,72,code,Code/GameEngine/Source/Common/BfmePod60.cpp,proposed,N,N=Code/GameEngine/Source/Common/BfmePod60.cpp,Code/GameEngine/Source/Common/BfmePod60Ctor.cpp
-0x00587548,52,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeAmoeba.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeAmoeba.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva00587D9CVSlot12.cpp
+0x00587548,52,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeAmoeba.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/HordeMeleeAmoeba.cpp,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeAmoeba_setUnitNeedsNewAttackPos.cpp
 0x0058757C,29,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeAmoeba.cpp,proposed,C,C=0x00587548..0x00587599,Code/Libraries/Source/WWVegas/WWLib/stlport_pod_vector_erase_bodies.cpp
 0x00587599,38,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeAmoeba.cpp,proposed,C,C=0x00587548..0x005875BF,Code/GameEngine/Source/Common/Rva00587599Copy.cpp
 0x005875BF,29,code,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeAmoeba.cpp,proposed,C,C=0x00587548..0x005875DC,Code/Libraries/Source/WWVegas/WWLib/stlport_pod60_copy_backward.cpp
@@ -44625,7 +44625,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00598F08,28,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AIUnitBuilder/AIUnitBuilder.cpp,proposed,K,K=Rva00598B2A,Code/GameEngine/Source/Common/Rva00598CFDDtor.cpp
 0x00598F24,27,code,,,-,,Code/GameEngine/Source/Common/Rva00598F24.cpp
 0x00598F3F,112,code-unledgered,,,-,,
-0x0059904A,149,code,Code/Libraries/Source/WWVegas/WWLib/AIUnitUpgrader.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/AIUnitUpgrader.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva0059904AFinish.cpp
+0x0059904A,149,code,Code/Libraries/Source/WWVegas/WWLib/AIUnitUpgrader.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/AIUnitUpgrader.cpp,Code/Libraries/Source/WWVegas/WWLib/AIUnitUpgrader_shutdown.cpp
 0x005990DF,114,code-unledgered,,,-,,
 0x00599151,275,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AIUpgrade/AIUnitUpgrader/AIUnitUpgrader.cpp,approved,N,N=Code/GameEngine/Source/GameLogic/SkirmishAI/AIUpgrade/AIUnitUpgrader/AIUnitUpgrader.cpp,Code/GameEngine/Source/GameLogic/SkirmishAI/AIUpgrade/AIUnitUpgrader/AIUnitUpgrader.cpp
 0x00599264,333,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AIUpgrade/AIUnitUpgrader/AIUnitUpgrader.cpp,approved,F,F=Code/GameEngine/Source/GameLogic/SkirmishAI/AIUpgrade/AIUnitUpgrader/AIUnitUpgrader.cpp,Code/GameEngine/Source/GameLogic/SkirmishAI/AIUpgrade/AIUnitUpgrader/AIUnitUpgrader.cpp
@@ -44638,7 +44638,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x005994AB,36,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_rva00599435keyframe_linear_insert.cpp
 0x005994CF,101,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_rva00599435keyframe_linear_insert.cpp
 0x00599534,48,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/Rva00599534EraseFirst.cpp
-0x00599564,162,code,Code/Libraries/Source/WWVegas/WWLib/AIDozerManager.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/AIDozerManager.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva00599564.cpp
+0x00599564,162,code,Code/Libraries/Source/WWVegas/WWLib/AIDozerManager.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/AIDozerManager.cpp,Code/Libraries/Source/WWVegas/WWLib/AIDozerManager_buildDozer.cpp
 0x00599606,5,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AIDozerManager.cpp,proposed,N,N=Code/GameEngine/Source/GameLogic/SkirmishAI/AIDozerManager.cpp,Code/GameEngine/Source/GameLogic/SkirmishAI/AIBuilder.cpp
 0x0059960B,56,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_rva00599435keyframe_linear_insert.cpp
 0x00599643,23,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_rva00599435keyframe_linear_insert.cpp
@@ -45832,10 +45832,10 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x005C856D,183,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/VectorOverflowRva005C856D.cpp
 0x005C8624,55,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/StlportVectorPushBackFamily.cpp
 0x005C865B,281,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/StlportVectorPushBackFamily.cpp
-0x005C879E,61,code,Code/Libraries/Source/WWVegas/WWLib/LargeGroupAudioGridCell.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/LargeGroupAudioGridCell.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva005C87F8Adjust.cpp
-0x005C87DB,29,code,Code/Libraries/Source/WWVegas/WWLib/LargeGroupAudioGridCell.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/LargeGroupAudioGridCell.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva005C87F8Adjust.cpp
-0x005C87F8,85,code,Code/Libraries/Source/WWVegas/WWLib/LargeGroupAudioGridCell.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/LargeGroupAudioGridCell.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva005C87F8Adjust.cpp
-0x005C884D,41,code,Code/Libraries/Source/WWVegas/WWLib/LargeGroupAudioGridCell.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/LargeGroupAudioGridCell.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva005C884D.cpp
+0x005C879E,61,code,Code/Libraries/Source/WWVegas/WWLib/LargeGroupAudioGridCell.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/LargeGroupAudioGridCell.cpp,Code/Libraries/Source/WWVegas/WWLib/LargeGroupAudioGridCell.cpp
+0x005C87DB,29,code,Code/Libraries/Source/WWVegas/WWLib/LargeGroupAudioGridCell.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/LargeGroupAudioGridCell.cpp,Code/Libraries/Source/WWVegas/WWLib/LargeGroupAudioGridCell.cpp
+0x005C87F8,85,code,Code/Libraries/Source/WWVegas/WWLib/LargeGroupAudioGridCell.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/LargeGroupAudioGridCell.cpp,Code/Libraries/Source/WWVegas/WWLib/LargeGroupAudioGridCell.cpp
+0x005C884D,41,code,Code/Libraries/Source/WWVegas/WWLib/LargeGroupAudioGridCell.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/LargeGroupAudioGridCell.cpp,Code/Libraries/Source/WWVegas/WWLib/LargeGroupAudioGridCell_addToWeight.cpp
 0x005C8876,546,code,Code/GameEngine/Source/GameLogic/LargeGroupAudio/LargeGroupAudioGridCell.cpp,proposed,N,N=Code/GameEngine/Source/GameLogic/LargeGroupAudio/LargeGroupAudioGridCell.cpp,Code/GameEngine/Source/GameLogic/LargeGroupAudio/LargeGroupAudioGridCell.cpp
 0x005C8A98,415,code-unledgered,,,-,,
 0x005C8C37,60,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_prerequnitrec_allocate_copy.cpp
@@ -54418,7 +54418,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00715550,916,code,,displaced,-,Z=Code/Tools/WW3D/pluglib/matrix4.cpp S=Code/Tools/WW3D/pluglib/matrix4.cpp N=Code/Libraries/Source/WWVegas/WWMath/Matrix4.cpp,Code/Libraries/Source/WWVegas/WWMath/matrix4.cpp
 0x007158F0,713,code,,displaced,-,Z=Code/Tools/WW3D/pluglib/matrix4.cpp S=Code/Tools/WW3D/pluglib/matrix4.cpp N=Code/Libraries/Source/WWVegas/WWMath/Matrix4.cpp,Code/Libraries/Source/WWVegas/WWMath/matrix4.cpp
 0x00715BC0,712,code,,displaced,-,Z=Code/Tools/WW3D/pluglib/matrix4.cpp S=Code/Tools/WW3D/pluglib/matrix4.cpp N=Code/Libraries/Source/WWVegas/WWMath/Matrix4.cpp,Code/Libraries/Source/WWVegas/WWMath/matrix4.cpp
-0x00715E90,19,code,,displaced,-,S=Code/Tools/WW3D/pluglib/matrix4.cpp N=Code/Libraries/Source/WWVegas/WWMath/Matrix4.cpp,Code/Libraries/Source/WWVegas/WWMath/Rva00715E90Cluster.cpp
+0x00715E90,19,code,,displaced,-,S=Code/Tools/WW3D/pluglib/matrix4.cpp N=Code/Libraries/Source/WWVegas/WWMath/Matrix4.cpp,Code/Libraries/Source/WWVegas/WWMath/Matrix4_Get_Inverse.cpp
 0x007166D0,226,code,Code/Tools/WW3D/pluglib/WWmatrix3.cpp,approved,C,C=0x00714CC0..0x007167C0,Code/Libraries/Source/WWVegas/WWMath/matrix4.cpp
 0x007167C0,26,code,Code/Tools/WW3D/pluglib/WWmatrix3.cpp,approved,C,C=0x00714CC0..0x007167E0,Code/Libraries/Source/WWVegas/WWMath/matrix4_notequal.cpp
 0x007167E0,56,code,Code/Tools/WW3D/pluglib/WWmatrix3.cpp,approved,S,S=Code/Tools/WW3D/pluglib/WWmatrix3.cpp N=Code/Libraries/Source/WWVegas/WWMath/Matrix3.cpp,Code/Libraries/Source/WWVegas/WWMath/matrix3.cpp
