@@ -1847,3 +1847,4 @@ local,Rva000AE234::rva000AE234::c,Rva000AE234::rva000AE234::cells,inferred,agree
 local,Rva00506BADDistSqr::d,Rva00506BADDistSqr::delta,inferred,agree:nl-be07b0e2fa4e,Code/GameEngine/Source/Common/Rva00506BADDistSqr.cpp,0x00506BAD
 local,Rva001F526E::rva001F526E::p,Rva001F526E::rva001F526E::provider,inferred,agree:nl-16375ad19258,Code/GameEngine/Source/Common/Rva001F526E.cpp,0x001F526E
 local,Rva002860CFHost::rva002860CF::s,Rva002860CFHost::rva002860CF::node,inferred,agree:nl-dcc25c872d10,Code/GameEngine/Source/Common/Rva002860CF.cpp,0x002860CF
+param,Rva002B4BC9::rva002B4BC9::arg,Rva002B4BC9::rva002B4BC9::heroData,inferred,agree:nl-924ddb90516f,Code/GameEngine/Source/Common/Rva002B4BC9.cpp,0x002B4BC9

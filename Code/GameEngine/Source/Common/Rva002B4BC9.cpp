@@ -30,23 +30,23 @@ template <class It, class T> It find(It first, It last, const T &value);
 class Rva002B4BC9
 {
 public:
-	bool rva002B4BC9(Rva002B4BC9Arg *arg);
+	bool rva002B4BC9(Rva002B4BC9Arg *heroData);
 private:
 	char m_pad[0x10C];
 	int m_arg10C;
 	int m_arg110;
 };
 
-bool Rva002B4BC9::rva002B4BC9(Rva002B4BC9Arg *arg)
+bool Rva002B4BC9::rva002B4BC9(Rva002B4BC9Arg *heroData)
 {
-	if (arg->m_str18.isEmpty())
+	if (heroData->m_str18.isEmpty())
 		return false;
 	// The worker's temp is homed by the optimizer over this function's own
-	// dead argument slot (retail lea eax,[esp+0xC] == incoming arg home
+	// dead argument slot (retail lea eax,[esp+0xC] == incoming heroData home
 	// after the two saves, with no sub esp and no ebp frame). Spelling it
 	// as a named int local forces an ebp frame and misses; taking the
 	// parameter's address reproduces the slot reuse exactly.
 	int lim = m_arg110;
-	int got = (int)_STL::find<CreateAHeroData **, CreateAHeroData *>((CreateAHeroData **)m_arg10C, (CreateAHeroData **)lim, *(CreateAHeroData *const *)&arg);
+	int got = (int)_STL::find<CreateAHeroData **, CreateAHeroData *>((CreateAHeroData **)m_arg10C, (CreateAHeroData **)lim, *(CreateAHeroData *const *)&heroData);
 	return got != lim;
 }
