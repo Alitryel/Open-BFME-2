@@ -26,6 +26,17 @@ namespace _STL { template <> void _Construct<pair<const int, Rva00439943Record> 
 
 
 // Instantiate the recovered member; retain only its required template dependencies.
+// The node's element copy is retail 0x004398AB, rowed as _Construct<Rva004395EC>; bind the
+// call to that row instead of emitting this unit's own _Construct copy.
+struct Rva004395EC;
+namespace _STL { template <> void _Construct<Rva004395EC, Rva004395EC>(Rva004395EC *, const Rva004395EC &); }
+namespace _STL {
+// ?_STL::_Construct absent-from-retail
+static __forceinline void _Construct(_STL::pair<int const, Rva00439943Record> *dest, const _STL::pair<int const, Rva00439943Record> &source)
+{
+	_Construct<Rva004395EC, Rva004395EC>(reinterpret_cast<Rva004395EC *>(dest), *reinterpret_cast<const Rva004395EC *>(&source));
+}
+}
 template _STL::_Rb_tree_node<_STL::pair<int const, Rva00439943Record> > * _STL::_Rb_tree<int, _STL::pair<int const, Rva00439943Record>, _STL::_Select1st<_STL::pair<int const, Rva00439943Record> >, _STL::less<int>, _STL::allocator<_STL::pair<int const, Rva00439943Record> > >::_M_create_node(_STL::pair<int const, Rva00439943Record> const &);
 // The declared element copy binds to that row (tools/allowed_symbols.py --alternatenames).
 #pragma comment(linker, "/alternatename:??$_Construct@U?$pair@$$CBHURva00439943Record@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBHURva00439943Record@@@0@ABU10@@Z=??$_Construct@URva004395EC@@U1@@_STL@@YAXPAURva004395EC@@ABU1@@Z")

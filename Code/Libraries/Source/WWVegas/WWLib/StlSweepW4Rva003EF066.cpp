@@ -11,6 +11,16 @@ namespace _STL { template <> void _Construct<pair<const int, Rva003EF066Element>
 namespace _STL {template<> struct hash<Rva003EF066Element> { unsigned operator()(const Rva003EF066Element&) const; };}
 
 // Instantiate the recovered operation and its required template dependencies.
+// The node's element copy is retail 0x003EEFDB, rowed as ?Rva003EEFDBConstruct@@YAXPAXPBX@Z; bind the
+// call to that row instead of emitting this unit's own _Construct copy.
+void Rva003EEFDBConstruct(void *dest, const void *source);
+namespace _STL {
+// ?_STL::_Construct absent-from-retail
+static __forceinline void _Construct(_STL::pair<int const, Rva003EF066Element> *dest, const _STL::pair<int const, Rva003EF066Element> &source)
+{
+	Rva003EEFDBConstruct(dest, &source);
+}
+}
 template _STL::_Hashtable_node<_STL::pair<int const, Rva003EF066Element> > * _STL::hashtable<_STL::pair<int const, Rva003EF066Element>, int, _STL::hash<int>, _STL::_Select1st<_STL::pair<int const, Rva003EF066Element> >, _STL::equal_to<int>, _STL::allocator<_STL::pair<int const, Rva003EF066Element> > >::_M_new_node(_STL::pair<int const, Rva003EF066Element> const &);
 // The declared element copy binds to that row (tools/allowed_symbols.py --alternatenames).
 #pragma comment(linker, "/alternatename:??$_Construct@U?$pair@$$CBHURva003EF066Element@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBHURva003EF066Element@@@0@ABU10@@Z=?Rva003EEFDBConstruct@@YAXPAXPBX@Z")
