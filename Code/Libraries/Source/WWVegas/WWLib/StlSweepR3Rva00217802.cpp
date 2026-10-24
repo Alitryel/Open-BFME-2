@@ -28,6 +28,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <memory>
 
 
+// Declared only (stl batch): retail's body for this name is the rowed one at its
+// pinned address; this TU's copy is not retail's.
+namespace _STL { template <> int * __lower_bound<int *,int,_STL::greater<int>,int>(int *,int *,int const &,_STL::greater<int>,int *); }
 template void _STL::sort(int*,int*,_STL::greater<int>);
 template void _STL::stable_sort(int*,int*,_STL::greater<int>);
 template void _STL::make_heap(int*,int*,_STL::greater<int>);
@@ -92,3 +95,6 @@ template void _STL::pop_heap(double*,double*,_STL::greater<double>);
 template void _STL::sort_heap(double*,double*,_STL::greater<double>);
 template void _STL::partial_sort(double*,double*,double*,_STL::greater<double>);
 template void _STL::nth_element(double*,double*,double*,_STL::greater<double>);
+
+// The declared helper binds to that row (tools/allowed_symbols.py --alternatenames).
+#pragma comment(linker, "/alternatename:??$__lower_bound@PAHHU?$greater@H@_STL@@H@_STL@@YAPAHPAH0ABHU?$greater@H@0@0@Z=?Gen00473A40@@YAPAUGen00473A40Elem@@PAU1@0ABHUGen00473A40Less@@PAH@Z")

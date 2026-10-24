@@ -45,4 +45,10 @@ bool less<int>::operator()(const int &a, const int &b) const
 
 
 // Instantiate the recovered member; retain only its required template dependencies.
+// Declared only (stl batch): retail's body for this name is the rowed one at its
+// pinned address; this TU's copy is not retail's.
+namespace _STL { template <> _STL::_Rb_tree_iterator<int,_STL::_Nonconst_traits<int> > _Rb_tree<int,int,_STL::_Identity<int>,_STL::less<int>,_STL::allocator<int> >::insert_equal(int const &); }
 template _STL::_Rb_tree_iterator<int, _STL::_Const_traits<int> > _STL::multiset<int, _STL::less<int>, _STL::allocator<int> >::insert(int const &);
+
+// The declared helper binds to that row (tools/allowed_symbols.py --alternatenames).
+#pragma comment(linker, "/alternatename:?insert_equal@?$_Rb_tree@HHU?$_Identity@H@_STL@@U?$less@H@2@V?$allocator@H@2@@_STL@@QAE?AU?$_Rb_tree_iterator@HU?$_Nonconst_traits@H@_STL@@@2@ABH@Z=?rva004CA68B@AnimationSoundTree@@QAEPAPAUAnimationSoundTreeNode@@PAPAU2@PBX@Z")

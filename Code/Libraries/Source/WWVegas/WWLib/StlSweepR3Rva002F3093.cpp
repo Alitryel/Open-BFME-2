@@ -32,4 +32,10 @@ struct Rva002F3093Record {  char bytes[1]; };
 
 
 // Instantiate the recovered member; retain only its required template dependencies.
+// Declared only (stl batch): retail's body for this name is the rowed one at its
+// pinned address; this TU's copy is not retail's.
+namespace _STL { template <> _STL::_Rb_tree_iterator<_STL::pair<int const,Rva002F3093Record>,_STL::_Nonconst_traits<_STL::pair<int const,Rva002F3093Record> > > _Rb_tree<int,_STL::pair<int const,Rva002F3093Record>,_STL::_Select1st<_STL::pair<int const,Rva002F3093Record> >,_STL::less<int>,_STL::allocator<_STL::pair<int const,Rva002F3093Record> > >::insert_unique(_STL::_Rb_tree_iterator<_STL::pair<int const,Rva002F3093Record>,_STL::_Nonconst_traits<_STL::pair<int const,Rva002F3093Record> > >,_STL::pair<int const,Rva002F3093Record> const &); }
 template _STL::_Rb_tree_iterator<_STL::pair<int const, Rva002F3093Record>, _STL::_Nonconst_traits<_STL::pair<int const, Rva002F3093Record> > > _STL::map<int, Rva002F3093Record, _STL::less<int>, _STL::allocator<_STL::pair<int const, Rva002F3093Record> > >::insert(_STL::_Rb_tree_iterator<_STL::pair<int const, Rva002F3093Record>, _STL::_Nonconst_traits<_STL::pair<int const, Rva002F3093Record> > >, _STL::pair<int const, Rva002F3093Record> const &);
+
+// The declared helper binds to that row (tools/allowed_symbols.py --alternatenames).
+#pragma comment(linker, "/alternatename:?insert_unique@?$_Rb_tree@HU?$pair@$$CBHURva002F3093Record@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva002F3093Record@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva002F3093Record@@@_STL@@@2@@_STL@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBHURva002F3093Record@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHURva002F3093Record@@@_STL@@@2@@2@U32@ABU?$pair@$$CBHURva002F3093Record@@@2@@Z=?rva002F1DDC@Rva002F1DDCTree@@QAE?AURva002F1DDCIter@@U2@ABVRva002F1DDCValue@@@Z")

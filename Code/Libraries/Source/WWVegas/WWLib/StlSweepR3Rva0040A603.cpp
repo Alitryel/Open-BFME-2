@@ -40,4 +40,10 @@ bool less<int>::operator()(const int &a, const int &b) const
 
 
 struct Rva0040A603Record {  char bytes[1]; };
+// Declared only (stl batch): retail's body for this name is the rowed one at its
+// pinned address; this TU's copy is not retail's.
+namespace _STL { template <> void _Rb_tree<int,_STL::pair<int const,Rva0040A603Record>,_STL::_Select1st<_STL::pair<int const,Rva0040A603Record> >,_STL::less<int>,_STL::allocator<_STL::pair<int const,Rva0040A603Record> > >::clear(void); }
 template class _STL::map<int,Rva0040A603Record>;
+
+// The declared helper binds to that row (tools/allowed_symbols.py --alternatenames).
+#pragma comment(linker, "/alternatename:?clear@?$_Rb_tree@HU?$pair@$$CBHURva0040A603Record@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva0040A603Record@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva0040A603Record@@@_STL@@@2@@_STL@@QAEXXZ=?rva0040A59B@Rva0040A59B@@QAEXXZ")
