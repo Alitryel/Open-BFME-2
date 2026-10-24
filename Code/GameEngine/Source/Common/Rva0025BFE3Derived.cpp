@@ -142,11 +142,11 @@ struct TwoBytes
 
 void AIEconomyStats::rva0059640C(void *holder)
 {
-	TwoBytes t;
-	t.a = 1;
-	t.b = 1;
+	TwoBytes version;
+	version.a = 1;
+	version.b = 1;
 	Holder *xfer = (Holder *)holder;
-	xfer->v10(&t);
+	xfer->v10(&version);
 	xfer->v30(&m_zero14);
 	xfer->v31(&m_minusOne18);
 }
