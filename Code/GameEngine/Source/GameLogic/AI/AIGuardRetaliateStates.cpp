@@ -84,6 +84,11 @@ enum StateReturnType
 	STATE_SUCCESS = -1,
 	STATE_FAILURE = -2
 };
+enum StateExitType
+{
+	EXIT_NORMAL,
+	EXIT_RESET
+};
 // Coord3D: shared header/view; no private copy.
 #define COORD3D_VIEW_INLINE
 #include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
@@ -276,8 +281,14 @@ private:
 enum WeaponSlotType { WEAPON_PRIMARY = 0 };
 class Rva002C9400ByteField { public: unsigned char get() const; };
 class Weapon { public: const Rva002C9400ByteField *getTemplate() const { return m_template; } private: unsigned char pad00[4]; const Rva002C9400ByteField *m_template; };
+class Team
+{
+public:
+	void setTeamTargetObject(Object *target);
+};
 class Object
 {
+	friend class AIGuardRetaliateAttackAggressorState;
 public:
 	ObjectID getID() const { return m_id; }
  const ObjectTemplate *getTemplate() const { return m_template; }
@@ -303,7 +314,9 @@ private:
 	Rva00545355Module *m_bfme250; // +0x250
 	BodyModuleInterface *m_body; // +0x254
 	AIUpdateInterface *m_ai; // +0x258
-	unsigned char m_pad25C[0x438 - 0x25C];
+	unsigned char m_pad25C[0x304 - 0x25C];
+	Team *m_team304;
+	unsigned char m_pad308[0x438 - 0x308];
 	unsigned char m_bfme438; // +0x438
 };
 class Pathfinder
@@ -380,7 +393,7 @@ public:
 	virtual void slot02();
 	virtual void slot03();
 	virtual StateReturnType onEnter();
-	virtual void onExit(int status);
+	virtual void onExit(StateExitType status);
 	virtual StateReturnType update();
 public:
 	StateMachine *getMachine() const { return m_machine; }
@@ -511,6 +524,7 @@ public:
 	AIGuardRetaliateAttackAggressorState(StateMachine *machine);
 	Object *rva0054582A();
  virtual StateReturnType onEnter();
+ virtual void onExit(StateExitType status);
  virtual StateReturnType update();
 private:
 	AIGuardRetaliateMachine *getGuardMachine() { return (AIGuardRetaliateMachine *)getMachine(); }
@@ -689,7 +703,17 @@ StateReturnType AIGuardRetaliateAttackAggressorState::update( void )
 	return m_attackState->update();
 }
 
-// Placeholder virtuals this unit's vftables hold.  In retail each such slot
-// holds a rowed function; the vftable's address is proven by the vptr stores in
-// the matched destructors, so bind the placeholder to that row's name.
-#pragma comment(linker, "/alternatename:?onExit@State@@UAEXH@Z=?onExit@AIGuardAttackAggressorState@@UAEXW4StateExitType@@@Z")
+void AIGuardRetaliateAttackAggressorState::onExit(StateExitType status)
+{
+	Object *owner = getMachineOwner();
+	if (m_attackState)
+	{
+		m_attackState->onExit(status);
+		::delete m_attackState;
+		m_attackState = NULL;
+	}
+	if (owner->m_team304)
+	{
+		owner->m_team304->setTeamTargetObject(NULL);
+	}
+}
