@@ -878,3 +878,5 @@ function,?rva004ABABC@LargeGroupAudioUpdate@@UAEGXZ,?getUnitWeight@LargeGroupAud
 function,?rva004ABA93@LargeGroupAudioUpdate@@UBE?AURva004ABA81Pair@@XZ,?getPosition@LargeGroupAudioUpdate@@UBE?AURva004ABA81Pair@@XZ,inferred,agree:nl-e3921f7ccfbf,Code/GameEngine/Source/GameLogic/Object/Update/LargeGroupAudioUpdateSlots.cpp,0x004ABA93
 param,Rva003743CF::rva003743CF::p,Rva003743CF::rva003743CF::statusType,inferred,agree:nl-04c114820d64,Code/GameEngine/Source/GameLogic/Object/Update/Rva003743CFBehavior.cpp,0x003743CF
 param,Rva003743CF::rva003743CF::b,Rva003743CF::rva003743CF::set,inferred,agree:nl-487efa1b6dad,Code/GameEngine/Source/GameLogic/Object/Update/Rva003743CFBehavior.cpp,0x003743CF
+member,Rva0049D526Node::m_48,Rva0049D526Node::m_next,inferred,agree:nl-8aecec2f0f68,Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp,
+member,Rva0049D526Node::m_4C,Rva0049D526Node::m_prev,inferred,agree:nl-a5e7ad35a669,Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp,
