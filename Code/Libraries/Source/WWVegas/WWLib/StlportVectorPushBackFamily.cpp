@@ -100,7 +100,6 @@ void __cdecl Rva00333295Construct(Rva00332EC8 *, const Rva00332EC8 &);
 class Rva0037F551;
 void __cdecl Rva0037F71FCopy(Rva0037F551 *, const Rva0037F551 &);
 struct Rva004F6966;
-void __cdecl Rva004F6B69Construct(Rva004F6966 *, const Rva004F6966 *);
 class Rva004C5DD0;
 struct Rva004C5DD0Pair;
 void __cdecl Rva004F6A52Assign(Rva004C5DD0 *, const Rva004C5DD0Pair *);
@@ -305,8 +304,9 @@ template <> __declspec(nothrow) void _Construct<Rva004E3E5AElement, Rva004E3E5AE
 template <> __declspec(nothrow) void _Construct<Rva004F87BCElement, Rva004F87BCElement>(Rva004F87BCElement *__p, const Rva004F87BCElement &__val);
 template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Construct<Rva004F8D92Element, Rva004F8D92Element>(Rva004F8D92Element *__p, const Rva004F8D92Element &__val)
 { _Construct(reinterpret_cast<Rva004F87BCElement *>(__p), *reinterpret_cast<const Rva004F87BCElement *>(&__val)); }
+template <> void _Construct<Rva004F6966, Rva004F6966>(Rva004F6966 *, const Rva004F6966 &);
 template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Construct<Rva004F9018Element, Rva004F9018Element>(Rva004F9018Element *__p, const Rva004F9018Element &__val)
-{ Rva004F6B69Construct(reinterpret_cast<Rva004F6966 *>(__p), reinterpret_cast<const Rva004F6966 *>(&__val)); }
+{ _Construct(reinterpret_cast<Rva004F6966 *>(__p), *reinterpret_cast<const Rva004F6966 *>(&__val)); }
 template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Construct<Rva004F93B0Element, Rva004F93B0Element>(Rva004F93B0Element *__p, const Rva004F93B0Element &__val)
 { Rva004F6A52Assign(reinterpret_cast<Rva004C5DD0 *>(__p), reinterpret_cast<const Rva004C5DD0Pair *>(&__val)); }
 template <> __declspec(nothrow) void _Construct<Rva00501E3FElement, Rva00501E3FElement>(Rva00501E3FElement *__p, const Rva00501E3FElement &__val);

@@ -1,7 +1,7 @@
 // cl: /DNDEBUG /MD
 // ?Rva004F6BB3Fill@@YAPAURva004F6966@@PAU1@IPBU1@@Z @0x004F6BB3 (37B): uninitialized_fill_n.
 // Fills count copies of 0xC-sized Rva004F6966 via rowed placement construct
-// ?Rva004F6B69Construct@@YAXPAURva004F6966@@PBU1@@Z at 0x004F6B69 and returns
+// STLport _Construct<Rva004F6966,Rva004F6966> at 0x004F6B69 and returns
 // the end pointer. Caller at 0x004F8AA3 walks into 0x004F8A35. Prev
 // UninitializedCopy next Rva004F6B7BInit /O1 /DNDEBUG /MD.
 struct TargetRef00217D4C
@@ -17,14 +17,17 @@ struct Rva004F6966
 	int m_08;
 };
 
-void Rva004F6B69Construct(Rva004F6966 *dst, const Rva004F6966 *src);
+namespace _STL {
+template <class _T1, class _T2> void _Construct(_T1 *, const _T2 &);
+template <> void _Construct<Rva004F6966, Rva004F6966>(Rva004F6966 *, const Rva004F6966 &);
+}
 
 Rva004F6966 *Rva004F6BB3Fill(Rva004F6966 *dst, unsigned int count, const Rva004F6966 *src)
 {
 	Rva004F6966 *current = dst;
 	unsigned int n = count;
 	for (; n > 0; --n) {
-		Rva004F6B69Construct(current, src);
+		_STL::_Construct(current, *src);
 		current = (Rva004F6966 *)((char *)current + 0xC);
 	}
 	return current;
