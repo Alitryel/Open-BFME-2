@@ -63,16 +63,16 @@ public:
 class Rva00594E07
 {
 public:
-	unsigned short rva00594E07(unsigned short a, int b);
+	unsigned short rva00594E07(unsigned short a, int time);
 private:
 	char m_pad0[0x14];
 	SpareSocket m_spare[8];
 	char m_pad1[0x8A - 0x14 - 8 * 8];
 	ManglerMessage m_msgs[8];
 };
-unsigned short Rva00594E07::rva00594E07(unsigned short a, int b)
+unsigned short Rva00594E07::rva00594E07(unsigned short a, int time)
 {
-	(void)b;
+	(void)time;
 	ManglerMessage *sel = 0;
 	SpareSocket *spareSocket = m_spare;
 	int i = 0;
