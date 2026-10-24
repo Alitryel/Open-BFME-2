@@ -12,6 +12,12 @@
 // whose own Zero Hour body does not place. Keeping that definition in this
 // unit is what reproduces retail's register allocation for the fixed
 // variant; compiled alone the fixed body swaps xmm1/xmm2 and loses 5 bytes.
+// BFME 2 changed two callees' signatures that the Zero Hour headers declare:
+// MeshGeometryClass::Get_Vertex_Normal_Array(bool) (row 0x0016AB90) and the
+// six-argument BaseHeightMapRenderObjClass::doTheLight (row 0x000694A3).
+// Declare BFME 2's forms in place of Zero Hour's while the headers are read.
+#define Get_Vertex_Normal_Array Get_Vertex_Normal_Array(bool create); const Vector3 *Get_Vertex_Normal_Array_ZeroHour
+#define doTheLight doTheLight(VERTEX_FORMAT *vb, Vector3 *light, Vector3 *normal, RefRenderObjListIterator *pLightsIterator, UnsignedByte alpha, Bool skipFirstLight); void doTheLight_ZeroHour
 #include "W3DDevice/GameClient/W3DBridgeBuffer.h"
 #include "../../../../../reference/shims/dynamesh_color_link/meshmatdesc.h"
 
@@ -39,6 +45,8 @@
 #include "WW3D2/Mesh.h"
 #include "WW3D2/MeshMdl.h"
 #include "WW3D2/Scene.h"
+#undef Get_Vertex_Normal_Array
+#undef doTheLight
 
 #define NO_USE_BRIDGE_NORMALS
 
@@ -88,7 +96,7 @@ inline Int W3DBridge::getModelVertices(VertexFormatXYZNDUV1 *destination_vb, Int
 	Int numVertex = pMesh->Peek_Model()->Get_Vertex_Count();
 	Vector3 *pVert = pMesh->Peek_Model()->Get_Vertex_Array();
 
-	const Vector3 *pNormal = 	pMesh->Peek_Model()->Get_Vertex_Normal_Array();
+	const Vector3 *pNormal = 	pMesh->Peek_Model()->Get_Vertex_Normal_Array(false);
 
 	// If we happen to have too many bridges, stop.
 	if (curVertex+numVertex+2>= W3DBridgeBuffer::MAX_BRIDGE_VERTEX) {
@@ -138,7 +146,7 @@ inline Int W3DBridge::getModelVertices(VertexFormatXYZNDUV1 *destination_vb, Int
 #else
 		normal = (normal.X) * vec + normal.Y*vecNormal + normal.Z*vecZ;
 		normal.Normalize();	
-		TheTerrainRenderObject->doTheLight(&vb, lightRay, &normal, NULL, 1.0f);
+		TheTerrainRenderObject->doTheLight(&vb, lightRay, &normal, NULL, 1, true);
 		curVb->nx = 0;	//will these to keep AGP write buffer happy.
 		curVb->ny = 0;
 		curVb->nz = 1;
