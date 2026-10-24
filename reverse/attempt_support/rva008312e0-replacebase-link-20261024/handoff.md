@@ -26,3 +26,27 @@ The unit (rows 0x2AE50, 0x284D0; 1,351 B) does not link because its COMDAT copie
 
 `variant-inline-insertrange.cpp.txt`: the source with optimized erase, out-of-class
 replaceBase and inline insertRange (replaceBase 0xc4, bfmeReplaceAliasedRange FAIL).
+
+## 2026-10-24 follow-up (claude-opus-5-5): a route that closes both blockers
+
+Unit Rva008312E0StringReplace.cpp (1,351 B: 0x2AE50 + 0x284D0) is blocked by its COMDAT copies of erase and replaceBase.
+
+1. **erase is solved.** See `rva008312e0-step1-erase-bound.cpp.txt`. Drop the class's own `erase`, `move` and `m_start/m_finish/m_end`. Derive `Rva008312E0String` from a TU-local full specialization `_STL::basic_string<char, char_traits<char>, allocator<char> >` that holds an inline `erase`, a static `move` and the three members. The COMDAT is then `?erase@?$basic_string@D...`, retail's rowed 0x12150. `./build.sh` passes 2/2 and link_check names only the replaceBase blocker.
+2. **replaceBase: give retail's copy a proven owner.** See `bfmeconv1464-template-trial.cpp.txt`. It replaces the inline-asm lift in BfmeConv1464.cpp (row bfmeReplaceV24 0x2A610) with the step-1 view, and changes three things:
+   - `replaceBase` becomes a member template `<class _ForwardIter>`;
+   - `insertRange` becomes `inline`;
+   - `__copy_trivial` becomes an inline definition. This is the decisive trial; the frame sizes were:
+
+     | Trial | Frame |
+     |---|---|
+     | only `_Destroy` inline | 0xc4 |
+     | allocate inline | 0xc8 |
+     | `__copy_trivial` inline | 0xd4, retail's |
+
+   The TU ends with `template Rva008312E0String &Rva008312E0String::replaceBase<char *>(...)`. The emitted `??$replaceBase@PAD@Rva008312E0String@@QAEAAV0@PAD000ABURva008312E0Tag@@@Z` is 279 B and matches retail 0x2A610 instruction for instruction, with the frame `sub esp,0xd4` and only the branch and call targets left to compare: assign 0x13270, erase 0x12150, insertRange 0x284D0. Relocations are not yet checked against the gate.
+3. **Not done (wind-down):**
+   - Repoint row 0x2A610 from `?bfmeReplaceV24@BfmeStrV24@@...` to the template name. `add_match --replace-rva` accepts only scaffold rows, so use `tools/rename.py` or docs/naming.md.
+   - Drop the then-unused pins bfmeCopyChV24 and bfmeEraseV24.
+   - In Rva008312E0StringReplace.cpp, make replaceBase the same member template (`_ForwardIter __m = __f;`) so its COMDAT name matches. Keep bfmeReplaceAliasedRange's frame at 0x9c and check it with ./build.sh.
+   - Run link_check --refresh on both units. The expected gain is +1,351 B plus BfmeConv1464's own.
+   - The BfmeConv1464 TU also emits an 863 B insertRange copy (frame 0xac), which is not retail's. Under retail-truth-3 it should lose to the proven Rva008312E0StringReplace copy; verify this with link_check.
