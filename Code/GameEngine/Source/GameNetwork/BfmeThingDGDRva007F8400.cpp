@@ -73,22 +73,22 @@ public:
 // The reply handlers registered below: each is handed the reply and the owner
 // registered with it and forwards the reply to one owner method. All ten
 // callees are already matched; the handler names carry their own addresses.
-void Rva00663690Handler( Rva007E8810Message * value, Rva007F7980Browser *owner )
+void regionHandler( Rva007E8810Message * value, Rva007F7980Browser *owner )
 {
 	owner->onRegion( value );
 }
 
-void Rva006636A0Handler( Rva007E8810Message * value, Rva007F7980Browser *owner )
+void lobbyHandler( Rva007E8810Message * value, Rva007F7980Browser *owner )
 {
 	owner->onLobby( value );
 }
 
-void Rva006636D0Handler( Rva007E8810Message * value, Rva007F7980Browser *owner )
+void gameHandler( Rva007E8810Message * value, Rva007F7980Browser *owner )
 {
 	owner->onGame( value );
 }
 
-void Rva006636E0Handler( Rva007E8810Message * value, Rva007F7980Browser *owner )
+void playerHandler( Rva007E8810Message * value, Rva007F7980Browser *owner )
 {
 	owner->onPlayer( value );
 }
@@ -241,11 +241,11 @@ void BfmeThingDGD::rva007F8400( unsigned char useInternet, int useLan, void *for
 	((BfmeThingRE *)m_0c)->bfmeRunRE( forwarded );
 	m_14 = m_10->v1();
 	m_14->m_6a8->v3( static_cast< Rva0112B7F8Base * >( this ), 0 );
-	m_14->v4( (void *)&bfmeRva0130A9D4TagSlot, (void *)Rva00663690Handler, this );
-	m_14->v4( (void *)&bfmeRva0130A9F8TagSlot, (void *)Rva006636A0Handler, this );
+	m_14->v4( (void *)&bfmeRva0130A9D4TagSlot, (void *)regionHandler, this );
+	m_14->v4( (void *)&bfmeRva0130A9F8TagSlot, (void *)lobbyHandler, this );
 	m_14->v4( (void *)&bfmeRva0130AAACTagSlot, (void *)Rva007F6FC0BrowserGameReply, this );
-	m_14->v4( (void *)&bfmeRva0130AAA0TagSlot, (void *)Rva006636D0Handler, this );
-	m_14->v4( (void *)&bfmeRva0130AA58TagSlot, (void *)Rva006636E0Handler, this );
+	m_14->v4( (void *)&bfmeRva0130AAA0TagSlot, (void *)gameHandler, this );
+	m_14->v4( (void *)&bfmeRva0130AA58TagSlot, (void *)playerHandler, this );
 	m_14->v4( (void *)&bfmeRva0130AB18TagSlot, (void *)enterGameRequestHandler, this );
 	m_14->v4( (void *)&bfmeRva0130AB30TagSlot, (void *)Rva00664A60Handler, this );
 	m_14->v4( (void *)&bfmeRva0130AB00TagSlot, (void *)queueLengthHandler, this );

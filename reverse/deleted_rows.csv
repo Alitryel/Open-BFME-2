@@ -2168,3 +2168,7 @@ _Rva0084DB70,0x00020E30,"Renamed to __Locale_strwxfrm by tools/rename.py (inferr
 ?create@Rva005CDC8FReceiver@@QAE?AV?$RvaCloneResult@VRva005CDB8F@@@@ABURvaPayloadInput16@@@Z,0x005CDC8F,"Renamed to ?create@Rva005CD9AE@@UAE?AV?$RvaCloneResult@VRva005CDB8F@@@@ABURvaPayloadInput16@@@Z: retail vtable 0x00875014 installed by Rva005CD9AE points to this virtual body"
 ?clone@Rva005EA2B0@@QBEPAV1@XZ,0x003ADC32,"Renamed to ?clone@Rva003ADC4F@@QBEPAV1@XZ: native new-copy call at 0x003ADC44 targets this class copy constructor"
 ?clone@Rva005EAF10@@QBEPAV1@XZ,0x003AE092,"Renamed to ?clone@Rva003AE0AF@@QBEPAV1@XZ: native new-copy call at 0x003AE0A4 targets this class copy constructor"
+?Rva00663690Handler@@YAXPAVRva007E8810Message@@PAVRva007F7980Browser@@@Z,0x00663690,"Renamed to ?regionHandler@@YAXPAVRva007E8810Message@@PAVRva007F7980Browser@@@Z by tools/rename.py (inferred)"
+?Rva006636A0Handler@@YAXPAVRva007E8810Message@@PAVRva007F7980Browser@@@Z,0x006636A0,"Renamed to ?lobbyHandler@@YAXPAVRva007E8810Message@@PAVRva007F7980Browser@@@Z by tools/rename.py (inferred)"
+?Rva006636D0Handler@@YAXPAVRva007E8810Message@@PAVRva007F7980Browser@@@Z,0x006636D0,"Renamed to ?gameHandler@@YAXPAVRva007E8810Message@@PAVRva007F7980Browser@@@Z by tools/rename.py (inferred)"
+?Rva006636E0Handler@@YAXPAVRva007E8810Message@@PAVRva007F7980Browser@@@Z,0x006636E0,"Renamed to ?playerHandler@@YAXPAVRva007E8810Message@@PAVRva007F7980Browser@@@Z by tools/rename.py (inferred)"
