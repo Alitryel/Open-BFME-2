@@ -4701,3 +4701,10 @@ Code/GameEngine/Source/Common/Rva005C6CCC.cpp|local|Rotate|c,4c0fa99856d319a07eb
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E7140.cpp|function|0x000E7140|rva000E7140,488ced873c3ae443bf78120f,gpt-6.1-sol,codexb-20261024-104106-9,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva0031F89E.cpp|function|0x0031F89E|rva0031F89E,0e70364cb4638db8ab75c093,gpt-6.1-sol,codexb-20261024-110218-1,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva0031F89E.cpp|local|Rva0031F89E::rva0031F89E|n,bffc127fe815eaedbb51c688,gpt-6.1-sol,codexb-20261024-110218-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva0010F5A8Finish.cpp|function|0x0010F5A8|rva0010F5A8,9fd212a491e7948184572aff,gpt-6.1-sol,codexb-20261024-110218-5,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|member|Rva0030C2CEArea|m_strings40,8e97aaa95374fe2dfea9f2a1,gpt-6.1-sol,codexb-20261024-110218-6,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|member|Rva0030C2CEArea|m_int60,979c9e5ed0157e13deb65fcd,gpt-6.1-sol,codexb-20261024-110218-6,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|local|saveRiverAreas|off2,511159b5bed8894305cfb9e5,gpt-6.1-sol,codexb-20261024-110218-6,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|local|saveRiverAreas|tmp,0c690d9ed893bad4725e1b51,gpt-6.1-sol,codexb-20261024-110218-6,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva005C41C9Refresh.cpp|local|Rva005C41C9::rva005C41C9|a,930e960866b4ac6fdba4361c,gpt-6.1-sol,codexb-20261024-110218-9,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameClient/VideoPlayerGetVideo.cpp|function|0x006894D0|rva006894D0,9a36b98460e2299cabdc9fd4,gpt-6.1-sol,codexb-20261024-110218-10,w-8e883e57d025,2026-10-24
