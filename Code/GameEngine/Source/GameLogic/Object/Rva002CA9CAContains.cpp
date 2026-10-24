@@ -114,7 +114,7 @@ public:
 	bool rva002CA9CA(int id, const void *arg);
 	bool rva002CAA59(int source, const void *weapon);
 	void postProcessLoad();
-	void rva002CA970(int a1, int a2, const void *weapon, int a4);
+	void rva002CA970(int a1, int source, const void *weapon, int position);
 	float getProjectileNuggetRadiusIfAlliesAffected(const void *arg);
 	bool rva002CAD8B();
 	void rva002CAC6E(int a, int b);
@@ -212,10 +212,10 @@ bool Rva002CA9CA::rva002CAA59(int source, const void *weapon)
 	return false;
 }
 
-void Rva002CA9CA::rva002CA970(int a1, int a2, const void *weapon, int a4)
+void Rva002CA9CA::rva002CA970(int a1, int source, const void *weapon, int position)
 {
-	(void)a2;
-	(void)a4;
+	(void)source;
+	(void)position;
 	const Filter *flt = (const Filter *)weapon;
 	ListNode *cur = m_17c->m_next;
 	while (cur != m_17c)

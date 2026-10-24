@@ -1878,3 +1878,5 @@ param,BfmeSubmitter1283::bfmeSubmitColors1283::a3,BfmeSubmitter1283::bfmeSubmitC
 param,BfmeSubmitter1283::bfmeSubmitColors1283::a11,BfmeSubmitter1283::bfmeSubmitColors1283::ratio,inferred,agree:nl-4e96bc1c563b,Code/GameEngine/Source/Common/BfmeSubmitColors1283.cpp,0x006F8E10
 param,Rva001E30F5::rva001E30F5::a,Rva001E30F5::rva001E30F5::assets,inferred,agree:nl-100c3eca7bb2,Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp,0x001E30F5
 param,Rva002CA9CA::rva002CAA59::a1,Rva002CA9CA::rva002CAA59::source,inferred,agree:nl-8e29e3edd43b,Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp,0x002CAA59
+param,Rva002CA9CA::rva002CA970::a2,Rva002CA9CA::rva002CA970::source,inferred,agree:nl-032e8de57f65,Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp,0x002CA970
+param,Rva002CA9CA::rva002CA970::a4,Rva002CA9CA::rva002CA970::position,inferred,agree:nl-5d446c29f231,Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp,0x002CA970
