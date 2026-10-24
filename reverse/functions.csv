@@ -6834,7 +6834,7 @@ _Rva00812FD0,,0x0067EED0,291,Code/Libraries/Source/DirtySock/Y4CommTickIdle.c,ma
 _Rva008139A0,,0x0067F8A0,158,Code/Libraries/Source/DirtySock/Y4CommTickIdle.c,matched,bfme1 Y4CommTickIdle source; TAPI release and teardown
 _Rva00815780,,0x00681680,5,Code/Libraries/Source/DirtySock/commsrp.cpp,matched,op-table stub; empty frame
 _Rva00815890,,0x00681790,17,Code/Libraries/Source/DirtySock/commsrp.cpp,matched,op-table stub; bare tick read
-?rva00813CF0@@YAXXZ,,0x0067FBF0,5,Code/Libraries/Source/DirtySock/Y4CommTapi.cpp,matched,op-table stub; empty frame
+?CommTAPIUnresolve@@YAXXZ,,0x0067FBF0,5,Code/Libraries/Source/DirtySock/Y4CommTapi.cpp,matched,op-table stub; empty frame
 ?rva00813A40@@YAXXZ,,0x0067F940,5,Code/Libraries/Source/DirtySock/Y4CommTapi.cpp,matched,op-table stub; empty frame
 ?Rva00814020@@YAXXZ,,0x0067FF20,17,Code/Libraries/Source/DirtySock/Y4CommTapi.cpp,matched,op-table stub; bare tick read
 ?Get_Orientation@HRawAnimClass@@UBE_NAAVQuaternion@@HM@Z,,0x0018DD60,440,Code/Libraries/Source/WWVegas/WW3D2/hrawanim.cpp,matched,BFME fade-channel NodeMotionStruct (36B stride) and unpooled MotionChannel without CompressedData; bool report and normalized-lerp blend at 0x717550

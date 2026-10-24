@@ -10737,7 +10737,7 @@ name,address,notes
 ?rva007FBE80@Rva007FBC60Game@@QAE_NPBDPADI@Z,0x00668380
 ?rva007FBFB0@Rva007F5010Player@@QAE_NPBDPADI@Z,0x006684B0
 ?rva00813A40@@YAXXZ,0x0067F940,op-table slot 8 of the CommTAPI factory at 0x0067ECD0 names this address; BFME1 Y4CommTapi names this op callee; 5B unclaimed
-?rva00813CF0@@YAXXZ,0x0067FBF0,op-table slot 3 of the CommTAPI factory at 0x0067ECD0 names this address; BFME1 Y4CommTapi names this op callee; 5B unclaimed
+?CommTAPIUnresolve@@YAXXZ,0x0067FBF0,op-table slot 3 of the CommTAPI factory at 0x0067ECD0 names this address; BFME1 Y4CommTapi names this op callee; 5B unclaimed
 ?rva0082ADB0Fill@@YAXPAD0ABD@Z,0x000237C0
 ?rva0082C6E0CopyValues@@YAPAURva0082C6E0Value@@PAU1@00@Z,0x000179B0
 ?rva0082C760Acquire@@YAXPAVNodeAllocMutex@_STL@@@Z,0x00007690,call alias from BFME1 donor lock path; target implementation is matched STLport spin lock at 0x7690; alias identity provisional

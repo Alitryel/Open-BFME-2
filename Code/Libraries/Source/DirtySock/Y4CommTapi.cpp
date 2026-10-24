@@ -48,7 +48,7 @@ extern "C"
 	void *CommSerialConstruct( int first, int second, int third );
 }
 
-void rva00813CF0( void );
+void CommTAPIUnresolve( void );
 void rva00813A40( void );
 void Rva00814020( void );
 
@@ -65,7 +65,7 @@ extern "C" CommTAPIRef *Rva00812DD0( int first, int second, int third )
 	comm->m_ops[ 0 ] = (void *)Rva00812DD0;
 	comm->m_ops[ 1 ] = (void *)Rva008139A0;
 	comm->m_ops[ 2 ] = (void *)Rva00813A50;
-	comm->m_ops[ 3 ] = (void *)rva00813CF0;
+	comm->m_ops[ 3 ] = (void *)CommTAPIUnresolve;
 	comm->m_ops[ 4 ] = (void *)Rva00813D00;
 	comm->m_ops[ 5 ] = (void *)Rva00813E30;
 	comm->m_ops[ 6 ] = (void *)Rva00813E50;
@@ -101,7 +101,7 @@ extern "C" CommTAPIRef *Rva00812DD0( int first, int second, int third )
  * empty frames) and 0x0067FF20 (17B, tick read). BFME1 names all three as
  * op callees without giving bodies; the shapes are forced. The lowercase
  * pair keeps BFME1's plain-scope (C++) linkage, matching their pins. */
-void rva00813CF0( void )
+void CommTAPIUnresolve( void )
 {
 }
 

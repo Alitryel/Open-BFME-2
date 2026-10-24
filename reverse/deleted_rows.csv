@@ -2428,3 +2428,4 @@ __ehhandler$?Rva006CDBF0Resize@@YAPAVAptValueNameEntry@@PAV1@HH@Z,0x007A8186,"Re
 ?rva00072B3A@Rva00072B3A@@QBE?AVRvaTextureHandleView@@XZ,0x00072B3A,"Renamed to ?getShroudTexture@Rva00072B3A@@QBE?AVRvaTextureHandleView@@XZ by tools/rename.py (inferred)"
 ?Rva000FA927ClearDirty@@YAXXZ,0x000FA927,"Renamed to ?clearDirty@@YAXXZ by tools/rename.py (inferred)"
 ?Rva000FA92FIsDirty@@YA_NXZ,0x000FA92F,"Renamed to ?isDirty@@YA_NXZ by tools/rename.py (inferred)"
+?rva00813CF0@@YAXXZ,0x0067FBF0,"Renamed to ?CommTAPIUnresolve@@YAXXZ by tools/rename.py (inferred)"
