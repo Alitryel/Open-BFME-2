@@ -26,7 +26,7 @@ struct input_iterator_tag {}; struct forward_iterator_tag:input_iterator_tag {};
 template<class T,class A=allocator<T> >class _Vector_base {public:_Vector_base(const A&); T*start,*finish,*limit;};
 template<class T,class A=allocator<T> >class vector;
 template<>class vector<int,allocator<int> >:public _Vector_base<int,allocator<int> > {public:
-__forceinline vector(const allocator<int>&a):_Vector_base<int,allocator<int> >(a){}~vector(){if(start)allocator<int>::deallocate(start,0);}
+__forceinline vector(const allocator<int>&alloc):_Vector_base<int,allocator<int> >(alloc){}~vector(){if(start)allocator<int>::deallocate(start,0);}
 void reserve(unsigned int);
  template<class Iter>vector(Iter,Iter,const allocator<int>&);
 template<class Iter>void _M_assign_aux(Iter,Iter,const forward_iterator_tag&);
