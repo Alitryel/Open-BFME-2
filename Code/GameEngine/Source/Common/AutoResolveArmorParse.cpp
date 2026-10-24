@@ -90,8 +90,8 @@ void __cdecl Rva00542B61Parse(INI *ini, void *formal, void *instance, void *a4)
 // disassembly, callees all rowed, twin 0x00542B24 same shape.
 void __cdecl Rva00542BA1Parse(INI *ini, void *formal, void *vecPtr, void *a4)
 {
-	Rva005429D7 tmp;
-	((_STL::vector<BfmeFixedObject260, _STL::allocator<BfmeFixedObject260> > *)vecPtr)->push_back(*(const BfmeFixedObject260 *)(const void *)tmp.rva005429D7());
+	Rva005429D7 armor;
+	((_STL::vector<BfmeFixedObject260, _STL::allocator<BfmeFixedObject260> > *)vecPtr)->push_back(*(const BfmeFixedObject260 *)(const void *)armor.rva005429D7());
 	Rva00542B61Parse(ini, formal, (char *)*(void **)((char *)vecPtr + 4) - 0x104, a4);
 }
 
@@ -118,7 +118,7 @@ void __cdecl Rva00542997Parse(INI *ini, void *formal, void *instance, void *a4)
 // Evidence: chain packet (calls landed 0x00542997), callees all rowed.
 void __cdecl Rva00542B24Parse(INI *ini, void *formal, void *vecPtr, void *a4)
 {
-	Rva005429D7 tmp;
-	((_STL::vector<BfmeFixedObject260, _STL::allocator<BfmeFixedObject260> > *)vecPtr)->push_back(*(const BfmeFixedObject260 *)(const void *)tmp.rva005429D7());
+	Rva005429D7 weapon;
+	((_STL::vector<BfmeFixedObject260, _STL::allocator<BfmeFixedObject260> > *)vecPtr)->push_back(*(const BfmeFixedObject260 *)(const void *)weapon.rva005429D7());
 	Rva00542997Parse(ini, formal, (char *)*(void **)((char *)vecPtr + 4) - 0x104, a4);
 }

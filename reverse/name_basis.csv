@@ -1746,3 +1746,5 @@ param,Drawable::rva00272D77::b,Drawable::rva00272D77::fadeInFrames,inferred,agre
 local,AIDozerManager::DoXfer::tmp,AIDozerManager::DoXfer::dozerID,inferred,agree:nl-5fdb73170637,Code/GameEngine/Source/Common/Rva00599825ListAdd.cpp,0x0059992A
 param,Rva003F74F5Fill::x,Rva003F74F5Fill::fillValue,inferred,agree:nl-56c23c775910,Code/GameEngine/Source/Common/Rva003F74F5Fill.cpp,0x003F74F5
 member,Rva005E51D3Inner::m_4,Rva005E51D3Inner::m_virtualBaseOffset,inferred,agree:nl-148a419ff15f,Code/GameEngine/Source/Common/Rva005E51D3Wrap.cpp,
+local,Rva00542BA1Parse::tmp,Rva00542BA1Parse::armor,inferred,agree:nl-65f2b10f5c4b,Code/GameEngine/Source/Common/AutoResolveArmorParse.cpp,0x00542BA1
+local,Rva00542B24Parse::tmp,Rva00542B24Parse::weapon,inferred,agree:nl-2382082ddbd8,Code/GameEngine/Source/Common/AutoResolveArmorParse.cpp,0x00542B24
