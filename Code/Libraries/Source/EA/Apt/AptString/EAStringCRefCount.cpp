@@ -8,6 +8,8 @@
 // evidence is the retail "(char *)pData != s_EmptyInternalData" message.
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *, const char *, int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 void __debugbreak();
 #pragma intrinsic(__debugbreak)
 #pragma intrinsic(memcmp)
@@ -354,7 +356,7 @@ EAStringC &EAStringC::Rva006D4F00Append(const EAStringC &other)
 // m_uHash; callers at 0x0070ACD4/0x0070AFC5/0x0070DC1A/0x0070DC86/0x0070DDCC
 // /0x0070DE8C plus 0x006D3708/0x006D3712 consume the hash; neighbours
 // IsEmpty 0x006D2F30 and clear 0x006D2F90 live in this TU.
-// Uses __asm int 3 barrier (not __debugbreak intrinsic) to keep the reload
+// The compiler memory barrier at the debugger trap keeps the reload
 // after the breakpoint like retail; intrinsic hoists the load above int3
 // (SetSize 0x006D3BC0 precedent, proven blocker).
 unsigned short EAStringC::rva006D2F40() const
@@ -362,7 +364,7 @@ unsigned short EAStringC::rva006D2F40() const
 	if (!(m_pData->m_uHash != 0)) {
 		g_bfmeAptAssertAtE17734("m_pData->m_uHash != 0", ".\\string\\EAString.inl", 0x184);
 		if (g_bfmeAptBreakOnAssertAtDDC01C) {
-			__asm int 3
+			_ReadWriteBarrier(); __debugbreak(); _ReadWriteBarrier();
 		}
 	}
 	return m_pData->m_uHash;
