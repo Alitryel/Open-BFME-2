@@ -4261,3 +4261,14 @@ Code/GameEngine/Source/Common/Rva00599825ListAdd.cpp|local|AIDozerManager::DoXfe
 Code/GameEngine/Source/Common/Rva00599825ListAdd.cpp|local|AIDozerManager::DoXfer|tmp,3568079d384293667a847614,gpt-6.1-sol,codex4-20261024-080054-16,w-887869184137,2026-10-24
 Code/GameEngine/Source/Common/Rva00418A8EOuter.cpp|function|0x00418985|Rva00418985Construct,724ee3d44a43266fe18ab7a1,gpt-6.1-sol,codex4-20261024-080054-17,w-887869184137,2026-10-24
 Code/GameEngine/Source/Common/Rva00418A8EOuter.cpp|function|0x00418AB2|rva00418AB2,9a768f65019c1184802a4889,gpt-6.1-sol,codex4-20261024-080054-17,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva0033A77FForward.cpp|member|Rva0033A77F|mA0,f03e1f22524e154c5e912494,gpt-6.1-sol,codex4-20261024-080054-21,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva0033A77FForward.cpp|param|Rva0033A77F::rva0033A77F|b,f6c47ea10b35c256100ab3f9,gpt-6.1-sol,codex4-20261024-080054-21,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva0033A77FForward.cpp|param|Rva0033A77F::rva0033A77F|c,233096d819412c10b4002d02,gpt-6.1-sol,codex4-20261024-080054-21,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp|local|bfme5MakeObj18|q,98749a9ad774ff9eb0c2e596,gpt-6.1-sol,codex4-20261024-080054-24,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp|local|bfme5MakeObj18|p,f893c6e11db8cfcb13b4a132,gpt-6.1-sol,codex4-20261024-080054-24,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva000D3A17.cpp|local|Rva000D3A17::rva000D3A17|n,889a0a23ebcf022f12d926a2,gpt-6.1-sol,codex4-20261024-080054-25,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva000D3A17.cpp|local|Rva000D3A17::rva000D3A17|p,bbb2a1b21c3a28aaf2635ced,gpt-6.1-sol,codex4-20261024-080054-25,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva005D4913Dtor.cpp|param|DelegateDesc|f,d8788108f7d0de26e709187c,gpt-6.1-sol,codex4-20261024-080054-27,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva005D4913Dtor.cpp|param|Rva00579E47|r,832eff4ede4da34d01a4ec50,gpt-6.1-sol,codex4-20261024-080054-27,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva005D4913Dtor.cpp|param|AptRef|d,ba6ff292456add10bf706d80,gpt-6.1-sol,codex4-20261024-080054-27,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva005D4913Dtor.cpp|param|MakeBinding|f,656dc9a045577528e7a772f6,gpt-6.1-sol,codex4-20261024-080054-27,w-887869184137,2026-10-24
