@@ -14,7 +14,18 @@
 // and hand it to the slot's owning holder, whose reset is the folded
 // 0x00575674 / 0x00528FE6 (address-named views here).
 #include "ascii_string.h"
+#define inline static inline
+#include <math.h>
+#undef inline
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime();
+
+class Rva005D2462
+{
+public:
+	Rva005D2462(int level, const AsciiString &name, int a, int b);
+private:
+	char m_pad[0x18];
+};
 struct TargetRef00217D4C {virtual void*destroy(unsigned);virtual void slot1();int references;};
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C*);
 struct TreeHintRef00217D4C {TargetRef00217D4C*m_ptr;TreeHintRef00217D4C(const TreeHintRef00217D4C&);TreeHintRef00217D4C&operator=(const TreeHintRef00217D4C&);~TreeHintRef00217D4C(){if(m_ptr)ReleaseTreeHintRef00217D4C(m_ptr);}};
@@ -105,6 +116,12 @@ namespace StrategicHUD {
 class CommandUIImpl
 {
 public:
+	virtual int rva005D24E5(int);
+	virtual void rva005D264D(int, const struct TreeHintRef00217D4C &);
+	virtual void rva005D2664(int);
+	virtual void rva005D269B();
+	virtual void DoFlashButton(int slot, float duration);
+
 	// Target facts: ctor 0x005D2405 (WorldBuilder name, callgraph) installs
 	// vtable 0x008757D8 = { scalar deleting dtor 0x005D2495, 0x005D24B1,
 	// 0x005D2449 }; the dtor 0x005D242F reinstalls it. WorldBuilder's
@@ -123,13 +140,14 @@ public:
 	};
 
 	void Update();
+	void OnButtonFrameLoaded(const char *path);
 	void OnSubMenuLoaded(const char *path);
 	void OnToggleFlashLoaded(const char *path);
 
 private:
 	struct ButtonSlot
 	{
-		int m_00;
+		Rva00575674 m_frame; // +0x00
 		Rva00575674 m_subMenu; // +0x04
 		Rva00528FE6 m_toggleFlash; // +0x08
 		Rva002BED91 queued;
@@ -137,7 +155,6 @@ private:
 		unsigned startTime,timeout;
 	};
 
-	char m_pad00[4];
 	void *level;
 	AsciiString name;
 	char m_pad0C[0x18 - 0x0C];
@@ -229,11 +246,11 @@ void StrategicHUD::CommandUIImpl::Update()
     for (int i = 0; i < 6; ++i)
     {
         ButtonSlot *slot = &self->m_slots[i];
-        if (slot->m_00)
+        if (slot->m_frame.get())
         {
             if (slot->queued.ptr)
             {
-                slot->active = ((Rva005C39C4 *)slot->queued.ptr)->rva005C39C4(slot->m_00);
+                slot->active = ((Rva005C39C4 *)slot->queued.ptr)->rva005C39C4((int)slot->m_frame.get());
                 slot->queued.clear();
             }
             if (slot->active.m_ptr)
@@ -249,4 +266,49 @@ void StrategicHUD::CommandUIImpl::Update()
             slot->timeout = 0;
         }
     }
+}
+
+void StrategicHUD::CommandUIImpl::OnButtonFrameLoaded(const char *params)
+{
+	AsciiString name;
+	ButtonSlot *button;
+	{
+		int idx;
+		if (!StrategicHUD::ParseButtonSlotIndex(params, &idx) || !Rva004128F0GetParam(params, "name", name))
+			return;
+		button = &m_slots[idx];
+		if (*(void **)&button->m_frame)
+			return;
+	}
+	button->m_frame.rva00575674((Object *)new Rva005D2462(
+		AptUtils::LevelIndexFromTarget(name.str()),
+		AsciiString(AptUtils::SkipLevelN(name.str())),
+		(int)&button->m_subMenu,
+		(int)&button->m_toggleFlash));
+}
+
+void StrategicHUD::CommandUIImpl::DoFlashButton(int slot, float duration)
+{
+	ButtonSlot *btn = &m_slots[slot];
+	int old = btn->timeout;
+	unsigned long t = timeGetTime();
+	float s = duration * 1000.0f;
+	btn->startTime = t;
+	s = s + 0.5f;
+	float f = floorf(s);
+	int ni;
+	__asm {
+		fld [f]
+		fistp [ni]
+	}
+	btn->timeout = ni;
+	if (old == 0) {
+		if (ni == 0)
+			return;
+		Rva00525338Fire(g_bfmeAptWindowManager, level, name.str(), "SetFlashEffectState", &slot, (void *)"_show");
+	} else {
+		if (ni != 0)
+			return;
+		Rva00525338Fire(g_bfmeAptWindowManager, level, name.str(), "SetFlashEffectState", &slot, (void *)"_hide");
+	}
 }
