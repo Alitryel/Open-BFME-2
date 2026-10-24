@@ -170,19 +170,19 @@ void Rva00318333::rva00318807(int mode, int *m1Csrc, void *shiftSrc, const Strin
 }
 void Rva00318333::rva00318768()
 {
-	int o1 = m_2C;
-	int remainingDuration = o1 - 1;
+	int oldDuration = m_2C;
+	int remainingDuration = oldDuration - 1;
 	m_2C = remainingDuration;
-	if (!o1) {
+	if (!oldDuration) {
 	} else if (remainingDuration) {
 	} else {
 		rva00318719();
 	}
 	int o2 = m_28;
-	int c2 = o2 - 1;
-	m_28 = c2;
+	int remainingCountdown = o2 - 1;
+	m_28 = remainingCountdown;
 	if (!o2) {
-	} else if (c2) {
+	} else if (remainingCountdown) {
 	} else {
 		((Rva003186EE *)this)->rva003186EE(0, 0, 0);
 	}

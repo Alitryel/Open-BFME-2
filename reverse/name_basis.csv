@@ -1910,3 +1910,5 @@ param,Rva00431920::Rva00431920::e,Rva00431920::Rva00431920::time,inferred,agree:
 local,Rva006ED2A0::Rva006ED2A0::v74,Rva006ED2A0::Rva006ED2A0::flags,inferred,agree:nl-65f3595ae529,Code/GameEngine/Source/Common/Rva006ED1E0Cluster.cpp,0x006ED1E0
 param,famgenDelete#2::p,famgenDelete#2::lock,inferred,agree:nl-7c87bf748868,Code/GameEngine/Source/Common/FamilyDeletingDtors3.cpp,
 param,famgenDelete#3::p,famgenDelete#3::lock,inferred,agree:nl-110efbbc5fc2,Code/GameEngine/Source/Common/FamilyDeletingDtors3.cpp,
+local,Rva00318333::rva00318768::o1,Rva00318333::rva00318768::oldDuration,inferred,agree:nl-a3b25d1d2f03,Code/GameEngine/Source/GameNetwork/Rva00318333.cpp,0x00318768
+local,Rva00318333::rva00318768::c2,Rva00318333::rva00318768::remainingCountdown,inferred,agree:nl-479686c9b878,Code/GameEngine/Source/GameNetwork/Rva00318333.cpp,0x00318768
