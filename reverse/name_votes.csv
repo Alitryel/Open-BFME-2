@@ -4624,3 +4624,12 @@ Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp|function|0x004FDD
 Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp|function|0x004CFBC2|rva004CFBC2,698d5504ed067fa71bbaebf6,gpt-6.1-sol,codexb-20261024-104106-4,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp|function|0x004CFB8B|rva004CFB8B,e369679386a9d24e1dae8b83,gpt-6.1-sol,codexb-20261024-104106-4,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/BfmeFreeOneJT.cpp|function|0x001B6410|bfmeFreeOneJT,53a69e64614e5af8b81a8caa,claude-opus-5-5,pensive1,w-6ab859af5514,2026-10-24
+Code/GameEngine/Source/Common/Rva002E0D66Method.cpp|member|Rva002E0D66Node|m_8,b9be1bebbfaab00348c41837,gpt-6-astra,codexb2-20261024-101454-7,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/MapUtilGetDefaultMap.cpp|param|Rva003000F6Get|a,b6a650ad36671ffa454a4391,gpt-6-astra,codexb2-20261024-101454-7,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/MapUtilGetDefaultMap.cpp|param|Rva003000F6Get|b,82f074dfb8f4dd89ef0f8af7,gpt-6-astra,codexb2-20261024-101454-7,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp|member|Rva005C3EA5|m_s08,932c468da5995e21a9f870b2,gpt-6-astra,codexb2-20261024-101454-9,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp|local|Rva005C3EA5::Show|t,20fc354ac710c333e87fc9bb,gpt-6-astra,codexb2-20261024-101454-9,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp|local|Rva005C3EA5::Show|s,9e71aabf815caa6c733a8703,gpt-6-astra,codexb2-20261024-101454-9,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTreeBufferAddTree.cpp|class||Rva000ECF79Tree,23dd884b5d1d6fdd59639416,gpt-6-astra,codexb2-20261024-101454-9,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTreeBufferAddTree.cpp|member|Rva000ECF79Data|flag54,1f50e1bb7e9fdc064f77b11e,gpt-6-astra,codexb2-20261024-101454-9,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva0028ECDB.cpp|class||Rva0028ECDBAux,3dde17febb0167ead5c9d279,gpt-6-astra,codexb2-20261024-101454-10,w-d0bdfd8b17e9,2026-10-24
