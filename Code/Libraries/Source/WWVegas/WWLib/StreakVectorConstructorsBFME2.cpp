@@ -17,6 +17,7 @@ public:
  virtual ~SimpleVecClass();
  virtual bool Resize(int n);
  virtual bool Uninitialised_Grow(int n);
+ int Length(void) const {return VectorMax;}
 protected:T*Vector;int VectorMax;
 };
 template<class T>class SimpleDynVecClass:public SimpleVecClass<T>{
@@ -83,7 +84,37 @@ inline bool SimpleVecClass<T>::Resize(int newsize)
 	}
 	return true;
 }
+template<class T>
+inline bool SimpleVecClass<T>::Uninitialised_Grow(int newsize)
+{
+	if (newsize <= VectorMax) {
+		return true;
+	}
+	
+	if (newsize > 0) {
+
+		/*
+		**	Allocate a new vector of the size specified. The default constructor
+		**	will be called for every object in this vector.
+		*/
+		delete[] Vector;
+		Vector = W3DNEWARRAY T[newsize];
+		VectorMax=newsize;
+	}
+	return true;
+}
+template<class T>
+inline bool SimpleDynVecClass<T>::Resize(int newsize)
+{
+	if (SimpleVecClass<T>::Resize(newsize)) {
+		if (Length() < ActiveCount) ActiveCount = Length();
+		return(true);
+	}
+	return(false);
+}
 template bool SimpleVecClass<float>::Resize(int);
+template bool SimpleVecClass<float>::Uninitialised_Grow(int);
+template bool SimpleDynVecClass<float>::Resize(int);
 template SimpleVecClass<float>::SimpleVecClass(int);
 template SimpleDynVecClass<float>::SimpleDynVecClass(int);
 template SimpleDynVecClass<float>::SimpleDynVecClass(const SimpleDynVecClass<float>&) throw();
