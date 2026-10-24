@@ -5323,3 +5323,7 @@ Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp|function|0x006D2D90|rva006D2
 Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp|function|0x006CBC50|rva006CBC50,b2ce91be52814f3d632c3459,gpt-6.1-sol,codexb-20261024-145319-2,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp|local|rva006D2D90|v,453b771ddd14a16aeb13595d,gpt-6.1-sol,codexb-20261024-145319-2,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp|local|rva006D2D90|c,dd72eef3f198590c93442740,gpt-6.1-sol,codexb-20261024-145319-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/BfmeSubmitColors1283.cpp|param|BfmeSubmitter1283::bfmeSubmitColors1283|a1,6c3d6bda90ba022176c532d1,gpt-6-astra,codexb2-20261024-145840-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp|member|Rva00202244Preset|m_14,964d6360f12021d1d3660371,gpt-6-astra,codexb2-20261024-145840-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp|member|Rva00202244Preset|m_15,381f4db998093021aa8e67a0,gpt-6-astra,codexb2-20261024-145840-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp|member|Rva00202244Preset|m_38,428676eac4b08ec8d040e508,gpt-6-astra,codexb2-20261024-145840-4,w-d0bdfd8b17e9,2026-10-24
