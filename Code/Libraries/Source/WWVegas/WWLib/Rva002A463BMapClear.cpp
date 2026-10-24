@@ -1,20 +1,16 @@
-// cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
 // stlport
 //
-// ?rva002A463B@Rva002A463B@@QAEXXZ, retail 0x002A463B (11B).
-// Target evidence: adjusts the receiver by +0x750 and tail-jumps the rowed
-// _Rb_tree<Rva002A1B9DElement, pair<const Rva002A1B9DElement, int>>::clear
-// 0x002A1B9D -- an owner clearing its map member (STLport map::clear
-// forwards to the tree's). The tree's clear is only declared so the call
-// stays out of line; key type and owner are the ledger's stand-ins /
-// unresolved.
+// Clear the named-timer map at +0x750 through its rowed tree clear.
+// The owner class remains unrecovered.
 #include <map>
+#include "ascii_string.h"
 
-struct Rva002A1B9DElement { short words[1]; bool operator<(const Rva002A1B9DElement&b)const { return words[0]<b.words[0]; } bool operator==(const Rva002A1B9DElement&b)const {return words[0]==b.words[0];} };
+class NamedTimerInfo;
 
-typedef _STL::map<Rva002A1B9DElement, int> Rva002A463BMap;
+typedef _STL::map<AsciiString, NamedTimerInfo *> Rva002A463BMap;
 namespace _STL {
-template <> void _Rb_tree<Rva002A1B9DElement, pair<const Rva002A1B9DElement, int>, _Select1st<pair<const Rva002A1B9DElement, int> >, less<Rva002A1B9DElement>, allocator<pair<const Rva002A1B9DElement, int> > >::clear();
+template <> void _Rb_tree<AsciiString, pair<const AsciiString, NamedTimerInfo *>, _Select1st<pair<const AsciiString, NamedTimerInfo *> >, less<AsciiString>, allocator<pair<const AsciiString, NamedTimerInfo *> > >::clear();
 }
 
 class Rva002A463B

@@ -5,7 +5,7 @@ namespace _STL
 {
 	struct __false_type {};
 }
-struct Rva003F631BElement;
+struct EvaMessageInfo;
 namespace _STL
 {
 	template <class ForwardIter, class Size, class T>
@@ -15,5 +15,5 @@ namespace _STL
 void Rva003F636DFill(void *first, unsigned int n, void *x)
 {
 	_STL::__false_type t;
-	_STL::__uninitialized_fill_n((Rva003F631BElement *)first, n, *(const Rva003F631BElement *)x, t);
+	_STL::__uninitialized_fill_n((EvaMessageInfo *)first, n, *(const EvaMessageInfo *)x, t);
 }

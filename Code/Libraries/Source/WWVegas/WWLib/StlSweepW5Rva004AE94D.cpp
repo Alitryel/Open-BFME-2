@@ -5,7 +5,11 @@
 #include <algorithm>
 #include <memory>
 
-struct Rva004AE94DElement { char bytes[84]; bool operator<(const Rva004AE94DElement&)const; bool operator==(const Rva004AE94DElement&)const; };
+class WeaponTemplateSet { public: WeaponTemplateSet(const WeaponTemplateSet &); private: char m_unreconstructed[84]; };
+
+namespace _STL {
+template <> void _Construct<WeaponTemplateSet, WeaponTemplateSet>(WeaponTemplateSet *, const WeaponTemplateSet &);
+}
 
 // Instantiate the recovered operation and its required template dependencies.
-template Rva004AE94DElement * _STL::__uninitialized_fill_n<Rva004AE94DElement *, unsigned int, Rva004AE94DElement>(Rva004AE94DElement *, unsigned int, Rva004AE94DElement const &, _STL::__false_type const &);
+template WeaponTemplateSet * _STL::__uninitialized_fill_n<WeaponTemplateSet *, unsigned int, WeaponTemplateSet>(WeaponTemplateSet *, unsigned int, WeaponTemplateSet const &, _STL::__false_type const &);

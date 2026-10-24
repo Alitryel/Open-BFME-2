@@ -5,7 +5,11 @@
 #include <algorithm>
 #include <memory>
 
-struct Rva0033E0B7Element { char bytes[36]; bool operator<(const Rva0033E0B7Element&)const; bool operator==(const Rva0033E0B7Element&)const; };
+class ProductionPrerequisite { public: ProductionPrerequisite(const ProductionPrerequisite &); private: void *m_unreconstructed[9]; };
+
+namespace _STL {
+template <> void _Construct<ProductionPrerequisite, ProductionPrerequisite>(ProductionPrerequisite *, const ProductionPrerequisite &);
+}
 
 // Instantiate the recovered operation and its required template dependencies.
-template Rva0033E0B7Element * _STL::__uninitialized_copy<Rva0033E0B7Element const *, Rva0033E0B7Element *>(Rva0033E0B7Element const *, Rva0033E0B7Element const *, Rva0033E0B7Element *, _STL::__false_type const &);
+template ProductionPrerequisite * _STL::__uninitialized_copy<ProductionPrerequisite const *, ProductionPrerequisite *>(ProductionPrerequisite const *, ProductionPrerequisite const *, ProductionPrerequisite *, _STL::__false_type const &);

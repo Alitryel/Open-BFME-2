@@ -5,7 +5,11 @@
 #include <algorithm>
 #include <memory>
 
-struct Rva003F631BElement { char bytes[28]; bool operator<(const Rva003F631BElement&)const; bool operator==(const Rva003F631BElement&)const; };
+struct EvaMessageInfo { char m_unported[28]; EvaMessageInfo(const EvaMessageInfo &); };
+
+namespace _STL {
+template <> void _Construct<EvaMessageInfo, EvaMessageInfo>(EvaMessageInfo *, const EvaMessageInfo &);
+}
 
 // Instantiate the recovered operation and its required template dependencies.
-template Rva003F631BElement * _STL::__uninitialized_fill_n<Rva003F631BElement *, unsigned int, Rva003F631BElement>(Rva003F631BElement *, unsigned int, Rva003F631BElement const &, _STL::__false_type const &);
+template EvaMessageInfo * _STL::__uninitialized_fill_n<EvaMessageInfo *, unsigned int, EvaMessageInfo>(EvaMessageInfo *, unsigned int, EvaMessageInfo const &, _STL::__false_type const &);

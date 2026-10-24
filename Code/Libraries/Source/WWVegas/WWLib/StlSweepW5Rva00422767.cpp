@@ -3,9 +3,7 @@
 // cl: /O1 /G7 /Oy- /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 #include <deque>
-#include <string>
 
-struct Rva00422767Element { _STL::basic_string<wchar_t> strings[1]; bool operator<(const Rva00422767Element&)const; bool operator==(const Rva00422767Element&)const; };
 
 // Instantiate the recovered operation and its required template dependencies.
-template _STL::_Deque_iterator<Rva00422767Element, _STL::_Const_traits<Rva00422767Element> > _STL::_Deque_iterator<Rva00422767Element, _STL::_Const_traits<Rva00422767Element> >::operator+(int) const;
+template _STL::_Deque_iterator<void *, _STL::_Const_traits<void *> > _STL::_Deque_iterator<void *, _STL::_Const_traits<void *> >::operator+(int) const;

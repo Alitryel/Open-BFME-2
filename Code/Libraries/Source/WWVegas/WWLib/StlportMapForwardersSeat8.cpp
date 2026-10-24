@@ -14,14 +14,14 @@
 #include <vector>
 #include "ascii_string.h"
 
-struct Rva002A1B9DElement { short words[1]; bool operator<(const Rva002A1B9DElement&b)const { return words[0]<b.words[0]; } bool operator==(const Rva002A1B9DElement&b)const {return words[0]==b.words[0];} };
+class NamedTimerInfo;
 struct TreeHintPayload001F8ACB;
 struct Coord3D;
 struct BfmeStringRecord002CF550;
 struct Rva00215949Element { Rva00215949Element();Rva00215949Element(const Rva00215949Element&);~Rva00215949Element();Rva00215949Element&operator=(const Rva00215949Element&);char bytes[16]; bool operator<(const Rva00215949Element&)const; bool operator==(const Rva00215949Element&)const; };
 enum ScienceType { SCIENCE_INVALID = -1 };
 
-typedef _STL::map<Rva002A1B9DElement, int> MapA;                       // 0x002A3F56
+typedef _STL::map<AsciiString, NamedTimerInfo *> MapA;                       // 0x002A3F56
 typedef _STL::map<AsciiString, TreeHintPayload001F8ACB> MapB;          // 0x002C6C8E
 typedef _STL::map<AsciiString, Coord3D> MapC;                          // 0x00301EC2
 typedef _STL::map<_STL::pair<AsciiString, AsciiString>, int> MapD;     // 0x0032C366

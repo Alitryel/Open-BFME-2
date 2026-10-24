@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <memory>
 
-struct Rva003B01C3Element { char bytes[4]; bool operator<(const Rva003B01C3Element&)const; bool operator==(const Rva003B01C3Element&)const; };
+
 
 // Instantiate the recovered operation and its required template dependencies.
-template void _STL::__pop_heap<Rva003B01C3Element *, Rva003B01C3Element, _STL::less<Rva003B01C3Element>, int>(Rva003B01C3Element *, Rva003B01C3Element *, Rva003B01C3Element *, Rva003B01C3Element, _STL::less<Rva003B01C3Element>, int *);
+template void _STL::__pop_heap<int *, int, _STL::greater<int>, int>(int *, int *, int *, int, _STL::greater<int>, int *);
