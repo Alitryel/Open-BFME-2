@@ -240,10 +240,13 @@ rm -f "$deleted_out"
 # reverse/attempts/ is named for the same reason: a banked near-miss body is
 # evidence for the next agent, never a compiled source, so it must sit outside
 # Code/ where verify_source_claims would demand matched rows for it.
+#
+# vendor/dxsdk-aug2005/Include/ holds Microsoft's DirectX SDK headers,
+# hash-pinned by its PROVENANCE.txt and read only through `// dxsdk`.
 capture added_out "listing added files" git diff --cached --name-only --diff-filter=A
 while IFS= read -r path; do
     case "$path" in
-        Code/GameEngine/*|Code/GameEngineDevice/*|Code/Libraries/*|Code/gen_small/*|Code/gen_asm/*|Code/masm_dumps/*|reference/shims/*|reference/CnC_Generals_Zero_Hour/*|tools/tests/*|build/toolchains/*|mods/*|reverse/attempts/*) ;;
+        Code/GameEngine/*|Code/GameEngineDevice/*|Code/Libraries/*|Code/gen_small/*|Code/gen_asm/*|Code/masm_dumps/*|reference/shims/*|reference/CnC_Generals_Zero_Hour/*|tools/tests/*|build/toolchains/*|mods/*|reverse/attempts/*|vendor/dxsdk-aug2005/Include/*) ;;
         *) fail "source added outside official tree: $path — see AGENTS.md 'File placement'" ;;
     esac
 done < <(grep -E '\.(cpp|c|h|hpp|asm)$' "$added_out" || true)
