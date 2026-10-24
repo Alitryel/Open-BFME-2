@@ -491,7 +491,7 @@ unsigned int EAStringC::GetInternalRefCount() const
 // ?SetInternalRefCount@EAStringC@@QAEXI@Z, retail 0x006D2E20 (80B). Gap body
 // right after GetInternalRefCount: asserts "uRefCount <= 0xffff"
 // (EAString.inl 0xB1, retail strings) and stores the low word as the data
-// refcount; retail triplicates the store tail (the __asm int 3 barrier keeps
+// refcount; retail triplicates the store tail (the native debugger memory barrier keeps
 // the store after the breakpoint, as in rva006D2F40). The setter spelling mirrors the
 // proven GetInternalRefCount and the assert's parameter name (inference).
 void EAStringC::SetInternalRefCount(unsigned int uRefCount)
@@ -499,7 +499,7 @@ void EAStringC::SetInternalRefCount(unsigned int uRefCount)
 	if (!(uRefCount <= 0xFFFF)) {
 		g_bfmeAptAssertAtE17734("uRefCount <= 0xffff", ".\\string\\EAString.inl", 0xB1);
 		if (g_bfmeAptBreakOnAssertAtDDC01C) {
-			__asm int 3
+			_ReadWriteBarrier(); __debugbreak(); _ReadWriteBarrier();
 		}
 	}
 	m_pData->m_uRefCount = (unsigned short)uRefCount;
