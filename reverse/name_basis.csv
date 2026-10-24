@@ -1912,3 +1912,4 @@ param,famgenDelete#2::p,famgenDelete#2::lock,inferred,agree:nl-7c87bf748868,Code
 param,famgenDelete#3::p,famgenDelete#3::lock,inferred,agree:nl-110efbbc5fc2,Code/GameEngine/Source/Common/FamilyDeletingDtors3.cpp,
 local,Rva00318333::rva00318768::o1,Rva00318333::rva00318768::oldDuration,inferred,agree:nl-a3b25d1d2f03,Code/GameEngine/Source/GameNetwork/Rva00318333.cpp,0x00318768
 local,Rva00318333::rva00318768::c2,Rva00318333::rva00318768::remainingCountdown,inferred,agree:nl-479686c9b878,Code/GameEngine/Source/GameNetwork/Rva00318333.cpp,0x00318768
+local,Rva00318333::rva00318333::f,Rva00318333::rva00318333::isEvil,inferred,agree:nl-8bbd68e635c1,Code/GameEngine/Source/GameNetwork/Rva00318333.cpp,0x00318333
