@@ -374,7 +374,7 @@ struct TriggerInfo
 };
 
 struct CameraMarker;
-class Rva00295969Obj;
+struct Rva00293486Record { unsigned char bytes[8]; bool operator==(const Rva00293486Record&) const; bool operator<(const Rva00293486Record&) const; };
 
 struct BfmePod124
 {
@@ -385,7 +385,7 @@ struct BfmePod124
 template <> void _STL::_List_base<CameraMarker, _STL::allocator<CameraMarker> >::clear();
 template <> void _STL::_List_base<int, _STL::allocator<int> >::clear();
 template <> void _STL::list<BfmePod124, _STL::allocator<BfmePod124> >::push_back(const BfmePod124 &value);
-template <> void _STL::list<Rva00295969Obj *, _STL::allocator<Rva00295969Obj *> >::push_back(Rva00295969Obj *const &value);
+template <> void _STL::list<Rva00293486Record, _STL::allocator<Rva00293486Record> >::push_back(const Rva00293486Record &value);
 
 typedef _STL::pair<int, AsciiString> UnresolvedTrigger;
 
@@ -395,7 +395,7 @@ public:
 	void clear() { ((_STL::_List_base<CameraMarker, _STL::allocator<CameraMarker> > *)this)->clear(); }
 	void push_back(const UnresolvedTrigger &unresolvedTrigger)
 	{
-		((_STL::list<Rva00295969Obj *> *)this)->push_back(*(Rva00295969Obj *const *)&unresolvedTrigger);
+		((_STL::list<Rva00293486Record> *)this)->push_back(*(const Rva00293486Record *)&unresolvedTrigger);
 	}
 
 	void *m_node;
