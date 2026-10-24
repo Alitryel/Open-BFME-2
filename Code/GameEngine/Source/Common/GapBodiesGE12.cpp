@@ -63,7 +63,7 @@ public:
 class Rva00431FF2
 {
 public:
-	int rva00431FF2(Rva00431FF2Message *msg);
+	int translateGameMessage(Rva00431FF2Message *msg);
 private:
 	int m_00;
 	bool m_04;
@@ -72,7 +72,7 @@ private:
 	Rva00431FF2Handler *m_handler;							// +0x08
 };
 
-int Rva00431FF2::rva00431FF2(Rva00431FF2Message *msg)
+int Rva00431FF2::translateGameMessage(Rva00431FF2Message *msg)
 {
 	bool first = m_04;
 	bool second = m_05;

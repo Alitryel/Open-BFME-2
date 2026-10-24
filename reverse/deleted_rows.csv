@@ -2394,3 +2394,4 @@ __ehhandler$?rva006F1600@Rva006F1360@@QBEPAVAptValue@@PAV2@PBVEAStringC@@@Z,0x00
 ?g_00C69638@@3QBUFieldParse@@B,0x00869638,"Renamed to ?g_autoResolveArmorFieldParse@@3QBUFieldParse@@B by tools/rename.py (inferred)"
 ?bfmeGo1039C@BfmeD1039@@QAEPAVBfmeC1039@@XZ,0x00187630,"Renamed to ?Clone@BfmeD1039@@QAEPAVBfmeC1039@@XZ by tools/rename.py (inferred)"
 ?g_bfmeArgDXE@@3PAEA,0x009D7F18,"Renamed to ?vtMissing@@3PAEA by tools/rename.py (inferred)"
+?rva00431FF2@Rva00431FF2@@QAEHPAURva00431FF2Message@@@Z,0x00431FF2,"Renamed to ?translateGameMessage@Rva00431FF2@@QAEHPAURva00431FF2Message@@@Z by tools/rename.py (inferred)"

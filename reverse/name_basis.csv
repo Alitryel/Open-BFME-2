@@ -1088,3 +1088,4 @@ member,Rva00202244Preset::m_2C,Rva00202244Preset::m_textureReduction,inferred,ag
 member,Rva00202244Preset::m_34,Rva00202244Preset::m_animationDetail,inferred,agree:nl-fb0c752331ca,Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp,
 member,Rva00202244Preset::m_40,Rva00202244Preset::m_decalLOD,inferred,agree:nl-1397b8e21d59,Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp,
 local,Rva00DFE144Globals::rva00202244::p,Rva00DFE144Globals::rva00202244::lodInfo,inferred,agree:nl-7db1ae8b1a92,Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp,0x00202244
+function,?rva00431FF2@Rva00431FF2@@QAEHPAURva00431FF2Message@@@Z,?translateGameMessage@Rva00431FF2@@QAEHPAURva00431FF2Message@@@Z,inferred,agree:nl-8615629c88e4,Code/GameEngine/Source/Common/GapBodiesGE12.cpp,0x00431FF2
