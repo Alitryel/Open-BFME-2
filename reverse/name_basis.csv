@@ -1269,3 +1269,4 @@ param,Get_Matrix3D::m,Get_Matrix3D::matrix,inferred,agree:nl-2e483e9e6fec,Code/L
 local,Rva004ED10FFill::p,Rva004ED10FFill::current,inferred,agree:nl-d54edcde4f43,Code/Libraries/Source/WWVegas/WW3D2/Rva004ED471Finish.cpp,
 global,?nextIndexRva0083F090@@3HA,?nextIndex@@3HA,inferred,agree:nl-71ce58e5e051,Code/Libraries/Source/WWVegas/WWLib/IosBaseRva0083F090Index.cpp,0x009DEF44
 global,?indexLockRva0083F090@@3JC,?indexLock@@3JC,inferred,agree:nl-ab390638ef2d,Code/Libraries/Source/WWVegas/WWLib/IosBaseRva0083F090Index.cpp,0x009DEF48
+function,?Rva00240D0FCreate@@YGPAURva00240D0FNode@@ABURva00240D0FValue@@@Z,?createNode@@YGPAURva00240D0FNode@@ABURva00240D0FValue@@@Z,inferred,agree:nl-5753a586c18e,Code/Libraries/Source/WWVegas/WWLib/Rva00240D0FCreate.cpp,0x00240D0F

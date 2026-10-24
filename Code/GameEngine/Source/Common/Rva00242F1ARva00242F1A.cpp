@@ -44,6 +44,6 @@ void *Rva00242F1A::rva00242F1A(const void *arg)
 }
 
 // The retail call in this body reads 0x00240D0F, an address the ledger already
-// carries as ?Rva00240D0FCreate@@YGPAURva00240D0FNode@@ABURva00240D0FValue@@@Z. Bind the donor spelling to that rowed owner so one
+// carries as ?createNode@@YGPAURva00240D0FNode@@ABURva00240D0FValue@@@Z. Bind the donor spelling to that rowed owner so one
 // address keeps one definition and the unit links.
-#pragma comment(linker, "/alternatename:?rva00240D0F@Rva00240D0F@@QAEPAXPBX@Z=?Rva00240D0FCreate@@YGPAURva00240D0FNode@@ABURva00240D0FValue@@@Z")
+#pragma comment(linker, "/alternatename:?rva00240D0F@Rva00240D0F@@QAEPAXPBX@Z=?createNode@@YGPAURva00240D0FNode@@ABURva00240D0FValue@@@Z")
