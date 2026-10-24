@@ -1759,3 +1759,5 @@ local,Rva003EE746ColorProvider::color::p,Rva003EE746ColorProvider::color::player
 param,LivingWorldRegionEffectsManager::rva003EF13E::a,LivingWorldRegionEffectsManager::rva003EF13E::regionId,inferred,agree:nl-f89c09fad86f,Code/GameEngine/Source/Common/Rva003EE746ColorProvider.cpp,0x003EF13E
 param,Rva00431920::Rva00431920::a,Rva00431920::Rva00431920::translator,inferred,agree:nl-a37c10a36f89,Code/GameEngine/Source/Common/Rva00431920.cpp,0x00431920
 param,Rva00431920::Rva00431920::c,Rva00431920::Rva00431920::position,inferred,agree:nl-c84b067ef9cc,Code/GameEngine/Source/Common/Rva00431920.cpp,0x00431920
+member,Rva00201DC4LODInfo::flag1C,Rva00201DC4LODInfo::m_showSoftWaterEdge,inferred,agree:nl-87bb840ac67e,Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp,
+member,Rva00201DC4LODInfo::word2C,Rva00201DC4LODInfo::m_textureReduction,inferred,agree:nl-d1c53a5f41a3,Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp,

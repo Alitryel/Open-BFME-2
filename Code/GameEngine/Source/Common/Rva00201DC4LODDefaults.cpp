@@ -15,8 +15,8 @@ struct Rva00201DC4LODInfo
     int word10;
     bool flag14, flag15;
     int word18;
-    bool flag1C;
-    int word20, word24, word28, word2C;
+    bool m_showSoftWaterEdge;
+    int word20, word24, word28, m_textureReduction;
     bool flag30;
     int word34, word38;
     bool flag3C, flag3D;
@@ -28,8 +28,8 @@ Rva00201DC4LODInfo::Rva00201DC4LODInfo()
     word00=2; word04=3; word08=2500;
     flag0C=true; flag0D=true; flag0E=false;
     word10=3; flag14=true; flag15=true; word18=2;
-    flag1C=true; word20=100; word24=25; word28=300000;
-    word2C=0; flag30=true; word34=3; word38=0;
+    m_showSoftWaterEdge=true; word20=100; word24=25; word28=300000;
+    m_textureReduction=0; flag30=true; word34=3; word38=0;
     flag3C=false; flag3D=false; word40=2; word44=1; word48=1;
 }
 
