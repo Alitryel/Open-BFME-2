@@ -34,7 +34,7 @@ template<class T,class Traits> struct _List_iterator {
  bool operator!=(const _List_iterator&o)const{return _M_node!=o._M_node;}
  bool operator==(const _List_iterator&o)const{return _M_node==o._M_node;}
 
- _List_iterator(const _List_iterator<T,_Nonconst_traits<T> >&o):_M_node(o._M_node){}
+ _List_iterator(const _List_iterator<T,_Nonconst_traits<T> >&other):_M_node(other._M_node){}
 };
 template<class T,class A> class _List_base {public:_List_base(const A&);_List_node_base *head;};
 template<class T,class A=allocator<T> > class list {public:
@@ -83,7 +83,7 @@ class FormationRowList:public _STL::_List_base<Coord3D,_STL::allocator<Coord3D> 
  ~FormationRowList(){((Rva000799D0*)this)->rva000799D0();}
  FormationRowNode *begin(){return (FormationRowNode*)head->next;}
  FormationRowNode *end(){return (FormationRowNode*)head;}
- unsigned size(){_STL::_List_node_base*p=head->next;_STL::_List_node_base*last=head;unsigned n=0;while(p!=last){p=p->next;++n;}return n;}
+ unsigned size(){_STL::_List_node_base*node=head->next;_STL::_List_node_base*last=head;unsigned count=0;while(node!=last){node=node->next;++count;}return count;}
 };
 struct FormationObjectNode {_STL::_List_node_base link;Object *object;};
 class Rva001EB130Holder {public:_STL::_List_node_base *head;};
@@ -191,7 +191,7 @@ Formation *FormationAssistant::rva00424E77(int type,Rva001EB130Holder*source,con
   int center=(int)((width-columnSpacing)*0.5f);
   int step=1,sign=1;
   unsigned index=(it->slots.size()-1)/2;
-  for(int n=it->slots.size();n>0;--n) {
+  for(int remainingSlots=it->slots.size();remainingSlots>0;--remainingSlots) {
    FormationSlot16 &slot=it->slots[index];
    int x=positions[index]-center;
    if(slot.object) {
