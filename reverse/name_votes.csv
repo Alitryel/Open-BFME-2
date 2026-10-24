@@ -2596,3 +2596,14 @@ Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp|param|Rva006CDD50Ite
 Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp|local|begin|p,a8b16a7c59d4ea23a9dc6427,gpt-6.1-sol,codex8-20261024-041245-4,w-de56e563a50b,2026-10-24
 Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp|param|appendPlaybackItem|v,bac52187547d2b48d43db22f,gpt-6.1-sol,codex8-20261024-041245-4,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/GameClient/Rva002236F2Insert.cpp|function|0x002236F2|rva002236F2,a6e51f8c5a7edf050d9e28f9,gpt-6.1-sol,codex8-20261024-041245-4,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C1E8C.cpp|function|0x002886C2|Rva002886C2,8f0522ea13425ca10a8607b2,gpt-6.1-sol,codex8-20261024-041245-5,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp|function|0x004FDCFF|rva004FDCFF,16c61de23763c766064d6750,gpt-6.1-sol,codex8-20261024-041245-5,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp|function|0x004FDD36|rva004FDD36,4a4a8b96a7010e4c34324cec,gpt-6.1-sol,codex8-20261024-041245-5,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp|function|0x004CFBC2|rva004CFBC2,40b37ad74be9a2d32ef4ff6e,gpt-6.1-sol,codex8-20261024-041245-5,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp|function|0x004CFB8B|rva004CFB8B,542ac3d544a332006cc106ce,gpt-6.1-sol,codex8-20261024-041245-5,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva00524B7AVslot10.cpp|member|Rva00524B7A|m_0C,3742c974261813a2a3307f30,gpt-6.1-sol,codex8-20261024-041245-6,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva00524B7AVslot10.cpp|member|Rva00524B7A|m_24,4a347ddb0e7df0d52d1bc378,gpt-6.1-sol,codex8-20261024-041245-6,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva00524B7AVslot10.cpp|local|Rva00524B7A::update|v,6959554fa86a9a17fad3d8e8,gpt-6.1-sol,codex8-20261024-041245-6,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/OpenAudioFile_setFileReady.cpp|class||Rva0010EC4DHolder,b5de4ca560e495a0e00c2477,gpt-6.1-sol,codex8-20261024-041245-7,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/OpenAudioFile_setFileReady.cpp|param|OpenAudioFile::setFileReady|a3,0c02800efd4d44334a7e3e4c,gpt-6.1-sol,codex8-20261024-041245-7,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva00034A60Calloc.cpp|function|0x00033ED0|rva00033ED0,74343e52d04665f424abfc35,gpt-6.1-sol,codex8-20261024-041245-8,w-de56e563a50b,2026-10-24
