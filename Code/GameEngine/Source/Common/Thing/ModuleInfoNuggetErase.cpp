@@ -90,9 +90,9 @@ void destroyNuggetRange(ModuleInfo::Nugget *first, ModuleInfo::Nugget *last)
 		first->~Nugget();
 }
 
-inline _STL::vector<ModuleInfo::Nugget, _STL::allocator<ModuleInfo::Nugget> >::iterator
-_STL::vector<ModuleInfo::Nugget, _STL::allocator<ModuleInfo::Nugget> >::erase(
-	iterator position)
+template <class Type, class Allocator>
+typename _STL::vector<Type, Allocator>::iterator
+_STL::vector<Type, Allocator>::erase(iterator position)
 {
 	if (position + 1 != end())
 	{
@@ -107,13 +107,8 @@ _STL::vector<ModuleInfo::Nugget, _STL::allocator<ModuleInfo::Nugget> >::erase(
 // vector<ModuleInfo::Nugget>::erase is a header inline elsewhere: other units emit
 // select-any copies, so a strong definition here was a duplicate in the linked build. This
 // anchor only makes this unit emit its copy for the ledger row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitModuleInfoNuggetErase@@YAXPAV?$vector@UNugget@ModuleInfo@@V?$allocator@UNugget@ModuleInfo@@@_STL@@@_STL@@@Z present-unmatched
-void bfmeEmitModuleInfoNuggetErase(_STL::vector<ModuleInfo::Nugget, _STL::allocator<ModuleInfo::Nugget> > *p)
-{
-	p->erase(0);
-}
-#pragma inline_depth()
+template _STL::vector<ModuleInfo::Nugget, _STL::allocator<ModuleInfo::Nugget> >::iterator
+_STL::vector<ModuleInfo::Nugget, _STL::allocator<ModuleInfo::Nugget> >::erase(ModuleInfo::Nugget *);
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.

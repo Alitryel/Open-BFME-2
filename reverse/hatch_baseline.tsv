@@ -32724,8 +32724,6 @@ present_unmatched	Code/GameEngine/Source/Common/BfmeOneHundredNinetyOne.cpp	Bfme
 present_unmatched	Code/GameEngine/Source/Common/BfmeOneHundredNinetyOne.cpp	BfmeThingEI::bfmeTellEI	1
 present_unmatched	Code/GameEngine/Source/Common/BfmeOwnVVDCtor.cpp	bfmeSlot0VVD@BfmeBaseVVD@@UAEXXZ	1
 present_unmatched	Code/GameEngine/Source/Common/BfmePicker1284.cpp	BfmePicker1284::bfmePick1284	1
-present_unmatched	Code/GameEngine/Source/Common/BfmeStringRecordErase00207F40.cpp	bfmeEmitBfmeStringRecordErase00207F40@@YAXPAV?$vector@UBfmeStringRecord00204A30@@V?$allocator@UBfmeStringRecord00204A30@@@_STL@@@_STL@@@Z	1
-present_unmatched	Code/GameEngine/Source/Common/BfmeStringRecordErase00357CA2.cpp	bfmeEmitBfmeStringRecordErase00357CA2@@YAXPAV?$vector@UBfmeStringRecord00204A30@@V?$allocator@UBfmeStringRecord00204A30@@@_STL@@@_STL@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/BfmeTwoHundredOne.cpp	BfmeThingGH::bfmeSetGH	1
 present_unmatched	Code/GameEngine/Source/Common/BfmeTwoHundredOne.cpp	BfmeThingGL::bfmeReleaseGL	1
 present_unmatched	Code/GameEngine/Source/Common/BfmeTwoHundredOne.cpp	BfmeThingGM::bfmeDrainGM	1
@@ -33314,7 +33312,6 @@ present_unmatched	Code/GameEngine/Source/Common/T4LeafPredicatesAndMath.cpp	upda
 present_unmatched	Code/GameEngine/Source/Common/T4LeafPredicatesAndMath.cpp	value@T4Host005F2FF0@@	1
 present_unmatched	Code/GameEngine/Source/Common/TerrainTypes_findTerrain.cpp	friend_getNext@TerrainType@@	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/FXBoneInfoVectorErase.cpp	$__copy_ptrs@PAUFXBoneInfo@@PAU1@@_STL@@YAPAUFXBoneInfo@@PAU1@00ABU__false_type@0@@Z	1
-present_unmatched	Code/GameEngine/Source/Common/Thing/FXBoneInfoVectorErase.cpp	bfmeEmitFXBoneInfoVectorErase@@YAXPAV?$vector@UFXBoneInfo@@V?$allocator@UFXBoneInfo@@@_STL@@@_STL@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ModelConditionMap117InsertUnique.cpp	BitFlags::BitFlags	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ModelConditionMap117InsertUnique.cpp	MapHelper::operator()	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ModelConditionMap117InsertUnique.cpp	allocator::allocate	1
@@ -33340,7 +33337,6 @@ present_unmatched	Code/GameEngine/Source/Common/Thing/ModuleFactory.cpp	ModuleFa
 present_unmatched	Code/GameEngine/Source/Common/Thing/ModuleFactory.cpp	ModuleFactory::xfer	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ModuleFactory.cpp	ModuleFactory::~ModuleFactory	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ModuleInfoNuggetAssign.cpp	bfmeEmitModuleInfoNuggetAssign@@YAXPAUNugget@ModuleInfo@@ABU12@@Z	1
-present_unmatched	Code/GameEngine/Source/Common/Thing/ModuleInfoNuggetErase.cpp	bfmeEmitModuleInfoNuggetErase@@YAXPAV?$vector@UNugget@ModuleInfo@@V?$allocator@UNugget@ModuleInfo@@@_STL@@@_STL@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ProductionPrerequisiteCopyCtor.cpp	bfmeEmitProductionPrerequisiteCopyCtor@@YAXPAVProductionPrerequisite@@ABV1@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ProductionPrerequisiteCtor.cpp	bfmeEmitProductionPrerequisiteInlines@@YAXPAUPrereqUnitRec@ProductionPrerequisite@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ProductionPrerequisiteVectorAssign.cpp	bfmeEmitProductionPrerequisiteVectorAssign@@YAXPAV?$vector@VProductionPrerequisite@@V?$allocator@VProductionPrerequisite@@@_STL@@@_STL@@ABV12@@Z	1
@@ -37034,7 +37030,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva0054152DErase.cpp	erase
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva0054F434Dtor.cpp	1Rva0054F434Base@@UAE@XZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva0054F434Vslot1.cpp	1Rva0054F434Base@@UAE@XZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva005842F7Finish.cpp	$__copy_ptrs@PAUBfmePod28@@PAU1@@_STL@@YAPAUBfmePod28@@PAU1@00ABU__false_type@0@@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva005FE209Copy.cpp	bfmeEmitRva005FE209Copy@@YAXPAV?$vector@UBfmeContainerRecord005FDEC7@@V?$allocator@UBfmeContainerRecord005FDEC7@@@_STL@@@_STL@@PAUBfmeContainerRecord005FDEC7@@1@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva005FE750.cpp	_bfmeRva005FE750DestroyAnchor@@YAXPAUBfmeContainerRecord005FDEC7@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/STL_new_alloc_allocateThunk.cpp	bfmeEmitSTL_new_alloc_allocateThunk@@YAXPAV__new_alloc@_STL@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva000556AB.cpp	Rva000556ABRecord::operator<	1
@@ -37167,7 +37162,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_stringtailrecord14
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_time_info_dtor.cpp	bfmeEmitTimeInfoDtor@@YAXPAV_Time_Info@_STL@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_uninitialized_copy_rva0054000b.cpp	get_allocator@?$vector@VRva0054000B@@V?$allocator@VRva0054000B@@@_STL@@@_STL@@QBE?AV?$allocator@VRva0054000B@@@2@XZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_asciistring_reserve.cpp	bfmeEmitStlportVectorAsciistringReserve@@YAXPAV?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_bfmeassignrecord32_erase.cpp	bfmeEmitstlport_vector_bfmeassignrecord32_erase@@YAXPAV?$vector@UBfmeAssignRecord32@@V?$allocator@UBfmeAssignRecord32@@@_STL@@@_STL@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_bfmee8_allocate_copy.cpp	0Tag@@QAE@XZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_container_record_2cf46e_assign.cpp	bfmeEmitstlport_vector_container_record_2cf46e_assign@@YAXPAV?$vector@UBfmeContainerRecord002CF46E@@V?$allocator@UBfmeContainerRecord002CF46E@@@_STL@@@_STL@@ABV12@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_e12_assign.cpp	bfmeEmitstlport_vector_e12_assign@@YAXPAV?$vector@UBfmeE12@@V?$allocator@UBfmeE12@@@_STL@@@_STL@@ABV12@@Z	1
@@ -37177,18 +37171,15 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_record_319b
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva0007bb16_assign.cpp	bfmeEmitVectorRva0007BB16Assign@@YAXPAV?$vector@URva0007BB16Record@@V?$allocator@URva0007BB16Record@@@_STL@@@_STL@@ABV12@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva0007bb16_destroy.cpp	bfmeEmitstlport_vector_rva0007bb16_destroy@@YAXPAURva0007BB16Record@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva000b435f_erase.cpp	$__copy_ptrs@PAURva000B435F@@PAU1@@_STL@@YAPAURva000B435F@@PAU1@00ABU__false_type@0@@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva000b435f_erase.cpp	bfmeEmitStlportVectorRva000B435FErase@@YAXPAV?$vector@URva000B435F@@V?$allocator@URva000B435F@@@_STL@@@_STL@@PAURva000B435F@@1@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva000bb491_assign.cpp	bfmeEmitRva000BB491Assign@@YAXPAV?$vector@VRva000BB491@@V?$allocator@VRva000BB491@@@_STL@@@_STL@@ABV12@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva000bb4ac_assign.cpp	bfmeEmitRva000BB4ACAssign@@YAXPAV?$vector@VRva000BB4AC@@V?$allocator@VRva000BB4AC@@@_STL@@@_STL@@ABV12@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva00b6cf1_assign.cpp	bfmeEmitVectorRva00B6CF1Assign@@YAXPAV?$vector@URva00B6CF1@@V?$allocator@URva00B6CF1@@@_STL@@@_STL@@ABV12@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva00b6cf1_destroy.cpp	bfmeEmitVectorRva00B6CF1Destroy@@YAXPAURva00B6CF1@@ABU1@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva00b6cf1_erase.cpp	$__copy_ptrs@PAURva00B6CF1@@PAU1@@_STL@@YAPAURva00B6CF1@@PAU1@00ABU__false_type@0@@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva00b6cf1_erase.cpp	bfmeEmitStlportVectorRva00B6CF1Erase@@YAXPAV?$vector@URva00B6CF1@@V?$allocator@URva00B6CF1@@@_STL@@@_STL@@PAURva00B6CF1@@1@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_scalar8_assign.cpp	bfmeEmitstlport_vector_scalar8_assign@@YAXPAV?$vector@UBfmeAsciiScalarValue8@@V?$allocator@UBfmeAsciiScalarValue8@@@_STL@@@_STL@@ABV12@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_stringrecord_2cf4c6_assign.cpp	bfmeEmitstlport_vector_stringrecord_2cf4c6_assign@@YAXPAV?$vector@UBfmeStringRecord002CF4C6@@V?$allocator@UBfmeStringRecord002CF4C6@@@_STL@@@_STL@@ABV12@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_stringrecord_2cf5b1_assign.cpp	bfmeEmitstlport_vector_stringrecord_2cf5b1_assign@@YAXPAV?$vector@UBfmeStringRecord002CF5B1@@V?$allocator@UBfmeStringRecord002CF5B1@@@_STL@@@_STL@@ABV12@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_stringrecord_5ddd40_erase.cpp	$__copy_ptrs@PAUBfmeStringRecord005DDD40@@PAU1@@_STL@@YAPAUBfmeStringRecord005DDD40@@PAU1@00ABU__false_type@0@@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_stringrecord_5ddd40_erase.cpp	bfmeEmitStlportVectorStringRecord5DDD40Erase@@YAXPAV?$vector@UBfmeStringRecord005DDD40@@V?$allocator@UBfmeStringRecord005DDD40@@@_STL@@@_STL@@PAUBfmeStringRecord005DDD40@@1@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_stringrecord_b94d2_assign.cpp	bfmeEmitVectorB94D2Assign@@YAXPAV?$vector@UBfmeStringRecord000B94D2@@V?$allocator@UBfmeStringRecord000B94D2@@@_STL@@@_STL@@ABV12@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_stringrecord_b950f_assign.cpp	bfmeEmitVectorB950FAssign@@YAXPAV?$vector@UBfmeStringRecord000B950F@@V?$allocator@UBfmeStringRecord000B950F@@@_STL@@@_STL@@ABV12@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/stlport_vector_unicode_erase.cpp	$__copy_ptrs@PAVUnicodeString@@PAV1@@_STL@@YAPAVUnicodeString@@PAV1@00ABU__false_type@0@@Z	1

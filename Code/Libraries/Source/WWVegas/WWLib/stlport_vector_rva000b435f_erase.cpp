@@ -61,7 +61,9 @@ __declspec(noinline) Rva000B435F *_STL::__copy_ptrs<Rva000B435F *, Rva000B435F *
 {
 	return _STL::__copy(first, last, result, _STL::random_access_iterator_tag(), (int *)0);
 }
-inline _STL::vector<Rva000B435F, _STL::allocator<Rva000B435F> >::iterator _STL::vector<Rva000B435F, _STL::allocator<Rva000B435F> >::erase(iterator first, iterator last)
+template <class Type, class Allocator>
+typename _STL::vector<Type, Allocator>::iterator
+_STL::vector<Type, Allocator>::erase(iterator first, iterator last)
 {
 	iterator result = _STL::__copy_ptrs(last, m_finish, first, _STL::__false_type());
 	_STL::_Destroy(reinterpret_cast<Rva002DFC30 *>(result), reinterpret_cast<Rva002DFC30 *>(m_finish));
@@ -73,10 +75,5 @@ inline _STL::vector<Rva000B435F, _STL::allocator<Rva000B435F> >::iterator _STL::
 // select-any copies, so a strong definition here was a duplicate in the linked
 // build. This anchor only makes this unit emit its copy for the ledger row; it
 // is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitStlportVectorRva000B435FErase@@YAXPAV?$vector@URva000B435F@@V?$allocator@URva000B435F@@@_STL@@@_STL@@PAURva000B435F@@1@Z present-unmatched
-void bfmeEmitStlportVectorRva000B435FErase(_STL::vector<Rva000B435F, _STL::allocator<Rva000B435F> > *vec, Rva000B435F *first, Rva000B435F *last)
-{
-	vec->erase(first, last);
-}
-#pragma inline_depth()
+template _STL::vector<Rva000B435F, _STL::allocator<Rva000B435F> >::iterator
+_STL::vector<Rva000B435F, _STL::allocator<Rva000B435F> >::erase(Rva000B435F *, Rva000B435F *);

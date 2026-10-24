@@ -48,7 +48,9 @@ __declspec(noinline) BfmeStringRecord005DDD40 *_STL::__copy_ptrs<BfmeStringRecor
 	_STL::random_access_iterator_tag iteratorTag;
 	return _STL::__copy(first, last, result, iteratorTag, (int *)0);
 }
-inline _STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> >::iterator _STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> >::erase(iterator first, iterator last)
+template <class Type, class Allocator>
+typename _STL::vector<Type, Allocator>::iterator
+_STL::vector<Type, Allocator>::erase(iterator first, iterator last)
 {
 	iterator result = _STL::__copy_ptrs(last, m_finish, first, _STL::__false_type());
 	_STL::_Destroy(result, m_finish);
@@ -60,10 +62,5 @@ inline _STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord00
 // select-any copies, so a strong definition here was a duplicate in the linked
 // build. This anchor only makes this unit emit its copy for the ledger row; it
 // is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitStlportVectorStringRecord5DDD40Erase@@YAXPAV?$vector@UBfmeStringRecord005DDD40@@V?$allocator@UBfmeStringRecord005DDD40@@@_STL@@@_STL@@PAUBfmeStringRecord005DDD40@@1@Z present-unmatched
-void bfmeEmitStlportVectorStringRecord5DDD40Erase(_STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> > *vec, BfmeStringRecord005DDD40 *first, BfmeStringRecord005DDD40 *last)
-{
-	vec->erase(first, last);
-}
-#pragma inline_depth()
+template _STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> >::iterator
+_STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> >::erase(BfmeStringRecord005DDD40 *, BfmeStringRecord005DDD40 *);

@@ -70,9 +70,9 @@ void _Destroy(ForwardIter first, ForwardIter last);
 
 }
 
-inline _STL::vector<BfmeStringRecord00204A30, _STL::allocator<BfmeStringRecord00204A30> >::iterator
-_STL::vector<BfmeStringRecord00204A30, _STL::allocator<BfmeStringRecord00204A30> >::erase(
-	iterator first, iterator last)
+template <class Type, class Allocator>
+typename _STL::vector<Type, Allocator>::iterator
+_STL::vector<Type, Allocator>::erase(iterator first, iterator last)
 {
 	iterator result = _STL::__copy_ptrs(last, m_finish, first, _STL::__false_type());
 	_STL::_Destroy(result, m_finish);
@@ -80,11 +80,6 @@ _STL::vector<BfmeStringRecord00204A30, _STL::allocator<BfmeStringRecord00204A30>
 	return first;
 }
 
-#pragma inline_depth(0)
-// ?bfmeEmitBfmeStringRecordErase00207F40@@YAXPAV?$vector@UBfmeStringRecord00204A30@@V?$allocator@UBfmeStringRecord00204A30@@@_STL@@@_STL@@@Z present-unmatched
-void bfmeEmitBfmeStringRecordErase00207F40(
-	_STL::vector<BfmeStringRecord00204A30, _STL::allocator<BfmeStringRecord00204A30> > *p)
-{
-	p->erase(0, 0);
-}
-#pragma inline_depth()
+template _STL::vector<BfmeStringRecord00204A30, _STL::allocator<BfmeStringRecord00204A30> >::iterator
+_STL::vector<BfmeStringRecord00204A30, _STL::allocator<BfmeStringRecord00204A30> >::erase(
+	BfmeStringRecord00204A30 *, BfmeStringRecord00204A30 *);

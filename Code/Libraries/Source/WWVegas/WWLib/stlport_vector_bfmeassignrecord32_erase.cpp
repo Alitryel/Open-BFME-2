@@ -52,8 +52,9 @@ void _Destroy(ForwardIter first, ForwardIter last);
 
 }
 
-inline _STL::vector<BfmeAssignRecord32, _STL::allocator<BfmeAssignRecord32> >::iterator
-_STL::vector<BfmeAssignRecord32, _STL::allocator<BfmeAssignRecord32> >::erase(iterator first, iterator last)
+template <class Type, class Allocator>
+typename _STL::vector<Type, Allocator>::iterator
+_STL::vector<Type, Allocator>::erase(iterator first, iterator last)
 {
 	iterator result = _STL::__copy_ptrs(last, m_finish, first, _STL::__false_type());
 	_STL::_Destroy(result, m_finish);
@@ -64,10 +65,5 @@ _STL::vector<BfmeAssignRecord32, _STL::allocator<BfmeAssignRecord32> >::erase(it
 // erase is a header inline in STLport: other units emit select-any copies of
 // it, so a strong definition here was a duplicate symbol in the linked build.
 // This anchor only makes this unit emit its copy for the ledger row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitstlport_vector_bfmeassignrecord32_erase@@YAXPAV?$vector@UBfmeAssignRecord32@@V?$allocator@UBfmeAssignRecord32@@@_STL@@@_STL@@@Z present-unmatched
-void bfmeEmitstlport_vector_bfmeassignrecord32_erase(_STL::vector<BfmeAssignRecord32, _STL::allocator<BfmeAssignRecord32> > *p)
-{
-	p->erase(0, 0);
-}
-#pragma inline_depth()
+template _STL::vector<BfmeAssignRecord32, _STL::allocator<BfmeAssignRecord32> >::iterator
+_STL::vector<BfmeAssignRecord32, _STL::allocator<BfmeAssignRecord32> >::erase(BfmeAssignRecord32 *, BfmeAssignRecord32 *);

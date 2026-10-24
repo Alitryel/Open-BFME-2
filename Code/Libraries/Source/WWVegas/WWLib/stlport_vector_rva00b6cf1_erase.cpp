@@ -45,7 +45,9 @@ OutputIter __copy_ptrs(InputIter first, InputIter last, OutputIter result,
 template <class ForwardIter>
 void _Destroy(ForwardIter first, ForwardIter last);
 }
-inline _STL::vector<Rva00B6CF1, _STL::allocator<Rva00B6CF1> >::iterator _STL::vector<Rva00B6CF1, _STL::allocator<Rva00B6CF1> >::erase(iterator first, iterator last)
+template <class Type, class Allocator>
+typename _STL::vector<Type, Allocator>::iterator
+_STL::vector<Type, Allocator>::erase(iterator first, iterator last)
 {
 	iterator result = _STL::__copy_ptrs(last, m_finish, first, _STL::__false_type());
 	_STL::_Destroy(result, m_finish);
@@ -57,10 +59,5 @@ inline _STL::vector<Rva00B6CF1, _STL::allocator<Rva00B6CF1> >::iterator _STL::ve
 // select-any copies, so a strong definition here was a duplicate in the linked
 // build. This anchor only makes this unit emit its copy for the ledger row; it
 // is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitStlportVectorRva00B6CF1Erase@@YAXPAV?$vector@URva00B6CF1@@V?$allocator@URva00B6CF1@@@_STL@@@_STL@@PAURva00B6CF1@@1@Z present-unmatched
-void bfmeEmitStlportVectorRva00B6CF1Erase(_STL::vector<Rva00B6CF1, _STL::allocator<Rva00B6CF1> > *vec, Rva00B6CF1 *first, Rva00B6CF1 *last)
-{
-	vec->erase(first, last);
-}
-#pragma inline_depth()
+template _STL::vector<Rva00B6CF1, _STL::allocator<Rva00B6CF1> >::iterator
+_STL::vector<Rva00B6CF1, _STL::allocator<Rva00B6CF1> >::erase(Rva00B6CF1 *, Rva00B6CF1 *);

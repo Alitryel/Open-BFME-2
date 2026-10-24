@@ -68,9 +68,9 @@ OutputIter __copy_ptrs(InputIter first, InputIter last, OutputIter result,
 
 }
 
-inline _STL::vector<BfmeStringRecord00204A30, _STL::allocator<BfmeStringRecord00204A30> >::iterator
-_STL::vector<BfmeStringRecord00204A30, _STL::allocator<BfmeStringRecord00204A30> >::erase(
-	iterator position)
+template <class Type, class Allocator>
+typename _STL::vector<Type, Allocator>::iterator
+_STL::vector<Type, Allocator>::erase(iterator position)
 {
 	if (position + 1 != end())
 	{
@@ -86,11 +86,5 @@ _STL::vector<BfmeStringRecord00204A30, _STL::allocator<BfmeStringRecord00204A30>
 // copy of it, so a strong definition here was a duplicate symbol in the linked
 // build. Making it inline emits the same copy as select-any, and this anchor
 // only makes this unit emit its copy for the ledger row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitBfmeStringRecordErase00357CA2@@YAXPAV?$vector@UBfmeStringRecord00204A30@@V?$allocator@UBfmeStringRecord00204A30@@@_STL@@@_STL@@@Z present-unmatched
-void bfmeEmitBfmeStringRecordErase00357CA2(
-	_STL::vector<BfmeStringRecord00204A30, _STL::allocator<BfmeStringRecord00204A30> > *p)
-{
-	p->erase(0);
-}
-#pragma inline_depth()
+template _STL::vector<BfmeStringRecord00204A30, _STL::allocator<BfmeStringRecord00204A30> >::iterator
+_STL::vector<BfmeStringRecord00204A30, _STL::allocator<BfmeStringRecord00204A30> >::erase(BfmeStringRecord00204A30 *);
