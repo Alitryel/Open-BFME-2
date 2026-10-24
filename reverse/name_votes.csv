@@ -4976,3 +4976,12 @@ Code/GameEngine/Source/GameLogic/AI/PathfinderRva002EADE1.cpp|local|Pathfinder::
 Code/GameEngine/Source/Common/System/Rva002F1BD5Finish.cpp|class||Rva002F1BD5Mid,476af1fc8ac04dd3a851f9ae,gpt-6-astra,codexb2-20261024-120809-8,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/GameClient/Rva0055CFF0Draw.cpp|function|0x0055CFF0|rva0055CFF0,d29fb9f9c6d8fb1ad4972b14,gpt-6-astra,codexb2-20261024-120809-9,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/BfmeConv1432.cpp|param|BfmeStrVMQ::notEqual|o,b41e166b73afe941e8cac17d,gpt-6-astra,codexb2-20261024-120809-10,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/DirtySock/Y4CommTapi.cpp|function|0x0067FBF0|rva00813CF0,9525a9fb14b91a5c1d9524a2,claude-opus-5-5,claudec6-20261024-114448-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a1,e593119ffc0785d2c7a6e90f,claude-opus-5-5,claudec6-20261024-114448-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a2,be07426903ffd9a6752e1d69,claude-opus-5-5,claudec6-20261024-114448-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a3,e812a1d8df480ea77cf25fc5,claude-opus-5-5,claudec6-20261024-114448-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a4,026af9cc92ab4a0a71418609,claude-opus-5-5,claudec6-20261024-114448-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a5,a49de5722c31c51312c1bf71,claude-opus-5-5,claudec6-20261024-114448-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a6,3e32110dff250828e2c4199d,claude-opus-5-5,claudec6-20261024-114448-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a7,5e251988caa1ffa64616ac6f,claude-opus-5-5,claudec6-20261024-114448-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a8,d942f8ecca54b36be39befbd,claude-opus-5-5,claudec6-20261024-114448-1,w-efe153480513,2026-10-24
