@@ -45,10 +45,10 @@ struct Rva004626CAOwnerView
 	Coord3D m_position;			// +0x38
 };
 
-struct Rva004626CALandPoint : public Coord3D
+struct LandPoint : public Coord3D
 {
-	Rva004626CALandPoint() { x = 0.0f; y = 0.0f; z = 0.0f; }
-	~Rva004626CALandPoint() {}
+	LandPoint() { x = 0.0f; y = 0.0f; z = 0.0f; }
+	~LandPoint() {}
 };
 
 #define SLOT08(a,b,c,d,e,f,g,h) virtual void a(); virtual void b(); virtual void c(); virtual void d(); virtual void e(); virtual void f(); virtual void g(); virtual void h();
@@ -82,7 +82,7 @@ const Coord3D *OpenContain::rva004626CA()
 	Rva004626CAOwnerView *owner = m_thing;
 	if (owner->m_template->m_flags11F & 0x80)
 	{
-		static Rva004626CALandPoint s_landPoint;
+		static LandPoint s_landPoint;
 		if (TheAI->pathfinder()->getClosestPointOnLand(&owner->m_position, (Object *)owner, &s_landPoint))
 			return &s_landPoint;
 	}
