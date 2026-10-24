@@ -1904,3 +1904,6 @@ param,Rva0033A77F::rva0033A77F::d,Rva0033A77F::rva0033A77F::preference,inferred,
 param,Rva0033A77F::rva0033A77F::e,Rva0033A77F::rva0033A77F::seed,inferred,agree:nl-6f036d1e4694,Code/GameEngine/Source/Common/Rva0033A77FForward.cpp,0x0033A77F
 param,Rva005D3CA6::rva005D3CA6::v,Rva005D3CA6::rva005D3CA6::selection,inferred,agree:nl-a316cc4a9c11,Code/GameEngine/Source/Common/Rva005D3CA6Setters.cpp,0x005D3CA6
 local,Rva0060BC53Xfer3::n,Rva0060BC53Xfer3::remaining,inferred,agree:nl-b6eb44187c15,Code/GameEngine/Source/Common/System/Rva0060BC53.cpp,0x0060BC53
+param,Rva00431920::Rva00431920::b,Rva00431920::Rva00431920::msgType,inferred,agree:nl-80d7c21bc49b,Code/GameEngine/Source/Common/Rva00431920.cpp,0x00431920
+param,Rva00431920::Rva00431920::d,Rva00431920::Rva00431920::modifiers,inferred,agree:nl-ec8f88dadb32,Code/GameEngine/Source/Common/Rva00431920.cpp,0x00431920
+param,Rva00431920::Rva00431920::e,Rva00431920::Rva00431920::time,inferred,agree:nl-079a261a49f2,Code/GameEngine/Source/Common/Rva00431920.cpp,0x00431920
