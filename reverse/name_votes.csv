@@ -5545,3 +5545,10 @@ Code/GameEngine/Source/Common/Rva00285DC5Paint.cpp|local|FireLogicSystem::rva002
 Code/Libraries/Source/WWVegas/WWLib/Rva002CF2D5Erase.cpp|function|0x002CF2D5|rva002CF2D5,43b9582838361889c531482f,claude-opus-5-5,claudec5-20261024-171440-3,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/Common/Rva0010F42AFinish.cpp|member|Rva0010F42A|m_scale0C,dc5a23048564cf13e12ba288,claude-opus-5-5,claudec5-20261024-173159-1,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/Common/BfmeTwoHundredOne.cpp|member|BfmeCountedGL|m_bfmeCount,c039738666474be066039d6c,claude-opus-5-5,claudec5-20261024-173159-5,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva003F87FFNotifiers.cpp|class||Rva003F87FFListener,b5cf9d8d34e8cd0a505e8a5d,claude-opus-5-5,dioragon-1,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/Common/Rva003F87FFNotifiers.cpp|class||Rva003F8646Call,1509cac9fc3113a2b5ecacfd,claude-opus-5-5,dioragon-1,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/Common/Rva003F87FFNotifiers.cpp|class||Rva003F86D4List,906135584daa22fd3e9b9abe,claude-opus-5-5,dioragon-1,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/Common/Rva002BFF5A.cpp|function|0x002BFF5A|rva002BFF5A,5ce9d6614bcfd6a529f1b163,claude-opus-5-5,dioragon-2,w-2f5376c24d26,2026-10-24
+Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp|param|appendPlaybackItem|v,7da9b844ddf19cb488f5850d,claude-opus-5-5,dioragon-3,w-2f5376c24d26,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMapVisibleBounds.cpp|local|Rva000E1669::rva000E1669|x,f0103f221cbd0890e01bf850,claude-opus-5-5,dioragon-3,w-2f5376c24d26,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMapVisibleBounds.cpp|local|Rva000E1669::rva000E1669|y,d28ed7a12a85aecf58f7e994,claude-opus-5-5,dioragon-3,w-2f5376c24d26,2026-10-24
