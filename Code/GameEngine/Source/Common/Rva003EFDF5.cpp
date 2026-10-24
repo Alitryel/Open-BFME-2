@@ -46,7 +46,7 @@ struct Rva003EFDF5Inner
 class Rva003EFDF5Host
 {
 public:
-	void rva003EFDF5(void *a);
+	void rva003EFDF5(void *enabled);
 private:
 	char m_pad00[0x12C];
 	int m_12C;
@@ -56,13 +56,13 @@ private:
 	unsigned char m_1A2;
 };
 
-void Rva003EFDF5Host::rva003EFDF5(void *a)
+void Rva003EFDF5Host::rva003EFDF5(void *enabled)
 {
-	unsigned char v = (unsigned char)(unsigned int)a;
+	unsigned char enabledByte = (unsigned char)(unsigned int)enabled;
 	Rva003EFDF5Inner *inner = m_198;
-	m_1A2 = v;
-	inner->m_2C = v;
-	if (v == 0)
+	m_1A2 = enabledByte;
+	inner->m_2C = enabledByte;
+	if (enabledByte == 0)
 		(*(Rva002BA8F1Logic **)&TheLivingWorldLogic)->m_B0->rva0020EA22(m_12C);
 	LivingWorldRegionEffectsManager *obj = TheLivingWorldManager->m_268;
 	if (obj)
