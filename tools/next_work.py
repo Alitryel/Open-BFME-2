@@ -711,6 +711,41 @@ def claim_choice(candidates, label):
     return None, []
 
 
+def serve_dx(args):
+    """--tier dx: a unit to move off the reference/shims DirectX stand-ins onto
+    the SDK headers (`// dxsdk`). The work is per file, so --claim takes a
+    file:PATH scope claim, moving to the next unit when a peer holds one."""
+    import dx_migration
+    if args.claim:
+        claims.settle()
+    for record in dx_migration.servable():
+        scope = "file:" + record["source"]
+        note = ""
+        if args.claim:
+            key = claims.key_of(scope)
+            try:
+                _, refused = claims.claim([scope], note="next_work dx")
+            except claims.ClaimsUnavailable as error:
+                if key in error.refused:
+                    continue
+                print(f"next_work: {error}; serving {record['source']} without a shared claim",
+                      file=sys.stderr)
+            else:
+                if key in refused:
+                    continue
+                note = f"claim: {scope} held on origin"
+        if args.json:
+            print(json.dumps({"tier": "dx", "selection": record, "claim": note or None}, indent=2))
+        else:
+            if note:
+                print(note)
+            print(f"dx tier: {record['source']}  [{record['class']}] {record['matched_rows']} row(s)"
+                  f"{'  edits: ' + record['edits'] if record['edits'] else ''}")
+        return 0
+    print("dx tier: nothing queued (python3 tools/dx_migration.py scan)")
+    return 0
+
+
 def _print_boundary_verdicts(candidate, limit=3):
     """Report the candidate's own verdict and findings under other names.
 
@@ -1610,7 +1645,7 @@ def main():
                     help="claim the selected RVA on origin before serving it; retry a raced selection")
     ap.add_argument("--tier",
                     choices=("repair", "link", "packet", "named", "harvest", "structural", "ghidra", "anchored",
-                             "similar", "wb"),
+                             "similar", "wb", "dx"),
                     help="choose from only this task lane")
     ap.add_argument("--wb", action="store_const", const="wb", dest="tier",
                     help="shorthand for --tier wb: serve bodies by WorldBuilder name lead")
@@ -1627,8 +1662,9 @@ def main():
     args = ap.parse_args()
     if args.claim and args.ranked:
         ap.error("--claim selects one candidate; omit --ranked")
-
     ledger = check_ledger()  # exit 2 happens in there; nothing below matters if red
+    if args.tier == "dx":
+        return serve_dx(args)
     global repair_queue
     import repair_queue  # after the health check: a corrupt ledger exits first
     drifts = (drift_quick_wins()

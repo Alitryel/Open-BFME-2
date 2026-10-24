@@ -2,6 +2,9 @@
 # silently break byte-matching. (The MSVC toolchain lives in the Open-BFME-1
 # submodule, which carries its own attributes.)
 baselines/** -text
+# The vendored DirectX SDK: tools/build.py hashes these files against its
+# PROVENANCE.txt before a `// dxsdk` unit compiles. The headers are CRLF.
+vendor/dxsdk-aug2005/** -text
 
 # Banked attempts are evidence that check_csv measures byte for byte (one
 # function body, at most 65,536 bytes). A Windows checkout with autocrlf turned

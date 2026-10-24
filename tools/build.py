@@ -725,6 +725,87 @@ def source_needs_platformsdk(source):
     return re.search(r"^// platformsdk[ \t]*$", head, re.M) is not None
 
 
+# The DirectX 9.0c SDK, August 2005: a compatible reconstruction input, not a
+# recovered build input. game.dat imports d3dx9_27.dll, and this release's
+# d3dx9core.h defines D3DX_SDK_VERSION 27. The repository vendors it; the file
+# list in its PROVENANCE.txt is checked before a `// dxsdk` unit compiles, so a
+# damaged or edited checkout stops the build instead of changing its bytes.
+DXSDK_DIR = ROOT / "vendor" / "dxsdk-aug2005"
+DXSDK_MANIFEST = DXSDK_DIR / "PROVENANCE.txt"
+_DXSDK_ROW = re.compile(r"^([0-9a-f]{64})\s+(\d+)\s+(\S.*?)\s*$")
+
+
+def dxsdk_manifest(path=DXSDK_MANIFEST):
+    """[(relative path, sha256, size)] the SDK directory must hold."""
+    rows = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        match = _DXSDK_ROW.match(line)
+        if match:
+            rows.append((match.group(3), match.group(1), int(match.group(2))))
+    if not rows:
+        raise SystemExit(f"{path.relative_to(ROOT)}: no file rows")
+    return rows
+
+
+def verify_dxsdk(root, manifest):
+    """Problems with `root` against `manifest`; empty when it is the SDK."""
+    problems = []
+    listed = set()
+    for rel, sha256, size in manifest:
+        path = root / rel
+        if rel.startswith("Include/"):
+            listed.add(rel.split("/", 1)[1].lower())
+        if not path.is_file():
+            problems.append(f"missing {rel}")
+        elif path.stat().st_size != size or hash_file(path, "sha256") != sha256:
+            problems.append(f"differs {rel}")
+    include = root / "Include"
+    if include.is_dir():
+        # an extra header in Include/ can shadow one a unit expects elsewhere
+        problems += [f"unlisted Include/{p.name}" for p in sorted(include.iterdir())
+                     if p.name.lower() not in listed]
+    return problems
+
+
+@functools.lru_cache(maxsize=1)
+def dxsdk_root():
+    """The vendored SDK directory, once it matches its PROVENANCE.txt. Exits
+    otherwise; there is no fallback to the reference/shims stand-ins."""
+    problems = verify_dxsdk(DXSDK_DIR, dxsdk_manifest(DXSDK_MANIFEST))
+    if problems:
+        shown = "\n  ".join(problems[:8]) + (f"\n  ... {len(problems) - 8} more" if len(problems) > 8 else "")
+        raise SystemExit(
+            f"DirectX SDK (August 2005) at {DXSDK_DIR} does not match its "
+            f"PROVENANCE.txt:\n  {shown}\n"
+            "A `// dxsdk` unit needs it. Restore the tracked files with "
+            "`git checkout -- vendor/dxsdk-aug2005`.")
+    return DXSDK_DIR
+
+
+def dxsdk_include_arg():
+    """The `-I` operand for the SDK headers, relative so command lines do not
+    depend on the checkout's location."""
+    dxsdk_root()
+    return "vendor/dxsdk-aug2005/Include"
+
+
+def source_needs_dxsdk(source):
+    """A source declares it compiles against the DirectX SDK headers
+    with a `// dxsdk` line. Opt-in per file, like `// platformsdk`, so the
+    objects other units were verified with keep their headers. The directory
+    is searched before every `-I` the source names, so the SDK's own d3d9.h,
+    d3dx9math.h, dinput.h and dxerr9.h declare what the unit uses, never a
+    stand-in under reference/shims/."""
+    if source is None or zh_reference_source(source) is not None:
+        return False
+    try:
+        with Path(source).open("r", encoding="utf-8", errors="replace") as handle:
+            head = handle.read()
+    except OSError:
+        return False
+    return re.search(r"^// dxsdk[ \t]*$", head, re.M) is not None
+
+
 def compiler_environment(root, source=None):
     env = os.environ.copy()
     bin_dir = root / "Vc7" / "bin"
@@ -1128,6 +1209,12 @@ def compiler_command(source, output):
         "-GR-",
         "-EHsc-",
     ]
+    if source_needs_dxsdk(source):
+        command.append("-I" + dxsdk_include_arg())
+        if source_needs_platformsdk(source):
+            # The SDK headers need the real windows.h/objbase.h, so a unit that
+            # also names a sweep shim directory searches the Platform SDK first.
+            command.append("-I" + wine_path(root / "Vc7" / "PlatformSDK" / "Include"))
     command += compiler_profiles.source_options(compiler, source_extra_flags(source))
     command += [
         f"-Fo{output_arg}",

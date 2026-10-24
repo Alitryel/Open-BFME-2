@@ -82,6 +82,8 @@ cd Open-BFME-2
 ./build.sh               # verify every tracked function against retail   (.\build.ps1 on Windows)
 ```
 
+Units marked `// dxsdk` compile against the DirectX 9.0c SDK (August 2005), vendored in `vendor/dxsdk-aug2005/` (see its `PROVENANCE.txt`).
+
 `setup_hooks.sh` also registers `tools/merge_rows.py` as the merge driver for the
 ledgers in `reverse/`, so a rebase does not bring back rows the other side deleted
 or edited. A clone that skipped it gets the driver on its first commit attempt that

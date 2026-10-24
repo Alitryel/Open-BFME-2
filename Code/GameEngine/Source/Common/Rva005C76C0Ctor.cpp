@@ -1,9 +1,11 @@
 // cl: /O1 /G7 /arch:SSE /MD /Ireference/shims/sweep
+// platformsdk
+// dxsdk
 // ??0Rva005C76C0@@QAE@XZ @ 0x005C76C0, 85 bytes.
 // Ctor: zero ints at +0x00 +0x04 init Rva0055A246 at +0x08 zero 12 floats at +0x38.
 // Evidence: retail and [esi] 0 and [esi+4] 0 lea ecx [esi+8] call 0x55A246 xorps movss x12; chain from 0x55A246.
 typedef float Real;
-#include "d3dx8math.h"
+#include <d3dx9math.h>
 extern const D3DXMATRIX g_Rva009D2398Basis;
 extern "C" D3DXVECTOR4* __stdcall rva0062AF4AD3DXVec4Transform(D3DXVECTOR4*,const D3DXVECTOR4*,const D3DXMATRIX*);
 

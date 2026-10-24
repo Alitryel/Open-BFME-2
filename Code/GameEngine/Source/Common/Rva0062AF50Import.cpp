@@ -1,8 +1,10 @@
 // cl: /O1 /arch:SSE /G7 /MD /Ireference/shims/sweep
+// platformsdk
+// dxsdk
 // rva0062AF50D3DXPlaneFromPointNormal at 0x0062AF50 (6B). Retail thunk targets the PE IAT entry for d3dx9_27.dll!D3DXPlaneFromPointNormal.
 #define D3DXPlaneFromPointNormal D3DXPlaneFromPointNormal_unused_shim
 #define D3DXVec3Transform D3DXVec3Transform_unused_shim
-#include "d3dx8math.h"
+#include <d3dx9math.h>
 #undef D3DXPlaneFromPointNormal
 #undef D3DXVec3Transform
 
