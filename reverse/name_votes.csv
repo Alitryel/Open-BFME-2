@@ -3056,3 +3056,8 @@ Code/GameEngine/Source/GameLogic/Object/SpecialPower/Rva00254D0BFree.cpp|member|
 Code/GameEngine/Source/GameLogic/Object/SpecialPower/Rva00254D0BFree.cpp|function|0x00254D0B|rva00254D0B,f47e8d0299e78d1442d8a531,gpt-6.1-sol,codex8-20261024-054232-27,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/Rva005DCE72.cpp|class||Rva005DCEB7Arg,e7e3edaa8f524ddac43af203,gpt-6.1-sol,codex8-20261024-054232-31,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/Rva005DCE72.cpp|param|Rva005DCE72::rva005DCEB7|p,fcf1a20a5c2bd41449360147,gpt-6.1-sol,codex8-20261024-054232-31,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameClient/VideoPlayerGetVideo.cpp|global||g_bfmeVideoTableStorage,732fe367657416fcb0fc42b0,gpt-6.1-sol,codex4-20261024-052532-5,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva0028ECDB.cpp|member|Rva002DFF0F8|m_10,f422e8c86655727f22b082b5,gpt-6.1-sol,codex4-20261024-052532-6,w-887869184137,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMapVisibleBounds.cpp|class||Rva000E1669,ad9405b2c0c61cc5d472d60f,gpt-6.1-sol,codex4-20261024-052532-7,w-887869184137,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMapVisibleBounds.cpp|local|Rva000E1669::rva000E1669|x,1cb2b5bbbb19dcc57c68402c,gpt-6.1-sol,codex4-20261024-052532-7,w-887869184137,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMapVisibleBounds.cpp|local|Rva000E1669::rva000E1669|y,2bac52ae25d9baed422a4292,gpt-6.1-sol,codex4-20261024-052532-7,w-887869184137,2026-10-24
