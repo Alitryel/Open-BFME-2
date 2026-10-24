@@ -25,7 +25,7 @@ public:
 };
 class BoneTransform {
 public:
- __forceinline void Get_Matrix3D(SkinMatrix3D &m) const {
+ __forceinline void Get_Matrix3D(SkinMatrix3D &matrix) const {
   float xx=Rotation.X*Rotation.X*2.0f;
   float xy=Rotation.X*Rotation.Y*2.0f;
   float xz=Rotation.X*Rotation.Z*2.0f;
@@ -35,10 +35,10 @@ public:
   float yw=Rotation.Y*Rotation.W*2.0f;
   float zz=Rotation.Z*Rotation.Z*2.0f;
   float zw=Rotation.Z*Rotation.W*2.0f;
-  m.Row[0].X=(1.0f-yy-zz);m.Row[0].Y=xy-zw;m.Row[0].Z=xz+yw;
-  m.Row[1].X=xy+zw;m.Row[1].Y=(1.0f-zz-xx);m.Row[1].Z=yz-xw;
-  m.Row[2].X=xz-yw;m.Row[2].Y=yz+xw;m.Row[2].Z=(1.0f-yy-xx);
-  m.Row[0].W=Translation.X;m.Row[1].W=Translation.Y;m.Row[2].W=Translation.Z;
+  matrix.Row[0].X=(1.0f-yy-zz);matrix.Row[0].Y=xy-zw;matrix.Row[0].Z=xz+yw;
+  matrix.Row[1].X=xy+zw;matrix.Row[1].Y=(1.0f-zz-xx);matrix.Row[1].Z=yz-xw;
+  matrix.Row[2].X=xz-yw;matrix.Row[2].Y=yz+xw;matrix.Row[2].Z=(1.0f-yy-xx);
+  matrix.Row[0].W=Translation.X;matrix.Row[1].W=Translation.Y;matrix.Row[2].W=Translation.Z;
  }
  __forceinline void TransformPositionArray(const Vector3 *v,Vector3 *out,int count) const {
   while(count--) {
