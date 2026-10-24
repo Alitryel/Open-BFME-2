@@ -47,15 +47,15 @@ private:
 
 void Rva001F52CC::rva001F52CC(Vec2001F52CC *out)
 {
-	float a = 1.0f;
-	float b = 1.0f;
-	Provider001F52CC *p = m_ptr;
-	if (p != 0)
+	float xValue = 1.0f;
+	float yValue = 1.0f;
+	Provider001F52CC *provider = m_ptr;
+	if (provider != 0)
 	{
-		const Data001F52CC *d = p->fetch();
-		a = d->x;
-		b = d->y;
+		const Data001F52CC *d = provider->fetch();
+		xValue = d->x;
+		yValue = d->y;
 	}
-	out->x = a;
-	out->y = b;
+	out->x = xValue;
+	out->y = yValue;
 }
