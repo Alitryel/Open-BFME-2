@@ -3293,3 +3293,7 @@ Code/GameEngine/Source/GameLogic/Object/Behavior/Rva00498F46Cmd.cpp|param|GateOp
 Code/GameEngine/Source/GameLogic/Object/Behavior/Rva00498F46Cmd.cpp|param|GateOpenAndCloseBehavior::rva00498DF3|arg,db69c111ece23f211dcfb3b0,seat-b,rn-1024a-2-b,w-97dd940db6e3,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Behavior/Rva00498F46Cmd.cpp|param|GateOpenAndCloseBehavior::rva00498F46|arg,df0d60b2ebfc92b887d98abc,seat-a,rn-1024a-2-a,w-66e1246f64d5,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Behavior/Rva00498F46Cmd.cpp|param|GateOpenAndCloseBehavior::rva00498F46|arg,b9a6220616b4cee51511c1b9,seat-b,rn-1024a-2-b,w-97dd940db6e3,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawRva000B901D.cpp|param|Rva000B901D::rva000B901D|a,c88aec0ed73cd695c46ea0d3,seat-a,rn-1024a-4-a,w-6762849dcd3f,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawRva000B901D.cpp|param|Rva000B901D::rva000B901D|a,c88aec0ed73cd695c46ea0d3,seat-b,rn-1024a-4-b,w-80e686d12bdb,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawRva000B901D.cpp|function|0x000B901D|rva000B901D,0fafc562ad53d3ed64b456ee,seat-a,rn-1024a-4-a,w-6762849dcd3f,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawRva000B901D.cpp|function|0x000B901D|rva000B901D,0fafc562ad53d3ed64b456ee,seat-b,rn-1024a-4-b,w-80e686d12bdb,2026-10-24

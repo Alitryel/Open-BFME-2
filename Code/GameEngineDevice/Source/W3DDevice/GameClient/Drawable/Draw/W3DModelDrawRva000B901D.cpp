@@ -1,6 +1,6 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /Ireference/shims/bfme2_ascii
 //
-// ?rva000B901D@Rva000B901D@@QAEXHPBURva000B901DNames@@@Z, retail 0x000B901D
+// ?RecolorHouseColor@Rva000B901D@@QAEXHPBURva000B901DNames@@@Z, retail 0x000B901D
 // (87 bytes, RET 8): a slot of the W3DModelDraw-family secondary table
 // 0x007CBB78 (complete-object +0x0C, so the drawable is read at -4 and the
 // render object at +0x44). With a drawable that has an Object (+0xFC) and a
@@ -46,20 +46,20 @@ public:
 class Rva000B901D
 {
 public:
-	void rva000B901D(int a, const Rva000B901DNames *names);
+	void RecolorHouseColor(int options, const Rva000B901DNames *names);
 private:
 	Rva000B901DDrawable *drawable() const { return *(Rva000B901DDrawable *const *)((const char *)this - 4); }
 	unsigned char m_pad00[0x44];
 	Rva000B901DRenderObj *m_renderObject;	// +0x44
 };
 
-void Rva000B901D::rva000B901D(int a, const Rva000B901DNames *names)
+void Rva000B901D::RecolorHouseColor(int options, const Rva000B901DNames *names)
 {
 	if (drawable() && drawable()->m_object && m_renderObject)
 	{
 		if (names->m_begin == names->m_end)
-			m_renderObject->rva0019BA70(a, 0);
+			m_renderObject->rva0019BA70(options, 0);
 		else
-			m_renderObject->rva0019BA70(a, names->m_begin[0].str());
+			m_renderObject->rva0019BA70(options, names->m_begin[0].str());
 	}
 }
