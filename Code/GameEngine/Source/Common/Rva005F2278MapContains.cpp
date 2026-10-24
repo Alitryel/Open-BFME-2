@@ -102,10 +102,10 @@ public:
 	bool rva005E39A6(int key) const;
 private:
 	char m_pad00[0x14];
-	Rva005F2278 *m_map14;
+	Rva005F2278 *m_selection;
 };
 
 bool ArmyDetailsPanelImpl::rva005E39A6(int key) const
 {
-	return m_map14->rva005F2278(key);
+	return m_selection->rva005F2278(key);
 }

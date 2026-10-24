@@ -1712,3 +1712,4 @@ param,bind#2::d,bind#2::delegate,inferred,agree:nl-f28de4645586,Code/GameEngine/
 param,Holder0042C936::a,Holder0042C936::autoPtr,inferred,agree:nl-16d74ceec27a,Code/GameEngine/Source/Common/Rva0042C936.cpp,
 local,Holder0042C936::release::t,Holder0042C936::release::releasedPtr,inferred,agree:nl-d0acfd9e6f18,Code/GameEngine/Source/Common/Rva0042C936.cpp,
 param,Rva0042C936::rva0042C936::h,Rva0042C936::rva0042C936::holder,inferred,agree:nl-8cfc3ce32034,Code/GameEngine/Source/Common/Rva0042C936.cpp,0x0042C936
+member,ArmyDetailsPanelImpl::m_map14,ArmyDetailsPanelImpl::m_selection,inferred,agree:nl-d8fa8fccbde3,Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp,
