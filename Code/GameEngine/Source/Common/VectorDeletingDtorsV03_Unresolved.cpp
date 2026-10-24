@@ -254,3 +254,16 @@ void bfmeVectorDeleteAnchorV03Unresolved()
 	new Rva003A7A06Vec[2];
 	new Rva003A7B9FVec[2];
 }
+
+// Complete destructors: retail folds each onto the row at its pinned
+// address (bindings derived by tools/allowed_symbols.py --alternatenames).
+#pragma comment(linker, "/alternatename:??1Rva003A64F0Vec@@UAE@XZ=??1?$CategoryModuleTemplate@$06@FXParticleSystem@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003A679DVec@@UAE@XZ=??1?$CategoryModuleTemplate@$06@FXParticleSystem@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003A690DVec@@UAE@XZ=??1?$CategoryModuleTemplate@$06@FXParticleSystem@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003A69B4Vec@@UAE@XZ=??1BfmeBaseVNH@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003A71D4Vec@@UAE@XZ=??1?$CategoryModuleTemplate@$06@FXParticleSystem@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003A73ADVec@@UAE@XZ=??1?$CategoryModuleTemplate@$06@FXParticleSystem@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003A77A7Vec@@UAE@XZ=??1BfmeBaseVNH@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003A7853Vec@@UAE@XZ=??1?$CategoryModuleTemplate@$06@FXParticleSystem@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003A7A06Vec@@UAE@XZ=??1?$CategoryModuleTemplate@$06@FXParticleSystem@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003A7B9FVec@@UAE@XZ=??1?$CategoryModuleTemplate@$06@FXParticleSystem@@UAE@XZ")

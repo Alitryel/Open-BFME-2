@@ -99,3 +99,9 @@ void bfmeVectorDeleteAnchorV01Unresolved()
 	new Rva003A743EVec[2];
 	new Rva003A6201[2];
 }
+
+// Complete destructors: retail folds each onto the row at its pinned
+// address (bindings derived by tools/allowed_symbols.py --alternatenames).
+#pragma comment(linker, "/alternatename:??1Rva003A6201@@UAE@XZ=??1?$CategoryModuleTemplate@$06@FXParticleSystem@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003A743EVec@@UAE@XZ=??1?$ConcreteModuleTemplate@UOrthoEmissionVelocityModuleTag@FXParticleSystem@@@FXParticleSystem@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003A9397@@UAE@XZ=??1?$ConcreteModuleTemplate@UOrthoEmissionVelocityModuleTag@FXParticleSystem@@@FXParticleSystem@@UAE@XZ")

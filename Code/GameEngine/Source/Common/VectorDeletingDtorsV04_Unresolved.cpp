@@ -310,3 +310,17 @@ void bfmeVectorDeleteAnchorV04Unresolved()
 	new Rva003AA17FVec[2];
 	new Rva003AA76F[2];
 }
+
+// Complete destructors: retail folds each onto the row at its pinned
+// address (bindings derived by tools/allowed_symbols.py --alternatenames).
+#pragma comment(linker, "/alternatename:??1Rva003A8BD7Vec@@UAE@XZ=??1?$ConcreteModuleTemplate@UOrthoEmissionVelocityModuleTag@FXParticleSystem@@@FXParticleSystem@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003A8C5AVec@@UAE@XZ=??1?$ConcreteModuleTemplate@UOrthoEmissionVelocityModuleTag@FXParticleSystem@@@FXParticleSystem@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003A8E25Vec@@UAE@XZ=??1?$ConcreteModuleTemplate@UOrthoEmissionVelocityModuleTag@FXParticleSystem@@@FXParticleSystem@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003A9057Vec@@UAE@XZ=??1?$ConcreteModuleTemplate@UOrthoEmissionVelocityModuleTag@FXParticleSystem@@@FXParticleSystem@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003A9152Vec@@UAE@XZ=??1?$ConcreteModuleTemplate@UOrthoEmissionVelocityModuleTag@FXParticleSystem@@@FXParticleSystem@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003A91E3Vec@@UAE@XZ=??1?$ConcreteModuleTemplate@UOrthoEmissionVelocityModuleTag@FXParticleSystem@@@FXParticleSystem@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003A9C39@@UAE@XZ=??1RenderObjectDrawModuleTemplate@FXParticleSystem@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003A9E80@@UAE@XZ=??1GpuDrawModuleTemplate@FXParticleSystem@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003AA0C0@@UAE@XZ=??1LifeEventModuleTemplate@FXParticleSystem@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003AA17FVec@@UAE@XZ=??1LifeEventModuleTemplate@FXParticleSystem@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva003AA76F@@UAE@XZ=??1?$ConcreteModuleTemplate@V?$ModuleTag@$05$E?GPU_DRAW_MODULE_KEY@FXParticleSystem@@3QBDB$E?GPU_DRAW_MODULE_NAME@2@3QBDBVGpuDrawModule@2@VGpuDrawModuleTemplate@2@V?$DefaultParticleModule@$05@2@@FXParticleSystem@@@FXParticleSystem@@UAE@XZ")
