@@ -5,7 +5,12 @@
 #include <hash_map>
 
 struct Rva0052B6D9Element { char bytes[1]; bool operator<(const Rva0052B6D9Element&)const; bool operator==(const Rva0052B6D9Element&)const; };
+// Declared only: retail's element copy is the rowed body at this name's pinned
+// address; this TU's copy is not retail's.
+namespace _STL { template <> void _Construct<pair<const int, Rva0052B6D9Element> , pair<const int, Rva0052B6D9Element> >(pair<const int, Rva0052B6D9Element>  *, const pair<const int, Rva0052B6D9Element>  &); }
 namespace _STL {template<> struct hash<Rva0052B6D9Element> { unsigned operator()(const Rva0052B6D9Element&) const; };}
 
 // Instantiate the recovered operation and its required template dependencies.
 template _STL::_Hashtable_node<_STL::pair<int const, Rva0052B6D9Element> > * _STL::hashtable<_STL::pair<int const, Rva0052B6D9Element>, int, _STL::hash<int>, _STL::_Select1st<_STL::pair<int const, Rva0052B6D9Element> >, _STL::equal_to<int>, _STL::allocator<_STL::pair<int const, Rva0052B6D9Element> > >::_M_new_node(_STL::pair<int const, Rva0052B6D9Element> const &);
+// The declared element copy binds to that row (tools/allowed_symbols.py --alternatenames).
+#pragma comment(linker, "/alternatename:??$_Construct@U?$pair@$$CBHURva0052B6D9Element@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBHURva0052B6D9Element@@@0@ABU10@@Z=?Rva0052B6ACConstruct@@YAXPAXPBX@Z")

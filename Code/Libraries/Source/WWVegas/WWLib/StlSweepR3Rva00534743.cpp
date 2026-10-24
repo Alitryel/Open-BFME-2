@@ -20,7 +20,12 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 
 struct Rva00534743Record {  int word0;int word1;int word2; };
+// Declared only: retail's element copy is the rowed body at this name's pinned
+// address; this TU's copy is not retail's.
+namespace _STL { template <> void _Construct<pair<const int, Rva00534743Record> , pair<const int, Rva00534743Record> >(pair<const int, Rva00534743Record>  *, const pair<const int, Rva00534743Record>  &); }
 
 
 // Instantiate the recovered member; retain only its required template dependencies.
 template _STL::_Rb_tree_node<_STL::pair<int const, Rva00534743Record> > * _STL::_Rb_tree<int, _STL::pair<int const, Rva00534743Record>, _STL::_Select1st<_STL::pair<int const, Rva00534743Record> >, _STL::less<int>, _STL::allocator<_STL::pair<int const, Rva00534743Record> > >::_M_create_node(_STL::pair<int const, Rva00534743Record> const &);
+// The declared element copy binds to that row (tools/allowed_symbols.py --alternatenames).
+#pragma comment(linker, "/alternatename:??$_Construct@U?$pair@$$CBHURva00534743Record@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBHURva00534743Record@@@0@ABU10@@Z=?Rva005346D9Construct@@YAXPAURva005344C0@@ABU1@@Z")

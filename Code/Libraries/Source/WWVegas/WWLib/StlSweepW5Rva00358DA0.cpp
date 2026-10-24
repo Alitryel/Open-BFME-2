@@ -6,6 +6,11 @@
 #include <map>
 
 struct Rva00358DA0Element { short words[1]; bool operator<(const Rva00358DA0Element&b)const { return words[0]<b.words[0]; } bool operator==(const Rva00358DA0Element&b)const {return words[0]==b.words[0];} };
+// Declared only: retail's element copy is the rowed body at this name's pinned
+// address; this TU's copy is not retail's.
+namespace _STL { template <> void _Construct<pair<const Rva00358DA0Element, int> , pair<const Rva00358DA0Element, int> >(pair<const Rva00358DA0Element, int>  *, const pair<const Rva00358DA0Element, int>  &); }
 
 // Instantiate the recovered operation and its required template dependencies.
 template _STL::_Rb_tree_node<_STL::pair<Rva00358DA0Element const, int> > * _STL::_Rb_tree<Rva00358DA0Element, _STL::pair<Rva00358DA0Element const, int>, _STL::_Select1st<_STL::pair<Rva00358DA0Element const, int> >, _STL::less<Rva00358DA0Element>, _STL::allocator<_STL::pair<Rva00358DA0Element const, int> > >::_M_create_node(_STL::pair<Rva00358DA0Element const, int> const &);
+// The declared element copy binds to that row (tools/allowed_symbols.py --alternatenames).
+#pragma comment(linker, "/alternatename:??$_Construct@U?$pair@$$CBURva00358DA0Element@@H@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBURva00358DA0Element@@H@0@ABU10@@Z=?Rva00358CA0Construct@@YAXPAXPBX@Z")

@@ -20,7 +20,12 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 
 struct Rva005028E7Record {  int word0;int word1;int word2; };
+// Declared only: retail's element copy is the rowed body at this name's pinned
+// address; this TU's copy is not retail's.
+namespace _STL { template <> void _Construct<pair<const int, Rva005028E7Record> , pair<const int, Rva005028E7Record> >(pair<const int, Rva005028E7Record>  *, const pair<const int, Rva005028E7Record>  &); }
 
 
 // Instantiate the recovered member; retain only its required template dependencies.
 template _STL::_Rb_tree_node<_STL::pair<int const, Rva005028E7Record> > * _STL::_Rb_tree<int, _STL::pair<int const, Rva005028E7Record>, _STL::_Select1st<_STL::pair<int const, Rva005028E7Record> >, _STL::less<int>, _STL::allocator<_STL::pair<int const, Rva005028E7Record> > >::_M_create_node(_STL::pair<int const, Rva005028E7Record> const &);
+// The declared element copy binds to that row (tools/allowed_symbols.py --alternatenames).
+#pragma comment(linker, "/alternatename:??$_Construct@U?$pair@$$CBHURva005028E7Record@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBHURva005028E7Record@@@0@ABU10@@Z=??$_Construct@URva00502667Element@@U1@@_STL@@YAXPAURva00502667Element@@ABU1@@Z")

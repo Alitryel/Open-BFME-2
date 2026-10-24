@@ -6,6 +6,11 @@
 #include <memory>
 
 struct Rva00205709Element { char bytes[8]; bool operator<(const Rva00205709Element&)const; bool operator==(const Rva00205709Element&)const; };
+// Declared only: retail's element copy is the rowed body at this name's pinned
+// address; this TU's copy is not retail's.
+namespace _STL { template <> void _Construct<Rva00205709Element, Rva00205709Element>(Rva00205709Element *, const Rva00205709Element &); }
 
 // Instantiate the recovered operation and its required template dependencies.
 template Rva00205709Element * _STL::__uninitialized_copy<Rva00205709Element const *, Rva00205709Element *>(Rva00205709Element const *, Rva00205709Element const *, Rva00205709Element *, _STL::__false_type const &);
+// The declared element copy binds to that row (tools/allowed_symbols.py --alternatenames).
+#pragma comment(linker, "/alternatename:??$_Construct@URva00205709Element@@U1@@_STL@@YAXPAURva00205709Element@@ABU1@@Z=?Rva0020596AConstruct@@YAXPAXPBX@Z")

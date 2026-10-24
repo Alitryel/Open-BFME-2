@@ -20,7 +20,12 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 
 struct Rva004677FDRecord { unsigned char bytes[8]; bool operator==(const Rva004677FDRecord&) const; bool operator<(const Rva004677FDRecord&) const; };
+// Declared only: retail's element copy is the rowed body at this name's pinned
+// address; this TU's copy is not retail's.
+namespace _STL { template <> void _Construct<Rva004677FDRecord, Rva004677FDRecord>(Rva004677FDRecord *, const Rva004677FDRecord &); }
 
 
 // Instantiate the recovered member; retain only its required template dependencies.
 template _STL::_List_node<Rva004677FDRecord> * _STL::list<Rva004677FDRecord, _STL::allocator<Rva004677FDRecord> >::_M_create_node(Rva004677FDRecord const &);
+// The declared element copy binds to that row (tools/allowed_symbols.py --alternatenames).
+#pragma comment(linker, "/alternatename:??$_Construct@URva004677FDRecord@@U1@@_STL@@YAXPAURva004677FDRecord@@ABU1@@Z=?Rva00467763Construct@@YAXPAXPBX@Z")
