@@ -5339,3 +5339,4 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTreeBufferAddTree.cpp|class
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTreeBufferAddTree.cpp|class||Rva000ECF79Type,7254aedcc1c99c04a4fb23f5,gpt-6.1-sol,codexb-20261024-151742-2,w-8e883e57d025,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTreeBufferAddTree.cpp|class||Rva000ECF79Tree,9bf76d06f7d87a05b40be5cb,gpt-6.1-sol,codexb-20261024-151742-2,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva0056574BFill.cpp|param|Rva0056574BFill|x,1163a59032ea161640c56d05,gpt-6.1-sol,codexb-20261024-151742-3,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainRva00474842.cpp|param|sqr|v,3a64684739751c3e1a8cce74,gpt-6.1-sol,codexb-20261024-151742-5,w-8e883e57d025,2026-10-24
