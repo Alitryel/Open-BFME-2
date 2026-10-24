@@ -4713,3 +4713,5 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva0010C785TimedDecals.
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva0010C785TimedDecals.cpp|local|W3DProjectedShadowManager::rva0010BE72|value40,44d9a139ab04147413d11a3a,claude-opus-5-5,claudec6-20261024-110041-4,w-efe153480513,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva0010C785TimedDecals.cpp|local|W3DProjectedShadowManager::rva0010BE72|value54,e472cd95d2d3c364f80370bd,claude-opus-5-5,claudec6-20261024-110041-4,w-efe153480513,2026-10-24
 Code/GameEngine/Source/Common/Rva005344C0Copy.cpp|function|0x005346D9|Rva005346D9Construct,d35a6ef77b62d093190e8da1,claude-opus-5-5,claudec6-20261024-110041-5,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Create/SupplyWarehouseCreateRva004B901D.cpp|function|0x004B901D|rva004B901D,966fe1b12e93412aef6ca60e,claude-opus-5-5,claudec6-20261024-110041-12,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Create/SupplyWarehouseCreateRva004B901D.cpp|local|SupplyWarehouseCreate::rva004B901D|f,80a455cf8a9d544e967d37f9,claude-opus-5-5,claudec6-20261024-110041-12,w-efe153480513,2026-10-24
