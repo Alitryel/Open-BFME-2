@@ -190,9 +190,9 @@ struct NoString
 	UnicodeString text;
 };
 
-extern const char *g_strFile;
-extern const char *g_csfFile;
-extern Bool g_useStringFile;
+const char *g_strFile = "data\\lotr.str";
+const char *g_csfFile = "Lotr.csf";
+Bool g_useStringFile = true;
 extern unsigned g_Va00DFF0C4;
 
 class GameTextManager : public SubsystemInterface

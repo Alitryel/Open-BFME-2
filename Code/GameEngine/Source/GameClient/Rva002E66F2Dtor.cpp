@@ -1,6 +1,6 @@
-// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /DNDEBUG /DWIN32 /MD /D_STLP_USE_STATIC_LIB /D_CRTIMP= /EHsc
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /Ireference/shims/subsystem_bfme2 /DNDEBUG /DWIN32 /MD /D_STLP_USE_STATIC_LIB /D_CRTIMP= /EHsc
 // stlport
-// ??1Rva002E66F2@@UAE@XZ 0x002E66F2 89B
+// ??1GameTextManager@@UAE@XZ 0x002E66F2 89B
 // Evidence: chain from 0x002E6551 clear plus vectorAscii 0x0002CC70 plus wide release 0x00036E70 plus base 0x001B4E74; vtables 0x00804FA8 0x00804E90; caller 0x002E67D1.
 #include <vector>
 #include "ascii_string.h"
@@ -22,7 +22,8 @@ public:
 };
 
 // Base dtor at 0x001B4E74 by its row name ??1SubsystemInterface@@UAE@XZ (SubsystemInterface.cpp).
-#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
+typedef bool Bool;
+#include "subsystem_interface.h"
 
 extern "C" const void *const __identifier("??_7Rva002E55D8@@6B@")[];
 
@@ -30,12 +31,6 @@ class Rva002E66F2Mid : public SubsystemInterface
 {
 public:
 	virtual ~Rva002E66F2Mid() { *(const void **)this = __identifier("??_7Rva002E55D8@@6B@"); }
-};
-
-class GameTextManager
-{
-public:
-	virtual void deinit();
 };
 
 class Rva002E674B
@@ -49,11 +44,23 @@ namespace _STL
 template <> AsciiString *vector<AsciiString, allocator<AsciiString> >::erase(AsciiString *, AsciiString *);
 }
 
-class Rva002E66F2 : public Rva002E66F2Mid
+class GameTextManager : public Rva002E66F2Mid
 {
 public:
-	virtual ~Rva002E66F2();
-	_STL::vector<AsciiString> &rva002E67EA(const AsciiString &filter);
+	virtual ~GameTextManager();
+	virtual void init();
+	virtual bool vslot04(int);
+	virtual void reset();
+	virtual void update() {}
+	virtual UnicodeString fetch(const char *label, Bool *exists);
+	virtual UnicodeString fetch(const AsciiString &label, Bool *exists);
+	virtual UnicodeString *fetchPtr(const char *label, Bool *exists);
+	virtual UnicodeString *fetchPtr(const AsciiString &label, Bool *exists);
+	virtual _STL::vector<AsciiString> &getStringsWithLabelPrefix(const AsciiString &filter);
+	virtual void initMapStringFile(const AsciiString &filename);
+	virtual void setTranslateMode(int mode);
+	virtual int getTranslateMode() { return m_translateMode; }
+	virtual void deinit();
 
 private:
 	char m_pad0C[0x11];
@@ -65,16 +72,17 @@ private:
 	Rva002E674B *m_ptr2c;
 	Rva002E674B *m_ptr30;
 	_STL::vector<AsciiString> m_vec34;
+	int m_translateMode;
 };
 
-Rva002E66F2::~Rva002E66F2()
+GameTextManager::~GameTextManager()
 {
-	((GameTextManager *)this)->GameTextManager::deinit();
+	GameTextManager::deinit();
 }
 
-// ?rva002E67EA@Rva002E66F2@@QAEAAV?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@ABVAsciiString@@@Z @0x002E67EA 60B
-// Evidence: vslot 18 offset 0x48 of vtable 0x00804FA8 class Rva002E66F2; clears m_vec34 via erase then forwards to m_ptr2c m_ptr30 rva002E674B; returns m_vec34.
-_STL::vector<AsciiString> &Rva002E66F2::rva002E67EA(const AsciiString &filter)
+// ?getStringsWithLabelPrefix@GameTextManager@@UAEAAV?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@ABVAsciiString@@@Z @0x002E67EA 60B
+// Evidence: vslot 18 offset 0x48 of vtable 0x00804FA8 class GameTextManager; clears m_vec34 via erase then forwards to m_ptr2c m_ptr30 rva002E674B; returns m_vec34.
+_STL::vector<AsciiString> &GameTextManager::getStringsWithLabelPrefix(const AsciiString &filter)
 {
 	_STL::vector<AsciiString> &vec = m_vec34;
 	vec.erase(vec.begin(), vec.end());

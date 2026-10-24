@@ -9,10 +9,13 @@
 // call besides __EH_prolog is the defined copy ctor of the T named here.
 #include <memory>
 
-class Rva0021F876
+class CreateAHeroManager { public: class CreateAHeroClass; };
+typedef CreateAHeroManager::CreateAHeroClass CreateAHeroClass;
+
+class CreateAHeroManager::CreateAHeroClass
 {
 public:
-	Rva0021F876(const Rva0021F876 &other);
+	CreateAHeroClass(const CreateAHeroClass &other);
 };
 
 struct Rva002B72C9
@@ -20,5 +23,5 @@ struct Rva002B72C9
 	Rva002B72C9(const Rva002B72C9 &other);
 };
 
-template void _STL::_Construct<Rva0021F876, Rva0021F876>(Rva0021F876 *, const Rva0021F876 &);
+template void _STL::_Construct<CreateAHeroClass, CreateAHeroClass>(CreateAHeroClass *, const CreateAHeroClass &);
 template void _STL::_Construct<Rva002B72C9, Rva002B72C9>(Rva002B72C9 *, const Rva002B72C9 &);

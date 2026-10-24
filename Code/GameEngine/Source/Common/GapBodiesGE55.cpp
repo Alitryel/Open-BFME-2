@@ -54,29 +54,33 @@ Rva00219964::Rva00219964(const StringBase<char> &name) : m_name(name), m_flag(fa
 {
 }
 
-// --- 0x0021FAE8 (9B): destroy a Rva0021F876 in place through its rowed
+// --- 0x0021FAE8 (9B): destroy a CreateAHeroClass in place through its rowed
 // destructor 0x0021F8F3.
-class Rva0021F876
-{
-public:
-	~Rva0021F876();
-};
-
-void rva0021FAE8(Rva0021F876 *object)
-{
-	object->~Rva0021F876();
-}
-
-// --- 0x0021FAF1 (27B): append a CreateAHeroSubClass to the +0x14 vector
-// through its rowed push_back and return the new last element.
 class CreateAHeroManager
 {
 public:
+    class CreateAHeroClass;
 	class CreateAHeroSubClass
 	{
 		char m_bytes[0xD8];
 	};
 };
+typedef CreateAHeroManager::CreateAHeroClass CreateAHeroClass;
+
+class CreateAHeroManager::CreateAHeroClass
+{
+public:
+	~CreateAHeroClass();
+};
+
+void rva0021FAE8(CreateAHeroClass *object)
+{
+	object->~CreateAHeroClass();
+}
+
+// --- 0x0021FAF1 (27B): append a CreateAHeroSubClass to the +0x14 vector
+// through its rowed push_back and return the new last element.
+
 
 namespace _STL
 {

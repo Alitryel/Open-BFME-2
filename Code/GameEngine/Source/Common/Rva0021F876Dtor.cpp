@@ -7,21 +7,25 @@
 // Evidence: callers at 0x0021FA95 and 0x0021FDDC plus jmp at 0x0021FAEC.
 // BfmeNarrowRecord000BFDC7 (a 0x20B basic_string layout) cannot emit these
 // calls; its destructor is the 15B fold at 0x000796BC, so the owner stays
-// Rva0021F876. Element stays size-free with a declared-only dtor so the
+// CreateAHeroClass. Element stays size-free with a declared-only dtor so the
 // vector call binds the rowed non-trivial Destroy shape.
 #include "ascii_string.h"
 #include <vector>
 
+
+
 class CreateAHeroManager
 {
 public:
+    class CreateAHeroClass;
     class CreateAHeroSubClass { public: ~CreateAHeroSubClass(); };
 };
+typedef CreateAHeroManager::CreateAHeroClass CreateAHeroClass;
 
-class Rva0021F876
+class CreateAHeroManager::CreateAHeroClass
 {
 public:
-	~Rva0021F876();
+	~CreateAHeroClass();
 private:
 	AsciiString m_00;
 	AsciiString m_04;
@@ -31,7 +35,7 @@ private:
 	_STL::vector<CreateAHeroManager::CreateAHeroSubClass, _STL::allocator<CreateAHeroManager::CreateAHeroSubClass> > m_14;
 };
 
-Rva0021F876::~Rva0021F876()
+CreateAHeroClass::~CreateAHeroClass()
 {
 }
 
@@ -39,7 +43,7 @@ Rva0021F876::~Rva0021F876()
 // (retail REL32 at 0x0021FA95); deleting through the class emits it here.
 // This anchor only makes the unit compile that copy; it is not retail code.
 // ?_bfmeRva0021F876DeleteAnchor@@YAXPAVRva0021F876@@@Z absent-from-retail
-void _bfmeRva0021F876DeleteAnchor(Rva0021F876 *p)
+void _bfmeRva0021F876DeleteAnchor(CreateAHeroClass *p)
 {
 	delete p;
 }

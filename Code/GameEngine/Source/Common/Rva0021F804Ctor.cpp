@@ -14,10 +14,13 @@
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 
-class Rva0021F804
+class CreateAHeroManager { public: class CreateAHeroClass; };
+typedef CreateAHeroManager::CreateAHeroClass CreateAHeroClass;
+
+class CreateAHeroManager::CreateAHeroClass
 {
 public:
-	Rva0021F804(const AsciiString &a4, const AsciiString &a0, const AsciiString &a1, const AsciiString &a2, const AsciiString &a3);
+	CreateAHeroClass(const AsciiString &a4, const AsciiString &a0, const AsciiString &a1, const AsciiString &a2, const AsciiString &a3);
 private:
 	AsciiString m_00;
 	AsciiString m_04;
@@ -27,7 +30,7 @@ private:
 	_STL::vector<BfmeE16, _STL::allocator<BfmeE16> > m_14;
 };
 
-Rva0021F804::Rva0021F804(const AsciiString &asciiString, const AsciiString &a0, const AsciiString &a1, const AsciiString &a2, const AsciiString &a3)
+CreateAHeroClass::CreateAHeroClass(const AsciiString &asciiString, const AsciiString &a0, const AsciiString &a1, const AsciiString &a2, const AsciiString &a3)
 	: m_00(a0)
 	, m_04(a1)
 	, m_08(a2)

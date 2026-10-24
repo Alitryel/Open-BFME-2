@@ -1,7 +1,7 @@
 // cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
 // stlport
 //
-// Rva0021F876 copy ctor, retail 0x0021F876 125 bytes. Copy ctor
+// CreateAHeroClass copy ctor, retail 0x0021F876 125 bytes. Copy ctor
 // copying five StringBase<char> plus vector<CreateAHeroSubClass> with EH states 0-4.
 // Evidence: caller 0x0021FA36, rowed vector copy 0x0021F404, pin StringBase
 // copy 0x000365F0 via public QAE spelling, unblocks 0x0021FA1A.
@@ -12,9 +12,12 @@
 #include "ascii_string.h"
 #include <vector>
 
+
+
 class CreateAHeroManager
 {
 public:
+    class CreateAHeroClass;
     class CreateAHeroSubClass { public: int a[54]; };
 };
 
@@ -28,10 +31,12 @@ template <> vector<CreateAHeroManager::CreateAHeroSubClass, allocator<CreateAHer
 template <> vector<CreateAHeroManager::CreateAHeroSubClass, allocator<CreateAHeroManager::CreateAHeroSubClass> >::~vector();
 }
 
-class Rva0021F876
+typedef CreateAHeroManager::CreateAHeroClass CreateAHeroClass;
+
+class CreateAHeroManager::CreateAHeroClass
 {
 public:
-	Rva0021F876(const Rva0021F876 &other);
+	CreateAHeroClass(const CreateAHeroClass &other);
 private:
 	AsciiString m_00;
 	AsciiString m_04;
@@ -41,7 +46,7 @@ private:
 	_STL::vector<CreateAHeroManager::CreateAHeroSubClass, _STL::allocator<CreateAHeroManager::CreateAHeroSubClass> > m_14;
 };
 
-Rva0021F876::Rva0021F876(const Rva0021F876 &other)
+CreateAHeroClass::CreateAHeroClass(const CreateAHeroClass &other)
 	: m_00(other.m_00)
 	, m_04(other.m_04)
 	, m_08(other.m_08)

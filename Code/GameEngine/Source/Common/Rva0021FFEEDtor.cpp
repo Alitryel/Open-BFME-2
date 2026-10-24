@@ -23,16 +23,7 @@ private:
 };
 
 struct BfmePod216 { int a[54]; };
-class Rva0021F876
-{
-public:
-	Rva0021F876(const Rva0021F876 &);
-	~Rva0021F876();
-	AsciiString m_strings[5];
-	_STL::vector<BfmePod216> m_subclasses;
-};
-template <> _STL::vector<Rva0021F876>::~vector();
-template <> void _STL::vector<Rva0021F876>::push_back(const Rva0021F876 &);
+
 
 struct Rva0021DA18
 {
@@ -74,6 +65,10 @@ public:
 	{
 	public:
 		int GetAwardCount(unsigned int subClassIndex);
+		CreateAHeroClass(const CreateAHeroClass &);
+		~CreateAHeroClass();
+		AsciiString m_strings[5];
+		_STL::vector<BfmePod216> m_subclasses;
 	};
 
 	virtual ~CreateAHeroManager();
@@ -84,10 +79,10 @@ public:
 	virtual void reset() {}
 	// ?update@CreateAHeroManager present-unmatched
 	virtual void update() {}
-	Rva0021F876 *rva0022020C(Rva0021F876 &entry);
+	CreateAHeroClass *rva0022020C(CreateAHeroClass &entry);
 private:
 	CreateAHeroData m_hero0C;
-	_STL::vector<Rva0021F876> m_vector14C;
+	_STL::vector<CreateAHeroClass> m_vector14C;
 	int m_158;
 	Rva0021DA18 m_vector15C;
 	Rva0021DA57 m_vector168;
@@ -105,6 +100,9 @@ private:
 	AsciiString m_text1E8, m_text1EC;
 };
 
+template <> _STL::vector<CreateAHeroManager::CreateAHeroClass>::~vector();
+template <> void _STL::vector<CreateAHeroManager::CreateAHeroClass>::push_back(const CreateAHeroManager::CreateAHeroClass &);
+
 CreateAHeroManager::~CreateAHeroManager()
 {
 	m_state1E0 = 0;
@@ -115,7 +113,7 @@ CreateAHeroManager::~CreateAHeroManager()
 // string, or append a copy and update the maximum subclass award count.
 // Binding the name to a reference first is what lets retail's index share
 // the dead argument slot (and its strength-reduced offset take [ebp-4]).
-Rva0021F876 *CreateAHeroManager::rva0022020C(Rva0021F876 &entry)
+CreateAHeroManager::CreateAHeroClass *CreateAHeroManager::rva0022020C(CreateAHeroClass &entry)
 {
 	const AsciiString &name = entry.m_strings[4];
 	for (int i = 0; i < m_vector14C.size(); ++i)

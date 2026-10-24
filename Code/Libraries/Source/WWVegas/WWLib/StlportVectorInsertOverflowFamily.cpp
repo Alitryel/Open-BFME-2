@@ -58,7 +58,10 @@ struct Rva001DF3F1Element { char m_pad[48]; public: Rva001DF3F1Element(const Rva
 // 8-byte element; push_back 0x0020A227.
 struct Rva0020A227Element { char m_pad[8]; public: Rva0020A227Element(const Rva0020A227Element &); ~Rva0020A227Element(); };
 // 32-byte element; push_back 0x002201D5.
-class Rva0021F876 { char m_pad[32]; public: Rva0021F876(const Rva0021F876 &); ~Rva0021F876(); };
+class CreateAHeroManager { public: class CreateAHeroClass; };
+typedef CreateAHeroManager::CreateAHeroClass CreateAHeroClass;
+
+class CreateAHeroManager::CreateAHeroClass { char m_pad[32]; public: CreateAHeroClass(const CreateAHeroClass &); ~CreateAHeroClass(); };
 // 8-byte element; push_back 0x00260B88.
 struct Rva00260B88Element { char m_pad[8]; public: Rva00260B88Element(const Rva00260B88Element &); ~Rva00260B88Element(); };
 // 8-byte element; push_back 0x00308E2C.
@@ -208,7 +211,7 @@ template <> __declspec(dllimport) __forceinline void _Construct<Rva001DAAF2Eleme
 { Rva001D9B0FConstruct(__p, &__val); }
 template <> void _Construct<Rva001DF3F1Element, Rva001DF3F1Element>(Rva001DF3F1Element *, const Rva001DF3F1Element &);
 template <> void _Construct<Rva0020A227Element, Rva0020A227Element>(Rva0020A227Element *, const Rva0020A227Element &);
-template <> void _Construct<Rva0021F876, Rva0021F876>(Rva0021F876 *, const Rva0021F876 &);
+template <> void _Construct<CreateAHeroClass, CreateAHeroClass>(CreateAHeroClass *, const CreateAHeroClass &);
 template <> void _Construct<Rva00260B88Element, Rva00260B88Element>(Rva00260B88Element *, const Rva00260B88Element &);
 template <> __declspec(dllimport) __forceinline void _Construct<Rva00308E2CElement, Rva00308E2CElement>(Rva00308E2CElement *__p, const Rva00308E2CElement &__val)
 { Rva0030CA53Set(reinterpret_cast<Rva004733E0 *>(__p), reinterpret_cast<const Rva004733E0 *>(&__val)); }
@@ -281,8 +284,8 @@ template void _STL::vector<Rva001DF3F1Element>::_M_insert_overflow(
 template void _STL::vector<Rva0020A227Element>::_M_insert_overflow(
     Rva0020A227Element *, const Rva0020A227Element &, const _STL::__false_type &, unsigned int, bool);
 // Retail 0x00220105.
-template void _STL::vector<Rva0021F876>::_M_insert_overflow(
-    Rva0021F876 *, const Rva0021F876 &, const _STL::__false_type &, unsigned int, bool);
+template void _STL::vector<CreateAHeroClass>::_M_insert_overflow(
+    CreateAHeroClass *, const CreateAHeroClass &, const _STL::__false_type &, unsigned int, bool);
 // Retail 0x00260AD6.
 template void _STL::vector<Rva00260B88Element>::_M_insert_overflow(
     Rva00260B88Element *, const Rva00260B88Element &, const _STL::__false_type &, unsigned int, bool);

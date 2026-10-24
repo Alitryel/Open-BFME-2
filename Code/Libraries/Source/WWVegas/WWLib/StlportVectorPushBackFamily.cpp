@@ -28,7 +28,7 @@
 //   0x001DF3F1   48     0x001DEDA7  0x001DF21C          Rva001DF3F1Element
 //   0x0020A227    8     0x0020596A  0x002098A0          Rva0020A227Element
 //   0x00214243   16     0x00211DFB  0x00213E3B          Rva00214243Element
-//   0x002201D5   32     0x0021FA1A  0x00220105          Rva0021F876 (rowed _Construct type)
+//   0x002201D5   32     0x0021FA1A  0x00220105          CreateAHeroClass (rowed _Construct type)
 //   0x00260B88    8     0x0026061A  0x00260AD6          Rva00260B88Element
 //   0x00287F76    8     0x002861B0  0x00287B4D          Rva00287F76Element
 //   0x002898AC    8     0x002889E4  0x002895F8          Rva002898ACElement
@@ -128,7 +128,10 @@ struct Rva001DAAF2Element { int a[2]; };
 struct Rva001DF3F1Element { int a[12]; };
 struct Rva0020A227Element { int a[2]; };
 struct Rva00214243Element { int a[4]; };
-class Rva0021F876 { public: int a[8]; };
+class CreateAHeroManager { public: class CreateAHeroClass; };
+typedef CreateAHeroManager::CreateAHeroClass CreateAHeroClass;
+
+class CreateAHeroManager::CreateAHeroClass { public: int a[8]; };
 struct Rva00260B88Element { int a[2]; };
 struct Rva00287F76Element { int a[2]; };
 struct Rva002898ACElement { int a[2]; };
@@ -247,7 +250,7 @@ template <> __declspec(nothrow) void _Construct<Rva001DF3F1Element, Rva001DF3F1E
 template <> __declspec(nothrow) void _Construct<Rva0020A227Element, Rva0020A227Element>(Rva0020A227Element *__p, const Rva0020A227Element &__val);
 template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Construct<Rva00214243Element, Rva00214243Element>(Rva00214243Element *__p, const Rva00214243Element &__val)
 { Rva00211DFBConstruct(reinterpret_cast<Rva002111C8 *>(__p), reinterpret_cast<const Rva002111C8 *>(&__val)); }
-template <> __declspec(nothrow) void _Construct<Rva0021F876, Rva0021F876>(Rva0021F876 *__p, const Rva0021F876 &__val);
+template <> __declspec(nothrow) void _Construct<CreateAHeroClass, CreateAHeroClass>(CreateAHeroClass *__p, const CreateAHeroClass &__val);
 template <> __declspec(nothrow) void _Construct<Rva00260B88Element, Rva00260B88Element>(Rva00260B88Element *__p, const Rva00260B88Element &__val);
 template <> __declspec(dllimport) __declspec(nothrow) __forceinline void
 _Construct<Rva00287F76Element, Rva00287F76Element>(Rva00287F76Element *__p, const Rva00287F76Element &__val)
@@ -325,7 +328,7 @@ template void _STL::vector<Rva001DAAF2Element>::push_back(const Rva001DAAF2Eleme
 template void _STL::vector<Rva001DF3F1Element>::push_back(const Rva001DF3F1Element &);
 template void _STL::vector<Rva0020A227Element>::push_back(const Rva0020A227Element &);
 template void _STL::vector<Rva00214243Element>::push_back(const Rva00214243Element &);
-template void _STL::vector<Rva0021F876>::push_back(const Rva0021F876 &);
+template void _STL::vector<CreateAHeroClass>::push_back(const CreateAHeroClass &);
 template void _STL::vector<Rva00260B88Element>::push_back(const Rva00260B88Element &);
 template void _STL::vector<Rva00287F76Element>::push_back(const Rva00287F76Element &);
 template void _STL::vector<Rva002898ACElement>::push_back(const Rva002898ACElement &);
@@ -490,7 +493,7 @@ namespace _STL { template <> void _Destroy<RvaSmartPtr12>(RvaSmartPtr12 *); }
 namespace _STL { template <> void vector<GeometryShape, allocator<GeometryShape> >::_M_clear(); }
 namespace _STL { template <> void vector<Rva00413B16Element, allocator<Rva00413B16Element> >::_M_clear(); }
 namespace _STL { template <> void vector<Rva004F9018Element, allocator<Rva004F9018Element> >::_M_clear(); }
-namespace _STL { template <> void vector<Rva0021F876, allocator<Rva0021F876> >::_M_clear(); }
+namespace _STL { template <> void vector<CreateAHeroClass, allocator<CreateAHeroClass> >::_M_clear(); }
 namespace _STL { template <> void vector<Rva00403927, allocator<Rva00403927> >::_M_clear(); }
 namespace _STL { template <> void vector<RvaSmartPtr12, allocator<RvaSmartPtr12> >::_M_clear(); }
 // bfme link decl-only end

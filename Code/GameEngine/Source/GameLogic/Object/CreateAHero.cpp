@@ -251,8 +251,6 @@ struct AttributeBlingBounds {
     AsciiString minimum, maximum, defaultBling;
 };
 
-class Rva0021F804;
-
 class CreateAHeroManager
 {
 public:
@@ -284,6 +282,8 @@ public:
 	class CreateAHeroClass
 	{
 	public:
+		CreateAHeroClass(const AsciiString &, const AsciiString &, const AsciiString &, const AsciiString &, const AsciiString &);
+		~CreateAHeroClass();
 		Int GetBlingCount(Int blingKey, UnsignedInt subClassIndex) const;
 		Int GetSubClassDefaultBlingId(Int blingKey, UnsignedInt subClassIndex) const;
 
@@ -309,7 +309,7 @@ public:
 
 	static void iniParseCreateAHeroSystem(INI *ini);
 	static void parseCreateAHeroClassDefinition(INI *ini);
-	void rva0022020C(const Rva0021F804 &heroClass);	// 0x0022020C, adds a parsed class
+	CreateAHeroClass *rva0022020C(CreateAHeroClass &heroClass);	// 0x0022020C, adds a parsed class
 
 	Int GetBlingCount(Int blingKey, const CreateAHeroHero *hero) const;
 	Int rva0021BEE0(Int blingKey, UnsignedInt classIndex, UnsignedInt subClassIndex) const;
@@ -524,18 +524,7 @@ public:
 	bool isEmpty() const;
 };
 
-class Rva0021F804
-{
-public:
-	Rva0021F804(const AsciiString &a, const AsciiString &b, const AsciiString &c, const AsciiString &d, const AsciiString &e);
-	~Rva0021F804();
-	AsciiString m_nameTag;					// +0x00
-	AsciiString m_descriptionTag;				// +0x04
-	AsciiString m_powersDescTag;				// +0x08
-	AsciiString m_iconImage;				// +0x0C
-	AsciiString m_upgradeName;				// +0x10
-	unsigned char m_subClasses[0xc];			// +0x14
-};
+
 
 extern "C" const FieldParse CreateAHeroClassFieldParse[];
 

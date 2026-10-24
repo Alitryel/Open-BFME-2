@@ -3439,7 +3439,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x007E6834,28,.rdata,string,??_C@_0BK@MDALHGFP@StratigicMPDefeatStatName?$AA@,,literal,,0,1
 0x007E6850,28,.rdata,string,??_C@_0BJ@HCPBIHHC@StratigicVictoryStatName?$AA@,,literal,,0,1
 0x007E686C,28,.rdata,string,??_C@_0BI@IIEBLLDD@StratigicDefeatStatName?$AA@,,literal,,0,1
-0x007E6888,436,.rdata,global,_CreateAHeroSystemFieldParse,,unowned,,0,1
+0x007E6888,416,.rdata,global,_CreateAHeroSystemFieldParse,,unowned,,0,1
 0x007E6A3C,32,.rdata,string,??_C@_0BN@JFLFDCDN@BANNERUI?3SummaryUnitQuantity?$AA@,,literal,,0,1
 0x007E6A5C,8,.rdata,wstring,??_C@_15JOGBDECP@?$AA?0?$AA?5?$AA?$AA@,,literal,,0,1
 0x007E6A64,4,.rdata,global,?ArmySummaryTemplateVisitorTable@@3QBQ8Rva00220D1E@@AEHPBVThingTemplate@@@ZB,Code/GameEngine/Source/GameClient/ArmySummaryDescription.cpp,owned,,1,1
@@ -16725,7 +16725,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x009A5E40,208,.data,global,?g_pfnGetThreadACP@ATL@@3P6GIXZA,Code/Libraries/Source/ATL/cstringt_case.cpp,owned,,1,12
 0x009A5F10,4,.data,global,?g_windowClassName@@3PBGB,Code/GameEngine/Source/Main/WinMain.cpp,owned,,1,4
 0x009A5F14,4,.data,global,?g_strFile@@3PBDB,,unowned,,0,2
-0x009A5F18,8,.data,global,?g_csfFile@@3PBDB,,unowned,,0,3
+0x009A5F18,4,.data,global,?g_csfFile@@3PBDB,,unowned,,0,3
 0x009A5F20,4,.data,global,?g_windowPosX@@3HA,Code/GameEngine/Source/Main/WinMain.cpp,owned,,1,4
 0x009A5F24,4,.data,global,?g_windowPosY@@3HA,Code/GameEngine/Source/Main/WinMain.cpp,owned,,1,4
 0x009A5F28,8,.data,global,?gDoPaint@@3_NA,Code/GameEngine/Source/Main/WinMain.cpp,owned,,1,4
@@ -17064,7 +17064,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x009B9EC8,80,.data,global,?g_00DB9EC8@@3QBUFieldParse@@B,,unowned,,0,1
 0x009B9F18,80,.data,global,_CreateAHeroBlingFieldParse,Code/GameEngine/Source/GameLogic/Object/CreateAHeroBlingParsers.cpp,owned,,1,1
 0x009B9F68,96,.data,global,_CreateAHeroBlingBinderFieldParse,Code/GameEngine/Source/GameLogic/Object/CreateAHeroBlingParsers.cpp,owned,,1,1
-0x009B9FC8,444,.data,global,_CreateAHeroSubClassFieldParse,,unowned,,0,1
+0x009B9FC8,272,.data,global,_CreateAHeroSubClassFieldParse,,unowned,,0,1
 0x009BA184,12,.data,global,?theArmySummaryDescriptionBlockParse@@3UBlockParse@@A,,unowned,,0,2
 0x009BA190,12,.data,global,?theStrategicHUDBlockParse@@3UBlockParse@@A,,unowned,,0,2
 0x009BA19C,48,.data,global,?theInGameNotificationBoxBlockParse@@3UBlockParse@@A,,unowned,,0,2
@@ -17184,7 +17184,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x009BD0F4,44,.data,global,?g_Va00DBD0F4@@3PAURva002E373CHolder@@A,Code/GameEngine/Source/Common/Rva002E373CClear.cpp,provisional,?g_Va00DBD0F4@@3PAURva002E373CHolder@@A;?g_Va00DBD0F4@@3PAVRva002E373CHolder@@A,1,6
 0x009BD120,112,.data,global,?BfmeEnumTable@@3PAUBfmeEnumTableEntry@@A,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/OptionPreferences_enumDispatch.cpp,owned,,1,10
 0x009BD190,136,.data,global,?g_volumePreferenceKeys@@3QAY0BE@$$CBDA,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/OptionPreferences_getVolume.cpp,provisional,?g_volumePreferenceKeys@@3QAY0BE@$$CBDA;_volumeNames@Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/OptionPreferences_setVolume.cpp,2,2
-0x009BD218,224,.data,global,?g_useStringFile@@3_NA,,unowned,,0,1
+0x009BD218,1,.data,global,?g_useStringFile@@3_NA,,unowned,,0,1
 0x009BD2F8,68,.data,global,?g_bfme939Str@@3PADA,,unowned,,0,1
 0x009BD33C,48,.data,global,?g_00DBD33C@@3PAIA,Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp,owned,,1,3
 0x009BD36C,32,.data,global,?deltaY@?BG@??CheckPathCost@Pathfinder@@QAEHPAVObject@@ABVLocomotorSet@@PBUCoord3D@@2@Z@4PAHA,Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp,owned,,1,1

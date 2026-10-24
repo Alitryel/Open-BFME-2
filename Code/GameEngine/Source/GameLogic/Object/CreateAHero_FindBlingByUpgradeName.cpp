@@ -160,6 +160,7 @@ class NameKeyGenerator
 public:
 	NameKeyType nameToKey(const AsciiString &name);		// 0x0009FA65
 	NameKeyType nameToKey(const char *name);		// 0x00148E1A
+	static void parseStringAsNameKeyType(class INI *, void *, void *, const void *);
 };
 
 extern NameKeyGenerator *TheNameKeyGenerator;
@@ -193,7 +194,27 @@ class Xfer;
 
 enum INILoadType { INI_LOAD_INVALID, INI_LOAD_OVERWRITE };
 
-struct FieldParse;
+struct FieldParse
+{
+	const char *name;
+	void (*parse)(class INI *, void *, void *, const void *);
+	const void *userData;
+	int offset;
+};
+
+struct BlockFieldParse
+{
+	const char *name;
+	void (*parse)(class INI *);
+	const void *userData;
+	int offset;
+};
+
+struct CreateAHeroSystemFieldParseTable
+{
+	BlockFieldParse blocks[3];
+	FieldParse fields[23];
+};
 
 class INI
 {
@@ -202,6 +223,9 @@ public:
 	~INI();							// 0x0002CE5B
 	unsigned char loadFile(AsciiString filename, INILoadType loadType, Xfer *pXfer);	// 0x0002DC75: byte result (rowed in INI_loadFile.cpp)
 	static void parseAsciiStringVectorAppend(INI *, void *, void *, const void *);
+	static void parseAsciiString(INI *, void *, void *, const void *);
+	static void parseInt(INI *, void *, void *, const void *);
+	static void parseReal(INI *, void *, void *, const void *);
 	void initFromINI(void *what, const FieldParse *parseTable);	// 0x0002DE78
 
 private:
@@ -253,8 +277,6 @@ struct AttributeBlingBounds {
     AsciiString minimum, maximum, defaultBling;
 };
 
-class Rva0021F804;
-
 class CreateAHeroManager
 {
 public:
@@ -286,6 +308,9 @@ public:
 	class CreateAHeroClass
 	{
 	public:
+		friend class CreateAHeroManager;
+		CreateAHeroClass(const AsciiString &, const AsciiString &, const AsciiString &, const AsciiString &, const AsciiString &);
+		~CreateAHeroClass();
 		Int GetBlingCount(Int blingKey, UnsignedInt subClassIndex) const;
 		Int GetSubClassDefaultBlingId(Int blingKey, UnsignedInt subClassIndex) const;
 
@@ -311,7 +336,8 @@ public:
 
 	static void iniParseCreateAHeroSystem(INI *ini);
 	static void parseCreateAHeroClassDefinition(INI *ini);
-	void rva0022020C(const Rva0021F804 &heroClass);	// 0x0022020C, adds a parsed class
+	static void parseCreateAHeroSubClass(INI *, void *, void *, const void *);
+	CreateAHeroClass *rva0022020C(CreateAHeroClass &heroClass);	// 0x0022020C, adds a parsed class
 
 	Int GetBlingCount(Int blingKey, const CreateAHeroHero *hero) const;
 	Int rva0021BEE0(Int blingKey, UnsignedInt classIndex, UnsignedInt subClassIndex) const;
@@ -398,7 +424,7 @@ Int CreateAHeroManager::rva0021BEE0(Int blingKey, UnsignedInt classIndex, Unsign
 // iniParseCreateAHeroSystem's views. The CreateAHeroSystem block's field table
 // (VA 0x00BE6888) names each manager field it fills; the stat names are
 // checked by the 0x00219453 validator, which throws INIException.
-extern "C" const FieldParse CreateAHeroSystemFieldParse[];
+extern "C" const CreateAHeroSystemFieldParseTable CreateAHeroSystemFieldParse;
 
 bool Rva00219453Validate(int stat, const char *name);	// 0x00219453
 
@@ -429,18 +455,7 @@ extern UpgradeCenter *TheUpgradeCenter;
 // through field table 0x00DBA0D8, requires an upgrade name that
 // TheUpgradeCenter knows and that no class already uses (rowed
 // 0x0021B31C), and hands the record to the manager (0x0022020C).
-class Rva0021F804
-{
-public:
-	Rva0021F804(const AsciiString &a, const AsciiString &b, const AsciiString &c, const AsciiString &d, const AsciiString &e);
-	~Rva0021F804();
-	AsciiString m_nameTag;					// +0x00
-	AsciiString m_descriptionTag;				// +0x04
-	AsciiString m_powersDescTag;				// +0x08
-	AsciiString m_iconImage;				// +0x0C
-	AsciiString m_upgradeName;				// +0x10
-	unsigned char m_subClasses[0xc];			// +0x14
-};
+
 
 extern "C" const FieldParse CreateAHeroClassFieldParse[];
 
@@ -451,7 +466,7 @@ template <> __declspec(noinline) inline bool StringBase<char>::isEmpty() const {
 
 void CreateAHeroManager::parseCreateAHeroClassDefinition(INI *ini)
 {
-	Rva0021F804 heroClass(AsciiString("None"), AsciiString("None"), AsciiString("None"), AsciiString("None"), AsciiString("None"));
+	CreateAHeroClass heroClass(AsciiString("None"), AsciiString("None"), AsciiString("None"), AsciiString("None"), AsciiString("None"));
 	ini->initFromINI(&heroClass, CreateAHeroClassFieldParse);
 	if (heroClass.m_upgradeName.isNone() || ((const StringBase<char> *)&heroClass.m_upgradeName)->isEmpty())
 		throw INIException(3, "No upgrade name specified while parsing CreateAHeroClass.");
@@ -473,7 +488,7 @@ void CreateAHeroManager::iniParseCreateAHeroSystem(INI *ini)
 	if (TheCreateAHeroManager == 0)
 		return;
 
-	ini->initFromINI(TheCreateAHeroManager, CreateAHeroSystemFieldParse);
+	ini->initFromINI(TheCreateAHeroManager, reinterpret_cast<const FieldParse *>(&CreateAHeroSystemFieldParse));
 
 	Rva00219453Validate(TheCreateAHeroManager->m_stratigicDefeatStat, "StratigicDefeatStatName");
 	Rva00219453Validate(TheCreateAHeroManager->m_stratigicVictoryStat, "StratigicVictoryStatName");
@@ -619,4 +634,53 @@ public:
     Player *getControllingPlayer() const;
     unsigned char prefix[0x74]; unsigned id;
     unsigned char middle[0x244-0x78]; void **modules;
+};
+
+void parseCreateAHeroBlingDefinition(INI *);
+void parseCreateAHeroBlingBinderDefinition(INI *);
+
+// The block callbacks take INI alone; all entries share retail's four-word format.
+extern "C" const CreateAHeroSystemFieldParseTable CreateAHeroSystemFieldParse =
+{
+	{
+		{ "CreateAHeroBling", parseCreateAHeroBlingDefinition, 0, 0 },
+		{ "CreateAHeroBlingBinder", parseCreateAHeroBlingBinderDefinition, 0, 0 },
+		{ "CreateAHeroClass", CreateAHeroManager::parseCreateAHeroClassDefinition, 0, 0 }
+	},
+	{
+		{ "CreateAHeroMapModeUpgradeName", INI::parseAsciiString, 0, 0x188 },
+		{ "CreateAHeroGameModeUpgradeName", INI::parseAsciiString, 0, 0x18C },
+		{ "CanBuildCreateAHeroUpgradeName", INI::parseAsciiString, 0, 0x190 },
+		{ "CommandSetTemplate", INI::parseAsciiString, 0, 0x1DC },
+		{ "StratigicDefeatStatName", NameKeyGenerator::parseStringAsNameKeyType, 0, 0x194 },
+		{ "StratigicVictoryStatName", NameKeyGenerator::parseStringAsNameKeyType, 0, 0x198 },
+		{ "StratigicMPDefeatStatName", NameKeyGenerator::parseStringAsNameKeyType, 0, 0x19C },
+		{ "StratigicMPVictoryStatName", NameKeyGenerator::parseStringAsNameKeyType, 0, 0x1A0 },
+		{ "SkirmishDefeatStatName", NameKeyGenerator::parseStringAsNameKeyType, 0, 0x1A4 },
+		{ "SkirmishVictoryStatName", NameKeyGenerator::parseStringAsNameKeyType, 0, 0x1A8 },
+		{ "OpenPlayDefeatStatName", NameKeyGenerator::parseStringAsNameKeyType, 0, 0x1AC },
+		{ "OpenPlayVictoryStatName", NameKeyGenerator::parseStringAsNameKeyType, 0, 0x1B0 },
+		{ "StratigicCampainDefeatStatName", NameKeyGenerator::parseStringAsNameKeyType, 0, 0x1B4 },
+		{ "StratigicCampainVictoryStatName", NameKeyGenerator::parseStringAsNameKeyType, 0, 0x1B8 },
+		{ "WeaponGroupName", NameKeyGenerator::parseStringAsNameKeyType, 0, 0x1BC },
+		{ "SpecialAnimPercentChance", INI::parseReal, 0, 0x1C0 },
+		{ "SelectedCheerAninName", INI::parseAsciiString, 0, 0x1C4 },
+		{ "ExamineWeaponAninName", INI::parseAsciiString, 0, 0x1C8 },
+		{ "ExamineSelfAninName", INI::parseAsciiString, 0, 0x1CC },
+		{ "ExamineAnimTweakValue", INI::parseInt, 0, 0x1E4 },
+		{ "ModelSwapFadeDown", INI::parseAsciiString, 0, 0x1E8 },
+		{ "ModelSwapFadeUp", INI::parseAsciiString, 0, 0x1EC },
+		{ 0, 0, 0, 0 }
+	}
+};
+
+extern "C" const FieldParse CreateAHeroClassFieldParse[] =
+{
+	{ "UpgradeName", INI::parseAsciiString, 0, 0x10 },
+	{ "NameTag", INI::parseAsciiString, 0, 0 },
+	{ "DescriptionTag", INI::parseAsciiString, 0, 4 },
+	{ "PowersDescTag", INI::parseAsciiString, 0, 8 },
+	{ "IconImage", INI::parseAsciiString, 0, 0x0C },
+	{ "SubClass", CreateAHeroManager::parseCreateAHeroSubClass, 0, 0x14 },
+	{ 0, 0, 0, 0 }
 };

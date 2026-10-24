@@ -263,12 +263,7 @@ public:
 
 // Retail copy/destruction providers establish these storage element views.
 // Their application identities remain represented by the existing ledger names.
-class Rva0021F876
-{
-public:
-    ~Rva0021F876();
-    unsigned char m_data[0x20];
-};
+
 struct BfmeStringRecord002199C8
 {
     ~BfmeStringRecord002199C8();
@@ -302,6 +297,7 @@ public:
 	class CreateAHeroClass
 	{
 	public:
+		~CreateAHeroClass();
 		Int GetBlingCount(Int blingKey, UnsignedInt subClassIndex) const;
 		Int GetSubClassDefaultBlingId(Int blingKey, UnsignedInt subClassIndex) const;
 
@@ -340,7 +336,7 @@ private:
 	Int rva00219309() const;				// 0x00219309, required-button count
 
 	CreateAHeroData m_localHero;				// +0x0C, used without a game
-	std::vector<Rva0021F876> m_classes;		// +0x14C
+	std::vector<CreateAHeroClass> m_classes;		// +0x14C
 	int m_numSystemHeroes;
 	std::vector<BfmeStringRecord002199C8> m_blings;		// +0x15C
 	std::vector<BfmeStringRecord00219A68> m_vector168; // WB bling binder list; stride20

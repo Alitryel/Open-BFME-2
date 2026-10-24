@@ -45,8 +45,15 @@ namespace _STL { template <> void _Destroy<BfmeVectorRecord000BDF17 *>(BfmeVecto
 // bfme link decl-only end
 // Suppress this TU's non-retail copy of ??$_Destroy@PAVRva0021F876@@@_STL@@YAXPAVRva0021F876@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
-class Rva0021F876;
-namespace _STL { template <> void _Destroy<Rva0021F876 *>(Rva0021F876 *,Rva0021F876 *); }
+class CreateAHeroManager
+{
+public:
+    class CreateAHeroClass;
+    class CreateAHeroSubClass { public: ~CreateAHeroSubClass(); };
+};
+typedef CreateAHeroManager::CreateAHeroClass CreateAHeroClass;
+
+namespace _STL { template <> void _Destroy<CreateAHeroClass *>(CreateAHeroClass *,CreateAHeroClass *); }
 // Suppress this TU's non-retail copy of ??$_Destroy@PAUBfmeStringHeadRecord184@@@_STL@@YAXPAUBfmeStringHeadRecord184@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeStringHeadRecord184;
@@ -144,11 +151,7 @@ template _STL::vector<Made002CC5E1DamageScalar>::~vector();
 // Same 63B Destroy-plus-free shape: destroys the range through the rowed
 // _Destroy at 0x0021F466 then frees via 0x30830; caller at 0x0021F90E in 0x0021F8F3.
 // Element is CreateAHeroManager::CreateAHeroSubClass (216 bytes; dtor 0x0021E50F).
-class CreateAHeroManager
-{
-public:
-    class CreateAHeroSubClass { public: ~CreateAHeroSubClass(); };
-};
+
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline void __destroy_aux<CreateAHeroManager::CreateAHeroSubClass *>(CreateAHeroManager::CreateAHeroSubClass * f,CreateAHeroManager::CreateAHeroSubClass * l,__false_type const &) { for ( ; f != l; ++f) _Destroy(&*f); } }
 template _STL::vector<CreateAHeroManager::CreateAHeroSubClass>::~vector();
@@ -179,8 +182,8 @@ namespace _STL { template <> void _Destroy<Rva000C828CElement *>(Rva000C828CElem
 template _STL::vector<Rva000C828CElement>::~vector();
 
 // ??1?$vector@VRva0021F876@@V?$allocator@VRva0021F876@@@_STL@@@_STL@@QAE@XZ @0x0021FDEC (_Destroy at 0x0021FDD3)
-class Rva0021F876 { public: ~Rva0021F876(); };
-template _STL::vector<Rva0021F876>::~vector();
+class CreateAHeroManager::CreateAHeroClass { public: ~CreateAHeroClass(); };
+template _STL::vector<CreateAHeroClass>::~vector();
 
 // ??1?$vector@URva00511E48@@V?$allocator@URva00511E48@@@_STL@@@_STL@@QAE@XZ @0x0051211C 63B (pinned on the row ??1Rva0051211C@@QAE@XZ).
 // AptMessenger's +0x28C member: range destroy through the 8-byte DestroyPairs at 0x32C0CA, then free; element view as in Rva00512000Finish.cpp.
