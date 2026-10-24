@@ -34,6 +34,10 @@
 
 struct EmitVtableTag;
 
+// Provider-blocked families are preserved in OpaqueScalarDeletingDtorsB03Deferred.cpp.
+// Their existing ledger rows follow those unchanged definitions.
+
+
 class Rva0014DC9E
 {
 public:
@@ -47,18 +51,7 @@ Rva0014DC9E::Rva0014DC9E(EmitVtableTag *)
 {
 }
 
-class Rva001505CD
-{
-public:
-	Rva001505CD(EmitVtableTag *);
-public:
-	virtual ~Rva001505CD();
-};
 
-// ?<Rva001505CD::Rva001505CD> absent-from-retail
-Rva001505CD::Rva001505CD(EmitVtableTag *)
-{
-}
 
 // These base views describe subobjects and do not own standalone vtables.
 class __declspec(novtable) Rva001684D6Base0
@@ -216,18 +209,7 @@ Rva001E72B4::Rva001E72B4(EmitVtableTag *)
 {
 }
 
-class Rva0037DEE4
-{
-public:
-	Rva0037DEE4(EmitVtableTag *);
-public:
-	virtual ~Rva0037DEE4();
-};
 
-// ?<Rva0037DEE4::Rva0037DEE4> absent-from-retail
-Rva0037DEE4::Rva0037DEE4(EmitVtableTag *)
-{
-}
 
 class __declspec(novtable) Rva001ED41BBase0
 {
@@ -313,18 +295,5 @@ public:
 
 // ?<Rva001FC0F1::Rva001FC0F1> absent-from-retail
 Rva001FC0F1::Rva001FC0F1(EmitVtableTag *)
-{
-}
-
-class Rva001FE06A
-{
-public:
-	Rva001FE06A(EmitVtableTag *);
-public:
-	virtual ~Rva001FE06A();
-};
-
-// ?<Rva001FE06A::Rva001FE06A> absent-from-retail
-Rva001FE06A::Rva001FE06A(EmitVtableTag *)
 {
 }
