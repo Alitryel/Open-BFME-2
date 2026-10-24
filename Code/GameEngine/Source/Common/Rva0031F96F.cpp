@@ -31,16 +31,16 @@ struct Node
 class Rva0031F96F
 {
 public:
-	void rva0031F96F(float a, float b, int c, int d);
+	void rva0031F96F(float xScale, float yScale, int xOffset, int yOffset);
 private:
 	char m_pad[0x164];
 	Node *m_lists[3];
 };
 
-void Rva0031F96F::rva0031F96F(float a, float b, int c, int d)
+void Rva0031F96F::rva0031F96F(float xScale, float yScale, int xOffset, int yOffset)
 {
 	Node **node = &m_lists[2];
-	int n = 3;
+	int layersRemaining = 3;
 	do
 	{
 		Node *cur = (*node)->m_next;
@@ -49,13 +49,13 @@ void Rva0031F96F::rva0031F96F(float a, float b, int c, int d)
 			Entry *entry = cur->m_data;
 			if (entry && entry->m_14)
 				((W3DDisplay *)TheDisplay)->rva0004D6B3(entry->m_14,
-					(float)entry->m_4 * a + (float)c,
-					(float)entry->m_8 * b + (float)d,
-					(float)(entry->m_c + entry->m_4) * a + (float)c,
-					(float)(entry->m_10 + entry->m_8) * b + (float)d, -1, 2);
+					(float)entry->m_4 * xScale + (float)xOffset,
+					(float)entry->m_8 * yScale + (float)yOffset,
+					(float)(entry->m_c + entry->m_4) * xScale + (float)xOffset,
+					(float)(entry->m_10 + entry->m_8) * yScale + (float)yOffset, -1, 2);
 			cur = cur->m_next;
 		}
 		--node;
-		--n;
-	} while (n != 0);
+		--layersRemaining;
+	} while (layersRemaining != 0);
 }

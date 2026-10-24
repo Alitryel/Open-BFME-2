@@ -1119,3 +1119,8 @@ param,ThingFactory::newDrawable::a2,ThingFactory::newDrawable::statusBits,inferr
 local,ThingFactory::newDrawable::r,ThingFactory::newDrawable::draw,inferred,agree:nl-d26a7be9bdf2,Code/GameEngine/Source/Common/Rva002CF21BGet.cpp,0x002CF21B
 local,ThingFactory::newDrawable::p,ThingFactory::newDrawable::module,inferred,agree:nl-275e6117ada3,Code/GameEngine/Source/Common/Rva002CF21BGet.cpp,0x002CF21B
 global,?g_00DFF004@@3EA,?isLoadingMap@@3EA,inferred,agree:nl-db1c0000ff0b,Code/GameEngine/Source/Common/Rva002CF21BGet.cpp,0x009FF004
+param,Rva0031F96F::rva0031F96F::a,Rva0031F96F::rva0031F96F::xScale,inferred,agree:nl-092df2debd5d,Code/GameEngine/Source/Common/Rva0031F96F.cpp,0x0031F96F
+param,Rva0031F96F::rva0031F96F::b,Rva0031F96F::rva0031F96F::yScale,inferred,agree:nl-c2902f744cb9,Code/GameEngine/Source/Common/Rva0031F96F.cpp,0x0031F96F
+param,Rva0031F96F::rva0031F96F::c,Rva0031F96F::rva0031F96F::xOffset,inferred,agree:nl-e7f40f9c91e3,Code/GameEngine/Source/Common/Rva0031F96F.cpp,0x0031F96F
+param,Rva0031F96F::rva0031F96F::d,Rva0031F96F::rva0031F96F::yOffset,inferred,agree:nl-c8bda15ccba8,Code/GameEngine/Source/Common/Rva0031F96F.cpp,0x0031F96F
+local,Rva0031F96F::rva0031F96F::n,Rva0031F96F::rva0031F96F::layersRemaining,inferred,agree:nl-0653647c3b06,Code/GameEngine/Source/Common/Rva0031F96F.cpp,0x0031F96F
