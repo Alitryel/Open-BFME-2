@@ -2454,3 +2454,4 @@ __ehhandler$??0Rva000E3BFE@@QAE@_N@Z,0x007632B2,"Renamed to __ehhandler$??0Rva00
 ?rva007F24A0@Rva007F2350StatsCursor@@QAE_NPAVRva007F2350StatsRecord@@@Z,0x0065EF90,"Renamed to ?nextAdditionalStat@Rva007F2350StatsCursor@@QAE_NPAVRva007F2350StatsRecord@@@Z by tools/rename.py (inferred)"
 ?rva007F2230@Rva007F2350StatsCursor@@QAE_NPAVRva007F2350StatsRecord@@@Z,0x0065ED20,"Renamed to ?nextStat@Rva007F2350StatsCursor@@QAE_NPAVRva007F2350StatsRecord@@@Z by tools/rename.py (inferred)"
 ?rva002CF2D5@Rva002CF2D5@@QAEXPAURva002CF2D5Node@@@Z,0x002CF2D5,"Renamed to ?_M_erase@Rva002CF2D5@@QAEXPAURva002CF2D5Node@@@Z by tools/rename.py (inferred)"
+?g_00C5F114@@3QBUFieldParse@@B,0x0085F114,"Renamed to ?g_soundStateFieldParse@@3QBUFieldParse@@B by tools/rename.py (inferred)"

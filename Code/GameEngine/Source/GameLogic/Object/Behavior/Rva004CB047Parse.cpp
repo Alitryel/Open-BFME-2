@@ -72,7 +72,7 @@ void Rva0033DC9CParse(INI *ini, void *instance, void *store, const void *userDat
 // The sound state's own fields (.rdata 0x00C5F114, 3 entries read from
 // retail; the SoundState table 0x00C5F150 that stores this callback follows
 // it). Defined here, its only user.
-extern const FieldParse g_00C5F114[] =
+extern const FieldParse g_soundStateFieldParse[] =
 {
 	{ "UnitSpecificSounds", Rva0033DC9CParse, 0, 0x20C },
 	{ "VoicePriority", INI::Rva004CAB3D_ParseVoicePriority, 0, 0x218 },
@@ -89,7 +89,7 @@ void Rva004CB047Parse(INI *ini, void *instance, void *store, const void *userDat
 	soundState.rva000B937E(ini, 0);
 
 	MultiIniFieldParse parse;
-	parse.add(g_00C5F114, 0);
+	parse.add(g_soundStateFieldParse, 0);
 	parse.add(reinterpret_cast<const FieldParse *>(Rva0033A495Get()), 0x4C);
 	ini->initFromINIMulti(&soundState, parse);
 	((Rva004CB047Target *)instance)->m_soundStates.push_back(soundState);
