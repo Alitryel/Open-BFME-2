@@ -4612,3 +4612,8 @@ Code/GameEngine/Source/Common/Rva0033738BCopy.cpp|function|0x00337533|Rva0033753
 Code/GameEngine/Source/Common/Rva0033738BCopy.cpp|local|Rva00337533Copy|tmp,9ad3cf27ffbcaaef718ee399,gpt-6.1-sol,codexb-20261024-101137-3,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva0033738BCopy.cpp|local|Rva00337638Copy|tmp,248ece2d2796aa8a2789e53b,gpt-6.1-sol,codexb-20261024-101137-3,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva0033738BCopy.cpp|local|Rva003377A1Copy|tmp,b9bd6475603e2010666b44fe,gpt-6.1-sol,codexb-20261024-101137-3,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva005D4913Dtor.cpp|param|DelegateDesc|f,3d974976c1c904b3e208ef84,gpt-6.1-sol,codexb-20261024-101137-5,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva005D4913Dtor.cpp|param|MakeBinding|f,c77241033ffe04d30e73ee71,gpt-6.1-sol,codexb-20261024-101137-5,w-8e883e57d025,2026-10-24
+Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioSubtitleConsumer.cpp|member|SubtitleSettings|m_at9C,e1e0ddd5613bb7f8318552ab,gpt-6.1-sol,codexb-20261024-101137-5,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva0049355ERatio.cpp|class||Rva0049355EHolder,095256b7019a51f7ec4bc644,gpt-6.1-sol,codexb-20261024-101137-8,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva0049355ERatio.cpp|class||Rva0049355E,aaa027db8765ac2022634445,gpt-6.1-sol,codexb-20261024-101137-8,w-8e883e57d025,2026-10-24
