@@ -184,25 +184,7 @@ namespace _STL { template <> _List_node<void *> * list<void *, allocator<void *>
 namespace _STL { template <> void vector<UnicodeString, allocator<UnicodeString> >::_M_insert_overflow(UnicodeString *, UnicodeString const &, __false_type const &, unsigned int, bool); }
 namespace _STL { template <> UnicodeString * vector<UnicodeString, allocator<UnicodeString> >::erase(UnicodeString *, UnicodeString *); }
 namespace _STL { template <> void vector<UnicodeString, allocator<UnicodeString> >::push_back(const UnicodeString &); }
-namespace _STL { template <> void swap<_STLP_alloc_proxy<void **, void *, allocator<void *> > >(_STLP_alloc_proxy<void **, void *, allocator<void *> > &, _STLP_alloc_proxy<void **, void *, allocator<void *> > &); }
-namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(allocator<void *> const &); }
-namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(unsigned int, allocator<void *> const &); }
-namespace _STL { template <> vector<void *, allocator<void *> >::vector(allocator<void *> const &); }
-namespace _STL { template <> vector<void *, allocator<void *> >::vector(unsigned int, void *const &, allocator<void *> const &); }
-namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
-namespace _STL { template <> void vector<void *, allocator<void *> >::_M_clear(); }
-namespace _STL { template <> void vector<void *, allocator<void *> >::clear(); }
-
-namespace _STL { template <> void vector<void *, allocator<void *> >::_M_fill_insert(void **, unsigned int, void *const &); }
-namespace _STL { template <> void vector<void *, allocator<void *> >::_M_insert_overflow(void **, void *const &, __true_type const &, unsigned int, bool); }
-namespace _STL { template <> void vector<void *, allocator<void *> >::_M_set(void **, void **, void **); }
-namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, void const *) const; }
-namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::capacity() const; }
-namespace _STL { template <> void ** vector<void *, allocator<void *> >::end(); }
-namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
-namespace _STL { template <> void vector<void *, allocator<void *> >::insert(void **, unsigned int, void *const &); }
-namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
-namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
+namespace _STL { template <> inline void swap(_STLP_alloc_proxy<void **, void *, allocator<void *> > &left, _STLP_alloc_proxy<void **, void *, allocator<void *> > &right) { swap(left._M_data, right._M_data); } }
 // bfme link decl-only end
 // Suppress this TU's non-retail copy of ??$_Construct@VPlayingAudioRef@@V1@@_STL@@YAXPAVPlayingAudioRef@@ABV1@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
@@ -212,10 +194,7 @@ namespace _STL { template <> void _Construct<PlayingAudioRef,PlayingAudioRef>(Pl
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct OpaqueRefElement4;
 namespace _STL { template <> _Deque_iterator<OpaqueRefElement4,_Nonconst_traits<OpaqueRefElement4> > copy_backward<_Deque_iterator<OpaqueRefElement4,_Nonconst_traits<OpaqueRefElement4> >,_Deque_iterator<OpaqueRefElement4,_Nonconst_traits<OpaqueRefElement4> > >(_Deque_iterator<OpaqueRefElement4,_Nonconst_traits<OpaqueRefElement4> >,_Deque_iterator<OpaqueRefElement4,_Nonconst_traits<OpaqueRefElement4> >,_Deque_iterator<OpaqueRefElement4,_Nonconst_traits<OpaqueRefElement4> >); }
-// Suppress this TU's non-retail copy of ??1?$_Rb_tree_base@U?$pair@$$CBIPAVImage@@@_STL@@V?$allocator@U?$pair@$$CBIPAVImage@@@_STL:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
 class Image;
-namespace _STL { template <> _Rb_tree_base<pair<unsigned int const ,Image *>,allocator<pair<unsigned int const ,Image *> > >::~_Rb_tree_base(); }
 // Suppress this TU's non-retail copy of ??1?$_Vector_base@UOpaqueRefElement4@@V?$allocator@UOpaqueRefElement4@@@_STL@@@_STL@@QAE@X:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct OpaqueRefElement4;
@@ -547,10 +526,7 @@ struct Rva00051B89Hash {
     unsigned int operator()(const Rva00051107AudioRequest *req) const
     {
         // Retail's pointer-key hash keeps zero from the null key itself.
-        unsigned int handle = reinterpret_cast<unsigned int>(req);
-        if (req)
-            handle = req->m_at08;
-        return handle;
+        return req == 0 ? 0 : req->m_at08;
     }
     // The same hash over the rowed Rva00051B89Keyed view (0x00056FD9).
     unsigned int operator()(const struct Rva00051B89Keyed *req) const
@@ -1192,7 +1168,7 @@ public:
     // Slot 10 (retail 0x00062690) is the per-frame update below.
     virtual void update(); virtual void rva00061C87(unsigned int viewMask);
     virtual void stopAudio(enum AudioAffect affect); virtual void rva000583BA(unsigned int affect, unsigned int viewMask, int arg); virtual void rva00058591(unsigned int affect, unsigned int viewMask, int keepMasks); virtual void rva0005CAE2(); virtual void rva0005CB39();
-    virtual void setViewFocus(int viewType); virtual int rva0005189D() const; virtual void rva0005116B(); virtual void slot23(); virtual void rva0005DACF(const int &a);
+    virtual void setViewFocus(int viewType); virtual int rva0005189D() const; virtual void rva0005116B(); virtual void slot23(const int &a); virtual void rva0005DACF(const int &a);
     virtual void rva0005DABB(int a); virtual void removePlayingAudio(const AsciiString &eventName, int viewType); virtual void rva00057787(unsigned int id);
     // Slot 28 (+0x70): kills the sound playing under a handle and reports
     // whether it did (playAudioEvent's handle-to-kill test; Zero Hour name).
@@ -2320,8 +2296,12 @@ void MilesAudioManager::removeAllAudioRequests(unsigned int viewMask)
 // The CRT clock, imported (this unit builds with /D_CRTIMP=).
 extern "C" __declspec(dllimport) __int64 __cdecl _time64(__int64 *timer);
 
-// The file-text map's clear, rowed under an address-derived name.
-class Rva00057FC1 { public: void rva00057FC1(void); };
+// The file-text map's clear: the rowed hashtable clear at 0x00057FC1, under
+// the address-derived element spelling its unit (StlSweepR3Rva00057FC1.cpp) uses.
+struct Rva00057FC1Record { Rva00057FC1Record(); Rva00057FC1Record(const Rva00057FC1Record&); ~Rva00057FC1Record(); Rva00057FC1Record&operator=(const Rva00057FC1Record&); char bytes[1]; bool operator==(const Rva00057FC1Record&) const; bool operator<(const Rva00057FC1Record&) const; };
+namespace _STL { template<> struct hash<Rva00057FC1Record> { unsigned int operator()(const Rva00057FC1Record&) const; }; }
+typedef _STL::hashtable<_STL::pair<Rva00057FC1Record const, Rva00057FC1Record>, Rva00057FC1Record, _STL::hash<Rva00057FC1Record>, _STL::_Select1st<_STL::pair<Rva00057FC1Record const, Rva00057FC1Record> >, _STL::equal_to<Rva00057FC1Record>, _STL::allocator<_STL::pair<Rva00057FC1Record const, Rva00057FC1Record> > > Rva00057FC1Table;
+namespace _STL { template<> void Rva00057FC1Table::clear(); }
 
 // Retail 0x00061C87, vftable 0x007C55B0 slot 14: resets the view types in
 // viewMask under the manager mutex -- their queued events (0x60123) and
@@ -2353,7 +2333,7 @@ void MilesAudioManager::rva00061C87(unsigned int viewMask)
     }
     m_at690 &= ~viewMask;
     m_at698 &= ~viewMask;
-    reinterpret_cast<Rva00057FC1 *>(&m_fileText)->rva00057FC1();
+    reinterpret_cast<Rva00057FC1Table *>(&m_fileText)->clear();
     m_pendingFileText.clear();
     m_unknownFileNames.clear();
     m_unknownFileNames.reserve(m_audioSettings->m_sampleCount3D + m_audioSettings->m_at64);
@@ -2457,15 +2437,11 @@ void MilesAudioManager::moveUpMusicSystems(int newMusicSystem, int viewType, int
 }
 
 // The request set's lookup by playing handle, rowed at 0x00055951 under
-// its address-derived owner: it returns an iterator of the table view that
-// row compiles (same {node, table} layout as the request set's iterator).
-struct Rva00054EBEElement { char bytes[1]; };
-typedef _STL::hashtable<_STL::pair<int const, Rva00054EBEElement>, int, _STL::hash<int>,
-    _STL::_Select1st<_STL::pair<int const, Rva00054EBEElement> >, _STL::equal_to<int>,
-    _STL::allocator<_STL::pair<int const, Rva00054EBEElement> > > Rva00054EBETable;
+// its address-derived owner. It returns the request table's own iterator,
+// so the out-of-line find (0x00054EBE) builds it in this call's return slot.
 class Rva00055951 {
 public:
-    Rva00054EBETable::iterator rva00055951(unsigned int handle);
+    MilesAudioRequestTable::iterator rva00055951(unsigned int handle);
 };
 
 // Retail 0x00055FCA (628 bytes): Zero Hour's isCurrentlyPlaying(handle)
@@ -2557,7 +2533,7 @@ bool MilesAudioManager::rva00055FCA(int handle, void **result, PlayingAudioRef *
     }
 
     {
-        Rva00054EBETable::iterator found =
+        MilesAudioRequestTable::iterator found =
             reinterpret_cast<Rva00055951 &>(m_requestSet).rva00055951((unsigned int)handle);
         if (found._M_cur) {
             Rva00051107AudioRequest *req = *reinterpret_cast<Rva00051107AudioRequestSet::iterator &>(found);
@@ -2802,7 +2778,7 @@ void MilesAudioManager::rva0005B256(Xfer *xfer, PlayingAudioRef &playing, int *u
                     ++it;
                 }
             }
-            Rva00054EBETable::iterator found =
+            MilesAudioRequestTable::iterator found =
                 reinterpret_cast<Rva00055951 &>(m_requestSet).rva00055951(handle);
             if (found._M_cur) {
                 Rva00051107AudioRequest *req = *reinterpret_cast<Rva00051107AudioRequestSet::iterator &>(found);
@@ -3845,7 +3821,7 @@ class Rva0036CA00Str {
 public:
     __declspec(nothrow) Rva0036CA00Str(const Rva0036CA00Str &other);
     __forceinline Rva0036CA00Str(const AudioEventInfo *info) { reinterpret_cast<AudioEventInfoRef *>(&m_ptr)->AudioEventInfoRef::AudioEventInfoRef(info); }
-    ~Rva0036CA00Str() { reinterpret_cast<OpaqueRefCounted *>(m_ptr)->Release_Ref(); }
+    ~Rva0036CA00Str() { if (m_ptr) reinterpret_cast<OpaqueRefCounted *>(m_ptr)->Release_Ref(); }
     PlayingAudio *operator->(void) const { return m_ptr; }
     PlayingAudio *get(void) const { return m_ptr; }
 private:
@@ -4944,7 +4920,7 @@ public:
     ~NullablePlayingAudioCopy()
     {
         if (value()->get())
-            value()->~Rva0036CA00Str();
+            reinterpret_cast<OpaqueRefCounted *>(value()->get())->Release_Ref();
     }
     PlayingAudio *get() const { return value()->get(); }
     PlayingAudio *operator->() const { return get(); }
@@ -5269,7 +5245,7 @@ bool MilesAudioManager::rva000613A9(unsigned int handle)
 {
     bool removed = false;
     {
-        Rva00054EBETable::iterator found =
+        MilesAudioRequestTable::iterator found =
             reinterpret_cast<Rva00055951 &>(m_requestSet).rva00055951(handle);
         if (found._M_cur) {
             Rva00051107AudioRequest *req = *reinterpret_cast<Rva00051107AudioRequestSet::iterator &>(found);
@@ -6516,7 +6492,7 @@ class StackCopy {
     unsigned storage;
 public:
     StackCopy(const Rva0036CA00Str &v) { value()->Rva0036CA00Str::Rva0036CA00Str(v); }
-    ~StackCopy() { if (value()->get()) value()->~Rva0036CA00Str(); }
+    ~StackCopy() { if (value()->get()) reinterpret_cast<OpaqueRefCounted *>(value()->get())->Release_Ref(); }
     Rva0036CA00Str *value() { return (Rva0036CA00Str *)&storage; }
 };
 __declspec(noinline) inline void Rva0005800A::rva0005800A(const Rva0036CA00Str &v)
@@ -7079,12 +7055,12 @@ void MilesAudioManager::rva0005FA3C(unsigned int handle)
   }
  }
  {
-  Rva00054EBETable::iterator found=reinterpret_cast<Rva00055951 &>(m_requestSet).rva00055951(handle);
+  MilesAudioRequestTable::iterator found=reinterpret_cast<Rva00055951 &>(m_requestSet).rva00055951(handle);
   if(found._M_cur) {
    Rva00051107AudioRequest *request = *reinterpret_cast<Rva00051107AudioRequestSet::iterator &>(found);
    --request->m_pendingEvent->m_at80;
    if(request->m_pendingEvent->m_at80>0)return;
-   Rva00054EBETable::iterator copy=found;
+   MilesAudioRequestTable::iterator copy=found;
    reinterpret_cast<Rva00051B89KeyedSet &>(m_requestSet).erase(reinterpret_cast<Rva00051B89KeyedSet::iterator &>(copy));
    deleteAudioRequest(request);
   }
@@ -7123,11 +7099,11 @@ public:
     Rva000A8684();
 };
 
-__declspec(noinline) inline Rva00054EBETable::iterator Rva00055951::rva00055951(unsigned int handle)
+__declspec(noinline) inline MilesAudioRequestTable::iterator Rva00055951::rva00055951(unsigned int handle)
 {
     Rva000A8684 request;
     request.m_08 = handle;
-    return reinterpret_cast<Rva00054EBETable *>(this)->find(reinterpret_cast<int>(&request));
+    return reinterpret_cast<MilesAudioRequestTable *>(this)->find(reinterpret_cast<Rva00051107AudioRequest *>(&request));
 }
 
 // model=gpt-6.1-sol; restores the request lookup and removes the extra volatile read.
