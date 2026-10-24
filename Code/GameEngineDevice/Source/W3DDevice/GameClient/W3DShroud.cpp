@@ -275,7 +275,7 @@ void W3DShroud::rva00073628(void *cam)
 		if (visEndY > 0)
 		{
 			int row_bytes = visEndX * (int)sizeof(unsigned short);
-			for (int y = visEndY; y > 0; --y)
+			for (int rowsRemaining = visEndY; rowsRemaining > 0; --rowsRemaining)
 			{
 				memcpy(dst, src, row_bytes);
 				src += m_numCellsX;
