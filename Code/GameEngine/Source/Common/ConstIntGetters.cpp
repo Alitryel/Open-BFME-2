@@ -285,6 +285,22 @@ int WeatherSetting::Rva00201095Get()
 	return (int)g_00BE2C10;
 }
 
+// ?Rva00200BBAGet@WaterTransparencySetting@@UAEHXZ @ 0x00200BBA (6B): returns 0x00C080B0.
+// Follows a leave/ret plus a sibling B8-6 (pair, 6 apart) with a
+// frame-style function after. Carried at 0x7E2BA0, no direct callers,
+// no branch sources. Opaque address-derived name.
+class WaterTransparencySetting
+{
+public:
+	virtual int Rva00200BBAGet();
+	static const FieldParse m_waterTransparencySettingFieldParseTable[];
+};
+
+int WaterTransparencySetting::Rva00200BBAGet()
+{
+	return (int)WaterTransparencySetting::m_waterTransparencySettingFieldParseTable;
+}
+
 // ?Rva0033A495Get@@YAHXZ @ 0x0033A495 (6B): returns 0x00C100C0.
 // A leave/ret-8 pair ends at 0x33A490 with a 4-byte jmp fragment between it
 // and this getter; no branch targets this address (phase-scanned

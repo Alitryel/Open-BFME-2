@@ -257,17 +257,6 @@ int Rva000907A1Get(void)
 	return 0x00CE4818;
 }
 
-// ?Rva00200BBAGet@WaterTransparencySetting@@UAEHXZ @ 0x00200BBA (6B): returns 0x00C080B0.
-// Follows a leave/ret plus a sibling B8-6 (pair, 6 apart) with a
-// frame-style function after. Carried at 0x7E2BA0, no direct callers,
-// no branch sources. Opaque address-derived name.
-class WaterTransparencySetting { public: virtual int Rva00200BBAGet(); };
-
-int WaterTransparencySetting::Rva00200BBAGet()
-{
-	return 0x00C080B0;
-}
-
 // ?Rva00517F2BGet@@YAHXZ @ 0x00517F2B (6B): returns 0x006D2025.
 // Follows a leave/ret (0x517F29-2A) with a B8-imm/call function after
 // (0x517F31). Carried at 0x866444, no direct callers, no branch
