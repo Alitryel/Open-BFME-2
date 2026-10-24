@@ -27,7 +27,7 @@ extern void Rva00142E20();
 // The storage at 0x00E0ABB4 is VideoPlayerGetVideo.cpp's owned
 // g_bfmeVideoTableStorage (16 bytes).
 struct BfmeVideoTableStorage;
-extern BfmeVideoTableStorage g_bfmeVideoTableStorage;
+extern BfmeVideoTableStorage g_videoTable;
 // Rowed ten-byte atexit thunk at RVA 0x007B9BC0.
 extern void __cdecl rva007B9BC0(void);
 
@@ -42,7 +42,7 @@ void Rva007B6610()
 	union { void (*function)(); Member method; } call;
 	RvaEmptyAlloc allocator;
 	call.function = Rva00142E20;
-	(((_STL::vector<void *> *)&g_bfmeVideoTableStorage)->*call.method)(allocator);
+	(((_STL::vector<void *> *)&g_videoTable)->*call.method)(allocator);
 	atexit(rva007B9BC0);
 }
 

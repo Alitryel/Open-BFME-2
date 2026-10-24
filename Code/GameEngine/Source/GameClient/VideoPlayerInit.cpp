@@ -63,8 +63,8 @@ struct BfmeStringHeader
  char m_text[1];
 };
 struct BfmeStringObject { BfmeStringHeader *m_data; };
-#define g_bfmeVideoTableBegin ((Video*)g_bfmeVideoTableStorage.begin)
-#define g_bfmeVideoTableEnd ((Video*)g_bfmeVideoTableStorage.end)
+#define g_bfmeVideoTableBegin ((Video*)g_videoTable.begin)
+#define g_bfmeVideoTableEnd ((Video*)g_videoTable.end)
 static unsigned char s_videoPlayerInitialised;
 
 void VideoPlayer::init(void)

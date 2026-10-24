@@ -5989,14 +5989,14 @@ void __cdecl rva007B6AD2()
 }
 
 struct Rva001D28F0Element;
-// 0x00A0ABB4: defined elsewhere as ?g_bfmeVideoTableStorage@@3UBfmeVideoTableStorage@@A.
+// 0x00A0ABB4: defined elsewhere as ?g_videoTable@@3UBfmeVideoTableStorage@@A.
 struct BfmeVideoTableStorage;
-extern BfmeVideoTableStorage g_bfmeVideoTableStorage;
+extern BfmeVideoTableStorage g_videoTable;
 
 // ?rva007B9BC0@@YAXXZ @ 0x007B9BC0 (10B). Global vector<Rva001D28F0Element> dtor thunk: ecx=&g_bfmeVideoTableStorage then tail-jmp to rowed ??1?$vector@URva001D28F0Element@@V?$allocator@URva001D28F0Element@@@_STL@@@_STL@@QAE@XZ (0x00689DB0).
 void __cdecl rva007B9BC0()
 {
-	_STL::vector<Rva001D28F0Element, _STL::allocator<Rva001D28F0Element> > *receiver = (_STL::vector<Rva001D28F0Element, _STL::allocator<Rva001D28F0Element> > *)&g_bfmeVideoTableStorage;
+	_STL::vector<Rva001D28F0Element, _STL::allocator<Rva001D28F0Element> > *receiver = (_STL::vector<Rva001D28F0Element, _STL::allocator<Rva001D28F0Element> > *)&g_videoTable;
 	return receiver->_STL::vector<Rva001D28F0Element, _STL::allocator<Rva001D28F0Element> >::~vector();
 }
 

@@ -49,7 +49,7 @@ public:
 
 void VideoPlayer::removeVideo(Video *video)
 {
-    _STL::vector<Video> &videoTable = *(_STL::vector<Video> *)&g_bfmeVideoTableStorage;
+    _STL::vector<Video> &videoTable = *(_STL::vector<Video> *)&g_videoTable;
     for (_STL::vector<Video>::iterator it = videoTable.begin();
          it != videoTable.end(); ++it)
     {

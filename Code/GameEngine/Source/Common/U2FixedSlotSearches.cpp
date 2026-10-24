@@ -32,8 +32,8 @@ struct Rva0081C5C0Element
 	char m_body[28];
 };
 
-#define g_Rva0081C5C0Begin ((Rva0081C5C0Element *)g_bfmeVideoTableStorage.begin)
-#define g_Rva0081C5C0End ((Rva0081C5C0Element *)g_bfmeVideoTableStorage.end)
+#define g_Rva0081C5C0Begin ((Rva0081C5C0Element *)g_videoTable.begin)
+#define g_Rva0081C5C0End ((Rva0081C5C0Element *)g_videoTable.end)
 
 int Rva0081C5C0Count()
 {

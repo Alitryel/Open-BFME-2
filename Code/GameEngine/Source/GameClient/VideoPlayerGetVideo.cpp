@@ -14,8 +14,8 @@ extern "C" __declspec(dllimport) int __cdecl _memicmp(const void *, const void *
 
 
 
-#define g_bfmeVideoTableBegin ((Video *)g_bfmeVideoTableStorage.begin)
-#define g_bfmeVideoTableEnd ((Video *)g_bfmeVideoTableStorage.end)
+#define g_bfmeVideoTableBegin ((Video *)g_videoTable.begin)
+#define g_bfmeVideoTableEnd ((Video *)g_videoTable.end)
 
 // Read-only view of the canonical StringBase allocation header: refcount+0,
 // length+4, capacity+6, text+8. The Video name comparison inlines these reads.
@@ -75,7 +75,7 @@ const Video *VideoPlayer::getVideo(AsciiString movieTitle)
 }
 
 // One definition for all readers and the mutable native vector view.
-BfmeVideoTableStorage g_bfmeVideoTableStorage = { 0, 0, 0 };
+BfmeVideoTableStorage g_videoTable = { 0, 0, 0 };
 
 // Restore the banked BFME1 subtitle query after repairing the unrelated
 // Snapshot vtable gate blocker. Donor: Open-BFME-1 34f59164f6,

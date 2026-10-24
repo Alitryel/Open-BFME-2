@@ -11,4 +11,4 @@ struct BfmeVideoTableStorage
     void *end;
     void *capacity;
 };
-extern BfmeVideoTableStorage g_bfmeVideoTableStorage;
+extern BfmeVideoTableStorage g_videoTable;

@@ -1193,3 +1193,4 @@ local,Rva0055D686Compute::tmp,Rva0055D686Compute::normalizedDirection,inferred,a
 local,Rva0055D686Compute::p,Rva0055D686Compute::scaledDirection,inferred,agree:nl-312627141fa7,Code/GameEngine/Source/GameClient/Rva0055D686Scale.cpp,0x0055D686
 member,Rva00562BF7Owner::field24,Rva00562BF7Owner::m_randomizeModel,inferred,agree:nl-3c44095688cc,Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva00562BF7SelectModelName.cpp,
 class,Rva00562BF7Choice,ModelChoice,inferred,agree:nl-3007d0ed12c9,Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva00562BF7SelectModelName.cpp,
+global,?g_bfmeVideoTableStorage@@3UBfmeVideoTableStorage@@A,?g_videoTable@@3UBfmeVideoTableStorage@@A,inferred,agree:nl-1a6ec1882e69,Code/GameEngine/Source/GameClient/VideoPlayerGetVideo.cpp,0x00A0ABB4

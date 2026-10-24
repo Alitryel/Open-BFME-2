@@ -12,8 +12,8 @@ public:
 	int m_bfmeWords[7];
 };
 
-#define g_bfmeBeginJD ((BfmeRecJD *)g_bfmeVideoTableStorage.begin)
-#define g_bfmeEndJD ((BfmeRecJD *)g_bfmeVideoTableStorage.end)
+#define g_bfmeBeginJD ((BfmeRecJD *)g_videoTable.begin)
+#define g_bfmeEndJD ((BfmeRecJD *)g_videoTable.end)
 
 BfmeRecJD * __stdcall bfmeSlotAt(int index)
 {
