@@ -6,7 +6,7 @@
 // this+0x24 lea-eax-&arg push mov-ecx-esi call; mov-ecx-eax cmp-ecx-[esi]
 // pop-esi je-xor else mov-eax-[ecx+0x18] sub-eax-[ecx+0x14] sar-2 ret-4
 // (int, one int arg). Map/vector identities unproven (address-derived).
-class Rva0021BC2C;
+class CreateAHeroManager { public: class CreateAHeroSubClass; };
 class Rva0021DE75;
 
 namespace _STL
@@ -22,7 +22,7 @@ class _Rb_tree
 private:
 	template <class SearchKey>
 	_Rb_tree_node<Value> *_M_find(const SearchKey &key) const;
-	friend class ::Rva0021BC2C;
+	friend class ::CreateAHeroManager::CreateAHeroSubClass;
 	friend class ::Rva0021DE75;
 };
 }
@@ -40,16 +40,16 @@ struct Rva0021BC2CVec
 
 
 
-class Rva0021BC2C
+class CreateAHeroManager::CreateAHeroSubClass
 {
 public:
-	int rva0021BC2C(int a1);
+	int rva0021BC2C(int a1) const;
 
 private:
 	char m_pad[0x24];
 };
 
-int Rva0021BC2C::rva0021BC2C(int a1)
+int CreateAHeroManager::CreateAHeroSubClass::rva0021BC2C(int a1) const
 {
 	void *table = (char *)this + 0x24;
 	void *found = (void *)((Rva0021MapTree *)table)->_M_find(a1);

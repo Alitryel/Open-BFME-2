@@ -11,7 +11,7 @@
 // Handles opaque; callees unproven (address-derived).
 
 
-class Rva0021BC2C;
+class CreateAHeroManager { public: class CreateAHeroSubClass; };
 class Rva0021DE75;
 
 namespace _STL
@@ -27,7 +27,7 @@ class _Rb_tree
 private:
 	template <class SearchKey>
 	_Rb_tree_node<Value> *_M_find(const SearchKey &key) const;
-	friend class ::Rva0021BC2C;
+	friend class ::CreateAHeroManager::CreateAHeroSubClass;
 	friend class ::Rva0021DE75;
 };
 }

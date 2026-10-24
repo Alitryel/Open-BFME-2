@@ -124,7 +124,7 @@ struct CreateAHeroBling
 };
 
 // The manager's bling table at +0x15C holds 16-byte entries with the bling
-// id at +0x0C; the lookup by upgrade name is the unrowed cdecl find at
+// id at +0x0C; the lookup by upgrade name is the rowed cdecl find at
 // 0x0021D120 (unnamed in WB).
 struct CreateAHeroBlingEntry
 {
@@ -132,7 +132,7 @@ struct CreateAHeroBlingEntry
 	Int m_blingId;						// +0x0C
 };
 
-CreateAHeroBlingEntry *rva0021D120(CreateAHeroBlingEntry *first, CreateAHeroBlingEntry *last, const AsciiString &upgradeName);	// 0x0021D120
+const CreateAHeroBlingEntry *Rva0021D120Find(const CreateAHeroBlingEntry *first, const CreateAHeroBlingEntry *last, const StringBase<char> *upgradeName);	// 0x0021D120
 
 class CommandButton;
 
@@ -378,7 +378,7 @@ Int CreateAHeroManager::CreateAHeroClass::GetBlingCount(Int blingKey, UnsignedIn
 // index and id of the bling granted by an upgrade.
 Bool CreateAHeroManager::FindBlingByUpgradeName(const AsciiString &upgradeName, Int *index, Int *blingId)
 {
-	CreateAHeroBlingEntry *it = rva0021D120(m_blings.begin(), m_blings.end(), upgradeName);
+	const CreateAHeroBlingEntry *it = Rva0021D120Find(m_blings.begin(), m_blings.end(), (const StringBase<char> *)&upgradeName);
 	if (it == m_blings.end())
 		return false;
 	*index = it - m_blings.begin();
@@ -429,14 +429,6 @@ extern UpgradeCenter *TheUpgradeCenter;
 // through field table 0x00DBA0D8, requires an upgrade name that
 // TheUpgradeCenter knows and that no class already uses (rowed
 // 0x0021B31C), and hands the record to the manager (0x0022020C).
-// The out-of-line StringBase<char>::isEmpty 0x00001E2F under an existing
-// pin spelling (this unit's inline specialization would expand it here).
-class BfmeStringPresenceValue
-{
-public:
-	bool isEmpty() const;
-};
-
 class Rva0021F804
 {
 public:
@@ -453,15 +445,15 @@ public:
 extern "C" const FieldParse CreateAHeroClassFieldParse[];
 
 
-// isEmpty was header-defined: MSVC keeps the call out of line (0x00001E2F) but,
-// knowing the body, does not reload TheCreateAHeroManager across it.
-template <> inline bool StringBase<char>::isEmpty() const { return m_data == 0 || m_data->length == 0; }
+// The native isEmpty call stays out of line; its visible body lets the compiler
+// retain TheCreateAHeroManager across the call.
+template <> __declspec(noinline) inline bool StringBase<char>::isEmpty() const { return m_data == 0 || m_data->length == 0; }
 
 void CreateAHeroManager::parseCreateAHeroClassDefinition(INI *ini)
 {
 	Rva0021F804 heroClass(AsciiString("None"), AsciiString("None"), AsciiString("None"), AsciiString("None"), AsciiString("None"));
 	ini->initFromINI(&heroClass, CreateAHeroClassFieldParse);
-	if (heroClass.m_upgradeName.isNone() || ((const BfmeStringPresenceValue *)&heroClass.m_upgradeName)->isEmpty())
+	if (heroClass.m_upgradeName.isNone() || ((const StringBase<char> *)&heroClass.m_upgradeName)->isEmpty())
 		throw INIException(3, "No upgrade name specified while parsing CreateAHeroClass.");
 	if (TheUpgradeCenter->findUpgrade(heroClass.m_upgradeName) == 0)
 		throw INIException(3, "Upgrade %s not found while parsing CreateAHeroClass.", heroClass.m_upgradeName.str());

@@ -203,7 +203,7 @@ public:
 	virtual void init();
 	virtual bool vslot04(int);
 	virtual void reset();
-	virtual void update();
+	virtual void update() {}
 	virtual UnicodeString fetch(const char *label, Bool *exists);
 	virtual UnicodeString fetch(const AsciiString &label, Bool *exists);
 	virtual UnicodeString *fetchPtr(const char *label, Bool *exists);
@@ -211,7 +211,7 @@ public:
 	virtual _STL::vector<AsciiString> &getStringsWithLabelPrefix(const AsciiString &label);
 	virtual void initMapStringFile(const AsciiString &filename);
 	virtual void setTranslateMode(int mode);
-	virtual int getTranslateMode();
+	virtual int getTranslateMode() { return m_translateMode; }
 	virtual void deinit();
 
 	FileInfo m_fileInfo;					// +0x0c
@@ -275,7 +275,7 @@ Bool GameTextTable::readSTR(const char *filename)
 	while ((eol = strchr(ptr, '\n')) != 0) {
 		while (isspace((unsigned char)*ptr))
 			ptr++;
-		if (eol - ptr > 2 && (*(unsigned int *)ptr & 0x40DFDFDF) == 0x444E45)
+		if (eol - ptr > 2 && (*(unsigned int *)ptr & 0x40DFDFDF) == 'DNE')
 			m_count++;
 		ptr = eol + 1;
 	}
@@ -352,7 +352,7 @@ Bool GameTextTable::readSTR(const char *filename)
 				count--;
 				// fall through: a label without a string must be followed by END
 			case 2:
-				if (eol - line > 2 && (*(unsigned int *)line & 0xFFDFDFDF) == 0x444E45) {
+				if (eol - line > 2 && (*(unsigned int *)line & 0xFFDFDFDF) == 'DNE') {
 					state = 0;
 					count++;
 				} else {

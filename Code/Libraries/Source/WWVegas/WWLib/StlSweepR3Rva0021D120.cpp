@@ -9,12 +9,12 @@
 // Replaces the refuted uninitialized_fill_n owner: retail dispatch21D120 calls
 // find21C5BE, whose seven calls compare strings; it never fills memory.
 #include "ascii_string.h"
-struct Rva0021BBDCRecord {char beforeName[8]; AsciiString name; char afterName[4];};
-bool Rva0021BBDCEqual(const Rva0021BBDCRecord* item,const StringBase<char>* name) {return ((const StringBase<char>*)&item->name)->compare(*name)==0;}
-const Rva0021BBDCRecord *Rva0021C5BEFind(const Rva0021BBDCRecord *first, const Rva0021BBDCRecord *last, const StringBase<char> *val, int tag)
+struct CreateAHeroBlingEntry {char beforeName[8]; AsciiString name; char afterName[4];};
+bool Rva0021BBDCEqual(const CreateAHeroBlingEntry* item,const StringBase<char>* name) {return ((const StringBase<char>*)&item->name)->compare(*name)==0;}
+const CreateAHeroBlingEntry *Rva0021C5BEFind(const CreateAHeroBlingEntry *first, const CreateAHeroBlingEntry *last, const StringBase<char> *val, int tag)
 {
 	(void)tag;
-	const Rva0021BBDCRecord *f = first;
+	const CreateAHeroBlingEntry *f = first;
 	const char *e = (const char *)last;
 	int n = (int)((const char *)last - (const char *)first) >> 6;
 	while (n > 0) {
@@ -51,7 +51,7 @@ const Rva0021BBDCRecord *Rva0021C5BEFind(const Rva0021BBDCRecord *first, const R
 }
 
 
-const Rva0021BBDCRecord *Rva0021D120Find(const Rva0021BBDCRecord *first,const Rva0021BBDCRecord *last,const StringBase<char> *name) {
+const CreateAHeroBlingEntry *Rva0021D120Find(const CreateAHeroBlingEntry *first,const CreateAHeroBlingEntry *last,const StringBase<char> *name) {
  char tag;
  return Rva0021C5BEFind(first,last,name,(int)&tag);
 }

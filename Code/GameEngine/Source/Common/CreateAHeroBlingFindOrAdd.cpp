@@ -30,8 +30,8 @@ struct BfmeStringRecord002199C8 {
     BfmeStringRecord002199C8(unsigned int, const AsciiString &, const AsciiString &, const AsciiString &);
     ~BfmeStringRecord002199C8();
 };
-struct Rva0021BBDCRecord;
-const Rva0021BBDCRecord *Rva0021D120Find(const Rva0021BBDCRecord *, const Rva0021BBDCRecord *, const StringBase<char> *);
+struct CreateAHeroBlingEntry;
+const CreateAHeroBlingEntry *Rva0021D120Find(const CreateAHeroBlingEntry *, const CreateAHeroBlingEntry *, const StringBase<char> *);
 struct BfmePod20 {
     unsigned int key;
     unsigned char pad[16];
@@ -51,7 +51,7 @@ int Rva0021E9D8Call::rva0021E9D8Call(unsigned int word, const AsciiString &ascii
 {
     int count = (int)m_records15c.size();
     const BfmeStringRecord002199C8 *found = (const BfmeStringRecord002199C8 *)Rva0021D120Find(
-        (const Rva0021BBDCRecord *)m_records15c.begin(), (const Rva0021BBDCRecord *)m_records15c.end(),
+        (const CreateAHeroBlingEntry *)m_records15c.begin(), (const CreateAHeroBlingEntry *)m_records15c.end(),
         (const StringBase<char> *)&asciiString);
     if (found == m_records15c.end())
         m_records15c.push_back(BfmeStringRecord002199C8(word, asciiString, b, c));
