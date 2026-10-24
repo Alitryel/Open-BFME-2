@@ -199,12 +199,12 @@ __declspec(noinline) inline void EAStringC::Reserve(int size)
 	EAStringC *self = this;
 	if (!((unsigned)size > 0u)) {
 		g_bfmeAptAssertAtE17734("uSize > 0", ".\\string\\EAString.inl", 0x4CB);
-		if (g_bfmeAptBreakOnAssertAtDDC01C) {__asm int 3}
+		if (g_bfmeAptBreakOnAssertAtDDC01C) {__debugbreak();}
 	}
 	int rounded = (size + 12) & ~3;
 	if (!((unsigned)rounded < 0xFFFFu)) {
 		g_bfmeAptAssertAtE17734("uAllocateSize < 0xffff", ".\\string\\EAString.inl", 0x4D2);
-		if (g_bfmeAptBreakOnAssertAtDDC01C) {__asm int 3}
+		if (g_bfmeAptBreakOnAssertAtDDC01C) {__debugbreak();}
 	}
 	StringDataC *data = (StringDataC *)(*(Rva006DB160 * *)&g_pChainBlockAllocator)->allocBlock(rounded);
 	self->m_pData = data;
