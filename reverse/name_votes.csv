@@ -2282,3 +2282,16 @@ Code/GameEngine/Source/Common/Rva00531720Finish.cpp|local|PathfindZoneManager::r
 Code/GameEngine/Source/Common/Rva00531720Finish.cpp|local|PathfindZoneManager::rva00531720|e,a30bda300138d8a7c181421f,gpt-6.1-sol,codex5-20261024-005929-17,w-2d32e7a71cf1,2026-10-24
 Code/GameEngine/Source/Common/Rva005C436EDispatch.cpp|function|0x005C43AF|rva005C43AF,0bc16d90139fa7dceb55e06e,gpt-6.1-sol,codex5-20261024-005929-18,w-2d32e7a71cf1,2026-10-24
 Code/GameEngine/Source/Common/BfmeConv1373.cpp|class||BfmeTagVIF,113d88d2f39166ed73a98418,gpt-6.1-sol,codex5-20261024-005929-20,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva005B1A07.cpp|local|Rva005B1A07::rva005B1A07|c,d007a2272cad7037a4c4c317,gpt-6.1-sol,codex5-20261024-005929-22,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva005B1A07.cpp|local|Rva005B1A07::rva005B1A07|e2,49705c7c4807ad0094f77d1f,gpt-6.1-sol,codex5-20261024-005929-22,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva005B1A07.cpp|local|Rva005B1A07::rva005B1A07|c2,edd7133e25d89a55f3b52867,gpt-6.1-sol,codex5-20261024-005929-22,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#8|p,4977e291438e05eef2087a23,gpt-6.1-sol,codex5-20261024-005929-23,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#9|p,e146e97d5bc92ce4b6210b8e,gpt-6.1-sol,codex5-20261024-005929-23,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#14|p,cdf9a5ff59a5539abe56de9c,gpt-6.1-sol,codex5-20261024-005929-23,w-2d32e7a71cf1,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/FXShaderParameterBinderPushDynamicSetStackName.cpp|local|FXShaderParameterBinder::PushDynamicSetStack|c19,7570a5073a8b1886be67adcf,gpt-6.1-sol,codex5-20261024-005929-25,w-2d32e7a71cf1,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva00240D0FCreate.cpp|local|Rva00240D0FCreate|tmp,be2fc5eb46c24359876fb3eb,gpt-6.1-sol,codex5-20261024-005929-26,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva00260F9EPredicate.cpp|class||Rva00260F9EInner,38fccad8b0a49ee0464ea4a0,gpt-6.1-sol,codex5-20261024-005929-28,w-2d32e7a71cf1,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodePointConversions.c|function|0x00020B90|Rva0084D8D0WideToByte,3c42b26ed4e379cf459aeccc,gpt-6.1-sol,codex5-20261024-005929-30,w-2d32e7a71cf1,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodePointConversions.c|function|0x00020B50|Rva0084D890ByteToWide,70eeb54b133c67434d46c252,gpt-6.1-sol,codex5-20261024-005929-30,w-2d32e7a71cf1,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodePointConversions.c|function|0x00020AC0|Rva00020AC0,60fc58cf170263a2e314f4df,gpt-6.1-sol,codex5-20261024-005929-30,w-2d32e7a71cf1,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodePointConversions.c|function|0x00020E30|Rva0084DB70,3a6c7078d734fe772a8492c2,gpt-6.1-sol,codex5-20261024-005929-30,w-2d32e7a71cf1,2026-10-24
