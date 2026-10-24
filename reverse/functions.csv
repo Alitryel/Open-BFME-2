@@ -49863,7 +49863,7 @@ _Rva006CD070Atof,,0x006CD070,14,Code/Libraries/Source/Apt/AptValue/AptNumericPar
 ??1Rva001FB829@@QAE@XZ,,0x001FB829,59,Code/GameEngine/Source/Common/Rva001F8BE8DtorChain.cpp,matched,Rva dtor chain second base plus4 then rva001F4206 holder by REL32 graph
 ??1Rva001FB9C5@@QAE@XZ,,0x001FB9C5,59,Code/GameEngine/Source/Common/Rva001F8BE8DtorChain.cpp,matched,Rva dtor chain second base plus4 then rva001F4206 holder by REL32 graph
 ??1Rva001FBB64@@QAE@XZ,,0x001FBB64,59,Code/GameEngine/Source/Common/Rva001F8BE8DtorChain.cpp,matched,Rva dtor chain second base plus4 then rva001F4206 holder by REL32 graph
-?Rva00580776Insert@@YAXPAPAXPAXVRva000795C1Record@@@Z,,0x00580776,88,Code/Libraries/Source/WWVegas/WWLib/Rva00580776LinearInsert.cpp,matched,unguarded linear insert with record teardown
+?unguardedLinearInsert@@YAXPAPAXPAXVRva000795C1Record@@@Z,,0x00580776,88,Code/Libraries/Source/WWVegas/WWLib/Rva00580776LinearInsert.cpp,matched,unguarded linear insert with record teardown
 ?rva001F6492@Rva001F6492@@QAEXHH@Z,,0x001F6492,42,Code/GameEngine/Source/Common/Rva001F6492Chain.cpp,matched,Rva forwarding chain null-checked slot 0xc then next link plus4 by REL32 graph
 ?rva001F8213@Rva001F8213@@QAEXHH@Z,,0x001F8213,42,Code/GameEngine/Source/Common/Rva001F6492Chain.cpp,matched,Rva forwarding chain null-checked slot 0xc then next link plus4 by REL32 graph
 ?rva001F8960@Rva001F8960@@QAEXHH@Z,,0x001F8960,42,Code/GameEngine/Source/Common/Rva001F6492Chain.cpp,matched,Rva forwarding chain null-checked slot 0xc then next link plus4 by REL32 graph
@@ -49951,7 +49951,7 @@ _Rva006CD070Atof,,0x006CD070,14,Code/Libraries/Source/Apt/AptValue/AptNumericPar
 ??1CreateAHeroSubClass@CreateAHeroManager@@QAE@XZ,,0x0021E50F,164,Code/GameEngine/Source/Common/System/SaveGame/BfmePod216Dtor.cpp,matched,CreateAHeroSubClass dtor: parseCreateAHeroSubClass destroys its 0x0021E793-built local here (0x0021FD9D and unwind 0x0076EB87); members follow the ctor's 216B layout and WB twin sub_B76770's order; callers 0x0021E77A 0x0021F188 0x0021F0F4; trees rowed free releaseBuffer
 ?rva00054899@MilesAudioManager@@QAE_NW4ObjectID@@H@Z,,0x00054899,145,Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManagerRva00054839.cpp,matched,two-list flag-gated search via getObjectID and guarded getter
 ?rva00056670@MilesAudioManager@@QAE_NW4ObjectID@@@Z,,0x00056670,70,Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManagerRva00056670.cpp,matched,chain via TheGameLogic findObjectByID drawable field to rva00054899
-?Rva00580A54Sort@@YAXPAPAX00VRva000795C1Record@@@Z,,0x00580A54,88,Code/Libraries/Source/WWVegas/WWLib/Rva00580776LinearInsert.cpp,matched,unguarded insertion sort aux with Tp-star dummy caller 0x00580BE7 pushes 0 STL _algo
+?unguardedInsertionSortAux@@YAXPAPAX00VRva000795C1Record@@@Z,,0x00580A54,88,Code/Libraries/Source/WWVegas/WWLib/Rva00580776LinearInsert.cpp,matched,unguarded insertion sort aux with Tp-star dummy caller 0x00580BE7 pushes 0 STL _algo
 ?Rva0040C94ALookup@@YAPAVPlayer@@H@Z,,0x0040C94A,35,Code/GameEngine/Source/Common/Rva0040C94ALookup.cpp,matched,id to player lookup via pinned Logic and rowed PlayerList caller uses return
 ?rva000EDF23@Rva000EDF23@@QAEXABVRva000E3A8D@@@Z,,0x000EDF23,29,Code/GameEngine/Source/Common/Rva000EDF23Setter.cpp,matched,vector assign at 0x44548 plus flag at 0x44546 via rowed 0xE3A8D caller 0x69CE6
 ?rva000EF137@Rva000EF137@@QAEXABVRva000E3A8D@@@Z,,0x000EF137,29,Code/GameEngine/Source/Common/Rva000EF137.cpp,matched,vector member assign plus flag via rowed 0x000E3A8D
@@ -49983,7 +49983,7 @@ _Rva006CD070Atof,,0x006CD070,14,Code/Libraries/Source/Apt/AptValue/AptNumericPar
 ?ExecuteInitAction@AptCharacterAnimation@@QAEXPAVAptCIH@@H@Z,,0x006E6A30,209,Code/Libraries/Source/Apt/AptMovieFrameControls.cpp,matched,
 ?ExportClassDefinitionAssets@AptCharacterAnimation@@QAEXPAVAptCIH@@@Z,,0x006E46A0,278,Code/Libraries/Source/Apt/AptMovieFrameControls.cpp,matched,
 ?onEnter@Rva00544C2A@@QAEHXZ,,0x00544E76,59,Code/GameEngine/Source/Common/Rva00544E76.cpp,matched,leaf slot 4 of 0x00869CF8 chains plus18 to slot 0x17C and TheGameLogic plus40 to slot 0x24
-?Rva00580BBFUnguardedSort@@YAXPAPAX0VRva000795C1Record@@@Z,,0x00580BBF,79,Code/Libraries/Source/WWVegas/WWLib/Rva00580776LinearInsert.cpp,matched,unguarded insertion sort wrapper calling 0x00580A54 with 16B record teardown
+?unguardedInsertionSort@@YAXPAPAX0VRva000795C1Record@@@Z,,0x00580BBF,79,Code/Libraries/Source/WWVegas/WWLib/Rva00580776LinearInsert.cpp,matched,unguarded insertion sort wrapper calling 0x00580A54 with 16B record teardown
 ?rva002A0D11@Rva002A0D11@@QAEXXZ,,0x002A0D11,8,Code/GameEngine/Source/Common/RvaPlus4MemberForwarders.cpp,matched,Plus-N member forwarder tail jmp by REL32
 ?addEffect@Rva003BB730Owner@@QAEXAAVAsciiString@@PAVRva003BB730Record@@@Z,,0x003EE7C2,8,Code/GameEngine/Source/Common/RvaPlus4MemberForwarders.cpp,matched,Plus-N member forwarder tail jmp by REL32
 ?Rva0006297CClamp@@YGXPBM0PAM1@Z,,0x0006297C,160,Code/GameEngine/Source/Common/VslotSmallBodiesAT.cpp,matched,vslot 17 of Rva00628FD single callee GetRes neighbours VslotSmall
@@ -50057,7 +50057,7 @@ _Rva006CD070Atof,,0x006CD070,14,Code/Libraries/Source/Apt/AptValue/AptNumericPar
 ?rva001F650B@Rva001F650B@@QAEXPAX0@Z,,0x001F650B,22,Code/GameEngine/Source/Common/Thing/Rva001F63F5SlotStores.cpp,matched,Slot get store leaf by REL32
 ?rva001F6521@Rva001F6521@@QAEXPAX0@Z,,0x001F6521,22,Code/GameEngine/Source/Common/Thing/Rva001F63F5SlotStores.cpp,matched,Slot get store leaf by REL32
 ?rva003EE7CA@Rva003EE7CA@@QAEHHH@Z,,0x003EE7CA,23,Code/GameEngine/Source/Common/Rva003EE7CAForward.cpp,matched,virtual forward via this+0x48 slot1 then return first arg
-?Rva00580B5CInsertionSort@@YAXPAPAX0VRva000795C1Record@@@Z,,0x00580B5C,99,Code/Libraries/Source/WWVegas/WWLib/Rva00580776LinearInsert.cpp,matched,insertion sort via guarded linear insert with 16B record teardown
+?insertionSort@@YAXPAPAX0VRva000795C1Record@@@Z,,0x00580B5C,99,Code/Libraries/Source/WWVegas/WWLib/Rva00580776LinearInsert.cpp,matched,insertion sort via guarded linear insert with 16B record teardown
 ?rva003193D1@Rva003193D1@@QAEXXZ,,0x003193D1,27,Code/GameEngine/Source/Common/Rva003193D1.cpp,matched,thiscall sync via 0x00318F64 then forward 0 via 0x003FDE8C
 ?rva00355155@Rva00355B61@@QBEPBVArmorTemplate@@W4NameKeyType@@@Z,,0x00355155,23,Code/GameEngine/Source/GameLogic/Object/Rva00355155Find.cpp,matched,finds ArmorTemplate in map at 0x10 via rowed _M_find 0x2888D4 twin of 0x35516C
 ?rva00355A09@Rva003559B5Host@@QAEXHPAVRva0036E346@@H@Z,,0x00355A09,84,Code/GameEngine/Source/GameLogic/Object/Rva00355A09Create.cpp,matched,creates GarrisonObjectGroupOrder 0x28 via rowed ctor 0x546C26 then Attach pin 0x3558A3 ret 0xC

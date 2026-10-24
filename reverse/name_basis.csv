@@ -1277,3 +1277,9 @@ member,Rva0040B0D0Arg::m_04,Rva0040B0D0Arg::m_template,inferred,agree:nl-f2779ea
 local,Rva0040B0D0::rva0040B0D0::p,Rva0040B0D0::rva0040B0D0::objectView,inferred,agree:nl-6c46db0b8c2e,Code/Libraries/Source/WWVegas/WWLib/Rva0040B0D0Contains.cpp,0x0040B0D0
 param,Rva00565FC1Max::a,Rva00565FC1Max::left,inferred,agree:nl-471fbe26d126,Code/Libraries/Source/WWVegas/WWLib/Rva00565FC1VectorOverflow.cpp,
 param,Rva00565FC1Max::b,Rva00565FC1Max::right,inferred,agree:nl-accd49867999,Code/Libraries/Source/WWVegas/WWLib/Rva00565FC1VectorOverflow.cpp,
+local,Rva00580B5CInsertionSort::p,Rva00580B5CInsertionSort::current,inferred,agree:nl-a8f3525b513a,Code/Libraries/Source/WWVegas/WWLib/Rva00580776LinearInsert.cpp,0x00580B5C
+function,?Rva00580776Insert@@YAXPAPAXPAXVRva000795C1Record@@@Z,?unguardedLinearInsert@@YAXPAPAXPAXVRva000795C1Record@@@Z,inferred,agree:nl-5f3956e12bcb,Code/Libraries/Source/WWVegas/WWLib/Rva00580776LinearInsert.cpp,0x00580776
+function,?Rva00580A54Sort@@YAXPAPAX00VRva000795C1Record@@@Z,?unguardedInsertionSortAux@@YAXPAPAX00VRva000795C1Record@@@Z,inferred,agree:nl-50055d5da5d1,Code/Libraries/Source/WWVegas/WWLib/Rva00580776LinearInsert.cpp,0x00580A54
+function,?Rva00580BBFUnguardedSort@@YAXPAPAX0VRva000795C1Record@@@Z,?unguardedInsertionSort@@YAXPAPAX0VRva000795C1Record@@@Z,inferred,agree:nl-a2a449d5c934,Code/Libraries/Source/WWVegas/WWLib/Rva00580776LinearInsert.cpp,0x00580BBF
+function,?Rva00580B5CInsertionSort@@YAXPAPAX0VRva000795C1Record@@@Z,?insertionSort@@YAXPAPAX0VRva000795C1Record@@@Z,inferred,agree:nl-aa56f824f04c,Code/Libraries/Source/WWVegas/WWLib/Rva00580776LinearInsert.cpp,0x00580B5C
+carry,Rva00580B5CInsertionSort::current,insertionSort::current,inferred,scope renamed by Rename Rva00580B5CInsertionSort to insertionSort (inferred),Code/Libraries/Source/WWVegas/WWLib/Rva00580776LinearInsert.cpp,0x00580B5C

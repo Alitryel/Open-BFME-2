@@ -1,6 +1,6 @@
 // cl: /EHsc /MD
 //
-// ?Rva00580776Insert@@YAXPAPAXPAXVRva000795C1Record@@@Z @0x00580776 88B
+// ?unguardedLinearInsert@@YAXPAPAXPAXVRva000795C1Record@@@Z @0x00580776 88B
 // Unguarded linear insert for the 0x00580xxx introsort family: shifts while
 // rowed-pin compareRva005803C0(val,next) holds then stores val. By-value
 // 16-byte Rva000795C1Record teardown (cmp frame+14 / free) and EH prolog
@@ -26,7 +26,7 @@ public:
 	~Rva000795C1Record() { if (first) free(first); }
 };
 
-void __cdecl Rva00580776Insert(void **last, void *val, Rva000795C1Record compare)
+void __cdecl unguardedLinearInsert(void **last, void *val, Rva000795C1Record compare)
 {
 	void **cur = last;
 	void **prev = last - 1;
@@ -39,15 +39,15 @@ void __cdecl Rva00580776Insert(void **last, void *val, Rva000795C1Record compare
 	*cur = val;
 }
 
-void __cdecl Rva00580A54Sort(void **first, void **last, void **, Rva000795C1Record compare)
+void __cdecl unguardedInsertionSortAux(void **first, void **last, void **, Rva000795C1Record compare)
 {
 	for (void **i = first; i != last; ++i)
-		Rva00580776Insert(i, *i, compare);
+		unguardedLinearInsert(i, *i, compare);
 }
 
-void __cdecl Rva00580BBFUnguardedSort(void **first, void **last, Rva000795C1Record compare)
+void __cdecl unguardedInsertionSort(void **first, void **last, Rva000795C1Record compare)
 {
-	Rva00580A54Sort(first, last, (void **)0, compare);
+	unguardedInsertionSortAux(first, last, (void **)0, compare);
 }
 
 void __cdecl Rva005809DBLinearInsert(void **first, void **last, void *val, Rva000795C1Record compare)
@@ -59,14 +59,14 @@ void __cdecl Rva005809DBLinearInsert(void **first, void **last, void *val, Rva00
 	}
 	else
 	{
-		Rva00580776Insert(last, val, compare);
+		unguardedLinearInsert(last, val, compare);
 	}
 }
 
-void __cdecl Rva00580B5CInsertionSort(void **first, void **last, Rva000795C1Record compare)
+void __cdecl insertionSort(void **first, void **last, Rva000795C1Record compare)
 {
 	if (first == last)
 		return;
-	for (void **p = first + 1; p != last; ++p)
-		Rva005809DBLinearInsert(first, p, *p, compare);
+	for (void **current = first + 1; current != last; ++current)
+		Rva005809DBLinearInsert(first, current, *current, compare);
 }

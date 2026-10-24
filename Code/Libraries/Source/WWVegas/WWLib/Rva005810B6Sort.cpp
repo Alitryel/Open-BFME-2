@@ -50,8 +50,8 @@ void __cdecl Rva005810B6Sort(void **first, void **last, Rva000795C1Record compar
     }
 }
 
-void __cdecl Rva00580B5CInsertionSort(void **, void **, Rva000795C1Record);
-void __cdecl Rva00580BBFUnguardedSort(void **, void **, Rva000795C1Record);
+void __cdecl insertionSort(void **, void **, Rva000795C1Record);
+void __cdecl unguardedInsertionSort(void **, void **, Rva000795C1Record);
 void __cdecl Rva00580ED0PartialSortImpl(void **, void **, void **, void **, Rva000795C1Record);
 void __cdecl Rva00580C0E(void **, void **, void **, void *, Rva000795C1Record, void **);
 void __cdecl Rva00580C6F(void **, void **, Rva000795C1Record, void **, void **);
@@ -63,10 +63,10 @@ void __cdecl Rva00580E10(void **, void **, Rva000795C1Record);
 // ?Rva00580D38FinishSort@@YAXPAPAX0VRva000795C1Record@@@Z
 void __cdecl Rva00580D38FinishSort(void **first, void **last, Rva000795C1Record compare) {
     if (last-first > 16) {
-        Rva00580B5CInsertionSort(first,first+16,compare);
-        Rva00580BBFUnguardedSort(first+16,last,compare);
+        insertionSort(first,first+16,compare);
+        unguardedInsertionSort(first+16,last,compare);
     } else {
-        Rva00580B5CInsertionSort(first,last,compare);
+        insertionSort(first,last,compare);
     }
 }
 
