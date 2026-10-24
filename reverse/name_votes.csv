@@ -2273,3 +2273,12 @@ Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp|member|Rva002EBA88|m_10,bac3
 Code/GameEngine/Source/Common/Rva00531BA7.cpp|function|0x00531BA7|rva00531BA7,c4150ee28a7d4f6047768ccb,gpt-6.1-sol,codex5-20261024-005929-8,w-2d32e7a71cf1,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E7140.cpp|class||Rva000E7140Record,ad3c4f54d714387b2521c20f,gpt-6.1-sol,codex5-20261024-005929-10,w-2d32e7a71cf1,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E7140.cpp|function|0x000E7140|rva000E7140,ffdeafc63e8974acc77e3ca2,gpt-6.1-sol,codex5-20261024-005929-10,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva00404927Method.cpp|local|Rva00404927::rva00404927|a,a65e44988ec079fe24a7d21d,gpt-6.1-sol,codex5-20261024-005929-11,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|member|BfmeThingVJP|m_bfmeBuf,beb4602c03ce614fa7b6ecc4,gpt-6.1-sol,codex5-20261024-005929-12,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/WeaponSetRva002C752F.cpp|function|0x002C752F|rva002C752F,3e7eb0020eaa95463a71290a,gpt-6.1-sol,codex5-20261024-005929-14,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva005CD841Visit.cpp|param|visit|p,23decac1966d3970ff003b1b,gpt-6.1-sol,codex5-20261024-005929-15,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameClient/Rva0002C025.cpp|local|Rva0002C025IsNewer|t,ec063c78717700748d4e6d6f,gpt-6.1-sol,codex5-20261024-005929-16,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva00531720Finish.cpp|local|PathfindZoneManager::rva00531720|t,2b790960e88568c84eb3c421,gpt-6.1-sol,codex5-20261024-005929-17,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva00531720Finish.cpp|local|PathfindZoneManager::rva00531720|e,a30bda300138d8a7c181421f,gpt-6.1-sol,codex5-20261024-005929-17,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva005C436EDispatch.cpp|function|0x005C43AF|rva005C43AF,0bc16d90139fa7dceb55e06e,gpt-6.1-sol,codex5-20261024-005929-18,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv1373.cpp|class||BfmeTagVIF,113d88d2f39166ed73a98418,gpt-6.1-sol,codex5-20261024-005929-20,w-2d32e7a71cf1,2026-10-24
