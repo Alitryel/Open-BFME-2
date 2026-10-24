@@ -824,3 +824,6 @@ local,Rva002F1BD5Info::cellCallback::p,Rva002F1BD5Info::cellCallback::cellData,i
 local,Rva003195C9Owner::rva003195C9::a,Rva003195C9Owner::rva003195C9::destinationRegion,inferred,agree:nl-7aefecf54a12,Code/GameEngine/Source/Common/System/Rva003195C9Gate.cpp,0x003195C9
 local,Rva003195C9Owner::rva003195C9::b,Rva003195C9Owner::rva003195C9::currentRegion,inferred,agree:nl-9bb0a26e3f41,Code/GameEngine/Source/Common/System/Rva003195C9Gate.cpp,0x003195C9
 local,Rva00318FA1MainOwner::rva00318FA1::v,Rva00318FA1MainOwner::rva00318FA1::path,inferred,agree:nl-e385f26afc16,Code/GameEngine/Source/Common/System/Rva003195C9Gate.cpp,0x00318FA1
+local,xferUpgradeMask::x,xferUpgradeMask::transfer,inferred,agree:nl-830d927850c1,Code/GameEngine/Source/Common/System/XferUpgradeMask.cpp,0x003064CB
+local,xferUpgradeMask::b,xferUpgradeMask::m_upgradeMask,inferred,agree:nl-6fb765079183,Code/GameEngine/Source/Common/System/XferUpgradeMask.cpp,0x003064CB
+local,xferUpgradeMask::tmp,xferUpgradeMask::upgradeName,inferred,agree:nl-ebad925dd2df,Code/GameEngine/Source/Common/System/XferUpgradeMask.cpp,0x003064CB

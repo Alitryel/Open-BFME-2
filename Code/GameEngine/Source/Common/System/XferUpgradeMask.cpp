@@ -87,44 +87,44 @@ public:
 // ?Rva003064CBXfer@@YAXPAVXfer@@PAI@Z
 void __cdecl xferUpgradeMask(Xfer *xfer, Rva00291440 *bits)
 {
-	Xfer *x = xfer;
-	Rva00291440 *b = bits;
-	x->Version1();
-	if (x->IsStoring()) {
-		AsciiString tmp;
+	Xfer *transfer = xfer;
+	Rva00291440 *m_upgradeMask = bits;
+	transfer->Version1();
+	if (transfer->IsStoring()) {
+		AsciiString upgradeName;
 		unsigned int count = 0;
 		const UpgradeTemplate *upgradeTemplate = TheUpgradeCenter->rva001DB0A8();
 		while (upgradeTemplate) {
 			unsigned int bit = upgradeTemplate->m_bitIndex;
-			if (b->testBit(bit))
+			if (m_upgradeMask->testBit(bit))
 				count++;
 			upgradeTemplate = upgradeTemplate->m_next;
 		}
-		*x == *reinterpret_cast<unsigned short*>(&count);
+		*transfer == *reinterpret_cast<unsigned short*>(&count);
 		upgradeTemplate = TheUpgradeCenter->rva001DB0A8();
 		while (upgradeTemplate) {
 			unsigned int bit = upgradeTemplate->m_bitIndex;
-			if (b->testBit(bit)) {
-				((StringBase<char> &)(tmp)).set((const StringBase<char> &)(upgradeTemplate->m_name));
-				*x == tmp;
+			if (m_upgradeMask->testBit(bit)) {
+				((StringBase<char> &)(upgradeName)).set((const StringBase<char> &)(upgradeTemplate->m_name));
+				*transfer == upgradeName;
 			}
 			upgradeTemplate = upgradeTemplate->m_next;
 		}
 	} else {
-		AsciiString tmp;
+		AsciiString upgradeName;
 		unsigned short count;
-		*x == count;
-		memset(b, 0, 0x80);
+		*transfer == count;
+		memset(m_upgradeMask, 0, 0x80);
 		unsigned short i=0;
 		if (count > i) {
 			do {
-				*x == tmp;
-				const UpgradeTemplate *up = TheUpgradeCenter->findUpgrade(tmp);
+				*transfer == upgradeName;
+				const UpgradeTemplate *up = TheUpgradeCenter->findUpgrade(upgradeName);
 				if (!up) {
 					throw XferException(0, 0);
 				}
 				unsigned int bit = up->m_bitIndex;
-				b->setBit(bit);
+				m_upgradeMask->setBit(bit);
 				++i;
 			} while (i < count);
 		}
