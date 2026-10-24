@@ -5543,3 +5543,5 @@ Code/GameEngine/Source/Common/Rva00285DC5Paint.cpp|param|FireLogicSystem::rva002
 Code/GameEngine/Source/Common/Rva00285DC5Paint.cpp|param|FireLogicSystem::rva00285DC5|f8,3743368aa7a25ad2e6c93c30,claude-opus-5-5,claudec5-20261024-171440-2,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/Common/Rva00285DC5Paint.cpp|local|FireLogicSystem::rva00285DC5|t,7d35f38044d6b97885db2943,claude-opus-5-5,claudec5-20261024-171440-2,w-1ebb1ea4caee,2026-10-24
 Code/Libraries/Source/WWVegas/WWLib/Rva002CF2D5Erase.cpp|function|0x002CF2D5|rva002CF2D5,43b9582838361889c531482f,claude-opus-5-5,claudec5-20261024-171440-3,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva0010F42AFinish.cpp|member|Rva0010F42A|m_scale0C,dc5a23048564cf13e12ba288,claude-opus-5-5,claudec5-20261024-173159-1,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/BfmeTwoHundredOne.cpp|member|BfmeCountedGL|m_bfmeCount,c039738666474be066039d6c,claude-opus-5-5,claudec5-20261024-173159-5,w-1ebb1ea4caee,2026-10-24
