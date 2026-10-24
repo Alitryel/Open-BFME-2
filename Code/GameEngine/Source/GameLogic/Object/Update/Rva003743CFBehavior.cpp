@@ -108,23 +108,23 @@ void __cdecl Rva003743BB(Object *obj, void *userData)
 class Rva003743CF
 {
 public:
-	void rva003743CF(void *p, bool b);
+	void rva003743CF(void *statusType, bool set);
 private:
 	unsigned char m_pad00[8];
 	Object *m_object;
 };
-void Rva003743CF::rva003743CF(void *p, bool b)
+void Rva003743CF::rva003743CF(void *statusType, bool set)
 {
 	Object *object = m_object;
 	const void *flagObj = *(const void *const *)((const char *)object + 4);
 	if ((*((const unsigned char *)flagObj + 0x115) & 0x20) != 0)
 	{
-		int status = *(int *)p;
+		int status = *(int *)statusType;
 		Rva003743CF250 *target = *(Rva003743CF250 **)((char *)object + 0x250);
 		Rva003743CFParam param;
 		param.m_00 = status;
-		param.m_04 = b;
+		param.m_04 = set;
 		target->f68(Rva003743BB, &param, 1);
 	}
-	object->setStatus(*(ObjectStatusTypes *)p, b);
+	object->setStatus(*(ObjectStatusTypes *)statusType, set);
 }
