@@ -70,8 +70,8 @@ public:
 
 void q4Notify002CC841(void *ini, Made002CC841 *m, int c, int d)
 {
-    MultiIniFieldParse tmp;
-    tmp.add((const FieldParse *)Rva00507552Get(), 0);
-    tmp.add(TheProjectileFieldTable, 0);
-    ((INI *)ini)->initFromINIMulti(m, tmp);
+    MultiIniFieldParse multiFieldParse;
+    multiFieldParse.add((const FieldParse *)Rva00507552Get(), 0);
+    multiFieldParse.add(TheProjectileFieldTable, 0);
+    ((INI *)ini)->initFromINIMulti(m, multiFieldParse);
 }

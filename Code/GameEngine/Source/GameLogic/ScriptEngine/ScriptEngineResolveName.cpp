@@ -97,9 +97,9 @@ void Rva0032AAEE::rva0032AAEE(int a, int b)
 	if (a == b)
 		return;
 	if (nodes[a].previous == b) {
-		int tmp = a;
+		int savedIndex = a;
 		a = b;
-		b = tmp;
+		b = savedIndex;
 	}
 
 	Rva0032AAEENode *first = &nodes[a];

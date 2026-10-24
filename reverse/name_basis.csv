@@ -1501,3 +1501,6 @@ local,Rva002B280C::rva002B280C::p,Rva002B280C::rva002B280C::campaign,inferred,ag
 local,Object::rva0028EBDA::m,Object::rva0028EBDA::enragedBehavior,inferred,agree:nl-c8b411a10888,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028EBDA.cpp,0x0028EBDA
 member,BfmeHostFN::m_bfmeBufsFN,BfmeHostFN::m_buffers,inferred,agree:nl-08a9ece0cfb6,Code/GameEngine/Source/Common/BfmeConv2048.cpp,
 member,BfmeHostFN::m_bfmeCountFN,BfmeHostFN::m_bufferCount,inferred,agree:nl-2beb2ad15f2f,Code/GameEngine/Source/Common/BfmeConv2048.cpp,
+local,BfmeHostFN::bfmeAddFN::b,BfmeHostFN::bfmeAddFN::buffer,inferred,agree:nl-59cda789914d,Code/GameEngine/Source/Common/BfmeConv2048.cpp,0x0066DC40
+local,q4Notify002CC841::tmp,q4Notify002CC841::multiFieldParse,inferred,agree:nl-274c515d52a9,Code/GameEngine/Source/GameLogic/Object/Made002CC841Parse.cpp,0x00509780
+local,Rva0032AAEE::rva0032AAEE::tmp,Rva0032AAEE::rva0032AAEE::savedIndex,inferred,agree:nl-760679ab9adb,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineResolveName.cpp,0x0032AAEE

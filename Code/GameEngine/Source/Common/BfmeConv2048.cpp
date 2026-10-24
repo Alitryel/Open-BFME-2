@@ -40,9 +40,9 @@ int BfmeHostFN::bfmeAddFN(const char *name, const char *text)
 	if (idx == -1)
 		return -106;
 
-	BfmeBufFN *b = idx >= m_bufferCount ? 0 : &m_buffers[idx];
+	BfmeBufFN *buffer = idx >= m_bufferCount ? 0 : &m_buffers[idx];
 
-	b->bfmeAppendFN(text);
+	buffer->bfmeAppendFN(text);
 
 	return 0;
 }
