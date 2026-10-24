@@ -58,7 +58,7 @@ class Drawable
 public:
 	void fadeIn(unsigned int frames);
 	void fadeOut(unsigned int frames);
-	void rva00272D77(unsigned int frames, unsigned int b);
+	void rva00272D77(unsigned int frames, unsigned int fadeInFrames);
 	void setDrawableHidden(bool hidden);
 	float rva00272C9E(int key);
 
@@ -110,13 +110,13 @@ void Drawable::fadeOut(unsigned int frames)
 }
 // @0x00272D77 (68B): third fade mode 5 setter; holder call with 1 then elapsed 0
 // toFade a plus field +0x134 b plus start frame via holder slot1F. Caller 0x0045BEA0.
-void Drawable::rva00272D77(unsigned int frames, unsigned int b)
+void Drawable::rva00272D77(unsigned int frames, unsigned int fadeInFrames)
 {
 	setDrawableHidden(true);
 	m_timeElapsedFade = 0;
 	m_timeToFade = frames;
 	m_fadeMode = 5;
-	m_134 = b;
+	m_134 = fadeInFrames;
 	m_fadeStartFrame = TheRva00DFE77C->slot1F();
 }
 // @0x00272C9E (101B): opacity getter over draw modules at +0x14C via slots
