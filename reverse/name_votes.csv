@@ -2970,3 +2970,12 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDist
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp|local|Rva000B5C41::rva000B5A72|d1,6cfeb9b59ceb2b676e055153,gpt-6.1-sol,codex4-20261024-045828-28,w-887869184137,2026-10-24
 Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/ExpansionTactics/AISimpleExpansionTactic.cpp|class||Rva005AA860Unit,ccdd5a0b92fbcaace7260cd4,gpt-6.1-sol,codex4-20261024-045828-29,w-887869184137,2026-10-24
 Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/ExpansionTactics/AISimpleExpansionTactic.cpp|member|Rva005AA860Record|m_point0C,6df9461c7d3f3bc4daf902d8,gpt-6.1-sol,codex4-20261024-045828-29,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva00085553Init.cpp|param|Rva00085553Get|a,df27f0e9c826579afcbd759d,gpt-6.1-sol,codex8-20261024-045810-1,w-de56e563a50b,2026-10-24
+Code/Libraries/Source/WWVegas/WWMath/Matrix3DVectorRowsCtor.cpp|class||Rva0007B890MatrixBasisCtor,c3635a39bdbcd880c1f94e70,gpt-6.1-sol,codex8-20261024-045810-5,w-de56e563a50b,2026-10-24
+Code/Libraries/Source/WWVegas/WWMath/Matrix3DVectorRowsCtor.cpp|param|Rva0007B890MatrixBasisCtor::Rva0007B890MatrixBasisCtor|x,2baba786045e0c95072ee876,gpt-6.1-sol,codex8-20261024-045810-5,w-de56e563a50b,2026-10-24
+Code/Libraries/Source/WWVegas/WWMath/Matrix3DVectorRowsCtor.cpp|param|Rva0007B890MatrixBasisCtor::Rva0007B890MatrixBasisCtor|y,0495b8434592ea512bc645da,gpt-6.1-sol,codex8-20261024-045810-5,w-de56e563a50b,2026-10-24
+Code/Libraries/Source/WWVegas/WWMath/Matrix3DVectorRowsCtor.cpp|param|Rva0007B890MatrixBasisCtor::Rva0007B890MatrixBasisCtor|z,6ff43f513e0118e194d6e44f,gpt-6.1-sol,codex8-20261024-045810-5,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva0028B749.cpp|param|Rva0028B749Host::rva0028B749|a,9eb622b10452c632782f53a4,gpt-6.1-sol,codex8-20261024-045810-6,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva00380705Free.cpp|local|Rva00380705Free|r,615f279dd5a8c44691888202,gpt-6.1-sol,codex8-20261024-045810-7,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/System/INI_Rva00338E52ParseEnvelope.cpp|class||Rva00338E52Envelope,44a6a1b85aa7e6c9c01763cd,gpt-6.1-sol,codex8-20261024-045810-8,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/WeaponGetStatus.cpp|local|Weapon::setClipPercentFull|f,88fceb76c061e18607491aa1,gpt-6.1-sol,codex8-20261024-045810-9,w-de56e563a50b,2026-10-24
