@@ -5285,3 +5285,9 @@ Code/GameEngine/Source/Common/BfmeConv802.cpp|class||BfmeHeaderEBD,f3fef80a9d0e0
 Code/GameEngine/Source/GameClient/Rva0055D686Scale.cpp|function|0x0055D686|Rva0055D686Compute,f28f4815161f17fae4f1b093,gpt-6-astra,codexb2-20261024-143317-3,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/Rva0033A9A5.cpp|class||Rva0033A9A5Entry,d6ba1e92025d2e7046e5ce2a,gpt-6-astra,codexb2-20261024-143317-4,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/GapBodiesS3D.cpp|class||Rva004E81DE,a87321038030a8597fc2d5e3,gpt-6-astra,codexb2-20261024-143317-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/Pathfinder/PathfinderTintHierarchy.cpp|class||Rva002EBD99Node,f6516b7d98c41748b842e876,gpt-6-astra,codexb2-20261024-143317-5,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva002BEFE5.cpp|param|Rva002BEFE5::rva002BEFE5|a0,74bd78ebe43ca2dcae8f3150,gpt-6-astra,codexb2-20261024-143317-7,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp|member|Bfme5Obj18|m_bfmeV0,0ecfbf57f23e5d08ab196007,gpt-6-astra,codexb2-20261024-143317-8,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp|member|Bfme5Obj18|m_bfmeV4,a69285bcaccc6ae1fd72b851,gpt-6-astra,codexb2-20261024-143317-8,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp|local|bfme5MakeObj18|q,db0876b726db28aafb386a2f,gpt-6-astra,codexb2-20261024-143317-8,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva00431920.cpp|global||g_00C3C994,4bce877bbe84ca99c7650d3b,gpt-6-astra,codexb2-20261024-143317-8,w-d0bdfd8b17e9,2026-10-24
