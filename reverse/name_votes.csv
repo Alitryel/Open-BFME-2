@@ -4927,3 +4927,16 @@ Code/GameEngine/Source/Common/Rva005344C0Copy.cpp|function|0x005346D9|Rva005346D
 Code/GameEngine/Source/Common/BfmeConv1432.cpp|param|BfmeStrVMQ::notEqual|o,b41e166b73afe941e8cac17d,claude-opus-5-5,claudec5-20261024-112254-8,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp|class||Rva00202244Preset,1d19e06e089a4af3ab44133d,claude-opus-5-5,claudec5-20261024-112254-8,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/Common/Rva0031F89E.cpp|function|0x0031F89E|rva0031F89E,0e70364cb4638db8ab75c093,claude-opus-5-5,claudec5-20261024-112254-9,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva0052A22CForwarders.cpp|local|Rva005243FA|tmp,4d68f306ddf6fe0778bbd17b,claude-opus-5-5,claudec5-20261024-114137-1,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp|function|0x000CF0FF|rva000CF0FF,0b92be304c5e9961b2b5af09,claude-opus-5-5,claudec5-20261024-114137-1,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp|function|0x001338A0|rva001338A0,8692fc54636ae904252a6e8a,claude-opus-5-5,claudec5-20261024-114137-1,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp|function|0x001338B0|rva001338B0,2c69c9a9789b8114795d26c6,claude-opus-5-5,claudec5-20261024-114137-1,w-1ebb1ea4caee,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A|b1,8f33b4d437e21d5de236bb4d,claude-opus-5-5,claudec5-20261024-114137-3,w-1ebb1ea4caee,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A|b2,d9ac3c653b53eeed062f9423,claude-opus-5-5,claudec5-20261024-114137-3,w-1ebb1ea4caee,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b1,2e170c1cbc53eacd3a8d83be,claude-opus-5-5,claudec5-20261024-114137-3,w-1ebb1ea4caee,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b2,75eb8cc8498bfd2a2739ec81,claude-opus-5-5,claudec5-20261024-114137-3,w-1ebb1ea4caee,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b3,2c6b9354695772733dbe7b1e,claude-opus-5-5,claudec5-20261024-114137-3,w-1ebb1ea4caee,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b4,db293a0ef00a666389316c8a,claude-opus-5-5,claudec5-20261024-114137-3,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameClient/FormationTranslatorRva00431C9D.cpp|local|FormationTranslator::WaitForSecondButtonDownStateHandler::Restart|h,8bfb3120f53b7b7819abc80b,claude-opus-5-5,claudec5-20261024-114137-5,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameClient/FormationTranslatorRva00431C9D.cpp|local|FormationTranslator::WaitForSecondButtonDownStateHandler::rva00431C9D|h,9c01f2b41fbc88cc1454fcd4,claude-opus-5-5,claudec5-20261024-114137-5,w-1ebb1ea4caee,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayRva00043BF9.cpp|function|0x00043BF9|rva00043BF9,8664c7ab692bde8acf168ea5,claude-opus-5-5,claudec5-20261024-114137-7,w-1ebb1ea4caee,2026-10-24

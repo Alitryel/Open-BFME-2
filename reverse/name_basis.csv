@@ -1296,3 +1296,4 @@ param,Rva000B34D8::clientOnly_getRenderObjInfo::o1,Rva000B34D8::clientOnly_getRe
 param,Rva000B34D8::clientOnly_getRenderObjInfo::o2,Rva000B34D8::clientOnly_getRenderObjInfo::transform,inferred,agree:nl-db6cfe6092b6,Code/GameEngine/Source/Common/Rva000B34D8Fetch.cpp,0x000B34D8
 param,NAT::gotTargetMangledPort::b,NAT::gotTargetMangledPort::mangledPort,inferred,agree:nl-55a7649a2be8,Code/GameEngine/Source/Common/Rva005A8666Box.cpp,0x005A86C0
 local,StrategicVeterancy::Data::AutoResolve::AutoResolve::p,StrategicVeterancy::Data::AutoResolve::AutoResolve::record,inferred,agree:nl-e5b7d1c8d905,Code/GameEngine/Source/GameClient/GUI/StrategicVeterancyAutoResolveCtor.cpp,0x005ECE81
+local,Rva005243FA::tmp,Rva005243FA::tag,inferred,agree:nl-4d68f306ddf6,Code/GameEngine/Source/Common/Rva0052A22CForwarders.cpp,0x005243FA

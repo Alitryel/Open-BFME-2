@@ -49,8 +49,8 @@ const Rva00523DB7 *Rva0052408BFind(const Rva00523DB7 *first, const Rva00523DB7 *
 
 int Rva005243FA(int a, int b, int c)
 {
-	char tmp;
-	return (int)Rva0052408BFind((const Rva00523DB7 *)a, (const Rva00523DB7 *)b, (const Rva00523DB7 *)c, (int)&tmp);
+	char tag;
+	return (int)Rva0052408BFind((const Rva00523DB7 *)a, (const Rva00523DB7 *)b, (const Rva00523DB7 *)c, (int)&tag);
 }
 
 // ?rva0052A287@Rva0052A287@@QAEXPAUObj0052A22C@@@Z @0x0052A287 7B
