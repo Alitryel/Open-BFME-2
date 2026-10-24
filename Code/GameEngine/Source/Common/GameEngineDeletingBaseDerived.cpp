@@ -24,6 +24,9 @@ class Rva00225ACA : public SubsystemInterface
 public:
 	Rva00225ACA();
 	virtual ~Rva00225ACA();
+	virtual void init() {}
+	virtual void reset() {}
+	virtual void update() {}
 };
 
 Rva00225ACA::Rva00225ACA()
