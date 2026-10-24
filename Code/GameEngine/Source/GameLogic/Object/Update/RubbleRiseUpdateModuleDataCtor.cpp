@@ -35,10 +35,14 @@ class FXList;
 typedef _STL::vector<const ObjectCreationList *> RubbleOCLVec;
 typedef _STL::vector<const FXList *> RubbleFXVec;
 
-class RubbleRiseBase
+// The base is ModuleData: retail's state-0 unwind funclet (mov ecx,[ebp-10h];
+// jmp 0x0049B47C) tail-calls ModuleData's destructor, which stores the
+// Snapshot vtable 0x00BBB554; declaring it binds the kept retail COMDAT.
+// novtable: retail never installs ModuleData's own table (BfmeModuleData.h).
+class __declspec(novtable) ModuleData
 {
 public:
-	virtual ~RubbleRiseBase();
+	virtual ~ModuleData();
 
 private:
 	unsigned char m_pad04[4];
@@ -49,7 +53,7 @@ enum
 	RUBBLE_PHASE_COUNT = 4,
 };
 
-class RubbleRiseUpdateModuleData : public RubbleRiseBase
+class RubbleRiseUpdateModuleData : public ModuleData
 {
 public:
 	RubbleRiseUpdateModuleData();

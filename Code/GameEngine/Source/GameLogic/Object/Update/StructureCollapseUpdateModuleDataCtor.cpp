@@ -36,10 +36,14 @@ class FXList;
 typedef _STL::vector<const ObjectCreationList *> CollapseOCLVec;
 typedef _STL::vector<const FXList *> CollapseFXVec;
 
-class StructureCollapseBase
+// The base is ModuleData: retail's state-0 unwind funclet (mov ecx,[ebp-10h];
+// jmp 0x0049B47C) tail-calls ModuleData's destructor, which stores the
+// Snapshot vtable 0x00BBB554; declaring it binds the kept retail COMDAT.
+// novtable: retail never installs ModuleData's own table (BfmeModuleData.h).
+class __declspec(novtable) ModuleData
 {
 public:
-	virtual ~StructureCollapseBase();
+	virtual ~ModuleData();
 
 private:
 	unsigned char m_pad04[4];
@@ -50,7 +54,7 @@ enum
 	COLLAPSE_PHASE_COUNT = 5,
 };
 
-class StructureCollapseUpdateModuleData : public StructureCollapseBase
+class StructureCollapseUpdateModuleData : public ModuleData
 {
 public:
 	StructureCollapseUpdateModuleData();
