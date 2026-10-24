@@ -85,7 +85,6 @@ name,address,notes
 ??$_Construct@UBfmeVectorRecord0002154F3@@U1@@_STL@@YAXPAUBfmeVectorRecord0002154F3@@ABU1@@Z,0x0021559C,twin of rowed 002154F3 _Construct at this address by layout; resolves the 2155C9 worker call
 ??$_Construct@UElem36@@U1@@_STL@@YAXPAUElem36@@ABU1@@Z,0x001610F0,address read from the REL32 displacement at a placed body
 ??$_Construct@UFileInfoStruct@MixFileCreator@@U12@@_STL@@YAXPAUFileInfoStruct@MixFileCreator@@ABU12@@Z,0x00063CBC,45B EH _Construct shape calling rowed FileInfoStruct copy ctor 0x217624; resolves the 642AF worker call
-??$_Construct@UGen_t_00595870_p12cd@@U1@@_STL@@YAXPAUGen_t_00595870_p12cd@@ABU1@@Z,0x002CA82C,callee of the placed deque push_back at retail 0x00586204 read from its REL32 displacement; STLport in-node element construct for this element type
 ??$_Construct@UGen_t_008fb570_p8pod@@U1@@_STL@@YAXPAUGen_t_008fb570_p8pod@@ABU1@@Z,0x0060C9D9,retail REL32 from deque<Gen_t_008fb570_p8pod>::_M_push_back_aux_v at 0x0073E2E0; BFME1 deque construct helper
 ??$_Construct@UGeometryShape@@U1@@_STL@@YAXPAUGeometryShape@@ABU1@@Z,0x005EA9A9,callee REL32 read by locate.py from a unique masked-byte placement emitted by GeometryInfoCopyConstructor.cpp
 ??$_Construct@UICoord2D@@U1@@_STL@@YAXPAUICoord2D@@ABU1@@Z,0x0060C9D9,23B typed two-int copy independently byte-equals matched pair<int const int> provider; callee of witnessed node creator
@@ -6935,7 +6934,6 @@ name,address,notes
 ?_M_push_back_aux_v@?$deque@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@IAEXABUBfmeE8@@@Z,0x0054B456,address read from the REL32 displacement at a placed body; stlport 4.5.3
 ?_M_push_back_aux_v@?$deque@UBfmeOpaqueOwnedRecord1408@@V?$allocator@UBfmeOpaqueOwnedRecord1408@@@_STL@@@_STL@@IAEXABUBfmeOpaqueOwnedRecord1408@@@Z,0x00558E10,address read from the REL32 displacement at a placed body
 ?_M_push_back_aux_v@?$deque@UBfmePod16@@V?$allocator@UBfmePod16@@@_STL@@@_STL@@IAEXABUBfmePod16@@@Z,0x0041A9E8,address read from the REL32 displacement at a placed body
-?_M_push_back_aux_v@?$deque@UGen_t_00595870_p12cd@@V?$allocator@UGen_t_00595870_p12cd@@@_STL@@@_STL@@IAEXABUGen_t_00595870_p12cd@@@Z,0x00585B1E,tail-jump target of the placed deque push_back at retail 0x00586204 read from its REL32 displacement; STLport node-growth auxiliary for this element type
 ?_M_push_back_aux_v@?$deque@URva0073E4C0Record@@V?$allocator@URva0073E4C0Record@@@_STL@@@_STL@@IAEXABURva0073E4C0Record@@@Z,0x0073E290
 ?_M_push_back_aux_v@?$deque@URva008F9180Elem@@V?$allocator@URva008F9180Elem@@@_STL@@@_STL@@IAEXABURva008F9180Elem@@@Z,0x0054B456,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?_M_push_back_aux_v@?$deque@VBuddyResponse@@V?$allocator@VBuddyResponse@@@_STL@@@_STL@@IAEXABVBuddyResponse@@@Z,0x00551910,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1

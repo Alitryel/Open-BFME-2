@@ -25,12 +25,7 @@ typedef unsigned char UnsignedByte;
 typedef unsigned int UnsignedInt;
 typedef bool Bool;
 
-struct Gen_t_00595870_p12cd
-{
-	int m_a;
-	int m_b;
-	int m_c;
-};
+#include "../../../Libraries/Source/WWVegas/WWLib/Gen00595870Payload.h"
 
 struct BfmeE12
 {
@@ -39,6 +34,10 @@ struct BfmeE12
 
 typedef _STL::deque<BfmeE12> E12Deque;
 
+// The provider compiles the complete native push_back and its growth helper.
+namespace _STL {
+template<> void deque<Gen_t_00595870_p12cd>::push_back(const Gen_t_00595870_p12cd &);
+}
 typedef _STL::deque<Gen_t_00595870_p12cd> GenDeque;
 
 struct XferVersion

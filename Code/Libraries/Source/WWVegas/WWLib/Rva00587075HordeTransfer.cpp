@@ -20,7 +20,7 @@
 #include "ascii_string.h"
 struct BfmeE12 { float x,y,z; };
 struct OpaqueTriple12 { int a,b,c; };
-struct Gen_t_00595870_p12cd {int a,b,c;};
+#include "Gen00595870Payload.h"
 struct BfmeAssignRecord84 {
  int state; BfmeE12 position; OpaqueTriple12 unknown10; bool flag; char pad[3]; int a,b;
  _STL::deque<BfmeE12> path; int tail;

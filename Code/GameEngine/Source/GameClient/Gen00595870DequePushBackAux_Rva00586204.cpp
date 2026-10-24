@@ -1,66 +1,27 @@
-// cl: /Ireference/shims/bfme2_ascii -DNDEBUG -DWIN32 -MD -D_STLP_USE_STATIC_LIB -EHsc -Ireference/open-bfme-1/game/GameEngine/Source/GameClient
+// cl: /O1 /G7 /arch:SSE /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
-//
-// ?push_back@?$deque@UGen_t_00595870_p12cd@@V?$allocator@UGen_t_00595870_p12cd@@@_STL@@@_STL@@QAEXABUGen_t_00595870_p12cd@@@Z
-// retail 0x00586204, 45 bytes. Dedicated TU ported from the Open-BFME-1 donor
-// game/GameEngine/Source/GameClient/Gen00595870DequePushBackAux.cpp
-// (reference/open-bfme-1 @ 6d943426). Compiled /Os the donor emits this body
-// byte-identical to retail once relocations are masked (unique hit on
-// unclaimed .text). Only the placed body is defined here; the donor's other
-// definitions are omitted.
-//
-// Retail's shape is the STLport deque push_back for this element: the element
-// is twelve bytes (one dword string-family subobject plus two copied inline),
-// the cursor and the node-end live at +0x10 and +0x18, and a full node tail
-// jumps to the auxiliary body. The auxiliary is left unnamed here because no
-// target evidence in this clone identifies it; the in-node construct callee
-// 0x0002CA82C is rowed and resolves.
-
-#define _STLP_NO_EXCEPTIONS 1
-// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
-// overload takes the call instead, so this TU emits no external max COMDAT.
-namespace _STL {
-static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
-{
-    return a < b ? b : a;
-}
-}
-#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
+// Native586204 is push_back45B, calling construction2CA82C and auxiliary585B1E.
+// The auxiliary copies three scalar floats to a temporary, reserves one map
+// slot, allocates120B and advances the end iterator. The payload's application
+// identity is unknown. The BFME1 donor6d943426 supplied the STL operation lead;
+// its owning-string payload guess is disproven by the native copy helpers.
 #include <deque>
+#include "../../../Libraries/Source/WWVegas/WWLib/Gen00595870Payload.h"
 
-// upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
-// Retail's AsciiString derives from StringBase<char>: its own copy ctor is the
-// forwarder at 0x0005EE50 and it holds nothing of its own, so a caller that
-// copies a string encodes the base body at 0x00887B60 directly. The delegation
-// has to be visible here for this TU to encode the same call.
-// BFME2's shared AsciiString (reference/shims/bfme2_ascii/ascii_string.h).
-// Retail's own copy body is the forwarder at 0x0005EE50 delegating to the
-// StringBase<char> copy, and this header is the view that encodes the same call
-// at a member copy site.
-#include "ascii_string.h"
-// Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
-// and this TU's /O1 COMDAT copy differs from the copy the link keeps.
-namespace _STL {
-template <> __declspec(dllimport) __forceinline
-void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
-{ if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
-}
-
-// The generated payload name records the observed 12-byte copy-and-destroy
-// shape. Its first dword is a string-family subobject; the remaining two
-// dwords are copied inline by MSVC 7.1.
-struct Gen_t_00595870_p12cd
-{
-	AsciiString m_name;
-	int m_first;
-	int m_second;
+// Map reservation uses the existing verified deque storage view. Both
+// containers have two16B iterators followed by the map pointer and size.
+// Reservation does not read element data; no element identity is asserted.
+struct BfmeE12 { float x,y,z; };
+namespace _STL { template<> void deque<BfmeE12>::_M_reserve_map_at_back(size_type); }
+class Rva00586204ReserveView : public _STL::deque<BfmeE12> {
+public:
+    __forceinline void reserveOne(unsigned count) { _M_reserve_map_at_back(count); }
 };
-
-typedef _STL::deque<Gen_t_00595870_p12cd> Rva00586204Deque;
-
-// Nothing else in this unit uses the deque, so a scope-exit handler is what
-// keeps the push_back from being discarded as unused. Not retail data.
-void Rva00586204Anchor(Rva00586204Deque &values, const Gen_t_00595870_p12cd &value)
+namespace _STL {
+template<> __forceinline void deque<Gen_t_00595870_p12cd>::_M_reserve_map_at_back(size_type count)
 {
-	values.push_back(value);
+    ((Rva00586204ReserveView *)this)->reserveOne(count);
 }
+}
+template void _STL::deque<Gen_t_00595870_p12cd>::push_back(const Gen_t_00595870_p12cd &);
+template void _STL::deque<Gen_t_00595870_p12cd>::_M_push_back_aux_v(const Gen_t_00595870_p12cd &);

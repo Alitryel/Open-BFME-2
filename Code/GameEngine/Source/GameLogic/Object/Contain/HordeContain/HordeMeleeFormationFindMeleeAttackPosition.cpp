@@ -194,7 +194,7 @@ struct FormationHeld { unsigned char pad0[8]; Object *leader; unsigned char padC
 struct FormationData { void *unknown; bool follow; char pad5[3]; float firstDistance,nextDistance; };
 struct BfmeE8 { int a,b; };
 struct BfmeE12 { float x,y,z; };
-struct Gen_t_00595870_p12cd { int a,b,c; };
+#include "../../../../../../Libraries/Source/WWVegas/WWLib/Gen00595870Payload.h"
 namespace _STL {
  template<> void deque<BfmeE8>::clear();
  template<> void deque<Gen_t_00595870_p12cd>::push_back(const Gen_t_00595870_p12cd &);
