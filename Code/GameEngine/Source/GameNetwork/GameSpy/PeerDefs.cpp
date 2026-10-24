@@ -207,6 +207,8 @@ struct AsciiComparator
 
 typedef _STL::set<AsciiString> IgnoreList;
 typedef _STL::map<Int, AsciiString> SavedIgnoreMap;
+// UserPreferences.cpp owns the retail subscript body at 0x00385C19.
+namespace _STL { template <> AsciiString &SavedIgnoreMap::operator[](const Int &); }
 typedef _STL::map<Int, GameSpyGroupRoom> GroupRoomMap;
 typedef _STL::map<Int, GameSpyStagingRoom *> StagingRoomMap;
 typedef _STL::map<Int, BuddyInfo> BuddyInfoMap;
