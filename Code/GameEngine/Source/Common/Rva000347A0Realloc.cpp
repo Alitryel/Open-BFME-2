@@ -104,16 +104,16 @@ void *EA::Allocator::GeneralAllocator::realloc(void *oldMem, unsigned int bytes,
 							memcpy(mem, oldMem, copySize);
 						} else {
 							unsigned int *d = (unsigned int *)mem;
-							unsigned int *s = (unsigned int *)oldMem;
+							unsigned int *src = (unsigned int *)oldMem;
 							switch ((copySize >> 2) - 1) {
-							case 7: *d++ = *s++;
-							case 6: *d++ = *s++;
-							case 5: *d++ = *s++;
-							case 4: *d++ = *s++;
-							case 3: *d++ = *s++;
-							case 2: *d++ = *s++;
-							case 1: *d++ = *s++;
-							case 0: *d = *s;
+							case 7: *d++ = *src++;
+							case 6: *d++ = *src++;
+							case 5: *d++ = *src++;
+							case 4: *d++ = *src++;
+							case 3: *d++ = *src++;
+							case 2: *d++ = *src++;
+							case 1: *d++ = *src++;
+							case 0: *d = *src;
 							}
 						}
 						rva00033150(oldMem);
