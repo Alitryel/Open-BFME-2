@@ -172,6 +172,8 @@ inline locale::~locale() _STLP_NOTHROW { _M_impl->_M_decr(); }
 }
 
 namespace _STL {
+// The narrow monetary formatter supplies the shared three-argument initializer.
+template <> template <class ForwardIterator> void basic_string<char>::_M_range_initialize(ForwardIterator, ForwardIterator, const forward_iterator_tag &);
 template <> template <> inline __declspec(noinline) void basic_string<char>::_M_range_initialize(char* first,char* last) { _M_range_initialize(first,last,forward_iterator_tag()); }
 template <> template <> inline __declspec(noinline) void basic_string<char>::_M_range_initialize(const char* first,const char* last) { _M_range_initialize(first,last,forward_iterator_tag()); }
 }

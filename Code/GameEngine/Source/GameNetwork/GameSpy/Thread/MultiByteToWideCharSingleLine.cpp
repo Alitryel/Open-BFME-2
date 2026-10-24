@@ -9,7 +9,10 @@
 // Callers: 0x005511E5 (wcsncpy into stack buffer), 0x0038BE17 (assign to
 // PeerResponse::text), 0x000AA966 and 9 more waiting on this body.
 
+// The range-initializer owner exposes the member with its public signature.
+#define private public
 #include <string>
+#undef private
 // bfme link decl-only begin
 namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::basic_string(basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> > const &); }
 namespace _STL { template <> void basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::_M_terminate_string(); }
