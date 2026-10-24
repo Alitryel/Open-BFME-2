@@ -5386,3 +5386,12 @@ Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|param|Rva005CDB8F::rva005CD
 Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|param|Rva005CDB8F::rva005CDBAE|b,56d4560d6d43da21e5927856,gpt-6-astra,codexb2-20261024-155314-1,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/Rva003802DF.cpp|local|Rva00380200::rva003802DF|r,fcb59bb33ce746edf4a94b6a,gpt-6-astra,codexb2-20261024-155314-2,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/Rva00276223Leaf.cpp|local|Rva00276223::rva00276223|p,b50246635c21dbf25b78fbeb,gpt-6-astra,codexb2-20261024-155314-3,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/StrategicVeterancy.cpp|member|TacticalArmyView|entries40,1dd393a202f01c857c292fb1,gpt-6-astra,codexb2-20261024-155314-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/StrategicVeterancy.cpp|member|TacticalArmyView|end44,9ba7a93c205cffa083330b08,gpt-6-astra,codexb2-20261024-155314-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/StrategicVeterancy.cpp|member|TacticalEntryNameView|name04,3eeb903a6bb8baaee9d2d725,gpt-6-astra,codexb2-20261024-155314-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/StrategicVeterancy.cpp|param|bind|d,d153862cffc8cd6f9fe68fd9,gpt-6-astra,codexb2-20261024-155314-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/StrategicVeterancy.cpp|param|bind#2|d,f28de4645586510bb70cbb19,gpt-6-astra,codexb2-20261024-155314-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005E4E1BIter.cpp|member|Rva005E4E1BHeader|m_first08,92ccfb10312106d5c2c8149e,gpt-6-astra,codexb2-20261024-155314-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv1460.cpp|param|BfmeThingPF::rva000276B0|s,275e38dd8a833d1cda27e5af,gpt-6-astra,codexb2-20261024-155314-5,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva00437EDCFinish.cpp|local|Rva00437EC4Set|p,e962e557f1df6955ef50d612,gpt-6-astra,codexb2-20261024-155314-6,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva00437EDCFinish.cpp|local|Rva00437EDCGet|p,a040aa92bf44f65b112f0da9,gpt-6-astra,codexb2-20261024-155314-6,w-d0bdfd8b17e9,2026-10-24
