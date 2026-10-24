@@ -21,15 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@HealContain@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *HealContain::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *HealContain::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new HealContain(thing, moduleData));
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitHealContainFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitHealContainFriendNew(Thing *thing, const ModuleData *moduleData)
-{
-	HealContain::friend_newModuleInstance(thing, moduleData);
-}
-#pragma inline_depth()

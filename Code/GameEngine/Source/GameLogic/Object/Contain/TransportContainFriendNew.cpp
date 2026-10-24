@@ -21,15 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@TransportContain@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *TransportContain::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *TransportContain::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new TransportContain(thing, moduleData));
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitTransportContainFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitTransportContainFriendNew(Thing *thing, const ModuleData *moduleData)
-{
-	TransportContain::friend_newModuleInstance(thing, moduleData);
-}
-#pragma inline_depth()

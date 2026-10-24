@@ -21,18 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@GarrisonContain@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *GarrisonContain::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *GarrisonContain::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new GarrisonContain(thing, moduleData));
 }
-
-// Select-any anchor: this unit owns the row above while other TUs emit it as
-// an inline copy. The anchor keeps this unit emitting its copy for the ledger;
-// it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitGarrisonContainFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitGarrisonContainFriendNew(Thing *thing, const ModuleData *moduleData)
-{
-	GarrisonContain::friend_newModuleInstance(thing, moduleData);
-}
-#pragma inline_depth()

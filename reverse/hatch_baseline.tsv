@@ -33733,9 +33733,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/BodyModuleDeletin
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/ImmortalBodyConstructor.cpp	1ImmortalBody@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/RespawnBodyCtorThunk.cpp	1RespawnBody@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Collide/CollideModuleDataBuildFieldParse.cpp	bfmeEmitCollideModuleDataBuildFieldParse@@YAXAAVMultiIniFieldParse@@@Z	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Collide/CrateCollide/ShroudCrateCollideFriendNew.cpp	bfmeEmitShroudCrateCollideFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Collide/CrateCollide/UnitCrateCollideFriendNew.cpp	bfmeEmitUnitCrateCollideFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Collide/CrateCollide/VeterancyCrateCollideFriendNew.cpp	bfmeEmitVeterancyCrateCollideFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainCtor.cpp	0Element16@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainCtor.cpp	1Element16@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainCtor.cpp	1Rva0047A702@@QAE@XZ	1
@@ -33782,8 +33779,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContai
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContain.cpp	GarrisonContain::removeObjectFromStationPoint	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContain.cpp	GarrisonContain::update	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContain.cpp	GarrisonContain::updateEffects	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainFriendNew.cpp	bfmeEmitGarrisonContainFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/HealContainFriendNew.cpp	bfmeEmitHealContainFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/HelixContain.cpp	HelixContain::HelixContain	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/HelixContain.cpp	HelixContain::addToContain	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/HelixContain.cpp	HelixContain::addToContainList	1
@@ -33854,15 +33849,11 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cp
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::setRallyPoint	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::update	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::~OpenContain	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainFriendNew.cpp	bfmeEmitOpenContainFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainModuleDataCtor.cpp	0DieMuxData@@	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/RiderChangeContainFriendNew.cpp	bfmeEmitRiderChangeContainFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineContainCtor.cpp	f00@SiegeEngineContain@@UAEXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineContainCtor.cpp	f20@SiegeEngineContain@@UAEXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineContainCtor.cpp	f30@SiegeEngineContain@@UAEXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineContainCtor.cpp	f34@SiegeEngineContain@@UAEXXZ	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainFriendNew.cpp	bfmeEmitTransportContainFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/TunnelContainFriendNew.cpp	bfmeEmitTunnelContainFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/TunnelContainModuleDataParse.cpp	bfmeEmitTunnelContainModuleDataParse@@YAXAAVMultiIniFieldParse@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Create/CreateModule.cpp	CreateModule::crc	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Create/CreateModule.cpp	CreateModule::loadPostProcess	1
@@ -33880,7 +33871,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Create/ObjectModuleCto
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Create/PreorderCreateConstructor.cpp	1PreorderCreate@@MAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Create/SpecialPowerCreateConstructor.cpp	1SpecialPowerCreate@@MAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Create/SupplyCenterCreateConstructor.cpp	1SupplyCenterCreate@@MAE@XZ	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Create/SupplyCenterCreateFriendNew.cpp	bfmeEmitSupplyCenterCreateFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Create/SupplyWarehouseCreate.cpp	1SupplyWarehouseCreate@@MAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Create/SupplyWarehouseCreate.cpp	crc@SupplyWarehouseCreate@@MAEXPAVXfer@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Create/SupplyWarehouseCreate.cpp	loadPostProcess@SupplyWarehouseCreate@@MAEXXZ	1
@@ -33889,7 +33879,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Damage/BoneFXDamage.cp
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Damage/BoneFXDamage.cpp	crc@BoneFXDamage@@MAEXPAVXfer@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Damage/BoneFXDamage.cpp	loadPostProcess@BoneFXDamage@@MAEXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Damage/BoneFXDamage.cpp	xfer@BoneFXDamage@@MAEXPAVXfer@@@Z	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Damage/BoneFXDamageFriendNew.cpp	bfmeEmitBoneFXDamageFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Damage/DamageModuleCtor.cpp	bfmeEmitDamageModuleCtor@@YAXPAVDamageModule@@PAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/CreateObjectDie.cpp	1CreateObjectDie@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/CreateObjectDie.cpp	crc@CreateObjectDie@@	1
@@ -33907,13 +33896,11 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/FXListDie.cpp	crc@
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/FXListDie.cpp	loadPostProcess@FXListDie@@MAEXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/FXListDie.cpp	onDie@FXListDie@@UAEXPBVDamageInfo@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/FXListDie.cpp	xfer@FXListDie@@MAEXPAVXfer@@@Z	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/FXListDieFriendNew.cpp	bfmeEmitFXListDieFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/FXListDieModuleDataBuildFieldParse.cpp	bfmeEmitRva0050B107BuildFieldParse@@YAXAAVMultiIniFieldParse@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/KeepObjectDieModuleDataCtor.cpp	1KeepObjectDieModuleData@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/SpecialPowerCompletionDie.cpp	1SpecialPowerCompletionDie@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/SpecialPowerCompletionDie.cpp	crc@SpecialPowerCompletionDie@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/SpecialPowerCompletionDie.cpp	loadPostProcess@SpecialPowerCompletionDie@@	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/UpgradeDieFriendNew.cpp	bfmeEmitUpgradeDieFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/FiringTracker.cpp	FiringTracker::FiringTracker	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/FiringTracker.cpp	FiringTracker::coolDown	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/FiringTracker.cpp	FiringTracker::crc	1
@@ -34142,7 +34129,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/CashHackS
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/CashHackSpecialPower.cpp	CashHackSpecialPower::loadPostProcess	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/CashHackSpecialPower.cpp	CashHackSpecialPower::xfer	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/CashHackSpecialPower.cpp	CashHackSpecialPower::~CashHackSpecialPower	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/CashHackSpecialPowerFriendNew.cpp	bfmeEmitCashHackSpecialPowerFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/CloudBreakSpecialPower.cpp	1CloudBreakSpecialPower@@MAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/CombineHordeSpecialPower.cpp	1CombineHordeSpecialPower@@MAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/DarknessSpecialPower.cpp	1DarknessSpecialPower@@MAE@XZ	1
@@ -34152,7 +34138,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/DefectorS
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/DefectorSpecialPower.cpp	DefectorSpecialPower::loadPostProcess	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/DefectorSpecialPower.cpp	DefectorSpecialPower::xfer	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/DefectorSpecialPower.cpp	DefectorSpecialPower::~DefectorSpecialPower	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/DefectorSpecialPowerFriendNew.cpp	bfmeEmitDefectorSpecialPowerFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/DevastateSpecialPower.cpp	1DevastateSpecialPower@@MAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/DominateEnemySpecialPowerCtor.cpp	DominateEnemySpecialPower::~DominateEnemySpecialPower	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/ElvenWoodSpecialPower.cpp	1ElvenWoodSpecialPower@@MAE@XZ	1
@@ -34167,7 +34152,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/OCLSpecia
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/OCLSpecialPower.cpp	getReferenceThingTemplate@OCLSpecialPower@@UBEPBVThingTemplate@@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/OCLSpecialPower.cpp	loadPostProcess@OCLSpecialPower@@MAEXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/OCLSpecialPower.cpp	xfer@OCLSpecialPower@@MAEXPAVXfer@@@Z	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/OCLSpecialPowerFriendNew.cpp	bfmeEmitOCLSpecialPowerFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/PlayerUpgradeSpecialPower.cpp	1PlayerUpgradeSpecialPower@@MAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/RepairSpecialPower.cpp	1RepairSpecialPower@@MAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/SpecialPowerModule.cpp	SpecialPowerModule::getPercentReady	1
@@ -34195,7 +34179,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/SpecialPo
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/SplitHordeSpecialPower.cpp	1SplitHordeSpecialPower@@MAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/TaintSpecialPowerConstructor.cpp	1TaintSpecialPower@@MAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/SpecialPower/WeaponChangeSpecialPowerModule.cpp	1WeaponChangeSpecialPowerModule@@MAE@XZ	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/TransitionDamageFXFriendNew.cpp	bfmeEmitTransitionDamageFXFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate.cpp	0AIUpdateInterface@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate.cpp	1AIUpdateInterface@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate.cpp	aiDoCommand@AIUpdateInterface@@	1

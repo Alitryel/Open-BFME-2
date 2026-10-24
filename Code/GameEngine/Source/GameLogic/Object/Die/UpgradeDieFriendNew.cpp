@@ -21,15 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@UpgradeDie@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *UpgradeDie::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *UpgradeDie::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new UpgradeDie(thing, moduleData));
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitUpgradeDieFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitUpgradeDieFriendNew(Thing *thing, const ModuleData *moduleData)
-{
-	UpgradeDie::friend_newModuleInstance(thing, moduleData);
-}
-#pragma inline_depth()

@@ -21,15 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@OpenContain@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *OpenContain::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *OpenContain::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new OpenContain(thing, moduleData));
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitOpenContainFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitOpenContainFriendNew(Thing *thing, const ModuleData *moduleData)
-{
-	OpenContain::friend_newModuleInstance(thing, moduleData);
-}
-#pragma inline_depth()
