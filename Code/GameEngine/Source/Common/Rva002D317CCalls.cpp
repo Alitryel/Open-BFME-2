@@ -41,21 +41,21 @@ Radar * TheRadar;
 class Rva002D317C
 {
 public:
-	void rva002D317C(const float *a, const float *b, int c, int d);
+	void rva002D317C(const float *position, const float *size, int c, int d);
 private:
 	char m_pad[0x64];
 	GameWindow *m_window; // +0x64
 	int m_rect[4]; // +0x68..+0x77 (lo.x lo.y hi.x hi.y)
 };
 
-void Rva002D317C::rva002D317C(const float *a, const float *b, int c, int d)
+void Rva002D317C::rva002D317C(const float *position, const float *size, int c, int d)
 {
 	(void)c;
 	(void)d;
-	int ix0 = (int)(a[0] + 0.5f);
-	int iy0 = (int)(a[1] + 0.5f);
-	int ix1 = (int)(b[0] + 0.5f);
-	int iy1 = (int)(b[1] + 0.5f);
+	int ix0 = (int)(position[0] + 0.5f);
+	int iy0 = (int)(position[1] + 0.5f);
+	int ix1 = (int)(size[0] + 0.5f);
+	int iy1 = (int)(size[1] + 0.5f);
 	int posX;
 	int posY;
 	int sizeW;
