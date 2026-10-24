@@ -177,7 +177,7 @@ extern GameLogic *TheGameLogic;
 struct Rva002AD661LogicView
 {
 	unsigned char m_pad00[0x40];
-	unsigned int m_frame40; // +0x40
+	unsigned int m_frame; // +0x40
 	unsigned char m_pad44[0x114 - 0x44];
 	int m_gameMode; // +0x114
 };
@@ -244,7 +244,7 @@ bool Player::addScience(ScienceType science)
 									ai->setFloatSink(1.0f);
 								else
 								{
-									int frame = ((const Rva002AD661LogicView *)TheGameLogic)->m_frame40;
+									int frame = ((const Rva002AD661LogicView *)TheGameLogic)->m_frame;
 									ai->setIntSink(frame);
 								}
 							}
