@@ -8,10 +8,10 @@ inline bool bfmeEqVMQ(char a, char b)
 class BfmeStrVMQ
 {
 public:
-	bool bfmeNeVMQ(const char *o) const;
+	bool notEqual(const char *o) const;
 };
 
-bool BfmeStrVMQ::bfmeNeVMQ(const char *o) const
+bool BfmeStrVMQ::notEqual(const char *o) const
 {
 	return !bfmeEqVMQ(*o, *(const char *)this);
 }

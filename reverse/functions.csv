@@ -6013,7 +6013,7 @@ _Copy12x12_MMX,,0x001D76A0,51,Code/Libraries/Source/VP6/ReconMmx.cpp,matched,Cle
 ?assign@Rva00958960Holder@@QAEPAU1@PAURva00958960Ref@@@Z,,0x00176E40,43,Code/GameEngine/Source/Common/SmallGaps/Rva00958960AssignRef.cpp,matched,bfme1 uncapped SmallGaps sweep exact placement
 ?resetFields@Rva008011D0Owner@@QAEXXZ,,0x0066D540,64,Code/GameEngine/Source/Common/SmallGaps/Rva008011D0ResetFields.cpp,matched,bfme1 uncapped SmallGaps sweep exact placement
 ?find@Rva009A3250Table@@QAEPAURva009A3250Node@@PAURva009A3250Key@@@Z,,0x00758F80,61,Code/GameEngine/Source/Common/SmallGaps/Rva009A3250HashFind.cpp,matched,bfme1 uncapped SmallGaps sweep exact placement
-?bfmeNeVMQ@BfmeStrVMQ@@QBE_NPBD@Z,,0x000249D0,40,Code/GameEngine/Source/Common/BfmeConv1432.cpp,matched,bfme1 uncapped Common sweep exact placement
+?notEqual@BfmeStrVMQ@@QBE_NPBD@Z,,0x000249D0,40,Code/GameEngine/Source/Common/BfmeConv1432.cpp,matched,bfme1 uncapped Common sweep exact placement
 _Bound,,0x001C01F0,60,Code/Libraries/Source/VP6/FilterMath.cpp,matched,Clean-room spec 001c01f0; Bound: cdecl branch-free tent bounding of a filter value with sign restore; same retail extent as the replaced placeholder; implemented from reverse/vp6_cleanroom/specs/001c01f0.md and retail only
 ??0Rva007F0910Record@@QAE@XZ,,0x0065D710,40,Code/GameEngine/Source/Common/SmallGaps/Rva007F0910RecordCtor.cpp,matched,bfme1 uncapped Common sweep exact placement
 _Scale1D_2t1_ps,,0x001BA4D0,53,Code/Libraries/Source/VP6/ScaleC.cpp,matched,Clean-room spec 001ba4d0; Scale1D_2t1_ps: cdecl 2-to-1 point-sampling downsampler; same retail extent as the replaced placeholder; implemented from reverse/vp6_cleanroom/specs/001ba4d0.md and retail only
