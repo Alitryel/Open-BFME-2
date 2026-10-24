@@ -68,9 +68,9 @@ public:
 };
 extern class View *TheTacticalView;
 
-void ScriptActions::doCameraSetDefault(float a, float b, float c)
+void ScriptActions::doCameraSetDefault(float pitch, float angle, float maxHeight)
 {
-	((TacticalView *)TheTacticalView)->slot57(a, b, c);
+	((TacticalView *)TheTacticalView)->slot57(pitch, angle, maxHeight);
 }
 
 // Member ABI proved at each native executeAction3CA4BE call site: ECX=this.

@@ -1222,3 +1222,6 @@ member,Rva00254D0BNode::m_child0C,Rva00254D0BNode::m_child,inferred,agree:nl-b00
 local,Rva00496292Destroy::p,Rva00496292Destroy::current,inferred,agree:nl-54aa99979a40,Code/GameEngine/Source/GameLogic/Object/Update/Rva00496292.cpp,0x00496292
 function,?Rva00496292Destroy@@YAXPAX0@Z,?destroyRange@@YAXPAX0@Z,inferred,agree:nl-23ea27cf08f2,Code/GameEngine/Source/GameLogic/Object/Update/Rva00496292.cpp,0x00496292
 carry,Rva00496292Destroy::current,destroyRange::current,inferred,scope renamed by Rename Rva00496292Destroy to destroyRange (inferred),Code/GameEngine/Source/GameLogic/Object/Update/Rva00496292.cpp,0x00496292
+param,ScriptActions::doCameraSetDefault::a,ScriptActions::doCameraSetDefault::pitch,inferred,agree:nl-902d14c9dce6,Code/GameEngine/Source/GameLogic/ScriptEngine/Rva003BC22EDo.cpp,0x003BC22E
+param,ScriptActions::doCameraSetDefault::b,ScriptActions::doCameraSetDefault::angle,inferred,agree:nl-4172a4d7fb5b,Code/GameEngine/Source/GameLogic/ScriptEngine/Rva003BC22EDo.cpp,0x003BC22E
+param,ScriptActions::doCameraSetDefault::c,ScriptActions::doCameraSetDefault::maxHeight,inferred,agree:nl-a72c7ca38dc9,Code/GameEngine/Source/GameLogic/ScriptEngine/Rva003BC22EDo.cpp,0x003BC22E
