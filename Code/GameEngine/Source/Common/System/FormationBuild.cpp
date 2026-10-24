@@ -107,7 +107,7 @@ class FormationObjectList:public _STL::_List_base<Object*,Rva001EB984PoolAllocat
 };
 class Rva00421A16 {public:
  Rva00421A16(const Coord3D &p):x(p.x),y(p.y),z(p.z){}
- Rva00421A16(const Rva00421A16&p):x(p.x),y(p.y),z(p.z){}
+ Rva00421A16(const Rva00421A16&other):x(other.x),y(other.y),z(other.z){}
  ~Rva00421A16(){}
  float x,y,z;
 };
