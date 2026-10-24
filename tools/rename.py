@@ -35,7 +35,12 @@ This tool makes the whole edit, verifies it, and records why:
   apply    under the ledger lock, after journalling the before-state to
            build/rename-journal/, then one ./build.sh over every touched
            ledger source (owner, callers, includers of a touched header) and
-           the commit hooks' ledger checks (check_csv, find_declared_unmatched);
+           the commit hooks' checks (check_csv, find_declared_unmatched, and
+           class_gate, ledger_guard, code_identity_gate, link_debt,
+           check_case_collisions, hatch_counters, data_check, eh_verify,
+           pin_admission, pin_consistency, name_dependents on a private index
+           holding the files written: commit_checks; the hook's other gates
+           still run at commit);
            the rename stands only when all pass;
   restore  every touched file byte for byte on any failure, exception or
            SIGTERM; a run killed outright leaves its journal, and
@@ -185,6 +190,8 @@ is_protected, check_renames, recover) is what the lane tools call.
 """
 import argparse
 import base64
+import concurrent.futures
+import contextlib
 import csv
 import io
 import json
@@ -195,6 +202,7 @@ import signal
 import socket
 import subprocess
 import sys
+import tempfile
 import threading
 import time
 import uuid
@@ -3495,12 +3503,18 @@ def plan_rename(kind, *, ctx=None, **kwargs):
 
 # ---------------------------------------------------------------- apply
 
-def build_verify(ctx, sources):
-    """One ./build.sh over `sources`; True only on exit 0 with `Functions: OK`."""
+def build_verify(ctx, sources, cancel=None):
+    """One ./build.sh over `sources`; True only on exit 0 with `Functions: OK`.
+    `cancel`, a threading.Event, kills the build once set (False then)."""
     command = ([sys.executable, str(ctx.path("tools/build.py"))] if sys.platform == "win32"
                else [str(ctx.path("build.sh"))]) + list(sources)
     print(f"rename: verifying {len(sources)} source(s): ./build.sh {' '.join(sources)}", flush=True)
-    result = subprocess.run(command, cwd=ctx.root, capture_output=True, text=True)
+    if cancel is None:
+        result = subprocess.run(command, cwd=ctx.root, capture_output=True, text=True)
+    else:
+        result = _run_cancellable(command, cancel, cwd=ctx.root)
+        if result is None:
+            return False
     output = result.stdout + result.stderr
     tail = "\n".join(output.rstrip().splitlines()[-25:])
     print(tail)
@@ -3666,8 +3680,28 @@ def refuse_pending_journal(ctx):
 
 def ledger_checks(ctx, plan):
     """What the commit hooks will say about the result: check_csv over the
-    ledgers and find_declared_unmatched over the touched units. [] when both
-    pass (or when the tree has no such tools, as in a fixture)."""
+    ledgers, find_declared_unmatched over the touched units, and the hook's
+    other checks on a private index (commit_checks). [] when all pass (or when
+    the tree has no such tools, as in a fixture). commit_checks runs beside the
+    other two: its longest tool is the one that sets the time. A signal or an
+    error in the main thread cancels it (its running tool is killed) and
+    propagates at once (in whichever of the two waits it lands: check_csv or the
+    hook tools), so the restore does not wait for the tools."""
+    cancel = threading.Event()
+    pool = concurrent.futures.ThreadPoolExecutor(max_workers=1)
+    gates = pool.submit(commit_checks, ctx, plan, cancel=cancel)
+    try:
+        problems = _csv_checks(ctx, plan)
+        found = gates.result()           # most of the time is spent here: a signal must cancel it too
+    except BaseException:
+        cancel.set()
+        pool.shutdown(wait=False, cancel_futures=True)
+        raise
+    pool.shutdown()
+    return problems + found
+
+
+def _csv_checks(ctx, plan):
     problems = []
     if ctx.path("tools/check_csv.py").exists():
         result = subprocess.run([sys.executable, "tools/check_csv.py"], cwd=ctx.root, capture_output=True,
@@ -3683,6 +3717,202 @@ def ledger_checks(ctx, plan):
             problems.append("find_declared_unmatched: " +
                             " | ".join((result.stdout + result.stderr).strip().splitlines()[-5:]))
     return problems
+
+
+# The pre-commit hook's other checks, run on what the commit will contain.
+# They read the git index (`--staged`, `--ref :`), and rename.py does not
+# stage, so each runs against a PRIVATE COPY of the index (GIT_INDEX_FILE) with
+# exactly the files the plan wrote added: the lander's `git add <those paths>`,
+# by the same tools and arguments as .githooks/pre-commit, without touching the
+# real index. A plan that passed only check_csv and find_declared_unmatched
+# could still fail at commit -- e.g. a renamed alias pin giving one address a
+# second real name (pin_admission).
+#
+#   class_gate         a unit that now declares a registered class's body
+#   ledger_guard       a ledger or compiler input edited outside the plan
+#   code_identity_gate a wrong binding, duplicate definition or hand-made alias
+#   link_debt          a new hard-coded image address
+#   check_case_collisions   a path differing from another only in case
+#   hatch_counters     an escape hatch (pin, alias row, marker) that grew
+#   data_check         the data baseline, and (converged) a second name for a
+#                      converged data address in a unit the plan builds
+#   eh_verify          exception data of the built units against retail
+#   pin_admission      pins/alias rows (only when a ledger file is staged)
+#   pin_consistency    a pin naming a different function (the same condition)
+#   name_dependents    other units that call a name the plan took away; the hook
+#                      byte-verifies them, so they are built here too
+#
+# Not run here, because a rename cannot change what they judge: conversion_gate
+# (a row repointed to assembly), tu_ownership and invented_names (shadow),
+# header_dependents and the scoped build (the plan's own ./build.sh covers the
+# units it names), and the baseline shrink-only assertions (rename.py never
+# edits a baseline). They still run at commit.
+COMMIT_LEDGER_FILES = ("reverse/functions.csv", "reverse/symbols.csv", "reverse/deleted_rows.csv",
+                       "reverse/re_attempts.log")
+NAME_LEDGER_FILES = ("reverse/functions.csv", "reverse/symbols.csv", "reverse/data_rows.csv")
+
+
+@contextlib.contextmanager
+def staged_index(ctx, paths):
+    """Environment whose GIT_INDEX_FILE is a copy of the repository's index with
+    `paths` staged (additions, edits and deletions alike); None when ctx.root
+    is no git tree. A path git refuses to stage raises Refusal. This never
+    writes the real index (a file rename's `git mv` has already staged its move
+    there, and a failed run undoes it)."""
+    found = subprocess.run(["git", "-C", str(ctx.root), "rev-parse", "--git-path", "index"],
+                           capture_output=True, text=True)
+    if found.returncode:
+        yield None
+        return
+    source = ctx.root / found.stdout.strip()
+    with tempfile.TemporaryDirectory(prefix="rename-index-") as folder:
+        private = Path(folder) / "index"
+        if source.exists():
+            private.write_bytes(source.read_bytes())
+        env = dict(os.environ, GIT_INDEX_FILE=str(private), RENAME_SCRATCH=folder)
+        staged = subprocess.run(["git", "-C", str(ctx.root), "add", "-A", "--pathspec-from-file=-",
+                                 "--pathspec-file-nul"], input="\0".join(paths) + "\0", env=env,
+                                capture_output=True, text=True)
+        if staged.returncode:
+            raise Refusal("the commit gates cannot be judged: git add of the plan's files failed: "
+                          + (staged.stderr.strip().splitlines() or ["?"])[-1][:200])
+        yield env
+
+
+def _matched_sources(ctx):
+    """Sources owning a matched function or data row: all the hook builds."""
+    owned = set()
+    for rel in (FUNCTIONS, DATA_ROWS):
+        raw = ctx.read(rel)           # not ctx.dicts: that is the pre-rename state
+        if raw:
+            owned |= {r.get("source") for r in csv.DictReader(io.StringIO(raw.decode("utf-8")))
+                      if r.get("status") == "matched"}
+    return owned
+
+
+def _hook_jobs(ctx, plan, paths):
+    """{label: (tool, argv after the tool path, stdin bytes or None)} for the
+    hook checks this plan calls for, in the hook's own spelling."""
+    ledger = any(rel in COMMIT_LEDGER_FILES for rel in paths)
+    names = any(rel in NAME_LEDGER_FILES for rel in paths)
+    built = sorted(set(plan.verify) & _matched_sources(ctx))
+    listed = ("\0".join(built) + "\0").encode() if built else None
+    jobs = {
+        "class_gate": ("class_gate", ["--staged"], None),
+        "ledger_guard": ("ledger_guard", ["--staged"], None),
+        "code_identity_gate": ("code_identity_gate", ["--staged"], None),
+        "link_debt": ("link_debt", ["--staged"], None),
+        "check_case_collisions": ("check_case_collisions", [], None),
+        "hatch_counters": ("hatch_counters", ["--staged", "--note-file", "{scratch}/hatch-note"], None),
+        "data_check": ("data_check", ["--staged"], None),
+    }
+    if ledger:
+        jobs["pin_admission"] = ("pin_admission", ["--staged"], None)
+        jobs["pin_consistency"] = ("pin_consistency", ["--check"], None)
+    if names:
+        jobs["name_dependents"] = ("name_dependents", ["--staged"], None)
+    if built:
+        jobs["data_converged"] = ("data_check", ["--converged", "--ref", ":", "--sources-from", "-"], listed)
+        jobs["eh_verify"] = ("eh_verify", ["--sources-from", "-"], listed)
+    return jobs
+
+
+def _run_cancellable(argv, cancel, **kwargs):
+    """subprocess.run that polls `cancel` (a threading.Event) and kills the
+    process (its whole session, where there is one) when it is set; returns
+    None then."""
+    stdin = kwargs.pop("input", None)
+    posix = sys.platform != "win32"
+    process = subprocess.Popen(argv, stdin=subprocess.PIPE if stdin is not None else None,
+                               stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                               start_new_session=posix, **kwargs)
+    pending = stdin
+    while True:
+        if cancel is not None and cancel.is_set():
+            try:
+                if posix:
+                    os.killpg(process.pid, signal.SIGKILL)       # the tool's own children too (./build.sh)
+                else:
+                    process.kill()
+            except OSError:
+                pass
+            process.communicate()
+            return None
+        try:
+            out, err = process.communicate(pending, timeout=0.2)
+            return subprocess.CompletedProcess(argv, process.returncode, out.decode("utf-8", "replace"),
+                                               err.decode("utf-8", "replace"))
+        except subprocess.TimeoutExpired:
+            pending = None
+
+
+def commit_checks(ctx, plan, verify=None, skip=(), cancel=None, missing_ok=None):
+    """Problems the hook's checks (see the table above) would raise on the
+    change the plan makes (already written to the tree), each prefixed with the
+    check's name. [] when all pass, when the plan writes nothing (the
+    pre-rename call), when `ctx.root` is no git tree, or for the checks named
+    in `skip`. A check whose tool is missing is a problem in the repository
+    this module lives in; a fixture tree (any other root, or `missing_ok=True`)
+    simply lacks it. Units name_dependents lists that the plan does not already
+    verify are built with `verify` (default ./build.sh). `cancel`, a
+    threading.Event, kills the running tools and returns [] once set."""
+    paths = sorted(set(plan.after) | {new for _old, new in plan.moves})
+    if not paths:
+        return []
+    if missing_ok is None:
+        missing_ok = ctx.root.resolve() != ROOT.resolve()
+    problems, jobs = [], {}
+    for label, job in _hook_jobs(ctx, plan, paths).items():
+        if label in skip:
+            continue
+        if ctx.path(f"tools/{job[0]}.py").exists():
+            jobs[label] = job
+        elif not missing_ok:
+            problems.append(f"{label}: tools/{job[0]}.py is missing, so the hook's check cannot be judged")
+    if not jobs:
+        return problems
+    with staged_index(ctx, paths) as env:
+        if env is None:
+            return problems
+
+        def run_tool(label):
+            tool, args, stdin = jobs[label]
+            argv = [sys.executable, f"tools/{tool}.py", *[a.replace("{scratch}", env["RENAME_SCRATCH"]) for a in args]]
+            return _run_cancellable(argv, cancel, cwd=ctx.root, env=env, input=stdin)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=len(jobs)) as pool:
+            results = dict(zip(jobs, pool.map(run_tool, list(jobs))))
+        if any(result is None for result in results.values()):
+            return []
+        for label, result in results.items():
+            if result.returncode:
+                text = (result.stdout + result.stderr).strip().splitlines()
+                problems.append(f"{label}: " + " | ".join(text[-5:]))
+        listed = results.get("name_dependents")
+        if listed is not None and not listed.returncode:
+            extra = sorted({line.strip() for line in listed.stdout.splitlines() if line.strip()}
+                           - set(plan.verify))
+            if extra:
+                dirty = subprocess.run(["git", "-C", str(ctx.root), "diff", "--name-only", "-z"], env=env,
+                                       capture_output=True, text=True).stdout.split("\0")
+                unstaged = [rel for rel in extra if rel in dirty]
+                if unstaged:
+                    problems.append("name_dependents: unstaged edits in " + ", ".join(unstaged[:3]) +
+                                    ", which call a name this change removes: the hook refuses them")
+                owned = _matched_sources(ctx)
+                extra = [rel for rel in extra if rel in owned and rel not in unstaged]
+                if extra and not (cancel is not None and cancel.is_set()):
+                    built = verify(ctx, extra) if verify else build_verify(ctx, extra, cancel=cancel)
+                    if cancel is not None and cancel.is_set():
+                        return []            # stopped part-way: nothing was judged
+                    if not built:
+                        problems.append(f"name_dependents: byte-verify of {len(extra)} unit(s) calling a name "
+                                        f"this change removes failed ({', '.join(extra[:3])})")
+    return problems
+
+
+def refusing(problems):
+    """The checks behind `problems` (each starts `<check>: `), once each, in order."""
+    return ", ".join(dict.fromkeys(p.split(":", 1)[0] for p in problems))
 
 
 def apply_rename(plan, *, ctx=None, verify=build_verify, checks=ledger_checks, claimed=None):
@@ -3722,8 +3952,8 @@ def apply_rename(plan, *, ctx=None, verify=build_verify, checks=ledger_checks, c
             raise VerifyFailed(f"verification failed for {plan.old} -> {plan.new}; every file restored")
         problems = checks(ctx, plan) if checks else []
         if problems:
-            raise VerifyFailed(f"the commit hooks would refuse {plan.old} -> {plan.new} ({problems[0][:300]}); "
-                               "every file restored")
+            raise VerifyFailed(f"the commit hooks would refuse {plan.old} -> {plan.new} "
+                               f"[{refusing(problems)}] ({problems[0][:300]}); every file restored")
     except BaseException:
         unmove(ctx, plan, moved)
         restore(ctx, plan.before)

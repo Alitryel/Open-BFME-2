@@ -393,6 +393,39 @@ def test_tolerant_checks_refuse_what_the_batch_adds(tree):
     assert snapshot(tree) == before
 
 
+GATE_STAND_IN = """import subprocess, sys
+paths = subprocess.run(["git", "diff", "--cached", "--name-only"], capture_output=True, text=True).stdout.split()
+bad = [p for p in paths if p.rsplit("/", 1)[-1].startswith("Widget_")]
+if bad:
+    print("  " + bad[0] + ": declares its own view", file=sys.stderr)
+    sys.exit(1)
+"""
+
+
+def test_tolerant_checks_still_run_the_hook_gates_but_not_ledger_guard(tree):
+    # the moved unit is judged by the hook's class_gate on a private index; an unstaged ledger edit
+    # another worker left (ledger_guard's finding) is the dirt this lane tolerates
+    (tree / "tools").mkdir(exist_ok=True)
+    (tree / "tools/class_gate.py").write_text(GATE_STAND_IN)
+    shutil.copy(TOOLS / "ledger_guard.py", tree / "tools/ledger_guard.py")
+    (tree / "reverse/data_rows.csv").write_text("name,address\nx,1\n")        # unstaged, someone else's
+    picks = [p for p in picks_of(tree) if posixpath.basename(p[1]).startswith("Widget_")][:1]
+    assert picks
+    ctx = ctx_of(tree)
+    before = snapshot(tree)
+    with pytest.raises(VerifyFailed, match=r"the commit hooks would refuse the batch \[class_gate\]"):
+        rf.apply_batch(ctx, picks, "mechanical", claim=False, verify=ok, checks=rf.tolerant_checks(ctx))
+    assert snapshot(tree) == before
+    other = [p for p in picks_of(tree) if not posixpath.basename(p[1]).startswith("Widget_")][:1]
+    assert other
+    plans, _claimed = rf.apply_batch(ctx, other, "mechanical", claim=False, verify=ok,
+                                     checks=rf.tolerant_checks(ctx))
+    assert len(plans) == 1
+    with pytest.raises(VerifyFailed, match=r"\[ledger_guard\]"):      # the strict lane names that dirt
+        rf.apply_batch(ctx, picks_of(tree)[:1], "mechanical", claim=False, verify=ok,
+                       checks=rename.ledger_checks)
+
+
 def test_cli_check_reports_rename_py_verdicts(tree, capsys):
     assert rf.main(["--root", str(tree), "--no-object-scan", "--basis", "mechanical", "--check"]) == 0
     assert "8 planned OK, 0 refused" in capsys.readouterr().out

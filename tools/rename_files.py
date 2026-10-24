@@ -303,7 +303,8 @@ def tolerant_checks(ctx):
             if result.returncode:
                 problems.append("find_declared_unmatched: " +
                                 " | ".join((result.stdout + result.stderr).strip().splitlines()[-5:]))
-        return problems
+        # an unstaged ledger edit another worker left is the dirt this lane tolerates
+        return problems + rename.commit_checks(ctx, plan, skip=("ledger_guard",))
     return checks
 
 
@@ -373,8 +374,8 @@ def apply_batch(ctx, picks, basis, *, claim=True, verify=rename.build_verify, ch
             raise VerifyFailed(f"./build.sh refused the batch of {len(plans)}; every file restored")
         problems = checks(ctx, combined) if checks else []
         if problems:
-            raise VerifyFailed(f"the commit hooks would refuse the batch ({problems[0][:300]}); "
-                               "every file restored")
+            raise VerifyFailed(f"the commit hooks would refuse the batch [{rename.refusing(problems)}] "
+                               f"({problems[0][:300]}); every file restored")
     except BaseException:
         rename.unmove(ctx, combined, moved)
         rename.restore(ctx, combined.before)

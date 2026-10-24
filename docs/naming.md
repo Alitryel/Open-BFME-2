@@ -132,7 +132,21 @@ Each renamed name and every reference to it change together:
   `docs/doxygen/sources.cfg` line.
 
 The rename then runs one `./build.sh` over every touched ledger source, followed by `check_csv` and
-`find_declared_unmatched`. It stands only if all of them pass. On any failure,
+`find_declared_unmatched`, and the pre-commit hook's path-sensitive checks on what the commit will contain:
+`class_gate`, `ledger_guard`, `code_identity_gate`, `link_debt`, `check_case_collisions`, `hatch_counters`,
+`data_check` (`--staged`, and `--converged` over the built units) and `eh_verify` always run, and
+`pin_admission`, `pin_consistency` (`--check`) and `name_dependents` run when a ledger file is written, with
+the hook's own arguments against a private copy of the index in which exactly the files the rename wrote are
+staged (the checks never write the real index; a file rename's `git mv` has already staged its move
+there, and a failed run undoes it). Any unit `name_dependents` lists that the rename does not already
+verify is built too. It stands only if all of them pass, and the refusal names the check
+(`[pin_admission]`). The hook's `conversion_gate`, `tu_ownership`, `invented_names`, `header_dependents`
+and baseline shrink-only assertions are not run: a rename cannot change what they judge, and they still run
+at commit. A check whose tool is missing from this repository is itself a refusal (a fixture tree is
+exempt). A signal cancels the checks, wherever the main thread is waiting (`check_csv` or the hook tools): the
+running tool and, in its own session, the `./build.sh` of a `name_dependents` unit are killed, so the restore does not wait for them.
+This costs about 13 s per apply
+(or batch) on a cold object cache, mostly `name_dependents`' and `code_identity_gate`'s scans, run beside `check_csv`. On any failure,
 exception or SIGTERM every file is restored byte for byte. A run that is killed outright leaves
 a journal in `build/rename-journal/`. Run `python3 tools/rename.py recover` to restore it; no other run
 starts while a journal is pending. On success the tool appends a
