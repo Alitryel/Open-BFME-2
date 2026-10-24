@@ -1817,3 +1817,4 @@ param,TerrainResourceManager::getCellClaimant::x,TerrainResourceManager::getCell
 param,TerrainResourceManager::getCellClaimant::y,TerrainResourceManager::getCellClaimant::cellY,inferred,agree:nl-f54f9282a73a,Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,0x00359902
 local,TerrainResourceManager::rva0035997F::x,TerrainResourceManager::rva0035997F::xOffset,inferred,agree:nl-cfc65a1b34b5,Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,0x0035997F
 local,TerrainResourceManager::rva0035997F::y,TerrainResourceManager::rva0035997F::yOffset,inferred,agree:nl-c63f8498d4ae,Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,0x0035997F
+class,Rva00226883Node,RbTreeNode,inferred,agree:nl-cbbfdefd7582,Code/GameEngine/Source/Common/Rva00226883TreeFree.cpp,

@@ -18,17 +18,17 @@ private:
 	int m_04Flag; // +0x04
 };
 
-struct Rva00226883Node
+struct RbTreeNode
 {
 	char m_pad[8]; // +0x00..0x07
-	Rva00226883Node *m_next; // +0x08 sibling
-	Rva00226883Node *m_child; // +0x0C child
+	RbTreeNode *m_next; // +0x08 sibling
+	RbTreeNode *m_child; // +0x0C child
 };
 
 struct Rva00226883Head
 {
 	char m_pad00[4]; // +0x00
-	Rva00226883Node *m_first; // +0x04
+	RbTreeNode *m_first; // +0x04
 	Rva00226883Head *m_next; // +0x08
 	Rva00226883Head *m_child; // +0x0C
 };
@@ -37,10 +37,10 @@ void Rva00226883::rva00226883(void *node)
 {
 	if (!node)
 		return;
-	Rva00226883Node *cur = (Rva00226883Node *)node;
+	RbTreeNode *cur = (RbTreeNode *)node;
 	do {
 		rva00226883(cur->m_child);
-		Rva00226883Node *next = cur->m_next;
+		RbTreeNode *next = cur->m_next;
 		free(cur);
 		cur = next;
 	} while (cur);
