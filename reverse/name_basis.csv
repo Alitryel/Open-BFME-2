@@ -766,3 +766,6 @@ local,Rva005A6D47::rva005A6D47::o2,Rva005A6D47::rva005A6D47::otherSlot,inferred,
 global,?g_rva005A6CA5Limit@@3HA,?g_pingTimeout@@3HA,inferred,agree:nl-659ef1fc9f3c,Code/GameEngine/Source/Common/Rva005A69C0Box.cpp,0x009D35C8
 local,Rva005B1A07::rva005B1A07::b,Rva005B1A07::rva005B1A07::beginAddress,inferred,agree:nl-96da494f255f,Code/GameEngine/Source/Common/Rva005B1A07.cpp,0x005B1A07
 local,Rva005B1A07::rva005B1A07::e,Rva005B1A07::rva005B1A07::endAddress,inferred,agree:nl-4c56c220d7b9,Code/GameEngine/Source/Common/Rva005B1A07.cpp,0x005B1A07
+local,Rva005C394D::rva005C394D::t,Rva005C394D::rva005C394D::stringData,inferred,agree:nl-7e6738074c8a,Code/GameEngine/Source/Common/Rva005C394DGo.cpp,0x005C394D
+function,?rva005C394D@Rva005C394D@@QAEXXZ,?go@Rva005C394D@@QAEXXZ,inferred,agree:nl-bf857d0b74dd,Code/GameEngine/Source/Common/Rva005C394DGo.cpp,0x005C394D
+carry,Rva005C394D::rva005C394D::stringData,Rva005C394D::go::stringData,inferred,scope renamed by Rename rva005C394D to go (inferred),Code/GameEngine/Source/Common/Rva005C394DGo.cpp,0x005C394D
