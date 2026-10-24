@@ -50,5 +50,11 @@ template <> vector<BfmeVectorRecord000BDF17, allocator<BfmeVectorRecord000BDF17>
 template <> void vector<BfmeVectorRecord000BDF17, allocator<BfmeVectorRecord000BDF17> >::push_back();
 template <> BfmeVectorRecord000BDF17 *vector<BfmeVectorRecord000BDF17, allocator<BfmeVectorRecord000BDF17> >::insert(BfmeVectorRecord000BDF17 *);
 template <> void vector<BfmeVectorRecord000BDF17, allocator<BfmeVectorRecord000BDF17> >::resize(size_t);
+// The assignment is rowed in BfmeVectorRecord000BDF17Ctor.cpp (retail 0x000C697B,
+// which calls __copy_ptrs out of line); this unit's shim would inline it.
+template <> vector<BfmeVectorRecord000BDF17, allocator<BfmeVectorRecord000BDF17> > &vector<BfmeVectorRecord000BDF17, allocator<BfmeVectorRecord000BDF17> >::operator=(const vector<BfmeVectorRecord000BDF17, allocator<BfmeVectorRecord000BDF17> > &);
 }
 template class _STL::vector<BfmeVectorRecord000BDF17, _STL::allocator<BfmeVectorRecord000BDF17> >;
+// The rowed allocate/copy helper 0x000C24A0 has no other user here once the
+// assignment is declaration-only.
+template BfmeVectorRecord000BDF17 *_STL::vector<BfmeVectorRecord000BDF17, _STL::allocator<BfmeVectorRecord000BDF17> >::_M_allocate_and_copy<const BfmeVectorRecord000BDF17 *>(size_t, const BfmeVectorRecord000BDF17 *, const BfmeVectorRecord000BDF17 *);

@@ -6137,7 +6137,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x000C690C,51,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/StlportVectorEraseRangeFamily.cpp
 0x000C693F,30,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_record_bdf17_allocate_copy.cpp
 0x000C695D,30,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva000bedf0_mclear.cpp
-0x000C697B,186,code,,,-,,Code/gen_small/tgrid_005_Rva000c697b.cpp
+0x000C697B,186,code,,,-,,Code/GameEngine/Source/Common/Containers/BfmeVectorRecord000BDF17Ctor.cpp
 0x000C6A35,24,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/StlportVectorGrowthFootprints.cpp
 0x000C6A4D,202,code,Code/Libraries/Source/WWVegas/WWLib/BfmePod248.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/BfmePod248.cpp,Code/Libraries/Source/WWVegas/WWLib/StlportPod248Assign.cpp
 0x000C6B17,317,code,Code/Libraries/Source/WWVegas/WWLib/BfmePod248.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/BfmePod248.cpp,Code/Libraries/Source/WWVegas/WWLib/StlportPod248Assign.cpp
@@ -29649,7 +29649,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x003F5BBB,32,code,,,-,,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldBattleRva003F4AD8.cpp
 0x003F5BDB,116,code,Code/Libraries/Source/WWVegas/WWLib/LivingWorldBattle.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/LivingWorldBattle.cpp,Code/Libraries/Source/WWVegas/WWLib/Rva003F5BDB.cpp
 0x003F5C4F,35,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/Rva003F5A06Resize.cpp
-0x003F5C72,55,code,,,-,,Code/gen_small/tgrid_005_Rva003f5c72.cpp
+0x003F5C72,55,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva003F5C72.cpp
 0x003F5CA9,276,code-unledgered,,,-,,
 0x003F5DBD,130,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/Rva003F5DBD.cpp
 0x003F5E3F,70,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/Rva003F5DBD.cpp

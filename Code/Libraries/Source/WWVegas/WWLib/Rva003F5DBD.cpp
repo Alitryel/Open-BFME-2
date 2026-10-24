@@ -45,7 +45,7 @@ void *&vector<void*>::operator[](size_t __n)
 { return *(begin() + __n); }
 }
 // stlport_vector_voidptr_alloc.cpp owns vector<void*>::operator= (0x00027BA0);
-// call it rather than emit this unit's copy for Gen_p48cd's assignment.
+// call it rather than emit this unit's copy for Rva003F610FElement's assignment.
 namespace _STL { template <> vector<void *, allocator<void *> > &vector<void *, allocator<void *> >::operator=(vector<void *, allocator<void *> > const &); }
 
 enum ScienceType
@@ -70,19 +70,19 @@ struct SciSrc
 	ScienceType m_14;
 };
 
-struct Gen_p48cd
+struct Rva003F610FElement
 {
 	void *m_00;
 	_STL::vector<void *> m_04;
 	char m_pad10[0x30 - 4 - 12];
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> Gen_p48cd * vector<Gen_p48cd,allocator<Gen_p48cd> >::erase(Gen_p48cd *); }
+namespace _STL { template <> Rva003F610FElement * vector<Rva003F610FElement,allocator<Rva003F610FElement> >::erase(Rva003F610FElement *); }
 
 class Rva003F5DBD
 {
 	char m_pad00[4];
-	_STL::vector<Gen_p48cd> m_04;
+	_STL::vector<Rva003F610FElement> m_04;
 	_STL::vector<ScienceType> m_10;
 public:
 	void rva003F5DBD(void *a, int idx);
@@ -91,13 +91,13 @@ public:
 
 void Rva003F5DBD::rva003F5DBD(void *a, int idx)
 {
-	Gen_p48cd &gen_p48cd = m_04[idx];
-	if (gen_p48cd.m_00 != 0)
+	Rva003F610FElement &element = m_04[idx];
+	if (element.m_00 != 0)
 	{
-		ScienceType tmp = ((SciSrc *)gen_p48cd.m_00)->m_14;
+		ScienceType tmp = ((SciSrc *)element.m_00)->m_14;
 		m_10.push_back(tmp);
 	}
-	int cnt = (int)gen_p48cd.m_04.size();
+	int cnt = (int)element.m_04.size();
 	CreateAHeroData *createAHeroData;
 	int i = 0;
 	if (i < cnt)
@@ -105,7 +105,7 @@ void Rva003F5DBD::rva003F5DBD(void *a, int idx)
 		createAHeroData = a ? (CreateAHeroData *)((char *)a + 4) : 0;
 		for (; i < cnt; ++i)
 		{
-			void *p = gen_p48cd.m_04[i];
+			void *p = element.m_04[i];
 			((Rva002B7250 *)((char *)p + 8))->rva002B7250(createAHeroData);
 		}
 	}

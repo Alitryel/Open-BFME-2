@@ -33,6 +33,7 @@ BfmeVectorRecord000BDF17::BfmeVectorRecord000BDF17(const AsciiString&text,float 
 namespace _STL {
 template <> BfmeVectorRecord000BDF17 *_STLP_alloc_proxy<BfmeVectorRecord000BDF17*, BfmeVectorRecord000BDF17, allocator<BfmeVectorRecord000BDF17> >::allocate(size_t);
 template <> void allocator<BfmeVectorRecord000BDF17>::deallocate(BfmeVectorRecord000BDF17*, size_t) const;
+template <> void _STLP_alloc_proxy<BfmeVectorRecord000BDF17*, BfmeVectorRecord000BDF17, allocator<BfmeVectorRecord000BDF17> >::deallocate(BfmeVectorRecord000BDF17*, size_t);
 template <> __declspec(dllimport) __forceinline
 void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
 { if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
