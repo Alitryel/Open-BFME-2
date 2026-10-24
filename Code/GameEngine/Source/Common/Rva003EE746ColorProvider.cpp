@@ -18,12 +18,12 @@ class LivingWorldLogic; extern LivingWorldLogic*TheLivingWorldLogic;
 class Rva003EE711 {public:__declspec(dllimport) __forceinline Rva003EE711(){} virtual ~Rva003EE711(){};virtual Rva003EE746Color color(const Rva003EE746Region*)=0;};
 class Rva003EE746ColorProvider:public Rva003EE711 {public:Rva003EE746ColorProvider(int*s):selector(s){} virtual Rva003EE746Color color(const Rva003EE746Region*);int*selector;};
 // ?color@Rva003EE746ColorProvider@@UAE?AURva003EE746Color@@PBURva003EE746Region@@@Z
-Rva003EE746Color Rva003EE746ColorProvider::color(const Rva003EE746Region*r) {
+Rva003EE746Color Rva003EE746ColorProvider::color(const Rva003EE746Region*region) {
  int id;
- switch(*selector){case 0:id=r->id0;break;case 1:id=r->id1;break;default:id=-1;break;}
+ switch(*selector){case 0:id=region->id0;break;case 1:id=region->id1;break;default:id=-1;break;}
  if(id==-1){Rva003EEAFBColourView*c=((Rva00DFE1C8Host*)TheLivingWorldManager)->effects;return *(const Rva003EE746Color*)((char*)c+0x20);}
- Rva002E2903Player*p=((Rva002BA8F1Logic*)TheLivingWorldLogic)->find(id,0);
- if(p)return p->color;
+ Rva002E2903Player*player=((Rva002BA8F1Logic*)TheLivingWorldLogic)->find(id,0);
+ if(player)return player->color;
  return Rva003EE746Color(1.0f,1.0f,1.0f);
 }
 
@@ -49,7 +49,7 @@ LivingWorldRegionEffectsManager::LivingWorldRegionEffectsManager(const AsciiStri
 typedef char S3RegionRecordSize[sizeof(LivingWorldRegionEffectsManager)==88?1:-1];
 
 // ?rva003EF13E@LivingWorldRegionEffectsManager@@UAEXHHH@Z
-void LivingWorldRegionEffectsManager::rva003EF13E(int a,int,int){SyncRegion(a);}
+void LivingWorldRegionEffectsManager::rva003EF13E(int regionId,int,int){SyncRegion(regionId);}
 
 struct FieldParse { const char *token;void (__cdecl *parse)(INI*,void*,void*,const void*); const void*userData; int offset; };
 class INI {

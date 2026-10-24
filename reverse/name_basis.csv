@@ -1754,3 +1754,6 @@ function,?rva007F24A0@Rva007F2350StatsCursor@@QAE_NPAVRva007F2350StatsRecord@@@Z
 function,?rva007F2230@Rva007F2350StatsCursor@@QAE_NPAVRva007F2350StatsRecord@@@Z,?nextStat@Rva007F2350StatsCursor@@QAE_NPAVRva007F2350StatsRecord@@@Z,inferred,agree:nl-3f9d3714af41,Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp,0x0065ED20
 param,Rva0033A77F::rva0033A77F::b,Rva0033A77F::rva0033A77F::from,inferred,agree:nl-f6c47ea10b35,Code/GameEngine/Source/Common/Rva0033A77FForward.cpp,0x0033A77F
 param,Rva0033A77F::rva0033A77F::c,Rva0033A77F::rva0033A77F::trace,inferred,agree:nl-233096d81941,Code/GameEngine/Source/Common/Rva0033A77FForward.cpp,0x0033A77F
+param,Rva003EE746ColorProvider::color::r,Rva003EE746ColorProvider::color::region,inferred,agree:nl-39dcbd8fbce6,Code/GameEngine/Source/Common/Rva003EE746ColorProvider.cpp,0x003EE746
+local,Rva003EE746ColorProvider::color::p,Rva003EE746ColorProvider::color::player,inferred,agree:nl-261917d7e1c1,Code/GameEngine/Source/Common/Rva003EE746ColorProvider.cpp,0x003EE746
+param,LivingWorldRegionEffectsManager::rva003EF13E::a,LivingWorldRegionEffectsManager::rva003EF13E::regionId,inferred,agree:nl-f89c09fad86f,Code/GameEngine/Source/Common/Rva003EE746ColorProvider.cpp,0x003EF13E
