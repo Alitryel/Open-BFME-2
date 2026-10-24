@@ -4,7 +4,7 @@
 // destructor into this unit without a second definition of the destructor;
 // its int tag keeps it from spelling a real default constructor.
 //
-// 15 scalar deleting destructors sharing the Rva006FB9B0DeletingDtor.cpp
+// Original family: 15 scalar deleting destructors sharing the Rva006FB9B0DeletingDtor.cpp
 // shape (35 bytes each): call the class complete destructor, then a sized
 // release through one of two pinned chain-block pools. The class is named
 // after its own deleting destructor RVA; the complete dtor is only declared
@@ -23,6 +23,9 @@
 // (LadderPreferencesDtor.cpp), 0x006ECF90 (Rva006ECFC0Siblings.cpp),
 // 0x006F15D0 (Rva006F1360Dtor.cpp), 0x006FBC60 (Rva006FBC90OwnerDtor.cpp),
 // 0x00711350 (Rva00711330Dtor.cpp).
+
+// Seven members whose local complete destructors differ from retail are
+// preserved in Rva006CBF40Deferred.cpp; their provider repair remains pending.
 
 // Abstract base here: the retail deleting destructor 0x006DE820 is its own
 // unit's (Rva006DE350Dtor.cpp); novtable keeps this unit from emitting a copy.
@@ -70,47 +73,6 @@ void deleteRva006CBF40(Rva006CBF40 *p)
 	delete p;
 }
 
-class Rva006CC2F0 : public Rva006DE350
-{
-public:
-	virtual ~Rva006CC2F0();
-	static void operator delete(void *p, unsigned int size)
-	{
-		g_pChainBlockAllocator->freeBlock(p, size);
-	}
-};
-
-// ?Rva006CC2F0::~Rva006CC2F0 present-unmatched
-Rva006CC2F0::~Rva006CC2F0()
-{
-}
-
-void deleteRva006CC2F0(Rva006CC2F0 *p)
-{
-	delete p;
-}
-
-class Rva006CD620 : public Rva006DE350
-{
-public:
-	virtual ~Rva006CD620();
-	static void operator delete(void *p, unsigned int size)
-	{
-		g_pChainBlockAllocatorF4->freeBlock(p, size);
-	}
-	char m_pad[0x4]; // sizeof 0x8
-};
-
-// ?Rva006CD620::~Rva006CD620 present-unmatched
-Rva006CD620::~Rva006CD620()
-{
-}
-
-void deleteRva006CD620(Rva006CD620 *p)
-{
-	delete p;
-}
-
 // Native6CEA60 is the sized deleting helper for the 28B checkpoint
 // container. Its constructor in Apt.cpp has no vptr; the complete destructor
 // in AptShutdownRva006CFAB0.cpp forwards to the container destructor6CE570.
@@ -122,48 +84,6 @@ public:
  char m_storage[0x1c];
 };
 void deleteRva006CEA60(Rva006CEA60 *p) { delete p; }
-
-class Rva006D71B0 : public Rva006DE350
-{
-public:
-	virtual ~Rva006D71B0();
-	static void operator delete(void *p, unsigned int size)
-	{
-		g_pChainBlockAllocator->freeBlock(p, size);
-	}
-	char m_pad[0x4]; // sizeof 0x8
-};
-
-// ?Rva006D71B0::~Rva006D71B0 present-unmatched
-Rva006D71B0::~Rva006D71B0()
-{
-}
-
-void deleteRva006D71B0(Rva006D71B0 *p)
-{
-	delete p;
-}
-
-class Rva006D71E0 : public Rva006DE350
-{
-public:
-	virtual ~Rva006D71E0();
-	static void operator delete(void *p, unsigned int size)
-	{
-		g_pChainBlockAllocatorF4->freeBlock(p, size);
-	}
-	char m_pad[0x18]; // sizeof 0x1C
-};
-
-// ?Rva006D71E0::~Rva006D71E0 present-unmatched
-Rva006D71E0::~Rva006D71E0()
-{
-}
-
-void deleteRva006D71E0(Rva006D71E0 *p)
-{
-	delete p;
-}
 
 class Rva006DA560 : public Rva006DE350
 {
@@ -181,48 +101,6 @@ public:
 Rva006DA560 *famgenNew_Rva006DA560() { return new Rva006DA560(0); }
 
 void deleteRva006DA560(Rva006DA560 *p)
-{
-	delete p;
-}
-
-class Rva006E9B50 : public Rva006DE350
-{
-public:
-	virtual ~Rva006E9B50();
-	static void operator delete(void *p, unsigned int size)
-	{
-		g_pChainBlockAllocatorF4->freeBlock(p, size);
-	}
-	char m_pad[0x24]; // sizeof 0x28
-};
-
-// ?Rva006E9B50::~Rva006E9B50 present-unmatched
-Rva006E9B50::~Rva006E9B50()
-{
-}
-
-void deleteRva006E9B50(Rva006E9B50 *p)
-{
-	delete p;
-}
-
-class Rva006EC170 : public Rva006DE350
-{
-public:
-	virtual ~Rva006EC170();
-	static void operator delete(void *p, unsigned int size)
-	{
-		g_pChainBlockAllocator->freeBlock(p, size);
-	}
-	char m_pad[0x1C]; // sizeof 0x20
-};
-
-// ?Rva006EC170::~Rva006EC170 present-unmatched
-Rva006EC170::~Rva006EC170()
-{
-}
-
-void deleteRva006EC170(Rva006EC170 *p)
 {
 	delete p;
 }
@@ -263,27 +141,6 @@ public:
 Rva006F8D70 *famgenNew_Rva006F8D70() { return new Rva006F8D70(0); }
 
 void deleteRva006F8D70(Rva006F8D70 *p)
-{
-	delete p;
-}
-
-class Rva006FE430 : public Rva006DE350
-{
-public:
-	virtual ~Rva006FE430();
-	static void operator delete(void *p, unsigned int size)
-	{
-		g_pChainBlockAllocatorF4->freeBlock(p, size);
-	}
-	char m_pad[0x20]; // sizeof 0x24
-};
-
-// ?Rva006FE430::~Rva006FE430 present-unmatched
-Rva006FE430::~Rva006FE430()
-{
-}
-
-void deleteRva006FE430(Rva006FE430 *p)
 {
 	delete p;
 }
