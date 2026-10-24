@@ -1094,3 +1094,4 @@ class,Rva005DD7FBVector,GameStatsRowVector,inferred,agree:nl-9a9896c8ea02,Code/G
 class,Rva005DD7FB,GameStatsTable,inferred,agree:nl-13a8b724d10a,Code/GameEngine/Source/Common/GapBodiesGE38.cpp,
 function,?Rva00212118@@YGXVAsciiString@@@Z,?setCloudEffectState@@YGXVAsciiString@@@Z,inferred,agree:nl-0f2fcaaee22b,Code/GameEngine/Source/Common/INI/INIBfmeSettingsParsers.cpp,0x00212118
 member,Rva002AD661LogicView::m_frame40,Rva002AD661LogicView::m_frame,inferred,agree:nl-8d87e1978852,Code/GameEngine/Source/Common/RTS/PlayerAddScience.cpp,
+local,Team::rva0039DDC2::s,Team::rva0039DDC2::status,inferred,agree:nl-22423db72fec,Code/GameEngine/Source/Common/RTS/TeamRva0039DDC2.cpp,0x0039DDC2
