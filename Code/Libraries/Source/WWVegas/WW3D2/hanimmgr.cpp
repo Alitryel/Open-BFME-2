@@ -143,29 +143,9 @@ HAnimManagerClass::~HAnimManagerClass(void)
  * HISTORY:                                                                                    * 
  *   08/11/1997 GH  : Created.                                                                 * 
  *=============================================================================================*/
-// ?Load_Anim@HAnimManagerClass@@ present-unmatched
-int HAnimManagerClass::Load_Anim(ChunkLoadClass & cload)
-{
-	WWMEMLOG(MEM_ANIMATION);
-
-	switch (cload.Cur_Chunk_ID()) 
-	{
-	case W3D_CHUNK_ANIMATION:
-		return Load_Raw_Anim(cload);
-		break;
-
-	case W3D_CHUNK_COMPRESSED_ANIMATION:
-		return Load_Compressed_Anim(cload);
-		break;
-
-	case W3D_CHUNK_MORPH_ANIMATION:
-		return Load_Morph_Anim(cload);
-		break;
-	}
-
-	return 0;
-}
-
+// HAnimManagerClass::Load_Anim and Load_Morph_Anim: Zero Hour's copies (unmatched,
+// unreferenced) dispatched to HMorphAnimClass, which no BFME 2 unit provides
+// (constructor, Load_W3D); dropped so the unit links.
 
 /***********************************************************************************************
  * HAnimManagerClass::Load_Morph_Anim -- Load a HMorphAnimClass										  *
@@ -179,37 +159,6 @@ int HAnimManagerClass::Load_Anim(ChunkLoadClass & cload)
  * HISTORY:                                                                                    *
  *   5/23/2000  pds : Created.                                                                 *
  *=============================================================================================*/
-// ?Load_Morph_Anim@HAnimManagerClass@@ present-unmatched
-int HAnimManagerClass::Load_Morph_Anim(ChunkLoadClass & cload)
-{
-	HMorphAnimClass * newanim = W3DNEW HMorphAnimClass;
-
-	if (newanim == NULL) {
-		goto Error;
-	}
-
-	SET_REF_OWNER( newanim );
-
-	if (newanim->Load_W3D(cload) != HMorphAnimClass::OK) {
-		// load failed!
-		newanim->Release_Ref();
-		goto Error;
-	} else if (Peek_Anim(newanim->Get_Name()) != NULL) {
-		// duplicate exists!
-		newanim->Release_Ref();	// Release the one we just loaded
-		goto Error;
-	} else {
-		Add_Anim( newanim );
-		newanim->Release_Ref();
-	}
-
-	return 0;
-
-Error:
-
-	return 1;
-}
-
 
 /***********************************************************************************************
  * HAnimManagerClass::Load_Raw_Anim -- Load a raw anim                                         *
@@ -371,26 +320,9 @@ void HAnimManagerClass::Free_All_Anims(void)
  * HISTORY:                                                                                    * 
  *   12/12/2002 GH  : Created.                                                                 * 
  *=============================================================================================*/
-// ?Free_All_Anims_With_Exclusion_List@HAnimManagerClass@@ present-unmatched
-void HAnimManagerClass::Free_All_Anims_With_Exclusion_List(const W3DExclusionListClass & exclusion_list)
-{
-	// Remove and Release_Ref any animation not in the exclusion list.
-	HAnimManagerIterator it( *this );
-	for( it.First(); !it.Is_Done(); it.Next() ) {
-		HAnimClass *anim = it.Get_Current_Anim();
-
-		if ((anim->Num_Refs() == 1) && (exclusion_list.Is_Excluded(anim) == false)) {
-			//WWDEBUG_SAY(("deleting HAnim %s\n",anim->Get_Name()));
-			AnimPtrTable->Remove(anim);
-			anim->Release_Ref();
-		}
-		//else
-		//{
-		//	WWDEBUG_SAY(("keeping HAnim %s (ref %d)\n",anim->Get_Name(),anim->Num_Refs()));
-		//}
-	}
-}
-
+// HAnimManagerClass::Free_All_Anims_With_Exclusion_List: Zero Hour's copy
+// (unmatched, unreferenced) called W3DExclusionListClass::Is_Excluded, which no
+// BFME 2 unit provides; dropped so the unit links.
 
 /*********************************************************************************************** 
  * HAnimManagerClass::Create_Asset_List -- Create a list of the W3D files that are loaded      * 
