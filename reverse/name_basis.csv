@@ -1947,3 +1947,6 @@ param,Rva000B6498::rva000B6498::n,Rva000B6498::rva000B6498::node,inferred,agree:
 member,Rva001E30F5::m_14C,Rva001E30F5::m_isComplexBuff,inferred,agree:nl-39421cd4e2b5,Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp,
 member,Rva002EBA88::m_8,Rva002EBA88::m_freeList,inferred,agree:nl-8cc821324075,Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp,
 member,Rva002EBA88::m_14,Rva002EBA88::m_context,inferred,agree:nl-d0a642c72309,Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp,
+function,?rva0006C6A3@BaseHeightMapRenderObjClass@@QBE_NHH@Z,?showAsVisibleCliff@BaseHeightMapRenderObjClass@@QBE_NHH@Z,inferred,agree:nl-131627e97b61,Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapVisibleCellQueries.cpp,0x0006C6A3
+carry,BaseHeightMapRenderObjClass::rva0006C6A3::xIndex,BaseHeightMapRenderObjClass::showAsVisibleCliff::xIndex,inferred,scope renamed by Rename rva0006C6A3 to showAsVisibleCliff (inferred),Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapVisibleCellQueries.cpp,0x0006C6A3
+carry,BaseHeightMapRenderObjClass::rva0006C6A3::yIndex,BaseHeightMapRenderObjClass::showAsVisibleCliff::yIndex,inferred,scope renamed by Rename rva0006C6A3 to showAsVisibleCliff (inferred),Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapVisibleCellQueries.cpp,0x0006C6A3
