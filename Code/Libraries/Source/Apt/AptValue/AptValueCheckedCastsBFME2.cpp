@@ -11,11 +11,14 @@
 // AptValueTypePredicatesBFME2.cpp or AptValueXmlPredicatesBFME2.cpp,
 // asserts "<isX()>" with AptValue.inl path at the retail line,
 // then checks g_bfmeAptBreakOnAssertAtDDC01C.
-// __asm int 3 is a proven blocker: the __debugbreak() intrinsic makes /O2
-// hoist "mov eax,esi" above the break test and duplicate the return (54B);
-// the asm barrier keeps the single shared return and the retail
-// mov-eax-then-test shape (50B exact). Names are honest address names;
-// original method names unknown.
+// Each conditional debugger trap uses genuine compiler memory barriers to
+// preserve the native debugger-visible memory boundary. The existing
+// address-derived method names are retained; original method names unknown.
+extern "C" void __cdecl __debugbreak(void);
+#pragma intrinsic(__debugbreak)
+extern "C" void __cdecl _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *, const char *, int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
 class BfmeAptValue006DCD20 {
@@ -66,8 +69,11 @@ BfmeAptValue006DCD20 *BfmeAptValue006DCD20::rva006DD020()
 {
     if (!static_cast<unsigned char>(isKey())) {
         g_bfmeAptAssertAtE17734("isKey()", "c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptValue/AptValue.inl", 0x395);
-        if (g_bfmeAptBreakOnAssertAtDDC01C)
-            __asm int 3
+        if (g_bfmeAptBreakOnAssertAtDDC01C) {
+            _ReadWriteBarrier();
+            __debugbreak();
+            _ReadWriteBarrier();
+        }
     }
     return this;
 }
