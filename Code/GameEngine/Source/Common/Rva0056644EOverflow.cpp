@@ -30,9 +30,15 @@ struct Rva0056644EElement {
 	~Rva0056644EElement() { ((Rva004E1A04 *)this)->Rva004E1A04::~Rva004E1A04(); }
 };
 
+// Retail's placement copy here is the rowed ?Rva0052C404Construct@@YAXPAXPBX@Z at 0x0052C404;
+// bind the calls to that row rather than an unprovided _Construct<Rva0056644EElement>.
+void Rva0052C404Construct(void *dest, const void *source);
 namespace _STL {
-template <> void _Construct<Rva0056644EElement, Rva0056644EElement>(
-	Rva0056644EElement *, const Rva0056644EElement &);
+// ?_STL::_Construct absent-from-retail
+static __forceinline void _Construct(Rva0056644EElement *dest, const Rva0056644EElement &source)
+{
+	Rva0052C404Construct(dest, &source);
+}
 }
 
 template void _STL::vector<Rva0056644EElement>::_M_insert_overflow(

@@ -37,9 +37,20 @@ public:
 	~Rva00297360Element();
 };
 
+// Retail's placement copy here is the rowed _Construct<BfmeStringRecord0040360E> at 0x00403639;
+// bind the calls to that row rather than an unprovided _Construct<Rva00297360Element>.
+struct BfmeStringRecord0040360E;
+namespace _STL { template <> void _Construct<BfmeStringRecord0040360E, BfmeStringRecord0040360E>(
+	BfmeStringRecord0040360E *, const BfmeStringRecord0040360E &); }
 namespace _STL
 {
-template <> void _Construct<Rva00297360Element, Rva00297360Element>(Rva00297360Element *, const Rva00297360Element &);
+// ?_STL::_Construct absent-from-retail
+static __forceinline void _Construct(Rva00297360Element *dest, const Rva00297360Element &source)
+{
+	_Construct<BfmeStringRecord0040360E, BfmeStringRecord0040360E>(
+		reinterpret_cast<BfmeStringRecord0040360E *>(dest),
+		*reinterpret_cast<const BfmeStringRecord0040360E *>(&source));
+}
 }
 
 template void _STL::vector<Rva00297360Element>::_M_insert_overflow(

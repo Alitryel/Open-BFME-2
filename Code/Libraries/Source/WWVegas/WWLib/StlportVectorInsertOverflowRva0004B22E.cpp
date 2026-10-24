@@ -29,9 +29,19 @@ struct Rva0004B22EElement {
 	~Rva0004B22EElement();
 };
 
+// Retail's placement copy here is the rowed _Construct<BfmeContainerRecord00048139> at 0x00049D44;
+// bind the calls to that row rather than an unprovided _Construct<Rva0004B22EElement>.
+struct BfmeContainerRecord00048139;
+namespace _STL { template <> void _Construct<BfmeContainerRecord00048139, BfmeContainerRecord00048139>(
+	BfmeContainerRecord00048139 *, const BfmeContainerRecord00048139 &); }
 namespace _STL {
-template <> void _Construct<Rva0004B22EElement, Rva0004B22EElement>(
-	Rva0004B22EElement *, const Rva0004B22EElement &);
+// ?_STL::_Construct absent-from-retail
+static __forceinline void _Construct(Rva0004B22EElement *dest, const Rva0004B22EElement &source)
+{
+	_Construct<BfmeContainerRecord00048139, BfmeContainerRecord00048139>(
+		reinterpret_cast<BfmeContainerRecord00048139 *>(dest),
+		*reinterpret_cast<const BfmeContainerRecord00048139 *>(&source));
+}
 template <> void vector<Rva0004B22EElement>::_M_clear();
 }
 

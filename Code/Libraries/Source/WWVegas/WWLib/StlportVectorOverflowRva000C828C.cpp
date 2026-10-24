@@ -29,6 +29,11 @@ struct Rva000C828CElement {
 };
 
 struct BfmeStringTailRecord180;
+// Retail's placement copy here is the rowed _Construct<BfmeContainerRecord000C0B85> at 0x000C2387;
+// bind the calls to that row rather than an unprovided _Construct<Rva000C828CElement>.
+struct BfmeContainerRecord000C0B85;
+namespace _STL { template <> void _Construct<BfmeContainerRecord000C0B85, BfmeContainerRecord000C0B85>(
+	BfmeContainerRecord000C0B85 *, const BfmeContainerRecord000C0B85 &); }
 namespace _STL {
 template <> void __destroy_aux<BfmeStringTailRecord180 *>(
     BfmeStringTailRecord180 *, BfmeStringTailRecord180 *, const __false_type &);
@@ -41,8 +46,13 @@ template <> inline void _Destroy<Rva000C828CElement *>(
     __destroy_aux((BfmeStringTailRecord180 *)first,
                   (BfmeStringTailRecord180 *)last, nontrivial);
 }
-template <> void _Construct<Rva000C828CElement, Rva000C828CElement>(
-	Rva000C828CElement *, const Rva000C828CElement &);
+// ?_STL::_Construct absent-from-retail
+static __forceinline void _Construct(Rva000C828CElement *dest, const Rva000C828CElement &source)
+{
+	_Construct<BfmeContainerRecord000C0B85, BfmeContainerRecord000C0B85>(
+		reinterpret_cast<BfmeContainerRecord000C0B85 *>(dest),
+		*reinterpret_cast<const BfmeContainerRecord000C0B85 *>(&source));
+}
 }
 
 template void _STL::vector<Rva000C828CElement>::_M_clear();
