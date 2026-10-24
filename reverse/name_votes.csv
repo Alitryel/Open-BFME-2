@@ -2081,3 +2081,15 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationReco
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp|global||BfmeAnimationRecordFields,40bd0605d5b4b9f77c3aea04,gpt-6.1-sol,codex4-20261024-015153-17,w-887869184137,2026-10-24
 Code/GameEngine/Source/Common/Rva0009DE01Finish.cpp|function|0x0009DE01|Rva0009DE01Get,65f34954e8fd6f5befad8748,gpt-6.1-sol,codex4-20261024-015153-18,w-887869184137,2026-10-24
 Code/GameEngine/Source/Common/Rva0009DE01Finish.cpp|param|Rva0009DE01Get|b,732d63234fad539ae9f67f64,gpt-6.1-sol,codex4-20261024-015153-18,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva00141DC0CreateNode.cpp|function|0x00141CB0|rva00141CB0,9711f40df02d3dc195e162a9,gpt-6.1-sol,codex4-20261024-015153-19,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva0049DC50Walk.cpp|class||Rva0049DC50Node,cfc9e372c51fd95d08e3631c,gpt-6.1-sol,codex4-20261024-015153-20,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva0049DC50Walk.cpp|member|Rva0049DC50Node|m_4,dd0ed3b88215d1b5e8f667f7,gpt-6.1-sol,codex4-20261024-015153-20,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva0049DC50Walk.cpp|member|Rva0049DC50Node|m_8,3f1106732b9486fe7c05f175,gpt-6.1-sol,codex4-20261024-015153-20,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva0049DC50Walk.cpp|member|Rva0049DC50Node|m_10,7c5dcfa2a98d0c50e53bd825,gpt-6.1-sol,codex4-20261024-015153-20,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva0049DC50Walk.cpp|member|Rva0049DC50Node|m_14,11023b6fae14ca451255fb20,gpt-6.1-sol,codex4-20261024-015153-20,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva0049DC50Walk.cpp|member|Rva0049DC50Node|m_28,98d522600df26af32962b195,gpt-6.1-sol,codex4-20261024-015153-20,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Made002CC8A4Rva00509E43.cpp|class||Rva00509E43Template,a616225d474a13ca4a30d16a,gpt-6.1-sol,codex4-20261024-015153-22,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Made002CC8A4Rva00509E43.cpp|class||Rva00509E43Body,ced5f3bb4d4545b7793d3dd0,gpt-6.1-sol,codex4-20261024-015153-22,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Made002CC8A4Rva00509E43.cpp|local|Made002CC8A4::rva00509E43|tmpl,ff9728948f70c320faabe3e7,gpt-6.1-sol,codex4-20261024-015153-22,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva0056574BFill.cpp|param|Rva0056574BFill|n,a940d8192b5644c668f6a854,gpt-6.1-sol,codex4-20261024-015153-26,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp|param|Rva00509DF8::rva00509DF8|b,f8172fb73e9d465a0a4149c7,gpt-6.1-sol,codex4-20261024-015153-28,w-887869184137,2026-10-24
