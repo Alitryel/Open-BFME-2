@@ -86,14 +86,14 @@ bool Made002CC8A4::rva00509E43(int a, Object *obj)
 {
 	if (!obj)
 		return false;
-	Rva00509E43Template *tmpl = obj->m_template04;
-	if (!(tmpl->m_flags113 & 0x40) && !(tmpl->m_flags108 & 0x80) && !(tmpl->m_flags114 & 0x2000))
+	Rva00509E43Template *objectTemplate = obj->m_template04;
+	if (!(objectTemplate->m_flags113 & 0x40) && !(objectTemplate->m_flags108 & 0x80) && !(objectTemplate->m_flags114 & 0x2000))
 	{
 		bool nonZero = m_144 != 0.0f;
 		if (!obj->rva0028DB0F(nonZero))
 		{
-			tmpl = obj->m_template04;
-			if (!(tmpl->m_610 * 0.2f >= m_limit128) || (nonZero && (tmpl->m_flags11F & 0x80)))
+			objectTemplate = obj->m_template04;
+			if (!(objectTemplate->m_610 * 0.2f >= m_limit128) || (nonZero && (objectTemplate->m_flags11F & 0x80)))
 			{
 				if (!obj->m_link274 || (obj->m_link274->m_template04->m_flags114 & 0x2000))
 				{
