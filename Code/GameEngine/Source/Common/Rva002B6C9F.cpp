@@ -48,38 +48,38 @@ public:
 class Rva002B6C9F
 {
 public:
-	bool rva002B6C9F(int a1, int a2, int a3);
-	bool rva002B6CE5(int a1, int a2, int a3);
-	bool rva002B8019(int a1, int a2, int a3);
+	bool rva002B6C9F(int army, int a2, int target);
+	bool rva002B6CE5(int army, int a2, int target);
+	bool rva002B8019(int army, int entry, int target);
 };
 
-bool Rva002B6C9F::rva002B6C9F(int a1, int a2, int a3)
+bool Rva002B6C9F::rva002B6C9F(int army, int a2, int target)
 {
-	if (!((Rva002B2C40 *)this)->rva002B2C40((Arg54 *)a1, (Arg54 *)a3))
+	if (!((Rva002B2C40 *)this)->rva002B2C40((Arg54 *)army, (Arg54 *)target))
 		return false;
-	else if (!((LivingWorldLogic *)this)->CanMoveArmyMembers_internal((LivingWorldArmy *)a1, *(const _STL::vector<int, _STL::allocator<int> > *)a2, (LivingWorldArmy *)a3, &a1))
+	else if (!((LivingWorldLogic *)this)->CanMoveArmyMembers_internal((LivingWorldArmy *)army, *(const _STL::vector<int, _STL::allocator<int> > *)a2, (LivingWorldArmy *)target, &army))
 		return false;
 	else {
-		unsigned char r = ((Rva003193EC *)a3)->rva003193EC(a1);
+		unsigned char r = ((Rva003193EC *)target)->rva003193EC(army);
 		return r;
 	}
 }
 
-bool Rva002B6C9F::rva002B6CE5(int a1, int a2, int a3)
+bool Rva002B6C9F::rva002B6CE5(int army, int a2, int target)
 {
-	if (((Rva002B2C40 *)this)->rva002B2C40((Arg54 *)a1, (Arg54 *)a3)) {
-		return ((LivingWorldLogic *)this)->CanMoveArmyMembers_internal((LivingWorldArmy *)a1, *(const _STL::vector<int, _STL::allocator<int> > *)a2, (LivingWorldArmy *)a3, &a3) ? true : false;
+	if (((Rva002B2C40 *)this)->rva002B2C40((Arg54 *)army, (Arg54 *)target)) {
+		return ((LivingWorldLogic *)this)->CanMoveArmyMembers_internal((LivingWorldArmy *)army, *(const _STL::vector<int, _STL::allocator<int> > *)a2, (LivingWorldArmy *)target, &target) ? true : false;
 	}
 }
 
 // ?rva002B8019@Rva002B6C9F@@QAE_NHHH@Z @0x002B8019 44B: the same 0x2B2C40
 // gate in front of LivingWorldLogic::CanMoveArmyMember_internal with the
 // room check on; shares rva002B6CE5's bare-pops exit.
-bool Rva002B6C9F::rva002B8019(int a1, int a2, int a3)
+bool Rva002B6C9F::rva002B8019(int army, int entry, int target)
 {
-	if (((Rva002B2C40 *)this)->rva002B2C40((Arg54 *)a1, (Arg54 *)a3)) {
+	if (((Rva002B2C40 *)this)->rva002B2C40((Arg54 *)army, (Arg54 *)target)) {
 		return ((LivingWorldLogic *)this)->CanMoveArmyMember_internal(
-			(LivingWorldArmy *)a1, (ArmySummaryEntry *)a2, (LivingWorldArmy *)a3, true);
+			(LivingWorldArmy *)army, (ArmySummaryEntry *)entry, (LivingWorldArmy *)target, true);
 	}
 }
 

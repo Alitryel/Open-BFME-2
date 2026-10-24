@@ -1108,3 +1108,10 @@ carry,Rva00226829::rva0022994D::head,Rva00226829::clear::head,inferred,scope ren
 param,AIEconomyStats::AIEconomyStats::arg,AIEconomyStats::AIEconomyStats::player,inferred,agree:nl-99ae2bbe3688,Code/GameEngine/Source/Common/Rva0025BFE3Derived.cpp,0x00596366
 member,Rva002DFF0F8::m_10,Rva002DFF0F8::m_pathfinder,inferred,agree:nl-e96d4ec3187a,Code/GameEngine/Source/Common/Rva0028ECDB.cpp,
 local,LivingWorldLogic::rva002B47B1::g,LivingWorldLogic::rva002B47B1::campaignManager,inferred,agree:nl-c6fb6bf7a773,Code/GameEngine/Source/Common/Rva002B47B1Get.cpp,0x002B47B1
+param,Rva002B6C9F::rva002B6C9F::a1,Rva002B6C9F::rva002B6C9F::army,inferred,agree:nl-d301daa4ba29,Code/GameEngine/Source/Common/Rva002B6C9F.cpp,0x002B6C9F
+param,Rva002B6C9F::rva002B6C9F::a3,Rva002B6C9F::rva002B6C9F::target,inferred,agree:nl-57322b9acef4,Code/GameEngine/Source/Common/Rva002B6C9F.cpp,0x002B6C9F
+param,Rva002B6C9F::rva002B6CE5::a1,Rva002B6C9F::rva002B6CE5::army,inferred,agree:nl-207900ccec4b,Code/GameEngine/Source/Common/Rva002B6C9F.cpp,0x002B6CE5
+param,Rva002B6C9F::rva002B6CE5::a3,Rva002B6C9F::rva002B6CE5::target,inferred,agree:nl-f6a348c99392,Code/GameEngine/Source/Common/Rva002B6C9F.cpp,0x002B6CE5
+param,Rva002B6C9F::rva002B8019::a1,Rva002B6C9F::rva002B8019::army,inferred,agree:nl-e361db76f937,Code/GameEngine/Source/Common/Rva002B6C9F.cpp,0x002B8019
+param,Rva002B6C9F::rva002B8019::a2,Rva002B6C9F::rva002B8019::entry,inferred,agree:nl-9bc978ad8ced,Code/GameEngine/Source/Common/Rva002B6C9F.cpp,0x002B8019
+param,Rva002B6C9F::rva002B8019::a3,Rva002B6C9F::rva002B8019::target,inferred,agree:nl-acce5472b498,Code/GameEngine/Source/Common/Rva002B6C9F.cpp,0x002B8019
