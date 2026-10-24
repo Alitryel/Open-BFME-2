@@ -34,6 +34,34 @@ namespace _STL { template <> _Rb_tree_node<AsciiString> * _Rb_tree<AsciiString, 
 namespace _STL { template <> _Rb_tree_node<pair<AsciiString const, Coord3D> > * _Rb_tree<AsciiString, pair<AsciiString const, Coord3D>, _Select1st<pair<AsciiString const, Coord3D> >, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > >::_M_create_node(pair<AsciiString const, Coord3D> const &); }
 namespace _STL { template <> _Rb_tree_node<AsciiString> * _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::_M_create_node(AsciiString const &); }
 namespace _STL { template <> _Rb_tree_node<pair<AsciiString const, Coord3D> > * allocator<_Rb_tree_node<pair<AsciiString const, Coord3D> > >::allocate(unsigned int, void const *) const; }
+// Retail's waypoint-tree _M_copy (0x00301F9B, 115B) has no unwind frame: it is
+// STLport's structural copy without _STLP_TRY/_STLP_UNWIND. Spell that body so
+// this /EHs unit stops emitting a try-wrapped copy the link would keep.
+namespace _STL {
+typedef _Rb_tree<AsciiString, pair<AsciiString const, Coord3D>, _Select1st<pair<AsciiString const, Coord3D> >, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > > WaypointTree;
+// Retail 0x00301F9B is rowed under the TreeHintPayload003012F0 name.
+// ?_STL::WaypointTree::_M_copy present-unmatched
+template <> inline _Rb_tree_node<pair<AsciiString const, Coord3D> > *
+WaypointTree::_M_copy(_Rb_tree_node<pair<AsciiString const, Coord3D> > *__x, _Rb_tree_node<pair<AsciiString const, Coord3D> > *__p)
+{
+	_Link_type __top = _M_clone_node(__x);
+	__top->_M_parent = __p;
+	if (__x->_M_right)
+		__top->_M_right = _M_copy(_S_right(__x), __top);
+	__p = __top;
+	__x = _S_left(__x);
+	while (__x != 0) {
+		_Link_type __y = _M_clone_node(__x);
+		__p->_M_left = __y;
+		__y->_M_parent = __p;
+		if (__x->_M_right)
+			__y->_M_right = _M_copy(_S_right(__x), __y);
+		__p = __y;
+		__x = _S_left(__x);
+	}
+	return __top;
+}
+}
 // bfme link decl-only end
 #include "../../../Libraries/Include/Lib/Region3D.h"
 typedef _STL::list<Coord3D> Coord3DList;
