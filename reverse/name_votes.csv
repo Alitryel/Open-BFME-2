@@ -5437,3 +5437,6 @@ Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|class||Rva007F27C0
 Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|function|0x0065EF90|rva007F24A0,361db664f2088bd09bad9ae2,claude-opus-5-5,claudec5-20261024-161902-1,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/SpecialPower/Rva00254D0BFree.cpp|function|0x00254D0B|rva00254D0B,3c66aa794a3e01ae0cfc8bb7,claude-opus-5-5,claudec5-20261024-161902-1,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/Common/Rva00276223Leaf.cpp|local|Rva00276223::rva00276223|p,20fb5dc263ecd5ad147e2238,claude-opus-5-5,claudec5-20261024-161902-5,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva0028B749.cpp|param|Rva0028B749Host::rva0028B749|a,e8f3695f9a53ba9e15491d35,claude-opus-5-5,claudec5-20261024-163626-2,w-1ebb1ea4caee,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapCastRay.cpp|local|rva0006653B|d,3f5547c499795bdce6b71aa9,claude-opus-5-5,claudec5-20261024-163626-7,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameClient/DrawableFade.cpp|param|Drawable::rva00272D77|b,fc58f90d0ee1c928eef89dd7,claude-opus-5-5,claudec5-20261024-163626-8,w-1ebb1ea4caee,2026-10-24
