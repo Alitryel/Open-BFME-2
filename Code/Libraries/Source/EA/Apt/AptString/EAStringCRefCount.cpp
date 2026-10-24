@@ -632,17 +632,6 @@ bool EAStringC::rva006D36F0(const EAStringC *other) const
 	return _strcmpi((const char *)m_pData + 8, (const char *)other->m_pData + 8) == 0;
 }
 
-// ??1EAStringC@@QAE@XZ is a header inline elsewhere: another unit emits a
-// select-any copy of it, so a strong definition here was a duplicate symbol
-// in the linked build. This anchor only makes this unit emit its copy for the
-// ledger row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitEAStringCRefCount@@YAXPAVEAStringC@@@Z present-unmatched
-void bfmeEmitEAStringCRefCount(EAStringC *eAStringC)
-{
-	eAStringC->EAStringC::~EAStringC();
-}
-#pragma inline_depth()
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.

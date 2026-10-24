@@ -35399,7 +35399,6 @@ present_unmatched	Code/Libraries/Source/DirtySock/Y2ScalarDeleters.cpp	0Gen00809
 present_unmatched	Code/Libraries/Source/DirtySock/Y2ScalarDeleters.cpp	0Gen0080ACD0@@QAE@XZ	1
 present_unmatched	Code/Libraries/Source/DirtySock/Y2ScalarDeleters.cpp	marked	1
 present_unmatched	Code/Libraries/Source/EA/Apt/AptString/EAStringCRefCount.cpp	EAStringC::EAStringC	1
-present_unmatched	Code/Libraries/Source/EA/Apt/AptString/EAStringCRefCount.cpp	bfmeEmitEAStringCRefCount@@YAXPAVEAStringC@@@Z	1
 present_unmatched	Code/Libraries/Source/GdiPlus/gdiplusbitmap.cpp	Image::SetNativeImage	1
 present_unmatched	Code/Libraries/Source/GdiPlus/gdiplusbitmap.cpp	bfmeEmitgdiplusbitmap@@YAXPAVImage@Gdiplus@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/DX8WrapperConvertColorClamp.cpp	Convert_Color@DX8Wrapper@@CAIABVVector3@@M@Z	1
