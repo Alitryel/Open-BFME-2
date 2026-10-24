@@ -56,7 +56,9 @@ extern BlockParse *theBlockParseList;
 struct PathfinderCostCellInfo { int x,y; };
 struct Rva002F35AFHop { int m_zone; PathfinderCostCellInfo m_position; };
 struct Rva002F0D35Record {void *m_value; bool operator<(const Rva002F0D35Record &) const;};
-class Rva002F3738 {public: __declspec(noinline) Rva002F3738(); ~Rva002F3738() {} private: _STL::vector<Rva002F0D35Record> m_vec; _STL::less<Rva002F0D35Record> m_less; };
+// The member vector dies through the folded POD vector destructor 0x0007FAB3
+// (rowed as vector<int>'s), which the ctor's unwind funclets call directly.
+class Rva002F3738 {public: __declspec(noinline) Rva002F3738(); __forceinline ~Rva002F3738() {} private: _STL::vector<int> m_vec; _STL::less<Rva002F0D35Record> m_less; };
 Rva002F3738::Rva002F3738() {}
 
 
