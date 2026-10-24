@@ -20,9 +20,13 @@ struct SubAC005DB271 {
 	unsigned char m_flag58;
 };
 
-class Rva005C41C9 {
+// Base of the icon sub-object chain: its dtor is the rowed provider
+// ??1Rva005C4B1B@@UAE@XZ (OpaqueSingleInheritanceDtors.cpp, 0x5C4B1B), the
+// dtor that stores Rva005C4B56's vftable 0xC747B8.  Slot 17 is only called
+// through the vftable; the slot-17 helper 0x5C4B26 is rowed on Rva005C41C9.
+class Rva005C4B1B {
 public:
-	virtual ~Rva005C41C9();
+	virtual ~Rva005C4B1B();
 	virtual void v01() = 0;
 	virtual void v02() = 0;
 	virtual void v03() = 0;
@@ -39,11 +43,15 @@ public:
 	virtual void v14() = 0;
 	virtual void v15() = 0;
 	virtual void v16() = 0;
-	virtual unsigned char v17();
+	virtual unsigned char v17() = 0;
+};
+
+class Rva005C41C9 {
+public:
 	unsigned char rva005C4B26();
 };
 
-class Rva005C4B56 : public Rva005C41C9 {
+class Rva005C4B56 : public Rva005C4B1B {
 public:
 	virtual void rva005C4B96(unsigned char);
 
@@ -86,7 +94,6 @@ public:
 	int m_c0;               // +0xc4
 
 	LivingWorldBuildPlotIconSubObject(void *arg0, Arg1Host005DB271 *arg1);
-	virtual ~LivingWorldBuildPlotIconSubObject();
 };
 
 LivingWorldBuildPlotIconSubObject::LivingWorldBuildPlotIconSubObject(void *arg0, Arg1Host005DB271 *arg1)
@@ -101,6 +108,6 @@ LivingWorldBuildPlotIconSubObject::LivingWorldBuildPlotIconSubObject(void *arg0,
 		if (m_ac->m_flag58) {
 			((Rva002BFF5A *)TheLivingWorld)->rva002BFFD4((Rva002BFFD4Template *)this, 5, (unsigned int)m_b0);
 		}
-		rva005C4B96(rva005C4B26());
+		rva005C4B96(((Rva005C41C9 *)this)->rva005C4B26());
 	}
 }
