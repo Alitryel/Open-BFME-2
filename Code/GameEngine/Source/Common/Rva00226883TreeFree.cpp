@@ -25,12 +25,12 @@ struct RbTreeNode
 	RbTreeNode *m_child; // +0x0C child
 };
 
-struct Rva00226883Head
+struct RbTreeHeader
 {
 	char m_pad00[4]; // +0x00
 	RbTreeNode *m_first; // +0x04
-	Rva00226883Head *m_next; // +0x08
-	Rva00226883Head *m_child; // +0x0C
+	RbTreeHeader *m_next; // +0x08
+	RbTreeHeader *m_child; // +0x0C
 };
 
 void Rva00226883::rva00226883(void *node)
@@ -50,11 +50,11 @@ void Rva00226883::rva0022999F()
 {
 	if (m_04Flag == 0)
 		return;
-	Rva00226883Head *head = (Rva00226883Head *)m_00Head;
+	RbTreeHeader *head = (RbTreeHeader *)m_00Head;
 	rva00226883(head->m_first);
-	((Rva00226883Head *)m_00Head)->m_next = (Rva00226883Head *)m_00Head;
-	((Rva00226883Head *)m_00Head)->m_first = 0;
-	((Rva00226883Head *)m_00Head)->m_child = (Rva00226883Head *)m_00Head;
+	((RbTreeHeader *)m_00Head)->m_next = (RbTreeHeader *)m_00Head;
+	((RbTreeHeader *)m_00Head)->m_first = 0;
+	((RbTreeHeader *)m_00Head)->m_child = (RbTreeHeader *)m_00Head;
 	m_04Flag = 0;
 }
 
@@ -78,11 +78,11 @@ void Rva00226829::clear()
 {
 	if (m_04Flag == 0)
 		return;
-	Rva00226883Head *head = (Rva00226883Head *)m_00Head;
+	RbTreeHeader *head = (RbTreeHeader *)m_00Head;
 	rva00226829(head->m_first);
-	((Rva00226883Head *)m_00Head)->m_next = (Rva00226883Head *)m_00Head;
-	((Rva00226883Head *)m_00Head)->m_first = 0;
-	((Rva00226883Head *)m_00Head)->m_child = (Rva00226883Head *)m_00Head;
+	((RbTreeHeader *)m_00Head)->m_next = (RbTreeHeader *)m_00Head;
+	((RbTreeHeader *)m_00Head)->m_first = 0;
+	((RbTreeHeader *)m_00Head)->m_child = (RbTreeHeader *)m_00Head;
 	m_04Flag = 0;
 }
 
@@ -101,11 +101,11 @@ void Rva00226856::rva00229976()
 {
 	if (m_04Flag == 0)
 		return;
-	Rva00226883Head *head = (Rva00226883Head *)m_00Head;
+	RbTreeHeader *head = (RbTreeHeader *)m_00Head;
 	rva00226856(head->m_first);
-	((Rva00226883Head *)m_00Head)->m_next = (Rva00226883Head *)m_00Head;
-	((Rva00226883Head *)m_00Head)->m_first = 0;
-	((Rva00226883Head *)m_00Head)->m_child = (Rva00226883Head *)m_00Head;
+	((RbTreeHeader *)m_00Head)->m_next = (RbTreeHeader *)m_00Head;
+	((RbTreeHeader *)m_00Head)->m_first = 0;
+	((RbTreeHeader *)m_00Head)->m_child = (RbTreeHeader *)m_00Head;
 	m_04Flag = 0;
 }
 
@@ -124,10 +124,10 @@ void Rva002268B0::rva002299C8()
 {
 	if (m_04Flag == 0)
 		return;
-	Rva00226883Head *head = (Rva00226883Head *)m_00Head;
+	RbTreeHeader *head = (RbTreeHeader *)m_00Head;
 	rva002268B0(head->m_first);
-	((Rva00226883Head *)m_00Head)->m_next = (Rva00226883Head *)m_00Head;
-	((Rva00226883Head *)m_00Head)->m_first = 0;
-	((Rva00226883Head *)m_00Head)->m_child = (Rva00226883Head *)m_00Head;
+	((RbTreeHeader *)m_00Head)->m_next = (RbTreeHeader *)m_00Head;
+	((RbTreeHeader *)m_00Head)->m_first = 0;
+	((RbTreeHeader *)m_00Head)->m_child = (RbTreeHeader *)m_00Head;
 	m_04Flag = 0;
 }
