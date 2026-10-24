@@ -35,6 +35,8 @@
 
 // Bind the out-of-line vector members to their rowed providers.
 template <> VectorClass<Vector3>::VectorClass(int, const Vector3 *);
+// Define the destructor here, in the default context, as mesh.cpp/collect.cpp emit it.
+template <> inline DynamicVectorClass<Vector3>::~DynamicVectorClass() {}
 template <> bool VectorClass<Vector3>::Resize(int, const Vector3 *);
 template <> __declspec(dllimport) __forceinline DynamicVectorClass<Vector3>::DynamicVectorClass(unsigned size, const Vector3 *array)
     : VectorClass<Vector3>(size, array)
@@ -56,6 +58,9 @@ template <> __declspec(dllimport) __forceinline bool DynamicVectorClass<Vector3>
 
 // BFME's aligned-buffer layout; destruction binds the rowed providers.
 // Render expands the aligned-buffer constructor in its unwind graph.
+// Retail's DynamicVectorClass<Vector3> deleting destructor is the size-optimised
+// FXShaderRendererSkin.cpp body; this TU emits its copy in RefCountClass's context.
+#pragma optimize("s", on)
 class RefCountClass
 {
 public:
@@ -66,6 +71,8 @@ protected:
 private:
     int NumRefs;
 };
+
+#pragma optimize("", on)
 
 template <class T> class ShareBufferClass : public RefCountClass
 {
