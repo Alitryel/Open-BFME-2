@@ -121,9 +121,7 @@ template void _STL::_Deque_base<BfmePod8,_STL::allocator<BfmePod8> >::_M_initial
 
 template void _STL::_Deque_base<BfmePod28,_STL::allocator<BfmePod28> >::_M_initialize_map(unsigned int);
 
-template _STL::vector<BfmePod28,_STL::allocator<BfmePod28> >::vector(_STL::vector<BfmePod28,_STL::allocator<BfmePod28> > const &);
 
-template _STL::vector<BfmePod32,_STL::allocator<BfmePod32> >::vector(_STL::vector<BfmePod32,_STL::allocator<BfmePod32> > const &);
 
 template void _STL::_Deque_base<BfmePod28,_STL::allocator<BfmePod28> >::_M_create_nodes(BfmePod28 * *,BfmePod28 * *);
 
@@ -139,7 +137,6 @@ template void _STL::_Deque_base<BfmePod840,_STL::allocator<BfmePod840> >::_M_cre
 
 template void _STL::_Deque_base<BuddyRequest,_STL::allocator<BuddyRequest> >::_M_create_nodes(BuddyRequest * *,BuddyRequest * *);
 
-template void _STL::vector<BfmePod28,_STL::allocator<BfmePod28> >::reserve(unsigned int);
 
 template _STL::deque<BfmePod28,_STL::allocator<BfmePod28> >::deque(_STL::allocator<BfmePod28> const &);
 
@@ -159,7 +156,6 @@ template _STL::_Bit_iter<_STL::_Bit_reference,_STL::_Bit_reference *> & _STL::_B
 
 template void _STL::vector<BfmePod40,_STL::allocator<BfmePod40> >::clear(void);
 
-template void _STL::vector<BfmePod28,_STL::allocator<BfmePod28> >::insert(BfmePod28 *,unsigned int,BfmePod28 const &);
 
 // Keep the native push_back with its compiler-visible no-EH overflow body.
 template void _STL::vector<BfmePod52>::push_back(const BfmePod52 &);

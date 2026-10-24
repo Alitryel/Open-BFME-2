@@ -87,6 +87,30 @@ struct BfmePod40 { int a[10]; };
 // bfme link decl-only BfmePod40
 namespace _STL { template <> vector<BfmePod40, allocator<BfmePod40> >::~vector(); }
 struct BfmePod44 { int a[11]; };
+// Retail 81AF2 is STLport's no-EH overflow path, also used by the 82819 fill.
+// Reference: vendor/stlport/stl/_vector.h (STLport 4.5.3); the retail body
+// has no unwind path although this unit otherwise enables exceptions.
+// Keep that path visible so the unused empty tag does not change the caller.
+namespace _STL {
+template <> BfmePod44 *allocator<BfmePod44>::allocate(size_t, const void *) const;
+template <> inline void vector<BfmePod44>::_M_insert_overflow(BfmePod44 *position, const BfmePod44 &value, const __false_type &, size_t count, bool atEnd)
+{
+    const size_t oldSize = size();
+    const size_t length = oldSize + (max)(oldSize, count);
+    BfmePod44 *newStart = this->_M_end_of_storage.allocate(length);
+    BfmePod44 *newFinish = newStart;
+    newFinish = __uninitialized_copy(this->_M_start, position, newStart, __false_type());
+    if (count == 1) {
+        _Construct(newFinish, value);
+        ++newFinish;
+    } else
+        newFinish = __uninitialized_fill_n(newFinish, count, value, __false_type());
+    if (!atEnd)
+        newFinish = __uninitialized_copy(position, this->_M_finish, newFinish, __false_type());
+    _M_clear();
+    _M_set(newStart, newFinish, newStart + length);
+}
+}
 struct BfmePod68 { int a[17]; };
 
 // MilesAudioManager's 8-byte trigger-area records: retail folds their erase
