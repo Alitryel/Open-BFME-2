@@ -1240,3 +1240,5 @@ carry,BfmeThingVJP::m_messageBuffer,GameBrowser::m_messageBuffer,inferred,scope 
 param,Rva00594E07::rva00594E07::a,Rva00594E07::rva00594E07::packetID,inferred,agree:nl-0372786f3bf4,Code/GameEngine/Source/GameNetwork/Rva00594E07.cpp,0x00594E07
 local,Rva00594E07::rva00594E07::n,Rva00594E07::rva00594E07::remainingMessages,inferred,agree:nl-8206c68a3322,Code/GameEngine/Source/GameNetwork/Rva00594E07.cpp,0x00594E07
 class,Rva00809C60Game,LanGame,inferred,agree:nl-47fd6ab97b9c,Code/GameEngine/Source/GameNetwork/Rva00803730FeslAttrs.cpp,
+param,opacityCoordCopy::d,opacityCoordCopy::destination,inferred,agree:nl-a6598f42aaea,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp,
+param,opacityCoordCopy::p,opacityCoordCopy::source,inferred,agree:nl-ad9a9dc05a05,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp,

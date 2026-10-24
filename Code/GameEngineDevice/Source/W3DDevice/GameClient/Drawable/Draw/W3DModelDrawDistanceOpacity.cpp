@@ -95,7 +95,7 @@ struct Container000B5C41
 
 #include "Lib/Coord3D.h"
 struct RangeSample {Coord3D point;volatile float distance;};
-__forceinline void opacityCoordCopy(Coord3D*d,const Coord3D*p){d->x=p->x;d->y=p->y;d->z=p->z;}
+__forceinline void opacityCoordCopy(Coord3D*destination,const Coord3D*source){destination->x=source->x;destination->y=source->y;destination->z=source->z;}
 class Drawable
 {
 public:
