@@ -91,7 +91,7 @@ void ScriptActions::doTeamFollowWaypointsExact(const AsciiString &teamName, int 
 	sum.z = 0.0f;
 	sum.y = 0.0f;
 	sum.x = 0.0f;
-	int n = 0;
+	int memberCount = 0;
 	DLINK_ITERATOR<Object> it = team->iterate_TeamMemberList();
 	while (!it.done()) {
 		Object *object = it.cur();
@@ -101,12 +101,12 @@ void ScriptActions::doTeamFollowWaypointsExact(const AsciiString &teamName, int 
 		sum.x += x;
 		sum.y += y;
 		sum.z += z;
-		++n;
+		++memberCount;
 		it.advance();
 	}
-	if (n == 0)
+	if (memberCount == 0)
 		return;
-	float inv = g_Va00BBB8D8 / (float)n;
+	float inv = g_Va00BBB8D8 / (float)memberCount;
 	sum.x *= inv;
 	sum.y *= inv;
 	sum.z *= inv;

@@ -883,3 +883,4 @@ member,Rva0049D526Node::m_4C,Rva0049D526Node::m_prev,inferred,agree:nl-a5e7ad35a
 member,Rva0044EDA6Outer::m_over38,Rva0044EDA6Outer::m_specialPowerTemplate,inferred,agree:nl-cc67f2f226f2,Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdateSlot8.cpp,
 local,Rva002EBD99::n,Rva002EBD99::node,inferred,agree:nl-8e03ca6f92a8,Code/GameEngine/Source/GameLogic/Pathfinder/PathfinderTintHierarchy.cpp,0x002EBD99
 class,Rva002EBD99List,ContainedObjectList,inferred,agree:nl-e8a8439d5c04,Code/GameEngine/Source/GameLogic/Pathfinder/PathfinderTintHierarchy.cpp,
+local,ScriptActions::doTeamFollowWaypointsExact::n,ScriptActions::doTeamFollowWaypointsExact::memberCount,inferred,agree:nl-11c813d0be64,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions_rva003BF5FE.cpp,0x003BF5FE
