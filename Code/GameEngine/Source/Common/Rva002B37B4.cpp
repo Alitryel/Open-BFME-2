@@ -31,7 +31,7 @@ public:
 class Rva002B37B4
 {
 public:
-	void rva002B37B4(Rva002B37B4P1 *a1, Rva002B37B4P2 *a2);
+	void rva002B37B4(Rva002B37B4P1 *region, Rva002B37B4P2 *player);
 
 private:
 	unsigned char m_pad00[0xB0];
@@ -40,15 +40,15 @@ private:
 	int m_B8;
 };
 
-void Rva002B37B4::rva002B37B4(Rva002B37B4P1 *a1, Rva002B37B4P2 *a2)
+void Rva002B37B4::rva002B37B4(Rva002B37B4P1 *region, Rva002B37B4P2 *player)
 {
-	if (a2->m_3C4 != 0)
+	if (player->m_3C4 != 0)
 		return;
-	if (a1->m_13C == a2->m_14)
+	if (region->m_13C == player->m_14)
 		return;
-	m_B8 = (int)a1->m_12C;
-	m_b0->rva0020F2F1(a1, a2);
-	((Rva002B36BE *)this)->rva002B36BE(a1, a2, true);
+	m_B8 = (int)region->m_12C;
+	m_b0->rva0020F2F1(region, player);
+	((Rva002B36BE *)this)->rva002B36BE(region, player, true);
 }
 
 // The retail call in this body reads 0x0020F2F1, an address the ledger already
