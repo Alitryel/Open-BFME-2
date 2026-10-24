@@ -83,7 +83,7 @@ public:
 class Rva00072B3A
 {
 public:
-	RvaTextureHandleView rva00072B3A() const;
+	RvaTextureHandleView getShroudTexture() const;
 	void rva00072E10(unsigned char level);
 	void rva00072E84(unsigned char level, Rva00116680 *surface);
 private:
@@ -98,7 +98,7 @@ private:
 	unsigned char *m_finalFogData;  // +0x38
 };
 
-RvaTextureHandleView Rva00072B3A::rva00072B3A() const
+RvaTextureHandleView Rva00072B3A::getShroudTexture() const
 {
 	return RvaTextureHandleView(m_texture.m_native);
 }
@@ -134,7 +134,7 @@ void W3DShroudMaterialPassClass::Install_Materials() const
 {
 	if (TheTerrainRenderObject->getShroud())
 	{
-		reinterpret_cast<RefCountPtr<TextureClass> *>(g_shaderTextureSlots)[0] = TheTerrainRenderObject->getShroud()->rva00072B3A();
+		reinterpret_cast<RefCountPtr<TextureClass> *>(g_shaderTextureSlots)[0] = TheTerrainRenderObject->getShroud()->getShroudTexture();
 		// W3DShaderManager::ST_SHROUD_TEXTURE, pass 0
 		Rva00075655::setShader(1, 0);
 	}

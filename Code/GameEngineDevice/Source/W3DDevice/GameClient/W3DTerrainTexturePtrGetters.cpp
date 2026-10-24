@@ -167,7 +167,7 @@ class RvaTextureHandleView : public RefCountPtr<TextureClass> {};
 class Rva00072B3A
 {
 public:
-	RvaTextureHandleView rva00072B3A() const;
+	RvaTextureHandleView getShroudTexture() const;
 };
 
 class GlobalData
@@ -207,8 +207,8 @@ void Rva000E24C5ShroudTexture(ID3DXEffect *effect, D3DXHANDLE handle)
 {
 	if ((*(Rva002BA8F1Logic **)&TheLivingWorldLogic) && (*(Rva002BA8F1Logic **)&TheLivingWorldLogic)->m_b4 && (*(Rva002BA8F1Logic **)&TheLivingWorldLogic)->m_b5)
 		effect->SetTexture(handle, Rva00132E76WhiteTexture().Peek_D3D_Base_Texture());
-	else if (TheTerrainRenderObject && TheTerrainRenderObject->m_3878 && TheTerrainRenderObject->m_3878->rva00072B3A())
-		effect->SetTexture(handle, TheTerrainRenderObject->get3878()->rva00072B3A().Peek_D3D_Base_Texture());
+	else if (TheTerrainRenderObject && TheTerrainRenderObject->m_3878 && TheTerrainRenderObject->m_3878->getShroudTexture())
+		effect->SetTexture(handle, TheTerrainRenderObject->get3878()->getShroudTexture().Peek_D3D_Base_Texture());
 	else
 		effect->SetTexture(handle, Rva00132E76WhiteTexture().Peek_D3D_Base_Texture());
 }

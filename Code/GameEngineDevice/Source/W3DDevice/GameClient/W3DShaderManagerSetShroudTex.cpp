@@ -99,7 +99,7 @@ class WW3D {public: static bool Is_Snapshot_Activated(){return SnapshotActivated
 class TextureBaseClass {public:void Release_Ref();}; class TextureClass:public TextureBaseClass{public:void Release_Ref();};  // rowed ICF alias of the TextureBaseClass body (0x0061ED10)
 template<class T>class RefCountPtr {public:T *ptr; ~RefCountPtr(){if(ptr)ptr->Release_Ref();}};
 class RvaTextureHandleView:public RefCountPtr<TextureClass>{};
-class Rva00072B3A {public: RvaTextureHandleView rva00072B3A()const; char pad[0x10];float cellWidth,cellHeight;char pad18[8];int textureWidth,textureHeight;char pad28[4];float drawOriginX,drawOriginY;};
+class Rva00072B3A {public: RvaTextureHandleView getShroudTexture()const; char pad[0x10];float cellWidth,cellHeight;char pad18[8];int textureWidth,textureHeight;char pad28[4];float drawOriginX,drawOriginY;};
 class BaseHeightMapRenderObjClass {public:char pad[0x37C0];void *map;char pad37C4[0xB4];Rva00072B3A *shroud;};
 extern BaseHeightMapRenderObjClass *TheTerrainRenderObject;
 class TextureBaseClass;
@@ -195,7 +195,7 @@ class W3DShaderManager{public:static int setShroudTex(int);};
 int W3DShaderManager::setShroudTex(int stage) {
  Rva00072B3A *shroud;
  if((shroud=TheTerrainRenderObject->shroud)!=0){
-  BindTexture(stage,shroud->rva00072B3A());
+  BindTexture(stage,shroud->getShroudTexture());
   DX8Wrapper::Set_DX8_Texture_Stage_State(stage,11,131072);
   DX8Wrapper::Set_DX8_Texture_Stage_State(stage,24,2);
   DX8Wrapper::Set_DX8_Texture_Stage_State(stage,2,2);

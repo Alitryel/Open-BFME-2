@@ -1307,3 +1307,4 @@ param,RvaFireColor::r,RvaFireColor::redValue,inferred,agree:nl-e3ffaa26ab2f,Code
 param,RvaFireColor::g,RvaFireColor::greenValue,inferred,agree:nl-ef7392cce52a,Code/GameEngine/Source/Common/INI/INIBfmeSettingsParsers.cpp,
 param,Rva0030BC94::transform::arg,Rva0030BC94::transform::matrix,inferred,agree:nl-7c06481424de,Code/GameEngine/Source/Common/Rva0030BC94Forward.cpp,0x0030BC94
 local,LivingWorldRegion::ModuleData::BuildingRestriction::ParseINI::p,LivingWorldRegion::ModuleData::BuildingRestriction::ParseINI::restriction,inferred,agree:nl-cf03d23e843e,Code/GameEngine/Source/Common/System/LivingWorldRegionBuildingRestrictionParseINI.cpp,0x003F2576
+function,?rva00072B3A@Rva00072B3A@@QBE?AVRvaTextureHandleView@@XZ,?getShroudTexture@Rva00072B3A@@QBE?AVRvaTextureHandleView@@XZ,inferred,agree:nl-788ff4a88d98,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp,0x00072B3A

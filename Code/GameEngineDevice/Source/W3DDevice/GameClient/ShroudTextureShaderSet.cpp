@@ -234,7 +234,7 @@ static __forceinline const BFME2TextureRef &AsTextureRef(const AssetReference &r
 class Rva00072B3A
 {
 public:
-	RvaTextureHandleView rva00072B3A() const;
+	RvaTextureHandleView getShroudTexture() const;
 	char pad[0x10];
 	float cellWidth, cellHeight;
 	char pad18[8];
@@ -389,8 +389,8 @@ int ShroudTextureShader::set(int stage)
 	Rva00072B3A *shroud;
 	if ((shroud = TheTerrainRenderObject->shroud) != 0)
 	{
-		if (shroud->rva00072B3A().ptr != 0)
-			DX8Wrapper::Set_DX8_Texture(stage, shroud->rva00072B3A().texture().Peek_D3D_Base_Texture());
+		if (shroud->getShroudTexture().ptr != 0)
+			DX8Wrapper::Set_DX8_Texture(stage, shroud->getShroudTexture().texture().Peek_D3D_Base_Texture());
 
 		D3DXMATRIX inv;
 		float det;
