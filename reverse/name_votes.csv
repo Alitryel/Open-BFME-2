@@ -5362,3 +5362,9 @@ Code/GameEngine/Source/GameLogic/Object/Update/LargeGroupAudioUpdateSlots.cpp|fu
 Code/GameEngine/Source/GameLogic/Object/Update/LargeGroupAudioUpdateSlots.cpp|function|0x004ABA81|rva004ABA81,346080bbb5143fcacde25663,gpt-6.1-sol,codexb-20261024-153504-2,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/GameClient/Rva0055D686Scale.cpp|function|0x0055D686|Rva0055D686Compute,056f61ba89cbcc12ccd3d944,gpt-6.1-sol,codexb-20261024-153504-2,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/Rva002E0D66Method.cpp|member|Rva002E0D66Node|m_8,892b40011aa767a1a2b77902,gpt-6.1-sol,codexb-20261024-153504-4,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028EBDA.cpp|function|0x0028EC48|rva0028EC48,82e8c84cce952907b0f9f550,gpt-6.1-sol,codexb-20261024-153504-6,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/ToggleDeploySpecialAbilityUpdateSlot24.cpp|local|ToggleDeploySpecialAbilityUpdate::rva004AE6D7|arg,8e422cc1fb82b052c2c5eb4f,gpt-6.1-sol,codexb-20261024-153504-6,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva0033A9A5.cpp|class||Rva0033A9A5Entry,8dc57d7db4a7b4aea5bec022,gpt-6.1-sol,codexb-20261024-153504-9,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv1361.cpp|function|0x00675680|bfmeCopyVHE,373a737e8766f61e18e9e775,gpt-6.1-sol,codexb-20261024-153504-9,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassLoadCharBitmap.cpp|local|FontCharsClass::loadCharBitmap|y,d645f70c687f0b87f610c5d9,gpt-6.1-sol,codexb-20261024-153504-10,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassLoadCharBitmap.cpp|local|FontCharsClass::loadCharBitmap|x,fe52ff128676de8afcf6e29c,gpt-6.1-sol,codexb-20261024-153504-10,w-8e883e57d025,2026-10-24
