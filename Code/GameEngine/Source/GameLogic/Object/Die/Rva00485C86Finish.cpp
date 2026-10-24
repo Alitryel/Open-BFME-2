@@ -80,7 +80,7 @@ public:
 struct CreateObjectDieModuleDataView
 {
 	char m_pad00[0x38];
-	ObjectCreationList *m_ocl38;
+	ObjectCreationList *m_ocl;
 	char m_pad3C[4];
 	AsciiString *m_begin40;
 	AsciiString *m_end44;
@@ -117,7 +117,7 @@ void CreateObjectDie::onDie(const DamageInfo *damageInfo)
 		}
 		++cur;
 	}
-	ObjectCreationList *ocl = data->m_ocl38;
+	ObjectCreationList *ocl = data->m_ocl;
 	if (ocl == 0)
 		return;
 	ocl->create(*(Object **)((char *)this - 8),
