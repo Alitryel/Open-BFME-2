@@ -5462,3 +5462,12 @@ Code/Libraries/Source/Apt/Rva006FE400Chain.cpp|param|Rva006FE400::rva006FE400|a2
 Code/GameEngine/Source/GameNetwork/Rva007EA9C0Init.cpp|member|Rva007EA9C0Owner|m_0C,665e059150c865a2b924e985,claude-opus-5-5,claudec6-20261024-164109-1,w-efe153480513,2026-10-24
 Code/GameEngine/Source/GameNetwork/Rva007EA9C0Init.cpp|member|Rva007EA9C0Owner|m_250,7ac56efe6d8c13c8abc3f135,claude-opus-5-5,claudec6-20261024-164109-1,w-efe153480513,2026-10-24
 Code/GameEngine/Source/GameNetwork/Rva007EA9C0Init.cpp|member|Rva007EA9C0Owner|m_254,6f518d23ad0f1257511227fc,claude-opus-5-5,claudec6-20261024-164109-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Behavior/Rva004CB047Parse.cpp|global||g_00C5F114,d1b65550bc2c0889db4e7920,claude-opus-5-5,claudec6-20261024-165524-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameClient/Rva004BDB37Finish.cpp|local|Rva004BDB37::rva004BDB37|f,33898e3d320ec94fd53ceb75,claude-opus-5-5,claudec6-20261024-165524-2,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameClient/Drawable_rva00274176.cpp|class||ElemB27434D,3e8a5fcc840d9c375fbf2c0d,claude-opus-5-5,claudec6-20261024-165524-2,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameClient/Drawable_rva00274176.cpp|param|Drawable::rva0027434D|x,cd40fbe10fbc8897697c8af2,claude-opus-5-5,claudec6-20261024-165524-2,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv1039.cpp|class||BfmeD1039,47893bf150f08ec07d4fa57e,claude-opus-5-5,claudec6-20261024-165524-7,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameClient/Rva0055CFF0Draw.cpp|class||Rva0055CFF0,a0b18d18be87b5360b55b9db,claude-opus-5-5,claudec6-20261024-165524-7,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva0028B749.cpp|param|Rva0028B749Host::rva0028B749|a,e8f3695f9a53ba9e15491d35,claude-opus-5-5,claudec6-20261024-165524-8,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva002D317CCalls.cpp|local|Rva002D317C::rva002D317C|ix1,679ee3ece9a5f52db0e9e67d,claude-opus-5-5,claudec6-20261024-165524-9,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva002D317CCalls.cpp|local|Rva002D317C::rva002D317C|iy1,c7b52f57fd70fc46935f0a4e,claude-opus-5-5,claudec6-20261024-165524-9,w-efe153480513,2026-10-24
