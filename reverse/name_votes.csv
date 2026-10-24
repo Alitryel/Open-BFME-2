@@ -5187,3 +5187,16 @@ Code/GameEngine/Source/Common/Rva002E6E6CGet.cpp|param|Rva002E6E6CGet|v,80f267c8
 Code/GameEngine/Source/GameLogic/Object/Update/LargeGroupAudioUpdateSlots.cpp|class||Rva004ABABCIface,0a81e2aff76e0f6da82585f2,gpt-6-astra,codexb2-20261024-134705-8,w-d0bdfd8b17e9,2026-10-24
 Code/Libraries/Source/WWVegas/WW3D2/Rva004ED471Finish.cpp|local|Rva004ED471::rva004ED471|tmp,7e38ba3cfebfe1dcdc483c43,gpt-6-astra,codexb2-20261024-134705-9,w-d0bdfd8b17e9,2026-10-24
 Code/Libraries/Source/Apt/Rva006ED580AttachMovie.cpp|class||Rva006ED580Inst,0648e9604f33ed2b6c8093e0,gpt-6-astra,codexb2-20261024-134705-10,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva00803730FeslAttrs.cpp|class||Rva00803730Getter,45d07678df4d46408eef59aa,gpt-6.1-sol,codexb-20261024-134038-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp|function|0x000AD711|rva000AD711,d232b98f8f8d13298fbda587,gpt-6.1-sol,codexb-20261024-134038-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp|function|0x000B3F5B|rva000B3F5B,ee39e99a3b3045754c32076e,gpt-6.1-sol,codexb-20261024-134038-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp|function|0x000CF0FF|rva000CF0FF,1d52e1a3857a9124cb1c8e48,gpt-6.1-sol,codexb-20261024-134038-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp|function|0x001338A0|rva001338A0,d08eda4e01ac947894f521c2,gpt-6.1-sol,codexb-20261024-134038-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp|function|0x001338B0|rva001338B0,8c3dc2e541801560de727f40,gpt-6.1-sol,codexb-20261024-134038-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp|function|0x000E0E64|Rva000E0E64OnlyEmissiveDraws,eafcabd9b2d6dbff77801254,gpt-6.1-sol,codexb-20261024-134038-1,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp|local|baseRotate|x,21973b3ca0edfdf2590da4dd,gpt-6.1-sol,codexb-20261024-134038-3,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp|local|baseRotate|y,66838bab2116e3bb04749dae,gpt-6.1-sol,codexb-20261024-134038-3,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp|local|baseRotate|z,f4a242bc42043c8a665d78fc,gpt-6.1-sol,codexb-20261024-134038-3,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp|local|baseRotate|w,c911f6dad78439132250e4a1,gpt-6.1-sol,codexb-20261024-134038-3,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp|param|baseCompose|b,032004c77fd33f688d8c67ba,gpt-6.1-sol,codexb-20261024-134038-3,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/PathfinderRva002EADE1.cpp|param|Pathfinder::rva002EADE1|b,3cdfe481a1e895f0b2ce195c,gpt-6.1-sol,codexb-20261024-134038-3,w-8e883e57d025,2026-10-24
