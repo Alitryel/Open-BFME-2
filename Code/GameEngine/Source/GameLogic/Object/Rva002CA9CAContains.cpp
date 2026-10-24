@@ -112,7 +112,7 @@ class Rva002CA9CA
 {
 public:
 	bool rva002CA9CA(int id, const void *arg);
-	bool rva002CAA59(int a1, const void *weapon);
+	bool rva002CAA59(int source, const void *weapon);
 	void postProcessLoad();
 	void rva002CA970(int a1, int a2, const void *weapon, int a4);
 	float getProjectileNuggetRadiusIfAlliesAffected(const void *arg);
@@ -197,15 +197,15 @@ bool Rva002CA9CA::rva002CA9CA(int id, const void *arg)
 	return false;
 }
 
-bool Rva002CA9CA::rva002CAA59(int a1, const void *weapon)
+bool Rva002CA9CA::rva002CAA59(int source, const void *weapon)
 {
-	if (a1 == 0)
+	if (source == 0)
 		return false;
 	ListNode *cur = m_17c->m_next;
 	while (cur != m_17c)
 	{
 		VirtNode *obj = (VirtNode *)cur->m_data;
-		if (obj->v04(weapon, a1))
+		if (obj->v04(weapon, source))
 			return true;
 		cur = cur->m_next;
 	}
