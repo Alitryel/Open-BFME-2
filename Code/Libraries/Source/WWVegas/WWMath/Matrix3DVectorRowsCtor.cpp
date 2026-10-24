@@ -17,8 +17,8 @@
 class Rva0007B890MatrixBasisCtor
 {
 public:
- Rva0007B890MatrixBasisCtor(const Vector3 &x, const Vector3 &y,
-                          const Vector3 &z, const Vector3 &position);
+ Rva0007B890MatrixBasisCtor(const Vector3 &xAxis, const Vector3 &yAxis,
+                          const Vector3 &zAxis, const Vector3 &position);
 private:
  Vector4 Row[3];
 };
@@ -30,9 +30,9 @@ static __forceinline void store_row(Vector4 &row, float a, float b, float c, flo
  row.X = a; row.Y = b; row.Z = c; row.W = d;
 }
 Rva0007B890MatrixBasisCtor::Rva0007B890MatrixBasisCtor(
- const Vector3 &x, const Vector3 &y, const Vector3 &z, const Vector3 &position)
+ const Vector3 &xAxis, const Vector3 &yAxis, const Vector3 &zAxis, const Vector3 &position)
 {
- store_row(Row[0], x.X, y.X, z.X, position.X);
- store_row(Row[1], x.Y, y.Y, z.Y, position.Y);
- store_row(Row[2], x.Z, y.Z, z.Z, position.Z);
+ store_row(Row[0], xAxis.X, yAxis.X, zAxis.X, position.X);
+ store_row(Row[1], xAxis.Y, yAxis.Y, zAxis.Y, position.Y);
+ store_row(Row[2], xAxis.Z, yAxis.Z, zAxis.Z, position.Z);
 }
