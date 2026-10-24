@@ -226,12 +226,12 @@ class Rva003ADE32
 {
 public:
 	Rva003ADE32(const Rva003ADE32 &other) throw();			// 0x003ADE32
-	virtual Rva003ADE32 *rva003ADE15();
+	virtual Rva003ADE32 *clone();
 private:
 	char m_pad04[0x18 - 4];
 };
 
-Rva003ADE32 *Rva003ADE32::rva003ADE15()
+Rva003ADE32 *Rva003ADE32::clone()
 {
 	return new Rva003ADE32(*this);
 }
