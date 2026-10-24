@@ -60,8 +60,8 @@ struct SnapshotBlock {char opaque[12];};
 struct upgradePair {int opaque[5];};
 namespace _STL {
 template<>vector<RvaPair00207E26>::~vector();template<>vector<BfmeStringRecord00204A30>::~vector();template<>vector<Rva00390729Element>::~vector();
-template<>_List_base<SnapshotBlock,allocator<SnapshotBlock> >::_List_base(const allocator<SnapshotBlock>&);
 template<>_List_base<upgradePair,allocator<upgradePair> >::_List_base(const allocator<upgradePair>&);
+template<>void _List_base<upgradePair,allocator<upgradePair> >::clear();
 }
 class ScriptEngine:public SubsystemInterface,public Snapshot {public:ScriptEngine();virtual~ScriptEngine();virtual void init();virtual void reset();virtual void update();virtual void loadPostProcess() = 0;virtual const char*GetSnapshotName()const = 0;virtual void xfer(Xfer*) = 0;
 private:
