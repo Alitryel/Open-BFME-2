@@ -461,7 +461,7 @@ void EAStringC::rva006D3CA0(const EAStringC *other)
 	if (m_pData != 0) {
 		g_bfmeAptAssertAtE17734("IsValid() == false", ".\\string\\EAString.inl", 0x545);
 		if (g_bfmeAptBreakOnAssertAtDDC01C) {
-			__asm int 3
+			_ReadWriteBarrier(); __debugbreak(); _ReadWriteBarrier();
 		}
 	}
 	StringDataC *src = other->m_pData;
@@ -470,7 +470,7 @@ void EAStringC::rva006D3CA0(const EAStringC *other)
 		if (!(src->m_uRefCount <= 0xFFFE)) {
 			g_bfmeAptAssertAtE17734("m_pData->m_uRefCount <= 0xfffe", ".\\string\\EAString.inl", 0xE1);
 			if (g_bfmeAptBreakOnAssertAtDDC01C) {
-				__asm int 3
+				_ReadWriteBarrier(); __debugbreak(); _ReadWriteBarrier();
 			}
 		}
 	}
