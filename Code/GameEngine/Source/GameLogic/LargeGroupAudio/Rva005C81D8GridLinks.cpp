@@ -38,24 +38,24 @@ class Rva005C81D8 {public:
 void Rva005C81D8::rva005C81D8(Rva005C8176 *horizontal,Rva005C8176 *vertical,Rva005C8176 *diagonal){
  float scale=owner->scale;
  for(LargeGroupAudioGridCell *cell=cells.begin();cell!=cells.end();++cell){
-  FloatPair p;p.x=0;p.y=0;
+  FloatPair position;position.x=0;position.y=0;
   LargeGroupAudioGridCell *neighbours[8];
-  p.x=cell->x+scale/2.0f;p.y=cell->y;
-  neighbours[0]=static_cast<LargeGroupAudioGridCell *>(horizontal->rva005C8176(p));
-  p.x=cell->x-scale/2.0f;
-  neighbours[1]=static_cast<LargeGroupAudioGridCell *>(horizontal->rva005C8176(p));
-  p.y=cell->y+scale/2.0f;p.x=cell->x;
-  neighbours[2]=static_cast<LargeGroupAudioGridCell *>(vertical->rva005C8176(p));
-  p.y=cell->y-scale/2.0f;
-  neighbours[3]=static_cast<LargeGroupAudioGridCell *>(vertical->rva005C8176(p));
-  p.y=cell->y+scale/2.0f;p.x=cell->x+scale/2.0f;
-  neighbours[4]=static_cast<LargeGroupAudioGridCell *>(diagonal->rva005C8176(p));
-  p.y=cell->y-scale/2.0f;
-  neighbours[5]=static_cast<LargeGroupAudioGridCell *>(diagonal->rva005C8176(p));
-  p.x=cell->x-scale/2.0f;
-  neighbours[7]=static_cast<LargeGroupAudioGridCell *>(diagonal->rva005C8176(p));
-  p.y=cell->y+scale/2.0f;
-  neighbours[6]=static_cast<LargeGroupAudioGridCell *>(diagonal->rva005C8176(p));
+  position.x=cell->x+scale/2.0f;position.y=cell->y;
+  neighbours[0]=static_cast<LargeGroupAudioGridCell *>(horizontal->rva005C8176(position));
+  position.x=cell->x-scale/2.0f;
+  neighbours[1]=static_cast<LargeGroupAudioGridCell *>(horizontal->rva005C8176(position));
+  position.y=cell->y+scale/2.0f;position.x=cell->x;
+  neighbours[2]=static_cast<LargeGroupAudioGridCell *>(vertical->rva005C8176(position));
+  position.y=cell->y-scale/2.0f;
+  neighbours[3]=static_cast<LargeGroupAudioGridCell *>(vertical->rva005C8176(position));
+  position.y=cell->y+scale/2.0f;position.x=cell->x+scale/2.0f;
+  neighbours[4]=static_cast<LargeGroupAudioGridCell *>(diagonal->rva005C8176(position));
+  position.y=cell->y-scale/2.0f;
+  neighbours[5]=static_cast<LargeGroupAudioGridCell *>(diagonal->rva005C8176(position));
+  position.x=cell->x-scale/2.0f;
+  neighbours[7]=static_cast<LargeGroupAudioGridCell *>(diagonal->rva005C8176(position));
+  position.y=cell->y+scale/2.0f;
+  neighbours[6]=static_cast<LargeGroupAudioGridCell *>(diagonal->rva005C8176(position));
   cell->initOverlappingCells(neighbours);
  }
 }
