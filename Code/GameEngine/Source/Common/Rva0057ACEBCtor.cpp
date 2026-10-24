@@ -16,24 +16,24 @@ public:
 	int m_ref;
 	int m_a;
 	int m_b;
-	Rva0057ACEBImpl(const Rva0057ACEBData *d)
+	Rva0057ACEBImpl(const Rva0057ACEBData *initialData)
 	{
 		m_ref = 0;
 		*(const void * *)this = g_00C6F090;
-		m_a = d->m_0;
-		m_b = d->m_4;
+		m_a = initialData->m_0;
+		m_b = initialData->m_4;
 	}
 };
 class Rva0057ACEB
 {
 public:
-	Rva0057ACEB(const Rva0057ACEBData *d);
+	Rva0057ACEB(const Rva0057ACEBData *initialData);
 private:
 	Rva0057ACEBImpl *m_impl;
 };
-Rva0057ACEB::Rva0057ACEB(const Rva0057ACEBData *d)
+Rva0057ACEB::Rva0057ACEB(const Rva0057ACEBData *initialData)
 {
-	Rva0057ACEBImpl *p = new Rva0057ACEBImpl(d);
+	Rva0057ACEBImpl *p = new Rva0057ACEBImpl(initialData);
 	m_impl = p;
 	if (p)
 		++p->m_ref;
