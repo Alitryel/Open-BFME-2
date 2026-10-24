@@ -286,7 +286,7 @@ class BfmeVec3EJ;
 class Gen_000E5A50
 {
 public:
-	Real bfmeDistanceSquared(const BfmeVec3EJ *pos) const;
+	Real Get3DCenterDistanceSquared(const BfmeVec3EJ *pos) const;
 };
 
 // The owner's model-condition bits at +0x10C (bit 155 is word +0x11C).
@@ -333,7 +333,7 @@ public:
 	Team *getTeam() const { return m_team; }
 	Real getDistanceSquared(const Coord3D *pos) const
 	{
-		return ((const Gen_000E5A50 *)this)->bfmeDistanceSquared((const BfmeVec3EJ *)pos);
+		return ((const Gen_000E5A50 *)this)->Get3DCenterDistanceSquared((const BfmeVec3EJ *)pos);
 	}
 
 	Bool testStatus(ObjectStatusTypes bit) const;

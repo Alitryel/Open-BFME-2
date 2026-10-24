@@ -33,7 +33,7 @@ class Rva00261603Filter : public Rva000421C8 {public:
  private:Coord3D position;const GeometryInfo& geometry;float angle;bool desired;
 };
 class BfmeVec3EJ;
-class Gen_000E5A50 {public:float bfmeDistanceSquared(const BfmeVec3EJ*)const throw();};
+class Gen_000E5A50 {public:float Get3DCenterDistanceSquared(const BfmeVec3EJ*)const throw();};
 class Rva001E438B {public:void rva001E438B(float*,const float*) throw();};
 // ?nativeLength absent-from-retail - source-only nonthrowing call view
 static __forceinline float nativeLength(const Coord3D*p) throw(){return p->length();}
@@ -76,7 +76,7 @@ __declspec(noinline) inline bool AerialPathfinder::rva00375C28(Object*obj,const 
   if((them->thing->kinds[3]&0x2000)!=0)continue;
   if((them->thing->kinds[0]&4)==0){
    float range=radius*1.2f;
-   if(((Gen_000E5A50*)them)->bfmeDistanceSquared((BfmeVec3EJ*)&obj->position)>range*range)continue;
+   if(((Gen_000E5A50*)them)->Get3DCenterDistanceSquared((BfmeVec3EJ*)&obj->position)>range*range)continue;
   }
   Coord3D delta;((Rva001E438B*)them)->rva001E438B(&delta.x,&pos->x);
   float overlap=them->geometry.radius*2.0f+obj->geometry.radius-nativeLength(&delta);

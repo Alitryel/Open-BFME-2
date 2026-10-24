@@ -270,7 +270,7 @@ class BfmeVec3EJ;
 class Gen_000E5A50
 {
 public:
-	float bfmeDistanceSquared(const BfmeVec3EJ *point) const;	// 0x001E435D
+	float Get3DCenterDistanceSquared(const BfmeVec3EJ *point) const;	// 0x001E435D
 	float rva00375AE7(const Gen_000E5A50 *other) const;
 	char m_pad00[0x38];
 	Coord3D m_38;
@@ -278,7 +278,7 @@ public:
 
 float Gen_000E5A50::rva00375AE7(const Gen_000E5A50 *other) const
 {
-	return bfmeDistanceSquared((const BfmeVec3EJ *)&other->m_38);
+	return Get3DCenterDistanceSquared((const BfmeVec3EJ *)&other->m_38);
 }
 
 // --- 0x0037E87A (30B): sets the +0xCC float of the record the rowed

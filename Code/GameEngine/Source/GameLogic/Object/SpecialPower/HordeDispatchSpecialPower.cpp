@@ -20,7 +20,7 @@ class SpecialPowerTemplate;
 class SpecialPowerModuleInterface;
 struct ThingTemplate {char p00[0x115];unsigned char flag;};
 class BfmeVec3EJ {public:float x,y,z;};
-class Gen_000E5A50 {public:inline __declspec(noinline) float bfmeDistanceSquared(const BfmeVec3EJ*p)const{float dx=x-p->x;float dy=y-p->y;float dz=z-p->z;return dx*dx+dy*dy+dz*dz;}char pad[0x38];float x,y,z;};
+class Gen_000E5A50 {public:inline __declspec(noinline) float Get3DCenterDistanceSquared(const BfmeVec3EJ*p)const{float dx=x-p->x;float dy=y-p->y;float dz=z-p->z;return dx*dx+dy*dy+dz*dz;}char pad[0x38];float x,y,z;};
 class Object {public:
  void *rva0028C197()const;
  SpecialPowerModuleInterface *getSpecialPowerModule(const SpecialPowerTemplate*)const;
@@ -113,14 +113,14 @@ void HordeDispatchSpecialPower::doSpecialPowerAtObject(Object *target,unsigned o
  _STL::list<Object*>::iterator i=list.begin();
  Object *best=target;
  const BfmeVec3EJ *pos=owner->getPosition();
- float distance=((Gen_000E5A50*)target)->bfmeDistanceSquared(pos);
+ float distance=((Gen_000E5A50*)target)->Get3DCenterDistanceSquared(pos);
  if(i!=end)do{
  SpecialPowerModuleInterface *module=(*i)->getSpecialPowerModule(power);
  if(module){
  module->doSpecialPowerAtObject(target,options);
  Object *result=TheGameLogic->findObjectByID(module->lastTarget());
  if(result){
- float current=((Gen_000E5A50*)result)->bfmeDistanceSquared(pos);
+ float current=((Gen_000E5A50*)result)->Get3DCenterDistanceSquared(pos);
  if(current>distance){distance=current;best=result;}
  }}
  ++i;

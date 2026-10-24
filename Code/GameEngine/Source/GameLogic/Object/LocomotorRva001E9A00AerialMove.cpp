@@ -152,7 +152,7 @@ class BfmeVec3EJ;
 class Gen_000E5A50
 {
 public:
-	float bfmeDistanceSquared(const BfmeVec3EJ *point) const;
+	float Get3DCenterDistanceSquared(const BfmeVec3EJ *point) const;
 };
 class Rva001E438B
 {
@@ -296,7 +296,7 @@ Bool Locomotor::rva001E9A00(Object *obj, Real goalSpeed, Real *pathDistance, Rva
 		if (!isFar)
 		{
 			MemberwiseCoord3D anchor = aerial->m_anchor;
-			isFar = ((Gen_000E5A50 *)obj)->bfmeDistanceSquared((const BfmeVec3EJ *)&anchor) > 70.0f * 70.0f;
+			isFar = ((Gen_000E5A50 *)obj)->Get3DCenterDistanceSquared((const BfmeVec3EJ *)&anchor) > 70.0f * 70.0f;
 		}
 		if (isFar)
 			obj->setModelConditionState(MODELCONDITION_61);

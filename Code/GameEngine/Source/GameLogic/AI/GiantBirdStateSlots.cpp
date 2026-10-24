@@ -51,7 +51,7 @@ class BfmeVec3EJ;
 class Gen_000E5A50
 {
 public:
-	float bfmeDistanceSquared(const BfmeVec3EJ *point) const;
+	float Get3DCenterDistanceSquared(const BfmeVec3EJ *point) const;
 };
 class Rva00368C7A
 {
@@ -275,7 +275,7 @@ StateReturnType AIGiantBirdFollowThruState::update()
 	goal.y = goalPosition->y;
 	goal.z = goalPosition->z;
 	unsigned char withinGoalRange = static_cast<unsigned char>(
-		reinterpret_cast<Gen_000E5A50 *>(object)->bfmeDistanceSquared(
+		reinterpret_cast<Gen_000E5A50 *>(object)->Get3DCenterDistanceSquared(
 			reinterpret_cast<const BfmeVec3EJ *>(&goal)) < goalRange * goalRange);
 	unsigned char pending = ai->m_pending534;
 	if (pending == 0.0f && !withinGoalRange)

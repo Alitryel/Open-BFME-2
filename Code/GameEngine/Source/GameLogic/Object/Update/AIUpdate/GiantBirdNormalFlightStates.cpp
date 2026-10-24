@@ -65,7 +65,7 @@ class BfmeVec3EJ;
 class Gen_000E5A50
 {
 public:
-	Real bfmeDistanceSquared(const BfmeVec3EJ *point) const;
+	Real Get3DCenterDistanceSquared(const BfmeVec3EJ *point) const;
 };
 
 class Rva00368C7A
@@ -301,7 +301,7 @@ StateReturnType GiantBirdNormalFlightState::update()
 	position.x = goal->x;
 	position.y = goal->y;
 	position.z = goal->z;
-	Bool close = reinterpret_cast<Gen_000E5A50 *>(owner)->bfmeDistanceSquared(
+	Bool close = reinterpret_cast<Gen_000E5A50 *>(owner)->Get3DCenterDistanceSquared(
 		reinterpret_cast<const BfmeVec3EJ *>(&position)) < range * range;
 	if (float(ai->m_bfme534) == 0.0f && !close)
 		return STATE_CONTINUE;

@@ -282,7 +282,7 @@ public:
 class Gen_000E5A50
 {
 public:
-	inline __declspec(noinline) Real bfmeDistanceSquared(const BfmeVec3EJ *point) const
+	inline __declspec(noinline) Real Get3DCenterDistanceSquared(const BfmeVec3EJ *point) const
 	{
 		Real dx = x - point->x;
 		Real dy = y - point->y;
@@ -501,7 +501,7 @@ public:
 	Real getBoundingSphereRadius() const { return m_boundingSphereRadius; }
 	Real getDistanceSquared(const Coord3D *pos) const
 	{
-		return ((const Gen_000E5A50 *)this)->bfmeDistanceSquared((const BfmeVec3EJ *)pos);
+		return ((const Gen_000E5A50 *)this)->Get3DCenterDistanceSquared((const BfmeVec3EJ *)pos);
 	}
 	Real rva002C97E8(const Coord3D *from, const Coord3D *to) const;
 	Real rva00263763(const void *other) const;

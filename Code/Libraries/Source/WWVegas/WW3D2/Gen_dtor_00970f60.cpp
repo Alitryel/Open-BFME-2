@@ -15,7 +15,7 @@ class Rva009EB810TailBase
 public:
 	virtual void slot00();
 	virtual void slot04();
-	virtual void rva00180274();
+	virtual void Load();
 	virtual void slot0C();
 	virtual void slot10();
 	virtual void slot14();
@@ -39,7 +39,7 @@ class Gen_dtor_00970f60 : public Rva009EB810TailBase
 {
 public:
 	virtual ~Gen_dtor_00970f60();
-	virtual void rva00180274();
+	virtual void Load();
 
 private:
 	Gen_dtor_00970f60Held *m_ptr;
@@ -111,7 +111,7 @@ private:
 // WorldBuilder MeshAsset::Factory::Load (meshasset.cpp), primary vtable
 // 0x007D4F90 slot 2. Retail proves name +18, opener flags +1C/+20,
 // MeshClass size 0x324, chunk id zero and the failure release at +14.
-void Gen_dtor_00970f60::rva00180274()
+void Gen_dtor_00970f60::Load()
 {
 	char buf[0x104];
 	_mbscpy(buf, m_name.m_buffer);

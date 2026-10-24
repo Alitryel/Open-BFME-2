@@ -196,7 +196,7 @@ public:
 class Gen_000E5A50
 {
 public:
-	Real bfmeDistanceSquared(const BfmeVec3EJ *point) const;
+	Real Get3DCenterDistanceSquared(const BfmeVec3EJ *point) const;
 
 private:
 	int m_head[14];
@@ -260,7 +260,7 @@ static Real computeRelativeCost(Object *queryObject, Object *destObject, Real *p
 	if (!dockInterface->isClearToApproach(queryObject))
 		return FLT_MAX;
 
-	Real distSquared = queryObject->bfmeDistanceSquared(destObject->position());
+	Real distSquared = queryObject->Get3DCenterDistanceSquared(destObject->position());
 	if (pureDistanceSquared)
 		*pureDistanceSquared = distSquared;
 

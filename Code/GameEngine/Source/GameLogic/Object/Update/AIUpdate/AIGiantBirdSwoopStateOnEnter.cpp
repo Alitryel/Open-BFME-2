@@ -305,7 +305,7 @@ class BfmeVec3EJ;
 class Gen_000E5A50
 {
 public:
-	Real bfmeDistanceSquared(const BfmeVec3EJ *pos) const;
+	Real Get3DCenterDistanceSquared(const BfmeVec3EJ *pos) const;
 };
 
 class Rva002627E8
@@ -658,7 +658,7 @@ StateReturnType AIGiantBirdSwoopState::update()
 	anchor.x = src->x;
 	anchor.y = src->y;
 	anchor.z = src->z;
-	Bool inside = ((Gen_000E5A50 *)owner)->bfmeDistanceSquared((const BfmeVec3EJ *)&anchor) < range * range;
+	Bool inside = ((Gen_000E5A50 *)owner)->Get3DCenterDistanceSquared((const BfmeVec3EJ *)&anchor) < range * range;
 	if (ai->m_flag534 == 0.0f && !inside)
 		return STATE_CONTINUE;
 	((Thing *)owner)->setPosition(&anchor);

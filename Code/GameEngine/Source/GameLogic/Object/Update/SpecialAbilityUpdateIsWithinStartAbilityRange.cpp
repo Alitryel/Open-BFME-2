@@ -100,7 +100,7 @@ class BfmeVec3EJ;
 class Gen_000E5A50
 {
 public:
-	Real bfmeDistanceSquared(const BfmeVec3EJ *pos) const;
+	Real Get3DCenterDistanceSquared(const BfmeVec3EJ *pos) const;
 };
 
 extern GameLogic *TheGameLogic;
@@ -240,7 +240,7 @@ Bool SpecialAbilityUpdate::isWithinStartAbilityRange()
 	{
 		Int type = power->getSpecialPowerType();
 		if (self->testStatus(OBJECT_STATUS_BFME_5B) || (self->getAI()->slot90() && type == 0x38))
-			fDistSquared = ((const Gen_000E5A50 *)self)->bfmeDistanceSquared((const BfmeVec3EJ *)&m_targetPos);
+			fDistSquared = ((const Gen_000E5A50 *)self)->Get3DCenterDistanceSquared((const BfmeVec3EJ *)&m_targetPos);
 		else
 			fDistSquared = self->rva002C97E8(self->getPosition(), &m_targetPos);
 		if (type == 0x27)
