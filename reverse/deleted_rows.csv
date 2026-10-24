@@ -2261,3 +2261,5 @@ __ehhandler$?rva005E5B20@Rva005E5A8B@@QAEHABUICoord2D@@H@Z,0x007A3A27,"Renamed t
 ?Rva0002C025IsNewer@@YA_NABVAsciiString@@PBUSYSTEMTIME@@@Z,0x0002C025,"Renamed to ?isFileNewer@@YA_NABVAsciiString@@PBUSYSTEMTIME@@@Z by tools/rename.py (inferred)"
 ?rva001F8109@Rva001F8109@@QAEXABVRvaSmartPtr12@@@Z,0x001F8109,"Renamed to ?friend_removeParticleSystem@Rva001F8109@@QAEXABVRvaSmartPtr12@@@Z by tools/rename.py (inferred)"
 ?rva0047BE4C@Rva0047BE4C@@QAEXP6AXPAVObject@@PAX@Z1H@Z,0x0047BE4C,"Renamed to ?iterateContained@Rva0047BE4C@@QAEXP6AXPAVObject@@PAX@Z1H@Z by tools/rename.py (inferred)"
+?rva004ABABC@LargeGroupAudioUpdate@@UAEGXZ,0x004ABABC,"Renamed to ?getUnitWeight@LargeGroupAudioUpdate@@UAEGXZ by tools/rename.py (inferred)"
+?rva004ABA93@LargeGroupAudioUpdate@@UBE?AURva004ABA81Pair@@XZ,0x004ABA93,"Renamed to ?getPosition@LargeGroupAudioUpdate@@UBE?AURva004ABA81Pair@@XZ by tools/rename.py (inferred)"

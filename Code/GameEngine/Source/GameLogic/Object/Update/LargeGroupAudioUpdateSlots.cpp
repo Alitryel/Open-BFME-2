@@ -86,12 +86,12 @@ class Rva004ABABCIface
 {
 public:
 	virtual Rva004ABA81Pair rva004ABA81() const = 0;
-	virtual Rva004ABA81Pair rva004ABA93() const = 0;
+	virtual Rva004ABA81Pair getPosition() const = 0;
 	virtual void gap2() = 0;
 	virtual void gap3() = 0;
 	virtual void gap4() = 0;
 	virtual void gap5() = 0;
-	virtual unsigned short rva004ABABC() = 0;
+	virtual unsigned short getUnitWeight() = 0;
 	virtual void gap7() = 0;
 	virtual bool rva004ABACB() = 0;
 };
@@ -104,10 +104,10 @@ public:
 	virtual void rva004ABB46();
 	virtual void rva004ABA71();
 	virtual void rva004ABA79();
-	virtual unsigned short rva004ABABC();
+	virtual unsigned short getUnitWeight();
 	virtual bool rva004ABACB();
 	virtual Rva004ABA81Pair rva004ABA81() const;
-	virtual Rva004ABA81Pair rva004ABA93() const;
+	virtual Rva004ABA81Pair getPosition() const;
 	void rva004AB90A();
 	void rva004AB9A2();
 private:
@@ -145,9 +145,9 @@ void LargeGroupAudioUpdate::rva004ABA79()
 	rva004AB90A();
 }
 
-// ?rva004ABABC@LargeGroupAudioUpdate@@UAEGXZ, retail 0x004ABABC, 8 bytes: +0x24
+// ?getUnitWeight@LargeGroupAudioUpdate@@UAEGXZ, retail 0x004ABABC, 8 bytes: +0x24
 // slot 6, the module data's +0x1C word.
-unsigned short LargeGroupAudioUpdate::rva004ABABC()
+unsigned short LargeGroupAudioUpdate::getUnitWeight()
 {
 	return ((const LargeGroupAudioUpdateModuleData *)m_moduleData)->m_unitWeight;
 }
@@ -166,9 +166,9 @@ Rva004ABA81Pair LargeGroupAudioUpdate::rva004ABA81() const
 	return m_28;
 }
 
-// ?rva004ABA93@LargeGroupAudioUpdate@@UBE?AURva004ABA81Pair@@XZ, retail
+// ?getPosition@LargeGroupAudioUpdate@@UBE?AURva004ABA81Pair@@XZ, retail
 // 0x004ABA93, 23 bytes: +0x24 slot 1, the x/y of the Object's position (+0x38).
-Rva004ABA81Pair LargeGroupAudioUpdate::rva004ABA93() const
+Rva004ABA81Pair LargeGroupAudioUpdate::getPosition() const
 {
 	return *m_object->getPositionPair();
 }

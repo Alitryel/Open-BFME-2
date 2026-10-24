@@ -874,3 +874,5 @@ local,Rva0028C0E3Receiver::collisionDispatch::m,Rva0028C0E3Receiver::collisionDi
 local,Rva0049A64B::rva0049A8FA::p,Rva0049A64B::rva0049A8FA::provider,inferred,agree:nl-aa90fc017d9e,Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/Rva0049A64BRva0049A8FA.cpp,0x0049A8FA
 local,Rva0049A64B::rva0049A8A1::p,Rva0049A64B::rva0049A8A1::provider,inferred,agree:nl-916ae52ba08b,Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/Rva0049A64BRva0049A8FA.cpp,0x0049A8A1
 local,Rva0049A64B::rva0049A880::p,Rva0049A64B::rva0049A880::provider,inferred,agree:nl-ab1b0bc16739,Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/Rva0049A64BRva0049A8FA.cpp,0x0049A880
+function,?rva004ABABC@LargeGroupAudioUpdate@@UAEGXZ,?getUnitWeight@LargeGroupAudioUpdate@@UAEGXZ,inferred,agree:nl-577c736aaa89,Code/GameEngine/Source/GameLogic/Object/Update/LargeGroupAudioUpdateSlots.cpp,0x004ABABC
+function,?rva004ABA93@LargeGroupAudioUpdate@@UBE?AURva004ABA81Pair@@XZ,?getPosition@LargeGroupAudioUpdate@@UBE?AURva004ABA81Pair@@XZ,inferred,agree:nl-e3921f7ccfbf,Code/GameEngine/Source/GameLogic/Object/Update/LargeGroupAudioUpdateSlots.cpp,0x004ABA93
