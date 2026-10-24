@@ -33,13 +33,13 @@ public:
 bool LivingWorldRegionManager::GetRegionUiPopupPoint(int idx, void *outRaw)
 {
 	Out0020E493 *out = (Out0020E493 *)outRaw;
-	Rva0020E89C *p = ((Rva0020EAF6View *)this)->rva0020EAF6(idx);
-	if (p == 0)
+	Rva0020E89C *region = ((Rva0020EAF6View *)this)->rva0020EAF6(idx);
+	if (region == 0)
 		return false;
-	if (((EAF6Elem *)p)->m_AB != 0)
+	if (((EAF6Elem *)region)->m_AB != 0)
 	{
 		Out0020E493 tmp;
-		Out0020E493 *popupPoint = ((Rva0020E493 *)p)->rva0020E493(&tmp);
+		Out0020E493 *popupPoint = ((Rva0020E493 *)region)->rva0020E493(&tmp);
 		((int *)out)[0] = ((int *)popupPoint)[0];
 		((int *)out)[1] = ((int *)popupPoint)[1];
 		return true;

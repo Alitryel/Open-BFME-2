@@ -80,8 +80,8 @@ void FXShaderParameterBinder::PushDynamicSetStack(const char *name)
 	if (found == 0)
 		goto add;
 	Com6C *effect = *(Com6C **)this;
-	int r = effect->slot6C(found, out);
-	if (r < 0)
+	int hResult = effect->slot6C(found, out);
+	if (hResult < 0)
 		goto reload;
 	if (cur < 0)
 		goto reload;
