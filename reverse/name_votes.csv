@@ -4174,3 +4174,14 @@ Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp|param|Rva002EBA88::rva002EBA
 Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp|param|Rva002EBA88::rva002EBA88|a6,8a162ede24f8990bc3e23841,gpt-6-astra,codexb2-20261024-073809-10,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/GapBodiesS3C.cpp|class||Rva004A6AB5Iface,c79294a51b2ecb88153c4554,gpt-6-astra,codexb2-20261024-073809-10,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/GapBodiesS3C.cpp|class||Rva004A6AB5,3206cc59771a0d7a3ecd3ebd,gpt-6-astra,codexb2-20261024-073809-10,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva000AE234GridGet.cpp|function|0x000AE234|rva000AE234,4fc0e68a323e6a7cc0c9aca0,gpt-6.1-sol,codexb-20261024-080617-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva000AE234GridGet.cpp|param|Rva000AE234::rva000AE234|x,032226d001723c070dafd90e,gpt-6.1-sol,codexb-20261024-080617-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva000AE234GridGet.cpp|param|Rva000AE234::rva000AE234|y,9cded59fffae4eb5e60c9c53,gpt-6.1-sol,codexb-20261024-080617-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva002BFF5A.cpp|function|0x002BFF9F|rva002BFF9F,d353d0dfb8c95980b913be5c,gpt-6.1-sol,codexb-20261024-080617-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameClient/FormationTranslatorRva00431C9D.cpp|local|FormationTranslator::WaitForSecondButtonDownStateHandler::Restart|h,009891e41f268342610263f3,gpt-6.1-sol,codexb-20261024-080617-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameClient/FormationTranslatorRva00431C9D.cpp|local|FormationTranslator::WaitForSecondButtonDownStateHandler::Restart|q,bf532d0f334e44cddf2a5b88,gpt-6.1-sol,codexb-20261024-080617-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameClient/FormationTranslatorRva00431C9D.cpp|local|FormationTranslator::WaitForSecondButtonDownStateHandler::rva00431C9D|h,2050d1ab298753e60be9559e,gpt-6.1-sol,codexb-20261024-080617-2,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameClient/FormationTranslatorRva00431C9D.cpp|local|FormationTranslator::WaitForSecondButtonDownStateHandler::rva00431C9D|q,cd2cdfdba6db5f993368e181,gpt-6.1-sol,codexb-20261024-080617-2,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva00240D0FCreate.cpp|local|Rva00240D0FCreate|tmp,be2fc5eb46c24359876fb3eb,gpt-6.1-sol,codexb-20261024-080617-3,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/EbpParamForwarders.cpp|function|0x0018C822|rva0018C822,adbf9bbbae2c503705f5c8dc,gpt-6.1-sol,codexb-20261024-080617-4,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/EbpParamForwarders.cpp|function|0x002B2955|rva002B2955,156622f83bfd65006d1152c2,gpt-6.1-sol,codexb-20261024-080617-4,w-8e883e57d025,2026-10-24
