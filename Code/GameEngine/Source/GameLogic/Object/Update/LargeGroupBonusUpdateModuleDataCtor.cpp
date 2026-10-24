@@ -13,6 +13,7 @@
 extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
+#include "../../../../Include/Common/BfmeModuleData.h"
 // bfme link decl-only begin
 namespace _STL { template <> void _Destroy<AsciiString *>(AsciiString *, AsciiString *); }
 namespace _STL { template <> void _Destroy<AsciiString>(AsciiString *); }
@@ -41,7 +42,8 @@ public:
 private:
 	unsigned char m_data[4];
 };
-class __declspec(novtable) UpdateModuleData
+// The native C4D2A8 table shares ModuleData slots 1-30 unchanged.
+class __declspec(novtable) UpdateModuleData : public ModuleData
 {
 public:
 	// Retail expands the empty base constructor; emit no competing COMDAT.
