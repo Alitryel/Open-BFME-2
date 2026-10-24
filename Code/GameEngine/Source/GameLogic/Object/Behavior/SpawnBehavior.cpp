@@ -156,18 +156,9 @@ void SpawnBehavior::orderSlavesToClearDisabled( DisabledType type )
 // ------------------------------------------------------------------------------------------------
 
 // ------------------------------------------------------------------------------------------------
-// ?giveSlavesStealthUpgrade@SpawnBehavior@@ present-unmatched
-void SpawnBehavior::giveSlavesStealthUpgrade( Bool grantStealth )
-{
-	for( objectIDListIterator it = m_spawnIDs.begin(); it != m_spawnIDs.end(); ++it )
-	{
-		Object *obj = TheGameLogic->findObjectByID( *it );
-		if( obj )
-		{
-			obj->setStatus( MAKE_OBJECT_STATUS_MASK( OBJECT_STATUS_CAN_STEALTH ), grantStealth );
-		}
-	}
-}
+// SpawnBehavior::giveSlavesStealthUpgrade: Zero Hour's copy (unmatched) called
+// Object::setStatus(ObjectStatusMaskType, Bool), which BFME 2 does not have
+// (its setStatus takes an ObjectStatusTypes, 0x0023DB0E); dropped.
 
 // ------------------------------------------------------------------------------------------------
 
@@ -295,24 +286,9 @@ Bool SpawnBehavior::areAllSlavesStealthed() const
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?revealSlaves@SpawnBehavior@@ present-unmatched
-void SpawnBehavior::revealSlaves()
-{
-	Object *currentSpawn;
-
-	for( objectIDListIterator iter = m_spawnIDs.begin(); iter != m_spawnIDs.end(); iter++)
-	{
-		currentSpawn = TheGameLogic->findObjectByID( (*iter) );
-		if( currentSpawn )
-		{
-			StealthUpdate *stealthUpdate = currentSpawn->getStealth();
-			if( stealthUpdate )
-			{
-				stealthUpdate->markAsDetected();
-			}
-		}
-	}
-}
+// SpawnBehavior::revealSlaves: Zero Hour's copy (unmatched) called
+// StealthUpdate::markAsDetected(UnsignedInt); BFME 2's takes four arguments
+// (0x0037446E); dropped.
 
 
 // ------------------------------------------------------------------------------------------------
