@@ -73,7 +73,7 @@ public: bool prompt(int,const UnicodeString &,const UnicodeString &,TreeHintRef0
 private: bool configure(int,const UnicodeString &,const UnicodeString &);
  friend class Rva0054D3E1Prompt;
  friend class Rva0054D438Prompt;
- unsigned m_level; AsciiString m_movie04; char m_pad08[0xc]; int m_previous14; int m_state; TreeHintRef00217D4C m_callback;
+ unsigned m_level; AsciiString m_movie04; char m_pad08[0xc]; int m_previousState; int m_state; TreeHintRef00217D4C m_callback;
  TreeHintRef00217D4C m_callback20;
 };
 // The two-callback prompt the child04 forwarder 0x0054D4CD calls (pinned
@@ -91,7 +91,7 @@ bool Rva0054D222Prompt::configure(int kind, const UnicodeString &title,
 {
  if (m_state == 5)
   return false;
- m_previous14 = 4;
+ m_previousState = 4;
  m_state = kind;
  AsciiString prefix;
  prefix.format("APT:_level%u.%s_", m_level, m_movie04.str());

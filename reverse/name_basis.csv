@@ -1129,3 +1129,4 @@ member,Rva00397C94Head::m_08,Rva00397C94Head::m_left,inferred,agree:nl-8948e4c81
 member,Rva00397C94Head::m_0c,Rva00397C94Head::m_right,inferred,agree:nl-131013edce3d,Code/GameEngine/Source/Common/Rva00398257.cpp,
 local,Rva00404927::rva00404927::a,Rva00404927::rva00404927::crossProduct,inferred,agree:nl-6b186e0b2115,Code/GameEngine/Source/Common/Rva00404927Method.cpp,0x00404927
 param,ActionManager::Rva0041B94AGet::b,ActionManager::Rva0041B94AGet::target,inferred,agree:nl-951e25bbb17c,Code/GameEngine/Source/Common/Rva0041B94APermuted.cpp,0x0041B94A
+member,Rva0054D222Prompt::m_previous14,Rva0054D222Prompt::m_previousState,inferred,agree:nl-246f69ff1ec9,Code/GameEngine/Source/Common/Rva00437EDCFinish.cpp,
