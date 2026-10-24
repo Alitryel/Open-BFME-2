@@ -10,11 +10,8 @@
 // allocator's size-checked operator delete, and _CRTIMP= makes that a direct
 // call instead of one through the CRT import.
 
-// The cached grouping string is assigned through _M_assign_dispatch<char*>,
-// whose matched body at 0x000120F0 carries the public member signature in this
-// reconstruction. Limit this access adaptation to the string header; layout
-// and source semantics are unchanged.
-#define private public
+// The cached grouping string is assigned through vendor's private
+// _M_assign_dispatch<char*>, whose matched body is at 0x000120F0.
 #define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <stl/_alloc.h>
 // Keep retail's inline character-buffer cleanup; the public allocator
@@ -28,7 +25,6 @@ template <> __forceinline void allocator<unsigned short>::deallocate(unsigned sh
 }
 
 #include <string>
-#undef private
 #include <ios>
 
 #include <cstddef>

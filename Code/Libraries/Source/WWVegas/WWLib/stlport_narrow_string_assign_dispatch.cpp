@@ -68,11 +68,11 @@ public:
 		return _M_assign_dispatch(first, last, tag);
 	}
 
+private:
 	template <class InputIter>
 	basic_string<CharT, Traits, Alloc> &_M_assign_dispatch(InputIter first, InputIter last,
 			const __false_type &);
 
-private:
 	template <class InputIter>
 	basic_string<CharT, Traits, Alloc> &append(InputIter first, InputIter last,
 			const forward_iterator_tag &);
@@ -112,4 +112,4 @@ basic_string<char, char_traits<char>, allocator<char> >::assign<char *>(char *, 
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?bfmeInitV37@BfmeStrV37@@QAEXPAD00@Z=??$_M_assign_dispatch@PAD@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAEAAV01@PAD0ABU__false_type@1@@Z")
+#pragma comment(linker, "/alternatename:?bfmeInitV37@BfmeStrV37@@QAEXPAD00@Z=??$_M_assign_dispatch@PAD@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@AAEAAV01@PAD0ABU__false_type@1@@Z")

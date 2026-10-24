@@ -41,11 +41,11 @@ public:
 		return assign(that);
 	}
 
+private:
 	template <class InputIter>
 	basic_string<CharT, Traits, Alloc> &_M_assign_dispatch(InputIter first,
 			InputIter last, const __false_type &);
 
-private:
 	CharT *_M_start;
 	CharT *_M_finish;
 	_STLP_alloc_proxy<CharT *, CharT, Alloc> _M_end_of_storage;
