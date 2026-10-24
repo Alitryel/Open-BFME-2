@@ -45,11 +45,11 @@ Xfer *__cdecl Rva0060BC53Xfer3(Xfer *xfer, int *data)
 		throw XferException(0, 0);
 	}
 	int *p = data;
-	int n = 3;
+	int remaining = 3;
 	do
 	{
 		xfer->operator==(*p++);
-	} while (--n != 0);
+	} while (--remaining != 0);
 	return xfer;
 }
 

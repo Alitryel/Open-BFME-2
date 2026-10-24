@@ -1903,3 +1903,4 @@ param,Rva0033A77F::rva0033A77F::a,Rva0033A77F::rva0033A77F::pointOut,inferred,ag
 param,Rva0033A77F::rva0033A77F::d,Rva0033A77F::rva0033A77F::preference,inferred,agree:nl-a05af2508a39,Code/GameEngine/Source/Common/Rva0033A77FForward.cpp,0x0033A77F
 param,Rva0033A77F::rva0033A77F::e,Rva0033A77F::rva0033A77F::seed,inferred,agree:nl-6f036d1e4694,Code/GameEngine/Source/Common/Rva0033A77FForward.cpp,0x0033A77F
 param,Rva005D3CA6::rva005D3CA6::v,Rva005D3CA6::rva005D3CA6::selection,inferred,agree:nl-a316cc4a9c11,Code/GameEngine/Source/Common/Rva005D3CA6Setters.cpp,0x005D3CA6
+local,Rva0060BC53Xfer3::n,Rva0060BC53Xfer3::remaining,inferred,agree:nl-b6eb44187c15,Code/GameEngine/Source/Common/System/Rva0060BC53.cpp,0x0060BC53
