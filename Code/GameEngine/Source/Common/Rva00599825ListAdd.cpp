@@ -156,9 +156,9 @@ void AIDozerManager::DoXfer(Xfer *xfer)
 	} else if (xfer->IsLoading()) {
 		m_ids.clear();
 		for (unsigned int i = 0; i < count; ++i) {
-			int tmp = 0;
-			XferObjectID(xfer, (ObjectID *)&tmp);
-			m_ids.push_back(tmp);
+			int dozerID = 0;
+			XferObjectID(xfer, (ObjectID *)&dozerID);
+			m_ids.push_back(dozerID);
 		}
 	}
 }

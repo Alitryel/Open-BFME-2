@@ -1743,3 +1743,4 @@ file,Code/Libraries/Source/WWVegas/WWLib/stlport_destroy_aux_0032A3A9.cpp,Code/L
 param,Rva006FE400::rva006FE400::a2,Rva006FE400::rva006FE400::memberName,inferred,agree:nl-9cab7fbf21c3,Code/Libraries/Source/Apt/Rva006FE400Chain.cpp,0x006FE400
 member,Rva002E0D66Node::m_8,Rva002E0D66Node::m_left,inferred,agree:nl-c318d4ad92ee,Code/GameEngine/Source/Common/Rva002E0D66Method.cpp,
 param,Drawable::rva00272D77::b,Drawable::rva00272D77::fadeInFrames,inferred,agree:nl-3a1abdf4d120,Code/GameEngine/Source/GameClient/DrawableFade.cpp,0x00272D77
+local,AIDozerManager::DoXfer::tmp,AIDozerManager::DoXfer::dozerID,inferred,agree:nl-5fdb73170637,Code/GameEngine/Source/Common/Rva00599825ListAdd.cpp,0x0059992A
