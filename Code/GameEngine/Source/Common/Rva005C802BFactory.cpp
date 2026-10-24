@@ -39,16 +39,16 @@ public:
 class Rva005C802B
 {
 public:
-	Rva005C802B(int a, int b);
+	Rva005C802B(int frame, int name);
 	virtual ~Rva005C802B();
 private:
 	Rva005C802BChild *m_04;
 };
 
-Rva005C802B::Rva005C802B(int a, int b)
+Rva005C802B::Rva005C802B(int frame, int name)
 {
 	m_04 = (Rva005C802BChild *)new InGameCommandButtonMovieClip::Impl(
-		(InGameCommandButtonMovieClip *)this, (AptMovieClipFrame *)a, *(const AsciiString *)b);
+		(InGameCommandButtonMovieClip *)this, (AptMovieClipFrame *)frame, *(const AsciiString *)name);
 }
 
 class Rva005D19F8;
@@ -77,7 +77,7 @@ Rva005D19F8::Rva005D19F8(int a, int b)
 
 #include "BattlePromptArmyPanelClipImplView.h"
 
-Rva005FF912::Rva005FF912(int level, int b)
+Rva005FF912::Rva005FF912(int level, int name)
 {
-	m_04 = new StrategicHUD::BattlePromptArmyPanelMovieClip::Impl(this, level, *(const AsciiString *)b);
+	m_04 = new StrategicHUD::BattlePromptArmyPanelMovieClip::Impl(this, level, *(const AsciiString *)name);
 }
