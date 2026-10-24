@@ -2400,3 +2400,7 @@ __ehhandler$?rva006F1600@Rva006F1360@@QBEPAVAptValue@@PAV2@PBVEAStringC@@@Z,0x00
 __ehhandler$?Rva00212118@@YGXVAsciiString@@@Z,0x0076DA1A,"Renamed to __ehhandler$?setCloudEffectState@@YGXVAsciiString@@@Z by tools/rename.py (inferred)"
 ?rva0022994D@Rva00226829@@QAEXXZ,0x0022994D,"Renamed to ?clear@Rva00226829@@QAEXXZ by tools/rename.py (inferred)"
 ?g_00DFF004@@3EA,0x009FF004,"Renamed to ?isLoadingMap@@3EA by tools/rename.py (inferred)"
+?Rva00595C04FormatIPPort@@YA?AVAsciiString@@IG@Z,0x00595C04,"Renamed to ?formatIPPort@@YA?AVAsciiString@@IG@Z by tools/rename.py (inferred)"
+__ehhandler$?Rva00595C04FormatIPPort@@YA?AVAsciiString@@IG@Z,0x0079D229,"Renamed to __ehhandler$?formatIPPort@@YA?AVAsciiString@@IG@Z by tools/rename.py (inferred)"
+?Rva00595C9BFormatIP@@YA?AVAsciiString@@I@Z,0x00595C9B,"Renamed to ?formatIP@@YA?AVAsciiString@@I@Z by tools/rename.py (inferred)"
+?Rva00595C79FormatAddress@@YA?AVAsciiString@@PBURva00595C79Address@@@Z,0x00595C79,"Renamed to ?formatAddress@@YA?AVAsciiString@@PBURva00595C79Address@@@Z by tools/rename.py (inferred)"
