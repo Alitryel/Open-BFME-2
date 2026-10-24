@@ -30,6 +30,25 @@ typedef _STL::list<TeamPrototype *> PlayerTeamList;
 // Declared only: the out-of-line erase is retail's rowed body at 0x002ABAC0.
 namespace _STL { template <> PlayerTeamList::iterator PlayerTeamList::erase(PlayerTeamList::iterator); }
 
+// The team list's nodes come from a pool: retail's out-of-line erase
+// (pinned 0x002ABAC0, ICF twin of rowed Rva002ABAC0Free) unlinks the node and
+// pushes it onto the pool's free list at VA 0x00DBBD34 instead of calling
+// STLport's node allocator (same pool as PlayerUpdate.cpp's team list).
+struct PoolNode002ABAC0;
+extern PoolNode002ABAC0 *g_00DBBD34;
+namespace _STL {
+template <> __declspec(noinline) inline PlayerTeamList::iterator PlayerTeamList::erase(iterator position)
+{
+	_List_node_base *prev = position._M_node->_M_prev;
+	_List_node_base *next = position._M_node->_M_next;
+	prev->_M_next = next;
+	next->_M_prev = prev;
+	*(void **)position._M_node = g_00DBBD34;
+	g_00DBBD34 = (PoolNode002ABAC0 *)position._M_node;
+	return iterator((_Node *)next);
+}
+}
+
 class Player
 {
 public:
