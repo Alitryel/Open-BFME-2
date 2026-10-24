@@ -1854,3 +1854,13 @@ Code/Libraries/Source/WWVegas/WWLib/W3DModelDrawModuleDataDtorRva000C8BE0.cpp|lo
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp|global||BfmeAnimationModeNames,43e397f900d31dfca2b657ab,gpt-6.1-sol,codex6-20261024-010425-27,w-bcdd62231570,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp|global||BfmeAnimationRecordFields,20bcdb166d6fa5ded33d335d,gpt-6.1-sol,codex6-20261024-010425-27,w-bcdd62231570,2026-10-24
 Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp|local|Rva00DFE144Globals::rva00202244|p,968bc8fa9f28376cd4146c02,gpt-6.1-sol,codex6-20261024-010425-28,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/Common/Rva00085553Init.cpp|function|0x00085553|Rva00085553Get,bcbfb19af4aca86465c59925,gpt-6.1-sol,codex4-20261024-005743-4,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva00085553Init.cpp|param|Rva00085553Get|b,e659e0115a313c94c168e08d,gpt-6.1-sol,codex4-20261024-005743-4,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva003743CFBehavior.cpp|function|0x003743BB|Rva003743BB,07b739ca9944dfdc8255e7a6,gpt-6.1-sol,codex4-20261024-005743-5,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva00240D0FCreate.cpp|class||Rva00240D0FNode,691c61d01eb131622be2e88c,gpt-6.1-sol,codex4-20261024-005743-6,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva00240D0FCreate.cpp|member|Rva00240D0FNode|m_00,7dad8cd37d9325d7bc0f3564,gpt-6.1-sol,codex4-20261024-005743-6,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva00240D0FCreate.cpp|function|0x00240D0F|Rva00240D0FCreate,95b27fab1d8ffbb568041615,gpt-6.1-sol,codex4-20261024-005743-6,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva00240D0FCreate.cpp|local|Rva00240D0FCreate|tmp,be2fc5eb46c24359876fb3eb,gpt-6.1-sol,codex4-20261024-005743-6,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva002CF302Erase.cpp|function|0x002CF302|rva002CF302,10204d09dfc180182cafacd7,gpt-6.1-sol,codex4-20261024-005743-8,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva00108AD8Finish.cpp|local|Rva00108AD8::invalidateCachedLightPositions|e,b4bcfe4bddd502fd78db80b7,gpt-6.1-sol,codex4-20261024-005743-9,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028C20F.cpp|local|Object::rva0028C20F|m,fe597da0f6387f3f6b750fcf,gpt-6.1-sol,codex4-20261024-005743-10,w-887869184137,2026-10-24
