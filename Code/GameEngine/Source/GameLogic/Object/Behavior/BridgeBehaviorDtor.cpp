@@ -112,20 +112,24 @@ class BridgeBehavior : public UpdateModule,
 public:
 	virtual ~BridgeBehavior();
 	virtual UpdateSleepTime update();
-	// Redeclared (never defined here) so each secondary-vtable slot references
-	// the BridgeBehavior:: body the kept BridgeBehavior.cpp defines.
+	// Other secondary-vtable members bind their existing providers. The flag
+	// getter is defined here so the obsolete protected donor destructor can go.
 	virtual void setTower(BridgeTowerType towerType, Object *tower);
 	virtual ObjectID getTowerID(BridgeTowerType towerType);
 	virtual void createScaffolding();
 	virtual void removeScaffolding();
 	virtual bool isScaffoldInMotion();
-	virtual bool isScaffoldPresent();
+	// Native interface+20 receiver reads flag+DD (complete object+FD).
+	// Retail table C408FC slot5 ->4571F4; ctor also clears byte+FD.
+	virtual bool isScaffoldPresent() { return m_FD; }
 	virtual void onDamage(DamageInfo *damageInfo);
 	virtual void onHealing(DamageInfo *damageInfo);
 	virtual void onBodyDamageStateChange(const DamageInfo *damageInfo, BodyDamageType oldState, BodyDamageType newState);
 	virtual void onDie(const DamageInfo *damageInfo);
 private:
-	char m_pad2C[0x100 - 0x2C];
+	char m_pad2C[0xFD - 0x2C];
+	bool m_FD;
+	char m_padFE[0x100 - 0xFE];
 	PoolMember m_100;
 };
 

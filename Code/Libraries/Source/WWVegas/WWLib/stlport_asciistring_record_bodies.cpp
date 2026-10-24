@@ -56,12 +56,12 @@ struct BfmeAssignRecord44;
 namespace _STL { template <> vector<BfmeAssignRecord44,allocator<BfmeAssignRecord44> >::~vector(); }
 bool operator<(const AsciiString &, const AsciiString &);
 bool operator==(const AsciiString &, const AsciiString &);
-struct BfmeAssignRecord24 { AsciiString s; int a[5]; };
+struct BfmeAssignRecord24 { AsciiString s; int a[5]; BfmeAssignRecord24 &operator=(const BfmeAssignRecord24 &); };
 inline bool operator==(const BfmeAssignRecord24 &x, const BfmeAssignRecord24 &y) { return x.s == y.s; }
 // Native copy/fill callers reach the separately verified record assignments.
 // These size-only views supply algorithm strides, not assignment layouts;
 // declare the owners so implicit assignments cannot compete with them.
-struct BfmeAssignRecord28 { AsciiString s; int a[6]; BfmeAssignRecord28 &operator=(const BfmeAssignRecord28 &); };
+struct BfmeAssignRecord28 { AsciiString s; int a[6]; BfmeAssignRecord28 &operator=(const BfmeAssignRecord28 &); ~BfmeAssignRecord28(); };
 inline bool operator==(const BfmeAssignRecord28 &x, const BfmeAssignRecord28 &y) { return x.s == y.s; }
 // This shape view supplies assignment helpers; the independently verified
 // 71B destructor at0x0017330A owns destruction of the complete native record.
@@ -76,18 +76,18 @@ inline bool operator==(const BfmeAssignRecord52 &x, const BfmeAssignRecord52 &y)
 struct BfmePod8 { int a[2]; };
 struct BfmeAssignRecord84 { AsciiString s; int a[20]; BfmeAssignRecord84 &operator=(const BfmeAssignRecord84 &); };
 inline bool operator==(const BfmeAssignRecord84 &x, const BfmeAssignRecord84 &y) { return x.s == y.s; }
-struct BfmeStringHeadRecord148 { AsciiString s; int a[36]; };
+struct BfmeStringHeadRecord148 { AsciiString s; int a[36]; BfmeStringHeadRecord148() {} BfmeStringHeadRecord148(const BfmeStringHeadRecord148 &); ~BfmeStringHeadRecord148(); };
 inline bool operator==(const BfmeStringHeadRecord148 &x, const BfmeStringHeadRecord148 &y) { return x.s == y.s; }
 struct BfmeStringHeadRecord160 { AsciiString s; int a[39]; };
 inline bool operator==(const BfmeStringHeadRecord160 &x, const BfmeStringHeadRecord160 &y) { return x.s == y.s; }
 // Native184B stride; this algorithm view performs no member accesses.
 struct BfmeStringHeadRecord184 { unsigned char body[184]; ~BfmeStringHeadRecord184(); BfmeStringHeadRecord184 &operator=(const BfmeStringHeadRecord184 &); };
 bool operator==(const BfmeStringHeadRecord184 &x, const BfmeStringHeadRecord184 &y);
-struct BfmeAssignRecord40 { int a[9]; AsciiString s; };
+struct BfmeAssignRecord40 { int a[9]; AsciiString s; BfmeAssignRecord40 &operator=(const BfmeAssignRecord40 &); };
 inline bool operator==(const BfmeAssignRecord40 &x, const BfmeAssignRecord40 &y) { return x.s == y.s; }
 // Forward and backward copies use the same opaque element and assignment.
 struct Rva0051FC54Element { unsigned char bytes[80]; Rva0051FC54Element &operator=(const Rva0051FC54Element &); };
-struct BfmeAssignRecord104 { int a[25]; AsciiString s; };
+struct BfmeAssignRecord104 { int a[25]; AsciiString s; BfmeAssignRecord104 &operator=(const BfmeAssignRecord104 &); };
 inline bool operator==(const BfmeAssignRecord104 &x, const BfmeAssignRecord104 &y) { return x.s == y.s; }
 // Retail's range destroy for this record (0x003B8E13) passes a tag to the
 // stride-0x68 loop 0x003B8B61, rowed as Rva003B8B61Destroy; forwarding the
@@ -97,6 +97,11 @@ void __cdecl Rva003B8B61Destroy(Rva003B8B61Elem *first, Rva003B8B61Elem *last, i
 namespace _STL { template <> __declspec(dllimport) __forceinline void __destroy_aux<BfmeAssignRecord104 *>(BfmeAssignRecord104 *first, BfmeAssignRecord104 *last, const __false_type &) { __false_type tag; ((void (__cdecl *)(BfmeAssignRecord104 *, BfmeAssignRecord104 *, const __false_type &))(void (__cdecl *)(Rva003B8B61Elem *, Rva003B8B61Elem *, int))&Rva003B8B61Destroy)(first, last, tag); } }
 struct BfmeAssignRecord172 { int a[42]; AsciiString s; BfmeAssignRecord172 &operator=(const BfmeAssignRecord172 &); };
 inline bool operator==(const BfmeAssignRecord172 &x, const BfmeAssignRecord172 &y) { return x.s == y.s; }
+// Declared only: each helper below is a byte-verified retail body rowed under
+// another name (bound by /alternatename at the end of this file). These
+// size-only views would otherwise emit their own non-retail copies.
+namespace _STL {
+}
 // Only the native0x90 stride is used by these algorithm instantiations.
 // Native destruction and assignment are provided by their verified owners.
 struct BfmeStringTailRecord144 { unsigned char body[0x90]; ~BfmeStringTailRecord144(); BfmeStringTailRecord144 &operator=(const BfmeStringTailRecord144 &); };
@@ -189,6 +194,16 @@ template class _STL::vector<BfmeStringTailRecord180, _STL::allocator<BfmeStringT
 
 // Both assignment spellings designate the existing45B native body51C3F.
 #pragma comment(linker, "/alternatename:??4BfmeStringTailRecord144@@QAEAAU0@ABU0@@Z=??4Rva00051C3F@@QAEAAV0@ABV0@@Z")
+
+// Pinned spellings of helpers whose byte-verified retail bodies are rowed
+// under other names; each alias names the row at the pinned address.
+#pragma comment(linker, "/alternatename:??$_Construct@UBfmeStringTailRecord156@@U1@@_STL@@YAXPAUBfmeStringTailRecord156@@ABU1@@Z=??$_Construct@VRva003AD160@@V1@@_STL@@YAXPAVRva003AD160@@ABV1@@Z")
+#pragma comment(linker, "/alternatename:??4BfmeAssignRecord104@@QAEAAU0@ABU0@@Z=??4ArmySummary@@QAEAAV0@ABV0@@Z")
+#pragma comment(linker, "/alternatename:??4BfmeAssignRecord24@@QAEAAU0@ABU0@@Z=??4ProductionPrerequisite@@QAEAAV0@ABV0@@Z")
+#pragma comment(linker, "/alternatename:??1BfmeAssignRecord28@@QAE@XZ=??1Rva00111B25Record@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??1BfmeStringHeadRecord148@@QAE@XZ=??1Rva00360F55@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??0BfmeStringHeadRecord148@@QAE@ABU0@@Z=??0Rva0036105B@@QAE@ABV0@@Z")
+#pragma comment(linker, "/alternatename:??4BfmeAssignRecord40@@QAEAAU0@ABU0@@Z=??0?$pair@$$CBHURva00540053Element@@@_STL@@QAE@ABU01@@Z")
 
 // Both ABI aliases preserve the existing native pin endpoints.
 #pragma comment(linker, "/alternatename:??1BfmeStringHeadRecord184@@QAE@XZ=??1RunwayInfo@FlightDeckBehavior@@QAE@XZ")

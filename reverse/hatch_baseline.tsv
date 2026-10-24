@@ -33157,7 +33157,7 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/AutoHealBehav
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/AutoHealBehavior.cpp	update@AutoHealBehavior@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeBehavior.cpp	0BridgeBehavior@@QAE@PAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeBehavior.cpp	0BridgeBehaviorModuleData@@QAE@XZ	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeBehavior.cpp	1BridgeBehavior@@	1
+present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeBehavior.cpp	1BridgeBehavior@@	0
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeBehavior.cpp	1BridgeBehaviorModuleData@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeBehavior.cpp	crc@BridgeBehavior@@MAEXPAVXfer@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeBehavior.cpp	createScaffolding@BridgeBehavior@@	1

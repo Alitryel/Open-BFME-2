@@ -207,27 +207,9 @@ inline /*static*/ void BridgeBehaviorModuleData::parseFX( INI *ini,
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ??1BridgeBehavior@@ present-unmatched
-BridgeBehavior::~BridgeBehavior( void )
-{
+// The verified destructor is owned by BridgeBehaviorDtor.cpp (457113, 150B).
+// This former protected donor view emitted another destructor and vtables.
 
-	//
-	// destroy our four towers if they are still present in the world (they wouldn't be if we
-	// are resetting the engine, and those towers were earlier in the destruction list than
-	// we were)
-	//
-	for( Int i = 0; i < BRIDGE_MAX_TOWERS; ++i )
-	{
-		Object *tower;
-
-		// get the tower and destroy
-		tower = TheGameLogic->findObjectByID( getTowerID( (BridgeTowerType)i ) );
-		if( tower )
-			TheGameLogic->destroyObject( tower );
-
-	}  // end for i
-
-}  // end ~BridgeBehavior
 
 // ------------------------------------------------------------------------------------------------
 /** Get bridge behavior interface */
