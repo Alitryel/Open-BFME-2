@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /MD /EHsc /Ireference/shims/bfme2_ascii /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /MD /EHs /Ireference/shims/bfme2_ascii /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // WB StrategicHUDBattlePromptMovieClip.cpp:795..837 identifies the paired tab
 // callbacks. Native records have two 32-bit properties and a wide string at +8,
@@ -19,16 +19,36 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include "../../../../Common/BfmeStringRecord005F93E3.h"
 struct Rva005F91F3Src {unsigned int header,word0,word1;UnicodeString text;};
 struct Rva005F91F3 {unsigned int word0,word1;UnicodeString text;Rva005F91F3(const Rva005F91F3Src &);};
-void Rva00030830FreeAllocation(void *);
 class Rva005FA0C9;
 struct Rva005FA197Element {Rva005FA0C9 *ptr;Rva005FA197Element(Rva005FA0C9 *);Rva005FA197Element(const Rva005FA197Element &);~Rva005FA197Element();};
 class Rva005FA0F7;
 struct Rva005FA1CEElement {Rva005FA0F7 *ptr;Rva005FA1CEElement(Rva005FA0F7 *);Rva005FA1CEElement(const Rva005FA1CEElement &);~Rva005FA1CEElement();};
 namespace _STL {
-// Range cleanup is supplied by the existing out-of-line template providers.
-template <> void _Destroy<Rva005FA197Element *>(Rva005FA197Element *,Rva005FA197Element *);
-template <> void _Destroy<Rva005FA1CEElement *>(Rva005FA1CEElement *,Rva005FA1CEElement *);
-template<> inline void allocator<BfmeStringRecord005F93E3>::deallocate(BfmeStringRecord005F93E3 *p,size_t) const {if(p)::Rva00030830FreeAllocation(p);}
+}
+// Range cleanup: retail's 24B _Destroy forwarder 0x005F97BC into the 27B
+// __destroy_aux 0x004F72ED, which calls the 34B reference-slot cleanup
+// 0x005F8FCC with flags 0 for every 4B slot (as Rva002B7000Dtor.cpp).
+struct Rva005F8FCC {void *rva005F8FCC(unsigned);};
+namespace _STL {
+template<> __declspec(noinline) inline void __destroy_aux<Rva005FA197Element *>(Rva005FA197Element *first,Rva005FA197Element *last,const __false_type &)
+{
+ for(;first!=last;++first) reinterpret_cast<Rva005F8FCC *>(first)->rva005F8FCC(0);
+}
+template<> __declspec(noinline) inline void __destroy_aux<Rva005FA1CEElement *>(Rva005FA1CEElement *first,Rva005FA1CEElement *last,const __false_type &)
+{
+ for(;first!=last;++first) reinterpret_cast<Rva005F8FCC *>(first)->rva005F8FCC(0);
+}
+template<> __declspec(noinline) inline void _Destroy<Rva005FA197Element *>(Rva005FA197Element *first,Rva005FA197Element *last)
+{
+ __false_type trivial;
+ __destroy_aux(first,last,trivial);
+}
+template<> __declspec(noinline) inline void _Destroy<Rva005FA1CEElement *>(Rva005FA1CEElement *first,Rva005FA1CEElement *last)
+{
+ __false_type trivial;
+ __destroy_aux(first,last,trivial);
+}
+template<> inline void allocator<BfmeStringRecord005F93E3>::deallocate(BfmeStringRecord005F93E3 *p,size_t) const {if(p)::free(p);}
 template<> void vector<BfmeStringRecord005F93E3>::push_back(const BfmeStringRecord005F93E3 &);
 }
 namespace AptUtils { const char *__cdecl SkipLevelN(const char *); }

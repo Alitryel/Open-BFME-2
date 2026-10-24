@@ -34,6 +34,29 @@ void Rva005CB260::rva005CB260(int value)
 	((Rva005CB260IntSlots *)this)->slot1(value);
 }
 
+// ?rva005CB260@Rva005CB260Properties@@QAEXHIIABVUnicodeString@@@Z: the fold's
+// four-argument spelling. StrategicHUD::BattlePromptMovieClip::Impl::OnAllyTabsLoaded
+// pushes (index, two record words, the record's string) before calling
+// 0x005CB260, which passes them on to slot 1 untouched.
+class UnicodeString;
+class Rva005CB260PropertiesSlots
+{
+public:
+	virtual void slot0();
+	virtual void slot1(int index, unsigned int word0, unsigned int word1, const UnicodeString &text);
+};
+
+class Rva005CB260Properties
+{
+public:
+	void rva005CB260(int index, unsigned int word0, unsigned int word1, const UnicodeString &text);
+};
+
+void Rva005CB260Properties::rva005CB260(int index, unsigned int word0, unsigned int word1, const UnicodeString &text)
+{
+	((Rva005CB260PropertiesSlots *)this)->slot1(index, word0, word1, text);
+}
+
 // ?rva005CB265@Rva005CB265@@UAEHXZ @0x005CB265 5B: the slot-3 twin,
 // mov eax,[ecx]; jmp [eax+0xC]. Retail ICF-folds it with
 // ProcessAnimateWindowSlideFromBottomTimed::reverseAnimateWindow (rowed in

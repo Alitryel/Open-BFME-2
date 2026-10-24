@@ -43,6 +43,28 @@ void Rva005CC208::rva005CC208()
 	rva005CC208_slot2();
 }
 
+// ?rva005CC208@Rva005CC208Select@@QAEXH@Z: the fold's one-int spelling.
+// StrategicHUD::BattlePromptMovieClip's tab selection pushes the page index
+// before calling 0x005CC208, which passes it on to slot 2 untouched.
+class Rva005CC208SelectSlots
+{
+public:
+	virtual void slot0();
+	virtual void slot1();
+	virtual void slot2(int index);
+};
+
+class Rva005CC208Select
+{
+public:
+	void rva005CC208(int index);
+};
+
+void Rva005CC208Select::rva005CC208(int index)
+{
+	((Rva005CC208SelectSlots *)this)->slot2(index);
+}
+
 class Rva000D20D6
 {
 public:
