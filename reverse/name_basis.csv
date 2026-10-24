@@ -755,3 +755,12 @@ carry,Rva005398B3::rva005398B3::entry,Rva005398B3::reset::entry,inferred,scope r
 member,Rva005543D5::m_64,Rva005543D5::m_thread,inferred,agree:nl-1ff7db0ad551,Code/GameEngine/Source/Common/Rva005543D5Init.cpp,
 member,Rva005543D5::m_9C,Rva005543D5::m_mutex,inferred,agree:nl-8fbc4a314438,Code/GameEngine/Source/Common/Rva005543D5Init.cpp,
 member,Rva005543D5::m_A4,Rva005543D5::m_lock,inferred,agree:nl-2e103dec5232,Code/GameEngine/Source/Common/Rva005543D5Init.cpp,
+param,NAT::reconnectPlayers::a,NAT::reconnectPlayers::slot1,inferred,agree:nl-8e9cd7cb6c06,Code/GameEngine/Source/Common/Rva005A69C0Box.cpp,0x005A69C0
+param,NAT::reconnectPlayers::b,NAT::reconnectPlayers::slot2,inferred,agree:nl-40b5b9453456,Code/GameEngine/Source/Common/Rva005A69C0Box.cpp,0x005A69C0
+param,NAT::reconnectPlayers::c,NAT::reconnectPlayers::resetRetries,inferred,agree:nl-af8398ab0dca,Code/GameEngine/Source/Common/Rva005A69C0Box.cpp,0x005A69C0
+local,NAT::rva005A6CA5::o2,NAT::rva005A6CA5::otherSlot,inferred,agree:nl-ae2c91dcc7bc,Code/GameEngine/Source/Common/Rva005A69C0Box.cpp,0x005A6CA5
+local,NAT::rva005A6CA5::r,NAT::rva005A6CA5::ping,inferred,agree:nl-85deb949c444,Code/GameEngine/Source/Common/Rva005A69C0Box.cpp,0x005A6CA5
+local,NAT::rva005A6CA5::t,NAT::rva005A6CA5::pingTime,inferred,agree:nl-7f477ab1b2e2,Code/GameEngine/Source/Common/Rva005A69C0Box.cpp,0x005A6CA5
+local,NAT::rva005A6D47::o2,NAT::rva005A6D47::otherSlot,inferred,agree:nl-bdf8cbedcfc4,Code/GameEngine/Source/Common/Rva005A69C0Box.cpp,0x005A6D47
+local,Rva005A6D47::rva005A6D47::o2,Rva005A6D47::rva005A6D47::otherSlot,inferred,agree:nl-55c3d403fe16,Code/GameEngine/Source/Common/Rva005A69C0Box.cpp,0x005A6D47
+global,?g_rva005A6CA5Limit@@3HA,?g_pingTimeout@@3HA,inferred,agree:nl-659ef1fc9f3c,Code/GameEngine/Source/Common/Rva005A69C0Box.cpp,0x009D35C8

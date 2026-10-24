@@ -53,7 +53,7 @@ struct NAT
 	int m_8EC[8];
 	int *m_90C[8];
 
-	void reconnectPlayers(int a, int b, int c);
+	void reconnectPlayers(int slot1, int slot2, int resetRetries);
 	void rva005A6CA5();
 	void rva005A6D47();
 };
@@ -61,30 +61,30 @@ struct NAT
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime();
 // 0x009D35C8 (.data): the ping-age limit the pair scan compares against;
 // nothing else defines it, so it is defined here at its retail value.
-int g_rva005A6CA5Limit = 12000;
+int g_pingTimeout = 12000;
 
-void NAT::reconnectPlayers(int a, int b, int c)
+void NAT::reconnectPlayers(int slot1, int slot2, int resetRetries)
 {
 	if (!NAT_READY(this))
 		return;
-	if ((unsigned short)a >= 8)
+	if ((unsigned short)slot1 >= 8)
 		return;
-	if ((unsigned short)b >= 8)
+	if ((unsigned short)slot2 >= 8)
 		return;
-	if ((unsigned short)a == (unsigned short)b)
+	if ((unsigned short)slot1 == (unsigned short)slot2)
 		return;
-	int an = (unsigned short)a;
+	int an = (unsigned short)slot1;
 	GameSlot *oa = m_8[an];
 	if (oa == 0)
 		return;
-	int bn = (unsigned short)b;
+	int bn = (unsigned short)slot2;
 	if (m_8[bn] == 0)
 		return;
 	if (!oa->isHuman())
 		return;
 	if (!m_8[bn]->isHuman())
 		return;
-	(m_28.*reinterpret_cast<PortNegotiationReconnectShape>(&PortNegotiationSchema::reconnectPlayers))(a, b, c);
+	(m_28.*reinterpret_cast<PortNegotiationReconnectShape>(&PortNegotiationSchema::reconnectPlayers))(slot1, slot2, resetRetries);
 	if (an == m_14) {
 		m_10 = 1;
 		m_8E4[bn] = 0;
@@ -112,14 +112,14 @@ void NAT::rva005A6CA5()
 			int j = 0;
 			do {
 				if (i != j) {
-					GameSlot *o2 = m_8[j];
-					if (o2 != 0 && o2->isHuman()) {
+					GameSlot *otherSlot = m_8[j];
+					if (otherSlot != 0 && otherSlot->isHuman()) {
 						PortNegotiationSchema *portNegotiationSchema = (PortNegotiationSchema *)((char *)self + 0x28);
 						if (portNegotiationSchema->isConnectionDone(i, j)) {
-							void *r = portNegotiationSchema->peekPing(i, j);
-							if (r != 0) {
-								int t = *(int *)((char *)r + 0x10);
-								if (t != 0 && (unsigned)(stamp - t) > (unsigned)g_rva005A6CA5Limit)
+							void *ping = portNegotiationSchema->peekPing(i, j);
+							if (ping != 0) {
+								int pingTime = *(int *)((char *)ping + 0x10);
+								if (pingTime != 0 && (unsigned)(stamp - pingTime) > (unsigned)g_pingTimeout)
 									reconnectPlayers(i, j, 0);
 							}
 						}
@@ -149,8 +149,8 @@ void NAT::rva005A6D47()
 			int j = 0;
 			do {
 				if (i != j) {
-					GameSlot *o2 = m_8[j];
-					if (o2 != 0 && o2->isHuman()) {
+					GameSlot *otherSlot = m_8[j];
+					if (otherSlot != 0 && otherSlot->isHuman()) {
 						if (m_28.isRetryConnectingOverLimit(i, j))
 							reconnectPlayers(i, j, 1);
 					}
@@ -191,8 +191,8 @@ void Rva005A6D47::rva005A6D47()
 			int j = 0;
 			do {
 				if (i != j) {
-					GameSlot *o2 = m_8[j];
-					if (o2 != 0 && o2->isHuman()) {
+					GameSlot *otherSlot = m_8[j];
+					if (otherSlot != 0 && otherSlot->isHuman()) {
 						if (m_28.isRetryConnectingOverLimit(i, j))
 							((NAT *)this)->reconnectPlayers(i, j, 1);
 					}
