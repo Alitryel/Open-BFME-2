@@ -21,7 +21,7 @@ void famgenDelete(Path *path) { delete path; }
 
 // ??_GRva002AF6C5Element@@QAEPAXI@Z @0x2af4d1 (the 0x24-byte record whose dtor is 0x2af1ec)
 struct Rva002AF6C5Element { ~Rva002AF6C5Element(); };
-void famgenDelete(Rva002AF6C5Element *p) { delete p; }
+void famgenDelete(Rva002AF6C5Element *element) { delete element; }
 
 // ??_GBfmeStringHeadRecord148@@QAEPAXI@Z @0x3611d3
 // The 0x94-byte ObjectFilter record: its complete dtor is the row ??1Rva00360F55 (0x360FDB).
@@ -29,11 +29,11 @@ void famgenDelete(Rva002AF6C5Element *p) { delete p; }
 // ??1BfmeStringHeadRecord148 copy is emitted (the WWLib views emit a wrong one).
 class Rva00360F55 { public: ~Rva00360F55(); };
 class BfmeStringHeadRecord148 { public: __declspec(dllimport) __forceinline ~BfmeStringHeadRecord148() { ((Rva00360F55 *)this)->~Rva00360F55(); } };
-void famgenDelete(BfmeStringHeadRecord148 *p) { delete p; }
+void famgenDelete(BfmeStringHeadRecord148 *objectFilter) { delete objectFilter; }
 
 // ??_GBfmeNodeZ@@QAEPAXI@Z @0x3b4470
 class BfmeNodeZ { public: ~BfmeNodeZ(); };
-void famgenDelete(BfmeNodeZ *p) { delete p; }
+void famgenDelete(BfmeNodeZ *node) { delete node; }
 
 // ??_GBfmeStringRecord00111ACF@@QAEPAXI@Z @0x3f63e5
 class BfmeStringRecord00111ACF { public: ~BfmeStringRecord00111ACF(); };
