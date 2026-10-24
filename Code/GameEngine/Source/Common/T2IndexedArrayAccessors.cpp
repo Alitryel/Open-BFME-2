@@ -58,7 +58,7 @@ T2ElemA *T2OwnerA::find(int id)
 struct T2OwnerB
 {
 	char m_head[0x20];
-	T2ArrB m_20;
+	T2ArrB m_elements;
 
 	T2ElemB *at(int index);
 	T2ElemB *find(int id);
@@ -66,16 +66,16 @@ struct T2OwnerB
 
 T2ElemB *T2OwnerB::at(int index)
 {
-	if (index >= m_20.m_n)
+	if (index >= m_elements.m_n)
 		return 0;
-	return m_20.m_a + index;
+	return m_elements.m_a + index;
 }
 
 T2ElemB *T2OwnerB::find(int id)
 {
-	for (int i = 0; i < m_20.m_n; ++i)
+	for (int i = 0; i < m_elements.m_n; ++i)
 	{
-		T2ElemB *slot = m_20.at(i);
+		T2ElemB *slot = m_elements.at(i);
 		GetterWord key;
 		key = slot->get();
 		if (key.m_value == id)
