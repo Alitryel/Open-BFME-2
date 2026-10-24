@@ -26,7 +26,7 @@ ICoord2D *__cdecl Rva002E7875WorldToCell(ICoord2D *out, bool center, const Coord
 // ?rva002EADE1@Pathfinder@@QAEHPBUCoord3D@@0W4PathfindLayerEnum@@PAURva002E7ED6Info@@@Z @0x002EADE1 63B.
 int Pathfinder::rva002EADE1(const Coord3D *startPos, const Coord3D *b, PathfindLayerEnum layer, Rva002E7ED6Info *info)
 {
-	ICoord2D tmp1;
+	ICoord2D destinationCell;
 	ICoord2D m_startCell;
-	return rva002E8251(Rva002E7875WorldToCell(&m_startCell, true, startPos), Rva002E7875WorldToCell(&tmp1, true, b), layer, info);
+	return rva002E8251(Rva002E7875WorldToCell(&m_startCell, true, startPos), Rva002E7875WorldToCell(&destinationCell, true, b), layer, info);
 }

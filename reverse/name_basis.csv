@@ -1310,3 +1310,4 @@ local,LivingWorldRegion::ModuleData::BuildingRestriction::ParseINI::p,LivingWorl
 function,?rva00072B3A@Rva00072B3A@@QBE?AVRvaTextureHandleView@@XZ,?getShroudTexture@Rva00072B3A@@QBE?AVRvaTextureHandleView@@XZ,inferred,agree:nl-788ff4a88d98,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp,0x00072B3A
 function,?Rva000FA927ClearDirty@@YAXXZ,?clearDirty@@YAXXZ,inferred,agree:nl-33299076c77d,Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp,0x000FA927
 function,?Rva000FA92FIsDirty@@YA_NXZ,?isDirty@@YA_NXZ,inferred,agree:nl-e020845fc241,Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp,0x000FA92F
+local,Pathfinder::rva002EADE1::tmp1,Pathfinder::rva002EADE1::destinationCell,inferred,agree:nl-1da5d29493c9,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002EADE1.cpp,0x002EADE1
