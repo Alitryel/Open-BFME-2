@@ -26,15 +26,6 @@ namespace _STL { template <> void _String_base<unsigned short,allocator<unsigned
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> unsigned short * _STLP_alloc_proxy<unsigned short *,unsigned short,allocator<unsigned short> >::allocate(unsigned int); }
 
-// Keep the constructor visible for allocator escape analysis, while using
-// the shared range-initializer provider. Preserve the iterator parameter:
-// VC7.1 crashes when this nested member template is fully specialized.
-namespace _STL {
-template <> template <class ForwardIterator> void
-basic_string<unsigned short>::_M_range_initialize(
-    ForwardIterator, ForwardIterator, const forward_iterator_tag &);
-}
-
 extern "C" unsigned int __cdecl strlen(const char *s);
 extern "C" void *__cdecl memset(void *dest, int c, unsigned int n);
 extern "C" __declspec(dllimport) int __stdcall MultiByteToWideChar(
