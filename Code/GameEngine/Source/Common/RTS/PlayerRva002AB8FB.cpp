@@ -83,42 +83,42 @@ void Player::rva002AB8FB(Object *obj, bool flag)
 		return;
 	if (*(unsigned char *)((char *)*(int *)((char *)obj->getControllingPlayer() + 0x34) + 0x151) == 0)
 		return;
-	AsciiString tmp;
-	BfmeGlob939D *g = *(BfmeGlob939D **)&TheGameLogic;
+	AsciiString upgradeName;
+	BfmeGlob939D *gameLogic = *(BfmeGlob939D **)&TheGameLogic;
 	GameWindow *gw;
-	if (g->bfmeCall939D() == 0 || (gw = m_window) == 0) {
+	if (gameLogic->bfmeCall939D() == 0 || (gw = m_window) == 0) {
 		GameLogic *gl = *(GameLogic **)&TheGameLogic;
 		switch (*(int *)((char *)gl + 0xA4)) {
 		case 0:
-			tmp.set("Upgrade_EasyAISinglePlayer");
+			upgradeName.set("Upgrade_EasyAISinglePlayer");
 			break;
 		case 1:
-			tmp.set("Upgrade_MediumAISinglePlayer");
+			upgradeName.set("Upgrade_MediumAISinglePlayer");
 			break;
 		case 2:
-			tmp.set("Upgrade_HardAISinglePlayer");
+			upgradeName.set("Upgrade_HardAISinglePlayer");
 			break;
 		case 3:
-			tmp.set("Upgrade_BrutalAISinglePlayer");
+			upgradeName.set("Upgrade_BrutalAISinglePlayer");
 			break;
 		}
 	} else {
 		switch ((int)gw->winGetUserData()) {
 		case 0:
-			tmp.set("Upgrade_EasyAIMultiPlayer");
+			upgradeName.set("Upgrade_EasyAIMultiPlayer");
 			break;
 		case 1:
-			tmp.set("Upgrade_MediumAIMultiPlayer");
+			upgradeName.set("Upgrade_MediumAIMultiPlayer");
 			break;
 		case 2:
-			tmp.set("Upgrade_HardAIMultiPlayer");
+			upgradeName.set("Upgrade_HardAIMultiPlayer");
 			break;
 		case 3:
-			tmp.set("Upgrade_BrutalAIMultiPlayer");
+			upgradeName.set("Upgrade_BrutalAIMultiPlayer");
 			break;
 		}
 	}
-	const char *s = tmp.str();
+	const char *s = upgradeName.str();
 	NameKeyType key = TheNameKeyGenerator->nameToKey(s);
 	const UpgradeTemplate *upg = TheUpgradeCenter->findUpgradeByKey(key);
 	if (upg != 0)

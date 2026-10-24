@@ -695,3 +695,5 @@ function,?Rva005E18EA@@YAHXZ,?getPlayerColor@@YAHXZ,inferred,agree:nl-bc9bf1c6c2
 function,?rva005E21AB@Rva005E21AB@@QAEPBVImage@@XZ,?getButtonImage@Rva005E21AB@@QAEPBVImage@@XZ,inferred,agree:nl-a9a29e75e8ba,Code/GameEngine/Source/Common/GapBodiesGE38.cpp,0x005E21AB
 function,?rva005E3EE2@Rva005E3EE2@@QBE?AURva005E3EE2Handle@@XZ,?getHandle@Rva005E3EE2@@QBE?AURva005E3EE2Handle@@XZ,inferred,agree:nl-9fa5538a4336,Code/GameEngine/Source/Common/GapBodiesGE38.cpp,0x005E3EE2
 class,Rva0056913DElem,DuckingTarget,inferred,agree:nl-b2303c9353f7,Code/GameEngine/Source/Common/LargeGroupAudioSoundKeyPair_removeDuckingTarget.cpp,
+local,Player::rva002AB8FB::tmp,Player::rva002AB8FB::upgradeName,inferred,agree:nl-efc16be34906,Code/GameEngine/Source/Common/RTS/PlayerRva002AB8FB.cpp,0x002AB8FB
+local,Player::rva002AB8FB::g,Player::rva002AB8FB::gameLogic,inferred,agree:nl-ea8a78d3f642,Code/GameEngine/Source/Common/RTS/PlayerRva002AB8FB.cpp,0x002AB8FB
