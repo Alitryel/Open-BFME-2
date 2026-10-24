@@ -370,7 +370,7 @@ def test_the_resolver_reads_this_repositorys_ledgers(tmp_path, monkeypatch):
 
 # --------------------------------------------------------------------------- pin readings (review of cd1336610f)
 
-def resolver(tmp_path, monkeypatch, pins, sections):
+def resolver(tmp_path, monkeypatch, pins, sections, rows=(), functions=()):
     """A Resolver over `pins` ("name,0xADDRESS") alone, built the way verify() builds
     one (Resolver(rows)), with `sections` standing for retail's."""
     build = data_rows._tools()[0]
@@ -378,9 +378,85 @@ def resolver(tmp_path, monkeypatch, pins, sections):
     symbols.write_text("name,address,notes\n" + "".join(f"{pin},\n" for pin in pins))
     monkeypatch.setattr(data_rows, "SYMBOLS", symbols)
     monkeypatch.setattr(data_rows, "DIR32_ADDRESSES", tmp_path / "absent.csv")
-    monkeypatch.setattr(build, "load_function_rows", lambda: [])
+    monkeypatch.setattr(build, "load_function_rows", lambda: list(functions))
     monkeypatch.setattr(data_rows, "retail_sections", lambda exe=None: sections)
-    return data_rows.Resolver([])
+    return data_rows.Resolver(rows)
+
+
+@pytest.mark.parametrize("kind,address", [("rva", "0x00001010"), ("va", "0x00401010")])
+def test_explicit_text_data_is_data_not_a_function(tmp_path, monkeypatch, kind, address):
+    entry = dict(zip(data_rows.FIELDS, row("_blob", address, kind, "16", ".text")))
+    resolve = resolver(tmp_path, monkeypatch, ["_blob,0x00001010"], SECTIONS, rows=[entry])
+    assert resolve("_blob") == {BASE + 0x1010}
+    assert resolve("_blob", False) == {BASE + 0x1010}
+    assert resolve("_blob", True) == set()  # even a code-shaped pin does not turn the datum into code
+
+
+@pytest.mark.parametrize("relocation", [data_rows.DIR32, data_rows.DIR32NB])
+@pytest.mark.parametrize("addend", [0, 4])
+def test_data_relocation_to_owned_text_data_verifies(tmp_path, monkeypatch, relocation, addend):
+    entry = dict(zip(data_rows.FIELDS, row("_blob", "0x00001010", "rva", "16", ".text")))
+    resolve = resolver(tmp_path, monkeypatch, [], SECTIONS, rows=[entry])
+    actual = (BASE if relocation == data_rows.DIR32 else 0) + 0x1010 + addend
+    img = image_with(data=struct.pack("<I", actual))
+    compiled(tmp_path, monkeypatch, [(".data", 0xC0300040, struct.pack("<i", addend), 4,
+                                     [(0, 1, relocation)])],
+             [("?dp@@3PAHA", 0, 1), ("_blob", 0, 0)])
+    ok, message = verify(img, row("?dp@@3PAHA"), resolve)
+    assert ok, message
+
+
+def test_function_relocation_cannot_take_an_owned_text_datum(tmp_path, monkeypatch):
+    entry = dict(zip(data_rows.FIELDS, row("_blob", "0x00001010", "rva", "16", ".text")))
+    resolve = resolver(tmp_path, monkeypatch, [], SECTIONS, rows=[entry])
+    compiled(tmp_path, monkeypatch, [(".data", 0xC0300040, bytes(4), 4, [(0, 1)])],
+             [("?fp@@3P6AXXZA", 0, 1), ("_blob", 0, 0, FUNCTION)])
+    ok, message = verify(image_with(data=struct.pack("<I", BASE + 0x1010)), row("?fp@@3P6AXXZA"), resolve)
+    assert not ok and "no retail address in the ledgers (as code)" in message
+
+
+@pytest.mark.parametrize("origin", ["pin", "function", "dir32"])
+def test_code_home_without_its_own_data_row_is_still_not_data(tmp_path, monkeypatch, origin):
+    entry = dict(zip(data_rows.FIELDS, row("_blob", "0x00001010", "rva", "16", ".text")))
+    functions = [{"name": "_code", "target_rva": "0x00001010", "notes": ""}] if origin == "function" else []
+    pins = ["_code,0x00001010"] if origin == "pin" else []
+    if origin == "dir32":
+        # The old untyped DIR32 register is not independently owned data.
+        addresses = tmp_path / "dir32.csv"
+        addresses.write_text("name,va\n_code,0x00401010\n")
+    resolve = resolver(tmp_path, monkeypatch, pins, SECTIONS, rows=[entry], functions=functions)
+    if origin == "dir32":
+        monkeypatch.setattr(data_rows, "DIR32_ADDRESSES", addresses)
+        resolve = data_rows.Resolver([entry], SECTIONS)
+    assert resolve("_code", False) == set()  # another name's data row grants no exemption
+
+
+@pytest.mark.parametrize("change", [{"status": "partial"}, {"section": ".rdata"},
+                                    {"address": "0x00001FFC", "size": "8"}])
+def test_invalid_row_metadata_grants_no_text_data_home(tmp_path, monkeypatch, change):
+    entry = dict(zip(data_rows.FIELDS, row("_blob", "0x00001010", "rva", "16", ".text")))
+    entry.update(change)
+    resolve = resolver(tmp_path, monkeypatch, [], SECTIONS, rows=[entry])
+    assert resolve("_blob", False) == set()
+
+
+def test_data_pointer_cannot_follow_a_jump_stub_to_its_datum(tmp_path, monkeypatch):
+    resolve = resolver(tmp_path, monkeypatch, ["_blob,0x00002010"], SECTIONS)
+    text = b"\xe9" + struct.pack("<i", 0x2010 - 0x1005)
+    compiled(tmp_path, monkeypatch, [(".data", 0xC0300040, bytes(4), 4, [(0, 1)])],
+             [("?dp@@3PAHA", 0, 1), ("_blob", 0, 0)])
+    ok, message = verify(image_with(data=struct.pack("<I", BASE + 0x1000), text=text),
+                         row("?dp@@3PAHA"), resolve)
+    assert not ok and "retail points at 0x00401000" in message
+
+
+def test_owned_text_data_still_requires_the_exact_pointer(tmp_path, monkeypatch):
+    entry = dict(zip(data_rows.FIELDS, row("_blob", "0x00001010", "rva", "16", ".text")))
+    resolve = resolver(tmp_path, monkeypatch, [], SECTIONS, rows=[entry])
+    compiled(tmp_path, monkeypatch, [(".data", 0xC0300040, bytes(4), 4, [(0, 1)])],
+             [("?dp@@3PAHA", 0, 1), ("_blob", 0, 0)])
+    ok, message = verify(image_with(data=struct.pack("<I", BASE + 0x1014)), row("?dp@@3PAHA"), resolve)
+    assert not ok and "retail points at 0x00401014" in message
 
 
 # .text runs past RVA 0x400000, so pin 0x00401010 reads as RVA 0x401010 (VA 0x00801010)

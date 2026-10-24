@@ -106,10 +106,12 @@ def test_the_empty_ledger_is_checked_without_the_retail_image(monkeypatch, capsy
     problems = []
     assert data_rows.check(HEADER_ONLY, problems) == 0 and problems == []
     assert data_rows.check(data_rows.HEADER.encode(), problems) == 0 and "no line ending" in problems[0]
+    without = _check_csv_run(monkeypatch, capsys, tmp_path / "absent.csv")
     empty = tmp_path / "data_rows.csv"
     empty.write_bytes(HEADER_ONLY)  # the committed ledger has rows now; this is about an empty one
-    code, out, err = _check_csv_run(monkeypatch, capsys, empty)
-    assert code == 0, err
+    # Both fixtures omit today's data-only owners and can report orphans.
+    # Their results must still agree without either reading the image.
+    assert _check_csv_run(monkeypatch, capsys, empty) == without
     with pytest.raises(AssertionError, match="read the retail image"):  # a row still needs its section
         data_rows.check(HEADER_ONLY + (data_row("Code/b.cpp") + "\n").encode(), [])
 

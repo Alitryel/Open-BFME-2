@@ -31,9 +31,11 @@ Verification (build.py, per source and in the full gate), per row:
             fields, and every relocation's target (symbol + in-place addend)
             equal to retail's pointer there, the target's address coming from
             the ledgers (functions.csv object symbols, data_rows, dir32 names,
-            symbols.csv pins; an ILT stub counts for its body). A function
-            target takes only a code address and a data target only a data
-            address. A compiler string literal (??_C@...) has no ledger name:
+            symbols.csv pins; a function's ILT stub counts for its body). A
+            function target takes only a code address. A data target takes a
+            non-executable address or its own explicit matched data-row home,
+            including data stored in retail .text; that home is not a function.
+            Pins and untyped DIR32 names grant no such exemption. A compiler string literal (??_C@...) has no ledger name:
             it is placed by content, as build.verify_string_refs places one
             for code -- retail's pointer must land outside code on the
             literal's own bytes from the addend through its terminator. A pin is read for the target's kind (pin_readings): for
@@ -549,6 +551,7 @@ class Resolver:
         build, rl = _tools()
         self.sections = retail_sections() if sections is None else sections
         self.homes = {}      # name -> VAs from the ledger rows
+        self.data_homes = {}  # explicit data ownership, independent of section permissions
         self.pins = {}       # name -> raw symbols.csv addresses, read per target kind
         self.ambiguous = {}  # name -> [why]: pins that place no data address
         for row in build.load_function_rows():
@@ -557,7 +560,12 @@ class Resolver:
                 for key in {row["name"], build.ledger_object_symbol(row)}:
                     self.homes.setdefault(key, set()).add(va)
         for row in data_rows:
-            self.homes.setdefault(row["name"], set()).add(va_of(row))
+            va, size = va_of(row), int(row["size"])
+            self.homes.setdefault(row["name"], set()).add(va)
+            if (row["status"] == "matched" and size > 0
+                    and any(section == row["section"] and start <= va and va + size <= end
+                            for section, start, end, _ in self.sections)):
+                self.data_homes.setdefault(row["name"], set()).add(va)
         # absent here: a name it would place has fewer homes, so its relocation fails
         for row in rl.read_csv_rows(DIR32_ADDRESSES) if DIR32_ADDRESSES.exists() else ():
             self.homes.setdefault(row["name"], set()).add(int(row["va"], 16))
@@ -571,14 +579,20 @@ class Resolver:
                         self.ambiguous.setdefault(row[0], []).append(why)
 
     def __call__(self, name, function=None):
-        """`name`'s homes; for a function (True) only those in code, for data
-        (False) only those in data, each pin read for that kind."""
+        """`name`'s homes, with explicit data rows overriding section permissions.
+
+        Other homes and pins still require the requested section kind.
+        """
         homes = set(self.homes.get(name, ()))
         if function is not None:
             want = "code" if function else "data"
             homes = {va for va in homes if section_kind(self.sections, va) == want}
         for value in self.pins.get(name, ()):
             homes |= pin_readings(value, self.sections, function)[0]
+        if function is False:
+            homes |= self.data_homes.get(name, set())
+        elif function is True:
+            homes -= self.data_homes.get(name, set())
         return homes
 
 
@@ -687,7 +701,7 @@ def verify_row(row, img, resolve, compile=True, sizer=compiled_size):
                            f"(as {'code' if function else 'data'})" + (f": {ambiguity}" if ambiguity else ""))
         # DIR32 holds the target's VA, DIR32NB its RVA: compare VAs, the stub's target included
         actual = value if kind == DIR32 else (value + IMAGE_BASE) & 0xFFFFFFFF
-        head = img.read(actual, 5) if img.section(actual) == ".text" else None
+        head = img.read(actual, 5) if function and img.section(actual) == ".text" else None
         stub = (actual + 5 + struct.unpack_from("<i", head, 1)[0]) & 0xFFFFFFFF if head and head[0] == 0xE9 else None
         if actual not in want and stub not in want:
             return False, (f"+{w - lo:#x} (0x{site:08X}): retail points at 0x{actual:08X}, "
