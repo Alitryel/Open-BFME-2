@@ -11,9 +11,9 @@ public:
 	static void *operator new(unsigned int n);
 };
 
-extern void *g_bfmeRva0112B3ACVt;
-extern void *g_bfmeRva0112B3F0Vt;
-extern void *g_bfmeRva0112B3FCVt;
+extern "C" char __identifier("??_7Rva006613E0@@6B@")[];
+extern "C" char __identifier("??_7Gen007F4D00@@6BGen007F4D00Listener@@@")[];
+extern "C" char __identifier("??_7Gen007F4D00@@6BGen007F4D00Owner@@@")[];
 
 struct Bfme5Obj18
 {
@@ -32,9 +32,9 @@ Bfme5Obj18 * __cdecl bfme5MakeObj18(void)
 
 	if (q) {
 		p = (Bfme5Obj18 *)q;
-		*(void *volatile *)&p->m_bfmeV4 = &g_bfmeRva0112B3ACVt;
-		*(void *volatile *)&p->m_bfmeV0 = &g_bfmeRva0112B3FCVt;
-		*(void *volatile *)&p->m_bfmeV4 = &g_bfmeRva0112B3F0Vt;
+		*(void *volatile *)&p->m_bfmeV4 = __identifier("??_7Rva006613E0@@6B@");
+		*(void *volatile *)&p->m_bfmeV0 = __identifier("??_7Gen007F4D00@@6BGen007F4D00Owner@@@");
+		*(void *volatile *)&p->m_bfmeV4 = __identifier("??_7Gen007F4D00@@6BGen007F4D00Listener@@@");
 		p->m_bfme08 = 0;
 		p->m_bfme0c = 0;
 		p->m_bfme10 = 0;

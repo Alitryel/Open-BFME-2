@@ -9,7 +9,7 @@ typedef bool Bool;
 #include "../../../../reference/shims/subsystem_bfme2/subsystem_interface.h"
 class Parameter;
 class ScriptAction;
-class AsciiStringBH;
+class AsciiString;
 class BfmeTargetBH;
 class Object;
 class ContainModuleInterface;
@@ -301,7 +301,7 @@ public:
     void Rva003C8E2BExit(AsciiString const &);
     void Rva003C0308Do(AsciiString const &, bool, bool, int, AsciiString const &, int);
     void Rva003C0425Do(AsciiString const &, bool, bool, int, AsciiString const &, int);
-    void bfmeAddBH(AsciiString const &, AsciiStringBH const &, BfmeTargetBH *);
+    void bfmeAddBH(AsciiString const &, AsciiString const &, BfmeTargetBH *);
     void doFireSpecialPowerAtWaypoint(AsciiString const &, AsciiString const &, AsciiString const &);
     void rva003C4625(AsciiString const &, Parameter *, AsciiString const &);
     void rva003C55A6(void *, AsciiString const &, AsciiString const &, AsciiString const &, AsciiString const &);

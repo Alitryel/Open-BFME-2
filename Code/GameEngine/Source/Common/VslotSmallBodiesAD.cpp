@@ -185,10 +185,10 @@ struct Rva0040E0C5Arg
 	char m_pad00[0x78];
 	Rva0040DF77 *m_78;
 };
-class Rva0040E0C5
+class Rva0040CFFF
 {
 public:
-	bool rva0040E0C5(Rva0040E0C5Arg *arg);
+	virtual bool rva0040E0C5(Rva0040E0C5Arg *arg);
 };
 
 

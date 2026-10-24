@@ -5,16 +5,18 @@
 // Evidence: the stack callback temp at [ebp-0x10] stores vtable 0x00C394C8
 // (the rowed 9-byte ctor ??0Rva0040CFFF@@QAE@XZ 0x0040CFFF), then the rowed
 // LivingWorldBattle::rva003F498A (0x003F498A) is called with the temp. The
-// EH prolog and state 0 need a destructible temp; an inline-empty virtual
+// EH prolog and state 0 need a destructible temp; an inline-empty
 // destructor supplies it without emitting a call on the normal path.
 
 class Rva003F498ACallback;
 
+struct Rva0040E0C5Arg;
+
 class Rva0040CFFF
 {
 public:
-	virtual void s0();
-	virtual ~Rva0040CFFF() {}
+	virtual bool rva0040E0C5(Rva0040E0C5Arg *arg);
+	~Rva0040CFFF() {}
 };
 
 class LivingWorldBattle

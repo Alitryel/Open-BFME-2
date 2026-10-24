@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc /Ob2
+// cl: /DNDEBUG /MD /EHsc /Ob2 /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include
 //
 // Bodies ported from Open-BFME-1's
 // GameEngine/Source/Common/BfmeNamedApplyBH.cpp (donor revision
@@ -12,43 +12,19 @@
 // Open-BFME5: the named apply at retail 0x002F83D0, 62 bytes.  The name is
 // handed to the registry by value; nothing happens unless it resolves.
 
-class StringBaseNarrowBH
-{
-protected:
-	StringBaseNarrowBH(const StringBaseNarrowBH &other) throw();
+// stlport
+#include "ascii_string.h"
+#include "GameLogic/ScriptActionsBFME2.h"
 
-	~StringBaseNarrowBH(void) throw();
-
-	char *m_bfmeNarrowBH;
-};
-
-class AsciiStringBH : public StringBaseNarrowBH
+class SpecialPowerTemplate;
+class SpecialPowerStore
 {
 public:
-	AsciiStringBH(const AsciiStringBH &other) throw() : StringBaseNarrowBH(other)
-	{
-	}
-
-	~AsciiStringBH(void) throw()
-	{
-	}
+	const SpecialPowerTemplate *findSpecialPowerTemplate(AsciiString name) throw();
 };
 
-class BfmeRegistryBH
-{
-public:
-	void *bfmeFindBH(AsciiStringBH name) throw();
-};
-
-// retail 0x012ED80C is the game's TheSpecialPowerStore, so the global must carry
-// that name and its pointee type.  SpecialPowerStore itself is declared by
-// game/GameEngine/Source/Common/System/game_engine_subsystems.h; only the address
-// of the global is referenced here, so a forward declaration of the pointee is
-// enough and the registry view below is still reached by cast (which emits
-// nothing).
-class SpecialPowerStore;
-
-extern SpecialPowerStore *TheSpecialPowerStore;	// retail 0x012ED80C
+// Retail loads the named store at VA 0x00E02D4C before its template lookup.
+extern SpecialPowerStore *TheSpecialPowerStore;
 
 class AsciiString;
 class SpecialPowerTemplate;
@@ -61,23 +37,12 @@ public:
 	char m_bfmePosition[4];
 };
 
-// WB: a callgraph caller of FireSpecialPowerAtPosition, so a ScriptActions
-// member; its own name is not recovered.
-class ScriptActions
-{
-public:
-	bool FireSpecialPowerAtPosition(const AsciiString &playerName,
-		const SpecialPowerTemplate *power, const Coord3D *position) throw();
-
-	void bfmeAddBH(const AsciiString &playerName, const AsciiStringBH &name, BfmeTargetBH *target);
-};
-
-void ScriptActions::bfmeAddBH(const AsciiString &playerName, const AsciiStringBH &name,
+void ScriptActions::bfmeAddBH(const AsciiString &playerName, const AsciiString &name,
 		BfmeTargetBH *target)
 {
-	void *found = ((BfmeRegistryBH *)TheSpecialPowerStore)->bfmeFindBH(name);
+	const SpecialPowerTemplate *found = TheSpecialPowerStore->findSpecialPowerTemplate(name);
 
 	if (found != 0)
-		FireSpecialPowerAtPosition(playerName, (const SpecialPowerTemplate *)found,
+		FireSpecialPowerAtPosition(playerName, found,
 			(const Coord3D *)target->m_bfmePosition);
 }

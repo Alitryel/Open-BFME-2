@@ -1797,11 +1797,14 @@ Rva003FE1BF::Rva003FE1BF()
 }
 
 // ??0Rva0040CFFF@@QAE@XZ @0x0040CFFF 9B, vtable VA 0x00c394c8
+struct Rva0040E0C5Arg;
+
 class Rva0040CFFF
 {
 public:
 	Rva0040CFFF();
-	virtual ~Rva0040CFFF() {}
+	virtual bool rva0040E0C5(Rva0040E0C5Arg *arg);
+	~Rva0040CFFF() {}
 };
 
 // Select-any like Rva0040D43FRun.cpp's identical copy (a strong definition

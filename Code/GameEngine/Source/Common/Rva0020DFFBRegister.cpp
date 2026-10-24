@@ -35,9 +35,11 @@ namespace _STL { template <> void allocator<const ModuleData *>::deallocate(cons
 class ModuleData;
 namespace _STL { template <> void vector<const ModuleData *, allocator<const ModuleData *> >::_M_clear(); }
 class ModuleData { public: int x; };
-extern _STL::vector<const ModuleData*> g_moduleDataList0020DFFB;
+extern unsigned int g_00DFE1AC;
 void __cdecl Rva0020DFFBRegister(const ModuleData* md)
 {
+    _STL::vector<const ModuleData *> &g_moduleDataList0020DFFB =
+        *reinterpret_cast<_STL::vector<const ModuleData *> *>(&g_00DFE1AC);
     for (const ModuleData** it = g_moduleDataList0020DFFB.begin(); it != g_moduleDataList0020DFFB.end(); ++it) {
         if (*it == md)
             return;

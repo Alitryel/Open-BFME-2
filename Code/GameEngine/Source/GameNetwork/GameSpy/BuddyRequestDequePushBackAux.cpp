@@ -126,6 +126,7 @@ void deque<T, Alloc>::_M_push_back_aux_v(const T &t)
 	_M_finish._M_cur = _M_finish._M_first;
 }
 
-template void deque<BuddyRequest, allocator<BuddyRequest> >::_M_push_back_aux_v(const BuddyRequest &);
+template void _Construct<BuddyRequest, BuddyRequest>(BuddyRequest *, const BuddyRequest &);
+template void _Deque_iterator<BuddyRequest>::_M_set_node(BuddyRequest **);
 
 }
