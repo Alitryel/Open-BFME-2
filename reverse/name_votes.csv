@@ -4272,3 +4272,14 @@ Code/GameEngine/Source/Common/Rva005D4913Dtor.cpp|param|DelegateDesc|f,d8788108f
 Code/GameEngine/Source/Common/Rva005D4913Dtor.cpp|param|Rva00579E47|r,832eff4ede4da34d01a4ec50,gpt-6.1-sol,codex4-20261024-080054-27,w-887869184137,2026-10-24
 Code/GameEngine/Source/Common/Rva005D4913Dtor.cpp|param|AptRef|d,ba6ff292456add10bf706d80,gpt-6.1-sol,codex4-20261024-080054-27,w-887869184137,2026-10-24
 Code/GameEngine/Source/Common/Rva005D4913Dtor.cpp|param|MakeBinding|f,656dc9a045577528e7a772f6,gpt-6.1-sol,codex4-20261024-080054-27,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/GapBodiesS3C.cpp|function|0x004E55B9|rva004E55B9,88687b44b01113e7cba3fbf3,gpt-6.1-sol,codex4-20261024-083224-1,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaignManager.cpp|param|LivingWorldCampaignManager::UseGenericSpawnArmyForPlayer|a,5a92e5be692896ea1f2b50d4,gpt-6.1-sol,codex4-20261024-083224-1,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp|function|0x002F0DD6|rva002F0DD6,5d8703812a0159fc68cefb22,gpt-6.1-sol,codex4-20261024-083224-6,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp|param|Rva002F1DDCIter|p,e54908aa06d9b2beebcbc13a,gpt-6.1-sol,codex4-20261024-083224-6,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp|param|Rva002F1DDCTree::rva002F0DD6|x,3ee0068e47b3a23577aaa74b,gpt-6.1-sol,codex4-20261024-083224-6,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp|param|Rva002F1DDCTree::rva002F0DD6|y,2e886e00aa6b856463482b89,gpt-6.1-sol,codex4-20261024-083224-6,w-887869184137,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp|local|Rva002F1DDCTree::rva002F0DD6|z,1056b931f5e4d1b8209445bf,gpt-6.1-sol,codex4-20261024-083224-6,w-887869184137,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp|class||Rva0010811EVertex,a4c5ef66c460e6afadd59ef3,gpt-6.1-sol,codex4-20261024-083224-7,w-887869184137,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp|class||Rva0010811EVector3,5e26ebf3c2065c9f60c291b7,gpt-6.1-sol,codex4-20261024-083224-7,w-887869184137,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp|local|W3DVolumetricShadowV2::W3DVolumetricShadowV2|x,8046908fb097131172486f9b,gpt-6.1-sol,codex4-20261024-083224-7,w-887869184137,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp|local|W3DVolumetricShadowV2::W3DVolumetricShadowV2|y,7c460aa1b6663b197093b97d,gpt-6.1-sol,codex4-20261024-083224-7,w-887869184137,2026-10-24
