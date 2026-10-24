@@ -1915,3 +1915,5 @@ local,Rva00318333::rva00318768::c2,Rva00318333::rva00318768::remainingCountdown,
 local,Rva00318333::rva00318333::f,Rva00318333::rva00318333::isEvil,inferred,agree:nl-8bbd68e635c1,Code/GameEngine/Source/GameNetwork/Rva00318333.cpp,0x00318333
 param,Rva0028867DCheck::p,Rva0028867DCheck::level,inferred,agree:nl-cf22e162a31e,Code/GameEngine/Source/Common/Rva0028867DCheck.cpp,0x0028867D
 local,Rva0028867DCheck::d,Rva0028867DCheck::levelData,inferred,agree:nl-4336412d691b,Code/GameEngine/Source/Common/Rva0028867DCheck.cpp,0x0028867D
+param,Rva004DF8D8Test::b,Rva004DF8D8Test::origin,inferred,agree:nl-2207659bc8bd,Code/GameEngine/Source/Common/Rva004DF8D8Test.cpp,0x004DF8D8
+param,Rva004DF8D8Test::f1,Rva004DF8D8Test::range,inferred,agree:nl-9dd1362e3ad5,Code/GameEngine/Source/Common/Rva004DF8D8Test.cpp,0x004DF8D8
