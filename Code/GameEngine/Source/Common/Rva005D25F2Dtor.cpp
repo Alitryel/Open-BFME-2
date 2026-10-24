@@ -202,7 +202,7 @@ void Rva005D25F2::rva005D2664(int i)
     reinterpret_cast<Rva005C3E79 *>(slot->subMenu04.ptr)->rva005C3E79();
 }
 
-int Rva005D25F2::rva005D24E5(int i) { Rva005D2575 *e=reinterpret_cast<Rva005D2575 *>(reinterpret_cast<char *>(this)+(i+1)*0x1C); return e->help10.ptr || e->reference0C.ptr; }
+int Rva005D25F2::rva005D24E5(int i) { Rva005D2575 *slot=reinterpret_cast<Rva005D2575 *>(reinterpret_cast<char *>(this)+(i+1)*0x1C); return slot->help10.ptr || slot->reference0C.ptr; }
 
 void __cdecl operator delete(void *);
 void *Rva005D25F2::rva00578532(unsigned int flags) { this->~Rva005D25F2(); if(flags&1)operator delete(this);return this; }

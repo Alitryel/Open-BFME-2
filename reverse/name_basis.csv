@@ -1854,3 +1854,4 @@ local,LivingWorldTutorial::SessionTask::ParseINI::p,LivingWorldTutorial::Session
 param,Rva00579E47::r,Rva00579E47::other,inferred,agree:nl-7b78b232233f,Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp,
 param,AptRef::d,AptRef::desc,inferred,agree:nl-6d1e54ec185d,Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp,
 local,Rva005D25F2::rva005D2664::e,Rva005D25F2::rva005D2664::slot,inferred,agree:nl-041fd142bf93,Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp,0x005D2664
+local,Rva005D25F2::rva005D24E5::e,Rva005D25F2::rva005D24E5::slot,inferred,agree:nl-12adf21a0fbd,Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp,0x005D24E5
