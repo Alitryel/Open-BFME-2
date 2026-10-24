@@ -1400,3 +1400,4 @@ param,famgenDelete#8::p,famgenDelete#8::record,inferred,agree:nl-4a7354c1bd5d,Co
 local,PathfindZoneManager::rva00531720::e,PathfindZoneManager::rva00531720::element,inferred,agree:nl-a30bda300138,Code/GameEngine/Source/Common/Rva00531720Finish.cpp,0x00531720
 local,mallocMarked::p,mallocMarked::memory,inferred,agree:nl-a46468366fe0,Code/GameEngine/Source/Common/Rva006C3940RecordAlloc.cpp,
 local,Rva006C39F0Owner::rva006C3940Alloc::p,Rva006C39F0Owner::rva006C3940Alloc::record,inferred,agree:nl-d794fedd2e46,Code/GameEngine/Source/Common/Rva006C3940RecordAlloc.cpp,0x006C3940
+function,?Rva003743BB@@YAXPAVObject@@PAX@Z,?setStatusCallback@@YAXPAVObject@@PAX@Z,inferred,agree:nl-a2fd38dfae88,Code/GameEngine/Source/GameLogic/Object/Update/Rva003743CFBehavior.cpp,0x003743BB

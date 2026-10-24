@@ -99,7 +99,7 @@ private:
 };
 // Contain-iterate callback 0x003743BB (20B): apply the same status change to
 // each contained object.
-void __cdecl Rva003743BB(Object *obj, void *userData)
+void __cdecl setStatusCallback(Object *obj, void *userData)
 {
 	Rva003743CFParam *param = (Rva003743CFParam *)userData;
 	obj->setStatus((ObjectStatusTypes)param->m_00, param->m_04);
@@ -124,7 +124,7 @@ void Rva003743CF::rva003743CF(void *statusType, bool set)
 		Rva003743CFParam param;
 		param.m_00 = status;
 		param.m_04 = set;
-		target->f68(Rva003743BB, &param, 1);
+		target->f68(setStatusCallback, &param, 1);
 	}
 	object->setStatus(*(ObjectStatusTypes *)statusType, set);
 }
