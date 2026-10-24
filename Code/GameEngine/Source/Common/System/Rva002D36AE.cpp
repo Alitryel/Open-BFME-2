@@ -10,7 +10,7 @@ public:
 	void rva005260FC(const AsciiString *name, int value);
 };
 
-struct Rva002D36AEMid
+struct PalantirImpl
 {
 	char m_pad[0xC4];
 	Rva005260FC *m_c4;
@@ -22,7 +22,7 @@ public:
 	void rva002D36AE(int name, int frames);
 private:
 	char m_pad[0x10];
-	Rva002D36AEMid *m_mid;
+	PalantirImpl *m_mid;
 };
 
 void Rva002D36AEHost::rva002D36AE(int name, int frames)
