@@ -3414,3 +3414,4 @@ Code/GameEngine/Source/Common/System/FormationBuild.cpp|local|FormationAssistant
 Code/GameEngine/Source/Common/System/FormationBuild.cpp|local|FormationAssistant::rva00424E77|n,bd59ce2601cc05c24c94ff79,gpt-6.1-sol,codex5-20261024-050424-25,w-2d32e7a71cf1,2026-10-24
 Code/GameEngine/Source/Common/System/FormationBuild.cpp|local|FormationAssistant::rva00424E77|x,dc672059487a4ef17298dc18,gpt-6.1-sol,codex5-20261024-050424-25,w-2d32e7a71cf1,2026-10-24
 Code/GameEngine/Source/Common/Thing/ModuleTagStringSwap.cpp|local|release|p,6122b7fbd3ac749747fcadb1,gpt-6.1-sol,codex5-20261024-050424-27,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameClient/GameClientLogoGate.cpp|member|Rva00239539Flags|flagAF2,df18558bc367cbffa795ef72,gpt-6.1-sol,codex5-20261024-053222-6,w-2d32e7a71cf1,2026-10-24
