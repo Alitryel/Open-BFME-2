@@ -1209,6 +1209,7 @@ class Measure:
         self.fwd, self.back = collections.defaultdict(set), collections.defaultdict(set)
         self.twins, self.eh = {}, collections.Counter()
         self.resolved, self.dnodes, self.twin_edges, self.twin_rels, self.twin_body = {}, {}, {}, {}, {}
+        self.before_refs = {}
         self.import_equiv = 0       # read-through references kept by the (dll, name) rule, not 1:1
         # shadow only (data-fold-1): what each retail address is reached as, a twin's own
         # failures before "calls a rejected twin", fold verdicts
@@ -1333,8 +1334,9 @@ class Measure:
         into the section. A displacement before the named symbol stays unresolved
         (data-unmapped): an indexed read through it reaches the symbol's own datum
         and a direct one the bytes before it, and judging either alone would credit
-        the other unchecked. Judging both is a follow-up; until then nothing is
-        credited there. (Displacements past the symbol's datum are judged by the
+        the other unchecked. resolve() admits it only with the adjacent, named
+        predecessor and the named datum both proven by before_symbol().
+        (Displacements past the symbol's datum are judged by the
         datum holding lt, as before.)"""
         if addend & 0x80000000:
             addend -= 1 << 32
@@ -1371,6 +1373,44 @@ class Measure:
         v1 = vals[i + 1] if i + 1 < len(vals) else sec.size
         return lt - (P - v0), v1 - v0, P - v0, o, sec, v0, S
 
+    def before_symbol(self, ref):
+        """A negative displacement supported by two complete adjacent datums.
+
+        Check the bytes before the symbol AND the array indexed from it. Both
+        origins become ordinary references, retaining their own pins, 1:1 maps,
+        pointer graphs and shifted checks. Never infer bytes outside the selected
+        section, across an intervening datum, or before a COMMON allocation.
+        """
+        lt, rt, tn, y, o, addend = ref[:6]
+        signed = addend - (1 << 32) if addend & 0x80000000 else addend
+        if signed >= 0:
+            return None
+        S, T = lt - signed, rt - signed
+        base = self.datum(S, tn, y, o, 0)
+        if base is None or base[0] != S or base[2] != 0 or base[6] != S:
+            return None
+        _, size, _, do, sec, value, _ = base
+        if sec is None or size <= 0:
+            return None
+        values = self.objs.defined(do)[1].get(sec.idx, [])
+        i = bisect.bisect_left(values, value)
+        if i == 0 or i >= len(values) or values[i] != value:
+            return None
+        previous = values[i - 1]
+        if not previous <= value + signed < value:
+            return None
+        candidates = [z for z in do[1].values() if z.sec == sec.idx and z.value == previous
+                      and z.cls in (EXTERNAL, STATIC) and z.name != sec.name]
+        for z in sorted(candidates, key=lambda z: (z.cls, z.name)):
+            A, B = S - (value - previous), T - (value - previous)
+            prior = self.datum(A, z.name, z, do, 0)
+            if (prior is None or prior[0] != A or prior[1] != value - previous or prior[2] != 0
+                    or prior[3] is not do or prior[4] is not sec or prior[6] != A):
+                continue
+            anchors = [(A, B, z.name, z, do, 0, "addr"), (S, T, tn, y, o, 0, "addr")]
+            return (A, value - previous, lt - A, do, sec, previous, S), anchors
+        return None
+
     def communal(self, name):
         """Size of a COMMON global across every parsed link object (0: none)."""
         if getattr(self, "commons", None) is None:
@@ -1400,6 +1440,10 @@ class Measure:
             r = ("import",)
         else:
             d = self.datum(lt, tn, y, o, addend)
+            if d is None:
+                pair = self.before_symbol(ref)
+                if pair is not None:
+                    d, self.before_refs[mk] = pair
             if d is None:
                 r = ("unmapped",)
             else:
@@ -1463,6 +1507,7 @@ class Measure:
             self.fwd[ref[0]].add(ref[1])
             self.back[ref[1]].add(ref[0])
             r = self.resolve(ref)
+            work.extend(self.before_refs.get((ref[0], ref[1], ref[2], id(ref[4]), ref[5]), ()))
             self.reach[ref[1]].add((ref[0], r[:2]))
             if r[0] == "datum":
                 node = self.dnodes[r[1]]
@@ -1508,7 +1553,12 @@ class Measure:
         pinned = tn in self.pins
         if pinned and not pin_matches(self.pins[tn], rt - (lt - S), self.rbase):
             fails.append(f"data-pin:{tn}")
-        return fails, {("datum", kind[1])}, pinned
+        edges = {("datum", kind[1])}
+        for anchor in self.before_refs.get((lt, rt, tn, id(ref[4]), ref[5]), ()):
+            f, e, _ = self.ref_check(anchor)
+            fails += f
+            edges |= e
+        return fails, edges, pinned
 
     def judge_datums(self):
         """Each datum's own failures: content, code pointers and every data pointer
@@ -1531,6 +1581,12 @@ class Measure:
         kind = self.resolve(ref)
         if kind[0] == "datum":
             fails = fails + self.dnodes[kind[1]]["fails"]
+            seen = {kind[1]}
+            for anchor in self.before_refs.get((ref[0], ref[1], ref[2], id(ref[4]), ref[5]), ()):
+                reached = self.resolve(anchor)
+                if reached[0] == "datum" and reached[1] not in seen:
+                    seen.add(reached[1])
+                    fails += self.dnodes[reached[1]]["fails"]
         return fails, edges, pinned
 
     def data_ref(self, lt, rt, tn, y, o, addend, access="addr"):

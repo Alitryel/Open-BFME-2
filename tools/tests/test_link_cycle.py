@@ -413,19 +413,37 @@ def _disp_setup(local, a_tail=b"GOOD", b_head=b"GOOD", L=0x3000):
 @pytest.mark.parametrize("local", [True, False])
 @pytest.mark.parametrize("before, addend", [(4, 0xFFFFFFFC), (2, 0xFFFFFFFE)])
 @pytest.mark.parametrize("a_tail, b_head", [(b"GOOD", b"GOOD"), (b"BAD!", b"GOOD"), (b"GOOD", b"BAD!")])
-def test_displacement_before_its_symbol_is_unresolved(local, before, addend, a_tail, b_head):
-    """MSVC folds table[i - 1] into [reg*4 + table-4]: a DIR32 addend of -4. Read
-    unsigned (0xFFFFFFFC), a symbol its own object defines reached the section's
-    last datum at a negative retail start (data-extent: llex.c's token2string,
-    data_fold_list's "0x-FF5DDA08"). Signed, `_b-4` is an indexed read of _b, a
-    direct read of _a's last bytes or (`_b-2`) both: judging _b alone credits a
-    bad _a (review round 1), judging _a alone a bad _b (round 2). Until both are
-    judged it stays unresolved, whatever the bytes, on both paths."""
+def test_displacement_before_its_symbol_requires_both_datums(local, before, addend, a_tail, b_head):
+    """An indexed base and a direct/straddling access require both full objects."""
     m, o, syms = _disp_setup(local, a_tail, b_head)
     lt = 0x3010 - before
     fails, edges, _ = m.data_ref(lt, lt + 0x100, "_b", syms[1], o, addend)
-    assert "data-unmapped:_b" in fails and edges == set()
-    assert not [f for f in fails if f.startswith("data-extent")]
+    assert edges == {("datum", (0x3000, 0x3100, 0x10)), ("datum", (0x3010, 0x3110, 0x10))}
+    expected = ([] if a_tail == b"GOOD" else ["data-content:_b"])
+    expected += ([] if b_head == b"GOOD" else ["data-content:_b"])
+    assert fails == expected
+
+
+@pytest.mark.parametrize("local", [True, False])
+def test_negative_displacement_cannot_skip_an_intervening_datum(local):
+    m, o, syms = _disp_setup(local)
+    assert "data-unmapped:_c" in m.data_ref(0x300C, 0x310C, "_c", syms.get(2), o, 0xFFFFFFEC)[0]
+
+
+@pytest.mark.parametrize("address, name", [(0x3000, "_a"), (0x3010, "_b")])
+def test_negative_displacement_checks_each_origin_one_to_one(address, name):
+    m, o, syms = _disp_setup(True)
+    m.fwd[address].add(address + 0x200)
+    fails, _, _ = m.data_ref(0x300C, 0x310C, "_b", syms[1], o, 0xFFFFFFFC)
+    assert "data-fwd:" + name in fails
+
+
+@pytest.mark.parametrize("name", ["_a", "_b"])
+def test_negative_displacement_checks_both_symbol_pins(name):
+    m, o, syms = _disp_setup(True)
+    m.pins[name] = 0x3200
+    fails, _, _ = m.data_ref(0x300C, 0x310C, "_b", syms[1], o, 0xFFFFFFFC)
+    assert "data-pin:" + name in fails
 
 
 @pytest.mark.parametrize("local", [True, False])
@@ -443,7 +461,7 @@ def test_displacement_inside_its_symbol_is_judged_by_it(local):
     assert m.data_ref(0x3014, 0x3114, "_b", syms[1], o, 4)[0] == ["data-content:_b"]
 
 
-def _indexed_row(addend, a_tail=b"GOOD", b_head=b"GOOD"):
+def _indexed_row(addend, a_tail=b"GOOD", b_head=b"GOOD", pointer_at=None, pointer_target_good=True):
     """A row `mov eax,[eax*4 + _b+addend]; ret` (DIR32 at +3 against _b, defined in
     d.obj's .data with _a and _c) measured end to end by Measure.run()."""
     disp = addend if addend >= 0 else addend + (1 << 32)
@@ -458,6 +476,12 @@ def _indexed_row(addend, a_tail=b"GOOD", b_head=b"GOOD"):
     _put(R, 0x1000, code[:3] + struct.pack("<I", B + 0x3110 + addend) + b"\xc3")
     _put(I, 0x300C, a_tail + b_head)
     _put(R, 0x310C, b"GOODGOOD")
+    if pointer_at is not None:
+        data[0][0].relocs.append((pointer_at, 2, lc.DIR32))
+        _put(I, 0x3000 + pointer_at, struct.pack("<I", B + 0x3020))
+        _put(R, 0x3100 + pointer_at, struct.pack("<I", B + 0x3120))
+        _put(I, 0x3020, b"GOOD" if pointer_target_good else b"BAD!")
+        _put(R, 0x3120, b"GOOD")
     objs = FakeObjs({"d.obj": data})
     objs.cache[a] = row
     u = {"id": 0, "obj": str(a), "sec": 1, "secname": ".text", "size": 8, "head": "?f@@YAXXZ",
@@ -484,19 +508,43 @@ def _closed(m, recs, ledger_starts):
 
 
 @pytest.mark.parametrize("a_tail, b_head", [(b"GOOD", b"GOOD"), (b"BAD!", b"GOOD"), (b"GOOD", b"BAD!")])
-def test_indexed_read_before_its_symbol_never_credits_the_row(a_tail, b_head):
-    """Review round 2's reproduction through run() and the closures: `[eax*4 +
-    _b-4]` with eax = 1 reads _b; the row must not close whichever datum is wrong,
-    in the strict series or a shadow one."""
+def test_indexed_read_before_its_symbol_credits_only_two_correct_datums(a_tail, b_head):
+    """Checking just _a or _b admits a bad neighbor; both must close in all series."""
     m, recs = _indexed_row(-4, a_tail, b_head)
     rec = recs[0]
-    assert rec["measured"] and "data-unmapped:_b" in rec["fails"] and not rec["edges"] & {
-        ("datum", (0x3000, 0x3100, 0x10)), ("datum", (0x3010, 0x3110, 0x10))}
-    assert not any(_closed(m, recs, {0x1000: 8}))
-    m, recs = _indexed_row(4, a_tail, b_head)                         # control: inside _b
+    assert rec["measured"]
+    assert {("datum", (0x3000, 0x3100, 0x10)), ("datum", (0x3010, 0x3110, 0x10))} <= rec["edges"]
+    good = a_tail == b_head == b"GOOD"
+    assert bool(rec["fails"]) is not good
+    assert _closed(m, recs, {0x1000: 8}) == [good] * (1 + len(lc.FOLD_SERIES))
+    m, recs = _indexed_row(4, a_tail, b_head)                         # unchanged inside-_b control
     assert recs[0]["fails"] == ([] if b_head == b"GOOD" else ["data-content:_b"])
     assert ("datum", (0x3010, 0x3110, 0x10)) in recs[0]["edges"]
     assert _closed(m, recs, {0x1000: 8}) == [b_head == b"GOOD"] * (1 + len(lc.FOLD_SERIES))
+
+
+@pytest.mark.parametrize("changed", [0x3000, 0x3018])
+def test_negative_displacement_closure_requires_both_datums_to_rebase(changed):
+    m, recs = _indexed_row(-4)
+    shifted = bytearray(m.I)
+    _put(shifted, 0x1003, struct.pack("<I", lc.SHIFT_BASE + 0x300C))
+    sh = _shifted(m.I, shifted)
+    sh.sites = []
+    ok, edges = lc.closure_graph(m, recs, {}, sh, {0x1000: 8})
+    assert ("unit", 0) in lc.greatest_closure(ok, edges)
+    shifted[changed] ^= 1
+    ok, edges = lc.closure_graph(m, recs, {}, sh, {0x1000: 8})
+    assert ("unit", 0) not in lc.greatest_closure(ok, edges)
+
+
+@pytest.mark.parametrize("pointer_at", [0, 0x18])
+@pytest.mark.parametrize("good", [True, False])
+def test_negative_displacement_closure_follows_pointers_in_both_datums(pointer_at, good):
+    m, recs = _indexed_row(-4, pointer_at=pointer_at, pointer_target_good=good)
+    assert recs[0]["fails"] == []  # Only the transitive target is wrong.
+    origin = 0x3000 if pointer_at == 0 else 0x3010
+    assert ("datum", (0x3020, 0x3120, 0x10)) in m.dnodes[(origin, origin + 0x100, 0x10)]["edges"]
+    assert _closed(m, recs, {0x1000: 8}) == [good] * (1 + len(lc.FOLD_SERIES))
 
 
 def _common_pointer_row(addend):
