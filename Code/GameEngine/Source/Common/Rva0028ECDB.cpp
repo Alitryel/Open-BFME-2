@@ -10,7 +10,7 @@ struct Rva002E9897Host;
 struct Rva002DFF0F8
 {
 	unsigned char m_pad[0x10];
-	Rva002E9897Host *m_10;
+	Rva002E9897Host *m_pathfinder;
 };
 class AI;
 extern AI *TheAI;
@@ -43,7 +43,7 @@ private:
 bool Rva0028ECDBHost::rva0028ECDB(void *a)
 {
 	Rva0028ECDBAux *aux = m_04;
-	if ((aux->m_11F & 0x80) != 0 && (aux->m_123 & 2) != 0 && m_250 != 0 && !((Pathfinder *)((Rva002DFF0F8 *)TheAI)->m_10)->IsWaterCell((int)a, 1))
+	if ((aux->m_11F & 0x80) != 0 && (aux->m_123 & 2) != 0 && m_250 != 0 && !((Pathfinder *)((Rva002DFF0F8 *)TheAI)->m_pathfinder)->IsWaterCell((int)a, 1))
 		return true;
 	return false;
 }
