@@ -25,24 +25,24 @@ struct Rva000B6498Head
 class Rva000B6498
 {
 public:
-	void rva000B6498(struct Rva000B6498Node *n);
+	void rva000B6498(struct Rva000B6498Node *node);
 	void rva000B9324();
 private:
 	struct Rva000B6498Head *m_head;
 	int m_count;
 };
 
-void Rva000B6498::rva000B6498(struct Rva000B6498Node *n)
+void Rva000B6498::rva000B6498(struct Rva000B6498Node *node)
 {
-	if (!n)
+	if (!node)
 		return;
 	do
 	{
-		rva000B6498(n->m_child);
-		struct Rva000B6498Node *next = n->m_next;
-		free(n);
-		n = next;
-	} while (n);
+		rva000B6498(node->m_child);
+		struct Rva000B6498Node *next = node->m_next;
+		free(node);
+		node = next;
+	} while (node);
 }
 
 // ?rva000B9324@Rva000B6498@@QAEXXZ 0x000B9324 41B
