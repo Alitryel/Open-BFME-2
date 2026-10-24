@@ -71,7 +71,7 @@ namespace Allocator
 class GeneralAllocator
 {
 public:
-	void *rva000347A0(void *block, unsigned int size, int flags);
+	void *realloc(void *block, unsigned int size, int flags);
 	void *calloc(unsigned int count, unsigned int size, int flags);
 	void *rva00035190(void *block, unsigned int size, int flags);
 	void *rva00035210(unsigned int count, unsigned int size, int flags);
@@ -84,7 +84,7 @@ private:
 void *GeneralAllocator::rva00035190(void *block, unsigned int size, int flags)
 {
 	Rva00035080Lock lock(m_pLock);
-	return rva000347A0(block, size, flags);
+	return realloc(block, size, flags);
 }
 
 void *GeneralAllocator::rva00035210(unsigned int count, unsigned int size, int flags)

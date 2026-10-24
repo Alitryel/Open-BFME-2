@@ -5,7 +5,7 @@
 // foot store); a single exit `return newMem` with newMem function-scope gives the
 // dead EBP stores and pop order; computing the remainder pointer before
 // set_head_size(newp, nb) in the split branch hoists the shared head load.
-// ?rva000347A0@GeneralAllocator@Allocator@EA@@QAEPAXPAXIH@Z
+// ?realloc@GeneralAllocator@Allocator@EA@@QAEPAXPAXIH@Z
 // Retail 0x000347A0..0x00034A60 (704 bytes including the eight-entry case
 // table at 0x00034A40) RET0C: the general allocator's reallocation,
 // dlmalloc's rEALLOc shape. A null block is a plain allocation (malloc
@@ -49,7 +49,7 @@ namespace Allocator
 class GeneralAllocator
 {
 public:
-	void *rva000347A0(void *oldMem, unsigned int bytes, int flags);
+	void *realloc(void *oldMem, unsigned int bytes, int flags);
 	void rva00033150(const void *block);	// free engine, 0x00033150
 
 private:
@@ -61,7 +61,7 @@ private:
 }
 }
 
-void *EA::Allocator::GeneralAllocator::rva000347A0(void *oldMem, unsigned int bytes, int flags)
+void *EA::Allocator::GeneralAllocator::realloc(void *oldMem, unsigned int bytes, int flags)
 {
 	if (oldMem == 0)
 		return ((Rva006C1F60 *)this)->rva00033ED0(bytes, flags);

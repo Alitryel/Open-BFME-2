@@ -87,7 +87,7 @@ public:
 	void *rva000353B0(void *core, int types, bool b, void *d, unsigned int e);
 	const BlockInfo *rva00032F60(void *handle, int types);
 	void rva00033E90(void *handle);
-	void *rva000347A0(void *block, unsigned int size, int flags);
+	void *realloc(void *block, unsigned int size, int flags);
 	void rva00033150(const void *block);
 };
 }}
@@ -539,12 +539,12 @@ void *GeneralAllocatorDebug::rva006C4730(void *data, unsigned int size, int flag
 		total = size + info.inlineTotal;
 	}
 	bookBlock(oldChunk, false);
-	void *result = rva000347A0(data, total, flags);
+	void *result = realloc(data, total, flags);
 	while (!result) {
 		if (m_delayedFree.m_next == &m_delayedFree)
 			goto failed;
 		((Rva006C1F60 *)this)->rva006C33D0(0, 0);
-		result = rva000347A0(data, total, flags);
+		result = realloc(data, total, flags);
 	}
 	if (result) {
 		if (data) {
