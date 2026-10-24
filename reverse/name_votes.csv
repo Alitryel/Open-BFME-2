@@ -3547,3 +3547,8 @@ Code/GameEngine/Source/Common/Rva0057ACEBCtor.cpp|local|Rva0057ACEB::Rva0057ACEB
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DScriptedModelDrawTurretInfo.cpp|class||Rva000BBE86Rec,dab54a4da8982d5def279a74,gpt-6.1-sol,codex8-20261024-064231-11,w-de56e563a50b,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DScriptedModelDrawTurretInfo.cpp|member|Rva000BBE86Rec|m_slot10,449a073322f971b095bf9880,gpt-6.1-sol,codex8-20261024-064231-11,w-de56e563a50b,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DScriptedModelDrawTurretInfo.cpp|member|Rva000BBE86Rec|m_slot14,f00475a8e3907885e39d5655,gpt-6.1-sol,codex8-20261024-064231-11,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/Rva004F0681Predicate.cpp|member|Rva004F0681Mid|m_30,a605d3d57f7ba8edb9f6964d,gpt-6.1-sol,codex8-20261024-064231-18,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva000FE1ACUpdate.cpp|global||g_00DEC220,d75ce46164c83b7a4286cd78,gpt-6.1-sol,codex8-20261024-064231-23,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva0049355ERatio.cpp|member|Rva0049355E|m_4,9b6d5aded404c2c4780937ee,gpt-6.1-sol,codex8-20261024-064231-25,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva0049355ERatio.cpp|member|Rva0049355E|m_8,a1e15774762c2d5ba67aaaa4,gpt-6.1-sol,codex8-20261024-064231-25,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva0049355ERatio.cpp|member|Rva0049355E|m_14,40446a7c523b39bf2a737a72,gpt-6.1-sol,codex8-20261024-064231-25,w-de56e563a50b,2026-10-24
