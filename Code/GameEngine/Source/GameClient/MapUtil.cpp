@@ -259,6 +259,10 @@ MapUtilMetadataTree::iterator MapUtilMetadataTree::find<AsciiString>(const Ascii
     return iterator(_M_find(key));
 }
 }
+// Retail calls the map's out-of-line operator[] (0x00304DC7, an /O1 copy);
+// expanding it here emits a non-retail pair<const AsciiString, MapMetaData>
+// destructor that the link would keep ahead of the retail one.
+namespace _STL { template <> MapMetaData & map<AsciiString, MapMetaData, less<AsciiString>, allocator<pair<AsciiString const, MapMetaData> > >::operator[](AsciiString const &); }
 // bfme link decl-only end
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@_STL@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).

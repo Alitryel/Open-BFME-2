@@ -15765,3 +15765,4 @@ _atan2f,0x000422A0,math.h x86 inline atan2f (float)atan2((double)y(double)x): 0x
 ?allocate@?$allocator@URva00381B7BRecord@@@_STL@@QBEPAURva00381B7BRecord@@IPBX@Z,0x00523D6C,chat-history record view (stlport_vector_record_381b7b.cpp): REL32 call in _M_insert_overflow 0x00381B7B
 ??0Rva00381B7BRecord@@QAE@ABU0@@Z,0x005DDD40,chat-history record view (stlport_vector_record_381b7b.cpp): implicit memberwise copy; REL32 call in _Construct 0x003814A6
 ??1Rva00381B7BRecord@@QAE@XZ,0x005B804E,chat-history record view (stlport_vector_record_381b7b.cpp): implicit destructor; REL32 call in _Destroy 0x00381AC7
+??1?$pair@$$CBVAsciiString@@VMapMetaData@@@_STL@@QAE@XZ,0x0022DDF4,map<AsciiString,MapMetaData> value destructor: REL32 call target read at 0x00303DC7 in the erase-one 0x00303DA4; EH prolog plus ~MapMetaData 0x0022DBC6 and releaseBuffer
