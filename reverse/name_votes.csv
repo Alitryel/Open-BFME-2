@@ -4538,3 +4538,16 @@ Code/GameEngine/Source/Common/BfmeThreeHundredFiftyOne.cpp|member|StdioStreambuf
 Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055B39C.cpp|local|Rva0055B39C::computeAlphaRate|v,be10623ccd443fac61eaea7d,gpt-6.1-sol,codexb-20261024-085812-10,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055B39C.cpp|local|Rva0055B39C::computeAlphaRate|f,ba45b0b7fb0c0031df48b6c9,gpt-6.1-sol,codexb-20261024-085812-10,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055B39C.cpp|local|Rva0055B39C::computeAlphaRate|d,fdadf3baab5a05dfa702bd88,gpt-6.1-sol,codexb-20261024-085812-10,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp|member|Rva004C31ECArg|m_38,261af3daf1ca8fc2df577b5f,gpt-6-astra,codexb2-20261024-094036-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp|member|Rva0051BF2D|m_27C,6406cf057a654803fa4585d1,gpt-6-astra,codexb2-20261024-094036-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp|param|Rva004C31EC::doSpecialPowerAtObject|arg,5969aff1eda7fc2177bf308b,gpt-6-astra,codexb2-20261024-094036-1,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Rva002C99C4AttackRange.cpp|local|BfmeRangedWeaponTemplate::getAttackRange|f,f1166b79dd1dda2853f9eb52,gpt-6-astra,codexb2-20261024-094036-2,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Rva002C99C4AttackRange.cpp|local|BfmeRangedWeaponTemplate::rva002C98E2|v4,fde0969db6e0610de1f9d988,gpt-6-astra,codexb2-20261024-094036-2,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Rva002C99C4AttackRange.cpp|local|BfmeRangedWeaponTemplate::rva002C98E2|v8,13366048ef6def5306dd6915,gpt-6-astra,codexb2-20261024-094036-2,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp|local|swapEntries|m,e6b71fa1961c603b42a1fd4b,gpt-6-astra,codexb2-20261024-094036-3,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp|local|swapEntries|t,d17abd9ecd145ddbd0b2644d,gpt-6-astra,codexb2-20261024-094036-3,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005C802BFactory.cpp|param|Rva005FF912::Rva005FF912|a,9d72c7e241bfd08b8d5312bf,gpt-6-astra,codexb2-20261024-094036-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005C4B56.cpp|param|Rva005C4B56::rva005C4BC8|a,2e29cf03a58c51f748d0564a,gpt-6-astra,codexb2-20261024-094036-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005C4B56.cpp|param|Rva005C4B56::rva005C4BC8|b,7d2e1e311f1b72872161bd7e,gpt-6-astra,codexb2-20261024-094036-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007EA9C0Init.cpp|member|Rva007EA9C0Owner|m_08,70b92698007fea16d0cd8665,gpt-6-astra,codexb2-20261024-094036-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007EA9C0Init.cpp|local|Rva007EA9C0Owner::init|p,07292b707a521e7080448201,gpt-6-astra,codexb2-20261024-094036-4,w-d0bdfd8b17e9,2026-10-24
