@@ -2344,3 +2344,5 @@ __ehhandler$??0Rva0021F876@@QAE@ABV0@@Z,0x0076EB5D,Renamed to __ehhandler$??0Cre
 ?rva0022020C@CreateAHeroManager@@QAEPAVRva0021F876@@AAV2@@Z,0x0022020C,Renamed to ?rva0022020C@CreateAHeroManager@@QAEPAVCreateAHeroClass@1@AAV21@@Z: class parser2202BF constructs and destroys the same32B record passed to manager22020C
 ??_GRva0021F876@@QAEPAXI@Z,0x0021FA92,Renamed to ??_GCreateAHeroClass@CreateAHeroManager@@QAEPAXI@Z: class parser2202BF constructs and destroys the same32B record passed to manager22020C
 ?rva003B8D06@LivingWorldCampaignManager@@QAE?AVAsciiString@@XZ,0x003B8D06,"Renamed to ?GetCurrentActName@LivingWorldCampaignManager@@QAE?AVAsciiString@@XZ by tools/rename.py (inferred)"
+?rva003200A2@Rva003200A2@@QAEXH@Z,0x003200A2,"Renamed to ?addAnimation@Rva003200A2@@QAEXH@Z by tools/rename.py (inferred)"
+?rva003200BC@Rva003200BC@@QAEXH@Z,0x003200BC,"Renamed to ?addImage@Rva003200BC@@QAEXH@Z by tools/rename.py (inferred)"

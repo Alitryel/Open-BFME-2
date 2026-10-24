@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/ini_bfme2 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/open-bfme-1/Code/GameEngine/Source/Common/System /Ireference/open-bfme-1/Code/GameEngine/Include /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims/bfmelist /Ireference/shims/bfmealloc
 // stlport
-// ?rva003200A2@Rva003200A2@@QAEXH@Z @0x003200A2 26B.
+// ?addAnimation@Rva003200A2@@QAEXH@Z @0x003200A2 26B.
 // Adds non-zero int to list at +0x170. Caller 0x003201A9 passes INI-parsed
 // object. push_back 0x0005548F rowed.
 #include <list>
@@ -17,13 +17,13 @@ static inline void _Construct(int *__p, const int &__val)
 class Rva003200A2
 {
 public:
-	void rva003200A2(int value);
+	void addAnimation(int value);
 private:
 	char m_pad[0x170];
 	std::list<int> m_list;
 };
 
-void Rva003200A2::rva003200A2(int value)
+void Rva003200A2::addAnimation(int value)
 {
 	if (value == 0)
 		return;
@@ -33,7 +33,7 @@ void Rva003200A2::rva003200A2(int value)
 class Rva003200BC
 {
 public:
-	void rva003200BC(int value);
+	void addImage(int value);
 private:
 	char m_pad[0x158];
 	std::list<int> m_lists[7];
@@ -45,7 +45,7 @@ struct Rva003200BCEntry
 	int m_index;
 };
 
-void Rva003200BC::rva003200BC(int value)
+void Rva003200BC::addImage(int value)
 {
 	Rva003200BCEntry *entry = (Rva003200BCEntry *)value;
 	if (entry == 0)

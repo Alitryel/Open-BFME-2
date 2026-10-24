@@ -5,7 +5,7 @@
 // ControlBar factory (chain: calls 0x0031F7AB now ready). Evidence: news 0x1C
 // via rowed ??2@YAPAXI@Z then rowed ??0Rva0031F7AB@@QAE@XZ; rowed
 // ?initFromINI@INI@@QAEXPAXPBUFieldParse@@@Z with table 0x0080D720; rowed
-// ?rva003200BC@Rva003200BC@@QAEXH@Z with new object; prev/next
+// ?addImage@Rva003200BC@@QAEXH@Z with new object; prev/next
 // ControlBarList003200A2/ControlBarScheme share class and flags. Honest
 // free-function name (no proven class): Rva00320158 + Parse.
 
@@ -39,7 +39,7 @@ private:
 class Rva003200BC
 {
 public:
-	void rva003200BC(int value);
+	void addImage(int value);
 };
 
 // Matched consumers place this table at VA 0x00C0D720 (.rdata). Retail has
@@ -62,5 +62,5 @@ void Rva00320158Parse(INI *ini, Rva003200BC *holder)
 {
 	Rva0031F7AB *obj = new Rva0031F7AB;
 	ini->initFromINI(obj, g_0080D720);
-	holder->rva003200BC((int)obj);
+	holder->addImage((int)obj);
 }

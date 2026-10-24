@@ -4,8 +4,8 @@
 // factory sibling of 0x00320158 (chain: calls 0x0031F7EB now ready).
 // Evidence: news 0x24 via rowed ??2@YAPAXI@Z then rowed ??0Rva0031F7EB@@QAE@XZ;
 // rowed ?initFromINI@INI@@QAEXPAXPBUFieldParse@@@Z with table 0x0080D788;
-// rowed ?rva003200A2@Rva003200A2@@QAEXH@Z with new object then rowed
-// ?rva003200BC@Rva003200BC@@QAEXH@Z with [esi+8]; prev 0x00320158 shares flags.
+// rowed ?addAnimation@Rva003200A2@@QAEXH@Z with new object then rowed
+// ?addImage@Rva003200BC@@QAEXH@Z with [esi+8]; prev 0x00320158 shares flags.
 
 typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
 struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
@@ -28,13 +28,13 @@ public:
 class Rva003200A2
 {
 public:
-	void rva003200A2(int value);
+	void addAnimation(int value);
 };
 
 class Rva003200BC
 {
 public:
-	void rva003200BC(int value);
+	void addImage(int value);
 };
 
 struct LookupListRec { const char *name; int value; };
@@ -61,6 +61,6 @@ void Rva003201A9Parse(INI *ini, void *holder)
 {
 	Rva0031F7EB *obj = new Rva0031F7EB;
 	ini->initFromINI(obj, g_0080D788);
-	((Rva003200A2 *)holder)->rva003200A2((int)obj);
-	((Rva003200BC *)holder)->rva003200BC(obj->m_08);
+	((Rva003200A2 *)holder)->addAnimation((int)obj);
+	((Rva003200BC *)holder)->addImage(obj->m_08);
 }
