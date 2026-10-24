@@ -953,3 +953,4 @@ local,Rva0010F42A::rva0010F42A::s,Rva0010F42A::rva0010F42A::stream,inferred,agre
 member,W3DFireGlobalView::m_138,W3DFireGlobalView::m_weather,inferred,agree:nl-d31056fdaaff,Code/GameEngine/Source/Common/Rva00098690Handles.cpp,
 function,?rva005C3EA5@Rva005C3EA5@@QAEXXZ,?Show@Rva005C3EA5@@QAEXXZ,inferred,agree:nl-1c8367d3bebc,Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp,0x005C3EA5
 function,?rva0055B39C@Rva0055B39C@@QAEXXZ,?computeAlphaRate@Rva0055B39C@@QAEXXZ,inferred,agree:nl-186234095635,Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055B39C.cpp,0x0055B39C
+param,Rva00271BCC::rva00271BCC::a0,Rva00271BCC::rva00271BCC::buffType,inferred,agree:nl-5937838b0581,Code/GameEngine/Source/Common/RvaMixedMemberForwarders.cpp,0x00271BCC
