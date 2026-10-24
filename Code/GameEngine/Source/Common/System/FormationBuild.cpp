@@ -79,7 +79,7 @@ template<> __declspec(noinline) inline _List_base<Coord3D,allocator<Coord3D> >::
 }
 }
 class FormationRowList:public _STL::_List_base<Coord3D,_STL::allocator<Coord3D> > {public:
- FormationRowList(const _STL::allocator<Coord3D>&a=_STL::allocator<Coord3D>()):_STL::_List_base<Coord3D,_STL::allocator<Coord3D> >(a){}
+ FormationRowList(const _STL::allocator<Coord3D>&alloc=_STL::allocator<Coord3D>()):_STL::_List_base<Coord3D,_STL::allocator<Coord3D> >(alloc){}
  ~FormationRowList(){((Rva000799D0*)this)->rva000799D0();}
  FormationRowNode *begin(){return (FormationRowNode*)head->next;}
  FormationRowNode *end(){return (FormationRowNode*)head;}
