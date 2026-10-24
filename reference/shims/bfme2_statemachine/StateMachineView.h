@@ -13,7 +13,7 @@ public:
     StateMachine(Object *owner, unsigned int nameKey, bool flag);
     virtual ~StateMachine();
 protected:
-    virtual void loadPostProcess();
+    virtual void loadPostProcess() {}
     virtual const char *GetSnapshotName() const;
     virtual void xfer(Xfer *xfer);
 public:
@@ -22,8 +22,8 @@ public:
     virtual StateReturnType resetToDefaultState();
     virtual StateReturnType initDefaultState();
     virtual StateReturnType setState(int stateID);
-    virtual int slot09();
-    virtual int slot10();
+    virtual int slot09() { return 0; }
+    virtual int slot10() { return 0; }
     virtual bool isInAttackState() const;
     virtual bool isInBusyState() const;
     virtual void rva004D7395();

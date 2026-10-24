@@ -916,12 +916,18 @@ int Rva0048856DGet(void)
 	return (int)"DozerActionDoActionState";
 }
 
-// ?Rva004886C1Get@@YAHXZ @ 0x004886c1 (6B): returns 0x00c4b550.
+// ?GetSnapshotName@Rva004885DE@@MBEPBDXZ @ 0x004886c1 (6B): returns 0x00c4b550.
 // Follows a ret-8 (prev C2-08-00), carried by 1 .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
-int Rva004886C1Get(void)
+class Rva004885DE
 {
-	return (int)"DozerActionStateMachine";
+protected:
+	virtual const char *GetSnapshotName() const;
+};
+
+const char *Rva004885DE::GetSnapshotName() const
+{
+	return "DozerActionStateMachine";
 }
 
 // ?Rva004886EFGet@@YAHXZ @ 0x004886ef (6B): returns 0x00c4b5ac.

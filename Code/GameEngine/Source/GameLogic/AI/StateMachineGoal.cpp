@@ -152,8 +152,8 @@ public:
  	void rva004D7627(StateID id);
 	virtual void clear();
 	virtual StateReturnType updateStateMachine();
-	Bool isInBusyState() const;
-	Bool isInAttackState() const;
+	virtual Bool isInBusyState() const;
+	virtual Bool isInAttackState() const;
 	Bool isInGuardIdleState() const;
 	Bool rva002621DA() const;
 	Bool rva002621EB() const;
@@ -524,8 +524,8 @@ void StateMachine::rva004D7395()
 // ?_bfmeStateMachineInlineAnchor@@YAXPAVStateMachine@@@Z absent-from-retail
 void _bfmeStateMachineInlineAnchor(StateMachine *stateMachine)
 {
-    stateMachine->isInBusyState();
-    stateMachine->isInAttackState();
+    stateMachine->StateMachine::isInBusyState();
+    stateMachine->StateMachine::isInAttackState();
     stateMachine->isInGuardIdleState();
     stateMachine->rva002621DA();
     stateMachine->rva002621EB();

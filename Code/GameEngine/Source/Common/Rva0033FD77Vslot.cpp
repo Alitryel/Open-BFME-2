@@ -7,7 +7,7 @@
 class StateMachine
 {
 public:
-	bool isInBusyState() const;
+	virtual bool isInBusyState() const;
 };
 
 class Sub50
@@ -39,5 +39,5 @@ bool Rva00367E26::rva0033FD77()
 {
 	if (m_50 != 0 && m_50->v10())
 		return true;
-	return ((StateMachine *)this)->isInBusyState();
+	return ((StateMachine *)this)->StateMachine::isInBusyState();
 }

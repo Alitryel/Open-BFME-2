@@ -990,24 +990,21 @@ void Rva00498CAC::rva00498CAC(Xfer *a)
 	GateOpenAndCloseBehavior::xfer(a);
 }
 
-// 0x0049A7EE: tail jump to AIUpdateInterface::loadPostProcess.
-class Rva0049A7EE : public AIUpdateInterface
-{
-public:
-	void rva0049A7EE();
-};
-void Rva0049A7EE::rva0049A7EE()
-{
-	AIUpdateInterface::loadPostProcess();
-}
-
 // 0x004A976F: tail jump to AIUpdateInterface::privateIdle; slot 81 of the
 // WorkerAIUpdate vtable 0x00C540AC its rowed ctor 0x004AA3AB installs.
 class WorkerAIUpdate : public AIUpdateInterface
 {
+protected:
+	virtual void loadPostProcess();
 public:
 	void rva004A976F(CommandSourceType a);
 };
+
+// 0x0049A7EE: slot 1, tail jump to AIUpdateInterface::loadPostProcess.
+void WorkerAIUpdate::loadPostProcess()
+{
+	AIUpdateInterface::loadPostProcess();
+}
 void WorkerAIUpdate::rva004A976F(CommandSourceType a)
 {
 	AIUpdateInterface::privateIdle(a);

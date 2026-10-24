@@ -1627,12 +1627,6 @@ void DozerAIUpdate::crc( Xfer *xfer )
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
-// ?loadPostProcess@DozerAIUpdate@@MAEXXZ present-unmatched
-void DozerAIUpdate::loadPostProcess( void )
-{
- // extend base class
-	AIUpdateInterface::loadPostProcess();
-}  // end loadPostProcess
 
 //-------------------------------------------------------------------------------------------------
 // BFME 2 phantom-structure members (no Zero Hour counterpart). Identities from

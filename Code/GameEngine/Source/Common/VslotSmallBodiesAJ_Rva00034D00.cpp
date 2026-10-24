@@ -829,17 +829,11 @@ public:
 };
 
 
-// 0x0049A7EE: tail jump to AIUpdateInterface::loadPostProcess.
-class Rva0049A7EE : public AIUpdateInterface
-{
-public:
-	void rva0049A7EE();
-};
-
-
 // 0x004A976F: tail jump to AIUpdateInterface::privateIdle.
 class WorkerAIUpdate : public AIUpdateInterface
 {
+protected:
+	virtual void loadPostProcess();
 public:
 	void rva004A976F(CommandSourceType a);
 };

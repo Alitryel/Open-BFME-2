@@ -1083,9 +1083,3 @@ void WorkerAIUpdate::crc( Xfer *xfer )
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
-// ?loadPostProcess@WorkerAIUpdate@@MAEXXZ present-unmatched
-void WorkerAIUpdate::loadPostProcess( void )
-{
- // extend base class
-	AIUpdateInterface::loadPostProcess();
-}  // end loadPostProcess

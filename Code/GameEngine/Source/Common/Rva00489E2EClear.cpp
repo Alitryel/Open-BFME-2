@@ -2,7 +2,7 @@
 //
 // ?rva00489DE3@AIUpdateInterface@@QAEXXZ @0x00489DE3 75B.
 // ?rva00489E2E@AIUpdateInterface@@QAEXXZ @0x00489E2E 99B.
-// ?rva00489E91@AIUpdateInterface@@QAEXXZ @0x00489E91 27B.
+// ?loadPostProcess@DozerAIUpdate@@MAEXXZ @0x00489E91 27B.
 // The id at +0x4A4 names an object. 0x00489DE3 marks it effectively dead,
 // runs 0x0028BAC0 when its byte at +0x454 is set, and stores 1 at +0x4B0.
 // 0x00489E2E tells the owner's controlling player, then clears that byte,
@@ -55,12 +55,11 @@ class AIUpdateInterface
 public:
 	void rva00489DE3();
 	void rva00489E2E();
-	void rva00489E91();
 
 protected:
 	virtual void loadPostProcess();
 
-private:
+protected:
 	char m_pad4[4];
 	Object *m_owner;
 	char m_padC[0x4A4 - 0x0C];
@@ -105,7 +104,13 @@ void AIUpdateInterface::rva00489E2E()
 	}
 }
 
-void AIUpdateInterface::rva00489E91()
+class DozerAIUpdate : public AIUpdateInterface
+{
+protected:
+	virtual void loadPostProcess();
+};
+
+void DozerAIUpdate::loadPostProcess()
 {
 	AIUpdateInterface::loadPostProcess();
 	if (m_id != 0)

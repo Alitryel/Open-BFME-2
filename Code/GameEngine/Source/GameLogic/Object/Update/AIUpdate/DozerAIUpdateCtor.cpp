@@ -486,8 +486,8 @@ public:
 	AIUpdateInterface(Thing *thing, const ModuleData *moduleData);
 	virtual void onCollide(Object *obj, const Coord3D *loc, const Coord3D *normal);
 	// Primary vtable slots 1-92 (slot 0 is the destructor).
-	virtual void v01();
 protected:
+	virtual void loadPostProcess();
 	virtual const char *GetSnapshotName() const;
 public:
 	virtual void xfer(Xfer *xfer);
@@ -1044,6 +1044,7 @@ private:
 	void createMachines();
 
 protected:
+	virtual void loadPostProcess();
 	virtual const char *GetSnapshotName() const;
 	virtual void xfer(Xfer *xfer);
 	virtual void privateRepair(Object *obj, CommandSourceType cmdSource);
