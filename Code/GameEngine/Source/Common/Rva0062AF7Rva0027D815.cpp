@@ -304,13 +304,13 @@ void W3DTerrainLogic::Rva0027D960(void *water, float *out)
 		return;
 	if (out == 0)
 		return;
-	Rva0027D5E0Box tmp;
-	slot08(&tmp);
+	Rva0027D5E0Box mapBounds;
+	slot08(&mapBounds);
 	const float c = 99999.9f;
-	out[0] = tmp.hiX + c;
-	out[1] = tmp.hiY + c;
-	out[3] = tmp.loX - c;
-	out[4] = tmp.loY - c;
+	out[0] = mapBounds.hiX + c;
+	out[1] = mapBounds.hiY + c;
+	out[3] = mapBounds.loX - c;
+	out[4] = mapBounds.loY - c;
 	Rva0027D960Water *w = (Rva0027D960Water *)water;
 	Rva0027D960Real *real0 = (Rva0027D960Real *)((char *)water + 0x18 + w->m_inner18->m_off04);
 	int pointCount = real0->getCount();
