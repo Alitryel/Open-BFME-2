@@ -5911,3 +5911,13 @@ Code/GameEngine/Source/Common/Rva0007BF77Copy.cpp|local|Rva0007BF77Copy|c,a5e4ac
 Code/GameEngine/Source/Common/Rva0007BF77Copy.cpp|function|0x0007BF77|Rva0007BF77Copy,eaa1640b1e8fbbd0b9e81321,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p066b,w-3d57c764a2cd,2026-10-24
 Code/GameEngine/Source/Common/Rva0007BF77Copy.cpp|local|Rva0007BF77Copy|n,8443a8fc8961b51af448f6ee,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p066b,w-3d57c764a2cd,2026-10-24
 Code/GameEngine/Source/Common/Rva0007BF77Copy.cpp|local|Rva0007BF77Copy|c,a5e4acda12a2e3edf17a6b42,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p066b,w-3d57c764a2cd,2026-10-24
+Code/GameEngine/Source/Common/Rva0052DB11.cpp|class||Rva0052DB11Head,7cb21e8b99a5035ac1d5f579,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p069a,w-78cf6ccb72f4,2026-10-24
+Code/GameEngine/Source/Common/Rva0052DB11.cpp|member|Rva0052DB11Obj|m_74,67f651fb897c4a5fbf231c41,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p069a,w-78cf6ccb72f4,2026-10-24
+Code/GameEngine/Source/Common/Rva0052DB11.cpp|member|Rva0052DB11Head|m_14,5fc27f6923d43645480b92c2,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p069a,w-78cf6ccb72f4,2026-10-24
+Code/GameEngine/Source/Common/Rva0052DB11.cpp|member|Rva0052DB11Head|m_20,9e59607d4c92d517fa74cf47,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p069a,w-78cf6ccb72f4,2026-10-24
+Code/GameEngine/Source/Common/Rva0052DB11.cpp|local|Rva0052DB11::rva0052DB11|o,e3c556692e46c650e8edddf7,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p069a,w-78cf6ccb72f4,2026-10-24
+Code/GameEngine/Source/Common/Rva0052DB11.cpp|class||Rva0052DB11Inner,740909f5d1d17fe5e2f1d271,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p069b,w-850651fb421c,2026-10-24
+Code/GameEngine/Source/Common/Rva0052DB11.cpp|class||Rva0052DB11Head,7cb21e8b99a5035ac1d5f579,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p069b,w-850651fb421c,2026-10-24
+Code/GameEngine/Source/Common/Rva0052DB11.cpp|member|Rva0052DB11Obj|m_74,67f651fb897c4a5fbf231c41,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p069b,w-850651fb421c,2026-10-24
+Code/GameEngine/Source/Common/Rva0052DB11.cpp|member|Rva0052DB11Head|m_14,0aace53b3b8dd1ebf280d597,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p069b,w-850651fb421c,2026-10-24
+Code/GameEngine/Source/Common/Rva0052DB11.cpp|local|Rva0052DB11::rva0052DB11|o,4766f55e4290c229c9b0ee3f,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p069b,w-850651fb421c,2026-10-24

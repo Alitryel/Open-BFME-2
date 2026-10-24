@@ -33,12 +33,12 @@ struct Rva0052DB11Head
 class Rva0052DB11
 {
 public:
-	bool rva0052DB11(int arg);
+	bool rva0052DB11(int excludedId);
 private:
 	Rva0052DB11Head *m_0;
 };
 
-bool Rva0052DB11::rva0052DB11(int arg)
+bool Rva0052DB11::rva0052DB11(int excludedId)
 {
 	Rva0052DB11Head *head = m_0;
 	if (!head)
@@ -46,7 +46,7 @@ bool Rva0052DB11::rva0052DB11(int arg)
 	for (Rva0052DB11Outer *o = head->m_20; o; o = o->m_next)
 	{
 		void *s = o->m_8;
-		if (((Rva0052DB11Obj *)s)->m_74 == arg)
+		if (((Rva0052DB11Obj *)s)->m_74 == excludedId)
 			continue;
 		for (Rva0052DB11Inner *in = head->m_14; in; in = in->m_next)
 		{
