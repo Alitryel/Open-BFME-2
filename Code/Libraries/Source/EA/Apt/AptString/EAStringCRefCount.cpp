@@ -709,7 +709,7 @@ EAStringC &EAStringC::TrimRight(const char *text)
 {
 	if (!text) {
 		g_bfmeAptAssertAtE17734("pStrText != NULL", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\string\\EAString.cpp", 0x59A);
-		if (g_bfmeAptBreakOnAssertAtDDC01C) {__asm int 3}
+		if (g_bfmeAptBreakOnAssertAtDDC01C) {__debugbreak();}
 	}
 	unsigned i, size = m_pData->m_uSize;
 	const char *buffer = (const char *)(m_pData + 1) + size - 1;
