@@ -62,15 +62,15 @@ private:
 void Rva005C436E::rva005C436E(int v)
 {
 	int idx = m_04->m_ptr->m_val;
-	Rva002E2903Player *p = (*(Rva002BA8F1Logic **)&TheLivingWorldLogic)->find(idx, 0);
-	if (!p)
+	Rva002E2903Player *player = (*(Rva002BA8F1Logic **)&TheLivingWorldLogic)->find(idx, 0);
+	if (!player)
 		return;
 	switch (m_08->m_val) {
 	case 0:
-		((Rva002E07AC *)p)->add(v);
+		((Rva002E07AC *)player)->add(v);
 		break;
 	case 1:
-		((Rva002E07B9 *)p)->add(v);
+		((Rva002E07B9 *)player)->add(v);
 		break;
 	}
 }
