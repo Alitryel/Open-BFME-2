@@ -4551,3 +4551,15 @@ Code/GameEngine/Source/Common/Rva005C4B56.cpp|param|Rva005C4B56::rva005C4BC8|a,2
 Code/GameEngine/Source/Common/Rva005C4B56.cpp|param|Rva005C4B56::rva005C4BC8|b,7d2e1e311f1b72872161bd7e,gpt-6-astra,codexb2-20261024-094036-4,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/GameNetwork/Rva007EA9C0Init.cpp|member|Rva007EA9C0Owner|m_08,70b92698007fea16d0cd8665,gpt-6-astra,codexb2-20261024-094036-4,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/GameNetwork/Rva007EA9C0Init.cpp|local|Rva007EA9C0Owner::init|p,07292b707a521e7080448201,gpt-6-astra,codexb2-20261024-094036-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|member|Rva0028E84ATemplatePrefix|kinds108,31efa8b49b1d020b4ba0987d,gpt-6-astra,codexb2-20261024-094036-5,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|member|Rva0028E868OtherPrefix|word74,67372aae68a747c132f44f0e,gpt-6-astra,codexb2-20261024-094036-5,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/BfmeThreeHundredOne.cpp|member|BfmeThingQR|m_bfmeName,66eae0cd01f6a40232172a8a,gpt-6-astra,codexb2-20261024-094036-5,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp|class||Arg000B5A72,4e667bb2f7a26fe90a99f020,gpt-6-astra,codexb2-20261024-094036-6,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp|param|Rva000B5C41::rva000B5A72|a,3052c51be5803b8564d7692e,gpt-6-astra,codexb2-20261024-094036-6,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva00524B7AVslot10.cpp|member|Rva00524B7A|m_0C,e1b20c96e93a25e4727b0ef5,gpt-6-astra,codexb2-20261024-094036-6,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva00524B7AVslot10.cpp|local|Rva00524B7A::update|v,c13ae91af33f86368851c910,gpt-6-astra,codexb2-20261024-094036-6,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva00880D10CircleBoxTest.cpp|function|0x006C0710|rva00880D10,9cf5d7f6f115c5a1abe37215,gpt-6-astra,codexb2-20261024-094036-7,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Made002CCBCASlots.cpp|class||Rva0050B745Template,bb06216f38addf523e9e4a0b,gpt-6-astra,codexb2-20261024-094036-8,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Made002CCBCASlots.cpp|class||Rva0050B745Contain,c33d88d3dae22068a0868abd,gpt-6-astra,codexb2-20261024-094036-8,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Made002CCBCASlots.cpp|member|Rva0050B7D2Arg|m_08,f5adc578b02c2b1b5c486c93,gpt-6-astra,codexb2-20261024-094036-8,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva003EE746ColorProvider.cpp|local|Rva003EE746ColorProvider::color|c,5cffd0e6e60341ec95c5e279,gpt-6-astra,codexb2-20261024-094036-8,w-d0bdfd8b17e9,2026-10-24
