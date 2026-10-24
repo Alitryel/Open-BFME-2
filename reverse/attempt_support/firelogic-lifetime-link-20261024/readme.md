@@ -65,4 +65,22 @@ is the five-byte tail at 28691C; it calls the 56-byte tree destructor at
 28681A, then clear 28662D and recursive erase 28614C. Recursive erase calls
 the value destructor through primary slot 11 (+2C), not slot 0. This
 complete graph preserves all thirteen existing FireLogic lifetime rows
-in isolated trials. Production admission and linked gain remain pending.
+in isolated trials.
+
+Production tree validation: all 21 source rows and all three EH records
+are exact. Eight wrapper/helper aliases are admitted through add_match.
+Six template pins were temporarily admitted through pin_admission with
+whole-body/relocation proofs to establish their dependency graph, then
+removed after actual rows owned every helper. Their temporary hatch
+receipts were discarded; no baseline change is retained. Both old wrapper
+pins disappear, including the incorrect destructor pin at28681A: the
+real wrapper is28691C while inlined callers reach tree destructor28681A.
+The linking preview now reports only the registration global unresolved;
+its 342 source-owned bytes are still excluded, so no link gain yet.
+
+The obsolete Rva0028625DRecord copy carrier and its one-byte sweep
+instantiation are also retired. The real typed copy88B and _Construct45B
+owners retain all133 unique bytes. This eliminates the divergent legacy
+Snapshot adapter constructor and the sweep's optimization pragmas. The
+retirement hook verifies295 rows in twelve dependent sources and22 EH
+records exactly.

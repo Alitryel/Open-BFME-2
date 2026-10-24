@@ -1,4 +1,5 @@
-// cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /GX /ICode/Libraries/Include /Ireference/shims/bfme2_ascii
+// cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /GX /ICode/Libraries/Include /Ireference/shims/bfme2_ascii /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// stlport
 //
 // FireLogicSystem's constructor (0x00286EC8) and destructor (0x00286F8F),
 // split from FireLogicSystemObjects.cpp so that unit links: these two are
@@ -17,6 +18,7 @@
 typedef int Int;
 
 #include <math.h>
+#include <set>
 
 __forceinline long FloatToLong(float f)
 {
@@ -142,19 +144,30 @@ class Rva0028688A
 public:
     Rva00286E33Result rva00286E33(const Rva0028688AKey &key);
 };
+typedef _STL::_Rb_tree<Rva00285BEC, Rva00285BEC,
+    _STL::_Identity<Rva00285BEC>, _STL::less<Rva00285BEC>,
+    _STL::allocator<Rva00285BEC> > FireCellTree;
+
+namespace _STL {
+template<> inline __declspec(noinline) FireCellTree::~_Rb_tree() { clear(); }
+}
+
 class Rva00286214
 {
 public:
 	Rva00286214Node *rva00286214(const Rva00285672 *key);
  __declspec(noinline) Rva00287B2AResult rva00287B2A(const Rva00285672 *key);
 	void erase(Rva002860CFIterator pos) { ((Rva002860CFHost *)this)->rva002860CF(pos); }
-	Rva00286214();	// the map's default ctor 0x00242F01
-	~Rva00286214();	// the tree teardown 0x0028681A
-	Rva00286214Node *m_header;
-	unsigned int m_nodeCount; // native tree count at +4
- char m_pad08[4];
+	__declspec(noinline) Rva00286214(); // empty-tree wrapper 242F01
+	~Rva00286214() {} // inlines tree teardown; EH outlines wrapper28691C
+	FireCellTree m_tree;
 };
 
+
+inline Rva00286214::Rva00286214()
+    : m_tree(_STL::less<Rva00285BEC>(), FireCellTree::allocator_type())
+{
+}
 
 // Coord3D's sub and dot as WorldBuilder calls them out of line (WB 0x40b88e
 // and 0x40b7d0); retail inlines both and the canonical header lacks them.
