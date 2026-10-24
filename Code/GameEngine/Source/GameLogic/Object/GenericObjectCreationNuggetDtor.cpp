@@ -81,7 +81,6 @@ class GenericObjectCreationNugget : public ObjectCreationNugget
 {
 public:
 	GenericObjectCreationNugget();
-	static void bfmeEmitDtor(GenericObjectCreationNugget *p);
 
 protected:
 	virtual ~GenericObjectCreationNugget();
@@ -105,21 +104,9 @@ private:
 typedef char NuggetSizeMatchesRetail[(sizeof(GenericObjectCreationNugget) == 0x12C) ? 1 : -1];
 
 // ??1GenericObjectCreationNugget@@MAE@XZ
-inline GenericObjectCreationNugget::~GenericObjectCreationNugget()
+GenericObjectCreationNugget::~GenericObjectCreationNugget()
 {
 }
-
-// ??1GenericObjectCreationNugget is a header inline elsewhere: another unit
-// emits a select-any copy, so a strong definition here was a duplicate
-// symbol in the linked build. This anchor only makes this unit emit its
-// copy for the ledger row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitDtor@GenericObjectCreationNugget@@SAXPAV1@@Z present-unmatched
-void GenericObjectCreationNugget::bfmeEmitDtor(GenericObjectCreationNugget *genericObjectCreationNugget)
-{
-	genericObjectCreationNugget->GenericObjectCreationNugget::~GenericObjectCreationNugget();
-}
-#pragma inline_depth()
 
 // ??1ObjectCreationNugget@@UAE@XZ @0x001F0409 7B: the empty dtor, restoring the vtable (the
 // deleting dtor still expands it inline).

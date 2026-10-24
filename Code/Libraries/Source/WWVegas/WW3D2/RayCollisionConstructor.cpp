@@ -39,20 +39,9 @@ public:
 	bool CheckHidden;
 	bool _bfme_flag42; // Retail primary constructor initializes this extra flag to false.
 };
-inline RayCollisionTestClass::RayCollisionTestClass(const LineSegClass &ray, CastResultStruct *res, int collision_type, bool check_translucent, bool check_hidden) :
+RayCollisionTestClass::RayCollisionTestClass(const LineSegClass &ray, CastResultStruct *res, int collision_type, bool check_translucent, bool check_hidden) :
     Result(res), CollisionType(collision_type), CollidedRenderObj(NULL), Ray(ray),
     CheckTranslucent(check_translucent), CheckHidden(check_hidden), _bfme_flag42(false)
 {}
 
 typedef char RayCollisionTestSizeMatchesRetail[(sizeof(RayCollisionTestClass) == 0x44) ? 1 : -1];
-
-// Header inline that other units including the header emit as select-any
-// copies, which a plain definition here collided with. The anchor keeps this
-// unit's copy for the row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitRayCollisionConstructor@@YAXPAVRayCollisionTestClass@@ABVLineSegClass@@PAUCastResultStruct@@H_N3@Z present-unmatched
-void bfmeEmitRayCollisionConstructor(RayCollisionTestClass *rayCollisionTest, const LineSegClass &ray, CastResultStruct *res, int collision_type, bool check_translucent, bool check_hidden)
-{
-    rayCollisionTest->RayCollisionTestClass::RayCollisionTestClass(ray, res, collision_type, check_translucent, check_hidden);
-}
-#pragma inline_depth()

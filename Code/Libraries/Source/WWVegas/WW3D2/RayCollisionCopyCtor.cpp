@@ -35,18 +35,7 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 // the primary matches at /O1, this body needs default (/O2) scheduling
 // (base values kept in ecx/edx, +8 store sunk past the Set arg setup).
 // ZH coltest.h inline port plus the BFME2 extra flag.
-inline RayCollisionTestClass::RayCollisionTestClass(const RayCollisionTestClass & raytest, const Matrix3D & tm) :
+RayCollisionTestClass::RayCollisionTestClass(const RayCollisionTestClass & raytest, const Matrix3D & tm) :
     CollisionTestClass(raytest), Ray(raytest.Ray, tm),
     CheckTranslucent(raytest.CheckTranslucent), CheckHidden(raytest.CheckHidden), _bfme_flag42(false)
 {}
-
-// Header inline that other units including the header emit as select-any
-// copies, which a plain definition here collided with. The anchor keeps this
-// unit's copy for the row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitRayCollisionCopyCtor@@YAXPAVRayCollisionTestClass@@ABV1@ABVMatrix3D@@@Z present-unmatched
-void bfmeEmitRayCollisionCopyCtor(RayCollisionTestClass *rayCollisionTest, const RayCollisionTestClass &src, const Matrix3D &tm)
-{
-    rayCollisionTest->RayCollisionTestClass::RayCollisionTestClass(src, tm);
-}
-#pragma inline_depth()

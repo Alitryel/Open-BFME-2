@@ -78,14 +78,7 @@ private:
 	bool m_f75;
 };
 
-inline DelayedLuaEventUpdate::~DelayedLuaEventUpdate()
+DelayedLuaEventUpdate::~DelayedLuaEventUpdate()
 {
 }
 
-#pragma inline_depth(0)
-// ?bfmeEmitDelayedLuaEventUpdateDtor@@YAXPAVDelayedLuaEventUpdate@@@Z present-unmatched
-void bfmeEmitDelayedLuaEventUpdateDtor(DelayedLuaEventUpdate *delayedLuaEventUpdate)
-{
-	delayedLuaEventUpdate->DelayedLuaEventUpdate::~DelayedLuaEventUpdate();
-}
-#pragma inline_depth()

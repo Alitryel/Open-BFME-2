@@ -33,20 +33,8 @@ private:
 	AsciiString m_name;
 };
 
-inline Rva00151632::~Rva00151632()
+Rva00151632::~Rva00151632()
 {
 	void *allocation = m_link ? m_link->get(0) : 0;
 	delete allocation;
 }
-
-// ??1Rva00151632 is a header inline elsewhere: another unit emits a
-// select-any copy, so a strong definition here was a duplicate symbol in the
-// linked build. This anchor only makes this unit emit its copy for the ledger
-// row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitRva00151632Dtor@@YAXPAVRva00151632@@@Z present-unmatched
-void bfmeEmitRva00151632Dtor(Rva00151632 *p)
-{
-	p->Rva00151632::~Rva00151632();
-}
-#pragma inline_depth()

@@ -43,14 +43,7 @@ private:
     Rva00220C17 m_holder10;
 };
 
-inline Rva00220CD4::~Rva00220CD4()
+Rva00220CD4::~Rva00220CD4()
 {
 }
 
-#pragma inline_depth(0)
-// ?bfmeEmitRva00220CD4Dtor@@YAXPAVRva00220CD4@@@Z present-unmatched
-void bfmeEmitRva00220CD4Dtor(Rva00220CD4 *p)
-{
-	p->Rva00220CD4::~Rva00220CD4();
-}
-#pragma inline_depth()

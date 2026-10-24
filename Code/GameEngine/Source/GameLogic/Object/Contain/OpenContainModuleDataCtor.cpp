@@ -82,20 +82,8 @@ Rva0025342CMember *Rva0025342CMember::construct()
 }
 
 // ??0Rva00253487Base@@QAE@XZ
-inline Rva00253487Base::Rva00253487Base()
+Rva00253487Base::Rva00253487Base()
 {
 	*(unsigned int *)this = ((unsigned int)vtbl_00BF2558);
 	m_member08.construct();
 }
-
-// Rva00253487Base ctor is a header inline elsewhere: another unit emits
-// a select-any copy, so a strong definition here was a duplicate in the linked
-// build. This anchor only makes this unit emit its copy for the ledger row; it
-// is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitRva00253487BaseCtor@@YAXPAVRva00253487Base@@@Z present-unmatched
-void bfmeEmitRva00253487BaseCtor(Rva00253487Base *p)
-{
-	p->Rva00253487Base::Rva00253487Base();
-}
-#pragma inline_depth()

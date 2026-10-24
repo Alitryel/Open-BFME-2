@@ -22,14 +22,7 @@ public:
 	virtual void Thread_Function();
 };
 
-inline MouseThreadClass::MouseThreadClass() : ThreadClass(0)
+MouseThreadClass::MouseThreadClass() : ThreadClass(0)
 {
 }
 
-#pragma inline_depth(0)
-// ?bfmeEmitMouseThreadCtor@@YAXPAVMouseThreadClass@@@Z present-unmatched
-void bfmeEmitMouseThreadCtor(MouseThreadClass *mouseThread)
-{
-	mouseThread->MouseThreadClass::MouseThreadClass();
-}
-#pragma inline_depth()

@@ -496,7 +496,7 @@ void Shell::reset()
 }
 
 // ??1Shell@@UAE@XZ @ 0x0035C087 (227B). Shell dtor: pops screens via top/popImmediate loop then animate deleteInstance+delete scheme delete layouts destroy+deleteInstance+delete audio string base. Evidence: vtable 0x00816208 callers 0x0035C54A deleting dtor callees top popImmediate scheme 0x002007D5 releaseBuffer 0x00036410 base 0x001B4E74 audio 0x0035BD3F BFME1 ShellDestructor donor.
-inline Shell::~Shell()
+Shell::~Shell()
 {
 	WindowLayout *cur = top();
 	while (cur != 0) {
@@ -522,13 +522,6 @@ inline Shell::~Shell()
 	((Rva0035BD3F *)this)->rva0035BD3F();
 }
 
-#pragma inline_depth(0)
-// ?bfmeEmitShellTop@@YAXPAVShell@@@Z present-unmatched
-void bfmeEmitShellTop(Shell *shell)
-{
-	shell->Shell::~Shell();
-}
-#pragma inline_depth()
 
 // ?getSaveLoadMenuLayout@Shell@@QAEPAVWindowLayout@@XZ @0x0035C4E6 50B and
 // ?getPopupReplayLayout@Shell@@QAEPAVWindowLayout@@XZ @0x0035C518 50B: Zero

@@ -32822,7 +32822,6 @@ present_unmatched	Code/GameEngine/Source/Common/MessageStream.cpp	reset@CommandL
 present_unmatched	Code/GameEngine/Source/Common/MessageStream.cpp	reset@MessageStream@@	1
 present_unmatched	Code/GameEngine/Source/Common/MessageStream.cpp	update@CommandList@@	1
 present_unmatched	Code/GameEngine/Source/Common/MessageStream.cpp	update@MessageStream@@	1
-present_unmatched	Code/GameEngine/Source/Common/MessageStreamListCtors.cpp	bfmeEmitMessageStreamListCtors@@YAXPAUTranslatorData@MessageStream@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/MixFileInfoBufferUnlink.cpp	along	1
 present_unmatched	Code/GameEngine/Source/Common/OpaqueScalarDeletingDtorsB01.cpp	1Rva000D1BA6@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/Common/OpaqueScalarDeletingDtorsB01.cpp	1Rva000E5033@@UAE@XZ	1
@@ -33015,7 +33014,6 @@ present_unmatched	Code/GameEngine/Source/Common/Rva001117B4Finish.cpp	Rva001117B
 present_unmatched	Code/GameEngine/Source/Common/Rva00111A05Finish.cpp	TileData::rva00111A05	1
 present_unmatched	Code/GameEngine/Source/Common/Rva0014F699Assign.cpp	_bfmeRva0014F699Anchor	1
 present_unmatched	Code/GameEngine/Source/Common/Rva00150558Dtor.cpp	1Rva00BC6F24Base@@UAE@XZ	1
-present_unmatched	Code/GameEngine/Source/Common/Rva00151632Dtor.cpp	bfmeEmitRva00151632Dtor@@YAXPAVRva00151632@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Rva00154320Cluster.cpp	Rva001544F0::~Rva001544F0	1
 present_unmatched	Code/GameEngine/Source/Common/Rva00154320Cluster.cpp	bfmeEmitFontCharsClassGdiStateDtor@@YAXPAVFontCharsClassGdiState@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Rva001705A0LazyObject.cpp	0Rva001705A0Inner@@	1
@@ -33149,7 +33147,6 @@ present_unmatched	Code/GameEngine/Source/Common/Rva005D4C61Dtor.cpp	1Rva005D4C01
 present_unmatched	Code/GameEngine/Source/Common/Rva005D7E98WaypointStarts.cpp	findWaypoint	1
 present_unmatched	Code/GameEngine/Source/Common/Rva005E9FC1Dtor.cpp	1Rva005E9FC1Base@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/Common/Rva005ECFE4Dtor.cpp	Rva005ECFE4::rva005ED15D	1
-present_unmatched	Code/GameEngine/Source/Common/Rva005EE30CDerived.cpp	bfmeEmitRva005EE30CDerived@@YAXPAVRva005D8317@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Rva005EEDAADerived.cpp	@0x005DA0D0	1
 present_unmatched	Code/GameEngine/Source/Common/Rva005EEF2Fdtor.cpp	Rva005EEF2FBase0dtor	1
 present_unmatched	Code/GameEngine/Source/Common/Rva005EEF2Fdtor.cpp	Rva005EEF2FBase4dtor	1
@@ -33555,7 +33552,6 @@ present_unmatched	Code/GameEngine/Source/GameClient/GUI/Shell/ShellMenuScheme_Rv
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/Shell/ShellMenuScheme_Rva002008c8.cpp	1ShellMenuSchemeLine@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/Shell/ShellMenuScheme_Rva002008c8.cpp	addLine@ShellMenuScheme@@QAEXPAVShellMenuSchemeLine@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/Shell/ShellMenuScheme_Rva002008c8.cpp	parseLinePart@ShellMenuSchemeManager@@	1
-present_unmatched	Code/GameEngine/Source/GameClient/GUI/Shell/ShellTop.cpp	bfmeEmitShellTop@@YAXPAVShell@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/WinInstanceData.cpp	setVideoBuffer@WinInstanceData@@QAEXPAVVideoBuffer@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/WindowVideoHashtableDtor.cpp	0WindowVideoHashtableHolder@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/WindowVideoHashtableDtor.cpp	1WindowVideoHashtableHolder@@QAE@XZ	1
@@ -33662,7 +33658,6 @@ present_unmatched	Code/GameEngine/Source/GameClient/LanguageFilter.cpp	LanguageF
 present_unmatched	Code/GameEngine/Source/GameClient/LanguageFilter.cpp	LanguageFilter::reset	1
 present_unmatched	Code/GameEngine/Source/GameClient/LanguageFilter.cpp	LanguageFilter::update	1
 present_unmatched	Code/GameEngine/Source/GameClient/LanguageFilter.cpp	LanguageFilter::~LanguageFilter	1
-present_unmatched	Code/GameEngine/Source/GameClient/LightPulseFXNuggetEffects.cpp	bfmeEmitLightPulseFXNuggetEffects@@YAXPAVLightPulseFXNugget@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicInGameUIDynamicAutoResolveDialog.cpp	StrategicInGameUI::DynamicAutoResolveDialog::Impl::ShowBattleStepStateHandler::OnHitAnimDone	1
 present_unmatched	Code/GameEngine/Source/GameClient/MapMetaDataCopy.cpp	bfmeEmitMapMetaDataCopy@@YAXPAVMapMetaData@@ABV1@PAVWaypointMap@@ABV2@@Z	1
 present_unmatched	Code/GameEngine/Source/GameClient/MapUtil.cpp	addMap@MapCache@@	1
@@ -33936,7 +33931,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/ImmortalBodyConst
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/ImmortalBodyFriendNew.cpp	bfmeEmitImmortalBodyFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/RespawnBodyCtorThunk.cpp	1RespawnBody@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/StructureBodyFriendNew.cpp	bfmeEmitStructureBodyFriendNew@@YAXPAVStructureBody@@@Z	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Collide/CollideModuleCtor.cpp	bfmeEmitCollideModuleCtor@@YAXPAVCollideModule@@PAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Collide/CollideModuleDataBuildFieldParse.cpp	bfmeEmitCollideModuleDataBuildFieldParse@@YAXAAVMultiIniFieldParse@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Collide/CrateCollide/HealCrateCollideFriendNew.cpp	bfmeEmitHealCrateCollideFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Collide/CrateCollide/MoneyCrateCollideFriendNew.cpp	bfmeEmitMoneyCrateCollideFriendNew@@YAXXZ	1
@@ -34065,7 +34059,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cp
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::~OpenContain	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainFriendNew.cpp	bfmeEmitOpenContainFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainModuleDataCtor.cpp	0DieMuxData@@	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainModuleDataCtor.cpp	bfmeEmitRva00253487BaseCtor@@YAXPAVRva00253487Base@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/RiderChangeContainFriendNew.cpp	bfmeEmitRiderChangeContainFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineContainCtor.cpp	f00@SiegeEngineContain@@UAEXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineContainCtor.cpp	f20@SiegeEngineContain@@UAEXXZ	1
@@ -34074,7 +34067,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineCon
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainDtor.cpp	bfmeEmitTransportContainDtor@@YAXPAVTransportContain@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainFriendNew.cpp	bfmeEmitTransportContainFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/TunnelContainFriendNew.cpp	bfmeEmitTunnelContainFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/TunnelContainModuleDataCtor.cpp	bfmeEmitTunnelContainModuleDataCtor@@YAXPAVTunnelContainModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/TunnelContainModuleDataParse.cpp	bfmeEmitTunnelContainModuleDataParse@@YAXAAVMultiIniFieldParse@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Create/CreateModule.cpp	CreateModule::crc	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Create/CreateModule.cpp	CreateModule::loadPostProcess	1
@@ -34134,7 +34126,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/FiringTracker.cpp	Firi
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/FiringTracker.cpp	FiringTracker::shotFired	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/FiringTracker.cpp	FiringTracker::update	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/GenericObjectCreationNuggetAnimSetCopy.cpp	bfmeEmitGenericObjectCreationNuggetAnimSetCopy@@YAXPAUAnimSet@GenericObjectCreationNugget@@PBU12@@Z	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/GenericObjectCreationNuggetDtor.cpp	bfmeEmitDtor@GenericObjectCreationNugget@@SAXPAV1@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/GenericObjectCreationNuggetParseObject.cpp	bfmeEmitGenericObjectCreationNuggetParseObject@@YAXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Locomotor.cpp	Locomotor::Locomotor	2
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Locomotor.cpp	Locomotor::calcLiftToUseAtPt	1
@@ -34345,7 +34336,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	x
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	xfer@SightingInfo@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Rva001F092ACtor.cpp	0BFME2NativeNetwork@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Rva001FB94FDtor.cpp	1Rva001FB94FFirst@@QAE@XZ	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Rva00220CD4Dtor.cpp	bfmeEmitRva00220CD4Dtor@@YAXPAVRva00220CD4@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Rva0041497DCtor.cpp	0BFME2NativeNetwork@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/STLWeaponTemplateSetBitFlagsHintedInsertUnique.cpp	insert_unique@?$_Rb_tree@$$CBV?$BitFlags@$0BB@@@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@U?$_Select1st@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@@3@UMapHelper@?$SparseMatchFinder@VWeaponTemplateSet@@V?$BitFlags@$0BB@@@@@V?$allocator@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@@3@@_STL@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@@2@@2@U32@ABU?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@2@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/STLWeaponTemplateSetBitFlagsHintedInsertUnique.cpp	insert_unique@?$_Rb_tree@$$CBV?$BitFlags@$0BB@@@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@U?$_Select1st@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@@3@UMapHelper@?$SparseMatchFinder@VWeaponTemplateSet@@V?$BitFlags@$0BB@@@@@V?$allocator@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@@3@@_STL@@QAE?AU?$pair@U?$_Rb_tree_iterator@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@@2@@_STL@@_N@2@ABU?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@2@@Z	1
@@ -34825,7 +34815,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/BoredUpdateModu
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/CleanupHazardUpdateCtor.cpp	1BeaconClientUpdateModuleData@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/CommandButtonHuntUpdateFriendNew.cpp	bfmeEmitCommandButtonHuntUpdateFriendNew@@YAXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/DefaultProductionExitUpdateFriendNew.cpp	bfmeEmitDefaultProductionExitUpdateFriendNew@@YAXXZ	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/DelayedLuaEventUpdateDtor.cpp	bfmeEmitDelayedLuaEventUpdateDtor@@YAXPAVDelayedLuaEventUpdate@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/DeletionUpdate.cpp	DeletionUpdate::crc	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/DeletionUpdate.cpp	DeletionUpdate::loadPostProcess	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Update/DeletionUpdate.cpp	DeletionUpdate::~DeletionUpdate	1
@@ -35632,7 +35621,6 @@ present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/HeightMap.cp
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/HeightMap.cpp	updateVBForLight@HeightMapRenderObjClass@@IAEHPAVDX8VertexBufferClass@@PADHHHHHHQAPAVW3DDynamicLight@@H@Z	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/HeightMap.cpp	updateVBForLightOptimized@HeightMapRenderObjClass@@IAEHPAVDX8VertexBufferClass@@PADHHHHHHQAPAVW3DDynamicLight@@H@Z	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/LookupTablePostEffectDtor.cpp	1Field08@@QAE@XZ	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/MouseThreadCtor.cpp	bfmeEmitMouseThreadCtor@@YAXPAVMouseThreadClass@@@Z	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/RoadTypeDtor.cpp	bfmeEmitRva0018E750VectorDtor@@YAXPAVRva0018E750ChannelSet@@@Z	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/BfmeShadowBufferOwnerBaseDtor.cpp	destroyBaseExplicit	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DBufferManager.cpp	ReleaseResources@W3DBufferManager@@	1
@@ -35969,11 +35957,7 @@ present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/PendingSurfaceStructAssign
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/PendingSurfaceStructResize.cpp	BfmeRendererVectorBase::BfmeRendererVectorBase	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/PendingSurfaceStructResize.cpp	DynamicVectorDummy::DynamicVectorDummy	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/PendingSurfaceStructResize.cpp	W3DRadarResetSurface::operator=	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/RayCollisionConstructor.cpp	bfmeEmitRayCollisionConstructor@@YAXPAVRayCollisionTestClass@@ABVLineSegClass@@PAUCastResultStruct@@H_N3@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/RayCollisionCopyCtor.cpp	bfmeEmitRayCollisionCopyCtor@@YAXPAVRayCollisionTestClass@@ABV1@ABVMatrix3D@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/RenderObjAccessors.cpp	bfmeEmitRenderObjAccessors@@YAXPAVRenderObjClass@@@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/RenderObjSceneAndCost.cpp	bfmeEmitRenderObjSceneAndCost@@YAXPAVRenderObjClass@@@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/RenderObjSetForceVisible.cpp	bfmeEmitRenderObjSetForceVisible@@YAXPAVRenderObjClass@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/Rva001171B0Cluster.cpp	_bfmeRva001171B0Anchor	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/Rva001171B0Cluster.cpp	is	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/Rva0011C0F0Finish.cpp	still	1

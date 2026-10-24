@@ -62,7 +62,7 @@ private:
 	float m_D4;
 };
 
-inline TunnelContainModuleData::TunnelContainModuleData()
+TunnelContainModuleData::TunnelContainModuleData()
 {
 	m_D4 = 1.0f;
 	m_filter40.rva00362192(Rva00045411BitSet(0, 8), g_defaultStorage009FEFA4);
@@ -71,15 +71,3 @@ inline TunnelContainModuleData::TunnelContainModuleData()
 // Retail's data references in this unit's matched rows land on globals defined
 // under other spellings at the same addresses (addend-corrected DIR32). Bind them.
 #pragma comment(linker, "/alternatename:?g_defaultStorage009FEFA4@@3VBfmeFixedStorage0004543D@@B=?g_00DFEFA4StoragePrototype@@3PAEA")
-
-// TunnelContainModuleData ctor is a header inline elsewhere: another unit emits
-// a select-any copy, so a strong definition here was a duplicate in the linked
-// build. This anchor only makes this unit emit its copy for the ledger row; it
-// is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitTunnelContainModuleDataCtor@@YAXPAVTunnelContainModuleData@@@Z present-unmatched
-void bfmeEmitTunnelContainModuleDataCtor(TunnelContainModuleData *tunnelContainModuleData)
-{
-	tunnelContainModuleData->TunnelContainModuleData::TunnelContainModuleData();
-}
-#pragma inline_depth()
