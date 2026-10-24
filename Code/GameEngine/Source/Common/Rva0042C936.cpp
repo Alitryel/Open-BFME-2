@@ -45,9 +45,9 @@ inline Holder0042C936::~Holder0042C936()
 // ?release@Holder0042C936@@QAEPAURva0042C936Helper@@XZ present-unmatched
 inline Rva0042C936Helper *Holder0042C936::release()
 {
-	Rva0042C936Helper *t = p;
+	Rva0042C936Helper *releasedPtr = p;
 	p = 0;
-	return t;
+	return releasedPtr;
 }
 
 Rva0042C936 *Rva0042C936::rva0042C936(Holder0042C936 holder)
