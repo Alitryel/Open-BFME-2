@@ -104,8 +104,6 @@ extern "C" const void *const vtbl_00C77F44[];  // ??_7Rva0057605DSecond@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00C77F44=??_7Rva0057605DSecond@@6B@")
 extern "C" const void *const vtbl_00C79544[];  // ??_7Rva005E4AE2Listener@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00C79544=??_7Rva005E4AE2Listener@@6B@")
-extern "C" const void *const vtbl_00C7B6AC[];  // ??_7ThreadClass@@6B@
-#pragma comment(linker, "/alternatename:_vtbl_00C7B6AC=??_7ThreadClass@@6B@")
 class Rva00238D97DwordImmSetter
 {
 public:

@@ -173,7 +173,6 @@ Xfer *Rva00470222Xfer(Xfer *xfer, IntIntMap *map)
 // ?g_guardTargetTypeThrowInfo@@3HA: matched references place it at VA 0xcffd18; also referenced as ?g_rva008ffd18ThrowInfo@@3HA, ?g_rva005c5100ThrowInfo@@3HA.
 int g_guardTargetTypeThrowInfo = 0;
 #pragma comment(linker, "/alternatename:?g_rva008ffd18ThrowInfo@@3HA=?g_guardTargetTypeThrowInfo@@3HA")
-#pragma comment(linker, "/alternatename:?g_rva005c5100ThrowInfo@@3HA=?g_guardTargetTypeThrowInfo@@3HA")
 
 // The (void *, void *) declaration above is a C++ overload, so calls spell
 // ?_CxxThrowException@@YGXPAX0@Z; retail calls the MSVC 7.1 throw helper

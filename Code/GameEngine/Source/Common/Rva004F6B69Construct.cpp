@@ -24,7 +24,3 @@ void Rva004F6B69Construct(Rva004F6966 *dst, const Rva004F6966 *src)
 	if (dst != 0)
 		new (dst) Rva004F6966(*src);
 }
-
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:??$_Construct@URva004F6966@@U1@@_STL@@YAXPAURva004F6966@@ABU1@@Z=?Rva004F6B69Construct@@YAXPAURva004F6966@@PBU1@@Z")

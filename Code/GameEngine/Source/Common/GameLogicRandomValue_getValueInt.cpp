@@ -35,7 +35,3 @@ Int GetGameLogicRandomValue(Int lo, Int hi, char *file, int line)
 
 	return rval;
 }
-
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?entEnragedInitialValue@@YAHHIPBXH@Z=?GetGameLogicRandomValue@@YAHHHPADH@Z")

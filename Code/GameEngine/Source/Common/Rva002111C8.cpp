@@ -53,7 +53,3 @@ Rva002111C8 &Rva002111C8::operator=(const Rva002111C8 &other)
 	m_0c = other.m_0c;
 	return *this;
 }
-
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:??$_Construct@URva002111C8@@U1@@_STL@@YAXPAURva002111C8@@ABU1@@Z=?Rva00211DFBConstruct@@YAXPAVRva002111C8@@PBV1@@Z")

@@ -352,6 +352,5 @@ int Rva006C5E70Get(void)
 
 // ?G009B5F94@@3HA: the global at this VA is ?NPatchesLevel@WW3D@@0IA; this name is an alias for it.
 #pragma comment(linker, "/alternatename:?G009B5F94@@3HA=?NPatchesLevel@WW3D@@0IA")
-#pragma comment(linker, "/alternatename:?NPatchesLevel@@3IA=?NPatchesLevel@WW3D@@0IA")
 // ?G009B5F94@@3HA: the global at VA 0xdb5f94 is ?NPatchesLevel@WW3D@@0IA.
 #pragma comment(linker, "/alternatename:?G009B5F94@@3HA=?NPatchesLevel@WW3D@@0IA")

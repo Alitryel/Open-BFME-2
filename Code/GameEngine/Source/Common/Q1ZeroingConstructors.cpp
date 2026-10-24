@@ -31,10 +31,8 @@
 // IDENTITY IS NOT RECOVERED.  Every name is derived from an address.
 
 extern "C" const void *const vtbl_00CE7CB0[];  // folded, 2 classes; via ??_7ProfileCmdInterface@@6B@
-#pragma comment(linker, "/alternatename:_vtbl_00CE7CB0=??_7ProfileCmdInterface@@6B@")
 
 extern "C" const void *const vtbl_00BD23B4[];  // folded, 2 classes; via ??_7Rva0012D750@@6B@
-#pragma comment(linker, "/alternatename:_vtbl_00BD23B4=??_7Rva0012D750@@6B@")
 
 #define Q1_VFTABLE_ZERO_CTOR( NAME )                                      \
 	class NAME                                                            \

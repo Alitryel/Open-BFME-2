@@ -49,6 +49,3 @@ void *Rva007EB310Owner::destroy(unsigned int flags)
 
 // ?g_Va0130A588@@3PAVT_007ea120@@A: matched references place it at VA 0xe09fa4; also referenced as ?g_Va0130A588@@3PAVServiceHubImpl@@A, ?g_Va00E09FA4@@3HA, ?g_Va0130A588@@3URva0130A588State@@A.
 T_007ea120 * g_Va0130A588 = 0;
-#pragma comment(linker, "/alternatename:?g_Va0130A588@@3PAVServiceHubImpl@@A=?g_Va0130A588@@3PAVT_007ea120@@A")
-#pragma comment(linker, "/alternatename:?g_Va00E09FA4@@3HA=?g_Va0130A588@@3PAVT_007ea120@@A")
-#pragma comment(linker, "/alternatename:?g_Va0130A588@@3URva0130A588State@@A=?g_Va0130A588@@3PAVT_007ea120@@A")

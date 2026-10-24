@@ -424,7 +424,6 @@ int Rva0050E9CDGet(void)
 
 // ?g_Va00E0ABB0@@3HA: matched references place it at VA 0xe0abb0; also referenced as ?g_bfmeThingUCHead@@3PAVBfmeNodeUC@@A.
 int g_Va00E0ABB0;
-#pragma comment(linker, "/alternatename:?g_bfmeThingUCHead@@3PAVBfmeNodeUC@@A=?g_Va00E0ABB0@@3HA")
 // AptMessenger::s_instance owns the native messenger pointer at VA 0x00E046B8.
 AptMessenger *AptMessenger::s_instance;
 // ?g_Va00E06398@@3HA: matched references place it at VA 0xe06398 (the open file transfer popup).

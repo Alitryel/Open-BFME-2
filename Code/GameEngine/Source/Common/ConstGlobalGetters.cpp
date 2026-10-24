@@ -106,7 +106,6 @@ int Rva0011D240Get(void)
 
 // ?G009B5F9C@@3HA: the global at this VA is ?TextureFilter@WW3D@@0HA; this name is an alias for it.
 #pragma comment(linker, "/alternatename:?G009B5F9C@@3HA=?TextureFilter@WW3D@@0HA")
-#pragma comment(linker, "/alternatename:?g_dx8FilterMode@@3W4TextureFilterMode@TextureFilterClass@@A=?TextureFilter@WW3D@@0HA")
 // ?G009B5F9C@@3HA: the global at VA 0xdb5f9c is ?TextureFilter@WW3D@@0HA.
 #pragma comment(linker, "/alternatename:?G009B5F9C@@3HA=?TextureFilter@WW3D@@0HA")
 // ?G009EDA30@@3HA: the global at VA 0xdeda30 is ?D3DInterface@DX8Wrapper@@1PAUIDirect3D8@@A.

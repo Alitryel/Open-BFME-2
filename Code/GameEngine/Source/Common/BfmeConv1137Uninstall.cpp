@@ -75,8 +75,6 @@ class WW3D
 };
 
 extern bool ScreenSnapshot;
-// ?ScreenSnapshot@@3_NA: the global at this VA is ?SnapshotActivated@WW3D@@0_NA; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?ScreenSnapshot@@3_NA=?SnapshotActivated@WW3D@@0_NA")
 extern unsigned number_of_DX8_calls;
 extern unsigned ScreenTextureStageStateChanges;
 // ?ScreenTextureStageStateChanges@@3IA: the global at this VA is ?texture_stage_state_changes@DX8Wrapper@@1IA; this name is an alias for it.
@@ -153,8 +151,6 @@ void BfmeB1137::UnInstall_Materials(void) const
 	DX8Wrapper::Set_DX8_Texture_Stage_State(1, 0x0b, 0);
 	DX8Wrapper::Set_DX8_Texture_Stage_State(1, 0x18, 0);
 }
-// ?ScreenDevice@@3PAUDevice@@A: the global at VA 0xdeda34 is ?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A.
-#pragma comment(linker, "/alternatename:?ScreenDevice@@3PAUDevice@@A=?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A")
 // ?ScreenTextureStageStates@@3PAY0CA@IA: the global at VA 0xdeca38 is ?TextureStageStates@DX8Wrapper@@1PAY0CA@IA.
 #pragma comment(linker, "/alternatename:?ScreenTextureStageStates@@3PAY0CA@IA=?TextureStageStates@DX8Wrapper@@1PAY0CA@IA")
 

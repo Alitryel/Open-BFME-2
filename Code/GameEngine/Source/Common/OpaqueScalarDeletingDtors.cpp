@@ -4,8 +4,6 @@
 // Same function, same address: bind the header spelling here.
 struct EmitVtableTag;
 
-#pragma comment(linker, "/alternatename:??1Rva00B6CF1@@QAE@XZ=??1Rva00B6CF1@@UAE@XZ")
-
 // InGameCommandButtonMovieClip::Impl (WorldBuilder name of its destructor
 // 0x005C7954), whose holder clear 0x005C7CA1 deletes it below.
 class InGameCommandButtonMovieClip
@@ -1086,7 +1084,3 @@ Rva005F329E::~Rva005F329E()
 #pragma comment(linker, "/alternatename:??1Rva0090840@@UAE@XZ=??1Rva007E3C20Vp6Stream@@UAE@XZ")
 #pragma comment(linker, "/alternatename:??1Rva009D6FA@@UAE@XZ=??1Rva0009D55BProduct@@UAE@XZ")
 #pragma comment(linker, "/alternatename:??1Rva00B6CF1@@UAE@XZ=??1BfmeStringRecord000B94D2@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?f2@Rva00494A97_S2@@UAEXXZ=?update@WeaponModeSpecialPowerUpdate@@UAE?AW4UpdateSleepTime@@XZ")
-#pragma comment(linker, "/alternatename:?f3@Rva00494A97_S3@@UAEXXZ=?rva00494C81@Rva00494C81@@QAEXHHHHH@Z")
-#pragma comment(linker, "/alternatename:?f4@Rva00494A97_S4@@UAEXXZ=?eq@Rva0026A910@@QBE_NH@Z")
-#pragma comment(linker, "/alternatename:?f2@ObjectModule_B2@@UAEXXZ=??1Region2D@@QAE@XZ")

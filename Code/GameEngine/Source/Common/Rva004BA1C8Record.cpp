@@ -85,7 +85,3 @@ Rva004BA1C8 *Rva004BA2E9Copy(Rva004BA1C8 *first, Rva004BA1C8 *last, Rva004BA1C8 
 	}
 	return out;
 }
-
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:??$__copy@PAVRva004BA1C8@@PAV1@H@_STL@@YAPAVRva004BA1C8@@PAV1@00ABUrandom_access_iterator_tag@0@PAH@Z=?Rva004BA2E9Copy@@YAPAVRva004BA1C8@@PAV1@00@Z")

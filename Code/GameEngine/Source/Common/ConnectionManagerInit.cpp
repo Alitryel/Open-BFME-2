@@ -142,4 +142,3 @@ unsigned char BFMEConnectionManager::rva004CEFC2(int slot, unsigned int timeoutP
 
 // ?g_007ED97C@@3IA: matched references place it at VA 0xbed97c; also referenced as ?g_007ED97C@@3HA.
 unsigned int g_007ED97C = 6u;
-#pragma comment(linker, "/alternatename:?g_007ED97C@@3HA=?g_007ED97C@@3IA")

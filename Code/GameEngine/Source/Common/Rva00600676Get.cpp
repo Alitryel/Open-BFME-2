@@ -73,5 +73,3 @@ bool __stdcall Rva00600695Get(const char *a1)
 		return p->v12(a1);
 	return false;
 }
-// ?G00A06E5C@@3PAVRva00600676Target@@A: the global at VA 0xe06e5c is ?TheArchiveFileSystem@@3PAVArchiveFileSystem@@A.
-#pragma comment(linker, "/alternatename:?G00A06E5C@@3PAVRva00600676Target@@A=?TheArchiveFileSystem@@3PAVArchiveFileSystem@@A")

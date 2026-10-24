@@ -24,7 +24,6 @@ void BfmeThingCIB::bfmeGoCIB(void *one, void *two)
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
 #pragma comment(linker, "/alternatename:?bfmeSet3VJA@BfmeMsgVJA@@QAEXPBDH@Z=?bfmeGoCIB@BfmeThingCIB@@QAEXPAX0@Z")
-#pragma comment(linker, "/alternatename:?addInt@BfmeMsg1052@@QAEXPBDH@Z=?bfmeGoCIB@BfmeThingCIB@@QAEXPAX0@Z")
 #pragma comment(linker, "/alternatename:?bfmeSet3VJI@BfmeMsgVJI@@QAEXPBDH@Z=?bfmeGoCIB@BfmeThingCIB@@QAEXPAX0@Z")
 #pragma comment(linker, "/alternatename:?bfmeSet3VJC@BfmeMsgVJC@@QAEXPBDH@Z=?bfmeGoCIB@BfmeThingCIB@@QAEXPAX0@Z")
 #pragma comment(linker, "/alternatename:?addInt@BfmeMsg803BF0@@QAEXPBDH@Z=?bfmeGoCIB@BfmeThingCIB@@QAEXPAX0@Z")
