@@ -15,3 +15,4 @@ Verified conversions, banked one per commit:
 - `isXmlNode` at `0x006DBDE0`: complete110B; both traps use the intrinsic.
 - `isXml` at `0x006DBE50`: complete110B; both traps use the intrinsic.
 - `isXmlAttributes` at `0x006DBEC0`: complete110B; both traps use the intrinsic.
+- `isLoadVars` at `0x006DBF30`: complete110B; both traps use the intrinsic.
