@@ -43,14 +43,3 @@ void _Construct(T1 *p, const T2 &value)
 }
 
 template void _STL::_Construct(Rva0040CB11Entry *, const Rva0040CB11Entry &);
-
-// Copy ctor is a header inline elsewhere: other units emit select-any copies,
-// so a strong definition here was a duplicate in the linked build. This anchor
-// only makes this unit emit its copy for the ledger row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitRva0040CB11EntryCtor@@YAXPAVRva0040CB11Entry@@ABV1@@Z present-unmatched
-void bfmeEmitRva0040CB11EntryCtor(Rva0040CB11Entry *p, const Rva0040CB11Entry &other)
-{
-	p->Rva0040CB11Entry::Rva0040CB11Entry(other);
-}
-#pragma inline_depth()
