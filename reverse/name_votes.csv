@@ -4325,3 +4325,12 @@ Code/Libraries/Source/WWVegas/WWMath/Rva0007B459MatrixArrayTransform.cpp|local|R
 Code/GameEngine/Source/Common/Rva003F8F2BParse.cpp|local|LivingWorldTutorial::SessionTask::ParseINI|p,03be99e817cf2f6c34de5418,gpt-6.1-sol,codex4-20261024-083224-15,w-887869184137,2026-10-24
 Code/GameEngine/Source/Common/Rva003F8F2BParse.cpp|local|LivingWorldTutorial::LogicTurn::ParseINI|p,bd7b466c8df20cc38d5a04d7,gpt-6.1-sol,codex4-20261024-083224-15,w-887869184137,2026-10-24
 Code/GameEngine/Source/Common/Rva003F8F2BParse.cpp|global||g_00C37468,afad6ef9e96db549714f7b9c,gpt-6.1-sol,codex4-20261024-083224-15,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva0023D229Set.cpp|member|Rva0023D229Global|m_40,4ccac9fa4acb9c40955c0e8a,gpt-6.1-sol,codex4-20261024-083224-18,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva0023D229Set.cpp|local|Rva0023D229::Set|g,10b0f4f80425c60820467fe0,gpt-6.1-sol,codex4-20261024-083224-18,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva0023D229Set.cpp|local|Rva0023D229::Set|p,b769f3e5e76ab53ae1ae40f7,gpt-6.1-sol,codex4-20261024-083224-18,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva0023D229Set.cpp|local|Rva0023D229::rva0023D24C|g,960c41517d8dcb35b48cd06e,gpt-6.1-sol,codex4-20261024-083224-18,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva0023D229Set.cpp|local|Rva0023D229::rva0023D24C|p,8be3b675248e7fe12cef788a,gpt-6.1-sol,codex4-20261024-083224-18,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva001F526E.cpp|local|Rva001F526E::rva001F526E|p,16375ad192589d1c05aa14fd,gpt-6.1-sol,codex4-20261024-083224-23,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/System/Rva00033D50Shutdown.cpp|function|0x00033D50|rva00033D50,83a4158691f8ef7d66dd2954,gpt-6.1-sol,codex4-20261024-083224-24,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva00488906Chain.cpp|function|0x00488906|rva00488906,f8b9aac9c16cb2b47b34c765,gpt-6.1-sol,codex4-20261024-083224-25,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/System/Rva002D36AE.cpp|param|Rva002D36AEHost::rva002D36AE|a,0645d174d477ef8ebb70d8e0,gpt-6.1-sol,codex4-20261024-083224-27,w-887869184137,2026-10-24
