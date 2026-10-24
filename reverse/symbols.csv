@@ -6944,7 +6944,6 @@ name,address,notes
 ?_M_seek_return@?$basic_filebuf@DV?$char_traits@D@_STL@@@_STL@@AAE?AV?$fpos@H@2@JH@Z,0x000143D0,harvested from retail REL32 displacement at 0x00014010
 ?_M_seek_return@?$basic_filebuf@GV?$char_traits@G@_STL@@@_STL@@AAE?AV?$fpos@H@2@JH@Z,0x00014DA0,harvested from retail REL32 displacement at 0x00014F30
 ?_M_setup@strstreambuf@_STL@@AAEXPAD0H@Z,0x00602740,"strstreambuf::_M_setup(char*,char*,streamsize) called by the 3-arg ctor 0x00602A30; real STLport 4.5.3 spelling"
-?_M_skip_to_next@?$_Hashtable_iterator@U?$pair@$$CBHPAUQ1ReceiverHashPayload@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHPAUQ1ReceiverHashPayload@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHPAUQ1ReceiverHashPayload@@@_STL@@@2@@_STL@@QAEPAU?$_Hashtable_node@U?$pair@$$CBHPAUQ1ReceiverHashPayload@@@_STL@@@2@XZ,0x00054DC7,callee REL32 read by locate.py from a unique masked-byte placement emitted by assetmanager_impl.cpp
 ?_M_subtract@?$_Deque_iterator_base@UBfmeCopyRecord8@@@_STL@@QBEHABU12@@Z,0x00549001,deque iterator member rowed here under BfmeE8/BfmeE12 (it depends only on the 8-byte element size): the BfmeCopyRecord8 deque sort bodies call it
 ?_M_subtract@?$_Deque_iterator_base@UBfmeE12@@@_STL@@QBEHABU12@@Z,0x004218A5,address read from the REL32 displacement at a placed deque<12-byte element> body; stlport 4.5.3
 ?_M_subtract@?$_Deque_iterator_base@UBfmeE16@@@_STL@@QBEHABU12@@Z,0x002615C0

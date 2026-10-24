@@ -16,6 +16,16 @@ namespace _STL { void __cdecl free(void *); }
 // stlport
 
 #define _BFME_RETAIL_TREE_INSERT_LAYOUT
+// The game's byte allocator (0x000307F0): a static cdecl (bytes, hint) on
+// allocator<char> that every retail node allocation funnels through.
+namespace _STL {
+template <class _Tp> class allocator;
+template <> class allocator<char> {
+public:
+	typedef char value_type;
+	static char *allocate(unsigned int __n, const void *__p);
+};
+}
 #include <set>
 #include <hash_map>
 
@@ -81,11 +91,28 @@ template <> __declspec(dllimport) __forceinline
 bool set<Q1ReceiverKey, less<Q1ReceiverKey>, allocator<Q1ReceiverKey> >::empty() const
 { return _M_t.empty(); }
 typedef _Rb_tree<Q1ReceiverKey, Q1ReceiverKey, _Identity<Q1ReceiverKey>, less<Q1ReceiverKey>, allocator<Q1ReceiverKey> > Q1ReceiverPtrTree;
+// Node allocation inlines the game's byte allocator, as retail's does.
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_node<Rva001408C0Target *> *allocator<_Rb_tree_node<Rva001408C0Target *> >::allocate(size_t __n, const void *) const
+{ return __n != 0 ? (_Rb_tree_node<Rva001408C0Target *> *)allocator<char>::allocate(__n * sizeof(_Rb_tree_node<Rva001408C0Target *>), 0) : 0; }
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_node<Rva001408C0Target *> *_STLP_alloc_proxy<_Rb_tree_node<Rva001408C0Target *> *, _Rb_tree_node<Rva001408C0Target *>, allocator<_Rb_tree_node<Rva001408C0Target *> > >::allocate(size_t __n)
+{ return __stl_alloc_rebind(static_cast<_Base &>(*this), (_Rb_tree_node<Rva001408C0Target *> *)0).allocate(__n, 0); }
 // This unit is first in link order for the pointer set's out-of-line insert
 // path, but retail's copies (0x004ABD36, 0x00422047, 0x00080691) are the
 // game's /O1 bodies. Template members take the optimize state of the TU end,
 // so the stock bodies are spelled as explicit specializations in a gsy region.
 #pragma optimize("gsy", on)
+// _M_create_node is retail's /O1 body too (0x004ABCC9): the byte allocator
+// inlined through the allocator and proxy members, the caller popping its
+// two arguments.
+template <> inline
+_Rb_tree_node<Q1ReceiverKey> *Q1ReceiverPtrTree::_M_create_node(const Q1ReceiverKey &__x)
+{
+	_Link_type __tmp = this->_M_header.allocate(1);
+	_Construct(&__tmp->_M_value_field, __x);
+	return __tmp;
+}
 template <> inline
 Q1ReceiverPtrTree::iterator _Rb_tree<Q1ReceiverKey, Q1ReceiverKey, _Identity<Q1ReceiverKey>, less<Q1ReceiverKey>, allocator<Q1ReceiverKey> >::_M_insert(_Rb_tree_node_base *__x_, _Rb_tree_node_base *__y_, const Q1ReceiverKey &__v,
 	_Rb_tree_node_base *__w_)
@@ -673,15 +700,6 @@ extern void __cdecl Rva00030830FreeAllocation(void *);
 #include <vector>
 // Bind vector<unsigned int>::push_back to the kept retail copy (0x004DFCB0).
 namespace _STL { template <> void vector<unsigned int, allocator<unsigned int> >::push_back(const unsigned int &); }
-// Suppress this TU's non-retail copy of ?allocate@?$allocator@U?$_Rb_tree_node@PAURva001408C0Target@@@_STL@@@_STL@@QBEPAU?$_Rb_tre:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva001408C0Target;
-
-namespace _STL { template <> _Rb_tree_node<Rva001408C0Target *> *allocator<_Rb_tree_node<Rva001408C0Target *> >::allocate(size_t, const void *) const; }
-// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@PAURva001408C0Target@@@_STL@@U12@V?$alloc:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva001408C0Target;
-namespace _STL { template <> _Rb_tree_node<Rva001408C0Target *> *_STLP_alloc_proxy<_Rb_tree_node<Rva001408C0Target *> *, _Rb_tree_node<Rva001408C0Target *>, allocator<_Rb_tree_node<Rva001408C0Target *> > >::allocate(size_t); }
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline _Vector_base<unsigned int,allocator<unsigned int> >::_Vector_base(allocator<unsigned int> const &a) : _M_start(0), _M_finish(0), _M_end_of_storage(a, 0) {} }
 // Bind to the kept retail copy instead of emitting this unit's own.
