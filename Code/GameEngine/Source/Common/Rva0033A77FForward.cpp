@@ -18,14 +18,14 @@ public:
 class Rva0033A77F
 {
 public:
-	void rva0033A77F(int a, int b, int c, int d, int e);
+	void rva0033A77F(int a, int from, int trace, int d, int e);
 
 private:
 	char unknown00[0xA0];
 	GeometryInfo mA0;
 };
 
-void Rva0033A77F::rva0033A77F(int a, int b, int c, int d, int e)
+void Rva0033A77F::rva0033A77F(int a, int from, int trace, int d, int e)
 {
-	mA0.getBestContactPoint((Coord3D *)a, (const Coord3D *)b, (const char *)c, d, e, false);
+	mA0.getBestContactPoint((Coord3D *)a, (const Coord3D *)from, (const char *)trace, d, e, false);
 }
