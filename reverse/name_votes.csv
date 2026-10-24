@@ -5327,3 +5327,9 @@ Code/GameEngine/Source/Common/BfmeSubmitColors1283.cpp|param|BfmeSubmitter1283::
 Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp|member|Rva00202244Preset|m_14,964d6360f12021d1d3660371,gpt-6-astra,codexb2-20261024-145840-4,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp|member|Rva00202244Preset|m_15,381f4db998093021aa8e67a0,gpt-6-astra,codexb2-20261024-145840-4,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/GameLODManagerRva00202244.cpp|member|Rva00202244Preset|m_38,428676eac4b08ec8d040e508,gpt-6-astra,codexb2-20261024-145840-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva002B280CCheck.cpp|local|Rva002B280C::rva002B280C|p,6c1e87c7f29da1874b9c883f,gpt-6-astra,codexb2-20261024-145840-5,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva0049355ERatio.cpp|class||Rva0049355EHolder,ebbce5a110799f95a7ba0d5d,gpt-6-astra,codexb2-20261024-145840-6,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/OpenAudioFile_setFileReady.cpp|param|OpenAudioFile::setFileReady|a1,f5f2f52f450a254f7041ed5a,gpt-6-astra,codexb2-20261024-145840-6,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/OpenAudioFile_setFileReady.cpp|param|OpenAudioFile::setFileReady|a3,856f45b66013a79afab37c93,gpt-6-astra,codexb2-20261024-145840-6,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/Rva002EBC59.cpp|param|rva002EBC59|a1,1d26df7153ecc8e7cec22514,gpt-6-astra,codexb2-20261024-145840-7,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028EBDA.cpp|local|Object::rva0028EBDA|m,18ecef4afa4918b69cf6bd19,gpt-6-astra,codexb2-20261024-145840-7,w-d0bdfd8b17e9,2026-10-24
