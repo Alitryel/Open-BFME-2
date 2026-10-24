@@ -965,3 +965,4 @@ param,Rva000AE234::rva000AE234::x,Rva000AE234::rva000AE234::xIndex,inferred,agre
 param,Rva000AE234::rva000AE234::y,Rva000AE234::rva000AE234::yIndex,inferred,agree:nl-8b705eac04a5,Code/GameEngine/Source/Common/Rva000AE234GridGet.cpp,0x000AE234
 local,Rva004079D5::rva004079D5::v,Rva004079D5::rva004079D5::node,inferred,agree:nl-b4b8f45a1ac3,Code/GameEngine/Source/Common/Rva004079D5.cpp,0x004079D5
 local,AODHordeContain::initOffsets::n,AODHordeContain::initOffsets::rowIndex,inferred,agree:nl-39f00b79e0b1,Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainInitOffsets.cpp,0x0047B690
+local,FXShaderParameterBinder::PushDynamicSetStack::c6c,FXShaderParameterBinder::PushDynamicSetStack::effect,inferred,agree:nl-c5c5bee4ab06,Code/Libraries/Source/WWVegas/WW3D2/FXShaderParameterBinderPushDynamicSetStackName.cpp,0x001535FF

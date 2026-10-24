@@ -79,8 +79,8 @@ void FXShaderParameterBinder::PushDynamicSetStack(const char *name)
 	void *found = c19->slot4C(name, "WW3DDynamicSet");
 	if (found == 0)
 		goto add;
-	Com6C *c6c = *(Com6C **)this;
-	int r = c6c->slot6C(found, out);
+	Com6C *effect = *(Com6C **)this;
+	int r = effect->slot6C(found, out);
 	if (r < 0)
 		goto reload;
 	if (cur < 0)
