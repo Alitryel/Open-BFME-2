@@ -21,4 +21,10 @@ struct BfmeStringRecord001EA478 { unsigned char m_data[8]; };
 inline bool operator==(const BfmeStringRecord001EA478 &, const BfmeStringRecord001EA478 &) { return false; }
 inline bool operator<(const BfmeStringRecord001EA478 &, const BfmeStringRecord001EA478 &) { return false; }
 
+typedef _STL::list<BfmeStringRecord001EA478, _STL::allocator<BfmeStringRecord001EA478> > BfmeStringRecord001EA478List;
+// Declared only: the single-node erase is retail's rowed body at 0x004E7B6E.
+namespace _STL { template <> BfmeStringRecord001EA478List::iterator BfmeStringRecord001EA478List::erase(BfmeStringRecord001EA478List::iterator); }
 template class _STL::list<BfmeStringRecord001EA478, _STL::allocator<BfmeStringRecord001EA478> >;
+
+// The declared erase binds to that row (tools/allowed_symbols.py --alternatenames).
+#pragma comment(linker, "/alternatename:?erase@?$list@UBfmeStringRecord001EA478@@V?$allocator@UBfmeStringRecord001EA478@@@_STL@@@_STL@@QAE?AU?$_List_iterator@UBfmeStringRecord001EA478@@U?$_Nonconst_traits@UBfmeStringRecord001EA478@@@_STL@@@2@U32@@Z=?Rva004E7B6EErase@@YGXPAPAXPAURva004E7B6ENode@@@Z")
