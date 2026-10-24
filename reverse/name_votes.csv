@@ -5659,3 +5659,11 @@ Code/GameEngine/Source/Common/Rva005A8666Box.cpp|param|NAT::gotTargetMangledPort
 Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp|function|0x004CFBC2|rva004CFBC2,eac4e52dc32df5ba680e8c70,claude-opus-5-5,claudec6-20261024-220626-9,w-efe153480513,2026-10-24
 Code/GameEngine/Source/Common/Rva003F8F2BParse.cpp|local|LivingWorldTutorial::SessionTask::ParseINI|p,03be99e817cf2f6c34de5418,claude-opus-5-5,claudec5-20261024-215416-12,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/Common/Rva003F8F2BParse.cpp|global||g_00C37468,6c95e8a0a98ca943c6bddf72,claude-opus-5-5,claudec5-20261024-215416-12,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva005388C2Assign.cpp|function|0x005389D9|rva005389D9,c74d32a84d4559a3511d9e83,claude-opus-5-5,claudec5-20261024-221144-2,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva005388C2Assign.cpp|function|0x00538768|rva00538768,cb7b012ae22517062bad9666,claude-opus-5-5,claudec5-20261024-221144-2,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva005388C2Assign.cpp|function|0x005389ED|rva005389ED,c4f16bfd34972ecfd950f863,claude-opus-5-5,claudec5-20261024-221144-2,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva005388C2Assign.cpp|param|QuadStrip2D::rva005389D9|x,a1da6f4f828c1fef13f147f1,claude-opus-5-5,claudec5-20261024-221144-2,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva005388C2Assign.cpp|local|QuadStrip2D::rva00538383|p,43ca6e5309f58b73b0eeedd1,claude-opus-5-5,claudec5-20261024-221144-2,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva005388C2Assign.cpp|local|QuadStrip2D::rva005382F4|p,eb7188d122bb6b69dea93a73,claude-opus-5-5,claudec5-20261024-221144-2,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdateSlot8.cpp|local|SpecialAbilityUpdate::rva0044EDA6|a,02c9b5eea8e2df6fa931fc4f,claude-opus-5-5,claudec5-20261024-221144-8,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdateSlot8.cpp|local|SpecialAbilityUpdate::rva0044EDA6|b,51ec51d2d4c92a9a6f56985b,claude-opus-5-5,claudec5-20261024-221144-8,w-1ebb1ea4caee,2026-10-24
