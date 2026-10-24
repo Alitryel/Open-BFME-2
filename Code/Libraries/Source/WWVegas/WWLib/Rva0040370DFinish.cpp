@@ -78,14 +78,4 @@ _STL::vector<Rva00297360Element, _STL::allocator<Rva00297360Element> >::erase(
   return position;
 }
 
-// This erase is a header inline in retail: one other unit emits a select-any
-// copy of it, so a strong definition here was a duplicate symbol in the linked
-// build. Making it inline emits the same copy as select-any, and this anchor
-// only makes this unit emit its copy for the ledger row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitRva00297360ElementErase@@YAXPAV?$vector@VRva00297360Element@@V?$allocator@VRva00297360Element@@@_STL@@@_STL@@@Z present-unmatched
-void bfmeEmitRva00297360ElementErase(_STL::vector<Rva00297360Element, _STL::allocator<Rva00297360Element> > *p)
-{
-  p->erase(0);
-}
-#pragma inline_depth()
+template _STL::vector<Rva00297360Element, _STL::allocator<Rva00297360Element> >::iterator _STL::vector<Rva00297360Element, _STL::allocator<Rva00297360Element> >::erase(_STL::vector<Rva00297360Element, _STL::allocator<Rva00297360Element> >::iterator);

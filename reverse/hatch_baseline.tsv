@@ -32894,7 +32894,6 @@ present_unmatched	Code/GameEngine/Source/Common/Rva004075E0.cpp	0Rva004075E0Pair
 present_unmatched	Code/GameEngine/Source/Common/Rva0040C351Dtor.cpp	1MemberAC@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/Common/Rva0040CB11EntryCtor.cpp	bfmeEmitRva0040CB11EntryCtor@@YAXPAVRva0040CB11Entry@@ABV1@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Rva0040D11CSwap.cpp	1Rva0040CB11Entry@@QAE@XZ	1
-present_unmatched	Code/GameEngine/Source/Common/Rva0040DC1FErase.cpp	bfmeEmitRva0040DC1FErase@@YAXPAV?$vector@URva004F69C3@@V?$allocator@URva004F69C3@@@_STL@@@_STL@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Rva0041580ECleanup.cpp	Rva004158AFSlot::Rva004158AFSlot	1
 present_unmatched	Code/GameEngine/Source/Common/Rva0041580ECleanup.cpp	Rva00415A55Result::Rva00415A55Result	1
 present_unmatched	Code/GameEngine/Source/Common/Rva00419BFAInit.cpp	Rva00419BCDCreate@@YAPAXXZ	1
@@ -36794,7 +36793,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva002299F1MetadataConstru
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva002AE3F4Finish.cpp	append@Rva002A1B6FNativeList@@QAEXABQAX@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva002E8548Pool.cpp	Rva002F0DD6Less::operator()	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva00383BACFinish.cpp	_M_insert@?$_Rb_tree@HU?$pair@$$CBHH@_STL@@U?$_Select1st@U?$pair@$$CBHH@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHH@_STL@@@2@@_STL@@AAE?AU?$_Rb_tree_iterator@U?$pair@$$CBHH@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHH@_STL@@@_STL@@@2@PAU_Rb_tree_node_base@2@0ABU?$pair@$$CBHH@2@0@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva0040370DFinish.cpp	bfmeEmitRva00297360ElementErase@@YAXPAV?$vector@VRva00297360Element@@V?$allocator@VRva00297360Element@@@_STL@@@_STL@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva0043B35DErase.cpp	begin@Rva0043B2E2@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBHPAX@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHPAX@_STL@@@2@@_STL@@XZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva0043B35DErase.cpp	end@Rva0043B2E2@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBHPAX@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHPAX@_STL@@@2@@_STL@@XZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/Rva0043B35DErase.cpp	rva0043B3A1@Rva0043B2E2@@QAEXAAPAU...	1
