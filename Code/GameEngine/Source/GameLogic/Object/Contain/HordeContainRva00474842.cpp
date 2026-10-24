@@ -472,7 +472,7 @@ static __forceinline const float &rva474842Min(const float &a,const float &b)
 static __forceinline void hcCopy(Coord3D &c,const Coord3D *a){c.x=a->x;c.y=a->y;c.z=a->z;}
 static __forceinline void hcSub(Coord3D &c,const Coord3D *a){c.x-=a->x;c.y-=a->y;c.z-=a->z;}
 static __forceinline float hcLengthSqrd(const Coord3D &c){return c.x*c.x+c.y*c.y+c.z*c.z;}
-static __forceinline float sqr(float v){return v*v;}
+static __forceinline float sqr(float operand){return operand*operand;}
 void HordeContain::rva00474842(Object *obj,const Coord3D *position,float orientation,bool flag)
 
 {
