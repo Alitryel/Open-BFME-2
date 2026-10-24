@@ -39,7 +39,7 @@ class Rva00239539EngineSlots { public:
 };
 extern GameEngine *TheGameEngine;
 class GlobalData;
-struct Rva00239539Flags { char prefix[0xAF2]; unsigned char flagAF2; };
+struct Rva00239539Flags { char prefix[0xAF2]; unsigned char m_playIntro; };
 extern GlobalData *TheWritableGlobalData;
 class Display;
 class Rva00239539DisplaySlots { public:
@@ -117,7 +117,7 @@ int __cdecl rva00239539(void *, bool allowIntro) {
  int result=5;
  reinterpret_cast<Rva00239539EngineSlots *>(TheGameEngine)->slot23();
  if (allowIntro) {
-  if (reinterpret_cast<Rva00239539Flags *>(TheWritableGlobalData)->flagAF2) reinterpret_cast<Rva00239539DisplaySlots *>(TheDisplay)->slot67(AsciiString("EALogoMovie"),0,8);
+  if (reinterpret_cast<Rva00239539Flags *>(TheWritableGlobalData)->m_playIntro) reinterpret_cast<Rva00239539DisplaySlots *>(TheDisplay)->slot67(AsciiString("EALogoMovie"),0,8);
  } else result=7;
  return result;
 }
