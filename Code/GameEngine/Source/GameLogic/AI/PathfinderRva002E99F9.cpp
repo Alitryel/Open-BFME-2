@@ -99,27 +99,27 @@ private:
 // Rva00531A44 find in the same family.
 int Pathfinder::FindBrokenBridge(Rva002E99F9Arg1 *a1, const Coord3D * volatile startPos, const Coord3D *endPos)
 {
-	PathfindLayerEnum layerA3 = TheTerrainLogic->getLayerForDestination(0, endPos);
-	PathfindLayerEnum layerA2 = TheTerrainLogic->getLayerForDestination(0, startPos);
-	PathfindCell *pathfindCell = rva002E8BF8(layerA2, startPos);
-	PathfindCell *cellA3 = rva002E8BF8(layerA3, endPos);
-	Rva002E99F9Query q;
-	q.m_8 |= -1;
-	q.m_0 = a1->m_10;
-	q.m_C = a1->m_15;
-	q.m_4 = 0;
-	q.m_5 = 0;
+	PathfindLayerEnum endLayer = TheTerrainLogic->getLayerForDestination(0, endPos);
+	PathfindLayerEnum startLayer = TheTerrainLogic->getLayerForDestination(0, startPos);
+	PathfindCell *pathfindCell = rva002E8BF8(startLayer, startPos);
+	PathfindCell *m_endCell = rva002E8BF8(endLayer, endPos);
+	Rva002E99F9Query zoneParams;
+	zoneParams.m_8 |= -1;
+	zoneParams.m_0 = a1->m_10;
+	zoneParams.m_C = a1->m_15;
+	zoneParams.m_4 = 0;
+	zoneParams.m_5 = 0;
 	unsigned short wB;
 	unsigned short wA;
 	wB = pathfindCell->m_8;
-	unsigned int r1 = m_sub460.rva0053241F(&q, wB);
-	wA = cellA3->m_8;
-	unsigned int r2 = m_sub460.rva0053241F(&q, wA);
-	unsigned int r3 = m_sub460.rva00531FD4(&q, r1);
-	unsigned int r4 = m_sub460.rva00531FD4(&q, r2);
-	unsigned int r5 = m_sub460.rva0053241F(&q, r3);
+	unsigned int r1 = m_sub460.rva0053241F(&zoneParams, wB);
+	wA = m_endCell->m_8;
+	unsigned int r2 = m_sub460.rva0053241F(&zoneParams, wA);
+	unsigned int r3 = m_sub460.rva00531FD4(&zoneParams, r1);
+	unsigned int r4 = m_sub460.rva00531FD4(&zoneParams, r2);
+	unsigned int r5 = m_sub460.rva0053241F(&zoneParams, r3);
 	startPos = (const Coord3D *)r5;
-	m_sub460.rva0053241F(&q, r4);
+	m_sub460.rva0053241F(&zoneParams, r4);
 	return 0;
 }
 

@@ -1388,3 +1388,7 @@ file,Code/GameEngine/Source/GameLogic/Object/PartitionManager_bfmeDistanceBounda
 param,BfmeStrVMQ::notEqual::o,BfmeStrVMQ::notEqual::other,inferred,agree:nl-b41e166b73af,Code/GameEngine/Source/Common/BfmeConv1432.cpp,0x000249D0
 param,Pathfinder::FindBrokenBridge::a2,Pathfinder::FindBrokenBridge::startPos,inferred,agree:nl-a8f35c3c0bf9,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp,0x002E99F9
 param,Pathfinder::FindBrokenBridge::a3,Pathfinder::FindBrokenBridge::endPos,inferred,agree:nl-575e1d83c380,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp,0x002E99F9
+local,Pathfinder::FindBrokenBridge::layerA3,Pathfinder::FindBrokenBridge::endLayer,inferred,agree:nl-b6f68c850093,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp,0x002E99F9
+local,Pathfinder::FindBrokenBridge::layerA2,Pathfinder::FindBrokenBridge::startLayer,inferred,agree:nl-9b556eb7c859,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp,0x002E99F9
+local,Pathfinder::FindBrokenBridge::cellA3,Pathfinder::FindBrokenBridge::m_endCell,inferred,agree:nl-a871dfa69371,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp,0x002E99F9
+local,Pathfinder::FindBrokenBridge::q,Pathfinder::FindBrokenBridge::zoneParams,inferred,agree:nl-e267ce438860,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp,0x002E99F9
