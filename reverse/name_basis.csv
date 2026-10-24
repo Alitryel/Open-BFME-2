@@ -752,3 +752,6 @@ local,Rva00524B7A::update::b,Rva00524B7A::update::alphaByte,inferred,agree:nl-b4
 local,Rva005398B3::rva005398B3::p,Rva005398B3::rva005398B3::entry,inferred,agree:nl-4814f5655a60,Code/GameEngine/Source/Common/Rva005396E6Dtor.cpp,0x005398B3
 function,?rva005398B3@Rva005398B3@@QAEXXZ,?reset@Rva005398B3@@QAEXXZ,inferred,agree:nl-f049367e0d95,Code/GameEngine/Source/Common/Rva005396E6Dtor.cpp,0x005398B3
 carry,Rva005398B3::rva005398B3::entry,Rva005398B3::reset::entry,inferred,scope renamed by Rename rva005398B3 to reset (inferred),Code/GameEngine/Source/Common/Rva005396E6Dtor.cpp,0x005398B3
+member,Rva005543D5::m_64,Rva005543D5::m_thread,inferred,agree:nl-1ff7db0ad551,Code/GameEngine/Source/Common/Rva005543D5Init.cpp,
+member,Rva005543D5::m_9C,Rva005543D5::m_mutex,inferred,agree:nl-8fbc4a314438,Code/GameEngine/Source/Common/Rva005543D5Init.cpp,
+member,Rva005543D5::m_A4,Rva005543D5::m_lock,inferred,agree:nl-2e103dec5232,Code/GameEngine/Source/Common/Rva005543D5Init.cpp,

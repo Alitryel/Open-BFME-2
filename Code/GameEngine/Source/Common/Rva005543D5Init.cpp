@@ -61,19 +61,19 @@ private:
 class Rva005543D5
 {
 	char m_pad0[0x64];
-	PSThreadClass *m_64;
+	PSThreadClass *m_thread;
 	char m_pad1[0x9C - 0x68];
-	MutexClass m_9C;
-	Rva0009990D m_A4;
+	MutexClass m_mutex;
+	Rva0009990D m_lock;
 public:
 	void rva005543D5();
 };
 void Rva005543D5::rva005543D5()
 {
-	if (m_64 != 0)
+	if (m_thread != 0)
 		return;
-	m_A4.set(new MutexClass::LockClass(m_9C, -1));
-	PSThreadClass *obj = new PSThreadClass(&m_9C);
-	m_64 = obj;
+	m_lock.set(new MutexClass::LockClass(m_mutex, -1));
+	PSThreadClass *obj = new PSThreadClass(&m_mutex);
+	m_thread = obj;
 	obj->Execute();
 }
