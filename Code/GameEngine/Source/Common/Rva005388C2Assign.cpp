@@ -43,7 +43,7 @@ public:
  	QuadStrip2D &rva005388F7(const QuadStrip2D &other);
  	void rva005389D9(const BfmeFloat4Record00469C61 &x);
  	void rva00538768(int index);
- 	void rva00538931();
+ 	void clear();
     void rva0053892C(unsigned int count);
  	void rva005389ED(int index, const W3DAnimationInfo &x);
  	void rva00538383(float scale);
@@ -82,11 +82,11 @@ void QuadStrip2D::rva00538768(int index)
 	m_20 = 1;
 }
 
-// ?rva00538931@QuadStrip2D@@QAEXXZ @0x00538931 (19B).
+// ?clear@QuadStrip2D@@QAEXXZ @0x00538931 (19B).
 // Erases the whole vector through the rowed range erase then sets m_20=1,
 // the same vector-op-plus-flag shape as the two bodies above. Prev row in
 // this TU is QuadStrip2D 0x005388F7; caller 0x0030BE4E passes the holder.
-void QuadStrip2D::rva00538931()
+void QuadStrip2D::clear()
 {
 	m_vec.erase(m_vec.begin(), m_vec.end());
 	m_20 = 1;

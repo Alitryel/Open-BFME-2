@@ -24,7 +24,7 @@ Rva0041890FRecord::Rva0041890FRecord(const AsciiString &name, const Rva004188B6 
 {
 }
 
-void Rva00418985Construct(Rva0041890FRecord *output, const Rva0041890FRecord &record)
+void construct(Rva0041890FRecord *output, const Rva0041890FRecord &record)
 {
     new (output) Rva0041890FRecord(record);
 }
@@ -34,7 +34,7 @@ Rva00418A12Node *Rva00418A8EHost::newNode(const Rva0041890FRecord &record)
     Rva00418A12Node *node = reinterpret_cast<Rva00418A12Node *>(
         _STL::allocator<char>::allocate(sizeof(Rva00418A12Node), 0));
     node->next = 0;
-    Rva00418985Construct(&node->value, record);
+    construct(&node->value, record);
     return node;
 }
 
@@ -80,7 +80,7 @@ int Rva00418A8EHost::outer(int outputAddress, int recordAddress)
     return outputAddress;
 }
 
-// ?rva00418AB2@Rva00418AB2Host@@QAEHHH@Z @0x00418AB2 20B: the table-level
+// ?insert@Rva00418AB2Host@@QAEHHH@Z @0x00418AB2 20B: the table-level
 // insert over outer() above, forwarding the hidden result slot and the
 // record and handing the slot back. Skeleton twin of map<int,int>::
 // equal_range 0x002B8120. A unit-local view, so the shared header's host
@@ -88,10 +88,10 @@ int Rva00418A8EHost::outer(int outputAddress, int recordAddress)
 class Rva00418AB2Host
 {
 public:
-    int rva00418AB2(int outputAddress, int recordAddress);
+    int insert(int outputAddress, int recordAddress);
 };
 
-int Rva00418AB2Host::rva00418AB2(int outputAddress, int recordAddress)
+int Rva00418AB2Host::insert(int outputAddress, int recordAddress)
 {
     reinterpret_cast<Rva00418A8EHost *>(this)->outer(outputAddress, recordAddress);
     return outputAddress;

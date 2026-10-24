@@ -20,7 +20,7 @@ private:
 
 extern Rva005E16DA g_upgradeUnitButton;
 
-void rva007B9A05()
+void destroyUpgradeUnitButton()
 {
     g_upgradeUnitButton.~Rva005E16DA();
 }
@@ -33,13 +33,13 @@ void rva007B52E6()
         // AsciiString adapter. This is static storage, with no allocation.
         g_upgradeUnitButton.Rva005E16DA::Rva005E16DA(reinterpret_cast<int>(&label));
     }
-    atexit(rva007B9A05);
+    atexit(destroyUpgradeUnitButton);
 }
 
 extern Rva005E16DA g_cancelArmyMemberMoveButton;
 // Exact callback address registered by startup7B5299; mov-this/tail-jump
 // spans7B99FB..7B9A04 and reaches the same rowed destructor5E16FD.
-void rva007B99FB()
+void destroyCancelArmyMemberMoveButton()
 {
     g_cancelArmyMemberMoveButton.~Rva005E16DA();
 }
@@ -51,12 +51,12 @@ void rva007B5299()
         AsciiString label("CancelArmyMemberMoveButton");
         g_cancelArmyMemberMoveButton.Rva005E16DA::Rva005E16DA(reinterpret_cast<int>(&label));
     }
-    atexit(rva007B99FB);
+    atexit(destroyCancelArmyMemberMoveButton);
 }
 
 extern Rva005E16DA g_disbandArmyMemberButton;
 // Callback7B9A0F..7B9A18 registered by startup7B5343.
-void rva007B9A0F()
+void destroyDisbandArmyMemberButton()
 {
     g_disbandArmyMemberButton.~Rva005E16DA();
 }
@@ -68,12 +68,12 @@ void rva007B5343()
         AsciiString label("DisbandArmyMemberButton");
         g_disbandArmyMemberButton.Rva005E16DA::Rva005E16DA(reinterpret_cast<int>(&label));
     }
-    atexit(rva007B9A0F);
+    atexit(destroyDisbandArmyMemberButton);
 }
 
 extern Rva005E16DA g_cancelArmyMoveButton;
 // Callback7B998D..7B9996 registered by startup7B5134.
-void rva007B998D()
+void destroyCancelArmyMoveButton()
 {
     g_cancelArmyMoveButton.~Rva005E16DA();
 }
@@ -85,7 +85,7 @@ void rva007B5134()
         AsciiString label("CancelArmyMoveButton");
         g_cancelArmyMoveButton.Rva005E16DA::Rva005E16DA(reinterpret_cast<int>(&label));
     }
-    atexit(rva007B998D);
+    atexit(destroyCancelArmyMoveButton);
 }
 
 // Retail gives these objects zero-filled static storage; the four rowed

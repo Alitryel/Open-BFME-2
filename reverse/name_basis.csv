@@ -968,3 +968,10 @@ local,AODHordeContain::initOffsets::n,AODHordeContain::initOffsets::rowIndex,inf
 local,FXShaderParameterBinder::PushDynamicSetStack::c6c,FXShaderParameterBinder::PushDynamicSetStack::effect,inferred,agree:nl-c5c5bee4ab06,Code/Libraries/Source/WWVegas/WW3D2/FXShaderParameterBinderPushDynamicSetStackName.cpp,0x001535FF
 member,Rva002AD661LogicView::m_word114,Rva002AD661LogicView::m_gameMode,inferred,agree:nl-18b9bcd5068c,Code/GameEngine/Source/Common/RTS/PlayerAddScience.cpp,
 local,QuadStrip2D::rva005382F4::ry0,QuadStrip2D::rva005382F4::minY,inferred,agree:nl-d669dbd41558,Code/GameEngine/Source/Common/Rva005388C2Assign.cpp,0x005382F4
+function,?Rva00418985Construct@@YAXPAURva0041890FRecord@@ABU1@@Z,?construct@@YAXPAURva0041890FRecord@@ABU1@@Z,inferred,agree:nl-724ee3d44a43,Code/GameEngine/Source/Common/Rva00418A8EOuter.cpp,0x00418985
+function,?rva00418AB2@Rva00418AB2Host@@QAEHHH@Z,?insert@Rva00418AB2Host@@QAEHHH@Z,inferred,agree:nl-9a768f65019c,Code/GameEngine/Source/Common/Rva00418A8EOuter.cpp,0x00418AB2
+function,?rva00538931@QuadStrip2D@@QAEXXZ,?clear@QuadStrip2D@@QAEXXZ,inferred,agree:nl-aabefca07f1e,Code/GameEngine/Source/Common/Rva005388C2Assign.cpp,0x00538931
+function,?rva007B9A05@@YAXXZ,?destroyUpgradeUnitButton@@YAXXZ,inferred,agree:nl-51c537fb1a0a,Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp,0x007B9A05
+function,?rva007B99FB@@YAXXZ,?destroyCancelArmyMemberMoveButton@@YAXXZ,inferred,agree:nl-153f639ce2d2,Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp,0x007B99FB
+function,?rva007B9A0F@@YAXXZ,?destroyDisbandArmyMemberButton@@YAXXZ,inferred,agree:nl-cf542f673c18,Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp,0x007B9A0F
+function,?rva007B998D@@YAXXZ,?destroyCancelArmyMoveButton@@YAXXZ,inferred,agree:nl-879fe0699865,Code/GameEngine/Source/GameClient/GUI/Rva007B52E6Global.cpp,0x007B998D

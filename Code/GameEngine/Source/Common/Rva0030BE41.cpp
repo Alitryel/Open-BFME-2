@@ -1,7 +1,7 @@
 // cl: /O1 /arch:SSE /G7 /EHs-c- /ICode/Libraries/Include
 // ?rva0030BE41@Rva0030BE41@@QAEXXZ @0x0030BE41 28B
 // Clear QuadStrip2D at +0x68 when non-empty then virtual slot 0x28.
-// Evidence: callee 0x00538931 row ?rva00538931@QuadStrip2D@@QAEXXZ erases whole vector; member QuadStrip2D at +0x68 same as callers 0x0030BC39 0x0030BC53 0x0030BC84; virtual jmp [eax+0x28] is v10 same as Rva0030BDEE precedent; no callers.
+// Evidence: callee 0x00538931 row ?clear@QuadStrip2D@@QAEXXZ erases whole vector; member QuadStrip2D at +0x68 same as callers 0x0030BC39 0x0030BC53 0x0030BC84; virtual jmp [eax+0x28] is v10 same as Rva0030BDEE precedent; no callers.
 struct BfmePod16
 {
 	int a[4];
@@ -13,7 +13,7 @@ class W3DAnimationInfo;
 class QuadStrip2D
 {
 public:
-	void rva00538931();
+	void clear();
 	void rva005389D9(const BfmeFloat4Record00469C61 &);
 	void rva005389ED(int, const W3DAnimationInfo &);
 	void rva00538768(int);
@@ -52,7 +52,7 @@ void Rva0030BE41::rva0030BE41()
 	QuadStrip2D &quadStrip2D = m_68;
 	if (quadStrip2D.m_start != quadStrip2D.m_finish)
 	{
-		quadStrip2D.rva00538931();
+		quadStrip2D.clear();
 		v10();
 	}
 }
