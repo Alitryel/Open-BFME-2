@@ -4428,3 +4428,10 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapVisibleCellQuerie
 Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapVisibleCellQueries.cpp|param|BaseHeightMapRenderObjClass::rva0006C6A3|y,e5d82262f7fc555051a55f73,gpt-6.1-sol,codex5-20261024-082520-16,w-2d32e7a71cf1,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapVisibleCellQueries.cpp|param|BaseHeightMapRenderObjClass::rva0006C6E2|x,087c5ece58386aacd251af6c,gpt-6.1-sol,codex5-20261024-082520-16,w-2d32e7a71cf1,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapVisibleCellQueries.cpp|param|BaseHeightMapRenderObjClass::rva0006C6E2|y,0e4d9c986e6c7311e967d752,gpt-6.1-sol,codex5-20261024-082520-16,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva005A8666Box.cpp|local|NAT::targetNotifyMeIWasProbed|o,fb42b85111cd2a8a7f40351f,gpt-6.1-sol,codex5-20261024-082520-20,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva005A8666Box.cpp|param|NAT::gotTargetMangledPort|a,157c8d08c01df99a04dc099b,gpt-6.1-sol,codex5-20261024-082520-20,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva005A8666Box.cpp|param|NAT::gotTargetMangledPort|b,0c5ed1893e989181384aa8a4,gpt-6.1-sol,codex5-20261024-082520-20,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva005A8666Box.cpp|param|NAT::gotTargetMangledPort|c,dd8ee5319e6063ed3770262f,gpt-6.1-sol,codex5-20261024-082520-20,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva005A8666Box.cpp|local|NAT::gotTargetMangledPort|o1,3b840687a75b4235b9b37186,gpt-6.1-sol,codex5-20261024-082520-20,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva005A8666Box.cpp|local|NAT::gotTargetMangledPort|o2,a6969072ea71dfc661441d76,gpt-6.1-sol,codex5-20261024-082520-20,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva002B4BC9.cpp|param|Rva002B4BC9::rva002B4BC9|arg,2a938c129db42f94e5e5aa51,gpt-6.1-sol,codex5-20261024-082520-24,w-2d32e7a71cf1,2026-10-24
