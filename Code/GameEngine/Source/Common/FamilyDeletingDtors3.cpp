@@ -15,7 +15,7 @@ void famgenDelete(VertexBufferClass::WriteLockClass *lock) { delete lock; }
 // ??_GWriteLockClass@IndexBufferClass@@QAEPAXI@Z @0x107362
 // Shares its dtor address with AppendLockClass (folded twins); rowed as WriteLock.
 struct IndexBufferClass { struct WriteLockClass { ~WriteLockClass(); }; };
-void famgenDelete(IndexBufferClass::WriteLockClass *p) { delete p; }
+void famgenDelete(IndexBufferClass::WriteLockClass *lock) { delete lock; }
 
 // ??_GLockClass@CriticalSectionClass@@QAEPAXI@Z @0x55077c
 struct CriticalSectionClass { struct LockClass { ~LockClass(); }; };
