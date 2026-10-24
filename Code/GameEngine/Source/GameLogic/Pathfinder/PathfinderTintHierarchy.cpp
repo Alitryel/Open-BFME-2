@@ -45,9 +45,9 @@ void Rva002EBD99(Object *obj,const RGBColor00271779 *color)
  Rva002EBD99Contain *contain=obj->contain;
  if(contain) {
   Rva002EBD99Items view=contain->items();
-  for(Rva002EBD99Node *n=view.list->head->next;n!=view.list->head;n=n->next) {
+  for(Rva002EBD99Node *node=view.list->head->next;node!=view.list->head;node=node->next) {
    RGBColor00271779 magenta={1.0f,0.0f,1.0f};
-   Rva002EBD99(n->obj,&magenta);
+   Rva002EBD99(node->obj,&magenta);
   }
  }
 }

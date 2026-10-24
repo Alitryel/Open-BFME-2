@@ -881,3 +881,4 @@ param,Rva003743CF::rva003743CF::b,Rva003743CF::rva003743CF::set,inferred,agree:n
 member,Rva0049D526Node::m_48,Rva0049D526Node::m_next,inferred,agree:nl-8aecec2f0f68,Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp,
 member,Rva0049D526Node::m_4C,Rva0049D526Node::m_prev,inferred,agree:nl-a5e7ad35a669,Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp,
 member,Rva0044EDA6Outer::m_over38,Rva0044EDA6Outer::m_specialPowerTemplate,inferred,agree:nl-cc67f2f226f2,Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdateSlot8.cpp,
+local,Rva002EBD99::n,Rva002EBD99::node,inferred,agree:nl-8e03ca6f92a8,Code/GameEngine/Source/GameLogic/Pathfinder/PathfinderTintHierarchy.cpp,0x002EBD99
