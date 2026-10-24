@@ -3717,3 +3717,4 @@ Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|loca
 Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|local|BFME2Encoding1MotionChannel::rva001B2450|f,9ad63b506b3083c1f1537fed,gpt-6.1-sol,codex8-20261024-070923-6,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/BfmeConv793.cpp|class||BfmeCsDXB,9658e6c718cdeb5908b50c95,gpt-6.1-sol,codex8-20261024-070923-7,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/Rva0052A22CForwarders.cpp|local|Rva005243FA|tmp,4d68f306ddf6fe0778bbd17b,gpt-6.1-sol,codex8-20261024-070923-9,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva00098690Handles.cpp|member|W3DFireGlobalView|m_138,8f34b5c46ee59f173fabe1a5,gpt-6.1-sol,codex8-20261024-072707-4,w-de56e563a50b,2026-10-24
