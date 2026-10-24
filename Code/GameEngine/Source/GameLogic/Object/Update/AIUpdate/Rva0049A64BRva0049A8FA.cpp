@@ -101,10 +101,10 @@ public:
 void Rva0049A64B::rva0049A8FA(int a, Coord3D *out)
 {
 	int extra;
-	Rva0049A8FAProvider *p = m_object->m_250->rva7C();
-	if (p && out)
+	Rva0049A8FAProvider *provider = m_object->m_250->rva7C();
+	if (provider && out)
 	{
-		*out = p->rva1C(a, &extra);
+		*out = provider->rva1C(a, &extra);
 	}
 }
 
@@ -116,11 +116,11 @@ void Rva0049A64B::rva0049A8FA(int a, Coord3D *out)
 // true. Names stay address-derived.
 bool Rva0049A64B::rva0049A8A1(int a, Coord3D *pos, int *out)
 {
-	Rva0049A8FAProvider *p = m_object->m_250->rva7C();
-	if (!p)
+	Rva0049A8FAProvider *provider = m_object->m_250->rva7C();
+	if (!provider)
 		return false;
-	if (!p->rva18(a))
-		p->rva2C(a);
+	if (!provider->rva18(a))
+		provider->rva2C(a);
 	rva0049A8FA(a, pos);
 	if (out)
 		*out = 0;
@@ -132,9 +132,9 @@ bool Rva0049A64B::rva0049A8A1(int a, Coord3D *pos, int *out)
 // The Object member at +8 is therefore [secondary-this - 3DC].
 bool Rva0049A64B::rva0049A880(int a)
 {
- Rva0049A8FAProvider *p = m_object->m_250->rva7C();
- if (!p) return false;
- return p->rva18(a);
+ Rva0049A8FAProvider *provider = m_object->m_250->rva7C();
+ if (!provider) return false;
+ return provider->rva18(a);
 }
 
 // The two rowed Horde constructors install this entire 20-entry secondary
