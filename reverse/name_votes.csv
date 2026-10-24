@@ -5133,3 +5133,11 @@ Code/GameEngine/Source/Common/Rva0053FE64.cpp|param|Rva0053FE64Get|t3,075a31c6ec
 Code/GameEngine/Source/Common/Rva005344C0Copy.cpp|function|0x005346D9|Rva005346D9Construct,d35a6ef77b62d093190e8da1,gpt-6.1-sol,codexb-20261024-121907-9,w-8e883e57d025,2026-10-24
 Code/Libraries/Source/WWVegas/WWLib/Rva004EAC8CSetFloat.cpp|local|Rva004EAC8C::rva004EAC8C|e,2f2777a886ab0a0d22ce7ac8,gpt-6.1-sol,codexb-20261024-121907-9,w-8e883e57d025,2026-10-24
 Code/Libraries/Source/WWVegas/WWLib/Rva004EAC8CSetFloat.cpp|local|Rva004EAC8C::rva004EAC8C|p,d6790c85aec27c97b2f41058,gpt-6.1-sol,codexb-20261024-121907-9,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A|b1,a8d6e3ab0fd9d0a2f334c3fd,gpt-6.1-sol,codexb-20261024-123547-1,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A|b2,c824538616499b079f854c01,gpt-6.1-sol,codexb-20261024-123547-1,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b1,6d8b23a6d9bbfed8b90e4433,gpt-6.1-sol,codexb-20261024-123547-1,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b2,ee0e9add20cd78737add024a,gpt-6.1-sol,codexb-20261024-123547-1,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b3,55d1b665b66054956628ab26,gpt-6.1-sol,codexb-20261024-123547-1,w-8e883e57d025,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b4,91b47c4a4b59d4b4dbfbee11,gpt-6.1-sol,codexb-20261024-123547-1,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|class||Rva0028C0E3Receiver,067cb60f103ac4681c857158,gpt-6.1-sol,codexb-20261024-123547-3,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva0036E346Count.cpp|member|Rva0036E357TemplateView|flags108,3f64cf4a153634eed8887cfb,gpt-6.1-sol,codexb-20261024-123547-4,w-8e883e57d025,2026-10-24
