@@ -23,8 +23,8 @@ _STL::basic_ostream<char, _STL::char_traits<char> > &Rva001F696EPut(
 	_STL::basic_ostream<char, _STL::char_traits<char> > &os,
 	const AsciiString &asciiString)
 {
-	char *t = *(char **)(void *)&asciiString;
-	const char *p = t ? t + 8 : "";
-	os._M_put_nowiden(p);
+	char *stringData = *(char **)(void *)&asciiString;
+	const char *text = stringData ? stringData + 8 : "";
+	os._M_put_nowiden(text);
 	return os;
 }

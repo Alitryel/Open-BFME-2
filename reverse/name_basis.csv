@@ -922,3 +922,5 @@ local,Rva004ED10FFill::n,Rva004ED10FFill::remaining,inferred,agree:nl-e5067ece5b
 local,Rva004ED471::rva004ED471::p,Rva004ED471::rva004ED471::growthCount,inferred,agree:nl-302f6f64824c,Code/Libraries/Source/WWVegas/WW3D2/Rva004ED471Finish.cpp,0x004ED471
 local,HordeMeleeSwarm::rva00584A9B::t1,HordeMeleeSwarm::rva00584A9B::expectedBuffer,inferred,agree:nl-41b98e751813,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarmXfer.cpp,0x00584A9B
 local,HordeMeleeSwarm::rva00584A9B::t2,HordeMeleeSwarm::rva00584A9B::actualBuffer,inferred,agree:nl-bcab6a30f6f3,Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarmXfer.cpp,0x00584A9B
+local,Rva001F696EPut::t,Rva001F696EPut::stringData,inferred,agree:nl-f4acf4358e80,Code/Libraries/Source/WWVegas/WWLib/Rva001F696EPut.cpp,0x001F696E
+local,Rva001F696EPut::p,Rva001F696EPut::text,inferred,agree:nl-b7ea302b988b,Code/Libraries/Source/WWVegas/WWLib/Rva001F696EPut.cpp,0x001F696E
