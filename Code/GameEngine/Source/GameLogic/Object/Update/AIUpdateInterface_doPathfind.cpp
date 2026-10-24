@@ -1,5 +1,5 @@
 // cl: /I. /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /GX-
-// ?doPathfind@AIUpdateInterface@@QAEXPAVPathfindServicesInterface@@@Z
+// ?doPathfind@AIUpdateInterface@@UAEXPAVPathfindServicesInterface@@@Z
 // Retail 0x00269902..0x0026A05D, 1883 bytes, RET 4.
 // Identity: all fifteen native doPathfind/ComputePath42 traces and the attack,
 // approach, safe-path and final-goal call relationships. WorldBuilder 0x00E37A90
@@ -259,7 +259,7 @@ public:
 
 	Bool computePath(PathfindServicesInterface *pathServices, Coord3D *destination);
  Bool computeAttackPath(PathfindServicesInterface*,const Object*,const Coord3D*);
- void doPathfind(PathfindServicesInterface*);
+ virtual void doPathfind(PathfindServicesInterface*);
  void ignoreObstacle(const Object*);
 	Bool computeQuickPath(const Coord3D *destination);
 	Bool canComputeQuickPath();

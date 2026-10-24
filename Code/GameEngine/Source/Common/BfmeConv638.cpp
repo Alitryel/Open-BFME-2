@@ -3,7 +3,7 @@
 // Ported from Open-BFME-1 GameEngine/Source/Common/BfmeConv638.cpp
 // (donor revision 6d9434269164392c5ba62aaa7c15a86b5b020d76, donor flags plus /O1). Compiled that way each body
 // places uniquely on unclaimed game.dat .text by masked whole-.text search:
-//   ?bfmeGoCSA@BfmeThingCSA@@QAEXPAX@Z 0x00264A86 (44B)
+//   ?bfmeGoCSA@AIUpdateInterface@@UAEXPAX@Z 0x00264A86 (44B)
 // Callee addresses are read off retail call sites (reverse/symbols.csv).
 class BfmeOutCSA
 {
@@ -33,19 +33,19 @@ public:
 	bool isMobile() const;
 };
 
-class BfmeThingCSA
+class AIUpdateInterface
 {
 public:
-	unsigned char m_bfmeHead[8];
+	unsigned char m_bfmeHead[4];
 	Object *m_bfmeSub;
 	unsigned char m_bfmeGap[0x24];
 	BfmeOutCSA *m_bfmeOut;
 	unsigned char m_bfmeGap2[0x14];
 	void *m_bfmeVal;
-	void bfmeGoCSA(void *what);
+	virtual void bfmeGoCSA(void *what);
 };
 
-void BfmeThingCSA::bfmeGoCSA(void *what)
+void AIUpdateInterface::bfmeGoCSA(void *what)
 {
 	if (m_bfmeSub->isMobile())
 	{

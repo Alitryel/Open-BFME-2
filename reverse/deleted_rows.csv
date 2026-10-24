@@ -2284,3 +2284,13 @@ __ehhandler$?rva005E5B20@Rva005E5A8B@@QAEHABUICoord2D@@H@Z,0x007A3A27,"Renamed t
 ?rva0083F090@@YAHXZ,0x0001BF60,"Renamed to ?xalloc@@YAHXZ by tools/rename.py (inferred)"
 ?rva000FDF3F@FeNode@@QAEHH@Z,0x000FDF3F,"Renamed to ?update@FeNode@@QAEHH@Z by tools/rename.py (inferred)"
 ?rva0047CEBB@Rva0047CEBB@@QAEXP6AXPAVObject@@PAX@Z1H@Z,0x0047CEBB,"Renamed to ?iterateContained@Rva0047CEBB@@QAEXP6AXPAVObject@@PAX@Z1H@Z by tools/rename.py (inferred)"
+?bfmeGoCSG@BfmeThingCSG@@QAEXPAX0@Z,0x00264A4E,Renamed to ?bfmeGoCSG@AIUpdateInterface@@UAEXPAX0@Z: retail AIUpdateInterface table slot 75 reaches this body
+?bfmeGoCSA@BfmeThingCSA@@QAEXPAX@Z,0x00264A86,Renamed to ?bfmeGoCSA@AIUpdateInterface@@UAEXPAX@Z: retail AIUpdateInterface table slot 76 reaches this body
+?bfmeGoCSH@BfmeThingCSH@@QAEXPAX0@Z,0x00264ADE,Renamed to ?bfmeGoCSH@AIUpdateInterface@@UAEXPAX0@Z: retail AIUpdateInterface table slot 78 reaches this body
+?bfmeGoCSD@BfmeThingCSD@@QAEXPAX0@Z,0x00264B16,Renamed to ?bfmeGoCSD@AIUpdateInterface@@UAEXPAX0@Z: retail AIUpdateInterface table slot 79 reaches this body
+?bfmeGoCSE@BfmeThingCSE@@QAEXPAX0@Z,0x00264B4E,Renamed to ?bfmeGoCSE@AIUpdateInterface@@UAEXPAX0@Z: retail AIUpdateInterface table slot 83 reaches this body
+?bfmeGoCSF@BfmeThingCSF@@QAEXPAX0@Z,0x00263133,Renamed to ?bfmeGoCSF@AIUpdateInterface@@UAEXPAX0@Z: retail AIUpdateInterface table slot 85 reaches this body
+?rva00262BA9@AIUpdateInterface@@QAE_NXZ,0x00262BA9,Renamed to ?rva00262BA9@AIUpdateInterface@@UAE_NXZ: retail AIUpdateInterface table slot 138 reaches this body
+?rva00267E46@Rva00267E46@@QAEXXZ,0x00267E46,Renamed to ?rva00267E46@AIUpdateInterface@@UAEXXZ: retail AIUpdateInterface table slot 145 reaches this body
+?rva0026DDED@AIUpdateInterface@@QAEXHW4CommandSourceType@@@Z,0x0026DDED,Renamed to ?rva0026DDED@AIUpdateInterface@@UAEXHW4CommandSourceType@@@Z: retail AIUpdateInterface table slot 60 reaches this body
+?doPathfind@AIUpdateInterface@@QAEXPAVPathfindServicesInterface@@@Z,0x00269902,Renamed to ?doPathfind@AIUpdateInterface@@UAEXPAVPathfindServicesInterface@@@Z: retail AIUpdateInterface table slot 140 reaches this body

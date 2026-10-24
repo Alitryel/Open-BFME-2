@@ -359,8 +359,8 @@ public:
 	virtual void xfer(Xfer *xfer);
 	virtual NameKeyType getModuleNameKey() const;
 	virtual void onObjectCreated();
-	virtual void v06();
-	virtual void v07();
+	virtual void v06() {}
+	virtual void v07() {}
 	virtual void onDelete(); // vslot 8
 	virtual Object *construct(const ThingTemplate *what, const Coord3D *pos, Real angle, Player *owningPlayer, Bool isRebuild, Int unused);
 	virtual void aiDoCommand(const AICommandParms *parms);
@@ -822,7 +822,7 @@ struct WorkerAIUpdateModuleData
 class SupplyTruckAIInterface
 {
 public:
-	virtual void supplyTruckSlot0() = 0;
+	virtual Int getNumberBoxes() const = 0;
 	virtual void st01() = 0; virtual void st02() = 0;
 	virtual Bool loseOneBox() = 0; // vslot 3 (+0x0C)
 	virtual Bool gainOneBox(Int remainingStock) = 0; // vslot 4 (+0x10)
@@ -910,7 +910,7 @@ public:
 	WorkerAIUpdate(Thing *thing, const ModuleData *moduleData);
 	virtual NameKeyType getModuleNameKey() const;
 	virtual void onDelete();
-	virtual void supplyTruckSlot0();
+	virtual Int getNumberBoxes() const { return m_4A0; }
 	virtual void aiDoCommand(const AICommandParms *parms);
 	virtual Bool loseOneBox();
 	virtual Bool gainOneBox(Int remainingStock);

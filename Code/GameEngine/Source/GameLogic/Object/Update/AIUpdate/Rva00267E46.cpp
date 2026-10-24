@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
 //
-// ?rva00267E46@Rva00267E46@@QAEXXZ, retail 0x00267E46 72B. Chain via 0x001E42F2.
+// ?rva00267E46@AIUpdateInterface@@UAEXXZ, retail 0x00267E46 72B. Chain via 0x001E42F2.
 // Null-check this+8 then Rva00265254 tmp 0 0x3d 0x85 0x86 0x89 0x8a 0x87 0x88
 // 0x9d via 9-arg ctor plus rva001E42F2. Slot 145 of several AIUpdate vtables.
 
@@ -18,16 +18,16 @@ public:
 	void rva001E42F2(const int *x);
 };
 
-class Rva00267E46
+class AIUpdateInterface
 {
 public:
-	void rva00267E46();
+	virtual void rva00267E46();
 private:
-	unsigned char m_pad00[8];
+	unsigned char m_pad00[4];
 	Rva001E42F2 *m_08;
 };
 
-void Rva00267E46::rva00267E46()
+void AIUpdateInterface::rva00267E46()
 {
 	Rva001E42F2 *p = m_08;
 	if (p == 0)

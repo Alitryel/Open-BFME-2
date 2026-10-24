@@ -1,7 +1,7 @@
 // cl: /DNDEBUG /MD
 //
 // ?isBusy@AIUpdateInterface@@UBE_NXZ, retail 0x00262B39, 26 bytes.
-// ?rva00262BA9@AIUpdateInterface@@QAE_NXZ, retail 0x00262BA9, 67 bytes.
+// ?rva00262BA9@AIUpdateInterface@@UAE_NXZ, retail 0x00262BA9, 67 bytes.
 // ?rva00262BEC@AIUpdateInterface@@QAE_NXZ, retail 0x00262BEC, 39 bytes.
 // AIUpdateInterface methods checking path and state machine states.
 
@@ -70,7 +70,7 @@ class AIUpdateInterface
 	int m_locomotorGoalType; // +0x1FC
 public:
 	virtual bool isBusy() const;
-	bool rva00262BA9();
+	virtual bool rva00262BA9();
 	bool rva00262BEC();
 };
 

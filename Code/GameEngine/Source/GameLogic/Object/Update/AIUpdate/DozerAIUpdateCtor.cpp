@@ -474,6 +474,7 @@ struct Rva00264D81Arg;
 class PolygonTrigger;
 class CommandButton;
 class Rva00263404Source;
+class PathfindServicesInterface;
 class Xfer;
 enum GuardMode;
 enum NameKeyType;
@@ -492,13 +493,13 @@ public:
 	virtual void xfer(Xfer *xfer);
 	virtual NameKeyType getModuleNameKey() const;
 	virtual void onObjectCreated();
-	virtual void v06();
-	virtual void v07();
+	virtual void v06() {}
+	virtual void v07() {}
 	virtual void onDelete();
-	virtual void v09();
-	virtual void v10();
-	virtual void v11();
-	virtual void v12();
+	virtual void v09(int, int) {}
+	virtual int v10() { return 0; }
+	virtual int v11() { return 0; }
+	virtual int v12() { return 0; }
 protected:
 	virtual void privateMoveToPosition(Coord3D const *, Real, CommandSourceType);
 	virtual void privateAttackMoveToPositionAndOrientation(Coord3D const *, Real, Int, CommandSourceType);
@@ -524,8 +525,8 @@ protected:
 	virtual void privateAttackObject(Object *, Int, CommandSourceType);
 	virtual void bfmePrivateCommand39(Object *, CommandSourceType);
 public:
-	virtual void v36();
-	virtual void v37();
+	virtual void v36(int, int) {}
+	virtual void v37(int, int) {}
 protected:
 	virtual void privateForceAttackObject(Object *, Int, CommandSourceType);
 	virtual void privateAttackTeam(Team const *, Int, CommandSourceType);
@@ -555,7 +556,7 @@ protected:
 	virtual void bfmePrivateCommand4C(Object *, Rva0035149F const *, CommandSourceType);
 	virtual void bfmePrivateCommand54(Object *, Coord3D const *, CommandSourceType);
 public:
-	virtual void v60();
+	virtual void rva0026DDED(int cond, CommandSourceType cmd);
 protected:
 	virtual void privateGoProne(DamageInfo const *, CommandSourceType);
 	virtual void privateGuardTunnelNetwork(Int, CommandSourceType);
@@ -573,50 +574,50 @@ protected:
 	virtual void privateCommandButton(CommandButton const *, CommandSourceType);
 	virtual void privateCommandButtonPosition(CommandButton const *, Coord3D const *, CommandSourceType);
 public:
-	virtual void v74();
-	virtual void v75();
-	virtual void v76();
+	virtual void v74(int, int, int) {}
+	virtual void bfmeGoCSG(void *, void *);
+	virtual void bfmeGoCSA(void *);
 protected:
 	virtual void bfmePrivateCommand53(CommandSourceType);
 public:
-	virtual void v78();
-	virtual void v79();
+	virtual void bfmeGoCSH(void *, void *);
+	virtual void bfmeGoCSD(void *, void *);
 protected:
 	virtual void bfmePrivateCommand31(Int, CommandSourceType);
 	virtual void privateMoveAwayFromUnit(Object *, Coord3D const *, CommandSourceType);
 	virtual void bfmePrivateCommand3C(Object *, CommandSourceType);
 public:
-	virtual void v83();
+	virtual void bfmeGoCSE(void *, void *);
 protected:
 	virtual void rva002630FD(Int);
 public:
-	virtual void v85();
+	virtual void bfmeGoCSF(void *, void *);
 protected:
 	virtual void rva0026316B(void *, Int);
 	virtual void rva002631A6(Real, Int);
 public:
-	virtual void v88();
-	virtual void v89();
-	virtual void v90();
+	virtual void v88() {}
+	virtual void v89() {}
+	virtual Bool v90() const { return false; }
 	virtual Bool isBusy() const;
 	virtual void v92();
 	virtual DozerAIInterface *getDozerAIInterface(); // vslot 93 (+0x174)
-	virtual void v94();
-	virtual void v95();
-	virtual void v96();
-	virtual void v97();
-	virtual void v98();
-	virtual void v99();
-	virtual void v100();
-	virtual void v101();
-	virtual void v102();
+	virtual void *v94() { return 0; }
+	virtual void *v95() { return 0; }
+	virtual void *v96() { return 0; }
+	virtual void *v97() { return 0; }
+	virtual void *v98() { return 0; }
+	virtual void *v99() { return 0; }
+	virtual void *v100() { return 0; }
+	virtual void *v101() { return 0; }
+	virtual void *v102() { return 0; }
 	virtual void joinTeam();
 	virtual Int rva0026E988();
 	virtual Int rva0026E999();
-	virtual void v106();
-	virtual void v107();
-	virtual void v108();
-	virtual void v109();
+	virtual int v106(const Object *) const { return 0; }
+	virtual Bool v107() const { return true; }
+	virtual Bool v108() const { return true; }
+	virtual unsigned int v109() const { return 0; }
 	virtual Bool isIdle() const; // vslot 110 (+0x1B8)
 	virtual Bool rva00262D8F() const;
 	virtual Bool isClearingMines() const;
@@ -625,35 +626,35 @@ public:
 	virtual Bool rva00262DBF() const;
 	virtual Bool rva00262D7B() const;
 	virtual void doQuickExit(_STL::vector<Coord3D, _STL::allocator<Coord3D> > const *);
-	virtual void v118();
-	virtual void v119();
-	virtual void v120();
-	virtual void v121();
-	virtual void v122();
-	virtual void v123();
+	virtual const Coord3D *v118() const { return &m_guardLocation; }
+	virtual unsigned int v119() const { return m_guardObject; }
+	virtual const PolygonTrigger *v120() const { return m_guardArea; }
+	virtual int v121() const { return m_guardTarget; }
+	virtual void v122(int target) { m_guardTarget = target; }
+	virtual int v123() const { return m_previousGuardTarget; }
 	virtual void clearGuardTargetType();
-	virtual void v125();
+	virtual int v125() const { return m_guardMode; }
 	virtual Object *construct(const ThingTemplate *what, const Coord3D *pos, Real angle, Player *owningPlayer, Bool isRebuild, Int flags); // vslot 126 (+0x1F8)
 	virtual Object *getEnterTarget();
-	virtual void v128();
-	virtual void v129();
-	virtual void v130();
+	virtual Bool v128(Coord3D *) const { return false; }
+	virtual void v129(unsigned int, Bool) {}
+	virtual Bool v130() const { return false; }
 	virtual void setLocomotorGoalPositionOnPath();
 	virtual void setLocomotorGoalPositionExplicit(Coord3D const &);
 	virtual void setLocomotorGoalPositionExplicitSmart(Coord3D const &);
 	virtual void appendPositionToLocomotorPath(Coord3D const &, Int);
 	virtual void setLocomotorGoalOrientation(Real);
-	virtual void v136();
+	virtual void v136() { m_locomotorGoalType = 0; }
 	virtual Bool isDoingGroundMovement() const;
-	virtual void v138();
+	virtual Bool rva00262BA9();
 	virtual void micropathToPosition(Coord3D const *);
-	virtual void v140();
+	virtual void doPathfind(PathfindServicesInterface *);
 	virtual void rva00263404(Rva00263404Source *);
 	virtual Bool chooseLocomotorSet(Int);
-	virtual void v143();
-	virtual void v144();
-	virtual void v145();
-	virtual void v146();
+	virtual CommandSourceType v143() const { return m_lastCommandSource; }
+	virtual void v144() {}
+	virtual void rva00267E46();
+	virtual Bool v146() const { return true; }
 	virtual void rva00488CF0(); // vslot 147 (+0x24C), empty in the base (0x000B3FD0)
 	virtual Bool isAllowedToRespondToAiCommands(const AICommandParms *parms) const; // vslot 148 (+0x250)
 	virtual void aiDoCommand(const AICommandParms *parms);
@@ -663,7 +664,18 @@ public:
 protected:
 	virtual ~AIUpdateInterface();
 private:
-	unsigned char m_pad28[0x3E4 - 0x28];
+	unsigned char m_pad28[0x48 - 0x28];
+	CommandSourceType m_lastCommandSource;
+	int m_guardMode;
+	int m_currentGuardTarget;
+	int m_previousGuardTarget;
+	Coord3D m_guardLocation;
+	unsigned int m_guardObject;
+	const PolygonTrigger *m_guardArea;
+	int m_guardTarget;
+	unsigned char m_pad70[0x1FC - 0x70];
+	int m_locomotorGoalType;
+	unsigned char m_pad200[0x3E4 - 0x200];
 };
 
 enum ModelConditionFlagType

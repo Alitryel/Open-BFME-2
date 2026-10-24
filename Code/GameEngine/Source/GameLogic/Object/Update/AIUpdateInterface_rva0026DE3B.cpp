@@ -32,7 +32,7 @@ public:
 	Object *getCurrentVictim() const;
 	void setCurrentVictim(const Object *victim);
 	void rva0026DE3B(int arg);
-	void rva0026DDED(int cond, CommandSourceType cmd);
+	virtual void rva0026DDED(int cond, CommandSourceType cmd);
 };
 
 class AICommandInterface
@@ -108,7 +108,7 @@ void AIUpdateInterface::rva0026DE3B(int arg)
 	}
 }
 
-// ?rva0026DDED@AIUpdateInterface@@QAEXHW4CommandSourceType@@@Z retail 0x0026DDED 78B: slot60 via iface slot36 plus holder idle plus iface slot32.
+// ?rva0026DDED@AIUpdateInterface@@UAEXHW4CommandSourceType@@@Z retail 0x0026DDED 78B: slot60 via iface slot36 plus holder idle plus iface slot32.
 // Evidence: vtable slot60 of DeployStyleAIUpdate and siblings; calls rowed aiIdle 0x001E8A38 plus virtuals 0x80 and 0x90.
 void AIUpdateInterface::rva0026DDED(int cond, CommandSourceType cmd)
 {

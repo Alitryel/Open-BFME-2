@@ -5,7 +5,7 @@
 // (donor revision 6d9434269164392c5ba62aaa7c15a86b5b020d76, donor flags plus
 // /O1). Compiled that way each body below places uniquely on unclaimed
 // game.dat .text by masked whole-.text search, and ./build.sh reproduces it
-// byte for byte: BfmeThingCSG::bfmeGoCSG 0x00264A4E (56B). Callee addresses
+// byte for byte: AIUpdateInterface::bfmeGoCSG 0x00264A4E (56B). Callee addresses
 // are read off retail's call sites (reverse/symbols.csv). Only the placed
 // bodies are carried; the donor's other definitions are omitted.
 #include "PreRTS.h"
@@ -39,19 +39,19 @@ public:
 	bool isMobile() const;
 };
 
-class BfmeThingCSG
+class AIUpdateInterface
 {
 public:
-	unsigned char m_bfmeHead[8];
+	unsigned char m_bfmeHead[4];
 	Object *m_bfmeSub;
 	unsigned char m_bfmeGap[0x24];
 	BfmeOutCSG *m_bfmeOut;
 	unsigned char m_bfmeGap2[0x14];
 	void *m_bfmeVal;
-	void bfmeGoCSG(void *one, void *two);
+	virtual void bfmeGoCSG(void *one, void *two);
 };
 
-void BfmeThingCSG::bfmeGoCSG(void *one, void *two)
+void AIUpdateInterface::bfmeGoCSG(void *one, void *two)
 {
 	if (m_bfmeSub->isMobile())
 	{
