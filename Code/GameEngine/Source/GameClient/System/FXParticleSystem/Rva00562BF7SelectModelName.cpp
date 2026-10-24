@@ -29,7 +29,7 @@ private:
 class ParticleSystem;
 ParticleSystem *Make001FCBD7();
 
-struct Rva00562BF7Choice
+struct ModelChoice
 {
     AsciiString name;
     int count;
@@ -46,7 +46,7 @@ public:
     unsigned char padding08[0x1c];
     bool m_randomizeModel;
     unsigned char padding25[3];
-    Rva00562BF7Choice choices[3];
+    ModelChoice choices[3];
     int field58;
 };
 
