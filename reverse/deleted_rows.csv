@@ -2259,3 +2259,4 @@ __ehhandler$?rva005E5B20@Rva005E5A8B@@QAEHABUICoord2D@@H@Z,0x007A3A27,"Renamed t
 ?g_rva00E06900@@3VRva005E16DA@@A,0x00A06900,"Renamed to ?g_upgradeUnitButton@@3VRva005E16DA@@A by tools/rename.py (inferred)"
 ?g_rva00E06918@@3VRva005E16DA@@A,0x00A06918,"Renamed to ?g_disbandArmyMemberButton@@3VRva005E16DA@@A by tools/rename.py (inferred)"
 ?Rva0002C025IsNewer@@YA_NABVAsciiString@@PBUSYSTEMTIME@@@Z,0x0002C025,"Renamed to ?isFileNewer@@YA_NABVAsciiString@@PBUSYSTEMTIME@@@Z by tools/rename.py (inferred)"
+?rva001F8109@Rva001F8109@@QAEXABVRvaSmartPtr12@@@Z,0x001F8109,"Renamed to ?friend_removeParticleSystem@Rva001F8109@@QAEXABVRvaSmartPtr12@@@Z by tools/rename.py (inferred)"

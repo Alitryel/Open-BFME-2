@@ -128,7 +128,7 @@ class Rva003B0152:public Rva003B00D6 {public:Rva003B0152(const RvaSmartPtr12&);}
 class Rva003B0344 {public:Rva003B0344(const RvaSmartPtr12&);virtual ~Rva003B0344();char data[0x40];};
 class Rva003B0401:public Rva003B0344 {public:Rva003B0401(const RvaSmartPtr12&);};
 class Rva001F4A22 {public:void rva001F4A22();};
-class Rva001F8109 {public:void rva001F8109(const RvaSmartPtr12&);};
+class Rva001F8109 {public:void friend_removeParticleSystem(const RvaSmartPtr12&);};
 class FxDrawer {public:virtual void *destroyDelete(unsigned);};
 class ParticleSystem : public FXParticleSystem::ParticleSystemInfo {
 public:
@@ -158,6 +158,6 @@ ParticleSystem::~ParticleSystem() {
  attachedDrawable=0;attachedObject=0;unknownB8.clear();
  if(controlParticle)controlParticle->rva001F4A22();controlParticle=0;
  ::operator delete(drawer?drawer->destroyDelete(0):0);drawer=0;
- ((Rva001F8109*)TheParticleSystemManager)->rva001F8109(RvaSmartPtr12(this));
+ ((Rva001F8109*)TheParticleSystemManager)->friend_removeParticleSystem(RvaSmartPtr12(this));
  while(head) head->release();
 }

@@ -28,17 +28,17 @@ struct Rva001F63C9Node {void *next,*prev;Rva0004CCFF handle;};
 extern "C" void __cdecl free(void*);
 class Rva001F63C9List {public:_STL::list<void*>::iterator erase(_STL::list<void*>::iterator);};
 _STL::list<void*>::iterator Rva001F63C9List::erase(_STL::list<void*>::iterator position) {
- Rva001F63C9Node *p=(Rva001F63C9Node*)position._M_node;
- void *next=p->next,*prev=p->prev;*(void**)prev=next;*(void**)((char*)next+4)=prev;
- p->handle.destroyDelete(0);free(p);
+ Rva001F63C9Node *node=(Rva001F63C9Node*)position._M_node;
+ void *next=node->next,*prev=node->prev;*(void**)prev=next;*(void**)((char*)next+4)=prev;
+ node->handle.destroyDelete(0);free(node);
  return _STL::list<void*>::iterator((_STL::_List_node<void*>*)next);
 }
 class Rva001F8109 {
-public:void rva001F8109(const RvaSmartPtr12&);
+public:void friend_removeParticleSystem(const RvaSmartPtr12&);
  unsigned char unknown00[0x4c];_STL::list<void *> systems;
  unsigned char unknown50[8];int count;
 };
-void Rva001F8109::rva001F8109(const RvaSmartPtr12 &handle)
+void Rva001F8109::friend_removeParticleSystem(const RvaSmartPtr12 &handle)
 {
  typedef _STL::list<void *>::iterator Iterator;
  Iterator it=_STL::find(systems.begin(),systems.end(),handle.ptr);
