@@ -25,30 +25,30 @@ class Rva0055CFF0
 public:
 	void rva0055CFF0(float x, float y, float z);
 	char m_pad[0x24];
-	float m_24;
-	float m_28;
-	float m_2C;
+	float m_halfSizeX;
+	float m_halfSizeY;
+	float m_halfSizeZ;
 };
 
 void Rva0055CFF0::rva0055CFF0(float x, float y, float z)
 {
 	int color = 0xCCAAFFFF;
-	MiniBox b1;
-	MiniBox b2;
-	b1.x = x + m_24;
-	b1.y = y + m_28;
-	b1.z = z + m_2C;
-	b2.x = x + m_24;
-	b2.y = y + m_28;
-	b2.z = z - m_2C;
-	((TacticalView *)TheTacticalView)->drawBox(&b1, &b2, color);
-	b1.x = x - m_24;
-	b2.x = x - m_24;
-	((TacticalView *)TheTacticalView)->drawBox(&b1, &b2, color);
-	b1.y = y - m_28;
-	b2.y = y - m_28;
-	((TacticalView *)TheTacticalView)->drawBox(&b1, &b2, color);
-	b1.x = x + m_24;
-	b2.x = x + m_24;
-	((TacticalView *)TheTacticalView)->drawBox(&b1, &b2, color);
+	MiniBox top;
+	MiniBox bottom;
+	top.x = x + m_halfSizeX;
+	top.y = y + m_halfSizeY;
+	top.z = z + m_halfSizeZ;
+	bottom.x = x + m_halfSizeX;
+	bottom.y = y + m_halfSizeY;
+	bottom.z = z - m_halfSizeZ;
+	((TacticalView *)TheTacticalView)->drawBox(&top, &bottom, color);
+	top.x = x - m_halfSizeX;
+	bottom.x = x - m_halfSizeX;
+	((TacticalView *)TheTacticalView)->drawBox(&top, &bottom, color);
+	top.y = y - m_halfSizeY;
+	bottom.y = y - m_halfSizeY;
+	((TacticalView *)TheTacticalView)->drawBox(&top, &bottom, color);
+	top.x = x + m_halfSizeX;
+	bottom.x = x + m_halfSizeX;
+	((TacticalView *)TheTacticalView)->drawBox(&top, &bottom, color);
 }
