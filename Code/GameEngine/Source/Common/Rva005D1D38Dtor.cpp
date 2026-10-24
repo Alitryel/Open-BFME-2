@@ -22,34 +22,16 @@ struct Rva005D1D38Owner
 	Rva002B7250 m_list; // +0x08
 };
 
-class Rva005CCDDD
-{
-public:
-	virtual ~Rva005CCDDD();
-
-private:
-	int m_04;
-	int m_08;
-};
-
-class Rva005D1D38Second
-{
-public:
-	virtual ~Rva005D1D38Second() {}
-
-protected:
-	int m_04;
-	Rva005D1D38Owner *m_owner; // +0x08 in this base, +0x14 overall
-};
-
-class Rva005D1D38 : public Rva005CCDDD, public Rva005D1D38Second
-{
-public:
-	virtual ~Rva005D1D38();
-};
+// Class views as StrategicInGameUIResolveBattleChecklistItem.cpp declares
+// them (that unit's ctor 0x005D1DCB stores the same vptrs), so the three
+// vtables this dtor references are the copies the link keeps. The owner
+// pointer at +0x14 is that view's `battle`.
+class Rva005CCDDD {public:Rva005CCDDD();virtual ~Rva005CCDDD();virtual void slot04() = 0;virtual void clickSlot08();virtual void slot0C() = 0;virtual void slot10() = 0;virtual void slot14() = 0;virtual void slot18() = 0;int unknown4;void *payload;};
+class Rva005D1D38Second {public:virtual void observerSlot0(int) = 0;virtual void observerSlot1(void*,unsigned) = 0;~Rva005D1D38Second(){} };
+class Rva005D1D38:public Rva005CCDDD,public Rva005D1D38Second {public:Rva005D1D38(void*,void*);virtual ~Rva005D1D38();virtual void clickSlot08();void*planner;void*battle;};
 
 Rva005D1D38::~Rva005D1D38()
 {
-	if (m_owner)
-		m_owner->m_list.rva002B7250((CreateAHeroData *)static_cast<Rva005D1D38Second *>(this));
+	if (battle)
+		((Rva005D1D38Owner *)battle)->m_list.rva002B7250((CreateAHeroData *)static_cast<Rva005D1D38Second *>(this));
 }
