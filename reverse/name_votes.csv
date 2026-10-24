@@ -3827,3 +3827,14 @@ Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBarList003200A2.cpp|clas
 Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBarList003200A2.cpp|function|0x003200A2|rva003200A2,f6928750efa30b323e9a180c,gpt-6.1-sol,codex4-20261024-064357-28,w-887869184137,2026-10-24
 Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBarList003200A2.cpp|function|0x003200BC|rva003200BC,1af999c38a1edd068905f4b3,gpt-6.1-sol,codex4-20261024-064357-28,w-887869184137,2026-10-24
 Code/GameEngine/Source/Common/Rva003A45D2ApplyMatchingRecord.cpp|param|Rva003A45D2::rva003A45D2|arg,229133e1243c05ecb1e2f10d,gpt-6.1-sol,codex4-20261024-064357-29,w-887869184137,2026-10-24
+Code/GameEngine/Source/Common/Rva000FE1ACUpdate.cpp|global||g_00DEC220,74eab834d6a9421356a78152,gpt-6.1-sol,codex4-20261024-070821-2,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameClient/MapUtilGetDefaultMap.cpp|param|Rva003000F6Get|a,b6a650ad36671ffa454a4391,gpt-6.1-sol,codex4-20261024-070821-3,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameClient/MapUtilGetDefaultMap.cpp|param|Rva003000F6Get|b,82f074dfb8f4dd89ef0f8af7,gpt-6.1-sol,codex4-20261024-070821-3,w-887869184137,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp|function|0x00072B3A|rva00072B3A,603b79eb586000153e8eee94,gpt-6.1-sol,codex4-20261024-070821-6,w-887869184137,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp|function|0x00072E10|rva00072E10,043c98faecc44e740786d5ae,gpt-6.1-sol,codex4-20261024-070821-6,w-887869184137,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp|param|ShroudMax|a,9df8c3db5d96f77dad69431b,gpt-6.1-sol,codex4-20261024-070821-6,w-887869184137,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp|param|ShroudMax|b,88b06cc81ea4fb729cd948b7,gpt-6.1-sol,codex4-20261024-070821-6,w-887869184137,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp|param|ShroudMin|a,1312734f7b4f7323ad92de4f,gpt-6.1-sol,codex4-20261024-070821-6,w-887869184137,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp|param|ShroudMin|b,b2960346a2e06d2455c4af0a,gpt-6.1-sol,codex4-20261024-070821-6,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/AIPlayerIsLocationSafe.cpp|param|Rva00261246Filter|a,95ed013e2ec0c6fa547b6009,gpt-6.1-sol,codex4-20261024-070821-7,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/AIPlayerIsLocationSafe.cpp|param|Rva00261246Filter|b,1bedacf6801bbbcb64772fad,gpt-6.1-sol,codex4-20261024-070821-7,w-887869184137,2026-10-24
