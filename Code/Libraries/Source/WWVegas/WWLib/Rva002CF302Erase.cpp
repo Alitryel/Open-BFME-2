@@ -14,15 +14,15 @@ struct Rva002CF302Node
 
 struct Rva002CF302
 {
-	void rva002CF302(Rva002CF302Node *x);
+	void rva002CF302(Rva002CF302Node *node);
 };
 
-void Rva002CF302::rva002CF302(Rva002CF302Node *x)
+void Rva002CF302::rva002CF302(Rva002CF302Node *node)
 {
-	while (x != 0) {
-		rva002CF302(x->m_right);
-		Rva002CF302Node *y = x->m_left;
-		free(x);
-		x = y;
+	while (node != 0) {
+		rva002CF302(node->m_right);
+		Rva002CF302Node *leftChild = node->m_left;
+		free(node);
+		node = leftChild;
 	}
 }
