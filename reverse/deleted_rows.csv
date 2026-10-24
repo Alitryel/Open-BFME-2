@@ -2188,3 +2188,5 @@ _Rva0084DB70,0x00020E30,"Renamed to __Locale_strwxfrm by tools/rename.py (inferr
 ?rva0005CA75@MilesAudioManager@@QAEXH@Z,0x0005CA75,"Renamed to ?rva0005CA75@MilesAudioManager@@UAEXH@Z: retail Miles primary vtable slot 50 targets this body"
 ?_M_insert_overflow@?$vector@UBfmeStringRecord005DDD40@@V?$allocator@UBfmeStringRecord005DDD40@@@_STL@@@_STL@@IAEXPAUBfmeStringRecord005DDD40@@ABU3@ABU__false_type@2@I_N@Z,0x00381B7B,element of the chat-history vector split from vector<BfmeStringRecord005DDD40>: renamed to its Rva00381B7BRecord spelling
 ?push_back@?$vector@UBfmeStringRecord005DDD40@@V?$allocator@UBfmeStringRecord005DDD40@@@_STL@@@_STL@@QAEXABUBfmeStringRecord005DDD40@@@Z,0x00381C4B,element of the chat-history vector split from vector<BfmeStringRecord005DDD40>: renamed to its Rva00381B7BRecord spelling
+?j_0030a0fc@@YAXXZ,0x0030A0FC,"Renamed to ??1Rva0030A0FCDtor@@QAE@XZ: retail cleanup caller loads global receiver in ECX before this destructor tail thunk"
+?j_00524cc1@@YAXXZ,0x00524CC1,"Renamed to ??1Rva00524CC1Dtor@@QAE@XZ: retail cleanup caller loads global receiver in ECX before this destructor tail thunk"

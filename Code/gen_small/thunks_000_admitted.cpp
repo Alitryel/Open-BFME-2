@@ -20,6 +20,7 @@ void j_001f90d5() { b_001f8d70(); }
 void j_00239df9() { b_00239cc9(); }
 void j_002ae76b() { b_002ae53e(); }
 void j_002baee0() { b_002bad1c(); }
-void j_0030a0fc() { b_0030a083(); }
+class Rva0030A0FCDtor { public: ~Rva0030A0FCDtor(); };
+Rva0030A0FCDtor::~Rva0030A0FCDtor() { b_0030a083(); }
 void j_0031c838() { b_0031c79d(); }
 void j_004da13f() { b_004d9fb9(); }

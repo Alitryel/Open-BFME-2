@@ -2058,14 +2058,14 @@ void __cdecl rva007B80AB()
 }
 
 extern void *g_00DB6200;
-extern char g_00BD23B4;
+extern "C" const void *const __identifier("??_7Rva0012D780@@6B@")[];
 // g_00DB6200: packet annotates VA 0x009B6200 (data), no name yet.
-// g_00BD23B4: packet annotates VA 0x007D23B4 (data), no name yet.
+// Retail stores the one-slot Rva0012D780 vtable at RVA 0x007D23B4.
 
-// ?Rva007B7090Set@@YAXXZ @ 0x007B7090 (11B). Global pointer store: g_00DB6200 = &g_00BD23B4 (mov [0xDB6200],0xBD23B4; ret). No callers. Between 0x007B707A and 0x007B70AB. Honest address name.
+// ?Rva007B7090Set@@YAXXZ @ 0x007B7090 (11B). Global pointer store: g_00DB6200 = Rva0012D780 vtable (mov [0xDB6200],0xBD23B4; ret). No callers. Between 0x007B707A and 0x007B70AB. Honest address name.
 void __cdecl Rva007B7090Set()
 {
-	g_00DB6200 = &g_00BD23B4;
+	g_00DB6200 = (void *)__identifier("??_7Rva0012D780@@6B@");
 }
 
 class BfmeDualVtableReleaseDtor
@@ -2187,12 +2187,12 @@ void __cdecl rva007B7B8C()
 }
 
 extern void *g_00DB620C;
-// g_00DB620C: packet annotates VA 0x009B620C (data), no name yet. Value is &g_00BD23B4 (VA 0x007D23B4, already extern above).
+// g_00DB620C: packet annotates VA 0x009B620C (data), no name yet. Value is the Rva0012D780 vtable (RVA 0x007D23B4).
 
-// ?Rva007B70A0Set@@YAXXZ @ 0x007B70A0 (11B). Global pointer store: g_00DB620C = &g_00BD23B4 (mov [0xDB620C],0xBD23B4; ret). No callers. Between 0x007B7090 and 0x007B70AB. Honest address name.
+// ?Rva007B70A0Set@@YAXXZ @ 0x007B70A0 (11B). Global pointer store: g_00DB620C = Rva0012D780 vtable (mov [0xDB620C],0xBD23B4; ret). No callers. Between 0x007B7090 and 0x007B70AB. Honest address name.
 void __cdecl Rva007B70A0Set()
 {
-	g_00DB620C = &g_00BD23B4;
+	g_00DB620C = (void *)__identifier("??_7Rva0012D780@@6B@");
 }
 
 class ModuleData;
@@ -7203,20 +7203,14 @@ void __cdecl rva007B7AE1()
 	return receiver->~Rva0030A0FCDtor();
 }
 
-class Rva002B905DDtor
-{
-public:
-	~Rva002B905DDtor();
-};
-
 extern unsigned g_Va00E032DC;
 unsigned int g_Va00E032DC;
 
-// ?rva007B839B@@YAXXZ @ 0x007B839B (10B). Global dtor thunk: ecx=&g_Va00E032DC then tail-jmp to pinned ??1Rva002B905DDtor@@QAE@XZ (0x002B905D). No callers. Honest address name.
+// ?rva007B839B@@YAXXZ @ 0x007B839B (10B). Global UnicodeString list dtor thunk: ecx=&g_Va00E032DC then tail-jmp to the rowed list destructor (0x002B905D). No callers. Honest address name.
 void __cdecl rva007B839B()
 {
-	Rva002B905DDtor *receiver = (Rva002B905DDtor *)&g_Va00E032DC;
-	return receiver->~Rva002B905DDtor();
+	_STL::list<UnicodeString> *receiver = (_STL::list<UnicodeString> *)&g_Va00E032DC;
+	return receiver->~list();
 }
 
 class Rva00435CDBDtor
@@ -7373,20 +7367,17 @@ void __cdecl rva007B7824()
 	return receiver->~Rva002859EADtor();
 }
 
-class Rva003615E5Dtor
-{
-public:
-	~Rva003615E5Dtor();
-};
+struct Rva003615E5Record;
 
 // 0x00A01E68: defined elsewhere as ?g_validityBegin@@3PAEA.
 extern unsigned char *g_validityBegin;
 
-// ?rva007B7CAF@@YAXXZ @ 0x007B7CAF (10B). Global dtor thunk: ecx=&g_validityBegin then tail-jmp to pinned ??1Rva003615E5Dtor@@QAE@XZ (0x003615E5). No callers. Honest address name.
+// ?rva007B7CAF@@YAXXZ @ 0x007B7CAF (10B). Global validity-record vector dtor thunk: ecx=&g_validityBegin then tail-jmp to the rowed vector destructor (0x003615E5). No callers. Honest address name.
 void __cdecl rva007B7CAF()
 {
-	Rva003615E5Dtor *receiver = (Rva003615E5Dtor *)&g_validityBegin;
-	return receiver->~Rva003615E5Dtor();
+	_STL::vector<Rva003615E5Record, _STL::allocator<Rva003615E5Record> > *receiver =
+		(_STL::vector<Rva003615E5Record, _STL::allocator<Rva003615E5Record> > *)&g_validityBegin;
+	return receiver->~vector();
 }
 
 class Rva00362B5ADtor
@@ -7406,12 +7397,12 @@ void __cdecl rva007B7CC3()
 }
 
 class Rva00065964ObjectPool;
-extern Rva00065964ObjectPool g_pathNodePool;
+extern "C" Rva00065964ObjectPool __identifier("?g_pathNodePool@@3VRva00065964ObjectPool@@A");
 
 // ?rva007B7CD7@@YAXXZ @ 0x007B7CD7 (10B). Global dtor thunk: ecx=&g_pathNodePool (0x00E01E94, defined in PathDtor.cpp) then tail-jmp to pinned ??1Rva002859EADtor@@QAE@XZ (0x002859EA). No callers. Honest address name.
 void __cdecl rva007B7CD7()
 {
-	Rva002859EADtor *receiver = (Rva002859EADtor *)&g_pathNodePool;
+	Rva002859EADtor *receiver = (Rva002859EADtor *)&__identifier("?g_pathNodePool@@3VRva00065964ObjectPool@@A");
 	return receiver->~Rva002859EADtor();
 }
 

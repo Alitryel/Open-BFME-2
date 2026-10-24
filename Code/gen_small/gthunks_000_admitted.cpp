@@ -139,7 +139,8 @@ void j_00502988() { b_00502787(); }
 void j_00512ed8() { b_0051342d(); }
 void j_0051cc88() { b_0051ce56(); }
 void j_005204ea() { b_005206e2(); }
-void j_00524cc1() { b_00524c88(); }
+class Rva00524CC1Dtor { public: ~Rva00524CC1Dtor(); };
+Rva00524CC1Dtor::~Rva00524CC1Dtor() { b_00524c88(); }
 void j_0052b492() { b_0060ce41(); }
 void j_0052b7b3() { b_0052b6fe(); }
 void j_00552bcd() { b_0055218e(); }

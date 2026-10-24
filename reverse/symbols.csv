@@ -4314,7 +4314,6 @@ name,address,notes
 ??1Rva00301621Dtor@@QAE@XZ,0x00301621,dtor at 0x00301621 (target of thunk 0x007B7A9B)
 ??1Rva00304DC7Entry@@QAE@XZ,0x0022DDF4,"auto-pin (permute --pins): REL32 call target read from retail in 0x00304dc7, whose banked body is byte-exact once this call resolves"
 ??1Rva00304DC7Record@@QAE@XZ,0x0022DBC6,"auto-pin (permute --pins): REL32 call target read from retail in 0x00304dc7, whose banked body is byte-exact once this call resolves"
-??1Rva0030A0FCDtor@@QAE@XZ,0x0030A0FC,dtor thunk stub at 0x0030A0FC to 0x0030A083 (target of thunk 0x007B7AE1)
 ??1Rva0030AF8FAudioEventRTS@@QAE@XZ,0x0030AF8F,AudioEventRTS dtor stub at 0x0030AF8F (target of thunks 0x007B7AF5 and 0x007B7AFF)
 ??1Rva0030DBD5@@UAE@XZ,0x0030DBD5,"destructor the scalar deleting destructor 0x0030DE92 calls (REL32 at 0x0030DE95; vtable 0x00C08A2C#0); opaque address name"
 ??1Rva00328CF8@@UAE@XZ,0x00328CF8,"destructor the scalar deleting destructor 0x00328CDC calls (REL32 at 0x00328CDF; vtable 0x00C0D8D8#0); opaque address name"
@@ -4551,7 +4550,6 @@ name,address,notes
 ??1Rva00524415@@QAE@XZ,0x00601AE9,"address read from the retail REL32 at 0x00601C41 in the INI helper destructor 0x00601BF3; destroys the +4 member built by the rowed Rva00524415 constructor (vector storage plus vector<AsciiString> at +0xC)"
 ??1Rva005248D0@@UAE@XZ,0x005248D0,"destructor the scalar deleting destructor 0x002D2C9E calls (REL32 at 0x002D2CA1; vtable 0x00C02A80#0); opaque address name"
 ??1Rva00524BB4@@UAE@XZ,0x00524BB4,opaque dtor called by the scalar deleting dtor at 0x00524BFF (vtable 0x00C67DFC#0); identity unproven; address-derived name
-??1Rva00524CC1Dtor@@QAE@XZ,0x00524CC1,dtor thunk stub at 0x00524CC1 to 0x00524C88 (target of thunk 0x007B91F8)
 ??1Rva005257F6String@@QAE@XZ,0x00036410,retail registered destructor 007B9220 loads static string and jumps to matched narrow releaseBuffer
 ??1Rva005262BF@@QAE@XZ,0x005262BF,pointee destructor called by the owning-pointer reset 0x00526F2C (byte-exact modulo relocs in OwnedPointerResets.cpp); identity unproven; address-derived name
 ??1Rva0052634F@@QAE@XZ,0x0052634F,pointee destructor called by the owning-pointer reset 0x00526F12 (byte-exact modulo relocs in OwnedPointerResets.cpp); identity unproven; address-derived name
