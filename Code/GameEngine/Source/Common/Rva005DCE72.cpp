@@ -96,7 +96,7 @@ class Rva005DCE72
 {
 public:
 	void rva005DCE72(const AsciiString &name, _STL::vector<const ModuleData *> *out);
-	void rva005DCEB7(Rva005DCEB7Arg *p);
+	void rva005DCEB7(Rva005DCEB7Arg *xfer);
 private:
 	char m_pad0[4];
 	const ModuleData **m_begin; // +0x4
@@ -120,22 +120,22 @@ void Rva005DCE72::rva005DCE72(const AsciiString &name, _STL::vector<const Module
 // Chain from 0x00573E7C ctor row; prev 0x005DCE72 same TU/class; vector at +4
 // holds ModuleData* rowed push_back 0x004DFCB0; new 0x60 via rowed ??2 0x0002FDA0.
 // Evidence: virtual slots 0x28/0x90/0x7c/0x78/0x4 on arg; slots 0x30/0x18 on elements.
-void Rva005DCE72::rva005DCEB7(Rva005DCEB7Arg *p)
+void Rva005DCE72::rva005DCEB7(Rva005DCEB7Arg *xfer)
 {
 	struct TwoBytes { unsigned char a; unsigned char b; };
 	TwoBytes tb;
 	tb.a = 1;
 	tb.b = 2;
-	p->f10(&tb);
-	p->f36(this);
-	p->f36(&m_pad0[1]);
-	p->f31(&m_10);
+	xfer->f10(&tb);
+	xfer->f36(this);
+	xfer->f36(&m_pad0[1]);
+	xfer->f31(&m_10);
 	if (tb.b >= 2)
-		p->f36(&m_pad0[2]);
+		xfer->f36(&m_pad0[2]);
 	const ModuleData ***base = (const ModuleData ***)&m_begin;
 	unsigned int n = (unsigned int)(base[1] - base[0]);
-	p->f30(&n);
-	if (!p->f1())
+	xfer->f30(&n);
+	if (!xfer->f1())
 		goto second;
 	unsigned int i = 0;
 	if (n <= 0)
@@ -151,8 +151,8 @@ second:
 	const ModuleData **end = m_end;
 	for (const ModuleData **it = m_begin; it != end; ++it)
 	{
-		((ModuleData *)*it)->m12(p, m_14);
-		if (!p->f1())
+		((ModuleData *)*it)->m12(xfer, m_14);
+		if (!xfer->f1())
 			continue;
 		if (m_pad0[1] == 0)
 			continue;

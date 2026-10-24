@@ -1145,3 +1145,4 @@ member,AppearanceHeroView::paint34,AppearanceHeroView::m_paintColor,inferred,agr
 local,Rotate::tmp,Rotate::rotatedX,inferred,agree:nl-7dc1bfc57dda,Code/GameEngine/Source/Common/Rva005C6CCC.cpp,
 param,Scale::d,Scale::scaleFactor,inferred,agree:nl-73e2d3f7782f,Code/GameEngine/Source/Common/Rva005C6CCC.cpp,
 local,Rva005C6D4D::rva005C674A::e,Rva005C6D4D::rva005C674A::elapsedTime,inferred,agree:nl-7df26f34cec5,Code/GameEngine/Source/Common/Rva005C6CCC.cpp,0x005C674A
+param,Rva005DCE72::rva005DCEB7::p,Rva005DCE72::rva005DCEB7::xfer,inferred,agree:nl-fcf1a20a5c2b,Code/GameEngine/Source/Common/Rva005DCE72.cpp,0x005DCEAD
