@@ -656,7 +656,7 @@ _free,,0x00030830,17,Code/GameEngine/Source/Common/System/GameMemoryFree.cpp,mat
 ??$__copy_backward_ptrs@PAU?$pair@HH@_STL@@PAU12@@_STL@@YAPAU?$pair@HH@0@PAU10@00ABU__false_type@0@@Z,,0x00625D70,53,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_pair.cpp,matched,stlport-4.5.3
 ??$__uninitialized_fill_n@PAU?$pair@HH@_STL@@IU12@@_STL@@YAPAU?$pair@HH@0@PAU10@IABU10@ABU__false_type@0@@Z,,0x00627300,39,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_pair.cpp,matched,stlport-4.5.3
 ??0?$_Bit_iter@U_Bit_reference@_STL@@PAU12@@_STL@@QAE@XZ,,0x00672310,16,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_bool.cpp,matched,strict relocations from its own object
-?BTREE_decompress@@YAHPAE0@Z,,0x0068EB60,258,Code/Libraries/Source/Compression/EAC/btreedecode.cpp,matched,gen-alias;object-symbol=?BTREE_decompress@@YAHPAE0@Z;C++ alias
+?BTREE_decompress@@YAHPAE0@Z,,0x0068EB60,258,Code/Libraries/Source/Compression/EAC/btreedecode.cpp,matched,strict relocations from its own object
 ??$__lexicographical_compare_3way@PADPAD@_STL@@YAHPAD000@Z,,0x00017650,74,Code/Libraries/Source/WWVegas/WWLib/stlport_rope_char.cpp,matched,stlport-4.5.3
 ??0?$gslice_array@H@_STL@@QAE@ABV01@@Z,,0x000B68F0,27,Code/Libraries/Source/WWVegas/WWLib/stlport_valarray_int.cpp,matched,stlport-4.5.3
 ?compress@LZHLCompressor@@QAEIPAEPBEI@Z,,0x006911B0,1741,Code/Libraries/Source/Compression/LZHCompress/CompLibSource/Lz.cpp,matched,stlport-4.5.3
@@ -3872,7 +3872,7 @@ _PreAuthenticatePlayerPM,,0x00608D50,158,Code/GameEngine/Source/GameNetwork/Game
 ?dup_002e6a93@@YAXXZ,,0x002E6A93,10,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/LanGameOptionsMenu.cpp,matched,gen-alias;object-symbol=?setTeamNumber@GameSlot@@QAEXH@Z;C++ alias
 ?setLastCommandSource@AIUpdateInterface@@IAEXW4CommandSourceType@@@Z,,0x003B23AF,10,Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate.cpp,matched,strict relocations from its own object
 ?Set_Current_UV_Offset@LinearOffsetTextureMapperClass@@QAEXABVVector2@@@Z,,0x0042E8ED,18,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,matched,strict relocations from its own object
-?EnumThreadWndProc@@YGHPAXJ@Z,,0x0003D380,17,Code/Libraries/Source/debug/debug_debug.cpp,matched,gen-alias;object-symbol=?EnumThreadWndProc@@YGHPAXJ@Z;C++ alias
+?EnumThreadWndProc@@YGHPAXJ@Z,,0x0003D380,17,Code/Libraries/Source/debug/debug_debug.cpp,matched,strict relocations from its own object
 ?friend_setPartitionData@Object@@QAEXPAVPartitionData@@@Z,,0x00322167,13,Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp,matched,strict relocations from its own object
 ?setLeechRangeActive@Weapon@@QAEX_N@Z,,0x002D95FE,10,Code/GameEngine/Source/GameLogic/Object/Weapon.cpp,matched,strict relocations from its own object
 ?Memory@CRC@@SAKPAEKK@Z,,0x00619AC0,51,Code/Libraries/Source/WWVegas/WWLib/crc.cpp,matched,strict relocations from its own object
@@ -6693,9 +6693,9 @@ _Rva00817340,,0x00683240,91,Code/Libraries/Source/DirtySock/Y4CommTransportLife.
 ?dup_0067d7d0@@YAXXZ,,0x0067D7D0,8,Code/Libraries/Source/DirtySock/Y5SmallHelpers.c,matched,gen-alias;object-symbol=_Rva008118D0;C++ alias
 ?dup_0067d7f0@@YAXXZ,,0x0067D7F0,8,Code/Libraries/Source/DirtySock/Y5SmallHelpers.c,matched,gen-alias;object-symbol=_Rva008118D0;C++ alias
 ?dup_0066a3b0@@YAXXZ,,0x0066A3B0,267,Code/Libraries/Source/DirtySock/Y2ProtoMangleHelpers.cpp,matched,gen-alias;object-symbol=?Rva00804440LocalAddr@@YAIXZ;C++ alias
-_ProtoMangleCreate,,0x00670190,245,Code/Libraries/Source/DirtySock/Y2ProtoMangleHelpers.cpp,matched,gen-alias;object-symbol=_ProtoMangleCreate;C++ alias
-_Rva00814070,,0x0067FF70,39,Code/Libraries/Source/DirtySock/Y4CommTickIdle.c,matched,gen-alias;object-symbol=_Rva00814070;C++ alias
-_Rva008140A0,,0x0067FFA0,39,Code/Libraries/Source/DirtySock/Y4CommTickIdle.c,matched,gen-alias;object-symbol=_Rva008140A0;C++ alias
+_ProtoMangleCreate,,0x00670190,245,Code/Libraries/Source/DirtySock/Y2ProtoMangleHelpers.cpp,matched,strict relocations from its own object
+_Rva00814070,,0x0067FF70,39,Code/Libraries/Source/DirtySock/Y4CommTickIdle.c,matched,strict relocations from its own object
+_Rva008140A0,,0x0067FFA0,39,Code/Libraries/Source/DirtySock/Y4CommTickIdle.c,matched,strict relocations from its own object
 _Rva00814400,,0x00680300,91,Code/Libraries/Source/DirtySock/Y4CommTickIdle.c,matched,comm op-table slot 5 (disconnect); TickIdle constructor stores 0xA80300; byte twin of 0x00680360
 _Rva00814460,,0x00680360,91,Code/Libraries/Source/DirtySock/Y4CommTickIdle.c,matched,comm op-table slot 7 (second disconnect copy); TickIdle constructor stores 0xA80360
 _Rva00817240,,0x00683140,120,Code/Libraries/Source/DirtySock/Y4CommTransportLife.c,matched,commudp op-table slot 5 (disconnect); constructor stores 0xA83140; byte twin of 0x006831C0
@@ -6704,8 +6704,8 @@ _Rva008172C0,,0x006831C0,120,Code/Libraries/Source/DirtySock/Y4CommTransportLife
 ?dup_00672a40@@YAXXZ,,0x00672A40,89,Code/Libraries/Source/DirtySock/Y2Rva00806580Module.cpp,matched,gen-alias;object-symbol=?Rva008068B0@@YAHPAURva00806580Record@@@Z;C++ alias
 ?dup_00681690@@YAXXZ,,0x00681690,65,Code/Libraries/Source/DirtySock/Y4CommRingIdle.c,matched,gen-alias;object-symbol=_Rva00815790;C++ alias
 ?dup_006816e0@@YAXXZ,,0x006816E0,65,Code/Libraries/Source/DirtySock/Y4CommRingIdle.c,matched,gen-alias;object-symbol=_Rva00815790;C++ alias
-?Rva00807920@@YAPAXPBDH@Z,,0x00673950,28,Code/Libraries/Source/DirtySock/Y2Rva00807900Module.cpp,matched,gen-alias;object-symbol=?Rva00807920@@YAPAXPBDH@Z;C++ alias
-?Rva00807940@@YAHPBDH@Z,,0x00673970,28,Code/Libraries/Source/DirtySock/Y2Rva00807900Module.cpp,matched,gen-alias;object-symbol=?Rva00807940@@YAHPBDH@Z;C++ alias
+?Rva00807920@@YAPAXPBDH@Z,,0x00673950,28,Code/Libraries/Source/DirtySock/Y2Rva00807900Module.cpp,matched,strict relocations from its own object
+?Rva00807940@@YAHPBDH@Z,,0x00673970,28,Code/Libraries/Source/DirtySock/Y2Rva00807900Module.cpp,matched,strict relocations from its own object
 _piXpingTableHashFn,,0x006A3440,154,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerPingPlayerJoinedRoom.c,matched,strict relocations from its own object
 ?getOverrideWindow@RadarWindowOverrideSource@@QBEPAVGameWindow@@XZ,,0x002D35CF,7,Code/GameEngine/Source/Common/System/RadarWindowOverride.cpp,matched,leaf getter via inner window at +0x64; dedicated TU preserves newMap caller
 ?Get_Texture@BFMELineRendererTexture@@QBE?AVTextureHandleClass@ParticleBufferClass@@XZ,,0x00191210,29,Code/Libraries/Source/WWVegas/WW3D2/BfmeLineRendererTextureGet.cpp,matched,WORD-refcount handle at +0; dedicated TU preserves part_buf callers
@@ -10979,7 +10979,7 @@ _str_rep,,0x00748CE0,114,Code/Libraries/Source/Lua/lstrlib.c,matched,Lua string 
 ?GetSnapshotName@UpdateModule@@MBEPBDXZ,,0x002533CD,6,Code/GameEngine/Source/Common/SubsystemNameGetters2.cpp,matched,literal name getter returning UpdateModule; vtable ref in .rdata; address-derived placeholder name
 ?name@Rva00268CD6Named@@QBEPBDXZ,,0x00268CD6,6,Code/GameEngine/Source/Common/SubsystemNameGetters2.cpp,matched,literal name getter returning Squad; vtable ref in .rdata; address-derived placeholder name
 ?set@Rva00078941DwordSlot@@QAEXH@Z,,0x00078941,13,Code/GameEngine/Source/Common/DispDwordFieldSetters.cpp,matched,Disp32 dword setter
-_read_word,,0x0074A700,184,Code/Libraries/Source/Lua/liolib_bfme1.c,matched,gen-alias;object-symbol=_read_word;C++ alias
+_read_word,,0x0074A700,184,Code/Libraries/Source/Lua/liolib_bfme1.c,matched,strict relocations from its own object
 ?set@Rva00105DB3DwordSlot@@QAEXH@Z,,0x00105DB3,13,Code/GameEngine/Source/Common/DispDwordFieldSetters.cpp,matched,Disp32 dword setter
 ?set@Rva001F3D21DwordSlot@@QAEXH@Z,,0x001F3D21,13,Code/GameEngine/Source/Common/DispDwordFieldSetters.cpp,matched,Disp32 dword setter
 ?set@Rva002620C7DwordSlot@@QAEXH@Z,,0x002620C7,13,Code/GameEngine/Source/Common/DispDwordFieldSetters.cpp,matched,Disp32 dword setter
@@ -11164,7 +11164,7 @@ _read_string,,0x007577E0,1185,Code/Libraries/Source/Lua/llex.c,matched,BFME1 lua
 ?name@W3DProjectileStreamDraw@@QBEPBDXZ,,0x000D1401,6,Code/GameEngine/Source/Common/W3DDrawNameGetters.cpp,matched,literal name getter returning W3DProjectileStreamDraw; vtable ref at 0x7CE018; address-derived placeholder name
 ?name@W3DTornadoDraw@@QBEPBDXZ,,0x000D1860,6,Code/GameEngine/Source/Common/W3DDrawNameGetters.cpp,matched,literal name getter returning W3DTornadoDraw; vtable ref at 0x7CE220; address-derived placeholder name
 ?name@Rva000D1BA0Named@@QBEPBDXZ,,0x000D1BA0,6,Code/GameEngine/Source/Common/W3DDrawNameGetters.cpp,matched,literal name getter returning TBuff; vtable ref at 0x7CE318; address-derived placeholder name
-_luaL_addstring,,0x007516C0,42,Code/Libraries/Source/Lua/lauxlib.c,matched,gen-alias;object-symbol=_luaL_addstring;C++ alias
+_luaL_addstring,,0x007516C0,42,Code/Libraries/Source/Lua/lauxlib.c,matched,strict relocations from its own object
 ?isTurretInNaturalPosition@BattlePlanUpdate@@IAE_NXZ,,0x0049778D,40,Code/GameEngine/Source/GameLogic/Object/Update/BattlePlanUpdate.cpp,matched,ZH BattlePlanUpdate.cpp port; AI at Object+0x258; TURRET_INVALID -1; AIUpdateInterface pins 0x26275E 0x26269C
 ?recenterTurret@BattlePlanUpdate@@IAEXXZ,,0x00497769,36,Code/GameEngine/Source/GameLogic/Object/Update/BattlePlanUpdate.cpp,matched,ZH BattlePlanUpdate.cpp port; AIUpdateInterface pin 0x26266C; getWhich pin reused
 ?enableTurret@BattlePlanUpdate@@IAEX_N@Z,,0x0049773F,42,Code/GameEngine/Source/GameLogic/Object/Update/BattlePlanUpdate.cpp,matched,ZH BattlePlanUpdate.cpp port; AIUpdateInterface pin 0x262651; getWhich pin reused
@@ -16320,7 +16320,7 @@ __SEH_epilog,,0x00628FDF,17,vendor/msvc71crt/msvcrt.lib,matched,vendored=msvc71-
 ??$__pop_heap_aux@PAHHU?$less@H@_STL@@@_STL@@YAXPAH00U?$less@H@0@@Z,,0x0040AD3C,30,Code/Libraries/Source/WWVegas/WWLib/stlport_int_introsort_loop.cpp,matched,unclaimed_scan exact modulo relocations at its pinned call-site address;abuts claimed neighbours
 ?_M_insert@?$_Rb_tree@HU?$pair@$$CBHUBfmePod8@@@_STL@@U?$_Select1st@U?$pair@$$CBHUBfmePod8@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHUBfmePod8@@@_STL@@@2@@_STL@@AAE?AU?$_Rb_tree_iterator@U?$pair@$$CBHUBfmePod8@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHUBfmePod8@@@_STL@@@2@@2@PAU_Rb_tree_node_base@2@0ABU?$pair@$$CBHUBfmePod8@@@2@0@Z,,0x00422890,136,Code/Libraries/Source/WWVegas/WWLib/stlport_pod_map_bodies.cpp,matched,unclaimed_scan exact modulo relocations at its pinned call-site address;abuts claimed neighbours
 ?_M_insert@?$_Rb_tree@HU?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@U?$_Select1st@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@@_STL@@AAE?AU?$_Rb_tree_iterator@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@@2@PAU_Rb_tree_node_base@2@0ABU?$pair@$$CBHVMultiplayerColorDefinition@@@2@0@Z,,0x00380F31,136,Code/GameEngine/Source/Common/MultiplayerColorMapOperator.cpp,matched,unclaimed_scan exact modulo relocations at its pinned call-site address;abuts claimed neighbours
-_lua_setlinehook,,0x0074C9E0,15,Code/Libraries/Source/Lua/ldebug.c,matched,gen-alias;object-symbol=_lua_setlinehook;C++ alias
+_lua_setlinehook,,0x0074C9E0,15,Code/Libraries/Source/Lua/ldebug.c,matched,strict relocations from its own object
 ??_G?$VectorClass@PAULegacyMaterialClass@MeshLoadContextClass@@@@UAEPAXI@Z,,0x00189580,71,Code/Libraries/Source/WWVegas/WW3D2/MeshLoadContextCtor.cpp,matched,strict relocations from its own object
 ??_G?$VectorClass@K@@UAEPAXI@Z,,0x001895D0,71,Code/Libraries/Source/WWVegas/WW3D2/MeshLoadContextCtor.cpp,matched,strict relocations from its own object
 ?dup_0018a1a0@@YAXXZ,,0x0018A1A0,45,Code/Libraries/Source/WWVegas/WW3D2/MeshLoadContextCtor.cpp,matched,gen-alias;object-symbol=??1?$DynamicVectorClass@PAULegacyMaterialClass@MeshLoadContextClass@@@@UAE@XZ;C++ alias
