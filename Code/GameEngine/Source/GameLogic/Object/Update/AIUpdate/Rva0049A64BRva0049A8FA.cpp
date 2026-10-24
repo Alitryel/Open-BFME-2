@@ -85,7 +85,7 @@ class Iface3E4
 {
 public:
 	virtual bool isClearToApproach(int a) = 0;
-	virtual bool rva0049A8A1(int a, Coord3D *pos, int *out) = 0;
+	virtual bool reserveApproachPosition(int a, Coord3D *pos, int *out) = 0;
 	virtual void s02();
 	virtual void s03();
 	virtual void s04();
@@ -95,7 +95,7 @@ class Rva0049A64B : public B00, public B0C, public B10, public B20, public B24, 
 {
 public:
 	virtual bool isClearToApproach(int a);
-	virtual bool rva0049A8A1(int a, Coord3D *pos, int *out);
+	virtual bool reserveApproachPosition(int a, Coord3D *pos, int *out);
 	virtual void rva0049A8FA(int a, Coord3D *out);
 };
 void Rva0049A64B::rva0049A8FA(int a, Coord3D *out)
@@ -108,13 +108,13 @@ void Rva0049A64B::rva0049A8FA(int a, Coord3D *out)
 	}
 }
 
-// ?rva0049A8A1@Rva0049A64B@@UAE_NHPAUCoord3D@@PAH@Z @0x0049A8A1 89B: slot 1
+// ?reserveApproachPosition@Rva0049A64B@@UAE_NHPAUCoord3D@@PAH@Z @0x0049A8A1 89B: slot 1
 // of the same +0x3E4 table (0x00C50868). No provider from the object's +0x250
 // module (vslot +0x7C): false. Otherwise the provider is asked about the first
 // argument (vslot +0x18) and, if it says no, given it (vslot +0x2C); then
 // slot 5 above fills the position, the out word is cleared and the answer is
 // true. Names stay address-derived.
-bool Rva0049A64B::rva0049A8A1(int a, Coord3D *pos, int *out)
+bool Rva0049A64B::reserveApproachPosition(int a, Coord3D *pos, int *out)
 {
 	Rva0049A8FAProvider *provider = m_object->m_250->rva7C();
 	if (!provider)
@@ -143,7 +143,7 @@ bool Rva0049A64B::isClearToApproach(int a)
 // inferring an interface-method identity from the fold. Native C50868..C508B8.
 extern "C" {
 void __identifier("?isClearToApproach@Rva0049A64B@@UAE_NH@Z")();
-void __identifier("?rva0049A8A1@Rva0049A64B@@UAE_NHPAUCoord3D@@PAH@Z")();
+void __identifier("?reserveApproachPosition@Rva0049A64B@@UAE_NHPAUCoord3D@@PAH@Z")();
 void __identifier("?rva0049A6D7@Rva0049A6D7@@QAE_NHHH@Z")();
 void __identifier("?_bfme_ro_v50@RenderObjClass@@UAE_NH@Z")();
 void __identifier("?rva0050B5F1@Rva0050B5F1@@QAE_NHH@Z")();
@@ -157,7 +157,7 @@ void __identifier("?IsCRC@Xfer@@UBE_NXZ")();
 }
 extern const void *const g_00C50868[20] = {
  (const void *)&__identifier("?isClearToApproach@Rva0049A64B@@UAE_NH@Z"),
- (const void *)&__identifier("?rva0049A8A1@Rva0049A64B@@UAE_NHPAUCoord3D@@PAH@Z"),
+ (const void *)&__identifier("?reserveApproachPosition@Rva0049A64B@@UAE_NHPAUCoord3D@@PAH@Z"),
  (const void *)&__identifier("?rva0049A6D7@Rva0049A6D7@@QAE_NHHH@Z"),
  (const void *)&__identifier("?_bfme_ro_v50@RenderObjClass@@UAE_NH@Z"),
  (const void *)&__identifier("?rva0050B5F1@Rva0050B5F1@@QAE_NHH@Z"),
