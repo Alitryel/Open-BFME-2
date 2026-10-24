@@ -267,11 +267,11 @@ struct RadialCoord2D : Coord2D {
             fstp c
             fstp s
         }
-        float tmp = x * c - y * s;
+        float rotatedX = x * c - y * s;
         y = x * s + y * c;
-        x = tmp;
+        x = rotatedX;
     }
-    __forceinline void Scale(float d) { x *= d; y *= d; }
+    __forceinline void Scale(float scaleFactor) { x *= scaleFactor; y *= scaleFactor; }
 };
 class Rva005C6599 { public: void rva005C6599(float, float); };
 class BfmeAptWindowManager;
@@ -297,8 +297,8 @@ void Rva005C6D4D::rva005C674A()
     if (count > 1) {
         float fraction;
         if (TheRadialFlashEnd != 0.0f) {
-            float e = (float)elapsed;
-            float t = TheRadialFlashEnd < e ? TheRadialFlashEnd : e;
+            float elapsedTime = (float)elapsed;
+            float t = TheRadialFlashEnd < elapsedTime ? TheRadialFlashEnd : elapsedTime;
             fraction = t / TheRadialFlashEnd;
         } else {
             fraction = 1.0f;

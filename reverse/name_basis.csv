@@ -1142,3 +1142,6 @@ function,?Rva00595C79FormatAddress@@YA?AVAsciiString@@PBURva00595C79Address@@@Z,
 member,AppearanceHeroView::hair2C,AppearanceHeroView::m_hairColor,inferred,agree:nl-b29c3ad516ce,Code/GameEngine/Source/Common/Rva005B4A46Dtor.cpp,
 member,AppearanceHeroView::skin30,AppearanceHeroView::m_skinColor,inferred,agree:nl-98e4500126fe,Code/GameEngine/Source/Common/Rva005B4A46Dtor.cpp,
 member,AppearanceHeroView::paint34,AppearanceHeroView::m_paintColor,inferred,agree:nl-74238fab2f84,Code/GameEngine/Source/Common/Rva005B4A46Dtor.cpp,
+local,Rotate::tmp,Rotate::rotatedX,inferred,agree:nl-7dc1bfc57dda,Code/GameEngine/Source/Common/Rva005C6CCC.cpp,
+param,Scale::d,Scale::scaleFactor,inferred,agree:nl-73e2d3f7782f,Code/GameEngine/Source/Common/Rva005C6CCC.cpp,
+local,Rva005C6D4D::rva005C674A::e,Rva005C6D4D::rva005C674A::elapsedTime,inferred,agree:nl-7df26f34cec5,Code/GameEngine/Source/Common/Rva005C6CCC.cpp,0x005C674A
