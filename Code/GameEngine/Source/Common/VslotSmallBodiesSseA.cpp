@@ -110,14 +110,14 @@ protected:
 class Rva00452E00Iface
 {
 public:
-	virtual Int rva00452E00(Real *out) = 0;
+	virtual Int getValue(Real *out) = 0;
 };
 class Rva00452E00 : public Rva00452E00Primary, public Rva00452E00Iface
 {
 public:
-	Int rva00452E00(Real *out);
+	Int getValue(Real *out);
 };
-Int Rva00452E00::rva00452E00(Real *out)
+Int Rva00452E00::getValue(Real *out)
 {
 	Real value = m_moduleData->m_30;
 	*out = value;

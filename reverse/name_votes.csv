@@ -6072,3 +6072,7 @@ Code/GameEngine/Source/Common/Rva004A6E8EBatch.cpp|local|Rva004A6EHolder::rva004
 Code/GameEngine/Source/Common/Rva004A6E8EBatch.cpp|local|Rva004A6EHolder::rva004A6EC6|h,b5696cf49a11c61dc9488326,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p079b,w-5c55c09be20a,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Behavior/Rva00498F46Cmd.cpp|member|Rva00498DF3Arg|m_mid258,70db27e553b2db157f93b7bb,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p089a,w-d2ebef1f1133,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Behavior/Rva00498F46Cmd.cpp|class||Rva00498DF3Mid,3b4b275e7c901c7befc3ff25,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p089b,w-18743c16c862,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp|class||Rva005D9D81Pos,8c2c2180501845d8e096c905,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p101a,w-872002926ae1,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp|function|0x00452E00|rva00452E00,e3305c484d9d436a90431075,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p101a,w-872002926ae1,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp|class||Rva005EA1E7Table,c1c04c6710b81c2dddd509a6,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p101b,w-e8fac1a46a26,2026-10-24
+Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp|function|0x00452E00|rva00452E00,e3305c484d9d436a90431075,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p101b,w-e8fac1a46a26,2026-10-24

@@ -2491,3 +2491,4 @@ __ehhandler$??$_Construct@U?$pair@$$CBVAsciiString@@V?$list@PAVSuperweaponInfo@@
 ?rva0030B0A3@Rva0030B0A3@@UAEXPBD@Z,0x0030B0A3,"Renamed to ?print@Rva0030B0A3@@UAEXPBD@Z by tools/rename.py (inferred)"
 ?rva003ADE15@Rva003ADE32@@UAEPAV1@XZ,0x003ADE15,"Renamed to ?clone@Rva003ADE32@@UAEPAV1@XZ by tools/rename.py (inferred)"
 ?rva002D2D63@Rva002D5188ResourceBar@@QAEXABVCoord2D@@0PAX1@Z,0x002D2D63,"Renamed to ?renderFactionIcon@Rva002D5188ResourceBar@@QAEXABVCoord2D@@0PAX1@Z by tools/rename.py (inferred)"
+?rva00452E00@Rva00452E00@@UAEHPAM@Z,0x00452E00,"Renamed to ?getValue@Rva00452E00@@UAEHPAM@Z by tools/rename.py (inferred)"
