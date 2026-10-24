@@ -60,7 +60,8 @@ public:
 	__declspec(dllimport) __forceinline W3DRadarResetSurface() : m_surface(0) {}
 	~W3DRadarResetSurface();
 
-	W3DRadarResetSurface &operator=(const W3DRadarResetSurface &that)
+	// Inlined only: an out-of-line /O2 copy would differ from retail 0x72381.
+	__declspec(dllimport) __forceinline W3DRadarResetSurface &operator=(const W3DRadarResetSurface &that)
 	{
 		if (that.m_surface)
 			that.m_surface->AddRef();
@@ -174,7 +175,7 @@ public:
 	void Allocate_New_Surface(const unsigned short *text, bool justCalcExtents);
 
 	DynamicVectorClass<Render2DSentenceClass::SentenceDataStruct> sentence_data;
-	DynamicVectorClass<Render2DSentenceClass::PendingSurfaceStruct> pending_surfaces;
+	char pending_surfaces[0x18];
 	char renderers[0x18];
 	FontCharsClass *font;
 	float base_location_x;
@@ -193,11 +194,17 @@ public:
 };
 
 // Keep the native PendingSurfaceStruct Add body out-of-line at its already
-// matched address; the generic header definition is otherwise small enough
-// for this TU to inline it into the caller.
+// matched address. Only Add is used here: instantiating the generic vector
+// would also emit this TU's /O2 copy of the PendingSurfaceStruct vector
+// deleting destructor, which differs from retail's 0x2B6A body.
 template <>
-bool DynamicVectorClass<Render2DSentenceClass::PendingSurfaceStruct>::Add(
-	const Render2DSentenceClass::PendingSurfaceStruct &object);
+class DynamicVectorClass<Render2DSentenceClass::PendingSurfaceStruct>
+{
+public:
+	bool Add(const Render2DSentenceClass::PendingSurfaceStruct &object);
+private:
+	char storage[0x18];
+};
 
 typedef char rva00941a00_surface_wrapper_must_be_4[(sizeof(W3DRadarResetSurface) == 4) ? 1 : -1];
 typedef char rva00941a00_pending_surface_must_be_1c[
@@ -248,7 +255,8 @@ void Render2DSentenceClass::Allocate_New_Surface(
 
 		Render2DSentenceClass::PendingSurfaceStruct surface_info;
 		static_cast<W3DRadarResetSurface &>(surface_info) = cur_surface;
-		pending_surfaces.Add(surface_info);
+		reinterpret_cast<DynamicVectorClass<Render2DSentenceClass::PendingSurfaceStruct> *>(
+			pending_surfaces)->Add(surface_info);
 	}
 
 	texture_offset.Set(0,0);
