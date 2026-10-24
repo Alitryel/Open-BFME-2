@@ -2695,3 +2695,12 @@ Code/GameEngine/Source/Common/Rva0024A797Grandchildren.cpp|class||Rva00458402_E1
 Code/GameEngine/Source/Common/Rva0024A797Grandchildren.cpp|class||Rva0045232D_E1,7c640da42bdb2bea22134c9e,gpt-6.1-sol,codex5-20261024-043624-27,w-2d32e7a71cf1,2026-10-24
 Code/GameEngine/Source/Common/Rva0024A797Grandchildren.cpp|class||Rva0045232D_E2,ea35041985ada7aa4f06253e,gpt-6.1-sol,codex5-20261024-043624-27,w-2d32e7a71cf1,2026-10-24
 Code/GameEngine/Source/Common/Rva0024A797Grandchildren.cpp|class||Rva0045232D,98103894591da6c80448fe24,gpt-6.1-sol,codex5-20261024-043624-27,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva0049DC50Walk.cpp|class||Rva0049DC50,73625083e0970242126e80cf,gpt-6.1-sol,codex5-20261024-050424-5,w-2d32e7a71cf1,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0016B680DeformedVertices.cpp|param|Blend|in0,f4fb2c4f190dbf5296fa2229,gpt-6.1-sol,codex5-20261024-050424-7,w-2d32e7a71cf1,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0016B680DeformedVertices.cpp|param|Blend|tm1,67ffd20f11fde08273bce975,gpt-6.1-sol,codex5-20261024-050424-7,w-2d32e7a71cf1,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0016B680DeformedVertices.cpp|param|Blend|in1,1cdbd41e8ac822d5410e858b,gpt-6.1-sol,codex5-20261024-050424-7,w-2d32e7a71cf1,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0016B680DeformedVertices.cpp|param|TransformPositionArray|v,4ab6e9ef3fa18c06302972bf,gpt-6.1-sol,codex5-20261024-050424-7,w-2d32e7a71cf1,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0016B680DeformedVertices.cpp|local|MeshModelClass::get_deformed_vertices|w0,8623d0032a5911a89df2f322,gpt-6.1-sol,codex5-20261024-050424-7,w-2d32e7a71cf1,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0016B680DeformedVertices.cpp|local|MeshModelClass::get_deformed_vertices|w1,5f6af58565f014e4eb2853e4,gpt-6.1-sol,codex5-20261024-050424-7,w-2d32e7a71cf1,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0016B680DeformedVertices.cpp|local|MeshModelClass::get_deformed_vertices|tm0,69acd678b5b736bc3a894803,gpt-6.1-sol,codex5-20261024-050424-7,w-2d32e7a71cf1,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0016B680DeformedVertices.cpp|local|MeshModelClass::get_deformed_vertices|tm1,22e995d3b6085da615e3ce12,gpt-6.1-sol,codex5-20261024-050424-7,w-2d32e7a71cf1,2026-10-24
