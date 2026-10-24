@@ -83,6 +83,13 @@ struct BfmeE16;
 namespace _STL { template <> BfmeE16 * __uninitialized_copy<BfmeE16 const *,BfmeE16 *>(BfmeE16 const *,BfmeE16 const *,BfmeE16 *,__false_type const &); }
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
+// Retail's copy for this member (call at 0x004BF6A1) is 0x004BF4CE, rowed as
+// vector<BfmeE12>::operator= (stlport_vector_e12_assign.cpp): it steps 0xC per
+// element. Forward the assignment to that row; the empty base ctor stays the
+// BfmeE16 row 0x00211E58 that retail calls.
+struct BfmeE12;
+namespace _STL { template <> vector<BfmeE12, allocator<BfmeE12> > &vector<BfmeE12, allocator<BfmeE12> >::operator=(const vector<BfmeE12, allocator<BfmeE12> > &); }
+namespace _STL { template <> __declspec(dllimport) __forceinline vector<BfmeE16, allocator<BfmeE16> > &vector<BfmeE16, allocator<BfmeE16> >::operator=(const vector<BfmeE16, allocator<BfmeE16> > &x) { return (vector<BfmeE16, allocator<BfmeE16> > &)((vector<BfmeE12, allocator<BfmeE12> > *)this)->operator=((const vector<BfmeE12, allocator<BfmeE12> > &)x); } }
 
 struct ActiveBodyModuleDataFields
 {
