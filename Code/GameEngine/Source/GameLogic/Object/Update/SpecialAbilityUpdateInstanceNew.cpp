@@ -32,18 +32,7 @@ private:
 };
 
 // ?friend_newModuleInstance@SpecialAbilityUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *SpecialAbilityUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *SpecialAbilityUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new Rva0044EF5E(thing, moduleData));
 }
-
-// Select-any anchor: this unit owns the row above while other TUs emit it as
-// an inline copy. The anchor keeps this unit emitting its copy for the ledger;
-// it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitSpecialAbilityUpdateFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitSpecialAbilityUpdateFriendNew(Thing *thing, const ModuleData *moduleData)
-{
-	SpecialAbilityUpdate::friend_newModuleInstance(thing, moduleData);
-}
-#pragma inline_depth()

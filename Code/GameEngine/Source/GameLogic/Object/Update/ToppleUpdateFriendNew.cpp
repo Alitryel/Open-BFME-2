@@ -21,15 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@ToppleUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *ToppleUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *ToppleUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new ToppleUpdate(thing, moduleData));
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitToppleUpdateFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitToppleUpdateFriendNew(Thing *thing, const ModuleData *moduleData)
-{
-	ToppleUpdate::friend_newModuleInstance(thing, moduleData);
-}
-#pragma inline_depth()

@@ -21,15 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@StructureCollapseUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *StructureCollapseUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *StructureCollapseUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new StructureCollapseUpdate(thing, moduleData));
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitStructureCollapseUpdateFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitStructureCollapseUpdateFriendNew(Thing *thing, const ModuleData *moduleData)
-{
-	StructureCollapseUpdate::friend_newModuleInstance(thing, moduleData);
-}
-#pragma inline_depth()

@@ -21,15 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@WanderAIUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *WanderAIUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *WanderAIUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new WanderAIUpdate(thing, moduleData));
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitWanderAIUpdateFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitWanderAIUpdateFriendNew(Thing *thing, const ModuleData *moduleData)
-{
-	WanderAIUpdate::friend_newModuleInstance(thing, moduleData);
-}
-#pragma inline_depth()

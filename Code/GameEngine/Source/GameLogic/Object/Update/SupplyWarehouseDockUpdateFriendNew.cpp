@@ -22,15 +22,7 @@ private:
 };
 
 // ?friend_newModuleInstance@SupplyWarehouseDockUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *SupplyWarehouseDockUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *SupplyWarehouseDockUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new SupplyWarehouseDockUpdate(thing, moduleData));
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitSupplyWarehouseDockUpdateFriendNew@@YAXPAVThing@@PBVModuleData@@@Z present-unmatched
-void bfmeEmitSupplyWarehouseDockUpdateFriendNew(Thing *thing, const ModuleData *moduleData)
-{
-	SupplyWarehouseDockUpdate::friend_newModuleInstance(thing, moduleData);
-}
-#pragma inline_depth()

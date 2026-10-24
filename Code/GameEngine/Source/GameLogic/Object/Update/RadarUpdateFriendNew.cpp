@@ -21,15 +21,7 @@ private:
 };
 
 // ?friend_newModuleInstance@RadarUpdate@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
-inline Module *RadarUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
+Module *RadarUpdate::friend_newModuleInstance(Thing *thing, const ModuleData *moduleData)
 {
 	return reinterpret_cast<Module *>(new RadarUpdate(thing, moduleData));
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitRadarUpdateFriendNew@@YAXXZ present-unmatched
-void bfmeEmitRadarUpdateFriendNew()
-{
-	RadarUpdate::friend_newModuleInstance(0, 0);
-}
-#pragma inline_depth()
