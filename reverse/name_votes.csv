@@ -1359,3 +1359,16 @@ Code/GameEngine/Source/Common/ArmySummarySystem_ComputePlayerEarnedSpellPoints.c
 Code/GameEngine/Source/Common/RTS/PlayerRva002AB8FB.cpp|local|Player::rva002AB8FB|tmp,c63136a2bf096b74bb8c4a0d,gpt-6.1-sol,codex8-20261024-000513-9,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/RTS/PlayerRva002AB8FB.cpp|local|Player::rva002AB8FB|g,8b3bfee91bee93beb1fdfd08,gpt-6.1-sol,codex8-20261024-000513-9,w-de56e563a50b,2026-10-24
 Code/GameEngine/Source/Common/RTS/PlayerRva002AB8FB.cpp|local|Player::rva002AB8FB|s,bd979a8223ed6337e3a0a96e,gpt-6.1-sol,codex8-20261024-000513-9,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/Rva005ED859.cpp|function|0x005ED859|rva005ED859,670966c1a5785bbe28f83d36,gpt-6.1-sol,codex8-20261024-000513-11,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv1037.cpp|class||BfmeH1037,842ba37a27582fedef00757a,gpt-6.1-sol,codex8-20261024-000513-12,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv1037.cpp|member|BfmeH1037|m_bfmeHandle,07ed3be2fb6bc813389f7949,gpt-6.1-sol,codex8-20261024-000513-12,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameLogic/Pathfinder/PathfinderTintHierarchy.cpp|local|Rva002EBD99|n,8e03ca6f92a89d5a20e89f39,gpt-6.1-sol,codex8-20261024-000513-13,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|member|BfmeThingVJP|m_bfmeBuf,beb4602c03ce614fa7b6ecc4,gpt-6.1-sol,codex8-20261024-000513-14,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva00260F9EPredicate.cpp|local|Rva00260F9EFilter::allow|p,97485bb52a1450fc2d2c2784,gpt-6.1-sol,codex8-20261024-000513-15,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva00260F9EPredicate.cpp|local|Rva00260F9EFilter::allow|r,0e30ac0f67ecded5f49e234f,gpt-6.1-sol,codex8-20261024-000513-15,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva0033A9A5.cpp|param|Rva0033A9A5::getCurrentLivingWorldAutoResolveArmor|arg,cd68092e3acbe8bab208df25,gpt-6.1-sol,codex8-20261024-000513-16,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva0033A9A5.cpp|local|Rva0033A9A5::getCurrentLivingWorldAutoResolveArmor|p,5a71d84979ae2667e52d0b27,gpt-6.1-sol,codex8-20261024-000513-16,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Stances/StanceNames.cpp|function|0x00425DC2|Rva00425DC2StanceName,f0f9d2e921be68d36772a756,gpt-6.1-sol,codex8-20261024-000513-17,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva00496292.cpp|function|0x00496292|Rva00496292Destroy,451afbf00057d2c11c787e9c,gpt-6.1-sol,codex8-20261024-000513-19,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva00496292.cpp|local|Rva00496292Destroy|p,54aa99979a4081c7b613919e,gpt-6.1-sol,codex8-20261024-000513-19,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/Rva001F51DC.cpp|local|Rva001F51DC::rva001F51DC|p,4ec50b805544d3f467079af9,gpt-6.1-sol,codex8-20261024-000513-20,w-de56e563a50b,2026-10-24
