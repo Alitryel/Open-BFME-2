@@ -5453,3 +5453,9 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E7140.cpp|
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E7140.cpp|class||Rva000E7140Type,cc1386b173a4167e9e1f1a69,claude-opus-5-5,claudec6-20261024-160023-5,w-efe153480513,2026-10-24
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E7140.cpp|function|0x000E7140|rva000E7140,abf43329c0e8e27023660b89,claude-opus-5-5,claudec6-20261024-160023-5,w-efe153480513,2026-10-24
 Code/Libraries/Source/WWVegas/WW3D2/WW3D_Get_Render_Target_Resolution.cpp|class||BfmeDisplayModeInfo,8071b2c988b7be8caa243756,claude-opus-5-5,claudec6-20261024-160023-7,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Made002CC841Parse.cpp|param|q4Notify002CC841|m,c0af5b1056c948525b9a0885,claude-opus-5-5,claudec6-20261024-162238-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Made002CC841Parse.cpp|param|q4Notify002CC841|c,df658b0feb3052320705911c,claude-opus-5-5,claudec6-20261024-162238-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Made002CC841Parse.cpp|param|q4Notify002CC841|d,74c4b96119f1851f6f7a68fd,claude-opus-5-5,claudec6-20261024-162238-1,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva00599825ListAdd.cpp|local|AIDozerManager::DoXfer|tmp,3568079d384293667a847614,claude-opus-5-5,claudec6-20261024-162238-3,w-efe153480513,2026-10-24
+Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|local|ThingFactory::newDrawable|o,d1f9be8fac4786f2523dddb5,claude-opus-5-5,claudec6-20261024-162238-5,w-efe153480513,2026-10-24
+Code/Libraries/Source/Apt/Rva006FE400Chain.cpp|param|Rva006FE400::rva006FE400|a2,f38848360e95025f68394d26,claude-opus-5-5,claudec6-20261024-162238-6,w-efe153480513,2026-10-24
