@@ -47,7 +47,7 @@ public:
 	virtual void v29(void *p);
 	virtual float v30();
 	char _pad04[0x50];
-	char m_54[12];
+	char m_startPosition[12];
 	float m_60;
 	float m_64;
 	float m_68;
@@ -65,7 +65,7 @@ public:
 void Rva002BEFE5::rva002BEFE5(const Rva002BEFE5Vec *position, float a1, float a2, unsigned int duration)
 {
 	TheMouse->rva001EEA6D(UnicodeString(UnicodeString::TheEmptyString), 0, 0, 1.0f);
-	v29(m_54);
+	v29(m_startPosition);
 	m_80 = v30();
 	m_78 = 1;
 	m_74 = 0.0f;
