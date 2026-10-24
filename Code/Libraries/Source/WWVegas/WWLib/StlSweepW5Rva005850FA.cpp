@@ -10,19 +10,11 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
     return a < b ? b : a;
 }
 }
+#include "../../../../../vendor/stlport/stl/_algobase.h"
 #include <deque>
-#include <string>
-// bfme link decl-only begin
-namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> > & basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::operator=(basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> > const &); }
-namespace _STL { template <> void basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::_M_construct_null(unsigned short *); }
-namespace _STL { template <> void basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::_M_construct_null_aux(unsigned short *, __true_type const &); }
-namespace _STL { template <> unsigned short * allocator<unsigned short>::allocate(unsigned int, void const *) const; }
-namespace _STL { template <> void __char_traits_base<unsigned short, unsigned short>::assign(unsigned short &, unsigned short const &); }
-namespace _STL { template <> unsigned short * basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::erase(unsigned short *, unsigned short *); }
-namespace _STL { template <> unsigned short * __char_traits_base<unsigned short, unsigned short>::move(unsigned short *, unsigned short const *, unsigned int); }
-// bfme link decl-only end
-
-struct Rva005850FAElement { _STL::basic_string<wchar_t> strings[1]; bool operator<(const Rva005850FAElement&)const; bool operator==(const Rva005850FAElement&)const; };
+struct Rva00584E85Element { int word0; int word1; char tail[1];
+    bool operator<(const Rva00584E85Element&) const;
+    bool operator==(const Rva00584E85Element&) const; };
 
 // Instantiate the recovered operation and its required template dependencies.
-template _STL::_Deque_iterator<Rva005850FAElement, _STL::_Nonconst_traits<Rva005850FAElement> > _STL::__copy_backward_aux<_STL::_Deque_iterator<Rva005850FAElement, _STL::_Nonconst_traits<Rva005850FAElement> >, _STL::_Deque_iterator<Rva005850FAElement, _STL::_Nonconst_traits<Rva005850FAElement> > >(_STL::_Deque_iterator<Rva005850FAElement, _STL::_Nonconst_traits<Rva005850FAElement> >, _STL::_Deque_iterator<Rva005850FAElement, _STL::_Nonconst_traits<Rva005850FAElement> >, _STL::_Deque_iterator<Rva005850FAElement, _STL::_Nonconst_traits<Rva005850FAElement> >, _STL::__false_type const &);
+template _STL::_Deque_iterator<Rva00584E85Element, _STL::_Nonconst_traits<Rva00584E85Element> > _STL::__copy_aux<_STL::_Deque_iterator<Rva00584E85Element, _STL::_Nonconst_traits<Rva00584E85Element> >, _STL::_Deque_iterator<Rva00584E85Element, _STL::_Nonconst_traits<Rva00584E85Element> > >(_STL::_Deque_iterator<Rva00584E85Element, _STL::_Nonconst_traits<Rva00584E85Element> >, _STL::_Deque_iterator<Rva00584E85Element, _STL::_Nonconst_traits<Rva00584E85Element> >, _STL::_Deque_iterator<Rva00584E85Element, _STL::_Nonconst_traits<Rva00584E85Element> >, _STL::__false_type const &);
