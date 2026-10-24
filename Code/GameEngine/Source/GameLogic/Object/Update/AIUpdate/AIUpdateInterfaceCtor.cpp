@@ -114,13 +114,15 @@ private:
 	unsigned char m_pad04[0x24 - 4];
 };
 
-class Rva0026E7C8Ctor
+// One class: the 0x26E7C8 ctor installs vtable 0xBFA3A4, whose slot 0 is the
+// deleting dtor 0x26E81A over this dtor 0x26E7EA (the +0x224 unwind target).
+class Rva0026E7EA
 {
 public:
-	Rva0026E7C8Ctor() throw();
-	~Rva0026E7C8Ctor();
+	Rva0026E7EA() throw();
+	virtual ~Rva0026E7EA();
 private:
-	unsigned char m_pad[0x10];
+	unsigned char m_pad[0xC];
 };
 
 class Rva0042526Member
@@ -242,7 +244,7 @@ private:
 	int m_218;
 	int m_21C;
 	Rva00336283Element *m_objectEventsList;		// +0x220
-	Rva0026E7C8Ctor m_224;				// +0x224
+	Rva0026E7EA m_224;				// +0x224
 	int m_234;
 	int m_238;
 	int m_23C;

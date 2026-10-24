@@ -118,6 +118,7 @@ class AIUpdateInterface : public UpdateModule, public AIUpdateInterfaceFourth, p
 {
 public:
 	void destroyPath();
+	virtual bool chooseLocomotorSet(int wst);
 protected:
 	virtual ~AIUpdateInterface();
 private:
