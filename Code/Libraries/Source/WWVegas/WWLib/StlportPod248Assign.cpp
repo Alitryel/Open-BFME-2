@@ -115,10 +115,9 @@ typedef char Pod248RefElement24Size[sizeof(Rva000BB4AC)==24?1:-1];
 struct BfmeStringRecord000B950F { char m[12]; BfmeStringRecord000B950F(const BfmeStringRecord000B950F &); ~BfmeStringRecord000B950F(); };
 struct BfmeFixedObject60 { char m[60]; BfmeFixedObject60(const BfmeFixedObject60 &); ~BfmeFixedObject60(); };
 struct BfmePod32 { char m[32]; BfmePod32(const BfmePod32 &); ~BfmePod32(); };
-// Retain the assignment providers' existing opaque spellings. Both views
-// have the same STLport pointer/header layout and native payload width as
-// the constructor views above; their established call bindings stay intact.
-struct Gen_p64cd;
+// Retain the list assignment provider's existing opaque spelling. It has
+// the same STLport node/header layout and native payload width as the
+// constructor view above; its established call binding stays intact.
 struct Rva000BDBFARecord;
 
 // Native default construction zeros the same76-byte storage through the
@@ -209,8 +208,7 @@ BfmePod248 &BfmePod248::operator=(const BfmePod248 &rhs)
 	if (this != &rhs) {
 		m_s00 = rhs.m_s00;
 		m_pod = rhs.m_pod;
-		reinterpret_cast<_STL::vector<Gen_p64cd> &>(m_v50) =
-			reinterpret_cast<const _STL::vector<Gen_p64cd> &>(rhs.m_v50);
+		m_v50 = rhs.m_v50;
 		m_at5C = rhs.m_at5C;
 		m_at64 = rhs.m_at64;
 		m_at68 = rhs.m_at68;
