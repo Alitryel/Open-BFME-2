@@ -1303,3 +1303,6 @@ param,TargetCoord::c,TargetCoord::zCoord,inferred,agree:nl-d64bbfa21ede,Code/Gam
 local,Rva003A39C0Owner::insertAfterIndex::temp,Rva003A39C0Owner::insertAfterIndex::record,inferred,agree:nl-439e77acfd43,Code/GameEngine/Source/Common/Containers/Rva003A39C0RecordInsertion.cpp,0x00313008
 local,Rva003A39C0Owner::insertAtBegin::temp,Rva003A39C0Owner::insertAtBegin::record,inferred,agree:nl-0e75081a1270,Code/GameEngine/Source/Common/Containers/Rva003A39C0RecordInsertion.cpp,0x00313074
 function,?bfmeTooLong@@YGHPBVBfmeThingDX@@@Z,?isTextTooLong@@YGHPBVBfmeThingDX@@@Z,inferred,agree:nl-b1124f6c02c8,Code/GameEngine/Source/Common/Bfme5FiftyFour.cpp,0x00665580
+param,RvaFireColor::r,RvaFireColor::redValue,inferred,agree:nl-e3ffaa26ab2f,Code/GameEngine/Source/Common/INI/INIBfmeSettingsParsers.cpp,
+param,RvaFireColor::g,RvaFireColor::greenValue,inferred,agree:nl-ef7392cce52a,Code/GameEngine/Source/Common/INI/INIBfmeSettingsParsers.cpp,
+param,Rva0030BC94::transform::arg,Rva0030BC94::transform::matrix,inferred,agree:nl-7c06481424de,Code/GameEngine/Source/Common/Rva0030BC94Forward.cpp,0x0030BC94
