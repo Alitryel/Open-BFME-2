@@ -264,7 +264,7 @@ Int LivingWorldCampaignManager::rva003B8E2B(const AsciiString &campaignName)
 struct Rva003B8E89Record
 {
 	unsigned char opaque_00[0x18];
-	AsciiString name_18;
+	AsciiString m_name;
 	unsigned char opaque_1c[0x4c];
 };
 
@@ -285,7 +285,7 @@ void *Rva003B8E89::rva003B8E89(void *key)
 {
 	for (UnsignedInt i = 0; i < m_records.size(); ++i)
 	{
-		if (m_records[i].name_18.compare(*(const AsciiString *)key) == 0)
+		if (m_records[i].m_name.compare(*(const AsciiString *)key) == 0)
 			return &m_records[i];
 	}
 	return 0;

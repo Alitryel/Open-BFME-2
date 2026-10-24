@@ -957,4 +957,5 @@ param,Rva00271BCC::rva00271BCC::a0,Rva00271BCC::rva00271BCC::buffType,inferred,a
 local,LivingWorld::ZoomInTo::tmp20,LivingWorld::ZoomInTo::nodePosition,inferred,agree:nl-e950148c8402,Code/GameEngine/Source/Common/LivingWorld_ZoomInTo.cpp,0x002BE8F9
 local,SetTransform::m2,SetTransform::transposedMatrix,inferred,agree:nl-708eaaf5c680,Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp,
 local,BumpEnvTextureMapperClass::Apply::c,BumpEnvTextureMapperClass::Apply::cosine,inferred,agree:nl-b0ed3942234d,Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp,0x00186A90
+member,Rva003B8E89Record::name_18,Rva003B8E89Record::m_name,inferred,agree:nl-63b4df0cbed9,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaignManager.cpp,
 function,?rva003B8D06@LivingWorldCampaignManager@@QAE?AVAsciiString@@XZ,?GetCurrentActName@LivingWorldCampaignManager@@QAE?AVAsciiString@@XZ,inferred,agree:nl-8ee18461f992,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaignManager.cpp,0x003B8D06
