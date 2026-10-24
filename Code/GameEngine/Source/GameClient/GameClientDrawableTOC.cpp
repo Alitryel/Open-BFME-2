@@ -40,9 +40,11 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
     return a < b ? b : a;
 }
 }
+#define _STLP_NO_EXCEPTIONS 1
 #include <list>
 #include <map>
 #include <vector>
+#include <hash_map>
 #include "ascii_string.h"
 #include "../../../Libraries/Include/Lib/Coord3D.h"
 #include "../../../../reference/shims/moduledata/Common/Snapshot.h"
@@ -184,27 +186,33 @@ enum DrawableID
 	FORCE_DRAWABLEID_TO_LONG_SIZE = 0x7ffffff
 };
 
-// A DrawablePtrHash node as findDrawableByID reads it: the drawable at +8.
-struct Rva00239CC9DrawableHashNode
-{
-	Rva00239CC9DrawableHashNode *m_next;
-	DrawableID m_id;                                                    // +0x04
-	Drawable *m_drawable;                                               // +0x08
+// Retail nodes hold the DrawableID at +4 and the Drawable pointer at +8.
+namespace rts {
+template <class T> struct hash;
+template <> struct hash<DrawableID> {
+    size_t operator()(DrawableID value) const { return _STL::hash<unsigned int>()((unsigned int)value); }
 };
-
-// ZH GameClient.h DrawablePtrHash: 0x14 bytes at +0x18 torn down by the
-// out-of-line hashtable destructor 0x00239CC9; key and value types unproven.
-// Its lookup is the folded hashtable _M_find at 0x002888D4.
-class Rva00239CC9DrawableHash
-{
-public:
-	Rva00239CC9DrawableHash();
-	~Rva00239CC9DrawableHash();
-	Rva00239CC9DrawableHashNode *rva002888D4(const DrawableID &id) const;
-
-private:
-	unsigned char m_pad[0x14];
+template <class T> struct equal_to {
+    bool operator()(const T &left, const T &right) const { return left == right; }
 };
+}
+typedef _STL::hash_map<DrawableID, Drawable *, rts::hash<DrawableID>,
+    rts::equal_to<DrawableID> > DrawablePtrHash;
+typedef _STL::pair<const DrawableID, Drawable *> DrawableHashPair;
+typedef _STL::hashtable<DrawableHashPair, DrawableID, rts::hash<DrawableID>,
+    _STL::_Select1st<DrawableHashPair>, rts::equal_to<DrawableID>,
+    _STL::allocator<DrawableHashPair> > DrawableHashTable;
+
+namespace _STL {
+// Inline the table teardown into the map's complete destructor.
+template <> __forceinline DrawableHashTable::~hashtable() { clear(); }
+template <> inline DrawablePtrHash::~hash_map() {}
+// The allocator is stateless; only its stored pointer needs exchanging.
+template <> __declspec(dllimport) __forceinline
+void swap(_STLP_alloc_proxy<void **, void *, allocator<void *> > &left,
+          _STLP_alloc_proxy<void **, void *, allocator<void *> > &right)
+{ swap(left._M_data, right._M_data); }
+}
 
 // The drawable lists use the rowed pool-backed STLport base constructor
 // and destructor, with their sentinel at offset zero.
@@ -448,7 +456,7 @@ private:
 
 	unsigned int m_frame;                                               // +0x10
 	Drawable *m_drawableList;                                           // +0x14
-	Rva00239CC9DrawableHash m_drawableHash;                             // +0x18
+	DrawablePtrHash m_drawableHash;                             // +0x18
 	unsigned int m_nextDrawableID;                                      // +0x2C
 	TranslatorID m_translators[MAX_CLIENT_TRANSLATORS];                 // +0x30
 	unsigned int m_numTranslators;                                      // +0xB0
@@ -1278,11 +1286,6 @@ int rva00239122(void *, bool);
 extern "C" __declspec(dllimport) unsigned int __stdcall timeGetTime(void);
 extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long milliseconds);
 
-// The drawable hash's clear (0x001DBCDC) and resize (0x0053F1EC) are folded
-// STLport hashtable bodies; called through their pinned placeholder names.
-class Rva004DFC20 { public: void clear(); };
-class Rva00057D38 { public: int rva0053F1EC(unsigned int); };
-
 // ZH GameClient::GameClient. Retail 0x0023BC36: Snapshot vptr 0xBBB554 is
 // stored first, then the GameClient vptrs 0x00BED850/0x00BED840, unwind states
 // 0..0xB over the members; the 32 translator slots at +0x30 are filled with -1,
@@ -1625,8 +1628,8 @@ void GameClient::reset()
 {
 	Drawable *draw, *nextDraw;
 
-	((Rva004DFC20 *)&m_drawableHash)->clear();
-	((Rva00057D38 *)&m_drawableHash)->rva0053F1EC(0x2000);
+	m_drawableHash.clear();
+	m_drawableHash.resize(0x2000);
 	m_frame = 0;
 
 	// need to reset the in game UI to clear drawables before they are destroyed
@@ -1954,11 +1957,11 @@ void GameClient::setTimeOfDay(TimeOfDay tod)
 // for the vector); retail has no INVALID_DRAWABLE_ID test.
 Drawable *GameClient::findDrawableByID(const DrawableID id)
 {
-	Rva00239CC9DrawableHashNode *node = m_drawableHash.rva002888D4(id);
-	if (node == 0)
+	DrawablePtrHash::iterator it = m_drawableHash.find(id);
+	if (it == m_drawableHash.end())
 		return 0;
 
-	return node->m_drawable;
+	return (*it).second;
 }
 
 // Donor: ZH GameClient::evaluateContextCommand.
