@@ -72,8 +72,8 @@ void Rva0028C0E3Receiver::collisionDispatch(Object *other,const Coord3D *loc,con
  Rva0028E868OtherPrefix *otherFields=(Rva0028E868OtherPrefix *)other;
  if(word414==otherFields->word74)return;
  if(otherFields->word484!=0 && word04!=0)return;
- for(void **m=behaviors;*m;++m) {
-  Rva0028E868Collide *collide=((Rva0028E868BehaviorInterface *)((char *)*m+0xc))->getCollide();
+ for(void **module=behaviors;*module;++module) {
+  Rva0028E868Collide *collide=((Rva0028E868BehaviorInterface *)((char *)*module+0xc))->getCollide();
   if(!collide)continue;
   if(((const Object *)((const char *)this-0x70))->testStatus((ObjectStatusTypes)4))break;
   collide->onCollide(other,loc,normal);
