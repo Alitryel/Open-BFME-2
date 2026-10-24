@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfme2_ascii /Ob2 /EHsc /MD
 //
-// ??1Rva00418298@@UAE@XZ @0x00418298 59B.
+// ??1Rva0022A9DDSubsystem@@UAE@XZ @0x00418298 59B.
 // Dtor storing vtable g_00BE76D0 then member +0xc and base.
 // Evidence: rowed member dtor 0x0022DC62 base dtor 0x001B4E74,
 // vtable store at [this], caller 0x0022DFB3.
@@ -14,14 +14,17 @@ public:
 typedef bool Bool;
 #include "subsystem_interface.h"
 
-class Rva00418298 : public SubsystemInterface
+class Rva0022A9DDSubsystem : public SubsystemInterface
 {
 public:
-	virtual ~Rva00418298();
+	virtual ~Rva0022A9DDSubsystem();
+	virtual void init() {}
+	virtual void reset() {}
+	virtual void update() {}
 private:
 	Rva0022DB29 m_0c;
 };
 
-Rva00418298::~Rva00418298()
+Rva0022A9DDSubsystem::~Rva0022A9DDSubsystem()
 {
 }

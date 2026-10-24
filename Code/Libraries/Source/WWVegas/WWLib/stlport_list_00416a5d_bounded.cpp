@@ -24,7 +24,7 @@ static inline bool operator!=(const _List_iterator<T, Traits>& a,
 
 
 struct BfmeStringRecord00415F34 { unsigned char m_data[24]; };
-struct Rva00416939Pod { int a[3]; };
+namespace _STL { template <> void list<BfmeStringRecord00415F34>::pop_front(); }
 
 template <int N> class VSlots : public VSlots<N - 1>
 {
@@ -46,5 +46,5 @@ void __cdecl Rva00416A5DPush(const BfmeStringRecord00415F34 &rec)
 	_STL::list<BfmeStringRecord00415F34> *lst = TheGameSpyInfo->GetList();
 	lst->push_back(rec);
 	if (lst->size() > 100)
-		((_STL::list<Rva00416939Pod> *)lst)->pop_front();
+		lst->pop_front();
 }

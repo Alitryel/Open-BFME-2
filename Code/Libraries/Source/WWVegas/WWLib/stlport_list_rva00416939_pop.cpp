@@ -2,7 +2,9 @@
 // stlport
 // list pop_front @0x00416939, 22B; masked twin of BfmePod12 pop_front @0x004907AA.
 #include <list>
-struct Rva00416939Pod { int a[3]; };
-inline bool operator==(const Rva00416939Pod &x, const Rva00416939Pod &y) { return x.a[0] == y.a[0]; }
-inline bool operator<(const Rva00416939Pod &x, const Rva00416939Pod &y) { return x.a[0] < y.a[0]; }
-template void _STL::list<Rva00416939Pod>::pop_front();
+struct BfmeStringRecord00415F34 { unsigned char m_data[24]; };
+namespace _STL {
+template <> list<BfmeStringRecord00415F34>::iterator
+list<BfmeStringRecord00415F34>::erase(iterator);
+}
+template void _STL::list<BfmeStringRecord00415F34>::pop_front();

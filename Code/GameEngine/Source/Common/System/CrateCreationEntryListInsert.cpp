@@ -42,4 +42,12 @@ struct crateCreationEntry
 bool operator==(const crateCreationEntry &a, const crateCreationEntry &b);
 bool operator<(const crateCreationEntry &a, const crateCreationEntry &b);
 
-template class _STL::list<crateCreationEntry, _STL::allocator<crateCreationEntry> >;
+// The sort wrapper calls the rowed worker in CrateCreationEntryList.cpp.
+namespace _STL {
+template <> void _S_sort<crateCreationEntry, allocator<crateCreationEntry>, less<crateCreationEntry> >(
+    list<crateCreationEntry> &, less<crateCreationEntry>);
+}
+
+template _STL::list<crateCreationEntry>::iterator _STL::list<crateCreationEntry>::insert(iterator, const crateCreationEntry &);
+template void _STL::list<crateCreationEntry>::push_back(const crateCreationEntry &);
+template void _STL::list<crateCreationEntry>::sort();

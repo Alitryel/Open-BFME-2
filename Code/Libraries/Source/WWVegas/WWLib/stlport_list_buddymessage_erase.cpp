@@ -1,31 +1,35 @@
 // cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
-// ?Rva004168D3Erase@@YGXPAPAXPAUBuddyEraseNode@@@Z @0x004168D3 42B
-// List unlink plus BuddyMessage destroy plus free. Unlinks node via Next at
-// +0 and Prev at +4; destroys BuddyMessage at +8 via rowed 0x0038215B;
-// frees node via rowed _free 0x00030830; stores Next into *out.
-// Caller 0x00416939; prev list insert 0x004168AE.
+// stlport
+// Retail 0x004168D3 unlinks a message node and calls the rowed BuddyMessage cleanup.
+#include <list>
+
 class BuddyMessage
 {
 public:
-	~BuddyMessage();
+    ~BuddyMessage();
+private:
+    unsigned char m_storage[24];
 };
 
-struct BuddyEraseNode
+struct BfmeStringRecord00415F34
 {
-	void *m_next;
-	void *m_prev;
-	BuddyMessage m_msg;
+    BuddyMessage message;
 };
 
 extern "C" void __cdecl free(void *block);
 
-void __stdcall Rva004168D3Erase(void **out, BuddyEraseNode *pos)
+namespace _STL
 {
-	void *next = pos->m_next;
-	void *prev = pos->m_prev;
-	*(void **)prev = next;
-	*(void **)((char *)next + 4) = prev;
-	pos->m_msg.~BuddyMessage();
-	free(pos);
-	*out = next;
+template <> list<BfmeStringRecord00415F34>::iterator
+list<BfmeStringRecord00415F34>::erase(iterator position)
+{
+    _List_node_base *next = position._M_node->_M_next;
+    _List_node_base *previous = position._M_node->_M_prev;
+    previous->_M_next = next;
+    next->_M_prev = previous;
+    ((_List_node<BfmeStringRecord00415F34> *)position._M_node)->_M_data.message.~BuddyMessage();
+    free(position._M_node);
+    return iterator((_List_node<BfmeStringRecord00415F34> *)next);
 }
+}
+template _STL::list<BfmeStringRecord00415F34>::iterator _STL::list<BfmeStringRecord00415F34>::erase(iterator);

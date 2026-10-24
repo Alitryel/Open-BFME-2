@@ -1,58 +1,33 @@
 // cl: -DNDEBUG -MD -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib -Ireference/open-bfme-1/game/GameEngine/Source/Common
-// RVA 0x005E2C70, 139-byte implicit destructor.
-// Evidence: targets/game/reverse/identity_evidence/rva005e2c70.md
-#include "ascii_string.h"
+// Retail 0x003ABC21 destroys the secondary base at +0x20, then the primary.
+// Both cleanup calls use their existing rowed owners.
 
-struct GenOwner_006fa270;
-
-struct GenNode_006fa270
-{
-	GenOwner_006fa270 *m_owner;
-	GenNode_006fa270 *m_prev;
-	GenNode_006fa270 *m_next;
-
-	void unlink(void) throw();
-
-	~GenNode_006fa270(void) { unlink(); }
-};
-
-class V3NodeHead
+class Rva003AEEB3
 {
 public:
-	virtual ~V3NodeHead() { }
-	GenNode_006fa270 m_node;
-	int m_unreconstructed_10;
+    virtual ~Rva003AEEB3() throw();
+private:
+    unsigned char m_storage[0x1C];
 };
 
-class V3Vt1110830
+namespace FXParticleSystem
+{
+class LifeEventModuleInfo
 {
 public:
-	virtual void slot0();
-	virtual ~V3Vt1110830() { }
+    virtual ~LifeEventModuleInfo();
+private:
+    unsigned char m_storage[0x14];
 };
+}
 
-class V3Vt107375C
+class __declspec(novtable) Rva005E2D20 : public Rva003AEEB3,
+    public FXParticleSystem::LifeEventModuleInfo
 {
 public:
-	virtual void slot0();
-	virtual ~V3Vt107375C() { }
+    virtual ~Rva005E2D20();
 };
 
-class BfmeBaseVUQ
+Rva005E2D20::~Rva005E2D20()
 {
-public:
-	virtual ~BfmeBaseVUQ() {}
-};
-
-class Rva005E2C70StringView : public BfmeBaseVUQ
-{
-	public:
-	AsciiString m_str;
-};
-
-class Rva005DDD60 : public V3NodeHead, public V3Vt1110830, public V3Vt107375C { public: int m_v; };
-
-// RVA 0x005E2D20 has its own retail EH handler and deleting wrapper.
-// Evidence: targets/game/reverse/identity_evidence/rva005e2d20.md
-class Rva005E2D20 : public Rva005DDD60, public Rva005E2C70StringView {};
-void useRva005E2D20() { Rva005E2D20 t; }
+}

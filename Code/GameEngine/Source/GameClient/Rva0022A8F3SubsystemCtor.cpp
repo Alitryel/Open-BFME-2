@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/subsystem_bfme2 /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // ??0Rva0022A8F3Subsystem@@QAE@XZ @0x0022E092 55B
 // Evidence: pin ctor; caller GameEngine::init 0x0022EDEF TheLivingWorldAutoResolveWeaponStore; callees baseConstruct 0x001B4E63 and hash_map 0x0022D95A; pattern mirrors PlayerAITypeSetCtor.
@@ -61,24 +61,20 @@ class BFME2NativeNetwork
 public:
 };
 
-// 0x001B4E63 is the rowed SubsystemInterface ctor.
-#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
+// Retail base construction and cleanup use the shared fourteen-slot interface.
+typedef bool Bool;
+#include "subsystem_interface.h"
 
-class __declspec(novtable) Rva0022A8F3SubsystemBase
-{
-public:
-	Rva0022A8F3SubsystemBase() { reinterpret_cast<SubsystemInterface *>(this)->SubsystemInterface::SubsystemInterface(); }
-	virtual ~Rva0022A8F3SubsystemBase();
-private:
-	unsigned char m_04;
-	int m_08;
-};
+namespace _STL { template <> hash_map<int, Rva0022D95AElement>::hash_map(); }
 
-class Rva0022A8F3Subsystem : public Rva0022A8F3SubsystemBase
+class Rva0022A8F3Subsystem : public SubsystemInterface
 {
 public:
 	Rva0022A8F3Subsystem();
 	virtual ~Rva0022A8F3Subsystem();
+	virtual void init() {}
+	virtual void reset() {}
+	virtual void update() {}
 private:
 	_STL::hash_map<int, Rva0022D95AElement> m_map0C;
 };
