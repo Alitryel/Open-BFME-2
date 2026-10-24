@@ -51,8 +51,8 @@ private:
 float BfmeRangedWeaponTemplate::getAttackRange(
 	Object const *obj, WeaponBonus const &bonus, Coord3D const *pos) const
 {
-	float f = ((BfmeRangedWeaponTemplate *)this)->rva002C995D((void *)obj, (void *)&bonus, -pos->z);
-	return ((BfmeRangedWeaponTemplate *)this)->rva002C98E2((void *)obj) * f;
+	float range = ((BfmeRangedWeaponTemplate *)this)->rva002C995D((void *)obj, (void *)&bonus, -pos->z);
+	return ((BfmeRangedWeaponTemplate *)this)->rva002C98E2((void *)obj) * range;
 }
 
 // Retail002C995D..002C99C4 RET12 ST0: nearest matched range wrapper names

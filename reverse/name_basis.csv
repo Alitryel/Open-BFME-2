@@ -1778,3 +1778,4 @@ param,Rva00261246Filter::a,Rva00261246Filter::allowNonBuildings,inferred,agree:n
 param,Rva00261246Filter::b,Rva00261246Filter::allowInsignificant,inferred,agree:nl-b679adeb9b2f,Code/GameEngine/Source/GameLogic/AI/AIPlayerIsLocationSafe.cpp,
 local,Rva005C81D8::rva005C81D8::p,Rva005C81D8::rva005C81D8::position,inferred,agree:nl-396b0c727aa4,Code/GameEngine/Source/GameLogic/LargeGroupAudio/Rva005C81D8GridLinks.cpp,0x005C81D8
 local,Pathfinder::rva002ED313::r,Pathfinder::rva002ED313::reservedNode,inferred,agree:nl-8b7d0330a452,Code/GameEngine/Source/GameLogic/Pathfinder/PathfinderSelectBridgeLayer.cpp,0x002ED313
+local,BfmeRangedWeaponTemplate::getAttackRange::f,BfmeRangedWeaponTemplate::getAttackRange::range,inferred,agree:nl-d651670af8bf,Code/GameEngine/Source/GameLogic/Object/Rva002C99C4AttackRange.cpp,0x002C99C4
