@@ -3510,3 +3510,17 @@ Code/GameEngine/Source/Common/Rva00174A8AAdapter.cpp|function|0x00174A8A|rva0017
 Code/GameEngine/Source/Common/Rva00174A8AAdapter.cpp|param|Rva00174A8A::rva00174A8A|n,ad343656b7822ee5e5a14eba,claude-opus-5-5,claudec5-20261024-062107-6,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/Common/Rva005B1A07.cpp|local|Rva005B1A07::rva005B1A07|c,d007a2272cad7037a4c4c317,claude-opus-5-5,claudec5-20261024-062107-7,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineContainIterateRiders.cpp|function|0x0047CEBB|rva0047CEBB,e3b6ce357a38346afb6b28cb,claude-opus-5-5,claudec5-20261024-062107-10,w-1ebb1ea4caee,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp|class||Arg000B5A72,4e667bb2f7a26fe90a99f020,gpt-6.1-sol,codex8-20261024-060646-7,w-de56e563a50b,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp|member|Arg000B5A72|m144,2908c8e63bf180988796850b,gpt-6.1-sol,codex8-20261024-060646-7,w-de56e563a50b,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp|member|Arg000B5A72|m148,f02b458606c048aa49b6b5a9,gpt-6.1-sol,codex8-20261024-060646-7,w-de56e563a50b,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp|member|Arg000B5A72|m14C,ad24923876439f0e1d9af1d2,gpt-6.1-sol,codex8-20261024-060646-7,w-de56e563a50b,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp|param|opacityCoordCopy|d,a6598f42aaea805e9c98c872,gpt-6.1-sol,codex8-20261024-060646-7,w-de56e563a50b,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp|param|opacityCoordCopy|p,ad9a9dc05a05215a4744e64b,gpt-6.1-sol,codex8-20261024-060646-7,w-de56e563a50b,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp|param|Rva000B5C41::rva000B5A72|a,3052c51be5803b8564d7692e,gpt-6.1-sol,codex8-20261024-060646-7,w-de56e563a50b,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp|local|Rva000B5C41::rva000B5A72|p1,38758ed5961c319dfe6de73c,gpt-6.1-sol,codex8-20261024-060646-7,w-de56e563a50b,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp|local|Rva000B5C41::rva000B5A72|p2,08a95d882894ed1aafed5826,gpt-6.1-sol,codex8-20261024-060646-7,w-de56e563a50b,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp|local|Rva000B5C41::rva000B5A72|d2,d234d240abf023295637287e,gpt-6.1-sol,codex8-20261024-060646-7,w-de56e563a50b,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp|local|Rva000B5C41::rva000B5A72|d1,2ad2aaefc1b85f95502c36f1,gpt-6.1-sol,codex8-20261024-060646-7,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/INI/INIBfmeSettingsParsers.cpp|param|RvaFireColor|r,638d1bb021524c0caaedcb8a,gpt-6.1-sol,codex8-20261024-060646-8,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/INI/INIBfmeSettingsParsers.cpp|param|RvaFireColor|g,ff78251f7d127ed2d3716637,gpt-6.1-sol,codex8-20261024-060646-8,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/Common/INI/INIBfmeSettingsParsers.cpp|param|RvaFireColor|b,a4c0d98171bde3eace27f284,gpt-6.1-sol,codex8-20261024-060646-8,w-de56e563a50b,2026-10-24
