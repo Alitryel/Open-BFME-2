@@ -262,6 +262,12 @@ function's class or a base (an initializer list names a member beside the
 parameter of that name): a header's own parameters, locals, file-scope names
 and unrelated classes do not. A base the headers never declare means any
 class's member counts. A macro formal parameter binds only inside its macro.
+For the old word in the unit, a named member of an unrelated class does not
+count when the function's class and every base are declared; a free function
+cannot mean such a member either. Own/base members, globals and macros still
+count. Unknown bases and nested class owners keep the conservative refusal.
+An ordinary new word keeps the all-member collision check. A verified exact
+inverse may restore the original word beside the same unrelated member.
 A unit or header that spells either name and whose parentheses or braces do not
 balance (an `#if`/`#else` split signature, a stray closer) cannot be classified
 and refuses the rename, naming the file.

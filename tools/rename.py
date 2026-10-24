@@ -144,7 +144,10 @@ can reorder the frame. Either is refused when the function's own text already
 spells the new word; when the unit spells it at file scope, as a member or in
 a macro (the same spelling as a parameter or local of ANOTHER function is no
 collision); or when the old word could mean an outer entity there: a global or
-member of the unit, a macro, a spelling after `->`, `.` or `::`. An included
+member visible to the function, a macro, a spelling after `->`, `.` or `::`.
+An unrelated named class's member in the unit does not count when the
+function's complete class/base chain is known; nested classes and unknown
+bases retain the conservative refusal. An included
 header decides only through a macro or a member of the function's class or a
 base (an initializer list names a member beside the parameter of that name; a
 base the headers never declare means any class's member counts): a header's
@@ -3454,11 +3457,15 @@ def prototype_param_spans(code, scope, params, name, skip, new=None):
     return spans
 
 
-def other_declarations(code, word, cls=None):
-    """Where stripped `code` declares `word` other than as a member of `cls`."""
+def other_declarations(code, word, cls=None, *, member_classes=None):
+    """Where stripped `code` declares `word` other than as a member of `cls`.
+    `member_classes` restricts named member owners when a scoped rename has
+    proven its lookup classes; None retains the conservative all-class scan.
+    Globals, parameters and locals are unaffected by that restriction."""
     found = []
     for name, start, end in type_bodies(code):
-        if name != cls and member_statements(code[start:end], word):
+        if name != cls and (member_classes is None or name in member_classes) and \
+                member_statements(code[start:end], word):
             found.append(f"a member of {name}")
     if word in set(name_metric.global_names(code)):
         found.append("a global")
@@ -3697,13 +3704,14 @@ def class_ancestors(ctx, rel, cls):
     return ctx._cache[key]
 
 
-def meant_by_function(ctx, rel, code, word, cls, *, strict, where="the scanned text"):
+def meant_by_function(ctx, rel, code, word, cls, *, strict, where="the scanned text", member_classes=None):
     """Why a spelling of `word` in `code` (a header, or the unit itself with
     the function blanked out) could be what the function means, or is
     captured by what it declares; None when none can. A macro can always
     bind, and so can a member of the function's class or of a base (an
     initializer list names a member beside the parameter of that name). A
-    namespace-scope name or any class's member counts too when `strict`;
+    namespace-scope name or any class's member counts too when `strict`
+    (unless `member_classes` restricts named owners for an exact inverse);
     parameters and function bodies elsewhere never do. Raises UnbalancedScan
     (a Refusal naming `where`) when the text's brackets do not balance."""
     for kind in occurrence_kinds(code, word, where):
@@ -3712,6 +3720,8 @@ def meant_by_function(ctx, rel, code, word, cls, *, strict, where="the scanned t
         if kind == "ns" and strict:
             return "a name at file scope"
         if kind.startswith("class:"):
+            if strict and member_classes is not None and kind != "class:*" and kind[6:] not in member_classes:
+                continue
             if strict or kind == "class:*":
                 return f"a member of {kind[6:]}" if kind != "class:*" else "a member of an anonymous type"
             if cls is not None:
@@ -4051,15 +4061,32 @@ def plan_scoped(kind, ctx, source, name, new, basis, evidence, *, function=None,
     # nor at file scope, as a member or in a macro: the same spelling as a
     # parameter or local of ANOTHER function is no collision.
     parts = scope.split("#")[0].split("::")
-    inside = [n for n, begin, finish, _outer in enclosing_types(code) if begin <= start < finish]
+    types = enclosing_types(code)
+    inside = [n for n, begin, finish, _outer in types if begin <= start < finish]
     owner_class = parts[-2] if len(parts) > 1 else (inside[-1] if inside else None)
+    # A field of an unrelated named type cannot be the parameter/local's
+    # meaning. Reuse the header scan's complete base-chain proof, but keep
+    # nested owners conservative: their enclosing classes also affect lookup.
+    member_classes = class_ancestors(ctx, rel, owner_class) if owner_class else set()
+    if member_classes:
+        for path in [rel] + sorted(header_closure(ctx, rel)):
+            declared_types = types if path == rel else enclosing_types(name_metric.strip(
+                (ctx.read(path) or b"").decode("utf-8", errors="replace")))
+            if any(n in member_classes and outer for n, _b, _e, outer in declared_types):
+                member_classes = None
+                break
     if word_re(new).search(region):
         raise Refusal(f"{new} is already a name in {scope} ({rel})")
     outside = code[:start] + " " * (end - start) + code[end:]
-    clash = meant_by_function(ctx, rel, outside, new, owner_class, strict=True, where=rel)
+    # check_basis already proved a RESTORED plan is the recorded exact inverse.
+    # Its original word can coexist with the unrelated member that did not
+    # block the landing; ordinary new names retain the all-member screen.
+    clash = meant_by_function(ctx, rel, outside, new, owner_class, strict=True, where=rel,
+                              member_classes=member_classes if basis == RESTORED else None)
     if clash:
         raise Refusal(f"{new} is already a name in {rel} ({clash})")
-    elsewhere = [d for d in other_declarations(outside, name) if not d.startswith(("a parameter", "a local"))]
+    elsewhere = [d for d in other_declarations(outside, name, member_classes=member_classes)
+                 if not d.startswith(("a parameter", "a local"))]
     if elsewhere:
         raise Refusal(f"{name} is also {elsewhere[0]} in {rel}; the function may mean it")
     if "macro" in occurrence_kinds(outside, name, rel):
