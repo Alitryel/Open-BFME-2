@@ -807,3 +807,5 @@ param,Rva005FD956::rva005FD956::a,Rva005FD956::rva005FD956::commandPoints,inferr
 param,Rva005FD956::rva005FD956::b,Rva005FD956::rva005FD956::maxCommandPoints,inferred,agree:nl-d3a25bfb6e50,Code/GameEngine/Source/Common/Rva005FD8E5Apt.cpp,0x005FD956
 local,Rva006C2D20Sink::rva006C2D20::n0,Rva006C2D20Sink::rva006C2D20::baseLength,inferred,agree:nl-e3dd45f1ceb1,Code/GameEngine/Source/Common/Rva006C2D20Describe.cpp,0x006C2D20
 local,Rva006C2D20Sink::rva006C2D20::n,Rva006C2D20Sink::rva006C2D20::charsWritten,inferred,agree:nl-012dfff78981,Code/GameEngine/Source/Common/Rva006C2D20Describe.cpp,0x006C2D20
+global,?g_00E177E1@@3EA,?g_minValueSize@@3EA,inferred,agree:nl-fdd01ba7395d,Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp,0x00A177E1
+global,?g_00E177E4@@3HA,?g_maxValueSize@@3HA,inferred,agree:nl-61ca2a48e135,Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp,0x00A177E4

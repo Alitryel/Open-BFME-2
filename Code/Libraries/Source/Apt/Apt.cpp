@@ -88,8 +88,8 @@ __declspec(noinline) void *Rva006CBC40Allocate(unsigned int bytes) {
 extern void *(__cdecl *g_bfmeAptAllocAtE17728)(unsigned);
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char*,const char*,int);
 extern int g_bfmeAptInitAtE17700,g_bfmeAptBreakOnAssertAtDDC01C;
-extern unsigned char g_00E177E0,g_00E177E1,g_00E177E2,g_00E177E8;
-extern int g_00E177E4;
+extern unsigned char g_00E177E0,g_minValueSize,g_00E177E2,g_00E177E8;
+extern int g_maxValueSize;
 void rva006D2D90();
 void *Rva006CBC40Allocate(unsigned);
 void rva006CBC50(void *,unsigned);
@@ -112,7 +112,7 @@ public:
  // The out-of-line copy is also retail6CBC60..6CBCA6 (RET8), surrounded
  // by padding. WB174D470 proves the same two-argument constructor and
  // nine-argument base initialization; place_bodies found all70 bytes.
- Rva006CC380ValuePool(unsigned size,int count) : Rva006DAEB0(size,count,g_00E177E1,g_00E177E4,g_00E177E2,1,g_00E177E0,0,g_00E177E8) {}
+ Rva006CC380ValuePool(unsigned size,int count) : Rva006DAEB0(size,count,g_minValueSize,g_maxValueSize,g_00E177E2,1,g_00E177E0,0,g_00E177E8) {}
  static void *operator new(unsigned size) {return g_bfmeAptAllocAtE17728(size);}
  static void operator delete(void *ptr,unsigned size) {rva006CBC50(ptr,size);}
 };

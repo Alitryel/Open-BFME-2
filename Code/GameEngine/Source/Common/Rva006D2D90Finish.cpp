@@ -31,9 +31,9 @@
 //    clamp into minVal itself (`if (minVal < 12) minVal = 12;`) is
 //    byte-identical to this form.
 extern unsigned char g_00E177E0;
-unsigned char g_00E177E1;	// retail RVA 0x00A177E1 (.bss), defined here
+unsigned char g_minValueSize;	// retail RVA 0x00A177E1 (.bss), defined here
 unsigned char g_00E177E2;	// retail RVA 0x00A177E2 (.bss), defined here
-int g_00E177E4;	// retail RVA 0x00A177E4 (.bss), defined here
+int g_maxValueSize;	// retail RVA 0x00A177E4 (.bss), defined here
 unsigned char g_00E177E8;	// retail RVA 0x00A177E8 (.bss), defined here
 // The byte table is owned as unsigned char g_00CE8B70[47] (Rva006CD3F0Get.cpp);
 // this body reads it through a volatile view.
@@ -54,9 +54,9 @@ void __cdecl rva006D2D90()
 		if (v < minVal)
 			minVal = v;
 	}
-	g_00E177E4 = maxVal;
+	g_maxValueSize = maxVal;
 	unsigned int c = minVal < 12 ? 12u : minVal;
-	g_00E177E1 = (unsigned char)c;
+	g_minValueSize = (unsigned char)c;
 }
 // Native6CBC50 sized-free callback, independently exact6B.
 // The startup6CC380 allocations and sized EH cleanup7A8050/5F establish roles.
