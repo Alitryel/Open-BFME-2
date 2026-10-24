@@ -5395,3 +5395,13 @@ Code/GameEngine/Source/Common/Rva005E4E1BIter.cpp|member|Rva005E4E1BHeader|m_fir
 Code/GameEngine/Source/Common/BfmeConv1460.cpp|param|BfmeThingPF::rva000276B0|s,275e38dd8a833d1cda27e5af,gpt-6-astra,codexb2-20261024-155314-5,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/Rva00437EDCFinish.cpp|local|Rva00437EC4Set|p,e962e557f1df6955ef50d612,gpt-6-astra,codexb2-20261024-155314-6,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/Common/Rva00437EDCFinish.cpp|local|Rva00437EDCGet|p,a040aa92bf44f65b112f0da9,gpt-6-astra,codexb2-20261024-155314-6,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|member|ArmyDetailsPanelImpl|m_map14,54a948b99c37bcdce87abc10,gpt-6-astra,codexb2-20261024-155314-8,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/WeaponGetStatus.cpp|local|Weapon::setClipPercentFull|f,bcf3d71d543be3f0e2f944dd,gpt-6-astra,codexb2-20261024-155314-10,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva0042C936.cpp|member|Rva0042CA4B|m_14,6534dd7b1b5fa5d93905501e,gpt-6-astra,codexb2-20261024-155314-10,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva0042C936.cpp|function|0x0042CA4B|rva0042CA4B,843a64cf5f0527ccf719a9c2,gpt-6-astra,codexb2-20261024-155314-10,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva0042C936.cpp|param|Holder0042C936|a,b0a548e0ffb200a0989448de,gpt-6-astra,codexb2-20261024-155314-10,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva0042C936.cpp|local|Holder0042C936::release|t,7f111a035045437cb3f45cb0,gpt-6-astra,codexb2-20261024-155314-10,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva0042C936.cpp|param|Rva0042C936::rva0042C936|h,8cfc3ce3203469254277eccd,gpt-6-astra,codexb2-20261024-155314-10,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva0042C936.cpp|param|reset|p,e89b19ec5b167a65302fc4d1,gpt-6-astra,codexb2-20261024-155314-10,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva003F8F2BParse.cpp|local|LivingWorldTutorial::SessionTask::ParseINI|p,03be99e817cf2f6c34de5418,gpt-6-astra,codexb2-20261024-155314-10,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva003F8F2BParse.cpp|global||g_00C37468,69abda4a485a6a7dfa9cd48b,gpt-6-astra,codexb2-20261024-155314-10,w-d0bdfd8b17e9,2026-10-24
