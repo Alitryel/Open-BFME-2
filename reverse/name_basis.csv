@@ -677,3 +677,5 @@ member,BfmeH1037::m_bfmeHandle,BfmeH1037::m_handle,inferred,agree:nl-865997ce3de
 member,BfmeThingTYA::m_bfmeVft,BfmeThingTYA::m_vtable,inferred,agree:nl-6ae340e04b1b,Code/GameEngine/Source/Common/BfmeConv1327.cpp,
 function,?bfmeOpenVIF@@YAHPAUBfmeLuaVHR@@@Z,?io_open@@YAHPAUBfmeLuaVHR@@@Z,inferred,agree:nl-00b8e177fd42,Code/GameEngine/Source/Common/BfmeConv1373.cpp,0x0074A490
 function,?bfmeNeVMQ@BfmeStrVMQ@@QBE_NPBD@Z,?notEqual@BfmeStrVMQ@@QBE_NPBD@Z,inferred,agree:nl-cc682430c09a,Code/GameEngine/Source/Common/BfmeConv1432.cpp,0x000249D0
+member,BfmeSubDEC::m_bfmeColor,BfmeSubDEC::m_color,inferred,agree:nl-346d9953c4b7,Code/GameEngine/Source/Common/BfmeConv679GoDEC.cpp,
+local,bfmeGoDEC::s,bfmeGoDEC::thumb,inferred,agree:nl-7d5f660c8354,Code/GameEngine/Source/Common/BfmeConv679GoDEC.cpp,0x00323E02

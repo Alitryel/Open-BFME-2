@@ -9,7 +9,7 @@
 struct BfmeSubDEC
 {
 	unsigned char m_bfmeHead[0x134];
-	unsigned int m_bfmeColor;
+	unsigned int m_color;
 };
 
 class BfmeThingDEC
@@ -20,8 +20,8 @@ public:
 
 unsigned int bfmeGoDEC(BfmeThingDEC *a)
 {
-	BfmeSubDEC *s = a->bfmeFindDEC();
-	if (s != 0)
-		return s->m_bfmeColor;
+	BfmeSubDEC *thumb = a->bfmeFindDEC();
+	if (thumb != 0)
+		return thumb->m_color;
 	return 0x00FFFFFF;
 }

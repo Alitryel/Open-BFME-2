@@ -3264,3 +3264,4 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DScriptedModel
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DScriptedModelDrawTurretInfo.cpp|param|ModelSMConditionInfo::validateTurretInfo|arg,f7b85bc512898d969d7d458e,gpt-6.1-sol,codex6-20261024-055100-6,w-bcdd62231570,2026-10-24
 Code/GameEngine/Source/Common/Rva000FE1ACUpdate.cpp|function|0x000FDF3F|rva000FDF3F,67c4b1fea8e2df1752f4613a,gpt-6.1-sol,codex6-20261024-055100-6,w-bcdd62231570,2026-10-24
 Code/GameEngine/Source/Common/Rva000FE1ACUpdate.cpp|global||g_00DEC220,d75ce46164c83b7a4286cd78,gpt-6.1-sol,codex6-20261024-055100-6,w-bcdd62231570,2026-10-24
+Code/GameEngine/Source/Common/BfmeConv679GoDEC.cpp|local|bfmeGoDEC|s,7d5f660c8354dd2c643d886a,seat-a,rn-1024a-5-a,w-824019b2c1af,2026-10-24
