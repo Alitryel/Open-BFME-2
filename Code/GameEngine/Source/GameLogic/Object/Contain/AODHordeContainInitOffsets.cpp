@@ -160,6 +160,6 @@ void AODHordeContain::initOffsets(void *arg)
 		++m_numRows;
 	}
 
-	for (int n = m_numRows - 1; n >= 0; --n)
-		rva0047A729(&m_rows[n].m_position);
+	for (int rowIndex = m_numRows - 1; rowIndex >= 0; --rowIndex)
+		rva0047A729(&m_rows[rowIndex].m_position);
 }

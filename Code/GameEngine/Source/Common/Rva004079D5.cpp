@@ -26,9 +26,9 @@ private:
 
 inline char Rva004079D5::rva004079D5(int key, int *out)
 {
-	int v = m_74.rva00388E63(&key);
-	*out = v;
-	return v != m_74.m_0;
+	int node = m_74.rva00388E63(&key);
+	*out = node;
+	return node != m_74.m_0;
 }
 
 // ?bfmeBlingLookupAnchor absent-from-retail
