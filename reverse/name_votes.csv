@@ -5757,3 +5757,12 @@ Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp|param|Rva002CA9C
 Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp|param|Rva002CA9CA::rva002CA970|a4,5d446c29f23143eaf35fa325,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p005b,w-7b760150eac0,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp|param|Rva002CA9CA::getProjectileNuggetRadiusIfAlliesAffected|arg,125db4294332b1ecc49db8a0,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p005b,w-7b760150eac0,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp|local|Rva002CA9CA::rva002CAC6E|n,8a472332a5b3f94869e570c4,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p005b,w-7b760150eac0,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|class||Rva0027D85BWaterView,98bb6df34ba3546563db549c,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p006a,w-330b19eb68ef,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|local|W3DTerrainLogic::Rva0027D960|c,9279e8ec3e61e3752fdddf53,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p006a,w-330b19eb68ef,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|local|W3DTerrainLogic::Rva0027D960|w,bc8b451aa089be6814506533,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p006a,w-330b19eb68ef,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|class||Rva0027D85BWaterView,98bb6df34ba3546563db549c,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p006b,w-ed6462459f0b,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|class||Rva0027D960Real,15f85211d42b70b8ae1a6087,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p006b,w-ed6462459f0b,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|local|W3DTerrainLogic::Rva0027D960|c,1701856a2ce36c3c9afe08a3,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p006b,w-ed6462459f0b,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|local|W3DTerrainLogic::Rva0027D960|w,65d025533fda68dcf747d49a,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p006b,w-ed6462459f0b,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|local|W3DTerrainLogic::Rva0027D960|w2,81cdfdcecf112886f578a265,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p006b,w-ed6462459f0b,2026-10-24
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|local|W3DTerrainLogic::Rva0027D960|w3,a43c756134201f6f5a22aa16,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p006b,w-ed6462459f0b,2026-10-24

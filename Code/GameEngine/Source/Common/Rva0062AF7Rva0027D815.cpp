@@ -105,10 +105,10 @@ private:
 float W3DTerrainLogic::Rva0027D815(float x, float y)
 {
 	float m_waterHeight = 0.0f;
-	float b = 0.0f;
-	if (!Rva0027D77D(x, y, &m_waterHeight, &b, 0))
+	float groundHeight = 0.0f;
+	if (!Rva0027D77D(x, y, &m_waterHeight, &groundHeight, 0))
 		return 0.0f;
-	return m_waterHeight - b;
+	return m_waterHeight - groundHeight;
 }
 
 //
