@@ -20,22 +20,7 @@ namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::begin() { return this->_M_start; } }
 
-enum ObjectID { INVALID_ID = 0 };
-
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-	// The rest of Zero Hour's subsystem table, so this unit's UpgradeCenter
-	// vftable is the full six-slot one Upgrade.cpp emits.
-	virtual void init() = 0;
-	virtual void postProcessLoad();
-	virtual void reset() = 0;
-	virtual void update() = 0;
-	virtual void draw();
-private:
-	char m_pad04[0x0C - 4];
-};
+#include "../../../../reference/shims/upgradecenter_bfme2/upgrade_center.h"
 
 class UpgradeTemplate
 {
@@ -51,19 +36,6 @@ class Polymorph
 {
 public:
 	virtual ~Polymorph();
-};
-
-class UpgradeCenter : public SubsystemInterface
-{
-public:
-	virtual ~UpgradeCenter();
-	virtual void init();
-	virtual void reset();
-	virtual void update();
-private:
-	UpgradeTemplate *m_upgradeList; // +0x0C
-	char m_pad10[0x18 - 0x10];
-	_STL::vector<ObjectID> m_extra; // +0x18
 };
 
 UpgradeCenter::~UpgradeCenter()

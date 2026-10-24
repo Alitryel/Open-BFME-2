@@ -2572,7 +2572,6 @@ name,address,notes
 ??0UnicodeStringWN@@QAE@ABV0@@Z,0x00037050,callee of 0Gen_004E9FD0 (0x00415FAB) at the site its BFME1 donor calls it; may be an ICF alias
 ??0UnpauseSpecialPowerUpgrade@@QAE@PAVThing@@PBVModuleData@@@Z,0x004B548C,(Thing*;ModuleData*) ctor called by UnpauseSpecialPowerUpgrade::friend_newModuleInstance (0x00250156); class from the ModuleFactory registration literal
 ??0UpdateModule@@QAE@PAVThing@@PBVModuleData@@@Z,0x00253390,address read from the REL32 call site in FloatUpdate ctor; body sets two adjacent -1 dwords at this+0x18/this+0x1c after the BehaviorModule base call -- corroborates the dockupdate shim reserved-dword theory
-??0UpgradeCenter@@QAE@XZ,0x0026F419,GameEngine::init 0x0022E2E4 complete 8808B recovery; target from native REL32 at corresponding exact instruction offset; subsystem constructor roles supported by adjacent registration literal and global; address-named types preserve unresolved original identity; see GameEngineInit.cpp and init evidence
 ??0UpgradeDie@@QAE@PAVThing@@PBVModuleData@@@Z,0x00486BBA,(Thing*;ModuleData*) ctor called by UpgradeDie::friend_newModuleInstance (0x0024CBA1); class from the ModuleFactory registration literal
 ??0UpgradeModuleDataSub@@QAE@XZ,0x0025342C,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0Vector3HollowSphereRandomizer@@QAE@M@Z,0x00723350,address read from the retail REL32 in ParticleEmitterDefClass::Create_Randomizer at 0x001AFF60

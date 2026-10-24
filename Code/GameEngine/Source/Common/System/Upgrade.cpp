@@ -121,48 +121,10 @@ void Upgrade::loadPostProcess( void )
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-const FieldParse UpgradeTemplate::m_upgradeFieldParseTable[] = 
-{
-
-	{ "DisplayName",				INI::parseAsciiString,		NULL, offsetof( UpgradeTemplate, m_displayNameLabel ) },
-	{ "Type",								INI::parseIndexList,			TheUpgradeTypeNames, offsetof( UpgradeTemplate, m_type ) },
-	{ "BuildTime",					INI::parseReal,						NULL, offsetof( UpgradeTemplate, m_buildTime ) },
-	{ "BuildCost",					INI::parseInt,						NULL, offsetof( UpgradeTemplate, m_cost ) },
-	{ "ButtonImage",				INI::parseAsciiString,		NULL, offsetof( UpgradeTemplate, m_buttonImageName ) },
-	{ "ResearchSound",			INI::parseAudioEventRTS,	NULL, offsetof( UpgradeTemplate, m_researchSound ) }, 
-	{ "UnitSpecificSound",	INI::parseAudioEventRTS,	NULL, offsetof( UpgradeTemplate, m_unitSpecificSound ) }, 
-	{ "AcademyClassify",		INI::parseIndexList,			TheAcademyClassificationTypeNames, offsetof( UpgradeTemplate, m_academyClassificationType ) },
-	{ NULL,						NULL,												 NULL, 0 }  // keep this last
-
-};
-
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ??0UpgradeTemplate@@ present-unmatched
-UpgradeTemplate::UpgradeTemplate( void )
-{
-	//Added By Sadullah Nader
-	//Initialization(s) inserted
-	m_cost = 0;
-	//
-	m_type = UPGRADE_TYPE_PLAYER;
-	m_nameKey = NAMEKEY_INVALID;
-	m_buildTime = 0.0f;
-	m_next = NULL;
-	m_prev = NULL;
-	m_buttonImage = NULL;
-	m_academyClassificationType = ACT_NONE;
-
-}  // end UpgradeTemplate
-
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ??1UpgradeTemplate@@ present-unmatched
-UpgradeTemplate::~UpgradeTemplate( void )
-{
-
-}  // end ~UpgradeTemplate
-
 //-------------------------------------------------------------------------------------------------
 /** Calculate the time it takes (in logic frames) for a player to build this UpgradeTemplate */
 //-------------------------------------------------------------------------------------------------
@@ -218,16 +180,6 @@ AsciiString getVetUpgradeName(VeterancyLevel v)
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ??0UpgradeCenter@@ present-unmatched
-UpgradeCenter::UpgradeCenter( void )
-{
-
-	m_upgradeList = NULL;
-	m_nextTemplateMaskBit = 0;
-	buttonImagesCached = FALSE;
-
-}  // end UpgradeCenter
-
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 // ??1UpgradeCenter@@ present-unmatched
