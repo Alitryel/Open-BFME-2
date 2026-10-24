@@ -235,8 +235,8 @@ void Rva005C6D4D::rva005C6D9C()
         }
     } else {
         if (kFlashStart != 0.0f) {
-            float s = (float)elapsed * (kFlashMaxScale / kFlashStart);
-            scale = s > 1.0f ? 1.0f : s;
+            float initialScale = (float)elapsed * (kFlashMaxScale / kFlashStart);
+            scale = initialScale > 1.0f ? 1.0f : initialScale;
         } else {
             scale = 1.0f;
         }
