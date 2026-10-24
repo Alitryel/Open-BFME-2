@@ -5596,3 +5596,6 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTreeBufferAddTree.cpp|class
 Code/GameEngine/Source/GameNetwork/V2FeslResultCursors.cpp|class||Rva007F3870Attribute,eff839273522bfa06816f26d,opus-sw-b,sw-b-04,w-16240f4fb742,2026-10-24
 Code/GameEngine/Source/GameNetwork/V2FeslResultCursors.cpp|class||Rva007F35D0Cursor,33a95b4590c6b90a336d2995,opus-sw-b,sw-b-04,w-16240f4fb742,2026-10-24
 Code/Libraries/Source/WWVegas/WWLib/Rva001F696EPut.cpp|function|0x001F696E|Rva001F696EPut,52e1da576ebca8c0989219e3,opus-sw-b,sw-b-05,w-16240f4fb742,2026-10-24
+Code/GameEngine/Source/Common/Rva00226883TreeFree.cpp|class||Rva00226883Node,34c3a72361a980025cfa2d41,claude-opus-5-5,m1,w-5e5be1a304b3,2026-10-24
+Code/GameEngine/Source/Common/Rva00226883TreeFree.cpp|class||Rva00226883Head,9fdf7488b2ee597e7a0d94fc,claude-opus-5-5,m1,w-5e5be1a304b3,2026-10-24
+Code/GameEngine/Source/Common/Rva00108AD8Finish.cpp|local|Rva00108AD8::invalidateCachedLightPositions|e,d8834d2dea3140035bfc1471,claude-opus-5-5,m2,w-5e5be1a304b3,2026-10-24
