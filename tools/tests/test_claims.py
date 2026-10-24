@@ -989,3 +989,153 @@ def test_a_branch_namespace_release_overwrites_with_an_expired_record(hosts, mon
     hosts("b")
     assert claims.active() == {}
     assert claims.claim([0x100]) == ([0x100], [])          # the expired record is taken over
+
+
+@pytest.mark.parametrize("writer_ns", ["refs/claims/", "refs/heads/claims/"])
+@pytest.mark.parametrize("key", [0x100, "class:RenderObjClass", "file:Code/A/B.cpp"])
+def test_other_namespace_claims_are_visible(hosts, monkeypatch, writer_ns, key):
+    hosts("a")
+    monkeypatch.setattr(claims, "NS", writer_ns)
+    held = claims.claim([key])
+    hosts("b")
+    reader_ns = "refs/heads/claims/" if writer_ns == "refs/claims/" else "refs/claims/"
+    monkeypatch.setattr(claims, "NS", reader_ns)
+    expected = claims.key_of(key)
+    assert claims.active()[expected]["owner"] == "a"
+    assert claims.busy_rvas() == ({expected} if isinstance(expected, int) else set())
+    assert held.claimed == [expected]
+
+
+@pytest.mark.parametrize("writer_ns", ["refs/claims/", "refs/heads/claims/"])
+@pytest.mark.parametrize("same_owner", [False, True])
+def test_other_namespace_claims_cannot_be_claimed_or_mutated(hosts, monkeypatch,
+                                                           writer_ns, same_owner):
+    hosts("a")
+    monkeypatch.setattr(claims, "NS", writer_ns)
+    held = claims.claim([0x100])
+    original = _git(hosts.origin, "for-each-ref", "--format=%(refname) %(objectname)")
+    hosts("b")
+    monkeypatch.setattr(claims, "NS", "refs/heads/claims/" if writer_ns == "refs/claims/"
+                        else "refs/claims/")
+    if same_owner:
+        monkeypatch.setenv("BFME_CLAIM_OWNER", "a")
+    assert claims.claim([0x100]) == ([], [0x100])
+    # A visible foreign-namespace lease must not be mistaken for a writable
+    # local-namespace ref, even when its owner string happens to be ours.
+    assert claims.current_lease(0x100) is None
+    assert claims.renew(held.tokens) == ({}, [0x100])
+    assert claims.release([0x100], force=True, tokens=held.tokens) == []
+    assert _git(hosts.origin, "for-each-ref", "--format=%(refname) %(objectname)") == original
+
+
+@pytest.mark.parametrize("writer_ns", ["refs/claims/", "refs/heads/claims/"])
+def test_fork_mirrors_other_namespace_claims_read_only(hosts, monkeypatch, tmp_path, writer_ns):
+    hosts("a")
+    monkeypatch.setattr(claims, "NS", writer_ns)
+    claims.claim([0x100])
+    original = _git(hosts.origin, "for-each-ref", "--format=%(refname) %(objectname)")
+    reader = hosts("b")
+    fork = tmp_path / "fork.git"
+    _git(tmp_path, "init", "-q", "--bare", str(fork))
+    _git(reader, "remote", "set-url", "origin", str(fork))
+    _git(reader, "remote", "add", "upstream", str(hosts.origin))
+    _git(reader, "config", "bfme.claimMirror", "upstream")
+    monkeypatch.setattr(claims, "NS", "refs/heads/claims/" if writer_ns == "refs/claims/"
+                        else "refs/claims/")
+    assert claims.mirrored()[0x100]["owner"] == "a"
+    assert claims.busy_rvas() == {0x100}
+    assert claims.claim([0x100]) == ([], [0x100])
+    assert _git(fork, "for-each-ref", "--format=%(refname)") == ""
+    assert _git(hosts.origin, "for-each-ref", "--format=%(refname) %(objectname)") == original
+
+
+@pytest.mark.parametrize("writer_ns", ["refs/claims/", "refs/heads/claims/"])
+def test_expired_primary_cannot_hide_live_other_namespace(hosts, monkeypatch, writer_ns):
+    hosts("a")
+    monkeypatch.setattr(claims, "NS", writer_ns)
+    claims.claim([0x100], ttl_hours=-1)
+    hosts("b")
+    monkeypatch.setattr(claims, "NS", "refs/heads/claims/" if writer_ns == "refs/claims/"
+                        else "refs/claims/")
+    assert claims.claim([0x100]) == ([0x100], [])
+    hosts("a")
+    monkeypatch.setattr(claims, "NS", writer_ns)
+    assert claims.active()[0x100]["owner"] == "b"
+    assert claims.claim([0x100]) == ([], [0x100])
+
+
+def test_custom_namespace_keeps_its_own_refs_and_observes_documented_namespaces(hosts, monkeypatch):
+    hosts("a")
+    claims.claim([0x100])
+    monkeypatch.setattr(claims, "NS", "refs/heads/claims/")
+    claims.claim([0x200])
+    reader = hosts("b")
+    monkeypatch.setattr(claims, "NS", "refs/heads/private-claims/")
+    assert claims.claim([0x100, 0x200, 0x300]) == ([0x300], [0x100, 0x200])
+    assert set(claims.active()) == {0x100, 0x200, 0x300}
+    assert set(claims._read_local(reader)) == {0x300}
+    refs = _git(hosts.origin, "for-each-ref", "--format=%(refname)").splitlines()
+    assert refs == ["refs/claims/0x00000100", "refs/heads/claims/0x00000200",
+                    "refs/heads/private-claims/0x00000300"]
+
+
+def test_failed_push_reread_refuses_a_new_other_namespace_holder(hosts, monkeypatch):
+    reader = hosts("a")
+    writer = hosts("b")
+    hosts("a")
+    real_git = claims._git
+    raced = []
+
+    def rejected(*args, **kwargs):
+        if args[:1] == ("push",) and kwargs.get("cwd") in (None, reader):
+            if not raced:
+                raced.append(True)
+                with monkeypatch.context() as context:
+                    context.setattr(claims, "NS", "refs/heads/claims/")
+                    assert claims.claim([0x100], who="b", root=writer) == ([0x100], [])
+            return subprocess.CompletedProcess(args, 1, "", "fixture transport failure")
+        return real_git(*args, **kwargs)
+
+    monkeypatch.setattr(claims, "_git", rejected)
+    result = claims.claim([0x100])
+    assert result == ([], [0x100]) and result.unconfirmed == []
+    assert claims.active()[0x100]["owner"] == "b"
+
+
+@pytest.mark.parametrize("upstream", [False, True])
+def test_other_namespace_snapshots_are_private_to_worktrees(hosts, monkeypatch, tmp_path, upstream):
+    primary = hosts("a")
+    _git(primary, "commit", "-q", "--allow-empty", "-m", "worktree fixture")
+    sibling = tmp_path / "sibling"
+    _git(primary, "worktree", "add", "-q", "--detach", str(sibling), "HEAD")
+    writer = hosts("b")
+
+    def claim_more(rvas):
+        with monkeypatch.context() as context:
+            context.setattr(claims, "NS", "refs/heads/claims/")
+            return claims.claim(rvas, root=writer)
+
+    assert claim_more([0x100]) == ([0x100], [])
+    seen = claims.MIRROR_SEEN if upstream else claims.SEEN
+    if upstream:
+        _git(primary, "config", "bfme.claimMirror", "origin")
+
+    def refresh(root):
+        claims.active.cache_clear()
+        claims.mirrored.cache_clear()
+        return claims.mirrored(root) if upstream else claims.active(root)
+
+    assert set(refresh(primary)) == {0x100}
+    assert set(refresh(sibling)) == {0x100}
+    before = claims._read_visible(sibling, seen)
+    assert claim_more([0x200]) == ([0x200], [])
+    assert set(refresh(primary)) == {0x100, 0x200}
+    assert claims._read_visible(sibling, seen) == before
+    assert set(refresh(sibling)) == {0x100, 0x200}
+
+    with monkeypatch.context() as context:
+        context.setattr(claims, "NS", "refs/heads/claims/")
+        assert claims.release([0x100], root=writer) == [0x100]
+    assert set(refresh(primary)) == {0x200}
+    assert set(claims.live(claims._read_visible(sibling, seen))) == {0x100, 0x200}
+    assert set(refresh(sibling)) == {0x200}

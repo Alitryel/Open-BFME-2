@@ -80,6 +80,10 @@ A host whose git proxy only accepts branch pushes keeps claims under a branch
 namespace (`git config bfme.claimNamespace refs/heads/claims/`, or
 BFME_CLAIM_NS); a fork can honour another repository's claims read-only with
 `git config bfme.claimMirror upstream`.
+Readers inspect both documented namespaces and refuse any live claim outside
+their configured write namespace, including one with the same owner string.
+The writes remain fenced within one namespace: different namespaces cannot
+arbitrate simultaneous new claims atomically, so use one namespace per fleet.
 """
 import argparse
 import hashlib
@@ -133,6 +137,7 @@ NS = (os.environ.get("BFME_CLAIM_NS")
       or subprocess.run(["git", "-C", str(ROOT), "config", "--get", "bfme.claimNamespace"],
                         capture_output=True, text=True, env=_git_env(ROOT)).stdout.strip()
       or "refs/claims/")
+READ_NAMESPACES = ("refs/claims/", "refs/heads/claims/")
 # -----------------------------------------------------------------------------
 # Git keeps refs/worktree/ private to the current checkout. Ordinary refs are
 # shared by every linked worktree: concurrent claim fetches then race their
@@ -376,8 +381,40 @@ def fetch(root=None):
     # A claim marker has no submodule inputs. An inherited submodule.recurse
     # setting must not make this coordination operation fetch donor sources.
     got = _git("fetch", "-q", "--prune", "--no-tags", "--recurse-submodules=no",
-               REMOTE, f"+{NS}*:{SEEN}*", cwd=root, timeout=120)
+               REMOTE, *_refspecs(SEEN), cwd=root, timeout=120)
     return got.returncode == 0
+
+
+def _namespace_mirrors(seen):
+    """Keep writable refs separate from the read-only namespace snapshots."""
+    yield NS, seen
+    for index, namespace in enumerate(READ_NAMESPACES):
+        if namespace != NS:
+            # Outside `seen/`: _read_local must never interpret another
+            # namespace's token as the lease on our configured write ref.
+            yield namespace, f"{seen.rstrip('/')}-other/{index}/"
+
+
+def _refspecs(seen):
+    return [f"+{namespace}*:{mirror}*" for namespace, mirror in _namespace_mirrors(seen)]
+
+
+def _read_visible(root=None, seen=SEEN, *, other_only=False):
+    """Union of observed namespaces; only visibility, never a write lease.
+
+    The latest expiry wins for display, so an expired marker cannot hide a
+    live claim. With other_only, every returned key is outside our write
+    namespace and must be refused regardless of its owner string.
+    """
+    visible = {}
+    for namespace, mirror in _namespace_mirrors(seen):
+        if other_only and namespace == NS:
+            continue
+        for key, entry in _read_local(root, mirror).items():
+            previous = visible.get(key)
+            if previous is None or entry[1].get("expires", 0) > previous[1].get("expires", 0):
+                visible[key] = entry
+    return visible
 
 
 def _read_local(root=None, seen=SEEN):
@@ -421,7 +458,7 @@ def _active(root):
         print("claims: could not fetch refs/claims/* from origin; serving without shared claims",
               file=sys.stderr)
         return {}
-    return {rva: info for rva, (_, info) in live(_read_local(root)).items()}
+    return {rva: info for rva, (_, info) in live(_read_visible(root)).items()}
 
 
 active.cache_clear = _active.cache_clear
@@ -445,10 +482,10 @@ def _mirrored(root):
     if not remote:
         return {}
     got = _git("fetch", "-q", "--prune", "--no-tags", "--recurse-submodules=no", remote,
-               f"+refs/claims/*:{MIRROR_SEEN}*", cwd=root, timeout=15)
+               *_refspecs(MIRROR_SEEN), cwd=root, timeout=15)
     if got.returncode:
         return {}
-    return {rva: info for rva, (_, info) in live(_read_local(root, MIRROR_SEEN)).items()
+    return {rva: info for rva, (_, info) in live(_read_visible(root, MIRROR_SEEN)).items()
             if isinstance(rva, int)}
 
 
@@ -488,6 +525,7 @@ def claim(rvas, who=None, ttl_hours=TTL_HOURS, note="", root=None):
     now = time.time()
     held = {r for r in rvas if r in current and current[r][1].get("expires", 0) > now
             and current[r][1].get("owner") != who}
+    held |= set(rvas) & set(live(_read_visible(root, other_only=True), now))
     upstream = mirrored(root)
     held |= {r for r in rvas if isinstance(r, int) and r in upstream}   # upstream is on it
     wanted = [r for r in rvas if r not in held]
@@ -538,10 +576,13 @@ def claim(rvas, who=None, ttl_hours=TTL_HOURS, note="", root=None):
                                     "only the bodies in .claimed are held", claimed=claimed,
                                     refused=sorted(held, key=_order))
         after = _read_local(root)
+        other = live(_read_visible(root, other_only=True))
         for rva in failed:
             entry = after.get(rva)
             if entry and entry[0] == token(rva):        # accepted; the reply was lost
                 claimed.append(rva)
+            elif rva in other:
+                held.add(rva)                         # a peer won in the other namespace
             elif not (entry and entry[1].get("expires", 0) > time.time()
                       and entry[1].get("owner") != who):
                 unconfirmed.append(rva)
