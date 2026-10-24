@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
 //
-// ?rva0049A8FA@Rva0049A64B@@UAEXHPAUCoord3D@@@Z @0x0049A8FA 65B.
+// ?getEnterPosition@Rva0049A64B@@UAEXHPAUCoord3D@@@Z @0x0049A8FA 65B.
 // Target evidence: the only reference to this body is slot 5 of the vtable
 // 0x00C50868 that the matched Rva0049A64B dtor 0x0049A64B installs at
 // +0x3E4, the trailing interface base of this AIUpdate-family class (vptrs
@@ -89,16 +89,16 @@ public:
 	virtual void s02();
 	virtual void s03();
 	virtual void s04();
-	virtual void rva0049A8FA(int a, Coord3D *out) = 0;
+	virtual void getEnterPosition(int a, Coord3D *out) = 0;
 };
 class Rva0049A64B : public B00, public B0C, public B10, public B20, public B24, public Iface3E4
 {
 public:
 	virtual bool isClearToApproach(int a);
 	virtual bool reserveApproachPosition(int a, Coord3D *pos, int *out);
-	virtual void rva0049A8FA(int a, Coord3D *out);
+	virtual void getEnterPosition(int a, Coord3D *out);
 };
-void Rva0049A64B::rva0049A8FA(int a, Coord3D *out)
+void Rva0049A64B::getEnterPosition(int a, Coord3D *out)
 {
 	int extra;
 	Rva0049A8FAProvider *provider = m_object->m_250->rva7C();
@@ -121,7 +121,7 @@ bool Rva0049A64B::reserveApproachPosition(int a, Coord3D *pos, int *out)
 		return false;
 	if (!provider->rva18(a))
 		provider->rva2C(a);
-	rva0049A8FA(a, pos);
+	getEnterPosition(a, pos);
 	if (out)
 		*out = 0;
 	return true;
@@ -147,7 +147,7 @@ void __identifier("?reserveApproachPosition@Rva0049A64B@@UAE_NHPAUCoord3D@@PAH@Z
 void __identifier("?rva0049A6D7@Rva0049A6D7@@QAE_NHHH@Z")();
 void __identifier("?_bfme_ro_v50@RenderObjClass@@UAE_NH@Z")();
 void __identifier("?rva0050B5F1@Rva0050B5F1@@QAE_NHH@Z")();
-void __identifier("?rva0049A8FA@Rva0049A64B@@UAEXHPAUCoord3D@@@Z")();
+void __identifier("?getEnterPosition@Rva0049A64B@@UAEXHPAUCoord3D@@@Z")();
 void __identifier("??_9@$BBE@AE")();
 void __identifier("?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")();
 void __identifier("?rva0049A973@HordeAIUpdate@@UAE_NPAVObject@@H@Z")();
@@ -161,7 +161,7 @@ extern const void *const g_00C50868[20] = {
  (const void *)&__identifier("?rva0049A6D7@Rva0049A6D7@@QAE_NHHH@Z"),
  (const void *)&__identifier("?_bfme_ro_v50@RenderObjClass@@UAE_NH@Z"),
  (const void *)&__identifier("?rva0050B5F1@Rva0050B5F1@@QAE_NHH@Z"),
- (const void *)&__identifier("?rva0049A8FA@Rva0049A64B@@UAEXHPAUCoord3D@@@Z"),
+ (const void *)&__identifier("?getEnterPosition@Rva0049A64B@@UAEXHPAUCoord3D@@@Z"),
  (const void *)&__identifier("??_9@$BBE@AE"),
  (const void *)&__identifier("??_9@$BBE@AE"),
  (const void *)&__identifier("?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z"),

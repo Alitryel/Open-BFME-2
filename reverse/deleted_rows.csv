@@ -2487,3 +2487,4 @@ __ehhandler$??$_Construct@U?$pair@$$CBVAsciiString@@V?$list@PAVSuperweaponInfo@@
 ?Rva005D851D@@YAXXZ,0x005D851D,"Renamed to ?clearArmyBreakerCooldowns@@YAXXZ by tools/rename.py (inferred)"
 ?rva0049A880@Rva0049A64B@@UAE_NH@Z,0x0049A880,"Renamed to ?isClearToApproach@Rva0049A64B@@UAE_NH@Z by tools/rename.py (inferred)"
 ?rva0049A8A1@Rva0049A64B@@UAE_NHPAUCoord3D@@PAH@Z,0x0049A8A1,"Renamed to ?reserveApproachPosition@Rva0049A64B@@UAE_NHPAUCoord3D@@PAH@Z by tools/rename.py (inferred)"
+?rva0049A8FA@Rva0049A64B@@UAEXHPAUCoord3D@@@Z,0x0049A8FA,"Renamed to ?getEnterPosition@Rva0049A64B@@UAEXHPAUCoord3D@@@Z by tools/rename.py (inferred)"
