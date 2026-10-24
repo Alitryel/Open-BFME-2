@@ -456,3 +456,37 @@ def test_the_ledger_files_that_switch_on_the_ledger_checks_are_the_hooks():
     cases = {tuple(m.split("|")) for m in re.findall(r"^\s*((?:reverse/[\w./]+\|)+reverse/[\w./]+)\) ledger_changed=1",
                                                       text, re.M)}
     assert cases == {tuple(rename.COMMIT_LEDGER_FILES)}, cases
+
+
+# What the pre-commit hook runs that rename.py does not mirror in _hook_jobs, and why. A tool the
+# hook runs must be a job (or one of the two run by _csv_checks) or be listed here: adding a check to
+# the hook fails test_every_tool_the_hook_runs_is_mirrored_or_exempt until someone decides which.
+CSV_CHECKS = {
+    "check_csv": "run by _csv_checks (whole ledger, not --staged)",
+    "find_declared_unmatched": "run by _csv_checks over the plan's units",
+}
+HOOK_EXEMPT = {
+    "merge_rows": "union merge driver registration, not a check",
+    "conversion_gate": "refuses a row repointed to assembly; a rename repoints no row",
+    "tu_ownership": "shadow mode (--shadow) and a rename keeps each unit's owner",
+    "invented_names": "shadow mode (--shadow); judges invented names and a rename invents none",
+    "header_dependents": "units a header edit reaches; a rename edits no header outside the plan's builds",
+    "flag_defaults": "flag overrides edited by hand; rename.py refuses a file keyed in flag_overrides.csv",
+    "delta_sources": "chooses the sources the hook builds; the plan names the sources it builds itself",
+    "link_check": "shadow mode (--shadow) against the link census",
+}
+
+
+def test_every_tool_the_hook_runs_is_mirrored_or_exempt(tree):
+    ctx = ctx_of(tree)
+    plan = rename.Plan("function", OLD, NEW, "inferred", "", UNIT, 0x00401000, verify=[UNIT])
+    paths = sorted(set(rename.COMMIT_LEDGER_FILES) | set(rename.NAME_LEDGER_FILES) | {UNIT})
+    mirrored = {tool for tool, _args, _stdin in rename._hook_jobs(ctx, plan, paths).values()} | set(CSV_CHECKS)
+    hook = set(hook_invocations())
+    unjudged = sorted(hook - mirrored - set(HOOK_EXEMPT))
+    assert not unjudged, (f".githooks/pre-commit runs {unjudged}, which rename.py neither mirrors in _hook_jobs "
+                          "nor lists in HOOK_EXEMPT with the reason a rename cannot change what it judges")
+    both = sorted(set(HOOK_EXEMPT) & mirrored)
+    assert not both, f"{both} are exempt here yet mirrored: drop the exemption"
+    stale = sorted((set(HOOK_EXEMPT) | set(CSV_CHECKS)) - hook)
+    assert not stale, f"{stale} are listed here but the hook no longer runs them"
