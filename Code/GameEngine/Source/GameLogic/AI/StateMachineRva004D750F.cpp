@@ -1,29 +1,28 @@
 // cl: /DNDEBUG /MD /GX /D_STLP_USE_STATIC_LIB
-// ?rva004D750F@StateMachine@@QAEXPAVObject@@@Z at retail 0x004D750F (14B).
-// Locked-guard tail-jmp to ?setGoalObject@StateMachine@@QAEXPAVObject@@@Z 0x004D7435.
-// Evidence: cmp byte [ecx+0x38] (m_locked per StateMachineGoal layout) then jmp to rowed
-// setGoalObject; vtable slot 14 (offset 0x38) of 20 Rva004D759C-derived vtables;
-// callees all rowed; callers in 0x00344xxx and 0x00350xxx plus vtable jmp.
+// ?setGoalObject@StateMachine@@UAEXPBVObject@@@Z at retail 0x004D750F (14B).
+// Zero Hour's StateMachine::setGoalObject: the locked guard, then a tail-jmp to
+// ?internalSetGoalObject@StateMachine@@QAEXPBVObject@@@Z 0x004D7435.
+// Evidence: cmp byte [ecx+0x38] (m_locked per StateMachineGoal layout) then jmp to the
+// rowed worker; the body is slot 14 (offset 0x38) of StateMachine's vtable 0x00860740
+// and of the 24 other vtables that keep it, the slot the StateMachine view
+// (reference/shims/bfme2_statemachine/StateMachineView.h) declares virtual
+// setGoalObject(const Object *).
 
 class Object;
 
 class StateMachine
 {
 public:
-	unsigned char m_pad00[0x38]; // +0x00..0x37 (vtable placeholder + members)
+	unsigned char m_pad04[0x38 - 0x04]; // +0x04..0x37
 	bool m_locked; // +0x38
 
-	void setGoalObject(Object *obj);
-	void rva004D750F(Object *obj);
+	virtual void setGoalObject(const Object *obj);
+	void internalSetGoalObject(const Object *obj);
 };
 
-void StateMachine::rva004D750F(Object *obj)
+void StateMachine::setGoalObject(const Object *obj)
 {
 	if (m_locked)
 		return;
-	setGoalObject(obj);
+	internalSetGoalObject(obj);
 }
-
-// Slot 14 of StateMachine's vtable 0x00860740 is this body; units with Zero
-// Hour's StateMachine view name it virtual setGoalObject(const Object *).
-#pragma comment(linker, "/alternatename:?setGoalObject@StateMachine@@UAEXPBVObject@@@Z=?rva004D750F@StateMachine@@QAEXPAVObject@@@Z")

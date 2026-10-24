@@ -4,7 +4,7 @@
 // StateMachine base from (owner, name, 0), installs its vftable 0x00811FE8
 // (shared with the destructor 0x003402D0, whose unit names the class from
 // the slot 2 getter 0x003402DB), runs the rowed
-// StateMachine::rva004D750F hook on the second object param, then two
+// StateMachine::setGoalObject hook on the second object param, then two
 // new-expression state blocks into the dead name slot with post-call eax
 // feeding rowed defineState directly (B952-family shape). Zero CSEs into
 // ebx; this stays in esi; 0x270F rides edi. The third argument is the
@@ -22,7 +22,7 @@ public:
 	StateMachine(Object *owner, unsigned int name, bool flag);
 	virtual ~StateMachine();
 	void defineState(unsigned int id, State *state, unsigned int successID, unsigned int failureID, const StateConditionInfo *conditions);
-	void rva004D750F(Object *obj);
+	virtual void setGoalObject(const Object *obj);
 };
 
 
@@ -55,7 +55,7 @@ public:
 BackAwayAndCowerStateMachine::BackAwayAndCowerStateMachine(Object *owner, Object *goal, unsigned int nameKey)
 	: StateMachine(owner, nameKey, false)
 {
-	((StateMachine *)this)->rva004D750F(goal);
+	((StateMachine *)this)->StateMachine::setGoalObject(goal);
 	AIBackAwayState *aIBackAwayState = new AIBackAwayState((StateMachine *)this);
 	((StateMachine *)this)->defineState(0, (State *)aIBackAwayState, 1, 0x270F, (const StateConditionInfo *)0);
 	Rva0033F7C8 *s1 = new Rva0033F7C8((StateMachine *)this);

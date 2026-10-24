@@ -3,7 +3,7 @@
 //
 // ?internalSetGoalPosition@StateMachine@@QAEXPBUCoord3D@@M@Z,
 // retail 0x004D73C4, 32 bytes, plus
-// ?setGoalObject@StateMachine@@QAEXPAVObject@@@Z,
+// ?internalSetGoalObject@StateMachine@@QAEXPBVObject@@@Z,
 // retail 0x004D7435, 39 bytes, plus
 // ?setGoalPosition@StateMachine@@QAEXPBUCoord3D@@M@Z,
 // retail 0x004D745C, 26 bytes, plus
@@ -27,7 +27,7 @@
 // and the state-map contains check.
 // BFME1 reference (reference/open-bfme-1/Code/GameEngine/Source/Common/
 // StateMachine.cpp, StateMachine::setGoalPosition plus
-// internalSetGoalPosition plus setGoalObject plus halt plus
+// internalSetGoalPosition plus internalSetGoalObject plus halt plus
 // internalGetState plus internalSetState): the lock flag gates the setter, the worker copies the
 // position when non-null, and the object setter records the id plus
 // forwards the object's position. BFME2 deltas:
@@ -141,7 +141,7 @@ public:
 	void setGoalPosition(const Coord3D *pos, float goalRange);
 	void setGoalPosition(const Coord3D *pos);
 	void internalSetGoalPosition(const Coord3D *pos, float goalRange);
-	void setGoalObject(Object *obj);
+	void internalSetGoalObject(const Object *obj);
 	virtual void halt();
 	State *internalGetState(StateID id);
 	Bool hasState(StateID id);
@@ -183,8 +183,9 @@ void StateMachine::setGoalPosition(const Coord3D *pos, float goalRange)
 	internalSetGoalPosition(pos, goalRange);
 }
 
-// ?setGoalObject@StateMachine@@QAEXPAVObject@@@Z
-void StateMachine::setGoalObject(Object *obj)
+// ?internalSetGoalObject@StateMachine@@QAEXPBVObject@@@Z (Zero Hour's
+// worker; the lock-gated virtual setGoalObject at 0x004D750F tail-jumps here)
+void StateMachine::internalSetGoalObject(const Object *obj)
 {
 	if (obj) {
 		m_goalObjectID = obj->m_id;
