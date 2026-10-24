@@ -45,41 +45,41 @@ public:
 	virtual int type() = 0;
 };
 
-struct Rva00809400Attribute
+struct PlayerAttribute
 {
 	const char *m_key;
 	int m_tag;
 };
 
-struct Rva00809400Attributes
+struct PlayerAttributeList
 {
-	__forceinline const Rva00809400Attribute *at( int index ) const
+	__forceinline const PlayerAttribute *at( int index ) const
 	{
 		if( index >= m_count )
 			return 0;
 		return m_data + index;
 	}
 
-	Rva00809400Attribute *m_data;
+	PlayerAttribute *m_data;
 	int m_count;
 };
 
-struct Rva00809330Attribute
+struct GameAttribute
 {
 	const char *m_key;
 	int m_tag;
 };
 
-struct Rva00809330Attributes
+struct GameAttributeList
 {
-	__forceinline const Rva00809330Attribute *at( int index ) const
+	__forceinline const GameAttribute *at( int index ) const
 	{
 		if( index >= m_count )
 			return 0;
 		return m_data + index;
 	}
 
-	Rva00809330Attribute *m_data;
+	GameAttribute *m_data;
 	int m_count;
 };
 
@@ -99,8 +99,8 @@ public:
 struct BfmeOwnerUNC
 {
 	char m_opaque000[ 0x2B0 ];
-	Rva00809330Attributes m_gameAttributes;
-	Rva00809400Attributes m_playerAttributes;
+	GameAttributeList m_gameAttributes;
+	PlayerAttributeList m_playerAttributes;
 	char m_opaque2C0[ 0x18 ];
 	Rva00809330Sender *m_sender;
 };
@@ -124,7 +124,7 @@ void BfmeThingUNC::rva00809330( BfmeC994 *message, int gid )
 	((BfmeThingCIB *)message)->bfmeGoCIB( (void *)"LID", (void *)-2 );
 	((BfmeThingCIB *)message)->bfmeGoCIB( (void *)"GID", (void *)gid );
 
-	Rva00809330Attributes *attributes = &m_owner->m_gameAttributes;
+	GameAttributeList *attributes = &m_owner->m_gameAttributes;
 	int count = attributes->m_count;
 	for( int index = 0; index < count; ++index )
 	{
@@ -148,7 +148,7 @@ void BfmeThingUNC::rva00809400( BfmeC994 *message, int gid,
 	((BfmeThingCIC *)message)->bfmeGoCIC( (void *)"NAME", (void *)player->name() );
 	((BfmeThingCIB *)message)->bfmeGoCIB( (void *)"UID", (void *)0 );
 
-	const Rva00809400Attributes *attributes = &m_owner->m_playerAttributes;
+	const PlayerAttributeList *attributes = &m_owner->m_playerAttributes;
 	int count = attributes->m_count;
 	for( int index = 0; index < count; ++index )
 	{

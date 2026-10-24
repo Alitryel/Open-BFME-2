@@ -889,3 +889,7 @@ param,TerrainResourceManager::tryToClaimCell::y,TerrainResourceManager::tryToCla
 param,Rva00318333::rva00318807::m18,Rva00318333::rva00318807::mode,inferred,agree:nl-208076049996,Code/GameEngine/Source/GameNetwork/Rva00318333.cpp,0x00318807
 param,Rva00318333::rva00318807::m2C,Rva00318333::rva00318807::duration,inferred,agree:nl-04a67c15da8a,Code/GameEngine/Source/GameNetwork/Rva00318333.cpp,0x00318807
 local,Rva00318333::rva00318768::c1,Rva00318333::rva00318768::remainingDuration,inferred,agree:nl-546d1c85de5e,Code/GameEngine/Source/GameNetwork/Rva00318333.cpp,0x00318768
+class,Rva00809400Attribute,PlayerAttribute,inferred,agree:nl-153412699cd6,Code/GameEngine/Source/GameNetwork/Y4FeslPlayerData.cpp,
+class,Rva00809400Attributes,PlayerAttributeList,inferred,agree:nl-f53ed4d0057e,Code/GameEngine/Source/GameNetwork/Y4FeslPlayerData.cpp,
+class,Rva00809330Attribute,GameAttribute,inferred,agree:nl-3fdff18153d0,Code/GameEngine/Source/GameNetwork/Y4FeslPlayerData.cpp,
+class,Rva00809330Attributes,GameAttributeList,inferred,agree:nl-c2b67f1c38b4,Code/GameEngine/Source/GameNetwork/Y4FeslPlayerData.cpp,
