@@ -74,10 +74,10 @@ Int Rva0028D796::rva0028D796()
 				Int c = *(const Int *)((const char *)found + 0xFC);
 				double db = (double)b;
 				double da = (double)base;
-				double f = db / c;
-				f *= da;
-				f += da;
-				return (Int)f;
+				double bountyValue = db / c;
+				bountyValue *= da;
+				bountyValue += da;
+				return (Int)bountyValue;
 			}
 		}
 	}
