@@ -2026,9 +2026,9 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00038DF0,78,code,,,-,,Code/GameEngine/Source/Common/Bfme/Rva00889D20.cpp
 0x00038E40,85,code,,,-,,Code/GameEngine/Source/Common/Bfme/Rva00889D70.cpp
 0x00038EA0,55,code,,,-,,Code/GameEngine/Source/Common/Bfme/Rva00889DD0.cpp
-0x00038EE0,266,code,Code/Libraries/Source/debug/debug_debug.cpp,proposed,S,S=Code/Libraries/Source/debug/debug_debug.cpp N=Code/Libraries/Source/WWVegas/WWDebug/Debug.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWDebug/Debug_GetInput_00889E10.cpp
+0x00038EE0,266,code,Code/Libraries/Source/debug/debug_debug.cpp,proposed,S,S=Code/Libraries/Source/debug/debug_debug.cpp N=Code/Libraries/Source/WWVegas/WWDebug/Debug.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWDebug/Debug_GetInput.cpp
 0x00038FF0,223,code,Code/Libraries/Source/debug/debug_debug.cpp,proposed,Z,Z=Code/Libraries/Source/debug/debug_debug.cpp S=Code/Libraries/Source/debug/debug_debug.cpp N=Code/Libraries/Source/WWVegas/WWDebug/Debug.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWDebug/Debug_AddFrameEntry.cpp
-0x000390D0,451,code,Code/Libraries/Source/debug/debug_debug.cpp,proposed,Z,Z=Code/Libraries/Source/debug/debug_debug.cpp S=Code/Libraries/Source/debug/debug_debug.cpp N=Code/Libraries/Source/WWVegas/WWDebug/Debug.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWDebug/Debug_AddLogGroup_0088A020.cpp
+0x000390D0,451,code,Code/Libraries/Source/debug/debug_debug.cpp,proposed,Z,Z=Code/Libraries/Source/debug/debug_debug.cpp S=Code/Libraries/Source/debug/debug_debug.cpp N=Code/Libraries/Source/WWVegas/WWDebug/Debug.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWDebug/Debug_AddLogGroup.cpp
 0x000392A0,19,code,Code/Libraries/Source/debug/debug_debug.cpp,proposed,S,S=Code/Libraries/Source/debug/debug_debug.cpp N=Code/Libraries/Source/WWVegas/WWDebug/Debug.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWDebug/DebugGetOutputBuffer.cpp
 0x000392C0,63,code,Code/Libraries/Source/debug/debug_debug.cpp,proposed,C,C=0x000392A0..0x00039300 noncontiguous,Code/GameEngine/Source/Common/Rva0088A1F0Broadcast.cpp
 0x00039300,217,code,Code/Libraries/Source/debug/debug_debug.cpp,proposed,Z,Z=Code/Libraries/Source/debug/debug_debug.cpp S=Code/Libraries/Source/debug/debug_debug.cpp N=Code/Libraries/Source/debug/Debug.cpp noncontiguous,Code/Libraries/Source/debug/debug_debug.cpp
@@ -2059,7 +2059,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0003A6A0,175,code,Code/Libraries/Source/debug/debug_debug.cpp,proposed,S,S=Code/Libraries/Source/debug/debug_debug.cpp N=Code/Libraries/Source/WWVegas/WWDebug/Debug.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWDebug/Debug_FrameStatus.cpp
 0x0003A750,334,code,Code/Libraries/Source/debug/debug_debug.cpp,proposed,Z,Z=Code/Libraries/Source/debug/debug_debug.cpp S=Code/Libraries/Source/debug/debug_debug.cpp N=Code/Libraries/Source/WWVegas/WWDebug/Debug.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWDebug/Debug_CheckBegin.cpp
 0x0003A8A0,948,code,Code/Libraries/Source/debug/debug_debug.cpp,proposed,Z,Z=Code/Libraries/Source/debug/debug_debug.cpp S=Code/Libraries/Source/debug/debug_debug.cpp N=Code/Libraries/Source/WWVegas/WWDebug/Debug.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWDebug/Debug_AssertDone.cpp
-0x0003AC60,276,code,Code/Libraries/Source/debug/debug_debug.cpp,proposed,Z,Z=Code/Libraries/Source/debug/debug_debug.cpp S=Code/Libraries/Source/debug/debug_debug.cpp N=Code/Libraries/Source/WWVegas/WWDebug/Debug.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWDebug/Debug_LogBegin_0088B8F0.cpp
+0x0003AC60,276,code,Code/Libraries/Source/debug/debug_debug.cpp,proposed,Z,Z=Code/Libraries/Source/debug/debug_debug.cpp S=Code/Libraries/Source/debug/debug_debug.cpp N=Code/Libraries/Source/WWVegas/WWDebug/Debug.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWDebug/Debug_LogBegin.cpp
 0x0003AD80,332,code,Code/Libraries/Source/debug/debug_debug.cpp,proposed,Z,Z=Code/Libraries/Source/debug/debug_debug.cpp S=Code/Libraries/Source/debug/debug_debug.cpp N=Code/Libraries/Source/WWVegas/WWDebug/Debug.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWDebug/Debug_CrashBegin.cpp
 0x0003AED0,1132,code,Code/Libraries/Source/debug/debug_debug.cpp,proposed,Z,Z=Code/Libraries/Source/debug/debug_debug.cpp S=Code/Libraries/Source/debug/debug_debug.cpp N=Code/Libraries/Source/WWVegas/WWDebug/Debug.cpp noncontiguous,Code/Libraries/Source/WWVegas/WWDebug/Debug_CrashDone.cpp
 0x0003B340,137,code,,,-,,Code/Libraries/Source/debug/debug_debug.cpp
@@ -6452,7 +6452,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x000D1E88,26,code,Code/GameEngine/Source/Common/System/TBuff.cpp,proposed,C,C=0x000D1C83..0x000D1EAA noncontiguous,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtorsB01.cpp
 0x000D1EAA,78,code,Code/GameEngine/Source/Common/System/TBuff.cpp,proposed,C,C=0x000D1C83..0x000D208D noncontiguous,Code/GameEngine/Source/Common/Rva006DB2F0Set.cpp
 0x000D1EF8,34,code,,displaced,-,Z=Code/Libraries/Source/WWVegas/WW3D2/meshmatdesc.cpp S=Code/Libraries/Source/WWVegas/WW3D2/meshmatdesc.cpp N=Code/Libraries/Source/WWVegas/WW3D2/UVBufferClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/MatInfoUVBufferO1Inlines.cpp
-0x000D1F1A,38,code,,displaced,-,S=Code/Libraries/Source/WWVegas/WW3D2/meshmatdesc.cpp N=Code/Libraries/Source/WWVegas/WW3D2/MeshMatDescClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/MeshMatDescGetUVArrayRva000D1F1A.cpp
+0x000D1F1A,38,code,,displaced,-,S=Code/Libraries/Source/WWVegas/WW3D2/meshmatdesc.cpp N=Code/Libraries/Source/WWVegas/WW3D2/MeshMatDescClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/MeshMatDescClass_Get_UV_Array.cpp
 0x000D1F40,125,code,,displaced,-,S=Code/Libraries/Source/WWVegas/WW3D2/meshmatdesc.cpp N=Code/Libraries/Source/WWVegas/WW3D2/MeshMatDescClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/MeshMatDescGetUVArrayByIndex.cpp
 0x000D1FBD,105,code,,displaced,-,S=Code/Libraries/Source/WWVegas/WW3D2/meshmatdesc.cpp N=Code/Libraries/Source/WWVegas/WW3D2/MeshMatDescClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/MeshMatDescClassGetColorArray.cpp
 0x000D2026,37,code,,displaced,-,S=Code/Libraries/Source/WWVegas/WW3D2/meshmatdesc.cpp N=Code/Libraries/Source/WWVegas/WW3D2/MeshMatDescClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/MeshMatDescSingleTexture.cpp
@@ -8006,7 +8006,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0012CAC3,82,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/Rva0012CAC3Run.cpp
 0x0012CB15,82,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/Rva0012CAC3Run.cpp
 0x0012CB67,1081,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/Rva0012CB67AssetReader.cpp
-0x0012CFA0,757,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/Rva0012CFA0InitAssetManager.cpp
+0x0012CFA0,757,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/InitializeAssetManager.cpp
 0x0012D2B0,4,code,,displaced,-,S=Code/Libraries/Source/WWVegas/WW3D2/vertmaterial.cpp N=Code/Libraries/Source/WWVegas/WW3D2/VertexMaterialClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/sortingrenderer.cpp
 0x0012D2D0,17,code,Code/Libraries/Source/WWVegas/WW3D2/sortingrenderer.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/sortingrenderer.cpp S=Code/Libraries/Source/WWVegas/WW3D2/sortingrenderer.cpp N=Code/Libraries/Source/WWVegas/WW3D2/SortingRendererClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/sortingrenderer.cpp
 0x0012D2F0,28,code,Code/Libraries/Source/WWVegas/WW3D2/sortingrenderer.cpp,approved,C,C=0x0012D2D0..0x0012D310,Code/Libraries/Source/WWVegas/WW3D2/SortingRendererBFME1.cpp
@@ -8601,7 +8601,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x001435F0,17,code,,displaced,-,S=Code/Libraries/Source/WWVegas/WW3D2/dx8polygonrenderer.cpp N=Code/Libraries/Source/WWVegas/WW3D2/DX8PolygonRendererClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp
 0x00143610,17,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/Rva00945720PairSetter.cpp
 0x00143630,305,code,,displaced,-,S=Code/Libraries/Source/WWVegas/WW3D2/dx8polygonrenderer.cpp N=Code/Libraries/Source/WWVegas/WW3D2/DX8PolygonRendererClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/bfme2_polygon_render.cpp
-0x00143770,280,code,,displaced,-,S=Code/Libraries/Source/WWVegas/WW3D2/dx8polygonrenderer.cpp N=Code/Libraries/Source/WWVegas/WW3D2/DX8PolygonRendererClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/bfme2_polygon_render_sorted.cpp
+0x00143770,280,code,,displaced,-,S=Code/Libraries/Source/WWVegas/WW3D2/dx8polygonrenderer.cpp N=Code/Libraries/Source/WWVegas/WW3D2/DX8PolygonRendererClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/DX8PolygonRendererClass_Render_Sorted.cpp
 0x00143890,29,code,Code/Libraries/Source/WWVegas/WW3D2/PolyRenderTaskClass.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WW3D2/PolyRenderTaskClass.cpp noncontiguous,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp
 0x001438B0,14,code,Code/Libraries/Source/WWVegas/WW3D2/PolyRenderTaskClass.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WW3D2/PolyRenderTaskClass.cpp noncontiguous,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp
 0x001438C0,39,code,Code/Libraries/Source/WWVegas/WW3D2/MatPassTaskClass.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WW3D2/MatPassTaskClass.cpp noncontiguous,Code/Libraries/Source/WWVegas/WW3D2/DX8RigidDelayedMaterialPass.cpp
@@ -9148,12 +9148,12 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00154E60,24,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/pointgr.cpp
 0x00154E80,22,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_map_int_int.cpp
 0x00154EA0,21,code,,,-,,Code/GameEngine/Source/GameNetwork/ConnectionManager.cpp
-0x00154EC0,38,code,Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp S=Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp N=Code/Libraries/Source/WWVegas/WW3D2/Render2DSentenceClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/Rva00154EC0Cluster.cpp
+0x00154EC0,38,code,Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp S=Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp N=Code/Libraries/Source/WWVegas/WW3D2/Render2DSentenceClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/Render2DSentenceClass_Reset_Polys.cpp
 0x00154EF0,18,code,Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp S=Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp N=Code/Libraries/Source/WWVegas/WW3D2/Render2DSentenceClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp
 0x00154F10,86,code,Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp S=Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp N=Code/Libraries/Source/WWVegas/WW3D2/Render2DSentenceClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/Render2DSentenceClass_Reset_Sentence_Data.cpp
 0x00154F70,86,code,Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp S=Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp N=Code/Libraries/Source/WWVegas/WW3D2/Render2DSentenceClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/Render2DSentenceClass_Release_Pending_Surfaces.cpp
 0x00154FD0,496,code,Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp,approved,C,C=0x00154F70..0x001551C0,Code/Libraries/Source/WWVegas/WW3D2/Render2DSentenceBuildTexturesBFME2.cpp
-0x001551C0,86,code,Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp S=Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp N=Code/Libraries/Source/WWVegas/WW3D2/FontCharsClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/FontCharsClass_Initialize_GDI_Font_BFME.cpp
+0x001551C0,86,code,Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp S=Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp N=Code/Libraries/Source/WWVegas/WW3D2/FontCharsClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/FontCharsClass_Initialize_GDI_Font.cpp
 0x00155220,249,code,Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp,approved,S,S=Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp N=Code/Libraries/Source/WWVegas/WW3D2/FontCharsClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassEnsureCharPage.cpp
 0x00155320,12,code,Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp,proposed,C,C=0x00155220..0x00155330,Code/Libraries/Source/WWVegas/WWLib/stlport_wide_num_get.cpp
 0x00155330,45,code,Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp,proposed,C,C=0x00155220..0x001553C0,Code/Libraries/Source/WWVegas/WW3D2/hlod.cpp
@@ -9612,7 +9612,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0016B020,191,code,Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp S=Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp N=Code/Libraries/Source/WWVegas/WW3D2/MeshGeometryClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/MeshGeometryReadTriangles.cpp
 0x0016B0E0,187,code,Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp S=Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp N=Code/Libraries/Source/WWVegas/WW3D2/MeshGeometryClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/MeshGeometryClass_read_user_text_Thunk.cpp
 0x0016B1A0,538,code-unledgered,Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp,approved,C,C=0x0016B0E0..0x0016B3C0,
-0x0016B3C0,47,code,Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp S=Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp N=Code/Libraries/Source/WWVegas/WW3D2/MeshGeometryClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/Rva0016B3C0Cluster.cpp
+0x0016B3C0,47,code,Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp S=Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp N=Code/Libraries/Source/WWVegas/WW3D2/MeshGeometryClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/MeshGeometryClass_read_vertex_shade_indices.cpp
 0x0016B3F0,652,code,Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp S=Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp N=Code/Libraries/Source/WWVegas/WW3D2/MeshGeometryClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp
 0x0016B680,2237,code-unledgered,,,-,,
 0x0016BF40,2960,code-unledgered,,,-,,
@@ -9668,7 +9668,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0016E3B0,77,code,,,-,,Code/GameEngine/Source/GameLogic/Object/Update/Rva0016DEE0Cluster.cpp
 0x0016E400,72,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/Rva0016E400Ctor.cpp
 0x0016E450,1692,code-unledgered,,,-,,
-0x0016EAF0,94,code,,displaced,-,S=Code/Libraries/Source/WWVegas/WW3D2/vertmaterial.cpp N=Code/Libraries/Source/WWVegas/WW3D2/VertexMaterialClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/VertexMaterialClone0092EF30.cpp
+0x0016EAF0,94,code,,displaced,-,S=Code/Libraries/Source/WWVegas/WW3D2/vertmaterial.cpp N=Code/Libraries/Source/WWVegas/WW3D2/VertexMaterialClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/VertexMaterialClass_Clone.cpp
 0x0016EB70,35,code,,displaced,-,N=Code/Libraries/Source/WWVegas/WW3D2/MeshModelClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/MeshModelMaterialAccessors.cpp
 0x0016EBA0,84,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/MaterialRemapperClassCtor.cpp
 0x0016EC00,199,code,Code/Libraries/Source/WWVegas/WW3D2/matinfo.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/matinfo.cpp S=Code/Libraries/Source/WWVegas/WW3D2/matinfo.cpp N=Code/Libraries/Source/WWVegas/WW3D2/MaterialRemapperClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/MaterialRemapTexture.cpp
@@ -10568,7 +10568,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x001976F0,168,code,Code/Libraries/Source/WWVegas/WW3D2/hanim.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/hanim.cpp S=Code/Libraries/Source/WWVegas/WW3D2/hanim.cpp N=Code/Libraries/Source/WWVegas/WW3D2/NamedPivotMapClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/hanim.cpp
 0x001977A0,8,code,Code/Libraries/Source/WWVegas/WW3D2/hanim.cpp,approved,C,C=0x001976F0..0x001977B0,Code/Libraries/Source/WWVegas/WWLib/Rva00170C0Siblings.cpp
 0x001977B0,30,code,Code/Libraries/Source/WWVegas/WW3D2/hanim.cpp,approved,C,C=0x001976F0..0x001977D0,Code/Libraries/Source/WWVegas/WWLib/Rva00170C0Siblings.cpp
-0x001977D0,94,code,Code/Libraries/Source/WWVegas/WW3D2/hanim.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/hanim.cpp S=Code/Libraries/Source/WWVegas/WW3D2/hanim.cpp N=Code/Libraries/Source/WWVegas/WW3D2/HAnimComboClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/Rva001977D0Finish.cpp
+0x001977D0,94,code,Code/Libraries/Source/WWVegas/WW3D2/hanim.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/hanim.cpp S=Code/Libraries/Source/WWVegas/WW3D2/hanim.cpp N=Code/Libraries/Source/WWVegas/WW3D2/HAnimComboClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/HAnimComboClass.cpp
 0x00197830,103,code,Code/Libraries/Source/WWVegas/WW3D2/pivot.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/pivot.cpp S=Code/Libraries/Source/WWVegas/WW3D2/pivot.cpp N=Code/Libraries/Source/WWVegas/WW3D2/PivotClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/HTreePivotClass.cpp
 0x00197950,155,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/HTreePivotClass.cpp
 0x001979F0,124,code,,displaced,-,N=Code/Libraries/Source/WWVegas/WW3D2/OBBoxIntersectionTestClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/aabtree.cpp
@@ -38814,7 +38814,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004ED1A1,92,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/AITactic.cpp,approved,U,N=Code/Libraries/Source/WWVegas/WW3D2/AITactic.cpp,Code/Libraries/Source/WWVegas/WW3D2/HLodRva004ED1A1.cpp
 0x004ED1FD,90,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/AITactic.cpp,approved,U,N=Code/Libraries/Source/WWVegas/WW3D2/AITactic.cpp,Code/Libraries/Source/WWVegas/WW3D2/HLodRva004ED1A1.cpp
 0x004ED257,150,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/AITactic.cpp,approved,U,N=Code/Libraries/Source/WWVegas/WW3D2/AITactic.cpp,Code/Libraries/Source/WWVegas/WW3D2/HLodRva004ED1A1.cpp
-0x004ED2ED,85,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/AITactic.cpp,approved,U,N=Code/Libraries/Source/WWVegas/WW3D2/AITactic.cpp,Code/Libraries/Source/WWVegas/WW3D2/HLodRva004ED2ED.cpp
+0x004ED2ED,85,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/AITactic.cpp,approved,U,N=Code/Libraries/Source/WWVegas/WW3D2/AITactic.cpp,Code/Libraries/Source/WWVegas/WW3D2/AITactic_teamGarrisonObject.cpp
 0x004ED342,48,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/AITactic.cpp,approved,U,N=Code/Libraries/Source/WWVegas/WW3D2/AITactic.cpp,Code/Libraries/Source/WWVegas/WW3D2/HLodRva004ED1A1.cpp
 0x004ED372,48,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/AITactic.cpp,approved,U,N=Code/Libraries/Source/WWVegas/WW3D2/AITactic.cpp,Code/Libraries/Source/WWVegas/WW3D2/HLodRva004ED1A1.cpp
 0x004ED3A2,47,code,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/AITactic.cpp,approved,C,C=0x004ED372..0x004ED3D1,Code/GameEngine/Source/Common/CursorCompaction.cpp
@@ -53575,7 +53575,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x006DCA60,84,code,Code/Libraries/Source/Apt/AptValue/BfmeAptValue006DCD20.cpp,proposed,N,N=Code/Libraries/Source/Apt/AptValue/BfmeAptValue006DCD20.cpp noncontiguous,Code/Libraries/Source/Apt/AptValue/AptValueSwitchPredicateBFME2.cpp
 0x006DCAC0,81,code,Code/Libraries/Source/Apt/AptValue/AptValue.cpp,proposed,N,N=Code/Libraries/Source/Apt/AptValue/AptValue.cpp noncontiguous,Code/Libraries/Source/Apt/AptValue/AptValueRefCountBFME2.cpp
 0x006DCB20,216,code,Code/Libraries/Source/Apt/AptValue.cpp,approved,F,F=Code/Libraries/Source/Apt/AptValue.cpp N=Code/Libraries/Source/Apt/AptValue/AptValue.cpp,Code/Libraries/Source/Apt/AptValue/AptValueRefCountBFME2.cpp
-0x006DCC00,10,code,,,-,,Code/Libraries/Source/Apt/Rva006DCC00Forwarder.cpp
+0x006DCC00,10,code,,,-,,Code/Libraries/Source/Apt/AptValueWithHash_RegisterReferences.cpp
 0x006DCC10,66,code,Code/Libraries/Source/Apt/AptValuePtrStack.cpp,proposed,N,N=Code/Libraries/Source/Apt/AptValuePtrStack.cpp,Code/Libraries/Source/Apt/AptValuePtrStackTop.cpp
 0x006DCC60,90,code,Code/Libraries/Source/Apt/AptValue/BfmeAptValue006DCD20.cpp,proposed,N,N=Code/Libraries/Source/Apt/AptValue/BfmeAptValue006DCD20.cpp noncontiguous,Code/Libraries/Source/Apt/AptValue/AptValueTypePredicatesBFME2.cpp
 0x006DCCC0,87,code,Code/Libraries/Source/Apt/AptValue/BfmeAptValue006DCD20.cpp,proposed,N,N=Code/Libraries/Source/Apt/AptValue/BfmeAptValue006DCD20.cpp noncontiguous,Code/Libraries/Source/Apt/AptValue/AptValueConstructorBFME2.cpp
@@ -53652,7 +53652,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x006E03A0,75,code,Code/Libraries/Source/Apt/AptValue/BfmeAptValue006DCD20.cpp,proposed,N,N=Code/Libraries/Source/Apt/AptValue/BfmeAptValue006DCD20.cpp noncontiguous,Code/Libraries/Source/Apt/AptValue/AptValueTypePredicatesBFME2.cpp
 0x006E03F0,67,code,,,-,,Code/GameEngine/Source/Common/SmallGaps/wrapAngle.cpp
 0x006E0440,21,code,,,-,,Code/GameEngine/Source/Common/VslotSmallBodiesP.cpp
-0x006E0460,50,code,Code/Libraries/Source/Apt/AptCIH.cpp,proposed,N,N=Code/Libraries/Source/Apt/AptCIH.cpp noncontiguous,Code/Libraries/Source/Apt/Rva006E0460Cluster.cpp
+0x006E0460,50,code,Code/Libraries/Source/Apt/AptCIH.cpp,proposed,N,N=Code/Libraries/Source/Apt/AptCIH.cpp noncontiguous,Code/Libraries/Source/Apt/AptCIH_DestroyGCPointers.cpp
 0x006E04A0,88,code,Code/Libraries/Source/Apt/AptValue/BfmeAptValue006DCD20.cpp,proposed,N,N=Code/Libraries/Source/Apt/AptValue/BfmeAptValue006DCD20.cpp noncontiguous,Code/Libraries/Source/Apt/AptValue/AptValueTypePredicatesBFME2.cpp
 0x006E0500,5,code,,,-,,Code/GameEngine/Source/Common/VslotSmallBodiesAJ.cpp
 0x006E0510,12,code,,displaced,-,N=Code/GameEngine/Source/Common/BfmeAptValue006DCD20.cpp,Code/GameEngine/Source/Common/VslotSmallBodiesAN.cpp
@@ -53735,7 +53735,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x006E3E20,456,code,Code/Libraries/Source/Apt/AptAnimation.cpp,approved,F,F=Code/Libraries/Source/Apt/AptAnimation.cpp,Code/Libraries/Source/Apt/AptCharacterAnimationSwfVersion.cpp
 0x006E3FF0,348,code,Code/Libraries/Source/Apt/AptAnimation.cpp,approved,F,F=Code/Libraries/Source/Apt/AptAnimation.cpp N=Code/Libraries/Source/Apt/AptAnimationPoolData.cpp,Code/Libraries/Source/Apt/AptCharacterAnimationSwfVersion.cpp
 0x006E4150,562,code-unledgered,Code/Libraries/Source/Apt/AptAnimation.cpp,approved,F,F=Code/Libraries/Source/Apt/AptAnimation.cpp,
-0x006E4390,240,code,Code/Libraries/Source/Apt/AptActionQueueC.cpp,proposed,U,N=Code/Libraries/Source/Apt/AptAnimationPoolData.cpp noncontiguous,Code/Libraries/Source/Apt/Rva006E4390.cpp
+0x006E4390,240,code,Code/Libraries/Source/Apt/AptActionQueueC.cpp,proposed,U,N=Code/Libraries/Source/Apt/AptAnimationPoolData.cpp noncontiguous,Code/Libraries/Source/Apt/AptAnimationPoolData__tickNewInsts.cpp
 0x006E4480,98,code,,,-,,Code/Libraries/Source/Apt/Rva006E4480AptCommand.cpp
 0x006E44F0,276,code-unledgered,,,-,,
 0x006E4610,135,code,,,-,,Code/Libraries/Source/Apt/AptMovieFrameControls.cpp
@@ -53789,7 +53789,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x006E8910,58,code,,,-,,Code/Libraries/Source/Apt/AptMathCallbacksBFME2.cpp
 0x006E8950,51,code,,,-,,Code/Libraries/Source/Apt/AptMathCallbacksBFME2.cpp
 0x006E8990,88,code,,,-,,Code/Libraries/Source/Apt/AptMathCallbacksBFME2.cpp
-0x006E89F0,41,code,,,-,,Code/Libraries/Source/EA/Apt/Rva008A51B0MathRandom.cpp
+0x006E89F0,41,code,,,-,,Code/Libraries/Source/EA/Apt/aptMathRandom.cpp
 0x006E8A20,47,code,,,-,,Code/Libraries/Source/Apt/AptMathCallbacksBFME2.cpp
 0x006E8A50,49,code,,,-,,Code/Libraries/Source/Apt/AptMathCallbacksBFME2.cpp
 0x006E8A90,173,code,,,-,,Code/GameEngine/Source/Common/Rva008A47B0ReleaseGlobals.cpp
@@ -59157,7 +59157,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x007677C8,8,code-unledgered,,,-,,
 0x007677D0,8,code-unledgered,,,-,,
 0x007677D8,8,code,,,-,,Code/gen_small/uw_gen_000.cpp
-0x007677F0,11,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/VertexMaterialClone0092EF30.cpp
+0x007677F0,11,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/VertexMaterialClass_Clone.cpp
 0x00767810,8,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/MaterialRemapperClassCtor.cpp
 0x00767830,17,code-unledgered,,,-,,
 0x00767841,11,code-unledgered,,,-,,
