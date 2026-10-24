@@ -12,12 +12,18 @@
 // whose own Zero Hour body does not place. Keeping that definition in this
 // unit is what reproduces retail's register allocation for the fixed
 // variant; compiled alone the fixed body swaps xmm1/xmm2 and loses 5 bytes.
+// That visible definition is written in its BFME 2 form (8000-vertex cap,
+// BFME 2 GlobalData light offsets, one model local, UVs and the rotated
+// normal stored first) and reads MeshModelClass through the meshgeom shim
+// (CurMatDesc at +0x94), so its select-any copy is retail's 0x000DDE13 body
+// byte for byte, the one W3DBridgeGetModelVertices.cpp rows.
 // BFME 2 changed two callees' signatures that the Zero Hour headers declare:
 // MeshGeometryClass::Get_Vertex_Normal_Array(bool) (row 0x0016AB90) and the
 // six-argument BaseHeightMapRenderObjClass::doTheLight (row 0x000694A3).
 // Declare BFME 2's forms in place of Zero Hour's while the headers are read.
 #define Get_Vertex_Normal_Array Get_Vertex_Normal_Array(bool create); const Vector3 *Get_Vertex_Normal_Array_ZeroHour
 #define doTheLight doTheLight(VERTEX_FORMAT *vb, Vector3 *light, Vector3 *normal, RefRenderObjListIterator *pLightsIterator, UnsignedByte alpha, Bool skipFirstLight); void doTheLight_ZeroHour
+#include "../../../../../reference/shims/meshgeom/meshgeometry.h"
 #include "W3DDevice/GameClient/W3DBridgeBuffer.h"
 #include "../../../../../reference/shims/dynamesh_color_link/meshmatdesc.h"
 
@@ -78,6 +84,16 @@ Int W3DBridge::getModelVerticesFixed(VertexFormatXYZNDUV1 *destination_vb, Int c
 	return(getModelVertices(destination_vb, curVertex, xOffset, vec, vecNormal, vecZ, m_start, mtx, pMesh, pLightsIterator));
 }
 
+// BFME 2's GlobalData light fields (the Zero Hour header has its own layout).
+struct BridgeLightingGlobals
+{
+	char m_pad000[0x920];
+	Coord3D m_terrainLightPos[3];		// +0x920
+	char m_pad944[0x988 - 0x944];
+	Int m_numGlobalLights;			// +0x988
+};
+#define TheGlobalLighting ((const BridgeLightingGlobals *)TheWritableGlobalData)
+
 //=============================================================================
 // ?W3DBridge::getModelVertices present-unmatched
 // W3DBridge::getModelVertices
@@ -93,22 +109,22 @@ inline Int W3DBridge::getModelVertices(VertexFormatXYZNDUV1 *destination_vb, Int
 		return(0);
 
 	Int i;
-	Int numVertex = pMesh->Peek_Model()->Get_Vertex_Count();
-	Vector3 *pVert = pMesh->Peek_Model()->Get_Vertex_Array();
-
-	const Vector3 *pNormal = 	pMesh->Peek_Model()->Get_Vertex_Normal_Array(false);
+	MeshModelClass *model = pMesh->Peek_Model();
+	Int numVertex = model->Get_Vertex_Count();
+	Vector3 *pVert = model->Get_Vertex_Array();
+	const Vector3 *pNormal = model->Get_Vertex_Normal_Array(false);
 
 	// If we happen to have too many bridges, stop.
-	if (curVertex+numVertex+2>= W3DBridgeBuffer::MAX_BRIDGE_VERTEX) {
+	if (curVertex+numVertex+2>= 8000) {
 		return(0);
 	}
 
-	Vector3 lightRay[MAX_GLOBAL_LIGHTS];
+	Vector3 lightRay[3];
 	const Coord3D *lightPos;
 
-	for (Int lightIndex=0; lightIndex < TheGlobalData->m_numGlobalLights; lightIndex++)
+	for (Int lightIndex=0; lightIndex < TheGlobalLighting->m_numGlobalLights; lightIndex++)
 	{
-		lightPos=&TheGlobalData->m_terrainLightPos[lightIndex];
+		lightPos=&TheGlobalLighting->m_terrainLightPos[lightIndex];
 		lightRay[lightIndex].Set(-lightPos->x,-lightPos->y,	-lightPos->z);
 //		__asm {int 3}; //see if it really needs normalization!!
 		lightRay[lightIndex].Normalize();
@@ -118,6 +134,9 @@ inline Int W3DBridge::getModelVertices(VertexFormatXYZNDUV1 *destination_vb, Int
 	VertexFormatXYZNDUV1 *curVb = destination_vb+curVertex;
 
 	for (i=0; i<numVertex; i++) {
+		curVb->u1 = uvs[i].U;
+		curVb->v1 = uvs[i].V;
+
 		Vector3 vLoc;
 		Vector3 vertex;
 		Matrix3D::Transform_Vector(mtx, pVert[i], &vertex);
@@ -138,22 +157,17 @@ inline Int W3DBridge::getModelVertices(VertexFormatXYZNDUV1 *destination_vb, Int
 
 		Vector3 normal;
 		Matrix3D::Rotate_Vector(mtx, pNormal[i], &normal);
-#ifdef USE_BRIDGE_NORMALS
-		curVb->nx = normal.X;
-		curVb->ny = normal.Y;
-		curVb->nz = normal.Z;
+		Real nx = normal.X;
+		Real ny = normal.Y;
+		Real nz = normal.Z;
+		curVb->nx = nx;
+		curVb->ny = ny;
+		curVb->nz = nz;
 		curVb->diffuse = 0xFF000000;
-#else
 		normal = (normal.X) * vec + normal.Y*vecNormal + normal.Z*vecZ;
 		normal.Normalize();	
 		TheTerrainRenderObject->doTheLight(&vb, lightRay, &normal, NULL, 1, true);
-		curVb->nx = 0;	//will these to keep AGP write buffer happy.
-		curVb->ny = 0;
-		curVb->nz = 1;
 		curVb->diffuse = vb.diffuse | 0xFF000000;
-#endif
-		curVb->u1 = uvs[i].U;
-		curVb->v1 = uvs[i].V;
 		curVb++;
 	}
 	return(numVertex);
