@@ -1161,3 +1161,4 @@ local,size::n,size::count,inferred,agree:nl-0b4d0c003080,Code/GameEngine/Source/
 local,FormationAssistant::rva00424E77::n,FormationAssistant::rva00424E77::remainingSlots,inferred,agree:nl-21f082991912,Code/GameEngine/Source/Common/System/FormationBuild.cpp,0x00424E77
 local,release::p,release::m_refCount,inferred,agree:nl-18c9466f34d8,Code/GameEngine/Source/Common/Thing/ModuleTagStringSwap.cpp,
 local,ModuleTagString::swap::temporary,ModuleTagString::swap::inlineBuffer,inferred,agree:nl-2ccd0f157b1b,Code/GameEngine/Source/Common/Thing/ModuleTagStringSwap.cpp,0x006D0F50
+member,Rva0020EB07Info::m_2C,Rva0020EB07Info::m_regions,inferred,agree:nl-5176f7dee7ad,Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp,

@@ -150,7 +150,7 @@ public:
 struct Rva0020EB07Info
 {
 	char m_pad00[0x2C];
-	Rva0020EB07Vector<Rva003F055A *> m_2C;
+	Rva0020EB07Vector<Rva003F055A *> m_regions;
 };
 #define BFME_SNAPSHOT_NAME_SLOT
 #include "Common/Snapshot.h"
@@ -169,7 +169,7 @@ private:
 };
 void LivingWorldRegionManager::BeginTurn(Int a, Int b)
 {
-	Rva0020EB07Vector<Rva003F055A *> &v = m_04->m_2C;
+	Rva0020EB07Vector<Rva003F055A *> &v = m_04->m_regions;
 	for (UnsignedInt i = 0; i < (UnsignedInt)v.size(); i++)
 		v[i]->rva003F1044(a, b);
 }
