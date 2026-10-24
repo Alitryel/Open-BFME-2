@@ -60,7 +60,7 @@ private:
 	int m_18;
 	int m_1C;
 	int m_20;
-	unsigned char m_24;
+	unsigned char m_flags;
 	char m_pad25[3];
 	int m_28;
 	int m_2C;
@@ -73,7 +73,7 @@ void Rva00524B7A::update()
 {
 	if (m_0C == 0)
 		return;
-	if ((m_24 & 4) != 0)
+	if ((m_flags & 4) != 0)
 	{
 		int *pTotal = &m_2C;
 		unsigned long now = timeGetTime();
@@ -92,7 +92,7 @@ void Rva00524B7A::update()
 		unsigned char b = (unsigned char)alpha;
 		m_28 = (int)(((unsigned int)b << 24) | 0xFFFFFF);
 	}
-	if ((m_24 & 2) == 0)
+	if ((m_flags & 2) == 0)
 		goto check0c;
 	if ((m_20 & 0x80) != 0)
 		return;
@@ -100,9 +100,9 @@ check0c:
 	unsigned char r = m_0C->check(m_20);
 	if ((r & 2) == 0)
 		return;
-	if ((m_24 & 2) != 0)
+	if ((m_flags & 2) != 0)
 		return;
-	m_24 |= 2;
+	m_flags |= 2;
 	if (*(void **)&m_34 != 0)
 		m_34.invoke(m_38);
 	if ((m_20 & 0x84) != 0)
