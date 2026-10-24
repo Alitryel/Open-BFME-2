@@ -1663,3 +1663,9 @@ Code/GameEngine/Source/Common/Rva00531720Finish.cpp|local|PathfindZoneManager::r
 Code/GameEngine/Source/Common/Rva00531720Finish.cpp|param|PathfindZoneManager::rva00531720|a,e0c3bbb54926999c0012eba1,seat-b,rn-1023b-7-b,w-cc8f3b68c445,2026-10-24
 Code/GameEngine/Source/Common/Rva00531720Finish.cpp|local|PathfindZoneManager::rva00531720|m,d1cc4b7b6b53b8e402faf0e3,seat-b,rn-1023b-7-b,w-cc8f3b68c445,2026-10-24
 Code/GameEngine/Source/Common/Rva00531720Finish.cpp|local|PathfindZoneManager::rva00531720|e,62b709464b4306b84ab5f357,seat-b,rn-1023b-7-b,w-cc8f3b68c445,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineContainIterateRiders.cpp|function|0x0047CEBB|rva0047CEBB,e3b6ce357a38346afb6b28cb,gpt-6.1-sol,codex8-20261024-005051-6,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva00318333.cpp|param|Rva00318333::rva00318807|m2C,04a67c15da8a75e2484f91d8,gpt-6.1-sol,codex8-20261024-005051-7,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva00318333.cpp|local|Rva00318333::rva00318768|o1,588f38a00c4669b46c8d103d,gpt-6.1-sol,codex8-20261024-005051-7,w-de56e563a50b,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva00318333.cpp|local|Rva00318333::rva00318768|c1,fa432ccb49442d239ad22a1c,gpt-6.1-sol,codex8-20261024-005051-7,w-de56e563a50b,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva00240D0FCreate.cpp|member|Rva00240D0FNode|m_00,7dad8cd37d9325d7bc0f3564,gpt-6.1-sol,codex8-20261024-005051-8,w-de56e563a50b,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/Rva00240D0FCreate.cpp|local|Rva00240D0FCreate|tmp,be2fc5eb46c24359876fb3eb,gpt-6.1-sol,codex8-20261024-005051-8,w-de56e563a50b,2026-10-24
