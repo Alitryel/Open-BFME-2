@@ -21,11 +21,11 @@ void Rva004F6B69Construct(Rva004F6966 *dst, const Rva004F6966 *src);
 
 Rva004F6966 *Rva004F6BB3Fill(Rva004F6966 *dst, unsigned int count, const Rva004F6966 *src)
 {
-	Rva004F6966 *p = dst;
+	Rva004F6966 *current = dst;
 	unsigned int n = count;
 	for (; n > 0; --n) {
-		Rva004F6B69Construct(p, src);
-		p = (Rva004F6966 *)((char *)p + 0xC);
+		Rva004F6B69Construct(current, src);
+		current = (Rva004F6966 *)((char *)current + 0xC);
 	}
-	return p;
+	return current;
 }
