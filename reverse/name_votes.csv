@@ -3726,3 +3726,5 @@ Code/GameEngine/Source/Common/Rva000AE234GridGet.cpp|param|Rva000AE234::rva000AE
 Code/GameEngine/Source/Common/Rva000AE234GridGet.cpp|param|Rva000AE234::rva000AE234|y,9cded59fffae4eb5e60c9c53,claude-opus-5-5,claudec5-20261024-070208-3,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITargetChooser/AITargetHeuristics/AITargetHeuristicRva00573117.cpp|function|0x0057322B|rva0057322B,7313bd2d5ebeafffc5d9601f,claude-opus-5-5,claudec5-20261024-070208-5,w-1ebb1ea4caee,2026-10-24
 Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldManagerSound.cpp|class||OwnerEvent21100E,3c9a9de83a59ec473423fe8c,claude-opus-5-5,claudec5-20261024-070208-7,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055B39C.cpp|function|0x0055B39C|rva0055B39C,f98cc2295bd1feb1fe6fbee3,claude-opus-5-5,claudec5-20261024-072129-2,w-1ebb1ea4caee,2026-10-24
+Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp|local|swapEntries|m,23621d6609c7d09df61a82e4,claude-opus-5-5,claudec5-20261024-072129-6,w-1ebb1ea4caee,2026-10-24
