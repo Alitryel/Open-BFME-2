@@ -156,6 +156,9 @@ namespace _STL { template <> basic_string<unsigned short,char_traits<unsigned sh
 // Suppress this TU's non-retail copy of ?allocate@?$__malloc_alloc@$0A@@_STL@@SAPAXI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+// Suppress this TU's non-retail copy of ??$?0PBG@?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@_STL@@QAE@PBG0ABV?$allocator@G@1@@Z:
+// the rowed retail copy (0x17830) serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> template <> basic_string<unsigned short,char_traits<unsigned short>,allocator<unsigned short> >::basic_string(unsigned short const *,unsigned short const *,allocator<unsigned short> const &); }
 
 // The locale implementation is opaque in _locale.h. Its three vtable slots
 // are established by stlport_locale.cpp; visibility here inlines _M_decr.
