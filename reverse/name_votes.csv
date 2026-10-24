@@ -5224,3 +5224,12 @@ Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp|param|Rva002F1DDCIter|
 Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp|param|Rva002F1DDCTree::rva002F0DD6|x,5ed4956c505b9926cdb86254,gpt-6.1-sol,codexb-20261024-134038-8,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/System/Rva002F1BD5Finish.cpp|class||Rva002F1BD5Mid,476af1fc8ac04dd3a851f9ae,gpt-6.1-sol,codexb-20261024-134038-9,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/System/Rva002F1BD5Finish.cpp|member|Rva002F1BD5Arg|m_0C,742c1bd4e754b678126ee32a,gpt-6.1-sol,codexb-20261024-134038-9,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva001F51DC.cpp|local|Rva001F51DC::rva001F51DC|a,720823d5e21e31a7c9ab7aff,gpt-6-astra,codexb2-20261024-141230-2,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/Common/Rva001F51DC.cpp|local|Rva001F51DC::rva001F51DC|b,e29d7f1b6902f138d19e1de4,gpt-6-astra,codexb2-20261024-141230-2,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp|local|Rva0049D526::rva0049D526|v,269369f0381b2e4b46038529,gpt-6-astra,codexb2-20261024-141230-3,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp|local|Rva0049D526::rva0049D57F|v,83f4b6bc700c59d52307113d,gpt-6-astra,codexb2-20261024-141230-3,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/Rva003145B1Dispatch.cpp|param|Rva003145B1::Rva003145B1Dispatch|a1,fd19a4d899bc47dc8c66aaec,gpt-6-astra,codexb2-20261024-141230-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/Rva003145B1Dispatch.cpp|param|Rva003145B1::Rva003145B1Dispatch|a2,14c9b206275007fb6ed0c1f5,gpt-6-astra,codexb2-20261024-141230-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/Rva003145B1Dispatch.cpp|param|Rva003145B1::rva00314596|a1,20893e0709dde1458ad1c240,gpt-6-astra,codexb2-20261024-141230-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameClient/GUI/Rva003145B1Dispatch.cpp|param|Rva003145B1::rva00314596|a2,73b56b17af345ff8f10fd387,gpt-6-astra,codexb2-20261024-141230-4,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WWLib/RvaTreeEraseRangeFamily_Rva00082BE1.cpp|function|0x000D3C46|rva000D3C46,49a940b20cccba5d570b90d9,gpt-6-astra,codexb2-20261024-141230-4,w-d0bdfd8b17e9,2026-10-24
