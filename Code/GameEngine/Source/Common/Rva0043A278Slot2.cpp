@@ -109,15 +109,15 @@ public:
 	void rva0025D9CB(bool flag);
 };
 
-class Rva00490470
+class Rva00355D66
 {
 public:
-	Rva00490470();
-	virtual ~Rva00490470();
+	Rva00355D66();
+	virtual ~Rva00355D66();
 	virtual void baseSlot1();
 };
 
-class Rva0043A278 : public Rva00490470
+class Rva0043A278 : public Rva00355D66
 {
 public:
 	Rva0043A278();

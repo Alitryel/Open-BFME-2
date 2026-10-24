@@ -11,20 +11,12 @@ class Rva00490350Base;
 
 extern Rva00490350Base *g_bfmeListVX;			// retail 0x012F3350
 
-class AsciiStringVX
+#include "../../../../reference/shims/bfme2_ascii/ascii_string.h"
+
+class BfmeStrVX : private AsciiString
 {
 public:
-	AsciiStringVX(const AsciiStringVX &other);
-	~AsciiStringVX(void);
-
-private:
-	char *m_bfmeData;
-};
-
-class BfmeStrVX : private AsciiStringVX
-{
-public:
-	BfmeStrVX(const AsciiStringVX &other) : AsciiStringVX(other) {}
+	BfmeStrVX(const AsciiString &other) : AsciiString(other) {}
 	~BfmeStrVX(void) {}
 };
 
@@ -90,31 +82,29 @@ public:
 	bool m_bfmeArmed;					// +0x0C
 };
 
-// Its destructor is 0x00490470, which ~Gen_00491580 (0x00491620) ends by calling.
-// Its constructor is declared like the destructor: retail's call from the
-// Gen_00491580 constructor lands on the rowed 24-byte body at 0x00355D4E, so
-// this unit must not emit an implicit inline copy of its own.
-class Rva00490470 : public Rva00490350Base
+// Native base construction and unwind cleanup use the existing Rva00355D66
+// owners at 0x00355D4E and 0x00355D66.
+class Rva00355D66 : public Rva00490350Base
 {
 public:
-	Rva00490470(void);
-	virtual ~Rva00490470(void);
+	Rva00355D66(void);
+	virtual ~Rva00355D66(void);
 };
 
-class Gen_00491580 : public Rva00490470
+class Rva003560ED : public Rva00355D66
 {
 public:
-	Gen_00491580(const AsciiStringVX &first, const AsciiStringVX &second);
+	Rva003560ED(const AsciiString &first, const AsciiString &second);
 
-	virtual ~Gen_00491580(void);
+	virtual ~Rva003560ED(void);
 
 	BfmeStrVX m_bfmeFirst;					// +0x10
 	BfmeStrVX m_bfmeSecond;					// +0x14
 };
 
-// ??0Gen_00491580@@QAE@ABVAsciiStringVX@@0@Z
-Gen_00491580::Gen_00491580(const AsciiStringVX &first,
-	const AsciiStringVX &second)
+// ??0Rva003560ED@@QAE@ABVAsciiString@@0@Z
+Rva003560ED::Rva003560ED(const AsciiString &first,
+	const AsciiString &second)
 	: m_bfmeFirst(first), m_bfmeSecond(second)
 {
 }

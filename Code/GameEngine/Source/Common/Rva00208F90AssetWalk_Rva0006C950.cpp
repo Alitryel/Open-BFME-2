@@ -1,6 +1,6 @@
 // cl: -D_STLP_USE_STATIC_LIB -Ireference/open-bfme-1/game/GameEngine/Source/Common /D_STLP_USE_MALLOC
-// Address-derived asset walker at retail RVA 0x00208F90.
-// The owner identity is unresolved; its offsets and helper ABIs are decoded.
+// Retail asset-list insertion at RVA 0x0006C950.
+// The registry lookup and set insertion use their existing rowed providers.
 
 // cl: /O2 /Ob2 /G6 /D_STLP_USE_STATIC_LIB
 // stlport
@@ -31,15 +31,12 @@ struct Rva001408C0Target;
 namespace _STL { template <> _Rb_tree_node<Rva001408C0Target *> *_STLP_alloc_proxy<_Rb_tree_node<Rva001408C0Target *> *, _Rb_tree_node<Rva001408C0Target *>, allocator<_Rb_tree_node<Rva001408C0Target *> > >::allocate(size_t); }
 
 
-AsciiString operator+(AsciiString left, const char *right);
-
 struct Rva001408C0Target;
 typedef Rva001408C0Target *Rva001408C0Key;
 typedef _STL::set<Rva001408C0Key, _STL::less<Rva001408C0Key>,
 	_STL::allocator<Rva001408C0Key> > Rva001408C0Set;
 
 void *bfmeGoEMEb(void *name);
-typedef Rva001408C0Target *(__cdecl *FindPrototypeFn)(const char *name);
 
 struct AssetList00208F90
 {
@@ -56,86 +53,16 @@ struct AssetList00208F90
 		return *this;
 	}
 
-	AssetList00208F90 &operator <<(const AsciiString &name)
+	AssetList00208F90 &operator <<(const AsciiString &name);
+};
+
+
+AssetList00208F90 &AssetList00208F90::operator <<(const AsciiString &name)
+{
+	if (m_prototypes.insert(
+		static_cast<Rva001408C0Target *>(bfmeGoEMEb((void *)name.str()))).second)
 	{
-		if (m_prototypes.insert(
-			((FindPrototypeFn)bfmeGoEMEb)(name.str())).second)
-		{
-			m_changed = true;
-		}
-		return *this;
+		m_changed = true;
 	}
-};
-
-class BfmeSubBNC
-{
-public:
-	void bfmeDoBNC(void *one, void *two);
-};
-
-class Gen_002DDCC0Target
-{
-public:
-	void bfmeForward(void *one, void *two);
-};
-
-class Gen_001D5EE0Target
-{
-public:
-	void bfmeForward(void *one, void *two);
-};
-
-template <typename T>
-struct Rva00208F90Range
-{
-	T **m_begin;
-	T **m_end;
-	T **m_capacity;
-
-	T **begin() const { return m_begin; }
-	T **end() const { return m_end; }
-};
-
-struct Rva00208F90Owner
-{
-	unsigned char m_padding00[0x58];
-	Rva00208F90Range<Gen_002DDCC0Target> m_second[4];
-	Rva00208F90Range<BfmeSubBNC> m_first[4];
-	Rva00208F90Range<Gen_001D5EE0Target> m_third[4];
-	unsigned char m_paddingE8[0x84];
-	AsciiString m_shadowTextureName;
-};
-
-// ?collectAssets00208F90@@YAXABURva00208F90Owner@@AAUAssetList00208F90@@PAX@Z
-void collectAssets00208F90(
-	const Rva00208F90Owner &owner, AssetList00208F90 &assets, void *context)
-{
-	for (int i = 0; i < 4; ++i)
-	{
-		for (BfmeSubBNC **it = owner.m_first[i].begin();
-			it != owner.m_first[i].end(); ++it)
-		{
-			if (*it)
-				(*it)->bfmeDoBNC(&assets, context);
-		}
-
-		for (Gen_002DDCC0Target **it = owner.m_second[i].begin();
-			it != owner.m_second[i].end(); ++it)
-		{
-			if (*it)
-				(*it)->bfmeForward(&assets, context);
-		}
-
-		for (Gen_001D5EE0Target **it = owner.m_third[i].begin();
-			it != owner.m_third[i].end(); ++it)
-		{
-			if (*it)
-				(*it)->bfmeForward(&assets, context);
-		}
-	}
-
-	if (owner.m_shadowTextureName.isNotEmpty())
-	{
-		assets << (owner.m_shadowTextureName + ".tga");
-	}
+	return *this;
 }

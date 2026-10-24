@@ -13,11 +13,11 @@
 
 void *bfmeAllocNode(unsigned int bytes);
 
-class BfmeBaseVNI
+class BfmeBaseVNH
 {
 public:
-	BfmeBaseVNI(unsigned w, char f);
-	virtual ~BfmeBaseVNI();
+	BfmeBaseVNH(unsigned w, char f);
+	virtual ~BfmeBaseVNH();
 	virtual void handle() = 0;
 
 	unsigned m_bfme04;
@@ -41,7 +41,7 @@ struct BfmeVNITree
 };
 
 
-class BfmeRectVNI : public BfmeBaseVNI
+class BfmeRectVNI : public BfmeBaseVNH
 {
 public:
 	BfmeRectVNI(unsigned w, char f);
@@ -53,7 +53,7 @@ public:
 
 // ??0BfmeRectVNI@@QAE@ID@Z
 BfmeRectVNI::BfmeRectVNI(unsigned w, char f)
-	: BfmeBaseVNI(w, f)
+	: BfmeBaseVNH(w, f)
 	, m_at18(0)
 {
 }

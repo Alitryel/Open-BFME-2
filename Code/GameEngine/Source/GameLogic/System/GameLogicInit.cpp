@@ -5208,7 +5208,6 @@ void GameLogic::CreateWOTRMPPlayers()
 // through casts and the screens keep their addresses.
 // The whole body sits in a tautology on the mode (no bytes): it gives retail's
 // block layout instead of cl's default.
-class AsciiStringVX;
 #include "../../../Include/Common/BfmeAudioEventPrefix136.h"
 class Rva0036CA00Str
 {
@@ -5225,10 +5224,10 @@ public:
 private:
 	char m_storage[0x10];
 };
-class Gen_00491580
+class Rva003560ED
 {
 public:
-	Gen_00491580(const AsciiStringVX &a, const AsciiStringVX &b);
+	Rva003560ED(const AsciiString &a, const AsciiString &b);
 private:
 	char m_storage[0x18];
 };
@@ -5286,7 +5285,7 @@ if ((LS_MODE != 0 || LS_MODE == 0)) {
 	case 4:
 		if (((BfmeAptWindowManagerLS *)g_bfmeAptWindowManager)->m_31c)
 			return (LoadScreen *)new Rva0043A278;
-		return (LoadScreen *)new Gen_00491580((const AsciiStringVX &)LS_STR(0x7C), (const AsciiStringVX &)LS_STR(0x80));
+		return (LoadScreen *)new Rva003560ED((const AsciiString &)LS_STR(0x7C), (const AsciiString &)LS_STR(0x80));
 
 	case 7:
 		if (((BfmeAptWindowManagerLS *)g_bfmeAptWindowManager)->m_31c)
@@ -5295,7 +5294,7 @@ if ((LS_MODE != 0 || LS_MODE == 0)) {
 			Rva0023D614Set((StringBase<char> *)&image);
 			return (LoadScreen *)new Rva0035615D(image, Rva0036CA00Str(), Rva0036CA00Str(), true);
 		}
-		return (LoadScreen *)new Gen_00491580((const AsciiStringVX &)LS_STR(0x7C), (const AsciiStringVX &)LS_STR(0x80));
+		return (LoadScreen *)new Rva003560ED((const AsciiString &)LS_STR(0x7C), (const AsciiString &)LS_STR(0x80));
 
 	case 0:
 	case 3:

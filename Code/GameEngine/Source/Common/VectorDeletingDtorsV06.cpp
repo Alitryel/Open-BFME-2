@@ -1,75 +1,50 @@
-// cl: /O1 /DNDEBUG /MD /EHsc
-//
-// Vector deleting destructors (??_E), batch V06: 75-byte bodies that, for
-// an array delete (flag bit 1), run the eh vector destructor iterator
-// (0x00629110) over the count stored before the array with the destructor's
-// address and the element size, then free the block from its count word with
-// operator delete[] (0x0002FD80); otherwise they call the destructor and free
-// through operator delete (0x0002FD60). The element size is the class size.
-// Each class's destructor is declared, not defined (pinned); the anchor below
-// (no retail counterpart) news an array of each class so this TU emits the
-// vector deleting destructor. Owners are opaque unless the destructor already
-// carried a ledger name.
-//
-//   ??_E        dtor        size  vtable#slot
-//   0x003AB899  0x003AB86E  0x24  0x00C1C2F4#0
-//   0x003AB946  0x003AB86E  0x28  0x00C1C314#0
-
-// Declared so the array path frees through operator delete[] (0x0002FD80)
-// as retail does; left undeclared, cl falls back to scalar operator delete.
+// cl: /O1 /DNDEBUG /MD /EHsc /Ireference/shims/fxparticle_link
+// Retail tables C1C2F4 and C1C314 identify the named category-8 wrappers.
+// Their canonical module base and existing constructors emit both delete thunks.
+#include "ModuleTemplate.h"
 void operator delete[](void *p);
-
-class Rva003AB86EBase0
-{
-public:
-	virtual ~Rva003AB86EBase0();
-private:
-	char m_unmodelled_04[0xC - 0x04];
+namespace FXParticleSystem {
+class SecondaryModuleBase { public: virtual ~SecondaryModuleBase(); virtual void v1() = 0; };
+class ModuleInfo {};
+class EventModuleInfo : public ModuleInfo {
+public: EventModuleInfo(); bool m_first; bool m_second;
 };
-
-// Secondary base at +0xC, proven by the this-adjusting thunk (sub ecx,
-// 0xC) to this class's vector deleting destructor in its vtable.
-class Rva003AB86EBaseC
-{
-public:
-	virtual ~Rva003AB86EBaseC();
-private:
-	char m_unmodelled_04[0x18 - 0x04];
+template <int Category> class CategoryModuleTemplate;
+template <> class CategoryModuleTemplate<8> : public ModuleTemplate, public SecondaryModuleBase, public EventModuleInfo { public: virtual ~CategoryModuleTemplate(); };
+class LifeEventModuleInfo {
+public: virtual ~LifeEventModuleInfo(); virtual void v1() = 0;
+private: void *m_name; unsigned int m_values[3]; unsigned int m_eventType;
 };
-
-class Rva003AB86E : public Rva003AB86EBase0, public Rva003AB86EBaseC
-{
-public:
-	virtual ~Rva003AB86E();
+class TerrainCollisionModuleInfo {
+public: virtual ~TerrainCollisionModuleInfo(); virtual void v1() = 0;
+private: void *m_eventName; unsigned int m_eventTime[3]; bool m_flag; unsigned int m_cached;
 };
-
-class Rva003AB946VecBase0
-{
+class LifeEventModuleTemplate : public CategoryModuleTemplate<8>, public LifeEventModuleInfo { public: LifeEventModuleTemplate(); virtual ~LifeEventModuleTemplate(); };
+class TerrainCollisionModuleTemplate : public CategoryModuleTemplate<8>, public TerrainCollisionModuleInfo { public: TerrainCollisionModuleTemplate(); virtual ~TerrainCollisionModuleTemplate(); };
+class LifeEventModule;
+class TerrainCollisionModule;
+class ParticleLifeEventModule;
+class ParticleTerrainCollisionModule;
+extern const char *const LIFE_EVENT_MODULE_KEY;
+extern const char *const LIFE_EVENT_MODULE_NAME;
+extern const char *const TERRAIN_COLLISION_MODULE_KEY;
+extern const char *const TERRAIN_COLLISION_MODULE_NAME;
+template <int Category, const char *const &Key, const char *const &Name, class Module, class Template, class Default>
+class ModuleTag { public: typedef Template TemplateType; };
+template <class Tag> class ConcreteModuleTemplate : public Tag::TemplateType {
 public:
-	virtual ~Rva003AB946VecBase0();
-private:
-	char m_unmodelled_04[0xC - 0x04];
+ ConcreteModuleTemplate() {}
+ virtual ~ConcreteModuleTemplate();
+ virtual void v1();
+ virtual typename Tag::TemplateType *clone() const;
 };
-
-// Secondary base at +0xC, proven by the this-adjusting thunk (sub ecx,
-// 0xC) to this class's vector deleting destructor in its vtable.
-class Rva003AB946VecBaseC
-{
-public:
-	virtual ~Rva003AB946VecBaseC();
-private:
-	char m_unmodelled_04[0x1C - 0x04];
-};
-
-class Rva003AB946Vec : public Rva003AB946VecBase0, public Rva003AB946VecBaseC
-{
-public:
-	virtual ~Rva003AB946Vec();
-};
-
+typedef ConcreteModuleTemplate<ModuleTag<8, LIFE_EVENT_MODULE_KEY, LIFE_EVENT_MODULE_NAME, LifeEventModule, LifeEventModuleTemplate, ParticleLifeEventModule> > LifeEventConcrete;
+typedef ConcreteModuleTemplate<ModuleTag<8, TERRAIN_COLLISION_MODULE_KEY, TERRAIN_COLLISION_MODULE_NAME, TerrainCollisionModule, TerrainCollisionModuleTemplate, ParticleTerrainCollisionModule> > TerrainCollisionConcrete;
+typedef char LifeSize[(sizeof(LifeEventConcrete) == 0x24) ? 1 : -1];
+typedef char TerrainSize[(sizeof(TerrainCollisionConcrete) == 0x28) ? 1 : -1];
+}
 // ?<bfmeVectorDeleteAnchorV06> absent-from-retail
-void bfmeVectorDeleteAnchorV06()
-{
-	new Rva003AB86E[2];
-	new Rva003AB946Vec[2];
+void bfmeVectorDeleteAnchorV06() {
+ new FXParticleSystem::LifeEventConcrete[2];
+ new FXParticleSystem::TerrainCollisionConcrete[2];
 }
