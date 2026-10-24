@@ -2702,7 +2702,6 @@ alternatename	Code/GameEngine/Source/Common/Rva009F68C6PointerArray.cpp	?bfmeCal
 alternatename	Code/GameEngine/Source/Common/Rva00CE12FCMutex.cpp	?release@Rva00CE12FCMutex@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/Common/Rva00CE12FCMutex.cpp	?ticks@Rva00CE12FCMutex@@UAEKXZ	1
 alternatename	Code/GameEngine/Source/Common/Rva00CE12FCMutex.cpp	?wait@Rva00CE12FCMutex@@UAEXXZ	1
-alternatename	Code/GameEngine/Source/Common/RvaSmallVtableCtors.cpp	??0TScorch@@QAE@XZ	1	allow=2d8ab2da5abb2f668d3cb90de51ff4a57111db52
 alternatename	Code/GameEngine/Source/Common/RvaTreeDtorFamily.cpp	??1Rva002076E7Map@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/Common/RvaTreeDtorFamily.cpp	??1Rva0020779EMap@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/Common/RvaTreeDtorFamily.cpp	??1Rva00256461Member@@QAE@XZ	1
@@ -4097,8 +4096,6 @@ alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Find_Asset.cpp	?
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DFontLibraryLoadFontData.cpp	?TheGlobalLanguageData@@3PAUGlobalLanguage@@A	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DFontLibraryLoadFontData.cpp	?TheGlobalLanguageData@@3PAUGlobalLanguageData@@A	2
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Render_Obj_Exists_Impl.cpp	?bfmeSay1025@BfmeP1025@@QAEDPAD@Z	1
-alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva0006D0D7Dtor.cpp	??1BaseHeightMapRenderObjClass@@UAE@XZ	1	allow=373dffded16300e18ef58ddc8b0a1ce558abbe6a
-alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva000E3B41Dtor.cpp	??1Rva000E3BFE@@UAE@XZ	1	allow=1bc8b18b6d3cc496014ac25feaeac9dfeb76d0ae
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva009EBDC0.cpp	?bfmeNextResource@@YA?AUBfmeResetAnyRef@@XZ	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/ScreenFilterRva007D85C0Set.cpp	?ScreenCurrentShader@@3IA	2
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/ScreenFilterRva007D85C0Set.cpp	?ScreenOpaqueShader@@3IA	1

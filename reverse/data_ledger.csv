@@ -1406,10 +1406,10 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x007C5D74,4,.rdata,float,__real@428c0000,,literal,,0,1
 0x007C5D78,16,.rdata,float,__real@42b3cccd,,literal,,0,1
 0x007C5D88,8,.rdata,float,__real@4070000000000000,,literal,,0,1
-0x007C5D90,16,.rdata,vtable,??_7Rva006D0D7@@6B@,,literal,,0,1
-0x007C5DA0,8,.rdata,vtable,??_7Rva006D0D7@@6BROC4@@@,,literal,,0,1
-0x007C5DA8,8,.rdata,vtable,??_7Rva006D0D7@@6BRO8@@@,,literal,,0,1
-0x007C5DB0,592,.rdata,vtable,??_7Rva006D0D7@@6BRO0@@@,,literal,,0,1
+0x007C5D90,16,.rdata,vtable,??_7BaseHeightMapRenderObjClass@@6B@,,literal,,0,1
+0x007C5DA0,8,.rdata,vtable,??_7BaseHeightMapRenderObjClass@@6BROC4@@@,,literal,,0,1
+0x007C5DA8,8,.rdata,vtable,??_7BaseHeightMapRenderObjClass@@6BRO8@@@,,literal,,0,1
+0x007C5DB0,592,.rdata,vtable,??_7BaseHeightMapRenderObjClass@@6BRO0@@@,,literal,,0,1
 0x007C6000,8,.rdata,string,??_C@_07EINEIMDP@UNNAMED?$AA@,,literal,,0,1
 0x007C6008,28,.rdata,string,??_C@_0BM@HCLAIOGL@BaseHeightMapRenderObjClass?$AA@,,literal,,0,1
 0x007C6024,16,.rdata,string,??_C@_0P@EDLGGFDC@exscorch01?4tga?$AA@,,literal,,0,1

@@ -41,11 +41,11 @@ struct Rva00174753Allocation:private _STL::_Vector_base<int,_STL::allocator<int>
 namespace _STL {template<>_Vector_base<int,allocator<int> >::_Vector_base(const allocator<int>&)throw();}
 struct Rva000E3BFEArrayMember {Rva000E3BFEArrayMember();char data[12];};
 class BfmeTaintModeView;extern BfmeTaintModeView*g_bfmeTaintModeView;
-class Rva000E3BFE:public BaseHeightMapRenderObjClass {
-public:Rva000E3BFE(bool);virtual~Rva000E3BFE();
+class Rva000E3B41:public BaseHeightMapRenderObjClass {
+public:Rva000E3B41(bool);virtual~Rva000E3B41();
 void*ptr3884;void*ptr3888;void*ptr388c;void*ptr3890;void*ptr3894;
 char unknown3898[0x10];bool flag38a8;char unknown38a9[11];
 Rva00174753Allocation header38b4;bool flag38c0;char pad38c1[3];_STL::vector<int> header38c4;Rva000E3BFEArrayMember arr[8];bool flag3930;char pad3931[3];int word3934;void*ptr3938;
 };
-Rva000E3BFE::Rva000E3BFE(bool input):ptr3884(0),ptr3888(0),ptr388c(0),ptr3890(0),ptr3894(0),flag38a8(input),flag38c0(false){flag3930=false;word3934=0;ptr3938=0;g_bfmeTaintModeView=(BfmeTaintModeView*)this;}
+Rva000E3B41::Rva000E3B41(bool input):ptr3884(0),ptr3888(0),ptr388c(0),ptr3890(0),ptr3894(0),flag38a8(input),flag38c0(false){flag3930=false;word3934=0;ptr3938=0;g_bfmeTaintModeView=(BfmeTaintModeView*)this;}
 __declspec(noinline) Rva000E3BFEArrayMember::Rva000E3BFEArrayMember(){}

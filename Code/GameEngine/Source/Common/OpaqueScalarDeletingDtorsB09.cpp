@@ -309,16 +309,16 @@ class __declspec(novtable) Rva006D0D7BaseC8
 public:
 	virtual ~Rva006D0D7BaseC8();
 };
-class Rva006D0D7 : public Rva006D0D7Base0, public Rva006D0D7Base8, public Rva006D0D7BaseC8
+class BaseHeightMapRenderObjClass : public Rva006D0D7Base0, public Rva006D0D7Base8, public Rva006D0D7BaseC8
 {
 public:
-	Rva006D0D7(EmitVtableTag *);
+	BaseHeightMapRenderObjClass(EmitVtableTag *);
 public:
-	virtual ~Rva006D0D7();
+	virtual ~BaseHeightMapRenderObjClass();
 };
 
-// ?<Rva006D0D7::Rva006D0D7> absent-from-retail
-Rva006D0D7::Rva006D0D7(EmitVtableTag *)
+// ?<BaseHeightMapRenderObjClass::BaseHeightMapRenderObjClass> absent-from-retail
+BaseHeightMapRenderObjClass::BaseHeightMapRenderObjClass(EmitVtableTag *)
 {
 }
 

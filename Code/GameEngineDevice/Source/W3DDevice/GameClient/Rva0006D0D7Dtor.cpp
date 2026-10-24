@@ -56,9 +56,9 @@ template <class T> static __forceinline void destroyMember(T *&p)
 	}
 }
 
-class Rva006D0D7 : public RenderObjClass, public SnapC8 {
+class BaseHeightMapRenderObjClass : public RenderObjClass, public SnapC8 {
 public:
-	virtual ~Rva006D0D7();
+	virtual ~BaseHeightMapRenderObjClass();
 private:
 	char m_pad0[0xD4 - 0xCC];
 	RefTex m_d4;
@@ -96,7 +96,7 @@ private:
 	W3DTaint *m_387c;
 };
 
-Rva006D0D7::~Rva006D0D7()
+BaseHeightMapRenderObjClass::~BaseHeightMapRenderObjClass()
 {
 	((Rva0006933D *)this)->rva0006933D();
 	if (m_3850) {
@@ -126,8 +126,3 @@ Rva006D0D7::~Rva006D0D7()
 	destroyMember(m_3878);
 	destroyMember(m_387c);
 }
-
-// This is BaseHeightMapRenderObjClass's destructor: the derived constructor
-// 0x000E3BFE calls base constructor 0x0006C9CF, and its unwind funclet
-// 0x0076328E destroys that base by jumping here.
-#pragma comment(linker, "/alternatename:??1BaseHeightMapRenderObjClass@@UAE@XZ=??1Rva006D0D7@@UAE@XZ")

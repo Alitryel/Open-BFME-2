@@ -1332,22 +1332,19 @@ Rva0003F330::Rva0003F330()
 {
 }
 
-// ??0Rva000665B0@@QAE@XZ @0x000665B0 9B, vtable VA 0x00bc5cb4
-class Rva000665B0
+// ??0TScorch@@QAE@XZ @0x000665B0 9B, vtable VA 0x00bc5cb4: slot 2 is the name
+// getter 0x000665B9 returning "TScorch" and slot 3 the rowed TScorch::xfer.
+// The terrain constructor 0x0006C9CF builds its 500 scorches with it.
+class TScorch
 {
 public:
-	Rva000665B0();
-	virtual ~Rva000665B0() {}
+	TScorch();
+	virtual ~TScorch() {}
 };
 
-Rva000665B0::Rva000665B0()
+TScorch::TScorch()
 {
 }
-
-// BaseHeightMapRenderObjClass's constructor 0x0006C9CF builds its 500 TScorch
-// entries with the eh vector constructor iterator, passing this constructor
-// 0x000665B0 and the destructor 0x0049B47C.
-#pragma comment(linker, "/alternatename:??0TScorch@@QAE@XZ=??0Rva000665B0@@QAE@XZ")
 
 // ??0Rva0007829C@@QAE@XZ @0x0007829C 9B, vtable VA 0x00bc6730
 class Rva0007829C

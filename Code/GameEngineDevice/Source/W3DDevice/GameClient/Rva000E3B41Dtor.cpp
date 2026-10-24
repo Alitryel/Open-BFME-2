@@ -19,19 +19,12 @@
 #include "rendobj.h"
 #include "Snapshot.h"
 
-class DX8_CleanupHook
-{
-public:
-    virtual void ReleaseResources() = 0;
-    virtual void ReAcquireResources() = 0;
-};
-
-class Rva006D0D7 : public RenderObjClass, public DX8_CleanupHook, public Snapshot
-{
-public:
-    virtual ~Rva006D0D7();
-private:
-    char m_unmodelledCC[0x3884 - 0xCC];
+// The constructor unit's view of the bases, so both units emit the same
+// subtype vtables.
+class DX8_CleanupHook {public:DX8_CleanupHook(){}virtual void ReleaseResources()=0;virtual void ReAcquireResources()=0;};
+class BaseHeightMapRenderObjClass:public RenderObjClass,public DX8_CleanupHook,public Snapshot {
+public:BaseHeightMapRenderObjClass();virtual~BaseHeightMapRenderObjClass();virtual void ReleaseResources();virtual void ReAcquireResources();virtual void loadPostProcess() = 0;virtual const char*GetSnapshotName()const = 0;virtual void xfer(Xfer*) = 0;
+char unknown0CC[0x3884-0xCC];
 };
 
 struct Rva0008B470
@@ -83,7 +76,7 @@ class Rva000E15D1 { public: void rva000E14C4(); };
 class BfmeTaintModeView;
 extern BfmeTaintModeView *g_bfmeTaintModeView;
 
-class Rva000E3B41 : public Rva006D0D7
+class Rva000E3B41 : public BaseHeightMapRenderObjClass
 {
 public:
     virtual ~Rva000E3B41();
@@ -103,9 +96,5 @@ Rva000E3B41::~Rva000E3B41()
     ((Rva000E15D1 *)this)->rva000E14C4();
     g_bfmeTaintModeView = 0;
 }
-
-// Constructor 0x000E3BFE (Rva000E3BFEConstructor.cpp) installs the same vtable
-// 0x00BCE788, whose slot 1 0x000E3CC5 calls this destructor.
-#pragma comment(linker, "/alternatename:??1Rva000E3BFE@@UAE@XZ=??1Rva000E3B41@@UAE@XZ")
 
 void Rva000E3B41_Delete(Rva000E3B41 *p) { delete p; }

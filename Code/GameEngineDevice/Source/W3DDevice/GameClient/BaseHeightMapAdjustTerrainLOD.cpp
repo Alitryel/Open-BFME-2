@@ -110,10 +110,10 @@ extern GlobalData *TheWritableGlobalData;
 class W3DRoadBuffer { public: void loadRoads(); };
 class Rva000731AE { public: void rva000731AE(); };
 
-class Rva000E3BFE
+class Rva000E3B41
 {
 public:
-	Rva000E3BFE(bool);
+	Rva000E3B41(bool);
 	virtual void s000();
 	virtual void s001();
 	virtual void s002();
@@ -298,9 +298,9 @@ void BaseHeightMapRenderObjClass::adjustTerrainLOD(Int adj)
 	if (m_shroud)
 		m_shroud->rva000731AE();
 
-	Rva000E3BFE *newROBJ = (Rva000E3BFE *)g_bfmeTaintModeView;
+	Rva000E3B41 *newROBJ = (Rva000E3B41 *)g_bfmeTaintModeView;
 	if (newROBJ == 0)
-		newROBJ = new Rva000E3BFE(false);
+		newROBJ = new Rva000E3B41(false);
 	if (TheWritableGlobalData->m_terrainLOD == 5)
 		newROBJ = 0;
 

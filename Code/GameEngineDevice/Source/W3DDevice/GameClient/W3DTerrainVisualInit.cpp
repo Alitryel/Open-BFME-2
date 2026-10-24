@@ -62,10 +62,10 @@ public:
 };
 
 // The height-map render object.
-class Rva000E3BFE
+class Rva000E3B41
 {
 public:
-	Rva000E3BFE(bool flag);
+	Rva000E3B41(bool flag);
 #define V(n) virtual void v##n();
 	V(0) V(1) V(2) V(3) V(4) V(5) V(6) V(7) V(8) V(9)
 	V(10) V(11) V(12) V(13) V(14) V(15) V(16) V(17) V(18) V(19)
@@ -220,7 +220,7 @@ public:
 	virtual void reset();
 private:
 	unsigned char m_pad04[0x10 - 4];
-	Rva000E3BFE *m_terrainRenderObject;		// +0x10
+	Rva000E3B41 *m_terrainRenderObject;		// +0x10
 	WaterRenderObjClass *m_waterRenderObject;		// +0x14
 	Rva00091CA7Counted *m_18;			// +0x18
 };
@@ -230,7 +230,7 @@ void W3DTerrainVisual::init()
 	BFMEDX8DeviceLock lock;
 	((Rva000B3FD0 *)this)->rva000B3FD0();
 
-	m_terrainRenderObject = new Rva000E3BFE(false);
+	m_terrainRenderObject = new Rva000E3B41(false);
 	m_terrainRenderObject->slot121(2, 0);
 	TheTerrainRenderObject = (BaseHeightMapRenderObjClass *)m_terrainRenderObject;
 
