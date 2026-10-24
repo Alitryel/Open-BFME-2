@@ -1250,3 +1250,4 @@ class,Rva006FF500Rect,AptRect,inferred,agree:nl-4c2be8eecb43,Code/Libraries/Sour
 param,Rva006CDD50Iterator::b,Rva006CDD50Iterator::rangeBegin,inferred,agree:nl-47d9efb8db3b,Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp,
 param,Rva006CDD50Iterator::e,Rva006CDD50Iterator::rangeEnd,inferred,agree:nl-59e7b2aa32d0,Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp,
 function,?Rva006CDBF0Resize@@YAPAVAptValueNameEntry@@PAV1@HH@Z,?resizeArray@@YAPAVAptValueNameEntry@@PAV1@HH@Z,inferred,agree:nl-328a1858e1bd,Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp,0x006CDBF0
+function,?Rva0081B000@@YAXXZ,?CommSerialUnresolve@@YAXXZ,inferred,agree:nl-a1af6784cf38,Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp,0x00686F00

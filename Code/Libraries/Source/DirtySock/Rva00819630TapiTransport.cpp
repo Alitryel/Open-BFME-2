@@ -87,7 +87,7 @@ extern "C"
 // so the address-derived name is retained.
 typedef int ( __cdecl *Rva0081AE20Proc )( void *comm, const char *name,
 	char *output, int outputSize, int flags );
-extern void Rva0081B000( void );
+extern void CommSerialUnresolve( void );
 extern void CommSerialCallback( void );
 extern void Rva0081BA40( void );
 extern "C" void Rva0081B9B0( void *comm );
@@ -160,7 +160,7 @@ extern "C" void *CommSerialConstruct( int first, int second, int third )
 	comm->m_ops[ 0 ] = (void *)CommSerialConstruct;
 	comm->m_ops[ 1 ] = (void *)Rva0081ACD0;
 	comm->m_ops[ 2 ] = (void *)(Rva0081AE20Proc)Rva0081AE20;
-	comm->m_ops[ 3 ] = (void *)Rva0081B000;
+	comm->m_ops[ 3 ] = (void *)CommSerialUnresolve;
 	comm->m_ops[ 4 ] = (void *)Rva0081B790;
 	comm->m_ops[ 5 ] = (void *)Rva0081B830;
 	comm->m_ops[ 6 ] = (void *)Rva0081B910;
@@ -202,7 +202,7 @@ extern "C" void *CommSerialConstruct( int first, int second, int third )
 	return comm;
 }
 
-void Rva0081B000( void )
+void CommSerialUnresolve( void )
 {
 }
 
