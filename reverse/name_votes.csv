@@ -3096,3 +3096,6 @@ Code/GameEngine/Source/Common/Rva00174A8AAdapter.cpp|function|0x00174A8A|rva0017
 Code/GameEngine/Source/Common/Rva00174A8AAdapter.cpp|param|Rva00174A8A::rva00174A8A|n,ad343656b7822ee5e5a14eba,gpt-6.1-sol,codex4-20261024-052532-11,w-887869184137,2026-10-24
 Code/GameEngine/Source/Common/Rva0044E7A8Check.cpp|local|Rva0044E7A8::rva0044E7A8|f0,60837fd5cc4b15102d3b6cc7,gpt-6.1-sol,codex4-20261024-052532-12,w-887869184137,2026-10-24
 Code/GameEngine/Source/Common/Rva0044E7A8Check.cpp|local|Rva0044E7A8::rva0044E7A8|f1,b95dd24e06bb3eed76f3d9d5,gpt-6.1-sol,codex4-20261024-052532-12,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions_rva003C0425.cpp|function|0x003C0308|Rva003C0308Do,bf57981c743124a1b4f27007,gpt-6.1-sol,codex4-20261024-055024-5,w-887869184137,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions_rva003C0425.cpp|function|0x003C0425|Rva003C0425Do,289ab28d0962deaf4b649ec6,gpt-6.1-sol,codex4-20261024-055024-5,w-887869184137,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayGatherSkirmishAIStats.cpp|class||Rva002A8F24Economy,a86085a0723a1ce5afd4b587,gpt-6.1-sol,codex4-20261024-055024-12,w-887869184137,2026-10-24
