@@ -63,14 +63,14 @@ public:
 class Rva00594E07
 {
 public:
-	unsigned short rva00594E07(unsigned short a, int time);
+	unsigned short rva00594E07(unsigned short packetID, int time);
 private:
 	char m_pad0[0x14];
 	SpareSocket m_spare[8];
 	char m_pad1[0x8A - 0x14 - 8 * 8];
 	ManglerMessage m_msgs[8];
 };
-unsigned short Rva00594E07::rva00594E07(unsigned short a, int time)
+unsigned short Rva00594E07::rva00594E07(unsigned short packetID, int time)
 {
 	(void)time;
 	ManglerMessage *sel = 0;
@@ -95,12 +95,12 @@ unsigned short Rva00594E07::rva00594E07(unsigned short a, int time)
 					((Rva00594DC0 *)this)->rva00594DC0((Rva00594DC0Msg *)msg);
 					unsigned short pid = msg->m_data.m_packetID;
 					msg->m_length = len;
-					if (pid == a)
+					if (pid == packetID)
 					{
 						msg->m_length = 0;
 						sel = msg;
 					}
-					if (htons(pid) == a)
+					if (htons(pid) == packetID)
 					{
 						msg->m_length = 0;
 						sel = msg;
@@ -111,13 +111,13 @@ unsigned short Rva00594E07::rva00594E07(unsigned short a, int time)
 	}
 	if (sel == 0)
 	{
-		int n = 8;
+		int remainingMessages = 8;
 		int *pl = &m_msgs[0].m_length;
-		for (; n != 0; --n)
+		for (; remainingMessages != 0; --remainingMessages)
 		{
 			if (*pl != 0)
 			{
-				if (*(unsigned short *)((char *)pl - 0xE) == a)
+				if (*(unsigned short *)((char *)pl - 0xE) == packetID)
 				{
 					sel = (ManglerMessage *)((char *)pl - 0x14);
 					*pl = 0;
