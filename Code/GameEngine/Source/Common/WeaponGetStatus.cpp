@@ -116,8 +116,8 @@ void Weapon::setClipPercentFull(float rate, bool flag)
 {
 	if (m_template->m_valueE4 == 0)
 		return;
-	int n = m_template->m_valueE4;
-	float f = (float)floor((double)n * rate);
+	int m_clipSize = m_template->m_valueE4;
+	float f = (float)floor((double)m_clipSize * rate);
 	int want = rva002CE280_float2long(f);
 	if (want > getRemainingAmmo(false) || (flag && want < getRemainingAmmo(false))) {
 		m_pad14 = want;
