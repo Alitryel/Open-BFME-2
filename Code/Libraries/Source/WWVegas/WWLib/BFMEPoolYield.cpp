@@ -7,11 +7,11 @@ extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(
 // unit's dynamic initializer; one definition, declared here.
 extern void *test_event;
 
-// MSVC folds a direct global argument into `push [memory]`; retail loads the
-// event into eax first. The helper keeps that codegen choice localized.
+// The C++ inline getter preserves retail's load of the startup event before
+// pushing the one-millisecond timeout and handle arguments.
 __forceinline void *loadPoolYieldEvent()
 {
-    __asm mov eax, test_event
+    return test_event;
 }
 
 // ThreadClass::Switch_Thread (ZH thread.cpp: WaitForSingleObject(test_event, 1)) at
