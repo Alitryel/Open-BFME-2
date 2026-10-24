@@ -226,12 +226,17 @@ Rva001ED41B::Rva001ED41B(EmitVtableTag *)
 {
 }
 
+// Slot view as Rva001F73D5ParticlePhysicsUpdateBinder_~Rva001F4B01.cpp's (vtable
+// 0x00BE171C: slot 0 ??_G 0x001F4B47, slot 1 ResolveBindings 0x001F4A90), so both
+// units emit one vtable.
+class FXShaderParameterBinder;
 class Rva001F4B01
 {
 public:
 	Rva001F4B01(EmitVtableTag *);
 public:
 	virtual ~Rva001F4B01();
+	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry) = 0;
 };
 
 // ?<Rva001F4B01::Rva001F4B01> absent-from-retail
