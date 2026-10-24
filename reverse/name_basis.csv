@@ -1937,3 +1937,4 @@ local,saveRiverAreas::off2,saveRiverAreas::idOffset,inferred,agree:nl-ac3028b1d1
 param,Rva0055BCF1::Rva0055BCF1::a,Rva0055BCF1::Rva0055BCF1::system,inferred,agree:nl-62dd801e289e,Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055BCF1ColorModuleCtor.cpp,0x0055BCF1
 local,Drawable::calcPhysicsXformHugeFourLegs::s,Drawable::calcPhysicsXformHugeFourLegs::sinDirection,inferred,agree:nl-80567e58981e,Code/GameEngine/Source/GameClient/DrawablePhysicsXformHugeFourLegs.cpp,0x0027B47F
 param,FormationRowList::a,FormationRowList::alloc,inferred,agree:nl-425ca8582251,Code/GameEngine/Source/Common/System/FormationBuild.cpp,
+param,FormationObjectList::a,FormationObjectList::alloc,inferred,agree:nl-a72a6cdaf425,Code/GameEngine/Source/Common/System/FormationBuild.cpp,
