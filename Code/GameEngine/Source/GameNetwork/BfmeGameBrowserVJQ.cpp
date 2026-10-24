@@ -133,13 +133,13 @@ public:
 	char m_bfme34;
 	char m_bfme35;
 	char m_pad36[0x2a6];
-	char m_bfmeBuf[0x400];
+	char m_messageBuffer[0x400];
 	int m_bfme6dc;
 };
 
 void BfmeThingVJQ::bfmeGoVJQ(int a) throw()
 {
-	BfmeMsgVJH msg(m_bfmeBuf, 0x400);
+	BfmeMsgVJH msg(m_messageBuffer, 0x400);
 	if (m_bfme34 && m_bfme30 >= 3)
 	{
 		m_bfme10->sendOne(&msg, a);

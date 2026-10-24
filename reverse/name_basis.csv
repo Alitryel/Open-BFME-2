@@ -1749,3 +1749,4 @@ member,Rva005E51D3Inner::m_4,Rva005E51D3Inner::m_virtualBaseOffset,inferred,agre
 local,Rva00542BA1Parse::tmp,Rva00542BA1Parse::armor,inferred,agree:nl-65f2b10f5c4b,Code/GameEngine/Source/Common/AutoResolveArmorParse.cpp,0x00542BA1
 local,Rva00542B24Parse::tmp,Rva00542B24Parse::weapon,inferred,agree:nl-2382082ddbd8,Code/GameEngine/Source/Common/AutoResolveArmorParse.cpp,0x00542B24
 param,famgenDelete#4::p,famgenDelete#4::lock,inferred,agree:nl-19ec6fe38641,Code/GameEngine/Source/Common/FamilyDeletingDtors3.cpp,
+member,BfmeThingVJQ::m_bfmeBuf,BfmeThingVJQ::m_messageBuffer,inferred,agree:nl-50b22eaa26da,Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJQ.cpp,
