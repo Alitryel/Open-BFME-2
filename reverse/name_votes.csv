@@ -5486,3 +5486,13 @@ Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00
 Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp|function|0x002F0DD6|rva002F0DD6,b160c836c17fd107c773a4c7,gpt-6-astra,codexb2-20261024-165205-4,w-d0bdfd8b17e9,2026-10-24
 Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp|param|Rva002F1DDCIter|p,7aa6455610ec396234a8afb0,gpt-6-astra,codexb2-20261024-165205-4,w-d0bdfd8b17e9,2026-10-24
 Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/PalantirTogglePlanningMode.cpp|local|Palantir::Impl::TogglePlanningMode|m2,ee32ac6aad949ef36da01cf5,gpt-6-astra,codexb2-20261024-165205-4,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|class||Rva007F2350StatsRecord,a55495175b3db62ecbe6d60c,gpt-6-astra,codexb2-20261024-165205-5,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|class||Rva007F2350StatsCursor,f0c899ba69c76cec06aff139,gpt-6-astra,codexb2-20261024-165205-5,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|function|0x0065EF90|rva007F24A0,71bb1c6d9eb8c4c35247b735,gpt-6-astra,codexb2-20261024-165205-5,w-d0bdfd8b17e9,2026-10-24
+Code/GameEngine/Source/GameNetwork/Rva007F2350StatsCursor.cpp|function|0x0065ED20|rva007F2230,d75d8ed0e33f47a8c275e119,gpt-6-astra,codexb2-20261024-165205-5,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A|b1,a8d6e3ab0fd9d0a2f334c3fd,gpt-6-astra,codexb2-20261024-165205-6,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A|b2,c824538616499b079f854c01,gpt-6-astra,codexb2-20261024-165205-6,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b1,6d8b23a6d9bbfed8b90e4433,gpt-6-astra,codexb2-20261024-165205-6,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b2,ee0e9add20cd78737add024a,gpt-6-astra,codexb2-20261024-165205-6,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b3,55d1b665b66054956628ab26,gpt-6-astra,codexb2-20261024-165205-6,w-d0bdfd8b17e9,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b4,91b47c4a4b59d4b4dbfbee11,gpt-6-astra,codexb2-20261024-165205-6,w-d0bdfd8b17e9,2026-10-24
