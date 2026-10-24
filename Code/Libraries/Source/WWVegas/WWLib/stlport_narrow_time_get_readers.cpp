@@ -140,17 +140,9 @@ time_get<char, _TimeIn>::do_get_time(_TimeIn __s, _TimeIn __end,
   return __s;
 }
 
-struct bfmeTimeGetEmitter : time_get<char, _TimeIn>
-{
-	static void emit(const bfmeTimeGetEmitter *p, _TimeIn a, _TimeIn b, ios_base &s, ios_base::iostate &e, tm *t);
-};
-#pragma inline_depth(0)
-// ?emit@bfmeTimeGetEmitter@_STL@@SAXPBU12@V?$istreambuf_iterator@DV?$char_traits@D@_STL@@@2@1AAVios_base@2@AAHPAUtm@@@Z present-unmatched
-void bfmeTimeGetEmitter::emit(const bfmeTimeGetEmitter *p, _TimeIn a, _TimeIn b, ios_base &s, ios_base::iostate &e, tm *t)
-{
-	p->time_get<char, _TimeIn>::do_get_date(a, b, s, e, t);
-	p->time_get<char, _TimeIn>::do_get_time(a, b, s, e, t);
-}
-#pragma inline_depth()
+template _TimeIn time_get<char, _TimeIn>::do_get_date(
+    _TimeIn, _TimeIn, ios_base&, ios_base::iostate&, tm*) const;
+template _TimeIn time_get<char, _TimeIn>::do_get_time(
+    _TimeIn, _TimeIn, ios_base&, ios_base::iostate&, tm*) const;
 
 }

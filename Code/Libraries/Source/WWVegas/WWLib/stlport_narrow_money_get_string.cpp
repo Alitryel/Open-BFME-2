@@ -343,22 +343,7 @@ template <> inline _MoneyIn money_get<char, _MoneyIn>::do_get(_MoneyIn __s, _Mon
 }
 }
 
-// money_get<char>::do_get is a header inline in STLport: one other unit emits
-// a select-any copy of it, so a strong definition here was a duplicate symbol
-// in the linked build. This anchor only makes this unit emit its copy for the
-// ledger row; it is not retail code.
 namespace _STL {
-struct bfmeMoneyGetStringEmitter : money_get<char, _MoneyIn>
-{
-  static void emit(const bfmeMoneyGetStringEmitter *p, _MoneyIn a, _MoneyIn b, bool intl, ios_base &s, ios_base::iostate &e, basic_string<char> &d);
-};
+template _MoneyIn money_get<char, _MoneyIn>::do_get(
+    _MoneyIn, _MoneyIn, bool, ios_base&, ios_base::iostate&, basic_string<char>&) const;
 }
-#pragma inline_depth(0)
-// ?emit@bfmeMoneyGetStringEmitter@_STL@@SAXPBU12@V?$istreambuf_iterator@DV?$char_traits@D@_STL@@@2@1_NAAVios_base@2@AAHAAV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@2@@Z present-unmatched
-namespace _STL {
-void bfmeMoneyGetStringEmitter::emit(const bfmeMoneyGetStringEmitter *p, _MoneyIn a, _MoneyIn b, bool intl, ios_base &s, ios_base::iostate &e, basic_string<char> &d)
-{
-  p->money_get<char, _MoneyIn>::do_get(a, b, intl, s, e, d);
-}
-}
-#pragma inline_depth()

@@ -158,22 +158,7 @@ num_get<wchar_t, _BoolIn>::do_get(_BoolIn __in, _BoolIn __end,
   }
 }
 
-// num_get<wchar_t>::do_get(bool) is a template member another unit instantiates
-// as a select-any copy; the strong specialization here made it a duplicate in
-// the linked build. This anchor only makes this unit emit its copy for the
-// ledger row; it is not retail code.
-struct bfmeWideNumGetBoolEmitter : num_get<wchar_t, _BoolIn>
-{
-  static void emit(const bfmeWideNumGetBoolEmitter *p, _BoolIn a, _BoolIn b, ios_base &s,
-    ios_base::iostate &e, bool &v);
-};
-#pragma inline_depth(0)
-// ?emit@bfmeWideNumGetBoolEmitter@_STL@@SAXPBU12@V?$istreambuf_iterator@GV?$char_traits@G@_STL@@@2@1AAVios_base@2@AAHAA_N@Z present-unmatched
-void bfmeWideNumGetBoolEmitter::emit(const bfmeWideNumGetBoolEmitter *p, _BoolIn a, _BoolIn b, ios_base &s,
-  ios_base::iostate &e, bool &v)
-{
-  p->num_get<wchar_t, _BoolIn>::do_get(a, b, s, e, v);
-}
-#pragma inline_depth()
+template _BoolIn num_get<wchar_t, _BoolIn>::do_get(
+    _BoolIn, _BoolIn, ios_base&, ios_base::iostate&, bool&) const;
 
 }

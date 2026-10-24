@@ -40,19 +40,7 @@ num_put<char, _NarrowOut>::do_put(_NarrowOut __s, ios_base& __f, char,
   return result;
 }
 
-// num_put<char>::do_put(const void*) is a header inline elsewhere: other units emit
-// select-any copies, so a strong definition here was a duplicate in the linked build. This
-// anchor only makes this unit emit its copy for the ledger row; it is not retail code.
-struct bfmeNumPutVoidPtrEmitter : num_put<char, _NarrowOut>
-{
-	static void emit(const bfmeNumPutVoidPtrEmitter *p, _NarrowOut s, ios_base &f, char c, const void *v);
-};
-#pragma inline_depth(0)
-// ?emit@bfmeNumPutVoidPtrEmitter@_STL@@SAXPBU12@V?$ostreambuf_iterator@DV?$char_traits@D@_STL@@@2@AAVios_base@2@DPBX@Z present-unmatched
-void bfmeNumPutVoidPtrEmitter::emit(const bfmeNumPutVoidPtrEmitter *p, _NarrowOut s, ios_base &f, char c, const void *v)
-{
-	p->num_put<char, _NarrowOut>::do_put(s, f, c, v);
-}
-#pragma inline_depth()
+template _NarrowOut num_put<char, _NarrowOut>::do_put(
+    _NarrowOut, ios_base&, char, const void*) const;
 
 _STLP_END_NAMESPACE
