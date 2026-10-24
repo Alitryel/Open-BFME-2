@@ -22,7 +22,7 @@ private:
 class Rva00332F5B
 {
 public:
-	Rva00332F5B(const WeaponTemplateSetHead &a, const WeaponTemplateSetHead &b);
+	Rva00332F5B(const WeaponTemplateSetHead &a, const WeaponTemplateSetHead &excluded);
 	bool rva00332F81(const Rva00332F5B &other) const;
 private:
 	UnicodeString m_uni;
@@ -30,7 +30,7 @@ private:
 	WeaponTemplateSetHead m_b;
 };
 
-Rva00332F5B::Rva00332F5B(const WeaponTemplateSetHead &weaponTemplateSetHead, const WeaponTemplateSetHead &b) : m_uni(), m_a(weaponTemplateSetHead), m_b(b)
+Rva00332F5B::Rva00332F5B(const WeaponTemplateSetHead &weaponTemplateSetHead, const WeaponTemplateSetHead &excluded) : m_uni(), m_a(weaponTemplateSetHead), m_b(excluded)
 {
 }
 
