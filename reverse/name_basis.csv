@@ -1024,3 +1024,8 @@ param,Rva003000F6Get::a,Rva003000F6Get::systemMaps,inferred,agree:nl-cd46e04f23c
 param,Rva003000F6Get::b,Rva003000F6Get::multiplayer,inferred,agree:nl-82f074dfb8f4,Code/GameEngine/Source/GameClient/MapUtilGetDefaultMap.cpp,0x003000F6
 class,Rva0055F4CEDrift,DampedValue,inferred,agree:nl-dcc656a427d9,Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp,
 param,Rva0053FE64Get::t,Rva0053FE64Get::time,inferred,agree:nl-dde17b98e22d,Code/GameEngine/Source/Common/Rva0053FE64.cpp,0x0053FE64
+local,Rva0007E90EHost::rva0007E90E::e,Rva0007E90EHost::rva0007E90E::element,inferred,agree:nl-af145968893e,Code/GameEngine/Source/Common/Rva0007E90EBodies.cpp,0x0007E90E
+local,Rva0053FE64Get::p0,Rva0053FE64Get::frame0,inferred,agree:nl-bd92f58e1571,Code/GameEngine/Source/Common/Rva0053FE64.cpp,0x0053FE64
+local,Rva0053FE64Get::p1,Rva0053FE64Get::frame1,inferred,agree:nl-4e4f5df598bf,Code/GameEngine/Source/Common/Rva0053FE64.cpp,0x0053FE64
+local,Rva0053FE64Get::p2,Rva0053FE64Get::frame2,inferred,agree:nl-8356a203e1fa,Code/GameEngine/Source/Common/Rva0053FE64.cpp,0x0053FE64
+local,Rva0053FE64Get::p3,Rva0053FE64Get::frame3,inferred,agree:nl-e93e2dd6e0d3,Code/GameEngine/Source/Common/Rva0053FE64.cpp,0x0053FE64

@@ -34,11 +34,11 @@ void Rva0007E90EHost::rva0007E90E(int a)
 		m_100->rva000FF5E6(a);
 	Rva0007E90EElem **pp = m_start;
 	while (pp != m_end) {
-		Rva0007E90EElem *e = *pp;
-		if (e != 0)
-			e->m_ref++;
-		e->m_flag = 1;
-		ReleaseTreeHintRef00217D4C((TargetRef00217D4C *)e);
+		Rva0007E90EElem *element = *pp;
+		if (element != 0)
+			element->m_ref++;
+		element->m_flag = 1;
+		ReleaseTreeHintRef00217D4C((TargetRef00217D4C *)element);
 		++pp;
 	}
 }
