@@ -1705,7 +1705,6 @@ name,address,notes
 ??0BFMENetGameSpyStatsAuthKeyCommandMsg@@QAE@XZ,0x004D65DC,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0BFMENetRequestGameSpyStatsAuthKeyCommandMsg@@QAE@XZ,0x004D64F5,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0BFMENetworkPayloadList@@QAE@XZ,0x00558D6B,callee of ??0BFMENetwork@@QAE@XZ at retail 0x00558EC1 read from its REL32 displacement; body unrowed
-??0BFMENetworkQueue1@@QAE@XZ,0x00558D56,callee of ??0BFMENetwork@@QAE@XZ at retail 0x00558EC1 read from its REL32 displacement; ICF alias onto ??0Rva00558D56@@QAE@XZ (matched); fold-proof=Code/GameEngine/Source/GameNetwork/native_network_BFMENetwork_Ctor.cpp
 ??0BFMENetworkQueue@@QAE@XZ,0x00558D41,callee of ??0BFMENetwork@@QAE@XZ at retail 0x00558EC1 read from its REL32 displacement; body unrowed
 ??0BFMENetworkState@@QAE@XZ,0x00007850,callee of ??0BFMENetwork@@QAE@XZ at retail 0x00558EC1 read from its REL32 displacement; ICF alias onto ??0?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ (matched)
 ??0BFMERetailAsciiString@@QAE@PBD@Z,0x00037BA0,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1

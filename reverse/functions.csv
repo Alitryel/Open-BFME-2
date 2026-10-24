@@ -34597,7 +34597,7 @@ _SetDeInterlaceMode,,0x001B6910,15,Code/Libraries/Source/VP6/PostProcModes.cpp,m
 ?rva00293E64@Object@@QAEXPAVDict@@@Z,,0x00293E64,155,Code/GameEngine/Source/GameLogic/Object/ObjectRva00293E64.cpp,matched,Object +0x244 array virtual 0xB4 and Dict NameKey to AsciiString via rowed 0x00293275
 ?rva000E01A3@Rva000E01A3@@QAE_NXZ,,0x000E01A3,13,Code/GameEngine/Source/Common/Rva000E01A3Check.cpp,matched,leaf thiscall self-pointer check via caller 0x3776CC
 ?rva0021887C@Rva0021887C@@QAEXXZ,,0x0021887C,30,Code/GameEngine/Source/Common/System/Rva0021887CDestroyFree.cpp,matched,destroy GeometryRecord range then free via rowed callees
-??0Rva00558D56@@QAE@XZ,,0x00558D56,21,Code/Libraries/Source/WWVegas/WWLib/Rva00558D56.cpp,matched,unlock lane wraps rowed DequeBase 0x0055334A caller 0x00558F07
+??0BFMENetworkQueue1@@QAE@XZ,,0x00558D56,21,Code/Libraries/Source/WWVegas/WWLib/Rva00558D56.cpp,matched,unlock lane wraps rowed DequeBase 0x0055334A caller 0x00558F07
 ?rva000EFB68@Rva000EFB68@@QAEXHHPAX@Z,,0x000EFB68,49,Code/GameEngine/Source/GameLogic/Object/Behavior/Rva000EFB68.cpp,matched,linkbody abuts prev 0x000EFB5A caller 0x000F093D imul-lea-imul-add slot copy
 ??1Rva0041579E@@QAE@XZ,,0x004156FC,8,Code/GameEngine/Source/Common/Rva0041573FCopy.cpp,matched,tail jmp to rowed Rva0041573F dtor
 ?doSpecialPower@SplitHordeSpecialPower@@UAEXI@Z,,0x004C861E,123,Code/GameEngine/Source/GameLogic/Object/SpecialPower/SplitHordeSpecialPowerRva004C861E.cpp,matched,slot 10 of the matched ctor vtable 0x00C5E598 at +0x10: disabled check then contain slots 125/126 into a local vector<BfmeE16>

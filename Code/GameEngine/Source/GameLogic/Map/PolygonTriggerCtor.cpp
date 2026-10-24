@@ -14,17 +14,19 @@
 // declared only; their bodies live in Common/Rva00330C50Ctor.cpp and
 // PolygonTrigger.cpp. The names are address-derived; the base roles are
 // inferred from bytes.
+struct Region2D;
+struct Rva0030B72CPoint;
 class Rva00330C50Interface
 {
 public:
 	~Rva00330C50Interface() {}
-	virtual void slot0() = 0;
-	virtual void slot1() = 0;
-	virtual void slot2() = 0;
-	virtual void slot3() = 0;
-	virtual void slot4() = 0;
-	virtual void slot5() = 0;
-	virtual void slot6() = 0;
+	virtual int slot0() const = 0;
+	virtual Rva0030B72CPoint slot1(int index) const = 0;
+	virtual int slot2() const = 0;
+	virtual Region2D slot3() = 0;
+	virtual float slot4() const = 0;
+	virtual float slot5() const = 0;
+	virtual Rva0030B72CPoint slot6() const = 0;
 };
 
 class Rva0030B9DD
@@ -42,13 +44,13 @@ public:
 	Rva00330C50();
 	void rva00330AA6(int);
 	virtual ~Rva00330C50();
-	virtual void slot0();
-	virtual void slot1();
-	virtual void slot2();
-	virtual void slot3();
-	virtual void slot4();
-	virtual void slot5();
-	virtual void slot6();
+	virtual int slot0() const;
+	virtual Rva0030B72CPoint slot1(int index) const;
+	virtual int slot2() const;
+	virtual Region2D slot3();
+	virtual float slot4() const;
+	virtual float slot5() const;
+	virtual Rva0030B72CPoint slot6() const;
 private:
 	Rva0030B9DD container;
 	bool changed;

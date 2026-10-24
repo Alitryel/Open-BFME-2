@@ -105,17 +105,17 @@ public:
 class Rva00073320Method : public Rva00073320Base
 {
 public:
-	Rva00073320Method(W3DShroud *owner) : m_owner(owner) {}
+	__declspec(dllimport) __forceinline Rva00073320Method(W3DShroud *owner) : m_owner(owner) {}
 	virtual void destroy();
 	virtual ~Rva00073320Method();
 	W3DShroud *m_owner;
 };
 
-class Rva00073320Ptr
+class Rva00087A93
 {
 public:
-	Rva00073320Ptr(Rva00073320Method *p) : m_ptr(p) {}
-	~Rva00073320Ptr();
+	Rva00087A93(Rva00073320Method *p) : m_ptr(p) {}
+	~Rva00087A93();
 	Rva00073320Method *m_ptr;
 };
 
@@ -135,7 +135,7 @@ private:
 	float m_drawOriginX, m_drawOriginY;
 	unsigned char m_drawFogOfWar, m_clearDstTexture, m_borderShroudLevel, m_pad37;
 	unsigned char *m_finalFogData, *m_currentFogData;
-	Rva00073320Ptr m_method;
+	Rva00087A93 m_method;
 	int m_pad44;
 	unsigned char m_trackDirtyCells;
 	_STL::set<int, _STL::less<int>, Rva0054E8DCAllocator<int> > m_dirty;
@@ -152,4 +152,3 @@ W3DShroud::W3DShroud()
  m_method(new Rva00073320Method(this)), m_pad44(0), m_trackDirtyCells(1)
 {
 }
-
