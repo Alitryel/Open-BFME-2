@@ -31,7 +31,7 @@ static inline const char *Rva00511C3AFlag(const bool &b)
 	return *Rva004E678BGet(&text, b);
 }
 
-int __cdecl Rva00511C3AInvoke(Rva00222A8BTarget *target, void *owner, const char *name, const int &a, const bool &b)
+int __cdecl Rva00511C3AInvoke(Rva00222A8BTarget *target, void *owner, const char *name, const int &m_intValue, const bool &boolValue)
 {
-	return target->invoke(owner, name, 2, Rva002162CFStr(Rva00222834Get(a)), (void *)Rva00511C3AFlag(b), 0, 0, 0);
+	return target->invoke(owner, name, 2, Rva002162CFStr(Rva00222834Get(m_intValue)), (void *)Rva00511C3AFlag(boolValue), 0, 0, 0);
 }
