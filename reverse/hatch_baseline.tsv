@@ -4279,8 +4279,6 @@ alternatename	Code/Libraries/Source/DirtySock/Rva007F0000Allocator.cpp	_Rva007F0
 alternatename	Code/Libraries/Source/DirtySock/Rva00813100ConnectionSetup.cpp	?ji_0081bda8@@YAXXZ	1
 alternatename	Code/Libraries/Source/DirtySock/Rva00813100ConnectionSetup.cpp	_Rva0081BDAE@4	1
 alternatename	Code/Libraries/Source/DirtySock/Rva00819920Comm.cpp	?d_00819920@@YAXXZ	1
-alternatename	Code/Libraries/Source/DirtySock/Y2ProtoMangleHelpers.cpp	?Rva007FDEE0@@YAHXZ	1
-alternatename	Code/Libraries/Source/DirtySock/Y2ProtoMangleHelpers.cpp	_Rva007FDEE0	1
 alternatename	Code/Libraries/Source/DirtySock/Y2ProtoMangleHelpers.cpp	_strcat	1
 alternatename	Code/Libraries/Source/DirtySock/Y2Rva007EBAE0Module.cpp	?bfmeFindUPB@@YAPAXPAX0@Z	1
 alternatename	Code/Libraries/Source/DirtySock/Y2Rva007EBAE0Module.cpp	?bfmeOneRF@@YAPAXPAX0@Z	1
@@ -5014,7 +5012,6 @@ object_symbol	reverse/functions.csv	0x005838F8	1
 object_symbol	reverse/functions.csv	0x005AD93A	1
 object_symbol	reverse/functions.csv	0x005F69C4	1
 object_symbol	reverse/functions.csv	0x00620E70	1
-object_symbol	reverse/functions.csv	0x0066A3B0	1
 object_symbol	reverse/functions.csv	0x0068DC60	1
 object_symbol	reverse/functions.csv	0x0069D5E0	1
 object_symbol	reverse/functions.csv	0x006C5F60	1
@@ -28991,7 +28988,7 @@ pin	reverse/symbols.csv	0x00669DF0	2
 pin	reverse/symbols.csv	0x00669F20	2
 pin	reverse/symbols.csv	0x0066A030	2
 pin	reverse/symbols.csv	0x0066A350	2
-pin	reverse/symbols.csv	0x0066A3B0	2
+pin	reverse/symbols.csv	0x0066A3B0	1
 pin	reverse/symbols.csv	0x0066A4C0	1
 pin	reverse/symbols.csv	0x0066A7E0	1
 pin	reverse/symbols.csv	0x0066A9F0	1

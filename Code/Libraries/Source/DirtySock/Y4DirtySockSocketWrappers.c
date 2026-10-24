@@ -85,6 +85,47 @@ int Rva007FDEB0(int control, int value, void *pointer)
 	return -1;
 }
 
+/* Retail 0x0066A3B0 (267B), BFME 1 0x007FDEE0: the local-address query.
+ * It builds a sockaddr for 192.168.1.1 port 79, runs it through the
+ * address translator Rva007FE310 and returns the host address big-endian.
+ * Protomangle carries its own static copy (0x00670480); this is the one
+ * NetConnStatus and the Comm transports call. Ported verbatim from BFME 1
+ * Y4DirtySockSocket.c, where the byte order of the stores is explained.
+ */
+struct Rva007FDEE0Addr
+{
+	short m_family;                 /* +0x00 */
+	unsigned char m_data[ 14 ];     /* +0x02 */
+};
+
+void *__cdecl memset( void *destination, int value, unsigned int count );
+
+int Rva007FE310( void *host, int hostLength, const void *inet, int inetLength );
+
+int Rva007FDEE0( void )
+{
+	struct Rva007FDEE0Addr inet;
+	struct Rva007FDEE0Addr host;
+	unsigned int uAddress;
+
+	memset( &inet, 0, sizeof inet );
+	inet.m_family = 2;
+	inet.m_data[ 0 ] = (unsigned char)( 0x004F >> 8 );
+	inet.m_data[ 1 ] = (unsigned char)0x004F;
+
+	uAddress = 0xC0A80101;
+	inet.m_data[ 5 ] = (unsigned char)uAddress;  uAddress >>= 8;
+	inet.m_data[ 4 ] = (unsigned char)uAddress;  uAddress >>= 8;
+	inet.m_data[ 3 ] = (unsigned char)uAddress;  uAddress >>= 8;
+	inet.m_data[ 2 ] = (unsigned char)uAddress;
+
+	memset( &host, 0, sizeof host );
+	Rva007FE310( &host, sizeof host, &inet, sizeof inet );
+
+	return ( ( ( ( host.m_data[ 2 ] << 8 ) | host.m_data[ 3 ] ) << 8
+		| host.m_data[ 4 ] ) << 8 ) | host.m_data[ 5 ];
+}
+
 int Rva007FE200(const int *value)
 {
 	return *value;

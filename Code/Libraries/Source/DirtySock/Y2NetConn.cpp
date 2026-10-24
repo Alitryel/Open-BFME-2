@@ -18,7 +18,7 @@ extern int g_Rva0130A598Online;  // 'onln'
 int g_Rva0130A598Online;
 
 int  Rva007FE780Printf( const char *format, ... );    // 0x007FE780
-int  Rva007FDEE0( void );                             // 0x007FDEE0
+extern "C" int Rva007FDEE0( void );                  // 0x007FDEE0
 unsigned int Rva007EB520NetConnMAC( void *adapter );   // 0x007EB520
 extern "C" void Rva007FD080( int priority );                     // 0x007FD080
 extern "C" void Rva007FD270( void );                             // 0x007FD270

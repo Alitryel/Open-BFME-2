@@ -6163,7 +6163,6 @@ name,address,notes
 ?Rva007FDA50Recv@@YAHPAXPADHH1PAH@Z,0x00669F20,same recv body as the Rva007FDA50 pin; C++ alias name from BFME1 Y2Rva00807900Module call sites
 ?Rva007FDB60SocketInfo@@YAXPAXH0H@Z,0x0066A030,same socket-info body as the Rva007FDB60 pin; C++ alias name from BFME1 Y2ProtoMangleHelpers call sites
 ?Rva007FDE80SetCallback@@YAHPAXHI00@Z,0x0066A350,same body as the Rva007FDE80 pin; C++ alias name from BFME1 Y2Rva00807900Module call sites
-?Rva007FDEE0@@YAHXZ,0x0066A3B0,address read from the REL32 displacement in DirtySock Y2NetConn at 0x006583B0; BFME1 Y2NetConn names this callee; body not yet converted
 ?Rva007FDFF0Connect@@YAPAXPBDH@Z,0x0066A4C0,address read from the REL32 displacement in DirtySock Y2ProtoMangleHelpers at 0x00670720; call order matches BFME1 source; body not yet converted
 ?Rva007FE310SocketHost@@YAXPAURva00804440SockAddr@@H0H@Z,0x0066A7E0,address read from the REL32 displacement in DirtySock Y2ProtoMangleHelpers at 0x00670480; BFME1 names this callee; body not yet converted
 ?Rva007FE780Printf@@YAHPBDZZ,0x0066AC50,address read from the REL32 displacements in DirtySock netgameutil NetGameUtilControl at 0x0067A4E0; BFME1 netgameutil names this callee; body not yet converted

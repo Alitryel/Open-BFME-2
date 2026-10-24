@@ -1340,10 +1340,6 @@ extern "C" void *Rva007FD660( char *temp, void *address )
 }
 
 
-// The BFME 1-style C caller in Y4CommRingIdle.c names this body _Rva007FDEE0 (pinned to the same 0x0066A3B0, no arguments, returns the address); bind that spelling here.
-#pragma comment(linker, "/alternatename:_Rva007FDEE0=?Rva00804440LocalAddr@@YAIXZ")
-
 // Retail's call sites in this unit's matched rows land on bodies rowed under
 // other spellings at the same addresses (same ABI). Bind the spellings used here.
 #pragma comment(linker, "/alternatename:_strcat=?ji_0062988c@@YAXXZ")
-#pragma comment(linker, "/alternatename:?Rva007FDEE0@@YAHXZ=?Rva00804440LocalAddr@@YAIXZ")
