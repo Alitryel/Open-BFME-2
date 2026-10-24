@@ -42,10 +42,10 @@ void Rva001F51AD::rva001F51AD(Vec2001F51AD *out)
 {
 	float a = 0.0f;
 	float b = 0.0f;
-	Provider001F51AD *p = m_ptr;
-	if (p != 0)
+	Provider001F51AD *provider = m_ptr;
+	if (provider != 0)
 	{
-		const Data001F51AD *d = p->fetch();
+		const Data001F51AD *d = provider->fetch();
 		a = d->x;
 		b = d->y;
 	}
