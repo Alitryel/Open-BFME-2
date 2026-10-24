@@ -108,8 +108,8 @@ bool BaseHeightMapRenderObjClass::Cast_Ray(RayCollisionTestClass &raytest)
 	P1 = raytest.Ray.Get_P1();
 	result.ComputeContactPoint=true;
 
-	Int p;
-	for (p=0; p<3; p++) {
+	Int clipPass;
+	for (clipPass=0; clipPass<3; clipPass++) {
 		//find intersection point of ray and terrain bounding box
 		result.Reset();
 		result.ComputeContactPoint=true;
@@ -128,7 +128,7 @@ bool BaseHeightMapRenderObjClass::Cast_Ray(RayCollisionTestClass &raytest)
 					P1 = result.ContactPoint;	//make intersection point the new end pont of ray
 			}
 		} else {
-			if (p==0) return(false);
+			if (clipPass==0) return(false);
 			break;
 		}
 
