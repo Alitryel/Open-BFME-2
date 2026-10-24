@@ -23,12 +23,12 @@ public:
 class Rva0028B749Host
 {
 public:
-	void rva0028B749(int a, float b);
+	void rva0028B749(int a, float damage);
 };
 // ?rva0028B749@Rva0028B749Host@@QAEXHM@Z
-void Rva0028B749Host::rva0028B749(int a, float b)
+void Rva0028B749Host::rva0028B749(int a, float damage)
 {
 	Player *player = ((const Object *)this)->getControllingPlayer();
 	if (player != 0)
-		player->addSkillPointsForDamage((Object *)this, (const Object *)a, b);
+		player->addSkillPointsForDamage((Object *)this, (const Object *)a, damage);
 }
