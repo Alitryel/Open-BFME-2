@@ -102,3 +102,14 @@ $py = 'C:\Users\vvval\AppData\Local\Programs\Python\Python313\python.exe'
 `build.compile_function` and `eh_verify.verify_row` paths. The normal `add_match`
 build also passed before publication. Cleanup locations are evidence from the
 parent graph, not five additional newly recovered byte claims in this change.
+
+## Dependent EH handler
+
+With the parent recovered, its compiler-emitted
+`__ehhandler$?queueSupplyTruck@AIPlayer@@IAEXXZ` is now rowed at
+**0x00792E4C..0x00792E56 (10 bytes)** in the same source. The parent's EH
+prologue explicitly installs this address; `Image.frame_funcinfo(0x004F37B0)`
+returns handler 0x00792E4C and FuncInfo RVA 0x009457DC. The handler loads
+FuncInfo VA 0x00D457DC and jumps to `__CxxFrameHandler` at RVA 0x00629182.
+The normal relocated byte gate verifies both parent and handler. No new source
+body, assembly implementation or adjacency-based identity inference is needed.
