@@ -4791,3 +4791,16 @@ Code/GameEngine/Source/Common/GapBodiesGE38.cpp|class||Rva005DD7FBVector,0988946
 Code/GameEngine/Source/Common/GapBodiesGE38.cpp|class||Rva005DD7FB,62b00c1b82175c416dabc645,seat-a,rn-1024b-0-a,w-04c0991c16ee,2026-10-24
 Code/GameEngine/Source/Common/GapBodiesGE38.cpp|function|0x005DBB7A|rva005DBB7A,5fa7f38ec25374afc2f4d90e,seat-a,rn-1024b-0-a,w-04c0991c16ee,2026-10-24
 Code/GameEngine/Source/Common/GapBodiesGE38.cpp|function|0x005DD7FB|rva005DD7FB,dc104cb979dc6ccd34224520,seat-a,rn-1024b-0-a,w-04c0991c16ee,2026-10-24
+Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|function|0x002CEF02|Rva002CEF02ConditionalSleep,084f62d4a8f576695bdb8fab,seat-a,rn-1024b-4-a,w-10f2616ae92d,2026-10-24
+Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|param|ThingFactory::newDrawable|a2,666d1ae521c7e689601b440e,seat-a,rn-1024b-4-a,w-10f2616ae92d,2026-10-24
+Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|param|ThingFactory::newDrawable|a3,2be8de4bf3e8ff1ce1221465,seat-a,rn-1024b-4-a,w-10f2616ae92d,2026-10-24
+Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|local|ThingFactory::newDrawable|r,d26a7be9bdf2e20d6c9c2165,seat-a,rn-1024b-4-a,w-10f2616ae92d,2026-10-24
+Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|local|ThingFactory::newDrawable|p,275e6117ada32078f3949d9e,seat-a,rn-1024b-4-a,w-10f2616ae92d,2026-10-24
+Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|local|ThingFactory::newDrawable|o,d1f9be8fac4786f2523dddb5,seat-a,rn-1024b-4-a,w-10f2616ae92d,2026-10-24
+Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|global||g_00DFF004,7842c4afd60be0deea88b14c,seat-a,rn-1024b-4-a,w-10f2616ae92d,2026-10-24
+Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|function|0x002CEF02|Rva002CEF02ConditionalSleep,084f62d4a8f576695bdb8fab,seat-b,rn-1024b-4-b,w-3fe36ed48814,2026-10-24
+Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|param|ThingFactory::newDrawable|a2,666d1ae521c7e689601b440e,seat-b,rn-1024b-4-b,w-3fe36ed48814,2026-10-24
+Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|local|ThingFactory::newDrawable|r,d26a7be9bdf2e20d6c9c2165,seat-b,rn-1024b-4-b,w-3fe36ed48814,2026-10-24
+Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|local|ThingFactory::newDrawable|p,275e6117ada32078f3949d9e,seat-b,rn-1024b-4-b,w-3fe36ed48814,2026-10-24
+Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|local|ThingFactory::newDrawable|o,71da7d3d4e9f51da3993126f,seat-b,rn-1024b-4-b,w-3fe36ed48814,2026-10-24
+Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|global||g_00DFF004,7842c4afd60be0deea88b14c,seat-b,rn-1024b-4-b,w-3fe36ed48814,2026-10-24

@@ -2243,7 +2243,7 @@ extern class CreateAHeroManager *TheCreateAHeroManager;
 #define TheHeroManager (*(Rva0021A54A * *)&TheCreateAHeroManager)
 extern GameLODManager *TheGameLODManager;
 extern int SavedClientFrame;
-extern unsigned char g_00DFF004;
+extern unsigned char isLoadingMap;
 extern char g_00E09B08[];
 int g_00E09A00;	// retail RVA 0x00A09A00 (.bss), defined here
 
@@ -2274,7 +2274,7 @@ void GameLogic::startNewGame(bool loadingSaveGame)
 	Profile::StopRange("newgame");
 	rva0023F52C(loadingSaveGame);
 	m_6d = false;
-	g_00DFF004 = 0;
+	isLoadingMap = 0;
 	rva0024004D(loadingSaveGame);
 	m_72 = false;
 	m_44 = true;
@@ -2754,7 +2754,7 @@ void GameLogic::startNewGame_Init(bool loadingSaveGame)
 	m_9e = loadingSaveGame;
 	if (m_110 == 0 || m_110 == 6)
 		TheWritableGlobalData->m_26 = true;
-	g_00DFF004 = 1;
+	isLoadingMap = 1;
 	m_6d = true;
 	TheMouse->_bfme_setEngineVisibility(false);
 	if (m_72)

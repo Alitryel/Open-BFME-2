@@ -12,7 +12,7 @@ extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long ms);
 class ClientFrameSubsystem; extern class GameClient *TheGameClient;
 
 // g_00DFF004: VA 0x00dff004 (.data/bss); retail zero-filled.
-unsigned char g_00DFF004;
+unsigned char isLoadingMap;
 
 struct Obj
 {
@@ -81,30 +81,30 @@ struct Mgr
 
 struct ThingFactory
 {
-	void *newDrawable(void *a1, int a2, int a3);
+	void *newDrawable(void *a1, int statusBits, int a3);
 };
 
-void *ThingFactory::newDrawable(void *a1, int a2, int a3)
+void *ThingFactory::newDrawable(void *a1, int statusBits, int a3)
 {
 	if (a1 == 0)
 		return 0;
-	Result *r;
+	Result *draw;
 	{
 		Mgr *mgr = (Mgr *)((ClientFrameSubsystem *)TheGameClient);
-		r = mgr->v28((int)a1, a2, a3);
+		draw = mgr->v28((int)a1, statusBits, a3);
 	}
-	Elem **p = r->m_array;
-	if (p == 0)
-		return r;
-	while (*p != 0) {
-		if (g_00DFF004)
+	Elem **module = draw->m_array;
+	if (module == 0)
+		return draw;
+	while (*module != 0) {
+		if (isLoadingMap)
 			Sleep(0);
-		Obj *o = (*p)->v16();
+		Obj *o = (*module)->v16();
 		if (o != 0)
 			o->v00();
-		++p;
+		++module;
 	}
-	return r;
+	return draw;
 }
 
 // BF1 9cbfb551fe Common/S1IndirectSlotCalls.cpp Rva00133070 supplies the
@@ -117,6 +117,6 @@ void *ThingFactory::newDrawable(void *a1, int a2, int a3)
 // name and guard meaning remain unknown. This is the minimal void contract.
 void Rva002CEF02ConditionalSleep()
 {
-    if (g_00DFF004)
+    if (isLoadingMap)
         Sleep(0);
 }

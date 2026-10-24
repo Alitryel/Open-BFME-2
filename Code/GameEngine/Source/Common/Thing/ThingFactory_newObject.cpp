@@ -23,7 +23,7 @@ struct FprintfTarget
 };
 extern "C" void fprintf(FprintfTarget *target, const char *format, ...);
 extern void *g_00DFEFF0;
-extern unsigned char g_00DFF004;
+extern unsigned char isLoadingMap;
 
 int GetGameLogicRandomValue(int low, int high, char *file, int line);
 #define THINGFACTORY_FILE "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\Common\\Thing\\ThingFactory.cpp"
@@ -141,7 +141,7 @@ Object *ThingFactory::newObject(const ThingTemplate *thingTemplate, Team *team, 
 	if (thingTemplate == 0)
 		return 0;
 
-	if (g_00DFF004)
+	if (isLoadingMap)
 		Sleep(0);
 
 	if (thingTemplate->hasBuildVariations())
@@ -156,7 +156,7 @@ Object *ThingFactory::newObject(const ThingTemplate *thingTemplate, Team *team, 
 
 	for (BehaviorModule **behaviorModule = obj->getBehaviorModules(); *behaviorModule; ++behaviorModule)
 	{
-		if (g_00DFF004)
+		if (isLoadingMap)
 			Sleep(0);
 		CreateModuleInterface *create = (*behaviorModule)->getCreate();
 		if (!create)
@@ -164,10 +164,10 @@ Object *ThingFactory::newObject(const ThingTemplate *thingTemplate, Team *team, 
 		create->onCreate();
 	}
 
-	if (g_00DFF004)
+	if (isLoadingMap)
 		Sleep(0);
 	obj->initObject();
-	if (g_00DFF004)
+	if (isLoadingMap)
 		Sleep(0);
 
 	if (g_00DFEFF0)

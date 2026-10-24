@@ -10,7 +10,7 @@ class LivingWorldManager;
 extern LivingWorldManager *TheLivingWorldManager;
 extern unsigned char g_00E01EA8;
 extern unsigned char g_rva005B5C02Flag;
-extern unsigned char g_00DFF004;
+extern unsigned char isLoadingMap;
 extern int g_Va00DFECD0;
 struct Rva002E373CHolder;
 extern Rva002E373CHolder *g_Va00DBD0F4;
@@ -269,11 +269,11 @@ int *Rva0023C41C::rva0023C41C()
 // flag byte at VA 0x00DFF004.
 void Rva0023C4DBSet()
 {
-	g_00DFF004 = 1;
+	isLoadingMap = 1;
 }
 void Rva0023C4E3Clear()
 {
-	g_00DFF004 = 0;
+	isLoadingMap = 0;
 }
 
 // (0x0023DAE8, the vtable-0x00BEDAA0 constructor, lives in

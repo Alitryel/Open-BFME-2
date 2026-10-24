@@ -1115,3 +1115,7 @@ param,Rva002B6C9F::rva002B6CE5::a3,Rva002B6C9F::rva002B6CE5::target,inferred,agr
 param,Rva002B6C9F::rva002B8019::a1,Rva002B6C9F::rva002B8019::army,inferred,agree:nl-e361db76f937,Code/GameEngine/Source/Common/Rva002B6C9F.cpp,0x002B8019
 param,Rva002B6C9F::rva002B8019::a2,Rva002B6C9F::rva002B8019::entry,inferred,agree:nl-9bc978ad8ced,Code/GameEngine/Source/Common/Rva002B6C9F.cpp,0x002B8019
 param,Rva002B6C9F::rva002B8019::a3,Rva002B6C9F::rva002B8019::target,inferred,agree:nl-acce5472b498,Code/GameEngine/Source/Common/Rva002B6C9F.cpp,0x002B8019
+param,ThingFactory::newDrawable::a2,ThingFactory::newDrawable::statusBits,inferred,agree:nl-d4f703f2236e,Code/GameEngine/Source/Common/Rva002CF21BGet.cpp,0x002CF21B
+local,ThingFactory::newDrawable::r,ThingFactory::newDrawable::draw,inferred,agree:nl-d26a7be9bdf2,Code/GameEngine/Source/Common/Rva002CF21BGet.cpp,0x002CF21B
+local,ThingFactory::newDrawable::p,ThingFactory::newDrawable::module,inferred,agree:nl-275e6117ada3,Code/GameEngine/Source/Common/Rva002CF21BGet.cpp,0x002CF21B
+global,?g_00DFF004@@3EA,?isLoadingMap@@3EA,inferred,agree:nl-db1c0000ff0b,Code/GameEngine/Source/Common/Rva002CF21BGet.cpp,0x009FF004
