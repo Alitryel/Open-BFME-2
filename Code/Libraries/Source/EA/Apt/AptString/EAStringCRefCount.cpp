@@ -8,6 +8,8 @@
 // evidence is the retail "(char *)pData != s_EmptyInternalData" message.
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *, const char *, int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
+void __debugbreak();
+#pragma intrinsic(__debugbreak)
 #pragma intrinsic(memcmp)
 
 extern "C" int __cdecl memcmp(const void *left, const void *right, unsigned int count);
@@ -118,13 +120,13 @@ void EAStringC::FreeData(StringDataC *data)
 {
 	if (!(data->m_uRefCount >= 1)) {
 		g_bfmeAptAssertAtE17734("pData->m_uRefCount >= 1", ".\\string\\EAString.inl", 0xF9);
-		if (g_bfmeAptBreakOnAssertAtDDC01C) {__asm int 3}
+		if (g_bfmeAptBreakOnAssertAtDDC01C) {__debugbreak();}
 	}
 	if (--data->m_uRefCount != 0)
 		return;
 	if (data == &g_eaEmptyStringData) {
 		g_bfmeAptAssertAtE17734("(char *)pData != s_EmptyInternalData", ".\\string\\EAString.inl", 0xFD);
-		if (g_bfmeAptBreakOnAssertAtDDC01C) {__asm int 3}
+		if (g_bfmeAptBreakOnAssertAtDDC01C) {__debugbreak();}
 	}
 	g_pChainBlockAllocator->freeBlock(data, (int)(data->m_uMaxSize + 9));
 }
@@ -676,11 +678,10 @@ EAStringC *EAStringC::initializeEmpty_Rva006D2FA0(unsigned int)
 // EAString donor semantics and retail call graph: trim leading characters
 // found in the supplied set (the scan counts the prefix whose characters
 // strchr finds, then keeps Mid(count)); callers at 0x006D5CC1 and 0x00708A77.
-// Every assert break in this unit is spelled __asm int 3 (as rva006D2F40 and
-// SetInternalRefCount already were): with the __debugbreak intrinsic in the
-// helpers inlined here (FreeData through ~EAStringC and operator=) cl gives
-// this body's string temporaries other frame slots; all other rows verify
-// with either spelling.
+// Several remaining assertion sites use an opaque inline-assembly barrier:
+// plain __debugbreak can change reloads or temporary frame slots in callers.
+// Intrinsic repairs are retained individually only after every body in this
+// unit verifies; the FreeData repair preserves these callers byte for byte.
 EAStringC &EAStringC::rva006D59F0(const char *text)
 {
 	if (!text) {

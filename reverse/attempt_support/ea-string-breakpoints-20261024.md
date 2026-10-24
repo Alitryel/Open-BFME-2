@@ -22,3 +22,13 @@ build and add_match both pass1/1 with4 string literals, zero skipped strings,
 zero compiler float literals and zero named imports. The declared-definition
 check passes. The published link index7e43384268 predicts LINKS131->131 bytes;
 that historical census figure is not a claim of additional linked coverage.
+
+## EAStringC::FreeData, RVA006D2EB0,118 bytes
+
+The release worker now uses genuine __debugbreak for both assertion traps.
+Reference-count validation, decrement, singleton check and sized deallocation
+are unchanged. No compiler barrier or flag change is needed for this body.
+The whole reference-counting unit verifies36/36 function rows, its one data
+row,46 string literals and the parent-EH-based funclet mapping; no references
+are skipped. The existing named-identity and data relationships are retained.
+The published index predicts LINKS3023->3023 bytes for the complete unit.
