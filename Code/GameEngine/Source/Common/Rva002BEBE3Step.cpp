@@ -117,6 +117,6 @@ void Rva002C021A::rva002BEBE3()
 	BfmeStateDFVector3 current;
 	((BfmeStateDF *)this)->rva002BEACD(&m_from, &m_to, &current, m_progress);
 	setVector(&current);
-	float v = ((BfmeStateDF *)this)->rva002BEAAC(m_80, m_84, m_progress);
-	setScalar2(v);
+	float interpolatedValue = ((BfmeStateDF *)this)->rva002BEAAC(m_80, m_84, m_progress);
+	setScalar2(interpolatedValue);
 }

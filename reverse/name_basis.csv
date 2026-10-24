@@ -716,3 +716,4 @@ param,Rva00276223::rva00276223::a,Rva00276223::rva00276223::randomlyRotate,infer
 param,Rva00276223::rva00276223::b,Rva00276223::rva00276223::expireTimer,inferred,agree:nl-2e03a9f47634,Code/GameEngine/Source/Common/Rva00276223Leaf.cpp,0x00276223
 local,Rva00276223::rva00276223::r,Rva00276223::rva00276223::drawInterface,inferred,agree:nl-4210452d11bd,Code/GameEngine/Source/Common/Rva00276223Leaf.cpp,0x00276223
 param,Rva0028B749Host::rva0028B749::b,Rva0028B749Host::rva0028B749::damage,inferred,agree:nl-3ff80a85f6ef,Code/GameEngine/Source/Common/Rva0028B749.cpp,0x0028B749
+local,Rva002C021A::rva002BEBE3::v,Rva002C021A::rva002BEBE3::interpolatedValue,inferred,agree:nl-53eb86fa1d15,Code/GameEngine/Source/Common/Rva002BEBE3Step.cpp,0x002BEBE3
