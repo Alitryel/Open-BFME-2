@@ -113,7 +113,48 @@ class SpecialPowerModule : public BehaviorModule,
 													 public SpecialPowerModuleInterface
 {
 
-	MEMORY_POOL_GLUE_ABC( SpecialPowerModule )
+	// BFME2: MEMORY_POOL_GLUE_ABC( SpecialPowerModule ) expanded from
+	// reference/shims/sweep/Common/GameMemory.h with one change: the virtual
+	// destructor is public. Retail's body at 0x00493DEF is rowed as
+	// ??1SpecialPowerModule@@UAE@XZ (public); the glue's protected declaration
+	// bound derived destructors and EH unwinds to ??1SpecialPowerModule@@MAE@XZ,
+	// which nothing defines.
+public:
+	virtual ~SpecialPowerModule();
+public:
+	enum SpecialPowerModuleMagicEnum { SpecialPowerModule_GLUE_NOT_IMPLEMENTED = 0 };
+protected:
+	inline void *operator new(size_t s, SpecialPowerModuleMagicEnum e DECLARE_LITERALSTRING_ARG2)
+	{
+		DEBUG_CRASH(("this should be impossible to call (abstract base class)"));
+		DEBUG_ASSERTCRASH(s == sizeof(SpecialPowerModule), ("The wrong operator new is being called; ensure all objects in the hierarchy have MemoryPoolGlue set up correctly"));
+		throw ERROR_BUG;
+		return 0;
+	}
+protected:
+	inline void operator delete(void *p, SpecialPowerModuleMagicEnum e DECLARE_LITERALSTRING_ARG2)
+	{
+		DEBUG_CRASH(("this should be impossible to call (abstract base class)"));
+	}
+protected:
+	inline void *operator new(size_t s)
+	{
+		DEBUG_CRASH(("this should be impossible to call (abstract base class)"));
+		DEBUG_ASSERTCRASH(s == sizeof(SpecialPowerModule), ("The wrong operator new is being called; ensure all objects in the hierarchy have MemoryPoolGlue set up correctly"));
+		throw ERROR_BUG;
+		return 0;
+	}
+	inline void operator delete(void *p)
+	{
+		DEBUG_CRASH(("this should be impossible to call (abstract base class)"));
+	}
+private:
+	virtual MemoryPool *getObjectMemoryPool()
+	{
+		throw ERROR_BUG;
+		return 0;
+	}
+public: /* include this line at the end to reset visibility to 'public' */ 
 	MAKE_STANDARD_MODULE_MACRO_WITH_MODULE_DATA( SpecialPowerModule, SpecialPowerModuleData )
 
 public:
