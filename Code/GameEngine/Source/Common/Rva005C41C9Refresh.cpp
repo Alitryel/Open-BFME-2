@@ -43,10 +43,10 @@ private:
 
 void Rva005C41C9::rva005C41C9(unsigned char v)
 {
-	unsigned char a = v17();
+	unsigned char oldState = v17();
 	m_c5 = v;
 	v = v17();
 	Inner005C41C9 *inner = m_ac;
 	int c = v ? inner->m_58 : inner->m_5C;
-	v18(a, v, c);
+	v18(oldState, v, c);
 }

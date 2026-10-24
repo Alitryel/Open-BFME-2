@@ -1033,3 +1033,4 @@ global,?g_Va00DB52E8@@3MA,?g_wakeSpeedRatioStep@@3MA,inferred,agree:nl-347f6fc31
 local,Rva00151632::~Rva00151632::tmp,Rva00151632::~Rva00151632::allocation,inferred,agree:nl-d01f4161fa5a,Code/GameEngine/Source/Common/Rva00151632Dtor.cpp,0x00151632
 local,LivingWorldRegionManager::GetRegionUiPopupPoint::r,LivingWorldRegionManager::GetRegionUiPopupPoint::popupPoint,inferred,agree:nl-bb48c581793c,Code/Libraries/Source/WWVegas/WWLib/Rva0020F2A2Dispatch.cpp,0x0020F2A2
 function,?rva00880D10@@YA_NPAURva00880D10Subject@@PAURva00880D10Info@@@Z,?circleIntersectsBox@@YA_NPAURva00880D10Subject@@PAURva00880D10Info@@@Z,inferred,agree:nl-5f51cd3c85fe,Code/GameEngine/Source/Common/Rva00880D10CircleBoxTest.cpp,0x006C0710
+local,Rva005C41C9::rva005C41C9::a,Rva005C41C9::rva005C41C9::oldState,inferred,agree:nl-33260c9d25e0,Code/GameEngine/Source/Common/Rva005C41C9Refresh.cpp,0x005C41C9
