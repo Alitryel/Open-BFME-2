@@ -1929,3 +1929,4 @@ local,Rva003EFDF5Host::rva003EFDF5::v,Rva003EFDF5Host::rva003EFDF5::enabledByte,
 param,Rva00332F5B::Rva00332F5B::b,Rva00332F5B::Rva00332F5B::excluded,inferred,agree:nl-92a24067c341,Code/GameEngine/Source/Common/Rva00332F5BCtor.cpp,0x00332F5B
 param,Rva004E81DE::rva004E81DE::a,Rva004E81DE::rva004E81DE::claimantId,inferred,agree:nl-bb4a18e66470,Code/GameEngine/Source/Common/GapBodiesS3D.cpp,0x004E81DE
 local,Team::rva0039DE46::s,Team::rva0039DE46::status,inferred,agree:nl-067dbec55dee,Code/GameEngine/Source/Common/RTS/TeamRva0039DE46.cpp,0x0039DE46
+param,Rva005D19F8::Rva005D19F8::b,Rva005D19F8::Rva005D19F8::source,inferred,agree:nl-074686082ebe,Code/GameEngine/Source/Common/Rva005C802BFactory.cpp,0x005D19F8

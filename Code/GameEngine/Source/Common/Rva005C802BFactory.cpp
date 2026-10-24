@@ -62,15 +62,15 @@ struct Rva005D19F8Child
 class Rva005D19F8
 {
 public:
-	Rva005D19F8(int a, int b);
+	Rva005D19F8(int a, int source);
 	virtual ~Rva005D19F8();
 private:
 	Rva005D19F8Child *m_04;
 };
 
-Rva005D19F8::Rva005D19F8(int a, int b)
+Rva005D19F8::Rva005D19F8(int a, int source)
 {
-	m_04 = new Rva005D19F8Child(this, a, b);
+	m_04 = new Rva005D19F8Child(this, a, source);
 }
 
 #include "BattlePromptMovieClipView.h"
