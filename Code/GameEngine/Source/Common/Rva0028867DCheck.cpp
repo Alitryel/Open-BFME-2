@@ -22,12 +22,12 @@ struct Rva0028867DData
 	unsigned char m_b102;
 };
 
-static bool Rva0028867DCheck(const void *p)
+static bool Rva0028867DCheck(const void *level)
 {
-	const Rva0028867DData *d = (const Rva0028867DData *)p;
+	const Rva0028867DData *levelData = (const Rva0028867DData *)level;
 	if (TheBfmeGlob->bfmeCall939D())
-		return d->m_b101 == 0;
-	return d->m_b102 == 0;
+		return levelData->m_b101 == 0;
+	return levelData->m_b102 == 0;
 }
 
 // absent-from-retail: keeps the static alive with the ESI argument convention.

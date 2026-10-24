@@ -1913,3 +1913,5 @@ param,famgenDelete#3::p,famgenDelete#3::lock,inferred,agree:nl-110efbbc5fc2,Code
 local,Rva00318333::rva00318768::o1,Rva00318333::rva00318768::oldDuration,inferred,agree:nl-a3b25d1d2f03,Code/GameEngine/Source/GameNetwork/Rva00318333.cpp,0x00318768
 local,Rva00318333::rva00318768::c2,Rva00318333::rva00318768::remainingCountdown,inferred,agree:nl-479686c9b878,Code/GameEngine/Source/GameNetwork/Rva00318333.cpp,0x00318768
 local,Rva00318333::rva00318333::f,Rva00318333::rva00318333::isEvil,inferred,agree:nl-8bbd68e635c1,Code/GameEngine/Source/GameNetwork/Rva00318333.cpp,0x00318333
+param,Rva0028867DCheck::p,Rva0028867DCheck::level,inferred,agree:nl-cf22e162a31e,Code/GameEngine/Source/Common/Rva0028867DCheck.cpp,0x0028867D
+local,Rva0028867DCheck::d,Rva0028867DCheck::levelData,inferred,agree:nl-4336412d691b,Code/GameEngine/Source/Common/Rva0028867DCheck.cpp,0x0028867D
