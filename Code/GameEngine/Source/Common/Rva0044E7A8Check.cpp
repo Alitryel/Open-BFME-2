@@ -45,19 +45,19 @@ bool Rva0044E7A8::rva0044E7A8(int arg)
 	(void)arg;
 	Rva0044E7A8Req *req = m_req;
 	Object *obj = m_obj;
-	unsigned int f0 = req->m_flags0;
-	if ((f0 & 1) != 0 && !obj->isKindOf((KindOfType)0xD6))
+	unsigned int requiredKinds = req->m_flags0;
+	if ((requiredKinds & 1) != 0 && !obj->isKindOf((KindOfType)0xD6))
 		return false;
-	if ((f0 & 2) != 0 && !obj->isKindOf((KindOfType)0x12D))
+	if ((requiredKinds & 2) != 0 && !obj->isKindOf((KindOfType)0x12D))
 		return false;
-	if ((f0 & 4) != 0 && !obj->isKindOf((KindOfType)0x3D))
+	if ((requiredKinds & 4) != 0 && !obj->isKindOf((KindOfType)0x3D))
 		return false;
-	unsigned int f1 = req->m_flags1;
-	if ((f1 & 1) != 0 && obj->isKindOf((KindOfType)0xD6))
+	unsigned int forbiddenKinds = req->m_flags1;
+	if ((forbiddenKinds & 1) != 0 && obj->isKindOf((KindOfType)0xD6))
 		return false;
-	if ((f1 & 2) != 0 && obj->isKindOf((KindOfType)0x12D))
+	if ((forbiddenKinds & 2) != 0 && obj->isKindOf((KindOfType)0x12D))
 		return false;
-	if ((f1 & 4) != 0 && obj->isKindOf((KindOfType)0x3D))
+	if ((forbiddenKinds & 4) != 0 && obj->isKindOf((KindOfType)0x3D))
 		return false;
 	if (req->m_b6 == 0)
 		return true;

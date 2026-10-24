@@ -1015,3 +1015,6 @@ param,Rva0031F89E::rva0031F89E::a,Rva0031F89E::rva0031F89E::scaleX,inferred,agre
 param,Rva0031F89E::rva0031F89E::b,Rva0031F89E::rva0031F89E::scaleY,inferred,agree:nl-d22607a60806,Code/GameEngine/Source/Common/Rva0031F89E.cpp,0x0031F89E
 param,Rva0031F89E::rva0031F89E::c,Rva0031F89E::rva0031F89E::m_offsetX,inferred,agree:nl-299c4e866900,Code/GameEngine/Source/Common/Rva0031F89E.cpp,0x0031F89E
 param,Rva0031F89E::rva0031F89E::d,Rva0031F89E::rva0031F89E::offsetY,inferred,agree:nl-49ba0874d0b8,Code/GameEngine/Source/Common/Rva0031F89E.cpp,0x0031F89E
+local,Rva0044E7A8::rva0044E7A8::f0,Rva0044E7A8::rva0044E7A8::requiredKinds,inferred,agree:nl-56834218d88d,Code/GameEngine/Source/Common/Rva0044E7A8Check.cpp,0x0044E7A8
+local,Rva0044E7A8::rva0044E7A8::f1,Rva0044E7A8::rva0044E7A8::forbiddenKinds,inferred,agree:nl-f7cd1686035c,Code/GameEngine/Source/Common/Rva0044E7A8Check.cpp,0x0044E7A8
+local,SupplyWarehouseCreate::rva004B901D::t,SupplyWarehouseCreate::rva004B901D::objectFlags,inferred,agree:nl-75343598cbdc,Code/GameEngine/Source/GameLogic/Object/Create/SupplyWarehouseCreateRva004B901D.cpp,0x004B901D

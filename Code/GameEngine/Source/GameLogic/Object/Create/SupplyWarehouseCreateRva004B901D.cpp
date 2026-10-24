@@ -109,10 +109,10 @@ void SupplyWarehouseCreate::rva004B901D()
 	_ReadWriteBarrier();
 	if ((f & 1) == 0)
 		return;
-	unsigned int t = *(unsigned int *)&tmp;
-	t >>= 2;
+	unsigned int objectFlags = *(unsigned int *)&tmp;
+	objectFlags >>= 2;
 	_ReadWriteBarrier();
-	if ((t & 1) != 0)
+	if ((objectFlags & 1) != 0)
 		return;
 	const UpgradeTemplate *upgradeTemplate = TheUpgradeCenter->findUpgrade(*(AsciiString *)((char *)m_data04 + 8));
 	if (upgradeTemplate == 0)
