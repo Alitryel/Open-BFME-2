@@ -203,12 +203,12 @@ private:
 void Rva0030B0A3::rva0030B0A3(const char *text)
 {
 	s24(m_margin + m_col, m_line, text);
-	const char *p = text;
+	const char *cursor = text;
 	int col = 0;
-	char c;
-	while ((c = *p++) != 0)
+	char character;
+	while ((character = *cursor++) != 0)
 	{
-		if (c != '\n')
+		if (character != '\n')
 			++col;
 		else
 		{
