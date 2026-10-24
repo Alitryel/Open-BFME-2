@@ -1,4 +1,5 @@
 // cl: /DNDEBUG /MD
+#include <new>
 //
 // NameKeyGenerator::KeyToBucketMap::insert, retail 0x004DA240, 36 bytes,
 // NameKeyGenerator::KeyToBucketMap::do_insert, retail 0x0005574B, 112 bytes,
@@ -51,7 +52,10 @@ namespace _STL
 {
 
 template <class Element>
-void _Construct(Element *slot, const Element &source);
+__declspec(noinline) inline void _Construct(Element *slot, const Element &source)
+{
+	new(slot) Element(source);
+}
 
 }
 
