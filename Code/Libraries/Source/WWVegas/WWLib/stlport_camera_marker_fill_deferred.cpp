@@ -49,3 +49,6 @@ namespace _STL { template <> _Vector_base<LightSubPoint, allocator<LightSubPoint
 // bfme link decl-only end
 
 template _STL::vector<LightSubPoint>::vector(unsigned int, const LightSubPoint &, const _STL::allocator<LightSubPoint> &);
+
+// The base constructor is retail's ICF-folded 24-byte-element copy at 0x000B63B2.
+#pragma comment(linker, "/alternatename:??0?$_Vector_base@ULightSubPoint@@V?$allocator@ULightSubPoint@@@_STL@@@_STL@@QAE@IABV?$allocator@ULightSubPoint@@@1@@Z=??0?$_Vector_base@UBfmeStringRecord000B9534@@V?$allocator@UBfmeStringRecord000B9534@@@_STL@@@_STL@@QAE@IABV?$allocator@UBfmeStringRecord000B9534@@@1@@Z")
