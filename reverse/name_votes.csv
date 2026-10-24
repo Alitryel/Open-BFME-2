@@ -5559,3 +5559,13 @@ Code/GameEngine/Source/Common/GapBodiesS3B.cpp|class||Rva0030B0A3,a54d945ab105a2
 Code/GameEngine/Source/GameLogic/Object/Made002CCBCASlots.cpp|param|Made002CCBCA::rva0050B7D2|arg,a1adb4392174b8b5aed5a2eb,claude-opus-5-5,dioragon-5,w-2f5376c24d26,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Made002CCBCASlots.cpp|param|Made002CCBCA::rva0050B843|arg,3b70ab3934eea720641b23ba,claude-opus-5-5,dioragon-5,w-2f5376c24d26,2026-10-24
 Code/GameEngine/Source/GameLogic/Object/Made002CCBCASlots.cpp|param|Made002CCBCA::rva0050B745|arg,77a00e46e4ce3a3488fd0b2a,claude-opus-5-5,dioragon-5,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a1,6d5da9a87345abcd82fb3601,claude-opus-5-5,dioragon-6,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a4,ae8e7a4c705db7312393dfe7,claude-opus-5-5,dioragon-6,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a6,f52fef4ee2242bc3d853f22d,claude-opus-5-5,dioragon-6,w-2f5376c24d26,2026-10-24
+Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a7,11787460a36b864277cfa83f,claude-opus-5-5,dioragon-6,w-2f5376c24d26,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A|b1,8f33b4d437e21d5de236bb4d,claude-opus-5-5,dioragon-6,w-2f5376c24d26,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A|b2,d9ac3c653b53eeed062f9423,claude-opus-5-5,dioragon-6,w-2f5376c24d26,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b1,2e170c1cbc53eacd3a8d83be,claude-opus-5-5,dioragon-6,w-2f5376c24d26,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b2,75eb8cc8498bfd2a2739ec81,claude-opus-5-5,dioragon-6,w-2f5376c24d26,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b3,2c6b9354695772733dbe7b1e,claude-opus-5-5,dioragon-6,w-2f5376c24d26,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b4,db293a0ef00a666389316c8a,claude-opus-5-5,dioragon-6,w-2f5376c24d26,2026-10-24
