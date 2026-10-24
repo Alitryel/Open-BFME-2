@@ -260,12 +260,12 @@ AptValue *Rva006FF500(AptValue *self,int nParams)
     AptValue *undefined=(AptValue*)(*(BfmeAptValue006DCD20 * *)&gpUndefinedValue);
     if(nParams==1) return undefined;
     if(nParams>1) {
-        float x=g_aptDateInterpreter.stack.At(0)->rva006DD460();
-        float y=g_aptDateInterpreter.stack.At(1)->rva006DD460();
+        float pointX=g_aptDateInterpreter.stack.At(0)->rva006DD460();
+        float pointY=g_aptDateInterpreter.stack.At(1)->rva006DD460();
         if(nParams>2) g_aptDateInterpreter.stack.At(2)->toInteger();
         AptRect rect;
         ((AptCIH*)self)->rva006E1DD0(&rect);
-        if(x>=rect.xMin && x<=rect.xMax && y>=rect.yMin && y<=rect.yMax)
+        if(pointX>=rect.xMin && pointX<=rect.xMax && pointY>=rect.yMin && pointY<=rect.yMax)
             return AptInteger::Create(1);
     }
     return undefined;

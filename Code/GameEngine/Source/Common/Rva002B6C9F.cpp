@@ -60,8 +60,8 @@ bool Rva002B6C9F::rva002B6C9F(int army, int a2, int target)
 	else if (!((LivingWorldLogic *)this)->CanMoveArmyMembers_internal((LivingWorldArmy *)army, *(const _STL::vector<int, _STL::allocator<int> > *)a2, (LivingWorldArmy *)target, &army))
 		return false;
 	else {
-		unsigned char r = ((Rva003193EC *)target)->rva003193EC(army);
-		return r;
+		unsigned char hasRoom = ((Rva003193EC *)target)->rva003193EC(army);
+		return hasRoom;
 	}
 }
 
