@@ -178,6 +178,77 @@ def test_header_inline_anchor_no_longer_splits_its_class_span(header_inline):
     assert header_inline[0x600000]["tu"] == "Code/GameEngine/Source/Damage/DamageModule.cpp"
 
 
+# The W3DGameClient layout in retail: two in-class virtual factories (0x0004C4F9
+# createFontLibrary, 0x0004C5F8 createSnowManager) with the class's twelve
+# neighbouring rows between and after them, then W3DGameClient's own out-of-line
+# members from 0x0004C7A8. The class's code (and so its vftable) is right there.
+W3D_TWELVE = [0x4C553, 0x4C585, 0x4C5C6, 0x4C62D, 0x4C662, 0x4C694,
+              0x4C6C6, 0x4C6D4, 0x4C709, 0x4C743, 0x4C755, 0x4C75A]
+
+
+@pytest.fixture
+def w3d_client(tmp_path):
+    zh = tmp_path / "reference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/W3D"
+    zh.mkdir(parents=True)
+    (zh / "W3DGameClient.cpp").write_text(
+        "W3DGameClient::W3DGameClient()\n{\n}\n"
+        "void W3DGameClient::addScorch(const Coord3D *pos, Real r, Scorches type)\n{\n}\n"
+        "void W3DGameClient::createRayEffectByTemplate(const Coord3D *s)\n{\n}\n"
+        "void W3DGameClient::setTimeOfDay(TimeOfDay tod)\n{\n}\n"
+        "void W3DGameClient::setTeamColor(Int r, Int g, Int b)\n{\n}\n")
+    (zh / "W3DGameClient.h").write_text(
+        "class W3DGameClient : public GameClient\n{\npublic:\n\tW3DGameClient();\n"
+        "protected:\n"
+        "\tvirtual FontLibrary *createFontLibrary( void ) { return NEW W3DFontLibrary; }\n"
+        "\tvirtual SnowManager *createSnowManager( void ) { return NEW W3DSnowManager; }\n};\n")
+    (tmp_path / "reverse").mkdir()
+    w = "Code/W3D"
+    rows = [row("?createFontLibrary@W3DGameClient@@MAEPAVFontLibrary@@XZ", 0x4C4F9, 16,
+                f"{w}/W3DGameClientFontFactory.cpp"),
+            row("?createSnowManager@W3DGameClient@@MAEPAVSnowManager@@XZ", 0x4C5F8, 16,
+                f"{w}/W3DGameClientSnowFactory.cpp")]
+    rows += [row(f"?rva{a:08X}@Rva004C743@@QAEPAXXZ", a, 16, f"{w}/W3DGameClientFactories.cpp")
+             for a in W3D_TWELVE]
+    rows += [row(n, a, 16, f"{w}/W3DGameClient.cpp") for n, a in [
+        ("?addScorch@W3DGameClient@@UAEXPBUCoord3D@@MW4Scorches@@@Z", 0x4C7A8),
+        ("?createRayEffectByTemplate@W3DGameClient@@UAEXPBUCoord3D@@@Z", 0x4C7F0),
+        ("?setTimeOfDay@W3DGameClient@@UAEXW4TimeOfDay@@@Z", 0x4C884),
+        ("?setTeamColor@W3DGameClient@@UAEXHHH@Z", 0x4C8BC)]]
+    (tmp_path / "reverse/functions.csv").write_text(HEADER + "".join(sorted(rows, key=lambda r: r.split(",")[2])))
+    return {int(r["rva"], 16): r for r in tu_map.build(tu_map.Layout(tmp_path))}
+
+
+def test_inline_virtuals_beside_their_class_code_keep_the_class_site(w3d_client):
+    site = "Code/W3D/W3DGameClient.cpp"
+    for a in (0x4C4F9, 0x4C5F8):
+        assert f"S={site}" in w3d_client[a]["evidence"]
+        assert w3d_client[a]["tu"] == site and w3d_client[a]["confidence"] == "approved"
+
+
+def test_w3dgameclient_neighbouring_rows_stay_approved(w3d_client):
+    site = "Code/W3D/W3DGameClient.cpp"
+    for a in W3D_TWELVE:
+        assert (w3d_client[a]["tu"], w3d_client[a]["confidence"]) == (site, "approved"), hex(a)
+
+
+def test_inline_virtual_with_another_files_anchor_between_is_contested(tmp_path):
+    # adjacent TUs interleaving within GAP: the nearest Z row is another file's, so the
+    # same-site anchor beyond it does not give the inline virtual its class site back.
+    zh = tmp_path / "reference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/X"
+    zh.mkdir(parents=True)
+    (zh / "Foo.cpp").write_text("void Foo::a()\n{\n}\n")
+    (zh / "Bar.cpp").write_text("void Bar::b()\n{\n}\n")
+    (zh / "Foo.h").write_text("class Foo\n{\npublic:\n\tvirtual int v(void) { return 1; }\n};\n")
+    (tmp_path / "reverse").mkdir()
+    (tmp_path / "reverse/functions.csv").write_text(HEADER + "".join([
+        row("?a@Foo@@QAEXXZ", 0x9000, 16, "Code/X/FooA.cpp"),
+        row("?b@Bar@@QAEXXZ", 0x9400, 16, "Code/X/BarB.cpp"),
+        row("?v@Foo@@UAEHXZ", 0x9800, 16, "Code/X/FooV.cpp"),
+    ]))
+    out = {int(r["rva"], 16): r for r in tu_map.build(tu_map.Layout(tmp_path))}
+    assert "S=" not in out[0x9800]["evidence"]
+
+
 # ---------------------------------------------------------------- unconverted functions
 @pytest.fixture
 def unconverted(tmp_path):

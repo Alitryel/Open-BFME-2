@@ -357,6 +357,20 @@ def header_comdat(name, cls, meth, z, header_members):
     return bool(m) and name[m.end():m.end() + 1] in VIRTUAL_CODES
 
 
+def beside_own_site(rva, site, z_anchors, z_rvas):
+    """An inline virtual whose class site has an out-of-line (Z) row within GAP of it,
+    with no other file's Z row in between: the class's own code, and so its vftable
+    and this COMDAT, sit there, so the class site still places it. A same-site anchor
+    across another file's anchor is contested (adjacent TUs interleaving within GAP)."""
+    if not site:
+        return False
+    i = bisect.bisect_left(z_rvas, rva)
+    # only the nearest Z row on each side counts: any other file's row is nearer, the
+    # anchor is contested
+    return any(0 <= j < len(z_anchors) and abs(z_anchors[j][0] - rva) <= GAP
+               and z_anchors[j][1] == site for j in (i - 1, i))
+
+
 def file_strings(layout, paths, owner):
     out = {}
     path = layout.path("string_xrefs.tsv")
@@ -478,10 +492,16 @@ def evidence_rows(layout, ledger=None):
     F = file_strings(layout, paths, owner)
     for r in rows:
         r["cls"], r["meth"] = demangle(r["name"]) if r["name"] else (None, None)
-        cls = r["cls"]
         r["F"] = F.get(r["rva"])
-        r["Z"] = zmeth.get((cls, r["meth"])) if cls else None
+        r["Z"] = zmeth.get((r["cls"], r["meth"])) if r["cls"] else None
+    z_anchors = sorted((r["rva"], r["Z"]) for r in rows if r["Z"])   # out-of-line ZH definitions
+    z_rvas = [a for a, _ in z_anchors]
+    for r in rows:
+        cls = r["cls"]
         inline = header_comdat(r["name"], cls, r["meth"], r["Z"], zhead) if cls else False
+        if inline and not r["name"].startswith("??0") and beside_own_site(r["rva"], zsite.get(cls),
+                                                                             z_anchors, z_rvas):
+            inline = False
         r["S"] = zsite.get(cls) if cls and not COMDAT.match(r["name"]) and not inline else None
         base = re.sub(r"ModuleData$", "", cls or "")
         r["N"] = (os.path.dirname(r["source"]) + "/" + base + ".cpp") if base and r["source"] \
