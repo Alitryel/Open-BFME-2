@@ -17,7 +17,7 @@
 //   0x00150A5B  0x001505CD  0x00BD3A34#0
 //   0x001684BA  0x001684D6  0x00BD41C8#1
 //   0x0018010E  0x0017FFCA  0x00BD4F50#9
-//   0x001D93B2  0x001D92C0  0x00BD9CB0#0
+//   0x001D93B2 is emitted by the complete armor-store lifetime unit.
 //   0x001DF3D5  0x001DF057  0x00BDC5B8#0
 //   0x001E1241  0x001E125D  0x00BDD95C#0
 //   0x001E28EA  0x001E2906  0x00BDD978#0
@@ -104,19 +104,6 @@ public:
 
 // ?<Rva0017FFCA::Rva0017FFCA> absent-from-retail
 Rva0017FFCA::Rva0017FFCA(EmitVtableTag *)
-{
-}
-
-class Rva001D9670Store
-{
-public:
-	Rva001D9670Store(EmitVtableTag *);
-public:
-	virtual ~Rva001D9670Store();
-};
-
-// ?<Rva001D9670Store::Rva001D9670Store> absent-from-retail
-Rva001D9670Store::Rva001D9670Store(EmitVtableTag *)
 {
 }
 

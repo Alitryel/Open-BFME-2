@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /O1 /MD /EHsc /DNDEBUG /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
+// cl: /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfme2_ascii /O1 /MD /EHsc /DNDEBUG /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
 // ??1Rva001D9670Store@@UAE@XZ, retail 0x001D92C0..0x001D93B2 (242 bytes, EH):
 // the destructor of the armor template store whose scalar deleting
@@ -96,12 +96,17 @@ struct Rva001D92BB
 	Rva001D904A m_table;
 };
 
-#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
+#include "spline_service.h"
 
 class Rva001D9670Store : public SubsystemInterface
 {
 public:
 	virtual ~Rva001D9670Store();
+	virtual void init() {}
+	virtual bool vslot04(int reason);
+	virtual bool vslot05();
+	virtual void reset() {}
+	virtual void update() {}
 private:
 	Rva001D92BB m_templates;		// +0x0C
 	_STL::vector<void *> m_list;		// +0x20
