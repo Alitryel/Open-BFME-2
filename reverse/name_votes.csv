@@ -4185,3 +4185,9 @@ Code/GameEngine/Source/GameClient/FormationTranslatorRva00431C9D.cpp|local|Forma
 Code/Libraries/Source/WWVegas/WWLib/Rva00240D0FCreate.cpp|local|Rva00240D0FCreate|tmp,be2fc5eb46c24359876fb3eb,gpt-6.1-sol,codexb-20261024-080617-3,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/EbpParamForwarders.cpp|function|0x0018C822|rva0018C822,adbf9bbbae2c503705f5c8dc,gpt-6.1-sol,codexb-20261024-080617-4,w-8e883e57d025,2026-10-24
 Code/GameEngine/Source/Common/EbpParamForwarders.cpp|function|0x002B2955|rva002B2955,156622f83bfd65006d1152c2,gpt-6.1-sol,codexb-20261024-080617-4,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Map/Rva0027F4F8Find.cpp|class||Rva0027F4F8Entry,af79a717a35fb7be62eecf6e,gpt-6.1-sol,codexb-20261024-080617-5,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Map/Rva0027F4F8Find.cpp|function|0x0027F4F8|rva0027F4F8,31e2902834af075cffb07c28,gpt-6.1-sol,codexb-20261024-080617-5,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainInitOffsets.cpp|local|AODHordeContain::initOffsets|n,0af08a460df9a20d3c14b60d,gpt-6.1-sol,codexb-20261024-080617-6,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva004079D5.cpp|local|Rva004079D5::rva004079D5|v,b4b8f45a1ac3a7f554f46387,gpt-6.1-sol,codexb-20261024-080617-6,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|member|ArmyDetailsPanelImpl|m_map14,e8f250067fc5f16105927be9,gpt-6.1-sol,codexb-20261024-080617-7,w-8e883e57d025,2026-10-24
+Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp|function|0x005E39A6|rva005E39A6,5abdbafc9f6884f9c76ad818,gpt-6.1-sol,codexb-20261024-080617-7,w-8e883e57d025,2026-10-24
