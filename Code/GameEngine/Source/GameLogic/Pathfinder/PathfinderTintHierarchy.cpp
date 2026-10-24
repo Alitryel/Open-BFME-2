@@ -13,8 +13,8 @@ class Rva00271779 {public: void rva00271779(RGBColor00271779,int,int,int,float,f
 class Drawable {public: char pad00[0x118];unsigned int flags;};
 class Object;
 struct Rva002EBD99Node {Rva002EBD99Node *next,*prev;Object *obj;};
-struct Rva002EBD99List {Rva002EBD99Node *head;};
-struct Rva002EBD99Items {void *opaque;Rva002EBD99List *list;};
+struct ContainedObjectList {Rva002EBD99Node *head;};
+struct Rva002EBD99Items {void *opaque;ContainedObjectList *list;};
 class Rva002EBD99Contain {
 public:
 #define S(n) virtual void slot##n();
