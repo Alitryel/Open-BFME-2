@@ -118,16 +118,16 @@ class Rva005E5590Iface;
 class Rva005F4C52
 {
 public:
-	virtual Rva005F4C8ERef<Rva005E6ED6Third> rva005F4C8E(int a, int b);
-	Rva005F4C8ERef<Rva005E5590Iface> rva005F4CF8(int a, int b);
+	virtual Rva005F4C8ERef<Rva005E6ED6Third> rva005F4C8E(int level, int name);
+	Rva005F4C8ERef<Rva005E5590Iface> rva005F4CF8(int level, int name);
 private:
 	unsigned char m_pad04[0x08 - 4];
 	int m_08;
 };
 
-Rva005F4C8ERef<Rva005E6ED6Third> Rva005F4C52::rva005F4C8E(int a, int b)
+Rva005F4C8ERef<Rva005E6ED6Third> Rva005F4C52::rva005F4C8E(int level, int name)
 {
-	Rva005E6F9D *panel = new Rva005E6F9D(a, *reinterpret_cast<const AsciiString *>(b), reinterpret_cast<HeroDetailsInput *>(&m_08));
+	Rva005E6F9D *panel = new Rva005E6F9D(level, *reinterpret_cast<const AsciiString *>(name), reinterpret_cast<HeroDetailsInput *>(&m_08));
 	return Rva005F4C8ERef<Rva005E6ED6Third>(reinterpret_cast<Rva005E6ED6Third *>(static_cast<Rva005E3AE1 *>(panel)));
 }
 
@@ -139,15 +139,15 @@ Rva005F4C8ERef<Rva005E6ED6Third> Rva005F4C52::rva005F4C8E(int a, int b)
 class Rva005FAAA1
 {
 public:
-	Rva005F4C8ERef<Rva005E6ED6Second> rva005FAB34(int a, int b);
+	Rva005F4C8ERef<Rva005E6ED6Second> rva005FAB34(int level, int name);
 private:
 	unsigned char m_pad00[0x08];
 	int m_08;
 };
 
-Rva005F4C8ERef<Rva005E6ED6Second> Rva005FAAA1::rva005FAB34(int a, int b)
+Rva005F4C8ERef<Rva005E6ED6Second> Rva005FAAA1::rva005FAB34(int level, int name)
 {
-	Rva005E6F9D *panel = new Rva005E6F9D(a, *reinterpret_cast<const AsciiString *>(b), reinterpret_cast<HeroDetailsInput *>(&m_08));
+	Rva005E6F9D *panel = new Rva005E6F9D(level, *reinterpret_cast<const AsciiString *>(name), reinterpret_cast<HeroDetailsInput *>(&m_08));
 	return Rva005F4C8ERef<Rva005E6ED6Second>(reinterpret_cast<Rva005E6ED6Second *>(static_cast<Rva005CC5E5 *>(panel)));
 }
 
@@ -184,26 +184,26 @@ private:
 	Rva005CDCEELink *link24;
 };
 
-Rva005F4C8ERef<Rva005E5590Iface> Rva005F4C52::rva005F4CF8(int a, int b)
+Rva005F4C8ERef<Rva005E5590Iface> Rva005F4C52::rva005F4CF8(int level, int name)
 {
 	// The existing return view reaches the same counted base through its
     // vbptr; the provider's real third interface is Rva005E3AE1 at +10.
-    Rva005E54F7 *panel = new Rva005E54F7(a, *reinterpret_cast<const AsciiString *>(b), &m_08);
+    Rva005E54F7 *panel = new Rva005E54F7(level, *reinterpret_cast<const AsciiString *>(name), &m_08);
     return Rva005F4C8ERef<Rva005E5590Iface>(reinterpret_cast<Rva005E5590Iface *>(static_cast<Rva005E3AE1 *>(panel)));
 }
 
 class Rva005CDF6C
 {
 public:
-	virtual Rva005F4C8ERef<Rva005CDE89Iface> rva005CDF8B(int a, int b);
+	virtual Rva005F4C8ERef<Rva005CDE89Iface> rva005CDF8B(int level, int name);
 private:
 	unsigned char m_pad04[0x08 - 4];
 	int m_08;
 };
 
-Rva005F4C8ERef<Rva005CDE89Iface> Rva005CDF6C::rva005CDF8B(int a, int b)
+Rva005F4C8ERef<Rva005CDE89Iface> Rva005CDF6C::rva005CDF8B(int level, int name)
 {
-	Rva005CDCEE *panel = new Rva005CDCEE(a, *reinterpret_cast<const AsciiString *>(b), reinterpret_cast<PlanningHeroDetailsInput *>(&m_08));
+	Rva005CDCEE *panel = new Rva005CDCEE(level, *reinterpret_cast<const AsciiString *>(name), reinterpret_cast<PlanningHeroDetailsInput *>(&m_08));
 	return Rva005F4C8ERef<Rva005CDE89Iface>(reinterpret_cast<Rva005CDE89Iface *>(static_cast<Rva005CC5E5 *>(panel)));
 }
 
@@ -235,13 +235,13 @@ private:
 class Rva005CDB8F
 {
 public:
-	virtual Rva005F4C8ERef<Rva005CD9C0Iface> rva005CDBAE(int a, int b);
+	virtual Rva005F4C8ERef<Rva005CD9C0Iface> rva005CDBAE(int level, int name);
 private:
 	unsigned char m_pad04[0x08 - 4];
 	int m_08;
 };
 
-Rva005F4C8ERef<Rva005CD9C0Iface> Rva005CDB8F::rva005CDBAE(int a, int b)
+Rva005F4C8ERef<Rva005CD9C0Iface> Rva005CDB8F::rva005CDBAE(int level, int name)
 {
-	return Rva005F4C8ERef<Rva005CD9C0Iface>(new Rva005CD9C0(a, *reinterpret_cast<const AsciiString *>(b), &m_08));
+	return Rva005F4C8ERef<Rva005CD9C0Iface>(new Rva005CD9C0(level, *reinterpret_cast<const AsciiString *>(name), &m_08));
 }

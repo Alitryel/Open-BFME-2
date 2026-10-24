@@ -1692,3 +1692,13 @@ file,Code/Libraries/Source/WWVegas/WWMath/Rva00715E90Cluster.cpp,Code/Libraries/
 file,Code/Libraries/Source/subsystem/Rva0022CA45Ctor.cpp,Code/Libraries/Source/subsystem/ScienceStore.cpp,inferred,mechanical:??0ScienceStore@@QAE@XZ,Code/Libraries/Source/subsystem/ScienceStore.cpp,
 local,Rva005E4DAF::Deselect::p,Rva005E4DAF::Deselect::server,inferred,agree:nl-0d3a5386bd70,Code/GameEngine/Source/Common/Rva005E4DAFTwins.cpp,0x005E4DAF
 local,Rva005E4DAF::Select::p,Rva005E4DAF::Select::server,inferred,agree:nl-4b2d53f56e76,Code/GameEngine/Source/Common/Rva005E4DAFTwins.cpp,0x005E4DE5
+param,Rva005F4C52::rva005F4C8E::a,Rva005F4C52::rva005F4C8E::level,inferred,agree:nl-e7bac8b74ab8,Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp,0x005F4C8E
+param,Rva005F4C52::rva005F4C8E::b,Rva005F4C52::rva005F4C8E::name,inferred,agree:nl-2e3952da74c3,Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp,0x005F4C8E
+param,Rva005FAAA1::rva005FAB34::a,Rva005FAAA1::rva005FAB34::level,inferred,agree:nl-1fdcfbc1d77f,Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp,0x005FAB34
+param,Rva005FAAA1::rva005FAB34::b,Rva005FAAA1::rva005FAB34::name,inferred,agree:nl-f934d1ee91ba,Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp,0x005FAB34
+param,Rva005F4C52::rva005F4CF8::a,Rva005F4C52::rva005F4CF8::level,inferred,agree:nl-72e8416a89ff,Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp,0x005F4CF8
+param,Rva005F4C52::rva005F4CF8::b,Rva005F4C52::rva005F4CF8::name,inferred,agree:nl-d9bbf6865599,Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp,0x005F4CF8
+param,Rva005CDF6C::rva005CDF8B::a,Rva005CDF6C::rva005CDF8B::level,inferred,agree:nl-bf7f84fa42cb,Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp,0x005CDF8B
+param,Rva005CDF6C::rva005CDF8B::b,Rva005CDF6C::rva005CDF8B::name,inferred,agree:nl-1b1b5776da56,Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp,0x005CDF8B
+param,Rva005CDB8F::rva005CDBAE::a,Rva005CDB8F::rva005CDBAE::level,inferred,agree:nl-2915e699c364,Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp,0x005CDBAE
+param,Rva005CDB8F::rva005CDBAE::b,Rva005CDB8F::rva005CDBAE::name,inferred,agree:nl-56d4560d6d43,Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp,0x005CDBAE
