@@ -217,6 +217,234 @@ struct Rva005DC408Element;
 struct Rva005EF8FAElement;
 struct Rva005F8620Element;
 
+// Retail calls each of these helpers out of line at an address the ledger
+// already rows under another spelling; each forwarder reaches that row with
+// the call shape of the helper it replaces (generated from the retail REL32s).
+class BfmeStringTailRecord156;
+class BuildListInfo;
+class DynamicAudioEventRTS;
+class GameWindow;
+namespace _STL { template <class _Tp, class _Alloc> class list; }
+class Rva0004CCFF;
+class Rva000A8CAE;
+class Rva000B9AAA;
+class Rva001DE727;
+class Rva002111C8;
+class Rva00214ADC;
+class Rva002A73B8;
+class Rva002B2F49;
+class Rva002E0D93;
+class Rva002E9E70;
+class Rva0032A3A9Element;
+class Rva003371B1;
+class Rva003AC980;
+class Rva003AD070;
+class Rva003AD0A0;
+class Rva003B3080;
+class Rva00403927;
+class Rva00585B16;
+class Rva005EEFD2;
+class Rva00752630;
+class RvaSmartPtr12;
+struct BfmeNarrowRecord00079C23;
+struct BfmeNarrowRecord00427F75;
+struct BfmePod12;
+struct BfmeVectorRecord000C0BEC;
+struct Elem003AF9E0;
+struct Rva00079554Record;
+struct Rva00079EA1Element;
+struct Rva000B978ARecord;
+struct Rva000BEDF0Record;
+struct Rva000C1CAEElement;
+struct Rva0014F718;
+struct Rva00150659Element;
+struct Rva001DEF38Element;
+struct Rva001EB63C;
+struct Rva002115C5;
+struct Rva00213949Element;
+struct Rva002B91BBElement;
+struct Rva002BBB96Element;
+struct Rva002DBF66Elem;
+struct Rva002DCFEEElement;
+struct Rva002E2690Element;
+struct Rva003F610FElement;
+struct Rva004043AEElement;
+struct Rva0040538FElement;
+struct Rva0040DC56Element;
+struct Rva0042830DElement;
+struct Rva004758F4Element;
+struct Rva004E1AD5Item;
+struct Rva004FAFF2;
+struct Rva0051FC54Element;
+struct Rva00520211Element;
+struct Rva0052BF33Elem;
+struct Rva0052BF67Elem;
+struct Rva0052BF9BElem;
+struct Rva0052BFB5Elem;
+struct Rva00565865Element;
+struct Rva005658CBElement;
+struct Rva005658FEElement;
+struct Rva00565931Element;
+struct Rva00565964Element;
+struct Rva00565997Element;
+struct Rva00566A42Element;
+struct Rva00586D2AElement;
+struct Rva00586E86Element;
+struct Rva005DC408Element;
+struct Rva005EF8FAElement;
+struct Rva005F0647;
+struct Rva005F8536;
+struct Rva005F8620Element;
+void __cdecl Rva002A752FDestroy(Rva002A73B8 *,Rva002A73B8 *);
+void __cdecl Rva00405337Clear(void *,void *);
+void __cdecl Rva000BDD08Destroy(Rva000B9AAA *,Rva000B9AAA *);
+void __cdecl Rva005A6EDADestroyRange(Rva0052BF33Elem *,Rva0052BF33Elem *);
+void __cdecl Rva00212AD6Get(Rva002115C5 *,Rva002115C5 *);
+void __cdecl Rva0022C8E3DestroyRange(Rva0052BF9BElem *,Rva0052BF9BElem *);
+namespace _STL { template <> void __destroy_aux<class Rva00214ADC *>(Rva00214ADC *,Rva00214ADC *,_STL::__false_type const &); }
+void __cdecl Rva0052C3BFDestroyRange(Rva0052BF67Elem *,Rva0052BF67Elem *);
+namespace _STL { template <> void _Destroy<struct Elem003AF9E0 *>(Elem003AF9E0 *,Elem003AF9E0 *); }
+void __cdecl Rva0052C37ADestroyRange(Rva0052BFB5Elem *,Rva0052BFB5Elem *);
+void __cdecl Rva004E1FCCGet(Rva004E1AD5Item *,Rva004E1AD5Item *);
+void __cdecl Rva00586B92Destroy(Rva00585B16 *,Rva00585B16 *);
+void __cdecl Rva005EF5EFClear(Rva005F0647 *,Rva005F0647 *);
+namespace _STL { template <> Rva0042830DElement * __copy<struct Rva0042830DElement *,struct Rva0042830DElement *,int>(Rva0042830DElement *,Rva0042830DElement *,Rva0042830DElement *,_STL::random_access_iterator_tag const &,int *); }
+namespace _STL { template <> BfmeNarrowRecord00079C23 * __copy<struct BfmeNarrowRecord00079C23 const *,struct BfmeNarrowRecord00079C23 *,int>(BfmeNarrowRecord00079C23 const *,BfmeNarrowRecord00079C23 const *,BfmeNarrowRecord00079C23 *,_STL::random_access_iterator_tag const &,int *); }
+Rva00752630 * __cdecl Rva000791EDCopy(Rva00752630 *,Rva00752630 *,Rva00752630 *);
+BfmeVectorRecord000C0BEC * __cdecl Rva000C0CE1Copy(BfmeVectorRecord000C0BEC *,BfmeVectorRecord000C0BEC *,BfmeVectorRecord000C0BEC *);
+namespace _STL { template <> Rva000B978ARecord * __copy<struct Rva000B978ARecord *,struct Rva000B978ARecord *,int>(Rva000B978ARecord *,Rva000B978ARecord *,Rva000B978ARecord *,_STL::random_access_iterator_tag const &,int *); }
+Rva0014F718 * __cdecl Rva0014FA62Copy(Rva0014F718 *,Rva0014F718 *,Rva0014F718 *,void *,int);
+Rva001DE727 * __cdecl Rva001DE906Copy(Rva001DE727 *,Rva001DE727 *,Rva001DE727 *);
+Rva002111C8 * __cdecl Rva00211EAACopy(Rva002111C8 *,Rva002111C8 *,Rva002111C8 *);
+namespace _STL { template <> Rva002B91BBElement * __copy<struct Rva002B91BBElement *,struct Rva002B91BBElement *,int>(Rva002B91BBElement *,Rva002B91BBElement *,Rva002B91BBElement *,_STL::random_access_iterator_tag const &,int *); }
+Rva002DBF66Elem * __cdecl Rva002DBF66Copy(Rva002DBF66Elem *,Rva002DBF66Elem *,Rva002DBF66Elem *);
+Rva002E0D93 * __cdecl Rva002E17A0Copy(Rva002E0D93 *,Rva002E0D93 *,Rva002E0D93 *);
+char * __cdecl Rva003F58F8Copy(char *,char *,char *);
+namespace _STL { template <> Rva00403927 * __copy<class Rva00403927 *,class Rva00403927 *,int>(Rva00403927 *,Rva00403927 *,Rva00403927 *,_STL::random_access_iterator_tag const &,int *); }
+namespace _STL { template <> _STL::list<GameWindow *,_STL::allocator<GameWindow *> > * __copy<class _STL::list<class GameWindow *,class _STL::allocator<class GameWindow *> > *,class _STL::list<class GameWindow *,class _STL::allocator<class GameWindow *> > *,int>(_STL::list<GameWindow *,_STL::allocator<GameWindow *> > *,_STL::list<GameWindow *,_STL::allocator<GameWindow *> > *,_STL::list<GameWindow *,_STL::allocator<GameWindow *> > *,_STL::random_access_iterator_tag const &,int *); }
+namespace _STL { template <> Rva0051FC54Element * __copy<struct Rva0051FC54Element *,struct Rva0051FC54Element *,int>(Rva0051FC54Element *,Rva0051FC54Element *,Rva0051FC54Element *,_STL::random_access_iterator_tag const &,int *); }
+DynamicAudioEventRTS * __cdecl Rva00564CA5Copy(DynamicAudioEventRTS *,DynamicAudioEventRTS *,DynamicAudioEventRTS *);
+Rva003B3080 * __cdecl Rva00564D06Copy(Rva003B3080 *,Rva003B3080 *,Rva003B3080 *);
+Rva003AC980 * __cdecl Rva00564D38Copy(Rva003AC980 *,Rva003AC980 *,Rva003AC980 *);
+Rva003AD0A0 * __cdecl Rva00564D67Copy(Rva003AD0A0 *,Rva003AD0A0 *,Rva003AD0A0 *);
+void * __cdecl Rva005657B2Copy(void *,void *,void *);
+Rva003AD070 * __cdecl Rva00564D99Copy(Rva003AD070 *,Rva003AD070 *,Rva003AD070 *);
+Rva004FAFF2 * __cdecl Rva00566663Copy(Rva004FAFF2 *,Rva004FAFF2 *,Rva004FAFF2 *);
+namespace _STL { template <> Rva00586D2AElement * __copy<struct Rva00586D2AElement *,struct Rva00586D2AElement *,int>(Rva00586D2AElement *,Rva00586D2AElement *,Rva00586D2AElement *,_STL::random_access_iterator_tag const &,int *); }
+Rva005EEFD2 * __cdecl Rva005EF4C0Copy(Rva005EEFD2 *,Rva005EEFD2 *,Rva005EEFD2 *);
+Rva005F8536 * __cdecl Rva005F8573Copy(Rva005F8536 *,Rva005F8536 *,Rva005F8536 *);
+Rva000A8CAE * __cdecl Rva001D9BA4Copy(Rva000A8CAE *,Rva000A8CAE *,Rva000A8CAE *);
+namespace _STL { template <> BuildListInfo * __copy<class BuildListInfo *,class BuildListInfo *,int>(BuildListInfo *,BuildListInfo *,BuildListInfo *,_STL::random_access_iterator_tag const &,int *); }
+Rva002E9E70 * __cdecl uninitializedCopy(Rva002E9E70 *,Rva002E9E70 *,Rva002E9E70 *);
+namespace _STL { template <> void __destroy_aux<struct Rva001EB63C *>(Rva001EB63C *,Rva001EB63C *,_STL::__false_type const &); }
+void __cdecl Rva002B44C1Destroy(Rva002B2F49 *,Rva002B2F49 *);
+void __cdecl Rva0004CD49Destroy(Rva0004CCFF *,Rva0004CCFF *);
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct BfmePod12 *>(BfmePod12 * a0, BfmePod12 * a1)
+{ ((void (__cdecl *)(BfmePod12 *,BfmePod12 *))(void (__cdecl *)(Rva002A73B8 *,Rva002A73B8 *))&Rva002A752FDestroy)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva00079EA1Element *>(Rva00079EA1Element * a0, Rva00079EA1Element * a1)
+{ ((void (__cdecl *)(Rva00079EA1Element *,Rva00079EA1Element *))(void (__cdecl *)(void *,void *))&Rva00405337Clear)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva000C1CAEElement *>(Rva000C1CAEElement * a0, Rva000C1CAEElement * a1)
+{ ((void (__cdecl *)(Rva000C1CAEElement *,Rva000C1CAEElement *))(void (__cdecl *)(Rva000B9AAA *,Rva000B9AAA *))&Rva000BDD08Destroy)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva00150659Element *>(Rva00150659Element * a0, Rva00150659Element * a1)
+{ ((void (__cdecl *)(Rva00150659Element *,Rva00150659Element *))(void (__cdecl *)(Rva0052BF33Elem *,Rva0052BF33Elem *))&Rva005A6EDADestroyRange)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva00213949Element *>(Rva00213949Element * a0, Rva00213949Element * a1)
+{ ((void (__cdecl *)(Rva00213949Element *,Rva00213949Element *))(void (__cdecl *)(Rva002115C5 *,Rva002115C5 *))&Rva00212AD6Get)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva002DCFEEElement *>(Rva002DCFEEElement * a0, Rva002DCFEEElement * a1)
+{ ((void (__cdecl *)(Rva002DCFEEElement *,Rva002DCFEEElement *))(void (__cdecl *)(Rva0052BF9BElem *,Rva0052BF9BElem *))&Rva0022C8E3DestroyRange)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva004043AEElement *>(Rva004043AEElement * a0, Rva004043AEElement * a1)
+{ ((void (__cdecl *)(Rva004043AEElement *,Rva004043AEElement *))(void (__cdecl *)(Rva00214ADC *,Rva00214ADC *,_STL::__false_type const &))&_STL::__destroy_aux<Rva00214ADC *>)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva0040538FElement *>(Rva0040538FElement * a0, Rva0040538FElement * a1)
+{ ((void (__cdecl *)(Rva0040538FElement *,Rva0040538FElement *))(void (__cdecl *)(void *,void *))&Rva00405337Clear)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva00565865Element *>(Rva00565865Element * a0, Rva00565865Element * a1)
+{ ((void (__cdecl *)(Rva00565865Element *,Rva00565865Element *))(void (__cdecl *)(Rva0052BF33Elem *,Rva0052BF33Elem *))&Rva005A6EDADestroyRange)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva005658CBElement *>(Rva005658CBElement * a0, Rva005658CBElement * a1)
+{ ((void (__cdecl *)(Rva005658CBElement *,Rva005658CBElement *))(void (__cdecl *)(Rva0052BF9BElem *,Rva0052BF9BElem *))&Rva0022C8E3DestroyRange)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva005658FEElement *>(Rva005658FEElement * a0, Rva005658FEElement * a1)
+{ ((void (__cdecl *)(Rva005658FEElement *,Rva005658FEElement *))(void (__cdecl *)(Rva0052BF67Elem *,Rva0052BF67Elem *))&Rva0052C3BFDestroyRange)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva00565931Element *>(Rva00565931Element * a0, Rva00565931Element * a1)
+{ ((void (__cdecl *)(Rva00565931Element *,Rva00565931Element *))(void (__cdecl *)(Rva0052BF9BElem *,Rva0052BF9BElem *))&Rva0022C8E3DestroyRange)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva00565964Element *>(Rva00565964Element * a0, Rva00565964Element * a1)
+{ ((void (__cdecl *)(Rva00565964Element *,Rva00565964Element *))(void (__cdecl *)(Elem003AF9E0 *,Elem003AF9E0 *))&_STL::_Destroy<Elem003AF9E0 *>)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva00565997Element *>(Rva00565997Element * a0, Rva00565997Element * a1)
+{ ((void (__cdecl *)(Rva00565997Element *,Rva00565997Element *))(void (__cdecl *)(Rva0052BFB5Elem *,Rva0052BFB5Elem *))&Rva0052C37ADestroyRange)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva00566A42Element *>(Rva00566A42Element * a0, Rva00566A42Element * a1)
+{ ((void (__cdecl *)(Rva00566A42Element *,Rva00566A42Element *))(void (__cdecl *)(Rva004E1AD5Item *,Rva004E1AD5Item *))&Rva004E1FCCGet)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva00586E86Element *>(Rva00586E86Element * a0, Rva00586E86Element * a1)
+{ ((void (__cdecl *)(Rva00586E86Element *,Rva00586E86Element *))(void (__cdecl *)(Rva00585B16 *,Rva00585B16 *))&Rva00586B92Destroy)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva005DC408Element *>(Rva005DC408Element * a0, Rva005DC408Element * a1)
+{ ((void (__cdecl *)(Rva005DC408Element *,Rva005DC408Element *))(void (__cdecl *)(Rva0052BF33Elem *,Rva0052BF33Elem *))&Rva005A6EDADestroyRange)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<struct Rva005EF8FAElement *>(Rva005EF8FAElement * a0, Rva005EF8FAElement * a1)
+{ ((void (__cdecl *)(Rva005EF8FAElement *,Rva005EF8FAElement *))(void (__cdecl *)(Rva005F0647 *,Rva005F0647 *))&Rva005EF5EFClear)(a0, a1); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline BfmeNarrowRecord00427F75 * __copy<struct BfmeNarrowRecord00427F75 *,struct BfmeNarrowRecord00427F75 *,int>(BfmeNarrowRecord00427F75 * a0, BfmeNarrowRecord00427F75 * a1, BfmeNarrowRecord00427F75 * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((BfmeNarrowRecord00427F75 * (__cdecl *)(BfmeNarrowRecord00427F75 *,BfmeNarrowRecord00427F75 *,BfmeNarrowRecord00427F75 *,_STL::random_access_iterator_tag const &,int *))(Rva0042830DElement * (__cdecl *)(Rva0042830DElement *,Rva0042830DElement *,Rva0042830DElement *,_STL::random_access_iterator_tag const &,int *))&_STL::__copy<Rva0042830DElement *,Rva0042830DElement *,int>)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva00079554Record * __copy<struct Rva00079554Record *,struct Rva00079554Record *,int>(Rva00079554Record * a0, Rva00079554Record * a1, Rva00079554Record * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva00079554Record * (__cdecl *)(Rva00079554Record *,Rva00079554Record *,Rva00079554Record *,_STL::random_access_iterator_tag const &,int *))(BfmeNarrowRecord00079C23 * (__cdecl *)(BfmeNarrowRecord00079C23 const *,BfmeNarrowRecord00079C23 const *,BfmeNarrowRecord00079C23 *,_STL::random_access_iterator_tag const &,int *))&_STL::__copy<BfmeNarrowRecord00079C23 const *,BfmeNarrowRecord00079C23 *,int>)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva00079EA1Element * __copy<struct Rva00079EA1Element *,struct Rva00079EA1Element *,int>(Rva00079EA1Element * a0, Rva00079EA1Element * a1, Rva00079EA1Element * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva00079EA1Element * (__cdecl *)(Rva00079EA1Element *,Rva00079EA1Element *,Rva00079EA1Element *,_STL::random_access_iterator_tag const &,int *))(Rva00752630 * (__cdecl *)(Rva00752630 *,Rva00752630 *,Rva00752630 *))&Rva000791EDCopy)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva000BEDF0Record * __copy<struct Rva000BEDF0Record *,struct Rva000BEDF0Record *,int>(Rva000BEDF0Record * a0, Rva000BEDF0Record * a1, Rva000BEDF0Record * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva000BEDF0Record * (__cdecl *)(Rva000BEDF0Record *,Rva000BEDF0Record *,Rva000BEDF0Record *,_STL::random_access_iterator_tag const &,int *))(BfmeVectorRecord000C0BEC * (__cdecl *)(BfmeVectorRecord000C0BEC *,BfmeVectorRecord000C0BEC *,BfmeVectorRecord000C0BEC *))&Rva000C0CE1Copy)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva000C1CAEElement * __copy<struct Rva000C1CAEElement *,struct Rva000C1CAEElement *,int>(Rva000C1CAEElement * a0, Rva000C1CAEElement * a1, Rva000C1CAEElement * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva000C1CAEElement * (__cdecl *)(Rva000C1CAEElement *,Rva000C1CAEElement *,Rva000C1CAEElement *,_STL::random_access_iterator_tag const &,int *))(Rva000B978ARecord * (__cdecl *)(Rva000B978ARecord *,Rva000B978ARecord *,Rva000B978ARecord *,_STL::random_access_iterator_tag const &,int *))&_STL::__copy<Rva000B978ARecord *,Rva000B978ARecord *,int>)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva00150659Element * __copy<struct Rva00150659Element *,struct Rva00150659Element *,int>(Rva00150659Element * a0, Rva00150659Element * a1, Rva00150659Element * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva00150659Element * (__cdecl *)(Rva00150659Element *,Rva00150659Element *,Rva00150659Element *,_STL::random_access_iterator_tag const &,int *))(Rva0014F718 * (__cdecl *)(Rva0014F718 *,Rva0014F718 *,Rva0014F718 *,void *,int))&Rva0014FA62Copy)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva001DEF38Element * __copy<struct Rva001DEF38Element *,struct Rva001DEF38Element *,int>(Rva001DEF38Element * a0, Rva001DEF38Element * a1, Rva001DEF38Element * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva001DEF38Element * (__cdecl *)(Rva001DEF38Element *,Rva001DEF38Element *,Rva001DEF38Element *,_STL::random_access_iterator_tag const &,int *))(Rva001DE727 * (__cdecl *)(Rva001DE727 *,Rva001DE727 *,Rva001DE727 *))&Rva001DE906Copy)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva00213949Element * __copy<struct Rva00213949Element *,struct Rva00213949Element *,int>(Rva00213949Element * a0, Rva00213949Element * a1, Rva00213949Element * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva00213949Element * (__cdecl *)(Rva00213949Element *,Rva00213949Element *,Rva00213949Element *,_STL::random_access_iterator_tag const &,int *))(Rva002111C8 * (__cdecl *)(Rva002111C8 *,Rva002111C8 *,Rva002111C8 *))&Rva00211EAACopy)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva002BBB96Element * __copy<struct Rva002BBB96Element *,struct Rva002BBB96Element *,int>(Rva002BBB96Element * a0, Rva002BBB96Element * a1, Rva002BBB96Element * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva002BBB96Element * (__cdecl *)(Rva002BBB96Element *,Rva002BBB96Element *,Rva002BBB96Element *,_STL::random_access_iterator_tag const &,int *))(Rva002B91BBElement * (__cdecl *)(Rva002B91BBElement *,Rva002B91BBElement *,Rva002B91BBElement *,_STL::random_access_iterator_tag const &,int *))&_STL::__copy<Rva002B91BBElement *,Rva002B91BBElement *,int>)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva002DCFEEElement * __copy<struct Rva002DCFEEElement *,struct Rva002DCFEEElement *,int>(Rva002DCFEEElement * a0, Rva002DCFEEElement * a1, Rva002DCFEEElement * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva002DCFEEElement * (__cdecl *)(Rva002DCFEEElement *,Rva002DCFEEElement *,Rva002DCFEEElement *,_STL::random_access_iterator_tag const &,int *))(Rva002DBF66Elem * (__cdecl *)(Rva002DBF66Elem *,Rva002DBF66Elem *,Rva002DBF66Elem *))&Rva002DBF66Copy)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva002E2690Element * __copy<struct Rva002E2690Element *,struct Rva002E2690Element *,int>(Rva002E2690Element * a0, Rva002E2690Element * a1, Rva002E2690Element * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva002E2690Element * (__cdecl *)(Rva002E2690Element *,Rva002E2690Element *,Rva002E2690Element *,_STL::random_access_iterator_tag const &,int *))(Rva002E0D93 * (__cdecl *)(Rva002E0D93 *,Rva002E0D93 *,Rva002E0D93 *))&Rva002E17A0Copy)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva003F610FElement * __copy<struct Rva003F610FElement *,struct Rva003F610FElement *,int>(Rva003F610FElement * a0, Rva003F610FElement * a1, Rva003F610FElement * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva003F610FElement * (__cdecl *)(Rva003F610FElement *,Rva003F610FElement *,Rva003F610FElement *,_STL::random_access_iterator_tag const &,int *))(char * (__cdecl *)(char *,char *,char *))&Rva003F58F8Copy)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva004043AEElement * __copy<struct Rva004043AEElement *,struct Rva004043AEElement *,int>(Rva004043AEElement * a0, Rva004043AEElement * a1, Rva004043AEElement * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva004043AEElement * (__cdecl *)(Rva004043AEElement *,Rva004043AEElement *,Rva004043AEElement *,_STL::random_access_iterator_tag const &,int *))(Rva00403927 * (__cdecl *)(Rva00403927 *,Rva00403927 *,Rva00403927 *,_STL::random_access_iterator_tag const &,int *))&_STL::__copy<Rva00403927 *,Rva00403927 *,int>)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva004758F4Element * __copy<struct Rva004758F4Element *,struct Rva004758F4Element *,int>(Rva004758F4Element * a0, Rva004758F4Element * a1, Rva004758F4Element * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva004758F4Element * (__cdecl *)(Rva004758F4Element *,Rva004758F4Element *,Rva004758F4Element *,_STL::random_access_iterator_tag const &,int *))(_STL::list<GameWindow *,_STL::allocator<GameWindow *> > * (__cdecl *)(_STL::list<GameWindow *,_STL::allocator<GameWindow *> > *,_STL::list<GameWindow *,_STL::allocator<GameWindow *> > *,_STL::list<GameWindow *,_STL::allocator<GameWindow *> > *,_STL::random_access_iterator_tag const &,int *))&_STL::__copy<_STL::list<GameWindow *,_STL::allocator<GameWindow *> > *,_STL::list<GameWindow *,_STL::allocator<GameWindow *> > *,int>)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva00520211Element * __copy<struct Rva00520211Element *,struct Rva00520211Element *,int>(Rva00520211Element * a0, Rva00520211Element * a1, Rva00520211Element * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva00520211Element * (__cdecl *)(Rva00520211Element *,Rva00520211Element *,Rva00520211Element *,_STL::random_access_iterator_tag const &,int *))(Rva0051FC54Element * (__cdecl *)(Rva0051FC54Element *,Rva0051FC54Element *,Rva0051FC54Element *,_STL::random_access_iterator_tag const &,int *))&_STL::__copy<Rva0051FC54Element *,Rva0051FC54Element *,int>)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva00565865Element * __copy<struct Rva00565865Element *,struct Rva00565865Element *,int>(Rva00565865Element * a0, Rva00565865Element * a1, Rva00565865Element * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva00565865Element * (__cdecl *)(Rva00565865Element *,Rva00565865Element *,Rva00565865Element *,_STL::random_access_iterator_tag const &,int *))(DynamicAudioEventRTS * (__cdecl *)(DynamicAudioEventRTS *,DynamicAudioEventRTS *,DynamicAudioEventRTS *))&Rva00564CA5Copy)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva005658CBElement * __copy<struct Rva005658CBElement *,struct Rva005658CBElement *,int>(Rva005658CBElement * a0, Rva005658CBElement * a1, Rva005658CBElement * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva005658CBElement * (__cdecl *)(Rva005658CBElement *,Rva005658CBElement *,Rva005658CBElement *,_STL::random_access_iterator_tag const &,int *))(Rva003B3080 * (__cdecl *)(Rva003B3080 *,Rva003B3080 *,Rva003B3080 *))&Rva00564D06Copy)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva005658FEElement * __copy<struct Rva005658FEElement *,struct Rva005658FEElement *,int>(Rva005658FEElement * a0, Rva005658FEElement * a1, Rva005658FEElement * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva005658FEElement * (__cdecl *)(Rva005658FEElement *,Rva005658FEElement *,Rva005658FEElement *,_STL::random_access_iterator_tag const &,int *))(Rva003AC980 * (__cdecl *)(Rva003AC980 *,Rva003AC980 *,Rva003AC980 *))&Rva00564D38Copy)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva00565931Element * __copy<struct Rva00565931Element *,struct Rva00565931Element *,int>(Rva00565931Element * a0, Rva00565931Element * a1, Rva00565931Element * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva00565931Element * (__cdecl *)(Rva00565931Element *,Rva00565931Element *,Rva00565931Element *,_STL::random_access_iterator_tag const &,int *))(Rva003AD0A0 * (__cdecl *)(Rva003AD0A0 *,Rva003AD0A0 *,Rva003AD0A0 *))&Rva00564D67Copy)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva00565964Element * __copy<struct Rva00565964Element *,struct Rva00565964Element *,int>(Rva00565964Element * a0, Rva00565964Element * a1, Rva00565964Element * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva00565964Element * (__cdecl *)(Rva00565964Element *,Rva00565964Element *,Rva00565964Element *,_STL::random_access_iterator_tag const &,int *))(void * (__cdecl *)(void *,void *,void *))&Rva005657B2Copy)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva00565997Element * __copy<struct Rva00565997Element *,struct Rva00565997Element *,int>(Rva00565997Element * a0, Rva00565997Element * a1, Rva00565997Element * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva00565997Element * (__cdecl *)(Rva00565997Element *,Rva00565997Element *,Rva00565997Element *,_STL::random_access_iterator_tag const &,int *))(Rva003AD070 * (__cdecl *)(Rva003AD070 *,Rva003AD070 *,Rva003AD070 *))&Rva00564D99Copy)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva00566A42Element * __copy<struct Rva00566A42Element *,struct Rva00566A42Element *,int>(Rva00566A42Element * a0, Rva00566A42Element * a1, Rva00566A42Element * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva00566A42Element * (__cdecl *)(Rva00566A42Element *,Rva00566A42Element *,Rva00566A42Element *,_STL::random_access_iterator_tag const &,int *))(Rva004FAFF2 * (__cdecl *)(Rva004FAFF2 *,Rva004FAFF2 *,Rva004FAFF2 *))&Rva00566663Copy)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva00586E86Element * __copy<struct Rva00586E86Element *,struct Rva00586E86Element *,int>(Rva00586E86Element * a0, Rva00586E86Element * a1, Rva00586E86Element * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva00586E86Element * (__cdecl *)(Rva00586E86Element *,Rva00586E86Element *,Rva00586E86Element *,_STL::random_access_iterator_tag const &,int *))(Rva00586D2AElement * (__cdecl *)(Rva00586D2AElement *,Rva00586D2AElement *,Rva00586D2AElement *,_STL::random_access_iterator_tag const &,int *))&_STL::__copy<Rva00586D2AElement *,Rva00586D2AElement *,int>)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva005EF8FAElement * __copy<struct Rva005EF8FAElement *,struct Rva005EF8FAElement *,int>(Rva005EF8FAElement * a0, Rva005EF8FAElement * a1, Rva005EF8FAElement * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva005EF8FAElement * (__cdecl *)(Rva005EF8FAElement *,Rva005EF8FAElement *,Rva005EF8FAElement *,_STL::random_access_iterator_tag const &,int *))(Rva005EEFD2 * (__cdecl *)(Rva005EEFD2 *,Rva005EEFD2 *,Rva005EEFD2 *))&Rva005EF4C0Copy)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva005F8620Element * __copy<struct Rva005F8620Element *,struct Rva005F8620Element *,int>(Rva005F8620Element * a0, Rva005F8620Element * a1, Rva005F8620Element * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva005F8620Element * (__cdecl *)(Rva005F8620Element *,Rva005F8620Element *,Rva005F8620Element *,_STL::random_access_iterator_tag const &,int *))(Rva005F8536 * (__cdecl *)(Rva005F8536 *,Rva005F8536 *,Rva005F8536 *))&Rva005F8573Copy)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline BfmeStringTailRecord156 * __copy<class BfmeStringTailRecord156 *,class BfmeStringTailRecord156 *,int>(BfmeStringTailRecord156 * a0, BfmeStringTailRecord156 * a1, BfmeStringTailRecord156 * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((BfmeStringTailRecord156 * (__cdecl *)(BfmeStringTailRecord156 *,BfmeStringTailRecord156 *,BfmeStringTailRecord156 *,_STL::random_access_iterator_tag const &,int *))(Rva000A8CAE * (__cdecl *)(Rva000A8CAE *,Rva000A8CAE *,Rva000A8CAE *))&Rva001D9BA4Copy)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva0032A3A9Element * __copy<class Rva0032A3A9Element *,class Rva0032A3A9Element *,int>(Rva0032A3A9Element * a0, Rva0032A3A9Element * a1, Rva0032A3A9Element * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva0032A3A9Element * (__cdecl *)(Rva0032A3A9Element *,Rva0032A3A9Element *,Rva0032A3A9Element *,_STL::random_access_iterator_tag const &,int *))(BuildListInfo * (__cdecl *)(BuildListInfo *,BuildListInfo *,BuildListInfo *,_STL::random_access_iterator_tag const &,int *))&_STL::__copy<BuildListInfo *,BuildListInfo *,int>)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline Rva003371B1 * __copy<class Rva003371B1 *,class Rva003371B1 *,int>(Rva003371B1 * a0, Rva003371B1 * a1, Rva003371B1 * a2, _STL::random_access_iterator_tag const & a3, int * a4)
+{ return ((Rva003371B1 * (__cdecl *)(Rva003371B1 *,Rva003371B1 *,Rva003371B1 *,_STL::random_access_iterator_tag const &,int *))(Rva002E9E70 * (__cdecl *)(Rva002E9E70 *,Rva002E9E70 *,Rva002E9E70 *))&uninitializedCopy)(a0, a1, a2, a3, a4); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void __destroy_aux<struct Rva002E2690Element *>(Rva002E2690Element * a0, Rva002E2690Element * a1, _STL::__false_type const & a2)
+{ ((void (__cdecl *)(Rva002E2690Element *,Rva002E2690Element *,_STL::__false_type const &))(void (__cdecl *)(Rva001EB63C *,Rva001EB63C *,_STL::__false_type const &))&_STL::__destroy_aux<Rva001EB63C *>)(a0, a1, a2); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void __destroy_aux<struct Rva0040DC56Element *>(Rva0040DC56Element * a0, Rva0040DC56Element * a1, _STL::__false_type const & a2)
+{ ((void (__cdecl *)(Rva0040DC56Element *,Rva0040DC56Element *,_STL::__false_type const &))(void (__cdecl *)(Rva002B2F49 *,Rva002B2F49 *))&Rva002B44C1Destroy)(a0, a1, a2); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void __destroy_aux<class RvaSmartPtr12 *>(RvaSmartPtr12 * a0, RvaSmartPtr12 * a1, _STL::__false_type const & a2)
+{ ((void (__cdecl *)(RvaSmartPtr12 *,RvaSmartPtr12 *,_STL::__false_type const &))(void (__cdecl *)(Rva0004CCFF *,Rva0004CCFF *))&Rva0004CD49Destroy)(a0, a1, a2); } }
+
+// 0x003B908A's range destroy is retail 0x003B8E13, rowed as Rva003B8E13DestroyRange;
+// binding it here keeps this unit off the template copy another unit keeps.
+struct Rva003B8B61Elem;
+void __cdecl Rva003B8E13DestroyRange(Rva003B8B61Elem *, Rva003B8B61Elem *);
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<BfmeAssignRecord104 *>(BfmeAssignRecord104 *a0, BfmeAssignRecord104 *a1)
+{ ((void (__cdecl *)(BfmeAssignRecord104 *,BfmeAssignRecord104 *))(void (__cdecl *)(Rva003B8B61Elem *,Rva003B8B61Elem *))&Rva003B8E13DestroyRange)(a0, a1); } }
+
 template <>
 inline __declspec(noinline) void _STL::_Destroy<RvaSmartPtr12 *>(RvaSmartPtr12 *__first, RvaSmartPtr12 *__last)
 {
