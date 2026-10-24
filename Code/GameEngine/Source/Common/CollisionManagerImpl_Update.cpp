@@ -22,3 +22,8 @@ void CollisionManagerImpl::Update()
 		m_bfmeBusy = false;
 	}
 }
+
+// Retail calls UpdateSort without loading ECX (whole-program register reuse),
+// so the call is spelled as a free function and bound to that row
+// (tools/allowed_symbols.py --alternatenames).
+#pragma comment(linker, "/alternatename:?bfmeGlobalCGD@@YAXXZ=?UpdateSort@CollisionManagerImpl@@QAEXXZ")
