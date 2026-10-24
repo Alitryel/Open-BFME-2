@@ -10,31 +10,31 @@
 // The first label is the pooled string literal: retail 0x0083C260 is the one
 // "Uninitialized" that dxerr9 (DXGetErrorDescription9A) also references, so it
 // is no separately named object.
-extern const char BfmeStanceNameBattle[];
-const char BfmeStanceNameBattle[] = "Battle";
-extern const char BfmeStanceNameAggressive[];
-const char BfmeStanceNameAggressive[] = "Aggressive";
-extern const char BfmeStanceNameHoldGround[];
-const char BfmeStanceNameHoldGround[] = "HoldGround";
-extern const char BfmeStanceNamePorcupine[];
-const char BfmeStanceNamePorcupine[] = "Porcupine";
-extern const char BfmeStanceNameHoldGroundMoving[];
-const char BfmeStanceNameHoldGroundMoving[] = "HoldGroundMoving";
+extern const char stanceNameBattle[];
+const char stanceNameBattle[] = "Battle";
+extern const char stanceNameAggressive[];
+const char stanceNameAggressive[] = "Aggressive";
+extern const char stanceNameHoldGround[];
+const char stanceNameHoldGround[] = "HoldGround";
+extern const char stanceNamePorcupine[];
+const char stanceNamePorcupine[] = "Porcupine";
+extern const char stanceNameHoldGroundMoving[];
+const char stanceNameHoldGroundMoving[] = "HoldGroundMoving";
 extern const char *const TheStanceNames[];
 const char *const TheStanceNames[] = {
     "Uninitialized",
-    BfmeStanceNameBattle,
-    BfmeStanceNameAggressive,
-    BfmeStanceNameHoldGround,
-    BfmeStanceNamePorcupine,
-    BfmeStanceNameHoldGroundMoving,
+    stanceNameBattle,
+    stanceNameAggressive,
+    stanceNameHoldGround,
+    stanceNamePorcupine,
+    stanceNameHoldGroundMoving,
     0
 };
 
 // Complete native entry 425DC2 follows RET4; its 27 bytes include fallback DD7.
 // One signed stack index and full pointer result are observed. Original spelling,
 // original owner and any unused parameters remain unknown.
-const char *__cdecl Rva00425DC2StanceName(int index)
+const char *__cdecl getStanceName(int index)
 {
     if (index >= 0 && index < 6)
         return TheStanceNames[index];

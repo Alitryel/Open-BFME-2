@@ -810,3 +810,9 @@ local,Rva006C2D20Sink::rva006C2D20::n,Rva006C2D20Sink::rva006C2D20::charsWritten
 global,?g_00E177E1@@3EA,?g_minValueSize@@3EA,inferred,agree:nl-fdd01ba7395d,Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp,0x00A177E1
 global,?g_00E177E4@@3HA,?g_maxValueSize@@3HA,inferred,agree:nl-61ca2a48e135,Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp,0x00A177E4
 param,RvaF1Handle::RvaF1Handle::p,RvaF1Handle::RvaF1Handle::pointer,inferred,agree:nl-d6a31e4b8183,Code/GameEngine/Source/Common/RvaFamily1Clones.cpp,
+global,?BfmeStanceNameBattle@@3QBDB,?stanceNameBattle@@3QBDB,inferred,agree:nl-1dee1862e331,Code/GameEngine/Source/Common/Stances/StanceNames.cpp,0x0083C258
+global,?BfmeStanceNameAggressive@@3QBDB,?stanceNameAggressive@@3QBDB,inferred,agree:nl-17670bbd1f35,Code/GameEngine/Source/Common/Stances/StanceNames.cpp,0x0081F724
+global,?BfmeStanceNameHoldGround@@3QBDB,?stanceNameHoldGround@@3QBDB,inferred,agree:nl-9b9c38934818,Code/GameEngine/Source/Common/Stances/StanceNames.cpp,0x0083C24C
+global,?BfmeStanceNamePorcupine@@3QBDB,?stanceNamePorcupine@@3QBDB,inferred,agree:nl-d1d61f710cba,Code/GameEngine/Source/Common/Stances/StanceNames.cpp,0x0083C240
+global,?BfmeStanceNameHoldGroundMoving@@3QBDB,?stanceNameHoldGroundMoving@@3QBDB,inferred,agree:nl-c1d238801ce5,Code/GameEngine/Source/Common/Stances/StanceNames.cpp,0x0083C22C
+function,?Rva00425DC2StanceName@@YAPBDH@Z,?getStanceName@@YAPBDH@Z,inferred,agree:nl-cbf54de89f15,Code/GameEngine/Source/Common/Stances/StanceNames.cpp,0x00425DC2
