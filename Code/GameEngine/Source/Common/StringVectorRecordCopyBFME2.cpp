@@ -76,7 +76,7 @@ struct BfmeVectorRecord0002154F3 {
     AsciiString text; _STL::vector<AsciiString> names;
     BfmeVectorRecord0002154F3 &operator=(const BfmeVectorRecord0002154F3 &other);
 };
-inline BfmeVectorRecord0002154F3 &BfmeVectorRecord0002154F3::operator=(const BfmeVectorRecord0002154F3 &other)
+BfmeVectorRecord0002154F3 &BfmeVectorRecord0002154F3::operator=(const BfmeVectorRecord0002154F3 &other)
 {
     text = other.text;
     names = other.names;
@@ -95,17 +95,6 @@ BfmeVectorRecord002AF478::BfmeVectorRecord002AF478(const BfmeVectorRecord002AF47
     : text(other.text), word04(other.word04), values08(other.values08),
       names14(other.names14), word20(other.word20) {}
 template void _STL::_Construct<BfmeVectorRecord002AF478,BfmeVectorRecord002AF478>(BfmeVectorRecord002AF478*,const BfmeVectorRecord002AF478&);
-
-// BfmeVectorRecord0002154F3::operator= is defined inline by the other units that copy this record: they emit
-// select-any copies, so a strong definition here was a duplicate in the linked build. This
-// anchor only makes this unit emit its copy for the ledger row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitBfmeVectorRecord0002154F3Assign@@YAXPAUBfmeVectorRecord0002154F3@@@Z present-unmatched
-void bfmeEmitBfmeVectorRecord0002154F3Assign(BfmeVectorRecord0002154F3 *record)
-{
-	*record = *record;
-}
-#pragma inline_depth()
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.

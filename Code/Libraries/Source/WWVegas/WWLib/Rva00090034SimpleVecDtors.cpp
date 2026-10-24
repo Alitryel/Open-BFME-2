@@ -21,7 +21,7 @@ protected:
 	int VectorMax;
 };
 
-inline Rva0090034::~Rva0090034()
+Rva0090034::~Rva0090034()
 {
 	if (Vector) {
 		delete[] Vector;
@@ -39,23 +39,10 @@ protected:
 	int ActiveCount;
 };
 
-inline Rva0090088::~Rva0090088()
+Rva0090088::~Rva0090088()
 {
 	if (Vector) {
 		delete[] Vector;
 		Vector = 0;
 	}
 }
-
-// Both dtors are header inlines elsewhere: other units emit select-any
-// copies, so strong definitions here were duplicates in the linked build.
-// This anchor only makes this unit emit its copies for the ledger rows; it
-// is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitRva00090034SimpleVecDtors@@YAXPAVRva0090034@@PAVRva0090088@@@Z present-unmatched
-void bfmeEmitRva00090034SimpleVecDtors(Rva0090034 *p, Rva0090088 *q)
-{
-	p->Rva0090034::~Rva0090034();
-	q->Rva0090088::~Rva0090088();
-}
-#pragma inline_depth()

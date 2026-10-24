@@ -51,7 +51,7 @@ public:
 	virtual ~AITargetHeuristicExpansionBase();
 };
 
-inline AITargetHeuristicExpansionBase::~AITargetHeuristicExpansionBase()
+AITargetHeuristicExpansionBase::~AITargetHeuristicExpansionBase()
 {
 }
 
@@ -61,7 +61,7 @@ public:
 	virtual ~Rva005734EB();
 };
 
-inline Rva005734EB::~Rva005734EB()
+Rva005734EB::~Rva005734EB()
 {
 }
 
@@ -71,20 +71,6 @@ public:
 	virtual ~AITargetHeuristicBaseDefense();
 };
 
-inline AITargetHeuristicBaseDefense::~AITargetHeuristicBaseDefense()
+AITargetHeuristicBaseDefense::~AITargetHeuristicBaseDefense()
 {
 }
-
-// The three destructors above are header inlines other units emit as
-// select-any copies, so strong definitions here were duplicates in the linked
-// build. This anchor only makes this unit emit its copies for the ledger rows;
-// it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitRva005CB23CDerived@@YAXPAVAITargetHeuristicExpansionBase@@PAVRva005734EB@@PAVAITargetHeuristicBaseDefense@@@Z present-unmatched
-void bfmeEmitRva005CB23CDerived(AITargetHeuristicExpansionBase *aITargetHeuristicExpansionBase, Rva005734EB *b, AITargetHeuristicBaseDefense *aITargetHeuristicBaseDefense)
-{
-    aITargetHeuristicExpansionBase->AITargetHeuristicExpansionBase::~AITargetHeuristicExpansionBase();
-    b->Rva005734EB::~Rva005734EB();
-    aITargetHeuristicBaseDefense->AITargetHeuristicBaseDefense::~AITargetHeuristicBaseDefense();
-}
-#pragma inline_depth()

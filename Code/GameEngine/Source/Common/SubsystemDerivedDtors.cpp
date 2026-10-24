@@ -25,7 +25,7 @@ private:
 	AsciiString m_0C;
 };
 
-inline Rva0098477::~Rva0098477()
+Rva0098477::~Rva0098477()
 {
 }
 
@@ -39,7 +39,7 @@ private:
 	AsciiString m_10;
 };
 
-inline Rva00985E4::~Rva00985E4()
+Rva00985E4::~Rva00985E4()
 {
 }
 
@@ -58,20 +58,6 @@ private:
 	AsciiString m_AC;
 };
 
-inline Rva009519B::~Rva009519B()
+Rva009519B::~Rva009519B()
 {
 }
-
-// ??1Rva0098477, ??1Rva00985E4, ??1Rva009519B are header inlines elsewhere:
-// other units emit select-any copies, so strong definitions here were
-// duplicate symbols in the linked build. This anchor only makes this unit
-// emit its copies for the ledger rows; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitSubsystemDerivedDtors@@YAXPAVRva0098477@@PAVRva00985E4@@PAVRva009519B@@@Z present-unmatched
-void bfmeEmitSubsystemDerivedDtors(Rva0098477 *p1, Rva00985E4 *p2, Rva009519B *p3)
-{
-	p1->Rva0098477::~Rva0098477();
-	p2->Rva00985E4::~Rva00985E4();
-	p3->Rva009519B::~Rva009519B();
-}
-#pragma inline_depth()

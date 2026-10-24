@@ -30,7 +30,7 @@ public:
 	};
 };
 
-inline ModuleInfo::Nugget &ModuleInfo::Nugget::operator=(const Nugget &other)
+ModuleInfo::Nugget &ModuleInfo::Nugget::operator=(const Nugget &other)
 {
 	m_first = other.m_first;
 	m_moduleTag = other.m_moduleTag;
@@ -40,14 +40,3 @@ inline ModuleInfo::Nugget &ModuleInfo::Nugget::operator=(const Nugget &other)
 	m_inheritable = other.m_inheritable;
 	return *this;
 }
-
-// Select-any anchor: this unit owns the row above while other TUs emit it as
-// an inline copy. The anchor keeps this unit emitting its copy for the ledger;
-// it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitModuleInfoNuggetAssign@@YAXPAUNugget@ModuleInfo@@ABU12@@Z present-unmatched
-void bfmeEmitModuleInfoNuggetAssign(ModuleInfo::Nugget *p, const ModuleInfo::Nugget &q)
-{
-	p->operator=(q);
-}
-#pragma inline_depth()
