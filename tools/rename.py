@@ -1608,15 +1608,17 @@ def landing(ctx, record):
         raise Refusal(f"agree:{record} renamed a {kind}; only lane kinds are reverted")
     if any(r.get("basis") == RESTORED and revert_id(r.get("evidence")) == record for r in rows[at + 1:]):
         raise Refusal(f"agree:{record} was already reverted")
-    current = row.get("new", "")
+    current, source = row.get("new", ""), row.get("source", "")
     for r in rows[at + 1:]:
         if r.get("kind") == "carry" and r.get("old") == current:
             current = r.get("new", "")
+        if r.get("kind") == "file" and r.get("old") == source:
+            source = r.get("new", "")
     placeholder, landed = word_of(kind, row.get("old", "")), word_of(kind, row.get("new", ""))
     if word_of(kind, current) != landed:
         raise Refusal(f"agree:{record}'s name {landed} has since been respelled ({current}); revert that first")
     return Landing(record, kind, placeholder, landed, current, respell(kind, current, placeholder),
-                   _rva(row.get("rva")), row.get("source", ""))
+                   _rva(row.get("rva")), source)
 
 
 def check_restore(ctx, kind, evidence, old_name, new_name, rva):
@@ -1696,8 +1698,9 @@ def revert(ctx, record, reason, *, function=None, **run_kwargs):
     byte verification, restore on failure), recorded append-only in
     name_basis.csv as basis `restored`, with the landing's tombstones lifted
     and the landed name tombstoned in turn. `function` (Class::method#2)
-    supplies the overload index of a param's or local's function; the scope
-    itself comes from the record, carry rows followed."""
+    supplies the overload index for older param/local records that omitted
+    it. New records retain it; a caller cannot redirect their inverse to
+    another overload. The scope comes from the record, carry rows followed."""
     reason = " ".join((reason or "").split())
     if not reason:
         raise Refusal("a revert needs --reason: what the code shows against the landed name")
@@ -1714,10 +1717,12 @@ def revert(ctx, record, reason, *, function=None, **run_kwargs):
         kwargs = dict(cls=land.current.rsplit("::", 1)[0], member=land.landed, new=land.placeholder)
     else:
         scope = land.current.rsplit("::", 1)[0]
-        # an overload index (#N) from the caller survives a respelled scope
+        recorded = scope.rsplit("#", 1)[1] if "#" in scope else None
         overload = function.rsplit("#", 1)[1] if function and "#" in function else None
+        if recorded and overload and recorded != overload:
+            raise Refusal(f"agree:{record}'s recorded overload is {scope}, not {function}")
         kwargs = dict(source=land.source, name=land.landed, new=land.placeholder,
-                      function=f"{scope}#{overload}" if overload else scope)
+                      function=f"{scope}#{overload}" if overload and not recorded else scope)
     return run(land.kind, ctx, **common, **kwargs, **run_kwargs)
 
 
@@ -2682,7 +2687,7 @@ def plan_function(ctx, rva, new, basis, evidence, *, old=None, max_files=25):
     def carried(spelling):
         if old_re.search(spelling):
             return old_re.sub(lambda _m: new_name, spelling)
-        if old_scope and new_scope and spelling.startswith(old_scope + "::"):
+        if old_scope and new_scope and re.match(re.escape(old_scope) + r"(?:#\d+)?::", spelling):
             return new_scope + spelling[len(old_scope):]
         return None
     carry_records(ctx, plan, carried)
@@ -3869,6 +3874,12 @@ def pick_function(code, function):
     (`Class::method`, `Class::method#2` for the second overload in the file),
     or a bare method name when one function in the file has it."""
     found = name_metric.functions_in(code)
+    # functions_in leaves the first overload unsuffixed; #1 makes that
+    # choice explicit without making a bare overloaded scope unambiguous.
+    if function.endswith("#1"):
+        first = [f for f in found if f[0] == function[:-2]]
+        if first:
+            return first[0]
     exact = [f for f in found if f[0] == function]
     same = [f for f in found if f[0].split("#")[0] == function.split("#")[0]]
     if exact and ("#" in function or len(same) == 1):
@@ -4018,8 +4029,17 @@ def plan_scoped(kind, ctx, source, name, new, basis, evidence, *, function=None,
         if stray is not None:
             raise Refusal(f"{name} is used in {scope} at line {code.count(chr(10), 0, brace + stray) + 1}, outside "
                           "the block that declares it (a global or an outer declaration may be what is meant)")
-    old_q, new_q = f"{scope.split('#')[0]}::{name}", f"{scope.split('#')[0]}::{new}"
-    reason = is_protected(ctx, kind, old_q, identifier=name)
+    record_scope = function if function.endswith("#1") else scope
+    # Keep an old landing's exact inverse when a caller supplies the
+    # selector its historical record omitted. Never discard a new record's.
+    if basis == RESTORED and revert_id(evidence):
+        land = landing(ctx, revert_id(evidence))
+        if "#" not in land.current.rsplit("::", 1)[0]:
+            record_scope = scope.split("#")[0]
+    old_q, new_q = f"{record_scope}::{name}", f"{record_scope}::{new}"
+    legacy_q = f"{scope.split('#')[0]}::{name}"
+    reason = (is_protected(ctx, kind, old_q, identifier=name)
+              or is_protected(ctx, kind, legacy_q, identifier=name))
     if reason:
         raise Refusal(f"canonical name: {reason}")
     refuse_vendored(ctx, [rel], f"renaming {old_q}")
@@ -4842,11 +4862,21 @@ def check_row(ctx, row, texts):
         scope, name = old.rsplit("::", 1)
         source = row.get("source", "")
         data = ctx.read(source) if source else None
+        if data is None and "#" in scope:
+            problems.append(f"{source}: source is missing for {scope}")
         if data is not None:
             code = name_metric.strip(data.decode("utf-8", errors="replace"))
-            for found, start, end, params in name_metric.functions_in(code):
-                if found.split("#")[0] != scope:
-                    continue
+            if "#" in scope:
+                try:
+                    functions = [pick_function(code, scope)]
+                except Refusal as error:
+                    problems.append(f"{source}: {error}")
+                    functions = []
+            else:
+                # Old records did not store an overload selector. Retain
+                # their conservative all-overloads check.
+                functions = [f for f in name_metric.functions_in(code) if f[0].split("#")[0] == scope]
+            for found, start, end, params in functions:
                 body = code[code.find("{", start):end]
                 if name in set(parameters(params)) | set(name_metric.local_names(body)):
                     problems.append(f"{source}: {found} still declares {kind} {name}")
@@ -4867,8 +4897,21 @@ def check_renames(ctx, rows):
         position = next((i for i, r in enumerate(every) if r == row), -1)
         if any(r.get("new") == row.get("old") for r in every[position + 1:]):
             continue
+        checked = row
+        if row.get("kind") in ("param", "local"):
+            current, source = row.get("new", ""), row.get("source", "")
+            for later in every[position + 1:]:
+                if later.get("kind") == "carry" and later.get("old") == current:
+                    current = later.get("new", "")
+                if later.get("kind") == "file" and later.get("old") == source:
+                    source = later.get("new", "")
+            if current != row.get("new") or source != row.get("source"):
+                checked = dict(row, old=respell(row["kind"], current, word_of(row["kind"], row["old"])),
+                               new=current, source=source)
+                if any(r.get("new") == checked["old"] for r in every[position + 1:]):
+                    continue
         problems += [f"{row.get('kind')} {row.get('old')} -> {row.get('new')}: {p}"
-                     for p in check_row(ctx, row, texts)]
+                     for p in check_row(ctx, checked, texts)]
     tombstoned = _tombstones(ctx)
     for (name, at), line in sorted(lifted_tombstones(ctx).items(), key=lambda kv: (kv[0][0], kv[0][1] or 0)):
         if (name, at) in _tombstones(ctx, honour_restores=False):

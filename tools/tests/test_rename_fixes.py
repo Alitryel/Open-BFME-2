@@ -361,7 +361,7 @@ def test_plain_scope_with_overloads_is_ambiguous(tree):
 def test_numbered_overload_is_accepted(tree):
     p = rename.plan_rename("param", ctx=ctx_of(tree), source="Code/Game/Foo.cpp", function="Foo::f#2",
                            name="param_1", new="ratio", basis="inferred",
-                           evidence=agree(tree, "o", "param", "Foo::f::param_1", "Foo::f::ratio"))
+                           evidence=agree(tree, "o", "param", "Foo::f#2::param_1", "Foo::f#2::ratio"))
     text = p.after["Code/Game/Foo.cpp"].decode()
     assert "int Foo::f(int param_1)" in text and "int Foo::f(float ratio) { return (int)ratio; }" in text
 

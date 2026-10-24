@@ -341,6 +341,13 @@ Append-only and union-merged, one row per rename:
 `tools/rename.py` is the only writer. Members, params and locals are recorded qualified
 (`Class::m_x`, `Scope::fn::a`), so a record for one does not protect an
 unrelated name with the same spelling.
+For overloaded functions, parameter and local records retain the selected
+scope (`Scope::fn#2::a`, or explicit `#1` for the first overload).
+`check` examines that overload and reports a missing selection; `revert`
+uses the recorded selection, including after a class or function scope rename
+or a recorded source-file move.
+Older records without a selector retain the conservative check across all
+overloads and may need `revert --function Scope::fn#N` to select their inverse.
 
 ## The lanes
 
