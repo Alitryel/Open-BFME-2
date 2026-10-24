@@ -42,7 +42,7 @@ class Rva00083CB2
 {
 public:
 	void rva00083CB2();
-	friend void __stdcall Rva00083CD7Clear(Rva00083CB2 *p);
+	friend class Rva00083CD7Owner;
 	friend class Rva00083CE9Host;
 private:
 	char _pad00[0x30];
@@ -161,7 +161,13 @@ void Rva00083CE9Host::Reset()
 // ?Rva00083CD7Clear@@YGXPAVRva00083CB2@@@Z retail 0x00083CD7 18B clear
 // m_38 and m_1311 of the edge info. Evidence: gap between 0x00083CB2 and
 // 0x00083CE9; caller at 0x000C7A2C.
-void __stdcall Rva00083CD7Clear(Rva00083CB2 *p)
+class Rva00083CD7Owner
+{
+public:
+	void rva00083CD7(Rva00083CB2 *p);
+};
+
+void Rva00083CD7Owner::rva00083CD7(Rva00083CB2 *p)
 {
 	p->m_38 = 0;
 	p->m_1311 = 0;

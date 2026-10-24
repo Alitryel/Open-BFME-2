@@ -233,7 +233,7 @@ class Rva00083CB2
 {
 public:
 	void rva00083CB2();
-	friend void __stdcall Rva00083CD7Clear(Rva00083CB2 *p);
+	friend class Rva00083CD7Owner;
 	friend class Rva00083CE9Host;
 private:
 	char _pad00[0x30];

@@ -27,6 +27,7 @@
 // transform (getTransformMatrix 0x0027628E) or identity; +0xBC from
 // 0x000B2BA3. Field names are not asserted.
 #include "ascii_string.h"
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "Common/Snapshot.h"
 class Thing;
 class ModuleData;
@@ -487,28 +488,25 @@ class DrawModule:public DrawableModule
  }
 protected:
  virtual void loadPostProcess();
-public:
- virtual void crc(Xfer*);
  virtual void xfer(Xfer*);
+public:
+ virtual const char *GetSnapshotName() const;
  
 }
 ;
-class W3DScriptedModelDrawInterfaceC
-
+class Vector3;
+struct Rva000B34D8Out30;
+class Rva000B34D8
 {
  public:
- virtual void interfaceC();
- 
-}
-;
-class W3DScriptedModelDrawInterface10
-
+ virtual bool clientOnly_getRenderObjInfo(Vector3 *, float *, Rva000B34D8Out30 *);
+};
+class ModelConditionFlags;
+class Rva000BFB76Interface
 {
  public:
- virtual void interface10();
- 
-}
-;
+ virtual void rva000BFB76(const ModelConditionFlags &, bool, int);
+};
 int Rva000B2BA3Get(const Rva000B2BE5Src *src, bool *out);
 class Rva000BC9B1 
 {
@@ -534,14 +532,12 @@ class Rva000B3348
  
 }
 ;
-class W3DScriptedModelDraw : public DrawModule, public W3DScriptedModelDrawInterfaceC, public W3DScriptedModelDrawInterface10
+class W3DScriptedModelDraw : public DrawModule, public Rva000B34D8, public Rva000BFB76Interface
 
 {
  public:
  W3DScriptedModelDraw(Thing *thing, const ModuleData *moduleData);
  virtual ~W3DScriptedModelDraw();
- virtual void interfaceC();
- virtual void interface10();
  private:
  int m_14;
  int m_18;
