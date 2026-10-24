@@ -5646,3 +5646,8 @@ Code/GameEngine/Source/Common/Rva0049DC50Walk.cpp|class||Rva0049DC50,68fae9fa1ef
 Code/GameEngine/Source/GameLogic/Object/Behavior/Rva00498F46Cmd.cpp|member|Rva00498DF3Arg|m_mid258,70db27e553b2db157f93b7bb,claude-opus-5-5,claudec6-20261024-210032-20,w-efe153480513,2026-10-24
 Code/GameEngine/Source/Common/Rva005C4B56.cpp|param|Rva005C4B56::rva005C4BC8|a,2e29cf03a58c51f748d0564a,claude-opus-5-5,claudec6-20261024-212305-1,w-efe153480513,2026-10-24
 Code/GameEngine/Source/Common/Rva005C4B56.cpp|param|Rva005C4B56::rva005C4BC8|b,7d2e1e311f1b72872161bd7e,claude-opus-5-5,claudec6-20261024-212305-1,w-efe153480513,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassLoadCharBitmap.cpp|local|FontCharsClass::loadCharBitmap|y,d645f70c687f0b87f610c5d9,claude-opus-5-5,claudec6-20261024-213948-2,w-efe153480513,2026-10-24
+Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassLoadCharBitmap.cpp|local|FontCharsClass::loadCharBitmap|x,fe52ff128676de8afcf6e29c,claude-opus-5-5,claudec6-20261024-213948-2,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/Object/Behavior/MineshaftPortalBehaviour.cpp|member|Rva00373B70Template|kindOf114,70202f5f0df5304ce9f06a96,claude-opus-5-5,claudec6-20261024-213948-4,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/AI/AIPlayerIsLocationSafe.cpp|class||Rva00261246SubobjectView,576022ebdb793835cec6e451,claude-opus-5-5,claudec6-20261024-213948-6,w-efe153480513,2026-10-24
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|member|Rva0030C2CEArea|m_float5C,1248897d87b63901a01072f7,claude-opus-5-5,claudec6-20261024-213948-7,w-efe153480513,2026-10-24
