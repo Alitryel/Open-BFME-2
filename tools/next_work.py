@@ -1374,6 +1374,18 @@ def print_wb_candidate(candidate, indent="  "):
     print(f"       start: {candidate['command']}")
 
 
+def print_packet_candidate(candidate):
+    print(f"  {candidate['size']:>5}B  {candidate['function']}")
+    print(f"       {candidate['target_rva']} — Zero Hour's own body for this "
+          f"address already agrees on {candidate['aligned_pct']}% of the "
+          f"non-relocation bytes")
+    if candidate.get("landability"):
+        print(f"       landability: {landability.line(candidate['landability'])}")
+    _print_stash(candidate)
+    _print_boundary_verdicts(candidate)
+    print(f"       start: read {candidate['packet']}, port {candidate['source']}")
+
+
 def print_candidate(label, candidate, meta, candidates=()):
     print(f"== selected work: {label} (drawn from {meta['pool']}) ==")
     if label in ("gate-debt repair", "link-cycle repair"):
@@ -1399,15 +1411,7 @@ def print_candidate(label, candidate, meta, candidates=()):
         print_cluster(candidate, candidates, buildable=False)
         return
     if label == "Zero Hour work packet":
-        print(f"  {candidate['size']:>5}B  {candidate['function']}")
-        print(f"       {candidate['target_rva']} — Zero Hour's own body for this "
-              f"address already agrees on {candidate['aligned_pct']}% of the "
-              f"non-relocation bytes")
-        if candidate.get("landability"):
-            print(f"       landability: {landability.line(candidate['landability'])}")
-        _print_stash(candidate)
-        _print_boundary_verdicts(candidate)
-        print(f"       start: read {candidate['packet']}, port {candidate['source']}")
+        print_packet_candidate(candidate)
         return
     if label == "reloc-named unclaimed function":
         print(f"  {candidate['size']:>5}B  {candidate['function']}")
@@ -1481,7 +1485,8 @@ def print_candidate(label, candidate, meta, candidates=()):
 
 
 def print_ranked(args, ledger, drifts, structural, ghidra_meta, ghidra_absent,
-                 suppressed=0, named=(), named_note="", structural_meta=None, wb=()):
+                 suppressed=0, named=(), named_note="", structural_meta=None, wb=(),
+                 packets=()):
     print("== 0. ledger health ==")
     print(f"  {ledger}")
     if suppressed:
@@ -1492,6 +1497,13 @@ def print_ranked(args, ledger, drifts, structural, ghidra_meta, ghidra_absent,
         return
     if structural_meta and validator_note(structural_meta):
         print(f"  {validator_note(structural_meta)}")
+
+    if args.tier in (None, "packet"):
+        print(f"\n== P. Zero Hour work packets ({len(packets)}) ==")
+        for candidate in packets[:args.limit]:
+            print_packet_candidate(candidate)
+        if args.tier == "packet":
+            return
 
     if args.tier in (None, "named"):
         print(f"\n== 1. reloc-named unclaimed functions ({len(named)}) ==")
@@ -1713,9 +1725,26 @@ def main():
     shard_meta = (None if args.shard is None else
                   {"index": args.shard[0], "count": args.shard[1]})
 
+    # Ranked views show the full filtered queue, before the selection-only
+    # landability band and default-tier preemption rules below.
+    packets = (packet_candidates(claimed)
+               if args.tier in (None, "packet") else [])
+    packets = annotate_wpo(annotate_wb(without_busy(packets, busy)))
+    annotate_attempts(packets)
+    if wpo_detect is not None:
+        wpo_detect.save_cache()
+    repair_queue.annotate_dest(packets)
+    # The packet tier carries its own boundary, so a logged verdict retires it
+    # exactly as it does for every other lane. Without this the recommender
+    # keeps serving packets already recorded not-convertible or no-boundary.
+    if not args.include_logged:
+        packets, dropped_packets = drop_logged(packets)
+        suppressed += dropped_packets
+
     if args.ranked and args.json:
         print(json.dumps({
             "ledger": ledger,
+            "packets": packets,
             "named_meta": named_note, "reloc_named": named,
             "drift_quick_wins": drifts,
             "structural": structural,
@@ -1744,22 +1773,10 @@ def main():
                 print(f"  {link_note}")
             print()
         print_ranked(args, ledger, drifts, structural, ghidra_meta,
-                     ghidra_absent, suppressed, named, named_note, structural_meta, wb)
+                     ghidra_absent, suppressed, named, named_note, structural_meta, wb,
+                     packets)
         return
 
-    packets = (packet_candidates(claimed)
-               if args.tier in (None, "packet") else [])
-    packets = annotate_wpo(annotate_wb(without_busy(packets, busy)))
-    annotate_attempts(packets)
-    if wpo_detect is not None:
-        wpo_detect.save_cache()
-    repair_queue.annotate_dest(packets)
-    # The packet tier carries its own boundary, so a logged verdict retires it
-    # exactly as it does for every other lane. Without this the recommender
-    # keeps serving packets already recorded not-convertible or no-boundary.
-    if not args.include_logged:
-        packets, dropped_packets = drop_logged(packets)
-        suppressed += dropped_packets
     # The packet tier is the only one scored on landing evidence, so one band is
     # served at a time: a queue offering a `landable` body must not spend a seat
     # on an `unproven-boundary` one. See tools/landability.py.
