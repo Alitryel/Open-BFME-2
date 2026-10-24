@@ -37,7 +37,7 @@ public:
 	void bfmeShowQR(unsigned short what);
 
 	unsigned char m_bfmeHead[0x9e78];	// 0x0004
-	char m_bfmeName[0x10];			// 0x9e7c
+	char m_prefix[0x10];			// 0x9e7c
 	int m_bfmeBase;				// 0x9e8c
 };
 
@@ -45,7 +45,7 @@ void BfmeThingQR::bfmeShowQR(unsigned short what)
 {
 	char tmp[0x14];
 
-	reinterpret_cast<Debug *>(this)->Debug::AddOutput(m_bfmeName, strlen(m_bfmeName));
+	reinterpret_cast<Debug *>(this)->Debug::AddOutput(m_prefix, strlen(m_prefix));
 
 	bfmeAddQR(_itoa(what, tmp, m_bfmeBase));
 }
