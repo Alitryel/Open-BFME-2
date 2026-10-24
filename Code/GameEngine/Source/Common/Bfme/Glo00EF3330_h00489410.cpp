@@ -17,10 +17,7 @@ extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(BfmeCritica
 class CriticalSectionLock
 {
 public:
-	explicit CriticalSectionLock(BfmeCriticalSection *section) : m_section(section)
-	{
-		EnterCriticalSection(m_section);
-	}
+	explicit CriticalSectionLock(BfmeCriticalSection *section);
 
 	~CriticalSectionLock()
 	{
@@ -31,13 +28,8 @@ private:
  	BfmeCriticalSection *m_section;
 };
 
-// This anchor only makes this unit emit its rowed ??0 copy for the ledger;
-// it is not retail code. The in-class ctor is a COMDAT that MSVC drops when
-// nothing references it, so the matched row needs a caller in this TU.
-#pragma inline_depth(0)
-// ?bfmeEmitCriticalSectionLockCtor@@YAXPAUBfmeCriticalSection@@@Z present-unmatched
-void bfmeEmitCriticalSectionLockCtor(BfmeCriticalSection *section)
+
+CriticalSectionLock::CriticalSectionLock(BfmeCriticalSection *section) : m_section(section)
 {
- 	CriticalSectionLock lock(section);
+	EnterCriticalSection(m_section);
 }
-#pragma inline_depth()

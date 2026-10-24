@@ -66,11 +66,3 @@ DrawableLocoInfo::DrawableLocoInfo() throw()
 	m_yawModulator = GetGameClientRandomValueReal(0.0f, 6.28318530717958647692f, (char *)"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameClient\\Drawable.cpp", 325);
 	m_pitchModulator = GetGameClientRandomValueReal(0.0f, 6.28318530717958647692f, (char *)"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameClient\\Drawable.cpp", 326);
 }
-
-#pragma inline_depth(0)
-// ?bfmeEmitDrawableLocoInfoDtor@@YAXPAVDrawableLocoInfo@@@Z present-unmatched
-void bfmeEmitDrawableLocoInfoDtor(DrawableLocoInfo *drawableLocoInfo)
-{
-	drawableLocoInfo->DrawableLocoInfo::~DrawableLocoInfo();
-}
-#pragma inline_depth()

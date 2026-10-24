@@ -32528,7 +32528,6 @@ present_unmatched	Code/GameEngine/Include/Common/BfmeAudioEventPrefix136.h	BfmeP
 present_unmatched	Code/GameEngine/Include/Common/Rva00041004Lock.h	Rva0040EDB::Rva0040EDB	1
 present_unmatched	Code/GameEngine/Include/GameClient/Rva0008990CArrayOwner.h	Rva000851F3::~Rva000851F3	1
 present_unmatched	Code/GameEngine/Include/GameClient/Rva0008990CArrayOwner.h	Rva0089971::rva00047A69C	1
-present_unmatched	Code/GameEngine/Source/Common/Bfme/Glo00EF3330_h00489410.cpp	bfmeEmitCriticalSectionLockCtor@@YAXPAUBfmeCriticalSection@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Bfme/Rva00409930SlotArray.cpp	Rva00409850SubObject::method	1
 present_unmatched	Code/GameEngine/Source/Common/Bfme/Rva00409930SlotArray.cpp	Rva00409850SubObject::rva_00409810	1
 present_unmatched	Code/GameEngine/Source/Common/Bfme/Rva00409930SlotArray.cpp	Rva00409930::dispatchSlot	1
@@ -32593,7 +32592,6 @@ present_unmatched	Code/GameEngine/Source/Common/DamageFX.cpp	DamageFXStore::init
 present_unmatched	Code/GameEngine/Source/Common/DamageFX.cpp	DamageFXStore::reset	1
 present_unmatched	Code/GameEngine/Source/Common/DamageFX.cpp	DamageFXStore::update	1
 present_unmatched	Code/GameEngine/Source/Common/DamageFX.cpp	DamageFXStore::~DamageFXStore	1
-present_unmatched	Code/GameEngine/Source/Common/DrawableLocoInfoCtor.cpp	bfmeEmitDrawableLocoInfoDtor@@YAXPAVDrawableLocoInfo@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/DrawableVectorResize.cpp	size@?$vector@PAVDrawable@@V?$allocator@PAVDrawable@@@_STL@@@_STL@@QBEIXZ	1
 present_unmatched	Code/GameEngine/Source/Common/FamilyDeletingDtors_Rva0014F699.cpp	1Rva0014F699@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/Common/FamilyDeletingDtors_Rva00150558.cpp	famgenDelete@@YAXPAVRva00150558@@@Z	1
