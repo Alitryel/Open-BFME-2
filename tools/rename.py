@@ -123,12 +123,26 @@ a converged datum. Retail is /GR-, so no RTTI string carries a game class name.
 A `member` (one non-static data member of one class) never reaches bytes:
 every view declaring it and every file using it through a header view is
 rewritten, a file that also declares the word for another class is refused.
-A `param` or `local` is respelled inside one function body in one file; a
-local is refused in a file that compiles /Od (the `// cl:` line,
-flag_overrides.csv and the region default, last /O winning), where a name can
-reorder the frame, and either is refused when the word could mean an outer
-entity there (a global, a member, a spelling in an included header, a use
-before the declaration) or the new word is already spelled in the file.
+A `param` or `local` is respelled inside one function body in one file, and
+the rule asks only what the new spelling could capture and what the old one
+could mean there. A local is refused in a file that compiles /Od (the `// cl:`
+line, flag_overrides.csv and the region default, last /O winning), where a name
+can reorder the frame. Either is refused when the function's own text already
+spells the new word; when the unit spells it at file scope, as a member or in
+a macro (the same spelling as a parameter or local of ANOTHER function is no
+collision); or when the old word could mean an outer entity there: a global or
+member of the unit, a macro, a spelling after `->`, `.` or `::`. An included
+header decides only through a macro or a member of the function's class or a
+base (an initializer list names a member beside the parameter of that name; a
+base the headers never declare means any class's member counts): a header's
+own parameters, locals, file-scope names and unrelated classes do not, and a
+macro formal parameter binds only inside its macro. A local must also have
+every spelling of its word inside the scope of one of its declarations (the
+declaring block, or the statement whose `for`/`while`/`if`/`switch`/`catch`
+header declares it): a spelling before the declaration, after its block or in
+a sibling block may name a global, so it refuses. A unit or header that
+spells either word and whose parentheses or braces do not balance (an
+`#if`/`#else` split signature) cannot be classified and refuses too.
 Their name_basis.csv rows are qualified (`Class::member`,
 `Scope::function::param`), so a canonical record for one never protects an
 unrelated name of the same spelling.
