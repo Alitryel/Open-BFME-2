@@ -1796,3 +1796,4 @@ param,Set_Far_Attenuation_Range::a,Set_Far_Attenuation_Range::start,inferred,agr
 param,Set_Far_Attenuation_Range::b,Set_Far_Attenuation_Range::end,inferred,agree:nl-14eef9adfe0d,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainVisualLoad.cpp,
 local,W3DTerrainVisual::load::p,W3DTerrainVisual::load::location,inferred,agree:nl-2df4c2ae22eb,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainVisualLoad.cpp,0x0009213F
 local,W3DTerrainVisual::load::c,W3DTerrainVisual::load::color,inferred,agree:nl-b8766c1d6167,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainVisualLoad.cpp,0x0009213F
+local,AIDozerManager::DoXfer::n,AIDozerManager::DoXfer::numDozers,inferred,agree:nl-211f10174315,Code/GameEngine/Source/Common/Rva00599825ListAdd.cpp,0x0059992A

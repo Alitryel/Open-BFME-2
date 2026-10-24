@@ -142,11 +142,11 @@ void AIDozerManager::DoXfer(Xfer *xfer)
 	*xfer == m_flag10;
 	unsigned int count;
 	{
-		int n = 0;
+		int numDozers = 0;
 		Rva599825Node *head = *(Rva599825Node **)&m_ids;
 		for (Rva599825Node *cur = head->m_next; cur != head; cur = cur->m_next)
-			++n;
-		count = (unsigned int)n;
+			++numDozers;
+		count = (unsigned int)numDozers;
 	}
 	*xfer == count;
 	if (xfer->IsStoring()) {
