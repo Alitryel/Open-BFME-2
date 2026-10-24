@@ -8,7 +8,7 @@ extern "C" void _ReadWriteBarrier(void);
 class Rva0006AB98
 {
 public:
-	unsigned char rva0006AB98(int a, int b);
+	unsigned char rva0006AB98(int xIndex, int yIndex);
 private:
 	char m_pad00[8];
 	int m_08;
@@ -20,15 +20,15 @@ private:
 	unsigned char *m_78;
 };
 
-unsigned char Rva0006AB98::rva0006AB98(int a, int b)
+unsigned char Rva0006AB98::rva0006AB98(int xIndex, int yIndex)
 {
-	if (a < 0 || b < 0)
+	if (xIndex < 0 || yIndex < 0)
 		return 0;
-	if (b >= m_0C || a >= m_08)
+	if (yIndex >= m_0C || xIndex >= m_08)
 		return 0;
-	unsigned idx = (unsigned)(m_34 * b + (a >> 3));
+	unsigned idx = (unsigned)(m_34 * yIndex + (xIndex >> 3));
 	if (idx >= (unsigned)(m_78 - m_74))
 		return 0;
 	_ReadWriteBarrier();
-	return (m_74[idx] & (1 << (a & 7))) != 0;
+	return (m_74[idx] & (1 << (xIndex & 7))) != 0;
 }
