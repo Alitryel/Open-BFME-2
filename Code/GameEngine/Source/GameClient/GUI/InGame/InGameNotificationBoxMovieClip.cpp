@@ -42,7 +42,7 @@ class Rva004E6A37 {
 public:
  Rva004E6935 *m_ptr;
  Rva004E6A37(Rva004E6935 *p=0):m_ptr(p) {}
- Rva004E6A37(Rva004E6A37 &v) { Rva004E6935 *p=v.m_ptr; v.m_ptr=0; m_ptr=p; }
+ Rva004E6A37(Rva004E6A37 &other) { Rva004E6935 *p=other.m_ptr; other.m_ptr=0; m_ptr=p; }
  Rva004E6A37(Rva004E6A37Ref r) { m_ptr=r.release(); }
  operator Rva004E6A37Ref() { return Rva004E6A37Ref(m_ptr,m_ptr); }
  ~Rva004E6A37();
