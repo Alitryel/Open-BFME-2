@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX /Ireference/shims/update_modules_bfme2
 //
 // ??0StructureToppleUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail
 // 0x004A5556, 182 bytes. Behavior-side ctor completing the
@@ -48,10 +48,7 @@ public:
 	}
 };
 
-enum UpdateSleepTime
-{
-	UPDATE_SLEEP_FOREVER = 0x3fffffff
-};
+#include "GameLogic/Module/UpdateModuleInterface.h"
 
 class BehaviorModuleBase
 {
@@ -73,17 +70,13 @@ public:
 	BehaviorModule(Thing *thing, const ModuleData *moduleData);
 };
 
-class UpdateModuleInterface
-{
-public:
-	virtual void update();
-};
-
 class UpdateModule : public BehaviorModule, public UpdateModuleInterface
 {
 public:
 	UpdateModule(Thing *thing, const ModuleData *moduleData);
 	virtual ~UpdateModule();
+	virtual DisabledMaskType getDisabledTypesToProcess() const;
+	virtual void rva0044DF8D(UpdateSleepTime wakeDelay);
 protected:
 	void setWakeFrame(Object *obj, UpdateSleepTime frame);
 	Object *getObject(void) const { return m_object; }
@@ -116,6 +109,7 @@ public:
 	// Retail's dtor 0x004A54A8 stores the four vptrs this ctor installs
 	// and tail-jumps UpdateModule::~UpdateModule.
 	virtual ~StructureToppleUpdate();
+	virtual UpdateSleepTime update();
 	virtual void onDie(const DamageInfo *damageInfo);
 private:
 	const Object *getObject(void) const { return m_object; }

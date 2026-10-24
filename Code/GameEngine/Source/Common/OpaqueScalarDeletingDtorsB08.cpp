@@ -63,12 +63,33 @@ Rva000411BC::Rva000411BC(EmitVtableTag *)
 {
 }
 
-class Rva00072FE1
+class __declspec(novtable) BfmeDynamicVBRefCount
+{
+public:
+	__declspec(dllimport) __forceinline BfmeDynamicVBRefCount() : m_count(1) {}
+	virtual void DeleteThis();
+	virtual ~BfmeDynamicVBRefCount();
+	int m_count;
+};
+
+class __declspec(novtable) Rva0072AED : public BfmeDynamicVBRefCount
+{
+public:
+	__declspec(dllimport) __forceinline Rva0072AED() : m_ref(0) {}
+	virtual ~Rva0072AED();
+	void *m_ref;
+};
+
+class W3DShroud;
+
+class Rva00072FE1 : public Rva0072AED
 {
 public:
 	Rva00072FE1(EmitVtableTag *);
 public:
 	virtual ~Rva00072FE1();
+private:
+	W3DShroud *m_owner;
 };
 
 // ?<Rva00072FE1::Rva00072FE1> absent-from-retail

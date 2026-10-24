@@ -89,31 +89,37 @@ public:
 	TextureClass *m_p;
 };
 
-class __declspec(novtable) Rva00073320Base
+class __declspec(novtable) BfmeDynamicVBRefCount
 {
 public:
-	Rva00073320Base() : m_count(1), m_ref(0) {}
-	virtual void destroy();
-	virtual ~Rva00073320Base();
+	__declspec(dllimport) __forceinline BfmeDynamicVBRefCount() : m_count(1) {}
+	virtual void DeleteThis();
+	virtual ~BfmeDynamicVBRefCount();
 	int m_count;
+};
+
+class __declspec(novtable) Rva0072AED : public BfmeDynamicVBRefCount
+{
+public:
+	Rva0072AED() : m_ref(0) {}
+	virtual ~Rva0072AED();
 	void *m_ref;
 };
 
-class Rva00073320Method : public Rva00073320Base
+class Rva00072FE1 : public Rva0072AED
 {
 public:
-	Rva00073320Method(W3DShroud *owner) : m_owner(owner) {}
-	virtual void destroy();
-	virtual ~Rva00073320Method();
+	Rva00072FE1(W3DShroud *owner) : m_owner(owner) {}
+	virtual ~Rva00072FE1();
 	W3DShroud *m_owner;
 };
 
 class Rva00073320Ptr
 {
 public:
-	Rva00073320Ptr(Rva00073320Method *p) : m_ptr(p) {}
+	Rva00073320Ptr(Rva00072FE1 *p) : m_ptr(p) {}
 	~Rva00073320Ptr();
-	Rva00073320Method *m_ptr;
+	Rva00072FE1 *m_ptr;
 };
 
 class W3DShroud

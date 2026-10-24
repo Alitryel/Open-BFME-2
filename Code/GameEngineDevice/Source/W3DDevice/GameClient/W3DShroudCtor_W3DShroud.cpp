@@ -1,7 +1,5 @@
 // cl: /Ireference/shims/bfmealloc /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
-// Split from W3DShroudCtor.cpp: these definitions reference a callee with no matched body yet,
-// so they are kept apart from the unit's bodies that already link.
 // ?? W3DShroud::W3DShroud retail 0x00073320..0x000733D8 (184B). Identity: WB
 // 0x7FC3xx names the class (PartialShroudedRenderingMethod ref at +0x40, dirty
 // set at +0x4c); ZH W3DShroud::W3DShroud (W3DShroud.cpp:76) is the member list
@@ -92,31 +90,37 @@ public:
 	TextureClass *m_p;
 };
 
-class __declspec(novtable) Rva00073320Base
+class __declspec(novtable) BfmeDynamicVBRefCount
 {
 public:
-	Rva00073320Base() : m_count(1), m_ref(0) {}
-	virtual void destroy();
-	virtual ~Rva00073320Base();
+	__declspec(dllimport) __forceinline BfmeDynamicVBRefCount() : m_count(1) {}
+	virtual void DeleteThis();
+	virtual ~BfmeDynamicVBRefCount();
 	int m_count;
+};
+
+class __declspec(novtable) Rva0072AED : public BfmeDynamicVBRefCount
+{
+public:
+	Rva0072AED() : m_ref(0) {}
+	virtual ~Rva0072AED();
 	void *m_ref;
 };
 
-class Rva00073320Method : public Rva00073320Base
+class Rva00072FE1 : public Rva0072AED
 {
 public:
-	__declspec(dllimport) __forceinline Rva00073320Method(W3DShroud *owner) : m_owner(owner) {}
-	virtual void destroy();
-	virtual ~Rva00073320Method();
+	__declspec(dllimport) __forceinline Rva00072FE1(W3DShroud *owner) : m_owner(owner) {}
+	virtual ~Rva00072FE1();
 	W3DShroud *m_owner;
 };
 
 class Rva00087A93
 {
 public:
-	Rva00087A93(Rva00073320Method *p) : m_ptr(p) {}
+	Rva00087A93(Rva00072FE1 *p) : m_ptr(p) {}
 	~Rva00087A93();
-	Rva00073320Method *m_ptr;
+	Rva00072FE1 *m_ptr;
 };
 
 class W3DShroud
@@ -149,6 +153,6 @@ W3DShroud::W3DShroud()
  m_drawOriginX(0.0f), m_drawOriginY(0.0f), m_drawFogOfWar(0), m_clearDstTexture(1),
  m_borderShroudLevel(TheWritableGlobalData->m_shroudAlpha),
  m_finalFogData(0), m_currentFogData(0),
- m_method(new Rva00073320Method(this)), m_pad44(0), m_trackDirtyCells(1)
+ m_method(new Rva00072FE1(this)), m_pad44(0), m_trackDirtyCells(1)
 {
 }

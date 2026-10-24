@@ -12,12 +12,12 @@
 
 class W3DShroud;
 
-class __declspec(novtable) Rva00073320Base
+class __declspec(novtable) BfmeDynamicVBRefCount
 {
 public:
-	Rva00073320Base() : m_count(1) {}
-	virtual void destroy();
-	virtual ~Rva00073320Base();
+	__declspec(dllimport) __forceinline BfmeDynamicVBRefCount() : m_count(1) {}
+	virtual void DeleteThis();
+	virtual ~BfmeDynamicVBRefCount();
 	int m_count;
 };
 
@@ -31,22 +31,21 @@ public:
 
 // The counted reference at +8 belongs to the intermediate class
 // (Rva00072AEDDtor.cpp's Rva0072AED), so it is initialised after the count.
-class __declspec(novtable) Rva00073320Holder : public Rva00073320Base
+class __declspec(novtable) Rva0072AED : public BfmeDynamicVBRefCount
 {
 public:
-	virtual ~Rva00073320Holder();
+	virtual ~Rva0072AED();
 	Rva00073320Ref m_ref;
 };
 
-class Rva00073320Method : public Rva00073320Holder
+class Rva00072FE1 : public Rva0072AED
 {
 public:
-	Rva00073320Method(W3DShroud *owner);
-	virtual void destroy() = 0;
-	virtual ~Rva00073320Method();
+	Rva00072FE1(W3DShroud *owner);
+	virtual ~Rva00072FE1();
 	W3DShroud *m_owner;
 };
 
-Rva00073320Method::Rva00073320Method(W3DShroud *owner) : m_owner(owner)
+Rva00072FE1::Rva00072FE1(W3DShroud *owner) : m_owner(owner)
 {
 }
