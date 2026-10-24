@@ -389,7 +389,7 @@ public:
 	virtual void init();
 	virtual void reset();
 	virtual void update();
-	virtual void vf14();
+	virtual void vf14(unsigned int frame) { m_frame = frame; }
 	virtual void vf15();
 	virtual Drawable *findDrawableByID(const DrawableID id);            // slot 16 (+0x40)
 	virtual Drawable *firstDrawable(void);                              // slot 17 (+0x44)
@@ -407,7 +407,7 @@ public:
 	virtual void vf28() = 0;
 	virtual void destroyDrawable(Drawable *draw);                       // slot 29 (+0x74)
 	virtual void setTimeOfDay(TimeOfDay tod);                           // slot 30 (+0x78)
-	virtual void vf31();
+	virtual unsigned int vf31(void) { return m_frame; }
 	virtual void vf32() = 0;
 	virtual void releaseShadows(void);                                  // slot 33 (+0x84)
 	virtual void allocateShadows(void);                                 // slot 34 (+0x88)
