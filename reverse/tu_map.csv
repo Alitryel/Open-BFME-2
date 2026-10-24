@@ -15793,12 +15793,12 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00248F6E,159,code,Code/GameEngine/Source/GameNetwork/LANAPICallbacks.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPICallbacks.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIOnGameStartTimer.cpp
 0x0024900D,576,code,,displaced,-,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPICallbacks.cpp
 0x0024924D,367,code,,displaced,-,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPICallbacks.cpp
-0x002493BC,116,code,,displaced,-,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRva002493BC.cpp
+0x002493BC,116,code,,displaced,-,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPI_OnPlayerJoin.cpp
 0x00249430,254,code,Code/GameEngine/Source/GameNetwork/LANAPICallbacks.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPICallbacks.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIOnGameCreate.cpp
 0x00249445,233,code-unledgered,Code/GameEngine/Source/GameNetwork/LANAPICallbacks.cpp,approved,C,C=0x00249430..0x0024952E,
 0x0024952E,48,code,Code/GameEngine/Source/GameNetwork/LANAPICallbacks.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPICallbacks.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIOnNameChange.cpp
-0x0024955E,55,code,Code/GameEngine/Source/GameNetwork/LANAPICallbacks.cpp,approved,C,C=0x0024952E..0x00249595,Code/GameEngine/Source/GameNetwork/Rva0024955ETranslate.cpp
-0x00249595,55,code,Code/GameEngine/Source/GameNetwork/LANAPICallbacks.cpp,approved,C,C=0x0024952E..0x002495CC,Code/GameEngine/Source/GameNetwork/Rva0024955ETranslate.cpp
+0x0024955E,55,code,Code/GameEngine/Source/GameNetwork/LANAPICallbacks.cpp,approved,C,C=0x0024952E..0x00249595,Code/GameEngine/Source/GameNetwork/LANGameSlot.cpp
+0x00249595,55,code,Code/GameEngine/Source/GameNetwork/LANAPICallbacks.cpp,approved,C,C=0x0024952E..0x002495CC,Code/GameEngine/Source/GameNetwork/LANGameSlot.cpp
 0x002495CC,814,code,Code/GameEngine/Source/GameNetwork/LANAPICallbacks.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPICallbacks.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPICallbacks.cpp
 0x002498FA,526,code,Code/GameEngine/Source/GameNetwork/LANAPICallbacks.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPICallbacks.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPICallbacks.cpp
 0x00249B08,574,code,,displaced,-,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPICallbacks.cpp
@@ -30150,7 +30150,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x003FFBB4,116,code,Code/GameEngine/Source/GameNetwork/GameInfo.cpp,proposed,Z,Z=Code/GameEngine/Source/GameNetwork/GameInfo.cpp S=Code/GameEngine/Source/GameNetwork/GameInfo.cpp N=Code/GameEngine/Source/GameNetwork/GameSlot.cpp noncontiguous,Code/GameEngine/Source/GameNetwork/GameSlotApparent.cpp
 0x003FFC28,399,code,Code/GameEngine/Source/GameNetwork/GameInfo.cpp,proposed,Z,Z=Code/GameEngine/Source/GameNetwork/GameInfo.cpp S=Code/GameEngine/Source/GameNetwork/GameInfo.cpp N=Code/GameEngine/Source/GameNetwork/GameSlot.cpp noncontiguous,Code/GameEngine/Source/GameNetwork/GameSlotSetState.cpp
 0x003FFDB7,67,code,Code/GameEngine/Source/GameNetwork/GameInfo.cpp,proposed,Z,Z=Code/GameEngine/Source/GameNetwork/GameInfo.cpp S=Code/GameEngine/Source/GameNetwork/GameInfo.cpp N=Code/GameEngine/Source/GameNetwork/GameInfo.cpp noncontiguous,Code/GameEngine/Source/GameNetwork/GameInfoClearSlotList.cpp
-0x003FFDFA,87,code,Code/GameEngine/Source/GameNetwork/GameInfo.cpp,proposed,Z,Z=Code/GameEngine/Source/GameNetwork/GameInfo.cpp S=Code/GameEngine/Source/GameNetwork/GameInfo.cpp N=Code/GameEngine/Source/GameNetwork/GameInfo.cpp noncontiguous,Code/GameEngine/Source/GameNetwork/Rva003FFDFAAssign.cpp
+0x003FFDFA,87,code,Code/GameEngine/Source/GameNetwork/GameInfo.cpp,proposed,Z,Z=Code/GameEngine/Source/GameNetwork/GameInfo.cpp S=Code/GameEngine/Source/GameNetwork/GameInfo.cpp N=Code/GameEngine/Source/GameNetwork/GameInfo.cpp noncontiguous,Code/GameEngine/Source/GameNetwork/GameInfo_setSlot.cpp
 0x003FFE51,164,code,Code/GameEngine/Source/GameNetwork/GameInfo.cpp,proposed,Z,Z=Code/GameEngine/Source/GameNetwork/GameInfo.cpp S=Code/GameEngine/Source/GameNetwork/GameInfo.cpp N=Code/GameEngine/Source/GameNetwork/GameInfo.cpp noncontiguous,Code/GameEngine/Source/GameNetwork/GameInfoCloseOpenSlots.cpp
 0x003FFEF5,109,code,Code/GameEngine/Source/GameNetwork/GameInfo.cpp,proposed,Z,Z=Code/GameEngine/Source/GameNetwork/GameInfo.cpp S=Code/GameEngine/Source/GameNetwork/GameInfo.cpp N=Code/GameEngine/Source/GameNetwork/GameSlot.cpp noncontiguous,Code/GameEngine/Source/GameNetwork/GameSlotIsPlayerAscii.cpp
 0x003FFF62,45,code,Code/GameEngine/Source/GameNetwork/GameInfo.cpp,proposed,Z,Z=Code/GameEngine/Source/GameNetwork/GameInfo.cpp S=Code/GameEngine/Source/GameNetwork/GameInfo.cpp N=Code/GameEngine/Source/GameNetwork/GameSlot.cpp noncontiguous,Code/GameEngine/Source/GameNetwork/GameSlotIsPlayer.cpp
@@ -32579,7 +32579,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00447ACA,68,code,Code/GameEngine/Source/GameNetwork/LANPlayer.cpp,proposed,N,N=Code/GameEngine/Source/GameNetwork/LANPlayer.cpp noncontiguous,Code/GameEngine/Source/GameNetwork/LANAPIReset.cpp
 0x00447B0E,74,code,Code/GameEngine/Source/GameNetwork/LANGameInfo.cpp,proposed,K,K=Rva00447B0E,Code/GameEngine/Source/Common/Rva00447B0EDtor.cpp
 0x00447B58,69,code,Code/GameEngine/Source/GameNetwork/LANGameInfo.cpp,proposed,K,K=Rva00447B0E,Code/GameEngine/Source/Common/Rva00447B58Assign.cpp
-0x00447B9D,67,code,,displaced,-,S=Code/GameEngine/Source/GameNetwork/GameInfo.cpp N=Code/GameEngine/Source/GameNetwork/GameInfo.cpp,Code/GameEngine/Source/GameNetwork/GameInfo_setMapForwarder_Rva000447B9D.cpp
+0x00447B9D,67,code,,displaced,-,S=Code/GameEngine/Source/GameNetwork/GameInfo.cpp N=Code/GameEngine/Source/GameNetwork/GameInfo.cpp,Code/GameEngine/Source/GameNetwork/GameInfo_setMapForwarder.cpp
 0x00447BE0,102,code,Code/GameEngine/Source/GameNetwork/LANGameInfo.cpp,approved,S,S=Code/GameEngine/Source/GameNetwork/LANGameInfo.cpp N=Code/GameEngine/Source/GameNetwork/LANGameInfo.cpp,Code/GameEngine/Source/GameNetwork/LANGameInfoListImage.cpp
 0x00447C46,99,code,Code/GameEngine/Source/GameNetwork/LANGameInfo.cpp,approved,C,C=0x00447BE0..0x00447CA9,Code/GameEngine/Source/GameNetwork/GenerateGameOptionsString.cpp
 0x00447CA9,812,code,Code/GameEngine/Source/GameNetwork/LANGameInfo.cpp,approved,C,C=0x00447BE0..0x00447FD5,Code/GameEngine/Source/GameNetwork/GenerateGameOptionsString.cpp
@@ -32633,8 +32633,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0044965C,55,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPI.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRequestLocations.cpp
 0x00449693,169,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,N,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRva00449693.cpp
 0x0044973C,9,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPI.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIResetGameStartTimer.cpp
-0x00449745,167,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,N,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRva00449745.cpp
-0x004497EC,184,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,N,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRva004497EC.cpp
+0x00449745,167,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,N,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPI_RequestGameStartTimer.cpp
+0x004497EC,184,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,N,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPI_RequestGameOptionsPacked.cpp
 0x004498A4,76,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPI.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRequestLobbyLeave.cpp
 0x004498F0,35,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPI.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIAmIHost.cpp
 0x00449913,86,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPI.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRemoveGame.cpp
@@ -32643,25 +32643,25 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004499C7,56,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPI.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRemovePlayer.cpp
 0x004499FF,42,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPI.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIAmIHost.cpp
 0x00449A29,88,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPI.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPISetIsActive.cpp
-0x00449A81,55,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,N,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRva00449A81.cpp
+0x00449A81,55,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,N,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANGameInfo_setName.cpp
 0x00449AB8,193,code-unledgered,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,C,C=0x00449A81..0x00449B79,
 0x00449B79,22,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,N,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIAmIHost.cpp
 0x00449B8F,27,code,,displaced,-,S=Code/GameEngine/Source/Common/RTS/PlayerTemplate.cpp N=Code/GameEngine/Source/Common/PlayerTemplate.cpp,Code/GameEngine/Source/Common/PlayerTemplateGetDisplayName.cpp
 0x00449BAA,256,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPI.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIInit.cpp
 0x00449CAA,496,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,C,C=0x00449BAA..0x00449E9A,Code/GameEngine/Source/GameNetwork/LANAPIGetMessageTypeString.cpp
 0x00449E9A,334,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPI.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRequestGameJoin.cpp
-0x00449FE8,231,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,N,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRva00449FE8.cpp
+0x00449FE8,231,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,N,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPI_RequestGameJoinDirectConnect.cpp
 0x0044A0CF,325,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPI.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRequestGameLeave.cpp
 0x0044A214,283,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPI.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRequestGameAnnounce.cpp
 0x0044A32F,144,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPI.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRequestAccept.cpp
 0x0044A3BF,659,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPI.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRequestGameLeave.cpp
 0x0044A652,267,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPI.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRequestGameLeave.cpp
 0x0044A75D,171,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,N,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRequestGameLeave.cpp
-0x0044A808,249,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPI.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRva0044A808.cpp
+0x0044A808,249,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPI.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPI_RequestGameOptions.cpp
 0x0044A901,101,code,Code/GameEngine/Source/GameNetwork/LANPlayer.cpp,proposed,N,N=Code/GameEngine/Source/GameNetwork/LANPlayer.cpp noncontiguous,Code/GameEngine/Source/GameNetwork/LANPlayer_copy.cpp
 0x0044A966,128,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPI.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIFillInLANMessage.cpp
 0x0044A9E6,158,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPI.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPISetLocalIP.cpp
-0x0044AA84,77,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,N,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRva0044AA84.cpp
+0x0044AA84,77,code,Code/GameEngine/Source/GameNetwork/LANAPI.cpp,approved,N,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPI_SetLocalIP.cpp
 0x0044AAD1,28,code,Code/GameEngine/Source/GameNetwork/LANPlayer.cpp,proposed,N,N=Code/GameEngine/Source/GameNetwork/LANPlayer.cpp noncontiguous,Code/GameEngine/Source/GameNetwork/LANAPIReset.cpp
 0x0044AAED,1858,code-unledgered,,,-,,
 0x0044B27F,107,code,,,-,,Code/GameEngine/Source/Common/LANGameSlot.cpp
@@ -37604,7 +37604,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004CEE9C,5,code,,,-,,Code/GameEngine/Source/Common/Disp8WordFieldGetters.cpp
 0x004CEEA1,5,code,,,-,,Code/GameEngine/Source/Common/DispWordIntGetters.cpp
 0x004CEEA6,29,code,,displaced,-,N=Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp,Code/GameEngine/Source/GameNetwork/NetCommandMsgCtor.cpp
-0x004CEEC3,37,code,,,-,,Code/GameEngine/Source/GameNetwork/Rva004CEEC3Ctor.cpp
+0x004CEEC3,37,code,,,-,,Code/GameEngine/Source/GameNetwork/NetFrameCommandMsg.cpp
 0x004CEEE8,25,code,,,-,,Code/GameEngine/Source/GameNetwork/Rva004CEEE8Ctor.cpp
 0x004CEF06,7,code,,,-,,Code/GameEngine/Source/Common/DispDwordLeaFieldGetters.cpp
 0x004CEF0D,18,code,,,-,,Code/GameEngine/Source/Common/Rva00662950CopyPair.cpp
@@ -37691,7 +37691,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004D0AA9,316,code,Code/GameEngine/Source/GameNetwork/BFMEConnectionManager.cpp,proposed,N,N=Code/GameEngine/Source/GameNetwork/BFMEConnectionManager.cpp noncontiguous,Code/GameEngine/Source/GameNetwork/BFMEConnectionManager_sendCommands.cpp
 0x004D0BE5,163,code,Code/GameEngine/Source/GameNetwork/BFMEConnectionManager.cpp,proposed,N,N=Code/GameEngine/Source/GameNetwork/BFMEConnectionManager.cpp noncontiguous,Code/GameEngine/Source/GameNetwork/BFMEConnectionManager_sendCommands.cpp
 0x004D0C88,382,code,Code/GameEngine/Source/GameNetwork/BFMEConnectionManager.cpp,proposed,N,N=Code/GameEngine/Source/GameNetwork/BFMEConnectionManager.cpp noncontiguous,Code/GameEngine/Source/GameNetwork/BFMEConnectionManager_sendCommands.cpp
-0x004D0E06,133,code,Code/GameEngine/Source/GameNetwork/ConnectionManager.cpp,approved,S,S=Code/GameEngine/Source/GameNetwork/ConnectionManager.cpp N=Code/GameEngine/Source/GameNetwork/ConnectionManager.cpp,Code/GameEngine/Source/GameNetwork/ConnectionManager_rva004D0E06.cpp
+0x004D0E06,133,code,Code/GameEngine/Source/GameNetwork/ConnectionManager.cpp,approved,S,S=Code/GameEngine/Source/GameNetwork/ConnectionManager.cpp N=Code/GameEngine/Source/GameNetwork/ConnectionManager.cpp,Code/GameEngine/Source/GameNetwork/ConnectionManager_sendLocalGameMessage.cpp
 0x004D0E8B,8,code,Code/GameEngine/Source/GameNetwork/ConnectionManager.cpp,approved,S,S=Code/GameEngine/Source/GameNetwork/ConnectionManager.cpp N=Code/GameEngine/Source/Common/ConnectionManager.cpp,Code/GameEngine/Source/Common/CallForwarders8B.cpp
 0x004D0F39,42,code,Code/GameEngine/Source/GameNetwork/ConnectionManager.cpp,approved,C,C=0x004D0E8B..0x004D0F63,Code/GameEngine/Source/GameLogic/Object/FiringTracker.cpp
 0x004D0F63,31,code,Code/GameEngine/Source/GameNetwork/ConnectionManager.cpp,approved,C,C=0x004D0E8B..0x004D0F82,Code/GameEngine/Source/Common/BitFlagsParseToken_Rva004D0F63.cpp
@@ -37791,7 +37791,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004D4395,674,code,Code/GameEngine/Source/GameNetwork/DisconnectManager.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/DisconnectManager.cpp S=Code/GameEngine/Source/GameNetwork/DisconnectManager.cpp N=Code/GameEngine/Source/GameNetwork/DisconnectManager.cpp,Code/GameEngine/Source/GameNetwork/DisconnectManagerO1.cpp
 0x004D4637,108,code,Code/GameEngine/Source/GameNetwork/DisconnectManager.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/DisconnectManager.cpp S=Code/GameEngine/Source/GameNetwork/DisconnectManager.cpp N=Code/GameEngine/Source/GameNetwork/DisconnectManager.cpp,Code/GameEngine/Source/GameNetwork/DisconnectManagerRva004D4637.cpp
 0x004D46A3,12,code-unledgered,Code/GameEngine/Source/GameNetwork/DisconnectManager.cpp,approved,C,C=0x004D4637..0x004D46AF,
-0x004D46AF,77,code,Code/GameEngine/Source/GameNetwork/DisconnectManager.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/DisconnectManager.cpp S=Code/GameEngine/Source/GameNetwork/DisconnectManager.cpp N=Code/GameEngine/Source/GameNetwork/DisconnectManager.cpp,Code/GameEngine/Source/GameNetwork/DisconnectManagerRva004D46AF.cpp
+0x004D46AF,77,code,Code/GameEngine/Source/GameNetwork/DisconnectManager.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/DisconnectManager.cpp S=Code/GameEngine/Source/GameNetwork/DisconnectManager.cpp N=Code/GameEngine/Source/GameNetwork/DisconnectManager.cpp,Code/GameEngine/Source/GameNetwork/DisconnectManager_processDisconnectCommand.cpp
 0x004D46FC,861,code,Code/GameEngine/Source/GameNetwork/DisconnectManager.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/DisconnectManager.cpp S=Code/GameEngine/Source/GameNetwork/DisconnectManager.cpp N=Code/GameEngine/Source/GameNetwork/DisconnectManager.cpp,Code/GameEngine/Source/GameNetwork/DisconnectManagerO1.cpp
 0x004D4A59,39,code,Code/GameEngine/Source/GameNetwork/Transport.cpp,approved,S,S=Code/GameEngine/Source/GameNetwork/Transport.cpp N=Code/GameEngine/Source/GameNetwork/Transport.cpp,Code/GameEngine/Source/GameNetwork/TransportCtor.cpp
 0x004D4A80,14,code,Code/GameEngine/Source/GameNetwork/Transport.cpp,approved,C,C=0x004D4A59..0x004D4A8E,Code/GameEngine/Source/GameNetwork/Transport.cpp
@@ -37846,8 +37846,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004D58CD,5,code,Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp,proposed,Z,Z=Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp S=Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp N=Code/GameEngine/Source/GameNetwork/NetWrapperCommandMsg.cpp noncontiguous,Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp
 0x004D58D2,12,code,Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp,proposed,Z,Z=Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp S=Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp N=Code/GameEngine/Source/GameNetwork/NetWrapperCommandMsg.cpp noncontiguous,Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp
 0x004D58DE,36,code,Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp,proposed,C,C=0x004D58D2..0x004D5902 noncontiguous,Code/GameEngine/Source/GameNetwork/NetCommandMsgCtor.cpp
-0x004D5902,35,code,Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp,proposed,C,C=0x004D58D2..0x004D5925 noncontiguous,Code/GameEngine/Source/GameNetwork/Rva004D58DEDtor.cpp
-0x004D5925,39,code,Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp,proposed,C,C=0x004D58D2..0x004D594C noncontiguous,Code/GameEngine/Source/GameNetwork/Rva004D58DESetData.cpp
+0x004D5902,35,code,Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp,proposed,C,C=0x004D58D2..0x004D5925 noncontiguous,Code/GameEngine/Source/GameNetwork/NetHeroCommandMsg.cpp
+0x004D5925,39,code,Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp,proposed,C,C=0x004D58D2..0x004D594C noncontiguous,Code/GameEngine/Source/GameNetwork/NetHeroCommandMsg_setData.cpp
 0x004D594C,39,code,Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp,proposed,Z,Z=Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp S=Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp N=Code/GameEngine/Source/GameNetwork/NetFileCommandMsg.cpp noncontiguous,Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp
 0x004D5973,5,code,Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp,proposed,C,C=0x004D594C..0x004D5978 noncontiguous,Code/GameEngine/Source/Common/Disp8WordFieldGetters.cpp
 0x004D5978,12,code,Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp,proposed,C,C=0x004D594C..0x004D5984 noncontiguous,Code/GameEngine/Source/Common/Disp8WordFieldSetters.cpp
@@ -37864,7 +37864,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004D5A5E,28,code,,displaced,-,N=Code/GameEngine/Source/GameNetwork/NetGameCommandMsg.cpp,Code/GameEngine/Source/GameNetwork/NetGameCommandMsgFromGameMessage.cpp
 0x004D5A7A,126,code,Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp,proposed,Z,Z=Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp S=Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp N=Code/GameEngine/Source/GameNetwork/NetGameCommandMsg.cpp noncontiguous,Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp
 0x004D5AF8,28,code,,displaced,-,N=Code/GameEngine/Source/GameNetwork/NetWrapperCommandMsg.cpp,Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp
-0x004D5B14,28,code,Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp,proposed,C,C=0x004D5A7A..0x004D5B4C noncontiguous,Code/GameEngine/Source/GameNetwork/Rva004D58DEDtor.cpp
+0x004D5B14,28,code,Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp,proposed,C,C=0x004D5A7A..0x004D5B4C noncontiguous,Code/GameEngine/Source/GameNetwork/NetHeroCommandMsg.cpp
 0x004D5B30,28,code,,displaced,-,N=Code/GameEngine/Source/Common/NetKeepAliveCommandMsg.cpp,Code/GameEngine/Source/Common/FamilyDeletingDtors_muse-a530.cpp
 0x004D5B4C,223,code,Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp,proposed,S,S=Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp N=Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp noncontiguous,Code/GameEngine/Source/GameNetwork/NetCommandMsgContents.cpp
 0x004D5C2B,147,code,Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp,proposed,S,S=Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp N=Code/GameEngine/Source/GameNetwork/NetFrameCommandMsg.cpp noncontiguous,Code/GameEngine/Source/GameNetwork/NetFrameCommandMsgContents.cpp
@@ -39401,7 +39401,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004FD8A8,16,code,,,-,,Code/GameEngine/Source/Common/Rva004FD6F9.cpp
 0x004FD8B8,150,code,,,-,,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldScenario.cpp
 0x004FD94E,128,code-unledgered,,,-,,
-0x004FD9CF,27,code,,displaced,-,S=Code/GameEngine/Source/GameNetwork/GameInfo.cpp N=Code/GameEngine/Source/GameNetwork/GameSlot.cpp,Code/GameEngine/Source/GameNetwork/GameSlotRva004FD9CF.cpp
+0x004FD9CF,27,code,,displaced,-,S=Code/GameEngine/Source/GameNetwork/GameInfo.cpp N=Code/GameEngine/Source/GameNetwork/GameSlot.cpp,Code/GameEngine/Source/GameNetwork/GameSlot_disconnected.cpp
 0x004FD9EA,13,code,,,-,,Code/GameEngine/Source/Common/DispDwordFieldSetters.cpp
 0x004FD9F7,13,code,,,-,,Code/GameEngine/Source/Common/DispDwordFieldSetters.cpp
 0x004FDA04,13,code,,,-,,Code/GameEngine/Source/Common/DispDwordFieldSetters.cpp
@@ -43971,9 +43971,9 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00581339,155,code,,,-,,Code/GameEngine/Source/GameNetwork/NetworkUtilResolveIP.cpp
 0x005813D4,471,code,,,-,,Code/GameEngine/Source/GameNetwork/NetCommandTypeName.cpp
 0x005815AB,63,code,Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp
-0x005815EA,87,code,,displaced,-,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRva005815EA.cpp
+0x005815EA,87,code,,displaced,-,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPI_handleSetAccept.cpp
 0x00581641,98,code,,displaced,-,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRva00581641.cpp
-0x005816A3,64,code,,displaced,-,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRva005816A3.cpp
+0x005816A3,64,code,,displaced,-,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPI_handleGameStartTimer.cpp
 0x005816E3,93,code,,displaced,-,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRva005816E3.cpp
 0x00581740,55,code,Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp,approved,C,C=0x005815AB..0x00581777,Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp
 0x00581777,30,code,Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp,approved,C,C=0x005815AB..0x00581795,Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp
@@ -43984,7 +43984,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00581E3E,105,code,Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp
 0x00581EA7,217,code,Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp
 0x00581F80,440,code,Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp
-0x00582138,101,code,,displaced,-,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIRva00582138.cpp
+0x00582138,101,code,,displaced,-,N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPI_handleGameOptions.cpp
 0x0058219D,234,code,Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp
 0x00582287,529,code,Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp
 0x00582498,740,code,Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp N=Code/GameEngine/Source/GameNetwork/LANAPI.cpp,Code/GameEngine/Source/GameNetwork/LANAPIhandlers.cpp
@@ -46765,7 +46765,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x005DA5E3,8,code,Code/GameEngine/Source/GameNetwork/FrameData.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/FrameData.cpp S=Code/GameEngine/Source/GameNetwork/FrameData.cpp N=Code/GameEngine/Source/Common/FrameData.cpp,Code/GameEngine/Source/Common/FrameDataManagerCounts.cpp
 0x005DA5EB,21,code,Code/GameEngine/Source/GameNetwork/FrameData.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/FrameData.cpp S=Code/GameEngine/Source/GameNetwork/FrameData.cpp N=Code/GameEngine/Source/Common/FrameData.cpp,Code/GameEngine/Source/Common/FrameDataManagerCounts.cpp
 0x005DA600,33,code,Code/GameEngine/Source/GameNetwork/FrameData.cpp,approved,U,N=Code/GameEngine/Source/Common/BfmeThingYN.cpp,Code/GameEngine/Source/Common/BfmeOneHundredFiftyThree.cpp
-0x005DA621,42,code,Code/GameEngine/Source/GameNetwork/FrameData.cpp,approved,S,S=Code/GameEngine/Source/GameNetwork/FrameData.cpp N=Code/GameEngine/Source/GameNetwork/FrameData.cpp,Code/GameEngine/Source/GameNetwork/FrameData_ackCommandCount_Rva005DA621.cpp
+0x005DA621,42,code,Code/GameEngine/Source/GameNetwork/FrameData.cpp,approved,S,S=Code/GameEngine/Source/GameNetwork/FrameData.cpp N=Code/GameEngine/Source/GameNetwork/FrameData.cpp,Code/GameEngine/Source/GameNetwork/FrameData_getAckCommandCount.cpp
 0x005DA64B,24,code,,,-,,Code/GameEngine/Source/Common/Rva005DA64BCtor.cpp
 0x005DA663,28,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005DA663.cpp
 0x005DA67F,116,code-unledgered,,,-,,
