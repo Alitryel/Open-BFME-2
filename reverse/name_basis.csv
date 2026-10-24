@@ -1103,3 +1103,5 @@ local,Rva001F529D::rva001F529D::d,Rva001F529D::rva001F529D::coordinates,inferred
 local,Rva001F52CC::rva001F52CC::a,Rva001F52CC::rva001F52CC::xValue,inferred,agree:nl-b7c8b8b2dc09,Code/GameEngine/Source/Common/Rva001F52CC.cpp,0x001F52CC
 local,Rva001F52CC::rva001F52CC::b,Rva001F52CC::rva001F52CC::yValue,inferred,agree:nl-749213a9e918,Code/GameEngine/Source/Common/Rva001F52CC.cpp,0x001F52CC
 local,Rva001F52CC::rva001F52CC::p,Rva001F52CC::rva001F52CC::provider,inferred,agree:nl-c0fa7be9dc42,Code/GameEngine/Source/Common/Rva001F52CC.cpp,0x001F52CC
+function,?rva0022994D@Rva00226829@@QAEXXZ,?clear@Rva00226829@@QAEXXZ,inferred,agree:nl-e2c556dbfd88,Code/GameEngine/Source/Common/Rva00226883TreeFree.cpp,0x0022994D
+carry,Rva00226829::rva0022994D::head,Rva00226829::clear::head,inferred,scope renamed by Rename rva0022994D to clear (inferred),Code/GameEngine/Source/Common/Rva00226883TreeFree.cpp,0x0022994D

@@ -91,13 +91,13 @@ class Rva00226829
 public:
 	Rva0046A93EHolder m_header;
 	int m_flag;
-	void rva0022994D();
+	void clear();
 	~Rva00226829();
 };
 
 Rva00226829::~Rva00226829()
 {
-	rva0022994D();
+	clear();
 }
 
 // ??1Rva00226856@@QAE@XZ @0x0022C5DA 56B -> Rva00226856::rva00229976

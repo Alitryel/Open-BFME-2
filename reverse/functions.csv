@@ -34775,7 +34775,7 @@ _FilterBlock_C,,0x001B8560,993,Code/Libraries/Source/VP6/FilterBlockC.cpp,matche
 ??1Rva0046A915@@QAE@XZ,,0x0046AAE3,56,Code/GameEngine/Source/Common/Rva0046A93EDtor.cpp,matched,clear-then-free dtor: bytes equal ??1Rva0046A93E except the call to the rowed Rva0046A915 clear
 ??1Rva0046AB7D@@QAE@XZ,,0x0046E2D3,56,Code/GameEngine/Source/Common/Rva0046A93EDtor.cpp,matched,clear-then-free dtor: bytes equal ??1Rva0046A93E except the call to the rowed Rva0046AB7D clear
 ??1Rva0021C459@@QAE@XZ,,0x0021D5D5,56,Code/GameEngine/Source/Common/Rva0046A93EDtor.cpp,matched,clear-then-free dtor: bytes equal ??1Rva0046A93E except the call to the rowed Rva0021C459 clear
-?rva0022994D@Rva00226829@@QAEXXZ,,0x0022994D,41,Code/GameEngine/Source/Common/Rva00226883TreeFree.cpp,matched,tree clear: bytes equal rva0022999F except the call to the rowed Rva00226829 recursive free
+?clear@Rva00226829@@QAEXXZ,,0x0022994D,41,Code/GameEngine/Source/Common/Rva00226883TreeFree.cpp,matched,tree clear: bytes equal rva0022999F except the call to the rowed Rva00226829 recursive free
 ?rva00229976@Rva00226856@@QAEXXZ,,0x00229976,41,Code/GameEngine/Source/Common/Rva00226883TreeFree.cpp,matched,tree clear: bytes equal rva0022999F except the call to the rowed Rva00226856 recursive free
 ?rva002299C8@Rva002268B0@@QAEXXZ,,0x002299C8,41,Code/GameEngine/Source/Common/Rva00226883TreeFree.cpp,matched,tree clear: bytes equal rva0022999F except the call to the rowed Rva002268B0 recursive free
 ??1Rva00226829@@QAE@XZ,,0x0022C5A2,56,Code/GameEngine/Source/Common/Rva0046A93EDtor.cpp,matched,clear-then-free dtor: bytes equal ??1Rva0046A93E except the EH record and the call to the rowed Rva00226829::rva0022994D
