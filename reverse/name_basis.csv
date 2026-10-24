@@ -1022,3 +1022,4 @@ class,Rva006C2D20Location,SourceLocation,inferred,agree:nl-f2cba1126dad,Code/Gam
 member,BfmeThingQR::m_bfmeName,BfmeThingQR::m_prefix,inferred,agree:nl-37951e3729c0,Code/GameEngine/Source/Common/BfmeThreeHundredOne.cpp,
 param,Rva003000F6Get::a,Rva003000F6Get::systemMaps,inferred,agree:nl-cd46e04f23c7,Code/GameEngine/Source/GameClient/MapUtilGetDefaultMap.cpp,0x003000F6
 param,Rva003000F6Get::b,Rva003000F6Get::multiplayer,inferred,agree:nl-82f074dfb8f4,Code/GameEngine/Source/GameClient/MapUtilGetDefaultMap.cpp,0x003000F6
+class,Rva0055F4CEDrift,DampedValue,inferred,agree:nl-dcc656a427d9,Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp,

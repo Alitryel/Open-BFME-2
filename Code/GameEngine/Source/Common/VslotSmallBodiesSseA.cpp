@@ -215,7 +215,7 @@ void Rva00509DF8::rva00509DF8(Int a, Rva00509DF8Arg *b)
 // 0x0055F4CE: steps three value/rate/damping triples (at +0x10, +0x1C and
 // +0x2C): the value advances by the rate, the rate decays by the damping.
 // The operand order of the middle sum differs in retail and is kept.
-struct Rva0055F4CEDrift
+struct DampedValue
 {
 	Real value;
 	Real rate;
@@ -227,10 +227,10 @@ public:
 	void update();
 private:
 	char m_pad00[0x10];
-	Rva0055F4CEDrift m_10;
-	Rva0055F4CEDrift m_1C;
+	DampedValue m_10;
+	DampedValue m_1C;
 	Int m_28;
-	Rva0055F4CEDrift m_2C;
+	DampedValue m_2C;
 };
 void Rva0055F4CE::update()
 {
