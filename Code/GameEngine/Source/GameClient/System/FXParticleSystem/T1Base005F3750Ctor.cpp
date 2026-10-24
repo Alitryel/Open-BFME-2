@@ -91,6 +91,7 @@ class ParticleModule005F2CA0
       public ParticleModuleInterface005F2CA0 {
 public:
     ParticleModule005F2CA0(void *first, void *second);
+    virtual ~ParticleModule005F2CA0();
     virtual void moduleSlot() = 0;
 };
 

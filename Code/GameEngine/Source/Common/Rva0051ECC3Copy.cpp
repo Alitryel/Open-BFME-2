@@ -1,7 +1,7 @@
 // cl: /MD
-// ??0Rva0039C151@@QAE@ABV0@@Z @0x0051ECC3 71B vector copy ctor via rowed Vector_base SaveMapPreview get_allocator AsciiString uninit-copy Rva0039BA22
-// Evidence: caller 0x0051F87B member at +0x14; stride 0x14; callees 0x0021983A row AsciiString 0x004FF36C pin SaveMapPreview 0x0039BA22 row Rva0039B893; precedent Rva005386F5Copy.cpp
-class SaveMapPreview
+// ??0Rva0039C151@@QAE@ABV0@@Z @0x0051ECC3 71B vector copy ctor via rowed Vector_base Rva0054103E get_allocator AsciiString uninit-copy Rva0039BA22
+// Evidence: caller 0x0051F87B member at +0x14; stride 0x14; callees 0x0021983A row AsciiString 0x004FF36C pin Rva0054103E 0x0039BA22 row Rva0039B893; precedent Rva005386F5Copy.cpp
+class Rva0054103E
 {
 public:
 	int m00;
@@ -51,13 +51,13 @@ public:
 }
 class Rva0039B893;
 Rva0039B893 *Rva0039BA22UninitCopy(Rva0039B893 *first, Rva0039B893 *last, Rva0039B893 *result, const _STL::__false_type &tag);
-class Rva0039C151 : public _STL::_Vector_base<SaveMapPreview, _STL::allocator<SaveMapPreview> >
+class Rva0039C151 : public _STL::_Vector_base<Rva0054103E, _STL::allocator<Rva0054103E> >
 {
 public:
 	Rva0039C151(const Rva0039C151 &x);
 };
 Rva0039C151::Rva0039C151(const Rva0039C151 &x)
-	: _STL::_Vector_base<SaveMapPreview, _STL::allocator<SaveMapPreview> >((x.m_finish - x.m_start), *(const _STL::allocator<SaveMapPreview> *)&((const _STL::vector<AsciiString, _STL::allocator<AsciiString> > &)x).get_allocator())
+	: _STL::_Vector_base<Rva0054103E, _STL::allocator<Rva0054103E> >((x.m_finish - x.m_start), *(const _STL::allocator<Rva0054103E> *)&((const _STL::vector<AsciiString, _STL::allocator<AsciiString> > &)x).get_allocator())
 {
-	m_finish = (SaveMapPreview *)Rva0039BA22UninitCopy((Rva0039B893 *)x.m_start, (Rva0039B893 *)x.m_finish, (Rva0039B893 *)m_start, _STL::__false_type());
+	m_finish = (Rva0054103E *)Rva0039BA22UninitCopy((Rva0039B893 *)x.m_start, (Rva0039B893 *)x.m_finish, (Rva0039B893 *)m_start, _STL::__false_type());
 }

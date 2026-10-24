@@ -1044,6 +1044,8 @@ namespace _STL { template <> void __destroy_aux<BfmeStringTailRecord144 *>(
 namespace _STL { template <> void _Destroy<BfmeStringTailRecord144 *>(
     BfmeStringTailRecord144 *, BfmeStringTailRecord144 *); }
 typedef _STL::vector<BfmeStringTailRecord144> QueuedAudioEvents;
+template <> QueuedAudioEvents::~vector();
+namespace _STL { template <> _Vector_base<BfmeStringTailRecord144, allocator<BfmeStringTailRecord144> >::~_Vector_base(); }
 template<> QueuedAudioEvents::iterator QueuedAudioEvents::erase(iterator first, iterator last);
 
 // Owning AudioEventInfo reference returned by the slot-75 lookup.

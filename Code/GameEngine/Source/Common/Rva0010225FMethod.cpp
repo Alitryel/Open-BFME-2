@@ -36,6 +36,7 @@ template <> void allocator<EvaMessageInfo>::deallocate(EvaMessageInfo *, unsigne
 template <> vector<EvaMessageInfo>& vector<EvaMessageInfo>::operator=(
  const vector<EvaMessageInfo>&);
 template <> vector<EvaMessageInfo>::~vector();
+template <> _Vector_base<EvaMessageInfo, allocator<EvaMessageInfo> >::~_Vector_base();
 }
 
 class Rva00116496

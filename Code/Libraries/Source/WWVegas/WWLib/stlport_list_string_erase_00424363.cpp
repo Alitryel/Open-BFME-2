@@ -89,4 +89,14 @@ template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(ch
 namespace _STL {
 template <> char *_STLP_alloc_proxy<char*, char, allocator<char> >::allocate(size_t);
 }
+namespace _STL {
+typedef _List_node<basic_string<char> > StringListNode;
+template <> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<StringListNode *, StringListNode, allocator<StringListNode> >::deallocate(StringListNode *p, size_t n)
+{ allocator<StringListNode>::deallocate(p, n); }
+}
+
+namespace _STL {
+template <> void _S_unique<basic_string<char>, allocator<basic_string<char> >, equal_to<basic_string<char> > >(list<basic_string<char> > &, equal_to<basic_string<char> >);
+}
 template class _STL::list<_STL::basic_string<char> >;
+template bool _STL::equal_to<_STL::basic_string<char> >::operator()(const _STL::basic_string<char> &, const _STL::basic_string<char> &) const;
