@@ -23,7 +23,7 @@ struct Rva005E4E1BNode
 struct Rva005E4E1BHeader
 {
 	char m_00[8];
-	Rva005E4E1BNode *m_first08;
+	Rva005E4E1BNode *m_leftmost;
 };
 class Rva005F2278
 {
@@ -48,7 +48,7 @@ private:
 void Rva005E4E1B::rva005E4E1B()
 {
 	Rva005E4E1BHeader *end = m_1C;
-	Rva005E4E1BNode *it = end->m_first08;
+	Rva005E4E1BNode *it = end->m_leftmost;
 	if (it == (Rva005E4E1BNode *)end)
 		return;
 	do {

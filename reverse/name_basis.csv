@@ -1703,4 +1703,7 @@ param,Rva005CDF6C::rva005CDF8B::b,Rva005CDF6C::rva005CDF8B::name,inferred,agree:
 param,Rva005CDB8F::rva005CDBAE::a,Rva005CDB8F::rva005CDBAE::level,inferred,agree:nl-2915e699c364,Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp,0x005CDBAE
 param,Rva005CDB8F::rva005CDBAE::b,Rva005CDB8F::rva005CDBAE::name,inferred,agree:nl-56d4560d6d43,Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp,0x005CDBAE
 param,BfmeThingPF::rva000276B0::s,BfmeThingPF::rva000276B0::characters,inferred,agree:nl-5831f4ffd327,Code/GameEngine/Source/Common/BfmeConv1460.cpp,0x000276B0
+member,Rva005E4E1BHeader::m_first08,Rva005E4E1BHeader::m_leftmost,inferred,agree:nl-6d8f4905e757,Code/GameEngine/Source/Common/Rva005E4E1BIter.cpp,
+member,TacticalArmyView::entries40,TacticalArmyView::m_entries,inferred,agree:nl-aaad26fc5813,Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/StrategicVeterancy.cpp,
+member,TacticalEntryNameView::name04,TacticalEntryNameView::m_templateName,inferred,agree:nl-2dec4d2cd0cf,Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/StrategicVeterancy.cpp,
 param,bind#2::d,bind#2::delegate,inferred,agree:nl-f28de4645586,Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/StrategicVeterancy.cpp,

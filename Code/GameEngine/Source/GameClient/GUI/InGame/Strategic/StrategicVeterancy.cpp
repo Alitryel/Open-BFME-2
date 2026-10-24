@@ -341,12 +341,12 @@ public: int get(int index) const;
 class TacticalArmyView {
 public:
  unsigned char prefix00[0x40];
- S4SortElem8B *entries40, *end44;
- int size() const { return end44-entries40; }
+ S4SortElem8B *m_entries, *end44;
+ int size() const { return end44-m_entries; }
 };
 struct TacticalEntryNameView {
  unsigned int first00;
- AsciiString name04;
+ AsciiString m_templateName;
 };
 class ThingTemplate;
 class ThingFactory {
@@ -388,7 +388,7 @@ Rva005ED152::Rva005ED152(LivingWorldLogic *logic) {
   int count=army->size();
   for (int index=0; index<count; ++index) {
    TacticalEntryNameView *entry=(TacticalEntryNameView *)((Rva0040CB2CIndexedField *)army)->get(index);
-   const ThingTemplate *thing=TheThingFactory->findTemplate(entry->name04);
+   const ThingTemplate *thing=TheThingFactory->findTemplate(entry->m_templateName);
    if (!thing) continue;
    BfmeE8 unit={(int)entry,(int)thing};
    units.push_back(unit);
