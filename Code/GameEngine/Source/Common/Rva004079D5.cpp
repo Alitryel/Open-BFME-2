@@ -18,15 +18,15 @@ public:
 class Rva004079D5
 {
 public:
-	__declspec(noinline) char rva004079D5(int tmp, int *out);
+	__declspec(noinline) char rva004079D5(int key, int *out);
 private:
 	char m_pad00[0x74];
 	Rva004079D5Sub74 m_74;
 };
 
-inline char Rva004079D5::rva004079D5(int tmp, int *out)
+inline char Rva004079D5::rva004079D5(int key, int *out)
 {
-	int v = m_74.rva00388E63(&tmp);
+	int v = m_74.rva00388E63(&key);
 	*out = v;
 	return v != m_74.m_0;
 }
