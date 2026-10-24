@@ -563,3 +563,9 @@ param,Rva00082C98Host::rva00082C98::a0,Rva00082C98Host::rva00082C98::newSize,inf
 param,Rva00082C98Host::rva00082C98::a1,Rva00082C98Host::rva00082C98::fillX,inferred,agree:nl-45a5fafda39c,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/Rva00082C98Clamp.cpp,0x00082C98
 param,Rva00082C98Host::rva00082C98::a2,Rva00082C98Host::rva00082C98::fillY,inferred,agree:nl-46f0067e4d82,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/Rva00082C98Clamp.cpp,0x00082C98
 param,Rva00082C98Host::rva00082C98::a3,Rva00082C98Host::rva00082C98::fillZ,inferred,agree:nl-b3757d3c7c1e,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/Rva00082C98Clamp.cpp,0x00082C98
+local,ScaleTextureMapperClass::Apply::m,ScaleTextureMapperClass::Apply::textureMatrix,inferred,agree:nl-eb4f9e70ad0b,Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp,0x001844A0
+local,GridTextureMapperClass::Apply::m,GridTextureMapperClass::Apply::textureMatrix,inferred,agree:nl-ccc4f6205fd1,Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp,0x001844A0
+local,EdgeMapperClass::Apply::m,EdgeMapperClass::Apply::textureMatrix,inferred,agree:nl-de2a24a1b665,Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp,0x00184FD0
+local,GridWSClassicEnvironmentMapperClass::Apply::m,GridWSClassicEnvironmentMapperClass::Apply::textureMatrix,inferred,agree:nl-e3db0c535805,Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp,0x00184AD0
+local,GridWSEnvironmentMapperClass::Apply::m,GridWSEnvironmentMapperClass::Apply::textureMatrix,inferred,agree:nl-7b88c5863be0,Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp,0x00185980
+local,ScreenMapperClass::Apply::m,ScreenMapperClass::Apply::textureMatrix,inferred,agree:nl-95534d66ebc1,Code/Libraries/Source/WWVegas/WW3D2/TextureMapperApply.cpp,0x00185E80
