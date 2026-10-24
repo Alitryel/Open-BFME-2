@@ -3665,3 +3665,14 @@ Code/GameEngine/Source/GameLogic/Pathfinder/PathfinderSelectBridgeLayer.cpp|loca
 Code/GameEngine/Source/GameLogic/Pathfinder/PathfinderSelectBridgeLayer.cpp|local|Pathfinder::rva002ED313|r,a7639f6b9e6924ce7d21b30f,gpt-6.1-sol,codex5-20261024-063329-15,w-2d32e7a71cf1,2026-10-24
 Code/GameEngine/Source/GameClient/GUI/Rva005801F6Compare.cpp|function|0x005801F6|rva005801F6,5ad6f480296fb5488f81f1f7,gpt-6.1-sol,codex5-20261024-063329-16,w-2d32e7a71cf1,2026-10-24
 Code/GameEngine/Source/Common/System/Rva002F1BD5Finish.cpp|member|Rva002F1BD5Arg|m_0C,742c1bd4e754b678126ee32a,gpt-6.1-sol,codex5-20261024-063329-17,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionsRva003BAD15.cpp|function|0x003BAD15|Rva003BAD15,c67905a47c7d0a34c0b597e8,gpt-6.1-sol,codex5-20261024-063329-19,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionsRva003BAD15.cpp|param|ScriptActions::Rva003BAD15|f1,d51bc7c5332976afc6d8c6d3,gpt-6.1-sol,codex5-20261024-063329-19,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionsRva003BAD15.cpp|param|ScriptActions::Rva003BAD15|f2,b7d5b77900dd60d62b5ab590,gpt-6.1-sol,codex5-20261024-063329-19,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|param|ThingFactory::newDrawable|a2,666d1ae521c7e689601b440e,gpt-6.1-sol,codex5-20261024-063329-24,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|local|ThingFactory::newDrawable|r,d26a7be9bdf2e20d6c9c2165,gpt-6.1-sol,codex5-20261024-063329-24,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|local|ThingFactory::newDrawable|p,43d47440542af324d2ff1755,gpt-6.1-sol,codex5-20261024-063329-24,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|local|ThingFactory::newDrawable|o,52de162adeb74f1c90537e6c,gpt-6.1-sol,codex5-20261024-063329-24,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva000FE1ACUpdate.cpp|function|0x000FDF3F|rva000FDF3F,67c4b1fea8e2df1752f4613a,gpt-6.1-sol,codex5-20261024-063329-26,w-2d32e7a71cf1,2026-10-24
+Code/GameEngine/Source/Common/Rva000FE1ACUpdate.cpp|global||g_00DEC220,f6f82a32ca246a737f54cb1c,gpt-6.1-sol,codex5-20261024-063329-26,w-2d32e7a71cf1,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DQuadrupedDrawGetFootLocations.cpp|class||Rva000CA352DrawBase,96ef9819c4aff05acd9d483d,gpt-6.1-sol,codex5-20261024-063329-27,w-2d32e7a71cf1,2026-10-24
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DQuadrupedDrawGetFootLocations.cpp|class||Rva000CA352DrawInterface,3ec76e08c407d0fb5bdcc217,gpt-6.1-sol,codex5-20261024-063329-27,w-2d32e7a71cf1,2026-10-24
