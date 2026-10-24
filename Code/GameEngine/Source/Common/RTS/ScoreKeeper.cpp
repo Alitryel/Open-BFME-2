@@ -111,11 +111,10 @@ namespace _STL { template <> bool bitset<116>::_Unchecked_test(unsigned int) con
 //-----------------------------------------------------------------------------
 
 // ?ScoreKeeper::ScoreKeeper present-unmatched
-// ?ScoreKeeper::~ScoreKeeper present-unmatched
-ScoreKeeper::~ScoreKeeper( void )
-{
-
-}
+// The destructor is BFME2's virtual ??1ScoreKeeper@@UAE@XZ (0x0039C2B5, rowed in
+// ScoreKeeperDtor.cpp). Zero Hour's empty one is not defined here: it was the
+// only thing making this unit emit the Zero Hour ScoreKeeper vtable (no
+// destructor slot, crc/xfer/loadPostProcess) instead of retail's 0x0081AD98.
 
 static KindOfMaskType scoringBuildingMask;
 static KindOfMaskType scoringBuildingDestroyMask;
