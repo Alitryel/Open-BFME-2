@@ -50,13 +50,13 @@ public:
 struct Rva00346B6DInfo
 {
 	char m_00[8];
-	int m_08;
+	int m_sourceID;
 	char m_0C[4];
-	int m_10;
+	int m_damageType;
 	char m_14[8];
-	int m_1C;
-	float m_20;
-	bool m_24;
+	int m_deathType;
+	float m_amount;
+	bool m_kill;
 	char m_25[3];
 	float m_28;
 	char m_2C[0x7C - 0x2C];
@@ -81,11 +81,11 @@ void Rva00346B6D::onExit(int unused)
 	Object *self = m_machine->m_obj14;
 	Rva00346B6DInfo info;
 	((Rva00263895Member *)&info)->init();
-	info.m_1C = 0;
-	info.m_08 = 0;
-	info.m_10 = 8;
-	info.m_20 = (float)self->m_slot254->slot6();
-	info.m_24 = true;
+	info.m_deathType = 0;
+	info.m_sourceID = 0;
+	info.m_damageType = 8;
+	info.m_amount = (float)self->m_slot254->slot6();
+	info.m_kill = true;
 	info.m_28 = g_00BBB8D8;
 	self->attemptDamage((DamageInfo *)&info);
 }
