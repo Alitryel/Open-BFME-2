@@ -15,11 +15,25 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #pragma optimize("", on)
 
+struct Rva00293486Record { unsigned char bytes[8]; bool operator==(const Rva00293486Record&) const; bool operator<(const Rva00293486Record&) const; };
+// The record's placement copy is retail 0x002927CB, rowed as the typed
+// ?Rva002927CBConstruct (an EH frame around the {int, AsciiString} copy ctor
+// 0x000CF475); _M_create_node 0x00293486 calls it. This TU's 8-byte
+// template copy is not that body, so the call binds to the row instead.
+struct TreeKey00242F5E;
+void Rva002927CBConstruct(TreeKey00242F5E *dest, const TreeKey00242F5E &source);
+namespace _STL {
+// ?_STL::_Construct absent-from-retail
+static __forceinline void _Construct(Rva00293486Record *dest, const Rva00293486Record &source)
+{
+    Rva002927CBConstruct(reinterpret_cast<TreeKey00242F5E *>(dest),
+                         *reinterpret_cast<const TreeKey00242F5E *>(&source));
+}
+}
 #include <list>
 
 
 
-struct Rva00293486Record { unsigned char bytes[8]; bool operator==(const Rva00293486Record&) const; bool operator<(const Rva00293486Record&) const; };
 
 
 // Instantiate the recovered member; retain only its required template dependencies.
