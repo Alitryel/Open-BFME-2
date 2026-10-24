@@ -1731,6 +1731,16 @@ public: ExperienceTracker *m_experienceTracker; private:                        
 	Team *m_team;                                                        // +0x304
 };
 
+// ZH GameLogic::findTOCEntryByName, the same 89B shape as GameClient's
+// drawable twin 0x00239C5E: StringBase compare 0x000069D6 per node.
+ObjectTOCEntry *GameLogic::findTOCEntryByName(AsciiString name)
+{
+	for (ObjectTOCList::iterator it = m_objectTOC.begin(); it != m_objectTOC.end(); ++it)
+		if ((*it).name == name)
+			return &(*it);
+	return 0;
+}
+
 void GameLogic::addTOCEntry(AsciiString name, unsigned short id)
 {
 	ObjectTOCEntry tocEntry;
