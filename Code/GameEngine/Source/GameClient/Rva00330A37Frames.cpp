@@ -47,7 +47,7 @@ class ClientFrameSubsystem; extern class GameClient *TheGameClient;
 class Rva00330A37
 {
 public:
-	void rva00330A37(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8);
+	void rva00330A37(int a1, int lifetime, int opacityStart, int a4, int opacityPeak, int a6, int a7, int opacityEnd);
 private:
 	char m_pad[0x38];
 	int m_38;
@@ -59,18 +59,18 @@ private:
 	int m_50;
 	int m_54;
 };
-void Rva00330A37::rva00330A37(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
+void Rva00330A37::rva00330A37(int a1, int lifetime, int opacityStart, int a4, int opacityPeak, int a6, int a7, int opacityEnd)
 {
 	int frame = reinterpret_cast<FrameSource *>(((ClientFrameSubsystem *)TheGameClient))->getFrame();
 	int base1 = a1 + frame;
 	m_38 = base1;
-	if (a2 == -1)
+	if (lifetime == -1)
 		m_3C = -1;
 	else
-		m_3C = frame + a2;
-	m_40 = a3;
+		m_3C = frame + lifetime;
+	m_40 = opacityStart;
 	int base2 = a4 + base1;
-	m_48 = a5;
+	m_48 = opacityPeak;
 	m_44 = base2;
 	if (a6 == -1)
 	{
@@ -82,5 +82,5 @@ void Rva00330A37::rva00330A37(int a1, int a2, int a3, int a4, int a5, int a6, in
 		m_4C = base2 + a6;
 		m_50 = base2 + a6 + a7;
 	}
-	m_54 = a8;
+	m_54 = opacityEnd;
 }

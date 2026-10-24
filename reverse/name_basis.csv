@@ -1311,3 +1311,7 @@ function,?rva00072B3A@Rva00072B3A@@QBE?AVRvaTextureHandleView@@XZ,?getShroudText
 function,?Rva000FA927ClearDirty@@YAXXZ,?clearDirty@@YAXXZ,inferred,agree:nl-33299076c77d,Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp,0x000FA927
 function,?Rva000FA92FIsDirty@@YA_NXZ,?isDirty@@YA_NXZ,inferred,agree:nl-e020845fc241,Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp,0x000FA92F
 local,Pathfinder::rva002EADE1::tmp1,Pathfinder::rva002EADE1::destinationCell,inferred,agree:nl-1da5d29493c9,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002EADE1.cpp,0x002EADE1
+param,Rva00330A37::rva00330A37::a2,Rva00330A37::rva00330A37::lifetime,inferred,agree:nl-be07426903ff,Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp,0x00330A37
+param,Rva00330A37::rva00330A37::a3,Rva00330A37::rva00330A37::opacityStart,inferred,agree:nl-586c3c5c592e,Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp,0x00330A37
+param,Rva00330A37::rva00330A37::a5,Rva00330A37::rva00330A37::opacityPeak,inferred,agree:nl-edc2acd75403,Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp,0x00330A37
+param,Rva00330A37::rva00330A37::a8,Rva00330A37::rva00330A37::opacityEnd,inferred,agree:nl-818e33c35deb,Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp,0x00330A37
