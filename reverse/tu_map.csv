@@ -15605,7 +15605,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0023D6FA,70,code,Code/GameEngine/Source/GameLogic/System/GameLogic.cpp,proposed,C,C=0x0023D68E..0x0023D740 noncontiguous,Code/GameEngine/Source/GameLogic/System/GameLogicRva0023D68EAndD6FA.cpp
 0x0023D740,46,code,Code/GameEngine/Source/GameLogic/System/GameLogic.cpp,proposed,Z,Z=Code/GameEngine/Source/GameLogic/System/GameLogic.cpp N=Code/GameEngine/Source/GameLogic/System/GameLogic.cpp noncontiguous,Code/GameEngine/Source/GameLogic/System/GameLogicProcessProgress.cpp
 0x0023D76E,37,code,Code/GameEngine/Source/GameLogic/System/GameLogic.cpp,proposed,Z,Z=Code/GameEngine/Source/GameLogic/System/GameLogic.cpp N=Code/GameEngine/Source/GameLogic/System/GameLogic.cpp noncontiguous,Code/GameEngine/Source/GameLogic/System/GameLogicProcessProgress.cpp
-0x0023D793,241,code,Code/GameEngine/Source/GameLogic/System/GameLogic.cpp,proposed,N,N=Code/GameEngine/Source/GameLogic/System/GameLogic.cpp noncontiguous,Code/GameEngine/Source/GameLogic/System/Rva0023D793Transfer.cpp
+0x0023D793,241,code,Code/GameEngine/Source/GameLogic/System/GameLogic.cpp,proposed,N,N=Code/GameEngine/Source/GameLogic/System/GameLogic.cpp noncontiguous,Code/GameEngine/Source/GameLogic/System/GameLogic_CallPlayerGiveMoney.cpp
 0x0023D884,144,code,Code/GameEngine/Source/GameLogic/System/GameLogic.cpp,proposed,N,N=Code/GameEngine/Source/GameLogic/System/GameLogic.cpp noncontiguous,Code/GameEngine/Source/GameLogic/System/GameLogicLivingWorldVictor.cpp
 0x0023D914,309,code,Code/GameEngine/Source/GameLogic/System/GameLogic.cpp,proposed,N,N=Code/GameEngine/Source/GameLogic/System/GameLogic.cpp noncontiguous,Code/GameEngine/Source/GameLogic/System/GameLogicLivingWorldBattleComplete.cpp
 0x0023DA49,5,code-unledgered,Code/GameEngine/Source/GameLogic/System/GameLogic.cpp,proposed,C,C=0x0023D914..0x0023DA4E noncontiguous,
@@ -19910,7 +19910,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x002BC47D,258,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldLogic.cpp,proposed,C,C=0x002BC1DA..0x002BC58D noncontiguous,Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva002BC47D.cpp
 0x002BC58D,55,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldLogic.cpp,proposed,C,C=0x002BC1DA..0x002BC5D3 noncontiguous,Code/Libraries/Source/WWVegas/WWLib/StlportVectorPushBackFamily.cpp
 0x002BC5D3,128,code-unledgered,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldLogic.cpp,proposed,C,C=0x002BC1DA..0x002BC653 noncontiguous,
-0x002BC653,477,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldLogic.cpp,proposed,C,C=0x002BC1DA..0x002BC830 noncontiguous,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldLogicSnapshotRva002BC653.cpp
+0x002BC653,477,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldLogic.cpp,proposed,C,C=0x002BC1DA..0x002BC830 noncontiguous,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldLogic_xfer.cpp
 0x002BC830,153,code-unledgered,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldLogic.cpp,proposed,C,C=0x002BC1DA..0x002BC8C9 noncontiguous,
 0x002BC8C9,108,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldLogic.cpp,proposed,C,C=0x002BC1DA..0x002BC935 noncontiguous,Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva002BC47D.cpp
 0x002BC935,35,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldLogic.cpp,proposed,C,C=0x002BC1DA..0x002BC958 noncontiguous,Code/Libraries/Source/WWVegas/WWLib/StlportRecord52ResizeDefault.cpp
@@ -24987,7 +24987,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0035A994,45,code,Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,proposed,C,C=0x00359D42..0x0035A9C1,Code/GameEngine/Source/Common/Rva0035A994Slot1.cpp
 0x0035A9C1,125,code,Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,proposed,C,C=0x00359D42..0x0035AA3E,Code/GameEngine/Source/Common/Rva0035A9C1Dtor.cpp
 0x0035AA3E,5,code,Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,proposed,C,C=0x00359D42..0x0035AA43,Code/GameEngine/Source/Common/TailJumpWrappers5B.cpp
-0x0035AA43,316,code,Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,proposed,N,N=Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,Code/GameEngine/Source/GameLogic/System/TerrainResourceManagerRva0035AA43.cpp
+0x0035AA43,316,code,Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,proposed,N,N=Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,Code/GameEngine/Source/GameLogic/System/TerrainResourceManager_tryToClaimCell.cpp
 0x0035AB7F,37,code,Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,proposed,C,C=0x0035AA43..0x0035ABA4,Code/GameEngine/Source/GameLogic/System/TerrainResourceClaimVisitor.cpp
 0x0035ABA4,28,code,Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,proposed,C,C=0x0035AA43..0x0035ABC0,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtorsB06.cpp
 0x0035ABC0,32,code,Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,proposed,C,C=0x0035AA43..0x0035ABE0,Code/GameEngine/Source/Common/Rva0035ABC0Resize.cpp
@@ -25973,7 +25973,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0037F51A,55,code,Code/GameEngine/Source/GameLogic/System/ArmyPlacer.cpp,proposed,C,C=0x0037F4EA..0x0037F551,Code/GameEngine/Source/Common/Rva0037F51A.cpp
 0x0037F551,45,code,Code/GameEngine/Source/GameLogic/System/ArmyPlacer.cpp,proposed,C,C=0x0037F4EA..0x0037F57E,Code/GameEngine/Source/Common/Rva0037F551.cpp
 0x0037F57E,29,code,Code/GameEngine/Source/GameLogic/System/ArmyPlacer.cpp,proposed,C,C=0x0037F4EA..0x0037F59B,Code/GameEngine/Source/Common/InlineDtorDeletingDtorsC01.cpp
-0x0037F59B,146,code,Code/GameEngine/Source/GameLogic/System/ArmyPlacer.cpp,proposed,N,N=Code/GameEngine/Source/GameLogic/System/ArmyPlacer.cpp,Code/GameEngine/Source/GameLogic/System/Rva0037F59BGet.cpp
+0x0037F59B,146,code,Code/GameEngine/Source/GameLogic/System/ArmyPlacer.cpp,proposed,N,N=Code/GameEngine/Source/GameLogic/System/ArmyPlacer.cpp,Code/GameEngine/Source/GameLogic/System/ArmyPlacer_GetDefenderReinforcementWaypointLocations.cpp
 0x0037F62D,189,code,Code/GameEngine/Source/GameLogic/System/ArmyPlacer.cpp,proposed,N,N=Code/GameEngine/Source/GameLogic/System/ArmyPlacer.cpp,Code/GameEngine/Source/GameLogic/System/ArmyPlacer.cpp
 0x0037F6EA,53,code,Code/GameEngine/Source/GameLogic/System/ArmyPlacer.cpp,proposed,C,C=0x0037F62D..0x0037F71F,Code/GameEngine/Source/GameLogic/System/ArmyPlacerRecordWaypoints.cpp
 0x0037F71F,18,code,Code/GameEngine/Source/GameLogic/System/ArmyPlacer.cpp,proposed,C,C=0x0037F62D..0x0037F731,Code/GameEngine/Source/Common/Rva0037F551.cpp
@@ -25981,7 +25981,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0037F757,37,code,Code/GameEngine/Source/GameLogic/System/ArmyPlacer.cpp,proposed,C,C=0x0037F62D..0x0037F77C,Code/GameEngine/Source/Common/Rva0037F551.cpp
 0x0037F77C,45,code,Code/GameEngine/Source/GameLogic/System/ArmyPlacer.cpp,proposed,C,C=0x0037F62D..0x0037F7A9,Code/GameEngine/Source/Common/Rva0037F551.cpp
 0x0037F7A9,13,code,Code/GameEngine/Source/GameLogic/System/ArmyPlacer.cpp,proposed,C,C=0x0037F62D..0x0037F7B6,Code/Libraries/Source/WWVegas/WWLib/stlport_hash_map_int.cpp
-0x0037F7B6,196,code,Code/GameEngine/Source/GameLogic/System/ArmyPlacer.cpp,proposed,N,N=Code/GameEngine/Source/GameLogic/System/ArmyPlacer.cpp,Code/GameEngine/Source/GameLogic/System/Rva0037F7B6Get.cpp
+0x0037F7B6,196,code,Code/GameEngine/Source/GameLogic/System/ArmyPlacer.cpp,proposed,N,N=Code/GameEngine/Source/GameLogic/System/ArmyPlacer.cpp,Code/GameEngine/Source/GameLogic/System/ArmyPlacer_GetWalkOnWaypointLocations.cpp
 0x0037F87A,50,code,Code/GameEngine/Source/GameLogic/System/ArmyPlacer.cpp,proposed,C,C=0x0037F7B6..0x0037F8AC,Code/GameEngine/Source/GameLogic/System/ArmyPlacerRecordWaypoints.cpp
 0x0037F8AC,99,code,Code/GameEngine/Source/GameLogic/System/ArmyPlacer.cpp,proposed,C,C=0x0037F7B6..0x0037F90F,Code/GameEngine/Source/Common/Rva0037F4EA.cpp
 0x0037F90F,65,code,Code/GameEngine/Source/GameLogic/System/ArmyPlacer.cpp,proposed,C,C=0x0037F7B6..0x0037F950,Code/GameEngine/Source/Common/Rva0037F4EA.cpp
@@ -29463,7 +29463,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x003F1B7C,87,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegion.cpp,proposed,N,N=Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegion.cpp,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionRva003F1B7C.cpp
 0x003F1BD3,79,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegion.cpp,proposed,N,N=Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegion.cpp,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionRva003F1BD3.cpp
 0x003F1C22,52,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegion.cpp,proposed,C,C=0x003F1BD3..0x003F1C56,Code/GameEngine/Source/Common/System/Rva003F1C22Check.cpp
-0x003F1C56,76,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegion.cpp,proposed,N,N=Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegion.cpp,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegionRva003F1C56.cpp
+0x003F1C56,76,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegion.cpp,proposed,N,N=Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegion.cpp,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegion_BuildBuilding.cpp
 0x003F1CA2,92,code-unledgered,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegion.cpp,proposed,C,C=0x003F1C56..0x003F1CFE,
 0x003F1CFE,26,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegion.cpp,proposed,K,K=Rva003F1093,Code/GameEngine/Source/Common/System/Rva003F1093Check.cpp
 0x003F1D23,89,code,,,-,,Code/GameEngine/Source/Common/BigObfHookWrappers.cpp
@@ -29519,7 +29519,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x003F2CD6,45,code,Code/GameEngine/Source/Common/System/LivingWorldRegionConnection.cpp,proposed,C,C=0x003F2A70..0x003F2D03,Code/GameEngine/Source/Common/System/Rva003F2CD6.cpp
 0x003F2D03,545,code,Code/GameEngine/Source/Common/System/LivingWorldRegionConnection.cpp,proposed,C,C=0x003F2A70..0x003F2F24,Code/GameEngine/Source/Common/System/Rva003F2D03Dtor.cpp
 0x003F2F24,230,code-unledgered,Code/GameEngine/Source/Common/System/LivingWorldRegionConnection.cpp,proposed,C,C=0x003F2A70..0x003F300A,
-0x003F300A,74,code,Code/GameEngine/Source/Common/System/LivingWorldRegionConnection.cpp,proposed,C,C=0x003F2A70..0x003F3054,Code/GameEngine/Source/GameLogic/System/LivingWorld/Rva003F300A.cpp
+0x003F300A,74,code,Code/GameEngine/Source/Common/System/LivingWorldRegionConnection.cpp,proposed,C,C=0x003F2A70..0x003F3054,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegion_SetupRegionOwnership.cpp
 0x003F3054,70,code,Code/GameEngine/Source/Common/System/LivingWorldRegionConnection.cpp,proposed,N,N=Code/GameEngine/Source/Common/System/LivingWorldRegionConnection.cpp,Code/GameEngine/Source/Common/System/LivingWorldRegionConnectionXfer.cpp
 0x003F309A,55,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/StlportVectorPushBackFamily.cpp
 0x003F30D1,63,code,,,-,,Code/GameEngine/Source/GameLogic/Object/Behavior/DynamicPortalLinkVector.cpp
