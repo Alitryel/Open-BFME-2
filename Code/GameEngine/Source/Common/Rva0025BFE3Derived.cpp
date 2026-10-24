@@ -41,7 +41,7 @@ Rva00596069::~Rva00596069()
 class AIEconomyStats : public Rva0025BFE3
 {
 public:
-	AIEconomyStats(int arg);
+	AIEconomyStats(int player);
 	virtual ~AIEconomyStats();
 	int getTotalMoney() const;
 	void rva0059640C(void *holder);
@@ -67,11 +67,11 @@ public:
 // calls base, clears +0x14 to 0 via and, sets +0x18 to -1 via or (/O1 idioms),
 // stores arg at +0x10, installs derived vtable 0x00870A50. Abtus its dtor.
 // Caller at 0x004E03D4 passes an int.
-AIEconomyStats::AIEconomyStats(int arg) : Rva0025BFE3()
+AIEconomyStats::AIEconomyStats(int player) : Rva0025BFE3()
 {
 	m_zero14 = 0;
 	m_minusOne18 = -1;
-	m_arg10 = arg;
+	m_arg10 = player;
 }
 
 AIEconomyStats::~AIEconomyStats()
