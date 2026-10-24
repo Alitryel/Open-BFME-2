@@ -961,3 +961,5 @@ member,Rva003B8E89Record::name_18,Rva003B8E89Record::m_name,inferred,agree:nl-63
 function,?rva003B8D06@LivingWorldCampaignManager@@QAE?AVAsciiString@@XZ,?GetCurrentActName@LivingWorldCampaignManager@@QAE?AVAsciiString@@XZ,inferred,agree:nl-8ee18461f992,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaignManager.cpp,0x003B8D06
 function,?rva003200A2@Rva003200A2@@QAEXH@Z,?addAnimation@Rva003200A2@@QAEXH@Z,inferred,agree:nl-228dfa60af83,Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBarList003200A2.cpp,0x003200A2
 function,?rva003200BC@Rva003200BC@@QAEXH@Z,?addImage@Rva003200BC@@QAEXH@Z,inferred,agree:nl-0dac74abc330,Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBarList003200A2.cpp,0x003200BC
+param,Rva000AE234::rva000AE234::x,Rva000AE234::rva000AE234::xIndex,inferred,agree:nl-b239752660b2,Code/GameEngine/Source/Common/Rva000AE234GridGet.cpp,0x000AE234
+param,Rva000AE234::rva000AE234::y,Rva000AE234::rva000AE234::yIndex,inferred,agree:nl-8b705eac04a5,Code/GameEngine/Source/Common/Rva000AE234GridGet.cpp,0x000AE234

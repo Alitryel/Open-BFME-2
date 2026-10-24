@@ -16,7 +16,7 @@ struct Rva000AE234Bytes
 class Rva000AE234
 {
 public:
-	char rva000AE234(int x, int y);
+	char rva000AE234(int xIndex, int yIndex);
 	char m_pad[8];
 	int m_width;
 	int m_height;
@@ -24,11 +24,11 @@ public:
 	Rva000AE234Bytes m_cells;
 };
 
-char Rva000AE234::rva000AE234(int x, int y)
+char Rva000AE234::rva000AE234(int xIndex, int yIndex)
 {
-	if (x < 0 || y < 0 || y >= m_height || x >= m_width)
+	if (xIndex < 0 || yIndex < 0 || yIndex >= m_height || xIndex >= m_width)
 		return 0;
-	unsigned int i = y * m_width + x;
+	unsigned int i = yIndex * m_width + xIndex;
 	Rva000AE234Bytes &c = m_cells;
 	if (i < c.size())
 	{
