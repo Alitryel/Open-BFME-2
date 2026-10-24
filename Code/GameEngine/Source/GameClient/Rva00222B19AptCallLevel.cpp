@@ -30,8 +30,8 @@ int __stdcall Rva00222B19AptCall(void *level, const char *prefix, const char *fu
 		((StringBase<char> *)&path)->concat(".");
 		((StringBase<char> *)&path)->concat(prefix);
 	}
-	const char *s = path.str();
-	Rva006CCB80CallFunction(function, g_00DFE5D8, s, argc, a0, a1, a2, a3, a4);
+	const char *target = path.str();
+	Rva006CCB80CallFunction(function, g_00DFE5D8, target, argc, a0, a1, a2, a3, a4);
 	return (int)g_00DFE5D8;
 }
 

@@ -5817,3 +5817,5 @@ Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp|param|Rva002EBA88::rva002EBA
 Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp|param|Rva002EBA88::rva002EBA88|a4,f9ddc9de4acb5fe6813d35ff,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p010b,w-d134465ec468,2026-10-24
 Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp|param|Rva002EBA88::rva002EBA88|a5,6140715811e777d6b901b223,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p010b,w-d134465ec468,2026-10-24
 Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp|param|Rva002EBA88::rva002EBA88|a6,c14ede72ab919abe8b5bb5a4,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p010b,w-d134465ec468,2026-10-24
+Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp|local|Rva00222B19AptCall|s,890afc3bebdc1231caebf4d6,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p012a,w-210d5514c927,2026-10-24
+Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp|local|Rva00222B19AptCall|s,890afc3bebdc1231caebf4d6,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p012b,w-6f2c4353f85e,2026-10-24
