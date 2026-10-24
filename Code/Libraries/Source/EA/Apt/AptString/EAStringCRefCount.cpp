@@ -309,7 +309,7 @@ void EAStringC::Assign(const char *text)
 	if (text == 0) {
 		g_bfmeAptAssertAtE17734("pStrText != NULL",
 			"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\string\\EAString.cpp", 0x82F);
-		if (g_bfmeAptBreakOnAssertAtDDC01C) {__asm int 3}
+		if (g_bfmeAptBreakOnAssertAtDDC01C) {__debugbreak();}
 	}
 	if (*text == 0) {
 		m_pData = &g_eaEmptyStringData;
