@@ -1178,3 +1178,12 @@ param,Rva005B6270Median::b,Rva005B6270Median::second,inferred,agree:nl-d2320ca0b
 param,Rva005B6270Median::c,Rva005B6270Median::third,inferred,agree:nl-18709dab90e1,Code/GameEngine/Source/GameClient/GUI/Rva00440AB0Median.cpp,0x005B6270
 param,vector::a,vector::alloc,inferred,agree:nl-2df2ce4fa886,Code/GameEngine/Source/GameClient/GUI/StrategicUiArmyDragDrop.cpp,
 member,Rva00239539Flags::flagAF2,Rva00239539Flags::m_playIntro,inferred,agree:nl-78e75bfbff62,Code/GameEngine/Source/GameClient/GameClientLogoGate.cpp,
+member,GUICommandTranslator::m_0c,GUICommandTranslator::m_leftMouseUpPosition,inferred,agree:nl-d3f42e76098f,Code/GameEngine/Source/GameClient/MessageStream/GUICommandTranslatorTranslateGameMessage.cpp,
+member,GUICommandTranslator::m_18,GUICommandTranslator::m_leftMouseDownTime,inferred,agree:nl-f07157c43c90,Code/GameEngine/Source/GameClient/MessageStream/GUICommandTranslatorTranslateGameMessage.cpp,
+member,GUICommandTranslator::m_1c,GUICommandTranslator::m_leftMouseUpTime,inferred,agree:nl-0072df6849e3,Code/GameEngine/Source/GameClient/MessageStream/GUICommandTranslatorTranslateGameMessage.cpp,
+member,GUICommandTranslator::m_28,GUICommandTranslator::m_rightMouseUpPosition,inferred,agree:nl-9f6bc6e6eef6,Code/GameEngine/Source/GameClient/MessageStream/GUICommandTranslatorTranslateGameMessage.cpp,
+member,GUICommandTranslator::m_30,GUICommandTranslator::m_rightMouseDragged,inferred,agree:nl-99f7c84a7aad,Code/GameEngine/Source/GameClient/MessageStream/GUICommandTranslatorTranslateGameMessage.cpp,
+member,GUICommandTranslator::m_34,GUICommandTranslator::m_rightMouseDownTime,inferred,agree:nl-969b9a9fa06f,Code/GameEngine/Source/GameClient/MessageStream/GUICommandTranslatorTranslateGameMessage.cpp,
+member,GUICommandTranslator::m_38,GUICommandTranslator::m_rightMouseUpTime,inferred,agree:nl-4ea1035774f6,Code/GameEngine/Source/GameClient/MessageStream/GUICommandTranslatorTranslateGameMessage.cpp,
+local,GUICommandTranslator::translateGameMessage::p,GUICommandTranslator::translateGameMessage::mousePosition,inferred,agree:nl-82e306e35a4b,Code/GameEngine/Source/GameClient/MessageStream/GUICommandTranslatorTranslateGameMessage.cpp,0x004314B1
+local,GUICommandTranslator::translateGameMessage::b,GUICommandTranslator::translateGameMessage::rightClick,inferred,agree:nl-534345cbf1c7,Code/GameEngine/Source/GameClient/MessageStream/GUICommandTranslatorTranslateGameMessage.cpp,0x004314B1

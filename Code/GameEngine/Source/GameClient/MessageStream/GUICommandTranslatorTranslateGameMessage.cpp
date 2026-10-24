@@ -409,15 +409,15 @@ public:
 	virtual GameMessageDisposition translateGameMessage(const GameMessage *msg);
 private:
 	Rva001EDD80Pair m_04;
-	ICoord2D m_0c;
+	ICoord2D m_leftMouseUpPosition;
 	bool m_14;
-	int m_18;
-	int m_1c;
+	int m_leftMouseDownTime;
+	int m_leftMouseUpTime;
 	Rva001EDD80Pair m_20;
-	ICoord2D m_28;
-	bool m_30;
-	int m_34;
-	int m_38;
+	ICoord2D m_rightMouseUpPosition;
+	bool m_rightMouseDragged;
+	int m_rightMouseDownTime;
+	int m_rightMouseUpTime;
 };
 
 GameMessageDisposition GUICommandTranslator::translateGameMessage(const GameMessage *msg)
@@ -427,11 +427,11 @@ GameMessageDisposition GUICommandTranslator::translateGameMessage(const GameMess
 	{
 	case 3:
 	{
-		ICoord2D p = msg->getArgument(0)->pixel;
-		if (TheMouse->rva001EDD80(&m_04, (const Rva001EDD80Pair *)&p))
+		ICoord2D mousePosition = msg->getArgument(0)->pixel;
+		if (TheMouse->rva001EDD80(&m_04, (const Rva001EDD80Pair *)&mousePosition))
 			m_14 = true;
-		if (TheMouse->rva001EDD80(&m_20, (const Rva001EDD80Pair *)&p))
-			m_30 = true;
+		if (TheMouse->rva001EDD80(&m_20, (const Rva001EDD80Pair *)&mousePosition))
+			m_rightMouseDragged = true;
 		break;
 	}
 	case 4:
@@ -439,16 +439,16 @@ GameMessageDisposition GUICommandTranslator::translateGameMessage(const GameMess
 		const GameMessageArgumentType *gameMessageArgumentType = msg->getArgument(0);
 		m_04.x = gameMessageArgumentType->pixel.x;
 		m_04.y = gameMessageArgumentType->pixel.y;
-		m_18 = msg->getArgument(2)->integer;
+		m_leftMouseDownTime = msg->getArgument(2)->integer;
 		m_14 = false;
 		break;
 	}
 	case 6:
 	{
 		const GameMessageArgumentType *gameMessageArgumentType = msg->getArgument(0);
-		m_0c.x = gameMessageArgumentType->pixel.x;
-		m_0c.y = gameMessageArgumentType->pixel.y;
-		m_1c = msg->getArgument(2)->integer;
+		m_leftMouseUpPosition.x = gameMessageArgumentType->pixel.x;
+		m_leftMouseUpPosition.y = gameMessageArgumentType->pixel.y;
+		m_leftMouseUpTime = msg->getArgument(2)->integer;
 		break;
 	}
 	case 0xE:
@@ -456,16 +456,16 @@ GameMessageDisposition GUICommandTranslator::translateGameMessage(const GameMess
 		const GameMessageArgumentType *gameMessageArgumentType = msg->getArgument(0);
 		m_20.x = gameMessageArgumentType->pixel.x;
 		m_20.y = gameMessageArgumentType->pixel.y;
-		m_34 = msg->getArgument(2)->integer;
-		m_30 = false;
+		m_rightMouseDownTime = msg->getArgument(2)->integer;
+		m_rightMouseDragged = false;
 		break;
 	}
 	case 0x10:
 	{
 		const GameMessageArgumentType *gameMessageArgumentType = msg->getArgument(0);
-		m_28.x = gameMessageArgumentType->pixel.x;
-		m_28.y = gameMessageArgumentType->pixel.y;
-		m_38 = msg->getArgument(2)->integer;
+		m_rightMouseUpPosition.x = gameMessageArgumentType->pixel.x;
+		m_rightMouseUpPosition.y = gameMessageArgumentType->pixel.y;
+		m_rightMouseUpTime = msg->getArgument(2)->integer;
 		break;
 	}
 	}
@@ -475,18 +475,18 @@ GameMessageDisposition GUICommandTranslator::translateGameMessage(const GameMess
 		return KEEP_MESSAGE;
 
 	bool gameMessageArgumentType = (msg->m_type == 0x18 || msg->m_type == 0x17) && !m_14;
-	bool b = (msg->m_type == 0x1C || msg->m_type == 0x1B) && !m_30;
+	bool rightClick = (msg->m_type == 0x1C || msg->m_type == 0x1B) && !m_rightMouseDragged;
 	bool isDown = msg->m_type == 4;
 	bool x;
 	bool y;
 	if (command->m_commandType == 0xA && TheWritableGlobalData->m_flag5C)
 	{
 		x = gameMessageArgumentType;
-		y = b;
+		y = rightClick;
 	}
 	else
 	{
-		x = b;
+		x = rightClick;
 		y = gameMessageArgumentType;
 	}
 
