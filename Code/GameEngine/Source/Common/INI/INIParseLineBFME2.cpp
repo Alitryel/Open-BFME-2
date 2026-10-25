@@ -38,7 +38,7 @@ class INIException
 {
 public:
 	char *mFailureMessage;
-	int m_argCount;
+	int mErrorCode;
 	INIException(int argCount, const char *format, ...);
 	INIException(const INIException &that);
 	~INIException();
@@ -89,7 +89,7 @@ void INI::parseLine(AsciiString &filename)
 			}
 			catch (INIException &iNIException)
 			{
-				throw INIException(iNIException.m_argCount,
+				throw INIException(iNIException.mErrorCode,
 					"%s\n\nError parsing INI block '%s' in file '%s'.",
 					iNIException.mFailureMessage, token, m_filename.str());
 			}
