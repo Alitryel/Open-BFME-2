@@ -23,23 +23,11 @@
 
 typedef int Int;
 
-class GadgetCreateView
-{
-public:
-	Int m_idOrUser;  // +0x00: filled by the caller after the snapshot
-	Int m_x04;  // +0x04: window +0x08
-	Int m_spare08;  // +0x08: untouched here
-	Int m_spare0C;  // +0x0C: untouched here
-	Int m_x10;  // +0x10: window +0x0C
-	Int m_x14;  // +0x14: window +0x10
-	void *m_instance;  // +0x18: virtual slot-7 result
-	Int m_x1C;  // +0x1C: window +0x1E4
-	Int m_x20;  // +0x20: window +0x1E0
-	Int m_x24;  // +0x24: window +0x1E8
-	Int m_x28;  // +0x28: window +0x1EC
-	Int m_x2C;  // +0x2C: window +0x1F0
-	void *volatile m_windowBlock;  // +0x30: window +0x30 (aliased)
-};
+// The canonical 0x34-byte create record (registered in canonical_classes.csv).
+// Offsets this body writes: +0x04 status, +0x10/+0x14 width/height, +0x18
+// the slot-7 result, +0x1C system, +0x20..+0x2C the unknown32 words and
+// +0x30 the aliased window block, which every read reloads (volatile access).
+#include "GameWindowManagerRecordView.h"
 
 // Opaque GameWindow stand-in: only the offsets this body touches exist.
 // The real class is much larger; nothing else is spelled. The virtual at
@@ -73,23 +61,23 @@ void GameWindow::snapshotCreateView(GadgetCreateView *view, bool clear)
 {
 	char *windowBlock;
 
-	view->m_instance = fetchCreateInstance();
-	view->m_x04 = *(Int *)((char *)this + 0x08);
-	view->m_x10 = *(Int *)((char *)this + 0x0C);
-	view->m_x14 = *(Int *)((char *)this + 0x10);
+	view->unknown24 = fetchCreateInstance();
+	view->status = *(Int *)((char *)this + 0x08);
+	view->width = *(Int *)((char *)this + 0x0C);
+	view->height = *(Int *)((char *)this + 0x10);
 	windowBlock = (char *)this + 0x30;
-	view->m_windowBlock = windowBlock;
-	view->m_x20 = *(Int *)((char *)this + 0x1E0);
-	view->m_x1C = *(Int *)((char *)this + 0x1E4);
-	view->m_x24 = *(Int *)((char *)this + 0x1E8);
-	view->m_x28 = *(Int *)((char *)this + 0x1EC);
-	view->m_x2C = *(Int *)((char *)this + 0x1F0);
+	*(char *volatile *)&view->instance = windowBlock;
+	*(Int *)(view->unknown32 + 0) = *(Int *)((char *)this + 0x1E0);
+	view->system = *(void **)((char *)this + 0x1E4);
+	*(Int *)(view->unknown32 + 4) = *(Int *)((char *)this + 0x1E8);
+	*(Int *)(view->unknown32 + 8) = *(Int *)((char *)this + 0x1EC);
+	*(Int *)(view->unknown32 + 12) = *(Int *)((char *)this + 0x1F0);
 
 	if (clear)
 	{
 		*(Int *)(windowBlock + 0x14) = 0;
-		((WindowBlockTail *)view->m_windowBlock)->m_clear0 = 0;
-		((WindowBlockTail *)view->m_windowBlock)->m_clear1 = 0;
-		((WindowBlockTail *)view->m_windowBlock)->m_clear2 = 0;
+		(*(WindowBlockTail *volatile *)&view->instance)->m_clear0 = 0;
+		(*(WindowBlockTail *volatile *)&view->instance)->m_clear1 = 0;
+		(*(WindowBlockTail *volatile *)&view->instance)->m_clear2 = 0;
 	}
 }
