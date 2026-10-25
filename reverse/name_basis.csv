@@ -2266,3 +2266,10 @@ class,Rva0055BCF1Src,ColorModuleTemplate,inferred,agree:nl-8533e9390172,Code/Gam
 param,famgenDelete#10::p,famgenDelete#10::soundState,inferred,agree:nl-6f8a784e6086,Code/GameEngine/Source/Common/FamilyDeletingDtors2.cpp,
 local,Rva004ED471::rva004ED471::tmp,Rva004ED471::rva004ED471::growthSize,inferred,agree:nl-656f4fec3c82,Code/Libraries/Source/WWVegas/WW3D2/Rva004ED471Finish.cpp,0x004ED471
 class,Rva002EBD99Node,ContainedObjectListNode,inferred,agree:nl-bd05fb49f084,Code/GameEngine/Source/GameLogic/Pathfinder/PathfinderTintHierarchy.cpp,
+local,EA::Allocator::GeneralAllocator::calloc::p,EA::Allocator::GeneralAllocator::calloc::clearPtr,inferred,agree:nl-e0e386dfa891,Code/GameEngine/Source/Common/Rva00034A60Calloc.cpp,0x00034A60
+member,DestructorGlobalData::m_9A5,DestructorGlobalData::m_showSelectedUnitMarker,inferred,agree:nl-5eb7b3833bb6,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptCreateAHeroScreenDestructor.cpp,
+member,DestructorGlobalData::m_9BD,DestructorGlobalData::m_showObjectHealth,inferred,agree:nl-c749550e794f,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptCreateAHeroScreenDestructor.cpp,
+member,Rva0030C2CEArea::m_float5C,Rva0030C2CEArea::m_opacity,inferred,agree:nl-0c383e5c6471,Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp,
+param,Rva002CA9CA::rva002CAC6E::b,Rva002CA9CA::rva002CAC6E::context,inferred,agree:nl-db4898fda3d2,Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp,0x002CAC6E
+function,?rva0040B0D0@Rva0040B0D0@@QAE_NPBX@Z,?isContributor@Rva0040B0D0@@QAE_NPBX@Z,inferred,agree:nl-87b719d51be5,Code/Libraries/Source/WWVegas/WWLib/Rva0040B0D0Contains.cpp,0x0040B0D0
+carry,Rva0040B0D0::rva0040B0D0::objectView,Rva0040B0D0::isContributor::objectView,inferred,scope renamed by Rename rva0040B0D0 to isContributor (inferred),Code/Libraries/Source/WWVegas/WWLib/Rva0040B0D0Contains.cpp,0x0040B0D0

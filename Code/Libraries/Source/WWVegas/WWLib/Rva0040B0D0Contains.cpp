@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
-// ?rva0040B0D0@Rva0040B0D0@@QAE_NPBX@Z @ 0x0040B0D0 (126B). BitFlags + contains check.
+// ?isContributor@Rva0040B0D0@@QAE_NPBX@Z @ 0x0040B0D0 (126B). BitFlags + contains check.
 // Evidence: calls rowed BitFlags218 any 0x002C7501 BitFlags69 test 0x002615C0 and rowed rva0040AE2C 0x0040AE2C rva0040ADFA 0x0040ADFA; members +0x1C +0x38 (7-word flags); arg+4 with +0x108 key; caller 0x0040894A.
 template <int N>
 class BitFlags
@@ -32,14 +32,14 @@ struct Rva0040B0D0Arg
 class Rva0040B0D0
 {
 public:
-	bool rva0040B0D0(const void *arg);
+	bool isContributor(const void *arg);
 private:
 	char _pad00[0x1C];
 	BitFlags<218> m_1C;
 	BitFlags<218> m_38;
 };
 
-bool Rva0040B0D0::rva0040B0D0(const void *arg)
+bool Rva0040B0D0::isContributor(const void *arg)
 {
 	const Rva0040B0D0Arg *objectView = (const Rva0040B0D0Arg *)arg;
 	if (objectView == 0)

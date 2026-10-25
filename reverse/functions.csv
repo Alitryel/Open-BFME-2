@@ -34336,7 +34336,7 @@ _MmxFastDeInterlace,,0x001CDF60,232,Code/Libraries/Source/VP6/FastDeInterlace.cp
 ?rva0030AD8B@Thing@@QBE_NM@Z,,0x0030AD8B,60,Code/GameEngine/Source/Common/Thing/ThingIsSignificantlyAboveTerrain.cpp,matched,ZH isSignificantlyAboveTerrain worker with height offset; template byte 0x11F kind-of mask 0x81 refuses
 ?isSignificantlyAboveTerrain@Object@@QBE_NXZ,,0x0030ADDC,12,Code/GameEngine/Source/Common/Thing/ThingIsSignificantlyAboveTerrain.cpp,matched,ZH isSignificantlyAboveTerrain as BFME2 wrapper passing 0.0f to the height-offset worker 0x30AD8B
 ?Rva0040B218Copy@@YAPAVRva0040AEE3@@PAV1@00@Z,,0x0040B218,47,Code/GameEngine/Source/Common/Thing/Rva0040AEE3Copy.cpp,matched,chain via 0x0040AEFE rowed operator assign stride 0x10
-?rva0040B0D0@Rva0040B0D0@@QAE_NPBX@Z,,0x0040B0D0,126,Code/Libraries/Source/WWVegas/WWLib/Rva0040B0D0Contains.cpp,matched,chain via rowed any test and 0x0040AE2C 0x0040ADFA
+?isContributor@Rva0040B0D0@@QAE_NPBX@Z,,0x0040B0D0,126,Code/Libraries/Source/WWVegas/WWLib/Rva0040B0D0Contains.cpp,matched,chain via rowed any test and 0x0040AE2C 0x0040ADFA
 ?rva0043B0B1@Rva0043B0B1@@QAEXPAVXfer@@@Z,,0x0043B0B1,57,Code/GameEngine/Source/Common/Rva0043B0B1Xfer.cpp,matched,xfer base slot0 plus 3 uints via slot 0x78
 ?Rva00427114Parse@@YAXPAVINI@@PAVRva00427157@@@Z,,0x00427114,67,Code/GameEngine/Source/GameClient/GUI/Rva00427157Ctor.cpp,matched,INI parse two tokens dup float scan index store m_vals gap sibling
 ??1Rva0022CCB0@@QAE@XZ,,0x0022CCB0,53,Code/GameEngine/Source/Common/Rva0022CCB0Dtor.cpp,matched,unlock packet rowed member plus releaseBuffer EH shape like 0x0022304A

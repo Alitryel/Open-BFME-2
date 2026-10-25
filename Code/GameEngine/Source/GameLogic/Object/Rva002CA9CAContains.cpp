@@ -117,7 +117,7 @@ public:
 	void rva002CA970(int a1, int source, const void *weapon, int position);
 	float getProjectileNuggetRadiusIfAlliesAffected(const void *arg);
 	bool rva002CAD8B();
-	void rva002CAC6E(int a, int b);
+	void rva002CAC6E(int a, int context);
 private:
 	char m_pad00[0x58];
 	int m_58;
@@ -294,17 +294,17 @@ void Rva002CA9CA::postProcessLoad()
 	}
 }
 
-void Rva002CA9CA::rva002CAC6E(int a, int b)
+void Rva002CA9CA::rva002CAC6E(int a, int context)
 {
 	char *esi = (char *)this + 0xB8;
 	int n = 4;
 	do {
 		Rva001E11F8 *p1 = *(Rva001E11F8 **)(esi - 0x14);
 		if (p1)
-			p1->rva001E11F8(a, b);
+			p1->rva001E11F8(a, context);
 		Rva001E11F8 *p2 = *(Rva001E11F8 **)(esi);
 		if (p2)
-			p2->rva001E11F8(a, b);
+			p2->rva001E11F8(a, context);
 		esi += 4;
 	} while (--n != 0);
 	ListNode *cur = m_17c->m_next;
@@ -312,7 +312,7 @@ void Rva002CA9CA::rva002CAC6E(int a, int b)
 	{
 		Rva002CAC6ENotify *obj = (Rva002CAC6ENotify *)cur->m_data;
 		if (obj)
-			obj->v24(a, b);
+			obj->v24(a, context);
 		cur = cur->m_next;
 	}
 }

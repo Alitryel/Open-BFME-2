@@ -47,7 +47,7 @@ struct Rva0030C2CEArea
 	char m_pad00[0x40];
 	AsciiString m_textureNames[4];
 	RGBColor m_color;
-	float m_float5C;
+	float m_opacity;
 	int m_int60;
 	int m_int64;
 	Rva0053850B m_quadStrip;
@@ -110,7 +110,7 @@ void __cdecl saveRiverAreas(Rva0030C2CECollection *coll, DataChunkOutput *out)
 				++asciiString;
 			}
 			out->writeInt(area->m_color.getAsInt());
-			out->writeReal(area->m_float5C);
+			out->writeReal(area->m_opacity);
 			out->writeInt(area->m_int64);
 			AsciiString tmp;
 			if (area->m_int60 >= 0 && area->m_int60 < 4)

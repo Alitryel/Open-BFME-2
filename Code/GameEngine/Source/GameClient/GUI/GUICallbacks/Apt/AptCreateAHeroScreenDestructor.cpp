@@ -74,9 +74,9 @@ struct DestructorGlobalData
 	unsigned char m_pad000[0x68];
 	bool m_68;
 	unsigned char m_pad069[0x9A5 - 0x69];
-	bool m_9A5;
+	bool m_showSelectedUnitMarker;
 	unsigned char m_pad9a6[0x9BD - 0x9A6];
-	bool m_9BD;
+	bool m_showObjectHealth;
 	unsigned char m_pad9be[0xD45 - 0x9BE];
 	bool m_D45;
 };
@@ -130,8 +130,8 @@ AptCreateAHero::~AptCreateAHero()
 			((Rva002246B1 *)reinterpret_cast<AptPlayer *>(g_bfmeAptWindowManager))->RemoveCustomRender(&name);
 		}
 		TheGlobalDataView->m_68 = m_42e;
-		TheGlobalDataView->m_9A5 = true;
-		TheGlobalDataView->m_9BD = m_42c;
+		TheGlobalDataView->m_showSelectedUnitMarker = true;
+		TheGlobalDataView->m_showObjectHealth = m_42c;
 		TheGlobalDataView->m_D45 = m_42d;
 		skipCinematicSubsystemExclusions = m_42d;
 		TheCreateAHeroManager->rva0021F5F8();

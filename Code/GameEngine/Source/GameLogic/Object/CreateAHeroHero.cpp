@@ -438,7 +438,7 @@ template <> TreeHintPayload001F8ACB &map<AsciiString, TreeHintPayload001F8ACB, l
 }
 class Rva00406E53 { public: int rva00406E53(); };
 class Rva00406E65 { public: int rva00406E65(unsigned int); };
-class Rva0040B0D0 { public: bool rva0040B0D0(const void *); };
+class Rva0040B0D0 { public: bool isContributor(const void *); };
 class Rva0040BAD0 { public: int rva0040AAF8(int); };
 class GameLogic;
 extern GameLogic *TheGameLogic;
@@ -604,7 +604,7 @@ void CreateAHeroHero::rva004088F0(const void *thing, Int unused)
 	{
 		Int key = ((Rva00406E65 *)this)->rva00406E65(i);
 		Rva0040B0D0 *statistic = (Rva0040B0D0 *)((Rva0040BAD0 *)TheAwardSystemManager)->rva0040AAF8(key);
-		if (statistic && statistic->rva0040B0D0(thing))
+		if (statistic && statistic->isContributor(thing))
 		{
 			AsciiString name(TheNameKeyGenerator->keyToName((NameKeyType)key));
 			unsigned long count = m_awardCounts[name].value + 1;

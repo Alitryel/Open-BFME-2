@@ -394,17 +394,17 @@ void *EA::Allocator::GeneralAllocator::calloc(unsigned int count, unsigned int s
 				memset(block, 0, chunkSize - 4);
 			else
 			{
-				unsigned int *p = (unsigned int *)block;
+				unsigned int *clearPtr = (unsigned int *)block;
 				switch (((chunkSize - 4) >> 2) - 1)
 				{
-				case 7: *p++ = 0;
-				case 6: *p++ = 0;
-				case 5: *p++ = 0;
-				case 4: *p++ = 0;
-				case 3: *p++ = 0;
-				case 2: *p++ = 0;
-				case 1: *p++ = 0;
-				case 0: *p = 0;
+				case 7: *clearPtr++ = 0;
+				case 6: *clearPtr++ = 0;
+				case 5: *clearPtr++ = 0;
+				case 4: *clearPtr++ = 0;
+				case 3: *clearPtr++ = 0;
+				case 2: *clearPtr++ = 0;
+				case 1: *clearPtr++ = 0;
+				case 0: *clearPtr = 0;
 				}
 			}
 		}
