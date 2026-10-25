@@ -407,3 +407,20 @@ the staged ControlBarResizer move, including the earlier Display and Keyboard
 absorptions. Search of active tools, hooks, workflows and Code/includes found no
 path consumers needing a manual repair; remaining hits are source comments,
 provenance and still-live references. Historical EA paths remain intact.
+
+## GlobalLanguage accepted donor and blockers
+
+The scoped GlobalLanguage dry run accepted only GlobalLanguageInitBFME2.cpp (two
+rows). `GlobalLanguageAdjustFontSize.cpp` failed composition at generated line
+136 with `C2144: syntax error: 'void' should be preceded by ';'` and
+`C1004: unexpected end of file found`; the STL list clear donor failed the
+byte check. The accepted donor's fresh build verifies 2/2 rows, five literals,
+one empty-string reference, and twelve named imports; the frozen check reports
+all definitions matched. Other mixed files and rejected donors were untouched.
+
+After fetching and rebasing onto origin/master, all four moved TUs were rebuilt
+successfully and frozen checks passed. The final compatibility audit covers the
+rebased origin/master..HEAD range plus the staged GlobalLanguage move. Search
+across active tools, hooks, workflows and Code/includes found only merge
+provenance or still-live source comments for absorbed paths, with no consumer
+requiring repair. Historical EA paths are preserved.
