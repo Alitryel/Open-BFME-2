@@ -2067,3 +2067,4 @@ function,?rva000B3F5B@Rva000B3F5B@@QAEPAURva000B3F5BRecord@@H@Z,?getRecord@Rva00
 function,?rva00332F81@Rva00332F5B@@QBE_NABV1@@Z,?equals@Rva00332F5B@@QBE_NABV1@@Z,inferred,agree:nl-be2fbc172671,Code/GameEngine/Source/Common/Rva00332F5BCtor.cpp,0x00332F81
 function,?Rva00506BADDistSqr@@YAMPBURva00506BADCoord@@0@Z,?distanceSquared@@YAMPBURva00506BADCoord@@0@Z,inferred,agree:nl-b034cb0c16a5,Code/GameEngine/Source/Common/Rva00506BADDistSqr.cpp,0x00506BAD
 carry,Rva00506BADDistSqr::delta,distanceSquared::delta,inferred,scope renamed by Rename Rva00506BADDistSqr to distanceSquared (inferred),Code/GameEngine/Source/Common/Rva00506BADDistSqr.cpp,0x00506BAD
+file,Code/GameEngine/Source/Common/Rva00506BADDistSqr.cpp,Code/GameEngine/Source/Common/distanceSquared.cpp,inferred,mechanical:?distanceSquared@@YAMPBURva00506BADCoord@@0@Z,Code/GameEngine/Source/Common/distanceSquared.cpp,
