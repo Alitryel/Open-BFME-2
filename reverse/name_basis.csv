@@ -2033,3 +2033,5 @@ file,Code/GameEngine/Source/GameNetwork/DisconnectManagerRva004D4637.cpp,Code/Ga
 member,Rva002B47B1Elem::m_cash40,Rva002B47B1Elem::m_startingMoney,inferred,agree:nl-94801da7392b,Code/GameEngine/Source/Common/Rva002B47B1Get.cpp,
 member,Record52::selected2C,Record52::m_sideIndex,inferred,agree:nl-a01a006a8631,Code/GameEngine/Source/GameClient/GUI/StrategicVeterancyAutoResolveCtor.cpp,
 member,BfmeHostFN::m_bfmeOwnerFN,BfmeHostFN::m_owner,inferred,agree:nl-be69da5c9f4e,Code/GameEngine/Source/Common/BfmeConv2048.cpp,
+function,?rva003EE9D7@Rva003EE9D7@@QAEXH@Z,?disableUnifiedEffect@Rva003EE9D7@@QAEXH@Z,inferred,agree:nl-496284f7412e,Code/GameEngine/Source/Common/Rva003EE980Forward.cpp,0x003EE9D7
+carry,Rva003EE9D7::rva003EE9D7::region,Rva003EE9D7::disableUnifiedEffect::region,inferred,scope renamed by Rename rva003EE9D7 to disableUnifiedEffect (inferred),Code/GameEngine/Source/Common/Rva003EE980Forward.cpp,0x003EE9D7

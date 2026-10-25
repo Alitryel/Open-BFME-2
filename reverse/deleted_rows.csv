@@ -2518,3 +2518,4 @@ __ehhandler$??1TracerFXNugget@@MAE@XZ,0x00791AEB,Standalone mistaken-owner retir
 __ehhandler$?rva0042CA4B@Rva0042CA4B@@QAEXXZ,0x007877CD,"Renamed to __ehhandler$?update@Rva0042CA4B@@QAEXXZ by tools/rename.py (inferred)"
 ?Rva00664A70Handler@@YAXPAVRva007E8810Message@@PAVBfmeHostBT@@@Z,0x00664A70,"Renamed to ?gameRemovedHandler@@YAXPAVRva007E8810Message@@PAVBfmeHostBT@@@Z by tools/rename.py (inferred)"
 ?rva00254D0B@Rva00254D0B@@QAEXPAURva00254D0BNode@@@Z,0x00254D0B,"Renamed to ?freeTree@Rva00254D0B@@QAEXPAURva00254D0BNode@@@Z by tools/rename.py (inferred)"
+?rva003EE9D7@Rva003EE9D7@@QAEXH@Z,0x003EE9D7,"Renamed to ?disableUnifiedEffect@Rva003EE9D7@@QAEXH@Z by tools/rename.py (inferred)"
