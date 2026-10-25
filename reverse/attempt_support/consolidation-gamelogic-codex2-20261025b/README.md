@@ -240,3 +240,30 @@ evidence, attempt records and historical census. No directories are removed;
 EA paths are preserved. Four upstream-only added artifacts shown by the
 divergent-tip comparison are not local removals. This audit covers all six
 local commits, including the standalone parser prerequisite.
+
+## First publication and claim settlement
+
+All six commits through 8983e1f1f1dc40579105599b51892e0faf1332bb were pushed.
+Push gate verified 53/53 rows across five affected sources, eight EXACT EH
+records and no converged-data findings. Released 55 keys belonging to these
+four TU merge scopes after confirmed publication; release --landed found no
+remaining newly landed key. Older queued claims were left alone.
+
+## BattlePlanUpdate merge
+
+Reviewed planner path alternatives and private/compiler prerequisites; current
+in-memory routing approves the accepted moves. All seven eligible donors pass
+frozen checks. Trial and normal tool merge accept the existing TU plus
+BattlePlanUpdateParalyzeTroop and Rva002857B0VirtualCompare, removing two files
+and preserving six matched rows / 220 bytes. Normal build passes 6/6 and all
+literal/import checks; frozen and staged canonical-class checks pass; EH has
+no rows or missing object. Tool repoints only two function/map source columns.
+Four rejected donors remain on enum/receiver declarations or Xfer include
+order; seven mixed and four protected sources remain intact. Exact flags and
+diagnostics are in battle-merge.txt.
+
+Full outgoing/staged compatibility audit against fetched origin 8983e1f1f1
+covers the two newly absorbed paths. Old-path hits are merged provenance,
+ledger notes identifying a historical donor, previous attempt records and
+historical census. No active tool, hook, workflow, include, build/configuration
+input or registry requires repair. No directories removed or EA strings changed.
