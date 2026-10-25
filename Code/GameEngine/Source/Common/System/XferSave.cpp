@@ -311,6 +311,10 @@ template <> void **vector<void*>::end();
 
 struct Rva0060CF76Element {Rva0060CF76Element();Rva0060CF76Element(const Rva0060CF76Element&);Rva0060CF76Element&operator=(const Rva0060CF76Element&);~Rva0060CF76Element(){}char bytes[8]; bool operator==(const Rva0060CF76Element&)const;};
 
+// Suppress this TU's non-retail bucket-init copy: the ICF-kept copy rowed at
+// 0x00148DDF serves the link, so the call binds the shared body.
+namespace _STL { template <> void hashtable<pair<const int, Rva0060CF76Element>, int, hash<int>, _Select1st<pair<const int, Rva0060CF76Element> >, equal_to<int>, allocator<pair<const int, Rva0060CF76Element> > >::_M_initialize_buckets(unsigned int); }
+
 template _STL::hashtable<_STL::pair<const int, Rva0060CF76Element>, int, _STL::hash<int>, _STL::_Select1st<_STL::pair<const int, Rva0060CF76Element> >, _STL::equal_to<int>, _STL::allocator<_STL::pair<const int, Rva0060CF76Element> > >::hashtable(unsigned int, const _STL::hash<int> &, const _STL::equal_to<int> &, const _STL::allocator<_STL::pair<const int, Rva0060CF76Element> > &);
 
 // Suppress this TU's non-retail vector<void*> begin/end copies (family2-LK3 rows 6/9):
