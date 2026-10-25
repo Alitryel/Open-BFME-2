@@ -216,13 +216,6 @@ public:
 	void rva0039B4B8(const AsciiString &name, bool flag);
 };
 
-void Rva0039B24F::rva0039B4B8(const AsciiString &name, bool flag)
-{
-	const Overridable *level = ((Rva0028951F *)TheExperienceLevelSystem)->rva0028951F(TheNameKeyGenerator->nameToKey(name));
-	if (level)
-		rva0039B24F((Rva0039B24FInput *)level, 1, flag);
-}
-
 // --- 0x0044F7EA (52B): the first object of the +0x64 id list (rowed
 // GameLogic::findObjectByID) whose +0x78 equals the other object's +0x74.
 extern GameLogic *TheGameLogic;
