@@ -63,6 +63,15 @@ struct Rva0002C9E7Value
 typedef _STL::hash_map<AsciiString, Rva0002C9E7Value, rts::hash<AsciiString>, rts::equal_to<AsciiString> > MacroMap;
 
 typedef _STL::set<AsciiString, BfmeStringNoCaseLess> NoCaseStringSet;
+// This unit's insert_unique copy differs from retail's 0x0002C908 and, first in
+// link order, would be the one the link keeps; callers bind the kept copy
+// (stlport_nocase_asciistring_set_insert.cpp).
+namespace _STL {
+template <> pair<_Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, BfmeStringNoCaseLess,
+    allocator<AsciiString> >::iterator, bool>
+_Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, BfmeStringNoCaseLess,
+    allocator<AsciiString> >::insert_unique(const AsciiString &);
+}
 
 struct INIMacroTable
 {

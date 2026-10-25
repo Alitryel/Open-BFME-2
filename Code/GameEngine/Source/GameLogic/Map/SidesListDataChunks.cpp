@@ -439,6 +439,12 @@ typedef _STL::set<AsciiString, BfmeStringNoCaseLess> AsciiStringNoCaseSet;
 namespace _STL {
 template <> _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, BfmeStringNoCaseLess,
     allocator<AsciiString> >::~_Rb_tree();
+// This unit's insert_unique copy differs from retail's 0x0002C908; callers bind
+// the kept copy (stlport_nocase_asciistring_set_insert.cpp).
+template <> pair<_Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, BfmeStringNoCaseLess,
+    allocator<AsciiString> >::iterator, bool>
+_Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, BfmeStringNoCaseLess,
+    allocator<AsciiString> >::insert_unique(const AsciiString &);
 }
 
 

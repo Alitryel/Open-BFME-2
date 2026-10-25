@@ -500,6 +500,34 @@ Updated: 2026-10-25; inspected revision: `4f111811802`.**
 - **Clearance:** preview scope only (current objects for the listed units).
 - **Census confirmation:** awaiting the next census.
 
+### LINK-013: INI consolidation made a non-retail `set<AsciiString, BfmeStringNoCaseLess>::insert_unique` the kept copy
+
+**Status: Repair landed / awaiting verification. Updated: 2026-10-25; inspected revision: d7fa8a31b.**
+
+- **Evidence / scope:** the census at f995f30157 lost the six units that call
+  `_Rb_tree<AsciiString, …, BfmeStringNoCaseLess>::insert_unique` (row 0x0002C908, 153 B,
+  owner `stlport_nocase_asciistring_set_insert.cpp`) to `wrong_selected`. Its index holds
+  five copies:
+  - non-retail (digest c5d4a74a154c): `INI.cpp` (object 576, first in link order since
+    the INI merge) and `SidesListDataChunks.cpp` (object 2445)
+  - retail (digest 46fbdb7211c9): `stlport_nocase_asciistring_set_insert.cpp`,
+    `stlport_nocase_asciistring_set_touch.cpp` and `stlport_rb_tree_insert_unique_nocase.cpp`
+
+  Before the merge a retail copy came first, so SidesList's copy was latent.
+- **Completed:** both units declare the `insert_unique` specialization decl-only, so they
+  emit no copy and bind the kept retail one. `./build.sh`: INI.cpp 39/39,
+  SidesListDataChunks.cpp 91/91. `tools/link_check.py` against the f995f30157 index:
+  - now LINK (0 -> 8,773 B predicted): SidesListDataChunks.cpp 6,726 B,
+    Rva006047F3Family.cpp 1,659 B, the three WWLib owner units 388 B
+  - INI.cpp itself still fails in that preview, on duplicate INI members (`~INI`,
+    `INI::scanInt`, …) from `INI_ctor.obj` and `INI_scanInt.obj`. Those units were merged
+    into INI.cpp after f995f30157, so these duplicates are stale-index artifacts, not this
+    repair.
+- **Remaining / next check:** the next census confirms the six units. INI.cpp's own link
+  also depends on the separate `__lower_bound` provider repair.
+- **Clearance:** preview scope only (five of six units against the f995f30157 index).
+- **Census confirmation:** awaiting the next census.
+
 ## Investigation-specific validation limitation
 
 The initial investigation preserved a pre-existing BFME 1 checkout at
