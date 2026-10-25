@@ -317,3 +317,47 @@ origin-only changes are not outgoing path changes. The full staged diff
 contains only existing method declarations and this evidence. File
 reduction, identity keys retired and recovered C++ bytes are each zero.
 Hold all still-unpublished file/RVA claims until confirmed publication.
+
+
+## BuddyThread parser false reject and bounded fallback review
+
+Allocated BuddyThread.cpp was investigated with the current Thread planner,
+--plan and normal --merge --dry-run. The seed baseline verifies 6/6 rows,
+53 literals and one named import. The baseline trial cannot keep the seed:
+C2628, CallbackType followed by void, after the composer loses the enum's
+semicolon. tools/tu_skeleton.py chunks() recognizes only optional template
+and typedef before class/struct/enum/union; static enum is wrongly classified
+as a function ending at its closing brace. The original standalone C++ is
+accepted by MSVC 7.1 and the byte verifier.
+
+Diagnostic only: remove static from the no-object enum declaration. This
+preserves all six rows, literals and import, EXACT 3 EH graphs, 24 code refs
+(17 owner/4 alias/3 EH), no wrong binding or selected-definition findings,
+and no data/converged findings. The normal dry-run then accepts five files,
+12 rows: seed, stlport_vector_pod2148_allocator.cpp,
+S1PointerOrDefaultGetters.cpp, Rva00550995LockCleanup.cpp, and
+stlport_queue_buddyrequest_ctor.cpp. This isolates the parser defect; it is
+NOT a published unblock. Per AGENTS.md's false-reject rule, restored the
+source exactly and recorded blocked through re_log.py (callbackWrapper,
+0x00551FB3, 116 bytes). No workaround or gate change is landed. Released
+file:Code/GameEngine/Source/GameNetwork/GameSpy/Thread/BuddyThread.cpp.
+Receipts: build/sol-b5-buddy-before.txt, sol-b5-buddy-enum-after.txt,
+sol-b5-buddy-{before,enum-after,restored}-build.txt. Remaining independent
+Buddy prerequisites: duplicate private STL templates, FESL response view,
+constructor string/class views and startThread field names. Twelve mixed
+and six protected sources were not edited. A tooling seat should fix the
+chunker with a static-enum regression test in a separate verified change.
+
+Read-only fallback reviews: debug_io_con's prior factory/destructor handoff
+already admits ten rows for Luna; do not repeat that completed prerequisite.
+BufferManager's plan leaves slot methods in a protected donor; its seed
+also has an admitted present-unmatched accessor, so no speculative edit was
+started. Apt's clean CleanPool donor belongs to Common, outside this seat's
+family; leave it to its assigned owner. No claims were taken for these
+reviews. Existing unchanged PropDraw, bufffile and Tree SSE blockers above
+were not retried.
+
+Outgoing audit through this handoff: no source moves, ledger repoints or
+protected-register changes in this seat's batch. Source restoration is
+verified before commit. Active path consumers need no repair; historical
+EA paths remain intact. Buddy diagnostic gains are excluded from progress.
