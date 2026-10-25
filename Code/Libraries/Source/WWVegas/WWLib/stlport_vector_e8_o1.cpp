@@ -56,8 +56,16 @@ template <> template <> inline BfmeE8 *vector<BfmeE8>::_M_allocate_and_copy<Bfme
 }
 // insert(pos, x) is AreaPolygon's /O1 body 0x0030B9F3; call it, emit no copy.
 namespace _STL { template <> vector<BfmeE8>::iterator vector<BfmeE8>::insert(iterator, const BfmeE8 &); }
+// _M_fill_insert is rowed at 0x000B02B6 (stlport_vector_e8_fill_insert.cpp); this unit's
+// copy is not retail's body, so bind the kept one instead of emitting it.
+namespace _STL { template <> void vector<BfmeE8>::_M_fill_insert(iterator, size_type, const BfmeE8 &); }
 template class _STL::vector<BfmeE8, _STL::allocator<BfmeE8 > >;
 
 // 0x005FF4DD is the out-of-line uninitialized_fill_n wrapper over the fill 0x00507958
 // (three arguments plus the __false_type tag at [ebp-1]).
 template BfmeE8 *_STL::uninitialized_fill_n(BfmeE8 *, unsigned int, const BfmeE8 &);
+
+// The rowed __copy_backward<BfmeE8 *> was instantiated through this unit's
+// _M_fill_insert; that member now binds the kept copy, so name the helper directly.
+template BfmeE8 *_STL::__copy_backward(BfmeE8 *, BfmeE8 *, BfmeE8 *,
+    const _STL::random_access_iterator_tag &, int *);
