@@ -2003,3 +2003,4 @@ class,Rva007F3870Attribute,FeslAttribute,inferred,agree:nl-c2a8e3e0b131,Code/Gam
 function,?rva0042CA4B@Rva0042CA4B@@QAEXXZ,?update@Rva0042CA4B@@QAEXXZ,inferred,agree:nl-843a64cf5f05,Code/GameEngine/Source/Common/Rva0042C936.cpp,0x0042CA4B
 member,Bfme5Obj18::m_bfmeV0,Bfme5Obj18::m_ownerVtable,inferred,agree:nl-b6baea4a66a4,Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp,
 member,Bfme5Obj18::m_bfmeV4,Bfme5Obj18::m_listenerVtable,inferred,agree:nl-e15934563d9e,Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp,
+function,?Rva00664A70Handler@@YAXPAVRva007E8810Message@@PAVBfmeHostBT@@@Z,?gameRemovedHandler@@YAXPAVRva007E8810Message@@PAVBfmeHostBT@@@Z,inferred,agree:nl-3c6c03feee0d,Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp,0x00664A70

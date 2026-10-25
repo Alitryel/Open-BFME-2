@@ -118,7 +118,7 @@ void Rva00664A60Handler( Rva007E8810Message * value, BfmeThingZI *owner )
 	owner->rva007F7DA0( value );
 }
 
-void Rva00664A70Handler( Rva007E8810Message * value, BfmeHostBT *owner )
+void gameRemovedHandler( Rva007E8810Message * value, BfmeHostBT *owner )
 {
 	owner->Rva007F7C70( value );
 }
@@ -251,7 +251,7 @@ void BfmeThingDGD::rva007F8400( unsigned char useInternet, int useLan, void *for
 	m_14->v4( (void *)&bfmeRva0130AB00TagSlot, (void *)queueLengthHandler, this );
 	m_14->v4( (void *)&bfmeRva0130AB24TagSlot, (void *)kickHandler, this );
 	m_14->v4( (void *)&bfmeRva0130AA88TagSlot, (void *)pingHandler, this );
-	m_14->v4( (void *)&bfmeRva0130AA7CTagSlot, (void *)Rva00664A70Handler, this );
+	m_14->v4( (void *)&bfmeRva0130AA7CTagSlot, (void *)gameRemovedHandler, this );
 
 	if( lanEnabled != 0 )
 	{
