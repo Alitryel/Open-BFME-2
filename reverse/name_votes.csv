@@ -6216,3 +6216,4 @@ Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/StrategicVeterancy.cpp|pa
 Code/GameEngine/Source/Common/Rva0031F89E.cpp|function|0x0031F89E|rva0031F89E,0e70364cb4638db8ab75c093,gpt-6.1-sol,codex4-20261025-065020-9,w-887869184137,2026-10-25
 Code/GameEngine/Source/GameLogic/Object/Made002CCBCASlots.cpp|class||Rva0050B7D2Iface,de431e65780c428c6a665f6f,gpt-6.1-sol,codex4-20261025-065020-10,w-887869184137,2026-10-25
 Code/GameEngine/Source/GameLogic/Object/Made002CCBCASlots.cpp|member|Rva0050B7D2Arg|m_08,0542deae72d36029fca14260,gpt-6.1-sol,codex4-20261025-065020-10,w-887869184137,2026-10-25
+Code/GameEngine/Source/Common/Rva002E8C23.cpp|local|Rva002EDE5B|tmpC,763f909705c7c86a12d3d85a,gpt-6-astra,codexb2-20261025-070334-5,w-d0bdfd8b17e9,2026-10-25
