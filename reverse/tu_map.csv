@@ -13926,7 +13926,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x002173E3,23,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/Rva002173E3Add.cpp
 0x002173FA,79,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GUI/GameFont.cpp S=Code/GameEngine/Source/GameClient/GUI/GameFont.cpp N=Code/GameEngine/Source/GameClient/GUI/FontLibrary.cpp,Code/GameEngine/Source/GameClient/GUI/FontLibraryFontList.cpp
 0x00217449,53,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GUI/GameFont.cpp S=Code/GameEngine/Source/GameClient/GUI/GameFont.cpp N=Code/GameEngine/Source/GameClient/GUI/FontLibrary.cpp,Code/GameEngine/Source/GameClient/GUI/FontLibraryFontList.cpp
-0x0021747E,18,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217449..0x00217490,Code/GameEngine/Source/Common/Rva00472610Lt.cpp
+0x0021747E,18,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217449..0x00217490,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp
 0x00217490,7,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217449..0x00217497,Code/GameEngine/Source/Common/Disp8SubDwordFieldGetters.cpp
 0x00217497,13,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217449..0x002174A4,Code/GameEngine/Source/Common/RvaSmallVtableCtors.cpp
 0x002174A4,43,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217449..0x002174CF,Code/GameEngine/Source/GameClient/GUI/AptPlayer.cpp
@@ -13938,9 +13938,9 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00217561,89,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GUI/GameFont.cpp S=Code/GameEngine/Source/GameClient/GUI/GameFont.cpp N=Code/GameEngine/Source/GameClient/GUI/FontLibrary.cpp,Code/GameEngine/Source/GameClient/GUI/FontLibraryInit.cpp
 0x002175C7,7,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x002175CE,Code/GameEngine/Source/Common/Disp8DwordClearers.cpp
 0x002175CE,57,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217607,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_00218022.cpp
-0x00217607,29,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217624,Code/GameEngine/Source/Common/Rva004738A0Set.cpp
+0x00217607,29,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217624,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp
 0x00217624,41,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x0021764D,Code/Libraries/Source/WWVegas/WWLib/MixFileCreatorFileInfoStructAssign.cpp
-0x0021764D,61,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x0021768A,Code/GameEngine/Source/Common/Gen00473A40UpperBound.cpp
+0x0021764D,61,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x0021768A,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp
 0x0021768A,28,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x002176A6,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_00218022.cpp
 0x002176A6,75,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x002176F1,Code/Libraries/Source/WWVegas/WWLib/MixFileCreatorFileInfoStructAssign.cpp
 0x002176F1,75,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x0021773C,Code/Libraries/Source/WWVegas/WWLib/MixFileCreatorFileInfoStructAssign.cpp
@@ -13949,25 +13949,25 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x002177CD,53,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217802,Code/GameEngine/Source/Common/RvaTreeValueEraseFamily.cpp
 0x00217802,27,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x0021781D,Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00217802.cpp
 0x0021781D,45,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x0021784A,Code/Libraries/Source/WWVegas/WWLib/stlport_construct_game_structs2.cpp
-0x0021784A,38,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217870,Code/Libraries/Source/WWVegas/WWLib/stlport_uninit_copy_0021784A.cpp
-0x00217870,37,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217895,Code/Libraries/Source/WWVegas/WWLib/stlport_uninit_fill_00217870.cpp
+0x0021784A,38,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217870,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp
+0x00217870,37,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217895,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp
 0x00217895,9,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x0021789E,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_00218022.cpp
 0x0021789E,45,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x002178CB,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_00218022.cpp
 0x002178CB,45,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x002178FD,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_002181dd.cpp
 0x002178FD,46,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217934,Code/GameEngine/Source/Common/BfmeConv1727.cpp
-0x00217934,165,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x002179D9,Code/GameEngine/Source/Common/Rva004748F0PopHeap_Rva00217934.cpp
+0x00217934,165,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x002179D9,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp
 0x002179D9,41,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217A02,Code/GameEngine/Source/Common/RvaTreeValueEraseFamily.cpp
 0x00217A02,53,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217A37,Code/GameEngine/Source/Common/RvaTreeValueEraseFamily.cpp
 0x00217A37,53,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217A6C,Code/GameEngine/Source/Common/RvaTreeValueEraseFamily.cpp
 0x00217A6C,34,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217A8E,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_00218022.cpp
 0x00217A8E,34,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217AB0,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_002181dd.cpp
 0x00217AB0,87,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217B07,Code/Libraries/Source/WWVegas/WWLib/MixFileCreatorFileInfoStructAssign.cpp
-0x00217B07,23,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217B1E,Code/GameEngine/Source/Common/BfmeEachWrapper00217B07.cpp
+0x00217B07,23,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217B1E,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp
 0x00217B1E,25,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217B37,Code/GameEngine/Source/Common/System/GeometryInfoDtor.cpp
-0x00217B37,92,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217B93,Code/GameEngine/Source/Common/Rva004748F0PopHeap_Rva00217b37.cpp
-0x00217B93,27,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217BAE,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_fileinfo_copy_backward.cpp
+0x00217B37,92,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217B93,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp
+0x00217B93,27,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217BAE,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp
 0x00217BAE,83,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217C01,Code/GameEngine/Source/Common/Q3IntrosortLoop004775D0.cpp
-0x00217C01,45,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217C2E,Code/GameEngine/Source/Common/Rva00474A90PopHeapAux.cpp
+0x00217C01,45,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217C2E,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp
 0x00217C2E,56,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217C66,Code/GameEngine/Source/Common/RvaTreeDtorFamily.cpp
 0x00217C66,41,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217C8F,Code/GameEngine/Source/Common/RvaTreeValueEraseFamily.cpp
 0x00217C8F,41,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217CB8,Code/GameEngine/Source/Common/RvaTreeValueEraseFamily.cpp
@@ -13976,15 +13976,15 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00217DE3,148,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217E77,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_002181dd.cpp
 0x00217E77,151,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217F0E,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_002181dd.cpp
 0x00217F0E,111,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217F7D,Code/GameEngine/Source/Common/Q3LinearInsert00217F0E.cpp
-0x00217F7D,25,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217F96,Code/GameEngine/Source/Common/Q3MakeHeapWrapper00217F7D.cpp
-0x00217F96,23,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217FAD,Code/GameEngine/Source/Common/RvaPopHeapWrapper00217F96.cpp
+0x00217F7D,25,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217F96,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp
+0x00217F96,23,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217FAD,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp
 0x00217FAD,5,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217FB2,Code/GameEngine/Source/Common/RvaTreeDtorFamily.cpp
 0x00217FB2,56,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00217FEA,Code/GameEngine/Source/Common/RvaTreeDtorFamily.cpp
 0x00217FEA,56,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00218022,Code/GameEngine/Source/Common/RvaTreeDtorFamily.cpp
 0x00218022,443,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x002181DD,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_00218022.cpp
 0x002181DD,443,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00218398,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_002181dd.cpp
 0x00218398,57,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x002183D1,Code/GameEngine/Source/Common/Q3IntrosortLoop004775D0.cpp
-0x002183D1,58,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x0021840B,Code/GameEngine/Source/Common/Q3SortHeap002183D1.cpp
+0x002183D1,58,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x0021840B,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp
 0x0021840B,5,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00218410,Code/GameEngine/Source/GameClient/GUI/FontLibraryFontList.cpp
 0x00218410,5,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00217561..0x00218415,Code/GameEngine/Source/GameClient/GUI/FontLibraryFontList.cpp
 0x00218415,83,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GUI/GameFont.cpp S=Code/GameEngine/Source/GameClient/GUI/GameFont.cpp N=Code/GameEngine/Source/GameClient/GUI/FontLibrary.cpp,Code/GameEngine/Source/GameClient/GUI/FontLibraryFontList.cpp
@@ -13993,26 +13993,26 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x002186A6,69,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,S,S=Code/GameEngine/Source/GameClient/GUI/GameFont.cpp N=Code/GameEngine/Source/GameClient/GUI/FontLibrary.cpp,Code/GameEngine/Source/GameClient/GUI/FontLibraryFindRecord.cpp
 0x002186EB,61,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x002186A6..0x00218728,Code/GameEngine/Source/GameClient/GUI/Rva002186EBCtor.cpp
 0x00218728,28,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x002186A6..0x00218744,Code/GameEngine/Source/GameClient/GUI/Rva002186EBCtor.cpp
-0x00218744,67,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x002186A6..0x00218787,Code/GameEngine/Source/GameClient/GUI/Rva002186EBDtor.cpp
+0x00218744,67,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x002186A6..0x00218787,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp
 0x00218787,124,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x002186A6..0x00218803,Code/GameEngine/Source/Common/Rva005C6CCC.cpp
 0x00218803,63,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x002186A6..0x00218842,Code/GameEngine/Source/Common/System/GeometryInfoDtor.cpp
 0x00218842,29,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x002186A6..0x0021885F,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_00218022.cpp
 0x0021885F,29,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x002186A6..0x0021887C,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_002181dd.cpp
 0x0021887C,30,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x002186A6..0x0021889A,Code/GameEngine/Source/Common/System/Rva0021887CDestroyFree.cpp
-0x0021889A,74,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x002186A6..0x002188E4,Code/GameEngine/Source/Common/Q3FinalInsertionSort0021889A.cpp
-0x002188E4,94,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x002186A6..0x00218942,Code/GameEngine/Source/Common/Q3PartialSort002188E4.cpp
+0x0021889A,74,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x002186A6..0x002188E4,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp
+0x002188E4,94,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x002186A6..0x00218942,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp
 0x00218942,103,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GUI/GameFont.cpp S=Code/GameEngine/Source/GameClient/GUI/GameFont.cpp N=Code/GameEngine/Source/GameClient/GUI/FontLibrary.cpp,Code/GameEngine/Source/GameClient/GUI/FontLibraryCtor.cpp
 0x002189A9,28,code,,displaced,-,N=Code/GameEngine/Source/GameClient/GUI/FontLibrary.cpp,Code/GameEngine/Source/GameClient/GUI/FontLibraryCtor.cpp
 0x002189C5,28,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,C,C=0x00218942..0x002189E1,Code/GameEngine/Source/Common/RvaDeletingDtorBatch03.cpp
 0x002189E1,66,code,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GUI/GameFont.cpp S=Code/GameEngine/Source/GameClient/GUI/GameFont.cpp N=Code/GameEngine/Source/GameClient/GUI/FontLibrary.cpp,Code/GameEngine/Source/GameClient/GUI/FontLibraryFindRecord.cpp
 0x00218A23,129,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_00218022.cpp
 0x00218AA4,124,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_00218AA4.cpp
-0x00218B20,180,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_fileinfo_insert_overflow.cpp
-0x00218BD4,27,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_fileinfo_sort_00218BD4.cpp
+0x00218B20,180,code,,,-,,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp
+0x00218BD4,27,code,,,-,,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp
 0x00218BEF,60,code-unledgered,,,-,,
 0x00218C2B,87,code-unledgered,,,-,,
 0x00218C82,336,code-unledgered,,,-,,
-0x00218DD2,55,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_fileinfo_pushback.cpp
+0x00218DD2,55,code,,,-,,Code/GameEngine/Source/GameClient/GUI/GameFont.cpp
 0x00218E09,141,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00218E09.cpp
 0x00218E96,300,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/MixFileCreatorParse.cpp
 0x00218FC2,67,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00218FC2.cpp
