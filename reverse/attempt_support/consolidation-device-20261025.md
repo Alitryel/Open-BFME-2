@@ -83,6 +83,10 @@ No mixed file was split and no protected register was changed.
   and `S3StrideCopyLoops_Rva00064605.cpp` conflicts with a private vector view.
 - BIG, Laser and Font retain the header-queue prerequisite above. These failed
   consumer audits were restored instead of publishing dangling queue sources.
+  BIG's clean `Rva00603CA3Finish.cpp` donor also remains rejected: the composite
+  emits `error C2039: 'rva00603CA3' : is not a member of 'Rva00603C0F'` at line
+  360, followed by `error C3861: 'rva00603CA3'` at line 364. Reconcile its
+  declaration in a verified prerequisite change before retrying this donor.
 - Supply retains its xfer donor, which fails on `BfmeXfer.h:37`'s missing
   `Snapshot` declaration. Its body was left unchanged and its claim released.
 - Shadow's `W3DBufferManager.cpp` dry run reports `accepted: []`, `rejected: {}`,
@@ -216,9 +220,9 @@ local commit is a published receipt.
 
 ### Remaining scoped candidates
 
-- Vegetation: dry merge accepted reset/render-pass donors, seven rows. Normal
-  application refused the render-pass file claim held by another worker; no
-  source changed and all nine partial claims acquired here were released.
+- Vegetation: completed the formerly held reset/render-pass merge after the
+  claim cleared. Seven rows passed the destination build, declaration check,
+  CSV check and commit hooks; commit `6201ba59fe` is awaiting publication.
 - Shrub: the current queue marks the remaining donor set HELD. Explicit claims
   for 0x000E7140 and 0x000E7A40 were refused under `jarvis-p2-shrub-1025`; neither
   file was edited. Other private-view prerequisites remain with that worker.
