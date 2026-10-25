@@ -106,9 +106,9 @@ private:
 void Rva00276223::rva00276223(AsciiString modelName, bool randomlyRotate, int expireTimer)
 {
 	Rva00276223Element **arr = m_items;
-	for (Rva00276223Element **p = arr; *p != 0; ++p) {
-		Rva00276223Element *e = *p;
-		Rva00276223Result *drawInterface = e->v42();
+	for (Rva00276223Element **dm = arr; *dm != 0; ++dm) {
+		Rva00276223Element *drawModule = *dm;
+		Rva00276223Result *drawInterface = drawModule->v42();
 		if (drawInterface == 0)
 			continue;
 		drawInterface->v35(modelName, randomlyRotate, expireTimer);

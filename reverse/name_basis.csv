@@ -2098,3 +2098,5 @@ param,Rva00341796::onExit::arg,Rva00341796::onExit::status,inferred,agree:nl-dc0
 param,ModelSMConditionInfo::validateTurretInfo::arg,ModelSMConditionInfo::validateTurretInfo::boneState,inferred,agree:nl-6e9c43f2953b,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DScriptedModelDrawTurretInfo.cpp,0x000BBE86
 local,Palantir::Impl::TogglePlanningMode::m2,Palantir::Impl::TogglePlanningMode::message,inferred,agree:nl-ee32ac6aad94,Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/PalantirTogglePlanningMode.cpp,0x002D2F32
 local,Rva0055B39C::computeAlphaRate::v,Rva0055B39C::computeAlphaRate::targetAlpha,inferred,agree:nl-97c0069b0fcb,Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055B39C.cpp,0x0055B39C
+local,Rva00276223::rva00276223::p,Rva00276223::rva00276223::dm,inferred,agree:nl-20fb5dc263ec,Code/GameEngine/Source/Common/Rva00276223Leaf.cpp,0x00276223
+local,Rva00276223::rva00276223::e,Rva00276223::rva00276223::drawModule,inferred,agree:nl-7fe1a36dbd7a,Code/GameEngine/Source/Common/Rva00276223Leaf.cpp,0x00276223
