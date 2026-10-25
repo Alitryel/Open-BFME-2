@@ -1694,8 +1694,8 @@ def stub_items(path=None):
 
     Referencing units come from the same run's pass1.log (LNK2001/LNK2019) mapped back to
     sources through zzobj/names.json. Member stubs group by class (claims `class:NAME`:
-    the fix is the class's definition); a free symbol claims the files that reference it,
-    or its pinned RVA. A stub with neither is counted in the note, not served."""
+    the fix is the class's definition, plus every file that references a member); a free
+    symbol claims the files that reference it, or its pinned RVA. A stub with neither is counted in the note, not served."""
     out = Path(path or LINK_CYCLE)
     need = [out / n for n in ("receipt.json", "stubs.json", "pass1.log", "zzobj/names.json")]
     missing = [p.name for p in need if not p.exists()]
@@ -1745,7 +1745,9 @@ def stub_items(path=None):
     for (kind, key), members in groups.items():
         users = sorted(set().union(*(refs.get(n, set()) for n in members)))
         home = max(users, key=lambda s: sum(s in refs.get(n, ()) for n in members)) if users else "(no unit)"
-        claim = [f"class:{key}"] if kind == "class" else [f"file:{s}" for s in users]
+        # A class claim locks the ledger's member files only; every unit pass1.log names as
+        # referencing the group is part of the fix too, so it joins the footprint.
+        claim = ([f"class:{key}"] if kind == "class" else []) + [f"file:{s}" for s in users]
         items.append({
             "tier": "stubs", "check": "stub", "class": key if kind == "class" else None,
             "function": f"{key} ({len(members)} stub(s))" if kind == "class" else key,
@@ -1864,7 +1866,8 @@ def ms_header_queue_items():
     items = ms_header_items()
     for item in items:
         row = item["audit"]
-        item.update(start="python3 tools/repair_queue.py ms-headers --class " + item["classification"].split()[0],
+        item.update(start=(f"in {row['file']} only: include {row['headers']} and delete the local "
+                           f"definition(s) of {row['names']}; ./build.sh {row['file']}"),
                     check=item["classification"], count=int(row["defs"] or 0),
                     credit_note=f"{row['defs']} local definition(s) of Microsoft-header names",
                     why=(f"{item['classification']}: defines {row['defs']} name(s) of {row['headers']} locally; "
@@ -1884,7 +1887,9 @@ def dx_items():
     items = [{"tier": "dx", "check": r["class"], "function": r["source"], "source": r["source"], "target_rva": "",
               "size": 0, "count": int(r["matched_rows"] or 0), "claim": ["file:" + r["source"]],
               "credit_note": f"{r['matched_rows']} matched row(s) in the unit",
-              "start": "python3 tools/dx_migration.py next --class " + r["class"],
+              "start": (f"in {r['source']} only: replace the reference/shims DirectX stand-in includes with the "
+                        "SDK headers, marked // dxsdk" + (f" ({r['edits']})" if r.get("edits") else "")
+                        + f"; ./build.sh {r['source']}"),
               "why": f"[{r['class']}] move the unit to the SDK headers (// dxsdk)"
                      + (f"; edits: {r['edits']}" if r.get("edits") else ""),
               "pass_test": f"./build.sh {r['source']}, then python3 tools/dx_migration.py scan {r['source']}"}

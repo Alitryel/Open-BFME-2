@@ -224,13 +224,50 @@ def test_stub_items_group_members_by_class_and_claim_what_the_fix_touches(cycle)
     items, note = rq.stub_items(out)
     by = {i["function"]: i for i in items}
     widget = by["Widget (2 stub(s))"]
-    assert widget["claim"] == ["class:Widget"] and widget["count"] == 2 and "credit" not in widget and widget["tier"] == "stubs"
+    assert widget["claim"] == ["class:Widget", "file:Code/A.cpp", "file:Code/B.cpp"] and widget["count"] == 2 and "credit" not in widget and widget["tier"] == "stubs"
     assert widget["stubs"] == ["?draw@Widget@@QAEXXZ", "?size@Widget@@QBEHXZ"]
     assert by["?free@@YAXXZ"]["claim"] == ["file:Code/B.cpp"] and by["?free@@YAXXZ"]["source"] == "Code/B.cpp"
     assert by["?pinned@@3HA"]["claim"] == ["0x00002000"] and by["?pinned@@3HA"]["target_rva"] == "0x00002000"
     assert "?orphan@@YAXXZ" not in by and "1 free symbol(s) with no referencing unit or pin not served" in note
     assert "5 stubbed symbol(s)" in note and "2026-10-25" in note
     assert all(next_work.claim_targets(i) for i in items)                         # every item is claimable
+
+
+def test_a_class_stub_group_locks_every_referencing_file_against_a_second_owner(cycle, tmp_path, monkeypatch):
+    """Against a local bare origin: the Widget group (members referenced from A.cpp and B.cpp)
+    and the free symbol referenced from B.cpp share B.cpp, so two owners never hold both,
+    whichever acquires first."""
+    root, out = cycle
+    items, _ = rq.stub_items(out)
+    by = {i["function"]: i for i in items}
+    widget, free = by["Widget (2 stub(s))"], by["?free@@YAXXZ"]
+    monkeypatch.setattr(claims, "scope_index", lambda root=None: ({}, {}, {}))   # Widget has no ledger member
+    for name in ("BFME_RUN_ID", "BFME_CLAIMS"):
+        monkeypatch.delenv(name, raising=False)
+    monkeypatch.setattr(claims, "NS", "refs/claims/")
+    monkeypatch.setattr(claims, "REMOTE", "origin")
+    monkeypatch.setattr(next_work, "weighted_choice", lambda candidates: candidates[0])
+
+    def seat(origin, name):
+        clone = origin.parent / name
+        if not clone.exists():
+            git(origin.parent, "init", "-q", str(clone))
+            git(clone, "remote", "add", "origin", str(origin))
+        monkeypatch.setattr(claims, "ROOT", clone)
+        monkeypatch.setenv("BFME_CLAIM_OWNER", name)
+        claims.active.cache_clear()
+        claims.mirrored.cache_clear()
+
+    for order, (one, two) in enumerate(((widget, free), (free, widget))):
+        (tmp_path / f"o{order}").mkdir()
+        origin = tmp_path / f"o{order}" / "origin.git"
+        git(tmp_path, "init", "-q", "--bare", str(origin))
+        seat(origin, "a")
+        got, held = next_work.claim_choice([one], "stubs")
+        assert got is one and held
+        seat(origin, "b")
+        got, held = next_work.claim_choice([two], "stubs")
+        assert got is None and not held                                           # B.cpp is a's
 
 
 def test_stub_items_refuse_a_list_that_is_not_the_receipts(cycle):
@@ -318,3 +355,6 @@ def test_ms_header_and_dx_items_carry_a_file_claim_and_a_reason(tmp_path, monkey
     assert ms["claim"] == ["file:Code/A.cpp"] and ms["count"] == 4 and "<windows.h>" in ms["why"]
     (dx,), _ = rq.dx_items()                                                      # a vanished unit is not served
     assert dx["claim"] == ["file:Code/A.cpp"] and dx["count"] == 7 and "d3d8.h->d3d9.h" in dx["why"]
+    for item in (ms, dx):                         # the start names the claimed file, never another picker
+        assert "in Code/A.cpp only" in item["start"] and "./build.sh Code/A.cpp" in item["start"]
+        assert " next" not in item["start"] and "--class" not in item["start"]
