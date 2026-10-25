@@ -20437,8 +20437,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x002CEC42,108,code,,,-,,Code/GameEngine/Source/Common/FprintfAppendLine.cpp
 0x002CECAE,120,code,,,-,,Code/GameEngine/Source/Common/AppendInLogicUpdateOnly.cpp
 0x002CED26,51,code,,,-,,Code/GameEngine/Source/Common/Rva002CEC34Clear.cpp
-0x002CED59,43,code,Code/GameEngine/Source/GameClient/System/RayEffect.cpp,proposed,K,K=Rva002CEE1B,Code/GameEngine/Source/Common/Rva002CEE1BAdd.cpp
-0x002CED84,83,code,Code/GameEngine/Source/GameClient/System/RayEffect.cpp,proposed,K,K=Rva002CEE1B,Code/GameEngine/Source/Common/Rva002CEE1BAdd.cpp
+0x002CED59,43,code,Code/GameEngine/Source/GameClient/System/RayEffect.cpp,proposed,K,K=Rva002CEE1B,Code/GameEngine/Source/GameClient/System/RayEffect.cpp
+0x002CED84,83,code,Code/GameEngine/Source/GameClient/System/RayEffect.cpp,proposed,K,K=Rva002CEE1B,Code/GameEngine/Source/GameClient/System/RayEffect.cpp
 0x002CEDD7,26,code,Code/GameEngine/Source/GameClient/System/RayEffect.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/System/RayEffect.cpp S=Code/GameEngine/Source/GameClient/System/RayEffect.cpp N=Code/GameEngine/Source/GameClient/System/RayEffectSystem.cpp,Code/GameEngine/Source/GameClient/System/RayEffect.cpp
 0x002CEDF1,42,code,Code/GameEngine/Source/GameClient/System/RayEffect.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/System/RayEffect.cpp S=Code/GameEngine/Source/GameClient/System/RayEffect.cpp N=Code/GameEngine/Source/GameClient/System/RayEffectSystem.cpp,Code/GameEngine/Source/GameClient/System/RayEffect.cpp
 0x002CEE1B,72,code,Code/GameEngine/Source/GameClient/System/RayEffect.cpp,approved,C,C=0x002CEDF1..0x002CEE63,Code/GameEngine/Source/Common/Rva002CEE1BDtor.cpp

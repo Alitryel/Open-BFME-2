@@ -449,3 +449,11 @@ the staged WOLLoginMenu move. Searched old donor names across active tools,
 hooks, workflows and Code/includes. Remaining hits are merge-provenance comments
 or historical/still-live references; no consumer needs a manual update. Full
 range: origin/master..HEAD plus staged WOLLoginMenu files.
+
+## GameWindowGlobal dry-run blocker
+
+GameWindowGlobal's plan had five approved rows and two donors. The merge dry run
+accepted none; `GameWindowManager_winFindImage.cpp` failed compilation with
+`C2039: 'winMakeColor' is not a member of 'GameWindowManager'` in the composed
+TU. No files were changed or claimed. Reconcile the declarations/header view in
+Sol's prerequisite lane before retrying; the other donor was not applied.
