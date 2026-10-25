@@ -282,6 +282,7 @@ private:
 	unsigned char m_45c64;
 public:
 	void rva000EB2EF(int index);
+	void rva000EB0E6(int index);
 };
 
 class Rva000EB3D1

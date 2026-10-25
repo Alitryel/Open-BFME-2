@@ -11,8 +11,11 @@ typedef int Int;
 typedef unsigned int UnsignedInt;
 typedef unsigned char UnsignedByte;
 
-extern "C" void _ReadWriteBarrier(void);
+// Keep the declaration before its intrinsic directive when composing the TU.
+extern "C" {
+void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
+}
 
 // BFME RenderObjClass: Delete_This is slot 0, Remove is slot +0x40 and the
 // reference count is the first data word at +4.
@@ -59,13 +62,13 @@ public:
 
 private:
 	unsigned char m_pad0000[0x44540];
-	Int m_numTrees;
-	UnsignedByte m_anythingChanged;
+	Int m_count;
+	UnsignedByte m_44544;
 };
 
 void W3DTreeBuffer::rva000EB0E6(const Int index)
 {
-	if (index < m_numTrees) {
+	if (index < m_count) {
 		if (*(Int *)(reinterpret_cast<unsigned char *>(this) +
 			index * 0xE8 + 0x600) >= 0) {
 			if (*(UnsignedByte *)(reinterpret_cast<unsigned char *>(this) +
@@ -182,7 +185,7 @@ void W3DTreeBuffer::rva000EB0E6(const Int index)
 	rva00733fd0_finish:
 			*(Int *)(reinterpret_cast<unsigned char *>(this) +
 				index * 0xE8 + 0x688) = 0;
-			m_anythingChanged = 1;
+			m_44544 = 1;
 		}
 	}
 }
