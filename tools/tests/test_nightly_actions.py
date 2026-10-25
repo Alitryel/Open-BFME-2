@@ -429,6 +429,16 @@ def test_workflow_is_scheduled_dispatchable_and_never_overlaps(workflow):
     assert workflow["permissions"] == {"contents": "read"}
 
 
+def test_every_job_waits_for_the_enable_variable_on_master(workflow):
+    """Until setup sets NIGHTLY_ENABLED=true nothing runs (no daily failure, and the
+    environment is never auto-created unprotected); dispatched dry runs included."""
+    for name in ("boot", "cycle", "publish"):
+        cond = workflow["jobs"][name]["if"]
+        assert "vars.NIGHTLY_ENABLED == 'true'" in cond, name
+        assert "github.repository == 'Open-BFME/Open-BFME-2'" in cond and "github.ref == 'refs/heads/master'" in cond
+        assert "inputs.dry_run" not in cond and "github.event_name" not in cond
+
+
 def test_build_jobs_hold_no_secret_and_publish_nothing(workflow):
     for name in ("boot", "cycle"):
         job = workflow["jobs"][name]

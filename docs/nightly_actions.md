@@ -110,20 +110,27 @@ first step of the split, a `tools/` change with a `Verifier-Change` trailer.
   them. Both releases and the boot report's `measurement_attestation` say so.
   The signed row's `report_sha256` binds the report.
 - **The ownership release is guarded like the cycle bundle**
-  (`publish_cycle.publish_assets`, run from `PUBLISHER_OWNERSHIP_RELEASE`). A
-  plain `gh release create --target` would silently reuse a tag that already
-  exists, which a workflow on another branch with `contents: write` could plant
-  at another commit. So it is refused unless:
+  (`publish_cycle.publish_assets`, run from `PUBLISHER_OWNERSHIP_RELEASE`; both
+  share `publish_cycle._publish`). A release created from a tag name would
+  silently reuse a tag that already exists, which a workflow on another branch
+  with `contents: write` could plant at another commit. So it is refused unless:
   - the token's account is in `PUBLISHERS`;
   - the repository enforces immutable releases;
   - no release (draft or published) and no git tag of that name exists yet;
   - the commit is on the repository.
-  It then creates a draft, uploads the assets, and checks each asset's size, a
-  fresh download's SHA-256 and the release API's digests. It checks again that
-  no other release or tag has appeared, then publishes. The published release
-  must be an immutable prerelease, authored by a `PUBLISHER`, with its tag
-  (peeled) at the commit and exactly these assets. A failure before publishing
-  deletes only this run's draft. A published release is never deleted.
+  A check and a later create are two requests, so the tag is then reserved
+  atomically: `POST /repos/{repo}/git/refs` creates `refs/tags/<tag>` at the
+  measured commit and fails if the ref already exists, which stops the run
+  before anything is created. The draft is created from that tag through the
+  REST API, and every later call (read, upload, asset download, publish,
+  delete) names the draft's release ID, never the tag. It checks each asset's
+  size, a fresh download's SHA-256 and the release API's digests, that no other
+  release holds the tag, and, as the last read before publishing, that the tag
+  still points at the commit. The published release must be an immutable
+  prerelease, authored by a `PUBLISHER`, with its tag (peeled) at the commit and
+  exactly these assets. A failure before publishing deletes only this run's
+  draft, then deletes the reserved tag only while it is still at the commit and
+  no release holds it. A published release is never deleted.
 - **Secrets are scoped to steps.**
   - `BFME_OWNERSHIP_SIGNING_KEY` exists only in the step that writes the key
     file (`RUNNER_TEMP\nightly-secrets`, icacls: this account only, the key
@@ -218,17 +225,31 @@ Why this route:
    install a dedicated GitHub App, put it on the bypass list and push with its
    installation token, or accept that the row stays in the ownership release.
    `readme-progress.yml` would break the same way.
-6. **Tag rulesets**: none exist today. If you add one that restricts tag
-   creation, it must still let the release token's account create
-   `link-cycle/*` and `ownership-*` tags; `gh release` creates them when it
-   publishes. A rule that blocks tag updates and deletions is compatible, and
-   immutable releases already lock published tags.
-7. **Retire the local tasks** after the first green hosted run: disable
+6. **Tag ruleset (recommended)**: none exists today. Add one targeting
+   `link-cycle/*` and `ownership-*` that blocks **update** (force-moving the
+   ref) and **deletion**, with the release token's account as the only bypass
+   actor. The publisher reserves the tag itself (`POST .../git/refs`) and
+   re-checks it before publishing; the ruleset stops anyone else moving or
+   deleting a reserved tag in between, and immutable releases lock it once
+   published. The publisher deletes its own reservation only after a failed,
+   unpublished run, which the bypass allows. If the ruleset also restricts
+   creation, the release token's account must still be allowed to create
+   these tags.
+7. **Enable, last**: only after the environment and its protection (step 2),
+   then its secrets and variable (steps 3–4), set the repository variable
+   `NIGHTLY_ENABLED` to `true` (Settings > Secrets and variables > Actions >
+   Variables). Every job, scheduled or dispatched, requires it. Until it is
+   set nothing runs: no daily failure, and no run references
+   `nightly-publish`, which GitHub would otherwise create on first use with no
+   protection. Manual dry runs need it too, since they also use the
+   environment, the key and the token. Unset it to pause the nightly.
+8. **Retire the local tasks** after the first green hosted run: disable
    `BFME-Nightly-Builder` and `BFME-Nightly-Publisher` in Task Scheduler.
 
 ## First manual run
 
-Finish setup steps 1–4 first. A dry run still writes the signing key and the
+Finish setup steps 1–4, then step 7 (`NIGHTLY_ENABLED=true`); without the
+variable every job is skipped. A dry run still writes the signing key and the
 pin, checks that `BFME_RELEASE_TOKEN` is set, and calls GitHub with that token
 (`previous` fetch, `publish_cycle.py publish --dry-run`). Without the
 environment, its secrets and its variable, a dry run fails at the key step.

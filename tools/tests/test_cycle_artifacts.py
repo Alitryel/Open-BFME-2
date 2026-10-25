@@ -48,6 +48,7 @@ class FakeGitHub:
         self.fail_list = False
         self.fail_verify = None              # stderr of a failing `gh release verify`
         self.undraft = None                  # "lost": published, then the call fails; "fail": fails first
+        self.next_asset = 1000
 
     # -- helpers
     def _stamp(self):
@@ -82,7 +83,7 @@ class FakeGitHub:
         return {"id": r["id"], "tag_name": r["tag_name"], "draft": r["draft"], "prerelease": r["prerelease"],
                 "created_at": r["created_at"], "published_at": r["published_at"], "author": r["author"],
                 "immutable": r["immutable"], "target_commitish": r["target"], "body": r.get("notes", ""),
-                "assets": [{"name": a["name"], "size": len(a["data"]), "state": "uploaded",
+                "assets": [{"id": a.get("id"), "name": a["name"], "size": len(a["data"]), "state": "uploaded",
                             "digest": a.get("digest", "sha256:" + hashlib.sha256(a["data"]).hexdigest())}
                            for a in r["assets"]]}
 
@@ -91,13 +92,130 @@ class FakeGitHub:
         text = self.run(args)
         return json.loads(text) if text.strip() else None
 
+    def save(self, args, dest):
+        self.calls.append(list(args))
+        method, headers, _, _, path = self._parse(args[1:])
+        assert method == "GET" and "Accept: application/octet-stream" in headers, args
+        Path(dest).write_bytes(self._save_asset(int(path.rsplit("/", 1)[1])))
+
     def run(self, args):
         self.calls.append(list(args))
         if args[0] == "api":
-            return self._api(args[1:])
+            return self._rest(args[1:])
         assert args[0] == "release", args
         assert self._opt(args, "--repo") == REPO, args
         return getattr(self, "_" + args[1])(args[2:])
+
+    @staticmethod
+    def _parse(rest):
+        """(method, headers, fields, input file, path) of a `gh api` call."""
+        method, headers, fields, source, path, i = "GET", [], {}, None, None, 0
+        while i < len(rest):
+            a = rest[i]
+            if a in ("-X", "-H", "-f", "-F", "--input"):
+                v = rest[i + 1]
+                if a == "-X":
+                    method = v
+                elif a == "-H":
+                    headers.append(v)
+                elif a == "--input":
+                    source = Path(v)
+                else:
+                    k, _, val = v.partition("=")
+                    fields[k] = {"true": True, "false": False}.get(val, val) if a == "-F" else val
+                i += 2
+            else:
+                path, i = a, i + 1
+        return method, headers, fields, source, path
+
+    def _rest(self, rest):
+        """The REST calls publish_cycle makes by release ID; anything else goes to _api."""
+        method, headers, fields, source, path = self._parse(rest)
+        base = f"repos/{REPO}/"
+        uploads = f"https://uploads.github.com/repos/{REPO}/releases/"
+        if method == "POST" and path == base + "git/refs":
+            return self._reserve(fields["ref"], fields["sha"])
+        if method == "DELETE" and path.startswith(base + "git/refs/tags/"):
+            tag = path[len(base + "git/refs/tags/"):]
+            if tag not in self.tags:
+                raise ca.GhError(rest, 1, "gh: Reference does not exist (HTTP 422)")
+            del self.tags[tag]
+            return ""
+        if method == "POST" and path == base + "releases":
+            return json.dumps(self._post_release(json.loads(source.read_text(encoding="utf-8"))))
+        if method == "POST" and path.startswith(uploads):
+            rid, _, query = path[len(uploads):].partition("/assets?name=")
+            assert "Content-Type: application/octet-stream" in headers and source.name == query, rest
+            return json.dumps(self._upload_asset(int(rid), source))
+        if method == "PATCH" and path.startswith(base + "releases/"):
+            return json.dumps(self._patch_release(int(path.rsplit("/", 1)[1]), fields))
+        if method == "GET" and path.startswith(base + "releases/") and path[len(base + "releases/"):].isdigit():
+            return json.dumps(self._get_release(int(path.rsplit("/", 1)[1])))
+        return self._api(rest)
+
+    def _by_id(self, rid):
+        r = next((r for r in self.releases if r["id"] == rid), None)
+        if r is None:
+            raise ca.GhError(["api", f"releases/{rid}"], 1, "gh: Not Found (HTTP 404)")
+        return r
+
+    def _reserve(self, ref, sha):
+        tag = ref[len("refs/tags/"):]
+        assert ref.startswith("refs/tags/") and sha in self.commits, (ref, sha)
+        if tag in self.tags:
+            raise ca.GhError(["api", "git/refs"], 1, "gh: Reference already exists (HTTP 422)")
+        self.tags[tag] = sha
+        return json.dumps({"ref": ref, "object": {"sha": sha, "type": "commit"}})
+
+    def _post_release(self, req):
+        assert req["draft"] is True, "publish_cycle creates drafts only"
+        assert req["tag_name"] in self.tags, "the tag is reserved before the release is created"
+        self.next_id += 1
+        r = {"id": self.next_id, "tag_name": req["tag_name"], "draft": True, "prerelease": req["prerelease"],
+             "target": req.get("target_commitish"), "created_at": self._stamp(), "published_at": None,
+             "author": dict(self.user), "immutable": False, "assets": [],
+             "flags": [f"make_latest={req['make_latest']}"], "notes": req["body"]}
+        self.releases.append(r)
+        return self._rest_view(r)
+
+    def _get_release(self, rid):
+        return self._rest_view(self._by_id(rid))
+
+    def _upload_asset(self, rid, source):
+        r = self._by_id(rid)
+        name = source.name
+        if any(a["name"] == name for a in r["assets"]):
+            raise ca.GhError(["api", "upload"], 1, f"asset under the same name already exists: {name}")
+        data = source.read_bytes()
+        if name == self.corrupt_upload:
+            data = bytes([data[0] ^ 1]) + data[1:]
+        self.next_asset += 1
+        r["assets"].append({"id": self.next_asset, "name": name, "data": data})
+        return {"id": self.next_asset, "name": name}
+
+    def _save_asset(self, asset_id):
+        for r in self.releases:
+            for a in r["assets"]:
+                if a.get("id") == asset_id:
+                    return a["data"]
+        raise ca.GhError(["api", f"assets/{asset_id}"], 1, "gh: Not Found (HTTP 404)")
+
+    def _patch_release(self, rid, fields):
+        r = self._by_id(rid)
+        undraft = fields.get("draft") is False
+        if undraft and self.undraft == "fail":
+            raise ca.GhError(["api", "PATCH"], 1, "HTTP 500")
+        r["flags"] += [f"{k}={v}" for k, v in fields.items()]
+        if undraft:
+            r["draft"] = False
+            r["published_at"] = self._stamp()
+            r["immutable"] = self.immutable_enabled
+            self.tags.setdefault(r["tag_name"], r["target"])
+        if fields.get("prerelease") is True:
+            r["prerelease"] = True
+        if undraft and self.undraft == "lost":
+            raise ca.GhError(["api", "PATCH"], 1, "HTTP 504: Gateway Timeout")
+        return self._rest_view(r)
 
     def _api(self, rest):
         if rest == ["user"]:
@@ -139,39 +257,12 @@ class FakeGitHub:
             return json.dumps({"sha": sha})
         raise AssertionError(rest)
 
-    def _create(self, rest):
-        tag = rest[0]
-        notes = Path(self._opt(rest, "--notes-file"))
-        assert notes.is_file()
-        self.next_id += 1
-        r = {"id": self.next_id, "tag_name": tag, "draft": "--draft" in rest, "prerelease": "--prerelease" in rest,
-             "target": self._opt(rest, "--target"), "created_at": self._stamp(), "published_at": None,
-             "author": dict(self.user), "immutable": False,
-             "assets": [], "flags": list(rest), "notes": notes.read_text(encoding="utf-8")}
-        assert r["draft"], "publish_cycle creates drafts only"
-        self.releases.append(r)
-        return f"https://github.com/{REPO}/releases/tag/untagged-{r['id']}\n"
-
     def _view(self, rest):
         r = self._find(rest[0])
         return json.dumps({"databaseId": r["id"], "tagName": r["tag_name"], "isDraft": r["draft"],
                            "isPrerelease": r["prerelease"], "targetCommitish": r["target"],
                            "assets": [{"name": a["name"], "size": len(a["data"]), "state": "uploaded"}
                                       for a in r["assets"]]})
-
-    def _upload(self, rest):
-        assert "--clobber" not in rest
-        r = self._find(rest[0])
-        files = [a for a in rest[1:] if a not in ("--repo", REPO)]
-        for f in files:
-            name = Path(f).name
-            if any(a["name"] == name for a in r["assets"]):
-                raise ca.GhError(rest, 1, f"asset under the same name already exists: {name}")
-            data = Path(f).read_bytes()
-            if name == self.corrupt_upload:
-                data = bytes([data[0] ^ 1]) + data[1:]
-            r["assets"].append({"name": name, "data": data})
-        return ""
 
     def _download(self, rest):
         r = self._find(rest[0])
@@ -190,24 +281,33 @@ class FakeGitHub:
             raise ca.GhError(["release", "verify", *rest], 1, self.fail_verify)
         return "verified\n"
 
-    def _edit(self, rest):
-        r = self._find(rest[0])
-        if "--draft=false" in rest and self.undraft == "fail":
-            raise ca.GhError(["release", "edit", *rest], 1, "HTTP 500")
-        r["flags"] += list(rest)
-        if "--draft=false" in rest:
-            r["draft"] = False
-            r["published_at"] = self._stamp()
-            r["immutable"] = self.immutable_enabled
-            self.tags.setdefault(r["tag_name"], r["target"])
-        r["prerelease"] = "--prerelease" in rest or r["prerelease"]
-        if "--draft=false" in rest and self.undraft == "lost":
-            raise ca.GhError(["release", "edit", *rest], 1, "HTTP 504: Gateway Timeout")
-        return ""
-
     def verbs(self):
-        return [" ".join(c[:2]) if c[0] == "release" else "api " + (c[1] if c[1] != "-X" else "DELETE")
-                for c in self.calls]
+        return [self._verb(c) for c in self.calls]
+
+    def _verb(self, c):
+        if c[0] == "release":
+            return " ".join(c[:2])
+        method, _, _, _, path = self._parse(c[1:])
+        if "uploads.github.com" in path:
+            return "upload asset"
+        if "/releases/assets/" in path:
+            return "download asset"
+        if path.endswith("/git/refs") and method == "POST":
+            return "reserve tag"
+        if "/git/refs/tags/" in path and method == "DELETE":
+            return "unreserve tag"
+        if path.endswith("/releases") and method == "POST":
+            return "create release"
+        if method == "PATCH":
+            return "publish release"
+        if method == "DELETE":
+            return "api DELETE"
+        return "api " + path
+
+    def writes(self):
+        """Every call that changes the repository."""
+        return [c for c in self.calls if c[0] == "release" and c[1] in ("create", "upload", "edit", "delete")
+                or c[0] == "api" and self._parse(c[1:])[0] != "GET"]
 
 
 # ---------------------------------------------------------------- fixtures
@@ -535,19 +635,22 @@ def test_publish_drafts_uploads_verifies_then_undrafts(bundle, capsys):
     m = ca.validate(bundle)
     got = pc.publish(bundle, REPO, gh=gh)
     verbs = gh.verbs()
-    order = [verbs.index(v) for v in ("release create", "release upload", "release download", "release edit")]
+    order = [verbs.index(v) for v in ("reserve tag", "create release", "upload asset", "download asset",
+                                      "publish release")]
     assert order == sorted(order), verbs
-    create = next(c for c in gh.calls if c[:2] == ["release", "create"])
-    assert create[2] == m["tag"]
-    for flag in ("--draft", "--prerelease", "--latest=false"):
-        assert flag in create
-    assert create[create.index("--target") + 1] == cf.COMMIT
-    edit = next(c for c in gh.calls if c[:2] == ["release", "edit"])
-    assert "--draft=false" in edit and "--latest=false" in edit and "--prerelease" in edit
-    assert not any("--clobber" in c for c in gh.calls)
-    # the download that verified the assets ran while the release was still a draft
-    assert verbs.index("release download") < verbs.index("release edit")
+    reserve = next(c for c in gh.calls if gh._verb(c) == "reserve tag")
+    assert f"ref=refs/tags/{m['tag']}" in reserve and f"sha={cf.COMMIT}" in reserve
     (release,) = gh.releases
+    assert release["flags"][0] == "make_latest=false" and release["target"] == cf.COMMIT
+    edit = next(c for c in gh.calls if gh._verb(c) == "publish release")
+    assert edit[3].endswith(f"/releases/{release['id']}") and "draft=false" in edit and "make_latest=false" in edit
+    # every call after the draft exists names its release ID (or asset IDs), never the tag
+    after = gh.calls[verbs.index("create release") + 1:]
+    assert not [c for c in after if c[0] == "release"]
+    assert all(f"/releases/{release['id']}" in " ".join(c) for c in after if gh._verb(c) in ("upload asset",
+                                                                                           "publish release"))
+    # the download that verified the assets ran while the release was still a draft
+    assert verbs.index("download asset") < verbs.index("publish release")
     assert not release["draft"] and release["prerelease"] and gh.tags[m["tag"]] == cf.COMMIT
     assert {a["name"]: a["data"] for a in release["assets"]} == files_of(bundle)
     assert m["tag"] in release["notes"] and "never this repository's Latest" in release["notes"]
@@ -561,7 +664,7 @@ def test_publish_is_refused_from_an_account_that_is_not_a_designated_publisher(b
     gh = FakeGitHub(user=STRANGER)
     with pytest.raises(pc.PublishError, match="'unauthorized-push-user' .* is not a designated publisher"):
         pc.publish(bundle, REPO, gh=gh)
-    assert not [c for c in gh.calls if c[0] == "release"] and gh.releases == []
+    assert not gh.writes() and gh.releases == []
 
 
 def test_publish_is_refused_while_the_repository_does_not_enforce_immutable_releases(bundle, capsys):
@@ -593,7 +696,7 @@ def test_publish_never_overwrites_an_existing_tag_or_release(bundle, held):
     before = json.dumps(gh.releases, default=str), dict(gh.tags)
     with pytest.raises(pc.PublishError, match="never overwritten"):
         pc.publish(bundle, REPO, gh=gh)
-    assert not [c for c in gh.calls if c[0] == "release"]          # nothing created, uploaded or edited
+    assert not gh.writes()                                         # nothing created, uploaded or edited
     assert (json.dumps(gh.releases, default=str), dict(gh.tags)) == before
 
 
@@ -605,7 +708,7 @@ def test_a_retry_of_a_published_bundle_is_reported_and_changes_nothing(bundle, c
     again = pc.publish(bundle, REPO, gh=gh)                         # the same bytes: nothing to do
     assert again["already_published"] and again["release_id"] == first["release_id"] and again["commands"] == []
     assert "ALREADY PUBLISHED" in capsys.readouterr().out
-    assert not [c for c in gh.calls[calls:] if c[0] == "release" or "-X" in c]
+    assert not [c for c in gh.calls[calls:] if c in gh.writes()]
     assert (json.dumps(gh.releases, default=str), dict(gh.tags)) == before
 
 
@@ -626,27 +729,33 @@ def test_an_undraft_that_really_failed_removes_only_its_own_draft(bundle, capsys
     gh.undraft = "fail"
     with pytest.raises(ca.GhError, match="HTTP 500"):
         pc.publish(bundle, REPO, gh=gh)
-    assert gh.releases == [] and gh.tags == {} and "deleted this run's draft" in capsys.readouterr().err
+    err = capsys.readouterr().err
+    assert gh.releases == [] and gh.tags == {} and "deleted this run's draft" in err
+    assert "released the reserved tag" in err                        # a retry can reserve it again
 
 
 def test_an_interrupted_publish_leaves_a_draft_that_a_retry_names_and_replaces_on_request(bundle, capsys):
     gh = FakeGitHub()
 
-    def view_fails(rest):
-        raise ca.GhError(["release", "view", *rest], 1, "HTTP 502: Bad Gateway")
-    real, gh._view = gh._view, view_fails
+    real = gh._post_release
+
+    def response_lost(req):
+        real(req)
+        raise ca.GhError(["api", "releases"], 1, "HTTP 502: Bad Gateway")
+    gh._post_release = response_lost
     with pytest.raises(ca.GhError, match="502"):
         pc.publish(bundle, REPO, gh=gh)
     assert "may remain" in capsys.readouterr().err
-    assert "release upload" not in gh.verbs() and "release edit" not in gh.verbs()
+    assert "upload asset" not in gh.verbs() and "publish release" not in gh.verbs()
     (orphan,) = gh.releases
-    assert orphan["draft"]                                           # left a draft, never published
-    gh._view = real
+    assert orphan["draft"] and gh.tags                               # left a draft (and its tag), never published
+    gh._post_release = real
     with pytest.raises(pc.PublishError, match=f"held by draft release\\(s\\) \\[{orphan['id']}\\].*--replace-draft"):
         pc.publish(bundle, REPO, gh=gh)                              # an orphan draft does not block silently
     with pytest.raises(pc.PublishError, match="held by draft"):
         pc.publish(bundle, REPO, gh=gh, replace_draft=orphan["id"] + 50)
-    got = pc.publish(bundle, REPO, gh=gh, replace_draft=orphan["id"])
+    got = pc.publish(bundle, REPO, gh=gh, replace_draft=orphan["id"])   # releases its tag, reserves it again
+    assert "released the draft's reserved tag" in capsys.readouterr().err
     (release,) = gh.releases
     assert release["id"] == got["release_id"] != orphan["id"] and not release["draft"]
 
@@ -655,21 +764,21 @@ def test_publish_refuses_a_commit_the_repository_lacks(bundle):
     gh = FakeGitHub(commits=())
     with pytest.raises(pc.PublishError, match="push it first"):
         pc.publish(bundle, REPO, gh=gh)
-    assert not [c for c in gh.calls if c[0] == "release"]
+    assert not gh.writes()
 
 
 def test_a_draft_that_does_not_target_the_measured_commit_is_never_published(bundle):
     gh = FakeGitHub()
-    create = gh._create
+    create = gh._post_release
 
-    def branch_target(rest):
-        out = create(rest)
-        gh.releases[-1]["target"] = "master"                         # gh fell back to the default branch
+    def branch_target(req):
+        out = create(req)
+        gh.releases[-1]["target"] = "master"                         # GitHub fell back to the default branch
         return out
-    gh._create = branch_target
+    gh._post_release = branch_target
     with pytest.raises(pc.PublishError, match="the draft targets 'master', not the measured commit"):
         pc.publish(bundle, REPO, gh=gh)
-    assert "release upload" not in gh.verbs() and gh.releases == [] and gh.tags == {}
+    assert "upload asset" not in gh.verbs() and gh.releases == [] and gh.tags == {}
 
 
 def test_a_failed_verification_deletes_the_draft_and_publishes_nothing(bundle):
@@ -678,33 +787,69 @@ def test_a_failed_verification_deletes_the_draft_and_publishes_nothing(bundle):
     with pytest.raises(pc.PublishError, match="does not hash"):
         pc.publish(bundle, REPO, gh=gh)
     verbs = gh.verbs()
-    assert "release edit" not in verbs and "api DELETE" in verbs
+    assert "publish release" not in verbs and "api DELETE" in verbs
     assert gh.releases == [] and gh.tags == {}
 
 
-def test_a_tag_created_while_drafting_stops_publication(bundle):
+def test_a_tag_created_after_the_check_is_never_frozen_by_the_publication(bundle, capsys):
+    """The race: the tag appears between the pre-check and the reservation. The reservation
+    is refused and nothing is created."""
     gh = FakeGitHub()
     tag = ca.validate(bundle)["tag"]
-    real = gh._download
+    real = gh._reserve
 
-    def download_then_race(rest):
-        out = real(rest)
-        gh.tags[tag] = cf.OTHER                                     # someone pushes the tag meanwhile
-        return out
-    gh._download = download_then_race
-    with pytest.raises(pc.PublishError, match="appeared"):
+    def raced(ref, sha):
+        gh.tags[tag] = cf.OTHER                                     # someone pushes the tag first
+        return real(ref, sha)
+    gh._reserve = raced
+    with pytest.raises(pc.PublishError, match="could not be reserved .* Nothing was created"):
         pc.publish(bundle, REPO, gh=gh)
-    assert "release edit" not in gh.verbs() and gh.releases == [] and gh.tags[tag] == cf.OTHER
+    assert "create release" not in gh.verbs() and gh.releases == [] and gh.tags[tag] == cf.OTHER
+    assert "unreserve tag" not in gh.verbs()                        # someone else's tag is never deleted
+
+
+def test_a_tag_moved_after_the_reservation_stops_publication(bundle, capsys):
+    gh = FakeGitHub()
+    tag = ca.validate(bundle)["tag"]
+    real = gh._save_asset
+
+    def download_then_move(asset_id):
+        gh.tags[tag] = cf.OTHER                                     # force-moved while the draft is verified
+        return real(asset_id)
+    gh._save_asset = download_then_move
+    with pytest.raises(pc.PublishError, match="moved to .* after it was reserved"):
+        pc.publish(bundle, REPO, gh=gh)
+    assert "publish release" not in gh.verbs() and gh.releases == [] and gh.tags[tag] == cf.OTHER
+    assert "no longer points at" in capsys.readouterr().err and "unreserve tag" not in gh.verbs()
+
+
+def test_every_call_after_creation_is_bound_to_the_release_id(bundle):
+    """A second draft of the same tag (another actor) is never uploaded to or published, and
+    its presence stops the run before publishing."""
+    gh = FakeGitHub()
+    tag = ca.validate(bundle)["tag"]
+    real = gh._post_release
+
+    def and_a_rival(req):
+        out = real(req)
+        gh.add_release(tag, {}, draft=True)                         # a rival draft of the reserved tag
+        return out
+    gh._post_release = and_a_rival
+    with pytest.raises(pc.PublishError, match="other releases claim"):
+        pc.publish(bundle, REPO, gh=gh)
+    (rival,) = gh.releases                                          # ours deleted, the rival untouched
+    assert rival["draft"] and rival["assets"] == [] and "publish release" not in gh.verbs()
+    assert all(str(rival["id"]) not in " ".join(c) for c in gh.calls)
 
 
 def test_a_release_published_but_not_immutable_is_reported_and_left_alone(bundle, capsys):
     gh = FakeGitHub()
-    edit = gh._edit
+    edit = gh._patch_release
 
-    def setting_turned_off(rest):
+    def setting_turned_off(rid, fields):
         gh.immutable_enabled = False                                # between the pre-check and the un-draft
-        return edit(rest)
-    gh._edit = setting_turned_off
+        return edit(rid, fields)
+    gh._patch_release = setting_turned_off
     with pytest.raises(pc.PublishError, match="IS PUBLISHED BUT NOT IMMUTABLE.*Do not delete"):
         pc.publish(bundle, REPO, gh=gh)
     (release,) = gh.releases
@@ -730,10 +875,11 @@ def test_publish_assets_drafts_verifies_digests_then_publishes_immutably(assets)
     gh = FakeGitHub()
     got = pc.publish_assets(assets, REPO, OWN_TAG, cf.COMMIT, OWN_TAG, "notes", gh=gh, out=sys.stderr)
     verbs = gh.verbs()
-    order = [verbs.index(v) for v in ("release create", "release upload", "release download", "release edit")]
+    order = [verbs.index(v) for v in ("reserve tag", "create release", "upload asset", "download asset",
+                                      "publish release")]
     assert order == sorted(order), verbs
-    create = next(c for c in gh.calls if c[:2] == ["release", "create"])
-    assert "--draft" in create and create[create.index("--target") + 1] == cf.COMMIT
+    reserve = next(c for c in gh.calls if gh._verb(c) == "reserve tag")
+    assert f"ref=refs/tags/{OWN_TAG}" in reserve and f"sha={cf.COMMIT}" in reserve
     (release,) = gh.releases
     assert not release["draft"] and release["immutable"] and gh.tags[OWN_TAG] == cf.COMMIT
     assert {a["name"]: a["data"] for a in release["assets"]} == {f.name: f.read_bytes() for f in assets}
@@ -743,7 +889,7 @@ def test_publish_assets_drafts_verifies_digests_then_publishes_immutably(assets)
 @pytest.mark.parametrize("held", ["tag", "annotated-tag", "release", "draft"])
 def test_publish_assets_refuses_a_pre_existing_tag_or_release(assets, held):
     """The attack: a workflow on another branch with contents:write pre-creates the tag at
-    another commit; `gh release create --target` would reuse it without a word."""
+    another commit, which a release created from the tag name would freeze."""
     gh = FakeGitHub()
     if held in ("tag", "annotated-tag"):
         gh.tags[OWN_TAG] = cf.OTHER
@@ -755,7 +901,7 @@ def test_publish_assets_refuses_a_pre_existing_tag_or_release(assets, held):
     before = json.dumps(gh.releases, default=str), dict(gh.tags)
     with pytest.raises(pc.PublishError, match="never overwritten"):
         pc.publish_assets(assets, REPO, OWN_TAG, cf.COMMIT, OWN_TAG, "notes", gh=gh)
-    assert not [c for c in gh.calls if c[0] == "release"]
+    assert not gh.writes()
     assert (json.dumps(gh.releases, default=str), dict(gh.tags)) == before
 
 
@@ -766,7 +912,7 @@ def test_publish_assets_refuses_before_creating_anything(assets, fault):
     files = assets + [assets[0]] if fault == "duplicate-name" else assets
     with pytest.raises(pc.PublishError):
         pc.publish_assets(files, REPO, OWN_TAG, cf.COMMIT, OWN_TAG, "notes", gh=gh)
-    assert not [c for c in gh.calls if c[0] == "release"] and gh.releases == []
+    assert not gh.writes() and gh.releases == []
 
 
 def test_publish_assets_deletes_a_draft_whose_upload_does_not_verify(assets):
@@ -774,36 +920,36 @@ def test_publish_assets_deletes_a_draft_whose_upload_does_not_verify(assets):
     gh.corrupt_upload = "image_ownership_history.csv"
     with pytest.raises(pc.PublishError, match="does not hash"):
         pc.publish_assets(assets, REPO, OWN_TAG, cf.COMMIT, OWN_TAG, "notes", gh=gh)
-    assert "release edit" not in gh.verbs() and gh.releases == [] and gh.tags == {}
+    assert "publish release" not in gh.verbs() and gh.releases == [] and gh.tags == {}
 
 
 def test_publish_assets_checks_the_release_api_digests_before_publishing(assets):
     gh = FakeGitHub()
-    upload = gh._upload
+    upload = gh._upload_asset
 
-    def misreported(rest):
-        out = upload(rest)
-        gh._find(rest[0])["assets"][0]["digest"] = "sha256:" + "0" * 64
+    def misreported(rid, source):
+        out = upload(rid, source)
+        gh._by_id(rid)["assets"][0]["digest"] = "sha256:" + "0" * 64
         return out
-    gh._upload = misreported
+    gh._upload_asset = misreported
     with pytest.raises(pc.PublishError, match="asset digests"):
         pc.publish_assets(assets, REPO, OWN_TAG, cf.COMMIT, OWN_TAG, "notes", gh=gh)
-    assert "release edit" not in gh.verbs() and gh.releases == []
+    assert "publish release" not in gh.verbs() and gh.releases == []
 
 
 @pytest.mark.parametrize("after", ["mutable", "retagged"])
 def test_publish_assets_inspects_the_published_release(assets, after):
     gh = FakeGitHub()
-    edit = gh._edit
+    edit = gh._patch_release
 
-    def then(rest):
+    def then(rid, fields):
         if after == "mutable":
             gh.immutable_enabled = False
-        out = edit(rest)
+        out = edit(rid, fields)
         if after == "retagged":
             gh.tags[OWN_TAG] = cf.OTHER
         return out
-    gh._edit = then
+    gh._patch_release = then
     with pytest.raises(pc.PublishError, match="NOT IMMUTABLE" if after == "mutable" else "points at"):
         pc.publish_assets(assets, REPO, OWN_TAG, cf.COMMIT, OWN_TAG, "notes", gh=gh)
     assert "api DELETE" not in gh.verbs()                            # published stays published
@@ -821,10 +967,10 @@ def test_dry_run_checks_read_only_and_prints_members_manifest_and_commands(bundl
     for name, meta in m["members"].items():
         assert f"{meta['sha256']}  {name}" in out
     assert '    |  "schema": "link-cycle-bundle/2",' in out
-    create = got["commands"][0]
-    assert create.startswith("gh release create link-cycle/") and "--draft --prerelease --latest=false" in create
-    assert f"--target {cf.COMMIT}" in create
-    assert any(c.startswith("gh release edit") and "--draft=false" in c for c in got["commands"])
+    reserve, create = got["commands"][:2]
+    assert reserve.startswith("gh api -X POST repos/Open-BFME/Open-BFME-2/git/refs -f ref=refs/tags/link-cycle/")
+    assert reserve.endswith(f"-f sha={cf.COMMIT}") and create.startswith("gh api -X POST repos/Open-BFME/")
+    assert any("-X PATCH" in c and "draft=false" in c for c in got["commands"])
     assert all("--clobber" not in c for c in got["commands"])
     notes = Path(got["notes"])
     assert notes.is_file() and m["tag"] in notes.read_text(encoding="utf-8")

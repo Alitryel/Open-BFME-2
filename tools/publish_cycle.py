@@ -81,6 +81,7 @@ import sys
 import tempfile
 import time
 from pathlib import Path
+from urllib.parse import quote
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import cycle_artifacts as ca  # noqa: E402
@@ -90,7 +91,6 @@ ROOT = ca.ROOT
 FOLD_COLUMNS = ("retail_rva", "retail_start", "export_names", "linked", "symbols", "rule", "verdict")
 DIAGNOSTIC_INPUTS = ("reverse/data_ledger.csv", "reverse/exports.csv", "reverse/functions.csv")
 RANK_MODES = ("auto", "run-dir", "generate")
-VIEW_FIELDS = "databaseId,tagName,isDraft,isPrerelease,targetCommitish,assets"
 
 
 class RunError(Exception):
@@ -477,21 +477,38 @@ def make_bundle(run_dir, out, producer, *, rank="auto", snapshot_root=None, rank
 
 # ---------------------------------------------------------------- publish
 
-def create_cmd(tag, repo, commit, title, notes_file):
-    return ["release", "create", tag, "--repo", repo, "--draft", "--prerelease", "--latest=false",
-            "--target", commit, "--title", title, "--notes-file", str(notes_file)]
+def reserve_cmd(repo, tag, commit):
+    """Create refs/tags/TAG at COMMIT: GitHub refuses (422) when the ref exists, so a tag
+    reserved here can only be ours, at the measured commit."""
+    return ["api", "-X", "POST", f"repos/{repo}/git/refs", "-f", f"ref=refs/tags/{tag}", "-f", f"sha={commit}"]
 
 
-def view_cmd(tag, repo):
-    return ["release", "view", tag, "--repo", repo, "--json", VIEW_FIELDS]
+def unreserve_cmd(repo, tag):
+    return ["api", "-X", "DELETE", f"repos/{repo}/git/refs/tags/{tag}"]
 
 
-def upload_cmd(tag, repo, files):
-    return ["release", "upload", tag, "--repo", repo, *[str(f) for f in files]]
+def create_cmd(repo, request_file):
+    """A draft release of the reserved tag (REQUEST_FILE, see create_request); the response
+    carries the release ID every later call is bound to."""
+    return ["api", "-X", "POST", f"repos/{repo}/releases", "--input", str(request_file)]
 
 
-def download_cmd(tag, repo, directory):
-    return ["release", "download", tag, "--repo", repo, "--dir", str(directory)]
+def create_request(tag, commit, title, notes_text):
+    return {"tag_name": tag, "target_commitish": commit, "name": title, "body": notes_text, "draft": True,
+            "prerelease": True, "make_latest": "false"}
+
+
+def release_cmd(repo, release_id):
+    return ["api", f"repos/{repo}/releases/{release_id}"]
+
+
+def upload_cmd(repo, release_id, path):
+    return ["api", "-X", "POST", "-H", "Content-Type: application/octet-stream", "--input", str(path),
+            f"https://uploads.github.com/repos/{repo}/releases/{release_id}/assets?name={quote(Path(path).name)}"]
+
+
+def asset_cmd(repo, asset_id):
+    return ["api", "-H", "Accept: application/octet-stream", f"repos/{repo}/releases/assets/{asset_id}"]
 
 
 def releases_cmd(repo):
@@ -510,8 +527,9 @@ def commit_cmd(repo, commit):
     return ["api", f"repos/{repo}/commits/{commit}"]
 
 
-def undraft_cmd(tag, repo):
-    return ["release", "edit", tag, "--repo", repo, "--draft=false", "--prerelease", "--latest=false"]
+def undraft_cmd(repo, release_id):
+    return ["api", "-X", "PATCH", f"repos/{repo}/releases/{release_id}", "-F", "draft=false", "-F", "prerelease=true",
+            "-f", "make_latest=false"]
 
 
 def delete_cmd(repo, release_id):
@@ -605,10 +623,11 @@ def component_notes(manifest):
     return lines
 
 
-def verify_remote(gh, repo, tag, bundle, files, check=True):
-    """Every asset uploaded at the bundle's size, and a fresh download hashes to the bundle;
-    the download must then validate as a bundle unless CHECK is false (the hashes alone)."""
-    info = gh.json(view_cmd(tag, repo)) or {}
+def verify_remote(gh, repo, release_id, files, check=True):
+    """Every asset of release RELEASE_ID uploaded at the file's size, and a fresh download of
+    each asset (by asset ID) hashes to the file; the downloads must then validate as a bundle
+    unless CHECK is false (the hashes alone)."""
+    info = gh.json(release_cmd(repo, release_id)) or {}
     assets = {a.get("name"): a for a in info.get("assets") or ()}
     want = {f.name: f for f in files}
     if set(assets) != set(want):
@@ -619,9 +638,9 @@ def verify_remote(gh, repo, tag, bundle, files, check=True):
             raise PublishError(f"asset {name}: {a.get('size')} bytes, state {a.get('state')}; the bundle has "
                                f"{path.stat().st_size}")
     with tempfile.TemporaryDirectory(prefix="publish_cycle-verify-") as d:
-        gh.run(download_cmd(tag, repo, d))
         for name, path in want.items():
             got = Path(d) / name
+            gh.save(asset_cmd(repo, assets[name].get("id")), got)
             if not got.is_file() or ca.sha256_file(got) != ca.sha256_file(path):
                 raise PublishError(f"asset {name}: the download does not hash to the bundle's file")
         try:
@@ -629,6 +648,12 @@ def verify_remote(gh, repo, tag, bundle, files, check=True):
                 ca.validate(d)
         except ca.BundleError as e:
             raise PublishError(f"the downloaded assets do not validate: {e}") from None
+
+
+def tag_sha(gh, repo, tag):
+    """The object refs/tags/TAG names on REPO, or None when there is no such ref."""
+    refs = [r for r in gh.json(refs_cmd(repo, tag)) or [] if r.get("ref") == f"refs/tags/{tag}"]
+    return (refs[0].get("object") or {}).get("sha") if refs else None
 
 
 def inspect_published(gh, repo, tag, commit, files):
@@ -716,7 +741,9 @@ def publish(bundle, repo, *, dry_run=False, gh=None, out=None, root=ROOT, allow_
                                "draft and publish; a bundle is never overwritten")
         if replace_draft is not None and not drafts:
             raise PublishError(f"--replace-draft {replace_draft}: no draft release holds {tag}")
-        if refs:
+        # --replace-draft also releases that draft's own reservation, and only one at COMMIT
+        at = (refs[0].get("object") or {}).get("sha") if refs else None
+        if refs and not (replace_draft is not None and at == commit):
             raise PublishError(f"the git tag {tag} already exists on {repo} "
                                f"({(refs[0].get('object') or {}).get('sha', '?')[:12]}) with no published release: a "
                                "bundle is never overwritten; inspect it by hand")
@@ -732,17 +759,19 @@ def publish(bundle, repo, *, dry_run=False, gh=None, out=None, root=ROOT, allow_
     title = title_of(manifest)
     plan = ([(delete_cmd(repo, replace_draft), "--replace-draft: only while it is still a draft of this tag")]
             if replace_draft is not None else [])
-    plan += [(create_cmd(tag, repo, commit, title, notes),
-              "a DRAFT PRERELEASE, never Latest, target the measured commit"),
-             (view_cmd(tag, repo), "the draft: a draft prerelease of this tag whose targetCommitish is the full "
-                                   "measured commit"),
-             (upload_cmd(tag, repo, files), "every member, manifest.json last; never --clobber"),
-             (view_cmd(tag, repo), "every asset uploaded at the bundle's size"),
-             (download_cmd(tag, repo, "<temporary directory>"), "SHA-256 of every download = the bundle's; it validates"),
-             (releases_cmd(repo), "still exactly this draft holds the tag"),
-             (refs_cmd(repo, tag), "the git tag still does not exist"),
-             (undraft_cmd(tag, repo), "publish: still a prerelease, --latest=false. If this call fails the release "
-                                      "is inspected before anything else"),
+    plan += [(reserve_cmd(repo, tag, commit), f"reserve the tag at {commit[:12]}: GitHub refuses when the ref "
+                                              "exists, and then nothing is created"),
+             (create_cmd(repo, "<release.json>"), "a DRAFT PRERELEASE of the reserved tag, never Latest; the "
+                                                  "response's release ID binds every later call"),
+             (release_cmd(repo, "<id>"), "the draft: a draft prerelease of this tag targeting the measured commit"),
+             (upload_cmd(repo, "<id>", files[0]), f"once per file ({len(files)}), manifest.json last; an existing "
+                                                  "name is refused"),
+             (release_cmd(repo, "<id>"), "every asset uploaded at the bundle's size"),
+             (asset_cmd(repo, "<asset id>"), "SHA-256 of every download = the bundle's; it validates"),
+             (releases_cmd(repo), "still exactly release <id> holds the tag; its asset digests are the bundle's"),
+             (refs_cmd(repo, tag), f"the tag still points at {commit[:12]}"),
+             (undraft_cmd(repo, "<id>"), "publish: still a prerelease, not Latest. If this call fails the release "
+                                         "is inspected before anything else"),
              (releases_cmd(repo), "published once: prerelease, IMMUTABLE, author a designated publisher, target the "
                                   "measured commit, asset digests = the bundle's files"),
              (ref_cmd(repo, tag), f"the tag (peeled) points at {commit[:12]}")]
@@ -775,8 +804,10 @@ def publish(bundle, repo, *, dry_run=False, gh=None, out=None, root=ROOT, allow_
         print("  commands, in order:", file=out)
         for args, why in plan:
             print(f"    {shown(args)}\n        # {why}", file=out)
-        print(f"  on a failure before publishing: {shown(delete_cmd(repo, '<draft id>'))}  (this run's own "
-              "draft only, and only while it is still a draft; a published release is never touched)", file=out)
+        print(f"  on a failure before publishing: {shown(delete_cmd(repo, '<id>'))}  (this run's own draft only, "
+              "and only while it is still a draft; a published release is never touched), then "
+              f"{shown(unreserve_cmd(repo, tag))} while the tag is still at {commit[:12]} and no release holds "
+              "it", file=out)
         return {"tag": tag, "dry_run": True, "commands": [shown(a) for a, _ in plan], "notes": str(notes),
                 "remote_checked": not unchecked, "warnings": warnings}
     try:
@@ -786,63 +817,71 @@ def publish(bundle, repo, *, dry_run=False, gh=None, out=None, root=ROOT, allow_
                 raise PublishError(f"--replace-draft {replace_draft}: it is no longer a draft of {tag}; nothing deleted")
             gh.run(delete_cmd(repo, replace_draft))
             print(f"publish_cycle: deleted the draft {replace_draft} of {tag} (--replace-draft)", file=sys.stderr)
-        return _publish(gh, repo, tag, commit, title, notes, bundle, files, out)
+            if not releases_of(gh, repo, tag) and tag_sha(gh, repo, tag) == commit:
+                gh.run(unreserve_cmd(repo, tag))
+                print(f"publish_cycle: released the draft's reserved tag {tag} (at {commit[:12]})", file=sys.stderr)
+        return _publish(gh, repo, tag, commit, title, notes, files, out)
     finally:
         shutil.rmtree(notes_dir, ignore_errors=True)
 
 
-def _publish(gh, repo, tag, commit, title, notes, bundle, files, out, check=True):
-    release_id, done, published = None, [], False
+def _publish(gh, repo, tag, commit, title, notes, files, out, check=True):
+    """Reserve TAG at COMMIT, draft a release of it, upload and verify FILES, publish. Once
+    the draft exists every call names its release ID, never the tag. A failure before
+    publishing deletes this run's draft, then releases the reservation (see _abandon)."""
+    release_id, done, published, reserved = None, [], False, False
 
     def run(args):
         done.append(shown(args))
         return gh.run(args)
 
     try:
-        run(create_cmd(tag, repo, commit, title, notes))
-        info = json.loads(run(view_cmd(tag, repo)) or "{}")
-        release_id = info.get("databaseId")
-        if not release_id or not info.get("isDraft") or not info.get("isPrerelease") or info.get("tagName") != tag:
-            raise PublishError(f"the created release is not a draft prerelease of {tag}: {info}")
+        try:
+            run(reserve_cmd(repo, tag, commit))
+        except ca.GhError as e:
+            raise PublishError(f"the tag {tag} could not be reserved at {commit[:12]} on {repo} "
+                               f"({e.err.strip()[:200]}): it exists already, or this token may not create it. "
+                               "Nothing was created") from None
+        reserved = True
+        if tag_sha(gh, repo, tag) != commit:
+            raise PublishError(f"the reserved tag {tag} does not point at {commit}")
+        request = Path(notes).with_name("release.json")
+        request.write_text(json.dumps(create_request(tag, commit, title, Path(notes).read_text(encoding="utf-8"))),
+                           encoding="utf-8")
+        release_id = (json.loads(run(create_cmd(repo, request)) or "{}") or {}).get("id")
+        if not release_id:
+            raise PublishError(f"creating the draft of {tag} returned no release ID")
+        info = gh.json(release_cmd(repo, release_id)) or {}
+        if not info.get("draft") or not info.get("prerelease") or info.get("tag_name") != tag:
+            raise PublishError(f"release {release_id} is not a draft prerelease of {tag}: draft={info.get('draft')!r} "
+                               f"prerelease={info.get('prerelease')!r} tag={info.get('tag_name')!r}")
         print(f"publish_cycle: draft release {release_id} of {tag} on {repo}", file=sys.stderr)
-        if info.get("targetCommitish") != commit:
-            raise PublishError(f"the draft targets {info.get('targetCommitish')!r}, not the measured commit {commit}")
-        run(upload_cmd(tag, repo, files))
+        if info.get("target_commitish") != commit:
+            raise PublishError(f"the draft targets {info.get('target_commitish')!r}, not the measured commit {commit}")
+        for f in files:
+            run(upload_cmd(repo, release_id, f))
         done.append("verify")
-        verify_remote(gh, repo, tag, bundle, files, check)
+        verify_remote(gh, repo, release_id, files, check)
         same = releases_of(gh, repo, tag)
         if [r.get("id") for r in same] != [release_id]:
             raise PublishError(f"other releases claim {tag}: {[r.get('id') for r in same]}")
         if not same_assets(same[0], files):
             raise PublishError(f"the draft's asset digests (release API) are not the files': {asset_digests(same[0])}")
-        if any(r.get("ref") == f"refs/tags/{tag}" for r in gh.json(refs_cmd(repo, tag)) or []):
-            raise PublishError(f"the git tag {tag} appeared while the draft was prepared")
+        at = tag_sha(gh, repo, tag)                 # the last read before publishing
+        if at != commit:
+            raise PublishError(f"the tag {tag} moved to {at!r} after it was reserved at {commit}")
         try:
-            run(undraft_cmd(tag, repo))
+            run(undraft_cmd(repo, release_id))
         except ca.GhError as e:                   # a lost response is not a failure: look before deciding
-            now = gh.json(view_cmd(tag, repo)) or {}
-            if now.get("isDraft") is not False:
+            now = gh.json(release_cmd(repo, release_id)) or {}
+            if now.get("draft") is not False:
                 raise
             print(f"publish_cycle: the un-draft call failed ({str(e)[:200]}) but release {release_id} IS published: "
                   "ambiguous success, resolved by inspection", file=sys.stderr)
         published = True
     except BaseException:
-        if release_id is None and done:
-            print(f"publish_cycle: a draft of {tag} may remain (its id was never read); inspect with `gh release "
-                  f"view {tag} --repo {repo}`; a retry names it and --replace-draft ID removes it", file=sys.stderr)
-        if release_id is not None and not published:
-            try:
-                still = (gh.json(view_cmd(tag, repo)) or {}).get("isDraft")
-                if still is True:
-                    gh.run(delete_cmd(repo, release_id))
-                    print(f"publish_cycle: deleted this run's draft {release_id}", file=sys.stderr)
-                else:
-                    print(f"publish_cycle: release {release_id} of {tag} is NOT a draft (isDraft={still!r}): it may "
-                          "be published. Nothing was deleted; inspect it, and re-run publish (an identical published "
-                          "bundle is reported as already published)", file=sys.stderr)
-            except Exception as e:               # noqa: BLE001 - report, keep the original failure
-                print(f"publish_cycle: the state of release {release_id} of {tag} could not be read ({e}). Nothing "
-                      "was deleted. Inspect it before retrying: never delete a published release", file=sys.stderr)
+        if reserved and not published:
+            _abandon(gh, repo, tag, commit, release_id)
         raise
     inspect_published(gh, repo, tag, commit, files)       # raises, deletes nothing
     print(f"publish_cycle: published {tag} on {repo} (release {release_id}: prerelease, immutable, not Latest)",
@@ -850,13 +889,50 @@ def _publish(gh, repo, tag, commit, title, notes, bundle, files, out, check=True
     return {"tag": tag, "dry_run": False, "release_id": release_id, "commands": done}
 
 
+def _abandon(gh, repo, tag, commit, release_id):
+    """Undo an unpublished run: delete its own draft (only while still a draft), then release
+    the tag it reserved (only while the tag is at COMMIT and no release holds it). Anything it
+    cannot judge is reported and kept."""
+    try:
+        if release_id is None:
+            held = [r.get("id") for r in releases_of(gh, repo, tag)]
+            if held:
+                print(f"publish_cycle: a draft of {tag} may remain (its id was never read): release(s) {held} hold "
+                      f"it, so the tag is kept; inspect them; a retry names a draft and --replace-draft ID removes "
+                      "it", file=sys.stderr)
+                return
+        else:
+            still = (gh.json(release_cmd(repo, release_id)) or {}).get("draft")
+            if still is not True:
+                print(f"publish_cycle: release {release_id} of {tag} is NOT a draft (draft={still!r}): it may be "
+                      "published. Nothing was deleted; inspect it, and re-run publish (an identical published "
+                      "bundle is reported as already published)", file=sys.stderr)
+                return
+            gh.run(delete_cmd(repo, release_id))
+            print(f"publish_cycle: deleted this run's draft {release_id}", file=sys.stderr)
+            held = [r.get("id") for r in releases_of(gh, repo, tag)]
+            if held:
+                print(f"publish_cycle: the reserved tag {tag} is kept: release(s) {held} hold it", file=sys.stderr)
+                return
+        if tag_sha(gh, repo, tag) != commit:
+            print(f"publish_cycle: the tag {tag} no longer points at {commit[:12]}: left alone", file=sys.stderr)
+            return
+        gh.run(unreserve_cmd(repo, tag))
+        print(f"publish_cycle: released the reserved tag {tag}", file=sys.stderr)
+    except Exception as e:                      # noqa: BLE001 - report, keep the original failure
+        print(f"publish_cycle: the state of {tag} (release {release_id}) could not be read or cleaned up ({e}). "
+              "Nothing more was deleted. Inspect it before retrying: never delete a published release",
+              file=sys.stderr)
+
+
 def publish_assets(files, repo, tag, commit, title, notes_text, *, gh=None, out=None):
     """Publish FILES as a prerelease TAG at COMMIT through the same lifecycle as a bundle:
     refused unless this account is a PUBLISHER, the repository enforces immutable releases,
-    no release or git tag of TAG exists (`gh release create --target` would silently reuse a
-    pre-existing tag at another commit) and COMMIT is on REPO; then draft, upload, verify every
-    asset digest, un-draft, and inspect the published release (immutable, by a PUBLISHER, the
-    tag peeling to COMMIT, exactly these assets). PublishError when refused."""
+    no release or git tag of TAG exists and COMMIT is on REPO; then reserve the tag at COMMIT
+    (refused if it appeared meanwhile), draft, upload, verify every asset digest, check the
+    tag is still at COMMIT, un-draft by release ID, and inspect the published release
+    (immutable, by a PUBLISHER, the tag peeling to COMMIT, exactly these assets).
+    PublishError when refused."""
     out = out or sys.stdout
     files = [Path(f) for f in files]
     names = [f.name for f in files]
@@ -886,7 +962,7 @@ def publish_assets(files, repo, tag, commit, title, notes_text, *, gh=None, out=
     try:
         notes = notes_dir / "notes.md"
         notes.write_text(notes_text, encoding="utf-8", newline="\n")
-        return _publish(gh, repo, tag, commit, title, notes, None, files, out, check=False)
+        return _publish(gh, repo, tag, commit, title, notes, files, out, check=False)
     finally:
         shutil.rmtree(notes_dir, ignore_errors=True)
 

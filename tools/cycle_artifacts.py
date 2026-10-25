@@ -176,8 +176,8 @@ class GhError(Unavailable):
 
 
 class Gh:
-    """The gh CLI. run(args) -> stdout text; json(args) -> parsed stdout. Tests pass a fake
-    with the same two methods."""
+    """The gh CLI. run(args) -> stdout text; json(args) -> parsed stdout; save(args, dest)
+    -> stdout bytes written to DEST. Tests pass a fake with the same three methods."""
 
     def __init__(self, exe=None):
         self.exe = exe or os.environ.get("GH") or "gh"
@@ -195,6 +195,16 @@ class Gh:
     def json(self, args):
         text = self.run(args)
         return json.loads(text) if text.strip() else None
+
+    def save(self, args, dest):
+        """Run gh and write its stdout, as bytes, to DEST (a release asset download)."""
+        try:
+            got = subprocess.run([self.exe, *args], capture_output=True)
+        except OSError as e:
+            raise GhError(args, None, str(e)) from None
+        if got.returncode:
+            raise GhError(args, got.returncode, got.stderr.decode("utf-8", "replace").strip())
+        Path(dest).write_bytes(got.stdout)
 
 
 # ---------------------------------------------------------------- hashing and time

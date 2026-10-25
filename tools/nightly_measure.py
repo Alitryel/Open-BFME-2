@@ -1496,9 +1496,10 @@ PUBLISHER_PUBLISH = ("import sys\nsys.path.insert(0, sys.argv[1])\nimport publis
                      "sys.exit(pc.main(sys.argv[2:]))\n")
 
 # The ownership release takes publish_cycle's guarded lifecycle: a pre-existing tag or release
-# is refused (`gh release create --target` would reuse a planted tag at another commit), the
-# draft's asset digests are verified before publishing, and the published release must be
-# immutable, by a PUBLISHER, with its tag peeling to the commit and exactly these assets.
+# is refused, the tag is reserved atomically at the commit before the draft exists, every later
+# call names the release ID, the draft's asset digests and the tag are re-checked before
+# publishing, and the published release must be immutable, by a PUBLISHER, with its tag peeling
+# to the commit and exactly these assets.
 PUBLISHER_OWNERSHIP_RELEASE = ("import sys\nsys.path.insert(0, sys.argv[1])\nimport publish_cycle as pc\n"
                                "repo, tag, commit, title, notes, *files = sys.argv[2:]\n"
                                "try:\n    pc.publish_assets(files, repo, tag, commit, title, notes)\n"

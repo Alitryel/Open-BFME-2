@@ -5,6 +5,8 @@ name: Nightly measurement
 # The two build jobs hold no secret and hand over data only. The publish job runs
 # only its own checkout's tools on that data, then signs and publishes.
 # No boot_smoke or game_smoke: hosted runners have no game install.
+# Every job waits for the repository variable NIGHTLY_ENABLED=true, set last in setup
+# (docs/nightly_actions.md): until then nothing runs and the environment is never auto-created.
 
 on:
   schedule:
@@ -33,7 +35,7 @@ env:
 jobs:
   boot:
     name: Build, boot image, ownership report
-    if: github.repository == 'Open-BFME/Open-BFME-2' && github.ref == 'refs/heads/master'
+    if: vars.NIGHTLY_ENABLED == 'true' && github.repository == 'Open-BFME/Open-BFME-2' && github.ref == 'refs/heads/master'
     runs-on: windows-2025
     timeout-minutes: 180
     permissions:
@@ -95,7 +97,7 @@ jobs:
 
   cycle:
     name: Link cycle at the commit's snapshot
-    if: github.repository == 'Open-BFME/Open-BFME-2' && github.ref == 'refs/heads/master'
+    if: vars.NIGHTLY_ENABLED == 'true' && github.repository == 'Open-BFME/Open-BFME-2' && github.ref == 'refs/heads/master'
     runs-on: windows-2025
     timeout-minutes: 330
     permissions:
@@ -153,6 +155,7 @@ jobs:
   publish:
     name: Validate, sign, publish
     needs: [boot, cycle]
+    if: vars.NIGHTLY_ENABLED == 'true' && github.repository == 'Open-BFME/Open-BFME-2' && github.ref == 'refs/heads/master'
     runs-on: windows-2025     # the runner paths the build jobs' receipts and dependency records name
     timeout-minutes: 120
     permissions:
