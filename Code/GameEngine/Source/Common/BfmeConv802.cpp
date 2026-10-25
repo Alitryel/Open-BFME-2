@@ -99,7 +99,7 @@ struct BfmeThingEBD
 {
 	void bfmeGoEBD();
 	unsigned char m_bfmeHead[0x18];
-	BfmeSubEBD m_bfmeSub;
+	BfmeSubEBD m_tree;
 	// The recovered tree occupies eight bytes. Preserve the verified flag+6C.
 	unsigned char m_bfmePad[0x4c];
 	char m_bfmeFlag;
@@ -108,6 +108,6 @@ struct BfmeThingEBD
 // ?bfmeGoEBD@BfmeThingEBD@@QAEXXZ
 void BfmeThingEBD::bfmeGoEBD()
 {
-	m_bfmeSub.bfmeCallEBD();
+	m_tree.bfmeCallEBD();
 	m_bfmeFlag = 0;
 }

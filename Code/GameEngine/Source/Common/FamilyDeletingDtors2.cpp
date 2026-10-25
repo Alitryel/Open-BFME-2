@@ -53,8 +53,8 @@ void famgenDelete(Gen_001DB2C0 *p) { delete p; }
 
 // ??_GBfmeOpaqueOwnedRecord1432@@QAEPAXI@Z @0x555b81
 class BfmeOpaqueOwnedRecord1432 { public: ~BfmeOpaqueOwnedRecord1432(); };
-void famgenDelete(BfmeOpaqueOwnedRecord1432 *p) { delete p; }
+void famgenDelete(BfmeOpaqueOwnedRecord1432 *record) { delete record; }
 
 // ??_GBfmeOpaqueOwnedRecord1408@@QAEPAXI@Z @0x555b9d
 class BfmeOpaqueOwnedRecord1408 { public: ~BfmeOpaqueOwnedRecord1408(); };
-void famgenDelete(BfmeOpaqueOwnedRecord1408 *p) { delete p; }
+void famgenDelete(BfmeOpaqueOwnedRecord1408 *record) { delete record; }

@@ -31,13 +31,13 @@ class BfmeThingDX
 {
 public:
 	int m_bfmeHead[4];					// +0x00
-	const char *m_bfmeText;					// +0x10
+	const char *m_text;					// +0x10
 };
 
 // ?isTextTooLong@@YGHPBVBfmeThingDX@@@Z
 int __stdcall isTextTooLong(const BfmeThingDX *thing)
 {
-	return strlen(thing->m_bfmeText) > 0x800;
+	return strlen(thing->m_text) > 0x800;
 }
 
 class Gen_008991B0

@@ -2173,3 +2173,16 @@ function,?rva006CC230@Rva006CC160@@QAEXXZ,?reset@Rva006CC160@@QAEXXZ,inferred,ag
 local,ToggleDeploySpecialAbilityUpdate::rva004AE6D7::arg,ToggleDeploySpecialAbilityUpdate::rva004AE6D7::m_targetObject,inferred,agree:nl-7febd7a4a74b,Code/GameEngine/Source/GameLogic/Object/Update/ToggleDeploySpecialAbilityUpdateSlot24.cpp,0x004AE6D7
 param,LivingWorldArmyLine::rva00538F6B::m_StartPosition,LivingWorldArmyLine::rva00538F6B::a,restored,"revert:nl-d73c5f740f2b style: a parameter/local spelled as a member (m_ prefix); the lane's fixed style is camelCase for params and locals, and m_ misleads readers into reading a field",Code/GameEngine/Source/GameClient/LivingWorld/LivingWorldArmyLineRva00538F6B.cpp,0x00538F6B
 local,ToggleDeploySpecialAbilityUpdate::rva004AE6D7::m_targetObject,ToggleDeploySpecialAbilityUpdate::rva004AE6D7::arg,restored,"revert:nl-7febd7a4a74b style: a parameter/local spelled as a member (m_ prefix); the lane's fixed style is camelCase for params and locals, and m_ misleads readers into reading a field",Code/GameEngine/Source/GameLogic/Object/Update/ToggleDeploySpecialAbilityUpdateSlot24.cpp,0x004AE6D7
+member,BfmeThingDX::m_bfmeText,BfmeThingDX::m_text,inferred,agree:nl-ef826c9d1720,Code/GameEngine/Source/Common/Bfme5FiftyFour.cpp,
+member,BfmeThingEBD::m_bfmeSub,BfmeThingEBD::m_tree,inferred,agree:nl-abdbc8cd64f9,Code/GameEngine/Source/Common/BfmeConv802.cpp,
+member,StdioStreambufBase::m_bfmeVft,StdioStreambufBase::m_vtable,inferred,agree:nl-98d49371f2e6,Code/GameEngine/Source/Common/BfmeThreeHundredFiftyOne.cpp,
+member,BfmeThingQR::m_bfmeBase,BfmeThingQR::m_radix,inferred,agree:nl-5b94ebd37bd8,Code/GameEngine/Source/Common/BfmeThreeHundredOne.cpp,
+param,famgenDelete#12::p,famgenDelete#12::record,inferred,agree:nl-d3094b1fa6f1,Code/GameEngine/Source/Common/FamilyDeletingDtors2.cpp,
+param,famgenDelete#13::p,famgenDelete#13::record,inferred,agree:nl-aaf03af7f95c,Code/GameEngine/Source/Common/FamilyDeletingDtors2.cpp,
+member,Rva000B34D8Ret65::f0C,Rva000B34D8Ret65::m_radius,inferred,agree:nl-8937992f32fa,Code/GameEngine/Source/Common/Rva000B34D8Fetch.cpp,
+function,?rva0010F5A8@Rva0010F5A8@@QAEXXZ,?execute@Rva0010F5A8@@QAEXXZ,inferred,agree:nl-9fd212a491e7,Code/GameEngine/Source/Common/Rva0010F5A8Finish.cpp,0x0010F5A8
+carry,Rva0010F5A8::rva0010F5A8::stream,Rva0010F5A8::execute::stream,inferred,scope renamed by Rename rva0010F5A8 to execute (inferred),Code/GameEngine/Source/Common/Rva0010F5A8Finish.cpp,0x0010F5A8
+member,Rva00201DC4LODInfo::word08,Rva00201DC4LODInfo::m_maxParticleCount,inferred,agree:nl-5cb46408ca86,Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp,
+member,Rva00201DC4LODInfo::word20,Rva00201DC4LODInfo::m_maxTankTrackEdges,inferred,agree:nl-c3ab1059acde,Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp,
+member,Rva00201DC4LODInfo::word24,Rva00201DC4LODInfo::m_maxTankTrackOpaqueEdges,inferred,agree:nl-84db0959413c,Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp,
+member,Rva00201DC4LODInfo::word28,Rva00201DC4LODInfo::m_maxTankTrackFadeDelay,inferred,agree:nl-7d639b893157,Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp,

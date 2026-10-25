@@ -1,4 +1,4 @@
-// ?rva0010F5A8@Rva0010F5A8@@QAEXXZ
+// ?execute@Rva0010F5A8@@QAEXXZ
 // cl: /MD
 #include "../../Include/Common/Rva00041004Lock.h"
 // Guarded Miles stream operations, each the only slot (slot 1) of its own
@@ -94,7 +94,7 @@ struct Rva0010F28DGuard
 class Rva0010F5A8
 {
 public:
-    void rva0010F5A8();
+    void execute();
 private:
     char m_pad0[8]; // +0..+7
     Rva0010F28DInner *m_inner; // +8
@@ -102,7 +102,7 @@ private:
     int m_endMarginMs; // +0x10
 };
 
-void Rva0010F5A8::rva0010F5A8()
+void Rva0010F5A8::execute()
 {
     RVA0010F28D_LOCK(g);
     void *stream = m_inner->m_stream;

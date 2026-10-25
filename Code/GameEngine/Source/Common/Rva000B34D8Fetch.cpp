@@ -10,7 +10,7 @@
 
 class Vector3 { public: float x; float y; float z; };
 struct Rva000B34D8Out30 { float f00; int m04; int m08; int m0C; int m10; int m14; int m18; int m1C; int m20; int m24; int m28; int m2C; };
-struct Rva000B34D8Ret65 { char m_pad00[0x0C]; float f0C; };
+struct Rva000B34D8Ret65 { char m_pad00[0x0C]; float m_radius; };
 class RenderObjClass { public:
 	Vector3 Get_Position() const;
 	virtual void vslot000();
@@ -104,6 +104,6 @@ bool Rva000B34D8::clientOnly_getRenderObjInfo(Vector3 *pos, float *boundingSpher
 	transform->m28 = renderObj->m40;
 	transform->m2C = renderObj->m44;
 	Rva000B34D8Ret65 *r = m_44->vslot065();
-	*boundingSphereRadius = r->f0C;
+	*boundingSphereRadius = r->m_radius;
 	return true;
 }

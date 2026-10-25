@@ -27,7 +27,7 @@ class StdioStreambufBase
 public:
 	StdioStreambufBase *bfmeBaseTL(void *what, int flag);
 	StdioStreambufBase *bfmeInitTL(void *what);
-	void *m_bfmeVft;
+	void *m_vtable;
 	void * volatile m_get;
 	void * volatile m_put;
 	BfmeListTL m_defaultGet;
@@ -44,7 +44,7 @@ __declspec(noinline) StdioStreambufBase *StdioStreambufBase::bfmeBaseTL(void *wh
 {
 	void *baseWhat = what;
 	void *baseFlag = reinterpret_cast<void *>(static_cast<unsigned int>(flag));
-	m_bfmeVft = reinterpret_cast<void *>(((unsigned int)vtbl_00BBBC30));
+	m_vtable = reinterpret_cast<void *>(((unsigned int)vtbl_00BBBC30));
 	m_get = baseWhat != 0 ? baseWhat : &m_defaultGet.m_head;
 	void *resolvedBaseFlag = baseFlag != 0 ? baseFlag : &m_defaultPut.m_head;
 	__asm { lea ecx, [esi+0x4c] }
@@ -74,7 +74,7 @@ StdioStreambufBase *StdioStreambufBase::bfmeInitTL(void *what)
 {
 	bfmeBaseTL(what, 0);
 	m_file = what;
-	m_bfmeVft = bfmeVftTL;
+	m_vtable = bfmeVftTL;
 	return this;
 }
 

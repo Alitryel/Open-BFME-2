@@ -10,13 +10,13 @@
 struct Rva00201DC4LODInfo
 {
     Rva00201DC4LODInfo();
-    int word00, word04, word08;
+    int word00, word04, m_maxParticleCount;
     bool flag0C, flag0D, flag0E;
     int word10;
     bool flag14, flag15;
     int word18;
     bool m_showSoftWaterEdge;
-    int word20, word24, word28, m_textureReduction;
+    int m_maxTankTrackEdges, m_maxTankTrackOpaqueEdges, m_maxTankTrackFadeDelay, m_textureReduction;
     bool flag30;
     int word34, word38;
     bool flag3C, flag3D;
@@ -25,10 +25,10 @@ struct Rva00201DC4LODInfo
 
 Rva00201DC4LODInfo::Rva00201DC4LODInfo()
 {
-    word00=2; word04=3; word08=2500;
+    word00=2; word04=3; m_maxParticleCount=2500;
     flag0C=true; flag0D=true; flag0E=false;
     word10=3; flag14=true; flag15=true; word18=2;
-    m_showSoftWaterEdge=true; word20=100; word24=25; word28=300000;
+    m_showSoftWaterEdge=true; m_maxTankTrackEdges=100; m_maxTankTrackOpaqueEdges=25; m_maxTankTrackFadeDelay=300000;
     m_textureReduction=0; flag30=true; word34=3; word38=0;
     flag3C=false; flag3D=false; word40=2; word44=1; word48=1;
 }
