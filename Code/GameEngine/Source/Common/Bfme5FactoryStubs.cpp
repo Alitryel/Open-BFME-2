@@ -17,8 +17,8 @@ extern "C" char __identifier("??_7Gen007F4D00@@6BGen007F4D00Owner@@@")[];
 
 struct Bfme5Obj18
 {
-	void *m_bfmeV0;
-	void *m_bfmeV4;
+	void *m_ownerVtable;
+	void *m_listenerVtable;
 	int m_bfme08;
 	int m_bfme0c;
 	int m_bfme10;
@@ -32,9 +32,9 @@ Bfme5Obj18 * __cdecl bfme5MakeObj18(void)
 
 	if (q) {
 		p = (Bfme5Obj18 *)q;
-		*(void *volatile *)&p->m_bfmeV4 = __identifier("??_7Rva006613E0@@6B@");
-		*(void *volatile *)&p->m_bfmeV0 = __identifier("??_7Gen007F4D00@@6BGen007F4D00Owner@@@");
-		*(void *volatile *)&p->m_bfmeV4 = __identifier("??_7Gen007F4D00@@6BGen007F4D00Listener@@@");
+		*(void *volatile *)&p->m_listenerVtable = __identifier("??_7Rva006613E0@@6B@");
+		*(void *volatile *)&p->m_ownerVtable = __identifier("??_7Gen007F4D00@@6BGen007F4D00Owner@@@");
+		*(void *volatile *)&p->m_listenerVtable = __identifier("??_7Gen007F4D00@@6BGen007F4D00Listener@@@");
 		p->m_bfme08 = 0;
 		p->m_bfme0c = 0;
 		p->m_bfme10 = 0;

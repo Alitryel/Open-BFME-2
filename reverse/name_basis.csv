@@ -2001,3 +2001,5 @@ local,Object::rva0028C20F::m,Object::rva0028C20F::module,inferred,agree:nl-fe597
 local,bfmeGo1034A::x,bfmeGo1034A::entry,inferred,agree:nl-0a984b522c41,Code/GameEngine/Source/Common/BfmeConv1034_bfmeGo1034A_YGXHH_Z.cpp,0x0040DAF0
 class,Rva007F3870Attribute,FeslAttribute,inferred,agree:nl-c2a8e3e0b131,Code/GameEngine/Source/GameNetwork/V2FeslResultCursors.cpp,
 function,?rva0042CA4B@Rva0042CA4B@@QAEXXZ,?update@Rva0042CA4B@@QAEXXZ,inferred,agree:nl-843a64cf5f05,Code/GameEngine/Source/Common/Rva0042C936.cpp,0x0042CA4B
+member,Bfme5Obj18::m_bfmeV0,Bfme5Obj18::m_ownerVtable,inferred,agree:nl-b6baea4a66a4,Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp,
+member,Bfme5Obj18::m_bfmeV4,Bfme5Obj18::m_listenerVtable,inferred,agree:nl-e15934563d9e,Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp,
