@@ -419,9 +419,3 @@ private:
 	char m_lead[0x2C];
 	SizedForwarderSlots *m_inner;
 };
-
-// vtable 0x00C1AD20#1 (??_7Rva0039AD56@@6B@): (+0x2C)->slot1()
-void Rva0039AC9CForwarder::rva0039AC9C()
-{
-	m_inner->slot1();
-}

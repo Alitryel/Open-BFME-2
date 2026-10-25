@@ -376,6 +376,352 @@ public:
 
 struct ObjectExperienceView { char pad[0x264]; Rva003BD306Target *tracker; };
 
+//
+// Vtable-slot forwarders with no ledger owner and no Ghidra size, generated
+// by tools/slot_forwarders.py (family vjmp). Each body was sized from its
+// bytes (a branch-free hop ending in jmp, followed by a known boundary).
+// Every class and method here is address-derived: the bytes prove the hop
+// and the slot or callee, nothing more. A tail-jumped virtual slot passes
+// the caller's arguments through untouched, so its argument count is not
+// provable and the slot is declared without arguments (inference).
+// A direct callee's argument count comes from its own ret N; an unnamed
+// callee is pinned by address in reverse/symbols.csv.
+
+typedef int Int;
+
+typedef bool Bool;
+
+typedef float Real;
+
+typedef unsigned int UnsignedInt;
+
+class SizedForwarderSlots
+{
+public:
+	virtual void slot0();
+	virtual void slot1();
+	virtual void slot2();
+	virtual void slot3();
+	virtual void slot4();
+	virtual void slot5();
+	virtual void slot6();
+	virtual void slot7();
+	virtual void slot8();
+	virtual void slot9();
+	virtual void slot10();
+	virtual void slot11();
+	virtual void slot12();
+	virtual void slot13();
+	virtual void slot14();
+	virtual void slot15();
+	virtual void slot16();
+	virtual void slot17();
+	virtual void slot18();
+	virtual void slot19();
+	virtual void slot20();
+	virtual void slot21();
+	virtual void slot22();
+	virtual void slot23();
+	virtual void slot24();
+	virtual void slot25();
+	virtual void slot26();
+	virtual void slot27();
+	virtual void slot28();
+	virtual void slot29();
+	virtual void slot30();
+	virtual void slot31();
+	virtual void slot32();
+	virtual void slot33();
+	virtual void slot34();
+	virtual void slot35();
+	virtual void slot36();
+	virtual void slot37();
+	virtual void slot38();
+	virtual void slot39();
+	virtual void slot40();
+	virtual void slot41();
+	virtual void slot42();
+	virtual void slot43();
+	virtual void slot44();
+	virtual void slot45();
+	virtual void slot46();
+	virtual void slot47();
+	virtual void slot48();
+	virtual void slot49();
+	virtual void slot50();
+	virtual void slot51();
+	virtual void slot52();
+	virtual void slot53();
+	virtual void slot54();
+	virtual void slot55();
+	virtual void slot56();
+	virtual void slot57();
+	virtual void slot58();
+	virtual void slot59();
+	virtual void slot60();
+	virtual void slot61();
+	virtual void slot62();
+	virtual void slot63();
+	virtual void slot64();
+	virtual void slot65();
+	virtual void slot66();
+	virtual void slot67();
+	virtual void slot68();
+	virtual void slot69();
+	virtual void slot70();
+	virtual void slot71();
+	virtual void slot72();
+	virtual void slot73();
+	virtual void slot74();
+	virtual void slot75();
+	virtual void slot76();
+	virtual void slot77();
+	virtual void slot78();
+	virtual void slot79();
+	virtual void slot80();
+	virtual void slot81();
+	virtual void slot82();
+	virtual void slot83();
+	virtual void slot84();
+	virtual void slot85();
+	virtual void slot86();
+	virtual void slot87();
+	virtual void slot88();
+	virtual void slot89();
+	virtual void slot90();
+	virtual void slot91();
+	virtual void slot92();
+	virtual void slot93();
+	virtual void slot94();
+	virtual void slot95();
+	virtual void slot96();
+	virtual void slot97();
+	virtual void slot98();
+	virtual void slot99();
+	virtual void slot100();
+	virtual void slot101();
+	virtual void slot102();
+	virtual void slot103();
+	virtual void slot104();
+	virtual void slot105();
+	virtual void slot106();
+	virtual void slot107();
+	virtual void slot108();
+	virtual void slot109();
+	virtual void slot110();
+	virtual void slot111();
+	virtual void slot112();
+	virtual void slot113();
+	virtual void slot114();
+	virtual void slot115();
+	virtual void slot116();
+	virtual void slot117();
+	virtual void slot118();
+	virtual void slot119();
+	virtual void slot120();
+	virtual void slot121();
+	virtual void slot122();
+	virtual void slot123();
+	virtual void slot124();
+	virtual void slot125();
+	virtual void slot126();
+	virtual void slot127();
+	virtual void slot128();
+	virtual void slot129();
+	virtual void slot130();
+	virtual void slot131();
+	virtual void slot132();
+};
+
+class MilesAudioManager : public SizedForwarderSlots
+{
+public:
+	virtual void rva000512BC();
+};
+
+class Rva00078AC6Forwarder
+{
+public:
+	void rva00078AC6();
+private:
+	char m_lead[0x4];
+	SizedForwarderSlots *m_inner;
+};
+
+class Rva0008605ALead
+{
+public:
+	virtual void lead0();
+private:
+	char m_lead[0xB0];
+};
+
+class Rva0008605AForwarder : public Rva0008605ALead, public SizedForwarderSlots
+{
+public:
+	void rva0008605A();
+};
+
+class Rva0008615BLead
+{
+public:
+	virtual void lead0();
+private:
+	char m_lead[0x24C4];
+};
+
+class Rva0008615BForwarder : public Rva0008615BLead, public SizedForwarderSlots
+{
+public:
+	void rva0008615B();
+};
+
+class Rva0008BD2BLead
+{
+public:
+	virtual void lead0();
+private:
+	char m_lead[0x24C4];
+};
+
+class Rva0008BD2BForwarder : public Rva0008BD2BLead, public SizedForwarderSlots
+{
+public:
+	void rva0008BD2B();
+};
+
+class Rva00091D32Forwarder
+{
+public:
+	void rva00091D32();
+private:
+	char m_lead[0x14];
+	SizedForwarderSlots *m_inner;
+};
+
+class Rva000ABD68Forwarder
+{
+public:
+	void rva000ABD68();
+private:
+	char m_lead[0x4];
+	SizedForwarderSlots *m_inner;
+};
+
+class Rva001EDDBBForwarder
+{
+public:
+	void rva001EDDBB();
+private:
+	char m_lead[0x4FA8];
+	SizedForwarderSlots *m_inner;
+};
+
+class Rva0024002ELead
+{
+public:
+	virtual void lead0();
+private:
+	char m_lead[0xC];
+};
+
+class Rva0024002EForwarder : public Rva0024002ELead, public SizedForwarderSlots
+{
+public:
+	void rva0024002E();
+};
+
+class Rva00240035Lead
+{
+public:
+	virtual void lead0();
+private:
+	char m_lead[0xC];
+};
+
+class Rva00240035Forwarder : public Rva00240035Lead, public SizedForwarderSlots
+{
+public:
+	void rva00240035();
+};
+
+class Rva0024003DLead
+{
+public:
+	virtual void lead0();
+private:
+	char m_lead[0xC];
+};
+
+class Rva0024003DForwarder : public Rva0024003DLead, public SizedForwarderSlots
+{
+public:
+	void rva0024003D();
+};
+
+class Rva0025C25AForwarder : public SizedForwarderSlots
+{
+public:
+	void rva0025C25A();
+};
+
+class Rva0029AC98Forwarder : public SizedForwarderSlots
+{
+public:
+	void rva0029AC98();
+};
+
+class Rva0030ADE8Forwarder : public SizedForwarderSlots
+{
+public:
+	void rva0030ADE8();
+};
+
+class Rva00328CC5Forwarder
+{
+public:
+	void rva00328CC5();
+private:
+	char m_lead[0x18];
+	SizedForwarderSlots *m_inner;
+};
+
+class Rva00328CCCForwarder
+{
+public:
+	void rva00328CCC();
+private:
+	char m_lead[0xC];
+	SizedForwarderSlots *m_inner;
+};
+
+class Rva0039AC9CForwarder
+{
+public:
+	void rva0039AC9C();
+private:
+	char m_lead[0x2C];
+	SizedForwarderSlots *m_inner;
+};
+
+// tu-skeleton: 0x0039ABFF 13B ?rva0039ABFF@ExperienceTracker@@QBE_NXZ -- matched in Code/GameEngine/Source/Common/RvaSingletonFwdMisc.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AC0C 23B ?rva0039AC0C@ExperienceTracker@@QBE?AUExperienceLevelHandle@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AC23 121B ?rva0039AC23@ExperienceTracker@@QAEH_N@Z -- matched in Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/Common/VslotSizedForwarders.cpp
+
+// vtable 0x00C1AD20#1 (??_7Rva0039AD56@@6B@): (+0x2C)->slot1()
+void Rva0039AC9CForwarder::rva0039AC9C()
+{
+	m_inner->slot1();
+}
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp
+
+// TU Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp: generated by tools/tu_skeleton.py from tu_map.csv (approved rows, retail order)
+
 // tu-skeleton: 0x0039ABFF 13B ?rva0039ABFF@ExperienceTracker@@QBE_NXZ -- matched in Code/GameEngine/Source/Common/RvaSingletonFwdMisc.cpp (not merged yet)
 
 // tu-skeleton: 0x0039AC0C 23B ?rva0039AC0C@ExperienceTracker@@QBE?AUExperienceLevelHandle@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer.cpp (not merged yet)
@@ -727,6 +1073,54 @@ void Rva003BD306Target::rva0039B3D1(float value,bool feedback)
     int level=reinterpret_cast<ExperienceTracker *>(this)->rva0039AC23(enable);
     if (feedback && level && level!=handle->level) handle->bfmeUpdate(level);
 }
+
+// tu-skeleton: 0x0039B433 5B ?j_0039b433@@YAXXZ -- matched in Code/gen_small/gthunks_000_admitted.cpp (not merged yet)
+
+// tu-skeleton: 0x0039B4B8 52B ?rva0039B4B8@Rva0039B24F@@QAEXABVAsciiString@@_N@Z -- matched in Code/GameEngine/Source/Common/GapBodiesGE06.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AD0B 58B ?xfer@Rva0039AE75@@MAEXPAVXfer@@@Z -- matched in Code/GameEngine/Source/Common/System/SnapshotXfersBfme.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AD45 17B ?rva0039AD45@ExperienceTracker@@QAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AD56 89B ??1Rva0039AD56@@UAE@XZ -- matched in Code/GameEngine/Source/Common/Rva0039AD56Dtor.cpp (not merged yet)
+
+// tu-skeleton: 0x0039ADAF 10B ?isTrainable@ExperienceTracker@@QBE_NXZ -- matched in Code/GameEngine/Source/Common/Disp8ByteChaseGetters.cpp (not merged yet)
+
+// tu-skeleton: 0x0039ADB9 51B ?rva0039ADB9@ExperienceTracker@@QBEMMH@Z -- matched in Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer.cpp (not merged yet)
+
+// tu-skeleton: 0x0039ADEC 7B ?rva0039ADEC@Rva0039ADEC@@QBEMM@Z -- matched in Code/GameEngine/Source/Common/GapLeavesSeat8.cpp (not merged yet)
+
+// tu-skeleton: 0x0039ADF3 11B ??1Rva0039ADF3@@UAE@XZ -- matched in Code/GameEngine/Source/Common/Rva0039AD56Dtor.cpp (not merged yet)
+
+// tu-skeleton: 0x0039ADFE 6B ?name@Rva0039ADFENamed@@QBEPBDXZ -- matched in Code/GameEngine/Source/Common/ModuleNameGetters3.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AE04 44B ?rva0039AE04@Rva0039ADF3@@QBE_NXZ -- matched in Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AE30 69B ??0Rva0039AE75@@QAE@PAURva0039AE75Owner@@@Z -- matched in Code/GameEngine/Source/Common/System/SnapshotXfersBfme.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AE75 29B ??_GRva0039AE75@@UAEPAXI@Z -- matched in Code/GameEngine/Source/Common/InlineDtorDeletingDtorsC01.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AE92 42B ?indexFor@Rva0039AE75@@ABEHH@Z -- matched in Code/GameEngine/Source/Common/System/SnapshotXfersBfme.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AEBC 158B ??0ExperienceTracker@@QAE@PBVThingTemplate@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer_ExperienceTracker.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AF5A 28B ??_GRva0039AD56@@UAEPAXI@Z -- matched in Code/GameEngine/Source/Common/Rva0039AD56Dtor.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AFC8 257B ?xfer@ExperienceTracker@@MAEXPAVXfer@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer.cpp (not merged yet)
+
+// tu-skeleton: 0x0039B0C9 40B ??0Rva0039ADF3@@QAE@PAVObject@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer_ExperienceTracker.cpp (not merged yet)
+
+// tu-skeleton: 0x0039B0F1 28B ??_GRva0039ADF3@@UAEPAXI@Z -- matched in Code/GameEngine/Source/Common/Rva0039AD56Dtor.cpp (not merged yet)
+
+// tu-skeleton: 0x0039B10D 56B ?xfer@Rva0039ADF3@@MAEXPAVXfer@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer.cpp (not merged yet)
+
+// tu-skeleton: 0x0039B145 42B ?bfmeAt@Rva0039AE75@@QBEMH@Z -- matched in Code/GameEngine/Source/Common/System/SnapshotXfersBfme.cpp (not merged yet)
+
+// tu-skeleton: 0x0039B1E2 23B ?bfmeUpdate@BfmeThingEFC@@QAEXH@Z -- matched in Code/GameEngine/Source/Common/BfmeConv813.cpp (not merged yet)
+
+// tu-skeleton: 0x0039B1F9 19B ?rva0039B1F9@BfmeThingEFC@@QAEXXZ -- matched in Code/GameEngine/Source/Common/Rva0039B1F9Refresh.cpp (not merged yet)
+
+// tu-skeleton: 0x0039B2C7 31B ?rva0039B2C7@Rva003BD306Target@@QAEXH_N@Z -- matched in Code/GameEngine/Source/Common/Rva0039B548Method.cpp (not merged yet)
 
 // tu-skeleton: 0x0039B433 5B ?j_0039b433@@YAXXZ -- matched in Code/gen_small/gthunks_000_admitted.cpp (not merged yet)
 
