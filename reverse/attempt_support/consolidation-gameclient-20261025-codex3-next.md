@@ -488,3 +488,46 @@ Sol's prerequisite lane before retrying; the other donor was not applied.
   undeclared `m_eye` and `m_target` in the composed class view. Both accepted
   donors were merged unchanged; `LivingWorldEyeTowerProcessItems.cpp` remains
   refused by a protected path-keyed register.
+
+## Further GameClient queue blockers, 2026-10-25
+
+The following current scoped dry runs accepted no donors; leave them for Sol's
+prerequisite lane:
+
+- `GameWindowTransitionsHandlerState.cpp` fails composition because
+  `GameWindowTransitionsHandler::load` is not declared and `m_table` is
+  undeclared. `GameWindowTransitionsGroupTotalFrames_Rva001dc1fd.cpp` cannot
+  compile because the constructor donor's generated member is undeclared.
+- `GameWindowTransitionsStylesO1.cpp` redefines `ICoord2D`; other style donors
+  fail on undeclared private fields (`m_enabledImage`, `m_4`, `m_9`, `m_C`) or
+  have no baseline match. The scoped `TransitionStyleSlotsBfme2.cpp` split trial
+  fails composition because `TransitionWindowImages::m_enabledImage` is
+  undeclared.
+- Display donors fail on missing `Display::setDisplayMode`, `getHeight`, and
+  `m_debugDisplayCallback` declarations. The scoped `DisplayMovieOpen` split
+  would remove the existing `0x0023C57B` row from its residual donor; the
+  `DisplayMovieUpdate` trial is a whole donor and must use merge.
+- Keyboard donors fail because `ICoord2D` is redefined and `Keyboard::m_keys`
+  is undeclared; two other sources remain protected. Their mixed donors are
+  outside this seat's assigned prefix.
+- RadiusDecal donor compilation reports `C2600` because the class view does not
+  declare `RadiusDecal::~RadiusDecal`; another donor has no baseline match. The
+  scoped template-assign split fails because `rva00330CDD` is not a
+  `RadiusDecalTemplate` member and `m_shadowType` is undeclared.
+- GlobalLanguage composition has duplicate STL `operator!=` definitions and a
+  syntax/end-of-file error. The scoped constructor and exit-handler split
+  trials are whole donors; the destructor trial contains an extern-C block and
+  two unnamed definitions.
+- `GameWindowManager_winFindImage.cpp` fails with `C2039` for missing
+  `GameWindowManager::winMakeColor`; the prior handoff records this blocker.
+- Snow's `WeatherSetting::operator=` fails `C2600` because the generated
+  assignment operator is not declared. The scoped `Snow_Unresolved.cpp` split
+  is a whole donor.
+- `ProcessAnimateWindow` merge composition still fails on the duplicate
+  `ICoord2D` and missing `finished` member. The accepted `ProcessAnimateWindowSpiralCtor.cpp`
+  split was applied separately; build verifies 11/11 rows across both files,
+  and `find_declared_unmatched.py` passes.
+
+No declarations, class layouts, flags or bodies were changed to clear these
+composition failures. The latest planner snapshot and queue used an in-memory
+TU map because the committed map is stale; no regenerated map was staged.
