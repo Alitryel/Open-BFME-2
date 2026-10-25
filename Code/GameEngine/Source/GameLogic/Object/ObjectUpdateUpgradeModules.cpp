@@ -103,6 +103,7 @@ public:
 	void updateUpgradeModules();
 	void rva00293003(const void *arg);
 	void rva00293077(const void *arg);
+	void giveUpgrade(const class UpgradeTemplate *upgradeTemplate);
 
 private:
 	char m_pad00[0x244];
@@ -286,6 +287,24 @@ void Object::rva00293077(const void *arg)
 	if (!arg)
 		return;
 	rva00293003(arg);
+	Object250Helper *helper = m_helper250;
+	if (!helper)
+		return;
+	helper->slot93(&m_mask284, 0);
+}
+
+// Object::giveUpgrade(const UpgradeTemplate *) is the same body under the name
+// the ZH source spells: GrantUpgradeCreate's retail vtable bodies at 0x004B901D
+// and 0x004B9093 call 0x00293077 exactly where ZH onCreate/onBuildComplete call
+// getObject()->giveUpgrade(upgradeTemplate), after TheUpgradeCenter::findUpgrade
+// (0x0026F26D) and before the Player path. The row at 0x00293077 is the
+// address-derived spelling, so this is an ICF twin of it: same 50 bytes, same
+// callees, and the linker keeps whichever name retail's call site reaches.
+void Object::giveUpgrade(const UpgradeTemplate *upgradeTemplate)
+{
+	if (!upgradeTemplate)
+		return;
+	rva00293003(upgradeTemplate);
 	Object250Helper *helper = m_helper250;
 	if (!helper)
 		return;
