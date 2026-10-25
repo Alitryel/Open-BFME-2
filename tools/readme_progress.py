@@ -9,7 +9,10 @@ Each measure has its own stated denominator:
                        without 0xCC), over all code.
   GAME CODE IN C++*    authored and generated C++ plus intentionally retained
                        reviewed assembly, over executable game code (libraries
-                       and verified embedded data excluded).
+                       and verified embedded data excluded). Its footnote gives
+                       the three parts (progress.game_cpp_breakdown), so the
+                       starred label never presents assembly or generated code
+                       as hand-written C++.
   LINKING              executable game code in files that link cleanly,
                        including generated C++ and assessed reviewed assembly.
                        Libraries and embedded data are excluded. Both figures
@@ -216,9 +219,14 @@ def detail_text(current, previous, key, value, denominator, what):
     return detail(current, key, value, denominator, what) + "".join(note for _, note in changes(previous, current, key))
 
 
-def footnote(key):
-    """The line under the bar's detail that its starred label refers to, if any."""
-    return f"* {progress.GAME_CPP_ANNOTATION}" if key == "cpp" else None
+def footnote(key, current=None):
+    """The line under the bar's detail that its starred label refers to, if any: the
+    annotation, then (given the figures) the bar's parts, so its authored C++, generated
+    C++ and reviewed assembly are each shown and assembly never reads as C++."""
+    if key != "cpp":
+        return None
+    parts = f" {progress.game_cpp_breakdown(current, current['total'])}" if current else ""
+    return f"* {progress.GAME_CPP_ANNOTATION}{parts}"
 
 
 def wrap(text, width=TEXT_WIDTH, separators=("; ", ": ", ", ", " ")):
@@ -305,7 +313,7 @@ def render(current, previous=None):
             elif delta is not None:
                 moved = (f'<tspan class="{"up" if delta > 0 else "down" if delta < 0 else "muted"}" dx="10" font-size="13" '
                          f'font-weight="600">{arrow(delta)}</tspan>')
-        lines = wrap(text) + (wrap(footnote(key)) if footnote(key) else [])
+        lines = wrap(text) + (wrap(footnote(key, current)) if footnote(key) else [])
         body.append(f'''    <text x="28" y="{y}" class="strong" font-size="15" font-weight="600">{label}{moved}</text>
     <text x="852" y="{y}" class="strong" font-size="20" font-weight="700" text-anchor="end">{number}</text>
     <rect class="track" x="28" y="{y + 10}" width="824" height="14" rx="7"/>
@@ -398,7 +406,7 @@ def announcement(current, previous):
                   detail(current, key, value, denominator, what) + (rule_note(previous, changed) if changed else "")
                   + ("; reviewed assembly now counted, not new recovery" if assembly_change else "")]
         if key == "cpp":
-            lines.append(f"* {progress.GAME_CPP_ANNOTATION}")
+            lines.append(footnote(key, current))
     strict = strict_lines(current)
     if strict:
         lines += ["", *strict]

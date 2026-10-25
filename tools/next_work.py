@@ -6,9 +6,11 @@ measured land rate for its size, so concurrent contributors still rarely
 collide but no draw is worth merely the pool average. ``--ranked`` is the human/debug
 view of the available queues. Live claims are fetched from origin; no compiling.
 
-Byte matching of .text is complete, so the open work is linking and cleanup.
-Every default pick tries gate debt (R) first, then L, D, H and I in an order drawn
-by weight (TIER_WEIGHTS: link-heavy, header and data a guaranteed share each), and
+Byte matching of .text is complete, so the open work is Phase 2: linking, the
+structural work the exit test needs (no stubs, retail's translation units) and
+cleanup. Every default pick tries gate debt (R) first, then L, D, H, I and the
+structural tiers P in an order drawn by weight (TIER_WEIGHTS, justified where it is
+defined: link the largest share, every lane a guaranteed one), and
 falls through to the next queue when one is empty or every item in it is claimed;
 new matches come only after all of them. Queues are built lazily, only when the
 order reaches them (debt_order, pick_debt). Each item carries a machine pass test
@@ -31,6 +33,16 @@ Sections, in priority order:
                   class's canonical header (--tier header)
   I. Code identity  reverse/code_identity_baseline.tsv keys: a reference binds a
                   symbol the link does not resolve to retail's body (--tier identity)
+  P. Structural (repair_queue.STRUCTURAL_QUEUES; no register line retires, the pass
+     test is the owning tool's verdict):
+       stubs        symbols the last link cycle had to stub (its stubs.json, checked
+                    against its receipt; skipped where no such output exists)
+       consolidate  approved TUs a merge can shrink (tools/tu_skeleton.py --queue)
+       tu-approval  TUs whose rows tu_map only proposes: evidence (real names,
+                    resolved interleaving) approves them (docs/consolidation.md)
+       ms-headers   reverse/ms_header_queue.tsv (repair_queue.py ms-headers)
+       dx           reverse/dx_migration_queue.tsv; --tier dx keeps its own view
+     Naming is not a default tier: --wb and tools/name_lane.py serve it on request.
   New matches (tiers 1-4, then the Zero Hour packets) appear only on regressions
   now; each is served only when its input file exists, and a tier whose input is
   absent is skipped with a one-line note, never an exit. They carry `dest`: the
@@ -73,7 +85,7 @@ in `prior_attempt` in --json. Text output prints it before the start command,
 including evidence paths; read it before repeating a failed trial.
 
 Usage:
-  python3 tools/next_work.py [--claim] [--tier link|data|header|identity|structural|...]
+  python3 tools/next_work.py [--claim] [--tier link|data|header|identity|stubs|consolidate|tu-approval|ms-headers|...]
   python3 tools/next_work.py --wb [--claim] [--ranked]
   python3 tools/next_work.py --ranked [--limit 10] [--json]
 
@@ -1069,8 +1081,10 @@ def debt_rank_factor(candidate):
     class's place in DEPENDENCY_ORDER (rank 0 of N weighs N, the last 1: a class is
     adopted once the types it uses have one definition), data keys by how many keys
     share their address (one declaration fix, repeated) and doubly for duplicate-def
-    (a link blocker), link units by how few blockers they have left, and debt whose
-    source vanished (a regression) first. 1 for anything else."""
+    (a link blocker), link units by how few blockers they have left, stub groups by the
+    stubs they close, merges by the files they remove, TU approvals by the files their
+    proposed rows span (each capped at 16), and debt whose source vanished (a
+    regression) first. 1 for anything else."""
     if candidate.get("check") == "vanished-source":
         return 16
     tier = candidate.get("tier")
@@ -1081,6 +1095,8 @@ def debt_rank_factor(candidate):
                                                                     else 1)
     if tier == "link" and "blockers" in candidate:
         return max(1, 8 - int(candidate["blockers"]))
+    if tier in ("stubs", "consolidate", "tu-approval"):     # stubs closed, files a merge removes or could
+        return max(1, min(16, int(candidate.get("count") or 1)))
     return 1
 
 
@@ -1465,7 +1481,8 @@ DEFAULT_ORDER = ("repair", "link", "data", "header", "identity",
                  "packet", "named", "harvest", "structural", "ghidra", "anchored")
 EMPTY_LABEL = "default order"
 DEBT_LABELS = ("gate-debt repair", "link-cycle repair", "data-identity debt", "class-header adoption",
-               "code-identity debt")
+               "code-identity debt", "link-stub closure", "TU consolidation", "TU approval",
+               "Microsoft-header migration", "DirectX SDK migration")
 
 
 def selected_queue(tier, drifts, structural, ghidra_absent, anchored, named,
@@ -1494,14 +1511,40 @@ def selected_queue(tier, drifts, structural, ghidra_absent, anchored, named,
     return EMPTY_LABEL, []
 
 
-DEBT_TIERS = ("repair", "link", "data", "header", "identity")
+DEBT_TIERS = ("repair", "link", "data", "header", "identity",
+              "stubs", "consolidate", "tu-approval", "ms-headers", "dx")
+STRUCTURAL_TIERS = DEBT_TIERS[5:]          # repair_queue.STRUCTURAL_QUEUES
 TIER_LABELS = dict(zip(DEBT_TIERS, DEBT_LABELS))
-# Shares of the default pick among the debt queues after gate debt (always first: it is
-# wrong code already counted as progress, and usually empty). Link work dominates, but
-# every lane gets capacity, and header and data -- prerequisites of linking: one
-# definition of a class, one name for a datum -- get a guaranteed fifth each.
-# BFME_TIER_WEIGHTS="link=50,header=20,data=20,identity=10" overrides.
-TIER_WEIGHTS = {"link": 50, "header": 20, "data": 20, "identity": 10}
+# Shares of the default pick among the queues after gate debt (always first: it is wrong
+# code already counted as progress, and usually empty); they sum to 100. Every queue is
+# a fallthrough, so a share only decides which queue a seat tries FIRST. The evidence
+# (2026-10-25) and the reasoning behind each number:
+#   * The old split (link 50, header 20, data 20, identity 10) gave the Phase 2 exit
+#     test's structural work no default capacity: in the 48 h before, 1,060 commits
+#     were naming and 67 were TU merges; Code/ grew from 23,278 to 23,292 files in a
+#     week; 15,529 of 91,361 tu_map rows were approved and 22,045 proposed; and the
+#     strict whole-program link still needed 1,810 stubs.
+#   link 30        the census's LINKED/LINKING is the headline figure: still the largest
+#                  share, but no longer half of every seat.
+#   stubs 15       the exit test is a link with no stubs; 1,810 stubbed symbols, about
+#                  1,580 of them class members (one class claim closes a group).
+#   header 15      one definition per class is a prerequisite of both linking and
+#                  merging (a rejected merge donor is usually a private class view);
+#                  728 queued units.
+#   consolidate 7  tu_skeleton --queue: only ~31 approved TUs a merge can shrink, each
+#                  removing up to ~28 files. Small, so it drains; the share keeps it drained.
+#   tu-approval 8  16,858 proposed code rows in ~1,640 TUs: approval feeds the merge queue,
+#                  so it gets the larger half of the 15 consolidation points.
+#   data 10        2,229 data-identity keys, a link prerequisite (one name per datum),
+#                  halved from 20 to pay for the structural tiers.
+#   identity 5     844 code-identity keys, reported in shadow; halved from 10.
+#   ms-headers 5   3,421 audited files; mechanical, byte-gated, file-local.
+#   dx 5           33 servable units; bounded and mechanical.
+# Naming is not a default tier (it never was): --wb and tools/name_lane.py serve it on
+# request. BFME_TIER_WEIGHTS="link=30,stubs=15,..." overrides any subset; a tier at 0 is
+# still tried, last.
+TIER_WEIGHTS = {"link": 30, "stubs": 15, "header": 15, "consolidate": 7, "tu-approval": 8, "data": 10,
+                "identity": 5, "ms-headers": 5, "dx": 5}
 BUILT = []                  # debt queues this run built, in order (lazy: tests read it)
 _DEBT = {}
 
@@ -1516,10 +1559,11 @@ def tier_weights():
 
 
 def debt_order(rng=None):
-    """The debt queues in the order this pick tries them: repair, then link, data,
-    header and identity drawn without replacement by tier_weights() (a queue at
-    weight 0 is still tried, last). Every queue after the first is a fallthrough:
-    taken when the ones before it are empty or every item in them is claimed."""
+    """The queues in the order this pick tries them: repair, then every other queue of
+    DEBT_TIERS (link, data, header, identity and the structural tiers) drawn without
+    replacement by tier_weights() (a queue at weight 0 is still tried, last). Every
+    queue after the first is a fallthrough: taken when the ones before it are empty or
+    every item in them is claimed."""
     rng = rng or random.SystemRandom()
     weights = tier_weights()
     left = [name for name in DEBT_TIERS[1:] if weights.get(name, 0) > 0]
@@ -1545,6 +1589,10 @@ def build_debt(name):
             _DEBT[name] = (repair_queue.all_repair_items(), "")
         elif name == "link":
             _DEBT[name] = repair_queue.link_items()
+        elif name in STRUCTURAL_TIERS:             # each builder skips itself with a note
+            _DEBT[name] = repair_queue.STRUCTURAL_QUEUES[name]()
+            if not _DEBT[name][0] and "skipped" in _DEBT[name][1]:
+                SKIPPED.append(f"{name}: {_DEBT[name][1]}")
         else:
             path, builder = repair_queue.DEBT_QUEUES[name]
             _DEBT[name] = builder()
@@ -1610,7 +1658,7 @@ def scope_release_note(candidate, acquired):
     scopes = [t for t in claim_targets(candidate) if isinstance(t, str)]
     if not acquired or not scopes or "debt=" in claim_note("", candidate):
         return None
-    return ("claim: scope claims of link-cycle work are not settled automatically; after your push run "
+    return ("claim: scope claims of link-cycle and structural work are not settled automatically; after your push run "
             f"python3 tools/claims.py release {' '.join(scopes)}")
 
 
@@ -1739,12 +1787,16 @@ def print_candidate(label, candidate, meta, candidates=()):
         if candidate.get("claim"):
             print(f"       scope: {' '.join(candidate['claim'])} (what --claim takes)")
         _print_boundary_verdicts(candidate)
-        print(f"       start: fix it in {candidate['source']}; done when the pass test passes:")
+        print(f"       start: {candidate.get('start') or 'fix it in ' + candidate['source']}; done when the pass "
+              "test passes:")
         print(f"       pass test: {candidate['pass_test']}")
         if candidate.get("tier") in ("data", "header", "identity"):
             print("       done: only when the owning tool's verdict on fresh objects passes and retires the line "
                   f"from {candidate.get('baseline')} itself; the pre-commit hook refuses a commit that deletes "
                   "a line without that verdict (repair_queue.py verify-removed)")
+        elif candidate.get("credit_note"):          # a structural tier: no register line, no bytes
+            print(f"       credit: {candidate['credit_note']} (structural work: no register line retires; the "
+                  "pass test is the owning tool's verdict)")
         else:
             print(f"       credit: {candidate['credit']:,} bytes (a repair counts: progress_v2 gate debt / "
                   "link series)")
@@ -1962,7 +2014,8 @@ def main():
                     help="claim the selected item on origin before serving it (its class:/file: scope where it "
                          "names one, else its RVA); retry a raced selection")
     ap.add_argument("--tier",
-                    choices=("repair", "link", "data", "header", "identity", "packet", "named", "harvest",
+                    choices=("repair", "link", "data", "header", "identity", "stubs", "consolidate",
+                             "tu-approval", "ms-headers", "packet", "named", "harvest",
                              "structural", "ghidra", "anchored", "similar", "wb", "dx"),
                     help="choose from only this task lane")
     ap.add_argument("--wb", action="store_const", const="wb", dest="tier",
@@ -2051,7 +2104,12 @@ def main():
                       + dropped_ghidra + dropped_anchored + dropped_wb + dropped_similar)
 
     # Debt queues here only for --ranked; the pick drew from them above.
-    shown = {name: build_debt(name) if args.ranked and args.tier in (None, name) else ([], "")
+    # The structural queues are built for --ranked only on their own --tier: the merge
+    # queue alone rebuilds the TU map and scans every donor's refusals (tens of seconds).
+    shown = {name: build_debt(name) if args.ranked and args.tier == name
+             or args.ranked and args.tier is None and name not in STRUCTURAL_TIERS
+             else ([], f"not built in the full view: python3 tools/next_work.py --ranked --tier {name}"
+                   if args.ranked and name in STRUCTURAL_TIERS else "")
              for name in DEBT_TIERS}
     busy = busy_keys()
     debt, debt_notes = {}, {}
@@ -2123,6 +2181,7 @@ def main():
             "data_identity_meta": debt_notes["data"], "data_identity": debt["data"],
             "class_header_meta": debt_notes["header"], "class_header": debt["header"],
             "code_identity_meta": debt_notes["identity"], "code_identity": debt["identity"],
+            "structural_tiers": {name: {"meta": debt_notes[name], "items": debt[name]} for name in STRUCTURAL_TIERS},
             "structural_meta": structural_meta,
             "suppressed_logged": suppressed,
             "skipped": SKIPPED,
@@ -2137,7 +2196,8 @@ def main():
         sections = (("repair", "R. gate-debt repairs", repair, ""), ("link", "L. link-cycle repairs", link, link_note),
                     ("data", "D. data-identity debt", debt["data"], debt_notes["data"]),
                     ("header", "H. class-header adoption", debt["header"], debt_notes["header"]),
-                    ("identity", "I. code-identity debt", debt["identity"], debt_notes["identity"]))
+                    ("identity", "I. code-identity debt", debt["identity"], debt_notes["identity"]),
+                    *((name, f"P. {TIER_LABELS[name]}", debt[name], debt_notes[name]) for name in STRUCTURAL_TIERS))
         if args.tier in (None, *(name for name, _, _, _ in sections)):
             for name, title, queue, queue_note in sections:
                 if args.tier not in (None, name):
@@ -2219,8 +2279,9 @@ def main():
         print(validator_note(structural_meta))
     if candidate is None:
         if label == EMPTY_LABEL:
-            print("\nNo candidates remain in the default order (repair, link, data identity, class header, "
-                  "code identity, new matches).")
+            print("\nNo candidates remain in the default order (repair, then link, stubs, class header, TU "
+                  "approval and consolidation, data and code identity, Microsoft headers, DirectX, then new "
+                  "matches).")
         else:
             print(f"\nNo {label} candidates remain.")
         print("Byte matching is complete: new matches appear only on regressions (./build.sh). "

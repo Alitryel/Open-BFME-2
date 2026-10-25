@@ -334,13 +334,19 @@ def refusal(f, rows):
 
 def skeleton(tu):
     """Approved rows of `tu` in retail order, each with its ledger row (or None)."""
-    m = map_rows()
-    want = [r for r in m if r["tu"].lower() == tu.lower() and r["confidence"] == "approved"
-            and r["kind"].startswith("code")]
-    led = {}
-    for r in ledger_rows():
-        if "gen-alias" not in (r["notes"] or "") and r["target_rva"].startswith("0x"):
-            led.setdefault(int(r["target_rva"], 16), r)
+    if "approved_by_tu" not in _CACHE:      # indexed once: the queue asks for every TU
+        by_tu = collections.defaultdict(list)
+        for r in map_rows():
+            if r["confidence"] == "approved" and r["kind"].startswith("code"):
+                by_tu[r["tu"].lower()].append(r)
+        _CACHE["approved_by_tu"] = by_tu
+    if "led_by_rva" not in _CACHE:
+        led = {}
+        for r in ledger_rows():
+            if "gen-alias" not in (r["notes"] or "") and r["target_rva"].startswith("0x"):
+                led.setdefault(int(r["target_rva"], 16), r)
+        _CACHE["led_by_rva"] = led
+    want, led = _CACHE["approved_by_tu"].get(tu.lower(), []), _CACHE["led_by_rva"]
     return [(r, led.get(int(r["rva"], 16))) for r in sorted(want, key=lambda r: int(r["rva"], 16))]
 
 

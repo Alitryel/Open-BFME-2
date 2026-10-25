@@ -612,10 +612,19 @@ AGENTS.md ("Work loop") gives the order; this is how the picker applies it.
 
 ### The default pick
 
-`python3 tools/next_work.py --claim` tries gate debt first, then the link, header,
-data and code-identity queues in an order drawn by weight (link 50, header 20,
-data 20, identity 10; `BFME_TIER_WEIGHTS` overrides), falling through when one is
-empty or fully claimed. A standing deferral (blocked, attempted) in
+`python3 tools/next_work.py --claim` tries gate debt first, then the link, stub
+closure, header, TU-approval, consolidation, data, code-identity, Microsoft-header
+and DirectX queues in an order drawn by weight (link 30, stubs 15, header 15,
+tu-approval 8, consolidate 7, data 10, identity 5, ms-headers 5, dx 5; the
+evidence for each number is beside `TIER_WEIGHTS` in `tools/next_work.py`;
+`BFME_TIER_WEIGHTS` overrides), falling through when one is empty or fully
+claimed. The structural queues (`repair_queue.STRUCTURAL_QUEUES`) retire no
+register line: each item's pass test is its owning tool's verdict (a later link
+cycle for stubs, `tu_skeleton.py --merge` for consolidation, the rebuilt
+`tu_map` for approval, the byte gate for header migrations). The stub queue
+reads a local link cycle's `stubs.json` checked against its receipt and the
+receipt's commit against HEAD; elsewhere it is skipped with a note. Naming is
+not a default tier: `--wb` and `tools/name_lane.py` serve it on request. A standing deferral (blocked, attempted) in
 `reverse/re_attempts.log` comes after all untried debt work, and a recorded dead
 end drops it. Debt whose source no longer exists is served first in its queue, as
 a regression.

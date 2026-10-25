@@ -2041,10 +2041,12 @@ def test_debt_order_interleaves_every_lane_by_weight(monkeypatch):
         assert order[0] == "repair" and sorted(order) == sorted(next_work.DEBT_TIERS)
         firsts[order[1]] += 1
     share = {name: firsts[name] / 4000 for name in next_work.TIER_WEIGHTS}
-    assert abs(share["link"] - 0.5) < 0.04 and abs(share["header"] - 0.2) < 0.03
-    assert abs(share["data"] - 0.2) < 0.03 and abs(share["identity"] - 0.1) < 0.03
-    monkeypatch.setenv("BFME_TIER_WEIGHTS", "link=0,header=1,data=0,identity=0")
-    assert next_work.debt_order(rng) == ["repair", "header", "link", "data", "identity"]
+    total = sum(next_work.TIER_WEIGHTS.values())
+    for name, weight in next_work.TIER_WEIGHTS.items():     # every lane, structural ones included
+        assert abs(share[name] - weight / total) < 0.03, name
+    others = [name for name in next_work.DEBT_TIERS[1:] if name != "header"]
+    monkeypatch.setenv("BFME_TIER_WEIGHTS", ",".join(f"{name}=0" for name in others) + ",header=1")
+    assert next_work.debt_order(rng) == ["repair", "header", *others]
 
 
 def test_a_blocked_debt_item_is_served_last_and_a_dead_end_never(picker, monkeypatch):

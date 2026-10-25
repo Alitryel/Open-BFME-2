@@ -321,14 +321,18 @@ def svg(point):
     y += 74
     link = point["link"]
     if link and "placed" in link:
+        # The committed receipt is history (receipts are no longer committed): its date is
+        # part of the figure, so an old measurement never reads as the current one.
         text = (f'placed {link["placed"][2]:.2f}%, placed + self-strict {link["self_strict"][2]:.2f}%, '
-                f'closed-strict credit {link["closed_strict"][2]:.2f}% (cycle at {link["commit"]})')
+                f'closed-strict credit {link["closed_strict"][2]:.2f}% (cycle at {link["commit"]}, '
+                f'{link["date"][:10] or "date unrecorded"}; no longer updated)')
         number = f'{link["closed_strict"][2]:.2f}%'
         bar = stack(y + 10, [(link["closed_strict"][1], colors["link"])])
+        when = f' (historical, {link["date"][:10]})' if link["date"] else " (historical)"
     else:
-        text, number, bar = "pending: no committed link-cycle receipt", "pending", ""
+        text, number, bar, when = "pending: no committed link-cycle receipt", "pending", "", ""
     rows.append(f'<text x="28" y="{y}" class="strong" font-size="15" font-weight="600">Real link, '
-                f'closed-strict</text><text x="852" y="{y}" class="strong" font-size="18" font-weight="700" '
+                f'closed-strict{when}</text><text x="852" y="{y}" class="strong" font-size="18" font-weight="700" '
                 f'text-anchor="end">{number}</text><rect class="track" x="28" y="{y + 10}" width="{width}" '
                 f'height="14"/>{bar}<text x="28" y="{y + 44}" class="muted" font-size="12.5">{text}</text>')
     y += 74

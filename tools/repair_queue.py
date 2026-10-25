@@ -137,12 +137,14 @@ Verifier-Change explains verifier edits; it never excuses retiring a debt key.
 import argparse
 import bisect
 import calendar
+import collections
 import csv
 import gzip
 import hashlib
 import io
 import json
 import os
+import posixpath
 import re
 import subprocess
 import sys
@@ -1654,9 +1656,249 @@ def verify_debt_range(base, target, missing=False):
         head_ledger_rows.cache_clear()
 
 
+# ---------------------------------------------------------------- structural (Phase 2) queues
+#
+# The exit test is a link with no stubs and no /FORCE, from files that are retail's
+# translation units. These queues serve that work through the same picker, claims and
+# fallthrough as the debt queues. None of them retires a register line: each item's pass
+# test is the owning tool's own verdict (a later link cycle, tu_skeleton, tu_map, the
+# byte gate).
+# Their items carry no byte `credit` (a count is not bytes, and next_work's draw reads
+# credit as a size): `count` ranks them (next_work.debt_rank_factor) and `credit_note`
+# says what it counts.
+
+LINK_CYCLE_SET = os.environ.get("REPAIR_LINK_CYCLE")         # named by hand: used whenever it exists
+LINK_CYCLE = LINK_CYCLE_SET or str(ROOT / "build" / "link_cycle")
+MS_HEADER_QUEUE = f"{REV}/ms_header_queue.tsv"               # tools/ms_header_audit.py
+DX_QUEUE = f"{REV}/dx_migration_queue.tsv"                   # tools/dx_migration.py scan
+TU_MAP = f"{REV}/tu_map.csv"                                 # tools/tu_map.py (rebuilt in memory when stale)
+UNRESOLVED = re.compile(r'^(o\d+\.obj) : error LNK20(?:01|19): unresolved external symbol '
+                        r'(?:"[^"]*" \((\S+)\)|(\S+))')
+
+
+def _obj_name(source):
+    """tools/build.py obj_path's file name for SOURCE (lower case, as zzobj/names.json records it)."""
+    stem = "_".join(Path(source).with_suffix("").parts)
+    return ("".join(("^" + c.lower()) if c.isupper() else c for c in stem) + ".obj").lower()
+
+
+def stub_items(path=None):
+    """(items, note): the symbols the last link cycle had to stub (stubs.json: names the
+    pass-1 link left unresolved, each given a 4-byte .stubd slot so the link completes). The
+    exit test needs zero. Read from a local link-cycle output directory (REPAIR_LINK_CYCLE or
+    build/link_cycle): stubs.json must be the one its receipt.json names (stubs_sha256 and
+    objects_digest), and the receipt's commit must be HEAD or an ancestor of it; otherwise
+    the queue is skipped with the reason, never served from another source. A published
+    bundle carries only stubs_sha256, not the names, so seats without the measuring
+    machine's output see a skip note.
+
+    Referencing units come from the same run's pass1.log (LNK2001/LNK2019) mapped back to
+    sources through zzobj/names.json. Member stubs group by class (claims `class:NAME`:
+    the fix is the class's definition); a free symbol claims the files that reference it,
+    or its pinned RVA. A stub with neither is counted in the note, not served."""
+    out = Path(path or LINK_CYCLE)
+    need = [out / n for n in ("receipt.json", "stubs.json", "pass1.log", "zzobj/names.json")]
+    missing = [p.name for p in need if not p.exists()]
+    if missing:
+        return [], f"{out}: no link-cycle stub list ({', '.join(missing)} absent): stub-closure queue skipped"
+    receipt = json.loads(need[0].read_text(encoding="utf-8"))
+    stubs = json.loads(need[1].read_text(encoding="utf-8"))
+    names = stubs.get("value") if isinstance(stubs, dict) else None
+    digest = hashlib.sha256(json.dumps(names, sort_keys=True).encode()).hexdigest() if names is not None else ""
+    if (names is None or digest != receipt.get("stubs_sha256")
+            or stubs.get("objects_digest") != receipt.get("objects_digest")):
+        return [], f"{out}: stubs.json is not the one receipt.json names: stub-closure queue skipped"
+    commit = receipt.get("commit") or ""
+    got = subprocess.run(["git", "merge-base", "--is-ancestor", commit, "HEAD"], cwd=ROOT,
+                         capture_output=True) if commit else None
+    if got is None or got.returncode != 0:
+        return [], (f"{out}: link cycle measured commit {commit[:10] or '(none)'}, which is not HEAD or an "
+                    "ancestor of it: stub-closure queue skipped")
+    stubbed = set(names)
+    objects = json.loads(need[3].read_text(encoding="utf-8")).get("names", {})
+    sources = {}
+    for row in csv.DictReader(io.StringIO(_read(LEDGER))):
+        sources.setdefault(_obj_name(row["source"]), row["source"])
+    refs = {}
+    with need[2].open(encoding="latin-1") as handle:
+        for line in handle:
+            m = UNRESOLVED.match(line)
+            if m and (m.group(2) or m.group(3)) in stubbed:
+                source = sources.get(objects.get(m.group(1), ""))
+                if source and (ROOT / source).exists():
+                    refs.setdefault(m.group(2) or m.group(3), set()).add(source)
+    pins = {}
+    for row in csv.DictReader(io.StringIO(_read(f"{REV}/symbols.csv"))):
+        if row.get("name") in stubbed and (row.get("address") or "").startswith("0x"):
+            pins.setdefault(row["name"], row["address"])
+    groups, unclaimable = {}, 0
+    for name in sorted(stubbed):
+        cls = class_of(name)
+        if cls:
+            groups.setdefault(("class", cls), []).append(name)
+        elif refs.get(name) or pins.get(name):
+            groups[("symbol", name)] = [name]
+        else:
+            unclaimable += 1
+    age = receipt.get("date_utc", "?")
+    items = []
+    for (kind, key), members in groups.items():
+        users = sorted(set().union(*(refs.get(n, set()) for n in members)))
+        home = max(users, key=lambda s: sum(s in refs.get(n, ()) for n in members)) if users else "(no unit)"
+        claim = [f"class:{key}"] if kind == "class" else [f"file:{s}" for s in users]
+        items.append({
+            "tier": "stubs", "check": "stub", "class": key if kind == "class" else None,
+            "function": f"{key} ({len(members)} stub(s))" if kind == "class" else key,
+            "target_rva": "" if kind == "class" or users else pins[key],
+            "source": home, "size": 0, "count": len(members), "stubs": members,
+            "credit_note": f"{len(members)} of the link's {len(stubbed)} stubs",
+            "why": (f"the link stubs {', '.join(members[:6])}{' ...' if len(members) > 6 else ''}; referenced from "
+                    f"{len(users)} unit(s): define the body or data, or bind the reference to retail's real name"),
+            "start": (f"python3 tools/class_views.py --class {key}" if kind == "class" else
+                      f"python3 tools/pin_consistency.py --symbol {key}") + "; read docs/linking_obstacles.md first",
+            "claim": claim if claim else [pins[key]],
+            "pass_test": ("the next link cycle (tools/link_cycle.py, maintainer-run; read through its receipt) no "
+                          "longer lists " + ("these symbols" if len(members) > 1 else "this symbol") + " in "
+                          "stubs.json; locally, python3 tools/link_check.py " + (users[0] if users else "<unit>")
+                          + " finds no unresolved reference to it"),
+        })
+    items.sort(key=lambda i: (-i["count"], i["function"]))
+    return items, (f"{len(items)} stub group(s) over {len(stubbed)} stubbed symbol(s) from {out} (link cycle at "
+                   f"commit {commit[:10]}{' +uncommitted edits' if receipt.get('dirty') else ''}, measured {age} "
+                   f"UTC)" + (f"; {unclaimable} free symbol(s) with no referencing unit or pin not served"
+                              if unclaimable else ""))
+
+
+def consolidation_items():
+    """(items, note): approved TUs a merge can shrink (tools/tu_skeleton.py --queue), one
+    item per TU. The claim is the merge's own file footprint (the TU and every donor;
+    tu_skeleton --merge adds the moved RVAs under the same owner). PASS TEST: the merge
+    itself, which verifies every donor by compiling and byte-matching."""
+    if not (ROOT / TU_MAP).exists():
+        return [], f"{TU_MAP} absent: consolidation queue skipped"
+    tools_on_path()
+    import tu_skeleton
+    queue = tu_skeleton.queue(root=ROOT)
+    items = []
+    for entry in queue:
+        tu = entry["tu"]
+        don, _, _ = tu_skeleton.donors(tu, tu_skeleton.skeleton(tu))
+        files = sorted(set(don) | {tu})
+        items.append({
+            "tier": "consolidate", "check": "tu-merge", "function": tu, "source": tu, "target_rva": "",
+            "size": 0, "count": entry["removes"],
+            "credit_note": f"up to {entry['removes']} file(s) removed (an upper bound: the merge keeps only donors "
+                           "that compile together)",
+            "why": (f"merge up to {entry['removes']} donor file(s) ({entry['rows']} rows) into the approved TU; "
+                    f"{entry['mixed']} mixed and {entry['refused']} refused file(s) stay; reconcile rejected donors "
+                    "in their own commits first (docs/consolidation.md, \"Workflow per TU\")"),
+            "start": (f"python3 tools/name_lane.py consolidate --under {posixpath.dirname(tu)}/, then "
+                      f"python3 tools/tu_skeleton.py --merge {tu} --dry-run"),
+            "claim": [f"file:{f}" for f in files],
+            "pass_test": (f"BFME_CLAIM_OWNER=<seat> python3 tools/tu_skeleton.py --merge {tu}, then ./build.sh {tu} "
+                          f"and python3 tools/find_declared_unmatched.py {tu}: the donors are gone and every moved "
+                          "row still byte-matches (docs/consolidation.md)"),
+        })
+    stale = " (tu_map.csv stale: queue from a map rebuilt in memory, never written)" if tu_skeleton._CACHE.get(
+        "stale") else ""
+    return items, f"{len(items)} approved TU(s) a merge can shrink, from tools/tu_skeleton.py --queue{stale}"
+
+
+TU_BLOCKS = {
+    "noncontiguous": "rows another anchored TU owns sit inside this TU's address span; identify the interleaved "
+                     "rows (a wrong name, a COMDAT, a misplaced anchor) so the span is contiguous",
+    "contradicted": "the row's own F/Z/S evidence names another TU; resolve which is right before any move",
+    "unanchored": "only naming hints (N/K/U) route these rows; an F/Z/S anchor (a real name with a Zero Hour "
+                  "definition or a __FILE__ string) is what approves them: name the placeholder rows",
+    "brackets": "contiguity (C) between rows that are not approved themselves; approve the brackets first",
+}
+
+
+def tu_approval_items():
+    """(items, note): TUs whose rows tu_map.csv only proposes, one item per TU, ranked by how
+    many files their rows span (what a later merge could remove). tu_map is a pure function of
+    its inputs and is never edited by hand, so a row becomes approved only through evidence:
+    a real name (rename.py, name_evidence.py) giving an F/Z/S anchor, or a resolved
+    interleaving or contradiction (docs/consolidation.md, "Evidence catalogue"). The item
+    claims the TU scope `file:TU`; each rename takes its own file claims (tools/rename.py).
+    PASS TEST: the map rebuilt from current inputs approves the rows
+    (tools/tu_skeleton.py --plan TU lists them; never commit a regenerated map from this lane)."""
+    if not (ROOT / TU_MAP).exists():
+        return [], f"{TU_MAP} absent: TU-approval queue skipped"
+    tools_on_path()
+    import tu_skeleton
+    by_tu = {}
+    for row in tu_skeleton.map_rows():
+        if row["confidence"] == "proposed" and row["kind"].startswith("code") and row["tu"]:
+            by_tu.setdefault(row["tu"], []).append(row)
+    items = []
+    for tu, rows in by_tu.items():
+        blocks = collections.Counter(
+            "contradicted" if "contradicted" in row["evidence"] else
+            "noncontiguous" if "noncontiguous" in row["evidence"] else
+            "brackets" if row["by"] == "C" else "unanchored" for row in rows)
+        files = {row["source"] for row in rows if row["source"] and (ROOT / row["source"]).exists()}
+        main, count = blocks.most_common(1)[0]
+        items.append({
+            "tier": "tu-approval", "check": main, "function": tu, "source": tu,
+            "target_rva": "", "size": 0, "count": len(files), "rows": len(rows),
+            "credit_note": f"{len(rows)} proposed row(s) in {len(files)} file(s)",
+            "why": (f"{len(rows)} proposed row(s) in {len(files)} file(s) ("
+                    + ", ".join(f"{k} {n}" for k, n in blocks.most_common()) + f"): {TU_BLOCKS[main]}"),
+            "start": (f"python3 tools/name_lane.py consolidate --under {posixpath.dirname(tu)}/ and read the TU's "
+                      "packet; names through tools/name_evidence.py and tools/rename.py (docs/naming.md)"),
+            "claim": [f"file:{tu}"],
+            "pass_test": (f"python3 tools/tu_skeleton.py --plan {tu}: the rows are approved in the map rebuilt from "
+                          "current inputs (tu_map.py; never commit a regenerated map from this lane)"),
+        })
+    items.sort(key=lambda i: (-i["count"], -i["rows"], i["function"]))
+    stale = " (tu_map.csv stale: rebuilt in memory, never written)" if tu_skeleton._CACHE.get("stale") else ""
+    return items, (f"{len(items)} TU(s) with {sum(i['rows'] for i in items)} proposed code row(s) from "
+                   f"{TU_MAP}{stale}")
+
+
+def ms_header_queue_items():
+    """(items, note): reverse/ms_header_queue.tsv as a picker queue (ms_header_items)."""
+    if not (ROOT / MS_HEADER_QUEUE).exists():
+        return [], f"{MS_HEADER_QUEUE} absent: Microsoft-header queue skipped"
+    items = ms_header_items()
+    for item in items:
+        row = item["audit"]
+        item.update(start="python3 tools/repair_queue.py ms-headers --class " + item["classification"].split()[0],
+                    check=item["classification"], count=int(row["defs"] or 0),
+                    credit_note=f"{row['defs']} local definition(s) of Microsoft-header names",
+                    why=(f"{item['classification']}: defines {row['defs']} name(s) of {row['headers']} locally; "
+                         "include the real header and delete the copy"
+                         + ("; CRT dllimport conflicts need per-body callee checks"
+                            if item["classification"] == "conflicting" else "")))
+    return items, f"{len(items)} file(s) from {MS_HEADER_QUEUE} (repair_queue.py ms-headers)"
+
+
+def dx_items():
+    """(items, note): units to move off the reference/shims DirectX stand-ins onto the SDK
+    headers (tools/dx_migration.py servable(), what next_work.py --tier dx serves)."""
+    if not (ROOT / DX_QUEUE).exists():
+        return [], f"{DX_QUEUE} absent: DirectX migration queue skipped"
+    tools_on_path()
+    import dx_migration
+    items = [{"tier": "dx", "check": r["class"], "function": r["source"], "source": r["source"], "target_rva": "",
+              "size": 0, "count": int(r["matched_rows"] or 0), "claim": ["file:" + r["source"]],
+              "credit_note": f"{r['matched_rows']} matched row(s) in the unit",
+              "start": "python3 tools/dx_migration.py next --class " + r["class"],
+              "why": f"[{r['class']}] move the unit to the SDK headers (// dxsdk)"
+                     + (f"; edits: {r['edits']}" if r.get("edits") else ""),
+              "pass_test": f"./build.sh {r['source']}, then python3 tools/dx_migration.py scan {r['source']}"}
+             for r in dx_migration.servable() if (ROOT / r["source"]).exists()]
+    return items, f"{len(items)} unit(s) from {DX_QUEUE}"
+
+
 # {tier: (input file, builder)}: tools/next_work.py serves them in this order.
 DEBT_QUEUES = {"data": (DATA_BASELINE, data_identity_items), "header": (HEADER_QUEUE, header_items),
                "identity": (IDENTITY_BASELINE, identity_items)}
+# The Phase 2 structural queues, served by the same picker; their builders skip themselves
+# with a note when an input is absent.
+STRUCTURAL_QUEUES = {"stubs": stub_items, "consolidate": consolidation_items, "tu-approval": tu_approval_items,
+                     "ms-headers": ms_header_queue_items, "dx": dx_items}
 
 
 # ---------------------------------------------------------------- destination

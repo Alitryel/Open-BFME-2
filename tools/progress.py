@@ -799,6 +799,18 @@ def game_represented(split):
     return split["authored"] + split["generated"] + split.get("assembly", 0)
 
 
+def game_cpp_breakdown(split, denominator):
+    """The blue bar's parts, so assembly and generated code are never read as hand-written
+    C++: `Of it: authored C++ 96.38%, generated C++ 3.56%, reviewed assembly 0.11% of
+    executable game code.` The parts add up to the bar (game_represented); the bar and its
+    definition (GAME_CPP_RULES) are unchanged."""
+    game = game_executable(split, denominator)
+    parts = (("authored C++", split["authored"]), ("generated C++", split["generated"]),
+             ("reviewed assembly", split.get("assembly", 0)))
+    return ("Of it: " + ", ".join(f"{name} {percent(value, game):.2f}%" for name, value in parts)
+            + " of executable game code.")
+
+
 LINK_COVERAGE_RULES = "executable-game-coverage-1"
 
 
@@ -907,7 +919,7 @@ def print_headline(padding, denominator, old_split, new_split, old_census, new_c
                 f"delta {format_delta(game_represented(new_split), game_represented(old_split), game)}"
                 if game == game_before else "delta n/a (the game's own code changed size)",
                 f"executable game code ({game:,} bytes: libraries and embedded data excluded)"))
-    print(f"               * {GAME_CPP_ANNOTATION}")
+    print(f"               * {GAME_CPP_ANNOTATION} {game_cpp_breakdown(new_split, denominator)}")
 
     def census_line(label, field, over_field, note, over_total=None):
         """One census figure over its denominator: `over_field` names the

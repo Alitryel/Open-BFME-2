@@ -98,7 +98,8 @@ def test_discord_posts_four_measures_and_links_the_readme():
         f"**Game code in C++*: 55.56%**  {UP} 4.44",
         f"{C * 6}{R * 4}",
         "50 / 90 bytes of executable game code (libraries and embedded data excluded)",
-        "* Includes generated C++ and intentionally retained assembly.",
+        "* Includes generated C++ and intentionally retained assembly. Of it: authored C++ 44.44%, generated C++ "
+        "11.11%, reviewed assembly 0.00% of executable game code.",
         "",
         "**Linking: 10.00%**",
         f"{L * 1}{R * 9}",
@@ -301,15 +302,15 @@ def test_strict_line_sits_beside_linking_never_instead(tmp_path, monkeypatch):
     assert daily.PUBLISHED is False
     assert "**Linking: 10.00%**" in lines and lines[-3:] == [line, "", readme]
     svg = daily.render(current)
-    assert line in svg and daily.CURRENT_LINE not in svg and ">10.00%<" in svg and 'height="404"' in svg
+    assert line in svg and daily.CURRENT_LINE not in svg and ">10.00%<" in svg and 'height="420"' in svg   # the footnote's parts wrap
     # from the first published bundle a second line says where the current measurement is
     monkeypatch.setattr(daily, "PUBLISHED", True)
     lines = daily.announcement(current, None)["embeds"][0]["description"].split("\n")
     assert lines[-4:] == [line, daily.CURRENT_LINE, "", readme]
     assert "published link-cycle bundle" in daily.CURRENT_LINE and "cycle_artifacts.py fetch --latest" in daily.CURRENT_LINE
     svg = daily.render(current)
-    assert line in svg and daily.CURRENT_LINE in svg and ">10.00%<" in svg and 'height="422"' in svg
-    assert 'height="382"' in daily.render(sample())
+    assert line in svg and daily.CURRENT_LINE in svg and ">10.00%<" in svg and 'height="438"' in svg
+    assert 'height="398"' in daily.render(sample())
 
 
 def test_strict_line_flags_a_receipt_that_is_not_authoritative(tmp_path):
@@ -552,7 +553,8 @@ def test_card_lines_fit_the_card(now, before, notes):
     joined = " ".join(text for _, text in lines)
     for note in notes:
         assert note in joined, (note, joined)
-    assert f"* {progress.GAME_CPP_ANNOTATION}" in [text for _, text in lines]
+    assert any(text.startswith(f"* {progress.GAME_CPP_ANNOTATION}") for _, text in lines)
+    assert "reviewed assembly" in joined.split(f"* {progress.GAME_CPP_ANNOTATION}", 1)[1]
     assert (("Game code in C++*", "accounting changed") in [row[:2] for row in rows]) == ("cpp_rules" not in before)
 
 
@@ -594,3 +596,19 @@ def test_saved_linking_uses_upstream_inclusive_fields():
     assert daily.saved_linking(inclusive_size()) == (7_300_000, 7_515_906)
     assert daily.saved_linking(real_size()) == (6_898_514, 7_520_010)
     assert daily.saved_linking({}) is None
+
+
+def test_the_starred_bar_shows_its_parts_so_assembly_never_reads_as_cpp():
+    """The blue bar keeps its definition (authored + generated C++ + reviewed assembly over
+    executable game code); its footnote names each part, and the parts add up to the bar."""
+    current = dict(sample(), total=7_978_500, authored=7_240_277, generated=267_704, assembly=7_986,
+                   vendored=457_607, library=822, data=4_104)
+    value, game = daily.measures(current)["cpp"]
+    note = daily.footnote("cpp", current)
+    assert note.startswith(f"* {daily.progress.GAME_CPP_ANNOTATION} Of it: authored C++ ")
+    shares = [float(x) for x in re.findall(r"(\d+\.\d+)%", note)]
+    assert len(shares) == 3 and shares[2] > 0                      # assembly is shown, not folded into C++
+    assert abs(sum(shares) - daily.progress.percent(value, game)) < 0.02
+    assert daily.footnote("linked", current) is None
+    svg = daily.render(current)
+    assert "reviewed assembly" in svg and ">Game code in C++*<" in svg
