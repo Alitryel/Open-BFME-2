@@ -5,7 +5,7 @@
 // byte flag at this+4 is set, then runs the inlined base dtor (base vtable
 // store) on the normal and unwind paths.
 
-extern "C" __declspec(dllimport) void __stdcall FreeConsole(void);
+#include <windows.h>
 
 class DebugIOConBase
 {
