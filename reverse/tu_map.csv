@@ -1788,8 +1788,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x000307F0,22,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_byte_allocator.cpp
 0x00030810,27,code,,,-,,Code/Libraries/Source/Compression/ZLib/Rva00030810Siblings.cpp
 0x00030830,17,code,,,-,,Code/GameEngine/Source/Common/System/GameMemoryFree.cpp
-0x00030890,17,code,,,-,,Code/GameEngine/Source/Common/Rva00030890Set.cpp
-0x000308B0,17,code,,,-,,Code/GameEngine/Source/Common/Rva000308B0Clear.cpp
+0x00030890,17,code,,,-,,Code/GameEngine/Source/Common/System/GameMemory.cpp
+0x000308B0,17,code,,,-,,Code/GameEngine/Source/Common/System/GameMemory.cpp
 0x000308D0,6,code,,,-,,Code/GameEngine/Source/Common/GlobalByteGetters.cpp
 0x000308E0,16,code,,,-,,Code/GameEngine/Source/Common/Rva000308E0AddHeap.cpp
 0x00030980,46,code,,,-,,Code/GameEngine/Source/Common/Rva000309B0TlsSet.cpp

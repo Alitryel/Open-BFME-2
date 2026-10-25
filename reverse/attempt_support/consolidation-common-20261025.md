@@ -115,3 +115,21 @@ Fetched origin and audited all seven pending deleted paths from `91fe970939`
 through the staged Dict move. The new old-path hits are the merged provenance
 comment and the maintainer's census snapshot. No active path consumer needs
 repair, and all earlier audit classifications still hold.
+
+## GameMemory.cpp
+
+The current in-memory map approved the two guarded flag helpers at 0x00030890
+and 0x000308B0 into System/GameMemory.cpp. The committed map remains stale;
+only its source columns were repointed, not its routing. Dry run and claimed
+application accepted both fragments without rejection. Two rows remain matched,
+two fragments become one TU (one fewer file). The normal build passed 2/2 and
+the declared-unmatched check passed. The single external MemoryPool::g_heaps
+declaration and existing compiler flags remain; no second global was defined.
+Mixed memory-pool sources, protected-register donors and vendored sources were
+excluded by the lane and left unchanged.
+
+Fetched origin and repeated the combined audit from `91fe970939` through this
+staged move, covering all nine deleted paths. New path hits are provenance and
+the census snapshot. Stem hits also identify unchanged function declarations,
+calls, ledger identities and a naming tier; they do not depend on source paths.
+No active consumer needs repair; previous historical classifications still hold.

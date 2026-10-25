@@ -26187,8 +26187,8 @@ _vp6_drawc,,0x001BB580,109,Code/Libraries/Source/VP6/debug.cpp,matched,Target CR
 ??1AttackPositionHordeStateMachine@@UAE@XZ,,0x0033FBB7,77,Code/GameEngine/Source/Common/AttackPositionHordeStateMachine.cpp,matched,vtable 0x811CF0 Object rva28C197 slot250 base 0x4D759C twin FB20
 ?xfer@AIIdleState@@MAEXPAVXfer@@@Z,,0x0033FEA3,98,Code/GameEngine/Source/GameLogic/AI/AIStatesXfer.cpp,matched,Native AIIdleState vftable811E08 slot3; slot2 getter33FE9D returns AIIdleState atVA C11E4C; existing named pin and AIFaceState34236F base snapshot call agree; transfer complete original98B body from placeholder owner with unchanged native20/22 words and24/25 booleans
 ?Rva000308E0AddHeap@@YAXII@Z,,0x000308E0,16,Code/GameEngine/Source/Common/Rva000308E0AddHeap.cpp,matched,guard flag 0xDE0821 tail-jump to AddHeap at 0xDE03E8 callers 0x22542E
-?Rva00030890Set@@YAXXZ,,0x00030890,17,Code/GameEngine/Source/Common/Rva00030890Set.cpp,matched,guard 0xDE0821 set byte 0xDE0818 to 1 caller 0x22540E
-?Rva000308B0Clear@@YAXXZ,,0x000308B0,17,Code/GameEngine/Source/Common/Rva000308B0Clear.cpp,matched,guard 0xDE0821 clear byte 0xDE0818 to 0 caller 0x225401
+?Rva00030890Set@@YAXXZ,,0x00030890,17,Code/GameEngine/Source/Common/System/GameMemory.cpp,matched,guard 0xDE0821 set byte 0xDE0818 to 1 caller 0x22540E
+?Rva000308B0Clear@@YAXXZ,,0x000308B0,17,Code/GameEngine/Source/Common/System/GameMemory.cpp,matched,guard 0xDE0821 clear byte 0xDE0818 to 0 caller 0x225401
 ?rva0026EEA0@UpgradeCenter@@QBEPBVUpgradeTemplate@@H@Z,,0x0026EEA0,24,Code/GameEngine/Source/Common/System/UpgradeCenterFindUpgradeByKey.cpp,matched,UpgradeCenter list walk mask index at +0x38 next at +0x64 callers use TheUpgradeCenter 0x009FEB60 adjacent to findUpgradeByKey
 ??4Rva0033F16E@@QAEAAV0@ABV0@@Z,,0x0033F16E,151,Code/GameEngine/Source/Common/Rva0033F16ECopy.cpp,matched,assign copy 0x04 to 0x64 with 12B blocks caller 0x3427EC
 ?update@Rva0033FC42@@QAEHXZ,,0x0033FC9D,43,Code/GameEngine/Source/Common/Rva0033FC42Dtor.cpp,matched,slot6 vtable 0x811DB0 guard 0x38 method10
