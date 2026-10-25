@@ -49,16 +49,17 @@ namespace AptUtils { int __cdecl LevelIndexFromTarget(const char *path); }
 // 0x005D2A53, the command UI's per-frame update, is rowed as
 // StrategicHUD::CommandUIImpl::Update (StrategicHUDCommandUIImpl.cpp); the
 // object this view builds is that CommandUIImpl.
-namespace StrategicHUD { class CommandUIImpl { public: void Update(); }; }
-
-class Rva005D25F2
+namespace StrategicHUD {
+class CommandUIImpl
 {
 public:
-	Rva005D25F2(int level, const AsciiString &path);
-	~Rva005D25F2();
+	CommandUIImpl(int level, const AsciiString &path);
+	void Update();
+	~CommandUIImpl();
 
 	unsigned char m_pad[0xC4];
 };
+}
 
 class Rva005D32D4
 {
@@ -100,9 +101,9 @@ class Rva005D3287 { public: void rva005D3287(bool); };
 class Rva0057866D
 {
 public:
-	void rva0057866D(Rva005D25F2 *p);
+	void rva0057866D(StrategicHUD::CommandUIImpl *p);
 
-	Rva005D25F2 *m_ptr;
+	StrategicHUD::CommandUIImpl *m_ptr;
 };
 
 class Rva00578690
@@ -553,7 +554,7 @@ void StrategicHUD::Palantir::rva005785CD()
 void StrategicHUD::Palantir::OnCommandUILoaded(const char *name)
 {
 	if (m_commandUI.m_ptr == 0)
-		m_commandUI.rva0057866D(new Rva005D25F2(AptUtils::LevelIndexFromTarget(name), AsciiString(AptUtils::SkipLevelN(name))));
+		m_commandUI.rva0057866D(new StrategicHUD::CommandUIImpl(AptUtils::LevelIndexFromTarget(name), AsciiString(AptUtils::SkipLevelN(name))));
 }
 
 // Retail 0x005787F8, 11 bytes: bound as "<movie>_OnCommandUIUnloaded".
@@ -727,11 +728,11 @@ StrategicHUD::Palantir::~Palantir()
 // at 0x00578690. The holder's original source name remains unknown.
 Rva0057866DHolder::~Rva0057866DHolder()
 {
-	Rva005D25F2 *p = m_ptr;
+	StrategicHUD::CommandUIImpl *p = m_ptr;
 	m_ptr = 0;
 	if (p)
 	{
-		p->Rva005D25F2::~Rva005D25F2();
+		p->StrategicHUD::CommandUIImpl::~CommandUIImpl();
 		::operator delete(p);
 	}
 }

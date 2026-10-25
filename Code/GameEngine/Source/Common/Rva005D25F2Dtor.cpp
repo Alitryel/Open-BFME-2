@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /Ireference/shims/bfmealloc /O1 /DNDEBUG /MD /EHsc
-// ??1Rva005D25F2@@QAE@XZ @0x005D25F2 91B: nonvirtual dtor, derived vtable 0x00875800 then base 0x008078DC.
+// ??1CommandUIImpl@StrategicHUD@@QAE@XZ @0x005D25F2 91B: nonvirtual dtor, derived vtable 0x00875800 then base 0x008078DC.
 // Evidence: array ??_M at +0x1C count 6 stride 0x1C via rowed 0x005D258E, rowed 0x0052413E at +0xC,
 // rowed releaseBuffer 0x00036410 at +0x8, layout matches sibling Rva005D2664 header 0x1C + 6x0x1C,
 // precedents Rva005794EDDtor Rva00579AB7Dtor Rva005FFBCBDtor, callers 0x00578532 0x0057866D 0x00578690.
@@ -18,7 +18,8 @@ private:
 
 // Constructor5D2BD4..5D2EA1 has six bound callback names and a six-element
 // command-slot array. WB15AD030 supplies a StrategicHUD source lead; the original
-// constructor/class spelling remains unknown. Retail vtables C078DC/C75800 prove
+// callback at5D26B2 has canonical WB self-asserted CommandUIImpl identity; the
+// owning constructor binds that exact callback. Retail vtables C078DC/C75800 prove
 // five native interface slots: getter24E5 / setter264D / clear2664 / clear269B /
 // flash2B2F. Neither table contains a destructor. Direct parent25F2 and scalar
 // cleanup578532 are separate native entry points. Preserve their ABI without
@@ -96,17 +97,21 @@ inline Rva005D25F2Base::~Rva005D25F2Base()
 	*(const void **)this = g_00C078DC;
 }
 
-class Rva005D25F2 : public Rva005D25F2Base
+namespace StrategicHUD {
+class CommandUIImpl : public Rva005D25F2Base
 {
 public:
-	Rva005D25F2(int,const AsciiString &);
+	CommandUIImpl(int,const AsciiString &);
 	virtual int rva005D24E5(int);
- ~Rva005D25F2();
+ ~CommandUIImpl();
  void *rva00578532(unsigned int);
 	virtual void rva005D264D(int,const TreeHintRef00217D4C &);
 	virtual void rva005D2664(int);
 	virtual void rva005D269B();
 	virtual void DoFlashButton(int,float);
+	void OnButtonFrameLoaded(const char *);
+	void OnSubMenuLoaded(const char *);
+	void OnToggleFlashLoaded(const char *);
 private:
 	int m_04;
 	AsciiString m_08;
@@ -114,8 +119,9 @@ private:
 	int m_18;
 	Rva005D2575 m_1C[6];
 };
+}
 
-Rva005D25F2::~Rva005D25F2()
+StrategicHUD::CommandUIImpl::~CommandUIImpl()
 {
 }
 
@@ -123,12 +129,9 @@ class Rva002BED91 { public: void clear(); };
 class Rva0057C22FByteChaseField { public: unsigned char get() const; };
 class Rva005C3E79 { public: void rva005C3E79(); };
 class Rva005D2664 { public:
-    void rva005D2664(int); void OnButtonFrameLoaded(const char *); void rva005D27BE(const char *);
+    void rva005D2664(int); void rva005D27BE(const char *);
     void rva005D28F4(const char *); void rva005D2A27(const char *);
 };
-namespace StrategicHUD { class CommandUIImpl { public:
-    void OnSubMenuLoaded(const char *); void OnToggleFlashLoaded(const char *);
-}; }
 
 class Rva000B3F84Pair { public: Rva000B3F84Pair() {} Rva000B3F84Pair *init(const char *); const char *m_ptr; int m_len; };
 struct AsciiStringRef { const AsciiString *m_string; };
@@ -165,13 +168,13 @@ class AptCommandMapAdder { public:
     void AddCommandMap(const AsciiString &,AptRef<AptCommandMap>);
 };
 static __forceinline DelegateDesc MakeBinding(FunctorMethod f,FunctorTarget *functorTarget) { return DelegateDesc(f,functorTarget); }
-Rva005D25F2::Rva005D25F2(int level,const AsciiString &name)
+StrategicHUD::CommandUIImpl::CommandUIImpl(int level,const AsciiString &name)
     :m_04(level),m_08(name),m_18(-1)
 {
     AsciiString prefix;
     prefix.format("_level%u.",level);
     reinterpret_cast<AptCommandMapAdder *>(&m_0C)->AddCommandMap(prefix+name+"_OnButtonFrameLoaded",
-        AptRef<AptCommandMap>(MakeBinding(reinterpret_cast<FunctorMethod>(&Rva005D2664::OnButtonFrameLoaded),reinterpret_cast<FunctorTarget *>(this))));
+        AptRef<AptCommandMap>(MakeBinding(reinterpret_cast<FunctorMethod>(&StrategicHUD::CommandUIImpl::OnButtonFrameLoaded),reinterpret_cast<FunctorTarget *>(this))));
     reinterpret_cast<AptCommandMapAdder *>(&m_0C)->AddCommandMap(prefix+name+"_OnButtonFrameUnloaded",
         AptRef<AptCommandMap>(MakeBinding(reinterpret_cast<FunctorMethod>(&Rva005D2664::rva005D27BE),reinterpret_cast<FunctorTarget *>(this))));
     reinterpret_cast<AptCommandMapAdder *>(&m_0C)->AddCommandMap(prefix+name+"_OnSubMenuLoaded",
@@ -184,15 +187,15 @@ Rva005D25F2::Rva005D25F2(int level,const AsciiString &name)
         AptRef<AptCommandMap>(MakeBinding(reinterpret_cast<FunctorMethod>(&Rva005D2664::rva005D2A27),reinterpret_cast<FunctorTarget *>(this))));
 }
 
-void Rva005D25F2::rva005D264D(int i,const TreeHintRef00217D4C &ref)
+void StrategicHUD::CommandUIImpl::rva005D264D(int i,const TreeHintRef00217D4C &ref)
 {
     *reinterpret_cast<TreeHintRef00217D4C *>(&m_1C[i].reference0C)=ref;
 }
-void Rva005D25F2::rva005D269B()
+void StrategicHUD::CommandUIImpl::rva005D269B()
 {
     for(int i=0;i<6;++i) reinterpret_cast<Rva005D2664 *>(this)->rva005D2664(i);
 }
-void Rva005D25F2::rva005D2664(int i)
+void StrategicHUD::CommandUIImpl::rva005D2664(int i)
 {
     Rva005D2575 *slot=&m_1C[i];
     reinterpret_cast<Rva002BED91 *>(&slot->help10)->clear();
@@ -202,7 +205,7 @@ void Rva005D25F2::rva005D2664(int i)
     reinterpret_cast<Rva005C3E79 *>(slot->subMenu04.ptr)->rva005C3E79();
 }
 
-int Rva005D25F2::rva005D24E5(int i) { Rva005D2575 *slot=reinterpret_cast<Rva005D2575 *>(reinterpret_cast<char *>(this)+(i+1)*0x1C); return slot->help10.ptr || slot->reference0C.ptr; }
+int StrategicHUD::CommandUIImpl::rva005D24E5(int i) { Rva005D2575 *slot=reinterpret_cast<Rva005D2575 *>(reinterpret_cast<char *>(this)+(i+1)*0x1C); return slot->help10.ptr || slot->reference0C.ptr; }
 
 void __cdecl operator delete(void *);
-void *Rva005D25F2::rva00578532(unsigned int flags) { this->~Rva005D25F2(); if(flags&1)operator delete(this);return this; }
+void *StrategicHUD::CommandUIImpl::rva00578532(unsigned int flags) { this->~CommandUIImpl(); if(flags&1)operator delete(this);return this; }
