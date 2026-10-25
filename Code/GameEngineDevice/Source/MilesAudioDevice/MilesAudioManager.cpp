@@ -186,10 +186,19 @@ namespace _STL { template <> UnicodeString * vector<UnicodeString, allocator<Uni
 namespace _STL { template <> void vector<UnicodeString, allocator<UnicodeString> >::push_back(const UnicodeString &); }
 namespace _STL { template <> inline void swap(_STLP_alloc_proxy<void **, void *, allocator<void *> > &left, _STLP_alloc_proxy<void **, void *, allocator<void *> > &right) { swap(left._M_data, right._M_data); } }
 // bfme link decl-only end
-// Suppress this TU's non-retail copy of ??$_Construct@VPlayingAudioRef@@V1@@_STL@@YAXPAVPlayingAudioRef@@ABV1@@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
+// Retail list insertion (0x55475 -> 0x54B75 -> 0x53DA3) copies its
+// four-byte owning reference through _Construct<Rva0036CA00Str> (0x2393AA).
+// Keep the visible list operations, binding only their element copy to that
+// existing counted-reference operation (copy ctor 0xA8C7C increments pointee+4).
 class PlayingAudioRef;
-namespace _STL { template <> void _Construct<PlayingAudioRef,PlayingAudioRef>(PlayingAudioRef *,PlayingAudioRef const &); }
+class Rva0036CA00Str;
+namespace _STL {
+template <> void _Construct<Rva0036CA00Str,Rva0036CA00Str>(Rva0036CA00Str *,const Rva0036CA00Str &) throw();
+template <> __declspec(dllimport) __forceinline void _Construct<PlayingAudioRef,PlayingAudioRef>(PlayingAudioRef *dest,const PlayingAudioRef &source)
+{
+    _Construct(reinterpret_cast<Rva0036CA00Str *>(dest),reinterpret_cast<const Rva0036CA00Str &>(source));
+}
+}
 // Suppress this TU's non-retail copy of ??$copy_backward@U?$_Deque_iterator@UOpaqueRefElement4@@U?$_Nonconst_traits@UOpaqueRefElem:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct OpaqueRefElement4;
