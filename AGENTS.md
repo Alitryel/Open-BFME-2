@@ -293,6 +293,10 @@ Maintenance and measurement rules: `docs/linking.md` ("Shared obstacle register"
 
 ## Consolidate files into retail translation units
 
+Check debt ownership, header queues and provider/consumer bindings for each
+consolidation batch. Follow `docs/consolidation.md` ("Consolidation verification
+checks") and record the results in the audit before pushing.
+
 Start a consolidation or subsystem naming pass with
 `python3 tools/name_lane.py consolidate --under Code/<subsystem>/` and read its
 original-path evidence, alternatives and blockers. Reuse a report only while

@@ -148,6 +148,20 @@ after which no row would remain, a TU path holding rows the map places elsewhere
   has seen it; an existing TU path is previewable. A merge that changes which
   COMDAT copy a link keeps shows up in the next census.
 
+## Consolidation verification checks
+
+During the audit before pushing, check the complete consolidation batch:
+
+- Reconcile `reverse/code_identity_baseline.tsv` and
+  `reverse/data_check_baseline.txt` with moved rows and current owners. Preserve
+  surviving findings and verify retirements through each register's workflow.
+- Refresh `reverse/header_queue.tsv` and `reverse/ms_header_queue.tsv` for
+  destination TUs and split residuals.
+- Compare code/data identity, selected COMDATs and provider/consumer bindings
+  before and after composition. Verify changed bindings.
+- Confirm active ledgers, registers, queues and fold proofs resolve to current
+  owners. Record verification results and remaining prerequisites in the handoff.
+
 ## Tooling compatibility audit before pushing
 
 Run this audit once before each push across **all pending path changes**, so a
