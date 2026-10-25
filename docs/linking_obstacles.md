@@ -149,6 +149,21 @@ authored-byte previews or commit-title gains into a projected headline.
 - **Completed:** the initial `link_rank.py --owner-gaps --top 12 --near 3`
   inspection found 23 unresolved names with matched-address candidates. This
   is an ownership lead, not a repair or identity proof.
+- **Verified special-power subset (2026-10-25, inspected `777d0ff0aa`):**
+  [current verification](../reverse/attempt_support/specialpower-dtor-verification-20261025/readme.md)
+  confirms upstream `bcac7d81eb` removed the protected/public destructor
+  mismatch for CashHack and Defector. Normal gates pass 14/14 rows across the
+  two callers and two provider units, with 2/2 EH graphs EXACT; all four units
+  have strict current receipts. Against index `51fde01dff` (13:53 UTC), with
+  all four requested objects current, both callers preview cleanly for their
+  already-counted 422 bytes. This binding/ordinary-preview subset is cleared;
+  no new headline gain or census confirmation is claimed.
+- **Remaining special-power prerequisite:** the actual destructor's unit
+  `SpecialPowerModuleDtor_Unresolved.cpp` still conflicts on the two
+  BehaviorModule vtables and the SpecialPowerModule vtable (three first-copy
+  COMDAT findings). Reconcile those native class/table definitions before
+  claiming the family's closed-strict or executable closure; the scoped
+  evidence above records the exact names. The broader entry remains open.
 - **Remaining / next check:** resolve the real existing owner, parameter types,
   ABI and data ownership from native references; reconcile canonical headers
   with implementations and consumers as a batch. Verify all affected rows and
