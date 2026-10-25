@@ -6365,3 +6365,7 @@ Code/GameEngine/Source/Common/BfmeConv1384.cpp|member|BfmeMsgVJF|m_bfme1c,64aa3a
 Code/GameEngine/Source/Common/BfmeConv1384.cpp|member|BfmePairVJF|m_bfme00,e2f60fd3c465f4bbef56b0f1,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p039b,w-1c9ec95ad089,2026-10-25
 Code/GameEngine/Source/Common/BfmeConv1384.cpp|member|BfmePairVJF|m_bfme04,0a59fbadfd602a66739c0fc9,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p039b,w-1c9ec95ad089,2026-10-25
 Code/GameEngine/Source/Common/BfmeConv1384.cpp|local|bfmeGoVJF|g,89dc2afb7069d404ecc603db,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p039b,w-1c9ec95ad089,2026-10-25
+Code/GameEngine/Source/Common/SmallGaps/Rva007F9A40GetOrCreateSlot.cpp|param|BfmeMgrVPE::rva007F9A40GetOrCreateSlot|a4,a55f2faed18b91088458bd72,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p050a,w-784adb3badc4,2026-10-25
+Code/GameEngine/Source/Common/SmallGaps/Rva007F9A40GetOrCreateSlot.cpp|param|BfmeMgrVPE::rva007F9A40GetOrCreateSlot|a5,3c64ae7988433db279228049,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p050a,w-784adb3badc4,2026-10-25
+Code/GameEngine/Source/Common/SmallGaps/Rva007F9A40GetOrCreateSlot.cpp|param|BfmeMgrVPE::rva007F9A40GetOrCreateSlot|a4,629194aaa096af9fcea43687,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p050b,w-f802db619683,2026-10-25
+Code/GameEngine/Source/Common/SmallGaps/Rva007F9A40GetOrCreateSlot.cpp|param|BfmeMgrVPE::rva007F9A40GetOrCreateSlot|a5,3c64ae7988433db279228049,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p050b,w-f802db619683,2026-10-25

@@ -39,7 +39,7 @@ public:
 	char m_bfmePad014[0x394];
 	BfmeSlotVPE m_bfme3a8[0x20];
 
-	BfmeSlotVPE* rva007F9A40GetOrCreateSlot(const Rva007F9A40Key* key, int a4, int a5);
+	BfmeSlotVPE* rva007F9A40GetOrCreateSlot(const Rva007F9A40Key* key, int a4, int context);
 };
 
 bool Rva007F9A40Key::matches(const Rva007F9A40Key *other) const
@@ -51,7 +51,7 @@ bool Rva007F9A40Key::matches(const Rva007F9A40Key *other) const
 	return strcmp(b, other->b) == 0;
 }
 
-BfmeSlotVPE* BfmeMgrVPE::rva007F9A40GetOrCreateSlot(const Rva007F9A40Key* key, int a4, int a5)
+BfmeSlotVPE* BfmeMgrVPE::rva007F9A40GetOrCreateSlot(const Rva007F9A40Key* key, int a4, int context)
 {
 	BfmeSlotVPE* slot = (BfmeSlotVPE *)
 		((Rva007FA2C0 *)this)->lookup((void *)key);
@@ -60,6 +60,6 @@ BfmeSlotVPE* BfmeMgrVPE::rva007F9A40GetOrCreateSlot(const Rva007F9A40Key* key, i
 
 	slot->m_key = *key;
 	slot->m_10 = a4;
-	slot->m_14 = a5;
+	slot->m_14 = context;
 	return slot;
 }
