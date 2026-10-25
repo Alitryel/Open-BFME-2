@@ -7,6 +7,8 @@
 // base dtor restores vtable BC6F20 (Rva0007DF07). Called by the rowed ??_G
 // 0x00218728 (vtable 0x00BE5B10). Names address-derived.
 
+#include "../../../Include/Common/Rva0007DF07.h"
+
 struct TargetRef00217D4C;
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *ref);
 
@@ -31,20 +33,13 @@ public:
 	TargetRef00217D4C *m_ref;
 };
 
-class Rva0007DF07
-{
-public:
-	Rva0007DF07();
-	virtual ~Rva0007DF07() {}
-};
-
 class Rva002186EB : public Rva0007DF07
 {
 public:
 	Rva002186EB(int tag);
 
 private:
-	int m_04;
+	// +0x04 is Rva0007DF07Storage::m_04 (canonical header).
 	Rva002186EBRef m_08; // +0x08
 	Rva002177CD m_0C; // +0x0C
 };
