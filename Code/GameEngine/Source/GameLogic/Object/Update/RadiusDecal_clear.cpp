@@ -16,10 +16,12 @@ public:
 	virtual void Release();
 };
 
+class Shadow;
+
 class RadiusDecal
 {
-	void *_M_unused0;
-	RadiusDecalObject *m_object;
+	int m_decalTemplate;
+	Shadow *m_shadow;
 	bool m_empty;
 
 public:
@@ -34,10 +36,10 @@ RadiusDecal::~RadiusDecal()
 
 void RadiusDecal::clear()
 {
-	RadiusDecalObject *object = m_object;
-	_M_unused0 = 0;
+	RadiusDecalObject *object = reinterpret_cast<RadiusDecalObject *>(m_shadow);
+	m_decalTemplate = 0;
 	if (object)
 		object->Release();
-	m_object = 0;
+	m_shadow = 0;
 	m_empty = true;
 }

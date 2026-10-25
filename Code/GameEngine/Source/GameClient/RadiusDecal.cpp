@@ -129,6 +129,8 @@ public:
 	void Rva00330E15(const Coord3D &pos);
 public:
 	RadiusDecal();
+	~RadiusDecal();
+	void clear();
 };
 
 // tu-skeleton: 0x00330CDD 97B ?rva00330CDD@RadiusDecalTemplate@@QAEXABV1@@Z -- matched in Code/GameEngine/Source/GameClient/RadiusDecalTemplateAssign.cpp (not merged yet)
