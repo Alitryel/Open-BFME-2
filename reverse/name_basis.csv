@@ -2036,3 +2036,4 @@ member,BfmeHostFN::m_bfmeOwnerFN,BfmeHostFN::m_owner,inferred,agree:nl-be69da5c9
 function,?rva003EE9D7@Rva003EE9D7@@QAEXH@Z,?disableUnifiedEffect@Rva003EE9D7@@QAEXH@Z,inferred,agree:nl-496284f7412e,Code/GameEngine/Source/Common/Rva003EE980Forward.cpp,0x003EE9D7
 carry,Rva003EE9D7::rva003EE9D7::region,Rva003EE9D7::disableUnifiedEffect::region,inferred,scope renamed by Rename rva003EE9D7 to disableUnifiedEffect (inferred),Code/GameEngine/Source/Common/Rva003EE980Forward.cpp,0x003EE9D7
 local,InGameNotificationBoxMovieClip::RenderMessage::w,InGameNotificationBoxMovieClip::RenderMessage::textWidth,inferred,agree:nl-61e877b779da,Code/GameEngine/Source/GameClient/GUI/InGame/InGameNotificationBoxMovieClip.cpp,0x004E6898
+param,Rva00330A37::rva00330A37::a1,Rva00330A37::rva00330A37::delay,inferred,agree:nl-6d5da9a87345,Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp,0x00330A37
